@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2014-03-04 06:54+0000\n"
+"PO-Revision-Date: 2015-02-01 04:50+0000\n"
 "Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: zh_TW\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1393916097.0\n"
+"X-POOTLE-MTIME: 1422766258.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "繁體中文 ( 台灣 )"
@@ -960,16 +960,16 @@ msgstr "私人訊息"
 msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
-msgstr "當電腦透過電池供電時暫停計算？ %1 只有筆記型電腦需要使用此設定 %2"
+msgstr "當電腦透過電池供電時暫停計算? %1只有筆記型電腦需要使用此設定%2"
 
 #: ../inc/prefs.inc:85
 msgid "Suspend work while computer is in use?"
-msgstr "當電腦在使用的時候暫止運算？"
+msgstr "當電腦在使用的時候暫停運算?"
 
 #: ../inc/prefs.inc:91
 msgid ""
 "Suspend GPU work while computer is in use? %1 Enforced by version 6.6.21+ %2"
-msgstr "當電腦在使用的時候暫止 GPU 運算？ %1 在6.6.21 之後的版本有了此設定%2"
+msgstr "當電腦在使用的時候暫停 GPU 運算？ %1在6.6.21 之後的版本有了此設定%2"
 
 #: ../inc/prefs.inc:99
 msgid "'In use' means mouse/keyboard activity in last"
@@ -983,13 +983,13 @@ msgstr "分鐘"
 msgid ""
 "Suspend work if no mouse/keyboard activity in last %1 Needed to enter low-"
 "power mode on some computers %2"
-msgstr "如果在多少時間內沒有滑鼠或鍵盤操作則暫止運算%1 在某些運算上如果要進入低消耗模式必須設定 %2"
+msgstr "如果在多少時間內沒有滑鼠或鍵盤操作則暫停運算%1 在某些運算上如果要進入低消耗模式必須設定 %2"
 
 #: ../inc/prefs.inc:114
 msgid ""
 "Suspend work when non-BOINC CPU usage is above %1 0 means no "
 "restriction<br>Enforced by version 6.10.30+ %2"
-msgstr "如果非 BOINC 的 CPU 佔用率高於指定值則暫止運算%10 表示不限制<br>6.10.30 之後的版本有了此設定%2"
+msgstr "如果非 BOINC 的 CPU 佔用率高於指定值則暫停運算%10 表示不限制<br>6.10.30 之後的版本有了此設定%2"
 
 #: ../inc/prefs.inc:122
 msgid "Do work only between the hours of %1 No restriction if equal %2"
@@ -999,7 +999,7 @@ msgstr "運算時間段%1如果相同則表示不限制%2"
 msgid ""
 "Leave tasks in memory while suspended? %1 Suspended tasks will consume swap "
 "space if 'yes' %2"
-msgstr "暫止運算時將任務留在記憶體？ %1選擇是的話，暫止的記憶體將佔用交換空間%2"
+msgstr "暫停運算時將任務保留於記憶體? %1選擇是的話，暫停的記憶體將佔用交換空間%2"
 
 #: ../inc/prefs.inc:139
 msgid "Switch between tasks every %1 Recommended: 60 minutes %2"
@@ -1112,7 +1112,7 @@ msgstr "允許使用網路的時間"
 
 #: ../inc/prefs.inc:263
 msgid "Transfer at most %1 Enforced by version 6.10.46+ %2"
-msgstr "最多傳輸%16.10.46 之後的版本有了此設定%2"
+msgstr "資料傳輸上限%16.10.46 之後的版本有了此設定%2"
 
 #: ../inc/prefs.inc:269
 msgid "Mbytes every"
@@ -4436,7 +4436,7 @@ msgstr "如果你仍有 BOINC 客戶端運行在該帳戶下，請按如下操�
 msgid ""
 "Go to the BOINC data directory on your computer (its location is written to "
 "the Event Log at startup)."
-msgstr "切換到你電腦上的 BOINC 資料目錄 (這個目錄在一開始就已經寫到事件記錄裡頭)"
+msgstr "切換到你電腦上的BOINC資料目錄 (這個目錄在一開始就已經寫到事件記錄檔裡)"
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."

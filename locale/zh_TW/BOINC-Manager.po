@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-15 14:15-0500\n"
-"PO-Revision-Date: 2014-12-21 05:48+0000\n"
+"POT-Creation-Date: 2014-12-15 16:56-0500\n"
+"PO-Revision-Date: 2015-02-01 04:48+0000\n"
 "Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: zh_TW\n"
@@ -18,10 +18,10 @@ msgstr ""
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc_7.4\n"
 "X-Poedit-SearchPath-0: clientgui\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1419140910.0\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
-"X-Poedit-SearchPath-2: clientgui/gtk\n"
+"X-Poedit-SearchPath-2: clientgui/mac\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-POOTLE-MTIME: 1422766089.0\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
@@ -29,7 +29,7 @@ msgstr ""
 #: clientgui/AccountInfoPage.cpp:387
 #, c-format
 msgid "Identify your account at %s"
-msgstr "確認您的帳號於 %s"
+msgstr "確認您的%s帳號"
 
 #: clientgui/AccountInfoPage.cpp:393
 msgid ""
@@ -102,7 +102,7 @@ msgstr "使用者名稱 (&U)："
 
 #: clientgui/AccountInfoPage.cpp:511
 msgid "&Email address or LDAP ID:"
-msgstr ""
+msgstr "電子信箱或LDAP ID (&E)："
 
 #: clientgui/AccountInfoPage.cpp:515
 msgid "&Email address:"
@@ -334,7 +334,7 @@ msgstr "配置顯示選項和 Proxy 設定"
 
 #: clientgui/AdvancedFrame.cpp:460
 msgid "Computing &preferences..."
-msgstr "運算偏好(&P)..."
+msgstr "運算偏好設定(&P)..."
 
 #: clientgui/AdvancedFrame.cpp:461
 msgid "Configure computing preferences"
@@ -358,7 +358,7 @@ msgstr "依照您的偏好設定執行工作"
 
 #: clientgui/AdvancedFrame.cpp:479
 msgid "&Suspend"
-msgstr "暫止 (&S)"
+msgstr "暫停 (&S)"
 
 #: clientgui/AdvancedFrame.cpp:480
 msgid "Stop work regardless of preferences"
@@ -382,7 +382,7 @@ msgstr "依照您的偏好設定運行GPU工作"
 
 #: clientgui/AdvancedFrame.cpp:515
 msgid "Suspend GPU"
-msgstr "暫止GPU"
+msgstr "暫停 GPU"
 
 #: clientgui/AdvancedFrame.cpp:516
 msgid "Stop GPU work regardless of preferences"
@@ -406,7 +406,7 @@ msgstr "依照您的偏好設定進行網路活動"
 
 #: clientgui/AdvancedFrame.cpp:550
 msgid "Network activity suspended"
-msgstr "暫止網路活動"
+msgstr "暫停網路活動"
 
 #: clientgui/AdvancedFrame.cpp:551
 msgid "Stop BOINC network activity"
@@ -474,7 +474,7 @@ msgstr "開啟新的 %s"
 
 #: clientgui/AdvancedFrame.cpp:611
 msgid "Event Log...\tCtrl+Shift+E"
-msgstr "事件記錄...\tCtrl+Shift+E"
+msgstr "事件記錄檔...\tCtrl+Shift+E"
 
 #: clientgui/AdvancedFrame.cpp:612
 msgid "Display diagnostic messages."
@@ -482,11 +482,11 @@ msgstr "顯示診斷訊息。"
 
 #: clientgui/AdvancedFrame.cpp:616
 msgid "Event Log Diagnostic Flags...\tCtrl+Shift+F"
-msgstr ""
+msgstr "事件記錄檔診斷標記…\tCtrl+Shift+F"
 
 #: clientgui/AdvancedFrame.cpp:617
 msgid "Enable or disable various diagnostic messages"
-msgstr ""
+msgstr "啟用或停用各種診斷資訊"
 
 #: clientgui/AdvancedFrame.cpp:626
 #, c-format
@@ -958,7 +958,7 @@ msgstr "運算已啟用"
 
 #: clientgui/BOINCTaskBar.cpp:731
 msgid "Computing is suspended - "
-msgstr "運算已暫止 - "
+msgstr "運算已暫停 - "
 
 #: clientgui/BOINCTaskBar.cpp:741
 msgid "GPU computing is enabled"
@@ -966,7 +966,7 @@ msgstr "GPU 運算已啟用"
 
 #: clientgui/BOINCTaskBar.cpp:744
 msgid "GPU computing is suspended - "
-msgstr "GPU 運算已暫止 - "
+msgstr "GPU 運算已暫停 - "
 
 #: clientgui/BOINCTaskBar.cpp:753
 msgid "Network is enabled"
@@ -974,7 +974,7 @@ msgstr "網路已啟用"
 
 #: clientgui/BOINCTaskBar.cpp:756
 msgid "Network is suspended - "
-msgstr "網路已暫止 - "
+msgstr "網路已暫停 - "
 
 #: clientgui/BOINCTaskBar.cpp:764
 msgid "Reconnecting to client."
@@ -1181,7 +1181,7 @@ msgstr "確認"
 #: clientgui/DlgAdvPreferencesBase.cpp:49
 #, c-format
 msgid "%s - Computing preferences"
-msgstr ""
+msgstr "%s - 運算偏好設定"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:66
 msgid ""
@@ -1292,12 +1292,12 @@ msgstr "如果處理器使用率超過設定就暫停運算"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:226
 msgid "percent (0 means no restriction)"
-msgstr "% (0 代表不限制 )"
+msgstr "% (0表示忽略此設置)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:240
 #: clientgui/DlgAdvPreferencesBase.cpp:506
 msgid "Every day between hours of"
-msgstr "每天執行工作的時間區間："
+msgstr "每天運行時段："
 
 #: clientgui/DlgAdvPreferencesBase.cpp:244
 msgid "start work at this time"
@@ -1375,9 +1375,9 @@ msgid "On multiprocessor systems, use at most"
 msgstr "多核心系統中最多只使用"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:352
-#, fuzzy, no-c-format
+#, no-c-format, no-c-format
 msgid "% of the processors (0 means no restriction)"
-msgstr "% (0表示忽略此設置)"
+msgstr "% 處理器 (0表示忽略此設置)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:355
 #: clientgui/DlgAdvPreferencesBase.cpp:618
@@ -1391,7 +1391,7 @@ msgstr "最多只使用"
 #: clientgui/DlgAdvPreferencesBase.cpp:362
 #, no-c-format
 msgid "% of CPU time (0 means no restriction)"
-msgstr ""
+msgstr "% CPU時間 (0表示忽略此設置)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:386
 msgid "General options"
@@ -1404,7 +1404,7 @@ msgstr "最大下載速率"
 #: clientgui/DlgAdvPreferencesBase.cpp:401
 #: clientgui/DlgAdvPreferencesBase.cpp:410
 msgid "KBytes/second (0 means no restriction)"
-msgstr ""
+msgstr "KB/s (0表示忽略此設置)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:404
 msgid "Maximum upload rate"
@@ -1421,7 +1421,7 @@ msgstr "嘗試持有這些天數所需要的工作數量"
 #: clientgui/DlgAdvPreferencesBase.cpp:431
 #: clientgui/DlgAdvPreferencesBase.cpp:449
 msgid "days (maximum value: 10)"
-msgstr ""
+msgstr "天 (最大值: 10)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:437
 msgid "Max additional work buffer"
@@ -1433,16 +1433,15 @@ msgstr "額外取得這些天數所需要的工作數量"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:454
 msgid "Transfer at most"
-msgstr "最多只使用"
+msgstr "資料傳輸上限"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:462
 msgid "MBytes every"
-msgstr ""
+msgstr "MB每"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:468
-#, fuzzy
 msgid "days (0 means no restriction)"
-msgstr "% (0 代表不限制 )"
+msgstr "天 (0表示忽略此設置)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:476
 msgid "Skip image file verification"
@@ -1499,7 +1498,7 @@ msgstr "BOINC 能使用的最大硬碟空間 (以 GB 計)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:626
 msgid "Gigabytes disk space (0 means no restriction)"
-msgstr ""
+msgstr "GB硬碟空間 (0表示忽略此設置)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:629
 msgid "Leave at least"
@@ -1551,11 +1550,11 @@ msgstr "% 於電腦閒置中"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:706
 msgid "Leave applications in memory while suspended"
-msgstr "當暫止時保留應用程式於記憶體中"
+msgstr "暫停時保留應用程式於記憶體中"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:708
 msgid "if checked, suspended work units are left in memory"
-msgstr "若勾選此方塊，暫止的工作會留在記憶體中"
+msgstr "若勾選此方塊，暫停的工作會留在記憶體中"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:728
 msgid "Suspend processor and network usage when these applications are running:"
@@ -1584,34 +1583,32 @@ msgstr "更多詳細的設定，請前往"
 #: clientgui/DlgDiagnosticLogFlags.cpp:65
 #, c-format
 msgid "%s Diagnostic Log Flags"
-msgstr ""
+msgstr "%s 診斷記錄檔標記"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:83
 msgid "These flags enable various types of diagnostic messages in the Event Log."
-msgstr ""
+msgstr "這些標記可啟用事件記錄檔中各類型的診斷資訊。"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:105
 msgid "Save all values and close the dialog"
 msgstr "儲存所有值並關閉視窗"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:108
-#, fuzzy
 msgid "Defaults"
-msgstr "預設"
+msgstr "預設值"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:109
 msgid "Restore default settings"
-msgstr ""
+msgstr "恢復預設值"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:113
-#, fuzzy
 msgid "Close the dialog without saving"
-msgstr "關閉視窗且不儲存"
+msgstr "不儲存且關閉視窗"
 
 #: clientgui/DlgEventLog.cpp:226
 #, c-format
 msgid "%s - Event Log"
-msgstr "%s - 訊息記錄"
+msgstr "%s - 事件記錄檔"
 
 #: clientgui/DlgEventLog.cpp:236
 msgid "Project"
@@ -2419,24 +2416,24 @@ msgstr "下載中"
 #: clientgui/MainDocument.cpp:2492
 #: clientgui/MainDocument.cpp:2557
 msgid " (suspended - "
-msgstr " (已暫止 - "
+msgstr " (已暫停 - "
 
 #: clientgui/MainDocument.cpp:2500
 msgid "Project suspended by user"
-msgstr "專案被使用者暫止"
+msgstr "專案被使用者暫停"
 
 #: clientgui/MainDocument.cpp:2502
 msgid "Task suspended by user"
-msgstr "被使用者暫止"
+msgstr "被使用者暫停"
 
 #: clientgui/MainDocument.cpp:2504
 msgid "Suspended - "
-msgstr "已暫止 -"
+msgstr "已暫停 -"
 
 # 75%
 #: clientgui/MainDocument.cpp:2510
 msgid "GPU suspended - "
-msgstr "GPU 已暫止 -"
+msgstr "GPU 已暫停 - "
 
 #: clientgui/MainDocument.cpp:2517
 msgid "Waiting for memory"
@@ -2465,16 +2462,15 @@ msgstr "準備開始"
 
 #: clientgui/MainDocument.cpp:2538
 msgid "Postponed: "
-msgstr ""
+msgstr "延後: "
 
 #: clientgui/MainDocument.cpp:2541
 msgid "Postponed"
-msgstr ""
+msgstr "延後"
 
 #: clientgui/MainDocument.cpp:2545
-#, fuzzy
 msgid "Waiting for network access"
-msgstr " (正等待網存取)"
+msgstr "正等待網路存取"
 
 #: clientgui/MainDocument.cpp:2549
 msgid "Computation error"
@@ -2662,7 +2658,7 @@ msgstr "歡迎來到%s。"
 
 #: clientgui/ProjectWelcomePage.cpp:254
 msgid "You have volunteered to compute for this project:"
-msgstr ""
+msgstr "您自願參加此專案:"
 
 #: clientgui/ProjectWelcomePage.cpp:255
 msgid "Name:"
@@ -2670,7 +2666,7 @@ msgstr "姓名："
 
 #: clientgui/ProjectWelcomePage.cpp:258
 msgid "Home:"
-msgstr ""
+msgstr "首頁:"
 
 #: clientgui/ProjectWelcomePage.cpp:262
 msgid "Description:"
@@ -2686,7 +2682,7 @@ msgstr "使用者:"
 
 #: clientgui/ProjectWelcomePage.cpp:273
 msgid "WARNING: This project is not registered with BOINC.  Make sure you trust it before continuing."
-msgstr ""
+msgstr "警告: 此專案並未於BOINC註冊。  繼續前請先確認是否信任此專案。"
 
 #: clientgui/ProjectWelcomePage.cpp:277
 msgid "To continue, click Next."
@@ -2798,7 +2794,7 @@ msgstr "預設"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:848
 msgid "Suspend"
-msgstr "暫止"
+msgstr "暫停"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:850
 msgid "Suspend Computing"
@@ -2960,7 +2956,7 @@ msgstr "%d"
 #: clientgui/sg_DlgPreferences.cpp:953
 #, c-format
 msgid "%s - Computing Preferences"
-msgstr ""
+msgstr "%s - 運算偏好設定"
 
 #: clientgui/sg_DlgPreferences.cpp:1033
 msgid "Do you really want to clear all local preferences?\n"
@@ -2981,7 +2977,7 @@ msgstr "回報所有已完成的工作；取得最新的積分與偏好設定資
 #: clientgui/ViewProjects.cpp:187
 #: clientgui/ViewProjects.cpp:727
 msgid "Suspend tasks for this project."
-msgstr "暫止此專案的工作。"
+msgstr "暫停此專案的工作。"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:78
 #: clientgui/sg_ProjectCommandPopup.cpp:136
@@ -3112,7 +3108,7 @@ msgstr "於新視窗中顯示應用程式的圖形。"
 
 #: clientgui/sg_TaskCommandPopup.cpp:73
 msgid "Suspend this task."
-msgstr "已暫止這個工作"
+msgstr "暫停此工作。"
 
 #: clientgui/sg_TaskCommandPopup.cpp:78
 msgid "Abort"
@@ -3132,7 +3128,7 @@ msgstr "繼續這個工作的動作。"
 
 #: clientgui/sg_TaskCommandPopup.cpp:123
 msgid "Suspend work for this task."
-msgstr "暫止這個工作的動作。"
+msgstr "暫停此工作。"
 
 #: clientgui/sg_TaskCommandPopup.cpp:267
 #, c-format
@@ -3223,27 +3219,27 @@ msgstr "正從伺服器下載工作。"
 
 #: clientgui/sg_TaskPanel.cpp:1238
 msgid "Processing Suspended:  Running On Batteries."
-msgstr "處理已暫止: 正以電池供電"
+msgstr "暫停運算:  正以電池供電。"
 
 #: clientgui/sg_TaskPanel.cpp:1240
 msgid "Processing Suspended:  User Active."
-msgstr "處理已暫止: 使用者正在操作"
+msgstr "暫停運算:  使用者正在操作。"
 
 #: clientgui/sg_TaskPanel.cpp:1242
 msgid "Processing Suspended:  User paused processing."
-msgstr "處理已暫止: 被使用者暫停"
+msgstr "暫停運算:  使用者暫停運算。"
 
 #: clientgui/sg_TaskPanel.cpp:1244
 msgid "Processing Suspended:  Time of Day."
-msgstr "處理已暫止: 不在設定時間內"
+msgstr "暫停運算:  不在設定時間內。"
 
 #: clientgui/sg_TaskPanel.cpp:1246
 msgid "Processing Suspended:  Benchmarks Running."
-msgstr "處理已暫止: 正在執行效能測試"
+msgstr "暫停運算:  正在執行效能測試。"
 
 #: clientgui/sg_TaskPanel.cpp:1248
 msgid "Processing Suspended."
-msgstr "處理已暫止。"
+msgstr "暫停運算。"
 
 #: clientgui/sg_TaskPanel.cpp:1252
 msgid "Waiting to contact project servers."
@@ -3450,7 +3446,7 @@ msgstr "正在繼續專案..."
 
 #: clientgui/ViewProjects.cpp:353
 msgid "Suspending project..."
-msgstr "正在暫止專案..."
+msgstr "正在暫停專案..."
 
 #: clientgui/ViewProjects.cpp:390
 msgid "Telling project to allow additional task downloads..."
@@ -3506,7 +3502,7 @@ msgstr "未知原因"
 
 #: clientgui/ViewProjects.cpp:1084
 msgid "Suspended by user"
-msgstr "被使用者暫止"
+msgstr "被使用者暫停"
 
 #: clientgui/ViewProjects.cpp:1087
 msgid "Won't get new tasks"
@@ -3755,7 +3751,7 @@ msgstr "傳送"
 
 #: clientgui/ViewTransfers.cpp:285
 msgid "Network activity is suspended - "
-msgstr "網路活動已暫止 -"
+msgstr "網路活動已暫停 - "
 
 #: clientgui/ViewTransfers.cpp:287
 msgid ""
@@ -3809,7 +3805,7 @@ msgstr "失敗"
 
 #: clientgui/ViewTransfers.cpp:794
 msgid "suspended"
-msgstr "已暫止"
+msgstr "暫停"
 
 #: clientgui/ViewTransfers.cpp:799
 msgid "active"
@@ -3843,7 +3839,7 @@ msgstr "於新視窗中顯示應用程式的圖形。"
 
 #: clientgui/ViewWork.cpp:214
 msgid "Suspend work for this result."
-msgstr "暫止這個結果的工作。"
+msgstr "暫停此工作。"
 
 #: clientgui/ViewWork.cpp:221
 msgid "Abandon work on the result. You will get no credit for it."
@@ -3871,7 +3867,7 @@ msgstr "繼續工作中..."
 
 #: clientgui/ViewWork.cpp:365
 msgid "Suspending task..."
-msgstr "暫止工作中..."
+msgstr "暫停工作中..."
 
 #: clientgui/ViewWork.cpp:394
 msgid "Showing graphics for task..."

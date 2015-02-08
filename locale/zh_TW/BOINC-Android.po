@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2014-03-04 06:54+0000\n"
+"PO-Revision-Date: 2015-02-01 04:36+0000\n"
 "Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: zh_TW <LL@li.org>\n"
 "Language: zh_TW\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1393916061.0\n"
+"X-POOTLE-MTIME: 1422765397.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -37,7 +37,7 @@ msgstr "選擇一個專案:"
 
 msgctxt "attachproject_list_manual_button"
 msgid "Add project by URL"
-msgstr "用網址來新增專案"
+msgstr "透過網址新增專案"
 
 msgctxt "attachproject_list_manual_dialog_title"
 msgid "Enter project URL:"
@@ -74,7 +74,7 @@ msgstr "研究領域:"
 
 msgctxt "attachproject_login_header_specific_area"
 msgid "Specific area:"
-msgstr "細分領域:"
+msgstr "專業領域:"
 
 msgctxt "attachproject_login_header_description"
 msgid "Description:"
@@ -116,7 +116,7 @@ msgstr "用現有的帳號登入"
 
 msgctxt "attachproject_login_header_id_email"
 msgid "eMail:"
-msgstr "電子郵件:"
+msgstr "電子信箱:"
 
 msgctxt "attachproject_login_header_id_name"
 msgid "Name:"
@@ -173,7 +173,7 @@ msgstr "專案:"
 
 msgctxt "attachproject_registration_header_email"
 msgid "eMail:"
-msgstr "電子郵件:"
+msgstr "電子信箱:"
 
 msgctxt "attachproject_registration_header_username"
 msgid "Name:"
@@ -243,7 +243,7 @@ msgstr "請輸入用戶名稱"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
-msgstr "請輸入電子郵件"
+msgstr "請輸入電子信箱"
 
 msgctxt "attachproject_error_no_pwd"
 msgid "Please enter a password"
@@ -263,7 +263,7 @@ msgstr "使用者名稱無效"
 
 msgctxt "attachproject_error_email_in_use"
 msgid "eMail is already in use"
-msgstr "此電子郵件已被使用"
+msgstr "此電子信箱已被使用"
 
 msgctxt "attachproject_error_project_down"
 msgid "Project is offline"
@@ -936,7 +936,7 @@ msgstr "複製紀錄到剪貼簿。"
 
 msgctxt "eventlog_email_subject"
 msgid "Event Log for BOINC on Android:"
-msgstr "Android的BOINC事件紀錄:"
+msgstr "Android BOINC事件記錄檔:"
 
 #. suspend reasons
 msgctxt "suspend_unknown"
@@ -1067,7 +1067,7 @@ msgstr "複製到剪貼簿"
 
 msgctxt "menu_eventlog"
 msgid "Event Log"
-msgstr "事件日誌"
+msgstr "事件記錄檔"
 
 msgctxt "menu_exit"
 msgid "Exit BOINC"
