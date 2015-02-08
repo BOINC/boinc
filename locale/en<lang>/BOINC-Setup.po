@@ -1,0 +1,117 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: boinc\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-01-26 00:00-0800\n"
+"PO-Revision-Date: 2015-02-08 15:29+0000\n"
+"Last-Translator: Rom Walton <romw@romwnet.org>\n"
+"Language-Team: English (http://www.transifex.com/projects/p/boinc/language/en/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: Installer.cpp:124
+#, c-format
+msgid "Sorry, this version of %s requires system 10.5 or higher."
+msgstr "Sorry, this version of %s requires system 10.5 or higher."
+
+#: PostInstall.cpp:130 PostInstall.cpp:1136 uninstall.cpp:1618
+msgid "Yes"
+msgstr "Yes"
+
+#: PostInstall.cpp:131 PostInstall.cpp:1137 uninstall.cpp:1619
+msgid "No"
+msgstr "No"
+
+#: PostInstall.cpp:133
+msgid "Should BOINC run even when no user is logged in?"
+msgstr "Should BOINC run even when no user is logged in?"
+
+#: PostInstall.cpp:1416
+#, c-format
+msgid ""
+"Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
+"\n"
+"Do you also want non-administrative users to be able to run and control %s on this Mac?"
+msgstr "Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n\nDo you also want non-administrative users to be able to run and control %s on this Mac?"
+
+#: PostInstall.cpp:1444
+#, c-format
+msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
+msgstr "Do you want to set %s as the screensaver for all %s users on this Mac?"
+
+#: uninstall.cpp:82
+msgid "OK"
+msgstr "OK"
+
+#: uninstall.cpp:136
+msgid "Permission error after relaunch"
+msgstr "Permission error after relaunch"
+
+#: uninstall.cpp:141
+msgid ""
+"Removal may take several minutes.\n"
+"Please be patient."
+msgstr "Removal may take several minutes.\nPlease be patient."
+
+#: uninstall.cpp:156
+#, c-format
+msgid ""
+"Are you sure you want to completely remove %s from your computer?\n"
+"\n"
+"This will remove the executables but will not touch %s data files."
+msgstr "Are you sure you want to completely remove %s from your computer?\n\nThis will remove the executables but will not touch %s data files."
+
+#: uninstall.cpp:163
+#, c-format
+msgid "Canceled: %s has not been touched."
+msgstr "Canceled: %s has not been touched."
+
+#: uninstall.cpp:174
+#, c-format
+msgid "An error occurred: error code %d"
+msgstr "An error occurred: error code %d"
+
+#: uninstall.cpp:230
+msgid "name  of user"
+msgstr "name  of user"
+
+#: uninstall.cpp:272
+msgid ""
+"Do you also want to remove VirtualBox from your computer?\n"
+"(VirtualBox was installed along with BOINC.)"
+msgstr "Do you also want to remove VirtualBox from your computer?\n(VirtualBox was installed along with BOINC.)"
+
+#: uninstall.cpp:312
+#, c-format
+msgid ""
+"Removal completed.\n"
+"\n"
+" You may want to remove the following remaining items using the Finder: \n"
+"the directory \"%s\"\n"
+"\n"
+"for each user, the file\n"
+"\"%s\"."
+msgstr "Removal completed.\n\n You may want to remove the following remaining items using the Finder: \nthe directory \"%s\"\n\nfor each user, the file\n\"%s\"."
+
+#: uninstall.cpp:840
+#, c-format
+msgid ""
+"Enter your administrator password to completely remove %s from you computer.\n"
+"\n"
+msgstr "Enter your administrator password to completely remove %s from you computer.\n\n"
+
+#: uninstall.cpp:1616
+msgid "Cancel"
+msgstr "Cancel"
+
+#: uninstall.cpp:1617
+msgid "Continue..."
+msgstr "Continue..."
