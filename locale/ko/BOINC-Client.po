@@ -1,21 +1,21 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: 2013/06/07\n"
+"Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2013-06-07 09:55+0900\n"
-"Last-Translator: Lee Kangsan <treppolse@gmail.com>\n"
-"Language-Team: SETIKAH@KOREA\n"
-"Language: ko\n"
+"PO-Revision-Date: 2015-02-08 22:37+0000\n"
+"Last-Translator: Rom Walton <romw@romwnet.org>\n"
+"Language-Team: Korean (http://www.transifex.com/projects/p/boinc/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.5\n"
-"X-Poedit-SourceCharset: UTF-8\n"
+"Language: ko\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: acct_mgr.cpp:450 acct_mgr.cpp:459
 msgid "Message from account manager"
@@ -114,7 +114,8 @@ msgid "This project doesn't support computers of type"
 msgstr "이 프로젝트는 해당 컴퓨터를 지원하지 않습니다"
 
 #: ../sched/sched_send.cpp:1092
-msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
+msgid ""
+"Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "해당 컴퓨터의 GPU로 태스크를 처리하려면 최신 드라이버로 업그레이드하세요"
 
 #: ../sched/sched_send.cpp:1099
@@ -124,8 +125,8 @@ msgstr "이 프로젝트의 GPU 응용 프로그램을 사용하려면 최신 �
 
 #: ../sched/sched_send.cpp:1118
 msgid ""
-"A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
-"the current version"
+"A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
+" the current version"
 msgstr "NVIDIA GPU를 사용하려면 더 높은 BOINC 버전이 필요합니다. 최신 버전으로 업그레이드하세요"
 
 #: ../sched/sched_send.cpp:1146
@@ -158,21 +159,3 @@ msgstr "app_info.xml에서 미확인 어플 이름 발견"
 #: ../sched/sched_version.cpp:214
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "app_info.xml에 사용 가능한 버전이 없음 :"
-
-#~ msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
-#~ msgstr "이 프로젝트의 태스크를 실행하려면 NVIDIA나 ATI GPU가 필요합니다"
-
-#~ msgid "An NVIDIA GPU is required to run tasks for this project"
-#~ msgstr "이 프로젝트의 태스크를 실행하려면 NVIDIA GPU가 필요합니다"
-
-#~ msgid ""
-#~ "Tasks for NVIDIA GPU are available, but your preferences are set to not "
-#~ "accept them"
-#~ msgstr ""
-#~ "NVIDIA GPU용 태스크가 있습니다. 그러나 환경 설정에서 승인되지 않았습니다"
-
-#~ msgid ""
-#~ "Tasks for ATI GPU are available, but your preferences are set to not "
-#~ "accept them"
-#~ msgstr ""
-#~ "ATI GPU용 태스크가 있습니다. 그러나 환경 설정에서 승인되지 않았습니다"
