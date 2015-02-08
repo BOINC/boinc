@@ -1,26 +1,21 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2014-10-30 18:31+0000\n"
-"Last-Translator: yo <chikitosan@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: es\n"
+"PO-Revision-Date: 2015-02-08 19:27+0000\n"
+"Last-Translator: Rom Walton <romw@romwnet.org>\n"
+"Language-Team: Spanish (http://www.transifex.com/projects/p/boinc/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.5.0\n"
-"X-Poedit-SearchPath-0: mac_installer\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
-"X-POOTLE-MTIME: 1414693918.0\n"
-"X-Poedit-KeywordsList: _\n"
 
 #: Installer.cpp:124
 #, c-format
@@ -37,30 +32,20 @@ msgstr "No"
 
 #: PostInstall.cpp:133
 msgid "Should BOINC run even when no user is logged in?"
-msgstr ""
-"¿Debe ejecutarse BOINC incluso cuando ningun usuario ha iniciado la sesión?"
+msgstr "¿Debe ejecutarse BOINC incluso cuando ningun usuario ha iniciado la sesión?"
 
 #: PostInstall.cpp:1416
 #, c-format
 msgid ""
-"Users who are permitted to administer this computer will automatically be "
-"allowed to run and control %s.\n"
+"Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
 "\n"
-"Do you also want non-administrative users to be able to run and control %s "
-"on this Mac?"
-msgstr ""
-"A los usuarios con permiso para administrar este computador se les permitirá "
-"automáticamente ejecutar y controlar %s.\n"
-"\n"
-"¿Quiere que los usuarios no administradores también puedan ejecutar y "
-"controlar %s en este Mac?"
+"Do you also want non-administrative users to be able to run and control %s on this Mac?"
+msgstr "A los usuarios con permiso para administrar este computador se les permitirá automáticamente ejecutar y controlar %s.\n\n¿Quiere que los usuarios no administradores también puedan ejecutar y controlar %s en este Mac?"
 
 #: PostInstall.cpp:1444
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
-msgstr ""
-"¿Quiere definir %s como el salvapantallas de todos los usuarios de %s de "
-"este Mac?"
+msgstr "¿Quiere definir %s como el salvapantallas de todos los usuarios de %s de este Mac?"
 
 #: uninstall.cpp:82
 msgid "OK"
@@ -74,9 +59,7 @@ msgstr "Error de permisos tras reiniciar"
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
-msgstr ""
-"La eliminación puede tardar varios minutos.\n"
-"Tenga paciencia."
+msgstr "La eliminación puede tardar varios minutos.\nTenga paciencia."
 
 #: uninstall.cpp:156
 #, c-format
@@ -84,10 +67,7 @@ msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
 "\n"
 "This will remove the executables but will not touch %s data files."
-msgstr ""
-"¿Está seguro de que quiere eliminar completamente %s de su computador?\n"
-"\n"
-"Eso borrará los ejecutables pero no tocará los archivos de datos de %s."
+msgstr "¿Está seguro de que quiere eliminar completamente %s de su computador?\n\nEso borrará los ejecutables pero no tocará los archivos de datos de %s."
 
 #: uninstall.cpp:163
 #, c-format
@@ -107,9 +87,7 @@ msgstr "nombre del usuario"
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
-msgstr ""
-"¿También quiere eliminar Virtualbox de su computador?\n"
-"(Virtualbox se instaló junto con BOINC.)"
+msgstr "¿También quiere eliminar Virtualbox de su computador?\n(Virtualbox se instaló junto con BOINC.)"
 
 #: uninstall.cpp:312
 #, c-format
@@ -121,26 +99,14 @@ msgid ""
 "\n"
 "for each user, the file\n"
 "\"%s\"."
-msgstr ""
-"Eliminación terminada.\n"
-"\n"
-" Puede que quiera eliminar los siguientes elementos restantes usando el "
-"Finder: \n"
-"el directorio «%s»\n"
-"\n"
-"para cada usuario, el archivo\n"
-"«%s»."
+msgstr "Eliminación terminada.\n\n Puede que quiera eliminar los siguientes elementos restantes usando el Finder: \nel directorio «%s»\n\npara cada usuario, el archivo\n«%s»."
 
 #: uninstall.cpp:840
 #, c-format
 msgid ""
-"Enter your administrator password to completely remove %s from you "
-"computer.\n"
+"Enter your administrator password to completely remove %s from you computer.\n"
 "\n"
-msgstr ""
-"Escriba la contraseña de administrador para borrar completamente %s del "
-"computador.\n"
-"\n"
+msgstr "Escriba la contraseña de administrador para borrar completamente %s del computador.\n\n"
 
 #: uninstall.cpp:1616
 msgid "Cancel"
