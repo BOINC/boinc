@@ -1,21 +1,21 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2013-06-08 17:07+0200\n"
-"Last-Translator: Christian <djangofett@gmx.net>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: de\n"
+"PO-Revision-Date: 2015-02-08 16:01+0000\n"
+"Last-Translator: Rom Walton <romw@romwnet.org>\n"
+"Language-Team: German (http://www.transifex.com/projects/p/boinc/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
 
 #: acct_mgr.cpp:450 acct_mgr.cpp:459
 msgid "Message from account manager"
@@ -29,9 +29,7 @@ msgstr "Nachricht vom Server"
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
-msgstr ""
-"Einige Aufgaben benötigen mehr Arbeitsspeicher als von ihren Einstellungen "
-"erlaubt wird. Bitte die Einstellungen überprüfen."
+msgstr "Einige Aufgaben benötigen mehr Arbeitsspeicher als von ihren Einstellungen erlaubt wird. Bitte die Einstellungen überprüfen."
 
 #: client_state.cpp:520
 msgid "Couldn't write state file; check directory permissions"
@@ -46,9 +44,7 @@ msgstr "Die HTTP_PROXY Umgebungsvariable muss einen HTTP-Proxy angeben"
 msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
 "project, then add %s"
-msgstr ""
-"Du hast die falsche URL für dieses Projekt genutzt. Wenn möglich bitte "
-"dieses Projekt entfernen und %s neu hinzufügen."
+msgstr "Du hast die falsche URL für dieses Projekt genutzt. Wenn möglich bitte dieses Projekt entfernen und %s neu hinzufügen."
 
 #: cs_statefile.cpp:828 ../sched/sched_types.cpp:259
 msgid "Syntax error in app_info.xml"
@@ -88,30 +84,22 @@ msgstr "Fehlendes Endetag in cc_config.xml"
 
 #: ../sched/handle_request.cpp:307
 msgid "Invalid or missing account key.  To fix, remove and add this project."
-msgstr ""
-"Ungültiger oder fehlender Kontoschlüssel.  Projekt entfernen und neu "
-"hinzufügen zum beheben."
+msgstr "Ungültiger oder fehlender Kontoschlüssel.  Projekt entfernen und neu hinzufügen zum beheben."
 
 #: ../sched/handle_request.cpp:849
 msgid "Invalid code signing key.  To fix, remove and add this project."
-msgstr ""
-"Ungültiger Signaturschlüssel. Projekt entfernen und neu hinzufügen zum "
-"beheben."
+msgstr "Ungültiger Signaturschlüssel. Projekt entfernen und neu hinzufügen zum beheben."
 
 #: ../sched/handle_request.cpp:859
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
-msgstr ""
-"Dieses Projekt hat einen neuen Sicherheitsschlüssel. Entfernen und fügen sie "
-"das Projekt neu hinzu."
+msgstr "Dieses Projekt hat einen neuen Sicherheitsschlüssel. Entfernen und fügen sie das Projekt neu hinzu."
 
-# Im Quellcode folgt nach diesem Text die Angabe des erkannten Betriebssystems!
 #: ../sched/handle_request.cpp:943
 msgid "This project doesn't support operating system"
 msgstr "Dieses Projekt unterstützt nicht das Betriebssystem"
 
-# Im Quellcode folgt nach diesem Satz die Angabe des erkannten Prozessortyps!
 #: ../sched/handle_request.cpp:969
 msgid "This project doesn't support CPU type"
 msgstr "Dieses Projekt unterstützt nicht den Prozessortyp"
@@ -119,38 +107,30 @@ msgstr "Dieses Projekt unterstützt nicht den Prozessortyp"
 #: ../sched/handle_request.cpp:993
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
-msgstr ""
-"Die BOINC Installation ist zu alt. Bitte die aktuelle Version installieren."
+msgstr "Die BOINC Installation ist zu alt. Bitte die aktuelle Version installieren."
 
 #: ../sched/handle_request.cpp:1259
 msgid "This project doesn't support computers of type"
 msgstr "Dieses Projekt unterstützt keine Computer vom Typ"
 
 #: ../sched/sched_send.cpp:1092
-msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
-msgstr ""
-"Auf die neuesten Treiber aktualisieren, um die GPU dieses Computers nutzen "
-"zu können."
+msgid ""
+"Upgrade to the latest driver to process tasks using your computer's GPU"
+msgstr "Auf die neuesten Treiber aktualisieren, um die GPU dieses Computers nutzen zu können."
 
 #: ../sched/sched_send.cpp:1099
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
-msgstr ""
-"Auf die neuesten Treiber aktualisieren, um alle GPU-Anwendungen dieses "
-"Projekts nutzen zu können."
+msgstr "Auf die neuesten Treiber aktualisieren, um alle GPU-Anwendungen dieses Projekts nutzen zu können."
 
 #: ../sched/sched_send.cpp:1118
 msgid ""
-"A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
-"the current version"
-msgstr ""
-"Eine neuere Version von BOINC ist erforderlich um die NVIDIA GPU zu "
-"verwenden. Bitte auf die aktuellste Version aktualisieren."
+"A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
+" the current version"
+msgstr "Eine neuere Version von BOINC ist erforderlich um die NVIDIA GPU zu verwenden. Bitte auf die aktuellste Version aktualisieren."
 
-# 94%
 #: ../sched/sched_send.cpp:1146
 #, c-format
-#, c-format, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "Für dieses Projekt wird eine %s GPU benötigt"
 
@@ -164,16 +144,13 @@ msgstr "Der Computertyp wird von diesem Projekt nicht unterstützt."
 
 #: ../sched/sched_send.cpp:1294
 msgid "Newer BOINC version required; please install current version"
-msgstr ""
-"Neuere BOINC Version wird benötigt. Bitte die aktuelle Version installieren."
+msgstr "Neuere BOINC Version wird benötigt. Bitte die aktuelle Version installieren."
 
 #: ../sched/sched_send.cpp:1305
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
-msgstr ""
-"Aufgaben für %s sind verfügbar, aber die aktuellen Einstellungen verbieten "
-"diese"
+msgstr "Aufgaben für %s sind verfügbar, aber die aktuellen Einstellungen verbieten diese"
 
 #: ../sched/sched_types.cpp:254
 msgid "Unknown app name in app_info.xml"
@@ -182,63 +159,3 @@ msgstr "Unbekannter Anwendungsname in app_info.xml"
 #: ../sched/sched_version.cpp:214
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "Ihre app_info.xml Datei enthält keine nutzbare Version von"
-
-#~ msgid "Download it."
-#~ msgstr "Bitte herunterladen."
-
-#~ msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
-#~ msgstr "Für dieses Projekt wird eine NVIDIA oder ATI GPU benötigt"
-
-#~ msgid "An NVIDIA GPU is required to run tasks for this project"
-#~ msgstr "Für dieses Projekt wird eine NVIDIA GPU benötigt"
-
-#~ msgid "An ATI GPU is required to run tasks for this project"
-#~ msgstr "Für dieses Projekt wird eine ATI GPU benötigt"
-
-#~ msgid ""
-#~ "Tasks for NVIDIA GPU are available, but your preferences are set to not "
-#~ "accept them"
-#~ msgstr ""
-#~ "Aufgaben für NVIDIA GPUs sind verfügbar, aber Ihre Einstellungen verbieten "
-#~ "diese."
-
-#~ msgid ""
-#~ "Tasks for ATI GPU are available, but your preferences are set to not accept "
-#~ "them"
-#~ msgstr ""
-#~ "Aufgaben für ATI GPUs sind verfügbar, aber Ihre Einstellungen verbieten "
-#~ "diese."
-
-#~ msgid ""
-#~ "Tasks for CPU are available, but your preferences are set to not accept them"
-#~ msgstr ""
-#~ "Aufgaben für die CPU sind verfügbar, aber Ihre Einstellungen verbieten "
-#~ "diese."
-
-#~ msgid "error"
-#~ msgstr "Fehler"
-
-#~ msgid "Can't resolve hostname in remote_hosts.cfg"
-#~ msgstr "Rechnername in remote_hosts.cfg konnte nicht aufgelöst werden."
-
-#~ msgid "is not available for"
-#~ msgstr "ist nicht verfügbar für"
-
-#~ msgid "Notice from BOINC"
-#~ msgstr "Nachrichten von BOINC"
-
-#~ msgid "Message from"
-#~ msgstr "Nachricht von"
-
-#~ msgid ""
-#~ "You may have an outdated code signing key.  Try attaching and reattaching "
-#~ "this project."
-#~ msgstr ""
-#~ "Veralteter Signierschlüssel möglich.  Projekt abmelden und neu anmelden "
-#~ "könnte helfen."
-
-#~ msgid "XML syntax error in"
-#~ msgstr "XML Syntax-Fehler in"
-
-#~ msgid "Unparsed tag in"
-#~ msgstr "Übersprungenes Tag in"
