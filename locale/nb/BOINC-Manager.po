@@ -1,34 +1,24 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2014-11-30 10:46+0000\n"
-"Last-Translator: Jan <jan@sherdahl.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: nb\n"
+"PO-Revision-Date: 2015-02-08 23:26+0000\n"
+"Last-Translator: Rom Walton <romw@romwnet.org>\n"
+"Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/boinc/language/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nb\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.5.0\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-SearchPath-1: clientgui/msw\n"
-"X-Poedit-SearchPath-2: clientgui/gtk\n"
-"X-Poedit-SearchPath-3: clientgui/mac\n"
-"X-Poedit-SearchPath-0: clientgui\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1417344367.0\n"
 
-# 81%
 #: AccountInfoPage.cpp:387
 #, c-format
-#, c-format, c-format
 msgid "Identify your account at %s"
 msgstr "Identifiser din konto hos %s"
 
@@ -36,17 +26,13 @@ msgstr "Identifiser din konto hos %s"
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
-msgstr ""
-"Skriv inn din kontoinformasjon\n"
-"(for å lage en konto, besøk prosjektets nettside)"
+msgstr "Skriv inn din kontoinformasjon\n(for å lage en konto, besøk prosjektets nettside)"
 
 #: AccountInfoPage.cpp:397
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can add it only if you already have an account."
-msgstr ""
-"Dette prosjektet aksepterer ikke nye kontoer.\n"
-"Du kan kun legge til dette vis du allerede har en konto."
+msgstr "Dette prosjektet aksepterer ikke nye kontoer.\nDu kan kun legge til dette vis du allerede har en konto."
 
 #: AccountInfoPage.cpp:401
 msgid "Are you already running this project?"
@@ -68,13 +54,7 @@ msgid ""
 "Please click on the 'Find login information' link\n"
 "below to find out what to put in the email address and\n"
 "password fields."
-msgstr ""
-"Vi kunne ikke sette opp din kontoinformasjonen\n"
-"automatisk.\n"
-"\n"
-"Klikk på lenken 'Finn innloggingsinformasjon'\n"
-"under for å finne ut hva du skal skrive i feltene\n"
-"epostadresse og passord."
+msgstr "Vi kunne ikke sette opp din kontoinformasjonen\nautomatisk.\n\nKlikk på lenken 'Finn innloggingsinformasjon'\nunder for å finne ut hva du skal skrive i feltene\nepostadresse og passord."
 
 #: AccountInfoPage.cpp:416
 msgid "Find login information"
@@ -119,10 +99,7 @@ msgid ""
 "If you have not yet registered with this account manager,\n"
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
-msgstr ""
-"Har du ennå ikke registert hos denne kontobehandleren,\n"
-"gjør det før du fortsetter.  Klikk på linken under\n"
-"for å registrere eller hente et glemt passord."
+msgstr "Har du ennå ikke registert hos denne kontobehandleren,\ngjør det før du fortsetter.  Klikk på linken under\nfor å registrere eller hente et glemt passord."
 
 #: AccountInfoPage.cpp:532
 msgid "Account manager web site"
@@ -166,9 +143,7 @@ msgstr "Velg en kontobehandler"
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
-msgstr ""
-"For å velge en kontobehandler, klikk på navnet eller \n"
-"tast inn URL under."
+msgstr "For å velge en kontobehandler, klikk på navnet eller \ntast inn URL under."
 
 #: AccountManagerInfoPage.cpp:279
 msgid "Account manager details:"
@@ -437,13 +412,13 @@ msgstr "Gjør nettverkskommunikasjon"
 msgid "Do all pending network communication"
 msgstr "Gjør alle ventende nettverkskommunikasjoner"
 
-# 94%
 #: AdvancedFrame.cpp:589
 msgid "Read config files"
 msgstr "Les konfigurasjons filer"
 
 #: AdvancedFrame.cpp:590
-msgid "Read configuration info from cc_config.xml and any app_config.xml files"
+msgid ""
+"Read configuration info from cc_config.xml and any app_config.xml files"
 msgstr "Les konfigurasjonsinformasjon fra cc_config.xml og app_config.xml filer"
 
 #: AdvancedFrame.cpp:594
@@ -494,7 +469,6 @@ msgstr "Vis informasjon om %s"
 
 #: AdvancedFrame.cpp:661 sg_BoincSimpleFrame.cpp:224
 #, c-format
-#, c-format, c-format
 msgid "%s &web site"
 msgstr "%s &nettside"
 
@@ -550,12 +524,7 @@ msgid ""
 "but you'll have to manage projects manually.\n"
 "\n"
 "Do you want to stop using %s?"
-msgstr ""
-"Hvis du slutter å bruke %s\n"
-"vil du beholde alle nåværende prosjekter,\n"
-"men du må behandle prosjektene manuelt.\n"
-"\n"
-"Vil du stoppe å bruke %s?"
+msgstr "Hvis du slutter å bruke %s\nvil du beholde alle nåværende prosjekter,\nmen du må behandle prosjektene manuelt.\n\nVil du stoppe å bruke %s?"
 
 #: AdvancedFrame.cpp:1401
 #, c-format
@@ -567,9 +536,7 @@ msgstr "%s - Steng nåværende klient..."
 msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
-msgstr ""
-"%s vil stenge nåværende klient\n"
-"og spørre deg om en annen tjener å koble til."
+msgstr "%s vil stenge nåværende klient\nog spørre deg om en annen tjener å koble til."
 
 #: AdvancedFrame.cpp:1745 DlgAbout.cpp:119
 #, c-format
@@ -606,11 +573,7 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr ""
-"En konto med det brukernavnet eksisterer og har et\n"
-"annet passord enn det du tastet inn.\n"
-"\n"
-"Besøk prosjektets nettside og følg instruksjonene."
+msgstr "En konto med det brukernavnet eksisterer og har et\nannet passord enn det du tastet inn.\n\nBesøk prosjektets nettside og følg instruksjonene."
 
 #: AlreadyExistsPage.cpp:191
 msgid "Email address already in use"
@@ -622,11 +585,7 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr ""
-"En konto med den epostadressen eksisterer og har et\n"
-"annet passord enn det du tastet inn.\n"
-"\n"
-"Besøk prosjektets nettside og følg instruksjonene."
+msgstr "En konto med den epostadressen eksisterer og har et\nannet passord enn det du tastet inn.\n\nBesøk prosjektets nettside og følg instruksjonene."
 
 #: AsyncRPC.cpp:1031
 msgid "Communicating with BOINC client.  Please wait ..."
@@ -659,19 +618,14 @@ msgstr "%s - Tilkoblingsfeil"
 #: BOINCBaseFrame.cpp:514
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_users' local user "
-"group."
-msgstr ""
-"Du er ikke autorisert til å behandle klienten.\n"
-"Kontakt administrator for å bli lagt til i lokalgruppen 'boinc_users'."
+"Please contact your administrator to add you to the 'boinc_users' local user group."
+msgstr "Du er ikke autorisert til å behandle klienten.\nKontakt administrator for å bli lagt til i lokalgruppen 'boinc_users'."
 
 #: BOINCBaseFrame.cpp:523
 msgid ""
 "Authorization failed connecting to running client.\n"
 "Make sure you start this program in the same directory as the client."
-msgstr ""
-"Autoriseringen kunne ikke koble til klienten som kjører.\n"
-"Vær sikker på at programmet er startet fra samme mappe som klienten."
+msgstr "Autoriseringen kunne ikke koble til klienten som kjører.\nVær sikker på at programmet er startet fra samme mappe som klienten."
 
 #: BOINCBaseFrame.cpp:525
 msgid "Authorization failed connecting to running client."
@@ -691,9 +645,7 @@ msgstr "%s - Tilkobling mislykkes"
 msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
-msgstr ""
-"%s kan ikke koble til klienten %s.\n"
-"Vil du prøve å koble til igjen?"
+msgstr "%s kan ikke koble til klienten %s.\nVil du prøve å koble til igjen?"
 
 #: BOINCBaseFrame.cpp:622
 #, c-format
@@ -704,21 +656,15 @@ msgstr "%s - Bakgrunnsprosessens oppstart feilet"
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
-"Please launch the Control Panel->Administative Tools->Services applet and "
-"start the BOINC service."
-msgstr ""
-"%s kan ikke starte %s klienten.\n"
-"Start panelprogrammet Kontrollpanel->Administrative verktøy->Tjenester og "
-"start BOINC tjenesten."
+"Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
+msgstr "%s kan ikke starte %s klienten.\nStart panelprogrammet Kontrollpanel->Administrative verktøy->Tjenester og start BOINC tjenesten."
 
 #: BOINCBaseFrame.cpp:638
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please start the daemon and try again."
-msgstr ""
-"%s kan ikke starte %s klienten.\n"
-"Start bakgrunnsprogrammet og prøv igjen."
+msgstr "%s kan ikke starte %s klienten.\nStart bakgrunnsprogrammet og prøv igjen."
 
 #: BOINCBaseFrame.cpp:689
 #, c-format
@@ -729,14 +675,9 @@ msgstr "%s - Status for tilkobling"
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
-"Please use the 'Advanced\\Select Computer...' menu option to connect up to a "
-"%s client.\n"
+"Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
-msgstr ""
-"%s er ikke tilkoblet til en %s klient.\n"
-"Bruk 'Avansert\\Velg datamaskin...' menyvalg for å koble til en %s klient.\n"
-"For å koble til din lokale datamaskin vennligst bruk 'localhost' som "
-"vertsnavn."
+msgstr "%s er ikke tilkoblet til en %s klient.\nBruk 'Avansert\\Velg datamaskin...' menyvalg for å koble til en %s klient.\nFor å koble til din lokale datamaskin vennligst bruk 'localhost' som vertsnavn."
 
 #: BOINCBaseView.cpp:779
 msgid "Project web pages"
@@ -752,9 +693,7 @@ msgstr "%s- Uventet avslutning"
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
-msgstr ""
-"Klienten %s har uventet avsluttet 3 ganger i løpet av de siste %d minuttene.\n"
-"Vil du starte den igjen?"
+msgstr "Klienten %s har uventet avsluttet 3 ganger i løpet av de siste %d minuttene.\nVil du starte den igjen?"
 
 #: BOINCDialupManager.cpp:61
 #, c-format
@@ -766,9 +705,7 @@ msgstr "%s Nettverksstatus"
 msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
-msgstr ""
-"%s trenger å koble til internett.\n"
-"Kan den gjøre det nå?"
+msgstr "%s trenger å koble til internett.\nKan den gjøre det nå?"
 
 #: BOINCDialupManager.cpp:254
 #, c-format
@@ -790,9 +727,7 @@ msgstr "%s kunne ikke koble til internett."
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
-msgstr ""
-"%s er nå koblet til internett.\n"
-"Oppdaterer alle prosjekter og prøver alle overføringene igjen."
+msgstr "%s er nå koblet til internett.\nOppdaterer alle prosjekter og prøver alle overføringene igjen."
 
 #: BOINCDialupManager.cpp:417
 #, c-format
@@ -815,24 +750,14 @@ msgid ""
 " or\n"
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
-msgstr ""
-"Du er ikke autorisert til å behandle denne klienten.\n"
-"\n"
-"For å kjøre %s som denne brukeren,\n"
-"  - installer %s på nytt og svar \"Ja\" til spørsmålet om\n"
-"     ikke administrativ brukere\n"
-" eller\n"
-"  - kontakt administratoren for å legge deg til 'boinc_master'\n"
-"     brukergruppe."
+msgstr "Du er ikke autorisert til å behandle denne klienten.\n\nFor å kjøre %s som denne brukeren,\n  - installer %s på nytt og svar \"Ja\" til spørsmålet om\n     ikke administrativ brukere\n eller\n  - kontakt administratoren for å legge deg til 'boinc_master'\n     brukergruppe."
 
 #: BOINCGUIApp.cpp:345
 #, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
-msgstr ""
-"%s eieskap eller rettigheter er ikke satt ordentlig, installer %s på nytt.\n"
-"(Feilkode %d"
+msgstr "%s eieskap eller rettigheter er ikke satt ordentlig, installer %s på nytt.\n(Feilkode %d"
 
 #: BOINCGUIApp.cpp:351
 msgid " at "
@@ -847,9 +772,7 @@ msgstr ")"
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
-msgstr ""
-"Omstart kreves for å kjøre BOINC ordentlig.\n"
-"Vennligst start datamaskinen om igjen."
+msgstr "Omstart kreves for å kjøre BOINC ordentlig.\nVennligst start datamaskinen om igjen."
 
 #: BOINCGUIApp.cpp:385 DlgAbout.cpp:153
 msgid "BOINC Manager"
@@ -893,9 +816,7 @@ msgstr "deaktiver BOINC sikkerhet brukere og rettigheter"
 
 #: BOINCGUIApp.cpp:584
 msgid "set skin debugging mode to enable skin manager error messages"
-msgstr ""
-"sett skallmodus for feilsøking for å aktivere feilmeldinger fra "
-"skallbehandleren"
+msgstr "sett skallmodus for feilsøking for å aktivere feilmeldinger fra skallbehandleren"
 
 #: BOINCGUIApp.cpp:585
 msgid "multiple instances of BOINC Manager allowed"
@@ -998,12 +919,10 @@ msgstr "Kunne ikke legge til prosjekt"
 msgid "Failed to update account manager"
 msgstr "Kunne ikke oppdatere kontobehandler"
 
-# 84%
 #: CompletionErrorPage.cpp:208
 msgid "Failed to remove account manager"
 msgstr "Kunne ikke fjerne kontobehandler"
 
-# 84%
 #: CompletionErrorPage.cpp:212
 msgid "Failed to add account manager"
 msgstr "Kunne ikke legge til kontobehandler"
@@ -1013,10 +932,7 @@ msgid ""
 "Please try again later.\n"
 "\n"
 "Click Finish to close."
-msgstr ""
-"Vennligst prøv igjen senere.\n"
-"\n"
-"Klikk Ferdig for å lukke."
+msgstr "Vennligst prøv igjen senere.\n\nKlikk Ferdig for å lukke."
 
 #: CompletionErrorPage.cpp:225 CompletionPage.cpp:222 CompletionPage.cpp:242
 #: CompletionPage.cpp:273
@@ -1039,9 +955,7 @@ msgstr "Dette prosjektet har blitt lagt til korrekt."
 msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
-msgstr ""
-"Når du klikker Ferdig, vil nettleseren din gå til en side der\n"
-"du kan oppgi ditt kontonavn og innstillinger."
+msgstr "Når du klikker Ferdig, vil nettleseren din gå til en side der\ndu kan oppgi ditt kontonavn og innstillinger."
 
 #: CompletionPage.cpp:232
 #, c-format
@@ -1087,14 +1001,11 @@ msgstr "wxWidgets Versjon:"
 msgid "Copyright:"
 msgstr "Copyright:"
 
-# 98%
 #: DlgAbout.cpp:192
 msgid ""
 "(C) 2003-2013 University of California, Berkeley.\n"
 "All Rights Reserved."
-msgstr ""
-"(C) 2003-2013 University of California, Berkeley.\n"
-"All Rights Reserved."
+msgstr "(C) 2003-2013 University of California, Berkeley.\nAll Rights Reserved."
 
 #: DlgAbout.cpp:196
 msgid "Berkeley Open Infrastructure for Network Computing"
@@ -1162,9 +1073,7 @@ msgstr "'%s' er allerede i listen."
 msgid ""
 "Do you really want to clear all local preferences?\n"
 "(This will not affect exclusive applications.)"
-msgstr ""
-"Ønsker du virkelig å fjerne alle lokale instillinger?\n"
-"(Dette vil ikke påvirke ekslusive applikasjoner.)"
+msgstr "Ønsker du virkelig å fjerne alle lokale instillinger?\n(Dette vil ikke påvirke ekslusive applikasjoner.)"
 
 #: DlgAdvPreferences.cpp:1078 sg_DlgPreferences.cpp:1030
 msgid "Confirmation"
@@ -1180,12 +1089,7 @@ msgid ""
 "This dialog controls preferences for this computer only.\n"
 "Click OK to set preferences.\n"
 "Click Clear to restore web-based settings (except exclusive apps)."
-msgstr ""
-"Denne dialogboksen kontrollerer utelukkende innstillinger for denne "
-"datamaskinen.\n"
-"Klikk OK for lagre innstillingene.\n"
-"Klikk Fjern for å gjenopprette nettbaserte innstillinger (endrer ikke "
-"programinnstillinger)."
+msgstr "Denne dialogboksen kontrollerer utelukkende innstillinger for denne datamaskinen.\nKlikk OK for lagre innstillingene.\nKlikk Fjern for å gjenopprette nettbaserte innstillinger (endrer ikke programinnstillinger)."
 
 #: DlgAdvPreferencesBase.cpp:65 sg_DlgPreferences.cpp:428
 msgid "Clear"
@@ -1243,9 +1147,7 @@ msgstr "Når datamaskinen går på batterier"
 #: DlgAdvPreferencesBase.cpp:142
 msgid ""
 "check this if you want this computer to do work while it runs on batteries"
-msgstr ""
-"sett kryss om du ønsker at denne datamaskinen skal utføre arbeid når den "
-"kjører på batterier"
+msgstr "sett kryss om du ønsker at denne datamaskinen skal utføre arbeid når den kjører på batterier"
 
 #: DlgAdvPreferencesBase.cpp:148
 msgid "While computer is in use"
@@ -1254,9 +1156,7 @@ msgstr "Når datamaskinen er i bruk"
 #: DlgAdvPreferencesBase.cpp:151
 msgid ""
 "check this if you want this computer to do work even when you're using it"
-msgstr ""
-"sett kryss om du ønsker at denne datamaskinen skal utføre arbeid, selv når "
-"du bruker den"
+msgstr "sett kryss om du ønsker at denne datamaskinen skal utføre arbeid, selv når du bruker den"
 
 #: DlgAdvPreferencesBase.cpp:157
 msgid "Use GPU while computer is in use"
@@ -1266,9 +1166,7 @@ msgstr "Bruk GPU mens datamaskinen er i bruk"
 msgid ""
 "check this if you want your GPU to do work even when you're using the "
 "computer"
-msgstr ""
-"sett kryss om du ønsker at GPU skal utføre arbeid, selv når du bruker "
-"datamaskinen"
+msgstr "sett kryss om du ønsker at GPU skal utføre arbeid, selv når du bruker datamaskinen"
 
 #: DlgAdvPreferencesBase.cpp:172
 msgid "Only after computer has been idle for"
@@ -1277,9 +1175,7 @@ msgstr "Bare etter at datamaskinen har vært inaktiv i"
 #: DlgAdvPreferencesBase.cpp:182
 msgid ""
 "do work only after you haven't used the computer for this number of minutes"
-msgstr ""
-"bare utfør arbeid etter at du ikke har brukt datamaskinen i dette antall "
-"minutter"
+msgstr "bare utfør arbeid etter at du ikke har brukt datamaskinen i dette antall minutter"
 
 #: DlgAdvPreferencesBase.cpp:187 DlgAdvPreferencesBase.cpp:336
 #: sg_DlgPreferences.cpp:417
@@ -1422,8 +1318,7 @@ msgstr "Minimum arbeidsbuffer"
 
 #: DlgAdvPreferencesBase.cpp:438
 msgid "Try to maintain enough tasks to keep busy for this many days"
-msgstr ""
-"Prøv å opprettholde nok oppgaver til å være opptatt i følgende antall dager"
+msgstr "Prøv å opprettholde nok oppgaver til å være opptatt i følgende antall dager"
 
 #: DlgAdvPreferencesBase.cpp:450
 msgid "Max additional work buffer"
@@ -1451,10 +1346,9 @@ msgstr "Bekreft før det kobles til Internet"
 
 #: DlgAdvPreferencesBase.cpp:480
 msgid ""
-"if checked, a confirmation dialog will be displayed before trying to connect "
-"to the Internet"
-msgstr ""
-"hvis merket, vil en dialogboks vises før det forsøkes å koble til Internet"
+"if checked, a confirmation dialog will be displayed before trying to connect"
+" to the Internet"
+msgstr "hvis merket, vil en dialogboks vises før det forsøkes å koble til Internet"
 
 #: DlgAdvPreferencesBase.cpp:484
 msgid "Disconnect when done"
@@ -1464,9 +1358,7 @@ msgstr "Koble fra når ferdig"
 msgid ""
 "if checked, BOINC hangs up when network usage is done\n"
 "(only relevant for dialup-connection)"
-msgstr ""
-"hvis merket, vil BOINC koble fra når overføring er ferdig\n"
-"(kun relevant for oppringte tilkoblinger)"
+msgstr "hvis merket, vil BOINC koble fra når overføring er ferdig\n(kun relevant for oppringte tilkoblinger)"
 
 #: DlgAdvPreferencesBase.cpp:492
 msgid "Network usage allowed"
@@ -1537,7 +1429,6 @@ msgstr "% når datamaskinen er i bruk"
 
 #: DlgAdvPreferencesBase.cpp:686
 #, no-c-format
-#, no-c-format, no-c-format
 msgid "% when computer is idle"
 msgstr "% når datamaskinen er inaktiv"
 
@@ -1613,18 +1504,16 @@ msgstr "Kopier &valgte"
 #: DlgEventLog.cpp:308 DlgEventLog.cpp:316 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
-"messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"Kopier valgte meldinger til utklippstavlen. Du kan velge flere meldinger ved "
-"å holde Shift eller Command tasten inne mens du klikker på meldingene."
+"messages by holding down the shift or command key while clicking on "
+"messages."
+msgstr "Kopier valgte meldinger til utklippstavlen. Du kan velge flere meldinger ved å holde Shift eller Command tasten inne mens du klikker på meldingene."
 
 #: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
-"messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"Kopier valgte meldinger til utklippstavlen. Du kan velge flere meldinger ved "
-"å trykke Shift eller Control tasten inne mens du klikker på meldingene."
+"messages by holding down the shift or control key while clicking on "
+"messages."
+msgstr "Kopier valgte meldinger til utklippstavlen. Du kan velge flere meldinger ved å trykke Shift eller Control tasten inne mens du klikker på meldingene."
 
 #: DlgEventLog.cpp:325 DlgItemProperties.cpp:67
 msgid "&Close"
@@ -1661,13 +1550,7 @@ msgid ""
 "\n"
 "If you also want to stop running the tasks,\n"
 "choose from the following options:"
-msgstr ""
-"Du har valgt å avslutte %s,\n"
-"som lar det vise og administrere\n"
-"oppgavene som kjører på din arbeidsstasjon.\n"
-"\n"
-"Hvis du også ønsker å stoppe kjøring av oppgavene,\n"
-"velg fra følgende alternativer:"
+msgstr "Du har valgt å avslutte %s,\nsom lar det vise og administrere\noppgavene som kjører på din arbeidsstasjon.\n\nHvis du også ønsker å stoppe kjøring av oppgavene,\nvelg fra følgende alternativer:"
 
 #: DlgExitMessage.cpp:135
 #, c-format
@@ -1678,13 +1561,7 @@ msgid ""
 "In most cases, it is better just to close the %s window\n"
 "rather than to exit the application; that will allow %s to run its\n"
 "tasks at the times you selected in your preferences."
-msgstr ""
-"Dette vil stenge ned %s og dens oppgaver inntil enten\n"
-"%s eller skjermspareren til %s kjører igjen.\n"
-"\n"
-"I de fleste tilfeller, er det bedre å lukke %s vinduet\n"
-"istedenfor å avslutte applikasjonen; som tillater %s å kjøre dens\n"
-"oppgaver på tidspunktene du har valgt i dine innstillinger."
+msgstr "Dette vil stenge ned %s og dens oppgaver inntil enten\n%s eller skjermspareren til %s kjører igjen.\n\nI de fleste tilfeller, er det bedre å lukke %s vinduet\nistedenfor å avslutte applikasjonen; som tillater %s å kjøre dens\noppgaver på tidspunktene du har valgt i dine innstillinger."
 
 #: DlgExitMessage.cpp:153
 #, c-format
@@ -2060,13 +1937,10 @@ msgstr "%s - Språkvalg"
 
 #: DlgOptions.cpp:695
 #, c-format
-#, c-format, c-format
 msgid ""
 "The %s's language has been changed.  In order for this change to take "
 "effect, you must restart the %s."
-msgstr ""
-"Standardspråk for %s er endret.  For å ta i bruk endringene må du starte %s "
-"på nytt."
+msgstr "Standardspråk for %s er endret.  For å ta i bruk endringene må du starte %s på nytt."
 
 #: DlgSelectComputer.cpp:91
 #, c-format
@@ -2078,9 +1952,7 @@ msgstr "%s - Velg datamaskin"
 msgid ""
 "Another instance of %s is already running \n"
 "on this computer.  Please select a client to monitor."
-msgstr ""
-"En annen forekomst av %s kjører allerede \n"
-"på denne datamaskinen.  Vennligst velg en klient å monitorere."
+msgstr "En annen forekomst av %s kjører allerede \npå denne datamaskinen.  Vennligst velg en klient å monitorere."
 
 #: DlgSelectComputer.cpp:143
 msgid "Host name:"
@@ -2158,9 +2030,7 @@ msgstr "Les en detaljert beskrivelse av Einstein@Home's skjermsparer"
 #: Localization.cpp:71
 msgid ""
 "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr ""
-"Utveksle meldinger med administratorer og andre brukere på Einstein@Home "
-"diskusjonsforum"
+msgstr "Utveksle meldinger med administratorer og andre brukere på Einstein@Home diskusjonsforum"
 
 #: Localization.cpp:73
 msgid "Einstein status"
@@ -2199,9 +2069,7 @@ msgstr "LIGO prosjekt"
 msgid ""
 "The home page of the Laser Interferometer Gravitational-wave Observatory "
 "(LIGO) project"
-msgstr ""
-"Hjemmesiden til Laser Interferometer Gravitional-wave Observatory (LIGO) "
-"prosjektet"
+msgstr "Hjemmesiden til Laser Interferometer Gravitional-wave Observatory (LIGO) prosjektet"
 
 #: Localization.cpp:105
 msgid "GEO-600 project"
@@ -2294,11 +2162,9 @@ msgstr "Applikasjon mangler"
 
 #: MainDocument.cpp:1817
 msgid ""
-"Please download and install the CoRD application from http://cord."
-"sourceforge.net"
-msgstr ""
-"Vennligst last ned og installer CoRD applikasjonen fra "
+"Please download and install the CoRD application from "
 "http://cord.sourceforge.net"
+msgstr "Vennligst last ned og installer CoRD applikasjonen fra http://cord.sourceforge.net"
 
 #: MainDocument.cpp:2432
 msgid "on batteries"
@@ -2384,7 +2250,6 @@ msgstr "Oppgave suspendert av bruker"
 msgid "Suspended - "
 msgstr "Suspendert - "
 
-# 75%
 #: MainDocument.cpp:2500
 msgid "GPU suspended - "
 msgstr "GPU suspendert - "
@@ -2499,10 +2364,7 @@ msgid ""
 "The URL you supplied is not that of a BOINC-based project.\n"
 "\n"
 "Please check the URL and try again."
-msgstr ""
-"URL'en du skrev inn er ikke et BOINC basert prosjekt.\n"
-"\n"
-"Vennligst sjekk URL'en og prøv igjen."
+msgstr "URL'en du skrev inn er ikke et BOINC basert prosjekt.\n\nVennligst sjekk URL'en og prøv igjen."
 
 #: NotDetectedPage.cpp:188
 msgid "Account manager not found"
@@ -2514,11 +2376,7 @@ msgid ""
 "manager.\n"
 "\n"
 "Please check the URL and try again."
-msgstr ""
-"URL'en du tastet inn er ikke den til en BOINC basert konto\n"
-"behandler.\n"
-"\n"
-"Vennligst kontroller URL'en og prøv igjen."
+msgstr "URL'en du tastet inn er ikke den til en BOINC basert konto\nbehandler.\n\nVennligst kontroller URL'en og prøv igjen."
 
 #: NotFoundPage.cpp:181
 msgid "Login Failed."
@@ -2584,14 +2442,11 @@ msgstr "Prosjekt &URL:"
 msgid ""
 "This project may not have work for your type of computer.  Do you want to "
 "add it anyway?"
-msgstr ""
-"Dette prosjektet har muligens ikke arbeid for din type arbeidsstasjon.  "
-"Ønsker du å legge til det allikevel?"
+msgstr "Dette prosjektet har muligens ikke arbeid for din type arbeidsstasjon.  Ønsker du å legge til det allikevel?"
 
 #: ProjectInfoPage.cpp:850
 msgid "You already added this project. Please choose a different project."
-msgstr ""
-"Du har allerede lagt til dette prosjektet. Vennligst velg et annet prosjekt."
+msgstr "Du har allerede lagt til dette prosjektet. Vennligst velg et annet prosjekt."
 
 #: ProjectProcessingPage.cpp:321
 msgid "Communicating with project."
@@ -2609,9 +2464,7 @@ msgstr "En intern tjenerfeil har oppstått."
 msgid ""
 "Communicating with project\n"
 "Please wait..."
-msgstr ""
-"Kommuniserer med prosjektet\n"
-"Vennligst vent..."
+msgstr "Kommuniserer med prosjektet\nVennligst vent..."
 
 #: ProxyInfoPage.cpp:195
 msgid "Network communication failure"
@@ -2632,20 +2485,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr ""
-"World Community Grid - BOINC programvaren kunne ikke kommunisere\n"
-"med Internett. De mest sannsynlige grunnene er:\n"
-"\n"
-"1)Tilkoblingsproblem.  Sjekk din Internett eller modem tilkobling\n"
-"og klikk tilbake for å prøve igjen.\n"
-"\n"
-"2) Brannmuren din blokkerer World Community\n"
-"Grid - BOINC programvaren.  Konfigurer brannmuren din for å la\n"
-"BOINC og BOINC Manager kommunisere på port 80 og port 443,\n"
-"klikk tilbake og prøv igjen.\n"
-"\n"
-"3)Du bruker en proxy tjener.\n"
-"Klikk neste for å konfigurere BOINC's proxy innstillinger."
+msgstr "World Community Grid - BOINC programvaren kunne ikke kommunisere\nmed Internett. De mest sannsynlige grunnene er:\n\n1)Tilkoblingsproblem.  Sjekk din Internett eller modem tilkobling\nog klikk tilbake for å prøve igjen.\n\n2) Brannmuren din blokkerer World Community\nGrid - BOINC programvaren.  Konfigurer brannmuren din for å la\nBOINC og BOINC Manager kommunisere på port 80 og port 443,\nklikk tilbake og prøv igjen.\n\n3)Du bruker en proxy tjener.\nKlikk neste for å konfigurere BOINC's proxy innstillinger."
 
 #: ProxyInfoPage.cpp:203
 msgid ""
@@ -2662,20 +2502,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr ""
-"BOINC kunne ikke kommunisere på Internett\n"
-"De mest sannsynlige grunnene er:\n"
-"\n"
-"1)Tilkoblingsproblem.  Sjekk din Internett\n"
-"eller modem tilkobling og klikk tilbake for å prøve igjen.\n"
-"\n"
-"2) Brannmuren din blokkerer BOINC.\n"
-"Konfigurer brannmuren din for å la BOINC og\n"
-"BOINC Manager kommunisere på port 80,\n"
-"klikk tilbake og prøv igjen.\n"
-"\n"
-"3)Du bruker en proxy tjener.\n"
-"Klikk neste for å konfigurere BOINC's proxy innstillinger. "
+msgstr "BOINC kunne ikke kommunisere på Internett\nDe mest sannsynlige grunnene er:\n\n1)Tilkoblingsproblem.  Sjekk din Internett\neller modem tilkobling og klikk tilbake for å prøve igjen.\n\n2) Brannmuren din blokkerer BOINC.\nKonfigurer brannmuren din for å la BOINC og\nBOINC Manager kommunisere på port 80,\nklikk tilbake og prøv igjen.\n\n3)Du bruker en proxy tjener.\nKlikk neste for å konfigurere BOINC's proxy innstillinger. "
 
 #: ProxyPage.cpp:331
 msgid "Proxy configuration"
@@ -2722,10 +2549,7 @@ msgid ""
 "The project is temporarily unavailable.\n"
 "\n"
 "Please try again later."
-msgstr ""
-"Prosjektet er midlertidig utilgjengelig.\n"
-"\n"
-"Vennligst prøv igjen senere."
+msgstr "Prosjektet er midlertidig utilgjengelig.\n\nVennligst prøv igjen senere."
 
 #: UnavailablePage.cpp:190
 msgid "Account manager temporarily unavailable"
@@ -2736,10 +2560,7 @@ msgid ""
 "The account manager is temporarily unavailable.\n"
 "\n"
 "Please try again later."
-msgstr ""
-"Kontobehandler er midlertidig utilgjengelig.\n"
-"\n"
-"Vennligst prøv igjen senere."
+msgstr "Kontobehandler er midlertidig utilgjengelig.\n\nVennligst prøv igjen senere."
 
 #: ValidateAccountKey.cpp:68
 msgid "Please specify an account key to continue."
@@ -2770,10 +2591,7 @@ msgid ""
 "Please specify a URL.\n"
 "For example:\n"
 "http://www.example.com/"
-msgstr ""
-"Vennligst spesifiser en URL.\n"
-"For eksempel:\n"
-"http://www.example.com/"
+msgstr "Vennligst spesifiser en URL.\nFor eksempel:\nhttp://www.example.com/"
 
 #: ValidateURL.cpp:83 ValidateURL.cpp:87 ValidateURL.cpp:91
 #: ValidateURL.cpp:103 ValidateURL.cpp:107 ValidateURL.cpp:110
@@ -2785,10 +2603,7 @@ msgid ""
 "Please specify a valid URL.\n"
 "For example:\n"
 "http://boincproject.example.com"
-msgstr ""
-"Vennligst spesifiser en gyldig URL.\n"
-"For eksempel:\n"
-"http://boincproject.example.com"
+msgstr "Vennligst spesifiser en gyldig URL.\nFor eksempel:\nhttp://boincproject.example.com"
 
 #: ValidateURL.cpp:104 ValidateURL.cpp:108
 #, c-format
@@ -2865,9 +2680,7 @@ msgstr "Oppdater"
 msgid ""
 "Report all completed tasks, get latest credit, get latest preferences, and "
 "possibly get more tasks."
-msgstr ""
-"Rapporter alle utførte oppgaver, hent oversikt over arbeid utført, hent "
-"oppdaterte innstillinger, og last ned flere oppgaver hvis tilgjengelig."
+msgstr "Rapporter alle utførte oppgaver, hent oversikt over arbeid utført, hent oppdaterte innstillinger, og last ned flere oppgaver hvis tilgjengelig."
 
 #: ViewProjects.cpp:181 ViewProjects.cpp:722 ViewWork.cpp:208 ViewWork.cpp:801
 #: sg_BoincSimpleFrame.cpp:757 sg_ProjectCommandPopup.cpp:67
@@ -2896,20 +2709,15 @@ msgstr "Nullstill prosjekt"
 
 #: ViewProjects.cpp:196 sg_ProjectCommandPopup.cpp:80
 msgid ""
-"Delete all files and tasks associated with this project, and get new tasks.  "
-"You can update the project first to report any completed tasks."
-msgstr ""
-"Slett alle filer og oppgaver assosiert med dette prosjektet, og hent nye "
-"oppgaver.   Du kan oppdatere prosjektet først for å rapportere fullførte "
-"oppgaver."
+"Delete all files and tasks associated with this project, and get new tasks."
+"  You can update the project first to report any completed tasks."
+msgstr "Slett alle filer og oppgaver assosiert med dette prosjektet, og hent nye oppgaver.   Du kan oppdatere prosjektet først for å rapportere fullførte oppgaver."
 
 #: ViewProjects.cpp:203 sg_ProjectCommandPopup.cpp:86
 msgid ""
 "Remove this project.  Tasks in progress will be lost (use 'Update' first to "
 "report any completed tasks)."
-msgstr ""
-"Fjern dette prosjektet.  Oppgaver i arbeidskøen vil bli slettet (klikk "
-"'Oppdater' først for å rapportere fullførte oppgaver)."
+msgstr "Fjern dette prosjektet.  Oppgaver i arbeidskøen vil bli slettet (klikk 'Oppdater' først for å rapportere fullførte oppgaver)."
 
 #: ViewProjects.cpp:209 ViewWork.cpp:222 sg_ProjectCommandPopup.cpp:91
 #: sg_TaskCommandPopup.cpp:78
@@ -2944,7 +2752,6 @@ msgstr "Prosjekter"
 msgid "Updating project..."
 msgstr "Oppdaterer prosjekt..."
 
-# 85%
 #: ViewProjects.cpp:344
 msgid "Resuming project..."
 msgstr "Gjenopptar prosjekt..."
@@ -2967,7 +2774,6 @@ msgstr "Nullstiller prosjektet..."
 
 #: ViewProjects.cpp:438 sg_ProjectCommandPopup.cpp:214
 #, c-format
-#, c-format, c-format
 msgid "Are you sure you want to reset project '%s'?"
 msgstr "Er du sikker på at du vil nullstille prosjektet '%s'?"
 
@@ -2975,7 +2781,6 @@ msgstr "Er du sikker på at du vil nullstille prosjektet '%s'?"
 msgid "Reset Project"
 msgstr "Nullstill prosjekt"
 
-# 80%
 #: ViewProjects.cpp:483
 msgid "Removing project..."
 msgstr "Fjerner prosjekt..."
@@ -3001,7 +2806,6 @@ msgstr "Gjenoppta oppgaver for dette prosjektet."
 msgid "Allow new tasks"
 msgstr "Tillat nye oppgaver"
 
-# 80%
 #: ViewProjects.cpp:737 sg_ProjectCommandPopup.cpp:119
 msgid "Allow fetching new tasks for this project."
 msgstr "Tillat henting av nye oppgaver for dette prosjektet."
@@ -3290,9 +3094,7 @@ msgstr "Nettverks aktivitet er suspendert - "
 msgid ""
 ".\n"
 "You can enable it using the Activity menu."
-msgstr ""
-".\n"
-"Du kan aktivere denne ved å benytte menyen for aktiviteter."
+msgstr ".\nDu kan aktivere denne ved å benytte menyen for aktiviteter."
 
 #: ViewTransfers.cpp:285
 msgid "BOINC"
@@ -3312,10 +3114,7 @@ msgid ""
 "Are you sure you want to abort this file transfer '%s'?\n"
 "NOTE: Aborting a transfer will invalidate a task and you\n"
 "will not receive credit for it."
-msgstr ""
-"Er du sikker på at du vil avbryte denne filoverføringen '%s'?\n"
-"MERK: Å avbryte en overføring vil ugyldiggjøre en oppgave\n"
-"og du vil ikke motta poeng for den."
+msgstr "Er du sikker på at du vil avbryte denne filoverføringen '%s'?\nMERK: Å avbryte en overføring vil ugyldiggjøre en oppgave\nog du vil ikke motta poeng for den."
 
 #: ViewTransfers.cpp:349
 msgid "Abort File Transfer"
@@ -3430,9 +3229,7 @@ msgstr "Viser VM konsollen for oppgave..."
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
-msgstr ""
-"Er du sikker på at du ønsker å avbryte denne oppgaven '%s'?\n"
-"(Progresjon: %s, Status: %s)"
+msgstr "Er du sikker på at du ønsker å avbryte denne oppgaven '%s'?\n(Progresjon: %s, Status: %s)"
 
 #: ViewWork.cpp:485
 #, c-format
@@ -3443,7 +3240,6 @@ msgstr "Er du sikker på at du ønsker å avbryte disse %d oppgavene?"
 msgid "Abort task"
 msgstr "Avbryt oppgave"
 
-# 75%
 #: ViewWork.cpp:499
 msgid "Aborting task..."
 msgstr "Avbryter oppgave..."
@@ -3480,12 +3276,7 @@ msgid ""
 "\n"
 "Projects added via this wizard will not be\n"
 "listed on or managed via %s."
-msgstr ""
-"Hvis mulig, legg til prosjekter fra\n"
-"%s nettside.\n"
-"\n"
-"Prosjekter lagt til via denne veilederen vil ikke bli\n"
-"listet i eller administrert via %s."
+msgstr "Hvis mulig, legg til prosjekter fra\n%s nettside.\n\nProsjekter lagt til via denne veilederen vil ikke bli\nlistet i eller administrert via %s."
 
 #: WelcomePage.cpp:313
 msgid ""
@@ -3494,47 +3285,22 @@ msgid ""
 "and you can volunteer for as many of them as you like.\n"
 "You can add a project directly,\n"
 "or use an 'Account Manager' web site to select projects."
-msgstr ""
-"Det er mer enn 30 BOINC baserte prosjekter\n"
-"som utfører forskning innenfor mange vitenskapelige områder,\n"
-"og du kan delta i så mange av disse du måtte ønske.\n"
-"Du kan legge til et prosjekt direkte,\n"
-"eller bruke en 'Kontobehandler' nettside for å velge prosjekter."
+msgstr "Det er mer enn 30 BOINC baserte prosjekter\nsom utfører forskning innenfor mange vitenskapelige områder,\nog du kan delta i så mange av disse du måtte ønske.\nDu kan legge til et prosjekt direkte,\neller bruke en 'Kontobehandler' nettside for å velge prosjekter."
 
 #: WelcomePage.cpp:325
 msgid ""
-"You have chosen to add a new volunteer computing project or change which "
-"projects\n"
+"You have chosen to add a new volunteer computing project or change which projects\n"
 "you contribute to.\n"
 "\n"
-"Some of these projects are run and managed by World Community Grid, while "
-"others\n"
-"are run and managed by other researchers or organizations. The BOINC "
-"software\n"
+"Some of these projects are run and managed by World Community Grid, while others\n"
+"are run and managed by other researchers or organizations. The BOINC software\n"
 "can divide your spare processing power among any combination of projects.\n"
 "\n"
-"Alternatively, if you have registered with a BOINC Account Manager, you can "
-"use\n"
+"Alternatively, if you have registered with a BOINC Account Manager, you can use\n"
 "this to choose which projects to support.\n"
 "\n"
 "Please choose which type of change you would like to make:\n"
-msgstr ""
-"Du have valgt å legge til et nytt frivillig beregningsprosjekt eller endre "
-"hvilke prosjekter\n"
-"du bidrar til.\n"
-"\n"
-"Noen av disse prosjektene kjøres og administreres av World Community Grid, "
-"mens andre\n"
-"kjøres og administreres av andre forskere eller organisasjoner. BOINC "
-"programvaren\n"
-"kan dele din gjenværende prosessorkraft blant hvilken som helst kombinasjon "
-"av prosjekter.\n"
-"\n"
-"Alternativt, hvis du har registrert deg hos en BOINC kontobehandler kan du "
-"bruke\n"
-"denne til å velge hvilke prosjekter du vil støtte.\n"
-"\n"
-"Vennligst velg hvilken type av endringer du ønsker å gjøre:\n"
+msgstr "Du have valgt å legge til et nytt frivillig beregningsprosjekt eller endre hvilke prosjekter\ndu bidrar til.\n\nNoen av disse prosjektene kjøres og administreres av World Community Grid, mens andre\nkjøres og administreres av andre forskere eller organisasjoner. BOINC programvaren\nkan dele din gjenværende prosessorkraft blant hvilken som helst kombinasjon av prosjekter.\n\nAlternativt, hvis du har registrert deg hos en BOINC kontobehandler kan du bruke\ndenne til å velge hvilke prosjekter du vil støtte.\n\nVennligst velg hvilken type av endringer du ønsker å gjøre:\n"
 
 #: WelcomePage.cpp:339
 msgid "Use a BOINC Account Manager"
@@ -3603,14 +3369,12 @@ msgstr "Lukk"
 
 #: sg_DlgMessages.cpp:389
 #, c-format
-#, c-format, c-format
 msgid "%s - Notices"
 msgstr "%s - Varsler"
 
 #: sg_DlgPreferences.cpp:268
 msgid "This dialog controls preferences for this computer only."
-msgstr ""
-"Denne dialogboksen kontrollerer innstillinger kun for denne datamaskinen."
+msgstr "Denne dialogboksen kontrollerer innstillinger kun for denne datamaskinen."
 
 #: sg_DlgPreferences.cpp:273
 msgid "Click OK to set preferences."
@@ -3619,15 +3383,12 @@ msgstr "Klikk OK for å fastsette innstillinger."
 #: sg_DlgPreferences.cpp:278
 msgid ""
 "Click Clear to restore web-based settings for all preferences listed below."
-msgstr ""
-"Klikk Fjern for å gjenopprette webbaserte innstillinger for alle preferanser "
-"listet nedenfor."
+msgstr "Klikk Fjern for å gjenopprette webbaserte innstillinger for alle preferanser listet nedenfor."
 
 #: sg_DlgPreferences.cpp:285
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
-msgstr ""
-"For ekstra innstillinger, velg Beregningsinnstillinger i Avansert visning."
+msgstr "For ekstra innstillinger, velg Beregningsinnstillinger i Avansert visning."
 
 #: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
@@ -3787,9 +3548,7 @@ msgstr "Gi opp denne oppgaven. Du vil ikke få poeng for den."
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %.1lf%%, Status: %s)"
-msgstr ""
-"Er du sikker på at du vil avbryte denne oppgaven '%s'?\n"
-"(Progresjon: %.1lf%%, Status: %s)"
+msgstr "Er du sikker på at du vil avbryte denne oppgaven '%s'?\n(Progresjon: %.1lf%%, Status: %s)"
 
 #: sg_TaskPanel.cpp:464
 msgid "You don't have any projects.  Please Add a Project."
@@ -3941,278 +3700,3 @@ msgstr "Vis alle"
 #, c-format
 msgid "Quit %s"
 msgstr "Avslutt %s"
-
-#~ msgid "Workunit name"
-#~ msgstr "Arbeidsenhet navn"
-
-#~ msgid "invalid float"
-#~ msgstr "ugyldig flyttall "
-
-#, fuzzy
-#~ msgid "Display the advanced (accessible) graphical interface."
-#~ msgstr "Vis det grafisk avanserte brukergrensesnittet."
-
-#~ msgid "Paused: Other work running"
-#~ msgstr "Pause: Annet arbeid kjører"
-
-#~ msgid "Paused: User active"
-#~ msgstr "Pause: Bruker aktiv"
-
-#~ msgid "Paused: Computer on battery"
-#~ msgstr "Pause: Datamaskinen er på batteri"
-
-#~ msgid "Paused: Time of Day"
-#~ msgstr "Pause: Tid på dag"
-
-#~ msgid "Paused: Benchmarks running"
-#~ msgstr "Pause: Ytelsestest kjører"
-
-#~ msgid "Paused"
-#~ msgstr "Pause"
-
-#~ msgid "Click to show project graphics"
-#~ msgstr "Klikk for å vise prosjekt grafikk"
-
-#~ msgid "Stop all activity"
-#~ msgstr "Stopp all aktivitet"
-
-#~ msgid "Resume activity"
-#~ msgstr "Gjenoppta aktivitet"
-
-#~ msgid "Switch to the BOINC advanced view"
-#~ msgstr "Bytt til BOINC avansert visning"
-
-#~ msgid "My Projects:"
-#~ msgstr "Mine prosjekt:"
-
-#, c-format
-#~ msgid "%s. Work done by %s: %0.2f"
-#~ msgstr "%s. Arbeid gjort av %s: %0.2f"
-
-#, c-format
-#~ msgid "%.1lf"
-#~ msgstr "%.1hvis"
-
-#, c-format
-#~ msgid "%d hr %d min %d sec"
-#~ msgstr "%d t %d min %d sek"
-
-#~ msgid "Application: "
-#~ msgstr "Applikasjon: "
-
-#~ msgid "Account manager website"
-#~ msgstr "Kontostyring nettside"
-
-#~ msgid "Account Manager &URL:"
-#~ msgstr "&Nettadresse til kontobehandler:"
-
-#, c-format
-#~ msgid "%s &website"
-#~ msgstr "%s &nettside"
-
-#, c-format
-#~ msgid "%s; received on %s"
-#~ msgstr "%s; mottatt på %s"
-
-#, c-format
-#~ msgid "%s; received from %s; on %s"
-#~ msgstr "%s; mottatt fra %s; på %s"
-
-#~ msgid "Click"
-#~ msgstr "Klikk"
-
-#~ msgid "Project List"
-#~ msgstr "Prosjekt liste"
-
-#~ msgid "Nvidia GPU Supported"
-#~ msgstr "Nvidia GPU støttet"
-
-#~ msgid "ATI GPU Supported"
-#~ msgstr "ATI GPU støttet"
-
-#~ msgid "Project Website"
-#~ msgstr "Prosjektets nettside"
-
-# 88%
-#, fuzzy
-#~ msgid "Retry now"
-#~ msgstr "Prøv igjen nå"
-
-#~ msgid "10%"
-#~ msgstr "10%"
-
-#~ msgid "20%"
-#~ msgstr "20%"
-
-#~ msgid "30%"
-#~ msgstr "30%"
-
-#~ msgid "40%"
-#~ msgstr "40%"
-
-#~ msgid "50%"
-#~ msgstr "50%"
-
-#~ msgid "60%"
-#~ msgstr "60%"
-
-#~ msgid "70%"
-#~ msgstr "70%"
-
-#~ msgid "80%"
-#~ msgstr "80%"
-
-#~ msgid "90%"
-#~ msgstr "90%"
-
-#~ msgid "100%"
-#~ msgstr "100%"
-
-#~ msgid "1"
-#~ msgstr "1"
-
-#~ msgid "3"
-#~ msgstr "3"
-
-#~ msgid "5"
-#~ msgstr "5"
-
-#~ msgid "10"
-#~ msgstr "10"
-
-#~ msgid "15"
-#~ msgstr "15"
-
-#~ msgid "30"
-#~ msgstr "30"
-
-#~ msgid "60"
-#~ msgstr "60"
-
-#, c-format
-#~ msgid "; column %d of %d; "
-#~ msgstr "; kolonne %d av %d;"
-
-#~ msgid "list is empty"
-#~ msgstr "listen er tom"
-
-#, c-format
-#~ msgid "; row %d; "
-#~ msgstr "; rad %d;"
-
-#, c-format
-#~ msgid "; row %d of %d; "
-#~ msgstr "; rad %d av %d; "
-
-#~ msgid "blank"
-#~ msgstr "tom"
-
-# 75%
-#, fuzzy
-#~ msgid "list of projects or account managers"
-#~ msgstr "&Legg til prosjekt eller kontobehandler..."
-
-#, c-format
-#~ msgid "row %d of %d; "
-#~ msgstr "rad %d av %d; "
-
-#, c-format
-#~ msgid "The minimum password length for this project is %d. Please enter a different password."
-#~ msgstr "Minste passordlengde for dette prosjektet er %d. Angi et annet passord."
-
-#, c-format
-#~ msgid "The minimum password length for this account manager is %d. Please enter a different password."
-#~ msgstr ""
-#~ "Minste passordlengde for denne kontobehandleren er %d. Angi et annet "
-#~ "passord."
-
-#~ msgid ""
-#~ "An error has occurred;\n"
-#~ "check the Event Log for details.\n"
-#~ "\n"
-#~ "Click Finish to close."
-#~ msgstr ""
-#~ "En feil har oppstått;\n"
-#~ "sjekk hendelse loggen for detaljer.\n"
-#~ "\n"
-#~ "Klikk Ferdig for å lukke."
-
-#, no-c-format
-#, fuzzy, no-c-format
-#~ msgid "% of the processors"
-#~ msgstr "av prosessoren"
-
-#~ msgid "Identify your account "
-#~ msgstr "Identifiser kontoen din"
-
-#~ msgid "Read config file"
-#~ msgstr "Les konfigurasjonsfil"
-
-#~ msgid "Read configuration info from cc_config.xml"
-#~ msgstr "Les konfigurasjoninformasjon fra cc_config.xml"
-
-#~ msgid ""
-#~ "(C) 2003-2011 University of California, Berkeley.\n"
-#~ "All Rights Reserved."
-#~ msgstr ""
-#~ "(C) 2003-2011 University of California, Berkeley.\n"
-#~ "All Rights Reserved."
-
-#, fuzzy
-#~ msgid "%s: %.0f"
-#~ msgstr "%s: %0.2f"
-
-#~ msgid "Click 'Retry now' to transfer the file now"
-#~ msgstr "Klikk 'Prøv igjen nå' for å overføre filen nå"
-
-#, fuzzy
-#~ msgid "Don't fetch ATI GPU tasks"
-#~ msgstr "Ikke hent CPU oppgaver"
-
-#~ msgid "Web sites"
-#~ msgstr "Nettsted"
-
-#~ msgid "days (max. 10)"
-#~ msgstr "dager (maks 10)"
-
-#~ msgid "%d.%d%%"
-#~ msgstr "%d.%d%%"
-
-#~ msgid "Display and network &options..."
-#~ msgstr "Visnings og nettverks &valg..."
-
-#~ msgid "Estimated task size"
-#~ msgstr "Estimert oppgave størrelse"
-
-#~ msgid "Max RAM usage"
-#~ msgstr "Maks minnebruk"
-
-#~ msgid "%s - Options"
-#~ msgstr "%s - Alternativer"
-
-#~ msgid "Retrieving host information; please wait..."
-#~ msgstr "Henter vertsinformasjon; vennligst vent..."
-
-#~ msgid " (waiting for GPU memory)"
-#~ msgstr " (venter på GPU minne)"
-
-#~ msgid "Pause"
-#~ msgstr "Pause"
-
-#~ msgid "%s - Messages"
-#~ msgstr "%s - Meldinger"
-
-#~ msgid "Preferences"
-#~ msgstr "Instillinger"
-
-#~ msgid "My Tasks:"
-#~ msgstr "Mine oppgaver:"
-
-#~ msgid "From Project:"
-#~ msgstr "Fra prosjekt:"
-
-#~ msgid "Upload suspended - "
-#~ msgstr "Opplasting suspendert - "
-
-#~ msgid "Download suspended - "
-#~ msgstr "Nedlasting suspendert - "
