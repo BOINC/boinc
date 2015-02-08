@@ -1,21 +1,21 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC 7.2.y\n"
+"Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2014-02-07 17:48+0900\n"
-"Last-Translator: Lee Kangsan <treppolse@gmail.com>\n"
-"Language-Team: SETIKAH@KOREA\n"
-"Language: ko\n"
+"PO-Revision-Date: 2015-02-08 22:34+0000\n"
+"Last-Translator: Rom Walton <romw@romwnet.org>\n"
+"Language-Team: Korean (http://www.transifex.com/projects/p/boinc/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.3\n"
-"X-Poedit-SourceCharset: UTF-8\n"
+"Language: ko\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: Installer.cpp:124
 #, c-format
@@ -37,15 +37,10 @@ msgstr "로그인한 사용자가 없을 때에도 BOINC를 실행하시겠습�
 #: PostInstall.cpp:1416
 #, c-format
 msgid ""
-"Users who are permitted to administer this computer will automatically be "
-"allowed to run and control %s.\n"
+"Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
 "\n"
-"Do you also want non-administrative users to be able to run and control %s "
-"on this Mac?"
-msgstr ""
-"이 컴퓨터에서 관리하도록 허가받은 사용자들은 자동적으로 %s를(를) 실행하고 제어할 수 있도록 허용될 것입니다.\n"
-"\n"
-"이 Mac에서 비관리자 사용자들도 %s를(을) 실행하고 제어할 수 있게 하길 원하십니까?"
+"Do you also want non-administrative users to be able to run and control %s on this Mac?"
+msgstr "이 컴퓨터에서 관리하도록 허가받은 사용자들은 자동적으로 %s를(를) 실행하고 제어할 수 있도록 허용될 것입니다.\n\n이 Mac에서 비관리자 사용자들도 %s를(을) 실행하고 제어할 수 있게 하길 원하십니까?"
 
 #: PostInstall.cpp:1444
 #, c-format
@@ -64,9 +59,7 @@ msgstr "권한 오류 나중에 재실행하세요"
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
-msgstr ""
-"제거에는 몇 분정도 걸릴 것입니다.\n"
-"잠시 기다려 주세요."
+msgstr "제거에는 몇 분정도 걸릴 것입니다.\n잠시 기다려 주세요."
 
 #: uninstall.cpp:156
 #, c-format
@@ -74,10 +67,7 @@ msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
 "\n"
 "This will remove the executables but will not touch %s data files."
-msgstr ""
-"정말로 이 컴퓨터에서 %s를(을) 완전히 제거하길 원하십니까?\n"
-"\n"
-"실행 파일은 제거되지만 %s 데이터 파일들은 건드리지 않습니다."
+msgstr "정말로 이 컴퓨터에서 %s를(을) 완전히 제거하길 원하십니까?\n\n실행 파일은 제거되지만 %s 데이터 파일들은 건드리지 않습니다."
 
 #: uninstall.cpp:163
 #, c-format
@@ -97,9 +87,7 @@ msgstr "사용자 이름"
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
-msgstr ""
-"이 컴퓨터에서 VirtualBox도 제거하길 원하십니까?\n"
-"(VirtualBox는 BOINC와 함께 설치되었습니다.)"
+msgstr "이 컴퓨터에서 VirtualBox도 제거하길 원하십니까?\n(VirtualBox는 BOINC와 함께 설치되었습니다.)"
 
 #: uninstall.cpp:312
 #, c-format
@@ -111,24 +99,14 @@ msgid ""
 "\n"
 "for each user, the file\n"
 "\"%s\"."
-msgstr ""
-"제거가 완료되었습니다.\n"
-"\n"
-" 여러분은 파인더를 사용해서 잔존하는 다음 항목을 삭제할 수 있습니다: \n"
-"\"%s\" 디렉토리\n"
-"\n"
-"개별 사용자의 경우\n"
-"\"%s\" 파일."
+msgstr "제거가 완료되었습니다.\n\n 여러분은 파인더를 사용해서 잔존하는 다음 항목을 삭제할 수 있습니다: \n\"%s\" 디렉토리\n\n개별 사용자의 경우\n\"%s\" 파일."
 
 #: uninstall.cpp:840
 #, c-format
 msgid ""
-"Enter your administrator password to completely remove %s from you "
-"computer.\n"
+"Enter your administrator password to completely remove %s from you computer.\n"
 "\n"
-msgstr ""
-"여러분 컴퓨터에서 %s를(을) 완전히 제거하려면 관리자 비밀번호를 입력해 주세요.\n"
-"\n"
+msgstr "여러분 컴퓨터에서 %s를(을) 완전히 제거하려면 관리자 비밀번호를 입력해 주세요.\n\n"
 
 #: uninstall.cpp:1616
 msgid "Cancel"
