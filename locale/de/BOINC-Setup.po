@@ -1,33 +1,26 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2014-02-02 19:39+0000\n"
-"Last-Translator: Christian <djangofett@gmx.net>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: de\n"
+"PO-Revision-Date: 2015-02-08 16:02+0000\n"
+"Last-Translator: Rom Walton <romw@romwnet.org>\n"
+"Language-Team: German (http://www.transifex.com/projects/p/boinc/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.5.0\n"
-"X-Poedit-SearchPath-0: mac_installer\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
-"X-POOTLE-MTIME: 1391369982.0\n"
-"X-Poedit-KeywordsList: _\n"
 
 #: Installer.cpp:124
 #, c-format
 msgid "Sorry, this version of %s requires system 10.5 or higher."
-msgstr ""
-"Entschuldigung, diese Version von %s benötigt die Systemversion 10.5 oder "
-"höher."
+msgstr "Entschuldigung, diese Version von %s benötigt die Systemversion 10.5 oder höher."
 
 #: PostInstall.cpp:130 PostInstall.cpp:1136 uninstall.cpp:1618
 msgid "Yes"
@@ -43,26 +36,16 @@ msgstr "Soll BOINC auch gestarten werden, wenn kein Benutzer angemeldet ist?"
 
 #: PostInstall.cpp:1416
 #, c-format
-#, c-format, c-format
 msgid ""
-"Users who are permitted to administer this computer will automatically be "
-"allowed to run and control %s.\n"
+"Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
 "\n"
-"Do you also want non-administrative users to be able to run and control %s "
-"on this Mac?"
-msgstr ""
-"Administrative Benutzer dieses Computers werden automatisch bemächtigt %s zu "
-"starten und zu kontrollieren.\n"
-"\n"
-"Möchten Sie es auch nicht-administrativen Benutzern gestatten %s auf diesem "
-"Computer zu starten und zu kontrollieren?"
+"Do you also want non-administrative users to be able to run and control %s on this Mac?"
+msgstr "Administrative Benutzer dieses Computers werden automatisch bemächtigt %s zu starten und zu kontrollieren.\n\nMöchten Sie es auch nicht-administrativen Benutzern gestatten %s auf diesem Computer zu starten und zu kontrollieren?"
 
 #: PostInstall.cpp:1444
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
-msgstr ""
-"Möchten Sie %s als Bildschirmschoner für alle %s Benutzer dieses Mac "
-"festlegen?"
+msgstr "Möchten Sie %s als Bildschirmschoner für alle %s Benutzer dieses Mac festlegen?"
 
 #: uninstall.cpp:82
 msgid "OK"
@@ -76,9 +59,7 @@ msgstr "Berechtigungsfehler nach Neustart"
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
-msgstr ""
-"Das Entfernen dauert eventuell ein paar Minuten.\n"
-"Bitte warten Sie."
+msgstr "Das Entfernen dauert eventuell ein paar Minuten.\nBitte warten Sie."
 
 #: uninstall.cpp:156
 #, c-format
@@ -86,11 +67,7 @@ msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
 "\n"
 "This will remove the executables but will not touch %s data files."
-msgstr ""
-"Sind Sie sicher das Sie %s von Ihrem Computer entfernen sollen?\n"
-"\n"
-"Diese Aktion wird alle ausführbaren Dateien aber keine Datendateien von %s "
-"entfernen."
+msgstr "Sind Sie sicher das Sie %s von Ihrem Computer entfernen sollen?\n\nDiese Aktion wird alle ausführbaren Dateien aber keine Datendateien von %s entfernen."
 
 #: uninstall.cpp:163
 #, c-format
@@ -110,9 +87,7 @@ msgstr "Benutzername"
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
-msgstr ""
-"Möchten Sie VirtualBox ebenfalls von Ihrem Computer entfernen?\n"
-"(VirtualBox wurde mit BOINC installiert)"
+msgstr "Möchten Sie VirtualBox ebenfalls von Ihrem Computer entfernen?\n(VirtualBox wurde mit BOINC installiert)"
 
 #: uninstall.cpp:312
 #, c-format
@@ -124,25 +99,14 @@ msgid ""
 "\n"
 "for each user, the file\n"
 "\"%s\"."
-msgstr ""
-"Entfernung beendet.\n"
-"\n"
-"Die folgenden Ordner sollten mit dem Finder gelöscht werden: \n"
-"das Verzeichnis \"%s\"\n"
-"\n"
-"und für jeden Benutzer die Datei\n"
-"\"%s\"."
+msgstr "Entfernung beendet.\n\nDie folgenden Ordner sollten mit dem Finder gelöscht werden: \ndas Verzeichnis \"%s\"\n\nund für jeden Benutzer die Datei\n\"%s\"."
 
 #: uninstall.cpp:840
 #, c-format
 msgid ""
-"Enter your administrator password to completely remove %s from you "
-"computer.\n"
+"Enter your administrator password to completely remove %s from you computer.\n"
 "\n"
-msgstr ""
-"Geben sie Ihr Administratorpasswort ein, um %s komplett von diesem Computer "
-"zu entfernen.\n"
-"\n"
+msgstr "Geben sie Ihr Administratorpasswort ein, um %s komplett von diesem Computer zu entfernen.\n\n"
 
 #: uninstall.cpp:1616
 msgid "Cancel"
@@ -151,29 +115,3 @@ msgstr "Abbrechen"
 #: uninstall.cpp:1617
 msgid "Continue..."
 msgstr "Weiter..."
-
-#, c-format
-#, c-format, c-format
-#~ msgid "Sorry, this version of %s requires system 10.4 or higher."
-#~ msgstr ""
-#~ "Entschuldigung, diese Version von %s benötigt die Systemversion 10.4 oder "
-#~ "höher."
-
-# Die Übersetzung der Dateipfade fehlt (ich habe keinen Mac).
-#, fuzzy
-#~ msgid ""
-#~ "Removal completed.\n"
-#~ "\n"
-#~ " You may want to remove the following remaining items using the Finder: \n"
-#~ "\"/Library/Application Support/BOINC Data\" directory\n"
-#~ "\n"
-#~ "for each user, the file\n"
-#~ "\"/Users/[username]/Library/Preferences/BOINC Manager Preferences\"."
-#~ msgstr ""
-#~ "Entfernen abgeschlossen.\n"
-#~ "\n"
-#~ "Sie können jetzt die verbleibenden Dateien mit dem Finder löschen:\n"
-#~ "das \"/Library/Application Support/BOINC Data\" Verzeichnis\n"
-#~ "\n"
-#~ "für jeden Benutzer, die Datei\n"
-#~ "\"/Users/[Benutzername]/Library/Preferences/BOINC Manager Preferences\"."
