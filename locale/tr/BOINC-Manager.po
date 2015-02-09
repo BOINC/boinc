@@ -1,31 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 6.8x\n"
+"Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2014-04-22 09:26+0000\n"
-"Last-Translator: Aycan <aycandemirel@hotmail.com>\n"
-"Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
-"Language: tr\n"
+"PO-Revision-Date: 2015-02-09 01:19+0000\n"
+"Last-Translator: Rom Walton <romw@romwnet.org>\n"
+"Language-Team: Turkish (http://www.transifex.com/projects/p/boinc/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.5.0\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-SearchPath-1: clientgui/msw\n"
-"X-Poedit-SearchPath-2: clientgui/gtk\n"
-"X-Poedit-SearchPath-3: clientgui/mac\n"
-"X-Poedit-SearchPath-0: clientgui\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1398158771.0\n"
+"Language: tr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-# 81%
 #: AccountInfoPage.cpp:387
 #, c-format
 msgid "Identify your account at %s"
@@ -35,17 +26,13 @@ msgstr "%s için hesap bilgilerinizi girin"
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
-msgstr ""
-"Lütfen hesap bilgilerinizi girin\n"
-"(bir hesap yaratmak için, projenin sitesini ziyaret edin)"
+msgstr "Lütfen hesap bilgilerinizi girin\n(bir hesap yaratmak için, projenin sitesini ziyaret edin)"
 
 #: AccountInfoPage.cpp:397
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can add it only if you already have an account."
-msgstr ""
-"Bu proje şu anda yeni hesapları kabul etmiyor.\n"
-"Yalnızca, mevcut bir hesabınız varsa projeyi ekleyebilirsiniz."
+msgstr "Bu proje şu anda yeni hesapları kabul etmiyor.\nYalnızca, mevcut bir hesabınız varsa projeyi ekleyebilirsiniz."
 
 #: AccountInfoPage.cpp:401
 msgid "Are you already running this project?"
@@ -67,12 +54,7 @@ msgid ""
 "Please click on the 'Find login information' link\n"
 "below to find out what to put in the email address and\n"
 "password fields."
-msgstr ""
-"Hesap bilginizi otomatik olarak ayarlayamadık.\n"
-"\n"
-"Lütfen, e-posta adresi ve parola bölümlerine ne yazılması\n"
-"gerektiğini bulmak için aşağıdaki 'Giriş bilgisini bul' \n"
-"bağlantısına tıklayın."
+msgstr "Hesap bilginizi otomatik olarak ayarlayamadık.\n\nLütfen, e-posta adresi ve parola bölümlerine ne yazılması\ngerektiğini bulmak için aşağıdaki 'Giriş bilgisini bul' \nbağlantısına tıklayın."
 
 #: AccountInfoPage.cpp:416
 msgid "Find login information"
@@ -117,10 +99,7 @@ msgid ""
 "If you have not yet registered with this account manager,\n"
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
-msgstr ""
-"Eğer bu hesap yöneticisine henüz kayıtlı değilseniz, devam\n"
-"etmeden önce kaydolun.  Lütfen kaydolmak ya da unuttuğunuz\n"
-"parolayı bulmak için aşağıdaki bağlantıya tıklayın."
+msgstr "Eğer bu hesap yöneticisine henüz kayıtlı değilseniz, devam\netmeden önce kaydolun.  Lütfen kaydolmak ya da unuttuğunuz\nparolayı bulmak için aşağıdaki bağlantıya tıklayın."
 
 #: AccountInfoPage.cpp:532
 msgid "Account manager web site"
@@ -164,9 +143,7 @@ msgstr "Bir hesap yöneticisi seçin"
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
-msgstr ""
-"Bir hesap yöneticisi seçmek için ismine tıklayın ya da \n"
-"aşağıya internet adresini girin."
+msgstr "Bir hesap yöneticisi seçmek için ismine tıklayın ya da \naşağıya internet adresini girin."
 
 #: AccountManagerInfoPage.cpp:279
 msgid "Account manager details:"
@@ -285,8 +262,7 @@ msgstr "&Proje ya da hesap yöneticisi ekle..."
 
 #: AdvancedFrame.cpp:425 sg_ProjectPanel.cpp:76
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
-msgstr ""
-"Bilimin pek çok alanından 30'dan fazla projeden birisi için gönüllü olun"
+msgstr "Bilimin pek çok alanından 30'dan fazla projeden birisi için gönüllü olun"
 
 #: AdvancedFrame.cpp:429
 #, c-format
@@ -321,9 +297,7 @@ msgstr "&Seçenekler..."
 
 #: AdvancedFrame.cpp:459 sg_BoincSimpleFrame.cpp:179
 msgid "Configure display options and proxy settings"
-msgstr ""
-"Arayüz seçeneklerini ve vekil sunucu ayarlarını yapılandırabileceğiniz "
-"pencereyi açar."
+msgstr "Arayüz seçeneklerini ve vekil sunucu ayarlarını yapılandırabileceğiniz pencereyi açar."
 
 #: AdvancedFrame.cpp:463 sg_BoincSimpleFrame.cpp:172
 msgid "Computing &preferences..."
@@ -331,9 +305,7 @@ msgstr "&Hesaplama tercihleri..."
 
 #: AdvancedFrame.cpp:464 sg_BoincSimpleFrame.cpp:173
 msgid "Configure computing preferences"
-msgstr ""
-"İşlerin çalışmasıyla ilgili bu bilgisayara ait tercihleri "
-"ayarlayabileceğiniz pencereyi açar."
+msgstr "İşlerin çalışmasıyla ilgili bu bilgisayara ait tercihleri ayarlayabileceğiniz pencereyi açar."
 
 #: AdvancedFrame.cpp:472
 msgid "&Run always"
@@ -430,9 +402,7 @@ msgstr "&İşlemci testlerini çalıştır"
 
 #: AdvancedFrame.cpp:580
 msgid "Runs BOINC CPU benchmarks"
-msgstr ""
-"BOINC'in işlemci (CPU) testlerini çalıştırır. Sonuçları Olay Günlüğü'nde "
-"görebilirsiniz."
+msgstr "BOINC'in işlemci (CPU) testlerini çalıştırır. Sonuçları Olay Günlüğü'nde görebilirsiniz."
 
 #: AdvancedFrame.cpp:584
 msgid "Do network communication"
@@ -442,15 +412,14 @@ msgstr "Ağ iletişimini gerçekleştir"
 msgid "Do all pending network communication"
 msgstr "Beklemedeki tüm ağ iletişimini hemen gerçekleştirir."
 
-# 94%
 #: AdvancedFrame.cpp:589
 msgid "Read config files"
 msgstr "Yapılandırma dosyalarını oku"
 
 #: AdvancedFrame.cpp:590
-msgid "Read configuration info from cc_config.xml and any app_config.xml files"
-msgstr ""
-"Yapılandırma bilgisini cc_config.xml ve any app_config.xml dosyalarından oku"
+msgid ""
+"Read configuration info from cc_config.xml and any app_config.xml files"
+msgstr "Yapılandırma bilgisini cc_config.xml ve any app_config.xml dosyalarından oku"
 
 #: AdvancedFrame.cpp:594
 msgid "Read local prefs file"
@@ -555,12 +524,7 @@ msgid ""
 "but you'll have to manage projects manually.\n"
 "\n"
 "Do you want to stop using %s?"
-msgstr ""
-"Eğer %s kullanmayı durdurursanız,\n"
-"mevcut tüm projeleriniz korunacak, fakat,\n"
-"projeleri elle yönetmeniz gerekecek.\n"
-"\n"
-"%s kullanmayı durdurmak istiyor musunuz?"
+msgstr "Eğer %s kullanmayı durdurursanız,\nmevcut tüm projeleriniz korunacak, fakat,\nprojeleri elle yönetmeniz gerekecek.\n\n%s kullanmayı durdurmak istiyor musunuz?"
 
 #: AdvancedFrame.cpp:1401
 #, c-format
@@ -572,9 +536,7 @@ msgstr "%s - Bağlı istemciyi kapat..."
 msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
-msgstr ""
-"%s şu anda bağlı olan istemciyi kapatacak ve\n"
-"sizi başka birine bağlanmanız için uyaracak."
+msgstr "%s şu anda bağlı olan istemciyi kapatacak ve\nsizi başka birine bağlanmanız için uyaracak."
 
 #: AdvancedFrame.cpp:1745 DlgAbout.cpp:119
 #, c-format
@@ -611,11 +573,7 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr ""
-"Bu kullanıcı adıyla bir hesap var ve\n"
-"girdiğinizden farklı bir parolaya sahip.\n"
-"\n"
-"Lütfen projenin sitesini ziyaret edip, yönergeleri izleyin."
+msgstr "Bu kullanıcı adıyla bir hesap var ve\ngirdiğinizden farklı bir parolaya sahip.\n\nLütfen projenin sitesini ziyaret edip, yönergeleri izleyin."
 
 #: AlreadyExistsPage.cpp:191
 msgid "Email address already in use"
@@ -627,11 +585,7 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr ""
-"Bu e-posta adresiyle bir hesap var ve\n"
-"girdiğinizden farklı bir parolaya sahip.\n"
-"\n"
-"Lütfen projenin sitesini ziyaret edip, yönergeleri izleyin."
+msgstr "Bu e-posta adresiyle bir hesap var ve\ngirdiğinizden farklı bir parolaya sahip.\n\nLütfen projenin sitesini ziyaret edip, yönergeleri izleyin."
 
 #: AsyncRPC.cpp:1031
 msgid "Communicating with BOINC client.  Please wait ..."
@@ -664,20 +618,14 @@ msgstr "%s - Bağlantı Hatası"
 #: BOINCBaseFrame.cpp:514
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_users' local user "
-"group."
-msgstr ""
-"İstemciyi yönetmek için yetkili durumda değilsiniz.\n"
-"Lüfen 'boinc_users' yerel kullanıcı grubuna dahil olmak için yöneticinizle "
-"temasa geçin."
+"Please contact your administrator to add you to the 'boinc_users' local user group."
+msgstr "İstemciyi yönetmek için yetkili durumda değilsiniz.\nLüfen 'boinc_users' yerel kullanıcı grubuna dahil olmak için yöneticinizle temasa geçin."
 
 #: BOINCBaseFrame.cpp:523
 msgid ""
 "Authorization failed connecting to running client.\n"
 "Make sure you start this program in the same directory as the client."
-msgstr ""
-"Çalışan istemciye bağlanmak için yetkilendirilme başarısız.\n"
-"Bu programın istemciyle aynı klasörde çalıştırıldığından emin olun."
+msgstr "Çalışan istemciye bağlanmak için yetkilendirilme başarısız.\nBu programın istemciyle aynı klasörde çalıştırıldığından emin olun."
 
 #: BOINCBaseFrame.cpp:525
 msgid "Authorization failed connecting to running client."
@@ -697,9 +645,7 @@ msgstr "%s - Bağlantı Başarısız"
 msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
-msgstr ""
-"%s, %s istemcisine bağlanamıyor.\n"
-"Bağlanmayı yeniden denemek ister misiniz?"
+msgstr "%s, %s istemcisine bağlanamıyor.\nBağlanmayı yeniden denemek ister misiniz?"
 
 #: BOINCBaseFrame.cpp:622
 #, c-format
@@ -710,21 +656,15 @@ msgstr "%s - Hizmet İşlemi Başlatılamadı"
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
-"Please launch the Control Panel->Administative Tools->Services applet and "
-"start the BOINC service."
-msgstr ""
-"%s, %s istemcisini başlatamıyor.\n"
-"Lütfen, Denetim Masası->Yönetimsel Araçlar->Hizmetler bölümüne gidip, BOINC "
-"Hizmeti'ni başlatın."
+"Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
+msgstr "%s, %s istemcisini başlatamıyor.\nLütfen, Denetim Masası->Yönetimsel Araçlar->Hizmetler bölümüne gidip, BOINC Hizmeti'ni başlatın."
 
 #: BOINCBaseFrame.cpp:638
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please start the daemon and try again."
-msgstr ""
-"%s, %s istemcisini başlatamıyor.\n"
-"Lütfen BOINC Hizmetini başlatıp yeniden deneyin."
+msgstr "%s, %s istemcisini başlatamıyor.\nLütfen BOINC Hizmetini başlatıp yeniden deneyin."
 
 #: BOINCBaseFrame.cpp:689
 #, c-format
@@ -735,15 +675,9 @@ msgstr "%s - Bağlantı Durumu"
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
-"Please use the 'Advanced\\Select Computer...' menu option to connect up to a "
-"%s client.\n"
+"Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
-msgstr ""
-"%s şu anda bir %s istemcisine bağlı değil.\n"
-"Lütfen 'Gelişmiş\\Bilgisayar seç ve bağlan...' menüsünden bir %s istemcisine "
-"bağlanın.\n"
-"Kendi bilgisayarınıza bağlanmak için lütfen bigisayar adı olarak 'localhost' "
-"yazın."
+msgstr "%s şu anda bir %s istemcisine bağlı değil.\nLütfen 'Gelişmiş\\Bilgisayar seç ve bağlan...' menüsünden bir %s istemcisine bağlanın.\nKendi bilgisayarınıza bağlanmak için lütfen bigisayar adı olarak 'localhost' yazın."
 
 #: BOINCBaseView.cpp:779
 msgid "Project web pages"
@@ -759,9 +693,7 @@ msgstr "%s - Beklenmedik Kapanma"
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
-msgstr ""
-"%s istemcisi son %d dakika içinde beklenmedik şekilde 3 kez kapandı.\n"
-"Yeniden başlatmak istiyor musunuz?"
+msgstr "%s istemcisi son %d dakika içinde beklenmedik şekilde 3 kez kapandı.\nYeniden başlatmak istiyor musunuz?"
 
 #: BOINCDialupManager.cpp:61
 #, c-format
@@ -773,9 +705,7 @@ msgstr "%s - Ağ Durumu"
 msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
-msgstr ""
-"%s İnternete bağlanmaya ihtiyaç duyuyor.\n"
-"Bunu şimdi yapabilir mi?"
+msgstr "%s İnternete bağlanmaya ihtiyaç duyuyor.\nBunu şimdi yapabilir mi?"
 
 #: BOINCDialupManager.cpp:254
 #, c-format
@@ -797,9 +727,7 @@ msgstr "%s internete bağlanırken başarısız oldu."
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
-msgstr ""
-"%s şu anda internete bağlı olduğunuzu belirledi.\n"
-"Tüm projeler güncelleniyor ve aktarımlar gerçekleştiriliyor."
+msgstr "%s şu anda internete bağlı olduğunuzu belirledi.\nTüm projeler güncelleniyor ve aktarımlar gerçekleştiriliyor."
 
 #: BOINCDialupManager.cpp:417
 #, c-format
@@ -822,26 +750,14 @@ msgid ""
 " or\n"
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
-msgstr ""
-"Bu istemciyi yönetmek için yetkilendirilmemişsiniz.\n"
-"\n"
-"Bu kullanıcıyla %s çalıştırabilmek için, lütfen:\n"
-"- %s'ı, bilgisayar yöneticisi olmayan kullanıcıların da\n"
-"çalıştırabilmesi hakkındaki soruya \"Evet\" yanıtını vererek\n"
-"yeniden kurun\n"
-"ya da\n"
-"- sizi 'boinc_master' kullanıcı grubuna dahil etmesi için\n"
-"yöneticinizle temasa geçin."
+msgstr "Bu istemciyi yönetmek için yetkilendirilmemişsiniz.\n\nBu kullanıcıyla %s çalıştırabilmek için, lütfen:\n- %s'ı, bilgisayar yöneticisi olmayan kullanıcıların da\nçalıştırabilmesi hakkındaki soruya \"Evet\" yanıtını vererek\nyeniden kurun\nya da\n- sizi 'boinc_master' kullanıcı grubuna dahil etmesi için\nyöneticinizle temasa geçin."
 
 #: BOINCGUIApp.cpp:345
 #, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
-msgstr ""
-"%s sahipliği ya da izinleri doğru olarak ayarlanmamış; lütfen %s'i yeniden "
-"kurun.\n"
-"(Hata kodu %d"
+msgstr "%s sahipliği ya da izinleri doğru olarak ayarlanmamış; lütfen %s'i yeniden kurun.\n(Hata kodu %d"
 
 #: BOINCGUIApp.cpp:351
 msgid " at "
@@ -856,9 +772,7 @@ msgstr ")"
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
-msgstr ""
-"BOINC'in doğru çalışması için yeniden başlatma gerekiyor.\n"
-"Bilgisayarınızı yeniden başlatın ve yeniden deneyin."
+msgstr "BOINC'in doğru çalışması için yeniden başlatma gerekiyor.\nBilgisayarınızı yeniden başlatın ve yeniden deneyin."
 
 #: BOINCGUIApp.cpp:385 DlgAbout.cpp:153
 msgid "BOINC Manager"
@@ -902,8 +816,7 @@ msgstr "BOINC güvenlik kullanıcılarını ve izinlerini devre dışı bırak"
 
 #: BOINCGUIApp.cpp:584
 msgid "set skin debugging mode to enable skin manager error messages"
-msgstr ""
-"görünüm yöneticisi hata mesajları için, görünüm hata ayıklama moduna geçin"
+msgstr "görünüm yöneticisi hata mesajları için, görünüm hata ayıklama moduna geçin"
 
 #: BOINCGUIApp.cpp:585
 msgid "multiple instances of BOINC Manager allowed"
@@ -1019,10 +932,7 @@ msgid ""
 "Please try again later.\n"
 "\n"
 "Click Finish to close."
-msgstr ""
-"Lütfen daha sonra tekrar deneyin.\n"
-"\n"
-"Kapatmak için Son'u tıklayın."
+msgstr "Lütfen daha sonra tekrar deneyin.\n\nKapatmak için Son'u tıklayın."
 
 #: CompletionErrorPage.cpp:225 CompletionPage.cpp:222 CompletionPage.cpp:242
 #: CompletionPage.cpp:273
@@ -1045,9 +955,7 @@ msgstr "Bu proje başarıyla eklendi."
 msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
-msgstr ""
-"Son'u tıkladığınızda, internet tarayıcınız kullanıcı adı ve\n"
-"tercihlerinizi belirleyebileceğiniz siteyi açacak."
+msgstr "Son'u tıkladığınızda, internet tarayıcınız kullanıcı adı ve\ntercihlerinizi belirleyebileceğiniz siteyi açacak."
 
 #: CompletionPage.cpp:232
 #, c-format
@@ -1093,22 +1001,15 @@ msgstr "wxWidgets sürümü:"
 msgid "Copyright:"
 msgstr "Telif hakkı:"
 
-# 98%
 #: DlgAbout.cpp:192
 msgid ""
 "(C) 2003-2013 University of California, Berkeley.\n"
 "All Rights Reserved."
-msgstr ""
-"(C) 2003-2013 Kaliforniya Üniversitesi, Berkeley.\n"
-"Tüm hakları saklıdır."
+msgstr "(C) 2003-2013 Kaliforniya Üniversitesi, Berkeley.\nTüm hakları saklıdır."
 
 #: DlgAbout.cpp:196
 msgid "Berkeley Open Infrastructure for Network Computing"
-msgstr ""
-"                 Türkçe çeviri: Aycan Demirel\n"
-"\n"
-"\n"
-"Berkeley Open Infrastructure for Network Computing"
+msgstr "                 Türkçe çeviri: Aycan Demirel\n\n\nBerkeley Open Infrastructure for Network Computing"
 
 #: DlgAbout.cpp:208 DlgExitMessage.cpp:173 DlgGenericMessage.cpp:120
 #: DlgOptions.cpp:396 DlgSelectComputer.cpp:163
@@ -1172,9 +1073,7 @@ msgstr "'%s' zaten listede."
 msgid ""
 "Do you really want to clear all local preferences?\n"
 "(This will not affect exclusive applications.)"
-msgstr ""
-"Tüm yerel tercihleri kaldırmak istediğinize emin misiniz?\n"
-"(Bu, ayrıcalıklı uygulama listesini silmeyecektir.)"
+msgstr "Tüm yerel tercihleri kaldırmak istediğinize emin misiniz?\n(Bu, ayrıcalıklı uygulama listesini silmeyecektir.)"
 
 #: DlgAdvPreferences.cpp:1078 sg_DlgPreferences.cpp:1030
 msgid "Confirmation"
@@ -1190,11 +1089,7 @@ msgid ""
 "This dialog controls preferences for this computer only.\n"
 "Click OK to set preferences.\n"
 "Click Clear to restore web-based settings (except exclusive apps)."
-msgstr ""
-"Bu pencere, tercihlerinizi yalnızca bu bilgisayarınız için özelleştirir.\n"
-"Tercihlerinizi kaydetmek için 'Tamam'ı tıklayın.\n"
-"İnternet tabanlı ayarlarınıza dönmek için 'Temizle'yi tıklayın (ayrıcalıklı "
-"uygulama listesi silinmez)."
+msgstr "Bu pencere, tercihlerinizi yalnızca bu bilgisayarınız için özelleştirir.\nTercihlerinizi kaydetmek için 'Tamam'ı tıklayın.\nİnternet tabanlı ayarlarınıza dönmek için 'Temizle'yi tıklayın (ayrıcalıklı uygulama listesi silinmez)."
 
 #: DlgAdvPreferencesBase.cpp:65 sg_DlgPreferences.cpp:428
 msgid "Clear"
@@ -1252,9 +1147,7 @@ msgstr "Bilgisayarım pil gücündeyken hesaplama çalışsın"
 #: DlgAdvPreferencesBase.cpp:142
 msgid ""
 "check this if you want this computer to do work while it runs on batteries"
-msgstr ""
-"bilgisayarınız pille çalışırken hesaplamaların çalışmasını istiyorsanız bunu "
-"işaretleyin"
+msgstr "bilgisayarınız pille çalışırken hesaplamaların çalışmasını istiyorsanız bunu işaretleyin"
 
 #: DlgAdvPreferencesBase.cpp:148
 msgid "While computer is in use"
@@ -1263,10 +1156,7 @@ msgstr "Bilgisayarımı kullanırken işlemci ile hesaplama çalışsın"
 #: DlgAdvPreferencesBase.cpp:151
 msgid ""
 "check this if you want this computer to do work even when you're using it"
-msgstr ""
-"BOINC normalde bilgisayar boştayken çalışır. Bilgisayarınızı kullandığınız "
-"sırada da işlemci (CPU) ile hesaplamanın çalışmasını istiyorsanız bunu "
-"işaretleyin"
+msgstr "BOINC normalde bilgisayar boştayken çalışır. Bilgisayarınızı kullandığınız sırada da işlemci (CPU) ile hesaplamanın çalışmasını istiyorsanız bunu işaretleyin"
 
 #: DlgAdvPreferencesBase.cpp:157
 msgid "Use GPU while computer is in use"
@@ -1276,10 +1166,7 @@ msgstr "Bilgisayarımı kullanırken ekran kartı ile hesaplama çalışsın"
 msgid ""
 "check this if you want your GPU to do work even when you're using the "
 "computer"
-msgstr ""
-"BOINC normalde bilgisayar boştayken çalışır. Bilgisayarınızı kullandığınız "
-"sırada da ekran kartınızla (GPU) hesaplamanın çalışmasını istiyorsanız bunu "
-"işaretleyin (bazı ekran kartlarıyla sistemde yavaşlama yaratabilir)"
+msgstr "BOINC normalde bilgisayar boştayken çalışır. Bilgisayarınızı kullandığınız sırada da ekran kartınızla (GPU) hesaplamanın çalışmasını istiyorsanız bunu işaretleyin (bazı ekran kartlarıyla sistemde yavaşlama yaratabilir)"
 
 #: DlgAdvPreferencesBase.cpp:172
 msgid "Only after computer has been idle for"
@@ -1288,9 +1175,7 @@ msgstr "Yalnızca bilgisayarım bu süre kadar boşta kaldığında:"
 #: DlgAdvPreferencesBase.cpp:182
 msgid ""
 "do work only after you haven't used the computer for this number of minutes"
-msgstr ""
-"bilgisayarınızı kaç dakika kullanılmadığınızda (klavye ve fare hareketi "
-"olmadığında) hesaplamanın başlamasını istediğinizi belirleyin"
+msgstr "bilgisayarınızı kaç dakika kullanılmadığınızda (klavye ve fare hareketi olmadığında) hesaplamanın başlamasını istediğinizi belirleyin"
 
 #: DlgAdvPreferencesBase.cpp:187 DlgAdvPreferencesBase.cpp:336
 #: sg_DlgPreferences.cpp:417
@@ -1303,9 +1188,7 @@ msgstr "İşlemci kullanımı bu orandan azsa:"
 
 #: DlgAdvPreferencesBase.cpp:216
 msgid "suspend work if processor usage exceeds this level"
-msgstr ""
-"BOINC dışındaki diğer programların işlemci kullanımı bu seviyeyi aşarsa, "
-"hesaplama duraklatılır"
+msgstr "BOINC dışındaki diğer programların işlemci kullanımı bu seviyeyi aşarsa, hesaplama duraklatılır"
 
 #: DlgAdvPreferencesBase.cpp:221
 msgid "percent (0 means no restriction)"
@@ -1338,9 +1221,7 @@ msgstr "Haftanın günlerinde sınırlamalar:"
 
 #: DlgAdvPreferencesBase.cpp:261 DlgAdvPreferencesBase.cpp:522
 msgid "check box to specify hours for this day of week"
-msgstr ""
-"haftanın belli günlerindeki çalışma saatlerini belirlemek için kutuları "
-"işaretleyin"
+msgstr "haftanın belli günlerindeki çalışma saatlerini belirlemek için kutuları işaretleyin"
 
 #: DlgAdvPreferencesBase.cpp:267 DlgAdvPreferencesBase.cpp:528
 msgid "Monday"
@@ -1445,8 +1326,7 @@ msgstr "En çok bu sürede tüketilebilecek iş indir:"
 
 #: DlgAdvPreferencesBase.cpp:459
 msgid "In addition, maintain enough tasks for up to this many days"
-msgstr ""
-"Bunun yanında, en çok bu kadar günde tüketilebilecek miktarda iş indirilir"
+msgstr "Bunun yanında, en çok bu kadar günde tüketilebilecek miktarda iş indirilir"
 
 #: DlgAdvPreferencesBase.cpp:466
 msgid "Skip image file verification"
@@ -1466,11 +1346,9 @@ msgstr "Internete bağlanmadan önce onay iste"
 
 #: DlgAdvPreferencesBase.cpp:480
 msgid ""
-"if checked, a confirmation dialog will be displayed before trying to connect "
-"to the Internet"
-msgstr ""
-"işaretlerseniz, internet bağlantısı kurulmaya çalışılmadan önce sizden onay "
-"isteyen bir mesaj belirir"
+"if checked, a confirmation dialog will be displayed before trying to connect"
+" to the Internet"
+msgstr "işaretlerseniz, internet bağlantısı kurulmaya çalışılmadan önce sizden onay isteyen bir mesaj belirir"
 
 #: DlgAdvPreferencesBase.cpp:484
 msgid "Disconnect when done"
@@ -1480,9 +1358,7 @@ msgstr "Tamamlandığında bağlantıyı kes"
 msgid ""
 "if checked, BOINC hangs up when network usage is done\n"
 "(only relevant for dialup-connection)"
-msgstr ""
-"işaretlenirse, ağ kullanımı tamamlandığında BOINC hattı kapatır\n"
-"(yalnızca uygun çevirmeli bağlantılar için)"
+msgstr "işaretlenirse, ağ kullanımı tamamlandığında BOINC hattı kapatır\n(yalnızca uygun çevirmeli bağlantılar için)"
 
 #: DlgAdvPreferencesBase.cpp:492
 msgid "Network usage allowed"
@@ -1562,9 +1438,7 @@ msgstr "Durakladığında uygulamaları bellekte bırak"
 
 #: DlgAdvPreferencesBase.cpp:693
 msgid "if checked, suspended work units are left in memory"
-msgstr ""
-"işaretlenirse, duraklamış işlerin uygulamaları kapatılmaz ve bellekte "
-"kalmayı sürdürür"
+msgstr "işaretlenirse, duraklamış işlerin uygulamaları kapatılmaz ve bellekte kalmayı sürdürür"
 
 #: DlgAdvPreferencesBase.cpp:713
 msgid ""
@@ -1630,18 +1504,16 @@ msgstr "&Seçili mesajları kopyala"
 #: DlgEventLog.cpp:308 DlgEventLog.cpp:316 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
-"messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"Seçili mesajları panoya kopyalar. Shift ya da komut düğmelerine basıp\n"
-"mesajların üzerine tıklayarak, çok sayıda mesajı seçebilirsiniz."
+"messages by holding down the shift or command key while clicking on "
+"messages."
+msgstr "Seçili mesajları panoya kopyalar. Shift ya da komut düğmelerine basıp\nmesajların üzerine tıklayarak, çok sayıda mesajı seçebilirsiniz."
 
 #: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
-"messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"Seçili mesajları panoya kopyalar. Shift ya da Ctrl düğmelerine basıp\n"
-"mesajların üzerine tıklayarak, çok sayıda mesajı seçebilirsiniz."
+"messages by holding down the shift or control key while clicking on "
+"messages."
+msgstr "Seçili mesajları panoya kopyalar. Shift ya da Ctrl düğmelerine basıp\nmesajların üzerine tıklayarak, çok sayıda mesajı seçebilirsiniz."
 
 #: DlgEventLog.cpp:325 DlgItemProperties.cpp:67
 msgid "&Close"
@@ -1662,9 +1534,7 @@ msgstr "Tüm projelere ait mesajları gösterir."
 
 #: DlgEventLog.cpp:355 DlgEventLog.cpp:357
 msgid "Show only the messages for the selected project"
-msgstr ""
-"Yalnızca şu anda seçili projeye ait mesajları ve BOINC'in genel mesajlarını "
-"görüntüler."
+msgstr "Yalnızca şu anda seçili projeye ait mesajları ve BOINC'in genel mesajlarını görüntüler."
 
 #: DlgExitMessage.cpp:82
 #, c-format
@@ -1680,13 +1550,7 @@ msgid ""
 "\n"
 "If you also want to stop running the tasks,\n"
 "choose from the following options:"
-msgstr ""
-"%s'dan çıkmak istediniz.\n"
-"Bu program, bilgisayarınızda çalışan bilimsel\n"
-"uygulamaları görmenizi ve yönetmenizi sağlar.\n"
-"\n"
-"Çıktığınızda bilimsel uygulamaların da kapanmasını\n"
-"istiyorsanız, aşağıdaki seçenekleri işaretleyin:"
+msgstr "%s'dan çıkmak istediniz.\nBu program, bilgisayarınızda çalışan bilimsel\nuygulamaları görmenizi ve yönetmenizi sağlar.\n\nÇıktığınızda bilimsel uygulamaların da kapanmasını\nistiyorsanız, aşağıdaki seçenekleri işaretleyin:"
 
 #: DlgExitMessage.cpp:135
 #, c-format
@@ -1697,14 +1561,7 @@ msgid ""
 "In most cases, it is better just to close the %s window\n"
 "rather than to exit the application; that will allow %s to run its\n"
 "tasks at the times you selected in your preferences."
-msgstr ""
-"Bu işlem, %s'ı ve işlerini kapatır. %s uygulaması\n"
-"ya da %s ekran koruyucusu tekrar çalışana kadar da kapalı kalır.\n"
-"\n"
-"Bir çok durumda sadece %s penceresini kapatmak,\n"
-"uygulamayı kapatmaktan iyidir. Böylece %s,\n"
-"işleri ve zamanlanmış görevleri tercihlerinizde belirlediğiniz\n"
-"şekilde çalıştırabilir."
+msgstr "Bu işlem, %s'ı ve işlerini kapatır. %s uygulaması\nya da %s ekran koruyucusu tekrar çalışana kadar da kapalı kalır.\n\nBir çok durumda sadece %s penceresini kapatmak,\nuygulamayı kapatmaktan iyidir. Böylece %s,\nişleri ve zamanlanmış görevleri tercihlerinizde belirlediğiniz\nşekilde çalıştırabilir."
 
 #: DlgExitMessage.cpp:153
 #, c-format
@@ -1962,9 +1819,7 @@ msgstr "Bildirim hatırlatma sıklığı:"
 
 #: DlgOptions.cpp:193
 msgid "How often should BOINC remind you of new notices?"
-msgstr ""
-"BOINC Manager'ın, yeni bildirimler olduğunu size ne kadar sürede bir "
-"hatırlatmasını istediğinizi belirleyin."
+msgstr "BOINC Manager'ın, yeni bildirimler olduğunu size ne kadar sürede bir hatırlatmasını istediğinizi belirleyin."
 
 #: DlgOptions.cpp:198
 msgid "Run Manager at login?"
@@ -1972,9 +1827,7 @@ msgstr "Açılışta BOINC Manager'ı çalıştır"
 
 #: DlgOptions.cpp:204
 msgid "Run the BOINC Manager when you log on."
-msgstr ""
-"İşaretlerseniz, bilgisayarda oturum açtığınızda BOINC Manager otomatik "
-"olarak çalışır."
+msgstr "İşaretlerseniz, bilgisayarda oturum açtığınızda BOINC Manager otomatik olarak çalışır."
 
 #: DlgOptions.cpp:209
 msgid "Enable Manager exit dialog?"
@@ -1982,9 +1835,7 @@ msgstr "BOINC Manager'dan çıkarken sor"
 
 #: DlgOptions.cpp:215
 msgid "Display the exit dialog when shutting down the Manager."
-msgstr ""
-"İşaretlerseniz, BOINC Manager'ı kapatırken bunu onaylamanızı isteyen bir "
-"pencere belirir."
+msgstr "İşaretlerseniz, BOINC Manager'ı kapatırken bunu onaylamanızı isteyen bir pencere belirir."
 
 #: DlgOptions.cpp:226
 msgid "Dial-up and Virtual Private Network settings"
@@ -2089,9 +1940,7 @@ msgstr "%s - Dil Seçimi"
 msgid ""
 "The %s's language has been changed.  In order for this change to take "
 "effect, you must restart the %s."
-msgstr ""
-"%s'ın varsayılan dili değişti.  Değişikliğin etkili olması için %s yeniden "
-"başlatılmalı."
+msgstr "%s'ın varsayılan dili değişti.  Değişikliğin etkili olması için %s yeniden başlatılmalı."
 
 #: DlgSelectComputer.cpp:91
 #, c-format
@@ -2103,9 +1952,7 @@ msgstr "%s - Bilgisayar Seç ve Bağlan"
 msgid ""
 "Another instance of %s is already running \n"
 "on this computer.  Please select a client to monitor."
-msgstr ""
-"%s'ın başka bir kopyası şu anda bu bilgisayarda\n"
-"zaten çalışıyor.  Lütfen izlemek için bir istemci seçin."
+msgstr "%s'ın başka bir kopyası şu anda bu bilgisayarda\nzaten çalışıyor.  Lütfen izlemek için bir istemci seçin."
 
 #: DlgSelectComputer.cpp:143
 msgid "Host name:"
@@ -2117,8 +1964,7 @@ msgstr "Forum sayfaları"
 
 #: Localization.cpp:33
 msgid "Correspond with other users on the SETI@home message boards"
-msgstr ""
-"Diğer kullanıcılarla SETI@home forum sayfaları aracılığıyla iletişim kurun"
+msgstr "Diğer kullanıcılarla SETI@home forum sayfaları aracılığıyla iletişim kurun"
 
 #: Localization.cpp:37
 msgid "Ask questions and report problems"
@@ -2147,9 +1993,7 @@ msgstr "Sonuçlarınız"
 
 #: Localization.cpp:49 Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
-msgstr ""
-"Son haftaya ait (ya da daha eski) hesaplama sonuçlarınızı ve işlerinizi "
-"görüntüleyin"
+msgstr "Son haftaya ait (ya da daha eski) hesaplama sonuçlarınızı ve işlerinizi görüntüleyin"
 
 #: Localization.cpp:51 Localization.cpp:93
 msgid "Your computers"
@@ -2186,8 +2030,7 @@ msgstr "Einstein@Home ekran koruyucusunun detaylı açıklamalarını okuyun"
 #: Localization.cpp:71
 msgid ""
 "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr ""
-"Yöneticiler ve başka kullanıcılarla Einstein@Home forumlarında mesajlaşın"
+msgstr "Yöneticiler ve başka kullanıcılarla Einstein@Home forumlarında mesajlaşın"
 
 #: Localization.cpp:73
 msgid "Einstein status"
@@ -2226,9 +2069,7 @@ msgstr "LIGO projesi"
 msgid ""
 "The home page of the Laser Interferometer Gravitational-wave Observatory "
 "(LIGO) project"
-msgstr ""
-"Laser Interferometer Gravitational-wave Observatory (LIGO) projesinin ana "
-"sayfası"
+msgstr "Laser Interferometer Gravitational-wave Observatory (LIGO) projesinin ana sayfası"
 
 #: Localization.cpp:105
 msgid "GEO-600 project"
@@ -2301,8 +2142,7 @@ msgstr "Araştırma"
 
 #: Localization.cpp:157
 msgid "Learn about the projects hosted at World Community Grid"
-msgstr ""
-"World Community Grid tarafından barındırılan projeler hakkında bilgi edinin"
+msgstr "World Community Grid tarafından barındırılan projeler hakkında bilgi edinin"
 
 #: MainDocument.cpp:583
 msgid "Starting client"
@@ -2322,11 +2162,9 @@ msgstr "Uygulama bulunamadı"
 
 #: MainDocument.cpp:1817
 msgid ""
-"Please download and install the CoRD application from http://cord."
-"sourceforge.net"
-msgstr ""
-"Lütfen CoRD uygulamasını buradan indirin ve kurun: "
+"Please download and install the CoRD application from "
 "http://cord.sourceforge.net"
+msgstr "Lütfen CoRD uygulamasını buradan indirin ve kurun: http://cord.sourceforge.net"
 
 #: MainDocument.cpp:2432
 msgid "on batteries"
@@ -2412,7 +2250,6 @@ msgstr "Kullanıcı işi durdurdu"
 msgid "Suspended - "
 msgstr "Durakladı - "
 
-# 75%
 #: MainDocument.cpp:2500
 msgid "GPU suspended - "
 msgstr "GPU durakladı - "
@@ -2527,10 +2364,7 @@ msgid ""
 "The URL you supplied is not that of a BOINC-based project.\n"
 "\n"
 "Please check the URL and try again."
-msgstr ""
-"Belirttiğiniz adreste bir BOINC projesi bulunmuyor.\n"
-"\n"
-"Adresi kontrol edip tekrar deneyin."
+msgstr "Belirttiğiniz adreste bir BOINC projesi bulunmuyor.\n\nAdresi kontrol edip tekrar deneyin."
 
 #: NotDetectedPage.cpp:188
 msgid "Account manager not found"
@@ -2542,10 +2376,7 @@ msgid ""
 "manager.\n"
 "\n"
 "Please check the URL and try again."
-msgstr ""
-"Belirttiğiniz adreste bir BOINC hesap yöneticisi bulunmuyor.\n"
-"\n"
-"Adresi kontrol edip tekrar deneyin."
+msgstr "Belirttiğiniz adreste bir BOINC hesap yöneticisi bulunmuyor.\n\nAdresi kontrol edip tekrar deneyin."
 
 #: NotFoundPage.cpp:181
 msgid "Login Failed."
@@ -2611,9 +2442,7 @@ msgstr "Proje adresi:"
 msgid ""
 "This project may not have work for your type of computer.  Do you want to "
 "add it anyway?"
-msgstr ""
-"Bu proje bilgisayarınızın özelliklerine uygun işe sahip olmayabilir.  Yine "
-"de eklemek istediğinize emin misiniz?"
+msgstr "Bu proje bilgisayarınızın özelliklerine uygun işe sahip olmayabilir.  Yine de eklemek istediğinize emin misiniz?"
 
 #: ProjectInfoPage.cpp:850
 msgid "You already added this project. Please choose a different project."
@@ -2635,9 +2464,7 @@ msgstr "Sunucuda dahili bir hata meydana geldi."
 msgid ""
 "Communicating with project\n"
 "Please wait..."
-msgstr ""
-"Projeye bağlanılıyor\n"
-"Lütfen bekleyin..."
+msgstr "Projeye bağlanılıyor\nLütfen bekleyin..."
 
 #: ProxyInfoPage.cpp:195
 msgid "Network communication failure"
@@ -2658,20 +2485,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr ""
-"The World Community Grid - BOINC yazılımı İnternet üzerinden\n"
-"bağlantı gerçekleştiremedi. Sıkça karşılaşılan sorunlar:\n"
-"\n"
-"1) Bağlantı problemi. Ağ ve modem bağlantılarınızı kontrol edin ve\n"
-"tekrar denemek için Geri'yi tıklayın.\n"
-"\n"
-"2) Kişisel güvenlik duvarı yazılımı World Community Grid - BOINC\n"
-"yazılımını engelliyor. Kişisel güvenlik duvarınızı, BOINC ve BOINC\n"
-"Manager'ın bağlantı noktaları (port) 80 ve 443 üzerinden haberleşmesine\n"
-"izin verecek şekilde yapılandırın ve yeniden denemek için Geri'yi tıklayın.\n"
-"\n"
-"3) Bir vekil sunucu (proxy) kullanıyorsunuz.\n"
-"BOINC'in vekil sunucu ayarlarını yapmak için İleri'yi tıklayın."
+msgstr "The World Community Grid - BOINC yazılımı İnternet üzerinden\nbağlantı gerçekleştiremedi. Sıkça karşılaşılan sorunlar:\n\n1) Bağlantı problemi. Ağ ve modem bağlantılarınızı kontrol edin ve\ntekrar denemek için Geri'yi tıklayın.\n\n2) Kişisel güvenlik duvarı yazılımı World Community Grid - BOINC\nyazılımını engelliyor. Kişisel güvenlik duvarınızı, BOINC ve BOINC\nManager'ın bağlantı noktaları (port) 80 ve 443 üzerinden haberleşmesine\nizin verecek şekilde yapılandırın ve yeniden denemek için Geri'yi tıklayın.\n\n3) Bir vekil sunucu (proxy) kullanıyorsunuz.\nBOINC'in vekil sunucu ayarlarını yapmak için İleri'yi tıklayın."
 
 #: ProxyInfoPage.cpp:203
 msgid ""
@@ -2688,20 +2502,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr ""
-"BOINC yazılımı İnternet üzerinden bağlantı gerçekleştiremedi.\n"
-"Sıkça karşılaşılan sorunlar:\n"
-"\n"
-"1) Bağlantı problemi. Ağ ve modem bağlantılarınızı kontrol edin ve\n"
-"tekrar denemek için Geri'yi tıklayın.\n"
-"\n"
-"2) Kişisel güvenlik duvarı yazılımı BOINC'i engelliyor. Kişisel güvenlik\n"
-"duvarınızı, BOINC ve BOINC Manager'ın bağlantı noktaları 80 ve 443\n"
-"üzerinden haberleşmesine izin verecek şekilde yapılandırın ve yeniden\n"
-"denemek için Geri'yi tıklayın.\n"
-"\n"
-"3) Bir vekil sunucu (proxy) kullanıyorsunuz.\n"
-"BOINC'in vekil sunucu ayarlarını yapmak için İleri'yi tıklayın."
+msgstr "BOINC yazılımı İnternet üzerinden bağlantı gerçekleştiremedi.\nSıkça karşılaşılan sorunlar:\n\n1) Bağlantı problemi. Ağ ve modem bağlantılarınızı kontrol edin ve\ntekrar denemek için Geri'yi tıklayın.\n\n2) Kişisel güvenlik duvarı yazılımı BOINC'i engelliyor. Kişisel güvenlik\nduvarınızı, BOINC ve BOINC Manager'ın bağlantı noktaları 80 ve 443\nüzerinden haberleşmesine izin verecek şekilde yapılandırın ve yeniden\ndenemek için Geri'yi tıklayın.\n\n3) Bir vekil sunucu (proxy) kullanıyorsunuz.\nBOINC'in vekil sunucu ayarlarını yapmak için İleri'yi tıklayın."
 
 #: ProxyPage.cpp:331
 msgid "Proxy configuration"
@@ -2748,10 +2549,7 @@ msgid ""
 "The project is temporarily unavailable.\n"
 "\n"
 "Please try again later."
-msgstr ""
-"Proje geçiçi olarak kullanılamaz durumda.\n"
-"\n"
-"Lütfen daha sonra tekrar deneyin."
+msgstr "Proje geçiçi olarak kullanılamaz durumda.\n\nLütfen daha sonra tekrar deneyin."
 
 #: UnavailablePage.cpp:190
 msgid "Account manager temporarily unavailable"
@@ -2762,10 +2560,7 @@ msgid ""
 "The account manager is temporarily unavailable.\n"
 "\n"
 "Please try again later."
-msgstr ""
-"Hesap yöneticisi geçici olarak devre dışı.\n"
-"\n"
-"Lütfen daha sonra tekrar deneyin."
+msgstr "Hesap yöneticisi geçici olarak devre dışı.\n\nLütfen daha sonra tekrar deneyin."
 
 #: ValidateAccountKey.cpp:68
 msgid "Please specify an account key to continue."
@@ -2796,10 +2591,7 @@ msgid ""
 "Please specify a URL.\n"
 "For example:\n"
 "http://www.example.com/"
-msgstr ""
-"Lütfen bir internet adresi belirtin.\n"
-"Örneğin:\n"
-"http://www.ornek.com/"
+msgstr "Lütfen bir internet adresi belirtin.\nÖrneğin:\nhttp://www.ornek.com/"
 
 #: ValidateURL.cpp:83 ValidateURL.cpp:87 ValidateURL.cpp:91
 #: ValidateURL.cpp:103 ValidateURL.cpp:107 ValidateURL.cpp:110
@@ -2811,10 +2603,7 @@ msgid ""
 "Please specify a valid URL.\n"
 "For example:\n"
 "http://boincproject.example.com"
-msgstr ""
-"Lütfen geçerli bir internet adresi belirtin.\n"
-"Örneğin:\n"
-"http:/boincproject.ornek.com"
+msgstr "Lütfen geçerli bir internet adresi belirtin.\nÖrneğin:\nhttp:/boincproject.ornek.com"
 
 #: ValidateURL.cpp:104 ValidateURL.cpp:108
 #, c-format
@@ -2845,9 +2634,7 @@ msgstr "Yalnızca bu projeyi göster"
 
 #: ViewMessages.cpp:107 ViewMessages.cpp:503
 msgid "Show only the messages for the selected project."
-msgstr ""
-"Yalnızca şu anda seçili projeye ait mesajları ve BOINC'in genel mesajlarını "
-"görüntüler."
+msgstr "Yalnızca şu anda seçili projeye ait mesajları ve BOINC'in genel mesajlarını görüntüler."
 
 #: ViewMessages.cpp:164
 msgid "Messages"
@@ -2893,9 +2680,7 @@ msgstr "Güncelle"
 msgid ""
 "Report all completed tasks, get latest credit, get latest preferences, and "
 "possibly get more tasks."
-msgstr ""
-"Tamamlanan işleri raporlar, güncel kredi bigilerini ve tercih ayarlarını "
-"alır ve gerekiyorsa daha fazla iş indirir."
+msgstr "Tamamlanan işleri raporlar, güncel kredi bigilerini ve tercih ayarlarını alır ve gerekiyorsa daha fazla iş indirir."
 
 #: ViewProjects.cpp:181 ViewProjects.cpp:722 ViewWork.cpp:208 ViewWork.cpp:801
 #: sg_BoincSimpleFrame.cpp:757 sg_ProjectCommandPopup.cpp:67
@@ -2924,21 +2709,15 @@ msgstr "Projeyi sıfırla"
 
 #: ViewProjects.cpp:196 sg_ProjectCommandPopup.cpp:80
 msgid ""
-"Delete all files and tasks associated with this project, and get new tasks.  "
-"You can update the project first to report any completed tasks."
-msgstr ""
-"Bu projeye ilişkin tüm dosyalar ile işleri siler ve yeni işler alır.  "
-"Tamamlanmış işler varsa sonuçları raporlamak için önce projeyi "
-"güncelleyebilirsiniz."
+"Delete all files and tasks associated with this project, and get new tasks."
+"  You can update the project first to report any completed tasks."
+msgstr "Bu projeye ilişkin tüm dosyalar ile işleri siler ve yeni işler alır.  Tamamlanmış işler varsa sonuçları raporlamak için önce projeyi güncelleyebilirsiniz."
 
 #: ViewProjects.cpp:203 sg_ProjectCommandPopup.cpp:86
 msgid ""
 "Remove this project.  Tasks in progress will be lost (use 'Update' first to "
 "report any completed tasks)."
-msgstr ""
-"Bu bilgisayardan bu projeyi kaldırır.  Sürmekte olan işler kaybedilir "
-"(tamamlanmış işlerin sonuçlarını göndermek için önce 'Güncelle' komutunu "
-"kullanın)."
+msgstr "Bu bilgisayardan bu projeyi kaldırır.  Sürmekte olan işler kaybedilir (tamamlanmış işlerin sonuçlarını göndermek için önce 'Güncelle' komutunu kullanın)."
 
 #: ViewProjects.cpp:209 ViewWork.cpp:222 sg_ProjectCommandPopup.cpp:91
 #: sg_TaskCommandPopup.cpp:78
@@ -3315,9 +3094,7 @@ msgstr "Ağ faaliyeti durakladı - "
 msgid ""
 ".\n"
 "You can enable it using the Activity menu."
-msgstr ""
-".\n"
-"Çalışma menüsünü kullanarak yeniden sürdürebilirsiniz."
+msgstr ".\nÇalışma menüsünü kullanarak yeniden sürdürebilirsiniz."
 
 #: ViewTransfers.cpp:285
 msgid "BOINC"
@@ -3337,10 +3114,7 @@ msgid ""
 "Are you sure you want to abort this file transfer '%s'?\n"
 "NOTE: Aborting a transfer will invalidate a task and you\n"
 "will not receive credit for it."
-msgstr ""
-"'%s'\n"
-"adlı dosyayı aktarımı iptal etmek istediğinize emin misiniz?\n"
-"NOT: Bir aktarımı durdurmak, işi geçersiz kılar ve kredi alamazsınız."
+msgstr "'%s'\nadlı dosyayı aktarımı iptal etmek istediğinize emin misiniz?\nNOT: Bir aktarımı durdurmak, işi geçersiz kılar ve kredi alamazsınız."
 
 #: ViewTransfers.cpp:349
 msgid "Abort File Transfer"
@@ -3455,10 +3229,7 @@ msgstr "İşin VM Konsolu gösteriliyor..."
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
-msgstr ""
-"'%s'\n"
-"adlı işi iptal etmek istediğinize emin misiniz?\n"
-"(İlerleme: %s, Durum: %s)"
+msgstr "'%s'\nadlı işi iptal etmek istediğinize emin misiniz?\n(İlerleme: %s, Durum: %s)"
 
 #: ViewWork.cpp:485
 #, c-format
@@ -3469,7 +3240,6 @@ msgstr "Bu %d işi iptal etmek istediğinize emin miziniz?"
 msgid "Abort task"
 msgstr "İşi iptal et"
 
-# 75%
 #: ViewWork.cpp:499
 msgid "Aborting task..."
 msgstr "İş iptal ediliyor..."
@@ -3506,12 +3276,7 @@ msgid ""
 "\n"
 "Projects added via this wizard will not be\n"
 "listed on or managed via %s."
-msgstr ""
-"Eğer mümkünse projeleri %s\n"
-"internet sitesinden ekleyin.\n"
-"\n"
-"Bu sihirbazla eklenen projeler, %s ile\n"
-"listelenemez ya da yönetilemez."
+msgstr "Eğer mümkünse projeleri %s\ninternet sitesinden ekleyin.\n\nBu sihirbazla eklenen projeler, %s ile\nlistelenemez ya da yönetilemez."
 
 #: WelcomePage.cpp:313
 msgid ""
@@ -3520,49 +3285,22 @@ msgid ""
 "and you can volunteer for as many of them as you like.\n"
 "You can add a project directly,\n"
 "or use an 'Account Manager' web site to select projects."
-msgstr ""
-"Bilimin çeşitli alanlarında araştırma yapılan\n"
-"30'un üzerinde BOINC tabanlı proje mevcuttur ve\n"
-"istediklerinize destek vermek için gönüllü olabilirsiniz.\n"
-"Direkt olarak bir projeyi ekleyebilir ya da\n"
-"projeleri seçmek için bir 'Hesap Yöneticisi' sitesi\n"
-"kullanabilirsiniz."
+msgstr "Bilimin çeşitli alanlarında araştırma yapılan\n30'un üzerinde BOINC tabanlı proje mevcuttur ve\nistediklerinize destek vermek için gönüllü olabilirsiniz.\nDirekt olarak bir projeyi ekleyebilir ya da\nprojeleri seçmek için bir 'Hesap Yöneticisi' sitesi\nkullanabilirsiniz."
 
 #: WelcomePage.cpp:325
 msgid ""
-"You have chosen to add a new volunteer computing project or change which "
-"projects\n"
+"You have chosen to add a new volunteer computing project or change which projects\n"
 "you contribute to.\n"
 "\n"
-"Some of these projects are run and managed by World Community Grid, while "
-"others\n"
-"are run and managed by other researchers or organizations. The BOINC "
-"software\n"
+"Some of these projects are run and managed by World Community Grid, while others\n"
+"are run and managed by other researchers or organizations. The BOINC software\n"
 "can divide your spare processing power among any combination of projects.\n"
 "\n"
-"Alternatively, if you have registered with a BOINC Account Manager, you can "
-"use\n"
+"Alternatively, if you have registered with a BOINC Account Manager, you can use\n"
 "this to choose which projects to support.\n"
 "\n"
 "Please choose which type of change you would like to make:\n"
-msgstr ""
-"Yeni bir gönüllü hesaplama projesi eklemeyi ya da katkıda bulunduğunuz "
-"projeleri\n"
-"değiştirmeyi seçtiniz.\n"
-"\n"
-"Bu projelerden bazıları, World Community Grid tarafından işletilir ve "
-"yönetilirken,\n"
-"diğerleri ise başka araştırmacılar ya da organizasyonlar tarafından "
-"işletilir ve\n"
-"yönetilir. BOINC yazılımı ile boş işlemci gücünüzü, bu projelerin herhangi "
-"bir\n"
-"kombinasyonu arasında paylaştırabilirsiniz.\n"
-"\n"
-"Alternatif olarak, bir BOINC Hesap Yöneticisi kullanıyorsanız, desteklemek "
-"istediğiniz\n"
-"projeleri onun aracılığıyla da seçebilirsiniz.\n"
-"\n"
-"Lütfen yapmak istediğiniz değişiklik türünü seçin:\n"
+msgstr "Yeni bir gönüllü hesaplama projesi eklemeyi ya da katkıda bulunduğunuz projeleri\ndeğiştirmeyi seçtiniz.\n\nBu projelerden bazıları, World Community Grid tarafından işletilir ve yönetilirken,\ndiğerleri ise başka araştırmacılar ya da organizasyonlar tarafından işletilir ve\nyönetilir. BOINC yazılımı ile boş işlemci gücünüzü, bu projelerin herhangi bir\nkombinasyonu arasında paylaştırabilirsiniz.\n\nAlternatif olarak, bir BOINC Hesap Yöneticisi kullanıyorsanız, desteklemek istediğiniz\nprojeleri onun aracılığıyla da seçebilirsiniz.\n\nLütfen yapmak istediğiniz değişiklik türünü seçin:\n"
 
 #: WelcomePage.cpp:339
 msgid "Use a BOINC Account Manager"
@@ -3645,16 +3383,12 @@ msgstr "Tercihlerinizi kaydetmek için 'Tamam'ı tıklayın."
 #: sg_DlgPreferences.cpp:278
 msgid ""
 "Click Clear to restore web-based settings for all preferences listed below."
-msgstr ""
-"Aşağıda listelenen tüm tercihler ​için web tabanlı ayarları geri yüklemek "
-"için Temizle'yi tıklatın."
+msgstr "Aşağıda listelenen tüm tercihler ​için web tabanlı ayarları geri yüklemek için Temizle'yi tıklatın."
 
 #: sg_DlgPreferences.cpp:285
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
-msgstr ""
-"Ek ayarlar için, 'Gelişmiş görünüm'de 'Hesaplama tercihleri' seçeneğini "
-"seçin."
+msgstr "Ek ayarlar için, 'Gelişmiş görünüm'de 'Hesaplama tercihleri' seçeneğini seçin."
 
 #: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
@@ -3814,10 +3548,7 @@ msgstr "Bu işi iptal eder. Bu iş için kredi alamayacaksanız."
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %.1lf%%, Status: %s)"
-msgstr ""
-"'%s'\n"
-"adlı işi iptal etmek istediğinize emin misiniz?\n"
-"(İlerleme: %%%.1lf, Durum: %s)"
+msgstr "'%s'\nadlı işi iptal etmek istediğinize emin misiniz?\n(İlerleme: %%%.1lf, Durum: %s)"
 
 #: sg_TaskPanel.cpp:464
 msgid "You don't have any projects.  Please Add a Project."
@@ -3969,804 +3700,3 @@ msgstr "Tümünü Göster"
 #, c-format
 msgid "Quit %s"
 msgstr "%s'den ayrıl"
-
-#~ msgid "I do not agree with the terms of use."
-#~ msgstr "Kullanım koşullarını kabul etmiyorum."
-
-#~ msgid "Click Clear to restore web-based settings."
-#~ msgstr "İnternet tabanlı ayarlarınıza dönmek için 'Temizle'yi tıklayın."
-
-#~ msgid "For additional settings, select Computing Preferences in "
-#~ msgstr "Detaylı tercih seçenekleri için, 'Gelişmiş görünüm'e geçiş yapın ve "
-
-#~ msgid "the Advanced View."
-#~ msgstr "menüden 'Hesaplama tercihleri'ni seçin."
-
-#~ msgid "Workunit name"
-#~ msgstr "İş birimi ismi"
-
-#~ msgid "invalid float"
-#~ msgstr "geçersiz değer"
-
-#~ msgid "Display the advanced (accessible) graphical interface."
-#~ msgstr "Gelişmiş (erişilebilir) grafiksel arayüzü görüntüler."
-
-#~ msgid "Paused: Other work running"
-#~ msgstr "Durakladı: Başka iş çalışıyor"
-
-#~ msgid "Paused: User initiated.  Click 'Resume' to continue"
-#~ msgstr "Durakladı: Kullanıcı duraklattı.  Devam etmek için 'Devam'a tıklayın"
-
-#~ msgid "Paused: User active"
-#~ msgstr "Durakladı: Kullanıcı faal"
-
-#~ msgid "Paused: Computer on battery"
-#~ msgstr "Durakladı: Bilgisayar pil gücünde"
-
-#~ msgid "Paused: Time of Day"
-#~ msgstr "Durakladı: Günlük zamanlama"
-
-#~ msgid "Paused: Benchmarks running"
-#~ msgstr "Durakladı: Testler çalışıyor"
-
-#~ msgid "Paused"
-#~ msgstr "Durakladı"
-
-#~ msgid "Paused: Application start delayed"
-#~ msgstr "Durakladı: Uygulamanın başlaması ertelendi"
-
-#~ msgid "Click to show project graphics"
-#~ msgstr "Proje grafiklerini görmek için tıklayın"
-
-#~ msgid "Open a window to view messages"
-#~ msgstr "BOINC mesajları penceresini açar"
-
-#~ msgid "Stop all activity"
-#~ msgstr "Tüm çalışmayı duraklatır"
-
-#~ msgid "Resume activity"
-#~ msgstr "Çalışmayı sürdürür"
-
-#~ msgid "Open a window to set your preferences"
-#~ msgstr "Tercihlerinizi ayarlayabileceğiniz pencereyi açar"
-
-#~ msgid "Switch to the BOINC advanced view"
-#~ msgstr "BOINC gelişmiş görünümüne geçiş yapar"
-
-#~ msgid "My Projects:"
-#~ msgstr "Projelerim:"
-
-#, c-format
-#~ msgid "%s. Work done by %s: %0.2f"
-#~ msgstr "%s. %s tarafından elde edilen kredi: %0.2f"
-
-#, c-format
-#~ msgid "%.1lf"
-#~ msgstr "%.1lf"
-
-#, c-format
-#~ msgid "%d hr %d min %d sec"
-#~ msgstr "%d s %d dk %d sn"
-
-#~ msgid "Are you sure you want to display graphics on a remote machine?"
-#~ msgstr "Uzak bilgisayardaki grafikleri görüntülemek istediğinize emin misiniz?"
-
-#~ msgid "Application: "
-#~ msgstr "Uygulama: "
-
-#~ msgid "Time Remaining: "
-#~ msgstr "Kalan süre: "
-
-#~ msgid "Elapsed Time: "
-#~ msgstr "Geçen süre: "
-
-#~ msgid "Account manager website"
-#~ msgstr "Hesap yöneticisi sitesi"
-
-#~ msgid "Account Manager &URL:"
-#~ msgstr "Hesap Yöneticisi &internet adresi:"
-
-#, c-format
-#~ msgid "%s &website"
-#~ msgstr "%s internet sitesi"
-
-#~ msgid "Notice List"
-#~ msgstr "Bildirim Listesi"
-
-#, c-format
-#~ msgid "%s; received on %s"
-#~ msgstr "%s; alınma %s"
-
-#, c-format
-#~ msgid "%s; received from %s; on %s"
-#~ msgstr "%s; %s kaynağından; alınma %s"
-
-#~ msgid "Click"
-#~ msgstr "Tıkla"
-
-#~ msgid "Project List"
-#~ msgstr "Proje Listesi"
-
-#~ msgid "Nvidia GPU Supported"
-#~ msgstr "NVIDIA GPU destekleniyor"
-
-#~ msgid "ATI GPU Supported"
-#~ msgstr "ATI GPU destekleniyor"
-
-#~ msgid "Project Website"
-#~ msgstr "Proje internet sitesi"
-
-#~ msgid "One or more items failed to load from the Internet."
-#~ msgstr "Bir ya da daha fazla öğe internetten yüklenirken başarısız olundu."
-
-# 88%
-#~ msgid "Retry now"
-#~ msgstr "Şimdi yeniden dene"
-
-#~ msgid "10%"
-#~ msgstr "%10"
-
-#~ msgid "20%"
-#~ msgstr "%20"
-
-#~ msgid "30%"
-#~ msgstr "%30"
-
-#~ msgid "40%"
-#~ msgstr "%40"
-
-#~ msgid "50%"
-#~ msgstr "%50"
-
-#~ msgid "60%"
-#~ msgstr "% 60"
-
-#~ msgid "70%"
-#~ msgstr "%70"
-
-#~ msgid "80%"
-#~ msgstr "%80"
-
-#~ msgid "90%"
-#~ msgstr "%90"
-
-#~ msgid "100%"
-#~ msgstr "%100"
-
-#~ msgid "1"
-#~ msgstr "1"
-
-#~ msgid "3"
-#~ msgstr "3"
-
-#~ msgid "5"
-#~ msgstr "5"
-
-#~ msgid "10"
-#~ msgstr "10"
-
-#~ msgid "15"
-#~ msgstr "15"
-
-#~ msgid "30"
-#~ msgstr "30"
-
-#~ msgid "60"
-#~ msgstr "60"
-
-#, c-format
-#~ msgid "Pop up a menu of websites for project %s"
-#~ msgstr "%s projesinin internet sayfalarını açar"
-
-#~ msgid ""
-#~ "for accessibility support, please select advanced from the view menu or type "
-#~ "command shift a"
-#~ msgstr ""
-#~ "erişilebilirlik desteği için, lütfen \"görünüm\" menüsünden \"gelişmiş\"i seçin "
-#~ "ya da klavyeden komut+shift+a tuşlarına basın"
-
-#~ msgid "This panel contains graphs showing user totals for projects"
-#~ msgstr ""
-#~ "Bu panel, kullanıcının projelerdeki toplamı ya da ortalamasıyla ilgili "
-#~ "grafikleri içerir"
-
-#~ msgid "list headers"
-#~ msgstr "liste başlıkları"
-
-#~ msgid "list of events"
-#~ msgstr "olay listesi"
-
-#~ msgid "list of events is empty"
-#~ msgstr "olay listesi boş"
-
-#, c-format
-#~ msgid "list of %s"
-#~ msgstr "%s listesi"
-
-#, c-format
-#~ msgid "list of %s is empty"
-#~ msgstr "%s listesi boş"
-
-#, c-format
-#~ msgid "; current sort column %d of %d; descending order; "
-#~ msgstr "; mevcut sıralama sütunu %d/%d; azalarak; "
-
-#, c-format
-#~ msgid "; current sort column %d of %d; ascending order; "
-#~ msgstr "; mevcut sıralama sütunu %d/%d; artarak; "
-
-#, c-format
-#~ msgid "; column %d of %d; "
-#~ msgstr "; sütun %d/%d; "
-
-#~ msgid "list is empty"
-#~ msgstr "liste boş"
-
-#, c-format
-#~ msgid "; row %d; "
-#~ msgstr "; sıra %d; "
-
-#, c-format
-#~ msgid "; selected row %d of %d; "
-#~ msgstr "; seçili sıra %d/%d; "
-
-#, c-format
-#~ msgid "; selected row %d ; "
-#~ msgstr "; seçili sıra %d ; "
-
-#, c-format
-#~ msgid "; row %d of %d; "
-#~ msgstr "; sıra %d/%d; "
-
-#~ msgid "blank"
-#~ msgstr "boş"
-
-#~ msgid "list of projects or account managers"
-#~ msgstr "projeler veya hesap yöneticilerinin listesi"
-
-#, c-format
-#~ msgid "selected row %d of %d; "
-#~ msgstr "seçili sıra %d/%d; "
-
-#, c-format
-#~ msgid "row %d of %d; "
-#~ msgstr "sıra %d/%d; "
-
-#~ msgid ""
-#~ "The minimum username length for this project is 1. Please enter a "
-#~ "different username."
-#~ msgstr ""
-#~ "Bu proje için kullanıcı adı uzunluğu en az 1 karakter olmalı. Lütfen "
-#~ "uygun bir kullanıcı adı girin."
-
-#~ msgid ""
-#~ "The minimum username length for this account manager is 1. Please enter a "
-#~ "different username."
-#~ msgstr ""
-#~ "Bu hesap yöneticisi için kullanıcı adı uzunluğu en az 1 karakter olmalı. "
-#~ "Lütfen uygun bir kullanıcı adı girin."
-
-#~ msgid ""
-#~ "The minimum email address length for this project is 1. Please enter a "
-#~ "different email address."
-#~ msgstr ""
-#~ "Bu proje için e-posta adresi uzunluğu en az 1 karakter olmalı. Lütfen "
-#~ "uygun bir e-posta adresi girin."
-
-#~ msgid ""
-#~ "The minimum email address length for this account manager is 1. Please "
-#~ "enter a different email address."
-#~ msgstr ""
-#~ "Bu hesap yöneticisi için e-posta adresi uzunluğu en az 1 karakter olmalı. "
-#~ "Lütfen uygun bir e-posta adresi girin."
-
-#~ msgid ""
-#~ "The minimum password length for this project is %d. Please enter a "
-#~ "different password."
-#~ msgstr ""
-#~ "Bu proje için parola uzunluğu en az %d karakter olmalı. Lütfen uygun bir "
-#~ "parola girin."
-
-#~ msgid ""
-#~ "The minimum password length for this account manager is %d. Please enter "
-#~ "a different password."
-#~ msgstr ""
-#~ "Bu hesap yöneticisi için parola uzunluğu en az %d karakter olmalı. Lütfen "
-#~ "uygun bir parola girin."
-
-#~ msgid ""
-#~ "An error has occurred;\n"
-#~ "check the Event Log for details.\n"
-#~ "\n"
-#~ "Click Finish to close."
-#~ msgstr ""
-#~ "Bir hata meydana geldi;\n"
-#~ "detaylar için Olay Günlüğü'nü kontrol edin.\n"
-#~ "\n"
-#~ "Kapatmak için Son'u tıklayın."
-
-#~ msgid "% of the processors"
-#~ msgstr "% kadarı kullanılsın"
-
-#~ msgid "New page inserted. Index = %i"
-#~ msgstr "Yeni sayfa girildi. İndex = %i"
-
-#~ msgid "New page appended. Index = %i"
-#~ msgstr "New page eklendi. İndex = %i"
-
-#~ msgid "Old Page Index = %i"
-#~ msgstr "Eski Sayfa İndex'i= %i"
-
-#~ msgid "OnDropTarget: index by HitTest = %i"
-#~ msgstr "OnDropTarget: HitTest tarafından index = %i"
-
-#~ msgid "Pie Ctrl"
-#~ msgstr "Pie Ctrl"
-
-#~ msgid "specify work start and stop hours in format HH:MM-HH:MM"
-#~ msgstr "başlama ve durma saatlerini SS:DD-SS:DD formatına göre belirleyin"
-
-#~ msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
-#~ msgstr "ağ kullanım saatlerini SS:DD-SS:DD formatına göre belirleyin"
-
-#~ msgid "Identify your account "
-#~ msgstr "Hesap bilgilerinizi girin"
-
-#~ msgid "Read config file"
-#~ msgstr "Yapılandırma dosyasını oku"
-
-#~ msgid "Read configuration info from cc_config.xml"
-#~ msgstr "Yapılandırma bilgisini cc_config.xml dosyasından okur."
-
-#~ msgid ""
-#~ "(C) 2003-2011 University of California, Berkeley.\n"
-#~ "All Rights Reserved."
-#~ msgstr ""
-#~ "(C) 2003-2011 Kaliforniya Üniversitesi, Berkeley.\n"
-#~ "Tüm hakları saklıdır."
-
-#~ msgid "NVIDIA GPU"
-#~ msgstr "NVIDIA GPU"
-
-#~ msgid "ATI GPU"
-#~ msgstr "ATI GPU"
-
-#~ msgid "Multicore CPU Supported"
-#~ msgstr "Çok çekirdekli işlemci destekleniyor"
-
-#~ msgid "%s: %.0f"
-#~ msgstr "%s: %0.2f"
-
-#~ msgid "Click 'Retry now' to transfer the file now"
-#~ msgstr "Dosya aktarımını yeniden denemeyi sağlar."
-
-#~ msgid ""
-#~ "Click 'Abort transfer' to delete the file from the transfer queue. This "
-#~ "will prevent you from being granted credit for this result."
-#~ msgstr ""
-#~ "Dosyayı aktarım kuyruğundan çıkarmayı sağlar.\n"
-#~ "Bunu yapmak, sonuçtan kredi almanızı engelleyecektir."
-
-#~ msgid "Aborting result..."
-#~ msgstr "Sonuç iptal ediliyor..."
-
-#~ msgid ""
-#~ "You have chosen to add a new BOINC project.  Adding a new\n"
-#~ "project means that you will be connecting your computer to a new "
-#~ "organization.\n"
-#~ "If this is what you wanted to do, please click on\n"
-#~ "the 'Next' button below.\n"
-#~ "\n"
-#~ "Some projects like World Community Grid run multiple research "
-#~ "applications.\n"
-#~ "If you want to change which research applications are sent to your "
-#~ "computer\n"
-#~ "to run, visit the project's website and modify your\n"
-#~ "preferences there.\n"
-#~ "\n"
-#~ "To change which research applications are sent to you from\n"
-#~ "World Community Grid then please click on the following button:"
-#~ msgstr ""
-#~ "Yeni bir BOINC projesi eklemeyi seçtiniz. Bunun anlamı, bilgisayarınız "
-#~ "bir\n"
-#~ "internet sitesine ve organizasyonuna bağlanacak. Eğer istediğiniz buysa,\n"
-#~ "aşağıdaki 'İleri' butonuna basın.\n"
-#~ "\n"
-#~ "World Community Grid gibi bazı projeler, birden fazla araştırma "
-#~ "uygulamasına\n"
-#~ "sahiptir. Eğer bilgisayarınıza gönderilen uygulamaları değiştirmek "
-#~ "isterseniz,\n"
-#~ "projenin İnternet sitesini ziyaret etmeli ve buradaki tercihlerinizi "
-#~ "değiştirmelisiniz.\n"
-#~ "\n"
-#~ "World Community Grid'den gönderilen araştırma uygulamalarını değiştirmek\n"
-#~ "için lütfen aşağıdaki butona tıklayın:"
-
-#~ msgid "Change Research Applications at World Community Grid"
-#~ msgstr "World Community Grid'te Araştırma Uygulamalarını değiştirin"
-
-#~ msgid "Don't fetch NVIDIA GPU tasks"
-#~ msgstr "NVDIA GPU için yeni işler alınmayacak"
-
-#~ msgid "NVIDIA GPU work fetch deferred for"
-#~ msgstr "NVIDIA GPU iş alma ertelendi"
-
-#~ msgid "NVIDIA GPU work fetch deferral interval"
-#~ msgstr "NVIDIA GPU iş alma aralığı"
-
-#~ msgid "Don't fetch ATI GPU tasks"
-#~ msgstr "ATI GPU için yeni işler alınmayacak"
-
-#~ msgid "ATI GPU work fetch deferred for"
-#~ msgstr "ATI GPU iş alma ertelendi"
-
-#~ msgid "ATI GPU work fetch deferral interval"
-#~ msgstr "ATI GPU iş alma aralığı"
-
-#~ msgid "Web sites"
-#~ msgstr "İnternet siteleri"
-
-#~ msgid "Connect about every"
-#~ msgstr "Bağlantı gerçekleştirme:"
-
-#~ msgid ""
-#~ "this computer is connected to the Internet about every X days\n"
-#~ "(0 if it's always connected)"
-#~ msgstr ""
-#~ "bu bilgisayarın internete kaç günde bir bağlandığını belirtin\n"
-#~ "(sürekli bağlıysa 0 yazın)"
-
-#~ msgid "days (max. 10)"
-#~ msgstr "günlük (en fazla 10)"
-
-#~ msgid "%d.%d%%"
-#~ msgstr "%%%d.%d"
-
-#~ msgid "Display and network &options..."
-#~ msgstr "Görünüm ve ağ &seçenekleri..."
-
-#~ msgid ""
-#~ "You have requested to exit the %s,\n"
-#~ "which allows you to view and manage\n"
-#~ "the science applications running on your computer.\n"
-#~ "\n"
-#~ "If you also want to stop running the science applications when you\n"
-#~ "exit the Manager, then choose from the following options:"
-#~ msgstr ""
-#~ "%s'dan çıkmak istediniz.\n"
-#~ "Bu program, bilgisayarınızda çalışan bilimsel\n"
-#~ "uygulamaları görmenizi ve yönetmenizi sağlar.\n"
-#~ "\n"
-#~ "Manager'dan çıktığınızda bilimsel uygulamaların da\n"
-#~ "kapanmasını istiyorsanız, aşağıdaki seçenekleri işaretleyin:"
-
-#~ msgid "Stop running science applications when exiting the Manager"
-#~ msgstr "Manager'dan çıkarken, çalışan bilimsel uygulamaları da durdur"
-
-#~ msgid "CPU work fetch priority"
-#~ msgstr "CPU iş alma önceliği"
-
-#~ msgid "NVIDIA GPU scheduling priority"
-#~ msgstr "NVIDIA GPU zamanlama önceliği"
-
-#~ msgid "NVIDIA GPU work fetch priority"
-#~ msgstr "NVIDIA GPU iş alma önceliği"
-
-#~ msgid "ATI GPU scheduling priority"
-#~ msgstr "ATI GPU zamanlama önceliği"
-
-#~ msgid "ATI GPU work fetch priority"
-#~ msgstr "ATI GPU iş alma önceliği"
-
-#~ msgid "Estimated app speed"
-#~ msgstr "Tahmini uygulama hızı"
-
-#~ msgid "Estimated task size"
-#~ msgstr "Tahmini iş hızı"
-
-#~ msgid "Max RAM usage"
-#~ msgstr "En fazla RAM kullanımı"
-
-#~ msgid "%s - Options"
-#~ msgstr "%s - Seçenekler"
-
-#~ msgid "Retrieving host information; please wait..."
-#~ msgstr "Bilgisayar bilgisi alınıyor; lütfen bekleyin..."
-
-#~ msgid " (waiting for GPU memory)"
-#~ msgstr " (GPU belleği için bekliyor)"
-
-#~ msgid "Manager Settings..."
-#~ msgstr "Manager Ayarları..."
-
-#~ msgid "Pause"
-#~ msgstr "Duraklat"
-
-#~ msgid "%s - Messages"
-#~ msgstr "%s - Mesajlar"
-
-#~ msgid "Skin:"
-#~ msgstr "Kaplama:"
-
-#~ msgid "Preferences"
-#~ msgstr "Tercihler"
-
-#~ msgid "I want to customize my preferences for this computer only."
-#~ msgstr "Tercihlerimi yalnızca bu bilgisayar için özelleştirmek istiyorum."
-
-#~ msgid "Customized Preferences"
-#~ msgstr "Özelleştirilmiş Tercihler"
-
-#~ msgid "My total work done this Project"
-#~ msgstr "Bu projede tamamladığım toplam  iş"
-
-#~ msgid "My Tasks:"
-#~ msgstr "İşlerim:"
-
-#~ msgid "From Project:"
-#~ msgstr "Projeden:"
-
-#~ msgid "Elapsed Time: %s"
-#~ msgstr "Geçen Süre: %s"
-
-#~ msgid "Upload suspended - "
-#~ msgstr "Gönderme durakladı - "
-
-#~ msgid "Download suspended - "
-#~ msgstr "İndirme durakladı - "
-
-#~ msgid "Upload pending"
-#~ msgstr "Gönderme kuyrukta"
-
-#~ msgid "Download pending"
-#~ msgstr "İndirme kuyrukta"
-
-#~ msgid "New Simple View..."
-#~ msgstr "Yeni Basit Görünüm..."
-
-#~ msgid "Display the new simple graphical interface."
-#~ msgstr "Yeni basit grafiksel arayüzü görüntüler."
-
-#~ msgid "Old Simple View..."
-#~ msgstr "Eski Basit Görünüm..."
-
-#~ msgid "Display the old simple graphical interface."
-#~ msgstr "Eski basit grafiksel arayüzü görüntüler."
-
-#~ msgid "Get help with BOINC"
-#~ msgstr "BOINC yardım sitesini açar"
-
-#~ msgid "Event Log..."
-#~ msgstr "Olay günlüğü..."
-
-#~ msgid "Attaching to project or account manager..."
-#~ msgstr "Projeye katılıyor ya da hesap yöneticisine bağlanıyor..."
-
-#~ msgid "%s - Detach from %s"
-#~ msgstr "%s - %s'den ayrıl"
-
-#~ msgid "Retrying communications."
-#~ msgstr "Yeniden bağlantı kurulmaya çalışılıyor."
-
-#~ msgid "Failed to attach to project"
-#~ msgstr "Projeye katılılım başarısız oldu"
-
-#~ msgid "Failed to attach to account manager"
-#~ msgstr "Hesap yöneticisine bağlanma başarısız oldu"
-
-#~ msgid "Attached to account manager"
-#~ msgstr "Hesap yöneticisine bağlandınız"
-
-#~ msgid "You are now successfully attached to the %s system."
-#~ msgstr "Şu anda %s sistemine başarıyla katıldınız."
-
-#~ msgid "You are now successfully attached to this account manager."
-#~ msgstr "Şu anda bu hesap yöneticisine başarıyla bağlandınız."
-
-#~ msgid "News Feeds"
-#~ msgstr "Haber Akışları"
-
-#~ msgid "Display the latest news about BOINC"
-#~ msgstr "BOINC hakkındaki son haberleri görüntüler"
-
-#~ msgid "not attached to any BOINC project: 0 bytes"
-#~ msgstr "herhangi bir BOINC projesine katılmadınız: 0 bayt"
-
-#~ msgid "All projects"
-#~ msgstr "Tüm projeler"
-
-#~ msgid "Attach to project"
-#~ msgstr "Projeye katıl"
-
-#~ msgid "Attach to account manager"
-#~ msgstr "Hesap yöneticisine bağlan"
-
-#~ msgid "Attach to a project"
-#~ msgstr "Bir projeye katılmanızı sağlar."
-
-#~ msgid "%s needs to connect to the Internet.  Please click to open %s."
-#~ msgstr ""
-#~ "%s internete bağlanmak istiyor. Lütfen %s programını açmak için tıklayın."
-
-#~ msgid ""
-#~ "%s is unable to communicate with a project and needs an Internet "
-#~ "connection.\n"
-#~ "Please connect to the Internet, then select the 'Do network "
-#~ "communications' item from the Advanced menu."
-#~ msgstr ""
-#~ "%s bir projeyle iletişim kuramadı ve İnternet bağlantısına ihtiyaç "
-#~ "duyuyor.\n"
-#~ "Lütfen internete bağlanın, sonra Gelişmiş menüsünden\n"
-#~ "'Ağ iletişimi gerçekleştir' komutunu seçin."
-
-#~ msgid ""
-#~ "%s couldn't do Internet communication, and no default connection is "
-#~ "selected.\n"
-#~ "Please connect to the Internet, or select a default connection\n"
-#~ "using Advanced/Options/Connections."
-#~ msgstr ""
-#~ "%s internet bağlantısı kuramadı ve varsayılan internet bağlantısı da "
-#~ "seçili değil.\n"
-#~ "Lütfen internete bağlanın ya da Gelişmiş/Seçenekler/Bağlantılar "
-#~ "menüsünden\n"
-#~ "varsayılan bir bağlantı seçin."
-
-#~ msgid "One or more notices are now available for viewing."
-#~ msgstr "Görülebilecek bir ya da birkaç yeni bildirim var."
-
-#~ msgid "Attached to project"
-#~ msgstr "Projeye katıldınız"
-
-#~ msgid "You are now successfully attached to this project."
-#~ msgstr "Bu projeye başarıyla katıldınız."
-
-#~ msgid "Attached to %s"
-#~ msgstr "%s'e katıldınız"
-
-#~ msgid "Detach when done"
-#~ msgstr "Tamamlandığında ayrıl"
-
-#~ msgid "Retrieving notices..."
-#~ msgstr "Bildirimler alınıyor..."
-
-#~ msgid "Detach"
-#~ msgstr "Ayrıl"
-
-#~ msgid "Detaching from project..."
-#~ msgstr "Projeden ayrılıyorsunuz..."
-
-#~ msgid "Are you sure you want to detach from project '%s'?"
-#~ msgstr "'%s' projesinden ayrılmak istediğinize emin misiniz?"
-
-#~ msgid "Detach from Project"
-#~ msgstr "Projeden ayrıl"
-
-#~ msgid "error"
-#~ msgstr "hata"
-
-#~ msgid "A new version of BOINC is available."
-#~ msgstr "BOINC'in yeni sürümü mevcut."
-
-#~ msgid "Download it."
-#~ msgstr "İndir."
-
-#~ msgid "Couldn't write state file; check directory permissions"
-#~ msgstr "Durum dosyası yazılamadı; klasör izinlerini kontrol edin"
-
-#~ msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
-#~ msgstr "HTTP_PROXY ortam değişkeni bir HTTP vekil sunucu belirtmeli"
-
-#~ msgid "Message from project server:"
-#~ msgstr "Proje sunucusundan mesaj:"
-
-#~ msgid "XML syntax error in"
-#~ msgstr "XML sözdizimi hatası:"
-
-#~ msgid "Can't resolve hostname in"
-#~ msgstr "Sunucu adresi çözülemedi:"
-
-#~ msgid "Unrecognized tag in"
-#~ msgstr "Tanınmayan etiket:"
-
-#~ msgid "Missing start tag in"
-#~ msgstr "Başlangıç etiketi kayıp:"
-
-#~ msgid "Unparsed tag in"
-#~ msgstr "Çözümlenemeyen etiket:"
-
-#~ msgid "Missing end tag in"
-#~ msgstr "Bitiş etiketi kayıp:"
-
-#~ msgid ""
-#~ "BOINC can't access Internet - check network connection or proxy "
-#~ "configuration."
-#~ msgstr ""
-#~ "BOINC internete erişemiyor - lütfen ağ bağlantınızı ya da vekil sunucu "
-#~ "ayarlarınızı kontrol edin."
-
-#~ msgid "Attach this computer to a project or account manager"
-#~ msgstr "Bu bilgisayarda bir projeye katıl ya da hesap yöneticisine bağlan"
-
-#~ msgid "Client is processing results."
-#~ msgstr "İstemci sonuçları işliyor."
-
-#~ msgid " - user active"
-#~ msgstr " - kullanıcı faal"
-
-#~ msgid " - computation suspended"
-#~ msgstr " - hesaplama durduruldu"
-
-#~ msgid " - need disk space"
-#~ msgstr " - disk alanı gerekiyor"
-
-#~ msgid "Attach to an additional project"
-#~ msgstr "Bir projeye katılmanız için sihirbazı açar"
-
-#~ msgid "To completion"
-#~ msgstr "Kalan"
-
-#~ msgid ""
-#~ "We'll guide you through the process of attaching\n"
-#~ "to a project or account manager."
-#~ msgstr ""
-#~ "Size bir projeye katılma ya da hesap yöneticisine bağlanma işleminde "
-#~ "rehberlik edeceğiz.\n"
-#~ "Lütfen aşağıdan ne yapmak istediğinizi seçip, İleri butonuna tıklayın."
-
-#~ msgid "events"
-#~ msgstr "olaylar"
-
-#~ msgid "current sort column "
-#~ msgstr "şu anki sıralama sütunu"
-
-#~ msgid " descending order "
-#~ msgstr "azalan sıralama"
-
-#~ msgid " ascending order "
-#~ msgstr "artan sıralama"
-
-#~ msgid "column "
-#~ msgstr "sütun"
-
-#~ msgid "Attach to a project or account manager to begin processing work"
-#~ msgstr ""
-#~ "İşleri çalıştırmak için bir projeye katılmanızı ya da hesap yöneticisine "
-#~ "bağlanmanızı sağlar."
-
-#~ msgid "Attach to a project to begin processing work"
-#~ msgstr "İşleri çalıştırmaya başlamak için bir projeye katılmayı sağlar."
-
-#~ msgid "Use GPU never"
-#~ msgstr "GPU kullanımını &durdur"
-
-#~ msgid "BOINC Notification"
-#~ msgstr "BOINC Bildirimi"
-
-#~ msgid ""
-#~ "TEST: Fluffy@Home just found out that the Fluffy project has been "
-#~ "published in Nature"
-#~ msgstr ""
-#~ "TEST: Nature tarafından yayınlanan Fluffy projesinde Fluffy@Home bulundu"
-
-#~ msgid "%s: %.2f%% completed."
-#~ msgstr "%s: %%%.2f tamamlandı."
-
-#~ msgid "%d tasks running."
-#~ msgstr "%d iş çalışıyor."
-
-#~ msgid "&Close Window\tCtrl+W"
-#~ msgstr "&Pencereyi Kapat\tCtrl+W"
-
-#~ msgid "%s - Can't find web browser"
-#~ msgstr "%s - İnternet tarayıcı bulunamadı"
-
-#~ msgid "Add account manager"
-#~ msgstr "Hesap yöneticisi ekle"
-
-#, fuzzy
-#~ msgid " is empty"
-#~ msgstr "liste boş"
-
-#, fuzzy
-#~ msgid "of %d; "
-#~ msgstr "taneden %d"
