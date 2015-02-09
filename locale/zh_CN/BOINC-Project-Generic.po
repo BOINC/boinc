@@ -1,27 +1,25 @@
 # BOINC web translation
 # Copyright (C) 2008 University of California
+# 
 # This file is distributed under the same license as BOINC.
+# 
 # FileID  : $Id$
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2014-02-23 02:23+0000\n"
-"Last-Translator: Gang <zenith.yin@gmail.com>\n"
-"Language-Team: Team China <zenith.yin@gmail.com>\n"
-"Language: zh_CN\n"
+"PO-Revision-Date: 2015-02-09 01:44+0000\n"
+"Last-Translator: Rom Walton <romw@romwnet.org>\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/projects/p/boinc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Bookmarks: -1,-1,-1,-1,232,-1,-1,-1,-1,-1\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-SearchPath-0: html\\user\n"
-"X-Poedit-Basepath: D:\\Work\\boinc_src\\html\\user\n"
-"X-POOTLE-MTIME: 1393122217.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "简体中文"
@@ -294,8 +292,8 @@ msgstr "最近的修改日期：%1"
 
 #: ../inc/forum.inc:640
 msgid ""
-"This post is not shown because the sender is on your 'ignore' list.  Click %"
-"1here%2 to view this post"
+"This post is not shown because the sender is on your 'ignore' list.  Click "
+"%1here%2 to view this post"
 msgstr "该篇帖子未显示是因为其作者在您的忽略列表里。点击%1这里%2来查看"
 
 #: ../inc/forum.inc:668 ../inc/forum.inc:679
@@ -374,16 +372,7 @@ msgid ""
 "        <li> No abusive comments involving race, religion,\n"
 "            nationality, gender, class or sexuality.\n"
 "        "
-msgstr ""
-"\n"
-"        <ul>\n"
-"        <li> 帖子内容健康，不包含猥亵的、仇恨的或者与性有关的内容。\n"
-"        <li> 禁止商业广告。\n"
-"        <li> 禁止链接到与性、赌博等内容有关的网站。\n"
-"        <li> 禁止烦扰、敌对其他用户的帖子，禁止破坏主题。\n"
-"        <li> 禁止有敌意或侮辱性的帖子。\n"
-"        <li> 禁止与种族、宗教、国籍、性别、阶层或性相关的辱骂性评论。\n"
-"        "
+msgstr "\n        <ul>\n        <li> 帖子内容健康，不包含猥亵的、仇恨的或者与性有关的内容。\n        <li> 禁止商业广告。\n        <li> 禁止链接到与性、赌博等内容有关的网站。\n        <li> 禁止烦扰、敌对其他用户的帖子，禁止破坏主题。\n        <li> 禁止有敌意或侮辱性的帖子。\n        <li> 禁止与种族、宗教、国籍、性别、阶层或性相关的辱骂性评论。\n        "
 
 #: ../inc/forum.inc:780
 msgid "Rules:"
@@ -1120,20 +1109,17 @@ msgstr "MB / 每"
 #: ../inc/prefs.inc:274
 msgid ""
 "Skip image file verification? %1 Check this ONLY if your Internet provider "
-"modifies image files (UMTS does this, for example). %2 Skipping verification "
-"reduces the security of BOINC. %3"
-msgstr ""
-"跳过映像文件验证？%1仅在你的 ISP 会修改映像文件的情况下（比如 UMTS 就会这样）需要选中这个。%2跳过验证会影响 BOINC 的安全性。%3"
+"modifies image files (UMTS does this, for example). %2 Skipping verification"
+" reduces the security of BOINC. %3"
+msgstr "跳过映像文件验证？%1仅在你的 ISP 会修改映像文件的情况下（比如 UMTS 就会这样）需要选中这个。%2跳过验证会影响 BOINC 的安全性。%3"
 
 #: ../inc/prefs.inc:287
 msgid ""
 "Resource share %1 Determines the proportion of your computer's resources "
-"allocated to this project. Example: if you participate in two BOINC projects "
-"with resource shares of 100 and 200, the first will get 1/3 of your "
+"allocated to this project. Example: if you participate in two BOINC projects"
+" with resource shares of 100 and 200, the first will get 1/3 of your "
 "resources and the second will get 2/3. %2"
-msgstr ""
-"资源分享%1该设置决定你的计算机分配给本项目的资源比例。举例：你参加了两个项目，其资源分享率分别是 100 和 200，则第一个项目将得到 1/3 "
-"的计算资源，第二个项目将得到 2/3。%2"
+msgstr "资源分享%1该设置决定你的计算机分配给本项目的资源比例。举例：你参加了两个项目，其资源分享率分别是 100 和 200，则第一个项目将得到 1/3 的计算资源，第二个项目将得到 2/3。%2"
 
 #: ../inc/prefs.inc:298
 msgid "Accelerate GPU tasks by dedicating a CPU to each one?"
@@ -1163,7 +1149,8 @@ msgstr "运行测试用途的计算程序？%1这可以帮助我们开发计算�
 
 #: ../inc/prefs.inc:367
 msgid ""
-"Emails will be sent from %1; make sure your spam filter accepts this address."
+"Emails will be sent from %1; make sure your spam filter accepts this "
+"address."
 msgstr "电子邮件将从 %1 发送，请确保你的垃圾邮件过滤器不会过滤这个地址。"
 
 #: ../inc/prefs.inc:374
@@ -1193,8 +1180,8 @@ msgstr "这些参数设置对你参加的所有 BOINC 项目均有效。"
 
 #: ../inc/prefs.inc:395
 msgid ""
-"%1Unable to update preferences.%2 The values marked in red below were out of "
-"range or not numeric."
+"%1Unable to update preferences.%2 The values marked in red below were out of"
+" range or not numeric."
 msgstr "%1无法更新参数设置。%2下面标红的为超出范围的或类型错误的数值。"
 
 #: ../inc/prefs.inc:445
@@ -1878,8 +1865,8 @@ msgstr "本操作需要团队创建人的权限"
 
 #: ../inc/team.inc:422
 msgid ""
-"WARNING: this is a BOINC-wide team. If you make changes here, they will soon "
-"be overwritten. Edit the %1BOINC-wide team%2 instead."
+"WARNING: this is a BOINC-wide team. If you make changes here, they will soon"
+" be overwritten. Edit the %1BOINC-wide team%2 instead."
 msgstr "警告：这是一个 BOINC 自动创建的团队，你在此处做出的修改将很快被覆盖掉，请直接在 %1这里%2 进行编辑。"
 
 #: ../inc/team.inc:428
@@ -2044,7 +2031,6 @@ msgstr "用户 ID"
 msgid "Used in community functions"
 msgstr "在社区功能中使用"
 
-# 91%
 #: ../inc/user.inc:216 ../user/weak_auth.php:25
 msgid "Account keys"
 msgstr "帐户密钥"
@@ -2218,7 +2204,8 @@ msgid "sec"
 msgstr "秒"
 
 #: ../inc/util.inc:444
-msgid "Link has timed out. Please click Back, refresh the page, and try again."
+msgid ""
+"Link has timed out. Please click Back, refresh the page, and try again."
 msgstr "链接已经超时，请点击返回并刷新页面后再重试。"
 
 #: ../inc/util.inc:513
@@ -2292,9 +2279,7 @@ msgid ""
 "work for one or more of these applications will be assigned to your "
 "computer. The current version of the application will be downloaded to your "
 "computer. This happens automatically; you don't have to do anything."
-msgstr ""
-"%1 目前有如下几个计算程序。当你参与 %1 "
-"项目时，适用于这些计算程序的任务包将会分发给你的计算机。当前版本的计算程序也会下载到你的计算机上。这一切都是自动的，你不需要做任何操作。"
+msgstr "%1 目前有如下几个计算程序。当你参与 %1 项目时，适用于这些计算程序的任务包将会分发给你的计算机。当前版本的计算程序也会下载到你的计算机上。这一切都是自动的，你不需要做任何操作。"
 
 #: ../user/apps.php:50
 msgid "Platform"
@@ -2318,10 +2303,7 @@ msgid ""
 "It's similar to HTML, but simpler. The tags start with a [ (where you would\n"
 "have used %1 in HTML) and end with ] (where you would have used %2 in\n"
 "HTML)."
-msgstr ""
-"BBCode 标记可以用来对个人档案和留言板帖子内的文本进行格式化。\n"
-"它和 HTML 类似，但更为简单。这些标记一般以 [ 开头\n"
-"（如果在 HTML 中一般是 %1）并且以 ] 结尾（HTML 中则是 %2）。"
+msgstr "BBCode 标记可以用来对个人档案和留言板帖子内的文本进行格式化。\n它和 HTML 类似，但更为简单。这些标记一般以 [ 开头\n（如果在 HTML 中一般是 %1）并且以 ] 结尾（HTML 中则是 %2）。"
 
 #: ../user/bbcode.php:31
 msgid "Examples"
@@ -2411,9 +2393,7 @@ msgstr "用于链接到 BOINC 网站上的 SVN 修改集"
 msgid ""
 "If you don't close a tag or don't specify a parameter correctly,\n"
 "the raw tag itself will display instead of the formatted text."
-msgstr ""
-"如果你没有正确的闭合标签或者指定参数，\n"
-"标签自身将被显示出来，而不是预格式的文本。"
+msgstr "如果你没有正确的闭合标签或者指定参数，\n标签自身将被显示出来，而不是预格式的文本。"
 
 #: ../user/bs_sample_index.php:44
 msgid "Participants"
@@ -2511,7 +2491,8 @@ msgstr "你提供的邀请码是错误的。"
 
 #: ../user/create_account_action.php:84
 msgid ""
-"Invalid email address: you must enter a valid address of the form name@domain"
+"Invalid email address: you must enter a valid address of the form "
+"name@domain"
 msgstr "电子邮件地址错误：你必须输入一个合法的地址，形式如 '用户名@域名'"
 
 #: ../user/create_account_action.php:88
@@ -2538,8 +2519,7 @@ msgstr "无法创建帐户"
 msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
-msgstr ""
-"注意：如果你有 BOINC Manager，可以不使用这个表单。直接在 BOINC Manager 中选择添加项目并且输入电子邮箱地址和项目口令。"
+msgstr "注意：如果你有 BOINC Manager，可以不使用这个表单。直接在 BOINC Manager 中选择添加项目并且输入电子邮箱地址和项目口令。"
 
 #: ../user/create_account_form.php:61
 msgid ""
@@ -2593,8 +2573,8 @@ msgstr "%1你的用户档案图片将显示在左边"
 
 #: ../user/create_profile.php:66
 msgid ""
-"To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
-"or less)."
+"To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1"
+" or less)."
 msgstr "要替换的话，点击“浏览”按钮并选择一个 JPEG 或 PNG 文件（大小不超过 %1）。"
 
 #: ../user/create_profile.php:69
@@ -2684,8 +2664,8 @@ msgstr "创建一个用户档案"
 
 #: ../user/create_profile.php:343
 msgid ""
-"To prevent spam, an average credit of %1 or greater is required to create or "
-"edit a profile.  We apologize for this inconvenience."
+"To prevent spam, an average credit of %1 or greater is required to create or"
+" edit a profile.  We apologize for this inconvenience."
 msgstr "为防止垃圾信息，如果要创建或编译用户档案，近期平均积分不能小于 %1，由此带来的不方便之处我们深感抱歉。"
 
 #: ../user/delete_account.php:57
@@ -2711,18 +2691,13 @@ msgid ""
 "including your profile and message-board posts.\n"
 "No jobs will be issued to any computers attached\n"
 "to this account."
-msgstr ""
-"删除账户操作将从服务器上移除你所有的个人信息，\n"
-"包括你的个人档案和留言板中的发帖。\n"
-"该账户名下的计算机也将不再下载新的计算任务。"
+msgstr "删除账户操作将从服务器上移除你所有的个人信息，\n包括你的个人档案和留言板中的发帖。\n该账户名下的计算机也将不再下载新的计算任务。"
 
 #: ../user/delete_account.php:73
 msgid ""
 "This cannot be undone.\n"
 "Once your account has been deleted, you cannot get it back."
-msgstr ""
-"该操作无法撤销。\n"
-"一旦账户被删除，你将无法再取回。"
+msgstr "该操作无法撤销。\n一旦账户被删除，你将无法再取回。"
 
 #: ../user/delete_account.php:76
 msgid "Are you sure you want to delete your account?"
@@ -2774,17 +2749,13 @@ msgid ""
 "Deleted profiles are gone forever and cannot be recovered --\n"
 "you will have to start from scratch\n"
 "if you want another profile in the future."
-msgstr ""
-"删除的个人档案将永远无法恢复 --\n"
-"如果你以后想要重新使用个人档案，必须从头开始创建。"
+msgstr "删除的个人档案将永远无法恢复 --\n如果你以后想要重新使用个人档案，必须从头开始创建。"
 
 #: ../user/delete_profile.php:48
 msgid ""
 "If you're sure, click 'Yes'\n"
 "to remove your profile from our database."
-msgstr ""
-"如果你确定的话，请点击“是”\n"
-"来从我们的数据库中删除你的个人档案。"
+msgstr "如果你确定的话，请点击“是”\n来从我们的数据库中删除你的个人档案。"
 
 #: ../user/delete_profile.php:52
 msgid "Delete my profile"
@@ -2808,7 +2779,8 @@ msgstr "你的捐赠已经完成。"
 
 #: ../user/donated.php:30
 msgid ""
-"Your donation will be added to the progress bar after confirmation by PayPal."
+"Your donation will be added to the progress bar after confirmation by "
+"PayPal."
 msgstr "你的捐赠将在我们收到 PayPal 的确认之后再添加到进度条中。"
 
 #: ../user/donated.php:32
@@ -2827,9 +2799,7 @@ msgstr "%1 捐赠"
 msgid ""
 "This project is accepting donations via\n"
 "%1."
-msgstr ""
-"该项目接受的捐赠方式\n"
-"%1。"
+msgstr "该项目接受的捐赠方式\n%1。"
 
 #: ../user/donations.php:42
 msgid ""
@@ -2844,16 +2814,7 @@ msgid ""
 "        to see the donation amount equivalent in different currencies\n"
 "        (please note that the rates are only estimates\n"
 "         and the actual amount may differ)."
-msgstr ""
-"请在下方的表单中填入你所要捐赠的金额。\n"
-"        PayPal 当前接受多种货币\n"
-"        （加元，欧元，英镑，美元，\n"
-"        日元，澳元，新西兰元，\n"
-"        瑞士法郎，港币，新加坡元，瑞典克朗，\n"
-"        丹麦克朗，波兰兹罗提，挪威克朗，\n"
-"        匈牙利福林，捷克克朗）。\n"
-"        你可以使用汇率转换器来查看不同币种的等值金额\n"
-"        （请注意汇率为估计值，实际汇率可能会稍有不同）"
+msgstr "请在下方的表单中填入你所要捐赠的金额。\n        PayPal 当前接受多种货币\n        （加元，欧元，英镑，美元，\n        日元，澳元，新西兰元，\n        瑞士法郎，港币，新加坡元，瑞典克朗，\n        丹麦克朗，波兰兹罗提，挪威克朗，\n        匈牙利福林，捷克克朗）。\n        你可以使用汇率转换器来查看不同币种的等值金额\n        （请注意汇率为估计值，实际汇率可能会稍有不同）"
 
 #: ../user/donations.php:316
 msgid "Amount you would like to donate"
@@ -2871,9 +2832,7 @@ msgstr "匿名捐赠"
 msgid ""
 "Select this if you dont want your name and account number displayed in\n"
 "donator lists.<br>If not checked, you will be recorded as user ID %1"
-msgstr ""
-"如果你不希望将你的名称和计算账户编号显示在捐赠者列表中，请选中此项。\n"
-"如果不选中的话，你将被记录为“用户 ID %1”"
+msgstr "如果你不希望将你的名称和计算账户编号显示在捐赠者列表中，请选中此项。\n如果不选中的话，你将被记录为“用户 ID %1”"
 
 #: ../user/donations.php:324
 msgid "To assign the donation with your user ID, please log in."
@@ -2903,13 +2862,9 @@ msgstr "这些应用程序未经过 %1 的仔细检查，若准备使用请自�
 #: ../user/download_network.php:33
 msgid ""
 "We do not provide instructions for installing these applications.\n"
-"However, the author may have provided some help on installing or "
-"uninstalling the application. \n"
+"However, the author may have provided some help on installing or uninstalling the application. \n"
 "If this is not enough you should contact the author."
-msgstr ""
-"我们不能提供这些应用程序的安装及使用文档。\n"
-"但应用程序的作者可能提供了安装及卸载相关的帮助文档。\n"
-"如果还需要进一步的文档，请联系相关作者。"
+msgstr "我们不能提供这些应用程序的安装及使用文档。\n但应用程序的作者可能提供了安装及卸载相关的帮助文档。\n如果还需要进一步的文档，请联系相关作者。"
 
 #: ../user/download_network.php:36
 msgid "Instructions for installing and running BOINC are %1here%2."
@@ -3063,10 +3018,7 @@ msgid ""
 "Check out %1various free services%2\n"
 "<br> providing dynamic 'signature images'\n"
 "<br> showing your latest credit info, project news, etc."
-msgstr ""
-"查看 %1所有的免费服务%2\n"
-"<br> 提供动态签名图片\n"
-"<br> 显示你最新的积分信息，项目新闻等。"
+msgstr "查看 %1所有的免费服务%2\n<br> 提供动态签名图片\n<br> 显示你最新的积分信息，项目新闻等。"
 
 #: ../user/edit_forum_preferences_form.php:104
 msgid "characters remaining"
@@ -3337,8 +3289,8 @@ msgstr "该任务已分发给一台计算机，但未在指定的期限内收到
 
 #: ../user/explain_state.php:72
 msgid ""
-"The task wasn't sent to a computer because enough other tasks were completed "
-"for this workunit."
+"The task wasn't sent to a computer because enough other tasks were completed"
+" for this workunit."
 msgstr "该任务未分发到计算机，因为所属的任务包已经完成了足够数量的计算任务。"
 
 #: ../user/explain_state.php:75
@@ -3353,8 +3305,8 @@ msgstr "客户端状态"
 
 #: ../user/explain_state.php:81
 msgid ""
-"A result's <b>client state</b> indicates the stage of processing at which an "
-"error occurred."
+"A result's <b>client state</b> indicates the stage of processing at which an"
+" error occurred."
 msgstr "计算结果的<b>客户端状态</b>表示计算任务在计算机上的处理阶段，比如发生错误的时候。"
 
 #: ../user/explain_state.php:86
@@ -3449,8 +3401,8 @@ msgstr "感谢你向好友们介绍了 %1"
 
 #: ../user/ffmail_action.php:94
 msgid ""
-"You forgot to enter your friends' names and/or email addresses; Please %"
-"1return to the form%2 and enter them."
+"You forgot to enter your friends' names and/or email addresses; Please "
+"%1return to the form%2 and enter them."
 msgstr "你没有输入好友的名称和/或电子邮箱地址，请%1回退到表单页面%2并重新输入。"
 
 #: ../user/ffmail_form.php:30
@@ -3524,8 +3476,8 @@ msgstr "你确定要封禁 %1 吗？<br />该操作将在选定的时间期限�
 
 #: ../user/forum_banishment_vote.php:61
 msgid ""
-"Select the reason category, optionally write a longer description of why the "
-"user should be banished."
+"Select the reason category, optionally write a longer description of why the"
+" user should be banished."
 msgstr "选择原因分类，可以附上为什么要封禁该用户的原因。"
 
 #: ../user/forum_banishment_vote.php:62 ../user/forum_moderate_thread.php:50
@@ -3692,8 +3644,8 @@ msgstr "问题和解答"
 
 #: ../user/forum_help_desk.php:30
 msgid ""
-"Talk live via Skype with a volunteer, in any of several languages. Go to %"
-"1BOINC Online Help%2."
+"Talk live via Skype with a volunteer, in any of several languages. Go to "
+"%1BOINC Online Help%2."
 msgstr "通过 Skype 和志愿者在线交流，支持多种语言，请访问 %1BOINC 在线帮助%2。"
 
 #: ../user/forum_help_desk.php:44 ../user/forum_index.php:92
@@ -3953,7 +3905,6 @@ msgstr "你需要更高的平均积分或总积分才能举报一个帖子。"
 msgid "Report Registered"
 msgstr "举报已记录"
 
-# 92%
 #: ../user/forum_report_post.php:66
 msgid "Your report has been recorded. Thanks for your input."
 msgstr "举报已被记录，感谢你的参与。"
@@ -3970,8 +3921,8 @@ msgstr "举报论坛帖子"
 
 #: ../user/forum_report_post.php:73
 msgid ""
-"Before reporting this post, consider using the +/- rating system instead. If "
-"enough users rate a post negatively it will eventually be hidden.<br />You "
+"Before reporting this post, consider using the +/- rating system instead. If"
+" enough users rate a post negatively it will eventually be hidden.<br />You "
 "can find the rating system at the bottom of the post."
 msgstr "在举报之前，可以考虑使用 +/- 评分系统。如果足够多的用户给一篇帖子负面评价，该帖子将自动隐藏。<br />你可以在帖子下方找到评分系统。"
 
@@ -3981,8 +3932,7 @@ msgstr "举报帖子"
 
 #: ../user/forum_report_post.php:81
 msgid ""
-"Why do you find the post offensive: %1Please include enough information so "
-"that a person that\n"
+"Why do you find the post offensive: %1Please include enough information so that a person that\n"
 "has not yet read the thread will quickly be able to identify the issue.%2"
 msgstr "为什么你认为这篇帖子是令人不快的：%1请包含足够的说明以便没有阅读过整个主题的人也能快速的判明问题。%2"
 
@@ -3996,7 +3946,8 @@ msgstr "你的举报未被记录，请等待片刻后重试。"
 
 #: ../user/forum_report_post.php:92
 msgid ""
-"If this is not a temporary error, please report it to the project developers."
+"If this is not a temporary error, please report it to the project "
+"developers."
 msgstr "如果该故障无法自动恢复，请向项目开发人员报告。"
 
 #: ../user/forum_rss.php:41
@@ -4142,8 +4093,8 @@ msgstr "退订成功"
 
 #: ../user/forum_subscribe.php:64
 msgid ""
-"You are no longer subscribed to %1. You will no longer receive notifications "
-"for this thread."
+"You are no longer subscribed to %1. You will no longer receive notifications"
+" for this thread."
 msgstr "你已经退订了主题 %1，你将不会再收到该主题的通知。"
 
 #: ../user/forum_subscribe.php:66
@@ -4305,8 +4256,8 @@ msgstr "添加好友"
 
 #: ../user/friend.php:74
 msgid ""
-"You have asked to add %1 as a friend. We will notify %1 and will ask him/her "
-"to confirm that you are friends."
+"You have asked to add %1 as a friend. We will notify %1 and will ask him/her"
+" to confirm that you are friends."
 msgstr "你已经要求将 %1 加为好友，我们将通知 %1 并请他/她来确认你们的关系。"
 
 #: ../user/friend.php:77
@@ -4411,7 +4362,8 @@ msgstr "忘记了你的账户信息？"
 
 #: ../user/get_passwd.php:28
 msgid ""
-"1) If you know your account's email address, and you can receive email there:"
+"1) If you know your account's email address, and you can receive email "
+"there:"
 msgstr "1) 如果你知道你账户关联的电子邮箱地址，你可以在那里收到电子邮件："
 
 #: ../user/get_passwd.php:29
@@ -4447,7 +4399,8 @@ msgid "Open the file in a text editor like Notepad. You'll see something like"
 msgstr "用记事本等文本编辑器打开该文件，你将看到类似的如下内容："
 
 #: ../user/get_passwd.php:62
-msgid "Select and Copy the string between %1 and %2 (%3 in the above example)."
+msgid ""
+"Select and Copy the string between %1 and %2 (%3 in the above example)."
 msgstr "选中并复制 %1 和 %2 之间的内容（上述例子中就应该是 %3）。"
 
 #: ../user/get_passwd.php:64
@@ -4539,8 +4492,7 @@ msgid ""
 "You can not delete our record of this computer because our database still "
 "contains work for it. You must wait a few days until the work for this "
 "computer has been deleted from the project database."
-msgstr ""
-"你当前不能删除该计算机的记录，因为我们数据库中仍有和其相关的计算任务记录。你需要等到所有指定给该计算机的任务记录都从项目数据库中删除，一般可能需要几天。"
+msgstr "你当前不能删除该计算机的记录，因为我们数据库中仍有和其相关的计算任务记录。你需要等到所有指定给该计算机的任务记录都从项目数据库中删除，一般可能需要几天。"
 
 #: ../user/host_delete.php:40
 msgid "Delete record of computer"
@@ -4564,8 +4516,8 @@ msgstr "合并计算机"
 
 #: ../user/host_edit_form.php:38
 msgid ""
-"Sometimes BOINC assigns separate identities to the same computer by mistake. "
-"You can correct this by merging old identities with the newest one."
+"Sometimes BOINC assigns separate identities to the same computer by mistake."
+" You can correct this by merging old identities with the newest one."
 msgstr "有时候，BOINC 会给同一台计算机赋予多个唯一标识，你可以通过将旧标识和新标识合并以纠正该问题。"
 
 #: ../user/host_edit_form.php:56
@@ -4678,8 +4630,8 @@ msgstr "预格式"
 
 #: ../user/html.php:33
 msgid ""
-"image; height cannot exceed 450 pixels. Please do not link to images without "
-"permission of the web site where the image is hosted."
+"image; height cannot exceed 450 pixels. Please do not link to images without"
+" permission of the web site where the image is hosted."
 msgstr "图片，高度不能超出 450 像素，请不要在未经允许的情况下引用其它网站上的图片。"
 
 #: ../user/html.php:35
@@ -4720,13 +4672,11 @@ msgstr "隐私政策"
 
 #: ../user/info.php:43
 msgid ""
-"Your account on %1 is identified by a name that you choose. This name may be "
-"shown on the %1 web site, along with a summary of the work your computer has "
-"done for %1. If you want to be anonymous, choose a name that doesn't reveal "
-"your identity."
-msgstr ""
-"%1 通过你选择的用户名来标识你的帐户。该用户名以及你为 %1 完成的计算任务的摘要将显示在 %1 "
-"的网站上。如果你想要匿名，那请选择一个不会泄漏你身份的用户名。"
+"Your account on %1 is identified by a name that you choose. This name may be"
+" shown on the %1 web site, along with a summary of the work your computer "
+"has done for %1. If you want to be anonymous, choose a name that doesn't "
+"reveal your identity."
+msgstr "%1 通过你选择的用户名来标识你的帐户。该用户名以及你为 %1 完成的计算任务的摘要将显示在 %1 的网站上。如果你想要匿名，那请选择一个不会泄漏你身份的用户名。"
 
 #: ../user/info.php:44
 msgid ""
@@ -4735,18 +4685,14 @@ msgid ""
 "decide what type of work to assign to your computer. This information will "
 "also be shown on %1's web site. Nothing that reveals your computer's "
 "location (e.g. its domain name or network address) will be shown."
-msgstr ""
-"如果你参加了 %1，那你的计算机中的相关信息比如处理器的型号、内存的大小等会被 %1 记录下来，以用来决定什么样的计算任务最适合你的计算机。 "
-"这些信息也会显示在 %1 的网站上，但是请不要担心，我们绝对不会泄漏出你的计算机的位置比如域名、网络地址等。"
+msgstr "如果你参加了 %1，那你的计算机中的相关信息比如处理器的型号、内存的大小等会被 %1 记录下来，以用来决定什么样的计算任务最适合你的计算机。 这些信息也会显示在 %1 的网站上，但是请不要担心，我们绝对不会泄漏出你的计算机的位置比如域名、网络地址等。"
 
 #: ../user/info.php:45
 msgid ""
-"To participate in %1, you must give an address where you receive email. This "
-"address will not be shown on the %1 web site or shared with organizations. %"
-"1 may send you periodic newsletters; however, you can opt out at any time."
-msgstr ""
-"为了参加 %1，你必须提供一个能够接收邮件的电子邮件地址。这个地址不会被显示在 %1 的网站上。%1 可能会定期向你发送项目的新闻快讯； "
-"当然，你随时可以选择退订。"
+"To participate in %1, you must give an address where you receive email. This"
+" address will not be shown on the %1 web site or shared with organizations. "
+"%1 may send you periodic newsletters; however, you can opt out at any time."
+msgstr "为了参加 %1，你必须提供一个能够接收邮件的电子邮件地址。这个地址不会被显示在 %1 的网站上。%1 可能会定期向你发送项目的新闻快讯； 当然，你随时可以选择退订。"
 
 #: ../user/info.php:46
 msgid ""
@@ -4755,19 +4701,15 @@ msgid ""
 "If you receive unwanted private messages from another %1 user, you may add "
 "them to your %2message filter%3.  This will prevent you from seeing any "
 "public or private messages from that user."
-msgstr ""
-"在 %1 网站上发送的私人消息只对发送者和接收者可见。%1 不会检查或审查消息的内容。如果你从 %1 "
-"的用户那收到不希望收到的私人消息，你可以把他们加入到你的 %2消息过滤器%3。这样就可以避免你收到来自那位用户的任何公共或私人消息。"
+msgstr "在 %1 网站上发送的私人消息只对发送者和接收者可见。%1 不会检查或审查消息的内容。如果你从 %1 的用户那收到不希望收到的私人消息，你可以把他们加入到你的 %2消息过滤器%3。这样就可以避免你收到来自那位用户的任何公共或私人消息。"
 
 #: ../user/info.php:47
 msgid ""
 "If you use our web site forums you must follow the %2posting guidelines%3.  "
 "Messages posted to the %1 forums are visible to everyone, including non-"
-"members.  By posting to the forums, you are granting irrevocable license for "
-"anyone to view and copy your posts."
-msgstr ""
-"如果你要使用我们的网站论坛，你必须遵守 %2发贴注意事项%3。发送到 %1 "
-"论坛的帖子对所有人都是可见的，即便不是我们网站的用户也能看到。你的发帖同时表明你允许所有人查看和复制你的帖子。"
+"members.  By posting to the forums, you are granting irrevocable license for"
+" anyone to view and copy your posts."
+msgstr "如果你要使用我们的网站论坛，你必须遵守 %2发贴注意事项%3。发送到 %1 论坛的帖子对所有人都是可见的，即便不是我们网站的用户也能看到。你的发帖同时表明你允许所有人查看和复制你的帖子。"
 
 #: ../user/info.php:48
 msgid "Is it safe to run %1?"
@@ -4777,21 +4719,18 @@ msgstr "运行 %1 安全吗？"
 msgid ""
 "Any time you download a program through the Internet you are taking a "
 "chance: the program might have dangerous errors, or the download server "
-"might have been hacked. %1 has made efforts to minimize these risks. We have "
-"tested our applications carefully. Our servers are behind a firewall and are "
-"configured for high security. To ensure the integrity of program downloads, "
-"all executable files are digitally signed on a secure computer not connected "
-"to the Internet."
-msgstr ""
-"只要你从互联网下载程序就有可能碰到有危险错误的程序或者下载服务器已被黑客攻击的情况。%1 已经尽力最小化这方面的风险。我们已经仔细测试了我们的程序。我们"
-"的服务器处于防火墙之后，并且设置了最高的安全级别。为了保证程序下载的正确性，全部的可执行文件会被放置在一台未联网的安全的计算机中进行数字签名。"
+"might have been hacked. %1 has made efforts to minimize these risks. We have"
+" tested our applications carefully. Our servers are behind a firewall and "
+"are configured for high security. To ensure the integrity of program "
+"downloads, all executable files are digitally signed on a secure computer "
+"not connected to the Internet."
+msgstr "只要你从互联网下载程序就有可能碰到有危险错误的程序或者下载服务器已被黑客攻击的情况。%1 已经尽力最小化这方面的风险。我们已经仔细测试了我们的程序。我们的服务器处于防火墙之后，并且设置了最高的安全级别。为了保证程序下载的正确性，全部的可执行文件会被放置在一台未联网的安全的计算机中进行数字签名。"
 
 #: ../user/info.php:50
 msgid ""
 "The applications run by %1 may cause some computers to overheat. If this "
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
-msgstr ""
-"%1 的计算程序可能会导致某些计算机温度过高。如果你碰到了这种情形，请停止运行 %1 或者使用 %2某些工具软件%3 来限制计算程序对处理器的使用。"
+msgstr "%1 的计算程序可能会导致某些计算机温度过高。如果你碰到了这种情形，请停止运行 %1 或者使用 %2某些工具软件%3 来限制计算程序对处理器的使用。"
 
 #: ../user/info.php:51
 msgid ""
@@ -4805,8 +4744,8 @@ msgstr "免责申明"
 #: ../user/info.php:54
 msgid ""
 "%1 and %2 assume no liability for damage to your computer, loss of data, or "
-"any other event or condition that may occur as a result of participating in %"
-"1."
+"any other event or condition that may occur as a result of participating in "
+"%1."
 msgstr "%1 和 %2 对于你的计算机损坏、数据丢失或其他任意由于参与 %1 所可能造成的事件没有赔偿责任。"
 
 #: ../user/info.php:56
@@ -4815,12 +4754,10 @@ msgstr "其它 BOINC 项目"
 
 #: ../user/info.php:57
 msgid ""
-"Other projects use the same platform, BOINC, as %1. You may want to consider "
-"participating in one or more of these projects. By doing so, your computer "
+"Other projects use the same platform, BOINC, as %1. You may want to consider"
+" participating in one or more of these projects. By doing so, your computer "
 "will do useful work even when %1 has no work available for it."
-msgstr ""
-"除了 %1，还有其它一些项目也使用BOINC平台。你也许会考虑同时参加多个项目，这样当你无法从 %1 "
-"获取计算任务时，你的计算机仍可以处理其它项目的计算任务。"
+msgstr "除了 %1，还有其它一些项目也使用BOINC平台。你也许会考虑同时参加多个项目，这样当你无法从 %1 获取计算任务时，你的计算机仍可以处理其它项目的计算任务。"
 
 #: ../user/info.php:58
 msgid ""
@@ -4870,8 +4807,8 @@ msgstr "使用浏览器的语言设置"
 
 #: ../user/language_select.php:113
 msgid ""
-"Translations are done by volunteers.  If your native language is not here, %"
-"1you can provide a translation%2."
+"Translations are done by volunteers.  If your native language is not here, "
+"%1you can provide a translation%2."
 msgstr "翻译工作都是由志愿者完成的，如果这里没有你的母语，%1你可以自己进行翻译%2。"
 
 #: ../user/login_form.php:45
@@ -4918,12 +4855,7 @@ msgid ""
 "        having that name with the newest computer having that name.\n"
 "        Incompatible computers will not be merged.\n"
 "        <p>"
-msgstr ""
-"该操作基于名称来合并计算机。\n"
-"        <p>\n"
-"        对于每个名称，它会将所有老的计算机合并到最新的计算机上。\n"
-"        软硬件配置不兼容的计算机将不会被合并。\n"
-"        <p>"
+msgstr "该操作基于名称来合并计算机。\n        <p>\n        对于每个名称，它会将所有老的计算机合并到最新的计算机上。\n        软硬件配置不兼容的计算机将不会被合并。\n        <p>"
 
 #: ../user/merge_by_name.php:82
 msgid "Go ahead and do this"
@@ -4939,11 +4871,7 @@ msgid ""
 "To maximize discussion and flow of information,\n"
 "our message boards are moderated.\n"
 "Message board postings are subject to the following posting rules:\n"
-msgstr ""
-"\n"
-"为了让大家的讨论和交流能有效进行，\n"
-"我们为留言板设立了管理协调机制。\n"
-"所有留言板的发帖都必须遵循如下的规则：\n"
+msgstr "\n为了让大家的讨论和交流能有效进行，\n我们为留言板设立了管理协调机制。\n所有留言板的发帖都必须遵循如下的规则：\n"
 
 #: ../user/moderation.php:30
 msgid ""
@@ -4952,8 +4880,7 @@ msgid ""
 "Moderators may delete posts that violate any of these rules.\n"
 "The authors of deleted posts will be notified via email.\n"
 "Gross offenders may have their ability to post messages temporarily revoked\n"
-"(though to prevent abuse only project administrators have the ability to do "
-"so).\n"
+"(though to prevent abuse only project administrators have the ability to do so).\n"
 "Additional kinds of bad behavior (\"bugging\" posts to trap the\n"
 "IP addresses of other participants, excessive thread creation to spam\n"
 "the forums, etc.), while not listed in the formal rules, may still\n"
@@ -4982,24 +4909,7 @@ msgid ""
 "This moderation policy is set by the %1 project.\n"
 "If you have comments about the policy, email %2.\n"
 "\n"
-msgstr ""
-"\n"
-"<p>\n"
-"管理员可能会删除违规的帖子，被删帖的用户将得到电子邮件通知。\n"
-"严重的违规者可能会被临时封禁发帖权限（为防止该操作被滥用，只有项目主管有相关的权限）。\n"
-"其它未列在上述规则中的恶意行为（比如恶意收集其他用户的 IP 地址、或者在论坛中大量发表垃圾内容等）也可能面临类似的处罚。\n"
-"<p>\n"
-"如果你碰到违规的帖子，请点击帖子内的红色小叉并进行相应的说明；管理员将收到通知并进行处理。\n"
-"该功能请务必仅用于处理违规帖子，而不要用于处理个人争端。\n"
-"<p>\n"
-"我们在操作的时候将尽可能地保证公平，但对于如此大的一个网络社区，包含了各种不同的观点，可能仍然会有人对我们的管理决定不满意。\n"
-"对此我们十分抱歉，但请大家多多谅解，我们不可能在所有时候让所有人满意，我们只能根据我们了解的信息、并且从论坛的整体利益出发来作出决定。\n"
-"请不要在论坛讨论我们的管理策略，我们不是在进行一个社会工程项目，也没有试图创建一个完美而公平的系统。\n"
-"因此这样的讨论并不会起到什么积极的作用，而且是潜在有害的。\n"
-"当然，如果你一些合理的想法，请发送电子邮件到下面的地址。\n"
-"<p>\n"
-"本管理规定由 %1 项目设立，如果你有想法要交流，请发送电子邮件到 %2。\n"
-"\n"
+msgstr "\n<p>\n管理员可能会删除违规的帖子，被删帖的用户将得到电子邮件通知。\n严重的违规者可能会被临时封禁发帖权限（为防止该操作被滥用，只有项目主管有相关的权限）。\n其它未列在上述规则中的恶意行为（比如恶意收集其他用户的 IP 地址、或者在论坛中大量发表垃圾内容等）也可能面临类似的处罚。\n<p>\n如果你碰到违规的帖子，请点击帖子内的红色小叉并进行相应的说明；管理员将收到通知并进行处理。\n该功能请务必仅用于处理违规帖子，而不要用于处理个人争端。\n<p>\n我们在操作的时候将尽可能地保证公平，但对于如此大的一个网络社区，包含了各种不同的观点，可能仍然会有人对我们的管理决定不满意。\n对此我们十分抱歉，但请大家多多谅解，我们不可能在所有时候让所有人满意，我们只能根据我们了解的信息、并且从论坛的整体利益出发来作出决定。\n请不要在论坛讨论我们的管理策略，我们不是在进行一个社会工程项目，也没有试图创建一个完美而公平的系统。\n因此这样的讨论并不会起到什么积极的作用，而且是潜在有害的。\n当然，如果你一些合理的想法，请发送电子邮件到下面的地址。\n<p>\n本管理规定由 %1 项目设立，如果你有想法要交流，请发送电子邮件到 %2。\n\n"
 
 #: ../user/pending.php:66
 msgid "Pending credit"
@@ -5082,9 +4992,7 @@ msgid ""
 "Your message was flagged as spam\n"
 "                by the Akismet anti-spam system.\n"
 "                Please modify your text and try again."
-msgstr ""
-"你的消息已被 Akismet 防垃圾信息系统\n"
-"标记为垃圾信息，请修改你输入的内容并重试。"
+msgstr "你的消息已被 Akismet 防垃圾信息系统\n标记为垃圾信息，请修改你输入的内容并重试。"
 
 #: ../user/pm.php:205
 msgid "Could not find user with id %1"
@@ -5155,20 +5063,14 @@ msgid ""
 "Your preferences have been updated, and\n"
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
-msgstr ""
-"你的参数设置已经更新\n"
-"\t      将在你的计算机与%1进行通讯的时候生效\n"
-"\t      或者你也可以直接执行 BOINC 客户端里的%2更新%3命令。"
+msgstr "你的参数设置已经更新\n\t      将在你的计算机与%1进行通讯的时候生效\n\t      或者你也可以直接执行 BOINC 客户端里的%2更新%3命令。"
 
 #: ../user/prefs.php:41
 msgid ""
 "Your preferences have been reset to the defaults, and\n"
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
-msgstr ""
-"你的偏好设置已经复位为缺省值\n"
-"这将在您的计算机与%1通信时生效\n"
-"或者你可以直接使用BOINC客户端的%2更新%3命令。"
+msgstr "你的偏好设置已经复位为缺省值\n这将在您的计算机与%1通信时生效\n或者你可以直接使用BOINC客户端的%2更新%3命令。"
 
 #: ../user/prefs_edit.php:65 ../user/prefs_edit.php:93
 msgid "%1 for %2"
@@ -5476,14 +5378,14 @@ msgstr "%1 的统计信息"
 
 #: ../user/stats.php:37
 msgid ""
-"More detailed statistics for %1 and other BOINC-based projects are available "
-"at several web sites:"
+"More detailed statistics for %1 and other BOINC-based projects are available"
+" at several web sites:"
 msgstr "下列几个网站可以查询到关于 %1 和其它 BOINC 项目的更详细的统计信息："
 
 #: ../user/stats.php:40
 msgid ""
-"You can also get your current statistics in the form of a \"signature image"
-"\":"
+"You can also get your current statistics in the form of a \"signature "
+"image\":"
 msgstr "你还可以通过“签名图片”的形式得到你当前的统计信息："
 
 #: ../user/stats.php:43
@@ -5572,8 +5474,8 @@ msgstr "查看团队的成员加入退出历史"
 
 #: ../user/team_admins.php:45
 msgid ""
-"Moderate the team forum, if any (admins get email notification of moderation "
-"events and red X reports)"
+"Moderate the team forum, if any (admins get email notification of moderation"
+" events and red X reports)"
 msgstr "管理团队论坛（团队管理员会得到管理事件和报告的电子邮件通知）"
 
 #: ../user/team_admins.php:47
@@ -5680,13 +5582,9 @@ msgstr "拒绝请求"
 
 #: ../user/team_change_founder_form.php:58
 msgid ""
-"If you don't decline the request by %1, %2 will have the option of assuming "
-"team foundership.<br /><br />\n"
-"                  To accept the request, assign foundership to %3 using the "
-"form below."
-msgstr ""
-"如果你不拒绝 %1 的请求，%2 将可以得到团队创建人的资格。<br /><br />\n"
-"                  如果要接受请求，并将创建人资格授予 %3，请使用下面的表单。"
+"If you don't decline the request by %1, %2 will have the option of assuming team foundership.<br /><br />\n"
+"                  To accept the request, assign foundership to %3 using the form below."
+msgstr "如果你不拒绝 %1 的请求，%2 将可以得到团队创建人的资格。<br /><br />\n                  如果要接受请求，并将创建人资格授予 %3，请使用下面的表单。"
 
 #: ../user/team_change_founder_form.php:66
 msgid "No transfer request is pending."
@@ -5864,7 +5762,8 @@ msgstr "留言板已被移除"
 
 #: ../user/team_forum.php:124
 msgid ""
-"Your team's message board has been removed. You may now %1create a new one%2."
+"Your team's message board has been removed. You may now %1create a new "
+"one%2."
 msgstr "你的团队留言板已被移除，你现在可以%1创建一个新的留言板%2。"
 
 #: ../user/team_forum.php:143
@@ -5893,13 +5792,9 @@ msgstr "正在请求 %1 的创建人资格"
 
 #: ../user/team_founder_transfer_action.php:98
 msgid ""
-"The current founder has been notified of your request by email and private "
-"message.<br /><br />\n"
-"                       If the founder does not respond within 60 days you "
-"will be allowed to become the founder."
-msgstr ""
-"你的请求已经通过电子邮件和私人消息通知到了当前的创建人。<br /><br />\n"
-"                       如果该创建人在 60 天没有回应，你就可以成为创建人了。"
+"The current founder has been notified of your request by email and private message.<br /><br />\n"
+"                       If the founder does not respond within 60 days you will be allowed to become the founder."
+msgstr "你的请求已经通过电子邮件和私人消息通知到了当前的创建人。<br /><br />\n                       如果该创建人在 60 天没有回应，你就可以成为创建人了。"
 
 #: ../user/team_founder_transfer_action.php:102
 #: ../user/team_founder_transfer_action.php:113
@@ -5971,16 +5866,9 @@ msgstr "你的请求已经通知到了创建人，如果他/她到 %1 都没有�
 
 #: ../user/team_founder_transfer_form.php:60
 msgid ""
-"If the team founder is not active and you want to assume the role of "
-"founder, click the button below. The current founder will be sent an email "
-"detailing your request, and will be able to transfer foundership to you or "
-"to decline your request. If the founder does not respond in 60 days, you "
-"will be allowed to become the founder.<br /><br />\n"
+"If the team founder is not active and you want to assume the role of founder, click the button below. The current founder will be sent an email detailing your request, and will be able to transfer foundership to you or to decline your request. If the founder does not respond in 60 days, you will be allowed to become the founder.<br /><br />\n"
 "                       Are you sure you want to request foundership?"
-msgstr ""
-"如果你将得到团队创建人的资格（因为当前的创建人不活跃等原因），请点击下面的按钮。你的请求将通过电子邮件通知到当前的创建人，他/她可以将创建人资格转移给你"
-"或者拒绝你的请求。如果他/她在 60 天内都没有回应，你就可以得到创建人的资格。<br /><br />\n"
-"                      你确定想要请求创建人资格吗？"
+msgstr "如果你将得到团队创建人的资格（因为当前的创建人不活跃等原因），请点击下面的按钮。你的请求将通过电子邮件通知到当前的创建人，他/她可以将创建人资格转移给你或者拒绝你的请求。如果他/她在 60 天内都没有回应，你就可以得到创建人的资格。<br /><br />\n                      你确定想要请求创建人资格吗？"
 
 #: ../user/team_founder_transfer_form.php:65
 msgid "Request foundership"
@@ -6059,8 +5947,8 @@ msgstr "超过 100 个的团队符合你的搜索条件，现在只显示了前 
 
 #: ../user/team_lookup.php:104
 msgid ""
-"End of results. %1 If you cannot find the team you are looking for, you may %"
-"2create a team%3 yourself."
+"End of results. %1 If you cannot find the team you are looking for, you may "
+"%2create a team%3 yourself."
 msgstr "上面是所有的搜索结果。%1如果没找到合适的团队，你也可以自己%2创建一个团队%3。"
 
 #: ../user/team_manage.php:26
@@ -6141,8 +6029,8 @@ msgstr "创建或管理团队留言板"
 
 #: ../user/team_manage.php:71
 msgid ""
-"To have this team created on all BOINC projects (current and future) you can "
-"make it into a %1BOINC-wide team%2."
+"To have this team created on all BOINC projects (current and future) you can"
+" make it into a %1BOINC-wide team%2."
 msgstr "如果想在所有的 BOINC 项目（当前在运行的和以后可能会有的）中都创建这个团队，你可以将它转变为一个%1BOINC-wide 团队%2。"
 
 #: ../user/team_manage.php:73
@@ -6153,8 +6041,8 @@ msgstr "建议所有团队管理员都加入和参加到 Google 的 %1boinc-team
 
 #: ../user/team_manage.php:75
 msgid ""
-"Other resources for BOINC team admins are available from a third-party site, "
-"%1www.boincteams.com%2."
+"Other resources for BOINC team admins are available from a third-party site,"
+" %1www.boincteams.com%2."
 msgstr "BOINC 团队管理员还可以从一个第三方网站得到其它相关资源：%1www.boincteams.com%2。"
 
 #: ../user/team_manage.php:91
@@ -6189,17 +6077,10 @@ msgstr "退出 %1"
 msgid ""
 "<strong>Please note before quitting a team:</strong>\n"
 "         <ul>\n"
-"         <li>If you quit a team, you may rejoin later, or join any other "
-"team you desire\n"
-"         <li>Quitting a team does not affect your personal credit statistics "
-"in any way.\n"
+"         <li>If you quit a team, you may rejoin later, or join any other team you desire\n"
+"         <li>Quitting a team does not affect your personal credit statistics in any way.\n"
 "         </ul>"
-msgstr ""
-"<strong>退出团队前请注意：</strong>\n"
-"         <ul>\n"
-"         <li>如果你退出一个团队，你还可以重新加入，或者也可以加入其它团队。\n"
-"         <li>退出团队无论如何都不会影响你的个人积分。\n"
-"         </ul>"
+msgstr "<strong>退出团队前请注意：</strong>\n         <ul>\n         <li>如果你退出一个团队，你还可以重新加入，或者也可以加入其它团队。\n         <li>退出团队无论如何都不会影响你的个人积分。\n         </ul>"
 
 #: ../user/team_quit_form.php:40
 msgid "Quit Team"
@@ -6258,10 +6139,7 @@ msgid ""
 "The following teams match one or more of your search criteria.\n"
 "            To join a team, click its name to go to the team page,\n"
 "               then click %1Join this team%2."
-msgstr ""
-"下面的团队符合一个或多个你的查询条件。\n"
-"            要加入一个团队，点击名称后即可进入团队页面，\n"
-"               然后点击%1加入该团队%2即可。"
+msgstr "下面的团队符合一个或多个你的查询条件。\n            要加入一个团队，点击名称后即可进入团队页面，\n               然后点击%1加入该团队%2即可。"
 
 #: ../user/team_search.php:107
 msgid "Change your search"
@@ -6444,14 +6322,10 @@ msgstr "帐户数据"
 
 #: ../user/weak_auth.php:52
 msgid ""
-"You can access your account either by using your email address and "
-"password,\n"
+"You can access your account either by using your email address and password,\n"
 "    or by using an assigned 'account key'.\n"
 "    Your account key is:"
-msgstr ""
-"你可以使用你的电子邮箱地址和口令来访问你的账户，\n"
-"    或者也可以使用一个分配好的“账户密钥”。\n"
-"    你的账户密钥是："
+msgstr "你可以使用你的电子邮箱地址和口令来访问你的账户，\n    或者也可以使用一个分配好的“账户密钥”。\n    你的账户密钥是："
 
 #: ../user/weak_auth.php:57
 msgid "This key can be used to:"
@@ -6467,11 +6341,7 @@ msgid ""
 "       To do so, install BOINC,\n"
 "       create a file named %1 in the BOINC\n"
 "       data directory, and set its contents to:"
-msgstr ""
-"在不借助 BOINC Manager 的情况下添加一台计算机到你的账户，方法如下。\n"
-"       先安装 BOINC，\n"
-"       然后在 BOINC 的数据目录下创建名称为 %1 的文件，\n"
-"       然后设置文件的内容为："
+msgstr "在不借助 BOINC Manager 的情况下添加一台计算机到你的账户，方法如下。\n       先安装 BOINC，\n       然后在 BOINC 的数据目录下创建名称为 %1 的文件，\n       然后设置文件的内容为："
 
 #: ../user/weak_auth.php:73
 msgid "Weak account key"
@@ -6480,17 +6350,11 @@ msgstr "弱帐户密钥"
 #: ../user/weak_auth.php:74
 msgid ""
 "Your 'weak account key' can be used to attach computers to your account\n"
-"    as described above, but cannot be used to log in to your account or "
-"change it in any way.\n"
+"    as described above, but cannot be used to log in to your account or change it in any way.\n"
 "    If you want to attach untrusted or insecure computers to your account,\n"
 "    do so using your weak account key.\n"
 "    Your weak account key is:"
-msgstr ""
-"你的“弱账户密钥”能用来为你的账户添加计算机\n"
-"    但不能被用于登录你在项目网站上的账户或修改该账户。\n"
-"    如果你想为你的账户添加不被信任的或不安全的计算机，\n"
-"    你就应该使用弱账户密钥。\n"
-"    你的弱账户密钥是："
+msgstr "你的“弱账户密钥”能用来为你的账户添加计算机\n    但不能被用于登录你在项目网站上的账户或修改该账户。\n    如果你想为你的账户添加不被信任的或不安全的计算机，\n    你就应该使用弱账户密钥。\n    你的弱账户密钥是："
 
 #: ../user/weak_auth.php:81
 msgid ""
@@ -6575,12 +6439,7 @@ msgid ""
 "    <li>What are your views about the project?\n"
 "    <li>Any suggestions?\n"
 "    </ol>"
-msgstr ""
-"告诉我们你对 %1 的走法<ol>\n"
-"    <li>你为什么运行 %1？\n"
-"    <li>你对这个项目的观点是什么？\n"
-"    <li>有什么建议吗？\n"
-"    </ol>"
+msgstr "告诉我们你对 %1 的走法<ol>\n    <li>你为什么运行 %1？\n    <li>你对这个项目的观点是什么？\n    <li>有什么建议吗？\n    </ol>"
 
 #: ../project.sample/project_specific_prefs.inc:47
 msgid "Color scheme for graphics"
@@ -6603,301 +6462,3 @@ msgstr "如果选中的计算程序暂时没有计算任务，是否从其它计
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "（所有计算程序）"
-
-#~ msgid "Error:"
-#~ msgstr "错误："
-
-#~ msgid "Account creation is disabled"
-#~ msgstr "账号创建功能已被禁用"
-
-#~ msgid ""
-#~ "Sorry, this project has disabled the creation of new accounts.\n"
-#~ "Please try again later."
-#~ msgstr ""
-#~ "对不起，该项目当前已经禁止创建新账户。\n"
-#~ "请稍后重试。"
-
-#~ msgid "Account creation is currently disabled. Please try again later."
-#~ msgstr "新帐户创建功能当前已暂停，请以后再试。"
-
-#~ msgid "nvidia GPU"
-#~ msgstr "NVIDIA GPU"
-
-#~ msgid ""
-#~ "This project hasn\\'t created an email message - please notify its "
-#~ "administrators"
-#~ msgstr "该项目尚未创建过电子邮件消息，请联系项目管理员"
-
-#, fuzzy
-#~ msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
-#~ msgstr "使用 ATI GPU%16.10 之后的版本实现了该设置%2"
-
-#~ msgid ""
-#~ "These apply to all BOINC projects in which you participate.<br>\n"
-#~ "             On computers participating in multiple projects, the most "
-#~ "recently modified preferences will be used."
-#~ msgstr ""
-#~ "此处的参数设置对你参加的所有 BOINC 项目均有效。<br>\n"
-#~ "             如果一台计算机参加了多个项目，以最近修改过的参数设置为准。"
-
-#~ msgid "Export this news item as a Notice"
-#~ msgstr "将该新闻条目导出为通知"
-
-#~ msgid ""
-#~ "Go to the BOINC data directory on your computer (on Windows this is usually "
-#~ "<b>C:\\Documents and Settings\\All Users\\Application Data\\BOINC</b> or "
-#~ "<b>C:\\Program Files\\BOINC</b>."
-#~ msgstr ""
-#~ "访问你计算机上的 BOINC 数据目录（Windows 系统上一般是 <b>C:\\Documents and Settings\\All "
-#~ "Users\\Application Data\\BOINC</b> 或者 <b>C:\\Program Files\\BOINC</b>）。"
-
-#~ msgid "No such task"
-#~ msgstr "没有这个任务"
-
-#~ msgid ""
-#~ "Computer is connected to the Internet about every %1 Leave blank or 0 if "
-#~ "always connected. %2 BOINC will try to maintain at least this much work "
-#~ "(max 10 days). %3"
-#~ msgstr ""
-#~ "计算机连接互联网的时间间隔%1留空或 0 即表示一直在线。%2 BOINC 将根据该设定"
-#~ "值决定在本地缓存多少计算任务（最多十天）。%3"
-
-#~ msgid "Maintain enough work for an additional"
-#~ msgstr "维护足够的任务缓存"
-
-#~ msgid "Update failed: "
-#~ msgstr "更新失败："
-
-#~ msgid "Provides %1limited access%2 to your account"
-#~ msgstr "仅可以%1部分访问%2你的帐户"
-
-#~ msgid ""
-#~ "Don't use this form. Just run BOINC, select Add Project, and enter an "
-#~ "email address and password."
-#~ msgstr ""
-#~ "请不要使用这个表单。在 BOINC Manager 内选择“加入项目”，然后输入电子邮件地"
-#~ "址并设置一个用户口令就可以了。"
-
-#~ msgid "Do not reorder sticky posts"
-#~ msgstr "不要对置顶的帖子进行重新排序"
-
-#~ msgid "If a thread contains more than this number of posts"
-#~ msgstr "如果主题中包含的帖子数量超过了"
-
-#~ msgid "only display the first one and this many of the last ones"
-#~ msgstr "只显示第一篇和最近的多少篇"
-
-#~ msgid "Your report has been recorded. Thanks you for your input."
-#~ msgstr "举报已经被记录下来，感谢你的参与。"
-
-#~ msgid "Search type"
-#~ msgstr "搜索类型"
-
-#~ msgid "User names starting with"
-#~ msgstr "用户名称以什么开头"
-
-#~ msgid ""
-#~ "Your 'weak account key' lets you link a computer to your account without "
-#~ "giving it the ability to log in to your account or to change it in any "
-#~ "way."
-#~ msgstr ""
-#~ "'弱帐户密钥'仅用于在客户端加入项目，而不能用来登录并修改你在项目网站上的帐"
-#~ "户。"
-
-#~ msgid ""
-#~ "This mechanism works only with projects that have upgraded their server "
-#~ "software 7 Dec 2007 or later."
-#~ msgstr "该机制只对于那些已更新至2007年12月7日版本服务端软件的项目才有效。"
-
-#~ msgid "Your weak account key for this project is:"
-#~ msgstr "你在本项目的弱帐户密钥为："
-
-#~ msgid ""
-#~ "To use your weak account key on a given host, find or create the 'account "
-#~ "file' for this project. This file has a name of the form "
-#~ "<b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
-#~ msgstr ""
-#~ "要在指定的主机上使用你的弱帐户密钥，得先找到或创建相应项目的'帐户文件'，该"
-#~ "文件的名称类似于 <b>account_项目网址.xml</b>。%1 的帐户文件为 <b>%2</b>。"
-
-#~ msgid "Create this file if needed. Set its contents to:"
-#~ msgstr "根据需要创建该文件，并将其内容设置为："
-
-#~ msgid ""
-#~ "Your weak account key is a function of your password. If you change your "
-#~ "password, your weak account key changes, and your previous weak account "
-#~ "key becomes invalid."
-#~ msgstr ""
-#~ "弱帐户密钥是根据你的帐户用户口令计算而来。如果你修改了你的帐户用户口令，你"
-#~ "的弱帐户密钥也随之改变，你之前的弱帐户密钥将失效。"
-
-#~ msgid "Account key"
-#~ msgstr "帐户密钥"
-
-#~ msgid "Provides full access to your account"
-#~ msgstr "可用于完全访问你的帐户"
-
-#~ msgid "Export"
-#~ msgstr "导出"
-
-#~ msgid "- private message"
-#~ msgstr "- 私人消息"
-
-#~ msgid "Private message from"
-#~ msgstr "私人消息，来自"
-
-#~ msgid "Email address verification pending"
-#~ msgstr "电子邮件地址验证中"
-
-#~ msgid "Logged in as %1."
-#~ msgstr "已登录为 %1。"
-
-#~ msgid "Log in as someone else."
-#~ msgstr "用其他用户来登录。"
-
-#~ msgid "No thread with id %1. Please check the link and try again."
-#~ msgstr "ID 为 %1 的主题不存在，请检查网址是否正确并重试。"
-
-#~ msgid "Request not found"
-#~ msgstr "无法找到请求"
-
-#~ msgid "%1 has added you as a friend."
-#~ msgstr "%1 想要加你为好友。"
-
-#~ msgid "Account data for %1"
-#~ msgstr "%1 的帐户数据"
-
-#~ msgid "couldn't create message board"
-#~ msgstr "无法创建留言板"
-
-#~ msgid "message board not found"
-#~ msgstr "没找到留言板"
-
-#~ msgid "no such forum"
-#~ msgstr "没有匹配的论坛"
-
-#~ msgid "unknown command %1"
-#~ msgstr "未知命令 %1"
-
-#~ msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
-#~ msgstr "错误：%1不存在！不能创建组合框。<br>"
-
-#~ msgid ""
-#~ "To protect the project's webpages from spam, we kindly ask you to type in "
-#~ "the two words shown in the image:<br>\n"
-#~ msgstr ""
-#~ "为保护我们网站不被垃圾信息破坏，我们请求你输入下面图片中的两个单词：<br>\n"
-
-#~ msgid "BOINC client version"
-#~ msgstr "BOINC 客户端版本"
-
-#~ msgid "Client detached"
-#~ msgstr "客户端已退出项目"
-
-#~ msgid "Maximum daily WU quota per CPU"
-#~ msgstr "每 CPU 单日最大任务限额"
-
-#~ msgid "%1/day"
-#~ msgstr "%1/天"
-
-#~ msgid "Anonymous platform - CPU"
-#~ msgstr "匿名平台 - CPU"
-
-#~ msgid "Anonymous platform - NVIDIA GPU"
-#~ msgstr "匿名平台 - NVIDIA CPU"
-
-#~ msgid "Anonymous platform - ATI GPU"
-#~ msgstr "匿名平台 - ATI GPU"
-
-#~ msgid "Task ID"
-#~ msgstr "任务 ID"
-
-#~ msgid "Granted credit"
-#~ msgstr "授予积分"
-
-#~ msgid "Click to"
-#~ msgstr "点击以"
-
-#~ msgid "Do work only between the hours of"
-#~ msgstr "仅在指定的时间段进行计算"
-
-#~ msgid "(no restriction if equal)"
-#~ msgstr "（如果相同则表示不限制）"
-
-#~ msgid "Use at most"
-#~ msgstr "最多使用"
-
-#~ msgid "percent of CPU time"
-#~ msgstr "CPU 时间的百分比"
-
-#~ msgid "Leave at least"
-#~ msgstr "至少保留"
-
-#~ msgid "(Values smaller than %s are ignored)"
-#~ msgstr "（小于 %s 的设定值将被忽略）"
-
-#~ msgid "% of total disk space"
-#~ msgstr "总磁盘空间的百分比"
-
-#~ msgid "% of page file (swap space)"
-#~ msgstr "页面文件（交换空间）的百分比"
-
-#~ msgid "% of memory when computer is in use"
-#~ msgstr "内存的百分比（计算机在使用时）"
-
-#~ msgid "% of memory when computer is not in use"
-#~ msgstr "内存的百分比（计算机未在使用时）"
-
-#~ msgid "Use ATI GPU if present %1(enforced by 6.10+ clients)%2"
-#~ msgstr "使用计算机上的 ATI GPU 进行计算%1（6.10 之后的版本实现了该设置）%2"
-
-#~ msgid "Use NVIDIA GPU if present %1(enforced by 6.10+ clients)%2"
-#~ msgstr ""
-#~ "使用计算机上的 NVIDIA GPU 进行计算%1（6.10 之后的版本实现了该设置）%2"
-
-#~ msgid "Use CPU %1(enforced by 6.10+ clients)%2"
-#~ msgstr "使用计算机上的 CPU 进行计算%1（6.10 之后的版本实现了该设置）%2"
-
-#~ msgid "KB/s"
-#~ msgstr "千字节/秒"
-
-#~ msgid "GB disk space"
-#~ msgstr "GB 磁盘空间"
-
-#~ msgid "GB disk space free"
-#~ msgstr "GB 空闲磁盘空间"
-
-#~ msgid "(no restriction)"
-#~ msgstr "（不限制）"
-
-#~ msgid "%1 GB disk space"
-#~ msgstr "%1 GB 磁盘空间"
-
-#~ msgid "%1 GB disk space free"
-#~ msgstr "%1 GB 空闲磁盘空间"
-
-#~ msgid ""
-#~ "Resource share %1If you participate in multiple BOINC projects, this is "
-#~ "the proportion of your resources used by %2%3"
-#~ msgstr "资源分享%1如果你参加了多个 BOINC 项目，这是 %2%3 可以使用的资源比例"
-
-#~ msgid "Gbytes"
-#~ msgstr "GB"
-
-#~ msgid "Gbytes free"
-#~ msgstr "GB 空闲"
-
-#~ msgid "Resource share"
-#~ msgstr "资源分享"
-
-#~ msgid "stderr out"
-#~ msgstr "标准错误输出"
-
-#~ msgid "This thread has been hidden for administrative purposes"
-#~ msgstr "该主题出于管理目的已被隐藏"
-
-#~ msgid "<p>"
-#~ msgstr "<p>"
-
-#~ msgid "preferences"
-#~ msgstr "参数设置"
