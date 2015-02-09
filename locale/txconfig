@@ -35,4 +35,5 @@ type = PO
 file_filter = android/BOINC/res/values-<lang>/strings.xml
 source_file = android/BOINC/res/values/strings.xml
 source_lang = en_US
+lang_map = it_IT: it_rIT, pt_BR: pt_rBR, pt_PT: pt_rPT, ru_RU: ru_rRU, sv_SE: sv_rSE, zh_CN: zh_rCN, zh_TW: zh_rTW
 type = ANDROID
