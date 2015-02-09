@@ -1,31 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 7.0.x\n"
+"Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2014-02-23 05:36+0000\n"
-"Last-Translator: Gang <zenith.yin@gmail.com>\n"
-"Language-Team: Team China <zenith.yin@gmail.com>\n"
-"Language: zh_CN\n"
+"PO-Revision-Date: 2015-02-09 01:44+0000\n"
+"Last-Translator: Rom Walton <romw@romwnet.org>\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/projects/p/boinc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.5.0\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-SearchPath-1: clientgui/msw\n"
-"X-Poedit-SearchPath-2: clientgui/gtk\n"
-"X-Poedit-SearchPath-3: clientgui/mac\n"
-"X-Poedit-SearchPath-0: clientgui\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1393133792.0\n"
 
-# 81%
 #: AccountInfoPage.cpp:387
 #, c-format
 msgid "Identify your account at %s"
@@ -35,17 +26,13 @@ msgstr "确认你在 %s 的帐户"
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
-msgstr ""
-"请输入您的帐户信息\n"
-"( 要创建帐户，请访问项目网站 )"
+msgstr "请输入您的帐户信息\n( 要创建帐户，请访问项目网站 )"
 
 #: AccountInfoPage.cpp:397
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can add it only if you already have an account."
-msgstr ""
-"该项目目前不支持新建帐户。\n"
-"您只能用现有的帐户在客户端加入该项目。"
+msgstr "该项目目前不支持新建帐户。\n您只能用现有的帐户在客户端加入该项目。"
 
 #: AccountInfoPage.cpp:401
 msgid "Are you already running this project?"
@@ -67,11 +54,7 @@ msgid ""
 "Please click on the 'Find login information' link\n"
 "below to find out what to put in the email address and\n"
 "password fields."
-msgstr ""
-"我们无法自动建立您的帐户信息。\n"
-"\n"
-"请点击下方的“寻找登录信息”超链接以查明\n"
-"应该在电子邮件地址和密码栏中填写什么内容。"
+msgstr "我们无法自动建立您的帐户信息。\n\n请点击下方的“寻找登录信息”超链接以查明\n应该在电子邮件地址和密码栏中填写什么内容。"
 
 #: AccountInfoPage.cpp:416
 msgid "Find login information"
@@ -116,10 +99,7 @@ msgid ""
 "If you have not yet registered with this account manager,\n"
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
-msgstr ""
-"如果您还没有注册过这个帐户管理器，\n"
-"请在继续之前先注册。点击下方的超链接\n"
-"就可以进行注册或取回您已忘记的密码。"
+msgstr "如果您还没有注册过这个帐户管理器，\n请在继续之前先注册。点击下方的超链接\n就可以进行注册或取回您已忘记的密码。"
 
 #: AccountInfoPage.cpp:532
 msgid "Account manager web site"
@@ -432,13 +412,13 @@ msgstr "进行网络通讯"
 msgid "Do all pending network communication"
 msgstr "执行所有等待中的网络通讯请求"
 
-# 94%
 #: AdvancedFrame.cpp:589
 msgid "Read config files"
 msgstr "读取配置文件"
 
 #: AdvancedFrame.cpp:590
-msgid "Read configuration info from cc_config.xml and any app_config.xml files"
+msgid ""
+"Read configuration info from cc_config.xml and any app_config.xml files"
 msgstr "从 cc_config.xml 和 app_config.xml 中读取配置信息"
 
 #: AdvancedFrame.cpp:594
@@ -489,7 +469,6 @@ msgstr "查看 %s 的信息"
 
 #: AdvancedFrame.cpp:661 sg_BoincSimpleFrame.cpp:224
 #, c-format
-#, c-format, c-format
 msgid "%s &web site"
 msgstr "%s 网站(&W)"
 
@@ -545,12 +524,7 @@ msgid ""
 "but you'll have to manage projects manually.\n"
 "\n"
 "Do you want to stop using %s?"
-msgstr ""
-"如果您退出 %s，\n"
-"您当前所有的计算项目将会保留，\n"
-"但您将必须手动对它们进行管理。\n"
-"\n"
-"您确定要退出 %s 吗？"
+msgstr "如果您退出 %s，\n您当前所有的计算项目将会保留，\n但您将必须手动对它们进行管理。\n\n您确定要退出 %s 吗？"
 
 #: AdvancedFrame.cpp:1401
 #, c-format
@@ -562,9 +536,7 @@ msgstr "%s - 关闭当前连接的客户端..."
 msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
-msgstr ""
-"%s 将要关闭当前连接的客户端，\n"
-"然后会提示您输入想要连接的客户端。"
+msgstr "%s 将要关闭当前连接的客户端，\n然后会提示您输入想要连接的客户端。"
 
 #: AdvancedFrame.cpp:1745 DlgAbout.cpp:119
 #, c-format
@@ -601,10 +573,7 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr ""
-"已有一个帐户使用了该用户名并且其密码与您输入的不同。\n"
-"\n"
-"请访问项目网站并按照上面的说明进行操作。"
+msgstr "已有一个帐户使用了该用户名并且其密码与您输入的不同。\n\n请访问项目网站并按照上面的说明进行操作。"
 
 #: AlreadyExistsPage.cpp:191
 msgid "Email address already in use"
@@ -616,10 +585,7 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr ""
-"已有一个帐户使用了该电子邮件地址并且其密码与您输入的不同。\n"
-"\n"
-"请访问项目网站并按照上面的说明进行操作。"
+msgstr "已有一个帐户使用了该电子邮件地址并且其密码与您输入的不同。\n\n请访问项目网站并按照上面的说明进行操作。"
 
 #: AsyncRPC.cpp:1031
 msgid "Communicating with BOINC client.  Please wait ..."
@@ -652,19 +618,14 @@ msgstr "%s - 连接错误"
 #: BOINCBaseFrame.cpp:514
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_users' local user "
-"group."
-msgstr ""
-"您当前未被授权管理本客户端。\n"
-"请联系系统管理员将您添加到名称为 boinc_users 的本地用户组。"
+"Please contact your administrator to add you to the 'boinc_users' local user group."
+msgstr "您当前未被授权管理本客户端。\n请联系系统管理员将您添加到名称为 boinc_users 的本地用户组。"
 
 #: BOINCBaseFrame.cpp:523
 msgid ""
 "Authorization failed connecting to running client.\n"
 "Make sure you start this program in the same directory as the client."
-msgstr ""
-"连接运行中的客户端时发生验证错误。\n"
-"请务必在该客户端所在的文件目录中运行本程序。"
+msgstr "连接运行中的客户端时发生验证错误。\n请务必在该客户端所在的文件目录中运行本程序。"
 
 #: BOINCBaseFrame.cpp:525
 msgid "Authorization failed connecting to running client."
@@ -684,9 +645,7 @@ msgstr "%s - 连接失败"
 msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
-msgstr ""
-"%s 无法连接至 %s 客户端。\n"
-"您想再连接一次吗？"
+msgstr "%s 无法连接至 %s 客户端。\n您想再连接一次吗？"
 
 #: BOINCBaseFrame.cpp:622
 #, c-format
@@ -697,20 +656,15 @@ msgstr "%s - 客户端服务程序启动失败"
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
-"Please launch the Control Panel->Administative Tools->Services applet and "
-"start the BOINC service."
-msgstr ""
-"%s 无法启动 %s 客户端的服务程序。\n"
-"请依次运行 控制面板->管理工具->服务，并从中启动 BOINC 服务。"
+"Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
+msgstr "%s 无法启动 %s 客户端的服务程序。\n请依次运行 控制面板->管理工具->服务，并从中启动 BOINC 服务。"
 
 #: BOINCBaseFrame.cpp:638
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please start the daemon and try again."
-msgstr ""
-"%s 无法启动 %s 客户端的服务程序。\n"
-"请手工启动服务程序后再重试。"
+msgstr "%s 无法启动 %s 客户端的服务程序。\n请手工启动服务程序后再重试。"
 
 #: BOINCBaseFrame.cpp:689
 #, c-format
@@ -721,13 +675,9 @@ msgstr "%s - 连接状态"
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
-"Please use the 'Advanced\\Select Computer...' menu option to connect up to a "
-"%s client.\n"
+"Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
-msgstr ""
-"%s 当前未连接至任何 %s 客户端。\n"
-"请使用菜单中的'高级\\选择计算机...'以连接至一个 %s 客户端。\n"
-"如果要连接至您的本地计算机，请在主机名称中填入'localhost'。"
+msgstr "%s 当前未连接至任何 %s 客户端。\n请使用菜单中的'高级\\选择计算机...'以连接至一个 %s 客户端。\n如果要连接至您的本地计算机，请在主机名称中填入'localhost'。"
 
 #: BOINCBaseView.cpp:779
 msgid "Project web pages"
@@ -743,9 +693,7 @@ msgstr "%s - 异常退出"
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
-msgstr ""
-"%s 的客户端在最近的 %d 分钟内已经异常退出三次。\n"
-"您希望再次重启该客户端吗？"
+msgstr "%s 的客户端在最近的 %d 分钟内已经异常退出三次。\n您希望再次重启该客户端吗？"
 
 #: BOINCDialupManager.cpp:61
 #, c-format
@@ -757,9 +705,7 @@ msgstr "%s - 网络状态"
 msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
-msgstr ""
-"%s 需要连接至互联网。\n"
-"现在就进行连接吗？"
+msgstr "%s 需要连接至互联网。\n现在就进行连接吗？"
 
 #: BOINCDialupManager.cpp:254
 #, c-format
@@ -781,9 +727,7 @@ msgstr "%s 连接至互联网失败。"
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
-msgstr ""
-"%s 已经检测到与互联网的连接。\n"
-"请更新所有项目并重试所有网络传输。"
+msgstr "%s 已经检测到与互联网的连接。\n请更新所有项目并重试所有网络传输。"
 
 #: BOINCDialupManager.cpp:417
 #, c-format
@@ -806,21 +750,14 @@ msgid ""
 " or\n"
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
-msgstr ""
-"您当前未被授权管理本客户端。\n"
-"\n"
-"要在当前用户下运行 %s，请：\n"
-" - 重新安装 %s，在被问到关于非系统管理员用户的问题时，回答\"是\"\n"
-" - 联系系统管理员将您加入到“boinc_master”用户组。"
+msgstr "您当前未被授权管理本客户端。\n\n要在当前用户下运行 %s，请：\n - 重新安装 %s，在被问到关于非系统管理员用户的问题时，回答\"是\"\n - 联系系统管理员将您加入到“boinc_master”用户组。"
 
 #: BOINCGUIApp.cpp:345
 #, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
-msgstr ""
-"%s 相关的本地用户权限设置有误，请重新安装 %s。\n"
-"( 错误代码 %d )"
+msgstr "%s 相关的本地用户权限设置有误，请重新安装 %s。\n( 错误代码 %d )"
 
 #: BOINCGUIApp.cpp:351
 msgid " at "
@@ -835,9 +772,7 @@ msgstr ")"
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
-msgstr ""
-"BOINC 需要在计算机重新启动后才能正常运行。\n"
-"请您先重启计算机再重试当前的操作。"
+msgstr "BOINC 需要在计算机重新启动后才能正常运行。\n请您先重启计算机再重试当前的操作。"
 
 #: BOINCGUIApp.cpp:385 DlgAbout.cpp:153
 msgid "BOINC Manager"
@@ -997,10 +932,7 @@ msgid ""
 "Please try again later.\n"
 "\n"
 "Click Finish to close."
-msgstr ""
-"请稍后重试。\n"
-"\n"
-"点击完成以关闭。"
+msgstr "请稍后重试。\n\n点击完成以关闭。"
 
 #: CompletionErrorPage.cpp:225 CompletionPage.cpp:222 CompletionPage.cpp:242
 #: CompletionPage.cpp:273
@@ -1069,19 +1001,11 @@ msgstr "wxWidgets 版本："
 msgid "Copyright:"
 msgstr "版权所有："
 
-# 98%
 #: DlgAbout.cpp:192
 msgid ""
 "(C) 2003-2013 University of California, Berkeley.\n"
 "All Rights Reserved."
-msgstr ""
-"(C) 2003-2013 加州大学伯克利分校。\n"
-"保留所有权利。\n"
-"\n"
-"( 中文翻译: 2005-2013 Yin Gang @ Team China )\n"
-"( 中文网站: http://www.equn.com )\n"
-"( 中文论坛: http://www.equn.com/forum )\n"
-"( 新浪微博: @志愿计算 )"
+msgstr "(C) 2003-2013 加州大学伯克利分校。\n保留所有权利。\n\n( 中文翻译: 2005-2013 Yin Gang @ Team China )\n( 中文网站: http://www.equn.com )\n( 中文论坛: http://www.equn.com/forum )\n( 新浪微博: @志愿计算 )"
 
 #: DlgAbout.cpp:196
 msgid "Berkeley Open Infrastructure for Network Computing"
@@ -1149,9 +1073,7 @@ msgstr "“%s”已经在列表内了。"
 msgid ""
 "Do you really want to clear all local preferences?\n"
 "(This will not affect exclusive applications.)"
-msgstr ""
-"你确定想要清除所有本地参数设置吗？\n"
-"（不会对互斥应用程序的设置有影响）"
+msgstr "你确定想要清除所有本地参数设置吗？\n（不会对互斥应用程序的设置有影响）"
 
 #: DlgAdvPreferences.cpp:1078 sg_DlgPreferences.cpp:1030
 msgid "Confirmation"
@@ -1167,10 +1089,7 @@ msgid ""
 "This dialog controls preferences for this computer only.\n"
 "Click OK to set preferences.\n"
 "Click Clear to restore web-based settings (except exclusive apps)."
-msgstr ""
-"本对话框中的参数设置仅用于本计算机。\n"
-"点击“确定”即可保存并应用对话框中的相关设置。\n"
-"点击“清除”即可恢复使用项目网站上的参数设置（不包括关于互斥应用程序的设置）。"
+msgstr "本对话框中的参数设置仅用于本计算机。\n点击“确定”即可保存并应用对话框中的相关设置。\n点击“清除”即可恢复使用项目网站上的参数设置（不包括关于互斥应用程序的设置）。"
 
 #: DlgAdvPreferencesBase.cpp:65 sg_DlgPreferences.cpp:428
 msgid "Clear"
@@ -1427,8 +1346,8 @@ msgstr "接入互联网前先确认"
 
 #: DlgAdvPreferencesBase.cpp:480
 msgid ""
-"if checked, a confirmation dialog will be displayed before trying to connect "
-"to the Internet"
+"if checked, a confirmation dialog will be displayed before trying to connect"
+" to the Internet"
 msgstr "如果选中，在需要连接至互联网时会先显示一个确认对话框"
 
 #: DlgAdvPreferencesBase.cpp:484
@@ -1585,13 +1504,15 @@ msgstr "复制选中的(&S)"
 #: DlgEventLog.cpp:308 DlgEventLog.cpp:316 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
-"messages by holding down the shift or command key while clicking on messages."
+"messages by holding down the shift or command key while clicking on "
+"messages."
 msgstr "复制选中的消息至剪贴板。您可以在选择的时候通过按住Shift键或Commandl键来选取多条消息。"
 
 #: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
-"messages by holding down the shift or control key while clicking on messages."
+"messages by holding down the shift or control key while clicking on "
+"messages."
 msgstr "复制选中的消息至剪贴板。您可以在选择的时候通过按住Shift键或Ctrl键来选取多条消息。"
 
 #: DlgEventLog.cpp:325 DlgItemProperties.cpp:67
@@ -1629,12 +1550,7 @@ msgid ""
 "\n"
 "If you also want to stop running the tasks,\n"
 "choose from the following options:"
-msgstr ""
-"你刚才请求了退出 %s，\n"
-"它的作用是查看和管理运行在你计算机上的任务。\n"
-"\n"
-"如果你想要停止运行计算任务，\n"
-"请从下列选项中进行选择："
+msgstr "你刚才请求了退出 %s，\n它的作用是查看和管理运行在你计算机上的任务。\n\n如果你想要停止运行计算任务，\n请从下列选项中进行选择："
 
 #: DlgExitMessage.cpp:135
 #, c-format
@@ -1645,12 +1561,7 @@ msgid ""
 "In most cases, it is better just to close the %s window\n"
 "rather than to exit the application; that will allow %s to run its\n"
 "tasks at the times you selected in your preferences."
-msgstr ""
-"本操作将会退出 %s 及其所有任务直到\n"
-"重新运行 %s 或是重新启动 %s 屏保。\n"
-"\n"
-"一般情况下，建议只关闭 %s 的窗口而不是退出应用程序，\n"
-"这样 %s 将会在您设定的时间段内进行工作。"
+msgstr "本操作将会退出 %s 及其所有任务直到\n重新运行 %s 或是重新启动 %s 屏保。\n\n一般情况下，建议只关闭 %s 的窗口而不是退出应用程序，\n这样 %s 将会在您设定的时间段内进行工作。"
 
 #: DlgExitMessage.cpp:153
 #, c-format
@@ -2026,7 +1937,6 @@ msgstr "%s - 语言选择"
 
 #: DlgOptions.cpp:695
 #, c-format
-#, c-format, c-format
 msgid ""
 "The %s's language has been changed.  In order for this change to take "
 "effect, you must restart the %s."
@@ -2252,8 +2162,8 @@ msgstr "应用程序不存在"
 
 #: MainDocument.cpp:1817
 msgid ""
-"Please download and install the CoRD application from http://cord."
-"sourceforge.net"
+"Please download and install the CoRD application from "
+"http://cord.sourceforge.net"
 msgstr "请从 http://cord.sourceforge.net 下载并安装 CoRD 程序。"
 
 #: MainDocument.cpp:2432
@@ -2340,7 +2250,6 @@ msgstr "任务已被用户暂停"
 msgid "Suspended - "
 msgstr "已暂停 - "
 
-# 75%
 #: MainDocument.cpp:2500
 msgid "GPU suspended - "
 msgstr "GPU 已暂停 - "
@@ -2455,10 +2364,7 @@ msgid ""
 "The URL you supplied is not that of a BOINC-based project.\n"
 "\n"
 "Please check the URL and try again."
-msgstr ""
-"您提供的网址并不属于任何一个 BOINC 项目。\n"
-"\n"
-"请检查该网址并重试。"
+msgstr "您提供的网址并不属于任何一个 BOINC 项目。\n\n请检查该网址并重试。"
 
 #: NotDetectedPage.cpp:188
 msgid "Account manager not found"
@@ -2470,10 +2376,7 @@ msgid ""
 "manager.\n"
 "\n"
 "Please check the URL and try again."
-msgstr ""
-"您提供的网址并不属于任何一个基于 BOINC 的帐户管理器。\n"
-"\n"
-"请检查该网址并重试。"
+msgstr "您提供的网址并不属于任何一个基于 BOINC 的帐户管理器。\n\n请检查该网址并重试。"
 
 #: NotFoundPage.cpp:181
 msgid "Login Failed."
@@ -2561,9 +2464,7 @@ msgstr "服务器上产生了一个内部错误。"
 msgid ""
 "Communicating with project\n"
 "Please wait..."
-msgstr ""
-"正在与项目通讯。\n"
-"请稍候..."
+msgstr "正在与项目通讯。\n请稍候..."
 
 #: ProxyInfoPage.cpp:195
 msgid "Network communication failure"
@@ -2584,16 +2485,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr ""
-"World Community Grid - BOINC 软件无法在互联网上通讯，可能的原因有：\n"
-"\n"
-"1) 连接问题。请检查您的网络或拨号连接并点击上一步以重试。\n"
-"\n"
-"2) 被个人防火墙阻挡，您必须配置您的防火墙以允许 BOINC 在 80 端口和 443 端口的通讯。\n"
-"配置完成后，请点击上一步进行重试。\n"
-"\n"
-"3) 您正在通过代理服务器接入互联网。\n"
-"请点击下一步以对 BOINC 的代理进行设置。"
+msgstr "World Community Grid - BOINC 软件无法在互联网上通讯，可能的原因有：\n\n1) 连接问题。请检查您的网络或拨号连接并点击上一步以重试。\n\n2) 被个人防火墙阻挡，您必须配置您的防火墙以允许 BOINC 在 80 端口和 443 端口的通讯。\n配置完成后，请点击上一步进行重试。\n\n3) 您正在通过代理服务器接入互联网。\n请点击下一步以对 BOINC 的代理进行设置。"
 
 #: ProxyInfoPage.cpp:203
 msgid ""
@@ -2610,16 +2502,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr ""
-"BOINC 无法在互联网上通讯，可能的原因有：\n"
-"\n"
-"1) 连接问题。请检查您的网络或拨号连接并点击上一步以重试。\n"
-"\n"
-"2) 被个人防火墙阻挡，您必须配置您的防火墙以允许 BOINC 在 80 端口的通讯。\n"
-"配置完成后，请点击上一步进行重试。\n"
-"\n"
-"3) 您正在通过代理服务器接入互联网。\n"
-"请点击下一步以对 BOINC 的代理进行设置。"
+msgstr "BOINC 无法在互联网上通讯，可能的原因有：\n\n1) 连接问题。请检查您的网络或拨号连接并点击上一步以重试。\n\n2) 被个人防火墙阻挡，您必须配置您的防火墙以允许 BOINC 在 80 端口的通讯。\n配置完成后，请点击上一步进行重试。\n\n3) 您正在通过代理服务器接入互联网。\n请点击下一步以对 BOINC 的代理进行设置。"
 
 #: ProxyPage.cpp:331
 msgid "Proxy configuration"
@@ -2666,10 +2549,7 @@ msgid ""
 "The project is temporarily unavailable.\n"
 "\n"
 "Please try again later."
-msgstr ""
-"项目已暂停服务。\n"
-"\n"
-"请稍后重试。"
+msgstr "项目已暂停服务。\n\n请稍后重试。"
 
 #: UnavailablePage.cpp:190
 msgid "Account manager temporarily unavailable"
@@ -2680,10 +2560,7 @@ msgid ""
 "The account manager is temporarily unavailable.\n"
 "\n"
 "Please try again later."
-msgstr ""
-"帐户管理器已暂停服务。\n"
-"\n"
-"请稍后重试。"
+msgstr "帐户管理器已暂停服务。\n\n请稍后重试。"
 
 #: ValidateAccountKey.cpp:68
 msgid "Please specify an account key to continue."
@@ -2714,10 +2591,7 @@ msgid ""
 "Please specify a URL.\n"
 "For example:\n"
 "http://www.example.com/"
-msgstr ""
-"请输入一个网址。\n"
-"例如：\n"
-"http://www.example.com/"
+msgstr "请输入一个网址。\n例如：\nhttp://www.example.com/"
 
 #: ValidateURL.cpp:83 ValidateURL.cpp:87 ValidateURL.cpp:91
 #: ValidateURL.cpp:103 ValidateURL.cpp:107 ValidateURL.cpp:110
@@ -2729,10 +2603,7 @@ msgid ""
 "Please specify a valid URL.\n"
 "For example:\n"
 "http://boincproject.example.com"
-msgstr ""
-"请输入一个正确的网址。\n"
-"比如：\n"
-"http://boincproject.example.com/"
+msgstr "请输入一个正确的网址。\n比如：\nhttp://boincproject.example.com/"
 
 #: ValidateURL.cpp:104 ValidateURL.cpp:108
 #, c-format
@@ -2838,8 +2709,8 @@ msgstr "重置项目"
 
 #: ViewProjects.cpp:196 sg_ProjectCommandPopup.cpp:80
 msgid ""
-"Delete all files and tasks associated with this project, and get new tasks.  "
-"You can update the project first to report any completed tasks."
+"Delete all files and tasks associated with this project, and get new tasks."
+"  You can update the project first to report any completed tasks."
 msgstr "删除并重新下载当前项目所有相关文件。您可以先更新当前项目以上传所有已经完成的任务。"
 
 #: ViewProjects.cpp:203 sg_ProjectCommandPopup.cpp:86
@@ -3223,9 +3094,7 @@ msgstr "网络被暂停 - "
 msgid ""
 ".\n"
 "You can enable it using the Activity menu."
-msgstr ""
-"。\n"
-"你可以在“活动”菜单中重新启用它。"
+msgstr "。\n你可以在“活动”菜单中重新启用它。"
 
 #: ViewTransfers.cpp:285
 msgid "BOINC"
@@ -3245,9 +3114,7 @@ msgid ""
 "Are you sure you want to abort this file transfer '%s'?\n"
 "NOTE: Aborting a transfer will invalidate a task and you\n"
 "will not receive credit for it."
-msgstr ""
-"您确信要中断文件'%s'的传输吗？\n"
-"注意：中断传输将标识该任务为无效，您将不能从该任务得到积分。"
+msgstr "您确信要中断文件'%s'的传输吗？\n注意：中断传输将标识该任务为无效，您将不能从该任务得到积分。"
 
 #: ViewTransfers.cpp:349
 msgid "Abort File Transfer"
@@ -3362,9 +3229,7 @@ msgstr "显示指定任务的虚拟机控制台..."
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
-msgstr ""
-"您确定要中止当前任务'%s'吗？\n"
-"( 进度：%s，状态：%s )"
+msgstr "您确定要中止当前任务'%s'吗？\n( 进度：%s，状态：%s )"
 
 #: ViewWork.cpp:485
 #, c-format
@@ -3375,7 +3240,6 @@ msgstr "您确定想要中止这 %d 个任务吗？"
 msgid "Abort task"
 msgstr "中止任务"
 
-# 75%
 #: ViewWork.cpp:499
 msgid "Aborting task..."
 msgstr "中止任务..."
@@ -3412,10 +3276,7 @@ msgid ""
 "\n"
 "Projects added via this wizard will not be\n"
 "listed on or managed via %s."
-msgstr ""
-"如果可能的话，请在 %s 网站添加项目。\n"
-"\n"
-"通过向导增加的项目将不能在 %s 中显示及进行管理。"
+msgstr "如果可能的话，请在 %s 网站添加项目。\n\n通过向导增加的项目将不能在 %s 中显示及进行管理。"
 
 #: WelcomePage.cpp:313
 msgid ""
@@ -3424,38 +3285,22 @@ msgid ""
 "and you can volunteer for as many of them as you like.\n"
 "You can add a project directly,\n"
 "or use an 'Account Manager' web site to select projects."
-msgstr ""
-"目前有超过 30 个基于 BOINC 的项目，其研究内容涉及多个科学领域，\n"
-"你可以根据自己的喜好参加这些项目。\n"
-"你既可以直接加入项目，也可以通过“帐户管理器”网站来选择项目。"
+msgstr "目前有超过 30 个基于 BOINC 的项目，其研究内容涉及多个科学领域，\n你可以根据自己的喜好参加这些项目。\n你既可以直接加入项目，也可以通过“帐户管理器”网站来选择项目。"
 
 #: WelcomePage.cpp:325
 msgid ""
-"You have chosen to add a new volunteer computing project or change which "
-"projects\n"
+"You have chosen to add a new volunteer computing project or change which projects\n"
 "you contribute to.\n"
 "\n"
-"Some of these projects are run and managed by World Community Grid, while "
-"others\n"
-"are run and managed by other researchers or organizations. The BOINC "
-"software\n"
+"Some of these projects are run and managed by World Community Grid, while others\n"
+"are run and managed by other researchers or organizations. The BOINC software\n"
 "can divide your spare processing power among any combination of projects.\n"
 "\n"
-"Alternatively, if you have registered with a BOINC Account Manager, you can "
-"use\n"
+"Alternatively, if you have registered with a BOINC Account Manager, you can use\n"
 "this to choose which projects to support.\n"
 "\n"
 "Please choose which type of change you would like to make:\n"
-msgstr ""
-"你已经选择添加一个新的志愿计算项目或改变你已经参加的项目。\n"
-"\n"
-"这其中的一些项目是由 World Community Grid 来运营和管理的，\n"
-"还有一些是由其它的研究人员或机构运营和管理。\n"
-"BOINC 软件允许你基于各种项目组合来分配计算资源。\n"
-"\n"
-"此外，如果你注册了 BOINC 账户管理器，也可以使用它来选择你要支持的项目。\n"
-"\n"
-"请根据你的需要进行选择：\n"
+msgstr "你已经选择添加一个新的志愿计算项目或改变你已经参加的项目。\n\n这其中的一些项目是由 World Community Grid 来运营和管理的，\n还有一些是由其它的研究人员或机构运营和管理。\nBOINC 软件允许你基于各种项目组合来分配计算资源。\n\n此外，如果你注册了 BOINC 账户管理器，也可以使用它来选择你要支持的项目。\n\n请根据你的需要进行选择：\n"
 
 #: WelcomePage.cpp:339
 msgid "Use a BOINC Account Manager"
@@ -3682,7 +3527,6 @@ msgstr "项目命令"
 
 #: sg_ProjectPanel.cpp:267
 #, c-format
-#, c-format, c-format
 msgid "Pop up a menu of web sites for project %s"
 msgstr "弹出一个 %s 项目的网站菜单"
 
@@ -3704,9 +3548,7 @@ msgstr "放弃这个任务，你将得不到相应的任务积分。"
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %.1lf%%, Status: %s)"
-msgstr ""
-"您确定要中止当前任务'%s'吗？\n"
-"( 进度：%.1lf%%，状态：%s )"
+msgstr "您确定要中止当前任务'%s'吗？\n( 进度：%.1lf%%，状态：%s )"
 
 #: sg_TaskPanel.cpp:464
 msgid "You don't have any projects.  Please Add a Project."
@@ -3858,976 +3700,3 @@ msgstr "显示所有"
 #, c-format
 msgid "Quit %s"
 msgstr "退出 %s"
-
-#~ msgid "I do not agree with the terms of use."
-#~ msgstr "我不同意该使用协议。"
-
-#~ msgid "Click Clear to restore web-based settings."
-#~ msgstr "点击取消将恢复使用项目网站上的参数设置。"
-
-#~ msgid "For additional settings, select Computing Preferences in "
-#~ msgstr "更多的参数设置，请切换至"
-
-#~ msgid "the Advanced View."
-#~ msgstr "高级视图。"
-
-#~ msgid "Workunit name"
-#~ msgstr "任务单元名称"
-
-#~ msgid "invalid float"
-#~ msgstr "非法的浮点数"
-
-#~ msgid "Display the advanced (accessible) graphical interface."
-#~ msgstr "显示高级图形界面。"
-
-#~ msgid "Paused: Other work running"
-#~ msgstr "暂停：其它任务在运行"
-
-#~ msgid "Paused: User initiated.  Click 'Resume' to continue"
-#~ msgstr "已暂停：由用户发起，点击“继续”即可继续"
-
-#~ msgid "Paused: User active"
-#~ msgstr "暂停：用户活跃"
-
-#~ msgid "Paused: Computer on battery"
-#~ msgstr "暂停：电池供电"
-
-#~ msgid "Paused: Time of Day"
-#~ msgstr "暂停：非计算时段"
-
-#~ msgid "Paused: Benchmarks running"
-#~ msgstr "暂停：正在进行基准测试"
-
-#~ msgid "Paused"
-#~ msgstr "暂停"
-
-#~ msgid "Paused: Application start delayed"
-#~ msgstr "暂停：计算程序延迟启动"
-
-#~ msgid "Click to show project graphics"
-#~ msgstr "点击即可显示项目图形"
-
-#~ msgid "Open a window to view messages"
-#~ msgstr "打开一个窗口来查看消息"
-
-#~ msgid "Stop all activity"
-#~ msgstr "暂停所有活动"
-
-#~ msgid "Resume activity"
-#~ msgstr "继续所有活动"
-
-#~ msgid "Open a window to set your preferences"
-#~ msgstr "打开一个窗口进行本地参数设置"
-
-#~ msgid "Switch to the BOINC advanced view"
-#~ msgstr "切换到 BOINC 的高级视图"
-
-#~ msgid "My Projects:"
-#~ msgstr "我的项目："
-
-#, c-format
-#~ msgid "%s. Work done by %s: %0.2f"
-#~ msgstr "%s。%s 已经完成的任务：%0.2f"
-
-#, c-format
-#~ msgid "%.1lf"
-#~ msgstr "%.1lf"
-
-#, c-format
-#~ msgid "%d hr %d min %d sec"
-#~ msgstr "%d时%d分%d秒"
-
-#~ msgid "Are you sure you want to display graphics on a remote machine?"
-#~ msgstr "您确定要在远程计算机上显示图形吗？"
-
-#~ msgid "Application: "
-#~ msgstr "计算程序："
-
-#~ msgid "Time Remaining: "
-#~ msgstr "剩余时间："
-
-#~ msgid "Elapsed Time: "
-#~ msgstr "已用时间："
-
-#~ msgid "Account manager website"
-#~ msgstr "帐户管理器网站"
-
-#~ msgid "Account Manager &URL:"
-#~ msgstr "帐户管理器的网址(&U)："
-
-#, c-format
-#~ msgid "%s &website"
-#~ msgstr "%s 网站(&W)"
-
-#~ msgid "Notice List"
-#~ msgstr "通知列表"
-
-#, c-format
-#~ msgid "%s; received on %s"
-#~ msgstr "%s；接收自 %s"
-
-#, c-format
-#~ msgid "%s; received from %s; on %s"
-#~ msgstr "%s；接收自 %s；时间 %s"
-
-#~ msgid "Click"
-#~ msgstr "点击"
-
-#~ msgid "Project List"
-#~ msgstr "项目列表"
-
-#~ msgid "Nvidia GPU Supported"
-#~ msgstr "已支持 Nvidia GPU"
-
-#~ msgid "ATI GPU Supported"
-#~ msgstr "已支持 ATI GPU"
-
-#~ msgid "Project Website"
-#~ msgstr "项目网站"
-
-#~ msgid "One or more items failed to load from the Internet."
-#~ msgstr "从互联网加载一个或多个项目失败。"
-
-# 88%
-#~ msgid "Retry now"
-#~ msgstr "立即重试"
-
-#~ msgid "10%"
-#~ msgstr "10%"
-
-#~ msgid "20%"
-#~ msgstr "20%"
-
-#~ msgid "30%"
-#~ msgstr "30%"
-
-#~ msgid "40%"
-#~ msgstr "40%"
-
-#~ msgid "50%"
-#~ msgstr "50%"
-
-#~ msgid "60%"
-#~ msgstr "60%"
-
-#~ msgid "70%"
-#~ msgstr "70%"
-
-#~ msgid "80%"
-#~ msgstr "80%"
-
-#~ msgid "90%"
-#~ msgstr "90%"
-
-#~ msgid "100%"
-#~ msgstr "100%"
-
-#~ msgid "1"
-#~ msgstr "1"
-
-#~ msgid "3"
-#~ msgstr "3"
-
-#~ msgid "5"
-#~ msgstr "5"
-
-#~ msgid "10"
-#~ msgstr "10"
-
-#~ msgid "15"
-#~ msgstr "15"
-
-#~ msgid "30"
-#~ msgstr "30"
-
-#~ msgid "60"
-#~ msgstr "60"
-
-#, c-format
-#~ msgid "Pop up a menu of websites for project %s"
-#~ msgstr "弹出一个 %s 项目的网站菜单"
-
-#~ msgid ""
-#~ "for accessibility support, please select advanced from the view menu or type "
-#~ "command shift a"
-#~ msgstr "要使用辅助功能，请从查看菜单中选择高级或者输入 shift a 命令"
-
-#~ msgid "This panel contains graphs showing user totals for projects"
-#~ msgstr "该面板用来显示用户在各个项目的统计图表"
-
-#~ msgid "list headers"
-#~ msgstr "列表头"
-
-#~ msgid "list of events"
-#~ msgstr "事件列表"
-
-#~ msgid "list of events is empty"
-#~ msgstr "事件列表为空"
-
-#, c-format
-#~ msgid "list of %s"
-#~ msgstr "%s列表"
-
-#, c-format
-#~ msgid "list of %s is empty"
-#~ msgstr "%s列表为空"
-
-#, c-format
-#~ msgid "; current sort column %d of %d; descending order; "
-#~ msgstr "; 当前排序列 %d / %d; 降序;"
-
-#, c-format
-#~ msgid "; current sort column %d of %d; ascending order; "
-#~ msgstr "; 当前排序列 %d / %d; 升序;"
-
-#, c-format
-#~ msgid "; column %d of %d; "
-#~ msgstr "; 第 %d 列（共 %d 列）;"
-
-#~ msgid "list is empty"
-#~ msgstr "列表为空"
-
-#, c-format
-#~ msgid "; row %d; "
-#~ msgstr "; 第 %d 行;"
-
-#, c-format
-#~ msgid "; selected row %d of %d; "
-#~ msgstr "; 选中行 %d（共 %d 行）;"
-
-#, c-format
-#~ msgid "; selected row %d ; "
-#~ msgstr "; 选中行 %d;"
-
-#, c-format
-#~ msgid "; row %d of %d; "
-#~ msgstr "; 第 %d 行（共 %d 行）;"
-
-#~ msgid "blank"
-#~ msgstr "空白"
-
-#~ msgid "list of projects or account managers"
-#~ msgstr "项目或帐户管理器列表"
-
-#, c-format
-#~ msgid "selected row %d of %d; "
-#~ msgstr "选中行 %d（共 %d 行）;"
-
-#, c-format
-#~ msgid "row %d of %d; "
-#~ msgstr "第 %d 行（共 %d 行）；"
-
-#~ msgid "The minimum username length for this project is 1. Please enter a different username."
-#~ msgstr "该项目要求的最小用户名称长度是1，请输入一个不同的名称。"
-
-#~ msgid "The minimum username length for this account manager is 1. Please enter a different username."
-#~ msgstr "该账户管理器要求的最小用户名称长度是1，请输入一个不同的名称。"
-
-#~ msgid "The minimum email address length for this project is 1. Please enter a different email address."
-#~ msgstr "该项目要求的最小电子邮箱地址长度是1，请输入一个不同的电子邮箱地址。"
-
-#~ msgid "The minimum email address length for this account manager is 1. Please enter a different email address."
-#~ msgstr "该项目要求的最小电子邮箱地址长度是1，请输入一个不同的电子邮箱地址。"
-
-#, c-format
-#~ msgid "The minimum password length for this project is %d. Please enter a different password."
-#~ msgstr "该项目要求的最小密码长度为%d，请输入符合要求的密码。"
-
-#, c-format
-#~ msgid "The minimum password length for this account manager is %d. Please enter a different password."
-#~ msgstr "该帐户管理器要求的最小密码长度为%d。请输入符合要求的密码。"
-
-#~ msgid ""
-#~ "An error has occurred;\n"
-#~ "check the Event Log for details.\n"
-#~ "\n"
-#~ "Click Finish to close."
-#~ msgstr ""
-#~ "发生了一个错误；\n"
-#~ "请检查“事件日志”以了解更多细节。\n"
-#~ "\n"
-#~ "点击完成可关闭本窗口。"
-
-#, no-c-format
-#~ msgid "% of the processors"
-#~ msgstr "% 处理器"
-
-#, c-format
-#~ msgid "New page inserted. Index = %i"
-#~ msgstr "New page inserted. Index = %i"
-
-#, c-format
-#~ msgid "New page appended. Index = %i"
-#~ msgstr "New page appended. Index = %i"
-
-#, c-format
-#~ msgid "Old Page Index = %i"
-#~ msgstr "Old Page Index = %i"
-
-#, c-format
-#~ msgid "OnDropTarget: index by HitTest = %i"
-#~ msgstr "OnDropTarget: index by HitTest = %i"
-
-#~ msgid "Pie Ctrl"
-#~ msgstr "派图"
-
-#~ msgid "specify work start and stop hours in format HH:MM-HH:MM"
-#~ msgstr "指定开始和停止计算的时间，格式是 HH:MM-HH:MM"
-
-#~ msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
-#~ msgstr "指定开始和停止使用网络的时间，格式是 HH:MM-HH:MM"
-
-#~ msgid "Identify your account "
-#~ msgstr "确认您的帐户"
-
-#~ msgid "Read config file"
-#~ msgstr "读取客户端核心配置文件"
-
-#~ msgid "Read configuration info from cc_config.xml"
-#~ msgstr "从 cc-config.xml 中读取配置信息"
-
-#~ msgid ""
-#~ "(C) 2003-2011 University of California, Berkeley.\n"
-#~ "All Rights Reserved."
-#~ msgstr ""
-#~ "(C) 2003-2012 加州大学伯克利分校。\n"
-#~ "保留所有权利。\n"
-#~ "\n"
-#~ "( 中文翻译: 2005-2012 Yin Gang @ Team China )\n"
-#~ "( 中文网站: http://www.equn.com )\n"
-#~ "( 中文论坛: http://www.equn.com/forum )\n"
-#~ "( 新浪微博: @志愿计算 )"
-
-#~ msgid "NVIDIA GPU"
-#~ msgstr "NVIDIA GPU"
-
-#~ msgid "ATI GPU"
-#~ msgstr "ATI GPU"
-
-#~ msgid "Multicore CPU Supported"
-#~ msgstr "已支持多核 CPU"
-
-#~ msgid "%s: %.0f"
-#~ msgstr "%s：%.0f"
-
-#~ msgid "Click 'Retry now' to transfer the file now"
-#~ msgstr "点击“立即重试”，则现在就传输该文件"
-
-#~ msgid ""
-#~ "Click 'Abort transfer' to delete the file from the transfer queue. This "
-#~ "will prevent you from being granted credit for this result."
-#~ msgstr ""
-#~ "点击“中断传输”以从传输队列中删除该文件，这将导致您无法从该结果获得积分。"
-
-#~ msgid "Aborting result..."
-#~ msgstr "正在中止任务..."
-
-#~ msgid ""
-#~ "You have chosen to add a new BOINC project.  Adding a new\n"
-#~ "project means that you will be connecting your computer to a new "
-#~ "organization.\n"
-#~ "If this is what you wanted to do, please click on\n"
-#~ "the 'Next' button below.\n"
-#~ "\n"
-#~ "Some projects like World Community Grid run multiple research "
-#~ "applications.\n"
-#~ "If you want to change which research applications are sent to your "
-#~ "computer\n"
-#~ "to run, visit the project's website and modify your\n"
-#~ "preferences there.\n"
-#~ "\n"
-#~ "To change which research applications are sent to you from\n"
-#~ "World Community Grid then please click on the following button:"
-#~ msgstr ""
-#~ "您已经选择加入了一个新的 BOINC 项目。加入新项目\n"
-#~ "表示您将允许您的计算机连接到一个新的组织。\n"
-#~ "如果这就是您想要做的，请点击下方的“下一步”按钮。\n"
-#~ "\n"
-#~ "有些项目比如 World Community Grid 运行了多个科学计算程序。\n"
-#~ "如果您想要改变发送到您的计算机上的计算程序种类，\n"
-#~ "您应该访问这些项目的项目网站并在那里修改你的参数设置。\n"
-#~ "\n"
-#~ "要设置您希望运行的 World Community Grid 项目计算程序，\n"
-#~ "请点击后面的按钮："
-
-#~ msgid "Change Research Applications at World Community Grid"
-#~ msgstr "设定 WCG 项目的科学计算程序"
-
-#~ msgid "Don't fetch NVIDIA GPU tasks"
-#~ msgstr "禁止下载 NVIDIA GPU 任务"
-
-#~ msgid "NVIDIA GPU work fetch deferred for"
-#~ msgstr "NVIDIA GPU 任务获取被延迟"
-
-#~ msgid "NVIDIA GPU work fetch deferral interval"
-#~ msgstr "NVIDIA GPU 任务获取延迟间隔"
-
-#~ msgid "Don't fetch ATI GPU tasks"
-#~ msgstr "禁止下载 ATI GPU 任务"
-
-#~ msgid "ATI GPU work fetch deferred for"
-#~ msgstr "ATI GPU 任务获取被延迟"
-
-#~ msgid "ATI GPU work fetch deferral interval"
-#~ msgstr "ATI GPU 任务获取延迟间隔"
-
-#~ msgid "Remaining"
-#~ msgstr "剩余时间"
-
-#~ msgid "Web sites"
-#~ msgstr "网站"
-
-#~ msgid "Connect about every"
-#~ msgstr "连接网络的间隔"
-
-#~ msgid ""
-#~ "this computer is connected to the Internet about every X days\n"
-#~ "(0 if it's always connected)"
-#~ msgstr "本台计算机连接互联网的间隔天数 ( 0 表示一直连接 )"
-
-#~ msgid "days (max. 10)"
-#~ msgstr "天 ( 最多十天 )"
-
-#~ msgid "%d.%d%%"
-#~ msgstr "%d.%d%%"
-
-#~ msgid "Display and network &options..."
-#~ msgstr "显示和网络选项(&O)..."
-
-#~ msgid ""
-#~ "You have requested to exit the %s,\n"
-#~ "which allows you to view and manage\n"
-#~ "the science applications running on your computer.\n"
-#~ "\n"
-#~ "If you also want to stop running the science applications when you\n"
-#~ "exit the Manager, then choose from the following options:"
-#~ msgstr ""
-#~ "您刚请求退出 %s，\n"
-#~ "后者可用来查看和管理您计算机上运行的科学计算程序。\n"
-#~ "\n"
-#~ "如果您想要在退出 BOINC Manager 的同时停止运行\n"
-#~ "所有的科学计算程序，请在下列选项中进行选择："
-
-#~ msgid "Stop running science applications when exiting the Manager"
-#~ msgstr "退出 BOINC Manger 的同时停止运行科学计算程序。"
-
-#~ msgid "CPU work fetch priority"
-#~ msgstr "CPU 任务获取优先级"
-
-#~ msgid "NVIDIA GPU scheduling priority"
-#~ msgstr "NVIDIA GPU 调度优先级"
-
-#~ msgid "NVIDIA GPU work fetch priority"
-#~ msgstr "NVIDIA GPU 任务获取优先级"
-
-#~ msgid "ATI GPU scheduling priority"
-#~ msgstr "ATI GPU 调度优先级"
-
-#~ msgid "ATI GPU work fetch priority"
-#~ msgstr "ATI GPU 任务获取优先级"
-
-#~ msgid "Estimated app speed"
-#~ msgstr "预计计算速度"
-
-#~ msgid "Estimated task size"
-#~ msgstr "预计任务大小"
-
-#~ msgid "Max RAM usage"
-#~ msgstr "最大内存占用"
-
-#~ msgid "%s - Options"
-#~ msgstr "%s - 选项"
-
-#~ msgid "Retrieving host information; please wait..."
-#~ msgstr "正在读取主机信息，请稍候..."
-
-#~ msgid " (waiting for GPU memory)"
-#~ msgstr "(等待足够的 GPU 内存)"
-
-#~ msgid "Manager Settings..."
-#~ msgstr "BOINC Manager 设定..."
-
-#~ msgid "Pause"
-#~ msgstr "暂停"
-
-#~ msgid "%s - Messages"
-#~ msgstr "%s - 消息"
-
-#~ msgid "Skin:"
-#~ msgstr "皮肤："
-
-#~ msgid "Preferences"
-#~ msgstr "参数设置"
-
-#~ msgid "I want to customize my preferences for this computer only."
-#~ msgstr "我想定制本台计算机的参数。"
-
-#~ msgid "Customized Preferences"
-#~ msgstr "定制的参数设置"
-
-#~ msgid "My total work done this Project"
-#~ msgstr "我为这个项目做出的贡献"
-
-#~ msgid "My Tasks:"
-#~ msgstr "我的计算任务："
-
-#~ msgid "From Project:"
-#~ msgstr "来自项目："
-
-#~ msgid "Elapsed Time: %s"
-#~ msgstr "已用时间：%s"
-
-#~ msgid "Time Remaining: %s"
-#~ msgstr "剩余时间：%s"
-
-#~ msgid "Upload suspended - "
-#~ msgstr "上传被暂停 - "
-
-#~ msgid "Download suspended - "
-#~ msgstr "下载被暂停 - "
-
-#~ msgid "Upload pending"
-#~ msgstr "等待上传"
-
-#~ msgid "Download pending"
-#~ msgstr "等待下载"
-
-#~ msgid "New Simple View..."
-#~ msgstr "新简易视图..."
-
-#~ msgid "Display the new simple graphical interface."
-#~ msgstr "显示新的简洁图形界面。"
-
-#~ msgid "Old Simple View..."
-#~ msgstr "旧简易视图..."
-
-#~ msgid "Display the old simple graphical interface."
-#~ msgstr "显示旧的简洁图形界面。"
-
-#~ msgid "Get help with BOINC"
-#~ msgstr "从 BOINC 得到帮助"
-
-#~ msgid "Event Log..."
-#~ msgstr "事件日志..."
-
-#~ msgid "error"
-#~ msgstr "错误"
-
-#~ msgid "A new version of BOINC is available."
-#~ msgstr "检测到新版本的 BOINC。"
-
-#~ msgid "Download it."
-#~ msgstr "下载它。"
-
-#~ msgid "Couldn't write state file; check directory permissions"
-#~ msgstr "无法写入状态文件，请检查目录权限"
-
-#~ msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
-#~ msgstr "必须在环境变量 HTTP_PROXY 中指定一个 HTTP 代理服务器"
-
-#~ msgid "Attaching to project or account manager..."
-#~ msgstr "正在加入项目或帐户管理器..."
-
-#~ msgid "%s - Detach from %s"
-#~ msgstr "%s - 退出 %s"
-
-#~ msgid "Retrying communications."
-#~ msgstr "重试通讯。"
-
-#~ msgid "Failed to attach to project"
-#~ msgstr "加入项目失败"
-
-#~ msgid "Failed to attach to account manager"
-#~ msgstr "加入帐户管理器失败"
-
-#~ msgid "Attached to account manager"
-#~ msgstr "已经加入到帐户管理器"
-
-#~ msgid "You are now successfully attached to the %s system."
-#~ msgstr "您已经成功地加入了 %s 系统。"
-
-#~ msgid "You are now successfully attached to this account manager."
-#~ msgstr "您已经成功地加入了当前帐户管理器。"
-
-#~ msgid "News Feeds"
-#~ msgstr "新闻订阅"
-
-#~ msgid "Display the latest news about BOINC"
-#~ msgstr "显示最新的 BOINC 新闻"
-
-#~ msgid "not attached to any BOINC project: 0 bytes"
-#~ msgstr "未加入到任何 BOINC 项目: 零字节"
-
-#~ msgid "All projects"
-#~ msgstr "所有项目"
-
-#~ msgid "Attach to project"
-#~ msgstr "加入项目"
-
-#~ msgid "Attach to account manager"
-#~ msgstr "加入帐户管理器"
-
-#~ msgid "Attach to a project"
-#~ msgstr "加入一个项目"
-
-#~ msgid "%s needs to connect to the Internet.  Please click to open %s."
-#~ msgstr "%s 需要连接至互联网。请点击打开 %s。"
-
-#~ msgid ""
-#~ "%s is unable to communicate with a project and needs an Internet "
-#~ "connection.\n"
-#~ "Please connect to the Internet, then select the 'Do network "
-#~ "communications' item from the Advanced menu."
-#~ msgstr ""
-#~ "%s 无法与项目进行通讯，请求接入互联网。\n"
-#~ "请接入互联网并在菜单中依次选择“高级->进行网络通讯”。"
-
-#~ msgid ""
-#~ "%s couldn't do Internet communication, and no default connection is "
-#~ "selected.\n"
-#~ "Please connect to the Internet, or select a default connection\n"
-#~ "using Advanced/Options/Connections."
-#~ msgstr ""
-#~ "%s 无法在互联网上进行通讯，也没有设定缺省连接。\n"
-#~ "请连接至互联网或者从菜单中选择'高级->选项'然后切换到连接页面以设定一个缺省"
-#~ "连接。"
-
-#~ msgid "One or more notices are now available for viewing."
-#~ msgstr "当前有一个或多个通知可以查看。"
-
-#~ msgid "Attached to project"
-#~ msgstr "已加入到项目"
-
-#~ msgid "You are now successfully attached to this project."
-#~ msgstr "您已经成功加入到这个项目。"
-
-#~ msgid "Attached to %s"
-#~ msgstr "已经加入了 %s"
-
-#~ msgid "Detach when done"
-#~ msgstr "计算完成后退出项目"
-
-#~ msgid "Retrieving notices..."
-#~ msgstr "正在获取通知..."
-
-#~ msgid "Detach"
-#~ msgstr "退出"
-
-#~ msgid "Detaching from project..."
-#~ msgstr "正在退出项目..."
-
-#~ msgid "Are you sure you want to detach from project '%s'?"
-#~ msgstr "您确定要退出'%s'项目吗？"
-
-#~ msgid "Detach from Project"
-#~ msgstr "退出项目"
-
-#~ msgid "Message from project server:"
-#~ msgstr "项目服务器发来的消息："
-
-#~ msgid "XML syntax error in"
-#~ msgstr "XML 语法错误"
-
-#~ msgid "Can't resolve hostname in"
-#~ msgstr "无法解析主机名称"
-
-#~ msgid "Unrecognized tag in"
-#~ msgstr "无法识别的标签"
-
-#~ msgid "Missing start tag in"
-#~ msgstr "起始标签丢失"
-
-#~ msgid "Unparsed tag in"
-#~ msgstr "无法解析的标签"
-
-#~ msgid "Missing end tag in"
-#~ msgstr "结束标签丢失"
-
-#~ msgid ""
-#~ "BOINC can't access Internet - check network connection or proxy "
-#~ "configuration."
-#~ msgstr "BOINC 无法访问互联网 - 请查看网络连接或者代理服务器的配置。"
-
-#~ msgid " - user active"
-#~ msgstr " - 用户活跃"
-
-#~ msgid " - computation suspended"
-#~ msgstr " - 计算被暂停"
-
-#~ msgid " - need disk space"
-#~ msgstr " - 磁盘空间不足"
-
-#~ msgid "Attach to an additional project"
-#~ msgstr "加入其它项目"
-
-#~ msgid "To completion"
-#~ msgstr "剩余时间"
-
-#~ msgid "Attach to a project to begin processing work"
-#~ msgstr "加入一个项目以开始处理任务"
-
-#~ msgid "%s: %.2f%% completed."
-#~ msgstr "%s: 已完成 %.2f%%。"
-
-#~ msgid "%d tasks running."
-#~ msgstr "%d 个任务正在运行。"
-
-#~ msgid "%s - Can't find web browser"
-#~ msgstr "%s - 无法找到网页浏览器"
-
-#~ msgid ""
-#~ "%s tried to display the web page\n"
-#~ "\t%s\n"
-#~ "but couldn't find a web browser.\n"
-#~ "To fix this, set the environment variable\n"
-#~ "BROWSER to the path of your web browser,\n"
-#~ "then restart the %s."
-#~ msgstr ""
-#~ "%s 试图显示该网页\n"
-#~ "\t%s\n"
-#~ "但无法找到网络浏览器。\n"
-#~ "请在环境变量中设置您的网络浏览器路径，然后重新运行 %s。"
-
-#~ msgid "Starting client services; please wait..."
-#~ msgstr "正在启动客户端的服务程序，请稍候..."
-
-#~ msgid "BOINC Website"
-#~ msgstr "BOINC 网站"
-
-#~ msgid "Display the latest news about BOINC from the BOINC website"
-#~ msgstr "显示 BOINC 网站上最近关于 BOINC 的新闻"
-
-#~ msgid "Retrying communications for project(s)..."
-#~ msgstr "正在重试项目的网络通讯..."
-
-#~ msgid ""
-#~ "Required wizard file(s) are missing from the target server.\n"
-#~ "(lookup_account.php/create_account.php)\n"
-#~ msgstr ""
-#~ "无法从目标服务器获取必须的向导文件。\n"
-#~ "( lookup_account.php/create_account.php )\n"
-
-#~ msgid "User information"
-#~ msgstr "用户信息"
-
-#~ msgid "Account Manager URL"
-#~ msgstr "帐户管理器的网址"
-
-#~ msgid "Enter the URL of the account manager's web site."
-#~ msgstr "请输入帐户管理器的网址。"
-
-#~ msgid "Close BOINC Manager Window."
-#~ msgstr "关闭 BOINC Manager 的窗口。"
-
-#~ msgid "Exit the %s"
-#~ msgstr "退出 %s"
-
-#~ msgid ""
-#~ "Advanced views allow you to sort various columns and displays graphical "
-#~ "progress bars."
-#~ msgstr "高级视图允许用户按表格列进行排序并可显示图形化的进度条。"
-
-#~ msgid "Attach to &project"
-#~ msgstr "加入项目(&P)"
-
-#~ msgid "Attaching to project..."
-#~ msgstr "正在加入项目..."
-
-#~ msgid "Removal from %s completed."
-#~ msgstr "退出 %s 已完成。"
-
-#~ msgid "Removal succeeded!"
-#~ msgstr "退出成功！"
-
-#~ msgid "Write to disk at most every"
-#~ msgstr "写磁盘的最小时间间隔"
-
-#~ msgid "Slot"
-#~ msgstr "槽位"
-
-#~ msgid "Already Attached to Project"
-#~ msgstr "已加入到该项目"
-
-#~ msgid "This project may not have work for your type of computer."
-#~ msgstr "该项目可能没有适合您计算机的任务类型。"
-
-#~ msgid "Click here to go to %s's website."
-#~ msgstr "点击可访问 %s 的项目网站。"
-
-#~ msgid "ID"
-#~ msgstr "ID"
-
-#~ msgid "Priority"
-#~ msgstr "优先级"
-
-#~ msgid "MessagesGrid"
-#~ msgstr "消息网格"
-
-#~ msgid "Copying selected messages to Clipboard..."
-#~ msgstr "复制选中的消息到剪贴板..."
-
-#~ msgid "Info"
-#~ msgstr "信息"
-
-#~ msgid "Warning"
-#~ msgstr "警告"
-
-#~ msgid "ProjectsGrid"
-#~ msgstr "项目网格"
-
-#~ msgid "TransfersGrid"
-#~ msgstr "传输网格"
-
-#~ msgid "Aborting transfer(s)..."
-#~ msgstr "中断传输..."
-
-#~ msgid ""
-#~ "Are you sure you want to abort this file(s) transfer ?\n"
-#~ "NOTE: Aborting a transfer will invalidate a task and you\n"
-#~ "will not receive credit for it."
-#~ msgstr ""
-#~ "您确信要中断文件'%s'的传输吗？\n"
-#~ "注意：中断传输将标识该任务为无效，您将不能从该任务得到积分。"
-
-#~ msgid "Abort File Transfer(s)"
-#~ msgstr "中断文件传输"
-
-#~ msgid "TasksGrid"
-#~ msgstr "任务网格"
-
-#~ msgid ""
-#~ "We'll now guide you through the process of attaching\n"
-#~ "to a project."
-#~ msgstr "我们将引导您完成加入一个项目的过程。"
-
-#~ msgid "&Stop using%s"
-#~ msgstr "停止使用 %s(&S)"
-
-#~ msgid ""
-#~ "We'll now remove this computer from %s.  From now on,\n"
-#~ "attach and detach projects directly from this computer.\n"
-#~ msgstr ""
-#~ "我们将从 %s 中移除当前计算机。\n"
-#~ "从现在开始，请直接在该客户端中加入或退出项目。\n"
-
-#~ msgid ""
-#~ "We'll now guide you through the process of attaching\n"
-#~ "to an account manager.\n"
-#~ "\n"
-#~ "If you want to attach to a single project, click Cancel,\n"
-#~ "then select the 'Attach to project' menu item instead."
-#~ msgstr ""
-#~ "我们将引导您完成加入一个帐户管理器的过程。\n"
-#~ "\n"
-#~ "如果您只想要加入一个项目，请点击取消，\n"
-#~ "然后选择菜单中的'加入项目'。"
-
-#~ msgid "Debug Flags"
-#~ msgstr "调试标志位"
-
-#~ msgid "Project Properties Failure"
-#~ msgstr "项目属性错误"
-
-#~ msgid "Project Communication Failure"
-#~ msgstr "项目通讯失败"
-
-#~ msgid "Project Properties URL Failure"
-#~ msgstr "项目网址错误"
-
-#~ msgid "Account Creation Disabled"
-#~ msgstr "帐户创建已被停用"
-
-#~ msgid "Account Already Exists"
-#~ msgstr "帐户已存在"
-
-#~ msgid "Project Already Attached"
-#~ msgstr "项目已被加入"
-
-#~ msgid "Project Attach Failure"
-#~ msgstr "加入项目失败"
-
-#~ msgid "Failure Communicating with Reference Site"
-#~ msgstr "参考站点通讯失败"
-
-#~ msgid "Net Detection Failure"
-#~ msgstr "网络检测失败"
-
-#~ msgid ""
-#~ "You can copy and paste the URL from your browser's\n"
-#~ "address bar."
-#~ msgstr "您可以从浏览器的地址栏中复制网址(URL)。"
-
-#~ msgid "For a list of account managers go to:"
-#~ msgstr "查看帐户管理器的列表请到："
-
-#~ msgid "&Advanced View"
-#~ msgstr "高级视图(&A)"
-
-#~ msgid "Already attached to project"
-#~ msgstr "已经加入到项目"
-
-#~ msgid "You are already attached to this project."
-#~ msgstr "您已经加入到项目。"
-
-#~ msgid "Static text"
-#~ msgstr "静态文本"
-
-#~ msgid "Radiobutton"
-#~ msgstr "单选按钮"
-
-#~ msgid "Short term debt"
-#~ msgstr "短期债项"
-
-#~ msgid "Long term debt"
-#~ msgstr "长期债项"
-
-#~ msgid "Test"
-#~ msgstr "测试"
-
-#~ msgid "Enter account key"
-#~ msgstr "输入帐户密钥"
-
-#~ msgid ""
-#~ "This project uses an \"account key\" to identify you.\n"
-#~ "\n"
-#~ "Go to the project's web site to create an account. Your account\n"
-#~ "key will be emailed to you."
-#~ msgstr ""
-#~ "该项目通过\"帐户密钥\"来鉴别您的身份。\n"
-#~ "\n"
-#~ "请访问项目网站以创建一个帐户。您的帐户密钥将通过电子邮件发送给您。"
-
-#~ msgid "An account key looks like:"
-#~ msgstr "帐户密钥看上去就像："
-
-#~ msgid "82412313ac88e9a3638f66ea82186948"
-#~ msgstr "82412313ac88e9a3638f66ea82186948"
-
-#~ msgid "Account key:"
-#~ msgstr "帐户密钥："
-
-#~ msgid "Checkpoint CPU time"
-#~ msgstr "上一次进度存储的 CPU 时间"
-
-#~ msgid "Current CPU time"
-#~ msgstr "当前的 CPU 时间"
-
-#~ msgid "Language Selection:"
-#~ msgstr "语言选择："
-
-#~ msgid "What language should the manager display by default."
-#~ msgstr "BOINC Manager 缺省显示的语言。"
-
-#~ msgid "Reminder Frequency:"
-#~ msgstr "提醒间隔："
-
-#~ msgid ""
-#~ "How often, in minutes, should the manager remind you of possible "
-#~ "connection events."
-#~ msgstr "BOINC Manager 应该隔多久提醒您可能的连接事件。( 以分钟为单位 )"
-
-#~ msgid "Run BOINC Manager at startup:"
-#~ msgstr "在启动时运行 BOINC Manager："
-
-#~ msgid "Enable BOINC Manager exit message:"
-#~ msgstr "启用 BOINC Manager 的退出消息："
