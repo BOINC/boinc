@@ -59,7 +59,7 @@
     <string name="attachproject_hint_contribtion_screen">3. Turn off Screen</string>
     <string name="attachproject_hint_projectwebsite_header">Visit project websites to:</string>
     <string name="attachproject_hint_projectwebsite_science">Learn more about the science</string>
-    <string name="attachproject_hint_projectwebsite_stats">View contribtion statistics</string>
+    <string name="attachproject_hint_projectwebsite_stats">View contribution statistics</string>
     <string name="attachproject_hint_projectwebsite_community">Get in touch with other volunteers</string>
     <string name="attachproject_hint_platforms_header">BOINC is also available for your computer or laptop, visit boinc.berkeley.edu to learn more.</string>
     <!-- project login -->
