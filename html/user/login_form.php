@@ -30,9 +30,9 @@ redirect_to_secure_url($u);
 
 $user = get_logged_in_user(false);
 if ($user) {
-    page_head("Log out");
+    page_head("Already logged in");
     row2("You are logged in as $user->name",
-        "<a href=\"logout.php?".url_tokens($user->authenticator)."\">Log out</a>"
+        ".  <a href=\"logout.php?".url_tokens($user->authenticator)."\">Log out</a>"
     );
     page_tail();
     exit;
