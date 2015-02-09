@@ -208,7 +208,7 @@
     <string name="prefs_cpu_number_cpus_header">Used CPU cores</string>
     <string name="prefs_cpu_number_cpus_description">Limits the number of CPU cores BOINC uses for computation.</string>
     <string name="prefs_cpu_other_load_suspension_header">Pause at CPU usage above</string>
-    <string name="prefs_cpu_other_load_suspension_description">Determines when BOINC pauses computation due to other app\'s CPU usage.</string>
+    <string name="prefs_cpu_other_load_suspension_description">Determines when BOINC pauses computation due to other apps\' CPU usage.</string>
     <string name="prefs_cpu_time_max_header">CPU limit</string>
     <string name="prefs_cpu_time_max_description">Limits the CPU time BOINC uses for computation.</string>
     <string name="prefs_memory_max_idle_header">RAM limit</string>
