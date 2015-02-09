@@ -1,224 +1,161 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2013-06-15 18:10+0200\n"
-"Last-Translator: aceman <acelists@atlas.sk>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: sk\n"
+"PO-Revision-Date: 2015-02-09 00:38+0000\n"
+"Last-Translator: Rom Walton <romw@romwnet.org>\n"
+"Language-Team: Slovak (http://www.transifex.com/projects/p/boinc/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Pootle 2.1.6\n"
 
 #: acct_mgr.cpp:450 acct_mgr.cpp:459
 msgid "Message from account manager"
-msgstr "Správa zo Správcu konta"
+msgstr "Mesaj de la managerul de cont"
 
 #: client_msgs.cpp:81
 msgid "Message from server"
-msgstr "Správa zo serveru"
+msgstr "Mesaj de la server"
 
 #: client_state.cpp:258
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
-msgstr ""
-"Niektoré úlohy vyžadujú viac operačnej pamäti, než povoľujú vaše "
-"preferencie.  Prosím skontrolujte preferencie."
+msgstr "Unele task-uri au nevoie de mai multă memorie decât este permis de preferinţele dumneavoastră.  Vă rugăm să verificaţi preferinţele."
 
 #: client_state.cpp:520
 msgid "Couldn't write state file; check directory permissions"
-msgstr "Nemožno zapísať stavový súbor; skontrolujte právo zápisu v adresári"
+msgstr "Nu s-a putut scrie fişierul de stare; verificaţi permisiunile directorului"
 
 #: cs_cmdline.cpp:303
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
-msgstr "Premenná prostredia HTTP_PROXY musí obsahovať HTTP proxy adresu"
+msgstr "Varibila de sistem HTTP_PROXY trebuie să specifice un proxy HTTP"
 
 #: cs_scheduler.cpp:613
 #, c-format
 msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
 "project, then add %s"
-msgstr ""
-"Použili ste chybnú URL pre tento projekt.  Príležitostne odstráňte tento "
-"projekt a potom pridajte %s"
+msgstr "Aţi folosit un URL greşit pentru acest proect.  Când puteţi, ştergeţi acest proiect, apoi adăugaţi %s"
 
 #: cs_statefile.cpp:828 ../sched/sched_types.cpp:259
 msgid "Syntax error in app_info.xml"
-msgstr "Syntaktická chyba v app_info.xml"
+msgstr "Eroare de sintaxă în app_info.xml"
 
 #: cs_statefile.cpp:868
 msgid "File referenced in app_info.xml does not exist: "
-msgstr "Súbor odkazovaný v app_info.xml neexistuje: "
+msgstr "Fişierul menţionat în app_info.xml nu există: "
 
 #: current_version.cpp:91
 msgid "A new version of BOINC is available."
-msgstr "Je dostupná nová verzia BOINC."
+msgstr "O nouă versiune a BOINC este disponibilă."
 
 #: current_version.cpp:94 current_version.cpp:102
 msgid "Download"
-msgstr "Stiahnuť"
+msgstr "Descarcă"
 
 #: log_flags.cpp:269 log_flags.cpp:449
 msgid "Unexpected text in cc_config.xml"
-msgstr "Neočakávaný text v cc_config.xml"
+msgstr "Text neaşteptat în cc_config.xml"
 
 #: log_flags.cpp:423 log_flags.cpp:475
 msgid "Unrecognized tag in cc_config.xml"
-msgstr "Nerozpoznaný príznak v cc_config.xml"
+msgstr "Tag nerecunoscut în cc_config.xml"
 
 #: log_flags.cpp:440
 msgid "Missing start tag in cc_config.xml"
-msgstr "Chýbajúci spúšťací príznak v cc_config.xml"
+msgstr "Lipsă tag început în cc_config.xml"
 
 #: log_flags.cpp:465
 msgid "Error in cc_config.xml options"
-msgstr "Chyba v nastaveniach v cc_config.xml"
+msgstr "Eroare în opţiunile cc_config.xml"
 
 #: log_flags.cpp:483
 msgid "Missing end tag in cc_config.xml"
-msgstr "Chýbajúci príznak ukončenia v cc_config.xml"
+msgstr "Lipsă tag final în cc_config.xml"
 
 #: ../sched/handle_request.cpp:307
 msgid "Invalid or missing account key.  To fix, remove and add this project."
-msgstr ""
-"Neplatný alebo chýbajúci kľúč účtu.  Odstráňte a pridajte tento projekt pre "
-"nápravu."
+msgstr "Cheie cont greşită sau lipsă.  Pentru rezolvare, ştergeţi şi adăugaţi acest proiect."
 
 #: ../sched/handle_request.cpp:849
 msgid "Invalid code signing key.  To fix, remove and add this project."
-msgstr ""
-"Neplatný kód podpisového kľúča.  Odstráňte a pridajte tento projekt pre "
-"nápravu."
+msgstr "Cheie semnătură greşită.  Pentru rezolvare, ştergeţi şi adăugaţi acest proiect."
 
 #: ../sched/handle_request.cpp:859
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
-msgstr ""
-"Projekt mal zmenený jeho bezpečnostný kľúč.  Prosím odstráňte a pridajte "
-"tento projekt."
+msgstr "Proiectul a modificat cheia de securitate.  Că rugăm ştergeţi şi adăugaţi acest proiect."
 
 #: ../sched/handle_request.cpp:943
 msgid "This project doesn't support operating system"
-msgstr "Tento projekt nepodporuje operačný systém"
+msgstr "Acest proiect nu suportă sistemul de operare"
 
 #: ../sched/handle_request.cpp:969
 msgid "This project doesn't support CPU type"
-msgstr "Tento projekt nepodporuje CPU typ"
+msgstr "Acest proiect nu suportă tipul de CPU"
 
 #: ../sched/handle_request.cpp:993
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
-msgstr "Váš klient BOINC je príliš starý.  Prosím nainštalujte aktuálnu verziu."
+msgstr "Clientul dumneavoastră BOINC este prea vechi.  Vă rugăm instalaţi versiunea curentă."
 
 #: ../sched/handle_request.cpp:1259
 msgid "This project doesn't support computers of type"
-msgstr "Tento projekt nepodporuje počítače typu"
+msgstr "Acest proiect nu suportă calculatoare de tipul"
 
 #: ../sched/sched_send.cpp:1092
-msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
-msgstr "Aktualizujte na najnovší ovládač pre spracovanie úloh na vašom GPU"
+msgid ""
+"Upgrade to the latest driver to process tasks using your computer's GPU"
+msgstr "Upgradaţi la ultima versiune de driver pentru a procesa task-uri folosind GPU-ul calculatorului"
 
 #: ../sched/sched_send.cpp:1099
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
-msgstr ""
-"Aktualizujte na najnovší ovládač, aby ste mohli využiť všetky GPU aplikácie "
-"tohto projektu"
+msgstr "Upgradaţi la ultima versiune de driver pentru a folosi toate aplicaţiile GPU ale acestui proiect"
 
 #: ../sched/sched_send.cpp:1118
 msgid ""
-"A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
-"the current version"
-msgstr ""
-"Pre použitie NVIDIA GPU je potrebná novšia verzia BOINC; prosím aktualizujte "
-"na aktuálnu verziu"
+"A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
+" the current version"
+msgstr "O nouă versiune BOINC este necesară pentru a folosi GPU-ul dumneavoastră NVIDIA; vă rugăm upgradaţi la versiunea curentă"
 
 #: ../sched/sched_send.cpp:1146
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
-msgstr ""
-"Pre spustenie úloh tohto projektu je požadovaná grafická karta (GPU) značky "
-"%s"
+msgstr "Un GPU %s este necesar pentru a rula task-uri pentru acest proiect"
 
 #: ../sched/sched_send.cpp:1262
 msgid "No tasks are available for the applications you have selected."
-msgstr "Nie je dostupná žiadna práca pre aplikácie, ktoré ste zvolili."
+msgstr "Nu există task-uri disponibile pentru aplicaţiile pe care le-aţi selectat."
 
 #: ../sched/sched_send.cpp:1288
 msgid "Your computer type is not supported by this project"
-msgstr "Typ Vášho počítača nie je podporovaný týmto projektom"
+msgstr "Tipul dumneavoastră de calculator nu este suportat de acest proiect"
 
 #: ../sched/sched_send.cpp:1294
 msgid "Newer BOINC version required; please install current version"
-msgstr "Je vyžadovaná novšia verzia BOINC; prosím nainštalujte aktuálnu verziu"
+msgstr "Este necesară o versiune mai nouă a BOINC; vă rugam instalaţi versiunea curentă"
 
 #: ../sched/sched_send.cpp:1305
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
-msgstr "Úlohy pre %s sú dostupné, avšak Vaše preferencie určujú ich neprijímať"
+msgstr "Task-uri pentru %s sunt disponibile, dar preferinţele dumneavoastră sunt setate să nu le accepte"
 
 #: ../sched/sched_types.cpp:254
 msgid "Unknown app name in app_info.xml"
-msgstr "Neznámy názov aplikácie v súbore app_info.xml"
+msgstr "Nume aplicaţie necunoscut în app_info.xml"
 
 #: ../sched/sched_version.cpp:214
 msgid "Your app_info.xml file doesn't have a usable version of"
-msgstr "Váš súbor app_info.xml nemá použiteľnú verziu "
-
-#~ msgid "Download it."
-#~ msgstr "Stiahnuť."
-
-#~ msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
-#~ msgstr ""
-#~ "Pre spracovanie úloh tohto projektu je vyžadovaná grafická karta (GPU) "
-#~ "NVIDIA alebo ATI"
-
-#~ msgid "An NVIDIA GPU is required to run tasks for this project"
-#~ msgstr ""
-#~ "Pre spustenie úloh tohto projektu je požadovaná grafická karta (GPU) NVIDIA"
-
-#~ msgid "An ATI GPU is required to run tasks for this project"
-#~ msgstr ""
-#~ "Pre spustenie úloh tohto projektu je požadovaný grafická karta (GPU) ATI"
-
-#~ msgid ""
-#~ "Tasks for NVIDIA GPU are available, but your preferences are set to not "
-#~ "accept them"
-#~ msgstr ""
-#~ "Sú dostupné úlohy pre NVIDIA GPU, ale vaše preferencie sú nastavené ich "
-#~ "neakceptovať"
-
-#~ msgid ""
-#~ "Tasks for ATI GPU are available, but your preferences are set to not accept "
-#~ "them"
-#~ msgstr ""
-#~ "Sú dostupné úlohy pre ATI GPU, ale vaše preferencie sú nastavené ich "
-#~ "neakceptovať"
-
-#~ msgid ""
-#~ "Tasks for CPU are available, but your preferences are set to not accept them"
-#~ msgstr ""
-#~ "Sú dostupné úlohy pre CPU, ale vaše preferencie sú nastavené ich "
-#~ "neakceptovať"
-
-#~ msgid "error"
-#~ msgstr "chyba"
-
-#~ msgid "Can't resolve hostname in remote_hosts.cfg"
-#~ msgstr "Nemožno rozpoznať adresu hostiteľa v remote_hosts.cfg"
-
-#~ msgid "is not available for"
-#~ msgstr "nie je dostupná pre"
-
-#~ msgid "Notice from BOINC"
-#~ msgstr "Oznam z BOINC"
+msgstr "Fişierul dumneavoastră app_info.xml nu are o versiune utilizabilă de"
