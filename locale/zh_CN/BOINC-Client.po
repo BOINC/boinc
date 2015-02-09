@@ -1,22 +1,21 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2013-06-11 13:07+0200\n"
-"Last-Translator: Gang <zenith.yin@gmail.com>\n"
-"Language-Team: Team China <zenith.yin@gmail.com>\n"
-"Language: zh_CN\n"
+"PO-Revision-Date: 2015-02-09 01:42+0000\n"
+"Last-Translator: Rom Walton <romw@romwnet.org>\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/projects/p/boinc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.1.6\n"
-"X-Poedit-Basepath: D:\\Work\\boinc_src\\locale\n"
 
 #: acct_mgr.cpp:450 acct_mgr.cpp:459
 msgid "Message from account manager"
@@ -115,7 +114,8 @@ msgid "This project doesn't support computers of type"
 msgstr "该项目不支持的计算机类型"
 
 #: ../sched/sched_send.cpp:1092
-msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
+msgid ""
+"Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "将你计算机中 GPU 的驱动升级到最新版本后，才能继续处理计算任务"
 
 #: ../sched/sched_send.cpp:1099
@@ -125,11 +125,10 @@ msgstr "将你计算机中 GPU 的驱动升级到最新版本后，才能运行�
 
 #: ../sched/sched_send.cpp:1118
 msgid ""
-"A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
-"the current version"
+"A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
+" the current version"
 msgstr "如果要使用你的 NVIDIA GPU 来进行计算，请将 BOINC 升级至最新的正式版本。"
 
-# 94%
 #: ../sched/sched_send.cpp:1146
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
@@ -160,60 +159,3 @@ msgstr "app_info.xml 中的计算程序名称未知"
 #: ../sched/sched_version.cpp:214
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "你的 app_info.xml 文件中未包括可用版本的"
-
-#~ msgid "Download it."
-#~ msgstr "下载它。"
-
-#~ msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
-#~ msgstr "运行这个项目要求计算机配备一块 NVIDIA 或 ATI 的显卡。"
-
-#~ msgid "An NVIDIA GPU is required to run tasks for this project"
-#~ msgstr "运行这个项目要求计算机配备一块 NVIDIA 的显卡。"
-
-#~ msgid "An ATI GPU is required to run tasks for this project"
-#~ msgstr "运行这个项目要求计算机配备一块 ATI 的显卡。"
-
-#~ msgid ""
-#~ "Tasks for NVIDIA GPU are available, but your preferences are set to not "
-#~ "accept them"
-#~ msgstr "目前还有 NVIDIA GPU 的计算任务，但你在参数设置中选择了不下载该类型的任务"
-
-#~ msgid ""
-#~ "Tasks for ATI GPU are available, but your preferences are set to not accept "
-#~ "them"
-#~ msgstr "目前还有 ATI GPU 的计算任务，但你在参数设置中选择了不下载该类型的任务"
-
-#~ msgid ""
-#~ "Tasks for CPU are available, but your preferences are set to not accept them"
-#~ msgstr "目前还有 CPU 的计算任务，但你在参数设置中选择了不下载该类型的任务"
-
-#~ msgid "error"
-#~ msgstr "错误"
-
-#~ msgid "Can't resolve hostname in remote_hosts.cfg"
-#~ msgstr "无法解析 remote_hosts.cfg 里的主机名称"
-
-#~ msgid "is not available for"
-#~ msgstr "对于你的计算机类型不可用："
-
-#~ msgid "Notice from BOINC"
-#~ msgstr "BOINC 通知"
-
-#~ msgid "Message from"
-#~ msgstr "消息来自"
-
-#~ msgid ""
-#~ "You may have an outdated code signing key.  Try attaching and reattaching "
-#~ "this project."
-#~ msgstr "你的代码签名密钥已经过期，请退出并重新加入该项目。"
-
-#~ msgid "XML syntax error in"
-#~ msgstr "XML 语法错误"
-
-#~ msgid "Unparsed tag in"
-#~ msgstr "无法解析的标签"
-
-#~ msgid ""
-#~ "Your preference for network connection interval is too high for this "
-#~ "project"
-#~ msgstr "你参数设置中关于网络连接间隔的限制对于当前项目来说太高了"
