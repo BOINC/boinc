@@ -1,6 +1,6 @@
 language: cpp
-#compiler:
-#  - gcc
+compiler:
+  - gcc
 #  - clang
 
 branches:
@@ -20,23 +20,14 @@ env:
     # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
     #   via the "travis encrypt" command using the project repo's public key
     - secure: "Rd++Hyurnwd/tvjH0PX2seO3QUZ6WOf8bSB2ZkKPfZCU6+tXVMvloyog6Mlc7vl0m3WFAzw24MDtNLFBUktRsVXOkqDup1s6PdkwwcwG+5wAnydN+kXF9PcqKyOi0xJvl48Wji+r92Y9SCLzPnQGjZg70xHET22bDZHt2FsjP80="
-#- BOINC_TYPE=libs
-#- BOINC_TYPE=server
-#- BOINC_TYPE=client
-#- BOINC_TYPE=manager
-  global:
-    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
-    #   via the "travis encrypt" command using the project repo's public key
-    - secure: "Rd++Hyurnwd/tvjH0PX2seO3QUZ6WOf8bSB2ZkKPfZCU6+tXVMvloyog6Mlc7vl0m3WFAzw24MDtNLFBUktRsVXOkqDup1s6PdkwwcwG+5wAnydN+kXF9PcqKyOi0xJvl48Wji+r92Y9SCLzPnQGjZg70xHET22bDZHt2FsjP80="
+  matrix:
+    - BOINC_TYPE=libs
+    - BOINC_TYPE=server
+    - BOINC_TYPE=client
+    #- BOINC_TYPE=manager
+    #- BOINC_TYPE=coverity
 
 matrix:
-  include:
-    - compiler: "gcc"
-      env: BOINC_TYPE=libs
-    - compiler: "gcc"
-      env: BOINC_TYPE=server
-    - compiler: "gcc"
-      env: BOINC_TYPE=client
   fast_finish: true
 
 before_install:
@@ -47,6 +38,7 @@ install:
 - if [[ "${BOINC_TYPE}" == "server" ]]; then ( sudo apt-get install python libssl-dev python-mysqldb libmysqlclient-dev libfcgi-dev -qq ) fi
 - if [[ "${BOINC_TYPE}" == "client" ]]; then ( sudo apt-get install libssl-dev libcurl4-openssl-dev libxss-dev libnotify-dev libxcb-util0-dev -qq ) fi
 - if [[ "${BOINC_TYPE}" == "manager" ]]; then ( sudo apt-get install libssl-dev libxss-dev libnotify-dev libxcb-util0-dev libsqlite3-dev ) fi
+- if [[ "${BOINC_TYPE}" == "coverity" ]]; then ( sudo apt-get install python libssl-dev python-mysqldb libmysqlclient-dev libfcgi-dev libcurl4-openssl-dev libxss-dev libnotify-dev libxcb-util0-dev -qq ) fi
 
 before_script:
 - ./_autosetup
@@ -63,6 +55,6 @@ addons:
       name: "BOINC/boinc"
       description: "Build submitted via Travis CI"
     notification_email: christian.beer@posteo.de
-    build_command_prepend: "./coverty_prepare.sh"
+    build_command_prepend: "./configure --disable-manager"
     build_command:   "make -j 4"
     branch_pattern: coverity_scan
