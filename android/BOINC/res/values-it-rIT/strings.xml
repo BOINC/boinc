@@ -197,7 +197,7 @@
   <string name="prefs_unit_gb">GB</string>
   <string name="prefs_unit_pct">%</string>
   <string name="prefs_unit_celcius">°C</string>
-  <string name="prefs_unit_seconds">s</string>
+  <string name="prefs_unit_seconds">secondi</string>
   <!--projects tab strings-->
   <string name="projects_loading">Lettura progetti…</string>
   <string name="projects_add">Aggiungi progetto</string>
