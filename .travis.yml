@@ -21,11 +21,11 @@ env:
     #   via the "travis encrypt" command using the project repo's public key
     - secure: "Rd++Hyurnwd/tvjH0PX2seO3QUZ6WOf8bSB2ZkKPfZCU6+tXVMvloyog6Mlc7vl0m3WFAzw24MDtNLFBUktRsVXOkqDup1s6PdkwwcwG+5wAnydN+kXF9PcqKyOi0xJvl48Wji+r92Y9SCLzPnQGjZg70xHET22bDZHt2FsjP80="
   matrix:
-    - BOINC_TYPE=libs
-    - BOINC_TYPE=server
-    - BOINC_TYPE=client
+    #- BOINC_TYPE=libs
+    #- BOINC_TYPE=server
+    #- BOINC_TYPE=client
     #- BOINC_TYPE=manager
-    #- BOINC_TYPE=coverity
+    - BOINC_TYPE=coverity
 
 matrix:
   fast_finish: true
