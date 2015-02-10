@@ -336,7 +336,7 @@
     <string name="suspend_network_quota">BOINC reached network transfer limit.</string>
     <string name="suspend_os">Stopped by Android.</string>
     <string name="suspend_wifi">Not connected to WiFi.</string>
-    <string name="suspend_battery_charging">Battery needs to charge before resuming computation.</string>
+    <string name="suspend_battery_charging">Waiting for battery to charge.</string>
     <string name="suspend_battery_charging_long">Computing will resume when battery charge reaches</string>
     <string name="suspend_battery_charging_long2"></string>
     <string name="suspend_battery_charging_current">currently</string>
