@@ -31,6 +31,12 @@ source_file = locale/templates/BOINC-Project-Generic.pot
 source_lang = en_US
 type = PO
 
+[boinc.drupal]
+file_filter = locale/<lang>/BOINC-Drupal.po
+source_file = locale/templates/BOINC-Drupal.pot
+source_lang = en_US
+type = PO
+
 [boinc.android]
 file_filter = android/BOINC/res/values-<lang>/strings.xml
 source_file = android/BOINC/res/values/strings.xml

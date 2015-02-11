@@ -82,7 +82,7 @@
     <string name="attachproject_login_category_creation">New to </string>
     <string name="attachproject_login_header_creation_enabled">Register an account to participate:</string>
     <string name="attachproject_login_header_creation_client_disabled">Visit project website to create an account:</string>
-    <string name="attachproject_login_header_creation_disabled">Project does currently now allow creation of new accounts!</string>
+    <string name="attachproject_login_header_creation_disabled">This project is not currently accepting new accounts.</string>
     <string name="attachproject_login_button_registration">Register</string>
     <string name="attachproject_login_button_login">Sign in</string>
     <string name="attachproject_login_button_forgotpw">Forgot Password</string>

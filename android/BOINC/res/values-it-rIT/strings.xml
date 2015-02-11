@@ -63,7 +63,7 @@
   <string name="attachproject_login_category_creation">Nuovo</string>
   <string name="attachproject_login_header_creation_enabled">Registra un account per partecipare:</string>
   <string name="attachproject_login_header_creation_client_disabled">Visita il sito web del progetto per creare un account:</string>
-  <string name="attachproject_login_header_creation_disabled">Il progetto non permette al momento la creazione di nuovi account!</string>
+  <string name="attachproject_login_header_creation_disabled">Al momento il progetto non accetta nuovi accounts.</string>
   <string name="attachproject_login_button_registration">Registra</string>
   <string name="attachproject_login_button_login">Login</string>
   <string name="attachproject_login_button_forgotpw">Password dimenticata</string>
