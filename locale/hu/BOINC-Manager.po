@@ -4,31 +4,29 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 5.x\n"
+"Project-Id-Version: BOINC 7.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-15 14:15-0500\n"
-"PO-Revision-Date: 2014-02-22 15:16+0000\n"
-"Last-Translator: Gabor <csega@mailbox.hu>\n"
-"Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
+"PO-Revision-Date: 2015-02-11 00:05-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
+"Language-Team: BOINC Localization Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n !=1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc_7.4\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-POOTLE-MTIME: 1393082210.0\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
 # 81%
 #: clientgui/AccountInfoPage.cpp:387
 #, c-format
-#, c-format, c-format
 msgid "Identify your account at %s"
 msgstr "Fiókjának azonosítása itt: %s"
 
@@ -195,7 +193,7 @@ msgstr ""
 #: clientgui/AccountManagerPropertiesPage.cpp:192
 #, c-format
 msgid "Communicating with %s."
-msgstr "Ezen fiókkezelő weboldalának megtekintése"
+msgstr ""
 
 #: clientgui/AccountManagerProcessingPage.cpp:193
 #: clientgui/AccountManagerPropertiesPage.cpp:199
@@ -301,8 +299,7 @@ msgstr "&Projekt vagy fiókkezelő hozzáadása"
 
 #: clientgui/AdvancedFrame.cpp:422
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
-msgstr ""
-"Vegyen részt bármelyikben a több, mint 30 különböző tudományos projektből"
+msgstr "Vegyen részt bármelyikben a több, mint 30 különböző tudományos projektből"
 
 #: clientgui/AdvancedFrame.cpp:426
 #, c-format
@@ -517,7 +514,6 @@ msgstr "Információk erről: %s"
 
 #: clientgui/AdvancedFrame.cpp:662
 #, c-format
-#, c-format, fuzzy
 msgid "%s &web site"
 msgstr "%s &weboldal"
 
@@ -592,7 +588,7 @@ msgid ""
 "and prompt you for another host to connect to."
 msgstr ""
 "%s leállítja a jelenleg kapcsolódott klienst,\n"
-"és javasol Önnek egy másik klienst, amihez csatlakozhat.\n"
+"és javasol Önnek egy másik klienst, amihez csatlakozhat."
 
 #: clientgui/AdvancedFrame.cpp:1806
 #, c-format
@@ -633,8 +629,7 @@ msgstr ""
 "Már létezik fiók ezzel az email címmel, de a hozzá\n"
 "tartozó jelszó nem egyezik az Ön által megadottal.\n"
 "\n"
-"Kérem, látogasson el a projekt weboldalára, és kövesse az ott leírt "
-"teendőket."
+"Kérem, látogasson el a projekt weboldalára, és kövesse az ott leírt teendőket."
 
 #: clientgui/AlreadyExistsPage.cpp:191
 msgid "Email address already in use"
@@ -650,8 +645,7 @@ msgstr ""
 "Egy fiók már létezik ezzel az email címmel, de a hozzá\n"
 "tartozó jelszó nem egyezik az Ön által megadottal.\n"
 "\n"
-"Kérem, látogasson el a projekt weboldalára, és kövesse az ott leírt "
-"teendőket."
+"Kérem, látogasson el a projekt weboldalára, és kövesse az ott leírt teendőket."
 
 #: clientgui/AsyncRPC.cpp:1031
 msgid "Communicating with BOINC client.  Please wait ..."
@@ -687,8 +681,7 @@ msgid ""
 "Please contact your administrator to add you to the 'boinc_users' local user group."
 msgstr ""
 "Jelenleg nincs jogosultsága a kliens kezelésére.\n"
-"Kérjük, lépjen kapcsolatba a rendszergazdával és kérje meg, hogy adja hozzá "
-"a\n"
+"Kérjük, lépjen kapcsolatba a rendszergazdával és kérje meg, hogy adja hozzá a\n"
 " 'boinc_users' helyi felhasználói csoporthoz."
 
 #: clientgui/BOINCBaseFrame.cpp:522
@@ -697,8 +690,7 @@ msgid ""
 "Make sure you start this program in the same directory as the client."
 msgstr ""
 "Az engedélyezés sikertelen a futó klienshez való csatlakozáskor.\n"
-"Kérjük győződjön meg róla, hogy ezt a programot ugyanabban a könyvtárban "
-"indította, mint a klienst."
+"Kérjük győződjön meg róla, hogy ezt a programot ugyanabban a könyvtárban indította, mint a klienst."
 
 #: clientgui/BOINCBaseFrame.cpp:524
 msgid "Authorization failed connecting to running client."
@@ -734,8 +726,7 @@ msgid ""
 "Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
 msgstr ""
 "%s nem tud egy %s klienst elindítani.\n"
-"Kérjük, navigáljon a Vezérlőpult->Felügyeleti eszközök->Szolgáltatások "
-"helyre és indítsa el a  BOINC szolgáltatást."
+"Kérjük, navigáljon a Vezérlőpult->Felügyeleti eszközök->Szolgáltatások helyre és indítsa el a  BOINC szolgáltatást."
 
 #: clientgui/BOINCBaseFrame.cpp:637
 #, c-format
@@ -757,11 +748,7 @@ msgid ""
 "%s is not currently connected to a %s client.\n"
 "Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
-msgstr ""
-"%s jelenleg nem kapcsolódik egy %s klienshez sem.Kérjük, használja a "
-"'Haladó\\Számítógép kiválasztása...' menüpontot egy %s klienshez való "
-"csatlakozáshoz.A helyi számítógép csatlakoztatásához a számítógépnév "
-"megadásánál használja a 'localhost' kifejezést."
+msgstr "%s jelenleg nem kapcsolódik egy %s klienshez sem.Kérjük, használja a 'Haladó\\Számítógép kiválasztása...' menüpontot egy %s klienshez való csatlakozáshoz.A helyi számítógép csatlakoztatásához a számítógépnév megadásánál használja a 'localhost' kifejezést."
 
 #: clientgui/BOINCBaseView.cpp:752
 msgid "Project web pages"
@@ -856,8 +843,7 @@ msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr ""
-"A(z) %s tulajdonosi és hozzáférési jogai nincsenek megfelelően beállítva; "
-"kérjük, telepítse újra a(z) %s-t.\n"
+"A(z) %s tulajdonosi és hozzáférési jogai nincsenek megfelelően beállítva; kérjük, telepítse újra a(z) %s-t.\n"
 "(Hibakód %d"
 
 #: clientgui/BOINCGUIApp.cpp:607
@@ -918,9 +904,7 @@ msgstr "BOINC biztonsági felhasználók és hozzáférések kikapcsolása"
 
 #: clientgui/BOINCGUIApp.cpp:914
 msgid "set skin debugging mode to enable skin manager error messages"
-msgstr ""
-"kinézet hibakereső mód beállítása, ezzel a kinézetkezelő hibaüzeneteinek "
-"engedélyezése"
+msgstr "kinézet hibakereső mód beállítása, ezzel a kinézetkezelő hibaüzeneteinek engedélyezése"
 
 #: clientgui/BOINCGUIApp.cpp:915
 msgid "multiple instances of BOINC Manager allowed"
@@ -1207,11 +1191,9 @@ msgid ""
 "Click OK to set preferences.\n"
 "Click Clear to restore web-based settings (except exclusive apps)."
 msgstr ""
-"Ez a párbeszédpanel csak az ehhez a számítógéphez tartozó beállításokat "
-"kezeli.\n"
+"Ez a párbeszédpanel csak az ehhez a számítógéphez tartozó beállításokat kezeli.\n"
 "Kattintson az OK-ra a beállítások módosításához.\n"
-"Kattintson a Törlés-re a webes beállítások visszaállításához (kivéve az "
-"exkluzív alkalmazásokat)."
+"Kattintson a Törlés-re a webes beállítások visszaállításához (kivéve az exkluzív alkalmazásokat)."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:69
 msgid "Clear"
@@ -1271,9 +1253,7 @@ msgstr "Amikor a számítógép akkumulátorról működik"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:149
 msgid "check this if you want this computer to do work while it runs on batteries"
-msgstr ""
-"jelölje be, ha azt szeretné, hogy a számítógépe akkor is (fel)dolgozzon, "
-"amikor akkumulátorról működik"
+msgstr "jelölje be, ha azt szeretné, hogy a számítógépe akkor is (fel)dolgozzon, amikor akkumulátorról működik"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:155
 msgid "While computer is in use"
@@ -1281,9 +1261,7 @@ msgstr "Ha a számítógép használatban van"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:158
 msgid "check this if you want this computer to do work even when you're using it"
-msgstr ""
-"jelölje be, ha azt szeretné, hogy a számítógépe akkor is (fel)dolgozzon, "
-"amikor Ön használja azt"
+msgstr "jelölje be, ha azt szeretné, hogy a számítógépe akkor is (fel)dolgozzon, amikor Ön használja azt"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:164
 msgid "Use GPU while computer is in use"
@@ -1291,9 +1269,7 @@ msgstr "GPU használata, amikor a számítógép használatban van"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:167
 msgid "check this if you want your GPU to do work even when you're using the computer"
-msgstr ""
-"jelölje be, ha azt szeretné, hogy a GPU is (fel)dolgozzon, mialatt Ön a "
-"számítógépet használja"
+msgstr "jelölje be, ha azt szeretné, hogy a GPU is (fel)dolgozzon, mialatt Ön a számítógépet használja"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:179
 msgid "Only after computer has been idle for"
@@ -1301,9 +1277,7 @@ msgstr "Csak miután a számítógép legalább ennyi ideje tétlen:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:188
 msgid "do work only after you haven't used the computer for this number of minutes"
-msgstr ""
-"csak akkor kezdjen el dolgozni, miután Ön a számítógépet már ennyi perce nem "
-"használja:"
+msgstr "csak akkor kezdjen el dolgozni, miután Ön a számítógépet már ennyi perce nem használja:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:193
 #: clientgui/DlgAdvPreferencesBase.cpp:342
@@ -1353,9 +1327,7 @@ msgstr "Felülírás a hét napjaira:"
 #: clientgui/DlgAdvPreferencesBase.cpp:266
 #: clientgui/DlgAdvPreferencesBase.cpp:532
 msgid "check box to specify hours for this day of week"
-msgstr ""
-"jelölje be a négyzetet, ha a hét ezen napjára külön szeretné beállítani az "
-"időtartamot"
+msgstr "jelölje be a négyzetet, ha a hét ezen napjára külön szeretné beállítani az időtartamot"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:272
 #: clientgui/DlgAdvPreferencesBase.cpp:538
@@ -1491,8 +1463,7 @@ msgstr "Jóváhagyás internetre csatlakozás előtt"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:489
 msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
-msgstr ""
-"ha aktív, egy jóváhagyás kérés fog megjelenni internetre csatlakozás elött"
+msgstr "ha aktív, egy jóváhagyás kérés fog megjelenni internetre csatlakozás elött"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:493
 msgid "Disconnect when done"
@@ -1585,15 +1556,11 @@ msgstr "Hagyja az alkalmazásokat a memóriában a felfüggesztésük alatt"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:708
 msgid "if checked, suspended work units are left in memory"
-msgstr ""
-"ha be van jelölve, akkor a felfüggesztett munkacsomagok a memóriában "
-"maradnak"
+msgstr "ha be van jelölve, akkor a felfüggesztett munkacsomagok a memóriában maradnak"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:728
 msgid "Suspend processor and network usage when these applications are running:"
-msgstr ""
-"Függessze fel a processzor- és hálózathasználatot, amikor a következő "
-"alkalmazások futnak:"
+msgstr "Függessze fel a processzor- és hálózathasználatot, amikor a következő alkalmazások futnak:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:738
 msgid "Add..."
@@ -1678,17 +1645,12 @@ msgstr "&Kijelöltek másolása"
 #: clientgui/DlgEventLog.cpp:318
 #: clientgui/DlgEventLog.cpp:326
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"A kiválasztott üzenetek másolása a vágólapra. Több üzenetet is kiválaszthat, "
-"ha az üzenetkre történő kattintás közben nyomva tartja a Shift, vagy a "
-"parancsbillentyűt."
+msgstr "A kiválasztott üzenetek másolása a vágólapra. Több üzenetet is kiválaszthat, ha az üzenetkre történő kattintás közben nyomva tartja a Shift, vagy a parancsbillentyűt."
 
 #: clientgui/DlgEventLog.cpp:320
 #: clientgui/DlgEventLog.cpp:328
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"A kiválasztott üzenetek másolása a vágólapra. Több üzenetek is kiváaszthat a "
-"SHIFT vagy CTRL gombok lenyomásával, miközben az üzenetekre kattint."
+msgstr "A kiválasztott üzenetek másolása a vágólapra. Több üzenetek is kiváaszthat a SHIFT vagy CTRL gombok lenyomásával, miközben az üzenetekre kattint."
 
 #: clientgui/DlgEventLog.cpp:335
 #: clientgui/DlgItemProperties.cpp:67
@@ -2155,11 +2117,8 @@ msgstr "%s - Nyelv kiválasztása"
 
 #: clientgui/DlgOptions.cpp:698
 #, c-format
-#, fuzzy, c-format
 msgid "The %s's language has been changed.  In order for this change to take effect, you must restart the %s."
-msgstr ""
-"A(z) %s alapértelmezett nyelve megváltozott, a változás érvénybe lépéséhez "
-"újra kell indítani %s-t."
+msgstr "A(z) %s alapértelmezett nyelve megváltozott, a változás érvénybe lépéséhez újra kell indítani %s-t."
 
 #: clientgui/DlgSelectComputer.cpp:91
 #, c-format
@@ -2211,8 +2170,7 @@ msgstr "Az Ön beállításai"
 
 #: clientgui/Localization.cpp:45
 msgid "View and modify your SETI@home account profile and preferences"
-msgstr ""
-"Megnézheti és megváltoztathatja a SETI@home fiók profilját és beállításait"
+msgstr "Megnézheti és megváltoztathatja a SETI@home fiók profilját és beállításait"
 
 #: clientgui/Localization.cpp:47
 #: clientgui/Localization.cpp:89
@@ -2231,9 +2189,7 @@ msgstr "Az Ön számítógépei"
 
 #: clientgui/Localization.cpp:53
 msgid "View a listing of all the computers on which you are running SETI@Home"
-msgstr ""
-"Megnézheti azon számítógépeinek listáját, amelyekkel Ön a SETI@home-hoz "
-"csatlakozott"
+msgstr "Megnézheti azon számítógépeinek listáját, amelyekkel Ön a SETI@home-hoz csatlakozott"
 
 #: clientgui/Localization.cpp:55
 #: clientgui/Localization.cpp:97
@@ -2263,9 +2219,7 @@ msgstr "Olvassa el az Einstein@Home képernyővédő részletes leírását"
 
 #: clientgui/Localization.cpp:71
 msgid "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr ""
-"Társalogjon az Einstein@Home üzenőfalán az adminisztrátorokkal és más "
-"felhasználókkal"
+msgstr "Társalogjon az Einstein@Home üzenőfalán az adminisztrátorokkal és más felhasználókkal"
 
 #: clientgui/Localization.cpp:73
 msgid "Einstein status"
@@ -2285,9 +2239,7 @@ msgstr "Link az Einstein@Home probléma- és hibajelentések üzenőfalára"
 
 #: clientgui/Localization.cpp:83
 msgid "View and modify your Einstein@Home account profile and preferences"
-msgstr ""
-"Megnézheti és megváltoztathatja az Einstein@Home fiók profilját és "
-"beállításait"
+msgstr "Megnézheti és megváltoztathatja az Einstein@Home fiók profilját és beállításait"
 
 #: clientgui/Localization.cpp:85
 msgid "Account summary"
@@ -2295,9 +2247,7 @@ msgstr "Felhasználói fiók összegzése"
 
 #: clientgui/Localization.cpp:95
 msgid "View a listing of all the computers on which you are running Einstein@Home"
-msgstr ""
-"Megnézheti azon számítógépeinek listáját, amelyekkel Ön az Einstein@Home-hoz "
-"csatlakozott"
+msgstr "Megnézheti azon számítógépeinek listáját, amelyekkel Ön az Einstein@Home-hoz csatlakozott"
 
 #: clientgui/Localization.cpp:101
 msgid "LIGO project"
@@ -2305,9 +2255,7 @@ msgstr "LIGO projekt"
 
 #: clientgui/Localization.cpp:103
 msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
-msgstr ""
-"A Lézer-interferometrikus Gravitációs-hullám Obszervatórium (LIGO) projekt "
-"honlapja"
+msgstr "A Lézer-interferometrikus Gravitációs-hullám Obszervatórium (LIGO) projekt honlapja"
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
@@ -2340,8 +2288,7 @@ msgstr "climateprediction.net hírek"
 
 #: clientgui/Localization.cpp:131
 msgid "View your account information, credits, and trickles"
-msgstr ""
-"Megnézheti a felhasználói fiókja információit, kreditjeit és fejleményeit"
+msgstr "Megnézheti a felhasználói fiókja információit, kreditjeit és fejleményeit"
 
 #: clientgui/Localization.cpp:135
 msgid "Info about your team"
@@ -2401,9 +2348,7 @@ msgstr "Hiányzó alkalmazás"
 
 #: clientgui/MainDocument.cpp:1827
 msgid "Please download and install the CoRD application from http://cord.sourceforge.net"
-msgstr ""
-"Kérjük, töltse le és telepítse a CoRD alkalmazást a "
-"http://cord.sourceforge.net oldalról"
+msgstr "Kérjük, töltse le és telepítse a CoRD alkalmazást a http://cord.sourceforge.net oldalról"
 
 #: clientgui/MainDocument.cpp:2442
 msgid "on batteries"
@@ -2646,9 +2591,7 @@ msgstr "Válasszon egy projektet"
 
 #: clientgui/ProjectInfoPage.cpp:228
 msgid "To choose a project, click its name or type its URL below."
-msgstr ""
-"Projekt kiválasztásához kattintson annak nevére vagy gépelje be alább az "
-"URL-jét."
+msgstr "Projekt kiválasztásához kattintson annak nevére vagy gépelje be alább az URL-jét."
 
 #: clientgui/ProjectInfoPage.cpp:246
 msgid "Categories:"
@@ -2690,9 +2633,7 @@ msgstr "Mind"
 
 #: clientgui/ProjectInfoPage.cpp:802
 msgid "This project may not have work for your type of computer.  Do you want to add it anyway?"
-msgstr ""
-"Elképzelhető, hogy ez a projekt nem tud az Ön számítógépének megfelelő "
-"munkát biztosítani. Mégis hozzá szeretné adni?"
+msgstr "Elképzelhető, hogy ez a projekt nem tud az Ön számítógépének megfelelő munkát biztosítani. Mégis hozzá szeretné adni?"
 
 #: clientgui/ProjectInfoPage.cpp:826
 msgid "You already added this project. Please choose a different project."
@@ -2886,9 +2827,7 @@ msgstr "Értesítések"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:868
 msgid "Open a window to view notices from projects or BOINC"
-msgstr ""
-"Ablak nyitása a BOINC-tól vagy a projektektől érkező üzenetek "
-"megtekintéséhez"
+msgstr "Ablak nyitása a BOINC-tól vagy a projektektől érkező üzenetek megtekintéséhez"
 
 #: clientgui/sg_DlgMessages.cpp:124
 msgid "Fetching notices; please wait..."
@@ -3050,9 +2989,7 @@ msgstr "Frissítés"
 #: clientgui/sg_ProjectCommandPopup.cpp:67
 #: clientgui/ViewProjects.cpp:180
 msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
-msgstr ""
-"Befejezett feladatok jelentése, legutóbbi kreditek és beállítások letöltése, "
-"esetlegesen új munka letöltése."
+msgstr "Befejezett feladatok jelentése, legutóbbi kreditek és beállítások letöltése, esetlegesen új munka letöltése."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:73
 #: clientgui/sg_ProjectCommandPopup.cpp:129
@@ -3081,18 +3018,12 @@ msgstr "Projekt nullázása"
 #: clientgui/sg_ProjectCommandPopup.cpp:85
 #: clientgui/ViewProjects.cpp:201
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr ""
-"A projekthez kapcsolódó összes fájl és feladat törlése, és új feladatok "
-"kérése. Először frissítse a projektet, hogy ezzel az összes elkészült "
-"feladatot jelentse."
+msgstr "A projekthez kapcsolódó összes fájl és feladat törlése, és új feladatok kérése. Először frissítse a projektet, hogy ezzel az összes elkészült feladatot jelentse."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:91
 #: clientgui/ViewProjects.cpp:208
 msgid "Remove this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr ""
-"A számítógép leválasztása a projektről. Folyamatban lévő munka elvész "
-"(először használja a 'Frissítés'-t, hogy az összes elkészült munkát "
-"jelentse)."
+msgstr "A számítógép leválasztása a projektről. Folyamatban lévő munka elvész (először használja a 'Frissítés'-t, hogy az összes elkészült munkát jelentse)."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:96
 #: clientgui/sg_TaskCommandPopup.cpp:84
@@ -3165,9 +3096,7 @@ msgstr "Projektek szinkronizálása a fiókkezelő rendszerrel"
 
 #: clientgui/sg_ProjectPanel.cpp:124
 msgid "Select a project to access with the controls below"
-msgstr ""
-"Válasszon ki egy projektet, amelyhez a lenti beállítások szerint kíván "
-"hozzáférni"
+msgstr "Válasszon ki egy projektet, amelyhez a lenti beállítások szerint kíván hozzáférni"
 
 #: clientgui/sg_ProjectPanel.cpp:145
 msgid "Project Web Pages"
@@ -3179,7 +3108,6 @@ msgstr "Projekt parancsok"
 
 #: clientgui/sg_ProjectPanel.cpp:276
 #, c-format
-#, c-format, fuzzy
 msgid "Pop up a menu of web sites for project %s"
 msgstr "Jelenjen meg egy menü a(z) %s projekt weboldalairól"
 
@@ -4113,8 +4041,7 @@ msgstr "adja meg a végrehajtás kezdetét és végét ÓÓ:PP-ÓÓ:PP formátum
 
 #: clientgui/DlgAdvPreferences.h:31
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
-msgstr ""
-"adja meg a hálózat használatának kezdetét és végét ÓÓ:PP-ÓÓ:PP formátumban"
+msgstr "adja meg a hálózat használatának kezdetét és végét ÓÓ:PP-ÓÓ:PP formátumban"
 
 # 98%
 #, fuzzy
@@ -4132,102 +4059,70 @@ msgstr ""
 #, no-c-format
 #~ msgid "% CPU time"
 #~ msgstr "%-át használja a CPU időnek"
-
 #~ msgid "KBytes/sec."
 #~ msgstr "KByte/sec."
-
 #~ msgid "Mbytes"
 #~ msgstr "Mbájt"
-
 #~ msgid "every"
 #~ msgstr "minden"
-
 #~ msgid "days"
 #~ msgstr "nap"
-
 #~ msgid "Gigabytes disk space"
 #~ msgstr "Gigabájt lemezterület"
-
 #~ msgid "Running, high priority"
 #~ msgstr "Fut (magas prioritással)"
-
 #~ msgid " (Scheduler wait: "
 #~ msgstr "(Ütemező vár: "
-
 #~ msgid " (Scheduler wait)"
 #~ msgstr "(Ütemező vár)"
-
 #~ msgid " (Waiting for network access)"
 #~ msgstr "(Várakozás hálózati hozzáférésre)"
-
 #~ msgid "Preferences…"
 #~ msgstr "Beállítások..."
-
 #~ msgid "I do not agree with the terms of use."
 #~ msgstr "Nem fogadom el a felhasználási feltételeket."
-
 #~ msgid "Click Clear to restore web-based settings."
 #~ msgstr "Kattintson a Törlésre a web-alapú beállítások visszaállításához."
-
 #~ msgid "For additional settings, select Computing Preferences in "
 #~ msgstr "További beállításokhoz válassza a Számítási beállításokat a"
-
 #~ msgid "the Advanced View."
 #~ msgstr "haladó nézetben."
-
 #~ msgid "Workunit name"
 #~ msgstr "A munkacsomag neve"
-
 #~ msgid "invalid float"
 #~ msgstr "érvénytelen lebegőpontos"
-
 #~ msgid "Display the advanced (accessible) graphical interface."
 #~ msgstr "A haladó (elérhető) grafikus felület megjelenítése."
-
 #~ msgid "Paused: Other work running"
 #~ msgstr "Megállítva: más munka fut"
-
 #~ msgid "Paused: User initiated.  Click 'Resume' to continue"
 #~ msgstr ""
 #~ "Megállítva: felhasználó által. A folytatáshoz kattintson a 'Folytatás' "
 #~ "gombra."
-
 #~ msgid "Paused: User active"
 #~ msgstr "Megállítva: a felhasználó aktív"
-
 #~ msgid "Paused: Computer on battery"
 #~ msgstr "Megállítva: a számítógép akkumulátorról üzemel"
-
 #~ msgid "Paused: Time of Day"
 #~ msgstr "Megállítva: ilyenkor nem dolgozhat"
-
 #~ msgid "Paused: Benchmarks running"
 #~ msgstr "Megállítva: sebességmérés fut"
-
 #~ msgid "Paused"
 #~ msgstr "Megállítva"
-
 #~ msgid "Paused: Application start delayed"
 #~ msgstr "Megállítva: az alkalmazás indítása elhalasztva"
-
 #~ msgid "Click to show project graphics"
 #~ msgstr "Kattintson ide a projekt grafikájának megtekintéséhez"
-
 #~ msgid "Open a window to view messages"
 #~ msgstr "Ablak megnyitása az üzenetek megtekintéséhez"
-
 #~ msgid "Stop all activity"
 #~ msgstr "Minden művelet megállítása"
-
 #~ msgid "Resume activity"
 #~ msgstr "Műveletek folytatása"
-
 #~ msgid "Open a window to set your preferences"
 #~ msgstr "Ablak nyitása a beállítások megadásához"
-
 #~ msgid "Switch to the BOINC advanced view"
 #~ msgstr "Váltás a BOINC haladó nézetére"
-
 #~ msgid "My Projects:"
 #~ msgstr "Projektjeim:"
 
@@ -4242,29 +4137,22 @@ msgstr ""
 #, c-format
 #~ msgid "%d hr %d min %d sec"
 #~ msgstr "%d óra %d perc %d másodperc"
-
 #~ msgid "Are you sure you want to display graphics on a remote machine?"
 #~ msgstr "Biztosan egy távoli gépen szeretné megjeleníteni a grafikus felületet?"
-
 #~ msgid "Application: "
 #~ msgstr "Alkalmazás:"
-
 #~ msgid "Time Remaining: "
 #~ msgstr "Hátralévő idő:"
-
 #~ msgid "Elapsed Time: "
 #~ msgstr "Eltelt idő:"
-
 #~ msgid "Account manager website"
 #~ msgstr "Fiókkezelő honlap"
-
 #~ msgid "Account Manager &URL:"
 #~ msgstr "Fiókkezelő &URL-je:"
 
 #, c-format
 #~ msgid "%s &website"
 #~ msgstr "%s &weboldal"
-
 #~ msgid "Notice List"
 #~ msgstr "Megjegyzések listája"
 
@@ -4275,19 +4163,14 @@ msgstr ""
 #, c-format
 #~ msgid "%s; received from %s; on %s"
 #~ msgstr "%s, érkezett innen: %s, ehhez: %s"
-
 #~ msgid "Click"
 #~ msgstr "Klikk"
-
 #~ msgid "Project List"
 #~ msgstr "Projektlista"
-
 #~ msgid "Nvidia GPU Supported"
 #~ msgstr "Nvidia GPU támogatva"
-
 #~ msgid "ATI GPU Supported"
 #~ msgstr "ATI GPU támogatva"
-
 #~ msgid "Project Website"
 #~ msgstr "A projekt weboldala"
 
@@ -4295,78 +4178,56 @@ msgstr ""
 #, fuzzy
 #~ msgid "Retry now"
 #~ msgstr "Próbálja most"
-
 #~ msgid "10%"
 #~ msgstr "10%"
-
 #~ msgid "20%"
 #~ msgstr "20%"
-
 #~ msgid "30%"
 #~ msgstr "30%"
-
 #~ msgid "40%"
 #~ msgstr "40%"
-
 #~ msgid "50%"
 #~ msgstr "50%"
-
 #~ msgid "60%"
 #~ msgstr "60%"
-
 #~ msgid "70%"
 #~ msgstr "70%"
-
 #~ msgid "80%"
 #~ msgstr "80%"
-
 #~ msgid "90%"
 #~ msgstr "90%"
-
 #~ msgid "100%"
 #~ msgstr "100%"
-
 #~ msgid "1"
 #~ msgstr "1"
-
 #~ msgid "3"
 #~ msgstr "3"
-
 #~ msgid "5"
 #~ msgstr "5"
-
 #~ msgid "10"
 #~ msgstr "10"
-
 #~ msgid "15"
 #~ msgstr "15"
-
 #~ msgid "30"
 #~ msgstr "30"
-
 #~ msgid "60"
 #~ msgstr "60"
 
 #, c-format
 #~ msgid "Pop up a menu of websites for project %s"
 #~ msgstr "Jelenjen meg egy menü a(z) %s projekt weboldalairól"
-
 #~ msgid ""
 #~ "for accessibility support, please select advanced from the view menu or type "
 #~ "command shift a"
 #~ msgstr ""
 #~ "elérhetőségi támogatásért kérjük, válassza a Haladó beállítást a Nézet "
 #~ "menüből, vagy használja Command+Shift+A billentyűkombinációt"
-
 #~ msgid "This panel contains graphs showing user totals for projects"
 #~ msgstr "Ez a panel grafikonokat mutat a felhasználó projektösszesítőiről"
-
 #~ msgid "list headers"
 #~ msgstr "listázza a fejléceket"
-
 #~ msgid "list of events"
 #~ msgstr "események listája"
-
 #~ msgid "list of events is empty"
 #~ msgstr "az eseménylista üres"
 
@@ -4389,7 +4250,6 @@ msgstr ""
 #, c-format
 #~ msgid "; column %d of %d; "
 #~ msgstr "; %d/%d oszlop"
-
 #~ msgid "list is empty"
 #~ msgstr "a lista üres"
 
@@ -4408,10 +4268,8 @@ msgstr ""
 #, c-format
 #~ msgid "; row %d of %d; "
 #~ msgstr "; %d/%d sor;"
-
 #~ msgid "blank"
 #~ msgstr "üres"
-
 #~ msgid "list of projects or account managers"
 #~ msgstr "projektek vagy fiókkezelők listája"
 
@@ -4422,22 +4280,18 @@ msgstr ""
 #, c-format
 #~ msgid "row %d of %d; "
 #~ msgstr "%d/%d sor;"
-
 #~ msgid "The minimum username length for this project is 1. Please enter a different username."
 #~ msgstr ""
 #~ "A felhasználónév minimális hossza ennél a projektnél 1. Kérjük, írjon be "
 #~ "másik nevet."
-
 #~ msgid "The minimum username length for this account manager is 1. Please enter a different username."
 #~ msgstr ""
 #~ "A felhasználónév minimális hossza ennél a fiókkezelőnél 1. Kérjük, írjon be "
 #~ "másik nevet."
-
 #~ msgid "The minimum email address length for this project is 1. Please enter a different email address."
 #~ msgstr ""
 #~ "Az email cím minimális hossza ennél a projektnél 1. Kérjük, írjon be másik "
 #~ "email címet."
-
 #~ msgid "The minimum email address length for this account manager is 1. Please enter a different email address."
 #~ msgstr ""
 #~ "Az email cím minimális hossza ennél a fiókkezelőnél 1. Kérjük, írjon be "
@@ -4454,7 +4308,6 @@ msgstr ""
 #~ msgstr ""
 #~ "A minimális jelszóhossz ennél a fiókkezelőnél: %d. Kérem, válasszon másik "
 #~ "jelszót."
-
 #~ msgid ""
 #~ "An error has occurred;\n"
 #~ "check the Event Log for details.\n"
@@ -4485,48 +4338,36 @@ msgstr ""
 #, c-format
 #~ msgid "OnDropTarget: index by HitTest = %i"
 #~ msgstr "OnDropTarget: HitTest index = %i"
-
 #~ msgid "Identify your account "
 #~ msgstr "Fiókjának azonosítása"
-
 #~ msgid "Read config file"
 #~ msgstr "Konfigurációs fájl beolvasása"
-
 #~ msgid "Read configuration info from cc_config.xml"
 #~ msgstr "Konfigurációs infók beolvasása a cc_config.xml fájlból"
-
 #~ msgid ""
 #~ "(C) 2003-2011 University of California, Berkeley.\n"
 #~ "All Rights Reserved."
 #~ msgstr ""
 #~ "(C) 2003-2011 Kaliforniai Berkeley Egyetem.\n"
 #~ "Minden jog fenntartva."
-
 #~ msgid "NVIDIA GPU"
 #~ msgstr "NVIDIA GPU"
-
 #~ msgid "ATI GPU"
 #~ msgstr "ATI GPU"
-
 #~ msgid "Multicore CPU Supported"
 #~ msgstr "Többmagos processzor támogatva"
-
 #~ msgid "%s: %.0f"
 #~ msgstr "%s: %.0f"
-
 #~ msgid "Click 'Retry now' to transfer the file now"
 #~ msgstr "Kattintson a \"Próbálja most\" gombra a fájl átviteléhez"
-
 #~ msgid ""
 #~ "Click 'Abort transfer' to delete the file from the transfer queue. This "
 #~ "will prevent you from being granted credit for this result."
 #~ msgstr ""
 #~ "Kattintson a \"Átvitel megszakítása\" gombra, hogy törölje a fájlt az "
 #~ "átviteli sorból. Ez megakadályozza, hogy a munkáért kreditet kapjon."
-
 #~ msgid "Aborting result..."
 #~ msgstr "Csomag eldobása..."
-
 #~ msgid ""
 #~ "You have chosen to add a new BOINC project.  Adding a new\n"
 #~ "project means that you will be connecting your computer to a new "
@@ -4560,53 +4401,38 @@ msgstr ""
 #~ "\n"
 #~ "A World Community Gridtől kapott alkalmazások kiválasztásához kérem,\n"
 #~ "kattintson az alábbi gombra:"
-
 #~ msgid "Change Research Applications at World Community Grid"
 #~ msgstr "A World Community Grid kutatási alkalmazásainak kiválasztása"
-
 #~ msgid "Don't fetch NVIDIA GPU tasks"
 #~ msgstr "Ne töltsön le NVIDIA GPU feladatokat"
-
 #~ msgid "NVIDIA GPU work fetch deferred for"
 #~ msgstr "NVIDIA GPU munkaletöltés elhalasztva"
-
 #~ msgid "NVIDIA GPU work fetch deferral interval"
 #~ msgstr "NVIDIA GPU munkaletöltés elhalasztási intervalluma"
-
 #~ msgid "Don't fetch ATI GPU tasks"
 #~ msgstr "Ne töltsön le ATI GPU feladatokat"
-
 #~ msgid "ATI GPU work fetch deferred for"
 #~ msgstr "ATI GPU munka letöltése elhalasztva"
-
 #~ msgid "ATI GPU work fetch deferral interval"
 #~ msgstr "ATI GPU munkaletöltés elhalasztási intervalluma"
-
 #~ msgid "Remaining"
 #~ msgstr "Hátravan"
-
 #~ msgid "Web sites"
 #~ msgstr "Weboldalak"
-
 #~ msgid "Connect about every"
 #~ msgstr "Csatlakozás kb. ilyen gyakran:"
-
 #~ msgid ""
 #~ "this computer is connected to the Internet about every X days\n"
 #~ "(0 if it's always connected)"
 #~ msgstr ""
 #~ "ez a számítógép kb. X naponta kapcsolódik az internetre\n"
 #~ "(0 ha mindig kapcsolódik)"
-
 #~ msgid "days (max. 10)"
 #~ msgstr "nap (max. 10)"
-
 #~ msgid "%d.%d%%"
 #~ msgstr "%d.%d%%"
-
 #~ msgid "Display and network &options..."
 #~ msgstr "Megjelenítési és hálózati &beállítások..."
-
 #~ msgid ""
 #~ "You have requested to exit the %s,\n"
 #~ "which allows you to view and manage\n"
@@ -4622,134 +4448,92 @@ msgstr ""
 #~ "Amennyiben a tudományos alkalmazások futtatását is le akarja állítani\n"
 #~ "a Kezelőből való kilépéskor, akkor válasszon a következő lehetőségek "
 #~ "közül:"
-
 #~ msgid "Stop running science applications when exiting the Manager"
 #~ msgstr ""
 #~ "Állítsa le a futó tudományos alkalmazásokat a Kezelőből való kilépéskor"
-
 #~ msgid "CPU work fetch priority"
 #~ msgstr "CPU munka letöltési prioritás"
-
 #~ msgid "NVIDIA GPU scheduling priority"
 #~ msgstr "NVIDIA GPU ütemezési prioritás"
-
 #~ msgid "NVIDIA GPU work fetch priority"
 #~ msgstr "NVIDIA GPU munkaletöltési prioritás"
-
 #~ msgid "ATI GPU scheduling priority"
 #~ msgstr "ATI GPU ütemezési prioritás"
-
 #~ msgid "ATI GPU work fetch priority"
 #~ msgstr "ATI GPU munkaletöltési prioritás"
-
 #~ msgid "Estimated app speed"
 #~ msgstr "Becsült számítási sebesség"
-
 #~ msgid "Estimated task size"
 #~ msgstr "Becsült feladatméret"
-
 #~ msgid "Max RAM usage"
 #~ msgstr "Maximum RAM használat"
-
 #~ msgid "%s - Options"
 #~ msgstr "%s - Beállítások"
-
 #~ msgid "Retrieving host information; please wait..."
 #~ msgstr "Gépre vonatkozó beállítások lekérdezése, kérem várjon..."
-
 #~ msgid " (waiting for GPU memory)"
 #~ msgstr " (GPU memóriára várakozik)"
-
 #~ msgid "Manager Settings..."
 #~ msgstr "A Kezelő beállításai..."
-
 #~ msgid "Pause"
 #~ msgstr "Megállítás"
-
 #~ msgid "%s - Messages"
 #~ msgstr "%s - Üzenetek"
-
 #~ msgid "Skin:"
 #~ msgstr "Kinézet:"
-
 #~ msgid "Preferences"
 #~ msgstr "Beállítások"
-
 #~ msgid "I want to customize my preferences for this computer only."
 #~ msgstr ""
 #~ "Csak ehhez a számítógéphez szeretném testre szabni a beállításaimat."
-
 #~ msgid "Customized Preferences"
 #~ msgstr "Testre szabott beállítások"
-
 #~ msgid "My total work done this Project"
 #~ msgstr "E projektben végzett összes munkám"
-
 #~ msgid "My Tasks:"
 #~ msgstr "Feladataim:"
-
 #~ msgid "From Project:"
 #~ msgstr "Ettől a projekttől: "
-
 #~ msgid "Elapsed Time: %s"
 #~ msgstr "Eltelt idő: %s"
-
 #~ msgid "Time Remaining: %s"
 #~ msgstr "Hátralévő idő: %s"
-
 #~ msgid "Upload suspended - "
 #~ msgstr "Feltöltés felfüggesztve - "
-
 #~ msgid "Download suspended - "
 #~ msgstr "Letöltés felfüggesztve - "
-
 #~ msgid "Upload pending"
 #~ msgstr "Feltöltés függőben"
-
 #~ msgid "Download pending"
 #~ msgstr "Letöltés függőben"
-
 #~ msgid "Get help with BOINC"
 #~ msgstr "Segítség kérése a BOINChoz"
-
 #~ msgid "Event Log..."
 #~ msgstr "Eseménynapló..."
-
 #~ msgid "Attaching to project or account manager..."
 #~ msgstr "Csatlakozás projekthez vagy fiókkezelőhöz..."
-
 #~ msgid "%s - Detach from %s"
 #~ msgstr "%s - Leválasztás innen: %s"
-
 #~ msgid "Retrying communications."
 #~ msgstr "Kapcsolódás újra."
-
 #~ msgid "Failed to attach to project"
 #~ msgstr "A projekthez való csatlakozás sikertelen"
-
 #~ msgid "Failed to attach to account manager"
 #~ msgstr "A fiókkezelőhöz való csatlakozás sikertelen"
-
 #~ msgid "Attached to account manager"
 #~ msgstr "Csatlakozott a fiókkezelőhöz"
-
 #~ msgid "You are now successfully attached to the %s system."
 #~ msgstr "Ön most sikeresen csatlakozott a(z) %s rendszerhez."
-
 #~ msgid "You are now successfully attached to this account manager."
 #~ msgstr "Ön most sikeresen csatlakozott ehhez a fiókkezelőhöz."
-
 #~ msgid "Attach to project"
 #~ msgstr "Csatlakozás projekthez"
-
 #~ msgid "Attach to account manager"
 #~ msgstr "Csatlakozás fiókkezelőhöz"
-
 #~ msgid "%s needs to connect to the Internet.  Please click to open %s."
 #~ msgstr ""
 #~ "%s szeretne kapcsolódni az Internetre. Kérjük, kattintson %s "
 #~ "megnyitásához."
-
 #~ msgid ""
 #~ "%s is unable to communicate with a project and needs an Internet "
 #~ "connection.\n"
@@ -4759,7 +4543,6 @@ msgstr ""
 #~ "%s nem képes kommunikálni egy projekttel és internetkapcsolatra van "
 #~ "szüksége.Kérjük, csatlakozzon az Internetre, majd válassza a 'Hálózati "
 #~ "kommunikáció létesítése' pontot a Haladó menüben."
-
 #~ msgid ""
 #~ "%s couldn't do Internet communication, and no default connection is "
 #~ "selected.\n"
@@ -4770,149 +4553,104 @@ msgstr ""
 #~ "alapértelmezett kapcsolat. Kérjük, csatlakozzon az Internetre, vagy "
 #~ "válasszon alapértelmezett kapcsolatota Haladó/Opciók/Kapcsolatok "
 #~ "menüpontban."
-
 #~ msgid "One or more notices are now available for viewing."
 #~ msgstr "Egy vagy több megjegyzés megtekinthető."
-
 #~ msgid "You are now successfully attached to this project."
 #~ msgstr "Ön most sikeresen csatlakozott ehhez a projekhez."
-
 #~ msgid "Attached to %s"
 #~ msgstr "Csatlakozott a(z) %s projekthez"
-
 #~ msgid "Detach when done"
 #~ msgstr "Leválasztás, ha kész"
-
 #~ msgid "Detach"
 #~ msgstr "Leválasztás"
-
 #~ msgid "Detaching from project..."
 #~ msgstr "Leválasztás a projektről..."
-
 #~ msgid "Are you sure you want to detach from project '%s'?"
 #~ msgstr "Biztos benne, hogy a(z) '%s' projektről leválasztja a számítógépet?"
-
 #~ msgid "Detach from Project"
 #~ msgstr "Leválasztás a projektről"
-
 #~ msgid "Attach this computer to a project or account manager"
 #~ msgstr "A számítógép csatlakoztatása egy projekthez vagy fiókkezelőhöz"
-
 #~ msgid "Client is processing results."
 #~ msgstr "A Kliens eredményeket dolgoz fel."
-
 #~ msgid "To completion"
 #~ msgstr "Idő a befejezésig"
-
 #~ msgid "Attach to a project or account manager to begin processing work"
 #~ msgstr ""
 #~ "A feldolgozási munka megkezdéséhez csatlakozzon egy projekthez vagy "
 #~ "fiókkezelőhöz"
-
 #~ msgid "Attach to a project to begin processing work"
 #~ msgstr "Csatlakozzon egy projekthez a feldolgozás megkezdéséhez"
-
 #~ msgid "%s: %.2f%% completed."
 #~ msgstr "%s: %.2f%% kész."
-
 #~ msgid "%d tasks running."
 #~ msgstr "%d feladat fut."
-
 #~ msgid "&Close Window\tCtrl+W"
 #~ msgstr "Ablak &bezárása\tCtrl+W"
-
 #~ msgid "&Messages\tCtrl+Shift+M"
 #~ msgstr "&Üzenetek\tCtrl+Shift+M"
-
 #~ msgid "Display news"
 #~ msgstr "Hírek mutatása"
-
 #~ msgid "Retrying communications for project(s)..."
 #~ msgstr "Újra kapcsolódik a projekt(ek)het..."
-
 #~ msgid "User information"
 #~ msgstr "Felhasználói információ"
-
 #~ msgid "Account Manager URL"
 #~ msgstr "Fiókkezelő URL-je"
-
 #~ msgid "Enter the URL of the account manager's web site."
 #~ msgstr "Adja meg a fiókkezelő weboldalának URL-jét."
-
 #~ msgid "Close BOINC Manager Window."
 #~ msgstr "A BOINC kezelő ablakának bezárása."
-
 #~ msgid "Exit the %s"
 #~ msgstr "Kilépés ebből: %s"
-
 #~ msgid ""
 #~ "Advanced views allow you to sort various columns and displays graphical "
 #~ "progress bars."
 #~ msgstr ""
 #~ "Haladó nézetben különböző oszlopok szerint rendezheti listáit, a "
 #~ "folyamatokról állapotjelzők segítségével szerezhet információkat."
-
 #~ msgid "Attach to &account manager..."
 #~ msgstr "Csatlakozás &fiókkezelőhöz..."
-
 #~ msgid "Attach to an account manager"
 #~ msgstr "Csatlakozás egy fiókkezelőhöz"
-
 #~ msgid "Attach to &project"
 #~ msgstr "Csatlakozás &projekthez"
-
 #~ msgid "Attaching to project..."
 #~ msgstr "Csatlakozás egy projekthez"
-
 #~ msgid "Debug Flags"
 #~ msgstr "Hibaszűrési jelzés"
-
 #~ msgid "Project Properties Failure"
 #~ msgstr "Projekt beállítások hiba"
-
 #~ msgid "Project Properties URL Failure"
 #~ msgstr "Projekt beállítások URL hiba"
-
 #~ msgid "Account Creation Disabled"
 #~ msgstr "Fióklétrehozás letiltva"
-
 #~ msgid "Account Already Exists"
 #~ msgstr "Fiók már létezik"
-
 #~ msgid "Project Already Attached"
 #~ msgstr "Már csatlakozott a projekthez"
-
 #~ msgid "Project Attach Failure"
 #~ msgstr "Projekt csatlakozási hiba"
-
 #~ msgid "Net Detection Failure"
 #~ msgstr "Hálózat felismerési hiba"
-
 #~ msgid ""
 #~ "You can copy and paste the URL from your browser's\n"
 #~ "address bar."
 #~ msgstr ""
 #~ "Írja be a megfelelő URL-t vagy másolja ki\n"
 #~ "böngészője címsorából és illessze be ide."
-
 #~ msgid "For a list of account managers go to:"
 #~ msgstr "A fiókkezelők listáját itt találja:"
-
 #~ msgid "&Advanced View"
 #~ msgstr "&Haladó nézet"
-
 #~ msgid "You are already attached to this project."
 #~ msgstr "Ön már csatlakozott ehhez a projekhez."
-
 #~ msgid "Test"
 #~ msgstr "Teszt"
-
 #~ msgid "Account information"
 #~ msgstr "Fiók információ"
-
 #~ msgid "Do you wish to use an existing account or create a new one?"
 #~ msgstr "Már meglévő fiókot akar használni, vagy újat készít?"
-
 #~ msgid ""
 #~ "Transition Note: Account keys are used as passwords for accounts created\n"
 #~ "before BOINC migrated to a username and password authentication scheme."
@@ -4921,115 +4659,85 @@ msgstr ""
 #~ "fiókkulcsokat, mint\n"
 #~ "jelszavakat használt, a jelenlegi felhasználónévvel és jelszóval történő "
 #~ "azonosítás helyett."
-
 #~ msgid "Create new &account"
 #~ msgstr "Új fiók létrehozása"
-
 #~ msgid "&Use existing account"
 #~ msgstr "Létező fiók használata"
-
 #~ msgid "Email address:"
 #~ msgstr "Email cím:"
-
 #~ msgid "Enter account key"
 #~ msgstr "Adja mef fiókkulcsát"
-
 #~ msgid "This project uses an \"account key\" to identify you."
 #~ msgstr "Ez a projekt az azonosításhoz \"fiókkulcsot\" használ."
-
 #~ msgid ""
 #~ "Go to the project's web site to create an account. Your account\n"
 #~ "key will be emailed to you."
 #~ msgstr ""
 #~ "A projekt honlapján hosszon létre egy fiókot.\n"
 #~ "A fiók kulcsát emailben kapja meg."
-
 #~ msgid "An account key looks like:"
 #~ msgstr "Egy fiókkulcs ilyen alakú:"
-
 #~ msgid "82412313ac88e9a3638f66ea82186948"
 #~ msgstr "82412313ac88e9a3638f66ea82186948"
-
 #~ msgid "Account key:"
 #~ msgstr "Fiókkulcs:"
-
 #~ msgid ""
 #~ "Communicating with account manager\n"
 #~ "Please wait..."
 #~ msgstr ""
 #~ "Kapcsolat a fiókkezelővel\n"
 #~ "Kérem várjon..."
-
 #~ msgid ""
 #~ "Communicating with account manager \n"
 #~ "Please wait..."
 #~ msgstr ""
 #~ "Kapcsolat a fiókkezelővel \n"
 #~ "Kérem várjon..."
-
 #~ msgid "BOINC is currently suspended...\n"
 #~ msgstr "BOINC jelenleg fel van függesztve...\n"
-
 #~ msgid "BOINC networking is currently suspended...\n"
 #~ msgstr "BOINC hálózati kapcsolata jelenleg fel van függesztve...\n"
-
 #~ msgid "&Open BOINC Manager..."
 #~ msgstr "BOINC kezelő megnyitása..."
-
 #~ msgid "&About BOINC Manager..."
 #~ msgstr "BOINC kezelő névjegye..."
-
 #~ msgid ""
 #~ "A software platform for distributed computing using volunteered computer "
 #~ "resources"
 #~ msgstr ""
 #~ "Egy szoftveres felület az adományozott számítógépes erőforrások\n"
 #~ "felhasználására az elosztott számítástechnikában."
-
 #~ msgid "Your current account manager is:"
 #~ msgstr "Az Ön jelenelegi fiókkezelője:"
-
 #~ msgid "foo"
 #~ msgstr "foo"
-
 #~ msgid "&Update"
 #~ msgstr "Frissítés"
-
 #~ msgid "Change"
 #~ msgstr "Változtat"
-
 #~ msgid "Language Selection:"
 #~ msgstr "Nyelv kiválasztása:"
-
 #~ msgid "What language should the manager display by default."
 #~ msgstr "Melyik nyelvet hasznlja a kezelő alapértelmezettként."
-
 #~ msgid "Reminder Frequency:"
 #~ msgstr "Emlékeztető gyakorisága:"
-
 #~ msgid ""
 #~ "How often, in minutes, should the manager remind you of possible "
 #~ "connection events."
 #~ msgstr ""
 #~ "Milyen gyakran emlékeztesse a kezelő Önt a lehetséges kapcsolódási "
 #~ "eseményekre (percekben)."
-
 #~ msgid "&Automatically detect network connection settings"
 #~ msgstr "Automatikusan ismerje fel a hálózati beállításokat"
-
 #~ msgid "Use my &Local Area Network(LAN) connection"
 #~ msgstr "Használja a Helyi hálózati (LAN) kapcsolatot"
-
 #~ msgid "Use my &Dial-up and Virtual Private Network connection"
 #~ msgstr ""
 #~ "Használja a Betárcsázós és Virtuális Mangán Hálózat (VPN) kapcsolatot"
-
 #~ msgid "&Prompt for username and password"
 #~ msgstr "Felhasználói név és jelszó kérése"
-
 #~ msgid "Failed to create wxStaticText, needed by wxHyperLink!"
 #~ msgstr "Nem sikerült a wxHyperLink által kért wxStaticText létrehozása!"
-
 #~ msgid ""
 #~ "BOINC could not determine what your default browser is.\n"
 #~ "Please verify that you have either the 'mailcap' package installed or\n"
@@ -5050,136 +4758,96 @@ msgstr ""
 #~ "kedvenc böngészőjét.Kérem nyissa meg a böngészőjében az alábbi URL-t:\n"
 #~ "\n"
 #~ "%s"
-
 #~ msgid "BOINC Manager - Connection Error"
 #~ msgstr "BOINC kezelő - Kapcsolódási hiba"
-
 #~ msgid "BOINC Manager - Connection failed"
 #~ msgstr "BOINC kezelő - Sikertelen kapcsolódás"
-
 #~ msgid "Connection failed."
 #~ msgstr "Sikertelen kapcsolódás."
-
 #~ msgid "BOINC info"
 #~ msgstr "BOINC információ"
-
 #~ msgid "Exit the BOINC Manager"
 #~ msgstr "Kilépés a BOINC kezelőből"
-
 #~ msgid ""
 #~ "Report completed work, get latest credit, get latest preferences, and "
 #~ "possibly get more work."
 #~ msgstr ""
 #~ "Befejezett munka jelentése, legutóbbi kreditek és beállítások letöltése, "
 #~ "és talán új munka letöltése."
-
 #~ msgid "&Options"
 #~ msgstr "Beállítások"
-
 #~ msgid "&BOINC Manager\tF1"
 #~ msgstr "BOINC kezelő\tF1"
-
 #~ msgid "Show information about BOINC and BOINC Manager"
 #~ msgstr "BOINC és BOINC kezelő információi"
-
 #~ msgid "&Projects"
 #~ msgstr "Projektek"
-
 #~ msgid "Language Selection..."
 #~ msgstr "Nyelv kiválasztása..."
-
 #~ msgid "BOINC Manager - Network Status"
 #~ msgstr "BOINC kezelő - Hálózat állapota"
-
 #~ msgid ""
 #~ "BOINC needs a connection to the Internet to perform some maintenance, "
 #~ "open the BOINC Manager to connect up and perform the needed work."
 #~ msgstr ""
 #~ "BOINC-nak szüksége van internetkapcsolatra, nyissa meg a BOINC kezelőt a "
 #~ "kapcsolódáshoz és a szükséges munka elvégzéséhez."
-
 #~ msgid "The URL you supplied is not that of a BOINC-based project."
 #~ msgstr "Az Ön által megadott URL-en nem található BOINC-projekt."
-
 #~ msgid "Please check the URL and try again."
 #~ msgstr "Kérem, ellenőrizze az URL-t, és próbálja újra"
-
 #~ msgid ""
 #~ "The URL you supplied is not that of a BOINC-based account\n"
 #~ "manager."
 #~ msgstr "Az Ön által megadott URL-en nem található fiókkezeló"
-
 #~ msgid "Account not found"
 #~ msgstr "Fiók nem található"
-
 #~ msgid "Verify your account name and password are correct and try again."
 #~ msgstr "Ellenőrizze, hogy a fióknév és a jelszó helyes-e, és próbálja újra."
-
 #~ msgid "Project URL"
 #~ msgstr "Projekt URL"
-
 #~ msgid "Enter the URL of the project's web site."
 #~ msgstr "Adja meg a projek weboldalának URL-jét."
-
 #~ msgid "For a list of BOINC-based projects go to:"
 #~ msgstr "A BOINC-alapú projektek listájához látogasson el ide:"
-
 #~ msgid "Total credit"
 #~ msgstr "Összes kredit"
-
 #~ msgid "Avg. credit"
 #~ msgstr "Átlag kredit"
-
 #~ msgid "Allow new work"
 #~ msgstr "Új munka engedélyezése"
-
 #~ msgid "Disk Space"
 #~ msgstr "Lemezterület"
-
 #~ msgid "Are you sure you want to abort this file transfer '%s'?"
 #~ msgstr "Biztosan megszakítja a(z) \"%s\" fájl átvitelét?"
-
 #~ msgid "Work"
 #~ msgstr "Munka"
-
 #~ msgid "Resuming result..."
 #~ msgstr "Munka folytatása a jelen csomagon..."
-
 #~ msgid "Abort result"
 #~ msgstr "Csomag eldobása"
-
 #~ msgid "Activities suspended"
 #~ msgstr "Tevékenység felfüggesztve"
-
 #~ msgid "Preempted"
 #~ msgstr "Megelőzve"
-
 #~ msgid "Ready to run"
 #~ msgstr "Indításra kész"
-
 #~ msgid "Activities suspended by user"
 #~ msgstr "Tevékenység felfüggesztve a felhasználó által"
-
 #~ msgid "Project Comm Failure"
 #~ msgstr "Projekt kommunikciós hiba"
-
 #~ msgid "Google Comm Failure"
 #~ msgstr "Google kommunikációs hiba"
-
 #~ msgid "Yahoo Comm Failure"
 #~ msgstr "Yahoo kommunikácis hiba"
-
 #~ msgid "Attach to Account Manager"
 #~ msgstr "Csatlakozás fiókkezelőhöz"
-
 #~ msgid "Attach to Project"
 #~ msgstr "Csatlakozás projekthez"
-
 #~ msgid "About BOINC Manager"
 #~ msgstr "BOINC kezelő névjegye"
-
 #~ msgid "Account Manager"
 #~ msgstr "Fiókkezelő"
-
 #~ msgid "Dialup Logon"
 #~ msgstr "Betárcsázás bejelentkezéskor"
+

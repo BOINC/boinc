@@ -4,31 +4,29 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: BOINC 7.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-15 14:15-0500\n"
-"PO-Revision-Date: 2014-09-03 03:24+0000\n"
-"Last-Translator: Jan <jan@sherdahl.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2015-02-11 23:51-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
+"Language-Team: BOINC Localization Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc_7.4\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-POOTLE-MTIME: 1409714660.0\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
 # 81%
 #: clientgui/AccountInfoPage.cpp:387
 #, c-format
-#, c-format, c-format
 msgid "Identify your account at %s"
 msgstr "Identifiser din konto hos %s"
 
@@ -515,7 +513,6 @@ msgstr "Vis informasjon om %s"
 
 #: clientgui/AdvancedFrame.cpp:662
 #, c-format
-#, c-format, c-format
 msgid "%s &web site"
 msgstr "%s &nettside"
 
@@ -725,8 +722,7 @@ msgid ""
 "Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
 msgstr ""
 "%s kan ikke starte %s klienten.\n"
-"Start panelprogrammet Kontrollpanel->Administrative verktøy->Tjenester og "
-"start BOINC tjenesten."
+"Start panelprogrammet Kontrollpanel->Administrative verktøy->Tjenester og start BOINC tjenesten."
 
 #: clientgui/BOINCBaseFrame.cpp:637
 #, c-format
@@ -751,8 +747,7 @@ msgid ""
 msgstr ""
 "%s er ikke tilkoblet til en %s klient.\n"
 "Bruk 'Avansert\\Velg datamaskin...' menyvalg for å koble til en %s klient.\n"
-"For å koble til din lokale datamaskin vennligst bruk 'localhost' som "
-"vertsnavn."
+"For å koble til din lokale datamaskin vennligst bruk 'localhost' som vertsnavn."
 
 #: clientgui/BOINCBaseView.cpp:752
 msgid "Project web pages"
@@ -908,9 +903,7 @@ msgstr "Deaktiver BOINC sikkerhet brukere og rettigheter"
 
 #: clientgui/BOINCGUIApp.cpp:914
 msgid "set skin debugging mode to enable skin manager error messages"
-msgstr ""
-"sett skallmodus for feilsøking for å aktivere feilmeldinger fra "
-"skallbehandleren"
+msgstr "sett skallmodus for feilsøking for å aktivere feilmeldinger fra skallbehandleren"
 
 #: clientgui/BOINCGUIApp.cpp:915
 msgid "multiple instances of BOINC Manager allowed"
@@ -1202,11 +1195,9 @@ msgid ""
 "Click OK to set preferences.\n"
 "Click Clear to restore web-based settings (except exclusive apps)."
 msgstr ""
-"Denne dialogboksen kontrollerer utelukkende innstillinger for denne "
-"datamaskinen.\n"
+"Denne dialogboksen kontrollerer utelukkende innstillinger for denne datamaskinen.\n"
 "Klikk OK for lagre innstillingene.\n"
-"Klikk Fjern for å gjenopprette nettbaserte innstillinger (endrer ikke "
-"programinnstillinger)."
+"Klikk Fjern for å gjenopprette nettbaserte innstillinger (endrer ikke programinnstillinger)."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:69
 msgid "Clear"
@@ -1266,9 +1257,7 @@ msgstr "Når datamaskinen går på batterier"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:149
 msgid "check this if you want this computer to do work while it runs on batteries"
-msgstr ""
-"sett kryss om du ønsker at denne datamaskinen skal utføre arbeid når den "
-"kjører på batterier"
+msgstr "sett kryss om du ønsker at denne datamaskinen skal utføre arbeid når den kjører på batterier"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:155
 msgid "While computer is in use"
@@ -1276,9 +1265,7 @@ msgstr "Når datamaskinen er i bruk"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:158
 msgid "check this if you want this computer to do work even when you're using it"
-msgstr ""
-"sett kryss om du ønsker at denne datamaskinen skal utføre arbeid, selv når "
-"du bruker den"
+msgstr "sett kryss om du ønsker at denne datamaskinen skal utføre arbeid, selv når du bruker den"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:164
 msgid "Use GPU while computer is in use"
@@ -1286,9 +1273,7 @@ msgstr "Bruk GPU mens datamaskinen er i bruk"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:167
 msgid "check this if you want your GPU to do work even when you're using the computer"
-msgstr ""
-"sett kryss om du ønsker at grafikkprosessoren skal utføre arbeid, selv når "
-"du bruker datamaskinen"
+msgstr "sett kryss om du ønsker at grafikkprosessoren skal utføre arbeid, selv når du bruker datamaskinen"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:179
 msgid "Only after computer has been idle for"
@@ -1296,9 +1281,7 @@ msgstr "Bare etter at datamaskinen har vært inaktiv i"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:188
 msgid "do work only after you haven't used the computer for this number of minutes"
-msgstr ""
-"bare utfør arbeid etter at du ikke har brukt datamaskinen i dette antall "
-"minutter"
+msgstr "bare utfør arbeid etter at du ikke har brukt datamaskinen i dette antall minutter"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:193
 #: clientgui/DlgAdvPreferencesBase.cpp:342
@@ -1439,8 +1422,7 @@ msgstr "Minimum arbeidsbuffer"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:425
 msgid "Try to maintain enough tasks to keep busy for this many days"
-msgstr ""
-"Prøv å opprettholde nok oppgaver til å være opptatt i følgende antall dager"
+msgstr "Prøv å opprettholde nok oppgaver til å være opptatt i følgende antall dager"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:431
 #: clientgui/DlgAdvPreferencesBase.cpp:449
@@ -1485,8 +1467,7 @@ msgstr "Bekreft før det kobles til Internet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:489
 msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
-msgstr ""
-"hvis merket, vil en dialogboks vises før det forsøkes å koble til Internet"
+msgstr "hvis merket, vil en dialogboks vises før det forsøkes å koble til Internet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:493
 msgid "Disconnect when done"
@@ -1570,7 +1551,6 @@ msgstr "% når datamaskinen er i bruk"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:701
 #, no-c-format
-#, no-c-format, no-c-format
 msgid "% when computer is idle"
 msgstr "% når datamaskinen er inaktiv"
 
@@ -1669,16 +1649,12 @@ msgstr "Kopier &valgte"
 #: clientgui/DlgEventLog.cpp:318
 #: clientgui/DlgEventLog.cpp:326
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"Kopier valgte meldinger til utklippstavlen. Du kan velge flere meldinger ved "
-"å holde Shift eller Command tasten inne mens du klikker på meldingene."
+msgstr "Kopier valgte meldinger til utklippstavlen. Du kan velge flere meldinger ved å holde Shift eller Command tasten inne mens du klikker på meldingene."
 
 #: clientgui/DlgEventLog.cpp:320
 #: clientgui/DlgEventLog.cpp:328
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"Kopier valgte meldinger til utklippstavlen. Du kan velge flere meldinger ved "
-"å trykke Shift eller Control tasten inne mens du klikker på meldingene."
+msgstr "Kopier valgte meldinger til utklippstavlen. Du kan velge flere meldinger ved å trykke Shift eller Control tasten inne mens du klikker på meldingene."
 
 #: clientgui/DlgEventLog.cpp:335
 #: clientgui/DlgItemProperties.cpp:67
@@ -2145,11 +2121,8 @@ msgstr "%s - Språkvalg"
 
 #: clientgui/DlgOptions.cpp:698
 #, c-format
-#, c-format, c-format
 msgid "The %s's language has been changed.  In order for this change to take effect, you must restart the %s."
-msgstr ""
-"Standardspråk for %s er endret.  For å ta i bruk endringene må du starte %s "
-"på nytt."
+msgstr "Standardspråk for %s er endret.  For å ta i bruk endringene må du starte %s på nytt."
 
 #: clientgui/DlgSelectComputer.cpp:91
 #, c-format
@@ -2250,9 +2223,7 @@ msgstr "Les en detaljert beskrivelse av Einstein@Home's skjermsparer"
 
 #: clientgui/Localization.cpp:71
 msgid "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr ""
-"Utveksle meldinger med administratorer og andre brukere på Einstein@Home "
-"diskusjonsforum"
+msgstr "Utveksle meldinger med administratorer og andre brukere på Einstein@Home diskusjonsforum"
 
 #: clientgui/Localization.cpp:73
 msgid "Einstein status"
@@ -2288,9 +2259,7 @@ msgstr "LIGO prosjekt"
 
 #: clientgui/Localization.cpp:103
 msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
-msgstr ""
-"Hjemmesiden til Laser Interferometer Gravitional-wave Observatory (LIGO) "
-"prosjektet"
+msgstr "Hjemmesiden til Laser Interferometer Gravitional-wave Observatory (LIGO) prosjektet"
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
@@ -2383,9 +2352,7 @@ msgstr "Applikasjon mangler"
 
 #: clientgui/MainDocument.cpp:1827
 msgid "Please download and install the CoRD application from http://cord.sourceforge.net"
-msgstr ""
-"Vennligst last ned og installer CoRD applikasjonen fra "
-"http://cord.sourceforge.net"
+msgstr "Vennligst last ned og installer CoRD applikasjonen fra http://cord.sourceforge.net"
 
 #: clientgui/MainDocument.cpp:2442
 msgid "on batteries"
@@ -2668,14 +2635,11 @@ msgstr "Alle"
 
 #: clientgui/ProjectInfoPage.cpp:802
 msgid "This project may not have work for your type of computer.  Do you want to add it anyway?"
-msgstr ""
-"Dette prosjektet har muligens ikke arbeid for din type arbeidsstasjon.  "
-"Ønsker du å legge til det allikevel?"
+msgstr "Dette prosjektet har muligens ikke arbeid for din type arbeidsstasjon.  Ønsker du å legge til det allikevel?"
 
 #: clientgui/ProjectInfoPage.cpp:826
 msgid "You already added this project. Please choose a different project."
-msgstr ""
-"Du har allerede lagt til dette prosjektet. Vennligst velg et annet prosjekt."
+msgstr "Du har allerede lagt til dette prosjektet. Vennligst velg et annet prosjekt."
 
 #: clientgui/ProjectProcessingPage.cpp:321
 msgid "Communicating with project."
@@ -2879,14 +2843,12 @@ msgstr "Lukk"
 
 #: clientgui/sg_DlgMessages.cpp:394
 #, c-format
-#, c-format, c-format
 msgid "%s - Notices"
 msgstr "%s - Varsler"
 
 #: clientgui/sg_DlgPreferences.cpp:270
 msgid "This dialog controls preferences for this computer only."
-msgstr ""
-"Denne dialogboksen kontrollerer innstillinger kun for denne datamaskinen."
+msgstr "Denne dialogboksen kontrollerer innstillinger kun for denne datamaskinen."
 
 #: clientgui/sg_DlgPreferences.cpp:275
 msgid "Click OK to set preferences."
@@ -2894,14 +2856,11 @@ msgstr "Klikk OK for å fastsette innstillinger."
 
 #: clientgui/sg_DlgPreferences.cpp:280
 msgid "Click Clear to restore web-based settings for all preferences listed below."
-msgstr ""
-"Klikk Fjern for å gjenopprette webbaserte innstillinger for alle preferanser "
-"listet nedenfor."
+msgstr "Klikk Fjern for å gjenopprette webbaserte innstillinger for alle preferanser listet nedenfor."
 
 #: clientgui/sg_DlgPreferences.cpp:287
 msgid "For additional settings, select Computing Preferences in the Advanced View."
-msgstr ""
-"For ekstra innstillinger, velg Beregningsinnstillinger i Avansert visning."
+msgstr "For ekstra innstillinger, velg Beregningsinnstillinger i Avansert visning."
 
 #: clientgui/sg_DlgPreferences.cpp:315
 msgid "Do work only between:"
@@ -3028,9 +2987,7 @@ msgstr "Oppdater"
 #: clientgui/sg_ProjectCommandPopup.cpp:67
 #: clientgui/ViewProjects.cpp:180
 msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
-msgstr ""
-"Rapporter alle utførte oppgaver, hent oversikt over arbeid utført, hent "
-"oppdaterte innstillinger, og last ned flere oppgaver hvis tilgjengelig."
+msgstr "Rapporter alle utførte oppgaver, hent oversikt over arbeid utført, hent oppdaterte innstillinger, og last ned flere oppgaver hvis tilgjengelig."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:73
 #: clientgui/sg_ProjectCommandPopup.cpp:129
@@ -3059,17 +3016,12 @@ msgstr "Nullstill prosjekt"
 #: clientgui/sg_ProjectCommandPopup.cpp:85
 #: clientgui/ViewProjects.cpp:201
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr ""
-"Slett alle filer og oppgaver assosiert med dette prosjektet, og hent nye "
-"oppgaver.   Du kan oppdatere prosjektet først for å rapportere fullførte "
-"oppgaver."
+msgstr "Slett alle filer og oppgaver assosiert med dette prosjektet, og hent nye oppgaver.   Du kan oppdatere prosjektet først for å rapportere fullførte oppgaver."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:91
 #: clientgui/ViewProjects.cpp:208
 msgid "Remove this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr ""
-"Fjern dette prosjektet.  Oppgaver i arbeidskøen vil bli slettet (klikk "
-"'Oppdater' først for å rapportere fullførte oppgaver)."
+msgstr "Fjern dette prosjektet.  Oppgaver i arbeidskøen vil bli slettet (klikk 'Oppdater' først for å rapportere fullførte oppgaver)."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:96
 #: clientgui/sg_TaskCommandPopup.cpp:84
@@ -3106,7 +3058,6 @@ msgstr "Ikke hent nye oppgaver for dette prosjektet."
 #: clientgui/sg_ProjectCommandPopup.cpp:229
 #: clientgui/ViewProjects.cpp:443
 #, c-format
-#, c-format, c-format
 msgid "Are you sure you want to reset project '%s'?"
 msgstr "Er du sikker på at du vil nullstille prosjektet '%s'?"
 
@@ -4023,17 +3974,12 @@ msgid ""
 "\n"
 "Please choose which type of change you would like to make:\n"
 msgstr ""
-"Du have valgt å legge til et nytt frivillig beregningsprosjekt eller endre "
-"hvilke prosjekter\n"
+"Du have valgt å legge til et nytt frivillig beregningsprosjekt eller endre hvilke prosjekter\n"
 "du bidrar til.\n"
 "\n"
-"Noen av disse prosjektene kjøres og administreres av World Community Grid, "
-"mens andre\n"
-"kjøres og administreres av andre forskere eller organisasjoner. BOINC "
-"programvaren\n"
-"kan dele din gjenværende prosessorkraft blant hvilken som helst kombinasjon "
-"av prosjekter.\\Alternativt, hvis du har registrert deg hos en BOINC "
-"kontobehandler kan du bruke\n"
+"Noen av disse prosjektene kjøres og administreres av World Community Grid, mens andre\n"
+"kjøres og administreres av andre forskere eller organisasjoner. BOINC programvaren\n"
+"kan dele din gjenværende prosessorkraft blant hvilken som helst kombinasjon av prosjekter.\\Alternativt, hvis du har registrert deg hos en BOINC kontobehandler kan du bruke\n"
 "denne til å velge hvilke prosjekter du vil støtte.\n"
 "\n"
 "Vennligst velg hvilken type av endringer du ønsker å gjøre:\n"
@@ -4112,7 +4058,6 @@ msgstr ""
 #~ msgstr ""
 #~ "(C) 2003-2013 University of California, Berkeley.\n"
 #~ "All Rights Reserved."
-
 #, c-format
 #~ msgid "%s - Preferences"
 #~ msgstr "%s - Innstillinger"
@@ -4124,77 +4069,54 @@ msgstr ""
 #, no-c-format
 #~ msgid "% CPU time"
 #~ msgstr "% CPU tid"
-
 #~ msgid "KBytes/sec."
 #~ msgstr "KBytes/sek."
-
 #~ msgid "Mbytes"
 #~ msgstr "Mbytes"
-
 #~ msgid "every"
 #~ msgstr "hver"
-
 #~ msgid "days"
 #~ msgstr "dager"
-
 #~ msgid "Gigabytes disk space"
 #~ msgstr "Gigabytes diskplass"
-
 #~ msgid "Running, high priority"
 #~ msgstr "Kjører, høy prioritet"
-
 #~ msgid " (Scheduler wait: "
 #~ msgstr " (Planleggeren venter: "
-
 #~ msgid " (Scheduler wait)"
 #~ msgstr " (Planleggeren venter)"
-
 #~ msgid " (Waiting for network access)"
 #~ msgstr " (Venter på nettverkstilgang)"
-
 #~ msgid "Preferences…"
 #~ msgstr "Instillinger..."
-
 #~ msgid "Workunit name"
 #~ msgstr "Arbeidsenhet navn"
-
 #~ msgid "invalid float"
 #~ msgstr "ugyldig flyttall "
 
 #, fuzzy
 #~ msgid "Display the advanced (accessible) graphical interface."
 #~ msgstr "Vis det grafisk avanserte brukergrensesnittet."
-
 #~ msgid "Paused: Other work running"
 #~ msgstr "Pause: Annet arbeid kjører"
-
 #~ msgid "Paused: User active"
 #~ msgstr "Pause: Bruker aktiv"
-
 #~ msgid "Paused: Computer on battery"
 #~ msgstr "Pause: Datamaskinen er på batteri"
-
 #~ msgid "Paused: Time of Day"
 #~ msgstr "Pause: Tid på dag"
-
 #~ msgid "Paused: Benchmarks running"
 #~ msgstr "Pause: Ytelsestest kjører"
-
 #~ msgid "Paused"
 #~ msgstr "Pause"
-
 #~ msgid "Click to show project graphics"
 #~ msgstr "Klikk for å vise prosjekt grafikk"
-
 #~ msgid "Stop all activity"
 #~ msgstr "Stopp all aktivitet"
-
 #~ msgid "Resume activity"
 #~ msgstr "Gjenoppta aktivitet"
-
 #~ msgid "Switch to the BOINC advanced view"
 #~ msgstr "Bytt til BOINC avansert visning"
-
 #~ msgid "My Projects:"
 #~ msgstr "Mine prosjekt:"
 
@@ -4209,13 +4131,10 @@ msgstr ""
 #, c-format
 #~ msgid "%d hr %d min %d sec"
 #~ msgstr "%d t %d min %d sek"
-
 #~ msgid "Application: "
 #~ msgstr "Applikasjon: "
-
 #~ msgid "Account manager website"
 #~ msgstr "Kontostyring nettside"
-
 #~ msgid "Account Manager &URL:"
 #~ msgstr "&Nettadresse til kontobehandler:"
 
@@ -4230,19 +4149,14 @@ msgstr ""
 #, c-format
 #~ msgid "%s; received from %s; on %s"
 #~ msgstr "%s; mottatt fra %s; på %s"
-
 #~ msgid "Click"
 #~ msgstr "Klikk"
-
 #~ msgid "Project List"
 #~ msgstr "Prosjekt liste"
-
 #~ msgid "Nvidia GPU Supported"
 #~ msgstr "Nvidia GPU støttet"
-
 #~ msgid "ATI GPU Supported"
 #~ msgstr "ATI GPU støttet"
-
 #~ msgid "Project Website"
 #~ msgstr "Prosjektets nettside"
 
@@ -4250,62 +4164,44 @@ msgstr ""
 #, fuzzy
 #~ msgid "Retry now"
 #~ msgstr "Prøv igjen nå"
-
 #~ msgid "10%"
 #~ msgstr "10%"
-
 #~ msgid "20%"
 #~ msgstr "20%"
-
 #~ msgid "30%"
 #~ msgstr "30%"
-
 #~ msgid "40%"
 #~ msgstr "40%"
-
 #~ msgid "50%"
 #~ msgstr "50%"
-
 #~ msgid "60%"
 #~ msgstr "60%"
-
 #~ msgid "70%"
 #~ msgstr "70%"
-
 #~ msgid "80%"
 #~ msgstr "80%"
-
 #~ msgid "90%"
 #~ msgstr "90%"
-
 #~ msgid "100%"
 #~ msgstr "100%"
-
 #~ msgid "1"
 #~ msgstr "1"
-
 #~ msgid "3"
 #~ msgstr "3"
-
 #~ msgid "5"
 #~ msgstr "5"
-
 #~ msgid "10"
 #~ msgstr "10"
-
 #~ msgid "15"
 #~ msgstr "15"
-
 #~ msgid "30"
 #~ msgstr "30"
-
 #~ msgid "60"
 #~ msgstr "60"
 
 #, c-format
 #~ msgid "; column %d of %d; "
 #~ msgstr "; kolonne %d av %d;"
-
 #~ msgid "list is empty"
 #~ msgstr "listen er tom"
 
@@ -4316,7 +4212,6 @@ msgstr ""
 #, c-format
 #~ msgid "; row %d of %d; "
 #~ msgstr "; rad %d av %d; "
-
 #~ msgid "blank"
 #~ msgstr "tom"
 
@@ -4338,7 +4233,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Minste passordlengde for denne kontobehandleren er %d. Angi et annet "
 #~ "passord."
-
 #~ msgid ""
 #~ "An error has occurred;\n"
 #~ "check the Event Log for details.\n"
@@ -4351,19 +4245,14 @@ msgstr ""
 #~ "Klikk Ferdig for å lukke."
 
 #, no-c-format
-#, fuzzy, no-c-format
 #~ msgid "% of the processors"
 #~ msgstr "av prosessoren"
-
 #~ msgid "Identify your account "
 #~ msgstr "Identifiser kontoen din"
-
 #~ msgid "Read config file"
 #~ msgstr "Les konfigurasjonsfil"
-
 #~ msgid "Read configuration info from cc_config.xml"
 #~ msgstr "Les konfigurasjoninformasjon fra cc_config.xml"
-
 #~ msgid ""
 #~ "(C) 2003-2011 University of California, Berkeley.\n"
 #~ "All Rights Reserved."
@@ -4374,58 +4263,42 @@ msgstr ""
 #, fuzzy
 #~ msgid "%s: %.0f"
 #~ msgstr "%s: %0.2f"
-
 #~ msgid "Click 'Retry now' to transfer the file now"
 #~ msgstr "Klikk 'Prøv igjen nå' for å overføre filen nå"
 
 #, fuzzy
 #~ msgid "Don't fetch ATI GPU tasks"
 #~ msgstr "Ikke hent CPU oppgaver"
-
 #~ msgid "Web sites"
 #~ msgstr "Nettsted"
-
 #~ msgid "days (max. 10)"
 #~ msgstr "dager (maks 10)"
-
 #~ msgid "%d.%d%%"
 #~ msgstr "%d.%d%%"
-
 #~ msgid "Display and network &options..."
 #~ msgstr "Visnings og nettverks &valg..."
-
 #~ msgid "Estimated task size"
 #~ msgstr "Estimert oppgave størrelse"
-
 #~ msgid "Max RAM usage"
 #~ msgstr "Maks minnebruk"
-
 #~ msgid "%s - Options"
 #~ msgstr "%s - Alternativer"
-
 #~ msgid "Retrieving host information; please wait..."
 #~ msgstr "Henter vertsinformasjon; vennligst vent..."
-
 #~ msgid " (waiting for GPU memory)"
 #~ msgstr " (venter på GPU minne)"
-
 #~ msgid "Pause"
 #~ msgstr "Pause"
-
 #~ msgid "%s - Messages"
 #~ msgstr "%s - Meldinger"
-
 #~ msgid "Preferences"
 #~ msgstr "Instillinger"
-
 #~ msgid "My Tasks:"
 #~ msgstr "Mine oppgaver:"
-
 #~ msgid "From Project:"
 #~ msgstr "Fra prosjekt:"
-
 #~ msgid "Upload suspended - "
 #~ msgstr "Opplasting suspendert - "
-
 #~ msgid "Download suspended - "
 #~ msgstr "Nedlasting suspendert - "
+

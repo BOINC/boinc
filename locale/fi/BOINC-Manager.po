@@ -4,26 +4,25 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: BOINC 7.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-15 14:15-0500\n"
-"PO-Revision-Date: 2014-12-16 09:38+0000\n"
-"Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2015-02-10 21:24-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
+"Language-Team: BOINC Localization Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc_7.4\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-POOTLE-MTIME: 1418722737.0\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
 # 81%
 #: clientgui/AccountInfoPage.cpp:387
@@ -300,9 +299,7 @@ msgstr "&Lisää projekti tai tilihallitsija..."
 
 #: clientgui/AdvancedFrame.cpp:422
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
-msgstr ""
-"Osallistu yhteen tai useampaan yli 30:sta projektista tieteen monilla "
-"alueilla"
+msgstr "Osallistu yhteen tai useampaan yli 30:sta projektista tieteen monilla alueilla"
 
 #: clientgui/AdvancedFrame.cpp:426
 #, c-format
@@ -459,9 +456,7 @@ msgstr "Lue kokoonpanotiedosto"
 
 #: clientgui/AdvancedFrame.cpp:587
 msgid "Read configuration info from cc_config.xml and any app_config.xml files"
-msgstr ""
-"Lue kokoonpanotiedot cc_config.xml -tiedostosta ja kaikista app_config.xml "
-"-tiedostoista"
+msgstr "Lue kokoonpanotiedot cc_config.xml -tiedostosta ja kaikista app_config.xml -tiedostoista"
 
 #: clientgui/AdvancedFrame.cpp:591
 msgid "Read local prefs file"
@@ -686,8 +681,7 @@ msgid ""
 "Please contact your administrator to add you to the 'boinc_users' local user group."
 msgstr ""
 "Sinulla ei ole oikeuksia hallinnoida ohjelmaa.\n"
-"Ota yhteys ylläpitäjään, joka lisää sinut paikalliseen \"boinc_users\" "
-"-käyttäjäryhmään."
+"Ota yhteys ylläpitäjään, joka lisää sinut paikalliseen \"boinc_users\" -käyttäjäryhmään."
 
 #: clientgui/BOINCBaseFrame.cpp:522
 msgid ""
@@ -755,8 +749,7 @@ msgid ""
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s ei tällä hetkellä ole yhteydessä %s -ohjelmaan.\n"
-"Valitse valikosta \"Lisäasetukset\\Valitse tietokone...\" ottaaksesi yhteyden %"
-"s -ohjelmaan.\n"
+"Valitse valikosta \"Lisäasetukset\\Valitse tietokone...\" ottaaksesi yhteyden %s -ohjelmaan.\n"
 "Jos otat yhteyttä paikalliseen koneeseen, käytä konenimenä \"localhost\"."
 
 #: clientgui/BOINCBaseView.cpp:752
@@ -774,8 +767,7 @@ msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
 msgstr ""
-"%s -ohjelma on lopettanut toimintansa odottamatta 3 kertaa viimeisen %d "
-"minuutin aikana.\n"
+"%s -ohjelma on lopettanut toimintansa odottamatta 3 kertaa viimeisen %d minuutin aikana.\n"
 "Haluatko käynnistää sen uudelleen?"
 
 #: clientgui/BOINCDialupManager.cpp:61
@@ -1209,8 +1201,7 @@ msgid ""
 msgstr ""
 "Tässä voit muuttaa vain tämän tietokoneen asetuksia.\n"
 "Napsauta OK muuttaaksesi asetuksia.\n"
-"Napsauta Tyhjennä palauttaaksesi web-pohjaiset asetukset (poislukien "
-"erityissovellukset)."
+"Napsauta Tyhjennä palauttaaksesi web-pohjaiset asetukset (poislukien erityissovellukset)."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:69
 msgid "Clear"
@@ -1270,9 +1261,7 @@ msgstr "Tietokoneen ollessa akkukäytöllä"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:149
 msgid "check this if you want this computer to do work while it runs on batteries"
-msgstr ""
-"valitse tämä, jos haluat tietokoneen suorittavan laskentaa myös silloin, kun "
-"kone on akkukäytöllä"
+msgstr "valitse tämä, jos haluat tietokoneen suorittavan laskentaa myös silloin, kun kone on akkukäytöllä"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:155
 msgid "While computer is in use"
@@ -1280,9 +1269,7 @@ msgstr "Tietokoneen ollessa käytössä"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:158
 msgid "check this if you want this computer to do work even when you're using it"
-msgstr ""
-"valitse tämä, jos haluat tietokoneen suorittavan laskentaa myös silloin kun "
-"itse käytät sitä"
+msgstr "valitse tämä, jos haluat tietokoneen suorittavan laskentaa myös silloin kun itse käytät sitä"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:164
 msgid "Use GPU while computer is in use"
@@ -1290,9 +1277,7 @@ msgstr "Käytä näytönohjainta koneen ollessa käytössä"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:167
 msgid "check this if you want your GPU to do work even when you're using the computer"
-msgstr ""
-"valitse tämä, jos haluat näytönohjaimen suorittavan laskentaa myös silloin "
-"kun itse käytät konetta"
+msgstr "valitse tämä, jos haluat näytönohjaimen suorittavan laskentaa myös silloin kun itse käytät konetta"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:179
 msgid "Only after computer has been idle for"
@@ -1300,9 +1285,7 @@ msgstr "Vasta kun tietokone on ollut jouten"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:188
 msgid "do work only after you haven't used the computer for this number of minutes"
-msgstr ""
-"salli työ vasta sen jälkeen kun et ole käyttänyt tietokonetta näin moneen "
-"minuuttiin"
+msgstr "salli työ vasta sen jälkeen kun et ole käyttänyt tietokonetta näin moneen minuuttiin"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:193
 #: clientgui/DlgAdvPreferencesBase.cpp:342
@@ -1488,9 +1471,7 @@ msgstr "Pyydä vahvistus ennen internet-yhteyden avaamista"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:489
 msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
-msgstr ""
-"jos valittu, vahvistusikkuna näytetään ennen kuin yritetään yhteyttä "
-"internetiin"
+msgstr "jos valittu, vahvistusikkuna näytetään ennen kuin yritetään yhteyttä internetiin"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:493
 msgid "Disconnect when done"
@@ -1587,8 +1568,7 @@ msgstr "jos valittuna, hyllytetyt työt jätetään muistiin"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:728
 msgid "Suspend processor and network usage when these applications are running:"
-msgstr ""
-"Hyllytä prosessori- ja verkkokäyttö kun nämä sovellukset ovat käynnissä:"
+msgstr "Hyllytä prosessori- ja verkkokäyttö kun nämä sovellukset ovat käynnissä:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:738
 msgid "Add..."
@@ -1673,18 +1653,12 @@ msgstr "Kopioi &valitut"
 #: clientgui/DlgEventLog.cpp:318
 #: clientgui/DlgEventLog.cpp:326
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"Kopioi valitut viestit leikepöydälle. Voit valita useampia viestejä "
-"pitämällä shift- tai command-näppäintä pohjassa samalla kun napsautat "
-"viestiä."
+msgstr "Kopioi valitut viestit leikepöydälle. Voit valita useampia viestejä pitämällä shift- tai command-näppäintä pohjassa samalla kun napsautat viestiä."
 
 #: clientgui/DlgEventLog.cpp:320
 #: clientgui/DlgEventLog.cpp:328
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"Kopioi valitut viestit leikepöydälle. Voit valita useampia viestejä "
-"pitämällä shift- tai control-näppäintä pohjassa samalla kun napsautat "
-"viestiä."
+msgstr "Kopioi valitut viestit leikepöydälle. Voit valita useampia viestejä pitämällä shift- tai control-näppäintä pohjassa samalla kun napsautat viestiä."
 
 #: clientgui/DlgEventLog.cpp:335
 #: clientgui/DlgItemProperties.cpp:67
@@ -2151,11 +2125,8 @@ msgstr "%s - Kielen valinta"
 
 #: clientgui/DlgOptions.cpp:698
 #, c-format
-#, c-format, c-format
 msgid "The %s's language has been changed.  In order for this change to take effect, you must restart the %s."
-msgstr ""
-"%s:n kieli on vaihdettu.  Jotta muutos tulee voimaan, %s pitää käynnistää "
-"uudelleen."
+msgstr "%s:n kieli on vaihdettu.  Jotta muutos tulee voimaan, %s pitää käynnistää uudelleen."
 
 #: clientgui/DlgSelectComputer.cpp:91
 #, c-format
@@ -2256,9 +2227,7 @@ msgstr "Lue yksityiskohtaiset tiedot Einstein@Homen näytönsäästäjästä"
 
 #: clientgui/Localization.cpp:71
 msgid "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr ""
-"Keskustele ylläpitäjien ja muiden käyttäjien kanssa Einstein@Home "
-"-keskustelupalstoilla"
+msgstr "Keskustele ylläpitäjien ja muiden käyttäjien kanssa Einstein@Home -keskustelupalstoilla"
 
 #: clientgui/Localization.cpp:73
 msgid "Einstein status"
@@ -2274,9 +2243,7 @@ msgstr "Raportoi ongelmista"
 
 #: clientgui/Localization.cpp:79
 msgid "A link to the Einstein@Home problems and bug reports message board"
-msgstr ""
-"Linkki Einstein@Homen keskustelupalstalle, jossa raportoidaan ongelmista ja "
-"virheistä"
+msgstr "Linkki Einstein@Homen keskustelupalstalle, jossa raportoidaan ongelmista ja virheistä"
 
 #: clientgui/Localization.cpp:83
 msgid "View and modify your Einstein@Home account profile and preferences"
@@ -2296,9 +2263,7 @@ msgstr "LIGO projekti"
 
 #: clientgui/Localization.cpp:103
 msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
-msgstr ""
-"Laser Interferometer Gravitational-wave Observatory (LIGO) -projektin "
-"kotisivu"
+msgstr "Laser Interferometer Gravitational-wave Observatory (LIGO) -projektin kotisivu"
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
@@ -2634,8 +2599,7 @@ msgstr "Valitse projekti"
 
 #: clientgui/ProjectInfoPage.cpp:228
 msgid "To choose a project, click its name or type its URL below."
-msgstr ""
-"Valitse projekti listasta napsauttamalla nimeä tai kirjoita sen URL-osoite."
+msgstr "Valitse projekti listasta napsauttamalla nimeä tai kirjoita sen URL-osoite."
 
 #: clientgui/ProjectInfoPage.cpp:246
 msgid "Categories:"
@@ -2677,9 +2641,7 @@ msgstr "Kaikki"
 
 #: clientgui/ProjectInfoPage.cpp:802
 msgid "This project may not have work for your type of computer.  Do you want to add it anyway?"
-msgstr ""
-"Tällä projektilla ei ehkä ole työtä tietokoneesi tyypille.  Lisätäänkö se "
-"kuitenkin?"
+msgstr "Tällä projektilla ei ehkä ole työtä tietokoneesi tyypille.  Lisätäänkö se kuitenkin?"
 
 #: clientgui/ProjectInfoPage.cpp:826
 msgid "You already added this project. Please choose a different project."
@@ -2737,9 +2699,7 @@ msgstr "Käyttäjä:"
 
 #: clientgui/ProjectWelcomePage.cpp:273
 msgid "WARNING: This project is not registered with BOINC.  Make sure you trust it before continuing."
-msgstr ""
-"VAROITUS: Tämä projekti ei ole rekisteröity BOINCiin.  Varmista, että luotat "
-"siihen ennen kuin jatkat."
+msgstr "VAROITUS: Tämä projekti ei ole rekisteröity BOINCiin.  Varmista, että luotat siihen ennen kuin jatkat."
 
 #: clientgui/ProjectWelcomePage.cpp:277
 msgid "To continue, click Next."
@@ -2902,14 +2862,11 @@ msgstr "Napsauta OK muuttaaksesi asetuksia."
 
 #: clientgui/sg_DlgPreferences.cpp:280
 msgid "Click Clear to restore web-based settings for all preferences listed below."
-msgstr ""
-"Napsauta Tyhjennä palauttaaksesi nettipohjaiset asetukset kaikkiin alla "
-"oleviin asetuksiin."
+msgstr "Napsauta Tyhjennä palauttaaksesi nettipohjaiset asetukset kaikkiin alla oleviin asetuksiin."
 
 #: clientgui/sg_DlgPreferences.cpp:287
 msgid "For additional settings, select Computing Preferences in the Advanced View."
-msgstr ""
-"Lisää asetuksia valitsemalla Laskenta-asetukset laajennetussa näkymässä."
+msgstr "Lisää asetuksia valitsemalla Laskenta-asetukset laajennetussa näkymässä."
 
 #: clientgui/sg_DlgPreferences.cpp:315
 msgid "Do work only between:"
@@ -3036,9 +2993,7 @@ msgstr "Päivitä"
 #: clientgui/sg_ProjectCommandPopup.cpp:67
 #: clientgui/ViewProjects.cpp:180
 msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
-msgstr ""
-"Raportoi kaikki valmiit työpaketit, hae viimeisimmät pisteet ja asetukset "
-"sekä mahdollisesti lisää paketteja."
+msgstr "Raportoi kaikki valmiit työpaketit, hae viimeisimmät pisteet ja asetukset sekä mahdollisesti lisää paketteja."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:73
 #: clientgui/sg_ProjectCommandPopup.cpp:129
@@ -3067,16 +3022,12 @@ msgstr "Nollaa projekti"
 #: clientgui/sg_ProjectCommandPopup.cpp:85
 #: clientgui/ViewProjects.cpp:201
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr ""
-"Poista kaikki tämän projektit tiedostot ja työpaketit sekä lataa uusia "
-"paketteja.  Voit ensin päivittää projektin raportoidaksesi valmiit paketit."
+msgstr "Poista kaikki tämän projektit tiedostot ja työpaketit sekä lataa uusia paketteja.  Voit ensin päivittää projektin raportoidaksesi valmiit paketit."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:91
 #: clientgui/ViewProjects.cpp:208
 msgid "Remove this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr ""
-"Poista tämä projekti.  Laskennassa olevat paketit menetetään (käytä "
-"Päivitä-nappia ensin raportoidaksesi valmiit paketit)."
+msgstr "Poista tämä projekti.  Laskennassa olevat paketit menetetään (käytä Päivitä-nappia ensin raportoidaksesi valmiit paketit)."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:96
 #: clientgui/sg_TaskCommandPopup.cpp:84
@@ -4103,8 +4054,7 @@ msgstr "anna laskennan alkamis- ja päättymistunti muodossa HH:MM-HH:MM"
 
 #: clientgui/DlgAdvPreferences.h:31
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
-msgstr ""
-"anna verkkoyhteyden käytön alkamis- ja päättymistunti muodossa HH:MM-HH:MM"
+msgstr "anna verkkoyhteyden käytön alkamis- ja päättymistunti muodossa HH:MM-HH:MM"
 
 # 98%
 #~ msgid ""
@@ -4113,7 +4063,6 @@ msgstr ""
 #~ msgstr ""
 #~ "(C) 2003-2013 Kalifornian yliopisto, Berkeley.\n"
 #~ "Kaikki oikeudet pidätetään."
-
 #, c-format
 #~ msgid "%s - Preferences"
 #~ msgstr "%s - Asetukset"
@@ -4125,100 +4074,68 @@ msgstr ""
 #, no-c-format
 #~ msgid "% CPU time"
 #~ msgstr "% prosessoriajasta"
-
 #~ msgid "KBytes/sec."
 #~ msgstr "Ktavua/sek."
-
 #~ msgid "Mbytes"
 #~ msgstr "Megatavua"
-
 #~ msgid "every"
 #~ msgstr "joka"
-
 #~ msgid "days"
 #~ msgstr "vrk"
-
 #~ msgid "Gigabytes disk space"
 #~ msgstr "Gigatavua levytilaa"
-
 #~ msgid "Running, high priority"
 #~ msgstr "Suoritetaan, korkea prioriteetti"
-
 #~ msgid " (Scheduler wait: "
 #~ msgstr " (Odottaa ajoittamista: "
-
 #~ msgid " (Scheduler wait)"
 #~ msgstr " (Odottaa ajoittamista)"
-
 #~ msgid " (Waiting for network access)"
 #~ msgstr " (Odottaa pääsyä verkkoon)"
-
 #~ msgid "Preferences…"
 #~ msgstr "Asetukset…"
-
 #~ msgid "I do not agree with the terms of use."
 #~ msgstr "En hyväksy käyttöehtoja."
-
 #~ msgid "Click Clear to restore web-based settings."
 #~ msgstr "Napsauta Tyhjennä palauttaaksesi web-pohjaiset asetukset."
-
 #~ msgid "For additional settings, select Computing Preferences in "
 #~ msgstr "Lisää asetuksia kohdassa Laskenta-asetukset "
-
 #~ msgid "the Advanced View."
 #~ msgstr "laajennetussa näkymässä."
-
 #~ msgid "Workunit name"
 #~ msgstr "Työpaketin nimi"
-
 #~ msgid "invalid float"
 #~ msgstr "virheellinen liukuluku"
-
 #~ msgid "Display the advanced (accessible) graphical interface."
 #~ msgstr "Näytä laajennettu graafinen käyttöliittymä."
-
 #~ msgid "Paused: Other work running"
 #~ msgstr "Tauotettu: Toinen työ käynnissä"
-
 #~ msgid "Paused: User initiated.  Click 'Resume' to continue"
 #~ msgstr "Tauotettu: Käyttäjän toimesta.  Napsauta \"Jatka\""
-
 #~ msgid "Paused: User active"
 #~ msgstr "Tauotettu: Käyttäjä aktiivinen"
-
 #~ msgid "Paused: Computer on battery"
 #~ msgstr "Tauotettu: Tietokone on akkukäytöllä"
-
 #~ msgid "Paused: Time of Day"
 #~ msgstr "Tauotettu: Aika päivästä"
-
 #~ msgid "Paused: Benchmarks running"
 #~ msgstr "Tauotettu: Suorituskykytestit käynnissä"
-
 #~ msgid "Paused"
 #~ msgstr "Tauotettu"
-
 #~ msgid "Paused: Application start delayed"
 #~ msgstr "Tauotettu: Sovelluksen käynnistystä lykätty"
-
 #~ msgid "Click to show project graphics"
 #~ msgstr "Napsauta nähdäksesi projektin grafiikan"
-
 #~ msgid "Open a window to view messages"
 #~ msgstr "Avaa ikkuna katsoaksesi viestejä"
-
 #~ msgid "Stop all activity"
 #~ msgstr "Pysäytä kaikki toiminta"
-
 #~ msgid "Resume activity"
 #~ msgstr "Jatka toimintaa"
-
 #~ msgid "Open a window to set your preferences"
 #~ msgstr "Avaa ikkuna asetuksien muuttamiseksi"
-
 #~ msgid "Switch to the BOINC advanced view"
 #~ msgstr "Vaihda BOINCin laajennettuun näkymään"
-
 #~ msgid "My Projects:"
 #~ msgstr "Projektini:"
 
@@ -4233,29 +4150,22 @@ msgstr ""
 #, c-format
 #~ msgid "%d hr %d min %d sec"
 #~ msgstr "%d t %d min %d sek"
-
 #~ msgid "Are you sure you want to display graphics on a remote machine?"
 #~ msgstr "Haluatko näyttää etäkoneen grafiikat?"
-
 #~ msgid "Application: "
 #~ msgstr "Sovellus: "
-
 #~ msgid "Time Remaining: "
 #~ msgstr "Aikaa jäljellä: "
-
 #~ msgid "Elapsed Time: "
 #~ msgstr "Kulunut aika: "
-
 #~ msgid "Account manager website"
 #~ msgstr "Tilihallitsijan nettisivu"
-
 #~ msgid "Account Manager &URL:"
 #~ msgstr "Tilihallitsijan &URL:"
 
 #, c-format
 #~ msgid "%s &website"
 #~ msgstr "%s &nettisivu"
-
 #~ msgid "Notice List"
 #~ msgstr "Ilmoituslista"
 
@@ -4266,100 +4176,71 @@ msgstr ""
 #, c-format
 #~ msgid "%s; received from %s; on %s"
 #~ msgstr "%s; vastaanotettu %s; aika %s"
-
 #~ msgid "Click"
 #~ msgstr "Napsauta"
-
 #~ msgid "Project List"
 #~ msgstr "Projektiluettelo"
-
 #~ msgid "Nvidia GPU Supported"
 #~ msgstr "Tukee Nvidian näytönohjainta"
-
 #~ msgid "ATI GPU Supported"
 #~ msgstr "Tukee ATIn näytönohjainta"
-
 #~ msgid "Project Website"
 #~ msgstr "Projektin nettisivu"
-
 #~ msgid "One or more items failed to load from the Internet."
 #~ msgstr "Yhden tai useamman tiedon lataus internetistä epäonnistui."
 
 # 88%
 #~ msgid "Retry now"
 #~ msgstr "Yritä uudelleen nyt"
-
 #~ msgid "10%"
 #~ msgstr "10 %"
-
 #~ msgid "20%"
 #~ msgstr "20 %"
-
 #~ msgid "30%"
 #~ msgstr "30 %"
-
 #~ msgid "40%"
 #~ msgstr "40 %"
-
 #~ msgid "50%"
 #~ msgstr "50 %"
-
 #~ msgid "60%"
 #~ msgstr "60 %"
-
 #~ msgid "70%"
 #~ msgstr "70 %"
-
 #~ msgid "80%"
 #~ msgstr "80 %"
-
 #~ msgid "90%"
 #~ msgstr "90 %"
-
 #~ msgid "100%"
 #~ msgstr "100 %"
-
 #~ msgid "1"
 #~ msgstr "1"
-
 #~ msgid "3"
 #~ msgstr "3"
-
 #~ msgid "5"
 #~ msgstr "5"
-
 #~ msgid "10"
 #~ msgstr "10"
-
 #~ msgid "15"
 #~ msgstr "15"
-
 #~ msgid "30"
 #~ msgstr "30"
-
 #~ msgid "60"
 #~ msgstr "60"
-
 #, c-format
 #~ msgid "Pop up a menu of websites for project %s"
 #~ msgstr "Ponnahdusvalikko projektin %s nettisivuista"
-
 #~ msgid ""
 #~ "for accessibility support, please select advanced from the view menu or type "
 #~ "command shift a"
 #~ msgstr ""
 #~ "paremman tuen saamiseksi valitse laajennettu näkymä näytä-valikosta tai "
 #~ "käytä näppäinyhdistelmää command shift a"
-
 #~ msgid "This panel contains graphs showing user totals for projects"
 #~ msgstr "Tässä paneelissa näkyvät käyttäjän kokonaispisteet projektille"
-
 #~ msgid "list headers"
 #~ msgstr "listan otsikkotiedot"
-
 #~ msgid "list of events"
 #~ msgstr "tapahtumien lista"
-
 #~ msgid "list of events is empty"
 #~ msgstr "tapahtumien lista on tyhjä"
 
@@ -4382,7 +4263,6 @@ msgstr ""
 #, c-format
 #~ msgid "; column %d of %d; "
 #~ msgstr "; sarake %d %d:sta; "
-
 #~ msgid "list is empty"
 #~ msgstr "lista on tyhjä"
 
@@ -4401,10 +4281,8 @@ msgstr ""
 #, c-format
 #~ msgid "; row %d of %d; "
 #~ msgstr "; rivi %d %d:sta; "
-
 #~ msgid "blank"
 #~ msgstr "tyhjä"
-
 #~ msgid "list of projects or account managers"
 #~ msgstr "luettelo projekteista tai tilihallitsijoista"
 
@@ -4415,21 +4293,17 @@ msgstr ""
 #, c-format
 #~ msgid "row %d of %d; "
 #~ msgstr "rivi %d %d:sta; "
-
 #~ msgid "The minimum username length for this project is 1. Please enter a different username."
 #~ msgstr ""
 #~ "Käyttäjänimen minimipituus tässä projektissa on 1. Anna toinen käyttäjänimi."
-
 #~ msgid "The minimum username length for this account manager is 1. Please enter a different username."
 #~ msgstr ""
 #~ "Käyttäjänimen minimipituus tässä tilihallitsijassa on 1. Anna toinen "
 #~ "käyttäjänimi."
-
 #~ msgid "The minimum email address length for this project is 1. Please enter a different email address."
 #~ msgstr ""
 #~ "Sähköpostiosoitteen minimipituus tässä projektissa on 1. Anna toinen "
 #~ "sähköpostiosoite."
-
 #~ msgid "The minimum email address length for this account manager is 1. Please enter a different email address."
 #~ msgstr ""
 #~ "Sähköpostiosoitteen minimipituus tässä tilihallitsijassa on 1. Anna toinen "
@@ -4445,7 +4319,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Salasanan vähimmäispituus tässä tilihallitsijassa on %d. Anna toinen "
 #~ "salasana."
-
 #~ msgid ""
 #~ "An error has occurred;\n"
 #~ "check the Event Log for details.\n"
@@ -4476,48 +4349,36 @@ msgstr ""
 #, c-format
 #~ msgid "OnDropTarget: index by HitTest = %i"
 #~ msgstr "OnDropTarget: index by HitTest = %i"
-
 #~ msgid "Identify your account "
 #~ msgstr "Yksilöi tilisi "
-
 #~ msgid "Read config file"
 #~ msgstr "Lue asetustiedosto"
-
 #~ msgid "Read configuration info from cc_config.xml"
 #~ msgstr "Lue asetustiedot cc_config.xml -tiedostosta"
-
 #~ msgid ""
 #~ "(C) 2003-2011 University of California, Berkeley.\n"
 #~ "All Rights Reserved."
 #~ msgstr ""
 #~ "(C) 2003-2011 Kalifornian yliopisto, Berkeley.\n"
 #~ "Kaikki oikeudet pidätetään."
-
 #~ msgid "NVIDIA GPU"
 #~ msgstr "NVIDIA GPU"
-
 #~ msgid "ATI GPU"
 #~ msgstr "ATI GPU"
-
 #~ msgid "Multicore CPU Supported"
 #~ msgstr "Tukee moniydinprosessoreita"
-
 #~ msgid "%s: %.0f"
 #~ msgstr "%s: %.0f"
-
 #~ msgid "Click 'Retry now' to transfer the file now"
 #~ msgstr "Napsauta \"Yritä uudelleen\" siirtääksesi tiedoston heti"
-
 #~ msgid ""
 #~ "Click 'Abort transfer' to delete the file from the transfer queue. This "
 #~ "will prevent you from being granted credit for this result."
 #~ msgstr ""
 #~ "Napsauta \"Keskeytä siirto\" poistaaksesi tiedoston jonosta. Et saa siitä "
 #~ "pisteitä."
-
 #~ msgid "Aborting result..."
 #~ msgstr "Hylätään pakettia..."
-
 #~ msgid ""
 #~ "You have chosen to add a new BOINC project.  Adding a new\n"
 #~ "project means that you will be connecting your computer to a new "
@@ -4548,53 +4409,38 @@ msgstr ""
 #~ "\n"
 #~ "Vaihtaaksesi niitä sovelluksia, joita koneellesi lähetetään\n"
 #~ "World Community Gridistä, napsauta seuraavaa nappia:"
-
 #~ msgid "Change Research Applications at World Community Grid"
 #~ msgstr "Vaihda World Community Grid -sovelluksia"
-
 #~ msgid "Don't fetch NVIDIA GPU tasks"
 #~ msgstr "Älä lataa NVIDIAn GPU-paketteja"
-
 #~ msgid "NVIDIA GPU work fetch deferred for"
 #~ msgstr "NVIDIAn GPU-pakettien latausta lykätty"
-
 #~ msgid "NVIDIA GPU work fetch deferral interval"
 #~ msgstr "NVIDIAn GPU-pakettien latauksen lykkäysaikaväli"
-
 #~ msgid "Don't fetch ATI GPU tasks"
 #~ msgstr "Älä lataa ATIn GPU-paketteja"
-
 #~ msgid "ATI GPU work fetch deferred for"
 #~ msgstr "ATIn GPU-pakettien latausta lykätty"
-
 #~ msgid "ATI GPU work fetch deferral interval"
 #~ msgstr "ATIn GPU-pakettien latauksen lykkäysaikaväli"
-
 #~ msgid "Remaining"
 #~ msgstr "Jäljellä"
-
 #~ msgid "Web sites"
 #~ msgstr "Nettisivut"
-
 #~ msgid "Connect about every"
 #~ msgstr "Ota yhteys"
-
 #~ msgid ""
 #~ "this computer is connected to the Internet about every X days\n"
 #~ "(0 if it's always connected)"
 #~ msgstr ""
 #~ "tämä kone on yhteydessä internetiin X päivän välein\n"
 #~ "(0 jos yhteys on aina)"
-
 #~ msgid "days (max. 10)"
 #~ msgstr "päivää (enint. 10)"
-
 #~ msgid "%d.%d%%"
 #~ msgstr "%d.%d%%"
-
 #~ msgid "Display and network &options..."
 #~ msgstr "Näytön ja verkon &asetukset..."
-
 #~ msgid ""
 #~ "You have requested to exit the %s,\n"
 #~ "which allows you to view and manage\n"
@@ -4609,102 +4455,70 @@ msgstr ""
 #~ "\n"
 #~ "Jos haluat lopettaa myös sovellusten suorittamisen\n"
 #~ "lopettaessasi Managerin, niin valitse seuraavista:"
-
 #~ msgid "Stop running science applications when exiting the Manager"
 #~ msgstr "Lopeta sovellusten suorittaminen lopettaessasi Managerin"
-
 #~ msgid "CPU work fetch priority"
 #~ msgstr "CPU-pakettien latausprioriteetti"
-
 #~ msgid "NVIDIA GPU scheduling priority"
 #~ msgstr "NVIDIA GPU aikataulutusprioriteetti"
-
 #~ msgid "NVIDIA GPU work fetch priority"
 #~ msgstr "NVIDIAn GPU-pakettien latausprioriteetti"
-
 #~ msgid "ATI GPU scheduling priority"
 #~ msgstr "ATI GPU aikataulutusprioriteetti"
-
 #~ msgid "ATI GPU work fetch priority"
 #~ msgstr "ATIn GPU-pakettien latausprioriteetti"
-
 #~ msgid "Estimated app speed"
 #~ msgstr "Arvioitu sovellusnopeus"
-
 #~ msgid "Estimated task size"
 #~ msgstr "Arvioitu työpaketin koko"
-
 #~ msgid "Max RAM usage"
 #~ msgstr "Suurin keskusmuistin käyttö"
-
 #~ msgid "%s - Options"
 #~ msgstr "%s - Valinnat"
-
 #~ msgid "Retrieving host information; please wait..."
 #~ msgstr "Noudetaan konetiedot, odota..."
-
 #~ msgid " (waiting for GPU memory)"
 #~ msgstr " (odottaa näytönohjaimen muistia)"
-
 #~ msgid "Manager Settings..."
 #~ msgstr "Managerin asetukset..."
-
 #~ msgid "Pause"
 #~ msgstr "Tauko"
-
 #~ msgid "%s - Messages"
 #~ msgstr "%s - Viestit"
-
 #~ msgid "Skin:"
 #~ msgstr "Ulkoasu:"
-
 #~ msgid "Preferences"
 #~ msgstr "Asetukset"
-
 #~ msgid "I want to customize my preferences for this computer only."
 #~ msgstr "Haluan muokata vain tämän tietokoneen asetuksia."
-
 #~ msgid "Customized Preferences"
 #~ msgstr "Mukautetut asetukset"
-
 #~ msgid "My total work done this Project"
 #~ msgstr "Tälle projektille tekemäni kokonaistyö"
-
 #~ msgid "My Tasks:"
 #~ msgstr "Pakettini:"
-
 #~ msgid "From Project:"
 #~ msgstr "Projektilta:"
-
 #~ msgid "Elapsed Time: %s"
 #~ msgstr "Kulunut aika: %s"
-
 #~ msgid "Time Remaining: %s"
 #~ msgstr "Aikaa jäljellä: %s"
-
 #~ msgid "Upload suspended - "
 #~ msgstr "Lähetys hyllytetty - "
-
 #~ msgid "Download suspended - "
 #~ msgstr "Lataus hyllytetty - "
-
 #~ msgid "Upload pending"
 #~ msgstr "Odottaa lähettämistä"
-
 #~ msgid "Download pending"
 #~ msgstr "Odottaa lataamista"
-
 #~ msgid "New Simple View..."
 #~ msgstr "Uusi yksinkertainen näkymä..."
-
 #~ msgid "Display the new simple graphical interface."
 #~ msgstr "Näytä uusi yksinkertainen graafinen käyttöliittymä."
-
 #~ msgid "Old Simple View..."
 #~ msgstr "Vanha yksinkertainen näkymä..."
-
 #~ msgid "Display the old simple graphical interface."
 #~ msgstr "Näytä vanha yksinkertainen graafinen käyttöliittymä."
-
 #~ msgid "Get help with BOINC"
 #~ msgstr "Hae apua BOINCiin"
+

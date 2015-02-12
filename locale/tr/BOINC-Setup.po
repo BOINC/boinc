@@ -4,35 +4,37 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: BOINC 7.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2013-11-24 20:51+0000\n"
-"Last-Translator: Aycan <aycandemirel@hotmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2015-02-12 02:05-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
+"Language-Team: BOINC Localization Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.0\n"
-"X-Poedit-SearchPath-0: mac_installer\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
 "X-POOTLE-MTIME: 1385326295.0\n"
 "X-Poedit-KeywordsList: _\n"
+"X-Poedit-SearchPath-0: mac_installer\n"
 
 #: Installer.cpp:124
 #, c-format
 msgid "Sorry, this version of %s requires system 10.5 or higher."
-msgstr ""
-"Özür dileriz, %s'in bu versiyonu 10.5 veya daha yüksek sistem gerektiriyor."
+msgstr "Özür dileriz, %s'in bu versiyonu 10.5 veya daha yüksek sistem gerektiriyor."
 
-#: PostInstall.cpp:130 PostInstall.cpp:1136 uninstall.cpp:1618
+#: PostInstall.cpp:130
+#: PostInstall.cpp:1136
+#: uninstall.cpp:1618
 msgid "Yes"
 msgstr "Evet"
 
-#: PostInstall.cpp:131 PostInstall.cpp:1137 uninstall.cpp:1619
+#: PostInstall.cpp:131
+#: PostInstall.cpp:1137
+#: uninstall.cpp:1619
 msgid "No"
 msgstr "Hayır"
 
@@ -43,11 +45,9 @@ msgstr "BOINC hiçbir kullanıcı oturum açmamışken de çalışsın mı?"
 #: PostInstall.cpp:1416
 #, c-format
 msgid ""
-"Users who are permitted to administer this computer will automatically be "
-"allowed to run and control %s.\n"
+"Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
 "\n"
-"Do you also want non-administrative users to be able to run and control %s "
-"on this Mac?"
+"Do you also want non-administrative users to be able to run and control %s on this Mac?"
 msgstr ""
 
 #: PostInstall.cpp:1444
@@ -112,8 +112,7 @@ msgstr ""
 #: uninstall.cpp:840
 #, c-format
 msgid ""
-"Enter your administrator password to completely remove %s from you "
-"computer.\n"
+"Enter your administrator password to completely remove %s from you computer.\n"
 "\n"
 msgstr ""
 
@@ -124,3 +123,4 @@ msgstr ""
 #: uninstall.cpp:1617
 msgid "Continue..."
 msgstr ""
+

@@ -4,26 +4,25 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 6.x\n"
+"Project-Id-Version: BOINC 7.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-15 14:15-0500\n"
-"PO-Revision-Date: 2014-12-16 09:12+0000\n"
-"Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
+"PO-Revision-Date: 2015-02-11 00:13-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC.Italy team <contact@boincitaly.org>\n"
 "Language: it_IT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc_7.4\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-POOTLE-MTIME: 1418721159.0\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
 # 81%
 #: clientgui/AccountInfoPage.cpp:387
@@ -68,8 +67,7 @@ msgid ""
 "below to find out what to put in the email address and\n"
 "password fields."
 msgstr ""
-"Non siamo stati in grado di impostare le informazioni del tuo account "
-"automaticamente.\n"
+"Non siamo stati in grado di impostare le informazioni del tuo account automaticamente.\n"
 "\n"
 "Clicca sul link 'Recupera le informazioni di accesso'\n"
 "in basso per trovare cosa inserire nei campi\n"
@@ -160,9 +158,7 @@ msgstr "Per favore inserisci una password di almeno %d caratteri."
 
 #: clientgui/AccountInfoPage.cpp:615
 msgid "The password and confirmation password do not match. Please type them again."
-msgstr ""
-"La password e la password di conferma non corrispondono. Prova a scriverle "
-"di nuovo."
+msgstr "La password e la password di conferma non corrispondono. Prova a scriverle di nuovo."
 
 #: clientgui/AccountManagerInfoPage.cpp:272
 msgid "Choose an account manager"
@@ -302,9 +298,7 @@ msgstr "Connessione ad un &progetto o ad un account manager..."
 
 #: clientgui/AdvancedFrame.cpp:422
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
-msgstr ""
-"Diventa un volontario di uno o di tutti gli oltre 30 progetti nelle varie "
-"aree scientifiche"
+msgstr "Diventa un volontario di uno o di tutti gli oltre 30 progetti nelle varie aree scientifiche"
 
 #: clientgui/AdvancedFrame.cpp:426
 #, c-format
@@ -379,8 +373,7 @@ msgstr "E&laborazione GPU continua"
 
 #: clientgui/AdvancedFrame.cpp:506
 msgid "Allow GPU work regardless of preferences"
-msgstr ""
-"Elabora con la GPU senza interruzioni e indipendentemente dalle preferenze"
+msgstr "Elabora con la GPU senza interruzioni e indipendentemente dalle preferenze"
 
 #: clientgui/AdvancedFrame.cpp:510
 msgid "Use GPU based on preferences"
@@ -404,9 +397,7 @@ msgstr "Attività di rete sempre disponibile"
 
 #: clientgui/AdvancedFrame.cpp:541
 msgid "Allow network activity regardless of preferences"
-msgstr ""
-"Permetti l'attività di rete senza interruzioni e indipendentemente dalle "
-"preferenze"
+msgstr "Permetti l'attività di rete senza interruzioni e indipendentemente dalle preferenze"
 
 #: clientgui/AdvancedFrame.cpp:545
 msgid "Network activity based on preferences"
@@ -464,8 +455,7 @@ msgstr "Leggi i file di configurazione"
 
 #: clientgui/AdvancedFrame.cpp:587
 msgid "Read configuration info from cc_config.xml and any app_config.xml files"
-msgstr ""
-"Leggi la configurazione dal file cc_config.xml e dai file app_config.xml"
+msgstr "Leggi la configurazione dal file cc_config.xml e dai file app_config.xml"
 
 #: clientgui/AdvancedFrame.cpp:591
 msgid "Read local prefs file"
@@ -690,8 +680,7 @@ msgid ""
 "Please contact your administrator to add you to the 'boinc_users' local user group."
 msgstr ""
 "Non sei autorizzato a gestire il client BOINC.\n"
-"Contatta l'amministratore del computer per aggiungere il tuo account al "
-"gruppo 'boinc_users'."
+"Contatta l'amministratore del computer per aggiungere il tuo account al gruppo 'boinc_users'."
 
 #: clientgui/BOINCBaseFrame.cpp:522
 msgid ""
@@ -703,8 +692,7 @@ msgstr ""
 
 #: clientgui/BOINCBaseFrame.cpp:524
 msgid "Authorization failed connecting to running client."
-msgstr ""
-"Autorizzazione fallita durante la connessione al client BOINC in esecuzione."
+msgstr "Autorizzazione fallita durante la connessione al client BOINC in esecuzione."
 
 #: clientgui/BOINCBaseFrame.cpp:532
 msgid "The password you have provided is incorrect, please try again."
@@ -736,8 +724,7 @@ msgid ""
 "Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
 msgstr ""
 "%s non riesce ad avviare il client %s.\n"
-"Vai su Pannello di controllo->Strumenti di amministrazione->Servizi "
-"componenti ed avvia il servizio BOINC."
+"Vai su Pannello di controllo->Strumenti di amministrazione->Servizi componenti ed avvia il servizio BOINC."
 
 #: clientgui/BOINCBaseFrame.cpp:637
 #, c-format
@@ -761,8 +748,7 @@ msgid ""
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s al momento non è connesso al client %s.\n"
-"Usa l'opzione del menù 'Avanzate\\Seleziona un computer...' per connettersi "
-"al client %s.\n"
+"Usa l'opzione del menù 'Avanzate\\Seleziona un computer...' per connettersi al client %s.\n"
 "Per connetterti al computer locale usa 'localhost' come host name."
 
 #: clientgui/BOINCBaseView.cpp:752
@@ -780,8 +766,7 @@ msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
 msgstr ""
-"Il client %s si è disconnesso in modo imprevisto 3 volte negli ultimi %d "
-"minuti.\n"
+"Il client %s si è disconnesso in modo imprevisto 3 volte negli ultimi %d minuti.\n"
 "Vuoi ricollegarti?"
 
 #: clientgui/BOINCDialupManager.cpp:61
@@ -820,8 +805,7 @@ msgid ""
 "Updating all projects and retrying all transfers."
 msgstr ""
 "%s ha individuato una connessione a Internet.\n"
-"L'aggiornamento di tutti i progetti e i nuovi tentativi di trasferimento "
-"sono in corso."
+"L'aggiornamento di tutti i progetti e i nuovi tentativi di trasferimento sono in corso."
 
 #: clientgui/BOINCDialupManager.cpp:417
 #, c-format
@@ -860,8 +844,7 @@ msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr ""
-"La proprietà o i permessi di %s non sono impostati correttamente; per "
-"risolvere il problema installa nuovamente %s.\n"
+"La proprietà o i permessi di %s non sono impostati correttamente; per risolvere il problema installa nuovamente %s.\n"
 "(Codice errore %d)"
 
 #: clientgui/BOINCGUIApp.cpp:607
@@ -890,8 +873,7 @@ msgstr "BOINC Manager è stato avviato dal sistema operativo in modo automatico"
 
 #: clientgui/BOINCGUIApp.cpp:904
 msgid "Startup BOINC so only the system tray icon is visible"
-msgstr ""
-"Avvia BOINC in modo che sia visibile solo l'icona nella barra di sistema"
+msgstr "Avvia BOINC in modo che sia visibile solo l'icona nella barra di sistema"
 
 #: clientgui/BOINCGUIApp.cpp:906
 msgid "Directory containing the BOINC Client executable"
@@ -923,9 +905,7 @@ msgstr "disabilita la sicurezza utenti e i permessi di BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:914
 msgid "set skin debugging mode to enable skin manager error messages"
-msgstr ""
-"imposta la modalità di debug per la visualizzazione per abilitarne i "
-"messaggi di errore del gestore"
+msgstr "imposta la modalità di debug per la visualizzazione per abilitarne i messaggi di errore del gestore"
 
 #: clientgui/BOINCGUIApp.cpp:915
 msgid "multiple instances of BOINC Manager allowed"
@@ -1072,8 +1052,7 @@ msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
 msgstr ""
-"Quando clicchi su Fine, il tuo browser ti reindirizzerà verso una pagina "
-"dove\n"
+"Quando clicchi su Fine, il tuo browser ti reindirizzerà verso una pagina dove\n"
 "potrai gestire il tuo account e le tue preferenze."
 
 #: clientgui/CompletionPage.cpp:232
@@ -1225,8 +1204,7 @@ msgid ""
 msgstr ""
 "Da qui puoi impostare le preferenze solo per questo computer.\n"
 "Clicca OK per impostare le preferenze.\n"
-"Clicca sul pulsante Rimuovi per ripristinare l'uso delle impostazioni via "
-"web (tranne per le applicazioni esclusive)."
+"Clicca sul pulsante Rimuovi per ripristinare l'uso delle impostazioni via web (tranne per le applicazioni esclusive)."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:69
 msgid "Clear"
@@ -1286,9 +1264,7 @@ msgstr "Quando il computer va a batterie"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:149
 msgid "check this if you want this computer to do work while it runs on batteries"
-msgstr ""
-"spunta questa voce se vuoi che il computer elabori anche se è alimentato a "
-"batteria"
+msgstr "spunta questa voce se vuoi che il computer elabori anche se è alimentato a batteria"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:155
 msgid "While computer is in use"
@@ -1296,9 +1272,7 @@ msgstr "Quando il computer è in uso"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:158
 msgid "check this if you want this computer to do work even when you're using it"
-msgstr ""
-"spunta questa voce se vuoi che il computer elabori anche quando lo stai "
-"utilizzando"
+msgstr "spunta questa voce se vuoi che il computer elabori anche quando lo stai utilizzando"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:164
 msgid "Use GPU while computer is in use"
@@ -1306,9 +1280,7 @@ msgstr "Usa GPU mentre il computer è in uso"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:167
 msgid "check this if you want your GPU to do work even when you're using the computer"
-msgstr ""
-"spunta questa voce se vuoi che la GPU elabori anche quando stai utilizzando "
-"il computer"
+msgstr "spunta questa voce se vuoi che la GPU elabori anche quando stai utilizzando il computer"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:179
 msgid "Only after computer has been idle for"
@@ -1316,9 +1288,7 @@ msgstr "Solamente quando il computer è inutilizzato da più di"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:188
 msgid "do work only after you haven't used the computer for this number of minutes"
-msgstr ""
-"elabora solo dopo che il computer non è utilizzato per questo numero di "
-"minuti"
+msgstr "elabora solo dopo che il computer non è utilizzato per questo numero di minuti"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:193
 #: clientgui/DlgAdvPreferencesBase.cpp:342
@@ -1368,9 +1338,7 @@ msgstr "Impostazioni speciali per alcuni giorni della settimana:"
 #: clientgui/DlgAdvPreferencesBase.cpp:266
 #: clientgui/DlgAdvPreferencesBase.cpp:532
 msgid "check box to specify hours for this day of week"
-msgstr ""
-"spunta la voce del giorno della settimana per specificare le ore di "
-"funzionamento"
+msgstr "spunta la voce del giorno della settimana per specificare le ore di funzionamento"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:272
 #: clientgui/DlgAdvPreferencesBase.cpp:538
@@ -1461,9 +1429,7 @@ msgstr "Riserva di lavoro addizionale minima"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:425
 msgid "Try to maintain enough tasks to keep busy for this many days"
-msgstr ""
-"Cerca di mantenere sufficienti lavori per rimanere occupato per questi "
-"giorni"
+msgstr "Cerca di mantenere sufficienti lavori per rimanere occupato per questi giorni"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:431
 #: clientgui/DlgAdvPreferencesBase.cpp:449
@@ -1508,9 +1474,7 @@ msgstr "Chiede conferma prima di connettersi ad Internet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:489
 msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
-msgstr ""
-"se la voce è spuntata, sarà chiesta una conferma prima di effettuare una "
-"connessione ad Internet"
+msgstr "se la voce è spuntata, sarà chiesta una conferma prima di effettuare una connessione ad Internet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:493
 msgid "Disconnect when done"
@@ -1555,8 +1519,7 @@ msgstr "Lascia come minimo"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:633
 msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
-msgstr ""
-"BOINC lascia almeno questa quantità di spazio libero su disco (in Gigabytes)"
+msgstr "BOINC lascia almeno questa quantità di spazio libero su disco (in Gigabytes)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:637
 msgid "Gigabytes disk space free"
@@ -1604,14 +1567,11 @@ msgstr " Lascia le applicazioni in memoria quando sono sospese"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:708
 msgid "if checked, suspended work units are left in memory"
-msgstr ""
-"se la voce è spuntata, le elaborazioni sospese vengono lasciate in memoria"
+msgstr "se la voce è spuntata, le elaborazioni sospese vengono lasciate in memoria"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:728
 msgid "Suspend processor and network usage when these applications are running:"
-msgstr ""
-"Sospendi il processore e l'utilizzo della rete quando queste applicazioni "
-"sono in esecuzione:"
+msgstr "Sospendi il processore e l'utilizzo della rete quando queste applicazioni sono in esecuzione:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:738
 msgid "Add..."
@@ -1640,8 +1600,7 @@ msgstr "%s Flags di Log Diagnostici"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:83
 msgid "These flags enable various types of diagnostic messages in the Event Log."
-msgstr ""
-"Questi flags abilitano vari tipi di messaggi diagnostici nel Log Eventi."
+msgstr "Questi flags abilitano vari tipi di messaggi diagnostici nel Log Eventi."
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:105
 msgid "Save all values and close the dialog"
@@ -1697,17 +1656,12 @@ msgstr "Copia &Selezionati"
 #: clientgui/DlgEventLog.cpp:318
 #: clientgui/DlgEventLog.cpp:326
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"Copia i messaggi selezionati negli appunti. Puoi selezionare più messaggi "
-"insieme tenendo premuto il tasto Shift o command mentre clicchi sui "
-"messaggi."
+msgstr "Copia i messaggi selezionati negli appunti. Puoi selezionare più messaggi insieme tenendo premuto il tasto Shift o command mentre clicchi sui messaggi."
 
 #: clientgui/DlgEventLog.cpp:320
 #: clientgui/DlgEventLog.cpp:328
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"Copia i messaggi selezionati negli appunti. Puoi selezionare più messaggi "
-"insieme tenendo premuto il tasto Shift o Ctrl mentre clicchi sui messaggi."
+msgstr "Copia i messaggi selezionati negli appunti. Puoi selezionare più messaggi insieme tenendo premuto il tasto Shift o Ctrl mentre clicchi sui messaggi."
 
 #: clientgui/DlgEventLog.cpp:335
 #: clientgui/DlgItemProperties.cpp:67
@@ -2175,9 +2129,7 @@ msgstr "%s - Selezione della lingua"
 #: clientgui/DlgOptions.cpp:698
 #, c-format
 msgid "The %s's language has been changed.  In order for this change to take effect, you must restart the %s."
-msgstr ""
-"La lingua di %s è stata cambiata.  Per rendere effettive le modifiche, devi "
-"riavviare %s."
+msgstr "La lingua di %s è stata cambiata.  Per rendere effettive le modifiche, devi riavviare %s."
 
 #: clientgui/DlgSelectComputer.cpp:91
 #, c-format
@@ -2229,9 +2181,7 @@ msgstr "Le tue preferenze"
 
 #: clientgui/Localization.cpp:45
 msgid "View and modify your SETI@home account profile and preferences"
-msgstr ""
-"Visualizza e modifica il profilo del tuo account SETI@home e le tue "
-"preferenze"
+msgstr "Visualizza e modifica il profilo del tuo account SETI@home e le tue preferenze"
 
 #: clientgui/Localization.cpp:47
 #: clientgui/Localization.cpp:89
@@ -2250,9 +2200,7 @@ msgstr "I tuoi computer"
 
 #: clientgui/Localization.cpp:53
 msgid "View a listing of all the computers on which you are running SETI@Home"
-msgstr ""
-"Visualizza l'elenco di tutti i computer con cui stai partecipando a "
-"SETI@Home"
+msgstr "Visualizza l'elenco di tutti i computer con cui stai partecipando a SETI@Home"
 
 #: clientgui/Localization.cpp:55
 #: clientgui/Localization.cpp:97
@@ -2282,8 +2230,7 @@ msgstr "Leggi una descrizione dettagliata dello sreensaver di Einstein@Home"
 
 #: clientgui/Localization.cpp:71
 msgid "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr ""
-"Discuti con gli amministratori e gli altri utenti sul forum di Einstein@Home"
+msgstr "Discuti con gli amministratori e gli altri utenti sul forum di Einstein@Home"
 
 #: clientgui/Localization.cpp:73
 msgid "Einstein status"
@@ -2303,9 +2250,7 @@ msgstr "Collegamento al forum per i problemi ed i bug di Einstein@Home"
 
 #: clientgui/Localization.cpp:83
 msgid "View and modify your Einstein@Home account profile and preferences"
-msgstr ""
-"Visualizza e modifica il profilo del tuo account su Einstein@Home e le "
-"preferenze"
+msgstr "Visualizza e modifica il profilo del tuo account su Einstein@Home e le preferenze"
 
 #: clientgui/Localization.cpp:85
 msgid "Account summary"
@@ -2313,9 +2258,7 @@ msgstr "Riepilogo dell'account"
 
 #: clientgui/Localization.cpp:95
 msgid "View a listing of all the computers on which you are running Einstein@Home"
-msgstr ""
-"Visualizza l'elenco di tutti i computer con cui stai partecipando ad "
-"Einstein@Home"
+msgstr "Visualizza l'elenco di tutti i computer con cui stai partecipando ad Einstein@Home"
 
 #: clientgui/Localization.cpp:101
 msgid "LIGO project"
@@ -2323,9 +2266,7 @@ msgstr "Progetto LIGO"
 
 #: clientgui/Localization.cpp:103
 msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
-msgstr ""
-"Pagina iniziale del progetto Laser Interferometer Gravitational-wave "
-"Observatory (LIGO)"
+msgstr "Pagina iniziale del progetto Laser Interferometer Gravitational-wave Observatory (LIGO)"
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
@@ -2358,9 +2299,7 @@ msgstr "Notizie su climateprediction.net"
 
 #: clientgui/Localization.cpp:131
 msgid "View your account information, credits, and trickles"
-msgstr ""
-"Visualizza le informazioni sul tuo account, i crediti ed il lavoro "
-"effettuato"
+msgstr "Visualizza le informazioni sul tuo account, i crediti ed il lavoro effettuato"
 
 #: clientgui/Localization.cpp:135
 msgid "Info about your team"
@@ -2420,9 +2359,7 @@ msgstr "Applicazione mancante"
 
 #: clientgui/MainDocument.cpp:1827
 msgid "Please download and install the CoRD application from http://cord.sourceforge.net"
-msgstr ""
-"Per favore scarica e installa l'applicazione CoRd da "
-"http://cord.sourceforge.net"
+msgstr "Per favore scarica e installa l'applicazione CoRd da http://cord.sourceforge.net"
 
 #: clientgui/MainDocument.cpp:2442
 msgid "on batteries"
@@ -2664,9 +2601,7 @@ msgstr "Scegli un progetto"
 
 #: clientgui/ProjectInfoPage.cpp:228
 msgid "To choose a project, click its name or type its URL below."
-msgstr ""
-"Per selezionare un progetto, clicca sul nome o digita il suo indirizzo "
-"sotto."
+msgstr "Per selezionare un progetto, clicca sul nome o digita il suo indirizzo sotto."
 
 #: clientgui/ProjectInfoPage.cpp:246
 msgid "Categories:"
@@ -2708,9 +2643,7 @@ msgstr "Tutto"
 
 #: clientgui/ProjectInfoPage.cpp:802
 msgid "This project may not have work for your type of computer.  Do you want to add it anyway?"
-msgstr ""
-"Questo progetto potrebbe non avere lavoro per il tuo tipo di computer. Sei "
-"sicuro di volerlo aggiungere comunque?"
+msgstr "Questo progetto potrebbe non avere lavoro per il tuo tipo di computer. Sei sicuro di volerlo aggiungere comunque?"
 
 #: clientgui/ProjectInfoPage.cpp:826
 msgid "You already added this project. Please choose a different project."
@@ -2768,9 +2701,7 @@ msgstr "Utente:"
 
 #: clientgui/ProjectWelcomePage.cpp:273
 msgid "WARNING: This project is not registered with BOINC.  Make sure you trust it before continuing."
-msgstr ""
-"WARNING: Questo progetto non è registrato con BOINC.  Assicurati che sia "
-"fidato prima di continuare."
+msgstr "WARNING: Questo progetto non è registrato con BOINC.  Assicurati che sia fidato prima di continuare."
 
 #: clientgui/ProjectWelcomePage.cpp:277
 msgid "To continue, click Next."
@@ -2802,8 +2733,7 @@ msgstr ""
 "1) Problemi di connettività. Controlla la tua connessione di rete o\n"
 "la connessione del modem e poi riprova l'operazione.\n"
 "\n"
-"2) Il firewall sta bloccando il progetto BOINC World Community Grid. Devi "
-"configurare il tuo\n"
+"2) Il firewall sta bloccando il progetto BOINC World Community Grid. Devi configurare il tuo\n"
 "firewall per permettere a BOINC di comunicare sulle porte 80 e 443.\n"
 "Una volta fatto questo, clicca su indietro e riprova.\n"
 "\n"
@@ -2932,15 +2862,11 @@ msgstr "Clicca OK per salvare le preferenze."
 
 #: clientgui/sg_DlgPreferences.cpp:280
 msgid "Click Clear to restore web-based settings for all preferences listed below."
-msgstr ""
-"Clicca \"Cancella\" per ripristinare le impostazioni basate sul web per tutte "
-"le preferenze elencate sotto."
+msgstr "Clicca \"Cancella\" per ripristinare le impostazioni basate sul web per tutte le preferenze elencate sotto."
 
 #: clientgui/sg_DlgPreferences.cpp:287
 msgid "For additional settings, select Computing Preferences in the Advanced View."
-msgstr ""
-"Per impostazioni aggiuntive, seleziona Preferenze di elaborazione nella "
-"Vista Avanzata."
+msgstr "Per impostazioni aggiuntive, seleziona Preferenze di elaborazione nella Vista Avanzata."
 
 #: clientgui/sg_DlgPreferences.cpp:315
 msgid "Do work only between:"
@@ -3067,9 +2993,7 @@ msgstr "Aggiorna"
 #: clientgui/sg_ProjectCommandPopup.cpp:67
 #: clientgui/ViewProjects.cpp:180
 msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
-msgstr ""
-"Riporta il lavoro completato, aggiorna il totale dei crediti e le "
-"preferenze, e possibilmente ottiene altro lavoro."
+msgstr "Riporta il lavoro completato, aggiorna il totale dei crediti e le preferenze, e possibilmente ottiene altro lavoro."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:73
 #: clientgui/sg_ProjectCommandPopup.cpp:129
@@ -3098,17 +3022,12 @@ msgstr "Reset del progetto"
 #: clientgui/sg_ProjectCommandPopup.cpp:85
 #: clientgui/ViewProjects.cpp:201
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr ""
-"Cancella tutti i file e le elaborazioni associate a questo progetto e "
-"scarica nuovo lavoro.  Puoi aggiornare il progetto prima di eseguire il "
-"reset per riportare le elaborazioni già completate."
+msgstr "Cancella tutti i file e le elaborazioni associate a questo progetto e scarica nuovo lavoro.  Puoi aggiornare il progetto prima di eseguire il reset per riportare le elaborazioni già completate."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:91
 #: clientgui/ViewProjects.cpp:208
 msgid "Remove this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr ""
-"Rimuovi questo progetto dal computer.  Il lavoro in corso andrà perso (usa "
-"prima 'Aggiorna' per inviare il lavoro già completato)."
+msgstr "Rimuovi questo progetto dal computer.  Il lavoro in corso andrà perso (usa prima 'Aggiorna' per inviare il lavoro già completato)."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:96
 #: clientgui/sg_TaskCommandPopup.cpp:84
@@ -3181,8 +3100,7 @@ msgstr "Sincronizza i progetti con il sistema dell'account manager"
 
 #: clientgui/sg_ProjectPanel.cpp:124
 msgid "Select a project to access with the controls below"
-msgstr ""
-"Seleziona un progetto a cui accedere mediantei i controlli sottostanti..."
+msgstr "Seleziona un progetto a cui accedere mediantei i controlli sottostanti..."
 
 #: clientgui/sg_ProjectPanel.cpp:145
 msgid "Project Web Pages"
@@ -3553,14 +3471,11 @@ msgstr "Sospensione del progetto in corso..."
 
 #: clientgui/ViewProjects.cpp:390
 msgid "Telling project to allow additional task downloads..."
-msgstr ""
-"Comunicazione con il progetto per abilitare lo scaricamento di ulteriore "
-"lavoro in corso..."
+msgstr "Comunicazione con il progetto per abilitare lo scaricamento di ulteriore lavoro in corso..."
 
 #: clientgui/ViewProjects.cpp:394
 msgid "Telling project to not fetch any additional tasks..."
-msgstr ""
-"Comunicazione con il progetto per non ottenere ulteriore lavoro in corso..."
+msgstr "Comunicazione con il progetto per non ottenere ulteriore lavoro in corso..."
 
 #: clientgui/ViewProjects.cpp:430
 msgid "Resetting project..."
@@ -3828,9 +3743,7 @@ msgstr "Annulla il trasferimento"
 
 #: clientgui/ViewTransfers.cpp:177
 msgid "Abort this file transfer.  You won't get credit for the task."
-msgstr ""
-"Annulla il trasferimento di questo file.  Non otterrai crediti per il "
-"lavoro."
+msgstr "Annulla il trasferimento di questo file.  Non otterrai crediti per il lavoro."
 
 #: clientgui/ViewTransfers.cpp:188
 msgid "File"
@@ -3952,8 +3865,7 @@ msgstr "Sospende l'elaborazione selezionata."
 
 #: clientgui/ViewWork.cpp:221
 msgid "Abandon work on the result. You will get no credit for it."
-msgstr ""
-"Abbandona l'elaborazione selezionata. In questo modo non otterai crediti."
+msgstr "Abbandona l'elaborazione selezionata. In questo modo non otterai crediti."
 
 #: clientgui/ViewWork.cpp:240
 msgid "Elapsed"
@@ -4065,23 +3977,17 @@ msgid ""
 "\n"
 "Please choose which type of change you would like to make:\n"
 msgstr ""
-"Hai scelto di aggiungere un nuovo progetto di calcolo volontario o di "
-"cambiare i progetti\n"
+"Hai scelto di aggiungere un nuovo progetto di calcolo volontario o di cambiare i progetti\n"
 "sui quali contribuire.\n"
 "\n"
-"Alcuni di questi progetti sono fatti girare e gestiti dalla World Community "
-"Grid, mentre altri\n"
-"sono fatti girare e gestiti da altri istituti di ricerca o organizzazioni. "
-"Il software BOINC\n"
-"può dividere il tuo tempo di elaborazione libero su una combinazione "
-"qualunque dei progetti.\n"
+"Alcuni di questi progetti sono fatti girare e gestiti dalla World Community Grid, mentre altri\n"
+"sono fatti girare e gestiti da altri istituti di ricerca o organizzazioni. Il software BOINC\n"
+"può dividere il tuo tempo di elaborazione libero su una combinazione qualunque dei progetti.\n"
 "\n"
-"Alternativamente, se ti sei registrato con un BOINC Account Manager, puoi "
-"usare\n"
+"Alternativamente, se ti sei registrato con un BOINC Account Manager, puoi usare\n"
 "questo per scegliere quali progetti supportare.\n"
 "\n"
 "Per favore scegli quale tipo di cambiamento vuoi effettuare:\n"
-"s"
 
 #: clientgui/WelcomePage.cpp:339
 msgid "Use a BOINC Account Manager"
@@ -4144,15 +4050,11 @@ msgstr "Esci da %s"
 
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
-msgstr ""
-"specifica l'orario di avvio e arresto dell'elaborazione nel formato HH:MM-"
-"HH:MM"
+msgstr "specifica l'orario di avvio e arresto dell'elaborazione nel formato HH:MM-HH:MM"
 
 #: clientgui/DlgAdvPreferences.h:31
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
-msgstr ""
-"specifica l'orario di avvio e arresto per l'uso della rete nel formato HH"
-":MM-HH:MM"
+msgstr "specifica l'orario di avvio e arresto per l'uso della rete nel formato HH:MM-HH:MM"
 
 # 98%
 #~ msgid ""
@@ -4161,7 +4063,6 @@ msgstr ""
 #~ msgstr ""
 #~ "(C) 2003-2013 Università della California, Berkeley.\n"
 #~ "Tutti i diritti riservati."
-
 #, c-format
 #~ msgid "%s - Preferences"
 #~ msgstr "%s - Preferenze"
@@ -4173,53 +4074,38 @@ msgstr ""
 #, no-c-format
 #~ msgid "% CPU time"
 #~ msgstr "% della CPU"
-
 #~ msgid "KBytes/sec."
 #~ msgstr "KBytes/sec."
-
 #~ msgid "Mbytes"
 #~ msgstr "Mbytes"
-
 #~ msgid "every"
 #~ msgstr "ogni"
-
 #~ msgid "days"
 #~ msgstr "giorni"
-
 #~ msgid "Gigabytes disk space"
 #~ msgstr "Gigabytes di spazio sul disco"
-
 #~ msgid "Running, high priority"
 #~ msgstr "In elaborazione, priorità alta"
-
 #~ msgid " (Scheduler wait: "
 #~ msgstr " (In attesa dello Scheduler:"
-
 #~ msgid " (Scheduler wait)"
 #~ msgstr " (Attesa dello scheduler)"
-
 #~ msgid " (Waiting for network access)"
 #~ msgstr " (In attesa di accesso alla rete)"
-
 #~ msgid "Preferences…"
 #~ msgstr "Preferenze..."
-
 #~ msgid "Account manager website"
 #~ msgstr "Sito web dell'account manager"
-
 #~ msgid "Account Manager &URL:"
 #~ msgstr "&URL dell'Account Manager:"
 
 #, c-format
 #~ msgid "%s &website"
 #~ msgstr "Sito &web di %s"
-
 #~ msgid "invalid float"
 #~ msgstr "numero decimale non valido"
-
 #~ msgid "Workunit name"
 #~ msgstr "Nome dell'unità di lavoro"
-
 #~ msgid "Notice List"
 #~ msgstr "Lista degli avvisi"
 
@@ -4230,141 +4116,97 @@ msgstr ""
 #, c-format
 #~ msgid "%s; received from %s; on %s"
 #~ msgstr "%s: ricevuto da %s; su %s"
-
 #~ msgid "Click"
 #~ msgstr "Clicca"
-
 #~ msgid "Project List"
 #~ msgstr "Lista dei Progetti"
-
 #~ msgid "Nvidia GPU Supported"
 #~ msgstr "GPU Nvidia Supportata"
-
 #~ msgid "ATI GPU Supported"
 #~ msgstr "GPU ATI Supportata"
-
 #~ msgid "Project Website"
 #~ msgstr "Sito web progetto"
-
 #~ msgid "I do not agree with the terms of use."
 #~ msgstr "Non accetto le condizioni d'uso."
-
 #~ msgid "One or more items failed to load from the Internet."
 #~ msgstr "Lo scaricamento di uno o più elementi da Internet è fallito."
 
 # 88%
 #~ msgid "Retry now"
 #~ msgstr "Ritenta ora"
-
 #~ msgid "Display the advanced (accessible) graphical interface."
 #~ msgstr "Visualizza l'interfaccia grafica avanzata."
-
 #~ msgid "10%"
 #~ msgstr "10%"
-
 #~ msgid "20%"
 #~ msgstr "20%"
-
 #~ msgid "30%"
 #~ msgstr "30%"
-
 #~ msgid "40%"
 #~ msgstr "40%"
-
 #~ msgid "50%"
 #~ msgstr "50%"
-
 #~ msgid "60%"
 #~ msgstr "60%"
-
 #~ msgid "70%"
 #~ msgstr "70%"
-
 #~ msgid "80%"
 #~ msgstr "80%"
-
 #~ msgid "90%"
 #~ msgstr "90%"
-
 #~ msgid "100%"
 #~ msgstr "100%"
-
 #~ msgid "1"
 #~ msgstr "1"
-
 #~ msgid "3"
 #~ msgstr "3"
-
 #~ msgid "5"
 #~ msgstr "5"
-
 #~ msgid "10"
 #~ msgstr "10"
-
 #~ msgid "15"
 #~ msgstr "15"
-
 #~ msgid "30"
 #~ msgstr "30"
-
 #~ msgid "60"
 #~ msgstr "60"
-
 #~ msgid "Click Clear to restore web-based settings."
 #~ msgstr "Clicca Cancella per ripristinare le preferenze web."
-
 #~ msgid "For additional settings, select Computing Preferences in "
 #~ msgstr "Per impostazioni aggiuntive, seleziona Preferenze di elaborazione nel "
-
 #~ msgid "the Advanced View."
 #~ msgstr "la Visualizzazione Avanzata."
-
 #~ msgid "Paused: Other work running"
 #~ msgstr "In pausa: altre elaborazioni in corso"
-
 #~ msgid "Paused: User initiated.  Click 'Resume' to continue"
 #~ msgstr "In pausa: impostato dall'utente.  Clicca su 'Riprendi' per continuare"
-
 #~ msgid "Paused: User active"
 #~ msgstr "In pausa: utente attivo"
-
 #~ msgid "Paused: Computer on battery"
 #~ msgstr "In pausa: alimentazione a batteria"
-
 #~ msgid "Paused: Time of Day"
 #~ msgstr "In pausa: superati i limiti di orario"
-
 #~ msgid "Paused: Benchmarks running"
 #~ msgstr "In pausa: esecuzione dei benchmark"
-
 #~ msgid "Paused"
 #~ msgstr "Sospeso"
-
 #~ msgid "Paused: Application start delayed"
 #~ msgstr "Sospeso: l'avvio dell'applicazione è stato rimandato"
-
 #~ msgid "Click to show project graphics"
 #~ msgstr "Clicca per visualizzare la grafica del progetto"
-
 #, c-format
 #~ msgid "Pop up a menu of websites for project %s"
 #~ msgstr "Apri una finestra con i siti web per il progetto %s"
-
 #~ msgid "Open a window to view messages"
 #~ msgstr "Apri la finestra per visualizzare i messaggi"
-
 #~ msgid "Stop all activity"
 #~ msgstr "Ferma tutte le attività"
-
 #~ msgid "Resume activity"
 #~ msgstr "Riprendi le attività"
-
 #~ msgid "Open a window to set your preferences"
 #~ msgstr "Apri la finestra per impostare le tue preferenze"
-
 #~ msgid "Switch to the BOINC advanced view"
 #~ msgstr "Passa alla visualizzazione avanzata di BOINC"
-
 #~ msgid "My Projects:"
 #~ msgstr "I miei progetti:"
 
@@ -4379,37 +4221,28 @@ msgstr ""
 #, c-format
 #~ msgid "%d hr %d min %d sec"
 #~ msgstr "%d ore %d min %d sec"
-
 #~ msgid "Are you sure you want to display graphics on a remote machine?"
 #~ msgstr "Sei sicuro di voler mostrare la grafica in remoto?"
-
 #~ msgid "Application: "
 #~ msgstr "Applicazione:"
-
 #~ msgid "Time Remaining: "
 #~ msgstr "Tempo mancante:"
-
 #~ msgid "Elapsed Time: "
 #~ msgstr "Tempo trascorso:"
-
 #~ msgid ""
 #~ "for accessibility support, please select advanced from the view menu or type "
 #~ "command shift a"
 #~ msgstr ""
 #~ "per il supporto accessibilità, per favore seleziona avanzate dal menu "
 #~ "visualizza oppure premi command shift a"
-
 #~ msgid "This panel contains graphs showing user totals for projects"
 #~ msgstr ""
 #~ "Questo pannello contiene grafici che visualizzano il totale utente per i "
 #~ "progetti"
-
 #~ msgid "list headers"
 #~ msgstr "intestazioni della lista"
-
 #~ msgid "list of events"
 #~ msgstr "lista degli eventi"
-
 #~ msgid "list of events is empty"
 #~ msgstr "la lista degli eventi è vuota"
 
@@ -4432,7 +4265,6 @@ msgstr ""
 #, c-format
 #~ msgid "; column %d of %d; "
 #~ msgstr "; colonna %d di %d"
-
 #~ msgid "list is empty"
 #~ msgstr "la lista è vuota"
 
@@ -4451,10 +4283,8 @@ msgstr ""
 #, c-format
 #~ msgid "; row %d of %d; "
 #~ msgstr "riga %d di %d "
-
 #~ msgid "blank"
 #~ msgstr "vuota"
-
 #~ msgid "list of projects or account managers"
 #~ msgstr "Elenco dei progetti o degli account manager"
 
@@ -4465,22 +4295,18 @@ msgstr ""
 #, c-format
 #~ msgid "row %d of %d; "
 #~ msgstr "riga %d di %d "
-
 #~ msgid "The minimum username length for this project is 1. Please enter a different username."
 #~ msgstr ""
 #~ "La lunghezza minima dello username per questo progetto è 1. Per favore "
 #~ "inserisci uno username diverso."
-
 #~ msgid "The minimum username length for this account manager is 1. Please enter a different username."
 #~ msgstr ""
 #~ "La lunghezza minima dello username per questo account manager è 1. Per "
 #~ "favore inserisci uno username diverso."
-
 #~ msgid "The minimum email address length for this project is 1. Please enter a different email address."
 #~ msgstr ""
 #~ "La lunghezza minima dell'indirizzo email per questo progetto è 1. Per favore "
 #~ "inserisci una email diversa."
-
 #~ msgid "The minimum email address length for this account manager is 1. Please enter a different email address."
 #~ msgstr ""
 #~ "La lunghezza minima dell'indirizzo email per questo account manager è 1. Per "
@@ -4497,7 +4323,6 @@ msgstr ""
 #~ msgstr ""
 #~ "La lunghezza minima della password per questo account manager è %d. Sei "
 #~ "pregato di inserire una password diversa."
-
 #~ msgid ""
 #~ "An error has occurred;\n"
 #~ "check the Event Log for details.\n"
@@ -4528,45 +4353,34 @@ msgstr ""
 #, c-format
 #~ msgid "OnDropTarget: index by HitTest = %i"
 #~ msgstr "OnDropTarget: index by HitTest = %i"
-
 #~ msgid "Identify your account "
 #~ msgstr "Inserisci i tuoi dati "
-
 #~ msgid "Read config file"
 #~ msgstr "Leggi il file di configurazione"
-
 #~ msgid "Read configuration info from cc_config.xml"
 #~ msgstr "Leggi le informazioni di configurazione dal file cc_config.xml"
-
 #~ msgid ""
 #~ "(C) 2003-2011 University of California, Berkeley.\n"
 #~ "All Rights Reserved."
 #~ msgstr ""
 #~ "(C) 2003-2011 Università della California, Berkeley.\n"
 #~ "Tutti i diritti riservati."
-
 #~ msgid "NVIDIA GPU"
 #~ msgstr "GPU NVIDIA"
-
 #~ msgid "ATI GPU"
 #~ msgstr "GPU ATI"
-
 #~ msgid ""
 #~ "The %s's default language has been changed, in order for this change to "
 #~ "take affect you must restart the %s."
 #~ msgstr ""
 #~ "La lingua di default di %s è stata cambiata, per rendere effettive le "
 #~ "modifiche occorre riavviare il %s."
-
 #~ msgid "Multicore CPU Supported"
 #~ msgstr "CPU Multicore supportata"
-
 #~ msgid "%s: %.0f"
 #~ msgstr "%s: %.0f"
-
 #~ msgid "Click 'Retry now' to transfer the file now"
 #~ msgstr "Clicca 'Ritenta il trasferimento' per trasferire nuovamente il file"
-
 #~ msgid ""
 #~ "Click 'Abort transfer' to delete the file from the transfer queue. This "
 #~ "will prevent you from being granted credit for this result."
@@ -4574,10 +4388,8 @@ msgstr ""
 #~ "Clicca 'Annulla il trasferimento' per cancellare il file dalla coda dei "
 #~ "trasferimenti. Questa azione comporterà la perdita dei crediti relativi a "
 #~ "questo risultato."
-
 #~ msgid "Aborting result..."
 #~ msgstr "Annullamento del risultato..."
-
 #~ msgid ""
 #~ "You have chosen to add a new BOINC project.  Adding a new\n"
 #~ "project means that you will be connecting your computer to a new "
@@ -4612,50 +4424,36 @@ msgstr ""
 #~ "tue preferenze.Per cambiare le applicazioni inviate da World Community "
 #~ "Grid,\n"
 #~ "clicca sul tasto seguente: "
-
 #~ msgid "Change Research Applications at World Community Grid"
 #~ msgstr "Modifica le applicazioni di ricerca su World Community Grid"
-
 #~ msgid "Don't fetch NVIDIA GPU tasks"
 #~ msgstr "Non richiedere nuovo lavoro per la GPU NVIDIA"
-
 #~ msgid "NVIDIA GPU work fetch deferred for"
 #~ msgstr "Richiesta di lavoro per la GPU NVIDIA rinviata di"
-
 #~ msgid "NVIDIA GPU work fetch deferral interval"
 #~ msgstr "Intervallo di rinvio"
-
 #~ msgid "Don't fetch ATI GPU tasks"
 #~ msgstr "Non richiedere nuovo lavoro per la GPU ATI"
-
 #~ msgid "ATI GPU work fetch deferred for"
 #~ msgstr "Richiesta di lavoro per la GPU ATI rinviata di"
-
 #~ msgid "ATI GPU work fetch deferral interval"
 #~ msgstr "Intervallo di rinvio"
-
 #~ msgid "Web sites"
 #~ msgstr "Siti web"
-
 #~ msgid "Connect about every"
 #~ msgstr "Connessione alla rete ogni"
-
 #~ msgid ""
 #~ "this computer is connected to the Internet about every X days\n"
 #~ "(0 if it's always connected)"
 #~ msgstr ""
 #~ "questo computer è connesso a Internet circa ogni X giorni\n"
 #~ "(0 se è sempre connesso)"
-
 #~ msgid "days (max. 10)"
 #~ msgstr "giorni (max 10)"
-
 #~ msgid "%d.%d%%"
 #~ msgstr "%d.%d%%"
-
 #~ msgid "Display and network &options..."
 #~ msgstr "Opzioni di visualizzazione e connessione di rete"
-
 #~ msgid ""
 #~ "You have requested to exit the %s,\n"
 #~ "which allows you to view and manage\n"
@@ -4670,150 +4468,102 @@ msgstr ""
 #~ "\n"
 #~ "Se vuoi fermare anche le elaborazioni quando esci\n"
 #~ "dal Manager, scegli tra le opzioni seguenti:"
-
 #~ msgid "Stop running science applications when exiting the Manager"
 #~ msgstr "Ferma l'elaborazione quando esci dal Manager"
-
 #~ msgid "CPU work fetch priority"
 #~ msgstr "Priorità di richiesta di lavoro per la CPU"
-
 #~ msgid "NVIDIA GPU scheduling priority"
 #~ msgstr "Priorità esecuzione per la GPU NVIDIA "
-
 #~ msgid "NVIDIA GPU work fetch priority"
 #~ msgstr "Priorità di richiesta di lavoro per la GPU NVIDIA"
-
 #~ msgid "ATI GPU scheduling priority"
 #~ msgstr "Priorità della GPU ATI"
-
 #~ msgid "ATI GPU work fetch priority"
 #~ msgstr "Priorità di richiesta di lavoro per la GPU ATI"
-
 #~ msgid "Estimated app speed"
 #~ msgstr "Velocità stimata per app"
-
 #~ msgid "Estimated task size"
 #~ msgstr "Stima delle dimensioni del lavoro"
-
 #~ msgid "Max RAM usage"
 #~ msgstr "Utilizzo massimo della RAM"
-
 #~ msgid "%s - Options"
 #~ msgstr "%s - Opzioni..."
-
 #~ msgid "Retrieving host information; please wait..."
 #~ msgstr ""
 #~ "Recupero informazioni sul computer in corso; attendere per favore..."
-
 #~ msgid " (waiting for GPU memory)"
 #~ msgstr "(In attesa di memoria per la GPU)"
-
 #~ msgid "Manager Settings..."
 #~ msgstr "Impostazioni del Manager"
-
 #~ msgid "Pause"
 #~ msgstr "In pausa"
-
 #~ msgid "%s - Messages"
 #~ msgstr "%s - Messaggi"
-
 #~ msgid "Skin:"
 #~ msgstr "Interfaccia:"
-
 #~ msgid "Preferences"
 #~ msgstr "Preferenze"
-
 #~ msgid "I want to customize my preferences for this computer only."
 #~ msgstr ""
 #~ "Voglio personalizzare le mie preferenze solamente per questo computer."
-
 #~ msgid "Customized Preferences"
 #~ msgstr "Preferenze personalizzate"
-
 #~ msgid "My total work done this Project"
 #~ msgstr "Il mio lavoro totale eseguito in questo Progetto"
-
 #~ msgid "My Tasks:"
 #~ msgstr "Le mie attività:"
-
 #~ msgid "From Project:"
 #~ msgstr "Dal Progetto:"
-
 #~ msgid "Elapsed Time: %s"
 #~ msgstr "Tempo trascorso: %s"
-
 #~ msgid "Upload suspended - "
 #~ msgstr "Invio sospeso -"
-
 #~ msgid "Download suspended - "
 #~ msgstr "Scaricamento sospeso -"
-
 #~ msgid "Upload pending"
 #~ msgstr "Invio in sospeso"
-
 #~ msgid "Download pending"
 #~ msgstr "Scaricamento in sospeso"
-
 #~ msgid "New Simple View..."
 #~ msgstr "Nuova Visualizzazione Semplice"
-
 #~ msgid "Old Simple View..."
 #~ msgstr "Vecchia Visualizzazione Semplice..."
-
 #~ msgid "Display the old simple graphical interface."
 #~ msgstr "Visualizza la vecchia 'interfaccia grafica semplice di BOINC"
-
 #~ msgid "Get help with BOINC"
 #~ msgstr "Ottieni aiuto su BOINC"
-
 #~ msgid "Event Log..."
 #~ msgstr "Log messaggi..."
-
 #~ msgid "Attaching to project or account manager..."
 #~ msgstr "In connessione al progetto o all'account manager..."
-
 #~ msgid "%s - Detach from %s"
 #~ msgstr "%s - Scollegarsi da %s"
-
 #~ msgid "Retrying communications."
 #~ msgstr "Nuovo tentativo di comunicazione con i/il progetti/o"
-
 #~ msgid "Failed to attach to project"
 #~ msgstr "La connessione al progetto non è riuscita"
-
 #~ msgid "Failed to attach to account manager"
 #~ msgstr "La connessione all'account manager non è riuscita"
-
 #~ msgid "Attached to account manager"
 #~ msgstr "Connesso all'account manager"
-
 #~ msgid "You are now successfully attached to the %s system."
 #~ msgstr "Sei stato connesso con successo al sistema %s."
-
 #~ msgid "You are now successfully attached to this account manager."
 #~ msgstr "Sei stato connesso con successo a questo account manager."
-
 #~ msgid "News Feeds"
 #~ msgstr "News Feed"
-
 #~ msgid "Display the latest news about BOINC"
 #~ msgstr "Mostra le ultime news su BOINC"
-
 #~ msgid "not attached to any BOINC project: 0 bytes"
 #~ msgstr "non connesso a nessun progetto BOINC - 0 bytes"
-
 #~ msgid "All projects"
 #~ msgstr "Tutti i progetti"
-
 #~ msgid "Attach to project"
 #~ msgstr "Connessione ad un progetto"
-
 #~ msgid "Attach to account manager"
 #~ msgstr "Connessione ad un account manager"
-
 #~ msgid "%s needs to connect to the Internet.  Please click to open %s."
 #~ msgstr "%s deve connettersi a Internet. Clicca qui per aprire %s."
-
 #~ msgid ""
 #~ "%s is unable to communicate with a project and needs an Internet "
 #~ "connection.\n"
@@ -4824,7 +4574,6 @@ msgstr ""
 #~ "ad Internet.\n"
 #~ "Avvia una connessione ad Internet e poi seleziona la voce 'Ritenta le "
 #~ "comunicazioni' dal menù Avanzate."
-
 #~ msgid ""
 #~ "%s couldn't do Internet communication, and no default connection is "
 #~ "selected.\n"
@@ -4835,103 +4584,74 @@ msgstr ""
 #~ "è stata selezionata.\n"
 #~ "Attiva una connessione Internet o seleziona una connessione di default\n"
 #~ "scegliendo Opzioni dal menù Avanzate, poi scheda Connessioni."
-
 #~ msgid "Attached to project"
 #~ msgstr "Sei connesso al progetto"
-
 #~ msgid "You are now successfully attached to this project."
 #~ msgstr "Sei stato connesso con successo a questo progetto."
-
 #~ msgid "Attached to %s"
 #~ msgstr "Connesso a %s"
-
 #~ msgid "Detach when done"
 #~ msgstr "Disconnetti dal progetto quando termina l'elaborazione"
-
 #~ msgid "Retrieving notices..."
 #~ msgstr "Ricezione avvisi..."
-
 #~ msgid "Detach"
 #~ msgstr "Rimuovi"
-
 #~ msgid "Detaching from project..."
 #~ msgstr "Rimozione del progetto in corso..."
-
 #~ msgid "Are you sure you want to detach from project '%s'?"
 #~ msgstr "Sei sicuro di volerti disconnettere dal progetto '%s'?"
-
 #~ msgid "Detach from Project"
 #~ msgstr "Disconnettiti dal progetto"
-
 #~ msgid " - user active"
 #~ msgstr " - utente attivo"
-
 #~ msgid " - computation suspended"
 #~ msgstr " - elaborazione sospesa"
-
 #~ msgid " - need disk space"
 #~ msgstr " - richiesto di spazio su disco"
-
 #~ msgid "Attach to an additional project"
 #~ msgstr "Connetti ad un altro progetto"
-
 #~ msgid "To completion"
 #~ msgstr "Al completamento"
-
 #~ msgid ""
 #~ "We'll guide you through the process of attaching\n"
 #~ "to a project or account manager."
 #~ msgstr ""
 #~ "Ti faremo da guida nel processo di connessione\n"
 #~ "ad un progetto a ad un account manager."
-
 #~ msgid "events"
 #~ msgstr "eventi"
-
 #~ msgid " is empty"
 #~ msgstr " è vuota"
-
 #~ msgid "%d of %d; "
 #~ msgstr "%d di %d "
-
 #~ msgid "current sort column "
 #~ msgstr "colonna attualmente ordinata "
-
 #~ msgid " descending order "
 #~ msgstr " ordine discendente "
-
 #~ msgid " ascending order "
 #~ msgstr " ordine ascendente  "
-
 #~ msgid "column "
 #~ msgstr "colonna "
-
 #~ msgid "of %d; "
 #~ msgstr "di %d "
-
 #~ msgid "Attach to a project or account manager to begin processing work"
 #~ msgstr ""
 #~ "Connettiti ad un progetto o ad un account manager per iniziare ad "
 #~ "elaborare"
-
 #~ msgid "Attach to a project to begin processing work"
 #~ msgstr "Connettiti ad un progetto per iniziare ad elaborare"
-
 #~ msgid "Use GPU never"
 #~ msgstr "Elaborazione GPU sospes&a"
-
 #~ msgid "BOINC Notification"
 #~ msgstr "Notifiche BOINC"
-
 #~ msgid ""
 #~ "TEST: Fluffy@Home just found out that the Fluffy project has been "
 #~ "published in Nature"
 #~ msgstr ""
 #~ "TEST: Fluffy@Home è stato trovato e il progetto Fluffy è stato pubblicato "
 #~ "in Nature"
-
 #~ msgid "%s: %.2f%% completed."
 #~ msgstr "%s: %.2f%% completato."
-
 #~ msgid "%d tasks running."
 #~ msgstr "%d elaborazioni in esecuzione."
+

@@ -4,72 +4,65 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: BOINC 7.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2014-08-31 14:37+0000\n"
-"Last-Translator: Jan <jan@sherdahl.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2015-02-11 23:51-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
+"Language-Team: BOINC Localization Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
-"X-Poedit-SearchPath-0: mac_installer\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
 "X-POOTLE-MTIME: 1409495864.0\n"
 "X-Poedit-KeywordsList: _\n"
+"X-Poedit-SearchPath-0: mac_installer\n"
 
 #: Installer.cpp:124
 #, c-format
 msgid "Sorry, this version of %s requires system 10.5 or higher."
 msgstr "Beklager, denne versjonen av %s krever system 10.5 eller høyere."
 
-#: PostInstall.cpp:130 PostInstall.cpp:1136 uninstall.cpp:1618
+#: PostInstall.cpp:130
+#: PostInstall.cpp:1136
+#: uninstall.cpp:1618
 msgid "Yes"
 msgstr "Ja"
 
-#: PostInstall.cpp:131 PostInstall.cpp:1137 uninstall.cpp:1619
+#: PostInstall.cpp:131
+#: PostInstall.cpp:1137
+#: uninstall.cpp:1619
 msgid "No"
 msgstr ""
-"Brukere med tillatelse til å administrere denne datamaskinen vil automatisk "
-"få tilgang til å kjøre og kontrollere %s.\n"
+"Brukere med tillatelse til å administrere denne datamaskinen vil automatisk få tilgang til å kjøre og kontrollere %s.\n"
 "\n"
-"Ønsker du også at brukere uten administratorrettigheter skal kunne kjøre og "
-"kontrollere %s på denne Mac'en?"
+"Ønsker du også at brukere uten administratorrettigheter skal kunne kjøre og kontrollere %s på denne Mac'en?"
 
 #: PostInstall.cpp:133
 msgid "Should BOINC run even when no user is logged in?"
 msgstr ""
-"Brukere som har tillatelse til å administrere denne datamaskinen vil "
-"automatisk få tilgang til å kjøre og kontrollere %s.\n"
+"Brukere som har tillatelse til å administrere denne datamaskinen vil automatisk få tilgang til å kjøre og kontrollere %s.\n"
 "\n"
-"Ønsker du at brukere uten administratorrettigheter skal kunne kjøre og "
-"kontrollere %s på denne Mac'en?"
+"Ønsker du at brukere uten administratorrettigheter skal kunne kjøre og kontrollere %s på denne Mac'en?"
 
 #: PostInstall.cpp:1416
 #, c-format
 msgid ""
-"Users who are permitted to administer this computer will automatically be "
-"allowed to run and control %s.\n"
+"Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
 "\n"
-"Do you also want non-administrative users to be able to run and control %s "
-"on this Mac?"
+"Do you also want non-administrative users to be able to run and control %s on this Mac?"
 msgstr ""
-"Brukere med tillatelse til å administrere denne datamaskinen vil automatisk "
-"få tilgang til å kjøre og kontrollere %s.\n"
+"Brukere med tillatelse til å administrere denne datamaskinen vil automatisk få tilgang til å kjøre og kontrollere %s.\n"
 "\n"
-"Ønsker du også at brukere uten administratorrettigheter skal kunne kjøre og "
-"kontrollere %s på denne Mac'en?"
+"Ønsker du også at brukere uten administratorrettigheter skal kunne kjøre og kontrollere %s på denne Mac'en?"
 
 #: PostInstall.cpp:1444
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
-msgstr ""
-"Ønsker du å sette %s som standard skjermsparer for alle %s brukere på denne "
-"Mac'en?"
+msgstr "Ønsker du å sette %s som standard skjermsparer for alle %s brukere på denne Mac'en?"
 
 #: uninstall.cpp:82
 msgid "OK"
@@ -142,12 +135,10 @@ msgstr ""
 #: uninstall.cpp:840
 #, c-format
 msgid ""
-"Enter your administrator password to completely remove %s from you "
-"computer.\n"
+"Enter your administrator password to completely remove %s from you computer.\n"
 "\n"
 msgstr ""
-"Tast inn ditt administrator passord for å fullstendig fjerne %s fra din "
-"datamaskin.\n"
+"Tast inn ditt administrator passord for å fullstendig fjerne %s fra din datamaskin.\n"
 "\n"
 
 #: uninstall.cpp:1616
@@ -157,3 +148,4 @@ msgstr "Avbryt"
 #: uninstall.cpp:1617
 msgid "Continue..."
 msgstr "Fortsett...                "
+

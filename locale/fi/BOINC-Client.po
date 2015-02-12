@@ -4,20 +4,20 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: BOINC 7.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2013-06-06 19:16+0200\n"
-"Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2015-02-10 21:24-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
+"Language-Team: BOINC Localization Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.1.6\n"
 
-#: acct_mgr.cpp:450 acct_mgr.cpp:459
+#: acct_mgr.cpp:450
+#: acct_mgr.cpp:459
 msgid "Message from account manager"
 msgstr "Viesti tilihallitsijalta"
 
@@ -26,12 +26,8 @@ msgid "Message from server"
 msgstr "Viesti palvelimelta"
 
 #: client_state.cpp:258
-msgid ""
-"Some tasks need more memory than allowed by your preferences.  Please check "
-"the preferences."
-msgstr ""
-"Osa tehtävistä vaatii enemmän muistia kuin asetuksissa on sallittu.  "
-"Tarkista asetukset."
+msgid "Some tasks need more memory than allowed by your preferences.  Please check the preferences."
+msgstr "Osa tehtävistä vaatii enemmän muistia kuin asetuksissa on sallittu.  Tarkista asetukset."
 
 #: client_state.cpp:520
 msgid "Couldn't write state file; check directory permissions"
@@ -43,14 +39,11 @@ msgstr "HTTP_PROXY ympäristömuuttujalle pitää määritellä HTTP proxy"
 
 #: cs_scheduler.cpp:613
 #, c-format
-msgid ""
-"You used the wrong URL for this project.  When convenient, remove this "
-"project, then add %s"
-msgstr ""
-"Käytit väärää URLia tälle projektille.  Sopivan tilaisuuden tullen poista "
-"projekti ja lisää %s"
+msgid "You used the wrong URL for this project.  When convenient, remove this project, then add %s"
+msgstr "Käytit väärää URLia tälle projektille.  Sopivan tilaisuuden tullen poista projekti ja lisää %s"
 
-#: cs_statefile.cpp:828 ../sched/sched_types.cpp:259
+#: cs_statefile.cpp:828
+#: ../sched/sched_types.cpp:259
 msgid "Syntax error in app_info.xml"
 msgstr "Syntaksivirhe app_info.xml -tiedostossa"
 
@@ -62,15 +55,18 @@ msgstr "app_info.xml -tiedostossa olevaa tiedostoviittausta ei ole: "
 msgid "A new version of BOINC is available."
 msgstr "Uusi versio BOINCista on saatavilla."
 
-#: current_version.cpp:94 current_version.cpp:102
+#: current_version.cpp:94
+#: current_version.cpp:102
 msgid "Download"
 msgstr "Lataa"
 
-#: log_flags.cpp:269 log_flags.cpp:449
+#: log_flags.cpp:269
+#: log_flags.cpp:449
 msgid "Unexpected text in cc_config.xml"
 msgstr "Odottamatonta tekstiä cc_config.xml -tiedostossa"
 
-#: log_flags.cpp:423 log_flags.cpp:475
+#: log_flags.cpp:423
+#: log_flags.cpp:475
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Tunnistamaton merkki cc_config.xml -tiedostossa"
 
@@ -88,23 +84,15 @@ msgstr "Puuttuva loppumerkki cc_config.xml -tiedostossa"
 
 #: ../sched/handle_request.cpp:307
 msgid "Invalid or missing account key.  To fix, remove and add this project."
-msgstr ""
-"Väärä tai puuttuva tiliavain.  Kokeile poistaa projekti ja lisätä se "
-"uudelleen."
+msgstr "Väärä tai puuttuva tiliavain.  Kokeile poistaa projekti ja lisätä se uudelleen."
 
 #: ../sched/handle_request.cpp:849
 msgid "Invalid code signing key.  To fix, remove and add this project."
-msgstr ""
-"Virheellinen varmenneavain.  Kokeile poistaa projekti ja lisätä se "
-"uudelleen."
+msgstr "Virheellinen varmenneavain.  Kokeile poistaa projekti ja lisätä se uudelleen."
 
 #: ../sched/handle_request.cpp:859
-msgid ""
-"The project has changed its security key.  Please remove and add this "
-"project."
-msgstr ""
-"Projekti on vaihtanut suojausavaintaan.  Poista projekti ja lisää se "
-"uudelleen."
+msgid "The project has changed its security key.  Please remove and add this project."
+msgstr "Projekti on vaihtanut suojausavaintaan.  Poista projekti ja lisää se uudelleen."
 
 #: ../sched/handle_request.cpp:943
 msgid "This project doesn't support operating system"
@@ -115,8 +103,7 @@ msgid "This project doesn't support CPU type"
 msgstr "Projekti ei tue CPU-tyyppiä"
 
 #: ../sched/handle_request.cpp:993
-msgid ""
-"Your BOINC client software is too old.  Please install the current version."
+msgid "Your BOINC client software is too old.  Please install the current version."
 msgstr "BOINC-versiosi on liian vanha.  Asenna uusin versio."
 
 #: ../sched/handle_request.cpp:1259
@@ -128,21 +115,16 @@ msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "Päivitä tuoreimpaan ajuriin käyttääksesi tietokoneen GPUta laskennassa"
 
 #: ../sched/sched_send.cpp:1099
-msgid ""
-"Upgrade to the latest driver to use all of this project's GPU applications"
-msgstr ""
-"Päivitä tuoreimpaan ajuriin käyttääksesi projektin kaikkia GPU-sovelluksia"
+msgid "Upgrade to the latest driver to use all of this project's GPU applications"
+msgstr "Päivitä tuoreimpaan ajuriin käyttääksesi projektin kaikkia GPU-sovelluksia"
 
 #: ../sched/sched_send.cpp:1118
-msgid ""
-"A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
-"the current version"
+msgid "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to the current version"
 msgstr "NVIDIA GPUn käyttöön tarvitaan uudempi versio BOINCista, päivitä versio"
 
 # 94%
 #: ../sched/sched_send.cpp:1146
 #, c-format
-#, c-format, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "%s GPU tarvitaan tämän projektin pakettien suorittamiseen"
 
@@ -160,8 +142,7 @@ msgstr "Uudempi BOINC-versio tarvitaan, asenna uusin versio"
 
 #: ../sched/sched_send.cpp:1305
 #, c-format
-msgid ""
-"Tasks for %s are available, but your preferences are set to not accept them"
+msgid "Tasks for %s are available, but your preferences are set to not accept them"
 msgstr "%s -tehtäviä on saatavilla, mutta asetuksesi estävät niiden saannin"
 
 #: ../sched/sched_types.cpp:254
@@ -174,55 +155,43 @@ msgstr "App_info.xml -tiedostossa ei ole sopivaa versiota"
 
 #~ msgid "Download it."
 #~ msgstr "Lataa se."
-
 #~ msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
 #~ msgstr "Projektin tehtävät vaativat NVIDIAn tai ATIn GPUn"
-
 #~ msgid "An NVIDIA GPU is required to run tasks for this project"
 #~ msgstr "Projektin tehtävät vaativat NVIDIAn GPUn"
-
 #~ msgid "An ATI GPU is required to run tasks for this project"
 #~ msgstr "Projektin tehtävät vaativat ATIn GPUn"
-
 #~ msgid ""
 #~ "Tasks for NVIDIA GPU are available, but your preferences are set to not "
 #~ "accept them"
 #~ msgstr ""
 #~ "NVIDIAn GPUlle on tehtäviä, mutta niiden saanti on estetty asetuksissasi"
-
 #~ msgid ""
 #~ "Tasks for ATI GPU are available, but your preferences are set to not accept "
 #~ "them"
 #~ msgstr "ATIn GPUlle on tehtäviä, mutta niiden saanti on estetty asetuksissasi"
-
 #~ msgid ""
 #~ "Tasks for CPU are available, but your preferences are set to not accept them"
 #~ msgstr "CPUlle on tehtäviä, mutta niiden saanti on estetty asetuksissasi"
-
 #~ msgid "error"
 #~ msgstr "virhe"
-
 #~ msgid "Can't resolve hostname in remote_hosts.cfg"
 #~ msgstr "Konenimen selvitys ei onnistu remote_hosts.cfg -tiedostossa"
-
 #~ msgid "is not available for"
 #~ msgstr "ei ole saatavissa"
-
 #~ msgid ""
 #~ "You may have an outdated code signing key.  Try attaching and reattaching "
 #~ "this project."
 #~ msgstr ""
 #~ "Varmenneavain on saattanut vanhentua. Kokeile irrottautua projektista ja "
 #~ "liittyä uudelleen."
-
 #~ msgid "XML syntax error in"
 #~ msgstr "XML-syntaksivirhe"
-
 #~ msgid "Unparsed tag in"
 #~ msgstr "Jäsentämätön merkki"
-
 #~ msgid ""
 #~ "Your preference for network connection interval is too high for this "
 #~ "project"
 #~ msgstr ""
 #~ "Asetuksissasi on määritelty liian tiheä nettiyhteys tälle projektille."
+

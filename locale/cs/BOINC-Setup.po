@@ -4,35 +4,37 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: BOINC 7.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2013-08-30 20:59+0000\n"
-"Last-Translator: Lycan <santdel@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2015-02-10 14:46-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
+"Language-Team: BOINC Localization Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Pootle 2.5.0\n"
-"X-Poedit-SearchPath-0: mac_installer\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
 "X-POOTLE-MTIME: 1377896370.0\n"
 "X-Poedit-KeywordsList: _\n"
+"X-Poedit-SearchPath-0: mac_installer\n"
 
 #: Installer.cpp:124
 #, c-format
-#, c-format, fuzzy
 msgid "Sorry, this version of %s requires system 10.5 or higher."
 msgstr "Promiňte, tato verze %s vyžaduje systém verze 10.4 a novější."
 
-#: PostInstall.cpp:130 PostInstall.cpp:1136 uninstall.cpp:1618
+#: PostInstall.cpp:130
+#: PostInstall.cpp:1136
+#: uninstall.cpp:1618
 msgid "Yes"
 msgstr "Ano"
 
-#: PostInstall.cpp:131 PostInstall.cpp:1137 uninstall.cpp:1619
+#: PostInstall.cpp:131
+#: PostInstall.cpp:1137
+#: uninstall.cpp:1619
 msgid "No"
 msgstr "Ne"
 
@@ -43,24 +45,18 @@ msgstr "Má BOINC běžet i tehdy, když není přihlášen žádný uživatel?"
 #: PostInstall.cpp:1416
 #, c-format
 msgid ""
-"Users who are permitted to administer this computer will automatically be "
-"allowed to run and control %s.\n"
+"Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
 "\n"
-"Do you also want non-administrative users to be able to run and control %s "
-"on this Mac?"
+"Do you also want non-administrative users to be able to run and control %s on this Mac?"
 msgstr ""
-"Uživatelé s administrátorskými právy na tomto počítači budou mít automaticky "
-"právo spouštět a kontrolovat %s.\n"
+"Uživatelé s administrátorskými právy na tomto počítači budou mít automaticky právo spouštět a kontrolovat %s.\n"
 "\n"
-"Přejete si, aby mohli i ne-administrátoři spouštět a kontrolovat %s na tomto "
-"Macu?"
+"Přejete si, aby mohli i ne-administrátoři spouštět a kontrolovat %s na tomto Macu?"
 
 #: PostInstall.cpp:1444
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
-msgstr ""
-"Přejete si nastavit %s jako spořič obrazovky pro všechny %s uživatele na "
-"tomto Macu?"
+msgstr "Přejete si nastavit %s jako spořič obrazovky pro všechny %s uživatele na tomto Macu?"
 
 #: uninstall.cpp:82
 msgid "OK"
@@ -131,8 +127,7 @@ msgstr ""
 #: uninstall.cpp:840
 #, c-format
 msgid ""
-"Enter your administrator password to completely remove %s from you "
-"computer.\n"
+"Enter your administrator password to completely remove %s from you computer.\n"
 "\n"
 msgstr ""
 "Zadejte vaše administrátorské heslo pro úplné odebrání %s z vašeho počítače.\n"
@@ -149,3 +144,4 @@ msgstr "Pokračovat..."
 #, c-format
 #~ msgid "Sorry, this version of %s requires system 10.4 or higher."
 #~ msgstr "Promiňte, tato verze %s vyžaduje systém verze 10.4 a novější."
+

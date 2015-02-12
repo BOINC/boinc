@@ -4,32 +4,29 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 5.10 Japanese\n"
+"Project-Id-Version: BOINC 7.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-15 14:15-0500\n"
-"PO-Revision-Date: 2013-10-28 15:20+0000\n"
-"Last-Translator: Anonymous Pootle User\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2015-02-11 16:41-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
+"Language-Team: BOINC Localization Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc_7.4\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-POOTLE-MTIME: 1382973625.0\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1382973625.0\n"
 
-# 81%
 #: clientgui/AccountInfoPage.cpp:387
 #, c-format
-#, fuzzy, c-format
 msgid "Identify your account at %s"
-msgstr "アカウントを特定する"
+msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:393
 msgid ""
@@ -519,7 +516,6 @@ msgstr "%s の情報を表示します"
 
 #: clientgui/AdvancedFrame.cpp:662
 #, c-format
-#, c-format, fuzzy
 msgid "%s &web site"
 msgstr "%s ウェブサイト(&W)"
 
@@ -831,7 +827,6 @@ msgstr "%s はインターネットとの接続を切ることにに失敗しま
 
 #: clientgui/BOINCGUIApp.cpp:595
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "\n"
@@ -842,24 +837,13 @@ msgid ""
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
 msgstr ""
-"このクライアントを管理する権限が現在あなたにはありません。\n"
-"\n"
-"このユーザのもとで BOINC を走らせるためには、以下のようにしてください:\n"
-"  - BOINC を再インストールし、その際に、non-administrative users に関する\n"
-"    質問に\"Yes\"（はい）と答えます\n"
-" あるいは、\n"
-"  - 管理者に依頼してあなたを ユーザグループ　'boinc_master' に加えて\n"
-"    もらいます。"
 
 #: clientgui/BOINCGUIApp.cpp:601
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr ""
-"BOINC 関連ファイルの所有権あるいはパーミッションの設定が不適切です。 BOINC を\n"
-"再インストールしてください。 (エラーコード %d)"
 
 #: clientgui/BOINCGUIApp.cpp:607
 msgid " at "
@@ -1673,9 +1657,7 @@ msgstr "選択したメッセージをクリップボードにコピーします
 #: clientgui/DlgEventLog.cpp:320
 #: clientgui/DlgEventLog.cpp:328
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"選択したメッセージをクリップボードにコピーします。シフトまたはコントロールキーを押しながら、メッセージをクリックすれば複数のメッセージを選択状態にできま"
-"す。 "
+msgstr "選択したメッセージをクリップボードにコピーします。シフトまたはコントロールキーを押しながら、メッセージをクリックすれば複数のメッセージを選択状態にできます。 "
 
 #: clientgui/DlgEventLog.cpp:335
 #: clientgui/DlgItemProperties.cpp:67
@@ -1720,7 +1702,6 @@ msgstr ""
 
 #: clientgui/DlgExitMessage.cpp:135
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "This will shut down %s and its tasks until either the\n"
 "%s or the %s screen saver is run again.\n"
@@ -2147,7 +2128,6 @@ msgstr "%s - 言語の選択"
 
 #: clientgui/DlgOptions.cpp:698
 #, c-format
-#, fuzzy, c-format
 msgid "The %s's language has been changed.  In order for this change to take effect, you must restart the %s."
 msgstr "%s の言語設定を切り換えました。切り換えの効果を出すためには、この %s を再起動しなければなりません。"
 
@@ -2877,7 +2857,6 @@ msgstr "閉じる"
 
 #: clientgui/sg_DlgMessages.cpp:394
 #, c-format
-#, fuzzy, c-format
 msgid "%s - Notices"
 msgstr "%s からのお知らせ"
 
@@ -3053,15 +3032,12 @@ msgstr "プロジェクトをリセット"
 #: clientgui/sg_ProjectCommandPopup.cpp:85
 #: clientgui/ViewProjects.cpp:201
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr ""
-"このプロジェクトに関係するすべてのファイルとタスクを削除し新しいタスクを取得します。 "
-"完了した仕事を報告するには、先にプロジェクトを最新状態に「更新」してください。"
+msgstr "このプロジェクトに関係するすべてのファイルとタスクを削除し新しいタスクを取得します。 完了した仕事を報告するには、先にプロジェクトを最新状態に「更新」してください。"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:91
 #: clientgui/ViewProjects.cpp:208
 msgid "Remove this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr ""
-"このプロジェクトを削除します。作業中のタスクは消えてしまいます。 (完了したタスクを報告するため、削除する前にプロジェクトの「更新」を行ってください)"
+msgstr "このプロジェクトを削除します。作業中のタスクは消えてしまいます。 (完了したタスクを報告するため、削除する前にプロジェクトの「更新」を行ってください)"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:96
 #: clientgui/sg_TaskCommandPopup.cpp:84
@@ -3147,7 +3123,6 @@ msgstr "プロジェクトに関する操作"
 
 #: clientgui/sg_ProjectPanel.cpp:276
 #, c-format
-#, c-format, fuzzy
 msgid "Pop up a menu of web sites for project %s"
 msgstr "プロジェクト %s 用のポップアップ・メニューを開く"
 
@@ -3259,7 +3234,6 @@ msgstr ""
 
 #: clientgui/sg_TaskPanel.cpp:865
 #, c-format
-#, fuzzy, c-format
 msgid "Remaining (estimated): %s"
 msgstr "残り時間: %s"
 
@@ -4106,89 +4080,63 @@ msgstr "ネットワークを使う時間帯の始めと終わりを HH:MM-HH:MM
 #, no-c-format
 #~ msgid "% CPU time"
 #~ msgstr "% のCPU 時間まで使用"
-
 #~ msgid "KBytes/sec."
 #~ msgstr "キロバイト/秒"
 
 # This sequence of texts and forms deeply depends on English. Hardly to be traslated into Japanese in normal manner.
 #~ msgid "Mbytes"
 #~ msgstr "M バイトまでを"
-
 # This sequence of texts and forms deeply depends on English. Hardly to be traslated into Japanese in normal manner.
 #~ msgid "every"
 #~ msgstr "右の期間内で許可"
-
 # This sequence of texts and forms deeply depends on English. Hardly to be traslated into Japanese in normal manner.
 #~ msgid "days"
 #~ msgstr "日"
-
 #~ msgid "Gigabytes disk space"
 #~ msgstr "ギガバイトのディスク領域"
-
 #~ msgid "Running, high priority"
 #~ msgstr "優先度高で処理中"
-
 #, fuzzy
 #~ msgid " (Waiting for network access)"
 #~ msgstr "メモリ不足のため待機"
-
 #~ msgid "Preferences…"
 #~ msgstr "プレファレンス..."
-
 #~ msgid "I do not agree with the terms of use."
 #~ msgstr "使用条件に合意しない。"
-
 #~ msgid "Workunit name"
 #~ msgstr "ワークユニットの名前"
-
 #~ msgid "invalid float"
 #~ msgstr "浮動小数点形式の数値が正しくありません"
-
 #~ msgid "Display the advanced (accessible) graphical interface."
 #~ msgstr "より使いやすい詳細グラフィカルインタフェースを表示する。"
-
 #~ msgid "Paused: Other work running"
 #~ msgstr "一時停止状態： 他の仕事の計算を実行中"
-
 #~ msgid "Paused: User initiated.  Click 'Resume' to continue"
 #~ msgstr "一時停止状態： 参加者にの指示による。 継続するには、「再開(Resume)」をクリック"
-
 #~ msgid "Paused: User active"
 #~ msgstr "一時停止状態： 人がコンピュータを利用中"
-
 #~ msgid "Paused: Computer on battery"
 #~ msgstr "一時停止状態： バッテリー駆動中"
-
 #~ msgid "Paused: Time of Day"
 #~ msgstr "一時停止状態： 時間帯による制約"
-
 #~ msgid "Paused: Benchmarks running"
 #~ msgstr "一時停止状態： ベンチマークプログラムを実行中"
-
 #~ msgid "Paused"
 #~ msgstr "一時停止状態"
-
 #~ msgid "Paused: Application start delayed"
 #~ msgstr "一時停止状態： アプリケーション開始が遅延"
-
 #~ msgid "Click to show project graphics"
 #~ msgstr "プロジェクトのグラフィクス表示はここをクリック"
-
 #~ msgid "Open a window to view messages"
 #~ msgstr "メッセージ・ウィンドウを開く"
-
 #~ msgid "Stop all activity"
 #~ msgstr "全ての活動を停止する"
-
 #~ msgid "Resume activity"
 #~ msgstr "活動を再開する"
-
 #~ msgid "Open a window to set your preferences"
 #~ msgstr "プレファレンスの設定ウィンドウを開く"
-
 #~ msgid "Switch to the BOINC advanced view"
 #~ msgstr "BOINC 詳細表示に切り替える"
-
 #~ msgid "My Projects:"
 #~ msgstr "あなたのプロジェクト:"
 
@@ -4203,29 +4151,22 @@ msgstr "ネットワークを使う時間帯の始めと終わりを HH:MM-HH:MM
 #, c-format
 #~ msgid "%d hr %d min %d sec"
 #~ msgstr "%d 時間 %d 分 %d 秒"
-
 #~ msgid "Are you sure you want to display graphics on a remote machine?"
 #~ msgstr "グラフィクスを別の計算機に表示してよろしいですか？"
-
 #~ msgid "Application: "
 #~ msgstr "アプリケーション: "
-
 #~ msgid "Time Remaining: "
 #~ msgstr "残り時間: "
-
 #~ msgid "Elapsed Time: "
 #~ msgstr "経過時間："
-
 #~ msgid "Account manager website"
 #~ msgstr "アカウント・マネージャのウェブサイト"
-
 #~ msgid "Account Manager &URL:"
 #~ msgstr "アカウント・マネージャー &URL："
 
 #, c-format
 #~ msgid "%s &website"
 #~ msgstr "%s ウェブサイト(&W)"
-
 #~ msgid "Notice List"
 #~ msgstr "お知らせの一覧"
 
@@ -4240,95 +4181,68 @@ msgstr "ネットワークを使う時間帯の始めと終わりを HH:MM-HH:MM
 # This string is the default action of objects specified for GetDefaultAction. I'm not sure it is meaningful to be translated, that is, is it a string to be read by human?
 #~ msgid "Click"
 #~ msgstr "クリック"
-
 #~ msgid "Project List"
 #~ msgstr "プロジェクトの一覧"
-
 #~ msgid "Nvidia GPU Supported"
 #~ msgstr "Nvidia GPU サポート済み"
-
 #~ msgid "ATI GPU Supported"
 #~ msgstr "ATI GPU サポート済み"
-
 #~ msgid "Project Website"
 #~ msgstr "プロジェクトのウェブサイト"
-
 # 88%
 #, fuzzy
 #~ msgid "Retry now"
 #~ msgstr "今すぐ再試行"
-
 #~ msgid "10%"
 #~ msgstr "10%"
-
 #~ msgid "20%"
 #~ msgstr "20%"
-
 #~ msgid "30%"
 #~ msgstr "30%"
-
 #~ msgid "40%"
 #~ msgstr "40%"
-
 #~ msgid "50%"
 #~ msgstr "50%"
-
 #~ msgid "60%"
 #~ msgstr "60%"
-
 #~ msgid "70%"
 #~ msgstr "70%"
-
 #~ msgid "80%"
 #~ msgstr "80%"
-
 #~ msgid "90%"
 #~ msgstr "90%"
-
 #~ msgid "100%"
 #~ msgstr "100%"
-
 #~ msgid "1"
 #~ msgstr "1"
-
 #~ msgid "3"
 #~ msgstr "3"
-
 #~ msgid "5"
 #~ msgstr "5"
-
 #~ msgid "10"
 #~ msgstr "10"
-
 #~ msgid "15"
 #~ msgstr "15"
-
 #~ msgid "30"
 #~ msgstr "30"
-
 #~ msgid "60"
 #~ msgstr "60"
 
 #, c-format
 #~ msgid "Pop up a menu of websites for project %s"
 #~ msgstr "プロジェクト %s 用のポップアップ・メニューを開く"
-
 #~ msgid ""
 #~ "for accessibility support, please select advanced from the view menu or type "
 #~ "command shift a"
 #~ msgstr ""
 #~ "アクセシビリティサポートは詳細表示で提供しています。詳細表示に切り替えるには表示メニューから操作するか、コマンド - シフト - a "
 #~ "とタイプしてください。"
-
 #~ msgid "This panel contains graphs showing user totals for projects"
 #~ msgstr "このパネルでは、参加者の累積値をプロジェクトごとにグラフに表示します"
-
 #~ msgid "list headers"
 #~ msgstr "一覧のヘッダー"
-
 #~ msgid "list of events"
 #~ msgstr "イベントの一覧"
-
 #~ msgid "list of events is empty"
 #~ msgstr "イベントの一覧は空です"
 
@@ -4351,7 +4265,6 @@ msgstr "ネットワークを使う時間帯の始めと終わりを HH:MM-HH:MM
 #, c-format
 #~ msgid "; column %d of %d; "
 #~ msgstr "; 列 %d（全 %d); "
-
 #~ msgid "list is empty"
 #~ msgstr "一覧は空です"
 
@@ -4370,10 +4283,8 @@ msgstr "ネットワークを使う時間帯の始めと終わりを HH:MM-HH:MM
 #, c-format
 #~ msgid "; row %d of %d; "
 #~ msgstr "; 行 %d（全 %d); "
-
 #~ msgid "blank"
 #~ msgstr "空白"
-
 #~ msgid "list of projects or account managers"
 #~ msgstr "プロジェクトあるいはアカウント・マネージャの一覧"
 
@@ -4392,7 +4303,6 @@ msgstr "ネットワークを使う時間帯の始めと終わりを HH:MM-HH:MM
 #, c-format
 #~ msgid "The minimum password length for this account manager is %d. Please enter a different password."
 #~ msgstr "このアカウント・マネージャでは、パスワードの最短長は %d 文字です。別のパスワードを入力してください。"
-
 #~ msgid ""
 #~ "An error has occurred;\n"
 #~ "check the Event Log for details.\n"
@@ -4424,33 +4334,26 @@ msgstr "ネットワークを使う時間帯の始めと終わりを HH:MM-HH:MM
 #, c-format
 #~ msgid "OnDropTarget: index by HitTest = %i"
 #~ msgstr "OnDropTarget: index by HitTest = %i"
-
 #~ msgid "Identify your account "
 #~ msgstr "アカウントを特定する"
-
 #~ msgid "Read config file"
 #~ msgstr "設定ファイルを読み込む"
-
 #~ msgid "Read configuration info from cc_config.xml"
 #~ msgstr "cc_config.xml から設定情報を読み込みます"
-
 #~ msgid ""
 #~ "(C) 2003-2011 University of California, Berkeley.\n"
 #~ "All Rights Reserved."
 #~ msgstr ""
 #~ "(C) 2003-2010 University of California, Berkeley.\n"
 #~ "All Rights Reserved."
-
 #~ msgid "Multicore CPU Supported"
 #~ msgstr "マルチコア CPU サポート済み"
 
 #, fuzzy
 #~ msgid "%s: %.0f"
 #~ msgstr "%s: %0.2f"
-
 #~ msgid "Click 'Retry now' to transfer the file now"
 #~ msgstr "ファイルを転送するには、「今すぐ再試行」をクリックします"
-
 #~ msgid ""
 #~ "Click 'Abort transfer' to delete the file from the transfer queue. This "
 #~ "will prevent you from being granted credit for this result."
@@ -4458,10 +4361,8 @@ msgstr "ネットワークを使う時間帯の始めと終わりを HH:MM-HH:MM
 #~ "ファイル転送の待ち行列からこのファイルを削除するには、「ファイル転送を中"
 #~ "止」をクリックします。 この場合、対応するリザルトについての功績 (credit) "
 #~ "は付与されなくなります。"
-
 #~ msgid "Aborting result..."
 #~ msgstr "リザルトの中止処理をしています..."
-
 #~ msgid ""
 #~ "You have chosen to add a new BOINC project.  Adding a new\n"
 #~ "project means that you will be connecting your computer to a new "
@@ -4498,50 +4399,36 @@ msgstr "ネットワークを使う時間帯の始めと終わりを HH:MM-HH:MM
 #~ "World Community Grid から送られて来る研究アプリケーションを変更するには、"
 #~ "以下\n"
 #~ "のボタンをクリックします:"
-
 #~ msgid "Change Research Applications at World Community Grid"
 #~ msgstr "World Community Grid の研究アプリケーションを変更"
-
 #~ msgid "Don't fetch NVIDIA GPU tasks"
 #~ msgstr "NVIDIA GPU向けタスクを新たに取得しない"
-
 #~ msgid "NVIDIA GPU work fetch deferred for"
 #~ msgstr "NVIDIA GPU 向けの仕事を獲得する処理の保留時間"
-
 #~ msgid "NVIDIA GPU work fetch deferral interval"
 #~ msgstr "NVIDIA GPU 向けの仕事を獲得する処理の保留間隔"
-
 #~ msgid "Don't fetch ATI GPU tasks"
 #~ msgstr "ATI GPU向けタスクを新たに取得しない"
-
 #~ msgid "ATI GPU work fetch deferred for"
 #~ msgstr "ATI GPU 向けの仕事を獲得する処理の保留時間"
-
 #~ msgid "ATI GPU work fetch deferral interval"
 #~ msgstr "ATI GPU 向けの仕事を獲得する処理の保留間隔"
-
 #~ msgid "Web sites"
 #~ msgstr "ウェブサイト"
-
 #~ msgid "Connect about every"
 #~ msgstr "接続する間隔"
-
 #~ msgid ""
 #~ "this computer is connected to the Internet about every X days\n"
 #~ "(0 if it's always connected)"
 #~ msgstr ""
 #~ "このコンピュータは、X 日毎にインターネットに接続します。\n"
 #~ "(0は常時接続を意味します)"
-
 #~ msgid "days (max. 10)"
 #~ msgstr "日分(最大10日)"
-
 #~ msgid "%d.%d%%"
 #~ msgstr "%d.%d%%"
-
 #~ msgid "Display and network &options..."
 #~ msgstr "表示とネットワークのオプション(&O)..."
-
 #~ msgid ""
 #~ "You have requested to exit the %s,\n"
 #~ "which allows you to view and manage\n"
@@ -4556,141 +4443,98 @@ msgstr "ネットワークを使う時間帯の始めと終わりを HH:MM-HH:MM
 #~ "\n"
 #~ "もし、科学計算アプリケーションの方もマネージャ・プログラムと\n"
 #~ "同時に停止させたいのなら、以下の選択肢から選んでください："
-
 #~ msgid "Stop running science applications when exiting the Manager"
 #~ msgstr ""
 #~ "マネージャ・プログラムと同時に、今実行中の科学計算アプリケーションも終了す"
 #~ "る"
-
 #~ msgid "CPU work fetch priority"
 #~ msgstr "CPU 向けの仕事を獲得する処理の優先度"
-
 #~ msgid "NVIDIA GPU scheduling priority"
 #~ msgstr "NVIDIA GPU 向けスケジューリングの優先度"
-
 #~ msgid "NVIDIA GPU work fetch priority"
 #~ msgstr "NVIDIA GPU 向けスケジューリングの優先度"
-
 #~ msgid "ATI GPU scheduling priority"
 #~ msgstr "ATI GPU 向けスケジューリングの優先度"
-
 #~ msgid "ATI GPU work fetch priority"
 #~ msgstr "ATI GPU 向けスケジューリングの優先度"
-
 #~ msgid "Estimated app speed"
 #~ msgstr "アプリケーションの実行速度推定値"
-
 #~ msgid "Estimated task size"
 #~ msgstr "タスクの大きさの推定値"
-
 #~ msgid "Max RAM usage"
 #~ msgstr "RAM の最大利用量"
-
 #~ msgid "%s - Options"
 #~ msgstr "%s - オプション"
-
 #~ msgid "Retrieving host information; please wait..."
 #~ msgstr "計算機 (ホスト) の情報を読み出しています。お待ちください..."
-
 #~ msgid " (waiting for GPU memory)"
 #~ msgstr "(GPU メモリ不足のため待機)"
-
 #~ msgid "Manager Settings..."
 #~ msgstr "マネージャの設定..."
-
 #~ msgid "Pause"
 #~ msgstr "一時停止"
-
 #~ msgid "%s - Messages"
 #~ msgstr "%s - メッセージ"
-
 #~ msgid "Skin:"
 #~ msgstr "スキン:"
-
 #~ msgid "Preferences"
 #~ msgstr "プレファレンス"
-
 #~ msgid "I want to customize my preferences for this computer only."
 #~ msgstr ""
 #~ "このコンピュータについてだけ私のプレファレンス（好みの設定）を変更したい"
-
 #~ msgid "Customized Preferences"
 #~ msgstr "カスタマイズしたプレファレンス"
-
 #~ msgid "My total work done this Project"
 #~ msgstr "あなたがこのプロジェクトで実施した仕事の合計"
-
 #~ msgid "My Tasks:"
 #~ msgstr "あなたのタスク:"
-
 #~ msgid "From Project:"
 #~ msgstr "送付元のプロジェクト:"
-
 #~ msgid "Elapsed Time: %s"
 #~ msgstr "経過時間： %s"
-
 #~ msgid "Upload suspended - "
 #~ msgstr "アップロード保留中 - "
-
 #~ msgid "Download suspended - "
 #~ msgstr "ダウンロード保留中 - "
-
 #~ msgid "Upload pending"
 #~ msgstr "アップロード保留中"
-
 #~ msgid "Download pending"
 #~ msgstr "ダウンロード保留中"
-
 #~ msgid "Get help with BOINC"
 #~ msgstr "BOINC に関して手助けを求める"
-
 #~ msgid "Event Log..."
 #~ msgstr "イベント・ログ..."
-
 #~ msgid "error"
 #~ msgstr "エラー"
-
 #~ msgid "A new version of BOINC is available."
 #~ msgstr "新しい版の BOINC が使えるようになりました。"
-
 #~ msgid "Download it."
 #~ msgstr "ダウンロードする"
-
 #~ msgid "Couldn't write state file; check directory permissions"
 #~ msgstr ""
 #~ "状態ファイルを書き出すことができませんでした。ディレクトリのパーミッション"
 #~ "を調べてみてください。"
-
 #~ msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 #~ msgstr "環境変数 HTTP_PROXY には HTTP プロキシを指定しなければなりません。"
-
 #~ msgid "Attach to project"
 #~ msgstr "プロジェクトに参加"
-
 #~ msgid "Attach to account manager"
 #~ msgstr "アカウント・マネージャに接続"
-
 #~ msgid "&Attach to project..."
 #~ msgstr "プロジェクトに参加(&A)..."
-
 #~ msgid "Attach to a project"
 #~ msgstr "プロジェクトに参加させる"
-
 #~ msgid "Attaching to project or account manager..."
 #~ msgstr ""
 #~ "プロジェクトあるいはアカウント・マネージャに接続しようとしています..."
-
 #~ msgid "%s - Detach from %s"
 #~ msgstr "%s - %s から離脱"
-
 #~ msgid "Retrying communications."
 #~ msgstr "通信を再試行しています。"
-
 #~ msgid "%s needs to connect to the Internet.  Please click to open %s."
 #~ msgstr ""
 #~ "%s はインターネットに接続する必要があります。クリックして %s を起動して下"
 #~ "さい。"
-
 #~ msgid ""
 #~ "%s is unable to communicate with a project and needs an Internet "
 #~ "connection.\n"
@@ -4701,7 +4545,6 @@ msgstr "ネットワークを使う時間帯の始めと終わりを HH:MM-HH:MM
 #~ "す。\n"
 #~ "インターネットに接続して、メニューの「高度な操作」から「通信を今すぐ実施」"
 #~ "を選択してください。"
-
 #~ msgid ""
 #~ "%s couldn't do Internet communication, and no default connection is "
 #~ "selected.\n"
@@ -4714,88 +4557,62 @@ msgstr "ネットワークを使う時間帯の始めと終わりを HH:MM-HH:MM
 #~ "ン] \n"
 #~ "ダイアログを開き、「接続」タブで「通常の接続」に何を使うか指定してくださ"
 #~ "い。"
-
 #~ msgid "One or more notices are now available for viewing."
 #~ msgstr "見ていただきたいお知らせがいくつかあります。"
-
 #~ msgid "Failed to attach to project"
 #~ msgstr "プロジェクト参加に失敗"
-
 #~ msgid "Failed to attach to account manager"
 #~ msgstr "アカウント･マネージャへの参加に失敗"
-
 #~ msgid "Attached to project"
 #~ msgstr "プロジェクトへ参加完了"
-
 #~ msgid "You are now successfully attached to this project."
 #~ msgstr "このプロジェクトへ参加することに成功しました。"
-
 #~ msgid "Attached to %s"
 #~ msgstr "%s に接続しました"
-
 #~ msgid "Attached to account manager"
 #~ msgstr "アカウント･マネージャへ参加完了"
-
 #~ msgid "You are now successfully attached to the %s system."
 #~ msgstr "%s システムへの参加に成功しました。"
-
 #~ msgid "You are now successfully attached to this account manager."
 #~ msgstr "このアカウント・マネージャへの参加に成功しました。"
-
 #~ msgid "Detach when done"
 #~ msgstr "仕事を終えたらプロジェクトから離脱"
-
 #~ msgid "News Feeds"
 #~ msgstr "ニュース・フィード"
-
 #~ msgid "Display the latest news about BOINC"
 #~ msgstr "BOINC の最新ニュースを表示"
-
 #~ msgid "Retrieving notices..."
 #~ msgstr "お知らせを読み出し中..."
-
 #~ msgid "Detach"
 #~ msgstr "離脱"
-
 #~ msgid "Detaching from project..."
 #~ msgstr "プロジェクトから離脱しています..."
-
 #~ msgid "Are you sure you want to detach from project '%s'?"
 #~ msgstr "プロジェクト '%s' から離脱してよろしいですか？"
-
 #~ msgid "Detach from Project"
 #~ msgstr "プロジェクトから離脱"
-
 #~ msgid "not attached to any BOINC project: 0 bytes"
 #~ msgstr "BOINC のプロジェクトのどれにも参加していません: 0 bytes"
-
 #~ msgid "Message from project server:"
 #~ msgstr "サーバからのメッセージ："
-
 #~ msgid "XML syntax error in"
 #~ msgstr "右のファイルの中に XML の構文エラーがあります："
-
 #~ msgid "Can't resolve hostname in"
 #~ msgstr "右のファイルの中に解決できないホスト名があります："
-
 #~ msgid "Unexpected text in"
 #~ msgstr "右のファイルの中に予想外のテキストがあります："
-
 #~ msgid "Unrecognized tag in"
 #~ msgstr "右のファイルの中に認識できないタグがあります："
-
 #~ msgid "Missing start tag in"
 #~ msgstr "右のファイルの中に開始タグが足りません："
-
 #~ msgid "Unparsed tag in"
 #~ msgstr "右のファイルの中に解析できないタグがあります："
-
 #~ msgid "Missing end tag in"
 #~ msgstr "右のファイルの中に終了タグが足りません："
-
 #~ msgid ""
 #~ "BOINC can't access Internet - check network connection or proxy "
 #~ "configuration."
 #~ msgstr ""
 #~ "BOINC はインターネットにアクセスできません。ネットワーク接続とプロキシの設"
 #~ "定を調べてください。"
+

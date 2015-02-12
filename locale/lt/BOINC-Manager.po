@@ -4,34 +4,30 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 4.x\n"
+"Project-Id-Version: BOINC 7.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-15 14:15-0500\n"
-"PO-Revision-Date: 2013-09-20 10:48+0000\n"
-"Last-Translator: Anonymous Pootle User\n"
-"Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
+"PO-Revision-Date: 2015-02-11 17:49-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
+"Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%"
-"100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc_7.4\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-POOTLE-MTIME: 1379674127.0\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
-# 81%
 #: clientgui/AccountInfoPage.cpp:387
 #, c-format
-#, fuzzy, c-format
 msgid "Identify your account at %s"
-msgstr "Nustatykite savo sąskaitą "
+msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:393
 msgid ""
@@ -294,9 +290,7 @@ msgstr "&Prisijungti prie projekto ar paskyros valdytojo..."
 
 #: clientgui/AdvancedFrame.cpp:422
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
-msgstr ""
-"Būkite savanoriu viename ar keliuose iš daugiau kaip 30 projektų įvairiose "
-"mokslo srityse"
+msgstr "Būkite savanoriu viename ar keliuose iš daugiau kaip 30 projektų įvairiose mokslo srityse"
 
 #: clientgui/AdvancedFrame.cpp:426
 #, c-format
@@ -561,7 +555,6 @@ msgstr "%s - Sustabdyti %s"
 
 #: clientgui/AdvancedFrame.cpp:1190
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "If you stop using %s,\n"
 "you'll keep all your current projects,\n"
@@ -596,7 +589,6 @@ msgstr "%s"
 
 #: clientgui/AdvancedFrame.cpp:1815
 #, c-format
-#, fuzzy, c-format
 msgid "%s has successfully added %s"
 msgstr "%s sėkmingai prisijungė prie %s"
 
@@ -683,8 +675,7 @@ msgid ""
 "Please contact your administrator to add you to the 'boinc_users' local user group."
 msgstr ""
 "Jums nėra leidžiama valdyti kliento.\n"
-"Susisiekite su savo administratoriumi, kad jis pridėtų jus į \"boinc_users\" "
-"vartotojų grupę."
+"Susisiekite su savo administratoriumi, kad jis pridėtų jus į \"boinc_users\" vartotojų grupę."
 
 #: clientgui/BOINCBaseFrame.cpp:522
 msgid ""
@@ -692,8 +683,7 @@ msgid ""
 "Make sure you start this program in the same directory as the client."
 msgstr ""
 "Nepavyko prisijungti prie veikiančio kliento.\n"
-"Įsitikinkite, kad bandote paleisti šią programą tame pačiame kataloge, kaip "
-"ir klientas."
+"Įsitikinkite, kad bandote paleisti šią programą tame pačiame kataloge, kaip ir klientas."
 
 #: clientgui/BOINCBaseFrame.cpp:524
 msgid "Authorization failed connecting to running client."
@@ -749,10 +739,8 @@ msgid ""
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s šiuo metu nėra prisijungęs prie %s kliento.\n"
-"Prašome pasinaudoti \"Byla->Pasirinkti kompiuterį\" meniu punktu, jei norite "
-"prisijungti prie %s kliento.\n"
-"Norėdami prisijungti prie vietinio kompiuterio, kaip kompiuterio vardą "
-"įrašykite \"localhost\"."
+"Prašome pasinaudoti \"Byla->Pasirinkti kompiuterį\" meniu punktu, jei norite prisijungti prie %s kliento.\n"
+"Norėdami prisijungti prie vietinio kompiuterio, kaip kompiuterio vardą įrašykite \"localhost\"."
 
 #: clientgui/BOINCBaseView.cpp:752
 #, fuzzy
@@ -766,13 +754,10 @@ msgstr ""
 
 #: clientgui/BOINCClientManager.cpp:583
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
 msgstr ""
-"%s negali prisijungti prie %s kliento.\n"
-"Ar norite dar kartą bandyti prisijungti?"
 
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
@@ -824,7 +809,6 @@ msgstr "%s nepavyko atsijungti nuo interneto."
 
 #: clientgui/BOINCGUIApp.cpp:595
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "\n"
@@ -835,9 +819,6 @@ msgid ""
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
 msgstr ""
-"Jums nėra leidžiama valdyti kliento.\n"
-"Susisiekite su savo administratoriumi, kad jis pridėtų jus į \"boinc_users\" "
-"vartotojų grupę."
 
 #: clientgui/BOINCGUIApp.cpp:601
 #, c-format
@@ -905,9 +886,7 @@ msgstr "atjungti BOINC saugumo vartotojus ir įgaliojimus"
 
 #: clientgui/BOINCGUIApp.cpp:914
 msgid "set skin debugging mode to enable skin manager error messages"
-msgstr ""
-"įjungti apvalkalų derinimo režimą, kad būtų įjungti apvalkalų valdiklio "
-"klaidų pranešimai"
+msgstr "įjungti apvalkalų derinimo režimą, kad būtų įjungti apvalkalų valdiklio klaidų pranešimai"
 
 #: clientgui/BOINCGUIApp.cpp:915
 msgid "multiple instances of BOINC Manager allowed"
@@ -1197,8 +1176,7 @@ msgid ""
 msgstr ""
 "Šiame lange nustatymai keičiami tik šiam kompiuteriui.\n"
 "Spauskite OK, kad įrašytumėte nustatymus.\n"
-"Spauskite Pašalinti, kad vėl pradėtumėte naudoti internete pasirinktus "
-"nustatymus."
+"Spauskite Pašalinti, kad vėl pradėtumėte naudoti internete pasirinktus nustatymus."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:69
 msgid "Clear"
@@ -1258,9 +1236,7 @@ msgstr "Kai kompiuteris veikia iš baterijų"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:149
 msgid "check this if you want this computer to do work while it runs on batteries"
-msgstr ""
-"pažymėkite, jei norite vykdyti skaičiavimus kai kompiuteris veikia iš "
-"baterijų"
+msgstr "pažymėkite, jei norite vykdyti skaičiavimus kai kompiuteris veikia iš baterijų"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:155
 msgid "While computer is in use"
@@ -1276,9 +1252,7 @@ msgstr "Naudoti vaizdo procesorių kai kompiuteris naudojamas"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:167
 msgid "check this if you want your GPU to do work even when you're using the computer"
-msgstr ""
-"pažymėkite, jei norite skaičiavimams naudoti grafikos plokštę kai naudojatės "
-"kompiuteriu"
+msgstr "pažymėkite, jei norite skaičiavimams naudoti grafikos plokštę kai naudojatės kompiuteriu"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:179
 msgid "Only after computer has been idle for"
@@ -1286,9 +1260,7 @@ msgstr "Tik kai kompiuteris buvo nenaudojamas"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:188
 msgid "do work only after you haven't used the computer for this number of minutes"
-msgstr ""
-"vykdyti skaičiavimus tik kai kompiuteris nenaudojamas nurodytą minučių "
-"skaičių"
+msgstr "vykdyti skaičiavimus tik kai kompiuteris nenaudojamas nurodytą minučių skaičių"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:193
 #: clientgui/DlgAdvPreferencesBase.cpp:342
@@ -1655,16 +1627,12 @@ msgstr "Kopijuoti pasirinktas"
 #: clientgui/DlgEventLog.cpp:318
 #: clientgui/DlgEventLog.cpp:326
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"Kopijuoti pasirinktas žinutes į laikinąją saugyklą. Keletą žinučių galite "
-"pažymėti spausdami Shift arba Command klavišus žymėjimo metu."
+msgstr "Kopijuoti pasirinktas žinutes į laikinąją saugyklą. Keletą žinučių galite pažymėti spausdami Shift arba Command klavišus žymėjimo metu."
 
 #: clientgui/DlgEventLog.cpp:320
 #: clientgui/DlgEventLog.cpp:328
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"Kopijuoti pasirinktas žinutes į laikinąją saugyklą. Keletą žinučių galite "
-"pažymėti spausdami Shift arba Control klavišus žymėjimo metu."
+msgstr "Kopijuoti pasirinktas žinutes į laikinąją saugyklą. Keletą žinučių galite pažymėti spausdami Shift arba Control klavišus žymėjimo metu."
 
 #: clientgui/DlgEventLog.cpp:335
 #: clientgui/DlgItemProperties.cpp:67
@@ -2128,11 +2096,8 @@ msgstr "%s - kalbos pasirinkimas"
 
 #: clientgui/DlgOptions.cpp:698
 #, c-format
-#, fuzzy, c-format
 msgid "The %s's language has been changed.  In order for this change to take effect, you must restart the %s."
-msgstr ""
-"%s aptiko pasirinktos kalbos pakeitimą. %s turi būti paleistas iš naujo, kad "
-"įsigaliotų kalbos pakeitimas."
+msgstr "%s aptiko pasirinktos kalbos pakeitimą. %s turi būti paleistas iš naujo, kad įsigaliotų kalbos pakeitimas."
 
 #: clientgui/DlgSelectComputer.cpp:91
 #, c-format
@@ -2182,9 +2147,7 @@ msgstr "Jūsų nustatymai"
 
 #: clientgui/Localization.cpp:45
 msgid "View and modify your SETI@home account profile and preferences"
-msgstr ""
-"Peržiūrėkite ir keiskite savo SETI@Home vartotojo abonemento aprašymą ir "
-"nustatymus"
+msgstr "Peržiūrėkite ir keiskite savo SETI@Home vartotojo abonemento aprašymą ir nustatymus"
 
 #: clientgui/Localization.cpp:47
 #: clientgui/Localization.cpp:89
@@ -2233,9 +2196,7 @@ msgstr "Perskaitykite detalų Einstein@Home ekrano užsklandos aprašymą"
 
 #: clientgui/Localization.cpp:71
 msgid "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr ""
-"Susirašinėkite su administratoriais ar kitais Einstein@Home vartotojais "
-"pranešimų lentose"
+msgstr "Susirašinėkite su administratoriais ar kitais Einstein@Home vartotojais pranešimų lentose"
 
 #: clientgui/Localization.cpp:73
 msgid "Einstein status"
@@ -2255,9 +2216,7 @@ msgstr "Nuoroda į Einstein@Home problemų pranešimų lentas"
 
 #: clientgui/Localization.cpp:83
 msgid "View and modify your Einstein@Home account profile and preferences"
-msgstr ""
-"Peržiūrėkite ir keiskite savo Einstein@Home vartotojo abonemento aprašymą ir "
-"nustatymus"
+msgstr "Peržiūrėkite ir keiskite savo Einstein@Home vartotojo abonemento aprašymą ir nustatymus"
 
 #: clientgui/Localization.cpp:85
 msgid "Account summary"
@@ -2273,9 +2232,7 @@ msgstr "LIGO projektas"
 
 #: clientgui/Localization.cpp:103
 msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
-msgstr ""
-"Laser Interferometer Gravitational-wave Observatory (LIGO) projekto "
-"tinklapis"
+msgstr "Laser Interferometer Gravitational-wave Observatory (LIGO) projekto tinklapis"
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
@@ -2614,9 +2571,7 @@ msgstr ""
 
 #: clientgui/ProjectInfoPage.cpp:228
 msgid "To choose a project, click its name or type its URL below."
-msgstr ""
-"Kad pasirinktumėte projektą, spragtelėkite jo vardą arba žemiau įveskite jo "
-"tinklapio adresą."
+msgstr "Kad pasirinktumėte projektą, spragtelėkite jo vardą arba žemiau įveskite jo tinklapio adresą."
 
 #: clientgui/ProjectInfoPage.cpp:246
 msgid "Categories:"
@@ -3016,9 +2971,7 @@ msgstr "Atnaujinti"
 #: clientgui/sg_ProjectCommandPopup.cpp:67
 #: clientgui/ViewProjects.cpp:180
 msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
-msgstr ""
-"Pranešti apie atliktą darbą, gauti duomenis apie kreditą, naujausius "
-"nustatymus ir galbūt daugiau darbo."
+msgstr "Pranešti apie atliktą darbą, gauti duomenis apie kreditą, naujausius nustatymus ir galbūt daugiau darbo."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:73
 #: clientgui/sg_ProjectCommandPopup.cpp:129
@@ -3047,16 +3000,12 @@ msgstr "Perkrauti projektą"
 #: clientgui/sg_ProjectCommandPopup.cpp:85
 #: clientgui/ViewProjects.cpp:201
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr ""
-"Ištrinti visas projekto bylas ir gauti naujo darbo. Priš tai galite "
-"atnaujinti projekto duomenis ir nusiųsti atliktą darbą."
+msgstr "Ištrinti visas projekto bylas ir gauti naujo darbo. Priš tai galite atnaujinti projekto duomenis ir nusiųsti atliktą darbą."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:91
 #: clientgui/ViewProjects.cpp:208
 msgid "Remove this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr ""
-"Pašalinti šį projektą. Visos atliekamos užduotys bus prarastos (spauskite "
-"\"Atnaujinti\" tam, kad prieš tai būtų nusiųstos atliktos užduotys)."
+msgstr "Pašalinti šį projektą. Visos atliekamos užduotys bus prarastos (spauskite \"Atnaujinti\" tam, kad prieš tai būtų nusiųstos atliktos užduotys)."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:96
 #: clientgui/sg_TaskCommandPopup.cpp:84
@@ -3186,13 +3135,10 @@ msgstr "Sustabdyti šį skaičiavimo darbą."
 
 #: clientgui/sg_TaskCommandPopup.cpp:267
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %.1lf%%, Status: %s)"
 msgstr ""
-"Ar tikrai norite nutraukti šią užduotį '%s'?\n"
-"(Pažanga: %s, Būklė: %s)"
 
 #: clientgui/sg_TaskCommandPopup.cpp:272
 msgid "Abort task"
@@ -3233,9 +3179,8 @@ msgstr ""
 
 #: clientgui/sg_TaskPanel.cpp:705
 #, c-format
-#, fuzzy, c-format
 msgid "Application: %s"
-msgstr "Programa:"
+msgstr "Programa: %s"
 
 #: clientgui/sg_TaskPanel.cpp:728
 #, c-format
@@ -3258,9 +3203,8 @@ msgstr ""
 # 84%
 #: clientgui/sg_TaskPanel.cpp:865
 #, c-format
-#, fuzzy, c-format
 msgid "Remaining (estimated): %s"
-msgstr "Likęs laikas"
+msgstr ""
 
 #: clientgui/sg_TaskPanel.cpp:880
 #, c-format
@@ -4098,7 +4042,6 @@ msgstr ""
 #, no-c-format
 #~ msgid "% CPU time"
 #~ msgstr "% procesoriaus laiko"
-
 #~ msgid "KBytes/sec."
 #~ msgstr "KB/s"
 
@@ -4109,71 +4052,53 @@ msgstr ""
 #, fuzzy
 #~ msgid "Preferences…"
 #~ msgstr "Vietiniai nustatymai"
-
 #~ msgid "invalid float"
 #~ msgstr "neteisingas skaičius su kableliu"
 
 #, fuzzy
 #~ msgid "Display the advanced (accessible) graphical interface."
 #~ msgstr "Rodyti supaprastintą vartotojo sąsają."
-
 #~ msgid "Paused: Other work running"
 #~ msgstr "Skaičiavimai sustabdyti: veikia kitos užduotys"
-
 #~ msgid "Paused: User initiated.  Click 'Resume' to continue"
 #~ msgstr ""
 #~ "Skaičiavimai sustabdyti: vartotojo prašymas. Spauskite \"Tęsti\" pratęsimui"
-
 #~ msgid "Paused: User active"
 #~ msgstr "Skaičiavimai sustabdyti: vartotojas aktyvus"
-
 #~ msgid "Paused: Computer on battery"
 #~ msgstr "Skaičiavimai sustabdyti: kompiuteris veikia iš baterijų"
-
 #~ msgid "Paused: Time of Day"
 #~ msgstr "Skaičiavimai sustabdyti: paros metas"
-
 #~ msgid "Paused"
 #~ msgstr "Skaičiavimai sustabdyti"
-
 #~ msgid "Open a window to view messages"
 #~ msgstr "Atverti langą žinučių peržiūrai"
-
 #~ msgid "Stop all activity"
 #~ msgstr "Sustabdyti visus veiksmus"
-
 #~ msgid "Open a window to set your preferences"
 #~ msgstr "Atverti langą nustatymų keitimui"
-
 #~ msgid "My Projects:"
 #~ msgstr "Mano projektai:"
 
 #, c-format
 #~ msgid "%s. Work done by %s: %0.2f"
 #~ msgstr "%s. %s atliktas darbas: %0.2f"
-
 #~ msgid "Are you sure you want to display graphics on a remote machine?"
 #~ msgstr "Ar tikrai norite rodyti grafiką nutolusiame kompiuteryje?"
-
 #~ msgid "Application: "
 #~ msgstr "Programa:"
-
 #~ msgid "Time Remaining: "
 #~ msgstr "Likęs laikas:"
-
 #~ msgid "Elapsed Time: "
 #~ msgstr "Praėjęs laikas:"
-
 #~ msgid "Account manager website"
 #~ msgstr "Abonento valdiklio tinklapis"
-
 #~ msgid "Account Manager &URL:"
 #~ msgstr "Abonemento valdiklio tinklapio adresas:"
 
 #, c-format
 #~ msgid "%s &website"
 #~ msgstr "%s &tinklapis"
-
 #~ msgid "Project List"
 #~ msgstr "Projektų sąrašas"
 
@@ -4181,55 +4106,38 @@ msgstr ""
 #, fuzzy
 #~ msgid "Retry now"
 #~ msgstr "Kartoti dabar"
-
 #~ msgid "10%"
 #~ msgstr "10%"
-
 #~ msgid "20%"
 #~ msgstr "20%"
-
 #~ msgid "30%"
 #~ msgstr "30%"
-
 #~ msgid "40%"
 #~ msgstr "40%"
-
 #~ msgid "50%"
 #~ msgstr "50%"
-
 #~ msgid "60%"
 #~ msgstr "60%"
-
 #~ msgid "70%"
 #~ msgstr "70%"
-
 #~ msgid "80%"
 #~ msgstr "80%"
-
 #~ msgid "90%"
 #~ msgstr "90%"
-
 #~ msgid "1"
 #~ msgstr "1"
-
 #~ msgid "3"
 #~ msgstr "3"
-
 #~ msgid "5"
 #~ msgstr "5"
-
 #~ msgid "10"
 #~ msgstr "10"
-
 #~ msgid "15"
 #~ msgstr "15"
-
 #~ msgid "30"
 #~ msgstr "30"
-
 #~ msgid "60"
 #~ msgstr "60"
-
 #~ msgid "list of projects or account managers"
 #~ msgstr "projektų ir abonementų valdiklių sąrašas"
 
@@ -4259,13 +4167,10 @@ msgstr ""
 #, no-c-format
 #~ msgid "% of the processors"
 #~ msgstr "% procesorių"
-
 #~ msgid "Identify your account "
 #~ msgstr "Nustatykite savo sąskaitą "
-
 #~ msgid "Read config file"
 #~ msgstr "Nuskaityti nustatymų bylą"
-
 #~ msgid "Read configuration info from cc_config.xml"
 #~ msgstr "Nuskaityti nustatymus iš cc_config.xml"
 
@@ -4276,102 +4181,71 @@ msgstr ""
 #~ msgstr ""
 #~ "(C) 2003-2010 University of California, Berkeley.\n"
 #~ "Visos teisės saugomos."
-
 #~ msgid "Click 'Retry now' to transfer the file now"
 #~ msgstr "Spauskite \"Kartoti vėl\" norėdami perduoti bylą dabar"
-
 #~ msgid ""
 #~ "Click 'Abort transfer' to delete the file from the transfer queue. This "
 #~ "will prevent you from being granted credit for this result."
 #~ msgstr ""
 #~ "Spauskite \"Nutraukti perdavimą\" tam, kad būtų pašalinta byla iš "
 #~ "perdavimų sąrašo. Dėl šio veiksmo jūs negausite kreditų už šį darbą."
-
 #~ msgid "Aborting result..."
 #~ msgstr "Nutraukiamas darbas..."
-
 #~ msgid "Don't fetch NVIDIA GPU tasks"
 #~ msgstr "Negauti užduočių NVIDIA vaizdo procesoriui"
-
 #~ msgid "Don't fetch ATI GPU tasks"
 #~ msgstr "Negauti užduočių ATI vaizdo procesoriui"
-
 #~ msgid "Web sites"
 #~ msgstr "Tinklapiai"
-
 #~ msgid "Display and network &options..."
 #~ msgstr "Vartotojo sąsaj&os ir tinklo nustatymai..."
-
 #~ msgid "Retrieving host information; please wait..."
 #~ msgstr "Gaunama kompiuterio informacija; prašome palaukti..."
-
 #~ msgid " (waiting for GPU memory)"
 #~ msgstr " (laukiama vaizdo procesoriaus atminties)"
-
 #~ msgid "%s - Messages"
 #~ msgstr "%s - žinutės"
-
 #~ msgid "Preferences"
 #~ msgstr "Vietiniai nustatymai"
-
 #~ msgid "Customized Preferences"
 #~ msgstr "Pritaikyti nustatymai"
-
 #~ msgid "Upload suspended - "
 #~ msgstr "Duomenų išsiuntimas sustabdytas - "
-
 #~ msgid "Download suspended - "
 #~ msgstr "Duomenų atsiuntimas sustabdytas - "
-
 #~ msgid "Upload pending"
 #~ msgstr "Laukiama išsiuntimo"
-
 #~ msgid "Download pending"
 #~ msgstr "Laukiama parsiuntimo"
-
 #~ msgid "Get help with BOINC"
 #~ msgstr "Gauti pagalbą dėl BOINC naudojimo"
-
 #~ msgid "Attaching to project or account manager..."
 #~ msgstr "Prisijungiama prie projekto ar abonemento valdiklio..."
-
 #~ msgid "%s - Detach from %s"
 #~ msgstr "%s - atsijungti nuo %s"
-
 #~ msgid "Retrying communications."
 #~ msgstr "Kartojamas susijungimas"
-
 #~ msgid "Failed to attach to project"
 #~ msgstr "Nepavyko prisijungti prie projekto"
-
 #~ msgid "Failed to attach to account manager"
 #~ msgstr "Nepavyko prisijungti prie abonemento valdiklio"
-
 #~ msgid "Attached to account manager"
 #~ msgstr "Prisijungta prie abonemento valdiklio"
-
 #~ msgid "You are now successfully attached to the %s system."
 #~ msgstr "Sėkmingai prisijungėte prie %s sistemos."
-
 #~ msgid "You are now successfully attached to this account manager."
 #~ msgstr "Sėkmingai prisijungėte prie abonemento valdiklio."
-
 #~ msgid "All projects"
 #~ msgstr "Visi projektai"
-
 #~ msgid "Attach to project"
 #~ msgstr "Prisijungti prie projekto"
-
 #~ msgid "Attach to account manager"
 #~ msgstr "Prisijungti prie abonemento valdiklio"
-
 #~ msgid "Attach to a project"
 #~ msgstr "Prisijungti prie projekto"
-
 #~ msgid "%s needs to connect to the Internet.  Please click to open %s."
 #~ msgstr ""
 #~ "%s reikia prisijungti prie interneto. Spustelėkite, kad atidaryti %s."
-
 #~ msgid ""
 #~ "%s is unable to communicate with a project and needs an Internet "
 #~ "connection.\n"
@@ -4381,7 +4255,6 @@ msgstr ""
 #~ "%s negali susisiekti su projektu ir jam reikalingas interneto ryšys.\n"
 #~ "Prisijunkite prie interneto ir paspauskite \"Atlikti susijungimus tinkle"
 #~ "\" meniu punkte \"Papildomi\"."
-
 #~ msgid ""
 #~ "%s couldn't do Internet communication, and no default connection is "
 #~ "selected.\n"
@@ -4393,64 +4266,44 @@ msgstr ""
 #~ "Prašome prisijungti prie interneto arba pasirinkti numatytą interneto "
 #~ "jungtį\n"
 #~ "meniu Papildomi->Parinktys->Susijungimai."
-
 #~ msgid "Attached to project"
 #~ msgstr "Prisijungta prie projekto"
-
 #~ msgid "You are now successfully attached to this project."
 #~ msgstr "Jūs sėkmingai prisijungėte prie šio projekto."
-
 #~ msgid "Attached to %s"
 #~ msgstr "Prisijungta prie %s"
-
 #~ msgid "Detach when done"
 #~ msgstr "Atsijungti pabaigus"
-
 #~ msgid "Detach"
 #~ msgstr "Atjungti"
-
 #~ msgid "Detaching from project..."
 #~ msgstr "Atsijungiama nuo projekto..."
-
 #~ msgid "Are you sure you want to detach from project '%s'?"
 #~ msgstr "Ar tikrai norite atsijungti nuo projekto \"%s\"?"
-
 #~ msgid "Detach from Project"
 #~ msgstr "Atsijungti nuo projekto"
-
 #~ msgid "Attach this computer to a project or account manager"
 #~ msgstr "Prijungti kompiuterį prie projekto ar abonemento valdiklio"
-
 #~ msgid " - user active"
 #~ msgstr " - vartotojas aktyvus"
-
 #~ msgid " - computation suspended"
 #~ msgstr " - skaičiavimai sustabdyti"
-
 #~ msgid " - need disk space"
 #~ msgstr " - trūksta disko vietos"
-
 #~ msgid "Attach to an additional project"
 #~ msgstr "Prisijungti prie kito projekto"
-
 #~ msgid "To completion"
 #~ msgstr "Iki atlikimo"
-
 #~ msgid "Attach to a project to begin processing work"
 #~ msgstr "Prisijungite prie projekto ir pradėkite apdoroti darbą"
-
 #~ msgid "%s: %.2f%% completed."
 #~ msgstr "%s: %.2f%% atlikta."
-
 #~ msgid "%d tasks running."
 #~ msgstr "Vykdoma užduočių: %d."
-
 #~ msgid "&Close Window\tCtrl+W"
 #~ msgstr "&Uždaryti langą\tCtrl+W"
-
 #~ msgid "%s - Can't find web browser"
 #~ msgstr "%s - nepavyksta rasti interneto naršyklės"
-
 #~ msgid ""
 #~ "%s tried to display the web page\n"
 #~ "\t%s\n"
@@ -4465,106 +4318,76 @@ msgstr ""
 #~ "Norėdami išspręsti šią problemą, aplinkos kintamąjį\n"
 #~ "\"BROWSER\" nustatykite į interneto naršyklės vietą\n"
 #~ "ir iš naujo paleiskite %s."
-
 #~ msgid "Retrying communications for project(s)..."
 #~ msgstr "Bandoma susisiekti su projektu(-ais)..."
-
 #~ msgid ""
 #~ "Required wizard file(s) are missing from the target server.\n"
 #~ "(lookup_account.php/create_account.php)\n"
 #~ msgstr ""
 #~ "Vedliui reikalingos bylos serveryje nerastos.\n"
 #~ "(lookup_account.php/create_account.php)\n"
-
 #~ msgid "User information"
 #~ msgstr "Vartotojo informacija"
-
 #~ msgid "Account Manager URL"
 #~ msgstr "Abonemento valdiklio tinklapis"
-
 #~ msgid "Enter the URL of the account manager's web site."
 #~ msgstr "Įveskite abonemento valdiklio tinklapio adresą."
-
 #~ msgid "Close BOINC Manager Window."
 #~ msgstr "Uždaryti BOINC valdiklio langą."
-
 #~ msgid "Exit the %s"
 #~ msgstr "Išeiti iš %s"
-
 #~ msgid ""
 #~ "Advanced views allow you to sort various columns and displays graphical "
 #~ "progress bars."
 #~ msgstr ""
 #~ "Pažengusiųjų režime galima rūšiuoti informaciją pagal įvairius stulpelius "
 #~ "ir matomas grafinis būsenos atvaizdavimas."
-
 #~ msgid "Attach to &project"
 #~ msgstr "Prisijungti prie &projekto"
-
 #~ msgid "Attaching to project..."
 #~ msgstr "Prisijungiama prie projekto..."
-
 #~ msgid "Removal from %s completed."
 #~ msgstr "Pašalinimas iš %s baigtas."
-
 #~ msgid "Removal succeeded!"
 #~ msgstr "Pašalinimas pavyko!"
-
 #~ msgid "Priority"
 #~ msgstr "Svarbumas"
-
 #~ msgid "Copying selected messages to Clipboard..."
 #~ msgstr "Pasirinkti pranešimai kopijuojami į atmintį..."
-
 #~ msgid "Info"
 #~ msgstr "Informacija"
-
 #~ msgid "Warning"
 #~ msgstr "Perspėjimas"
-
 #~ msgid "Debug Flags"
 #~ msgstr "Programos klaidų žymės"
-
 #~ msgid "Project Properties Failure"
 #~ msgstr "Projekto nustatymu klaida"
-
 #~ msgid "Project Properties URL Failure"
 #~ msgstr "Projekto nustatymų URL klaida"
-
 #~ msgid "Account Creation Disabled"
 #~ msgstr "Abonementų kūrimas yra išjungtas"
-
 #~ msgid "Account Already Exists"
 #~ msgstr "Toks abonementas jau yra"
-
 #~ msgid "Project Already Attached"
 #~ msgstr "Projektas jau prijungtas"
-
 #~ msgid "Project Attach Failure"
 #~ msgstr "Nepavyko prisijungti prie projekto"
-
 #~ msgid "Net Detection Failure"
 #~ msgstr "Tinklo aptikimo klaida"
-
 #~ msgid ""
 #~ "You can copy and paste the URL from your browser's\n"
 #~ "address bar."
 #~ msgstr ""
 #~ "Galite nukopijuoti adresą iš interneto naršyklės\n"
 #~ "adreso laukelio."
-
 #~ msgid "For a list of account managers go to:"
 #~ msgstr "Abonemento valdiklių sąrašą rasite čia:"
-
 #~ msgid "&Advanced View"
 #~ msgstr "Pažengusiųjų režimas"
-
 #~ msgid "You are already attached to this project."
 #~ msgstr "Jūs jau esate prisijungęs prie šio projekto."
-
 #~ msgid "Enter account key"
 #~ msgstr "Įveskite abonento slaptažodį"
-
 #~ msgid ""
 #~ "This project uses an \"account key\" to identify you.\n"
 #~ "\n"
@@ -4575,37 +4398,26 @@ msgstr ""
 #~ "\n"
 #~ "Eikite į projekto interneto svetainę ir susikurkite abonementą.\n"
 #~ "Jūsų abonemento raktas bus atsiųstas elektroniniu paštu."
-
 #~ msgid "An account key looks like:"
 #~ msgstr "Abonemento slaptažodis panašus į šį:"
-
 #~ msgid "82412313ac88e9a3638f66ea82186948"
 #~ msgstr "82412313ac88e9a3638f66ea82186948"
-
 #~ msgid "Account key:"
 #~ msgstr "Abonemento slaptažodis:"
-
 #~ msgid "&Accessible View"
 #~ msgstr "Neįg&aliesiems pritaikytas režimas"
-
 #~ msgid "Retry all deferred network communication."
 #~ msgstr "Kartoti visus atidėtus susijungimus."
-
 #~ msgid "BOINC Manager - Detach from %s"
 #~ msgstr "BOINC valdiklis - Atsijungti nuo %s"
-
 #~ msgid "%s is currently suspended...\n"
 #~ msgstr "%s šiuo metu sustabdytas...\n"
-
 #~ msgid "%s networking is currently suspended...\n"
 #~ msgstr "%s veikla tinkle šiuo metu yra sustabdyta...\n"
-
 #~ msgid "%s is currently reconnecting to a %s client...\n"
 #~ msgstr "%s šiuo metu pakartotinai jungiasi prie %s kliento...\n"
-
 #~ msgid "%s is not currently connected to a %s client...\n"
 #~ msgstr "%s šiuo metu nėra prisijungęs prie %s kliento...\n"
-
 #~ msgid ""
 #~ "This dialog controls preferences on this computer only.\n"
 #~ "On Save - preferences will be stored locally.\n"
@@ -4615,58 +4427,42 @@ msgstr ""
 #~ "Paspaudus \"Išsaugoti\" nustatymai bus išsaugoti lokaliai.\n"
 #~ "Jei nori grįžti prie internete pasirinktų nustatymų, spauskite \"Pašalinti"
 #~ "\"."
-
 #~ msgid "only if computer is idle for"
 #~ msgstr "tik jei kompiuteris nenaudojamas ilgiau kaip"
-
 #~ msgid "work time restrictions"
 #~ msgstr "darbo laiko apribojimai"
-
 #~ msgid "additional restrictions:"
 #~ msgstr "papildomi apribojimai"
-
 #~ msgid "processors"
 #~ msgstr "procesoriai"
-
 #~ msgid "Click here to disable displaying this message in the future."
 #~ msgstr "Spauskite čia, jei nenorite, kad ši žinutė būtų rodoma ateityje."
-
 #~ msgid "Language Selection:"
 #~ msgstr "Kalbos pasirinkimas:"
-
 #~ msgid "What language should the manager display by default."
 #~ msgstr "Kokią kalbą naudoti kaip numatytą."
-
 #~ msgid "Reminder Frequency:"
 #~ msgstr "Priminimo dažnumas:"
-
 #~ msgid ""
 #~ "How often, in minutes, should the manager remind you of possible "
 #~ "connection events."
 #~ msgstr ""
 #~ "Kaip dažnai (minutėmis) valdiklis turėtų jums priminti apie galimus "
 #~ "prisijungimus prie tinklo."
-
 #~ msgid "BOINC Manager - Messages"
 #~ msgstr "BOINC valdiklis - žinutės"
-
 #~ msgid "BOINC Manager - Preferences"
 #~ msgstr "BOINC valdiklis - vietiniai nustatymai"
-
 #~ msgid "Project Comm Failure"
 #~ msgstr "Ryšio su projektu klaida"
-
 #~ msgid "Google Comm Failure"
 #~ msgstr "Prisijungimo prie Google klaida"
-
 #~ msgid "Yahoo Comm Failure"
 #~ msgstr "Prisijungimo prie Yahoo klaida"
-
 #~ msgid "About BOINC Manager"
 #~ msgstr "Apie BOINC valdiklį"
-
 #~ msgid "BOINC Manager - Options"
 #~ msgstr "BOINC valdiklis - nustatymai"
-
 #~ msgid "BOINC Manager - Select Computer"
 #~ msgstr "BOINC valdiklis - pasirinkti kompiuterį"
+

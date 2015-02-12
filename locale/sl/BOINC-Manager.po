@@ -4,33 +4,30 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: BOINC 7.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-15 14:15-0500\n"
-"PO-Revision-Date: 2013-06-05 20:02+0200\n"
-"Last-Translator: Anonymous Pootle User\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2015-02-12 01:58-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
+"Language-Team: BOINC Localization Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
-"n%100==4 ? 2 : 3);\n"
 "X-Generator: Pootle 2.1.6\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc_7.4\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
 # 81%
 #: clientgui/AccountInfoPage.cpp:387
 #, c-format
-#, fuzzy, c-format
 msgid "Identify your account at %s"
-msgstr "Identificirajte vaš uporabniški račun"
+msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:393
 msgid ""
@@ -305,9 +302,7 @@ msgstr "Dodaj &projekt ali upravitelja računov..."
 
 #: clientgui/AdvancedFrame.cpp:422
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
-msgstr ""
-"Bodite prostovoljec za kateregakoli ali vse izmed več kot 30 projektov na "
-"več znanstvenih področjih"
+msgstr "Bodite prostovoljec za kateregakoli ali vse izmed več kot 30 projektov na več znanstvenih področjih"
 
 #: clientgui/AdvancedFrame.cpp:426
 #, c-format
@@ -343,9 +338,7 @@ msgstr "M&ožnosti"
 #: clientgui/AdvancedFrame.cpp:456
 #, fuzzy
 msgid "Configure display options and proxy settings"
-msgstr ""
-"Nastavi možnosti grafičnega uporabniškega vmesnika in nastavitve "
-"posredniškega strežnika (proxy)"
+msgstr "Nastavi možnosti grafičnega uporabniškega vmesnika in nastavitve posredniškega strežnika (proxy)"
 
 #: clientgui/AdvancedFrame.cpp:460
 msgid "Computing &preferences..."
@@ -575,7 +568,6 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1190
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "If you stop using %s,\n"
 "you'll keep all your current projects,\n"
@@ -610,7 +602,6 @@ msgstr "%s"
 
 #: clientgui/AdvancedFrame.cpp:1815
 #, c-format
-#, fuzzy, c-format
 msgid "%s has successfully added %s"
 msgstr "%s se je uspešno pripel(-a) na %s"
 
@@ -695,8 +686,7 @@ msgid ""
 "Please contact your administrator to add you to the 'boinc_users' local user group."
 msgstr ""
 "Trenutno nimate dovoljenja upravljati odjemalca.\n"
-"Prosim, kontaktirajte skrbnika sistema, da vas doda v uporabniško skupino "
-"'boinc_users'."
+"Prosim, kontaktirajte skrbnika sistema, da vas doda v uporabniško skupino 'boinc_users'."
 
 #: clientgui/BOINCBaseFrame.cpp:522
 msgid ""
@@ -740,8 +730,7 @@ msgid ""
 "Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
 msgstr ""
 "%s ni mogel zagnati odjemalca %s.\n"
-"Prosim, poženite Nadzorna plošča->Skrbniška orodja->Storitve in poženite "
-"BOINC storitev."
+"Prosim, poženite Nadzorna plošča->Skrbniška orodja->Storitve in poženite BOINC storitev."
 
 #: clientgui/BOINCBaseFrame.cpp:637
 #, c-format
@@ -765,10 +754,8 @@ msgid ""
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s trenutno ni povezan na odjemalca %s.\n"
-"Prosim, uporabite 'Napredno/Izberi računalnik'  izbiro menuja, da se "
-"povežete na odjemalca %s.\n"
-"Za povezavo na lokalni računalnik, prosim, uporabite 'localhost' kot ime "
-"gostitelja."
+"Prosim, uporabite 'Napredno/Izberi računalnik'  izbiro menuja, da se povežete na odjemalca %s.\n"
+"Za povezavo na lokalni računalnik, prosim, uporabite 'localhost' kot ime gostitelja."
 
 #: clientgui/BOINCBaseView.cpp:752
 #, fuzzy
@@ -839,7 +826,6 @@ msgstr "%s se ni uspel odklopiti z interneta."
 
 #: clientgui/BOINCGUIApp.cpp:595
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "\n"
@@ -850,25 +836,13 @@ msgid ""
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
 msgstr ""
-"Trenutno nimate dovoljenja za upravljanje odjemalca.\n"
-"\n"
-"Da poganjate BOINC kot ta uporabnik, prosim:\n"
-"  - ponovno namestite BOINC in odgovorite z \"Da\" na vprašanje o\n"
-"     ne-administrativnih uporabnikih\n"
-" ali\n"
-"  - kontaktirajte vašega sistemskega skrbnika, da vas doda v\n"
-"      uporabniško skupino \"boinc_master\"."
 
 #: clientgui/BOINCGUIApp.cpp:601
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr ""
-"Lastništvo BOINC ali pravice niso prav nastavljene; prosim, ponovno "
-"namestite BOINC.\n"
-"(Koda napake %d)"
 
 #: clientgui/BOINCGUIApp.cpp:607
 msgid " at "
@@ -896,8 +870,7 @@ msgstr "BOINC Upravitelj je bil samodejno pognan s strani operacijskega sistema"
 
 #: clientgui/BOINCGUIApp.cpp:904
 msgid "Startup BOINC so only the system tray icon is visible"
-msgstr ""
-"Poženi BOINC ob zagonu, tako da je vidna samo ikona v sistemskem pladnju."
+msgstr "Poženi BOINC ob zagonu, tako da je vidna samo ikona v sistemskem pladnju."
 
 #: clientgui/BOINCGUIApp.cpp:906
 msgid "Directory containing the BOINC Client executable"
@@ -930,9 +903,7 @@ msgstr "onemogoči BOINC varnostne uporabnike in dovoljenja"
 
 #: clientgui/BOINCGUIApp.cpp:914
 msgid "set skin debugging mode to enable skin manager error messages"
-msgstr ""
-"nastavi razhroščevalni način preobleke, da omogočite sporočila o napakah "
-"upravitelja preoblek"
+msgstr "nastavi razhroščevalni način preobleke, da omogočite sporočila o napakah upravitelja preoblek"
 
 #: clientgui/BOINCGUIApp.cpp:915
 msgid "multiple instances of BOINC Manager allowed"
@@ -1282,9 +1253,7 @@ msgstr "Medtem, ko računalnik deluje na baterije"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:149
 msgid "check this if you want this computer to do work while it runs on batteries"
-msgstr ""
-"obkljukajte to, če želite, da računalnik opravlja delo med tem ko deluje na "
-"baterije"
+msgstr "obkljukajte to, če želite, da računalnik opravlja delo med tem ko deluje na baterije"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:155
 msgid "While computer is in use"
@@ -1292,9 +1261,7 @@ msgstr "Medtem, ko je računalnik v uporabi"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:158
 msgid "check this if you want this computer to do work even when you're using it"
-msgstr ""
-"obkljukajte to, če želite, da računalnik opravlja delo tudi, ko ga "
-"uporabljate vi"
+msgstr "obkljukajte to, če želite, da računalnik opravlja delo tudi, ko ga uporabljate vi"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:164
 msgid "Use GPU while computer is in use"
@@ -1302,9 +1269,7 @@ msgstr "Uporabi grafični procesor medtem, ko je računalnik v uporabi"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:167
 msgid "check this if you want your GPU to do work even when you're using the computer"
-msgstr ""
-"obkljukajte to, če želite uporabiti vaš grafični procesor za delo tudi, ko "
-"računalnik uporabljate vi"
+msgstr "obkljukajte to, če želite uporabiti vaš grafični procesor za delo tudi, ko računalnik uporabljate vi"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:179
 msgid "Only after computer has been idle for"
@@ -1500,9 +1465,7 @@ msgstr "Zahtevaj potrditev pred povezavo na internet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:489
 msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
-msgstr ""
-"če je obkljukano, bo prikazan potrditveni dialog pred poskusom povezave na "
-"internet"
+msgstr "če je obkljukano, bo prikazan potrditveni dialog pred poskusom povezave na internet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:493
 msgid "Disconnect when done"
@@ -1513,8 +1476,7 @@ msgid ""
 "if checked, BOINC hangs up when network usage is done\n"
 "(only relevant for dialup-connection)"
 msgstr ""
-"če je obkljukano, bo BOINC prekinil mrežno povezavo, ko bo pošiljanje "
-"končano\n"
+"če je obkljukano, bo BOINC prekinil mrežno povezavo, ko bo pošiljanje končano\n"
 "(smiselno le za klicne povezave)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:501
@@ -1688,16 +1650,12 @@ msgstr "Kopiraj izbrano"
 #: clientgui/DlgEventLog.cpp:318
 #: clientgui/DlgEventLog.cpp:326
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"Kopiraj označena sporočila na odložišče. Označite lahko več sporočil s tem, "
-"da držite pritisnjeno shift ali ctrl tipko med klikanjem na sporočila."
+msgstr "Kopiraj označena sporočila na odložišče. Označite lahko več sporočil s tem, da držite pritisnjeno shift ali ctrl tipko med klikanjem na sporočila."
 
 #: clientgui/DlgEventLog.cpp:320
 #: clientgui/DlgEventLog.cpp:328
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"Kopiraj označena sporočila na odložišče. Označite lahko več sporočil s tem, "
-"da držite pritisnjeno shift ali ctrl tipko med klikanjem na sporočila."
+msgstr "Kopiraj označena sporočila na odložišče. Označite lahko več sporočil s tem, da držite pritisnjeno shift ali ctrl tipko med klikanjem na sporočila."
 
 #: clientgui/DlgEventLog.cpp:335
 #: clientgui/DlgItemProperties.cpp:67
@@ -1742,7 +1700,6 @@ msgstr ""
 
 #: clientgui/DlgExitMessage.cpp:135
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "This will shut down %s and its tasks until either the\n"
 "%s or the %s screen saver is run again.\n"
@@ -2174,11 +2131,8 @@ msgstr "%s - Izbira jezika"
 
 #: clientgui/DlgOptions.cpp:698
 #, c-format
-#, fuzzy, c-format
 msgid "The %s's language has been changed.  In order for this change to take effect, you must restart the %s."
-msgstr ""
-"Privzeti jezik za %s je bil spremenjen, da to začne veljati morate ponovno "
-"zagnati %s."
+msgstr "Privzeti jezik za %s je bil spremenjen, da to začne veljati morate ponovno zagnati %s."
 
 #: clientgui/DlgSelectComputer.cpp:91
 #, c-format
@@ -2277,8 +2231,7 @@ msgstr "Preberi podrobno razlago Einstein@Home ohranjevalnika zaslona"
 
 #: clientgui/Localization.cpp:71
 msgid "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr ""
-"Dopisuj si z administratorji in drugimi uporabniki na Einstein@Home forumu"
+msgstr "Dopisuj si z administratorji in drugimi uporabniki na Einstein@Home forumu"
 
 #: clientgui/Localization.cpp:73
 msgid "Einstein status"
@@ -2652,8 +2605,7 @@ msgstr "Izberite projekt"
 
 #: clientgui/ProjectInfoPage.cpp:228
 msgid "To choose a project, click its name or type its URL below."
-msgstr ""
-"Da izberete projekt, kliknite na njegovo ime ali spodaj napišite njegov URL."
+msgstr "Da izberete projekt, kliknite na njegovo ime ali spodaj napišite njegov URL."
 
 #: clientgui/ProjectInfoPage.cpp:246
 msgid "Categories:"
@@ -2699,9 +2651,7 @@ msgstr ""
 #: clientgui/ProjectInfoPage.cpp:802
 #, fuzzy
 msgid "This project may not have work for your type of computer.  Do you want to add it anyway?"
-msgstr ""
-"Ta projekt morda nima dela za vaš tip računalnika. Ali ste prepričani, da "
-"želite nadaljevati?"
+msgstr "Ta projekt morda nima dela za vaš tip računalnika. Ali ste prepričani, da želite nadaljevati?"
 
 #: clientgui/ProjectInfoPage.cpp:826
 #, fuzzy
@@ -2913,7 +2863,6 @@ msgstr "Zapri"
 
 #: clientgui/sg_DlgMessages.cpp:394
 #, c-format
-#, fuzzy, c-format
 msgid "%s - Notices"
 msgstr "%s Obvestila"
 
@@ -3059,9 +3008,7 @@ msgstr "Posodobi"
 #: clientgui/sg_ProjectCommandPopup.cpp:67
 #: clientgui/ViewProjects.cpp:180
 msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
-msgstr ""
-"Poročaj o vseh opravljenih opravilih, dobi najnovejše zasluge, dobi "
-"najnovejše nastavitve in morda dobi več opravil."
+msgstr "Poročaj o vseh opravljenih opravilih, dobi najnovejše zasluge, dobi najnovejše nastavitve in morda dobi več opravil."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:73
 #: clientgui/sg_ProjectCommandPopup.cpp:129
@@ -3090,17 +3037,12 @@ msgstr "Resetiraj projekt"
 #: clientgui/sg_ProjectCommandPopup.cpp:85
 #: clientgui/ViewProjects.cpp:201
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr ""
-"Briše vse datoteke in opravila povezana s tem projektom in dobi nova "
-"opravila.  Lahko najprej posodobite projekt, da poročate o morebitnih "
-"opravljenih opravilih."
+msgstr "Briše vse datoteke in opravila povezana s tem projektom in dobi nova opravila.  Lahko najprej posodobite projekt, da poročate o morebitnih opravljenih opravilih."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:91
 #: clientgui/ViewProjects.cpp:208
 msgid "Remove this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr ""
-"Odstrani ta projekt.  Opravila, ki potekajo, bodo izgubljena (najprej "
-"uporabite 'Posodobi', da sporočite morebitna opravljena opravila)."
+msgstr "Odstrani ta projekt.  Opravila, ki potekajo, bodo izgubljena (najprej uporabite 'Posodobi', da sporočite morebitna opravljena opravila)."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:96
 #: clientgui/sg_TaskCommandPopup.cpp:84
@@ -3229,13 +3171,12 @@ msgstr "Daj delo za to opravilo na čakanje."
 
 #: clientgui/sg_TaskCommandPopup.cpp:267
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %.1lf%%, Status: %s)"
 msgstr ""
 "Ali ste prepričani, da želite opustiti to opravilo '%s'?\n"
-"(Napredek: %s %%, Status: %s)"
+"(Napredek: %.1lf%%, Status: %s)"
 
 #: clientgui/sg_TaskCommandPopup.cpp:272
 msgid "Abort task"
@@ -3277,9 +3218,8 @@ msgstr ""
 
 #: clientgui/sg_TaskPanel.cpp:705
 #, c-format
-#, fuzzy, c-format
 msgid "Application: %s"
-msgstr "Aplikacija: "
+msgstr "Aplikacija: %s"
 
 #: clientgui/sg_TaskPanel.cpp:728
 #, c-format
@@ -3302,9 +3242,8 @@ msgstr ""
 # 84%
 #: clientgui/sg_TaskPanel.cpp:865
 #, c-format
-#, fuzzy, c-format
 msgid "Remaining (estimated): %s"
-msgstr "Preostaja"
+msgstr ""
 
 #: clientgui/sg_TaskPanel.cpp:880
 #, c-format
@@ -3423,9 +3362,7 @@ msgstr "Prosim, vnesite naslov elektronske pošte"
 
 #: clientgui/ValidateEmailAddress.cpp:75
 msgid "Invalid email address; please enter a valid email address"
-msgstr ""
-"Napačen naslov elektronske pošte; prosim vnesite pravilen naslov elektronske "
-"pošte"
+msgstr "Napačen naslov elektronske pošte; prosim vnesite pravilen naslov elektronske pošte"
 
 #: clientgui/ValidateURL.cpp:69
 msgid "Missing URL"
@@ -4133,7 +4070,6 @@ msgstr ""
 
 #: clientgui/mac/Mac_GUI.cpp:39
 #, c-format
-#, fuzzy, c-format
 msgid "Quit %s"
 msgstr "Za&pusti %s"
 
@@ -4161,22 +4097,16 @@ msgstr "podajte začetne in končne ure uporabe mreže v formatu HH:MM-HH:MM"
 #, no-c-format
 #~ msgid "% CPU time"
 #~ msgstr "% procesorskega časa"
-
 #~ msgid "KBytes/sec."
 #~ msgstr "KBajtov/sekundo"
-
 #~ msgid "Mbytes"
 #~ msgstr "Mbajtov"
-
 #~ msgid "every"
 #~ msgstr "vsakih"
-
 #~ msgid "days"
 #~ msgstr "dni"
-
 #~ msgid "Gigabytes disk space"
 #~ msgstr "Prostor na disku v gigabajtih"
-
 #~ msgid "Running, high priority"
 #~ msgstr "Se izvaja, visoka prioriteta"
 
@@ -4187,61 +4117,42 @@ msgstr "podajte začetne in končne ure uporabe mreže v formatu HH:MM-HH:MM"
 #, fuzzy
 #~ msgid "Preferences…"
 #~ msgstr "Nastavitve"
-
 #~ msgid "I do not agree with the terms of use."
 #~ msgstr "Ne strinjam se s pogoji uporabe."
-
 #~ msgid "Workunit name"
 #~ msgstr "Ime delovne enote"
-
 #~ msgid "invalid float"
 #~ msgstr "napačno število s plavajočo vejico"
-
 #~ msgid "Display the advanced (accessible) graphical interface."
 #~ msgstr "Prikaži napredni (dostopen) grafični vmesnik."
-
 #~ msgid "Paused: Other work running"
 #~ msgstr "Na čakanju: teče drugo delo"
-
 #~ msgid "Paused: User initiated.  Click 'Resume' to continue"
 #~ msgstr "Na čakanju: na željo uporabnika.  Kliknite 'Nadaljuj' za nadaljevanje."
-
 #~ msgid "Paused: User active"
 #~ msgstr "Na čakanju: uporabnik aktiven"
-
 #~ msgid "Paused: Computer on battery"
 #~ msgstr "Na čakanju: računalnik deluje na baterije"
-
 #~ msgid "Paused: Time of Day"
 #~ msgstr "Na čakanju: čas dneva"
-
 #~ msgid "Paused: Benchmarks running"
 #~ msgstr "Na pavzi: potekajo meritve hitrosti"
-
 #~ msgid "Paused"
 #~ msgstr "Na pavzi"
-
 #~ msgid "Paused: Application start delayed"
 #~ msgstr "Na pavzi: odložen pričetek aplikacije"
-
 #~ msgid "Click to show project graphics"
 #~ msgstr "Kliknite za prikaz grafike projekta"
-
 #~ msgid "Open a window to view messages"
 #~ msgstr "Odprite okno za pregled sporočil"
-
 #~ msgid "Stop all activity"
 #~ msgstr "Ustavi vse aktivnosti"
-
 #~ msgid "Resume activity"
 #~ msgstr "Nadaljuj aktivnosti"
-
 #~ msgid "Open a window to set your preferences"
 #~ msgstr "Odprite okno, da nastavite svoje nastavitve"
-
 #~ msgid "Switch to the BOINC advanced view"
 #~ msgstr "Preklopite na BOINC napredni pogled"
-
 #~ msgid "My Projects:"
 #~ msgstr "Moji projekti:"
 
@@ -4256,30 +4167,23 @@ msgstr "podajte začetne in končne ure uporabe mreže v formatu HH:MM-HH:MM"
 #, c-format
 #~ msgid "%d hr %d min %d sec"
 #~ msgstr "%d ur %d minut %d sekund"
-
 #~ msgid "Are you sure you want to display graphics on a remote machine?"
 #~ msgstr ""
 #~ "Ali ste prepričani, da želite prikazati grafiko na oddaljenem računalniku?"
-
 #~ msgid "Application: "
 #~ msgstr "Aplikacija: "
-
 #~ msgid "Time Remaining: "
 #~ msgstr "Preostali čas: "
-
 #~ msgid "Elapsed Time: "
 #~ msgstr "Pretečeni čas: "
-
 #~ msgid "Account manager website"
 #~ msgstr "Spletna stran upravitelja računov"
-
 #~ msgid "Account Manager &URL:"
 #~ msgstr "Upravitelj računov &URL:"
 
 #, c-format
 #~ msgid "%s &website"
 #~ msgstr "%s &spletna stran"
-
 #~ msgid "Notice List"
 #~ msgstr "Seznam obvestil"
 
@@ -4290,19 +4194,14 @@ msgstr "podajte začetne in končne ure uporabe mreže v formatu HH:MM-HH:MM"
 #, c-format
 #~ msgid "%s; received from %s; on %s"
 #~ msgstr "%s; prejeto od %s; %s"
-
 #~ msgid "Click"
 #~ msgstr "Kliknite"
-
 #~ msgid "Project List"
 #~ msgstr "Seznam projektov"
-
 #~ msgid "Nvidia GPU Supported"
 #~ msgstr "Podprti Nvidia grafični procesorji"
-
 #~ msgid "ATI GPU Supported"
 #~ msgstr "Podprti ATI grafični procesorji"
-
 #~ msgid "Project Website"
 #~ msgstr "Spletna stran projekta"
 
@@ -4310,75 +4209,53 @@ msgstr "podajte začetne in končne ure uporabe mreže v formatu HH:MM-HH:MM"
 #, fuzzy
 #~ msgid "Retry now"
 #~ msgstr "Ponovno poskusi zdaj"
-
 #~ msgid "10%"
 #~ msgstr "10%"
-
 #~ msgid "20%"
 #~ msgstr "20%"
-
 #~ msgid "30%"
 #~ msgstr "30%"
-
 #~ msgid "40%"
 #~ msgstr "40%"
-
 #~ msgid "50%"
 #~ msgstr "50%"
-
 #~ msgid "60%"
 #~ msgstr "60%"
-
 #~ msgid "70%"
 #~ msgstr "70%"
-
 #~ msgid "80%"
 #~ msgstr "80%"
-
 #~ msgid "90%"
 #~ msgstr "90%"
-
 #~ msgid "100%"
 #~ msgstr "100%"
-
 #~ msgid "1"
 #~ msgstr "1"
-
 #~ msgid "3"
 #~ msgstr "3"
-
 #~ msgid "5"
 #~ msgstr "5"
-
 #~ msgid "10"
 #~ msgstr "10"
-
 #~ msgid "15"
 #~ msgstr "15"
-
 #~ msgid "30"
 #~ msgstr "30"
-
 #~ msgid "60"
 #~ msgstr "60"
-
 #~ msgid ""
 #~ "for accessibility support, please select advanced from the view menu or type "
 #~ "command shift a"
 #~ msgstr ""
 #~ "za podporo pomožnim tehnologijam, prosim, izberite napredno pod menujem "
 #~ "pogled ali pritisnite command shift a"
-
 #~ msgid "This panel contains graphs showing user totals for projects"
 #~ msgstr ""
 #~ "Ta pladenj vsebuje grafe, ki prikazujejo skupne točke uporabnika za projekte"
-
 #~ msgid "list headers"
 #~ msgstr "seznam zaglavij"
-
 #~ msgid "list of events"
 #~ msgstr "seznam dogodkov"
-
 #~ msgid "list of events is empty"
 #~ msgstr "seznam dogodkov je prazen"
 
@@ -4401,7 +4278,6 @@ msgstr "podajte začetne in končne ure uporabe mreže v formatu HH:MM-HH:MM"
 #, c-format
 #~ msgid "; column %d of %d; "
 #~ msgstr "; stolpec %d od %d; "
-
 #~ msgid "list is empty"
 #~ msgstr "seznam je prazen"
 
@@ -4420,10 +4296,8 @@ msgstr "podajte začetne in končne ure uporabe mreže v formatu HH:MM-HH:MM"
 #, c-format
 #~ msgid "; row %d of %d; "
 #~ msgstr "; vrstica %d od %d; "
-
 #~ msgid "blank"
 #~ msgstr "prazno"
-
 #~ msgid "list of projects or account managers"
 #~ msgstr "seznam projektov ali upraviteljev računov"
 
@@ -4477,13 +4351,10 @@ msgstr "podajte začetne in končne ure uporabe mreže v formatu HH:MM-HH:MM"
 #, c-format
 #~ msgid "OnDropTarget: index by HitTest = %i"
 #~ msgstr "OnDropTarget: indeks od HitTest = %i"
-
 #~ msgid "Identify your account "
 #~ msgstr "Identificirajte vaš uporabniški račun"
-
 #~ msgid "Read config file"
 #~ msgstr "Preberi konfiguracijsko datoteko"
-
 #~ msgid "Read configuration info from cc_config.xml"
 #~ msgstr "Preberi konfiguracijske informacije iz cc_config.xml"
 
@@ -4494,13 +4365,10 @@ msgstr "podajte začetne in končne ure uporabe mreže v formatu HH:MM-HH:MM"
 #~ msgstr ""
 #~ "(C) 2003-2010 University of California, Berkeley.\n"
 #~ "Vse pravice pridržane."
-
 #~ msgid "Multicore CPU Supported"
 #~ msgstr "Podprti večjedrni procesorji"
-
 #~ msgid "Click 'Retry now' to transfer the file now"
 #~ msgstr "Kliknite 'Ponovno poskusi zdaj', da zdaj prenesete datoteko"
-
 #~ msgid ""
 #~ "Click 'Abort transfer' to delete the file from the transfer queue. This "
 #~ "will prevent you from being granted credit for this result."
@@ -4508,7 +4376,6 @@ msgstr "podajte začetne in končne ure uporabe mreže v formatu HH:MM-HH:MM"
 #~ "Kliknite 'Opusti prenos', da izbrišete datoteko iz čakalne vrste "
 #~ "prenosov. To vam bo prepričilo, da bi bili nagrajeni z zaslugami za ta "
 #~ "rezultat."
-
 #~ msgid "Aborting result..."
 #~ msgstr "Opuščam rezultat..."
 
@@ -4544,47 +4411,34 @@ msgstr "podajte začetne in končne ure uporabe mreže v formatu HH:MM-HH:MM"
 #~ "\n"
 #~ "Da spremenite katere raziskovalne aplikacije so poslane vam iz\n"
 #~ "World Community Grid, prosim kliknite sledeči gumb:"
-
 #~ msgid "Change Research Applications at World Community Grid"
 #~ msgstr "Spremeni raziskovalne aplikacije na World Community Grid"
-
 #~ msgid "Don't fetch NVIDIA GPU tasks"
 #~ msgstr "Ne potegni novih opravil za NVIDIA grafični procesor"
-
 #~ msgid "NVIDIA GPU work fetch deferred for"
 #~ msgstr "Prevzemanje dela za NVIDIA grafični procesor odloženo za"
-
 #~ msgid "NVIDIA GPU work fetch deferral interval"
 #~ msgstr "Odložitveni interval prevzemanja dela za NVIDIA grafični procesor"
-
 #~ msgid "Don't fetch ATI GPU tasks"
 #~ msgstr "Ne potegni novih opravil za ATI grafični procesor"
-
 #~ msgid "ATI GPU work fetch deferred for"
 #~ msgstr "Prevzemanje dela za ATI grafični procesor odloženo za"
-
 #~ msgid "ATI GPU work fetch deferral interval"
 #~ msgstr "Odložitveni interval prevzemanja dela za ATI grafični procesor"
-
 #~ msgid "Web sites"
 #~ msgstr "Spletne strani"
-
 #~ msgid "Connect about every"
 #~ msgstr "Poveži se približno vsakih"
-
 #~ msgid ""
 #~ "this computer is connected to the Internet about every X days\n"
 #~ "(0 if it's always connected)"
 #~ msgstr ""
 #~ "ta računalnik je povezan na internet približno vsakih X dni\n"
 #~ "(0, če je zmeraj povezan)"
-
 #~ msgid "days (max. 10)"
 #~ msgstr "dni (največ 10)"
-
 #~ msgid "Display and network &options..."
 #~ msgstr "M&ožnosti prikaza in mreže..."
-
 #~ msgid ""
 #~ "You have requested to exit the %s,\n"
 #~ "which allows you to view and manage\n"
@@ -4599,112 +4453,76 @@ msgstr "podajte začetne in končne ure uporabe mreže v formatu HH:MM-HH:MM"
 #~ "\n"
 #~ "Če želite tudi ustaviti delujoče znanstvene aplikacije, ko\n"
 #~ "zapuščate Upravljalca, potem izberite sledeče možnosti:"
-
 #~ msgid "Stop running science applications when exiting the Manager"
 #~ msgstr "Zaustavi delujoče znanstvene aplikacije ob izhodu iz Upravitelja"
-
 #~ msgid "CPU work fetch priority"
 #~ msgstr "Prioriteta prevzemanja dela za procesor"
-
 #~ msgid "NVIDIA GPU scheduling priority"
 #~ msgstr "Prioriteta razvrščanja NIVIDIA grafičnega procesorja"
-
 #~ msgid "NVIDIA GPU work fetch priority"
 #~ msgstr "Prioriteta prevzemanja dela za NVIDIA grafični procesor"
-
 #~ msgid "ATI GPU scheduling priority"
 #~ msgstr "Prioriteta razvrščanja ATI grafičnega procesorja"
-
 #~ msgid "ATI GPU work fetch priority"
 #~ msgstr "Prioriteta prevzemanje dela za ATI grafični procesor"
-
 #~ msgid "%s - Options"
 #~ msgstr "%s - Možnosti"
-
 #~ msgid "Retrieving host information; please wait..."
 #~ msgstr "Pridobivam informacije o gostitelju; prosim počakajte..."
-
 #~ msgid " (waiting for GPU memory)"
 #~ msgstr " (čakajoč na grafični pomnilnik)"
-
 #~ msgid "%s - Messages"
 #~ msgstr "%s - Sporočila"
-
 #~ msgid "Skin:"
 #~ msgstr "Preobleka:"
-
 #~ msgid "Preferences"
 #~ msgstr "Nastavitve"
-
 #~ msgid "I want to customize my preferences for this computer only."
 #~ msgstr "Želim prikrojiti moje nastavitve samo za ta računalnik."
-
 #~ msgid "Customized Preferences"
 #~ msgstr "Prikrojene nastavitve"
-
 #~ msgid "Upload suspended - "
 #~ msgstr "Pošiljanje na čakanju - "
-
 #~ msgid "Download suspended - "
 #~ msgstr "Prejemanje na čakanju - "
-
 #~ msgid "Upload pending"
 #~ msgstr "Čakajoče pošiljanje"
-
 #~ msgid "Download pending"
 #~ msgstr "Čakajoče prejemanje"
-
 #~ msgid "Get help with BOINC"
 #~ msgstr "Dobi pomoč za BOINC"
-
 #~ msgid "Event Log..."
 #~ msgstr "Dnevnik dogodkov..."
-
 #~ msgid "Attaching to project or account manager..."
 #~ msgstr "Pripenjam se na projekt ali upravitelja računov..."
-
 #~ msgid "%s - Detach from %s"
 #~ msgstr "%s - Odpni se od %s"
-
 #~ msgid "Retrying communications."
 #~ msgstr "Ponovno poskušam komunicirati."
-
 #~ msgid "Failed to attach to project"
 #~ msgstr "Nisem se uspel pripeti na projekt"
-
 #~ msgid "Failed to attach to account manager"
 #~ msgstr "Nisem se uspel pripeti na upravitelja računov"
-
 #~ msgid "Attached to account manager"
 #~ msgstr "Pripet na upravitelja računov"
-
 #~ msgid "You are now successfully attached to the %s system."
 #~ msgstr "Zdaj ste uspešno pripeti na sistem %s."
-
 #~ msgid "You are now successfully attached to this account manager."
 #~ msgstr "Zdaj ste uspešno pripeti na ta upravitelj računov."
-
 #~ msgid "News Feeds"
 #~ msgstr "Viri novic"
-
 #~ msgid "Display the latest news about BOINC"
 #~ msgstr "Prikaži najnovejše novice o BOINC"
-
 #~ msgid "not attached to any BOINC project: 0 bytes"
 #~ msgstr "nisem priklopljen na noben BOINC projekt: 0 bajtov"
-
 #~ msgid "All projects"
 #~ msgstr "Vsi projekti"
-
 #~ msgid "Attach to project"
 #~ msgstr "Priklopite se k projektu"
-
 #~ msgid "Attach to account manager"
 #~ msgstr "Pripnite se na upravitelja računov"
-
 #~ msgid "%s needs to connect to the Internet.  Please click to open %s."
 #~ msgstr "%s se mora povezati na internet.  Prosim kliknite, da odprete %s."
-
 #~ msgid ""
 #~ "%s is unable to communicate with a project and needs an Internet "
 #~ "connection.\n"
@@ -4714,7 +4532,6 @@ msgstr "podajte začetne in končne ure uporabe mreže v formatu HH:MM-HH:MM"
 #~ "%s ne more komunicirati s projektom in potrebuje internetno povezavo.\n"
 #~ "Prosim povežite se na internet in nato izberite 'Opravi komunikacijo po "
 #~ "mreži' v menuju Napredno."
-
 #~ msgid ""
 #~ "%s couldn't do Internet communication, and no default connection is "
 #~ "selected.\n"
@@ -4725,121 +4542,85 @@ msgstr "podajte začetne in končne ure uporabe mreže v formatu HH:MM-HH:MM"
 #~ "nastavljena.\n"
 #~ "Prosim, povežite se na internet ali izberite privzeto povezavo\n"
 #~ "z uporabo Napredno/Možnosti/Povezave."
-
 #~ msgid "Attached to project"
 #~ msgstr "Pripet na projekt"
-
 #~ msgid "You are now successfully attached to this project."
 #~ msgstr "Zdaj ste se uspešno pripeli na ta projekt."
-
 #~ msgid "Attached to %s"
 #~ msgstr "Pripet na %s"
-
 #~ msgid "Detach when done"
 #~ msgstr "Odpni se, ko je opravljeno"
-
 #~ msgid "Retrieving notices..."
 #~ msgstr "Prejemam obvestila..."
-
 #~ msgid "Detach"
 #~ msgstr "Odpni"
-
 #~ msgid "Detaching from project..."
 #~ msgstr "Odpenjam se od projekta..."
-
 #~ msgid "Are you sure you want to detach from project '%s'?"
 #~ msgstr "Ali ste prepričani, da se želite odpeti od projekta '%s'?"
-
 #~ msgid "Detach from Project"
 #~ msgstr "Odpni se od projekta"
-
 #~ msgid " - user active"
 #~ msgstr " - uporabnik aktiven"
-
 #~ msgid " - computation suspended"
 #~ msgstr " - računanje na čakanju"
-
 #~ msgid " - need disk space"
 #~ msgstr " - potrebuje prostor na disku"
-
 #~ msgid "Attach to an additional project"
 #~ msgstr "Priklopite se na dodaten projekt"
-
 #~ msgid "To completion"
 #~ msgstr "Do konca"
-
 #~ msgid ""
 #~ "We'll guide you through the process of attaching\n"
 #~ "to a project or account manager."
 #~ msgstr ""
 #~ "Vodili vas bomo skozi proces pripenjanja\n"
 #~ "na projekt ali upravitelja računov."
-
 #~ msgid "events"
 #~ msgstr "dogodki"
-
 #~ msgid " is empty"
 #~ msgstr " je prazno"
-
 #~ msgid "%d of %d; "
 #~ msgstr "%d od %d; "
-
 #~ msgid "current sort column "
 #~ msgstr "trenutno urejeno po stolpcu "
-
 #~ msgid " descending order "
 #~ msgstr "padajoče"
-
 #~ msgid " ascending order "
 #~ msgstr "naraščajoče"
-
 #~ msgid "column "
 #~ msgstr "stolpec "
-
 #~ msgid "of %d; "
 #~ msgstr "od %d; "
-
 #~ msgid "Attach to a project or account manager to begin processing work"
 #~ msgstr ""
 #~ "Priklopite se na projekt ali upravitelja računov za začetek obdelave dela"
-
 #~ msgid "Attach to a project to begin processing work"
 #~ msgstr "Priklopite se na projekt za začetek dela procesiranja"
-
 #~ msgid "Use GPU never"
 #~ msgstr "Nikoli ne uporabi grafičnega procesorja"
-
 #~ msgid "BOINC Notification"
 #~ msgstr "BOINC obvestilo"
-
 #~ msgid ""
 #~ "TEST: Fluffy@Home just found out that the Fluffy project has been "
 #~ "published in Nature"
 #~ msgstr ""
 #~ "TEST: Fluffy@Home so pravkar ugotovili, da je bil v Nature objavljen "
 #~ "članek o projektu Fluffy"
-
 #~ msgid "%s: %.2f%% completed."
 #~ msgstr "%s: %.2f%% dokončano."
-
 #~ msgid "%d tasks running."
 #~ msgstr "Poteka %d opravil."
-
 #~ msgid "&Close Window\tCtrl+W"
 #~ msgstr "&Zapri okno\tCtrl+W"
-
 #~ msgid "&Messages\tCtrl+Shift+M"
 #~ msgstr "S&poročila\tCtrl+Shift+M"
-
 #~ msgid "Display messages"
 #~ msgstr "Prikaži sporočila"
-
 #~ msgid "Display news"
 #~ msgstr "Prikaži novice"
-
 #~ msgid "%s - Can't find web browser"
 #~ msgstr "%s - Ne najdem spletnega brskalnika"
-
 #~ msgid ""
 #~ "%s tried to display the web page\n"
 #~ "\t%s\n"
@@ -4854,72 +4635,52 @@ msgstr "podajte začetne in končne ure uporabe mreže v formatu HH:MM-HH:MM"
 #~ "Da to popravite, nastavite spremenljivko okolja\n"
 #~ "BROWSER na pot do vašega spletnega brskalnika,\n"
 #~ "nato pa ponovno zaženite %s."
-
 #~ msgid "Starting client services; please wait..."
 #~ msgstr "Zaganjam storitve odjemalca; prosim, počakajte..."
-
 #~ msgid "BOINC Website"
 #~ msgstr "BOINC spletna stran"
-
 #~ msgid "Display the latest news about BOINC from the BOINC website"
 #~ msgstr "Prikaži zadnje novice o BOINC s spletne strani BOINC"
-
 #~ msgid "Network activity based on pre&ferences"
 #~ msgstr "Mrežna aktivnost glede na &nastavitve"
-
 #~ msgid "Network activity s&uspended"
 #~ msgstr "Mrežna aktivnost na ča&kanju"
-
 #~ msgid "%s - Shutdown the current client..."
 #~ msgstr "%s - Zaustavi trenutnega odjemalca"
-
 #~ msgid ""
 #~ "%s will shut down the currently connected client,\n"
 #~ "and prompt you for another host to connect to.\n"
 #~ msgstr ""
 #~ "%s bo zaustavil trenutno povezanega odjemalca,\n"
 #~ "in vas vprašal po drugem gostitelju, na katerega naj se poveže.\n"
-
 #~ msgid "Retrying communications for project(s)..."
 #~ msgstr "Ponoven poskus komunikacije za projekt(e)..."
-
 #~ msgid "Switch between applications between every"
 #~ msgstr "Preklopi med aplikacijami vsakih"
-
 #~ msgid ""
 #~ "Required wizard file(s) are missing from the target server.\n"
 #~ "(lookup_account.php/create_account.php)\n"
 #~ msgstr ""
 #~ "Zahtevane datoteke čarovnika manjkajo na ciljnem strežniku.\n"
 #~ "(lookup_account.php/create_account.php)\n"
-
 #~ msgid "ID"
 #~ msgstr "ID"
-
 #~ msgid "Priority"
 #~ msgstr "Prioriteta"
-
 #~ msgid "MessagesGrid"
 #~ msgstr "Mreža sporočil"
-
 #~ msgid "Copying selected messages to Clipboard..."
 #~ msgstr "Kopiram izbrana sporočila na odložišče..."
-
 #~ msgid "Info"
 #~ msgstr "Informacije"
-
 #~ msgid "Warning"
 #~ msgstr "Opozorilo"
-
 #~ msgid "ProjectsGrid"
 #~ msgstr "Mreža projektov"
-
 #~ msgid "TransfersGrid"
 #~ msgstr "Mreža prenosov"
-
 #~ msgid "Aborting transfer(s)..."
 #~ msgstr "Opuščam prenos(e)..."
-
 #~ msgid ""
 #~ "Are you sure you want to abort this file(s) transfer ?\n"
 #~ "NOTE: Aborting a transfer will invalidate a task and you\n"
@@ -4928,9 +4689,8 @@ msgstr "podajte začetne in končne ure uporabe mreže v formatu HH:MM-HH:MM"
 #~ "Ali ste prepričani, da želite opustiti prenos te datoteke/datotek?\n"
 #~ "OPOMBA: Opustitev prenosa bo razveljavila opravilo in zanj\n"
 #~ "ne boste prejeli točk."
-
 #~ msgid "Abort File Transfer(s)"
 #~ msgstr "Opusti prenos(e) datotek"
-
 #~ msgid "TasksGrid"
 #~ msgstr "Mreža opravil"
+

@@ -4,26 +4,24 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 4.x\n"
+"Project-Id-Version: BOINC 7.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-15 14:15-0500\n"
-"PO-Revision-Date: 2012-02-22 23:12+0200\n"
-"Last-Translator: Josip <J.Matijevic@inet.hr>\n"
+"PO-Revision-Date: 2015-02-10 23:52-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.1.6\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc_7.4\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
 #: clientgui/AccountInfoPage.cpp:387
 #, c-format
@@ -314,9 +312,8 @@ msgstr "Priključi se"
 
 #: clientgui/AdvancedFrame.cpp:444
 #, c-format
-#, fuzzy, c-format
 msgid "S&top using %s..."
-msgstr "Zaustavljam rezultat..."
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:450
 msgid "Remove this computer from account manager control."
@@ -428,9 +425,8 @@ msgstr "Zaustavlja mrežnu aktivnost BOINC-a"
 
 #: clientgui/AdvancedFrame.cpp:561
 #, c-format
-#, fuzzy, c-format
 msgid "Connect to another computer running %s"
-msgstr "Spojite se na drugo računolo koje ima BOINC"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:566
 #, fuzzy
@@ -530,9 +526,8 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:668
 #, c-format
-#, fuzzy, c-format
 msgid "Show information about BOINC and %s"
-msgstr "Pokazuje informacije o BOINC menadžeru"
+msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:680
 #: clientgui/BOINCTaskBar.cpp:544
@@ -617,9 +612,8 @@ msgstr "Spajam se na %s"
 
 #: clientgui/AdvancedFrame.cpp:1960
 #, c-format
-#, fuzzy, c-format
 msgid "Connected to %s (%s)"
-msgstr "Spojeno na %s"
+msgstr ""
 
 #: clientgui/AlreadyExistsPage.cpp:184
 msgid "Username already in use"
@@ -762,53 +756,42 @@ msgstr ""
 
 #: clientgui/BOINCDialupManager.cpp:241
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
 msgstr ""
-"BOINC se treba spojiti na internet.\n"
-"Može li to učiniti sada"
 
 #: clientgui/BOINCDialupManager.cpp:254
 #, c-format
-#, fuzzy, c-format
 msgid "%s is connecting to the Internet."
-msgstr "BOINC se spaja na internet."
+msgstr ""
 
 #: clientgui/BOINCDialupManager.cpp:303
 #, c-format
-#, fuzzy, c-format
 msgid "%s has successfully connected to the Internet."
-msgstr "BOINC se uspješno odpojio s interneta."
+msgstr ""
 
 #: clientgui/BOINCDialupManager.cpp:331
 #, c-format
-#, fuzzy, c-format
 msgid "%s failed to connect to the Internet."
-msgstr "BOINC se nije uspio spojiti na internet."
+msgstr ""
 
 #: clientgui/BOINCDialupManager.cpp:372
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
 msgstr ""
-"BOINC je detektirao vezu na internet, ažurira sve projekte i ponovo pokušava "
-"sve prijenose."
 
 #: clientgui/BOINCDialupManager.cpp:417
 #, c-format
-#, fuzzy, c-format
 msgid "%s has successfully disconnected from the Internet."
-msgstr "BOINC se uspješno odpojio s interneta."
+msgstr ""
 
 #: clientgui/BOINCDialupManager.cpp:433
 #, c-format
-#, fuzzy, c-format
 msgid "%s failed to disconnected from the Internet."
-msgstr "BOINC se nije uspio odpojiti s interneta."
+msgstr ""
 
 #: clientgui/BOINCGUIApp.cpp:595
 #, c-format
@@ -1629,16 +1612,12 @@ msgstr ""
 #: clientgui/DlgEventLog.cpp:326
 #, fuzzy
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"Kopiraj označene poruke u memoriju. Možete označiti više poruka držeći shift "
-"ili ctrl dok klikate na poruke."
+msgstr "Kopiraj označene poruke u memoriju. Možete označiti više poruka držeći shift ili ctrl dok klikate na poruke."
 
 #: clientgui/DlgEventLog.cpp:320
 #: clientgui/DlgEventLog.cpp:328
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"Kopiraj označene poruke u memoriju. Možete označiti više poruka držeći shift "
-"ili ctrl dok klikate na poruke."
+msgstr "Kopiraj označene poruke u memoriju. Možete označiti više poruka držeći shift ili ctrl dok klikate na poruke."
 
 #: clientgui/DlgEventLog.cpp:335
 #: clientgui/DlgItemProperties.cpp:67
@@ -2104,17 +2083,13 @@ msgstr ""
 
 #: clientgui/DlgOptions.cpp:698
 #, c-format
-#, fuzzy, c-format
 msgid "The %s's language has been changed.  In order for this change to take effect, you must restart the %s."
 msgstr ""
-"BOINC menadžerov pretpostavljeni jezik je promijenjen, da bi ta promjena "
-"stupila na snagu menadžer mora biti restartiran."
 
 #: clientgui/DlgSelectComputer.cpp:91
 #, c-format
-#, fuzzy, c-format
 msgid "%s - Select Computer"
-msgstr "Odaberi računalo"
+msgstr ""
 
 #: clientgui/DlgSelectComputer.cpp:125
 #, c-format
@@ -2951,9 +2926,7 @@ msgstr "Ažuriraj"
 #: clientgui/ViewProjects.cpp:180
 #, fuzzy
 msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
-msgstr ""
-"Prijavi sav završen posao, prihvati najnoviji kredit, prihvati najnovije "
-"poruke, i možda dobij još posla."
+msgstr "Prijavi sav završen posao, prihvati najnoviji kredit, prihvati najnovije poruke, i možda dobij još posla."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:73
 #: clientgui/sg_ProjectCommandPopup.cpp:129
@@ -2985,18 +2958,13 @@ msgstr "Resetiraj projekt"
 #: clientgui/ViewProjects.cpp:201
 #, fuzzy
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr ""
-"Briše sve datoteke i posao vezan uz projekt, i skida novi posao. Možete prvo "
-"ažurirati projekt kako bi prijavili mogući završeni posao."
+msgstr "Briše sve datoteke i posao vezan uz projekt, i skida novi posao. Možete prvo ažurirati projekt kako bi prijavili mogući završeni posao."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:91
 #: clientgui/ViewProjects.cpp:208
 #, fuzzy
 msgid "Remove this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr ""
-"Isključuje ovo računalo iz označenog projekta. Posao u tijeku bit će "
-"izgubljen. Možete prvo ažurirati projekt kako bi prijavili mogući završeni "
-"posao."
+msgstr "Isključuje ovo računalo iz označenog projekta. Posao u tijeku bit će izgubljen. Možete prvo ažurirati projekt kako bi prijavili mogući završeni posao."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:96
 #: clientgui/sg_TaskCommandPopup.cpp:84
@@ -3046,7 +3014,6 @@ msgstr "Resetiraj projekt"
 #: clientgui/sg_ProjectCommandPopup.cpp:266
 #: clientgui/ViewProjects.cpp:501
 #, c-format
-#, fuzzy, c-format
 msgid "Are you sure you want to remove project '%s'?"
 msgstr "Jeste li sigurni da želite resetirati projekt '%s'?"
 
@@ -3176,9 +3143,8 @@ msgstr ""
 
 #: clientgui/sg_TaskPanel.cpp:705
 #, c-format
-#, fuzzy, c-format
 msgid "Application: %s"
-msgstr "Aplikacija"
+msgstr ""
 
 #: clientgui/sg_TaskPanel.cpp:728
 #, c-format
@@ -3201,9 +3167,8 @@ msgstr ""
 # 84%
 #: clientgui/sg_TaskPanel.cpp:865
 #, c-format
-#, fuzzy, c-format
 msgid "Remaining (estimated): %s"
-msgstr "Radi"
+msgstr ""
 
 #: clientgui/sg_TaskPanel.cpp:880
 #, c-format
@@ -3303,9 +3268,7 @@ msgstr ""
 
 #: clientgui/ValidateAccountKey.cpp:71
 msgid "Invalid Account Key; please enter a valid Account Key"
-msgstr ""
-"Neispravan identifikator računa; molimo unesite valjani identifikator "
-"računa."
+msgstr "Neispravan identifikator računa; molimo unesite valjani identifikator računa."
 
 #: clientgui/ValidateAccountKey.cpp:82
 #: clientgui/ValidateEmailAddress.cpp:86
@@ -3894,9 +3857,8 @@ msgstr ""
 
 #: clientgui/ViewWork.cpp:490
 #, c-format
-#, fuzzy, c-format
 msgid "Are you sure you want to abort these %d tasks?"
-msgstr "Jeste li sigurni da želite obrisati rezultat '%s'?"
+msgstr ""
 
 # 75%
 #: clientgui/ViewWork.cpp:504
@@ -4032,7 +3994,6 @@ msgstr ""
 #~ "Sva prava pridržana."
 
 #, no-c-format
-#, fuzzy, no-c-format
 #~ msgid "% CPU time"
 #~ msgstr "Procesorsko vrijeme"
 
@@ -4078,17 +4039,14 @@ msgstr ""
 #~ msgstr ""
 #~ "(C) 2005 Kalifornijsko sveučilište u Berkeleyu.\n"
 #~ "Sva prava pridržana."
-
 #~ msgid "Click 'Retry now' to transfer the file now"
 #~ msgstr "Klikni na 'ponovi sada' da prenesete datoteku sada"
-
 #~ msgid ""
 #~ "Click 'Abort transfer' to delete the file from the transfer queue. This "
 #~ "will prevent you from being granted credit for this result."
 #~ msgstr ""
 #~ "Klikni 'prekini prijenos' da obrišete datoteku iz popisa za prijenos. to "
 #~ "će vas spriječiti da dobijete kredit za taj rezultat."
-
 #~ msgid "Aborting result..."
 #~ msgstr "Brišem rezultat..."
 
@@ -4099,43 +4057,30 @@ msgstr ""
 #, fuzzy
 #~ msgid "Don't fetch ATI GPU tasks"
 #~ msgstr "Neće dobiti novi posao"
-
 #~ msgid "Web sites"
 #~ msgstr "Web stranice"
-
 #~ msgid "Retrieving host information; please wait..."
 #~ msgstr "Provjeravam stanje računala; molimo pričekajte..."
-
 #~ msgid "Detach"
 #~ msgstr "Isključi se"
-
 #~ msgid "Detaching from project..."
 #~ msgstr "Isključujem se iz projekta..."
-
 #~ msgid "Are you sure you want to detach from project '%s'?"
 #~ msgstr "Jeste li sigurni da se želite isključiti iz projekta '%s'?"
-
 #~ msgid "Detach from Project"
 #~ msgstr "Odvoji se od projekta"
-
 #~ msgid "To completion"
 #~ msgstr "Do završetka"
-
 #~ msgid "Attaching to project..."
 #~ msgstr "Uključujem se u projekt..."
-
 #~ msgid "&Open BOINC Manager..."
 #~ msgstr "&Otvori BOINC menadžer"
-
 #~ msgid "&Disable BOINC network access"
 #~ msgstr "Za&brani pristup mreži"
-
 #~ msgid "&About BOINC Manager..."
 #~ msgstr "O &BOINC menadžeru"
-
 #~ msgid "http://boinc.berkeley.edu/"
 #~ msgstr "http://boinc.berkeley.edu/"
-
 #~ msgid ""
 #~ "Account managers make it easy to find and join BOINC projects.\n"
 #~ "For more information, click on the link below."
@@ -4143,25 +4088,18 @@ msgstr ""
 #~ "Menadžeri računa olakšavaju pronalažanje i opredjeljivanje BOINC "
 #~ "projektima.\n"
 #~ " Za više informacija, kliknite povezicu ispod."
-
 #~ msgid "Login:"
 #~ msgstr "Ime:"
-
 #~ msgid "Your current account manager:"
 #~ msgstr "Vaš trenutni menadžer računa:"
-
 #~ msgid "http://a/b/c/"
 #~ msgstr "http://a/b/c/"
-
 #~ msgid "&Update accounts"
 #~ msgstr "&Ažuriraj račune"
-
 #~ msgid "Change manager"
 #~ msgstr "Promjena menadžera"
-
 #~ msgid "Account Key:"
 #~ msgstr "Identifikator računa:"
-
 #~ msgid ""
 #~ "These are emailed to you when you create an account.\n"
 #~ "Go to project web sites to create accounts.\n"
@@ -4170,155 +4108,112 @@ msgstr ""
 #~ "Te podatke dobivate putem e-pošte kad stvorite račun.\n"
 #~ "Za stvaranje računa posjetite web stranicu projekta.\n"
 #~ "Posjetite http://boinc.berkeley.edu za popis projekata."
-
 #~ msgid "Language Selection:"
 #~ msgstr "Odabir jezika:"
-
 #~ msgid "What language should the manager display by default."
 #~ msgstr "Koji jezik će se prikazivati automatski."
-
 #~ msgid "Reminder Frequency:"
 #~ msgstr "Frekvencija podsjećenja:"
-
 #~ msgid ""
 #~ "How often, in minutes, should the manager remind you of possible "
 #~ "connection events."
 #~ msgstr ""
 #~ "Koliko često, u minutama, će vas menadžer podsjećati o mogućim spajanjima:"
-
 #~ msgid "&Automatically detect network connection settings"
 #~ msgstr "&Automatski ispitaj postavke spajanja na mrežu"
-
 #~ msgid "Use my &Local Area Network(LAN) connection"
 #~ msgstr "Koristi moju &Lokalnu mrežnu (LAN) vezu"
-
 #~ msgid "Use my &Dial-up and Virtual Private Network connection"
 #~ msgstr "Koristi moju &modemsku i VPN vezu"
-
 #~ msgid "&Prompt for username and password"
 #~ msgstr "&Upitaj korisničko ime i lozinku"
-
 #~ msgid "Failed to create wxStaticText, needed by wxHyperLink!"
 #~ msgstr "Neuspjelo kreiranje wxStaticTexta, koji je potreban wxHyperLink-u!"
-
 #~ msgid "BOINC Manager - Connection Error"
 #~ msgstr "BOINC menadžer - greška u spaanju"
-
 #~ msgid "BOINC Manager - Connection failed"
 #~ msgstr "BOINC menadžer - Veza prekinuta"
-
 #~ msgid "Connection failed."
 #~ msgstr "Veza prekinuta."
-
 #~ msgid "BOINC info"
 #~ msgstr "BOINC info"
-
 #~ msgid "Closes the main BOINC Manager window"
 #~ msgstr "Zatvara glavni prozor BOINC menadžera"
-
 #~ msgid "&Hide"
 #~ msgstr "&Sakrij"
-
 #~ msgid "Hides the main BOINC Manager window"
 #~ msgstr "Sakriva glavni prozor BOINC menadžera"
-
 #~ msgid "&Disable BOINC Network Access"
 #~ msgstr "O&nemogući pristup mreži"
-
 #~ msgid "Run &Benchmarks"
 #~ msgstr "Pokreni &testove"
-
 #~ msgid "Exit the BOINC Manager"
 #~ msgstr "Zatvori BOINC menadžer"
-
 #~ msgid "&Manage Accounts"
 #~ msgstr "&Uređivanje računa"
-
 #~ msgid ""
 #~ "Connect to an account manager website and update all of your accounts"
 #~ msgstr "Spojite se na website menadžera računa i ažurirajte sve vaše račune"
-
 #~ msgid "&Options"
 #~ msgstr "&Opcije"
-
 #~ msgid "&BOINC Manager\tF1"
 #~ msgstr "&BOINC menadžer\tF1"
-
 #~ msgid "Show information about BOINC and BOINC Manager"
 #~ msgstr "Pokazuje informacije o BOINC-u i BOINC menadžeru"
-
 #~ msgid "Language Selection..."
 #~ msgstr "Odabir jezika..."
-
 #~ msgid "BOINC Manager - Network Status"
 #~ msgstr "BOINC menadžer - Stanje mreže"
-
 #~ msgid ""
 #~ "BOINC needs a connection to the Internet to perform some maintenance, "
 #~ "open the BOINC Manager to connect up and perform the needed work."
 #~ msgstr ""
 #~ "BOINC treba vezu na internet radi održavanja, otvorite BOINC menadžer da "
 #~ "se spoji i obavi potreban posao."
-
 #~ msgid ""
 #~ "BOINC has successfully connected to the internet, updating all transfers "
 #~ "and projects."
 #~ msgstr ""
 #~ "BOINC se uspješno spojio na internet, ažurira sve projekte i ponovo "
 #~ "pokušava sve prijenose."
-
 #~ msgid "Update All"
 #~ msgstr "Ažuriraj sve"
-
 #~ msgid ""
 #~ "Report all upload items, completed work, get latest credit, get latest "
 #~ "preferences, and possibly get more work."
 #~ msgstr ""
 #~ "Podigni sve završene radne jedinice, prijavi sav završen posao, prihvati "
 #~ "najnoviji kredit, prihvati najnovije poruke, i možda dobij još posla."
-
 #~ msgid ""
 #~ "Attach this computer to a BOINC project.  You'll need a project URL and "
 #~ "account key (visit the project's web site to get these)."
 #~ msgstr ""
 #~ "Priključite ovo računalo novom projektu. Trebat će vam URL projekta i "
 #~ "identifikator računa (posjetite web stranicu projekta za ove podatke)."
-
 #~ msgid "Total credit"
 #~ msgstr "Ukupan kredit"
-
 #~ msgid "Avg. credit"
 #~ msgstr "Prosječan kredit"
-
 #~ msgid "Updating all project(s)..."
 #~ msgstr "Ažuriram sve projekte..."
-
 #~ msgid "Allow new work"
 #~ msgstr "Dopusti novi posao"
-
 #~ msgid "Disk Space"
 #~ msgstr "Diskovni prostor"
-
 #~ msgid "Are you sure you want to abort this file transfer '%s'?"
 #~ msgstr "Jeste li sigurni da želite prekinuti prijenos '%s'?"
-
 #~ msgid "Work"
 #~ msgstr "Posao"
-
 #~ msgid "Resuming result..."
 #~ msgstr "Nastavljam rezultat..."
-
 #~ msgid "Abort result"
 #~ msgstr "Obriši rezultat"
-
 #~ msgid "Preempted"
 #~ msgstr "Pauziran"
-
 #~ msgid "Ready to run"
 #~ msgstr "Spreman za obradu"
-
 #~ msgid "About BOINC Manager"
 #~ msgstr "O BOINC menadžeru"
-
 #~ msgid "Dialup Logon"
 #~ msgstr "Modemska prijava"
+

@@ -4,33 +4,30 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC 6.10.x\n"
+"Project-Id-Version: BOINC 7.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-15 14:15-0500\n"
-"PO-Revision-Date: 2012-04-26 04:05+0000\n"
-"Last-Translator: Ido <dj_legolas1@hotmail.com>\n"
-"Language-Team: IOPanel.net\n"
+"PO-Revision-Date: 2015-02-10 23:13-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
+"Language-Team: BOINC Localization Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc_7.4\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-POOTLE-MTIME: 1335413110.0\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
-# 81%
 #: clientgui/AccountInfoPage.cpp:387
 #, c-format
-#, fuzzy, c-format
 msgid "Identify your account at %s"
-msgstr "זהה את חשבונך"
+msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:393
 msgid ""
@@ -684,8 +681,7 @@ msgid ""
 "Please contact your administrator to add you to the 'boinc_users' local user group."
 msgstr ""
 "כרגע אין לך הרשאות לנהל את הקליינט.\n"
-"אנא צור קשר עם מנהל המערכת שלך על מנת להוסיף אותך לקבוצת המשתמשים המקומית של "
-"'boinc_users'."
+"אנא צור קשר עם מנהל המערכת שלך על מנת להוסיף אותך לקבוצת המשתמשים המקומית של 'boinc_users'."
 
 #: clientgui/BOINCBaseFrame.cpp:522
 msgid ""
@@ -1666,16 +1662,12 @@ msgstr "העתק הודעות נבחרות"
 #: clientgui/DlgEventLog.cpp:318
 #: clientgui/DlgEventLog.cpp:326
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"העתק הודעות נבחרות ללוח. באפשרותך לבחור הודעות מרובות על ידי לחיצה ממושכת על "
-"לחצן shift או command בזמן הלחיצה על ההודעות."
+msgstr "העתק הודעות נבחרות ללוח. באפשרותך לבחור הודעות מרובות על ידי לחיצה ממושכת על לחצן shift או command בזמן הלחיצה על ההודעות."
 
 #: clientgui/DlgEventLog.cpp:320
 #: clientgui/DlgEventLog.cpp:328
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"העתק הודעות נבחרות ללוח. באפשרותך לבחור הודעות מרובות על ידי לחיצה ממושכת על "
-"לחצן shift או control בזמן הלחיצה על ההודעות."
+msgstr "העתק הודעות נבחרות ללוח. באפשרותך לבחור הודעות מרובות על ידי לחיצה ממושכת על לחצן shift או control בזמן הלחיצה על ההודעות."
 
 #: clientgui/DlgEventLog.cpp:335
 #: clientgui/DlgItemProperties.cpp:67
@@ -1684,7 +1676,6 @@ msgstr "&סגור"
 
 #: clientgui/DlgEventLog.cpp:344
 #, c-format
-#, fuzzy, c-format
 msgid "Get help with %s"
 msgstr "קבל עזרה עם %s"
 
@@ -1710,7 +1701,6 @@ msgstr "%s - אישור יציאה"
 
 #: clientgui/DlgExitMessage.cpp:130
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "You have requested to exit the %s,\n"
 "which allows you to view and manage\n"
@@ -1736,16 +1726,9 @@ msgid ""
 "rather than to exit the application; that will allow %s to run its\n"
 "tasks at the times you selected in your preferences."
 msgstr ""
-"אפשרות זו תכבה את %s ואת המשימות לגמרי עד\n"
-"אשר אפליקציית %s או שומר המסך ירוץ שוב.\n"
-"\n"
-"ברוב המקרים, עדיף פשוט לסגור את חלון ה-%s\n"
-"מאשר לצאת מהיישום; דבר זה יאפשר ל-%s להריץ את\n"
-"היישומים בזמנים שבחרת בהעדפות."
 
 #: clientgui/DlgExitMessage.cpp:153
 #, c-format
-#, fuzzy, c-format
 msgid "Stop running tasks when exiting the %s"
 msgstr "הפסק להריץ משימות כאשר יוצאים מ-%s"
 
@@ -2153,10 +2136,8 @@ msgstr "%s - בחירת שפה"
 
 #: clientgui/DlgOptions.cpp:698
 #, c-format
-#, fuzzy, c-format
 msgid "The %s's language has been changed.  In order for this change to take effect, you must restart the %s."
-msgstr ""
-"שפת ברירת המחדל של %s שונתה, על מנת ששינוי זה יכנס לתוקף עליך לאתחל את %s."
+msgstr "שפת ברירת המחדל של %s שונתה, על מנת ששינוי זה יכנס לתוקף עליך לאתחל את %s."
 
 #: clientgui/DlgSelectComputer.cpp:91
 #, c-format
@@ -2293,9 +2274,7 @@ msgstr "פרוייקט LIGO"
 
 #: clientgui/Localization.cpp:103
 msgid "The home page of the Laser Interferometer Gravitational-wave Observatory (LIGO) project"
-msgstr ""
-"עמוד הבית של פרוייקט ה-Laser Interferometer Gravitational-wave Observatory "
-"(LIGO)"
+msgstr "עמוד הבית של פרוייקט ה-Laser Interferometer Gravitational-wave Observatory (LIGO)"
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
@@ -2888,7 +2867,6 @@ msgstr "&סגור"
 
 #: clientgui/sg_DlgMessages.cpp:394
 #, c-format
-#, fuzzy, c-format
 msgid "%s - Notices"
 msgstr "%s - התראות"
 
@@ -3034,9 +3012,7 @@ msgstr "עדכן"
 #: clientgui/sg_ProjectCommandPopup.cpp:67
 #: clientgui/ViewProjects.cpp:180
 msgid "Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks."
-msgstr ""
-"דווח את כל המשימות שהושלמו, קבל את הניקוד העדכני, קבל את ההעדפות המעודכנות "
-"וככל הנראה קבל עוד משימות. ."
+msgstr "דווח את כל המשימות שהושלמו, קבל את הניקוד העדכני, קבל את ההעדפות המעודכנות וככל הנראה קבל עוד משימות. ."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:73
 #: clientgui/sg_ProjectCommandPopup.cpp:129
@@ -3065,16 +3041,12 @@ msgstr "אתחל פרוייקט"
 #: clientgui/sg_ProjectCommandPopup.cpp:85
 #: clientgui/ViewProjects.cpp:201
 msgid "Delete all files and tasks associated with this project, and get new tasks.  You can update the project first to report any completed tasks."
-msgstr ""
-"מחק את כל הקבצים והמשימות המשוייכים לפרוייקט זה וקבל חדשים. באפשרותך לעדכן "
-"קודם את הפרוייקט בכדי לדווח משימות שהושלמו."
+msgstr "מחק את כל הקבצים והמשימות המשוייכים לפרוייקט זה וקבל חדשים. באפשרותך לעדכן קודם את הפרוייקט בכדי לדווח משימות שהושלמו."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:91
 #: clientgui/ViewProjects.cpp:208
 msgid "Remove this project.  Tasks in progress will be lost (use 'Update' first to report any completed tasks)."
-msgstr ""
-"הסר פרוייקט זה. משימות בפעולה יאבדו (תחילה השתמש ב'עדכן' על מנת לדווח משימות "
-"שהושלמו)."
+msgstr "הסר פרוייקט זה. משימות בפעולה יאבדו (תחילה השתמש ב'עדכן' על מנת לדווח משימות שהושלמו)."
 
 #: clientgui/sg_ProjectCommandPopup.cpp:96
 #: clientgui/sg_TaskCommandPopup.cpp:84
@@ -3273,7 +3245,6 @@ msgstr ""
 
 #: clientgui/sg_TaskPanel.cpp:865
 #, c-format
-#, fuzzy, c-format
 msgid "Remaining (estimated): %s"
 msgstr "זמן שנותר: %s"
 
@@ -4082,7 +4053,7 @@ msgstr "שירותים"
 #: clientgui/mac/Mac_GUI.cpp:36
 #, c-format
 msgid "Hide %s"
-msgstr "הסתר את $s"
+msgstr "הסתר את %s"
 
 #: clientgui/mac/Mac_GUI.cpp:37
 msgid "Hide Others"
@@ -4121,86 +4092,60 @@ msgstr "פרט שעות התחלת וסיום של השימוש ברשת בצו�
 #, no-c-format
 #~ msgid "% CPU time"
 #~ msgstr "אחוזים מזמן מעבד"
-
 #~ msgid "KBytes/sec."
 #~ msgstr "ק\"ב לשנייה"
-
 #~ msgid "Mbytes"
 #~ msgstr "מ\"ב"
-
 #~ msgid "every"
 #~ msgstr "כל"
-
 #~ msgid "days"
 #~ msgstr "ימים"
-
 #~ msgid "Gigabytes disk space"
 #~ msgstr "GB משטח הדיסק"
-
 #~ msgid "Running, high priority"
 #~ msgstr "רץ, עדיפות גבוהה"
 
 #, fuzzy
 #~ msgid " (Waiting for network access)"
 #~ msgstr "ממתין לזיכרון"
-
 #~ msgid "Preferences…"
 #~ msgstr "העדפות..."
-
 #~ msgid "I do not agree with the terms of use."
 #~ msgstr "אני לא מסכים לתנאי השימוש."
-
 #~ msgid "Workunit name"
 #~ msgstr "שם יחידת העבודה"
-
 #~ msgid "invalid float"
 #~ msgstr "ערך לא חוקי"
-
 #~ msgid "Display the advanced (accessible) graphical interface."
 #~ msgstr "הצג את הממשק הגרפי המתקדם (נגיש)."
-
 #~ msgid "Paused: Other work running"
 #~ msgstr "נעצר: עבודה אחרת רצה"
-
 #~ msgid "Paused: User initiated.  Click 'Resume' to continue"
 #~ msgstr "נעצר: יוזמת המשתמש. לחץ 'המשך' כדי להתחיל מחדש"
-
 #~ msgid "Paused: User active"
 #~ msgstr "נעצר: משתמש פעיל"
-
 #~ msgid "Paused: Computer on battery"
 #~ msgstr "נעצר: המחשב על סוללות"
-
 #~ msgid "Paused: Time of Day"
 #~ msgstr "נעצר: זמן היום"
-
 #~ msgid "Paused: Benchmarks running"
 #~ msgstr "נעצר: מבחני ביצועים רצים"
-
 #~ msgid "Paused"
 #~ msgstr "השהה"
-
 #~ msgid "Paused: Application start delayed"
 #~ msgstr "נעצר: התחלת היישום מושהה"
-
 #~ msgid "Click to show project graphics"
 #~ msgstr "לחץ כדי להציג את הגרפיקה של הפרוייקט"
-
 #~ msgid "Open a window to view messages"
 #~ msgstr "פתח חלון כדי לראות הודעות"
-
 #~ msgid "Stop all activity"
 #~ msgstr "עצור את כל הפעילויות"
-
 #~ msgid "Resume activity"
 #~ msgstr "חזור לפעילות"
-
 #~ msgid "Open a window to set your preferences"
 #~ msgstr "פתח חלון כדי להגדיר את ההעדפות שלך"
-
 #~ msgid "Switch to the BOINC advanced view"
 #~ msgstr "החלף לתצוגה גרפית מתקדמת של BOINC"
-
 #~ msgid "My Projects:"
 #~ msgstr "הפרוייקטים שלי:"
 
@@ -4215,29 +4160,22 @@ msgstr "פרט שעות התחלת וסיום של השימוש ברשת בצו�
 #, c-format
 #~ msgid "%d hr %d min %d sec"
 #~ msgstr "%d שע' %d דק' %d שנ'"
-
 #~ msgid "Are you sure you want to display graphics on a remote machine?"
 #~ msgstr "אתה בטוח שברצונך להציג גרפיקה במחשב מרוחק?"
-
 #~ msgid "Application: "
 #~ msgstr "יישום:"
-
 #~ msgid "Time Remaining: "
 #~ msgstr "זמן שנותר:"
-
 #~ msgid "Elapsed Time: "
 #~ msgstr "זמן שעבר:"
-
 #~ msgid "Account manager website"
 #~ msgstr "אתר מנהל חשבונות"
-
 #~ msgid "Account Manager &URL:"
 #~ msgstr "&כתובת מנהל חשבונות:"
 
 #, c-format
 #~ msgid "%s &website"
 #~ msgstr "&אתר %s"
-
 #~ msgid "Notice List"
 #~ msgstr "רשימת התראות"
 
@@ -4248,19 +4186,14 @@ msgstr "פרט שעות התחלת וסיום של השימוש ברשת בצו�
 #, c-format
 #~ msgid "%s; received from %s; on %s"
 #~ msgstr "%s; התקבל מ-%s; ב-%s"
-
 #~ msgid "Click"
 #~ msgstr "לחץ"
-
 #~ msgid "Project List"
 #~ msgstr "רשימת פרוייקטים"
-
 #~ msgid "Nvidia GPU Supported"
 #~ msgstr "קיימת תמיכה במעבד גרפי של NVIDIA"
-
 #~ msgid "ATI GPU Supported"
 #~ msgstr "קיימת תמיכה במעבד גרפי של ATI"
-
 #~ msgid "Project Website"
 #~ msgstr "אתר הפרוייקט"
 
@@ -4268,78 +4201,56 @@ msgstr "פרט שעות התחלת וסיום של השימוש ברשת בצו�
 #, fuzzy
 #~ msgid "Retry now"
 #~ msgstr "נסה מחדש כעת"
-
 #~ msgid "10%"
 #~ msgstr "10%"
-
 #~ msgid "20%"
 #~ msgstr "20%"
-
 #~ msgid "30%"
 #~ msgstr "30%"
-
 #~ msgid "40%"
 #~ msgstr "40%"
-
 #~ msgid "50%"
 #~ msgstr "50%"
-
 #~ msgid "60%"
 #~ msgstr "60%"
-
 #~ msgid "70%"
 #~ msgstr "70%"
-
 #~ msgid "80%"
 #~ msgstr "80%"
-
 #~ msgid "90%"
 #~ msgstr "90%"
-
 #~ msgid "100%"
 #~ msgstr "100%"
-
 #~ msgid "1"
 #~ msgstr "1"
-
 #~ msgid "3"
 #~ msgstr "3"
-
 #~ msgid "5"
 #~ msgstr "5"
-
 #~ msgid "10"
 #~ msgstr "10"
-
 #~ msgid "15"
 #~ msgstr "15"
-
 #~ msgid "30"
 #~ msgstr "30"
-
 #~ msgid "60"
 #~ msgstr "60"
 
 #, c-format
 #~ msgid "Pop up a menu of websites for project %s"
 #~ msgstr "הקפץ תפריט של אתרי אינטרנט עבור הפרוייקט %s"
-
 #~ msgid ""
 #~ "for accessibility support, please select advanced from the view menu or type "
 #~ "command shift a"
 #~ msgstr ""
 #~ "לתמיכת נגישות, אנא בחר 'מתקדם' מתוך תפריט 'תצוגה' או לחץ במקלדת על השילוב "
 #~ "command-shift-a"
-
 #~ msgid "This panel contains graphs showing user totals for projects"
 #~ msgstr "לוח זה מכיל גרפים המראים סיכומים של המשתמש עבור פרוייקטים"
-
 #~ msgid "list headers"
 #~ msgstr "רשימת כותרות"
-
 #~ msgid "list of events"
 #~ msgstr "רשימת אירועים"
-
 #~ msgid "list of events is empty"
 #~ msgstr "רשימת האירועים ריקה"
 
@@ -4362,7 +4273,6 @@ msgstr "פרט שעות התחלת וסיום של השימוש ברשת בצו�
 #, c-format
 #~ msgid "; column %d of %d; "
 #~ msgstr "; עמודה %d מתוך %d;"
-
 #~ msgid "list is empty"
 #~ msgstr "הרשימה ריקה"
 
@@ -4381,10 +4291,8 @@ msgstr "פרט שעות התחלת וסיום של השימוש ברשת בצו�
 #, c-format
 #~ msgid "; row %d of %d; "
 #~ msgstr "; שורה %d מתוך %d;"
-
 #~ msgid "blank"
 #~ msgstr "ריק"
-
 #~ msgid "list of projects or account managers"
 #~ msgstr "רשימת פרוייקטים או מנהלי חשבונות"
 
@@ -4403,7 +4311,6 @@ msgstr "פרט שעות התחלת וסיום של השימוש ברשת בצו�
 #, c-format
 #~ msgid "The minimum password length for this account manager is %d. Please enter a different password."
 #~ msgstr "אורך הסיסמה המינימלי למנהל חשבונות זה הוא %d. אנא הזן סיסמה אחרת."
-
 #~ msgid ""
 #~ "An error has occurred;\n"
 #~ "check the Event Log for details.\n"
@@ -4434,43 +4341,34 @@ msgstr "פרט שעות התחלת וסיום של השימוש ברשת בצו�
 #, c-format
 #~ msgid "OnDropTarget: index by HitTest = %i"
 #~ msgstr "OnDropTarget: אינדקס על ידי HitTest = %i"
-
 #~ msgid "Identify your account "
 #~ msgstr "זהה את חשבונך"
-
 #~ msgid "Read config file"
 #~ msgstr "קרא קובץ תצורה"
-
 #~ msgid "Read configuration info from cc_config.xml"
 #~ msgstr "קרא נתוני תצורה מ-cc_config.xml."
-
 #~ msgid ""
 #~ "(C) 2003-2011 University of California, Berkeley.\n"
 #~ "All Rights Reserved."
 #~ msgstr ""
 #~ "(C) 2003-2011 אוניברסיטת קליפורניה, ברקלי.\n"
 #~ "כל הזכויות שמורות."
-
 #~ msgid "Multicore CPU Supported"
 #~ msgstr "קיימת תמיכה במעבד בעל ליבות מרובות"
 
 #, fuzzy
 #~ msgid "%s: %.0f"
 #~ msgstr "%s: %0.2f"
-
 #~ msgid "Click 'Retry now' to transfer the file now"
 #~ msgstr "לחץ 'נסה מחדש כעת' כדי לשלוח את הקובץ"
-
 #~ msgid ""
 #~ "Click 'Abort transfer' to delete the file from the transfer queue. This "
 #~ "will prevent you from being granted credit for this result."
 #~ msgstr ""
 #~ "לחץ 'בטל העברה' כדי למחוק את הקובץ מתור ההעברות. דבר זה ימנע ממך לקבל "
 #~ "ניקוד על תוצאה זו."
-
 #~ msgid "Aborting result..."
 #~ msgstr "מבטל תוצאה..."
-
 #~ msgid ""
 #~ "You have chosen to add a new BOINC project.  Adding a new\n"
 #~ "project means that you will be connecting your computer to a new "
@@ -4498,50 +4396,36 @@ msgstr "פרט שעות התחלת וסיום של השימוש ברשת בצו�
 #~ "\n"
 #~ "על מנת לשנות אילו יישומי מחקר יישלחו אליך\n"
 #~ " מ-World CommunityGrid, לחץ על הלחצן הבא:"
-
 #~ msgid "Change Research Applications at World Community Grid"
 #~ msgstr "שנה יישומי מחקר ב-World Community Grid"
-
 #~ msgid "Don't fetch NVIDIA GPU tasks"
 #~ msgstr "אל תקבל משימות למעבד גרפי של NVIDIA"
-
 #~ msgid "NVIDIA GPU work fetch deferred for"
 #~ msgstr "קבלת עבודה למעבד גרפי של NVIDIA נדחתה למשך"
-
 #~ msgid "NVIDIA GPU work fetch deferral interval"
 #~ msgstr "משך זמן ההמתנה לקבלת עבודה למעבד גרפי של NVIDIA"
-
 #~ msgid "Don't fetch ATI GPU tasks"
 #~ msgstr "אל תקבל משימות למעבד גרפי של ATI"
-
 #~ msgid "ATI GPU work fetch deferred for"
 #~ msgstr "קבלת עבודה למעבד גרפי של ATI נדחתה למשך"
-
 #~ msgid "ATI GPU work fetch deferral interval"
 #~ msgstr "משך זמן ההמתנה לקבלת עבודה למעבד גרפי של ATI"
-
 #~ msgid "Web sites"
 #~ msgstr "אתרי אינטרנט"
-
 #~ msgid "Connect about every"
 #~ msgstr "התחבר אחת ל-"
-
 #~ msgid ""
 #~ "this computer is connected to the Internet about every X days\n"
 #~ "(0 if it's always connected)"
 #~ msgstr ""
 #~ "מחשב זה מחובר לאינטרנט בערך כל X ימים\n"
 #~ "(0 אם תמיד מחובר)"
-
 #~ msgid "days (max. 10)"
 #~ msgstr "ימים (מקס' 10)"
-
 #~ msgid "%d.%d%%"
 #~ msgstr "%d.%d%%"
-
 #~ msgid "Display and network &options..."
 #~ msgstr "&אפשרויות תצוגה ורשת.."
-
 #~ msgid ""
 #~ "You have requested to exit the %s,\n"
 #~ "which allows you to view and manage\n"
@@ -4556,190 +4440,129 @@ msgstr "פרט שעות התחלת וסיום של השימוש ברשת בצו�
 #~ "\n"
 #~ "אם ברצונך גם לעצור את היישומים המדעיים כאשר\n"
 #~ "אתה סוגר את התוכנה, בחר באפשרויות הבאות:"
-
 #~ msgid "Stop running science applications when exiting the Manager"
 #~ msgstr "הפסק הרצה של יישומים מדעיים ביציאה מהתוכנה."
-
 #~ msgid "CPU work fetch priority"
 #~ msgstr "עדיפות קבלת עבודה למעבד"
-
 #~ msgid "NVIDIA GPU scheduling priority"
 #~ msgstr "עדיפות תזמון למעבד גרפי של NVIDIA"
-
 #~ msgid "NVIDIA GPU work fetch priority"
 #~ msgstr "עדיפות קבלת עבודה למעבד גרפי של NVIDIA"
-
 #~ msgid "ATI GPU scheduling priority"
 #~ msgstr "עדיפות תזמון למעבד גרפי של ATI"
-
 #~ msgid "ATI GPU work fetch priority"
 #~ msgstr "עדיפות קבלת עבודה למעבד גרפי של ATI"
-
 #~ msgid "Estimated app speed"
 #~ msgstr "מהירות יישום משוערת"
-
 #~ msgid "Estimated task size"
 #~ msgstr "גודל משימה משוער"
-
 #~ msgid "Max RAM usage"
 #~ msgstr "שימוש מקסימלי ב-RAM"
-
 #~ msgid "%s - Options"
 #~ msgstr "%s - אפשרויות"
-
 #~ msgid "Retrieving host information; please wait..."
 #~ msgstr "מאחזר מידע על המחשב; אנא המתן..."
-
 #~ msgid " (waiting for GPU memory)"
 #~ msgstr "(ממתין לזיכרון מעבד גרפי)"
-
 #~ msgid "Pause"
 #~ msgstr "השהה"
-
 #~ msgid "%s - Messages"
 #~ msgstr "%s - הודעות"
-
 #~ msgid "Skin:"
 #~ msgstr "מראה:"
-
 #~ msgid "Preferences"
 #~ msgstr "העדפות"
-
 #~ msgid "I want to customize my preferences for this computer only."
 #~ msgstr "ברצוני לשנות את ההעדפות שלי למחשב זה בלבד."
-
 #~ msgid "Customized Preferences"
 #~ msgstr "העדפות מותאמות אישית"
-
 #~ msgid "My total work done this Project"
 #~ msgstr "כמות העבודה הכללית לפרוייקט זה"
-
 #~ msgid "My Tasks:"
 #~ msgstr "המשימות שלי:"
-
 #~ msgid "From Project:"
 #~ msgstr "מפרוייקט:"
-
 #~ msgid "Elapsed Time: %s"
 #~ msgstr "זמן שחלף: %s"
-
 #~ msgid "Upload suspended - "
 #~ msgstr "העלאה מושהת - "
-
 #~ msgid "Download suspended - "
 #~ msgstr "הורדה מושהת - "
-
 #~ msgid "Upload pending"
 #~ msgstr "העלאה ממתינה"
-
 #~ msgid "Download pending"
 #~ msgstr "הורדה ממתינה"
-
 #~ msgid "Display the new simple graphical interface."
 #~ msgstr "הצג את הממשק הגרפי הפשוט החדש."
-
 #~ msgid "Get help with BOINC"
 #~ msgstr "קבל עזרה עם BOINC"
-
 #~ msgid "Event Log..."
 #~ msgstr "יומן אירועים..."
-
 #~ msgid "error"
 #~ msgstr "שגיאה"
-
 #~ msgid "A new version of BOINC is available."
 #~ msgstr "גרסה חדשה של BOINC זמינה."
-
 #~ msgid "Download it."
 #~ msgstr "הורדה אותה."
-
 #~ msgid "Notice from BOINC"
 #~ msgstr "התראה מ-BOINC"
-
 #~ msgid "Couldn't write state file; check directory permissions"
 #~ msgstr "ללא יכולת לרשום קובץ מצב; בדוק הרשאות תיקייה"
-
 #~ msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 #~ msgstr "שתנה הסביבה HTTP_PROXY חייב לציין פרוקסי מסוג HTTP"
-
 #~ msgid ""
 #~ "You used the wrong URL for this project.  When convenient, remove this "
 #~ "project, then add %s"
 #~ msgstr ""
 #~ "השתמשת בכתובת שגויה לפרוייקט זה. כשיהיה נוח, הסר פרוייקט זה והוסף %s"
-
 #~ msgid "Message from"
 #~ msgstr "הודעה מאת"
-
 #~ msgid "Syntax error in app_info.xml"
 #~ msgstr "שגיאת תחביר ב-app_info.xml"
-
 #~ msgid "File referenced in app_info.xml does not exist: "
 #~ msgstr "קובץ שהופנה מ-app_info.xml אינו קיים:"
-
 #~ msgid "Can't resolve hostname in remote_hosts.cfg"
 #~ msgstr "לא יכול לפענח שם-מחשב ב-remote_hosts.cfg"
-
 #~ msgid "Unexpected text in cc_config.xml"
 #~ msgstr "טקסט לא צפוי ב-cc_config.xml"
-
 #~ msgid "Unrecognized tag in cc_config.xml"
 #~ msgstr "תג לא מוכר ב-cc_config.xml"
-
 #~ msgid "Missing start tag in cc_config.xml"
 #~ msgstr "חוסר בתג התחלה ב-cc_config.xml"
-
 #~ msgid "Missing end tag in cc_config.xml"
 #~ msgstr "חוסר בתג סיום ב-cc_config.xml"
-
 #~ msgid "Attaching to project or account manager..."
 #~ msgstr "מצרף פרוייקט או מנהל חשבונת..."
-
 #~ msgid "%s - Detach from %s"
 #~ msgstr "%s - התנתק מ-%s"
-
 #~ msgid "Retrying communications."
 #~ msgstr "מנסה לתקשר מחדש."
-
 #~ msgid "Failed to attach to project"
 #~ msgstr "נכשל בהצטרפות לפרוייקט"
-
 #~ msgid "Failed to attach to account manager"
 #~ msgstr "נכשל בהצתרפות למנהל חשבונות"
-
 #~ msgid "Attached to account manager"
 #~ msgstr "מצורף למנהל חשבונות"
-
 #~ msgid "You are now successfully attached to the %s system."
 #~ msgstr "התחברת בהצלחה למערכת %s."
-
 #~ msgid "You are now successfully attached to this account manager."
 #~ msgstr "התחברת בהצלחה למנהל חשבונות זה."
-
 #~ msgid "News Feeds"
 #~ msgstr "זרימת חדשות"
-
 #~ msgid "Display the latest news about BOINC"
 #~ msgstr "הצג את החדשות האחרונות אודות BOINC"
-
 #~ msgid "not attached to any BOINC project: 0 bytes"
 #~ msgstr "לא מחובר לאף פרוייקט של BOINC: 0 Bytes"
-
 #~ msgid "All projects"
 #~ msgstr "כל הפרוייקטים"
-
 #~ msgid "Attach to project"
 #~ msgstr "הצטרף לפרוייקט"
-
 #~ msgid "Attach to account manager"
 #~ msgstr "הצטרף למנהל חשבונות"
-
 #~ msgid "Attach to a project"
 #~ msgstr "הצטרף לפרוייקט"
-
 #~ msgid "%s needs to connect to the Internet.  Please click to open %s."
 #~ msgstr "%s צריך להתחבר לאינטרנט. לחץ כדי לפתוח את %s."
-
 #~ msgid ""
 #~ "%s is unable to communicate with a project and needs an Internet "
 #~ "connection.\n"
@@ -4749,7 +4572,6 @@ msgstr "פרט שעות התחלת וסיום של השימוש ברשת בצו�
 #~ "%s לא הצליח לתקשר עם הפרוייקט וצריך חיבור לאינטרנט.\n"
 #~ "התחבר לאינטרנט, ולאחר מכן תבחר באפשרות 'בצע התקשרות לרשת' שנמצא בתפריט "
 #~ "'מתקדם'."
-
 #~ msgid ""
 #~ "%s couldn't do Internet communication, and no default connection is "
 #~ "selected.\n"
@@ -4759,91 +4581,63 @@ msgstr "פרט שעות התחלת וסיום של השימוש ברשת בצו�
 #~ "%s לא מצליח לתקשר עם האינטרנט ולא נבחר אף חיבור ברירת מחדל.\n"
 #~ "אנא התחבר לאינטרנט, או בחר בחיבור ברירת מחדל\n"
 #~ "בעזרת התפריט מתקדם/אפשרויות/חיבורים."
-
 #~ msgid "One or more notices are now available for viewing."
 #~ msgstr "התראה אחת או יותר מוכנות עכשיו לצפייה."
-
 #~ msgid "Attached to project"
 #~ msgstr "מחובר לפרוייקט"
-
 #~ msgid "You are now successfully attached to this project."
 #~ msgstr "התחברת בהצלחה לפרוייקט זה."
-
 #~ msgid "Attached to %s"
 #~ msgstr "מצורף ל-%s"
-
 #~ msgid "Detach when done"
 #~ msgstr "התנתק כשיסתיים"
-
 #~ msgid "Retrieving notices..."
 #~ msgstr "מאחזר התראות..."
-
 #~ msgid "Detach"
 #~ msgstr "התנתק"
-
 #~ msgid "Detaching from project..."
 #~ msgstr "התנתק מהפרוייקט..."
-
 #~ msgid "Are you sure you want to detach from project '%s'?"
 #~ msgstr "אתה בטוח שברצונך להתנתק מפרוייקט '%s'?"
-
 #~ msgid "Detach from Project"
 #~ msgstr "התנתק מפרוייקט"
-
 #~ msgid "Message from project server:"
 #~ msgstr "הודעות משרת הפרוייקט:"
-
 #~ msgid "XML syntax error in"
 #~ msgstr "שגיאת תחביר XML ב- "
-
 #~ msgid "Can't resolve hostname in"
 #~ msgstr "לא יכול לפענח שם-מחשב ב-"
-
 #~ msgid "Unrecognized tag in"
 #~ msgstr "תג לא מוכר ב-"
-
 #~ msgid "Missing start tag in"
 #~ msgstr "חוסר בתג התחלה ב-"
-
 #~ msgid "Unparsed tag in"
 #~ msgstr "לא ניתן לפענח את התג ב-"
-
 #~ msgid "Missing end tag in"
 #~ msgstr "חוסר בתג סיום ב-"
-
 #~ msgid ""
 #~ "BOINC can't access Internet - check network connection or proxy "
 #~ "configuration."
 #~ msgstr ""
 #~ "BOINC אינו מצליח להתחבר לאינטרנט - בדוק חיבור לרשת או הגדרות פרוקסי."
-
 #~ msgid "&Messages\tCtrl+Shift+M"
 #~ msgstr "&הודעות\tCtrl+Shift+M"
-
 #~ msgid "Attach to a project to begin processing work"
 #~ msgstr "צרף פרוייקט כדי להתחיל לעבד יחידות עבודה"
-
 #~ msgid "Use GPU never"
 #~ msgstr "אל תשתמש במעבד הגרפי"
-
 #~ msgid "%s: %.2f%% completed."
 #~ msgstr "%s: %.2f%% הושלם."
-
 #~ msgid "%d tasks running."
 #~ msgstr "%d ישומים רצים."
-
 #~ msgid " - user active"
 #~ msgstr "- משתמש פעיל"
-
 #~ msgid " - computation suspended"
 #~ msgstr "- חישובים מושהיים"
-
 #~ msgid " - need disk space"
 #~ msgstr "- צריך שטח דיסק"
-
 #~ msgid "%s - Can't find web browser"
 #~ msgstr "%s - לא מצליח למצוא סייר אינטרנט"
-
 #~ msgid ""
 #~ "%s tried to display the web page\n"
 #~ "\t%s\n"
@@ -4858,56 +4652,40 @@ msgstr "פרט שעות התחלת וסיום של השימוש ברשת בצו�
 #~ "כדי לפתור בעיה זו, הגדר את סביבת המשתנה\n"
 #~ "'BROWSER' למיקום סייר האינטרנט שלך,\n"
 #~ "ולאחר מכן תאתחל את %s."
-
 #~ msgid "Starting client services; please wait..."
 #~ msgstr "מתחיל שירותי קליינט; אנא המתן..."
-
 #~ msgid ""
 #~ "Required wizard file(s) are missing from the target server.\n"
 #~ "(lookup_account.php/create_account.php)\n"
 #~ msgstr ""
 #~ "קבצי אשף הגדרה נחוצים לא נמצאים בשרת היעד.\n"
 #~ "(lookup_account.php/create_account.php)\n"
-
 #~ msgid "ID"
 #~ msgstr "זהות"
-
 #~ msgid "Priority"
 #~ msgstr "עדיפות"
-
 #~ msgid "MessagesGrid"
 #~ msgstr "MessagesGrid"
-
 #~ msgid "Copying selected messages to Clipboard..."
 #~ msgstr "מעתיק הודעות נבחרות ללוח..."
-
 #~ msgid "Info"
 #~ msgstr "מידע"
-
 #~ msgid "Warning"
 #~ msgstr "אזהרה"
-
 #~ msgid "BOINC Website"
 #~ msgstr "אתר BOINC"
-
 #~ msgid "Display the latest news about BOINC from the BOINC website"
 #~ msgstr "הצג את החדשות האחרונות אודות BOINC מאתר BOINC"
-
 #~ msgid "ProjectsGrid"
 #~ msgstr "ProjectsGrid"
-
 #~ msgid "Suspended upload"
 #~ msgstr "העלאה מושהת"
-
 #~ msgid "Suspended download"
 #~ msgstr "הורדה מושהת"
-
 #~ msgid "TransfersGrid"
 #~ msgstr "TransfersGrid"
-
 #~ msgid "Aborting transfer(s)..."
 #~ msgstr "מבטל העברה/ות..."
-
 #~ msgid ""
 #~ "Are you sure you want to abort this file(s) transfer ?\n"
 #~ "NOTE: Aborting a transfer will invalidate a task and you\n"
@@ -4916,46 +4694,34 @@ msgstr "פרט שעות התחלת וסיום של השימוש ברשת בצו�
 #~ "האם אתה בטוח שברצונך לבטל את העברת הקובץ/ים? \n"
 #~ "שים לב: ביטול ההעברה יגרום לביטול הישום ולכן לא\n"
 #~ "תקבל ניקוד עבורו."
-
 #~ msgid "Abort File Transfer(s)"
 #~ msgstr "בטל העברת/ות קובץ"
-
 #~ msgid "To completion"
 #~ msgstr "לסיום"
-
 #~ msgid "TasksGrid"
 #~ msgstr "TasksGrid"
-
 #~ msgid ""
 #~ "We'll guide you through the process of attaching\n"
 #~ "to a project or account manager."
 #~ msgstr ""
 #~ "נדריך אותך בתהליך ההצטרפות\n"
 #~ "לפרוייקט או מנהל חשבונות."
-
 #~ msgid "Attach to a project or account manager to begin processing work"
 #~ msgstr "צרף פרוייקט או מנהל חשבונות כדי להתחיל לעבד עבודה"
-
 #~ msgid "Attach to an additional project"
 #~ msgstr "הצטרף לפרוייקט נוסף"
-
 #~ msgid " is empty"
 #~ msgstr "ריק"
-
 #~ msgid "%d of %d; "
 #~ msgstr "%d מתוך %d;"
-
 #~ msgid "current sort column "
 #~ msgstr "סוג עמודה נוכחי"
-
 #~ msgid " descending order "
 #~ msgstr "סדר יורד"
-
 #~ msgid " ascending order "
 #~ msgstr "סדר עולה"
-
 #~ msgid "column "
 #~ msgstr "עמודה"
-
 #~ msgid "of %d; "
 #~ msgstr "מ-%d;"
+

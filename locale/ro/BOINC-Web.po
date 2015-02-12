@@ -4,25 +4,23 @@
 # FileID  : $Id$
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: BOINC 7.4\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2014-02-03 14:59+0000\n"
-"Last-Translator: Marius <marius.sirbu@outlook.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2015-02-12 01:01-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
+"Language-Team: BOINC Localization Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
-"20)) ? 1 : 2);;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-POOTLE-MTIME: 1391439569.0\n"
 "X-Poedit-KeywordsList: tra\n"
+"X-Poedit-SearchPath-0: doc\n"
 
 #: docutil.php:21
 msgid "Search"
@@ -38,13 +36,8 @@ msgid "This page is %stranslatable%s."
 msgstr "Această pagină poate fi %stradusă%s."
 
 #: download.php:39
-msgid ""
-"We recommend that you also install VirtualBox, so your computer can work on "
-"science projects that require it."
-msgstr ""
-"Vă recomandăm să instalaţi şi VirtualBox, astfel încât calculatorul "
-"dumneavoastră să poată lucra la proiectele ştiinţifice cărora le este "
-"necesar."
+msgid "We recommend that you also install VirtualBox, so your computer can work on science projects that require it."
+msgstr "Vă recomandăm să instalaţi şi VirtualBox, astfel încât calculatorul dumneavoastră să poată lucra la proiectele ştiinţifice cărora le este necesar."
 
 #: download.php:41
 msgid "Learn more about VirtualBox."
@@ -54,12 +47,14 @@ msgstr "Aflaţi mai multe despre VirtualBox."
 msgid "Download BOINC + VirtualBox"
 msgstr "Descărcaţi BOINC + Virtualbox"
 
-#: download.php:54 download.php:69
+#: download.php:54
+#: download.php:69
 #, php-format
 msgid "for %s"
 msgstr "pentru %s"
 
-#: download.php:57 download.php:72
+#: download.php:57
+#: download.php:72
 #, php-format
 msgid "BOINC version %s"
 msgstr "BOINC versiunea %s"
@@ -74,38 +69,20 @@ msgid "Download BOINC"
 msgstr "Descarcă BOINC"
 
 #: download.php:123
-msgid ""
-"BOINC is a program that lets you donate your idle computer time to science "
-"projects like SETI@home, Climateprediction.net, Rosetta@home, World "
-"Community Grid, and many others."
-msgstr ""
-"BOINC este un program care vă permite să donaţi timpul liber al "
-"calculatorului dumneavoastră unor proiecte ştiinţifice cum ar fi SETI@home, "
-"Climateprediction.net, Rosetta@home, World Community Grid şi multor altora."
+msgid "BOINC is a program that lets you donate your idle computer time to science projects like SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, and many others."
+msgstr "BOINC este un program care vă permite să donaţi timpul liber al calculatorului dumneavoastră unor proiecte ştiinţifice cum ar fi SETI@home, Climateprediction.net, Rosetta@home, World Community Grid şi multor altora."
 
 #: download.php:125
-msgid ""
-"After installing BOINC on your computer, you can connect it to as many of "
-"these projects as you like."
-msgstr ""
-"După instalarea BOINC pe calculatorul dumneavoastră, puteţi să vă conectaţi "
-"la oricâte proiecte doriţi."
+msgid "After installing BOINC on your computer, you can connect it to as many of these projects as you like."
+msgstr "După instalarea BOINC pe calculatorul dumneavoastră, puteţi să vă conectaţi la oricâte proiecte doriţi."
 
 #: download.php:127
-msgid ""
-"You may run this software on a computer only if you own the computer or have "
-"the permission of its owner."
-msgstr ""
-"Puteţi rula acest program pe un calculator doar dacă este proprietatea "
-"dumneavoastră sau aveţi permisiunea proprietarului calculatorului."
+msgid "You may run this software on a computer only if you own the computer or have the permission of its owner."
+msgstr "Puteţi rula acest program pe un calculator doar dacă este proprietatea dumneavoastră sau aveţi permisiunea proprietarului calculatorului."
 
 #: download.php:132
-msgid ""
-"We recommend that you download BOINC from the Google Play Store or Amazon "
-"Appstore, not from here."
-msgstr ""
-"Vă recomandăm să descărcaţi BOINC din Google Play Store sau Amazon Appstore, "
-"nu de aici."
+msgid "We recommend that you download BOINC from the Google Play Store or Amazon Appstore, not from here."
+msgstr "Vă recomandăm să descărcaţi BOINC din Google Play Store sau Amazon Appstore, nu de aici."
 
 #: download.php:167
 msgid "System requirements"
@@ -115,7 +92,8 @@ msgstr "Cerinţe sistem"
 msgid "Release notes"
 msgstr "Note de lansare"
 
-#: download.php:169 index.php:86
+#: download.php:169
+#: index.php:86
 msgid "Help"
 msgstr "Ajutor"
 
@@ -137,49 +115,21 @@ msgstr "BOINC: calculaţi pentru ştiinţă"
 
 #: help.php:12
 #, php-format
-msgid ""
-"BOINC Online Help lets you talk one-on-one with experienced BOINC users, who "
-"can: %s answer questions about BOINC and volunteer computing; %s walk you "
-"through the process of installing and using BOINC; %s troubleshoot any "
-"problems you might have."
-msgstr ""
-"Ajutorul Online BOINC vă permite să vorbiţi unul-la-unul cu utilizatori "
-"experimentaţi BOINC, care: %s răspunde întrebărilor despre BOINC şi calcule "
-"voluntare; %s sprijini în procesul de instalare şi utilizare al BOINC; %s "
-"îndruma spre rezolvarea oricărei probleme s-ar putea să aveţi."
+msgid "BOINC Online Help lets you talk one-on-one with experienced BOINC users, who can: %s answer questions about BOINC and volunteer computing; %s walk you through the process of installing and using BOINC; %s troubleshoot any problems you might have."
+msgstr "Ajutorul Online BOINC vă permite să vorbiţi unul-la-unul cu utilizatori experimentaţi BOINC, care: %s răspunde întrebărilor despre BOINC şi calcule voluntare; %s sprijini în procesul de instalare şi utilizare al BOINC; %s îndruma spre rezolvarea oricărei probleme s-ar putea să aveţi."
 
 #: help.php:21
 #, php-format
-msgid ""
-"BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. "
-"Skype is free (both the software and the calls).  If you don't already have "
-"Skype, please %sdownload and install it now%s.  When you're finished, return "
-"to this page."
-msgstr ""
-"Ajutorul Online BOINC este bazat pe %sSkype%s, un sistem telefonic bazat pe "
-"Internet. Skype este gratuit (atât programul cât şi apelurile).  Dacă nu "
-"aveţi deja Skype, vă rugăm %ssă-l descărcaţi şi instalaţi acum%s.  Când aţi "
-"finalizat, întoarceţi-vă la această pagină."
+msgid "BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. Skype is free (both the software and the calls).  If you don't already have Skype, please %sdownload and install it now%s.  When you're finished, return to this page."
+msgstr "Ajutorul Online BOINC este bazat pe %sSkype%s, un sistem telefonic bazat pe Internet. Skype este gratuit (atât programul cât şi apelurile).  Dacă nu aveţi deja Skype, vă rugăm %ssă-l descărcaţi şi instalaţi acum%s.  Când aţi finalizat, întoarceţi-vă la această pagină."
 
 #: help.php:28
-msgid ""
-"The best way to get help is by voice, for which you need either built-in "
-"microphone and speakers or an external headset for your computer.  You can "
-"also use Skype's text-based chat system or regular email (if you don't have "
-"Skype) to communicate with Help Volunteers."
-msgstr ""
-"Cel mai bun mod de a primi ajutor este prin voce, pentru care aveţi nevoie "
-"fie de un microfon şi boxe sau căşti pentru calculatorul dumneavoastră.  De "
-"asemenea puteţi folosi şi sistemul de conversaţie bazat pe text al Skype sau "
-"email (dacă nu aveţi Skype) pentru a comunica cu Voluntarii pentru Ajutor."
+msgid "The best way to get help is by voice, for which you need either built-in microphone and speakers or an external headset for your computer.  You can also use Skype's text-based chat system or regular email (if you don't have Skype) to communicate with Help Volunteers."
+msgstr "Cel mai bun mod de a primi ajutor este prin voce, pentru care aveţi nevoie fie de un microfon şi boxe sau căşti pentru calculatorul dumneavoastră.  De asemenea puteţi folosi şi sistemul de conversaţie bazat pe text al Skype sau email (dacă nu aveţi Skype) pentru a comunica cu Voluntarii pentru Ajutor."
 
 #: help.php:31
-msgid ""
-"Volunteers speaking several languages are available. Please select a "
-"language:"
-msgstr ""
-"Voluntari vorbind mai multe limbi sunt disponibili. Vă rugăm selectaţi o "
-"limbă:"
+msgid "Volunteers speaking several languages are available. Please select a language:"
+msgstr "Voluntari vorbind mai multe limbi sunt disponibili. Vă rugăm selectaţi o limbă:"
 
 #: help.php:47
 msgid "Be a Help Volunteer"
@@ -187,36 +137,21 @@ msgstr "Deveniţi un Voluntar pentru Ajutor"
 
 #: help.php:50
 #, php-format
-msgid ""
-"If you're an experienced BOINC user, we encourage you to %sbecome a Help "
-"Volunteer%s.  It's a great way to help the cause of scientific research and "
-"volunteer computing - and it's fun!"
-msgstr ""
-"Dacă sunteţi un utilizator experimentat BOINC, vă încurajăm %ssă deveniţi un "
-"Voluntar pentru Ajutor%s.  Este un mod minunta să ajutaţi cauza "
-"cercetărilor ştiinţifice şi a calculelor voluntare - şi este distractiv!"
+msgid "If you're an experienced BOINC user, we encourage you to %sbecome a Help Volunteer%s.  It's a great way to help the cause of scientific research and volunteer computing - and it's fun!"
+msgstr "Dacă sunteţi un utilizator experimentat BOINC, vă încurajăm %ssă deveniţi un Voluntar pentru Ajutor%s.  Este un mod minunta să ajutaţi cauza cercetărilor ştiinţifice şi a calculelor voluntare - şi este distractiv!"
 
 #: help.php:56
 #, php-format
-msgid ""
-"If you're already a Help Volunteer: to edit your settings, %sclick here%s."
-msgstr ""
-"Dacă sunteţi deja un Voluntar pentru Ajutor: pentru a edita setările, %"
-"sapăsaţi aici%s."
+msgid "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
+msgstr "Dacă sunteţi deja un Voluntar pentru Ajutor: pentru a edita setările, %sapăsaţi aici%s."
 
 #: help_funcs.php:107
-msgid ""
-"BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
-"or the University of California."
-msgstr ""
-"Ajutorii BOINC sunt voluntari neplătiţi.  Sfatul lor nu este aprobat de "
-"BOINC sau de Universitatea din California."
+msgid "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC or the University of California."
+msgstr "Ajutorii BOINC sunt voluntari neplătiţi.  Sfatul lor nu este aprobat de BOINC sau de Universitatea din California."
 
 #: help_funcs.php:110
 msgid "%1Never%2 give email address or password information to BOINC helpers."
-msgstr ""
-"%1Niciodată%2 nu furnizaţi informaţii despre adresa de email sau parola "
-"ajutorilor BOINC."
+msgstr "%1Niciodată%2 nu furnizaţi informaţii despre adresa de email sau parola ajutorilor BOINC."
 
 #: index.php:24
 msgid "Computing power"
@@ -262,7 +197,9 @@ msgstr "Voluntar"
 msgid "Download"
 msgstr "Descarcă"
 
-#: index.php:87 index.php:120 index.php:171
+#: index.php:87
+#: index.php:120
+#: index.php:171
 msgid "Documentation"
 msgstr "Documentaţie"
 
@@ -275,14 +212,8 @@ msgid "Links"
 msgstr "Legături"
 
 #: index.php:94
-msgid ""
-"Use the idle time on your computer (Windows, Mac, Linux, or Android) to cure "
-"diseases, study global warming, discover pulsars, and do many other types of "
-"scientific research.  It's safe, secure, and easy:"
-msgstr ""
-"Folosiţi timpul liber al calculatorului dumneavoastră (Windows, Mac, Linux "
-"sau Android) pentru a trata boli, a studia încălzirea globală, a descoperi "
-"pulsari şi multe alte tipuri de cercetări ştiinţifice.  Este sigur şi uşor:"
+msgid "Use the idle time on your computer (Windows, Mac, Linux, or Android) to cure diseases, study global warming, discover pulsars, and do many other types of scientific research.  It's safe, secure, and easy:"
+msgstr "Folosiţi timpul liber al calculatorului dumneavoastră (Windows, Mac, Linux sau Android) pentru a trata boli, a studia încălzirea globală, a descoperi pulsari şi multe alte tipuri de cercetări ştiinţifice.  Este sigur şi uşor:"
 
 #: index.php:96
 msgid "Choose projects"
@@ -298,12 +229,8 @@ msgstr "Introduceţi o adresă de email şi o parolă."
 
 #: index.php:102
 #, php-format
-msgid ""
-"Or, if you run several projects, try an %saccount manager%s such as %"
-"sGridRepublic%s or %sBAM!%s. "
-msgstr ""
-"Sau, daca rulaţi mai multe proiecte, încercaţi un %smanager de cont%s cum ar "
-"fi %sGridRepublic%s sau %sBAM!%s. "
+msgid "Or, if you run several projects, try an %saccount manager%s such as %sGridRepublic%s or %sBAM!%s. "
+msgstr "Sau, daca rulaţi mai multe proiecte, încercaţi un %smanager de cont%s cum ar fi %sGridRepublic%s sau %sBAM!%s. "
 
 #: index.php:118
 msgid "Compute with BOINC"
@@ -314,20 +241,12 @@ msgid "Software updates"
 msgstr "Actualizări program"
 
 #: index.php:128
-msgid ""
-"%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
-"you the computing power of thousands of CPUs."
-msgstr ""
-"%1Cercetătorii%2: folosesc BOINC pentru a crea un %3proiect de calcule "
-"voluntare%4 oferind puterea de calcul a mii de CPU-uri."
+msgid "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving you the computing power of thousands of CPUs."
+msgstr "%1Cercetătorii%2: folosesc BOINC pentru a crea un %3proiect de calcule voluntare%4 oferind puterea de calcul a mii de CPU-uri."
 
 #: index.php:132
-msgid ""
-"%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
-"Center%4."
-msgstr ""
-"%1Universităţile%2: folosesc BOINC pentru a crea un %3Centru Virtual de "
-"Supercalcule în Campus%4."
+msgid "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing Center%4."
+msgstr "%1Universităţile%2: folosesc BOINC pentru a crea un %3Centru Virtual de Supercalcule în Campus%4."
 
 #: index.php:137
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
@@ -399,10 +318,8 @@ msgstr "API pentru programe add-on"
 
 #: index.php:217
 #, php-format
-msgid ""
-"Open-source software for %svolunteer computing%s and %sgrid computing%s."
-msgstr ""
-"Programe open-source pentru %scalcule voluntare%s şi %scalcule în reţea%s."
+msgid "Open-source software for %svolunteer computing%s and %sgrid computing%s."
+msgstr "Programe open-source pentru %scalcule voluntare%s şi %scalcule în reţea%s."
 
 #: index.php:230
 msgid "BOINC is based at The University of California, Berkeley"
@@ -421,14 +338,8 @@ msgid "Seismology"
 msgstr "Seismologie"
 
 #: projects.inc:21
-msgid ""
-"The Quake-Catcher Network is developing the world's largest seismic network "
-"using sensors attached to Internet-connected computers.  You must buy a "
-"sensor to participate."
-msgstr ""
-"Reţeaua Quake-Catcher dezvoltă cea mai mare reţea seismică mondială folosind "
-"senzori ataşaţi la calculatoare conectate la Internet.  Trebuie să "
-"cumpăraţi un senzor pentru a participa."
+msgid "The Quake-Catcher Network is developing the world's largest seismic network using sensors attached to Internet-connected computers.  You must buy a sensor to participate."
+msgstr "Reţeaua Quake-Catcher dezvoltă cea mai mare reţea seismică mondială folosind senzori ataşaţi la calculatoare conectate la Internet.  Trebuie să cumpăraţi un senzor pentru a participa."
 
 #: projects.inc:27
 msgid "BOINC Poland Foundation"
@@ -439,29 +350,23 @@ msgid "Environmental research"
 msgstr "Cercetări de mediu"
 
 #: projects.inc:29
-msgid ""
-"This project is creating a free and continuously updated map of radiation "
-"levels by using sensors connected to volunteers' computers.  You must buy a "
-"sensor to participate."
-msgstr ""
-"Acest proiect crează continuu o harta a nivelului radiaţiei, disponibilă "
-"gratuit prin folosirea unor senzori conectaţi la calculatoarele "
-"voluntarilor.  Trebuie să cumpăraţi un senzor pentru a participa."
+msgid "This project is creating a free and continuously updated map of radiation levels by using sensors connected to volunteers' computers.  You must buy a sensor to participate."
+msgstr "Acest proiect crează continuu o harta a nivelului radiaţiei, disponibilă gratuit prin folosirea unor senzori conectaţi la calculatoarele voluntarilor.  Trebuie să cumpăraţi un senzor pentru a participa."
 
 #: projects.inc:33
-msgid ""
-"To participate in these projects you must buy a sensor and attach it to your "
-"computer."
-msgstr ""
-"Pentru a participa la aceste proiecte trebuie să cumpăraţi un senzor şi să "
-"îl ataşaţi la calculatorul dumneavoastră."
+msgid "To participate in these projects you must buy a sensor and attach it to your computer."
+msgstr "Pentru a participa la aceste proiecte trebuie să cumpăraţi un senzor şi să îl ataşaţi la calculatorul dumneavoastră."
 
 #: projects.inc:37
 msgid "Cognitive science and artifical intelligence"
 msgstr "Ştiinţe cognitive şi inteligenţă artificială"
 
-#: projects.inc:60 projects.inc:364 projects.inc:408 projects.inc:457
-#: projects.inc:464 projects.inc:511
+#: projects.inc:60
+#: projects.inc:364
+#: projects.inc:408
+#: projects.inc:457
+#: projects.inc:464
+#: projects.inc:511
 msgid "Private"
 msgstr "Privat"
 
@@ -470,16 +375,8 @@ msgid "Artificial intelligence"
 msgstr "Inteligenţă artificială"
 
 #: projects.inc:62
-msgid ""
-"Parse and convert semantic nets for use in FreeHAL, an artificial "
-"intelligence that uses semantic networks, stemmers, part of speech "
-"databases, and part of speech taggers in order to imitate human behavior in "
-"conversations."
-msgstr ""
-"Analizează şi converteşte reţele semantice pentru a fi folosite în FreeHAL, "
-"o inteligenţă artificială care foloseşte reţele semantice, stemmere, părţi "
-"din baze de date de vorbire şi părţi de etichetatoare de vorbire pentru a "
-"imita comportamentul uman în conversaţii."
+msgid "Parse and convert semantic nets for use in FreeHAL, an artificial intelligence that uses semantic networks, stemmers, part of speech databases, and part of speech taggers in order to imitate human behavior in conversations."
+msgstr "Analizează şi converteşte reţele semantice pentru a fi folosite în FreeHAL, o inteligenţă artificială care foloseşte reţele semantice, stemmere, părţi din baze de date de vorbire şi părţi de etichetatoare de vorbire pentru a imita comportamentul uman în conversaţii."
 
 #: projects.inc:69
 msgid "Biology and Medicine"
@@ -494,19 +391,8 @@ msgid "Antimalarial drug discovery"
 msgstr "Descoperirea medicamentului antimalarie"
 
 #: projects.inc:84
-msgid ""
-"The parasite that causes malaria continues to evolve resistance to available "
-"medication. We therefore urgently need to discover new drugs to replace "
-"existing drugs. Importantly, these new drugs need to target NEW proteins in "
-"the parasite. The FightMalaria@Home project is aimed at finding these new "
-"targets."
-msgstr ""
-"Prazitul care cauzează malaria continuă să dezvolte rezistenţă la "
-"medicamentele disponibile. Din această cauză avem nevoie să descoperim "
-"urgent noi medicamente pentru a le înlocui pe cele existente. Foarte "
-"important, aceste noi medicamente trebuie să ţintească NOILE proteine din "
-"parazit. Proiectul FightMalaria@Home este orientat pentru găsirea acestor "
-"noi ţinte."
+msgid "The parasite that causes malaria continues to evolve resistance to available medication. We therefore urgently need to discover new drugs to replace existing drugs. Importantly, these new drugs need to target NEW proteins in the parasite. The FightMalaria@Home project is aimed at finding these new targets."
+msgstr "Prazitul care cauzează malaria continuă să dezvolte rezistenţă la medicamentele disponibile. Din această cauză avem nevoie să descoperim urgent noi medicamente pentru a le înlocui pe cele existente. Foarte important, aceste noi medicamente trebuie să ţintească NOILE proteine din parazit. Proiectul FightMalaria@Home este orientat pentru găsirea acestor noi ţinte."
 
 #: projects.inc:90
 msgid "University of Karlsruhe (Germany)"
@@ -517,19 +403,8 @@ msgid "Protein structure prediction"
 msgstr "Predicţia structurii proteinelor"
 
 #: projects.inc:92
-msgid ""
-"POEM@HOME uses a computational approach to predict the biologically active "
-"structure of proteins, to understand the signal-processing mechanisms when "
-"the proteins interact with one another, to understand diseases related to "
-"protein malfunction or aggregation, and to develop new drugs on the basis of "
-"the three-dimensions structure of biologically important proteins."
-msgstr ""
-"POEM@HOME foloeşte o abordare computaţională pentru a prezice structura "
-"activă biologic a proteinelor, pentru a înţelege mecanismele de procesare a "
-"semnalelor atunci când proteinele interacţionează una cu cealaltă, pentru a "
-"înţelege bolile datorate funcţionării eronate sau agregărilor proteinelor şi "
-"pentru a dezvolta noi medicamente pe baza structurii tridimensionale a "
-"proteinelor importante biologic."
+msgid "POEM@HOME uses a computational approach to predict the biologically active structure of proteins, to understand the signal-processing mechanisms when the proteins interact with one another, to understand diseases related to protein malfunction or aggregation, and to develop new drugs on the basis of the three-dimensions structure of biologically important proteins."
+msgstr "POEM@HOME foloeşte o abordare computaţională pentru a prezice structura activă biologic a proteinelor, pentru a înţelege mecanismele de procesare a semnalelor atunci când proteinele interacţionează una cu cealaltă, pentru a înţelege bolile datorate funcţionării eronate sau agregărilor proteinelor şi pentru a dezvolta noi medicamente pe baza structurii tridimensionale a proteinelor importante biologic."
 
 #: projects.inc:98
 msgid "University of Delaware"
@@ -540,16 +415,8 @@ msgid "Study of protein - ligand interactions"
 msgstr "Studiul proteinelor - interacţiuni ligand"
 
 #: projects.inc:100
-msgid ""
-"Docking@Home has both bioscience and computer science goals. The project "
-"aims to further knowledge of the atomic details of protein-ligand "
-"interactions and, by doing so, will search for insights into the discovery "
-"of novel pharmaceuticals."
-msgstr ""
-"Docking@Home are obiective atât de bioştiinţă cât şi de informatică. "
-"Proiectul ţinteşte îmbunătăţirea cunoştinţelor despre detaliile atomice ale "
-"lianţilor proteinelor şi astfel capătă o mai bună cunoaştere pentru "
-"descoperirea unor farmaceutice inovatoare."
+msgid "Docking@Home has both bioscience and computer science goals. The project aims to further knowledge of the atomic details of protein-ligand interactions and, by doing so, will search for insights into the discovery of novel pharmaceuticals."
+msgstr "Docking@Home are obiective atât de bioştiinţă cât şi de informatică. Proiectul ţinteşte îmbunătăţirea cunoştinţelor despre detaliile atomice ale lianţilor proteinelor şi astfel capătă o mai bună cunoaştere pentru descoperirea unor farmaceutice inovatoare."
 
 #: projects.inc:114
 msgid "Barcelona Biomedical Research Park (PRBB)"
@@ -560,16 +427,8 @@ msgid "Molecular simulations of proteins"
 msgstr "Simulări moleculare ale proteinelor"
 
 #: projects.inc:116
-msgid ""
-"GPUGrid.net opens novel computational scenarios by the first full-atom "
-"molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. "
-"New biomedical applications suddenly become possible giving a new role to "
-"computational biology for biomedical research."
-msgstr ""
-"GPUGrid.net deschide noi scenarii computaţionale prin primul cod dinamic "
-"molecular full-atom (CellMD) special optimizat pentru a rula pe GPU-uri "
-"NVIDIA. Noi aplicaţii biomedicale au devenit dintr-o dată posibile dând un "
-"nou rol biologiei computaţionale în cercetarea biomedicală."
+msgid "GPUGrid.net opens novel computational scenarios by the first full-atom molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. New biomedical applications suddenly become possible giving a new role to computational biology for biomedical research."
+msgstr "GPUGrid.net deschide noi scenarii computaţionale prin primul cod dinamic molecular full-atom (CellMD) special optimizat pentru a rula pe GPU-uri NVIDIA. Noi aplicaţii biomedicale au devenit dintr-o dată posibile dând un nou rol biologiei computaţionale în cercetarea biomedicală."
 
 #: projects.inc:122
 msgid "Technion, Israel"
@@ -580,37 +439,20 @@ msgid "Genetic linkage analysis"
 msgstr "Analiza legăturilor genetice"
 
 #: projects.inc:124
-msgid ""
-"Superlink@Technion helps geneticists all over the world find disease-"
-"provoking genes causing some types of diabetes, hypertension (high blood "
-"pressure), cancer, schizophrenia and many others."
-msgstr ""
-"Superlink@Technion ajută geneticieni din întreaga lume în căutarea genelor "
-"provocatoare de boli care cauzează anumite tipuri de diabet, hipertensiune "
-"(tensiune mare), cancer, schizofrenie şi multe altele."
+msgid "Superlink@Technion helps geneticists all over the world find disease-provoking genes causing some types of diabetes, hypertension (high blood pressure), cancer, schizophrenia and many others."
+msgstr "Superlink@Technion ajută geneticieni din întreaga lume în căutarea genelor provocatoare de boli care cauzează anumite tipuri de diabet, hipertensiune (tensiune mare), cancer, schizofrenie şi multe altele."
 
 #: projects.inc:138
-msgid ""
-"University of Maryland Center for Bioinformatics and Computational Biology"
-msgstr ""
-"Universitatea Maryland Centrul pentru Bioinformatica şi Biologie "
-"Computaţională"
+msgid "University of Maryland Center for Bioinformatics and Computational Biology"
+msgstr "Universitatea Maryland Centrul pentru Bioinformatica şi Biologie Computaţională"
 
 #: projects.inc:139
 msgid "Life science research"
 msgstr "Cercetări ştiinţa vieţii"
 
 #: projects.inc:140
-msgid ""
-"The Lattice Project supplies computing power to scientists at the University "
-"of Maryland studying evolutionary relationships based on DNA sequence data; "
-"bacterial, plasmid, and virus protein sequences; and biological diversity in "
-"nature reserves. "
-msgstr ""
-"Proiectul Lattice furnizează putere de calcul cercetătorilor de la "
-"Universitatea din Maryland care studiază relaţii evoluţionare bazate pe date "
-"din secvenţa ADN; secvenţe proteice bacteriene, plasmid şi viruşi; şi "
-"diversitatea biologică în rezervele naturale. "
+msgid "The Lattice Project supplies computing power to scientists at the University of Maryland studying evolutionary relationships based on DNA sequence data; bacterial, plasmid, and virus protein sequences; and biological diversity in nature reserves. "
+msgstr "Proiectul Lattice furnizează putere de calcul cercetătorilor de la Universitatea din Maryland care studiază relaţii evoluţionare bazate pe date din secvenţa ADN; secvenţe proteice bacteriene, plasmid şi viruşi; şi diversitatea biologică în rezervele naturale. "
 
 #: projects.inc:146
 msgid "The Swiss Tropical Institute"
@@ -621,61 +463,29 @@ msgid "Epidemiology"
 msgstr "Epidemiologie"
 
 #: projects.inc:148
-msgid ""
-"Simulation models of the transmission dynamics and health effects of malaria "
-"are an important tool for malaria control. They can be used to determine "
-"optimal strategies for delivering mosquito nets, chemotherapy, or new "
-"vaccines which are currently under development and testing.  Such modeling "
-"is extremely computer intensive, requiring simulations of large human "
-"populations with a diverse set of parameters related to biological and "
-"social factors that influence the distribution of the disease. "
-msgstr ""
-"Modele simulate ale dinamicii de transmisie şi efectelor asupra sănătăţii "
-"ale malariei sunt o unealtă importantă în controlul malariei. Aceste pot fi "
-"folosite pentru a determina strategii optime pentru livrarea plaselor de "
-"insecte, chemoterapiei sau a noilor vaccinuri aflate actual în dezvoltare şi "
-"testare.  Aceste modele sunt extrem de intensive ca şi calcule, necesitând "
-"simularea unor populaţii umane de dimensiuni mari cu diverse seturi de "
-"parametri referitori la factori sociali şi biologici care influenţează "
-"distribuţia bolii. "
+msgid "Simulation models of the transmission dynamics and health effects of malaria are an important tool for malaria control. They can be used to determine optimal strategies for delivering mosquito nets, chemotherapy, or new vaccines which are currently under development and testing.  Such modeling is extremely computer intensive, requiring simulations of large human populations with a diverse set of parameters related to biological and social factors that influence the distribution of the disease. "
+msgstr "Modele simulate ale dinamicii de transmisie şi efectelor asupra sănătăţii ale malariei sunt o unealtă importantă în controlul malariei. Aceste pot fi folosite pentru a determina strategii optime pentru livrarea plaselor de insecte, chemoterapiei sau a noilor vaccinuri aflate actual în dezvoltare şi testare.  Aceste modele sunt extrem de intensive ca şi calcule, necesitând simularea unor populaţii umane de dimensiuni mari cu diverse seturi de parametri referitori la factori sociali şi biologici care influenţează distribuţia bolii. "
 
 #: projects.inc:170
 msgid "University of Washington"
 msgstr "Universitatea Washington"
 
-#: projects.inc:171 projects.inc:179
+#: projects.inc:171
+#: projects.inc:179
 msgid "Biology"
 msgstr "Biologie"
 
 #: projects.inc:172
-msgid ""
-"Determine the 3-dimensional shapes of proteins in research that may "
-"ultimately lead to finding cures for some major human diseases. By running "
-"Rosetta@home you will help us speed up and extend our research in ways we "
-"couldn't possibly attempt without your help. You will also be helping our "
-"efforts at designing new proteins to fight diseases such as HIV, Malaria, "
-"Cancer, and Alzheimer's"
-msgstr ""
-"Determină forma tridimensională a proteinelor în cercetare care nu în "
-"ultimul rând vor duce la găsirea unor tratamente pentru câteva boli umane "
-"importante. Rulând Rosetta@home veţi ajuta la grăbirea şi extinderea "
-"cercetărilor noastre în moduri în care noi nu am putea încerca fără ajutorul "
-"dumneavoastră. Ne veţi ajuta şi în eforturile noastre de a dezvolta noi "
-"proteine pentru a lupta cu boli ca HIV, Malarie, Cancer şi Alzheimer"
+msgid "Determine the 3-dimensional shapes of proteins in research that may ultimately lead to finding cures for some major human diseases. By running Rosetta@home you will help us speed up and extend our research in ways we couldn't possibly attempt without your help. You will also be helping our efforts at designing new proteins to fight diseases such as HIV, Malaria, Cancer, and Alzheimer's"
+msgstr "Determină forma tridimensională a proteinelor în cercetare care nu în ultimul rând vor duce la găsirea unor tratamente pentru câteva boli umane importante. Rulând Rosetta@home veţi ajuta la grăbirea şi extinderea cercetărilor noastre în moduri în care noi nu am putea încerca fără ajutorul dumneavoastră. Ne veţi ajuta şi în eforturile noastre de a dezvolta noi proteine pentru a lupta cu boli ca HIV, Malarie, Cancer şi Alzheimer"
 
 #: projects.inc:178
 msgid "University of Vienna"
 msgstr "Universitatea Viena"
 
 #: projects.inc:180
-msgid ""
-"Calculate similarities between proteins. SIMAP provides a public database of "
-"the resulting data, which plays a key role in many bioinformatics research "
-"projects."
-msgstr ""
-"Calculează similarităţile între proteine. SIMAP oferă o bază de date publică "
-"cu datele rezultate, care joacă un rol cheie în multe proiecte de cercetare "
-"bioinformatică."
+msgid "Calculate similarities between proteins. SIMAP provides a public database of the resulting data, which plays a key role in many bioinformatics research projects."
+msgstr "Calculează similarităţile între proteine. SIMAP oferă o bază de date publică cu datele rezultate, care joacă un rol cheie în multe proiecte de cercetare bioinformatică."
 
 #: projects.inc:186
 msgid "Earth Sciences"
@@ -690,25 +500,8 @@ msgid "Climate study"
 msgstr "Studiu climatologic"
 
 #: projects.inc:200
-msgid ""
-"Investigate the approximations that have to be made in state-of-the-art "
-"climate models. By running the model thousands of times we hope to find out "
-"how the model responds to slight tweaks to these approximations - slight "
-"enough to not make the approximations any less realistic. This will allow us "
-"to improve our understanding of how sensitive our models are to small "
-"changes and also to things like changes in carbon dioxide and the sulphur "
-"cycle. This will allow us to explore how climate may change in the next "
-"century under a wide range of different scenarios."
-msgstr ""
-"Investighează aproximaţiile care trebuie făcute în modele climatic de ultimă "
-"generaţie. Rulând modelele de mii de ori sperăm să găsim cum răspunde "
-"modelul la modificări suficient de mici ale acestor aproximaţii - suficient "
-"de mici astfel încât să nu facă aproximările mai puţin realistice. Aceasta "
-"ne va permite să ne îmbunătăţim înţelegerea despre cât de sensibile sunt "
-"modelele noastre la mici modificări şi totodată la lucruri ca modificarea "
-"ciclului dioxidului de carbon sau sulfului. Aceasta ne va permite să "
-"explorăm modificările climatice posibile în următorul secol într-o mare "
-"varietate de scenarii diferite."
+msgid "Investigate the approximations that have to be made in state-of-the-art climate models. By running the model thousands of times we hope to find out how the model responds to slight tweaks to these approximations - slight enough to not make the approximations any less realistic. This will allow us to improve our understanding of how sensitive our models are to small changes and also to things like changes in carbon dioxide and the sulphur cycle. This will allow us to explore how climate may change in the next century under a wide range of different scenarios."
+msgstr "Investighează aproximaţiile care trebuie făcute în modele climatic de ultimă generaţie. Rulând modelele de mii de ori sperăm să găsim cum răspunde modelul la modificări suficient de mici ale acestor aproximaţii - suficient de mici astfel încât să nu facă aproximările mai puţin realistice. Aceasta ne va permite să ne îmbunătăţim înţelegerea despre cât de sensibile sunt modelele noastre la mici modificări şi totodată la lucruri ca modificarea ciclului dioxidului de carbon sau sulfului. Aceasta ne va permite să explorăm modificările climatice posibile în următorul secol într-o mare varietate de scenarii diferite."
 
 #: projects.inc:207
 msgid "Physical Science"
@@ -719,110 +512,55 @@ msgid "Mechanical engineering"
 msgstr "Inginerie mecanică"
 
 #: projects.inc:214
-msgid ""
-"Currently we are calculating the optimum design of a structure call the 52 "
-"bar truss"
+msgid "Currently we are calculating the optimum design of a structure call the 52 bar truss"
 msgstr ""
 
-#: projects.inc:224 projects.inc:263 projects.inc:271
+#: projects.inc:224
+#: projects.inc:263
+#: projects.inc:271
 msgid "Astronomy"
 msgstr "Astronomie"
 
 #: projects.inc:225
-msgid ""
-"We will combine the spectral coverage of GALEX, Pan-STARRS1, and WISE to "
-"generate a multi-wavelength UV-optical-NIR galaxy atlas for the nearby "
-"Universe. We will measure physical parameters (such as stellar mass surface "
-"density, star formation rate surface density, attenuation, and first-order "
-"star formation history) on a resolved pixel-by-pixel basis using spectral "
-"energy distribution (SED) fitting techniques in a distributed computing mode."
-msgstr ""
-"Vom combina acoperirea spectrală a GALEX, Pan-STARRS1 şi WISE pentru a "
-"genera un atlas al galactic de UV-optic-NIR multi lungime de undă pentru "
-"Universul apropiat. Vom măsura parametrii fizici (ca densitatea suprafeţei a "
-"masei stelare, densitatea suprafeţei unei stele în formare, atenuarea şi "
-"istoricul formării unei stele de prim-ordin) pe baza rezolvării pixel cu "
-"pixel folosind distribuţia energiei spectrale (SED) cu tehnici de calcul "
-"distribuit."
+msgid "We will combine the spectral coverage of GALEX, Pan-STARRS1, and WISE to generate a multi-wavelength UV-optical-NIR galaxy atlas for the nearby Universe. We will measure physical parameters (such as stellar mass surface density, star formation rate surface density, attenuation, and first-order star formation history) on a resolved pixel-by-pixel basis using spectral energy distribution (SED) fitting techniques in a distributed computing mode."
+msgstr "Vom combina acoperirea spectrală a GALEX, Pan-STARRS1 şi WISE pentru a genera un atlas al galactic de UV-optic-NIR multi lungime de undă pentru Universul apropiat. Vom măsura parametrii fizici (ca densitatea suprafeţei a masei stelare, densitatea suprafeţei unei stele în formare, atenuarea şi istoricul formării unei stele de prim-ordin) pe baza rezolvării pixel cu pixel folosind distribuţia energiei spectrale (SED) cu tehnici de calcul distribuit."
 
 #: projects.inc:247
 msgid "University of Texas at Austin"
 msgstr "Universitatea Texas din Austin"
 
-#: projects.inc:248 projects.inc:279
+#: projects.inc:248
+#: projects.inc:279
 msgid "Chemistry"
 msgstr "Chimie"
 
 #: projects.inc:249
-msgid ""
-"A common problem in theoretical chemistry, condensed matter physics and "
-"materials science is the calculation of the time evolution of an atomic "
-"scale system where, for example, chemical reactions and/or diffusion occur. "
-"Generally the events of interest are quite rare (many orders of magnitude "
-"slower than the vibrational movements of the atoms), and therefore direct "
-"simulations, tracking every movement of the atoms, would take thousands of "
-"years of computer calculations on the fastest present day computer before a "
-"single event of interest can be expected to occur.  Our research group is "
-"interested in calculating the long time dynamics of systems."
-msgstr ""
-"O problemă comună în chimia teoretică, fizica materiei condensate şi ştiinţa "
-"materialelor este calcularea evoluţie în timp a unui sistem la scară "
-"atomică unde, de exemplu, au loc reacţii chimic şi/sau difuzie. În general, "
-"evenimentele de interes sunt destul de rare (de mai multe ordine de mărime "
-"mai lente deât mişcarea vibratorie a atomilor) şi deci simularea directă, "
-"urmărind fiecare mişcare a atomilor, ar dura mii de ani de calcule pe "
-"calculator pe cel mai performant calculator al zilelor noastre, înainte ca "
-"un singur eveniment de interes să poată fi aşteptat să se întâmple.  Grupul "
-"nostru de cercetare este interesat să calculeze dinamica de lungă durată a "
-"sistemelor."
+msgid "A common problem in theoretical chemistry, condensed matter physics and materials science is the calculation of the time evolution of an atomic scale system where, for example, chemical reactions and/or diffusion occur. Generally the events of interest are quite rare (many orders of magnitude slower than the vibrational movements of the atoms), and therefore direct simulations, tracking every movement of the atoms, would take thousands of years of computer calculations on the fastest present day computer before a single event of interest can be expected to occur.  Our research group is interested in calculating the long time dynamics of systems."
+msgstr "O problemă comună în chimia teoretică, fizica materiei condensate şi ştiinţa materialelor este calcularea evoluţie în timp a unui sistem la scară atomică unde, de exemplu, au loc reacţii chimic şi/sau difuzie. În general, evenimentele de interes sunt destul de rare (de mai multe ordine de mărime mai lente deât mişcarea vibratorie a atomilor) şi deci simularea directă, urmărind fiecare mişcare a atomilor, ar dura mii de ani de calcule pe calculator pe cel mai performant calculator al zilelor noastre, înainte ca un singur eveniment de interes să poată fi aşteptat să se întâmple.  Grupul nostru de cercetare este interesat să calculeze dinamica de lungă durată a sistemelor."
 
 #: projects.inc:262
 msgid "University of Illinois at Urbana-Champaign"
 msgstr "Universitatea Illinois din Urbana-Champaign"
 
 #: projects.inc:264
-msgid ""
-"The goal of Cosmology@Home is to search for the model that best describes "
-"our Universe and to find the range of models that agree with the available "
-"astronomical particle physics data."
-msgstr ""
-"Obiectivul Cosmology@Home este să caute modelul care descrie cel mai bine "
-"Universul nostru şi de a găsi o gamă de modele în concordanţă cu datele "
-"disponibile cu privire la fizica particulelor astronomice."
+msgid "The goal of Cosmology@Home is to search for the model that best describes our Universe and to find the range of models that agree with the available astronomical particle physics data."
+msgstr "Obiectivul Cosmology@Home este să caute modelul care descrie cel mai bine Universul nostru şi de a găsi o gamă de modele în concordanţă cu datele disponibile cu privire la fizica particulelor astronomice."
 
 #: projects.inc:270
 msgid "Rensselaer Polytechnic Institute"
 msgstr "Institutul Politehnic Rensselaer"
 
 #: projects.inc:272
-msgid ""
-"The goal of Milkyway@Home is to create a highly accurate three dimensional "
-"model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
-"Survey."
-msgstr ""
-"Obiectivul Milkyway@Home este de a crea un model tridimensional de mare "
-"acurateţe al galaxiei Calea Lactee folosind date colectate de Sloan Digital "
-"Sky Survey."
+msgid "The goal of Milkyway@Home is to create a highly accurate three dimensional model of the Milky Way galaxy using data gathered by the Sloan Digital Sky Survey."
+msgstr "Obiectivul Milkyway@Home este de a crea un model tridimensional de mare acurateţe al galaxiei Calea Lactee folosind date colectate de Sloan Digital Sky Survey."
 
 #: projects.inc:278
 msgid "Leiden University, The Netherlands"
 msgstr "Universitatea Leiden, Olanda"
 
 #: projects.inc:280
-msgid ""
-"Surface science calculations using Classical Dynamics.  Leiden Classical "
-"allows volunteers, students and other scientist to submit their personal "
-"calculations to the grid. Each user has his own personal queue for Classical "
-"Dynamics jobs. In this way students have used the grid to simulate liquid "
-"argon, or to test the validity of the ideal gas law by actually doing the "
-"simulations through the grid."
-msgstr ""
-"Calcule de ştiinţa suprafeţelor folosind Classical Dynamics.  Leiden "
-"Classical permite voluntarilor, stundeţilor şi altor cercetători să trimită "
-"calculele personale către reţea. Fiecare utilizator are coada personală de "
-"sarcini Classical Dynamics. În acest fel studenţii a folosit reţeaua pentru "
-"a simula argon lichid sau pentru a test validitatea legii gazului ideal prin "
-"realizarea simulărilor prin reţea."
+msgid "Surface science calculations using Classical Dynamics.  Leiden Classical allows volunteers, students and other scientist to submit their personal calculations to the grid. Each user has his own personal queue for Classical Dynamics jobs. In this way students have used the grid to simulate liquid argon, or to test the validity of the ideal gas law by actually doing the simulations through the grid."
+msgstr "Calcule de ştiinţa suprafeţelor folosind Classical Dynamics.  Leiden Classical permite voluntarilor, stundeţilor şi altor cercetători să trimită calculele personale către reţea. Fiecare utilizator are coada personală de sarcini Classical Dynamics. În acest fel studenţii a folosit reţeaua pentru a simula argon lichid sau pentru a test validitatea legii gazului ideal prin realizarea simulărilor prin reţea."
 
 #: projects.inc:294
 msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
@@ -833,51 +571,26 @@ msgid "Astrophysics"
 msgstr "Astrofizică"
 
 #: projects.inc:296
-msgid ""
-"Search for spinning neutron stars (also called pulsars) using data from the "
-"LIGO and GEO gravitational wave detectors, and from the Arecibo radio "
-"observatory.  Einstein@Home is a World Year of Physics 2005 project "
-"supported by the American Physical Society (APS) and by a number of "
-"international organizations."
-msgstr ""
-"Căurarea stelelor neutronice rotitoare (numite şi pulsari) folosind date de "
-"la detectoarele de unde gravitaţionale LIGO şi GEO şi de la radio "
-"observatorul Arecibo.  Einstein@Home este un proiect World Year of Physics "
-"2005 suportat de Societatea Americană de Fizică (APS) şi de un număr de "
-"organizaţii internaţionale."
+msgid "Search for spinning neutron stars (also called pulsars) using data from the LIGO and GEO gravitational wave detectors, and from the Arecibo radio observatory.  Einstein@Home is a World Year of Physics 2005 project supported by the American Physical Society (APS) and by a number of international organizations."
+msgstr "Căurarea stelelor neutronice rotitoare (numite şi pulsari) folosind date de la detectoarele de unde gravitaţionale LIGO şi GEO şi de la radio observatorul Arecibo.  Einstein@Home este un proiect World Year of Physics 2005 suportat de Societatea Americană de Fizică (APS) şi de un număr de organizaţii internaţionale."
 
-#: projects.inc:310 projects.inc:318
+#: projects.inc:310
+#: projects.inc:318
 msgid "CERN (European Organization for Nuclear Research)"
 msgstr "CERN (Organizaţia Europeană pentru Cercetări Nucleare)"
 
-#: projects.inc:311 projects.inc:319
+#: projects.inc:311
+#: projects.inc:319
 msgid "Physics"
 msgstr "Fizică"
 
 #: projects.inc:312
-msgid ""
-"The Large Hadron Collider (LHC) is a particle accelerator at CERN, the "
-"European Organization for Nuclear Research, the world's largest particle "
-"physics laboratory.  It is the most powerful instrument ever built to "
-"investigate on particles proprieties. LHC@home runs simulations to improve "
-"the design of LHC and its detectors."
-msgstr ""
-"Large Hadron Collider (LHC) este un accelerator de particule de la CERN, "
-"Organizaţia Europeană de Cercetări nucleare, cel mai mare laborator de "
-"fizica particulelor din lume.  Este cel mai puternic instrument construit "
-"vreodată pentru a investiga proprietăţile particulelor. LHC@home rulează "
-"simulări pentru a îmbunătăţii designul LHC şi al detectorilor săi."
+msgid "The Large Hadron Collider (LHC) is a particle accelerator at CERN, the European Organization for Nuclear Research, the world's largest particle physics laboratory.  It is the most powerful instrument ever built to investigate on particles proprieties. LHC@home runs simulations to improve the design of LHC and its detectors."
+msgstr "Large Hadron Collider (LHC) este un accelerator de particule de la CERN, Organizaţia Europeană de Cercetări nucleare, cel mai mare laborator de fizica particulelor din lume.  Este cel mai puternic instrument construit vreodată pentru a investiga proprietăţile particulelor. LHC@home rulează simulări pentru a îmbunătăţii designul LHC şi al detectorilor săi."
 
 #: projects.inc:320
-msgid ""
-"This project uses CERN-developed virtual machine technology for full-fledged "
-"LHC event physics simulation on volunteer computers.  Requires that you "
-"install VirtualBox on your computer"
-msgstr ""
-"Acest proiect foloseşte tehnologia maşinilor virtuale dezvoltată de CERN "
-"pentru simularea evenimentelor fizice ale LHC pe calculatoarele "
-"voluntarilor.  Necesită să instalaţi VirtualBox pe calculatorul "
-"dumneavoastră"
+msgid "This project uses CERN-developed virtual machine technology for full-fledged LHC event physics simulation on volunteer computers.  Requires that you install VirtualBox on your computer"
+msgstr "Acest proiect foloseşte tehnologia maşinilor virtuale dezvoltată de CERN pentru simularea evenimentelor fizice ale LHC pe calculatoarele voluntarilor.  Necesită să instalaţi VirtualBox pe calculatorul dumneavoastră"
 
 #: projects.inc:326
 msgid "University of California, Berkeley"
@@ -888,19 +601,8 @@ msgid "Astrophysics, astrobiology"
 msgstr "Astrofizică, astrobiologie"
 
 #: projects.inc:328
-msgid ""
-"SETI (Search for Extraterrestrial Intelligence) is a scientific area whose "
-"goal is to detect intelligent life outside Earth. One approach, known as "
-"radio SETI, uses radio telescopes to listen for narrow-bandwidth radio "
-"signals from space. Such signals are not known to occur naturally, so a "
-"detection would provide evidence of extraterrestrial technology."
-msgstr ""
-"SETI (Căutarea Inteligenţei Extraterestre) este o zonă ştiinţifică al cărei "
-"obiectiv este detectarea vieţii inteligente în afara Pământului. Una din "
-"abordări, cunoscută ca SETI prin radio, foloseşte telescoape radio pentru a "
-"asculta semnale radio de bandă îngustă din spaţiu. Astfel de semnale sunt "
-"cunsoscute că nu pot apare natural, deci detecţia ar însemna dovada că "
-"există tehnologie extraterestră."
+msgid "SETI (Search for Extraterrestrial Intelligence) is a scientific area whose goal is to detect intelligent life outside Earth. One approach, known as radio SETI, uses radio telescopes to listen for narrow-bandwidth radio signals from space. Such signals are not known to occur naturally, so a detection would provide evidence of extraterrestrial technology."
+msgstr "SETI (Căutarea Inteligenţei Extraterestre) este o zonă ştiinţifică al cărei obiectiv este detectarea vieţii inteligente în afara Pământului. Una din abordări, cunoscută ca SETI prin radio, foloseşte telescoape radio pentru a asculta semnale radio de bandă îngustă din spaţiu. Astfel de semnale sunt cunsoscute că nu pot apare natural, deci detecţia ar însemna dovada că există tehnologie extraterestră."
 
 #: projects.inc:342
 msgid "Bielefeld University of Applied Sciences"
@@ -911,16 +613,8 @@ msgid "Chemical engineering and nanotechnology"
 msgstr "Inginerie chimică şi nanotehnologie"
 
 #: projects.inc:344
-msgid ""
-"The study of molecular magnets and controlled nanoscale magnetism.  These "
-"magnetic molecules may be used to develop tiny magnetic switches, with "
-"applications in medicine (such as local tumor chemotherapy) and "
-"biotechnology."
-msgstr ""
-"Studiul magneţilor moleculari şi a magnetismului controlat la nanoscară.  "
-"Aceste molecule magnetice pot fi folosite pentru a dezvolta mici comutatoare "
-"magnetice cu aplicabilitate în medicină (cum ar fi chemoterapie locală a "
-"tumorilor) şi biotehnologie."
+msgid "The study of molecular magnets and controlled nanoscale magnetism.  These magnetic molecules may be used to develop tiny magnetic switches, with applications in medicine (such as local tumor chemotherapy) and biotechnology."
+msgstr "Studiul magneţilor moleculari şi a magnetismului controlat la nanoscară.  Aceste molecule magnetice pot fi folosite pentru a dezvolta mici comutatoare magnetice cu aplicabilitate în medicină (cum ar fi chemoterapie locală a tumorilor) şi biotehnologie."
 
 #: projects.inc:351
 msgid "Multiple applications"
@@ -935,28 +629,19 @@ msgid "Physics, biochemistry, and others"
 msgstr "Fizică, biochimie şi altele"
 
 #: projects.inc:358
-msgid ""
-"The objective of CAS@home is to encourage and assist scientists in China to "
-"adopt the technologies of volunteer computing and volunteer thinking for "
-"their research."
-msgstr ""
-"Obiectivul CAS@home este de a încuraja şi asista cercetătorii din China "
-"pentru a adopta tehnologille de calcul distribuit voluntar şi gândire "
-"voluntară pentru cercetările lor."
+msgid "The objective of CAS@home is to encourage and assist scientists in China to adopt the technologies of volunteer computing and volunteer thinking for their research."
+msgstr "Obiectivul CAS@home este de a încuraja şi asista cercetătorii din China pentru a adopta tehnologille de calcul distribuit voluntar şi gândire voluntară pentru cercetările lor."
 
 #: projects.inc:365
 msgid "Mathematics, physics, evolution"
 msgstr "Matematică, fizică, evoluţie"
 
 #: projects.inc:366
-msgid ""
-"Yoyo@home is an adapter between BOINC and several existing volunteer "
-"computing projects: ECM, Muon, Evolution@home, and distributed.net"
-msgstr ""
-"Yoyo@home este un adaptor între BOINC şi alte proiecte de calcule voluntare: "
-"ECM, Muon, Evolution@home şi distributed.net"
+msgid "Yoyo@home is an adapter between BOINC and several existing volunteer computing projects: ECM, Muon, Evolution@home, and distributed.net"
+msgstr "Yoyo@home este un adaptor între BOINC şi alte proiecte de calcule voluntare: ECM, Muon, Evolution@home şi distributed.net"
 
-#: projects.inc:371 projects.inc:527
+#: projects.inc:371
+#: projects.inc:527
 msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
 msgstr "Laboratorul de Sisteme Paralele şi Distribuite MTA-SZTAKI (Ungaria)"
 
@@ -965,17 +650,8 @@ msgid "European research projects"
 msgstr "Proiecte de cercetare Europene"
 
 #: projects.inc:373
-msgid ""
-"The EDGeS@Home Beta project integrates volunteer computing into the service "
-"grid network of Europe by allowing service grids to send workunits to be "
-"processed by the volunteers of this project. The scientific projects covered "
-"by the project include math, physics, biology, etc."
-msgstr ""
-"Proiectul EDGeS@Home Beta integrează calculele voluntare în reţeaua de "
-"servicii Europeană permiţând reţelelor de servicii să trimită unităţi de "
-"lucru pentru a fi procesate de voluntari ai acestui proiect. Proiectele "
-"ştiinţiice acoperite de acest proiect includ matematica, fizica, biologia, "
-"etc."
+msgid "The EDGeS@Home Beta project integrates volunteer computing into the service grid network of Europe by allowing service grids to send workunits to be processed by the volunteers of this project. The scientific projects covered by the project include math, physics, biology, etc."
+msgstr "Proiectul EDGeS@Home Beta integrează calculele voluntare în reţeaua de servicii Europeană permiţând reţelelor de servicii să trimită unităţi de lucru pentru a fi procesate de voluntari ai acestui proiect. Proiectele ştiinţiice acoperite de acest proiect includ matematica, fizica, biologia, etc."
 
 #: projects.inc:379
 msgid "Spanish universities and research centers"
@@ -998,16 +674,8 @@ msgid "Medical, environmental and other humanitarian research"
 msgstr "Cercetări medicale, de mediu şi alte cercetări umanitare"
 
 #: projects.inc:389
-msgid ""
-"To further critical non-profit research on some of humanity's most pressing "
-"problems by creating the world's largest volunteer computing grid.  Research "
-"includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, "
-"clean water and many more."
-msgstr ""
-"Pentru a avansa cercetările non-profit critic ale unor probleme umanitare "
-"presante prin crearea celei mai mari reţele de calcule voluntare.  "
-"Cercetările includ HIV-SIDA, cancer, boli tropicale şi neglijate, energia "
-"solară, apa curată şi multe altele."
+msgid "To further critical non-profit research on some of humanity's most pressing problems by creating the world's largest volunteer computing grid.  Research includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, clean water and many more."
+msgstr "Pentru a avansa cercetările non-profit critic ale unor probleme umanitare presante prin crearea celei mai mari reţele de calcule voluntare.  Cercetările includ HIV-SIDA, cancer, boli tropicale şi neglijate, energia solară, apa curată şi multe altele."
 
 #: projects.inc:395
 msgid "Mathematics, computing, and games"
@@ -1025,20 +693,21 @@ msgstr "Matematică, Fizica, Inteligenţă Artificială"
 msgid "Simulation of quantum computing; Goldbach's conjecture."
 msgstr "Simularea calculelor cuantice; presupunerea lui Goldbach."
 
-#: projects.inc:450 projects.inc:458
+#: projects.inc:450
+#: projects.inc:458
 msgid "Cryptography"
 msgstr "Criptografie"
 
 #: projects.inc:459
-msgid ""
-"Attempt to decode 3 original Enigma messages. The signals were intercepted "
-"in the North Atlantic in 1942 and are believed to be unbroken."
-msgstr ""
-"Încearcă sa decodeze 3 mesaje originale Enigma. Semnalele au fost "
-"interceptate în Atlanticul de Nord în 1942 şi se presupune că sunt nesparte."
+msgid "Attempt to decode 3 original Enigma messages. The signals were intercepted in the North Atlantic in 1942 and are believed to be unbroken."
+msgstr "Încearcă sa decodeze 3 mesaje originale Enigma. Semnalele au fost interceptate în Atlanticul de Nord în 1942 şi se presupune că sunt nesparte."
 
-#: projects.inc:465 projects.inc:504 projects.inc:512 projects.inc:520
-#: projects.inc:528 projects.inc:568
+#: projects.inc:465
+#: projects.inc:504
+#: projects.inc:512
+#: projects.inc:520
+#: projects.inc:528
+#: projects.inc:568
 msgid "Mathematics"
 msgstr "Matematică"
 
@@ -1055,94 +724,44 @@ msgid "Factorization of large integers"
 msgstr "Factorizarea întregilor mari"
 
 #: projects.inc:473
-msgid ""
-"NFS@Home is a research project that uses Internet-connected computers to do "
-"the lattice sieving step in the Number Field Sieve factorization of large "
-"integers. As a young school student, you gained your first experience at "
-"breaking an integer into prime factors, such as 15 = 3 * 5 or 35 = 5 * 7. "
-"NFS@Home is a continuation of that experience, only with integers that are "
-"hundreds of digits long."
-msgstr ""
-"NFS@Home este un proiect de cercetare care foloseşte calculatoare conectate "
-"la Internet pentru a realiza anumiţi paşi în factorizarea numerelor întregi "
-"mari (Number Field Sieve). Ca şi elev la şcoală aţi căpătat prima experienţă "
-"în spargerea întregilor în factori primi, cum ar fi 15 = 3 * 5 sau 35 = 5 * "
-"7. NFS@Home este o continuare a acestei experien'e, doar că întregii sunt "
-"lungi de sute de cifre."
+msgid "NFS@Home is a research project that uses Internet-connected computers to do the lattice sieving step in the Number Field Sieve factorization of large integers. As a young school student, you gained your first experience at breaking an integer into prime factors, such as 15 = 3 * 5 or 35 = 5 * 7. NFS@Home is a continuation of that experience, only with integers that are hundreds of digits long."
+msgstr "NFS@Home este un proiect de cercetare care foloseşte calculatoare conectate la Internet pentru a realiza anumiţi paşi în factorizarea numerelor întregi mari (Number Field Sieve). Ca şi elev la şcoală aţi căpătat prima experienţă în spargerea întregilor în factori primi, cum ar fi 15 = 3 * 5 sau 35 = 5 * 7. NFS@Home este o continuare a acestei experien'e, doar că întregii sunt lungi de sute de cifre."
 
 #: projects.inc:479
-msgid ""
-"Vilnius Gediminas Technical University and Kaunas University of Technology "
-"(Lithuania)"
-msgstr ""
-"Universitatea Tehnică Vilnius Gediminas şi Universitatea Tehnologică Kaunas "
-"(Lituania)"
+msgid "Vilnius Gediminas Technical University and Kaunas University of Technology (Lithuania)"
+msgstr "Universitatea Tehnică Vilnius Gediminas şi Universitatea Tehnologică Kaunas (Lituania)"
 
 #: projects.inc:480
 msgid "Software testing"
 msgstr "Testare programe"
 
 #: projects.inc:481
-msgid ""
-"The aim of this project is to provide a powerful distributed computing "
-"platform for scientists of Vilnius Gediminas Technical University (VGTU) as "
-"well as others Lithuanian academic institutions.  Current applications "
-"involve the study of Monte-Carlo based software testing."
-msgstr ""
-"Scopul acestui proiect este de a furniza o platformă puternică de calcule "
-"distribuite cercetătorilor ştiinţifici ai Universităţii Tehnice Vilnius "
-"Gediminas (VGTU) ca şi altor instituţii academice Lituaniene.  Aplicaţiile "
-"curente se ocupă de studiul testării software bazate pe Monte-Carlo."
+msgid "The aim of this project is to provide a powerful distributed computing platform for scientists of Vilnius Gediminas Technical University (VGTU) as well as others Lithuanian academic institutions.  Current applications involve the study of Monte-Carlo based software testing."
+msgstr "Scopul acestui proiect este de a furniza o platformă puternică de calcule distribuite cercetătorilor ştiinţifici ai Universităţii Tehnice Vilnius Gediminas (VGTU) ca şi altor instituţii academice Lituaniene.  Aplicaţiile curente se ocupă de studiul testării software bazate pe Monte-Carlo."
 
 #: projects.inc:503
 msgid "Mathematical Institute of Leiden University / Kennislink"
 msgstr "Institutul de Matematică al Universităţii Leiden / Kennislink"
 
 #: projects.inc:505
-msgid ""
-"Search for 'abc-triples': positive integers a,b,c such that a+b=c, a &lt; b "
-"&lt; c, a,b,c have no common divisors and c > rad(abc), where rad(n) is the "
-"product of the distinct prime factors of n. The ABC conjecture says that "
-"there are only finitely many a,b,c such that log(c)/log(rad(abc)) > h for "
-"any real h > 1. The ABC conjecture is currently one of the greatest open "
-"problems in mathematics. If it is proven to be true, a lot of other open "
-"problems can be answered directly from it."
-msgstr ""
-"Caută 'triple-abc': întregi pozitivi a,b,c astfel încât a+b=c, a &lt; b &lt; "
-"c, a,b,c nu au nici un divizor comun şi > rad(abc), unde rad(n) este "
-"produsul factorilor primi distincţi ai lui n. Presupunerea ABC spune că "
-"există doar un număr finit de a, b, c astfel încât log(c)/log(rad(abc)) > h "
-"pentru orice real h > 1. Presupunerea ABC este în prezent una din cele mai "
-"mari probleme din matematică. Dacă se dovedeşte adevărată, o mulţime de alte "
-"probleme deschise pot fi rezolvate direct din ea."
+msgid "Search for 'abc-triples': positive integers a,b,c such that a+b=c, a &lt; b &lt; c, a,b,c have no common divisors and c > rad(abc), where rad(n) is the product of the distinct prime factors of n. The ABC conjecture says that there are only finitely many a,b,c such that log(c)/log(rad(abc)) > h for any real h > 1. The ABC conjecture is currently one of the greatest open problems in mathematics. If it is proven to be true, a lot of other open problems can be answered directly from it."
+msgstr "Caută 'triple-abc': întregi pozitivi a,b,c astfel încât a+b=c, a &lt; b &lt; c, a,b,c nu au nici un divizor comun şi > rad(abc), unde rad(n) este produsul factorilor primi distincţi ai lui n. Presupunerea ABC spune că există doar un număr finit de a, b, c astfel încât log(c)/log(rad(abc)) > h pentru orice real h > 1. Presupunerea ABC este în prezent una din cele mai mari probleme din matematică. Dacă se dovedeşte adevărată, o mulţime de alte probleme deschise pot fi rezolvate direct din ea."
 
 #: projects.inc:513
-msgid ""
-"Primegrid has multiple projects searching for different forms of very large "
-"prime numbers, including searching for the largest known prime number."
-msgstr ""
-"Primegrid are mai multe proiecte care caută diferite forme a unor numere "
-"prime foarte mari, inclusiv căutarea celui mai mare număr prim cunoscut."
+msgid "Primegrid has multiple projects searching for different forms of very large prime numbers, including searching for the largest known prime number."
+msgstr "Primegrid are mai multe proiecte care caută diferite forme a unor numere prime foarte mari, inclusiv căutarea celui mai mare număr prim cunoscut."
 
 #: projects.inc:519
 msgid "Hochschule RheinMain University of Applied Sciences"
 msgstr "Universitatea de Ştiinţe Aplicate Hochschule RheinMain"
 
 #: projects.inc:521
-msgid ""
-"Search for counterexamples to two conjectures related to the identification "
-"of prime numbers"
-msgstr ""
-"Căutarea unor contraexemple a două presupuneri legate de identificarea "
-"numerelor prime"
+msgid "Search for counterexamples to two conjectures related to the identification of prime numbers"
+msgstr "Căutarea unor contraexemple a două presupuneri legate de identificarea numerelor prime"
 
 #: projects.inc:529
-msgid ""
-"Find all the generalized binary number systems (in which bases are matrices "
-"and digits are vectors) up to dimension 11."
-msgstr ""
-"Găsirea tuturor sistemelor numerale binare (în care baza sunt matrici şi "
-"cifrele sunt vectori) până la dimensiunea 11."
+msgid "Find all the generalized binary number systems (in which bases are matrices and digits are vectors) up to dimension 11."
+msgstr "Găsirea tuturor sistemelor numerale binare (în care baza sunt matrici şi cifrele sunt vectori) până la dimensiunea 11."
 
 #: ../html/inc/news.inc:40
 msgid "Comment"
@@ -1155,14 +774,12 @@ msgstr "Ştirile sun disponibile ca un %sfeed RSS%s"
 
 #~ msgid "Astronomy, Physics, and Chemistry"
 #~ msgstr "Astronomie, Fizică şi Chimie"
-
 #~ msgid "Download BOINC + Virtualbox"
 #~ msgstr "Descărcaţi BOINC + Virtualbox"
 
 #, php-format
 #~ msgid "%s for %s (%s MB)"
 #~ msgstr "%s pentru %s (%s MB)"
-
 #~ msgid ""
 #~ "BOINC is a program that lets you donate your idle computer time to science "
 #~ "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
@@ -1188,7 +805,6 @@ msgstr "Ştirile sun disponibile ca un %sfeed RSS%s"
 #~ "descoperiţi pulsari şi multe alte tipuri de cercetări ştiinţifice.  Este "
 #~ "sigur şi uşor:  %sAlegeţi%s proiecte  %sDescărcaţi%s şi rulaţi BOINC   %"
 #~ "sIntroduceţi%s o adresă de email şi o parolă. "
-
 #~ msgid "Browser default"
 #~ msgstr "Setări implicite browser"
 
@@ -1205,10 +821,8 @@ msgstr "Ştirile sun disponibile ca un %sfeed RSS%s"
 #~ "descoperi pulsari şi multe alte tipuri de cercetări ştiinţifice.  Este "
 #~ "sigur, garantat şi uşor:  %sAlege%s proiecte  %sDescarcă%s şi rulează BOINC "
 #~ "  %sIntrodu%s o adresă de email şi o parolă. "
-
 #~ msgid "Humanitarian research on disease, natural disasters and hunger."
 #~ msgstr "Cercetări umanitare despre boli, dezastre naturale şi foame."
-
 #~ msgid ""
 #~ "Primegrid is generating a public sequential prime number database, and is "
 #~ "searching for large twin primes of the form k*2<sup>n</sup>+1 and "
@@ -1222,423 +836,3 @@ msgstr "Ştirile sun disponibile ca un %sfeed RSS%s"
 #~ msgid "POEM@HOME"
 #~ msgstr "Home"
 
-# The charset used for the text in this file (please try to use UTF-8 if possible)
-#~ msgid "CHARSET"
-#~ msgstr "UTF-8"
-
-# The name of this language in this language
-#~ msgid "LANG_NAME_NATIVE"
-#~ msgstr "English"
-
-# The name of this language in an international language (English)
-#~ msgid "LANG_NAME_INTERNATIONAL"
-#~ msgstr "English"
-
-# #######################################
-# poll-related stuff
-# #######################################
-# poll-related stuff
-# #######################################
-#~ msgid "POLL_TITLE"
-#~ msgstr "BOINC user survey"
-
-#~ msgid "POLL_INTRO"
-#~ msgstr ""
-#~ "Several volunteer computing projects, including Climateprediction.net, "
-#~ "Einstein@home, and SETI@home, use software called BOINC. If you "
-#~ "participate in projects like this, we request that you answer the "
-#~ "following questions. This will help BOINC-based projects increase "
-#~ "participation and achieve greater scientific results. <p> Please answer "
-#~ "as many questions as you want, then go to the bottom and click OK. If you "
-#~ "previously completed the survey but your answers have changed, please "
-#~ "complete it again - your new answers will replace the old ones. <p> The "
-#~ "current results of the survey are <a href=poll_results.php>here</a>. "
-
-#~ msgid "POLL_RUN"
-#~ msgstr "Do you run BOINC?"
-
-#~ msgid "POLL_PARTICIPATION"
-#~ msgstr "Your participation"
-
-#~ msgid "POLL_COMPUTERS"
-#~ msgstr "Your computers"
-
-#~ msgid "POLL_YOU"
-#~ msgstr "You"
-
-#~ msgid "POLL_NATIONALITY"
-#~ msgstr "Nationality"
-
-#~ msgid "POLL_COMMENTS"
-#~ msgstr "Comments"
-
-#~ msgid "POLL_COMMENTS_QUESTION"
-#~ msgstr ""
-#~ "Please suggest ways that BOINC, and the projects that use it, could be "
-#~ "improved:"
-
-#~ msgid "POLL_OTHER"
-#~ msgstr "Other:"
-
-#~ msgid "POLL_CHECK_ALL"
-#~ msgstr "[check all that apply]"
-
-#~ msgid "POLL_DONE"
-#~ msgstr "When done click:"
-
-#~ msgid "POLL_CURRENT"
-#~ msgstr "Yes - I have been running BOINC on my computer for..."
-
-#~ msgid "POLL_TWEEK"
-#~ msgstr "less than a week"
-
-#~ msgid "POLL_TMONTH"
-#~ msgstr "less than a month"
-
-#~ msgid "POLL_TYEAR"
-#~ msgstr "less than a year"
-
-#~ msgid "POLL_TMOREYEAR"
-#~ msgstr "more than a year"
-
-#~ msgid "POLL_LAPSED"
-#~ msgstr "No - I was running BOINC, but stopped because..."
-
-#~ msgid "POLL_LINTEREST"
-#~ msgstr "I lost interest"
-
-#~ msgid "POLL_LCOMPLICATED"
-#~ msgstr "it was too complicated"
-
-#~ msgid "POLL_LSTOPPED"
-#~ msgstr "I stopped it and forgot to start again"
-
-#~ msgid "POLL_LPROBLEMS"
-#~ msgstr "it caused problems on my computer"
-
-#~ msgid "POLL_LPOWER"
-#~ msgstr "it used too much electricity"
-
-#~ msgid "POLL_LNONBOINC"
-#~ msgstr "I switched to a non-BOINC computing project"
-
-#~ msgid "POLL_FAILED"
-#~ msgstr "No - I tried running BOINC, but..."
-
-#~ msgid "POLL_FINSTALL"
-#~ msgstr "the software didn't install correctly"
-
-#~ msgid "POLL_FFIGURE"
-#~ msgstr "I couldn't figure out how to use the software"
-
-#~ msgid "POLL_FNETWORK"
-#~ msgstr "I had network communication problems"
-
-#~ msgid "POLL_FATTACH"
-#~ msgstr "I couldn't attach to a project"
-
-#~ msgid "POLL_FWORK"
-#~ msgstr "I attached to a project, but never got any work"
-
-#~ msgid "POLL_NEVER"
-#~ msgstr "No - I never tried running BOINC, because..."
-
-#~ msgid "POLL_NSECURITY"
-#~ msgstr "I was concerned about security"
-
-#~ msgid "POLL_NPROJECT"
-#~ msgstr "I wasn't interested in any of the projects"
-
-#~ msgid "POLL_NPERMISSION"
-#~ msgstr "I don't have permission to run it on my computer"
-
-#~ msgid "POLL_NVERSION"
-#~ msgstr "No version was available for my computer"
-
-#~ msgid "POLL_KIND"
-#~ msgstr "What kind of computers do you have running BOINC?"
-
-#~ msgid "POLL_WHERE"
-#~ msgstr "Where are they?"
-
-#~ msgid "POLL_WORK"
-#~ msgstr "Work"
-
-#~ msgid "POLL_SCHOOL"
-#~ msgstr "School"
-
-#~ msgid "POLL_HOW_MANY"
-#~ msgstr "How many computers?"
-
-#~ msgid "POLL_TURNED_ON"
-#~ msgstr "On average, how many hours per day are they powered on?"
-
-#~ msgid "POLL_AGE"
-#~ msgstr "Age"
-
-#~ msgid "POLL_SEX"
-#~ msgstr "Sex"
-
-#~ msgid "POLL_MALE"
-#~ msgstr "Male"
-
-#~ msgid "POLL_FEMALE"
-#~ msgstr "Female"
-
-#~ msgid "POLL_EXPERTISE"
-#~ msgstr "Your level of computer expertise"
-
-#~ msgid "POLL_LEVB"
-#~ msgstr "Beginner"
-
-#~ msgid "POLL_LEVI"
-#~ msgstr "Intermediate"
-
-#~ msgid "POLL_LEVA"
-#~ msgstr "Advanced"
-
-#~ msgid "POLL_LEARN_WHERE"
-#~ msgstr "Where did you learn about BOINC projects?"
-
-#~ msgid "POLL_WTV"
-#~ msgstr "TV/radio/newspaper"
-
-#~ msgid "POLL_WPERS"
-#~ msgstr "From friends, relatives, or coworkers"
-
-#~ msgid "POLL_WTEAM"
-#~ msgstr "Team message boards or web sites"
-
-#~ msgid "POLL_WBOINC"
-#~ msgstr "The BOINC web site"
-
-#~ msgid "POLL_WWEB"
-#~ msgstr "Other web sites"
-
-#~ msgid "POLL_FACTOR"
-#~ msgstr ""
-#~ "Which are the most important factors when you decide whether to "
-#~ "participate in a BOINC project?"
-
-#~ msgid "POLL_GRAPHICS"
-#~ msgstr "Nice-looking screensaver graphics"
-
-#~ msgid "POLL_CREDIT_FAIR"
-#~ msgstr "Fair and quick granting of credit for work done"
-
-#~ msgid "POLL_CREDIT_MORE"
-#~ msgstr "Getting more credit from this project than from others"
-
-#~ msgid "POLL_MB_FRIENDLY"
-#~ msgstr "Helpful and friendly message boards"
-
-#~ msgid "POLL_MB_STAFF"
-#~ msgstr "Participation by project staff on the message boards"
-
-#~ msgid "POLL_WEB_SITE"
-#~ msgstr "Informative project web site"
-
-#~ msgid "POLL_SCIENCE_IMPORTANT"
-#~ msgstr "The science is important and beneficial"
-
-#~ msgid "POLL_SCIENCE_PUBLIC"
-#~ msgstr "Non-profit, and results are public"
-
-#~ msgid "POLL_RECOGNIZE"
-#~ msgstr "Personal recognition if my computer finds something"
-
-#~ msgid "POLL_PUBLISH"
-#~ msgstr "Publication by the project in scientific journals"
-
-#~ msgid "POLL_EMAIL"
-#~ msgstr "Periodic email newsletters from the project"
-
-#~ msgid "POLL_NPROJECTS"
-#~ msgstr "How many BOINC projects do you participate in?"
-
-#~ msgid "POLL_SSAVER"
-#~ msgstr "Do you run BOINC as a screensaver?"
-
-#~ msgid "POLL_YES"
-#~ msgstr "Yes"
-
-#~ msgid "POLL_NO"
-#~ msgstr "No"
-
-#~ msgid "POLL_MBOARDS"
-#~ msgstr "Your usage of project messages boards:"
-
-#~ msgid "POLL_MBR"
-#~ msgstr "to read information"
-
-#~ msgid "POLL_MBRW"
-#~ msgstr "to read and post information"
-
-#~ msgid "POLL_NONE"
-#~ msgstr "None"
-
-#~ msgid "POLL_HELP"
-#~ msgstr ""
-#~ "Where do you get information to help resolve problems with BOINC and/or "
-#~ "BOINC projects?"
-
-#~ msgid "POLL_HELP_PMB"
-#~ msgstr "The project message boards"
-
-#~ msgid "POLL_HELP_BMB"
-#~ msgstr "The BOINC message boards"
-
-#~ msgid "POLL_HELP_BDOC"
-#~ msgstr "The BOINC web site"
-
-#~ msgid "POLL_HELP_BMLIST"
-#~ msgstr "BOINC mailing lists"
-
-#~ msgid "POLL_HELP_WIKI"
-#~ msgstr "The Unofficial BOINC Wiki"
-
-#~ msgid "POLL_HELP_TEAM"
-#~ msgstr "Team web sites"
-
-#~ msgid "POLL_HELP_GOOGLE"
-#~ msgstr "Google or other search engines"
-
-#~ msgid "POLL_ERROR_TITLE"
-#~ msgstr "Error - results not recorded"
-
-#~ msgid "POLL_ERROR_TEXT"
-#~ msgstr ""
-#~ "An internal error has prevented us from recording your survey response.  "
-#~ "Please try again later."
-
-#~ msgid "POLL_RECORDED"
-#~ msgstr "Survey response recorded"
-
-#~ msgid "POLL_THANKS"
-#~ msgstr "Thank you for completing the BOINC user survey."
-
-#~ msgid "POLL_RESULTS_TITLE"
-#~ msgstr "Survey results"
-
-#~ msgid "POLL_RESULTS_TEXT"
-#~ msgstr ""
-#~ "These are the current results of the <a href=poll.php>BOINC user survey</"
-#~ "a>.  This page is updated every hour."
-
-#~ msgid "DL_MIRRORS"
-#~ msgstr ""
-#~ "Note: files are downloaded from mirror servers at boinc.berkeley.edu, "
-#~ "morel.mit.edu, einstein.aei.mpg.de, einstein.astro.gla.ac.uk, einstein."
-#~ "ligo.caltech.edu, and einstein.aset.psu.edu (thanks to these "
-#~ "institutions). The server is chosen randomly - if a download fails, "
-#~ "reload this page and try again. "
-
-# #############################################
-# help.php
-# #############################################
-#~ msgid "HELP_TITLE"
-#~ msgstr "Getting help with BOINC"
-
-#~ msgid "HELP_HEADING1"
-#~ msgstr "Online Help"
-
-#~ msgid "HELP_P1_1"
-#~ msgstr ""
-#~ "BOINC Online Help lets you talk one-on-one with experienced BOINC users, "
-#~ "who can: %s answer questions about BOINC and volunteer computing; %s walk "
-#~ "you through the process of installing and using BOINC; %s troubleshoot "
-#~ "any problems you might have. "
-
-#~ msgid "HELP_P1_2"
-#~ msgstr ""
-#~ "BOINC Online Help is based on %sSkype%s, an Internet-based telephone "
-#~ "system. Skype is free (both the software and the calls). If you don't "
-#~ "already have Skype, please %sdownload and install it now%s. When you're "
-#~ "finished, return to this page. "
-
-#~ msgid "HELP_P1_3"
-#~ msgstr ""
-#~ "The best way to get help is by voice, for which you need either built-in "
-#~ "microphone and speakers or an external headset for your computer. You can "
-#~ "also use Skype's text-based chat system or regular email (if you don't "
-#~ "have Skype) to communicate with Help Volunteers."
-
-#~ msgid "HELP_P1_4"
-#~ msgstr ""
-#~ "Volunteers speaking several languages are available. Please select a "
-#~ "language: "
-
-#~ msgid "HELP_HEADING2"
-#~ msgstr "BOINC help on the web"
-
-#~ msgid "HELP_P2_ITEM1"
-#~ msgstr "BOINC user's manual"
-
-#~ msgid "HELP_P2_ITEM2"
-#~ msgstr "Troubleshooting BOINC "
-
-#~ msgid "HELP_P2_ITEM3"
-#~ msgstr "BOINC-related web sites "
-
-#~ msgid "HELP_P2_ITEM4"
-#~ msgstr "The BOINC message boards "
-
-#~ msgid "HELP_P2_ITEM5"
-#~ msgstr "The message boards on any BOINC-based project "
-
-#~ msgid "HELP_HEADING3"
-#~ msgstr "Be a Help Volunteer"
-
-#~ msgid "HELP_P3_1"
-#~ msgstr ""
-#~ "If you're an experienced BOINC user, we encourage you to %sbecome a Help "
-#~ "Volunteer%s. It's a great way to help the cause of scientific research "
-#~ "and volunteer computing - and it's fun!  "
-
-#~ msgid "HELP_P3_2"
-#~ msgstr ""
-#~ "If you're already a Help Volunteer: to edit your settings, %sclick here"
-#~ "%s. "
-
-# #############################################
-# index.php
-# #############################################
-#~ msgid "HOME_HEADING1"
-#~ msgstr "Volunteer"
-
-#~ msgid "HOME_P1"
-#~ msgstr ""
-#~ " Use the idle time on your computer  (Windows, Mac, or Linux)  to cure "
-#~ "diseases, study global warming,  discover pulsars, and do many other "
-#~ "types of scientific research.  It's safe, secure, and easy:  %sChoose%s "
-#~ "projects  %sDownload%s and run BOINC software  %sEnter%s an email address "
-#~ "and password. "
-
-#~ msgid "HOME_P2"
-#~ msgstr ""
-#~ "Or, if you run several projects, try an %saccount manager%s such as "
-#~ "%sGridRepublic%s or %sBAM!%s. "
-
-#~ msgid "HOME_P3"
-#~ msgstr ""
-#~ "If you have any questions, or need help getting started, you can %stalk "
-#~ "to a Volunteer Helper%s. "
-
-#~ msgid "HOME_DOWNLOAD"
-#~ msgstr "Download"
-
-#~ msgid "HOME_WEB_SITES"
-#~ msgstr "Web"
-
-#~ msgid "HOME_ADD_ONS"
-#~ msgstr "Add-ons"
-
-#~ msgid "HOME_SURVEY"
-#~ msgstr "Survey"
-
-#~ msgid "HOME_BOINC"
-#~ msgstr "Berkeley Open Infrastructure for Network Computing"
-
-#~ msgid "HOME_BOINC_DESC"
-#~ msgstr ""
-#~ "Open-source software for %svolunteer computing%s and %sgrid computing%s"

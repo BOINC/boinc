@@ -4,26 +4,25 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 4.x\n"
+"Project-Id-Version: BOINC 7.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-15 16:56-0500\n"
-"PO-Revision-Date: 2015-02-01 04:48+0000\n"
-"Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
-"Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
+"PO-Revision-Date: 2015-02-12 02:15-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
+"Language-Team: BOINC Localization Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc_7.4\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-POOTLE-MTIME: 1422766089.0\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/mac\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1422766089.0\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
 # 81%
 #: clientgui/AccountInfoPage.cpp:387
@@ -835,8 +834,6 @@ msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr ""
-"%s 相關的使用者權限設定錯誤，請重新安裝。\n"
-"(錯誤代碼 %d)"
 
 #: clientgui/BOINCGUIApp.cpp:607
 msgid " at "
@@ -2113,7 +2110,6 @@ msgstr "%s - 語言選擇"
 
 #: clientgui/DlgOptions.cpp:698
 #, c-format
-#, c-format, c-format
 msgid "The %s's language has been changed.  In order for this change to take effect, you must restart the %s."
 msgstr "%s 的語言已變更 。為了使其生效， 您必須重新啟動 %s。"
 
@@ -3137,7 +3133,7 @@ msgid ""
 "(Progress: %.1lf%%, Status: %s)"
 msgstr ""
 "您確定要中止工作「%s」嗎？\n"
-"(進度: %s，狀態: %s)"
+"(進度: %.1lf%%，狀態: %s)"
 
 #: clientgui/sg_TaskCommandPopup.cpp:272
 msgid "Abort task"
@@ -4037,7 +4033,6 @@ msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
 #~ msgstr ""
 #~ "(C) 2003-2013 美國加州大學柏克萊分校\n"
 #~ "保留所有權利。"
-
 #, c-format
 #~ msgid "%s - Preferences"
 #~ msgstr "%s - 偏好設定"
@@ -4049,100 +4044,68 @@ msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
 #, no-c-format
 #~ msgid "% CPU time"
 #~ msgstr "% CPU 時間"
-
 #~ msgid "KBytes/sec."
 #~ msgstr "KB/秒"
-
 #~ msgid "Mbytes"
 #~ msgstr "Mbytes"
-
 #~ msgid "every"
 #~ msgstr "每"
-
 #~ msgid "days"
 #~ msgstr "天"
-
 #~ msgid "Gigabytes disk space"
 #~ msgstr "硬碟空間 (GB)"
-
 #~ msgid "Running, high priority"
 #~ msgstr "執行中，高優先權"
-
 #~ msgid " (Scheduler wait: "
 #~ msgstr " （排程器等待： "
-
 #~ msgid " (Scheduler wait)"
 #~ msgstr " （排程器等待）"
-
 #~ msgid " (Waiting for network access)"
 #~ msgstr " (正等待網存取)"
-
 #~ msgid "Preferences…"
 #~ msgstr "偏好設定..."
-
 #~ msgid "I do not agree with the terms of use."
 #~ msgstr "我不同意使用條款"
-
 #~ msgid "Click Clear to restore web-based settings."
 #~ msgstr "點選 清除 來更新成網路上的設定"
-
 #~ msgid "For additional settings, select Computing Preferences in "
 #~ msgstr "更多的偏好設定，請切換至"
-
 #~ msgid "the Advanced View."
 #~ msgstr "進階模式。"
-
 #~ msgid "Workunit name"
 #~ msgstr "工作名稱"
-
 #~ msgid "invalid float"
 #~ msgstr "無效的浮點數"
-
 #~ msgid "Display the advanced (accessible) graphical interface."
 #~ msgstr "顯示精簡 BOINC 圖形介面。"
-
 #~ msgid "Paused: Other work running"
 #~ msgstr "已暫停: 正運行其他工作"
-
 #~ msgid "Paused: User initiated.  Click 'Resume' to continue"
 #~ msgstr "已暫停: 由使用者暫止。按「繼續」繼續工作"
-
 #~ msgid "Paused: User active"
 #~ msgstr "已暫停: 使用者正在操作"
-
 #~ msgid "Paused: Computer on battery"
 #~ msgstr "已暫停: 電腦以電池供電"
-
 #~ msgid "Paused: Time of Day"
 #~ msgstr "已暫停: 不在設定時間內"
-
 #~ msgid "Paused: Benchmarks running"
 #~ msgstr "已暫停: 正在執行效能測試"
-
 #~ msgid "Paused"
 #~ msgstr "已暫停"
-
 #~ msgid "Paused: Application start delayed"
 #~ msgstr "暫止：應用程式延遲起動"
-
 #~ msgid "Click to show project graphics"
 #~ msgstr "按一下顯示專案圖形"
-
 #~ msgid "Open a window to view messages"
 #~ msgstr "開啟視窗以檢視訊息"
-
 #~ msgid "Stop all activity"
 #~ msgstr "停止所有活動"
-
 #~ msgid "Resume activity"
 #~ msgstr "繼續活動"
-
 #~ msgid "Open a window to set your preferences"
 #~ msgstr "開新視窗設置你的偏好設定"
-
 #~ msgid "Switch to the BOINC advanced view"
 #~ msgstr "切換到 BOINC 進階介面"
-
 #~ msgid "My Projects:"
 #~ msgstr "我的專案:"
 
@@ -4157,29 +4120,22 @@ msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
 #, c-format
 #~ msgid "%d hr %d min %d sec"
 #~ msgstr "%d 時 %d 分 %d 秒"
-
 #~ msgid "Are you sure you want to display graphics on a remote machine?"
 #~ msgstr "您確定要顯示遠端電腦的圖形嗎？"
-
 #~ msgid "Application: "
 #~ msgstr "應用程式："
-
 #~ msgid "Time Remaining: "
 #~ msgstr "剩餘時間："
-
 #~ msgid "Elapsed Time: "
 #~ msgstr "執行時間："
-
 #~ msgid "Account manager website"
 #~ msgstr "帳號管理服務網站"
-
 #~ msgid "Account Manager &URL:"
 #~ msgstr "帳號管理服務網址 (&U)："
 
 #, c-format
 #~ msgid "%s &website"
 #~ msgstr "%s 網站 (&W)"
-
 #~ msgid "Notice List"
 #~ msgstr "訊息列表"
 
@@ -4190,98 +4146,69 @@ msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
 #, c-format
 #~ msgid "%s; received from %s; on %s"
 #~ msgstr "%s; 來至於 %s; 時間 %s"
-
 #~ msgid "Click"
 #~ msgstr "點選"
-
 #~ msgid "Project List"
 #~ msgstr "專案列表"
-
 #~ msgid "Nvidia GPU Supported"
 #~ msgstr "支援 Nvidia GPU"
-
 #~ msgid "ATI GPU Supported"
 #~ msgstr "支援 ATI GPU"
-
 #~ msgid "Project Website"
 #~ msgstr "專案網頁"
-
 #~ msgid "One or more items failed to load from the Internet."
 #~ msgstr "無法從網路讀取一個或多個項目"
 
 # 88%
 #~ msgid "Retry now"
 #~ msgstr "立即重試"
-
 #~ msgid "10%"
 #~ msgstr "10%"
-
 #~ msgid "20%"
 #~ msgstr "20%"
-
 #~ msgid "30%"
 #~ msgstr "30%"
-
 #~ msgid "40%"
 #~ msgstr "40%"
-
 #~ msgid "50%"
 #~ msgstr "50%"
-
 #~ msgid "60%"
 #~ msgstr "60%"
-
 #~ msgid "70%"
 #~ msgstr "70%"
-
 #~ msgid "80%"
 #~ msgstr "80%"
-
 #~ msgid "90%"
 #~ msgstr "90%"
-
 #~ msgid "100%"
 #~ msgstr "100%"
-
 #~ msgid "1"
 #~ msgstr "1"
-
 #~ msgid "3"
 #~ msgstr "3"
-
 #~ msgid "5"
 #~ msgstr "5"
-
 #~ msgid "10"
 #~ msgstr "10"
-
 #~ msgid "15"
 #~ msgstr "15"
-
 #~ msgid "30"
 #~ msgstr "30"
-
 #~ msgid "60"
 #~ msgstr "60"
-
 #, c-format
 #~ msgid "Pop up a menu of websites for project %s"
 #~ msgstr "跳出一個 %s 專案的網頁選單"
-
 #~ msgid ""
 #~ "for accessibility support, please select advanced from the view menu or type "
 #~ "command shift a"
 #~ msgstr "要使用輔助功能，請從選項中選擇進階或者輸入shift a 指令"
-
 #~ msgid "This panel contains graphs showing user totals for projects"
 #~ msgstr "該頁面會顯示用戶在各專案的統計圖"
-
 #~ msgid "list headers"
 #~ msgstr "列表頭"
-
 #~ msgid "list of events"
 #~ msgstr "事件列表"
-
 #~ msgid "list of events is empty"
 #~ msgstr "事件列表為空"
 
@@ -4304,7 +4231,6 @@ msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
 #, c-format
 #~ msgid "; column %d of %d; "
 #~ msgstr "; 第 %d 列（共 %d 列）; "
-
 #~ msgid "list is empty"
 #~ msgstr "列表為空"
 
@@ -4323,10 +4249,8 @@ msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
 #, c-format
 #~ msgid "; row %d of %d; "
 #~ msgstr "; 第 %d 行（共 %d 行）; "
-
 #~ msgid "blank"
 #~ msgstr "空白"
-
 #~ msgid "list of projects or account managers"
 #~ msgstr "專案或帳號管理服務列表"
 
@@ -4337,16 +4261,12 @@ msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
 #, c-format
 #~ msgid "row %d of %d; "
 #~ msgstr "第 %d 行（共 %d 行）; "
-
 #~ msgid "The minimum username length for this project is 1. Please enter a different username."
 #~ msgstr "專案限制最短的名稱長度為1。請輸入符合要求的使用者名稱。"
-
 #~ msgid "The minimum username length for this account manager is 1. Please enter a different username."
 #~ msgstr "帳號管理服務限制最短的名稱長度為1。請輸入符合要求的使用者名稱。"
-
 #~ msgid "The minimum email address length for this project is 1. Please enter a different email address."
 #~ msgstr "專案限制最短的郵件地址長度為1。請輸入符合要求的電子郵件地址。"
-
 #~ msgid "The minimum email address length for this account manager is 1. Please enter a different email address."
 #~ msgstr "帳號管理服務限制最短的郵件地址長度為1。請輸入符合要求的電子郵件地址。"
 
@@ -4357,7 +4277,6 @@ msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
 #, c-format
 #~ msgid "The minimum password length for this account manager is %d. Please enter a different password."
 #~ msgstr "此帳號管理服務要求的最小密碼長度為 %d，請輸入符合要求的密碼。"
-
 #~ msgid ""
 #~ "An error has occurred;\n"
 #~ "check the Event Log for details.\n"
@@ -4386,48 +4305,36 @@ msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
 #, c-format
 #~ msgid "OnDropTarget: index by HitTest = %i"
 #~ msgstr "OnDropTarget: index by HitTest = %i"
-
 #~ msgid "Identify your account "
 #~ msgstr "確認您的帳戶"
-
 #~ msgid "Read config file"
 #~ msgstr "讀取設定檔"
-
 #~ msgid "Read configuration info from cc_config.xml"
 #~ msgstr "從 cc-config.xml 讀取設定資訊。"
-
 #~ msgid ""
 #~ "(C) 2003-2011 University of California, Berkeley.\n"
 #~ "All Rights Reserved."
 #~ msgstr ""
 #~ "(C) 2003-2007 美國加州大學伯克利分校\n"
 #~ "保留所有權利。"
-
 #~ msgid "NVIDIA GPU"
 #~ msgstr "NVIDIA GPU"
-
 #~ msgid "ATI GPU"
 #~ msgstr "ATI GPU"
-
 #~ msgid "Multicore CPU Supported"
 #~ msgstr "支援多核心 CPU"
-
 #~ msgid "%s: %.0f"
 #~ msgstr "%s： %.0f"
-
 #~ msgid "Click 'Retry now' to transfer the file now"
 #~ msgstr "按一下「立即重試」可以立即上傳檔案。"
-
 #~ msgid ""
 #~ "Click 'Abort transfer' to delete the file from the transfer queue. This "
 #~ "will prevent you from being granted credit for this result."
 #~ msgstr ""
 #~ "按一下「中止傳送」可以從上傳佇列中刪除這個檔案。 這個動作會使您無法從這個"
 #~ "運算結果中獲取積分。"
-
 #~ msgid "Aborting result..."
 #~ msgstr "中止結果中..."
-
 #~ msgid ""
 #~ "You have chosen to add a new BOINC project.  Adding a new\n"
 #~ "project means that you will be connecting your computer to a new "
@@ -4455,7 +4362,6 @@ msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
 #~ "\n"
 #~ "要設置您希望運行的World Community Grid 專案應用程式，\n"
 #~ "請點擊後面的按鈕："
-
 #~ msgid "Change Research Applications at World Community Grid"
 #~ msgstr "設定 WCG 專案的運算程式"
 
@@ -4466,86 +4372,60 @@ msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
 #, fuzzy
 #~ msgid "Don't fetch ATI GPU tasks"
 #~ msgstr "無法取得新工作"
-
 #~ msgid "Web sites"
 #~ msgstr "網站"
-
 #~ msgid "Connect about every"
 #~ msgstr "每幾天連線一次: "
-
 #~ msgid ""
 #~ "this computer is connected to the Internet about every X days\n"
 #~ "(0 if it's always connected)"
 #~ msgstr ""
 #~ "設定此電腦每 X 天連線網路\n"
 #~ "(0 代表一直連線)"
-
 #~ msgid "days (max. 10)"
 #~ msgstr "天 (最多 10 天)"
-
 #~ msgid "%s - Options"
 #~ msgstr "%s - 選項"
-
 #~ msgid "Retrieving host information; please wait..."
 #~ msgstr "取回主機資訊中；請稍候..."
-
 #~ msgid "%s - Messages"
 #~ msgstr "%s - 訊息"
-
 #~ msgid "Skin:"
 #~ msgstr "面板:"
-
 #~ msgid "Preferences"
 #~ msgstr "偏好設定"
-
 #~ msgid "I want to customize my preferences for this computer only."
 #~ msgstr "我要自訂只適合這台電腦的偏好設定。"
-
 #~ msgid "Customized Preferences"
 #~ msgstr "本機自訂偏好設定"
-
 #~ msgid "Upload pending"
 #~ msgstr "上傳資料中"
-
 #~ msgid "Download pending"
 #~ msgstr "下載資料中"
-
 #~ msgid "Get help with BOINC"
 #~ msgstr "取得 BOINC 說明"
-
 #~ msgid "%s - Detach from %s"
 #~ msgstr "%s - 從 %s 退出"
-
 #~ msgid "Failed to attach to project"
 #~ msgstr "加入計畫失敗"
-
 #~ msgid "Failed to attach to account manager"
 #~ msgstr "加入帳號管理失敗"
-
 #~ msgid "Attached to account manager"
 #~ msgstr "加入帳號管理"
-
 #~ msgid "You are now successfully attached to the %s system."
 #~ msgstr "您已成功加入 %s 系統。"
-
 #~ msgid "You are now successfully attached to this account manager."
 #~ msgstr "您已成功加入此帳號管理員。"
-
 #~ msgid "All projects"
 #~ msgstr "所有計畫"
-
 #~ msgid "Attach to project"
 #~ msgstr "加入計畫"
-
 #~ msgid "Attach to account manager"
 #~ msgstr "加入帳號管理"
-
 #~ msgid "Attach to a project"
 #~ msgstr "加入計畫"
-
 #~ msgid "%s needs to connect to the Internet.  Please click to open %s."
 #~ msgstr "%s 需要連線到網路，請按一下開啟 %s。"
-
 #~ msgid ""
 #~ "%s is unable to communicate with a project and needs an Internet "
 #~ "connection.\n"
@@ -4554,7 +4434,6 @@ msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
 #~ msgstr ""
 #~ "%s 無法與計畫通訊，需要網路連線。\n"
 #~ "請連線到網路後於「進階」選單中選擇「開始網路通訊」。"
-
 #~ msgid ""
 #~ "%s couldn't do Internet communication, and no default connection is "
 #~ "selected.\n"
@@ -4563,49 +4442,34 @@ msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
 #~ msgstr ""
 #~ "%s 無法與網路通訊，沒有選擇預設的連線。\n"
 #~ "請連線到網路後，於「進階＞選項＞連線」選擇預設連線。"
-
 #~ msgid "Attached to project"
 #~ msgstr "已加入計畫"
-
 #~ msgid "You are now successfully attached to this project."
 #~ msgstr "您已成功加入此計畫。"
-
 #~ msgid "Attached to %s"
 #~ msgstr "已加入 %s"
-
 #~ msgid "Detach"
 #~ msgstr "退出"
-
 #~ msgid "Detaching from project..."
 #~ msgstr "正在退出計畫..."
-
 #~ msgid "Are you sure you want to detach from project '%s'?"
 #~ msgstr "您確定從計畫「%s」中退出嗎？"
-
 #~ msgid "Detach from Project"
 #~ msgstr "退出計畫"
-
 #~ msgid " - user active"
 #~ msgstr " - 使用者正在操作"
-
 #~ msgid " - computation suspended"
 #~ msgstr "- 運算已暫止"
-
 #~ msgid " - need disk space"
 #~ msgstr " - 需要磁碟空間"
-
 #~ msgid "Attach to an additional project"
 #~ msgstr "加入其他計畫"
-
 #~ msgid "To completion"
 #~ msgstr "剩餘時間"
-
 #~ msgid "Attach to a project to begin processing work"
 #~ msgstr "加入計畫以開始進行工作"
-
 #~ msgid "%s - Can't find web browser"
 #~ msgstr "%s - 找不到瀏覽器"
-
 #~ msgid ""
 #~ "%s tried to display the web page\n"
 #~ "\t%s\n"
@@ -4619,74 +4483,52 @@ msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
 #~ "但是找不到瀏覽器。\n"
 #~ "要修正這個問題，請將環境變數 BROWSER \n"
 #~ "設為您瀏覽器程式的路徑後重新啟動 %s。"
-
 #~ msgid "Retrying communications for project(s)..."
 #~ msgstr "重試與計畫的通訊中..."
-
 #~ msgid ""
 #~ "Required wizard file(s) are missing from the target server.\n"
 #~ "(lookup_account.php/create_account.php)\n"
 #~ msgstr ""
 #~ "此目標伺服器必須的 wizard 檔案遺失。\n"
 #~ "(lookup_account.php/create_account.php)\n"
-
 #~ msgid "User information"
 #~ msgstr "使用者資訊"
-
 #~ msgid "Account Manager URL"
 #~ msgstr "帳號管理員網址"
-
 #~ msgid "Enter the URL of the account manager's web site."
 #~ msgstr "請輸入帳號管理網站的網址。"
-
 #~ msgid "Close BOINC Manager Window."
 #~ msgstr "關閉 BOINC 管理員"
-
 #~ msgid "Exit the %s"
 #~ msgstr "離開 %s"
-
 #~ msgid "Attach to &project"
 #~ msgstr "加入計畫(&A)"
-
 #~ msgid "Attaching to project..."
 #~ msgstr "正在加入計畫..."
-
 #~ msgid "Removal from %s completed."
 #~ msgstr "從 %s 移除已完成。"
-
 #~ msgid "Removal succeeded!"
 #~ msgstr "成功移除！"
-
 #~ msgid "Write to disk at most every"
 #~ msgstr "寫入磁碟最多每"
-
 #~ msgid "ID"
 #~ msgstr "ID"
-
 #~ msgid "Priority"
 #~ msgstr "優先順序"
-
 #~ msgid "MessagesGrid"
 #~ msgstr "MessagesGrid"
-
 #~ msgid "Copying selected messages to Clipboard..."
 #~ msgstr "複製所選訊息到剪貼簿..."
-
 #~ msgid "Info"
 #~ msgstr "資訊"
-
 #~ msgid "Warning"
 #~ msgstr "警告"
-
 #~ msgid "ProjectsGrid"
 #~ msgstr "ProjectsGrid"
-
 #~ msgid "TransfersGrid"
 #~ msgstr "TransfersGrid"
-
 #~ msgid "Aborting transfer(s)..."
 #~ msgstr "中止檔案傳送中..."
-
 #~ msgid ""
 #~ "Are you sure you want to abort this file(s) transfer ?\n"
 #~ "NOTE: Aborting a transfer will invalidate a task and you\n"
@@ -4694,28 +4536,22 @@ msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
 #~ msgstr ""
 #~ "您確定要中止「%s」 的檔案傳輸嗎？\n"
 #~ "提示: 終止傳輸會使此工作無效且不會收到任何積分。"
-
 #~ msgid "Abort File Transfer(s)"
 #~ msgstr "中止檔案傳送"
-
 #~ msgid "TasksGrid"
 #~ msgstr "TasksGrid"
-
 #~ msgid ""
 #~ "We'll now guide you through the process of attaching\n"
 #~ "to a project."
 #~ msgstr "現在我們會引導您進行加入計畫的步驟。"
-
 #~ msgid "&Stop using%s"
 #~ msgstr "停止以 %s(&S)"
-
 #~ msgid ""
 #~ "We'll now remove this computer from %s.  From now on,\n"
 #~ "attach and detach projects directly from this computer.\n"
 #~ msgstr ""
 #~ "我們會從 %s 移除這台電腦。\n"
 #~ "從現在起，這台電腦能直接加入或退出計畫。\n"
-
 #~ msgid ""
 #~ "We'll now guide you through the process of attaching\n"
 #~ "to an account manager.\n"
@@ -4727,42 +4563,30 @@ msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
 #~ "\n"
 #~ "如果你只想加入單一計畫，請按「取消」，\n"
 #~ "然後從功能表裡選擇「加入計畫」。"
-
 #~ msgid "Debug Flags"
 #~ msgstr "除錯旗標"
-
 #~ msgid "Project Properties Failure"
 #~ msgstr "計畫內容失敗"
-
 #~ msgid "Project Properties URL Failure"
 #~ msgstr "計畫內容網址失敗"
-
 #~ msgid "Account Creation Disabled"
 #~ msgstr "帳號建立已停止。"
-
 #~ msgid "Account Already Exists"
 #~ msgstr "帳號已存在。"
-
 #~ msgid "Project Already Attached"
 #~ msgstr "計畫已加入。"
-
 #~ msgid "Project Attach Failure"
 #~ msgstr "加入計畫失敗"
-
 #~ msgid "Net Detection Failure"
 #~ msgstr "網路偵測失敗"
-
 #~ msgid ""
 #~ "You can copy and paste the URL from your browser's\n"
 #~ "address bar."
 #~ msgstr "您可以從瀏覽器的網址列複製網址後貼上。"
-
 #~ msgid "You are already attached to this project."
 #~ msgstr "您已加入此計畫。"
-
 #~ msgid "Enter account key"
 #~ msgstr "輸入帳號金鑰"
-
 #~ msgid ""
 #~ "This project uses an \"account key\" to identify you.\n"
 #~ "\n"
@@ -4773,27 +4597,20 @@ msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
 #~ "\n"
 #~ "請前往計畫網站建立新帳號。\n"
 #~ "您的帳號金鑰會寄到您的信箱。"
-
 #~ msgid "An account key looks like:"
 #~ msgstr "帳號金鑰看起來像:"
-
 #~ msgid "82412313ac88e9a3638f66ea82186948"
 #~ msgstr "82412313ac88e9a3638f66ea82186948"
-
 #~ msgid "Account key:"
 #~ msgstr "帳號金鑰:"
-
 #~ msgid "&Accessible View"
 #~ msgstr "親和力介面(&S)"
-
 #~ msgid ""
 #~ "Accessible views are compatible with accessibility aids such as screen "
 #~ "readers."
 #~ msgstr "親和力介面能相容於類似螢幕閱讀器等親和力輔助工具。"
-
 #~ msgid "&Grid View"
 #~ msgstr "格線介面(&V)"
-
 #~ msgid ""
 #~ "%s is going to shutdown the core client it is currently connected to.\n"
 #~ "NOTE: Choosing 'OK' will cause the select new computer dialog to appear \n"
@@ -4802,27 +4619,20 @@ msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
 #~ "%s 正準備關閉目前已連線的核心用戶端。\n"
 #~ "提示: 選擇「確定」會出現選擇新電腦的視窗，\n"
 #~ "你可以加入不同的核心用戶端。"
-
 #~ msgid "processors"
 #~ msgstr "個處理器"
-
 #~ msgid "Click here to disable displaying this message in the future."
 #~ msgstr "按一下這裡以後不要顯示此訊息。"
-
 #~ msgid "Language Selection:"
 #~ msgstr "語言選擇:"
-
 #~ msgid "What language should the manager display by default."
 #~ msgstr "預設要使用何種語言顯示。"
-
 #~ msgid "Reminder Frequency:"
 #~ msgstr "提示頻率:"
-
 #~ msgid ""
 #~ "How often, in minutes, should the manager remind you of possible "
 #~ "connection events."
 #~ msgstr "設定 BOINC 管理員要隔多久才提示您重要訊息。(以分鐘計)"
-
 #~ msgid ""
 #~ "To choose a project, click its name\n"
 #~ "or type its URL below.\n"
@@ -4830,18 +4640,14 @@ msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
 #~ msgstr ""
 #~ "要選擇計畫，請按計畫名稱或在下面輸入其網址。\n"
 #~ "按「www」連到計畫網站。"
-
 #~ msgid "  "
 #~ msgstr "  "
-
 #~ msgid "www"
 #~ msgstr "www"
-
 #~ msgid "Project Comm Failure"
 #~ msgstr "計畫通訊失敗"
-
 #~ msgid "Google Comm Failure"
 #~ msgstr "Google 通訊失敗"
-
 #~ msgid "Yahoo Comm Failure"
 #~ msgstr "Yahoo 通訊失敗"
+

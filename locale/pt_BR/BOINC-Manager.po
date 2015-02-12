@@ -4,32 +4,30 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: BOINC 7.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-15 14:15-0500\n"
-"PO-Revision-Date: 2012-12-10 19:50+0200\n"
-"Last-Translator: Anonymous Pootle User\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2015-02-12 00:35-0500\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
+"Language-Team: BOINC Localization Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Pootle 2.1.6\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc_7.4\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
 # 81%
 #: clientgui/AccountInfoPage.cpp:387
 #, c-format
-#, fuzzy, c-format
 msgid "Identify your account at %s"
-msgstr "Identifique sua conta"
+msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:393
 msgid ""
@@ -573,7 +571,6 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:1190
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "If you stop using %s,\n"
 "you'll keep all your current projects,\n"
@@ -608,7 +605,6 @@ msgstr "%s"
 
 #: clientgui/AdvancedFrame.cpp:1815
 #, c-format
-#, fuzzy, c-format
 msgid "%s has successfully added %s"
 msgstr "%s foi incorporado com sucesso a %s"
 
@@ -693,8 +689,7 @@ msgid ""
 "Please contact your administrator to add you to the 'boinc_users' local user group."
 msgstr ""
 "Você não está autorizado no momento a gerenciar o cliente.\n"
-"Por favor, contate seu administrador para adicioná-lo ao grupo de usuários "
-"local 'usuários_boinc'."
+"Por favor, contate seu administrador para adicioná-lo ao grupo de usuários local 'usuários_boinc'."
 
 #: clientgui/BOINCBaseFrame.cpp:522
 msgid ""
@@ -740,8 +735,7 @@ msgid ""
 "Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
 msgstr ""
 "%s não consegue inicializar cliente %s.\n"
-"Por favor, execute a applet Painel de Controle->Ferramentas "
-"Administrativas->Serviços e inicie o serviço BOINC."
+"Por favor, execute a applet Painel de Controle->Ferramentas Administrativas->Serviços e inicie o serviço BOINC."
 
 # "daemon" is a known and very used word among computer users on Brazil. There is no good translation for it.
 #: clientgui/BOINCBaseFrame.cpp:637
@@ -766,10 +760,8 @@ msgid ""
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s não está conectado ao cliente %s no momento.\n"
-"Por favor, use a opção do menu 'Avançado\\Selecionar Computador...' para "
-"conectar-se ao cliente %s.\n"
-"Para conectar-se ao seu computador local, use 'localhost' como nome de "
-"máquina."
+"Por favor, use a opção do menu 'Avançado\\Selecionar Computador...' para conectar-se ao cliente %s.\n"
+"Para conectar-se ao seu computador local, use 'localhost' como nome de máquina."
 
 #: clientgui/BOINCBaseView.cpp:752
 #, fuzzy
@@ -840,7 +832,6 @@ msgstr "%s falhou ao desconectar-se da Internet."
 
 #: clientgui/BOINCGUIApp.cpp:595
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "\n"
@@ -851,25 +842,13 @@ msgid ""
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
 msgstr ""
-"Você não está autorizado no momento a gerenciar o cliente.\n"
-"\n"
-"Para executar BOINC com este usuário, por favor:\n"
-"- reinstale o BOINC respondendo \"Sim\" à questão sobre\n"
-"usuários não-administrativos\n"
-"ou\n"
-"- contate seu administrador para adicioná-lo ao grupo de usuários\n"
-"'mestre_boinc'."
 
 #: clientgui/BOINCGUIApp.cpp:601
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr ""
-"Proprietário ou permissões do BOINC não estão configurados corretamente; por "
-"favor, reinstale o BOINC.\n"
-"(Código do erro %d)"
 
 #: clientgui/BOINCGUIApp.cpp:607
 msgid " at "
@@ -893,13 +872,11 @@ msgstr "Gerenciador BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:902
 msgid "BOINC Manager was started by the operating system automatically"
-msgstr ""
-"Gerenciador BOINC foi inicializado pelo sistema operacional automaticamente"
+msgstr "Gerenciador BOINC foi inicializado pelo sistema operacional automaticamente"
 
 #: clientgui/BOINCGUIApp.cpp:904
 msgid "Startup BOINC so only the system tray icon is visible"
-msgstr ""
-"Inicializa o BOINC tão somente o ícone na bandeja do sistema seja visível"
+msgstr "Inicializa o BOINC tão somente o ícone na bandeja do sistema seja visível"
 
 #: clientgui/BOINCGUIApp.cpp:906
 msgid "Directory containing the BOINC Client executable"
@@ -932,9 +909,7 @@ msgstr "desativar usuários e permissões de segurança do BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:914
 msgid "set skin debugging mode to enable skin manager error messages"
-msgstr ""
-"definir modo depuração de aparência para ativar mensagens de erro do "
-"gerenciador de aparência"
+msgstr "definir modo depuração de aparência para ativar mensagens de erro do gerenciador de aparência"
 
 #: clientgui/BOINCGUIApp.cpp:915
 msgid "multiple instances of BOINC Manager allowed"
@@ -1284,9 +1259,7 @@ msgstr "Enquanto o computador estiver em baterias"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:149
 msgid "check this if you want this computer to do work while it runs on batteries"
-msgstr ""
-"selecione isso se deseja que este computador execute trabalho enquanto "
-"estiver em baterias"
+msgstr "selecione isso se deseja que este computador execute trabalho enquanto estiver em baterias"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:155
 msgid "While computer is in use"
@@ -1294,9 +1267,7 @@ msgstr "Enquanto o computador estiver em uso"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:158
 msgid "check this if you want this computer to do work even when you're using it"
-msgstr ""
-"selecione isso se deseja que este computador execute trabalho enquanto você "
-"usa-o"
+msgstr "selecione isso se deseja que este computador execute trabalho enquanto você usa-o"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:164
 msgid "Use GPU while computer is in use"
@@ -1304,9 +1275,7 @@ msgstr "Usar GPU enquanto o computador estiver em uso"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:167
 msgid "check this if you want your GPU to do work even when you're using the computer"
-msgstr ""
-"selecione isso se deseja que sua GPU execute trabalho enquanto você usa o "
-"computador"
+msgstr "selecione isso se deseja que sua GPU execute trabalho enquanto você usa o computador"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:179
 msgid "Only after computer has been idle for"
@@ -1314,9 +1283,7 @@ msgstr "Apenas quando o computador estiver ocioso por"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:188
 msgid "do work only after you haven't used the computer for this number of minutes"
-msgstr ""
-"executa trabalho somente depois de você não usar o computador por este "
-"número de minutos"
+msgstr "executa trabalho somente depois de você não usar o computador por este número de minutos"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:193
 #: clientgui/DlgAdvPreferencesBase.cpp:342
@@ -1508,9 +1475,7 @@ msgstr "Confirmar antes de conectar-se à internet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:489
 msgid "if checked, a confirmation dialog will be displayed before trying to connect to the Internet"
-msgstr ""
-"se selecionado, uma caixa de texto de confirmação será exibida antes de "
-"tentar conectar-se à Internet"
+msgstr "se selecionado, uma caixa de texto de confirmação será exibida antes de tentar conectar-se à Internet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:493
 msgid "Disconnect when done"
@@ -1555,8 +1520,7 @@ msgstr "Deixar ao menos"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:633
 msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
-msgstr ""
-"BOINC deixa ao menos esta quantidade de espaço livre em disco (em Gibabytes)"
+msgstr "BOINC deixa ao menos esta quantidade de espaço livre em disco (em Gibabytes)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:637
 msgid "Gigabytes disk space free"
@@ -1698,18 +1662,12 @@ msgstr "Copiar Seleção"
 #: clientgui/DlgEventLog.cpp:318
 #: clientgui/DlgEventLog.cpp:326
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"Copia as mensagens selecionadas para a área de transferência. Você pode "
-"selecionar múltiplas mensagens mantendo shift pressionado ou tecla de "
-"comando enquanto clica nas mensagens."
+msgstr "Copia as mensagens selecionadas para a área de transferência. Você pode selecionar múltiplas mensagens mantendo shift pressionado ou tecla de comando enquanto clica nas mensagens."
 
 #: clientgui/DlgEventLog.cpp:320
 #: clientgui/DlgEventLog.cpp:328
 msgid "Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"Copia as mensagens selecionadas para a área de transferência. Você pode "
-"selecionar múltiplas mensagens mantendo pressionado shift ou tecla de "
-"controle enquanto clica nas mensagens."
+msgstr "Copia as mensagens selecionadas para a área de transferência. Você pode selecionar múltiplas mensagens mantendo pressionado shift ou tecla de controle enquanto clica nas mensagens."
 
 #: clientgui/DlgEventLog.cpp:335
 #: clientgui/DlgItemProperties.cpp:67
@@ -1754,7 +1712,6 @@ msgstr ""
 
 #: clientgui/DlgExitMessage.cpp:135
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "This will shut down %s and its tasks until either the\n"
 "%s or the %s screen saver is run again.\n"
@@ -2191,11 +2148,8 @@ msgstr "%s - Seleção de Idioma"
 
 #: clientgui/DlgOptions.cpp:698
 #, c-format
-#, fuzzy, c-format
 msgid "The %s's language has been changed.  In order for this change to take effect, you must restart the %s."
-msgstr ""
-"O idioma padrão de %s foi alterado. Você deve reinicializar o %s para que "
-"esta alteração tenha efeito."
+msgstr "O idioma padrão de %s foi alterado. Você deve reinicializar o %s para que esta alteração tenha efeito."
 
 #: clientgui/DlgSelectComputer.cpp:91
 #, c-format
@@ -2255,9 +2209,7 @@ msgstr "Seus resultados"
 #: clientgui/Localization.cpp:49
 #: clientgui/Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
-msgstr ""
-"Visualize seus resultados de trabalho computacional da última semana (ou "
-"mais)"
+msgstr "Visualize seus resultados de trabalho computacional da última semana (ou mais)"
 
 #: clientgui/Localization.cpp:51
 #: clientgui/Localization.cpp:93
@@ -2266,9 +2218,7 @@ msgstr "Seus computadores"
 
 #: clientgui/Localization.cpp:53
 msgid "View a listing of all the computers on which you are running SETI@Home"
-msgstr ""
-"Visualize uma listagem de todos os computadores nos quais você executa "
-"SETI@home"
+msgstr "Visualize uma listagem de todos os computadores nos quais você executa SETI@home"
 
 #: clientgui/Localization.cpp:55
 #: clientgui/Localization.cpp:97
@@ -2298,9 +2248,7 @@ msgstr "Leia uma descrição detalhada da proteção de tela do Einstein@Home"
 
 #: clientgui/Localization.cpp:71
 msgid "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr ""
-"Correspondem com administradores e outros usuários dos quadros de mensagens "
-"do Einstein@Home"
+msgstr "Correspondem com administradores e outros usuários dos quadros de mensagens do Einstein@Home"
 
 #: clientgui/Localization.cpp:73
 msgid "Einstein status"
@@ -2316,14 +2264,11 @@ msgstr "Relatar problemas"
 
 #: clientgui/Localization.cpp:79
 msgid "A link to the Einstein@Home problems and bug reports message board"
-msgstr ""
-"Um link ao quadro de mensagens de relatórios de problemas e defeitos do "
-"Einstein@Home"
+msgstr "Um link ao quadro de mensagens de relatórios de problemas e defeitos do Einstein@Home"
 
 #: clientgui/Localization.cpp:83
 msgid "View and modify your Einstein@Home account profile and preferences"
-msgstr ""
-"Visualize e modifique seu perfil de conta e preferências do Einstein@Home"
+msgstr "Visualize e modifique seu perfil de conta e preferências do Einstein@Home"
 
 #: clientgui/Localization.cpp:85
 msgid "Account summary"
@@ -2331,9 +2276,7 @@ msgstr "Resumo de conta"
 
 #: clientgui/Localization.cpp:95
 msgid "View a listing of all the computers on which you are running Einstein@Home"
-msgstr ""
-"Visualize uma listagem de todos os computadores nos quais você executa "
-"Einstein@Home"
+msgstr "Visualize uma listagem de todos os computadores nos quais você executa Einstein@Home"
 
 #: clientgui/Localization.cpp:101
 msgid "LIGO project"
@@ -2910,7 +2853,6 @@ msgstr "Fechar"
 
 #: clientgui/sg_DlgMessages.cpp:394
 #, c-format
-#, fuzzy, c-format
 msgid "%s - Notices"
 msgstr "%s Avisos"
 
@@ -3264,9 +3206,8 @@ msgstr ""
 
 #: clientgui/sg_TaskPanel.cpp:705
 #, c-format
-#, fuzzy, c-format
 msgid "Application: %s"
-msgstr "Aplicação"
+msgstr ""
 
 #: clientgui/sg_TaskPanel.cpp:728
 #, c-format
@@ -4086,7 +4027,6 @@ msgstr ""
 
 #: clientgui/mac/Mac_GUI.cpp:39
 #, c-format
-#, fuzzy, c-format
 msgid "Quit %s"
 msgstr "&Sair %s"
 
@@ -4114,29 +4054,22 @@ msgstr ""
 #, no-c-format
 #~ msgid "% CPU time"
 #~ msgstr "% de tempo da CPU"
-
 #~ msgid "KBytes/sec."
 #~ msgstr "KBytes/s."
-
 #~ msgid "Mbytes"
 #~ msgstr "Mbytes"
-
 #~ msgid "every"
 #~ msgstr "a cada"
-
 #~ msgid "days"
 #~ msgstr "dias"
-
 #~ msgid "Gigabytes disk space"
 #~ msgstr "Gigabytes de espaço em disco"
-
 #~ msgid "Workunit name"
 #~ msgstr "Nome da unidade de trabalho"
 
 # float is a variable type in computer programming. It is a known and very used word among computer programmers on Brazil. I believe nobody or only a few people uses it in its translated form; there is no good translation for it in this context. Therefore, translating it may be unbecoming.
 #~ msgid "invalid float"
 #~ msgstr "float inválido"
-
 #, fuzzy
 #~ msgid "Display the advanced (accessible) graphical interface."
 #~ msgstr "Exibir a interface gráfica simples."
@@ -4153,10 +4086,8 @@ msgstr ""
 #, fuzzy
 #~ msgid "Elapsed Time: "
 #~ msgstr "Tempo decorrido"
-
 #~ msgid "Account manager website"
 #~ msgstr "Página do gerenciador de contas na internet"
-
 #~ msgid "Account Manager &URL:"
 #~ msgstr "Gerenciador de Contas &URL:"
 
@@ -4195,13 +4126,10 @@ msgstr ""
 #, no-c-format
 #~ msgid "% of the processors"
 #~ msgstr "% de processadores"
-
 #~ msgid "Identify your account "
 #~ msgstr "Identifique sua conta"
-
 #~ msgid "Read config file"
 #~ msgstr "Ler arquivo de configuração"
-
 #~ msgid "Read configuration info from cc_config.xml"
 #~ msgstr "Ler informações de configuração de cc_config.xml"
 
@@ -4212,44 +4140,32 @@ msgstr ""
 #~ msgstr ""
 #~ "(C) 2003-2010 Universidade da Califórnia, Berkeley.\n"
 #~ "Todos os Direitos Reservados."
-
 #~ msgid "Don't fetch NVIDIA GPU tasks"
 #~ msgstr "Não buscar tarefas de GPU NVIDIA"
-
 #~ msgid "NVIDIA GPU work fetch deferred for"
 #~ msgstr "Busca de trabalho de GPU NVIDIA diferido por"
-
 #~ msgid "NVIDIA GPU work fetch deferral interval"
 #~ msgstr "Intervalo de diferimento de busca de trabalho de GPU NVIDIA"
-
 #~ msgid "Don't fetch ATI GPU tasks"
 #~ msgstr "Não buscar tarefas de GPU ATI"
-
 #~ msgid "ATI GPU work fetch deferred for"
 #~ msgstr "Busca de trabalho de GPU ATI diferido por"
-
 #~ msgid "ATI GPU work fetch deferral interval"
 #~ msgstr "Intervalo de diferimento de busca de trabalho de GPU ATI"
-
 #~ msgid "Web sites"
 #~ msgstr "Páginas de internet"
-
 #~ msgid "Connect about every"
 #~ msgstr "Conectar a cada"
-
 #~ msgid ""
 #~ "this computer is connected to the Internet about every X days\n"
 #~ "(0 if it's always connected)"
 #~ msgstr ""
 #~ "este computador é conectado à Internet a cada X dias\n"
 #~ "(0 se está sempre conectado)"
-
 #~ msgid "days (max. 10)"
 #~ msgstr "dias (máximo 10)"
-
 #~ msgid "Display and network &options..."
 #~ msgstr "&Opções de exibição e rede..."
-
 #~ msgid ""
 #~ "You have requested to exit the %s,\n"
 #~ "which allows you to view and manage\n"
@@ -4264,55 +4180,39 @@ msgstr ""
 #~ "\n"
 #~ "Se também deseja interromper execução das aplicações científicas quando\n"
 #~ "sair do Gerenciador, então selecione das seguintes opções:"
-
 #~ msgid "Stop running science applications when exiting the Manager"
 #~ msgstr ""
 #~ "Interromper execução das aplicações científicas quando sair do Gerenciador"
-
 #~ msgid "CPU work fetch priority"
 #~ msgstr "Prioridade de busca de trabalhos de CPU"
-
 #~ msgid "NVIDIA GPU scheduling priority"
 #~ msgstr "Prioridade de escalonamento de GPU NVIDIA"
-
 #~ msgid "NVIDIA GPU work fetch priority"
 #~ msgstr "Prioridade de busca de trabalho de GPU NVIDIA"
-
 #~ msgid "ATI GPU scheduling priority"
 #~ msgstr "Prioridade de escalonamento de GPU ATI"
-
 #~ msgid "ATI GPU work fetch priority"
 #~ msgstr "Prioridade de busca de trabalho de GPU ATI"
-
 #~ msgid "%s - Options"
 #~ msgstr "%s - Opções"
-
 #~ msgid "Get help with BOINC"
 #~ msgstr "Obter ajuda com BOINC"
-
 #~ msgid "Event Log..."
 #~ msgstr "Registro de Eventos..."
-
 #~ msgid "Attaching to project or account manager..."
 #~ msgstr "Vinculando-se a projeto ou gerenciador de contas..."
-
 #~ msgid "%s - Detach from %s"
 #~ msgstr "%s - Desligar-se de %s"
-
 #~ msgid "Retrying communications."
 #~ msgstr "Tentando comunicações novamente."
-
 #~ msgid "Failed to attach to project"
 #~ msgstr "Falha ao vincular-se ao projeto"
-
 #~ msgid "Failed to attach to account manager"
 #~ msgstr "Falha ao vincular-se ao gerenciador de contas"
-
 #~ msgid "Attached to account manager"
 #~ msgstr "Vinculado ao gerenciador de contas"
-
 #~ msgid "You are now successfully attached to the %s system."
 #~ msgstr "Você está agora vinculado com sucesso ao sistema %s."
-
 #~ msgid "You are now successfully attached to this account manager."
 #~ msgstr "Você está agora vinculado com sucesso a este gerenciador de contas."
+
