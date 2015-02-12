@@ -13,6 +13,10 @@ if ENABLE_LIBRARIES
 if ENABLE_SERVER
     API_SUBDIRS += zip
 endif
+## boinc_zip needed for wrapper
+if ENABLE_APPS
+    API_SUBDIRS += zip
+endif
 if ENABLE_BOINCZIP
     API_SUBDIRS += zip
 endif
