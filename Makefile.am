@@ -34,9 +34,13 @@ if BUILD_X11_SCREENSAVER
 endif
 endif
 
+if ENABLE_APPS
+   APPS_SUBDIRS = samples
+endif
+
 # ORDER MATTERS below.  One must build dependencies FIRST, then things
 # that depend on them later
-SUBDIRS = m4 $(API_SUBDIRS) $(SERVER_SUBDIRS) $(CLIENT_SUBDIRS) $(CLIENTGUI_SUBDIRS) doc
+SUBDIRS = m4 $(API_SUBDIRS) $(SERVER_SUBDIRS) $(CLIENT_SUBDIRS) $(CLIENTGUI_SUBDIRS) $(APPS_SUBDIRS) doc
 
 # Putting a directory name recursively copies the entire contents - the
 # dist-hook below gets rid of CVS directories.
