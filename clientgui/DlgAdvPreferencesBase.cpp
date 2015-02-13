@@ -130,13 +130,13 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     m_Notebook->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
 
     m_panelProcessor = createProcessorTab(m_Notebook);
-    m_Notebook->AddPage( m_panelProcessor, _("processor usage"), false );
+    m_Notebook->AddPage( m_panelProcessor, _("Computing"), false );
 
     m_panelNetwork = createNetworkTab(m_Notebook);
-    m_Notebook->AddPage( m_panelNetwork, _("network usage"), true );
+    m_Notebook->AddPage( m_panelNetwork, _("Network"), true );
 
     m_panelDiskAndMemory = createDiskAndMemoryTab(m_Notebook);
-    m_Notebook->AddPage( m_panelDiskAndMemory, _("disk and memory usage"), false );
+    m_Notebook->AddPage( m_panelDiskAndMemory, _("Disk and Memory"), false );
     
     notebookSizer->Add( m_Notebook, 1, wxEXPAND | wxALL, 1 );
 
@@ -459,7 +459,7 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
     // upload/download rates
 
     m_chkNetDownloadRate = new wxCheckBox( networkGeneralStaticBox, ID_CHKNETDOWNLOADRATE, _("Limit download rate to"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkGeneralGridSizer->Add( m_chkNetDownloadRate, 0, wxALIGN_RIGHT|wxALL, 5 );
+    networkGeneralGridSizer->Add( m_chkNetDownloadRate, 0, wxALL, 5 );
 
     m_txtNetDownloadRate = new wxTextCtrl( networkGeneralStaticBox, ID_TXTNETDOWNLOADRATE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     networkGeneralGridSizer->Add( m_txtNetDownloadRate, 0, wxALL, 1 );
@@ -467,13 +467,13 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
     wxStaticText* staticText33 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("KBytes/second"), wxDefaultPosition, wxDefaultSize, 0 );
     networkGeneralGridSizer->Add( staticText33, 0, wxALL, 5 );
 
-    m_chkNetUploadRate = new wxCheckBox( networkGeneralStaticBox, ID_CHKNETUPLOADRATE, _("Maximum upload rate"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkGeneralGridSizer->Add( m_chkNetUploadRate, 0, wxALIGN_RIGHT|wxALL, 5 );
+    m_chkNetUploadRate = new wxCheckBox( networkGeneralStaticBox, ID_CHKNETUPLOADRATE, _("Limit upload rate to"), wxDefaultPosition, wxDefaultSize, 0 );
+    networkGeneralGridSizer->Add( m_chkNetUploadRate, 0, wxALL, 5 );
 
     m_txtNetUploadRate = new wxTextCtrl( networkGeneralStaticBox, ID_TXTNETUPLOADRATE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     networkGeneralGridSizer->Add( m_txtNetUploadRate, 0, wxALL, 1 );
 
-    wxStaticText* staticText35 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("KBytes/second (0 means no restriction)"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText* staticText35 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("KBytes/second"), wxDefaultPosition, wxDefaultSize, 0 );
     networkGeneralGridSizer->Add( staticText35, 0, wxALL, 5 );
 
     // buffer sizes
@@ -482,7 +482,7 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
         networkGeneralStaticBox, ID_DEFAULT,
         _("Minimum work buffer"), wxDefaultPosition, wxDefaultSize, 0
     );
-    networkGeneralGridSizer->Add( staticText30, 0, wxALIGN_RIGHT|wxALL, 5 );
+    networkGeneralGridSizer->Add( staticText30, 0, wxALL, 5 );
 
     m_txtNetConnectInterval = new wxTextCtrl(
         networkGeneralStaticBox, ID_TXTNETCONNECTINTERVAL, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT
@@ -502,7 +502,7 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
         networkGeneralStaticBox, ID_DEFAULT,
         _("Max additional work buffer"), wxDefaultPosition, wxDefaultSize, 0
     );
-    networkGeneralGridSizer->Add( staticText331, 0, wxALIGN_RIGHT|wxALL, 5 );
+    networkGeneralGridSizer->Add( staticText331, 0, wxALL, 5 );
 
     m_txtNetAdditionalDays = new wxTextCtrl(
         networkGeneralStaticBox, ID_TXTNETADDITIONALDAYS, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT
@@ -522,7 +522,7 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
     // long-term quota
 
     m_chk_daily_xfer_limit = new wxCheckBox( networkGeneralStaticBox, ID_CHKDAILYXFERLIMIT, _("Limit network usage to"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkGeneralGridSizer->Add( m_chk_daily_xfer_limit, 0, wxALIGN_RIGHT|wxALL, 5 );
+    networkGeneralGridSizer->Add( m_chk_daily_xfer_limit, 0, wxALL, 5 );
 
     m_txt_daily_xfer_limit_mb = new wxTextCtrl( networkGeneralStaticBox, ID_TXTNETDOWNLOADRATE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     networkGeneralGridSizer->Add( m_txt_daily_xfer_limit_mb, 0, wxALL, 1 );
