@@ -45,12 +45,14 @@
 #define ID_ADV_PREFS_START 20000
 enum {
     ID_BTN_CLEAR = ID_ADV_PREFS_START,
+    ID_CHKDAILYXFERLIMIT,
     ID_CHKDISKLEASTFREE,
     ID_CHKDISKMAXOFTOTAL,
     ID_CHKDISKMAXSPACE,
     ID_CHKMEMORYWHILESUSPENDED,
     ID_CHKNETCONFIRMBEFORECONNECT,
     ID_CHKNETDISCONNECTWHENDONE,
+    ID_CHKNETDOWNLOADRATE,
     ID_CHKNETFRIDAY,
     ID_CHKNETMONDAY,
     ID_CHKNETSATURDAY,
@@ -58,6 +60,7 @@ enum {
     ID_CHKNETSUNDAY,
     ID_CHKNETTHURSDAY,
     ID_CHKNETTUESDAY,
+    ID_CHKNETUPLOADRATE,
     ID_CHKNETWEDNESDAY,
     ID_CHKPROCEVERYDAY,
     ID_CHKPROCFRIDAY,
@@ -70,8 +73,6 @@ enum {
     ID_CHKPROCTHURSDAY,
     ID_CHKPROCTUESDAY,
     ID_CHKPROCWEDNESDAY,
-    ID_CHKPROCUSECPUTIME,
-    ID_CHKPROCUSEPROCESSORS,
     ID_TABPAGE_DISK,
     ID_TABPAGE_NET,
     ID_TABPAGE_PROC,
@@ -126,9 +127,7 @@ protected:
     wxPanel* m_panelControls;
     wxNotebook* m_Notebook;
     wxPanel* m_panelProcessor;
-    wxCheckBox* m_chkProcUseProcessors;
     wxTextCtrl* m_txtProcUseProcessors;
-    wxCheckBox* m_chkProcUseCPUTime;
     wxTextCtrl* m_txtProcUseCPUTime;
     wxCheckBox* m_chkProcOnBatteries;
     wxCheckBox* m_chkProcInUse;
@@ -157,9 +156,12 @@ protected:
     wxTextCtrl* m_txtProcSwitchEvery;
     wxTextCtrl* m_txtDiskWriteToDisk;
     wxPanel* m_panelNetwork;
+    wxCheckBox* m_chkNetDownloadRate;
     wxTextCtrl* m_txtNetDownloadRate;
+    wxCheckBox* m_chkNetUploadRate;
     wxTextCtrl* m_txtNetUploadRate;
 
+    wxCheckBox * m_chk_daily_xfer_limit;
     wxTextCtrl* m_txt_daily_xfer_limit_mb;
     wxTextCtrl* m_txt_daily_xfer_period_days;
 

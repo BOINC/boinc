@@ -65,6 +65,7 @@ public:
 private:
     GLOBAL_PREFS      prefs;
     GLOBAL_PREFS_MASK mask;
+    GLOBAL_PREFS      defaultPrefs;
     LOG_FLAGS log_flags;
     CC_CONFIG config;
 	bool m_bPrefsDataChanged;

@@ -191,9 +191,10 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     usageLimitsGridSizer->SetFlexibleDirection( wxHORIZONTAL );
     usageLimitsGridSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 
-    m_chkProcUseProcessors = new wxCheckBox (
-        usageLimitsStaticBox, ID_CHKPROCUSEPROCESSORS, _("Use at most"), wxDefaultPosition, wxDefaultSize, 0 );
-    usageLimitsGridSizer->Add( m_chkProcUseProcessors, 0, wxALL|wxEXPAND, 5 );
+    /*xgettext:no-c-format*/
+    wxStaticText* m_staticText20 = new wxStaticText(
+        usageLimitsStaticBox, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, 0 );
+    usageLimitsGridSizer->Add( m_staticText20, 0, wxALL|wxEXPAND, 5 );
 
     m_txtProcUseProcessors = new wxTextCtrl( usageLimitsStaticBox, ID_TXTPROCUSEPROCESSORS, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     usageLimitsGridSizer->Add( m_txtProcUseProcessors, 0, wxALL, 1 );
@@ -202,9 +203,9 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     wxStaticText* staticText21 = new wxStaticText( usageLimitsStaticBox, ID_DEFAULT, _("% of the CPUs"), wxDefaultPosition, wxDefaultSize, 0 );
     usageLimitsGridSizer->Add( staticText21, 0, wxALL, 5 );
 
-    m_chkProcUseCPUTime = new wxCheckBox (
-        usageLimitsStaticBox, ID_CHKPROCUSECPUTIME, _("Use at most"), wxDefaultPosition, wxDefaultSize, 0 );
-    usageLimitsGridSizer->Add( m_chkProcUseCPUTime, 0, wxALL|wxEXPAND, 5 );
+    wxStaticText* m_staticText22 = new wxStaticText(
+        usageLimitsStaticBox, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, 0 );
+    usageLimitsGridSizer->Add( m_staticText22, 0, wxALL|wxEXPAND, 5 );
 
     usageLimitsBoxSizer->Add( usageLimitsGridSizer, 0, wxEXPAND, 1 );
 
@@ -457,17 +458,17 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
 
     // upload/download rates
 
-    wxStaticText* staticText32 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("Maximum download rate"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkGeneralGridSizer->Add( staticText32, 0, wxALIGN_RIGHT|wxALL, 5 );
+    m_chkNetDownloadRate = new wxCheckBox( networkGeneralStaticBox, ID_CHKNETDOWNLOADRATE, _("Limit download rate to"), wxDefaultPosition, wxDefaultSize, 0 );
+    networkGeneralGridSizer->Add( m_chkNetDownloadRate, 0, wxALIGN_RIGHT|wxALL, 5 );
 
     m_txtNetDownloadRate = new wxTextCtrl( networkGeneralStaticBox, ID_TXTNETDOWNLOADRATE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     networkGeneralGridSizer->Add( m_txtNetDownloadRate, 0, wxALL, 1 );
 
-    wxStaticText* staticText33 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("KBytes/second (0 means no restriction)"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText* staticText33 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("KBytes/second"), wxDefaultPosition, wxDefaultSize, 0 );
     networkGeneralGridSizer->Add( staticText33, 0, wxALL, 5 );
 
-    wxStaticText* staticText34 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("Maximum upload rate"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkGeneralGridSizer->Add( staticText34, 0, wxALIGN_RIGHT|wxALL, 5 );
+    m_chkNetUploadRate = new wxCheckBox( networkGeneralStaticBox, ID_CHKNETUPLOADRATE, _("Maximum upload rate"), wxDefaultPosition, wxDefaultSize, 0 );
+    networkGeneralGridSizer->Add( m_chkNetUploadRate, 0, wxALIGN_RIGHT|wxALL, 5 );
 
     m_txtNetUploadRate = new wxTextCtrl( networkGeneralStaticBox, ID_TXTNETUPLOADRATE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     networkGeneralGridSizer->Add( m_txtNetUploadRate, 0, wxALL, 1 );
@@ -520,8 +521,8 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
 
     // long-term quota
 
-    wxStaticText* staticText_daily_xfer1 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("Transfer at most"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkGeneralGridSizer->Add( staticText_daily_xfer1, 0, wxALIGN_RIGHT|wxALL, 5 );
+    m_chk_daily_xfer_limit = new wxCheckBox( networkGeneralStaticBox, ID_CHKDAILYXFERLIMIT, _("Limit network usage to"), wxDefaultPosition, wxDefaultSize, 0 );
+    networkGeneralGridSizer->Add( m_chk_daily_xfer_limit, 0, wxALIGN_RIGHT|wxALL, 5 );
 
     m_txt_daily_xfer_limit_mb = new wxTextCtrl( networkGeneralStaticBox, ID_TXTNETDOWNLOADRATE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     networkGeneralGridSizer->Add( m_txt_daily_xfer_limit_mb, 0, wxALL, 1 );
@@ -535,7 +536,7 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
     m_txt_daily_xfer_period_days = new wxTextCtrl( networkGeneralStaticBox, ID_TXTNETUPLOADRATE, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("999.99")), wxTE_RIGHT );
     networkTransferLimitSizer->Add( m_txt_daily_xfer_period_days, 0, wxALL, 1 );
 
-    wxStaticText* staticText_daily_xfer4 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("days (0 means no restriction)"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText* staticText_daily_xfer4 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("days"), wxDefaultPosition, wxDefaultSize, 0 );
     networkTransferLimitSizer->Add( staticText_daily_xfer4, 0, wxALL, 5 );
 
     networkGeneralGridSizer->Add( networkTransferLimitSizer, 0, wxALL, 0 );
