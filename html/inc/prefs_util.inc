@@ -215,6 +215,10 @@ class NUM_SPEC {
             $error = true;
         }
     }
+    function get_default() {
+        if ($this->default) return $this->default;
+        return $this->default2;
+    }
 }
 
 // a numeric item
@@ -264,26 +268,31 @@ class PREF_NUM extends PREF {
 function checkbox_clicked_js() {
     echo "
         <script type=text/javascript>
-        function checkbox_clicked(id, tid1, tid2, d) {
+        function checkbox_clicked(id, tid, d) {
+            e = document.getElementById(id);
+            t = document.getElementById(tid);
+            if (e.checked) {
+                t.disabled = false;
+                t.value = d;
+            } else {
+                t.disabled = true;
+                t.value = '';
+            }
+        }
+        function checkbox_clicked2(id, tid1, tid2, d1, d2) {
             e = document.getElementById(id);
             t1 = document.getElementById(tid1);
-            if (tid2) {
-                t2 = document.getElementById(tid2);
-            }
+            t2 = document.getElementById(tid2);
             if (e.checked) {
                 t1.disabled = false;
-                t1.value = d;
-                if (tid2) {
-                    t2.disabled = false;
-                    t2.value = d;
-                }
+                t1.value = d1;
+                t2.disabled = false;
+                t2.value = d2;
             } else {
                 t1.disabled = true;
                 t1.value = '';
-                if (tid2) {
-                    t2.disabled = true;
-                    t2.value = '';
-                }
+                t2.disabled = true;
+                t2.value = '';
             }
         }
         </script>
@@ -311,16 +320,12 @@ class PREF_OPT_NUM extends PREF {
         $class = $had_error ?"fieldvalue_error":"fieldvalue";
         $checkbox_id = $this->tag."_cb";
         $text_id = $this->tag;
-        if ($this->num_spec->default) {
-            $default = $this->num_spec->default;
-        } else {
-            $default = $this->num_spec->default2;
-        }
+        $default = $this->num_spec->get_default();
         $val = $prefs->$tag;
         $c = $val?"checked":"";
         $d = $val?"":"disabled";
         echo "<td class=$class>"
-            ."<input type=checkbox id=$checkbox_id onClick=\"checkbox_clicked('$checkbox_id', '$text_id', false, $default)\" $c>"
+            ."<input type=checkbox id=$checkbox_id onClick=\"checkbox_clicked('$checkbox_id', '$text_id', $default)\" $c>"
             .$this->num_spec->form_str($tag, $prefs->$tag, $had_error, $d, $text_id)
             ."</td>
         ";
@@ -388,8 +393,10 @@ class PREF_NUM2 extends PREF {
             $c = "";
             $d = "disabled";
         }
+        $def1 = $this->num_spec1->get_default();
+        $def2 = $this->num_spec2->get_default();
         echo "<td class=$class>"
-            ."<input type=checkbox id=$checkbox_id onClick=\"checkbox_clicked('$checkbox_id', '$t1_id', '$t2_id', 0)\" $c>"
+            ."<input type=checkbox id=$checkbox_id onClick=\"checkbox_clicked2('$checkbox_id', '$t1_id', '$t2_id', $def1, $def2)\" $c>"
             .$this->num_spec1->form_str($tag, $prefs->$tag, $had_error, $d, $t1_id)
             .$this->num_spec2->form_str($tag2, $prefs->$tag2, $had_error, $d, $t2_id)
             ."</td>
@@ -473,7 +480,7 @@ class PREF_HOUR_RANGE extends PREF {
             $d = "";
         }
         echo "<td class=fieldvalue>"
-            ."<input type=checkbox id=$checkbox_id onClick=\"checkbox_clicked('$checkbox_id', '$t1_id', '$t2_id', 0)\" $c>"
+            ."<input type=checkbox id=$checkbox_id onClick=\"checkbox_clicked2('$checkbox_id', '$t1_id', '$t2_id', 0, 0)\" $c>"
 
             .hour_select($prefs->$tag, $tag, $t1_id, $d)
             ." "

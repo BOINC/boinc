@@ -177,8 +177,8 @@ $net_prefs = array(
             ."</p>",
         "daily_xfer_limit_mb",
         "daily_xfer_period_days",
-        new NUM_SPEC(tra("Mbytes every"), 0, 9999999, 0),
-        new NUM_SPEC(tra("days"), 0, 9999999, 0)
+        new NUM_SPEC(tra("Mbytes every"), 0, 9999999, 0, 1, 10000),
+        new NUM_SPEC(tra("days"), 0, 9999999, 0, 1, 30)
     ),
     "When to suspend",
     new PREF_HOUR_RANGE(
