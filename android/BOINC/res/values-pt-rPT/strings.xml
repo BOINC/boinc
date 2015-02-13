@@ -63,7 +63,7 @@
   <string name="attachproject_login_category_creation">Novo a</string>
   <string name="attachproject_login_header_creation_enabled">Registar uma conta para participar:</string>
   <string name="attachproject_login_header_creation_client_disabled">Visite o website do projecto para criar uma conta:</string>
-  <string name="attachproject_login_header_creation_disabled">O projecto não permite de momento a criação de novas contas!</string>
+  <string name="attachproject_login_header_creation_disabled">Este projecto não está a aceitar de momento novas contas</string>
   <string name="attachproject_login_button_registration">Registar</string>
   <string name="attachproject_login_button_login">Entrar</string>
   <string name="attachproject_login_button_forgotpw">Esqueceu a Palavra-passe</string>
@@ -197,7 +197,7 @@
   <string name="prefs_unit_gb">GB</string>
   <string name="prefs_unit_pct">%</string>
   <string name="prefs_unit_celcius">ºC</string>
-  <string name="prefs_unit_seconds">s</string>
+  <string name="prefs_unit_seconds">seg</string>
   <!--projects tab strings-->
   <string name="projects_loading">A ler projectos...</string>
   <string name="projects_add">Adicionar projecto</string>

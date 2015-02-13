@@ -42,66 +42,78 @@
 ///////////////////////////////////////////////////////////////////////////
 
 #define ID_DEFAULT wxID_ANY // Default
-#define ID_BTN_CLEAR 20000
-#define ID_CHKMEMORYWHILESUSPENDED 20001
-#define ID_CHKNETCONFIRMBEFORECONNECT 20002
-#define ID_CHKNETDISCONNECTWHENDONE 20003
-#define ID_CHKNETFRIDAY 20004
-#define ID_CHKNETMONDAY 20005
-#define ID_CHKNETSATURDAY 20006
-#define ID_CHKNETSKIPIMAGEVERIFICATION 20007
-#define ID_CHKNETSUNDAY 20008
-#define ID_CHKNETTHURSDAY 20009
-#define ID_CHKNETTUESDAY 20010
-#define ID_CHKNETWEDNESDAY 20011
-#define ID_CHKPROCFRIDAY 20012
-#define ID_CHKPROCINUSE 20013
-#define ID_CHKPROCMONDAY 20014
-#define ID_CHKPROCONBATTERIES 20015
-#define ID_CHKPROCSATURDAY 20016
-#define ID_CHKPROCSUNDAY 20017
-#define ID_CHKPROCTHURSDAY 20018
-#define ID_CHKPROCTUESDAY 20019
-#define ID_CHKPROCWEDNESDAY 20020
-#define ID_TABPAGE_DISK 20021
-#define ID_TABPAGE_NET 20022
-#define ID_TABPAGE_PROC 20023
-#define ID_TXTDISKLEASTFREE 20024
-#define ID_TXTDISKMAXOFTOTAL 20025
-#define ID_TXTDISKMAXSPACE 20026
-#define ID_TXTDISKWRITETODISK 20027
-#define ID_TXTMEMORYMAXINUSE 20028
-#define ID_TXTMEMORYMAXONIDLE 20029
-#define ID_TXTNETADDITIONALDAYS 20030
-#define ID_TXTNETCONNECTINTERVAL 20031
-#define ID_TXTNETDOWNLOADRATE 20032
-#define ID_TXTNETEVERYDAYSTART 20033
-#define ID_TXTNETEVERYDAYSTOP 20034
-#define ID_TXTNETFRIDAY 20035
-#define ID_TXTNETMONDAY 20036
-#define ID_TXTNETSATURDAY 20037
-#define ID_TXTNETSUNDAY 20038
-#define ID_TXTNETTHURSDAY 20039
-#define ID_TXTNETTUESDAY 20040
-#define ID_TXTNETUPLOADRATE 20041
-#define ID_TXTNETWEDNESDAY 20042
-#define ID_TXTPOCUSECPUTIME 20043
-#define ID_TXTPROCEVERYDAYSTART 20044
-#define ID_TXTPROCEVERYDAYSTOP 20045
-#define ID_TXTPROCFRIDAY 20046
-#define ID_TXTPROCIDLEFOR 20047
-#define ID_TXTPROCMONDAY 20048
-#define ID_TXTPROCSATURDAY 20049
-#define ID_TXTPROCSUNDAY 20050
-#define ID_TXTPROCSWITCHEVERY 20051
-#define ID_TXTPROCTHURSDAY 20052
-#define ID_TXTPROCTUESDAY 20053
-#define ID_TXTPROCUSEPROCESSORS 20054
-#define ID_TXTPROCWEDNESDAY 20055
-#define ID_CHKGPUPROCINUSE 20056
-#define ID_TXTMAXLOAD 20057
-#define ID_DAILY_XFER_LIMIT_MB  20058
-#define ID_DAILY_XFER_PERIOD_DAYS  20059
+#define ID_ADV_PREFS_START 20000
+enum {
+    ID_BTN_CLEAR = ID_ADV_PREFS_START,
+    ID_CHKDAILYXFERLIMIT,
+    ID_CHKDISKLEASTFREE,
+    ID_CHKDISKMAXOFTOTAL,
+    ID_CHKDISKMAXSPACE,
+    ID_CHKMEMORYWHILESUSPENDED,
+    ID_CHKNETCONFIRMBEFORECONNECT,
+    ID_CHKNETDISCONNECTWHENDONE,
+    ID_CHKNETDOWNLOADRATE,
+    ID_CHKNETFRIDAY,
+    ID_CHKNETMONDAY,
+    ID_CHKNETSATURDAY,
+    ID_CHKNETSKIPIMAGEVERIFICATION,
+    ID_CHKNETSUNDAY,
+    ID_CHKNETTHURSDAY,
+    ID_CHKNETTUESDAY,
+    ID_CHKNETUPLOADRATE,
+    ID_CHKNETWEDNESDAY,
+    ID_CHKPROCEVERYDAY,
+    ID_CHKPROCFRIDAY,
+    ID_CHKPROCINUSE,
+    ID_CHKPROCMONDAY,
+    ID_CHKMAXLOAD,
+    ID_CHKPROCONBATTERIES,
+    ID_CHKPROCSATURDAY,
+    ID_CHKPROCSUNDAY,
+    ID_CHKPROCTHURSDAY,
+    ID_CHKPROCTUESDAY,
+    ID_CHKPROCWEDNESDAY,
+    ID_TABPAGE_DISK,
+    ID_TABPAGE_NET,
+    ID_TABPAGE_PROC,
+    ID_TXTDISKLEASTFREE,
+    ID_TXTDISKMAXOFTOTAL,
+    ID_TXTDISKMAXSPACE,
+    ID_TXTDISKWRITETODISK,
+    ID_TXTMEMORYMAXINUSE,
+    ID_TXTMEMORYMAXONIDLE,
+    ID_TXTNETADDITIONALDAYS,
+    ID_TXTNETCONNECTINTERVAL,
+    ID_TXTNETDOWNLOADRATE,
+    ID_TXTNETEVERYDAYSTART,
+    ID_TXTNETEVERYDAYSTOP,
+    ID_TXTNETFRIDAY,
+    ID_TXTNETMONDAY,
+    ID_TXTNETSATURDAY,
+    ID_TXTNETSUNDAY,
+    ID_TXTNETTHURSDAY,
+    ID_TXTNETTUESDAY,
+    ID_TXTNETUPLOADRATE,
+    ID_TXTNETWEDNESDAY,
+    ID_TXTPOCUSECPUTIME,
+    ID_TXTPROCEVERYDAYSTART,
+    ID_TXTPROCEVERYDAYSTOP,
+    ID_TXTPROCFRIDAY,
+    ID_TXTPROCIDLEFOR,
+    ID_TXTPROCMONDAY,
+    ID_TXTPROCSATURDAY,
+    ID_TXTPROCSUNDAY,
+    ID_TXTPROCSWITCHEVERY,
+    ID_TXTPROCTHURSDAY,
+    ID_TXTPROCTUESDAY,
+    ID_TXTPROCUSEPROCESSORS,
+    ID_TXTPROCWEDNESDAY,
+    ID_CHKGPUPROCINUSE,
+    ID_TXTMAXLOAD,
+    ID_DAILY_XFER_LIMIT_MB,
+    ID_DAILY_XFER_PERIOD_DAYS,
+    ID_ADV_PREFS_LAST
+};
 
 
 /**
@@ -115,11 +127,15 @@ protected:
     wxPanel* m_panelControls;
     wxNotebook* m_Notebook;
     wxPanel* m_panelProcessor;
+    wxTextCtrl* m_txtProcUseProcessors;
+    wxTextCtrl* m_txtProcUseCPUTime;
     wxCheckBox* m_chkProcOnBatteries;
     wxCheckBox* m_chkProcInUse;
     wxCheckBox* m_chkGPUProcInUse;
     wxTextCtrl* m_txtProcIdleFor;
+    wxCheckBox* m_chkMaxLoad;
     wxTextCtrl* m_txtMaxLoad;
+    wxCheckBox* m_chkProcEveryDay;
     wxTextCtrl* m_txtProcEveryDayStart;
     wxTextCtrl* m_txtProcEveryDayStop;
     wxPanel* m_panelProcSpecialTimes;
@@ -138,12 +154,14 @@ protected:
     wxCheckBox* m_chkProcSunday;
     wxTextCtrl* m_txtProcSunday;
     wxTextCtrl* m_txtProcSwitchEvery;
-    wxTextCtrl* m_txtProcUseProcessors;
-    wxTextCtrl* m_txtProcUseCPUTime;
+    wxTextCtrl* m_txtDiskWriteToDisk;
     wxPanel* m_panelNetwork;
+    wxCheckBox* m_chkNetDownloadRate;
     wxTextCtrl* m_txtNetDownloadRate;
+    wxCheckBox* m_chkNetUploadRate;
     wxTextCtrl* m_txtNetUploadRate;
 
+    wxCheckBox * m_chk_daily_xfer_limit;
     wxTextCtrl* m_txt_daily_xfer_limit_mb;
     wxTextCtrl* m_txt_daily_xfer_period_days;
 
@@ -152,7 +170,7 @@ protected:
     wxCheckBox* m_chkNetSkipImageVerification;
     wxCheckBox* m_chkNetConfirmBeforeConnect;
     wxCheckBox* m_chkNetDisconnectWhenDone;
-     wxTextCtrl* m_txtNetEveryDayStart;
+    wxTextCtrl* m_txtNetEveryDayStart;
     wxTextCtrl* m_txtNetEveryDayStop;
     wxPanel* m_panelNetSpecialTimes;
     wxCheckBox* m_chkNetMonday;
@@ -170,10 +188,12 @@ protected:
     wxCheckBox* m_chkNetSunday;
     wxTextCtrl* m_txtNetSunday;
     wxPanel* m_panelDiskAndMemory;
+    wxCheckBox* m_chkDiskMaxSpace;
     wxTextCtrl* m_txtDiskMaxSpace;
+    wxCheckBox* m_chkDiskLeastFree;
     wxTextCtrl* m_txtDiskLeastFree;
+    wxCheckBox* m_chkDiskMaxOfTotal;
     wxTextCtrl* m_txtDiskMaxOfTotal;
-    wxTextCtrl* m_txtDiskWriteToDisk;
     wxTextCtrl* m_txtDiskMaxSwap;
     wxTextCtrl* m_txtMemoryMaxInUse;
     wxTextCtrl* m_txtMemoryMaxOnIdle;

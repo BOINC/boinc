@@ -897,6 +897,8 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         }
         if (xp.parse_double("min_os_version", min_os_version)) continue;
         if (xp.parse_double("max_os_version", max_os_version)) continue;
+        if (xp.parse_int("min_android_version", min_android_version)) continue;
+        if (xp.parse_int("max_android_version", max_android_version)) continue;
         if (xp.parse_str("project_prefs_tag", project_prefs_tag, sizeof(project_prefs_tag))) continue;
         if (xp.parse_str("project_prefs_regex", buf, sizeof(buf))) {
             if (regcomp(&(project_prefs_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
