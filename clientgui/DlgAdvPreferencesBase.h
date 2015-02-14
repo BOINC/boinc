@@ -45,6 +45,24 @@
 #define ID_ADV_PREFS_START 20000
 enum {
     ID_BTN_CLEAR = ID_ADV_PREFS_START,
+    // These 7 must be in sequence
+    ID_CHKNETSUNDAY,
+    ID_CHKNETMONDAY,
+    ID_CHKNETTUESDAY,
+    ID_CHKNETWEDNESDAY,
+    ID_CHKNETTHURSDAY,
+    ID_CHKNETFRIDAY,
+    ID_CHKNETSATURDAY,
+
+    // These 7 must be in sequence
+    ID_CHKPROCSUNDAY,
+    ID_CHKPROCMONDAY,
+    ID_CHKPROCTUESDAY,
+    ID_CHKPROCWEDNESDAY,
+    ID_CHKPROCTHURSDAY,
+    ID_CHKPROCFRIDAY,
+    ID_CHKPROCSATURDAY,
+
     ID_CHKDAILYXFERLIMIT,
     ID_CHKDISKLEASTFREE,
     ID_CHKDISKMAXOFTOTAL,
@@ -53,26 +71,12 @@ enum {
     ID_CHKNETCONFIRMBEFORECONNECT,
     ID_CHKNETDISCONNECTWHENDONE,
     ID_CHKNETDOWNLOADRATE,
-    ID_CHKNETFRIDAY,
-    ID_CHKNETMONDAY,
-    ID_CHKNETSATURDAY,
     ID_CHKNETSKIPIMAGEVERIFICATION,
-    ID_CHKNETSUNDAY,
-    ID_CHKNETTHURSDAY,
-    ID_CHKNETTUESDAY,
     ID_CHKNETUPLOADRATE,
-    ID_CHKNETWEDNESDAY,
     ID_CHKPROCEVERYDAY,
-    ID_CHKPROCFRIDAY,
     ID_CHKPROCINUSE,
-    ID_CHKPROCMONDAY,
     ID_CHKMAXLOAD,
     ID_CHKPROCONBATTERIES,
-    ID_CHKPROCSATURDAY,
-    ID_CHKPROCSUNDAY,
-    ID_CHKPROCTHURSDAY,
-    ID_CHKPROCTUESDAY,
-    ID_CHKPROCWEDNESDAY,
     ID_TABPAGE_DISK,
     ID_TABPAGE_NET,
     ID_TABPAGE_PROC,
@@ -198,6 +202,7 @@ protected:
     wxTextCtrl* m_txtMemoryMaxInUse;
     wxTextCtrl* m_txtMemoryMaxOnIdle;
     wxCheckBox* m_chkMemoryWhileSuspended;
+    wxPanel* m_panelDailySchedules;
     
     wxPanel* m_panelButtons;
     wxButton* m_btnOK;
@@ -213,6 +218,7 @@ private:
     wxPanel* createProcessorTab(wxNotebook* notebook);
     wxPanel* createNetworkTab(wxNotebook* notebook);
     wxPanel* createDiskAndMemoryTab(wxNotebook* notebook);
+    wxPanel* createDailySchedulesTab(wxNotebook* notebook);
     wxSize getTextCtrlSize(wxString maxText);
     bool doesLocalPrefsFileExist();
 };
