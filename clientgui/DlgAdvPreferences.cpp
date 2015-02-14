@@ -987,6 +987,7 @@ void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
     if(!m_bInInit) {
         m_bPrefsDataChanged=true;
         // If user has just set the checkbox, set textedit field to default value
+        // Note: use ChangeValue() here to avoid generating extra events
         if ((ev.GetEventType() == wxEVT_CHECKBOX)) {
             wxString buffer = wxEmptyString;
             switch (ev.GetId()) {
@@ -1016,6 +1017,9 @@ void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
                     buffer.Printf(wxT("%.2f"),defaultPrefs.daily_xfer_limit_mb);
                     m_txt_daily_xfer_limit_mb->ChangeValue(buffer);
                     buffer.Printf(wxT("%d"),defaultPrefs.daily_xfer_period_days );
+                    m_txt_daily_xfer_period_days->ChangeValue(buffer);
+                } else {
+                    m_txt_daily_xfer_limit_mb->ChangeValue(buffer);
                     m_txt_daily_xfer_period_days->ChangeValue(buffer);
                 }
                 break;
