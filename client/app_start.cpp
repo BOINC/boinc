@@ -528,10 +528,13 @@ int ACTIVE_TASK::start(bool test) {
         return 0;
     }
 
-    // run it at above idle priority if it uses less than one CPU
-    // or is a wrapper
+    // run it at above idle priority if it
+    // - uses coprocs
+    // - uses less than one CPU
+    // - is a wrapper
     //
     bool high_priority = false;
+    if (app_version->rsc_type()) high_priority = true;
     if (app_version->avg_ncpus < 1) high_priority = true;
     if (app_version->is_wrapper) high_priority = true;
 
