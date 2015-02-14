@@ -272,10 +272,12 @@ void GLOBAL_PREFS::defaults() {
 //
 void GLOBAL_PREFS::enabled_defaults() {
     defaults();
+    disk_max_used_gb = 100;
+    disk_min_free_gb = 1.0;
     daily_xfer_limit_mb = 10000;
     daily_xfer_period_days = 30;
-    max_bytes_sec_down = 100e3;
-    max_bytes_sec_up = 100e3;
+    max_bytes_sec_down = 100*KILO;
+    max_bytes_sec_up = 100*KILO;
 }
 
 // call before parsing
