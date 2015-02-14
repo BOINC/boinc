@@ -72,6 +72,10 @@ private:
 	bool m_bInInit;
 	wxArrayInt m_arrTabPageIds;
     wxTextValidator* m_vTimeIntervalValidator;
+    wxCheckBox* procDayChks[7];
+    wxTextCtrl* procDayTxts[7];
+    wxCheckBox* netDayChks[7];
+    wxTextCtrl* netDayTxts[7];
 };
 
 #endif // _DLGADVPREFERENCES_H_

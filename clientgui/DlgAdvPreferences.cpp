@@ -77,6 +77,18 @@ CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBas
     //setting warning bitmap
     m_bmpWarning->SetBitmap(wxBitmap(warning_xpm));
 
+    wxCheckBox* proc_cb[] = {m_chkProcSunday,m_chkProcMonday,m_chkProcTuesday,m_chkProcWednesday,m_chkProcThursday,m_chkProcFriday,m_chkProcSaturday};
+    wxTextCtrl* proc_tc[] = {m_txtProcSunday,m_txtProcMonday,m_txtProcTuesday,m_txtProcWednesday,m_txtProcThursday,m_txtProcFriday,m_txtProcSaturday};
+    wxCheckBox* net_cb[] = {m_chkNetSunday,m_chkNetMonday,m_chkNetTuesday,m_chkNetWednesday,m_chkNetThursday,m_chkNetFriday,m_chkNetSaturday};
+    wxTextCtrl* net_tc[] = {m_txtNetSunday,m_txtNetMonday,m_txtNetTuesday,m_txtNetWednesday,m_txtNetThursday,m_txtNetFriday,m_txtNetSaturday};
+    for (int i=0; i<7; ++i) {
+        procDayChks[i] = proc_cb[i];
+        procDayTxts[i] = proc_tc[i];
+        netDayChks[i] = net_cb[i];
+        netDayTxts[i] = net_tc[i];
+
+    }
+    
     // init special tooltips
     SetSpecialTooltips();
     //setting the validators for correct input handling
@@ -84,12 +96,7 @@ CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBas
     //read in settings and initialize controls
     ReadPreferenceSettings();
     // Get default preference values
-    defaultPrefs.defaults();
-    // Work around inconsistencies between GLOBAL_PREFS::defaults() and web defaults
-    defaultPrefs.disk_max_used_gb = 100;
-    defaultPrefs.disk_min_free_gb = 1.0;
-    defaultPrefs.max_bytes_sec_down = 102400.;
-    defaultPrefs.max_bytes_sec_up = 102400.;
+    defaultPrefs.enabled_defaults();
     //
     RestoreState();
 
@@ -278,16 +285,14 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     }
 
     //special day times
-    wxCheckBox* aChks[] = {m_chkProcSunday,m_chkProcMonday,m_chkProcTuesday,m_chkProcWednesday,m_chkProcThursday,m_chkProcFriday,m_chkProcSaturday};
-    wxTextCtrl* aTxts[] = {m_txtProcSunday,m_txtProcMonday,m_txtProcTuesday,m_txtProcWednesday,m_txtProcThursday,m_txtProcFriday,m_txtProcSaturday};
     for(int i=0; i< 7;i++) {
         TIME_SPAN& cpu = prefs.cpu_times.week.days[i];
         if(cpu.present) {
-            aChks[i]->SetValue(true);
+            procDayChks[i]->SetValue(true);
             wxString timeStr = DoubleToTimeString(cpu.start_hour) +
                 wxT("-") + DoubleToTimeString(cpu.end_hour
             );
-            aTxts[i]->SetValue(timeStr);
+            procDayTxts[i]->SetValue(timeStr);
         }
     }
 
@@ -323,15 +328,13 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     *m_txtNetEveryDayStart << DoubleToTimeString(prefs.net_times.start_hour);
     *m_txtNetEveryDayStop << DoubleToTimeString(prefs.net_times.end_hour);
     //special day times
-    wxCheckBox* aChks2[] = {m_chkNetSunday,m_chkNetMonday,m_chkNetTuesday,m_chkNetWednesday,m_chkNetThursday,m_chkNetFriday,m_chkNetSaturday};
-    wxTextCtrl* aTxts2[] = {m_txtNetSunday,m_txtNetMonday,m_txtNetTuesday,m_txtNetWednesday,m_txtNetThursday,m_txtNetFriday,m_txtNetSaturday};
     for(int i=0; i< 7;i++) {
         TIME_SPAN& net = prefs.net_times.week.days[i];
         if(net.present) {
-            aChks2[i]->SetValue(true);
+            netDayChks[i]->SetValue(true);
             wxString timeStr = DoubleToTimeString(net.start_hour) +
                                 wxT("-") + DoubleToTimeString(net.end_hour);
-            aTxts2[i]->SetValue(timeStr);
+            netDayTxts[i]->SetValue(timeStr);
         }
     }
     // connection interval
@@ -448,11 +451,9 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     }
         mask.start_hour = mask.end_hour = true;
     //
-    wxCheckBox* aChks[] = {m_chkProcSunday,m_chkProcMonday,m_chkProcTuesday,m_chkProcWednesday,m_chkProcThursday,m_chkProcFriday,m_chkProcSaturday};
-    wxTextCtrl* aTxts[] = {m_txtProcSunday,m_txtProcMonday,m_txtProcTuesday,m_txtProcWednesday,m_txtProcThursday,m_txtProcFriday,m_txtProcSaturday};
     for(int i=0; i< 7;i++) {
-        if(aChks[i]->GetValue()) {
-            wxString timeStr = aTxts[i]->GetValue();
+        if(procDayChks[i]->GetValue()) {
+            wxString timeStr = procDayTxts[i]->GetValue();
             wxString startStr = timeStr.SubString(0,timeStr.First('-'));
             wxString endStr = timeStr.SubString(timeStr.First('-')+1,timeStr.Length());
             prefs.cpu_times.week.set(i,
@@ -531,11 +532,9 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     prefs.net_times.end_hour=TimeStringToDouble(m_txtNetEveryDayStop->GetValue());
     mask.net_end_hour = true;
 
-    wxCheckBox* aChks2[] = {m_chkNetSunday,m_chkNetMonday,m_chkNetTuesday,m_chkNetWednesday,m_chkNetThursday,m_chkNetFriday,m_chkNetSaturday};
-    wxTextCtrl* aTxts2[] = {m_txtNetSunday,m_txtNetMonday,m_txtNetTuesday,m_txtNetWednesday,m_txtNetThursday,m_txtNetFriday,m_txtNetSaturday};
     for(int i=0; i< 7;i++) {
-        if(aChks2[i]->GetValue()) {
-            wxString timeStr = aTxts2[i]->GetValue();
+        if(netDayChks[i]->GetValue()) {
+            wxString timeStr = netDayTxts[i]->GetValue();
             wxString startStr = timeStr.SubString(0,timeStr.First('-'));
             wxString endStr = timeStr.SubString(timeStr.First('-')+1,timeStr.Length());
             prefs.net_times.week.set(i,
@@ -696,6 +695,12 @@ bool CDlgAdvPreferences::ValidateInput() {
     if(!IsValidFloatValue(buffer)) {
         ShowErrorMessage(invMsgFloat, m_txtProcSwitchEvery);
         return false;
+    } else {
+        double td;
+        if((!buffer.ToDouble(&td)) || (td < 1.0)) {
+            ShowErrorMessage(invMsgFloat, m_txtProcSwitchEvery);
+            return false;
+        }
     }
     
     buffer = m_txtProcUseProcessors->GetValue();
@@ -1034,6 +1039,29 @@ void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
                 }
                 m_txtDiskMaxOfTotal->ChangeValue(buffer);
                 break;
+            case ID_CHKPROCSUNDAY:
+            case ID_CHKPROCMONDAY:
+            case ID_CHKPROCTUESDAY:
+            case ID_CHKPROCWEDNESDAY:
+            case ID_CHKPROCTHURSDAY:
+            case ID_CHKPROCFRIDAY:
+            case ID_CHKPROCSATURDAY:
+                if (!ev.IsChecked()) {
+                    (procDayTxts[ev.GetId() - ID_CHKPROCSUNDAY])->Clear();
+                }
+                break;
+            case ID_CHKNETSUNDAY:
+            case ID_CHKNETMONDAY:
+            case ID_CHKNETTUESDAY:
+            case ID_CHKNETWEDNESDAY:
+            case ID_CHKNETTHURSDAY:
+            case ID_CHKNETFRIDAY:
+            case ID_CHKNETSATURDAY:
+                if (!ev.IsChecked()) {
+                    (netDayTxts[ev.GetId() - ID_CHKNETSUNDAY])->Clear();
+                }
+                break;
+                
             default:
                 break;
             }
