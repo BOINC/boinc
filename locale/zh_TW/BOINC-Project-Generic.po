@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2015-02-15 16:20+0000\n"
+"PO-Revision-Date: 2015-02-15 17:29+0000\n"
 "Last-Translator: willy Wu <df910105@yahoo.com.tw>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/boinc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -946,7 +946,7 @@ msgstr "私人訊息"
 msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
-msgstr "當電腦透過電池供電時暫停計算？ %1 只有筆記型電腦需要使用此設定 %2"
+msgstr "當電腦透過電池供電時暫停運算? %1只有筆記型電腦需要設定%2"
 
 #: ../inc/prefs.inc:85
 msgid "Suspend work while computer is in use?"
@@ -1140,7 +1140,7 @@ msgstr "使用 Intel GPU%17.2 之後的版本有了此設定%2"
 msgid ""
 "Run test applications? %1 This helps us develop applications, but may cause "
 "jobs to fail on your computer %2"
-msgstr "運行測試用途的應用程式？ %1這可以幫助我們開發運算程式，但可能會導致您電腦上的運算任務失敗%2"
+msgstr "執行測試用途的程式? %1這可以幫助我們開發運算程式，但可能會導致您電腦上的任務失敗%2"
 
 #: ../inc/prefs.inc:367
 msgid ""
@@ -1619,7 +1619,7 @@ msgstr "積分"
 
 #: ../inc/result.inc:380 ../inc/result.inc:724
 msgid "Application"
-msgstr "應用程式"
+msgstr "程式"
 
 #: ../inc/result.inc:629
 msgid "Workunit"
@@ -1663,7 +1663,7 @@ msgstr "驗證狀態"
 
 #: ../inc/result.inc:643
 msgid "Application version"
-msgstr "應用程式版本"
+msgstr "程式版本"
 
 #: ../inc/result.inc:656
 msgid "Output files"
@@ -2266,7 +2266,7 @@ msgstr "增加 %1 偏好設定（用於 %2）"
 #: ../user/apps.php:32 ../user/bs_sample_index.php:55
 #: ../user/sample_index.php:120
 msgid "Applications"
-msgstr "應用程式"
+msgstr "程式"
 
 #: ../user/apps.php:33
 msgid ""
@@ -2274,7 +2274,7 @@ msgid ""
 "work for one or more of these applications will be assigned to your "
 "computer. The current version of the application will be downloaded to your "
 "computer. This happens automatically; you don't have to do anything."
-msgstr "%1 目前有如下幾個應用程式。當您參與%1 專案時，適用於這些應用程式的任務將會分發給您的電腦。當前版本的應用程式也會下載到您的電腦上。這一切都是自動的，您不需要做任何操作。"
+msgstr "%1 目前有下列程式。當您參與 %1 專案時，適用於這些程式的任務將會分發給您的電腦。最新版本的程式也會下載到您的電腦上。這一切都是自動的，您不需要做任何操作。"
 
 #: ../user/apps.php:50
 msgid "Platform"
@@ -2514,7 +2514,7 @@ msgstr "無法建立帳號"
 msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
-msgstr "注意：如果您使用BOINC管理服務，不要使用此表格。只要運行BOINC，選擇“新增專案”，然後輸入電子郵件地址和密碼。"
+msgstr "注意：如果您使用BOINC管理服務，不要使用此表格。只要執行BOINC，選擇“新增專案”，然後輸入電子郵件地址和密碼。"
 
 #: ../user/create_account_form.php:61
 msgid ""
@@ -2847,23 +2847,23 @@ msgstr "下載 BOINC 的輔助軟體"
 
 #: ../user/download_network.php:28
 msgid "You can download applications in several categories."
-msgstr "您可以下載下面幾個類別的應用程式。"
+msgstr "您可以下載下面幾個類別的程式。"
 
 #: ../user/download_network.php:31
 msgid ""
 "These applications are not endorsed by %1 and you use them at your own risk."
-msgstr "這些應用程式未經過 %1 的仔細檢查，若使用請自擔風險。"
+msgstr "這些程式尚未經過 %1 的檢查，若使用請自擔風險。"
 
 #: ../user/download_network.php:33
 msgid ""
 "We do not provide instructions for installing these applications.\n"
 "However, the author may have provided some help on installing or uninstalling the application. \n"
 "If this is not enough you should contact the author."
-msgstr "我們不能提供這些應用程式的安裝及使用說明。 \n但應用程式的作者可能提供了安裝及卸載相關的幫助說明。 \n如果還需要進一步的說明，請聯繫相關作者。"
+msgstr "我們無法提供這些程式的安裝及使用說明。 \n但程式的作者可能提供了安裝及卸載相關的幫助說明。 \n如果需要進一步了解，請聯繫相關作者。"
 
 #: ../user/download_network.php:36
 msgid "Instructions for installing and running BOINC are %1here%2."
-msgstr "安裝及運行 BOINC 的說明 請看%1這裡%2"
+msgstr "安裝及執行 BOINC 的說明 請看%1這裡%2"
 
 #: ../user/download_network.php:38
 msgid "This list is managed centrally at %1the BOINC website%2."
@@ -3641,7 +3641,7 @@ msgstr "問與答"
 msgid ""
 "Talk live via Skype with a volunteer, in any of several languages. Go to "
 "%1BOINC Online Help%2."
-msgstr "通過 Skype 和志願者線上交流，支持多種語言，請到 %1BOINC 線上幫助%2。"
+msgstr "通過Skype和志工線上交流，支持多種語言，請到 %1BOINC 線上幫助%2。"
 
 #: ../user/forum_help_desk.php:44 ../user/forum_index.php:92
 msgid "Topic"
@@ -4377,7 +4377,7 @@ msgstr "2) 如果你已經忘記了你帳戶所連結的電子郵件地址，或
 msgid ""
 "If you have run BOINC under this account, you can still access it. Here's "
 "how:"
-msgstr "如果你仍有 BOINC 客戶端運行在該帳戶下，請按如下操作指導取回你的密碼："
+msgstr "如果你仍有 BOINC 客戶端執行在該帳戶下，請按如下操作指導取回你的密碼："
 
 #: ../user/get_passwd.php:50
 msgid ""
@@ -4436,7 +4436,7 @@ msgstr "如果還沒有的話，%1下載 BOINC 的客戶端軟體%2。"
 
 #: ../user/host_app_versions.php:37
 msgid "Anonymous platform, missing app"
-msgstr "匿名平台，未知應用程式"
+msgstr "匿名平台，未知程式"
 
 #: ../user/host_app_versions.php:40
 msgid "anonymous platform"
@@ -4444,11 +4444,11 @@ msgstr "匿名平台"
 
 #: ../user/host_app_versions.php:43
 msgid "Missing app version"
-msgstr "無法辨識的應用程式版本"
+msgstr "無法辨識程式版本"
 
 #: ../user/host_app_versions.php:45
 msgid "Missing app"
-msgstr "未知應用程式"
+msgstr "未知程式"
 
 #: ../user/host_app_versions.php:47
 msgid "Missing platform"
@@ -4635,14 +4635,14 @@ msgstr "你也可以使用&（和號）開頭的字符實體來表示特殊字�
 
 #: ../user/info.php:35
 msgid "Run %1 only on authorized computers"
-msgstr "僅在已授權的電腦上運行 %1"
+msgstr "僅在已授權的電腦上執行 %1"
 
 #: ../user/info.php:36
 msgid ""
 "Run %1 only on computers that you own, or for which you have obtained the "
 "owner's permission. Some companies and schools have policies that prohibit "
 "using their computers for projects such as %1."
-msgstr "僅在你自己的或者已獲准使用的電腦上運行%1。某些企業和學校是禁止在他們的電腦上運行和%1 的類似的專案。"
+msgstr "僅在你自己的或者已獲准使用的電腦上執行 %1。某些企業和學校是禁止在他們的電腦上執行和 %1 的類似的專案。"
 
 #: ../user/info.php:38
 msgid "How %1 will use your computer"
@@ -4653,13 +4653,13 @@ msgid ""
 "When you run %1 on your computer, it will use part of the computer's CPU "
 "power, disk space, and network bandwidth. You can control how much of your "
 "resources are used by %1, and when it uses them."
-msgstr "當你在電腦上運行 %1 時，他會使用你電腦上部分的處理器資源、硬碟空間以及網絡。你可以控制 %1 的資源使用量以及何時可以使用。"
+msgstr "當你在電腦上執行 %1 時，他會使用你電腦上部分的處理器資源、硬碟空間以及網絡。你可以控制 %1 的資源使用量以及何時可以使用。"
 
 #: ../user/info.php:40
 msgid ""
 "The work done by your computer contributes to the goals of %1, as described "
 "on its web site. The application programs may change from time to time."
-msgstr "你的電腦所完成的運算任務僅用來幫助 %1 實現其專案網站上所申明的目標。專案應用程式的版本可能會經常改變。"
+msgstr "你的電腦所完成的運算任務僅用來幫助 %1 實現專案的目標。專案程式的版本可能會經常更新。"
 
 #: ../user/info.php:42
 msgid "Privacy policy"
@@ -4708,7 +4708,7 @@ msgstr "如果你要使用我們的網站論壇，你必須遵守 %2發文注意
 
 #: ../user/info.php:48
 msgid "Is it safe to run %1?"
-msgstr "運行 %1 安全嗎？"
+msgstr "執行 %1 安全嗎？"
 
 #: ../user/info.php:49
 msgid ""
@@ -4725,7 +4725,7 @@ msgstr "只要你從網路下載程式就有可能碰到有危險錯誤的程式
 msgid ""
 "The applications run by %1 may cause some computers to overheat. If this "
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
-msgstr "%1 的應用程式可能會導致某些電腦溫度過高。如果你碰到了這種情形，請停止運行 %1 或者使用 %2某些工具軟體%3 來限制應用程式對處理器的使用。"
+msgstr "%1 的程式可能會導致某些電腦溫度過高。如果你碰到了這種情形，請停止執行 %1 或者使用 %2 某些工具軟體 %3 限制程式對處理器的使用。"
 
 #: ../user/info.php:51
 msgid ""
@@ -5217,11 +5217,11 @@ msgstr "沒有任務可以顯示"
 
 #: ../user/server_status.php:97
 msgid "Running"
-msgstr "運行中"
+msgstr "執行中"
 
 #: ../user/server_status.php:100
 msgid "Not Running"
-msgstr "未運行"
+msgstr "未執行"
 
 #: ../user/server_status.php:103
 msgid "Disabled"
@@ -5257,15 +5257,15 @@ msgstr "調度"
 
 #: ../user/server_status.php:294
 msgid "Running:"
-msgstr "運行中："
+msgstr "執行中："
 
 #: ../user/server_status.php:295
 msgid "Program is operating normally"
-msgstr "程式目前運行正常"
+msgstr "程式目前執行正常"
 
 #: ../user/server_status.php:296
 msgid "Not Running:"
-msgstr "未運行："
+msgstr "未執行："
 
 #: ../user/server_status.php:297
 msgid "Program failed or the project is down"
@@ -5337,11 +5337,11 @@ msgstr "當前處理能力（GFLOPs）"
 
 #: ../user/server_status.php:420
 msgid "Tasks by application"
-msgstr "按應用程式分類的任務"
+msgstr "按程式分類的任務"
 
 #: ../user/server_status.php:423 ../user/workunit.php:40
 msgid "application"
-msgstr "應用程式"
+msgstr "程式"
 
 #: ../user/server_status.php:424
 msgid "unsent"
@@ -6026,7 +6026,7 @@ msgstr "建立或管理團隊留言板"
 msgid ""
 "To have this team created on all BOINC projects (current and future) you can"
 " make it into a %1BOINC-wide team%2."
-msgstr "如果想在所有的 BOINC 專案（目前在運行的和以後可能會有的）中都建立這個團隊，你可以將它轉變為一個%1BOINC-wide 團隊%2。"
+msgstr "如果想在所有的 BOINC 專案(現有和未來的)中都建立這個團隊，你可以將它轉變為一個 %1BOINC-wide 團隊%2。"
 
 #: ../user/team_manage.php:73
 msgid ""
@@ -6434,7 +6434,7 @@ msgid ""
 "    <li>What are your views about the project?\n"
 "    <li>Any suggestions?\n"
 "    </ol>"
-msgstr "告訴我們您對 %1 的看法<ol>\n<li>您為什麼運行 %1？ \n<li>您對這個專案的觀點是什麼？ \n<li>有什麼建議嗎？ \n</ol>"
+msgstr "告訴我們您對 %1 的看法<ol>\n<li>您為什麼執行 %1？ \n<li>您對這個專案的觀點是什麼？ \n<li>有什麼建議嗎？ \n</ol>"
 
 #: ../project.sample/project_specific_prefs.inc:47
 msgid "Color scheme for graphics"
@@ -6446,14 +6446,14 @@ msgstr "顯示圖像時最多可以使用的CPU 資源%10 ... 100%2"
 
 #: ../project.sample/project_specific_prefs.inc:49
 msgid "Run only the selected applications"
-msgstr "僅運行選中的應用程式"
+msgstr "僅執行選中的程式"
 
 #: ../project.sample/project_specific_prefs.inc:50
 msgid ""
 "If no work for selected applications is available, accept work from other "
 "applications?"
-msgstr "如果選中的應用程式暫時沒有運算任務，是否從其它應用程式接收任務？"
+msgstr "如果選中的程式暫時沒有運算任務，是否接收其它程式的任務?"
 
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
-msgstr "(所有應用程式)"
+msgstr "(所有程式)"
