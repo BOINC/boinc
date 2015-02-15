@@ -306,7 +306,7 @@
   <string name="suspend_network_quota">O BOINC atingiu a transferência de rede diária limite.</string>
   <string name="suspend_os">Parado pelo Android.</string>
   <string name="suspend_wifi">Não conectado a um WiFi.</string>
-  <string name="suspend_battery_charging">A bateria precisa de ser carregada antes que a computação seja resumida.</string>
+  <string name="suspend_battery_charging">A aguardar que a bateria seja carregada</string>
   <string name="suspend_battery_charging_long">A computação será resumida quando a carga da bateria chegar a</string>
   <string name="suspend_battery_charging_long2"></string>
   <string name="suspend_battery_charging_current">actualmente</string>
