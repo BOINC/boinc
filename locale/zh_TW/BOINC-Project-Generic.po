@@ -6,13 +6,14 @@
 # FileID  : $Id$
 # 
 # Translators:
+# willy Wu <df910105@yahoo.com.tw>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2015-02-09 01:54+0000\n"
-"Last-Translator: Rom Walton <romw@romwnet.org>\n"
+"PO-Revision-Date: 2015-02-15 16:20+0000\n"
+"Last-Translator: willy Wu <df910105@yahoo.com.tw>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/boinc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,19 +30,19 @@ msgstr "Traditional Chinese ( Taiwan )"
 
 #: ../inc/bbcode_html.inc:11
 msgid "Bold text: [b]text[/b]  (alt+b)"
-msgstr "粗體：[b]文本[/b] (alt+b)"
+msgstr "粗體：[b]文字[/b] (alt+b)"
 
 #: ../inc/bbcode_html.inc:14
 msgid "Italic text: [i]text[/i]  (alt+i)"
-msgstr "斜體：[i]文本[/i] (alt+i)"
+msgstr "斜體：[i]文字[/i] (alt+i)"
 
 #: ../inc/bbcode_html.inc:17
 msgid "Underline text: [u]text[/u]  (alt+u)"
-msgstr "底線：[u]文本[/u] (alt+u)"
+msgstr "底線：[u]文字[/u] (alt+u)"
 
 #: ../inc/bbcode_html.inc:20
 msgid "Quote text: [quote]text[/quote]  (alt+q)"
-msgstr "引用：[quote]文本[/quote] (alt+q)"
+msgstr "引用：[quote]文字[/quote] (alt+q)"
 
 #: ../inc/bbcode_html.inc:23
 msgid "Code display: [code]code[/code]  (alt+c)"
@@ -53,7 +54,7 @@ msgstr "表格：[list]本文[/list] (alt+l)"
 
 #: ../inc/bbcode_html.inc:29
 msgid "Ordered list: [list=]text[/list]  (alt+o)"
-msgstr "排序表格：[list=]文本[/list] (alt+o)"
+msgstr "排序表格：[list=]文字[/list] (alt+o)"
 
 #: ../inc/bbcode_html.inc:32
 msgid "Insert image: [img]http://image_url[/img]  (alt+p)"
@@ -62,7 +63,7 @@ msgstr "插入圖片：[img]圖片網址[/img] (alt+p)"
 #: ../inc/bbcode_html.inc:35
 msgid ""
 "Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)"
-msgstr "插入連結：[url]連結[/url] 或 [url=連結]文本[/url] (alt+w)"
+msgstr "插入連結：[url]連結[/url] 或 [url=連結]文字[/url] (alt+w)"
 
 #: ../inc/bbcode_html.inc:42
 msgid "Font color"
@@ -71,7 +72,7 @@ msgstr "字體顏色"
 #: ../inc/bbcode_html.inc:43
 msgid ""
 "Font color: [color=red]text[/color]  Tip: you can also use color=#FF0000"
-msgstr "字體顏色：[color=red]文本[/color] 訣竅：你也可以用 #FF0000 來表示紅色"
+msgstr "字體顏色：[color=red]文字[/color] 訣竅：你也可以用 #FF0000 來表示紅色"
 
 #: ../inc/bbcode_html.inc:44 ../inc/bbcode_html.inc:59 ../inc/prefs.inc:638
 msgid "Default"
@@ -240,7 +241,7 @@ msgstr "傳送私人訊息給 %1"
 
 #: ../inc/forum.inc:581
 msgid "Joined: %1"
-msgstr "以加入：%1"
+msgstr "已加入：%1"
 
 #: ../inc/forum.inc:590
 msgid "Posts: %1"
@@ -527,7 +528,7 @@ msgstr "IP位址"
 
 #: ../inc/host.inc:89
 msgid "(same the last %1 times)"
-msgstr "（與最新的%1次一樣）"
+msgstr "(與最新的%1次一樣)"
 
 #: ../inc/host.inc:91
 msgid "External IP address"
@@ -595,7 +596,7 @@ msgstr "處理器數量"
 
 #: ../inc/host.inc:121
 msgid "Coprocessors"
-msgstr "共處理器"
+msgstr "協同處理器"
 
 #: ../inc/host.inc:123 ../inc/host.inc:687
 msgid "Operating System"
@@ -603,7 +604,7 @@ msgstr "作業系統"
 
 #: ../inc/host.inc:126 ../inc/host.inc:235
 msgid "BOINC version"
-msgstr "Boinc 版本"
+msgstr "BOINC 版本"
 
 #: ../inc/host.inc:130
 msgid "Memory"
@@ -615,7 +616,7 @@ msgstr "%1 MB"
 
 #: ../inc/host.inc:134
 msgid "Cache"
-msgstr "快速緩衝貯存區"
+msgstr "Cache"
 
 #: ../inc/host.inc:134
 msgid "%1 KB"
@@ -655,7 +656,7 @@ msgstr "平均上傳速度"
 
 #: ../inc/host.inc:157 ../inc/host.inc:164
 msgid "%1 KB/sec"
-msgstr "%1 KB/s"
+msgstr "%1 Kb/s"
 
 #: ../inc/host.inc:159 ../inc/host.inc:166 ../inc/result.inc:216
 #: ../inc/result.inc:226 ../inc/result.inc:244 ../inc/result.inc:262
@@ -679,7 +680,7 @@ msgstr "%1 天"
 
 #: ../inc/host.inc:170
 msgid "Application details"
-msgstr "應用程式詳細資料"
+msgstr "程式詳細資料"
 
 #: ../inc/host.inc:171
 msgid "Show"
@@ -698,17 +699,14 @@ msgid "Last time contacted server"
 msgstr "最後一次連接伺服器的時間"
 
 #: ../inc/host.inc:187
-#, php-format
 msgid "% of time BOINC is running"
 msgstr "BOINC 客戶端執行的時間比"
 
 #: ../inc/host.inc:189
-#, php-format
 msgid "While BOINC running, % of time host has an Internet connection"
 msgstr "當 BOINC 正在運作時，主機連接網路的時間比（％）"
 
 #: ../inc/host.inc:191
-#, php-format
 msgid "While BOINC running, % of time work is allowed"
 msgstr "當 BONC 執行時，允許處理工作的時間比（％）"
 
@@ -1006,7 +1004,6 @@ msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
 msgstr "在多核心的電腦上，最多使用%16.1 之後的版本有了此設定%2"
 
 #: ../inc/prefs.inc:158
-#, php-format
 msgid "% of the processors"
 msgstr "% 的處理器"
 
@@ -1015,7 +1012,6 @@ msgid "Use at most %1 Can be used to reduce CPU heat %2"
 msgstr "最多使用%1可用於減少 CPU 的發熱量%2"
 
 #: ../inc/prefs.inc:167
-#, php-format
 msgid "% of CPU time"
 msgstr "% 的處理器時間"
 
@@ -1033,7 +1029,6 @@ msgstr "硬碟：至少保留%1小於%2 的設定值將被忽略%3"
 
 #: ../inc/prefs.inc:191 ../inc/prefs.inc:201 ../inc/prefs.inc:206
 #: ../inc/prefs.inc:211
-#, php-format
 msgid "% of total"
 msgstr "%"
 
@@ -2214,7 +2209,7 @@ msgstr "查看 %1 的用戶檔案"
 
 #: ../inc/util.inc:569
 msgid "Use BBCode tags to format your text"
-msgstr "用 BBCode 代碼來格式化您的文本"
+msgstr "用 BBCode 代碼來格式化您的文字"
 
 #: ../inc/util.inc:796
 msgid "Project down for maintenance"
@@ -2303,7 +2298,7 @@ msgid ""
 "It's similar to HTML, but simpler. The tags start with a [ (where you would\n"
 "have used %1 in HTML) and end with ] (where you would have used %2 in\n"
 "HTML)."
-msgstr "BBCode 語法可以用來對個人檔案和留言板文章內的文本進行格式化。 \n它和 HTML 類似，但更為簡單。這些標記一般以 [ 開頭\n（如果在HTML 中一般是 %1）並且以] 結尾（HTML 中則是 %2）。"
+msgstr "BBCode 語法可以用來對個人檔案和留言板文章內的文字進行格式化。 \n它和 HTML 類似，但更為簡單。這些標記一般以 [ 開頭\n(如果在HTML 中一般是 %1)並且以] 結尾(HTML 中則是 %2)。"
 
 #: ../user/bbcode.php:31
 msgid "Examples"
@@ -2343,7 +2338,7 @@ msgstr "引用文"
 
 #: ../user/bbcode.php:39
 msgid "use for quoted blocks of text"
-msgstr "用於文本塊的引用"
+msgstr "用於文字塊的引用"
 
 #: ../user/bbcode.php:40
 msgid "use to display an image"
@@ -2359,11 +2354,11 @@ msgstr "用於顯示一些代碼"
 
 #: ../user/bbcode.php:42
 msgid "Pre-formatted text"
-msgstr "預設文本"
+msgstr "預設文字"
 
 #: ../user/bbcode.php:42
 msgid "use to display pre-formatted (usually monospaced) text"
-msgstr "用於顯示預設文本（一般是等寬字體）"
+msgstr "用於顯示預設文字(一般是等寬字體)"
 
 #: ../user/bbcode.php:43
 msgid "Item 1"
@@ -2393,7 +2388,7 @@ msgstr "用於連接到 BOINC 網站上的 SVN 修改集"
 msgid ""
 "If you don't close a tag or don't specify a parameter correctly,\n"
 "the raw tag itself will display instead of the formatted text."
-msgstr "如果你沒有正確的關閉語法或者指定參數，\n語法自身將被顯示出來，而不是預設的文本。"
+msgstr "如果你沒有正確的關閉語法或者指定參數，\n語法自身將被顯示出來，而不是預設的文字。"
 
 #: ../user/bs_sample_index.php:44
 msgid "Participants"
