@@ -693,17 +693,14 @@ msgid "Last time contacted server"
 msgstr ""
 
 #: ../inc/host.inc:187
-#, php-format
 msgid "% of time BOINC is running"
 msgstr ""
 
 #: ../inc/host.inc:189
-#, php-format
 msgid "While BOINC running, % of time host has an Internet connection"
 msgstr ""
 
 #: ../inc/host.inc:191
-#, php-format
 msgid "While BOINC running, % of time work is allowed"
 msgstr ""
 
@@ -1001,7 +998,6 @@ msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
 msgstr ""
 
 #: ../inc/prefs.inc:158
-#, php-format
 msgid "% of the processors"
 msgstr ""
 
@@ -1010,7 +1006,6 @@ msgid "Use at most %1 Can be used to reduce CPU heat %2"
 msgstr ""
 
 #: ../inc/prefs.inc:167
-#, php-format
 msgid "% of CPU time"
 msgstr ""
 
@@ -1028,7 +1023,6 @@ msgstr ""
 
 #: ../inc/prefs.inc:191 ../inc/prefs.inc:201 ../inc/prefs.inc:206
 #: ../inc/prefs.inc:211
-#, php-format
 msgid "% of total"
 msgstr ""
 

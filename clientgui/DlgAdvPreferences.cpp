@@ -40,9 +40,9 @@ using std::string;
 IMPLEMENT_DYNAMIC_CLASS(CDlgAdvPreferences, wxDialog)
 
 BEGIN_EVENT_TABLE(CDlgAdvPreferences, wxDialog)
-    EVT_COMMAND_RANGE(20000,21000,wxEVT_COMMAND_CHECKBOX_CLICKED,CDlgAdvPreferences::OnHandleCommandEvent)
-    EVT_COMMAND_RANGE(20000,21000,wxEVT_COMMAND_RADIOBUTTON_SELECTED,CDlgAdvPreferences::OnHandleCommandEvent)
-    EVT_COMMAND_RANGE(20000,21000,wxEVT_COMMAND_TEXT_UPDATED,CDlgAdvPreferences::OnHandleCommandEvent)
+    EVT_COMMAND_RANGE(ID_ADV_PREFS_START,ID_ADV_PREFS_LAST,wxEVT_COMMAND_CHECKBOX_CLICKED,CDlgAdvPreferences::OnHandleCommandEvent)
+    EVT_COMMAND_RANGE(ID_ADV_PREFS_START,ID_ADV_PREFS_LAST,wxEVT_COMMAND_RADIOBUTTON_SELECTED,CDlgAdvPreferences::OnHandleCommandEvent)
+    EVT_COMMAND_RANGE(ID_ADV_PREFS_START,ID_ADV_PREFS_LAST,wxEVT_COMMAND_TEXT_UPDATED,CDlgAdvPreferences::OnHandleCommandEvent)
     //buttons
     EVT_BUTTON(wxID_OK,CDlgAdvPreferences::OnOK)
     EVT_BUTTON(ID_HELPBOINC,CDlgAdvPreferences::OnHelp)
@@ -77,12 +77,26 @@ CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBas
     //setting warning bitmap
     m_bmpWarning->SetBitmap(wxBitmap(warning_xpm));
 
+    wxCheckBox* proc_cb[] = {m_chkProcSunday,m_chkProcMonday,m_chkProcTuesday,m_chkProcWednesday,m_chkProcThursday,m_chkProcFriday,m_chkProcSaturday};
+    wxTextCtrl* proc_tc[] = {m_txtProcSunday,m_txtProcMonday,m_txtProcTuesday,m_txtProcWednesday,m_txtProcThursday,m_txtProcFriday,m_txtProcSaturday};
+    wxCheckBox* net_cb[] = {m_chkNetSunday,m_chkNetMonday,m_chkNetTuesday,m_chkNetWednesday,m_chkNetThursday,m_chkNetFriday,m_chkNetSaturday};
+    wxTextCtrl* net_tc[] = {m_txtNetSunday,m_txtNetMonday,m_txtNetTuesday,m_txtNetWednesday,m_txtNetThursday,m_txtNetFriday,m_txtNetSaturday};
+    for (int i=0; i<7; ++i) {
+        procDayChks[i] = proc_cb[i];
+        procDayTxts[i] = proc_tc[i];
+        netDayChks[i] = net_cb[i];
+        netDayTxts[i] = net_tc[i];
+
+    }
+    
     // init special tooltips
     SetSpecialTooltips();
     //setting the validators for correct input handling
     SetValidators();
-    //read in settings and initialisze controls
+    //read in settings and initialize controls
     ReadPreferenceSettings();
+    // Get default preference values
+    defaultPrefs.enabled_defaults();
     //
     RestoreState();
 
@@ -248,6 +262,7 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     m_bInInit=true;//prevent dialog handlers from doing anything
     CMainDocument* pDoc = wxGetApp().GetDocument();
     wxString buffer;
+    wxString dashes = wxT("--");
     int retval;
 
     wxASSERT(pDoc);
@@ -263,75 +278,88 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
 
     // ######### proc usage page
     // do work between
-    *m_txtProcEveryDayStart << DoubleToTimeString(prefs.cpu_times.start_hour);
-    *m_txtProcEveryDayStop << DoubleToTimeString(prefs.cpu_times.end_hour);
+    m_chkProcEveryDay->SetValue(prefs.cpu_times.start_hour != prefs.cpu_times.end_hour);
+    if (m_chkProcEveryDay->IsChecked()) {
+        *m_txtProcEveryDayStart << DoubleToTimeString(prefs.cpu_times.start_hour);
+        *m_txtProcEveryDayStop << DoubleToTimeString(prefs.cpu_times.end_hour);
+    }
+
     //special day times
-    wxCheckBox* aChks[] = {m_chkProcSunday,m_chkProcMonday,m_chkProcTuesday,m_chkProcWednesday,m_chkProcThursday,m_chkProcFriday,m_chkProcSaturday};
-    wxTextCtrl* aTxts[] = {m_txtProcSunday,m_txtProcMonday,m_txtProcTuesday,m_txtProcWednesday,m_txtProcThursday,m_txtProcFriday,m_txtProcSaturday};
     for(int i=0; i< 7;i++) {
         TIME_SPAN& cpu = prefs.cpu_times.week.days[i];
         if(cpu.present) {
-            aChks[i]->SetValue(true);
+            procDayChks[i]->SetValue(true);
             wxString timeStr = DoubleToTimeString(cpu.start_hour) +
                 wxT("-") + DoubleToTimeString(cpu.end_hour
             );
-            aTxts[i]->SetValue(timeStr);
+            procDayTxts[i]->SetValue(timeStr);
         }
     }
 
     // on batteries
-    m_chkProcOnBatteries->SetValue(prefs.run_on_batteries);
+    m_chkProcOnBatteries->SetValue(! prefs.run_on_batteries);
     // in use
-    m_chkProcInUse->SetValue(prefs.run_if_user_active);
-    m_chkGPUProcInUse->SetValue(prefs.run_gpu_if_user_active);
+    m_chkProcInUse->SetValue(! prefs.run_if_user_active);
+    m_chkGPUProcInUse->SetValue(! prefs.run_gpu_if_user_active);
     // idle for X minutes
     buffer.Printf(wxT("%.2f"),prefs.idle_time_to_run);
     *m_txtProcIdleFor << buffer;
 
     buffer.Printf(wxT("%.0f"), prefs.suspend_cpu_usage);
     *m_txtMaxLoad << buffer;
+    m_chkMaxLoad->SetValue(prefs.suspend_cpu_usage > 0.0);
 
     // switch every X minutes
     buffer.Printf(wxT("%.2f"),prefs.cpu_scheduling_period_minutes);
     *m_txtProcSwitchEvery << buffer;
     // max cpus
+    // 0 means "no retriction" but we don't use a checkbox here
+    if (prefs.max_ncpus_pct == 0.0) prefs.max_ncpus_pct = 100.0;
     buffer.Printf(wxT("%.2f"), prefs.max_ncpus_pct);
     *m_txtProcUseProcessors << buffer;
     //cpu limit
+    // 0 means "no retriction" but we don't use a checkbox here
+    if (prefs.cpu_usage_limit == 0.0) prefs.cpu_usage_limit = 100.0;
     buffer.Printf(wxT("%.2f"),prefs.cpu_usage_limit);
     *m_txtProcUseCPUTime << buffer;
-
+    
     // ######### net usage page
     // use network between
     *m_txtNetEveryDayStart << DoubleToTimeString(prefs.net_times.start_hour);
     *m_txtNetEveryDayStop << DoubleToTimeString(prefs.net_times.end_hour);
     //special day times
-    wxCheckBox* aChks2[] = {m_chkNetSunday,m_chkNetMonday,m_chkNetTuesday,m_chkNetWednesday,m_chkNetThursday,m_chkNetFriday,m_chkNetSaturday};
-    wxTextCtrl* aTxts2[] = {m_txtNetSunday,m_txtNetMonday,m_txtNetTuesday,m_txtNetWednesday,m_txtNetThursday,m_txtNetFriday,m_txtNetSaturday};
     for(int i=0; i< 7;i++) {
         TIME_SPAN& net = prefs.net_times.week.days[i];
         if(net.present) {
-            aChks2[i]->SetValue(true);
+            netDayChks[i]->SetValue(true);
             wxString timeStr = DoubleToTimeString(net.start_hour) +
                                 wxT("-") + DoubleToTimeString(net.end_hour);
-            aTxts2[i]->SetValue(timeStr);
+            netDayTxts[i]->SetValue(timeStr);
         }
     }
     // connection interval
     buffer.Printf(wxT("%01.2f"),prefs.work_buf_min_days);
     *m_txtNetConnectInterval << buffer;
     //download rate
-    buffer.Printf(wxT("%.2f"),prefs.max_bytes_sec_down / 1024);
-    *m_txtNetDownloadRate << buffer;
+    m_chkNetDownloadRate->SetValue(prefs.max_bytes_sec_down > 0.0);
+    if (m_chkNetDownloadRate->IsChecked()) {
+        buffer.Printf(wxT("%.2f"),prefs.max_bytes_sec_down / 1024);
+        *m_txtNetDownloadRate << buffer;
+    }
     // upload rate
-    buffer.Printf(wxT("%.2f"),prefs.max_bytes_sec_up / 1024);
-    *m_txtNetUploadRate << buffer;
-
-    buffer.Printf(wxT("%.2f"),prefs.daily_xfer_limit_mb);
-    *m_txt_daily_xfer_limit_mb << buffer;
-    buffer.Printf(wxT("%d"),prefs.daily_xfer_period_days );
-    *m_txt_daily_xfer_period_days << buffer;
-
+    m_chkNetUploadRate->SetValue(prefs.max_bytes_sec_up > 0.0);
+    if (m_chkNetUploadRate->IsChecked()) {
+        buffer.Printf(wxT("%.2f"),prefs.max_bytes_sec_up / 1024);
+        *m_txtNetUploadRate << buffer;
+    }
+    m_chk_daily_xfer_limit->SetValue((prefs.daily_xfer_limit_mb > 0.0) && (prefs.daily_xfer_period_days > 0.0));
+    if (m_chkNetUploadRate->IsChecked()) {
+        buffer.Printf(wxT("%.2f"),prefs.daily_xfer_limit_mb);
+        *m_txt_daily_xfer_limit_mb << buffer;
+        buffer.Printf(wxT("%d"),prefs.daily_xfer_period_days );
+        *m_txt_daily_xfer_period_days << buffer;
+    }
+    
     //
     buffer.Printf(wxT("%.2f"),prefs.work_buf_additional_days);
     *m_txtNetAdditionalDays << buffer;
@@ -344,14 +372,23 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
 
     // ######### disk and memory usage page
     //max space used
-    buffer.Printf(wxT("%.2f"),prefs.disk_max_used_gb);
-    *m_txtDiskMaxSpace << buffer;
+    m_chkDiskMaxSpace->SetValue(prefs.disk_max_used_gb > 0.0);
+    if (m_chkDiskMaxSpace->IsChecked()) {
+        buffer.Printf(wxT("%.2f"),prefs.disk_max_used_gb);
+        *m_txtDiskMaxSpace << buffer;
+    }
     // min free
-    buffer.Printf(wxT("%.2f"),prefs.disk_min_free_gb);
+    m_chkDiskLeastFree->SetValue(prefs.disk_min_free_gb > 0.0);
+    if (m_chkDiskLeastFree->IsChecked()) {
+        buffer.Printf(wxT("%.2f"),prefs.disk_min_free_gb);
     *m_txtDiskLeastFree << buffer;
+    }
     // max used percentage
-    buffer.Printf(wxT("%.2f"),prefs.disk_max_used_pct);
-    *m_txtDiskMaxOfTotal << buffer;
+    m_chkDiskMaxOfTotal->SetValue(prefs.disk_max_used_pct < 100.0);
+    if (m_chkDiskMaxOfTotal->IsChecked()) {
+        buffer.Printf(wxT("%.2f"),prefs.disk_max_used_pct);
+        *m_txtDiskMaxOfTotal << buffer;
+    }
     // write to disk every X seconds
     buffer.Printf(wxT("%.0f"),prefs.disk_interval);
     *m_txtDiskWriteToDisk << buffer;
@@ -382,13 +419,13 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     prefs.cpu_times.week.clear();
     prefs.net_times.week.clear();
     //proc page
-    prefs.run_on_batteries=m_chkProcOnBatteries->GetValue();
+    prefs.run_on_batteries = ! (m_chkProcOnBatteries->GetValue());
     mask.run_on_batteries=true;
     //
-    prefs.run_if_user_active=m_chkProcInUse->GetValue();
+    prefs.run_if_user_active = (! m_chkProcInUse->GetValue());
     mask.run_if_user_active=true;
 
-    prefs.run_gpu_if_user_active=m_chkGPUProcInUse->GetValue();
+    prefs.run_gpu_if_user_active = (! m_chkGPUProcInUse->GetValue());
     mask.run_gpu_if_user_active=true;
     //
     if(m_txtProcIdleFor->IsEnabled()) {
@@ -397,22 +434,26 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
         mask.idle_time_to_run=true;
     }
 
-    m_txtMaxLoad->GetValue().ToDouble(&td);
-    prefs.suspend_cpu_usage=RoundToHundredths(td);
+    if (m_chkMaxLoad->IsChecked()) {
+        m_txtMaxLoad->GetValue().ToDouble(&td);
+        prefs.suspend_cpu_usage=RoundToHundredths(td);
+    } else {
+        prefs.suspend_cpu_usage = 0.0;
+    }
     mask.suspend_cpu_usage=true;
 
     //
-    prefs.cpu_times.start_hour=TimeStringToDouble(m_txtProcEveryDayStart->GetValue());
-    mask.start_hour = true;
+    if (m_chkProcEveryDay->IsChecked()) {
+        prefs.cpu_times.start_hour = TimeStringToDouble(m_txtProcEveryDayStart->GetValue());
+        prefs.cpu_times.end_hour = TimeStringToDouble(m_txtProcEveryDayStop->GetValue());
+    } else {
+        prefs.cpu_times.start_hour = prefs.cpu_times.end_hour = 0.0;
+    }
+        mask.start_hour = mask.end_hour = true;
     //
-    prefs.cpu_times.end_hour=TimeStringToDouble(m_txtProcEveryDayStop->GetValue());
-    mask.end_hour = true;
-    //
-    wxCheckBox* aChks[] = {m_chkProcSunday,m_chkProcMonday,m_chkProcTuesday,m_chkProcWednesday,m_chkProcThursday,m_chkProcFriday,m_chkProcSaturday};
-    wxTextCtrl* aTxts[] = {m_txtProcSunday,m_txtProcMonday,m_txtProcTuesday,m_txtProcWednesday,m_txtProcThursday,m_txtProcFriday,m_txtProcSaturday};
     for(int i=0; i< 7;i++) {
-        if(aChks[i]->GetValue()) {
-            wxString timeStr = aTxts[i]->GetValue();
+        if(procDayChks[i]->GetValue()) {
+            wxString timeStr = procDayTxts[i]->GetValue();
             wxString startStr = timeStr.SubString(0,timeStr.First('-'));
             wxString endStr = timeStr.SubString(timeStr.First('-')+1,timeStr.Length());
             prefs.cpu_times.week.set(i,
@@ -427,8 +468,7 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     //
 
     m_txtProcUseProcessors->GetValue().ToDouble(&td);
-    td = RoundToHundredths(td);
-    prefs.max_ncpus_pct=td;
+    prefs.max_ncpus_pct = RoundToHundredths(td);
     mask.max_ncpus_pct=true;
 
     //
@@ -441,23 +481,36 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     prefs.work_buf_min_days=RoundToHundredths(td);
     mask.work_buf_min_days=true;
     //
-    m_txtNetDownloadRate->GetValue().ToDouble(&td);
-    td = RoundToHundredths(td);
-    td = td * 1024;
-    prefs.max_bytes_sec_down=td;
+    if (m_chkNetDownloadRate->IsChecked()) {
+        m_txtNetDownloadRate->GetValue().ToDouble(&td);
+        td = RoundToHundredths(td);
+        td = td * 1024;
+        prefs.max_bytes_sec_down=td;
+    } else {
+        prefs.max_bytes_sec_down = 0.0;
+    }
     mask.max_bytes_sec_down=true;
     //
-    m_txtNetUploadRate->GetValue().ToDouble(&td);
-    td = RoundToHundredths(td);
-    td = td * 1024;
-    prefs.max_bytes_sec_up=td;
+    if (m_chkNetUploadRate->IsChecked()) {
+        m_txtNetUploadRate->GetValue().ToDouble(&td);
+        td = RoundToHundredths(td);
+        td = td * 1024;
+        prefs.max_bytes_sec_up=td;
+    } else {
+        prefs.max_bytes_sec_up = 0.0;
+    }
     mask.max_bytes_sec_up=true;
 
-    m_txt_daily_xfer_limit_mb->GetValue().ToDouble(&td);
-    prefs.daily_xfer_limit_mb=RoundToHundredths(td);
+    if (m_chkNetUploadRate->IsChecked()) {
+        m_txt_daily_xfer_limit_mb->GetValue().ToDouble(&td);
+        prefs.daily_xfer_limit_mb=RoundToHundredths(td);
+        m_txt_daily_xfer_period_days->GetValue().ToDouble(&td);
+        prefs.daily_xfer_period_days=(int)td;
+    } else {
+        prefs.daily_xfer_limit_mb = 0.0;
+        prefs.daily_xfer_period_days = 0.0;
+    }
     mask.daily_xfer_limit_mb=true;
-    m_txt_daily_xfer_period_days->GetValue().ToDouble(&td);
-    prefs.daily_xfer_period_days=(int)td;
     mask.daily_xfer_period_days=true;
     //
     prefs.dont_verify_images=m_chkNetSkipImageVerification->GetValue();
@@ -479,11 +532,9 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     prefs.net_times.end_hour=TimeStringToDouble(m_txtNetEveryDayStop->GetValue());
     mask.net_end_hour = true;
 
-    wxCheckBox* aChks2[] = {m_chkNetSunday,m_chkNetMonday,m_chkNetTuesday,m_chkNetWednesday,m_chkNetThursday,m_chkNetFriday,m_chkNetSaturday};
-    wxTextCtrl* aTxts2[] = {m_txtNetSunday,m_txtNetMonday,m_txtNetTuesday,m_txtNetWednesday,m_txtNetThursday,m_txtNetFriday,m_txtNetSaturday};
     for(int i=0; i< 7;i++) {
-        if(aChks2[i]->GetValue()) {
-            wxString timeStr = aTxts2[i]->GetValue();
+        if(netDayChks[i]->GetValue()) {
+            wxString timeStr = netDayTxts[i]->GetValue();
             wxString startStr = timeStr.SubString(0,timeStr.First('-'));
             wxString endStr = timeStr.SubString(timeStr.First('-')+1,timeStr.Length());
             prefs.net_times.week.set(i,
@@ -493,17 +544,28 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
         }
     }
     //disk usage
-    m_txtDiskMaxSpace->GetValue().ToDouble(&td);
-    prefs.disk_max_used_gb=RoundToHundredths(td);
+    if (m_chkDiskMaxSpace->IsChecked()) {
+        m_txtDiskMaxSpace->GetValue().ToDouble(&td);
+        prefs.disk_max_used_gb=RoundToHundredths(td);
+    } else {
+        prefs.disk_max_used_gb = 0.0;
+    }
     mask.disk_max_used_gb=true;
     //
-    m_txtDiskLeastFree->GetValue().ToDouble(&td);
-    prefs.disk_min_free_gb=RoundToHundredths(td);
+    if (m_chkDiskLeastFree->IsChecked()) {
+        m_txtDiskLeastFree->GetValue().ToDouble(&td);
+        prefs.disk_min_free_gb=RoundToHundredths(td);
+    } else {
+        prefs.disk_min_free_gb = 0.0;
+    }
     mask.disk_min_free_gb=true;
     //
-    m_txtDiskMaxOfTotal->GetValue().ToDouble(&td);
-    td = RoundToHundredths(td);
-    prefs.disk_max_used_pct=td;
+    if (m_chkDiskMaxOfTotal->IsChecked()) {
+        m_txtDiskMaxOfTotal->GetValue().ToDouble(&td);
+        prefs.disk_max_used_pct = RoundToHundredths(td);
+    } else {
+        prefs.disk_max_used_pct = 100.0;
+    }
     mask.disk_max_used_pct=true;
     //
     m_txtDiskWriteToDisk->GetValue().ToDouble(&td);
@@ -538,11 +600,16 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 void CDlgAdvPreferences::UpdateControlStates() {
     //proc usage page
     // Disable idle timeout edit text item if we allow both CPU and GPU when idle.
-    m_txtProcIdleFor->Enable(!m_chkProcInUse->IsChecked() || !m_chkGPUProcInUse->IsChecked());
+    m_txtProcIdleFor->Enable(m_chkProcInUse->IsChecked() || m_chkGPUProcInUse->IsChecked());
     
-    // If we suspend work when in use, disable and uncheck "Use GPU when in use"
-    m_chkGPUProcInUse->Enable(m_chkProcInUse->IsChecked());
-    if (!m_chkProcInUse->IsChecked()) m_chkGPUProcInUse->SetValue(false);
+    // If we suspend work when in use, disable and check "Use GPU when in use"
+    m_chkGPUProcInUse->Enable(! m_chkProcInUse->IsChecked());
+    if (m_chkProcInUse->IsChecked()) m_chkGPUProcInUse->SetValue(true);
+
+    m_txtMaxLoad->Enable(m_chkMaxLoad->IsChecked());
+    
+    m_txtProcEveryDayStart->Enable(m_chkProcEveryDay->IsChecked());
+    m_txtProcEveryDayStop->Enable(m_chkProcEveryDay->IsChecked());
     
     m_txtProcMonday->Enable(m_chkProcMonday->IsChecked());
     m_txtProcTuesday->Enable(m_chkProcTuesday->IsChecked());
@@ -551,6 +618,11 @@ void CDlgAdvPreferences::UpdateControlStates() {
     m_txtProcFriday->Enable(m_chkProcFriday->IsChecked());
     m_txtProcSaturday->Enable(m_chkProcSaturday->IsChecked());
     m_txtProcSunday->Enable(m_chkProcSunday->IsChecked());
+
+    //disk and memory usage page
+    m_txtDiskMaxSpace->Enable(m_chkDiskMaxSpace->IsChecked());
+    m_txtDiskLeastFree->Enable(m_chkDiskLeastFree->IsChecked());
+    m_txtDiskMaxOfTotal->Enable(m_chkDiskMaxOfTotal->IsChecked());
 
     //net usage page
     m_txtNetMonday->Enable(m_chkNetMonday->IsChecked());
@@ -567,6 +639,8 @@ bool CDlgAdvPreferences::ValidateInput() {
     wxString invMsgFloat = _("invalid number");
     wxString invMsgTime = _("invalid time, format is HH:MM");
     wxString invMsgInterval = _("invalid time interval, format is HH:MM-HH:MM");
+    wxString invMsgLimit10 = _("Number must be between 0 and 10");
+    wxString invMsgLimit100 = _("Number must be between 0 and 100");
     wxString buffer;
     //proc page
     if(m_txtProcIdleFor->IsEnabled()) {
@@ -576,22 +650,28 @@ bool CDlgAdvPreferences::ValidateInput() {
             return false;
         }
     }
-    buffer = m_txtMaxLoad->GetValue();
-    if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
-        ShowErrorMessage(invMsgFloat, m_txtMaxLoad);
-        return false;
-    }
 
-    buffer = m_txtProcEveryDayStart->GetValue();
-    if(!IsValidTimeValue(buffer)) {
-        ShowErrorMessage(invMsgTime,m_txtProcEveryDayStart);
-        return false;
+    if (m_chkMaxLoad->IsChecked()) {
+        buffer = m_txtMaxLoad->GetValue();
+        if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
+            ShowErrorMessage(invMsgLimit100, m_txtMaxLoad);
+            return false;
+        }
     }
-    buffer = m_txtProcEveryDayStop->GetValue();
-    if(!IsValidTimeValue(buffer)) {
-        ShowErrorMessage(invMsgTime,m_txtProcEveryDayStop);
-        return false;
+    
+    if (m_chkProcEveryDay->IsChecked()) {
+        buffer = m_txtProcEveryDayStart->GetValue();
+        if(!IsValidTimeValue(buffer)) {
+            ShowErrorMessage(invMsgTime,m_txtProcEveryDayStart);
+            return false;
+        }
+        buffer = m_txtProcEveryDayStop->GetValue();
+        if(!IsValidTimeValue(buffer)) {
+            ShowErrorMessage(invMsgTime,m_txtProcEveryDayStop);
+            return false;
+        }
     }
+    
     //all text ctrls in proc special time panel
     wxWindowList children = m_panelProcSpecialTimes->GetChildren();
     wxWindowList::compatibility_iterator node = children.GetFirst();
@@ -615,55 +695,67 @@ bool CDlgAdvPreferences::ValidateInput() {
     if(!IsValidFloatValue(buffer)) {
         ShowErrorMessage(invMsgFloat, m_txtProcSwitchEvery);
         return false;
+    } else {
+        double td;
+        if((!buffer.ToDouble(&td)) || (td < 1.0)) {
+            ShowErrorMessage(invMsgFloat, m_txtProcSwitchEvery);
+            return false;
+        }
     }
     
     buffer = m_txtProcUseProcessors->GetValue();
     if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
-        ShowErrorMessage(invMsgFloat, m_txtProcUseProcessors);
+        ShowErrorMessage(invMsgLimit100, m_txtProcUseProcessors);
         return false;
     }
     
     buffer = m_txtProcUseCPUTime->GetValue();
     if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
-        ShowErrorMessage(invMsgFloat, m_txtProcUseCPUTime);
+        ShowErrorMessage(invMsgLimit100, m_txtProcUseCPUTime);
         return false;
     }
     
     //net page
-    buffer = m_txtNetDownloadRate->GetValue();
-    if(!IsValidFloatValue(buffer)) {
-        ShowErrorMessage(invMsgFloat, m_txtNetDownloadRate);
-        return false;
+    if (m_chkNetDownloadRate->IsChecked()) {
+        buffer = m_txtNetDownloadRate->GetValue();
+        if(!IsValidFloatValue(buffer)) {
+            ShowErrorMessage(invMsgFloat, m_txtNetDownloadRate);
+            return false;
+        }
     }
     
-    buffer = m_txtNetUploadRate->GetValue();
-    if(!IsValidFloatValue(buffer)) {
-        ShowErrorMessage(invMsgFloat, m_txtNetUploadRate);
-        return false;
+    if (m_chkNetUploadRate->IsChecked()) {
+        buffer = m_txtNetUploadRate->GetValue();
+        if(!IsValidFloatValue(buffer)) {
+            ShowErrorMessage(invMsgFloat, m_txtNetUploadRate);
+            return false;
+        }
     }
     
-    buffer = m_txt_daily_xfer_limit_mb->GetValue();
-    if(!IsValidFloatValue(buffer)) {
-        ShowErrorMessage(invMsgFloat, m_txt_daily_xfer_limit_mb);
-        return false;
-    }
+    if (m_chkNetUploadRate->IsChecked()) {
+        buffer = m_txt_daily_xfer_limit_mb->GetValue();
+        if(!IsValidFloatValue(buffer)) {
+            ShowErrorMessage(invMsgFloat, m_txt_daily_xfer_limit_mb);
+            return false;
+        }
     
-    buffer = m_txt_daily_xfer_period_days->GetValue();
-    if(!IsValidFloatValue(buffer)) {
-        ShowErrorMessage(invMsgFloat, m_txt_daily_xfer_period_days);
-        return false;
+        buffer = m_txt_daily_xfer_period_days->GetValue();
+        if(!IsValidFloatValue(buffer)) {
+            ShowErrorMessage(invMsgFloat, m_txt_daily_xfer_period_days);
+            return false;
+        }
     }
-    
+   
     //limit additional days from 0 to 10
     buffer = m_txtNetConnectInterval->GetValue();
     if(!IsValidFloatValueBetween(buffer, 0.0, 10.0)) {
-        ShowErrorMessage(invMsgFloat,m_txtNetConnectInterval);
+        ShowErrorMessage(invMsgLimit100,m_txtNetConnectInterval);
         return false;
     }
     
     buffer = m_txtNetAdditionalDays->GetValue();
     if(!IsValidFloatValueBetween(buffer, 0.0, 10.0)) {
-        ShowErrorMessage(invMsgFloat,m_txtNetAdditionalDays);
+        ShowErrorMessage(invMsgLimit100,m_txtNetAdditionalDays);
         return false;
     }
 
@@ -700,22 +792,28 @@ bool CDlgAdvPreferences::ValidateInput() {
     }
 
     //disk & memory usage page
-    buffer = m_txtDiskMaxSpace->GetValue();
-    if(!IsValidFloatValue(buffer)) {
-        ShowErrorMessage(invMsgFloat, m_txtDiskMaxSpace);
-        return false;
+    if (m_chkDiskMaxSpace->IsChecked()) {
+        buffer = m_txtDiskMaxSpace->GetValue();
+        if(!IsValidFloatValue(buffer)) {
+            ShowErrorMessage(invMsgFloat, m_txtDiskMaxSpace);
+            return false;
+        }
     }
     
-    buffer = m_txtDiskLeastFree->GetValue();
-    if(!IsValidFloatValue(buffer)) {
-        ShowErrorMessage(invMsgFloat, m_txtDiskLeastFree);
-        return false;
+    if (m_chkDiskLeastFree->IsChecked()) {
+        buffer = m_txtDiskLeastFree->GetValue();
+        if(!IsValidFloatValue(buffer)) {
+            ShowErrorMessage(invMsgFloat, m_txtDiskLeastFree);
+            return false;
+        }
     }
     
-    buffer = m_txtDiskMaxOfTotal->GetValue();
-    if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
-        ShowErrorMessage(invMsgFloat, m_txtDiskMaxOfTotal);
-        return false;
+    if (m_chkDiskMaxOfTotal->IsChecked()) {
+        buffer = m_txtDiskMaxOfTotal->GetValue();
+        if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
+            ShowErrorMessage(invMsgLimit100, m_txtDiskMaxOfTotal);
+            return false;
+        }
     }
     
     buffer = m_txtDiskWriteToDisk->GetValue();
@@ -726,19 +824,19 @@ bool CDlgAdvPreferences::ValidateInput() {
     
     buffer = m_txtDiskMaxSwap->GetValue();
     if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
-        ShowErrorMessage(invMsgFloat, m_txtDiskMaxSwap);
+        ShowErrorMessage(invMsgLimit100, m_txtDiskMaxSwap);
         return false;
     }
     
     buffer = m_txtMemoryMaxInUse->GetValue();
     if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
-        ShowErrorMessage(invMsgFloat, m_txtMemoryMaxInUse);
+        ShowErrorMessage(invMsgLimit100, m_txtMemoryMaxInUse);
         return false;
     }
     
     buffer = m_txtMemoryMaxOnIdle->GetValue();
     if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
-        ShowErrorMessage(invMsgFloat, m_txtMemoryMaxOnIdle);
+        ShowErrorMessage(invMsgLimit100, m_txtMemoryMaxOnIdle);
         return false;
     }
 
@@ -888,6 +986,90 @@ void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
     ev.Skip();
     if(!m_bInInit) {
         m_bPrefsDataChanged=true;
+        // If user has just set the checkbox, set textedit field to default value
+        // Note: use ChangeValue() here to avoid generating extra events
+        if ((ev.GetEventType() == wxEVT_CHECKBOX)) {
+            wxString buffer = wxEmptyString;
+            switch (ev.GetId()) {
+            // processor usage page
+            case ID_CHKMAXLOAD:
+                if (ev.IsChecked()) {
+                    buffer.Printf(wxT("%.0f"), defaultPrefs.suspend_cpu_usage);
+                }
+                m_txtMaxLoad->ChangeValue(buffer);
+                break;
+            
+            // network usage page
+            case ID_CHKNETDOWNLOADRATE:
+                if (ev.IsChecked()) {
+                    buffer.Printf(wxT("%.2f"),defaultPrefs.max_bytes_sec_down / 1024);
+                }
+                m_txtNetDownloadRate->ChangeValue(buffer);
+                break;
+            case ID_CHKNETUPLOADRATE:
+                if (ev.IsChecked()) {
+                    buffer.Printf(wxT("%.2f"),defaultPrefs.max_bytes_sec_up / 1024);
+                }
+                m_txtNetUploadRate->ChangeValue(buffer);
+                break;
+            case ID_CHKDAILYXFERLIMIT:
+                if (ev.IsChecked()) {
+                    buffer.Printf(wxT("%.2f"),defaultPrefs.daily_xfer_limit_mb);
+                    m_txt_daily_xfer_limit_mb->ChangeValue(buffer);
+                    buffer.Printf(wxT("%d"),defaultPrefs.daily_xfer_period_days );
+                    m_txt_daily_xfer_period_days->ChangeValue(buffer);
+                } else {
+                    m_txt_daily_xfer_limit_mb->ChangeValue(buffer);
+                    m_txt_daily_xfer_period_days->ChangeValue(buffer);
+                }
+                break;
+                
+            // disk usage page
+            case ID_CHKDISKMAXSPACE:
+                if (ev.IsChecked()) {
+                    buffer.Printf(wxT("%.2f"),defaultPrefs.disk_max_used_gb);
+                }
+                m_txtDiskMaxSpace->ChangeValue(buffer);
+                break;
+            case ID_CHKDISKLEASTFREE:
+                if (ev.IsChecked()) {
+                    buffer.Printf(wxT("%.2f"),defaultPrefs.disk_min_free_gb);
+                }
+                m_txtDiskLeastFree->ChangeValue(buffer);
+                break;
+            case ID_CHKDISKMAXOFTOTAL:
+                if (ev.IsChecked()) {
+                    buffer.Printf(wxT("%.2f"),defaultPrefs.disk_max_used_pct);
+                }
+                m_txtDiskMaxOfTotal->ChangeValue(buffer);
+                break;
+            case ID_CHKPROCSUNDAY:
+            case ID_CHKPROCMONDAY:
+            case ID_CHKPROCTUESDAY:
+            case ID_CHKPROCWEDNESDAY:
+            case ID_CHKPROCTHURSDAY:
+            case ID_CHKPROCFRIDAY:
+            case ID_CHKPROCSATURDAY:
+                if (!ev.IsChecked()) {
+                    (procDayTxts[ev.GetId() - ID_CHKPROCSUNDAY])->Clear();
+                }
+                break;
+            case ID_CHKNETSUNDAY:
+            case ID_CHKNETMONDAY:
+            case ID_CHKNETTUESDAY:
+            case ID_CHKNETWEDNESDAY:
+            case ID_CHKNETTHURSDAY:
+            case ID_CHKNETFRIDAY:
+            case ID_CHKNETSATURDAY:
+                if (!ev.IsChecked()) {
+                    (netDayTxts[ev.GetId() - ID_CHKNETSUNDAY])->Clear();
+                }
+                break;
+                
+            default:
+                break;
+            }
+        }
     }
     UpdateControlStates();
 }

@@ -59,7 +59,7 @@
     <string name="attachproject_hint_contribtion_screen">3. Turn off Screen</string>
     <string name="attachproject_hint_projectwebsite_header">Visit project websites to:</string>
     <string name="attachproject_hint_projectwebsite_science">Learn more about the science</string>
-    <string name="attachproject_hint_projectwebsite_stats">View contribtion statistics</string>
+    <string name="attachproject_hint_projectwebsite_stats">View contribution statistics</string>
     <string name="attachproject_hint_projectwebsite_community">Get in touch with other volunteers</string>
     <string name="attachproject_hint_platforms_header">BOINC is also available for your computer or laptop, visit boinc.berkeley.edu to learn more.</string>
     <!-- project login -->
@@ -82,7 +82,7 @@
     <string name="attachproject_login_category_creation">New to </string>
     <string name="attachproject_login_header_creation_enabled">Register an account to participate:</string>
     <string name="attachproject_login_header_creation_client_disabled">Visit project website to create an account:</string>
-    <string name="attachproject_login_header_creation_disabled">Project does currently now allow creation of new accounts!</string>
+    <string name="attachproject_login_header_creation_disabled">This project is not currently accepting new accounts.</string>
     <string name="attachproject_login_button_registration">Register</string>
     <string name="attachproject_login_button_login">Sign in</string>
     <string name="attachproject_login_button_forgotpw">Forgot Password</string>
@@ -208,7 +208,7 @@
     <string name="prefs_cpu_number_cpus_header">Used CPU cores</string>
     <string name="prefs_cpu_number_cpus_description">Limits the number of CPU cores BOINC uses for computation.</string>
     <string name="prefs_cpu_other_load_suspension_header">Pause at CPU usage above</string>
-    <string name="prefs_cpu_other_load_suspension_description">Determines when BOINC pauses computation due to other app\'s CPU usage.</string>
+    <string name="prefs_cpu_other_load_suspension_description">Determines when BOINC pauses computation due to other apps\' CPU usage.</string>
     <string name="prefs_cpu_time_max_header">CPU limit</string>
     <string name="prefs_cpu_time_max_description">Limits the CPU time BOINC uses for computation.</string>
     <string name="prefs_memory_max_idle_header">RAM limit</string>
@@ -220,7 +220,7 @@
     <string name="prefs_unit_gb">GB</string>
     <string name="prefs_unit_pct">%</string>
     <string name="prefs_unit_celcius">&#0176;C</string>
-    <string name="prefs_unit_seconds">s</string>
+    <string name="prefs_unit_seconds">sec</string>
 
     <!-- projects tab strings -->
     <string name="projects_loading">Reading projects&#8230;</string>
@@ -336,7 +336,7 @@
     <string name="suspend_network_quota">BOINC reached network transfer limit.</string>
     <string name="suspend_os">Stopped by Android.</string>
     <string name="suspend_wifi">Not connected to WiFi.</string>
-    <string name="suspend_battery_charging">Battery needs to charge before resuming computation.</string>
+    <string name="suspend_battery_charging">Waiting for battery to charge.</string>
     <string name="suspend_battery_charging_long">Computing will resume when battery charge reaches</string>
     <string name="suspend_battery_charging_long2"></string>
     <string name="suspend_battery_charging_current">currently</string>
@@ -392,3 +392,4 @@
     <string name="social_invite_content_url">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
 
 </resources>
+

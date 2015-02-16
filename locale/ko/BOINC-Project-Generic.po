@@ -1,32 +1,29 @@
 # BOINC web translation
 # Copyright (C) 2008 University of California
+# 
 # This file is distributed under the same license as BOINC.
+# 
 # FileID  : $Id$
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: 2013/12/3\n"
+"Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2014-07-27 06:45+0000\n"
-"Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
-"Language-Team: SETIKAH@KOREA\n"
-"Language: ko\n"
+"PO-Revision-Date: 2015-02-08 22:37+0000\n"
+"Last-Translator: Rom Walton <romw@romwnet.org>\n"
+"Language-Team: Korean (http://www.transifex.com/projects/p/boinc/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-BOINC-UTF8-Marker: ç®ä½ä¸­æ, æ¥æ¬èª\n"
-"X-Poedit-SearchPath-0: html\\user\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1406443547.0\n"
 
-# The name of this language in this language
 msgid "LANG_NAME_NATIVE"
 msgstr "한국어"
 
-# The name of this language in an international language (English)
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Korean"
 
@@ -65,8 +62,7 @@ msgstr "이미지 삽입: [img]http://image_url[/img]  (alt+p)"
 #: ../inc/bbcode_html.inc:35
 msgid ""
 "Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)"
-msgstr ""
-"URL 삽입: [url]http://url[/url] 또는 [url=http://url]URL text[/url]  (alt+w)"
+msgstr "URL 삽입: [url]http://url[/url] 또는 [url=http://url]URL text[/url]  (alt+w)"
 
 #: ../inc/bbcode_html.inc:42
 msgid "Font color"
@@ -296,8 +292,8 @@ msgstr "마지막 수정: %1"
 
 #: ../inc/forum.inc:640
 msgid ""
-"This post is not shown because the sender is on your 'ignore' list.  Click %"
-"1here%2 to view this post"
+"This post is not shown because the sender is on your 'ignore' list.  Click "
+"%1here%2 to view this post"
 msgstr "작성자가 '무시' 목록에 있으므로 이 포스트를 보여주지 않습니다. 이 포스트를 보려면 %1여기%2를 누르세요"
 
 #: ../inc/forum.inc:668 ../inc/forum.inc:679
@@ -376,21 +372,7 @@ msgid ""
 "        <li> No abusive comments involving race, religion,\n"
 "            nationality, gender, class or sexuality.\n"
 "        "
-msgstr ""
-"\n"
-"        <ul>\n"
-"        <li> 포스트는 '전연령'적으로 게시할 것: 외설적이거나\n"
-"            혐오스런 내용, 직접적 혹은 간접적으로\n"
-"            성적인 내용은 포함되면 안 됩니다.\n"
-"        <li> 상업적 광고는 금지됩니다.\n"
-"        <li> 성적인 내용, 도박, 그 외 허용될 수 없는 컨텐츠와\n"
-"            관련한 웹 사이트 링크를 금지합니다.\n"
-"        <li> 타인을 괴롭히거나 도발하기 위한 메세지, 스레드와 관련없는\n"
-"            내용의 메세지는 금지됩니다.\n"
-"        <li> 고의적인 모욕이나 인신 공격성 메세지는 금지됩니다.\n"
-"        <li> 인종, 종교, 국적, 성별, 지위 등과 관련하여서\n"
-"            비난하는 코멘트를 금지합니다.\n"
-"        "
+msgstr "\n        <ul>\n        <li> 포스트는 '전연령'적으로 게시할 것: 외설적이거나\n            혐오스런 내용, 직접적 혹은 간접적으로\n            성적인 내용은 포함되면 안 됩니다.\n        <li> 상업적 광고는 금지됩니다.\n        <li> 성적인 내용, 도박, 그 외 허용될 수 없는 컨텐츠와\n            관련한 웹 사이트 링크를 금지합니다.\n        <li> 타인을 괴롭히거나 도발하기 위한 메세지, 스레드와 관련없는\n            내용의 메세지는 금지됩니다.\n        <li> 고의적인 모욕이나 인신 공격성 메세지는 금지됩니다.\n        <li> 인종, 종교, 국적, 성별, 지위 등과 관련하여서\n            비난하는 코멘트를 금지합니다.\n        "
 
 #: ../inc/forum.inc:780
 msgid "Rules:"
@@ -448,17 +430,14 @@ msgstr "오직 팀 회원만이 팀 게시판에 글을 쓸 수 있습니다"
 msgid ""
 "In order to create a new thread in %1 you must have a certain amount of "
 "credit. This is to prevent and protect against abuse of the system."
-msgstr ""
-"%1에 새로운 스레드를 만들려면 여러분은 크레딧을 어느 정도 가지고 있어야 합니다. 이 것은 시스템 남용을 막으면서 보호해줍니다. "
+msgstr "%1에 새로운 스레드를 만들려면 여러분은 크레딧을 어느 정도 가지고 있어야 합니다. 이 것은 시스템 남용을 막으면서 보호해줍니다. "
 
 #: ../inc/forum.inc:1133
 msgid ""
 "You cannot create any more threads right now. Please wait a while before "
 "trying again. This delay has been enforced to protect against abuse of the "
 "system."
-msgstr ""
-"지금은 더 이상 새로운 스레드를 만들 수 없습니다. 다시 시도하시기 전에 잠시 기다려주십시오. 이러한 지연은 시스템을 남용으로부터 "
-"보호하기 위해서 시행하고 있습니다."
+msgstr "지금은 더 이상 새로운 스레드를 만들 수 없습니다. 다시 시도하시기 전에 잠시 기다려주십시오. 이러한 지연은 시스템을 남용으로부터 보호하기 위해서 시행하고 있습니다."
 
 #: ../inc/forum.inc:1140
 msgid ""
@@ -1130,21 +1109,17 @@ msgstr "MB 당"
 #: ../inc/prefs.inc:274
 msgid ""
 "Skip image file verification? %1 Check this ONLY if your Internet provider "
-"modifies image files (UMTS does this, for example). %2 Skipping verification "
-"reduces the security of BOINC. %3"
-msgstr ""
-"이미지 파일 검증을 건너뛸까요? %1 인터넷 제공자가 이미지 파일을 변경할 경우에만 체크하세요 (대표적으로 UMTS). %2 검증을 "
-"건너뛰게 되면 BOINC의 보안이 감소하게 됩니다. %3"
+"modifies image files (UMTS does this, for example). %2 Skipping verification"
+" reduces the security of BOINC. %3"
+msgstr "이미지 파일 검증을 건너뛸까요? %1 인터넷 제공자가 이미지 파일을 변경할 경우에만 체크하세요 (대표적으로 UMTS). %2 검증을 건너뛰게 되면 BOINC의 보안이 감소하게 됩니다. %3"
 
 #: ../inc/prefs.inc:287
 msgid ""
 "Resource share %1 Determines the proportion of your computer's resources "
-"allocated to this project. Example: if you participate in two BOINC projects "
-"with resource shares of 100 and 200, the first will get 1/3 of your "
+"allocated to this project. Example: if you participate in two BOINC projects"
+" with resource shares of 100 and 200, the first will get 1/3 of your "
 "resources and the second will get 2/3. %2"
-msgstr ""
-"자원 공유 %1 이 프로젝트에서 사용할 자원 배분치를 결정하세요. 예: 여러분이 각각 100과 200의 자원을 공유하기로 한 BOINC "
-"프로젝트에 참여하고 계시면 첫 번째는 1/3의 자원을 쓰게 되고, 두 번째는 2/3를 쓰게 됩니다. %2"
+msgstr "자원 공유 %1 이 프로젝트에서 사용할 자원 배분치를 결정하세요. 예: 여러분이 각각 100과 200의 자원을 공유하기로 한 BOINC 프로젝트에 참여하고 계시면 첫 번째는 1/3의 자원을 쓰게 되고, 두 번째는 2/3를 쓰게 됩니다. %2"
 
 #: ../inc/prefs.inc:298
 msgid "Accelerate GPU tasks by dedicating a CPU to each one?"
@@ -1174,7 +1149,8 @@ msgstr "테스트 프로그램을 실행할까요? %1 이는 프로그램 개발
 
 #: ../inc/prefs.inc:367
 msgid ""
-"Emails will be sent from %1; make sure your spam filter accepts this address."
+"Emails will be sent from %1; make sure your spam filter accepts this "
+"address."
 msgstr "email은 %1에서 보냅니다. 여러분의 스팸 필터에서 이 주소를 허용해 주세요."
 
 #: ../inc/prefs.inc:374
@@ -1204,8 +1180,8 @@ msgstr "이 환경 설정은 여러분이 참여하는 모든 BOINC 프로젝트
 
 #: ../inc/prefs.inc:395
 msgid ""
-"%1Unable to update preferences.%2 The values marked in red below were out of "
-"range or not numeric."
+"%1Unable to update preferences.%2 The values marked in red below were out of"
+" range or not numeric."
 msgstr "%1환경 설정을 업데이트할 수 없습니다.%2 빨간 색으로 표시된 곳이 범위를 넘어서거나 숫자가 아닙니다."
 
 #: ../inc/prefs.inc:445
@@ -1809,9 +1785,7 @@ msgstr "이 팀에 가입"
 msgid ""
 "Note: if 'OK to email' is set in your project preferences, joining a team "
 "gives its founder access to your email address."
-msgstr ""
-"노트:만약 'OK to email\"이 프로젝트 환경설정에 설정되어 있으면, 가입한 팀의 창설자가 여러분의 email주소를 알 수 "
-"있습니다."
+msgstr "노트:만약 'OK to email\"이 프로젝트 환경설정에 설정되어 있으면, 가입한 팀의 창설자가 여러분의 email주소를 알 수 있습니다."
 
 #: ../inc/team.inc:140
 msgid "Not accepting new members"
@@ -1891,11 +1865,9 @@ msgstr "이 기능은 팀 관리자 권한이 필요합니다"
 
 #: ../inc/team.inc:422
 msgid ""
-"WARNING: this is a BOINC-wide team. If you make changes here, they will soon "
-"be overwritten. Edit the %1BOINC-wide team%2 instead."
-msgstr ""
-"경고: 이 팀은 BOINC 광역 팀입니다. 만약 이 곳을 변경하게 되면 덮어쓰게 됩니다. 그 대신에 %1BOINC 광역 팀%2을 "
-"수정하세요."
+"WARNING: this is a BOINC-wide team. If you make changes here, they will soon"
+" be overwritten. Edit the %1BOINC-wide team%2 instead."
+msgstr "경고: 이 팀은 BOINC 광역 팀입니다. 만약 이 곳을 변경하게 되면 덮어쓰게 됩니다. 그 대신에 %1BOINC 광역 팀%2을 수정하세요."
 
 #: ../inc/team.inc:428
 msgid ""
@@ -2232,7 +2204,8 @@ msgid "sec"
 msgstr "초"
 
 #: ../inc/util.inc:444
-msgid "Link has timed out. Please click Back, refresh the page, and try again."
+msgid ""
+"Link has timed out. Please click Back, refresh the page, and try again."
 msgstr "연결 시간 초과. '뒤로 가기'를 누르신 후 페이지를 새로 고치시고 다시 시도하세요."
 
 #: ../inc/util.inc:513
@@ -2306,10 +2279,7 @@ msgid ""
 "work for one or more of these applications will be assigned to your "
 "computer. The current version of the application will be downloaded to your "
 "computer. This happens automatically; you don't have to do anything."
-msgstr ""
-"현재 %1(은)는 다음 응용 프로그램을 사용합니다. 여러분이 %1에 참여할 때 하나 이상의 응용 프로그램이 여러분 컴퓨터로 할당됩니다. "
-"최신 버전의 응용 프로그램이 여러분 컴퓨터로 다운로드될 것입니다. 이 것은 자동으로 처리됩니다. 여러분은 아무 것도 하실 필요가 "
-"없습니다."
+msgstr "현재 %1(은)는 다음 응용 프로그램을 사용합니다. 여러분이 %1에 참여할 때 하나 이상의 응용 프로그램이 여러분 컴퓨터로 할당됩니다. 최신 버전의 응용 프로그램이 여러분 컴퓨터로 다운로드될 것입니다. 이 것은 자동으로 처리됩니다. 여러분은 아무 것도 하실 필요가 없습니다."
 
 #: ../user/apps.php:50
 msgid "Platform"
@@ -2333,10 +2303,7 @@ msgid ""
 "It's similar to HTML, but simpler. The tags start with a [ (where you would\n"
 "have used %1 in HTML) and end with ] (where you would have used %2 in\n"
 "HTML)."
-msgstr ""
-"BB코드 태그는 프로필과 게시판 포스트에서 사용할 수 있는 텍스트 규격입니다.\n"
-"이 것은 HTML과 유사하지만 보다 간단합니다. 태그는 [로 시작해서(HTML에서\n"
-"%1로 사용하던 곳) ]로 끝나야 합니다(HTML에서 %2로 사용하던 곳)."
+msgstr "BB코드 태그는 프로필과 게시판 포스트에서 사용할 수 있는 텍스트 규격입니다.\n이 것은 HTML과 유사하지만 보다 간단합니다. 태그는 [로 시작해서(HTML에서\n%1로 사용하던 곳) ]로 끝나야 합니다(HTML에서 %2로 사용하던 곳)."
 
 #: ../user/bbcode.php:31
 msgid "Examples"
@@ -2426,9 +2393,7 @@ msgstr "BOINC 웹사이트 상의 SVN changeset 링크 사용"
 msgid ""
 "If you don't close a tag or don't specify a parameter correctly,\n"
 "the raw tag itself will display instead of the formatted text."
-msgstr ""
-"만약 종료 태그나 인수가 제대로 지정되지 않았다면\n"
-"규정된 텍스트 대신 원 태그가 표시됩니다."
+msgstr "만약 종료 태그나 인수가 제대로 지정되지 않았다면\n규정된 텍스트 대신 원 태그가 표시됩니다."
 
 #: ../user/bs_sample_index.php:44
 msgid "Participants"
@@ -2526,7 +2491,8 @@ msgstr "초대 코드가 올바르지 않습니다."
 
 #: ../user/create_account_action.php:84
 msgid ""
-"Invalid email address: you must enter a valid address of the form name@domain"
+"Invalid email address: you must enter a valid address of the form "
+"name@domain"
 msgstr "잘못된 이메일 주소: name@domain 형태의 올바른 주소를 입력해야 합니다"
 
 #: ../user/create_account_action.php:88
@@ -2553,9 +2519,7 @@ msgstr "계정을 만들지 못했습니다"
 msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
-msgstr ""
-"비고: BOINC 관리자를 사용할 경우, 이 양식을 사용하지 마십시오. BOINC를 실행하고, 프로젝트 추가를 선택한 후 이메일 주소와 "
-"비밀번호를 입력해주세요."
+msgstr "비고: BOINC 관리자를 사용할 경우, 이 양식을 사용하지 마십시오. BOINC를 실행하고, 프로젝트 추가를 선택한 후 이메일 주소와 비밀번호를 입력해주세요."
 
 #: ../user/create_account_form.php:61
 msgid ""
@@ -2609,8 +2573,8 @@ msgstr "%1 프로필 사진은 왼쪽에 표시됩니다."
 
 #: ../user/create_profile.php:66
 msgid ""
-"To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
-"or less)."
+"To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1"
+" or less)."
 msgstr "교체하려면 \"찾아보기\" 버튼을 누르고 JPEG나 PNG 파일을 선택하세요 (%1이하)"
 
 #: ../user/create_profile.php:69
@@ -2621,9 +2585,7 @@ msgstr "프로필에서 제거하려면 이 박스에 체크하세요:"
 msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
-msgstr ""
-"만약 여러분 프로필에 사진을 포함시킬려면 \"찾아보기\" 버튼을 누르고 JPEG나 PNG 파일을 선택하세요. %1이하의 이미지를 "
-"선택해주세요."
+msgstr "만약 여러분 프로필에 사진을 포함시킬려면 \"찾아보기\" 버튼을 누르고 JPEG나 PNG 파일을 선택하세요. %1이하의 이미지를 선택해주세요."
 
 #: ../user/create_profile.php:89
 msgid "Language"
@@ -2702,8 +2664,8 @@ msgstr "프로필 만들기"
 
 #: ../user/create_profile.php:343
 msgid ""
-"To prevent spam, an average credit of %1 or greater is required to create or "
-"edit a profile.  We apologize for this inconvenience."
+"To prevent spam, an average credit of %1 or greater is required to create or"
+" edit a profile.  We apologize for this inconvenience."
 msgstr "스팸을 방지하기 위해서 프로필을 작성하거나 수정하려면 크레딧을 평균 %1 이상 가지고 있어야 합니다. 불편을 드려서 죄송합니다."
 
 #: ../user/delete_account.php:57
@@ -2729,20 +2691,13 @@ msgid ""
 "including your profile and message-board posts.\n"
 "No jobs will be issued to any computers attached\n"
 "to this account."
-msgstr ""
-"계정을 삭제하면 여러분의 프로필과 게시판\n"
-" 포스트를 포함한 모든 개인 정보가\n"
-"저희 서버에서 제거될 것입니다.\n"
-"이 계정에 연결된 모든 컴퓨터는 어떤 작업도\n"
-"요청할 수 없습니다."
+msgstr "계정을 삭제하면 여러분의 프로필과 게시판\n 포스트를 포함한 모든 개인 정보가\n저희 서버에서 제거될 것입니다.\n이 계정에 연결된 모든 컴퓨터는 어떤 작업도\n요청할 수 없습니다."
 
 #: ../user/delete_account.php:73
 msgid ""
 "This cannot be undone.\n"
 "Once your account has been deleted, you cannot get it back."
-msgstr ""
-"이 것은 되돌릴 수 없습니다.\n"
-"한 번 계정이 삭제되면 다시 복구할 수 없습니다."
+msgstr "이 것은 되돌릴 수 없습니다.\n한 번 계정이 삭제되면 다시 복구할 수 없습니다."
 
 #: ../user/delete_account.php:76
 msgid "Are you sure you want to delete your account?"
@@ -2794,18 +2749,13 @@ msgid ""
 "Deleted profiles are gone forever and cannot be recovered --\n"
 "you will have to start from scratch\n"
 "if you want another profile in the future."
-msgstr ""
-"삭제된 프로필은 영원히 사라지며 복구가 불가능합니다 --\n"
-"추후에 다른 프로필을 원한다면\n"
-"여러분은 다시 작성해야 할 것입니다."
+msgstr "삭제된 프로필은 영원히 사라지며 복구가 불가능합니다 --\n추후에 다른 프로필을 원한다면\n여러분은 다시 작성해야 할 것입니다."
 
 #: ../user/delete_profile.php:48
 msgid ""
 "If you're sure, click 'Yes'\n"
 "to remove your profile from our database."
-msgstr ""
-"확실하면 '삭제'를 누르세요.\n"
-"데이터베이스에서 프로필이 삭제됩니다."
+msgstr "확실하면 '삭제'를 누르세요.\n데이터베이스에서 프로필이 삭제됩니다."
 
 #: ../user/delete_profile.php:52
 msgid "Delete my profile"
@@ -2829,7 +2779,8 @@ msgstr "기부가 완료되었습니다."
 
 #: ../user/donated.php:30
 msgid ""
-"Your donation will be added to the progress bar after confirmation by PayPal."
+"Your donation will be added to the progress bar after confirmation by "
+"PayPal."
 msgstr "여러분이 하신 기부는 PayPal을 통해 승인되어서 내역에 추가될 것입니다."
 
 #: ../user/donated.php:32
@@ -2848,9 +2799,7 @@ msgstr "%1 기부하기"
 msgid ""
 "This project is accepting donations via\n"
 "%1."
-msgstr ""
-"이 프로젝트에서 수용하는 기부 수단\n"
-"%1"
+msgstr "이 프로젝트에서 수용하는 기부 수단\n%1"
 
 #: ../user/donations.php:42
 msgid ""
@@ -2865,18 +2814,7 @@ msgid ""
 "        to see the donation amount equivalent in different currencies\n"
 "        (please note that the rates are only estimates\n"
 "         and the actual amount may differ)."
-msgstr ""
-"기부하실려면 아래 항목 중에서 기부하시고자 하는 양만큼 채워주십시오.\n"
-"        PayPal은 다양한 화폐를 수용합니다.\n"
-"        (캐나다 달러, 유로, 영국 파운드, 미국 달러,\n"
-"        엔, 오스트레일리아 달러, 뉴질랜드 달러,\n"
-"        스위스 프랑, 홍콩 달러, 싱가포르 달러, 스웨덴 크로나,\n"
-"        덴마크 크로나, 폴란드 줄러티, 노르웨이 크로네,\n"
-"        헝가리 포린트, 체코 코루나)\n"
-"        여러분은 다른 화폐로 얼마에 해당되는지\n"
-"        알기 위해서 동봉된 화폐 변환기를 사용할 수 있습니다.\n"
-"        (참고: 변환율은 어디까지나 추정치이며 실제\n"
-"        금액은 다를 수도 있습니다.)"
+msgstr "기부하실려면 아래 항목 중에서 기부하시고자 하는 양만큼 채워주십시오.\n        PayPal은 다양한 화폐를 수용합니다.\n        (캐나다 달러, 유로, 영국 파운드, 미국 달러,\n        엔, 오스트레일리아 달러, 뉴질랜드 달러,\n        스위스 프랑, 홍콩 달러, 싱가포르 달러, 스웨덴 크로나,\n        덴마크 크로나, 폴란드 줄러티, 노르웨이 크로네,\n        헝가리 포린트, 체코 코루나)\n        여러분은 다른 화폐로 얼마에 해당되는지\n        알기 위해서 동봉된 화폐 변환기를 사용할 수 있습니다.\n        (참고: 변환율은 어디까지나 추정치이며 실제\n        금액은 다를 수도 있습니다.)"
 
 #: ../user/donations.php:316
 msgid "Amount you would like to donate"
@@ -2894,9 +2832,7 @@ msgstr "익명 기부"
 msgid ""
 "Select this if you dont want your name and account number displayed in\n"
 "donator lists.<br>If not checked, you will be recorded as user ID %1"
-msgstr ""
-"만약 여러분의 이름과 계정 번호가 기부자 명단에 표시되길 원치 않으시면\n"
-"선택하세요.<br>체크하지 않으면 사용자 ID %1로 기록됩니다"
+msgstr "만약 여러분의 이름과 계정 번호가 기부자 명단에 표시되길 원치 않으시면\n선택하세요.<br>체크하지 않으면 사용자 ID %1로 기록됩니다"
 
 #: ../user/donations.php:324
 msgid "To assign the donation with your user ID, please log in."
@@ -2926,13 +2862,9 @@ msgstr "이들 응용 프로그램은 %1에서 승인받지 않았으며 여러�
 #: ../user/download_network.php:33
 msgid ""
 "We do not provide instructions for installing these applications.\n"
-"However, the author may have provided some help on installing or "
-"uninstalling the application. \n"
+"However, the author may have provided some help on installing or uninstalling the application. \n"
 "If this is not enough you should contact the author."
-msgstr ""
-"저희는 이들 응용 프로그램을 설치하기 위한 설명서를 제공하지 않습니다.\n"
-"그러나 작성자는 응용 프로그램 설치나 삭제에 관해서 약간의 도움말을 제공할 수도 있습니다.\n"
-"그 것으로 충분하지 않다면 작성자에게 연락하세요."
+msgstr "저희는 이들 응용 프로그램을 설치하기 위한 설명서를 제공하지 않습니다.\n그러나 작성자는 응용 프로그램 설치나 삭제에 관해서 약간의 도움말을 제공할 수도 있습니다.\n그 것으로 충분하지 않다면 작성자에게 연락하세요."
 
 #: ../user/download_network.php:36
 msgid "Instructions for installing and running BOINC are %1here%2."
@@ -3086,10 +3018,7 @@ msgid ""
 "Check out %1various free services%2\n"
 "<br> providing dynamic 'signature images'\n"
 "<br> showing your latest credit info, project news, etc."
-msgstr ""
-"%1다양한 무료 서비스%2를 확인하세요\n"
-"<br> 동적인 '서명 이미지'를 제공하며, \n"
-"<br> 최근 크레딧 정보, 프로젝트 뉴스 등을 보여줍니다."
+msgstr "%1다양한 무료 서비스%2를 확인하세요\n<br> 동적인 '서명 이미지'를 제공하며, \n<br> 최근 크레딧 정보, 프로젝트 뉴스 등을 보여줍니다."
 
 #: ../user/edit_forum_preferences_form.php:104
 msgid "characters remaining"
@@ -3292,9 +3221,7 @@ msgid ""
 "A tasks's <b>server state</b> indicates whether the task has been sent to a "
 "computer, and if so whether the computer has finished it. Possible values "
 "are:"
-msgstr ""
-"태스크 <b>서버 현황</b>은 태스크가 클라이언트로 보내졌는지, 만약 그렇다면 해당 클라이언트가 작업을 마쳤는지 카르켜 줍니다. 가능한 "
-"값:"
+msgstr "태스크 <b>서버 현황</b>은 태스크가 클라이언트로 보내졌는지, 만약 그렇다면 해당 클라이언트가 작업을 마쳤는지 카르켜 줍니다. 가능한 값:"
 
 #: ../user/explain_state.php:35
 msgid ""
@@ -3362,8 +3289,8 @@ msgstr "태스크가 클라이언트로 전송되었으나 마감 시각까지 �
 
 #: ../user/explain_state.php:72
 msgid ""
-"The task wasn't sent to a computer because enough other tasks were completed "
-"for this workunit."
+"The task wasn't sent to a computer because enough other tasks were completed"
+" for this workunit."
 msgstr "해당 작업 유닛의 다른 태스크가 충분히 완료되었기에 클라이언트에게 태스크를 전송하지 않았습니다."
 
 #: ../user/explain_state.php:75
@@ -3378,8 +3305,8 @@ msgstr "클라이언트 상태"
 
 #: ../user/explain_state.php:81
 msgid ""
-"A result's <b>client state</b> indicates the stage of processing at which an "
-"error occurred."
+"A result's <b>client state</b> indicates the stage of processing at which an"
+" error occurred."
 msgstr "결과물의 <b>클라이언트 상황</b>은 오류가 발생한 연산 과정을 가르켜 줍니다."
 
 #: ../user/explain_state.php:86
@@ -3474,8 +3401,8 @@ msgstr "%1을 친구들에게 전해주어서 감사합니다"
 
 #: ../user/ffmail_action.php:94
 msgid ""
-"You forgot to enter your friends' names and/or email addresses; Please %"
-"1return to the form%2 and enter them."
+"You forgot to enter your friends' names and/or email addresses; Please "
+"%1return to the form%2 and enter them."
 msgstr "친구의 이름 혹은 이메일 주소를 입력하지 않았습니다. 빠진 부분을 %1입력 폼으로 돌아가서 입력%2해주시기 바랍니다."
 
 #: ../user/ffmail_form.php:30
@@ -3497,9 +3424,7 @@ msgid ""
 "Fill in this form with the names and email addresses of people you think "
 "might be interested in %1. We'll send them an email in your name, and you "
 "can add your own message if you like."
-msgstr ""
-"%1에 흥미를 가질 것 같은 사람들의 이름과 이메일 주소를 이 양식에 채워주세요. 여러분의 이름이 들어간 이메일(원한다면 메세지를 추가할 "
-"수도 있습니다.)을 저희가 그들에게 보낼 것입니다."
+msgstr "%1에 흥미를 가질 것 같은 사람들의 이름과 이메일 주소를 이 양식에 채워주세요. 여러분의 이름이 들어간 이메일(원한다면 메세지를 추가할 수도 있습니다.)을 저희가 그들에게 보낼 것입니다."
 
 #: ../user/ffmail_form.php:42
 msgid "Your name:"
@@ -3547,14 +3472,12 @@ msgid ""
 "Are you sure you want to banish %1?<br/>This will prevent %1 from posting "
 "for chosen time period.<br/>It should be done only if %1 has consistently "
 "exhibited trollish behavior."
-msgstr ""
-"정말로 %1을 차단하시겠습니까?<br />이로써 지정된 기간 동안 %1은 포스팅을 할 수 없게 됩니다.<br />이 기능은 오직 %1이 "
-"유해한 행동을 일관되게 저지를 경우에만 사용하십시오."
+msgstr "정말로 %1을 차단하시겠습니까?<br />이로써 지정된 기간 동안 %1은 포스팅을 할 수 없게 됩니다.<br />이 기능은 오직 %1이 유해한 행동을 일관되게 저지를 경우에만 사용하십시오."
 
 #: ../user/forum_banishment_vote.php:61
 msgid ""
-"Select the reason category, optionally write a longer description of why the "
-"user should be banished."
+"Select the reason category, optionally write a longer description of why the"
+" user should be banished."
 msgstr "이유 카테고리를 선택하세요. 추가적으로 왜 이 사용자가 차단되어야 하는지 보다 긴 설명을 쓸 수 있습니다."
 
 #: ../user/forum_banishment_vote.php:62 ../user/forum_moderate_thread.php:50
@@ -3721,8 +3644,8 @@ msgstr "질문과 답변"
 
 #: ../user/forum_help_desk.php:30
 msgid ""
-"Talk live via Skype with a volunteer, in any of several languages. Go to %"
-"1BOINC Online Help%2."
+"Talk live via Skype with a volunteer, in any of several languages. Go to "
+"%1BOINC Online Help%2."
 msgstr "Skype를 통해서 여러 언어로 기여자들과 실시간으로 이야기하세요. %1BOINC 온라인 도움말%2로 가세요."
 
 #: ../user/forum_help_desk.php:44 ../user/forum_index.php:92
@@ -3998,12 +3921,10 @@ msgstr "포럼 포스트 신고"
 
 #: ../user/forum_report_post.php:73
 msgid ""
-"Before reporting this post, consider using the +/- rating system instead. If "
-"enough users rate a post negatively it will eventually be hidden.<br />You "
+"Before reporting this post, consider using the +/- rating system instead. If"
+" enough users rate a post negatively it will eventually be hidden.<br />You "
 "can find the rating system at the bottom of the post."
-msgstr ""
-"이 포스트를 신고하기 전에 +/- 등급 시스템 사용을 고려해 보세요. 만약 충분한 사용자들이 포스트에 부정적인 등급을 매겼다면 결국 숨김 "
-"처리될 것입니다.<br />포스트 하단부에서 등급 시스템을 찾을 수 있습니다."
+msgstr "이 포스트를 신고하기 전에 +/- 등급 시스템 사용을 고려해 보세요. 만약 충분한 사용자들이 포스트에 부정적인 등급을 매겼다면 결국 숨김 처리될 것입니다.<br />포스트 하단부에서 등급 시스템을 찾을 수 있습니다."
 
 #: ../user/forum_report_post.php:80
 msgid "Report post"
@@ -4011,12 +3932,9 @@ msgstr "포스트 신고"
 
 #: ../user/forum_report_post.php:81
 msgid ""
-"Why do you find the post offensive: %1Please include enough information so "
-"that a person that\n"
+"Why do you find the post offensive: %1Please include enough information so that a person that\n"
 "has not yet read the thread will quickly be able to identify the issue.%2"
-msgstr ""
-"왜 불쾌한 포스트를 찾습니까?: %1충분한 정보를 제공하세요. 그렇게 함으로써 사람들이 아직 읽지\n"
-"않은 스레드에서 신속하게 문제 사항을 식별할 수 있게 됩니다.%2"
+msgstr "왜 불쾌한 포스트를 찾습니까?: %1충분한 정보를 제공하세요. 그렇게 함으로써 사람들이 아직 읽지\n않은 스레드에서 신속하게 문제 사항을 식별할 수 있게 됩니다.%2"
 
 #: ../user/forum_report_post.php:90
 msgid "Report not registered"
@@ -4028,7 +3946,8 @@ msgstr "신고가 기록되지 못했습니다. 잠시 기다리신 후에 다�
 
 #: ../user/forum_report_post.php:92
 msgid ""
-"If this is not a temporary error, please report it to the project developers."
+"If this is not a temporary error, please report it to the project "
+"developers."
 msgstr "만약 이 것이 일시적인 오류가 아니라면, 프로젝트 개발자에게 보고하세요."
 
 #: ../user/forum_rss.php:41
@@ -4139,9 +4058,7 @@ msgstr "요청에 맞는 내용:"
 msgid ""
 "Sorry, couldn't find anything matching your search query. You can try to "
 "broaden your search by using less words (or less specific words)."
-msgstr ""
-"죄송합니다. 검색 큐와 일치하는 어떤 것도 찾을 수 없습니다. 더 적은 단어(또는 더 적은 특정 단어)를 사용해서 검색 범위를 넓힐 수 "
-"있습니다."
+msgstr "죄송합니다. 검색 큐와 일치하는 어떤 것도 찾을 수 없습니다. 더 적은 단어(또는 더 적은 특정 단어)를 사용해서 검색 범위를 넓힐 수 있습니다."
 
 #: ../user/forum_search_action.php:219
 msgid "You can also %1try the same search on Google.%2"
@@ -4176,8 +4093,8 @@ msgstr "구독 해제에 성공했습니다"
 
 #: ../user/forum_subscribe.php:64
 msgid ""
-"You are no longer subscribed to %1. You will no longer receive notifications "
-"for this thread."
+"You are no longer subscribed to %1. You will no longer receive notifications"
+" for this thread."
 msgstr "더 이상 %1을 구독하지 않기로 했습니다. 더 이상 이 스레드에 관한 알림을 받지 못할 것입니다."
 
 #: ../user/forum_subscribe.php:66
@@ -4339,8 +4256,8 @@ msgstr "친구로 추가"
 
 #: ../user/friend.php:74
 msgid ""
-"You have asked to add %1 as a friend. We will notify %1 and will ask him/her "
-"to confirm that you are friends."
+"You have asked to add %1 as a friend. We will notify %1 and will ask him/her"
+" to confirm that you are friends."
 msgstr "%1을 친구로 추가하길 요청했습니다. %1에게 알리고 그에게 당신을 친구로 할지 확인하도록 요청할 것입니다."
 
 #: ../user/friend.php:77
@@ -4445,7 +4362,8 @@ msgstr "계정 정보를 잊었습니까?"
 
 #: ../user/get_passwd.php:28
 msgid ""
-"1) If you know your account's email address, and you can receive email there:"
+"1) If you know your account's email address, and you can receive email "
+"there:"
 msgstr "1) 만약 해당 계정의 이메일 주소를 알고 있으며, 이메일을 받을 수 있는 경우:"
 
 #: ../user/get_passwd.php:29
@@ -4481,7 +4399,8 @@ msgid "Open the file in a text editor like Notepad. You'll see something like"
 msgstr "메모장같은 텍스트 편집기로 파일을 여세요. 다음과 같은 것들을"
 
 #: ../user/get_passwd.php:62
-msgid "Select and Copy the string between %1 and %2 (%3 in the above example)."
+msgid ""
+"Select and Copy the string between %1 and %2 (%3 in the above example)."
 msgstr "%1과 %2 사이에 있는 문자열을 선택하고 복사하세요.(상단의 %3은 예시)"
 
 #: ../user/get_passwd.php:64
@@ -4573,9 +4492,7 @@ msgid ""
 "You can not delete our record of this computer because our database still "
 "contains work for it. You must wait a few days until the work for this "
 "computer has been deleted from the project database."
-msgstr ""
-"이 컴퓨터의 저희 기록을 삭제할 수 없습니다. 왜냐하면 저희 DB는 여전히 그 것을 포함한 채 작동하기 때문입니다. 프로젝트 DB에서 "
-"해당 컴퓨터의 작업이 삭제되기 전까지 며칠간 기다려야 합니다."
+msgstr "이 컴퓨터의 저희 기록을 삭제할 수 없습니다. 왜냐하면 저희 DB는 여전히 그 것을 포함한 채 작동하기 때문입니다. 프로젝트 DB에서 해당 컴퓨터의 작업이 삭제되기 전까지 며칠간 기다려야 합니다."
 
 #: ../user/host_delete.php:40
 msgid "Delete record of computer"
@@ -4599,11 +4516,9 @@ msgstr "컴퓨터 병합"
 
 #: ../user/host_edit_form.php:38
 msgid ""
-"Sometimes BOINC assigns separate identities to the same computer by mistake. "
-"You can correct this by merging old identities with the newest one."
-msgstr ""
-"때때로 BOINC는 실수로 같은 컴퓨터를 개별적인 존재로 인정합니다. 여러분은 오래된 것을 새로운 것으로 통합시켜서 바로잡을 수 "
-"있습니다."
+"Sometimes BOINC assigns separate identities to the same computer by mistake."
+" You can correct this by merging old identities with the newest one."
+msgstr "때때로 BOINC는 실수로 같은 컴퓨터를 개별적인 존재로 인정합니다. 여러분은 오래된 것을 새로운 것으로 통합시켜서 바로잡을 수 있습니다."
 
 #: ../user/host_edit_form.php:56
 msgid "No hosts are eligible for merging with this one."
@@ -4715,8 +4630,8 @@ msgstr "사전 정의됨"
 
 #: ../user/html.php:33
 msgid ""
-"image; height cannot exceed 450 pixels. Please do not link to images without "
-"permission of the web site where the image is hosted."
+"image; height cannot exceed 450 pixels. Please do not link to images without"
+" permission of the web site where the image is hosted."
 msgstr "이미지: 높이는 450 픽셀을 초과할 수 없습니다. 이미지가 올려진, 권한없는 웹 사이트에 이미지를 링크하지 마십시오."
 
 #: ../user/html.php:35
@@ -4732,9 +4647,7 @@ msgid ""
 "Run %1 only on computers that you own, or for which you have obtained the "
 "owner's permission. Some companies and schools have policies that prohibit "
 "using their computers for projects such as %1."
-msgstr ""
-"%1(은)는 여러분이 가진 컴퓨터 또는 소유자의 허락을 얻은 컴퓨터로 수행하십시오. 어떤 회사와 학교는 %1(과)와 같은 프로젝트를 "
-"수행하지 못하게 하려고 그들의 컴퓨터를 사용하지 못하게 하는 정책을 가지고 있습니다."
+msgstr "%1(은)는 여러분이 가진 컴퓨터 또는 소유자의 허락을 얻은 컴퓨터로 수행하십시오. 어떤 회사와 학교는 %1(과)와 같은 프로젝트를 수행하지 못하게 하려고 그들의 컴퓨터를 사용하지 못하게 하는 정책을 가지고 있습니다."
 
 #: ../user/info.php:38
 msgid "How %1 will use your computer"
@@ -4745,17 +4658,13 @@ msgid ""
 "When you run %1 on your computer, it will use part of the computer's CPU "
 "power, disk space, and network bandwidth. You can control how much of your "
 "resources are used by %1, and when it uses them."
-msgstr ""
-"%1(을)를 실행하실 경우 여러분 컴퓨터의 CPU, 디스크 공간, 네트워크 대역폭 중 일부를 사용하게 됩니다. 여러분은 언제, 얼마만큼 "
-"%1이 여러분의 컴퓨터 자원을 사용할지 제어할 수 있습니다."
+msgstr "%1(을)를 실행하실 경우 여러분 컴퓨터의 CPU, 디스크 공간, 네트워크 대역폭 중 일부를 사용하게 됩니다. 여러분은 언제, 얼마만큼 %1이 여러분의 컴퓨터 자원을 사용할지 제어할 수 있습니다."
 
 #: ../user/info.php:40
 msgid ""
 "The work done by your computer contributes to the goals of %1, as described "
 "on its web site. The application programs may change from time to time."
-msgstr ""
-"여러분이 가진 컴퓨터로 한 작업은 %1 웹 사이트에 설명된 목표에 도달하는데 공헌하고 있습니다. 응용 프로그램은 시간이 지나면 바뀔 수 "
-"있습니다."
+msgstr "여러분이 가진 컴퓨터로 한 작업은 %1 웹 사이트에 설명된 목표에 도달하는데 공헌하고 있습니다. 응용 프로그램은 시간이 지나면 바뀔 수 있습니다."
 
 #: ../user/info.php:42
 msgid "Privacy policy"
@@ -4763,13 +4672,11 @@ msgstr "사생활 보호 정책"
 
 #: ../user/info.php:43
 msgid ""
-"Your account on %1 is identified by a name that you choose. This name may be "
-"shown on the %1 web site, along with a summary of the work your computer has "
-"done for %1. If you want to be anonymous, choose a name that doesn't reveal "
-"your identity."
-msgstr ""
-"%1(은)는 여러분이 선택한 이름을 바탕으로 여러분을 식별합니다. 이 이름은 %1 웹 사이트에서 여러분의 컴퓨터로  %1(을)를 수행한 "
-"결과와 함께 보여질 것입니다. 만약 익명으로 남길 원한다면 여러분의 이름을 밝히지 않도록 선택하십시오."
+"Your account on %1 is identified by a name that you choose. This name may be"
+" shown on the %1 web site, along with a summary of the work your computer "
+"has done for %1. If you want to be anonymous, choose a name that doesn't "
+"reveal your identity."
+msgstr "%1(은)는 여러분이 선택한 이름을 바탕으로 여러분을 식별합니다. 이 이름은 %1 웹 사이트에서 여러분의 컴퓨터로  %1(을)를 수행한 결과와 함께 보여질 것입니다. 만약 익명으로 남길 원한다면 여러분의 이름을 밝히지 않도록 선택하십시오."
 
 #: ../user/info.php:44
 msgid ""
@@ -4778,20 +4685,14 @@ msgid ""
 "decide what type of work to assign to your computer. This information will "
 "also be shown on %1's web site. Nothing that reveals your computer's "
 "location (e.g. its domain name or network address) will be shown."
-msgstr ""
-"만약 여러분이 %1에 참여한다면 여러분의 컴퓨터 정보(프로세서 종류, 메모리 용량, 기타)가 %1 서버에 기록됩니다. 이 것은 여러분 "
-"컴퓨터로 어떤 작업을 할당할지 결정하기 위해 사용됩니다. 이 정보는 또한 %1 웹 사이트에 공개됩니다. 여러분 컴퓨터의 위치를 알 수 "
-"있는 정보(예를 들어 도메인 네임이나 네트워크 주소)는 아무 것도 공개되지 않습니다."
+msgstr "만약 여러분이 %1에 참여한다면 여러분의 컴퓨터 정보(프로세서 종류, 메모리 용량, 기타)가 %1 서버에 기록됩니다. 이 것은 여러분 컴퓨터로 어떤 작업을 할당할지 결정하기 위해 사용됩니다. 이 정보는 또한 %1 웹 사이트에 공개됩니다. 여러분 컴퓨터의 위치를 알 수 있는 정보(예를 들어 도메인 네임이나 네트워크 주소)는 아무 것도 공개되지 않습니다."
 
 #: ../user/info.php:45
 msgid ""
-"To participate in %1, you must give an address where you receive email. This "
-"address will not be shown on the %1 web site or shared with organizations. %"
-"1 may send you periodic newsletters; however, you can opt out at any time."
-msgstr ""
-"%1에 참여하려면 여러분이 실제로 받아볼 수 있는 email 주소를 제공해야 합니다. 이 주소는 %1 웹 사이트에 공개되지 않으며, 다른 "
-"기관과 공유하지도 않습니다. %1(은)는 여러분에게 주기적으로 소식지를 보낼 수도 있습니다. 그러나 이 것은 언제든지 거부할 수 "
-"있습니다."
+"To participate in %1, you must give an address where you receive email. This"
+" address will not be shown on the %1 web site or shared with organizations. "
+"%1 may send you periodic newsletters; however, you can opt out at any time."
+msgstr "%1에 참여하려면 여러분이 실제로 받아볼 수 있는 email 주소를 제공해야 합니다. 이 주소는 %1 웹 사이트에 공개되지 않으며, 다른 기관과 공유하지도 않습니다. %1(은)는 여러분에게 주기적으로 소식지를 보낼 수도 있습니다. 그러나 이 것은 언제든지 거부할 수 있습니다."
 
 #: ../user/info.php:46
 msgid ""
@@ -4800,20 +4701,15 @@ msgid ""
 "If you receive unwanted private messages from another %1 user, you may add "
 "them to your %2message filter%3.  This will prevent you from seeing any "
 "public or private messages from that user."
-msgstr ""
-"%1 웹 사이트를 통해 보낸 쪽지는 송신자와 수신자만 볼 수 있습니다. %1은 쪽지 내용을 검사하거나 감시하지 않습니다. 만약 여러분이 "
-"다른 %1 사용자에게서 쪽지를 받길 원하지 않는다면 그 것들을 %2메세지 필터%3에 추가할 수 있습니다. 이 것은 불특정 다수에게 "
-"보여지거나 혹은 다른 사용자에게서 온 쪽지로부터 원하지 않는 메세지를 막아줍니다."
+msgstr "%1 웹 사이트를 통해 보낸 쪽지는 송신자와 수신자만 볼 수 있습니다. %1은 쪽지 내용을 검사하거나 감시하지 않습니다. 만약 여러분이 다른 %1 사용자에게서 쪽지를 받길 원하지 않는다면 그 것들을 %2메세지 필터%3에 추가할 수 있습니다. 이 것은 불특정 다수에게 보여지거나 혹은 다른 사용자에게서 온 쪽지로부터 원하지 않는 메세지를 막아줍니다."
 
 #: ../user/info.php:47
 msgid ""
 "If you use our web site forums you must follow the %2posting guidelines%3.  "
 "Messages posted to the %1 forums are visible to everyone, including non-"
-"members.  By posting to the forums, you are granting irrevocable license for "
-"anyone to view and copy your posts."
-msgstr ""
-"만약 우리 웹사이트 포럼을 이용하려면 %2글 쓰기 가이드라인%3을 따라야 합니다. %1 포럼에 작성된 게시물은 멤버가 아닌 사람을 포함한 "
-"누구나 볼 수 있습니다. 포럼에 글을 쓰면 여러분의 포스트들은 누구나 볼 수 있고 복사할 수 있는 권리를 부여받게 됩니다."
+"members.  By posting to the forums, you are granting irrevocable license for"
+" anyone to view and copy your posts."
+msgstr "만약 우리 웹사이트 포럼을 이용하려면 %2글 쓰기 가이드라인%3을 따라야 합니다. %1 포럼에 작성된 게시물은 멤버가 아닌 사람을 포함한 누구나 볼 수 있습니다. 포럼에 글을 쓰면 여러분의 포스트들은 누구나 볼 수 있고 복사할 수 있는 권리를 부여받게 됩니다."
 
 #: ../user/info.php:48
 msgid "Is it safe to run %1?"
@@ -4823,24 +4719,18 @@ msgstr "%1(을)를 실행해도 안전합니까?"
 msgid ""
 "Any time you download a program through the Internet you are taking a "
 "chance: the program might have dangerous errors, or the download server "
-"might have been hacked. %1 has made efforts to minimize these risks. We have "
-"tested our applications carefully. Our servers are behind a firewall and are "
-"configured for high security. To ensure the integrity of program downloads, "
-"all executable files are digitally signed on a secure computer not connected "
-"to the Internet."
-msgstr ""
-"언제든지 여러분은 인터넷을 통해서 프로그램을 다운로드할 수 있습니다. 어떤 때는 프로그램이 위험한 오류를 가지고 있을 수 도 있고 "
-"다운로드 서버가 해킹당했을 수도 있습니다. %1(은)는 이러한 위험을 최소화하기 위해 노력합니다. 우리는 우리의 응용 프로그램을 조심히 "
-"테스트합니다. 우리 서버는 높은 보안성을 위해서 방화벽 뒤에 두고 있습니다. 프로그램 다운로드를 안전하게 하기 위해서 모든 실행가능한 "
-"파일은 인터넷에 연결되지 않은 안전한 컴퓨터로 디지털 서명을 하고 있습니다."
+"might have been hacked. %1 has made efforts to minimize these risks. We have"
+" tested our applications carefully. Our servers are behind a firewall and "
+"are configured for high security. To ensure the integrity of program "
+"downloads, all executable files are digitally signed on a secure computer "
+"not connected to the Internet."
+msgstr "언제든지 여러분은 인터넷을 통해서 프로그램을 다운로드할 수 있습니다. 어떤 때는 프로그램이 위험한 오류를 가지고 있을 수 도 있고 다운로드 서버가 해킹당했을 수도 있습니다. %1(은)는 이러한 위험을 최소화하기 위해 노력합니다. 우리는 우리의 응용 프로그램을 조심히 테스트합니다. 우리 서버는 높은 보안성을 위해서 방화벽 뒤에 두고 있습니다. 프로그램 다운로드를 안전하게 하기 위해서 모든 실행가능한 파일은 인터넷에 연결되지 않은 안전한 컴퓨터로 디지털 서명을 하고 있습니다."
 
 #: ../user/info.php:50
 msgid ""
 "The applications run by %1 may cause some computers to overheat. If this "
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
-msgstr ""
-"%1 응용을 수행 중에 어떤 컴퓨터는 과부하가 걸릴 수 있습니다. 만약 그렇게 되었다면 %1 수행을 중지하시거나 CPU사용량을 제한하기 "
-"위해 %2유틸리티 프로그램%3(을)를 사용하십시오."
+msgstr "%1 응용을 수행 중에 어떤 컴퓨터는 과부하가 걸릴 수 있습니다. 만약 그렇게 되었다면 %1 수행을 중지하시거나 CPU사용량을 제한하기 위해 %2유틸리티 프로그램%3(을)를 사용하십시오."
 
 #: ../user/info.php:51
 msgid ""
@@ -4854,11 +4744,9 @@ msgstr "책임"
 #: ../user/info.php:54
 msgid ""
 "%1 and %2 assume no liability for damage to your computer, loss of data, or "
-"any other event or condition that may occur as a result of participating in %"
-"1."
-msgstr ""
-"%1(과)와 %2(은)는 %1에 참여한 결과로 인해 발생할지도 모르는 컴퓨터가 입은 충격, 데이터 손실, 혹은 어떤 사건이나 손해도 "
-"책임지지 않습니다."
+"any other event or condition that may occur as a result of participating in "
+"%1."
+msgstr "%1(과)와 %2(은)는 %1에 참여한 결과로 인해 발생할지도 모르는 컴퓨터가 입은 충격, 데이터 손실, 혹은 어떤 사건이나 손해도 책임지지 않습니다."
 
 #: ../user/info.php:56
 msgid "Other BOINC projects"
@@ -4866,21 +4754,17 @@ msgstr "다른 BOINC 프로젝트들"
 
 #: ../user/info.php:57
 msgid ""
-"Other projects use the same platform, BOINC, as %1. You may want to consider "
-"participating in one or more of these projects. By doing so, your computer "
+"Other projects use the same platform, BOINC, as %1. You may want to consider"
+" participating in one or more of these projects. By doing so, your computer "
 "will do useful work even when %1 has no work available for it."
-msgstr ""
-"다른 프로젝트도 %1처럼 BOINC 플랫폼을 사용합니다. 여러분이 이들 프로젝트에 하나 이상 참여할 생각이 들지도 모릅니다. 그렇게 "
-"함으로서 %1에서 수행할 작업이 없어도 여러분 컴퓨터는 유용한 작업을 수행할 수 있습니다. "
+msgstr "다른 프로젝트도 %1처럼 BOINC 플랫폼을 사용합니다. 여러분이 이들 프로젝트에 하나 이상 참여할 생각이 들지도 모릅니다. 그렇게 함으로서 %1에서 수행할 작업이 없어도 여러분 컴퓨터는 유용한 작업을 수행할 수 있습니다. "
 
 #: ../user/info.php:58
 msgid ""
 "These other projects are not associated with %1, and we cannot vouch for "
 "their security practices or the nature of their research. Join them at your "
 "own risk."
-msgstr ""
-"다른 프로젝트는 %1(과)와 아무 관련이 없으며, 그들의 보안 상태나 그들이 하는 연구의 성격을 보증할 수 없습니다. 여러분은 위험을 "
-"감수하고서 그 것에 참여하셔야 합니다."
+msgstr "다른 프로젝트는 %1(과)와 아무 관련이 없으며, 그들의 보안 상태나 그들이 하는 연구의 성격을 보증할 수 없습니다. 여러분은 위험을 감수하고서 그 것에 참여하셔야 합니다."
 
 #: ../user/language_select.php:47
 msgid "Language selection"
@@ -4911,9 +4795,7 @@ msgid ""
 "Or you can select a language by clicking on one of the links.  This will "
 "send your browser a cookie; make sure your browser accepts cookies from our "
 "domain."
-msgstr ""
-"또는 다음 링크 중 하나를 클릭해서 언어를 선택할 수 있습니다.  이 사항은 브라우저에 쿠키로 저장됩니다. 브라우저가 이 도메인의 쿠키를 "
-"허용하도록 해야 합니다"
+msgstr "또는 다음 링크 중 하나를 클릭해서 언어를 선택할 수 있습니다.  이 사항은 브라우저에 쿠키로 저장됩니다. 브라우저가 이 도메인의 쿠키를 허용하도록 해야 합니다"
 
 #: ../user/language_select.php:95
 msgid "Language name (click to select)"
@@ -4925,8 +4807,8 @@ msgstr "브라우저 언어 설정 사용"
 
 #: ../user/language_select.php:113
 msgid ""
-"Translations are done by volunteers.  If your native language is not here, %"
-"1you can provide a translation%2."
+"Translations are done by volunteers.  If your native language is not here, "
+"%1you can provide a translation%2."
 msgstr "번역은 자원봉사로 이루어 집니다. 만약 여러분의 언어가 여기에 없다면 %1번역을 할 수도 있습니다%2."
 
 #: ../user/login_form.php:45
@@ -4973,13 +4855,7 @@ msgid ""
 "        having that name with the newest computer having that name.\n"
 "        Incompatible computers will not be merged.\n"
 "        <p>"
-msgstr ""
-"이 명령은 도메인 이름에 기반해서 컴퓨터를 병합니다.\n"
-"        <p>\n"
-"        개별 도메인 이름별로 동일한 이름을 가진 모든 이전 컴퓨터는\n"
-"        같은 이름을 가진 가장 최신 컴퓨터로 병합될 것입니다.\n"
-"        호환되지 않는 컴퓨터는 병합되지 않을 것입니다.\n"
-"        <p>"
+msgstr "이 명령은 도메인 이름에 기반해서 컴퓨터를 병합니다.\n        <p>\n        개별 도메인 이름별로 동일한 이름을 가진 모든 이전 컴퓨터는\n        같은 이름을 가진 가장 최신 컴퓨터로 병합될 것입니다.\n        호환되지 않는 컴퓨터는 병합되지 않을 것입니다.\n        <p>"
 
 #: ../user/merge_by_name.php:82
 msgid "Go ahead and do this"
@@ -4995,11 +4871,7 @@ msgid ""
 "To maximize discussion and flow of information,\n"
 "our message boards are moderated.\n"
 "Message board postings are subject to the following posting rules:\n"
-msgstr ""
-"\n"
-"논의를 활성화시키고 정보의 흐름을 촉진시키고자\n"
-"저희 게시판을 관리하고 있습니다.\n"
-"게시판 글쓰기는 다음 게시물 규칙을 따르고 있습니다.\n"
+msgstr "\n논의를 활성화시키고 정보의 흐름을 촉진시키고자\n저희 게시판을 관리하고 있습니다.\n게시판 글쓰기는 다음 게시물 규칙을 따르고 있습니다.\n"
 
 #: ../user/moderation.php:30
 msgid ""
@@ -5008,8 +4880,7 @@ msgid ""
 "Moderators may delete posts that violate any of these rules.\n"
 "The authors of deleted posts will be notified via email.\n"
 "Gross offenders may have their ability to post messages temporarily revoked\n"
-"(though to prevent abuse only project administrators have the ability to do "
-"so).\n"
+"(though to prevent abuse only project administrators have the ability to do so).\n"
 "Additional kinds of bad behavior (\"bugging\" posts to trap the\n"
 "IP addresses of other participants, excessive thread creation to spam\n"
 "the forums, etc.), while not listed in the formal rules, may still\n"
@@ -5038,41 +4909,7 @@ msgid ""
 "This moderation policy is set by the %1 project.\n"
 "If you have comments about the policy, email %2.\n"
 "\n"
-msgstr ""
-"\n"
-"<p>\n"
-"관리자는 이 규정을 위반한 포스트를 삭제할 것입니다.\n"
-"삭제된 포스트는 작성자에게 이메일로 통보됩니다.\n"
-"상습적인 위반자는 일시적으로 글을 쓸 권한을 잃게 될 것입니다.\n"
-"(그렇지만 남용을 방지하기 위해서 오직 프로젝트 운영자만 그럴 권한을 갖습니다.)\n"
-"추가적으로 안 좋은 행동(다른 참여자들의 IP 주소를 수집하기 위한 함정을\n"
-"놓는 \"도청\" 포스트, 포럼 내에 과도한 스레드를 생성해서 도배하는\n"
-"행위, 기타)은 공식 규정에 명시되지 않았지만 유사한 패널티를\n"
-"받을 가능성이 존재합니다.\n"
-"<p>\n"
-"만약 여러분이 생각하기에 게시판 규정을 포스트로 보이면\n"
-"포스트 상의 빨간 X 버튼을 클릭하고 양식을 작성해 주세요.\n"
-"여러분이 제기한 불만은 관리자에게 통보될 것입니다.\n"
-"이 버튼은 개인적인 관점인 아닌 명백한 위반일 경우에만\n"
-"사용해 주세요\n"
-"<p>\n"
-"저희는 관리시 최대한 공정하게 하려고 노력합니다.\n"
-"그렇지만 다른 관점을 가진 많은 사용자가 이용하는 대규모 커뮤니티에서\n"
-"저희들의 운영 원칙에 만족하지 않는 사용자들은 항상\n"
-"있을 것입니다.\n"
-"이러한 일로 저희가 후회하는 동안\n"
-"저희가 고려한 포럼 전체를 위한 우선 사항과 저희가 가진 자원에\n"
-"기반해서 내린 결정이 언제나 모든 사람들을 맞춰줄\n"
-" 수는 없다는 것을 깨닫기 바랍니다.\n"
-"포럼상에서 저희의 운영 정책을 논하지 말아주세요. 저희는 사회 공학\n"
-"프로젝트를 하는 것도 아니고 완벽하게 공정한 체계를 만드는\n"
-"사업자도 아닙니다. 이러한 토론은 비생산적인 경향이 있으며 잠재적으로\n"
-"선동적입니다. 만약 여러분이 마땅히 가질 만한 불만이 있으면\n"
-"아래 주소로 이메일을 보내 주세요.\n"
-"<p>\n"
-"이 운영 정책은 %1 프로젝트에서 정한 것입니다.\n"
-"만약 정책에 대한 요구가 있다면 %2로 메일을 보내 주세요.\n"
-"\n"
+msgstr "\n<p>\n관리자는 이 규정을 위반한 포스트를 삭제할 것입니다.\n삭제된 포스트는 작성자에게 이메일로 통보됩니다.\n상습적인 위반자는 일시적으로 글을 쓸 권한을 잃게 될 것입니다.\n(그렇지만 남용을 방지하기 위해서 오직 프로젝트 운영자만 그럴 권한을 갖습니다.)\n추가적으로 안 좋은 행동(다른 참여자들의 IP 주소를 수집하기 위한 함정을\n놓는 \"도청\" 포스트, 포럼 내에 과도한 스레드를 생성해서 도배하는\n행위, 기타)은 공식 규정에 명시되지 않았지만 유사한 패널티를\n받을 가능성이 존재합니다.\n<p>\n만약 여러분이 생각하기에 게시판 규정을 포스트로 보이면\n포스트 상의 빨간 X 버튼을 클릭하고 양식을 작성해 주세요.\n여러분이 제기한 불만은 관리자에게 통보될 것입니다.\n이 버튼은 개인적인 관점인 아닌 명백한 위반일 경우에만\n사용해 주세요\n<p>\n저희는 관리시 최대한 공정하게 하려고 노력합니다.\n그렇지만 다른 관점을 가진 많은 사용자가 이용하는 대규모 커뮤니티에서\n저희들의 운영 원칙에 만족하지 않는 사용자들은 항상\n있을 것입니다.\n이러한 일로 저희가 후회하는 동안\n저희가 고려한 포럼 전체를 위한 우선 사항과 저희가 가진 자원에\n기반해서 내린 결정이 언제나 모든 사람들을 맞춰줄\n 수는 없다는 것을 깨닫기 바랍니다.\n포럼상에서 저희의 운영 정책을 논하지 말아주세요. 저희는 사회 공학\n프로젝트를 하는 것도 아니고 완벽하게 공정한 체계를 만드는\n사업자도 아닙니다. 이러한 토론은 비생산적인 경향이 있으며 잠재적으로\n선동적입니다. 만약 여러분이 마땅히 가질 만한 불만이 있으면\n아래 주소로 이메일을 보내 주세요.\n<p>\n이 운영 정책은 %1 프로젝트에서 정한 것입니다.\n만약 정책에 대한 요구가 있다면 %2로 메일을 보내 주세요.\n\n"
 
 #: ../user/pending.php:66
 msgid "Pending credit"
@@ -5155,10 +4992,7 @@ msgid ""
 "Your message was flagged as spam\n"
 "                by the Akismet anti-spam system.\n"
 "                Please modify your text and try again."
-msgstr ""
-"여러분의 글이 스팸으로 분류되었습니다\n"
-"                이는 Akismet 시스템이 처리합니다.\n"
-"                텍스트를 수정하고 다시 시도해주세요."
+msgstr "여러분의 글이 스팸으로 분류되었습니다\n                이는 Akismet 시스템이 처리합니다.\n                텍스트를 수정하고 다시 시도해주세요."
 
 #: ../user/pm.php:205
 msgid "Could not find user with id %1"
@@ -5229,20 +5063,14 @@ msgid ""
 "Your preferences have been updated, and\n"
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
-msgstr ""
-"환경 설정이 업데이트되었습니다. 바뀐 설정은\n"
-"          여러분 컴퓨터가 %1 서버와 통신을 한 후에 적용될 것이며\n"
-"          혹은 BOINC 관리자에게 %2업데이트%3 명령을 요청할 수 있습니다."
+msgstr "환경 설정이 업데이트되었습니다. 바뀐 설정은\n          여러분 컴퓨터가 %1 서버와 통신을 한 후에 적용될 것이며\n          혹은 BOINC 관리자에게 %2업데이트%3 명령을 요청할 수 있습니다."
 
 #: ../user/prefs.php:41
 msgid ""
 "Your preferences have been reset to the defaults, and\n"
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
-msgstr ""
-"환경 설정이 기본값으로 초기화되었습니다. 바뀐 설정은\n"
-"          여러분 컴퓨터가 %1 서버와 통신을 한 후에 적용될 것입니다.\n"
-"          혹은 BOINC 관리자에서 %2업데이트%3 명령을 요청할 수 있습니다."
+msgstr "환경 설정이 기본값으로 초기화되었습니다. 바뀐 설정은\n          여러분 컴퓨터가 %1 서버와 통신을 한 후에 적용될 것입니다.\n          혹은 BOINC 관리자에서 %2업데이트%3 명령을 요청할 수 있습니다."
 
 #: ../user/prefs_edit.php:65 ../user/prefs_edit.php:93
 msgid "%1 for %2"
@@ -5550,22 +5378,21 @@ msgstr "통계 %1"
 
 #: ../user/stats.php:37
 msgid ""
-"More detailed statistics for %1 and other BOINC-based projects are available "
-"at several web sites:"
+"More detailed statistics for %1 and other BOINC-based projects are available"
+" at several web sites:"
 msgstr "%1에 대한 더 자세한 통계와 다른 BOINC 기반 프로젝트들은 여러 웹사이트에서 이용 가능합니다:"
 
 #: ../user/stats.php:40
 msgid ""
-"You can also get your current statistics in the form of a \"signature image"
-"\":"
+"You can also get your current statistics in the form of a \"signature "
+"image\":"
 msgstr "또한 여러분의 현재 통계는\"서명 이미지\" 형식으로도 얻을 수 있습니다:"
 
 #: ../user/stats.php:43
 msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1home page%2."
-msgstr ""
-"거기다 모든 BOINC 프로젝트들을 통틀어서 정리된 개인별 통계는 여러 사이트에서 얻을 수 있습니다. %1홈 페이지%2를 봅니다."
+msgstr "거기다 모든 BOINC 프로젝트들을 통틀어서 정리된 개인별 통계는 여러 사이트에서 얻을 수 있습니다. %1홈 페이지%2를 봅니다."
 
 #: ../user/team.php:27
 msgid "%1 participants may form %2teams%3."
@@ -5647,8 +5474,8 @@ msgstr "팀 가입/탈퇴 기록 보기"
 
 #: ../user/team_admins.php:45
 msgid ""
-"Moderate the team forum, if any (admins get email notification of moderation "
-"events and red X reports)"
+"Moderate the team forum, if any (admins get email notification of moderation"
+" events and red X reports)"
 msgstr "모든 팀 포럼 관리 (관리자는 관리 기록 사항 또는 빨간 X 보고서 등을 이메일로 받아볼 수 있습니다)"
 
 #: ../user/team_admins.php:47
@@ -5747,8 +5574,7 @@ msgstr "팀원 %1은 %2의 팀 창설자로 요청되었습니다. 그러나 팀
 msgid ""
 "Team member %1 has requested this team's foundership. This may be because "
 "you left the team or haven't had contact with the team for a long time."
-msgstr ""
-"팀원 %1은 이 팀의 창설자로 요청되었습니다. 그 것은 당신이 팀을 떠났거나 오랜 시간동안 팀에 접촉하지 않았기 때문일 것입니다."
+msgstr "팀원 %1은 이 팀의 창설자로 요청되었습니다. 그 것은 당신이 팀을 떠났거나 오랜 시간동안 팀에 접촉하지 않았기 때문일 것입니다."
 
 #: ../user/team_change_founder_form.php:55
 msgid "decline request"
@@ -5756,13 +5582,9 @@ msgstr "요청 거부"
 
 #: ../user/team_change_founder_form.php:58
 msgid ""
-"If you don't decline the request by %1, %2 will have the option of assuming "
-"team foundership.<br /><br />\n"
-"                  To accept the request, assign foundership to %3 using the "
-"form below."
-msgstr ""
-"%1의 요구를 거부하지 않는다면 %2는 팀 창설자에 취임할 선택권을 가지게 됩니다.<br /><br />\n"
-"                  요청을 수락하려면 하단에 양식을 이용해서 %3을 창설자로 임명하세요."
+"If you don't decline the request by %1, %2 will have the option of assuming team foundership.<br /><br />\n"
+"                  To accept the request, assign foundership to %3 using the form below."
+msgstr "%1의 요구를 거부하지 않는다면 %2는 팀 창설자에 취임할 선택권을 가지게 됩니다.<br /><br />\n                  요청을 수락하려면 하단에 양식을 이용해서 %3을 창설자로 임명하세요."
 
 #: ../user/team_change_founder_form.php:66
 msgid "No transfer request is pending."
@@ -5772,9 +5594,7 @@ msgstr "전송 요청이 보류되었습니다."
 msgid ""
 "To assign foundership of this team to another member, check the box next to "
 "member name and click <strong>Change founder</strong> below."
-msgstr ""
-"이 팀의 다른 사람을 창설자로 임명하려면 멤버 이름 옆 상자에 체크하고 하단에 있는 <strong>창설자 변경</strong>을 "
-"클릭하세요."
+msgstr "이 팀의 다른 사람을 창설자로 임명하려면 멤버 이름 옆 상자에 체크하고 하단에 있는 <strong>창설자 변경</strong>을 클릭하세요."
 
 #: ../user/team_change_founder_form.php:76
 msgid "New founder?"
@@ -5930,8 +5750,7 @@ msgid ""
 "Are you sure you want to remove your team's message board? All threads and "
 "posts will be permanently removed. (You may, however, create a new message "
 "board later)."
-msgstr ""
-"정말로 팀 게시판을 제거하시겠습니까? 모든 스레드와 포스트는 즉각 삭제됩니다. (그러나 이후에 새로 게시판을 만들 수도 있습니다)"
+msgstr "정말로 팀 게시판을 제거하시겠습니까? 모든 스레드와 포스트는 즉각 삭제됩니다. (그러나 이후에 새로 게시판을 만들 수도 있습니다)"
 
 #: ../user/team_forum.php:100
 msgid "Yes - remove message board"
@@ -5943,7 +5762,8 @@ msgstr "게시판이 제거되었습니다"
 
 #: ../user/team_forum.php:124
 msgid ""
-"Your team's message board has been removed. You may now %1create a new one%2."
+"Your team's message board has been removed. You may now %1create a new "
+"one%2."
 msgstr "팀 게시판이 삭제되었습니다. 지금부터 %1새로운 게시판을 만들 수 있습니다%2."
 
 #: ../user/team_forum.php:143
@@ -5972,13 +5792,9 @@ msgstr "%1 창설자 신청"
 
 #: ../user/team_founder_transfer_action.php:98
 msgid ""
-"The current founder has been notified of your request by email and private "
-"message.<br /><br />\n"
-"                       If the founder does not respond within 60 days you "
-"will be allowed to become the founder."
-msgstr ""
-"현 창설자에게 당신의 요청 사항을 email과 쪽지로 알렸습니다.<br /><br />\n"
-"                       창설자가 60일 이내에 응답이 없으면 당신이 창설자가 되는 것이 허용됩니다."
+"The current founder has been notified of your request by email and private message.<br /><br />\n"
+"                       If the founder does not respond within 60 days you will be allowed to become the founder."
+msgstr "현 창설자에게 당신의 요청 사항을 email과 쪽지로 알렸습니다.<br /><br />\n                       창설자가 60일 이내에 응답이 없으면 당신이 창설자가 되는 것이 허용됩니다."
 
 #: ../user/team_founder_transfer_action.php:102
 #: ../user/team_founder_transfer_action.php:113
@@ -6050,17 +5866,9 @@ msgstr "창설자에게 요청 사항을 알렸습니다. 만약 그가 %1에 �
 
 #: ../user/team_founder_transfer_form.php:60
 msgid ""
-"If the team founder is not active and you want to assume the role of "
-"founder, click the button below. The current founder will be sent an email "
-"detailing your request, and will be able to transfer foundership to you or "
-"to decline your request. If the founder does not respond in 60 days, you "
-"will be allowed to become the founder.<br /><br />\n"
+"If the team founder is not active and you want to assume the role of founder, click the button below. The current founder will be sent an email detailing your request, and will be able to transfer foundership to you or to decline your request. If the founder does not respond in 60 days, you will be allowed to become the founder.<br /><br />\n"
 "                       Are you sure you want to request foundership?"
-msgstr ""
-"만약 팀 창설자가 활동을 안 하고 있고 당신이 창설자에 임명되길 원하면, 하단에 있는 버튼을 누르세요. 현 창설자에게 당신의 요청 사항이 "
-"이메일로 전송되고 당신에게 창설자 권한을 주거나 요청을 거부할 수 있습니다. 만약 창설자가 60일 동안 응답이 없으면 창설자가 되도록 "
-"허용됩니다.<br /><br />\n"
-"                       정말로 창설권 요청을 하시겠습니까?"
+msgstr "만약 팀 창설자가 활동을 안 하고 있고 당신이 창설자에 임명되길 원하면, 하단에 있는 버튼을 누르세요. 현 창설자에게 당신의 요청 사항이 이메일로 전송되고 당신에게 창설자 권한을 주거나 요청을 거부할 수 있습니다. 만약 창설자가 60일 동안 응답이 없으면 창설자가 되도록 허용됩니다.<br /><br />\n                       정말로 창설권 요청을 하시겠습니까?"
 
 #: ../user/team_founder_transfer_form.php:65
 msgid "Request foundership"
@@ -6139,8 +5947,8 @@ msgstr "100개 이상의 팀이 검색 조건을 만족합니다. 상위 100개�
 
 #: ../user/team_lookup.php:104
 msgid ""
-"End of results. %1 If you cannot find the team you are looking for, you may %"
-"2create a team%3 yourself."
+"End of results. %1 If you cannot find the team you are looking for, you may "
+"%2create a team%3 yourself."
 msgstr "검색 종료. %1 만약 여러분에게 맞는 팀을 찾지 못하셨다면 여러분은 스스로 %2팀을 만들 수도%3 있습니다."
 
 #: ../user/team_manage.php:26
@@ -6221,10 +6029,9 @@ msgstr "팀 게시판 생성 및 관리"
 
 #: ../user/team_manage.php:71
 msgid ""
-"To have this team created on all BOINC projects (current and future) you can "
-"make it into a %1BOINC-wide team%2."
-msgstr ""
-"이 팀이 모든 BOINC 프로젝트에 생성되길 원하시면 (현재 및 미래에) 여러분은 %1BOINC 광역 팀으로 만들 수 있습니다%2."
+"To have this team created on all BOINC projects (current and future) you can"
+" make it into a %1BOINC-wide team%2."
+msgstr "이 팀이 모든 BOINC 프로젝트에 생성되길 원하시면 (현재 및 미래에) 여러분은 %1BOINC 광역 팀으로 만들 수 있습니다%2."
 
 #: ../user/team_manage.php:73
 msgid ""
@@ -6234,8 +6041,8 @@ msgstr "팀 관리자들은 구글 %1boinc-team-founders%2 그룹에 가입하�
 
 #: ../user/team_manage.php:75
 msgid ""
-"Other resources for BOINC team admins are available from a third-party site, "
-"%1www.boincteams.com%2."
+"Other resources for BOINC team admins are available from a third-party site,"
+" %1www.boincteams.com%2."
 msgstr "BOINC 팀 관리자들을 위한 다른 자원은 써드 파티 사이트에서 이용 가능합니다. %1www.boincteams.com%2"
 
 #: ../user/team_manage.php:91
@@ -6270,17 +6077,10 @@ msgstr "탈퇴 %1"
 msgid ""
 "<strong>Please note before quitting a team:</strong>\n"
 "         <ul>\n"
-"         <li>If you quit a team, you may rejoin later, or join any other "
-"team you desire\n"
-"         <li>Quitting a team does not affect your personal credit statistics "
-"in any way.\n"
+"         <li>If you quit a team, you may rejoin later, or join any other team you desire\n"
+"         <li>Quitting a team does not affect your personal credit statistics in any way.\n"
 "         </ul>"
-msgstr ""
-"<strong>팀을 탈퇴하기 전에 읽어주세요:</strong>\n"
-"         <ul>\n"
-"         <li>팀을 탈퇴하게 되면 나중에 재가입하거나 원하는 다른 팀으로 가입할 수 있습니다\n"
-"         <li>팀 탈퇴는 어떤 방식으로든 개인의 크레딧에 어떤 영향도 주지 않습니다.\n"
-"         </ul>"
+msgstr "<strong>팀을 탈퇴하기 전에 읽어주세요:</strong>\n         <ul>\n         <li>팀을 탈퇴하게 되면 나중에 재가입하거나 원하는 다른 팀으로 가입할 수 있습니다\n         <li>팀 탈퇴는 어떤 방식으로든 개인의 크레딧에 어떤 영향도 주지 않습니다.\n         </ul>"
 
 #: ../user/team_quit_form.php:40
 msgid "Quit Team"
@@ -6339,10 +6139,7 @@ msgid ""
 "The following teams match one or more of your search criteria.\n"
 "            To join a team, click its name to go to the team page,\n"
 "               then click %1Join this team%2."
-msgstr ""
-"아래 팀들은 하나 이상의 검색 조건과 일치합니다.\n"
-"            팀에 가입하려면 팀 페이지로 가기 위해 이름을 클릭하고\n"
-"               %1이 팀에 가입을 누르세요%2."
+msgstr "아래 팀들은 하나 이상의 검색 조건과 일치합니다.\n            팀에 가입하려면 팀 페이지로 가기 위해 이름을 클릭하고\n               %1이 팀에 가입을 누르세요%2."
 
 #: ../user/team_search.php:107
 msgid "Change your search"
@@ -6525,14 +6322,10 @@ msgstr "계정 데이터"
 
 #: ../user/weak_auth.php:52
 msgid ""
-"You can access your account either by using your email address and "
-"password,\n"
+"You can access your account either by using your email address and password,\n"
 "    or by using an assigned 'account key'.\n"
 "    Your account key is:"
-msgstr ""
-"여러분은 여러분의 이메일 주소와 비밀번호를 사용해서 계정에 접근할 수도 있지만\n"
-"    한편으로 서명된 '계정 키'를 이용할 수도 있습니다.\n"
-"    여러분의 계정 키:"
+msgstr "여러분은 여러분의 이메일 주소와 비밀번호를 사용해서 계정에 접근할 수도 있지만\n    한편으로 서명된 '계정 키'를 이용할 수도 있습니다.\n    여러분의 계정 키:"
 
 #: ../user/weak_auth.php:57
 msgid "This key can be used to:"
@@ -6548,11 +6341,7 @@ msgid ""
 "       To do so, install BOINC,\n"
 "       create a file named %1 in the BOINC\n"
 "       data directory, and set its contents to:"
-msgstr ""
-"BOINC 관리자를 사용하지 않고 여러분의 컴퓨터에 계정을 추가시킵니다.\n"
-"       그렇게 하려면 BOINC를 설치하고\n"
-"       %1 이름을 가진 파일을 BOINC 데이터\n"
-"       디렉토리에 생성 후 내용을 다음과 같이 맞춥니다:"
+msgstr "BOINC 관리자를 사용하지 않고 여러분의 컴퓨터에 계정을 추가시킵니다.\n       그렇게 하려면 BOINC를 설치하고\n       %1 이름을 가진 파일을 BOINC 데이터\n       디렉토리에 생성 후 내용을 다음과 같이 맞춥니다:"
 
 #: ../user/weak_auth.php:73
 msgid "Weak account key"
@@ -6561,17 +6350,11 @@ msgstr "약한 계정 키"
 #: ../user/weak_auth.php:74
 msgid ""
 "Your 'weak account key' can be used to attach computers to your account\n"
-"    as described above, but cannot be used to log in to your account or "
-"change it in any way.\n"
+"    as described above, but cannot be used to log in to your account or change it in any way.\n"
 "    If you want to attach untrusted or insecure computers to your account,\n"
 "    do so using your weak account key.\n"
 "    Your weak account key is:"
-msgstr ""
-"'약한 계정 키'는 위에서 설명한 대로 여러분이 가진 계정을 컴퓨터에 추가할 수 있게\n"
-"    해줍니다. 그러나 어떠한 방법으로든 계정에 로그인하거나 정보를 변경할 수는 없습니다.\n"
-"    만약 신뢰할 수 없거나 안전하지 않은 컴퓨터에 계정을 추가하고 싶다면\n"
-"    약한 계정 키를 사용해 주시기 바랍니다.\n"
-"    여러분의 약한 계정 키:"
+msgstr "'약한 계정 키'는 위에서 설명한 대로 여러분이 가진 계정을 컴퓨터에 추가할 수 있게\n    해줍니다. 그러나 어떠한 방법으로든 계정에 로그인하거나 정보를 변경할 수는 없습니다.\n    만약 신뢰할 수 없거나 안전하지 않은 컴퓨터에 계정을 추가하고 싶다면\n    약한 계정 키를 사용해 주시기 바랍니다.\n    여러분의 약한 계정 키:"
 
 #: ../user/weak_auth.php:81
 msgid ""
@@ -6656,12 +6439,7 @@ msgid ""
 "    <li>What are your views about the project?\n"
 "    <li>Any suggestions?\n"
 "    </ol>"
-msgstr ""
-"%1에 대한 생각을 말해주세요<ol>\n"
-"    <li>왜 %1을 실행하나요?\n"
-"    <li>프로젝트를 어떻게 보고 계시나요?\n"
-"    <li>그 외 제안할 것은?\n"
-"    </ol>"
+msgstr "%1에 대한 생각을 말해주세요<ol>\n    <li>왜 %1을 실행하나요?\n    <li>프로젝트를 어떻게 보고 계시나요?\n    <li>그 외 제안할 것은?\n    </ol>"
 
 #: ../project.sample/project_specific_prefs.inc:47
 msgid "Color scheme for graphics"
@@ -6684,6 +6462,3 @@ msgstr "선택된 응용 프로그램용 작업이 없을 경우에 다른 프�
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(모든 응용 프로그램)"
-
-#~ msgid "Error:"
-#~ msgstr "오류:"

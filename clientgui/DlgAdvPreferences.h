@@ -65,12 +65,17 @@ public:
 private:
     GLOBAL_PREFS      prefs;
     GLOBAL_PREFS_MASK mask;
+    GLOBAL_PREFS      defaultPrefs;
     LOG_FLAGS log_flags;
     CC_CONFIG config;
 	bool m_bPrefsDataChanged;
 	bool m_bInInit;
 	wxArrayInt m_arrTabPageIds;
     wxTextValidator* m_vTimeIntervalValidator;
+    wxCheckBox* procDayChks[7];
+    wxTextCtrl* procDayTxts[7];
+    wxCheckBox* netDayChks[7];
+    wxTextCtrl* netDayTxts[7];
 };
 
 #endif // _DLGADVPREFERENCES_H_

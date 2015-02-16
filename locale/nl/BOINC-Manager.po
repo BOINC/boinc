@@ -1,31 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 6.x\n"
+"Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2014-12-13 21:25+0000\n"
-"Last-Translator: Rene <oskamjr@ziggo.nl>\n"
-"Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
-"Language: nl\n"
+"PO-Revision-Date: 2015-02-08 23:39+0000\n"
+"Last-Translator: Rom Walton <romw@romwnet.org>\n"
+"Language-Team: Dutch (http://www.transifex.com/projects/p/boinc/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.5.0\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-SearchPath-1: clientgui/msw\n"
-"X-Poedit-SearchPath-2: clientgui/gtk\n"
-"X-Poedit-SearchPath-3: clientgui/mac\n"
-"X-Poedit-SearchPath-0: clientgui\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1418505915.0\n"
 
-# 81%
 #: AccountInfoPage.cpp:387
 #, c-format
 msgid "Identify your account at %s"
@@ -35,17 +26,13 @@ msgstr "Je account gegevens bij %s"
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
-msgstr ""
-"Vul a.u.b. je account gegevens in\n"
-"(een account aanmaken kan op de project website)"
+msgstr "Vul a.u.b. je account gegevens in\n(een account aanmaken kan op de project website)"
 
 #: AccountInfoPage.cpp:397
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can add it only if you already have an account."
-msgstr ""
-"Dit project is momenteel gesloten voor nieuwe accounts.\n"
-"Toevoegen is alleen mogelijk met een bestaand account."
+msgstr "Dit project is momenteel gesloten voor nieuwe accounts.\nToevoegen is alleen mogelijk met een bestaand account."
 
 #: AccountInfoPage.cpp:401
 msgid "Are you already running this project?"
@@ -67,13 +54,7 @@ msgid ""
 "Please click on the 'Find login information' link\n"
 "below to find out what to put in the email address and\n"
 "password fields."
-msgstr ""
-"Het was helaas niet mogelijk om je account gegevens\n"
-"automatisch in te stellen.\n"
-"\n"
-"Klik a.u.b. op de 'zoek inlog informatie' link\n"
-"hieronder om te bepalen wat er moet worden ingevuld\n"
-"in het email- en wachtwoord vak."
+msgstr "Het was helaas niet mogelijk om je account gegevens\nautomatisch in te stellen.\n\nKlik a.u.b. op de 'zoek inlog informatie' link\nhieronder om te bepalen wat er moet worden ingevuld\nin het email- en wachtwoord vak."
 
 #: AccountInfoPage.cpp:416
 msgid "Find login information"
@@ -118,10 +99,7 @@ msgid ""
 "If you have not yet registered with this account manager,\n"
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
-msgstr ""
-"Indien je je nog niet hebt geregistreerd bij deze accountmanager,\n"
-"doe dit dan voor je verder gaat.  Klik op de link hieronder\n"
-"om dit nu te doen of een vergeten wachtwoord op te halen."
+msgstr "Indien je je nog niet hebt geregistreerd bij deze accountmanager,\ndoe dit dan voor je verder gaat.  Klik op de link hieronder\nom dit nu te doen of een vergeten wachtwoord op te halen."
 
 #: AccountInfoPage.cpp:532
 msgid "Account manager web site"
@@ -155,9 +133,7 @@ msgstr "Vul a.u.b. een wachtwoord in van tenminste %d karakters."
 #: AccountInfoPage.cpp:607
 msgid ""
 "The password and confirmation password do not match. Please type them again."
-msgstr ""
-"Het wachtwoord en het bevestigde wachtwoord komen niet overeen. Vul ze "
-"a.u.b. opnieuw in."
+msgstr "Het wachtwoord en het bevestigde wachtwoord komen niet overeen. Vul ze a.u.b. opnieuw in."
 
 #: AccountManagerInfoPage.cpp:272
 msgid "Choose an account manager"
@@ -167,9 +143,7 @@ msgstr "Kies een accountmanager"
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
-msgstr ""
-"Klik op de naam om een accountmanager te kiezen of \n"
-"vul hieronder het URL in."
+msgstr "Klik op de naam om een accountmanager te kiezen of \nvul hieronder het URL in."
 
 #: AccountManagerInfoPage.cpp:279
 msgid "Account manager details:"
@@ -438,15 +412,14 @@ msgstr "Opnieuw verbinden"
 msgid "Do all pending network communication"
 msgstr "Werk de projecten bij, rapporteer gereed werk, etc"
 
-# 94%
 #: AdvancedFrame.cpp:589
 msgid "Read config files"
 msgstr "Configuratie inlezen"
 
 #: AdvancedFrame.cpp:590
-msgid "Read configuration info from cc_config.xml and any app_config.xml files"
-msgstr ""
-"Configuratie inlezen vanuit de cc_config.xml en app_config.xml bestanden"
+msgid ""
+"Read configuration info from cc_config.xml and any app_config.xml files"
+msgstr "Configuratie inlezen vanuit de cc_config.xml en app_config.xml bestanden"
 
 #: AdvancedFrame.cpp:594
 msgid "Read local prefs file"
@@ -551,12 +524,7 @@ msgid ""
 "but you'll have to manage projects manually.\n"
 "\n"
 "Do you want to stop using %s?"
-msgstr ""
-"Indien je %s verwijderd\n"
-"blijven je huidige projecten in tact,\n"
-"maar je zal ze handmatig moeten onderhouden.\n"
-"\n"
-"Wil je %s verwijderen?"
+msgstr "Indien je %s verwijderd\nblijven je huidige projecten in tact,\nmaar je zal ze handmatig moeten onderhouden.\n\nWil je %s verwijderen?"
 
 #: AdvancedFrame.cpp:1401
 #, c-format
@@ -568,9 +536,7 @@ msgstr "%s - De huidige client afsluiten..."
 msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
-msgstr ""
-"%s gaat de huidige client afsluiten en je vragen\n"
-"naar een 'host' om een andere verbinding te maken."
+msgstr "%s gaat de huidige client afsluiten en je vragen\nnaar een 'host' om een andere verbinding te maken."
 
 #: AdvancedFrame.cpp:1745 DlgAbout.cpp:119
 #, c-format
@@ -607,11 +573,7 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr ""
-"Er bestaat al een account met deze gebruikersnaam, maar\n"
-"met een ander wachtwoord dan het hier ingevulde.\n"
-"\n"
-"Bezoek a.u.b. de website van het project en volg de instructies."
+msgstr "Er bestaat al een account met deze gebruikersnaam, maar\nmet een ander wachtwoord dan het hier ingevulde.\n\nBezoek a.u.b. de website van het project en volg de instructies."
 
 #: AlreadyExistsPage.cpp:191
 msgid "Email address already in use"
@@ -623,11 +585,7 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr ""
-"Er bestaat al een account met dit email adres, maar met een\n"
-"ander wachtwoord dan het hier ingevulde.\n"
-"\n"
-"Bezoek a.u.b. de website van het project en volg de instructies."
+msgstr "Er bestaat al een account met dit email adres, maar met een\nander wachtwoord dan het hier ingevulde.\n\nBezoek a.u.b. de website van het project en volg de instructies."
 
 #: AsyncRPC.cpp:1031
 msgid "Communicating with BOINC client.  Please wait ..."
@@ -660,19 +618,14 @@ msgstr "%s - Verbindings Fout"
 #: BOINCBaseFrame.cpp:514
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_users' local user "
-"group."
-msgstr ""
-"Je hebt momenteel niet de benodigde rechten om de client te kunnen\n"
-"onderhouden. Neem contact op met de systeembeheerder."
+"Please contact your administrator to add you to the 'boinc_users' local user group."
+msgstr "Je hebt momenteel niet de benodigde rechten om de client te kunnen\nonderhouden. Neem contact op met de systeembeheerder."
 
 #: BOINCBaseFrame.cpp:523
 msgid ""
 "Authorization failed connecting to running client.\n"
 "Make sure you start this program in the same directory as the client."
-msgstr ""
-"Er is een fout ontstaan tijdens het verbinden met de client.\n"
-"Controleer of het programma en de client in de zelfde map zitten."
+msgstr "Er is een fout ontstaan tijdens het verbinden met de client.\nControleer of het programma en de client in de zelfde map zitten."
 
 #: BOINCBaseFrame.cpp:525
 msgid "Authorization failed connecting to running client."
@@ -692,9 +645,7 @@ msgstr "%s - Verbinding Mislukt"
 msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
-msgstr ""
-"%s kan geen verbinding maken met een\n"
-"%s client. Wil je het opnieuw proberen?"
+msgstr "%s kan geen verbinding maken met een\n%s client. Wil je het opnieuw proberen?"
 
 #: BOINCBaseFrame.cpp:622
 #, c-format
@@ -705,20 +656,15 @@ msgstr "%s - Opstarten Deamon Mislukt"
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
-"Please launch the Control Panel->Administative Tools->Services applet and "
-"start the BOINC service."
-msgstr ""
-"%s kan de %s client niet opstarten.Ga a.u.b. naar het Configuratiescherm "
-"->Systeembeheer->Services en start hier de BOINC service."
+"Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
+msgstr "%s kan de %s client niet opstarten.Ga a.u.b. naar het Configuratiescherm ->Systeembeheer->Services en start hier de BOINC service."
 
 #: BOINCBaseFrame.cpp:638
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please start the daemon and try again."
-msgstr ""
-"%s kan de %s client niet opstarten.Herstart a.u.b. de deamon om opnieuw te "
-"proberen."
+msgstr "%s kan de %s client niet opstarten.Herstart a.u.b. de deamon om opnieuw te proberen."
 
 #: BOINCBaseFrame.cpp:689
 #, c-format
@@ -729,14 +675,9 @@ msgstr "%s - Verbindings Status"
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
-"Please use the 'Advanced\\Select Computer...' menu option to connect up to a "
-"%s client.\n"
+"Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
-msgstr ""
-"%s heeft momenteel geen %s client verbinding.\n"
-"Gebruik a.u.b de 'Geavanceerd/Selecteer computer' menu optie om een "
-"verbinding\n"
-"met een %s client te maken. Vul hier 'localhost' in als host naam."
+msgstr "%s heeft momenteel geen %s client verbinding.\nGebruik a.u.b de 'Geavanceerd/Selecteer computer' menu optie om een verbinding\nmet een %s client te maken. Vul hier 'localhost' in als host naam."
 
 #: BOINCBaseView.cpp:779
 msgid "Project web pages"
@@ -752,10 +693,7 @@ msgstr "%s - Onverwachte Afsluiting"
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
-msgstr ""
-"De %s cliënt heeft zich 3 keer onverwacht afgesloten in de laatste %d "
-"minuten.\n"
-"Wil je deze opnieuw opstarten?"
+msgstr "De %s cliënt heeft zich 3 keer onverwacht afgesloten in de laatste %d minuten.\nWil je deze opnieuw opstarten?"
 
 #: BOINCDialupManager.cpp:61
 #, c-format
@@ -767,9 +705,7 @@ msgstr "%s - Netwerk Status"
 msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
-msgstr ""
-"%s heeft een verbinding met het internet\n"
-"nodig, mag dit nu?"
+msgstr "%s heeft een verbinding met het internet\nnodig, mag dit nu?"
 
 #: BOINCDialupManager.cpp:254
 #, c-format
@@ -791,9 +727,7 @@ msgstr "%s kon geen internet verbinding maken."
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
-msgstr ""
-"%s heeft de internet verbinding gedetecteerd en probeert\n"
-"alle projecten bij te werken."
+msgstr "%s heeft de internet verbinding gedetecteerd en probeert\nalle projecten bij te werken."
 
 #: BOINCDialupManager.cpp:417
 #, c-format
@@ -816,25 +750,14 @@ msgid ""
 " or\n"
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
-msgstr ""
-"Momenteel heb je niet de rechten om de client te onderhouden.\n"
-"\n"
-"Om als deze gebruiker %s uit te voeren:\n"
-"  - herinstalleer %s met de optie om alle gebruikers\n"
-"     toestemming te geven\n"
-" of\n"
-"  - neem contact op met de beheerder om je aan de 'boinc_master'\n"
-"     gebruikersgroep toe te voegen."
+msgstr "Momenteel heb je niet de rechten om de client te onderhouden.\n\nOm als deze gebruiker %s uit te voeren:\n  - herinstalleer %s met de optie om alle gebruikers\n     toestemming te geven\n of\n  - neem contact op met de beheerder om je aan de 'boinc_master'\n     gebruikersgroep toe te voegen."
 
 #: BOINCGUIApp.cpp:345
 #, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
-msgstr ""
-"%s gebruiker en/of rechten zijn niet goed ingesteld; herinstalleer a.u.b. %"
-"s.\n"
-"(Foutcode: %d"
+msgstr "%s gebruiker en/of rechten zijn niet goed ingesteld; herinstalleer a.u.b. %s.\n(Foutcode: %d"
 
 #: BOINCGUIApp.cpp:351
 msgid " at "
@@ -849,9 +772,7 @@ msgstr ")"
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
-msgstr ""
-"Er is een herstart nodig om BOINC goed te kunnen uitvoeren.Herstart a.u.b. "
-"je computer om het opnieuw te proberen."
+msgstr "Er is een herstart nodig om BOINC goed te kunnen uitvoeren.Herstart a.u.b. je computer om het opnieuw te proberen."
 
 #: BOINCGUIApp.cpp:385 DlgAbout.cpp:153
 msgid "BOINC Manager"
@@ -895,9 +816,7 @@ msgstr "schakel de BOINC toegangs- en gebruikersrechten uit"
 
 #: BOINCGUIApp.cpp:584
 msgid "set skin debugging mode to enable skin manager error messages"
-msgstr ""
-"schakel de skin-debugger modus in om fout berichten mogelijk te maken van de "
-"skin-manager"
+msgstr "schakel de skin-debugger modus in om fout berichten mogelijk te maken van de skin-manager"
 
 #: BOINCGUIApp.cpp:585
 msgid "multiple instances of BOINC Manager allowed"
@@ -1013,10 +932,7 @@ msgid ""
 "Please try again later.\n"
 "\n"
 "Click Finish to close."
-msgstr ""
-"Probeer het later nog een keer.\n"
-"\n"
-"Klik op Voltooien om af te sluiten."
+msgstr "Probeer het later nog een keer.\n\nKlik op Voltooien om af te sluiten."
 
 #: CompletionErrorPage.cpp:225 CompletionPage.cpp:222 CompletionPage.cpp:242
 #: CompletionPage.cpp:273
@@ -1039,9 +955,7 @@ msgstr "Het project is met succes toegevoegd."
 msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
-msgstr ""
-"Na het klikken op Voltooien, gaat je webbrowser naar de project\n"
-"pagina, om ook de instellingen hier eventueel te doen."
+msgstr "Na het klikken op Voltooien, gaat je webbrowser naar de project\npagina, om ook de instellingen hier eventueel te doen."
 
 #: CompletionPage.cpp:232
 #, c-format
@@ -1087,14 +1001,11 @@ msgstr "wxWidgets Versie:"
 msgid "Copyright:"
 msgstr "Copyright:"
 
-# 98%
 #: DlgAbout.cpp:192
 msgid ""
 "(C) 2003-2013 University of California, Berkeley.\n"
 "All Rights Reserved."
-msgstr ""
-"(C) 2003-2011 University of California, Berkeley.\n"
-"Alle rechten voorbehouden."
+msgstr "(C) 2003-2011 University of California, Berkeley.\nAlle rechten voorbehouden."
 
 #: DlgAbout.cpp:196
 msgid "Berkeley Open Infrastructure for Network Computing"
@@ -1162,9 +1073,7 @@ msgstr "'%s' staat al in de lijst."
 msgid ""
 "Do you really want to clear all local preferences?\n"
 "(This will not affect exclusive applications.)"
-msgstr ""
-"Weet je zeker dat je de lokale voorkeuren wilt wissen?\n"
-"(Dit heeft geen gevolgen voor de exclusieve programma's)"
+msgstr "Weet je zeker dat je de lokale voorkeuren wilt wissen?\n(Dit heeft geen gevolgen voor de exclusieve programma's)"
 
 #: DlgAdvPreferences.cpp:1078 sg_DlgPreferences.cpp:1030
 msgid "Confirmation"
@@ -1180,10 +1089,7 @@ msgid ""
 "This dialog controls preferences for this computer only.\n"
 "Click OK to set preferences.\n"
 "Click Clear to restore web-based settings (except exclusive apps)."
-msgstr ""
-"Gebruik dit venster voor instellingen voor deze computer.\n"
-"Klik op 'OK' om ze op te slaan of op 'Wissen' om terug te gaan\n"
-"naar online instellingen (exclusieve programma's blijven intact)."
+msgstr "Gebruik dit venster voor instellingen voor deze computer.\nKlik op 'OK' om ze op te slaan of op 'Wissen' om terug te gaan\nnaar online instellingen (exclusieve programma's blijven intact)."
 
 #: DlgAdvPreferencesBase.cpp:65 sg_DlgPreferences.cpp:428
 msgid "Clear"
@@ -1241,9 +1147,7 @@ msgstr "terwijl de computer op een accu werkt"
 #: DlgAdvPreferencesBase.cpp:142
 msgid ""
 "check this if you want this computer to do work while it runs on batteries"
-msgstr ""
-"vink dit aan als werk uitgevoerd mag worden als de computer op een accu "
-"werkt"
+msgstr "vink dit aan als werk uitgevoerd mag worden als de computer op een accu werkt"
 
 #: DlgAdvPreferencesBase.cpp:148
 msgid "While computer is in use"
@@ -1271,9 +1175,7 @@ msgstr "Alleen als de computer inactief is na"
 #: DlgAdvPreferencesBase.cpp:182
 msgid ""
 "do work only after you haven't used the computer for this number of minutes"
-msgstr ""
-"alleen werk toestaan als de computer niet actief is geweest in de aangegeven "
-"aantal minuten"
+msgstr "alleen werk toestaan als de computer niet actief is geweest in de aangegeven aantal minuten"
 
 #: DlgAdvPreferencesBase.cpp:187 DlgAdvPreferencesBase.cpp:336
 #: sg_DlgPreferences.cpp:417
@@ -1416,9 +1318,7 @@ msgstr "Minimale werk buffer"
 
 #: DlgAdvPreferencesBase.cpp:438
 msgid "Try to maintain enough tasks to keep busy for this many days"
-msgstr ""
-"Probeer genoeg taken binnen te halen om deze hoeveelheid dagen te "
-"overbruggen"
+msgstr "Probeer genoeg taken binnen te halen om deze hoeveelheid dagen te overbruggen"
 
 #: DlgAdvPreferencesBase.cpp:450
 msgid "Max additional work buffer"
@@ -1446,11 +1346,9 @@ msgstr "Bevestiging bij het openen van de internet verbinding"
 
 #: DlgAdvPreferencesBase.cpp:480
 msgid ""
-"if checked, a confirmation dialog will be displayed before trying to connect "
-"to the Internet"
-msgstr ""
-"indien aangevinkt verschijnt er een bevestigings venster voor de verbinding "
-"gemaakt wordt"
+"if checked, a confirmation dialog will be displayed before trying to connect"
+" to the Internet"
+msgstr "indien aangevinkt verschijnt er een bevestigings venster voor de verbinding gemaakt wordt"
 
 #: DlgAdvPreferencesBase.cpp:484
 msgid "Disconnect when done"
@@ -1460,9 +1358,7 @@ msgstr "Verbinding verbreken indien gereed"
 msgid ""
 "if checked, BOINC hangs up when network usage is done\n"
 "(only relevant for dialup-connection)"
-msgstr ""
-"indien aangevinkt wordt de verbinding verbroken als BOINC\n"
-"gereed is met bijwerken (van toepassing bij inbel verbinding)"
+msgstr "indien aangevinkt wordt de verbinding verbroken als BOINC\ngereed is met bijwerken (van toepassing bij inbel verbinding)"
 
 #: DlgAdvPreferencesBase.cpp:492
 msgid "Network usage allowed"
@@ -1547,9 +1443,7 @@ msgstr "indien aangevinkt worden programma's in het geheugen gehouden"
 #: DlgAdvPreferencesBase.cpp:713
 msgid ""
 "Suspend processor and network usage when these applications are running:"
-msgstr ""
-"Pauzeer de processor en het netwerkgebruik als de volgende programma's "
-"actief zijn:"
+msgstr "Pauzeer de processor en het netwerkgebruik als de volgende programma's actief zijn:"
 
 #: DlgAdvPreferencesBase.cpp:722
 msgid "Add..."
@@ -1610,20 +1504,16 @@ msgstr "&Selectie kopiëren"
 #: DlgEventLog.cpp:308 DlgEventLog.cpp:316 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
-"messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"De geselecteerde berichten naar het klembord kopiëren. Je kan meerdere "
-"berichten selecteren door met behulp van de Shift of Command toets op de "
-"bestanden te klikken."
+"messages by holding down the shift or command key while clicking on "
+"messages."
+msgstr "De geselecteerde berichten naar het klembord kopiëren. Je kan meerdere berichten selecteren door met behulp van de Shift of Command toets op de bestanden te klikken."
 
 #: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
-"messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"De geselecteerde berichten naar het klembord kopiëren. Je kan meerdere "
-"berichten selecteren door met behulp van de Shift of Ctrl toets op de "
-"bestanden te klikken."
+"messages by holding down the shift or control key while clicking on "
+"messages."
+msgstr "De geselecteerde berichten naar het klembord kopiëren. Je kan meerdere berichten selecteren door met behulp van de Shift of Ctrl toets op de bestanden te klikken."
 
 #: DlgEventLog.cpp:325 DlgItemProperties.cpp:67
 msgid "&Close"
@@ -1660,13 +1550,7 @@ msgid ""
 "\n"
 "If you also want to stop running the tasks,\n"
 "choose from the following options:"
-msgstr ""
-"Je hebt er voor gekozen de %s te sluiten,\n"
-"welke je de optie geeft om de lopende taken\n"
-"te zien en te beheren op je computer.\n"
-"\n"
-"Als je ook de lopende taken wilt stoppen,\n"
-"kies dan één van de volgende opties:"
+msgstr "Je hebt er voor gekozen de %s te sluiten,\nwelke je de optie geeft om de lopende taken\nte zien en te beheren op je computer.\n\nAls je ook de lopende taken wilt stoppen,\nkies dan één van de volgende opties:"
 
 #: DlgExitMessage.cpp:135
 #, c-format
@@ -1677,13 +1561,7 @@ msgid ""
 "In most cases, it is better just to close the %s window\n"
 "rather than to exit the application; that will allow %s to run its\n"
 "tasks at the times you selected in your preferences."
-msgstr ""
-"Dit zal %s en het werk stop zetten, de voortgang zal pas worden\n"
-"hervat als de %s of de %s screensaver opnieuw gestart wordt.\n"
-"\n"
-"In de meeste gevallen, is het aan te raden om het %s venster\n"
-"te sluiten. Op deze manier blijft %s actief en kan het werk\n"
-"worden voort gezet op basis van de opgegeven voorkeuren."
+msgstr "Dit zal %s en het werk stop zetten, de voortgang zal pas worden\nhervat als de %s of de %s screensaver opnieuw gestart wordt.\n\nIn de meeste gevallen, is het aan te raden om het %s venster\nte sluiten. Op deze manier blijft %s actief en kan het werk\nworden voort gezet op basis van de opgegeven voorkeuren."
 
 #: DlgExitMessage.cpp:153
 #, c-format
@@ -2059,13 +1937,10 @@ msgstr "%s - Taalselectie"
 
 #: DlgOptions.cpp:695
 #, c-format
-#, c-format, c-format
 msgid ""
 "The %s's language has been changed.  In order for this change to take "
 "effect, you must restart the %s."
-msgstr ""
-"De standaard taal van de %s is gewijzigd.  Om dit te activeren dien je de %s "
-"te herstarten."
+msgstr "De standaard taal van de %s is gewijzigd.  Om dit te activeren dien je de %s te herstarten."
 
 #: DlgSelectComputer.cpp:91
 #, c-format
@@ -2077,9 +1952,7 @@ msgstr "%s - Selecteer computer"
 msgid ""
 "Another instance of %s is already running \n"
 "on this computer.  Please select a client to monitor."
-msgstr ""
-"%s wordt al een keer uitgevoerd op deze \n"
-"computer.  Kies de client die u wilt controleren."
+msgstr "%s wordt al een keer uitgevoerd op deze \ncomputer.  Kies de client die u wilt controleren."
 
 #: DlgSelectComputer.cpp:143
 msgid "Host name:"
@@ -2196,9 +2069,7 @@ msgstr "LIGO project"
 msgid ""
 "The home page of the Laser Interferometer Gravitational-wave Observatory "
 "(LIGO) project"
-msgstr ""
-"Bekijk de webpagina van het 'Laser Interferometer Gravitational-wave "
-"Observatory' (LIGO) project"
+msgstr "Bekijk de webpagina van het 'Laser Interferometer Gravitational-wave Observatory' (LIGO) project"
 
 #: Localization.cpp:105
 msgid "GEO-600 project"
@@ -2231,9 +2102,7 @@ msgstr "Bekijk het climateprediction.net nieuws"
 
 #: Localization.cpp:131
 msgid "View your account information, credits, and trickles"
-msgstr ""
-"Bekijk je account informatie en de behaalde resultaten van de afgelopen "
-"periode"
+msgstr "Bekijk je account informatie en de behaalde resultaten van de afgelopen periode"
 
 #: Localization.cpp:135
 msgid "Info about your team"
@@ -2293,11 +2162,9 @@ msgstr "Missende applicatie"
 
 #: MainDocument.cpp:1817
 msgid ""
-"Please download and install the CoRD application from http://cord."
-"sourceforge.net"
-msgstr ""
-"Download en installeer a.u.b. de CoRD applicatie van "
+"Please download and install the CoRD application from "
 "http://cord.sourceforge.net"
+msgstr "Download en installeer a.u.b. de CoRD applicatie van http://cord.sourceforge.net"
 
 #: MainDocument.cpp:2432
 msgid "on batteries"
@@ -2383,7 +2250,6 @@ msgstr "Werk opgeschort door gebruiker"
 msgid "Suspended - "
 msgstr "Opgeschort - "
 
-# 75%
 #: MainDocument.cpp:2500
 msgid "GPU suspended - "
 msgstr "GPU opgeschort - "
@@ -2498,10 +2364,7 @@ msgid ""
 "The URL you supplied is not that of a BOINC-based project.\n"
 "\n"
 "Please check the URL and try again."
-msgstr ""
-"Het ingevulde URL is niet van een bestaand BOINC project.\n"
-"\n"
-"Controleer a.u.b. het URL en probeer opnieuw."
+msgstr "Het ingevulde URL is niet van een bestaand BOINC project.\n\nControleer a.u.b. het URL en probeer opnieuw."
 
 #: NotDetectedPage.cpp:188
 msgid "Account manager not found"
@@ -2513,11 +2376,7 @@ msgid ""
 "manager.\n"
 "\n"
 "Please check the URL and try again."
-msgstr ""
-"Het ingevulde URL is niet van een bestaande BOINC account\n"
-"manager.\n"
-"\n"
-"Controleer a.u.b. het URL en probeer opnieuw."
+msgstr "Het ingevulde URL is niet van een bestaande BOINC account\nmanager.\n\nControleer a.u.b. het URL en probeer opnieuw."
 
 #: NotFoundPage.cpp:181
 msgid "Login Failed."
@@ -2583,9 +2442,7 @@ msgstr "Project URL:"
 msgid ""
 "This project may not have work for your type of computer.  Do you want to "
 "add it anyway?"
-msgstr ""
-"Dit project heeft mogelijk geen werk voor jouw type computer.  Weet je zeker "
-"dat je verder wilt gaan?"
+msgstr "Dit project heeft mogelijk geen werk voor jouw type computer.  Weet je zeker dat je verder wilt gaan?"
 
 #: ProjectInfoPage.cpp:850
 msgid "You already added this project. Please choose a different project."
@@ -2607,9 +2464,7 @@ msgstr "Er is een server fout opgetreden."
 msgid ""
 "Communicating with project\n"
 "Please wait..."
-msgstr ""
-"Aan het communiceren met\n"
-"het project. Even geduld..."
+msgstr "Aan het communiceren met\nhet project. Even geduld..."
 
 #: ProxyInfoPage.cpp:195
 msgid "Network communication failure"
@@ -2630,20 +2485,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr ""
-"De World Community Grid - BOINC software kon geen verbinding\n"
-"met het internet maken. Mogelijke oorzaken zijn:\n"
-"\n"
-"1) Verbindings probleem.  Controleer de netwerk- of modemverbinding\n"
-"en klik op Vorige om opnieuw te proberen.\n"
-"\n"
-"2) Een firewall blokkeerd de World Community Grid - BOINC software.\n"
-"  Configureer je firewall om BOINC en de BOINC Manager toegang te\n"
-"verlenen tot poort 80 en poort 443, klik daarna op\n"
-"Vorige om opnieuw te proberen.\n"
-"\n"
-"3) Je maakt gebruik van een proxy server.\n"
-"Klik op Volgende op om de proxy instellingen te maken."
+msgstr "De World Community Grid - BOINC software kon geen verbinding\nmet het internet maken. Mogelijke oorzaken zijn:\n\n1) Verbindings probleem.  Controleer de netwerk- of modemverbinding\nen klik op Vorige om opnieuw te proberen.\n\n2) Een firewall blokkeerd de World Community Grid - BOINC software.\n  Configureer je firewall om BOINC en de BOINC Manager toegang te\nverlenen tot poort 80 en poort 443, klik daarna op\nVorige om opnieuw te proberen.\n\n3) Je maakt gebruik van een proxy server.\nKlik op Volgende op om de proxy instellingen te maken."
 
 #: ProxyInfoPage.cpp:203
 msgid ""
@@ -2660,20 +2502,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr ""
-"De BOINC software kon geen verbinding\n"
-"met het internet maken. Mogelijke oorzaken zijn:\n"
-"\n"
-"1) Verbindings probleem.  Controleer de netwerk- of modemverbinding\n"
-"en klik op Vorige om opnieuw te proberen.\n"
-"\n"
-"2) Een firewall blokkeerd de BOINC software.\n"
-"Configureer je firewall om BOINC en de BOINC Manager toegang te\n"
-"verlenen tot poort 80 en poort 443, klik daarna op\n"
-"Vorige om opnieuw te proberen.\n"
-"\n"
-"3) Je maakt gebruik van een proxy server.\n"
-"Klik op Volgende op om de proxy instellingen te maken."
+msgstr "De BOINC software kon geen verbinding\nmet het internet maken. Mogelijke oorzaken zijn:\n\n1) Verbindings probleem.  Controleer de netwerk- of modemverbinding\nen klik op Vorige om opnieuw te proberen.\n\n2) Een firewall blokkeerd de BOINC software.\nConfigureer je firewall om BOINC en de BOINC Manager toegang te\nverlenen tot poort 80 en poort 443, klik daarna op\nVorige om opnieuw te proberen.\n\n3) Je maakt gebruik van een proxy server.\nKlik op Volgende op om de proxy instellingen te maken."
 
 #: ProxyPage.cpp:331
 msgid "Proxy configuration"
@@ -2720,10 +2549,7 @@ msgid ""
 "The project is temporarily unavailable.\n"
 "\n"
 "Please try again later."
-msgstr ""
-"Het project is tijdelijk niet bereikbaar.\n"
-"\n"
-"Probeer het later a.u.b. opnieuw."
+msgstr "Het project is tijdelijk niet bereikbaar.\n\nProbeer het later a.u.b. opnieuw."
 
 #: UnavailablePage.cpp:190
 msgid "Account manager temporarily unavailable"
@@ -2734,10 +2560,7 @@ msgid ""
 "The account manager is temporarily unavailable.\n"
 "\n"
 "Please try again later."
-msgstr ""
-"Account manager tijdelijk niet bereikbaar.\n"
-"\n"
-"Probeer het later a.u.b. opnieuw."
+msgstr "Account manager tijdelijk niet bereikbaar.\n\nProbeer het later a.u.b. opnieuw."
 
 #: ValidateAccountKey.cpp:68
 msgid "Please specify an account key to continue."
@@ -2768,10 +2591,7 @@ msgid ""
 "Please specify a URL.\n"
 "For example:\n"
 "http://www.example.com/"
-msgstr ""
-"Vul a.u.b. een URL in.\n"
-"Bijvoorbeeld:\n"
-"http://www.voorbeeld.com/"
+msgstr "Vul a.u.b. een URL in.\nBijvoorbeeld:\nhttp://www.voorbeeld.com/"
 
 #: ValidateURL.cpp:83 ValidateURL.cpp:87 ValidateURL.cpp:91
 #: ValidateURL.cpp:103 ValidateURL.cpp:107 ValidateURL.cpp:110
@@ -2783,10 +2603,7 @@ msgid ""
 "Please specify a valid URL.\n"
 "For example:\n"
 "http://boincproject.example.com"
-msgstr ""
-"Vul a.u.b. een geldig URL in.\n"
-"Bijvoorbeeld:\n"
-"http://boincproject.voorbeeld.com"
+msgstr "Vul a.u.b. een geldig URL in.\nBijvoorbeeld:\nhttp://boincproject.voorbeeld.com"
 
 #: ValidateURL.cpp:104 ValidateURL.cpp:108
 #, c-format
@@ -2863,9 +2680,7 @@ msgstr "Project bijwerken"
 msgid ""
 "Report all completed tasks, get latest credit, get latest preferences, and "
 "possibly get more tasks."
-msgstr ""
-"Rapporteer het voltooide werk, werk de punten en voorkeuren bij en verkrijg "
-"mogelijk nieuw werk."
+msgstr "Rapporteer het voltooide werk, werk de punten en voorkeuren bij en verkrijg mogelijk nieuw werk."
 
 #: ViewProjects.cpp:181 ViewProjects.cpp:722 ViewWork.cpp:208 ViewWork.cpp:801
 #: sg_BoincSimpleFrame.cpp:757 sg_ProjectCommandPopup.cpp:67
@@ -2894,20 +2709,15 @@ msgstr "Project resetten"
 
 #: ViewProjects.cpp:196 sg_ProjectCommandPopup.cpp:80
 msgid ""
-"Delete all files and tasks associated with this project, and get new tasks.  "
-"You can update the project first to report any completed tasks."
-msgstr ""
-"Verwijder alle bestanden die met dit project te maken hebben en vraag nieuw "
-"werk.  Het is aan te raden het project eerst bij te werken om het voltooide "
-"werk te rapporteren."
+"Delete all files and tasks associated with this project, and get new tasks."
+"  You can update the project first to report any completed tasks."
+msgstr "Verwijder alle bestanden die met dit project te maken hebben en vraag nieuw werk.  Het is aan te raden het project eerst bij te werken om het voltooide werk te rapporteren."
 
 #: ViewProjects.cpp:203 sg_ProjectCommandPopup.cpp:86
 msgid ""
 "Remove this project.  Tasks in progress will be lost (use 'Update' first to "
 "report any completed tasks)."
-msgstr ""
-"Verwijder dit project.  Lopend werk zal verloren gaan (het is aan te raden "
-"het voltooide werk eerst te rapporteren)."
+msgstr "Verwijder dit project.  Lopend werk zal verloren gaan (het is aan te raden het voltooide werk eerst te rapporteren)."
 
 #: ViewProjects.cpp:209 ViewWork.cpp:222 sg_ProjectCommandPopup.cpp:91
 #: sg_TaskCommandPopup.cpp:78
@@ -3284,9 +3094,7 @@ msgstr "Netwerk gebruik opgeschort - "
 msgid ""
 ".\n"
 "You can enable it using the Activity menu."
-msgstr ""
-".\n"
-"Activeren is mogelijk via het \"Prestaties\" menu."
+msgstr ".\nActiveren is mogelijk via het \"Prestaties\" menu."
 
 #: ViewTransfers.cpp:285
 msgid "BOINC"
@@ -3306,10 +3114,7 @@ msgid ""
 "Are you sure you want to abort this file transfer '%s'?\n"
 "NOTE: Aborting a transfer will invalidate a task and you\n"
 "will not receive credit for it."
-msgstr ""
-"Weet je zeker dat je de overdracht van '%s' wilt annuleren?\n"
-"Een overdracht annuleren heeft tot gevolg dat het werk niet\n"
-"meer geldig is en er zullen geen punten worden gegeven."
+msgstr "Weet je zeker dat je de overdracht van '%s' wilt annuleren?\nEen overdracht annuleren heeft tot gevolg dat het werk niet\nmeer geldig is en er zullen geen punten worden gegeven."
 
 #: ViewTransfers.cpp:349
 msgid "Abort File Transfer"
@@ -3381,8 +3186,7 @@ msgstr "Werk afbreken"
 
 #: ViewWork.cpp:216
 msgid "Abandon work on the result. You will get no credit for it."
-msgstr ""
-"Annuleer het werk aan dit resultaat. Er zullen geen punten worden toegekend."
+msgstr "Annuleer het werk aan dit resultaat. Er zullen geen punten worden toegekend."
 
 #: ViewWork.cpp:223 sg_TaskCommandPopup.cpp:79
 msgid "Show task details."
@@ -3425,9 +3229,7 @@ msgstr "VM console wordt getoond voor taak..."
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
-msgstr ""
-"Weet je zeker dat je het resultaat '%s' wilt annuleren?\n"
-"(Voortgang: %s, Status: %s)"
+msgstr "Weet je zeker dat je het resultaat '%s' wilt annuleren?\n(Voortgang: %s, Status: %s)"
 
 #: ViewWork.cpp:485
 #, c-format
@@ -3438,7 +3240,6 @@ msgstr "Weet je zeker dat je deze %d taken wilt afbreken?"
 msgid "Abort task"
 msgstr "Annuleer taak"
 
-# 75%
 #: ViewWork.cpp:499
 msgid "Aborting task..."
 msgstr "Bezig met afbreken taak..."
@@ -3475,12 +3276,7 @@ msgid ""
 "\n"
 "Projects added via this wizard will not be\n"
 "listed on or managed via %s."
-msgstr ""
-"Indien mogelijk, voeg project(en) toe\n"
-"via de %s website.\n"
-"\n"
-"Toegevoegde projecten via deze wizard\n"
-"zijn niet te onderhouden m.b.v. %s."
+msgstr "Indien mogelijk, voeg project(en) toe\nvia de %s website.\n\nToegevoegde projecten via deze wizard\nzijn niet te onderhouden m.b.v. %s."
 
 #: WelcomePage.cpp:313
 msgid ""
@@ -3489,46 +3285,22 @@ msgid ""
 "and you can volunteer for as many of them as you like.\n"
 "You can add a project directly,\n"
 "or use an 'Account Manager' web site to select projects."
-msgstr ""
-"Er zijn meer dan 30 op BOINC gebaseerde projecten\n"
-"in verschillende wetenschappelijke richtingen en het is mogelijk\n"
-"om deel te nemen aan net zo veel projecten als je zelf wilt.\n"
-"Je kan een project direct toevoegen\n"
-"of gebruik maken van een \"Account manager\" website."
+msgstr "Er zijn meer dan 30 op BOINC gebaseerde projecten\nin verschillende wetenschappelijke richtingen en het is mogelijk\nom deel te nemen aan net zo veel projecten als je zelf wilt.\nJe kan een project direct toevoegen\nof gebruik maken van een \"Account manager\" website."
 
 #: WelcomePage.cpp:325
 msgid ""
-"You have chosen to add a new volunteer computing project or change which "
-"projects\n"
+"You have chosen to add a new volunteer computing project or change which projects\n"
 "you contribute to.\n"
 "\n"
-"Some of these projects are run and managed by World Community Grid, while "
-"others\n"
-"are run and managed by other researchers or organizations. The BOINC "
-"software\n"
+"Some of these projects are run and managed by World Community Grid, while others\n"
+"are run and managed by other researchers or organizations. The BOINC software\n"
 "can divide your spare processing power among any combination of projects.\n"
 "\n"
-"Alternatively, if you have registered with a BOINC Account Manager, you can "
-"use\n"
+"Alternatively, if you have registered with a BOINC Account Manager, you can use\n"
 "this to choose which projects to support.\n"
 "\n"
 "Please choose which type of change you would like to make:\n"
-msgstr ""
-"Je hebt er voor gekozen om een project toe te voegen of te veranderen aan "
-"welke\n"
-"projecten je mee doet.\n"
-"\n"
-"Sommige van deze projecten worden onderhouden door World Community Grid,\n"
-"maar er zijn ook projecten van andere organisaties voor handen. De BOINC "
-"software\n"
-"maakt het mogelijk je computertijd te verdelen over elke combinatie van "
-"projecten.\n"
-"\n"
-"Aanvullend hierop is het mogelijk om je te registreren bij een BOINC Account "
-"Manager\n"
-"en deze te gebruiken om je projecten te beheren.\n"
-"\n"
-"Kies a.u.b. welke wijziging je door wilt voeren:\n"
+msgstr "Je hebt er voor gekozen om een project toe te voegen of te veranderen aan welke\nprojecten je mee doet.\n\nSommige van deze projecten worden onderhouden door World Community Grid,\nmaar er zijn ook projecten van andere organisaties voor handen. De BOINC software\nmaakt het mogelijk je computertijd te verdelen over elke combinatie van projecten.\n\nAanvullend hierop is het mogelijk om je te registreren bij een BOINC Account Manager\nen deze te gebruiken om je projecten te beheren.\n\nKies a.u.b. welke wijziging je door wilt voeren:\n"
 
 #: WelcomePage.cpp:339
 msgid "Use a BOINC Account Manager"
@@ -3611,16 +3383,12 @@ msgstr "Klik op 'OK' om instellingen vast te leggen."
 #: sg_DlgPreferences.cpp:278
 msgid ""
 "Click Clear to restore web-based settings for all preferences listed below."
-msgstr ""
-"Klik 'Wissen' om de online waarden te herstellen voor onderstaande "
-"instellingen."
+msgstr "Klik 'Wissen' om de online waarden te herstellen voor onderstaande instellingen."
 
 #: sg_DlgPreferences.cpp:285
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
-msgstr ""
-"Voor aanvullende opties, klik op 'Verwerkings voorkeuren' in de geavanceerde "
-"weergave."
+msgstr "Voor aanvullende opties, klik op 'Verwerkings voorkeuren' in de geavanceerde weergave."
 
 #: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
@@ -3780,9 +3548,7 @@ msgstr "Deze taak afbreken. Er worden geen punten toegekend."
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %.1lf%%, Status: %s)"
-msgstr ""
-"Weet je zeker dat je de taak '%s' wilt annuleren?\n"
-"(Voortgang: %.1lf%%s, Status: %s)"
+msgstr "Weet je zeker dat je de taak '%s' wilt annuleren?\n(Voortgang: %.1lf%%s, Status: %s)"
 
 #: sg_TaskPanel.cpp:464
 msgid "You don't have any projects.  Please Add a Project."
@@ -3934,1227 +3700,3 @@ msgstr "Alles Weergeven"
 #, c-format
 msgid "Quit %s"
 msgstr "%s Sluiten"
-
-#~ msgid "Workunit name"
-#~ msgstr "Bestandsnaam"
-
-#~ msgid "I do not agree with the terms of use."
-#~ msgstr "Ik ga NIET akkoord met de voorwaarden."
-
-#~ msgid "Click Clear to restore web-based settings."
-#~ msgstr "Klik op 'Wissen' om terug te keren naar online instellingen."
-
-#~ msgid "For additional settings, select Computing Preferences in "
-#~ msgstr "Voor aanvullende opties klik je op 'Verwerkings voorkeuren' in "
-
-#~ msgid "the Advanced View."
-#~ msgstr "de Geavanceerde Weergave."
-
-#~ msgid "invalid float"
-#~ msgstr "ongeldige waarde gevonden"
-
-#~ msgid "Display the advanced (accessible) graphical interface."
-#~ msgstr "Overschakelen naar de geavanceerde (toegankelijke) weergave."
-
-#~ msgid "Paused: Other work running"
-#~ msgstr "Opgeschort: Ander werk actief"
-
-#~ msgid "Paused: User initiated.  Click 'Resume' to continue"
-#~ msgstr "Opgeschort: Door gebruiker.  Klik op 'Hervatten' om te starten"
-
-#~ msgid "Paused: User active"
-#~ msgstr "Werk opgeschort: Gebruiker actief"
-
-#~ msgid "Paused: Computer on battery"
-#~ msgstr "Opgeschort: Computer op accu"
-
-#~ msgid "Paused: Time of Day"
-#~ msgstr "Werk opgeschort: Tijds-instellingen"
-
-#~ msgid "Paused: Benchmarks running"
-#~ msgstr "Werk opgeschort: Benchmark loopt"
-
-#~ msgid "Paused"
-#~ msgstr "Opgeschort"
-
-#~ msgid "Paused: Application start delayed"
-#~ msgstr "Gepauzeerd: start applicatie uitgesteld"
-
-#~ msgid "Click to show project graphics"
-#~ msgstr "Klik om grafische weergave te starten"
-
-#~ msgid "Open a window to view messages"
-#~ msgstr "Berichten venster openen"
-
-#~ msgid "Stop all activity"
-#~ msgstr "Werk onderbreken"
-
-#~ msgid "Resume activity"
-#~ msgstr "Werk hervatten"
-
-#~ msgid "Open a window to set your preferences"
-#~ msgstr "Voorkeuren venster openen"
-
-#~ msgid "Switch to the BOINC advanced view"
-#~ msgstr "Schakel over naar de geavanceerde weergave"
-
-#~ msgid "My Projects:"
-#~ msgstr "Mijn projecten:"
-
-#, c-format
-#~ msgid "%s. Work done by %s: %0.2f"
-#~ msgstr "%s. Punten behaald door %s: %0.2f"
-
-#, c-format
-#~ msgid "%.1lf"
-#~ msgstr "%.1lf"
-
-#, c-format
-#~ msgid "%d hr %d min %d sec"
-#~ msgstr "%d Uur %d Min %d Sec"
-
-#~ msgid "Are you sure you want to display graphics on a remote machine?"
-#~ msgstr ""
-#~ "Weet je zeker dat je de grafische weergave wilt laten zien op een andere "
-#~ "computer?"
-
-#~ msgid "Application: "
-#~ msgstr "Programma: "
-
-#~ msgid "Time Remaining: "
-#~ msgstr "Resterende tijd: "
-
-#~ msgid "Elapsed Time: "
-#~ msgstr "Verstreken tijd: "
-
-#~ msgid "Account manager website"
-#~ msgstr "Accountmanager website"
-
-#~ msgid "Account Manager &URL:"
-#~ msgstr "Accountmanager &URL:"
-
-#, c-format
-#~ msgid "%s &website"
-#~ msgstr "%s &website"
-
-#~ msgid "Notice List"
-#~ msgstr "Berichten Lijst"
-
-#, c-format
-#~ msgid "%s; received on %s"
-#~ msgstr "%s; ontvangen op %s"
-
-#, c-format
-#~ msgid "%s; received from %s; on %s"
-#~ msgstr "%s; ontvangen van %s; op %s"
-
-#~ msgid "Click"
-#~ msgstr "Klik"
-
-#~ msgid "Project List"
-#~ msgstr "Projecten"
-
-#~ msgid "Nvidia GPU Supported"
-#~ msgstr "NVIDIA GPU Ondersteund"
-
-#~ msgid "ATI GPU Supported"
-#~ msgstr "ATI GPU Ondersteund"
-
-#~ msgid "Project Website"
-#~ msgstr "Project Website"
-
-#~ msgid "One or more items failed to load from the Internet."
-#~ msgstr "Enkele onderdelen zijn niet geladen vanaf het internet."
-
-# 88%
-#~ msgid "Retry now"
-#~ msgstr "Probeer opnieuw"
-
-#~ msgid "10%"
-#~ msgstr "10%"
-
-#~ msgid "20%"
-#~ msgstr "20%"
-
-#~ msgid "30%"
-#~ msgstr "30%"
-
-#~ msgid "40%"
-#~ msgstr "40%"
-
-#~ msgid "50%"
-#~ msgstr "50%"
-
-#~ msgid "60%"
-#~ msgstr "60%"
-
-#~ msgid "70%"
-#~ msgstr "70%"
-
-#~ msgid "80%"
-#~ msgstr "80%"
-
-#~ msgid "90%"
-#~ msgstr "90%"
-
-#~ msgid "100%"
-#~ msgstr "100%"
-
-#~ msgid "1"
-#~ msgstr "1"
-
-#~ msgid "3"
-#~ msgstr "3"
-
-#~ msgid "5"
-#~ msgstr "5"
-
-#~ msgid "10"
-#~ msgstr "10"
-
-#~ msgid "15"
-#~ msgstr "15"
-
-#~ msgid "30"
-#~ msgstr "30"
-
-#~ msgid "60"
-#~ msgstr "60"
-
-#, c-format
-#~ msgid "Pop up a menu of websites for project %s"
-#~ msgstr "Toon pop-up menu met websites voor %s"
-
-#~ msgid ""
-#~ "for accessibility support, please select advanced from the view menu or type "
-#~ "command shift a"
-#~ msgstr ""
-#~ "voor de toegankelijkheid optie; kies geavanceerd in het weergave menu of "
-#~ "gebruik Command+Shift+A"
-
-#~ msgid "This panel contains graphs showing user totals for projects"
-#~ msgstr "Dit paneel bevat grafieken met gebruikers totalen per project"
-
-#~ msgid "list headers"
-#~ msgstr "lijst koppen"
-
-#~ msgid "list of events"
-#~ msgstr "lijst van gebeurtenissen"
-
-#~ msgid "list of events is empty"
-#~ msgstr "lijst van gebeurtenissen is leeg"
-
-#, c-format
-#~ msgid "list of %s"
-#~ msgstr "lijst van %s"
-
-#, c-format
-#~ msgid "list of %s is empty"
-#~ msgstr "lijst van %s is leeg"
-
-#, c-format
-#~ msgid "; current sort column %d of %d; descending order; "
-#~ msgstr "; huidige kolom sortering %d van %d; aflopende volgorde; "
-
-#, c-format
-#~ msgid "; current sort column %d of %d; ascending order; "
-#~ msgstr "; huidige kolom sortering %d van %d; oplopende volgorde; "
-
-#, c-format
-#~ msgid "; column %d of %d; "
-#~ msgstr "; kolom %d van %d; "
-
-#~ msgid "list is empty"
-#~ msgstr "lijst is leeg"
-
-#, c-format
-#~ msgid "; row %d; "
-#~ msgstr "; rij %d; "
-
-#, c-format
-#~ msgid "; selected row %d of %d; "
-#~ msgstr "; geselecteerde rij %d van %d; "
-
-#, c-format
-#~ msgid "; selected row %d ; "
-#~ msgstr "; geselecteerde rij %d ; "
-
-#, c-format
-#~ msgid "; row %d of %d; "
-#~ msgstr "; rij %d van %d; "
-
-#~ msgid "blank"
-#~ msgstr "leeg"
-
-#~ msgid "list of projects or account managers"
-#~ msgstr "lijst van projecten of account managers"
-
-#, c-format
-#~ msgid "selected row %d of %d; "
-#~ msgstr "geselecteerde rij %d van %d; "
-
-#, c-format
-#~ msgid "row %d of %d; "
-#~ msgstr "rij %d van %d; "
-
-#~ msgid "The minimum username length for this project is 1. Please enter a different username."
-#~ msgstr ""
-#~ "Het minimale aantal karakters voor een gebruikersnaam is 1. Vul a.u.b. een "
-#~ "andere in."
-
-#~ msgid "The minimum username length for this account manager is 1. Please enter a different username."
-#~ msgstr ""
-#~ "Het minimale aantal karakters voor een gebruikersnaam is 1. Vul a.u.b. een "
-#~ "andere in."
-
-#~ msgid "The minimum email address length for this project is 1. Please enter a different email address."
-#~ msgstr ""
-#~ "Het minimale aantal karakters voor een e-mail adres is 1. Vul a.u.b. een "
-#~ "andere in."
-
-#~ msgid "The minimum email address length for this account manager is 1. Please enter a different email address."
-#~ msgstr ""
-#~ "Het minimale aantal karakters voor een e-mail adres is 1. Vul a.u.b. een "
-#~ "andere in."
-
-#, c-format
-#~ msgid "The minimum password length for this project is %d. Please enter a different password."
-#~ msgstr ""
-#~ "De minimum lengte van het wachtwoord voor dit project is %d. Kies a.u.b. een "
-#~ "ander wachtwoord."
-
-#, c-format
-#~ msgid "The minimum password length for this account manager is %d. Please enter a different password."
-#~ msgstr ""
-#~ "De minimum lengte van het wachtwoord voor deze accountmanager is %d. Kies "
-#~ "a.u.b. een ander wachtwoord."
-
-#~ msgid ""
-#~ "An error has occurred;\n"
-#~ "check the Event Log for details.\n"
-#~ "\n"
-#~ "Click Finish to close."
-#~ msgstr ""
-#~ "Er is een fout opgetreden, controleer\n"
-#~ "het gebeurtenissen logboek voor details.\n"
-#~ "\n"
-#~ "Klik op Voltooien om af te sluiten."
-
-#, no-c-format
-#~ msgid "% of the processors"
-#~ msgstr "% van de processoren"
-
-#, c-format
-#~ msgid "New page inserted. Index = %i"
-#~ msgstr "Nieuwe pagina ingevoegd. Index = %i"
-
-#, c-format
-#~ msgid "New page appended. Index = %i"
-#~ msgstr "Nieuwe pagina bijgevoegd. Index = %i"
-
-#, c-format
-#~ msgid "Old Page Index = %i"
-#~ msgstr "Oude Pagina Index = %i"
-
-#, c-format
-#~ msgid "OnDropTarget: index by HitTest = %i"
-#~ msgstr "OnDropTarget: index by HitTest = %i"
-
-#~ msgid "Pie Ctrl"
-#~ msgstr "Diagram besturing"
-
-#~ msgid "specify work start and stop hours in format HH:MM-HH:MM"
-#~ msgstr "geef de werk start- en stoptijd aan in UU:MM-UU:MM"
-
-#~ msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
-#~ msgstr "geef de netwerk start- en stoptijd aan in UU:MM-UU:MM"
-
-#~ msgid "Identify your account "
-#~ msgstr "Je account gegevens "
-
-#~ msgid "Read config file"
-#~ msgstr "Configuratie inlezen"
-
-#~ msgid "Read configuration info from cc_config.xml"
-#~ msgstr "Configuratie inlezen vanuit cc_config.xml"
-
-#~ msgid ""
-#~ "(C) 2003-2011 University of California, Berkeley.\n"
-#~ "All Rights Reserved."
-#~ msgstr ""
-#~ "(C) 2003-2011 University of California, Berkeley.\n"
-#~ "Alle rechten voorbehouden."
-
-#~ msgid "NVIDIA GPU"
-#~ msgstr "NVIDIA GPU"
-
-#~ msgid "ATI GPU"
-#~ msgstr "ATI GPU"
-
-#~ msgid "Multicore CPU Supported"
-#~ msgstr "Multicore CPU Ondersteund"
-
-#~ msgid "%s: %.0f"
-#~ msgstr "%s: %.0f"
-
-#~ msgid "Click 'Retry now' to transfer the file now"
-#~ msgstr "Klik op 'Probeer opnieuw' voor overdracht van het bestand"
-
-#~ msgid ""
-#~ "Click 'Abort transfer' to delete the file from the transfer queue. This "
-#~ "will prevent you from being granted credit for this result."
-#~ msgstr ""
-#~ "Klik op 'Overdracht afbreken' om dit bestand uit de wachtrij te "
-#~ "verwijderen. Er zullen in dit geval geen punten voor dit resultaat worden "
-#~ "toegekend."
-
-#~ msgid "Aborting result..."
-#~ msgstr "Resultaat word geannuleerd..."
-
-#~ msgid ""
-#~ "You have chosen to add a new BOINC project.  Adding a new\n"
-#~ "project means that you will be connecting your computer to a new "
-#~ "organization.\n"
-#~ "If this is what you wanted to do, please click on\n"
-#~ "the 'Next' button below.\n"
-#~ "\n"
-#~ "Some projects like World Community Grid run multiple research "
-#~ "applications.\n"
-#~ "If you want to change which research applications are sent to your "
-#~ "computer\n"
-#~ "to run, visit the project's website and modify your\n"
-#~ "preferences there.\n"
-#~ "\n"
-#~ "To change which research applications are sent to you from\n"
-#~ "World Community Grid then please click on the following button:"
-#~ msgstr ""
-#~ "Je hebt ervoor gekozen om een nieuw BOINC project toe te voegen.\n"
-#~ "Dit houdt in dat BOINC verbinding gaat maken met een andere website en "
-#~ "organisatie.\n"
-#~ "Als je dit inderdaad wilt doen, klik je op 'Volgende'\n"
-#~ "om verder te gaan.\n"
-#~ "\n"
-#~ "Projecten zoals World Community Grid hebben de mogelijkheid om\n"
-#~ "te kiezen uit verschillende onderzoeks applicaties. Op de website kan je "
-#~ "je\n"
-#~ "instellingen hiervoor aanpassen, de BOINC Manager zal hiervoor dan\n"
-#~ "passend werk binnen halen.\n"
-#~ "\n"
-#~ "Om een keuze te maken uit de applicaties die beschikbaar zijn\n"
-#~ "via World Community Grid klik je op de onderstaande knop:"
-
-#~ msgid "Change Research Applications at World Community Grid"
-#~ msgstr "Verander Onderzoeks Applicaties bij World Community Grid"
-
-#~ msgid "Don't fetch NVIDIA GPU tasks"
-#~ msgstr "Vraag geen nieuwe NVIDIA GPU taken"
-
-#~ msgid "NVIDIA GPU work fetch deferred for"
-#~ msgstr "NVIDIA GPU werkverzoek uitgesteld voor"
-
-#~ msgid "NVIDIA GPU work fetch deferral interval"
-#~ msgstr "Interval voor NVIDIA GPU werkverzoek"
-
-#~ msgid "Don't fetch ATI GPU tasks"
-#~ msgstr "Vraag geen nieuwe ATI GPU taken"
-
-#~ msgid "ATI GPU work fetch deferred for"
-#~ msgstr "ATI GPU werkverzoek uitgesteld voor"
-
-#~ msgid "ATI GPU work fetch deferral interval"
-#~ msgstr "Interval voor ATI GPU werkverzoek"
-
-#~ msgid "Remaining"
-#~ msgstr "Resterende tijd: "
-
-#~ msgid "Web sites"
-#~ msgstr "Websites"
-
-#~ msgid "Connect about every"
-#~ msgstr "Verbind elke"
-
-#~ msgid ""
-#~ "this computer is connected to the Internet about every X days\n"
-#~ "(0 if it's always connected)"
-#~ msgstr ""
-#~ "deze computer is om de 'X' dagen verbonden met het internet\n"
-#~ "(vul 0 in indien altijd verbonden)"
-
-#~ msgid "days (max. 10)"
-#~ msgstr "dagen (max.10)"
-
-#~ msgid "%d.%d%%"
-#~ msgstr "%d.%d%%"
-
-#~ msgid "Display and network &options..."
-#~ msgstr "Weergave en netwerk opties..."
-
-#~ msgid ""
-#~ "You have requested to exit the %s,\n"
-#~ "which allows you to view and manage\n"
-#~ "the science applications running on your computer.\n"
-#~ "\n"
-#~ "If you also want to stop running the science applications when you\n"
-#~ "exit the Manager, then choose from the following options:"
-#~ msgstr ""
-#~ "Je hebt gevraagd om het afsluiten van de %s.\n"
-#~ "Hiermee is het mogelijk om de lopende wetenschappelijke\n"
-#~ "apllicaties te bekijken en te beheren.\n"
-#~ "\n"
-#~ "Als je ook de lopende apllicaties wilt afsluiten als de Manager\n"
-#~ "wordt gestopt, vink deze keuze dan aan bij de ondestaande opties."
-
-#~ msgid "Stop running science applications when exiting the Manager"
-#~ msgstr "Stop de lopende applicatie(s) bij het afsluiten van de manager."
-
-#~ msgid "CPU work fetch priority"
-#~ msgstr "Prioriteit voor CPU werkverzoek"
-
-#~ msgid "NVIDIA GPU scheduling priority"
-#~ msgstr "Prioriteit voor NVIDIA GPU taakverdeling"
-
-#~ msgid "NVIDIA GPU work fetch priority"
-#~ msgstr "Prioriteit voor NVIDIA GPU werkverzoek"
-
-#~ msgid "ATI GPU scheduling priority"
-#~ msgstr "Prioriteit voor ATI GPU taakverdeling"
-
-#~ msgid "ATI GPU work fetch priority"
-#~ msgstr "Prioriteit voor ATI GPU werkverzoek"
-
-#~ msgid "Estimated app speed"
-#~ msgstr "Geschatte applicatie snelheid"
-
-#~ msgid "Estimated task size"
-#~ msgstr "Geschatte grootte van de taak"
-
-#~ msgid "Max RAM usage"
-#~ msgstr "Maximaal RAM gebruik"
-
-#~ msgid "%s - Options"
-#~ msgstr "%s - Opties"
-
-#~ msgid "Retrieving host information; please wait..."
-#~ msgstr "Host gegevens aan het opvragen; even geduld a.u.b..."
-
-#~ msgid " (waiting for GPU memory)"
-#~ msgstr " (wacht op het GPU geheugen)"
-
-#~ msgid "Manager Settings..."
-#~ msgstr "Manager instellingen..."
-
-#~ msgid "Pause"
-#~ msgstr "Pauzeer"
-
-#~ msgid "%s - Messages"
-#~ msgstr "%s - Berichten"
-
-#~ msgid "Skin:"
-#~ msgstr "Skin:"
-
-#~ msgid "Preferences"
-#~ msgstr "Voorkeuren"
-
-#~ msgid "I want to customize my preferences for this computer only."
-#~ msgstr "Ik wil alleen de voorkeuren wijzigen van deze computer."
-
-#~ msgid "Customized Preferences"
-#~ msgstr "Aangepaste voorkeuren"
-
-#~ msgid "My total work done this Project"
-#~ msgstr "Mijn totaal voltooide werk voor dit project"
-
-#~ msgid "My Tasks:"
-#~ msgstr "Mijn Taken:"
-
-#~ msgid "From Project:"
-#~ msgstr "Van Project:"
-
-#~ msgid "Elapsed Time: %s"
-#~ msgstr "Verstreken tijd: %s"
-
-#~ msgid "Time Remaining: %s"
-#~ msgstr "Resterende tijd: %s"
-
-#~ msgid "Upload suspended - "
-#~ msgstr "Uploaden opgeschort - "
-
-#~ msgid "Download suspended - "
-#~ msgstr "Downloaden opgeschort - "
-
-#~ msgid "Upload pending"
-#~ msgstr "Uploaden in behandeling"
-
-#~ msgid "Download pending"
-#~ msgstr "Downloaden in behandeling"
-
-#~ msgid "New Simple View..."
-#~ msgstr "Nieuwe eenvoudig weergave..."
-
-#~ msgid "Display the new simple graphical interface."
-#~ msgstr "Overschakelen naar de nieuwe eenvoudige BOINC weergave."
-
-#~ msgid "Old Simple View..."
-#~ msgstr "Oude eenvoudige weergave..."
-
-#~ msgid "Display the old simple graphical interface."
-#~ msgstr "Overschakelen naar de oude eenvoudige BOINC weergave."
-
-#~ msgid "Get help with BOINC"
-#~ msgstr "BOINC hulp opvragen"
-
-#~ msgid "Event Log..."
-#~ msgstr "Gebeurtenissen Logboek..."
-
-#~ msgid "error"
-#~ msgstr "fout"
-
-#~ msgid "A new version of BOINC is available."
-#~ msgstr "Er is een nieuwe versie van BOINC beschikbaar."
-
-#~ msgid "Download it."
-#~ msgstr "Download deze."
-
-#~ msgid "Notice from BOINC"
-#~ msgstr "Mededeling van BOINC"
-
-#~ msgid "Couldn't write state file; check directory permissions"
-#~ msgstr "Kon het status bestand niet opslaan, controleer gebruikersrechten."
-
-#~ msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
-#~ msgstr "De HTTP_PROXY omgevingsvariabele mist een specifieke HTTP proxy"
-
-#~ msgid ""
-#~ "You used the wrong URL for this project.  When convenient, remove this "
-#~ "project, then add %s"
-#~ msgstr ""
-#~ "Het door u gebruikte URL is het verkeerde. Zodra mogelijk graag het "
-#~ "project verwijderen en voeg vervolgens %s toe"
-
-#~ msgid "Message from"
-#~ msgstr "Bericht van"
-
-#~ msgid "Syntax error in app_info.xml"
-#~ msgstr "Syntaxis fout in bestand app_info.xml"
-
-#~ msgid "File referenced in app_info.xml does not exist: "
-#~ msgstr "Volgend bestand vermeld in app_info.xml bestaat niet: "
-
-#~ msgid "Can't resolve hostname in remote_hosts.cfg"
-#~ msgstr "Identificatie van hostcomputer in remote_hosts.cfg is mislukt"
-
-#~ msgid "Unexpected text in cc_config.xml"
-#~ msgstr "Onverwachte tekst in bestand cc_config.xml"
-
-#~ msgid "Unrecognized tag in cc_config.xml"
-#~ msgstr "Niet herkende instructie in bestand cc_config.xml"
-
-#~ msgid "Missing start tag in cc_config.xml"
-#~ msgstr "Ontbrekende start instructie in bestand cc_config.xml"
-
-#~ msgid "Missing end tag in cc_config.xml"
-#~ msgstr "Ontbrekende eind instructie in bestand cc_config.xml"
-
-#~ msgid "Attaching to project or account manager..."
-#~ msgstr "Project of account manager toevoegen..."
-
-#~ msgid "%s - Detach from %s"
-#~ msgstr "%s - Verwijder %s"
-
-#~ msgid "Retrying communications."
-#~ msgstr "Opnieuw verbinding aan het maken."
-
-#~ msgid "Failed to attach to project"
-#~ msgstr "Project toevoegen niet gelukt"
-
-#~ msgid "Failed to attach to account manager"
-#~ msgstr "Account manager toevoegen niet gelukt"
-
-#~ msgid "Attached to account manager"
-#~ msgstr "Account manager is toegevoegd"
-
-#~ msgid "You are now successfully attached to the %s system."
-#~ msgstr "Je hebt nu met succes %s toegevoegd."
-
-#~ msgid "You are now successfully attached to this account manager."
-#~ msgstr "Je hebt nu met succes deze account manager toegevoegd."
-
-#~ msgid "News Feeds"
-#~ msgstr "Nieuws feeds"
-
-#~ msgid "Display the latest news about BOINC"
-#~ msgstr "Bekijk het laatste BOINC nieuws"
-
-#~ msgid "not attached to any BOINC project: 0 bytes"
-#~ msgstr "geen BOINC projecten toegevoegd - 0 Bytes"
-
-#~ msgid "All projects"
-#~ msgstr "Alle projecten"
-
-#~ msgid "Attach to project"
-#~ msgstr "Project toevoegen"
-
-#~ msgid "Attach to account manager"
-#~ msgstr "Accountmanager toevoegen"
-
-#~ msgid "Attach to a project"
-#~ msgstr "Een project toevoegen"
-
-#~ msgid "%s needs to connect to the Internet.  Please click to open %s."
-#~ msgstr "%s heeft een internet verbinding nodig. Klik om de %s te openen."
-
-#~ msgid ""
-#~ "%s is unable to communicate with a project and needs an Internet "
-#~ "connection.\n"
-#~ "Please connect to the Internet, then select the 'Do network "
-#~ "communications' item from the Advanced menu."
-#~ msgstr ""
-#~ "%s kan geen verbinding maken met het project en heeft een internet "
-#~ "verbinding\n"
-#~ "nodig. Maak a.u.b. een internet verbinding en kies 'Opnieuw verbinden' in "
-#~ "het 'Geavanceerd' menu."
-
-#~ msgid ""
-#~ "%s couldn't do Internet communication, and no default connection is "
-#~ "selected.\n"
-#~ "Please connect to the Internet, or select a default connection\n"
-#~ "using Advanced/Options/Connections."
-#~ msgstr ""
-#~ "%s heeft momenteel geen internet verbinding en er is geen standaard "
-#~ "verbinding\n"
-#~ "ingesteld. Gebruik a.u.b de 'Geavanceerd/Opties/Verbindingen' menu optie "
-#~ "om\n"
-#~ "een verbinding in te stellen of maak handmatig een verbinding. "
-
-#~ msgid "One or more notices are now available for viewing."
-#~ msgstr "Eén of meer berichten beschikbaar voor weergave."
-
-#~ msgid "Attached to project"
-#~ msgstr "Project toegevoegd"
-
-#~ msgid "You are now successfully attached to this project."
-#~ msgstr "Je hebt zojuist met succes een project toegevoegd."
-
-#~ msgid "Attached to %s"
-#~ msgstr "%s is toegevoegd"
-
-#~ msgid "Detach when done"
-#~ msgstr "Wordt verwijderd als werk gereed is"
-
-#~ msgid "Retrieving notices..."
-#~ msgstr "Berichten binnenhalen..."
-
-#~ msgid "Detach"
-#~ msgstr "Project verwijderen"
-
-#~ msgid "Detaching from project..."
-#~ msgstr "Bezig met verwijderen van het project..."
-
-#~ msgid "Are you sure you want to detach from project '%s'?"
-#~ msgstr "Weet je zeker dat je het project '%s' wilt verwijderen?"
-
-#~ msgid "Detach from Project"
-#~ msgstr "Project Verwijderen"
-
-#~ msgid "Message from project server:"
-#~ msgstr "Berichten van project server:"
-
-#~ msgid "XML syntax error in"
-#~ msgstr "XML syntaxis fout in"
-
-#~ msgid "Can't resolve hostname in"
-#~ msgstr "Kan hostnaam niet vinden in"
-
-#~ msgid "Unrecognized tag in"
-#~ msgstr "Onbekend label in"
-
-#~ msgid "Missing start tag in"
-#~ msgstr "Missend start label in"
-
-#~ msgid "Unparsed tag in"
-#~ msgstr "Foutief label in"
-
-#~ msgid "Missing end tag in"
-#~ msgstr "Missend eind label in"
-
-#~ msgid ""
-#~ "BOINC can't access Internet - check network connection or proxy "
-#~ "configuration."
-#~ msgstr ""
-#~ "BOINC kan het internet niet benaderen - controleer de netwerk of proxy "
-#~ "configuratie."
-
-#~ msgid "Attach this computer to a project or account manager"
-#~ msgstr "Wat wil je toevoegen?"
-
-#~ msgid "Client is processing results."
-#~ msgstr "Resultaten worden door client verwerkt."
-
-#~ msgid " - user active"
-#~ msgstr "- gebruiker actief"
-
-#~ msgid " - computation suspended"
-#~ msgstr "- werk opgeschort"
-
-#~ msgid " - need disk space"
-#~ msgstr "- schijfruimte nodig"
-
-#~ msgid "Attach to an additional project"
-#~ msgstr "Een project toevoegen"
-
-#~ msgid "To completion"
-#~ msgstr "Resterende tijd"
-
-#~ msgid ""
-#~ "We'll guide you through the process of attaching\n"
-#~ "to a project or account manager."
-#~ msgstr ""
-#~ "Met behulp van deze wizard is het mogelijk om een\n"
-#~ "project of een account manager toe te voegen."
-
-#~ msgid "events"
-#~ msgstr "gebeurtenissen"
-
-#~ msgid " is empty"
-#~ msgstr " is leeg"
-
-#~ msgid "%d of %d; "
-#~ msgstr "%d van %d; "
-
-#~ msgid "current sort column "
-#~ msgstr "huidig gesorteerde kolom "
-
-#~ msgid " descending order "
-#~ msgstr " aflopende volgorde "
-
-#~ msgid " ascending order "
-#~ msgstr " oplopende volgorde "
-
-#~ msgid "column "
-#~ msgstr "kolom "
-
-#~ msgid "of %d; "
-#~ msgstr "van %d; "
-
-#~ msgid "Attach to a project or account manager to begin processing work"
-#~ msgstr ""
-#~ "Een project of accountmanager toevoegen om werk binnen te kunnen halen"
-
-#~ msgid "Attach to a project to begin processing work"
-#~ msgstr "Voeg een project toe om werk binnen te halen en te verwerken"
-
-#~ msgid "Use GPU never"
-#~ msgstr "GPU nooit gebruiken"
-
-#~ msgid "BOINC Notification"
-#~ msgstr "BOINC Bericht"
-
-#~ msgid ""
-#~ "TEST: Fluffy@Home just found out that the Fluffy project has been "
-#~ "published in Nature"
-#~ msgstr ""
-#~ "TEST: Fluffy@Home heeft zojuist ontdekt dat het project in de krant heeft "
-#~ "gestaan"
-
-#~ msgid "%s: %.2f%% completed."
-#~ msgstr "%s: %.2f%% voltooid."
-
-#~ msgid "%d tasks running."
-#~ msgstr "%d lopende taken."
-
-#~ msgid "&Close Window\tCtrl+W"
-#~ msgstr "Sluit &Venster\tCtrl+W"
-
-#~ msgid "&Messages\tCtrl+Shift+M"
-#~ msgstr "&Berichten\tCtrl+Shift+M"
-
-#~ msgid "Display messages"
-#~ msgstr "Berichten weergeven"
-
-#~ msgid "Display news"
-#~ msgstr "Nieuws weergeven"
-
-#~ msgid "%s - Can't find web browser"
-#~ msgstr "%s - Web browser niet gevonden"
-
-#~ msgid ""
-#~ "%s tried to display the web page\n"
-#~ "\t%s\n"
-#~ "but couldn't find a web browser.\n"
-#~ "To fix this, set the environment variable\n"
-#~ "BROWSER to the path of your web browser,\n"
-#~ "then restart the %s."
-#~ msgstr ""
-#~ "%s probeerde de web pagina\n"
-#~ "\t%s\n"
-#~ "weer te geven, maar kon geen\n"
-#~ "web browser vinden. Geef je standaard\n"
-#~ "browser op door het pad hier naar toe aan te\n"
-#~ "geven en herstart hierna %s."
-
-#~ msgid "Starting client services; please wait..."
-#~ msgstr "Client service opstarten; even geduld..."
-
-#~ msgid "BOINC Website"
-#~ msgstr "BOINC website"
-
-#~ msgid "Display the latest news about BOINC from the BOINC website"
-#~ msgstr "Bekijk het laatste BOINC nieuws op de BOINC website"
-
-#~ msgid "&Projects\tCTRL+SHIFT+P"
-#~ msgstr "&Projecten\tCTRL+SHIFT+P"
-
-#~ msgid "&Tasks\tCTRL+SHIFT+T"
-#~ msgstr "&Werk\tCTRL+SHIFT+T"
-
-#~ msgid "Trans&fers\tCTRL+SHIFT+X"
-#~ msgstr "&Overdracht\tCTRL+SHIFT+X"
-
-#~ msgid "&Messages\tCTRL+SHIFT+M"
-#~ msgstr "&Berichten\tCTRL+SHIFT+M"
-
-#~ msgid "&Statistics\tCTRL+SHIFT+S"
-#~ msgstr "&Statistieken\tCTRL+SHIFT+S"
-
-#~ msgid "&Disk usage\tCTRL+SHIFT+D"
-#~ msgstr "&Schijfgebruik\tCTRL+SHIFT+D"
-
-#~ msgid "&News\tCTRL+SHIFT+N"
-#~ msgstr "&Nieuws\tCTRL+SHIFT+N"
-
-#~ msgid "Retrying communications for project(s)..."
-#~ msgstr "Project(en) opnieuw aan het verbinden..."
-
-#~ msgid ""
-#~ "You currently are not authorized to manage the client.\n"
-#~ "Please contact your administrator to add you to the 'boinc_master' user "
-#~ "group."
-#~ msgstr ""
-#~ "Je hebt momenteel niet de benodigde rechten om de client\n"
-#~ "te kunnen onderhouden. Neem contact op met de systeembeheerder."
-
-#~ msgid ""
-#~ "Required wizard file(s) are missing from the target server.\n"
-#~ "(lookup_account.php/create_account.php)\n"
-#~ msgstr ""
-#~ "Benodigde bestanden zijn niet gevonden op de server.\n"
-#~ "(lookup_account.php/create_account.php)\n"
-
-#~ msgid "User information"
-#~ msgstr "Gebruikers informatie"
-
-#~ msgid "Account Manager URL"
-#~ msgstr "Account Manager URL"
-
-#~ msgid "Enter the URL of the account manager's web site."
-#~ msgstr "Vul het URL in van de account manager website."
-
-#~ msgid "Close BOINC Manager Window."
-#~ msgstr "Sluit het BOINC Manager venster."
-
-#~ msgid "Exit the %s"
-#~ msgstr "%s Afsluiten"
-
-#~ msgid ""
-#~ "Advanced views allow you to sort various columns and displays graphical "
-#~ "progress bars."
-#~ msgstr ""
-#~ "De sorteerbare weergave geeft de mogelijkheid om de kolommen te sorteren "
-
-#~ msgid "Attach to &account manager..."
-#~ msgstr "Account manager toevoegen"
-
-#~ msgid "Attach to an account manager"
-#~ msgstr "Een account manager toevoegen"
-
-#~ msgid "Attach to &project"
-#~ msgstr "&Project toevoegen"
-
-#~ msgid "Attaching to project..."
-#~ msgstr "Project wordt toegevoegd..."
-
-#~ msgid "Removal from %s completed."
-#~ msgstr "Verwijderen van %s voltooid."
-
-#~ msgid "Removal succeeded!"
-#~ msgstr "Verwijderen voltooid."
-
-#~ msgid "Write to disk at most every"
-#~ msgstr "schrijf naar schijf minstens elke"
-
-#~ msgid "Slot"
-#~ msgstr "Slot"
-
-#~ msgid "Already Attached to Project"
-#~ msgstr "Project reeds toegevoegd"
-
-#~ msgid "This project may not have work for your type of computer."
-#~ msgstr "Dit project heeft mogelijk geen werk voor jouw type computer."
-
-#~ msgid "Click here to go to %s's website."
-#~ msgstr "Klik hier om naar de %s's website te gaan"
-
-#~ msgid "ID"
-#~ msgstr "ID"
-
-#~ msgid "Priority"
-#~ msgstr "Prioriteit"
-
-#~ msgid "MessagesGrid"
-#~ msgstr "Berichten"
-
-#~ msgid "Copying selected messages to Clipboard..."
-#~ msgstr "Geselecteerde berichten aan het kopiëren..."
-
-#~ msgid "Info"
-#~ msgstr "Informatie"
-
-#~ msgid "Warning"
-#~ msgstr "Waarschuwing"
-
-#~ msgid "ProjectsGrid"
-#~ msgstr "Projecten"
-
-#~ msgid "TransfersGrid"
-#~ msgstr "Overdracht"
-
-#~ msgid "Aborting transfer(s)..."
-#~ msgstr "Overdracht aan het afbreken..."
-
-#~ msgid ""
-#~ "Are you sure you want to abort this file(s) transfer ?\n"
-#~ "NOTE: Aborting a transfer will invalidate a task and you\n"
-#~ "will not receive credit for it."
-#~ msgstr ""
-#~ "Weet je zeker dat je de overdracht wilt afbreken?\n"
-#~ "WAARSCHUWING: Hierdoor wordt het werk ongeldig en\n"
-#~ "worden er geen punten toegekend."
-
-#~ msgid "Abort File Transfer(s)"
-#~ msgstr "Bestands Overdracht Afbreken"
-
-#~ msgid "TasksGrid"
-#~ msgstr "Werk"
-
-#~ msgid ""
-#~ "We'll now guide you through the process of attaching\n"
-#~ "to a project."
-#~ msgstr ""
-#~ "Met behulp van deze wizard kan een project worden\n"
-#~ "toegevoegd."
-
-#~ msgid "&Stop using%s"
-#~ msgstr "&Stop gebruik van%s"
-
-#~ msgid ""
-#~ "We'll now remove this computer from %s.  From now on,\n"
-#~ "attach and detach projects directly from this computer.\n"
-#~ msgstr ""
-#~ "Deze computer zal worden verwijderd uit %s. Vanaf nu\n"
-#~ "zal je zelf het onderhoud moeten uitvoeren.\n"
-
-#~ msgid ""
-#~ "We'll now guide you through the process of attaching\n"
-#~ "to an account manager.\n"
-#~ "\n"
-#~ "If you want to attach to a single project, click Cancel,\n"
-#~ "then select the 'Attach to project' menu item instead."
-#~ msgstr ""
-#~ "Met behulp van deze wizard kan een account manager\n"
-#~ "worden toegevoegd.\n"
-#~ "\n"
-#~ "Indien je alleen een project wilt toevoegen, klik dan\n"
-#~ "op annuleren en kies dan voor 'Project toevoegen'."
-
-#~ msgid "Debug Flags"
-#~ msgstr "Debug Punten"
-
-#~ msgid "Project Properties Failure"
-#~ msgstr "Project Instellings Fout"
-
-#~ msgid "Project Communication Failure"
-#~ msgstr "Netwerk communicatie fout"
-
-#~ msgid "Project Properties URL Failure"
-#~ msgstr "Project URL Instellings Fout"
-
-#~ msgid "Account Creation Disabled"
-#~ msgstr "Account Aanmaak Gesloten"
-
-#~ msgid "Account Already Exists"
-#~ msgstr "Account Bestaat Reeds"
-
-#~ msgid "Project Already Attached"
-#~ msgstr "Project Reeds Toegevoegd"
-
-#~ msgid "Project Attach Failure"
-#~ msgstr "Project Toevoeg Fout"
-
-#~ msgid "Failure Communicating with Reference Site"
-#~ msgstr "Fout tijdens Verbinding met Referentie Pagina"
-
-#~ msgid "Net Detection Failure"
-#~ msgstr "Netwerk Detectie Fout"
-
-#~ msgid ""
-#~ "You can copy and paste the URL from your browser's\n"
-#~ "address bar."
-#~ msgstr ""
-#~ "Het is mogelijk dit URL te kopiëren uit je browser's\n"
-#~ "adresbalk."
-
-#~ msgid "For a list of account managers go to:"
-#~ msgstr "Voor een lijst met 'account managers' ga naar:"
-
-#~ msgid "&Advanced View"
-#~ msgstr "Sorteerbaar"
-
-#~ msgid "You are already attached to this project."
-#~ msgstr "Je hebt dit project reeds toegevoegd."
-
-#~ msgid "Static text"
-#~ msgstr "Statische tekst"
-
-#~ msgid "Radiobutton"
-#~ msgstr "Keuzeknop"
-
-#~ msgid "Short term debt"
-#~ msgstr "Korte termijn eis"
-
-#~ msgid "Long term debt"
-#~ msgstr "Lange termijn eis"
-
-#~ msgid "Test"
-#~ msgstr "Test"
-
-#~ msgid "Enter account key"
-#~ msgstr "Vul account key in"
-
-#~ msgid ""
-#~ "This project uses an \"account key\" to identify you.\n"
-#~ "\n"
-#~ "Go to the project's web site to create an account. Your account\n"
-#~ "key will be emailed to you."
-#~ msgstr ""
-#~ "Dit project gebruikt een \"account key\" voor indentificatie.\n"
-#~ "\n"
-#~ "Ga naar de website van het project om een account te maken.\n"
-#~ "De Account Key wordt per email toe gestuurd."
-
-#~ msgid "An account key looks like:"
-#~ msgstr "Een Account Key lijkt op:"
-
-#~ msgid "82412313ac88e9a3638f66ea82186948"
-#~ msgstr "82412313ac88e9a3638f66ea82186948"
-
-#~ msgid "Account key:"
-#~ msgstr "Account key:"
-
-#~ msgid "For a list of BOINC-based account managers go to:"
-#~ msgstr "Voor een lijst van BOINC gebaseerde account managers ga naar:"
-
-#~ msgid "&Accessible View"
-#~ msgstr "Toegankelijk"
-
-#~ msgid ""
-#~ "Accessible views are compatible with accessibility aids such as screen "
-#~ "readers."
-#~ msgstr ""
-#~ "De toegankelijkheids weergave is bruikbaar in combinatie met o.a. een "
-#~ "\"verteller\"."
-
-#~ msgid "&Grid View"
-#~ msgstr "Sorteerbaar"
-
-#~ msgid ""
-#~ "Grid views allow you to sort various columns and displays graphical "
-#~ "progress bars."
-#~ msgstr ""
-#~ "De sorteerbare weergave geeft de mogelijkheid om de kolommen te sorteren "
-
-#~ msgid ":"
-#~ msgstr ":"
-
-#~ msgid ""
-#~ "%s is going to shutdown the core client it is currently connected to.\n"
-#~ "NOTE: Choosing 'OK' will cause the select new computer dialog to appear \n"
-#~ "so you can attach to a different core client."
-#~ msgstr ""
-#~ "%s zal de client, die op dit moment verbonden is, afsluiten.\n"
-#~ "LET OP: Op 'OK' klikken opent een venster om een andere client te\n"
-#~ "kiezen, kies 'Annuleer' indien dit niet de bedoeling is."
-
-#~ msgid "BOINC leaves at least this amount of disk space free (in Gigagytes)"
-#~ msgstr ""
-#~ "BOINC moet minimaal deze hoeveelheid ruimte vrij laten (in Gigabyte)"
-
-#~ msgid "Click here to disable displaying this message in the future."
-#~ msgstr "Klik hier om deze boodschap in het vervolg niet meer te tonen."
-
-#~ msgid "Language Selection:"
-#~ msgstr "Taalselectie:"
-
-#~ msgid "What language should the manager display by default."
-#~ msgstr "Welke standaard taal moet de manager gebruiken."
-
-#~ msgid "Reminder Frequency:"
-#~ msgstr "Herinnerings interval:"
-
-#~ msgid ""
-#~ "How often, in minutes, should the manager remind you of possible "
-#~ "connection events."
-#~ msgstr ""
-#~ "Hoe vaak, in minuten, moet de manager een herinnering weergeven over "
-#~ "mogelijke verbindings handelingen."
-
-#~ msgid ""
-#~ "BOINC failed to communicate on the Internet. The most likely\n"
-#~ "reasons are:\n"
-#~ "\n"
-#~ "1) Connectivity problem.  Check your network\n"
-#~ "or modem connection and click Back to try again.\n"
-#~ "\n"
-#~ "2) Personal firewall software is blocking BOINC.\n"
-#~ "Configure your personal firewall to let BOINC\n"
-#~ "communicate on port 80, then click Back to try again.\n"
-#~ "\n"
-#~ "3) You are using a proxy server.\n"
-#~ "Click Next to configure BOINC's proxy settings."
-#~ msgstr ""
-#~ "BOINC kon geen internet verbinding maken. De meest\n"
-#~ "voorkomende redenen zijn:\n"
-#~ "\n"
-#~ "1) Verbindings probleem. Controleer a.u.b. of je verbinding\n"
-#~ "met het internet actief is. Klik daarna op de Vorige knop om\n"
-#~ "het nogmaals te proberen.\n"
-#~ "\n"
-#~ "2) Een persoonlijke firewall blokkeert BOINC. Stel de\n"
-#~ "aanwezige firewall zo in dat BOINC via poort 80 kan\n"
-#~ "communiceren. Klik vervolgens op Vorige.\n"
-#~ "\n"
-#~ "3) Je gebruikt een Proxy server.\n"
-#~ "Klik op Volgende om de proxy correct in te stellen."
-
-#~ msgid "total disk usage"
-#~ msgstr "totaal schijfgebruik"
-
-#~ msgid "disk usage by BOINC projects"
-#~ msgstr "schijfgebruik door BOINC projecten"
-
-#~ msgid "not attached to any BOINC project - 0 bytes"
-#~ msgstr "Geen BOINC projecten toegevoegd - 0 Bytes"
-
-#~ msgid "used by BOINC - "
-#~ msgstr "gebruikt door BOINC projecten - "
-
-#~ msgid "used by other programs - "
-#~ msgstr "gebruikt door anderen - "
-
-#~ msgid "Project Comm Failure"
-#~ msgstr "Project Comm. Fout"
-
-#~ msgid "Google Comm Failure"
-#~ msgstr "Google Comm. Fout"
-
-#~ msgid "Yahoo Comm Failure"
-#~ msgstr "Yahoo Comm. Fout"

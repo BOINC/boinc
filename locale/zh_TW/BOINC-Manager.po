@@ -1,55 +1,43 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# willy Wu <df910105@yahoo.com.tw>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 4.x\n"
+"Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2014-03-04 06:54+0000\n"
-"Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
-"Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
-"Language: zh_TW\n"
+"PO-Revision-Date: 2015-02-16 04:38+0000\n"
+"Last-Translator: willy Wu <df910105@yahoo.com.tw>\n"
+"Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/boinc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.5.0\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-SearchPath-1: clientgui/msw\n"
-"X-Poedit-SearchPath-2: clientgui/gtk\n"
-"X-Poedit-SearchPath-3: clientgui/mac\n"
-"X-Poedit-SearchPath-0: clientgui\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1393916083.0\n"
 
-# 81%
 #: AccountInfoPage.cpp:387
 #, c-format
 msgid "Identify your account at %s"
-msgstr "確認您的帳號於 %s"
+msgstr "驗證您的 %s 帳號"
 
 #: AccountInfoPage.cpp:393
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
-msgstr ""
-"請輸入您的帳號資訊\n"
-"(要建立帳號，請前往專案網站)"
+msgstr "請輸入您的帳號資訊\n(欲建立帳號，請前往專案網站)"
 
 #: AccountInfoPage.cpp:397
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can add it only if you already have an account."
-msgstr ""
-"該計畫暫不接受新帳號註冊，\n"
-"只能加入已存在的帳號。"
+msgstr "該計畫暫不接受新帳號註冊，\n您只能使用已存在的帳號。"
 
 #: AccountInfoPage.cpp:401
 msgid "Are you already running this project?"
-msgstr "您準備好執行此專案了嗎？"
+msgstr "您準備好執行此專案了嗎?"
 
 #: AccountInfoPage.cpp:405
 msgid "&No, new user"
@@ -67,11 +55,7 @@ msgid ""
 "Please click on the 'Find login information' link\n"
 "below to find out what to put in the email address and\n"
 "password fields."
-msgstr ""
-"我們無法自動的建立您的帳號資料。\n"
-"\n"
-"請點選“尋找登入資訊”連結\n"
-"從中找出您的電子信箱地址和密碼。"
+msgstr "我們無法自動的建立您的帳號資料。\n\n請點選“尋找登入資訊”連結\n從中找出您的電子信箱地址和密碼。"
 
 #: AccountInfoPage.cpp:416
 msgid "Find login information"
@@ -109,16 +93,14 @@ msgstr "最小字元長度 %d"
 
 #: AccountInfoPage.cpp:522
 msgid "Forgot your password?"
-msgstr "遺忘您的密嗎？"
+msgstr "忘記密碼?"
 
 #: AccountInfoPage.cpp:529
 msgid ""
 "If you have not yet registered with this account manager,\n"
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
-msgstr ""
-"如果您尚未註冊帳號管理服務，請先註冊之後再執行。\n"
-"點擊下面的網址前往註冊帳號或是尋回遺忘的密碼。"
+msgstr "如果您尚未註冊帳號管理服務，請先註冊之後再執行。\n點擊下面的網址前往註冊帳號或是尋回遺忘的密碼。"
 
 #: AccountInfoPage.cpp:532
 msgid "Account manager web site"
@@ -237,19 +219,19 @@ msgstr "顯示專案"
 
 #: AdvancedFrame.cpp:383
 msgid "&Tasks\tCtrl+Shift+T"
-msgstr "工作 (&T)\tCtrl+Shift+T"
+msgstr "任務 (&T)\tCtrl+Shift+T"
 
 #: AdvancedFrame.cpp:384
 msgid "Display tasks"
-msgstr "顯示工作"
+msgstr "顯示任務"
 
 #: AdvancedFrame.cpp:389
 msgid "Trans&fers\tCtrl+Shift+X"
-msgstr "傳送 (&F)\tCtrl+Shift+X"
+msgstr "傳輸 (&F)\tCtrl+Shift+X"
 
 #: AdvancedFrame.cpp:390
 msgid "Display transfers"
-msgstr "顯示傳送"
+msgstr "顯示傳輸"
 
 #: AdvancedFrame.cpp:395
 msgid "&Statistics\tCtrl+Shift+S"
@@ -277,7 +259,7 @@ msgstr "顯示精簡 BOINC 圖形介面。"
 
 #: AdvancedFrame.cpp:424
 msgid "&Add project or account manager..."
-msgstr "加入帳號管理服務(&A)..."
+msgstr "加入帳號管理服務 (&A)..."
 
 #: AdvancedFrame.cpp:425 sg_ProjectPanel.cpp:76
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
@@ -295,7 +277,7 @@ msgstr "從 %s 取得現在的設定"
 
 #: AdvancedFrame.cpp:443
 msgid "&Add project..."
-msgstr "新增專案 (&A)"
+msgstr "新增專案... (&A)"
 
 #: AdvancedFrame.cpp:444
 msgid "Add a project"
@@ -304,11 +286,11 @@ msgstr "新增一個專案"
 #: AdvancedFrame.cpp:447
 #, c-format
 msgid "S&top using %s..."
-msgstr "停止使用 %s(&S)..."
+msgstr "停止使用 %s (&S)..."
 
 #: AdvancedFrame.cpp:453
 msgid "Remove this computer from account manager control."
-msgstr "從帳號管理服務中移除用戶端。"
+msgstr "從用戶端中移除帳號管理服務。"
 
 #: AdvancedFrame.cpp:458 sg_BoincSimpleFrame.cpp:178
 msgid "&Options..."
@@ -320,7 +302,7 @@ msgstr "配置顯示選項和 Proxy 設定"
 
 #: AdvancedFrame.cpp:463 sg_BoincSimpleFrame.cpp:172
 msgid "Computing &preferences..."
-msgstr "運算偏好(&P)..."
+msgstr "運算偏好設定 (&P)..."
 
 #: AdvancedFrame.cpp:464 sg_BoincSimpleFrame.cpp:173
 msgid "Configure computing preferences"
@@ -332,7 +314,7 @@ msgstr "持續執行 (&R)"
 
 #: AdvancedFrame.cpp:473
 msgid "Allow work regardless of preferences"
-msgstr "不管偏好設定運行工作"
+msgstr "不管偏好設定執行任務"
 
 #: AdvancedFrame.cpp:477
 msgid "Run based on &preferences"
@@ -340,15 +322,15 @@ msgstr "依照偏好設定執行(&P)"
 
 #: AdvancedFrame.cpp:478
 msgid "Allow work according to preferences"
-msgstr "依照您的偏好設定執行工作"
+msgstr "依照您的偏好設定執行任務"
 
 #: AdvancedFrame.cpp:482
 msgid "&Suspend"
-msgstr "暫止 (&S)"
+msgstr "暫停 (&S)"
 
 #: AdvancedFrame.cpp:483
 msgid "Stop work regardless of preferences"
-msgstr "不管偏好設定停止工作"
+msgstr "不管偏好設定停止任務"
 
 #: AdvancedFrame.cpp:508
 msgid "Use GPU always"
@@ -356,23 +338,23 @@ msgstr "持續執行 GPU"
 
 #: AdvancedFrame.cpp:509
 msgid "Allow GPU work regardless of preferences"
-msgstr "不管偏好設定運行工作"
+msgstr "不管偏好設定執行任務"
 
 #: AdvancedFrame.cpp:513
 msgid "Use GPU based on preferences"
-msgstr "依照偏好設定使用GPU(&P)"
+msgstr "依照偏好設定使用 GPU (&P)"
 
 #: AdvancedFrame.cpp:514
 msgid "Allow GPU work according to preferences"
-msgstr "依照您的偏好設定運行GPU工作"
+msgstr "依照您的偏好設定執行 GPU 任務"
 
 #: AdvancedFrame.cpp:518
 msgid "Suspend GPU"
-msgstr "暫止GPU"
+msgstr "暫停 GPU"
 
 #: AdvancedFrame.cpp:519
 msgid "Stop GPU work regardless of preferences"
-msgstr "不管偏好設定停止GPU工作"
+msgstr "不管偏好設定停止 GPU 任務"
 
 #: AdvancedFrame.cpp:543
 msgid "Network activity always available"
@@ -392,7 +374,7 @@ msgstr "依照您的偏好設定進行網路活動"
 
 #: AdvancedFrame.cpp:553
 msgid "Network activity suspended"
-msgstr "暫止網路活動"
+msgstr "暫停網路活動"
 
 #: AdvancedFrame.cpp:554
 msgid "Stop BOINC network activity"
@@ -401,7 +383,7 @@ msgstr "停止 BONIC 的網路活動"
 #: AdvancedFrame.cpp:564
 #, c-format
 msgid "Connect to another computer running %s"
-msgstr "連線到另一台運行 %s 的電腦"
+msgstr "連線到另一台電腦執行 %s "
 
 #: AdvancedFrame.cpp:569
 msgid "Select computer..."
@@ -431,13 +413,13 @@ msgstr "開始網路通訊"
 msgid "Do all pending network communication"
 msgstr "開始所有待處理的網路通訊。"
 
-# 94%
 #: AdvancedFrame.cpp:589
 msgid "Read config files"
 msgstr "讀取設定資料檔"
 
 #: AdvancedFrame.cpp:590
-msgid "Read configuration info from cc_config.xml and any app_config.xml files"
+msgid ""
+"Read configuration info from cc_config.xml and any app_config.xml files"
 msgstr "從cc_config.xml和任何app_config.xml檔案讀取配置資訊"
 
 #: AdvancedFrame.cpp:594
@@ -460,7 +442,7 @@ msgstr "開啟新的 %s"
 
 #: AdvancedFrame.cpp:614
 msgid "Event Log...\tCtrl+Shift+E"
-msgstr "事件記錄...\tCtrl+Shift+E"
+msgstr "事件記錄檔... Ctrl+Shift+E"
 
 #: AdvancedFrame.cpp:615
 msgid "Display diagnostic messages."
@@ -543,11 +525,7 @@ msgid ""
 "but you'll have to manage projects manually.\n"
 "\n"
 "Do you want to stop using %s?"
-msgstr ""
-"如果您停止使用 %s，你會保留所有目前的計畫，\n"
-"但您必須手動管理計畫。\n"
-"\n"
-"您確定要停止使用 %s 嗎？"
+msgstr "如果您停止使用 %s，你會保留所有目前的計畫，\n但您必須手動管理計畫。\n\n您確定要停止使用 %s 嗎？"
 
 #: AdvancedFrame.cpp:1401
 #, c-format
@@ -559,9 +537,7 @@ msgstr "%s - 關閉目前客戶端..."
 msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
-msgstr ""
-"%s 將會關閉目前的客戶端\n"
-"然後提示您輸入想要連結的客戶端。"
+msgstr "%s 將會關閉目前的客戶端\n然後提示您輸入想要連結的客戶端。"
 
 #: AdvancedFrame.cpp:1745 DlgAbout.cpp:119
 #, c-format
@@ -598,11 +574,7 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr ""
-"此使用者名稱已被另一個帳號所使用，\n"
-"而且您輸入的密碼和該帳號並不相同。\n"
-"\n"
-"請拜訪專案網站後，依照專案網站的指示操作。"
+msgstr "此使用者名稱已被另一個帳號所使用，\n而且您輸入的密碼和該帳號並不相同。\n\n請拜訪專案網站後，依照專案網站的指示操作。"
 
 #: AlreadyExistsPage.cpp:191
 msgid "Email address already in use"
@@ -614,11 +586,7 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr ""
-"此電子郵件地址已被另一個帳號所使用，\n"
-"而且您輸入的密碼和該帳號並不相同。\n"
-"\n"
-"請拜訪專案網站後，依照專案網站的指示操作。"
+msgstr "此電子郵件地址已被另一個帳號所使用，\n而且您輸入的密碼和該帳號並不相同。\n\n請拜訪專案網站後，依照專案網站的指示操作。"
 
 #: AsyncRPC.cpp:1031
 msgid "Communicating with BOINC client.  Please wait ..."
@@ -651,19 +619,14 @@ msgstr "%s - 連線錯誤"
 #: BOINCBaseFrame.cpp:514
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_users' local user "
-"group."
-msgstr ""
-"您尚未被授權管理本客戶端。\n"
-"請聯繫系統管理員將您添加到名稱為 'boinc_users' 的用戶群組。"
+"Please contact your administrator to add you to the 'boinc_users' local user group."
+msgstr "您尚未被授權管理本客戶端。\n請聯繫系統管理員將您添加到名稱為 'boinc_users' 的用戶群組。"
 
 #: BOINCBaseFrame.cpp:523
 msgid ""
 "Authorization failed connecting to running client.\n"
 "Make sure you start this program in the same directory as the client."
-msgstr ""
-"連線到執行中的客戶端認證失敗。\n"
-"請確定您於相同的客戶端目錄啟動了本程式。"
+msgstr "連線到執行中的客戶端認證失敗。\n請確定您於相同的客戶端目錄啟動了本程式。"
 
 #: BOINCBaseFrame.cpp:525
 msgid "Authorization failed connecting to running client."
@@ -683,9 +646,7 @@ msgstr "%s - 連線失敗"
 msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
-msgstr ""
-"%s 無法連線到 %s 客戶端。\n"
-"您要再試一次嗎？"
+msgstr "%s 無法連線到 %s 客戶端。\n您要再試一次嗎？"
 
 #: BOINCBaseFrame.cpp:622
 #, c-format
@@ -696,20 +657,15 @@ msgstr "%s - 客戶端服務啟動失敗"
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
-"Please launch the Control Panel->Administative Tools->Services applet and "
-"start the BOINC service."
-msgstr ""
-"%s 無法啟動 %s 客戶端的程式。 \n"
-"請依次 控制面板->管理工具->服務，並從中啟動BOINC 服務。"
+"Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
+msgstr "%s 無法啟動 %s 客戶端的程式。 \n請依次 控制面板->管理工具->服務，並從中啟動BOINC 服務。"
 
 #: BOINCBaseFrame.cpp:638
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please start the daemon and try again."
-msgstr ""
-"%s 無法啟動 %s 客戶端的應用程式。\n"
-"請手動啟動應用程式後再重試。"
+msgstr "%s 無法啟動 %s 客戶端。\n請手動啟動程式後再重試。"
 
 #: BOINCBaseFrame.cpp:689
 #, c-format
@@ -720,13 +676,9 @@ msgstr "%s - 連線狀態"
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
-"Please use the 'Advanced\\Select Computer...' menu option to connect up to a "
-"%s client.\n"
+"Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
-msgstr ""
-"%s 目前未連線到 %s 用戶端。\n"
-"請選擇「檔案」>「選擇電腦...」來連到 %s 用戶端。\n"
-"要連線到本機電腦，請於主機名稱輸入「localhost」。"
+msgstr "%s 目前未連線到 %s 用戶端。\n請選擇「檔案」>「選擇電腦...」來連到 %s 用戶端。\n要連線到本機電腦，請於主機名稱輸入「localhost」。"
 
 #: BOINCBaseView.cpp:779
 msgid "Project web pages"
@@ -742,9 +694,7 @@ msgstr "%s - 關閉確認視窗"
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
-msgstr ""
-"%s 客戶端在 %d 分鐘內已異常結束3次。\n"
-"您要重試一次嗎？"
+msgstr "%s 客戶端在 %d 分鐘內已異常結束3次。\n您要重試一次嗎？"
 
 #: BOINCDialupManager.cpp:61
 #, c-format
@@ -778,9 +728,7 @@ msgstr "%s 連線到網路失敗。"
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
-msgstr ""
-"%s 偵測到現在處於連線狀態。\n"
-"正在更新所有專案並重試所有檔案傳送。"
+msgstr "%s 偵測到現在處於連線狀態。\n正在更新所有專案並重試所有檔案傳輸。"
 
 #: BOINCDialupManager.cpp:417
 #, c-format
@@ -803,21 +751,14 @@ msgid ""
 " or\n"
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
-msgstr ""
-"您目前沒有權限管理本用戶端。\n"
-"\n"
-"要在目前用戶下運行 %s，請：\n"
-"- 重新安裝 %s，在被問到關於非系統管理員用戶的問題時，回答\"是\"\n"
-"- 聯繫系統管理員將您加入到“boinc_master”用戶組。"
+msgstr "您目前沒有權限管理本用戶端。\n\n要在目前用戶下執行 %s，請：\n- 重新安裝 %s，在被問到關於非系統管理員用戶的問題時，回答\"是\"\n- 聯繫系統管理員將您加入到“boinc_master”用戶群組。"
 
 #: BOINCGUIApp.cpp:345
 #, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
-msgstr ""
-"%s 相關的使用者權限設定錯誤，請重新安裝。\n"
-"(錯誤代碼 %d)"
+msgstr "%s的權限設定不當，請重新安裝%s。\n(錯誤代碼 %d"
 
 #: BOINCGUIApp.cpp:351
 msgid " at "
@@ -832,9 +773,7 @@ msgstr ")"
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
-msgstr ""
-"BOINC 需要在重新開機後才能運作。\n"
-"請先將電腦重新開機再試。"
+msgstr "BOINC 需要在重新開機後才能運作。\n請先將電腦重新開機再試。"
 
 #: BOINCGUIApp.cpp:385 DlgAbout.cpp:153
 msgid "BOINC Manager"
@@ -938,7 +877,7 @@ msgstr "運算已啟用"
 
 #: BOINCTaskBar.cpp:717
 msgid "Computing is suspended - "
-msgstr "運算已暫止 - "
+msgstr "運算已暫停 - "
 
 #: BOINCTaskBar.cpp:727
 msgid "GPU computing is enabled"
@@ -946,7 +885,7 @@ msgstr "GPU 運算已啟用"
 
 #: BOINCTaskBar.cpp:730
 msgid "GPU computing is suspended - "
-msgstr "GPU 運算已暫止 - "
+msgstr "GPU 運算已暫停 - "
 
 #: BOINCTaskBar.cpp:739
 msgid "Network is enabled"
@@ -954,7 +893,7 @@ msgstr "網路已啟用"
 
 #: BOINCTaskBar.cpp:742
 msgid "Network is suspended - "
-msgstr "網路已暫止 - "
+msgstr "網路已暫停 - "
 
 #: BOINCTaskBar.cpp:750
 msgid "Reconnecting to client."
@@ -994,10 +933,7 @@ msgid ""
 "Please try again later.\n"
 "\n"
 "Click Finish to close."
-msgstr ""
-"請稍後再嘗試。\n"
-"\n"
-"點擊“完成”關閉。"
+msgstr "請稍後再嘗試。\n\n點擊“完成”關閉。"
 
 #: CompletionErrorPage.cpp:225 CompletionPage.cpp:222 CompletionPage.cpp:242
 #: CompletionPage.cpp:273
@@ -1020,9 +956,7 @@ msgstr "已成功的加入本專案。"
 msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
-msgstr ""
-"當您按下「完成」後，程式將會啟動瀏覽器並前往設定\n"
-"帳號名稱與偏好設定的網頁。"
+msgstr "當您按下「完成」後，程式將會啟動瀏覽器並前往設定\n帳號名稱與偏好設定的網頁。"
 
 #: CompletionPage.cpp:232
 #, c-format
@@ -1068,14 +1002,11 @@ msgstr "wxWidgets 版本："
 msgid "Copyright:"
 msgstr "版權："
 
-# 98%
 #: DlgAbout.cpp:192
 msgid ""
 "(C) 2003-2013 University of California, Berkeley.\n"
 "All Rights Reserved."
-msgstr ""
-"(C) 2003-2013 美國加州大學柏克萊分校\n"
-"保留所有權利。"
+msgstr "(C) 2003-2013 美國加州大學柏克萊分校\n保留所有權利。"
 
 #: DlgAbout.cpp:196
 msgid "Berkeley Open Infrastructure for Network Computing"
@@ -1109,30 +1040,30 @@ msgstr "驗證錯誤"
 #: DlgAdvPreferences.cpp:885 DlgAdvPreferences.cpp:891
 #: DlgAdvPreferences.cpp:897
 msgid "Applications to add"
-msgstr "需要新增的應用程式"
+msgstr "新增程式"
 
 #: DlgAdvPreferences.cpp:914
 #, c-format
 msgid "'%s' is not an executable application."
-msgstr "'%s' 為一個不可以執行的應用程式"
+msgstr "'%s' 為一個不可執行的程式"
 
 #: DlgAdvPreferences.cpp:915 DlgAdvPreferences.cpp:962
 #: DlgAdvPreferences.cpp:986
 msgid "Add Exclusive App"
-msgstr "加入排斥的應用程式"
+msgstr "新增衝突程式"
 
 #: DlgAdvPreferences.cpp:927
 msgid "Name of application to add?"
-msgstr "需要新增的應用程式的名稱？"
+msgstr "新增的程式名稱?"
 
 #: DlgAdvPreferences.cpp:927
 msgid "Add exclusive app"
-msgstr "加入排斥的應用程式"
+msgstr "新增衝突程式"
 
 #: DlgAdvPreferences.cpp:961
 #, c-format
 msgid "Application names must end with '%s'"
-msgstr "應用程式名稱的結果必須為 '%s'"
+msgstr "程式必須為 '%s' 檔"
 
 #: DlgAdvPreferences.cpp:985
 #, c-format
@@ -1143,9 +1074,7 @@ msgstr "'%s' 已經在列表之中。"
 msgid ""
 "Do you really want to clear all local preferences?\n"
 "(This will not affect exclusive applications.)"
-msgstr ""
-"您確定要清除所有本地偏好設定嗎? \n"
-"(不會對互斥應用程式的設定有影響)"
+msgstr "您確定要清除所有偏好設定嗎? \n(不會對衝突程式的設定有影響)"
 
 #: DlgAdvPreferences.cpp:1078 sg_DlgPreferences.cpp:1030
 msgid "Confirmation"
@@ -1161,10 +1090,7 @@ msgid ""
 "This dialog controls preferences for this computer only.\n"
 "Click OK to set preferences.\n"
 "Click Clear to restore web-based settings (except exclusive apps)."
-msgstr ""
-"此視窗選擇的偏好設定只對本機生效。\n"
-"按「確定」設定偏好設定。\n"
-"按「清除」回復為網頁上的偏好設定。"
+msgstr "此視窗選擇的偏好設定只對本機生效。\n按「確定」設定偏好設定。\n按「清除」回復為網頁上的偏好設定(衝突程式除外)。"
 
 #: DlgAdvPreferencesBase.cpp:65 sg_DlgPreferences.cpp:428
 msgid "Clear"
@@ -1188,7 +1114,7 @@ msgstr "硬碟及記憶體使用量"
 
 #: DlgAdvPreferencesBase.cpp:90
 msgid "exclusive applications"
-msgstr "排斥的應用程式"
+msgstr "衝突程式"
 
 #: DlgAdvPreferencesBase.cpp:102 sg_DlgPreferences.cpp:424
 msgid "OK"
@@ -1222,7 +1148,7 @@ msgstr "當電腦使用電池電源時"
 #: DlgAdvPreferencesBase.cpp:142
 msgid ""
 "check this if you want this computer to do work while it runs on batteries"
-msgstr "若您想讓電腦使用電池電源時執行工作，請打勾"
+msgstr "若您想讓電腦使用電池電源時執行任務，請打勾"
 
 #: DlgAdvPreferencesBase.cpp:148
 msgid "While computer is in use"
@@ -1231,7 +1157,7 @@ msgstr "當電腦正被使用時"
 #: DlgAdvPreferencesBase.cpp:151
 msgid ""
 "check this if you want this computer to do work even when you're using it"
-msgstr "若您想在使用電腦時執行工作，請打勾"
+msgstr "若您想在使用電腦時執行任務，請打勾"
 
 #: DlgAdvPreferencesBase.cpp:157
 msgid "Use GPU while computer is in use"
@@ -1245,12 +1171,12 @@ msgstr "若您想在使用電腦時執行 GPU 運算，請打勾"
 
 #: DlgAdvPreferencesBase.cpp:172
 msgid "Only after computer has been idle for"
-msgstr "電腦閒置幾分鐘後才執行工作: "
+msgstr "電腦閒置幾分鐘後才執行任務: "
 
 #: DlgAdvPreferencesBase.cpp:182
 msgid ""
 "do work only after you haven't used the computer for this number of minutes"
-msgstr "設定您不使用電腦幾分鐘後才執行工作"
+msgstr "設定您不使用電腦幾分鐘後才執行任務"
 
 #: DlgAdvPreferencesBase.cpp:187 DlgAdvPreferencesBase.cpp:336
 #: sg_DlgPreferences.cpp:417
@@ -1271,11 +1197,11 @@ msgstr "% (0 代表不限制 )"
 
 #: DlgAdvPreferencesBase.cpp:235 DlgAdvPreferencesBase.cpp:496
 msgid "Every day between hours of"
-msgstr "每天執行工作的時間區間："
+msgstr "每天執行任務的時間區間："
 
 #: DlgAdvPreferencesBase.cpp:239
 msgid "start work at this time"
-msgstr "開始執行工作的時間"
+msgstr "開始執行任務的時間"
 
 #: DlgAdvPreferencesBase.cpp:243 DlgAdvPreferencesBase.cpp:504
 #: sg_DlgPreferences.cpp:326 sg_DlgPreferences.cpp:348
@@ -1284,7 +1210,7 @@ msgstr "到"
 
 #: DlgAdvPreferencesBase.cpp:247
 msgid "stop work at this time"
-msgstr "停止執行工作的時間"
+msgstr "停止執行任務的時間"
 
 #: DlgAdvPreferencesBase.cpp:251 DlgAdvPreferencesBase.cpp:512
 msgid "(no restriction if equal)"
@@ -1296,7 +1222,7 @@ msgstr "每日分別設定："
 
 #: DlgAdvPreferencesBase.cpp:261 DlgAdvPreferencesBase.cpp:522
 msgid "check box to specify hours for this day of week"
-msgstr "打勾可設定該日要運行工作的時間"
+msgstr "打勾可設定該日執行的時間"
 
 #: DlgAdvPreferencesBase.cpp:267 DlgAdvPreferencesBase.cpp:528
 msgid "Monday"
@@ -1332,7 +1258,7 @@ msgstr "其它選項"
 
 #: DlgAdvPreferencesBase.cpp:330
 msgid "Switch between applications every"
-msgstr "切換應用程式的時間間隔"
+msgstr "切換程式的時間間隔"
 
 #: DlgAdvPreferencesBase.cpp:339
 msgid "On multiprocessor systems, use at most"
@@ -1389,19 +1315,19 @@ msgstr "天"
 
 #: DlgAdvPreferencesBase.cpp:429
 msgid "Minimum work buffer"
-msgstr "最少的工作緩衝時間"
+msgstr "最少的任務緩衝時間"
 
 #: DlgAdvPreferencesBase.cpp:438
 msgid "Try to maintain enough tasks to keep busy for this many days"
-msgstr "嘗試持有這些天數所需要的工作數量"
+msgstr "嘗試持有這些天數所需要的任務數量"
 
 #: DlgAdvPreferencesBase.cpp:450
 msgid "Max additional work buffer"
-msgstr "取得額外工作的緩衝時間"
+msgstr "取得額外任務的緩衝時間"
 
 #: DlgAdvPreferencesBase.cpp:459
 msgid "In addition, maintain enough tasks for up to this many days"
-msgstr "額外取得這些天數所需要的工作數量"
+msgstr "額外取得這些天數所需要的任務數量"
 
 #: DlgAdvPreferencesBase.cpp:466
 msgid "Skip image file verification"
@@ -1421,8 +1347,8 @@ msgstr "連線到網路前確認"
 
 #: DlgAdvPreferencesBase.cpp:480
 msgid ""
-"if checked, a confirmation dialog will be displayed before trying to connect "
-"to the Internet"
+"if checked, a confirmation dialog will be displayed before trying to connect"
+" to the Internet"
 msgstr "若勾選此方塊，當連線到網路前會先顯示確認視窗"
 
 #: DlgAdvPreferencesBase.cpp:484
@@ -1433,9 +1359,7 @@ msgstr "完成後斷線"
 msgid ""
 "if checked, BOINC hangs up when network usage is done\n"
 "(only relevant for dialup-connection)"
-msgstr ""
-"若勾選此方塊，當網路使用結束後 BOINC 會中斷連線\n"
-"(只對撥接連線有效)"
+msgstr "若勾選此方塊，當網路使用結束後 BOINC 會中斷連線\n(只對撥接連線有效)"
 
 #: DlgAdvPreferencesBase.cpp:492
 msgid "Network usage allowed"
@@ -1484,7 +1408,7 @@ msgstr "% 總硬碟空間"
 
 #: DlgAdvPreferencesBase.cpp:639
 msgid "Tasks checkpoint to disk at most every"
-msgstr "工作最短的儲存時間間隔"
+msgstr "任務最短的儲存時間間隔"
 
 #: DlgAdvPreferencesBase.cpp:645
 msgid "seconds"
@@ -1511,16 +1435,16 @@ msgstr "% 於電腦閒置中"
 
 #: DlgAdvPreferencesBase.cpp:691
 msgid "Leave applications in memory while suspended"
-msgstr "當暫止時保留應用程式於記憶體中"
+msgstr "暫停時將程式保留於記憶體中"
 
 #: DlgAdvPreferencesBase.cpp:693
 msgid "if checked, suspended work units are left in memory"
-msgstr "若勾選此方塊，暫止的工作會留在記憶體中"
+msgstr "若勾選此方塊，暫停的任務會留在記憶體中"
 
 #: DlgAdvPreferencesBase.cpp:713
 msgid ""
 "Suspend processor and network usage when these applications are running:"
-msgstr "當這些應用程式在運行時，暫停處理器與網路的使用"
+msgstr "當這些程式在執行時，暫停運算與網路使用:"
 
 #: DlgAdvPreferencesBase.cpp:722
 msgid "Add..."
@@ -1528,7 +1452,7 @@ msgstr "加入"
 
 #: DlgAdvPreferencesBase.cpp:723
 msgid "Add an application to this list"
-msgstr "加入一個應用程式到列表中"
+msgstr "新增程式到列表中"
 
 #: DlgAdvPreferencesBase.cpp:728 ViewProjects.cpp:202
 #: sg_ProjectCommandPopup.cpp:85
@@ -1537,7 +1461,7 @@ msgstr "移除"
 
 #: DlgAdvPreferencesBase.cpp:729
 msgid "Remove an application from this list"
-msgstr "從列表中移除一個應用程式"
+msgstr "從列表中移除程式"
 
 #: DlgAdvPreferencesBase.cpp:738
 msgid "For advanced options, refer to "
@@ -1546,7 +1470,7 @@ msgstr "更多詳細的設定，請前往"
 #: DlgEventLog.cpp:219
 #, c-format
 msgid "%s - Event Log"
-msgstr "%s - 訊息記錄"
+msgstr "%s - 事件記錄檔"
 
 #: DlgEventLog.cpp:232 ViewMessages.cpp:117 ViewProjects.cpp:219
 #: ViewStatistics.cpp:435 ViewStatistics.cpp:2009 ViewTransfers.cpp:182
@@ -1581,13 +1505,15 @@ msgstr "複製所選擇的 (&S)"
 #: DlgEventLog.cpp:308 DlgEventLog.cpp:316 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
-"messages by holding down the shift or command key while clicking on messages."
+"messages by holding down the shift or command key while clicking on "
+"messages."
 msgstr "只複製已選取的訊息到剪貼簿，您可以在選取訊息時按住 Shift 或 Command 鍵以同時選取多個訊息。"
 
 #: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
-"messages by holding down the shift or control key while clicking on messages."
+"messages by holding down the shift or control key while clicking on "
+"messages."
 msgstr "只複製已選取的訊息到剪貼簿， 您可以在選取訊息時按住 Shift 或 Ctrl 鍵以同時選取多個訊息。"
 
 #: DlgEventLog.cpp:325 DlgItemProperties.cpp:67
@@ -1625,12 +1551,7 @@ msgid ""
 "\n"
 "If you also want to stop running the tasks,\n"
 "choose from the following options:"
-msgstr ""
-"您剛才請求關閉 %s，\n"
-"他的用途是查看與管理在您電腦上執行的工作。\n"
-"\n"
-"如果您想要停止執行中的工作，\n"
-"請從下列的選項中選擇："
+msgstr "您剛才請求關閉 %s，\n他的用途是查看與管理在您電腦上執行的任務。\n\n如果您想要停止執行中的任務，\n請從下列的選項中選擇："
 
 #: DlgExitMessage.cpp:135
 #, c-format
@@ -1641,17 +1562,12 @@ msgid ""
 "In most cases, it is better just to close the %s window\n"
 "rather than to exit the application; that will allow %s to run its\n"
 "tasks at the times you selected in your preferences."
-msgstr ""
-"這會完全關閉 %s 和其運算的工作直到 %s 程式\n"
-"或 %s 螢幕保護程式再次啟動。\n"
-"\n"
-"一般而言只關掉 %s 視窗會比完全離開程式來的好，\n"
-"這樣子可以讓 %s 依照你設置的偏好設定按時執行。"
+msgstr "這會完全關閉 %s 和其運算的任務直到 %s 程式\n或 %s 螢幕保護程式再次啟動。\n\n一般而言只關掉 %s 視窗會比完全離開程式來的好，\n這樣子可以讓 %s 依照你設置的偏好設定按時執行。"
 
 #: DlgExitMessage.cpp:153
 #, c-format
 msgid "Stop running tasks when exiting the %s"
-msgstr "當離開 %s 的時候停止所有運算中的工作"
+msgstr "當離開 %s 時停止所有運算中的任務"
 
 #: DlgExitMessage.cpp:165
 msgid "Remember this decision and do not show this dialog."
@@ -1669,7 +1585,7 @@ msgstr "不要再顯示這提示訊息。"
 #: DlgItemProperties.cpp:168 DlgItemProperties.cpp:171
 #: DlgItemProperties.cpp:174 DlgItemProperties.cpp:177
 msgid "Don't fetch tasks for "
-msgstr "禁止取得新工作"
+msgstr "禁止取得新任務"
 
 #: DlgItemProperties.cpp:168
 msgid "Project preference"
@@ -1689,11 +1605,11 @@ msgstr "用戶端帳號建立已停止"
 
 #: DlgItemProperties.cpp:181
 msgid " work fetch deferred for"
-msgstr " 閒置多久後執行工作"
+msgstr " 閒置多久後執行任務"
 
 #: DlgItemProperties.cpp:182
 msgid " work fetch deferral interval"
-msgstr " 工作的延遲間隔"
+msgstr " 任務的延遲間隔"
 
 #: DlgItemProperties.cpp:213
 msgid "Properties of project "
@@ -1756,7 +1672,7 @@ msgstr "否"
 
 #: DlgItemProperties.cpp:237
 msgid "Don't request more work"
-msgstr "不允許新的工作"
+msgstr "不允許新的任務"
 
 #: DlgItemProperties.cpp:239
 msgid "Scheduler call in progress"
@@ -1780,7 +1696,7 @@ msgstr "加入帳號管理服務"
 
 #: DlgItemProperties.cpp:254
 msgid "Remove when tasks done"
-msgstr "工作完成後退出"
+msgstr "任務完成後退出"
 
 #: DlgItemProperties.cpp:257
 msgid "Ended"
@@ -1816,11 +1732,11 @@ msgstr "時間校正參數"
 
 #: DlgItemProperties.cpp:316
 msgid "Properties of task "
-msgstr "工作細節"
+msgstr "任務細節"
 
 #: DlgItemProperties.cpp:328 ViewWork.cpp:238
 msgid "Application"
-msgstr "應用程式"
+msgstr "程式"
 
 #: DlgItemProperties.cpp:329 ViewWork.cpp:239
 msgid "Name"
@@ -1844,7 +1760,7 @@ msgstr "資源"
 
 #: DlgItemProperties.cpp:341
 msgid "Estimated computation size"
-msgstr "預估的工作大小"
+msgstr "預估任務大小"
 
 #: DlgItemProperties.cpp:344
 msgid "CPU time at last checkpoint"
@@ -1876,7 +1792,7 @@ msgstr "記憶體大小"
 
 #: DlgItemProperties.cpp:354
 msgid "Directory"
-msgstr "工作目錄"
+msgstr "任務目錄"
 
 #: DlgItemProperties.cpp:357
 msgid "Process ID"
@@ -2022,7 +1938,6 @@ msgstr "%s - 語言選擇"
 
 #: DlgOptions.cpp:695
 #, c-format
-#, c-format, c-format
 msgid ""
 "The %s's language has been changed.  In order for this change to take "
 "effect, you must restart the %s."
@@ -2079,7 +1994,7 @@ msgstr "您的結果"
 
 #: Localization.cpp:49 Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
-msgstr "檢視您上週或更久之前所完成的運算結果與工作"
+msgstr "檢視您上週或更久之前所完成的運算結果"
 
 #: Localization.cpp:51 Localization.cpp:93
 msgid "Your computers"
@@ -2087,7 +2002,7 @@ msgstr "您的電腦"
 
 #: Localization.cpp:53
 msgid "View a listing of all the computers on which you are running SETI@Home"
-msgstr "檢視所有運行 SETI@Home 的電腦清單"
+msgstr "檢視所有執行 SETI@Home 的電腦清單"
 
 #: Localization.cpp:55 Localization.cpp:97
 msgid "Your team"
@@ -2145,7 +2060,7 @@ msgstr "帳號摘要"
 #: Localization.cpp:95
 msgid ""
 "View a listing of all the computers on which you are running Einstein@Home"
-msgstr "檢視您所有正在運行 Einstein@Home 的電腦清單"
+msgstr "檢視您所有執行 Einstein@Home 的電腦清單"
 
 #: Localization.cpp:101
 msgid "LIGO project"
@@ -2244,12 +2159,12 @@ msgstr "取回系統狀態中；請稍候..."
 
 #: MainDocument.cpp:1816
 msgid "Missing application"
-msgstr "應用程式不存在"
+msgstr "程式不存在"
 
 #: MainDocument.cpp:1817
 msgid ""
-"Please download and install the CoRD application from http://cord."
-"sourceforge.net"
+"Please download and install the CoRD application from "
+"http://cord.sourceforge.net"
 msgstr "請從 http://cord.sourceforge.net 下載並安裝 CoRD 程式。"
 
 #: MainDocument.cpp:2432
@@ -2286,7 +2201,7 @@ msgstr "正在啟動中"
 
 #: MainDocument.cpp:2440
 msgid "an exclusive app is running"
-msgstr "有排斥的應用程式正在執行"
+msgstr "有衝突的程式正在執行"
 
 #: MainDocument.cpp:2441
 msgid "CPU is busy"
@@ -2310,7 +2225,7 @@ msgstr "沒有可用的 GPU，"
 
 #: MainDocument.cpp:2474
 msgid "New"
-msgstr "新工作"
+msgstr "新任務"
 
 #: MainDocument.cpp:2478
 msgid "Download failed"
@@ -2322,24 +2237,23 @@ msgstr "下載中"
 
 #: MainDocument.cpp:2482 MainDocument.cpp:2552
 msgid " (suspended - "
-msgstr " (已暫止 - "
+msgstr " (已暫停 - "
 
 #: MainDocument.cpp:2490
 msgid "Project suspended by user"
-msgstr "專案被使用者暫止"
+msgstr "專案被使用者暫停"
 
 #: MainDocument.cpp:2492
 msgid "Task suspended by user"
-msgstr "被使用者暫止"
+msgstr "被使用者暫停"
 
 #: MainDocument.cpp:2494
 msgid "Suspended - "
-msgstr "已暫止 -"
+msgstr "已暫停 -"
 
-# 75%
 #: MainDocument.cpp:2500
 msgid "GPU suspended - "
-msgstr "GPU 已暫止 -"
+msgstr "GPU 已暫停 -"
 
 #: MainDocument.cpp:2507
 msgid "Waiting for memory"
@@ -2355,7 +2269,7 @@ msgstr "執行中，高優先權"
 
 #: MainDocument.cpp:2514
 msgid "Running"
-msgstr "運行中"
+msgstr "執行中"
 
 #: MainDocument.cpp:2517
 msgid " (non-CPU-intensive)"
@@ -2395,31 +2309,31 @@ msgstr "上傳中"
 
 #: MainDocument.cpp:2561
 msgid "Aborted by user"
-msgstr "被使用者中止"
+msgstr "被使用者停止"
 
 #: MainDocument.cpp:2564
 msgid "Aborted by project"
-msgstr "被專案中止"
+msgstr "被專案停止"
 
 #: MainDocument.cpp:2567
 msgid "Aborted: not started by deadline"
-msgstr "已中止：回報期限前尚未執行"
+msgstr "已停止：回報期限前尚未執行"
 
 #: MainDocument.cpp:2570
 msgid "Aborted: disk limit exceeded"
-msgstr "已中止：硬碟配置容量不足"
+msgstr "已停止：硬碟配置容量不足"
 
 #: MainDocument.cpp:2573
 msgid "Aborted: run time limit exceeded"
-msgstr "已中止：超過回報期限"
+msgstr "已停止：超過回報期限"
 
 #: MainDocument.cpp:2576
 msgid "Aborted: memory limit exceeded"
-msgstr "已中止：記憶體不足"
+msgstr "已停止：記憶體不足"
 
 #: MainDocument.cpp:2579
 msgid "Aborted"
-msgstr "已中止"
+msgstr "已停止"
 
 #: MainDocument.cpp:2584
 msgid "Acknowledged"
@@ -2451,9 +2365,7 @@ msgid ""
 "The URL you supplied is not that of a BOINC-based project.\n"
 "\n"
 "Please check the URL and try again."
-msgstr ""
-"您所輸入的網址並非基於 BOINC 的專案網站。\n"
-"請檢查網址後再試一次。"
+msgstr "您所輸入的網址並非基於 BOINC 的專案網站。\n請檢查網址後再試一次。"
 
 #: NotDetectedPage.cpp:188
 msgid "Account manager not found"
@@ -2465,9 +2377,7 @@ msgid ""
 "manager.\n"
 "\n"
 "Please check the URL and try again."
-msgstr ""
-"您所輸入的網址並非基於 BOINC 的帳號管理員。\n"
-"請檢查網址後再試一次。"
+msgstr "您所輸入的網址並非基於 BOINC 的帳號管理服務。\n請檢查網址後再試一次。"
 
 #: NotFoundPage.cpp:181
 msgid "Login Failed."
@@ -2533,7 +2443,7 @@ msgstr "專案網址："
 msgid ""
 "This project may not have work for your type of computer.  Do you want to "
 "add it anyway?"
-msgstr "這個專案可能沒有符合您電腦的工作。您確定要加入嗎？"
+msgstr "這個專案可能沒有符合您電腦的任務。您確定要加入嗎？"
 
 #: ProjectInfoPage.cpp:850
 msgid "You already added this project. Please choose a different project."
@@ -2555,9 +2465,7 @@ msgstr "內部伺服器發生錯誤。"
 msgid ""
 "Communicating with project\n"
 "Please wait..."
-msgstr ""
-"與專案通訊中\n"
-"請稍候..."
+msgstr "與專案通訊中\n請稍候..."
 
 #: ProxyInfoPage.cpp:195
 msgid "Network communication failure"
@@ -2578,17 +2486,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr ""
-"BOINC 與網路通訊失敗。可能有幾個原因:\n"
-"\n"
-"1) 通訊問題。\n"
-"請檢查您的網路或數據機連接後按「上一步」\n"
-"重試剛剛的操作。\n"
-"2) 防火牆軟體阻擋了 BOINC 的連線。\n"
-"請設定您的防火牆讓 BOINC 能存取 port 80。\n"
-"然後按「上一步」重試。\n"
-"3) 你正使用 Proxy 伺服器。\n"
-"請按「下一步」設置 BOINC 的 Proxy 設定。"
+msgstr "BOINC 與網路通訊失敗。可能有幾個原因:\n\n1) 通訊問題。\n請檢查您的網路或數據機連接後按「上一步」\n重試剛剛的操作。\n2) 防火牆軟體阻擋了 BOINC 的連線。\n請設定您的防火牆讓 BOINC 能存取 port 80。\n然後按「上一步」重試。\n3) 你正使用 Proxy 伺服器。\n請按「下一步」設置 BOINC 的 Proxy 設定。"
 
 #: ProxyInfoPage.cpp:203
 msgid ""
@@ -2605,17 +2503,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr ""
-"BOINC 與網路通訊失敗。可能有幾個原因:\n"
-"\n"
-"1) 通訊問題。\n"
-"請檢查您的網路或數據機連接後按「上一步」\n"
-"重試剛剛的操作。\n"
-"2) 防火牆軟體阻擋了 BOINC 的連線。\n"
-"請設定您的防火牆讓 BOINC 能存取 port 80。\n"
-"然後按「上一步」重試。\n"
-"3) 你正使用 Proxy 伺服器。\n"
-"請按「下一步」設置 BOINC 的 Proxy 設定。"
+msgstr "BOINC 與網路通訊失敗。可能有幾個原因:\n\n1) 通訊問題。\n請檢查您的網路或數據機連接後按「上一步」\n重試剛剛的操作。\n2) 防火牆軟體阻擋了 BOINC 的連線。\n請設定您的防火牆讓 BOINC 能存取 port 80。\n然後按「上一步」重試。\n3) 你正使用 Proxy 伺服器。\n請按「下一步」設置 BOINC 的 Proxy 設定。"
 
 #: ProxyPage.cpp:331
 msgid "Proxy configuration"
@@ -2662,10 +2550,7 @@ msgid ""
 "The project is temporarily unavailable.\n"
 "\n"
 "Please try again later."
-msgstr ""
-"此專案暫時無法使用。\n"
-"\n"
-"請稍後重試。"
+msgstr "此專案暫時無法使用。\n\n請稍後重試。"
 
 #: UnavailablePage.cpp:190
 msgid "Account manager temporarily unavailable"
@@ -2676,10 +2561,7 @@ msgid ""
 "The account manager is temporarily unavailable.\n"
 "\n"
 "Please try again later."
-msgstr ""
-"此帳號管理員暫時無法使用。\n"
-"\n"
-"請稍後重試。"
+msgstr "此帳號管理員暫時無法使用。\n\n請稍後重試。"
 
 #: ValidateAccountKey.cpp:68
 msgid "Please specify an account key to continue."
@@ -2710,10 +2592,7 @@ msgid ""
 "Please specify a URL.\n"
 "For example:\n"
 "http://www.example.com/"
-msgstr ""
-"請輸入網址。\n"
-"例如:\n"
-"http://www.example.com/"
+msgstr "請輸入網址。\n例如:\nhttp://www.example.com/"
 
 #: ValidateURL.cpp:83 ValidateURL.cpp:87 ValidateURL.cpp:91
 #: ValidateURL.cpp:103 ValidateURL.cpp:107 ValidateURL.cpp:110
@@ -2725,10 +2604,7 @@ msgid ""
 "Please specify a valid URL.\n"
 "For example:\n"
 "http://boincproject.example.com"
-msgstr ""
-"請輸入有效的網址。\n"
-"例如:\n"
-"http://boincproject.example.com"
+msgstr "請輸入有效的網址。\n例如:\nhttp://boincproject.example.com"
 
 #: ValidateURL.cpp:104 ValidateURL.cpp:108
 #, c-format
@@ -2805,28 +2681,28 @@ msgstr "更新"
 msgid ""
 "Report all completed tasks, get latest credit, get latest preferences, and "
 "possibly get more tasks."
-msgstr "回報所有已完成的工作；取得最新的積分與偏好設定資訊且儘可能的取得工作。"
+msgstr "回報所有已完成的任務；取得最新的積分與偏好設定資訊且儘可能的取得任務。"
 
 #: ViewProjects.cpp:181 ViewProjects.cpp:722 ViewWork.cpp:208 ViewWork.cpp:801
 #: sg_BoincSimpleFrame.cpp:757 sg_ProjectCommandPopup.cpp:67
 #: sg_ProjectCommandPopup.cpp:113 sg_TaskCommandPopup.cpp:66
 #: sg_TaskCommandPopup.cpp:106
 msgid "Suspend"
-msgstr "暫止"
+msgstr "暫停"
 
 #: ViewProjects.cpp:182 ViewProjects.cpp:722 sg_ProjectCommandPopup.cpp:68
 #: sg_ProjectCommandPopup.cpp:114
 msgid "Suspend tasks for this project."
-msgstr "暫止此專案的工作。"
+msgstr "暫停此專案的任務。"
 
 #: ViewProjects.cpp:188 ViewProjects.cpp:741 sg_ProjectCommandPopup.cpp:73
 #: sg_ProjectCommandPopup.cpp:121
 msgid "No new tasks"
-msgstr "不要新工作"
+msgstr "不要新任務"
 
 #: ViewProjects.cpp:189 sg_ProjectCommandPopup.cpp:74
 msgid "Don't get new tasks for this project."
-msgstr "不要取得新工作給此專案。"
+msgstr "不要取得新任務給此專案。"
 
 #: ViewProjects.cpp:195 sg_ProjectCommandPopup.cpp:79
 msgid "Reset project"
@@ -2834,15 +2710,15 @@ msgstr "重新開始專案"
 
 #: ViewProjects.cpp:196 sg_ProjectCommandPopup.cpp:80
 msgid ""
-"Delete all files and tasks associated with this project, and get new tasks.  "
-"You can update the project first to report any completed tasks."
-msgstr "刪除所有和此專案相關的檔案和工作後取得新的工作。 在重新開始之前您可以先更新專案來回報已完成的工作。"
+"Delete all files and tasks associated with this project, and get new tasks."
+"  You can update the project first to report any completed tasks."
+msgstr "刪除所有和此專案相關的檔案和任務後取得新的任務。 在重新開始之前您可以先更新專案來回報已完成的任務。"
 
 #: ViewProjects.cpp:203 sg_ProjectCommandPopup.cpp:86
 msgid ""
 "Remove this project.  Tasks in progress will be lost (use 'Update' first to "
 "report any completed tasks)."
-msgstr "從計畫中退出這台電腦。進行中的工作將會遺失。(在退出之前您可以先按一下「更新」來回報已完成的工作。)"
+msgstr "移除此專案。進行中的任務將會遺失。(您可以先按一下「更新」來回報已完成的任務。)"
 
 #: ViewProjects.cpp:209 ViewWork.cpp:222 sg_ProjectCommandPopup.cpp:91
 #: sg_TaskCommandPopup.cpp:78
@@ -2883,15 +2759,15 @@ msgstr "正在繼續專案..."
 
 #: ViewProjects.cpp:348
 msgid "Suspending project..."
-msgstr "正在暫止專案..."
+msgstr "正在暫停專案..."
 
 #: ViewProjects.cpp:385
 msgid "Telling project to allow additional task downloads..."
-msgstr "通知專案可以下載額外的工作..."
+msgstr "通知專案可以下載額外任務..."
 
 #: ViewProjects.cpp:389
 msgid "Telling project to not fetch any additional tasks..."
-msgstr "通知專案不要取得額外的工作..."
+msgstr "通知專案不要取得額外任務..."
 
 #: ViewProjects.cpp:425
 msgid "Resetting project..."
@@ -2925,19 +2801,19 @@ msgstr "啟動瀏覽器..."
 
 #: ViewProjects.cpp:718 sg_ProjectCommandPopup.cpp:111
 msgid "Resume tasks for this project."
-msgstr "繼續此專案的工作。"
+msgstr "繼續此專案的任務。"
 
 #: ViewProjects.cpp:737 sg_ProjectCommandPopup.cpp:118
 msgid "Allow new tasks"
-msgstr "允許新工作"
+msgstr "允許新任務"
 
 #: ViewProjects.cpp:737 sg_ProjectCommandPopup.cpp:119
 msgid "Allow fetching new tasks for this project."
-msgstr "允許此專案取得新工作。"
+msgstr "允許此專案取得新任務。"
 
 #: ViewProjects.cpp:741 sg_ProjectCommandPopup.cpp:122
 msgid "Don't fetch new tasks for this project."
-msgstr "不要取得新工作給此專案。"
+msgstr "不要取得新任務給此專案。"
 
 #: ViewProjects.cpp:1058
 msgid "Requested by user"
@@ -2945,7 +2821,7 @@ msgstr "用戶的請求"
 
 #: ViewProjects.cpp:1059
 msgid "To fetch work"
-msgstr "取得工作"
+msgstr "取得任務"
 
 #: ViewProjects.cpp:1060
 msgid "To report completed tasks"
@@ -2973,11 +2849,11 @@ msgstr "未知原因"
 
 #: ViewProjects.cpp:1079
 msgid "Suspended by user"
-msgstr "被使用者暫止"
+msgstr "被使用者暫停"
 
 #: ViewProjects.cpp:1082
 msgid "Won't get new tasks"
-msgstr "無法取得新工作"
+msgstr "無法取得新任務"
 
 #: ViewProjects.cpp:1085
 msgid "Project ended - OK to remove"
@@ -2985,7 +2861,7 @@ msgstr "專案已結束 - 按 OK 移除"
 
 #: ViewProjects.cpp:1088
 msgid "Will remove when tasks done"
-msgstr "工作完成後移除"
+msgstr "任務完成後移除"
 
 #: ViewProjects.cpp:1091
 msgid "Scheduler request pending"
@@ -3177,15 +3053,15 @@ msgstr "立即重試"
 
 #: ViewTransfers.cpp:165
 msgid "Retry the file transfer now"
-msgstr "立即重試檔案傳送"
+msgstr "立即重試檔案傳輸"
 
 #: ViewTransfers.cpp:171
 msgid "Abort Transfer"
-msgstr "中止檔案傳送"
+msgstr "停止檔案傳輸"
 
 #: ViewTransfers.cpp:172
 msgid "Abort this file transfer.  You won't get credit for the task."
-msgstr "中止檔案傳送。此工作將不會獲得任何積分。"
+msgstr "停止檔案傳輸。此任務將不會獲得任何積分。"
 
 #: ViewTransfers.cpp:183
 msgid "File"
@@ -3209,19 +3085,17 @@ msgstr "速度"
 
 #: ViewTransfers.cpp:213
 msgid "Transfers"
-msgstr "傳送"
+msgstr "傳輸"
 
 #: ViewTransfers.cpp:280
 msgid "Network activity is suspended - "
-msgstr "網路活動已暫止 -"
+msgstr "網路活動已暫停 -"
 
 #: ViewTransfers.cpp:282
 msgid ""
 ".\n"
 "You can enable it using the Activity menu."
-msgstr ""
-".\n"
-"您可以在 活動 選單中啟用他。"
+msgstr ".\n您可以在 活動 選單中啟用他。"
 
 #: ViewTransfers.cpp:285
 msgid "BOINC"
@@ -3229,11 +3103,11 @@ msgstr "BOINC"
 
 #: ViewTransfers.cpp:292
 msgid "Retrying transfer now..."
-msgstr "立即重試檔案傳送..."
+msgstr "立即重試檔案傳輸..."
 
 #: ViewTransfers.cpp:330
 msgid "Aborting transfer..."
-msgstr "中止檔案傳送中..."
+msgstr "停止檔案傳輸中..."
 
 #: ViewTransfers.cpp:343
 #, c-format
@@ -3241,13 +3115,11 @@ msgid ""
 "Are you sure you want to abort this file transfer '%s'?\n"
 "NOTE: Aborting a transfer will invalidate a task and you\n"
 "will not receive credit for it."
-msgstr ""
-"您確定要中止「%s」 的檔案傳輸嗎？\n"
-"提示: 終止傳輸會使此工作無效且不會收到任何積分。"
+msgstr "您確定要停止「%s」 的檔案傳輸嗎？\n提示: 終止傳輸會使此任務無效且不會收到任何積分。"
 
 #: ViewTransfers.cpp:349
 msgid "Abort File Transfer"
-msgstr "中止檔案傳送"
+msgstr "停止檔案傳輸"
 
 #: ViewTransfers.cpp:780
 msgid "Upload"
@@ -3267,7 +3139,7 @@ msgstr "失敗"
 
 #: ViewTransfers.cpp:789
 msgid "suspended"
-msgstr "已暫止"
+msgstr "已暫停"
 
 #: ViewTransfers.cpp:794
 msgid "active"
@@ -3283,11 +3155,11 @@ msgstr " （專案延後： "
 
 #: ViewWork.cpp:187 ViewWork.cpp:777
 msgid "Show active tasks"
-msgstr "顯示運行中"
+msgstr "顯示執行中"
 
 #: ViewWork.cpp:188 ViewWork.cpp:778
 msgid "Show only active tasks."
-msgstr "只顯示運行中的工作。"
+msgstr "只顯示執行中的任務。"
 
 #: ViewWork.cpp:194 sg_TaskCommandPopup.cpp:60
 msgid "Show graphics"
@@ -3295,7 +3167,7 @@ msgstr "顯示圖形"
 
 #: ViewWork.cpp:195 sg_TaskCommandPopup.cpp:61
 msgid "Show application graphics in a window."
-msgstr "於新視窗中顯示應用程式的圖形。"
+msgstr "於新視窗中顯示程式的圖形。"
 
 #: ViewWork.cpp:201
 msgid "Show VM Console"
@@ -3303,23 +3175,23 @@ msgstr "顯示此主機總計"
 
 #: ViewWork.cpp:202
 msgid "Show VM Console in a window."
-msgstr "於新視窗中顯示應用程式的圖形。"
+msgstr "於新視窗中顯示程式的圖形。"
 
 #: ViewWork.cpp:209
 msgid "Suspend work for this result."
-msgstr "暫止這個結果的工作。"
+msgstr "暫停此任務。"
 
 #: ViewWork.cpp:215 sg_TaskCommandPopup.cpp:72
 msgid "Abort"
-msgstr "中止"
+msgstr "停止"
 
 #: ViewWork.cpp:216
 msgid "Abandon work on the result. You will get no credit for it."
-msgstr "放棄這個結果的工作。您將不會取得任何積分。"
+msgstr "放棄此任務。您將不會取得任何積分。"
 
 #: ViewWork.cpp:223 sg_TaskCommandPopup.cpp:79
 msgid "Show task details."
-msgstr "顯示工作細節"
+msgstr "顯示任務細節"
 
 #: ViewWork.cpp:235
 msgid "Elapsed"
@@ -3335,62 +3207,59 @@ msgstr "上傳期限"
 
 #: ViewWork.cpp:264
 msgid "Tasks"
-msgstr "工作"
+msgstr "任務"
 
 #: ViewWork.cpp:357
 msgid "Resuming task..."
-msgstr "繼續工作中..."
+msgstr "繼續任務中..."
 
 #: ViewWork.cpp:360
 msgid "Suspending task..."
-msgstr "暫止工作中..."
+msgstr "暫停任務中..."
 
 #: ViewWork.cpp:389
 msgid "Showing graphics for task..."
-msgstr "顯示此工作圖形..."
+msgstr "顯示此任務圖形..."
 
 #: ViewWork.cpp:426
 msgid "Showing VM console for task..."
-msgstr "顯示此工作圖形..."
+msgstr "顯示此任務圖形..."
 
 #: ViewWork.cpp:479
 #, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
-msgstr ""
-"您確定要中止這個工作「%s」嗎？\n"
-"(進度: %s，狀態: %s)"
+msgstr "您確定要停止這個任務「%s」嗎？\n(進度: %s，狀態: %s)"
 
 #: ViewWork.cpp:485
 #, c-format
 msgid "Are you sure you want to abort these %d tasks?"
-msgstr "您確定您要中止 %d 這個工作嗎？"
+msgstr "您確定您要停止 %d 這個任務嗎？"
 
 #: ViewWork.cpp:490 sg_TaskCommandPopup.cpp:256
 msgid "Abort task"
-msgstr "中止工作"
+msgstr "停止任務"
 
-# 100% !
 #: ViewWork.cpp:499
 msgid "Aborting task..."
-msgstr "中止檔案傳送中..."
+msgstr "停止任務中..."
 
 #: ViewWork.cpp:771
 msgid "Show all tasks"
-msgstr "顯示所有工作"
+msgstr "顯示所有任務"
 
 #: ViewWork.cpp:772
 msgid "Show all tasks."
-msgstr "顯示所有工作。"
+msgstr "顯示所有任務。"
 
 #: ViewWork.cpp:796 sg_TaskCommandPopup.cpp:103
 msgid "Resume work for this task."
-msgstr "繼續這個工作的動作。"
+msgstr "繼續此任務。"
 
 #: ViewWork.cpp:802 sg_TaskCommandPopup.cpp:107
 msgid "Suspend work for this task."
-msgstr "暫止這個工作的動作。"
+msgstr "暫停此任務。"
 
 #: WelcomePage.cpp:284
 msgid "Add project or account manager"
@@ -3408,10 +3277,7 @@ msgid ""
 "\n"
 "Projects added via this wizard will not be\n"
 "listed on or managed via %s."
-msgstr ""
-"可以的話，加入 %s 網站的專案。\n"
-"\n"
-"透過精靈加入的專案可能不會於 %s 出現或管理。"
+msgstr "可以的話，加入 %s 網站的專案。\n\n透過精靈加入的專案可能不會於 %s 出現或管理。"
 
 #: WelcomePage.cpp:313
 msgid ""
@@ -3420,40 +3286,22 @@ msgid ""
 "and you can volunteer for as many of them as you like.\n"
 "You can add a project directly,\n"
 "or use an 'Account Manager' web site to select projects."
-msgstr ""
-"目前有超過 30 個基於 BOINC 的專案，\n"
-"其研究內容涉及多個科學領域，\n"
-"您可以依照您自己的喜好加入這些專案。\n"
-"您可以直接加入這些專案，或是利用\"帳戶管理服務\"網站來選擇專案。"
+msgstr "目前有超過 30 個基於 BOINC 的專案，\n其研究內容涉及多個科學領域，\n您可以依照您自己的喜好加入這些專案。\n您可以直接加入這些專案，或是利用\"帳戶管理服務\"網站來選擇專案。"
 
 #: WelcomePage.cpp:325
 msgid ""
-"You have chosen to add a new volunteer computing project or change which "
-"projects\n"
+"You have chosen to add a new volunteer computing project or change which projects\n"
 "you contribute to.\n"
 "\n"
-"Some of these projects are run and managed by World Community Grid, while "
-"others\n"
-"are run and managed by other researchers or organizations. The BOINC "
-"software\n"
+"Some of these projects are run and managed by World Community Grid, while others\n"
+"are run and managed by other researchers or organizations. The BOINC software\n"
 "can divide your spare processing power among any combination of projects.\n"
 "\n"
-"Alternatively, if you have registered with a BOINC Account Manager, you can "
-"use\n"
+"Alternatively, if you have registered with a BOINC Account Manager, you can use\n"
 "this to choose which projects to support.\n"
 "\n"
 "Please choose which type of change you would like to make:\n"
-msgstr ""
-"您已選擇新增一個新專案或更改專案來做出貢獻。\n"
-"\n"
-"這些專案其中是由 World Community Grid 運行和管理的，\n"
-"而其他大多由研究人員或組織來運行和管理。\n"
-"BOINC 軟體可以在您的空閒運算能力之間的自動分配專案。\n"
-"\n"
-"另外，如果您已經註冊 BOINC 的帳號管理服務，\n"
-"您能用它來選擇想支援哪些專案。\n"
-"\n"
-"你想選擇哪種類型：\n"
+msgstr "您已選擇新增一個新專案或更改專案來做出貢獻。\n\n這些專案其中是由 World Community Grid 運行和管理的，\n而其他大多由研究人員或組織來運行和管理。\nBOINC 軟體可以在您的空閒運算能力之間的自動分配專案。\n\n另外，如果您已經註冊 BOINC 的帳號管理服務，\n您能用它來選擇想支援哪些專案。\n\n你想選擇哪種類型：\n"
 
 #: WelcomePage.cpp:339
 msgid "Use a BOINC Account Manager"
@@ -3545,7 +3393,7 @@ msgstr "更多的偏好設定，請切換至進階模式。"
 
 #: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
-msgstr "只在此時段執行工作:"
+msgstr "只在此時段執行任務:"
 
 #: sg_DlgPreferences.cpp:335
 msgid "Connect to internet only between:"
@@ -3565,11 +3413,11 @@ msgstr "CPU 使用率"
 
 #: sg_DlgPreferences.cpp:391
 msgid "Do work while on battery?"
-msgstr "以電池供電時要執行工作嗎？"
+msgstr "以電池供電時要執行任務嗎？"
 
 #: sg_DlgPreferences.cpp:404
 msgid "Do work after idle for:"
-msgstr "閒置多久後執行工作:"
+msgstr "閒置多久後執行任務:"
 
 #: sg_DlgPreferences.cpp:429
 msgid "Clear all local preferences listed above and close the dialog"
@@ -3660,7 +3508,7 @@ msgstr "同步"
 
 #: sg_ProjectPanel.cpp:74
 msgid "Work done for this project"
-msgstr "已完成該專案工作"
+msgstr "已完成該專案任務"
 
 #: sg_ProjectPanel.cpp:77
 msgid "Synchronize projects with account manager system"
@@ -3670,7 +3518,6 @@ msgstr "與帳號管理系統同步專案"
 msgid "Select a project to access with the controls below"
 msgstr "選擇一個要管理的專案"
 
-# 88%
 #: sg_ProjectPanel.cpp:145
 msgid "Project Web Pages"
 msgstr "專案網站"
@@ -3691,20 +3538,18 @@ msgstr "跳出一個 %s 專案的指令選單"
 
 #: sg_TaskCommandPopup.cpp:67
 msgid "Suspend this task."
-msgstr "已暫止這個工作"
+msgstr "已暫停此任務"
 
 #: sg_TaskCommandPopup.cpp:73
 msgid "Abandon this task. You will get no credit for it."
-msgstr "放棄這個工作。您將不會獲得任何積分。"
+msgstr "放棄此任務。您將不會獲得任何積分。"
 
 #: sg_TaskCommandPopup.cpp:251
 #, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %.1lf%%, Status: %s)"
-msgstr ""
-"您確定要中止工作「%s」嗎？\n"
-"(進度: %s，狀態: %s)"
+msgstr "您確定要停止此任務 '%s' 嗎?\n(進度: %.1lf%%，狀態: %s)"
 
 #: sg_TaskPanel.cpp:464
 msgid "You don't have any projects.  Please Add a Project."
@@ -3716,11 +3561,11 @@ msgstr "不可行"
 
 #: sg_TaskPanel.cpp:476
 msgid "Tasks:"
-msgstr "工作："
+msgstr "任務："
 
 #: sg_TaskPanel.cpp:482
 msgid "Select a task to access"
-msgstr "選擇要觀看的工作"
+msgstr "選擇要觀看的任務"
 
 #: sg_TaskPanel.cpp:493
 msgid "From:"
@@ -3728,20 +3573,20 @@ msgstr "專案："
 
 #: sg_TaskPanel.cpp:547
 msgid "This task's progress"
-msgstr "本工作的進度"
+msgstr "此任務進度"
 
 #: sg_TaskPanel.cpp:565
 msgid "Task Commands"
-msgstr "工作指令"
+msgstr "任務指令"
 
 #: sg_TaskPanel.cpp:566
 msgid "Pop up a menu of commands to apply to this task"
-msgstr "跳出一個適用於目前工作的指令選單"
+msgstr "跳出一個適用於目前任務的指令選單"
 
 #: sg_TaskPanel.cpp:701
 #, c-format
 msgid "Application: %s"
-msgstr "應用程式: %s"
+msgstr "程式: %s"
 
 #: sg_TaskPanel.cpp:724
 #, c-format
@@ -3750,7 +3595,7 @@ msgstr "%.3f%%"
 
 #: sg_TaskPanel.cpp:732
 msgid "Application: Not available"
-msgstr "應用程式：不可行"
+msgstr "程式：不可行"
 
 #: sg_TaskPanel.cpp:832
 msgid "Not Available"
@@ -3761,7 +3606,6 @@ msgstr "不可行"
 msgid "Elapsed: %s"
 msgstr "執行時間：%s"
 
-# 84%
 #: sg_TaskPanel.cpp:861
 #, c-format
 msgid "Remaining (estimated): %s"
@@ -3778,31 +3622,31 @@ msgstr "取回目前狀態中。"
 
 #: sg_TaskPanel.cpp:1229
 msgid "Downloading work from the server."
-msgstr "正從伺服器下載工作。"
+msgstr "正從伺服器下載任務。"
 
 #: sg_TaskPanel.cpp:1234
 msgid "Processing Suspended:  Running On Batteries."
-msgstr "處理已暫止: 正以電池供電"
+msgstr "處理已暫停: 正以電池供電"
 
 #: sg_TaskPanel.cpp:1236
 msgid "Processing Suspended:  User Active."
-msgstr "處理已暫止: 使用者正在操作"
+msgstr "處理已暫停: 使用者正在操作"
 
 #: sg_TaskPanel.cpp:1238
 msgid "Processing Suspended:  User paused processing."
-msgstr "處理已暫止: 被使用者暫停"
+msgstr "處理已暫停: 被使用者暫停"
 
 #: sg_TaskPanel.cpp:1240
 msgid "Processing Suspended:  Time of Day."
-msgstr "處理已暫止: 不在設定時間內"
+msgstr "處理已暫停: 不在設定時間內"
 
 #: sg_TaskPanel.cpp:1242
 msgid "Processing Suspended:  Benchmarks Running."
-msgstr "處理已暫止: 正在執行效能測試"
+msgstr "處理已暫停: 正在執行效能測試"
 
 #: sg_TaskPanel.cpp:1244
 msgid "Processing Suspended."
-msgstr "處理已暫止。"
+msgstr "已暫停處理。"
 
 #: sg_TaskPanel.cpp:1248
 msgid "Waiting to contact project servers."
@@ -3814,7 +3658,7 @@ msgstr "取回目前狀態中"
 
 #: sg_TaskPanel.cpp:1256
 msgid "No work available to process"
-msgstr "無工作可用"
+msgstr "無任務可執行"
 
 #: sg_TaskPanel.cpp:1258
 msgid "Unable to connect to the core client"
@@ -3857,778 +3701,3 @@ msgstr "顯示全部"
 #, c-format
 msgid "Quit %s"
 msgstr "離該 %s"
-
-#~ msgid "I do not agree with the terms of use."
-#~ msgstr "我不同意使用條款"
-
-#~ msgid "Click Clear to restore web-based settings."
-#~ msgstr "點選 清除 來更新成網路上的設定"
-
-#~ msgid "For additional settings, select Computing Preferences in "
-#~ msgstr "更多的偏好設定，請切換至"
-
-#~ msgid "the Advanced View."
-#~ msgstr "進階模式。"
-
-#~ msgid "Workunit name"
-#~ msgstr "工作名稱"
-
-#~ msgid "invalid float"
-#~ msgstr "無效的浮點數"
-
-#~ msgid "Display the advanced (accessible) graphical interface."
-#~ msgstr "顯示精簡 BOINC 圖形介面。"
-
-#~ msgid "Paused: Other work running"
-#~ msgstr "已暫停: 正運行其他工作"
-
-#~ msgid "Paused: User initiated.  Click 'Resume' to continue"
-#~ msgstr "已暫停: 由使用者暫止。按「繼續」繼續工作"
-
-#~ msgid "Paused: User active"
-#~ msgstr "已暫停: 使用者正在操作"
-
-#~ msgid "Paused: Computer on battery"
-#~ msgstr "已暫停: 電腦以電池供電"
-
-#~ msgid "Paused: Time of Day"
-#~ msgstr "已暫停: 不在設定時間內"
-
-#~ msgid "Paused: Benchmarks running"
-#~ msgstr "已暫停: 正在執行效能測試"
-
-#~ msgid "Paused"
-#~ msgstr "已暫停"
-
-#~ msgid "Paused: Application start delayed"
-#~ msgstr "暫止：應用程式延遲起動"
-
-#~ msgid "Click to show project graphics"
-#~ msgstr "按一下顯示專案圖形"
-
-#~ msgid "Open a window to view messages"
-#~ msgstr "開啟視窗以檢視訊息"
-
-#~ msgid "Stop all activity"
-#~ msgstr "停止所有活動"
-
-#~ msgid "Resume activity"
-#~ msgstr "繼續活動"
-
-#~ msgid "Open a window to set your preferences"
-#~ msgstr "開新視窗設置你的偏好設定"
-
-#~ msgid "Switch to the BOINC advanced view"
-#~ msgstr "切換到 BOINC 進階介面"
-
-#~ msgid "My Projects:"
-#~ msgstr "我的專案:"
-
-#, c-format
-#~ msgid "%s. Work done by %s: %0.2f"
-#~ msgstr "%s，%s 已完成: %0.2f"
-
-#, c-format
-#~ msgid "%.1lf"
-#~ msgstr "%.1lf"
-
-#, c-format
-#~ msgid "%d hr %d min %d sec"
-#~ msgstr "%d 時 %d 分 %d 秒"
-
-#~ msgid "Are you sure you want to display graphics on a remote machine?"
-#~ msgstr "您確定要顯示遠端電腦的圖形嗎？"
-
-#~ msgid "Application: "
-#~ msgstr "應用程式："
-
-#~ msgid "Time Remaining: "
-#~ msgstr "剩餘時間："
-
-#~ msgid "Elapsed Time: "
-#~ msgstr "執行時間："
-
-#~ msgid "Account manager website"
-#~ msgstr "帳號管理服務網站"
-
-#~ msgid "Account Manager &URL:"
-#~ msgstr "帳號管理服務網址 (&U)："
-
-#, c-format
-#~ msgid "%s &website"
-#~ msgstr "%s 網站 (&W)"
-
-#~ msgid "Notice List"
-#~ msgstr "訊息列表"
-
-#, c-format
-#~ msgid "%s; received on %s"
-#~ msgstr "%s; 來至於 %s"
-
-#, c-format
-#~ msgid "%s; received from %s; on %s"
-#~ msgstr "%s; 來至於 %s; 時間 %s"
-
-#~ msgid "Click"
-#~ msgstr "點選"
-
-#~ msgid "Project List"
-#~ msgstr "專案列表"
-
-#~ msgid "Nvidia GPU Supported"
-#~ msgstr "支援 Nvidia GPU"
-
-#~ msgid "ATI GPU Supported"
-#~ msgstr "支援 ATI GPU"
-
-#~ msgid "Project Website"
-#~ msgstr "專案網頁"
-
-#~ msgid "One or more items failed to load from the Internet."
-#~ msgstr "無法從網路讀取一個或多個項目"
-
-# 88%
-#~ msgid "Retry now"
-#~ msgstr "立即重試"
-
-#~ msgid "10%"
-#~ msgstr "10%"
-
-#~ msgid "20%"
-#~ msgstr "20%"
-
-#~ msgid "30%"
-#~ msgstr "30%"
-
-#~ msgid "40%"
-#~ msgstr "40%"
-
-#~ msgid "50%"
-#~ msgstr "50%"
-
-#~ msgid "60%"
-#~ msgstr "60%"
-
-#~ msgid "70%"
-#~ msgstr "70%"
-
-#~ msgid "80%"
-#~ msgstr "80%"
-
-#~ msgid "90%"
-#~ msgstr "90%"
-
-#~ msgid "100%"
-#~ msgstr "100%"
-
-#~ msgid "1"
-#~ msgstr "1"
-
-#~ msgid "3"
-#~ msgstr "3"
-
-#~ msgid "5"
-#~ msgstr "5"
-
-#~ msgid "10"
-#~ msgstr "10"
-
-#~ msgid "15"
-#~ msgstr "15"
-
-#~ msgid "30"
-#~ msgstr "30"
-
-#~ msgid "60"
-#~ msgstr "60"
-
-#, c-format
-#~ msgid "Pop up a menu of websites for project %s"
-#~ msgstr "跳出一個 %s 專案的網頁選單"
-
-#~ msgid ""
-#~ "for accessibility support, please select advanced from the view menu or type "
-#~ "command shift a"
-#~ msgstr "要使用輔助功能，請從選項中選擇進階或者輸入shift a 指令"
-
-#~ msgid "This panel contains graphs showing user totals for projects"
-#~ msgstr "該頁面會顯示用戶在各專案的統計圖"
-
-#~ msgid "list headers"
-#~ msgstr "列表頭"
-
-#~ msgid "list of events"
-#~ msgstr "事件列表"
-
-#~ msgid "list of events is empty"
-#~ msgstr "事件列表為空"
-
-#, c-format
-#~ msgid "list of %s"
-#~ msgstr "%s 列表"
-
-#, c-format
-#~ msgid "list of %s is empty"
-#~ msgstr "%s 列表為空"
-
-#, c-format
-#~ msgid "; current sort column %d of %d; descending order; "
-#~ msgstr "; 排序目前列 %d / %d; 降冪排序; "
-
-#, c-format
-#~ msgid "; current sort column %d of %d; ascending order; "
-#~ msgstr "; 排序目前列 %d / %d; 生冪排序; "
-
-#, c-format
-#~ msgid "; column %d of %d; "
-#~ msgstr "; 第 %d 列（共 %d 列）; "
-
-#~ msgid "list is empty"
-#~ msgstr "列表為空"
-
-#, c-format
-#~ msgid "; row %d; "
-#~ msgstr "; 第 %d 行; "
-
-#, c-format
-#~ msgid "; selected row %d of %d; "
-#~ msgstr "; 選取 %d 行（共 %d 行）; "
-
-#, c-format
-#~ msgid "; selected row %d ; "
-#~ msgstr "; 選取 %d 行; "
-
-#, c-format
-#~ msgid "; row %d of %d; "
-#~ msgstr "; 第 %d 行（共 %d 行）; "
-
-#~ msgid "blank"
-#~ msgstr "空白"
-
-#~ msgid "list of projects or account managers"
-#~ msgstr "專案或帳號管理服務列表"
-
-#, c-format
-#~ msgid "selected row %d of %d; "
-#~ msgstr "選取 %d 行（共 %d 行）; "
-
-#, c-format
-#~ msgid "row %d of %d; "
-#~ msgstr "第 %d 行（共 %d 行）; "
-
-#~ msgid "The minimum username length for this project is 1. Please enter a different username."
-#~ msgstr "專案限制最短的名稱長度為1。請輸入符合要求的使用者名稱。"
-
-#~ msgid "The minimum username length for this account manager is 1. Please enter a different username."
-#~ msgstr "帳號管理服務限制最短的名稱長度為1。請輸入符合要求的使用者名稱。"
-
-#~ msgid "The minimum email address length for this project is 1. Please enter a different email address."
-#~ msgstr "專案限制最短的郵件地址長度為1。請輸入符合要求的電子郵件地址。"
-
-#~ msgid "The minimum email address length for this account manager is 1. Please enter a different email address."
-#~ msgstr "帳號管理服務限制最短的郵件地址長度為1。請輸入符合要求的電子郵件地址。"
-
-#, c-format
-#~ msgid "The minimum password length for this project is %d. Please enter a different password."
-#~ msgstr "此專案要求的最小密碼長度為 %d，請輸入符合要求的密碼。"
-
-#, c-format
-#~ msgid "The minimum password length for this account manager is %d. Please enter a different password."
-#~ msgstr "此帳號管理服務要求的最小密碼長度為 %d，請輸入符合要求的密碼。"
-
-#~ msgid ""
-#~ "An error has occurred;\n"
-#~ "check the Event Log for details.\n"
-#~ "\n"
-#~ "Click Finish to close."
-#~ msgstr ""
-#~ "發生錯誤，請檢查訊息分頁取得詳細資訊。\n"
-#~ "按「完成」關閉視窗。"
-
-#, no-c-format
-#~ msgid "% of the processors"
-#~ msgstr "% 的 CPU 核心數量"
-
-#, c-format
-#~ msgid "New page inserted. Index = %i"
-#~ msgstr "已插入新頁面。索引值 = %i"
-
-#, c-format
-#~ msgid "New page appended. Index = %i"
-#~ msgstr "已附加新頁面。索引值 = %i"
-
-#, c-format
-#~ msgid "Old Page Index = %i"
-#~ msgstr "舊頁面索引值 = %i"
-
-#, c-format
-#~ msgid "OnDropTarget: index by HitTest = %i"
-#~ msgstr "OnDropTarget: index by HitTest = %i"
-
-#~ msgid "Pie Ctrl"
-#~ msgstr "Pie Ctrl"
-
-#~ msgid "specify work start and stop hours in format HH:MM-HH:MM"
-#~ msgstr "用 HH:MM-HH:MM 的格式指定工作運行的開始及結束時間"
-
-#~ msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
-#~ msgstr "用 HH:MM-HH:MM 的格式指定網路使用的開始及結束時間"
-
-#~ msgid "Identify your account "
-#~ msgstr "確認您的帳戶"
-
-#~ msgid "Read config file"
-#~ msgstr "讀取設定檔"
-
-#~ msgid "Read configuration info from cc_config.xml"
-#~ msgstr "從 cc-config.xml 讀取設定資訊。"
-
-#~ msgid ""
-#~ "(C) 2003-2011 University of California, Berkeley.\n"
-#~ "All Rights Reserved."
-#~ msgstr ""
-#~ "(C) 2003-2007 美國加州大學伯克利分校\n"
-#~ "保留所有權利。"
-
-#~ msgid "NVIDIA GPU"
-#~ msgstr "NVIDIA GPU"
-
-#~ msgid "ATI GPU"
-#~ msgstr "ATI GPU"
-
-#~ msgid "Multicore CPU Supported"
-#~ msgstr "支援多核心 CPU"
-
-#~ msgid "%s: %.0f"
-#~ msgstr "%s： %.0f"
-
-#~ msgid "Click 'Retry now' to transfer the file now"
-#~ msgstr "按一下「立即重試」可以立即上傳檔案。"
-
-#~ msgid ""
-#~ "Click 'Abort transfer' to delete the file from the transfer queue. This "
-#~ "will prevent you from being granted credit for this result."
-#~ msgstr ""
-#~ "按一下「中止傳送」可以從上傳佇列中刪除這個檔案。 這個動作會使您無法從這個"
-#~ "運算結果中獲取積分。"
-
-#~ msgid "Aborting result..."
-#~ msgstr "中止結果中..."
-
-#~ msgid ""
-#~ "You have chosen to add a new BOINC project.  Adding a new\n"
-#~ "project means that you will be connecting your computer to a new "
-#~ "organization.\n"
-#~ "If this is what you wanted to do, please click on\n"
-#~ "the 'Next' button below.\n"
-#~ "\n"
-#~ "Some projects like World Community Grid run multiple research "
-#~ "applications.\n"
-#~ "If you want to change which research applications are sent to your "
-#~ "computer\n"
-#~ "to run, visit the project's website and modify your\n"
-#~ "preferences there.\n"
-#~ "\n"
-#~ "To change which research applications are sent to you from\n"
-#~ "World Community Grid then please click on the following button:"
-#~ msgstr ""
-#~ "您已經選擇加入了一個新的 BOINC 專案。加入新專案\n"
-#~ "表示您將允許您的電腦連接到一個新的組織。 \n"
-#~ "如果這就是您想要做的，請點擊下方的 “ 下一步 ” 按鈕。 \n"
-#~ "\n"
-#~ "有些項目比如World Community Grid 運行了多個科學應用程式。 \n"
-#~ "如果您想要改變發送到您的電腦上的應用程式種類，\n"
-#~ "您必須訪問這些專案的網站並在那裡修改你的偏好設置。 \n"
-#~ "\n"
-#~ "要設置您希望運行的World Community Grid 專案應用程式，\n"
-#~ "請點擊後面的按鈕："
-
-#~ msgid "Change Research Applications at World Community Grid"
-#~ msgstr "設定 WCG 專案的運算程式"
-
-#, fuzzy
-#~ msgid "Don't fetch NVIDIA GPU tasks"
-#~ msgstr "無法取得新工作"
-
-#, fuzzy
-#~ msgid "Don't fetch ATI GPU tasks"
-#~ msgstr "無法取得新工作"
-
-#~ msgid "Web sites"
-#~ msgstr "網站"
-
-#~ msgid "Connect about every"
-#~ msgstr "每幾天連線一次: "
-
-#~ msgid ""
-#~ "this computer is connected to the Internet about every X days\n"
-#~ "(0 if it's always connected)"
-#~ msgstr ""
-#~ "設定此電腦每 X 天連線網路\n"
-#~ "(0 代表一直連線)"
-
-#~ msgid "days (max. 10)"
-#~ msgstr "天 (最多 10 天)"
-
-#~ msgid "%s - Options"
-#~ msgstr "%s - 選項"
-
-#~ msgid "Retrieving host information; please wait..."
-#~ msgstr "取回主機資訊中；請稍候..."
-
-#~ msgid "%s - Messages"
-#~ msgstr "%s - 訊息"
-
-#~ msgid "Skin:"
-#~ msgstr "面板:"
-
-#~ msgid "Preferences"
-#~ msgstr "偏好設定"
-
-#~ msgid "I want to customize my preferences for this computer only."
-#~ msgstr "我要自訂只適合這台電腦的偏好設定。"
-
-#~ msgid "Customized Preferences"
-#~ msgstr "本機自訂偏好設定"
-
-#~ msgid "Upload pending"
-#~ msgstr "上傳資料中"
-
-#~ msgid "Download pending"
-#~ msgstr "下載資料中"
-
-#~ msgid "Get help with BOINC"
-#~ msgstr "取得 BOINC 說明"
-
-#~ msgid "%s - Detach from %s"
-#~ msgstr "%s - 從 %s 退出"
-
-#~ msgid "Failed to attach to project"
-#~ msgstr "加入計畫失敗"
-
-#~ msgid "Failed to attach to account manager"
-#~ msgstr "加入帳號管理失敗"
-
-#~ msgid "Attached to account manager"
-#~ msgstr "加入帳號管理"
-
-#~ msgid "You are now successfully attached to the %s system."
-#~ msgstr "您已成功加入 %s 系統。"
-
-#~ msgid "You are now successfully attached to this account manager."
-#~ msgstr "您已成功加入此帳號管理員。"
-
-#~ msgid "All projects"
-#~ msgstr "所有計畫"
-
-#~ msgid "Attach to project"
-#~ msgstr "加入計畫"
-
-#~ msgid "Attach to account manager"
-#~ msgstr "加入帳號管理"
-
-#~ msgid "Attach to a project"
-#~ msgstr "加入計畫"
-
-#~ msgid "%s needs to connect to the Internet.  Please click to open %s."
-#~ msgstr "%s 需要連線到網路，請按一下開啟 %s。"
-
-#~ msgid ""
-#~ "%s is unable to communicate with a project and needs an Internet "
-#~ "connection.\n"
-#~ "Please connect to the Internet, then select the 'Do network "
-#~ "communications' item from the Advanced menu."
-#~ msgstr ""
-#~ "%s 無法與計畫通訊，需要網路連線。\n"
-#~ "請連線到網路後於「進階」選單中選擇「開始網路通訊」。"
-
-#~ msgid ""
-#~ "%s couldn't do Internet communication, and no default connection is "
-#~ "selected.\n"
-#~ "Please connect to the Internet, or select a default connection\n"
-#~ "using Advanced/Options/Connections."
-#~ msgstr ""
-#~ "%s 無法與網路通訊，沒有選擇預設的連線。\n"
-#~ "請連線到網路後，於「進階＞選項＞連線」選擇預設連線。"
-
-#~ msgid "Attached to project"
-#~ msgstr "已加入計畫"
-
-#~ msgid "You are now successfully attached to this project."
-#~ msgstr "您已成功加入此計畫。"
-
-#~ msgid "Attached to %s"
-#~ msgstr "已加入 %s"
-
-#~ msgid "Detach"
-#~ msgstr "退出"
-
-#~ msgid "Detaching from project..."
-#~ msgstr "正在退出計畫..."
-
-#~ msgid "Are you sure you want to detach from project '%s'?"
-#~ msgstr "您確定從計畫「%s」中退出嗎？"
-
-#~ msgid "Detach from Project"
-#~ msgstr "退出計畫"
-
-#~ msgid " - user active"
-#~ msgstr " - 使用者正在操作"
-
-#~ msgid " - computation suspended"
-#~ msgstr "- 運算已暫止"
-
-#~ msgid " - need disk space"
-#~ msgstr " - 需要磁碟空間"
-
-#~ msgid "Attach to an additional project"
-#~ msgstr "加入其他計畫"
-
-#~ msgid "To completion"
-#~ msgstr "剩餘時間"
-
-#~ msgid "Attach to a project to begin processing work"
-#~ msgstr "加入計畫以開始進行工作"
-
-#~ msgid "%s - Can't find web browser"
-#~ msgstr "%s - 找不到瀏覽器"
-
-#~ msgid ""
-#~ "%s tried to display the web page\n"
-#~ "\t%s\n"
-#~ "but couldn't find a web browser.\n"
-#~ "To fix this, set the environment variable\n"
-#~ "BROWSER to the path of your web browser,\n"
-#~ "then restart the %s."
-#~ msgstr ""
-#~ "%s 試圖開啟網頁，\n"
-#~ "\t%s\n"
-#~ "但是找不到瀏覽器。\n"
-#~ "要修正這個問題，請將環境變數 BROWSER \n"
-#~ "設為您瀏覽器程式的路徑後重新啟動 %s。"
-
-#~ msgid "Retrying communications for project(s)..."
-#~ msgstr "重試與計畫的通訊中..."
-
-#~ msgid ""
-#~ "Required wizard file(s) are missing from the target server.\n"
-#~ "(lookup_account.php/create_account.php)\n"
-#~ msgstr ""
-#~ "此目標伺服器必須的 wizard 檔案遺失。\n"
-#~ "(lookup_account.php/create_account.php)\n"
-
-#~ msgid "User information"
-#~ msgstr "使用者資訊"
-
-#~ msgid "Account Manager URL"
-#~ msgstr "帳號管理員網址"
-
-#~ msgid "Enter the URL of the account manager's web site."
-#~ msgstr "請輸入帳號管理網站的網址。"
-
-#~ msgid "Close BOINC Manager Window."
-#~ msgstr "關閉 BOINC 管理員"
-
-#~ msgid "Exit the %s"
-#~ msgstr "離開 %s"
-
-#~ msgid "Attach to &project"
-#~ msgstr "加入計畫(&A)"
-
-#~ msgid "Attaching to project..."
-#~ msgstr "正在加入計畫..."
-
-#~ msgid "Removal from %s completed."
-#~ msgstr "從 %s 移除已完成。"
-
-#~ msgid "Removal succeeded!"
-#~ msgstr "成功移除！"
-
-#~ msgid "Write to disk at most every"
-#~ msgstr "寫入磁碟最多每"
-
-#~ msgid "ID"
-#~ msgstr "ID"
-
-#~ msgid "Priority"
-#~ msgstr "優先順序"
-
-#~ msgid "MessagesGrid"
-#~ msgstr "MessagesGrid"
-
-#~ msgid "Copying selected messages to Clipboard..."
-#~ msgstr "複製所選訊息到剪貼簿..."
-
-#~ msgid "Info"
-#~ msgstr "資訊"
-
-#~ msgid "Warning"
-#~ msgstr "警告"
-
-#~ msgid "ProjectsGrid"
-#~ msgstr "ProjectsGrid"
-
-#~ msgid "TransfersGrid"
-#~ msgstr "TransfersGrid"
-
-#~ msgid "Aborting transfer(s)..."
-#~ msgstr "中止檔案傳送中..."
-
-#~ msgid ""
-#~ "Are you sure you want to abort this file(s) transfer ?\n"
-#~ "NOTE: Aborting a transfer will invalidate a task and you\n"
-#~ "will not receive credit for it."
-#~ msgstr ""
-#~ "您確定要中止「%s」 的檔案傳輸嗎？\n"
-#~ "提示: 終止傳輸會使此工作無效且不會收到任何積分。"
-
-#~ msgid "Abort File Transfer(s)"
-#~ msgstr "中止檔案傳送"
-
-#~ msgid "TasksGrid"
-#~ msgstr "TasksGrid"
-
-#~ msgid ""
-#~ "We'll now guide you through the process of attaching\n"
-#~ "to a project."
-#~ msgstr "現在我們會引導您進行加入計畫的步驟。"
-
-#~ msgid "&Stop using%s"
-#~ msgstr "停止以 %s(&S)"
-
-#~ msgid ""
-#~ "We'll now remove this computer from %s.  From now on,\n"
-#~ "attach and detach projects directly from this computer.\n"
-#~ msgstr ""
-#~ "我們會從 %s 移除這台電腦。\n"
-#~ "從現在起，這台電腦能直接加入或退出計畫。\n"
-
-#~ msgid ""
-#~ "We'll now guide you through the process of attaching\n"
-#~ "to an account manager.\n"
-#~ "\n"
-#~ "If you want to attach to a single project, click Cancel,\n"
-#~ "then select the 'Attach to project' menu item instead."
-#~ msgstr ""
-#~ "現在我們會引導您進行加入帳號管理員的步驟。\n"
-#~ "\n"
-#~ "如果你只想加入單一計畫，請按「取消」，\n"
-#~ "然後從功能表裡選擇「加入計畫」。"
-
-#~ msgid "Debug Flags"
-#~ msgstr "除錯旗標"
-
-#~ msgid "Project Properties Failure"
-#~ msgstr "計畫內容失敗"
-
-#~ msgid "Project Properties URL Failure"
-#~ msgstr "計畫內容網址失敗"
-
-#~ msgid "Account Creation Disabled"
-#~ msgstr "帳號建立已停止。"
-
-#~ msgid "Account Already Exists"
-#~ msgstr "帳號已存在。"
-
-#~ msgid "Project Already Attached"
-#~ msgstr "計畫已加入。"
-
-#~ msgid "Project Attach Failure"
-#~ msgstr "加入計畫失敗"
-
-#~ msgid "Net Detection Failure"
-#~ msgstr "網路偵測失敗"
-
-#~ msgid ""
-#~ "You can copy and paste the URL from your browser's\n"
-#~ "address bar."
-#~ msgstr "您可以從瀏覽器的網址列複製網址後貼上。"
-
-#~ msgid "You are already attached to this project."
-#~ msgstr "您已加入此計畫。"
-
-#~ msgid "Enter account key"
-#~ msgstr "輸入帳號金鑰"
-
-#~ msgid ""
-#~ "This project uses an \"account key\" to identify you.\n"
-#~ "\n"
-#~ "Go to the project's web site to create an account. Your account\n"
-#~ "key will be emailed to you."
-#~ msgstr ""
-#~ "此計畫使用「帳號金鑰」識別您的身份。\n"
-#~ "\n"
-#~ "請前往計畫網站建立新帳號。\n"
-#~ "您的帳號金鑰會寄到您的信箱。"
-
-#~ msgid "An account key looks like:"
-#~ msgstr "帳號金鑰看起來像:"
-
-#~ msgid "82412313ac88e9a3638f66ea82186948"
-#~ msgstr "82412313ac88e9a3638f66ea82186948"
-
-#~ msgid "Account key:"
-#~ msgstr "帳號金鑰:"
-
-#~ msgid "&Accessible View"
-#~ msgstr "親和力介面(&S)"
-
-#~ msgid ""
-#~ "Accessible views are compatible with accessibility aids such as screen "
-#~ "readers."
-#~ msgstr "親和力介面能相容於類似螢幕閱讀器等親和力輔助工具。"
-
-#~ msgid "&Grid View"
-#~ msgstr "格線介面(&V)"
-
-#~ msgid ""
-#~ "%s is going to shutdown the core client it is currently connected to.\n"
-#~ "NOTE: Choosing 'OK' will cause the select new computer dialog to appear \n"
-#~ "so you can attach to a different core client."
-#~ msgstr ""
-#~ "%s 正準備關閉目前已連線的核心用戶端。\n"
-#~ "提示: 選擇「確定」會出現選擇新電腦的視窗，\n"
-#~ "你可以加入不同的核心用戶端。"
-
-#~ msgid "processors"
-#~ msgstr "個處理器"
-
-#~ msgid "Click here to disable displaying this message in the future."
-#~ msgstr "按一下這裡以後不要顯示此訊息。"
-
-#~ msgid "Language Selection:"
-#~ msgstr "語言選擇:"
-
-#~ msgid "What language should the manager display by default."
-#~ msgstr "預設要使用何種語言顯示。"
-
-#~ msgid "Reminder Frequency:"
-#~ msgstr "提示頻率:"
-
-#~ msgid ""
-#~ "How often, in minutes, should the manager remind you of possible "
-#~ "connection events."
-#~ msgstr "設定 BOINC 管理員要隔多久才提示您重要訊息。(以分鐘計)"
-
-#~ msgid ""
-#~ "To choose a project, click its name\n"
-#~ "or type its URL below.\n"
-#~ "Click 'www' to visit a project's web site."
-#~ msgstr ""
-#~ "要選擇計畫，請按計畫名稱或在下面輸入其網址。\n"
-#~ "按「www」連到計畫網站。"
-
-#~ msgid "  "
-#~ msgstr "  "
-
-#~ msgid "www"
-#~ msgstr "www"
-
-#~ msgid "Project Comm Failure"
-#~ msgstr "計畫通訊失敗"
-
-#~ msgid "Google Comm Failure"
-#~ msgstr "Google 通訊失敗"
-
-#~ msgid "Yahoo Comm Failure"
-#~ msgstr "Yahoo 通訊失敗"

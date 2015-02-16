@@ -1,22 +1,25 @@
+# BOINC web translation
 # Copyright (C) 2008 University of California
+# 
 # This file is distributed under the same license as BOINC.
+# 
 # FileID  : $Id$
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.03\n"
+"Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2014-01-30 11:35+0000\n"
-"Last-Translator: Miguel Filipe Paulino de Sousa <Miguel.veig@gmail.com>\n"
-"Language-Team: Portuguese <LL@li.org>\n"
-"Language: pt_PT\n"
+"PO-Revision-Date: 2015-02-09 00:18+0000\n"
+"Last-Translator: Rom Walton <romw@romwnet.org>\n"
+"Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: pt_PT\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1391081718.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Português"
@@ -59,9 +62,7 @@ msgstr "Inserir imagem: [img]http://image_url[/img]  (alt+p)"
 #: ../inc/bbcode_html.inc:35
 msgid ""
 "Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)"
-msgstr ""
-"Inserir URL: [url]http://url[/url] ou [url=http://url]URL texto[/url]  "
-"(alt+w)"
+msgstr "Inserir URL: [url]http://url[/url] ou [url=http://url]URL texto[/url]  (alt+w)"
 
 #: ../inc/bbcode_html.inc:42
 msgid "Font color"
@@ -70,8 +71,7 @@ msgstr "Cor da fonte"
 #: ../inc/bbcode_html.inc:43
 msgid ""
 "Font color: [color=red]text[/color]  Tip: you can also use color=#FF0000"
-msgstr ""
-"Cor da fonte: [color=red]texto[/color]  Dica: Pode tambem usar cor=#FF0000"
+msgstr "Cor da fonte: [color=red]texto[/color]  Dica: Pode tambem usar cor=#FF0000"
 
 #: ../inc/bbcode_html.inc:44 ../inc/bbcode_html.inc:59 ../inc/prefs.inc:638
 msgid "Default"
@@ -292,11 +292,9 @@ msgstr "Modificadas em último: %1"
 
 #: ../inc/forum.inc:640
 msgid ""
-"This post is not shown because the sender is on your 'ignore' list.  Click %"
-"1here%2 to view this post"
-msgstr ""
-"Este post não é mostrado porque o remetente está na sua lista de pessoas' "
-"ignoradas'. Carregue %1aqui%2 para ver este post"
+"This post is not shown because the sender is on your 'ignore' list.  Click "
+"%1here%2 to view this post"
+msgstr "Este post não é mostrado porque o remetente está na sua lista de pessoas' ignoradas'. Carregue %1aqui%2 para ver este post"
 
 #: ../inc/forum.inc:668 ../inc/forum.inc:679
 msgid "Report this post as offensive"
@@ -374,22 +372,7 @@ msgid ""
 "        <li> No abusive comments involving race, religion,\n"
 "            nationality, gender, class or sexuality.\n"
 "        "
-msgstr ""
-"\n"
-"        <ul>\n"
-"        <li> Os posts têm de ser 'amigáveis': não poderão conter\n"
-"              conteúdo que seja obsceno, conteúdo sexual\n"
-"              explícito ou sugestivo.\n"
-"        <li> Publicidade.\n"
-"        <li> Links para websites envolvendo conteúdo sexual,\n"
-"             jogos de azar, ou intolerâncias de outros tipos.\n"
-"         <li> Mensagens destinadas a importunar ou antoganizar outras "
-"pessoas,\n"
-"              ou para sequestrar um tópico.\n"
-"         <li> Mensagens que sejam deliberadamente hostis ou resultem em "
-"insultos.\n"
-"         <li> Comentários abusivos envolvendo raça, religião,\n"
-"              nacionalidade, sexo, classe ou sexualidade.\n"
+msgstr "\n        <ul>\n        <li> Os posts têm de ser 'amigáveis': não poderão conter\n              conteúdo que seja obsceno, conteúdo sexual\n              explícito ou sugestivo.\n        <li> Publicidade.\n        <li> Links para websites envolvendo conteúdo sexual,\n             jogos de azar, ou intolerâncias de outros tipos.\n         <li> Mensagens destinadas a importunar ou antoganizar outras pessoas,\n              ou para sequestrar um tópico.\n         <li> Mensagens que sejam deliberadamente hostis ou resultem em insultos.\n         <li> Comentários abusivos envolvendo raça, religião,\n              nacionalidade, sexo, classe ou sexualidade.\n        "
 
 #: ../inc/forum.inc:780
 msgid "Rules:"
@@ -447,27 +430,20 @@ msgstr "Apenas membros da equipa podem postar no fórum da equipa"
 msgid ""
 "In order to create a new thread in %1 you must have a certain amount of "
 "credit. This is to prevent and protect against abuse of the system."
-msgstr ""
-"Em ordem para criar um novo tópico no %1 tem que ter um certo número de "
-"créditos. Isto previne e protege contra abusos do sistema."
+msgstr "Em ordem para criar um novo tópico no %1 tem que ter um certo número de créditos. Isto previne e protege contra abusos do sistema."
 
 #: ../inc/forum.inc:1133
 msgid ""
 "You cannot create any more threads right now. Please wait a while before "
 "trying again. This delay has been enforced to protect against abuse of the "
 "system."
-msgstr ""
-"Não pode criar mais tópicos de momento. Por favor, aguarde um momento antes "
-"de tentar novamente. Este atraso foi forçado para protecção de abusos do "
-"sistema."
+msgstr "Não pode criar mais tópicos de momento. Por favor, aguarde um momento antes de tentar novamente. Este atraso foi forçado para protecção de abusos do sistema."
 
 #: ../inc/forum.inc:1140
 msgid ""
 "This thread is locked. Only forum moderators and administrators are allowed "
 "to post there."
-msgstr ""
-"Este tópico está bloqueado. Apenas moderadores do fórum e administradores "
-"podem postar aqui."
+msgstr "Este tópico está bloqueado. Apenas moderadores do fórum e administradores podem postar aqui."
 
 #: ../inc/forum.inc:1145
 msgid "Can't post to a hidden thread."
@@ -729,9 +705,7 @@ msgstr "% de tempo que o BOINC está em execução"
 #: ../inc/host.inc:189
 #, php-format
 msgid "While BOINC running, % of time host has an Internet connection"
-msgstr ""
-"Enquanto o BOINC está em execução, % de tempo que o computador anfitrião tem "
-"conexão à Internet"
+msgstr "Enquanto o BOINC está em execução, % de tempo que o computador anfitrião tem conexão à Internet"
 
 #: ../inc/host.inc:191
 #, php-format
@@ -930,8 +904,7 @@ msgstr "Para"
 
 #: ../inc/pm.inc:82
 msgid "User IDs or unique usernames, separated with commas"
-msgstr ""
-"IDs dos utilizadores ou nomes de utilizador únicos, separados com virgulas"
+msgstr "IDs dos utilizadores ou nomes de utilizador únicos, separados com virgulas"
 
 #: ../inc/pm.inc:85 ../user/pm.php:90 ../user/pm.php:139
 msgid "Subject"
@@ -957,9 +930,7 @@ msgstr "Não foi possível criar mensagem"
 msgid ""
 "You are not allowed to send privates messages so often. Please wait some "
 "time before sending more messages."
-msgstr ""
-"Não está autorizado a enviar mensagens privadas tão frequentemente. Por "
-"favor, aguarde algum tempo antes de enviar mais mensagens."
+msgstr "Não está autorizado a enviar mensagens privadas tão frequentemente. Por favor, aguarde algum tempo antes de enviar mais mensagens."
 
 #: ../inc/pm.inc:176 ../user/forum_forum.php:186
 msgid "unread"
@@ -977,9 +948,7 @@ msgstr "Mensagem privada"
 msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
-msgstr ""
-"Suspender trabalho quando o computador está ligado apenas à bateria? %1 Só "
-"relevante para portáteis %2"
+msgstr "Suspender trabalho quando o computador está ligado apenas à bateria? %1 Só relevante para portáteis %2"
 
 #: ../inc/prefs.inc:85
 msgid "Suspend work while computer is in use?"
@@ -988,9 +957,7 @@ msgstr "Suspender trabalho quando o computador estiver em utilização?"
 #: ../inc/prefs.inc:91
 msgid ""
 "Suspend GPU work while computer is in use? %1 Enforced by version 6.6.21+ %2"
-msgstr ""
-"Suspender trabalho da GPU quando o computador estiver em utilização? %1 "
-"Forçado pela versão 6.6.21+ %2"
+msgstr "Suspender trabalho da GPU quando o computador estiver em utilização? %1 Forçado pela versão 6.6.21+ %2"
 
 #: ../inc/prefs.inc:99
 msgid "'In use' means mouse/keyboard activity in last"
@@ -1004,30 +971,23 @@ msgstr "minutos"
 msgid ""
 "Suspend work if no mouse/keyboard activity in last %1 Needed to enter low-"
 "power mode on some computers %2"
-msgstr ""
-"Suspender trabalho se não houver actividade do rato/teclado nos últimos %1 "
-"Necessário definir baixo consumo em alguns computadores %2"
+msgstr "Suspender trabalho se não houver actividade do rato/teclado nos últimos %1 Necessário definir baixo consumo em alguns computadores %2"
 
 #: ../inc/prefs.inc:114
 msgid ""
 "Suspend work when non-BOINC CPU usage is above %1 0 means no "
 "restriction<br>Enforced by version 6.10.30+ %2"
-msgstr ""
-"Suspender trabalho se o uso do CPU que não o do BOINC for abaixo de %1 0 "
-"significa sem restrições<br>Forçado pela versão 6.10.30+ %2"
+msgstr "Suspender trabalho se o uso do CPU que não o do BOINC for abaixo de %1 0 significa sem restrições<br>Forçado pela versão 6.10.30+ %2"
 
 #: ../inc/prefs.inc:122
 msgid "Do work only between the hours of %1 No restriction if equal %2"
-msgstr ""
-"Executar trabalho apenas entre as horas de %1 Sem restrições se igual a %2"
+msgstr "Executar trabalho apenas entre as horas de %1 Sem restrições se igual a %2"
 
 #: ../inc/prefs.inc:130
 msgid ""
 "Leave tasks in memory while suspended? %1 Suspended tasks will consume swap "
 "space if 'yes' %2"
-msgstr ""
-"Deixar tarefas em memória enquanto suspensas? %1 Suspender tarefas irá "
-"consumir espaço swap se 'sim' %2"
+msgstr "Deixar tarefas em memória enquanto suspensas? %1 Suspender tarefas irá consumir espaço swap se 'sim' %2"
 
 #: ../inc/prefs.inc:139
 msgid "Switch between tasks every %1 Recommended: 60 minutes %2"
@@ -1069,9 +1029,7 @@ msgstr "GB"
 
 #: ../inc/prefs.inc:180
 msgid "Disk: leave free at least %1 Values smaller than %2 are ignored %3"
-msgstr ""
-"Disco: deixar livre pelo menos %1 Valores mais pequenos que %2  são "
-"ignorados %3"
+msgstr "Disco: deixar livre pelo menos %1 Valores mais pequenos que %2  são ignorados %3"
 
 #: ../inc/prefs.inc:191 ../inc/prefs.inc:201 ../inc/prefs.inc:206
 #: ../inc/prefs.inc:211
@@ -1101,8 +1059,7 @@ msgstr "Memória: quando o computador não está em utilização, usar no máxim
 
 #: ../inc/prefs.inc:218
 msgid "Maintain enough tasks to keep busy for at least%1(max 10 days).%2"
-msgstr ""
-"Manter tarefas suficiente para manter ocupado pelo menos%1(máx10 dias).%2"
+msgstr "Manter tarefas suficiente para manter ocupado pelo menos%1(máx10 dias).%2"
 
 #: ../inc/prefs.inc:223 ../inc/prefs.inc:228 ../inc/prefs.inc:270
 #: ../inc/util.inc:274
@@ -1117,17 +1074,13 @@ msgstr "... e um adicional"
 msgid ""
 "Confirm before connecting to Internet? %1 Matters only if you have a modem, "
 "ISDN or VPN connection %2"
-msgstr ""
-"Confirmar antes de se conectar à Internet? %1 Só relevante se tiver um "
-"modem, ISDN ou uma conexão VPN %2"
+msgstr "Confirmar antes de se conectar à Internet? %1 Só relevante se tiver um modem, ISDN ou uma conexão VPN %2"
 
 #: ../inc/prefs.inc:241
 msgid ""
 "Disconnect when done? %1 Matters only if you have a modem, ISDN or VPN "
 "connection %2"
-msgstr ""
-"Desligar quando completo? %1 Só relevante se tiver um modem, ISDN ou uma "
-"conecção VPN %2"
+msgstr "Desligar quando completo? %1 Só relevante se tiver um modem, ISDN ou uma conecção VPN %2"
 
 #: ../inc/prefs.inc:249
 msgid "Maximum download rate:"
@@ -1156,24 +1109,17 @@ msgstr "Mbytes a cada"
 #: ../inc/prefs.inc:274
 msgid ""
 "Skip image file verification? %1 Check this ONLY if your Internet provider "
-"modifies image files (UMTS does this, for example). %2 Skipping verification "
-"reduces the security of BOINC. %3"
-msgstr ""
-"Saltar verificação da imagem do ficheiro? %1 Assinale esta opção APENAS se o "
-"seu fornecedor de Internet modifica o ficheiro da imagem (o UMTS faz isto, "
-"por exemplo). %2 Saltar a verificação reduz a segurança do BOINC. %3"
+"modifies image files (UMTS does this, for example). %2 Skipping verification"
+" reduces the security of BOINC. %3"
+msgstr "Saltar verificação da imagem do ficheiro? %1 Assinale esta opção APENAS se o seu fornecedor de Internet modifica o ficheiro da imagem (o UMTS faz isto, por exemplo). %2 Saltar a verificação reduz a segurança do BOINC. %3"
 
 #: ../inc/prefs.inc:287
 msgid ""
 "Resource share %1 Determines the proportion of your computer's resources "
-"allocated to this project. Example: if you participate in two BOINC projects "
-"with resource shares of 100 and 200, the first will get 1/3 of your "
+"allocated to this project. Example: if you participate in two BOINC projects"
+" with resource shares of 100 and 200, the first will get 1/3 of your "
 "resources and the second will get 2/3. %2"
-msgstr ""
-"Partilha de recursos %1 Determina a proporção dos recursos do seu computador "
-"dedicados a este projecto. Exemplo: se participa em dois projectos BOINC "
-"com recursos partilhados de 100 e 200, o primeiro obterá 1/3 dos recursos e "
-"o segundo obterá 2/3. %2"
+msgstr "Partilha de recursos %1 Determina a proporção dos recursos do seu computador dedicados a este projecto. Exemplo: se participa em dois projectos BOINC com recursos partilhados de 100 e 200, o primeiro obterá 1/3 dos recursos e o segundo obterá 2/3. %2"
 
 #: ../inc/prefs.inc:298
 msgid "Accelerate GPU tasks by dedicating a CPU to each one?"
@@ -1199,16 +1145,13 @@ msgstr "Usar GPU Intel %1 Forçado pela versão 7.2+ %s"
 msgid ""
 "Run test applications? %1 This helps us develop applications, but may cause "
 "jobs to fail on your computer %2"
-msgstr ""
-"Executar aplicações de teste? %1 Isto irá nos ajudar a desenvolver "
-"aplicações, mas pode provocar que os trabalhos falhem no seu computador %2"
+msgstr "Executar aplicações de teste? %1 Isto irá nos ajudar a desenvolver aplicações, mas pode provocar que os trabalhos falhem no seu computador %2"
 
 #: ../inc/prefs.inc:367
 msgid ""
-"Emails will be sent from %1; make sure your spam filter accepts this address."
-msgstr ""
-"Emails serão enviados de %1; confirme que o seu filtro de spam aceita este "
-"endereço."
+"Emails will be sent from %1; make sure your spam filter accepts this "
+"address."
+msgstr "Emails serão enviados de %1; confirme que o seu filtro de spam aceita este endereço."
 
 #: ../inc/prefs.inc:374
 msgid "Is it OK for %1 and your team (if any) to email you?"
@@ -1233,16 +1176,13 @@ msgstr "Utilização de rede"
 #: ../inc/prefs.inc:392
 msgid ""
 "These preferences apply to all the BOINC projects in which you participate."
-msgstr ""
-"Estas preferências aplicam-se a todos os projectos BOINC em que participa."
+msgstr "Estas preferências aplicam-se a todos os projectos BOINC em que participa."
 
 #: ../inc/prefs.inc:395
 msgid ""
-"%1Unable to update preferences.%2 The values marked in red below were out of "
-"range or not numeric."
-msgstr ""
-"%1Não foi possível actualizar as preferências.%2 Os valores marcados abaixo "
-"a vermelho ficaram fora de alcance ou não são numéricos."
+"%1Unable to update preferences.%2 The values marked in red below were out of"
+" range or not numeric."
+msgstr "%1Não foi possível actualizar as preferências.%2 Os valores marcados abaixo a vermelho ficaram fora de alcance ou não são numéricos."
 
 #: ../inc/prefs.inc:445
 msgid "bad venue: %1"
@@ -1321,9 +1261,7 @@ msgstr "Estas aplicam-se a todos os projectos BOINC em que participa."
 msgid ""
 "On computers participating in multiple projects, the most recently modified "
 "preferences will be used."
-msgstr ""
-"Em computadores que participem em múltiplos projectos, as preferências "
-"utilizadas serão as mais recentes."
+msgstr "Em computadores que participem em múltiplos projectos, as preferências utilizadas serão as mais recentes."
 
 #: ../inc/prefs.inc:889
 msgid "These preferences do not apply to Android devices."
@@ -1353,17 +1291,13 @@ msgstr "e"
 msgid ""
 "Your profile will be made visible to other people as soon as it has been "
 "approved by the project. This may take up to a few days."
-msgstr ""
-"O seu perfil ficará visível a outras pessoas assim que for aprovado pelo "
-"projecto. Isto poderá levar alguns dias."
+msgstr "O seu perfil ficará visível a outras pessoas assim que for aprovado pelo projecto. Isto poderá levar alguns dias."
 
 #: ../inc/profile.inc:92
 msgid ""
 "Your profile has been marked as unacceptable. It is not visible to other "
 "people. Please change it."
-msgstr ""
-"O seu perfil foi definido como inaceitável. Não está visivel a outras "
-"pessoas. Por favor altere-o."
+msgstr "O seu perfil foi definido como inaceitável. Não está visivel a outras pessoas. Por favor altere-o."
 
 #: ../inc/profile.inc:172 ../user/friend.php:105 ../user/friend.php:172
 msgid "Database error"
@@ -1373,10 +1307,7 @@ msgstr "Erro da base de dados"
 msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
 "are displayed only to logged-in users. We apologize for this inconvenience."
-msgstr ""
-"Para prevenir spam, perfis de utilizadores com uma média de créditos "
-"inferior a %1 são visiveis apenas a utilizadores logados. Pedimos desculpa "
-"pela inconveniência."
+msgstr "Para prevenir spam, perfis de utilizadores com uma média de créditos inferior a %1 são visiveis apenas a utilizadores logados. Pedimos desculpa pela inconveniência."
 
 #: ../inc/profile.inc:197
 msgid "User is banished"
@@ -1854,9 +1785,7 @@ msgstr "Juntar-se a esta equipa"
 msgid ""
 "Note: if 'OK to email' is set in your project preferences, joining a team "
 "gives its founder access to your email address."
-msgstr ""
-"Nota: Se o 'OK para o email' está definido nas preferências do projecto, "
-"juntar-se a uma equipa dá ao fundador acesso ao seu endereço de email."
+msgstr "Nota: Se o 'OK para o email' está definido nas preferências do projecto, juntar-se a uma equipa dá ao fundador acesso ao seu endereço de email."
 
 #: ../inc/team.inc:140
 msgid "Not accepting new members"
@@ -1936,20 +1865,15 @@ msgstr "Esta operação requer privilégios de administrador da equipa"
 
 #: ../inc/team.inc:422
 msgid ""
-"WARNING: this is a BOINC-wide team. If you make changes here, they will soon "
-"be overwritten. Edit the %1BOINC-wide team%2 instead."
-msgstr ""
-"ATENÇÃO: esta é uma equipa ampla do BOINC. Se fizer alterações aqui, elas "
-"brevemente serão re-escritas. Edite a %1equipa ampla do BOINC%2 em "
-"alternativa."
+"WARNING: this is a BOINC-wide team. If you make changes here, they will soon"
+" be overwritten. Edit the %1BOINC-wide team%2 instead."
+msgstr "ATENÇÃO: esta é uma equipa ampla do BOINC. Se fizer alterações aqui, elas brevemente serão re-escritas. Edite a %1equipa ampla do BOINC%2 em alternativa."
 
 #: ../inc/team.inc:428
 msgid ""
 "%1Privacy note%2: if you create a team, your project preferences (resource "
 "share, graphics preferences) will be visible to the public."
-msgstr ""
-"%1Nota privada%2: se criar uma equipa, as preferências do projecto (partilha "
-"de recursos, preferências gráficas) ficarão visíveis ao público."
+msgstr "%1Nota privada%2: se criar uma equipa, as preferências do projecto (partilha de recursos, preferências gráficas) ficarão visíveis ao público."
 
 #: ../inc/team.inc:432
 msgid "Team name, text version"
@@ -2107,7 +2031,6 @@ msgstr "ID do utilizador"
 msgid "Used in community functions"
 msgstr "Utilizado nas funções da comunidade"
 
-# 91%
 #: ../inc/user.inc:216 ../user/weak_auth.php:25
 msgid "Account keys"
 msgstr "Chaves da conta"
@@ -2262,9 +2185,7 @@ msgstr "Página de estado do servidor"
 msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
-msgstr ""
-"Ocorreu um erro na base de dados aquando do seu pedido; por favor tente mais "
-"tarde."
+msgstr "Ocorreu um erro na base de dados aquando do seu pedido; por favor tente mais tarde."
 
 #: ../inc/util.inc:257
 msgid "Unable to handle request"
@@ -2283,10 +2204,9 @@ msgid "sec"
 msgstr "seg"
 
 #: ../inc/util.inc:444
-msgid "Link has timed out. Please click Back, refresh the page, and try again."
-msgstr ""
-"Expirou o tempo limite do link. Por favor, carregue em Voltar Atrás, faça "
-"actualizar a página e depois tente novamente."
+msgid ""
+"Link has timed out. Please click Back, refresh the page, and try again."
+msgstr "Expirou o tempo limite do link. Por favor, carregue em Voltar Atrás, faça actualizar a página e depois tente novamente."
 
 #: ../inc/util.inc:513
 msgid "View the profile of %1"
@@ -2302,9 +2222,7 @@ msgstr "Projecto em baixo para manutenção"
 
 #: ../inc/util.inc:799
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
-msgstr ""
-"%1 está temporariamente em baixo para manutenção. Por favor, tente mais "
-"tarde."
+msgstr "%1 está temporariamente em baixo para manutenção. Por favor, tente mais tarde."
 
 #: ../inc/util.inc:817
 msgid "Unable to connect to database - please try again later"
@@ -2312,8 +2230,7 @@ msgstr "Não foi possivel conectar à base de dados - por favor, tente mais tard
 
 #: ../inc/util.inc:821
 msgid "Unable to select database - please try again later"
-msgstr ""
-"Não foi possivel seleccionar a base de dados - por favor, tente mais tarde"
+msgstr "Não foi possivel seleccionar a base de dados - por favor, tente mais tarde"
 
 #: ../inc/util_ops.inc:109 ../user/get_passwd.php:72
 msgid "Stay logged in on this computer"
@@ -2325,8 +2242,7 @@ msgstr "Finalizar registo da conta"
 
 #: ../user/account_finish.php:41 ../user/create_account_form.php:79
 msgid "Identifies you on our web site. Use your real name or a nickname."
-msgstr ""
-"indentifica-o no seu website. Use o seu nome real ou um nome de utilizador."
+msgstr "indentifica-o no seu website. Use o seu nome real ou um nome de utilizador."
 
 #: ../user/account_finish.php:45 ../user/create_account_form.php:98
 msgid "Select the country you want to represent, if any."
@@ -2363,11 +2279,7 @@ msgid ""
 "work for one or more of these applications will be assigned to your "
 "computer. The current version of the application will be downloaded to your "
 "computer. This happens automatically; you don't have to do anything."
-msgstr ""
-"%1 actualmente tem as seguintes aplicações. Quando participa em %1, o "
-"trabalho para uma ou mais destas aplicações será atribuída a este "
-"computador. O download da versão actual da aplicação será feito para o seu "
-"computador. Isto acontece automaticamente; não tem que fazer nada."
+msgstr "%1 actualmente tem as seguintes aplicações. Quando participa em %1, o trabalho para uma ou mais destas aplicações será atribuída a este computador. O download da versão actual da aplicação será feito para o seu computador. Isto acontece automaticamente; não tem que fazer nada."
 
 #: ../user/apps.php:50
 msgid "Platform"
@@ -2391,12 +2303,7 @@ msgid ""
 "It's similar to HTML, but simpler. The tags start with a [ (where you would\n"
 "have used %1 in HTML) and end with ] (where you would have used %2 in\n"
 "HTML)."
-msgstr ""
-"As tags BBCode deixam-o formatar o texto no seu perfil e nos posts nos "
-"fóruns.\n"
-"É similar ao HTML, mas mais simples. As tags começam com um [ (onde usava\n"
-"%1 em HTML) e termina com ] (onde usava %2 em\n"
-"HTML)."
+msgstr "As tags BBCode deixam-o formatar o texto no seu perfil e nos posts nos fóruns.\nÉ similar ao HTML, mas mais simples. As tags começam com um [ (onde usava\n%1 em HTML) e termina com ] (onde usava %2 em\nHTML)."
 
 #: ../user/bbcode.php:31
 msgid "Examples"
@@ -2486,9 +2393,7 @@ msgstr "use para linkar ao SVN de alterações no website do BOINC"
 msgid ""
 "If you don't close a tag or don't specify a parameter correctly,\n"
 "the raw tag itself will display instead of the formatted text."
-msgstr ""
-"Se não fechar uma tag ou não especificar um parâmetro correctamente,\n"
-"a própria tag não formatada aparecerá em vez do texto formatado."
+msgstr "Se não fechar uma tag ou não especificar um parâmetro correctamente,\na própria tag não formatada aparecerá em vez do texto formatado."
 
 #: ../user/bs_sample_index.php:44
 msgid "Participants"
@@ -2570,15 +2475,11 @@ msgstr "Não é possivel criar conta"
 
 #: ../user/create_account_action.php:29
 msgid "Click your browser's <b>Back</b> button to try again."
-msgstr ""
-"Carregue no botão <b>Voltar atrás</b> do seu navegador para tentar outra "
-"vez."
+msgstr "Carregue no botão <b>Voltar atrás</b> do seu navegador para tentar outra vez."
 
 #: ../user/create_account_action.php:47
 msgid "Your reCAPTCHA response was not correct. Please try again."
-msgstr ""
-"A resposta reCAPTCHA nA resposta reCAPTCHA não está correcta. Por favor, "
-"tente novamente."
+msgstr "A resposta reCAPTCHA nA resposta reCAPTCHA não está correcta. Por favor, tente novamente."
 
 #: ../user/create_account_action.php:70
 msgid "You must supply an invitation code to create an account."
@@ -2590,10 +2491,9 @@ msgstr "O código de convite que inseriu não é válido."
 
 #: ../user/create_account_action.php:84
 msgid ""
-"Invalid email address: you must enter a valid address of the form name@domain"
-msgstr ""
-"Endereço de email inválido: tem de inserir um endereço válido no formato "
-"nome@dominio"
+"Invalid email address: you must enter a valid address of the form "
+"name@domain"
+msgstr "Endereço de email inválido: tem de inserir um endereço válido no formato nome@dominio"
 
 #: ../user/create_account_action.php:88
 msgid "There's already an account with that email address."
@@ -2609,9 +2509,7 @@ msgstr "Palavras passe podem apenas incluir caracteres ASCII."
 
 #: ../user/create_account_action.php:106 ../user/edit_passwd_action.php:45
 msgid "New password is too short: minimum password length is %1 characters."
-msgstr ""
-"A nova palavra passe é demasiado pequena: o comprimento minimo da palavra "
-"passe é de %1 caracteres."
+msgstr "A nova palavra passe é demasiado pequena: o comprimento minimo da palavra passe é de %1 caracteres."
 
 #: ../user/create_account_action.php:127
 msgid "Couldn't create account"
@@ -2621,18 +2519,13 @@ msgstr "Não foi possivel criar conta"
 msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
-msgstr ""
-"NOTA: Se usa o Gestor BOINC, não use este formulário. Apenas execute o "
-"BOINC, seleccione Adicionar Projecto e insira um endereço de email e "
-"palavra-passe."
+msgstr "NOTA: Se usa o Gestor BOINC, não use este formulário. Apenas execute o BOINC, seleccione Adicionar Projecto e insira um endereço de email e palavra-passe."
 
 #: ../user/create_account_form.php:61
 msgid ""
 "This account will belong to the team %1 and will have the project "
 "preferences of its founder."
-msgstr ""
-"Esta conta irá pertencer à equipa %1 e terá as preferências do projecto do "
-"seu fundador."
+msgstr "Esta conta irá pertencer à equipa %1 e terá as preferências do projecto do seu fundador."
 
 #: ../user/create_account_form.php:73
 msgid "Invitation Code"
@@ -2680,11 +2573,9 @@ msgstr "%1 A imagem do seu perfil é mostrada à esquerda."
 
 #: ../user/create_profile.php:66
 msgid ""
-"To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
-"or less)."
-msgstr ""
-"Para a substituir, carregue no botão \"Procurar em\" e seleccione um ficheiro "
-"JPEG ou PNG (%1 ou menos)."
+"To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1"
+" or less)."
+msgstr "Para a substituir, carregue no botão \"Procurar em\" e seleccione um ficheiro JPEG ou PNG (%1 ou menos)."
 
 #: ../user/create_profile.php:69
 msgid "To remove it from your profile, check this box:"
@@ -2694,10 +2585,7 @@ msgstr "Para a remover do perfil, seleccione esta caixa:"
 msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
-msgstr ""
-"Se gostava de incluir uma imagem com o seu perfil, carregue no botão "
-"\"Procurar em\" e seleccione um ficheiro JPEG ou PNG. Por favor, seleccione "
-"imagens de%1 ou menos."
+msgstr "Se gostava de incluir uma imagem com o seu perfil, carregue no botão \"Procurar em\" e seleccione um ficheiro JPEG ou PNG. Por favor, seleccione imagens de%1 ou menos."
 
 #: ../user/create_profile.php:89
 msgid "Language"
@@ -2727,30 +2615,23 @@ msgstr "O formato da imagem que fez upload não é suportado."
 msgid ""
 "Your %1profile%2 lets you share your opinions and background with the %3 "
 "community."
-msgstr ""
-"O seu %1perfil%2 permite-lhe partilhar as suas opiniões e os fundos de "
-"trabalho com a %3 comunidade."
+msgstr "O seu %1perfil%2 permite-lhe partilhar as suas opiniões e os fundos de trabalho com a %3 comunidade."
 
 #: ../user/create_profile.php:213
 msgid "Your ReCaptcha response was not correct.  Please try again."
-msgstr ""
-"As palavras que escreveu não estão correctas. Por favor, tente novamente."
+msgstr "As palavras que escreveu não estão correctas. Por favor, tente novamente."
 
 #: ../user/create_profile.php:222
 msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
-msgstr ""
-"A sua primeira resposta foi indicada como spam pelo sistema Akismet anti-"
-"spam. Por favor, modifique o texto e tente novamente."
+msgstr "A sua primeira resposta foi indicada como spam pelo sistema Akismet anti-spam. Por favor, modifique o texto e tente novamente."
 
 #: ../user/create_profile.php:230
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
-msgstr ""
-"A sua segunda resposta foi indicada como spam pelo sistema Akismet anti-"
-"spam. Por favor, modifique o texto e tente novamente."
+msgstr "A sua segunda resposta foi indicada como spam pelo sistema Akismet anti-spam. Por favor, modifique o texto e tente novamente."
 
 #: ../user/create_profile.php:246
 msgid "Your profile submission was empty."
@@ -2783,11 +2664,9 @@ msgstr "Criar um perfil"
 
 #: ../user/create_profile.php:343
 msgid ""
-"To prevent spam, an average credit of %1 or greater is required to create or "
-"edit a profile.  We apologize for this inconvenience."
-msgstr ""
-"Para prevenir spam, uma média de créditos de %1 ou superior é necessário "
-"para criar ou editar um perfil. Pedimos desculpa pela incoveniência."
+"To prevent spam, an average credit of %1 or greater is required to create or"
+" edit a profile.  We apologize for this inconvenience."
+msgstr "Para prevenir spam, uma média de créditos de %1 ou superior é necessário para criar ou editar um perfil. Pedimos desculpa pela incoveniência."
 
 #: ../user/delete_account.php:57
 msgid "Couldn't delete account"
@@ -2812,20 +2691,13 @@ msgid ""
 "including your profile and message-board posts.\n"
 "No jobs will be issued to any computers attached\n"
 "to this account."
-msgstr ""
-"Eliminar a sua conta irá remover toda a sua\n"
-"informação pessoal dos nossos servidores,\n"
-"incluindo o seu perfil e posts nos fóruns.\n"
-"Nenhum trabalho será imitido para qualquer computador ligado\n"
-"a esta conta."
+msgstr "Eliminar a sua conta irá remover toda a sua\ninformação pessoal dos nossos servidores,\nincluindo o seu perfil e posts nos fóruns.\nNenhum trabalho será imitido para qualquer computador ligado\na esta conta."
 
 #: ../user/delete_account.php:73
 msgid ""
 "This cannot be undone.\n"
 "Once your account has been deleted, you cannot get it back."
-msgstr ""
-"Esta acção não é reversivel.\n"
-"Assim que a sua conta seja eliminada, não pode recuperá-la."
+msgstr "Esta acção não é reversivel.\nAssim que a sua conta seja eliminada, não pode recuperá-la."
 
 #: ../user/delete_account.php:76
 msgid "Are you sure you want to delete your account?"
@@ -2877,18 +2749,13 @@ msgid ""
 "Deleted profiles are gone forever and cannot be recovered --\n"
 "you will have to start from scratch\n"
 "if you want another profile in the future."
-msgstr ""
-"Os perfis são eliminados para sempre e não podem ser recuperados --\n"
-"terá que começar do início\n"
-"se quiser outro perfil no futuro."
+msgstr "Os perfis são eliminados para sempre e não podem ser recuperados --\nterá que começar do início\nse quiser outro perfil no futuro."
 
 #: ../user/delete_profile.php:48
 msgid ""
 "If you're sure, click 'Yes'\n"
 "to remove your profile from our database."
-msgstr ""
-"Se tem a certeza, carregue em 'Sim'\n"
-"para remover o seu perfil da nossa base de dados."
+msgstr "Se tem a certeza, carregue em 'Sim'\npara remover o seu perfil da nossa base de dados."
 
 #: ../user/delete_profile.php:52
 msgid "Delete my profile"
@@ -2912,10 +2779,9 @@ msgstr "O seu donativo para foi bem sucedido."
 
 #: ../user/donated.php:30
 msgid ""
-"Your donation will be added to the progress bar after confirmation by PayPal."
-msgstr ""
-"O seu donativo será adicionado à barra de progresso depois da confirmação "
-"pelo Paypal."
+"Your donation will be added to the progress bar after confirmation by "
+"PayPal."
+msgstr "O seu donativo será adicionado à barra de progresso depois da confirmação pelo Paypal."
 
 #: ../user/donated.php:32
 msgid "You have canceled your donation."
@@ -2933,9 +2799,7 @@ msgstr "%1 donativos"
 msgid ""
 "This project is accepting donations via\n"
 "%1."
-msgstr ""
-"Este projecto está a aceitar donativo através de\n"
-"%1"
+msgstr "Este projecto está a aceitar donativo através de\n%1"
 
 #: ../user/donations.php:42
 msgid ""
@@ -2950,20 +2814,7 @@ msgid ""
 "        to see the donation amount equivalent in different currencies\n"
 "        (please note that the rates are only estimates\n"
 "         and the actual amount may differ)."
-msgstr ""
-"Para fazer um donativo, insira o montante que quer doar usando os campos "
-"abaixo.\n"
-"        O PayPal aceita vários tipos de moeda\n"
-"        (Dólares Canadianos, Euros, Libras, Dólares Americanos,\n"
-"         Yen, Dólares Australianos, Dólares da Nova Zelândia,\n"
-"         Francos Suiçoes. Dólares de Hong Kong, Dólares de Singapura, Coroa "
-"Sueca,\n"
-"         Coroa Dinamarquesa, Zlótis Polacos, Coroa Norueguesa,\n"
-"         Florins Hungaros, Coroa Checa).\n"
-"         Pode usar o conversor de moeda incluido\n"
-"         para ver o valor da doação equivalente em diferentes moedas\n"
-"         (note que as taxas são apenas estimativas\n"
-"         e o valor actual pode variar)."
+msgstr "Para fazer um donativo, insira o montante que quer doar usando os campos abaixo.\n        O PayPal aceita vários tipos de moeda\n        (Dólares Canadianos, Euros, Libras, Dólares Americanos,\n         Yen, Dólares Australianos, Dólares da Nova Zelândia,\n         Francos Suiçoes. Dólares de Hong Kong, Dólares de Singapura, Coroa Sueca,\n         Coroa Dinamarquesa, Zlótis Polacos, Coroa Norueguesa,\n         Florins Hungaros, Coroa Checa).\n         Pode usar o conversor de moeda incluido\n         para ver o valor da doação equivalente em diferentes moedas\n         (note que as taxas são apenas estimativas\n         e o valor actual pode variar)."
 
 #: ../user/donations.php:316
 msgid "Amount you would like to donate"
@@ -2981,10 +2832,7 @@ msgstr "Donativo anónimo"
 msgid ""
 "Select this if you dont want your name and account number displayed in\n"
 "donator lists.<br>If not checked, you will be recorded as user ID %1"
-msgstr ""
-"Seleccione aqui se não quiser o seu nome e número de conta mostrador na\n"
-"lista de doadores.<br>Se não seleccionado, será gravado como ID de "
-"utilizador %1"
+msgstr "Seleccione aqui se não quiser o seu nome e número de conta mostrador na\nlista de doadores.<br>Se não seleccionado, será gravado como ID de utilizador %1"
 
 #: ../user/donations.php:324
 msgid "To assign the donation with your user ID, please log in."
@@ -3009,21 +2857,14 @@ msgstr "Pode fazer o download de aplicação em várias categorias."
 #: ../user/download_network.php:31
 msgid ""
 "These applications are not endorsed by %1 and you use them at your own risk."
-msgstr ""
-"Estas aplicações não estão aprovadas pelo %1 e está a usá-las por sua conta "
-"e risco."
+msgstr "Estas aplicações não estão aprovadas pelo %1 e está a usá-las por sua conta e risco."
 
 #: ../user/download_network.php:33
 msgid ""
 "We do not provide instructions for installing these applications.\n"
-"However, the author may have provided some help on installing or "
-"uninstalling the application. \n"
+"However, the author may have provided some help on installing or uninstalling the application. \n"
 "If this is not enough you should contact the author."
-msgstr ""
-"Não fornecemos instruções para instalar estas aplicações.\n"
-"No entanto, o autor pode lhe fornecer ajuda a instalar ou desinstalar a "
-"aplicação.\n"
-"Se não for suficiente, deve contactar o autor."
+msgstr "Não fornecemos instruções para instalar estas aplicações.\nNo entanto, o autor pode lhe fornecer ajuda a instalar ou desinstalar a aplicação.\nSe não for suficiente, deve contactar o autor."
 
 #: ../user/download_network.php:36
 msgid "Instructions for installing and running BOINC are %1here%2."
@@ -3065,9 +2906,7 @@ msgstr "Por favor. %1valide este endereço de email%2."
 msgid ""
 "We can't update your email address due to a database problem.  Please try "
 "again later."
-msgstr ""
-"Não foi possivel actualizar o seu endereço de email devido a um problema na "
-" base de dados. Por favor, tente mais tarde."
+msgstr "Não foi possivel actualizar o seu endereço de email devido a um problema na  base de dados. Por favor, tente mais tarde."
 
 #: ../user/edit_email_form.php:27 ../user/edit_email_form.php:51
 msgid "Change email address"
@@ -3097,9 +2936,7 @@ msgstr "Confirmar o reset"
 msgid ""
 "This action will erase any changes you have made in your community "
 "preferences. To cancel, click your browser's Back button."
-msgstr ""
-"Esta acção apagará quaisquer mudanças que tenha feito nas preferências da "
-"comunidade. Para cancelar, carregue no botão voltar atrás do seu navegador."
+msgstr "Esta acção apagará quaisquer mudanças que tenha feito nas preferências da comunidade. Para cancelar, carregue no botão voltar atrás do seu navegador."
 
 #: ../user/edit_forum_preferences_action.php:38
 msgid "Reset preferences"
@@ -3111,9 +2948,7 @@ msgstr "Erro: Tipo de ficheiro incorrecto, apenas PNG e JPEG são suportados."
 
 #: ../user/edit_forum_preferences_action.php:114
 msgid "Your signature was too long, please keep it less than 250 characters."
-msgstr ""
-"A sua assinatura é demasiado longa, por favor mantenha-a com menos de 250 "
-"caracteres"
+msgstr "A sua assinatura é demasiado longa, por favor mantenha-a com menos de 250 caracteres"
 
 #: ../user/edit_forum_preferences_action.php:132
 #: ../user/edit_forum_preferences_action.php:146
@@ -3124,9 +2959,7 @@ msgstr "Não existe tal utilizador: %1"
 msgid ""
 "How should we notify you of new private messages, friend requests, posts in "
 "subscribed threads, and other events?"
-msgstr ""
-"Como é que devemos notificá-lo de novas mensagens privadas, solicitações de "
-"amizade, posts em tópicos subscritos e outros eventos?"
+msgstr "Como é que devemos notificá-lo de novas mensagens privadas, solicitações de amizade, posts em tópicos subscritos e outros eventos?"
 
 #: ../user/edit_forum_preferences_form.php:57
 msgid "On my Account page (no email)"
@@ -3185,11 +3018,7 @@ msgid ""
 "Check out %1various free services%2\n"
 "<br> providing dynamic 'signature images'\n"
 "<br> showing your latest credit info, project news, etc."
-msgstr ""
-"Verifique %1vários serviços grátis%2\n"
-"<br> fornecendo 'imagens de assinatura' dinâmicas'\n"
-"<br> mostrando informação sobre os seus ultimos créditos, novidades do "
-"projecto, etc."
+msgstr "Verifique %1vários serviços grátis%2\n<br> fornecendo 'imagens de assinatura' dinâmicas'\n<br> mostrando informação sobre os seus ultimos créditos, novidades do projecto, etc."
 
 #: ../user/edit_forum_preferences_form.php:104
 msgid "characters remaining"
@@ -3317,9 +3146,7 @@ msgstr "A sua palavra passe foi alterada."
 msgid ""
 "We can't update your password due to a database problem. Please try again "
 "later."
-msgstr ""
-"Não foi possivel actualizar a sua palavra passe devido a problemas na base "
-"de dados. Por favor, tente mais tarde."
+msgstr "Não foi possivel actualizar a sua palavra passe devido a problemas na base de dados. Por favor, tente mais tarde."
 
 #: ../user/edit_passwd_form.php:39
 msgid "You can identify yourself using either"
@@ -3394,18 +3221,13 @@ msgid ""
 "A tasks's <b>server state</b> indicates whether the task has been sent to a "
 "computer, and if so whether the computer has finished it. Possible values "
 "are:"
-msgstr ""
-"As tarefas do <b> estado do servidor (Server State) </ b> indica se a tarefa "
-"tiver sido enviada para um computador, e caso afirmativo, se o computador "
-"tiver terminado. Os valores possíveis são:"
+msgstr "As tarefas do <b> estado do servidor (Server State) </ b> indica se a tarefa tiver sido enviada para um computador, e caso afirmativo, se o computador tiver terminado. Os valores possíveis são:"
 
 #: ../user/explain_state.php:35
 msgid ""
 "The task is not ready to send (for example, because its input files are "
 "unavailable)"
-msgstr ""
-"A tarefa não está pronta para ser enviada (por exemplo, porque os ficheiros "
-"de entrada estão indisponíveis)"
+msgstr "A tarefa não está pronta para ser enviada (por exemplo, porque os ficheiros de entrada estão indisponíveis)"
 
 #: ../user/explain_state.php:38
 msgid "The task is ready to send, but hasn't been sent yet."
@@ -3423,9 +3245,7 @@ msgstr "A tarefa foi enviada; à espera de serem completas."
 msgid ""
 "The task has been sent to a computer and either it has timed out or the "
 "computer has reported its completion."
-msgstr ""
-"A tarefa foi enviada para o computador e, ou expirou ou o computador "
-"reportou a tarefa como completa."
+msgstr "A tarefa foi enviada para o computador e, ou expirou ou o computador reportou a tarefa como completa."
 
 #: ../user/explain_state.php:49
 msgid "Outcomes"
@@ -3435,17 +3255,13 @@ msgstr "Resultados"
 msgid ""
 "A tasks's <b>outcome</b> is defined if its server state is <b>over</b>. "
 "Possible values are:"
-msgstr ""
-"O <b>resultado</b> da/s tarefa/s é definido se estado do seu servidor é "
-"<b>terminado</b>. Possiveis valores são:"
+msgstr "O <b>resultado</b> da/s tarefa/s é definido se estado do seu servidor é <b>terminado</b>. Possiveis valores são:"
 
 #: ../user/explain_state.php:57
 msgid ""
 "The task was sent to a computer, but the computer has not yet completed the "
 "work and reported the outcome."
-msgstr ""
-"A tarefa foi enviada para o computador, mas o computador ainda não completou "
-"o trabalho e reportou o resultado."
+msgstr "A tarefa foi enviada para o computador, mas o computador ainda não completou o trabalho e reportou o resultado."
 
 #: ../user/explain_state.php:60
 msgid "A computer completed and reported the task successfully."
@@ -3455,9 +3271,7 @@ msgstr "O computador completou e reportou a tarefa com sucesso."
 msgid ""
 "The server wasn't able to send the task to a computer (perhaps because its "
 "resource requirements were too large)"
-msgstr ""
-"O servidor não conseguiu enviar a tarefa para o computador (talvez porque os "
-"recursos exigidos sejam demasiado grandes)"
+msgstr "O servidor não conseguiu enviar a tarefa para o computador (talvez porque os recursos exigidos sejam demasiado grandes)"
 
 #: ../user/explain_state.php:65
 msgid "Client error"
@@ -3471,25 +3285,19 @@ msgstr "A tarefa foi enviada para o computador e ocorreu um erro."
 msgid ""
 "The task was sent to a computer and no reply was received within the time "
 "limit."
-msgstr ""
-"A tarefa foi enviada para o computador e não foi recebida reposta dentro do "
-"tempo limite."
+msgstr "A tarefa foi enviada para o computador e não foi recebida reposta dentro do tempo limite."
 
 #: ../user/explain_state.php:72
 msgid ""
-"The task wasn't sent to a computer because enough other tasks were completed "
-"for this workunit."
-msgstr ""
-"A tarefa não foi enviada para o computador porque já foram completas tarefas "
-"suficientes para esta unidade de trabalho."
+"The task wasn't sent to a computer because enough other tasks were completed"
+" for this workunit."
+msgstr "A tarefa não foi enviada para o computador porque já foram completas tarefas suficientes para esta unidade de trabalho."
 
 #: ../user/explain_state.php:75
 msgid ""
 "The task was reported but could not be validated, typically because the "
 "output files were lost on the server."
-msgstr ""
-"A tarefa foi reportada mas não pode ser validada, provavelmente porque os "
-"ficheiros de saida foram perdidos no servidor."
+msgstr "A tarefa foi reportada mas não pode ser validada, provavelmente porque os ficheiros de saida foram perdidos no servidor."
 
 #: ../user/explain_state.php:80
 msgid "Client states"
@@ -3497,11 +3305,9 @@ msgstr "Estado dos clientes"
 
 #: ../user/explain_state.php:81
 msgid ""
-"A result's <b>client state</b> indicates the stage of processing at which an "
-"error occurred."
-msgstr ""
-"Um resultado <b>estado do cliente</b> indica o estado do processamento "
-"quando ocorreu um erro."
+"A result's <b>client state</b> indicates the stage of processing at which an"
+" error occurred."
+msgstr "Um resultado <b>estado do cliente</b> indica o estado do processamento quando ocorreu um erro."
 
 #: ../user/explain_state.php:86
 msgid "The computer has not yet completed the task."
@@ -3513,9 +3319,7 @@ msgstr "O computador completou a tarefa com sucesso."
 
 #: ../user/explain_state.php:92
 msgid "The computer couldn't download the application or input files."
-msgstr ""
-"O computador não foi capaz de fazer o download da aplicação ou ficheiros de "
-"entrada."
+msgstr "O computador não foi capaz de fazer o download da aplicação ou ficheiros de entrada."
 
 #: ../user/explain_state.php:95
 msgid "An error occurred during computation."
@@ -3533,9 +3337,7 @@ msgstr "Tempo reportado e tempo limite "
 msgid ""
 "A task's <b>Time reported or deadline</b> field depends on whether the task "
 "has been reported yet:"
-msgstr ""
-"O campo <b>Tempo reportado ou tempo limite<b>da/s tarefa/s  depende se a "
-"tarefa já foi reportada:"
+msgstr "O campo <b>Tempo reportado ou tempo limite<b>da/s tarefa/s  depende se a tarefa já foi reportada:"
 
 #: ../user/explain_state.php:110
 msgid "Already reported"
@@ -3579,8 +3381,7 @@ msgstr "Mandar email"
 
 #: ../user/ffmail_action.php:59
 msgid "Use your browser's back button to return to message form"
-msgstr ""
-"Use o botão 'voltar atrás' do seu navegador para regressar ao formulário"
+msgstr "Use o botão 'voltar atrás' do seu navegador para regressar ao formulário"
 
 #: ../user/ffmail_action.php:63
 msgid "Sending emails"
@@ -3600,19 +3401,15 @@ msgstr "Obrigado por dizer aos seus amigos acerca de %1"
 
 #: ../user/ffmail_action.php:94
 msgid ""
-"You forgot to enter your friends' names and/or email addresses; Please %"
-"1return to the form%2 and enter them."
-msgstr ""
-"Esqueceu-se de inserir o nome dos seus amigos e/ou endereços de email; Por "
-"favor%1regresse ao formulário%2 e insira-os."
+"You forgot to enter your friends' names and/or email addresses; Please "
+"%1return to the form%2 and enter them."
+msgstr "Esqueceu-se de inserir o nome dos seus amigos e/ou endereços de email; Por favor%1regresse ao formulário%2 e insira-os."
 
 #: ../user/ffmail_form.php:30
 msgid ""
 "This project hasn't created an email message - please notify its "
 "administrators"
-msgstr ""
-"Este projecto não criou uma mensagem de e-mail - por favor notifique os "
-"administradores"
+msgstr "Este projecto não criou uma mensagem de e-mail - por favor notifique os administradores"
 
 #: ../user/ffmail_form.php:33
 msgid "Tell your friends about %1"
@@ -3620,19 +3417,14 @@ msgstr "Dizer aos seus amigos acerca de %1"
 
 #: ../user/ffmail_form.php:37
 msgid "Help us by telling your friends, family and coworkers about %1"
-msgstr ""
-"Ajude-nos dizendo aos seus amigos, familia e colegas de trabalho acerca de %"
-"1"
+msgstr "Ajude-nos dizendo aos seus amigos, familia e colegas de trabalho acerca de %1"
 
 #: ../user/ffmail_form.php:39
 msgid ""
 "Fill in this form with the names and email addresses of people you think "
 "might be interested in %1. We'll send them an email in your name, and you "
 "can add your own message if you like."
-msgstr ""
-"Preencha este formulário com os nomes e endereços de email de pessoas que "
-"pense que possam estar interessadas em %1. Enviar-lhe-emos um email em seu "
-"nome e, poderá adicionar a sua própria mensagem se o quiser."
+msgstr "Preencha este formulário com os nomes e endereços de email de pessoas que pense que possam estar interessadas em %1. Enviar-lhe-emos um email em seu nome e, poderá adicionar a sua própria mensagem se o quiser."
 
 #: ../user/ffmail_form.php:42
 msgid "Your name:"
@@ -3680,18 +3472,13 @@ msgid ""
 "Are you sure you want to banish %1?<br/>This will prevent %1 from posting "
 "for chosen time period.<br/>It should be done only if %1 has consistently "
 "exhibited trollish behavior."
-msgstr ""
-"Tem a certeza que quer banir %1?<br>/>Isto vai evitar que %1 coloque posts "
-"por um determinado periodo de tempo.<br>Isto só deve ser feito se %1 tiver "
-"constantemente exibido um comportamento inadequado. "
+msgstr "Tem a certeza que quer banir %1?<br>/>Isto vai evitar que %1 coloque posts por um determinado periodo de tempo.<br>Isto só deve ser feito se %1 tiver constantemente exibido um comportamento inadequado. "
 
 #: ../user/forum_banishment_vote.php:61
 msgid ""
-"Select the reason category, optionally write a longer description of why the "
-"user should be banished."
-msgstr ""
-"Seleccione a categoria da razão e opcionalmente escreva uma descrição mais "
-"detalhada da razão porque o utilizador deve ser banido."
+"Select the reason category, optionally write a longer description of why the"
+" user should be banished."
+msgstr "Seleccione a categoria da razão e opcionalmente escreva uma descrição mais detalhada da razão porque o utilizador deve ser banido."
 
 #: ../user/forum_banishment_vote.php:62 ../user/forum_moderate_thread.php:50
 msgid "Category"
@@ -3743,9 +3530,7 @@ msgstr "Tem que especificar uma acção..."
 msgid ""
 "You can no longer edit this post.<br/>Posts can only be edited at most %1 "
 "minutes after they have been created."
-msgstr ""
-"Não pode mais editar este post.<br>/Os posts podem apenas ser editados até "
-"no máximo %1 minutos após serem criados."
+msgstr "Não pode mais editar este post.<br>/Os posts podem apenas ser editados até no máximo %1 minutos após serem criados."
 
 #: ../user/forum_edit.php:47
 msgid "You are not authorized to edit this post."
@@ -3859,11 +3644,9 @@ msgstr "Perguntas e respostas"
 
 #: ../user/forum_help_desk.php:30
 msgid ""
-"Talk live via Skype with a volunteer, in any of several languages. Go to %"
-"1BOINC Online Help%2."
-msgstr ""
-"Fale ao vivo via Skype com um voluntário, em alguma das várias linguas. Vá a "
-"%1Página de Ajuda do BOINC%2."
+"Talk live via Skype with a volunteer, in any of several languages. Go to "
+"%1BOINC Online Help%2."
+msgstr "Fale ao vivo via Skype com um voluntário, em alguma das várias linguas. Vá a %1Página de Ajuda do BOINC%2."
 
 #: ../user/forum_help_desk.php:44 ../user/forum_index.php:92
 msgid "Topic"
@@ -3885,9 +3668,7 @@ msgstr "%1 Mensagens do fórum"
 msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
 "section of the message boards."
-msgstr ""
-"Se tiver uma questão ou um problema, por favor use a secção %1Questões & "
-"Respostas%2 do fórum."
+msgstr "Se tiver uma questão ou um problema, por favor use a secção %1Questões & Respostas%2 do fórum."
 
 #: ../user/forum_index.php:123
 msgid "Subscribed threads"
@@ -4000,9 +3781,7 @@ msgstr "Moderar tópico '%1'"
 msgid ""
 "Select the reason category, or write a longer description of why you're "
 "hiding or locking the thread; then press OK."
-msgstr ""
-"Seleccione a categoria da razão ou, opcionalmente escreva uma descrição mais "
-"detalhada da razão porque está a ocultar o tópico; depois carregue em OK."
+msgstr "Seleccione a categoria da razão ou, opcionalmente escreva uma descrição mais detalhada da razão porque está a ocultar o tópico; depois carregue em OK."
 
 #: ../user/forum_moderate_thread.php:72
 msgid "Current forum"
@@ -4020,17 +3799,13 @@ msgstr "Novo título:"
 msgid ""
 "Only project admins may create a thread here. However, you may reply to "
 "existing threads."
-msgstr ""
-"Apenas os administradores do projecto podem criar um tópico aqui. No "
-"entanto, pode responder a tópicos existentes."
+msgstr "Apenas os administradores do projecto podem criar um tópico aqui. No entanto, pode responder a tópicos existentes."
 
 #: ../user/forum_post.php:60
 msgid ""
 "Your message was flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
-msgstr ""
-"A sua mensagem foi marcada como spam pelo sistema Akismet anti-spam. Por "
-"favor, modifique o texto e tente novamente."
+msgstr "A sua mensagem foi marcada como spam pelo sistema Akismet anti-spam. Por favor, modifique o texto e tente novamente."
 
 #: ../user/forum_post.php:70
 msgid "Create new thread"
@@ -4050,9 +3825,7 @@ msgstr "Mostrar este item como Notícia no gestor do BOINC"
 
 #: ../user/forum_post.php:127
 msgid "Do so only for items likely to be of interest to all volunteers."
-msgstr ""
-"Faça-o só para items prováveis de serem de interesse para todos os "
-"voluntários."
+msgstr "Faça-o só para items prováveis de serem de interesse para todos os voluntários."
 
 #: ../user/forum_rate.php:26
 msgid "Rating offline"
@@ -4064,8 +3837,7 @@ msgstr "Esta funcionalidade está desabilitada pelo projecto"
 
 #: ../user/forum_rate.php:58
 msgid "You need more average or total credit to rate a post."
-msgstr ""
-"Precisa de mais moderação ou totais de créditos para classificar o post."
+msgstr "Precisa de mais moderação ou totais de créditos para classificar o post."
 
 #: ../user/forum_rate.php:62
 msgid "You have already rated this post."
@@ -4102,9 +3874,7 @@ msgstr "Problema na submissão do voto"
 msgid ""
 "Your post has been flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
-msgstr ""
-"O seu post foi marcado como spam pelo sistema Akismet anti-spam. Por favor, "
-"modifique o texto e tente novamente."
+msgstr "O seu post foi marcado como spam pelo sistema Akismet anti-spam. Por favor, modifique o texto e tente novamente."
 
 #: ../user/forum_reply.php:88 ../user/forum_thread.php:158
 #: ../user/forum_thread.php:274
@@ -4135,7 +3905,6 @@ msgstr "Precisa de mais moderação ou totais de créditos para reportar um post
 msgid "Report Registered"
 msgstr "Report Registado"
 
-# 92%
 #: ../user/forum_report_post.php:66
 msgid "Your report has been recorded. Thanks for your input."
 msgstr "O seu report foi gravado. Obrigado pela sua inserção."
@@ -4144,9 +3913,7 @@ msgstr "O seu report foi gravado. Obrigado pela sua inserção."
 msgid ""
 "A moderator will now look at your report and decide what will happen - this "
 "may take a little while, so please be patient"
-msgstr ""
-"Um moderador irá ver o seu relatório e decidir o que irá acontecer - isto "
-"pode demorar algum tempo, por isso, tenha paciência"
+msgstr "Um moderador irá ver o seu relatório e decidir o que irá acontecer - isto pode demorar algum tempo, por isso, tenha paciência"
 
 #: ../user/forum_report_post.php:71
 msgid "Report a forum post"
@@ -4154,14 +3921,10 @@ msgstr "Reportar um post do fórum"
 
 #: ../user/forum_report_post.php:73
 msgid ""
-"Before reporting this post, consider using the +/- rating system instead. If "
-"enough users rate a post negatively it will eventually be hidden.<br />You "
+"Before reporting this post, consider using the +/- rating system instead. If"
+" enough users rate a post negatively it will eventually be hidden.<br />You "
 "can find the rating system at the bottom of the post."
-msgstr ""
-"Antes de reportar este post, considere usar o sistema de classificação +/-. "
-"Se utilizadores suficientes classificarem o post negativamente ele ficará "
-"oculto eventualmente.<br>Pode encontrar o sistema de classificação no topo "
-"do post."
+msgstr "Antes de reportar este post, considere usar o sistema de classificação +/-. Se utilizadores suficientes classificarem o post negativamente ele ficará oculto eventualmente.<br>Pode encontrar o sistema de classificação no topo do post."
 
 #: ../user/forum_report_post.php:80
 msgid "Report post"
@@ -4169,14 +3932,9 @@ msgstr "Reportar post"
 
 #: ../user/forum_report_post.php:81
 msgid ""
-"Why do you find the post offensive: %1Please include enough information so "
-"that a person that\n"
+"Why do you find the post offensive: %1Please include enough information so that a person that\n"
 "has not yet read the thread will quickly be able to identify the issue.%2"
-msgstr ""
-"Porque acha o post ofensico: %1Por favor inclua informação suficiente para "
-"que uma pessoa que\n"
-"ainda não tenha lido o tópico, seja rapidamente capaz de identificar o "
-"problema.%2"
+msgstr "Porque acha o post ofensico: %1Por favor inclua informação suficiente para que uma pessoa que\nainda não tenha lido o tópico, seja rapidamente capaz de identificar o problema.%2"
 
 #: ../user/forum_report_post.php:90
 msgid "Report not registered"
@@ -4184,16 +3942,13 @@ msgstr "Report não registado"
 
 #: ../user/forum_report_post.php:91
 msgid "Your report could not be recorded. Please wait a while and try again."
-msgstr ""
-"O seu report não pode ser gravado. Por favor aguarde um bocado e tente "
-"novamente."
+msgstr "O seu report não pode ser gravado. Por favor aguarde um bocado e tente novamente."
 
 #: ../user/forum_report_post.php:92
 msgid ""
-"If this is not a temporary error, please report it to the project developers."
-msgstr ""
-"Se não for um erro temporário, por favor reporte-o à equipa de "
-"desenvolvimento."
+"If this is not a temporary error, please report it to the project "
+"developers."
+msgstr "Se não for um erro temporário, por favor reporte-o à equipa de desenvolvimento."
 
 #: ../user/forum_rss.php:41
 msgid "%1 RSS feed"
@@ -4209,9 +3964,7 @@ msgstr "Opcões:"
 
 #: ../user/forum_rss.php:47
 msgid "Include only posts by user ID %1 (default: all users)."
-msgstr ""
-"Incluir posts apenas pelo ID de utilizador %1 (padrão: todos os "
-"utilizadores)."
+msgstr "Incluir posts apenas pelo ID de utilizador %1 (padrão: todos os utilizadores)."
 
 #: ../user/forum_rss.php:49
 msgid "Include only posts from the last %1 days (default: 30)."
@@ -4219,8 +3972,7 @@ msgstr "Incluir posts apenas dos ultimos %1 dias (padrão: 30)."
 
 #: ../user/forum_rss.php:51
 msgid "Truncate posts: %1 (Include only first 265 characters of each post)"
-msgstr ""
-"Truncar posts: %1 (Incluir apenas os primeiros 265 caracteres de cada post)"
+msgstr "Truncar posts: %1 (Incluir apenas os primeiros 265 caracteres de cada post)"
 
 #: ../user/forum_rss.php:53
 msgid "Threads only: %1 (Include only the first post of every thread)"
@@ -4306,10 +4058,7 @@ msgstr "Mensagens correspondentes à sua pesquisa:"
 msgid ""
 "Sorry, couldn't find anything matching your search query. You can try to "
 "broaden your search by using less words (or less specific words)."
-msgstr ""
-"Pedimos desculpa mas, não foi possivel encontrar nada correspondente ao seu "
-"critério de pesquisa. Pode tentar ampliar a sua pesquisa usando menos "
-"palavras (ou menos palavras especificas)."
+msgstr "Pedimos desculpa mas, não foi possivel encontrar nada correspondente ao seu critério de pesquisa. Pode tentar ampliar a sua pesquisa usando menos palavras (ou menos palavras especificas)."
 
 #: ../user/forum_search_action.php:219
 msgid "You can also %1try the same search on Google.%2"
@@ -4336,8 +4085,7 @@ msgstr "Subscrição falhada"
 #: ../user/forum_subscribe.php:52
 msgid ""
 "We are currently unable to subscribe you to %1. Please try again later.."
-msgstr ""
-"Não é possivel de momento subscrevê-lo a %1. Por favor, tente mais tarde.."
+msgstr "Não é possivel de momento subscrevê-lo a %1. Por favor, tente mais tarde.."
 
 #: ../user/forum_subscribe.php:61
 msgid "Unsubscription successful"
@@ -4345,11 +4093,9 @@ msgstr "Subscrição retirada com sucesso"
 
 #: ../user/forum_subscribe.php:64
 msgid ""
-"You are no longer subscribed to %1. You will no longer receive notifications "
-"for this thread."
-msgstr ""
-"Já não está subscrito a %1. Não receberá daqui em diante notificações para "
-"este tópico."
+"You are no longer subscribed to %1. You will no longer receive notifications"
+" for this thread."
+msgstr "Já não está subscrito a %1. Não receberá daqui em diante notificações para este tópico."
 
 #: ../user/forum_subscribe.php:66
 msgid "Unsubscription failed"
@@ -4358,9 +4104,7 @@ msgstr " Retirar subscrição falhada"
 #: ../user/forum_subscribe.php:67
 msgid ""
 "We are currently unable to unsubscribe you from %1. Please try again later.."
-msgstr ""
-"Não é possivel de momento retirar a subscrição de %1. Por favor, tente mais "
-"tarde.."
+msgstr "Não é possivel de momento retirar a subscrição de %1. Por favor, tente mais tarde.."
 
 #: ../user/forum_subscribe.php:74
 msgid "Unknown subscription action"
@@ -4396,8 +4140,7 @@ msgstr "Deixar de subscrever"
 
 #: ../user/forum_thread.php:172
 msgid "You are subscribed to this thread.  Click here to unsubscribe."
-msgstr ""
-"Já está subscrito neste tópico. Carregue aqui para deixar de subscrever."
+msgstr "Já está subscrito neste tópico. Carregue aqui para deixar de subscrever."
 
 #: ../user/forum_thread.php:178
 msgid "Subscribe"
@@ -4513,11 +4256,9 @@ msgstr "Adicionar amigo"
 
 #: ../user/friend.php:74
 msgid ""
-"You have asked to add %1 as a friend. We will notify %1 and will ask him/her "
-"to confirm that you are friends."
-msgstr ""
-"Pediu para adicionar %1 como amigo. Iremos notificar %1 e pedir-lhe que "
-"confirme que são amigos."
+"You have asked to add %1 as a friend. We will notify %1 and will ask him/her"
+" to confirm that you are friends."
+msgstr "Pediu para adicionar %1 como amigo. Iremos notificar %1 e pedir-lhe que confirme que são amigos."
 
 #: ../user/friend.php:77
 msgid "Add an optional message here:"
@@ -4621,26 +4362,21 @@ msgstr "Esqueceu-se das informações da sua conta?"
 
 #: ../user/get_passwd.php:28
 msgid ""
-"1) If you know your account's email address, and you can receive email there:"
-msgstr ""
-"1) Se sabe o endereço de email da sua conta e, pode receber os emails nessa "
-"conta:"
+"1) If you know your account's email address, and you can receive email "
+"there:"
+msgstr "1) Se sabe o endereço de email da sua conta e, pode receber os emails nessa conta:"
 
 #: ../user/get_passwd.php:29
 msgid ""
 "Enter the email address below, and click OK. You will be sent email "
 "instructions for resetting your password."
-msgstr ""
-"Insira em baixo o endereço de email e carregue em OK. Será enviado um email "
-"com instruções para redefinir a sua palavra passe."
+msgstr "Insira em baixo o endereço de email e carregue em OK. Será enviado um email com instruções para redefinir a sua palavra passe."
 
 #: ../user/get_passwd.php:46
 msgid ""
 "2) If you forgot your account's email address, or you can't receive email "
 "there:"
-msgstr ""
-"2) Se esqueceu o endereço de email da sua conta, ou não pode receber emails "
-"nessa conta:"
+msgstr "2) Se esqueceu o endereço de email da sua conta, ou não pode receber emails nessa conta:"
 
 #: ../user/get_passwd.php:47
 msgid ""
@@ -4652,21 +4388,19 @@ msgstr "Se executa o BOINC nesta conta, ainda o pode aceder. Saiba como:"
 msgid ""
 "Go to the BOINC data directory on your computer (its location is written to "
 "the Event Log at startup)."
-msgstr ""
-"Ir para o directório de dados do BOINC no seu computador (a sua localização "
-"está escrita no Log de Eventos ao início)."
+msgstr "Ir para o directório de dados do BOINC no seu computador (a sua localização está escrita no Log de Eventos ao início)."
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
-msgstr ""
-"Encontre o seu ficheiro de conta para este projecto; será chamado <b>%1</b>."
+msgstr "Encontre o seu ficheiro de conta para este projecto; será chamado <b>%1</b>."
 
 #: ../user/get_passwd.php:52
 msgid "Open the file in a text editor like Notepad. You'll see something like"
 msgstr "Abra o ficheiro num editor de texto como o Notepad. Verá algo como"
 
 #: ../user/get_passwd.php:62
-msgid "Select and Copy the string between %1 and %2 (%3 in the above example)."
+msgid ""
+"Select and Copy the string between %1 and %2 (%3 in the above example)."
 msgstr "Seleccionar e Copiar a string entre %1 e %2 (%3 no exemplo abaixo)."
 
 #: ../user/get_passwd.php:64
@@ -4677,9 +4411,7 @@ msgstr "Colar a string no campo abaixo e, carregar em OK."
 msgid ""
 "You will now be logged in to your account; update the email and password of "
 "your account."
-msgstr ""
-"Será agora feito o log in na sua conta; actualizar o email e palavra passe "
-"da sua conta."
+msgstr "Será agora feito o log in na sua conta; actualizar o email e palavra passe da sua conta."
 
 #: ../user/get_passwd.php:71
 msgid "Log in with authenticator"
@@ -4693,9 +4425,7 @@ msgstr "Sem tarefas de GPU reportadas"
 msgid ""
 "The following lists show the most productive GPU models on different "
 "platforms.  Relative speeds are shown in parentheses."
-msgstr ""
-"As seguintes listas mostram os modelos GPU mais productivos nas diferentes "
-"plataformas. Velocidades relativas são mostradas em parêntesis."
+msgstr "As seguintes listas mostram os modelos GPU mais productivos nas diferentes plataformas. Velocidades relativas são mostradas em parêntesis."
 
 #: ../user/home.php:42
 msgid "Welcome to %1"
@@ -4762,10 +4492,7 @@ msgid ""
 "You can not delete our record of this computer because our database still "
 "contains work for it. You must wait a few days until the work for this "
 "computer has been deleted from the project database."
-msgstr ""
-"Não pode eliminar o nosso registo deste computador porque a base de dados "
-"ainda contém trabalho para ele. Tem de esperar uns dias até que o trabalho "
-"para este computador seja eliminado da base de dados do projecto."
+msgstr "Não pode eliminar o nosso registo deste computador porque a base de dados ainda contém trabalho para ele. Tem de esperar uns dias até que o trabalho para este computador seja eliminado da base de dados do projecto."
 
 #: ../user/host_delete.php:40
 msgid "Delete record of computer"
@@ -4789,11 +4516,9 @@ msgstr "Fundir computadores"
 
 #: ../user/host_edit_form.php:38
 msgid ""
-"Sometimes BOINC assigns separate identities to the same computer by mistake. "
-"You can correct this by merging old identities with the newest one."
-msgstr ""
-"Por vezes o BOINC assigna identidades separadas para o mesmo computador por "
-"engano. Pode corrigir isto fundindo identidades mais antigas com as novas."
+"Sometimes BOINC assigns separate identities to the same computer by mistake."
+" You can correct this by merging old identities with the newest one."
+msgstr "Por vezes o BOINC assigna identidades separadas para o mesmo computador por engano. Pode corrigir isto fundindo identidades mais antigas com as novas."
 
 #: ../user/host_edit_form.php:56
 msgid "No hosts are eligible for merging with this one."
@@ -4806,9 +4531,7 @@ msgstr "Mostrar detalhes"
 #: ../user/host_edit_form.php:66
 msgid ""
 "Check the computers that are the same as %1 (created %2, computer ID %3):"
-msgstr ""
-"Verifique os computadores que são os mesmos que %1 (criado em %2, ID do "
-"computador %3):"
+msgstr "Verifique os computadores que são os mesmos que %1 (criado em %2, ID do computador %3):"
 
 #: ../user/host_edit_form.php:70 ../user/workunit.php:39
 msgid "name"
@@ -4850,9 +4573,7 @@ msgstr "O local deste anfitrião foi definido para %1."
 msgid ""
 "This change will take effect the next time the host communicates with this "
 "project."
-msgstr ""
-"Esta alteração irá ocorrer da próxima vez que o anfitrião comunicar com este "
-"projecto."
+msgstr "Esta alteração irá ocorrer da próxima vez que o anfitrião comunicar com este projecto."
 
 #: ../user/host_venue_action.php:50
 msgid "Return to host page"
@@ -4869,9 +4590,7 @@ msgstr "Computadores ocultos"
 #: ../user/hosts_user.php:56
 msgid ""
 "This user has chosen not to show information about his or her computers."
-msgstr ""
-"Este utilizador escolheu não mostrar informações relativas aos seus "
-"computadores."
+msgstr "Este utilizador escolheu não mostrar informações relativas aos seus computadores."
 
 #: ../user/hosts_user.php:64
 msgid "Your computers"
@@ -4911,11 +4630,9 @@ msgstr "pré-formatado"
 
 #: ../user/html.php:33
 msgid ""
-"image; height cannot exceed 450 pixels. Please do not link to images without "
-"permission of the web site where the image is hosted."
-msgstr ""
-"imagem; altura não pode exceder 450 pixéis. Por favor, não linke imagens sem "
-"a permisão do website onde a imagem está alojada."
+"image; height cannot exceed 450 pixels. Please do not link to images without"
+" permission of the web site where the image is hosted."
+msgstr "imagem; altura não pode exceder 450 pixéis. Por favor, não linke imagens sem a permisão do website onde a imagem está alojada."
 
 #: ../user/html.php:35
 msgid "You can also use ampersand notation for special characters."
@@ -4930,10 +4647,7 @@ msgid ""
 "Run %1 only on computers that you own, or for which you have obtained the "
 "owner's permission. Some companies and schools have policies that prohibit "
 "using their computers for projects such as %1."
-msgstr ""
-"Executar %1 apenas em computadores que possua, ou que tenha obtido a "
-"permissão do dono. Algumas companhias e escolas têm politícas que proibem de "
-"usar os seus computadores para projectos como %1."
+msgstr "Executar %1 apenas em computadores que possua, ou que tenha obtido a permissão do dono. Algumas companhias e escolas têm politícas que proibem de usar os seus computadores para projectos como %1."
 
 #: ../user/info.php:38
 msgid "How %1 will use your computer"
@@ -4944,19 +4658,13 @@ msgid ""
 "When you run %1 on your computer, it will use part of the computer's CPU "
 "power, disk space, and network bandwidth. You can control how much of your "
 "resources are used by %1, and when it uses them."
-msgstr ""
-"Quando executar o %1 no seu computador, ele irá usar parte do poder do CPU "
-"do seu computador, espaço no disco e largura de banda. Pode controlar a "
-"quantidade de recursos que são usadas pelo %1 e quando são usadas."
+msgstr "Quando executar o %1 no seu computador, ele irá usar parte do poder do CPU do seu computador, espaço no disco e largura de banda. Pode controlar a quantidade de recursos que são usadas pelo %1 e quando são usadas."
 
 #: ../user/info.php:40
 msgid ""
 "The work done by your computer contributes to the goals of %1, as described "
 "on its web site. The application programs may change from time to time."
-msgstr ""
-"O trabalho realizado pelo seu computador contribui para os objectivos do %1, "
-"como descrito no website. Os programas das aplicações podem variar de tempo "
-"a tempo."
+msgstr "O trabalho realizado pelo seu computador contribui para os objectivos do %1, como descrito no website. Os programas das aplicações podem variar de tempo a tempo."
 
 #: ../user/info.php:42
 msgid "Privacy policy"
@@ -4964,15 +4672,11 @@ msgstr "Politíca de privacidade"
 
 #: ../user/info.php:43
 msgid ""
-"Your account on %1 is identified by a name that you choose. This name may be "
-"shown on the %1 web site, along with a summary of the work your computer has "
-"done for %1. If you want to be anonymous, choose a name that doesn't reveal "
-"your identity."
-msgstr ""
-"A sua conta no %1 é identificada pelo nome que escolheu. Este nome pode ser "
-"mostrado no %1 website, juntamente com um resumo do trabalho que foi "
-"realizado pelo seu computador para o %1. Se quer permanecer anónimo, escolha "
-"um nome que revele a sua identidade."
+"Your account on %1 is identified by a name that you choose. This name may be"
+" shown on the %1 web site, along with a summary of the work your computer "
+"has done for %1. If you want to be anonymous, choose a name that doesn't "
+"reveal your identity."
+msgstr "A sua conta no %1 é identificada pelo nome que escolheu. Este nome pode ser mostrado no %1 website, juntamente com um resumo do trabalho que foi realizado pelo seu computador para o %1. Se quer permanecer anónimo, escolha um nome que revele a sua identidade."
 
 #: ../user/info.php:44
 msgid ""
@@ -4981,24 +4685,14 @@ msgid ""
 "decide what type of work to assign to your computer. This information will "
 "also be shown on %1's web site. Nothing that reveals your computer's "
 "location (e.g. its domain name or network address) will be shown."
-msgstr ""
-"Se participa em %1, as informações acerca do seu computador (assim como o "
-"tipo de processador, quantidade de memória, etc.) será gravada pelo %1 e "
-"usada para decidir que tipo de trabalho será assignado ao seu computador. "
-"Esta informação será também mostrada no %1's website. Nada que revele a "
-"localização do seu computador (por exemplo o nome do domínio ou o endereço "
-"de rede) será mostrado."
+msgstr "Se participa em %1, as informações acerca do seu computador (assim como o tipo de processador, quantidade de memória, etc.) será gravada pelo %1 e usada para decidir que tipo de trabalho será assignado ao seu computador. Esta informação será também mostrada no %1's website. Nada que revele a localização do seu computador (por exemplo o nome do domínio ou o endereço de rede) será mostrado."
 
 #: ../user/info.php:45
 msgid ""
-"To participate in %1, you must give an address where you receive email. This "
-"address will not be shown on the %1 web site or shared with organizations. %"
-"1 may send you periodic newsletters; however, you can opt out at any time."
-msgstr ""
-"Para participar em %1, tem que inserir um endereço onde receba emails. Este "
-"endereço não será mostrado no %1 website ou organizações partilhadas. %1 "
-"pode enviar newsletters periódicas; no entanto, pode desistir a qualquer "
-"altura."
+"To participate in %1, you must give an address where you receive email. This"
+" address will not be shown on the %1 web site or shared with organizations. "
+"%1 may send you periodic newsletters; however, you can opt out at any time."
+msgstr "Para participar em %1, tem que inserir um endereço onde receba emails. Este endereço não será mostrado no %1 website ou organizações partilhadas. %1 pode enviar newsletters periódicas; no entanto, pode desistir a qualquer altura."
 
 #: ../user/info.php:46
 msgid ""
@@ -5007,24 +4701,15 @@ msgid ""
 "If you receive unwanted private messages from another %1 user, you may add "
 "them to your %2message filter%3.  This will prevent you from seeing any "
 "public or private messages from that user."
-msgstr ""
-"Mensagens privadas enviadas no %1 website estão visíveis apenas ao remetente "
-"e receptor. %1 não examina ou controla o conteúdo das mensagens privadas. "
-"Se receber mensagens privadas indesejáveis de outro %1 utilizador, pode "
-"adicioná-lo ao seu %2filtro de mensagens%3. Isto irá prevenir que veja "
-"mensagens públicas ou privadas desse mesmo utilizador."
+msgstr "Mensagens privadas enviadas no %1 website estão visíveis apenas ao remetente e receptor. %1 não examina ou controla o conteúdo das mensagens privadas. Se receber mensagens privadas indesejáveis de outro %1 utilizador, pode adicioná-lo ao seu %2filtro de mensagens%3. Isto irá prevenir que veja mensagens públicas ou privadas desse mesmo utilizador."
 
 #: ../user/info.php:47
 msgid ""
 "If you use our web site forums you must follow the %2posting guidelines%3.  "
 "Messages posted to the %1 forums are visible to everyone, including non-"
-"members.  By posting to the forums, you are granting irrevocable license for "
-"anyone to view and copy your posts."
-msgstr ""
-"Se usa o nosso fórum na web, tem que seguir as %2instruções para fazer posts"
-"%3. Mensagens postadas ao %1 fórum estão visíveis a todos, incluindo "
-"não-membros. Ao postar nos fóruns, está a garantir licença irrevogável para "
-"que qualquer pessoa possa ver e copiar os seus posts."
+"members.  By posting to the forums, you are granting irrevocable license for"
+" anyone to view and copy your posts."
+msgstr "Se usa o nosso fórum na web, tem que seguir as %2instruções para fazer posts%3. Mensagens postadas ao %1 fórum estão visíveis a todos, incluindo não-membros. Ao postar nos fóruns, está a garantir licença irrevogável para que qualquer pessoa possa ver e copiar os seus posts."
 
 #: ../user/info.php:48
 msgid "Is it safe to run %1?"
@@ -5034,36 +4719,23 @@ msgstr "É seguro executar %1?"
 msgid ""
 "Any time you download a program through the Internet you are taking a "
 "chance: the program might have dangerous errors, or the download server "
-"might have been hacked. %1 has made efforts to minimize these risks. We have "
-"tested our applications carefully. Our servers are behind a firewall and are "
-"configured for high security. To ensure the integrity of program downloads, "
-"all executable files are digitally signed on a secure computer not connected "
-"to the Internet."
-msgstr ""
-"De cada vez que faz o download de um programa através da Internet está a "
-"correr um risco: o programa pode conter erros perigosos, ou o servidor de "
-"downloads pode ter sido hackeado. %1 fez um esforço para minimizar estes "
-"riscos. Testamos as nossas aplicações com todos o cuidado. os nossos "
-"servidores estão por trás de uma firewall e configurados para alta "
-"segurança. Para garantir a integridade dos downloads dos programas, todos os "
-"executáveis estão assinados digitalmente num computador seguro não "
-"conectado à Internet."
+"might have been hacked. %1 has made efforts to minimize these risks. We have"
+" tested our applications carefully. Our servers are behind a firewall and "
+"are configured for high security. To ensure the integrity of program "
+"downloads, all executable files are digitally signed on a secure computer "
+"not connected to the Internet."
+msgstr "De cada vez que faz o download de um programa através da Internet está a correr um risco: o programa pode conter erros perigosos, ou o servidor de downloads pode ter sido hackeado. %1 fez um esforço para minimizar estes riscos. Testamos as nossas aplicações com todos o cuidado. os nossos servidores estão por trás de uma firewall e configurados para alta segurança. Para garantir a integridade dos downloads dos programas, todos os executáveis estão assinados digitalmente num computador seguro não conectado à Internet."
 
 #: ../user/info.php:50
 msgid ""
 "The applications run by %1 may cause some computers to overheat. If this "
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
-msgstr ""
-"As aplicações executadas pelo %1 podem causar, em alguns computadores, "
-"sobreaquecimento. Se isto acontecer, pare de executar %1 ou use um %"
-"aplicativo%3 que limite o uso do CPU."
+msgstr "As aplicações executadas pelo %1 podem causar, em alguns computadores, sobreaquecimento. Se isto acontecer, pare de executar %1 ou use um %aplicativo%3 que limite o uso do CPU."
 
 #: ../user/info.php:51
 msgid ""
 "%1 was developed by %2. BOINC was developed at the University of California."
-msgstr ""
-"%1 foi desenvolvido pelo %2. O BOINC foi desenvolvido na Universidade da "
-"California."
+msgstr "%1 foi desenvolvido pelo %2. O BOINC foi desenvolvido na Universidade da California."
 
 #: ../user/info.php:53
 msgid "Liability"
@@ -5072,12 +4744,9 @@ msgstr "Responsabilidade"
 #: ../user/info.php:54
 msgid ""
 "%1 and %2 assume no liability for damage to your computer, loss of data, or "
-"any other event or condition that may occur as a result of participating in %"
-"1."
-msgstr ""
-"%1 e %2 não assume responsabilidade por danos no seu computador, perca de "
-"dados ou outros eventos ou condições que possam ocorrer como resultado de "
-"participar em %1."
+"any other event or condition that may occur as a result of participating in "
+"%1."
+msgstr "%1 e %2 não assume responsabilidade por danos no seu computador, perca de dados ou outros eventos ou condições que possam ocorrer como resultado de participar em %1."
 
 #: ../user/info.php:56
 msgid "Other BOINC projects"
@@ -5085,23 +4754,17 @@ msgstr "Outros projectos BOINC"
 
 #: ../user/info.php:57
 msgid ""
-"Other projects use the same platform, BOINC, as %1. You may want to consider "
-"participating in one or more of these projects. By doing so, your computer "
+"Other projects use the same platform, BOINC, as %1. You may want to consider"
+" participating in one or more of these projects. By doing so, your computer "
 "will do useful work even when %1 has no work available for it."
-msgstr ""
-"Outros projectos usam a mesma plataforma, o BOINC, como %1. Pode considerar "
-"participar em um ou mais destes projectos. Ao fazê-lo, o seu computador fará "
-"trabalho útil mesmo quando %1 não tiver trabalho disponível."
+msgstr "Outros projectos usam a mesma plataforma, o BOINC, como %1. Pode considerar participar em um ou mais destes projectos. Ao fazê-lo, o seu computador fará trabalho útil mesmo quando %1 não tiver trabalho disponível."
 
 #: ../user/info.php:58
 msgid ""
 "These other projects are not associated with %1, and we cannot vouch for "
 "their security practices or the nature of their research. Join them at your "
 "own risk."
-msgstr ""
-"Estes projectos não estão associados com %1, e não podemos garantir a "
-"natureza de práticas seguras nas suas pesquisas. Junte-se a eles por sua "
-"conta e risco."
+msgstr "Estes projectos não estão associados com %1, e não podemos garantir a natureza de práticas seguras nas suas pesquisas. Junte-se a eles por sua conta e risco."
 
 #: ../user/language_select.php:47
 msgid "Language selection"
@@ -5111,17 +4774,13 @@ msgstr "Selecção de linguagem"
 msgid ""
 "This web site is available in several languages. The currently selected "
 "language is %1."
-msgstr ""
-"Este website está disponível em várias linguagens. A linguagem seleccionada "
-"actualmente é %1."
+msgstr "Este website está disponível em várias linguagens. A linguagem seleccionada actualmente é %1."
 
 #: ../user/language_select.php:78
 msgid ""
 "Normally the choice of language is determined by your browser's language "
 "setting, which is: %1.  You can change this setting using:"
-msgstr ""
-"Normalmente a escolha do idioma é determinada pela definição de idioma do "
-"seu navegador web, que é: %1. Pode alterar esta definição usando:"
+msgstr "Normalmente a escolha do idioma é determinada pela definição de idioma do seu navegador web, que é: %1. Pode alterar esta definição usando:"
 
 #: ../user/language_select.php:83
 msgid "Firefox: Tools/Options/General"
@@ -5136,10 +4795,7 @@ msgid ""
 "Or you can select a language by clicking on one of the links.  This will "
 "send your browser a cookie; make sure your browser accepts cookies from our "
 "domain."
-msgstr ""
-"Ou pode seleccionar o idioma carregando numa destas ligações. Isto irá "
-"enviar um cookie para o seu navegador; confirme que o seu navegador aceita "
-"cookies do nosso domínio."
+msgstr "Ou pode seleccionar o idioma carregando numa destas ligações. Isto irá enviar um cookie para o seu navegador; confirme que o seu navegador aceita cookies do nosso domínio."
 
 #: ../user/language_select.php:95
 msgid "Language name (click to select)"
@@ -5151,11 +4807,9 @@ msgstr "Use as definições do navegador"
 
 #: ../user/language_select.php:113
 msgid ""
-"Translations are done by volunteers.  If your native language is not here, %"
-"1you can provide a translation%2."
-msgstr ""
-"As traduções são feitas por voluntários. Se o seu idioma não está aqui, %1 "
-"pode providenciar a tradução%2."
+"Translations are done by volunteers.  If your native language is not here, "
+"%1you can provide a translation%2."
+msgstr "As traduções são feitas por voluntários. Se o seu idioma não está aqui, %1 pode providenciar a tradução%2."
 
 #: ../user/login_form.php:45
 msgid "Email address:"
@@ -5201,13 +4855,7 @@ msgid ""
 "        having that name with the newest computer having that name.\n"
 "        Incompatible computers will not be merged.\n"
 "        <p>"
-msgstr ""
-"Esta operação liga os computadores baseados no seu nome de domínio.\n"
-"<p>\n"
-"Para cada nome de domínio, este ligará todos os computadores antigos\n"
-"tendo esse nome no computador mais recente.\n"
-"Os computador incompatíveis não serão ligados entre si.\n"
-"<p>"
+msgstr "Esta operação liga os computadores baseados no seu nome de domínio.\n<p>\nPara cada nome de domínio, este ligará todos os computadores antigos\ntendo esse nome no computador mais recente.\nOs computador incompatíveis não serão ligados entre si.\n<p>"
 
 #: ../user/merge_by_name.php:82
 msgid "Go ahead and do this"
@@ -5223,11 +4871,7 @@ msgid ""
 "To maximize discussion and flow of information,\n"
 "our message boards are moderated.\n"
 "Message board postings are subject to the following posting rules:\n"
-msgstr ""
-"\n"
-"Para maximizar a discussão e o fluxo de informação,\n"
-"os nosso fóruns são sujeitos a moderação.\n"
-"Posts nos fóruns são sujeitos às seguintes regras:\n"
+msgstr "\nPara maximizar a discussão e o fluxo de informação,\nos nosso fóruns são sujeitos a moderação.\nPosts nos fóruns são sujeitos às seguintes regras:\n"
 
 #: ../user/moderation.php:30
 msgid ""
@@ -5236,8 +4880,7 @@ msgid ""
 "Moderators may delete posts that violate any of these rules.\n"
 "The authors of deleted posts will be notified via email.\n"
 "Gross offenders may have their ability to post messages temporarily revoked\n"
-"(though to prevent abuse only project administrators have the ability to do "
-"so).\n"
+"(though to prevent abuse only project administrators have the ability to do so).\n"
 "Additional kinds of bad behavior (\"bugging\" posts to trap the\n"
 "IP addresses of other participants, excessive thread creation to spam\n"
 "the forums, etc.), while not listed in the formal rules, may still\n"
@@ -5266,46 +4909,7 @@ msgid ""
 "This moderation policy is set by the %1 project.\n"
 "If you have comments about the policy, email %2.\n"
 "\n"
-msgstr ""
-"\n"
-"<p>\n"
-"Os Moderadores podem apagar posts que violem alguma destas regras.\n"
-"Os autores dos posts eliminados serão notificados por email.\n"
-"Infratores grosseiros poderão ter a capacidade de postar mensagens "
-"temporariamente revogadas.\n"
-"(apesar de ser para prevenir abusos, apenas administradores têm o privilégio "
-"de o fazer).\n"
-"Tipos de mau comportamenteo adicionais (\"bugging\" posts para apanhar os\n"
-"endereços de IP de outros participantes, criação excessiva de posts para "
-"fazer spam\n"
-"nos fóruns, ect), enquanto não listados de acordo com as regras, podem ainda\n"
-"levar a sanções similares.\n"
-"<p>\n"
-"Se acredita que um post viola alguma destas regras,\n"
-"carregue no X vermelho no post e preencha o formulário;\n"
-"Os moderadores serão notificados da sua queixa.\n"
-"Por favor use este botão apenas para violações claras - não\n"
-"para disputas pessoais.\n"
-"<p>\n"
-"Nós tentamos ser o mais justo possivel na moderação,\n"
-"mas numa larga comunidade de utilizadores, com muitos pontos de vista,\n"
-"existirão sempre algumas pessoas que não ficarão contentes\n"
-"com as nossas decisões de moderação.\n"
-"Apesar de lamentarmos que isto aconteça,\n"
-"percebam que não podemos satisfazer sempre todas as pessoas\n"
-"e temos que tomar decisões baseadas nos nossos recursos e\n"
-"naquilo que é melhor para o fórum em geral.\n"
-"Por favor não discutam as nossas politicas de moderação nos fóruns. Não "
-"somos\n"
-"um projecto de engenharia social nem estamos num negócio de criação\n"
-"de um sistema perfeito. Esse tipo de discussões tendem a ser "
-"contrapoducentes\n"
-"e potencialmente incendiários. Se tiver alguma queixa legitima,\n"
-"envie um email para o endereço em baixo.\n"
-"<p>\n"
-"Esta politica de moderação é definida pelo %1 projecto.\n"
-"Se tem algum comentário acerca das politicas, envie um email %2.\n"
-"\n"
+msgstr "\n<p>\nOs Moderadores podem apagar posts que violem alguma destas regras.\nOs autores dos posts eliminados serão notificados por email.\nInfratores grosseiros poderão ter a capacidade de postar mensagens temporariamente revogadas.\n(apesar de ser para prevenir abusos, apenas administradores têm o privilégio de o fazer).\nTipos de mau comportamenteo adicionais (\"bugging\" posts para apanhar os\nendereços de IP de outros participantes, criação excessiva de posts para fazer spam\nnos fóruns, ect), enquanto não listados de acordo com as regras, podem ainda\nlevar a sanções similares.\n<p>\nSe acredita que um post viola alguma destas regras,\ncarregue no X vermelho no post e preencha o formulário;\nOs moderadores serão notificados da sua queixa.\nPor favor use este botão apenas para violações claras - não\npara disputas pessoais.\n<p>\nNós tentamos ser o mais justo possivel na moderação,\nmas numa larga comunidade de utilizadores, com muitos pontos de vista,\nexistirão sempre algumas pessoas que não ficarão contentes\ncom as nossas decisões de moderação.\nApesar de lamentarmos que isto aconteça,\npercebam que não podemos satisfazer sempre todas as pessoas\ne temos que tomar decisões baseadas nos nossos recursos e\nnaquilo que é melhor para o fórum em geral.\nPor favor não discutam as nossas politicas de moderação nos fóruns. Não somos\num projecto de engenharia social nem estamos num negócio de criação\nde um sistema perfeito. Esse tipo de discussões tendem a ser contrapoducentes\ne potencialmente incendiários. Se tiver alguma queixa legitima,\nenvie um email para o endereço em baixo.\n<p>\nEsta politica de moderação é definida pelo %1 projecto.\nSe tem algum comentário acerca das politicas, envie um email %2.\n\n"
 
 #: ../user/pending.php:66
 msgid "Pending credit"
@@ -5388,10 +4992,7 @@ msgid ""
 "Your message was flagged as spam\n"
 "                by the Akismet anti-spam system.\n"
 "                Please modify your text and try again."
-msgstr ""
-"A sua mensagem foi marcada como spam\n"
-"              pelo sistema Akismet anti-spam.\n"
-"              Por favor, modifique o texto e tente novamente."
+msgstr "A sua mensagem foi marcada como spam\n              pelo sistema Akismet anti-spam.\n              Por favor, modifique o texto e tente novamente."
 
 #: ../user/pm.php:205
 msgid "Could not find user with id %1"
@@ -5421,22 +5022,17 @@ msgstr "Bloquear %1?"
 msgid ""
 "Are you really sure you want to block user %1 from sending you private "
 "messages?"
-msgstr ""
-"Tem a certeza que quer bloquear o utilizador %1 de lhe enviar mensagens "
-"privadas?"
+msgstr "Tem a certeza que quer bloquear o utilizador %1 de lhe enviar mensagens privadas?"
 
 #: ../user/pm.php:244
 msgid "Please note that you can only block a limited amount of users."
-msgstr ""
-"Tenha em atenção que só pode bloquear um número limitado de utilizadores."
+msgstr "Tenha em atenção que só pode bloquear um número limitado de utilizadores."
 
 #: ../user/pm.php:245
 msgid ""
 "Once the user has been blocked you can unblock it using forum preferences "
 "page."
-msgstr ""
-"Assim que o utilizador for bloqueado, só o pode desbloquear usando a página "
-"de preferências do fórum."
+msgstr "Assim que o utilizador for bloqueado, só o pode desbloquear usando a página de preferências do fórum."
 
 #: ../user/pm.php:252
 msgid "No, cancel"
@@ -5467,20 +5063,14 @@ msgid ""
 "Your preferences have been updated, and\n"
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
-msgstr ""
-"As suas preferências foram actualizadas e,\n"
-"        terão efeito quando o seu computador comunicar com %1\n"
-"        ou executar o comando %2Actualizar%3 a partir do Gestor do BOINC."
+msgstr "As suas preferências foram actualizadas e,\n        terão efeito quando o seu computador comunicar com %1\n        ou executar o comando %2Actualizar%3 a partir do Gestor do BOINC."
 
 #: ../user/prefs.php:41
 msgid ""
 "Your preferences have been reset to the defaults, and\n"
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
-msgstr ""
-"As suas preferências foram redefinidas para as iniciais,\n"
-"           e terão efeito quando o seu computador comunicar com %1\n"
-"           ou executar o comando %2Actualizar%3 no Gestor BOINC."
+msgstr "As suas preferências foram redefinidas para as iniciais,\n           e terão efeito quando o seu computador comunicar com %1\n           ou executar o comando %2Actualizar%3 no Gestor BOINC."
 
 #: ../user/prefs_edit.php:65 ../user/prefs_edit.php:93
 msgid "%1 for %2"
@@ -5510,25 +5100,19 @@ msgstr "Cancelar"
 msgid ""
 "%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
 "community."
-msgstr ""
-"%1Perfis%2 permitem partilhas individuais dos fundos e opiniões com a %3 "
-"comunidade."
+msgstr "%1Perfis%2 permitem partilhas individuais dos fundos e opiniões com a %3 comunidade."
 
 #: ../user/profile_menu.php:36
 msgid ""
 "Explore the diversity of your fellow volunteers, and contribute your own "
 "views for others to enjoy."
-msgstr ""
-"Explore a diversidade dos seus colegas voluntários, e contribua com os seus "
-"pontos de vista para que os outros apreciem."
+msgstr "Explore a diversidade dos seus colegas voluntários, e contribua com os seus pontos de vista para que os outros apreciem."
 
 #: ../user/profile_menu.php:37
 msgid ""
 "If you haven't already, you can %1create your own user profile%2 for others "
 "to see!"
-msgstr ""
-"Se ainda não tem, pode %1criar o seu próprio perfil%2 para que outros possam "
-"vê-lo!"
+msgstr "Se ainda não tem, pode %1criar o seu próprio perfil%2 para que outros possam vê-lo!"
 
 #: ../user/profile_menu.php:42
 msgid "User of the Day"
@@ -5550,9 +5134,7 @@ msgstr "Pesquisar os perfis %1por país%2."
 msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
-msgstr ""
-"Mostrar perfis %1ao acaso%2, %3ao acaso com imagens%2, ou %4ao acaso sem "
-"imagens%2."
+msgstr "Mostrar perfis %1ao acaso%2, %3ao acaso com imagens%2, ou %4ao acaso sem imagens%2."
 
 #: ../user/profile_menu.php:66
 msgid "Alphabetical profile listings:"
@@ -5796,28 +5378,21 @@ msgstr "Estatísticas para %1"
 
 #: ../user/stats.php:37
 msgid ""
-"More detailed statistics for %1 and other BOINC-based projects are available "
-"at several web sites:"
-msgstr ""
-"Mais estatísticas detalhadas para %1 e outros projectos relacionados com o "
-"BOINC estão disponíveis em vários websites:"
+"More detailed statistics for %1 and other BOINC-based projects are available"
+" at several web sites:"
+msgstr "Mais estatísticas detalhadas para %1 e outros projectos relacionados com o BOINC estão disponíveis em vários websites:"
 
 #: ../user/stats.php:40
 msgid ""
-"You can also get your current statistics in the form of a \"signature image"
-"\":"
-msgstr ""
-"Pode também obter as suas estatísticas actuais no formato de uma \"signature "
+"You can also get your current statistics in the form of a \"signature "
 "image\":"
+msgstr "Pode também obter as suas estatísticas actuais no formato de uma \"signature image\":"
 
 #: ../user/stats.php:43
 msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1home page%2."
-msgstr ""
-"Adicionalmente pode obter as suas estatísticas individuais resumidas através "
-"de todos os projectos BOINC de vários sites; veja a sua %1página principal%"
-"2."
+msgstr "Adicionalmente pode obter as suas estatísticas individuais resumidas através de todos os projectos BOINC de vários sites; veja a sua %1página principal%2."
 
 #: ../user/team.php:27
 msgid "%1 participants may form %2teams%3."
@@ -5826,9 +5401,7 @@ msgstr "%1 participantes podem formar %2equipas%3."
 #: ../user/team.php:29
 msgid ""
 "You may belong to only one team. You can join or quit a team at any time."
-msgstr ""
-"Só pode pertencer a uma equipa. Pode juntar-se ou sair duma equipa a "
-"qualquer altura."
+msgstr "Só pode pertencer a uma equipa. Pode juntar-se ou sair duma equipa a qualquer altura."
 
 #: ../user/team.php:31
 msgid "Each team has a %1founder%2 who may:"
@@ -5856,9 +5429,7 @@ msgstr "acabar com a equipa se esta não tiver membros"
 
 #: ../user/team.php:40
 msgid "To join a team, visit its team page and click %1Join this team%2."
-msgstr ""
-"Para se juntar a uma equipa, visite a página da equipa e carregue em %"
-"1Juntar-se a esta equipa%2."
+msgstr "Para se juntar a uma equipa, visite a página da equipa e carregue em %1Juntar-se a esta equipa%2."
 
 #: ../user/team.php:41 ../user/team_search.php:180
 msgid "Find a team"
@@ -5879,9 +5450,7 @@ msgstr "Criar uma nova equipa"
 #: ../user/team.php:59
 msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."
-msgstr ""
-"Se não encontrar uma equipa que seja adequada a si, pode %1criar uma equipa%"
-"2."
+msgstr "Se não encontrar uma equipa que seja adequada a si, pode %1criar uma equipa%2."
 
 #: ../user/team_admins.php:34
 msgid "Remove Team Admin status from this member"
@@ -5893,9 +5462,7 @@ msgstr "Adicionar ou remover Administradores da Equipa"
 
 #: ../user/team_admins.php:41
 msgid "You can select team members as 'Team Admins'. Team Admins can:"
-msgstr ""
-"Pode seleccionar membros como 'Administradores da Equipa'. Administradores "
-"da Equipa podem:"
+msgstr "Pode seleccionar membros como 'Administradores da Equipa'. Administradores da Equipa podem:"
 
 #: ../user/team_admins.php:43
 msgid "Edit team information (name, URL, description, country)"
@@ -5907,11 +5474,9 @@ msgstr "Ver o histórico da equipa de quem se juntou/saiu"
 
 #: ../user/team_admins.php:45
 msgid ""
-"Moderate the team forum, if any (admins get email notification of moderation "
-"events and red X reports)"
-msgstr ""
-"Moderar o fórum da equipa, se existir (administradores recebem notificações "
-"por email de eventos de moderação)"
+"Moderate the team forum, if any (admins get email notification of moderation"
+" events and red X reports)"
+msgstr "Moderar o fórum da equipa, se existir (administradores recebem notificações por email de eventos de moderação)"
 
 #: ../user/team_admins.php:47
 msgid "Team Admins cannot:"
@@ -5927,17 +5492,13 @@ msgstr "Remover membros"
 
 #: ../user/team_admins.php:53
 msgid "If a Team Admin quits the team, they cease to be a Team Admin."
-msgstr ""
-"Se um Administrador da Equipa sair da mesma, deixa de ser um Administrador "
-"da Equipa."
+msgstr "Se um Administrador da Equipa sair da mesma, deixa de ser um Administrador da Equipa."
 
 #: ../user/team_admins.php:54
 msgid ""
 "We recommend that you select only people you know and trust very well as "
 "Team Admins."
-msgstr ""
-"Recomendados que só seleccione pessoas para Administradores da Equipa que "
-"conheça e tenha confiança."
+msgstr "Recomendados que só seleccione pessoas para Administradores da Equipa que conheça e tenha confiança."
 
 #: ../user/team_admins.php:59
 msgid "There are currently no Team Admins"
@@ -6007,18 +5568,13 @@ msgstr "Mudar fundador de %1"
 msgid ""
 "Team member %1 requested this team's foundership on %2, but left the team, "
 "thus canceling the request."
-msgstr ""
-"O membro da equipa%1 solicitou a liderança desta equipa em %2, mas deixou a "
-"equipa e logo o pedido foi cancelado."
+msgstr "O membro da equipa%1 solicitou a liderança desta equipa em %2, mas deixou a equipa e logo o pedido foi cancelado."
 
 #: ../user/team_change_founder_form.php:49
 msgid ""
 "Team member %1 has requested this team's foundership. This may be because "
 "you left the team or haven't had contact with the team for a long time."
-msgstr ""
-"O membro da equipa %1 solicitou a liderança desta equipa. Isto poderá ter "
-"acontecido porque você deixou a equipa ou não contacta a equipa por um longo "
-"periodo de tempo."
+msgstr "O membro da equipa %1 solicitou a liderança desta equipa. Isto poderá ter acontecido porque você deixou a equipa ou não contacta a equipa por um longo periodo de tempo."
 
 #: ../user/team_change_founder_form.php:55
 msgid "decline request"
@@ -6026,15 +5582,9 @@ msgstr "declinar pedido"
 
 #: ../user/team_change_founder_form.php:58
 msgid ""
-"If you don't decline the request by %1, %2 will have the option of assuming "
-"team foundership.<br /><br />\n"
-"                  To accept the request, assign foundership to %3 using the "
-"form below."
-msgstr ""
-"Se não declinar o pedido por %1, 2% terá a opção de assumir a liderança da "
-"equipa.<br/><br/>\n"
-"                  Para aceitar o pedido, atribua a liderança a %3 usando o "
-"formulário abaixo."
+"If you don't decline the request by %1, %2 will have the option of assuming team foundership.<br /><br />\n"
+"                  To accept the request, assign foundership to %3 using the form below."
+msgstr "Se não declinar o pedido por %1, 2% terá a opção de assumir a liderança da equipa.<br/><br/>\n                  Para aceitar o pedido, atribua a liderança a %3 usando o formulário abaixo."
 
 #: ../user/team_change_founder_form.php:66
 msgid "No transfer request is pending."
@@ -6044,9 +5594,7 @@ msgstr "Não existe pedido de transferência pendente."
 msgid ""
 "To assign foundership of this team to another member, check the box next to "
 "member name and click <strong>Change founder</strong> below."
-msgstr ""
-"Para atribuir a liderança desta equipa a outro membro, assinale a caixa a "
-"seguir ao membro e clique <strong>Mudar fundador</strong>em baixo."
+msgstr "Para atribuir a liderança desta equipa a outro membro, assinale a caixa a seguir ao membro e clique <strong>Mudar fundador</strong>em baixo."
 
 #: ../user/team_change_founder_form.php:76
 msgid "New founder?"
@@ -6202,10 +5750,7 @@ msgid ""
 "Are you sure you want to remove your team's message board? All threads and "
 "posts will be permanently removed. (You may, however, create a new message "
 "board later)."
-msgstr ""
-"Tem a certeza que quer remover o fórum da sua equipa? Todos os tópicos e "
-"posts serão permanentemente removidos. (Pode, no entanto, criar um novo "
-"fórum mais tarde)."
+msgstr "Tem a certeza que quer remover o fórum da sua equipa? Todos os tópicos e posts serão permanentemente removidos. (Pode, no entanto, criar um novo fórum mais tarde)."
 
 #: ../user/team_forum.php:100
 msgid "Yes - remove message board"
@@ -6217,7 +5762,8 @@ msgstr "Fórum removido"
 
 #: ../user/team_forum.php:124
 msgid ""
-"Your team's message board has been removed. You may now %1create a new one%2."
+"Your team's message board has been removed. You may now %1create a new "
+"one%2."
 msgstr "O fórum da sua equipa foi removido. Pode agora %1criar um novo%2."
 
 #: ../user/team_forum.php:143
@@ -6246,15 +5792,9 @@ msgstr "Pedindo liderança de %1"
 
 #: ../user/team_founder_transfer_action.php:98
 msgid ""
-"The current founder has been notified of your request by email and private "
-"message.<br /><br />\n"
-"                       If the founder does not respond within 60 days you "
-"will be allowed to become the founder."
-msgstr ""
-"O fundador actual foi notificado para o seu pedido por email e mensagem "
-"privada.<br/><br/>\n"
-"                      Se o fundador não responder num prazo de 60 dias, terá "
-"permissão para se tornar o fundador."
+"The current founder has been notified of your request by email and private message.<br /><br />\n"
+"                       If the founder does not respond within 60 days you will be allowed to become the founder."
+msgstr "O fundador actual foi notificado para o seu pedido por email e mensagem privada.<br/><br/>\n                      Se o fundador não responder num prazo de 60 dias, terá permissão para se tornar o fundador."
 
 #: ../user/team_founder_transfer_action.php:102
 #: ../user/team_founder_transfer_action.php:113
@@ -6269,9 +5809,7 @@ msgstr "Assumir liderança de %1"
 msgid ""
 "Congratulations, you are now the founder of team %1. Go to %2Your Account "
 "page%3 to find the Team Admin options."
-msgstr ""
-"Parabéns, é agora o fundador da equipa %1. Vá à %2Página da sua Conta%3 para "
-"verificar as opções de Administração da Equipa."
+msgstr "Parabéns, é agora o fundador da equipa %1. Vá à %2Página da sua Conta%3 para verificar as opções de Administração da Equipa."
 
 #: ../user/team_founder_transfer_action.php:120
 msgid "Decline founder change request"
@@ -6314,9 +5852,7 @@ msgstr "Solicitou a liderança de %1 em %2."
 msgid ""
 "60 days have elapsed since your request, and the founder has not responded. "
 "You may now assume foundership by clicking here:"
-msgstr ""
-"60 dias passaram desde o seu pedido e o fundador não respondeu. Pode agora "
-"assumir a liderança carregando aqui:"
+msgstr "60 dias passaram desde o seu pedido e o fundador não respondeu. Pode agora assumir a liderança carregando aqui:"
 
 #: ../user/team_founder_transfer_form.php:50
 msgid "Assume foundership"
@@ -6326,25 +5862,13 @@ msgstr "Assumir liderança"
 msgid ""
 "The founder was notified of your request. If he/she does not respond by %1 "
 "you will be given an option to become founder."
-msgstr ""
-"O fundador foi notificado do seu pedido. Se ele/ela não responder por %1 "
-"ser-lhe-á dada a opção de se tornar fundador."
+msgstr "O fundador foi notificado do seu pedido. Se ele/ela não responder por %1 ser-lhe-á dada a opção de se tornar fundador."
 
 #: ../user/team_founder_transfer_form.php:60
 msgid ""
-"If the team founder is not active and you want to assume the role of "
-"founder, click the button below. The current founder will be sent an email "
-"detailing your request, and will be able to transfer foundership to you or "
-"to decline your request. If the founder does not respond in 60 days, you "
-"will be allowed to become the founder.<br /><br />\n"
+"If the team founder is not active and you want to assume the role of founder, click the button below. The current founder will be sent an email detailing your request, and will be able to transfer foundership to you or to decline your request. If the founder does not respond in 60 days, you will be allowed to become the founder.<br /><br />\n"
 "                       Are you sure you want to request foundership?"
-msgstr ""
-"Se o fundador da equipa não está activo e quiser assumir o papel de "
-"fundador, carregue no botão em baixo. Será enviado um email detalhado ao "
-"fundador actual com o seu pedido, e o mesmo poderá transferir-lhe a "
-"liderança ou declinar o seu pedido. Se o fundador não responder num prazo de "
-"60 dias, terá permissão para se tornar o fundador.<br/><br/>\n"
-"                       Tem a certeza que quer solicitar a liderança?"
+msgstr "Se o fundador da equipa não está activo e quiser assumir o papel de fundador, carregue no botão em baixo. Será enviado um email detalhado ao fundador actual com o seu pedido, e o mesmo poderá transferir-lhe a liderança ou declinar o seu pedido. Se o fundador não responder num prazo de 60 dias, terá permissão para se tornar o fundador.<br/><br/>\n                       Tem a certeza que quer solicitar a liderança?"
 
 #: ../user/team_founder_transfer_form.php:65
 msgid "Request foundership"
@@ -6358,9 +5882,7 @@ msgstr "A alteração de fundador já foi solicitada por %1 em %2."
 msgid ""
 "A foundership change was requested during the last 90 days, so new requests "
 "are not allowed. Please try again later."
-msgstr ""
-"Uma mudança de liderança foi solicitada durante os ultimos 90 dias, por isso "
-"novos pedidos não são permitidos. Por favor, tente mais tarde."
+msgstr "Uma mudança de liderança foi solicitada durante os ultimos 90 dias, por isso novos pedidos não são permitidos. Por favor, tente mais tarde."
 
 #: ../user/team_join.php:32 ../user/team_join_action.php:32
 #: ../user/team_join_form.php:29
@@ -6421,17 +5943,13 @@ msgstr "Pode ver os membros, estatísticas e informações das equipas."
 
 #: ../user/team_lookup.php:98
 msgid "More than 100 teams match your search. The first 100 are shown."
-msgstr ""
-"Mais de 100 equipas correspondem à sua procura. As primeiras 100 serão "
-"mostradas."
+msgstr "Mais de 100 equipas correspondem à sua procura. As primeiras 100 serão mostradas."
 
 #: ../user/team_lookup.php:104
 msgid ""
-"End of results. %1 If you cannot find the team you are looking for, you may %"
-"2create a team%3 yourself."
-msgstr ""
-"Fim dos resultados. %1 Se não conseguiu encontrar a equipa que procurava, "
-"pode %2criar uma equipa%3 você mesmo."
+"End of results. %1 If you cannot find the team you are looking for, you may "
+"%2create a team%3 yourself."
+msgstr "Fim dos resultados. %1 Se não conseguiu encontrar a equipa que procurava, pode %2criar uma equipa%3 você mesmo."
 
 #: ../user/team_manage.php:26
 msgid "Team administration for %1"
@@ -6511,27 +6029,21 @@ msgstr "Criar ou gerir um fórum da equipa"
 
 #: ../user/team_manage.php:71
 msgid ""
-"To have this team created on all BOINC projects (current and future) you can "
-"make it into a %1BOINC-wide team%2."
-msgstr ""
-"Para ter esta equipa criada em todos os projectos BOINC (agora e "
-"futuramente) pode criá-la numa %1equipa ampla do BOINC%2."
+"To have this team created on all BOINC projects (current and future) you can"
+" make it into a %1BOINC-wide team%2."
+msgstr "Para ter esta equipa criada em todos os projectos BOINC (agora e futuramente) pode criá-la numa %1equipa ampla do BOINC%2."
 
 #: ../user/team_manage.php:73
 msgid ""
 "Team admins are encouraged to join and participate in the Google %1boinc-"
 "team-founders%2 group."
-msgstr ""
-"Administradores de Equipa são encorajados a juntar-se e participar no grupo "
-"%1fundadores de equipas do boinc%2 no Google."
+msgstr "Administradores de Equipa são encorajados a juntar-se e participar no grupo %1fundadores de equipas do boinc%2 no Google."
 
 #: ../user/team_manage.php:75
 msgid ""
-"Other resources for BOINC team admins are available from a third-party site, "
-"%1www.boincteams.com%2."
-msgstr ""
-"Outros recursos para Administradores de Equipa do BOINC estão disponíveis "
-"num site de terceiros, %1www.boincteams.com%2."
+"Other resources for BOINC team admins are available from a third-party site,"
+" %1www.boincteams.com%2."
+msgstr "Outros recursos para Administradores de Equipa do BOINC estão disponíveis num site de terceiros, %1www.boincteams.com%2."
 
 #: ../user/team_manage.php:91
 msgid "Can't delete non-empty team"
@@ -6565,19 +6077,10 @@ msgstr "Sair %1"
 msgid ""
 "<strong>Please note before quitting a team:</strong>\n"
 "         <ul>\n"
-"         <li>If you quit a team, you may rejoin later, or join any other "
-"team you desire\n"
-"         <li>Quitting a team does not affect your personal credit statistics "
-"in any way.\n"
+"         <li>If you quit a team, you may rejoin later, or join any other team you desire\n"
+"         <li>Quitting a team does not affect your personal credit statistics in any way.\n"
 "         </ul>"
-msgstr ""
-"<strong>Tenha em atenção antes de sair de uma equipa:</strong>\n"
-"         <ul>\n"
-"         <li>Se sair de uma equipa, pode mais tarde se juntar novamente, ou "
-"juntar-se a outra equipa que deseja\n"
-"         <li>Sair de uma equipa não afecta de maneira nenhuma os seus "
-"créditos pessoais.\n"
-"         </ul>"
+msgstr "<strong>Tenha em atenção antes de sair de uma equipa:</strong>\n         <ul>\n         <li>Se sair de uma equipa, pode mais tarde se juntar novamente, ou juntar-se a outra equipa que deseja\n         <li>Sair de uma equipa não afecta de maneira nenhuma os seus créditos pessoais.\n         </ul>"
 
 #: ../user/team_quit_form.php:40
 msgid "Quit Team"
@@ -6625,9 +6128,7 @@ msgstr "Resultados da pesquisa de equipas"
 
 #: ../user/team_search.php:94
 msgid "No teams were found matching your criteria. Try another search."
-msgstr ""
-"Não foram encontradas equipas correspondentes aos seus critérios de "
-"pesquisa. Tenta outra pesquisa."
+msgstr "Não foram encontradas equipas correspondentes aos seus critérios de pesquisa. Tenta outra pesquisa."
 
 #: ../user/team_search.php:96
 msgid "Or you can %1create a new team%2."
@@ -6638,11 +6139,7 @@ msgid ""
 "The following teams match one or more of your search criteria.\n"
 "            To join a team, click its name to go to the team page,\n"
 "               then click %1Join this team%2."
-msgstr ""
-"As seguintes equipas correspondem a um ou mais critérios da sua pesquisa.\n"
-"           Para se juntar a uma equipa, carregue no seu nome para ir á "
-"página da equipa,\n"
-"               depois carregue em %1Juntar-se a esta equipa%2."
+msgstr "As seguintes equipas correspondem a um ou mais critérios da sua pesquisa.\n           Para se juntar a uma equipa, carregue no seu nome para ir á página da equipa,\n               depois carregue em %1Juntar-se a esta equipa%2."
 
 #: ../user/team_search.php:107
 msgid "Change your search"
@@ -6652,14 +6149,11 @@ msgstr "Mudar a sua pesquisa"
 msgid ""
 "You can team up with other people with similar interests, or from the same "
 "country, company, or school."
-msgstr ""
-"Pode juntar-se com outras pessoas com interesses similares, ou do mesmo "
-"país, companhia ou escola."
+msgstr "Pode juntar-se com outras pessoas com interesses similares, ou do mesmo país, companhia ou escola."
 
 #: ../user/team_search.php:183
 msgid "Use this form to find teams that might be right for you."
-msgstr ""
-"Use este formulário para encontrar equipas que possam ser adequadas a si."
+msgstr "Use este formulário para encontrar equipas que possam ser adequadas a si."
 
 #: ../user/team_search.php:188
 msgid "%1I'm not interested%2 in joining a team right now."
@@ -6782,9 +6276,7 @@ msgstr "Validar endereço de email do BOINC"
 msgid ""
 "Please visit the following link to validate the email address of your %1 "
 "account:"
-msgstr ""
-"Por favor visite o seguinte link para validar o endereço de email da sua %1 "
-"conta:"
+msgstr "Por favor visite o seguinte link para validar o endereço de email da sua %1 conta:"
 
 #: ../user/validate_email_addr.php:34
 msgid "Validate email sent"
@@ -6794,9 +6286,7 @@ msgstr "Email de validação enviado"
 msgid ""
 "An email has been sent to %1. Visit the link it contains to validate your "
 "email address."
-msgstr ""
-"Um email foi enviado para %1. Visite o link contido para validar o seu "
-"endereço de email."
+msgstr "Um email foi enviado para %1. Visite o link contido para validar o seu endereço de email."
 
 #: ../user/validate_email_addr.php:44
 msgid "No such user."
@@ -6832,14 +6322,10 @@ msgstr "Dados da conta"
 
 #: ../user/weak_auth.php:52
 msgid ""
-"You can access your account either by using your email address and "
-"password,\n"
+"You can access your account either by using your email address and password,\n"
 "    or by using an assigned 'account key'.\n"
 "    Your account key is:"
-msgstr ""
-"Pode aceder à sua conta usando o endereço de email e palavra-passe,\n"
-"      ou então usando a 'chave da conta' assignada.\n"
-"      A sua chave da conta é:"
+msgstr "Pode aceder à sua conta usando o endereço de email e palavra-passe,\n      ou então usando a 'chave da conta' assignada.\n      A sua chave da conta é:"
 
 #: ../user/weak_auth.php:57
 msgid "This key can be used to:"
@@ -6855,11 +6341,7 @@ msgid ""
 "       To do so, install BOINC,\n"
 "       create a file named %1 in the BOINC\n"
 "       data directory, and set its contents to:"
-msgstr ""
-"para adicionar um computador à sua conta sem ter de usar o Gestor BOINC.\n"
-"        Para o fazer, instale o BOINC,\n"
-"        crie um ficheiro chamado %1 na directoria de dados\n"
-"        do BOINC e, defina os seus conteúdos para:"
+msgstr "para adicionar um computador à sua conta sem ter de usar o Gestor BOINC.\n        Para o fazer, instale o BOINC,\n        crie um ficheiro chamado %1 na directoria de dados\n        do BOINC e, defina os seus conteúdos para:"
 
 #: ../user/weak_auth.php:73
 msgid "Weak account key"
@@ -6868,28 +6350,17 @@ msgstr "Palavra chave fraca"
 #: ../user/weak_auth.php:74
 msgid ""
 "Your 'weak account key' can be used to attach computers to your account\n"
-"    as described above, but cannot be used to log in to your account or "
-"change it in any way.\n"
+"    as described above, but cannot be used to log in to your account or change it in any way.\n"
 "    If you want to attach untrusted or insecure computers to your account,\n"
 "    do so using your weak account key.\n"
 "    Your weak account key is:"
-msgstr ""
-"A sua 'chave de conta fraca' pode ser utilizada para adicionar computadores "
-"à sua conta\n"
-"    como descrito acima mas, não pode ser usada para se ligar à sua conta ou "
-"alterá-la de qualquer maneira.\n"
-"    Se quiser adicionar computadores inseguros ou que não sejam de "
-"confiança, à sua conta,\n"
-"    faça-o usando a sua chave de conta fraca.\n"
-"    A sua chave de conta fraca é:"
+msgstr "A sua 'chave de conta fraca' pode ser utilizada para adicionar computadores à sua conta\n    como descrito acima mas, não pode ser usada para se ligar à sua conta ou alterá-la de qualquer maneira.\n    Se quiser adicionar computadores inseguros ou que não sejam de confiança, à sua conta,\n    faça-o usando a sua chave de conta fraca.\n    A sua chave de conta fraca é:"
 
 #: ../user/weak_auth.php:81
 msgid ""
 "If you change your password, your weak account key changes, and your "
 "previous weak account key becomes invalid."
-msgstr ""
-"Se mudar a sua palavra passe, a sua chave fraca mudará e a sua chave fraca "
-"anterior torna-se inválida"
+msgstr "Se mudar a sua palavra passe, a sua chave fraca mudará e a sua chave fraca anterior torna-se inválida"
 
 #: ../user/workunit.php:32
 msgid "can't find workunit"
@@ -6955,9 +6426,7 @@ msgstr "O seu fundo pessoal."
 msgid ""
 "Tell us about yourself. You could tell us where you're from, your age, "
 "occupation, hobbies, or anything else about yourself."
-msgstr ""
-"Fale-nos sobre si. Diga-nos de onde é, a sua idade, ocupação, passatempos ou "
-"algos mais sobre si."
+msgstr "Fale-nos sobre si. Diga-nos de onde é, a sua idade, ocupação, passatempos ou algos mais sobre si."
 
 #: ../project.sample/project.inc:87
 msgid "Your opinions about %1"
@@ -6970,12 +6439,7 @@ msgid ""
 "    <li>What are your views about the project?\n"
 "    <li>Any suggestions?\n"
 "    </ol>"
-msgstr ""
-"Diga-nos as suas opiniões acerca %1<ol>\n"
-"    <li>Porque executa %1?\n"
-"    <li>O seu ponto de vista acerca do projecto?\n"
-"    <li>Alguma sugestão?\n"
-"    </ol>"
+msgstr "Diga-nos as suas opiniões acerca %1<ol>\n    <li>Porque executa %1?\n    <li>O seu ponto de vista acerca do projecto?\n    <li>Alguma sugestão?\n    </ol>"
 
 #: ../project.sample/project_specific_prefs.inc:47
 msgid "Color scheme for graphics"
@@ -6993,282 +6457,8 @@ msgstr "Executar apenas as aplicações seleccionadas"
 msgid ""
 "If no work for selected applications is available, accept work from other "
 "applications?"
-msgstr ""
-"Se não houver trabalho para as aplicações seleccionadas, aceitar trabalho de "
-"outras aplicações?"
+msgstr "Se não houver trabalho para as aplicações seleccionadas, aceitar trabalho de outras aplicações?"
 
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(todas as aplicações)"
-
-#~ msgid "Error:"
-#~ msgstr "Erro:"
-
-#~ msgid "Account creation is disabled"
-#~ msgstr "A criação de conta está desabilitada"
-
-#~ msgid ""
-#~ "Sorry, this project has disabled the creation of new accounts.\n"
-#~ "Please try again later."
-#~ msgstr ""
-#~ "Pedimos desculpa, mas este projecto desabilitou a criação de novas contas.\n"
-#~ "Por favor, tente mais tarde."
-
-#~ msgid "Account creation is currently disabled. Please try again later."
-#~ msgstr ""
-#~ "A criação de conta está actualmente desabilitada. Por favor, tente mais "
-#~ "tarde."
-
-#~ msgid "nvidia GPU"
-#~ msgstr "GPU nvidia"
-
-#~ msgid ""
-#~ "This project hasn\\'t created an email message - please notify its "
-#~ "administrators"
-#~ msgstr ""
-#~ "Este projecto não criou uma mensagem de email -  por favor notifique os "
-#~ "administradores"
-
-#~ msgid ""
-#~ "These apply to all BOINC projects in which you participate.<br>\n"
-#~ "             On computers participating in multiple projects, the most "
-#~ "recently modified preferences will be used."
-#~ msgstr ""
-#~ "Estas aplica-se a todos os projectos BOINC em que participa.<br>\n"
-#~ "             Computadores que participam em projectos multiplos, as "
-#~ "preferências usadas são as modificadas mais recentemente."
-
-#~ msgid "Export this news item as a Notice"
-#~ msgstr "Exportar estas novidades como Notícia"
-
-#~ msgid ""
-#~ "Go to the BOINC data directory on your computer (on Windows this is usually "
-#~ "<b>C:\\Documents and Settings\\All Users\\Application Data\\BOINC</b> or "
-#~ "<b>C:\\Program Files\\BOINC</b>."
-#~ msgstr ""
-#~ "Vá à directoria de dados do BOINC no seu computador (no Windows usualmente "
-#~ "em <b>C:\\Documents and Settings\\All Users\\Application Data\\BOINC</b> or "
-#~ "<b>C:\\Programas\\BOINC</b>."
-
-#~ msgid "No such task"
-#~ msgstr "Não existe tal tarefa"
-
-#~ msgid ""
-#~ "Computer is connected to the Internet about every %1 Leave blank or 0 if "
-#~ "always connected. %2 BOINC will try to maintain at least this much work "
-#~ "(max 10 days). %3"
-#~ msgstr ""
-#~ "O computador conecta-se à Internet a cada %1 Deixar em branco ou 0 se "
-#~ "estiver sempre ligado. %2 O BOINC irá tentar manter no minímo esta "
-#~ "quantidade de trabalho (máximo 10 dias). %3"
-
-#~ msgid "Maintain enough work for an additional"
-#~ msgstr "Manter trabalho suficiente para uma adicional"
-
-#~ msgid "Update failed: "
-#~ msgstr "Actualização falhada:"
-
-#~ msgid "Provides %1limited access%2 to your account"
-#~ msgstr "Providencia %1acesso limitado%2 à sua conta"
-
-#~ msgid ""
-#~ "Don't use this form. Just run BOINC, select Add Project, and enter an "
-#~ "email address and password."
-#~ msgstr ""
-#~ "Não use este formulário. Execute apenas o BOINC, seleccione Adicionar "
-#~ "Projecto e, insira o endereço de email e palavra passe."
-
-#~ msgid "Do not reorder sticky posts"
-#~ msgstr "Não reordenar posts sticky"
-
-#~ msgid "If a thread contains more than this number of posts"
-#~ msgstr "Se um tópico conter mais do que este número de posts"
-
-#~ msgid "only display the first one and this many of the last ones"
-#~ msgstr "apenas mostrar o primeiro e esta quantidade dos utlimos"
-
-#~ msgid "Your report has been recorded. Thanks you for your input."
-#~ msgstr "O seu report foi gravado. Obrigado pela sua entrada."
-
-#~ msgid "Search type"
-#~ msgstr "Tipo de pesquisa"
-
-#~ msgid "User names starting with"
-#~ msgstr "Nomes de utilizador começando com"
-
-#~ msgid ""
-#~ "Your 'weak account key' lets you link a computer to your account without "
-#~ "giving it the ability to log in to your account or to change it in any "
-#~ "way."
-#~ msgstr ""
-#~ "A sua 'chave fraca da conta' deixa-o linkar um computador à sua conta, "
-#~ "sem permitir que possa fazer login na sua conta ou mudá-la de alguma "
-#~ "maneira."
-
-#~ msgid ""
-#~ "This mechanism works only with projects that have upgraded their server "
-#~ "software 7 Dec 2007 or later."
-#~ msgstr ""
-#~ "Este mecanismo só funciona com projectos que tenham feito o upgrade do "
-#~ "software do seu servidor para 7 Dec 2007 ou mais tarde."
-
-#~ msgid "Your weak account key for this project is:"
-#~ msgstr "A sua chave fraca da conta para este projecto é:"
-
-#~ msgid ""
-#~ "To use your weak account key on a given host, find or create the 'account "
-#~ "file' for this project. This file has a name of the form "
-#~ "<b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
-#~ msgstr ""
-#~ "Para usar uma chave fraca de conta num determinado anfitrião, procure ou "
-#~ "crie o 'ficheiro conta' para este projecto. Este ficheiro tem o nome do "
-#~ "form <b>account_PROJECT:URL.xml</b>. O ficheiro da conta para %1 é <b>%2</"
-#~ "b>."
-
-#~ msgid "Create this file if needed. Set its contents to:"
-#~ msgstr "Crie este ficheiro se necessário. Defina o seu conteúdo para:"
-
-#~ msgid ""
-#~ "Your weak account key is a function of your password. If you change your "
-#~ "password, your weak account key changes, and your previous weak account "
-#~ "key becomes invalid."
-#~ msgstr ""
-#~ "A sua palavra fraca da conta é uma função da sua palavra-passe. Se mudar "
-#~ "a palavra passe, a sua palavra fraca da conta muda e a sua palavra fraca "
-#~ "da conta torna-se inválida."
-
-#~ msgid "Account key"
-#~ msgstr "Palavra chave da conta"
-
-#~ msgid "Provides full access to your account"
-#~ msgstr "Providencia acesso total a sua conta"
-
-#~ msgid "Export"
-#~ msgstr "Exportar"
-
-#~ msgid "- private message"
-#~ msgstr "- mensagem privada"
-
-#~ msgid "Private message from"
-#~ msgstr "Mensagem privada de"
-
-#~ msgid "Email address verification pending"
-#~ msgstr "Verificação de endereço de email pendente"
-
-#~ msgid "Logged in as %1."
-#~ msgstr "Logado coomo %1."
-
-#~ msgid "Log in as someone else."
-#~ msgstr "Fazer login como outra pessoa."
-
-#~ msgid "No thread with id %1. Please check the link and try again."
-#~ msgstr ""
-#~ "Não existe tópico com esse id %1. Por favor verifique o link e tente "
-#~ "novamente."
-
-#~ msgid "Request not found"
-#~ msgstr "Pedido não encontrado"
-
-#~ msgid "%1 has added you as a friend."
-#~ msgstr "%1 adicionou-o como amigo."
-
-#~ msgid "Account data for %1"
-#~ msgstr "Dados da conta para %1"
-
-#~ msgid "couldn't create message board"
-#~ msgstr "não foi possivel criar um fórum"
-
-#~ msgid "message board not found"
-#~ msgstr "fórum não encontrado"
-
-#~ msgid "no such forum"
-#~ msgstr "não existe tal fórum"
-
-#~ msgid "unknown command %1"
-#~ msgstr "comando desconhecido %1"
-
-#~ msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
-#~ msgstr "ERRO: %1 não existe! Não pode criar combo box.<br>"
-
-#~ msgid ""
-#~ "To protect the project's webpages from spam, we kindly ask you to type in "
-#~ "the two words shown in the image:<br>\n"
-#~ msgstr ""
-#~ "Para proteger as páginas web de spam, pedimos-lhe que tenha a amabilidade "
-#~ "de escrever as duas palavras escritas na imagem:<br>\n"
-
-#~ msgid "BOINC client version"
-#~ msgstr "Versão do cliente BOINC"
-
-#~ msgid "Client detached"
-#~ msgstr "Cliente desanexado"
-
-#~ msgid "Maximum daily WU quota per CPU"
-#~ msgstr "Quota máxima por dia de unidades de trabalho por CPU"
-
-#~ msgid "%1/day"
-#~ msgstr "%1/dia"
-
-#~ msgid "Task ID"
-#~ msgstr "ID da tarefa"
-
-#~ msgid "Granted credit"
-#~ msgstr "Crédito garantido"
-
-#~ msgid "Click to"
-#~ msgstr "Carregue para"
-
-#~ msgid "(no restriction if equal)"
-#~ msgstr "(sem restrições se igual)"
-
-#~ msgid "percent of CPU time"
-#~ msgstr "percentagem do tempo de CPU"
-
-#~ msgid "Leave at least"
-#~ msgstr "Levar pelo menos"
-
-#~ msgid "% of page file (swap space)"
-#~ msgstr "% de page file (espaço swap)"
-
-#~ msgid "Use ATI GPU if present %1(enforced by 6.10+ clients)%2"
-#~ msgstr "Usar ATI GPU, se presente %1(forçado pelos clientes da 6.10+)%2"
-
-#~ msgid "KB/s"
-#~ msgstr "KB/s"
-
-#~ msgid "GB disk space"
-#~ msgstr "GB em espaço no disco"
-
-#~ msgid "GB disk space free"
-#~ msgstr "GB em espaço no disco livre"
-
-#~ msgid "(no restriction)"
-#~ msgstr "(sem restrições)"
-
-#~ msgid "%1 GB disk space"
-#~ msgstr "%1 GB em espaço no disco"
-
-#~ msgid "%1 GB disk space free"
-#~ msgstr "%1 GB em espaço no disco livre"
-
-#~ msgid ""
-#~ "Resource share %1If you participate in multiple BOINC projects, this is "
-#~ "the proportion of your resources used by %2%3"
-#~ msgstr ""
-#~ "Partilha de recursos %1Se participa em projectos multiplos do BOINC, esta "
-#~ "é a proporção dos recursos usados pelo %2%3"
-
-#~ msgid "Gbytes"
-#~ msgstr "Gbytes"
-
-#~ msgid "Resource share"
-#~ msgstr "Partilha de recursos"
-
-#~ msgid "<p>"
-#~ msgstr "<p>"
-
-#~ msgid "preferences"
-#~ msgstr "preferências"
-
-#~ msgid "Last %1"
-#~ msgstr "Ultimo %1"

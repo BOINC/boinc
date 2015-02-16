@@ -1,29 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# aceman, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 5.x\n"
+"Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2014-03-17 21:31+0000\n"
-"Last-Translator: aceman <acelists@atlas.sk>\n"
-"Language-Team: BOINC SK\n"
-"Language: sk\n"
+"PO-Revision-Date: 2015-02-16 00:01+0000\n"
+"Last-Translator: aceman\n"
+"Language-Team: Slovak (http://www.transifex.com/projects/p/boinc/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Pootle 2.5.0\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-SearchPath-1: clientgui/msw\n"
-"X-Poedit-SearchPath-2: clientgui/gtk\n"
-"X-Poedit-SearchPath-3: clientgui/mac\n"
-"X-Poedit-SearchPath-0: clientgui\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1395091864.0\n"
 
 #: AccountInfoPage.cpp:387
 #, c-format
@@ -34,17 +27,13 @@ msgstr "Zadajte údaje Vášho konta na %s"
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
-msgstr ""
-"Prosím vložte informácie o Vašom konte\n"
-"(pre vytvorenie konta navštívte web stránku projektu)"
+msgstr "Prosím vložte informácie o Vašom konte\n(pre vytvorenie konta navštívte web stránku projektu)"
 
 #: AccountInfoPage.cpp:397
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can add it only if you already have an account."
-msgstr ""
-"Tento projekt momentálne neakceptuje nové kontá.\n"
-"Môžete sa pripojiť len ak už máte konto vytvorené."
+msgstr "Tento projekt momentálne neakceptuje nové kontá.\nMôžete sa pripojiť len ak už máte konto vytvorené."
 
 #: AccountInfoPage.cpp:401
 msgid "Are you already running this project?"
@@ -66,12 +55,7 @@ msgid ""
 "Please click on the 'Find login information' link\n"
 "below to find out what to put in the email address and\n"
 "password fields."
-msgstr ""
-"Nebolo možné automaticky nastaviť údaje o Vašom konte.\n"
-"\n"
-"Prosím kliknite dolu na 'Získať prihlasovacie údaje',\n"
-"aby ste sa dozvedeli, čo je potrebné zadať\n"
-"do polí emailová adresa a heslo."
+msgstr "Nebolo možné automaticky nastaviť údaje o Vašom konte.\n\nProsím kliknite dolu na 'Získať prihlasovacie údaje',\naby ste sa dozvedeli, čo je potrebné zadať\ndo polí emailová adresa a heslo."
 
 #: AccountInfoPage.cpp:416
 msgid "Find login information"
@@ -116,14 +100,11 @@ msgid ""
 "If you have not yet registered with this account manager,\n"
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
-msgstr ""
-"Ak ešte nie ste zaregistrovaný u tohto Správu konta,\n"
-"urobte to ešte pred pokračovaním.  Kliknite dolu\n"
-"na zaregistrovanie alebo získanie zabudnutého hesla."
+msgstr "Ak ešte nie ste zaregistrovaný u tohto Správu konta,\nurobte to ešte pred pokračovaním.  Kliknite dolu\nna zaregistrovanie alebo získanie zabudnutého hesla."
 
 #: AccountInfoPage.cpp:532
 msgid "Account manager web site"
-msgstr ""
+msgstr "Website manager de cont"
 
 #: AccountInfoPage.cpp:574 WelcomePage.cpp:348
 msgid "Add project"
@@ -163,25 +144,23 @@ msgstr "Zvoľte Správcu konta"
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
-msgstr ""
-"Zvoľte Správcu konta kliknutím na jeho názov\n"
-"alebo napíšte jeho adresu URL."
+msgstr "Zvoľte Správcu konta kliknutím na jeho názov\nalebo napíšte jeho adresu URL."
 
 #: AccountManagerInfoPage.cpp:279
 msgid "Account manager details:"
-msgstr ""
+msgstr "Detaily Správcu konta"
 
 #: AccountManagerInfoPage.cpp:283
 msgid "Account manager &URL:"
-msgstr ""
+msgstr "&URL Manager de cont:"
 
 #: AccountManagerInfoPage.cpp:287
 msgid "Open web page"
-msgstr ""
+msgstr "Deschide pagină web"
 
 #: AccountManagerInfoPage.cpp:290
 msgid "Visit this account manager's web site"
-msgstr ""
+msgstr "Vizitaţi site web al managerului de cont"
 
 #: AccountManagerProcessingPage.cpp:187 AccountManagerPropertiesPage.cpp:193
 #, c-format
@@ -284,9 +263,7 @@ msgstr "P&ripojiť k projektu alebo Správcovi konta..."
 
 #: AdvancedFrame.cpp:425 sg_ProjectPanel.cpp:76
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
-msgstr ""
-"Staňte sa dobrovoľníkom v ktoromkoľvek z vyše 30 projektov v mnohých "
-"oblastiach vedy"
+msgstr "Staňte sa dobrovoľníkom v ktoromkoľvek z vyše 30 projektov v mnohých oblastiach vedy"
 
 #: AdvancedFrame.cpp:429
 #, c-format
@@ -441,7 +418,8 @@ msgid "Read config files"
 msgstr "Načítať konfiguračné súbory"
 
 #: AdvancedFrame.cpp:590
-msgid "Read configuration info from cc_config.xml and any app_config.xml files"
+msgid ""
+"Read configuration info from cc_config.xml and any app_config.xml files"
 msgstr "Načítať konfiguráciu zo súborov cc_config.xml a app_config.xml"
 
 #: AdvancedFrame.cpp:594
@@ -493,7 +471,7 @@ msgstr "Zobraziť informácie o %s"
 #: AdvancedFrame.cpp:661 sg_BoincSimpleFrame.cpp:224
 #, c-format
 msgid "%s &web site"
-msgstr ""
+msgstr "%s &website"
 
 #: AdvancedFrame.cpp:667 sg_BoincSimpleFrame.cpp:230
 #, c-format
@@ -547,12 +525,7 @@ msgid ""
 "but you'll have to manage projects manually.\n"
 "\n"
 "Do you want to stop using %s?"
-msgstr ""
-"Ak prestanete používať %s,\n"
-"všetky Vaše aktuálne projekty zostanú zachované,\n"
-"ale budete ich musieť spravovať manuálne.\n"
-"\n"
-"Chcete zastaviť používanie %s?"
+msgstr "Ak prestanete používať %s,\nvšetky Vaše aktuálne projekty zostanú zachované,\nale budete ich musieť spravovať manuálne.\n\nChcete zastaviť používanie %s?"
 
 #: AdvancedFrame.cpp:1401
 #, c-format
@@ -564,9 +537,7 @@ msgstr "%s - Vypnúť aktuálneho klienta..."
 msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
-msgstr ""
-"%s vypne aktuálne pripojeného klienta\n"
-"a vyzve Vás na pripojenie na iný počítač."
+msgstr "%s vypne aktuálne pripojeného klienta\na vyzve Vás na pripojenie na iný počítač."
 
 #: AdvancedFrame.cpp:1745 DlgAbout.cpp:119
 #, c-format
@@ -603,11 +574,7 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr ""
-"Konto s týmto užívateľským menom už existuje a má\n"
-"iné heslo ako Vami vložené.\n"
-"\n"
-"Prosím navštívte web stránku projektu a riaďte sa tam instrukciami."
+msgstr "Konto s týmto užívateľským menom už existuje a má\niné heslo ako Vami vložené.\n\nProsím navštívte web stránku projektu a riaďte sa tam instrukciami."
 
 #: AlreadyExistsPage.cpp:191
 msgid "Email address already in use"
@@ -619,11 +586,7 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr ""
-"Konto s touto emailovou adresou už existuje a má \n"
-"iné heslo ako ste vložili.\n"
-"\n"
-"Prosím navštívte web stránku projektu a riaďte sa inštrukciami."
+msgstr "Konto s touto emailovou adresou už existuje a má \niné heslo ako ste vložili.\n\nProsím navštívte web stránku projektu a riaďte sa inštrukciami."
 
 #: AsyncRPC.cpp:1031
 msgid "Communicating with BOINC client.  Please wait ..."
@@ -656,20 +619,14 @@ msgstr "%s - Chyba pripojenia"
 #: BOINCBaseFrame.cpp:514
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_users' local user "
-"group."
-msgstr ""
-"Momentálne nemáte oprávnenia spravovať tohto klienta.\n"
-"Kontaktujte prosím Vášho administrátora, aby Vás pridal do lokálnej skupiny "
-"používateľov 'boinc_users'."
+"Please contact your administrator to add you to the 'boinc_users' local user group."
+msgstr "Momentálne nemáte oprávnenia spravovať tohto klienta.\nKontaktujte prosím Vášho administrátora, aby Vás pridal do lokálnej skupiny používateľov 'boinc_users'."
 
 #: BOINCBaseFrame.cpp:523
 msgid ""
 "Authorization failed connecting to running client.\n"
 "Make sure you start this program in the same directory as the client."
-msgstr ""
-"Autorizácia nemala pripojenie pre spustenie klienta.\n"
-"Preverte, či spúšťate tento program v tom istom adresári kde je klient."
+msgstr "Autorizácia nemala pripojenie pre spustenie klienta.\nPreverte, či spúšťate tento program v tom istom adresári kde je klient."
 
 #: BOINCBaseFrame.cpp:525
 msgid "Authorization failed connecting to running client."
@@ -689,9 +646,7 @@ msgstr "%s - Pripojenie neúspešné"
 msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
-msgstr ""
-"%s nie je schopný pripojiť sa k %s klientovi.\n"
-"Chcete skúsiť pripojiť sa znova?"
+msgstr "%s nie je schopný pripojiť sa k %s klientovi.\nChcete skúsiť pripojiť sa znova?"
 
 #: BOINCBaseFrame.cpp:622
 #, c-format
@@ -702,21 +657,15 @@ msgstr "%s - Spustenie daemona zlyhalo"
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
-"Please launch the Control Panel->Administative Tools->Services applet and "
-"start the BOINC service."
-msgstr ""
-"%s nie je schopný spustiť %s.\n"
-"Spustite prosím Ovládacie panely->Nástroje pre správu->Služby a spustite "
-"službu BOINC."
+"Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
+msgstr "%s nie je schopný spustiť %s.\nSpustite prosím Ovládacie panely->Nástroje pre správu->Služby a spustite službu BOINC."
 
 #: BOINCBaseFrame.cpp:638
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please start the daemon and try again."
-msgstr ""
-"%s nie je schopný spustiť klienta %s.\n"
-"Spustite prosím daemona a skúste to znova."
+msgstr "%s nie je schopný spustiť klienta %s.\nSpustite prosím daemona a skúste to znova."
 
 #: BOINCBaseFrame.cpp:689
 #, c-format
@@ -727,15 +676,9 @@ msgstr "%s - Stav pripojenia"
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
-"Please use the 'Advanced\\Select Computer...' menu option to connect up to a "
-"%s client.\n"
+"Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
-msgstr ""
-"%s nie je momentálne pripojený k %s clientovi.\n"
-"Prosím použite 'Súbor\\Vybrať počítač...' voľbu ponuky pre pripojenie sa k %s "
-"klientovi.\n"
-"Pre pripojenie sa k Vášmu miestnemu počítaču prosím použite 'localhost' ako "
-"názov počítača."
+msgstr "%s nie je momentálne pripojený k %s clientovi.\nProsím použite 'Súbor\\Vybrať počítač...' voľbu ponuky pre pripojenie sa k %s klientovi.\nPre pripojenie sa k Vášmu miestnemu počítaču prosím použite 'localhost' ako názov počítača."
 
 #: BOINCBaseView.cpp:779
 msgid "Project web pages"
@@ -751,9 +694,7 @@ msgstr "%s - Nečakané ukončenie"
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
-msgstr ""
-"Klient %s 3x nečakane ukončil prácu počas posledných %d minút.\n"
-"Chcete ho znovu reštartovať?"
+msgstr "Klient %s 3x nečakane ukončil prácu počas posledných %d minút.\nChcete ho znovu reštartovať?"
 
 #: BOINCDialupManager.cpp:61
 #, c-format
@@ -765,9 +706,7 @@ msgstr "%s - Stav siete"
 msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
-msgstr ""
-"%s sa potrebuje pripojiť k Internetu.\n"
-"Môže to byť teraz?"
+msgstr "%s sa potrebuje pripojiť k Internetu.\nMôže to byť teraz?"
 
 #: BOINCDialupManager.cpp:254
 #, c-format
@@ -789,9 +728,7 @@ msgstr "%s bol neúspešný pri pripájaní k Internetu."
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
-msgstr ""
-"%s má detekované aktuálne pripojenie k Internetu.\n"
-"Aktualizujú sa všetky projekty a obnovujú všetky prenosy."
+msgstr "%s má detekované aktuálne pripojenie k Internetu.\nAktualizujú sa všetky projekty a obnovujú všetky prenosy."
 
 #: BOINCDialupManager.cpp:417
 #, c-format
@@ -814,25 +751,14 @@ msgid ""
 " or\n"
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
-msgstr ""
-"Momentálne nemáte oprávnenia na správu klienta.\n"
-"\n"
-"Aby ste mohli používať %s ako aktuálny užívateľ:\n"
-"  - preinštalujte %s s voľbou \"Áno\" pri otázke o\n"
-"     ne-administrátorských kontách\n"
-" alebo\n"
-"  - kontaktujte Vášho administrátora, aby Vás pridal\n"
-"     do skupiny používateľov 'boinc_master'."
+msgstr "Momentálne nemáte oprávnenia na správu klienta.\n\nAby ste mohli používať %s ako aktuálny užívateľ:\n  - preinštalujte %s s voľbou \"Áno\" pri otázke o\n     ne-administrátorských kontách\n alebo\n  - kontaktujte Vášho administrátora, aby Vás pridal\n     do skupiny používateľov 'boinc_master'."
 
 #: BOINCGUIApp.cpp:345
 #, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
-msgstr ""
-"Vlastnícke práva alebo povolenia pre %s nie sú nastavené správne; prosím "
-"nainštalujte %s znova.\n"
-"(Kód chyby %d"
+msgstr "Vlastnícke práva alebo povolenia pre %s nie sú nastavené správne; prosím nainštalujte %s znova.\n(Kód chyby %d"
 
 #: BOINCGUIApp.cpp:351
 msgid " at "
@@ -847,9 +773,7 @@ msgstr ")"
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
-msgstr ""
-"Pre správne fungovanie BOINC je potrebný reštart.\n"
-"Prosím reštartujte počítač a pokus opakujte."
+msgstr "Pre správne fungovanie BOINC je potrebný reštart.\nProsím reštartujte počítač a pokus opakujte."
 
 #: BOINCGUIApp.cpp:385 DlgAbout.cpp:153
 msgid "BOINC Manager"
@@ -893,9 +817,7 @@ msgstr "zablokovať BOINC bezpečnosť užívateľov a oprávnení"
 
 #: BOINCGUIApp.cpp:584
 msgid "set skin debugging mode to enable skin manager error messages"
-msgstr ""
-"zapnúť režim ladenia vzhľadu, aby mohli byť zobrazené chybové hlásenia "
-"správcu vzhľadu"
+msgstr "zapnúť režim ladenia vzhľadu, aby mohli byť zobrazené chybové hlásenia správcu vzhľadu"
 
 #: BOINCGUIApp.cpp:585
 msgid "multiple instances of BOINC Manager allowed"
@@ -1011,10 +933,7 @@ msgid ""
 "Please try again later.\n"
 "\n"
 "Click Finish to close."
-msgstr ""
-"Prosím skúste znovu neskôr.\n"
-"\n"
-"Kliknite Dokončiť pre zatvorenie."
+msgstr "Prosím skúste znovu neskôr.\n\nKliknite Dokončiť pre zatvorenie."
 
 #: CompletionErrorPage.cpp:225 CompletionPage.cpp:222 CompletionPage.cpp:242
 #: CompletionPage.cpp:273
@@ -1037,9 +956,7 @@ msgstr "Pripojenie k projektu prebehlo úspešne."
 msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
-msgstr ""
-"Keď kliknete na Dokončiť, Váš webový prehliadač pôjde na stránku,\n"
-"kde môžete nastaviť meno Vášho konta a preferencie."
+msgstr "Keď kliknete na Dokončiť, Váš webový prehliadač pôjde na stránku,\nkde môžete nastaviť meno Vášho konta a preferencie."
 
 #: CompletionPage.cpp:232
 #, c-format
@@ -1089,15 +1006,11 @@ msgstr "Autorské práva:"
 msgid ""
 "(C) 2003-2013 University of California, Berkeley.\n"
 "All Rights Reserved."
-msgstr ""
-"(C) 2003-2013 Kalifornská Univerzita, Berkeley.\n"
-"Všetky práva vyhradené."
+msgstr "(C) 2003-2013 Kalifornská Univerzita, Berkeley.\nVšetky práva vyhradené."
 
 #: DlgAbout.cpp:196
 msgid "Berkeley Open Infrastructure for Network Computing"
-msgstr ""
-"Berkeley Open Infrastructure for Network Computing\n"
-"(Berkeleyská otvorená infraštruktúra pre sieťové výpočty)"
+msgstr "Berkeley Open Infrastructure for Network Computing\n(Berkeleyská otvorená infraštruktúra pre sieťové výpočty)"
 
 #: DlgAbout.cpp:208 DlgExitMessage.cpp:173 DlgGenericMessage.cpp:120
 #: DlgOptions.cpp:396 DlgSelectComputer.cpp:163
@@ -1106,7 +1019,7 @@ msgstr "&OK"
 
 #: DlgAdvPreferences.cpp:544
 msgid "invalid number"
-msgstr ""
+msgstr "număr invalid"
 
 #: DlgAdvPreferences.cpp:545
 msgid "invalid time, format is HH:MM"
@@ -1161,9 +1074,7 @@ msgstr "'%s' sa už nachádza v zozname."
 msgid ""
 "Do you really want to clear all local preferences?\n"
 "(This will not affect exclusive applications.)"
-msgstr ""
-"Naozaj chcete vymazať všetky lokálne preferencie?\n"
-"(Toto sa netýka výhradných aplikácií.)"
+msgstr "Naozaj chcete vymazať všetky lokálne preferencie?\n(Toto sa netýka výhradných aplikácií.)"
 
 #: DlgAdvPreferences.cpp:1078 sg_DlgPreferences.cpp:1030
 msgid "Confirmation"
@@ -1179,11 +1090,7 @@ msgid ""
 "This dialog controls preferences for this computer only.\n"
 "Click OK to set preferences.\n"
 "Click Clear to restore web-based settings (except exclusive apps)."
-msgstr ""
-"Táto ponuka obsahuje predvoľby len pre tento počítač.\n"
-"Kliknite na OK pre uloženie predvolieb.\n"
-"Kliknite na Vymazať pre obnovenie predvolieb z webovej stránky projektu "
-"(okrem výhradných aplikácií)."
+msgstr "Táto ponuka obsahuje predvoľby len pre tento počítač.\nKliknite na OK pre uloženie predvolieb.\nKliknite na Vymazať pre obnovenie predvolieb z webovej stránky projektu (okrem výhradných aplikácií)."
 
 #: DlgAdvPreferencesBase.cpp:65 sg_DlgPreferences.cpp:428
 msgid "Clear"
@@ -1241,8 +1148,7 @@ msgstr "Pokiaľ je počítač na batériách"
 #: DlgAdvPreferencesBase.cpp:142
 msgid ""
 "check this if you want this computer to do work while it runs on batteries"
-msgstr ""
-"zaškrtnite, ak chcete, aby výpočty prebiehali aj keď počítač ide na batérie"
+msgstr "zaškrtnite, ak chcete, aby výpočty prebiehali aj keď počítač ide na batérie"
 
 #: DlgAdvPreferencesBase.cpp:148
 msgid "While computer is in use"
@@ -1261,9 +1167,7 @@ msgstr "Používať GPU aj keď je počítač používaný"
 msgid ""
 "check this if you want your GPU to do work even when you're using the "
 "computer"
-msgstr ""
-"zaškrtnite, ak chcete, aby výpočty na GPU prebiehali aj keď počítač "
-"používate"
+msgstr "zaškrtnite, ak chcete, aby výpočty na GPU prebiehali aj keď počítač používate"
 
 #: DlgAdvPreferencesBase.cpp:172
 msgid "Only after computer has been idle for"
@@ -1272,8 +1176,7 @@ msgstr "Len ak bol počítač nepoužívaný aspoň"
 #: DlgAdvPreferencesBase.cpp:182
 msgid ""
 "do work only after you haven't used the computer for this number of minutes"
-msgstr ""
-"výpočty budú prebiehať až keď počítač nebol používaný určenú dobu v minútach"
+msgstr "výpočty budú prebiehať až keď počítač nebol používaný určenú dobu v minútach"
 
 #: DlgAdvPreferencesBase.cpp:187 DlgAdvPreferencesBase.cpp:336
 #: sg_DlgPreferences.cpp:417
@@ -1286,9 +1189,7 @@ msgstr "Pokiaľ je využitie procesora nižšie než"
 
 #: DlgAdvPreferencesBase.cpp:216
 msgid "suspend work if processor usage exceeds this level"
-msgstr ""
-"pozastaviť prácu ak využitie procesora (inými programami) prekročí túto "
-"úroveň"
+msgstr "pozastaviť prácu ak využitie procesora (inými programami) prekročí túto úroveň"
 
 #: DlgAdvPreferencesBase.cpp:221
 msgid "percent (0 means no restriction)"
@@ -1434,9 +1335,7 @@ msgstr "Vynechávať verifikáciu obrazových súborov"
 
 #: DlgAdvPreferencesBase.cpp:468
 msgid "check this if your Internet provider modifies image files"
-msgstr ""
-"zaškrtnite ak Váš poskytovateľ pripojenia mení sťahované súbory s obrázkami\n"
-"(napr. pri GPRS, UMTS)"
+msgstr "zaškrtnite ak Váš poskytovateľ pripojenia mení sťahované súbory s obrázkami\n(napr. pri GPRS, UMTS)"
 
 #: DlgAdvPreferencesBase.cpp:476
 msgid "Connect options"
@@ -1448,11 +1347,9 @@ msgstr "Potvrdiť pred pripojením k Internetu"
 
 #: DlgAdvPreferencesBase.cpp:480
 msgid ""
-"if checked, a confirmation dialog will be displayed before trying to connect "
-"to the Internet"
-msgstr ""
-"ak je zaškrtnuté, pred pokusom o pripojenie k Internetu bude vyžadované "
-"potvrdenie"
+"if checked, a confirmation dialog will be displayed before trying to connect"
+" to the Internet"
+msgstr "ak je zaškrtnuté, pred pokusom o pripojenie k Internetu bude vyžadované potvrdenie"
 
 #: DlgAdvPreferencesBase.cpp:484
 msgid "Disconnect when done"
@@ -1462,9 +1359,7 @@ msgstr "Odpojiť po dokončení komunikácie"
 msgid ""
 "if checked, BOINC hangs up when network usage is done\n"
 "(only relevant for dialup-connection)"
-msgstr ""
-"ak je zaškrtnuté, BOINC ukončí pripojenie k Internetu po dokončení prenosov\n"
-"(platí len pre vytáčané/dial-up spojenie)"
+msgstr "ak je zaškrtnuté, BOINC ukončí pripojenie k Internetu po dokončení prenosov\n(platí len pre vytáčané/dial-up spojenie)"
 
 #: DlgAdvPreferencesBase.cpp:492
 msgid "Network usage allowed"
@@ -1544,9 +1439,7 @@ msgstr "Ponechať aplikácie v pamäti pri ich pozastavení"
 
 #: DlgAdvPreferencesBase.cpp:693
 msgid "if checked, suspended work units are left in memory"
-msgstr ""
-"ak je zaškrtnuté, výpočtové úlohy budú v prípade pozastavenia ponechané v "
-"pamäti"
+msgstr "ak je zaškrtnuté, výpočtové úlohy budú v prípade pozastavenia ponechané v pamäti"
 
 #: DlgAdvPreferencesBase.cpp:713
 msgid ""
@@ -1612,18 +1505,16 @@ msgstr "&Kopírovať vybrané"
 #: DlgEventLog.cpp:308 DlgEventLog.cpp:316 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
-"messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"Kopírovať vybrané správy do schránky. Môžete vybrať viaceré správy ak pri "
-"označovaní správ podržíte stlačený Shift alebo príkazovú klávesu."
+"messages by holding down the shift or command key while clicking on "
+"messages."
+msgstr "Kopírovať vybrané správy do schránky. Môžete vybrať viaceré správy ak pri označovaní správ podržíte stlačený Shift alebo príkazovú klávesu."
 
 #: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
-"messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"Kopírovať vybrané správy do schránky. Môžete vybrať viaceré správy ak pri "
-"označovaní správ podržíte stlačený Shift alebo Ctrl."
+"messages by holding down the shift or control key while clicking on "
+"messages."
+msgstr "Kopírovať vybrané správy do schránky. Môžete vybrať viaceré správy ak pri označovaní správ podržíte stlačený Shift alebo Ctrl."
 
 #: DlgEventLog.cpp:325 DlgItemProperties.cpp:67
 msgid "&Close"
@@ -1660,13 +1551,7 @@ msgid ""
 "\n"
 "If you also want to stop running the tasks,\n"
 "choose from the following options:"
-msgstr ""
-"Zvolili ste ukončiť %s,\n"
-"ktorý umožňuje zobrazenie a správu\n"
-"úloh bežiacich na Vašom počítači.\n"
-"\n"
-"Ak chcete ukončiť aj bežiace úlohy,\n"
-"vyberte z nasledujúcich možností:"
+msgstr "Zvolili ste ukončiť %s,\nktorý umožňuje zobrazenie a správu\núloh bežiacich na Vašom počítači.\n\nAk chcete ukončiť aj bežiace úlohy,\nvyberte z nasledujúcich možností:"
 
 #: DlgExitMessage.cpp:135
 #, c-format
@@ -1677,13 +1562,7 @@ msgid ""
 "In most cases, it is better just to close the %s window\n"
 "rather than to exit the application; that will allow %s to run its\n"
 "tasks at the times you selected in your preferences."
-msgstr ""
-"Toto ukončí %s a jeho úlohy až kým buď\n"
-"%s alebo šetrič obrazovky %s nebudú znova spustené.\n"
-"\n"
-"Vo väčšine prípadov je lepšie len zatvoriť okno %s,\n"
-"než celkom ukončiť aplikáciu; takto bude môcť %s počítať\n"
-"úlohy ďalej v čase určenom vo Vašich preferenciách."
+msgstr "Toto ukončí %s a jeho úlohy až kým buď\n%s alebo šetrič obrazovky %s nebudú znova spustené.\n\nVo väčšine prípadov je lepšie len zatvoriť okno %s,\nnež celkom ukončiť aplikáciu; takto bude môcť %s počítať\núlohy ďalej v čase určenom vo Vašich preferenciách."
 
 #: DlgExitMessage.cpp:153
 #, c-format
@@ -2059,13 +1938,10 @@ msgstr "%s - Výber jazyka"
 
 #: DlgOptions.cpp:695
 #, c-format
-#, c-format, c-format
 msgid ""
 "The %s's language has been changed.  In order for this change to take "
 "effect, you must restart the %s."
-msgstr ""
-"Jazyk pre %s bol zmenený.  Aby sa táto zmena prejavila, musíte reštartovať %"
-"s."
+msgstr "Jazyk pre %s bol zmenený.  Aby sa táto zmena prejavila, musíte reštartovať %s."
 
 #: DlgSelectComputer.cpp:91
 #, c-format
@@ -2077,9 +1953,7 @@ msgstr "%s - Zvoliť počítač"
 msgid ""
 "Another instance of %s is already running \n"
 "on this computer.  Please select a client to monitor."
-msgstr ""
-"Na tomto počítači už beží iný %s.\n"
-"Zvoľte ktorého klienta chcete sledovať."
+msgstr "Na tomto počítači už beží iný %s.\nZvoľte ktorého klienta chcete sledovať."
 
 #: DlgSelectComputer.cpp:143
 msgid "Host name:"
@@ -2157,9 +2031,7 @@ msgstr "Prečítajte si podrobný opis šetriča obrazovky Einstein@Home"
 #: Localization.cpp:71
 msgid ""
 "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr ""
-"Korešpondujte s administrátormi a ostatnými užívateľmi na Einstein@Home "
-"paneloch hlásení"
+msgstr "Korešpondujte s administrátormi a ostatnými užívateľmi na Einstein@Home paneloch hlásení"
 
 #: Localization.cpp:73
 msgid "Einstein status"
@@ -2188,8 +2060,7 @@ msgstr "Súhrn konta"
 #: Localization.cpp:95
 msgid ""
 "View a listing of all the computers on which you are running Einstein@Home"
-msgstr ""
-"Prezrite si zoznam všetkých počítačov, na ktorých počítate Einstein@Home"
+msgstr "Prezrite si zoznam všetkých počítačov, na ktorých počítate Einstein@Home"
 
 #: Localization.cpp:101
 msgid "LIGO project"
@@ -2199,9 +2070,7 @@ msgstr "LIGO projekt"
 msgid ""
 "The home page of the Laser Interferometer Gravitational-wave Observatory "
 "(LIGO) project"
-msgstr ""
-"Domovská stránka projektu Laser Interferometer Gravitational-wave "
-"Observatory (LIGO)"
+msgstr "Domovská stránka projektu Laser Interferometer Gravitational-wave Observatory (LIGO)"
 
 #: Localization.cpp:105
 msgid "GEO-600 project"
@@ -2294,10 +2163,9 @@ msgstr "Chýbajúca aplikácia"
 
 #: MainDocument.cpp:1817
 msgid ""
-"Please download and install the CoRD application from http://cord."
-"sourceforge.net"
-msgstr ""
-"Prosím stiahnite a nainštalujte aplikáciu CoRD z http://cord.sourceforge.net"
+"Please download and install the CoRD application from "
+"http://cord.sourceforge.net"
+msgstr "Prosím stiahnite a nainštalujte aplikáciu CoRD z http://cord.sourceforge.net"
 
 #: MainDocument.cpp:2432
 msgid "on batteries"
@@ -2497,10 +2365,7 @@ msgid ""
 "The URL you supplied is not that of a BOINC-based project.\n"
 "\n"
 "Please check the URL and try again."
-msgstr ""
-"URL Vami dodaná nie je z projektov pod BOINC.\n"
-"\n"
-"Prosím skontrolujte URL a skúste znova."
+msgstr "URL Vami dodaná nie je z projektov pod BOINC.\n\nProsím skontrolujte URL a skúste znova."
 
 #: NotDetectedPage.cpp:188
 msgid "Account manager not found"
@@ -2512,10 +2377,7 @@ msgid ""
 "manager.\n"
 "\n"
 "Please check the URL and try again."
-msgstr ""
-"Vami dodané URL nie je známym Správcom konta pre BOINC.\n"
-"\n"
-"Prosím skontrolujte URL a skúste znova."
+msgstr "Vami dodané URL nie je známym Správcom konta pre BOINC.\n\nProsím skontrolujte URL a skúste znova."
 
 #: NotFoundPage.cpp:181
 msgid "Login Failed."
@@ -2543,9 +2405,7 @@ msgstr "Zvoľte projekt"
 
 #: ProjectInfoPage.cpp:619
 msgid "To choose a project, click its name or type its URL below."
-msgstr ""
-"Zvoľte projekt kliknutím na jeho názov\n"
-"alebo napíšte do kolónky jeho adresu URL."
+msgstr "Zvoľte projekt kliknutím na jeho názov\nalebo napíšte do kolónky jeho adresu URL."
 
 #: ProjectInfoPage.cpp:623
 msgid "Categories:"
@@ -2583,9 +2443,7 @@ msgstr "URL adresa projektu:"
 msgid ""
 "This project may not have work for your type of computer.  Do you want to "
 "add it anyway?"
-msgstr ""
-"Tento projekt nemusí mať prácu pre Váš typ počítača.  Chcete sa k nemu "
-"napriek tomu pripojiť?"
+msgstr "Tento projekt nemusí mať prácu pre Váš typ počítača.  Chcete sa k nemu napriek tomu pripojiť?"
 
 #: ProjectInfoPage.cpp:850
 msgid "You already added this project. Please choose a different project."
@@ -2607,9 +2465,7 @@ msgstr "Vyskytla sa interná chyba servera."
 msgid ""
 "Communicating with project\n"
 "Please wait..."
-msgstr ""
-"Komunikácia s projektom\n"
-"Prosím čakajte..."
+msgstr "Komunikácia s projektom\nProsím čakajte..."
 
 #: ProxyInfoPage.cpp:195
 msgid "Network communication failure"
@@ -2630,20 +2486,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr ""
-"The World Community Grid - BOINC zlyhal pri komunikácii na Internete.\n"
-"Najpravdepodobnejšie príčiny sú:\n"
-"\n"
-"1) Problém s pripojením.  Skontrolujte Vaše sieťové alebo\n"
-"modemové pripojenie a stlačte tlačidlo späť pre zopakovanie\n"
-"\n"
-"2) Softvér osobného firewallu blokuje World Community Grid - BOINC.\n"
-"Nastavte Váš osobný firewall tak, aby umožnil programom BOINC a Správca "
-"BOINC\n"
-"komunikáciu na porte 80 a 443, potom kliknite na Späť a skúste znova.\n"
-"\n"
-"3) Používate proxy server.\n"
-"Kliknite na Ďalej pre konfigurovanie proxy nastavení pre BOINC."
+msgstr "The World Community Grid - BOINC zlyhal pri komunikácii na Internete.\nNajpravdepodobnejšie príčiny sú:\n\n1) Problém s pripojením.  Skontrolujte Vaše sieťové alebo\nmodemové pripojenie a stlačte tlačidlo späť pre zopakovanie\n\n2) Softvér osobného firewallu blokuje World Community Grid - BOINC.\nNastavte Váš osobný firewall tak, aby umožnil programom BOINC a Správca BOINC\nkomunikáciu na porte 80 a 443, potom kliknite na Späť a skúste znova.\n\n3) Používate proxy server.\nKliknite na Ďalej pre konfigurovanie proxy nastavení pre BOINC."
 
 #: ProxyInfoPage.cpp:203
 msgid ""
@@ -2660,20 +2503,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr ""
-"BOINC zlyhal pri komunikácii cez Internet.\n"
-"Najpravdepodobnejšie príčiny sú:\n"
-"\n"
-"1) Problém s pripojením.  Skontrolujte Vaše sieťové alebo\n"
-"modemové pripojenie a stlačte tlačidlo späť pre zopakovanie\n"
-"\n"
-"2) Softvér osobného firewallu blokuje BOINC.\n"
-"Nastavte Váš osobný firewall tak, aby umožnil programom BOINC a Správca "
-"BOINC\n"
-"komunikáciu na porte 80, potom kliknite na Späť a skúste znova.\n"
-"\n"
-"3) Používate proxy server.\n"
-"Kliknite na Ďalej pre konfigurovanie proxy nastavení pre BOINC."
+msgstr "BOINC zlyhal pri komunikácii cez Internet.\nNajpravdepodobnejšie príčiny sú:\n\n1) Problém s pripojením.  Skontrolujte Vaše sieťové alebo\nmodemové pripojenie a stlačte tlačidlo späť pre zopakovanie\n\n2) Softvér osobného firewallu blokuje BOINC.\nNastavte Váš osobný firewall tak, aby umožnil programom BOINC a Správca BOINC\nkomunikáciu na porte 80, potom kliknite na Späť a skúste znova.\n\n3) Používate proxy server.\nKliknite na Ďalej pre konfigurovanie proxy nastavení pre BOINC."
 
 #: ProxyPage.cpp:331
 msgid "Proxy configuration"
@@ -2709,7 +2539,7 @@ msgstr "Súhlasím s podmienkami použitia."
 
 #: TermsOfUsePage.cpp:237
 msgid "I do not agree to the terms of use."
-msgstr ""
+msgstr "Nu sunt de acord cu condiţiile de utilizare."
 
 #: UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
@@ -2720,10 +2550,7 @@ msgid ""
 "The project is temporarily unavailable.\n"
 "\n"
 "Please try again later."
-msgstr ""
-"Projekt je dočasne nedostupný.\n"
-"\n"
-"Prosím skúste znova neskôr."
+msgstr "Projekt je dočasne nedostupný.\n\nProsím skúste znova neskôr."
 
 #: UnavailablePage.cpp:190
 msgid "Account manager temporarily unavailable"
@@ -2734,10 +2561,7 @@ msgid ""
 "The account manager is temporarily unavailable.\n"
 "\n"
 "Please try again later."
-msgstr ""
-"Správca konta je dočasne nedostupný.\n"
-"\n"
-"Prosím skúste znova neskôr."
+msgstr "Správca konta je dočasne nedostupný.\n\nProsím skúste znova neskôr."
 
 #: ValidateAccountKey.cpp:68
 msgid "Please specify an account key to continue."
@@ -2768,10 +2592,7 @@ msgid ""
 "Please specify a URL.\n"
 "For example:\n"
 "http://www.example.com/"
-msgstr ""
-"Prosím špecifikujte URL.\n"
-"Napríklad:\n"
-"http://www.example.com/"
+msgstr "Prosím špecifikujte URL.\nNapríklad:\nhttp://www.example.com/"
 
 #: ValidateURL.cpp:83 ValidateURL.cpp:87 ValidateURL.cpp:91
 #: ValidateURL.cpp:103 ValidateURL.cpp:107 ValidateURL.cpp:110
@@ -2783,10 +2604,7 @@ msgid ""
 "Please specify a valid URL.\n"
 "For example:\n"
 "http://boincproject.example.com"
-msgstr ""
-"Prosím špecifikujte správnu URL.\n"
-"Napríklad:\n"
-"http://boincproject.example.com"
+msgstr "Prosím špecifikujte správnu URL.\nNapríklad:\nhttp://boincproject.example.com"
 
 #: ValidateURL.cpp:104 ValidateURL.cpp:108
 #, c-format
@@ -2863,9 +2681,7 @@ msgstr "Aktualizovať"
 msgid ""
 "Report all completed tasks, get latest credit, get latest preferences, and "
 "possibly get more tasks."
-msgstr ""
-"Odoslať všetky dokončené úlohy, získať posledný kredit, získať posledné "
-"preferencie a ak je možné získať ďalšie úlohy."
+msgstr "Odoslať všetky dokončené úlohy, získať posledný kredit, získať posledné preferencie a ak je možné získať ďalšie úlohy."
 
 #: ViewProjects.cpp:181 ViewProjects.cpp:722 ViewWork.cpp:208 ViewWork.cpp:801
 #: sg_BoincSimpleFrame.cpp:757 sg_ProjectCommandPopup.cpp:67
@@ -2894,20 +2710,15 @@ msgstr "Resetovať projekt"
 
 #: ViewProjects.cpp:196 sg_ProjectCommandPopup.cpp:80
 msgid ""
-"Delete all files and tasks associated with this project, and get new tasks.  "
-"You can update the project first to report any completed tasks."
-msgstr ""
-"Vymazať všetky súbory a úlohy spojené s týmto projektom a získať nové úlohy. "
-" Mali by ste najskôr aktualizovať projekt pre odoslanie všetkých "
-"dokončených úloh."
+"Delete all files and tasks associated with this project, and get new tasks."
+"  You can update the project first to report any completed tasks."
+msgstr "Vymazať všetky súbory a úlohy spojené s týmto projektom a získať nové úlohy.  Mali by ste najskôr aktualizovať projekt pre odoslanie všetkých dokončených úloh."
 
 #: ViewProjects.cpp:203 sg_ProjectCommandPopup.cpp:86
 msgid ""
 "Remove this project.  Tasks in progress will be lost (use 'Update' first to "
 "report any completed tasks)."
-msgstr ""
-"Odpojiť počítač od tohto projektu.  Rozpracované úlohy budú stratené "
-"(použite najskôr 'Aktualizovať' pre odoslanie všetkých dokončených úloh)."
+msgstr "Odpojiť počítač od tohto projektu.  Rozpracované úlohy budú stratené (použite najskôr 'Aktualizovať' pre odoslanie všetkých dokončených úloh)."
 
 #: ViewProjects.cpp:209 ViewWork.cpp:222 sg_ProjectCommandPopup.cpp:91
 #: sg_TaskCommandPopup.cpp:78
@@ -3284,9 +3095,7 @@ msgstr "Sieťové aktivity pozastavené - "
 msgid ""
 ".\n"
 "You can enable it using the Activity menu."
-msgstr ""
-".\n"
-"Môžete povoliť v menu Aktivity."
+msgstr ".\nMôžete povoliť v menu Aktivity."
 
 #: ViewTransfers.cpp:285
 msgid "BOINC"
@@ -3306,10 +3115,7 @@ msgid ""
 "Are you sure you want to abort this file transfer '%s'?\n"
 "NOTE: Aborting a transfer will invalidate a task and you\n"
 "will not receive credit for it."
-msgstr ""
-"Ste si istý, že chcete zrušiť prenos tohoto súboru '%s'?\n"
-"POZNÁMKA: Zrušenie prenosu neodsúhlasí úlohu a Vy\n"
-"za ňu nedostanete pridelený kredit."
+msgstr "Ste si istý, že chcete zrušiť prenos tohoto súboru '%s'?\nPOZNÁMKA: Zrušenie prenosu neodsúhlasí úlohu a Vy\nza ňu nedostanete pridelený kredit."
 
 #: ViewTransfers.cpp:349
 msgid "Abort File Transfer"
@@ -3424,9 +3230,7 @@ msgstr "Zobrazenie konzoly VM pre úlohu..."
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
-msgstr ""
-"Ste si istý, že chcete zrušiť túto úlohu '%s'?\n"
-"(Priebeh: %s, Stav: %s)"
+msgstr "Ste si istý, že chcete zrušiť túto úlohu '%s'?\n(Priebeh: %s, Stav: %s)"
 
 #: ViewWork.cpp:485
 #, c-format
@@ -3473,12 +3277,7 @@ msgid ""
 "\n"
 "Projects added via this wizard will not be\n"
 "listed on or managed via %s."
-msgstr ""
-"Ak je to možné, pridajte projekty\n"
-"na webovej stránke %s.\n"
-"\n"
-"Projekty pridané týmto sprievodcom nebudú\n"
-"v zozname %s a nepôjdu ním spravovať."
+msgstr "Ak je to možné, pridajte projekty\nna webovej stránke %s.\n\nProjekty pridané týmto sprievodcom nebudú\nv zozname %s a nepôjdu ním spravovať."
 
 #: WelcomePage.cpp:313
 msgid ""
@@ -3487,43 +3286,22 @@ msgid ""
 "and you can volunteer for as many of them as you like.\n"
 "You can add a project directly,\n"
 "or use an 'Account Manager' web site to select projects."
-msgstr ""
-"Existuje vyše 30 projektov pracujúcich pod BOINC,\n"
-"ktoré vykonávajú výskum v mnohých oblastiach vedy,\n"
-"a Vy sa môžete zapojiť do koľkých z nich chcete.\n"
-"Môžete sa pripojiť k projektu priamo, alebo použiť\n"
-"na výber projektov webovú stránku 'Správcu konta'."
+msgstr "Existuje vyše 30 projektov pracujúcich pod BOINC,\nktoré vykonávajú výskum v mnohých oblastiach vedy,\na Vy sa môžete zapojiť do koľkých z nich chcete.\nMôžete sa pripojiť k projektu priamo, alebo použiť\nna výber projektov webovú stránku 'Správcu konta'."
 
 #: WelcomePage.cpp:325
 msgid ""
-"You have chosen to add a new volunteer computing project or change which "
-"projects\n"
+"You have chosen to add a new volunteer computing project or change which projects\n"
 "you contribute to.\n"
 "\n"
-"Some of these projects are run and managed by World Community Grid, while "
-"others\n"
-"are run and managed by other researchers or organizations. The BOINC "
-"software\n"
+"Some of these projects are run and managed by World Community Grid, while others\n"
+"are run and managed by other researchers or organizations. The BOINC software\n"
 "can divide your spare processing power among any combination of projects.\n"
 "\n"
-"Alternatively, if you have registered with a BOINC Account Manager, you can "
-"use\n"
+"Alternatively, if you have registered with a BOINC Account Manager, you can use\n"
 "this to choose which projects to support.\n"
 "\n"
 "Please choose which type of change you would like to make:\n"
-msgstr ""
-"Idete pripojiť nový projekt pro dobrovolné výpočty alebo upraviť projekty,\n"
-"do ktorých už prispievate.\n"
-"\n"
-"Niektoré z týchto projektov sú spravované organizáciou World Community Grid,\n"
-"kým ostatné prevádzkujú iní výskumníci a organizácie.\n"
-"Aplikácia BOINC Vám umožní rozdeliť výpočtový výkon medzi\n"
-"ľubovoľnú kombináciu projektov.\n"
-"\n"
-"Ak ste registrovaní u Správcu účtu BOINC, môžete spravovať\n"
-"Vaše projekty v ňom.\n"
-"\n"
-"Vyberte si prosím typ zmeny, ktorú chcete vykonať:\n"
+msgstr "Idete pripojiť nový projekt pro dobrovolné výpočty alebo upraviť projekty,\ndo ktorých už prispievate.\n\nNiektoré z týchto projektov sú spravované organizáciou World Community Grid,\nkým ostatné prevádzkujú iní výskumníci a organizácie.\nAplikácia BOINC Vám umožní rozdeliť výpočtový výkon medzi\nľubovoľnú kombináciu projektov.\n\nAk ste registrovaní u Správcu účtu BOINC, môžete spravovať\nVaše projekty v ňom.\n\nVyberte si prosím typ zmeny, ktorú chcete vykonať:\n"
 
 #: WelcomePage.cpp:339
 msgid "Use a BOINC Account Manager"
@@ -3601,18 +3379,17 @@ msgstr "Toto okno nastavuje preferencie len pre tento počítač."
 
 #: sg_DlgPreferences.cpp:273
 msgid "Click OK to set preferences."
-msgstr ""
-"Kliknite Vymazať pre obnovenie preferencií uvedených nižšie na stav z webu."
+msgstr "Kliknite Vymazať pre obnovenie preferencií uvedených nižšie na stav z webu."
 
 #: sg_DlgPreferences.cpp:278
 msgid ""
 "Click Clear to restore web-based settings for all preferences listed below."
-msgstr ""
+msgstr "Apăsaţi Ştergere pentru a restaura setările de pe web pentru toate preferinţele listate mai jos."
 
 #: sg_DlgPreferences.cpp:285
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
-msgstr ""
+msgstr "Pentru setări adiţionale, selectaţi Preferinţe Calcul în Vizualizarea Avanasată."
 
 #: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
@@ -3644,7 +3421,7 @@ msgstr "Pracovať pri nečinnosti za:"
 
 #: sg_DlgPreferences.cpp:429
 msgid "Clear all local preferences listed above and close the dialog"
-msgstr ""
+msgstr "Şterge toate preferinţele locale listate deasupra şi închide dialogul"
 
 #: sg_DlgPreferences.cpp:602 sg_DlgPreferences.cpp:605
 #: sg_DlgPreferences.cpp:681 sg_DlgPreferences.cpp:685
@@ -3752,7 +3529,7 @@ msgstr "Príkazy projektu"
 #: sg_ProjectPanel.cpp:267
 #, c-format
 msgid "Pop up a menu of web sites for project %s"
-msgstr ""
+msgstr "Deschide un meniu cu site-urile web pentru proiectul %s"
 
 #: sg_ProjectPanel.cpp:269
 #, c-format
@@ -3772,9 +3549,7 @@ msgstr "Zrušiť túto úlohu. Nedostanete za ňu žiaden kredit."
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %.1lf%%, Status: %s)"
-msgstr ""
-"Ste si istý že chcete zrušiť túto úlohu '%s'?\n"
-"(Priebeh: %.1lf%%, Stav: %s)"
+msgstr "Ste si istý že chcete zrušiť túto úlohu '%s'?\n(Priebeh: %.1lf%%, Stav: %s)"
 
 #: sg_TaskPanel.cpp:464
 msgid "You don't have any projects.  Please Add a Project."
@@ -3926,928 +3701,3 @@ msgstr "Zobraziť všetky"
 #, c-format
 msgid "Quit %s"
 msgstr "Ukončiť %s"
-
-#~ msgid "Account manager website"
-#~ msgstr "Webová stránka Správcu konta"
-
-#~ msgid "Account Manager &URL:"
-#~ msgstr "&URL Správcu konta:"
-
-#, c-format
-#~ msgid "%s &website"
-#~ msgstr "%s &web stránka"
-
-#~ msgid "invalid float"
-#~ msgstr "neplatné číslo s desatinnou čiarkou"
-
-#~ msgid "Workunit name"
-#~ msgstr "Názov úlohy"
-
-#~ msgid "Notice List"
-#~ msgstr "Zoznam oznamov"
-
-#, c-format
-#~ msgid "%s; received on %s"
-#~ msgstr "%s; prijatá o %s"
-
-#, c-format
-#~ msgid "%s; received from %s; on %s"
-#~ msgstr "%s; prijatá od %s; o %s"
-
-#~ msgid "Click"
-#~ msgstr "Klik"
-
-#~ msgid "Project List"
-#~ msgstr "Projekty"
-
-#~ msgid "Nvidia GPU Supported"
-#~ msgstr "Môže využiť Nvidia GPU (grafickú kartu)"
-
-#~ msgid "ATI GPU Supported"
-#~ msgstr "Môže využiť ATI GPU (grafickú kartu)"
-
-#~ msgid "Project Website"
-#~ msgstr "Webstránka projektu"
-
-#~ msgid "I do not agree with the terms of use."
-#~ msgstr "Nesúhlasím s podmienkami použitia."
-
-#~ msgid "One or more items failed to load from the Internet."
-#~ msgstr "Jednu alebo viacero položiek nebolo možné načítať z Internetu."
-
-#~ msgid "Retry now"
-#~ msgstr "Zopakovať teraz"
-
-#~ msgid "Display the advanced (accessible) graphical interface."
-#~ msgstr "Zobraziť pokročilé grafické rozhranie."
-
-#~ msgid "10%"
-#~ msgstr "10%"
-
-#~ msgid "20%"
-#~ msgstr "20%"
-
-#~ msgid "30%"
-#~ msgstr "30%"
-
-#~ msgid "40%"
-#~ msgstr "40%"
-
-#~ msgid "50%"
-#~ msgstr "50%"
-
-#~ msgid "60%"
-#~ msgstr "60%"
-
-#~ msgid "70%"
-#~ msgstr "70%"
-
-#~ msgid "80%"
-#~ msgstr "80%"
-
-#~ msgid "90%"
-#~ msgstr "90%"
-
-#~ msgid "100%"
-#~ msgstr "100%"
-
-#~ msgid "1"
-#~ msgstr "1"
-
-#~ msgid "3"
-#~ msgstr "3"
-
-#~ msgid "5"
-#~ msgstr "5"
-
-#~ msgid "10"
-#~ msgstr "10"
-
-#~ msgid "15"
-#~ msgstr "15"
-
-#~ msgid "30"
-#~ msgstr "30"
-
-#~ msgid "60"
-#~ msgstr "60"
-
-#~ msgid "Click Clear to restore web-based settings."
-#~ msgstr "Kliknite Vymazať pre obnovenie nastavení z webstránky projektu."
-
-#~ msgid "For additional settings, select Computing Preferences in "
-#~ msgstr "Pre pokročilé nastavenia zvoľte Výpočtové preferencie v "
-
-#~ msgid "the Advanced View."
-#~ msgstr "Pokročilom zobrazení."
-
-#~ msgid "Paused: Other work running"
-#~ msgstr "Pozastavené: Prebieha výpočet inej úlohy"
-
-#~ msgid "Paused: User initiated.  Click 'Resume' to continue"
-#~ msgstr ""
-#~ "Pozastavené: Vyžiadané užívateľom.  Kliknite na 'Pokračovať' pre spustenie"
-
-#~ msgid "Paused: User active"
-#~ msgstr "Pozastavené: Užívateľ je aktívny"
-
-#~ msgid "Paused: Computer on battery"
-#~ msgstr "Pozastavené: Počítač na batérii"
-
-#~ msgid "Paused: Time of Day"
-#~ msgstr "Pozastavené: Denná doba"
-
-#~ msgid "Paused: Benchmarks running"
-#~ msgstr "Pozastavené: Prebiehajú testy rýchlosti procesora"
-
-#~ msgid "Paused"
-#~ msgstr "Pozastavené"
-
-#~ msgid "Paused: Application start delayed"
-#~ msgstr "Pozastavené: Odložené spustenie aplikácie"
-
-#~ msgid "Click to show project graphics"
-#~ msgstr "Kliknutím zobrazíte okno s grafikou projektu"
-
-#, c-format
-#~ msgid "Pop up a menu of websites for project %s"
-#~ msgstr "Zobraziť menu webových stránok projektu %s"
-
-#~ msgid "Open a window to view messages"
-#~ msgstr "Otvoriť okno pre prezretie správ"
-
-#~ msgid "Stop all activity"
-#~ msgstr "Zastaviť všetky aktivity"
-
-#~ msgid "Resume activity"
-#~ msgstr "Povoliť aktivity"
-
-#~ msgid "Open a window to set your preferences"
-#~ msgstr "Otvoriť okno pre nastavenie Vašich preferencií"
-
-#~ msgid "Switch to the BOINC advanced view"
-#~ msgstr "Prepnúť BOINC do pokročilého náhľadu"
-
-#~ msgid "My Projects:"
-#~ msgstr "Moje projekty:"
-
-#, c-format
-#~ msgid "%s. Work done by %s: %0.2f"
-#~ msgstr "%s. Práca dokončená v %s: %0.2f"
-
-#, c-format
-#~ msgid "%.1lf"
-#~ msgstr "%.1lf"
-
-#, c-format
-#~ msgid "%d hr %d min %d sec"
-#~ msgstr "%d hodín %d minút %d sekúnd"
-
-#~ msgid "Are you sure you want to display graphics on a remote machine?"
-#~ msgstr "Ste si istý, že chcete zobraziť grafiku na vzdialenom počítači?"
-
-#~ msgid "Application: "
-#~ msgstr "Aplikácia: "
-
-#~ msgid "Time Remaining: "
-#~ msgstr "Zostávajúci čas: "
-
-#~ msgid "Elapsed Time: "
-#~ msgstr "Uplynutý čas: "
-
-#~ msgid ""
-#~ "for accessibility support, please select advanced from the view menu or type "
-#~ "command shift a"
-#~ msgstr ""
-#~ "pre zjednodušenie prístupu zvoľte Pokročilé zobrazenie v menu alebo použite "
-#~ "skratku Ctrl-Shift-A"
-
-#~ msgid "This panel contains graphs showing user totals for projects"
-#~ msgstr "Tento panel obsahuje grafy zobrazujúce výsledky užívateľa v projektoch"
-
-#~ msgid "list headers"
-#~ msgstr "hlavičky zoznamu"
-
-#~ msgid "list of events"
-#~ msgstr "zoznam udalostí"
-
-#~ msgid "list of events is empty"
-#~ msgstr "zoznam udalostí je prázdny"
-
-#, c-format
-#~ msgid "list of %s"
-#~ msgstr "zoznam %s"
-
-#, c-format
-#~ msgid "list of %s is empty"
-#~ msgstr "zoznam %s je prázdny"
-
-#, c-format
-#~ msgid "; current sort column %d of %d; descending order; "
-#~ msgstr "; triedené podľa stĺpca %d z %d; zostupné poradie; "
-
-#, c-format
-#~ msgid "; current sort column %d of %d; ascending order; "
-#~ msgstr "; triedené podľa stĺpca %d z %d; vzostupné poradie; "
-
-#, c-format
-#~ msgid "; column %d of %d; "
-#~ msgstr "; stĺpec %d z %d; "
-
-#~ msgid "list is empty"
-#~ msgstr "zoznam je prázdny"
-
-#, c-format
-#~ msgid "; row %d; "
-#~ msgstr "; riadok %d; "
-
-#, c-format
-#~ msgid "; selected row %d of %d; "
-#~ msgstr "; vybraný riadok %d z %d; "
-
-#, c-format
-#~ msgid "; selected row %d ; "
-#~ msgstr "; vybraný riadok %d ; "
-
-#, c-format
-#~ msgid "; row %d of %d; "
-#~ msgstr "; riadok %d z %d; "
-
-#~ msgid "blank"
-#~ msgstr "prázdne"
-
-#~ msgid "list of projects or account managers"
-#~ msgstr "zoznam projektov alebo Správcov konta"
-
-#, c-format
-#~ msgid "selected row %d of %d; "
-#~ msgstr "vybraný riadok %d z %d; "
-
-#, c-format
-#~ msgid "row %d of %d; "
-#~ msgstr "riadok %d z %d; "
-
-#~ msgid "The minimum username length for this project is 1. Please enter a different username."
-#~ msgstr ""
-#~ "Minimálna dĺžka používateľského mena pre tento projekt je 1. Prosím zadajte "
-#~ "iné meno."
-
-#~ msgid "The minimum username length for this account manager is 1. Please enter a different username."
-#~ msgstr ""
-#~ "Minimálna dĺžka používateľského mena pre tohto Správcu konta je 1. Prosím "
-#~ "zadajte iné meno."
-
-#~ msgid "The minimum email address length for this project is 1. Please enter a different email address."
-#~ msgstr ""
-#~ "Minimálna dĺžka e-mailovej adresy pre tento projekt je 1. Prosím zadajte inú "
-#~ "e-mailovú adresu."
-
-#~ msgid "The minimum email address length for this account manager is 1. Please enter a different email address."
-#~ msgstr ""
-#~ "Minimálna dĺžka e-mailovej adresy pre tohto Správcu konta je 1. Prosím "
-#~ "zadajte inú e-mailovú adresu."
-
-#, c-format
-#~ msgid "The minimum password length for this project is %d. Please enter a different password."
-#~ msgstr "Mnimálna dĺžka hesla pre tento projekt je %d. Prosím zvoľte iné heslo."
-
-#, c-format
-#~ msgid "The minimum password length for this account manager is %d. Please enter a different password."
-#~ msgstr ""
-#~ "Minimálna dĺžka hesla pre tohoto Správcu konta je %d. Prosím zvoľte iné "
-#~ "heslo."
-
-#~ msgid ""
-#~ "An error has occurred;\n"
-#~ "check the Event Log for details.\n"
-#~ "\n"
-#~ "Click Finish to close."
-#~ msgstr ""
-#~ "Objavila sa chyba;\n"
-#~ "skontrolujte Záznam udalostí pre podrobnosti.\n"
-#~ "\n"
-#~ "Kliknite na Dokončiť pre zatvorenie."
-
-#, no-c-format
-#~ msgid "% of the processors"
-#~ msgstr "% z procesorov"
-
-#, c-format
-#~ msgid "New page inserted. Index = %i"
-#~ msgstr "Nová stránka vložená. Index = %i"
-
-#, c-format
-#~ msgid "New page appended. Index = %i"
-#~ msgstr "Nová stránka doplnená. Index = %i"
-
-#, c-format
-#~ msgid "Old Page Index = %i"
-#~ msgstr "Index starej stránky = %i"
-
-#, c-format
-#~ msgid "OnDropTarget: index by HitTest = %i"
-#~ msgstr "OnDropTarget: index by HitTest = %i"
-
-#~ msgid "Pie Ctrl"
-#~ msgstr "Pie Ctrl"
-
-#~ msgid "specify work start and stop hours in format HH:MM-HH:MM"
-#~ msgstr "čas, kedy je možné počítať, vo formáte HH:MM-HH:MM"
-
-#~ msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
-#~ msgstr "čas, kedy je možné používať sieť, vo formáte HH:MM-HH:MM"
-
-#~ msgid "Identify your account "
-#~ msgstr "Zvoľte Vaše konto "
-
-#~ msgid "Read config file"
-#~ msgstr "Načítať konfiguračný súbor"
-
-#~ msgid "Read configuration info from cc_config.xml"
-#~ msgstr "Načítať konfiguračné informácie z cc-config.xml"
-
-#~ msgid ""
-#~ "(C) 2003-2011 University of California, Berkeley.\n"
-#~ "All Rights Reserved."
-#~ msgstr ""
-#~ "(C) 2003-2011 Kalifornská Univerzita, Berkeley.\n"
-#~ "Všetky práva vyhradené."
-
-#~ msgid "NVIDIA GPU"
-#~ msgstr "NVIDIA GPU"
-
-#~ msgid "ATI GPU"
-#~ msgstr "AMD/ATI GPU"
-
-#~ msgid "Multicore CPU Supported"
-#~ msgstr "Môže využiť viacjadrový procesor"
-
-#~ msgid "%s: %.0f"
-#~ msgstr "%s: %.0f"
-
-#~ msgid "Click 'Retry now' to transfer the file now"
-#~ msgstr "Kliknúť na 'Zopakuj teraz' pre prenos súboru teraz"
-
-#~ msgid ""
-#~ "Click 'Abort transfer' to delete the file from the transfer queue. This "
-#~ "will prevent you from being granted credit for this result."
-#~ msgstr ""
-#~ "Kliknite na 'Zrušiť prenos' pre vymazanie súboru z prenosovej fronty. Za "
-#~ "tento výsledok nedostanete žiadny kredit."
-
-#~ msgid "Aborting result..."
-#~ msgstr "Rušenie výsledku..."
-
-#~ msgid ""
-#~ "You have chosen to add a new BOINC project.  Adding a new\n"
-#~ "project means that you will be connecting your computer to a new "
-#~ "organization.\n"
-#~ "If this is what you wanted to do, please click on\n"
-#~ "the 'Next' button below.\n"
-#~ "\n"
-#~ "Some projects like World Community Grid run multiple research "
-#~ "applications.\n"
-#~ "If you want to change which research applications are sent to your "
-#~ "computer\n"
-#~ "to run, visit the project's website and modify your\n"
-#~ "preferences there.\n"
-#~ "\n"
-#~ "To change which research applications are sent to you from\n"
-#~ "World Community Grid then please click on the following button:"
-#~ msgstr ""
-#~ "Zvolili ste pripojenie k novému projektu v BOINC. Pripojenie k novému "
-#~ "projektu\n"
-#~ "znamená, že Váš počítač sa pripojí k novej webovej stránke a "
-#~ "organizácii.\n"
-#~ "Ak ste toto mali v úmysle, pokračujte kliknutím na 'Ďalej'.\n"
-#~ "\n"
-#~ "Niektoré projekty, ako napríklad World Community Grid, používajú viaceré "
-#~ "výskumné aplikácie.\n"
-#~ "Ak chcete zmeniť, ktoré aplikácie smú byť posielané na Váš počítač,\n"
-#~ "mali by ste navštíviť webové stránky projektu a zmeniť tam Vaše "
-#~ "preferencie.\n"
-#~ "\n"
-#~ "Ak chcete zmeniť výskumné aplikácie zasielané\n"
-#~ "z World Community Grid, kliknite na nasledovné tlačidlo:"
-
-#~ msgid "Change Research Applications at World Community Grid"
-#~ msgstr "Zmeniť výskumné aplikácie vo World Community Grid"
-
-#~ msgid "Don't fetch NVIDIA GPU tasks"
-#~ msgstr "Nebudú získané nové úlohy pre NVIDIA GPU"
-
-#~ msgid "NVIDIA GPU work fetch deferred for"
-#~ msgstr "Získavanie práce pre NVIDIA GPU odložené o"
-
-#~ msgid "NVIDIA GPU work fetch deferral interval"
-#~ msgstr "Interval odkladania získavania práce pre NVIDIA GPU"
-
-#~ msgid "Don't fetch ATI GPU tasks"
-#~ msgstr "Nebudú získavané nové úlohy pre ATI GPU"
-
-#~ msgid "ATI GPU work fetch deferred for"
-#~ msgstr "Získavanie práce pre ATI GPU odložené o"
-
-#~ msgid "ATI GPU work fetch deferral interval"
-#~ msgstr "Interval odkladania získavania práce pre ATI GPU"
-
-#~ msgid "Remaining"
-#~ msgstr "Zostáva"
-
-#~ msgid "Web sites"
-#~ msgstr "Web stránky"
-
-#~ msgid "Connect about every"
-#~ msgstr "Pripojiť sa približne každých"
-
-#~ msgid ""
-#~ "this computer is connected to the Internet about every X days\n"
-#~ "(0 if it's always connected)"
-#~ msgstr ""
-#~ "tento počítač býva pripojený k Internetu zhruba raz za X dní\n"
-#~ "(0 ak je pripojený stále)"
-
-#~ msgid "days (max. 10)"
-#~ msgstr "dní (max. 10)"
-
-#~ msgid "%d.%d%%"
-#~ msgstr "%d.%d%%"
-
-#~ msgid "Display and network &options..."
-#~ msgstr "M&ožnosti zobrazovania a siete..."
-
-#~ msgid ""
-#~ "You have requested to exit the %s,\n"
-#~ "which allows you to view and manage\n"
-#~ "the science applications running on your computer.\n"
-#~ "\n"
-#~ "If you also want to stop running the science applications when you\n"
-#~ "exit the Manager, then choose from the following options:"
-#~ msgstr ""
-#~ "Rozhodli ste sa ukončiť %s,\n"
-#~ "ktorý umožňuje zobrazovať a spravovať\n"
-#~ "vedecké úlohy bežiace na Vašom počítači.\n"
-#~ "\n"
-#~ "Ak chcete pri ukončení Správcu BOINC ukončiť aj\n"
-#~ "všetky bežiace vedecké úlohy, zvoľte si z nasledujúcich možností:"
-
-#~ msgid "Stop running science applications when exiting the Manager"
-#~ msgstr "Ukončiť výpočet vedeckých úloh pri ukončení Správcu"
-
-#~ msgid "CPU work fetch priority"
-#~ msgstr "Priorita získavania práce pre CPU"
-
-#~ msgid "NVIDIA GPU scheduling priority"
-#~ msgstr "Priorita plánovania NVIDIA GPU"
-
-#~ msgid "NVIDIA GPU work fetch priority"
-#~ msgstr "Priorita získavania práce pre NVIDIA GPU"
-
-#~ msgid "ATI GPU scheduling priority"
-#~ msgstr "Priorita plánovania ATI GPU"
-
-#~ msgid "ATI GPU work fetch priority"
-#~ msgstr "Priorita získavania práce pre ATI GPU"
-
-#~ msgid "Estimated app speed"
-#~ msgstr "Odhadovaná rýchlosť aplikácie"
-
-#~ msgid "Estimated task size"
-#~ msgstr "Odhadovaná veľkosť úlohy"
-
-#~ msgid "Max RAM usage"
-#~ msgstr "Max.použitá pamäť"
-
-#~ msgid "%s - Options"
-#~ msgstr "%s - Nastavenia"
-
-#~ msgid "Retrieving host information; please wait..."
-#~ msgstr "Zisťuje sa stav počítača; prosím čakajte..."
-
-#~ msgid " (waiting for GPU memory)"
-#~ msgstr " (čakanie na pamäť GPU)"
-
-#~ msgid "Manager Settings..."
-#~ msgstr "Nastavenia Správcu..."
-
-#~ msgid "Pause"
-#~ msgstr "Pozastaviť"
-
-#~ msgid "%s - Messages"
-#~ msgstr "%s - Správy"
-
-#~ msgid "Skin:"
-#~ msgstr "Vzhľad:"
-
-#~ msgid "Preferences"
-#~ msgstr "Preferencie"
-
-#~ msgid "I want to customize my preferences for this computer only."
-#~ msgstr "Chcem upraviť moje preferencie iba pre tento počítač."
-
-#~ msgid "Customized Preferences"
-#~ msgstr "Upravené preferencie"
-
-#~ msgid "My total work done this Project"
-#~ msgstr "Moja celková práca pre tento projekt"
-
-#~ msgid "My Tasks:"
-#~ msgstr "Moje úlohy:"
-
-#~ msgid "From Project:"
-#~ msgstr "Z projektu:"
-
-#~ msgid "Elapsed Time: %s"
-#~ msgstr "Uplynutý čas: %s"
-
-#~ msgid "Time Remaining: %s"
-#~ msgstr "Zostávajúci čas: %s"
-
-#~ msgid "Upload suspended - "
-#~ msgstr "Odosielanie pozastavené - "
-
-#~ msgid "Download suspended - "
-#~ msgstr "Sťahovanie pozastavené - "
-
-#~ msgid "Upload pending"
-#~ msgstr "Odoslanie nevyriešené"
-
-#~ msgid "Download pending"
-#~ msgstr "Stiahnutie nevyriešené"
-
-#~ msgid "New Simple View..."
-#~ msgstr "Nové jednoduché zobrazenie..."
-
-#~ msgid "Display the new simple graphical interface."
-#~ msgstr "Zobraziť nové jednoduché grafické rozhranie."
-
-#~ msgid "Old Simple View..."
-#~ msgstr "Staré jednoduché zobrazenie..."
-
-#~ msgid "Display the old simple graphical interface."
-#~ msgstr "Zobraziť staré jednoduché grafické rozhranie."
-
-#~ msgid "Get help with BOINC"
-#~ msgstr "Získajte pomoc s BOINC"
-
-#~ msgid "error"
-#~ msgstr "chyba"
-
-#~ msgid "A new version of BOINC is available."
-#~ msgstr "Nová verzia BOINC je k dispozícii."
-
-#~ msgid "Download it."
-#~ msgstr "Stiahnuť."
-
-#~ msgid "Message from"
-#~ msgstr "Správa od"
-
-#~ msgid "Failed to attach to project"
-#~ msgstr "Neúspešné pripojenie k projektu"
-
-#~ msgid "Failed to attach to account manager"
-#~ msgstr "Neúspešné pripojenie k správcovi konta"
-
-#~ msgid "Attached to account manager"
-#~ msgstr "Pripojené k cprávcovi konta"
-
-#~ msgid "You are now successfully attached to the %s system."
-#~ msgstr "Teraz ste úspešne priojený k %s systému."
-
-#~ msgid "You are now successfully attached to this account manager."
-#~ msgstr "Teraz ste úspešne pripojený k tomuto správcovi konta."
-
-#~ msgid "All projects"
-#~ msgstr "Všetky projekty"
-
-#~ msgid "Attach to project"
-#~ msgstr "Pripojiť k projektu"
-
-#~ msgid "Attach to account manager"
-#~ msgstr "Pripojiť ku správcovi konta"
-
-#~ msgid "Attach to a project"
-#~ msgstr "Pripojiť do projektu"
-
-#~ msgid "%s needs to connect to the Internet.  Please click to open %s."
-#~ msgstr ""
-#~ "%s potrebuje pripojenie k Internetu. Prosím kliknite pre otvorenie %s."
-
-#~ msgid ""
-#~ "%s couldn't do Internet communication, and no default connection is "
-#~ "selected.\n"
-#~ "Please connect to the Internet, or select a default connection\n"
-#~ "using Advanced/Options/Connections."
-#~ msgstr ""
-#~ "%s nemôže robiť Internetovú komunikáci, a žiadne prednastavené pripojenie "
-#~ "nie je vybraté.\n"
-#~ "Prosím pripojte sa k Internetu, alebo vyberte prednastavené pripojenie\n"
-#~ "použitím Pokročilý/Nastavenia/Pripojenia."
-
-#~ msgid "Attached to project"
-#~ msgstr "Pripojený k projektu"
-
-#~ msgid "You are now successfully attached to this project."
-#~ msgstr "Teraz ste úspešne pripojený do tohto projektu."
-
-#~ msgid "Attached to %s"
-#~ msgstr "Pripojené k %s"
-
-#~ msgid "Detach"
-#~ msgstr "Odpojiť"
-
-#~ msgid "Detaching from project..."
-#~ msgstr "Odpájenie od projektu..."
-
-#~ msgid "Are you sure you want to detach from project '%s'?"
-#~ msgstr "Ste si istý, že sa chcete odppojiť od projektu '%s'?"
-
-#~ msgid "Detach from Project"
-#~ msgstr "Odpojenie od projektu"
-
-#~ msgid " - user active"
-#~ msgstr " - užívateľ aktívny"
-
-#~ msgid " - need disk space"
-#~ msgstr " - potrebné miesto na disku"
-
-#~ msgid "Attach to an additional project"
-#~ msgstr "Pripojiť k ďalšiemu projektu"
-
-#~ msgid "To completion"
-#~ msgstr "Do dokončenia"
-
-#~ msgid "Attach to a project to begin processing work"
-#~ msgstr "Pripojiť k projektu pre zahájenie spracovania práce"
-
-#~ msgid "%s - Can't find web browser"
-#~ msgstr "%s - Nemožno nájsť web prehliadač"
-
-#~ msgid ""
-#~ "%s tried to display the web page\n"
-#~ "\t%s\n"
-#~ "but couldn't find a web browser.\n"
-#~ "To fix this, set the environment variable\n"
-#~ "BROWSER to the path of your web browser,\n"
-#~ "then restart the %s."
-#~ msgstr ""
-#~ "%s skúsil zobraziť web stránku\n"
-#~ "\t%s\n"
-#~ "ale nebol nájdený web prehliadač.\n"
-#~ "Pre nápravu nastavte premennú prostredia\n"
-#~ "BROWSER (VYHĽADÁVAČ) do cesty Vášho web prehliadača,\n"
-#~ "potom reštartujte %s."
-
-#~ msgid "Retrying communications for project(s)..."
-#~ msgstr "Opakovanie komunikácií pre projekt(y)..."
-
-#~ msgid ""
-#~ "Required wizard file(s) are missing from the target server.\n"
-#~ "(lookup_account.php/create_account.php)\n"
-#~ msgstr ""
-#~ "Požadovaný(é) wizard súbor(y) chýba(jú) na cieľovom servri.\n"
-#~ "(lookup_account.php/create_account.php)\n"
-
-#~ msgid "User information"
-#~ msgstr "Informácie o užívateľovi"
-
-#~ msgid "Account Manager URL"
-#~ msgstr "URL správcu konta"
-
-#~ msgid "Enter the URL of the account manager's web site."
-#~ msgstr "Vložte URL web stránky správcu konta."
-
-#~ msgid "Close BOINC Manager Window."
-#~ msgstr "Zatvoriť okno BOINC Manažéra"
-
-#~ msgid "Exit the %s"
-#~ msgstr "Odchod z %s"
-
-#~ msgid "Attach to &project"
-#~ msgstr "Pripojiť k &projektu"
-
-#~ msgid "Attaching to project..."
-#~ msgstr "Pripájenie k projektu..."
-
-#~ msgid "Removal from %s completed."
-#~ msgstr "Odstránenie z %s je úplné."
-
-#~ msgid "Removal succeeded!"
-#~ msgstr "Odstránenie úspešné!"
-
-#~ msgid "ID"
-#~ msgstr "ID"
-
-#~ msgid "Priority"
-#~ msgstr "Priorita"
-
-#~ msgid "MessagesGrid"
-#~ msgstr "tab. Správy"
-
-#~ msgid "Copying selected messages to Clipboard..."
-#~ msgstr "Kopírovanie vybratých správ do schránky..."
-
-#~ msgid ""
-#~ "We'll now guide you through the process of attaching\n"
-#~ "to a project."
-#~ msgstr "Teraz Vás povedieme cez proces pripojenia k projektu."
-
-#~ msgid "&Stop using%s"
-#~ msgstr "&Zastaviť používanie%s"
-
-#~ msgid ""
-#~ "We'll now remove this computer from %s.  From now on,\n"
-#~ "attach and detach projects directly from this computer.\n"
-#~ msgstr ""
-#~ "Teraz odstránime tento počítač z %s. Odteraz\n"
-#~ "pripojíme a odpojíme projekty priamo z tohoto počítača.\n"
-
-#~ msgid ""
-#~ "We'll now guide you through the process of attaching\n"
-#~ "to an account manager.\n"
-#~ "\n"
-#~ "If you want to attach to a single project, click Cancel,\n"
-#~ "then select the 'Attach to project' menu item instead."
-#~ msgstr ""
-#~ "Teraz Vás povedieme cez proces pripojenia\n"
-#~ "k správcovi konta.\n"
-#~ "\n"
-#~ "Ak sa chcete pripojiť k samostatnému projektu, kliknite na Späť,\n"
-#~ "potom namiesto toho vyberte položku 'Pripojiť k projektu' v ponuke."
-
-#~ msgid "Debug Flags"
-#~ msgstr "Vlajky ladenia"
-
-#~ msgid "Project Properties Failure"
-#~ msgstr "Vlastnosti projektu zlyhali"
-
-#~ msgid "Project Properties URL Failure"
-#~ msgstr "URL vlastností projektu zlyhala"
-
-#~ msgid "Account Creation Disabled"
-#~ msgstr "Vytvorenie konta zablokované"
-
-#~ msgid "Account Already Exists"
-#~ msgstr "Konto už existuje"
-
-#~ msgid "Project Already Attached"
-#~ msgstr "Projekt je už pripojený"
-
-#~ msgid "Project Attach Failure"
-#~ msgstr "Pripojenie projektu zlyhalo"
-
-#~ msgid "Net Detection Failure"
-#~ msgstr "Net detekcia zlyhala"
-
-#~ msgid ""
-#~ "You can copy and paste the URL from your browser's\n"
-#~ "address bar."
-#~ msgstr "Môžete skopírovať a vlepiť URL z adresovej lišty Vášho prehliadača."
-
-#~ msgid "You are already attached to this project."
-#~ msgstr "Už ste pripojený do tohoto projektu."
-
-#~ msgid "Enter account key"
-#~ msgstr "Vložte kľúč konta"
-
-#~ msgid ""
-#~ "This project uses an \"account key\" to identify you.\n"
-#~ "\n"
-#~ "Go to the project's web site to create an account. Your account\n"
-#~ "key will be emailed to you."
-#~ msgstr ""
-#~ "Tento projekt používa \"kľúč konta\" na Vašu identifikáciu.\n"
-#~ "\n"
-#~ "Choďte na web stránku projektu pre vytvorenie konta. Váš kľúč\n"
-#~ "konta Vám bude doručený emailom."
-
-#~ msgid "An account key looks like:"
-#~ msgstr "Kľúč konta vyzerá ako:"
-
-#~ msgid "82412313ac88e9a3638f66ea82186948"
-#~ msgstr "82412313ac88e9a3638f66ea82186948"
-
-#~ msgid "Account key:"
-#~ msgstr "Kľúč konta:"
-
-#~ msgid ""
-#~ "Report completed work, get latest credit, get latest preferences, and "
-#~ "possibly get more work."
-#~ msgstr ""
-#~ "Odoslať dokončenú prácu, získať posledný kredit, získať posledné "
-#~ "preferencie a ak je možné, získať ďalšiu prácu."
-
-#~ msgid ""
-#~ "%s is going to shutdown the core client it is currently connected to.\n"
-#~ "NOTE: Choosing 'OK' will cause the select new computer dialog to appear \n"
-#~ "so you can attach to a different core client."
-#~ msgstr ""
-#~ "%s vypína klienta jadra, aktuálne k nemu pripojeného.\n"
-#~ "POZNÁMKA: Zvolenie 'OK' spôsobí objavenie sa dialógu výberu nového "
-#~ "počítača, \n"
-#~ "aby ste sa mohli pripojiť k inému klientovi jadra."
-
-#~ msgid "BOINC Manager - Detach from %s"
-#~ msgstr "BOINC Manažér - Odpojiť od %s"
-
-#~ msgid "%s is currently suspended...\n"
-#~ msgstr "%s je práve pozastavený...\n"
-
-#~ msgid "%s networking is currently suspended...\n"
-#~ msgstr "%s pripojenie do siete je práve pozastavené...\n"
-
-#~ msgid "%s is currently reconnecting to a %s client...\n"
-#~ msgstr "%s sa práve presmerováva na %s klienta...\n"
-
-#~ msgid "%s is not currently connected to a %s client...\n"
-#~ msgstr "%s nie je práve pripojený na %s klienta...\n"
-
-#~ msgid "A system for volunteer computing"
-#~ msgstr "Systém pre dobroľnícke výpočty"
-
-#~ msgid ""
-#~ "This dialog controls preferences on this computer only.\n"
-#~ "On Save - preferences will be stored locally.\n"
-#~ "If you would like to revert to web-based settings, click the Clear-Button."
-#~ msgstr ""
-#~ "Tento dialóg riadi preferencie len na tomto počítači.\n"
-#~ "Pri Uložení - preferencie budú uložené lokálne.\n"
-#~ "Ak by ste sa radi vrátili k nastaveniam na stránke, kliknite na tlačidlo "
-#~ "Odstrániť."
-
-#~ msgid "when do work"
-#~ msgstr "kedy pracuje"
-
-#~ msgid "only if computer is idle for"
-#~ msgstr "iba ak je počítač nevyužitý, za"
-
-#~ msgid "work time restrictions"
-#~ msgstr "obmedzenia doby práce"
-
-#~ msgid "as specified here:"
-#~ msgstr "ako je stanovené tu:"
-
-#~ msgid "processors"
-#~ msgstr "procesory(ov)"
-
-#~ msgid "usage restrictions"
-#~ msgstr "obmedzenia vyuitia"
-
-#~ msgid "use network only between the hours of"
-#~ msgstr "sieť použiť iba medzi hodinami"
-
-#~ msgid "use network only as specified here:"
-#~ msgstr "sieť použiť iba ako je stanovené tu:"
-
-#~ msgid "Click here to disable displaying this message in the future."
-#~ msgstr ""
-#~ "Kliknite sem, pre zablokovanie zobrazenia tohoto hlásenia v budúcnosti."
-
-#~ msgid "Language Selection:"
-#~ msgstr "Výber jazyka:"
-
-#~ msgid "What language should the manager display by default."
-#~ msgstr "Ktorý jazyk by mal správca zobrazovať podľa natavenia?"
-
-#~ msgid "Reminder Frequency:"
-#~ msgstr "Opakovanie pripomienky:"
-
-#~ msgid ""
-#~ "How often, in minutes, should the manager remind you of possible "
-#~ "connection events."
-#~ msgstr ""
-#~ "Ako často, v minútach, by Vám mal správca pripomínať možné udalosti "
-#~ "spojenia."
-
-#~ msgid "Project URL"
-#~ msgstr "URL projektu"
-
-#~ msgid "Enter the URL of the project's web site."
-#~ msgstr "Vložte URL web stránky projektu."
-
-#~ msgid "For a list of BOINC-based projects go to:"
-#~ msgstr "Pre zoznam projektov pod BOINC choďte na:"
-
-#~ msgid "BOINC Manager - Messages"
-#~ msgstr "BOINC Manažér - Hlásenia"
-
-#~ msgid "BOINC Manager - Preferences"
-#~ msgstr "BOINC Manažér - Preferencie"
-
-#~ msgid "Project Comm Failure"
-#~ msgstr "Komunikácie projektu zlyhali"
-
-#~ msgid "Google Comm Failure"
-#~ msgstr "Komunikácie Google zlyhali"
-
-#~ msgid "Yahoo Comm Failure"
-#~ msgstr "Komunikácie Yahoo zlyhali"
-
-#~ msgid "About BOINC Manager"
-#~ msgstr "O BOINC Manažérovi"
-
-#~ msgid "BOINC Manager - Options"
-#~ msgstr "BOINC Manažér - Nastavenia"
-
-#~ msgid "BOINC Manager - Select Computer"
-#~ msgstr "BOINC Manažér - Vybrať počítač"
