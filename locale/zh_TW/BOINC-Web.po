@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2015-02-15 17:32+0000\n"
+"PO-Revision-Date: 2015-02-16 04:24+0000\n"
 "Last-Translator: willy Wu <df910105@yahoo.com.tw>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/boinc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -317,7 +317,7 @@ msgstr "研究專案"
 
 #: index.php:161
 msgid "Logos and graphics"
-msgstr "標幟與圖表"
+msgstr "標幟和圖片"
 
 #: index.php:162
 msgid "and"
