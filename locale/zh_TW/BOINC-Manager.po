@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2015-02-15 15:57+0000\n"
+"PO-Revision-Date: 2015-02-16 04:38+0000\n"
 "Last-Translator: willy Wu <df910105@yahoo.com.tw>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/boinc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -314,7 +314,7 @@ msgstr "持續執行 (&R)"
 
 #: AdvancedFrame.cpp:473
 msgid "Allow work regardless of preferences"
-msgstr "不管偏好設定運行任務"
+msgstr "不管偏好設定執行任務"
 
 #: AdvancedFrame.cpp:477
 msgid "Run based on &preferences"
@@ -338,7 +338,7 @@ msgstr "持續執行 GPU"
 
 #: AdvancedFrame.cpp:509
 msgid "Allow GPU work regardless of preferences"
-msgstr "不管偏好設定運行任務"
+msgstr "不管偏好設定執行任務"
 
 #: AdvancedFrame.cpp:513
 msgid "Use GPU based on preferences"
@@ -346,7 +346,7 @@ msgstr "依照偏好設定使用 GPU (&P)"
 
 #: AdvancedFrame.cpp:514
 msgid "Allow GPU work according to preferences"
-msgstr "依照您的偏好設定運行 GPU 任務"
+msgstr "依照您的偏好設定執行 GPU 任務"
 
 #: AdvancedFrame.cpp:518
 msgid "Suspend GPU"
@@ -383,7 +383,7 @@ msgstr "停止 BONIC 的網路活動"
 #: AdvancedFrame.cpp:564
 #, c-format
 msgid "Connect to another computer running %s"
-msgstr "連線到另一台運行 %s 的電腦"
+msgstr "連線到另一台電腦執行 %s "
 
 #: AdvancedFrame.cpp:569
 msgid "Select computer..."
@@ -751,7 +751,7 @@ msgid ""
 " or\n"
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
-msgstr "您目前沒有權限管理本用戶端。\n\n要在目前用戶下運行 %s，請：\n- 重新安裝 %s，在被問到關於非系統管理員用戶的問題時，回答\"是\"\n- 聯繫系統管理員將您加入到“boinc_master”用戶組。"
+msgstr "您目前沒有權限管理本用戶端。\n\n要在目前用戶下執行 %s，請：\n- 重新安裝 %s，在被問到關於非系統管理員用戶的問題時，回答\"是\"\n- 聯繫系統管理員將您加入到“boinc_master”用戶群組。"
 
 #: BOINCGUIApp.cpp:345
 #, c-format
@@ -1040,30 +1040,30 @@ msgstr "驗證錯誤"
 #: DlgAdvPreferences.cpp:885 DlgAdvPreferences.cpp:891
 #: DlgAdvPreferences.cpp:897
 msgid "Applications to add"
-msgstr "需要新增的應用程式"
+msgstr "新增程式"
 
 #: DlgAdvPreferences.cpp:914
 #, c-format
 msgid "'%s' is not an executable application."
-msgstr "'%s' 為一個不可以執行的應用程式"
+msgstr "'%s' 為一個不可執行的程式"
 
 #: DlgAdvPreferences.cpp:915 DlgAdvPreferences.cpp:962
 #: DlgAdvPreferences.cpp:986
 msgid "Add Exclusive App"
-msgstr "加入排斥的應用程式"
+msgstr "新增衝突程式"
 
 #: DlgAdvPreferences.cpp:927
 msgid "Name of application to add?"
-msgstr "需要新增的應用程式的名稱？"
+msgstr "新增的程式名稱?"
 
 #: DlgAdvPreferences.cpp:927
 msgid "Add exclusive app"
-msgstr "加入排斥的應用程式"
+msgstr "新增衝突程式"
 
 #: DlgAdvPreferences.cpp:961
 #, c-format
 msgid "Application names must end with '%s'"
-msgstr "應用程式名稱的結果必須為 '%s'"
+msgstr "程式必須為 '%s' 檔"
 
 #: DlgAdvPreferences.cpp:985
 #, c-format
@@ -1074,7 +1074,7 @@ msgstr "'%s' 已經在列表之中。"
 msgid ""
 "Do you really want to clear all local preferences?\n"
 "(This will not affect exclusive applications.)"
-msgstr "您確定要清除所有本地偏好設定嗎? \n(不會對互斥應用程式的設定有影響)"
+msgstr "您確定要清除所有偏好設定嗎? \n(不會對衝突程式的設定有影響)"
 
 #: DlgAdvPreferences.cpp:1078 sg_DlgPreferences.cpp:1030
 msgid "Confirmation"
@@ -1090,7 +1090,7 @@ msgid ""
 "This dialog controls preferences for this computer only.\n"
 "Click OK to set preferences.\n"
 "Click Clear to restore web-based settings (except exclusive apps)."
-msgstr "此視窗選擇的偏好設定只對本機生效。\n按「確定」設定偏好設定。\n按「清除」回復為網頁上的偏好設定。"
+msgstr "此視窗選擇的偏好設定只對本機生效。\n按「確定」設定偏好設定。\n按「清除」回復為網頁上的偏好設定(衝突程式除外)。"
 
 #: DlgAdvPreferencesBase.cpp:65 sg_DlgPreferences.cpp:428
 msgid "Clear"
@@ -1114,7 +1114,7 @@ msgstr "硬碟及記憶體使用量"
 
 #: DlgAdvPreferencesBase.cpp:90
 msgid "exclusive applications"
-msgstr "排斥的應用程式"
+msgstr "衝突程式"
 
 #: DlgAdvPreferencesBase.cpp:102 sg_DlgPreferences.cpp:424
 msgid "OK"
@@ -1222,7 +1222,7 @@ msgstr "每日分別設定："
 
 #: DlgAdvPreferencesBase.cpp:261 DlgAdvPreferencesBase.cpp:522
 msgid "check box to specify hours for this day of week"
-msgstr "打勾可設定該日要運行任務的時間"
+msgstr "打勾可設定該日執行的時間"
 
 #: DlgAdvPreferencesBase.cpp:267 DlgAdvPreferencesBase.cpp:528
 msgid "Monday"
@@ -1258,7 +1258,7 @@ msgstr "其它選項"
 
 #: DlgAdvPreferencesBase.cpp:330
 msgid "Switch between applications every"
-msgstr "切換應用程式的時間間隔"
+msgstr "切換程式的時間間隔"
 
 #: DlgAdvPreferencesBase.cpp:339
 msgid "On multiprocessor systems, use at most"
@@ -1435,7 +1435,7 @@ msgstr "% 於電腦閒置中"
 
 #: DlgAdvPreferencesBase.cpp:691
 msgid "Leave applications in memory while suspended"
-msgstr "當暫停時保留應用程式於記憶體中"
+msgstr "暫停時將程式保留於記憶體中"
 
 #: DlgAdvPreferencesBase.cpp:693
 msgid "if checked, suspended work units are left in memory"
@@ -1444,7 +1444,7 @@ msgstr "若勾選此方塊，暫停的任務會留在記憶體中"
 #: DlgAdvPreferencesBase.cpp:713
 msgid ""
 "Suspend processor and network usage when these applications are running:"
-msgstr "當這些應用程式在運行時，暫停處理器與網路的使用"
+msgstr "當這些程式在執行時，暫停運算與網路使用:"
 
 #: DlgAdvPreferencesBase.cpp:722
 msgid "Add..."
@@ -1452,7 +1452,7 @@ msgstr "加入"
 
 #: DlgAdvPreferencesBase.cpp:723
 msgid "Add an application to this list"
-msgstr "加入一個應用程式到列表中"
+msgstr "新增程式到列表中"
 
 #: DlgAdvPreferencesBase.cpp:728 ViewProjects.cpp:202
 #: sg_ProjectCommandPopup.cpp:85
@@ -1461,7 +1461,7 @@ msgstr "移除"
 
 #: DlgAdvPreferencesBase.cpp:729
 msgid "Remove an application from this list"
-msgstr "從列表中移除一個應用程式"
+msgstr "從列表中移除程式"
 
 #: DlgAdvPreferencesBase.cpp:738
 msgid "For advanced options, refer to "
@@ -1736,7 +1736,7 @@ msgstr "任務細節"
 
 #: DlgItemProperties.cpp:328 ViewWork.cpp:238
 msgid "Application"
-msgstr "應用程式"
+msgstr "程式"
 
 #: DlgItemProperties.cpp:329 ViewWork.cpp:239
 msgid "Name"
@@ -2002,7 +2002,7 @@ msgstr "您的電腦"
 
 #: Localization.cpp:53
 msgid "View a listing of all the computers on which you are running SETI@Home"
-msgstr "檢視所有運行 SETI@Home 的電腦清單"
+msgstr "檢視所有執行 SETI@Home 的電腦清單"
 
 #: Localization.cpp:55 Localization.cpp:97
 msgid "Your team"
@@ -2060,7 +2060,7 @@ msgstr "帳號摘要"
 #: Localization.cpp:95
 msgid ""
 "View a listing of all the computers on which you are running Einstein@Home"
-msgstr "檢視您所有正在運行 Einstein@Home 的電腦清單"
+msgstr "檢視您所有執行 Einstein@Home 的電腦清單"
 
 #: Localization.cpp:101
 msgid "LIGO project"
@@ -2159,7 +2159,7 @@ msgstr "取回系統狀態中；請稍候..."
 
 #: MainDocument.cpp:1816
 msgid "Missing application"
-msgstr "應用程式不存在"
+msgstr "程式不存在"
 
 #: MainDocument.cpp:1817
 msgid ""
@@ -2201,7 +2201,7 @@ msgstr "正在啟動中"
 
 #: MainDocument.cpp:2440
 msgid "an exclusive app is running"
-msgstr "有排斥的應用程式正在執行"
+msgstr "有衝突的程式正在執行"
 
 #: MainDocument.cpp:2441
 msgid "CPU is busy"
@@ -2269,7 +2269,7 @@ msgstr "執行中，高優先權"
 
 #: MainDocument.cpp:2514
 msgid "Running"
-msgstr "運行中"
+msgstr "執行中"
 
 #: MainDocument.cpp:2517
 msgid " (non-CPU-intensive)"
@@ -3155,11 +3155,11 @@ msgstr " （專案延後： "
 
 #: ViewWork.cpp:187 ViewWork.cpp:777
 msgid "Show active tasks"
-msgstr "顯示運行中"
+msgstr "顯示執行中"
 
 #: ViewWork.cpp:188 ViewWork.cpp:778
 msgid "Show only active tasks."
-msgstr "只顯示運行中的任務。"
+msgstr "只顯示執行中的任務。"
 
 #: ViewWork.cpp:194 sg_TaskCommandPopup.cpp:60
 msgid "Show graphics"
@@ -3167,7 +3167,7 @@ msgstr "顯示圖形"
 
 #: ViewWork.cpp:195 sg_TaskCommandPopup.cpp:61
 msgid "Show application graphics in a window."
-msgstr "於新視窗中顯示應用程式的圖形。"
+msgstr "於新視窗中顯示程式的圖形。"
 
 #: ViewWork.cpp:201
 msgid "Show VM Console"
@@ -3175,7 +3175,7 @@ msgstr "顯示此主機總計"
 
 #: ViewWork.cpp:202
 msgid "Show VM Console in a window."
-msgstr "於新視窗中顯示應用程式的圖形。"
+msgstr "於新視窗中顯示程式的圖形。"
 
 #: ViewWork.cpp:209
 msgid "Suspend work for this result."
@@ -3586,7 +3586,7 @@ msgstr "跳出一個適用於目前任務的指令選單"
 #: sg_TaskPanel.cpp:701
 #, c-format
 msgid "Application: %s"
-msgstr "應用程式: %s"
+msgstr "程式: %s"
 
 #: sg_TaskPanel.cpp:724
 #, c-format
@@ -3595,7 +3595,7 @@ msgstr "%.3f%%"
 
 #: sg_TaskPanel.cpp:732
 msgid "Application: Not available"
-msgstr "應用程式：不可行"
+msgstr "程式：不可行"
 
 #: sg_TaskPanel.cpp:832
 msgid "Not Available"
