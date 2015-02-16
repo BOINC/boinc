@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2015-02-15 17:29+0000\n"
+"PO-Revision-Date: 2015-02-16 05:03+0000\n"
 "Last-Translator: willy Wu <df910105@yahoo.com.tw>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/boinc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -503,7 +503,7 @@ msgstr "家庭"
 #: ../inc/host.inc:57 ../inc/prefs.inc:641 ../inc/prefs.inc:1049
 #: ../user/server_status.php:314
 msgid "Work"
-msgstr "工作"
+msgstr "任務"
 
 #: ../inc/host.inc:58 ../inc/prefs.inc:640 ../inc/prefs.inc:1050
 msgid "School"
@@ -3820,7 +3820,7 @@ msgstr "將該項目顯示為 BOINC 客戶端的通知"
 
 #: ../user/forum_post.php:127
 msgid "Do so only for items likely to be of interest to all volunteers."
-msgstr "僅在所有志願者都可能對該項目感興趣的時候使用"
+msgstr "僅在所有參與者都可能對該項目感興趣的時候使用"
 
 #: ../user/forum_rate.php:26
 msgid "Rating offline"
@@ -4804,7 +4804,7 @@ msgstr "使用瀏覽器的語言設置"
 msgid ""
 "Translations are done by volunteers.  If your native language is not here, "
 "%1you can provide a translation%2."
-msgstr "翻譯工作都是由志願者完成的，如果這裡沒有你的母語，%1你可以自己進行翻譯%2。"
+msgstr "翻譯工作都是由志工完成的，如果這裡沒有你的語言，%1你可以自行翻譯%2。"
 
 #: ../user/login_form.php:45
 msgid "Email address:"
@@ -5095,13 +5095,13 @@ msgstr "取消"
 msgid ""
 "%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
 "community."
-msgstr "通過 %1用戶檔案%2 志願者可以和 %3 社區分享他的背景和觀點。"
+msgstr "通過%1用戶檔案%2參與者可以和%3社區分享他的背景和觀點。"
 
 #: ../user/profile_menu.php:36
 msgid ""
 "Explore the diversity of your fellow volunteers, and contribute your own "
 "views for others to enjoy."
-msgstr "可以了解其他志願者的想法，也可以讓他人看到你分享的觀點。"
+msgstr "可以了解其他參與者的想法，也可以讓他人看到你分享的觀點。"
 
 #: ../user/profile_menu.php:37
 msgid ""
