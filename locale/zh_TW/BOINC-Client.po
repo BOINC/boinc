@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2015-02-15 15:41+0000\n"
+"PO-Revision-Date: 2015-02-16 04:59+0000\n"
 "Last-Translator: willy Wu <df910105@yahoo.com.tw>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/boinc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -57,7 +57,7 @@ msgstr "app_info.xml中所引用的檔案並不存在："
 
 #: current_version.cpp:91
 msgid "A new version of BOINC is available."
-msgstr "有新的BOINC版本。"
+msgstr "BOINC有更新版本。"
 
 #: current_version.cpp:94 current_version.cpp:102
 msgid "Download"
@@ -137,7 +137,7 @@ msgstr "該專案的工作需要%s的GPU才可以執行"
 
 #: ../sched/sched_send.cpp:1262
 msgid "No tasks are available for the applications you have selected."
-msgstr "您目前設定的應用程式類型沒有工作。"
+msgstr "您目前設定的程式類型沒有工作。"
 
 #: ../sched/sched_send.cpp:1288
 msgid "Your computer type is not supported by this project"
@@ -155,7 +155,7 @@ msgstr "%s 目前有任務，但您的偏好設定為不允許"
 
 #: ../sched/sched_types.cpp:254
 msgid "Unknown app name in app_info.xml"
-msgstr "在 app_info.xml 中有未知的應用程式名稱"
+msgstr "在 app_info.xml 中有未知的程式名稱"
 
 #: ../sched/sched_version.cpp:214
 msgid "Your app_info.xml file doesn't have a usable version of"
