@@ -71,6 +71,7 @@ enum {
     ID_CHKNETCONFIRMBEFORECONNECT,
     ID_CHKNETDISCONNECTWHENDONE,
     ID_CHKNETDOWNLOADRATE,
+    ID_CHKNETEVERYDAY,
     ID_CHKNETSKIPIMAGEVERIFICATION,
     ID_CHKNETUPLOADRATE,
     ID_CHKPROCEVERYDAY,
@@ -139,6 +140,7 @@ protected:
     wxTextCtrl* m_txtProcIdleFor;
     wxCheckBox* m_chkMaxLoad;
     wxTextCtrl* m_txtMaxLoad;
+    wxCheckBox* m_chkNetEveryDay;
     wxCheckBox* m_chkProcEveryDay;
     wxTextCtrl* m_txtProcEveryDayStart;
     wxTextCtrl* m_txtProcEveryDayStop;
