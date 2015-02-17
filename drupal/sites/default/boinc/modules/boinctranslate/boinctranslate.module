@@ -74,53 +74,59 @@ function boinctranslate_panels_pane_content_alter($content, $pane, $args, $conte
 function boinctranslate_refresh_translations() {
   require_once(getcwd() . '/includes/locale.inc');
   $errors = array();
-  $urls = variable_get('boinc_translation_service_files', '');
-  // Try to retrieve the files in the given URLs
-  $urls = explode("\n", $urls);
-  foreach ($urls as $url) {
-    $url = trim($url);
-    if (!$url OR $url[0] == '#') {
-      // Ignore empty lines and comments
-      continue;
-    }
-    $result = drupal_http_request($url, array(), 'GET', NULL, 1, 30);
-    if ($result AND $result->code != '404' AND $result->data) {
-      if ($result->data[0] == '{') {
-        // Process as JSON
-        $json_data = json_decode($result->data, TRUE);
-        if (!empty($json_data['content'])) {
-          $result->data = $json_data['content'];
+  $textgroups = array(
+    'default' => 'boinc_translation_service_files',
+    'project' => 'boinc_translation_service_files_project',
+  );
+  foreach ($textgroups as $textgroup => $url_variable) {
+    $urls = variable_get($url_variable, '');
+    // Try to retrieve the files in the given URLs
+    $urls = explode("\n", $urls);
+    foreach ($urls as $url) {
+      $url = trim($url);
+      if (!$url OR $url[0] == '#') {
+        // Ignore empty lines and comments
+        continue;
+      }
+      $result = drupal_http_request($url, array(), 'GET', NULL, 1, 30);
+      if ($result AND $result->code != '404' AND $result->data) {
+        if ($result->data[0] == '{') {
+          // Process as JSON
+          $json_data = json_decode($result->data, TRUE);
+          if (!empty($json_data['content'])) {
+            $result->data = $json_data['content'];
+          }
+        }
+        // Get the language code from the file and add if not yet supported
+        $langcode = substr(strstr($result->data, 'Language: '), 10, 2);
+        if (!$langcode) {
+          drupal_set_message(t('Unable to determine language of translation file: %file', array('%file' => $url)), 'error');
+          continue;
+        }
+        $languages = language_list('language', TRUE);
+        if (!isset($languages[$langcode])) {
+          $predefined = _locale_get_predefined_list();
+          locale_add_language($langcode);
+          drupal_set_message(t('The language %language has been created.', array('%language' => t($predefined[$langcode][0]))));
+        }
+        // Write the translation file to a temporary location
+        $file = new stdClass();
+        $file->filepath = file_save_data($result->data, NULL);
+        $file->filename = basename($file->filepath);
+        if (!$file->filepath) {
+          drupal_set_message(t('Unable to create temporary file in %tmpdir for translation file %url', array('%tmpdir' => file_directory_temp(), '%url' => $url)), 'error');
+          continue;
+        }
+        // Import the translations from the file
+        if (!_boinctranslate_locale_import_po($file, $langcode, LOCALE_IMPORT_OVERWRITE, $textgroup)) {
+          $variables = array('%filename' => $url);
+          drupal_set_message(t('The translation import of %filename failed.', $variables), 'error');
+          watchdog('locale', 'The translation import of %filename failed.', $variables, WATCHDOG_ERROR);
         }
       }
-      // Get the language code from the file and add if not yet supported
-      $langcode = substr(strstr($result->data, 'Language: '), 10, 2);
-      if (!$langcode) {
-        drupal_set_message(t('Unable to determine language of translation file: %file', array('%file' => $url)), 'error');
-        continue;
+      else {
+        drupal_set_message(t('Translation file not found: %file', array('%file' => $url)), 'error');
       }
-      $languages = language_list('language', TRUE);
-      if (!isset($languages[$langcode])) {
-        $predefined = _locale_get_predefined_list();
-        locale_add_language($langcode);
-        drupal_set_message(t('The language %language has been created.', array('%language' => t($predefined[$langcode][0]))));
-      }
-      // Write the translation file to a temporary location
-      $file = new stdClass();
-      $file->filepath = file_save_data($result->data, NULL);
-      $file->filename = basename($file->filepath);
-      if (!$file->filepath) {
-        drupal_set_message(t('Unable to create temporary file in %tmpdir for translation file %url', array('%tmpdir' => file_directory_temp(), '%url' => $url)), 'error');
-        continue;
-      }
-      // Import the translations from the file
-      if (!_boinctranslate_locale_import_po($file, $langcode, LOCALE_IMPORT_OVERWRITE, 'default')) {
-        $variables = array('%filename' => $url);
-        drupal_set_message(t('The translation import of %filename failed.', $variables), 'error');
-        watchdog('locale', 'The translation import of %filename failed.', $variables, WATCHDOG_ERROR);
-      }
-    }
-    else {
-      drupal_set_message(t('Translation file not found: %file', array('%file' => $url)), 'error');
     }
   }
   drupal_goto('admin/boinc/translation');
