@@ -71,6 +71,7 @@ enum {
     ID_CHKNETCONFIRMBEFORECONNECT,
     ID_CHKNETDISCONNECTWHENDONE,
     ID_CHKNETDOWNLOADRATE,
+    ID_CHKNETEVERYDAY,
     ID_CHKNETSKIPIMAGEVERIFICATION,
     ID_CHKNETUPLOADRATE,
     ID_CHKPROCEVERYDAY,
@@ -139,10 +140,12 @@ protected:
     wxTextCtrl* m_txtProcIdleFor;
     wxCheckBox* m_chkMaxLoad;
     wxTextCtrl* m_txtMaxLoad;
+    wxCheckBox* m_chkNetEveryDay;
     wxCheckBox* m_chkProcEveryDay;
     wxTextCtrl* m_txtProcEveryDayStart;
     wxTextCtrl* m_txtProcEveryDayStop;
     wxPanel* m_panelProcSpecialTimes;
+    wxStaticBox* procSpecialTimesStaticBox;
     wxCheckBox* m_chkProcMonday;
     wxTextCtrl* m_txtProcMonday;
     wxCheckBox* m_chkProcTuesday;
@@ -177,6 +180,7 @@ protected:
     wxTextCtrl* m_txtNetEveryDayStart;
     wxTextCtrl* m_txtNetEveryDayStop;
     wxPanel* m_panelNetSpecialTimes;
+    wxStaticBox* netSpecialTimesStaticBox;
     wxCheckBox* m_chkNetMonday;
     wxTextCtrl* m_txtNetMonday;
     wxCheckBox* m_chkNetTuesday;

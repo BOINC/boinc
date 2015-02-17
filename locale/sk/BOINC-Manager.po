@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2015-02-16 00:01+0000\n"
+"PO-Revision-Date: 2015-02-17 00:26+0000\n"
 "Last-Translator: aceman\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/boinc/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -148,19 +148,19 @@ msgstr "Zvoľte Správcu konta kliknutím na jeho názov\nalebo napíšte jeho a
 
 #: AccountManagerInfoPage.cpp:279
 msgid "Account manager details:"
-msgstr "Detaily Správcu konta"
+msgstr "Detaily Správcu konta:"
 
 #: AccountManagerInfoPage.cpp:283
 msgid "Account manager &URL:"
-msgstr "&URL Manager de cont:"
+msgstr "&URL Správcu konta:"
 
 #: AccountManagerInfoPage.cpp:287
 msgid "Open web page"
-msgstr "Deschide pagină web"
+msgstr "Otvoriť webstránku"
 
 #: AccountManagerInfoPage.cpp:290
 msgid "Visit this account manager's web site"
-msgstr "Vizitaţi site web al managerului de cont"
+msgstr "Navštíviť webstránku Správcu konta"
 
 #: AccountManagerProcessingPage.cpp:187 AccountManagerPropertiesPage.cpp:193
 #, c-format
@@ -471,7 +471,7 @@ msgstr "Zobraziť informácie o %s"
 #: AdvancedFrame.cpp:661 sg_BoincSimpleFrame.cpp:224
 #, c-format
 msgid "%s &web site"
-msgstr "%s &website"
+msgstr "&Webstránka %s"
 
 #: AdvancedFrame.cpp:667 sg_BoincSimpleFrame.cpp:230
 #, c-format
@@ -1010,7 +1010,7 @@ msgstr "(C) 2003-2013 Kalifornská Univerzita, Berkeley.\nVšetky práva vyhrade
 
 #: DlgAbout.cpp:196
 msgid "Berkeley Open Infrastructure for Network Computing"
-msgstr "Berkeley Open Infrastructure for Network Computing\n(Berkeleyská otvorená infraštruktúra pre sieťové výpočty)"
+msgstr "(Otvorená infraštruktúra pre sieťové výpočty z Berkeley)\n(Berkeley Open Infrastructure for Network Computing)"
 
 #: DlgAbout.cpp:208 DlgExitMessage.cpp:173 DlgGenericMessage.cpp:120
 #: DlgOptions.cpp:396 DlgSelectComputer.cpp:163
@@ -1019,7 +1019,7 @@ msgstr "&OK"
 
 #: DlgAdvPreferences.cpp:544
 msgid "invalid number"
-msgstr "număr invalid"
+msgstr "neplatné číslo"
 
 #: DlgAdvPreferences.cpp:545
 msgid "invalid time, format is HH:MM"
@@ -2429,7 +2429,7 @@ msgstr "Organizácia:"
 
 #: ProjectInfoPage.cpp:643
 msgid "Web site:"
-msgstr "Web stránka:"
+msgstr "Webstránka:"
 
 #: ProjectInfoPage.cpp:647
 msgid "Supported systems:"
@@ -2539,7 +2539,7 @@ msgstr "Súhlasím s podmienkami použitia."
 
 #: TermsOfUsePage.cpp:237
 msgid "I do not agree to the terms of use."
-msgstr "Nu sunt de acord cu condiţiile de utilizare."
+msgstr "Nesúhlasím s podmienkami použitia."
 
 #: UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
@@ -3384,12 +3384,12 @@ msgstr "Kliknite Vymazať pre obnovenie preferencií uvedených nižšie na stav
 #: sg_DlgPreferences.cpp:278
 msgid ""
 "Click Clear to restore web-based settings for all preferences listed below."
-msgstr "Apăsaţi Ştergere pentru a restaura setările de pe web pentru toate preferinţele listate mai jos."
+msgstr "Kliknite na Vymazať pre obnovenie všetkých doleuvedených predvolieb z webovej stránky projektu."
 
 #: sg_DlgPreferences.cpp:285
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
-msgstr "Pentru setări adiţionale, selectaţi Preferinţe Calcul în Vizualizarea Avanasată."
+msgstr "Pre ďalšie nastavenie vyberte Výpočtové preferencie v Pokročilom zobrazení."
 
 #: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
@@ -3421,7 +3421,7 @@ msgstr "Pracovať pri nečinnosti za:"
 
 #: sg_DlgPreferences.cpp:429
 msgid "Clear all local preferences listed above and close the dialog"
-msgstr "Şterge toate preferinţele locale listate deasupra şi închide dialogul"
+msgstr "Vymazať všetky horeuvedené lokálne preferencie a zatvoriť okno"
 
 #: sg_DlgPreferences.cpp:602 sg_DlgPreferences.cpp:605
 #: sg_DlgPreferences.cpp:681 sg_DlgPreferences.cpp:685
@@ -3529,7 +3529,7 @@ msgstr "Príkazy projektu"
 #: sg_ProjectPanel.cpp:267
 #, c-format
 msgid "Pop up a menu of web sites for project %s"
-msgstr "Deschide un meniu cu site-urile web pentru proiectul %s"
+msgstr "Zobraziť ponuku webových stránok projektu %s"
 
 #: sg_ProjectPanel.cpp:269
 #, c-format

@@ -325,8 +325,12 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     
     // ######### net usage page
     // use network between
-    *m_txtNetEveryDayStart << DoubleToTimeString(prefs.net_times.start_hour);
-    *m_txtNetEveryDayStop << DoubleToTimeString(prefs.net_times.end_hour);
+    m_chkNetEveryDay->SetValue(prefs.net_times.start_hour != prefs.net_times.end_hour);
+    if (m_chkNetEveryDay->IsChecked()) {
+        *m_txtNetEveryDayStart << DoubleToTimeString(prefs.net_times.start_hour);
+        *m_txtNetEveryDayStop << DoubleToTimeString(prefs.net_times.end_hour);
+    }
+
     //special day times
     for(int i=0; i< 7;i++) {
         TIME_SPAN& net = prefs.net_times.week.days[i];
@@ -449,7 +453,7 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     } else {
         prefs.cpu_times.start_hour = prefs.cpu_times.end_hour = 0.0;
     }
-        mask.start_hour = mask.end_hour = true;
+    mask.start_hour = mask.end_hour = true;
     //
     for(int i=0; i< 7;i++) {
         if(procDayChks[i]->GetValue()) {
@@ -526,11 +530,13 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     prefs.work_buf_additional_days = RoundToHundredths(td);
     mask.work_buf_additional_days = true;
     //
-    prefs.net_times.start_hour=TimeStringToDouble(m_txtNetEveryDayStart->GetValue());
-    mask.net_start_hour = true;
-    //
-    prefs.net_times.end_hour=TimeStringToDouble(m_txtNetEveryDayStop->GetValue());
-    mask.net_end_hour = true;
+    if (m_chkNetEveryDay->IsChecked()) {
+        prefs.net_times.start_hour = TimeStringToDouble(m_txtNetEveryDayStart->GetValue());
+        prefs.net_times.end_hour = TimeStringToDouble(m_txtNetEveryDayStop->GetValue());
+    } else {
+        prefs.net_times.start_hour = prefs.net_times.end_hour = 0.0;
+    }
+    mask.net_start_hour = mask.net_end_hour = true;
 
     for(int i=0; i< 7;i++) {
         if(netDayChks[i]->GetValue()) {
@@ -610,6 +616,9 @@ void CDlgAdvPreferences::UpdateControlStates() {
     
     m_txtProcEveryDayStart->Enable(m_chkProcEveryDay->IsChecked());
     m_txtProcEveryDayStop->Enable(m_chkProcEveryDay->IsChecked());
+
+    m_txtNetEveryDayStart->Enable(m_chkNetEveryDay->IsChecked());
+    m_txtNetEveryDayStop->Enable(m_chkNetEveryDay->IsChecked());
     
     m_txtProcMonday->Enable(m_chkProcMonday->IsChecked());
     m_txtProcTuesday->Enable(m_chkProcTuesday->IsChecked());
@@ -759,18 +768,19 @@ bool CDlgAdvPreferences::ValidateInput() {
         return false;
     }
 
-    buffer = m_txtNetEveryDayStart->GetValue();
-    if(!IsValidTimeValue(buffer)) {
-        ShowErrorMessage(invMsgTime,m_txtNetEveryDayStart);
-        return false;
+    if (m_chkNetEveryDay->IsChecked()) {
+        buffer = m_txtNetEveryDayStart->GetValue();
+        if(!IsValidTimeValue(buffer)) {
+            ShowErrorMessage(invMsgTime,m_txtNetEveryDayStart);
+            return false;
+        }
+        buffer = m_txtNetEveryDayStop->GetValue();
+        if(!IsValidTimeValue(buffer)) {
+            ShowErrorMessage(invMsgTime,m_txtNetEveryDayStop);
+            return false;
+        }
     }
-
-    buffer = m_txtNetEveryDayStop->GetValue();
-    if(!IsValidTimeValue(buffer)) {
-        ShowErrorMessage(invMsgTime,m_txtNetEveryDayStop);
-        return false;
-    }
-
+    
     //all text ctrls in net special time panel
 
     children = m_panelNetSpecialTimes->GetChildren();
@@ -1043,6 +1053,15 @@ void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
                 }
                 m_txtDiskMaxOfTotal->ChangeValue(buffer);
                 break;
+            case ID_CHKPROCEVERYDAY:
+                if (ev.IsChecked()) {
+                    m_txtProcEveryDayStart->SetValue(wxT("0:00"));
+                    m_txtProcEveryDayStop->SetValue(wxT("0:00"));
+                } else {
+                    m_txtProcEveryDayStart->Clear();
+                    m_txtProcEveryDayStop->Clear();
+                }
+                break;
             case ID_CHKPROCSUNDAY:
             case ID_CHKPROCMONDAY:
             case ID_CHKPROCTUESDAY:
@@ -1052,6 +1071,15 @@ void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
             case ID_CHKPROCSATURDAY:
                 if (!ev.IsChecked()) {
                     (procDayTxts[ev.GetId() - ID_CHKPROCSUNDAY])->Clear();
+                }
+                break;
+            case ID_CHKNETEVERYDAY:
+               if (ev.IsChecked()) {
+                    m_txtNetEveryDayStart->SetValue(wxT("0:00"));
+                    m_txtNetEveryDayStop->SetValue(wxT("0:00"));
+                } else {
+                    m_txtNetEveryDayStart->Clear();
+                    m_txtNetEveryDayStop->Clear();
                 }
                 break;
             case ID_CHKNETSUNDAY:
@@ -1065,7 +1093,7 @@ void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
                     (netDayTxts[ev.GetId() - ID_CHKNETSUNDAY])->Clear();
                 }
                 break;
-                
+            
             default:
                 break;
             }
