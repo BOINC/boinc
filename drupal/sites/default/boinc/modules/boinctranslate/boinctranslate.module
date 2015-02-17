@@ -85,6 +85,13 @@ function boinctranslate_refresh_translations() {
     }
     $result = drupal_http_request($url, array(), 'GET', NULL, 1, 30);
     if ($result AND $result->code != '404' AND $result->data) {
+      if ($result->data[0] == '{') {
+        // Process as JSON
+        $json_data = json_decode($result->data, TRUE);
+        if (!empty($json_data['content'])) {
+          $result->data = $json_data['content'];
+        }
+      }
       // Get the language code from the file and add if not yet supported
       $langcode = substr(strstr($result->data, 'Language: '), 10, 2);
       if (!$langcode) {
