@@ -625,25 +625,25 @@ wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
 
     // Computing schedule
     //
-    wxStaticBox* computingTimesStaticBox = new wxStaticBox(dailySchedulesTab, -1, _("Suspend computing") );
+    wxStaticBox* computingTimesStaticBox = new wxStaticBox(dailySchedulesTab, -1, _("Schedule computing") );
     wxStaticBoxSizer* computingTimesStaticBoxSizer = new wxStaticBoxSizer(computingTimesStaticBox, wxVERTICAL);
     
     wxBoxSizer* cpuTimesEveryDaySizer = new wxBoxSizer( wxHORIZONTAL );
 
     m_chkProcEveryDay = new wxCheckBox(
         computingTimesStaticBox, ID_CHKPROCEVERYDAY,
-        _("Every day if the time is not between"), wxDefaultPosition, wxDefaultSize, 0 );
+        _("Compute only between"), wxDefaultPosition, wxDefaultSize, 0 );
     cpuTimesEveryDaySizer->Add( m_chkProcEveryDay, 0, wxLEFT|wxRIGHT, 5 );
 
     m_txtProcEveryDayStart = new wxTextCtrl( computingTimesStaticBox, ID_TXTPROCEVERYDAYSTART, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("23:59")), wxTE_RIGHT );
-    m_txtProcEveryDayStart->SetToolTip( _("hour to end time-of-day work suspend") );
+    m_txtProcEveryDayStart->SetToolTip( _("allow work starting at this time") );
     cpuTimesEveryDaySizer->Add( m_txtProcEveryDayStart, 0, wxLEFT|wxRIGHT, 1 );
 
     wxStaticText* staticText25 = new wxStaticText( computingTimesStaticBox, ID_DEFAULT, _("and"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
     cpuTimesEveryDaySizer->Add( staticText25, 0, wxLEFT|wxRIGHT, 5 );
 
     m_txtProcEveryDayStop = new wxTextCtrl( computingTimesStaticBox, ID_TXTPROCEVERYDAYSTOP, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("23:59")), wxTE_RIGHT );
-    m_txtProcEveryDayStop->SetToolTip( _("hour to start time-of-day work suspend") );
+    m_txtProcEveryDayStop->SetToolTip( _("stop allowing work at this time") );
     cpuTimesEveryDaySizer->Add( m_txtProcEveryDayStop, 0, wxLEFT|wxRIGHT, 1 );
 
     computingTimesStaticBoxSizer->Add( cpuTimesEveryDaySizer, 0, wxLEFT|wxRIGHT, 1 );
@@ -714,24 +714,24 @@ wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
     
     // Network schedule
     //
-    wxStaticBox* networkTimesStaticBox = new wxStaticBox( dailySchedulesTab, -1, _("Suspend network usage") );
+    wxStaticBox* networkTimesStaticBox = new wxStaticBox( dailySchedulesTab, -1, _("Schedule network usage") );
     wxStaticBoxSizer* networkTimesBoxSizer = new wxStaticBoxSizer( networkTimesStaticBox, wxVERTICAL );
 
     wxBoxSizer* networkTimesEveryDaySizer = new wxBoxSizer( wxHORIZONTAL );
 
     m_chkNetEveryDay = new wxCheckBox(
-        networkTimesStaticBox, ID_CHKNETEVERYDAY, _("Every day if the time is not between"), wxDefaultPosition, wxDefaultSize, 0 );
+        networkTimesStaticBox, ID_CHKNETEVERYDAY, _("Tranfer files only between"), wxDefaultPosition, wxDefaultSize, 0 );
     networkTimesEveryDaySizer->Add( m_chkNetEveryDay, 0, wxLEFT|wxRIGHT, 5 );
 
     m_txtNetEveryDayStart = new wxTextCtrl( networkTimesStaticBox, ID_TXTNETEVERYDAYSTART, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("23:59")), 0 );
-    m_txtNetEveryDayStart->SetToolTip( _("hour to end time-of-day network suspend") );
+    m_txtNetEveryDayStart->SetToolTip( _("allow file tranfers starting at this time") );
     networkTimesEveryDaySizer->Add( m_txtNetEveryDayStart, 0, wxLEFT|wxRIGHT, 1 );
 
     wxStaticText* staticText37 = new wxStaticText( networkTimesStaticBox, ID_DEFAULT, _("and"), wxDefaultPosition, wxDefaultSize, 0 );
     networkTimesEveryDaySizer->Add( staticText37, 0, wxLEFT|wxRIGHT, 5 );
 
     m_txtNetEveryDayStop = new wxTextCtrl( networkTimesStaticBox, ID_TXTNETEVERYDAYSTOP, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("23:59")), 0 );
-    m_txtNetEveryDayStop->SetToolTip( _("hour to start time-of-day network suspend") );
+    m_txtNetEveryDayStop->SetToolTip( _("stop allowing file tranfers at this time") );
 
     networkTimesEveryDaySizer->Add( m_txtNetEveryDayStop, 0, wxLEFT|wxRIGHT, 1 );
 
