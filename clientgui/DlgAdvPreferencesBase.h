@@ -145,7 +145,6 @@ protected:
     wxTextCtrl* m_txtProcEveryDayStart;
     wxTextCtrl* m_txtProcEveryDayStop;
     wxPanel* m_panelProcSpecialTimes;
-    wxStaticBox* procSpecialTimesStaticBox;
     wxCheckBox* m_chkProcMonday;
     wxTextCtrl* m_txtProcMonday;
     wxCheckBox* m_chkProcTuesday;
@@ -180,7 +179,6 @@ protected:
     wxTextCtrl* m_txtNetEveryDayStart;
     wxTextCtrl* m_txtNetEveryDayStop;
     wxPanel* m_panelNetSpecialTimes;
-    wxStaticBox* netSpecialTimesStaticBox;
     wxCheckBox* m_chkNetMonday;
     wxTextCtrl* m_txtNetMonday;
     wxCheckBox* m_chkNetTuesday;
@@ -225,6 +223,7 @@ private:
     wxPanel* createDailySchedulesTab(wxNotebook* notebook);
     wxSize getTextCtrlSize(wxString maxText);
     bool doesLocalPrefsFileExist();
+    void makeStaticBoxLabelItalic(wxStaticBox* staticBox);
 };
 
 #endif //__DlgAdvPreferencesBase__
