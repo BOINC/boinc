@@ -40,10 +40,12 @@ function check_subset($x) {
 }
 
 abstract class PREF {
-    public $desc;
-    public $tag;    // the pref's primary XML tag
-    function __construct($desc, $tag) {
+    public $desc;       // short description
+    public $tooltip;    // longer description, shown as tooltip
+    public $tag;        // the pref's primary XML tag
+    function __construct($desc, $tooltip, $tag) {
         $this->desc = $desc;
+        $this->tooltip = $tooltip;
         $this->tag = $tag;
     }
 
@@ -54,11 +56,18 @@ abstract class PREF {
     abstract function xml_parse(&$prefs, $name, $text);
     abstract function set_default(&$prefs);
 
+    function description() {
+        if ($this->tooltip) {
+            return "<div title=\"$this->tooltip\">$this->desc</div>";
+        }
+        return $this->desc;
+    }
+
     // multi-column display (read only)
     //
     function show_cols($prefs) {
         global $venues;
-        echo "<tr><td class=fieldname>$this->desc</td>";
+        echo "<tr><td class=fieldname>".$this->description()."</td>";
         $tag = $this->tag;
         if (isset($prefs->$tag)) {
             $this->show_value($prefs);
@@ -78,7 +87,7 @@ abstract class PREF {
     // show read-only row
     //
     function show($prefs) {
-        echo "<tr><td class=fieldname>$this->desc</td>";
+        echo "<tr><td class=fieldname>".$this->description()."</td>";
         $tag = $this->tag;
         if (isset($prefs->$tag)) {
             $this->show_value($prefs);
@@ -93,7 +102,7 @@ abstract class PREF {
     function show_form_row($prefs, $error) {
         $tag = $this->tag;
         $class = isset($error->$tag)?"fieldname_error":"fieldname";
-        echo "<tr><td class=$class>$this->desc</td>";
+        echo "<tr><td class=$class>".$this->description()."</td>";
         $this->show_form($prefs, $error);
         echo "</tr>\n";
     }
@@ -110,10 +119,10 @@ function readonly_checkbox($checked) {
 class PREF_BOOL extends PREF {
     public $default;
     public $invert;     // show to user in opposite sense
-    function __construct($desc, $tag, $default, $invert=false) {
+    function __construct($desc, $tooltip, $tag, $default, $invert=false) {
         $this->default = $default;
         $this->invert = $invert;
-        parent::__construct($desc, $tag);
+        parent::__construct($desc, $tooltip, $tag);
     }
     function show_value($prefs) {
         $tag = $this->tag;
@@ -225,9 +234,9 @@ class NUM_SPEC {
 //
 class PREF_NUM extends PREF {
     public $num_spec;
-    function __construct($desc, $tag, $num_spec) {
+    function __construct($desc, $tooltip, $tag, $num_spec) {
         $this->num_spec = $num_spec;
-        parent::__construct($desc, $tag);
+        parent::__construct($desc, $tooltip, $tag);
     }
     function show_value($prefs) {
         $tag = $this->tag;
@@ -303,9 +312,9 @@ function checkbox_clicked_js() {
 //
 class PREF_OPT_NUM extends PREF {
     public $num_spec;
-    function __construct($desc, $tag, $num_spec) {
+    function __construct($desc, $tooltip, $tag, $num_spec) {
         $this->num_spec = $num_spec;
-        parent::__construct($desc, $tag);
+        parent::__construct($desc, $tooltip, $tag);
     }
     function show_value($prefs) {
         $tag = $this->tag;
@@ -359,11 +368,11 @@ class PREF_OPT_NUM extends PREF {
 class PREF_NUM2 extends PREF {
     public $tag2;
     public $num_spec1, $num_spec2;
-    function __construct($desc, $tag1, $tag2, $num_spec1, $num_spec2) {
+    function __construct($desc, $tooltip, $tag1, $tag2, $num_spec1, $num_spec2) {
         $this->tag2 = $tag2;
         $this->num_spec1 = $num_spec1;
         $this->num_spec2 = $num_spec2;
-        parent::__construct($desc, $tag1);
+        parent::__construct($desc, $tooltip, $tag1);
     }
     function show_value($prefs) {
         $tag = $this->tag;
@@ -448,9 +457,9 @@ function hour_select($x, $name, $id, $d) {
 //
 class PREF_HOUR_RANGE extends PREF {
     public $tag2;
-    function __construct($desc, $tag, $tag2) {
+    function __construct($desc, $tooltip, $tag, $tag2) {
         $this->tag2 = $tag2;
-        parent::__construct($desc, $tag);
+        parent::__construct($desc, $tooltip, $tag);
     }
     function show_value($prefs) {
         $tag = $this->tag;

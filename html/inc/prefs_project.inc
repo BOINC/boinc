@@ -49,10 +49,8 @@ $app_types = get_app_types();
 
 $project_pref_descs = array(
     new PREF_NUM(
-        $x = tra("Resource share")
-            ."<br><p class=\"text-muted\">"
-            .tra("Determines the proportion of your computer's resources allocated to this project. Example: if you participate in two BOINC projects with resource shares of 100 and 200, the first will get 1/3 of your resources and the second will get 2/3. %2")
-            ."</p>",
+        tra("Resource share"),
+        tra("Determines the proportion of your computer's resources allocated to this project. Example: if you participate in two BOINC projects with resource shares of 100 and 200, the first will get 1/3 of your resources and the second will get 2/3."),
         "resource_share",
         new NUM_SPEC("", 0, 9999999, 100)
     ),
@@ -61,6 +59,7 @@ $project_pref_descs = array(
 if (!empty($accelerate_gpu_apps_pref)) {
     $project_pref_descs[] = new PREF_BOOL(
         tra("Accelerate GPU tasks by dedicating a CPU to each one?"),
+        "",
         "accelerate_gpu_apps",
         false
     );
@@ -68,10 +67,8 @@ if (!empty($accelerate_gpu_apps_pref)) {
 
 if ($app_types->cpu) {
     $project_pref_descs[] = new PREF_BOOL (
-        tra("Use CPU")
-            ."<br><p class=\"text-muted\">"
-            .tra("Enforced by version 6.10+")
-            ."</p>",
+        tra("Use CPU"),
+        "Request CPU-only tasks from this project.",
         "no_cpu",
         false,
         true
@@ -79,10 +76,8 @@ if ($app_types->cpu) {
 }
 if ($app_types->ati) {
     $project_pref_descs[] = new PREF_BOOL (
-        tra("Use ATI GPU")
-            ."<br><p class=\"text-muted\">"
-            .tra("Enforced by version 6.10+")
-            ."</p>",
+        tra("Use ATI GPU"),
+        "Request tasks for ATI GPU from this project.",
         "no_ati",
         false,
         true
@@ -90,10 +85,8 @@ if ($app_types->ati) {
 }
 if ($app_types->cuda) {
     $project_pref_descs[] = new PREF_BOOL (
-        tra("Use NVIDIA GPU")
-            ."<br><p class=\"text-muted\">"
-            .tra("Enforced by version 6.10+")
-            ."</p>",
+        tra("Use NVIDIA GPU"),
+        "Request tasks for NVIDIA GPU from this project.",
         "no_cuda",
         false,
         true
@@ -101,10 +94,8 @@ if ($app_types->cuda) {
 }
 if ($app_types->intel_gpu) {
     $project_pref_descs[] = new PREF_BOOL (
-        tra("Use Intel GPU")
-            ."<br><p class=\"text-muted\">"
-            .tra("Enforced by version 7.2+")
-            ."</p>",
+        tra("Use Intel GPU"),
+        "Request tasks for Intel GPU from this project.",
         "no_intel_gpu",
         false,
         true
@@ -113,10 +104,8 @@ if ($app_types->intel_gpu) {
 
 if (project_has_beta()) {
     $project_pref_descs[] = new PREF_BOOL(
-        tra("Run test applications?")
-            ."<br><p class=\"text-muted\">"
-            .tra("This helps us develop applications, but may cause jobs to fail on your computer")
-            ."</p>",
+        tra("Run test applications?"),
+        tra("This helps us develop applications, but may cause jobs to fail on your computer"),
         "allow_beta_work",
         false
     );
@@ -132,12 +121,14 @@ if (defined("EMAIL_FROM")) {
 $privacy_pref_descs = array (
     new PREF_BOOL(
         tra("Is it OK for %1 and your team (if any) to email you?", PROJECT).$x,
+        "",
         "send_email",
         true,
         false
     ),
     new PREF_BOOL(
         tra("Should %1 show your computers on its web site?", PROJECT),
+        "",
         "show_hosts",
         true,
         false
