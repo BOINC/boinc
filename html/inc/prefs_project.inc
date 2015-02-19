@@ -50,7 +50,7 @@ $app_types = get_app_types();
 $project_pref_descs = array(
     new PREF_NUM(
         tra("Resource share"),
-        tra("Determines the proportion of your computer's resources allocated to this project. Example: if you participate in two BOINC projects with resource shares of 100 and 200, the first will get 1/3 of your resources and the second will get 2/3."),
+        tra("Determines the proportion of your computer's resources allocated to this project. For example, if you participate in two BOINC projects with resource shares of 100 and 200, the first will get 1/3 of your resources and the second will get 2/3."),
         "resource_share",
         new NUM_SPEC("", 0, 9999999, 100)
     ),
@@ -77,7 +77,7 @@ if ($app_types->cpu) {
 if ($app_types->ati) {
     $project_pref_descs[] = new PREF_BOOL (
         tra("Use ATI GPU"),
-        "Request tasks for ATI GPU from this project.",
+        "Request ATI GPU tasks from this project.",
         "no_ati",
         false,
         true
@@ -86,7 +86,7 @@ if ($app_types->ati) {
 if ($app_types->cuda) {
     $project_pref_descs[] = new PREF_BOOL (
         tra("Use NVIDIA GPU"),
-        "Request tasks for NVIDIA GPU from this project.",
+        "Request NVIDIA GPU tasks from this project.",
         "no_cuda",
         false,
         true
@@ -95,7 +95,7 @@ if ($app_types->cuda) {
 if ($app_types->intel_gpu) {
     $project_pref_descs[] = new PREF_BOOL (
         tra("Use Intel GPU"),
-        "Request tasks for Intel GPU from this project.",
+        "Request Intel GPU tasks from this project.",
         "no_intel_gpu",
         false,
         true
@@ -267,11 +267,9 @@ function prefs_show_project_specific($prefs, $columns=false) {
 function print_prefs_display_project($user, $columns=false) {
     $project_prefs = prefs_parse_project($user->project_prefs);
 
-    start_table();
-    $switch_link = " <font size=\"-2\"><a href=prefs.php?subset=project&cols=". (int)!$columns .">".tra("(Switch View)")."</a></font>";
+    $switch_link = " <font size=\"-1\"><a href=prefs.php?subset=project&cols=". (int)!$columns .">".tra("(Switch View)")."</a></font>";
     if ($columns) {
-        row1(tra("Combined preferences").$switch_link, 2, "heading");
-        echo "<tr><td colspan=2>";
+        echo "<h2>".tra("Combined preferences").$switch_link."</h2>";
         start_table();
         prefs_show_privacy($user, true);
         venue_show($user);
@@ -280,26 +278,23 @@ function print_prefs_display_project($user, $columns=false) {
         prefs_show_project_specific($project_prefs, true);
         row_links("project", $project_prefs);
         end_table();
-        echo "</td></tr>\n";
     } else {
         if (isset($project_prefs->home) || isset($project_prefs->work) || isset($project_prefs->school)) {
-            row1(tra("Primary (default) preferences").$switch_link, 2, "heading");
+            echo "<h2>".tra("Primary (default) preferences").$switch_link."</h2>";
         }
-        echo "<tr><td colspan=2>";
         start_table();
         prefs_show_project($project_prefs, false);
         prefs_show_privacy($user, false);
         venue_show($user);
         prefs_show_project_specific($project_prefs, false);
         $tokens = url_tokens($user->authenticator);
-        row2("", "<a href=prefs_edit.php?subset=project$tokens>".tra("Edit %1 preferences", PROJECT)."</a>");
+        row2("", "<a href=prefs_edit.php?subset=project$tokens>".tra("Edit preferences")."</a>");
         end_table();
-        echo "</td></tr>\n";
+
         prefs_display_venue($project_prefs, "home", "project");
         prefs_display_venue($project_prefs, "school", "project");
         prefs_display_venue($project_prefs, "work", "project");
     }
-    end_table();
 }
 
 ////////////////////////////////////////////

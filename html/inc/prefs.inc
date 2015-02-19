@@ -45,13 +45,13 @@ $cpu_prefs = array(
     "Usage limits",
     new PREF_NUM(
         tra("Use at most"),
-        "Example: 50% means use 4 cores on an 8-core CPU.",
+        "Keep some CPUs free for other applications. For example, 50% means use 4 cores on an 8-core CPU.",
         "max_ncpus_pct",
         new NUM_SPEC(tra("% of the CPUs"), 1, 100, 100)
     ),
     new PREF_NUM(
         tra("Use at most"),
-        "Suspend/resume computing every few seconds to reduce CPU temperature and energy usage. Example: 75% means compute for 3 seconds, wait for 1 second.",
+        "Suspend/resume computing every few seconds to reduce CPU temperature and energy usage. For example 75% means compute for 3 seconds, wait for 1 second, and repeat.",
         "cpu_usage_limit",
         new NUM_SPEC(tra("% of CPU time"), 1, 100, 100)
     ),
@@ -101,13 +101,13 @@ $cpu_prefs = array(
     "Other",
     new PREF_NUM(
         tra("Store at least"),
-        "Maintain enough tasks to keep the computer busy for this long.",
+        "Store enough tasks to keep the computer busy for this long.",
         "work_buf_min_days",
         new NUM_SPEC(tra("days of work"), 0, 10, .1)
     ),
     new PREF_NUM(
         tra("Store up to an additional"),
-        "Determines how much work is requested when contacting a project.",
+        "Store additional tasks above the minimum level.  Determines how much work is requested when contacting a project.",
         "work_buf_additional_days",
         new NUM_SPEC(tra("days of work"), 0, 10, .5)
     ),
@@ -136,7 +136,7 @@ $disk_prefs = array(
     ),
     new PREF_OPT_NUM(
         tra("Leave at least"),
-        "BOINC will try to leave at least much free space on the volume where it stores data.",
+        "If free space on the volume where BOINC stores data falls below this level, BOINC will stop fetching tasks.",
         "disk_min_free_gb",
         new NUM_SPEC(tra("GB free"), 0, 9999999, $dp->disk_min_free_gb, 1, 1)
     ),
@@ -163,7 +163,7 @@ $mem_prefs = array(
     ),
     new PREF_BOOL(
         tra("Leave non-GPU tasks in memory while suspended"),
-        "Tasks not left in memory will resume from the last checkpoint when restarted.",
+        "If checked, suspended tasks resume with no work lost. If unchecked, suspended tasks resume from the last checkpoint saved to disk.",
         "leave_apps_in_memory",
         false
     ),
@@ -179,46 +179,46 @@ $net_prefs = array(
     "Usage limits",
     new PREF_OPT_NUM(
         tra("Limit download rate to"),
-        "Limit the rate of file download by BOINC.",
+        "Limit the download rate of file transfers.",
         "max_bytes_sec_down",
-        new NUM_SPEC(tra("Kbytes/sec"), 0, 9999999, 0, 1000, 100)
+        new NUM_SPEC(tra("KB/sec"), 0, 9999999, 0, 1000, 100)
     ),
     new PREF_OPT_NUM(
         tra("Limit upload rate to"),
-        "Limit the rate of file upload by BOINC.",
+        "Limit the upload rate of file transfers.",
         "max_bytes_sec_up",
-        new NUM_SPEC(tra("Kbytes/sec"), 0, 9999999, 0, 1000, 100)
+        new NUM_SPEC(tra("KB/sec"), 0, 9999999, 0, 1000, 100)
     ),
     new PREF_NUM2(
         tra("Limit usage to"),
-        "Example: BOINC should transfer at most 2 GB of data every 30 days.",
+        "Example: BOINC should transfer at most 2000 MB of data every 30 days.",
         "daily_xfer_limit_mb",
         "daily_xfer_period_days",
-        new NUM_SPEC(tra("Mbytes every"), 0, 9999999, 0, 1, 10000),
+        new NUM_SPEC(tra("MB every"), 0, 9999999, 0, 1, 10000),
         new NUM_SPEC(tra("days"), 0, 9999999, 0, 1, 30)
     ),
     "When to suspend",
     new PREF_HOUR_RANGE(
         tra("Transfer files only between"),
-        "Limit the time of day when BOINC can upload or download files.",
+        "Transfer files only during a particular range of hours each day.",
         "net_start_hour", "net_end_hour"
     ),
     "Other",
     new PREF_BOOL(
         tra("Skip data verification for image files"),
-        tra("Check this ONLY if your Internet provider modifies image files (UMTS does this, for example).  Skipping verification reduces the security of BOINC."),
+        tra("Check this only if your Internet provider modifies image files. Skipping verification reduces the security of BOINC."),
         "dont_verify_images",
         false
     ),
     new PREF_BOOL(
         tra("Confirm before connecting to Internet"),
-        tra("Matters only if you have a modem, ISDN or VPN connection"),
+        tra("Useful only if you have a modem, ISDN or VPN connection"),
         "confirm_before_connecting",
         false
     ),
     new PREF_BOOL(
         tra("Disconnect when done"),
-        tra("Matters only if you have a modem, ISDN or VPN connection"),
+        tra("Useful only if you have a modem, ISDN or VPN connection"),
         "hangup_if_dialed",
         false
     ),
