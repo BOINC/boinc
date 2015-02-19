@@ -56,18 +56,20 @@ abstract class PREF {
     abstract function xml_parse(&$prefs, $name, $text);
     abstract function set_default(&$prefs);
 
-    function description() {
+    function tooltip_tr() {
         if ($this->tooltip) {
-            return "<div title=\"$this->tooltip\">$this->desc</div>";
+            echo "<tr title=\"$this->tooltip\">";
+        } else {
+            echo "<tr>";
         }
-        return $this->desc;
     }
 
     // multi-column display (read only)
     //
     function show_cols($prefs) {
         global $venues;
-        echo "<tr><td class=fieldname>".$this->description()."</td>";
+        $this->tooltip_tr();
+        echo "<td class=fieldname>$this->desc</td>";
         $tag = $this->tag;
         if (isset($prefs->$tag)) {
             $this->show_value($prefs);
@@ -87,7 +89,8 @@ abstract class PREF {
     // show read-only row
     //
     function show($prefs) {
-        echo "<tr><td class=fieldname>".$this->description()."</td>";
+        $this->tooltip_tr();
+        echo "<td class=fieldname>$this->desc</td>";
         $tag = $this->tag;
         if (isset($prefs->$tag)) {
             $this->show_value($prefs);
@@ -102,7 +105,8 @@ abstract class PREF {
     function show_form_row($prefs, $error) {
         $tag = $this->tag;
         $class = isset($error->$tag)?"fieldname_error":"fieldname";
-        echo "<tr><td class=$class>".$this->description()."</td>";
+        $this->tooltip_tr();
+        echo "<td class=$class>$this->desc</td>";
         $this->show_form($prefs, $error);
         echo "</tr>\n";
     }
