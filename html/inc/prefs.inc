@@ -625,10 +625,22 @@ function prefs_form_radio_buttons($name, $yesno) {
     return $rb;
 }
 
+// TODO: make this a subclass of PREF
+//
+define('VENUE_DESC', tra('Default computer location'));
+define('VENUE_TOOLTIP', tra('New computers will use this location for computing and project preferences.'));
+
+function tooltip_row2($t, $x, $y) {
+    echo "<tr title=\"$t\">
+        <td class=fieldname>$x</td>
+        <td>$y</td>
+        </tr>
+    ";
+}
 function venue_show($user) {
     $venue = $user->venue;
     if ($venue =='') $venue = '---';
-    row2(tra("Default computer location"), $venue);
+    tooltip_row2(VENUE_TOOLTIP, VENUE_DESC, $venue);
 }
 
 function venue_form($user) {
@@ -637,14 +649,16 @@ function venue_form($user) {
     if ($user->venue == 'home') $h = 'selected';
     if ($user->venue == 'work') $w = 'selected';
     if ($user->venue == 'school') $s = 'selected';
-    row2(tra("Default computer location"),
+    tooltip_row2(
+        VENUE_TOOLTIP,
+        VENUE_DESC,
         "<select name=default_venue>
         <option value=\"\" $n>---
         <option value=home $h>".tra("Home")."
         <option value=work $w>".tra("Work")."
         <option value=school $s>".tra("School")."
-        </select>"
-    );
+        </select>
+    ");
 }
 
 function venue_parse_form(&$user) {

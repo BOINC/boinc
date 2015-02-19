@@ -555,13 +555,18 @@ function row_top($x, $ncols=6, $class="heading") {
 //
 // row_defs - Display a value for all 4 venues in one row
 //
-function row_defs($pre, $item, $post, $type, $prefs) {
+function row_defs($pre, $item, $post, $type, $prefs, $tooltip=null) {
     $gen = $prefs->$item;
     $hom  = (isset($prefs->home) && isset($prefs->home->$item)) ? $prefs->home->$item : "--";
     $schl = (isset($prefs->school) && isset($prefs->school->$item)) ? $prefs->school->$item : "--";
     $wrk  = (isset($prefs->work) && isset($prefs->work->$item)) ? $prefs->work->$item : "--";
 
-    echo "<tr><td class=fieldname>$pre</td>";
+    if ($tooltip) {
+        echo "<tr title=\"$tooltip\">";
+    } else {
+        echo "<tr>";
+    }
+    echo "<td class=fieldname>$pre</td>";
     row_field($gen,  $type);
     row_field($hom,  $type);
     row_field($schl, $type);

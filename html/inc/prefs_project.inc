@@ -128,7 +128,7 @@ $privacy_pref_descs = array (
     ),
     new PREF_BOOL(
         tra("Should %1 show your computers on its web site?", PROJECT),
-        "",
+        "Allows other users to see your computers and tasks. Useful to troubleshoot issues or to compare computers.",
         "show_hosts",
         true,
         false

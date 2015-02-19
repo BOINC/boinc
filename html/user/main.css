@@ -108,7 +108,7 @@ th, td.heading {
 
 th.subheading {
     text-align: left;
-    font-weight: normal;
+    font-weight: bold;
     font-size: small;
     font-style: italic;
 }
