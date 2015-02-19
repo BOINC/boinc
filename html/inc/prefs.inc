@@ -472,7 +472,7 @@ function prefs_display_venue($prefs, $venue, $subset) {
     if (isset($prefs->$venue)) $x = $prefs->$venue;
 
     if ($x) {
-        row1(tra("Separate preferences for %1", $venue), 2, "heading");
+        echo "<h2>".tra("Separate preferences for %1", $venue)."</h2>";
         echo "<tr><td colspan=2>";
         start_table();
         if ($subset == "global") {
@@ -488,7 +488,7 @@ function prefs_display_venue($prefs, $venue, $subset) {
         end_table();
         echo "</td></tr>\n";
     } else {
-        row1("<a href=add_venue.php?venue=$venue&subset=$subset$tokens>".tra("Add separate preferences for %1", $venue)."</a>", 2, "heading");
+        echo "<p><a href=add_venue.php?venue=$venue&subset=$subset$tokens>".tra("Add separate preferences for %1", $venue)."</a>";
     }
 }
 
@@ -502,21 +502,17 @@ function print_prefs_display_global($user, $columns=false) {
         .tra("Android devices")
         ."</ul>
     ";
-    $switch_link = " <font size=\"-2\"><a href=prefs.php?subset=global&cols=". (int)!$columns .">".tra("(Switch View)")."</a></font>";
-    start_table();
+    $switch_link = " <font size=\"-1\"><a href=prefs.php?subset=global&cols=". (int)!$columns .">".tra("(Switch view)")."</a></font>";
     if ($columns) {
-        row1(tra("Combined preferences").$switch_link, 2, "heading");
-        echo "<tr><td colspan=2>";
+        echo "<h2>".tra("Combined preferences").$switch_link."</h2>";
         start_table();
         prefs_show_columns_global($global_prefs);
         end_table();
-        echo "</td></tr>\n";
 
     } else {
         if (isset($global_prefs->home) || isset($global_prefs->work) || isset($global_prefs->school)) {
-            row1(tra("Primary (default) preferences").$switch_link, 2, "heading");
+            echo "<h2>".tra("Primary (default) preferences").$switch_link."</h2>";
         }
-        echo "<tr><td colspan=2>";
         start_table();
         prefs_show_global($global_prefs);
         $tokens = url_tokens($user->authenticator);
@@ -524,15 +520,13 @@ function print_prefs_display_global($user, $columns=false) {
             "<a href=prefs_edit.php?subset=global$tokens>".tra("Edit preferences")."</a>
         ");
         end_table();
-        echo "</td></tr>\n";
 
         prefs_display_venue($global_prefs, "home", "global");
         prefs_display_venue($global_prefs, "school", "global");
         prefs_display_venue($global_prefs, "work", "global");
     }
-    end_table();
     if (isset($global_prefs->mod_time)) {
-        echo tra("Preferences last modified:")." ".pretty_time_str($global_prefs->mod_time)."<p>\n";
+        echo "<p>".tra("Preferences last modified:")." ".pretty_time_str($global_prefs->mod_time)."<p>\n";
     }
 }
 
