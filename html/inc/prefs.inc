@@ -42,41 +42,41 @@
 include_once("../inc/prefs_util.inc");
 
 $cpu_prefs = array(
-    "Usage limits",
+    tra("Usage limits"),
     new PREF_NUM(
         tra("Use at most"),
-        "Keep some CPUs free for other applications. For example, 50% means use 4 cores on an 8-core CPU.",
+        tra("Keep some CPUs free for other applications. Example: 75% means use 6 cores on an 8-core CPU."),
         "max_ncpus_pct",
         new NUM_SPEC(tra("% of the CPUs"), 1, 100, 100)
     ),
     new PREF_NUM(
         tra("Use at most"),
-        "Suspend/resume computing every few seconds to reduce CPU temperature and energy usage. For example 75% means compute for 3 seconds, wait for 1 second, and repeat.",
+        tra("Suspend/resume computing every few seconds to reduce CPU temperature and energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, and repeat."),
         "cpu_usage_limit",
         new NUM_SPEC(tra("% of CPU time"), 1, 100, 100)
     ),
-    "When to suspend",
+    tra("When to suspend"),
     new PREF_BOOL(
         tra("Suspend when computer is on battery"),
-        "Check this to suspend computing on portables when running on battery power.",
+        tra("Check this to suspend computing on portables when running on battery power."),
         "run_on_batteries",
         false, true
     ),
     new PREF_BOOL(
         tra("Suspend when computer is in use"),
-        "Check this to suspend computing and file transfers when you're using the computer.",
+        tra("Check this to suspend computing and file transfers when you're using the computer."),
         "run_if_user_active",
         true, true
     ),
     new PREF_BOOL(
         tra("Suspend GPU computing when computer is in use"),
-        "Check this to suspend GPU computing when you're using the computer.",
+        tra("Check this to suspend GPU computing when you're using the computer."),
         "run_gpu_if_user_active",
         false, true
     ),
     new PREF_NUM(
         tra("'In use' means mouse/keyboard input in last"),
-        "",
+        tra("This determines when the computer is considered 'in use'."),
         "idle_time_to_run",
         new NUM_SPEC(tra("minutes"), 1, 9999, 3),
         true
@@ -89,37 +89,37 @@ $cpu_prefs = array(
     ),
     new PREF_OPT_NUM(
         tra("Suspend when non-BOINC CPU usage is above"),
-        "Don't run BOINC tasks when your computer is busy running other programs.",
+        tra("Suspend computing when your computer is busy running other programs."),
         "suspend_cpu_usage",
         new NUM_SPEC("%", 0, 100, 25)
     ),
     new PREF_HOUR_RANGE(
         tra("Compute only between"),
-        "Compute only during a particular range of hours each day.",
+        tra("Compute only during a particular range of hours each day."),
         "start_hour", "end_hour"
     ),
-    "Other",
+    tra("Other"),
     new PREF_NUM(
         tra("Store at least"),
-        "Store enough tasks to keep the computer busy for this long.",
+        tra("Store at least enough tasks to keep the computer busy for this long."),
         "work_buf_min_days",
         new NUM_SPEC(tra("days of work"), 0, 10, .1)
     ),
     new PREF_NUM(
         tra("Store up to an additional"),
-        "Store additional tasks above the minimum level.  Determines how much work is requested when contacting a project.",
+        tra("Store additional tasks above the minimum level.  Determines how much work is requested when contacting a project."),
         "work_buf_additional_days",
         new NUM_SPEC(tra("days of work"), 0, 10, .5)
     ),
     new PREF_NUM(
         tra("Switch between tasks about every"),
-        "If you run several projects, BOINC may switch between them this often.",
+        tra("If you run several projects, BOINC may switch between them this often."),
         "cpu_scheduling_period_minutes",
         new NUM_SPEC(tra("minutes"), 1, 9999, 60)
     ),
     new PREF_NUM(
         tra("Request tasks to checkpoint at most every"),
-        "This controls how often tasks save their state to disk, so that they can be restarted later.",
+        tra("This controls how often tasks save their state to disk, so that they can be restarted later."),
         "disk_interval",
         new NUM_SPEC(tra("seconds"), 0, 9999999, 60)
     ),
@@ -130,19 +130,19 @@ $dp = get_disk_space_config();
 $disk_prefs = array(
     new PREF_OPT_NUM(
         tra("Use no more than"),
-        "Limit the total amount of disk space used by BOINC.",
+        tra("Limit the total amount of disk space used by BOINC."),
         "disk_max_used_gb",
         new NUM_SPEC(tra("GB"), 0, 9999999, $dp->disk_max_used_gb, 1, 100)
     ),
     new PREF_OPT_NUM(
         tra("Leave at least"),
-        "If free space on the volume where BOINC stores data falls below this level, BOINC will stop fetching tasks.",
+        tra("Limit disk usage to leave this much free space on the volume where BOINC stores data."),
         "disk_min_free_gb",
         new NUM_SPEC(tra("GB free"), 0, 9999999, $dp->disk_min_free_gb, 1, 1)
     ),
     new PREF_OPT_NUM(
         tra("Use no more than"),
-        "Limit the percentage of disk space used by BOINC on the volume where it stores data.",
+        tra("Limit the percentage of disk space used by BOINC on the volume where it stores data."),
         "disk_max_used_pct",
         new NUM_SPEC(tra("% of total"), 0, 100, $dp->disk_max_used_pct)
     ),
@@ -151,59 +151,59 @@ $disk_prefs = array(
 $mem_prefs = array(
     new PREF_NUM(
         tra("When computer is in use, use at most"),
-        "Limit the memory used by BOINC when you're using the computer.",
+        tra("Limit the memory used by BOINC when you're using the computer."),
         "ram_max_used_busy_pct",
         new NUM_SPEC(tra("%"), 1, 100, 50)
     ),
     new PREF_NUM(
         tra("When computer is not in use, use at most"),
-        "Limit the memory used by BOINC when you're not using the computer.",
+        tra("Limit the memory used by BOINC when you're not using the computer."),
         "ram_max_used_idle_pct",
         new NUM_SPEC(tra("%"), 1, 100, 90)
     ),
     new PREF_BOOL(
         tra("Leave non-GPU tasks in memory while suspended"),
-        "If checked, suspended tasks resume with no work lost. If unchecked, suspended tasks resume from the last checkpoint saved to disk.",
+        tra("If checked, suspended tasks stay in memory, and resume with no work lost. If unchecked, suspended tasks are removed from memory, and resume from their last checkpoint."),
         "leave_apps_in_memory",
         false
     ),
     new PREF_NUM(
         tra("Page/swap file: use at most"),
-        "Limit the swap space (page file) used by BOINC tasks.",
+        tra("Limit the swap space (page file) used by BOINC."),
         "vm_max_used_pct",
         new NUM_SPEC(tra("%"), 1, 100, 75)
     ),
 );
 
 $net_prefs = array(
-    "Usage limits",
+    tra("Usage limits"),
     new PREF_OPT_NUM(
         tra("Limit download rate to"),
-        "Limit the download rate of file transfers.",
+        tra("Limit the download rate of file transfers."),
         "max_bytes_sec_down",
-        new NUM_SPEC(tra("KB/sec"), 0, 9999999, 0, 1000, 100)
+        new NUM_SPEC(tra("KB/second"), 0, 9999999, 0, 1000, 100)
     ),
     new PREF_OPT_NUM(
         tra("Limit upload rate to"),
-        "Limit the upload rate of file transfers.",
+        tra("Limit the upload rate of file transfers."),
         "max_bytes_sec_up",
-        new NUM_SPEC(tra("KB/sec"), 0, 9999999, 0, 1000, 100)
+        new NUM_SPEC(tra("KB/second"), 0, 9999999, 0, 1000, 100)
     ),
     new PREF_NUM2(
         tra("Limit usage to"),
-        "Example: BOINC should transfer at most 2000 MB of data every 30 days.",
+        tra("Example: BOINC should transfer at most 2000 MB of data every 30 days."),
         "daily_xfer_limit_mb",
         "daily_xfer_period_days",
         new NUM_SPEC(tra("MB every"), 0, 9999999, 0, 1, 10000),
         new NUM_SPEC(tra("days"), 0, 9999999, 0, 1, 30)
     ),
-    "When to suspend",
+    tra("When to suspend"),
     new PREF_HOUR_RANGE(
         tra("Transfer files only between"),
-        "Transfer files only during a particular range of hours each day.",
+        tra("Transfer files only during a particular range of hours each day."),
         "net_start_hour", "net_end_hour"
     ),
-    "Other",
+    tra("Other"),
     new PREF_BOOL(
         tra("Skip data verification for image files"),
         tra("Check this only if your Internet provider modifies image files. Skipping verification reduces the security of BOINC."),
@@ -212,13 +212,13 @@ $net_prefs = array(
     ),
     new PREF_BOOL(
         tra("Confirm before connecting to Internet"),
-        tra("Useful only if you have a modem, ISDN or VPN connection"),
+        tra("Useful only if you have a modem, ISDN or VPN connection."),
         "confirm_before_connecting",
         false
     ),
     new PREF_BOOL(
         tra("Disconnect when done"),
-        tra("Useful only if you have a modem, ISDN or VPN connection"),
+        tra("Useful only if you have a modem, ISDN or VPN connection."),
         "hangup_if_dialed",
         false
     ),
