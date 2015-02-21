@@ -15,6 +15,32 @@ notifications:
     on_success: always
     on_failure: always
 
+# This switches to the container-based infrastructure and allows caching
+sudo: false
+
+addons:
+  apt_packages:
+    - make
+    - m4
+    - pkg-config
+    - dh-autoreconf
+    - freeglut3-dev
+    - libxmu-dev
+    - libxi-dev
+    - libjpeg62-dev
+    - python
+    - libssl-dev
+    - python-mysqldb
+    - libmysqlclient-dev
+    - libfcgi-dev
+    - libcurl4-openssl-dev
+    - libxss-dev
+    - libnotify-dev
+    - libxcb-util0-dev
+    - libsqlite3-dev
+    - libgtk2.0-dev
+    - libwebkitgtk-dev
+
 env:
   global:
     # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
@@ -30,32 +56,6 @@ env:
 
 matrix:
   fast_finish: true
-
-# This switches to the container-based infrastructure and allows caching
-sudo: false
-
-addons:
-  apt_packages:
-  - make
-  - m4
-  - pkg-config
-  - dh-autoreconf
-  - freeglut3-dev
-  - libxmu-dev
-  - libxi-dev
-  - libjpeg62-dev
-  - python
-  - libssl-dev
-  - python-mysqldb
-  - libmysqlclient-dev
-  - libfcgi-dev
-  - libcurl4-openssl-dev
-  - libxss-dev
-  - libnotify-dev
-  - libxcb-util0-dev
-  - libsqlite3-dev
-  - libgtk2.0-dev
-  - libwebkitgtk-dev
 
 before_script:
 - ./_autosetup
