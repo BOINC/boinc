@@ -1,5 +1,5 @@
 #!/bin/bash
-set +x
+set -x
 
 wget https://sourceforge.net/projects/wxwindows/files/3.0.2/wxWidgets-3.0.2.tar.bz2
 tar -xf wxWidgets-3.0.2.tar.bz2
