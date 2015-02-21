@@ -97,7 +97,7 @@ if ($clause == "") {
     db_init(true); // try to get list of WUs from replica
 
     $query = "SELECT id, name FROM workunit WHERE canonical_resultid = 0 AND error_mask = 0 AND $clause;";
-    $dbresult = mysql_query($query);
+    $dbresult = _mysql_query($query);
 
     if (!$dbresult) {
         echo "Error in query '$query'<br>\n";
@@ -110,7 +110,7 @@ if ($clause == "") {
         echo "<tr><th>WU ID</th><th>WU name</th></tr>\n";
 
         $rescount = 0;
-        while ($res = mysql_fetch_object($dbresult)) {
+        while ($res = _mysql_fetch_object($dbresult)) {
             if ($rescount < $limit) {
                 $id = $res->id;
                 echo "<tr>\n";
@@ -131,9 +131,9 @@ if ($clause == "") {
                 echo "</tr>\n";
             }
             $rescount++;
-        } // while (mysql_fetch_object())
+        } // while (_mysql_fetch_object())
 
-        mysql_free_result($dbresult);
+        _mysql_free_result($dbresult);
 
         echo "</table>\n<p>";
         echo $rescount;

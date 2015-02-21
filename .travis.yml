@@ -24,6 +24,7 @@ env:
     #- BOINC_TYPE=libs
     #- BOINC_TYPE=server
     #- BOINC_TYPE=client
+    #- BOINC_TYPE=apps
     #- BOINC_TYPE=manager
     - BOINC_TYPE=coverity
 
@@ -47,6 +48,7 @@ script:
 - if [[ "${BOINC_TYPE}" == "libs" ]]; then ( ./configure --disable-server --disable-client --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "server" ]]; then ( ./configure --disable-client --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "client" ]]; then ( ./configure --disable-server --disable-manager && make ) fi
+- if [[ "${BOINC_TYPE}" == "apps" ]]; then ( ./configure --enable-apps --disable-server --disable-client --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "manager" ]]; then ( ./configure --disable-server --disable-client && make ) fi
 
 addons:
@@ -55,6 +57,6 @@ addons:
       name: "BOINC/boinc"
       description: "Build submitted via Travis CI"
     notification_email: christian.beer@posteo.de
-    build_command_prepend: "./configure --disable-manager"
-    build_command:   "make -j 4"
+    build_command_prepend: "./configure --disable-manager --enable-apps"
+    build_command:   "make"
     branch_pattern: coverity_scan

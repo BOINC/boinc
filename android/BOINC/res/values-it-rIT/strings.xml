@@ -63,7 +63,7 @@
   <string name="attachproject_login_category_creation">Nuovo</string>
   <string name="attachproject_login_header_creation_enabled">Registra un account per partecipare:</string>
   <string name="attachproject_login_header_creation_client_disabled">Visita il sito web del progetto per creare un account:</string>
-  <string name="attachproject_login_header_creation_disabled">Il progetto non permette al momento la creazione di nuovi account!</string>
+  <string name="attachproject_login_header_creation_disabled">Al momento il progetto non accetta nuovi accounts.</string>
   <string name="attachproject_login_button_registration">Registra</string>
   <string name="attachproject_login_button_login">Login</string>
   <string name="attachproject_login_button_forgotpw">Password dimenticata</string>
@@ -197,7 +197,7 @@
   <string name="prefs_unit_gb">GB</string>
   <string name="prefs_unit_pct">%</string>
   <string name="prefs_unit_celcius">°C</string>
-  <string name="prefs_unit_seconds">s</string>
+  <string name="prefs_unit_seconds">secondi</string>
   <!--projects tab strings-->
   <string name="projects_loading">Lettura progetti…</string>
   <string name="projects_add">Aggiungi progetto</string>
@@ -306,7 +306,7 @@
   <string name="suspend_network_quota">BOINC ha raggiunto il limite di trasferimento dalla rete.</string>
   <string name="suspend_os">Fermato da Android.</string>
   <string name="suspend_wifi">Non connesso al WiFi</string>
-  <string name="suspend_battery_charging">La batteria necessita di essere ricaricata prima di riprendere l\'elaborazione.</string>
+  <string name="suspend_battery_charging">In attesa che la batteria si ricarichi.</string>
   <string name="suspend_battery_charging_long">L\'elaborazione riprenderà quando il livello di carica della batteria raggiunge</string>
   <string name="suspend_battery_charging_long2"></string>
   <string name="suspend_battery_charging_current">attualmente</string>

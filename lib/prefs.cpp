@@ -265,8 +265,24 @@ void GLOBAL_PREFS::defaults() {
     // Also, don't memset to 0
 }
 
-// before parsing
-void GLOBAL_PREFS::clear_bools() {
+// values for fields with an enabling checkbox in the GUI.
+// These are the values shown when the checkbox is first checked
+// (in cases where this differs from the default).
+// These should be consistent with html/inc/prefs.inc
+//
+void GLOBAL_PREFS::enabled_defaults() {
+    defaults();
+    disk_max_used_gb = 100;
+    disk_min_free_gb = 1.0;
+    daily_xfer_limit_mb = 10000;
+    daily_xfer_period_days = 30;
+    max_bytes_sec_down = 100*KILO;
+    max_bytes_sec_up = 100*KILO;
+}
+
+// call before parsing
+//
+void GLOBAL_PREFS::init_bools() {
     run_on_batteries = false;
     run_if_user_active = false;
     leave_apps_in_memory = false;
@@ -294,7 +310,7 @@ int GLOBAL_PREFS::parse(
     XML_PARSER& xp, const char* host_venue, bool& found_venue, GLOBAL_PREFS_MASK& mask
 ) {
     init();
-    clear_bools();
+    init_bools();
     return parse_override(xp, host_venue, found_venue, mask);
 }
 
@@ -387,7 +403,7 @@ int GLOBAL_PREFS::parse_override(
                 parse_attr(attrs, "name", buf2, sizeof(buf2));
                 if (!strcmp(buf2, host_venue)) {
                     defaults();
-                    clear_bools();
+                    init_bools();
                     mask.clear();
                     in_correct_venue = true;
                     found_venue = true;
@@ -546,11 +562,10 @@ int GLOBAL_PREFS::parse_override(
             mask.max_bytes_sec_down = true;
             continue;
         }
-        if (xp.parse_double("cpu_usage_limit", dtemp)) {
-            if (dtemp > 0 && dtemp <= 100) {
-                cpu_usage_limit = dtemp;
-                mask.cpu_usage_limit = true;
-            }
+        if (xp.parse_double("cpu_usage_limit", cpu_usage_limit)) {
+            if (cpu_usage_limit < 0) cpu_usage_limit = 0;
+            if (cpu_usage_limit > 100) cpu_usage_limit = 100;
+            mask.cpu_usage_limit = true;
             continue;
         }
         if (xp.parse_double("daily_xfer_limit_mb", dtemp)) {

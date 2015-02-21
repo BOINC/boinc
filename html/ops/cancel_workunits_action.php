@@ -21,8 +21,9 @@ require_once("../inc/util_ops.inc");
 admin_page_head("Cancel Workunits");
 
 // check for WUs to cancel
-$WUs="";
-if (array_key_exists('cancel',$_REQUEST) && ($_REQUEST['cancel'] == 1)) {
+//
+$WUs = "";
+if (array_key_exists('cancel', $_REQUEST) && ($_REQUEST['cancel'] == 1)) {
     if (is_array($_REQUEST['WU'])) {
         foreach ($_REQUEST['WU'] as $key => $value) {
             if($WUs != "")
@@ -33,21 +34,22 @@ if (array_key_exists('cancel',$_REQUEST) && ($_REQUEST['cancel'] == 1)) {
 }
 
 // cancel WUs (if not in rops)
+//
 if($WUs != "") {
     echo "<!--- WUs to cancel: $WUs --->\n";
-    if (!in_rops()) {
+//    if (!in_rops()) {
         db_init();
         cancel_wus_where("id IN (" . $WUs . ")");
-    }
+//    }
 }
 
 if (array_key_exists('back',$_REQUEST)) {
     if ($_REQUEST['back'] == "errorwus") {
         echo "<p><a href=\"errorwus.php\">Return to All-error Workunits page</a></p>";
     } else if ($_REQUEST['back'] == "cancelwus") {
-        if (array_key_exists('clause',$_REQUEST)) {
+        if (array_key_exists('clause', $_REQUEST)) {
             $limit = 20;
-            if (array_key_exists('limit',$_REQUEST))
+            if (array_key_exists('limit', $_REQUEST))
                 $limit=$_REQUEST['limit'];
             $clause=urlencode($_REQUEST['clause']);
             echo "<p><a href=\"cancel_workunits.php?limit=$limit&uclause=$clause\">";

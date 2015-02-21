@@ -58,14 +58,22 @@ static double os_version_num(HOST h) {
     return 0;
 }
 
+// parse "Android 4.3.1" or "Android 4.3"
+//
 static int android_version_num(HOST h) {
     int maj, min, rel;
     char* p = strstr(h.os_version, "(Android ");
     if (!p) return 0;
     p += strlen("(Android ");
     int n = sscanf(p, "%d.%d.%d", &maj, &min, &rel);
-    if (n != 3) return 0;
-    return maj*10000 + min*100 + rel;
+    if (n == 3) {
+        return maj*10000 + min*100 + rel;
+    }
+    n = sscanf(p, "%d.%d", &maj, &min);
+    if (n == 2) {
+        return maj*10000 + min*100;
+    }
+    return 0;
 }
 
 int PLAN_CLASS_SPECS::parse_file(const char* path) {
@@ -897,6 +905,8 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         }
         if (xp.parse_double("min_os_version", min_os_version)) continue;
         if (xp.parse_double("max_os_version", max_os_version)) continue;
+        if (xp.parse_int("min_android_version", min_android_version)) continue;
+        if (xp.parse_int("max_android_version", max_android_version)) continue;
         if (xp.parse_str("project_prefs_tag", project_prefs_tag, sizeof(project_prefs_tag))) continue;
         if (xp.parse_str("project_prefs_regex", buf, sizeof(buf))) {
             if (regcomp(&(project_prefs_regex), buf, REG_EXTENDED|REG_NOSUB) ) {

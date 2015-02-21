@@ -33,11 +33,11 @@ $info_sites = array(
         "BOINC projects",
         "(in Czech)"
     ),
-    array(
-        "http://www.boincteams.com/",
-        "BOINC Team Leaders Forum",
-        "(a meeting place to chat and discuss team building on BOINC projects)"
-    ),
+//    array(
+//        "http://www.boincteams.com/",
+//        "BOINC Team Leaders Forum",
+//        "(a meeting place to chat and discuss team building on BOINC projects)"
+//    ),
     array(
         "http://www.hyper.net/dc-howto.html",
         "How to participate in grid computing projects that benefit humanity",

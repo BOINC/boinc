@@ -53,6 +53,7 @@ function option($name, $val) {
 define('COLOR_DESC', tra('Color scheme for graphics'));
 define("MAX_GFX_CPU_PCT_DESC", tra("Maximum CPU % for graphics%10 ... 100%2", "<br><p class=\"text-muted\">", "</p>"));
 define('APP_SELECT_DESC', tra('Run only the selected applications'));
+define('APP_SELECT_TOOLTIP', tra('Only get tasks for certain applications. Useful to focus on particular applications, or to exclude them.'));
 define('ACCEPT_ANY_DESC', tra('If no work for selected applications is available, accept work from other applications?'));
 define('NON_GRAPHICAL_DESC', tra("Use faster non-graphical applications if available?"));
 
@@ -130,7 +131,7 @@ function project_specific_prefs_edit($prefs, $error=false) {
             $checked = $present?"checked":"";
             $x .= "<input type=checkbox name=app_id_$app_id $checked> $app_name<br>";
         }
-        row2(APP_SELECT_DESC, $x);
+        tooltip_row2(APP_SELECT_TOOLTIP, APP_SELECT_DESC, $x);
         $checked = $prefs->allow_non_preferred_apps?"checked":"";
         row2(ACCEPT_ANY_DESC, "<input type=checkbox name=allow_non_preferred_apps $checked>");
     }
@@ -201,7 +202,7 @@ function project_specific_prefs_show($prefs, $columns=false) {
             if ($prefs->home) $prefs->home->app_id_text = selected_app_text($prefs->home);
             if ($prefs->school) $prefs->school->app_id_text = selected_app_text($prefs->school);
             if ($prefs->work) $prefs->work->app_id_text = selected_app_text($prefs->work);
-            row_defs(APP_SELECT_DESC, "app_id_text", "", "", $prefs);
+            row_defs(APP_SELECT_DESC, "app_id_text", "", "", $prefs, APP_SELECT_TOOLTIP);
             row_defs(ACCEPT_ANY_DESC, "allow_non_preferred_apps_text", "", "", $prefs);
         }
         if (NON_GRAPHICAL_PREF) {
@@ -215,7 +216,7 @@ function project_specific_prefs_show($prefs, $columns=false) {
             row2(MAX_GFX_CPU_PCT_DESC, $prefs->max_gfx_cpu_pct);
         }
         if (APP_SELECT_PREFS) {
-            row2(APP_SELECT_DESC, selected_app_text($prefs));
+            tooltip_row2(APP_SELECT_TOOLTIP, APP_SELECT_DESC, selected_app_text($prefs));
             row2(ACCEPT_ANY_DESC, $prefs->allow_non_preferred_apps_text);
         }
         if (NON_GRAPHICAL_PREF) {

@@ -6,13 +6,14 @@
 # FileID  : $Id$
 # 
 # Translators:
+# willy Wu <df910105@yahoo.com.tw>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2015-02-09 01:54+0000\n"
-"Last-Translator: Rom Walton <romw@romwnet.org>\n"
+"PO-Revision-Date: 2015-02-16 05:03+0000\n"
+"Last-Translator: willy Wu <df910105@yahoo.com.tw>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/boinc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,19 +30,19 @@ msgstr "Traditional Chinese ( Taiwan )"
 
 #: ../inc/bbcode_html.inc:11
 msgid "Bold text: [b]text[/b]  (alt+b)"
-msgstr "粗體：[b]文本[/b] (alt+b)"
+msgstr "粗體：[b]文字[/b] (alt+b)"
 
 #: ../inc/bbcode_html.inc:14
 msgid "Italic text: [i]text[/i]  (alt+i)"
-msgstr "斜體：[i]文本[/i] (alt+i)"
+msgstr "斜體：[i]文字[/i] (alt+i)"
 
 #: ../inc/bbcode_html.inc:17
 msgid "Underline text: [u]text[/u]  (alt+u)"
-msgstr "底線：[u]文本[/u] (alt+u)"
+msgstr "底線：[u]文字[/u] (alt+u)"
 
 #: ../inc/bbcode_html.inc:20
 msgid "Quote text: [quote]text[/quote]  (alt+q)"
-msgstr "引用：[quote]文本[/quote] (alt+q)"
+msgstr "引用：[quote]文字[/quote] (alt+q)"
 
 #: ../inc/bbcode_html.inc:23
 msgid "Code display: [code]code[/code]  (alt+c)"
@@ -53,7 +54,7 @@ msgstr "表格：[list]本文[/list] (alt+l)"
 
 #: ../inc/bbcode_html.inc:29
 msgid "Ordered list: [list=]text[/list]  (alt+o)"
-msgstr "排序表格：[list=]文本[/list] (alt+o)"
+msgstr "排序表格：[list=]文字[/list] (alt+o)"
 
 #: ../inc/bbcode_html.inc:32
 msgid "Insert image: [img]http://image_url[/img]  (alt+p)"
@@ -62,7 +63,7 @@ msgstr "插入圖片：[img]圖片網址[/img] (alt+p)"
 #: ../inc/bbcode_html.inc:35
 msgid ""
 "Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)"
-msgstr "插入連結：[url]連結[/url] 或 [url=連結]文本[/url] (alt+w)"
+msgstr "插入連結：[url]連結[/url] 或 [url=連結]文字[/url] (alt+w)"
 
 #: ../inc/bbcode_html.inc:42
 msgid "Font color"
@@ -71,7 +72,7 @@ msgstr "字體顏色"
 #: ../inc/bbcode_html.inc:43
 msgid ""
 "Font color: [color=red]text[/color]  Tip: you can also use color=#FF0000"
-msgstr "字體顏色：[color=red]文本[/color] 訣竅：你也可以用 #FF0000 來表示紅色"
+msgstr "字體顏色：[color=red]文字[/color] 訣竅：你也可以用 #FF0000 來表示紅色"
 
 #: ../inc/bbcode_html.inc:44 ../inc/bbcode_html.inc:59 ../inc/prefs.inc:638
 msgid "Default"
@@ -240,7 +241,7 @@ msgstr "傳送私人訊息給 %1"
 
 #: ../inc/forum.inc:581
 msgid "Joined: %1"
-msgstr "以加入：%1"
+msgstr "已加入：%1"
 
 #: ../inc/forum.inc:590
 msgid "Posts: %1"
@@ -502,7 +503,7 @@ msgstr "家庭"
 #: ../inc/host.inc:57 ../inc/prefs.inc:641 ../inc/prefs.inc:1049
 #: ../user/server_status.php:314
 msgid "Work"
-msgstr "工作"
+msgstr "任務"
 
 #: ../inc/host.inc:58 ../inc/prefs.inc:640 ../inc/prefs.inc:1050
 msgid "School"
@@ -527,7 +528,7 @@ msgstr "IP位址"
 
 #: ../inc/host.inc:89
 msgid "(same the last %1 times)"
-msgstr "（與最新的%1次一樣）"
+msgstr "(與最新的%1次一樣)"
 
 #: ../inc/host.inc:91
 msgid "External IP address"
@@ -595,7 +596,7 @@ msgstr "處理器數量"
 
 #: ../inc/host.inc:121
 msgid "Coprocessors"
-msgstr "共處理器"
+msgstr "協同處理器"
 
 #: ../inc/host.inc:123 ../inc/host.inc:687
 msgid "Operating System"
@@ -603,7 +604,7 @@ msgstr "作業系統"
 
 #: ../inc/host.inc:126 ../inc/host.inc:235
 msgid "BOINC version"
-msgstr "Boinc 版本"
+msgstr "BOINC 版本"
 
 #: ../inc/host.inc:130
 msgid "Memory"
@@ -615,7 +616,7 @@ msgstr "%1 MB"
 
 #: ../inc/host.inc:134
 msgid "Cache"
-msgstr "快速緩衝貯存區"
+msgstr "Cache"
 
 #: ../inc/host.inc:134
 msgid "%1 KB"
@@ -655,7 +656,7 @@ msgstr "平均上傳速度"
 
 #: ../inc/host.inc:157 ../inc/host.inc:164
 msgid "%1 KB/sec"
-msgstr "%1 KB/s"
+msgstr "%1 Kb/s"
 
 #: ../inc/host.inc:159 ../inc/host.inc:166 ../inc/result.inc:216
 #: ../inc/result.inc:226 ../inc/result.inc:244 ../inc/result.inc:262
@@ -679,7 +680,7 @@ msgstr "%1 天"
 
 #: ../inc/host.inc:170
 msgid "Application details"
-msgstr "應用程式詳細資料"
+msgstr "程式詳細資料"
 
 #: ../inc/host.inc:171
 msgid "Show"
@@ -698,17 +699,14 @@ msgid "Last time contacted server"
 msgstr "最後一次連接伺服器的時間"
 
 #: ../inc/host.inc:187
-#, php-format
 msgid "% of time BOINC is running"
 msgstr "BOINC 客戶端執行的時間比"
 
 #: ../inc/host.inc:189
-#, php-format
 msgid "While BOINC running, % of time host has an Internet connection"
 msgstr "當 BOINC 正在運作時，主機連接網路的時間比（％）"
 
 #: ../inc/host.inc:191
-#, php-format
 msgid "While BOINC running, % of time work is allowed"
 msgstr "當 BONC 執行時，允許處理工作的時間比（％）"
 
@@ -948,7 +946,7 @@ msgstr "私人訊息"
 msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
-msgstr "當電腦透過電池供電時暫停計算？ %1 只有筆記型電腦需要使用此設定 %2"
+msgstr "當電腦透過電池供電時暫停運算? %1只有筆記型電腦需要設定%2"
 
 #: ../inc/prefs.inc:85
 msgid "Suspend work while computer is in use?"
@@ -1006,7 +1004,6 @@ msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
 msgstr "在多核心的電腦上，最多使用%16.1 之後的版本有了此設定%2"
 
 #: ../inc/prefs.inc:158
-#, php-format
 msgid "% of the processors"
 msgstr "% 的處理器"
 
@@ -1015,7 +1012,6 @@ msgid "Use at most %1 Can be used to reduce CPU heat %2"
 msgstr "最多使用%1可用於減少 CPU 的發熱量%2"
 
 #: ../inc/prefs.inc:167
-#, php-format
 msgid "% of CPU time"
 msgstr "% 的處理器時間"
 
@@ -1033,7 +1029,6 @@ msgstr "硬碟：至少保留%1小於%2 的設定值將被忽略%3"
 
 #: ../inc/prefs.inc:191 ../inc/prefs.inc:201 ../inc/prefs.inc:206
 #: ../inc/prefs.inc:211
-#, php-format
 msgid "% of total"
 msgstr "%"
 
@@ -1145,7 +1140,7 @@ msgstr "使用 Intel GPU%17.2 之後的版本有了此設定%2"
 msgid ""
 "Run test applications? %1 This helps us develop applications, but may cause "
 "jobs to fail on your computer %2"
-msgstr "運行測試用途的應用程式？ %1這可以幫助我們開發運算程式，但可能會導致您電腦上的運算任務失敗%2"
+msgstr "執行測試用途的程式? %1這可以幫助我們開發運算程式，但可能會導致您電腦上的任務失敗%2"
 
 #: ../inc/prefs.inc:367
 msgid ""
@@ -1624,7 +1619,7 @@ msgstr "積分"
 
 #: ../inc/result.inc:380 ../inc/result.inc:724
 msgid "Application"
-msgstr "應用程式"
+msgstr "程式"
 
 #: ../inc/result.inc:629
 msgid "Workunit"
@@ -1668,7 +1663,7 @@ msgstr "驗證狀態"
 
 #: ../inc/result.inc:643
 msgid "Application version"
-msgstr "應用程式版本"
+msgstr "程式版本"
 
 #: ../inc/result.inc:656
 msgid "Output files"
@@ -2214,7 +2209,7 @@ msgstr "查看 %1 的用戶檔案"
 
 #: ../inc/util.inc:569
 msgid "Use BBCode tags to format your text"
-msgstr "用 BBCode 代碼來格式化您的文本"
+msgstr "用 BBCode 代碼來格式化您的文字"
 
 #: ../inc/util.inc:796
 msgid "Project down for maintenance"
@@ -2271,7 +2266,7 @@ msgstr "增加 %1 偏好設定（用於 %2）"
 #: ../user/apps.php:32 ../user/bs_sample_index.php:55
 #: ../user/sample_index.php:120
 msgid "Applications"
-msgstr "應用程式"
+msgstr "程式"
 
 #: ../user/apps.php:33
 msgid ""
@@ -2279,7 +2274,7 @@ msgid ""
 "work for one or more of these applications will be assigned to your "
 "computer. The current version of the application will be downloaded to your "
 "computer. This happens automatically; you don't have to do anything."
-msgstr "%1 目前有如下幾個應用程式。當您參與%1 專案時，適用於這些應用程式的任務將會分發給您的電腦。當前版本的應用程式也會下載到您的電腦上。這一切都是自動的，您不需要做任何操作。"
+msgstr "%1 目前有下列程式。當您參與 %1 專案時，適用於這些程式的任務將會分發給您的電腦。最新版本的程式也會下載到您的電腦上。這一切都是自動的，您不需要做任何操作。"
 
 #: ../user/apps.php:50
 msgid "Platform"
@@ -2303,7 +2298,7 @@ msgid ""
 "It's similar to HTML, but simpler. The tags start with a [ (where you would\n"
 "have used %1 in HTML) and end with ] (where you would have used %2 in\n"
 "HTML)."
-msgstr "BBCode 語法可以用來對個人檔案和留言板文章內的文本進行格式化。 \n它和 HTML 類似，但更為簡單。這些標記一般以 [ 開頭\n（如果在HTML 中一般是 %1）並且以] 結尾（HTML 中則是 %2）。"
+msgstr "BBCode 語法可以用來對個人檔案和留言板文章內的文字進行格式化。 \n它和 HTML 類似，但更為簡單。這些標記一般以 [ 開頭\n(如果在HTML 中一般是 %1)並且以] 結尾(HTML 中則是 %2)。"
 
 #: ../user/bbcode.php:31
 msgid "Examples"
@@ -2343,7 +2338,7 @@ msgstr "引用文"
 
 #: ../user/bbcode.php:39
 msgid "use for quoted blocks of text"
-msgstr "用於文本塊的引用"
+msgstr "用於文字塊的引用"
 
 #: ../user/bbcode.php:40
 msgid "use to display an image"
@@ -2359,11 +2354,11 @@ msgstr "用於顯示一些代碼"
 
 #: ../user/bbcode.php:42
 msgid "Pre-formatted text"
-msgstr "預設文本"
+msgstr "預設文字"
 
 #: ../user/bbcode.php:42
 msgid "use to display pre-formatted (usually monospaced) text"
-msgstr "用於顯示預設文本（一般是等寬字體）"
+msgstr "用於顯示預設文字(一般是等寬字體)"
 
 #: ../user/bbcode.php:43
 msgid "Item 1"
@@ -2393,7 +2388,7 @@ msgstr "用於連接到 BOINC 網站上的 SVN 修改集"
 msgid ""
 "If you don't close a tag or don't specify a parameter correctly,\n"
 "the raw tag itself will display instead of the formatted text."
-msgstr "如果你沒有正確的關閉語法或者指定參數，\n語法自身將被顯示出來，而不是預設的文本。"
+msgstr "如果你沒有正確的關閉語法或者指定參數，\n語法自身將被顯示出來，而不是預設的文字。"
 
 #: ../user/bs_sample_index.php:44
 msgid "Participants"
@@ -2519,7 +2514,7 @@ msgstr "無法建立帳號"
 msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
-msgstr "注意：如果您使用BOINC管理服務，不要使用此表格。只要運行BOINC，選擇“新增專案”，然後輸入電子郵件地址和密碼。"
+msgstr "注意：如果您使用BOINC管理服務，不要使用此表格。只要執行BOINC，選擇“新增專案”，然後輸入電子郵件地址和密碼。"
 
 #: ../user/create_account_form.php:61
 msgid ""
@@ -2852,23 +2847,23 @@ msgstr "下載 BOINC 的輔助軟體"
 
 #: ../user/download_network.php:28
 msgid "You can download applications in several categories."
-msgstr "您可以下載下面幾個類別的應用程式。"
+msgstr "您可以下載下面幾個類別的程式。"
 
 #: ../user/download_network.php:31
 msgid ""
 "These applications are not endorsed by %1 and you use them at your own risk."
-msgstr "這些應用程式未經過 %1 的仔細檢查，若使用請自擔風險。"
+msgstr "這些程式尚未經過 %1 的檢查，若使用請自擔風險。"
 
 #: ../user/download_network.php:33
 msgid ""
 "We do not provide instructions for installing these applications.\n"
 "However, the author may have provided some help on installing or uninstalling the application. \n"
 "If this is not enough you should contact the author."
-msgstr "我們不能提供這些應用程式的安裝及使用說明。 \n但應用程式的作者可能提供了安裝及卸載相關的幫助說明。 \n如果還需要進一步的說明，請聯繫相關作者。"
+msgstr "我們無法提供這些程式的安裝及使用說明。 \n但程式的作者可能提供了安裝及卸載相關的幫助說明。 \n如果需要進一步了解，請聯繫相關作者。"
 
 #: ../user/download_network.php:36
 msgid "Instructions for installing and running BOINC are %1here%2."
-msgstr "安裝及運行 BOINC 的說明 請看%1這裡%2"
+msgstr "安裝及執行 BOINC 的說明 請看%1這裡%2"
 
 #: ../user/download_network.php:38
 msgid "This list is managed centrally at %1the BOINC website%2."
@@ -3646,7 +3641,7 @@ msgstr "問與答"
 msgid ""
 "Talk live via Skype with a volunteer, in any of several languages. Go to "
 "%1BOINC Online Help%2."
-msgstr "通過 Skype 和志願者線上交流，支持多種語言，請到 %1BOINC 線上幫助%2。"
+msgstr "通過Skype和志工線上交流，支持多種語言，請到 %1BOINC 線上幫助%2。"
 
 #: ../user/forum_help_desk.php:44 ../user/forum_index.php:92
 msgid "Topic"
@@ -3825,7 +3820,7 @@ msgstr "將該項目顯示為 BOINC 客戶端的通知"
 
 #: ../user/forum_post.php:127
 msgid "Do so only for items likely to be of interest to all volunteers."
-msgstr "僅在所有志願者都可能對該項目感興趣的時候使用"
+msgstr "僅在所有參與者都可能對該項目感興趣的時候使用"
 
 #: ../user/forum_rate.php:26
 msgid "Rating offline"
@@ -4382,7 +4377,7 @@ msgstr "2) 如果你已經忘記了你帳戶所連結的電子郵件地址，或
 msgid ""
 "If you have run BOINC under this account, you can still access it. Here's "
 "how:"
-msgstr "如果你仍有 BOINC 客戶端運行在該帳戶下，請按如下操作指導取回你的密碼："
+msgstr "如果你仍有 BOINC 客戶端執行在該帳戶下，請按如下操作指導取回你的密碼："
 
 #: ../user/get_passwd.php:50
 msgid ""
@@ -4441,7 +4436,7 @@ msgstr "如果還沒有的話，%1下載 BOINC 的客戶端軟體%2。"
 
 #: ../user/host_app_versions.php:37
 msgid "Anonymous platform, missing app"
-msgstr "匿名平台，未知應用程式"
+msgstr "匿名平台，未知程式"
 
 #: ../user/host_app_versions.php:40
 msgid "anonymous platform"
@@ -4449,11 +4444,11 @@ msgstr "匿名平台"
 
 #: ../user/host_app_versions.php:43
 msgid "Missing app version"
-msgstr "無法辨識的應用程式版本"
+msgstr "無法辨識程式版本"
 
 #: ../user/host_app_versions.php:45
 msgid "Missing app"
-msgstr "未知應用程式"
+msgstr "未知程式"
 
 #: ../user/host_app_versions.php:47
 msgid "Missing platform"
@@ -4640,14 +4635,14 @@ msgstr "你也可以使用&（和號）開頭的字符實體來表示特殊字�
 
 #: ../user/info.php:35
 msgid "Run %1 only on authorized computers"
-msgstr "僅在已授權的電腦上運行 %1"
+msgstr "僅在已授權的電腦上執行 %1"
 
 #: ../user/info.php:36
 msgid ""
 "Run %1 only on computers that you own, or for which you have obtained the "
 "owner's permission. Some companies and schools have policies that prohibit "
 "using their computers for projects such as %1."
-msgstr "僅在你自己的或者已獲准使用的電腦上運行%1。某些企業和學校是禁止在他們的電腦上運行和%1 的類似的專案。"
+msgstr "僅在你自己的或者已獲准使用的電腦上執行 %1。某些企業和學校是禁止在他們的電腦上執行和 %1 的類似的專案。"
 
 #: ../user/info.php:38
 msgid "How %1 will use your computer"
@@ -4658,13 +4653,13 @@ msgid ""
 "When you run %1 on your computer, it will use part of the computer's CPU "
 "power, disk space, and network bandwidth. You can control how much of your "
 "resources are used by %1, and when it uses them."
-msgstr "當你在電腦上運行 %1 時，他會使用你電腦上部分的處理器資源、硬碟空間以及網絡。你可以控制 %1 的資源使用量以及何時可以使用。"
+msgstr "當你在電腦上執行 %1 時，他會使用你電腦上部分的處理器資源、硬碟空間以及網絡。你可以控制 %1 的資源使用量以及何時可以使用。"
 
 #: ../user/info.php:40
 msgid ""
 "The work done by your computer contributes to the goals of %1, as described "
 "on its web site. The application programs may change from time to time."
-msgstr "你的電腦所完成的運算任務僅用來幫助 %1 實現其專案網站上所申明的目標。專案應用程式的版本可能會經常改變。"
+msgstr "你的電腦所完成的運算任務僅用來幫助 %1 實現專案的目標。專案程式的版本可能會經常更新。"
 
 #: ../user/info.php:42
 msgid "Privacy policy"
@@ -4713,7 +4708,7 @@ msgstr "如果你要使用我們的網站論壇，你必須遵守 %2發文注意
 
 #: ../user/info.php:48
 msgid "Is it safe to run %1?"
-msgstr "運行 %1 安全嗎？"
+msgstr "執行 %1 安全嗎？"
 
 #: ../user/info.php:49
 msgid ""
@@ -4730,7 +4725,7 @@ msgstr "只要你從網路下載程式就有可能碰到有危險錯誤的程式
 msgid ""
 "The applications run by %1 may cause some computers to overheat. If this "
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
-msgstr "%1 的應用程式可能會導致某些電腦溫度過高。如果你碰到了這種情形，請停止運行 %1 或者使用 %2某些工具軟體%3 來限制應用程式對處理器的使用。"
+msgstr "%1 的程式可能會導致某些電腦溫度過高。如果你碰到了這種情形，請停止執行 %1 或者使用 %2 某些工具軟體 %3 限制程式對處理器的使用。"
 
 #: ../user/info.php:51
 msgid ""
@@ -4809,7 +4804,7 @@ msgstr "使用瀏覽器的語言設置"
 msgid ""
 "Translations are done by volunteers.  If your native language is not here, "
 "%1you can provide a translation%2."
-msgstr "翻譯工作都是由志願者完成的，如果這裡沒有你的母語，%1你可以自己進行翻譯%2。"
+msgstr "翻譯工作都是由志工完成的，如果這裡沒有你的語言，%1你可以自行翻譯%2。"
 
 #: ../user/login_form.php:45
 msgid "Email address:"
@@ -5100,13 +5095,13 @@ msgstr "取消"
 msgid ""
 "%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
 "community."
-msgstr "通過 %1用戶檔案%2 志願者可以和 %3 社區分享他的背景和觀點。"
+msgstr "通過%1用戶檔案%2參與者可以和%3社區分享他的背景和觀點。"
 
 #: ../user/profile_menu.php:36
 msgid ""
 "Explore the diversity of your fellow volunteers, and contribute your own "
 "views for others to enjoy."
-msgstr "可以了解其他志願者的想法，也可以讓他人看到你分享的觀點。"
+msgstr "可以了解其他參與者的想法，也可以讓他人看到你分享的觀點。"
 
 #: ../user/profile_menu.php:37
 msgid ""
@@ -5222,11 +5217,11 @@ msgstr "沒有任務可以顯示"
 
 #: ../user/server_status.php:97
 msgid "Running"
-msgstr "運行中"
+msgstr "執行中"
 
 #: ../user/server_status.php:100
 msgid "Not Running"
-msgstr "未運行"
+msgstr "未執行"
 
 #: ../user/server_status.php:103
 msgid "Disabled"
@@ -5262,15 +5257,15 @@ msgstr "調度"
 
 #: ../user/server_status.php:294
 msgid "Running:"
-msgstr "運行中："
+msgstr "執行中："
 
 #: ../user/server_status.php:295
 msgid "Program is operating normally"
-msgstr "程式目前運行正常"
+msgstr "程式目前執行正常"
 
 #: ../user/server_status.php:296
 msgid "Not Running:"
-msgstr "未運行："
+msgstr "未執行："
 
 #: ../user/server_status.php:297
 msgid "Program failed or the project is down"
@@ -5342,11 +5337,11 @@ msgstr "當前處理能力（GFLOPs）"
 
 #: ../user/server_status.php:420
 msgid "Tasks by application"
-msgstr "按應用程式分類的任務"
+msgstr "按程式分類的任務"
 
 #: ../user/server_status.php:423 ../user/workunit.php:40
 msgid "application"
-msgstr "應用程式"
+msgstr "程式"
 
 #: ../user/server_status.php:424
 msgid "unsent"
@@ -6031,7 +6026,7 @@ msgstr "建立或管理團隊留言板"
 msgid ""
 "To have this team created on all BOINC projects (current and future) you can"
 " make it into a %1BOINC-wide team%2."
-msgstr "如果想在所有的 BOINC 專案（目前在運行的和以後可能會有的）中都建立這個團隊，你可以將它轉變為一個%1BOINC-wide 團隊%2。"
+msgstr "如果想在所有的 BOINC 專案(現有和未來的)中都建立這個團隊，你可以將它轉變為一個 %1BOINC-wide 團隊%2。"
 
 #: ../user/team_manage.php:73
 msgid ""
@@ -6439,7 +6434,7 @@ msgid ""
 "    <li>What are your views about the project?\n"
 "    <li>Any suggestions?\n"
 "    </ol>"
-msgstr "告訴我們您對 %1 的看法<ol>\n<li>您為什麼運行 %1？ \n<li>您對這個專案的觀點是什麼？ \n<li>有什麼建議嗎？ \n</ol>"
+msgstr "告訴我們您對 %1 的看法<ol>\n<li>您為什麼執行 %1？ \n<li>您對這個專案的觀點是什麼？ \n<li>有什麼建議嗎？ \n</ol>"
 
 #: ../project.sample/project_specific_prefs.inc:47
 msgid "Color scheme for graphics"
@@ -6451,14 +6446,14 @@ msgstr "顯示圖像時最多可以使用的CPU 資源%10 ... 100%2"
 
 #: ../project.sample/project_specific_prefs.inc:49
 msgid "Run only the selected applications"
-msgstr "僅運行選中的應用程式"
+msgstr "僅執行選中的程式"
 
 #: ../project.sample/project_specific_prefs.inc:50
 msgid ""
 "If no work for selected applications is available, accept work from other "
 "applications?"
-msgstr "如果選中的應用程式暫時沒有運算任務，是否從其它應用程式接收任務？"
+msgstr "如果選中的程式暫時沒有運算任務，是否接收其它程式的任務?"
 
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
-msgstr "(所有應用程式)"
+msgstr "(所有程式)"
