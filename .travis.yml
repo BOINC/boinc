@@ -25,7 +25,7 @@ env:
     - BOINC_TYPE=server
     - BOINC_TYPE=client
     - BOINC_TYPE=apps
-    #- BOINC_TYPE=manager
+    - BOINC_TYPE=manager
     #- BOINC_TYPE=coverity
 
 matrix:
@@ -38,7 +38,7 @@ install:
 - sudo apt-get install make m4 pkg-config dh-autoreconf freeglut3-dev libxmu-dev libxi-dev libjpeg62-dev -qq
 - if [[ "${BOINC_TYPE}" == "server" ]]; then ( sudo apt-get install python libssl-dev python-mysqldb libmysqlclient-dev libfcgi-dev -qq ) fi
 - if [[ "${BOINC_TYPE}" == "client" ]]; then ( sudo apt-get install libssl-dev libcurl4-openssl-dev libxss-dev libnotify-dev libxcb-util0-dev -qq ) fi
-- if [[ "${BOINC_TYPE}" == "manager" ]]; then ( sudo apt-get install libssl-dev libxss-dev libnotify-dev libxcb-util0-dev libsqlite3-dev ) fi
+- if [[ "${BOINC_TYPE}" == "manager" ]]; then ( sudo apt-get install libssl-dev libxss-dev libnotify-dev libxcb-util0-dev libsqlite3-dev libgtk2.0-dev libwebkitgtk-dev && ./getWxWidgets.sh) fi
 - if [[ "${BOINC_TYPE}" == "coverity" ]]; then ( sudo apt-get install python libssl-dev python-mysqldb libmysqlclient-dev libfcgi-dev libcurl4-openssl-dev libxss-dev libnotify-dev libxcb-util0-dev -qq ) fi
 
 before_script:
@@ -49,7 +49,7 @@ script:
 - if [[ "${BOINC_TYPE}" == "server" ]]; then ( ./configure --disable-client --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "client" ]]; then ( ./configure --disable-server --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "apps" ]]; then ( ./configure --enable-apps --disable-server --disable-client --disable-manager && make ) fi
-- if [[ "${BOINC_TYPE}" == "manager" ]]; then ( ./configure --disable-server --disable-client && make ) fi
+- if [[ "${BOINC_TYPE}" == "manager" ]]; then ( ./configure --disable-server --disable-client --with-wxdir=./wxWidgets-3.0.2/buildgtk && make ) fi
 
 addons:
   coverity_scan:
