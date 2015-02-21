@@ -19,6 +19,14 @@ notifications:
 sudo: false
 
 addons:
+  coverity_scan:
+    project:
+      name: "BOINC/boinc"
+      description: "Build submitted via Travis CI"
+    notification_email: christian.beer@posteo.de
+    build_command_prepend: "./configure --disable-manager"
+    build_command:   "make -j 4"
+    branch_pattern: coverity_scan
   apt_packages:
     - make
     - m4
@@ -66,13 +74,3 @@ script:
 - if [[ "${BOINC_TYPE}" == "client" ]]; then ( ./configure --disable-server --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "apps" ]]; then ( ./configure --enable-apps --disable-server --disable-client --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "manager" ]]; then ( ./configure --disable-server --disable-client && make ) fi
-
-addons:
-  coverity_scan:
-    project:
-      name: "BOINC/boinc"
-      description: "Build submitted via Travis CI"
-    notification_email: christian.beer@posteo.de
-    build_command_prepend: "./configure --disable-manager"
-    build_command:   "make -j 4"
-    branch_pattern: coverity_scan
