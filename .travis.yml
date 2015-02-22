@@ -28,23 +28,15 @@ addons:
     build_command:   "make -j 4"
     branch_pattern: coverity_scan
   apt_packages:
-    - make
-    - m4
-    - pkg-config
-    - dh-autoreconf
     - freeglut3-dev
     - libxmu-dev
     - libxi-dev
-    - libjpeg62-dev
-    - python
-    - libssl-dev
-    - python-mysqldb
-    - libmysqlclient-dev
+    #- python-mysqldb
     - libfcgi-dev
-    - libcurl4-openssl-dev
-    - libxss-dev
+    #- libcurl4-openssl-dev
+    #- libxss-dev
     - libnotify-dev
-    - libxcb-util0-dev
+    #- libxcb-util0-dev
     - libsqlite3-dev
     - libgtk2.0-dev
     - libwebkitgtk-dev
@@ -59,7 +51,7 @@ env:
     - BOINC_TYPE=server
     - BOINC_TYPE=client
     - BOINC_TYPE=apps
-    #- BOINC_TYPE=manager
+    - BOINC_TYPE=manager
     #- BOINC_TYPE=coverity
 
 matrix:
