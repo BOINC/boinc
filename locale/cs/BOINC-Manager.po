@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2015-02-22 08:37+0000\n"
+"PO-Revision-Date: 2015-02-23 23:14+0000\n"
 "Last-Translator: Pavel <xxxq@seznam.cz>\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/boinc/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -3496,7 +3496,7 @@ msgstr "%d"
 
 #: sg_DlgPreferences.cpp:1029
 msgid "Do you really want to clear all local preferences?\n"
-msgstr "Opravdu chcete vymazat všechny lokální předvolby?\n"
+msgstr "Opravdu chcete vymazat všechny místní předvolby?\n"
 
 #: sg_ProjectPanel.cpp:72
 msgid "Add Project"
