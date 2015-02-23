@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2015-02-23 07:51+0000\n"
+"PO-Revision-Date: 2015-02-23 16:10+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgstr "BOINC のホームページに戻る"
 #: docutil.php:114
 #, php-format
 msgid "This page is %stranslatable%s."
-msgstr "このページは%s翻訳可能です%s"
+msgstr "このページは %s翻訳可能です%s 。"
 
 #: download.php:39
 msgid ""
