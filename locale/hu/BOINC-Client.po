@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2015-02-22 08:04+0000\n"
+"PO-Revision-Date: 2015-02-23 23:14+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -151,7 +151,7 @@ msgstr "Újabb BOINC verzió szükséges; kérjük, telepítsd a legfrissebbet"
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
-msgstr "%s számára elérhetőek feladatok, de az Ön beállításai miatt nem futtathatók"
+msgstr "%s számára elérhetőek feladatok, de a beállításaid miatt nem futtathatók"
 
 #: ../sched/sched_types.cpp:254
 msgid "Unknown app name in app_info.xml"
