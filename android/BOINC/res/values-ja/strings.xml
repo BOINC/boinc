@@ -3,28 +3,28 @@
   <!--app global-->
   <string name="app_name">BOINC</string>
   <!--generic. used by multiple Activities/tabs-->
-  <string name="generic_loading">読み込み中！お待ちください…</string>
+  <string name="generic_loading">読み込み中! お待ちください…</string>
   <string name="generic_button_continue">続行</string>
   <string name="generic_button_finish">完了</string>
   <!--attach project-->
   <!--selection list-->
-  <string name="attachproject_list_desc">あなたが貢献したい科学プロジェクトを選択してください:</string>
-  <string name="attachproject_list_header">プロジェクトを選んでください</string>
-  <string name="attachproject_list_manual_button">URLによってプロジェクトを追加する</string>
-  <string name="attachproject_list_manual_dialog_title">プロジェクトのURLを入力</string>
+  <string name="attachproject_list_desc">あなたが貢献したい科学プロジェクトを選択してください : </string>
+  <string name="attachproject_list_header">プロジェクトを選択してください</string>
+  <string name="attachproject_list_manual_button">URLによってプロジェクトを追加</string>
+  <string name="attachproject_list_manual_dialog_title">プロジェクトのURLを入力 : </string>
   <string name="attachproject_list_manual_dialog_button">プロジェクトを追加</string>
   <string name="attachproject_list_manual_no_url">プロジェクトのURLを入力してください</string>
   <string name="attachproject_list_acctmgr_button">アカウント・マネージャを追加</string>
-  <string name="attachproject_list_no_internet">インターネット接続が見つかりません</string>
+  <string name="attachproject_list_no_internet">インターネット接続なし</string>
   <!--credential input-->
   <string name="attachproject_credential_input_sing_desc">アカウント情報を入力</string>
-  <string name="attachproject_credential_input_desc">選択したプロジェクトのアカウント情報を入力</string>
-  <string name="attachproject_credential_input_show_pwd">パスワードを表示する</string>
-  <string name="attachproject_individual_credential_input">別々にプロジェクトを追加する</string>
+  <string name="attachproject_credential_input_desc">選択したプロジェクトのアカウント情報を入力 : </string>
+  <string name="attachproject_credential_input_show_pwd">パスワードを表示</string>
+  <string name="attachproject_individual_credential_input">プロジェクトを個別に追加する</string>
   <!--conflicts-->
-  <string name="attachproject_conflicts_desc">科学プロジェクトを追加中に問題が発生しました:</string>
+  <string name="attachproject_conflicts_desc">科学プロジェクトを追加中に問題が発生しました : </string>
   <string name="attachproject_conflict_undefined">接続できませんでした</string>
-  <string name="attachproject_conflict_not_unique">異なるパスワードのアカウントが存在します</string>
+  <string name="attachproject_conflict_not_unique">異なるパスワードを持つアカウントが存在します</string>
   <string name="attachproject_conflict_bad_password">パスワードが間違っています</string>
   <string name="attachproject_conflict_unknown_user">アカウントが存在しません</string>
   <string name="attachproject_conflict_unknown_user_creation_disabled">アカウントが存在しません、プロジェクトのウェブサイトを訪問し登録してください</string>
@@ -34,60 +34,60 @@
   <!--hints-->
   <string name="attachproject_hints_header">ヒント</string>
   <!--e.g. Hint 1/2-->
-  <string name="attachproject_hint_contribtion_header">貢献する方法</string>
-  <string name="attachproject_hint_contribtion_wifi">1. WiFiに接続します。</string>
-  <string name="attachproject_hint_contribtion_charger">2. 充電器につなぎます。</string>
-  <string name="attachproject_hint_contribtion_screen">3. 画面の電源を切ります。</string>
-  <string name="attachproject_hint_projectwebsite_header">プロジェクトのウェブサイトを訪問:</string>
-  <string name="attachproject_hint_projectwebsite_science">科学的知識についてもっと詳しく</string>
+  <string name="attachproject_hint_contribtion_header">貢献する方法 : </string>
+  <string name="attachproject_hint_contribtion_wifi">1. WiFiに接続します</string>
+  <string name="attachproject_hint_contribtion_charger">2. 充電器につなぎます</string>
+  <string name="attachproject_hint_contribtion_screen">3. 画面の電源を切ります</string>
+  <string name="attachproject_hint_projectwebsite_header">プロジェクトのウェブサイトを訪問 : </string>
+  <string name="attachproject_hint_projectwebsite_science">この科学に関する詳細情報</string>
   <string name="attachproject_hint_projectwebsite_stats">貢献の統計を見る</string>
   <string name="attachproject_hint_projectwebsite_community">他の参加者と連絡を取る</string>
-  <string name="attachproject_hint_platforms_header">BOINCはあなたのコンピュータまたはラップトップでも利用可能です。詳しくは boinc.berkeley.edu を訪問してください。</string>
+  <string name="attachproject_hint_platforms_header">BOINCはあなたのコンピュータまたはノートパソコンでも利用可能です。詳しくは boinc.berkeley.edu を訪問してください。</string>
   <!--project login-->
-  <string name="attachproject_login_loading">プロジェクトサーバに接触中…</string>
+  <string name="attachproject_login_loading">プロジェクトのサーバに問い合わせ中…</string>
   <string name="attachproject_login_image_description">プロジェクトのロゴ。</string>
-  <string name="attachproject_login_header_general_area">一般的領域:</string>
-  <string name="attachproject_login_header_specific_area">具体的領域:</string>
-  <string name="attachproject_login_header_description">説明:</string>
-  <string name="attachproject_login_header_home">ホーム:</string>
-  <string name="attachproject_login_header_url">ウェブサイト:</string>
-  <string name="attachproject_login_header_platform">Android:</string>
-  <string name="attachproject_login_platform_supported">デバイスのタイプはこのプロジェクトでサポートされています。</string>
-  <string name="attachproject_login_platform_not_supported">デバイスはこのプロジェクトでサポートされていません。</string>
-  <string name="attachproject_login_category_terms_of_use">の利用規約</string>
-  <string name="attachproject_login_accept_terms_of_use">このプロジェクトのアカウントを作成することで、上記の利用規約を承諾することになります。</string>
+  <string name="attachproject_login_header_general_area">一般的領域 : </string>
+  <string name="attachproject_login_header_specific_area">具体的領域 : </string>
+  <string name="attachproject_login_header_description">説明 : </string>
+  <string name="attachproject_login_header_home">ホーム : </string>
+  <string name="attachproject_login_header_url">ウェブサイト : </string>
+  <string name="attachproject_login_header_platform">Android : </string>
+  <string name="attachproject_login_platform_supported">デバイスのタイプはこのプロジェクトでサポートされています</string>
+  <string name="attachproject_login_platform_not_supported">デバイスはこのプロジェクトでサポートされていません</string>
+  <string name="attachproject_login_category_terms_of_use">下記のもののための利用規約</string>
+  <string name="attachproject_login_accept_terms_of_use">このプロジェクトのアカウントを作成することで、上記のような利用規約に同意します。</string>
   <string name="attachproject_login_category_login">既存のアカウントでサインイン</string>
-  <string name="attachproject_login_header_id_email">Eメール:</string>
-  <string name="attachproject_login_header_id_name">名前</string>
-  <string name="attachproject_login_header_pwd">パスワード:</string>
-  <string name="attachproject_login_category_creation">慣れていない</string>
-  <string name="attachproject_login_header_creation_enabled">参加するためにアカウントを登録してください:</string>
+  <string name="attachproject_login_header_id_email">Eメール : </string>
+  <string name="attachproject_login_header_id_name">名前 : </string>
+  <string name="attachproject_login_header_pwd">パスワード : </string>
+  <string name="attachproject_login_category_creation">目新しい</string>
+  <string name="attachproject_login_header_creation_enabled">参加するためにアカウントを登録 : </string>
   <string name="attachproject_login_header_creation_client_disabled">アカウント作成のためプロジェクトのウェブサイトを訪問</string>
   <string name="attachproject_login_header_creation_disabled">現在このプロジェクトは新規アカウントの登録を受け付けていません。</string>
   <string name="attachproject_login_button_registration">登録</string>
   <string name="attachproject_login_button_login">サインイン</string>
   <string name="attachproject_login_button_forgotpw">パスワードを忘れた</string>
-  <string name="attachproject_login_error_toast">プロジェクトとの接触に失敗しました！</string>
+  <string name="attachproject_login_error_toast">プロジェクトへの接触に失敗しました!</string>
   <string name="attachproject_login_attached">追加済み</string>
   <!--project registration-->
-  <string name="attachproject_registration_header">アカウント登録</string>
-  <string name="attachproject_registration_header_url">プロジェクト:</string>
-  <string name="attachproject_registration_header_email">Eメール:</string>
-  <string name="attachproject_registration_header_username">名前:</string>
-  <string name="attachproject_registration_header_teamname">チーム:</string>
-  <string name="attachproject_registration_header_pwd">パスワード:</string>
-  <string name="attachproject_registration_header_pwd_confirm">…もう一度入力</string>
+  <string name="attachproject_registration_header">下記へのアカウント登録</string>
+  <string name="attachproject_registration_header_url">プロジェクト : </string>
+  <string name="attachproject_registration_header_email">Eメール : </string>
+  <string name="attachproject_registration_header_username">名前 : </string>
+  <string name="attachproject_registration_header_teamname">チーム : </string>
+  <string name="attachproject_registration_header_pwd">パスワード : </string>
+  <string name="attachproject_registration_header_pwd_confirm">…もう一度入力 : </string>
   <string name="attachproject_registration_button">作成</string>
   <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">複数のプロジェクトを追加・管理するためにBOINCアカウント・マネージャを使用</string>
+  <string name="attachproject_acctmgr_list_desc">複数のプロジェクトを追加・管理するために BOINC アカウント・マネージャを使用</string>
   <string name="attachproject_acctmgr_header">アカウント・マネージャを追加</string>
   <string name="attachproject_acctmgr_header_url">URL</string>
-  <string name="attachproject_acctmgr_header_name">ユーザー名:</string>
-  <string name="attachproject_acctmgr_header_pwd">パスワード:</string>
-  <string name="attachproject_acctmgr_header_pwd_confirm">…もう一度入力</string>
+  <string name="attachproject_acctmgr_header_name">ユーザー名 : </string>
+  <string name="attachproject_acctmgr_header_pwd">パスワード : </string>
+  <string name="attachproject_acctmgr_header_pwd_confirm">…もう一度入力 : </string>
   <string name="attachproject_acctmgr_button">追加</string>
   <!--error strings-->
-  <string name="attachproject_error_wrong_name">該当する参加者が見つかりません!</string>
+  <string name="attachproject_error_wrong_name">参加者が見つかりません</string>
   <string name="attachproject_error_short_pwd">パスワードが短すぎます</string>
   <string name="attachproject_error_no_internet">接続失敗</string>
   <string name="attachproject_error_pwd_no_match">パスワードが一致しません</string>
