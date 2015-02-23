@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2015-02-10 00:05+0000\n"
+"PO-Revision-Date: 2015-02-23 23:14+0000\n"
 "Last-Translator: Rafał Kaźmierczak <prometh.dragu@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/boinc/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -68,12 +68,12 @@ msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
 "\n"
 "This will remove the executables but will not touch %s data files."
-msgstr "Czy na pewno chcesz całkowicie usunąć %s ze swojego komputera?\n\nSpowoduje to usunięcie plików wykonywalnych, ale nie naruszy %s plików danych."
+msgstr "Czy na pewno chcesz całkowicie usunąć %s ze swojego komputera?\n\nSpowoduje to usunięcie plików wykonywalnych, ale nie naruszy plików danych %s."
 
 #: uninstall.cpp:163
 #, c-format
 msgid "Canceled: %s has not been touched."
-msgstr "Anulowano: %s nie zostało dotknięte."
+msgstr "Anulowano: nie dotknięto %s."
 
 #: uninstall.cpp:174
 #, c-format
@@ -115,4 +115,4 @@ msgstr "Anuluj"
 
 #: uninstall.cpp:1617
 msgid "Continue..."
-msgstr "Kontynuuj"
+msgstr "Kontynuuj..."
