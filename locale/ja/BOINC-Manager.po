@@ -1,51 +1,39 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Masahiro Tagashira, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC Manager 5.10 Japanese\n"
+"Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2013-10-28 15:20+0000\n"
-"Last-Translator: Anonymous Pootle User\n"
-"Language-Team: \n"
-"Language: ja\n"
+"PO-Revision-Date: 2015-02-23 09:49+0000\n"
+"Last-Translator: Masahiro Tagashira\n"
+"Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.5.0\n"
-"X-Poedit-SearchPath-1: clientgui/msw\n"
-"X-Poedit-SearchPath-2: clientgui/gtk\n"
-"X-Poedit-SearchPath-3: clientgui/mac\n"
-"X-Poedit-SearchPath-0: clientgui\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1382973625.0\n"
 
-# 81%
 #: AccountInfoPage.cpp:387
 #, c-format
-#, fuzzy, c-format
 msgid "Identify your account at %s"
-msgstr "アカウントを特定する"
+msgstr "%sにおけるあなたのアカウントを特定する"
 
 #: AccountInfoPage.cpp:393
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
-msgstr ""
-"アカウント情報を入力してください\n"
-"(プロジェクトのウェブサイトに行って，アカウントを作成してください)"
+msgstr "アカウント情報を入力してください\n(プロジェクトのウェブサイトに行って，アカウントを作成してください)"
 
 #: AccountInfoPage.cpp:397
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can add it only if you already have an account."
-msgstr ""
-"現在このプロジェクトは新規アカウントの登録を受け付けていません。\n"
-"既にアカウントを取得済みの場合だけは追加できます。"
+msgstr "現在このプロジェクトは新規アカウントの登録を受け付けていません。\n既にアカウントを取得済みの場合だけは追加できます。"
 
 #: AccountInfoPage.cpp:401
 msgid "Are you already running this project?"
@@ -67,12 +55,7 @@ msgid ""
 "Please click on the 'Find login information' link\n"
 "below to find out what to put in the email address and\n"
 "password fields."
-msgstr ""
-"あなたのアカウント情報を自動的には設定できませんでした。\n"
-"\n"
-"次の 'ログイン情報を探す' のリンクをクリックして、\n"
-"Eメイルアドレスとパスワードのフィールドに入れる内容を\n"
-"見つけてください。"
+msgstr "あなたのアカウント情報を自動的には設定できませんでした。\n\n次の 'ログイン情報を探す' のリンクをクリックして、\nEメイルアドレスとパスワードのフィールドに入れる内容を\n見つけてください。"
 
 #: AccountInfoPage.cpp:416
 msgid "Find login information"
@@ -117,13 +100,9 @@ msgid ""
 "If you have not yet registered with this account manager,\n"
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
-msgstr ""
-"このアカウントマネージャに未登録でしたら、処理を開始する\n"
-"前にぜひ登録をお願いします。次のリンクをクリックして登録に\n"
-"進んでください。忘れたパスワードを見つけることも可能です。"
+msgstr "このアカウントマネージャに未登録でしたら、処理を開始する\n前にぜひ登録をお願いします。次のリンクをクリックして登録に\n進んでください。忘れたパスワードを見つけることも可能です。"
 
 #: AccountInfoPage.cpp:532
-#, fuzzy
 msgid "Account manager web site"
 msgstr "アカウント・マネージャのウェブサイト"
 
@@ -141,17 +120,16 @@ msgstr "アカウント・マネージャを使用する"
 
 #: AccountInfoPage.cpp:585
 msgid "Please enter a user name."
-msgstr ""
+msgstr "ユーザー名を入力してください"
 
 #: AccountInfoPage.cpp:587
-#, fuzzy
 msgid "Please enter an email address."
-msgstr "電子メールアドレスを指定してください"
+msgstr "Eメールアドレスを入力してください"
 
 #: AccountInfoPage.cpp:597
 #, c-format
 msgid "Please enter a password of at least %d characters."
-msgstr ""
+msgstr "少なくとも%d文字のパスワードを入力してください。"
 
 #: AccountInfoPage.cpp:607
 msgid ""
@@ -166,27 +144,23 @@ msgstr "アカウント・マネージャを1つ選ぶ"
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
-msgstr ""
-"プロジェクトを選択するには、その名前をクリックするか、\n"
-"あるいは下の欄に URL を入力してください。"
+msgstr "プロジェクトを選択するには、その名前をクリックするか、\nあるいは下の欄に URL を入力してください。"
 
 #: AccountManagerInfoPage.cpp:279
-#, fuzzy
 msgid "Account manager details:"
-msgstr "アカウント・マネージャのウェブサイト"
+msgstr "アカウント・マネージャの詳細情報:"
 
 #: AccountManagerInfoPage.cpp:283
-#, fuzzy
 msgid "Account manager &URL:"
 msgstr "アカウント・マネージャー &URL："
 
 #: AccountManagerInfoPage.cpp:287
 msgid "Open web page"
-msgstr ""
+msgstr "ウェブページを開く"
 
 #: AccountManagerInfoPage.cpp:290
 msgid "Visit this account manager's web site"
-msgstr ""
+msgstr "アカウント・マネージャのウェブサイトを訪問"
 
 #: AccountManagerProcessingPage.cpp:187 AccountManagerPropertiesPage.cpp:193
 #, c-format
@@ -320,7 +294,7 @@ msgstr "このクライアントをアカウント・マネージャの制御か
 
 #: AdvancedFrame.cpp:458 sg_BoincSimpleFrame.cpp:178
 msgid "&Options..."
-msgstr ""
+msgstr "&オプション…"
 
 #: AdvancedFrame.cpp:459 sg_BoincSimpleFrame.cpp:179
 msgid "Configure display options and proxy settings"
@@ -439,15 +413,14 @@ msgstr "通信を今すぐ実施"
 msgid "Do all pending network communication"
 msgstr "保留されているネットワーク通信を実行します"
 
-# 94%
 #: AdvancedFrame.cpp:589
-#, fuzzy
 msgid "Read config files"
 msgstr "設定ファイルを読み込む"
 
 #: AdvancedFrame.cpp:590
-msgid "Read configuration info from cc_config.xml and any app_config.xml files"
-msgstr ""
+msgid ""
+"Read configuration info from cc_config.xml and any app_config.xml files"
+msgstr "cc_config.xmlといずれかのapp_config.xml filesから設定情報を読み込む"
 
 #: AdvancedFrame.cpp:594
 msgid "Read local prefs file"
@@ -497,7 +470,6 @@ msgstr "%s の情報を表示します"
 
 #: AdvancedFrame.cpp:661 sg_BoincSimpleFrame.cpp:224
 #, c-format
-#, c-format, fuzzy
 msgid "%s &web site"
 msgstr "%s ウェブサイト(&W)"
 
@@ -545,7 +517,6 @@ msgstr "ヘルプ(&H)"
 msgid "%s - Stop using %s"
 msgstr "%s - %s の使用をやめる"
 
-# Case of Detaching from an account manager
 #: AdvancedFrame.cpp:1204
 #, c-format
 msgid ""
@@ -554,12 +525,7 @@ msgid ""
 "but you'll have to manage projects manually.\n"
 "\n"
 "Do you want to stop using %s?"
-msgstr ""
-"%s を使うのをやめても、現在参加しているプロジェクト\n"
-"に影響はありませんが、プロジェクトをいちいち管理\n"
-"する手間をかけねばならなくなります。\n"
-"\n"
-"%s を使うのをやめますか？"
+msgstr "%s を使うのをやめても、現在参加しているプロジェクト\nに影響はありませんが、プロジェクトをいちいち管理\nする手間をかけねばならなくなります。\n\n%s を使うのをやめますか？"
 
 #: AdvancedFrame.cpp:1401
 #, c-format
@@ -571,16 +537,13 @@ msgstr "%s - 現在接続しているクライアントをシャットダウン�
 msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
-msgstr ""
-"%s は、現在接続しているクライアントをシャットダウンし、\n"
-"別の計算機に接続するよう促します。"
+msgstr "%s は、現在接続しているクライアントをシャットダウンし、\n別の計算機に接続するよう促します。"
 
 #: AdvancedFrame.cpp:1745 DlgAbout.cpp:119
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-# Case for attaching to an account manager
 #: AdvancedFrame.cpp:1754
 #, c-format
 msgid "%s has successfully added %s"
@@ -611,11 +574,7 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr ""
-"指定した名前のアカウントは既にあり、あなたが入力した\n"
-"ものとは異なるパスワードが設定されています。\n"
-"\n"
-"プロジェクトのウェブサイトに行って、そこにある指示に従ってください。"
+msgstr "指定した名前のアカウントは既にあり、あなたが入力した\nものとは異なるパスワードが設定されています。\n\nプロジェクトのウェブサイトに行って、そこにある指示に従ってください。"
 
 #: AlreadyExistsPage.cpp:191
 msgid "Email address already in use"
@@ -627,11 +586,7 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr ""
-"指定した電子メールアドレスのアカウントは既にあり、あなたが入力した\n"
-"ものとは異なるパスワードが設定されています。\n"
-"\n"
-"プロジェクトのウェブサイトに行って、そこにある指示に従ってください。"
+msgstr "指定した電子メールアドレスのアカウントは既にあり、あなたが入力した\nものとは異なるパスワードが設定されています。\n\nプロジェクトのウェブサイトに行って、そこにある指示に従ってください。"
 
 #: AsyncRPC.cpp:1031
 msgid "Communicating with BOINC client.  Please wait ..."
@@ -664,20 +619,14 @@ msgstr "%s - 接続に異常が発生しました"
 #: BOINCBaseFrame.cpp:514
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_users' local user "
-"group."
-msgstr ""
-"現在のところあなたにはこのクライアントを管理する権限がありません。\n"
-"管理者に連絡して、'boinc_users' ローカルユーザグループにあなたを\n"
-"加えてください。"
+"Please contact your administrator to add you to the 'boinc_users' local user group."
+msgstr "現在のところあなたにはこのクライアントを管理する権限がありません。\n管理者に連絡して、'boinc_users' ローカルユーザグループにあなたを\n加えてください。"
 
 #: BOINCBaseFrame.cpp:523
 msgid ""
 "Authorization failed connecting to running client.\n"
 "Make sure you start this program in the same directory as the client."
-msgstr ""
-"稼動中のクライアントに接続する際に、認証に失敗しました。\n"
-"このプログラムを起動するとき、クライアントと同じディレクトリから起動したか確かめてください。"
+msgstr "稼動中のクライアントに接続する際に、認証に失敗しました。\nこのプログラムを起動するとき、クライアントと同じディレクトリから起動したか確かめてください。"
 
 #: BOINCBaseFrame.cpp:525
 msgid "Authorization failed connecting to running client."
@@ -697,9 +646,7 @@ msgstr "%s - 接続に失敗しました"
 msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
-msgstr ""
-"%s は %s クライアントに接続できませんでした。\n"
-"もう一度、接続を試みますか？"
+msgstr "%s は %s クライアントに接続できませんでした。\nもう一度、接続を試みますか？"
 
 #: BOINCBaseFrame.cpp:622
 #, c-format
@@ -710,21 +657,15 @@ msgstr "%s - デーモンの開始に失敗しました"
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
-"Please launch the Control Panel->Administative Tools->Services applet and "
-"start the BOINC service."
-msgstr ""
-"%s は %s クライアントを開始することができません。\n"
-"コントロールパネルから、管理ツールのサービスを開いて、\n"
-"BOINC サービスを開始してください。"
+"Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
+msgstr "%s は %s クライアントを開始することができません。\nコントロールパネルから、管理ツールのサービスを開いて、\nBOINC サービスを開始してください。"
 
 #: BOINCBaseFrame.cpp:638
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please start the daemon and try again."
-msgstr ""
-"%s は %s クライアントを開始することができません。\n"
-"このクライアント用のデーモンを開始してから、もう一度試してみてください。"
+msgstr "%s は %s クライアントを開始することができません。\nこのクライアント用のデーモンを開始してから、もう一度試してみてください。"
 
 #: BOINCBaseFrame.cpp:689
 #, c-format
@@ -735,16 +676,11 @@ msgstr "%s - 接続状態"
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
-"Please use the 'Advanced\\Select Computer...' menu option to connect up to a "
-"%s client.\n"
+"Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
-msgstr ""
-"%s は現在 %s クライアントと繋がっていません。メニューの [高度な操作(D)] から\n"
-"[コンピュータの選択...] へ進み、接続する %s クライアントのコンピュータを選びます。\n"
-"あなたの操作しているコンピュータ自身に接続するには、「コンピュータ名 (ホスト名)」の欄に localhost と入力してください。"
+msgstr "%s は現在 %s クライアントと繋がっていません。メニューの [高度な操作(D)] から\n[コンピュータの選択...] へ進み、接続する %s クライアントのコンピュータを選びます。\nあなたの操作しているコンピュータ自身に接続するには、「コンピュータ名 (ホスト名)」の欄に localhost と入力してください。"
 
 #: BOINCBaseView.cpp:779
-#, fuzzy
 msgid "Project web pages"
 msgstr "プロジェクトのウェブサイト"
 
@@ -758,9 +694,7 @@ msgstr "%s - 予期せぬ終了"
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
-msgstr ""
-"%s クライアントが %d分間のうちに3回、予期せぬ終了をしました。\n"
-"もう一度再開しますか？"
+msgstr "%s クライアントが %d分間のうちに3回、予期せぬ終了をしました。\nもう一度再開しますか？"
 
 #: BOINCDialupManager.cpp:61
 #, c-format
@@ -772,9 +706,7 @@ msgstr "%s - ネットワーク状態"
 msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
-msgstr ""
-"%s はインターネットに接続する必要があります。\n"
-"今すぐ接続してよいですか？"
+msgstr "%s はインターネットに接続する必要があります。\n今すぐ接続してよいですか？"
 
 #: BOINCDialupManager.cpp:254
 #, c-format
@@ -796,9 +728,7 @@ msgstr "%s はインターネットへの接続に失敗しました"
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
-msgstr ""
-"%s はインターネットへの接続ができていることを今、検出しました。\n"
-"全プロジェクトの状況更新と全てのファイル転送の再開を行っています。"
+msgstr "%s はインターネットへの接続ができていることを今、検出しました。\n全プロジェクトの状況更新と全てのファイル転送の再開を行っています。"
 
 #: BOINCDialupManager.cpp:417
 #, c-format
@@ -812,7 +742,6 @@ msgstr "%s はインターネットとの接続を切ることにに失敗しま
 
 #: BOINCGUIApp.cpp:339
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "\n"
@@ -822,29 +751,18 @@ msgid ""
 " or\n"
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
-msgstr ""
-"このクライアントを管理する権限が現在あなたにはありません。\n"
-"\n"
-"このユーザのもとで BOINC を走らせるためには、以下のようにしてください:\n"
-"  - BOINC を再インストールし、その際に、non-administrative users に関する\n"
-"    質問に\"Yes\"（はい）と答えます\n"
-" あるいは、\n"
-"  - 管理者に依頼してあなたを ユーザグループ　'boinc_master' に加えて\n"
-"    もらいます。"
+msgstr "現在のところあなたにはこのクライアントを管理する権限がありません。\n%sをこのユーザーで動作させるには、%sをインストールし直し、管理者権限のないユーザーについての質問に「はい」と答えてください。もしくは管理者に連絡して、'boinc_users' ローカルユーザグループにあなたを 加えてください。"
 
 #: BOINCGUIApp.cpp:345
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
-msgstr ""
-"BOINC 関連ファイルの所有権あるいはパーミッションの設定が不適切です。 BOINC を\n"
-"再インストールしてください。 (エラーコード %d)"
+msgstr "%s に対する所有権あるいは許可情報が正しく設定されていません。%s をインストールし直してください。\n(エラーコード %d"
 
 #: BOINCGUIApp.cpp:351
 msgid " at "
-msgstr ""
+msgstr "で"
 
 #: BOINCGUIApp.cpp:354 MainDocument.cpp:2484 MainDocument.cpp:2534
 #: MainDocument.cpp:2554 ViewTransfers.cpp:803
@@ -855,9 +773,7 @@ msgstr ")"
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
-msgstr ""
-"BOINC を正常に実行するためには再起動が必要です。\n"
-"あなたのコンピュータを再起動してから、もう一度試してください。"
+msgstr "BOINC を正常に実行するためには再起動が必要です。\nあなたのコンピュータを再起動してから、もう一度試してください。"
 
 #: BOINCGUIApp.cpp:385 DlgAbout.cpp:153
 msgid "BOINC Manager"
@@ -909,7 +825,7 @@ msgstr "BOINC Manager の複数インスタンス起動を許す"
 
 #: BOINCGUIApp.cpp:587
 msgid "Not used: workaround for bug in XCode 4.2"
-msgstr ""
+msgstr "未使用: XCode 4.2のバグ回避策"
 
 #: BOINCGUIApp.cpp:814
 msgid "(Automatic Detection)"
@@ -923,7 +839,6 @@ msgstr "(実装上のダミーエントリ1)"
 msgid "(User Defined)"
 msgstr "(実装上のダミーエントリ2)"
 
-# For account managers
 #: BOINCTaskBar.cpp:508
 #, c-format
 msgid "Open %s Web..."
@@ -953,9 +868,8 @@ msgid "Resume"
 msgstr "再開"
 
 #: BOINCTaskBar.cpp:639
-#, fuzzy
 msgid "Resume GPU"
-msgstr "再開"
+msgstr "GPUを再開"
 
 #: BOINCTaskBar.cpp:713
 msgid "Computing is enabled"
@@ -1019,7 +933,7 @@ msgid ""
 "Please try again later.\n"
 "\n"
 "Click Finish to close."
-msgstr ""
+msgstr "後でもう一度試してください。\n\n終了をクリックするとウィンドウを閉じます。"
 
 #: CompletionErrorPage.cpp:225 CompletionPage.cpp:222 CompletionPage.cpp:242
 #: CompletionPage.cpp:273
@@ -1042,9 +956,7 @@ msgstr "このプロジェクトの追加に成功しました。"
 msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
-msgstr ""
-"[終了] をクリックすると、アカウント名とプレファレンス (好みの設定) を\n"
-"指定するためのウェブページが開きます。"
+msgstr "[終了] をクリックすると、アカウント名とプレファレンス (好みの設定) を\n指定するためのウェブページが開きます。"
 
 #: CompletionPage.cpp:232
 #, c-format
@@ -1090,15 +1002,11 @@ msgstr "wxWidgets Version:"
 msgid "Copyright:"
 msgstr "Copyright:"
 
-# 98%
 #: DlgAbout.cpp:192
-#, fuzzy
 msgid ""
 "(C) 2003-2013 University of California, Berkeley.\n"
 "All Rights Reserved."
-msgstr ""
-"(C) 2003-2010 University of California, Berkeley.\n"
-"All Rights Reserved."
+msgstr "(C) 2003-2013 University of California, Berkeley.\nAll Rights Reserved."
 
 #: DlgAbout.cpp:196
 msgid "Berkeley Open Infrastructure for Network Computing"
@@ -1111,7 +1019,7 @@ msgstr "&OK"
 
 #: DlgAdvPreferences.cpp:544
 msgid "invalid number"
-msgstr ""
+msgstr "無効な番号"
 
 #: DlgAdvPreferences.cpp:545
 msgid "invalid time, format is HH:MM"
@@ -1132,41 +1040,41 @@ msgstr "検証エラー"
 #: DlgAdvPreferences.cpp:885 DlgAdvPreferences.cpp:891
 #: DlgAdvPreferences.cpp:897
 msgid "Applications to add"
-msgstr ""
+msgstr "追加するアプリケーション"
 
 #: DlgAdvPreferences.cpp:914
 #, c-format
 msgid "'%s' is not an executable application."
-msgstr ""
+msgstr "「 %s 」は実行可能なアプリケーションではありません。"
 
 #: DlgAdvPreferences.cpp:915 DlgAdvPreferences.cpp:962
 #: DlgAdvPreferences.cpp:986
 msgid "Add Exclusive App"
-msgstr ""
+msgstr "排他的なアプリケーションを追加"
 
 #: DlgAdvPreferences.cpp:927
 msgid "Name of application to add?"
-msgstr ""
+msgstr "追加するアプリケーションの名前は？"
 
 #: DlgAdvPreferences.cpp:927
 msgid "Add exclusive app"
-msgstr ""
+msgstr "排他的なアプリケーションを追加"
 
 #: DlgAdvPreferences.cpp:961
 #, c-format
 msgid "Application names must end with '%s'"
-msgstr ""
+msgstr "アプリケーション名は「 %s 」で終わる必要があります"
 
 #: DlgAdvPreferences.cpp:985
 #, c-format
 msgid "'%s' is already in the list."
-msgstr ""
+msgstr "「 %s 」は既にリストの中にあります。"
 
 #: DlgAdvPreferences.cpp:1077
 msgid ""
 "Do you really want to clear all local preferences?\n"
 "(This will not affect exclusive applications.)"
-msgstr ""
+msgstr "本当に全てのローカル・プリファレンスをクリアしますか？\n(これは排他的アプリケーションには影響しません。)"
 
 #: DlgAdvPreferences.cpp:1078 sg_DlgPreferences.cpp:1030
 msgid "Confirmation"
@@ -1178,15 +1086,11 @@ msgid "%s - Preferences"
 msgstr "%s - プレファレンス（好みの設定）"
 
 #: DlgAdvPreferencesBase.cpp:62
-#, fuzzy
 msgid ""
 "This dialog controls preferences for this computer only.\n"
 "Click OK to set preferences.\n"
 "Click Clear to restore web-based settings (except exclusive apps)."
-msgstr ""
-"ここでは、このコンピュータだけに適用するプレファレンスを変更します。\n"
-"変更をするならば、OKをクリックしてください。\n"
-"プロジェクトウェブサイトで設定した値に戻すなら、[クリア]をクリックしてください。"
+msgstr "ここでは、このコンピュータだけに適用するプレファレンスを管理します。\n設定するにはOKをクリックしてください。\nプロジェクトのウェブサイトで設定した値に戻すなら、[クリア]をクリックしてください。"
 
 #: DlgAdvPreferencesBase.cpp:65 sg_DlgPreferences.cpp:428
 msgid "Clear"
@@ -1210,7 +1114,7 @@ msgstr "ディスクおよびメモリ使用"
 
 #: DlgAdvPreferencesBase.cpp:90
 msgid "exclusive applications"
-msgstr ""
+msgstr "排他的なアプリケーション"
 
 #: DlgAdvPreferencesBase.cpp:102 sg_DlgPreferences.cpp:424
 msgid "OK"
@@ -1356,7 +1260,6 @@ msgstr "その他のオプション"
 msgid "Switch between applications every"
 msgstr "アプリケーションの切り替え間隔"
 
-# This entry is paired with "% of processors".
 #: DlgAdvPreferencesBase.cpp:339
 msgid "On multiprocessor systems, use at most"
 msgstr "マルチプロセッサの場合、全プロセッサのうち使うのは"
@@ -1364,7 +1267,7 @@ msgstr "マルチプロセッサの場合、全プロセッサのうち使うの
 #: DlgAdvPreferencesBase.cpp:346
 #, no-c-format
 msgid "% of the processors (0 means ignore this setting)"
-msgstr ""
+msgstr "%、プロセッサの利用割合(0を指定するとこの設定は無視されます)"
 
 #: DlgAdvPreferencesBase.cpp:349 DlgAdvPreferencesBase.cpp:605
 #: DlgAdvPreferencesBase.cpp:627 DlgAdvPreferencesBase.cpp:648
@@ -1393,44 +1296,38 @@ msgstr "キロバイト/秒"
 msgid "Maximum upload rate"
 msgstr "最大アップロード速度"
 
-# This sequence of texts and forms deeply depends on English. Hardly to be traslated into Japanese in normal manner.
 #: DlgAdvPreferencesBase.cpp:406
 msgid "Transfer at most"
 msgstr "一定期間内の転送量上限："
 
-# This sequence of texts and forms deeply depends on English. Hardly to be traslated into Japanese in normal manner.
 #: DlgAdvPreferencesBase.cpp:412
 msgid "Mbytes"
 msgstr "M バイトまでを"
 
-# This sequence of texts and forms deeply depends on English. Hardly to be traslated into Japanese in normal manner.
 #: DlgAdvPreferencesBase.cpp:415
 msgid "every"
 msgstr "右の期間内で許可"
 
-# This sequence of texts and forms deeply depends on English. Hardly to be traslated into Japanese in normal manner.
 #: DlgAdvPreferencesBase.cpp:421 DlgAdvPreferencesBase.cpp:444
 #: DlgAdvPreferencesBase.cpp:463
 msgid "days"
 msgstr "日"
 
 #: DlgAdvPreferencesBase.cpp:429
-#, fuzzy
 msgid "Minimum work buffer"
-msgstr "仕事の備蓄"
+msgstr "仕事の備蓄の最低量"
 
 #: DlgAdvPreferencesBase.cpp:438
 msgid "Try to maintain enough tasks to keep busy for this many days"
-msgstr ""
+msgstr "この何日間か忙しく保つために十分なタスクを維持してみてください"
 
 #: DlgAdvPreferencesBase.cpp:450
-#, fuzzy
 msgid "Max additional work buffer"
-msgstr "仕事の備蓄"
+msgstr "追加の仕事の備蓄の最大量"
 
 #: DlgAdvPreferencesBase.cpp:459
 msgid "In addition, maintain enough tasks for up to this many days"
-msgstr ""
+msgstr "さらに、この何日間かに至るまで十分なタスクを維持してください。"
 
 #: DlgAdvPreferencesBase.cpp:466
 msgid "Skip image file verification"
@@ -1450,8 +1347,8 @@ msgstr "インターネットに接続する前に確認する"
 
 #: DlgAdvPreferencesBase.cpp:480
 msgid ""
-"if checked, a confirmation dialog will be displayed before trying to connect "
-"to the Internet"
+"if checked, a confirmation dialog will be displayed before trying to connect"
+" to the Internet"
 msgstr "チェックを入れると、インターネットに接続する前に確認ダイアログが表示されます。"
 
 #: DlgAdvPreferencesBase.cpp:484
@@ -1462,9 +1359,7 @@ msgstr "終わったら切断"
 msgid ""
 "if checked, BOINC hangs up when network usage is done\n"
 "(only relevant for dialup-connection)"
-msgstr ""
-"チェックを入れると、ネットワーク使用終了時に BOINC が電話を切ります\n"
-"(ダイアルアップ接続の場合のみ有意)"
+msgstr "チェックを入れると、ネットワーク使用終了時に BOINC が電話を切ります\n(ダイアルアップ接続の場合のみ有意)"
 
 #: DlgAdvPreferencesBase.cpp:492
 msgid "Network usage allowed"
@@ -1549,15 +1444,15 @@ msgstr "チェックをいれると、休止中のワークユニットはメモ
 #: DlgAdvPreferencesBase.cpp:713
 msgid ""
 "Suspend processor and network usage when these applications are running:"
-msgstr ""
+msgstr "これらのアプリケーションが動作中の場合プロセッサとネットワーク使用を一時停止:"
 
 #: DlgAdvPreferencesBase.cpp:722
 msgid "Add..."
-msgstr ""
+msgstr "追加…"
 
 #: DlgAdvPreferencesBase.cpp:723
 msgid "Add an application to this list"
-msgstr ""
+msgstr "このリストにアプリケーションを追加"
 
 #: DlgAdvPreferencesBase.cpp:728 ViewProjects.cpp:202
 #: sg_ProjectCommandPopup.cpp:85
@@ -1566,11 +1461,11 @@ msgstr "削除"
 
 #: DlgAdvPreferencesBase.cpp:729
 msgid "Remove an application from this list"
-msgstr ""
+msgstr "このリストからアプリケーションを削除"
 
 #: DlgAdvPreferencesBase.cpp:738
 msgid "For advanced options, refer to "
-msgstr ""
+msgstr "上級オプションについては以下を参照してください"
 
 #: DlgEventLog.cpp:219
 #, c-format
@@ -1592,12 +1487,10 @@ msgid "Message"
 msgstr "メッセージ"
 
 #: DlgEventLog.cpp:290 DlgEventLog.cpp:354
-#, fuzzy
 msgid "&Show only this project"
-msgstr "このプロジェクトだけを表示"
+msgstr "およびこのプロジェクトだけを表示"
 
 #: DlgEventLog.cpp:294
-#, fuzzy
 msgid "Copy &All"
 msgstr "すべてコピー"
 
@@ -1606,23 +1499,22 @@ msgid "Copy all the messages to the clipboard."
 msgstr "全メッセージをクリップボードにコピーします"
 
 #: DlgEventLog.cpp:305
-#, fuzzy
 msgid "Copy &Selected"
 msgstr "選択部分をコピー"
 
 #: DlgEventLog.cpp:308 DlgEventLog.cpp:316 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
-"messages by holding down the shift or command key while clicking on messages."
+"messages by holding down the shift or command key while clicking on "
+"messages."
 msgstr "選択したメッセージをクリップボードにコピーします。シフトまたはコマンドキーを押しながらクリックすることで複数のメッセージを選択できます。"
 
 #: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
-"messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"選択したメッセージをクリップボードにコピーします。シフトまたはコントロールキーを押しながら、メッセージをクリックすれば複数のメッセージを選択状態にできま"
-"す。 "
+"messages by holding down the shift or control key while clicking on "
+"messages."
+msgstr "選択したメッセージをクリップボードにコピーします。シフトまたはコントロールキーを押しながら、メッセージをクリックすれば複数のメッセージを選択状態にできます。 "
 
 #: DlgEventLog.cpp:325 DlgItemProperties.cpp:67
 msgid "&Close"
@@ -1634,7 +1526,6 @@ msgid "Get help with %s"
 msgstr "%s について助けを求める"
 
 #: DlgEventLog.cpp:348
-#, fuzzy
 msgid "Show all &messages"
 msgstr "全メッセージを表示"
 
@@ -1660,11 +1551,10 @@ msgid ""
 "\n"
 "If you also want to stop running the tasks,\n"
 "choose from the following options:"
-msgstr ""
+msgstr "あなたはコンピュータ上で動作するタスクを閲覧し管理することを許可する %s を終了するよう要求しました。\n\nもしタスクの動作も停止する場合は、以下のオプションから選択します。"
 
 #: DlgExitMessage.cpp:135
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "This will shut down %s and its tasks until either the\n"
 "%s or the %s screen saver is run again.\n"
@@ -1672,18 +1562,12 @@ msgid ""
 "In most cases, it is better just to close the %s window\n"
 "rather than to exit the application; that will allow %s to run its\n"
 "tasks at the times you selected in your preferences."
-msgstr ""
-"%s とそのタスクを完全に終了させます。　その後 %s アプリケーション\n"
-"または %s スクリーンセイバーが再起動されるまでは再開しません。\n"
-"\n"
-"多くの場合，アプリケーションを終了するよりも %s ウィンドウを閉じるだけ\n"
-"のほうが良いでしょう。そうすれば、プレファレンス (好みの設定) で\n"
-"あなたが設定した時間帯に %s タスクが走ります。"
+msgstr "%s とそのタスクを完全に終了させます。　その後 %s アプリケーション\nまたは %s スクリーンセイバーが再起動されるまでは再開しません。\n\n多くの場合，アプリケーションを終了するよりも %s ウィンドウを閉じるだけ\nのほうが良いでしょう。そうすれば、プレファレンス (好みの設定) で\nあなたが設定した時間帯に %s タスクが走ります。"
 
 #: DlgExitMessage.cpp:153
 #, c-format
 msgid "Stop running tasks when exiting the %s"
-msgstr ""
+msgstr "%s を終了するときタスクの動作を停止する"
 
 #: DlgExitMessage.cpp:165
 msgid "Remember this decision and do not show this dialog."
@@ -1700,37 +1584,32 @@ msgstr "再びこのダイアログを表示しない"
 
 #: DlgItemProperties.cpp:168 DlgItemProperties.cpp:171
 #: DlgItemProperties.cpp:174 DlgItemProperties.cpp:177
-#, fuzzy
 msgid "Don't fetch tasks for "
-msgstr "CPU向けタスクを新たに取得しない"
+msgstr "このプロジェクトのタスクを取得しない: "
 
 #: DlgItemProperties.cpp:168
 msgid "Project preference"
 msgstr "プロジェクトごとのプレファレンス"
 
 #: DlgItemProperties.cpp:171
-#, fuzzy
 msgid "Account manager preference"
-msgstr "アカウント・マネージャのウェブサイト"
+msgstr "アカウント・マネージャのプレファレンス(好みの設定)"
 
 #: DlgItemProperties.cpp:174
-#, fuzzy
 msgid "Project has no apps for "
-msgstr "プロジェクトのウェブサイト"
+msgstr "プロジェクトには以下に適したアプリケーションがありません:"
 
 #: DlgItemProperties.cpp:177
 msgid "Client configuration excludes "
-msgstr ""
+msgstr "クライアントの環境設定を除外する"
 
 #: DlgItemProperties.cpp:181
-#, fuzzy
 msgid " work fetch deferred for"
-msgstr "CPU 向けの仕事を獲得する処理の保留時間"
+msgstr "仕事取得の保留時間"
 
 #: DlgItemProperties.cpp:182
-#, fuzzy
 msgid " work fetch deferral interval"
-msgstr "CPU 向けの仕事を獲得する処理の保留間隔"
+msgstr "仕事取得処理の保留時間の間隔"
 
 #: DlgItemProperties.cpp:213
 msgid "Properties of project "
@@ -1801,7 +1680,7 @@ msgstr "スケジューラへ要求中"
 
 #: DlgItemProperties.cpp:242
 msgid "Trickle-up pending"
-msgstr ""
+msgstr "トリクルアップの送信保留あり"
 
 #: DlgItemProperties.cpp:245 DlgItemProperties.cpp:247
 msgid "Host location"
@@ -1840,15 +1719,13 @@ msgid "Scheduling"
 msgstr "スケジューリング"
 
 #: DlgItemProperties.cpp:277
-#, fuzzy
 msgid "Scheduling priority"
-msgstr "CPU 向けスケジューリングの優先度"
+msgstr "スケジューリングの優先度"
 
 #: DlgItemProperties.cpp:278
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
-# good translation not found
 #: DlgItemProperties.cpp:302
 msgid "Duration correction factor"
 msgstr "Duration correction factor"
@@ -1883,7 +1760,7 @@ msgstr "リソース"
 
 #: DlgItemProperties.cpp:341
 msgid "Estimated computation size"
-msgstr ""
+msgstr "推定計算量"
 
 #: DlgItemProperties.cpp:344
 msgid "CPU time at last checkpoint"
@@ -1927,7 +1804,7 @@ msgstr "Local:"
 
 #: DlgOptions.cpp:129 DlgOptions.cpp:135
 msgid "Options"
-msgstr ""
+msgstr "オプション"
 
 #: DlgOptions.cpp:175
 msgid "Language:"
@@ -2042,7 +1919,6 @@ msgstr "1時間"
 msgid "6 hours"
 msgstr "6時間"
 
-# This sequence of texts and forms deeply depends on English. Hardly to be traslated into Japanese in normal manner.
 #: DlgOptions.cpp:589
 msgid "1 day"
 msgstr "1日"
@@ -2051,7 +1927,6 @@ msgstr "1日"
 msgid "1 week"
 msgstr "1週間"
 
-# This sequence of texts and forms deeply depends on English. Hardly to be traslated into Japanese in normal manner.
 #: DlgOptions.cpp:591
 msgid "never"
 msgstr "通知しない"
@@ -2063,7 +1938,6 @@ msgstr "%s - 言語の選択"
 
 #: DlgOptions.cpp:695
 #, c-format
-#, fuzzy, c-format
 msgid ""
 "The %s's language has been changed.  In order for this change to take "
 "effect, you must restart the %s."
@@ -2079,9 +1953,7 @@ msgstr "%s - コンピュータの選択"
 msgid ""
 "Another instance of %s is already running \n"
 "on this computer.  Please select a client to monitor."
-msgstr ""
-"このコンピュータではすでに %s の別のインスタンスが\n"
-"走っています。監視するクライアントを選択してください。"
+msgstr "このコンピュータではすでに %s の別のインスタンスが\n走っています。監視するクライアントを選択してください。"
 
 #: DlgSelectComputer.cpp:143
 msgid "Host name:"
@@ -2286,15 +2158,14 @@ msgid "Retrieving system state; please wait..."
 msgstr "システムの状態を読み出しています。お待ちください..."
 
 #: MainDocument.cpp:1816
-#, fuzzy
 msgid "Missing application"
-msgstr "アプリケーション"
+msgstr "見つからないアプリケーション"
 
 #: MainDocument.cpp:1817
 msgid ""
-"Please download and install the CoRD application from http://cord."
-"sourceforge.net"
-msgstr ""
+"Please download and install the CoRD application from "
+"http://cord.sourceforge.net"
+msgstr "http://cord.sourceforge.net から CoRD アプリケーションをダウンロードし、インストールしてください。"
 
 #: MainDocument.cpp:2432
 msgid "on batteries"
@@ -2342,7 +2213,7 @@ msgstr "ネットワーク帯域幅の制約超過"
 
 #: MainDocument.cpp:2443
 msgid "requested by operating system"
-msgstr ""
+msgstr "オペレーティングシステムの指示による"
 
 #: MainDocument.cpp:2445
 msgid "unknown reason"
@@ -2380,11 +2251,9 @@ msgstr "参加者によってタスク一時停止"
 msgid "Suspended - "
 msgstr "一時停止中 - "
 
-# 75%
 #: MainDocument.cpp:2500
-#, fuzzy
 msgid "GPU suspended - "
-msgstr "(一時停止中 - "
+msgstr "GPUは一時停止中 -"
 
 #: MainDocument.cpp:2507
 msgid "Waiting for memory"
@@ -2416,16 +2285,15 @@ msgstr "開始まで待機"
 
 #: MainDocument.cpp:2532
 msgid " (Scheduler wait: "
-msgstr ""
+msgstr "(スケジューラーを待機中:"
 
 #: MainDocument.cpp:2536
 msgid " (Scheduler wait)"
-msgstr ""
+msgstr "(スケジューラを待機中)"
 
 #: MainDocument.cpp:2540
-#, fuzzy
 msgid " (Waiting for network access)"
-msgstr "メモリ不足のため待機"
+msgstr "(ネットワーク接続の待機中)"
 
 #: MainDocument.cpp:2544
 msgid "Computation error"
@@ -2453,15 +2321,15 @@ msgstr "中止されました： 期限までに開始されませんでした"
 
 #: MainDocument.cpp:2570
 msgid "Aborted: disk limit exceeded"
-msgstr ""
+msgstr "中止: ディスクの利用可能領域超過のため"
 
 #: MainDocument.cpp:2573
 msgid "Aborted: run time limit exceeded"
-msgstr ""
+msgstr "中止: 報告期限超過のため"
 
 #: MainDocument.cpp:2576
 msgid "Aborted: memory limit exceeded"
-msgstr ""
+msgstr "中止: メモリの利用可能領域超過のため"
 
 #: MainDocument.cpp:2579
 msgid "Aborted"
@@ -2497,10 +2365,7 @@ msgid ""
 "The URL you supplied is not that of a BOINC-based project.\n"
 "\n"
 "Please check the URL and try again."
-msgstr ""
-"指定した URL は BOINC ベースのプロジェクトのものではありません。\n"
-"\n"
-"URL を確認の上、もう一度試してください。"
+msgstr "指定した URL は BOINC ベースのプロジェクトのものではありません。\n\nURL を確認の上、もう一度試してください。"
 
 #: NotDetectedPage.cpp:188
 msgid "Account manager not found"
@@ -2512,11 +2377,7 @@ msgid ""
 "manager.\n"
 "\n"
 "Please check the URL and try again."
-msgstr ""
-"指定した URL は BOINC ベースのアカウント・マネージャの\n"
-"ものではありません。\n"
-"\n"
-"URL を確認の上、もう一度試してください。"
+msgstr "指定した URL は BOINC ベースのアカウント・マネージャの\nものではありません。\n\nURL を確認の上、もう一度試してください。"
 
 #: NotFoundPage.cpp:181
 msgid "Login Failed."
@@ -2536,7 +2397,7 @@ msgstr "つづく..."
 
 #: ProjectInfoPage.cpp:477 ProjectInfoPage.cpp:778 ProjectInfoPage.cpp:782
 msgid "All"
-msgstr ""
+msgstr "すべて"
 
 #: ProjectInfoPage.cpp:615
 msgid "Choose a project"
@@ -2548,38 +2409,35 @@ msgstr "プロジェクトを選択するには、その名前をクリックす
 
 #: ProjectInfoPage.cpp:623
 msgid "Categories:"
-msgstr ""
+msgstr "分類:"
 
 #: ProjectInfoPage.cpp:627 sg_ProjectPanel.cpp:89
-#, fuzzy
 msgid "Projects:"
-msgstr "プロジェクト"
+msgstr "プロジェクト:"
 
 #: ProjectInfoPage.cpp:631
 msgid "Project details"
-msgstr ""
+msgstr "プロジェクトの詳細情報"
 
 #: ProjectInfoPage.cpp:635
 msgid "Research area:"
-msgstr ""
+msgstr "研究範囲:"
 
 #: ProjectInfoPage.cpp:639
 msgid "Organization:"
-msgstr ""
+msgstr "組織:"
 
 #: ProjectInfoPage.cpp:643
-#, fuzzy
 msgid "Web site:"
-msgstr "ウェブサイト"
+msgstr "ウェブサイト:"
 
 #: ProjectInfoPage.cpp:647
 msgid "Supported systems:"
-msgstr ""
+msgstr "サポートされるプラットフォーム:"
 
 #: ProjectInfoPage.cpp:651
-#, fuzzy
 msgid "Project URL:"
-msgstr "プロジェクトの &URL："
+msgstr "プロジェクトのURL:"
 
 #: ProjectInfoPage.cpp:826
 msgid ""
@@ -2607,9 +2465,7 @@ msgstr "サーバ内部で異常が発生しました。"
 msgid ""
 "Communicating with project\n"
 "Please wait..."
-msgstr ""
-"プロジェクトと通信中\n"
-"お待ちください..."
+msgstr "プロジェクトと通信中\nお待ちください..."
 
 #: ProxyInfoPage.cpp:195
 msgid "Network communication failure"
@@ -2630,20 +2486,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr ""
-"The World Community Grid -  BOINC ソフトウェアはインターネット上での\n"
-"通信に失敗しました。よくある原因は以下のとおりです。\n"
-"\n"
-"1) 接続に問題がある場合。 あなたのネットワークまたはモデムの接続を\n"
-"チェックし、[戻る] をクリックしてもう一度試してください。\n"
-"\n"
-"2) パーソナル・ファイアウォールが The World Community Grid - BOINC の\n"
-"通信をブロックしている場合。 BOINC および BOINC Manager が\n"
-"ポート番号 80 と 443で通信できるようにパーソナル・ファイアウォールを設定\n"
-"します。設定したら [戻る] をクリックしてもう一度試してください。\n"
-"\n"
-"3) プロキシ・サーバを使っている場合。\n"
-"[次へ] をクリックして BOINC のプロキシ設定を行ってください。"
+msgstr "The World Community Grid -  BOINC ソフトウェアはインターネット上での\n通信に失敗しました。よくある原因は以下のとおりです。\n\n1) 接続に問題がある場合。 あなたのネットワークまたはモデムの接続を\nチェックし、[戻る] をクリックしてもう一度試してください。\n\n2) パーソナル・ファイアウォールが The World Community Grid - BOINC の\n通信をブロックしている場合。 BOINC および BOINC Manager が\nポート番号 80 と 443で通信できるようにパーソナル・ファイアウォールを設定\nします。設定したら [戻る] をクリックしてもう一度試してください。\n\n3) プロキシ・サーバを使っている場合。\n[次へ] をクリックして BOINC のプロキシ設定を行ってください。"
 
 #: ProxyInfoPage.cpp:203
 msgid ""
@@ -2660,20 +2503,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr ""
-"BOINC はインターネット上での通信に失敗しました。\n"
-"よくある原因は以下のとおりです。\n"
-"\n"
-"1) 接続に問題がある場合。あなたのネットワークまたはモデムの接続を\n"
-"チェックし、[戻る] をクリックしてもう一度試してください。\n"
-"\n"
-"2) パーソナル・ファイアウォールが BOINC の通信をブロックしている場合。\n"
-"BOINC および  BOINC Manager がポート番号 80 で通信できるように\n"
-"パーソナル・ファイアウォールを設定します。設定したら [戻る] をクリック\n"
-"してもう一度試してください。\n"
-"\n"
-"3) プロキシ・サーバを使っている場合。\n"
-"[次へ] をクリックして BOINC のプロキシ設定を行ってください。"
+msgstr "BOINC はインターネット上での通信に失敗しました。\nよくある原因は以下のとおりです。\n\n1) 接続に問題がある場合。あなたのネットワークまたはモデムの接続を\nチェックし、[戻る] をクリックしてもう一度試してください。\n\n2) パーソナル・ファイアウォールが BOINC の通信をブロックしている場合。\nBOINC および  BOINC Manager がポート番号 80 で通信できるように\nパーソナル・ファイアウォールを設定します。設定したら [戻る] をクリック\nしてもう一度試してください。\n\n3) プロキシ・サーバを使っている場合。\n[次へ] をクリックして BOINC のプロキシ設定を行ってください。"
 
 #: ProxyPage.cpp:331
 msgid "Proxy configuration"
@@ -2708,7 +2538,6 @@ msgid "I agree to the terms of use."
 msgstr "使用条件に合意する。"
 
 #: TermsOfUsePage.cpp:237
-#, fuzzy
 msgid "I do not agree to the terms of use."
 msgstr "使用条件に合意しない。"
 
@@ -2721,10 +2550,7 @@ msgid ""
 "The project is temporarily unavailable.\n"
 "\n"
 "Please try again later."
-msgstr ""
-"プロジェクトは一時的に利用できません。\n"
-"\n"
-"少し待ってからもう一度試してください。"
+msgstr "プロジェクトは一時的に利用できません。\n\n少し待ってからもう一度試してください。"
 
 #: UnavailablePage.cpp:190
 msgid "Account manager temporarily unavailable"
@@ -2735,10 +2561,7 @@ msgid ""
 "The account manager is temporarily unavailable.\n"
 "\n"
 "Please try again later."
-msgstr ""
-"アカウント・マネージャは一時的に利用できません。\n"
-"\n"
-"少し待ってからもう一度試してください。"
+msgstr "アカウント・マネージャは一時的に利用できません。\n\n少し待ってからもう一度試してください。"
 
 #: ValidateAccountKey.cpp:68
 msgid "Please specify an account key to continue."
@@ -2769,10 +2592,7 @@ msgid ""
 "Please specify a URL.\n"
 "For example:\n"
 "http://www.example.com/"
-msgstr ""
-"URL を指定してください。\n"
-"例：\n"
-"\t http://www.example.com/"
+msgstr "URL を指定してください。\n例：\n\t http://www.example.com/"
 
 #: ValidateURL.cpp:83 ValidateURL.cpp:87 ValidateURL.cpp:91
 #: ValidateURL.cpp:103 ValidateURL.cpp:107 ValidateURL.cpp:110
@@ -2784,10 +2604,7 @@ msgid ""
 "Please specify a valid URL.\n"
 "For example:\n"
 "http://boincproject.example.com"
-msgstr ""
-"正しい URL を指定してください。\n"
-"例：\n"
-"\t http://boincproject.example.com"
+msgstr "正しい URL を指定してください。\n例：\n\t http://boincproject.example.com"
 
 #: ValidateURL.cpp:104 ValidateURL.cpp:108
 #, c-format
@@ -2846,7 +2663,7 @@ msgstr "すべてのプロジェクトのメッセージを表示"
 
 #: ViewNotices.cpp:58 sg_DlgMessages.cpp:124
 msgid "Fetching notices; please wait..."
-msgstr ""
+msgstr "お知らせを取得中、お待ち下さい…"
 
 #: ViewNotices.cpp:65 sg_DlgMessages.cpp:132
 msgid "There are no notices at this time."
@@ -2893,18 +2710,15 @@ msgstr "プロジェクトをリセット"
 
 #: ViewProjects.cpp:196 sg_ProjectCommandPopup.cpp:80
 msgid ""
-"Delete all files and tasks associated with this project, and get new tasks.  "
-"You can update the project first to report any completed tasks."
-msgstr ""
-"このプロジェクトに関係するすべてのファイルとタスクを削除し新しいタスクを取得します。 "
-"完了した仕事を報告するには、先にプロジェクトを最新状態に「更新」してください。"
+"Delete all files and tasks associated with this project, and get new tasks."
+"  You can update the project first to report any completed tasks."
+msgstr "このプロジェクトに関係するすべてのファイルとタスクを削除し新しいタスクを取得します。 完了した仕事を報告するには、先にプロジェクトを最新状態に「更新」してください。"
 
 #: ViewProjects.cpp:203 sg_ProjectCommandPopup.cpp:86
 msgid ""
 "Remove this project.  Tasks in progress will be lost (use 'Update' first to "
 "report any completed tasks)."
-msgstr ""
-"このプロジェクトを削除します。作業中のタスクは消えてしまいます。 (完了したタスクを報告するため、削除する前にプロジェクトの「更新」を行ってください)"
+msgstr "このプロジェクトを削除します。作業中のタスクは消えてしまいます。 (完了したタスクを報告するため、削除する前にプロジェクトの「更新」を行ってください)"
 
 #: ViewProjects.cpp:209 ViewWork.cpp:222 sg_ProjectCommandPopup.cpp:91
 #: sg_TaskCommandPopup.cpp:78
@@ -3239,7 +3053,7 @@ msgstr "今すぐ再試行"
 
 #: ViewTransfers.cpp:165
 msgid "Retry the file transfer now"
-msgstr ""
+msgstr "今すぐファイル転送を再試行"
 
 #: ViewTransfers.cpp:171
 msgid "Abort Transfer"
@@ -3247,7 +3061,7 @@ msgstr "ファイル転送を中止"
 
 #: ViewTransfers.cpp:172
 msgid "Abort this file transfer.  You won't get credit for the task."
-msgstr ""
+msgstr "このファイル転送を中止。そのタスクの功績(功績値)を得ることができません。"
 
 #: ViewTransfers.cpp:183
 msgid "File"
@@ -3281,9 +3095,7 @@ msgstr "ネットワーク通信は一時停止しています。"
 msgid ""
 ".\n"
 "You can enable it using the Activity menu."
-msgstr ""
-".\n"
-"再開させるには、アクティビティのメニューから操作してください。"
+msgstr ".\n再開させるには、アクティビティのメニューから操作してください。"
 
 #: ViewTransfers.cpp:285
 msgid "BOINC"
@@ -3303,10 +3115,7 @@ msgid ""
 "Are you sure you want to abort this file transfer '%s'?\n"
 "NOTE: Aborting a transfer will invalidate a task and you\n"
 "will not receive credit for it."
-msgstr ""
-"このファイル転送 '%s' を中止してよいですか？\n"
-"注意： 転送を中止するとタスクはキャンセルされたことになり\n"
-"功績（クレジット）は付与されなくなります。"
+msgstr "このファイル転送 '%s' を中止してよいですか？\n注意： 転送を中止するとタスクはキャンセルされたことになり\n功績（クレジット）は付与されなくなります。"
 
 #: ViewTransfers.cpp:349
 msgid "Abort File Transfer"
@@ -3314,32 +3123,31 @@ msgstr "ファイル転送を中止"
 
 #: ViewTransfers.cpp:780
 msgid "Upload"
-msgstr ""
+msgstr "アップロード"
 
 #: ViewTransfers.cpp:780
 msgid "Download"
-msgstr ""
+msgstr "ダウンロード"
 
 #: ViewTransfers.cpp:784
-#, fuzzy
 msgid "retry in "
-msgstr "右記の時間内に再試行："
+msgstr "右記の時間内に再試行:"
 
 #: ViewTransfers.cpp:786
 msgid "failed"
-msgstr ""
+msgstr "失敗"
 
 #: ViewTransfers.cpp:789
 msgid "suspended"
-msgstr ""
+msgstr "一時停止中"
 
 #: ViewTransfers.cpp:794
 msgid "active"
-msgstr ""
+msgstr "活動中"
 
 #: ViewTransfers.cpp:796
 msgid "pending"
-msgstr ""
+msgstr "保留中"
 
 #: ViewTransfers.cpp:803
 msgid " (project backoff: "
@@ -3362,14 +3170,12 @@ msgid "Show application graphics in a window."
 msgstr "ウィンドウを開いてアプリケーションのグラフィクスを表示"
 
 #: ViewWork.cpp:201
-#, fuzzy
 msgid "Show VM Console"
-msgstr "計算機の合計功績を表示"
+msgstr "VMのコンソールを表示"
 
 #: ViewWork.cpp:202
-#, fuzzy
 msgid "Show VM Console in a window."
-msgstr "ウィンドウを開いてアプリケーションのグラフィクスを表示"
+msgstr "ウィンドウを開いてVMのコンソールを表示"
 
 #: ViewWork.cpp:209
 msgid "Suspend work for this result."
@@ -3392,9 +3198,8 @@ msgid "Elapsed"
 msgstr "経過時間"
 
 #: ViewWork.cpp:236
-#, fuzzy
 msgid "Remaining (estimated)"
-msgstr "終了までの予想時間"
+msgstr "残り時間(推定)"
 
 #: ViewWork.cpp:237
 msgid "Deadline"
@@ -3417,18 +3222,15 @@ msgid "Showing graphics for task..."
 msgstr "タスクについてのグラフィクスを表示しています..."
 
 #: ViewWork.cpp:426
-#, fuzzy
 msgid "Showing VM console for task..."
-msgstr "タスクについてのグラフィクスを表示しています..."
+msgstr "タスクについてのVMのコンソールを表示しています..."
 
 #: ViewWork.cpp:479
 #, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
-msgstr ""
-"このタスク '%s' を中止してよろしいですか？\n"
-"(進捗状況： %s, 状態： %s)"
+msgstr "このタスク '%s' を中止してよろしいですか？\n(進捗状況： %s, 状態： %s)"
 
 #: ViewWork.cpp:485
 #, c-format
@@ -3439,11 +3241,9 @@ msgstr "この %d 番のタスクを本当に中止したいですか？"
 msgid "Abort task"
 msgstr "タスクを中止"
 
-# 75%
 #: ViewWork.cpp:499
-#, fuzzy
 msgid "Aborting task..."
-msgstr "ファイル転送の中止処理をしています..."
+msgstr "タスクを中止しています…"
 
 #: ViewWork.cpp:771
 msgid "Show all tasks"
@@ -3467,7 +3267,7 @@ msgstr "プロジェクトあるいはアカウント・マネージャを追加
 
 #: WelcomePage.cpp:288
 msgid "Add project or use BOINC Account Manager"
-msgstr ""
+msgstr "プロジェクトを追加あるいはアカウント・マネージャを利用"
 
 #: WelcomePage.cpp:297
 #, c-format
@@ -3477,12 +3277,7 @@ msgid ""
 "\n"
 "Projects added via this wizard will not be\n"
 "listed on or managed via %s."
-msgstr ""
-"可能ならば、%sウェブサイトで\n"
-"プロジェクトを追加してください。\n"
-"\n"
-"このウィザードでプロジェクトを追加すると\n"
-"%s 上で表示・管理できません。"
+msgstr "可能ならば、%sウェブサイトで\nプロジェクトを追加してください。\n\nこのウィザードでプロジェクトを追加すると\n%s 上で表示・管理できません。"
 
 #: WelcomePage.cpp:313
 msgid ""
@@ -3491,35 +3286,26 @@ msgid ""
 "and you can volunteer for as many of them as you like.\n"
 "You can add a project directly,\n"
 "or use an 'Account Manager' web site to select projects."
-msgstr ""
-"BOINC を使っているプロジェクトは30以上あり、科学の多く\n"
-"の領域で研究をしています。どの研究にも好きなだけボラン\n"
-"ティアとして参加できます。プロジェクトを参加範囲に入れ\n"
-"るには、プロジェクト毎に追加するか、アカウントマネージャ\n"
-"のウェブサイトでまとめて選んで追加します。"
+msgstr "BOINC を使っているプロジェクトは30以上あり、科学の多く\nの領域で研究をしています。どの研究にも好きなだけボラン\nティアとして参加できます。プロジェクトを参加範囲に入れ\nるには、プロジェクト毎に追加するか、アカウントマネージャ\nのウェブサイトでまとめて選んで追加します。"
 
 #: WelcomePage.cpp:325
 msgid ""
-"You have chosen to add a new volunteer computing project or change which "
-"projects\n"
+"You have chosen to add a new volunteer computing project or change which projects\n"
 "you contribute to.\n"
 "\n"
-"Some of these projects are run and managed by World Community Grid, while "
-"others\n"
-"are run and managed by other researchers or organizations. The BOINC "
-"software\n"
+"Some of these projects are run and managed by World Community Grid, while others\n"
+"are run and managed by other researchers or organizations. The BOINC software\n"
 "can divide your spare processing power among any combination of projects.\n"
 "\n"
-"Alternatively, if you have registered with a BOINC Account Manager, you can "
-"use\n"
+"Alternatively, if you have registered with a BOINC Account Manager, you can use\n"
 "this to choose which projects to support.\n"
 "\n"
 "Please choose which type of change you would like to make:\n"
-msgstr ""
+msgstr "新しいボランティア・コンピューティング・プロジェクトの追加もしくは貢献するプロジェクトの変更を選択しました。\n\nこれらのプロジェクトのいくつかは World Community Grid によって実行・管理され、同時に他の研究者や組織によって実行・管理されます。BOINC ソフトウェアはプロジェクトの任意の組み合わせの中からあなたの予備の処理能力を振り分けることができます。\n\nあるいは、あなたが BOINC アカウント・マネージャ に登録している場合、支援するプロジェクトの選択のためにそれを利用することができます。\n\n変更したいタイプを選択してください:\n"
 
 #: WelcomePage.cpp:339
 msgid "Use a BOINC Account Manager"
-msgstr ""
+msgstr "BOINC アカウント・マネージャを使用する"
 
 #: WelcomePage.cpp:352
 msgid "To continue, click Next."
@@ -3527,11 +3313,11 @@ msgstr "続けるには [次へ] をクリックしてください。"
 
 #: WelcomePage.cpp:358
 msgid "Add or change your World Community Grid projects"
-msgstr ""
+msgstr "World Community Grid のプロジェクトを追加あるいは変更"
 
 #: WelcomePage.cpp:361
 msgid "Add projects run by other researchers or organizations"
-msgstr ""
+msgstr "他の研究者あるいは組織が運営するプロジェクトを追加"
 
 #: WizardAttach.cpp:634
 msgid "Do you really want to cancel?"
@@ -3555,7 +3341,7 @@ msgstr "スキン"
 
 #: sg_BoincSimpleFrame.cpp:159
 msgid "Select the appearance of the user interface."
-msgstr ""
+msgstr "ユーザーインターフェースの外見を選択"
 
 #: sg_BoincSimpleFrame.cpp:206
 #, c-format
@@ -3563,17 +3349,16 @@ msgid "&%s"
 msgstr "&%s"
 
 #: sg_BoincSimpleFrame.cpp:390
-#, fuzzy
 msgid "Default"
-msgstr "デフォルト"
+msgstr "指定省略時の扱い"
 
 #: sg_BoincSimpleFrame.cpp:759
 msgid "Suspend Computing"
-msgstr ""
+msgstr "計算を一時停止"
 
 #: sg_BoincSimpleFrame.cpp:760
 msgid "Resume Computing"
-msgstr ""
+msgstr "計算を再開"
 
 #: sg_BoincSimpleFrame.cpp:777
 msgid "Open a window to view notices from projects or BOINC"
@@ -3585,27 +3370,26 @@ msgstr "閉じる"
 
 #: sg_DlgMessages.cpp:389
 #, c-format
-#, fuzzy, c-format
 msgid "%s - Notices"
 msgstr "%s からのお知らせ"
 
 #: sg_DlgPreferences.cpp:268
 msgid "This dialog controls preferences for this computer only."
-msgstr ""
+msgstr "このダイアログではこのコンピュータのみのプレファレンス(好みの設定)を管理します。"
 
 #: sg_DlgPreferences.cpp:273
 msgid "Click OK to set preferences."
-msgstr ""
+msgstr "プレファレンスを設定するには OK をクリック"
 
 #: sg_DlgPreferences.cpp:278
 msgid ""
 "Click Clear to restore web-based settings for all preferences listed below."
-msgstr ""
+msgstr "下記の全てのプレファレンスのためのウェブ上の設定を復元するには[クリア]をクリックします。"
 
 #: sg_DlgPreferences.cpp:285
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
-msgstr ""
+msgstr "追加の設定は、詳細表示から計算に関するプレファレンスを選択してください。"
 
 #: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
@@ -3636,9 +3420,8 @@ msgid "Do work after idle for:"
 msgstr "アイドル時間が次の時間を超えたときのみ仕事をする:"
 
 #: sg_DlgPreferences.cpp:429
-#, fuzzy
 msgid "Clear all local preferences listed above and close the dialog"
-msgstr "このコンピュータだけに適用するプレファレンス（好みの設定）を全てクリアして、ダイアログを終了します。"
+msgstr "このコンピュータだけに適用するプレファレンス(好みの設定)を全てクリアして、ダイアログを閉じます。"
 
 #: sg_DlgPreferences.cpp:602 sg_DlgPreferences.cpp:605
 #: sg_DlgPreferences.cpp:681 sg_DlgPreferences.cpp:685
@@ -3712,9 +3495,8 @@ msgid "%d"
 msgstr "%d"
 
 #: sg_DlgPreferences.cpp:1029
-#, fuzzy
 msgid "Do you really want to clear all local preferences?\n"
-msgstr "本当にローカルなプレファレンス (好みの設定) を全てクリアしてもよいですか？"
+msgstr "本当にこのコンピュータだけに適用するプレファレンス(好みの設定)を全てクリアしてもよいですか？\n"
 
 #: sg_ProjectPanel.cpp:72
 msgid "Add Project"
@@ -3726,7 +3508,7 @@ msgstr "同期"
 
 #: sg_ProjectPanel.cpp:74
 msgid "Work done for this project"
-msgstr ""
+msgstr "このプロジェクトのためになされた仕事"
 
 #: sg_ProjectPanel.cpp:77
 msgid "Synchronize projects with account manager system"
@@ -3737,7 +3519,6 @@ msgid "Select a project to access with the controls below"
 msgstr "下にあるコントロールでアクセスする先のプロジェクトを1つ選ぶ"
 
 #: sg_ProjectPanel.cpp:145
-#, fuzzy
 msgid "Project Web Pages"
 msgstr "プロジェクトのウェブサイト"
 
@@ -3747,7 +3528,6 @@ msgstr "プロジェクトに関する操作"
 
 #: sg_ProjectPanel.cpp:267
 #, c-format
-#, c-format, fuzzy
 msgid "Pop up a menu of web sites for project %s"
 msgstr "プロジェクト %s 用のポップアップ・メニューを開く"
 
@@ -3758,20 +3538,18 @@ msgstr "プロジェクト %s を操作するポップアップ・メニュー�
 
 #: sg_TaskCommandPopup.cpp:67
 msgid "Suspend this task."
-msgstr ""
+msgstr "このタスクを一時停止"
 
 #: sg_TaskCommandPopup.cpp:73
 msgid "Abandon this task. You will get no credit for it."
-msgstr ""
+msgstr "このタスクを放棄します。これについて功績 (功績値) を受け取ることはできません。"
 
 #: sg_TaskCommandPopup.cpp:251
 #, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %.1lf%%, Status: %s)"
-msgstr ""
-"このタスク '%s' を中止してよろしいですか？\n"
-"(進捗： %.1lf%%, 状態： %s)"
+msgstr "このタスク '%s' を中止してよろしいですか？\n(進捗： %.1lf%%, 状態： %s)"
 
 #: sg_TaskPanel.cpp:464
 msgid "You don't have any projects.  Please Add a Project."
@@ -3782,9 +3560,8 @@ msgid "Not available"
 msgstr "表示できる情報がありません"
 
 #: sg_TaskPanel.cpp:476
-#, fuzzy
 msgid "Tasks:"
-msgstr "タスク"
+msgstr "タスク:"
 
 #: sg_TaskPanel.cpp:482
 msgid "Select a task to access"
@@ -3792,7 +3569,7 @@ msgstr "アクセスするタスクを選ぶ"
 
 #: sg_TaskPanel.cpp:493
 msgid "From:"
-msgstr ""
+msgstr "送信元:"
 
 #: sg_TaskPanel.cpp:547
 msgid "This task's progress"
@@ -3814,7 +3591,7 @@ msgstr "アプリケーション: %s"
 #: sg_TaskPanel.cpp:724
 #, c-format
 msgid "%.3f%%"
-msgstr ""
+msgstr "%.3f%%"
 
 #: sg_TaskPanel.cpp:732
 msgid "Application: Not available"
@@ -3827,11 +3604,10 @@ msgstr "表示できる情報がありません"
 #: sg_TaskPanel.cpp:847
 #, c-format
 msgid "Elapsed: %s"
-msgstr ""
+msgstr "経過時間: %s"
 
 #: sg_TaskPanel.cpp:861
 #, c-format
-#, fuzzy, c-format
 msgid "Remaining (estimated): %s"
 msgstr "残り時間: %s"
 
@@ -3925,677 +3701,3 @@ msgstr "全てを表示する"
 #, c-format
 msgid "Quit %s"
 msgstr "%s を終了する"
-
-#~ msgid "I do not agree with the terms of use."
-#~ msgstr "使用条件に合意しない。"
-
-#~ msgid "Workunit name"
-#~ msgstr "ワークユニットの名前"
-
-#~ msgid "invalid float"
-#~ msgstr "浮動小数点形式の数値が正しくありません"
-
-#~ msgid "Display the advanced (accessible) graphical interface."
-#~ msgstr "より使いやすい詳細グラフィカルインタフェースを表示する。"
-
-#~ msgid "Paused: Other work running"
-#~ msgstr "一時停止状態： 他の仕事の計算を実行中"
-
-#~ msgid "Paused: User initiated.  Click 'Resume' to continue"
-#~ msgstr "一時停止状態： 参加者にの指示による。 継続するには、「再開(Resume)」をクリック"
-
-#~ msgid "Paused: User active"
-#~ msgstr "一時停止状態： 人がコンピュータを利用中"
-
-#~ msgid "Paused: Computer on battery"
-#~ msgstr "一時停止状態： バッテリー駆動中"
-
-#~ msgid "Paused: Time of Day"
-#~ msgstr "一時停止状態： 時間帯による制約"
-
-#~ msgid "Paused: Benchmarks running"
-#~ msgstr "一時停止状態： ベンチマークプログラムを実行中"
-
-#~ msgid "Paused"
-#~ msgstr "一時停止状態"
-
-#~ msgid "Paused: Application start delayed"
-#~ msgstr "一時停止状態： アプリケーション開始が遅延"
-
-#~ msgid "Click to show project graphics"
-#~ msgstr "プロジェクトのグラフィクス表示はここをクリック"
-
-#~ msgid "Open a window to view messages"
-#~ msgstr "メッセージ・ウィンドウを開く"
-
-#~ msgid "Stop all activity"
-#~ msgstr "全ての活動を停止する"
-
-#~ msgid "Resume activity"
-#~ msgstr "活動を再開する"
-
-#~ msgid "Open a window to set your preferences"
-#~ msgstr "プレファレンスの設定ウィンドウを開く"
-
-#~ msgid "Switch to the BOINC advanced view"
-#~ msgstr "BOINC 詳細表示に切り替える"
-
-#~ msgid "My Projects:"
-#~ msgstr "あなたのプロジェクト:"
-
-#, c-format
-#~ msgid "%s. Work done by %s: %0.2f"
-#~ msgstr "%s - %s さんは 功績値 %0.2f の仕事をしました"
-
-#, c-format
-#~ msgid "%.1lf"
-#~ msgstr "%.1lf"
-
-#, c-format
-#~ msgid "%d hr %d min %d sec"
-#~ msgstr "%d 時間 %d 分 %d 秒"
-
-#~ msgid "Are you sure you want to display graphics on a remote machine?"
-#~ msgstr "グラフィクスを別の計算機に表示してよろしいですか？"
-
-#~ msgid "Application: "
-#~ msgstr "アプリケーション: "
-
-#~ msgid "Time Remaining: "
-#~ msgstr "残り時間: "
-
-#~ msgid "Elapsed Time: "
-#~ msgstr "経過時間："
-
-#~ msgid "Account manager website"
-#~ msgstr "アカウント・マネージャのウェブサイト"
-
-#~ msgid "Account Manager &URL:"
-#~ msgstr "アカウント・マネージャー &URL："
-
-#, c-format
-#~ msgid "%s &website"
-#~ msgstr "%s ウェブサイト(&W)"
-
-#~ msgid "Notice List"
-#~ msgstr "お知らせの一覧"
-
-#, c-format
-#~ msgid "%s; received on %s"
-#~ msgstr "%s; 受信時刻: %s"
-
-#, c-format
-#~ msgid "%s; received from %s; on %s"
-#~ msgstr "%s; プロジェクト %s より受信; 受信時刻: %s"
-
-# This string is the default action of objects specified for GetDefaultAction. I'm not sure it is meaningful to be translated, that is, is it a string to be read by human?
-#~ msgid "Click"
-#~ msgstr "クリック"
-
-#~ msgid "Project List"
-#~ msgstr "プロジェクトの一覧"
-
-#~ msgid "Nvidia GPU Supported"
-#~ msgstr "Nvidia GPU サポート済み"
-
-#~ msgid "ATI GPU Supported"
-#~ msgstr "ATI GPU サポート済み"
-
-#~ msgid "Project Website"
-#~ msgstr "プロジェクトのウェブサイト"
-
-# 88%
-#, fuzzy
-#~ msgid "Retry now"
-#~ msgstr "今すぐ再試行"
-
-#~ msgid "10%"
-#~ msgstr "10%"
-
-#~ msgid "20%"
-#~ msgstr "20%"
-
-#~ msgid "30%"
-#~ msgstr "30%"
-
-#~ msgid "40%"
-#~ msgstr "40%"
-
-#~ msgid "50%"
-#~ msgstr "50%"
-
-#~ msgid "60%"
-#~ msgstr "60%"
-
-#~ msgid "70%"
-#~ msgstr "70%"
-
-#~ msgid "80%"
-#~ msgstr "80%"
-
-#~ msgid "90%"
-#~ msgstr "90%"
-
-#~ msgid "100%"
-#~ msgstr "100%"
-
-#~ msgid "1"
-#~ msgstr "1"
-
-#~ msgid "3"
-#~ msgstr "3"
-
-#~ msgid "5"
-#~ msgstr "5"
-
-#~ msgid "10"
-#~ msgstr "10"
-
-#~ msgid "15"
-#~ msgstr "15"
-
-#~ msgid "30"
-#~ msgstr "30"
-
-#~ msgid "60"
-#~ msgstr "60"
-
-#, c-format
-#~ msgid "Pop up a menu of websites for project %s"
-#~ msgstr "プロジェクト %s 用のポップアップ・メニューを開く"
-
-#~ msgid ""
-#~ "for accessibility support, please select advanced from the view menu or type "
-#~ "command shift a"
-#~ msgstr ""
-#~ "アクセシビリティサポートは詳細表示で提供しています。詳細表示に切り替えるには表示メニューから操作するか、コマンド - シフト - a "
-#~ "とタイプしてください。"
-
-#~ msgid "This panel contains graphs showing user totals for projects"
-#~ msgstr "このパネルでは、参加者の累積値をプロジェクトごとにグラフに表示します"
-
-#~ msgid "list headers"
-#~ msgstr "一覧のヘッダー"
-
-#~ msgid "list of events"
-#~ msgstr "イベントの一覧"
-
-#~ msgid "list of events is empty"
-#~ msgstr "イベントの一覧は空です"
-
-#, c-format
-#~ msgid "list of %s"
-#~ msgstr "%s の一覧"
-
-#, c-format
-#~ msgid "list of %s is empty"
-#~ msgstr "%s の一覧は空です"
-
-#, c-format
-#~ msgid "; current sort column %d of %d; descending order; "
-#~ msgstr "; 現在の並べ替え列 %d（全 %d); 降順 ; "
-
-#, c-format
-#~ msgid "; current sort column %d of %d; ascending order; "
-#~ msgstr "; 現在の並べ替え列 %d（全 %d); 昇順 ; "
-
-#, c-format
-#~ msgid "; column %d of %d; "
-#~ msgstr "; 列 %d（全 %d); "
-
-#~ msgid "list is empty"
-#~ msgstr "一覧は空です"
-
-#, c-format
-#~ msgid "; row %d; "
-#~ msgstr "; 行 %d; "
-
-#, c-format
-#~ msgid "; selected row %d of %d; "
-#~ msgstr "; 選択した行 %d (全 %d); "
-
-#, c-format
-#~ msgid "; selected row %d ; "
-#~ msgstr "; 選択した行 %d ; "
-
-#, c-format
-#~ msgid "; row %d of %d; "
-#~ msgstr "; 行 %d（全 %d); "
-
-#~ msgid "blank"
-#~ msgstr "空白"
-
-#~ msgid "list of projects or account managers"
-#~ msgstr "プロジェクトあるいはアカウント・マネージャの一覧"
-
-#, c-format
-#~ msgid "selected row %d of %d; "
-#~ msgstr "選択した行 %d（全 %d); "
-
-#, c-format
-#~ msgid "row %d of %d; "
-#~ msgstr "行 %d（全 %d); "
-
-#, c-format
-#~ msgid "The minimum password length for this project is %d. Please enter a different password."
-#~ msgstr "このプロジェクトでは、パスワードの最短長は %d 文字です。 別のパスワードを入力してください。"
-
-#, c-format
-#~ msgid "The minimum password length for this account manager is %d. Please enter a different password."
-#~ msgstr "このアカウント・マネージャでは、パスワードの最短長は %d 文字です。別のパスワードを入力してください。"
-
-#~ msgid ""
-#~ "An error has occurred;\n"
-#~ "check the Event Log for details.\n"
-#~ "\n"
-#~ "Click Finish to close."
-#~ msgstr ""
-#~ "異常が発生しました。\n"
-#~ "詳細はイベント・ログを見て確かめてください。\n"
-#~ "\n"
-#~ "[終了] をクリックして閉じてください。"
-
-# This entry is paired with "On multiprocessor systems...."
-#, no-c-format
-#~ msgid "% of the processors"
-#~ msgstr "% まで"
-
-#, c-format
-#~ msgid "New page inserted. Index = %i"
-#~ msgstr "New page inserted. Index = %i"
-
-#, c-format
-#~ msgid "New page appended. Index = %i"
-#~ msgstr "New page appended. Index = %i"
-
-#, c-format
-#~ msgid "Old Page Index = %i"
-#~ msgstr "Old Page Index = %i"
-
-#, c-format
-#~ msgid "OnDropTarget: index by HitTest = %i"
-#~ msgstr "OnDropTarget: index by HitTest = %i"
-
-#~ msgid "Pie Ctrl"
-#~ msgstr "Pie Ctrl"
-
-#~ msgid "specify work start and stop hours in format HH:MM-HH:MM"
-#~ msgstr "仕事をする時間帯の始めと終わりを HH:MM-HH:MM の形式で記入してください"
-
-#~ msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
-#~ msgstr "ネットワークを使う時間帯の始めと終わりを HH:MM-HH:MM の形式で記入してください"
-
-#~ msgid "Identify your account "
-#~ msgstr "アカウントを特定する"
-
-#~ msgid "Read config file"
-#~ msgstr "設定ファイルを読み込む"
-
-#~ msgid "Read configuration info from cc_config.xml"
-#~ msgstr "cc_config.xml から設定情報を読み込みます"
-
-#~ msgid ""
-#~ "(C) 2003-2011 University of California, Berkeley.\n"
-#~ "All Rights Reserved."
-#~ msgstr ""
-#~ "(C) 2003-2010 University of California, Berkeley.\n"
-#~ "All Rights Reserved."
-
-#~ msgid "Multicore CPU Supported"
-#~ msgstr "マルチコア CPU サポート済み"
-
-#, fuzzy
-#~ msgid "%s: %.0f"
-#~ msgstr "%s: %0.2f"
-
-#~ msgid "Click 'Retry now' to transfer the file now"
-#~ msgstr "ファイルを転送するには、「今すぐ再試行」をクリックします"
-
-#~ msgid ""
-#~ "Click 'Abort transfer' to delete the file from the transfer queue. This "
-#~ "will prevent you from being granted credit for this result."
-#~ msgstr ""
-#~ "ファイル転送の待ち行列からこのファイルを削除するには、「ファイル転送を中"
-#~ "止」をクリックします。 この場合、対応するリザルトについての功績 (credit) "
-#~ "は付与されなくなります。"
-
-#~ msgid "Aborting result..."
-#~ msgstr "リザルトの中止処理をしています..."
-
-#~ msgid ""
-#~ "You have chosen to add a new BOINC project.  Adding a new\n"
-#~ "project means that you will be connecting your computer to a new "
-#~ "organization.\n"
-#~ "If this is what you wanted to do, please click on\n"
-#~ "the 'Next' button below.\n"
-#~ "\n"
-#~ "Some projects like World Community Grid run multiple research "
-#~ "applications.\n"
-#~ "If you want to change which research applications are sent to your "
-#~ "computer\n"
-#~ "to run, visit the project's website and modify your\n"
-#~ "preferences there.\n"
-#~ "\n"
-#~ "To change which research applications are sent to you from\n"
-#~ "World Community Grid then please click on the following button:"
-#~ msgstr ""
-#~ "これから、新たな BOINC プロジェクトを参加範囲に追加しようとしています。 新"
-#~ "た\n"
-#~ "なプロジェクトに参加するということは、あなたのコンピュータを新たな組織に接"
-#~ "続\n"
-#~ "することを意味します。 これがあなたの望む事でしたら、以下にある「次へ"
-#~ "(Next)」\n"
-#~ "ボタンをクリックしてください。\n"
-#~ "\n"
-#~ "World Community Grid のようなプロジェクトでは、複数種類の研究アプリケー"
-#~ "ション\n"
-#~ "を実行します。あなたのコンピュータへもってきて動作させる研究アプリケーショ"
-#~ "ン\n"
-#~ "を変更したいときは、そのプロジェクトのウェブサイトへ行って、そこで選択して"
-#~ "あ\n"
-#~ "る内容を変更してください。\n"
-#~ "\n"
-#~ "World Community Grid から送られて来る研究アプリケーションを変更するには、"
-#~ "以下\n"
-#~ "のボタンをクリックします:"
-
-#~ msgid "Change Research Applications at World Community Grid"
-#~ msgstr "World Community Grid の研究アプリケーションを変更"
-
-#~ msgid "Don't fetch NVIDIA GPU tasks"
-#~ msgstr "NVIDIA GPU向けタスクを新たに取得しない"
-
-#~ msgid "NVIDIA GPU work fetch deferred for"
-#~ msgstr "NVIDIA GPU 向けの仕事を獲得する処理の保留時間"
-
-#~ msgid "NVIDIA GPU work fetch deferral interval"
-#~ msgstr "NVIDIA GPU 向けの仕事を獲得する処理の保留間隔"
-
-#~ msgid "Don't fetch ATI GPU tasks"
-#~ msgstr "ATI GPU向けタスクを新たに取得しない"
-
-#~ msgid "ATI GPU work fetch deferred for"
-#~ msgstr "ATI GPU 向けの仕事を獲得する処理の保留時間"
-
-#~ msgid "ATI GPU work fetch deferral interval"
-#~ msgstr "ATI GPU 向けの仕事を獲得する処理の保留間隔"
-
-#~ msgid "Web sites"
-#~ msgstr "ウェブサイト"
-
-#~ msgid "Connect about every"
-#~ msgstr "接続する間隔"
-
-#~ msgid ""
-#~ "this computer is connected to the Internet about every X days\n"
-#~ "(0 if it's always connected)"
-#~ msgstr ""
-#~ "このコンピュータは、X 日毎にインターネットに接続します。\n"
-#~ "(0は常時接続を意味します)"
-
-#~ msgid "days (max. 10)"
-#~ msgstr "日分(最大10日)"
-
-#~ msgid "%d.%d%%"
-#~ msgstr "%d.%d%%"
-
-#~ msgid "Display and network &options..."
-#~ msgstr "表示とネットワークのオプション(&O)..."
-
-#~ msgid ""
-#~ "You have requested to exit the %s,\n"
-#~ "which allows you to view and manage\n"
-#~ "the science applications running on your computer.\n"
-#~ "\n"
-#~ "If you also want to stop running the science applications when you\n"
-#~ "exit the Manager, then choose from the following options:"
-#~ msgstr ""
-#~ "今、停止しようとしている %s は、あなたのコンピュータ上で\n"
-#~ "実行中の科学計算アプリケーションの状態を表示し、管理する\n"
-#~ "ためのマネージャ・プログラムです。\n"
-#~ "\n"
-#~ "もし、科学計算アプリケーションの方もマネージャ・プログラムと\n"
-#~ "同時に停止させたいのなら、以下の選択肢から選んでください："
-
-#~ msgid "Stop running science applications when exiting the Manager"
-#~ msgstr ""
-#~ "マネージャ・プログラムと同時に、今実行中の科学計算アプリケーションも終了す"
-#~ "る"
-
-#~ msgid "CPU work fetch priority"
-#~ msgstr "CPU 向けの仕事を獲得する処理の優先度"
-
-#~ msgid "NVIDIA GPU scheduling priority"
-#~ msgstr "NVIDIA GPU 向けスケジューリングの優先度"
-
-#~ msgid "NVIDIA GPU work fetch priority"
-#~ msgstr "NVIDIA GPU 向けスケジューリングの優先度"
-
-#~ msgid "ATI GPU scheduling priority"
-#~ msgstr "ATI GPU 向けスケジューリングの優先度"
-
-#~ msgid "ATI GPU work fetch priority"
-#~ msgstr "ATI GPU 向けスケジューリングの優先度"
-
-#~ msgid "Estimated app speed"
-#~ msgstr "アプリケーションの実行速度推定値"
-
-#~ msgid "Estimated task size"
-#~ msgstr "タスクの大きさの推定値"
-
-#~ msgid "Max RAM usage"
-#~ msgstr "RAM の最大利用量"
-
-#~ msgid "%s - Options"
-#~ msgstr "%s - オプション"
-
-#~ msgid "Retrieving host information; please wait..."
-#~ msgstr "計算機 (ホスト) の情報を読み出しています。お待ちください..."
-
-#~ msgid " (waiting for GPU memory)"
-#~ msgstr "(GPU メモリ不足のため待機)"
-
-#~ msgid "Manager Settings..."
-#~ msgstr "マネージャの設定..."
-
-#~ msgid "Pause"
-#~ msgstr "一時停止"
-
-#~ msgid "%s - Messages"
-#~ msgstr "%s - メッセージ"
-
-#~ msgid "Skin:"
-#~ msgstr "スキン:"
-
-#~ msgid "Preferences"
-#~ msgstr "プレファレンス"
-
-#~ msgid "I want to customize my preferences for this computer only."
-#~ msgstr ""
-#~ "このコンピュータについてだけ私のプレファレンス（好みの設定）を変更したい"
-
-#~ msgid "Customized Preferences"
-#~ msgstr "カスタマイズしたプレファレンス"
-
-#~ msgid "My total work done this Project"
-#~ msgstr "あなたがこのプロジェクトで実施した仕事の合計"
-
-#~ msgid "My Tasks:"
-#~ msgstr "あなたのタスク:"
-
-#~ msgid "From Project:"
-#~ msgstr "送付元のプロジェクト:"
-
-#~ msgid "Elapsed Time: %s"
-#~ msgstr "経過時間： %s"
-
-#~ msgid "Upload suspended - "
-#~ msgstr "アップロード保留中 - "
-
-#~ msgid "Download suspended - "
-#~ msgstr "ダウンロード保留中 - "
-
-#~ msgid "Upload pending"
-#~ msgstr "アップロード保留中"
-
-#~ msgid "Download pending"
-#~ msgstr "ダウンロード保留中"
-
-#~ msgid "Get help with BOINC"
-#~ msgstr "BOINC に関して手助けを求める"
-
-#~ msgid "Event Log..."
-#~ msgstr "イベント・ログ..."
-
-#~ msgid "error"
-#~ msgstr "エラー"
-
-#~ msgid "A new version of BOINC is available."
-#~ msgstr "新しい版の BOINC が使えるようになりました。"
-
-#~ msgid "Download it."
-#~ msgstr "ダウンロードする"
-
-#~ msgid "Couldn't write state file; check directory permissions"
-#~ msgstr ""
-#~ "状態ファイルを書き出すことができませんでした。ディレクトリのパーミッション"
-#~ "を調べてみてください。"
-
-#~ msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
-#~ msgstr "環境変数 HTTP_PROXY には HTTP プロキシを指定しなければなりません。"
-
-#~ msgid "Attach to project"
-#~ msgstr "プロジェクトに参加"
-
-#~ msgid "Attach to account manager"
-#~ msgstr "アカウント・マネージャに接続"
-
-#~ msgid "&Attach to project..."
-#~ msgstr "プロジェクトに参加(&A)..."
-
-#~ msgid "Attach to a project"
-#~ msgstr "プロジェクトに参加させる"
-
-#~ msgid "Attaching to project or account manager..."
-#~ msgstr ""
-#~ "プロジェクトあるいはアカウント・マネージャに接続しようとしています..."
-
-#~ msgid "%s - Detach from %s"
-#~ msgstr "%s - %s から離脱"
-
-#~ msgid "Retrying communications."
-#~ msgstr "通信を再試行しています。"
-
-#~ msgid "%s needs to connect to the Internet.  Please click to open %s."
-#~ msgstr ""
-#~ "%s はインターネットに接続する必要があります。クリックして %s を起動して下"
-#~ "さい。"
-
-#~ msgid ""
-#~ "%s is unable to communicate with a project and needs an Internet "
-#~ "connection.\n"
-#~ "Please connect to the Internet, then select the 'Do network "
-#~ "communications' item from the Advanced menu."
-#~ msgstr ""
-#~ "%s はプロジェクトと通信できません。インターネットに接続する必要がありま"
-#~ "す。\n"
-#~ "インターネットに接続して、メニューの「高度な操作」から「通信を今すぐ実施」"
-#~ "を選択してください。"
-
-#~ msgid ""
-#~ "%s couldn't do Internet communication, and no default connection is "
-#~ "selected.\n"
-#~ "Please connect to the Internet, or select a default connection\n"
-#~ "using Advanced/Options/Connections."
-#~ msgstr ""
-#~ "%s はプロジェクトと通信できません。また「通常の接続」も指定されていませ"
-#~ "ん。\n"
-#~ "手動でインターネット接続を行うか、メニューの [高度な操作] から [オプショ"
-#~ "ン] \n"
-#~ "ダイアログを開き、「接続」タブで「通常の接続」に何を使うか指定してくださ"
-#~ "い。"
-
-#~ msgid "One or more notices are now available for viewing."
-#~ msgstr "見ていただきたいお知らせがいくつかあります。"
-
-#~ msgid "Failed to attach to project"
-#~ msgstr "プロジェクト参加に失敗"
-
-#~ msgid "Failed to attach to account manager"
-#~ msgstr "アカウント･マネージャへの参加に失敗"
-
-#~ msgid "Attached to project"
-#~ msgstr "プロジェクトへ参加完了"
-
-#~ msgid "You are now successfully attached to this project."
-#~ msgstr "このプロジェクトへ参加することに成功しました。"
-
-#~ msgid "Attached to %s"
-#~ msgstr "%s に接続しました"
-
-#~ msgid "Attached to account manager"
-#~ msgstr "アカウント･マネージャへ参加完了"
-
-#~ msgid "You are now successfully attached to the %s system."
-#~ msgstr "%s システムへの参加に成功しました。"
-
-#~ msgid "You are now successfully attached to this account manager."
-#~ msgstr "このアカウント・マネージャへの参加に成功しました。"
-
-#~ msgid "Detach when done"
-#~ msgstr "仕事を終えたらプロジェクトから離脱"
-
-#~ msgid "News Feeds"
-#~ msgstr "ニュース・フィード"
-
-#~ msgid "Display the latest news about BOINC"
-#~ msgstr "BOINC の最新ニュースを表示"
-
-#~ msgid "Retrieving notices..."
-#~ msgstr "お知らせを読み出し中..."
-
-#~ msgid "Detach"
-#~ msgstr "離脱"
-
-#~ msgid "Detaching from project..."
-#~ msgstr "プロジェクトから離脱しています..."
-
-#~ msgid "Are you sure you want to detach from project '%s'?"
-#~ msgstr "プロジェクト '%s' から離脱してよろしいですか？"
-
-#~ msgid "Detach from Project"
-#~ msgstr "プロジェクトから離脱"
-
-#~ msgid "not attached to any BOINC project: 0 bytes"
-#~ msgstr "BOINC のプロジェクトのどれにも参加していません: 0 bytes"
-
-#~ msgid "Message from project server:"
-#~ msgstr "サーバからのメッセージ："
-
-#~ msgid "XML syntax error in"
-#~ msgstr "右のファイルの中に XML の構文エラーがあります："
-
-#~ msgid "Can't resolve hostname in"
-#~ msgstr "右のファイルの中に解決できないホスト名があります："
-
-#~ msgid "Unexpected text in"
-#~ msgstr "右のファイルの中に予想外のテキストがあります："
-
-#~ msgid "Unrecognized tag in"
-#~ msgstr "右のファイルの中に認識できないタグがあります："
-
-#~ msgid "Missing start tag in"
-#~ msgstr "右のファイルの中に開始タグが足りません："
-
-#~ msgid "Unparsed tag in"
-#~ msgstr "右のファイルの中に解析できないタグがあります："
-
-#~ msgid "Missing end tag in"
-#~ msgstr "右のファイルの中に終了タグが足りません："
-
-#~ msgid ""
-#~ "BOINC can't access Internet - check network connection or proxy "
-#~ "configuration."
-#~ msgstr ""
-#~ "BOINC はインターネットにアクセスできません。ネットワーク接続とプロキシの設"
-#~ "定を調べてください。"
