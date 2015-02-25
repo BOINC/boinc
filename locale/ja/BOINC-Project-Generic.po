@@ -9,10 +9,10 @@
 # Masahiro Tagashira, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: boinc\n"
+"Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2015-02-23 12:06+0000\n"
+"PO-Revision-Date: 2015-02-25 14:27+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -6320,11 +6320,11 @@ msgid ""
 "You can access your account either by using your email address and password,\n"
 "    or by using an assigned 'account key'.\n"
 "    Your account key is:"
-msgstr "あなたはEメールアドレスとパスワード、もしくは割り当てられた「アカウント・キー」どちらかを使ってアカウントにアクセスできます。\nあなたのアカウント・キー :"
+msgstr "あなたはEメールアドレスとパスワード、もしくは割り当てられた「アカウント・キー」どちらかを使ってアカウントにアクセスできます。\nあなたのアカウント・キー : "
 
 #: ../user/weak_auth.php:57
 msgid "This key can be used to:"
-msgstr "このキーは以下のことに使用されることが可能です :"
+msgstr "このキーは以下のことに使用されることが可能です : "
 
 #: ../user/weak_auth.php:59
 msgid "log in to your account on the web"
@@ -6336,7 +6336,7 @@ msgid ""
 "       To do so, install BOINC,\n"
 "       create a file named %1 in the BOINC\n"
 "       data directory, and set its contents to:"
-msgstr "BOINC マネージャを使用せずに、アカウントにコンピュータを接続します。\nそのためには、BOINCをインストールし、BOINCのデータディレクトリに ％1 という名前のファイルを作成し、以下の内容を設定します :"
+msgstr "BOINC マネージャを使用せずに、アカウントにコンピュータを接続します。\nそのためには、BOINCをインストールし、BOINCのデータディレクトリに ％1 という名前のファイルを作成し、以下の内容を設定します : "
 
 #: ../user/weak_auth.php:73
 msgid "Weak account key"
