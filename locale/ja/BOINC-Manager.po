@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2015-02-25 13:34+0000\n"
+"PO-Revision-Date: 2015-02-25 14:41+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -620,7 +620,7 @@ msgstr "%s - 接続エラー"
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "Please contact your administrator to add you to the 'boinc_users' local user group."
-msgstr "現在のところあなたにはこのクライアントを管理する権限がありません。\n管理者に連絡して、'boinc_users' ローカルユーザグループにあなたを\n加えてください。"
+msgstr "現在のところあなたにはこのクライアントを管理する権限がありません。\n管理者に連絡して、'boinc_users' ローカルユーザーグループにあなたを加えてください。"
 
 #: BOINCBaseFrame.cpp:523
 msgid ""
@@ -733,12 +733,12 @@ msgstr "%s はインターネットへの接続ができていることを今、
 #: BOINCDialupManager.cpp:417
 #, c-format
 msgid "%s has successfully disconnected from the Internet."
-msgstr "%s はインターネットとの接続を切ることに成功しました。"
+msgstr "%s はインターネットとの接続切断に成功しました。"
 
 #: BOINCDialupManager.cpp:433
 #, c-format
 msgid "%s failed to disconnected from the Internet."
-msgstr "%s はインターネットとの接続を切ることにに失敗しました。"
+msgstr "%s はインターネットとの接続切断に失敗しました。"
 
 #: BOINCGUIApp.cpp:339
 #, c-format
@@ -751,7 +751,7 @@ msgid ""
 " or\n"
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
-msgstr "現在のところあなたにはこのクライアントを管理する権限がありません。\n%sをこのユーザーで動作させるには、%sをインストールし直し、管理者権限のないユーザーについての質問に「はい」と答えてください。もしくは管理者に連絡して、'boinc_users' ローカルユーザグループにあなたを 加えてください。"
+msgstr "現在のところあなたにはこのクライアントを管理する権限がありません。\n%s をこのユーザーで動作させるには、 %s をインストールし直し、管理者権限のないユーザーについての質問に「はい」と答えてください。もしくは管理者に連絡して、'boinc_users' ローカルユーザーグループにあなたを加えてください。"
 
 #: BOINCGUIApp.cpp:345
 #, c-format
@@ -773,7 +773,7 @@ msgstr ")"
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
-msgstr "BOINC を正常に実行するためには再起動が必要です。\nあなたのコンピュータを再起動してから、もう一度試してください。"
+msgstr "BOINC を正しく実行するためには再起動が必要です。\nあなたのコンピュータを再起動してから、もう一度試してください。"
 
 #: BOINCGUIApp.cpp:385 DlgAbout.cpp:153
 msgid "BOINC Manager"
@@ -797,7 +797,7 @@ msgstr "BOINC 用データディレクトリ"
 
 #: BOINCGUIApp.cpp:579
 msgid "Host name or IP address"
-msgstr "ホスト名 または IPアドレス"
+msgstr "ホスト名または IPアドレス"
 
 #: BOINCGUIApp.cpp:580
 msgid "GUI RPC port number"
@@ -805,7 +805,7 @@ msgstr "GUI用 RPC のポート番号"
 
 #: BOINCGUIApp.cpp:581
 msgid "Password"
-msgstr "パスワード："
+msgstr "パスワード:"
 
 #: BOINCGUIApp.cpp:582
 msgid "Startup BOINC with these optional arguments"
@@ -821,7 +821,7 @@ msgstr "skin マネージャのエラーメッセージを有効にするため�
 
 #: BOINCGUIApp.cpp:585
 msgid "multiple instances of BOINC Manager allowed"
-msgstr "BOINC Manager の複数インスタンス起動を許す"
+msgstr "BOINC Manager の複数インスタンス起動を許可"
 
 #: BOINCGUIApp.cpp:587
 msgid "Not used: workaround for bug in XCode 4.2"
@@ -833,11 +833,11 @@ msgstr "(言語の自動判別)"
 
 #: BOINCGUIApp.cpp:815
 msgid "(Unknown)"
-msgstr "(実装上のダミーエントリ1)"
+msgstr "(不明)"
 
 #: BOINCGUIApp.cpp:816
 msgid "(User Defined)"
-msgstr "(実装上のダミーエントリ2)"
+msgstr "(ユーザー定義)"
 
 #: BOINCTaskBar.cpp:508
 #, c-format
@@ -910,7 +910,7 @@ msgstr "%s からのお知らせ"
 
 #: BOINCTaskBar.cpp:811
 msgid "There are new notices - click to view."
-msgstr "新しいお知らせがあります - クリックして見てください。"
+msgstr "新しいお知らせがあります - 確認するにはクリックします。"
 
 #: CompletionErrorPage.cpp:199
 msgid "Failed to add project"
@@ -918,7 +918,7 @@ msgstr "プロジェクトの追加に失敗"
 
 #: CompletionErrorPage.cpp:204
 msgid "Failed to update account manager"
-msgstr "アカウント･マネージャとの最新状況の更新に失敗"
+msgstr "アカウント･マネージャの更新に失敗"
 
 #: CompletionErrorPage.cpp:208
 msgid "Failed to remove account manager"
@@ -926,23 +926,23 @@ msgstr "アカウント･マネージャの削除に失敗"
 
 #: CompletionErrorPage.cpp:212
 msgid "Failed to add account manager"
-msgstr "アカウント･マネージャへの追加に失敗"
+msgstr "アカウント･マネージャの追加に失敗"
 
 #: CompletionErrorPage.cpp:221
 msgid ""
 "Please try again later.\n"
 "\n"
 "Click Finish to close."
-msgstr "後でもう一度試してください。\n\n終了をクリックするとウィンドウを閉じます。"
+msgstr "後でもう一度試してください。\n\n[終了]をクリックするとウィンドウを閉じます。"
 
 #: CompletionErrorPage.cpp:225 CompletionPage.cpp:222 CompletionPage.cpp:242
 #: CompletionPage.cpp:273
 msgid "Click Finish to close."
-msgstr "[終了] をクリックして閉じてください。"
+msgstr "ウィンドウを閉じるには[終了] をクリックします。"
 
 #: CompletionErrorPage.cpp:234
 msgid "Messages from server:"
-msgstr "サーバからのメッセージ："
+msgstr "サーバからのメッセージ:"
 
 #: CompletionPage.cpp:207
 msgid "Project added"
@@ -956,7 +956,7 @@ msgstr "このプロジェクトの追加に成功しました。"
 msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
-msgstr "[終了] をクリックすると、アカウント名とプレファレンス (好みの設定) を\n指定するためのウェブページが開きます。"
+msgstr "[終了] をクリックすると、アカウント名とプレファレンス(好みの設定)を\n指定するためのウェブページが開きます。"
 
 #: CompletionPage.cpp:232
 #, c-format
@@ -992,15 +992,15 @@ msgstr "%s について"
 
 #: DlgAbout.cpp:172
 msgid "Version:"
-msgstr "バージョン："
+msgstr "バージョン:"
 
 #: DlgAbout.cpp:180
 msgid "wxWidgets Version:"
-msgstr "wxWidgets Version:"
+msgstr "wxWidgets のバージョン:"
 
 #: DlgAbout.cpp:188
 msgid "Copyright:"
-msgstr "Copyright:"
+msgstr "著作権表記:"
 
 #: DlgAbout.cpp:192
 msgid ""
@@ -1015,23 +1015,23 @@ msgstr "Berkeley Open Infrastructure for Network Computing"
 #: DlgAbout.cpp:208 DlgExitMessage.cpp:173 DlgGenericMessage.cpp:120
 #: DlgOptions.cpp:396 DlgSelectComputer.cpp:163
 msgid "&OK"
-msgstr "&OK"
+msgstr "OK(&O)"
 
 #: DlgAdvPreferences.cpp:544
 msgid "invalid number"
-msgstr "無効な番号"
+msgstr "無効な数字"
 
 #: DlgAdvPreferences.cpp:545
 msgid "invalid time, format is HH:MM"
-msgstr "時間が正しくありません。形式は「HH:MM」"
+msgstr "無効な時間です。形式は「HH:MM」"
 
 #: DlgAdvPreferences.cpp:546
 msgid "invalid time interval, format is HH:MM-HH:MM"
-msgstr "時間帯が正しくありません。形式は「HH:MM-HH:MM」"
+msgstr "無効な時間帯です。形式は「HH:MM-HH:MM」"
 
 #: DlgAdvPreferences.cpp:751
 msgid "invalid input value detected"
-msgstr "正しくない入力値があります"
+msgstr "無効な入力値が検出されました"
 
 #: DlgAdvPreferences.cpp:753
 msgid "Validation Error"
@@ -1074,7 +1074,7 @@ msgstr "「 %s 」は既にリストの中にあります。"
 msgid ""
 "Do you really want to clear all local preferences?\n"
 "(This will not affect exclusive applications.)"
-msgstr "本当に全てのローカル・プリファレンスをクリアしますか？\n(これは排他的アプリケーションには影響しません。)"
+msgstr "本当に全てのローカル・プリファレンスをクリアしますか？\n(これは排他的なアプリケーションには影響しません。)"
 
 #: DlgAdvPreferences.cpp:1078 sg_DlgPreferences.cpp:1030
 msgid "Confirmation"
@@ -1083,14 +1083,14 @@ msgstr "確認"
 #: DlgAdvPreferencesBase.cpp:46 sg_DlgPreferences.cpp:946
 #, c-format
 msgid "%s - Preferences"
-msgstr "%s - プレファレンス（好みの設定）"
+msgstr "%s - プレファレンス(好みの設定)"
 
 #: DlgAdvPreferencesBase.cpp:62
 msgid ""
 "This dialog controls preferences for this computer only.\n"
 "Click OK to set preferences.\n"
 "Click Clear to restore web-based settings (except exclusive apps)."
-msgstr "ここでは、このコンピュータだけに適用するプレファレンスを管理します。\n設定するにはOKをクリックしてください。\nプロジェクトのウェブサイトで設定した値に戻すなら、[クリア]をクリックしてください。"
+msgstr "ここでは、このコンピュータだけに適用するプレファレンスを管理します。\n設定するには[OK]をクリックしてください。\nプロジェクトのウェブサイトで設定した値に戻すなら、[クリア]をクリックしてください。"
 
 #: DlgAdvPreferencesBase.cpp:65 sg_DlgPreferences.cpp:428
 msgid "Clear"
@@ -1098,19 +1098,19 @@ msgstr "クリア"
 
 #: DlgAdvPreferencesBase.cpp:66
 msgid "clear all local preferences and close the dialog"
-msgstr "このコンピュータだけに適用するプレファレンス（好みの設定）を全てクリアして、ダイアログを終了します。"
+msgstr "このコンピュータだけに適用するプレファレンス(好みの設定)を全てクリアして、ダイアログを終了します"
 
 #: DlgAdvPreferencesBase.cpp:81
 msgid "processor usage"
-msgstr "プロセッサ使用設定"
+msgstr "プロセッサ使用量"
 
 #: DlgAdvPreferencesBase.cpp:84
 msgid "network usage"
-msgstr "ネットワーク使用"
+msgstr "ネットワーク使用量"
 
 #: DlgAdvPreferencesBase.cpp:87
 msgid "disk and memory usage"
-msgstr "ディスクおよびメモリ使用"
+msgstr "ディスクおよびメモリ使用量"
 
 #: DlgAdvPreferencesBase.cpp:90
 msgid "exclusive applications"
@@ -1135,11 +1135,11 @@ msgstr "ヘルプ"
 
 #: DlgAdvPreferencesBase.cpp:113
 msgid "shows the preferences web page"
-msgstr "プレファレンス（好みの設定）のウェブページを開きます"
+msgstr "プレファレンス(好みの設定)のウェブページを開きます"
 
 #: DlgAdvPreferencesBase.cpp:135
 msgid "Computing allowed"
-msgstr "計算実行時間帯"
+msgstr "計算実行許可時間帯"
 
 #: DlgAdvPreferencesBase.cpp:139
 msgid "While computer is on batteries"
@@ -1278,7 +1278,7 @@ msgstr "最大で"
 #: DlgAdvPreferencesBase.cpp:356
 #, no-c-format
 msgid "% CPU time"
-msgstr "% のCPU 時間まで使用"
+msgstr "% の CPU 時間まで使用"
 
 #: DlgAdvPreferencesBase.cpp:378
 msgid "General options"
