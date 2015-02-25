@@ -6,10 +6,10 @@
 # Masahiro Tagashira, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: boinc\n"
+"Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2015-02-23 09:49+0000\n"
+"PO-Revision-Date: 2015-02-25 13:34+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -21,23 +21,23 @@ msgstr ""
 #: AccountInfoPage.cpp:387
 #, c-format
 msgid "Identify your account at %s"
-msgstr "%sにおけるあなたのアカウントを特定する"
+msgstr "%sでのあなたのアカウントを特定"
 
 #: AccountInfoPage.cpp:393
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
-msgstr "アカウント情報を入力してください\n(プロジェクトのウェブサイトに行って，アカウントを作成してください)"
+msgstr "アカウント情報を入力してください\n(アカウントを作成するには、プロジェクトのウェブサイトを訪問してください)"
 
 #: AccountInfoPage.cpp:397
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can add it only if you already have an account."
-msgstr "現在このプロジェクトは新規アカウントの登録を受け付けていません。\n既にアカウントを取得済みの場合だけは追加できます。"
+msgstr "現在このプロジェクトは新規アカウントの登録を受け入れていません。\n既にアカウントを取得済みの場合だけ追加できます。"
 
 #: AccountInfoPage.cpp:401
 msgid "Are you already running this project?"
-msgstr "このプロジェクトですでに稼動していますか？"
+msgstr "このプロジェクトにすでに参加していますか？"
 
 #: AccountInfoPage.cpp:405
 msgid "&No, new user"
@@ -63,28 +63,28 @@ msgstr "ログイン情報を探す"
 
 #: AccountInfoPage.cpp:436 AccountInfoPage.cpp:641
 msgid "&Password:"
-msgstr "パスワード(&P)："
+msgstr "パスワード(&P):"
 
 #: AccountInfoPage.cpp:443 AccountInfoPage.cpp:665
 msgid "Choose a &password:"
-msgstr "パスワードを決めて入力(&P)："
+msgstr "パスワードを決めて入力(&P):"
 
 #: AccountInfoPage.cpp:446
 msgid "C&onfirm password:"
-msgstr "確認のためパスワードをもう一度(&O)："
+msgstr "確認のためパスワードをもう一度(&O):"
 
 #: AccountInfoPage.cpp:453
 #, c-format
 msgid "Are you already running %s?"
-msgstr "既に %s に参加していますか？"
+msgstr "すでに %s に参加していますか？"
 
 #: AccountInfoPage.cpp:482
 msgid "&Username:"
-msgstr "参加者の名前(&U):"
+msgstr "ユーザー名(&U):"
 
 #: AccountInfoPage.cpp:508
 msgid "&Email address:"
-msgstr "電子メールアドレス(&E)："
+msgstr "電子メールアドレス(&E):"
 
 #: AccountInfoPage.cpp:515
 #, c-format
@@ -100,7 +100,7 @@ msgid ""
 "If you have not yet registered with this account manager,\n"
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
-msgstr "このアカウントマネージャに未登録でしたら、処理を開始する\n前にぜひ登録をお願いします。次のリンクをクリックして登録に\n進んでください。忘れたパスワードを見つけることも可能です。"
+msgstr "このアカウントマネージャに未登録でしたら、処理を開始する前にぜひ登録をお願いします。登録するあるいは忘れたパスワードを見つけるには次のリンクをクリックしてください。"
 
 #: AccountInfoPage.cpp:532
 msgid "Account manager web site"
@@ -116,15 +116,15 @@ msgstr "アカウント・マネージャを更新"
 
 #: AccountInfoPage.cpp:578 WelcomePage.cpp:307 WelcomePage.cpp:321
 msgid "Use account manager"
-msgstr "アカウント・マネージャを使用する"
+msgstr "アカウント・マネージャを使用"
 
 #: AccountInfoPage.cpp:585
 msgid "Please enter a user name."
-msgstr "ユーザー名を入力してください"
+msgstr "ユーザー名を入力してください。"
 
 #: AccountInfoPage.cpp:587
 msgid "Please enter an email address."
-msgstr "Eメールアドレスを入力してください"
+msgstr "Eメールアドレスを入力してください。"
 
 #: AccountInfoPage.cpp:597
 #, c-format
@@ -134,7 +134,7 @@ msgstr "少なくとも%d文字のパスワードを入力してください。"
 #: AccountInfoPage.cpp:607
 msgid ""
 "The password and confirmation password do not match. Please type them again."
-msgstr "確認のために二回入力していただいたパスワードが異なっています。 再度入力してください。"
+msgstr "確認のために二回入力していただいたパスワードが一致しません。 再度入力してください。"
 
 #: AccountManagerInfoPage.cpp:272
 msgid "Choose an account manager"
@@ -144,7 +144,7 @@ msgstr "アカウント・マネージャを1つ選ぶ"
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
-msgstr "プロジェクトを選択するには、その名前をクリックするか、\nあるいは下の欄に URL を入力してください。"
+msgstr "プロジェクトを選択するには、その名前をクリックするか、\nあるいは下の欄にURLを入力してください。"
 
 #: AccountManagerInfoPage.cpp:279
 msgid "Account manager details:"
@@ -152,7 +152,7 @@ msgstr "アカウント・マネージャの詳細情報:"
 
 #: AccountManagerInfoPage.cpp:283
 msgid "Account manager &URL:"
-msgstr "アカウント・マネージャー &URL："
+msgstr "アカウント・マネージャーのURL(&U):"
 
 #: AccountManagerInfoPage.cpp:287
 msgid "Open web page"
@@ -190,7 +190,7 @@ msgstr "接続を切りました"
 #: AdvancedFrame.cpp:322 sg_BoincSimpleFrame.cpp:119
 #, c-format
 msgid "Close the %s window"
-msgstr "この %s ウィンドーを閉じる"
+msgstr "この %s ウィンドウを閉じる"
 
 #: AdvancedFrame.cpp:325 sg_BoincSimpleFrame.cpp:122
 msgid "&Close Window"
@@ -199,7 +199,7 @@ msgstr "ウィンドーを閉じる(&C)"
 #: AdvancedFrame.cpp:336 AdvancedFrame.cpp:343 AdvancedFrame.cpp:350
 #, c-format
 msgid "Exit %s"
-msgstr "%s を終了する"
+msgstr "%s を終了"
 
 #: AdvancedFrame.cpp:371
 msgid "&Notices\tCtrl+Shift+N"
@@ -207,7 +207,7 @@ msgstr "お知らせ(&N)\tCtrl+Shift+N"
 
 #: AdvancedFrame.cpp:372
 msgid "Display notices"
-msgstr "お知らせを表示する"
+msgstr "お知らせを表示"
 
 #: AdvancedFrame.cpp:377
 msgid "&Projects\tCtrl+Shift+P"
@@ -263,7 +263,7 @@ msgstr "プロジェクトまたはアカウント・マネージャを追加(&A
 
 #: AdvancedFrame.cpp:425 sg_ProjectPanel.cpp:76
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
-msgstr "ボランティアで参加しましょう。科学の多分野に渡る30以上のプロジェクトにどれにでもいくつでも参加できます。"
+msgstr "科学の多分野に渡る30以上のプロジェクトにどれにでもいくつでも、ボランティアで参加しましょう。"
 
 #: AdvancedFrame.cpp:429
 #, c-format
@@ -273,7 +273,7 @@ msgstr "%s に同期(&S)"
 #: AdvancedFrame.cpp:433
 #, c-format
 msgid "Get current settings from %s"
-msgstr "%s から現在の設定を取り出します"
+msgstr "%s から現在の設定を取り出す"
 
 #: AdvancedFrame.cpp:443
 msgid "&Add project..."
@@ -281,7 +281,7 @@ msgstr "プロジェクトを追加(&A)..."
 
 #: AdvancedFrame.cpp:444
 msgid "Add a project"
-msgstr "プロジェクトを追加する"
+msgstr "プロジェクトを追加"
 
 #: AdvancedFrame.cpp:447
 #, c-format
@@ -290,15 +290,15 @@ msgstr "%s を使うのを止める(&T)..."
 
 #: AdvancedFrame.cpp:453
 msgid "Remove this computer from account manager control."
-msgstr "このクライアントをアカウント・マネージャの制御からはずします"
+msgstr "このコンピュータをアカウント・マネージャの管理からはずします。"
 
 #: AdvancedFrame.cpp:458 sg_BoincSimpleFrame.cpp:178
 msgid "&Options..."
-msgstr "&オプション…"
+msgstr "オプション(&O)…"
 
 #: AdvancedFrame.cpp:459 sg_BoincSimpleFrame.cpp:179
 msgid "Configure display options and proxy settings"
-msgstr "表示オプションとプロキシの設定をします"
+msgstr "表示オプションとプロキシ設定を構成"
 
 #: AdvancedFrame.cpp:463 sg_BoincSimpleFrame.cpp:172
 msgid "Computing &preferences..."
@@ -306,7 +306,7 @@ msgstr "計算に関するプレファレンス(&P)..."
 
 #: AdvancedFrame.cpp:464 sg_BoincSimpleFrame.cpp:173
 msgid "Configure computing preferences"
-msgstr "計算に関するプレファレンス (好みの設定)を指定する"
+msgstr "計算に関するプレファレンス(好みの設定)を設定"
 
 #: AdvancedFrame.cpp:472
 msgid "&Run always"
@@ -314,7 +314,7 @@ msgstr "常時稼働(&R)"
 
 #: AdvancedFrame.cpp:473
 msgid "Allow work regardless of preferences"
-msgstr "プレファレンス (好みの設定) に関わらず仕事をさせます"
+msgstr "プレファレンス(好みの設定)に関わらず仕事を許可"
 
 #: AdvancedFrame.cpp:477
 msgid "Run based on &preferences"
@@ -322,7 +322,7 @@ msgstr "プレファレンスに従って稼働(&P)"
 
 #: AdvancedFrame.cpp:478
 msgid "Allow work according to preferences"
-msgstr "プレファレンス (好みの設定) に従って仕事をさせます"
+msgstr "プレファレンス(好みの設定)に従って仕事を許可"
 
 #: AdvancedFrame.cpp:482
 msgid "&Suspend"
@@ -330,7 +330,7 @@ msgstr "一時停止(&S)"
 
 #: AdvancedFrame.cpp:483
 msgid "Stop work regardless of preferences"
-msgstr "プレファレンス (好みの設定) に関わらず仕事を停止します"
+msgstr "プレファレンス(好みの設定)に関わらず仕事を停止"
 
 #: AdvancedFrame.cpp:508
 msgid "Use GPU always"
@@ -338,7 +338,7 @@ msgstr "常時 GPU を使う"
 
 #: AdvancedFrame.cpp:509
 msgid "Allow GPU work regardless of preferences"
-msgstr "プレファレンス (好みの設定) に関わらず GPU に仕事をさせます"
+msgstr "プレファレンス(好みの設定)に関わらず GPU による仕事を許可"
 
 #: AdvancedFrame.cpp:513
 msgid "Use GPU based on preferences"
@@ -346,7 +346,7 @@ msgstr "プレファレンスに従って GPUを使用"
 
 #: AdvancedFrame.cpp:514
 msgid "Allow GPU work according to preferences"
-msgstr "プレファレンス (好みの設定) に従って GPU に仕事をさせます"
+msgstr "プレファレンス(好みの設定)に従って GPU による仕事を許可"
 
 #: AdvancedFrame.cpp:518
 msgid "Suspend GPU"
@@ -354,15 +354,15 @@ msgstr "GPU の使用を一時停止"
 
 #: AdvancedFrame.cpp:519
 msgid "Stop GPU work regardless of preferences"
-msgstr "プレファレンス (好みの設定) に関わらず GPU の仕事を停止します"
+msgstr "プレファレンス(好みの設定)に関わらず GPU による仕事を停止"
 
 #: AdvancedFrame.cpp:543
 msgid "Network activity always available"
-msgstr "ネットワークをいつでも使用"
+msgstr "ネットワークを常時使用"
 
 #: AdvancedFrame.cpp:544
 msgid "Allow network activity regardless of preferences"
-msgstr "プレファレンス (好みの設定) に関わらずネットワークアクセスを許します"
+msgstr "プレファレンス(好みの設定)に関わらずネットワークアクセスを許可"
 
 #: AdvancedFrame.cpp:548
 msgid "Network activity based on preferences"
@@ -370,7 +370,7 @@ msgstr "プレファレンスに従ってネットワークを使用"
 
 #: AdvancedFrame.cpp:549
 msgid "Allow network activity according to preferences"
-msgstr "プレファレンス (好みの設定) に従ってネットワークアクセスを許します"
+msgstr "プレファレンス(好みの設定)に従ってネットワークアクセスを許可"
 
 #: AdvancedFrame.cpp:553
 msgid "Network activity suspended"
@@ -378,12 +378,12 @@ msgstr "ネットワークの使用を一時停止"
 
 #: AdvancedFrame.cpp:554
 msgid "Stop BOINC network activity"
-msgstr "BOINC によるネットワークアクセスを停止します"
+msgstr "BOINC によるネットワークアクセスを停止"
 
 #: AdvancedFrame.cpp:564
 #, c-format
 msgid "Connect to another computer running %s"
-msgstr "%s が稼動している別のコンピュータに接続します"
+msgstr "%s が稼動している別のコンピュータに接続"
 
 #: AdvancedFrame.cpp:569
 msgid "Select computer..."
@@ -395,7 +395,7 @@ msgstr "接続しているクライアントをシャットダウン..."
 
 #: AdvancedFrame.cpp:575
 msgid "Shut down the currently connected client"
-msgstr "現在接続しているクライアントをシャットダウンさせます"
+msgstr "現在接続しているクライアントをシャットダウンさせる"
 
 #: AdvancedFrame.cpp:579
 msgid "Run CPU &benchmarks"
@@ -403,7 +403,7 @@ msgstr "CPU ベンチマークを実行(&B)"
 
 #: AdvancedFrame.cpp:580
 msgid "Runs BOINC CPU benchmarks"
-msgstr "BOINC の CPU ベンチマークを実行します"
+msgstr "BOINC の CPU ベンチマークを実行"
 
 #: AdvancedFrame.cpp:584
 msgid "Do network communication"
@@ -411,7 +411,7 @@ msgstr "通信を今すぐ実施"
 
 #: AdvancedFrame.cpp:585
 msgid "Do all pending network communication"
-msgstr "保留されているネットワーク通信を実行します"
+msgstr "保留されているすべてのネットワーク通信を実行"
 
 #: AdvancedFrame.cpp:589
 msgid "Read config files"
@@ -420,7 +420,7 @@ msgstr "設定ファイルを読み込む"
 #: AdvancedFrame.cpp:590
 msgid ""
 "Read configuration info from cc_config.xml and any app_config.xml files"
-msgstr "cc_config.xmlといずれかのapp_config.xml filesから設定情報を読み込む"
+msgstr "cc_config.xml といずれかの app_config.xml ファイルから設定情報を読み込む"
 
 #: AdvancedFrame.cpp:594
 msgid "Read local prefs file"
@@ -428,17 +428,17 @@ msgstr "ローカル・プレファレンスファイルを読み込む"
 
 #: AdvancedFrame.cpp:595
 msgid "Read preferences from global_prefs_override.xml."
-msgstr "global_prefs_override.xml からプレファレンス (好みの設定) を読み込みます"
+msgstr "global_prefs_override.xml からプレファレンス(好みの設定)を読み込む"
 
 #: AdvancedFrame.cpp:600
 #, c-format
 msgid "Launch another instance of %s..."
-msgstr "もう一つ別の %s のインスタンスを走らせます..."
+msgstr "もう一つ別の %s のインスタンスを起動する..."
 
 #: AdvancedFrame.cpp:604
 #, c-format
 msgid "Launch another %s"
-msgstr "もう一つ別の %s を走らせる"
+msgstr "もう一つ別の %s を起動"
 
 #: AdvancedFrame.cpp:614
 msgid "Event Log...\tCtrl+Shift+E"
@@ -446,7 +446,7 @@ msgstr "イベント・ログ...\tCtrl+Shift+E"
 
 #: AdvancedFrame.cpp:615
 msgid "Display diagnostic messages."
-msgstr "診断メッセージを表示する"
+msgstr "診断メッセージを表示"
 
 #: AdvancedFrame.cpp:625 sg_BoincSimpleFrame.cpp:188
 #, c-format
@@ -456,7 +456,7 @@ msgstr "%s のヘルプ(&H)"
 #: AdvancedFrame.cpp:631 sg_BoincSimpleFrame.cpp:194
 #, c-format
 msgid "Show information about %s"
-msgstr "%s の情報を表示します"
+msgstr "%s に関する情報を表示"
 
 #: AdvancedFrame.cpp:643
 #, c-format
@@ -466,17 +466,17 @@ msgstr "&%s のヘルプ"
 #: AdvancedFrame.cpp:649 sg_BoincSimpleFrame.cpp:212
 #, c-format
 msgid "Show information about the %s"
-msgstr "%s の情報を表示します"
+msgstr "%s に関する情報を表示"
 
 #: AdvancedFrame.cpp:661 sg_BoincSimpleFrame.cpp:224
 #, c-format
 msgid "%s &web site"
-msgstr "%s ウェブサイト(&W)"
+msgstr "%s のウェブサイト(&W)"
 
 #: AdvancedFrame.cpp:667 sg_BoincSimpleFrame.cpp:230
 #, c-format
 msgid "Show information about BOINC and %s"
-msgstr "BOINC および %s の情報を表示します"
+msgstr "BOINC および %s に関する情報を表示"
 
 #: AdvancedFrame.cpp:679 BOINCTaskBar.cpp:530 sg_BoincSimpleFrame.cpp:242
 #, c-format
@@ -525,7 +525,7 @@ msgid ""
 "but you'll have to manage projects manually.\n"
 "\n"
 "Do you want to stop using %s?"
-msgstr "%s を使うのをやめても、現在参加しているプロジェクト\nに影響はありませんが、プロジェクトをいちいち管理\nする手間をかけねばならなくなります。\n\n%s を使うのをやめますか？"
+msgstr "%s の利用を停止しても、現在参加しているプロジェクトに影響はありませんが、\nプロジェクトを手動で管理しなければならなくなります。\n本当に %s の利用を停止しますか？"
 
 #: AdvancedFrame.cpp:1401
 #, c-format
@@ -547,7 +547,7 @@ msgstr "%s"
 #: AdvancedFrame.cpp:1754
 #, c-format
 msgid "%s has successfully added %s"
-msgstr "%s は %s を追加することに成功しました。"
+msgstr "%s は %s の追加に成功しました"
 
 #: AdvancedFrame.cpp:1893
 #, c-format
@@ -557,7 +557,7 @@ msgstr "%s - (%s)"
 #: AdvancedFrame.cpp:1897
 #, c-format
 msgid "Connecting to %s"
-msgstr "%s に接続処理中"
+msgstr "%s に接続中"
 
 #: AdvancedFrame.cpp:1900
 #, c-format
@@ -574,11 +574,11 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr "指定した名前のアカウントは既にあり、あなたが入力した\nものとは異なるパスワードが設定されています。\n\nプロジェクトのウェブサイトに行って、そこにある指示に従ってください。"
+msgstr "指定した名前のアカウントは既にあり、あなたが入力した\nものとは異なるパスワードが設定されています。\n\nプロジェクトのウェブサイトを訪問し、そこにある指示に従ってください。"
 
 #: AlreadyExistsPage.cpp:191
 msgid "Email address already in use"
-msgstr "指定した電子メールアドレスはすでに使われています。"
+msgstr "指定した電子メールアドレスはすでに使われています"
 
 #: AlreadyExistsPage.cpp:194
 msgid ""
@@ -586,7 +586,7 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr "指定した電子メールアドレスのアカウントは既にあり、あなたが入力した\nものとは異なるパスワードが設定されています。\n\nプロジェクトのウェブサイトに行って、そこにある指示に従ってください。"
+msgstr "指定した電子メールアドレスのアカウントは既にあり、\nあなたが入力したものとは異なるパスワードが設定されています。\n\nプロジェクトのウェブサイトを訪問し、そこにある指示に従ってください。"
 
 #: AsyncRPC.cpp:1031
 msgid "Communicating with BOINC client.  Please wait ..."
@@ -595,12 +595,12 @@ msgstr "BOINC クライアントと通信中です。お待ちください ...."
 #: AsyncRPC.cpp:1034
 #, c-format
 msgid "&Quit %s"
-msgstr "%s を終了する(&Q)"
+msgstr "%s を終了(&Q)"
 
 #: AsyncRPC.cpp:1036
 #, c-format
 msgid "E&xit %s"
-msgstr "%s を終了する(&X)"
+msgstr "%s を終了(&X)"
 
 #: AsyncRPC.cpp:1040
 #, c-format
@@ -614,7 +614,7 @@ msgstr "キャンセル"
 #: BOINCBaseFrame.cpp:505
 #, c-format
 msgid "%s - Connection Error"
-msgstr "%s - 接続に異常が発生しました"
+msgstr "%s - 接続エラー"
 
 #: BOINCBaseFrame.cpp:514
 msgid ""
@@ -630,7 +630,7 @@ msgstr "稼動中のクライアントに接続する際に、認証に失敗し
 
 #: BOINCBaseFrame.cpp:525
 msgid "Authorization failed connecting to running client."
-msgstr "実行中のクライアントと接続するときに、認証に失敗しました。"
+msgstr "稼働中のクライアントと接続するときに、認証に失敗しました。"
 
 #: BOINCBaseFrame.cpp:533
 msgid "The password you have provided is incorrect, please try again."
@@ -639,7 +639,7 @@ msgstr "入力したパスワードに誤りがあります。もう一度試し
 #: BOINCBaseFrame.cpp:577
 #, c-format
 msgid "%s - Connection Failed"
-msgstr "%s - 接続に失敗しました"
+msgstr "%s - 接続失敗"
 
 #: BOINCBaseFrame.cpp:586
 #, c-format
@@ -651,7 +651,7 @@ msgstr "%s は %s クライアントに接続できませんでした。\nもう
 #: BOINCBaseFrame.cpp:622
 #, c-format
 msgid "%s - Daemon Start Failed"
-msgstr "%s - デーモンの開始に失敗しました"
+msgstr "%s - デーモンの起動失敗"
 
 #: BOINCBaseFrame.cpp:632
 #, c-format
@@ -682,19 +682,19 @@ msgstr "%s は現在 %s クライアントと繋がっていません。メニ�
 
 #: BOINCBaseView.cpp:779
 msgid "Project web pages"
-msgstr "プロジェクトのウェブサイト"
+msgstr "プロジェクトのウェブページ"
 
 #: BOINCClientManager.cpp:575
 #, c-format
 msgid "%s - Unexpected Exit"
-msgstr "%s - 予期せぬ終了"
+msgstr "%s - 予期しない終了"
 
 #: BOINCClientManager.cpp:585
 #, c-format
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
-msgstr "%s クライアントが %d分間のうちに3回、予期せぬ終了をしました。\nもう一度再開しますか？"
+msgstr "%s クライアントが %d分間のうちに3回、予期せず終了しました。\nもう一度再開しますか？"
 
 #: BOINCDialupManager.cpp:61
 #, c-format
