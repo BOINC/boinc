@@ -9,10 +9,10 @@
 # Masahiro Tagashira, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: boinc\n"
+"Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2015-02-23 16:10+0000\n"
+"PO-Revision-Date: 2015-02-25 14:26+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -39,15 +39,15 @@ msgstr "このページは %s翻訳可能です%s 。"
 msgid ""
 "We recommend that you also install VirtualBox, so your computer can work on "
 "science projects that require it."
-msgstr "私達は VirtualBox も同様にインストールすることをおすすめします、そうすることであなたのコンピュータは VirtualBox を必要とする科学プロジェクトを動作させることが出来ます。"
+msgstr "私達はVirtualBoxも同様にインストールすることをおすすめします、そうすることであなたのコンピュータはVirtualBoxを必要とする科学プロジェクトを動作させることが出来ます。"
 
 #: download.php:41
 msgid "Learn more about VirtualBox."
-msgstr "VirtualBox についてもっと詳しく。"
+msgstr "VirtualBoxについてもっと詳しく。"
 
 #: download.php:51
 msgid "Download BOINC + VirtualBox"
-msgstr "BOINC と VirtualBox のダウンロード"
+msgstr "BOINC+VirtualBoxをダウンロード"
 
 #: download.php:54 download.php:69
 #, php-format
@@ -57,41 +57,41 @@ msgstr "%s のための"
 #: download.php:57 download.php:72
 #, php-format
 msgid "BOINC version %s"
-msgstr "BOINC のバージョン %s"
+msgstr "BOINCのバージョン %s"
 
 #: download.php:59
 #, php-format
 msgid "VirtualBox version %s"
-msgstr "VirtualBox のバージョン %s"
+msgstr "VirtualBoxのバージョン %s"
 
 #: download.php:67
 msgid "Download BOINC"
-msgstr "BOINC をダウンロードする"
+msgstr "BOINCをダウンロード"
 
 #: download.php:123
 msgid ""
 "BOINC is a program that lets you donate your idle computer time to science "
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
 "Community Grid, and many others."
-msgstr "BOINC はあなたのコンピュータのアイドル時間を SETI@home, Climateprediction.net, Rosetta@home, World Community Grid ほか多くの科学プロジェクトに提供するためのプログラムです。"
+msgstr "BOINCはあなたのコンピュータのアイドル時間を SETI@home, Climateprediction.net, Rosetta@home, World Community Grid ほか多くの科学プロジェクトに提供するためのプログラムです。"
 
 #: download.php:125
 msgid ""
 "After installing BOINC on your computer, you can connect it to as many of "
 "these projects as you like."
-msgstr "BOINC をコンピュータにインストールした後、あなたは好きなようにこれらのプロジェクトの多くに接続することができます。"
+msgstr "BOINCをコンピュータにインストールした後、あなたは好きなようにこれらのプロジェクトの多くに接続することができます。"
 
 #: download.php:127
 msgid ""
 "You may run this software on a computer only if you own the computer or have"
 " the permission of its owner."
-msgstr "ご自身で所有しているコンピュータあるいは所有者に許可を得た場合のみそのコンピュータでこのソフトウェアを実行することを許します。"
+msgstr "ご自身で所有しているコンピュータあるいは所有者に許可を得た場合のみそのコンピュータでこのソフトウェアを実行できます。"
 
 #: download.php:132
 msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
-msgstr "私達はあなたが BOINC をこのページからではなく、Google Play StoreもしくはAmazonアプリストアからダウンロードすることをおすすめします。"
+msgstr "私達はあなたがBOINCをこのページからではなく、Google PlayストアもしくはAmazonアプリストアからダウンロードすることをおすすめします。"
 
 #: download.php:167
 msgid "System requirements"
@@ -107,7 +107,7 @@ msgstr "ヘルプ"
 
 #: download.php:170
 msgid "All versions"
-msgstr "ダウンロード一覧"
+msgstr "全バージョンの一覧"
 
 #: download.php:171
 msgid "Version history"
@@ -128,7 +128,7 @@ msgid ""
 " can: %s answer questions about BOINC and volunteer computing; %s walk you "
 "through the process of installing and using BOINC; %s troubleshoot any "
 "problems you might have."
-msgstr "BOINC のオンライン・ヘルプでは、経験ある BOINC 参加者と1対1で話ができます。話の相手となってくれる方は、 %s BOINC とボランティア・コンピューティングについて質問に答えることができますし、%s BOINC をインストールして使うところまで、あなたをガイドできます。さらに %s あなたが遭遇するかもしれない問題も解決できるでしょう。"
+msgstr "BOINC のオンライン・ヘルプでは、経験あるBOINC参加者と1対1で話ができます。話の相手となってくれる方は、 %s BOINCとボランティア・コンピューティングについて質問に答えることができますし、%s BOINCをインストールして使うところまで、あなたをガイドできます。さらに %s あなたが遭遇するかもしれない問題も解決できるでしょう。"
 
 #: help.php:21
 #, php-format
@@ -137,7 +137,7 @@ msgid ""
 " Skype is free (both the software and the calls).  If you don't already have"
 " Skype, please %sdownload and install it now%s.  When you're finished, "
 "return to this page."
-msgstr "BOINC オンライン・ヘルプは インターネット・ベースの電話システムの1つである %s Skype %s を使います。Skype は無料 (ソフトウェアも通話料も)です。まだ Skype をもっていなければ、どうぞ %s 今すぐダウンロードしてインストールしてください %s 。それが済んだら、このページに戻ってください。"
+msgstr "BOINCオンライン・ヘルプは インターネット・ベースの電話システムの1つである %s Skype %s を使います。Skypeは無料(ソフトウェアも通話も)です。まだSkypeをもっていなければ、どうぞ %s 今すぐダウンロードしてインストールしてください %s 。それが済んだら、このページに戻ってください。"
 
 #: help.php:28
 msgid ""
@@ -145,7 +145,7 @@ msgid ""
 "microphone and speakers or an external headset for your computer.  You can "
 "also use Skype's text-based chat system or regular email (if you don't have "
 "Skype) to communicate with Help Volunteers."
-msgstr "助けを得る一番良いやり方は、口頭で相談することです。そのためには、あなたのコンピュータに組み込まれたマイクとスピーカ、あるいは、外部接続のヘッドセットが要ります。別の方法としては、Skype のテキストベースのチャットシステムを使って、ヘルプを担当してくれるボランティアとやりとりをすることもできます。 "
+msgstr "助けを得る一番良いやり方は、口頭で相談することです。そのためには、あなたのコンピュータに組み込まれたマイクとスピーカ、あるいは、外部接続のヘッドセットが要ります。別の方法としては、Skypeのテキストベースのチャットシステムを使って、ヘルプを担当してくれるボランティアとやりとりをすることもできます。 "
 
 #: help.php:31
 msgid ""
@@ -163,13 +163,13 @@ msgid ""
 "If you're an experienced BOINC user, we encourage you to %sbecome a Help "
 "Volunteer%s.  It's a great way to help the cause of scientific research and "
 "volunteer computing - and it's fun!"
-msgstr "あなたが BOINC 参加者として経験がおありなら、是非、%s ヘルプ担当のボランティアをやって %s いただけませんか。科学研究とボランティア・コンピューティングの主旨を支援する、重要な活動の1つです。さらに、楽しい活動でもあります！"
+msgstr "あなたがBOINC参加者として経験がおありなら、是非、%s ヘルプ担当のボランティアをやって %s いただけませんか。科学研究とボランティア・コンピューティングの主旨を支援する、重要な活動の1つです。さらに、楽しい活動でもあります！"
 
 #: help.php:56
 #, php-format
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
-msgstr "既にヘルプ担当のボランティアをされている方へ：あなたの %s 設定を編集する%s には左のリンクをクリックしてください。"
+msgstr "既にヘルプ担当のボランティアをされている方へ：あなたの %s設定を編集する%s には左のリンクをクリックしてください。"
 
 #: help_funcs.php:107
 msgid ""
@@ -441,7 +441,7 @@ msgid ""
 "existing drugs. Importantly, these new drugs need to target NEW proteins in "
 "the parasite. The FightMalaria@Home project is aimed at finding these new "
 "targets."
-msgstr "マラリアを引き起こす寄生虫は利用できる抗マラリア薬からの耐性獲得で進化し続けています。私達はしたがって早急に既存の薬に置き換わる新薬を発見する必要があります。さらに重要なことに、これらの新薬は寄生虫の新しいたんぱく質を目標とする必要があります。この FightMalaria@Home プロジェクトではこれらの新しい目標の発見を目指します。"
+msgstr "マラリアを引き起こす寄生虫は、利用できる抗マラリア薬からの耐性獲得で進化し続けています。私達はしたがって早急に既存の薬に置き換わる新薬を発見する必要があります。さらに重要なことに、これらの新薬は寄生虫の新しいたんぱく質を目標とする必要があります。この FightMalaria@Home プロジェクトではこれらの新しい目標の発見を目指します。"
 
 #: projects.inc:90
 msgid "University of Karlsruhe (Germany)"
