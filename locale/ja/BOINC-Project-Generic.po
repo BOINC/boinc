@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2015-02-26 15:55+0000\n"
+"PO-Revision-Date: 2015-02-26 16:55+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -315,7 +315,7 @@ msgstr "評価する:"
 
 #: ../inc/forum.inc:675
 msgid "Click if you like this message"
-msgstr "このメッセージが好きである場合はクリック"
+msgstr "このメッセージが好ましいと思う場合はクリック"
 
 #: ../inc/forum.inc:675
 msgid "Rate +"
@@ -323,7 +323,7 @@ msgstr "+として評価"
 
 #: ../inc/forum.inc:677
 msgid "Click if you don't like this message"
-msgstr "このメッセージが好きでない場合はクリック"
+msgstr "このメッセージが好ましいと思わない場合はクリック"
 
 #: ../inc/forum.inc:677
 msgid "Rate -"
@@ -409,19 +409,19 @@ msgstr "この投稿を別の掲示板に移動します"
 
 #: ../inc/forum.inc:1067
 msgid "Banish author"
-msgstr "投稿者を追放する"
+msgstr "投稿者を投稿禁止にする"
 
 #: ../inc/forum.inc:1074
 msgid "Vote to banish author"
-msgstr "投稿者を追放するよう投票"
+msgstr "投稿者を投稿禁止にするよう投票"
 
 #: ../inc/forum.inc:1078
 msgid "Vote not to banish author"
-msgstr "投稿者を追放しないよう投票"
+msgstr "投稿者を投稿禁止にしないよう投票"
 
 #: ../inc/forum.inc:1083
 msgid "Start vote to banish author"
-msgstr "投稿者を追放にするかどうかの投票開始"
+msgstr "投稿者を投稿禁止にするかどうかの投票を開始"
 
 #: ../inc/forum.inc:1116
 msgid "Only team members can post to the team message board"
@@ -946,7 +946,7 @@ msgstr "非公開メッセージ"
 msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
-msgstr "コンピュータがバッテリーで動作しているときには、計算を一時停止さますか? %1 携帯型のコンピュータの場合だけ重要です %2"
+msgstr "コンピュータがバッテリーで動作しているときには、計算を一時停止さますか? %1 携帯型のコンピュータの場合のみ重要です %2"
 
 #: ../inc/prefs.inc:85
 msgid "Suspend work while computer is in use?"
@@ -959,7 +959,7 @@ msgstr "コンピュータを使用中は、GPU による計算を一時停止�
 
 #: ../inc/prefs.inc:99
 msgid "'In use' means mouse/keyboard activity in last"
-msgstr "「使用中」とは、マウスまたはキーボード操作が右の時間内にあった場合のことです："
+msgstr "「使用中」とは、マウス・キーボード操作が右の時間内にあった場合のことです："
 
 #: ../inc/prefs.inc:101 ../inc/prefs.inc:110 ../inc/prefs.inc:144
 msgid "minutes"
@@ -969,27 +969,27 @@ msgstr "分"
 msgid ""
 "Suspend work if no mouse/keyboard activity in last %1 Needed to enter low-"
 "power mode on some computers %2"
-msgstr "マウス・キーボード操作が右の時間内になければ計算を一時停止させる %1 コンピュータによっては低電力モードに入る必要がある %2"
+msgstr "マウス・キーボード操作が右の時間内になければ計算を一時停止させる %1 コンピュータによっては低電力モードに入る必要があります %2"
 
 #: ../inc/prefs.inc:114
 msgid ""
 "Suspend work when non-BOINC CPU usage is above %1 0 means no "
 "restriction<br>Enforced by version 6.10.30+ %2"
-msgstr "BOINC とは関係のない CPU 使用率が 右の値を超えたら、計算を一時停止する%1 0 を指定すると制約なし<br>Version 6.10.30以降で有効%2"
+msgstr "BOINC 以外で CPU 使用率が右の値を超えたら、計算を一時停止する %1 0を指定すると制約なし<br>Version 6.10.30以降で有効 %2"
 
 #: ../inc/prefs.inc:122
 msgid "Do work only between the hours of %1 No restriction if equal %2"
-msgstr "右の時間帯内でのみ計算をする %1 2つの時刻が等しければ制約なし %2"
+msgstr "右の時間帯内でのみ計算する %1 2つの時刻が等しければ制約なし %2"
 
 #: ../inc/prefs.inc:130
 msgid ""
 "Leave tasks in memory while suspended? %1 Suspended tasks will consume swap "
 "space if 'yes' %2"
-msgstr "一時停止したときタスクをメモリ内に残すか? %1( 'yes/はい' を指定すると、一時停止のためにそのタスクはスワップ領域を使用する)%2"
+msgstr "一時停止したときタスクをメモリ内に残しますか? %1 [yes/はい]を指定した場合、一時停止のためにそのタスクはスワップ領域を使用します %2"
 
 #: ../inc/prefs.inc:139
 msgid "Switch between tasks every %1 Recommended: 60 minutes %2"
-msgstr "タスク間の切り替え時間間隔 %1 推奨値は: 60 分 %2"
+msgstr "タスク間の切り替え時間間隔 %1 推奨値: 60 分 %2"
 
 #: ../inc/prefs.inc:147
 msgid "On multiprocessors, use at most"
@@ -1001,7 +1001,7 @@ msgstr "プロセッサまで"
 
 #: ../inc/prefs.inc:153
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
-msgstr "マルチプロセッサで動作する場合、全プロセッサのうち使うのは最大で %1 Version 6.1以降で有効%2"
+msgstr "マルチプロセッサの場合、全プロセッサのうち使うのは最大で %1 Version 6.1以降で有効 %2"
 
 #: ../inc/prefs.inc:158
 msgid "% of the processors"
@@ -1009,7 +1009,7 @@ msgstr "% のプロセッサまで"
 
 #: ../inc/prefs.inc:162
 msgid "Use at most %1 Can be used to reduce CPU heat %2"
-msgstr "最大使用時でも %1 (CPU 過熱防止のためにも指定可)%2"
+msgstr "最大使用時でも %1 CPU 過熱防止のためにも指定可 %2"
 
 #: ../inc/prefs.inc:167
 msgid "% of CPU time"
@@ -1017,7 +1017,7 @@ msgstr "% の CPU 時間まで"
 
 #: ../inc/prefs.inc:175 ../inc/prefs.inc:189
 msgid "Disk: use at most"
-msgstr "ディスク：最大使用時でも"
+msgstr "ディスク: 最大使用時でも"
 
 #: ../inc/prefs.inc:177 ../inc/prefs.inc:186
 msgid "GB"
@@ -1025,7 +1025,7 @@ msgstr "GB"
 
 #: ../inc/prefs.inc:180
 msgid "Disk: leave free at least %1 Values smaller than %2 are ignored %3"
-msgstr "ディスク：少なくとも %1 は残す。 %2 未満を指定すると無視される %3"
+msgstr "ディスク：少なくとも %1 は空き領域を残す %2 未満を指定すると無視されます %3"
 
 #: ../inc/prefs.inc:191 ../inc/prefs.inc:201 ../inc/prefs.inc:206
 #: ../inc/prefs.inc:211
@@ -1034,7 +1034,7 @@ msgstr "% まで(全体比)"
 
 #: ../inc/prefs.inc:194
 msgid "Tasks checkpoint to disk at most every"
-msgstr "タスクのチェックポイントをディスクに書く最短時間間隔"
+msgstr "タスクのチェックポイントをディスクに書き込む最短時間間隔"
 
 #: ../inc/prefs.inc:196
 msgid "seconds"
@@ -1042,44 +1042,44 @@ msgstr "秒"
 
 #: ../inc/prefs.inc:199
 msgid "Swap space: use at most"
-msgstr "スワップ領域：最大でも"
+msgstr "スワップ領域: 最大でも"
 
 #: ../inc/prefs.inc:204
 msgid "Memory: when computer is in use, use at most"
-msgstr "メモリ：そのコンピュータを人が使っているときは、最大でも"
+msgstr "メモリ: コンピュータがユーザーにより使用中は、最大でも"
 
 #: ../inc/prefs.inc:209
 msgid "Memory: when computer is not in use, use at most"
-msgstr "メモリ：そのコンピュータを人が使っていないときは、最大でも"
+msgstr "メモリ: コンピュータがユーザーにより使用されていないときは、最大でも"
 
 #: ../inc/prefs.inc:218
 msgid "Maintain enough tasks to keep busy for at least%1(max 10 days).%2"
-msgstr "少なくとも %1 (最大10日間) 忙しく保つために十分なタスクを維持します。 %2"
+msgstr "ビジー状態を保つため、十分な量のタスクを少なくとも右の日数分保持する %1 (最大10日分) %2"
 
 #: ../inc/prefs.inc:223 ../inc/prefs.inc:228 ../inc/prefs.inc:270
 #: ../inc/util.inc:274
 msgid "days"
-msgstr "日"
+msgstr "日分"
 
 #: ../inc/prefs.inc:226
 msgid "... and up to an additional"
-msgstr "…と追加のまで"
+msgstr "…また追加でも多くとも"
 
 #: ../inc/prefs.inc:232
 msgid ""
 "Confirm before connecting to Internet? %1 Matters only if you have a modem, "
 "ISDN or VPN connection %2"
-msgstr "インターネットに接続する前に確認を求めるか? %1(モデム、ISDN または VPN 接続を使っているときだけ有意)%2"
+msgstr "インターネットに接続する前に確認しますか? %1 モデム、ISDN または VPN 接続を使っているときのみ重要です %2"
 
 #: ../inc/prefs.inc:241
 msgid ""
 "Disconnect when done? %1 Matters only if you have a modem, ISDN or VPN "
 "connection %2"
-msgstr "終わったときに接続を切るか? %1(モデム、ISDN または VPN 接続を使っているときだけ有意)%2"
+msgstr "完了したときに接続を切りますか? %1 モデム、ISDN または VPN 接続を使っているときのみ重要です %2"
 
 #: ../inc/prefs.inc:249
 msgid "Maximum download rate:"
-msgstr "最大ダウンロード速度："
+msgstr "最大ダウンロード速度:"
 
 #: ../inc/prefs.inc:251 ../inc/prefs.inc:256
 msgid "Kbytes/sec"
@@ -1091,7 +1091,7 @@ msgstr "最大アップロード速度："
 
 #: ../inc/prefs.inc:259
 msgid "Use network only between the hours of"
-msgstr "ネットワーク使用を許す時間帯"
+msgstr "ネットワーク使用を許可する時間帯"
 
 #: ../inc/prefs.inc:263
 msgid "Transfer at most %1 Enforced by version 6.10.46+ %2"
@@ -1106,7 +1106,7 @@ msgid ""
 "Skip image file verification? %1 Check this ONLY if your Internet provider "
 "modifies image files (UMTS does this, for example). %2 Skipping verification"
 " reduces the security of BOINC. %3"
-msgstr "イメージファイルの検証をスキップしますか？%1 インターネットプロバイダが画像ファイルを変更する場合だけ、チェックを入れてください（たとえば UMTSの場合）。%2 検証をスキップすると BOINC のセキュリティレベルは低下します。%3"
+msgstr "画像ファイルの検証をスキップしますか？ %1 インターネットプロバイダが画像ファイルを変更する場合のみ、チェックを入れてください（例えばUMTSの場合）。 %2 検証をスキップすると BOINC のセキュリティレベルは低下します。 %3"
 
 #: ../inc/prefs.inc:287
 msgid ""
@@ -1114,43 +1114,43 @@ msgid ""
 "allocated to this project. Example: if you participate in two BOINC projects"
 " with resource shares of 100 and 200, the first will get 1/3 of your "
 "resources and the second will get 2/3. %2"
-msgstr "リソース割り当て %1このプロジェクトに割り当てるあなたのコンピュータの資源量を決める指標です。\n 例えば２つの BOINC プロジェクトに参加していたとしてリソース\n割り当てをそれぞれ 100、200 と指定したら、１つ目のプロジェクト\nに1/3が割り当てられ、2つ目には2/3の資源が割り当てられます。%2"
+msgstr "リソース割り当て %1 このプロジェクトに割り当てるあなたのコンピュータの資源量の割合を決める指標です。\n例えば2つの BOINC プロジェクトに参加していたとして、リソース\n割り当てをそれぞれ100・200と指定した場合、1つ目のプロジェクト\nに1/3が割り当てられ、2つ目には2/3の資源が割り当てられます。 %2"
 
 #: ../inc/prefs.inc:298
 msgid "Accelerate GPU tasks by dedicating a CPU to each one?"
-msgstr "GPU タスクを高速化するために、それぞれに CPU を専用に割り当てるか?"
+msgstr "CPU をそれぞれに専用に割り当てて、GPU タスクを高速化しますか?"
 
 #: ../inc/prefs.inc:308
 msgid "Use CPU %1 Enforced by version 6.10+ %2"
-msgstr "CPU を計算に使うか %1 Version 6.10以降で有効 %2"
+msgstr "CPU を計算に使用する %1 Version 6.10以降で有効 %2"
 
 #: ../inc/prefs.inc:320
 msgid "Use ATI GPU %1 Enforced by version 6.10+ %2"
-msgstr "ATI GPU を計算に使うか %1 Version 6.10以降で有効 %2"
+msgstr "ATI GPU を計算に使用する %1 Version 6.10以降で有効 %2"
 
 #: ../inc/prefs.inc:332
 msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
-msgstr "NVIDIA GPU を計算に使うか %1 Version 6.10以降で有効 %2"
+msgstr "NVIDIA GPU を計算に使用する %1 Version 6.10以降で有効 %2"
 
 #: ../inc/prefs.inc:344
 msgid "Use Intel GPU %1 Enforced by version 7.2+ %2"
-msgstr "Intel GPU を計算に使うか %1 Version 7.2以降で有効 %2"
+msgstr "Intel GPU を計算に使用する %1 Version 7.2以降で有効 %2"
 
 #: ../inc/prefs.inc:358
 msgid ""
 "Run test applications? %1 This helps us develop applications, but may cause "
 "jobs to fail on your computer %2"
-msgstr "テスト中のアプリケーションでも実行しますか? %1 指定すればアプリケーション開発者を手助けすることになりますが、そのアプリケーションはあなたのコンピュータ上で異常終了することがあるかもしれません%2"
+msgstr "試用版のアプリケーションでも実行しますか? %1 指定すればアプリケーション開発者を手助けすることになりますが、そのアプリケーションはあなたのコンピュータ上で異常終了することがあるかもしれません %2"
 
 #: ../inc/prefs.inc:367
 msgid ""
 "Emails will be sent from %1; make sure your spam filter accepts this "
 "address."
-msgstr "Eメイルが %1 より送付されます。スパムフィルターがこのアドレスをブロックしないようにしてください。"
+msgstr "Eメールが %1 より送付されます。スパムフィルターがこのアドレスをブロックしないようにしてください。"
 
 #: ../inc/prefs.inc:374
 msgid "Is it OK for %1 and your team (if any) to email you?"
-msgstr "%1 および（所属している場合）あなたのチームから、Eメイルを送信してもよろしいですか？"
+msgstr "%1 および(所属している場合)あなたのチームから、Eメールを送信してもよろしいですか?"
 
 #: ../inc/prefs.inc:380
 msgid "Should %1 show your computers on its web site?"
@@ -1158,26 +1158,26 @@ msgstr "%1 があなたのコンピュータをこのウェブサイト上に表
 
 #: ../inc/prefs.inc:387
 msgid "Disk and memory usage"
-msgstr "ディスクとメモリの使用限度"
+msgstr "ディスクとメモリの使い方"
 
 #: ../inc/prefs.inc:388
 msgid "Processor usage"
-msgstr "プロセッサの使用限度"
+msgstr "プロセッサの使い方"
 
 #: ../inc/prefs.inc:389
 msgid "Network usage"
-msgstr "ネットワークの使用限度"
+msgstr "ネットワークの使い方"
 
 #: ../inc/prefs.inc:392
 msgid ""
 "These preferences apply to all the BOINC projects in which you participate."
-msgstr "これらのプレファレンス（好みの設定）は、あなたが参加するすべての BOINC プロジェクトに適用されます。"
+msgstr "これらのプレファレンス(好みの設定)は、あなたが参加するすべての BOINC プロジェクトに適用されます。"
 
 #: ../inc/prefs.inc:395
 msgid ""
 "%1Unable to update preferences.%2 The values marked in red below were out of"
 " range or not numeric."
-msgstr "%1プレファレンスを更新することができません。 %2 赤色で強調した値は、指定可能範囲外であるか、数値でありません。"
+msgstr "%1 プレファレンスを更新することができません。 %2 赤色で強調された値は指定可能範囲外であるか、数値でありません。"
 
 #: ../inc/prefs.inc:445
 msgid "bad venue: %1"
@@ -1199,7 +1199,7 @@ msgstr "いいえ"
 
 #: ../inc/prefs.inc:679 ../user/forum_search.php:53
 msgid "no limit"
-msgstr "制限なし"
+msgstr "無制限"
 
 #: ../inc/prefs.inc:704 ../user/team_admins.php:79
 msgid "Add"
@@ -1236,11 +1236,11 @@ msgstr "総合プレファレンス"
 
 #: ../inc/prefs.inc:854
 msgid "Project specific settings"
-msgstr "プロジェクトごとの設定"
+msgstr "プロジェクト固有の設定"
 
 #: ../inc/prefs.inc:862 ../inc/prefs.inc:907
 msgid "Primary (default) preferences"
-msgstr "初期（指定省略時）のプレファレンス"
+msgstr "初期(指定省略時)のプレファレンス"
 
 #: ../inc/prefs.inc:871 ../user/add_venue.php:39 ../user/add_venue.php:63
 #: ../user/prefs_edit.php:40 ../user/prefs_edit.php:64
@@ -1260,11 +1260,11 @@ msgstr "複数のプロジェクトに参加しているコンピュータ上で
 
 #: ../inc/prefs.inc:889
 msgid "These preferences do not apply to Android devices."
-msgstr "これらのプレファレンスはAndroidデバイスには適用されません。"
+msgstr "これらのプレファレンスは Android デバイスには適用されません。"
 
 #: ../inc/prefs.inc:892
 msgid "Preferences last modified:"
-msgstr "最後に更新されたプレファレンス："
+msgstr "最後に変更されたプレファレンス："
 
 #: ../inc/prefs.inc:944
 msgid "Add preferences"
@@ -1276,7 +1276,7 @@ msgstr "プレファレンスを更新する"
 
 #: ../inc/prefs.inc:1036 ../inc/prefs.inc:1045
 msgid "Default computer location"
-msgstr "指定省略時のコンピュータ設置場所"
+msgstr "初期(指定省略時)のコンピュータ設置場所"
 
 #: ../inc/prefs_util.inc:305 ../inc/prefs_util.inc:315
 msgid "and"
@@ -1286,13 +1286,13 @@ msgstr "～"
 msgid ""
 "Your profile will be made visible to other people as soon as it has been "
 "approved by the project. This may take up to a few days."
-msgstr "あなたの自己紹介記事は、このプロジェクトから許可が出しだい他の方にも見えるようになります。それまで数日かかるかもしれません。"
+msgstr "あなたのプロフィールはこのプロジェクトから承認され次第、他の方にも見えるようになります。それまで数日かかるかもしれません。"
 
 #: ../inc/profile.inc:92
 msgid ""
 "Your profile has been marked as unacceptable. It is not visible to other "
 "people. Please change it."
-msgstr "あなたの自己紹介記事は受け入れられませんでした。他の方からは見えません。変更をお願いします。"
+msgstr "あなたのプロフィールは容認されませんでした。他の方からは見えません。変更してください。"
 
 #: ../inc/profile.inc:172 ../user/friend.php:105 ../user/friend.php:172
 msgid "Database error"
@@ -1302,39 +1302,39 @@ msgstr "データベースで異常発生"
 msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
 "are displayed only to logged-in users. We apologize for this inconvenience."
-msgstr "スパムを防ぐため、功績の平均増加量が %1 より少ない参加者の自己紹介記事は、ログイン済みの参加者からだけしか見ることができません。ご不便をおかけします。"
+msgstr "スパムを防ぐため、功績の平均増加量が %1 より少ない参加者のプロフィールはログイン済みのユーザーに対してしか表示されません。ご不便をおかけします。"
 
 #: ../inc/profile.inc:197
 msgid "User is banished"
-msgstr "参加者は書込み禁止状態になっています"
+msgstr "ユーザーは書き込み禁止状態になっています"
 
 #: ../inc/profile.inc:211
 msgid "No profile exists for that user ID."
-msgstr "その参加者IDには自己紹介記事はありません。"
+msgstr "そのユーザーIDにはプロフィールがありません。"
 
 #: ../inc/profile.inc:219 ../user/create_profile.php:313
 msgid "Edit your profile"
-msgstr "あなたの自己紹介記事（プロファイル)を編集する"
+msgstr "あなたのプロフィールを編集する"
 
 #: ../inc/profile.inc:262
 msgid "Your feedback on this profile"
-msgstr "この自己紹介記事（プロファイル）へのあなたのフィードバック"
+msgstr "このプロフィールへのあなたのフィードバック"
 
 #: ../inc/profile.inc:264
 msgid "Recommend this profile for User of the Day:"
-msgstr "「今日の参加者紹介」へこの自己紹介記事(プロファイル)を推薦する"
+msgstr "「今日の参加者紹介」へこのプロフィールを推薦する:"
 
 #: ../inc/profile.inc:265
 msgid "I %1like%2 this profile"
-msgstr "この自己紹介記事(プロファイル)が%1好き%2"
+msgstr "このプロフィールが %1 好き %2"
 
 #: ../inc/profile.inc:268
 msgid "Alert administrators to an offensive profile:"
-msgstr "不快感を与える自己紹介記事(プロファイル)であることを管理者に注意喚起する："
+msgstr "不快感を与えるプロフィールであることを管理者に注意喚起する:"
 
 #: ../inc/profile.inc:269
 msgid "I %1do not like%2 this profile"
-msgstr "この自己紹介記事(プロファイル)は%1嫌い%2"
+msgstr "このプロフィールは %1 好ましくない %2"
 
 #: ../inc/result.inc:35
 msgid "Anonymous platform"
@@ -1374,7 +1374,7 @@ msgstr "検証を保留中"
 
 #: ../inc/result.inc:117
 msgid "Validation inconclusive"
-msgstr "検証したが未決定"
+msgstr "検証したが未確定"
 
 #: ../inc/result.inc:118 ../inc/result.inc:268
 msgid "Valid"
