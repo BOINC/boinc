@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2015-02-26 12:18+0000\n"
+"PO-Revision-Date: 2015-02-26 13:52+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -241,7 +241,7 @@ msgstr "%1 さんに非公開メッセージを送信する"
 
 #: ../inc/forum.inc:581
 msgid "Joined: %1"
-msgstr "%1 に参加完了"
+msgstr "参加した日: %1"
 
 #: ../inc/forum.inc:590
 msgid "Posts: %1"
@@ -257,7 +257,7 @@ msgstr "最近の平均功績: %1"
 
 #: ../inc/forum.inc:620
 msgid "You haven't read this message yet"
-msgstr "このメッセージをあなたはまだ読んでいません"
+msgstr "あなたはこのメッセージをまだ読んでいません"
 
 #: ../inc/forum.inc:620
 msgid "Unread"
@@ -273,7 +273,7 @@ msgstr "非公開"
 
 #: ../inc/forum.inc:625
 msgid "Posted: %1"
-msgstr "投稿済み: %1"
+msgstr "投稿日時: %1"
 
 #: ../inc/forum.inc:628
 msgid " - in response to "
@@ -285,7 +285,7 @@ msgstr "編集"
 
 #: ../inc/forum.inc:631
 msgid "Edit this message"
-msgstr "このメッセージを編集する"
+msgstr "このメッセージを編集"
 
 #: ../inc/forum.inc:637
 msgid "Last modified: %1"
@@ -295,7 +295,7 @@ msgstr "最終更新: %1"
 msgid ""
 "This post is not shown because the sender is on your 'ignore' list.  Click "
 "%1here%2 to view this post"
-msgstr "この投稿は送信者があなたの'除外'リストにあるため表示されていません。ご覧になるには %1ここ%2 をクリックしてください。"
+msgstr "この投稿は投稿者があなたの「除外」リストにあるため表示されていません。ご覧になるには%1ここ%2をクリックしてください。"
 
 #: ../inc/forum.inc:668 ../inc/forum.inc:679
 msgid "Report this post as offensive"
