@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2015-02-25 14:26+0000\n"
+"PO-Revision-Date: 2015-02-26 09:17+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -378,7 +378,7 @@ msgid ""
 "The Quake-Catcher Network is developing the world's largest seismic network "
 "using sensors attached to Internet-connected computers.  You must buy a "
 "sensor to participate."
-msgstr "The Quake-Catcher Networkはインターネットに接続されたコンピュータに繋がれたセンサーを使って世界最大の地震ネットワークを開発しています。参加するにはセンサーを購入しなければなりません。"
+msgstr "The Quake-Catcher Network はインターネットに接続されたコンピュータに繋がれたセンサーを使って世界最大の地震ネットワークを開発しています。参加するにはセンサーを購入しなければなりません。"
 
 #: projects.inc:27
 msgid "BOINC Poland Foundation"
@@ -490,11 +490,11 @@ msgid ""
 "molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. "
 "New biomedical applications suddenly become possible giving a new role to "
 "computational biology for biomedical research."
-msgstr "NVIDAI GPU の上で走らせるように特に最適化した、 全原子を対象粒子として扱う初めての分子動力学のプログラムコード(CellMD )を使うことにより、GPUGrid.netは、革新的な計算シナリオを開拓します。 新しい生体医学的応用が突然可能になり、 生体医学を研究するにあたり計算生物学に新しい役割を与えます。"
+msgstr "NVIDAI GPU の上で走らせるように特別に最適化した、 全原子を対象粒子として扱う初めての分子動力学のプログラムコード(CellMD)を使うことにより、GPUGrid.netは、革新的な計算シナリオを開拓します。 新しい生体医学的応用が突然可能になり、 生体医学を研究するにあたり計算生物学に新しい役割を与えます。"
 
 #: projects.inc:122
 msgid "Technion, Israel"
-msgstr "Technion, Israel"
+msgstr "テクニオン - イスラエル工科大学"
 
 #: projects.inc:123
 msgid "Genetic linkage analysis"
@@ -505,12 +505,12 @@ msgid ""
 "Superlink@Technion helps geneticists all over the world find disease-"
 "provoking genes causing some types of diabetes, hypertension (high blood "
 "pressure), cancer, schizophrenia and many others."
-msgstr "Superlink@Technion は世界中の遺伝学者に、ある種の代謝異常や高血圧、ガン、 統合失調症など起こして疾病を誘発する遺伝子を探しやすくします。"
+msgstr "Superlink@Technion は世界中の遺伝学者が、ある種の代謝異常や高血圧、ガン、 統合失調症などその他多くの疾病を誘発する遺伝子を探しやすくします。"
 
 #: projects.inc:138
 msgid ""
 "University of Maryland Center for Bioinformatics and Computational Biology"
-msgstr "メリーランド大学 バイオインフォマティックスと計算生物学のためのセンター"
+msgstr "メリーランド大学 バイオインフォマティックス(生命情報学)と計算生物学のためのセンター"
 
 #: projects.inc:139
 msgid "Life science research"
@@ -522,7 +522,7 @@ msgid ""
 " of Maryland studying evolutionary relationships based on DNA sequence data;"
 " bacterial, plasmid, and virus protein sequences; and biological diversity "
 "in nature reserves. "
-msgstr "Lattice プロジェクトは メリーランド大学の科学者の種々の研究に計算能力を、 提供しています。 たとえば、DNA配列データを基礎にした進化論的関係の研究、バクテリア、プラスミド、およびウィルスの蛋白質の配列の研究、そして、自然保護区における生物の多様性の研究などです。 "
+msgstr "The Lattice Project は、メリーランド大学の科学者の種々の研究に計算能力を提供しています。 たとえば、DNA配列データを基礎にした進化論的関係の研究、バクテリア、プラスミド、およびウィルスの蛋白質の配列の研究、そして、自然保護区における生物の多様性の研究などです。 "
 
 #: projects.inc:146
 msgid "The Swiss Tropical Institute"
