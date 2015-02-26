@@ -182,16 +182,13 @@ void CDlgAdvPreferences::SetValidators() {
 
 /* some controls share the same tooltip, set them here */
 void CDlgAdvPreferences::SetSpecialTooltips() {
-    wxString procDaysChkTT(_("Set this checkbox to specify work start and stop times for this day only"));
-    wxString procDaysTimeTT( _("specify work start and stop times in format HH:MM"));
-    wxString netDaysChkTT(_("Set this checkbox to specify times when data tranfer is permitted for this day only"));
-    wxString netDaysTimeTT(_("specify times when data tranfer is permitted in format HH:MM"));
-
+    wxString procDaysTimeTT(_("On this day each week, compute only during these hours."));
+    wxString netDaysTimeTT(_("On this day each week, transfer files only during these hours."));
     for (int i=0; i<7; ++i) {
-        procDayChks[i]->SetToolTip(procDaysChkTT);
+        procDayChks[i]->SetToolTip(procDaysTimeTT);
         procDayStartTxts[i]->SetToolTip(procDaysTimeTT);
         procDayStopTxts[i]->SetToolTip(procDaysTimeTT);
-        netDayChks[i]->SetToolTip(netDaysChkTT);
+        netDayChks[i]->SetToolTip(netDaysTimeTT);
         netDayStartTxts[i]->SetToolTip(netDaysTimeTT);
         netDayStopTxts[i]->SetToolTip(netDaysTimeTT);
     }
