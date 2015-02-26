@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2015-02-26 14:54+0000\n"
+"PO-Revision-Date: 2015-02-26 15:55+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -444,7 +444,7 @@ msgstr "現在、スレッドを新規作成することはできません。 �
 msgid ""
 "This thread is locked. Only forum moderators and administrators are allowed "
 "to post there."
-msgstr "この掲示板はロックされました。掲示板の仲介者および管理者のみ投稿が許可されます。"
+msgstr "この掲示板はロックされました。掲示板のモデレーターおよび管理者のみ投稿が許可されます。"
 
 #: ../inc/forum.inc:1145
 msgid "Can't post to a hidden thread."
@@ -478,7 +478,7 @@ msgstr "参加しているスレッドへの新しい投稿"
 
 #: ../inc/forum.inc:1241
 msgid "There are new posts in the thread '%1'"
-msgstr "スレッドに新しい投稿があります 「 %1 」"
+msgstr "スレッドに新しい投稿があります:「 %1 」"
 
 #: ../inc/forum.inc:1251
 msgid "Mark all threads as read"
@@ -486,7 +486,7 @@ msgstr "全てのスレッドを既読にする"
 
 #: ../inc/forum.inc:1252
 msgid "Mark all threads in all message boards as read."
-msgstr "すべての掲示板のすべてのスレッドを「既読」状態に設定します。"
+msgstr "すべての掲示板のすべてのスレッドを既読として設定します。"
 
 #: ../inc/host.inc:24
 msgid "No host"
@@ -671,7 +671,7 @@ msgstr "平均ダウンロード速度"
 
 #: ../inc/host.inc:169 ../user/host_app_versions.php:65
 msgid "Average turnaround time"
-msgstr "平均ターンアラウンドタイム"
+msgstr "平均ターンアラウンド時間"
 
 #: ../inc/host.inc:169 ../user/forum_search.php:46 ../user/forum_search.php:47
 #: ../user/forum_search.php:48 ../user/forum_search.php:49
@@ -680,7 +680,7 @@ msgstr "%1 日"
 
 #: ../inc/host.inc:170
 msgid "Application details"
-msgstr "アプリケーションの詳細"
+msgstr "アプリケーションの詳細情報"
 
 #: ../inc/host.inc:171
 msgid "Show"
@@ -696,7 +696,7 @@ msgstr "BOINC クライアントがサーバーに接続した回数"
 
 #: ../inc/host.inc:186
 msgid "Last time contacted server"
-msgstr "最後にサーバに接続した日時"
+msgstr "最後にサーバーに接続した日時"
 
 #: ../inc/host.inc:187
 msgid "% of time BOINC is running"
@@ -708,7 +708,7 @@ msgstr "BOINC 走行中にインターネットに接続している時間の割
 
 #: ../inc/host.inc:191
 msgid "While BOINC running, % of time work is allowed"
-msgstr "BOINC 走行中に仕事を処理することが許されている時間割合(%)"
+msgstr "BOINC 走行中に仕事処理を許可されている時間の割合(%)"
 
 #: ../inc/host.inc:193
 msgid "Average CPU efficiency"
@@ -728,11 +728,11 @@ msgstr "このコンピュータを削除"
 
 #: ../inc/host.inc:204
 msgid "Merge duplicate records of this computer"
-msgstr "このコンピュータに関する重複データを合併させる"
+msgstr "このコンピュータに関する重複する記録をマージする"
 
 #: ../inc/host.inc:204
 msgid "Merge"
-msgstr "合併させる"
+msgstr "マージする"
 
 #: ../inc/host.inc:207 ../inc/host.inc:689
 msgid "Last contact"
@@ -758,7 +758,7 @@ msgstr "平均功績値"
 #: ../user/team_remove_inactive_form.php:42 ../user/top_users.php:53
 #: ../user/top_users.php:58
 msgid "Recent average credit"
-msgstr "最近の平均功績(credits/day)"
+msgstr "最近の平均功績(功績値/日)"
 
 #: ../inc/host.inc:236 ../inc/host.inc:684 ../inc/result.inc:51
 #: ../user/host_app_versions.php:25
@@ -787,15 +787,15 @@ msgstr "プロジェクト横断 統計データ:"
 
 #: ../inc/host.inc:515
 msgid "Host %1 has overlapping lifetime:"
-msgstr "計算機 %1 には右の重複生存期間があります:"
+msgstr "計算機 %1 は右の重複する存続期間があります:"
 
 #: ../inc/host.inc:522
 msgid "Host %1 has an incompatible OS:"
-msgstr "計算機 %1 の OS とは互換性がありません："
+msgstr "計算機 %1 のOSとは互換性がありません:"
 
 #: ../inc/host.inc:528
 msgid "Host %1 has an incompatible CPU:"
-msgstr "計算機 %1 の CPU とは互換性がありません："
+msgstr "計算機 %1 のCPUとは互換性がありません:"
 
 #: ../inc/host.inc:595
 msgid "same host"
@@ -803,7 +803,7 @@ msgstr "同一の計算機です"
 
 #: ../inc/host.inc:598
 msgid "Can't merge host %1 into %2 - they're incompatible"
-msgstr "計算機 %1 を %2 にはマージできません - 両者に互換性がありません"
+msgstr "計算機 %1 を %2 にマージできません - 両者に互換性がありません"
 
 #: ../inc/host.inc:601
 msgid "Merging host %1 into host %2"
@@ -839,7 +839,7 @@ msgstr "過去30日の間に活動のあったコンピュータのみ"
 
 #: ../inc/host.inc:666 ../inc/result.inc:637
 msgid "Computer ID"
-msgstr "コンピュータ ID "
+msgstr "コンピュータのID "
 
 #: ../inc/host.inc:669 ../inc/result.inc:628 ../inc/team.inc:210
 #: ../inc/team.inc:358 ../inc/user.inc:199 ../user/account_finish.php:41
@@ -855,7 +855,7 @@ msgstr "BOINC<br>バージョン"
 
 #: ../inc/host.inc:745 ../user/merge_by_name.php:65
 msgid "Merge computers by name"
-msgstr "ドメイン名でコンピュータを合併する"
+msgstr "ドメイン名でコンピュータをマージする"
 
 #: ../inc/language_names.inc:61
 msgid "Browser default"
@@ -902,7 +902,7 @@ msgstr "宛先"
 
 #: ../inc/pm.inc:82
 msgid "User IDs or unique usernames, separated with commas"
-msgstr "参加者のIDあるいは、一意な名前を入力。複数の場合はカンマで区切ってください。"
+msgstr "参加者のIDあるいは、一意な名前を入力します。複数の場合はカンマで区切ってください。"
 
 #: ../inc/pm.inc:85 ../user/pm.php:90 ../user/pm.php:139
 msgid "Subject"
@@ -910,11 +910,11 @@ msgstr "件名"
 
 #: ../inc/pm.inc:89
 msgid "Send message"
-msgstr "メッセージ送信"
+msgstr "メッセージを送信"
 
 #: ../inc/pm.inc:121
 msgid "sent you a private message; subject:"
-msgstr "さんが、あなたに非公開メッセージを送ってきました。件名:"
+msgstr "さんがあなたに非公開メッセージを送信しました。件名:"
 
 #: ../inc/pm.inc:127
 msgid "Private message%1 from %2, subject:"
@@ -936,7 +936,7 @@ msgstr "未読"
 
 #: ../inc/pm.inc:186
 msgid "For email notification, %1edit community prefs%2"
-msgstr "Eメイルでの通知を必要とする場合、%1コミュニティのプレファレンスを編集%2してください"
+msgstr "Eメールでの通知を必要とする場合、%1コミュニティのプレファレンスを編集%2してください"
 
 #: ../inc/pm.inc:198
 msgid "Private message"
@@ -946,20 +946,20 @@ msgstr "非公開メッセージ"
 msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
-msgstr "コンピュータがバッテリーで動作しているときには、計算を一時停止させるか? %1 携帯型のコンピュータの場合だけ有意 %2"
+msgstr "コンピュータがバッテリーで動作しているときには、計算を一時停止さますか? %1 携帯型のコンピュータの場合だけ重要です %2"
 
 #: ../inc/prefs.inc:85
 msgid "Suspend work while computer is in use?"
-msgstr "コンピュータで作業中は、計算を一時停止させますか?"
+msgstr "コンピュータを使用中は、計算を一時停止させますか?"
 
 #: ../inc/prefs.inc:91
 msgid ""
 "Suspend GPU work while computer is in use? %1 Enforced by version 6.6.21+ %2"
-msgstr "コンピュータで作業中は、GPU 向けの計算を一時停止させますか? %1 Version 6.6.21以降で有効%2"
+msgstr "コンピュータを使用中は、GPU による計算を一時停止させますか? %1 Version 6.6.21以降で有効 %2"
 
 #: ../inc/prefs.inc:99
 msgid "'In use' means mouse/keyboard activity in last"
-msgstr "「作業中」とは、マウスまたはキーボード操作が右の時間内にあった場合のことです："
+msgstr "「使用中」とは、マウスまたはキーボード操作が右の時間内にあった場合のことです："
 
 #: ../inc/prefs.inc:101 ../inc/prefs.inc:110 ../inc/prefs.inc:144
 msgid "minutes"
@@ -969,7 +969,7 @@ msgstr "分"
 msgid ""
 "Suspend work if no mouse/keyboard activity in last %1 Needed to enter low-"
 "power mode on some computers %2"
-msgstr "マウスとキーボとの操作が右の時間内になければ計算を一時停止させる%1 コンピュータによっては低電力モードに入る必要がある%2"
+msgstr "マウス・キーボード操作が右の時間内になければ計算を一時停止させる %1 コンピュータによっては低電力モードに入る必要がある %2"
 
 #: ../inc/prefs.inc:114
 msgid ""
