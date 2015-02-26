@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2015-02-26 11:12+0000\n"
+"PO-Revision-Date: 2015-02-26 12:18+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -76,7 +76,7 @@ msgstr "フォントの色を指定: [color=red]フォント[/color] ヒント: 
 
 #: ../inc/bbcode_html.inc:44 ../inc/bbcode_html.inc:59 ../inc/prefs.inc:638
 msgid "Default"
-msgstr "指定省略時の扱い"
+msgstr "指定省略時の標準設定"
 
 #: ../inc/bbcode_html.inc:45
 msgid "Dark Red"
@@ -132,7 +132,7 @@ msgstr "フォントの大きさ"
 
 #: ../inc/bbcode_html.inc:58
 msgid "Font size: [size=x-small]small text[/size]"
-msgstr "フォントの大きさを指定する: [size=x-small]小さいフォントの文書[/size]"
+msgstr "フォントの大きさを指定する: [size=x-small]小さいフォントのテキスト[/size]"
 
 #: ../inc/bbcode_html.inc:60
 msgid "Small"
@@ -148,7 +148,7 @@ msgstr "大きい"
 
 #: ../inc/bbcode_html.inc:65
 msgid "Close all open bbCode tags"
-msgstr "開いている全てのBBコードのタグを閉じる"
+msgstr "開いているBBコードの全てのタグを閉じる"
 
 #: ../inc/bbcode_html.inc:65
 msgid "Close Tags"
@@ -180,11 +180,11 @@ msgstr "投稿の多い順"
 
 #: ../inc/forum.inc:125
 msgid "Search for words in forum messages"
-msgstr "掲示板内のメッセージ内を語句検索します"
+msgstr "フォーラム内のメッセージ内を語句検索します"
 
 #: ../inc/forum.inc:125
 msgid "Search forums"
-msgstr "掲示板を検索"
+msgstr "フォーラムを検索"
 
 #: ../inc/forum.inc:126
 msgid "Advanced search"
