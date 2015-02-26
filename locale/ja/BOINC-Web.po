@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2015-02-26 09:17+0000\n"
+"PO-Revision-Date: 2015-02-26 17:21+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -526,7 +526,7 @@ msgstr "The Lattice Project は、メリーランド大学の科学者の種々�
 
 #: projects.inc:146
 msgid "The Swiss Tropical Institute"
-msgstr "The Swiss Tropical Institute"
+msgstr "スイス熱帯病研究所"
 
 #: projects.inc:147
 msgid "Epidemiology"
@@ -541,7 +541,7 @@ msgid ""
 "is extremely computer intensive, requiring simulations of large human "
 "populations with a diverse set of parameters related to biological and "
 "social factors that influence the distribution of the disease. "
-msgstr "マラリア対策にとって、マラリアの動的な伝播と健康への影響をシミュレーションするためのモデルは重要な道具です。これらのモデルによっていろいろな対抗手段を提供していく最も良いやり方を決めることに使うことができます。たとえば、蚊帳や化学療法、現在開発・検証中の新ワクチンの使い方を最適化するのに使います。 これらのモデリングの手法は非常に大きな計算能力を必要とします。 多くの人口を対象にシミュレーションが必要ですし、 この病気の拡散に影響を与える生物学的因子と社会学的因子が、 数多くのパラメタに関係しているからです。"
+msgstr "マラリア対策にとって、マラリアの動的な伝播と健康への影響をシミュレーションするためのモデルは重要な道具です。これらのモデルによっていろいろな対抗手段を提供していく最も良いやり方を決めることに使うことができます。たとえば、蚊帳の配送方針、化学療法、現在開発・検証中の新ワクチンの使い方を最適化するのに使います。 これらのモデリングの手法は非常に大きな計算能力を必要とします。 多くの人口を対象にシミュレーションが必要ですし、 この病気の拡散に影響を与える生物学的因子と社会学的因子が、 数多くのパラメータに関係しているからです。"
 
 #: projects.inc:170
 msgid "University of Washington"
@@ -559,7 +559,7 @@ msgid ""
 "couldn't possibly attempt without your help. You will also be helping our "
 "efforts at designing new proteins to fight diseases such as HIV, Malaria, "
 "Cancer, and Alzheimer's"
-msgstr "研究対象の蛋白質が3次元的にどのような形状であるかを決定します。 この仕事は究極的には人間のいくつかの主要な疾病の治療方法を見つけることになるかもしれません。 あなたが Rosetta@home を走らせると、私たちの研究を加速し拡大してくれます。 それはあなたの助力なしにはきっと達成できないものです。 さらに、HIVや、マラリア、癌、そしてアルツハイマー病のような疾病に対抗する、 新しい蛋白質を設計することにも力を貸していただけることになります。 "
+msgstr "研究対象の蛋白質が3次元的にどのような形状であるかを決定します。 この仕事は最終的には人間のいくつかの主要な疾病の治療方法を見つけることになるかもしれません。 あなたが Rosetta@home を動作させることによって、私たちの研究を加速し拡大してくれます。 それはあなたの助力なしにはきっと達成できないものです。 さらに、HIVや、マラリア、癌、そしてアルツハイマー病のような疾病に対抗する、 新しい蛋白質を設計することにも力を貸していただけることになります。 "
 
 #: projects.inc:178
 msgid "University of Vienna"
