@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2015-02-26 09:38+0000\n"
+"PO-Revision-Date: 2015-02-26 11:12+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -30,19 +30,19 @@ msgstr "Japanese"
 
 #: ../inc/bbcode_html.inc:11
 msgid "Bold text: [b]text[/b]  (alt+b)"
-msgstr "太字にする文書: [b]文書[/b] (Alt+B)"
+msgstr "太字にするテキスト: [b]テキスト[/b] (Alt+B)"
 
 #: ../inc/bbcode_html.inc:14
 msgid "Italic text: [i]text[/i]  (alt+i)"
-msgstr "斜体にする文書: [i]文書[/i] (Alt+I)"
+msgstr "斜体にするテキスト: [i]テキスト[/i] (Alt+I)"
 
 #: ../inc/bbcode_html.inc:17
 msgid "Underline text: [u]text[/u]  (alt+u)"
-msgstr "下線を引く文書: [u]文書[/u] (Alt+U)"
+msgstr "下線を引くテキスト [u]テキスト[/u] (Alt+U)"
 
 #: ../inc/bbcode_html.inc:20
 msgid "Quote text: [quote]text[/quote]  (alt+q)"
-msgstr "引用する文書: [quote]文書[/quote] (Alt+Q)"
+msgstr "引用するテキスト: [quote]テキスト[/quote] (Alt+Q)"
 
 #: ../inc/bbcode_html.inc:23
 msgid "Code display: [code]code[/code]  (alt+c)"
@@ -50,20 +50,20 @@ msgstr "コードとして表示する: [code]コード[/code] (Alt+C)"
 
 #: ../inc/bbcode_html.inc:26
 msgid "List: [list]text[/list] (alt+l)"
-msgstr "リストにする: [list]文書[/list] (Alt+L)"
+msgstr "リストにする: [list]テキスト[/list] (Alt+L)"
 
 #: ../inc/bbcode_html.inc:29
 msgid "Ordered list: [list=]text[/list]  (alt+o)"
-msgstr "番号付きリストにする: [list=]文書[/list] (Alt+O)"
+msgstr "番号付きリストにする: [list=]テキスト[/list] (Alt+O)"
 
 #: ../inc/bbcode_html.inc:32
 msgid "Insert image: [img]http://image_url[/img]  (alt+p)"
-msgstr "画像の挿入: [img]http://画像のURL[/img] (Alt+P)"
+msgstr "画像の挿入: [img]画像のURL(例 http://…)[/img] (Alt+P)"
 
 #: ../inc/bbcode_html.inc:35
 msgid ""
 "Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)"
-msgstr "URLの挿入: [url]http://URL[/url] or [url=http://URL]URLのテキスト[/url] (Alt+W)"
+msgstr "URLの挿入: [url]URLL(例 http://…)[/url] もしくはテキストにハイパーリンクをつける場合 [url=URL(例 http://…)]テキスト[/url] (Alt+W)"
 
 #: ../inc/bbcode_html.inc:42
 msgid "Font color"
@@ -72,7 +72,7 @@ msgstr "フォントの色"
 #: ../inc/bbcode_html.inc:43
 msgid ""
 "Font color: [color=red]text[/color]  Tip: you can also use color=#FF0000"
-msgstr "フォントの色を指定: [color=red]文書[/color] ヒント: この場合あなたは #FF0000 の色もまた使うことができます。"
+msgstr "フォントの色を指定: [color=red]フォント[/color] ヒント: この場合あなたは#FF0000(HTMLでの色名称でいうRed)の色もまた使うことができます。"
 
 #: ../inc/bbcode_html.inc:44 ../inc/bbcode_html.inc:59 ../inc/prefs.inc:638
 msgid "Default"
