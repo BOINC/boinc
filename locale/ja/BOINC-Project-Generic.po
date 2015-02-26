@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2015-02-26 13:52+0000\n"
+"PO-Revision-Date: 2015-02-26 14:54+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -347,7 +347,7 @@ msgstr "このメッセージを引用することによって返信を投稿"
 
 #: ../inc/forum.inc:708
 msgid "Hidden by a moderator"
-msgstr "仲介者によって隠されています"
+msgstr "モデレーターによって隠されています"
 
 #: ../inc/forum.inc:729
 msgid "Posted %1 by %2"
@@ -397,7 +397,7 @@ msgstr "隠す"
 
 #: ../inc/forum.inc:1057
 msgid "Hide this post"
-msgstr "この投稿を隠す"
+msgstr "この投稿を隠します"
 
 #: ../inc/forum.inc:1062 ../user/forum_thread.php:228
 msgid "Move"
@@ -409,19 +409,19 @@ msgstr "この投稿を別の掲示板に移動します"
 
 #: ../inc/forum.inc:1067
 msgid "Banish author"
-msgstr "投稿者を投稿禁止にする"
+msgstr "投稿者を追放する"
 
 #: ../inc/forum.inc:1074
 msgid "Vote to banish author"
-msgstr "投稿者を投稿禁止にするよう投票"
+msgstr "投稿者を追放するよう投票"
 
 #: ../inc/forum.inc:1078
 msgid "Vote not to banish author"
-msgstr "投稿者を投稿禁止にしないよう投票"
+msgstr "投稿者を追放しないよう投票"
 
 #: ../inc/forum.inc:1083
 msgid "Start vote to banish author"
-msgstr "投稿者を投稿禁止にする投票開始"
+msgstr "投稿者を追放にするかどうかの投票開始"
 
 #: ../inc/forum.inc:1116
 msgid "Only team members can post to the team message board"
@@ -431,7 +431,7 @@ msgstr "チームメンバーのみがチームの掲示板に投稿できます
 msgid ""
 "In order to create a new thread in %1 you must have a certain amount of "
 "credit. This is to prevent and protect against abuse of the system."
-msgstr "%1 の中に新しいスレッドを作るには、 一定の量の功績(credit)を獲得済みでなければなりません。これは、悪用を防いでこの掲示板システムを守るための制約です。"
+msgstr "%1 の中に新しいスレッドを作るには、 一定の量の功績値(credit)を獲得済みでなければなりません。これは、悪用を防いでこの掲示板システムを守るための制約です。"
 
 #: ../inc/forum.inc:1133
 msgid ""
