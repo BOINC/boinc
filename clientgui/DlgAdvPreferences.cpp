@@ -578,7 +578,6 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 
     //clear special day times settings
     prefs.cpu_times.week.clear();
-    prefs.net_times.week.clear();
     for(int i=0; i< 7;i++) {
         if(procDayChks[i]->GetValue()) {
             wxString startStr = procDayStartTxts[i]->GetValue();
@@ -599,7 +598,6 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     mask.net_start_hour = mask.net_end_hour = true;
 
     //clear special net times settings
-    prefs.net_times.week.clear();
     prefs.net_times.week.clear();
     for(int i=0; i< 7;i++) {
         if(netDayChks[i]->GetValue()) {
