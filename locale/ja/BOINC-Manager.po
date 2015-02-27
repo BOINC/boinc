@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2015-02-27 15:05+0000\n"
+"PO-Revision-Date: 2015-02-27 16:05+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -2173,7 +2173,7 @@ msgstr "バッテリーで駆動中"
 
 #: MainDocument.cpp:2433
 msgid "computer is in use"
-msgstr "コンピュータを別途利用中"
+msgstr "コンピュータを別途使用中"
 
 #: MainDocument.cpp:2434
 msgid "user request"
@@ -2193,7 +2193,7 @@ msgstr "ディスク容量の不足 - 好みの設定(プレファレンス)を�
 
 #: MainDocument.cpp:2438
 msgid "computer is not in use"
-msgstr "コンピュータの利用者なし"
+msgstr "コンピュータ使用されていない"
 
 #: MainDocument.cpp:2439
 msgid "starting up"
@@ -2205,11 +2205,11 @@ msgstr "排他的なアプリケーションを実行中"
 
 #: MainDocument.cpp:2441
 msgid "CPU is busy"
-msgstr "CPU が別途利用中"
+msgstr "CPU を別途使用中"
 
 #: MainDocument.cpp:2442
 msgid "network bandwidth limit exceeded"
-msgstr "ネットワーク帯域幅の制約超過"
+msgstr "ネットワーク帯域幅の使用制約超過"
 
 #: MainDocument.cpp:2443
 msgid "requested by operating system"
@@ -2217,11 +2217,11 @@ msgstr "オペレーティングシステムの指示による"
 
 #: MainDocument.cpp:2445
 msgid "unknown reason"
-msgstr "理由不明"
+msgstr "不明な理由"
 
 #: MainDocument.cpp:2467
 msgid "GPU missing, "
-msgstr "GPU がありません、"
+msgstr "GPU が見当たりません、"
 
 #: MainDocument.cpp:2474
 msgid "New"
@@ -2233,7 +2233,7 @@ msgstr "ダウンロード失敗"
 
 #: MainDocument.cpp:2480
 msgid "Downloading"
-msgstr "ダウンロード処理中"
+msgstr "ダウンロード中"
 
 #: MainDocument.cpp:2482 MainDocument.cpp:2552
 msgid " (suspended - "
@@ -2273,7 +2273,7 @@ msgstr "実行中"
 
 #: MainDocument.cpp:2517
 msgid " (non-CPU-intensive)"
-msgstr "（常時 CPU を使用するわけではありません）"
+msgstr "(常時 CPU を使用するわけではありません)"
 
 #: MainDocument.cpp:2520
 msgid "Waiting to run"
@@ -2293,11 +2293,11 @@ msgstr "(スケジューラを待機中)"
 
 #: MainDocument.cpp:2540
 msgid " (Waiting for network access)"
-msgstr "(ネットワーク接続の待機中)"
+msgstr "(ネットワークアクセスの待機中)"
 
 #: MainDocument.cpp:2544
 msgid "Computation error"
-msgstr "計算エラー"
+msgstr "計算中に異常発生"
 
 #: MainDocument.cpp:2548
 msgid "Upload failed"
@@ -2305,7 +2305,7 @@ msgstr "アップロード失敗"
 
 #: MainDocument.cpp:2550
 msgid "Uploading"
-msgstr "アップロード処理中"
+msgstr "アップロード中"
 
 #: MainDocument.cpp:2561
 msgid "Aborted by user"
@@ -2317,19 +2317,19 @@ msgstr "プロジェクトによって中止"
 
 #: MainDocument.cpp:2567
 msgid "Aborted: not started by deadline"
-msgstr "中止されました： 期限までに開始されませんでした"
+msgstr "中止: 報告期限までに開始されませんでした"
 
 #: MainDocument.cpp:2570
 msgid "Aborted: disk limit exceeded"
-msgstr "中止: ディスクの利用可能領域超過のため"
+msgstr "中止: ディスクの利用可能領域を超過しました"
 
 #: MainDocument.cpp:2573
 msgid "Aborted: run time limit exceeded"
-msgstr "中止: 報告期限超過のため"
+msgstr "中止: 報告期限を超過しました"
 
 #: MainDocument.cpp:2576
 msgid "Aborted: memory limit exceeded"
-msgstr "中止: メモリの利用可能領域超過のため"
+msgstr "中止: メモリの利用可能領域を超過しました"
 
 #: MainDocument.cpp:2579
 msgid "Aborted"
@@ -2337,7 +2337,7 @@ msgstr "中止"
 
 #: MainDocument.cpp:2584
 msgid "Acknowledged"
-msgstr "サーバ確認済み"
+msgstr "サーバ承認済み"
 
 #: MainDocument.cpp:2586
 msgid "Ready to report"
@@ -2346,7 +2346,7 @@ msgstr "報告待機"
 #: MainDocument.cpp:2588
 #, c-format
 msgid "Error: invalid state '%d'"
-msgstr "エラー： 無効状態 '%d'"
+msgstr "エラー: 無効状態 '%d'"
 
 #: NoInternetConnectionPage.cpp:179
 msgid "No Internet connection"
@@ -2381,15 +2381,15 @@ msgstr "指定した URL は BOINC ベースのアカウント・マネージャ
 
 #: NotFoundPage.cpp:181
 msgid "Login Failed."
-msgstr "ログイン失敗。"
+msgstr "ログインに失敗しました。"
 
 #: NotFoundPage.cpp:185
 msgid "Check the username and password, and try again."
-msgstr "名前とパスワードを確認の上、もう一度試してください。"
+msgstr "ユーザー名とパスワードを確認の上、もう一度試してください。"
 
 #: NotFoundPage.cpp:189
 msgid "Check the email address and password, and try again."
-msgstr "電子メールアドレスとパスワードを確認の上、もう一度試してください。"
+msgstr "Eメールアドレスとパスワードを確認の上、もう一度試してください。"
 
 #: NoticeListCtrl.cpp:222
 msgid "more..."
@@ -2401,7 +2401,7 @@ msgstr "すべて"
 
 #: ProjectInfoPage.cpp:615
 msgid "Choose a project"
-msgstr "プロジェクトを選んでください"
+msgstr "プロジェクトを選択してください"
 
 #: ProjectInfoPage.cpp:619
 msgid "To choose a project, click its name or type its URL below."
@@ -2409,7 +2409,7 @@ msgstr "プロジェクトを選択するには、その名前をクリックす
 
 #: ProjectInfoPage.cpp:623
 msgid "Categories:"
-msgstr "分類:"
+msgstr "種類:"
 
 #: ProjectInfoPage.cpp:627 sg_ProjectPanel.cpp:89
 msgid "Projects:"
@@ -2443,7 +2443,7 @@ msgstr "プロジェクトのURL:"
 msgid ""
 "This project may not have work for your type of computer.  Do you want to "
 "add it anyway?"
-msgstr "このプロジェクトにはあなたのコンピュータに適合する仕事がないかもしれません。 それでも追加しますか？"
+msgstr "このプロジェクトにはあなたのコンピュータに適合する仕事がないかもしれません。それでも追加しますか？"
 
 #: ProjectInfoPage.cpp:850
 msgid "You already added this project. Please choose a different project."
@@ -2455,7 +2455,7 @@ msgstr "サーバと通信中です。"
 
 #: ProjectProcessingPage.cpp:509
 msgid "Required files not found on the server."
-msgstr "このサーバには必要なファイル群が見つかりません。"
+msgstr "必要なファイルがサーバ上に見つかりません。"
 
 #: ProjectProcessingPage.cpp:512 ProjectProcessingPage.cpp:574
 msgid "An internal server error has occurred."
@@ -2486,7 +2486,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr "The World Community Grid -  BOINC ソフトウェアはインターネット上での\n通信に失敗しました。よくある原因は以下のとおりです。\n\n1) 接続に問題がある場合。 あなたのネットワークまたはモデムの接続を\nチェックし、[戻る] をクリックしてもう一度試してください。\n\n2) パーソナル・ファイアウォールが The World Community Grid - BOINC の\n通信をブロックしている場合。 BOINC および BOINC Manager が\nポート番号 80 と 443で通信できるようにパーソナル・ファイアウォールを設定\nします。設定したら [戻る] をクリックしてもう一度試してください。\n\n3) プロキシ・サーバを使っている場合。\n[次へ] をクリックして BOINC のプロキシ設定を行ってください。"
+msgstr "The World Community Grid -  BOINC ソフトウェアはインターネット上での通信に失敗しました。よくある原因は以下のとおりです。\n\n1) 接続に問題がある場合。 \nあなたのネットワークまたはモデムの接続をチェックし、[戻る]をクリックしてもう一度試してください。\n\n2) パーソナル・ファイアウォール・ソフトウェアが The World Community Grid - BOINC ソフトウェアの通信をブロックしている場合。\nBOINC および BOINC Manager がポート番号 80 と 443で通信できるようにパーソナル・ファイアウォールを設定し、[戻る]をクリックしてもう一度試してください。\n\n3) プロキシ・サーバを使っている場合。\n[次へ]をクリックして BOINC のプロキシ設定を行ってください。"
 
 #: ProxyInfoPage.cpp:203
 msgid ""
@@ -2503,7 +2503,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr "BOINC はインターネット上での通信に失敗しました。\nよくある原因は以下のとおりです。\n\n1) 接続に問題がある場合。あなたのネットワークまたはモデムの接続を\nチェックし、[戻る] をクリックしてもう一度試してください。\n\n2) パーソナル・ファイアウォールが BOINC の通信をブロックしている場合。\nBOINC および  BOINC Manager がポート番号 80 で通信できるように\nパーソナル・ファイアウォールを設定します。設定したら [戻る] をクリック\nしてもう一度試してください。\n\n3) プロキシ・サーバを使っている場合。\n[次へ] をクリックして BOINC のプロキシ設定を行ってください。"
+msgstr "BOINC はインターネット上での通信に失敗しました。\nよくある原因は以下のとおりです。\n\n1) 接続に問題がある場合。\nあなたのネットワークまたはモデムの接続をチェックし、[戻る]をクリックしてもう一度試してください。\n\n2) パーソナル・ファイアウォール・ソフトウェアが BOINC ソフトウェアの通信をブロックしている場合。\nBOINC および  BOINC Manager がポート番号 80 で通信できるように\nパーソナル・ファイアウォールを設定し、[戻る]をクリックしてもう一度試してください。\n\n3) プロキシ・サーバを使っている場合。\n[次へ]をクリックして BOINC のプロキシ設定を行ってください。"
 
 #: ProxyPage.cpp:331
 msgid "Proxy configuration"
@@ -2515,7 +2515,7 @@ msgstr "HTTP プロキシ"
 
 #: ProxyPage.cpp:337 ProxyPage.cpp:357
 msgid "Server:"
-msgstr "サーバ："
+msgstr "サーバ:"
 
 #: ProxyPage.cpp:350
 msgid "Autodetect"
@@ -2527,19 +2527,19 @@ msgstr "SOCKS プロキシ"
 
 #: TermsOfUsePage.cpp:218
 msgid "Terms of Use"
-msgstr "使用規約"
+msgstr "利用規約"
 
 #: TermsOfUsePage.cpp:222
 msgid "Please read the following terms of use:"
-msgstr "以下の使用条件をお読みください:"
+msgstr "以下の利用規約をお読みください:"
 
 #: TermsOfUsePage.cpp:231
 msgid "I agree to the terms of use."
-msgstr "使用条件に合意する。"
+msgstr "利用規約に合意する。"
 
 #: TermsOfUsePage.cpp:237
 msgid "I do not agree to the terms of use."
-msgstr "使用条件に合意しない。"
+msgstr "利用規約に合意しない。"
 
 #: UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
@@ -2565,23 +2565,23 @@ msgstr "アカウント・マネージャは一時的に利用できません。
 
 #: ValidateAccountKey.cpp:68
 msgid "Please specify an account key to continue."
-msgstr "アカウント・キーを入力し、次に進んでください。"
+msgstr "続けるにはアカウント・キーを入力してください。"
 
 #: ValidateAccountKey.cpp:71
 msgid "Invalid Account Key; please enter a valid Account Key"
-msgstr "アカウント・キーが正しくありません。正しいアカウント・キーを入力してください"
+msgstr "無効なアカウント・キーです。正しいアカウント・キーを入力してください"
 
 #: ValidateAccountKey.cpp:82 ValidateEmailAddress.cpp:86
 msgid "Validation conflict"
-msgstr "無効な値を検出"
+msgstr "検証のコンフリクト"
 
 #: ValidateEmailAddress.cpp:72
 msgid "Please specify an email address"
-msgstr "電子メールアドレスを指定してください"
+msgstr "Eメールアドレスを指定してください"
 
 #: ValidateEmailAddress.cpp:75
 msgid "Invalid email address; please enter a valid email address"
-msgstr "電子メールアドレスが正しくありません。正しい電子メールアドレスを入力してください"
+msgstr "無効な電子メールアドレスです。正しい電子メールアドレスを入力してください"
 
 #: ValidateURL.cpp:69
 msgid "Missing URL"
@@ -2597,7 +2597,7 @@ msgstr "URL を指定してください。\n例：\n\t http://www.example.com/"
 #: ValidateURL.cpp:83 ValidateURL.cpp:87 ValidateURL.cpp:91
 #: ValidateURL.cpp:103 ValidateURL.cpp:107 ValidateURL.cpp:110
 msgid "Invalid URL"
-msgstr "不正な URL"
+msgstr "無効なURL"
 
 #: ValidateURL.cpp:84 ValidateURL.cpp:88 ValidateURL.cpp:92
 msgid ""
@@ -2609,12 +2609,12 @@ msgstr "正しい URL を指定してください。\n例：\n\t http://boincpro
 #: ValidateURL.cpp:104 ValidateURL.cpp:108
 #, c-format
 msgid "'%s' does not contain a valid host name."
-msgstr "'%s' に、有効なホスト名が含まれていません。"
+msgstr "'%s' には有効なホスト名が含まれていません。"
 
 #: ValidateURL.cpp:111
 #, c-format
 msgid "'%s' does not contain a valid path."
-msgstr "'%s' に有効なパス名が含まれていません。 "
+msgstr "'%s' には有効なパスが含まれていません。 "
 
 #: ViewMessages.cpp:84 ViewProjects.cpp:170 ViewStatistics.cpp:1978
 #: ViewTransfers.cpp:160 ViewWork.cpp:183
@@ -2651,7 +2651,7 @@ msgstr "選択したメッセージをクリップボードにコピーしてい
 
 #: ViewMessages.cpp:286
 msgid "Filtering messages..."
-msgstr "メッセージを選択しています..."
+msgstr "メッセージをフィルターにかけています..."
 
 #: ViewMessages.cpp:494
 msgid "Show all messages"
@@ -2681,7 +2681,7 @@ msgstr "更新"
 msgid ""
 "Report all completed tasks, get latest credit, get latest preferences, and "
 "possibly get more tasks."
-msgstr "完了したタスクを報告し、最新の功績 (credit) とプレファレンス (好みの設定) を取得し、可能であれば更にタスクを取得します。"
+msgstr "完了した全タスクを報告し、最新の功績 (credit) とプレファレンス (好みの設定) を取得し、可能であれば更にタスクを取得します。"
 
 #: ViewProjects.cpp:181 ViewProjects.cpp:722 ViewWork.cpp:208 ViewWork.cpp:801
 #: sg_BoincSimpleFrame.cpp:757 sg_ProjectCommandPopup.cpp:67
@@ -2698,11 +2698,11 @@ msgstr "このプロジェクトが実行しているタスクを一時的に停
 #: ViewProjects.cpp:188 ViewProjects.cpp:741 sg_ProjectCommandPopup.cpp:73
 #: sg_ProjectCommandPopup.cpp:121
 msgid "No new tasks"
-msgstr "タスクの新規取得禁止"
+msgstr "新しいタスクを取得しない"
 
 #: ViewProjects.cpp:189 sg_ProjectCommandPopup.cpp:74
 msgid "Don't get new tasks for this project."
-msgstr "このプロジェクトのタスクを新たに取ってくることを禁止します。"
+msgstr "このプロジェクトのタスクを新たに取得しないようにします。"
 
 #: ViewProjects.cpp:195 sg_ProjectCommandPopup.cpp:79
 msgid "Reset project"
@@ -2712,13 +2712,13 @@ msgstr "プロジェクトをリセット"
 msgid ""
 "Delete all files and tasks associated with this project, and get new tasks."
 "  You can update the project first to report any completed tasks."
-msgstr "このプロジェクトに関係するすべてのファイルとタスクを削除し新しいタスクを取得します。 完了した仕事を報告するには、先にプロジェクトを最新状態に「更新」してください。"
+msgstr "このプロジェクトに関係するすべてのファイルとタスクを削除し、新しいタスクを取得します。完了した仕事を報告するには、先にそのプロジェクトを更新してください。"
 
 #: ViewProjects.cpp:203 sg_ProjectCommandPopup.cpp:86
 msgid ""
 "Remove this project.  Tasks in progress will be lost (use 'Update' first to "
 "report any completed tasks)."
-msgstr "このプロジェクトを削除します。作業中のタスクは消えてしまいます。 (完了したタスクを報告するため、削除する前にプロジェクトの「更新」を行ってください)"
+msgstr "このプロジェクトを削除します。進行中のタスクは消えてしまいます(完了したタスクを報告するため、削除する前にプロジェクトの「更新」を行ってください)。 "
 
 #: ViewProjects.cpp:209 ViewWork.cpp:222 sg_ProjectCommandPopup.cpp:91
 #: sg_TaskCommandPopup.cpp:78
@@ -2727,7 +2727,7 @@ msgstr "プロパティ"
 
 #: ViewProjects.cpp:210 sg_ProjectCommandPopup.cpp:92
 msgid "Show project details."
-msgstr "プロジェクトの詳細を表示"
+msgstr "プロジェクトの詳細を表示します。"
 
 #: ViewProjects.cpp:220 ViewStatistics.cpp:450
 msgid "Account"
@@ -2751,15 +2751,15 @@ msgstr "プロジェクト"
 
 #: ViewProjects.cpp:302
 msgid "Updating project..."
-msgstr "プロジェクト状態を更新しています..."
+msgstr "プロジェクトを更新しています..."
 
 #: ViewProjects.cpp:344
 msgid "Resuming project..."
-msgstr "プロジェクトの作業を再開させています..."
+msgstr "プロジェクトを再開させています..."
 
 #: ViewProjects.cpp:348
 msgid "Suspending project..."
-msgstr "プロジェクトの作業を一時停止させています..."
+msgstr "プロジェクトを一時停止させています..."
 
 #: ViewProjects.cpp:385
 msgid "Telling project to allow additional task downloads..."
@@ -2776,7 +2776,7 @@ msgstr "プロジェクトをリセットしています..."
 #: ViewProjects.cpp:438 sg_ProjectCommandPopup.cpp:214
 #, c-format
 msgid "Are you sure you want to reset project '%s'?"
-msgstr "プロジェクト '%s' をリセットしてよろしいですか？"
+msgstr "本当にプロジェクト '%s' をリセットしてよろしいですか?"
 
 #: ViewProjects.cpp:444 sg_ProjectCommandPopup.cpp:220
 msgid "Reset Project"
@@ -2789,11 +2789,11 @@ msgstr "プロジェクトを削除しています..."
 #: ViewProjects.cpp:496 sg_ProjectCommandPopup.cpp:251
 #, c-format
 msgid "Are you sure you want to remove project '%s'?"
-msgstr "プロジェクト '%s' を削除してよろしいですか？"
+msgstr "本当にプロジェクト '%s' を削除してよろしいですか?"
 
 #: ViewProjects.cpp:502 sg_ProjectCommandPopup.cpp:257
 msgid "Remove Project"
-msgstr "プロジェクト削除"
+msgstr "プロジェクトを削除"
 
 #: ViewProjects.cpp:543 ViewWork.cpp:599
 msgid "Launching browser..."
@@ -2809,11 +2809,11 @@ msgstr "新しいタスクを許可"
 
 #: ViewProjects.cpp:737 sg_ProjectCommandPopup.cpp:119
 msgid "Allow fetching new tasks for this project."
-msgstr "このプロジェクトについて新しいタスクの取得を許可します"
+msgstr "このプロジェクトについて新しいタスクの取得を許可します。"
 
 #: ViewProjects.cpp:741 sg_ProjectCommandPopup.cpp:122
 msgid "Don't fetch new tasks for this project."
-msgstr "このプロジェクトについて新しいタスクの取得を禁止します"
+msgstr "このプロジェクトについて新しいタスクの取得を禁止します。"
 
 #: ViewProjects.cpp:1058
 msgid "Requested by user"
@@ -2849,7 +2849,7 @@ msgstr "理由不明"
 
 #: ViewProjects.cpp:1079
 msgid "Suspended by user"
-msgstr "参加者の指示により一時停止中"
+msgstr "参加者により一時停止中"
 
 #: ViewProjects.cpp:1082
 msgid "Won't get new tasks"
@@ -2857,11 +2857,11 @@ msgstr "新しいタスクを取得しない"
 
 #: ViewProjects.cpp:1085
 msgid "Project ended - OK to remove"
-msgstr "プロジェクトは終了しました。　OKを押すと削除します。"
+msgstr "プロジェクトは終了しました - 削除するにはOKを押します。"
 
 #: ViewProjects.cpp:1088
 msgid "Will remove when tasks done"
-msgstr "タスクが終了したら削除します"
+msgstr "タスクが完了したら削除します"
 
 #: ViewProjects.cpp:1091
 msgid "Scheduler request pending"
@@ -2873,7 +2873,7 @@ msgstr "スケジューラへ要求中"
 
 #: ViewProjects.cpp:1100
 msgid "Trickle up message pending"
-msgstr "トリクルメッセージの送信保留あり"
+msgstr "トリクルアップ・メッセージの送信保留あり"
 
 #: ViewProjects.cpp:1106
 msgid "Communication deferred "
@@ -2901,7 +2901,7 @@ msgstr "BOINC による使用領域: "
 
 #: ViewResources.cpp:296
 msgid "free, available to BOINC: "
-msgstr "空き領域でかつ　BOINC で利用でる部分 ： "
+msgstr "空き領域でかつ BOINC で利用でる部分:"
 
 #: ViewResources.cpp:306
 msgid "free, not available to BOINC: "
