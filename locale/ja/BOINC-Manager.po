@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2015-02-26 17:00+0000\n"
+"PO-Revision-Date: 2015-02-27 14:05+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -190,11 +190,11 @@ msgstr "接続を切りました"
 #: AdvancedFrame.cpp:322 sg_BoincSimpleFrame.cpp:119
 #, c-format
 msgid "Close the %s window"
-msgstr "この %s ウィンドウを閉じる"
+msgstr "この %s ウィンドウを閉じます"
 
 #: AdvancedFrame.cpp:325 sg_BoincSimpleFrame.cpp:122
 msgid "&Close Window"
-msgstr "ウィンドーを閉じる(&C)"
+msgstr "ウィンドウを閉じる(&C)"
 
 #: AdvancedFrame.cpp:336 AdvancedFrame.cpp:343 AdvancedFrame.cpp:350
 #, c-format
@@ -207,7 +207,7 @@ msgstr "お知らせ(&N)\tCtrl+Shift+N"
 
 #: AdvancedFrame.cpp:372
 msgid "Display notices"
-msgstr "お知らせを表示"
+msgstr "お知らせを表示します"
 
 #: AdvancedFrame.cpp:377
 msgid "&Projects\tCtrl+Shift+P"
@@ -215,7 +215,7 @@ msgstr "プロジェクト(&P)\tCtrl+Shift+P"
 
 #: AdvancedFrame.cpp:378
 msgid "Display projects"
-msgstr "プロジェクトを表示"
+msgstr "プロジェクトを表示します"
 
 #: AdvancedFrame.cpp:383
 msgid "&Tasks\tCtrl+Shift+T"
@@ -223,7 +223,7 @@ msgstr "タスク(&T)\tCtrl+Shift+T"
 
 #: AdvancedFrame.cpp:384
 msgid "Display tasks"
-msgstr "タスクを表示"
+msgstr "タスクを表示します"
 
 #: AdvancedFrame.cpp:389
 msgid "Trans&fers\tCtrl+Shift+X"
@@ -231,7 +231,7 @@ msgstr "転送(&F)\tCtrl+Shift+X"
 
 #: AdvancedFrame.cpp:390
 msgid "Display transfers"
-msgstr "転送を表示"
+msgstr "転送を表示します"
 
 #: AdvancedFrame.cpp:395
 msgid "&Statistics\tCtrl+Shift+S"
@@ -239,7 +239,7 @@ msgstr "統計(&S)\tCtrl+Shift+S"
 
 #: AdvancedFrame.cpp:396
 msgid "Display statistics"
-msgstr "統計を表示"
+msgstr "統計を表示します"
 
 #: AdvancedFrame.cpp:401
 msgid "&Disk usage\tCtrl+Shift+D"
@@ -273,7 +273,7 @@ msgstr "%s に同期(&S)"
 #: AdvancedFrame.cpp:433
 #, c-format
 msgid "Get current settings from %s"
-msgstr "%s から現在の設定を取り出す"
+msgstr "%s から現在の設定を取得します"
 
 #: AdvancedFrame.cpp:443
 msgid "&Add project..."
@@ -281,7 +281,7 @@ msgstr "プロジェクトを追加(&A)..."
 
 #: AdvancedFrame.cpp:444
 msgid "Add a project"
-msgstr "プロジェクトを追加"
+msgstr "プロジェクトを追加します"
 
 #: AdvancedFrame.cpp:447
 #, c-format
@@ -290,7 +290,7 @@ msgstr "%s を使うのを止める(&T)..."
 
 #: AdvancedFrame.cpp:453
 msgid "Remove this computer from account manager control."
-msgstr "このコンピュータをアカウント・マネージャの管理からはずします。"
+msgstr "このコンピュータをアカウント・マネージャの管理からはずします"
 
 #: AdvancedFrame.cpp:458 sg_BoincSimpleFrame.cpp:178
 msgid "&Options..."
@@ -298,7 +298,7 @@ msgstr "オプション(&O)…"
 
 #: AdvancedFrame.cpp:459 sg_BoincSimpleFrame.cpp:179
 msgid "Configure display options and proxy settings"
-msgstr "表示オプションとプロキシ設定を構成"
+msgstr "表示オプションとプロキシ設定を構成します"
 
 #: AdvancedFrame.cpp:463 sg_BoincSimpleFrame.cpp:172
 msgid "Computing &preferences..."
@@ -306,7 +306,7 @@ msgstr "計算に関するプレファレンス(&P)..."
 
 #: AdvancedFrame.cpp:464 sg_BoincSimpleFrame.cpp:173
 msgid "Configure computing preferences"
-msgstr "計算に関するプレファレンス(好みの設定)を設定"
+msgstr "計算に関するプレファレンス(好みの設定)を設定します"
 
 #: AdvancedFrame.cpp:472
 msgid "&Run always"
@@ -314,7 +314,7 @@ msgstr "常時稼働(&R)"
 
 #: AdvancedFrame.cpp:473
 msgid "Allow work regardless of preferences"
-msgstr "プレファレンス(好みの設定)に関わらず仕事を許可"
+msgstr "プレファレンス(好みの設定)に関わらず仕事の実行を許可します"
 
 #: AdvancedFrame.cpp:477
 msgid "Run based on &preferences"
@@ -322,7 +322,7 @@ msgstr "プレファレンスに従って稼働(&P)"
 
 #: AdvancedFrame.cpp:478
 msgid "Allow work according to preferences"
-msgstr "プレファレンス(好みの設定)に従って仕事を許可"
+msgstr "プレファレンス(好みの設定)に従って仕事の実行を許可します。"
 
 #: AdvancedFrame.cpp:482
 msgid "&Suspend"
@@ -330,7 +330,7 @@ msgstr "一時停止(&S)"
 
 #: AdvancedFrame.cpp:483
 msgid "Stop work regardless of preferences"
-msgstr "プレファレンス(好みの設定)に関わらず仕事を停止"
+msgstr "プレファレンス(好みの設定)に関わらず仕事の実行を停止します"
 
 #: AdvancedFrame.cpp:508
 msgid "Use GPU always"
@@ -338,7 +338,7 @@ msgstr "常時 GPU を使う"
 
 #: AdvancedFrame.cpp:509
 msgid "Allow GPU work regardless of preferences"
-msgstr "プレファレンス(好みの設定)に関わらず GPU による仕事を許可"
+msgstr "プレファレンス(好みの設定)に関わらず GPU による仕事の実行を許可します"
 
 #: AdvancedFrame.cpp:513
 msgid "Use GPU based on preferences"
@@ -346,7 +346,7 @@ msgstr "プレファレンスに従って GPUを使用"
 
 #: AdvancedFrame.cpp:514
 msgid "Allow GPU work according to preferences"
-msgstr "プレファレンス(好みの設定)に従って GPU による仕事を許可"
+msgstr "プレファレンス(好みの設定)に従って GPU による仕事の実行を許可します"
 
 #: AdvancedFrame.cpp:518
 msgid "Suspend GPU"
@@ -354,7 +354,7 @@ msgstr "GPU の使用を一時停止"
 
 #: AdvancedFrame.cpp:519
 msgid "Stop GPU work regardless of preferences"
-msgstr "プレファレンス(好みの設定)に関わらず GPU による仕事を停止"
+msgstr "プレファレンス(好みの設定)に関わらず GPU による仕事の実行を停止します"
 
 #: AdvancedFrame.cpp:543
 msgid "Network activity always available"
@@ -362,7 +362,7 @@ msgstr "ネットワークを常時使用"
 
 #: AdvancedFrame.cpp:544
 msgid "Allow network activity regardless of preferences"
-msgstr "プレファレンス(好みの設定)に関わらずネットワークアクセスを許可"
+msgstr "プレファレンス(好みの設定)に関わらずネットワークアクセスを許可します"
 
 #: AdvancedFrame.cpp:548
 msgid "Network activity based on preferences"
@@ -370,7 +370,7 @@ msgstr "プレファレンスに従ってネットワークを使用"
 
 #: AdvancedFrame.cpp:549
 msgid "Allow network activity according to preferences"
-msgstr "プレファレンス(好みの設定)に従ってネットワークアクセスを許可"
+msgstr "プレファレンス(好みの設定)に従ってネットワークアクセスを許可します"
 
 #: AdvancedFrame.cpp:553
 msgid "Network activity suspended"
@@ -378,12 +378,12 @@ msgstr "ネットワークの使用を一時停止"
 
 #: AdvancedFrame.cpp:554
 msgid "Stop BOINC network activity"
-msgstr "BOINC によるネットワークアクセスを停止"
+msgstr "BOINC によるネットワークアクセスを停止します"
 
 #: AdvancedFrame.cpp:564
 #, c-format
 msgid "Connect to another computer running %s"
-msgstr "%s が稼動している別のコンピュータに接続"
+msgstr "%s が稼動している別のコンピュータに接続します"
 
 #: AdvancedFrame.cpp:569
 msgid "Select computer..."
@@ -395,7 +395,7 @@ msgstr "接続しているクライアントをシャットダウン..."
 
 #: AdvancedFrame.cpp:575
 msgid "Shut down the currently connected client"
-msgstr "現在接続しているクライアントをシャットダウンさせる"
+msgstr "現在接続しているクライアントをシャットダウンさせます"
 
 #: AdvancedFrame.cpp:579
 msgid "Run CPU &benchmarks"
@@ -403,7 +403,7 @@ msgstr "CPU ベンチマークを実行(&B)"
 
 #: AdvancedFrame.cpp:580
 msgid "Runs BOINC CPU benchmarks"
-msgstr "BOINC の CPU ベンチマークを実行"
+msgstr "BOINC の CPU ベンチマークを実行します"
 
 #: AdvancedFrame.cpp:584
 msgid "Do network communication"
@@ -411,7 +411,7 @@ msgstr "通信を今すぐ実施"
 
 #: AdvancedFrame.cpp:585
 msgid "Do all pending network communication"
-msgstr "保留されているすべてのネットワーク通信を実行"
+msgstr "保留されているすべてのネットワーク通信を実行します"
 
 #: AdvancedFrame.cpp:589
 msgid "Read config files"
@@ -420,7 +420,7 @@ msgstr "設定ファイルを読み込む"
 #: AdvancedFrame.cpp:590
 msgid ""
 "Read configuration info from cc_config.xml and any app_config.xml files"
-msgstr "cc_config.xml といずれかの app_config.xml ファイルから設定情報を読み込む"
+msgstr "cc_config.xml といずれかの app_config.xml ファイルから設定情報を読み込みます"
 
 #: AdvancedFrame.cpp:594
 msgid "Read local prefs file"
@@ -428,12 +428,12 @@ msgstr "ローカル・プレファレンスファイルを読み込む"
 
 #: AdvancedFrame.cpp:595
 msgid "Read preferences from global_prefs_override.xml."
-msgstr "global_prefs_override.xml からプレファレンス(好みの設定)を読み込む"
+msgstr "global_prefs_override.xml からプレファレンス(好みの設定)を読み込みます"
 
 #: AdvancedFrame.cpp:600
 #, c-format
 msgid "Launch another instance of %s..."
-msgstr "もう一つ別の %s のインスタンスを起動する..."
+msgstr "もう一つ別の %s のインスタンスを起動します..."
 
 #: AdvancedFrame.cpp:604
 #, c-format
@@ -446,7 +446,7 @@ msgstr "イベント・ログ...\tCtrl+Shift+E"
 
 #: AdvancedFrame.cpp:615
 msgid "Display diagnostic messages."
-msgstr "診断メッセージを表示"
+msgstr "診断メッセージを表示します"
 
 #: AdvancedFrame.cpp:625 sg_BoincSimpleFrame.cpp:188
 #, c-format
@@ -456,7 +456,7 @@ msgstr "%s のヘルプ(&H)"
 #: AdvancedFrame.cpp:631 sg_BoincSimpleFrame.cpp:194
 #, c-format
 msgid "Show information about %s"
-msgstr "%s に関する情報を表示"
+msgstr "%s に関する情報を表示します"
 
 #: AdvancedFrame.cpp:643
 #, c-format
@@ -466,7 +466,7 @@ msgstr "&%s のヘルプ"
 #: AdvancedFrame.cpp:649 sg_BoincSimpleFrame.cpp:212
 #, c-format
 msgid "Show information about the %s"
-msgstr "%s に関する情報を表示"
+msgstr "%s に関する情報を表示します"
 
 #: AdvancedFrame.cpp:661 sg_BoincSimpleFrame.cpp:224
 #, c-format
@@ -476,7 +476,7 @@ msgstr "%s のウェブサイト(&W)"
 #: AdvancedFrame.cpp:667 sg_BoincSimpleFrame.cpp:230
 #, c-format
 msgid "Show information about BOINC and %s"
-msgstr "BOINC および %s に関する情報を表示"
+msgstr "BOINC および %s に関する情報を表示します"
 
 #: AdvancedFrame.cpp:679 BOINCTaskBar.cpp:530 sg_BoincSimpleFrame.cpp:242
 #, c-format
@@ -485,7 +485,7 @@ msgstr "%s について(&A)..."
 
 #: AdvancedFrame.cpp:685 sg_BoincSimpleFrame.cpp:248
 msgid "Licensing and copyright information."
-msgstr "ライセンスと著作権情報"
+msgstr "ライセンスと著作権情報を表示します"
 
 #: AdvancedFrame.cpp:692 sg_BoincSimpleFrame.cpp:255
 msgid "&File"
@@ -1331,7 +1331,7 @@ msgstr "さらに、この何日間かに至るまで十分なタスクを維持
 
 #: DlgAdvPreferencesBase.cpp:466
 msgid "Skip image file verification"
-msgstr "イメージファイルの検証をスキップする"
+msgstr "画像ファイルの検証をスキップする"
 
 #: DlgAdvPreferencesBase.cpp:468
 msgid "check this if your Internet provider modifies image files"
@@ -1349,7 +1349,7 @@ msgstr "インターネットに接続する前に確認する"
 msgid ""
 "if checked, a confirmation dialog will be displayed before trying to connect"
 " to the Internet"
-msgstr "チェックを入れると、インターネットに接続する前に確認ダイアログが表示されます。"
+msgstr "チェックを入れると、インターネットに接続試行する前に確認ダイアログが表示されます。"
 
 #: DlgAdvPreferencesBase.cpp:484
 msgid "Disconnect when done"
@@ -1359,11 +1359,11 @@ msgstr "終わったら切断"
 msgid ""
 "if checked, BOINC hangs up when network usage is done\n"
 "(only relevant for dialup-connection)"
-msgstr "チェックを入れると、ネットワーク使用終了時に BOINC が電話を切ります\n(ダイアルアップ接続の場合のみ有意)"
+msgstr "チェックを入れると、ネットワーク使用終了時に BOINC が接続を切ります\n(ダイアルアップ接続の場合のみ重要)"
 
 #: DlgAdvPreferencesBase.cpp:492
 msgid "Network usage allowed"
-msgstr "ネットワーク使用を許す時間帯"
+msgstr "ネットワーク使用を許可する時間帯"
 
 #: DlgAdvPreferencesBase.cpp:500
 msgid "network usage start hour"
@@ -1379,36 +1379,36 @@ msgstr "ディスク領域"
 
 #: DlgAdvPreferencesBase.cpp:609
 msgid "the maximum disk space used by BOINC (in Gigabytes)"
-msgstr "BOINC使用最大ディスク使用量(ギガバイト)"
+msgstr "BOINCによる最大ディスク使用量(GB)"
 
 #: DlgAdvPreferencesBase.cpp:613
 msgid "Gigabytes disk space"
-msgstr "ギガバイトのディスク領域"
+msgstr "GB のディスク領域"
 
 #: DlgAdvPreferencesBase.cpp:616
 msgid "Leave at least"
-msgstr "最低限の未使用領域"
+msgstr "最低限の空き領域"
 
 #: DlgAdvPreferencesBase.cpp:620
 msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
-msgstr "BOINC は、ディスク空き容量がこの値を下まわるところまでは使いません(単位はギガバイト)"
+msgstr "BOINC は、ディスクの空き領域がこの値を下回るまで使用することはありません(単位はGB)"
 
 #: DlgAdvPreferencesBase.cpp:624
 msgid "Gigabytes disk space free"
-msgstr "ギガバイト（空き）"
+msgstr "GB のディスクの空き領域"
 
 #: DlgAdvPreferencesBase.cpp:631
 msgid "BOINC uses at most this percentage of total disk space"
-msgstr "BOINC使用最大ディスク使用率(パーセント)"
+msgstr "BOINCによる最大ディスク使用率(パーセント)"
 
 #: DlgAdvPreferencesBase.cpp:636
 #, no-c-format
 msgid "% of total disk space"
-msgstr "% (ディスク全体に対する使用率)"
+msgstr "% (ディスク全領域に対する使用率)"
 
 #: DlgAdvPreferencesBase.cpp:639
 msgid "Tasks checkpoint to disk at most every"
-msgstr "タスクがチェックポイントでディスクに書く最小間隔"
+msgstr "タスクがチェックポイントをディスクに書き込む最小間隔"
 
 #: DlgAdvPreferencesBase.cpp:645
 msgid "seconds"
@@ -1421,21 +1421,21 @@ msgstr "% (ページファイル/スワップ領域 の使用率)"
 
 #: DlgAdvPreferencesBase.cpp:662
 msgid "Memory usage"
-msgstr "メモリ使用"
+msgstr "メモリ使用量"
 
 #: DlgAdvPreferencesBase.cpp:676
 #, no-c-format
 msgid "% when computer is in use"
-msgstr "% (コンピュータ利用中)"
+msgstr "% (コンピュータが利用中のとき)"
 
 #: DlgAdvPreferencesBase.cpp:686
 #, no-c-format
 msgid "% when computer is idle"
-msgstr "% (コンピュータ・アイドル時)"
+msgstr "% (コンピュータがアイドル状態のとき)"
 
 #: DlgAdvPreferencesBase.cpp:691
 msgid "Leave applications in memory while suspended"
-msgstr "一時停止時にアプリケーションをメモリ上に残す"
+msgstr "一時停止中にアプリケーションをメモリ上に残す"
 
 #: DlgAdvPreferencesBase.cpp:693
 msgid "if checked, suspended work units are left in memory"
@@ -1465,7 +1465,7 @@ msgstr "このリストからアプリケーションを削除"
 
 #: DlgAdvPreferencesBase.cpp:738
 msgid "For advanced options, refer to "
-msgstr "上級オプションについては以下を参照してください"
+msgstr "上級オプションについては右記を参照してください: "
 
 #: DlgEventLog.cpp:219
 #, c-format
@@ -1492,7 +1492,7 @@ msgstr "およびこのプロジェクトだけを表示"
 
 #: DlgEventLog.cpp:294
 msgid "Copy &All"
-msgstr "すべてコピー"
+msgstr "すべてコピー(&A)"
 
 #: DlgEventLog.cpp:296 DlgEventLog.cpp:300 ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
@@ -1500,7 +1500,7 @@ msgstr "全メッセージをクリップボードにコピーします"
 
 #: DlgEventLog.cpp:305
 msgid "Copy &Selected"
-msgstr "選択部分をコピー"
+msgstr "選択部分をコピー(&S)"
 
 #: DlgEventLog.cpp:308 DlgEventLog.cpp:316 ViewMessages.cpp:97
 msgid ""
@@ -1514,7 +1514,7 @@ msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on "
 "messages."
-msgstr "選択したメッセージをクリップボードにコピーします。シフトまたはコントロールキーを押しながら、メッセージをクリックすれば複数のメッセージを選択状態にできます。 "
+msgstr "選択したメッセージをクリップボードにコピーします。シフトまたはコントロールキーを押しながら、メッセージをクリックすれば複数のメッセージを選択できます。 "
 
 #: DlgEventLog.cpp:325 DlgItemProperties.cpp:67
 msgid "&Close"
@@ -1527,7 +1527,7 @@ msgstr "%s について助けを求める"
 
 #: DlgEventLog.cpp:348
 msgid "Show all &messages"
-msgstr "全メッセージを表示"
+msgstr "全メッセージを表示(&M)"
 
 #: DlgEventLog.cpp:349 DlgEventLog.cpp:351
 msgid "Show messages for all projects"
