@@ -41,6 +41,10 @@
 
 ///////////////////////////////////////////////////////////////////////////
 
+
+#define PROC_DAY_OF_WEEK_TOOLTIP_TEXT _("On this day each week, compute only during these hours.")
+#define NET_DAY_OF_WEEK_TOOLTIP_TEXT _("On this day each week, transfer files only during these hours.")
+
 #define ID_DEFAULT wxID_ANY // Default
 #define ID_ADV_PREFS_START 20000
 enum {
@@ -78,6 +82,7 @@ enum {
     ID_CHKPROCINUSE,
     ID_CHKMAXLOAD,
     ID_CHKPROCONBATTERIES,
+    ID_TABPAGE_SCHED,
     ID_TABPAGE_DISK,
     ID_TABPAGE_NET,
     ID_TABPAGE_PROC,
@@ -92,27 +97,41 @@ enum {
     ID_TXTNETDOWNLOADRATE,
     ID_TXTNETEVERYDAYSTART,
     ID_TXTNETEVERYDAYSTOP,
-    ID_TXTNETFRIDAY,
-    ID_TXTNETMONDAY,
-    ID_TXTNETSATURDAY,
-    ID_TXTNETSUNDAY,
-    ID_TXTNETTHURSDAY,
-    ID_TXTNETTUESDAY,
+    ID_TXTNETFRIDAYSTART,
+    ID_TXTNETFRIDAYSTOP,
+    ID_TXTNETMONDAYSTART,
+    ID_TXTNETMONDAYSTOP,
+    ID_TXTNETSATURDAYSTART,
+    ID_TXTNETSATURDAYSTOP,
+    ID_TXTNETSUNDAYSTART,
+    ID_TXTNETSUNDAYSTOP,
+    ID_TXTNETTHURSDAYSTART,
+    ID_TXTNETTHURSDAYSTOP,
+    ID_TXTNETTUESDAYSTART,
+    ID_TXTNETTUESDAYSTOP,
     ID_TXTNETUPLOADRATE,
-    ID_TXTNETWEDNESDAY,
+    ID_TXTNETWEDNESDAYSTART,
+    ID_TXTNETWEDNESDAYSTOP,
     ID_TXTPOCUSECPUTIME,
     ID_TXTPROCEVERYDAYSTART,
     ID_TXTPROCEVERYDAYSTOP,
-    ID_TXTPROCFRIDAY,
+    ID_TXTPROCFRIDAYSTART,
+    ID_TXTPROCFRIDAYSTOP,
     ID_TXTPROCIDLEFOR,
-    ID_TXTPROCMONDAY,
-    ID_TXTPROCSATURDAY,
-    ID_TXTPROCSUNDAY,
+    ID_TXTPROCMONDAYSTART,
+    ID_TXTPROCMONDAYSTOP,
+    ID_TXTPROCSATURDAYSTART,
+    ID_TXTPROCSATURDAYSTOP,
+    ID_TXTPROCSUNDAYSTART,
+    ID_TXTPROCSUNDAYSTOP,
     ID_TXTPROCSWITCHEVERY,
-    ID_TXTPROCTHURSDAY,
-    ID_TXTPROCTUESDAY,
+    ID_TXTPROCTHURSDAYSTART,
+    ID_TXTPROCTHURSDAYSTOP,
+    ID_TXTPROCTUESDAYSTART,
+    ID_TXTPROCTUESDAYSTOP,
     ID_TXTPROCUSEPROCESSORS,
-    ID_TXTPROCWEDNESDAY,
+    ID_TXTPROCWEDNESDAYSTART,
+    ID_TXTPROCWEDNESDAYSTOP,
     ID_CHKGPUPROCINUSE,
     ID_TXTMAXLOAD,
     ID_DAILY_XFER_LIMIT_MB,
@@ -144,22 +163,27 @@ protected:
     wxCheckBox* m_chkProcEveryDay;
     wxTextCtrl* m_txtProcEveryDayStart;
     wxTextCtrl* m_txtProcEveryDayStop;
-    wxPanel* m_panelProcSpecialTimes;
-    wxStaticBox* procSpecialTimesStaticBox;
     wxCheckBox* m_chkProcMonday;
-    wxTextCtrl* m_txtProcMonday;
+    wxTextCtrl* m_txtProcMondayStart;
+    wxTextCtrl* m_txtProcMondayStop;
     wxCheckBox* m_chkProcTuesday;
-    wxTextCtrl* m_txtProcTuesday;
+    wxTextCtrl* m_txtProcTuesdayStart;
+    wxTextCtrl* m_txtProcTuesdayStop;
     wxCheckBox* m_chkProcWednesday;
-    wxTextCtrl* m_txtProcWednesday;
+    wxTextCtrl* m_txtProcWednesdayStart;
+    wxTextCtrl* m_txtProcWednesdayStop;
     wxCheckBox* m_chkProcThursday;
-    wxTextCtrl* m_txtProcThursday;
+    wxTextCtrl* m_txtProcThursdayStart;
+    wxTextCtrl* m_txtProcThursdayStop;
     wxCheckBox* m_chkProcFriday;
-    wxTextCtrl* m_txtProcFriday;
+    wxTextCtrl* m_txtProcFridayStart;
+    wxTextCtrl* m_txtProcFridayStop;
     wxCheckBox* m_chkProcSaturday;
-    wxTextCtrl* m_txtProcSaturday;
+    wxTextCtrl* m_txtProcSaturdayStart;
+    wxTextCtrl* m_txtProcSaturdayStop;
     wxCheckBox* m_chkProcSunday;
-    wxTextCtrl* m_txtProcSunday;
+    wxTextCtrl* m_txtProcSundayStart;
+    wxTextCtrl* m_txtProcSundayStop;
     wxTextCtrl* m_txtProcSwitchEvery;
     wxTextCtrl* m_txtDiskWriteToDisk;
     wxPanel* m_panelNetwork;
@@ -179,22 +203,27 @@ protected:
     wxCheckBox* m_chkNetDisconnectWhenDone;
     wxTextCtrl* m_txtNetEveryDayStart;
     wxTextCtrl* m_txtNetEveryDayStop;
-    wxPanel* m_panelNetSpecialTimes;
-    wxStaticBox* netSpecialTimesStaticBox;
     wxCheckBox* m_chkNetMonday;
-    wxTextCtrl* m_txtNetMonday;
+    wxTextCtrl* m_txtNetMondayStart;
+    wxTextCtrl* m_txtNetMondayStop;
     wxCheckBox* m_chkNetTuesday;
-    wxTextCtrl* m_txtNetTuesday;
+    wxTextCtrl* m_txtNetTuesdayStart;
+    wxTextCtrl* m_txtNetTuesdayStop;
     wxCheckBox* m_chkNetWednesday;
-    wxTextCtrl* m_txtNetWednesday;
+    wxTextCtrl* m_txtNetWednesdayStart;
+    wxTextCtrl* m_txtNetWednesdayStop;
     wxCheckBox* m_chkNetThursday;
-    wxTextCtrl* m_txtNetThursday;
+    wxTextCtrl* m_txtNetThursdayStart;
+    wxTextCtrl* m_txtNetThursdayStop;
     wxCheckBox* m_chkNetFriday;
-    wxTextCtrl* m_txtNetFriday;
+    wxTextCtrl* m_txtNetFridayStart;
+    wxTextCtrl* m_txtNetFridayStop;
     wxCheckBox* m_chkNetSaturday;
-    wxTextCtrl* m_txtNetSaturday;
+    wxTextCtrl* m_txtNetSaturdayStart;
+    wxTextCtrl* m_txtNetSaturdayStop;
     wxCheckBox* m_chkNetSunday;
-    wxTextCtrl* m_txtNetSunday;
+    wxTextCtrl* m_txtNetSundayStart;
+    wxTextCtrl* m_txtNetSundayStop;
     wxPanel* m_panelDiskAndMemory;
     wxCheckBox* m_chkDiskMaxSpace;
     wxTextCtrl* m_txtDiskMaxSpace;
@@ -225,6 +254,7 @@ private:
     wxPanel* createDailySchedulesTab(wxNotebook* notebook);
     wxSize getTextCtrlSize(wxString maxText);
     bool doesLocalPrefsFileExist();
+    void makeStaticBoxLabelItalic(wxStaticBox* staticBox);
 };
 
 #endif //__DlgAdvPreferencesBase__

@@ -27,9 +27,6 @@
 #include "prefs.h"
 #include "cc_config.h"
 
-#define TXT_PROC_TIME_TOOLTIP _("specify work start and stop hours in format HH:MM-HH:MM")
-#define TXT_NET_TIME_TOOLTIP _("specify network usage start and stop hours in format HH:MM-HH:MM")
-
 class CDlgAdvPreferences : public CDlgAdvPreferencesBase {
 	DECLARE_DYNAMIC_CLASS( CDlgAdvPreferences )
     DECLARE_EVENT_TABLE()
@@ -46,8 +43,6 @@ class CDlgAdvPreferences : public CDlgAdvPreferencesBase {
     bool IsValidFloatValueBetween(const wxString& value, double minVal, double maxVal);
 	bool IsValidTimeChar(const wxChar& ch);
 	bool IsValidTimeValue(const wxString& value);
-	bool IsValidTimeIntervalChar(const wxChar& ch);
-	bool IsValidTimeIntervalValue(const wxString& value);
 	void ShowErrorMessage(wxString& msg,wxTextCtrl* errorCtrl);
 	bool EnsureTabPageVisible(wxTextCtrl* txtCtrl);
 	bool ConfirmClear();
@@ -71,11 +66,13 @@ private:
 	bool m_bPrefsDataChanged;
 	bool m_bInInit;
 	wxArrayInt m_arrTabPageIds;
-    wxTextValidator* m_vTimeIntervalValidator;
+    wxTextValidator* m_vTimeValidator;
     wxCheckBox* procDayChks[7];
-    wxTextCtrl* procDayTxts[7];
+    wxTextCtrl* procDayStartTxts[7];
+    wxTextCtrl* procDayStopTxts[7];
     wxCheckBox* netDayChks[7];
-    wxTextCtrl* netDayTxts[7];
+    wxTextCtrl* netDayStartTxts[7];
+    wxTextCtrl* netDayStopTxts[7];
 };
 
 #endif // _DLGADVPREFERENCES_H_
