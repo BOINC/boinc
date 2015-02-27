@@ -371,11 +371,11 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     // max VM idle
     buffer.Printf(wxT("%.2f"),prefs.ram_max_used_idle_frac*100.0);
     *m_txtMemoryMaxOnIdle << buffer;
+    // suspend to memory
+    m_chkMemoryWhileSuspended->SetValue(prefs.leave_apps_in_memory);
     // max swap space (virtual memory)
     buffer.Printf(wxT("%.2f"),prefs.vm_max_used_frac*100.0);
     *m_txtDiskMaxSwap << buffer;
-    // suspend to memory
-    m_chkMemoryWhileSuspended->SetValue(prefs.leave_apps_in_memory);
 
     // ######### daily schedules page
     // do work between
@@ -557,14 +557,14 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     prefs.ram_max_used_idle_frac=td;
     mask.ram_max_used_idle_frac=true;
     //
+    prefs.leave_apps_in_memory = m_chkMemoryWhileSuspended->GetValue();
+    mask.leave_apps_in_memory=true;
+    //
     m_txtDiskMaxSwap->GetValue().ToDouble(&td);
     td = RoundToHundredths(td);
     td = td / 100.0 ;
     prefs.vm_max_used_frac=td;
     mask.vm_max_used_frac=true;
-    //
-    prefs.leave_apps_in_memory = m_chkMemoryWhileSuspended->GetValue();
-    mask.leave_apps_in_memory=true;
 
     // ######### daily schedules page
 

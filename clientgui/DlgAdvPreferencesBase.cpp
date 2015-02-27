@@ -623,7 +623,7 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
     wxStaticBoxSizer* memoryUsageBoxSizer = new wxStaticBoxSizer( memoryUsageStaticBox, wxVERTICAL );
     makeStaticBoxLabelItalic(memoryUsageStaticBox);
 
-    wxFlexGridSizer* memoryUsageGridSizer = new wxFlexGridSizer( 3, 3, 0, 0 );
+    wxFlexGridSizer* memoryUsageGridSizer = new wxFlexGridSizer( 3, 0, 0 );
     memoryUsageGridSizer->AddGrowableCol( 2 );
     memoryUsageGridSizer->SetFlexibleDirection( wxHORIZONTAL );
     memoryUsageGridSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
@@ -661,6 +661,14 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
     staticText53->SetToolTip(MemoryMaxOnIdleTT);
     memoryUsageGridSizer->Add( staticText53, 0, wxALL, 5 );
 
+    m_chkMemoryWhileSuspended = new wxCheckBox( memoryUsageStaticBox, ID_CHKMEMORYWHILESUSPENDED, _("Leave non-GPU tasks in memory while suspended"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_chkMemoryWhileSuspended->SetToolTip( _("If checked, suspended tasks stay in memory, and resume with no work lost. If unchecked, suspended tasks are removed from memory, and resume from their last checkpoint.") );
+
+    memoryUsageGridSizer->Add( m_chkMemoryWhileSuspended, 0, wxALL, 5 );
+
+    memoryUsageGridSizer->AddSpacer(1);
+    memoryUsageGridSizer->AddSpacer(1);
+
     wxString DiskMaxSwapTT = wxEmptyString;
     DiskMaxSwapTT.Printf(_("Limit the swap space (page file) used by %s."), pSkinAdvanced->GetApplicationShortName().c_str());
 
@@ -678,11 +686,6 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
     memoryUsageGridSizer->Add( staticText49, 0, wxALL, 5 );
 
     memoryUsageBoxSizer->Add( memoryUsageGridSizer, 0, wxEXPAND, 1 );
-
-    m_chkMemoryWhileSuspended = new wxCheckBox( memoryUsageStaticBox, ID_CHKMEMORYWHILESUSPENDED, _("Leave non-GPU tasks in memory while suspended"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_chkMemoryWhileSuspended->SetToolTip( _("If checked, suspended tasks stay in memory, and resume with no work lost. If unchecked, suspended tasks are removed from memory, and resume from their last checkpoint.") );
-
-    memoryUsageBoxSizer->Add( m_chkMemoryWhileSuspended, 0, wxALL, 5 );
 
     diskAndMemoryBoxSizer->Add( memoryUsageBoxSizer, 0, wxALL|wxEXPAND, 1 );
 
