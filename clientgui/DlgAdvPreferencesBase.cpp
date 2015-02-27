@@ -316,7 +316,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     );
     m_txtMaxLoad->SetToolTip(MaxLoadTT);
     maxLoadSizer->Add( m_txtMaxLoad, 0, wxALL, 1 );
-    wxStaticText* staticText26 = new wxStaticText( suspendComputingStaticBox, ID_DEFAULT, _("percent"),
+    wxStaticText* staticText26 = new wxStaticText( suspendComputingStaticBox, ID_DEFAULT, wxT("%"),
             wxDefaultPosition, wxDefaultSize, 0 );
     staticText26->SetToolTip(MaxLoadTT);
     maxLoadSizer->Add(staticText26, 0, wxALL, 5 );
@@ -324,7 +324,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     suspendComputingBoxSizer->Add( maxLoadSizer, 0, wxEXPAND, 5);
 
      suspendComputingBoxSizer->Add(
-        new wxStaticText( suspendComputingStaticBox, ID_DEFAULT, wxT("To suspend by time of day, see the \"Daily schedules\" section."), wxDefaultPosition, wxDefaultSize, 0),
+        new wxStaticText( suspendComputingStaticBox, ID_DEFAULT, wxT("To suspend by time of day, see the \"Daily Schedules\" section."), wxDefaultPosition, wxDefaultSize, 0),
         0, wxALL, 5
     );
 
@@ -453,7 +453,7 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
     m_txtNetDownloadRate-> SetToolTip(NetDownloadRateTT);
     networkUsageLimitsGridSizer->Add( m_txtNetDownloadRate, 0, wxALL, 1 );
 
-    wxStaticText* staticText33 = new wxStaticText( networkUsageLimitsStaticBox, ID_DEFAULT, _("Kbytes/second"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText* staticText33 = new wxStaticText( networkUsageLimitsStaticBox, ID_DEFAULT, _("KB/second"), wxDefaultPosition, wxDefaultSize, 0 );
     staticText33-> SetToolTip(NetDownloadRateTT);
     networkUsageLimitsGridSizer->Add( staticText33, 0, wxALL, 5 );
 
@@ -466,7 +466,7 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
     m_txtNetUploadRate-> SetToolTip(NetUploadRateTT);
     networkUsageLimitsGridSizer->Add( m_txtNetUploadRate, 0, wxALL, 1 );
 
-    wxStaticText* staticText35 = new wxStaticText( networkUsageLimitsStaticBox, ID_DEFAULT, _("Kbytes/second"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText* staticText35 = new wxStaticText( networkUsageLimitsStaticBox, ID_DEFAULT, _("KB/second"), wxDefaultPosition, wxDefaultSize, 0 );
     staticText35-> SetToolTip(NetUploadRateTT);
     networkUsageLimitsGridSizer->Add( staticText35, 0, wxALL, 5 );
 
@@ -485,7 +485,7 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
 
     wxBoxSizer* networkTransferLimitSizer = new wxBoxSizer( wxHORIZONTAL );
 
-    wxStaticText* staticText_daily_xfer2 = new wxStaticText( networkUsageLimitsStaticBox, ID_DEFAULT, _("Mbytes every"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText* staticText_daily_xfer2 = new wxStaticText( networkUsageLimitsStaticBox, ID_DEFAULT, _("MB every"), wxDefaultPosition, wxDefaultSize, 0 );
     staticText_daily_xfer2-> SetToolTip(daily_xfer_limitTT);
     networkTransferLimitSizer->Add( staticText_daily_xfer2, 0, wxALL, 5 );
     
@@ -506,7 +506,7 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
         0, wxALL, 5
     );
      networkUsageLimitsBoxSizer->Add(
-        new wxStaticText( networkUsageLimitsStaticBox, ID_DEFAULT, wxT("To suspend by time of day, see the \"Daily schedules\" section."), wxDefaultPosition, wxDefaultSize, 0),
+        new wxStaticText( networkUsageLimitsStaticBox, ID_DEFAULT, wxT("To suspend by time of day, see the \"Daily Schedules\" section."), wxDefaultPosition, wxDefaultSize, 0),
         0, wxALL, 5
     );
 
@@ -579,7 +579,7 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
     m_txtDiskMaxSpace->SetToolTip(DiskMaxSpaceTT);
     diskUsageGridSizer->Add( m_txtDiskMaxSpace, 0, wxALL, 1 );
 
-    wxStaticText* staticText41 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("Gigabytes"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText* staticText41 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("GB"), wxDefaultPosition, wxDefaultSize, 0 );
     staticText41->SetToolTip(DiskMaxSpaceTT);
     diskUsageGridSizer->Add( staticText41, 0, wxALL, 5 );
 
@@ -595,7 +595,7 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
     m_txtDiskLeastFree->SetToolTip(DiskLeastFreeTT);
     diskUsageGridSizer->Add( m_txtDiskLeastFree, 0, wxALL, 1 );
 
-    wxStaticText* staticText43 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("Gigabytes free"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText* staticText43 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("GB free"), wxDefaultPosition, wxDefaultSize, 0 );
     staticText43->SetToolTip(DiskLeastFreeTT);
     diskUsageGridSizer->Add( staticText43, 0, wxALL, 5 );
 
@@ -700,7 +700,7 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
 wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
 {
     wxSize textCtrlSize = getTextCtrlSize(wxT("23:59"));
-    wxString toString(_("to"));
+    wxString toString(wxT(" ")+_("to")+wxT(" "));
     
     wxPanel* dailySchedulesTab = new wxPanel( notebook, ID_TABPAGE_SCHED, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
     dailySchedulesTab->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
@@ -709,7 +709,7 @@ wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
 
     // Computing schedule
     //
-    wxStaticBox* computingTimesStaticBox = new wxStaticBox(dailySchedulesTab, -1, _("Schedule computing") );
+    wxStaticBox* computingTimesStaticBox = new wxStaticBox(dailySchedulesTab, -1, _("Computing") );
     wxStaticBoxSizer* computingTimesStaticBoxSizer = new wxStaticBoxSizer(computingTimesStaticBox, wxVERTICAL);
     makeStaticBoxLabelItalic(computingTimesStaticBox);
 
@@ -741,7 +741,7 @@ wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
     wxStaticBoxSizer* procSpecialTimesStaticBoxSizer = new wxStaticBoxSizer(procSpecialTimesStaticBox, wxVERTICAL);
     makeStaticBoxLabelItalic(procSpecialTimesStaticBox);
 
-    wxStaticText* staticText36 = new wxStaticText( procSpecialTimesStaticBox, ID_DEFAULT, _("Override the \"Every day\" times above on the days selected below:"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText* staticText36 = new wxStaticText( procSpecialTimesStaticBox, ID_DEFAULT, _("Override the times above on the selected days:"), wxDefaultPosition, wxDefaultSize, 0 );
     procSpecialTimesStaticBoxSizer->Add( staticText36, 0, wxALL, 0 );
  
     procSpecialTimesStaticBoxSizer->AddSpacer(3);
@@ -858,7 +858,7 @@ wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
     
     // Network schedule
     //
-    wxStaticBox* networkTimesStaticBox = new wxStaticBox( dailySchedulesTab, -1, _("Schedule network usage") );
+    wxStaticBox* networkTimesStaticBox = new wxStaticBox( dailySchedulesTab, -1, _("Network") );
     wxStaticBoxSizer* networkTimesBoxSizer = new wxStaticBoxSizer( networkTimesStaticBox, wxVERTICAL );
     makeStaticBoxLabelItalic(networkTimesStaticBox);
 
@@ -866,7 +866,7 @@ wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
 
     wxString NetEveryDayTT(_("Transfer files only during a particular range of hours each day."));
     m_chkNetEveryDay = new wxCheckBox(
-        networkTimesStaticBox, ID_CHKNETEVERYDAY, _("Tranfer files only between"), wxDefaultPosition, wxDefaultSize, 0 );
+        networkTimesStaticBox, ID_CHKNETEVERYDAY, _("Transfer files only between"), wxDefaultPosition, wxDefaultSize, 0 );
     m_chkNetEveryDay->SetToolTip(NetEveryDayTT);
     networkTimesEveryDaySizer->Add( m_chkNetEveryDay, 0, wxLEFT|wxRIGHT, 5 );
 
@@ -888,7 +888,7 @@ wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
     wxStaticBoxSizer* netSpecialTimesStaticBoxSizer = new wxStaticBoxSizer(netSpecialTimesStaticBox, wxVERTICAL);
     makeStaticBoxLabelItalic(netSpecialTimesStaticBox);
     
-    wxStaticText* staticText39 = new wxStaticText( netSpecialTimesStaticBox, ID_DEFAULT, _("Override the \"Every day\" times above on the days selected below:"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText* staticText39 = new wxStaticText( netSpecialTimesStaticBox, ID_DEFAULT, _("Override the times above on the selected days selected:"), wxDefaultPosition, wxDefaultSize, 0 );
     netSpecialTimesStaticBoxSizer->Add( staticText39, 0, wxALL, 0 );
 
     netSpecialTimesStaticBoxSizer->AddSpacer(3);
