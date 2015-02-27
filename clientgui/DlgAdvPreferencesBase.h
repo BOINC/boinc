@@ -41,6 +41,10 @@
 
 ///////////////////////////////////////////////////////////////////////////
 
+
+#define PROC_DAY_OF_WEEK_TOOLTIP_TEXT _("On this day each week, compute only during these hours.")
+#define NET_DAY_OF_WEEK_TOOLTIP_TEXT _("On this day each week, transfer files only during these hours.")
+
 #define ID_DEFAULT wxID_ANY // Default
 #define ID_ADV_PREFS_START 20000
 enum {

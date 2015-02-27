@@ -182,8 +182,8 @@ void CDlgAdvPreferences::SetValidators() {
 
 /* some controls share the same tooltip, set them here */
 void CDlgAdvPreferences::SetSpecialTooltips() {
-    wxString procDaysTimeTT(_("On this day each week, compute only during these hours."));
-    wxString netDaysTimeTT(_("On this day each week, transfer files only during these hours."));
+    wxString procDaysTimeTT(PROC_DAY_OF_WEEK_TOOLTIP_TEXT);
+    wxString netDaysTimeTT(NET_DAY_OF_WEEK_TOOLTIP_TEXT);
     for (int i=0; i<7; ++i) {
         procDayChks[i]->SetToolTip(procDaysTimeTT);
         procDayStartTxts[i]->SetToolTip(procDaysTimeTT);
@@ -581,9 +581,8 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     prefs.net_times.week.clear();
     for(int i=0; i< 7;i++) {
         if(procDayChks[i]->GetValue()) {
-            wxString timeStr = procDayStartTxts[i]->GetValue();
-            wxString startStr = timeStr.SubString(0,timeStr.First('-'));
-            wxString endStr = timeStr.SubString(timeStr.First('-')+1,timeStr.Length());
+            wxString startStr = procDayStartTxts[i]->GetValue();
+            wxString endStr = procDayStopTxts[i]->GetValue();
             prefs.cpu_times.week.set(i,
                 TimeStringToDouble(startStr),
                 TimeStringToDouble(endStr)
@@ -604,9 +603,8 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     prefs.net_times.week.clear();
     for(int i=0; i< 7;i++) {
         if(netDayChks[i]->GetValue()) {
-            wxString timeStr = netDayStartTxts[i]->GetValue();
-            wxString startStr = timeStr.SubString(0,timeStr.First('-'));
-            wxString endStr = timeStr.SubString(timeStr.First('-')+1,timeStr.Length());
+            wxString startStr = netDayStartTxts[i]->GetValue();
+            wxString endStr = netDayStopTxts[i]->GetValue();
             prefs.net_times.week.set(i,
                 TimeStringToDouble(startStr),
                 TimeStringToDouble(endStr)
