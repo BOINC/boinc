@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2015-02-26 16:55+0000\n"
+"PO-Revision-Date: 2015-02-27 14:21+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -58,12 +58,12 @@ msgstr "番号付きリストにする: [list=]テキスト[/list] (Alt+O)"
 
 #: ../inc/bbcode_html.inc:32
 msgid "Insert image: [img]http://image_url[/img]  (alt+p)"
-msgstr "画像の挿入: [img]画像のURL(例 http://…)[/img] (Alt+P)"
+msgstr "画像の挿入: [img]http://画像のURL[/img] (Alt+P)"
 
 #: ../inc/bbcode_html.inc:35
 msgid ""
 "Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)"
-msgstr "URLの挿入: [url]URLL(例 http://…)[/url] もしくはテキストにハイパーリンクをつける場合 [url=URL(例 http://…)]テキスト[/url] (Alt+W)"
+msgstr "URLの挿入: [url]http://URL[/url] もしくはテキストにハイパーリンクをつける場合 [url=http://URL]テキスト[/url] (Alt+W)"
 
 #: ../inc/bbcode_html.inc:42
 msgid "Font color"
@@ -815,7 +815,7 @@ msgstr "新しいコンピュータの功績値を更新できませんでした
 
 #: ../inc/host.inc:622
 msgid "Couldn't update results"
-msgstr "リザルトを更新できませんでした"
+msgstr "結果を更新できませんでした"
 
 #: ../inc/host.inc:627
 msgid "Couldn't retire old computer"
@@ -1378,7 +1378,7 @@ msgstr "検証したが未確定"
 
 #: ../inc/result.inc:118 ../inc/result.inc:268
 msgid "Valid"
-msgstr "検証済"
+msgstr "有効"
 
 #: ../inc/result.inc:119 ../inc/result.inc:271
 msgid "Invalid"
@@ -1390,7 +1390,7 @@ msgstr "異常発生"
 
 #: ../inc/result.inc:174 ../inc/result.inc:221 ../user/explain_state.php:34
 msgid "Inactive"
-msgstr "非活性"
+msgstr "活動していない"
 
 #: ../inc/result.inc:175 ../inc/result.inc:222 ../user/explain_state.php:37
 msgid "Unsent"
@@ -1414,7 +1414,7 @@ msgstr "計算済、検証不可"
 
 #: ../inc/result.inc:185
 msgid "Completed, validation inconclusive"
-msgstr "計算済、検証したが未決定"
+msgstr "計算済、検証したが未確定"
 
 #: ../inc/result.inc:186
 msgid "Completed, too late to validate"
@@ -1430,11 +1430,11 @@ msgstr "送出できず"
 
 #: ../inc/result.inc:194 ../inc/result.inc:257
 msgid "Cancelled by server"
-msgstr "サーバによりキャンセルされた"
+msgstr "サーバにより取り消し"
 
 #: ../inc/result.inc:199
 msgid "Not started by deadline - canceled"
-msgstr "報告期限までに開始されませんでした - キャンセルされました"
+msgstr "報告期限までに開始されませんでした - 取り消されました"
 
 #: ../inc/result.inc:202
 msgid "Error while downloading"
@@ -1450,7 +1450,7 @@ msgstr "アップロード中に異常発生"
 
 #: ../inc/result.inc:206 ../inc/result.inc:259
 msgid "Aborted by user"
-msgstr "参加者により中止された"
+msgstr "参加者により中止"
 
 #: ../inc/result.inc:207 ../inc/result.inc:260
 msgid "Upload failed"
@@ -1462,7 +1462,7 @@ msgstr "タイムアウト - 応答なし"
 
 #: ../inc/result.inc:211 ../inc/result.inc:240 ../user/explain_state.php:71
 msgid "Didn't need"
-msgstr "計算不要となった"
+msgstr "不要となった"
 
 #: ../inc/result.inc:212 ../inc/result.inc:241 ../user/explain_state.php:74
 msgid "Validate error"
@@ -1482,15 +1482,15 @@ msgstr "成功"
 
 #: ../inc/result.inc:236
 msgid "Computation error"
-msgstr "計算中に異常発生"
+msgstr "計算エラー"
 
 #: ../inc/result.inc:238
 msgid "Redundant result"
-msgstr "重複したリザルト"
+msgstr "余分な結果"
 
 #: ../inc/result.inc:239 ../user/explain_state.php:68
 msgid "No reply"
-msgstr "返事なし"
+msgstr "応答なし"
 
 #: ../inc/result.inc:249 ../user/explain_state.php:85
 msgid "New"
@@ -1502,11 +1502,11 @@ msgstr "ダウンロード中"
 
 #: ../inc/result.inc:251
 msgid "Processing"
-msgstr "処理"
+msgstr "処理中"
 
 #: ../inc/result.inc:252
 msgid "Compute error"
-msgstr "計算中に異常発生"
+msgstr "計算エラー"
 
 #: ../inc/result.inc:253 ../user/explain_state.php:97
 msgid "Uploading"
@@ -1530,23 +1530,23 @@ msgstr "ワークユニットの異常 - 検証省略"
 
 #: ../inc/result.inc:275
 msgid "Checked, but no consensus yet"
-msgstr "検査したが、一致数がまだ基準に至らず"
+msgstr "検証したが、一致数がまだ基準に至らず"
 
 #: ../inc/result.inc:276
 msgid "Task was reported too late to validate"
-msgstr "検証するには結果の到着が遅すぎた"
+msgstr "検証するにはタスクの報告が遅すぎた"
 
 #: ../inc/result.inc:302
 msgid "Couldn't send result"
-msgstr "結果を送出できなかった"
+msgstr "結果を送出できず"
 
 #: ../inc/result.inc:306
 msgid "Too many errors (may have bug)"
-msgstr "異常過多（おそらくバグ）"
+msgstr "異常過多(おそらくバグ)"
 
 #: ../inc/result.inc:310
 msgid "Too many results (may be nondeterministic)"
-msgstr "計算結果過多（おそらく非決定的）"
+msgstr "計算結果過多(おそらく非決定的)"
 
 #: ../inc/result.inc:314
 msgid "Too many total results"
@@ -1554,11 +1554,11 @@ msgstr "結果の総数過多"
 
 #: ../inc/result.inc:318
 msgid "WU cancelled"
-msgstr "ワークユニットがキャンセルされました"
+msgstr "ワークユニットが取り消されました"
 
 #: ../inc/result.inc:322
 msgid "Unrecognized Error: %1"
-msgstr "未確認の異常： %1"
+msgstr "認識できない異常: %1"
 
 #: ../inc/result.inc:349
 msgid "Task name"
@@ -1595,7 +1595,7 @@ msgstr "送出日時"
 
 #: ../inc/result.inc:373
 msgid "Time reported<br />or deadline"
-msgstr "報告日時 <br />または期限"
+msgstr "報告日時 <br />または報告期限"
 
 #: ../inc/result.inc:374
 msgid "explain"
@@ -1607,11 +1607,11 @@ msgstr "状態"
 
 #: ../inc/result.inc:377
 msgid "Run time<br />(sec)"
-msgstr "経過時間<br />(秒)"
+msgstr "実行時間<br />(秒)"
 
 #: ../inc/result.inc:378
 msgid "CPU time<br />(sec)"
-msgstr "CPU 時間<br />(秒)"
+msgstr "CPU時間<br />(秒)"
 
 #: ../inc/result.inc:379 ../inc/result.inc:642
 msgid "Credit"
@@ -1643,7 +1643,7 @@ msgstr "クライアント側の状態"
 
 #: ../inc/result.inc:636
 msgid "Exit status"
-msgstr "終了ステイタス"
+msgstr "終了ステータス"
 
 #: ../inc/result.inc:638
 msgid "Report deadline"
@@ -1651,11 +1651,11 @@ msgstr "報告期限"
 
 #: ../inc/result.inc:639
 msgid "Run time"
-msgstr "経過時間"
+msgstr "実行時間"
 
 #: ../inc/result.inc:640
 msgid "CPU time"
-msgstr "CPU 時間"
+msgstr "CPU時間"
 
 #: ../inc/result.inc:641
 msgid "Validate state"
@@ -1663,7 +1663,7 @@ msgstr "検証状態"
 
 #: ../inc/result.inc:643
 msgid "Application version"
-msgstr "アプリケーションの版数"
+msgstr "アプリケーションのバージョン"
 
 #: ../inc/result.inc:656
 msgid "Output files"
@@ -1683,7 +1683,7 @@ msgstr "タスク名:"
 
 #: ../inc/team.inc:40
 msgid "Search criteria (use one or more)"
-msgstr "検索条件(一つ以上指定要)"
+msgstr "検索条件(一つ以上要指定)"
 
 #: ../inc/team.inc:41
 msgid "Key words"
@@ -1713,7 +1713,7 @@ msgstr "活動中のチームだけを表示"
 
 #: ../inc/team.inc:52 ../user/profile_menu.php:76 ../user/user_search.php:70
 msgid "Search"
-msgstr "検索する"
+msgstr "検索"
 
 #: ../inc/team.inc:61
 msgid "Requested by you, and founder response deadline has passed."
@@ -1721,7 +1721,7 @@ msgstr "あなたが要求しましたが、創設者は期限までに応答し
 
 #: ../inc/team.inc:63
 msgid "Complete foundership transfer"
-msgstr "創設者権利の移転を完了させるにはここをクリック"
+msgstr "創設者権利の移転を完了する"
 
 #: ../inc/team.inc:67
 msgid "Requested by you"
@@ -1729,7 +1729,7 @@ msgstr "あなたが要求中です"
 
 #: ../inc/team.inc:67
 msgid "founder response deadline is %1"
-msgstr "創設者の応答期限は、%1"
+msgstr "創設者の応答期限は、 %1"
 
 #: ../inc/team.inc:72 ../inc/team.inc:555 ../inc/user.inc:281
 #: ../inc/user.inc:371
@@ -1742,7 +1742,7 @@ msgstr "要求を開始する"
 
 #: ../inc/team.inc:77
 msgid "Deferred"
-msgstr "変更手続き中"
+msgstr "延期された"
 
 #: ../inc/team.inc:87
 msgid "Team info"
@@ -1780,7 +1780,7 @@ msgstr "このチームに参加する"
 msgid ""
 "Note: if 'OK to email' is set in your project preferences, joining a team "
 "gives its founder access to your email address."
-msgstr "注意：あなたがプロジェクト・プレファレンスの中で 「Eメイルを送っても良い」という意味の項目を選択した状態でチームへ参加すると、 そのチームの創設者はあなたのメイルアドレスを知ることになります。"
+msgstr "注意：あなたがプロジェクト・プレファレンスの中で「Eメールを送っても良い」と設定した状態でチームへ参加すると、 そのチームの創設者はあなたのメールアドレスを知ることになります。"
 
 #: ../inc/team.inc:140
 msgid "Not accepting new members"
@@ -1812,7 +1812,7 @@ msgstr "管理者"
 
 #: ../inc/team.inc:184
 msgid "New members in last day"
-msgstr "チームに昨日参加したメンバー"
+msgstr "チームに昨日参加した新しいメンバー"
 
 #: ../inc/team.inc:185
 msgid "Total members"
@@ -1838,13 +1838,13 @@ msgstr "管理者"
 #: ../user/top_hosts.php:93 ../user/top_teams.php:121
 #: ../user/top_users.php:127
 msgid "Previous %1"
-msgstr "前の%1項目"
+msgstr "前へ %1"
 
 #: ../inc/team.inc:281 ../user/forum_user_posts.php:131
 #: ../user/profile_search_action.php:61 ../user/top_hosts.php:98
 #: ../user/top_teams.php:126 ../user/top_users.php:132
 msgid "Next %1"
-msgstr "次の%1項目"
+msgstr "次へ %1"
 
 #: ../inc/team.inc:289
 msgid "No such team."
@@ -1862,17 +1862,17 @@ msgstr "この操作にはチーム管理者の権限が必要です"
 msgid ""
 "WARNING: this is a BOINC-wide team. If you make changes here, they will soon"
 " be overwritten. Edit the %1BOINC-wide team%2 instead."
-msgstr "＜警告＞: これは BOINCワイドのチームです。ここで変更を行っても、 そのうち上書きされてしまいます。代わりに %1 BOINC ワイドのチーム %2を編集してください。"
+msgstr "＜警告＞: これは BOINCワイドのチームです。ここで変更を行っても、 そのうち上書きされてしまいます。代わりに %1 BOINC ワイドのチーム %2 を編集してください。"
 
 #: ../inc/team.inc:428
 msgid ""
 "%1Privacy note%2: if you create a team, your project preferences (resource "
 "share, graphics preferences) will be visible to the public."
-msgstr "%1プライバシに関連する注意%2: チームを作成すると、あなたのプロジェクト・プレファレンス（資源割り当て、 グラフィクスについてのプレファレンス）が、公開されます。"
+msgstr "%1 プライバシーに関する注意 %2 : チームを作成すると、あなたのプロジェクト・プレファレンス(リソース割り当て、グラフィックについてのプレファレンス)が公開されます。"
 
 #: ../inc/team.inc:432
 msgid "Team name, text version"
-msgstr "チーム名称、テキスト版"
+msgstr "チーム名、テキスト版"
 
 #: ../inc/team.inc:433
 msgid "Don't use HTML tags."
@@ -1880,19 +1880,19 @@ msgstr "HTMLタグを使わないでください。"
 
 #: ../inc/team.inc:436
 msgid "Team name, HTML version"
-msgstr "チーム名称、HTML版"
+msgstr "チーム名、HTML版"
 
 #: ../inc/team.inc:438 ../inc/team.inc:448
 msgid "You may use %1limited HTML tags%2."
-msgstr "%1一部の HTML タグ%2は使えます。"
+msgstr "%1 一部のHTMLタグ %2 は使えます。"
 
 #: ../inc/team.inc:439
 msgid "If you don't know HTML, leave this box blank."
-msgstr "HTML の使い方をご存知でなければ、この欄は空白にしてください。"
+msgstr "HTMLの使い方をご存知でなければ、この欄は空白にしてください。"
 
 #: ../inc/team.inc:442
 msgid "URL of team web page, if any"
-msgstr "チームのウェブページのURL（もしあれば)"
+msgstr "チームのウェブページのURL(省略可)"
 
 #: ../inc/team.inc:442
 msgid "without \"http://\""
@@ -1900,7 +1900,7 @@ msgstr "\"http://\" は含めないでください。"
 
 #: ../inc/team.inc:443
 msgid "This URL will be linked to from the team's page on this site."
-msgstr "この URLへ は、このサイト内のチームのページからリンクが張られます。"
+msgstr "このURLへは、このサイト内のチームのページからリンクが張られます。"
 
 #: ../inc/team.inc:446
 msgid "Description of team"
@@ -1908,11 +1908,11 @@ msgstr "チームの説明"
 
 #: ../inc/team.inc:462
 msgid "Accept new members?"
-msgstr "新メンバーを受け入れますか?"
+msgstr "新しいメンバーを受け入れますか?"
 
 #: ../inc/uotd.inc:28
 msgid "User profile"
-msgstr "参加者の自己紹介"
+msgstr "参加者のプロフィール"
 
 #: ../inc/user.inc:119
 msgid "Projects in which you are participating"
@@ -1979,7 +1979,7 @@ msgstr "携帯電話向け統計データ"
 
 #: ../inc/user.inc:183
 msgid "Unknown notification type: %1"
-msgstr "未定義の通知タイプ:%1"
+msgstr "未定義の通知タイプ: %1"
 
 #: ../inc/user.inc:198
 msgid "Account information"
@@ -1988,7 +1988,7 @@ msgstr "アカウント情報"
 #: ../inc/user.inc:200 ../user/edit_passwd_form.php:45
 #: ../user/get_passwd.php:40 ../user/team_email_list.php:64
 msgid "Email address"
-msgstr "Eメイルアドレス"
+msgstr "Eメールアドレス"
 
 #: ../inc/user.inc:203 ../inc/user.inc:322
 msgid "URL"
@@ -2000,7 +2000,7 @@ msgstr "郵便番号"
 
 #: ../inc/user.inc:207 ../inc/user.inc:316
 msgid "%1 member since"
-msgstr "%1 登録日"
+msgstr "%1 への登録日"
 
 #: ../inc/user.inc:209
 msgid "Change"
@@ -2008,7 +2008,7 @@ msgstr "変更"
 
 #: ../inc/user.inc:209
 msgid "email address"
-msgstr "Eメイルアドレス"
+msgstr "Eメールアドレス"
 
 #: ../inc/user.inc:210
 msgid "password"
@@ -2020,11 +2020,11 @@ msgstr "その他のアカウント情報"
 
 #: ../inc/user.inc:213 ../inc/user.inc:315
 msgid "User ID"
-msgstr "参加者のID(User ID)"
+msgstr "参加者のID(ユーザーID)"
 
 #: ../inc/user.inc:213
 msgid "Used in community functions"
-msgstr "コミュニティ機能の中で使われる ID です"
+msgstr "コミュニティ機能の中で使われるIDです"
 
 #: ../inc/user.inc:216 ../user/weak_auth.php:25
 msgid "Account keys"
