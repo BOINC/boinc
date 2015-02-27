@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2015-02-27 16:05+0000\n"
+"PO-Revision-Date: 2015-02-27 18:36+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -2905,23 +2905,23 @@ msgstr "空き領域でかつ BOINC で利用でる部分:"
 
 #: ViewResources.cpp:306
 msgid "free, not available to BOINC: "
-msgstr "空き領域だがBOINC では利用できない部分 ： "
+msgstr "空き領域だが BOINC では利用できない部分:"
 
 #: ViewResources.cpp:316
 msgid "free: "
-msgstr "空き領域 ： "
+msgstr "空き領域:"
 
 #: ViewResources.cpp:326
 msgid "used by other programs: "
-msgstr "その他のプログラムによる使用領域 ："
+msgstr "その他のプログラムによる使用領域:"
 
 #: ViewStatistics.cpp:1205
 msgid "User Total"
-msgstr "参加者ごとの合計功績"
+msgstr "参加者の合計功績"
 
 #: ViewStatistics.cpp:1206
 msgid "User Average"
-msgstr "参加者の平均功績/日"
+msgstr "参加者の平均功績"
 
 #: ViewStatistics.cpp:1207
 msgid "Host Total"
@@ -2929,12 +2929,12 @@ msgstr "計算機の合計功績"
 
 #: ViewStatistics.cpp:1208
 msgid "Host Average"
-msgstr "計算機の平均功績/日"
+msgstr "計算機の平均功績"
 
 #: ViewStatistics.cpp:1355
 #, c-format
 msgid "Last update: %.0f days ago"
-msgstr "最終更新： %.0f 日前"
+msgstr "最終更新: %.0f 日前"
 
 #: ViewStatistics.cpp:1982
 msgid "Show user total"
@@ -2942,15 +2942,15 @@ msgstr "参加者の合計功績を表示"
 
 #: ViewStatistics.cpp:1983
 msgid "Show total credit for user"
-msgstr "参加者の合計功績 (credit) を表示します"
+msgstr "参加者の合計功績(credit)を表示します"
 
 #: ViewStatistics.cpp:1989
 msgid "Show user average"
-msgstr "参加者の平均功績/日を表示"
+msgstr "参加者の平均功績を表示"
 
 #: ViewStatistics.cpp:1990
 msgid "Show average credit for user"
-msgstr "参加者の平均功績 (credit)/日を表示します"
+msgstr "参加者の平均功績(credit)/日を表示します"
 
 #: ViewStatistics.cpp:1996
 msgid "Show host total"
@@ -2958,15 +2958,15 @@ msgstr "計算機の合計功績を表示"
 
 #: ViewStatistics.cpp:1997
 msgid "Show total credit for host"
-msgstr "計算機の合計功績 (credit) を表示します"
+msgstr "計算機の合計功績(credit)を表示します"
 
 #: ViewStatistics.cpp:2003
 msgid "Show host average"
-msgstr "計算機の平均功績/日を表示"
+msgstr "計算機の平均功績を表示"
 
 #: ViewStatistics.cpp:2004
 msgid "Show average credit for host"
-msgstr "計算機の平均功績 (credit)/日を表示します"
+msgstr "計算機の平均功績(credit)/日を表示します"
 
 #: ViewStatistics.cpp:2013
 msgid "< &Previous project"
@@ -3002,7 +3002,7 @@ msgstr "ひとつのプロジェクト"
 
 #: ViewStatistics.cpp:2037
 msgid "Show one chart with selected project"
-msgstr "選択したプロジェクトの図を表示します"
+msgstr "選択したプロジェクトをひとつの図に表示します"
 
 #: ViewStatistics.cpp:2043
 msgid "All projects (separate)"
@@ -3026,7 +3026,7 @@ msgstr "全てのプロジェクト(合計値)"
 
 #: ViewStatistics.cpp:2058
 msgid "Show one chart with sum of projects"
-msgstr "全てのプロジェクトの合計を表示します"
+msgstr "全てのプロジェクトの合計をひとつの図に表示します"
 
 #: ViewStatistics.cpp:2079
 msgid "Statistics"
@@ -3053,7 +3053,7 @@ msgstr "今すぐ再試行"
 
 #: ViewTransfers.cpp:165
 msgid "Retry the file transfer now"
-msgstr "今すぐファイル転送を再試行"
+msgstr "今すぐファイル転送を再試行します"
 
 #: ViewTransfers.cpp:171
 msgid "Abort Transfer"
@@ -3061,7 +3061,7 @@ msgstr "ファイル転送を中止"
 
 #: ViewTransfers.cpp:172
 msgid "Abort this file transfer.  You won't get credit for the task."
-msgstr "このファイル転送を中止。そのタスクの功績(功績値)を得ることができません。"
+msgstr "このファイル転送を中止します。そのタスクの功績値を得ることができません。"
 
 #: ViewTransfers.cpp:183
 msgid "File"
@@ -3089,7 +3089,7 @@ msgstr "ファイル転送"
 
 #: ViewTransfers.cpp:280
 msgid "Network activity is suspended - "
-msgstr "ネットワーク通信は一時停止しています。"
+msgstr "ネットワーク通信は一時停止しています -"
 
 #: ViewTransfers.cpp:282
 msgid ""
@@ -3107,7 +3107,7 @@ msgstr "現在、転送を再試行しています..."
 
 #: ViewTransfers.cpp:330
 msgid "Aborting transfer..."
-msgstr "ファイル転送の中止処理をしています..."
+msgstr "ファイル転送を中止しています..."
 
 #: ViewTransfers.cpp:343
 #, c-format
@@ -3115,7 +3115,7 @@ msgid ""
 "Are you sure you want to abort this file transfer '%s'?\n"
 "NOTE: Aborting a transfer will invalidate a task and you\n"
 "will not receive credit for it."
-msgstr "このファイル転送 '%s' を中止してよいですか？\n注意： 転送を中止するとタスクはキャンセルされたことになり\n功績（クレジット）は付与されなくなります。"
+msgstr "本当にこのファイル転送 '%s' を中止してよろしいですか?\n注意: 転送を中止するとタスクは無効となり功績値は付与されなくなります。"
 
 #: ViewTransfers.cpp:349
 msgid "Abort File Transfer"
@@ -3159,15 +3159,15 @@ msgstr "活動中のタスクを表示する"
 
 #: ViewWork.cpp:188 ViewWork.cpp:778
 msgid "Show only active tasks."
-msgstr "活動中のタスクだけを表示する。"
+msgstr "活動中のタスクだけを表示します。"
 
 #: ViewWork.cpp:194 sg_TaskCommandPopup.cpp:60
 msgid "Show graphics"
-msgstr "グラフィクスを表示"
+msgstr "グラフィックを表示"
 
 #: ViewWork.cpp:195 sg_TaskCommandPopup.cpp:61
 msgid "Show application graphics in a window."
-msgstr "ウィンドウを開いてアプリケーションのグラフィクスを表示"
+msgstr "ウィンドウを開いてアプリケーションのグラフィックを表示します。"
 
 #: ViewWork.cpp:201
 msgid "Show VM Console"
@@ -3175,11 +3175,11 @@ msgstr "VMのコンソールを表示"
 
 #: ViewWork.cpp:202
 msgid "Show VM Console in a window."
-msgstr "ウィンドウを開いてVMのコンソールを表示"
+msgstr "ウィンドウを開いてVMのコンソールを表示します。"
 
 #: ViewWork.cpp:209
 msgid "Suspend work for this result."
-msgstr "このリザルトに対する仕事を一時停止"
+msgstr "このリザルトに対する仕事を一時停止します。"
 
 #: ViewWork.cpp:215 sg_TaskCommandPopup.cpp:72
 msgid "Abort"
@@ -3187,11 +3187,11 @@ msgstr "中止"
 
 #: ViewWork.cpp:216
 msgid "Abandon work on the result. You will get no credit for it."
-msgstr "このリザルトの仕事を放棄します。このリザルトについて功績 (credit) を受けとることはできません。"
+msgstr "このリザルトの仕事を放棄します。このリザルトについて功績値を受け取ることはできません。"
 
 #: ViewWork.cpp:223 sg_TaskCommandPopup.cpp:79
 msgid "Show task details."
-msgstr "タスクの詳細を表示 ： "
+msgstr "タスクの詳細を表示します。"
 
 #: ViewWork.cpp:235
 msgid "Elapsed"
@@ -3219,7 +3219,7 @@ msgstr "タスクを一時停止しています..."
 
 #: ViewWork.cpp:389
 msgid "Showing graphics for task..."
-msgstr "タスクについてのグラフィクスを表示しています..."
+msgstr "タスクについてのグラフィックを表示しています..."
 
 #: ViewWork.cpp:426
 msgid "Showing VM console for task..."
@@ -3230,12 +3230,12 @@ msgstr "タスクについてのVMのコンソールを表示しています..."
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
-msgstr "このタスク '%s' を中止してよろしいですか？\n(進捗状況： %s, 状態： %s)"
+msgstr "本当にこのタスク '%s' を中止してよろしいですか?\n(進捗状況: %s, 状態: %s)"
 
 #: ViewWork.cpp:485
 #, c-format
 msgid "Are you sure you want to abort these %d tasks?"
-msgstr "この %d 番のタスクを本当に中止したいですか？"
+msgstr "本当にこれら %d 個のタスクを中止しますか?"
 
 #: ViewWork.cpp:490 sg_TaskCommandPopup.cpp:256
 msgid "Abort task"
@@ -3251,15 +3251,15 @@ msgstr "全てのタスクを表示"
 
 #: ViewWork.cpp:772
 msgid "Show all tasks."
-msgstr "すべてのタスクを表示します"
+msgstr "全てのタスクを表示します。"
 
 #: ViewWork.cpp:796 sg_TaskCommandPopup.cpp:103
 msgid "Resume work for this task."
-msgstr "このタスクを再開します"
+msgstr "このタスクを再開します。"
 
 #: ViewWork.cpp:802 sg_TaskCommandPopup.cpp:107
 msgid "Suspend work for this task."
-msgstr "このタスクに対する仕事を一時停止します"
+msgstr "このタスクの仕事を一時停止します。"
 
 #: WelcomePage.cpp:284
 msgid "Add project or account manager"
@@ -3277,7 +3277,7 @@ msgid ""
 "\n"
 "Projects added via this wizard will not be\n"
 "listed on or managed via %s."
-msgstr "可能ならば、%sウェブサイトで\nプロジェクトを追加してください。\n\nこのウィザードでプロジェクトを追加すると\n%s 上で表示・管理できません。"
+msgstr "可能ならば、%s のウェブサイトで\nプロジェクトを追加してください。\n\nこのウィザード経由でプロジェクトを追加すると\n%s 上で表示・管理できません。"
 
 #: WelcomePage.cpp:313
 msgid ""
@@ -3286,7 +3286,7 @@ msgid ""
 "and you can volunteer for as many of them as you like.\n"
 "You can add a project directly,\n"
 "or use an 'Account Manager' web site to select projects."
-msgstr "BOINC を使っているプロジェクトは30以上あり、科学の多く\nの領域で研究をしています。どの研究にも好きなだけボラン\nティアとして参加できます。プロジェクトを参加範囲に入れ\nるには、プロジェクト毎に追加するか、アカウントマネージャ\nのウェブサイトでまとめて選んで追加します。"
+msgstr "BOINC を使っているプロジェクトは30以上あり、科学の多く\nの領域で研究をしています。どの研究にも好きなだけボラン\nティアとして参加できます。プロジェクトを参加範囲に入れ\nるには、直接プロジェクトを追加するか、アカウント・マネージャ\nのウェブサイトでまとめて選んで追加します。"
 
 #: WelcomePage.cpp:325
 msgid ""
@@ -3301,7 +3301,7 @@ msgid ""
 "this to choose which projects to support.\n"
 "\n"
 "Please choose which type of change you would like to make:\n"
-msgstr "新しいボランティア・コンピューティング・プロジェクトの追加もしくは貢献するプロジェクトの変更を選択しました。\n\nこれらのプロジェクトのいくつかは World Community Grid によって実行・管理され、同時に他の研究者や組織によって実行・管理されます。BOINC ソフトウェアはプロジェクトの任意の組み合わせの中からあなたの予備の処理能力を振り分けることができます。\n\nあるいは、あなたが BOINC アカウント・マネージャ に登録している場合、支援するプロジェクトの選択のためにそれを利用することができます。\n\n変更したいタイプを選択してください:\n"
+msgstr "新しいボランティア・コンピューティング・プロジェクトの追加もしくは貢献するプロジェクトの変更を選択しました。\n\nこれらのプロジェクトのいくつかは World Community Grid によって実行・管理され、同時に他の研究者や組織によって実行・管理されます。BOINC ソフトウェアはプロジェクトの任意の組み合わせの中からあなたの予備の処理能力を振り分けることができます。\n\nあるいは、あなたが BOINC アカウント・マネージャ に登録している場合、支援するプロジェクトの選択のために利用することができます。\n\n変更したいタイプを選択してください:\n"
 
 #: WelcomePage.cpp:339
 msgid "Use a BOINC Account Manager"
@@ -3309,7 +3309,7 @@ msgstr "BOINC アカウント・マネージャを使用する"
 
 #: WelcomePage.cpp:352
 msgid "To continue, click Next."
-msgstr "続けるには [次へ] をクリックしてください。"
+msgstr "続けるには[次へ]をクリックしてください。"
 
 #: WelcomePage.cpp:358
 msgid "Add or change your World Community Grid projects"
@@ -3325,7 +3325,7 @@ msgstr "本当にキャンセルしますか？"
 
 #: WizardAttach.cpp:635
 msgid "Question"
-msgstr "お答えください"
+msgstr "質問"
 
 #: sg_BoincSimpleFrame.cpp:149
 msgid "Advanced View...\tCtrl+Shift+A"
@@ -3333,7 +3333,7 @@ msgstr "詳細表示... \tCTRL+SHIFT+A"
 
 #: sg_BoincSimpleFrame.cpp:150
 msgid "Display the advanced graphical interface."
-msgstr "詳細版のグラフィカルインタフェースを表示する。"
+msgstr "詳細版のグラフィカルインタフェースを表示します。"
 
 #: sg_BoincSimpleFrame.cpp:157
 msgid "Skin"
@@ -3341,7 +3341,7 @@ msgstr "スキン"
 
 #: sg_BoincSimpleFrame.cpp:159
 msgid "Select the appearance of the user interface."
-msgstr "ユーザーインターフェースの外見を選択"
+msgstr "ユーザーインターフェースの外観を選択します。"
 
 #: sg_BoincSimpleFrame.cpp:206
 #, c-format
@@ -3350,7 +3350,7 @@ msgstr "&%s"
 
 #: sg_BoincSimpleFrame.cpp:390
 msgid "Default"
-msgstr "指定省略時の扱い"
+msgstr "初期値(指定省略時の扱い)"
 
 #: sg_BoincSimpleFrame.cpp:759
 msgid "Suspend Computing"
@@ -3362,7 +3362,7 @@ msgstr "計算を再開"
 
 #: sg_BoincSimpleFrame.cpp:777
 msgid "Open a window to view notices from projects or BOINC"
-msgstr "プロジェクトまたは BOINC からのお知らせを見るためのウィンドーを開く"
+msgstr "プロジェクトまたは BOINC からのお知らせを見るためウィンドウを開く"
 
 #: sg_DlgMessages.cpp:146
 msgid "Close"
@@ -3375,11 +3375,11 @@ msgstr "%s からのお知らせ"
 
 #: sg_DlgPreferences.cpp:268
 msgid "This dialog controls preferences for this computer only."
-msgstr "このダイアログではこのコンピュータのみのプレファレンス(好みの設定)を管理します。"
+msgstr "このダイアログではこのコンピュータだけのためのプレファレンス(好みの設定)を管理します。"
 
 #: sg_DlgPreferences.cpp:273
 msgid "Click OK to set preferences."
-msgstr "プレファレンスを設定するには OK をクリック"
+msgstr "プレファレンスを設定するにはOKをクリックします。"
 
 #: sg_DlgPreferences.cpp:278
 msgid ""
@@ -3389,15 +3389,15 @@ msgstr "下記の全てのプレファレンスのためのウェブ上の設定
 #: sg_DlgPreferences.cpp:285
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
-msgstr "追加の設定は、詳細表示から計算に関するプレファレンスを選択してください。"
+msgstr "追加設定は、詳細表示から計算に関するプレファレンスを選択してください。"
 
 #: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
-msgstr "動作許容時間帯:"
+msgstr "この時間帯だけ仕事をする:"
 
 #: sg_DlgPreferences.cpp:335
 msgid "Connect to internet only between:"
-msgstr "インターネット接続を許可する時間帯:"
+msgstr "この時間帯だけインターネットに接続する:"
 
 #: sg_DlgPreferences.cpp:357 sg_DlgPreferences.cpp:374
 msgid "Use no more than:"
@@ -3405,15 +3405,15 @@ msgstr "使用上限:"
 
 #: sg_DlgPreferences.cpp:370
 msgid "of disk space"
-msgstr "まで（ディスク領域）"
+msgstr "のディスク領域まで"
 
 #: sg_DlgPreferences.cpp:387
 msgid "of the processor"
-msgstr "まで（プロセッサ）"
+msgstr "のプロセッサまで"
 
 #: sg_DlgPreferences.cpp:391
 msgid "Do work while on battery?"
-msgstr "バッテリー動作時に仕事をさせるか?"
+msgstr "バッテリー動作時に仕事をさせますか?"
 
 #: sg_DlgPreferences.cpp:404
 msgid "Do work after idle for:"
@@ -3496,7 +3496,7 @@ msgstr "%d"
 
 #: sg_DlgPreferences.cpp:1029
 msgid "Do you really want to clear all local preferences?\n"
-msgstr "本当にこのコンピュータだけに適用するプレファレンス(好みの設定)を全てクリアしてもよいですか？\n"
+msgstr "本当にこのコンピュータだけに適用するプレファレンス(好みの設定)を全てクリアしてもよろしいですか？\n"
 
 #: sg_ProjectPanel.cpp:72
 msgid "Add Project"
