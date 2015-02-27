@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2015-02-27 14:05+0000\n"
+"PO-Revision-Date: 2015-02-27 15:05+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -247,7 +247,7 @@ msgstr "ディスク(&D)使用量\tCtrl+Shift+D"
 
 #: AdvancedFrame.cpp:402
 msgid "Display disk usage"
-msgstr "ディスク使用量を表示"
+msgstr "ディスク使用量を表示します"
 
 #: AdvancedFrame.cpp:409
 msgid "Simple &View...\tCtrl+Shift+V"
@@ -1540,7 +1540,7 @@ msgstr "選択したプロジェクトのメッセージだけを表示"
 #: DlgExitMessage.cpp:82
 #, c-format
 msgid "%s - Exit Confirmation"
-msgstr "%s - 終了の確認"
+msgstr "%s - 終了確認"
 
 #: DlgExitMessage.cpp:130
 #, c-format
@@ -1551,7 +1551,7 @@ msgid ""
 "\n"
 "If you also want to stop running the tasks,\n"
 "choose from the following options:"
-msgstr "あなたはコンピュータ上で動作するタスクを閲覧し管理することを許可する %s を終了するよう要求しました。\n\nもしタスクの動作も停止する場合は、以下のオプションから選択します。"
+msgstr "あなたはコンピュータ上で動作するタスクを閲覧し管理を可能とする %s を終了するよう要求しました。\n\nもしタスクの動作も停止する場合は、以下のオプションから選択します:"
 
 #: DlgExitMessage.cpp:135
 #, c-format
@@ -1562,7 +1562,7 @@ msgid ""
 "In most cases, it is better just to close the %s window\n"
 "rather than to exit the application; that will allow %s to run its\n"
 "tasks at the times you selected in your preferences."
-msgstr "%s とそのタスクを完全に終了させます。　その後 %s アプリケーション\nまたは %s スクリーンセイバーが再起動されるまでは再開しません。\n\n多くの場合，アプリケーションを終了するよりも %s ウィンドウを閉じるだけ\nのほうが良いでしょう。そうすれば、プレファレンス (好みの設定) で\nあなたが設定した時間帯に %s タスクが走ります。"
+msgstr "%s とそのタスクを完全に終了させます。その後 %s アプリケーションまたは %s スクリーンセーバーは再起動されるまで再開しません。\n\n多くの場合，アプリケーションを終了するよりも %s ウィンドウを閉じるだけのほうが良いでしょう。そうすれば、プレファレンス(好みの設定)であなたが設定した時間帯に %s タスクが動作します。"
 
 #: DlgExitMessage.cpp:153
 #, c-format
@@ -1593,7 +1593,7 @@ msgstr "プロジェクトごとのプレファレンス"
 
 #: DlgItemProperties.cpp:171
 msgid "Account manager preference"
-msgstr "アカウント・マネージャのプレファレンス(好みの設定)"
+msgstr "アカウント・マネージャのプレファレンス"
 
 #: DlgItemProperties.cpp:174
 msgid "Project has no apps for "
@@ -1605,11 +1605,11 @@ msgstr "クライアントの環境設定を除外する"
 
 #: DlgItemProperties.cpp:181
 msgid " work fetch deferred for"
-msgstr "仕事取得の保留時間"
+msgstr "仕事取得の保留時間:"
 
 #: DlgItemProperties.cpp:182
 msgid " work fetch deferral interval"
-msgstr "仕事取得処理の保留時間の間隔"
+msgstr "仕事取得処理の保留時間の間隔:"
 
 #: DlgItemProperties.cpp:213
 msgid "Properties of project "
@@ -1625,7 +1625,7 @@ msgstr "マスター URL"
 
 #: DlgItemProperties.cpp:219
 msgid "User name"
-msgstr "参加者名（User name)　"
+msgstr "参加者名(ユーザー名)"
 
 #: DlgItemProperties.cpp:220
 msgid "Team name"
@@ -1637,15 +1637,15 @@ msgstr "リソース割り当て"
 
 #: DlgItemProperties.cpp:223
 msgid "Scheduler RPC deferred for"
-msgstr "スケジューラ RPC の保留時間"
+msgstr "スケジューラ RPC の保留時間:"
 
 #: DlgItemProperties.cpp:226
 msgid "File downloads deferred for"
-msgstr "ファイルダウンロード 待機"
+msgstr "ファイルダウンロード待機時間:"
 
 #: DlgItemProperties.cpp:229
 msgid "File uploads deferred for"
-msgstr "ファイルアップロード 待機"
+msgstr "ファイルアップロード待機時間:"
 
 #: DlgItemProperties.cpp:232
 msgid "Computer ID"
@@ -1664,7 +1664,7 @@ msgstr "はい"
 
 #: DlgItemProperties.cpp:236
 msgid "Suspended via GUI"
-msgstr "GUI 経由で保留状態にされている"
+msgstr "GUI 経由で保留中"
 
 #: DlgItemProperties.cpp:236 DlgItemProperties.cpp:237
 msgid "no"
@@ -1672,7 +1672,7 @@ msgstr "いいえ"
 
 #: DlgItemProperties.cpp:237
 msgid "Don't request more work"
-msgstr "新しい仕事を取りに行かない"
+msgstr "新しい仕事を要請しない"
 
 #: DlgItemProperties.cpp:239
 msgid "Scheduler call in progress"
@@ -1684,7 +1684,7 @@ msgstr "トリクルアップの送信保留あり"
 
 #: DlgItemProperties.cpp:245 DlgItemProperties.cpp:247
 msgid "Host location"
-msgstr "計算機の所在"
+msgstr "計算機の所在場所"
 
 #: DlgItemProperties.cpp:247
 msgid "default"
@@ -1704,7 +1704,7 @@ msgstr "終了した"
 
 #: DlgItemProperties.cpp:259
 msgid "Credit"
-msgstr "功績(credit)の値"
+msgstr "功績値"
 
 #: DlgItemProperties.cpp:260
 msgid "User"
@@ -1728,11 +1728,11 @@ msgstr "CPU"
 
 #: DlgItemProperties.cpp:302
 msgid "Duration correction factor"
-msgstr "Duration correction factor"
+msgstr "期間補正因子"
 
 #: DlgItemProperties.cpp:316
 msgid "Properties of task "
-msgstr "タスクのプロパティ ： "
+msgstr "タスクのプロパティ"
 
 #: DlgItemProperties.cpp:328 ViewWork.cpp:238
 msgid "Application"
@@ -1764,7 +1764,7 @@ msgstr "推定計算量"
 
 #: DlgItemProperties.cpp:344
 msgid "CPU time at last checkpoint"
-msgstr "最新のチェックポイントでの CPU 時間"
+msgstr "最新のチェックポイントでのCPU時間"
 
 #: DlgItemProperties.cpp:345 DlgItemProperties.cpp:360
 msgid "CPU time"
@@ -1776,7 +1776,7 @@ msgstr "経過時間"
 
 #: DlgItemProperties.cpp:349
 msgid "Estimated time remaining"
-msgstr "処理完了までの想定時間"
+msgstr "推定される残り時間"
 
 #: DlgItemProperties.cpp:350
 msgid "Fraction done"
@@ -1800,7 +1800,7 @@ msgstr "プロセスID"
 
 #: DlgItemProperties.cpp:427 ViewWork.cpp:1032 sg_TaskPanel.cpp:823
 msgid "Local: "
-msgstr "Local:"
+msgstr "ローカル:"
 
 #: DlgOptions.cpp:129 DlgOptions.cpp:135
 msgid "Options"
@@ -1808,11 +1808,11 @@ msgstr "オプション"
 
 #: DlgOptions.cpp:175
 msgid "Language:"
-msgstr "言語："
+msgstr "言語:"
 
 #: DlgOptions.cpp:182
 msgid "What language should BOINC use?"
-msgstr "BOINC が表示に使う言語を何にするか"
+msgstr "BOINC が表示に使う言語を何にしますか?"
 
 #: DlgOptions.cpp:186
 msgid "Notice reminder interval:"
@@ -1820,23 +1820,23 @@ msgstr "お知らせの通知間隔:"
 
 #: DlgOptions.cpp:193
 msgid "How often should BOINC remind you of new notices?"
-msgstr "新規のお知らせがあることを BOINC があなたに伝える頻度"
+msgstr "どれくらいの間隔で BOINC はあなたに新しいお知らせを通知すべきですか？"
 
 #: DlgOptions.cpp:198
 msgid "Run Manager at login?"
-msgstr "マネージャをログイン時に起動するか?"
+msgstr "マネージャをログオン時に起動しますか?"
 
 #: DlgOptions.cpp:204
 msgid "Run the BOINC Manager when you log on."
-msgstr "BOINC マネージャをあなたがログインしたときに起動する。"
+msgstr "あなたがログオンしたときにBOINC マネージャを起動します。"
 
 #: DlgOptions.cpp:209
 msgid "Enable Manager exit dialog?"
-msgstr "マネージャ停止時のダイアログを有効化"
+msgstr "マネージャ終了時のダイアログを有効化しますか?"
 
 #: DlgOptions.cpp:215
 msgid "Display the exit dialog when shutting down the Manager."
-msgstr "このマネージャ・プログラムを停止させるときにダイアログを表示する"
+msgstr "このマネージャ・プログラムを停止させるときに終了ダイアログを表示します。"
 
 #: DlgOptions.cpp:226
 msgid "Dial-up and Virtual Private Network settings"
@@ -1852,7 +1852,7 @@ msgstr "初期値をクリア(&C)"
 
 #: DlgOptions.cpp:252
 msgid "Default Connection:"
-msgstr "通常の接続："
+msgstr "初期値での接続:"
 
 #: DlgOptions.cpp:259
 msgid "Connections"
@@ -1868,11 +1868,11 @@ msgstr "HTTP プロキシサーバの設定"
 
 #: DlgOptions.cpp:280 DlgOptions.cpp:344
 msgid "Address:"
-msgstr "アドレス："
+msgstr "アドレス:"
 
 #: DlgOptions.cpp:288 DlgOptions.cpp:352 ProxyPage.cpp:340 ProxyPage.cpp:360
 msgid "Port:"
-msgstr "ポート番号："
+msgstr "ポート番号:"
 
 #: DlgOptions.cpp:296 DlgOptions.cpp:360
 msgid "Don't use proxy for:"
@@ -1884,12 +1884,12 @@ msgstr "プロキシを必要としない場合は空欄のままにしてくだ
 
 #: DlgOptions.cpp:309 DlgOptions.cpp:373 ProxyPage.cpp:343 ProxyPage.cpp:363
 msgid "User Name:"
-msgstr "プロキシのユーザ名："
+msgstr "プロキシのユーザー名:"
 
 #: DlgOptions.cpp:317 DlgOptions.cpp:381 DlgSelectComputer.cpp:152
 #: ProxyPage.cpp:346 ProxyPage.cpp:366
 msgid "Password:"
-msgstr "パスワード："
+msgstr "パスワード:"
 
 #: DlgOptions.cpp:324
 msgid "HTTP Proxy"
@@ -1941,7 +1941,7 @@ msgstr "%s - 言語の選択"
 msgid ""
 "The %s's language has been changed.  In order for this change to take "
 "effect, you must restart the %s."
-msgstr "%s の言語設定を切り換えました。切り換えの効果を出すためには、この %s を再起動しなければなりません。"
+msgstr "%s の言語設定を切り換えました。効果の変更を適用するためには、この %s を再起動しなければなりません。"
 
 #: DlgSelectComputer.cpp:91
 #, c-format
@@ -1953,11 +1953,11 @@ msgstr "%s - コンピュータの選択"
 msgid ""
 "Another instance of %s is already running \n"
 "on this computer.  Please select a client to monitor."
-msgstr "このコンピュータではすでに %s の別のインスタンスが\n走っています。監視するクライアントを選択してください。"
+msgstr "このコンピュータではすでに %s の別のインスタンスが走っています。監視するクライアントを選択してください。"
 
 #: DlgSelectComputer.cpp:143
 msgid "Host name:"
-msgstr "計算機名 (ホスト名)："
+msgstr "計算機名(ホスト名):"
 
 #: Localization.cpp:31 Localization.cpp:69
 msgid "Message boards"
@@ -1969,7 +1969,7 @@ msgstr "SETI@home の掲示版で他の参加者と連絡をとる"
 
 #: Localization.cpp:37
 msgid "Ask questions and report problems"
-msgstr "質問をしたり、問題の発生報告をする"
+msgstr "質問をしたり、問題を報告をする"
 
 #: Localization.cpp:39 Localization.cpp:81 Localization.cpp:111
 #: Localization.cpp:129
@@ -1978,7 +1978,7 @@ msgstr "あなたのアカウント"
 
 #: Localization.cpp:41 Localization.cpp:87 Localization.cpp:113
 msgid "View your account information and credit totals"
-msgstr "あなたのアカウント情報と功績 (credit) の総計を表示する"
+msgstr "あなたのアカウント情報と功績値の総計を表示する"
 
 #: Localization.cpp:43
 msgid "Your preferences"
@@ -1986,7 +1986,7 @@ msgstr "あなたのプレファレンス"
 
 #: Localization.cpp:45
 msgid "View and modify your SETI@home account profile and preferences"
-msgstr "あなたの SETI@home アカウントのプロファイルとプレファレンス (好みの設定) を表示・修正する"
+msgstr "あなたの SETI@home アカウントのプロフィールとプレファレンス(好みの設定)を表示・修正する"
 
 #: Localization.cpp:47 Localization.cpp:89
 msgid "Your results"
@@ -1994,7 +1994,7 @@ msgstr "あなたのリザルト"
 
 #: Localization.cpp:49 Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
-msgstr "先週 (およびそれ以前）の計算について、リザルトと仕事を表示する"
+msgstr "先週およびそれ以前の計算結果と仕事を表示する"
 
 #: Localization.cpp:51 Localization.cpp:93
 msgid "Your computers"
@@ -2002,7 +2002,7 @@ msgstr "あなたのコンピュータ"
 
 #: Localization.cpp:53
 msgid "View a listing of all the computers on which you are running SETI@Home"
-msgstr "SETI@Home に参加させているコンピュータ全ての一覧を表示"
+msgstr "SETI@Home に参加させているあなたのコンピュータ全ての一覧を表示"
 
 #: Localization.cpp:55 Localization.cpp:97
 msgid "Your team"
@@ -2018,20 +2018,20 @@ msgstr "一般的な質問"
 
 #: Localization.cpp:63
 msgid "Read the Einstein@Home Frequently Asked Question list"
-msgstr "Einstein@Home についてしばしば聞かれる質問 (FAQ) の一覧を表示"
+msgstr "Einstein@Home についてよくある質問(FAQ)の一覧を表示"
 
 #: Localization.cpp:65
 msgid "Screensaver info"
-msgstr "スクリーンセイバー情報"
+msgstr "スクリーンセーバー情報"
 
 #: Localization.cpp:67
 msgid "Read a detailed description of the Einstein@Home screensaver"
-msgstr "Einstein@Home スクリーンセイバーについての詳細を表示"
+msgstr "Einstein@Home スクリーンセーバーについての詳細説明を表示"
 
 #: Localization.cpp:71
 msgid ""
 "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr "Einstein@Home 掲示板で、管理者と参加者に連絡"
+msgstr "Einstein@Home 掲示板で管理者と他の参加者と連絡をとる"
 
 #: Localization.cpp:73
 msgid "Einstein status"
@@ -2051,7 +2051,7 @@ msgstr "Einstein@Home の 問題とバグ報告の掲示板へのリンク"
 
 #: Localization.cpp:83
 msgid "View and modify your Einstein@Home account profile and preferences"
-msgstr "Einstein@Home のあなたのアカウントとプレファレンス (好みの設定) の表示・変更"
+msgstr "Einstein@Home のあなたのアカウントとプレファレンス(好みの設定)の表示・変更"
 
 #: Localization.cpp:85
 msgid "Account summary"
@@ -2060,7 +2060,7 @@ msgstr "アカウントの要約"
 #: Localization.cpp:95
 msgid ""
 "View a listing of all the computers on which you are running Einstein@Home"
-msgstr "あなたが稼動させている Einstein@Home の全コンピュータの一覧"
+msgstr "あなたが Einstein@Home を稼動させている全てのコンピュータの一覧を表示"
 
 #: Localization.cpp:101
 msgid "LIGO project"
@@ -2070,7 +2070,7 @@ msgstr "LIGO プロジェクト"
 msgid ""
 "The home page of the Laser Interferometer Gravitational-wave Observatory "
 "(LIGO) project"
-msgstr "LIGO プロジェクトのホームページ(Laser Interferometer Gravitational-wave Observatory)"
+msgstr "LIGO(Laser Interferometer Gravitational-wave Observatory)プロジェクトのホームページ"
 
 #: Localization.cpp:105
 msgid "GEO-600 project"
@@ -2078,7 +2078,7 @@ msgstr "GEO-600 プロジェクト"
 
 #: Localization.cpp:107
 msgid "The home page of the GEO-600 project"
-msgstr "GEO-600 プロジェクトの ホームページ"
+msgstr "GEO-600 プロジェクトのホームページ"
 
 #: Localization.cpp:115 Localization.cpp:133 ViewProjects.cpp:221
 #: ViewStatistics.cpp:465
@@ -2103,15 +2103,15 @@ msgstr "climateprediction.net のニュース"
 
 #: Localization.cpp:131
 msgid "View your account information, credits, and trickles"
-msgstr "あなたのアカウントの情報、功績 (credit)、トリクルメッセージの表示"
+msgstr "あなたのアカウントの情報、功績値、トリクルメッセージの表示"
 
 #: Localization.cpp:135
 msgid "Info about your team"
-msgstr "所属チームの情報"
+msgstr "所属チームに関する情報"
 
 #: Localization.cpp:141
 msgid "Search for help in our help system"
-msgstr "我々のヘルプ・システムで検索"
+msgstr "私たちのヘルプ・システムでヘルプを検索"
 
 #: Localization.cpp:143
 msgid "Global Statistics"
@@ -2119,11 +2119,11 @@ msgstr "グローバルな統計情報"
 
 #: Localization.cpp:145
 msgid "Summary statistics for World Community Grid"
-msgstr "World Community Grid の統計情報のまとめ"
+msgstr "World Community Grid の要約統計"
 
 #: Localization.cpp:147
 msgid "My Grid"
-msgstr "グリッド"
+msgstr "自分のグリッド"
 
 #: Localization.cpp:149
 msgid "Your statistics and settings"
@@ -2131,11 +2131,11 @@ msgstr "あなたの統計情報と設定"
 
 #: Localization.cpp:151
 msgid "Device Profiles"
-msgstr "装置のプロファイル"
+msgstr "デバイスのプロフィール"
 
 #: Localization.cpp:153
 msgid "Update your device settings"
-msgstr "あなたの装置の設定を更新"
+msgstr "あなたのデバイス設定を更新"
 
 #: Localization.cpp:155
 msgid "Research"
@@ -2143,19 +2143,19 @@ msgstr "研究"
 
 #: Localization.cpp:157
 msgid "Learn about the projects hosted at World Community Grid"
-msgstr "World Community Grid で動作しているプロジェクトについての手引き"
+msgstr "World Community Grid で運営されるプロジェクトについて知る"
 
 #: MainDocument.cpp:583
 msgid "Starting client"
-msgstr "クライアント起動中"
+msgstr "クライアントを起動中"
 
 #: MainDocument.cpp:591
 msgid "Connecting to client"
-msgstr "クライアントに接続処理中。"
+msgstr "クライアントに接続中"
 
 #: MainDocument.cpp:1195
 msgid "Retrieving system state; please wait..."
-msgstr "システムの状態を読み出しています。お待ちください..."
+msgstr "システムの状態を取得しています。お待ちください..."
 
 #: MainDocument.cpp:1816
 msgid "Missing application"
@@ -2169,7 +2169,7 @@ msgstr "http://cord.sourceforge.net から CoRD アプリケーションをダ�
 
 #: MainDocument.cpp:2432
 msgid "on batteries"
-msgstr "バッテリで駆動中"
+msgstr "バッテリーで駆動中"
 
 #: MainDocument.cpp:2433
 msgid "computer is in use"
