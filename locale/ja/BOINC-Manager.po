@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2015-02-27 18:36+0000\n"
+"PO-Revision-Date: 2015-02-28 16:03+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -3508,15 +3508,15 @@ msgstr "同期"
 
 #: sg_ProjectPanel.cpp:74
 msgid "Work done for this project"
-msgstr "このプロジェクトのためになされた仕事"
+msgstr "このプロジェクトの仕事が完了"
 
 #: sg_ProjectPanel.cpp:77
 msgid "Synchronize projects with account manager system"
-msgstr "アカウント・マネージャでプロジェクトに同期"
+msgstr "アカウント・マネージャ・システムとプロジェクトを同期"
 
 #: sg_ProjectPanel.cpp:124
 msgid "Select a project to access with the controls below"
-msgstr "下にあるコントロールでアクセスする先のプロジェクトを1つ選ぶ"
+msgstr "下にあるコントロールでアクセスするプロジェクトを1つ選択"
 
 #: sg_ProjectPanel.cpp:145
 msgid "Project Web Pages"
@@ -3529,27 +3529,27 @@ msgstr "プロジェクトに関する操作"
 #: sg_ProjectPanel.cpp:267
 #, c-format
 msgid "Pop up a menu of web sites for project %s"
-msgstr "プロジェクト %s 用のポップアップ・メニューを開く"
+msgstr "プロジェクト %s のポップアップ・メニューを開く"
 
 #: sg_ProjectPanel.cpp:269
 #, c-format
 msgid "Pop up a menu of commands to apply to project %s"
-msgstr "プロジェクト %s を操作するポップアップ・メニューを開く"
+msgstr "プロジェクト %s に対する操作のポップアップ・メニューを開く"
 
 #: sg_TaskCommandPopup.cpp:67
 msgid "Suspend this task."
-msgstr "このタスクを一時停止"
+msgstr "このタスクを一時停止します。"
 
 #: sg_TaskCommandPopup.cpp:73
 msgid "Abandon this task. You will get no credit for it."
-msgstr "このタスクを放棄します。これについて功績 (功績値) を受け取ることはできません。"
+msgstr "このタスクを放棄します。これについて功績値)を受け取ることはできません。"
 
 #: sg_TaskCommandPopup.cpp:251
 #, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %.1lf%%, Status: %s)"
-msgstr "このタスク '%s' を中止してよろしいですか？\n(進捗： %.1lf%%, 状態： %s)"
+msgstr "このタスク '%s' を中止してよろしいですか？\n(進捗: %.1lf%%, 状態: %s)"
 
 #: sg_TaskPanel.cpp:464
 msgid "You don't have any projects.  Please Add a Project."
@@ -3609,7 +3609,7 @@ msgstr "経過時間: %s"
 #: sg_TaskPanel.cpp:861
 #, c-format
 msgid "Remaining (estimated): %s"
-msgstr "残り時間: %s"
+msgstr "残り時間(推定): %s"
 
 #: sg_TaskPanel.cpp:876
 #, c-format
@@ -3618,39 +3618,39 @@ msgstr "状態: %s"
 
 #: sg_TaskPanel.cpp:1223
 msgid "Retrieving current status."
-msgstr "現在の状態を読み出し中"
+msgstr "現在の状態を読み出しています。"
 
 #: sg_TaskPanel.cpp:1229
 msgid "Downloading work from the server."
-msgstr "仕事をサーバからダウンロード中"
+msgstr "仕事をサーバからダウンロードしています。"
 
 #: sg_TaskPanel.cpp:1234
 msgid "Processing Suspended:  Running On Batteries."
-msgstr "処理を一時停止：　バッテリー動作中"
+msgstr "処理を一時停止: バッテリーで稼働中"
 
 #: sg_TaskPanel.cpp:1236
 msgid "Processing Suspended:  User Active."
-msgstr "処理を一時停止：　人がコンピュータを利用中"
+msgstr "処理を一時停止: 参加者がコンピュータを利用中"
 
 #: sg_TaskPanel.cpp:1238
 msgid "Processing Suspended:  User paused processing."
-msgstr "処理を一時停止：　参加者の指示による一時停止"
+msgstr "処理を一時停止: 参加者の指示による一時停止"
 
 #: sg_TaskPanel.cpp:1240
 msgid "Processing Suspended:  Time of Day."
-msgstr "処理を一時停止：　動作制限時間帯"
+msgstr "処理を一時停止: 動作制限時間帯"
 
 #: sg_TaskPanel.cpp:1242
 msgid "Processing Suspended:  Benchmarks Running."
-msgstr "処理を一時停止：　ベンチマーク走行中"
+msgstr "処理を一時停止: ベンチマーク走行中"
 
 #: sg_TaskPanel.cpp:1244
 msgid "Processing Suspended."
-msgstr "処理を一時停止"
+msgstr "処理は一時停止されました。"
 
 #: sg_TaskPanel.cpp:1248
 msgid "Waiting to contact project servers."
-msgstr "プロジェクトのサーバに接続待機中"
+msgstr "プロジェクトのサーバに接続待機しています。"
 
 #: sg_TaskPanel.cpp:1252 sg_TaskPanel.cpp:1261
 msgid "Retrieving current status"
@@ -3658,7 +3658,7 @@ msgstr "現在の状態を読み出し中"
 
 #: sg_TaskPanel.cpp:1256
 msgid "No work available to process"
-msgstr "処理する仕事が不足"
+msgstr "処理する仕事がありません"
 
 #: sg_TaskPanel.cpp:1258
 msgid "Unable to connect to the core client"
