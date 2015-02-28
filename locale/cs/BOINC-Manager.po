@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Pavel <xxxq@seznam.cz>, 2015
+# Petr Nekvinda <petr.nekvinda@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2015-02-28 17:01+0000\n"
-"Last-Translator: Pavel <xxxq@seznam.cz>\n"
+"PO-Revision-Date: 2015-02-28 20:13+0000\n"
+"Last-Translator: Petr Nekvinda <petr.nekvinda@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/boinc/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,7 +46,7 @@ msgstr "&Ne, jsem nový uživatel"
 
 #: AccountInfoPage.cpp:408
 msgid "&Yes, existing user"
-msgstr "Ano, již mám účet"
+msgstr "&Ano, již mám účet"
 
 #: AccountInfoPage.cpp:413
 msgid ""
@@ -63,11 +64,11 @@ msgstr "Získat přihlašovací informace"
 
 #: AccountInfoPage.cpp:436 AccountInfoPage.cpp:641
 msgid "&Password:"
-msgstr "Heslo:"
+msgstr "&Heslo:"
 
 #: AccountInfoPage.cpp:443 AccountInfoPage.cpp:665
 msgid "Choose a &password:"
-msgstr "Zvolte si heslo:"
+msgstr "Zvolte si &heslo:"
 
 #: AccountInfoPage.cpp:446
 msgid "C&onfirm password:"
@@ -152,7 +153,7 @@ msgstr "Detaily Správce účtu:"
 
 #: AccountManagerInfoPage.cpp:283
 msgid "Account manager &URL:"
-msgstr "URL Správce účtu:"
+msgstr "&URL Správce účtu:"
 
 #: AccountManagerInfoPage.cpp:287
 msgid "Open web page"
@@ -194,7 +195,7 @@ msgstr "Zavřít %s okno"
 
 #: AdvancedFrame.cpp:325 sg_BoincSimpleFrame.cpp:122
 msgid "&Close Window"
-msgstr "Zavřít okno"
+msgstr "&Zavřít okno"
 
 #: AdvancedFrame.cpp:336 AdvancedFrame.cpp:343 AdvancedFrame.cpp:350
 #, c-format
@@ -203,7 +204,7 @@ msgstr "Ukončit %s"
 
 #: AdvancedFrame.cpp:371
 msgid "&Notices\tCtrl+Shift+N"
-msgstr "Zprávy\tCtrl+Shift+N"
+msgstr "&Zprávy\tCtrl+Shift+N"
 
 #: AdvancedFrame.cpp:372
 msgid "Display notices"
@@ -219,7 +220,7 @@ msgstr "Zobrazit projekty"
 
 #: AdvancedFrame.cpp:383
 msgid "&Tasks\tCtrl+Shift+T"
-msgstr "Úkoly\tCtrl+Shift+T"
+msgstr "&Úkoly\tCtrl+Shift+T"
 
 #: AdvancedFrame.cpp:384
 msgid "Display tasks"
@@ -251,7 +252,7 @@ msgstr "Zobrazit využití disku"
 
 #: AdvancedFrame.cpp:409
 msgid "Simple &View...\tCtrl+Shift+V"
-msgstr "Jednoduché zobrazení...\tCtrl+Shift+V"
+msgstr "Jednoduché &zobrazení...\tCtrl+Shift+V"
 
 #: AdvancedFrame.cpp:410
 msgid "Display the simple graphical interface."
@@ -259,7 +260,7 @@ msgstr "Přepnout do Jednoduchého zobrazení"
 
 #: AdvancedFrame.cpp:424
 msgid "&Add project or account manager..."
-msgstr "Přid&at projekt nebo nastavit Správce účtu..."
+msgstr "&Přidat projekt nebo nastavit Správce účtu..."
 
 #: AdvancedFrame.cpp:425 sg_ProjectPanel.cpp:76
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
@@ -277,7 +278,7 @@ msgstr "Použít aktuální nastavení z %s"
 
 #: AdvancedFrame.cpp:443
 msgid "&Add project..."
-msgstr "Přid&at projekt..."
+msgstr "&Přidat projekt..."
 
 #: AdvancedFrame.cpp:444
 msgid "Add a project"
@@ -294,7 +295,7 @@ msgstr "Odebrat počítač ze správy Správce účtu."
 
 #: AdvancedFrame.cpp:458 sg_BoincSimpleFrame.cpp:178
 msgid "&Options..."
-msgstr "M&ožnosti..."
+msgstr "&Možnosti..."
 
 #: AdvancedFrame.cpp:459 sg_BoincSimpleFrame.cpp:179
 msgid "Configure display options and proxy settings"
@@ -310,7 +311,7 @@ msgstr "Nastavit výpočetní předvolby"
 
 #: AdvancedFrame.cpp:472
 msgid "&Run always"
-msgstr "Počítat stále"
+msgstr "&Počítat stále"
 
 #: AdvancedFrame.cpp:473
 msgid "Allow work regardless of preferences"
@@ -326,7 +327,7 @@ msgstr "Povolit práci podle předvoleb"
 
 #: AdvancedFrame.cpp:482
 msgid "&Suspend"
-msgstr "Poza&stavit"
+msgstr "&Pozastavit"
 
 #: AdvancedFrame.cpp:483
 msgid "Stop work regardless of preferences"
@@ -391,7 +392,7 @@ msgstr "Zvolit počítač..."
 
 #: AdvancedFrame.cpp:574
 msgid "Shut down connected client..."
-msgstr "Vypnout připojeného klien&ta..."
+msgstr "Vypnout připojeného klienta..."
 
 #: AdvancedFrame.cpp:575
 msgid "Shut down the currently connected client"
@@ -399,7 +400,7 @@ msgstr "Vypnout aktuálně připojeného klienta"
 
 #: AdvancedFrame.cpp:579
 msgid "Run CPU &benchmarks"
-msgstr "Spustit testy procesoru"
+msgstr "Spustit &testy procesoru"
 
 #: AdvancedFrame.cpp:580
 msgid "Runs BOINC CPU benchmarks"
@@ -481,7 +482,7 @@ msgstr "Zobrazit webovou stránku s informacemi o projektu BOINC a o programu %s
 #: AdvancedFrame.cpp:679 BOINCTaskBar.cpp:530 sg_BoincSimpleFrame.cpp:242
 #, c-format
 msgid "&About %s..."
-msgstr "Inform&ace o %s..."
+msgstr "&Informace o %s..."
 
 #: AdvancedFrame.cpp:685 sg_BoincSimpleFrame.cpp:248
 msgid "Licensing and copyright information."
@@ -489,15 +490,15 @@ msgstr "Zobrazit informace o aktuální verzi BOINC (licence a autorská práva)
 
 #: AdvancedFrame.cpp:692 sg_BoincSimpleFrame.cpp:255
 msgid "&File"
-msgstr "Soubor"
+msgstr "&Soubor"
 
 #: AdvancedFrame.cpp:696 sg_BoincSimpleFrame.cpp:259
 msgid "&View"
-msgstr "Zobrazení"
+msgstr "&Zobrazení"
 
 #: AdvancedFrame.cpp:700 sg_BoincSimpleFrame.cpp:263
 msgid "&Tools"
-msgstr "Nás&troje"
+msgstr "&Nástroje"
 
 #: AdvancedFrame.cpp:704
 msgid "&Activity"
@@ -505,12 +506,12 @@ msgstr "&Aktivity"
 
 #: AdvancedFrame.cpp:708
 msgid "A&dvanced"
-msgstr "Pokročilé"
+msgstr "&Pokročilé"
 
 #: AdvancedFrame.cpp:712 DlgEventLog.cpp:332 sg_BoincSimpleFrame.cpp:267
 #: wizardex.cpp:374 wizardex.cpp:381
 msgid "&Help"
-msgstr "Nápověda"
+msgstr "&Nápověda"
 
 #: AdvancedFrame.cpp:1199
 #, c-format
@@ -525,7 +526,7 @@ msgid ""
 "but you'll have to manage projects manually.\n"
 "\n"
 "Do you want to stop using %s?"
-msgstr "Pokud přestanete používat %s,\nvšechny stávající projekty budou zachovány,\nale budete je muset spravovat manuálně.\n\nChcete přestanete používat %s?"
+msgstr "Pokud přestanete používat %s,\nvšechny stávající projekty budou zachovány,\nale budete je muset spravovat manuálně.\n\nChcete přestat používat %s?"
 
 #: AdvancedFrame.cpp:1401
 #, c-format
@@ -595,7 +596,7 @@ msgstr "Komunikuji s BOINC klientem.  Prosím čekejte ..."
 #: AsyncRPC.cpp:1034
 #, c-format
 msgid "&Quit %s"
-msgstr "Opustit %s"
+msgstr "&Opustit %s"
 
 #: AsyncRPC.cpp:1036
 #, c-format
@@ -777,11 +778,11 @@ msgstr "Pro správné fungování BOINC je vyžadován restart.\nProsím restart
 
 #: BOINCGUIApp.cpp:385 DlgAbout.cpp:153
 msgid "BOINC Manager"
-msgstr "Správce BOINC"
+msgstr "BOINC manažer"
 
 #: BOINCGUIApp.cpp:572
 msgid "BOINC Manager was started by the operating system automatically"
-msgstr "Správce BOINC byl automaticky spuštěn operačním systémem"
+msgstr "BOINC manažer byl automaticky spuštěn operačním systémem"
 
 #: BOINCGUIApp.cpp:574
 msgid "Startup BOINC so only the system tray icon is visible"
@@ -821,7 +822,7 @@ msgstr "Nastavit ladící režim správce vzhledů pro zobrazení chybových zpr
 
 #: BOINCGUIApp.cpp:585
 msgid "multiple instances of BOINC Manager allowed"
-msgstr "povoleno více instancí Správce BOINC"
+msgstr "povoleno více instancí BOINC Manažera"
 
 #: BOINCGUIApp.cpp:587
 msgid "Not used: workaround for bug in XCode 4.2"
