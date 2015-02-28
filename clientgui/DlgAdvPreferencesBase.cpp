@@ -179,7 +179,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     this->SetSizer( dialogSizer );
 }
 
-void CDlgAdvPreferencesBase::addNewRowToSizer(wxWindow* parent,
+void CDlgAdvPreferencesBase::addNewRowToSizer(
                 wxSizer* toSizer, wxString& toolTipText,
                 wxWindow* first, wxWindow* second, wxWindow* third,
                 wxWindow* fourth, wxWindow* fifth)
@@ -242,7 +242,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     /*xgettext:no-c-format*/
     wxStaticText* staticText21 = new wxStaticText( usageLimitsStaticBox, ID_DEFAULT, _("% of the CPUs"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    addNewRowToSizer(usageLimitsStaticBox, usageLimitsBoxSizer, MaxCPUPctTT, staticText20, m_txtProcUseProcessors, staticText21);
+    addNewRowToSizer(usageLimitsBoxSizer, MaxCPUPctTT, staticText20, m_txtProcUseProcessors, staticText21);
 
     /*xgettext:no-c-format*/
     wxString MaxCPUTimeTT(_("Suspend/resume computing every few seconds to reduce CPU temperature and energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, and repeat."));
@@ -254,7 +254,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     /*xgettext:no-c-format*/
     wxStaticText* staticText23 = new wxStaticText( usageLimitsStaticBox, ID_DEFAULT, _("% of CPU time"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    addNewRowToSizer(usageLimitsStaticBox, usageLimitsBoxSizer, MaxCPUTimeTT, staticText22, m_txtProcUseCPUTime, staticText23);
+    addNewRowToSizer(usageLimitsBoxSizer, MaxCPUTimeTT, staticText22, m_txtProcUseCPUTime, staticText23);
 
     processorTabSizer->Add( usageLimitsBoxSizer, 0, wxEXPAND, 1 );
     
@@ -305,7 +305,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     wxStaticText* staticText25 = new wxStaticText(suspendComputingStaticBox, ID_DEFAULT, _("minutes"),
             wxDefaultPosition, wxDefaultSize, 0 );
 
-    addNewRowToSizer(suspendComputingStaticBox, suspendComputingBoxSizer, ProcIdleForTT, staticText24, m_txtProcIdleFor, staticText25);
+    addNewRowToSizer(suspendComputingBoxSizer, ProcIdleForTT, staticText24, m_txtProcIdleFor, staticText25);
 
     // max CPU load
     wxString MaxLoadCheckBoxText = wxEmptyString;
@@ -322,7 +322,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     wxStaticText* staticText26 = new wxStaticText( suspendComputingStaticBox, ID_DEFAULT, wxT("%"),
             wxDefaultPosition, wxDefaultSize, 0 );
 
-    addNewRowToSizer(suspendComputingStaticBox, suspendComputingBoxSizer, MaxLoadTT, m_chkMaxLoad, m_txtMaxLoad, staticText26);
+    addNewRowToSizer(suspendComputingBoxSizer, MaxLoadTT, m_chkMaxLoad, m_txtMaxLoad, staticText26);
 
      suspendComputingBoxSizer->Add(
         new wxStaticText( suspendComputingStaticBox, ID_DEFAULT, wxT("To suspend by time of day, see the \"Daily Schedules\" section."), wxDefaultPosition, wxDefaultSize, 0),
@@ -350,7 +350,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
         miscProcStaticBox, ID_DEFAULT, _("days of work"), wxDefaultPosition, wxDefaultSize, 0
     );
 
-    addNewRowToSizer(miscProcStaticBox, miscProcBoxSizer, NetConnectIntervalTT, staticText30, m_txtNetConnectInterval, staticText31);
+    addNewRowToSizer(miscProcBoxSizer, NetConnectIntervalTT, staticText30, m_txtNetConnectInterval, staticText31);
 
     wxString NetAdditionalDaysTT(_("Store additional tasks above the minimum level.  Determines how much work is requested when contacting a project."));
     wxStaticText* staticText331 = new wxStaticText(
@@ -365,7 +365,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
 
     wxStaticText* staticText341 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("days of work"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    addNewRowToSizer(miscProcStaticBox, miscProcBoxSizer, NetAdditionalDaysTT, staticText331, m_txtNetAdditionalDays, staticText341);
+    addNewRowToSizer(miscProcBoxSizer, NetAdditionalDaysTT, staticText331, m_txtNetAdditionalDays, staticText341);
 
     wxString ProcSwitchEveryTT = wxEmptyString;
     ProcSwitchEveryTT.Printf(_("If you run several projects, %s may switch between them this often."), pSkinAdvanced->GetApplicationShortName().c_str());
@@ -376,7 +376,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
 
     wxStaticText* staticText19 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("minutes"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    addNewRowToSizer(miscProcStaticBox, miscProcBoxSizer, ProcSwitchEveryTT, staticText18, m_txtProcSwitchEvery, staticText19);
+    addNewRowToSizer(miscProcBoxSizer, ProcSwitchEveryTT, staticText18, m_txtProcSwitchEvery, staticText19);
 
     wxString DiskWriteToDiskTT(_("This controls how often tasks save their state to disk, so that they can be restarted later."));
     wxStaticText* staticText46 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("Request tasks to checkpoint at most every"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -385,7 +385,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
 
     wxStaticText* staticText47 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("seconds"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    addNewRowToSizer(miscProcStaticBox, miscProcBoxSizer, DiskWriteToDiskTT, staticText46, m_txtDiskWriteToDisk, staticText47);
+    addNewRowToSizer(miscProcBoxSizer, DiskWriteToDiskTT, staticText46, m_txtDiskWriteToDisk, staticText47);
 
     miscProcBoxSizer->AddSpacer(1); // Ensure staticText22 is fully visible on Mac
 
@@ -423,7 +423,7 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
 
     wxStaticText* staticText33 = new wxStaticText( networkUsageLimitsStaticBox, ID_DEFAULT, _("KB/second"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    addNewRowToSizer(networkUsageLimitsStaticBox, networkUsageLimitsBoxSizer, NetDownloadRateTT, m_chkNetDownloadRate, m_txtNetDownloadRate, staticText33);
+    addNewRowToSizer(networkUsageLimitsBoxSizer, NetDownloadRateTT, m_chkNetDownloadRate, m_txtNetDownloadRate, staticText33);
 
     wxString NetUploadRateTT(_("Limit the upload rate of file transfers."));
     m_chkNetUploadRate = new wxCheckBox( networkUsageLimitsStaticBox, ID_CHKNETUPLOADRATE, _("Limit upload rate to"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -432,7 +432,7 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
 
     wxStaticText* staticText35 = new wxStaticText( networkUsageLimitsStaticBox, ID_DEFAULT, _("KB/second"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    addNewRowToSizer(networkUsageLimitsStaticBox, networkUsageLimitsBoxSizer, NetUploadRateTT, m_chkNetUploadRate, m_txtNetUploadRate, staticText35);
+    addNewRowToSizer(networkUsageLimitsBoxSizer, NetUploadRateTT, m_chkNetUploadRate, m_txtNetUploadRate, staticText35);
 
     // long-term quota
 
@@ -449,7 +449,7 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
 
     wxStaticText* staticText_daily_xfer4 = new wxStaticText( networkUsageLimitsStaticBox, ID_DEFAULT, _("days"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    addNewRowToSizer(networkUsageLimitsStaticBox, networkUsageLimitsBoxSizer, daily_xfer_limitTT, m_chk_daily_xfer_limit, m_txt_daily_xfer_limit_mb, staticText_daily_xfer2, m_txt_daily_xfer_period_days, staticText_daily_xfer4);
+    addNewRowToSizer(networkUsageLimitsBoxSizer, daily_xfer_limitTT, m_chk_daily_xfer_limit, m_txt_daily_xfer_limit_mb, staticText_daily_xfer2, m_txt_daily_xfer_period_days, staticText_daily_xfer4);
 
      networkUsageLimitsBoxSizer->Add(
         new wxStaticText( networkUsageLimitsStaticBox, ID_DEFAULT, wxT("See also \"Suspend when computer is in use\" in the \"Computing\" section."), wxDefaultPosition, wxDefaultSize, 0),
@@ -522,7 +522,7 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
 
     wxStaticText* staticText41 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("GB"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    addNewRowToSizer(diskUsageStaticBox, diskUsageBoxSizer, DiskMaxSpaceTT, m_chkDiskMaxSpace, m_txtDiskMaxSpace, staticText41);
+    addNewRowToSizer(diskUsageBoxSizer, DiskMaxSpaceTT, m_chkDiskMaxSpace, m_txtDiskMaxSpace, staticText41);
 
     wxString DiskLeastFreeTT = wxEmptyString;
     DiskLeastFreeTT.Printf(_("Limit disk usage to leave this much free space on the volume where %s stores data."), pSkinAdvanced->GetApplicationShortName().c_str());
@@ -534,7 +534,7 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
 
     wxStaticText* staticText43 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("GB free"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    addNewRowToSizer(diskUsageStaticBox, diskUsageBoxSizer, DiskLeastFreeTT, m_chkDiskLeastFree, m_txtDiskLeastFree, staticText43);
+    addNewRowToSizer(diskUsageBoxSizer, DiskLeastFreeTT, m_chkDiskLeastFree, m_txtDiskLeastFree, staticText43);
 
     wxString DiskMaxOfTotalTT = wxEmptyString;
     DiskMaxOfTotalTT.Printf(_("Limit the percentage of disk space used by %s on the volume where it stores data."), pSkinAdvanced->GetApplicationShortName().c_str());
@@ -547,7 +547,7 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
     /*xgettext:no-c-format*/
     wxStaticText* staticText45 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("% of total"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    addNewRowToSizer(diskUsageStaticBox, diskUsageBoxSizer, DiskMaxOfTotalTT, m_chkDiskMaxOfTotal, m_txtDiskMaxOfTotal, staticText45);
+    addNewRowToSizer(diskUsageBoxSizer, DiskMaxOfTotalTT, m_chkDiskMaxOfTotal, m_txtDiskMaxOfTotal, staticText45);
 
     diskAndMemoryBoxSizer->Add( diskUsageBoxSizer, 0, wxEXPAND, 1 );
 
@@ -566,7 +566,7 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
     /*xgettext:no-c-format*/ 
     wxStaticText* staticText51 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("%"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    addNewRowToSizer(diskUsageStaticBox, memoryUsageBoxSizer, MemoryMaxInUseTT, staticText50, m_txtMemoryMaxInUse, staticText51);
+    addNewRowToSizer(memoryUsageBoxSizer, MemoryMaxInUseTT, staticText50, m_txtMemoryMaxInUse, staticText51);
 
     wxString MemoryMaxOnIdleTT = wxEmptyString;
     MemoryMaxOnIdleTT.Printf(_("Limit the memory used by %s when you're not using the computer."), pSkinAdvanced->GetApplicationShortName().c_str());
@@ -578,7 +578,7 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
     /*xgettext:no-c-format*/
     wxStaticText* staticText53 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("%"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    addNewRowToSizer(diskUsageStaticBox, memoryUsageBoxSizer, MemoryMaxOnIdleTT, staticText52, m_txtMemoryMaxOnIdle, staticText53);
+    addNewRowToSizer(memoryUsageBoxSizer, MemoryMaxOnIdleTT, staticText52, m_txtMemoryMaxOnIdle, staticText53);
 
     m_chkMemoryWhileSuspended = new wxCheckBox( memoryUsageStaticBox, ID_CHKMEMORYWHILESUSPENDED, _("Leave non-GPU tasks in memory while suspended"), wxDefaultPosition, wxDefaultSize, 0 );
     m_chkMemoryWhileSuspended->SetToolTip( _("If checked, suspended tasks stay in memory, and resume with no work lost. If unchecked, suspended tasks are removed from memory, and resume from their last checkpoint.") );
@@ -594,7 +594,7 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
     /*xgettext:no-c-format*/
     wxStaticText* staticText49 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("%"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    addNewRowToSizer(diskUsageStaticBox, memoryUsageBoxSizer, DiskMaxSwapTT, staticText48, m_txtDiskMaxSwap, staticText49);
+    addNewRowToSizer(memoryUsageBoxSizer, DiskMaxSwapTT, staticText48, m_txtDiskMaxSwap, staticText49);
 
     diskAndMemoryBoxSizer->Add( memoryUsageBoxSizer, 0, wxALL|wxEXPAND, 1 );
 
@@ -635,7 +635,7 @@ wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
 
     m_txtProcEveryDayStop = new wxTextCtrl( computingTimesStaticBox, ID_TXTPROCEVERYDAYSTOP, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
 
-    addNewRowToSizer(computingTimesStaticBox, computingTimesStaticBoxSizer, ProcEveryDayTT, m_chkProcEveryDay, m_txtProcEveryDayStart, staticText25, m_txtProcEveryDayStop);
+    addNewRowToSizer(computingTimesStaticBoxSizer, ProcEveryDayTT, m_chkProcEveryDay, m_txtProcEveryDayStart, staticText25, m_txtProcEveryDayStop);
 
     wxStaticBox* procSpecialTimesStaticBox = new wxStaticBox(computingTimesStaticBox, -1, _("Day-of-week override") );
     wxStaticBoxSizer* procSpecialTimesStaticBoxSizer = new wxStaticBoxSizer(procSpecialTimesStaticBox, wxVERTICAL);
@@ -772,7 +772,7 @@ wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
 
     m_txtNetEveryDayStop = new wxTextCtrl( networkTimesStaticBox, ID_TXTNETEVERYDAYSTOP, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
 
-    addNewRowToSizer(networkTimesStaticBox, networkTimesBoxSizer, NetEveryDayTT, m_chkNetEveryDay, m_txtNetEveryDayStart, staticText37, m_txtNetEveryDayStop);
+    addNewRowToSizer(networkTimesBoxSizer, NetEveryDayTT, m_chkNetEveryDay, m_txtNetEveryDayStart, staticText37, m_txtNetEveryDayStop);
 
     wxStaticBox* netSpecialTimesStaticBox = new wxStaticBox(networkTimesStaticBox, -1, _("Day-of-week override") );
     wxStaticBoxSizer* netSpecialTimesStaticBoxSizer = new wxStaticBoxSizer(netSpecialTimesStaticBox, wxVERTICAL);
