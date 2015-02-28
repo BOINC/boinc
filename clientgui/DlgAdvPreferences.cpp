@@ -617,7 +617,15 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 void CDlgAdvPreferences::UpdateControlStates() {
     // ######### proc usage page
     // Disable idle timeout edit text item if we allow both CPU and GPU when idle.
-    m_txtProcIdleFor->Enable(m_chkProcInUse->IsChecked() || m_chkGPUProcInUse->IsChecked());
+    bool wasEnabled = m_txtProcIdleFor->IsEnabled();
+    bool shouldEnable = m_chkProcInUse->IsChecked() || m_chkGPUProcInUse->IsChecked();
+    m_txtProcIdleFor->Enable(shouldEnable);
+    if (wasEnabled && !shouldEnable) m_txtProcIdleFor->Clear();
+    if (shouldEnable && !wasEnabled) {
+        wxString buffer = wxEmptyString;
+        buffer.Printf(wxT("%.2f"), defaultPrefs.idle_time_to_run);
+        m_txtProcIdleFor->ChangeValue(buffer);
+    }
     
     // If we suspend work when in use, disable and check "Use GPU when in use"
     m_chkGPUProcInUse->Enable(! m_chkProcInUse->IsChecked());
@@ -965,8 +973,9 @@ void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
     ev.Skip();
     if(!m_bInInit) {
         m_bPrefsDataChanged=true;
-        // If user has just set the checkbox, set textedit field to default value
-        // Note: use ChangeValue() here to avoid generating extra events
+        // If user has just set the checkbox, set textedit field to default value.
+        // Note: use ChangeValue() here to avoid generating extra events.
+        // m_txtProcIdleFor depends on 2 checkboxes, set it in UpdateControlStates().
         if ((ev.GetEventType() == wxEVT_CHECKBOX)) {
             wxString buffer = wxEmptyString;
             switch (ev.GetId()) {
