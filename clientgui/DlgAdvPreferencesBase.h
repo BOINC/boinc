@@ -248,6 +248,9 @@ public:
     CDlgAdvPreferencesBase( wxWindow* parent, int id = -1, wxString title = wxT(""), wxPoint pos = wxDefaultPosition, wxSize size = wxDefaultSize, int style = wxDEFAULT_DIALOG_STYLE );
 
 private:
+    void addNewRowToSizer(wxWindow* parent, wxSizer* toSizer, wxString& toolTipText,
+                wxWindow* first, wxWindow* second, wxWindow* third,
+                wxWindow* fourth=NULL, wxWindow* fifth=NULL);
     wxPanel* createProcessorTab(wxNotebook* notebook);
     wxPanel* createNetworkTab(wxNotebook* notebook);
     wxPanel* createDiskAndMemoryTab(wxNotebook* notebook);
