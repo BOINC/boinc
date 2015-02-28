@@ -32,6 +32,7 @@
 #include "res/usage.xpm"
 #include "res/xfer.xpm"
 #include "res/proj.xpm"
+#include "res/clock.xpm"
 #include "res/warning.xpm"
 
 
@@ -74,6 +75,9 @@ CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBas
 
     iImageIndex = pImageList->Add(GetScaledBitmapFromXPMData(usage_xpm));
     m_Notebook->SetPageImage(2,iImageIndex);
+
+    iImageIndex = pImageList->Add(GetScaledBitmapFromXPMData(clock_xpm));
+    m_Notebook->SetPageImage(3,iImageIndex);
 
     //setting warning bitmap
     m_bmpWarning->SetBitmap(wxBitmap(warning_xpm));
