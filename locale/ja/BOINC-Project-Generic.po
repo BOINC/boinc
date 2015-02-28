@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2015-02-28 18:19+0000\n"
+"PO-Revision-Date: 2015-02-28 19:48+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -2580,7 +2580,7 @@ msgstr "あなたのプロフィールから写真を削除するには、右の
 msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
-msgstr "自己紹介にあなたの写真を載せたいなら、「参照」または「ファイルを選択」などと書かれた右のボタンををクリックして、JPEG または PNG ファイルを指定してください。 サイズが %1　以下のものを選んでください。"
+msgstr "プロフィールにあなたの写真を載せたいなら、「参照」または「ファイルを選択」などと書かれた右のボタンををクリックして、JPEG または PNG ファイルを指定してください。 サイズが %1 以下のものを選択してください。"
 
 #: ../user/create_profile.php:89
 msgid "Language"
@@ -2588,29 +2588,29 @@ msgstr "言語"
 
 #: ../user/create_profile.php:92
 msgid "Select the language in which your profile is written:"
-msgstr "自己紹介が書かれている言語を選択します："
+msgstr "プロフィールが書かれている言語を選択します: "
 
 #: ../user/create_profile.php:104
 msgid "Submit profile"
-msgstr "自己紹介の記事を提出する"
+msgstr "プロフィールを提出する"
 
 #: ../user/create_profile.php:110
 msgid "Please enter the words shown in the image."
-msgstr "画像の中の語を読み取って入力してください。"
+msgstr "画像の中の文字列を読み取って入力してください。"
 
 #: ../user/create_profile.php:115
 msgid "Create/edit profile"
-msgstr "自己紹介の作成・編集"
+msgstr "プロフィールの作成・編集"
 
 #: ../user/create_profile.php:137
 msgid "The format of your uploaded image is not supported."
-msgstr "あなたがアップロードした画像の形式はサポートしておりません。"
+msgstr "あなたがアップロードした画像の形式はサポートされていません。"
 
 #: ../user/create_profile.php:166
 msgid ""
 "Your %1profile%2 lets you share your opinions and background with the %3 "
 "community."
-msgstr "%1自己紹介%2 を載せることによって、意見や経歴をこの %3 コミュニティで共有できます。"
+msgstr "%1プロフィール%2 を載せることによって、意見や経歴をこの %3 コミュニティで共有できます。"
 
 #: ../user/create_profile.php:213
 msgid "Your ReCaptcha response was not correct.  Please try again."
@@ -2620,52 +2620,52 @@ msgstr "あなたが ReCaptcha へ打ち込んだ内容は正しくありませ�
 msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
-msgstr "あなたが書き込んだ初回の内容は Akismet anti-spam システムからスパムの疑いがあると判定されました。テキストを編集しなおしてから、もう一度試してみてください。"
+msgstr "あなたが書き込んだ最初の内容は Akismet anti-spam システムからスパムの疑いがあると判定されました。テキストを編集し、もう一度試してみてください。"
 
 #: ../user/create_profile.php:230
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
-msgstr "あなたが書き込んだ2度目の内容も Akismet anti-spam システムからスパムの疑いがあると判定されました。テキストを編集しなおしてから、もう一度試してみてください。"
+msgstr "あなたが書き込んだ2度目の内容も Akismet anti-spam システムからスパムの疑いがあると判定されました。テキストを編集し、もう一度試してみてください。"
 
 #: ../user/create_profile.php:246
 msgid "Your profile submission was empty."
-msgstr "あなたが提出した自己紹介の内容は空でした。"
+msgstr "あなたが提出したプロフィールの内容は空でした。"
 
 #: ../user/create_profile.php:285
 msgid "Could not update the profile: database error"
-msgstr "自己紹介の更新に失敗しました： データベースでエラーが発生"
+msgstr "プロフィールの更新に失敗しました: データベースでエラーが発生"
 
 #: ../user/create_profile.php:297
 msgid "Could not create the profile: database error"
-msgstr "自己紹介の作成に失敗しました： データベースでエラーが発生"
+msgstr "プロフィールの作成に失敗しました: データベースでエラーが発生"
 
 #: ../user/create_profile.php:302
 msgid "Profile saved"
-msgstr "自己紹介の内容を保存しました"
+msgstr "プロフィールを保存しました"
 
 #: ../user/create_profile.php:304
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
-msgstr "うまくいきました! あなたの自己紹介記事はこのプロジェクトのデータベースへ格納されました。"
+msgstr "おめでとうございます! あなたのプロフィールはこのプロジェクトのデータベースへ記録されました。"
 
 #: ../user/create_profile.php:306
 msgid "%1View your profile%2"
-msgstr "%1あなたの自己紹介記事を見る%2"
+msgstr "%1あなたのプロフィールを見る%2"
 
 #: ../user/create_profile.php:315
 msgid "Create a profile"
-msgstr "自己紹介記事を作成する"
+msgstr "プロフィールを作成する"
 
 #: ../user/create_profile.php:343
 msgid ""
 "To prevent spam, an average credit of %1 or greater is required to create or"
 " edit a profile.  We apologize for this inconvenience."
-msgstr "自己紹介を作成または更新するには、スパム防止のため、功績の平均増加量(average credit)が %1 以上である必要があります。 不便ですがご容赦ください。"
+msgstr "スパム防止のため、プロフィールを作成または編集するには、功績の平均増加量(average credit)が %1 以上である必要があります。ご不便をおかけし申し訳ありません。"
 
 #: ../user/delete_account.php:57
 msgid "Couldn't delete account"
-msgstr "古いコンピュータを削除できませんでした"
+msgstr "アカウントを削除できませんでした"
 
 #: ../user/delete_account.php:59
 msgid "Account deleted"
@@ -2686,17 +2686,17 @@ msgid ""
 "including your profile and message-board posts.\n"
 "No jobs will be issued to any computers attached\n"
 "to this account."
-msgstr "ご自分のアカウントを消すすると、あなたに関係するすべての\n情報がわれわれのサーバから削除されます。あなたの\n自己紹介記事と掲示板への投稿内容も消えてしまいます。\nこのアカウントに結びついているどのコンピュータにも\n何も仕事は送られなくなります。"
+msgstr "ご自分のアカウントを削除すると、あなたに関係するすべての情報がわれわれのサーバから削除されます。\nあなたのプロフィールと掲示板への投稿内容も消えてしまいます。\nこのアカウントに追加されているどのコンピュータにも仕事が配布されなくなります。"
 
 #: ../user/delete_account.php:73
 msgid ""
 "This cannot be undone.\n"
 "Once your account has been deleted, you cannot get it back."
-msgstr "この操作は元に戻すことができません。\nいったんあなたのアカウントが消えれば、その内容を取り戻すことはできません。"
+msgstr "この操作は元に戻すことができません。\nいったんあなたのアカウントが削除されれば、その内容を取り戻すことはできません。"
 
 #: ../user/delete_account.php:76
 msgid "Are you sure you want to delete your account?"
-msgstr "あなたのアカウントを削除しますが、よろしいですか？"
+msgstr "本当にあなたのアカウントを削除してよろしいですか?"
 
 #: ../user/delete_account.php:79 ../user/delete_profile.php:52
 #: ../user/donations.php:322 ../user/donations.php:326 ../user/friend.php:238
@@ -2717,56 +2717,56 @@ msgstr "いいえ"
 
 #: ../user/delete_account.php:80
 msgid "Do not delete this account"
-msgstr "このアカウントは削除しない"
+msgstr "このアカウントを削除しない"
 
 #: ../user/delete_profile.php:30
 msgid "couldn't delete profile - please try again later"
-msgstr "自己紹介記事を削除できません - しばらくたってからもう一度試してください。"
+msgstr "プロフィールを削除できませんでした - しばらくたってからもう一度試してください。"
 
 #: ../user/delete_profile.php:33
 msgid "Delete Confirmation"
-msgstr "削除完了"
+msgstr "削除確認"
 
 #: ../user/delete_profile.php:35
 msgid "Your profile has been deleted."
-msgstr "あなたの自己紹介記事は削除されました。"
+msgstr "あなたのプロフィールは削除されました。"
 
 #: ../user/delete_profile.php:40
 msgid "Profile delete confirmation"
-msgstr "自己紹介(プロファイル)削除のご確認"
+msgstr "プロフィール削除の確認"
 
 #: ../user/delete_profile.php:43
 msgid "Are you sure?"
-msgstr "削除して本当によろしいですか?"
+msgstr "本当によろしいですか?"
 
 #: ../user/delete_profile.php:44
 msgid ""
 "Deleted profiles are gone forever and cannot be recovered --\n"
 "you will have to start from scratch\n"
 "if you want another profile in the future."
-msgstr "いったん自己紹介記事を削除すると、回復はできません。\n次にはまったく何もないところから\nやり直さなければならなくなります。"
+msgstr "いったんプロフィールを削除すると、回復できません。\n将来他のプロフィールを望む場合、まったく何もないところから始めなければならなくなります。"
 
 #: ../user/delete_profile.php:48
 msgid ""
 "If you're sure, click 'Yes'\n"
 "to remove your profile from our database."
-msgstr "ご了解のうえ、「はい(Yes)」をクリックしてください。\n当プロジェクトのデータベースからあなたの自己紹介記事を削除します。"
+msgstr "ご了解のうえ、「はい」をクリックしてください。\n当プロジェクトのデータベースからあなたのプロフィールを削除します。"
 
 #: ../user/delete_profile.php:52
 msgid "Delete my profile"
-msgstr "自分の自己紹介記事を削除する"
+msgstr "自分のプロフィールを削除する"
 
 #: ../user/delete_profile.php:53
 msgid "Do not delete my profile"
-msgstr "自分の自己紹介記事を削除しない"
+msgstr "自分のプロフィールを削除しない"
 
 #: ../user/donated.php:25
 msgid "PayPal - Transaction Completed"
-msgstr "PayPal - 寄付の支払い完了"
+msgstr "PayPal - 取引完了"
 
 #: ../user/donated.php:28
 msgid "Thank you for donating!"
-msgstr "寄付ありがとうございました！"
+msgstr "寄付ありがとうございます!"
 
 #: ../user/donated.php:29
 msgid "Your donation for has been completed."
@@ -2776,7 +2776,7 @@ msgstr "寄付の支払い処理が完了しました。"
 msgid ""
 "Your donation will be added to the progress bar after confirmation by "
 "PayPal."
-msgstr "PayPay からの確認の後、あなたの寄付額は進捗バーの表示に追加されます。"
+msgstr "PayPay からの確認の後、あなたの寄付額はプログレスバーに加えられます。"
 
 #: ../user/donated.php:32
 msgid "You have canceled your donation."
@@ -2809,7 +2809,7 @@ msgid ""
 "        to see the donation amount equivalent in different currencies\n"
 "        (please note that the rates are only estimates\n"
 "         and the actual amount may differ)."
-msgstr "寄付をしていただけるなら、下記の欄に寄付額を入力してくださいませ。\n        PayPal は複数の通貨からの入金を受付ます\n        (カナダドル、ユーロ、スターリング・ポンド(英)、米ドル、\n         円、オーストラリア・ドル、ニュージーランド・ドル、\n        スイス・フラン、香港ドル、シンガポール・ドル、スウェーデン・クローナ、\n        デンマーク・クローネ、ポーランド・ズォティ、ノルウェイ・クローネ、\n        ハンガリー・フォリント、チェコ・コルナ)。\n        このページに組み込まれた通貨換算機能を使って、異なる通貨での\n        相当額を調べることができます。（換算に使うレートは推定値ですので、\n        実際にやり取りされる額とはすこし異なるでしょう)"
+msgstr "寄付をいただける場合、下記の欄への寄付額の入力をお願い致します。\n        PayPal は複数の通貨からの入金を受け付けます\n        (カナダドル、ユーロ、イギリスポンド、アメリカドル、\n         日本円、オーストラリアドル、ニュージーランドドル、\n        スイスフラン、香港ドル、シンガポールドル、\n　　 スウェーデンクローナ、デンマーククローネ、\n        ポーランドズォティ、ノルウェークローネ、\n        ハンガリーフォリント、チェココルナ)。\nこのページに組み込まれた通貨換算機能を使って、異なる通貨での相当額を調べることができます。\n(換算に使うレートは推定値ですので、実際に取り引きされる額とは差異が生じる可能性があります)"
 
 #: ../user/donations.php:316
 msgid "Amount you would like to donate"
@@ -2817,29 +2817,29 @@ msgstr "寄付したい金額"
 
 #: ../user/donations.php:317
 msgid "Estimated value in"
-msgstr "右の通貨での相当額"
+msgstr "次の通貨での推定相当額"
 
 #: ../user/donations.php:320 ../user/donations.php:324
 msgid "Anonymous donation"
-msgstr "名前を出さない寄付"
+msgstr "匿名での寄付"
 
 #: ../user/donations.php:320
 msgid ""
 "Select this if you dont want your name and account number displayed in\n"
 "donator lists.<br>If not checked, you will be recorded as user ID %1"
-msgstr "寄付者一覧にあなたの名前やアカウントを載せたくなければ、これを選択してくだ\nさい。<br> チェックを入れなければ、参加者ID %1であなたの寄付を記録いたします。"
+msgstr "寄付者一覧にあなたの名前やアカウント番号を載せたくなければ、\nここを選択してください。<br> チェックを入れなければ、参加者ID %1 であなたの寄付を記録いたします。"
 
 #: ../user/donations.php:324
 msgid "To assign the donation with your user ID, please log in."
-msgstr "あなたの参加者ID に寄付を結びつけるため、ログインしてください。"
+msgstr "あなたの参加者IDに寄付を結びつけるには、ログインしてください。"
 
 #: ../user/donations.php:328
 msgid "Proceed"
-msgstr "次に進む"
+msgstr "次へ進む"
 
 #: ../user/donations.php:329
 msgid "Donations are accepted through"
-msgstr "寄付は右の仕組みを通じて受け取ります："
+msgstr "寄付は右の仕組みを通じて受け取ります:"
 
 #: ../user/download_network.php:25
 msgid "Download BOINC add-on software"
@@ -2852,46 +2852,46 @@ msgstr "いくつかの分類から選んでアプリケーションをダウン
 #: ../user/download_network.php:31
 msgid ""
 "These applications are not endorsed by %1 and you use them at your own risk."
-msgstr "これらのアプリケーションは、%1 が保証するものではないので、 使うときにはあなたのリスクにおいて使ってください"
+msgstr "これらのアプリケーションは %1 が推奨するものではないので、ご自身の責任で使用してください。"
 
 #: ../user/download_network.php:33
 msgid ""
 "We do not provide instructions for installing these applications.\n"
 "However, the author may have provided some help on installing or uninstalling the application. \n"
 "If this is not enough you should contact the author."
-msgstr "我々はこれらのアプリケーションのインストール方法を提供しません。 \nしかし、それぞれのアプリケーションの作者がイントールとアンインストールの方法について、ある程度ヘルプを提供しているかもしれません。\nそれが充分でなければ、作者に連絡するべきです。"
+msgstr "我々はこれらのアプリケーションのインストール方法を提供しません。 \nしかし、それぞれのアプリケーションの作者がインストールもしくはアンインストール方法について、ある程度ヘルプを提供しているかもしれません。\nそれが十分でなければ、作者に連絡するべきです。"
 
 #: ../user/download_network.php:36
 msgid "Instructions for installing and running BOINC are %1here%2."
-msgstr "BOINC の インストールと走らせ方は、%1ここ%2 にあります。 "
+msgstr "BOINC のインストールと稼働の仕方は、%1ここ%2 にあります。 "
 
 #: ../user/download_network.php:38
 msgid "This list is managed centrally at %1the BOINC website%2."
-msgstr "この一覧は%1 BOINC のウェブサイト%2で一元管理されています。"
+msgstr "この一覧は %1 BOINC のウェブサイト %2 で集中管理されています。"
 
 #: ../user/edit_email_action.php:31
 msgid "Change email address of account"
-msgstr "あなたのアカウントのEメイルアドレスを変更します"
+msgstr "アカウントのEメールアドレスを変更します"
 
 #: ../user/edit_email_action.php:34 ../user/edit_email_action.php:36
 msgid "New email address '%1' is invalid."
-msgstr "新しい Eメイルアドレス '%1' の値が有効ではありせん。"
+msgstr "新しいEメールアドレス '%1' は無効です。"
 
 #: ../user/edit_email_action.php:38
 msgid "New email address is same as existing address. Nothing is changed."
-msgstr "新規に登録しようとしている Eメイルアドレスは従来のものと同じです。 "
+msgstr "新しいEメールアドレスは従来のものと同じです。変更はありません。"
 
 #: ../user/edit_email_action.php:42
 msgid "There's already an account with that email address"
-msgstr "その Eメイルアドレスをもつアカウントがすでに存在しています"
+msgstr "そのEメールアドレスをもつアカウントがすでにあります"
 
 #: ../user/edit_email_action.php:54
 msgid "Invalid password."
-msgstr "パスワードが正しくありません。"
+msgstr "無効なパスワードです。"
 
 #: ../user/edit_email_action.php:62
 msgid "The email address of your account is now %1."
-msgstr "あなたのアカウントの Eメイルアドレスは、%1 になりました。"
+msgstr "あなたのアカウントのEメールアドレスは、%1 になりました。"
 
 #: ../user/edit_email_action.php:64
 msgid "Please %1validate this email address%2."
