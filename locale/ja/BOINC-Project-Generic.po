@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2015-02-28 17:07+0000\n"
+"PO-Revision-Date: 2015-02-28 18:19+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -2488,15 +2488,15 @@ msgstr "入力した招待コードの値は有効ではありません。"
 msgid ""
 "Invalid email address: you must enter a valid address of the form "
 "name@domain"
-msgstr "無効なメールアドレスです: ローカル部@ドメイン の形式で有効なアドレスを入力しなければなりません"
+msgstr "無効なメールアドレスです: 「ローカル部@ドメイン」の形式で有効なアドレスを入力しなければなりません"
 
 #: ../user/create_account_action.php:88
 msgid "There's already an account with that email address."
-msgstr "その Eメイルアドレスを使っているアカウントがすでに存在しています。"
+msgstr "そのメールアドレスを使っているアカウントがすでに存在しています。"
 
 #: ../user/create_account_action.php:94 ../user/edit_passwd_action.php:33
 msgid "New passwords are different"
-msgstr "新パスワードの値として入力した2つの値が異なっています"
+msgstr "新しいパスワードとして入力した2つが一致しません"
 
 #: ../user/create_account_action.php:101 ../user/edit_passwd_action.php:41
 msgid "Passwords may only include ASCII characters."
@@ -2504,7 +2504,7 @@ msgstr "パスワードには、ASCII 文字しか使えません。"
 
 #: ../user/create_account_action.php:106 ../user/edit_passwd_action.php:45
 msgid "New password is too short: minimum password length is %1 characters."
-msgstr "新パスワードが短すぎます：最低でも %1 文字だけの長さが必要です。"
+msgstr "新しいパスワードが短すぎます: 最低でも %1 文字だけの長さが必要です。"
 
 #: ../user/create_account_action.php:127
 msgid "Couldn't create account"
@@ -2514,13 +2514,13 @@ msgstr "アカウントを作成できませんでした"
 msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
-msgstr "メモ: BOINC マネージャを使用する場合、このフォームを使用しないでください。ともかくBOINCを起動し、プロジェクトを追加を選択、そしてEメールアドレスとパスワードを入力してください。"
+msgstr "注意: BOINC マネージャを使用する場合、このフォームを使用しないでください。ともかくBOINCを起動し、「プロジェクトを追加」を選択し、Eメールアドレスとパスワードを入力してください。"
 
 #: ../user/create_account_form.php:61
 msgid ""
 "This account will belong to the team %1 and will have the project "
 "preferences of its founder."
-msgstr "作成するアカウントは、チーム %1 に加わります。さらに、そのアカウントの持つプロジェクト・プレファレンス（好みの設定）は、そのチームの創設者のものと同じになります。"
+msgstr "このアカウントは、チーム %1 に加わります。さらに、そのアカウントの持つプロジェクト・プレファレンス(好みの設定)は、そのチームの創設者のものと同じになります。"
 
 #: ../user/create_account_form.php:73
 msgid "Invitation Code"
@@ -2528,15 +2528,15 @@ msgstr "招待コード"
 
 #: ../user/create_account_form.php:73
 msgid "A valid invitation code is required to create an account."
-msgstr "アカウントを作るには、正しい招待コードが必要です。"
+msgstr "アカウントを作るには、有効な招待コードが必要です。"
 
 #: ../user/create_account_form.php:83
 msgid "Email Address"
-msgstr "Eメイルアドレス"
+msgstr "Eメールアドレス"
 
 #: ../user/create_account_form.php:83
 msgid "Must be a valid address of the form 'name@domain'."
-msgstr "有効なメイルアドレスを、「 name@domain 」の形で記入してください。"
+msgstr "有効なメールアドレスを「ローカル部@ドメイン」の形で記入しなければなりません。"
 
 #: ../user/create_account_form.php:92 ../user/edit_email_form.php:47
 msgid "Password"
@@ -2544,7 +2544,7 @@ msgstr "パスワード"
 
 #: ../user/create_account_form.php:93
 msgid "Must be at least %1 characters"
-msgstr "少なくとも %s 文字はなければなりません。"
+msgstr "少なくとも %1 文字はなければなりません"
 
 #: ../user/create_account_form.php:96
 msgid "Confirm password"
@@ -2552,7 +2552,7 @@ msgstr "確認のためパスワードをもう一度"
 
 #: ../user/create_account_form.php:113
 msgid "Please enter the words shown in the image"
-msgstr "画像の中の文字列を読み取って入力してください。"
+msgstr "画像の中の文字列を読み取って入力してください"
 
 #: ../user/create_account_form.php:119
 msgid "Create account"
@@ -2564,17 +2564,17 @@ msgstr "写真"
 
 #: ../user/create_profile.php:64
 msgid "%1 Your profile picture is shown to the left."
-msgstr "%1 自己紹介に載せるあなたの写真は左のとおりです。"
+msgstr "%1 でのあなたのプロフィール写真は左のとおりです。"
 
 #: ../user/create_profile.php:66
 msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1"
 " or less)."
-msgstr "置き換えたいなら、「参照」または「ファイルを選択」などと書かれた次のボタンをクリックして、JPEG または PNG ファイル(サイズは %1以下)を指定してください。"
+msgstr "置き換えたいなら、「参照」または「ファイルを選択」などと書かれた次のボタンをクリックして、JPEG または PNG ファイル(サイズは %1 以下)を指定してください。"
 
 #: ../user/create_profile.php:69
 msgid "To remove it from your profile, check this box:"
-msgstr "あなたの自己紹介記事から写真を削除するには、右のボックスにチェックを入れてください ："
+msgstr "あなたのプロフィールから写真を削除するには、右のボックスにチェックを入れてください : "
 
 #: ../user/create_profile.php:77
 msgid ""
