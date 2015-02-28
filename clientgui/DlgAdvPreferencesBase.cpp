@@ -185,50 +185,33 @@ void CDlgAdvPreferencesBase::addNewRowToSizer(wxWindow* parent,
                 wxWindow* fourth, wxWindow* fifth)
 {
     wxBoxSizer* rowSizer = new wxBoxSizer( wxHORIZONTAL );
-    wxSize sz(5, 15);
     
-    rowSizer->Add(first, 0, wxTOP | wxBOTTOM |wxLEFT, 5 );
+#ifdef __WXMSW__
+    // MSW adds space to the right of checkbox label
+    if (first->IsKindOf(CLASSINFO(wxCheckBox))) {
+        rowSizer->Add(first, 0, wxTOP | wxBOTTOM |wxLEFT, 5 );
+    } else
+#endif
+        rowSizer->Add(first, 0, wxALL, 5 );
+
     first->SetToolTip(toolTipText);
-
-    // Add empty wxStaticText controls so tooltip appears continuously across the line
-    wxWindow* spaces1 = new wxStaticText(
-        parent, ID_DEFAULT, wxEmptyString, wxDefaultPosition, sz, 0 );
-    rowSizer->Add(spaces1, 0, wxTOP | wxBOTTOM, 5 );
-    spaces1->SetToolTip(toolTipText);
-
-    rowSizer->Add(second, 0, wxTOP | wxBOTTOM, 2 );
+    
+    rowSizer->Add(second, 0, wxALL, 2 );
     second->SetToolTip(toolTipText);
 
-    wxStaticText* spaces2 = new wxStaticText(
-        parent, ID_DEFAULT, wxEmptyString, wxDefaultPosition, sz, 0 );
-    rowSizer->Add(spaces2, 0, wxTOP | wxBOTTOM, 5 );
-    spaces2->SetToolTip(toolTipText);
-
-    rowSizer->Add(third, 0, wxTOP | wxBOTTOM, 5 );
+    rowSizer->Add(third, 0, wxALL, 5 );
     third->SetToolTip(toolTipText);
 
     if (fourth) {
-        wxStaticText* spaces3 = new wxStaticText(
-            parent, ID_DEFAULT, wxEmptyString, wxDefaultPosition, sz, 0 );
-        rowSizer->Add(spaces3, 0, wxTOP | wxBOTTOM, 5 );
-        spaces3->SetToolTip(toolTipText);
-
-        rowSizer->Add(fourth, 0, wxTOP | wxBOTTOM, 2 );
+        rowSizer->Add(fourth, 0, wxALL, 2 );
         fourth->SetToolTip(toolTipText);
     }
     
     if (fifth) {
-        wxStaticText* spaces4 = new wxStaticText(
-            parent, ID_DEFAULT, wxEmptyString, wxDefaultPosition, sz, 0 );
-        rowSizer->Add(spaces4, 0, wxTOP | wxBOTTOM, 5 );
-        spaces4->SetToolTip(toolTipText);
-
-        rowSizer->Add(fifth, 0, wxTOP | wxBOTTOM, 5 );
+        rowSizer->Add(fifth, 0, wxALL, 5 );
         fifth->SetToolTip(toolTipText);
     }
     
-    rowSizer->Layout(); // Enables tooltips on spaces1, spaces2. etc.
-
     toSizer->Add( rowSizer, 0, 0, 1 );
 }
 
@@ -356,7 +339,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     wxString NetConnectIntervalTT(_("Store at least enough tasks to keep the computer busy for this long."));
     wxStaticText* staticText30 = new wxStaticText(
         miscProcStaticBox, ID_DEFAULT,
-        _("Store at least"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT
+        _("Store at least"), wxDefaultPosition, wxDefaultSize, 0
     );
 
     m_txtNetConnectInterval = new wxTextCtrl(
@@ -372,7 +355,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     wxString NetAdditionalDaysTT(_("Store additional tasks above the minimum level.  Determines how much work is requested when contacting a project."));
     wxStaticText* staticText331 = new wxStaticText(
         miscProcStaticBox, ID_DEFAULT,
-        _("Store up to an additional"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT
+        _("Store up to an additional"), wxDefaultPosition, wxDefaultSize, 0
     );
     staticText331->SetToolTip(NetAdditionalDaysTT);
 
@@ -387,7 +370,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     wxString ProcSwitchEveryTT = wxEmptyString;
     ProcSwitchEveryTT.Printf(_("If you run several projects, %s may switch between them this often."), pSkinAdvanced->GetApplicationShortName().c_str());
     
-    wxStaticText* staticText18 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("Switch between tasks every"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    wxStaticText* staticText18 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("Switch between tasks every"), wxDefaultPosition, wxDefaultSize, 0 );
     
     m_txtProcSwitchEvery = new wxTextCtrl( miscProcStaticBox, ID_TXTPROCSWITCHEVERY, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
 
@@ -396,7 +379,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     addNewRowToSizer(miscProcStaticBox, miscProcBoxSizer, ProcSwitchEveryTT, staticText18, m_txtProcSwitchEvery, staticText19);
 
     wxString DiskWriteToDiskTT(_("This controls how often tasks save their state to disk, so that they can be restarted later."));
-    wxStaticText* staticText46 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("Request tasks to checkpoint at most every"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    wxStaticText* staticText46 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("Request tasks to checkpoint at most every"), wxDefaultPosition, wxDefaultSize, 0 );
 
     m_txtDiskWriteToDisk = new wxTextCtrl( miscProcStaticBox, ID_TXTDISKWRITETODISK, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
 
@@ -533,9 +516,9 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
     DiskMaxSpaceTT.Printf(_("Limit the total amount of disk space used by %s."), pSkinAdvanced->GetApplicationShortName().c_str());
 
     m_chkDiskMaxSpace = new wxCheckBox (
-        diskUsageStaticBox, ID_CHKDISKMAXSPACE, _("Use no more than"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+        diskUsageStaticBox, ID_CHKDISKMAXSPACE, _("Use no more than"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    m_txtDiskMaxSpace = new wxTextCtrl( diskUsageStaticBox, ID_TXTDISKMAXSPACE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
+    m_txtDiskMaxSpace = new wxTextCtrl( diskUsageStaticBox, ID_TXTDISKMAXSPACE,wxT("9999.99"), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
 
     wxStaticText* staticText41 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("GB"), wxDefaultPosition, wxDefaultSize, 0 );
 
@@ -545,9 +528,9 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
     DiskLeastFreeTT.Printf(_("Limit disk usage to leave this much free space on the volume where %s stores data."), pSkinAdvanced->GetApplicationShortName().c_str());
 
     m_chkDiskLeastFree = new wxCheckBox (
-        diskUsageStaticBox, ID_CHKDISKLEASTFREE, _("Leave at least"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+        diskUsageStaticBox, ID_CHKDISKLEASTFREE, _("Leave at least"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    m_txtDiskLeastFree = new wxTextCtrl( diskUsageStaticBox, ID_TXTDISKLEASTFREE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
+    m_txtDiskLeastFree = new wxTextCtrl( diskUsageStaticBox, ID_TXTDISKLEASTFREE, wxT("9999.99"), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
 
     wxStaticText* staticText43 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("GB free"), wxDefaultPosition, wxDefaultSize, 0 );
 
@@ -557,9 +540,9 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
     DiskMaxOfTotalTT.Printf(_("Limit the percentage of disk space used by %s on the volume where it stores data."), pSkinAdvanced->GetApplicationShortName().c_str());
 
     m_chkDiskMaxOfTotal = new wxCheckBox (
-        diskUsageStaticBox, ID_CHKDISKMAXOFTOTAL, _("Use no more than"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+        diskUsageStaticBox, ID_CHKDISKMAXOFTOTAL, _("Use no more than"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    m_txtDiskMaxOfTotal = new wxTextCtrl( diskUsageStaticBox, ID_TXTDISKMAXOFTOTAL, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
+    m_txtDiskMaxOfTotal = new wxTextCtrl( diskUsageStaticBox, ID_TXTDISKMAXOFTOTAL, wxT("9999.99"), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
 
     /*xgettext:no-c-format*/
     wxStaticText* staticText45 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("% of total"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -575,7 +558,7 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
     wxString MemoryMaxInUseTT = wxEmptyString;
     MemoryMaxInUseTT.Printf(_("Limit the memory used by %s when you're using the computer."), pSkinAdvanced->GetApplicationShortName().c_str());
 
-    wxStaticText* staticText50 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("When computer is in use, use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    wxStaticText* staticText50 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("When computer is in use, use at most"), wxDefaultPosition, wxDefaultSize, 0 );
 
     textCtrlSize = getTextCtrlSize(wxT("100.00"));
     m_txtMemoryMaxInUse = new wxTextCtrl( memoryUsageStaticBox, ID_TXTMEMORYMAXINUSE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
@@ -588,7 +571,7 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
     wxString MemoryMaxOnIdleTT = wxEmptyString;
     MemoryMaxOnIdleTT.Printf(_("Limit the memory used by %s when you're not using the computer."), pSkinAdvanced->GetApplicationShortName().c_str());
 
-    wxStaticText* staticText52 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("When computer is not in use, use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    wxStaticText* staticText52 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("When computer is not in use, use at most"), wxDefaultPosition, wxDefaultSize, 0 );
 
     m_txtMemoryMaxOnIdle = new wxTextCtrl( memoryUsageStaticBox, ID_TXTMEMORYMAXONIDLE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
 
@@ -604,7 +587,7 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
     wxString DiskMaxSwapTT = wxEmptyString;
     DiskMaxSwapTT.Printf(_("Limit the swap space (page file) used by %s."), pSkinAdvanced->GetApplicationShortName().c_str());
 
-    wxStaticText* staticText48 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("Page/swap file: use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    wxStaticText* staticText48 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("Page/swap file: use at most"), wxDefaultPosition, wxDefaultSize, 0 );
 
     m_txtDiskMaxSwap = new wxTextCtrl( memoryUsageStaticBox, ID_TXTDISKWRITETODISK, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
 
@@ -625,7 +608,7 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
 
 wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
 {
-    wxSize textCtrlSize = getTextCtrlSize(wxT("23:59"));
+    wxSize textCtrlSize = getTextCtrlSize(wxT("23:59 "));
     
     wxString andString(_("and"));
     wxString toString(wxT(" ")+_("to")+wxT(" "));

@@ -284,13 +284,13 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     // 0 means "no retriction" but we don't use a checkbox here
     if (prefs.max_ncpus_pct == 0.0) prefs.max_ncpus_pct = 100.0;
     buffer.Printf(wxT("%.2f"), prefs.max_ncpus_pct);
-    *m_txtProcUseProcessors << buffer;
+    m_txtProcUseProcessors->SetValue(buffer);
     
     //cpu limit
     // 0 means "no retriction" but we don't use a checkbox here
     if (prefs.cpu_usage_limit == 0.0) prefs.cpu_usage_limit = 100.0;
     buffer.Printf(wxT("%.2f"),prefs.cpu_usage_limit);
-    *m_txtProcUseCPUTime << buffer;
+    m_txtProcUseCPUTime->SetValue(buffer);
     
     // on batteries
     m_chkProcOnBatteries->SetValue(! prefs.run_on_batteries);
@@ -299,26 +299,26 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     m_chkGPUProcInUse->SetValue(! prefs.run_gpu_if_user_active);
     // idle for X minutes
     buffer.Printf(wxT("%.2f"),prefs.idle_time_to_run);
-    *m_txtProcIdleFor << buffer;
+    m_txtProcIdleFor->SetValue(buffer);
 
     buffer.Printf(wxT("%.0f"), prefs.suspend_cpu_usage);
-    *m_txtMaxLoad << buffer;
+    m_txtMaxLoad->SetValue(buffer);
     m_chkMaxLoad->SetValue(prefs.suspend_cpu_usage > 0.0);
 
     // connection interval
     buffer.Printf(wxT("%01.2f"),prefs.work_buf_min_days);
-    *m_txtNetConnectInterval << buffer;
+    m_txtNetConnectInterval->SetValue(buffer);
 
     buffer.Printf(wxT("%.2f"),prefs.work_buf_additional_days);
-    *m_txtNetAdditionalDays << buffer;
+    m_txtNetAdditionalDays->SetValue(buffer);
 
     // switch every X minutes
     buffer.Printf(wxT("%.2f"),prefs.cpu_scheduling_period_minutes);
-    *m_txtProcSwitchEvery << buffer;
+    m_txtProcSwitchEvery->SetValue(buffer);
 
     // write to disk every X seconds
     buffer.Printf(wxT("%.0f"),prefs.disk_interval);
-    *m_txtDiskWriteToDisk << buffer;
+    m_txtDiskWriteToDisk->SetValue(buffer);
 
     // ######### net usage page
 
@@ -326,20 +326,20 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     m_chkNetDownloadRate->SetValue(prefs.max_bytes_sec_down > 0.0);
     if (m_chkNetDownloadRate->IsChecked()) {
         buffer.Printf(wxT("%.2f"),prefs.max_bytes_sec_down / 1024);
-        *m_txtNetDownloadRate << buffer;
+        m_txtNetDownloadRate->SetValue(buffer);
     }
     // upload rate
     m_chkNetUploadRate->SetValue(prefs.max_bytes_sec_up > 0.0);
     if (m_chkNetUploadRate->IsChecked()) {
         buffer.Printf(wxT("%.2f"),prefs.max_bytes_sec_up / 1024);
-        *m_txtNetUploadRate << buffer;
+        m_txtNetUploadRate->SetValue(buffer);
     }
     m_chk_daily_xfer_limit->SetValue((prefs.daily_xfer_limit_mb > 0.0) && (prefs.daily_xfer_period_days > 0.0));
     if (m_chk_daily_xfer_limit->IsChecked()) {
         buffer.Printf(wxT("%.2f"),prefs.daily_xfer_limit_mb);
-        *m_txt_daily_xfer_limit_mb << buffer;
+        m_txt_daily_xfer_limit_mb->SetValue(buffer);
         buffer.Printf(wxT("%d"),prefs.daily_xfer_period_days );
-        *m_txt_daily_xfer_period_days << buffer;
+        m_txt_daily_xfer_period_days->SetValue(buffer);
     }
     
     //
@@ -355,38 +355,38 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     m_chkDiskMaxSpace->SetValue(prefs.disk_max_used_gb > 0.0);
     if (m_chkDiskMaxSpace->IsChecked()) {
         buffer.Printf(wxT("%.2f"),prefs.disk_max_used_gb);
-        *m_txtDiskMaxSpace << buffer;
+        m_txtDiskMaxSpace->SetValue(buffer);
     }
     // min free
     m_chkDiskLeastFree->SetValue(prefs.disk_min_free_gb > 0.0);
     if (m_chkDiskLeastFree->IsChecked()) {
         buffer.Printf(wxT("%.2f"),prefs.disk_min_free_gb);
-    *m_txtDiskLeastFree << buffer;
+    m_txtDiskLeastFree->SetValue(buffer);
     }
     // max used percentage
     m_chkDiskMaxOfTotal->SetValue(prefs.disk_max_used_pct < 100.0);
     if (m_chkDiskMaxOfTotal->IsChecked()) {
         buffer.Printf(wxT("%.2f"),prefs.disk_max_used_pct);
-        *m_txtDiskMaxOfTotal << buffer;
+        m_txtDiskMaxOfTotal->SetValue(buffer);
     }
     // max VM used
     buffer.Printf(wxT("%.2f"),prefs.ram_max_used_busy_frac*100.0);
-    *m_txtMemoryMaxInUse << buffer;
+    m_txtMemoryMaxInUse->SetValue(buffer);
     // max VM idle
     buffer.Printf(wxT("%.2f"),prefs.ram_max_used_idle_frac*100.0);
-    *m_txtMemoryMaxOnIdle << buffer;
+    m_txtMemoryMaxOnIdle->SetValue(buffer);
     // suspend to memory
     m_chkMemoryWhileSuspended->SetValue(prefs.leave_apps_in_memory);
     // max swap space (virtual memory)
     buffer.Printf(wxT("%.2f"),prefs.vm_max_used_frac*100.0);
-    *m_txtDiskMaxSwap << buffer;
+    m_txtDiskMaxSwap->SetValue(buffer);
 
     // ######### daily schedules page
     // do work between
     m_chkProcEveryDay->SetValue(prefs.cpu_times.start_hour != prefs.cpu_times.end_hour);
     if (m_chkProcEveryDay->IsChecked()) {
-        *m_txtProcEveryDayStart << DoubleToTimeString(prefs.cpu_times.start_hour);
-        *m_txtProcEveryDayStop << DoubleToTimeString(prefs.cpu_times.end_hour);
+        m_txtProcEveryDayStart->SetValue(DoubleToTimeString(prefs.cpu_times.start_hour));
+        m_txtProcEveryDayStop->SetValue(DoubleToTimeString(prefs.cpu_times.end_hour));
     }
 
     //special day times
@@ -402,8 +402,8 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     // use network between
     m_chkNetEveryDay->SetValue(prefs.net_times.start_hour != prefs.net_times.end_hour);
     if (m_chkNetEveryDay->IsChecked()) {
-        *m_txtNetEveryDayStart << DoubleToTimeString(prefs.net_times.start_hour);
-        *m_txtNetEveryDayStop << DoubleToTimeString(prefs.net_times.end_hour);
+        m_txtNetEveryDayStart->SetValue(DoubleToTimeString(prefs.net_times.start_hour));
+        m_txtNetEveryDayStop->SetValue(DoubleToTimeString(prefs.net_times.end_hour));
     }
     
     //special net times
