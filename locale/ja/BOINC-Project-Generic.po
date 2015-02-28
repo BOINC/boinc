@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2015-02-28 16:05+0000\n"
+"PO-Revision-Date: 2015-02-28 17:07+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -72,7 +72,7 @@ msgstr "フォントの色"
 #: ../inc/bbcode_html.inc:43
 msgid ""
 "Font color: [color=red]text[/color]  Tip: you can also use color=#FF0000"
-msgstr "フォントの色を指定: [color=red]フォント[/color] ヒント: この場合あなたは#FF0000(HTMLでの色名称でいうRed)の色もまた使うことができます。"
+msgstr "フォントの色を指定: [color=red]フォント[/color] ヒント: この場合あなたは #FF0000 (HTMLでの色名称でいうRed) の色もまた使うことができます。"
 
 #: ../inc/bbcode_html.inc:44 ../inc/bbcode_html.inc:59 ../inc/prefs.inc:638
 msgid "Default"
@@ -1862,7 +1862,7 @@ msgstr "この操作にはチーム管理者の権限が必要です"
 msgid ""
 "WARNING: this is a BOINC-wide team. If you make changes here, they will soon"
 " be overwritten. Edit the %1BOINC-wide team%2 instead."
-msgstr "＜警告＞: これは BOINCワイドのチームです。ここで変更を行っても、 そのうち上書きされてしまいます。代わりに %1 BOINC ワイドのチーム %2 を編集してください。"
+msgstr "＜警告＞: これは BOINC ワイドのチームです。ここで変更を行っても、 そのうち上書きされてしまいます。代わりに %1 BOINC ワイドのチーム %2 を編集してください。"
 
 #: ../inc/team.inc:428
 msgid ""
@@ -2040,7 +2040,7 @@ msgstr "あなたのコンピュータをいつ・どのようにBOINCに使わ�
 
 #: ../inc/user.inc:225
 msgid "Computing preferences"
-msgstr "計算についての好みの設定（プレファレンス）"
+msgstr "計算についての好みの設定(プレファレンス)"
 
 #: ../inc/user.inc:228
 msgid "Message boards and private messages"
@@ -2048,7 +2048,7 @@ msgstr "掲示板と非公開メッセージ"
 
 #: ../inc/user.inc:229 ../user/edit_forum_preferences_form.php:31
 msgid "Community preferences"
-msgstr "コミュニティについての好みの設定（プレファレンス）"
+msgstr "コミュニティについての好みの設定(プレファレンス)"
 
 #: ../inc/user.inc:232
 msgid "Preferences for this project"
@@ -2056,7 +2056,7 @@ msgstr "このプロジェクト用のプレファレンス"
 
 #: ../inc/user.inc:233 ../user/prefs.php:29
 msgid "%1 preferences"
-msgstr "%1 についての好みの設定（プレファレンス）"
+msgstr "%1 についての好みの設定(プレファレンス)"
 
 #: ../inc/user.inc:239 ../user/bs_sample_index.php:59
 #: ../user/sample_index.php:125
@@ -2073,7 +2073,7 @@ msgstr "作成"
 
 #: ../inc/user.inc:247 ../inc/user.inc:402 ../inc/util.inc:514
 msgid "Profile"
-msgstr "自己紹介"
+msgstr "プロフィール"
 
 #: ../inc/user.inc:250 ../inc/user.inc:375
 msgid "%1 posts"
@@ -2093,23 +2093,23 @@ msgstr "管理作業をする"
 
 #: ../inc/user.inc:277 ../inc/user.inc:290
 msgid "(foundership change request pending)"
-msgstr "(創設者を変更する要求は保留中)"
+msgstr "(創設者権限の移譲要求は保留中)"
 
 #: ../inc/user.inc:279
 msgid "Member of team"
-msgstr "所属チーム"
+msgstr "チームのメンバー"
 
 #: ../inc/user.inc:281
 msgid "find a team"
-msgstr "チームを探す"
+msgstr "チームを検索"
 
 #: ../inc/user.inc:292
 msgid "Founder but not member of"
-msgstr "設立したチーム(メンバーではない)"
+msgstr "下記のメンバーではない創設者:"
 
 #: ../inc/user.inc:298
 msgid "Find friends"
-msgstr "友人を探す"
+msgstr "友人を検索"
 
 #: ../inc/user.inc:305 ../inc/user.inc:307 ../inc/user.inc:385
 #: ../inc/user.inc:387 ../inc/user.inc:396
@@ -2150,11 +2150,11 @@ msgstr "ユーザー名は、先頭もしくは末尾の空白を持つことは
 
 #: ../inc/user.inc:450
 msgid "user name must be nonempty"
-msgstr "ユーザー名は空でない必要があります"
+msgstr "ユーザー名は空であってはなりません"
 
 #: ../inc/user.inc:454
 msgid "user name may not contain HTML tags"
-msgstr "ユーザー名にHTMLタグを含んではなりません"
+msgstr "ユーザー名に HTML タグを含んではなりません"
 
 #: ../inc/util.inc:131
 msgid "log out"
@@ -2174,17 +2174,17 @@ msgstr "新しいアカウントを作成"
 
 #: ../inc/util.inc:206
 msgid "Server status page"
-msgstr "サーバー状態のページ"
+msgstr "サーバー側の状態のページ"
 
 #: ../inc/util.inc:248
 msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
-msgstr "あなたからの要求を処理中にデータベース・サーバで異常が起こりました。後ほどまた試してくださいませ。"
+msgstr "あなたからの要求を処理中にデータベース・サーバで異常が起こりました。後ほどまた試してください。"
 
 #: ../inc/util.inc:257
 msgid "Unable to handle request"
-msgstr "要求を処理できませんでした"
+msgstr "要求を処理できません"
 
 #: ../inc/util.inc:277
 msgid "hours"
@@ -2201,35 +2201,35 @@ msgstr "秒"
 #: ../inc/util.inc:444
 msgid ""
 "Link has timed out. Please click Back, refresh the page, and try again."
-msgstr "セッションが時間超過しました。ブラウザの戻るボタンをクリックし、そこでページを再読み出し(リフレッシュ)してから、もう一度試してくださいませ。"
+msgstr "セッションがタイムアウトしました。ブラウザの戻るボタンをクリックし、そこでページを再読み込み(更新)してから、もう一度試してください。"
 
 #: ../inc/util.inc:513
 msgid "View the profile of %1"
-msgstr "%1 の自己紹介記事(プロファイル）を見る"
+msgstr "%1 のプロフィールを見る"
 
 #: ../inc/util.inc:569
 msgid "Use BBCode tags to format your text"
-msgstr "テキストに書式を付けたいときは BBCode タグを使ってください"
+msgstr "テキストに書式を設定するときはBBコードタグを使ってください"
 
 #: ../inc/util.inc:796
 msgid "Project down for maintenance"
-msgstr "保守作業のためプロジェクト停止中"
+msgstr "メンテナンスのためプロジェクト停止中"
 
 #: ../inc/util.inc:799
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
-msgstr "%1 プロジェクトは保守のため一時的に停止しています。後ほどまた試してくださいませ。"
+msgstr "%1 プロジェクトはメンテナンスのため一時的に停止しています。後ほどまたお試しください。"
 
 #: ../inc/util.inc:817
 msgid "Unable to connect to database - please try again later"
-msgstr "データベースに接続できません - 後ほど試してくださいませ"
+msgstr "データベースに接続できません - 後ほど試してください"
 
 #: ../inc/util.inc:821
 msgid "Unable to select database - please try again later"
-msgstr "データベースの選択ができませんでした(mysql_select_dbに失敗) - 時間を置いてからまた試してください。"
+msgstr "データベースの選択ができませんでした - 後ほどまた試してください"
 
 #: ../inc/util_ops.inc:109 ../user/get_passwd.php:72
 msgid "Stay logged in on this computer"
-msgstr "現在のコンピュータからログインしたままにする"
+msgstr "このコンピュータからログインしたままにする"
 
 #: ../user/account_finish.php:34
 msgid "Finish account setup"
@@ -2245,7 +2245,7 @@ msgstr "表示したい国の名前があれば、選択してください。"
 
 #: ../user/account_finish.php:51 ../user/create_account_form.php:104
 msgid "Postal or ZIP Code"
-msgstr "郵便番号／ZIP コード"
+msgstr "郵便番号もしくは ZIP コード"
 
 #: ../user/account_finish.php:51 ../user/create_account_form.php:104
 msgid "Optional"
@@ -2253,15 +2253,15 @@ msgstr "記入は任意"
 
 #: ../user/account_finish_action.php:27
 msgid "You must supply a name for your account"
-msgstr "アカウントには名前をつけなければなりません。"
+msgstr "アカウントには名前をつけなければなりません"
 
 #: ../user/account_finish_action.php:30
 msgid "HTML tags not allowed in name"
-msgstr "アカウントの名前の中では、HTML タグは使えません。"
+msgstr "アカウントの名前の中では、HTML タグは使えません"
 
 #: ../user/add_venue.php:81
 msgid "Add %1 preferences for %2"
-msgstr "%1 プレファレンスを %2　向けに追加"
+msgstr "%1 プレファレンスを %2 向けに追加"
 
 #: ../user/apps.php:32 ../user/bs_sample_index.php:55
 #: ../user/sample_index.php:120
@@ -2274,7 +2274,7 @@ msgid ""
 "work for one or more of these applications will be assigned to your "
 "computer. The current version of the application will be downloaded to your "
 "computer. This happens automatically; you don't have to do anything."
-msgstr "%1 プロジェクトには、現在下記のアプリケーションがあります。 %1 プロジェクトに参加すると、これらのアプリケーションのうち、 1つまたは複数のアプリケーションの仕事があなたのコンピュータに割り当てられます。 これらのアプリケーションの最新版がダウンロードされます。 これらは自動的に行われるので、ダウンロードについてあなたは何もする必要はありません。 "
+msgstr "%1 プロジェクトには、現在下記のアプリケーションがあります。 %1 プロジェクトに参加すると、これらのアプリケーションのうち、 1つまたは複数のアプリケーションの仕事があなたのコンピュータに割り当てられます。これらのアプリケーションの最新版がダウンロードされます。これらは自動的に行われるので、何もする必要はありません。 "
 
 #: ../user/apps.php:50
 msgid "Platform"
@@ -2282,11 +2282,11 @@ msgstr "プラットフォーム"
 
 #: ../user/apps.php:51
 msgid "Version"
-msgstr "版"
+msgstr "バージョン"
 
 #: ../user/apps.php:52
 msgid "Installation time"
-msgstr "登録日"
+msgstr "インストール日時"
 
 #: ../user/bbcode.php:23
 msgid "BBCode tags"
@@ -2298,7 +2298,7 @@ msgid ""
 "It's similar to HTML, but simpler. The tags start with a [ (where you would\n"
 "have used %1 in HTML) and end with ] (where you would have used %2 in\n"
 "HTML)."
-msgstr "BBコードのタグを使って、あなたの自己紹介の文章(プロファイル)や、掲示板へ投稿する\n文章に書式を付けることができます。それは HTML の流儀に似ていますが、より簡潔\nなものです。これらのタグは [ で始まり、] で終わります。 (HTMLでは %1 で始まり\n、%2 で終わる約束でした。)"
+msgstr "BBコードタグで、あなたのプロフィール・掲示板へ投稿するメッセージに書式を付けることができます。\nそれは HTML に似ていますが、よりわかりやすいものです。これらのタグは [ で始まり、] で終わります (HTMLでは %1 で始まり\n、%2 で終わる約束でした)。"
 
 #: ../user/bbcode.php:31
 msgid "Examples"
@@ -2326,7 +2326,7 @@ msgstr "大きな字"
 
 #: ../user/bbcode.php:37
 msgid "Red text"
-msgstr "赤字"
+msgstr "赤色の字"
 
 #: ../user/bbcode.php:38
 msgid "link to website"
@@ -2334,11 +2334,11 @@ msgstr "ウェブサイトへのリンク"
 
 #: ../user/bbcode.php:39
 msgid "Quoted text"
-msgstr "引用テキスト"
+msgstr "引用するテキスト"
 
 #: ../user/bbcode.php:39
 msgid "use for quoted blocks of text"
-msgstr "引用テキストをブロックに入れて表示します"
+msgstr "テキストを引用されたブロックとするために使います"
 
 #: ../user/bbcode.php:40
 msgid "use to display an image"
@@ -2346,11 +2346,11 @@ msgstr "画像の表示に使います"
 
 #: ../user/bbcode.php:41
 msgid "Code snippet here"
-msgstr "短いソースコードの表示"
+msgstr "コード・スニペットはここ"
 
 #: ../user/bbcode.php:41
 msgid "use to display some code"
-msgstr "ソースコードの断片を表示させるために使います"
+msgstr "ソースコードを表示させるために使います"
 
 #: ../user/bbcode.php:42
 msgid "Pre-formatted text"
@@ -2358,11 +2358,11 @@ msgstr "フォーマット済みテキスト"
 
 #: ../user/bbcode.php:42
 msgid "use to display pre-formatted (usually monospaced) text"
-msgstr "フォーマット済み(通常固定幅の）テキストを表示するために使います"
+msgstr "フォーマット済み(通常は等幅の)テキストを表示させるために使います"
 
 #: ../user/bbcode.php:43
 msgid "Item 1"
-msgstr "項目1"
+msgstr "項目 1"
 
 #: ../user/bbcode.php:43
 msgid "Item2"
@@ -2374,7 +2374,7 @@ msgstr "項目 2"
 
 #: ../user/bbcode.php:45
 msgid "use to link to Trac ticket on BOINC website"
-msgstr "BOINC ウェブサイト上の Tracチケットへリンクするために使います"
+msgstr "BOINC ウェブサイト上の Trac チケットへリンクするために使います"
 
 #: ../user/bbcode.php:47
 msgid "use to link to Trac Wiki on BOINC website"
@@ -2382,13 +2382,13 @@ msgstr "BOINC ウェブサイト上の Trac Wiki へリンクするために使�
 
 #: ../user/bbcode.php:49
 msgid "use to link to SVN changeset on BOINC website"
-msgstr "BOINC ウェブサイト上の SVNチェンジセットへとリンクするために使います"
+msgstr "BOINC ウェブサイト上の SVN チェンジセットへリンクするために使います"
 
 #: ../user/bbcode.php:53
 msgid ""
 "If you don't close a tag or don't specify a parameter correctly,\n"
 "the raw tag itself will display instead of the formatted text."
-msgstr "開始タグだけで終了タグなしのまま放置したり、パラメータを正しく\n指定しないと、書式は機能せずタグがそのまま表示されます。"
+msgstr "開始タグだけで終了タグなしのまま放置したり、パラメータを正しく\n指定しないと、フォーマットされたテキストではなくタグがそのまま表示されます。"
 
 #: ../user/bs_sample_index.php:44
 msgid "Participants"
@@ -2396,7 +2396,7 @@ msgstr "参加者"
 
 #: ../user/bs_sample_index.php:46
 msgid "Do work"
-msgstr "仕事をする"
+msgstr "仕事を実行"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 #: ../user/home.php:49 ../project.sample/project.inc:43
@@ -2414,7 +2414,7 @@ msgstr "チーム"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
 msgid "create or join a team"
-msgstr "チームを作る、もしくは参加する"
+msgstr "チームを作成、もしくは参加する"
 
 #: ../user/bs_sample_index.php:51 ../user/sample_index.php:191
 msgid "User of the day"
@@ -2427,7 +2427,7 @@ msgstr "サーバー側の状態"
 #: ../user/bs_sample_index.php:60 ../user/profile_menu.php:32
 #: ../user/sample_index.php:127
 msgid "Profiles"
-msgstr "自己紹介記事(プロファイル)"
+msgstr "プロフィール"
 
 #: ../user/bs_sample_index.php:61
 msgid "User search"
@@ -2462,7 +2462,7 @@ msgstr "言語"
 #: ../user/bs_sample_index.php:149 ../user/info.php:24
 #: ../user/sample_index.php:79
 msgid "Read our rules and policies"
-msgstr "このプロジェクトの「規則と方針」を読んでください。"
+msgstr "このプロジェクトの「規則と方針」を読んでください"
 
 #: ../user/create_account_action.php:26
 msgid "Can't create account"
@@ -2470,7 +2470,7 @@ msgstr "アカウントを作成できません"
 
 #: ../user/create_account_action.php:29
 msgid "Click your browser's <b>Back</b> button to try again."
-msgstr "ブラウザの<b>戻る(back)</b>ボタンをクリックし、もう一度試してください。"
+msgstr "ブラウザの<b>戻る</b>ボタンをクリックし、もう一度試してください。"
 
 #: ../user/create_account_action.php:47
 msgid "Your reCAPTCHA response was not correct. Please try again."
@@ -2478,17 +2478,17 @@ msgstr "あなたが reCAPTCH へ打ち込んだ内容は正しくありませ�
 
 #: ../user/create_account_action.php:70
 msgid "You must supply an invitation code to create an account."
-msgstr "アカウントを作るには、招待コードを入力してください。"
+msgstr "アカウントを作るには、招待コードを入力しなければなりません。"
 
 #: ../user/create_account_action.php:73
 msgid "The invitation code you gave is not valid."
-msgstr "入力した招待コードの値は正しくありません。"
+msgstr "入力した招待コードの値は有効ではありません。"
 
 #: ../user/create_account_action.php:84
 msgid ""
 "Invalid email address: you must enter a valid address of the form "
 "name@domain"
-msgstr "メイルアドレスが正しくありません：有効な name@domain の形式でアドレスを入力してください"
+msgstr "無効なメールアドレスです: ローカル部@ドメイン の形式で有効なアドレスを入力しなければなりません"
 
 #: ../user/create_account_action.php:88
 msgid "There's already an account with that email address."
