@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2015-03-01 21:03+0000\n"
+"PO-Revision-Date: 2015-03-01 22:03+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -2962,11 +2962,11 @@ msgstr "あなたのアカウントページに表示(メール通知なし)"
 
 #: ../user/edit_forum_preferences_form.php:58
 msgid "Immediately, by email"
-msgstr "Eメイルで即座に通知"
+msgstr "Eメールで即座に通知"
 
 #: ../user/edit_forum_preferences_form.php:59
 msgid "In a single daily email"
-msgstr "一日に一回の Eメイルで通知"
+msgstr "一日に一回Eメールで通知"
 
 #: ../user/edit_forum_preferences_form.php:75
 msgid "Message-board identity"
@@ -2978,7 +2978,7 @@ msgstr "アバター"
 
 #: ../user/edit_forum_preferences_form.php:77
 msgid "An image representing you on the message boards."
-msgstr "掲示板であなたを示す画像"
+msgstr "掲示板であなたを示す画像です。"
 
 #: ../user/edit_forum_preferences_form.php:78
 msgid "Format: JPG or PNG. Size: at most 4 KB, 100x100 pixels"
@@ -2990,11 +2990,11 @@ msgstr "アバターを使わない"
 
 #: ../user/edit_forum_preferences_form.php:82
 msgid "Use a Globally Recognized Avatar provided by %1"
-msgstr "%1 によって提供され、グローバルに認識されるアバター"
+msgstr "%1 によって提供され、グローバルに認識されるアバターを使用する"
 
 #: ../user/edit_forum_preferences_form.php:84
 msgid "Use this uploaded avatar:"
-msgstr "ここでアップロードするアバターの画像を使う"
+msgstr "アップロードされたこのアバター画像を使用する: "
 
 #: ../user/edit_forum_preferences_form.php:87
 msgid "Avatar preview"
@@ -3002,7 +3002,7 @@ msgstr "アバターのプレビュー"
 
 #: ../user/edit_forum_preferences_form.php:87
 msgid "This is how your avatar will look"
-msgstr "アバターがどのように表示されるか"
+msgstr "これは、あなたのアバターがどのように見えるかです"
 
 #: ../user/edit_forum_preferences_form.php:96
 msgid "Signature for message board posts"
@@ -3013,15 +3013,15 @@ msgid ""
 "Check out %1various free services%2\n"
 "<br> providing dynamic 'signature images'\n"
 "<br> showing your latest credit info, project news, etc."
-msgstr "%1ここにシグネチャ用の無料のサービス%2がたくさんあります。\n<br> あなたの最新の功績値(クレジット)や、プロジェクトの\n<br> ニュースなどを動的なシグネチャ画像で提供してくれます。"
+msgstr "%1 ここ %2 にシグネチャ用の様々な無料のサービスがあります。\n<br> あなたの最新の功績値(credit)や、プロジェクトの\n<br> ニュースなどを動的なシグネチャ画像で提供してくれます。"
 
 #: ../user/edit_forum_preferences_form.php:104
 msgid "characters remaining"
-msgstr "バイトの残り"
+msgstr "文字(残り)"
 
 #: ../user/edit_forum_preferences_form.php:105
 msgid "Attach signature by default"
-msgstr "特に指定しなければシグネチャを付加"
+msgstr "デフォルトではシグネチャを付加"
 
 #: ../user/edit_forum_preferences_form.php:108
 msgid "Signature preview"
@@ -3029,7 +3029,7 @@ msgstr "シグネチャのプレビュー"
 
 #: ../user/edit_forum_preferences_form.php:109
 msgid "This is how your signature will look in the forums"
-msgstr "掲示板の中であなたのシグネチャがどのように表示されるか"
+msgstr "これは、掲示板の中であなたのシグネチャがどのように見えるかです"
 
 #: ../user/edit_forum_preferences_form.php:127
 msgid "Message display"
@@ -3041,7 +3041,7 @@ msgstr "表示する項目"
 
 #: ../user/edit_forum_preferences_form.php:130
 msgid "Hide avatar images"
-msgstr "アバターの画像を隠す"
+msgstr "アバター画像を隠す"
 
 #: ../user/edit_forum_preferences_form.php:131
 msgid "Hide signatures"
@@ -3049,15 +3049,15 @@ msgstr "シグネチャを隠す"
 
 #: ../user/edit_forum_preferences_form.php:132
 msgid "Show images as links"
-msgstr "イメージの代わりにリンクを表示"
+msgstr "画像をリンクとして表示"
 
 #: ../user/edit_forum_preferences_form.php:133
 msgid "Open links in new window/tab"
-msgstr "リンクを別ウィンドー/タブで開く"
+msgstr "リンクを別ウィンドウ/タブで開く"
 
 #: ../user/edit_forum_preferences_form.php:134
 msgid "Highlight special users"
-msgstr "特別な参加者を強調表示する"
+msgstr "特定の参加者を強調表示する"
 
 #: ../user/edit_forum_preferences_form.php:135
 msgid "Display this many messages per page"
@@ -3065,7 +3065,7 @@ msgstr "ページあたりのこれくらい多数のメッセージを表示"
 
 #: ../user/edit_forum_preferences_form.php:139
 msgid "How to sort"
-msgstr "並べ替えの指定"
+msgstr "並べ替え方法"
 
 #: ../user/edit_forum_preferences_form.php:140
 msgid "Threads:"
@@ -3077,11 +3077,11 @@ msgstr "投稿:"
 
 #: ../user/edit_forum_preferences_form.php:141
 msgid "Jump to first new post in thread automatically"
-msgstr "スレッド内で最新の投稿に自動的にジャンプする"
+msgstr "スレッド内の最新の投稿に自動的にジャンプする"
 
 #: ../user/edit_forum_preferences_form.php:142
 msgid "Don't move sticky posts to top"
-msgstr "一番上にスティッキーポストを移動させないでください"
+msgstr "一番上にスティッキーポストを移動しない"
 
 #: ../user/edit_forum_preferences_form.php:148
 msgid "Message filtering"
@@ -3093,7 +3093,7 @@ msgstr "表示から除かれる参加者"
 
 #: ../user/edit_forum_preferences_form.php:165
 msgid "Ignore message board posts and private messages from these users."
-msgstr "これらの参加者による掲示板への投稿と非公開メッセージとを無視します。"
+msgstr "これらの参加者による掲示板への投稿と非公開メッセージを無視します。"
 
 #: ../user/edit_forum_preferences_form.php:167
 msgid "User ID (For instance: 123456789)"
@@ -3114,7 +3114,7 @@ msgstr "リセット"
 
 #: ../user/edit_forum_preferences_form.php:176
 msgid "Or click here to reset preferences to the defaults"
-msgstr "あるいはここをクリックしてプレファレンスを指定省略時の値に戻します"
+msgstr "あるいはここをクリックしてプレファレンスを初期値にリセットします"
 
 #: ../user/edit_passwd_action.php:50
 msgid "Invalid account key"
@@ -3122,7 +3122,7 @@ msgstr "無効なアカウント・キー"
 
 #: ../user/edit_passwd_action.php:55
 msgid "No account with that email address was found"
-msgstr "この Eメイルアドレスをもつアカウントはありません"
+msgstr "このEメールアドレスをもつアカウントは見つかりません"
 
 #: ../user/edit_passwd_action.php:59
 msgid "Invalid password"
@@ -3141,15 +3141,15 @@ msgstr "あなたのパスワードは変更されました。"
 msgid ""
 "We can't update your password due to a database problem. Please try again "
 "later."
-msgstr "データベースに問題があるため、あなたのパスワードを変更できませんでした。後ほど試してくださいませ。"
+msgstr "データベースの問題が原因であなたのパスワードを変更できませんでした。後ほどまた試してください。"
 
 #: ../user/edit_passwd_form.php:39
 msgid "You can identify yourself using either"
-msgstr "以下のどちらかを入力して、あなたが誰であるかを示してください："
+msgstr "以下のどちらかを入力して、あなた自身であることを確認できます:"
 
 #: ../user/edit_passwd_form.php:41
 msgid "your email address and old password"
-msgstr "Eメイルアドレスと現在のパスワード"
+msgstr "あなたのEメールアドレスと古いパスワード"
 
 #: ../user/edit_passwd_form.php:42
 msgid "your account key"
@@ -3165,7 +3165,7 @@ msgstr "<b>または</b>: アカウント・キー"
 
 #: ../user/edit_passwd_form.php:49
 msgid "Get account key by email"
-msgstr "Eメイルでアカウント・キーを受け取るならこちらへ"
+msgstr "Eメールでアカウント・キーを受け取る"
 
 #: ../user/edit_passwd_form.php:53
 msgid "New password"
@@ -3173,7 +3173,7 @@ msgstr "新しいパスワード"
 
 #: ../user/edit_passwd_form.php:54
 msgid "New password, again"
-msgstr "新しいパスワードをもう一回"
+msgstr "新しいパスワードをもう一度"
 
 #: ../user/edit_user_info_action.php:31
 msgid "HTML tags are not allowed in your name."
@@ -3193,15 +3193,15 @@ msgstr "アカウント情報を編集"
 
 #: ../user/edit_user_info_form.php:32
 msgid "Name %1 real name or nickname%2"
-msgstr "名前 %1　本名またはニックネーム%2"
+msgstr "名前 %1 本名またはニックネーム %2"
 
 #: ../user/edit_user_info_form.php:35
 msgid "URL %1 of your web page; optional%2"
-msgstr "URL %1 あなたのウェブページのURL、省略可%2"
+msgstr "URL %1 あなたのウェブページのURL、省略可 %2"
 
 #: ../user/edit_user_info_form.php:43
 msgid "Postal (ZIP) code %1 Optional%2"
-msgstr "郵便番号 %1 省略可%2"
+msgstr "郵便番号 %1 省略可 %2"
 
 #: ../user/edit_user_info_form.php:47
 msgid "Update info"
@@ -3216,13 +3216,13 @@ msgid ""
 "A tasks's <b>server state</b> indicates whether the task has been sent to a "
 "computer, and if so whether the computer has finished it. Possible values "
 "are:"
-msgstr "タスクの<b>サーバ側の状態</b>とは、そのタスクがいずれかのコンピュータへ送出済みであるかどうか、送出済みならば、そのコンピュータがそれを計算し終わったか否かという状態のことです。ありうる値は右のとおりです:"
+msgstr "タスクの<b>サーバ側の状態</b>とは、そのタスクがいずれかのコンピュータへ送出済みであるかどうか、送出済みならば、そのコンピュータがそれを計算し終わったかを示しています。ありうる値は右のとおりです:"
 
 #: ../user/explain_state.php:35
 msgid ""
 "The task is not ready to send (for example, because its input files are "
 "unavailable)"
-msgstr "タスクは送出の準備ができていない。(たとえば、その入力ファイルが使えない)"
+msgstr "タスクは送出の準備ができていない(たとえば、その入力ファイルが使えないため)"
 
 #: ../user/explain_state.php:38
 msgid "The task is ready to send, but hasn't been sent yet."
@@ -3260,7 +3260,7 @@ msgstr "そのタスクはあるコンピュータに送出されたが、その
 
 #: ../user/explain_state.php:60
 msgid "A computer completed and reported the task successfully."
-msgstr "あるコンピュータがそのタスクの計算を完了し、成功を報告した。"
+msgstr "あるコンピュータがそのタスクの計算を完了し、成功裏にタスクを報告した。"
 
 #: ../user/explain_state.php:63
 msgid ""
@@ -3280,7 +3280,7 @@ msgstr "そのタスクはあるコンピュータに送出されたが、異常
 msgid ""
 "The task was sent to a computer and no reply was received within the time "
 "limit."
-msgstr "そのタスクはあるコンピュータに送出されたが、所定の時間内に返事がなかった。"
+msgstr "そのタスクはあるコンピュータに送出されたが、制限時間内に返事がなかった。"
 
 #: ../user/explain_state.php:72
 msgid ""
