@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2015-02-28 19:48+0000\n"
+"PO-Revision-Date: 2015-03-01 19:58+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -2895,29 +2895,29 @@ msgstr "あなたのアカウントのEメールアドレスは、%1 になり�
 
 #: ../user/edit_email_action.php:64
 msgid "Please %1validate this email address%2."
-msgstr "%1この Eメイルアドレスの有効性を証拠だてる手続き%2を行ってください。"
+msgstr "%1 このEメールアドレスを認証 %2 してください。"
 
 #: ../user/edit_email_action.php:67
 msgid ""
 "We can't update your email address due to a database problem.  Please try "
 "again later."
-msgstr "データベースで問題が起こったため、あなたの Eメイルアドレスを更新できませんでした。時間を置いてからまた試してくださいませ。"
+msgstr "データベースでの問題が原因であなたのEメールアドレスを更新できませんでした。しばらくたってからもう一度試してください。"
 
 #: ../user/edit_email_form.php:27 ../user/edit_email_form.php:51
 msgid "Change email address"
-msgstr "Eメイルアドレスを変更する"
+msgstr "Eメールアドレスを変更する"
 
 #: ../user/edit_email_form.php:36
 msgid "Change the email address of your account"
-msgstr "あなたのアカウントの Eメイルアドレスを変更します"
+msgstr "あなたのアカウントのEメールアドレスを変更します"
 
 #: ../user/edit_email_form.php:37
 msgid "New email address"
-msgstr "新しい Eメイルアドレス"
+msgstr "新しいEメールアドレス"
 
 #: ../user/edit_email_form.php:38
 msgid "Must be a valid address of the form 'name@domain'"
-msgstr "有効な Eメイルアドレスを、name@domain の形で記入してください"
+msgstr "有効なEメールアドレスを、「ローカル部@ドメイン」の形で記入しなければなりません。"
 
 #: ../user/edit_email_form.php:48
 msgid "No password?"
