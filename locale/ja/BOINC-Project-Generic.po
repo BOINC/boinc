@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2015-03-01 19:58+0000\n"
+"PO-Revision-Date: 2015-03-01 21:03+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -2931,7 +2931,7 @@ msgstr "リセットの確認"
 msgid ""
 "This action will erase any changes you have made in your community "
 "preferences. To cancel, click your browser's Back button."
-msgstr "コミュニティでの好みの設定(プレファレンス)であなたが変更した内容は、このリセットを実施すると消えてしまいます。リセットを取りやめるには、ブラウザの戻る(Back)ボタンをクリックしてください。"
+msgstr "コミュニティでのプレファレンス(好みの設定)であなたが変更した内容は、この操作で消えてしまいます。キャンセルするには、ブラウザの戻るボタンをクリックしてください。"
 
 #: ../user/edit_forum_preferences_action.php:38
 msgid "Reset preferences"
@@ -2939,11 +2939,11 @@ msgstr "プレファレンスをリセット"
 
 #: ../user/edit_forum_preferences_action.php:88
 msgid "Error: Not the right kind of file, only PNG and JPEG are supported."
-msgstr "エラー: 適切な種類のファイルではありません。PNG または JPEG のみが使えます。"
+msgstr "エラー: 適切な種類のファイルではありません。PNG または JPEG のみサポートされます。"
 
 #: ../user/edit_forum_preferences_action.php:114
 msgid "Your signature was too long, please keep it less than 250 characters."
-msgstr "あなたの指定したシグネチャは長すぎます。250バイト未満にしてください。"
+msgstr "あなたの指定したシグネチャは長すぎます。250文字未満にしてください。"
 
 #: ../user/edit_forum_preferences_action.php:132
 #: ../user/edit_forum_preferences_action.php:146
@@ -2954,11 +2954,11 @@ msgstr "該当する参加者: %1 はいません"
 msgid ""
 "How should we notify you of new private messages, friend requests, posts in "
 "subscribed threads, and other events?"
-msgstr "どうやってわれわれからの通知を受け取るか（通知とは、新着の非公開メッセージや、友人関係の要求、 参加しているスレッドへの投稿などについての通知）"
+msgstr "どのように非公開メッセージ、友達リクエスト、 参加しているスレッドへの投稿などの新着について通知すれば良いですか？"
 
 #: ../user/edit_forum_preferences_form.php:57
 msgid "On my Account page (no email)"
-msgstr "あなたのアカウントページに表示(メイル通知なし)"
+msgstr "あなたのアカウントページに表示(メール通知なし)"
 
 #: ../user/edit_forum_preferences_form.php:58
 msgid "Immediately, by email"
