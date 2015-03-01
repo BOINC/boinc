@@ -34,7 +34,7 @@ function compare($a, $b) {
 function get_data2() {
     $db = BoincDb::get();
     $x = $db->enum_fields('host', 'StdClass', 
-        'p_model, count(*) as nhosts, avg(p_ncpus) as ncores, avg(p_fpops*p_ncpus) as fpops',
+        'p_model, count(*) as nhosts, avg(p_ncpus) as ncores, avg(p_fpops) as fpops',
         'p_fpops>1e6 and p_fpops<1e11 and p_fpops <> 1e9 and expavg_credit>1 group by p_model',
         null
     );
@@ -137,7 +137,6 @@ function show_cpu_list($data) {
 }
 
 $d = get_cached_data(86400);
-$d = false;
 if ($d) {
     $data = unserialize($d);
 } else {
