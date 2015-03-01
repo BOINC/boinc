@@ -31,7 +31,26 @@ function compare($a, $b) {
     return 0;
 }
 
-function get_cpu_list() {
+function get_data2() {
+    $db = BoincDb::get();
+    $x = $db->enum_fields('host', 'StdClass', 
+        'p_model, count(*) as nhosts, avg(p_ncpus) as ncores, avg(p_fpops*p_ncpus) as fpops',
+        'p_fpops>1e6 and p_fpops<1e11 and p_fpops <> 1e9 and expavg_credit>1 group by p_model',
+        null
+    );
+    $m2 = array();
+    foreach ($x as $m) {
+        $y = new StdClass;
+        $y->model = $m->p_model;
+        $y->p_fpops = $m->fpops;
+        $y->mean_ncores = $m->ncores;
+        $y->nhosts = $m->nhosts;
+        $m2[] = $y;
+    }
+    return $m2;
+}
+
+function get_data1() {
     $models = array();
     $hosts = BoincHost::enum("expavg_credit >= ".MIN_CREDIT);
     foreach($hosts as $host) {
@@ -65,7 +84,11 @@ function get_cpu_list() {
         $m2[] = $y;
         //echo "$model: $x GFLOPS ($n samples)\n";
     }
+    return $m2;
+}
 
+function get_cpu_list() {
+    $m2 = get_data2();
     uasort($m2, 'compare');
     $x = new StdClass;
     $x->cpus = $m2;
@@ -114,6 +137,7 @@ function show_cpu_list($data) {
 }
 
 $d = get_cached_data(86400);
+$d = false;
 if ($d) {
     $data = unserialize($d);
 } else {
