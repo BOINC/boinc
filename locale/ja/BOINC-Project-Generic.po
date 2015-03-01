@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2015-03-01 22:03+0000\n"
+"PO-Revision-Date: 2015-03-01 23:04+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -421,7 +421,7 @@ msgstr "投稿者を投稿禁止にしないよう投票"
 
 #: ../inc/forum.inc:1083
 msgid "Start vote to banish author"
-msgstr "投稿者を投稿禁止にするかどうかの投票を開始"
+msgstr "投稿者を投稿禁止にするかどうかの採決を開始"
 
 #: ../inc/forum.inc:1116
 msgid "Only team members can post to the team message board"
@@ -3216,7 +3216,7 @@ msgid ""
 "A tasks's <b>server state</b> indicates whether the task has been sent to a "
 "computer, and if so whether the computer has finished it. Possible values "
 "are:"
-msgstr "タスクの<b>サーバ側の状態</b>とは、そのタスクがいずれかのコンピュータへ送出済みであるかどうか、送出済みならば、そのコンピュータがそれを計算し終わったかを示しています。ありうる値は右のとおりです:"
+msgstr "タスクの<b>サーバ側の状態</b>とは、そのタスクがいずれかのコンピュータへ送出済みであるかどうか、送出済みならば、そのコンピュータがそれを計算し終わったかを示します。ありうる値は右のとおりです:"
 
 #: ../user/explain_state.php:35
 msgid ""
@@ -3302,7 +3302,7 @@ msgstr "クライアント側の状態"
 msgid ""
 "A result's <b>client state</b> indicates the stage of processing at which an"
 " error occurred."
-msgstr "あるリザルトの<b>クライアント側の状態</b>とは、異常がどの処理段階で発生したかを意味します。"
+msgstr "あるリザルトの<b>クライアント側の状態</b>とは、異常がどの処理段階で発生したかを示します。"
 
 #: ../user/explain_state.php:86
 msgid "The computer has not yet completed the task."
@@ -3310,7 +3310,7 @@ msgstr "そのコンピュータはまだそのタスクを完了していない
 
 #: ../user/explain_state.php:89
 msgid "The computer completed the task successfully."
-msgstr "そのコンピュータは、そのタスクを成功裏に計算し終えた。"
+msgstr "そのコンピュータは、そのタスクを成功裏に計算を完了した。"
 
 #: ../user/explain_state.php:92
 msgid "The computer couldn't download the application or input files."
@@ -3332,7 +3332,7 @@ msgstr "報告日時または期限"
 msgid ""
 "A task's <b>Time reported or deadline</b> field depends on whether the task "
 "has been reported yet:"
-msgstr "あるタスクの<b>報告日時または期限</b>の欄は、そのタスクが報告済みかどうかによって意味が右のように違う:"
+msgstr "あるタスクの<b>報告日時または期限</b>の欄は、そのタスクが報告済みかどうかによって意味が右のように決まります:"
 
 #: ../user/explain_state.php:110
 msgid "Already reported"
@@ -3340,7 +3340,7 @@ msgstr "既に報告済みの場合"
 
 #: ../user/explain_state.php:110
 msgid "The date/time it was reported"
-msgstr "その日時はタスクの報告がなされた日時"
+msgstr "その日時はタスクの報告がなされた時のもの"
 
 #: ../user/explain_state.php:111
 msgid "Not reported yet, deadline in the future"
@@ -3348,7 +3348,7 @@ msgstr "報告されていないが、期限がまだ先の場合"
 
 #: ../user/explain_state.php:112
 msgid "Deadline, shown in green."
-msgstr "期限の日時を緑色で示す"
+msgstr "期限の日時を緑色で示します。"
 
 #: ../user/explain_state.php:114
 msgid "Not reported yet, deadline in the past"
@@ -3356,7 +3356,7 @@ msgstr "報告されておらず、期限が過ぎている場合"
 
 #: ../user/explain_state.php:115
 msgid "Deadline, shown in red."
-msgstr "期限の日時を赤色で示す"
+msgstr "期限の日時を赤色で示します。"
 
 #: ../user/explain_state.php:120
 msgid "Unknown field"
@@ -3364,7 +3364,7 @@ msgstr "不明のフィールド"
 
 #: ../user/ffmail_action.php:47
 msgid "Email preview"
-msgstr "Eメイルのプレビュー"
+msgstr "Eメールのプレビュー"
 
 #: ../user/ffmail_action.php:48
 msgid "Your email will appear as follows:"
@@ -3372,33 +3372,33 @@ msgstr "あなたのEメイルは次のように見えるはずです:"
 
 #: ../user/ffmail_action.php:57
 msgid "Send email"
-msgstr "Eメイルの送信"
+msgstr "Eメールの送信"
 
 #: ../user/ffmail_action.php:59
 msgid "Use your browser's back button to return to message form"
-msgstr "メッセージの入力画面に戻るには、ブラウザの戻る(back)ボタンを使ってください"
+msgstr "メッセージの入力画面に戻るには、ブラウザの戻るボタンを使ってください"
 
 #: ../user/ffmail_action.php:63
 msgid "Sending emails"
-msgstr "Eメイルの送信処理"
+msgstr "Eメールを送信中"
 
 #: ../user/ffmail_action.php:84
 msgid "email sent successfully to %1"
-msgstr "%1 への Eメイル送信が成功しました"
+msgstr "%1 へのEメール送信が成功しました"
 
 #: ../user/ffmail_action.php:86
 msgid "failed to send email to %1: %2"
-msgstr "%1 への Eメイル送信が失敗しました： %2"
+msgstr "%1 へのEメール送信が失敗しました: %2"
 
 #: ../user/ffmail_action.php:92
 msgid "Thanks for telling your friends about %1"
-msgstr "%1 についてお友達にメイルを送っていただき、ありがとうございました"
+msgstr "%1 についてお友達に伝えていただき、ありがとうございます"
 
 #: ../user/ffmail_action.php:94
 msgid ""
 "You forgot to enter your friends' names and/or email addresses; Please "
 "%1return to the form%2 and enter them."
-msgstr "お友達の名前やEメイルアドレスを入力するのをお忘れです。%1 入力画面に戻って %2 入れなおしてください。"
+msgstr "お友達の名前やEメールアドレスを入力するのをお忘れです。%1 入力画面に戻って %2 入力してください。"
 
 #: ../user/ffmail_form.php:30
 msgid ""
@@ -3412,14 +3412,14 @@ msgstr "%1 についてあなたのお友達に伝えてください"
 
 #: ../user/ffmail_form.php:37
 msgid "Help us by telling your friends, family and coworkers about %1"
-msgstr "あなたのお友達や家族、同僚の方々に%1 についてメッセージを送るのを手伝ってください。"
+msgstr "あなたのお友達や家族、同僚の方々に %1 について伝えるのを手伝ってください"
 
 #: ../user/ffmail_form.php:39
 msgid ""
 "Fill in this form with the names and email addresses of people you think "
 "might be interested in %1. We'll send them an email in your name, and you "
 "can add your own message if you like."
-msgstr "%1 に興味をもちそうだとあなたが思う方々の名前と Eメイルアドレスを、この画面に入力してください。それらの方へ当プロジェクトからあなたの名前で Eメイルを送ります。あなたが追加したい文章を書き込むこともできます。"
+msgstr "%1 に興味をもちそうだとあなたが思う方々の名前とEメールアドレスを、このフォームに入力してください。それらの方へ当プロジェクトからあなたの名前でEメールを送ります。あなたが希望する場合ご自身のメッセージを追加することもできます。"
 
 #: ../user/ffmail_form.php:42
 msgid "Your name:"
@@ -3427,19 +3427,19 @@ msgstr "あなたの名前:"
 
 #: ../user/ffmail_form.php:42
 msgid "Your email address:"
-msgstr "あなたの Eメイルアドレス:"
+msgstr "あなたのEメールアドレス:"
 
 #: ../user/ffmail_form.php:48
 msgid "Friend's name:"
-msgstr "お友達のお名前"
+msgstr "お友達のお名前:"
 
 #: ../user/ffmail_form.php:48
 msgid "Friend's email address:"
-msgstr "お友達の Eメイルアドレス:"
+msgstr "お友達のEメールアドレス:"
 
 #: ../user/ffmail_form.php:56
 msgid "Additional message (optional)"
-msgstr "付記したいメッセージがあればどうぞ："
+msgstr "付記したいメッセージ(任意)"
 
 #: ../user/ffmail_form.php:59
 msgid "Send"
@@ -3448,7 +3448,7 @@ msgstr "送信"
 #: ../user/forum_banishment_vote.php:35
 #: ../user/forum_banishment_vote_action.php:33
 msgid "You are not authorized to banish users."
-msgstr "あなたには参加者を投稿禁止状態にする権限はありません"
+msgstr "あなたには参加者を投稿禁止にする権限はありません。"
 
 #: ../user/forum_banishment_vote.php:41 ../user/forum_banishment_vote.php:46
 msgid "Banishment Vote"
@@ -3456,24 +3456,24 @@ msgstr "投稿禁止の採決"
 
 #: ../user/forum_banishment_vote.php:50
 msgid "No user with this ID found."
-msgstr "この ID の参加者はいません。"
+msgstr "この ID の参加者は見つかりません。"
 
 #: ../user/forum_banishment_vote.php:54 ../user/forum_moderate_post.php:76
 msgid "User is already banished"
-msgstr "参加者はすでに投稿禁止状態になっています"
+msgstr "参加者はすでに投稿禁止になっています"
 
 #: ../user/forum_banishment_vote.php:59 ../user/forum_moderate_post.php:79
 msgid ""
 "Are you sure you want to banish %1?<br/>This will prevent %1 from posting "
 "for chosen time period.<br/>It should be done only if %1 has consistently "
 "exhibited trollish behavior."
-msgstr "確かに %1 を投稿禁止にしますか？<br/>参加者 %1 は決められた期間、投稿できなくなります。<br/>この処置は不快な投稿で議論を妨害する振る舞いが継続的になされた場合に限定されるべきです。"
+msgstr "本当に %1 を投稿禁止にしますか？<br/>参加者 %1 は決められた期間、投稿できなくなります。<br/>この処置は %1 によって挑発的な振る舞いが継続的になされた場合に限定されるべきです。"
 
 #: ../user/forum_banishment_vote.php:61
 msgid ""
 "Select the reason category, optionally write a longer description of why the"
 " user should be banished."
-msgstr "理由を分類から選んでください。その参加者がなぜ投稿を禁止されるべきかを文章で書き加えることもできます。"
+msgstr "理由を分類から選んでください。その参加者がなぜ投稿を禁止されるべきかの説明を書き込むこともできます(任意)。"
 
 #: ../user/forum_banishment_vote.php:62 ../user/forum_moderate_thread.php:50
 msgid "Category"
@@ -3489,7 +3489,7 @@ msgstr "低俗である"
 #: ../user/forum_banishment_vote_action.php:59
 #: ../user/forum_moderate_post.php:56 ../user/forum_moderate_thread.php:53
 msgid "Flame/Hate mail"
-msgstr "感情に任せた/悪意あるメイル"
+msgstr "感情に任せた/悪意あるメール"
 
 #: ../user/forum_banishment_vote.php:66
 #: ../user/forum_banishment_vote_action.php:61
@@ -3510,7 +3510,7 @@ msgstr "理由"
 
 #: ../user/forum_banishment_vote.php:69 ../user/forum_moderate_thread.php:85
 msgid "Mailed if nonempty"
-msgstr "記入すればメイルで通知されます"
+msgstr "記入すればメールで通知されます"
 
 #: ../user/forum_banishment_vote.php:74
 msgid "Proceed with vote"
@@ -3519,21 +3519,21 @@ msgstr "採決へ進む"
 #: ../user/forum_banishment_vote_action.php:39
 #: ../user/forum_moderate_post_action.php:63
 msgid "You must specify an action..."
-msgstr "You must specify an action..."
+msgstr "あなたは、行動を指定しなければなりません..."
 
 #: ../user/forum_edit.php:41
 msgid ""
 "You can no longer edit this post.<br/>Posts can only be edited at most %1 "
 "minutes after they have been created."
-msgstr "この投稿内容はすでに変更できなくなっています。<br/>最初に投稿してから %1 分までしか、編集は許されておりません。"
+msgstr "この投稿内容はもはや変更できません。<br/>投稿内容は最初に作成されてから %1 分に限って、編集が許可されます。"
 
 #: ../user/forum_edit.php:47
 msgid "You are not authorized to edit this post."
-msgstr "この投稿を編集する権限はあなたにはありません。"
+msgstr "あなたにはこの投稿を編集する権限がありません。"
 
 #: ../user/forum_edit.php:86 ../user/forum_search.php:72
 msgid "Forum"
-msgstr "掲示板"
+msgstr "フォーラム"
 
 #: ../user/forum_edit.php:110
 msgid "Edit your message"
@@ -3543,11 +3543,11 @@ msgstr "あなたのメッセージを編集する"
 #: ../user/forum_post.php:109 ../user/forum_post.php:111
 #: ../user/team_forum.php:69
 msgid "Title"
-msgstr "題名"
+msgstr "タイトル"
 
 #: ../user/forum_edit.php:144 ../user/forum_post.php:129
 msgid "Add my signature to this post"
-msgstr "自分の署名をこの投稿に付ける"
+msgstr "自分のシグネチャをこの投稿に追加"
 
 #: ../user/forum_forum.php:41
 msgid "Not visible to you"
@@ -3563,11 +3563,11 @@ msgstr "新しいスレッド"
 
 #: ../user/forum_forum.php:96
 msgid "Add a new thread to this forum"
-msgstr "この掲示板に新しいスレッドを追加"
+msgstr "このフォーラムに新しいスレッドを追加"
 
 #: ../user/forum_forum.php:116
 msgid "This message board is available as an %1RSS feed%2"
-msgstr "この掲示板は、%1RSSフィード%2 で読めます"
+msgstr "この掲示板は %1RSSフィード%2 として利用できます"
 
 #: ../user/forum_forum.php:174
 msgid "This thread is hidden"
@@ -3575,15 +3575,15 @@ msgstr "このスレッドは隠されています。"
 
 #: ../user/forum_forum.php:178
 msgid "This thread is sticky and locked, and you haven't read it yet"
-msgstr "このスレッドは表示位置固定かつ書込み禁止状態です。あなたはまだ読んでいません"
+msgstr "このスレッドは表示位置固定かつ書き込み禁止状態で、あなたはまだ読んでいません"
 
 #: ../user/forum_forum.php:178
 msgid "sticky/locked/unread"
-msgstr "位置固定/書込み禁止/未読"
+msgstr "位置固定/書き込み禁止/未読"
 
 #: ../user/forum_forum.php:180
 msgid "This thread is sticky and you haven't read it yet"
-msgstr "このスレッドは表示位置固定状態です。あなたはまだ読んでいません"
+msgstr "このスレッドは表示位置固定状態で、あなたはまだ読んでいません"
 
 #: ../user/forum_forum.php:180
 msgid "sticky/unread"
@@ -3591,15 +3591,15 @@ msgstr "位置固定/未読"
 
 #: ../user/forum_forum.php:184
 msgid "You haven't read this thread yet, and it's locked"
-msgstr "このスレッドは書込み禁止状態です。あなたはまだ読んでいません"
+msgstr "あなたはこのスレッドをまだ読んでいません。そして書き込み禁止状態です"
 
 #: ../user/forum_forum.php:184
 msgid "unread/locked"
-msgstr "未読/書込み禁止"
+msgstr "未読/書き込み禁止"
 
 #: ../user/forum_forum.php:186
 msgid "You haven't read this thread yet"
-msgstr "このスレッドをあなたはまだ読んでいません"
+msgstr "あなたはこのスレッドをまだ読んでいません"
 
 #: ../user/forum_forum.php:192
 msgid "This thread is sticky and locked"
