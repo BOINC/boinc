@@ -33,6 +33,10 @@
 
 #include "DlgAdvPreferencesBase.h"
 
+#define STATICBOXBORDERSIZE 8
+#define STATICBOXVERTICALSPACER 10
+#define DAYOFWEEKBORDERSIZE 10
+
 ///////////////////////////////////////////////////////////////////////////
 
 // NOTE: On MS Windows with wxWidgets 3.0, controls inside a wxStaticBox 
@@ -119,7 +123,11 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     
     topControlsSizer->Add( m_btnClear, 0, wxALIGN_BOTTOM|wxALL, 4 );
 
-    dialogSizer->Add( topControlsSizer, 0, wxALL|wxEXPAND, 1 );
+#ifdef __WXMAC__
+    dialogSizer->Add( topControlsSizer, 0, wxTOP|wxLEFT|wxRIGHT|wxEXPAND, 10 );
+#else
+    dialogSizer->Add( topControlsSizer, 0, wxALL|wxEXPAND, 5 );
+#endif
 
     m_panelControls = new wxPanel( this, ID_DEFAULT, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
     m_panelControls->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
@@ -138,7 +146,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     m_Notebook->AddPage( m_panelNetwork, _("Network"), true );
 
     m_panelDiskAndMemory = createDiskAndMemoryTab(m_Notebook);
-    m_Notebook->AddPage( m_panelDiskAndMemory, _("Disk and Memory"), true );
+    m_Notebook->AddPage( m_panelDiskAndMemory, _("Disk & Memory"), true );
 
     m_panelDailySchedules = createDailySchedulesTab(m_Notebook);
     m_Notebook->AddPage( m_panelDailySchedules, _("Daily Schedules"), true );
@@ -149,7 +157,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     m_panelControls->Layout();
     notebookSizer->Fit( m_panelControls );
 
-    dialogSizer->Add( m_panelControls, 1, wxALL|wxEXPAND, 1 );
+    dialogSizer->Add( m_panelControls, 1, wxALL|wxEXPAND, 5 );
 
     m_panelButtons = new wxPanel( this, ID_DEFAULT, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
     wxBoxSizer* buttonSizer = new wxBoxSizer( wxHORIZONTAL );
@@ -256,7 +264,8 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
 
     addNewRowToSizer(usageLimitsBoxSizer, MaxCPUTimeTT, staticText22, m_txtProcUseCPUTime, staticText23);
 
-    processorTabSizer->Add( usageLimitsBoxSizer, 0, wxEXPAND, 1 );
+    processorTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
+    processorTabSizer->Add( usageLimitsBoxSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE );
     
     wxStaticBox* suspendComputingStaticBox = new wxStaticBox(processorTab, -1, _("When to suspend") );
     wxStaticBoxSizer* suspendComputingBoxSizer = new wxStaticBoxSizer(suspendComputingStaticBox, wxVERTICAL);
@@ -329,7 +338,8 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
         0, wxALL, 5
     );
 
-    processorTabSizer->Add( suspendComputingBoxSizer, 0, wxEXPAND, 1 );
+    processorTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
+    processorTabSizer->Add( suspendComputingBoxSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE );
 
     wxStaticBox* miscProcStaticBox = new wxStaticBox( processorTab, -1, _("Other") );
     wxStaticBoxSizer* miscProcBoxSizer = new wxStaticBoxSizer( miscProcStaticBox, wxVERTICAL );
@@ -372,7 +382,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     
     wxStaticText* staticText18 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("Switch between tasks every"), wxDefaultPosition, wxDefaultSize, 0 );
     
-    m_txtProcSwitchEvery = new wxTextCtrl( miscProcStaticBox, ID_TXTPROCSWITCHEVERY, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
+    m_txtProcSwitchEvery = new wxTextCtrl( miscProcStaticBox, ID_TXTPROCSWITCHEVERY, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("9999.99")), wxTE_RIGHT );
 
     wxStaticText* staticText19 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("minutes"), wxDefaultPosition, wxDefaultSize, 0 );
 
@@ -389,7 +399,9 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
 
     miscProcBoxSizer->AddSpacer(1); // Ensure staticText22 is fully visible on Mac
 
-    processorTabSizer->Add( miscProcBoxSizer, 0, wxEXPAND, 1 );
+    processorTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
+    processorTabSizer->Add( miscProcBoxSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE );
+    processorTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
 
     processorTab->SetSizer( processorTabSizer );
     processorTab->Layout();
@@ -456,11 +468,12 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
         0, wxALL, 5
     );
      networkUsageLimitsBoxSizer->Add(
-        new wxStaticText( networkUsageLimitsStaticBox, ID_DEFAULT, wxT("To suspend by time of day, see the \"Daily Schedules\" section."), wxDefaultPosition, wxDefaultSize, 0),
+        new wxStaticText( networkUsageLimitsStaticBox, ID_DEFAULT, wxT("To limit transfers by time of day, see the \"Daily Schedules\" section."), wxDefaultPosition, wxDefaultSize, 0),
         0, wxALL, 5
     );
 
-    networkTabSizer->Add( networkUsageLimitsBoxSizer, 0, wxEXPAND, 1 );
+    networkTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
+    networkTabSizer->Add( networkUsageLimitsBoxSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE );
 
     wxStaticBox* connectOptionsStaticBox = new wxStaticBox( networkTab, -1, _("Other") );
     wxStaticBoxSizer* connectOptionsSizer = new wxStaticBoxSizer( connectOptionsStaticBox, wxVERTICAL );
@@ -481,7 +494,9 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
     m_chkNetDisconnectWhenDone->SetToolTip( _("Useful only if you have a modem, ISDN or VPN connection.") );
     connectOptionsSizer->Add( m_chkNetDisconnectWhenDone, 0, wxALL, 5 );
 
-    networkTabSizer->Add( connectOptionsSizer, 0, wxEXPAND, 1 );
+    networkTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
+    networkTabSizer->Add( connectOptionsSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE );
+    networkTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
 
     networkTab->SetSizer( networkTabSizer );
     networkTab->Layout();
@@ -500,7 +515,7 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
     wxPanel* diskMemoryTab = new wxPanel( notebook, ID_TABPAGE_DISK, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
     diskMemoryTab->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
 
-    wxBoxSizer* diskAndMemoryBoxSizer = new wxBoxSizer( wxVERTICAL );
+    wxBoxSizer* diskAndMemoryTabSizer = new wxBoxSizer( wxVERTICAL );
 
     wxStaticBox* diskUsageStaticBox = new wxStaticBox( diskMemoryTab, -1, _("Disk") );
     wxStaticBoxSizer* diskUsageBoxSizer = new wxStaticBoxSizer( diskUsageStaticBox, wxVERTICAL );
@@ -549,7 +564,8 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
 
     addNewRowToSizer(diskUsageBoxSizer, DiskMaxOfTotalTT, m_chkDiskMaxOfTotal, m_txtDiskMaxOfTotal, staticText45);
 
-    diskAndMemoryBoxSizer->Add( diskUsageBoxSizer, 0, wxEXPAND, 1 );
+    diskAndMemoryTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
+    diskAndMemoryTabSizer->Add( diskUsageBoxSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE );
 
     wxStaticBox* memoryUsageStaticBox = new wxStaticBox( diskMemoryTab, -1, _("Memory") );
     wxStaticBoxSizer* memoryUsageBoxSizer = new wxStaticBoxSizer( memoryUsageStaticBox, wxVERTICAL );
@@ -596,11 +612,13 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
 
     addNewRowToSizer(memoryUsageBoxSizer, DiskMaxSwapTT, staticText48, m_txtDiskMaxSwap, staticText49);
 
-    diskAndMemoryBoxSizer->Add( memoryUsageBoxSizer, 0, wxALL|wxEXPAND, 1 );
+    diskAndMemoryTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
+    diskAndMemoryTabSizer->Add( memoryUsageBoxSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE );
+    diskAndMemoryTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
 
-    diskMemoryTab->SetSizer( diskAndMemoryBoxSizer );
+    diskMemoryTab->SetSizer( diskAndMemoryTabSizer );
     diskMemoryTab->Layout();
-    diskAndMemoryBoxSizer->Fit( diskMemoryTab );
+    diskAndMemoryTabSizer->Fit( diskMemoryTab );
 
     return diskMemoryTab;
 }
@@ -642,7 +660,11 @@ wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
     makeStaticBoxLabelItalic(procSpecialTimesStaticBox);
 
     wxStaticText* staticText36 = new wxStaticText( procSpecialTimesStaticBox, ID_DEFAULT, _("Override the times above on the selected days:"), wxDefaultPosition, wxDefaultSize, 0 );
-    procSpecialTimesStaticBoxSizer->Add( staticText36, 0, wxALL, 0 );
+#ifdef __WXMAC__
+    procSpecialTimesStaticBoxSizer->Add( staticText36, 0, wxLEFT, 5 );
+#else
+    procSpecialTimesStaticBoxSizer->Add( staticText36, 0, wxLEFT, DAYOFWEEKBORDERSIZE );
+#endif
  
     procSpecialTimesStaticBoxSizer->AddSpacer(3);
 
@@ -656,7 +678,7 @@ wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
     wxString procDaysTimeTT(PROC_DAY_OF_WEEK_TOOLTIP_TEXT);
 
     m_chkProcMonday = new wxCheckBox( procSpecialTimesStaticBox, ID_CHKPROCMONDAY, _("Monday"), wxDefaultPosition, wxDefaultSize, 0 );
-    procDaysSizer->Add( m_chkProcMonday, 0, wxLEFT, 5 );
+    procDaysSizer->Add( m_chkProcMonday, 0, wxTOP, 5 );
 
     m_txtProcMondayStart = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCMONDAYSTART, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
     procDaysSizer->Add( m_txtProcMondayStart, 0, wxALL, 1 );
@@ -670,8 +692,21 @@ wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
 
     procDaysSizer->AddSpacer(15);
 
+    m_chkProcFriday = new wxCheckBox( procSpecialTimesStaticBox, ID_CHKPROCFRIDAY, _("Friday"), wxDefaultPosition, wxDefaultSize, 0 );
+    procDaysSizer->Add( m_chkProcFriday, 0, wxTOP, 5 );
+
+    m_txtProcFridayStart = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCFRIDAYSTART, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
+    procDaysSizer->Add( m_txtProcFridayStart, 0, wxALL, 1 );
+
+    wxStaticText* toStringProcFriday = new wxStaticText( procSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
+    toStringProcFriday->SetToolTip(procDaysTimeTT);
+    procDaysSizer->Add(toStringProcFriday , 0, wxTOP, 5 );
+
+    m_txtProcFridayStop = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCFRIDAYSTOP, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
+    procDaysSizer->Add( m_txtProcFridayStop, 0, wxALL, 1 );
+
     m_chkProcTuesday = new wxCheckBox( procSpecialTimesStaticBox, ID_CHKPROCTUESDAY, _("Tuesday"), wxDefaultPosition, wxDefaultSize, 0 );
-    procDaysSizer->Add( m_chkProcTuesday, 0, wxLEFT, 5 );
+    procDaysSizer->Add( m_chkProcTuesday, 0, wxTOP, 5 );
 
     m_txtProcTuesdayStart = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCTUESDAYSTART, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
     procDaysSizer->Add( m_txtProcTuesdayStart, 0, wxALL, 1 );
@@ -683,8 +718,23 @@ wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
     m_txtProcTuesdayStop = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCTUESDAYSTOP, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
     procDaysSizer->Add( m_txtProcTuesdayStop, 0, wxALL, 1 );
 
+    procDaysSizer->AddSpacer(15);
+
+    m_chkProcSaturday = new wxCheckBox( procSpecialTimesStaticBox, ID_CHKPROCSATURDAY, _("Saturday"), wxDefaultPosition, wxDefaultSize, 0 );
+    procDaysSizer->Add( m_chkProcSaturday, 0, wxTOP, 5 );
+
+    m_txtProcSaturdayStart = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCSATURDAYSTART, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
+    procDaysSizer->Add( m_txtProcSaturdayStart, 0, wxALL, 1 );
+
+    wxStaticText* toStringProcSaturday = new wxStaticText( procSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
+    toStringProcSaturday->SetToolTip(procDaysTimeTT);
+    procDaysSizer->Add(toStringProcSaturday , 0, wxTOP, 5 );
+
+    m_txtProcSaturdayStop = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCSATURDAYSTOP, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
+    procDaysSizer->Add( m_txtProcSaturdayStop, 0, wxALL, 1 );
+
     m_chkProcWednesday = new wxCheckBox( procSpecialTimesStaticBox, ID_CHKPROCWEDNESDAY, _("Wednesday"), wxDefaultPosition, wxDefaultSize, 0 );
-    procDaysSizer->Add( m_chkProcWednesday, 0, wxLEFT, 5 );
+    procDaysSizer->Add( m_chkProcWednesday, 0, wxTOP, 5 );
 
     m_txtProcWednesdayStart = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCWEDNESDAYSTART, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
     procDaysSizer->Add( m_txtProcWednesdayStart, 0, wxALL, 1 );
@@ -698,49 +748,8 @@ wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
 
     procDaysSizer->AddSpacer(15);
 
-    m_chkProcThursday = new wxCheckBox( procSpecialTimesStaticBox, ID_CHKPROCTHURSDAY, _("Thursday"), wxDefaultPosition, wxDefaultSize, 0 );
-    procDaysSizer->Add( m_chkProcThursday, 0, wxLEFT, 5 );
-
-    m_txtProcThursdayStart = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCTHURSDAYSTART, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
-    procDaysSizer->Add( m_txtProcThursdayStart, 0, wxALL, 1 );
-
-    wxStaticText* toStringProcThursday = new wxStaticText( procSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
-    toStringProcThursday->SetToolTip(procDaysTimeTT);
-    procDaysSizer->Add(toStringProcThursday , 0, wxTOP, 5 );
-
-    m_txtProcThursdayStop = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCTHURSDAYSTOP, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
-    procDaysSizer->Add( m_txtProcThursdayStop, 0, wxALL, 1 );
-
-    m_chkProcFriday = new wxCheckBox( procSpecialTimesStaticBox, ID_CHKPROCFRIDAY, _("Friday"), wxDefaultPosition, wxDefaultSize, 0 );
-    procDaysSizer->Add( m_chkProcFriday, 0, wxLEFT, 5 );
-
-    m_txtProcFridayStart = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCFRIDAYSTART, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
-    procDaysSizer->Add( m_txtProcFridayStart, 0, wxALL, 1 );
-
-    wxStaticText* toStringProcFriday = new wxStaticText( procSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
-    toStringProcFriday->SetToolTip(procDaysTimeTT);
-    procDaysSizer->Add(toStringProcFriday , 0, wxTOP, 5 );
-
-    m_txtProcFridayStop = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCFRIDAYSTOP, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
-    procDaysSizer->Add( m_txtProcFridayStop, 0, wxALL, 1 );
-
-    procDaysSizer->AddSpacer(15);
-
-    m_chkProcSaturday = new wxCheckBox( procSpecialTimesStaticBox, ID_CHKPROCSATURDAY, _("Saturday"), wxDefaultPosition, wxDefaultSize, 0 );
-    procDaysSizer->Add( m_chkProcSaturday, 0, wxLEFT, 5 );
-
-    m_txtProcSaturdayStart = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCSATURDAYSTART, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
-    procDaysSizer->Add( m_txtProcSaturdayStart, 0, wxALL, 1 );
-
-    wxStaticText* toStringProcSaturday = new wxStaticText( procSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
-    toStringProcSaturday->SetToolTip(procDaysTimeTT);
-    procDaysSizer->Add(toStringProcSaturday , 0, wxTOP, 5 );
-
-    m_txtProcSaturdayStop = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCSATURDAYSTOP, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
-    procDaysSizer->Add( m_txtProcSaturdayStop, 0, wxALL, 1 );
-
     m_chkProcSunday = new wxCheckBox( procSpecialTimesStaticBox, ID_CHKPROCSUNDAY, _("Sunday"), wxDefaultPosition, wxDefaultSize, 0 );
-    procDaysSizer->Add( m_chkProcSunday, 0, wxLEFT, 5 );
+    procDaysSizer->Add( m_chkProcSunday, 0, wxTOP, 5 );
 
     m_txtProcSundayStart = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCSUNDAYSTART, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
     procDaysSizer->Add( m_txtProcSundayStart, 0, wxALL, 1 );
@@ -751,10 +760,29 @@ wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
 
     m_txtProcSundayStop = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCSUNDAYSTOP, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
     procDaysSizer->Add( m_txtProcSundayStop, 0, wxALL, 1 );
+
+    m_chkProcThursday = new wxCheckBox( procSpecialTimesStaticBox, ID_CHKPROCTHURSDAY, _("Thursday"), wxDefaultPosition, wxDefaultSize, 0 );
+    procDaysSizer->Add( m_chkProcThursday, 0, wxTOP, 5 );
+
+    m_txtProcThursdayStart = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCTHURSDAYSTART, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
+    procDaysSizer->Add( m_txtProcThursdayStart, 0, wxALL, 1 );
+
+    wxStaticText* toStringProcThursday = new wxStaticText( procSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
+    toStringProcThursday->SetToolTip(procDaysTimeTT);
+    procDaysSizer->Add(toStringProcThursday , 0, wxTOP, 5 );
+
+    m_txtProcThursdayStop = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCTHURSDAYSTOP, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
+    procDaysSizer->Add( m_txtProcThursdayStop, 0, wxALL, 1 );
     
-    procSpecialTimesStaticBoxSizer->Add( procDaysSizer, 0, wxALL, 0 );
-    computingTimesStaticBoxSizer->Add( procSpecialTimesStaticBoxSizer, 1, wxEXPAND | wxALL, 1 );
-    dailySchedulesTabSizer->Add( computingTimesStaticBoxSizer, 1, wxEXPAND | wxALL, 1 );
+#ifdef __WXMAC__
+    procSpecialTimesStaticBoxSizer->Add( procDaysSizer, 0, wxRIGHT | wxBOTTOM, DAYOFWEEKBORDERSIZE );
+    computingTimesStaticBoxSizer->Add( procSpecialTimesStaticBoxSizer, 0, wxRIGHT | wxBOTTOM, STATICBOXBORDERSIZE + 3 );
+#else
+    procSpecialTimesStaticBoxSizer->Add( procDaysSizer, 1, wxRIGHT | wxLEFT | wxBOTTOM, DAYOFWEEKBORDERSIZE );
+    computingTimesStaticBoxSizer->Add(procSpecialTimesStaticBoxSizer, 1, wxRIGHT | wxLEFT | wxBOTTOM, STATICBOXBORDERSIZE );
+#endif
+    dailySchedulesTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
+    dailySchedulesTabSizer->Add( computingTimesStaticBoxSizer, 1, wxRIGHT | wxLEFT | wxEXPAND, STATICBOXBORDERSIZE );
     
     // Network schedule
     //
@@ -778,9 +806,12 @@ wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
     wxStaticBoxSizer* netSpecialTimesStaticBoxSizer = new wxStaticBoxSizer(netSpecialTimesStaticBox, wxVERTICAL);
     makeStaticBoxLabelItalic(netSpecialTimesStaticBox);
     
-    wxStaticText* staticText39 = new wxStaticText( netSpecialTimesStaticBox, ID_DEFAULT, _("Override the times above on the selected days selected:"), wxDefaultPosition, wxDefaultSize, 0 );
-    netSpecialTimesStaticBoxSizer->Add( staticText39, 0, wxALL, 0 );
-
+    wxStaticText* staticText39 = new wxStaticText( netSpecialTimesStaticBox, ID_DEFAULT, _("Override the times above on the selected days:"), wxDefaultPosition, wxDefaultSize, 0 );
+#ifdef __WXMAC__
+    netSpecialTimesStaticBoxSizer->Add( staticText39, 0, wxLEFT, 5 );
+#else
+    netSpecialTimesStaticBoxSizer->Add( staticText39, 0, wxLEFT, DAYOFWEEKBORDERSIZE );
+#endif
     netSpecialTimesStaticBoxSizer->AddSpacer(3);
     
 //    netSpecialTimesStaticBox->SetToolTip(_("On each selected \"override\" day, ignore the \"Every day\" times above and suspend if the time is outside the range shown for that day"));
@@ -793,7 +824,7 @@ wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
     netDaysGridSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 
     m_chkNetMonday = new wxCheckBox( netSpecialTimesStaticBox, ID_CHKNETMONDAY, _("Monday"), wxDefaultPosition, wxDefaultSize, 0 );
-    netDaysGridSizer->Add( m_chkNetMonday, 0, wxLEFT, 5 );
+    netDaysGridSizer->Add( m_chkNetMonday, 0, wxTOP, 5 );
 
     m_txtNetMondayStart = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETMONDAYSTART, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
     netDaysGridSizer->Add( m_txtNetMondayStart, 0, wxALL, 1 );
@@ -806,9 +837,22 @@ wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
     netDaysGridSizer->Add( m_txtNetMondayStop, 0, wxALL, 1 );
 
     netDaysGridSizer->AddSpacer(15);
+
+    m_chkNetFriday = new wxCheckBox( netSpecialTimesStaticBox, ID_CHKNETFRIDAY, _("Friday"), wxDefaultPosition, wxDefaultSize, 0 );
+    netDaysGridSizer->Add( m_chkNetFriday, 0, wxTOP, 5 );
+
+    m_txtNetFridayStart = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETFRIDAYSTART, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
+    netDaysGridSizer->Add( m_txtNetFridayStart, 0, wxALL, 1 );
+
+    wxStaticText* toStringNetFriday = new wxStaticText( netSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
+    toStringNetFriday->SetToolTip(netDaysTimeTT);
+    netDaysGridSizer->Add(toStringNetFriday , 0, wxTOP, 5 );
+
+    m_txtNetFridayStop = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETFRIDAYSTOP, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
+    netDaysGridSizer->Add( m_txtNetFridayStop, 0, wxALL, 1 );
     
     m_chkNetTuesday = new wxCheckBox( netSpecialTimesStaticBox, ID_CHKNETTUESDAY, _("Tuesday"), wxDefaultPosition, wxDefaultSize, 0 );
-    netDaysGridSizer->Add( m_chkNetTuesday, 0, wxLEFT, 5 );
+    netDaysGridSizer->Add( m_chkNetTuesday, 0, wxTOP, 5 );
 
     m_txtNetTuesdayStart = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETTUESDAYSTART, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
     netDaysGridSizer->Add( m_txtNetTuesdayStart, 0, wxALL, 1 );
@@ -820,8 +864,23 @@ wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
     m_txtNetTuesdayStop = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETTUESDAYSTOP, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
     netDaysGridSizer->Add( m_txtNetTuesdayStop, 0, wxALL, 1 );
 
+    netDaysGridSizer->AddSpacer(15);
+
+    m_chkNetSaturday = new wxCheckBox( netSpecialTimesStaticBox, ID_CHKNETSATURDAY, _("Saturday"), wxDefaultPosition, wxDefaultSize, 0 );
+    netDaysGridSizer->Add( m_chkNetSaturday, 0, wxTOP, 5 );
+
+    m_txtNetSaturdayStart = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETSATURDAYSTART, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
+    netDaysGridSizer->Add( m_txtNetSaturdayStart, 0, wxALL, 1 );
+
+    wxStaticText* toStringNetSaturday = new wxStaticText( netSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
+    toStringNetSaturday->SetToolTip(netDaysTimeTT);
+    netDaysGridSizer->Add(toStringNetSaturday , 0, wxTOP, 5 );
+
+    m_txtNetSaturdayStop = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETSATURDAYSTOP, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
+    netDaysGridSizer->Add( m_txtNetSaturdayStop, 0, wxALL, 1 );
+
     m_chkNetWednesday = new wxCheckBox( netSpecialTimesStaticBox, ID_CHKNETWEDNESDAY, _("Wednesday"), wxDefaultPosition, wxDefaultSize, 0 );
-    netDaysGridSizer->Add( m_chkNetWednesday, 0, wxLEFT, 5 );
+    netDaysGridSizer->Add( m_chkNetWednesday, 0, wxTOP, 5 );
 
     m_txtNetWednesdayStart = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETWEDNESDAYSTART, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
     netDaysGridSizer->Add( m_txtNetWednesdayStart, 0, wxALL, 1 );
@@ -835,49 +894,8 @@ wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
 
     netDaysGridSizer->AddSpacer(15);
     
-    m_chkNetThursday = new wxCheckBox( netSpecialTimesStaticBox, ID_CHKNETTHURSDAY, _("Thursday"), wxDefaultPosition, wxDefaultSize, 0 );
-    netDaysGridSizer->Add( m_chkNetThursday, 0, wxLEFT, 5 );
-
-    m_txtNetThursdayStart = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETTHURSDAYSTART, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
-    netDaysGridSizer->Add( m_txtNetThursdayStart, 0, wxALL, 1 );
-
-    wxStaticText* toStringNetThursday = new wxStaticText( netSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
-    toStringNetThursday->SetToolTip(netDaysTimeTT);
-    netDaysGridSizer->Add(toStringNetThursday , 0, wxTOP, 5 );
-
-    m_txtNetThursdayStop = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETTHURSDAYSTOP, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
-    netDaysGridSizer->Add( m_txtNetThursdayStop, 0, wxALL, 1 );
-
-    m_chkNetFriday = new wxCheckBox( netSpecialTimesStaticBox, ID_CHKNETFRIDAY, _("Friday"), wxDefaultPosition, wxDefaultSize, 0 );
-    netDaysGridSizer->Add( m_chkNetFriday, 0, wxLEFT, 5 );
-
-    m_txtNetFridayStart = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETFRIDAYSTART, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
-    netDaysGridSizer->Add( m_txtNetFridayStart, 0, wxALL, 1 );
-
-    wxStaticText* toStringNetFriday = new wxStaticText( netSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
-    toStringNetFriday->SetToolTip(netDaysTimeTT);
-    netDaysGridSizer->Add(toStringNetFriday , 0, wxTOP, 5 );
-
-    m_txtNetFridayStop = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETFRIDAYSTOP, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
-    netDaysGridSizer->Add( m_txtNetFridayStop, 0, wxALL, 1 );
-
-    netDaysGridSizer->AddSpacer(15);
-    
-    m_chkNetSaturday = new wxCheckBox( netSpecialTimesStaticBox, ID_CHKNETSATURDAY, _("Saturday"), wxDefaultPosition, wxDefaultSize, 0 );
-    netDaysGridSizer->Add( m_chkNetSaturday, 0, wxLEFT, 5 );
-
-    m_txtNetSaturdayStart = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETSATURDAYSTART, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
-    netDaysGridSizer->Add( m_txtNetSaturdayStart, 0, wxALL, 1 );
-
-    wxStaticText* toStringNetSaturday = new wxStaticText( netSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
-    toStringNetSaturday->SetToolTip(netDaysTimeTT);
-    netDaysGridSizer->Add(toStringNetSaturday , 0, wxTOP, 5 );
-
-    m_txtNetSaturdayStop = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETSATURDAYSTOP, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
-    netDaysGridSizer->Add( m_txtNetSaturdayStop, 0, wxALL, 1 );
-
     m_chkNetSunday = new wxCheckBox( netSpecialTimesStaticBox, ID_CHKNETSUNDAY, _("Sunday"), wxDefaultPosition, wxDefaultSize, 0 );
-    netDaysGridSizer->Add( m_chkNetSunday, 0, wxLEFT, 5 );
+    netDaysGridSizer->Add( m_chkNetSunday, 0, wxTOP, 5 );
 
     m_txtNetSundayStart = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETSUNDAYSTART, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
     netDaysGridSizer->Add( m_txtNetSundayStart, 0, wxALL, 1 );
@@ -889,9 +907,29 @@ wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
     m_txtNetSundayStop = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETSUNDAYSTOP, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
     netDaysGridSizer->Add( m_txtNetSundayStop, 0, wxALL, 1 );
 
-    netSpecialTimesStaticBoxSizer->Add( netDaysGridSizer, 1, wxEXPAND | wxALL, 1 );
-    networkTimesBoxSizer->Add(netSpecialTimesStaticBoxSizer, 1, wxEXPAND | wxALL, 1 );
-    dailySchedulesTabSizer->Add( networkTimesBoxSizer, 1, wxEXPAND | wxALL, 1 );
+    m_chkNetThursday = new wxCheckBox( netSpecialTimesStaticBox, ID_CHKNETTHURSDAY, _("Thursday"), wxDefaultPosition, wxDefaultSize, 0 );
+    netDaysGridSizer->Add( m_chkNetThursday, 0, wxTOP, 5 );
+
+    m_txtNetThursdayStart = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETTHURSDAYSTART, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
+    netDaysGridSizer->Add( m_txtNetThursdayStart, 0, wxALL, 1 );
+
+    wxStaticText* toStringNetThursday = new wxStaticText( netSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
+    toStringNetThursday->SetToolTip(netDaysTimeTT);
+    netDaysGridSizer->Add(toStringNetThursday , 0, wxTOP, 5 );
+
+    m_txtNetThursdayStop = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETTHURSDAYSTOP, wxT(""), wxDefaultPosition, textCtrlSize, 0 );
+    netDaysGridSizer->Add( m_txtNetThursdayStop, 0, wxALL, 1 );
+
+#ifdef __WXMAC__
+    netSpecialTimesStaticBoxSizer->Add( netDaysGridSizer, 1, wxRIGHT | wxBOTTOM, DAYOFWEEKBORDERSIZE );
+    networkTimesBoxSizer->Add(netSpecialTimesStaticBoxSizer, 1, wxRIGHT | wxBOTTOM, STATICBOXBORDERSIZE +3 );
+#else
+    netSpecialTimesStaticBoxSizer->Add( netDaysGridSizer, 1, wxRIGHT | wxLEFT | wxBOTTOM, DAYOFWEEKBORDERSIZE );
+    networkTimesBoxSizer->Add(netSpecialTimesStaticBoxSizer, 1, wxRIGHT | wxLEFT | wxBOTTOM, STATICBOXBORDERSIZE );
+#endif
+    dailySchedulesTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
+    dailySchedulesTabSizer->Add( networkTimesBoxSizer, 1, wxRIGHT | wxLEFT | wxEXPAND, STATICBOXBORDERSIZE );
+    dailySchedulesTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
    
     dailySchedulesTab->SetSizer( dailySchedulesTabSizer );
     dailySchedulesTab->Layout();
