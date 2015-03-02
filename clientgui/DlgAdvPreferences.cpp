@@ -259,12 +259,29 @@ double CDlgAdvPreferences::RoundToHundredths(double td) {
     return ((double)(i) / 100.);
 }
 
+void CDlgAdvPreferences::DisplayValue(double value, wxTextCtrl* textCtrl, wxCheckBox* checkBox) {
+    wxString buffer;
+
+    wxASSERT(textCtrl);
+    
+    if (checkBox) {
+        if (! checkBox->IsChecked()) {
+            textCtrl->Clear();
+            textCtrl->Disable();
+            return;
+        }
+    }
+    buffer.Printf(wxT("%.2f"), value);
+    textCtrl->ChangeValue(buffer);
+    textCtrl->Enable();
+}
+
 
 /* read preferences from core client and initialize control values */
 void CDlgAdvPreferences::ReadPreferenceSettings() {
     m_bInInit=true;//prevent dialog handlers from doing anything
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    wxString buffer;
+    wxString buffer = wxEmptyString;;
     wxString dashes = wxT("--");
     int retval;
 
@@ -283,63 +300,74 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     // max cpus
     // 0 means "no retriction" but we don't use a checkbox here
     if (prefs.max_ncpus_pct == 0.0) prefs.max_ncpus_pct = 100.0;
-    buffer.Printf(wxT("%.2f"), prefs.max_ncpus_pct);
-    m_txtProcUseProcessors->SetValue(buffer);
+    DisplayValue(prefs.max_ncpus_pct, m_txtProcUseProcessors);
     
-    //cpu limit
+            //cpu limit
     // 0 means "no retriction" but we don't use a checkbox here
     if (prefs.cpu_usage_limit == 0.0) prefs.cpu_usage_limit = 100.0;
-    buffer.Printf(wxT("%.2f"),prefs.cpu_usage_limit);
-    m_txtProcUseCPUTime->SetValue(buffer);
+    DisplayValue(prefs.cpu_usage_limit, m_txtProcUseCPUTime);
     
     // on batteries
     m_chkProcOnBatteries->SetValue(! prefs.run_on_batteries);
+
     // in use
     m_chkProcInUse->SetValue(! prefs.run_if_user_active);
     m_chkGPUProcInUse->SetValue(! prefs.run_gpu_if_user_active);
+    
+    //"Suspend while computer in use" implies "Suspend GPU while computer in use" so set
+    // and disable "Suspend GPU ..." checkbox, overriding its saved value if necessary.
+    if (m_chkProcInUse->IsChecked()) {
+        m_chkGPUProcInUse->SetValue(true);
+        m_chkGPUProcInUse->Disable();
+    }
+    
     // idle for X minutes
-    buffer.Printf(wxT("%.2f"),prefs.idle_time_to_run);
-    m_txtProcIdleFor->SetValue(buffer);
+    if (m_chkProcInUse->IsChecked() || m_chkGPUProcInUse->IsChecked()) {
+        m_txtProcIdleFor->Enable();
+        buffer.Printf(wxT("%.2f"), prefs.idle_time_to_run);
+        m_txtProcIdleFor->ChangeValue(buffer);
+    } else {
+        m_txtProcIdleFor->Clear();
+        m_txtProcIdleFor->Disable();
+    }
 
-    buffer.Printf(wxT("%.0f"), prefs.suspend_cpu_usage);
-    m_txtMaxLoad->SetValue(buffer);
     m_chkMaxLoad->SetValue(prefs.suspend_cpu_usage > 0.0);
+    DisplayValue(prefs.suspend_cpu_usage, m_txtMaxLoad, m_chkMaxLoad);
 
     // connection interval
     buffer.Printf(wxT("%01.2f"),prefs.work_buf_min_days);
     m_txtNetConnectInterval->SetValue(buffer);
 
-    buffer.Printf(wxT("%.2f"),prefs.work_buf_additional_days);
-    m_txtNetAdditionalDays->SetValue(buffer);
+    DisplayValue(prefs.work_buf_additional_days, m_txtNetAdditionalDays);
 
     // switch every X minutes
-    buffer.Printf(wxT("%.2f"),prefs.cpu_scheduling_period_minutes);
-    m_txtProcSwitchEvery->SetValue(buffer);
+    DisplayValue(prefs.cpu_scheduling_period_minutes, m_txtProcSwitchEvery);
 
     // write to disk every X seconds
-    buffer.Printf(wxT("%.0f"),prefs.disk_interval);
-    m_txtDiskWriteToDisk->SetValue(buffer);
+    DisplayValue(prefs.disk_interval, m_txtDiskWriteToDisk);
 
     // ######### net usage page
 
     //download rate
     m_chkNetDownloadRate->SetValue(prefs.max_bytes_sec_down > 0.0);
-    if (m_chkNetDownloadRate->IsChecked()) {
-        buffer.Printf(wxT("%.2f"),prefs.max_bytes_sec_down / 1024);
-        m_txtNetDownloadRate->SetValue(buffer);
-    }
+    DisplayValue((prefs.max_bytes_sec_down / 1024), m_txtNetDownloadRate, m_chkNetDownloadRate);
+
+
     // upload rate
     m_chkNetUploadRate->SetValue(prefs.max_bytes_sec_up > 0.0);
-    if (m_chkNetUploadRate->IsChecked()) {
-        buffer.Printf(wxT("%.2f"),prefs.max_bytes_sec_up / 1024);
-        m_txtNetUploadRate->SetValue(buffer);
-    }
+    DisplayValue((prefs.max_bytes_sec_up / 1024), m_txtNetUploadRate, m_chkNetUploadRate);
+
     m_chk_daily_xfer_limit->SetValue((prefs.daily_xfer_limit_mb > 0.0) && (prefs.daily_xfer_period_days > 0.0));
     if (m_chk_daily_xfer_limit->IsChecked()) {
         buffer.Printf(wxT("%.2f"),prefs.daily_xfer_limit_mb);
         m_txt_daily_xfer_limit_mb->SetValue(buffer);
         buffer.Printf(wxT("%d"),prefs.daily_xfer_period_days );
         m_txt_daily_xfer_period_days->SetValue(buffer);
+    } else {
+        m_txt_daily_xfer_limit_mb->Clear();
+        m_txt_daily_xfer_limit_mb->Disable();
+        m_txt_daily_xfer_period_days->Clear();
+        m_txt_daily_xfer_period_days->Disable();
     }
     
     //
@@ -353,33 +381,27 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     // ######### disk and memory usage page
     //max space used
     m_chkDiskMaxSpace->SetValue(prefs.disk_max_used_gb > 0.0);
-    if (m_chkDiskMaxSpace->IsChecked()) {
-        buffer.Printf(wxT("%.2f"),prefs.disk_max_used_gb);
-        m_txtDiskMaxSpace->SetValue(buffer);
-    }
+    DisplayValue(prefs.disk_max_used_gb, m_txtDiskMaxSpace, m_chkDiskMaxSpace);
+
     // min free
     m_chkDiskLeastFree->SetValue(prefs.disk_min_free_gb > 0.0);
-    if (m_chkDiskLeastFree->IsChecked()) {
-        buffer.Printf(wxT("%.2f"),prefs.disk_min_free_gb);
-    m_txtDiskLeastFree->SetValue(buffer);
-    }
+    DisplayValue(prefs.disk_min_free_gb, m_txtDiskLeastFree, m_chkDiskLeastFree);
+
     // max used percentage
     m_chkDiskMaxOfTotal->SetValue(prefs.disk_max_used_pct < 100.0);
-    if (m_chkDiskMaxOfTotal->IsChecked()) {
-        buffer.Printf(wxT("%.2f"),prefs.disk_max_used_pct);
-        m_txtDiskMaxOfTotal->SetValue(buffer);
-    }
+    DisplayValue(prefs.disk_max_used_pct, m_txtDiskMaxOfTotal, m_chkDiskMaxOfTotal);
+    
     // max VM used
-    buffer.Printf(wxT("%.2f"),prefs.ram_max_used_busy_frac*100.0);
-    m_txtMemoryMaxInUse->SetValue(buffer);
+    DisplayValue((prefs.ram_max_used_busy_frac*100.0), m_txtMemoryMaxInUse);
+
     // max VM idle
-    buffer.Printf(wxT("%.2f"),prefs.ram_max_used_idle_frac*100.0);
-    m_txtMemoryMaxOnIdle->SetValue(buffer);
+    DisplayValue((prefs.ram_max_used_idle_frac*100.0), m_txtMemoryMaxOnIdle);
+
     // suspend to memory
     m_chkMemoryWhileSuspended->SetValue(prefs.leave_apps_in_memory);
+
     // max swap space (virtual memory)
-    buffer.Printf(wxT("%.2f"),prefs.vm_max_used_frac*100.0);
-    m_txtDiskMaxSwap->SetValue(buffer);
+    DisplayValue((prefs.vm_max_used_frac*100.0), m_txtDiskMaxSwap);
 
     // ######### daily schedules page
     // do work between
@@ -993,16 +1015,10 @@ void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
             
             // network usage page
             case ID_CHKNETDOWNLOADRATE:
-                if (ev.IsChecked()) {
-                    buffer.Printf(wxT("%.2f"),defaultPrefs.max_bytes_sec_down / 1024);
-                }
-                m_txtNetDownloadRate->ChangeValue(buffer);
+                DisplayValue((defaultPrefs.max_bytes_sec_down / 1024), m_txtNetDownloadRate, m_chkNetDownloadRate);
                 break;
             case ID_CHKNETUPLOADRATE:
-                if (ev.IsChecked()) {
-                    buffer.Printf(wxT("%.2f"),defaultPrefs.max_bytes_sec_up / 1024);
-                }
-                m_txtNetUploadRate->ChangeValue(buffer);
+                DisplayValue((defaultPrefs.max_bytes_sec_up / 1024), m_txtNetUploadRate, m_chkNetUploadRate);
                 break;
             case ID_CHKDAILYXFERLIMIT:
                 if (ev.IsChecked()) {
@@ -1018,22 +1034,13 @@ void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
                 
             // disk usage page
             case ID_CHKDISKMAXSPACE:
-                if (ev.IsChecked()) {
-                    buffer.Printf(wxT("%.2f"),defaultPrefs.disk_max_used_gb);
-                }
-                m_txtDiskMaxSpace->ChangeValue(buffer);
+                DisplayValue(defaultPrefs.disk_max_used_gb, m_txtDiskMaxSpace, m_chkDiskMaxSpace);
                 break;
             case ID_CHKDISKLEASTFREE:
-                if (ev.IsChecked()) {
-                    buffer.Printf(wxT("%.2f"),defaultPrefs.disk_min_free_gb);
-                }
-                m_txtDiskLeastFree->ChangeValue(buffer);
+                DisplayValue(defaultPrefs.disk_min_free_gb, m_txtDiskLeastFree, m_chkDiskLeastFree);
                 break;
             case ID_CHKDISKMAXOFTOTAL:
-                if (ev.IsChecked()) {
-                    buffer.Printf(wxT("%.2f"),defaultPrefs.disk_max_used_pct);
-                }
-                m_txtDiskMaxOfTotal->ChangeValue(buffer);
+                DisplayValue(defaultPrefs.disk_max_used_pct, m_txtDiskMaxOfTotal, m_chkDiskMaxOfTotal);
                 break;
             case ID_CHKPROCEVERYDAY:
                 if (ev.IsChecked()) {

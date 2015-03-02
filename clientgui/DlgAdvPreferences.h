@@ -57,6 +57,7 @@ public:
 	void OnOK(wxCommandEvent& event);
 	void OnHelp(wxCommandEvent& event);
 	void OnClear(wxCommandEvent& event);
+    void DisplayValue(double value, wxTextCtrl* textCtrl, wxCheckBox* checkBox=NULL);
 private:
     GLOBAL_PREFS      prefs;
     GLOBAL_PREFS_MASK mask;
