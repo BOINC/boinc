@@ -18,6 +18,11 @@ notifications:
 # This switches to the container-based infrastructure and allows caching
 sudo: false
 
+cache:
+  apt: true
+  directories:
+  - build/wxWidgets-3.0.2
+
 addons:
   coverity_scan:
     project:
