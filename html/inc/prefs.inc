@@ -95,7 +95,7 @@ $cpu_prefs = array(
     ),
     new PREF_HOUR_RANGE(
         tra("Compute only between"),
-        tra("Compute only during a particular range of hours each day."),
+        tra("Compute only during a particular period each day."),
         "start_hour", "end_hour"
     ),
     tra("Other"),
@@ -200,7 +200,7 @@ $net_prefs = array(
     tra("When to suspend"),
     new PREF_HOUR_RANGE(
         tra("Transfer files only between"),
-        tra("Transfer files only during a particular range of hours each day."),
+        tra("Transfer files only during a particular period each day."),
         "net_start_hour", "net_end_hour"
     ),
     tra("Other"),
