@@ -266,7 +266,7 @@ void CDlgAdvPreferences::DisplayValue(double value, wxTextCtrl* textCtrl, wxChec
     
     if (checkBox) {
         if (! checkBox->IsChecked()) {
-            textCtrl->Clear();
+            textCtrl->ChangeValue(wxEmptyString);
             textCtrl->Disable();
             return;
         }
@@ -324,7 +324,7 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
         m_txtProcIdleFor->Enable();
         DisplayValue(prefs.idle_time_to_run, m_txtProcIdleFor);
     } else {
-        m_txtProcIdleFor->Clear();
+        m_txtProcIdleFor->ChangeValue(wxEmptyString);
         m_txtProcIdleFor->Disable();
     }
 
@@ -394,8 +394,8 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     // do work between
     m_chkProcEveryDay->SetValue(prefs.cpu_times.start_hour != prefs.cpu_times.end_hour);
     if (m_chkProcEveryDay->IsChecked()) {
-        m_txtProcEveryDayStart->SetValue(DoubleToTimeString(prefs.cpu_times.start_hour));
-        m_txtProcEveryDayStop->SetValue(DoubleToTimeString(prefs.cpu_times.end_hour));
+        m_txtProcEveryDayStart->ChangeValue(DoubleToTimeString(prefs.cpu_times.start_hour));
+        m_txtProcEveryDayStop->ChangeValue(DoubleToTimeString(prefs.cpu_times.end_hour));
     }
 
     //special day times
@@ -403,16 +403,16 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
         TIME_SPAN& cpu = prefs.cpu_times.week.days[i];
         if(cpu.present) {
             procDayChks[i]->SetValue(true);
-            procDayStartTxts[i]->SetValue(DoubleToTimeString(cpu.start_hour));
-            procDayStopTxts[i]->SetValue(DoubleToTimeString(cpu.end_hour));
+            procDayStartTxts[i]->ChangeValue(DoubleToTimeString(cpu.start_hour));
+            procDayStopTxts[i]->ChangeValue(DoubleToTimeString(cpu.end_hour));
         }
     }
     
     // use network between
     m_chkNetEveryDay->SetValue(prefs.net_times.start_hour != prefs.net_times.end_hour);
     if (m_chkNetEveryDay->IsChecked()) {
-        m_txtNetEveryDayStart->SetValue(DoubleToTimeString(prefs.net_times.start_hour));
-        m_txtNetEveryDayStop->SetValue(DoubleToTimeString(prefs.net_times.end_hour));
+        m_txtNetEveryDayStart->ChangeValue(DoubleToTimeString(prefs.net_times.start_hour));
+        m_txtNetEveryDayStop->ChangeValue(DoubleToTimeString(prefs.net_times.end_hour));
     }
     
     //special net times
@@ -420,8 +420,8 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
         TIME_SPAN& net = prefs.net_times.week.days[i];
         if(net.present) {
             netDayChks[i]->SetValue(true);
-            netDayStartTxts[i]->SetValue(DoubleToTimeString(net.start_hour));
-            netDayStopTxts[i]->SetValue(DoubleToTimeString(net.end_hour));
+            netDayStartTxts[i]->ChangeValue(DoubleToTimeString(net.start_hour));
+            netDayStopTxts[i]->ChangeValue(DoubleToTimeString(net.end_hour));
         }
     }
 
@@ -633,7 +633,7 @@ void CDlgAdvPreferences::UpdateControlStates() {
     bool wasEnabled = m_txtProcIdleFor->IsEnabled();
     bool shouldEnable = m_chkProcInUse->IsChecked() || m_chkGPUProcInUse->IsChecked();
     m_txtProcIdleFor->Enable(shouldEnable);
-    if (wasEnabled && !shouldEnable) m_txtProcIdleFor->Clear();
+    if (wasEnabled && !shouldEnable) m_txtProcIdleFor->ChangeValue(wxEmptyString);
     if (shouldEnable && !wasEnabled) {
         DisplayValue(defaultPrefs.idle_time_to_run, m_txtProcIdleFor);
     }
@@ -987,7 +987,6 @@ void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
         // Note: use ChangeValue() here to avoid generating extra events.
         // m_txtProcIdleFor depends on 2 checkboxes, set it in UpdateControlStates().
         if ((ev.GetEventType() == wxEVT_CHECKBOX)) {
-            wxString buffer = wxEmptyString;
             switch (ev.GetId()) {
             // processor usage page
             case ID_CHKMAXLOAD:
@@ -1018,11 +1017,11 @@ void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
                 break;
             case ID_CHKPROCEVERYDAY:
                 if (ev.IsChecked()) {
-                    m_txtProcEveryDayStart->SetValue(wxT("0:00"));
-                    m_txtProcEveryDayStop->SetValue(wxT("0:00"));
+                    m_txtProcEveryDayStart->ChangeValue(wxT("0:00"));
+                    m_txtProcEveryDayStop->ChangeValue(wxT("0:00"));
                 } else {
-                    m_txtProcEveryDayStart->Clear();
-                    m_txtProcEveryDayStop->Clear();
+                    m_txtProcEveryDayStart->ChangeValue(wxEmptyString);
+                    m_txtProcEveryDayStop->ChangeValue(wxEmptyString);
                 }
                 break;
             case ID_CHKPROCSUNDAY:
@@ -1033,20 +1032,20 @@ void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
             case ID_CHKPROCFRIDAY:
             case ID_CHKPROCSATURDAY:
                 if (ev.IsChecked()) {
-                    (procDayStartTxts[ev.GetId() - ID_CHKPROCSUNDAY])->SetValue(wxT("0:00"));
-                    (procDayStopTxts[ev.GetId() - ID_CHKPROCSUNDAY])->SetValue(wxT("0:00"));
+                    (procDayStartTxts[ev.GetId() - ID_CHKPROCSUNDAY])->ChangeValue(wxT("0:00"));
+                    (procDayStopTxts[ev.GetId() - ID_CHKPROCSUNDAY])->ChangeValue(wxT("0:00"));
                 } else {
-                    (procDayStartTxts[ev.GetId() - ID_CHKPROCSUNDAY])->Clear();
-                    (procDayStopTxts[ev.GetId() - ID_CHKPROCSUNDAY])->Clear();
+                    (procDayStartTxts[ev.GetId() - ID_CHKPROCSUNDAY])->ChangeValue(wxEmptyString);
+                    (procDayStopTxts[ev.GetId() - ID_CHKPROCSUNDAY])->ChangeValue(wxEmptyString);
                 }
                 break;
             case ID_CHKNETEVERYDAY:
                if (ev.IsChecked()) {
-                    m_txtNetEveryDayStart->SetValue(wxT("0:00"));
-                    m_txtNetEveryDayStop->SetValue(wxT("0:00"));
+                    m_txtNetEveryDayStart->ChangeValue(wxT("0:00"));
+                    m_txtNetEveryDayStop->ChangeValue(wxT("0:00"));
                 } else {
-                    m_txtNetEveryDayStart->Clear();
-                    m_txtNetEveryDayStop->Clear();
+                    m_txtNetEveryDayStart->ChangeValue(wxEmptyString);
+                    m_txtNetEveryDayStop->ChangeValue(wxEmptyString);
                 }
                 break;
             case ID_CHKNETSUNDAY:
@@ -1057,11 +1056,11 @@ void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
             case ID_CHKNETFRIDAY:
             case ID_CHKNETSATURDAY:
                if (ev.IsChecked()) {
-                    (netDayStartTxts[ev.GetId() - ID_CHKNETSUNDAY])->SetValue(wxT("0:00"));
-                    (netDayStopTxts[ev.GetId() - ID_CHKNETSUNDAY])->SetValue(wxT("0:00"));
+                    (netDayStartTxts[ev.GetId() - ID_CHKNETSUNDAY])->ChangeValue(wxT("0:00"));
+                    (netDayStopTxts[ev.GetId() - ID_CHKNETSUNDAY])->ChangeValue(wxT("0:00"));
                 } else {
-                    (netDayStartTxts[ev.GetId() - ID_CHKNETSUNDAY])->Clear();
-                    (netDayStopTxts[ev.GetId() - ID_CHKNETSUNDAY])->Clear();
+                    (netDayStartTxts[ev.GetId() - ID_CHKNETSUNDAY])->ChangeValue(wxEmptyString);
+                    (netDayStopTxts[ev.GetId() - ID_CHKNETSUNDAY])->ChangeValue(wxEmptyString);
                 }
                 break;
             
