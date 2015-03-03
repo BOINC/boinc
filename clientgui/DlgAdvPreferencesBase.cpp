@@ -638,7 +638,7 @@ wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
     wxStaticBoxSizer* computingTimesStaticBoxSizer = new wxStaticBoxSizer(computingTimesStaticBox, wxVERTICAL);
     makeStaticBoxLabelItalic(computingTimesStaticBox);
 
-    wxString ProcEveryDayTT(_("Compute only during a particular range of hours each day."));
+    wxString ProcEveryDayTT(_("Compute only during a particular period each day."));
     m_chkProcEveryDay = new wxCheckBox(
         computingTimesStaticBox, ID_CHKPROCEVERYDAY,
         _("Compute only between"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -786,7 +786,7 @@ wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
     wxStaticBoxSizer* networkTimesBoxSizer = new wxStaticBoxSizer( networkTimesStaticBox, wxVERTICAL );
     makeStaticBoxLabelItalic(networkTimesStaticBox);
 
-    wxString NetEveryDayTT(_("Transfer files only during a particular range of hours each day."));
+    wxString NetEveryDayTT(_("Transfer files only during a particular period each day."));
     m_chkNetEveryDay = new wxCheckBox(
         networkTimesStaticBox, ID_CHKNETEVERYDAY, _("Transfer files only between"), wxDefaultPosition, wxDefaultSize, 0 );
 
