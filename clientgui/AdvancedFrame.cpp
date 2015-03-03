@@ -636,11 +636,6 @@ bool CAdvancedFrame::CreateMenu() {
         _("Select display columns..."),
         _("Select which columns to display")
     );
-    menuAdvanced->Append(
-		ID_TEST1CLICKATTACH,
-        _("Test 1 Click Attach"),
-        _("")
-    );
 
 
     // Help menu

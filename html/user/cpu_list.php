@@ -31,41 +31,36 @@ function compare($a, $b) {
     return 0;
 }
 
-function get_cpu_list() {
-    $models = array();
-    $hosts = BoincHost::enum("expavg_credit >= ".MIN_CREDIT);
-    foreach($hosts as $host) {
-        $x = new StdClass;
-        $x->p_ncpus = $host->p_ncpus;
-        $x->p_fpops = $host->p_fpops;
-        if (!array_key_exists($host->p_model, $models)) {
-            $models[$host->p_model] = array();
-        }
-        $models[$host->p_model][] = $x;
-    }
+function get_data() {
+    $db = BoincDb::get();
 
-    // for each model, find the median FLOPS
-
+    // get CPU model status in a special query;
+    // enumerating hosts was too slow on SETI@home.
+    //
+    // Ideally a model's fpops should be the median over hosts of that model.
+    // But SQL has no median function.
+    // Instead, take the mean of plausible values
+    //
+    $x = $db->enum_fields('host', 'StdClass', 
+        'p_model, count(*) as nhosts, avg(p_ncpus) as ncores, avg(p_fpops) as fpops',
+        'p_fpops>1e6 and p_fpops<1e11 and p_fpops <> 1e9 and expavg_credit>".MIND_CREDIT." group by p_model',
+        null
+    );
     $m2 = array();
-    foreach ($models as $model=>$list) {
-        $n = sizeof($list);
-        if ($n < MIN_COUNT) continue;
-        uasort($list, 'compare');
-        $m = (int)($n/2);
-        $total_cores = 0;
-        foreach ($list as $l) {
-            $total_cores += $l->p_ncpus;
-        }
-        $x = $list[$m]->p_fpops;
+    foreach ($x as $m) {
+        if ($m->nhosts < MIN_COUNT) continue;
         $y = new StdClass;
-        $y->model = $model;
-        $y->p_fpops = $x;
-        $y->mean_ncores = $total_cores/$n;
-        $y->nhosts = $n;
+        $y->model = $m->p_model;
+        $y->p_fpops = $m->fpops;
+        $y->mean_ncores = $m->ncores;
+        $y->nhosts = $m->nhosts;
         $m2[] = $y;
-        //echo "$model: $x GFLOPS ($n samples)\n";
     }
+    return $m2;
+}
 
+function get_cpu_list() {
+    $m2 = get_data();
     uasort($m2, 'compare');
     $x = new StdClass;
     $x->cpus = $m2;

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2014 University of California
+// Copyright (C) 2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -33,6 +33,10 @@
 
 #include "DlgAdvPreferencesBase.h"
 
+#define STATICBOXBORDERSIZE 8
+#define STATICBOXVERTICALSPACER 10
+#define DAYOFWEEKBORDERSIZE 10
+
 ///////////////////////////////////////////////////////////////////////////
 
 // NOTE: On MS Windows with wxWidgets 3.0, controls inside a wxStaticBox 
@@ -55,7 +59,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     this->SetTitle(strCaption);
 
     wxBoxSizer* dialogSizer = new wxBoxSizer( wxVERTICAL );
-    wxStaticBox* topControlsStaticBox = new wxStaticBox( this, -1, wxT("") );
+    wxStaticBox* topControlsStaticBox = new wxStaticBox( this, -1, wxEmptyString );
 
     wxStaticBoxSizer* topControlsSizer = new wxStaticBoxSizer( topControlsStaticBox, wxHORIZONTAL );
 
@@ -108,18 +112,22 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     topControlsSizer->Add( staticText321, 1, wxALL, 1 );
 
     m_btnClear = new wxButton( topControlsStaticBox, ID_BTN_CLEAR, _("Clear"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_btnClear->SetToolTip( _("clear all local preferences and close the dialog") );
+    m_btnClear->SetToolTip( _("Clear all local preferences and close the dialog.") );
 #endif
 
     m_btnClear = new wxButton( topControlsStaticBox, ID_BTN_CLEAR, _("Use web prefs"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_btnClear->SetToolTip( _("restore web-based preferences and close the dialog") );
+    m_btnClear->SetToolTip( _("Restore web-based preferences and close the dialog.") );
     if (!usingLocalPrefs) {
         m_btnClear->Hide();
     }
     
     topControlsSizer->Add( m_btnClear, 0, wxALIGN_BOTTOM|wxALL, 4 );
 
-    dialogSizer->Add( topControlsSizer, 0, wxALL|wxEXPAND, 1 );
+#ifdef __WXMAC__
+    dialogSizer->Add( topControlsSizer, 0, wxTOP|wxLEFT|wxRIGHT|wxEXPAND, 10 );
+#else
+    dialogSizer->Add( topControlsSizer, 0, wxALL|wxEXPAND, 5 );
+#endif
 
     m_panelControls = new wxPanel( this, ID_DEFAULT, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
     m_panelControls->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
@@ -129,17 +137,19 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     m_Notebook = new wxNotebook( m_panelControls, ID_DEFAULT, wxDefaultPosition, wxDefaultSize, wxNB_FLAT|wxNB_TOP );
     m_Notebook->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
 
+    // Note: we must set the third AddPage argument ("select") to
+    // true for each page or ToolTips won't initialize properly.
     m_panelProcessor = createProcessorTab(m_Notebook);
-    m_Notebook->AddPage( m_panelProcessor, _("Computing"), false );
+    m_Notebook->AddPage( m_panelProcessor, _("Computing"), true );
 
     m_panelNetwork = createNetworkTab(m_Notebook);
     m_Notebook->AddPage( m_panelNetwork, _("Network"), true );
 
     m_panelDiskAndMemory = createDiskAndMemoryTab(m_Notebook);
-    m_Notebook->AddPage( m_panelDiskAndMemory, _("Disk and Memory"), false );
+    m_Notebook->AddPage( m_panelDiskAndMemory, _("Disk & Memory"), true );
 
     m_panelDailySchedules = createDailySchedulesTab(m_Notebook);
-    m_Notebook->AddPage( m_panelDailySchedules, _("Daily Schedules"), false );
+    m_Notebook->AddPage( m_panelDailySchedules, _("Daily Schedules"), true );
 
     notebookSizer->Add( m_Notebook, 1, wxEXPAND | wxALL, 1 );
 
@@ -147,24 +157,24 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     m_panelControls->Layout();
     notebookSizer->Fit( m_panelControls );
 
-    dialogSizer->Add( m_panelControls, 1, wxALL|wxEXPAND, 1 );
+    dialogSizer->Add( m_panelControls, 1, wxALL|wxEXPAND, 5 );
 
     m_panelButtons = new wxPanel( this, ID_DEFAULT, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
     wxBoxSizer* buttonSizer = new wxBoxSizer( wxHORIZONTAL );
 
     m_btnOK = new wxButton( m_panelButtons, wxID_OK, _("OK"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_btnOK->SetToolTip( _("save all values and close the dialog") );
+    m_btnOK->SetToolTip( _("Save all values and close the dialog.") );
     m_btnOK->SetDefault();
     
     buttonSizer->Add( m_btnOK, 0, wxALL, 5 );
 
     m_btnCancel = new wxButton( m_panelButtons, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_btnCancel->SetToolTip( _("close the dialog without saving") );
+    m_btnCancel->SetToolTip( _("Close the dialog without saving.") );
 
     buttonSizer->Add( m_btnCancel, 0, wxALL, 5 );
 
     m_btnHelp = new wxButton( m_panelButtons, ID_HELPBOINC, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_btnHelp->SetToolTip( _("shows the preferences web page") );
+    m_btnHelp->SetToolTip( _("Shows the preferences web page.") );
 
     buttonSizer->Add( m_btnHelp, 0, wxALL, 5 );
 
@@ -177,8 +187,48 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     this->SetSizer( dialogSizer );
 }
 
+void CDlgAdvPreferencesBase::addNewRowToSizer(
+                wxSizer* toSizer, wxString& toolTipText,
+                wxWindow* first, wxWindow* second, wxWindow* third,
+                wxWindow* fourth, wxWindow* fifth)
+{
+    wxBoxSizer* rowSizer = new wxBoxSizer( wxHORIZONTAL );
+    
+#ifdef __WXMSW__
+    // MSW adds space to the right of checkbox label
+    if (first->IsKindOf(CLASSINFO(wxCheckBox))) {
+        rowSizer->Add(first, 0, wxTOP | wxBOTTOM |wxLEFT, 5 );
+    } else
+#endif
+        rowSizer->Add(first, 0, wxALL, 5 );
+
+    first->SetToolTip(toolTipText);
+    
+    rowSizer->Add(second, 0, wxALL, 2 );
+    second->SetToolTip(toolTipText);
+
+    rowSizer->Add(third, 0, wxALL, 5 );
+    third->SetToolTip(toolTipText);
+
+    if (fourth) {
+        rowSizer->Add(fourth, 0, wxALL, 2 );
+        fourth->SetToolTip(toolTipText);
+    }
+    
+    if (fifth) {
+        rowSizer->Add(fifth, 0, wxALL, 5 );
+        fifth->SetToolTip(toolTipText);
+    }
+    
+    toSizer->Add( rowSizer, 0, 0, 1 );
+}
+
+
 wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
 {
+    CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    wxASSERT(pSkinAdvanced);
+
     wxSize textCtrlSize = getTextCtrlSize(wxT("999.99"));
     
     wxPanel* processorTab = new wxPanel( notebook, ID_TABPAGE_PROC, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
@@ -190,45 +240,32 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     wxStaticBoxSizer* usageLimitsBoxSizer = new wxStaticBoxSizer(usageLimitsStaticBox, wxVERTICAL);
     makeStaticBoxLabelItalic(usageLimitsStaticBox);
     
-    wxFlexGridSizer* usageLimitsGridSizer = new wxFlexGridSizer( 2, 3, 0, 0 );
-    usageLimitsGridSizer->AddGrowableCol( 2 );
-    usageLimitsGridSizer->SetFlexibleDirection( wxHORIZONTAL );
-    usageLimitsGridSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-
-    wxString MaxCPUPctTT(_("Example: 50% means use 4 cores on an 8-core CPU"));
     /*xgettext:no-c-format*/
-    wxStaticText* m_staticText20 = new wxStaticText(
+    wxString MaxCPUPctTT(_("Keep some CPUs free for other applications. Example: 75% means use 6 cores on an 8-core CPU."));
+    wxStaticText* staticText20 = new wxStaticText(
         usageLimitsStaticBox, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_staticText20->SetToolTip(MaxCPUPctTT);
-    usageLimitsGridSizer->Add( m_staticText20, 0, wxALL|wxEXPAND, 5 );
     
-    m_txtProcUseProcessors = new wxTextCtrl( usageLimitsStaticBox, ID_TXTPROCUSEPROCESSORS, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
-    m_txtProcUseProcessors->SetToolTip(MaxCPUPctTT);
-    usageLimitsGridSizer->Add( m_txtProcUseProcessors, 0, wxALL, 1 );
+    m_txtProcUseProcessors = new wxTextCtrl( usageLimitsStaticBox, ID_TXTPROCUSEPROCESSORS, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
 
     /*xgettext:no-c-format*/
     wxStaticText* staticText21 = new wxStaticText( usageLimitsStaticBox, ID_DEFAULT, _("% of the CPUs"), wxDefaultPosition, wxDefaultSize, 0 );
-    staticText21->SetToolTip(MaxCPUPctTT);
-    usageLimitsGridSizer->Add( staticText21, 0, wxALL, 5 );
 
-    wxString MaxCPUTimeTT(_("Suspend/resume computing every few seconds to reduce CPU temperature and energy usage. Example: 75% means compute for 3 seconds, wait for 1."));
-    wxStaticText* m_staticText22 = new wxStaticText(
+    addNewRowToSizer(usageLimitsBoxSizer, MaxCPUPctTT, staticText20, m_txtProcUseProcessors, staticText21);
+
+    /*xgettext:no-c-format*/
+    wxString MaxCPUTimeTT(_("Suspend/resume computing every few seconds to reduce CPU temperature and energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, and repeat."));
+    wxStaticText* staticText22 = new wxStaticText(
         usageLimitsStaticBox, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_staticText22->SetToolTip(MaxCPUTimeTT);
-    usageLimitsGridSizer->Add( m_staticText22, 0, wxALL|wxEXPAND, 5 );
 
-    usageLimitsBoxSizer->Add( usageLimitsGridSizer, 0, wxEXPAND, 1 );
-
-    m_txtProcUseCPUTime = new wxTextCtrl( usageLimitsStaticBox, ID_TXTPOCUSECPUTIME, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
-    m_txtProcUseCPUTime->SetToolTip(MaxCPUTimeTT);
-    usageLimitsGridSizer->Add( m_txtProcUseCPUTime, 0, wxALL, 1 );
+    m_txtProcUseCPUTime = new wxTextCtrl( usageLimitsStaticBox, ID_TXTPOCUSECPUTIME, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
 
     /*xgettext:no-c-format*/
     wxStaticText* staticText23 = new wxStaticText( usageLimitsStaticBox, ID_DEFAULT, _("% of CPU time"), wxDefaultPosition, wxDefaultSize, 0 );
-    staticText23->SetToolTip(MaxCPUTimeTT);
-    usageLimitsGridSizer->Add( staticText23, 0, wxALL, 5 );
 
-    processorTabSizer->Add( usageLimitsBoxSizer, 0, wxEXPAND, 1 );
+    addNewRowToSizer(usageLimitsBoxSizer, MaxCPUTimeTT, staticText22, m_txtProcUseCPUTime, staticText23);
+
+    processorTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
+    processorTabSizer->Add( usageLimitsBoxSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE );
     
     wxStaticBox* suspendComputingStaticBox = new wxStaticBox(processorTab, -1, _("When to suspend") );
     wxStaticBoxSizer* suspendComputingBoxSizer = new wxStaticBoxSizer(suspendComputingStaticBox, wxVERTICAL);
@@ -239,7 +276,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
         _("Suspend when computer is on battery"), wxDefaultPosition, wxDefaultSize, 0
     );
     m_chkProcOnBatteries->SetToolTip(
-        _("check this if you don't want this computer to do work while it runs on batteries")
+        _("Check this to suspend computing on portables when running on battery power.")
     );
     suspendComputingBoxSizer->Add( m_chkProcOnBatteries, 0, wxALL, 5 );
 
@@ -248,7 +285,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
         _("Suspend when computer is in use"), wxDefaultPosition, wxDefaultSize, 0
     );
     m_chkProcInUse->SetToolTip(
-        _("check this if you don't want this computer to do work when you're using it")
+        _("Check this to suspend computing and file transfers when you're using the computer.")
     );
     suspendComputingBoxSizer->Add( m_chkProcInUse, 0, wxALL, 5 );
 
@@ -257,150 +294,114 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
         _("Suspend GPU computing when computer is in use"), wxDefaultPosition, wxDefaultSize, 0
     );
     m_chkGPUProcInUse->SetToolTip(
-        _("check this if you don't want your GPU to do work when you're using the computer")
+        _("Check this to suspend GPU computing when you're using the computer.")
     );
     suspendComputingBoxSizer->Add( m_chkGPUProcInUse, 0, wxALL, 5 );
 
     // min idle time
-    wxFlexGridSizer* procIdleSizer = new wxFlexGridSizer( 2, 4, 0, 0 );
-    procIdleSizer->AddGrowableCol( 3 );
-    procIdleSizer->SetFlexibleDirection( wxHORIZONTAL );
-    procIdleSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-    procIdleSizer->Add(
-        new wxStaticText(
+    wxString ProcIdleForTT(_("This determines when the computer is considered 'in use'."));
+
+    wxStaticText* staticText24 = new wxStaticText(
             suspendComputingStaticBox, ID_DEFAULT,
             _("'In use' means mouse/keyboard input in last"),
             wxDefaultPosition, wxDefaultSize, 0
-        ),
-        0, wxALL, 5
-    );
+        );
+
     m_txtProcIdleFor = new wxTextCtrl(
-        suspendComputingStaticBox, ID_TXTPROCIDLEFOR, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("999.99")), wxTE_RIGHT
-    );
-    m_txtProcIdleFor->SetToolTip(
-        _("do work only after you haven't used the computer for this number of minutes")
-    );
-    procIdleSizer->Add( m_txtProcIdleFor, 0, wxALL, 1 );
-    procIdleSizer->Add(
-        new wxStaticText(
-            suspendComputingStaticBox, ID_DEFAULT, _("minutes"),
-            wxDefaultPosition, wxDefaultSize, 0
-        ),
-        0, wxALL, 5
-    );
-    procIdleSizer->Add(
-        new wxStaticText( suspendComputingStaticBox, ID_DEFAULT, wxT(""), wxDefaultPosition, wxDefaultSize, 0),
-        0, wxALL, 5
+        suspendComputingStaticBox, ID_TXTPROCIDLEFOR, wxEmptyString, wxDefaultPosition, getTextCtrlSize(wxT("999.99")), wxTE_RIGHT
     );
 
-    suspendComputingBoxSizer->Add( procIdleSizer, 0, wxEXPAND, 5);
+    wxStaticText* staticText25 = new wxStaticText(suspendComputingStaticBox, ID_DEFAULT, _("minutes"),
+            wxDefaultPosition, wxDefaultSize, 0 );
+
+    addNewRowToSizer(suspendComputingBoxSizer, ProcIdleForTT, staticText24, m_txtProcIdleFor, staticText25);
 
     // max CPU load
-    wxFlexGridSizer* maxLoadSizer = new wxFlexGridSizer( 1, 3, 0, 0 );
-    maxLoadSizer->SetFlexibleDirection( wxHORIZONTAL );
-    maxLoadSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+    wxString MaxLoadCheckBoxText = wxEmptyString;
+    MaxLoadCheckBoxText.Printf(_("Suspend when non-%s CPU usage is above"), pSkinAdvanced->GetApplicationShortName().c_str());
+
+    wxString MaxLoadTT(_("Suspend computing when your computer is busy running other programs."));
     m_chkMaxLoad = new wxCheckBox(
-        suspendComputingStaticBox, ID_CHKMAXLOAD,
-        _("Suspend when non-BOINC CPU usage is above"), wxDefaultPosition, wxDefaultSize, 0
-    );
-    maxLoadSizer->Add( m_chkMaxLoad, 0, wxALL, 5 );
+        suspendComputingStaticBox, ID_CHKMAXLOAD, MaxLoadCheckBoxText, wxDefaultPosition, wxDefaultSize, 0);
+
     m_txtMaxLoad = new wxTextCtrl(
-        suspendComputingStaticBox, ID_TXTMAXLOAD, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("100.00")), wxTE_RIGHT
+        suspendComputingStaticBox, ID_TXTMAXLOAD, wxEmptyString, wxDefaultPosition, getTextCtrlSize(wxT("100.00")), wxTE_RIGHT
     );
-    m_txtMaxLoad->SetToolTip(
-        _("suspend work if processor usage exceeds this level")
-    );
-    maxLoadSizer->Add( m_txtMaxLoad, 0, wxALL, 1 );
-    maxLoadSizer->Add(
-        new wxStaticText(
-            suspendComputingStaticBox, ID_DEFAULT, _("percent"),
-            wxDefaultPosition, wxDefaultSize, 0
-        ),
-        0, wxALL, 5
-    );
-    suspendComputingBoxSizer->Add( maxLoadSizer, 0, wxEXPAND, 5);
+
+    wxStaticText* staticText26 = new wxStaticText( suspendComputingStaticBox, ID_DEFAULT, wxT("%"),
+            wxDefaultPosition, wxDefaultSize, 0 );
+
+    addNewRowToSizer(suspendComputingBoxSizer, MaxLoadTT, m_chkMaxLoad, m_txtMaxLoad, staticText26);
 
      suspendComputingBoxSizer->Add(
-        new wxStaticText( suspendComputingStaticBox, ID_DEFAULT, wxT("To suspend by time of day, see the \"Daily schedules\" section."), wxDefaultPosition, wxDefaultSize, 0),
+        new wxStaticText( suspendComputingStaticBox, ID_DEFAULT, wxT("To suspend by time of day, see the \"Daily Schedules\" section."), wxDefaultPosition, wxDefaultSize, 0),
         0, wxALL, 5
     );
 
-    processorTabSizer->Add( suspendComputingBoxSizer, 0, wxEXPAND, 1 );
+    processorTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
+    processorTabSizer->Add( suspendComputingBoxSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE );
 
     wxStaticBox* miscProcStaticBox = new wxStaticBox( processorTab, -1, _("Other") );
     wxStaticBoxSizer* miscProcBoxSizer = new wxStaticBoxSizer( miscProcStaticBox, wxVERTICAL );
     makeStaticBoxLabelItalic(miscProcStaticBox);
 
-    wxFlexGridSizer* miscProcGridSizer = new wxFlexGridSizer( 4, 3, 0, 0 );
-    miscProcGridSizer->AddGrowableCol( 2 );
-    miscProcGridSizer->SetFlexibleDirection( wxHORIZONTAL );
-    miscProcGridSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-
     // buffer sizes
-
+    wxString NetConnectIntervalTT(_("Store at least enough tasks to keep the computer busy for this long."));
     wxStaticText* staticText30 = new wxStaticText(
         miscProcStaticBox, ID_DEFAULT,
-        _("Store at least"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT
+        _("Store at least"), wxDefaultPosition, wxDefaultSize, 0
     );
-    miscProcGridSizer->Add( staticText30, 0, wxALL|wxEXPAND, 5 );
 
     m_txtNetConnectInterval = new wxTextCtrl(
-        miscProcStaticBox, ID_TXTNETCONNECTINTERVAL, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT
+        miscProcStaticBox, ID_TXTNETCONNECTINTERVAL, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT
     );
-    m_txtNetConnectInterval->SetToolTip(
-        _("Try to maintain enough tasks to keep busy for this many days")
-    );
-
-    miscProcGridSizer->Add( m_txtNetConnectInterval, 0, wxALL, 1 );
 
     wxStaticText* staticText31 = new wxStaticText(
         miscProcStaticBox, ID_DEFAULT, _("days of work"), wxDefaultPosition, wxDefaultSize, 0
     );
-    miscProcGridSizer->Add( staticText31, 0, wxALL, 5 );
 
+    addNewRowToSizer(miscProcBoxSizer, NetConnectIntervalTT, staticText30, m_txtNetConnectInterval, staticText31);
+
+    wxString NetAdditionalDaysTT(_("Store additional tasks above the minimum level.  Determines how much work is requested when contacting a project."));
     wxStaticText* staticText331 = new wxStaticText(
         miscProcStaticBox, ID_DEFAULT,
-        _("Store up to an additional"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT
+        _("Store up to an additional"), wxDefaultPosition, wxDefaultSize, 0
     );
-    miscProcGridSizer->Add( staticText331, 0, wxALL|wxEXPAND, 5 );
+    staticText331->SetToolTip(NetAdditionalDaysTT);
 
     m_txtNetAdditionalDays = new wxTextCtrl(
-        miscProcStaticBox, ID_TXTNETADDITIONALDAYS, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT
+        miscProcStaticBox, ID_TXTNETADDITIONALDAYS, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT
     );
-    m_txtNetAdditionalDays->SetToolTip(
-        _("In addition, maintain enough tasks for up to this many days")
-    );
-    miscProcGridSizer->Add( m_txtNetAdditionalDays, 0, wxALL, 1 );
-
-    wxBoxSizer* workBufAdditonalDaysSizer = new wxBoxSizer( wxHORIZONTAL );
 
     wxStaticText* staticText341 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("days of work"), wxDefaultPosition, wxDefaultSize, 0 );
-    workBufAdditonalDaysSizer->Add( staticText341, 0, 0, 0 );
 
-    miscProcGridSizer->Add( workBufAdditonalDaysSizer, 0, wxALL, 5 );
+    addNewRowToSizer(miscProcBoxSizer, NetAdditionalDaysTT, staticText331, m_txtNetAdditionalDays, staticText341);
 
-    wxStaticText* staticText18 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("Switch between tasks every"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    miscProcGridSizer->Add( staticText18, 0, wxALL|wxEXPAND, 5 );
+    wxString ProcSwitchEveryTT = wxEmptyString;
+    ProcSwitchEveryTT.Printf(_("If you run several projects, %s may switch between them this often."), pSkinAdvanced->GetApplicationShortName().c_str());
     
-    m_txtProcSwitchEvery = new wxTextCtrl( miscProcStaticBox, ID_TXTPROCSWITCHEVERY, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
-    miscProcGridSizer->Add( m_txtProcSwitchEvery, 0, wxALL, 1 );
+    wxStaticText* staticText18 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("Switch between tasks every"), wxDefaultPosition, wxDefaultSize, 0 );
+    
+    m_txtProcSwitchEvery = new wxTextCtrl( miscProcStaticBox, ID_TXTPROCSWITCHEVERY, wxEmptyString, wxDefaultPosition, getTextCtrlSize(wxT("9999.99")), wxTE_RIGHT );
 
     wxStaticText* staticText19 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("minutes"), wxDefaultPosition, wxDefaultSize, 0 );
-    miscProcGridSizer->Add( staticText19, 0, wxALL, 5 );
 
-    wxStaticText* staticText46 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("Request tasks to checkpoint at most every"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    miscProcGridSizer->Add( staticText46, 0, wxALL|wxEXPAND, 5 );
+    addNewRowToSizer(miscProcBoxSizer, ProcSwitchEveryTT, staticText18, m_txtProcSwitchEvery, staticText19);
 
-    m_txtDiskWriteToDisk = new wxTextCtrl( miscProcStaticBox, ID_TXTDISKWRITETODISK, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
-    miscProcGridSizer->Add( m_txtDiskWriteToDisk, 0, wxALL, 1 );
+    wxString DiskWriteToDiskTT(_("This controls how often tasks save their state to disk, so that they can be restarted later."));
+    wxStaticText* staticText46 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("Request tasks to checkpoint at most every"), wxDefaultPosition, wxDefaultSize, 0 );
+
+    m_txtDiskWriteToDisk = new wxTextCtrl( miscProcStaticBox, ID_TXTDISKWRITETODISK, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
 
     wxStaticText* staticText47 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("seconds"), wxDefaultPosition, wxDefaultSize, 0 );
-    miscProcGridSizer->Add( staticText47, 0, wxALL, 5 );
 
-    miscProcBoxSizer->Add( miscProcGridSizer, 0, wxEXPAND, 1 );
+    addNewRowToSizer(miscProcBoxSizer, DiskWriteToDiskTT, staticText46, m_txtDiskWriteToDisk, staticText47);
+
     miscProcBoxSizer->AddSpacer(1); // Ensure staticText22 is fully visible on Mac
 
-    processorTabSizer->Add( miscProcBoxSizer, 0, wxEXPAND, 1 );
+    processorTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
+    processorTabSizer->Add( miscProcBoxSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE );
+    processorTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
 
     processorTab->SetSizer( processorTabSizer );
     processorTab->Layout();
@@ -411,6 +412,9 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
 
 wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
 {
+    CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    wxASSERT(pSkinAdvanced);
+
     wxSize textCtrlSize = getTextCtrlSize(wxT("9999.99"));
 
     wxPanel* networkTab = new wxPanel( notebook, ID_TABPAGE_NET, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
@@ -422,88 +426,73 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
     wxStaticBoxSizer* networkUsageLimitsBoxSizer = new wxStaticBoxSizer( networkUsageLimitsStaticBox, wxVERTICAL );
     makeStaticBoxLabelItalic(networkUsageLimitsStaticBox);
 
-    wxFlexGridSizer* networkUsageLimitsGridSizer = new wxFlexGridSizer(3, 0, 0 );
-    networkUsageLimitsGridSizer->SetFlexibleDirection( wxHORIZONTAL );
-    networkUsageLimitsGridSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-
     // upload/download rates
 
+    wxString NetDownloadRateTT(_("Limit the download rate of file transfers."));
     m_chkNetDownloadRate = new wxCheckBox( networkUsageLimitsStaticBox, ID_CHKNETDOWNLOADRATE, _("Limit download rate to"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkUsageLimitsGridSizer->Add( m_chkNetDownloadRate, 0, wxALL, 5 );
+    
+    m_txtNetDownloadRate = new wxTextCtrl( networkUsageLimitsStaticBox, ID_TXTNETDOWNLOADRATE, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
 
-    m_txtNetDownloadRate = new wxTextCtrl( networkUsageLimitsStaticBox, ID_TXTNETDOWNLOADRATE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
-    networkUsageLimitsGridSizer->Add( m_txtNetDownloadRate, 0, wxALL, 1 );
+    wxStaticText* staticText33 = new wxStaticText( networkUsageLimitsStaticBox, ID_DEFAULT, _("KB/second"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    wxStaticText* staticText33 = new wxStaticText( networkUsageLimitsStaticBox, ID_DEFAULT, _("Kbytes/second"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkUsageLimitsGridSizer->Add( staticText33, 0, wxALL, 5 );
+    addNewRowToSizer(networkUsageLimitsBoxSizer, NetDownloadRateTT, m_chkNetDownloadRate, m_txtNetDownloadRate, staticText33);
 
+    wxString NetUploadRateTT(_("Limit the upload rate of file transfers."));
     m_chkNetUploadRate = new wxCheckBox( networkUsageLimitsStaticBox, ID_CHKNETUPLOADRATE, _("Limit upload rate to"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkUsageLimitsGridSizer->Add( m_chkNetUploadRate, 0, wxALL, 5 );
 
-    m_txtNetUploadRate = new wxTextCtrl( networkUsageLimitsStaticBox, ID_TXTNETUPLOADRATE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
-    networkUsageLimitsGridSizer->Add( m_txtNetUploadRate, 0, wxALL, 1 );
+    m_txtNetUploadRate = new wxTextCtrl( networkUsageLimitsStaticBox, ID_TXTNETUPLOADRATE, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
 
-    wxStaticText* staticText35 = new wxStaticText( networkUsageLimitsStaticBox, ID_DEFAULT, _("Kbytes/second"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkUsageLimitsGridSizer->Add( staticText35, 0, wxALL, 5 );
+    wxStaticText* staticText35 = new wxStaticText( networkUsageLimitsStaticBox, ID_DEFAULT, _("KB/second"), wxDefaultPosition, wxDefaultSize, 0 );
+
+    addNewRowToSizer(networkUsageLimitsBoxSizer, NetUploadRateTT, m_chkNetUploadRate, m_txtNetUploadRate, staticText35);
 
     // long-term quota
 
-    m_chk_daily_xfer_limit = new wxCheckBox( networkUsageLimitsStaticBox, ID_CHKDAILYXFERLIMIT, _("Limit usage to"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkUsageLimitsGridSizer->Add( m_chk_daily_xfer_limit, 0, wxALL, 5 );
-
-    m_txt_daily_xfer_limit_mb = new wxTextCtrl( networkUsageLimitsStaticBox, ID_TXTNETDOWNLOADRATE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
-    networkUsageLimitsGridSizer->Add( m_txt_daily_xfer_limit_mb, 0, wxALL, 1 );
-
-    wxBoxSizer* networkTransferLimitSizer = new wxBoxSizer( wxHORIZONTAL );
-
-    wxStaticText* staticText_daily_xfer2 = new wxStaticText( networkUsageLimitsStaticBox, ID_DEFAULT, _("Mbytes every"), wxDefaultPosition, wxDefaultSize, 0 );
-
-    networkTransferLimitSizer->Add( staticText_daily_xfer2, 0, wxALL, 5 );
+    wxString daily_xfer_limitTT = wxEmptyString;
+    daily_xfer_limitTT.Printf(_("Example: %s should transfer at most 2000 MB of data every 30 days."), pSkinAdvanced->GetApplicationShortName().c_str());
     
-    m_txt_daily_xfer_period_days = new wxTextCtrl( networkUsageLimitsStaticBox, ID_TXTNETUPLOADRATE, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("999.99")), wxTE_RIGHT );
-    networkTransferLimitSizer->Add( m_txt_daily_xfer_period_days, 0, wxALL, 1 );
+    m_chk_daily_xfer_limit = new wxCheckBox( networkUsageLimitsStaticBox, ID_CHKDAILYXFERLIMIT, _("Limit usage to"), wxDefaultPosition, wxDefaultSize, 0 );
+
+    m_txt_daily_xfer_limit_mb = new wxTextCtrl( networkUsageLimitsStaticBox, ID_TXTNETDOWNLOADRATE, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
+
+    wxStaticText* staticText_daily_xfer2 = new wxStaticText( networkUsageLimitsStaticBox, ID_DEFAULT, _("MB every"), wxDefaultPosition, wxDefaultSize, 0 );
+    
+    m_txt_daily_xfer_period_days = new wxTextCtrl( networkUsageLimitsStaticBox, ID_TXTNETUPLOADRATE, wxEmptyString, wxDefaultPosition, getTextCtrlSize(wxT("999.99")), wxTE_RIGHT );
 
     wxStaticText* staticText_daily_xfer4 = new wxStaticText( networkUsageLimitsStaticBox, ID_DEFAULT, _("days"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkTransferLimitSizer->Add( staticText_daily_xfer4, 0, wxALL, 5 );
 
-    networkUsageLimitsGridSizer->Add( networkTransferLimitSizer, 0, wxALL, 0 );
-
-    networkUsageLimitsBoxSizer->Add( networkUsageLimitsGridSizer, 0, wxEXPAND, 1 );
+    addNewRowToSizer(networkUsageLimitsBoxSizer, daily_xfer_limitTT, m_chk_daily_xfer_limit, m_txt_daily_xfer_limit_mb, staticText_daily_xfer2, m_txt_daily_xfer_period_days, staticText_daily_xfer4);
 
      networkUsageLimitsBoxSizer->Add(
-        new wxStaticText( networkUsageLimitsStaticBox, ID_DEFAULT, wxT("See also \"suspend when computer is in use\" in the \"Computing\" section."), wxDefaultPosition, wxDefaultSize, 0),
-        0, wxALL, 5
-    );
-     networkUsageLimitsBoxSizer->Add(
-        new wxStaticText( networkUsageLimitsStaticBox, ID_DEFAULT, wxT("To suspend by time of day, see the \"Daily schedules\" section."), wxDefaultPosition, wxDefaultSize, 0),
+        new wxStaticText( networkUsageLimitsStaticBox, ID_DEFAULT, wxT("To limit transfers by time of day, see the \"Daily Schedules\" section."), wxDefaultPosition, wxDefaultSize, 0),
         0, wxALL, 5
     );
 
-    networkTabSizer->Add( networkUsageLimitsBoxSizer, 0, wxEXPAND, 1 );
+    networkTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
+    networkTabSizer->Add( networkUsageLimitsBoxSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE );
 
     wxStaticBox* connectOptionsStaticBox = new wxStaticBox( networkTab, -1, _("Other") );
     wxStaticBoxSizer* connectOptionsSizer = new wxStaticBoxSizer( connectOptionsStaticBox, wxVERTICAL );
     makeStaticBoxLabelItalic(connectOptionsStaticBox);
 
+    wxString NetSkipImageVerificationTT = wxEmptyString;
+    NetSkipImageVerificationTT.Printf(_("Check this only if your Internet provider modifies image files. Skipping verification reduces the security of %s."), pSkinAdvanced->GetApplicationShortName().c_str());
+    
     m_chkNetSkipImageVerification = new wxCheckBox( connectOptionsStaticBox, ID_CHKNETSKIPIMAGEVERIFICATION, _("Skip data verification for image files"), wxDefaultPosition, wxDefaultSize, 0 );
-
-    m_chkNetSkipImageVerification->SetToolTip( _("check this if your Internet provider modifies image files") );
-
+    m_chkNetSkipImageVerification->SetToolTip(NetSkipImageVerificationTT);
     connectOptionsSizer->Add( m_chkNetSkipImageVerification, 0, wxALL, 5 );
 
     m_chkNetConfirmBeforeConnect = new wxCheckBox( connectOptionsStaticBox, ID_CHKNETCONFIRMBEFORECONNECT, _("Confirm before connecting to Internet"), wxDefaultPosition, wxDefaultSize, 0 );
-
-    m_chkNetConfirmBeforeConnect->SetToolTip( _("if checked, a confirmation dialog will be displayed before trying to connect to the Internet") );
-
+    m_chkNetConfirmBeforeConnect->SetToolTip( _("Useful only if you have a modem, ISDN or VPN connection.") );
     connectOptionsSizer->Add( m_chkNetConfirmBeforeConnect, 0, wxALL, 5 );
 
     m_chkNetDisconnectWhenDone = new wxCheckBox( connectOptionsStaticBox, ID_CHKNETDISCONNECTWHENDONE, _("Disconnect when done"), wxDefaultPosition, wxDefaultSize, 0 );
-
-    m_chkNetDisconnectWhenDone->SetToolTip( _("if checked, BOINC hangs up when network usage is done\n(only relevant for dialup-connection)") );
-
+    m_chkNetDisconnectWhenDone->SetToolTip( _("Useful only if you have a modem, ISDN or VPN connection.") );
     connectOptionsSizer->Add( m_chkNetDisconnectWhenDone, 0, wxALL, 5 );
 
-    networkTabSizer->Add( connectOptionsSizer, 0, wxEXPAND, 1 );
+    networkTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
+    networkTabSizer->Add( connectOptionsSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE );
+    networkTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
 
     networkTab->SetSizer( networkTabSizer );
     networkTab->Layout();
@@ -514,118 +503,118 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
 
 wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
 {
+    CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    wxASSERT(pSkinAdvanced);
+
     wxSize textCtrlSize = getTextCtrlSize(wxT("9999.99"));
     
     wxPanel* diskMemoryTab = new wxPanel( notebook, ID_TABPAGE_DISK, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
     diskMemoryTab->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
 
-    wxBoxSizer* diskAndMemoryBoxSizer = new wxBoxSizer( wxVERTICAL );
+    wxBoxSizer* diskAndMemoryTabSizer = new wxBoxSizer( wxVERTICAL );
 
     wxStaticBox* diskUsageStaticBox = new wxStaticBox( diskMemoryTab, -1, _("Disk") );
     wxStaticBoxSizer* diskUsageBoxSizer = new wxStaticBoxSizer( diskUsageStaticBox, wxVERTICAL );
     makeStaticBoxLabelItalic(diskUsageStaticBox);
 
-    diskUsageBoxSizer->Add(new wxStaticText( diskUsageStaticBox, -1, _("BOINC will use the most restrictive of these three settings:"), wxDefaultPosition, wxDefaultSize, 0),
+    wxString MostRestrictiveText = wxEmptyString;
+    MostRestrictiveText.Printf(_("%s will use the most restrictive of these settings:"), pSkinAdvanced->GetApplicationShortName().c_str());
+    diskUsageBoxSizer->Add(new wxStaticText( diskUsageStaticBox, -1, MostRestrictiveText, wxDefaultPosition, wxDefaultSize, 0),
         0, wxALL, 5
     );
 
-    wxFlexGridSizer* diskUsageGridSizer = new wxFlexGridSizer( 3, 3, 0, 0 );
-    diskUsageGridSizer->AddGrowableCol( 2 );
-    diskUsageGridSizer->SetFlexibleDirection( wxHORIZONTAL );
-    diskUsageGridSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+    wxString DiskMaxSpaceTT = wxEmptyString;
+    DiskMaxSpaceTT.Printf(_("Limit the total amount of disk space used by %s."), pSkinAdvanced->GetApplicationShortName().c_str());
 
     m_chkDiskMaxSpace = new wxCheckBox (
-        diskUsageStaticBox, ID_CHKDISKMAXSPACE, _("Use no more than"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    diskUsageGridSizer->Add( m_chkDiskMaxSpace, 0, wxALL|wxEXPAND, 5 );
+        diskUsageStaticBox, ID_CHKDISKMAXSPACE, _("Use no more than"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    m_txtDiskMaxSpace = new wxTextCtrl( diskUsageStaticBox, ID_TXTDISKMAXSPACE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
-    m_txtDiskMaxSpace->SetToolTip( _("the maximum disk space used by BOINC (in Gigabytes)") );
+    m_txtDiskMaxSpace = new wxTextCtrl( diskUsageStaticBox, ID_TXTDISKMAXSPACE,wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
 
-    diskUsageGridSizer->Add( m_txtDiskMaxSpace, 0, wxALL, 1 );
+    wxStaticText* staticText41 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("GB"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    wxStaticText* staticText41 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("Gigabytes"), wxDefaultPosition, wxDefaultSize, 0 );
-    diskUsageGridSizer->Add( staticText41, 0, wxALL, 5 );
+    addNewRowToSizer(diskUsageBoxSizer, DiskMaxSpaceTT, m_chkDiskMaxSpace, m_txtDiskMaxSpace, staticText41);
+
+    wxString DiskLeastFreeTT = wxEmptyString;
+    DiskLeastFreeTT.Printf(_("Limit disk usage to leave this much free space on the volume where %s stores data."), pSkinAdvanced->GetApplicationShortName().c_str());
 
     m_chkDiskLeastFree = new wxCheckBox (
-        diskUsageStaticBox, ID_CHKDISKLEASTFREE, _("Leave at least"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    diskUsageGridSizer->Add( m_chkDiskLeastFree, 0, wxALL|wxEXPAND, 5 );
+        diskUsageStaticBox, ID_CHKDISKLEASTFREE, _("Leave at least"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    m_txtDiskLeastFree = new wxTextCtrl( diskUsageStaticBox, ID_TXTDISKLEASTFREE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
-    m_txtDiskLeastFree->SetToolTip( _("BOINC leaves at least this amount of disk space free (in Gigabytes)") );
+    m_txtDiskLeastFree = new wxTextCtrl( diskUsageStaticBox, ID_TXTDISKLEASTFREE, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
 
-    diskUsageGridSizer->Add( m_txtDiskLeastFree, 0, wxALL, 1 );
+    wxStaticText* staticText43 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("GB free"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    wxStaticText* staticText43 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("Gigabytes free"), wxDefaultPosition, wxDefaultSize, 0 );
-    diskUsageGridSizer->Add( staticText43, 0, wxALL, 5 );
+    addNewRowToSizer(diskUsageBoxSizer, DiskLeastFreeTT, m_chkDiskLeastFree, m_txtDiskLeastFree, staticText43);
+
+    wxString DiskMaxOfTotalTT = wxEmptyString;
+    DiskMaxOfTotalTT.Printf(_("Limit the percentage of disk space used by %s on the volume where it stores data."), pSkinAdvanced->GetApplicationShortName().c_str());
 
     m_chkDiskMaxOfTotal = new wxCheckBox (
-        diskUsageStaticBox, ID_CHKDISKMAXOFTOTAL, _("Use no more than"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    diskUsageGridSizer->Add( m_chkDiskMaxOfTotal, 0, wxALL|wxEXPAND, 5 );
+        diskUsageStaticBox, ID_CHKDISKMAXOFTOTAL, _("Use no more than"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    m_txtDiskMaxOfTotal = new wxTextCtrl( diskUsageStaticBox, ID_TXTDISKMAXOFTOTAL, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
-    m_txtDiskMaxOfTotal->SetToolTip( _("BOINC uses at most this percentage of total disk space") );
-
-    diskUsageGridSizer->Add( m_txtDiskMaxOfTotal, 0, wxALL, 1 );
+    m_txtDiskMaxOfTotal = new wxTextCtrl( diskUsageStaticBox, ID_TXTDISKMAXOFTOTAL, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
 
     /*xgettext:no-c-format*/
     wxStaticText* staticText45 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("% of total"), wxDefaultPosition, wxDefaultSize, 0 );
-    diskUsageGridSizer->Add( staticText45, 0, wxALL, 5 );
 
-    diskUsageBoxSizer->Add(diskUsageGridSizer, 0, wxEXPAND, 1 );
-    diskAndMemoryBoxSizer->Add( diskUsageBoxSizer, 0, wxEXPAND, 1 );
+    addNewRowToSizer(diskUsageBoxSizer, DiskMaxOfTotalTT, m_chkDiskMaxOfTotal, m_txtDiskMaxOfTotal, staticText45);
+
+    diskAndMemoryTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
+    diskAndMemoryTabSizer->Add( diskUsageBoxSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE );
 
     wxStaticBox* memoryUsageStaticBox = new wxStaticBox( diskMemoryTab, -1, _("Memory") );
     wxStaticBoxSizer* memoryUsageBoxSizer = new wxStaticBoxSizer( memoryUsageStaticBox, wxVERTICAL );
     makeStaticBoxLabelItalic(memoryUsageStaticBox);
 
-    wxFlexGridSizer* memoryUsageGridSizer = new wxFlexGridSizer( 3, 3, 0, 0 );
-    memoryUsageGridSizer->AddGrowableCol( 2 );
-    memoryUsageGridSizer->SetFlexibleDirection( wxHORIZONTAL );
-    memoryUsageGridSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+    wxString MemoryMaxInUseTT = wxEmptyString;
+    MemoryMaxInUseTT.Printf(_("Limit the memory used by %s when you're using the computer."), pSkinAdvanced->GetApplicationShortName().c_str());
 
-    wxStaticText* staticText50 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("When computer is in use, use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    memoryUsageGridSizer->Add( staticText50, 0, wxALL|wxEXPAND, 5 );
+    wxStaticText* staticText50 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("When computer is in use, use at most"), wxDefaultPosition, wxDefaultSize, 0 );
 
     textCtrlSize = getTextCtrlSize(wxT("100.00"));
-    m_txtMemoryMaxInUse = new wxTextCtrl( memoryUsageStaticBox, ID_TXTMEMORYMAXINUSE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
-    memoryUsageGridSizer->Add( m_txtMemoryMaxInUse, 0, wxALL, 1 );
+    m_txtMemoryMaxInUse = new wxTextCtrl( memoryUsageStaticBox, ID_TXTMEMORYMAXINUSE, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
 
     /*xgettext:no-c-format*/ 
     wxStaticText* staticText51 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("%"), wxDefaultPosition, wxDefaultSize, 0 );
-    memoryUsageGridSizer->Add( staticText51, 0, wxALL, 5 );
 
-    wxStaticText* staticText52 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("When computer is not in use, use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    memoryUsageGridSizer->Add( staticText52, 0, wxALL|wxEXPAND, 5 );
+    addNewRowToSizer(memoryUsageBoxSizer, MemoryMaxInUseTT, staticText50, m_txtMemoryMaxInUse, staticText51);
 
-    m_txtMemoryMaxOnIdle = new wxTextCtrl( memoryUsageStaticBox, ID_TXTMEMORYMAXONIDLE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
-    memoryUsageGridSizer->Add( m_txtMemoryMaxOnIdle, 0, wxALL, 1 );
+    wxString MemoryMaxOnIdleTT = wxEmptyString;
+    MemoryMaxOnIdleTT.Printf(_("Limit the memory used by %s when you're not using the computer."), pSkinAdvanced->GetApplicationShortName().c_str());
+
+    wxStaticText* staticText52 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("When computer is not in use, use at most"), wxDefaultPosition, wxDefaultSize, 0 );
+
+    m_txtMemoryMaxOnIdle = new wxTextCtrl( memoryUsageStaticBox, ID_TXTMEMORYMAXONIDLE, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
 
     /*xgettext:no-c-format*/
     wxStaticText* staticText53 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("%"), wxDefaultPosition, wxDefaultSize, 0 );
-    memoryUsageGridSizer->Add( staticText53, 0, wxALL, 5 );
 
-    wxStaticText* staticText48 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("Page/swap file: use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    memoryUsageGridSizer->Add( staticText48, 0, wxALL|wxEXPAND, 5 );
-
-    m_txtDiskMaxSwap = new wxTextCtrl( memoryUsageStaticBox, ID_TXTDISKWRITETODISK, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
-    memoryUsageGridSizer->Add( m_txtDiskMaxSwap, 0, wxALL, 1 );
-
-    wxStaticText* staticText49 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("%"), wxDefaultPosition, wxDefaultSize, 0 );
-    memoryUsageGridSizer->Add( staticText49, 0, wxALL, 5 );
-
-    memoryUsageBoxSizer->Add( memoryUsageGridSizer, 0, wxEXPAND, 1 );
+    addNewRowToSizer(memoryUsageBoxSizer, MemoryMaxOnIdleTT, staticText52, m_txtMemoryMaxOnIdle, staticText53);
 
     m_chkMemoryWhileSuspended = new wxCheckBox( memoryUsageStaticBox, ID_CHKMEMORYWHILESUSPENDED, _("Leave non-GPU tasks in memory while suspended"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_chkMemoryWhileSuspended->SetToolTip( _("If checked, suspended tasks stay in memory, and resume with no work lost. If unchecked, suspended tasks are removed from memory, and resume from their last checkpoint.") );
+    memoryUsageBoxSizer->Add(m_chkMemoryWhileSuspended, 0, wxALL, 5 );
 
-    m_chkMemoryWhileSuspended->SetToolTip( _("if checked, suspended work units are left in memory") );
+    wxString DiskMaxSwapTT = wxEmptyString;
+    DiskMaxSwapTT.Printf(_("Limit the swap space (page file) used by %s."), pSkinAdvanced->GetApplicationShortName().c_str());
 
-    memoryUsageBoxSizer->Add( m_chkMemoryWhileSuspended, 0, wxALL, 5 );
+    wxStaticText* staticText48 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("Page/swap file: use at most"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    diskAndMemoryBoxSizer->Add( memoryUsageBoxSizer, 0, wxALL|wxEXPAND, 1 );
+    m_txtDiskMaxSwap = new wxTextCtrl( memoryUsageStaticBox, ID_TXTDISKWRITETODISK, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
 
-    diskMemoryTab->SetSizer( diskAndMemoryBoxSizer );
+    /*xgettext:no-c-format*/
+    wxStaticText* staticText49 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("%"), wxDefaultPosition, wxDefaultSize, 0 );
+
+    addNewRowToSizer(memoryUsageBoxSizer, DiskMaxSwapTT, staticText48, m_txtDiskMaxSwap, staticText49);
+
+    diskAndMemoryTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
+    diskAndMemoryTabSizer->Add( memoryUsageBoxSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE );
+    diskAndMemoryTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
+
+    diskMemoryTab->SetSizer( diskAndMemoryTabSizer );
     diskMemoryTab->Layout();
-    diskAndMemoryBoxSizer->Fit( diskMemoryTab );
+    diskAndMemoryTabSizer->Fit( diskMemoryTab );
 
     return diskMemoryTab;
 }
@@ -633,192 +622,310 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
 
 wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
 {
-    wxPanel* dailySchedulesTab = new wxPanel( notebook, ID_TABPAGE_DISK, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+    wxSize textCtrlSize = getTextCtrlSize(wxT("23:59 "));
+    
+    wxString andString(_("and"));
+    wxString toString(wxT(" ")+_("to")+wxT(" "));
+    
+    wxPanel* dailySchedulesTab = new wxPanel( notebook, ID_TABPAGE_SCHED, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
     dailySchedulesTab->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
 
     wxBoxSizer* dailySchedulesTabSizer = new wxBoxSizer( wxVERTICAL );
 
     // Computing schedule
     //
-    wxStaticBox* computingTimesStaticBox = new wxStaticBox(dailySchedulesTab, -1, _("Schedule computing") );
+    wxStaticBox* computingTimesStaticBox = new wxStaticBox(dailySchedulesTab, -1, _("Computing") );
     wxStaticBoxSizer* computingTimesStaticBoxSizer = new wxStaticBoxSizer(computingTimesStaticBox, wxVERTICAL);
     makeStaticBoxLabelItalic(computingTimesStaticBox);
 
-    wxBoxSizer* cpuTimesEveryDaySizer = new wxBoxSizer( wxHORIZONTAL );
-
+    wxString ProcEveryDayTT(_("Compute only during a particular range of hours each day."));
     m_chkProcEveryDay = new wxCheckBox(
         computingTimesStaticBox, ID_CHKPROCEVERYDAY,
         _("Compute only between"), wxDefaultPosition, wxDefaultSize, 0 );
-    cpuTimesEveryDaySizer->Add( m_chkProcEveryDay, 0, wxLEFT|wxRIGHT, 5 );
 
-    m_txtProcEveryDayStart = new wxTextCtrl( computingTimesStaticBox, ID_TXTPROCEVERYDAYSTART, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("23:59")), wxTE_RIGHT );
-    m_txtProcEveryDayStart->SetToolTip( _("allow work starting at this time") );
-    cpuTimesEveryDaySizer->Add( m_txtProcEveryDayStart, 0, wxLEFT|wxRIGHT, 1 );
+    m_txtProcEveryDayStart = new wxTextCtrl( computingTimesStaticBox, ID_TXTPROCEVERYDAYSTART, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
 
-    wxStaticText* staticText25 = new wxStaticText( computingTimesStaticBox, ID_DEFAULT, _("and"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
-    cpuTimesEveryDaySizer->Add( staticText25, 0, wxLEFT|wxRIGHT, 5 );
+    wxStaticText* staticText25 = new wxStaticText( computingTimesStaticBox, ID_DEFAULT, andString, wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
 
-    m_txtProcEveryDayStop = new wxTextCtrl( computingTimesStaticBox, ID_TXTPROCEVERYDAYSTOP, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("23:59")), wxTE_RIGHT );
-    m_txtProcEveryDayStop->SetToolTip( _("stop allowing work at this time") );
-    cpuTimesEveryDaySizer->Add( m_txtProcEveryDayStop, 0, wxLEFT|wxRIGHT, 1 );
+    m_txtProcEveryDayStop = new wxTextCtrl( computingTimesStaticBox, ID_TXTPROCEVERYDAYSTOP, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
 
-    computingTimesStaticBoxSizer->Add( cpuTimesEveryDaySizer, 0, wxLEFT|wxRIGHT, 1 );
+    addNewRowToSizer(computingTimesStaticBoxSizer, ProcEveryDayTT, m_chkProcEveryDay, m_txtProcEveryDayStart, staticText25, m_txtProcEveryDayStop);
 
     wxStaticBox* procSpecialTimesStaticBox = new wxStaticBox(computingTimesStaticBox, -1, _("Day-of-week override") );
     wxStaticBoxSizer* procSpecialTimesStaticBoxSizer = new wxStaticBoxSizer(procSpecialTimesStaticBox, wxVERTICAL);
     makeStaticBoxLabelItalic(procSpecialTimesStaticBox);
 
-    wxStaticText* staticText36 = new wxStaticText( procSpecialTimesStaticBox, ID_DEFAULT, _("Selected days will override the \"Every day\" times above"), wxDefaultPosition, wxDefaultSize, 0 );
-    procSpecialTimesStaticBoxSizer->Add( staticText36, 0, wxALL, 0 );
+    wxStaticText* staticText36 = new wxStaticText( procSpecialTimesStaticBox, ID_DEFAULT, _("Override the times above on the selected days:"), wxDefaultPosition, wxDefaultSize, 0 );
+#ifdef __WXMAC__
+    procSpecialTimesStaticBoxSizer->Add( staticText36, 0, wxLEFT, 5 );
+#else
+    procSpecialTimesStaticBoxSizer->Add( staticText36, 0, wxLEFT, DAYOFWEEKBORDERSIZE );
+#endif
  
-    m_panelProcSpecialTimes = new wxPanel( procSpecialTimesStaticBox, ID_DEFAULT, wxDefaultPosition, wxDefaultSize);
-    m_panelProcSpecialTimes->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
-    m_panelProcSpecialTimes->SetToolTip(_("On each selected \"override\" day, ignore the \"Every day\" times above and suspend if the time is outside the range shown for that day"));
+    procSpecialTimesStaticBoxSizer->AddSpacer(3);
+
+//    procSpecialTimesStaticBox->SetToolTip(_("On each selected \"override\" day, ignore the \"Every day\" times above and suspend if the time is outside the range shown for that day"));
    
-    wxFlexGridSizer* procDaysSizer = new wxFlexGridSizer( 4, 4, 0, 0 );
+    wxFlexGridSizer* procDaysSizer = new wxFlexGridSizer( 4, 9, 0, 0 );
     procDaysSizer->SetFlexibleDirection( wxHORIZONTAL );
     procDaysSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 
-    m_chkProcMonday = new wxCheckBox( m_panelProcSpecialTimes, ID_CHKPROCMONDAY, _("Monday"), wxDefaultPosition, wxDefaultSize, 0 );
-    procDaysSizer->Add( m_chkProcMonday, 0, wxALL, 5 );
+    // Tooltips for Day-of-Week override wxCheckBoxes and wxTextCtrls are set in CDlgAdvPreferences::SetSpecialTooltips()
+    wxString procDaysTimeTT(PROC_DAY_OF_WEEK_TOOLTIP_TEXT);
 
-    m_txtProcMonday = new wxTextCtrl( m_panelProcSpecialTimes, ID_TXTPROCMONDAY, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("00:00-23:59")), 0 );
-    procDaysSizer->Add( m_txtProcMonday, 0, wxALL, 1 );
+    m_chkProcMonday = new wxCheckBox( procSpecialTimesStaticBox, ID_CHKPROCMONDAY, _("Monday"), wxDefaultPosition, wxDefaultSize, 0 );
+    procDaysSizer->Add( m_chkProcMonday, 0, wxTOP, 5 );
 
-    m_chkProcTuesday = new wxCheckBox( m_panelProcSpecialTimes, ID_CHKPROCTUESDAY, _("Tuesday"), wxDefaultPosition, wxDefaultSize, 0 );
-    procDaysSizer->Add( m_chkProcTuesday, 0, wxALL, 5 );
+    m_txtProcMondayStart = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCMONDAYSTART, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    procDaysSizer->Add( m_txtProcMondayStart, 0, wxALL, 1 );
 
-    m_txtProcTuesday = new wxTextCtrl( m_panelProcSpecialTimes, ID_TXTPROCTUESDAY, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("00:00-23:59")), 0 );
-    procDaysSizer->Add( m_txtProcTuesday, 0, wxALL, 1 );
+    wxStaticText* toStringProcMonday = new wxStaticText( procSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
+    toStringProcMonday->SetToolTip(procDaysTimeTT);
+    procDaysSizer->Add(toStringProcMonday , 0, wxTOP, 5 );
 
-    m_chkProcWednesday = new wxCheckBox( m_panelProcSpecialTimes, ID_CHKPROCWEDNESDAY, _("Wednesday"), wxDefaultPosition, wxDefaultSize, 0 );
-    procDaysSizer->Add( m_chkProcWednesday, 0, wxALL, 5 );
+    m_txtProcMondayStop = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCMONDAYSTOP, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    procDaysSizer->Add( m_txtProcMondayStop, 0, wxALL, 1 );
 
-    m_txtProcWednesday = new wxTextCtrl( m_panelProcSpecialTimes, ID_TXTPROCWEDNESDAY, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("00:00-23:59")), 0 );
-    procDaysSizer->Add( m_txtProcWednesday, 0, wxALL, 1 );
+    procDaysSizer->AddSpacer(15);
 
-    m_chkProcThursday = new wxCheckBox( m_panelProcSpecialTimes, ID_CHKPROCTHURSDAY, _("Thursday"), wxDefaultPosition, wxDefaultSize, 0 );
-    procDaysSizer->Add( m_chkProcThursday, 0, wxALL, 5 );
+    m_chkProcFriday = new wxCheckBox( procSpecialTimesStaticBox, ID_CHKPROCFRIDAY, _("Friday"), wxDefaultPosition, wxDefaultSize, 0 );
+    procDaysSizer->Add( m_chkProcFriday, 0, wxTOP, 5 );
 
-    m_txtProcThursday = new wxTextCtrl( m_panelProcSpecialTimes, ID_TXTPROCTHURSDAY, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("00:00-23:59")), 0 );
-    procDaysSizer->Add( m_txtProcThursday, 0, wxALL, 1 );
+    m_txtProcFridayStart = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCFRIDAYSTART, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    procDaysSizer->Add( m_txtProcFridayStart, 0, wxALL, 1 );
 
-    m_chkProcFriday = new wxCheckBox( m_panelProcSpecialTimes, ID_CHKPROCFRIDAY, _("Friday"), wxDefaultPosition, wxDefaultSize, 0 );
-    procDaysSizer->Add( m_chkProcFriday, 0, wxALL, 5 );
+    wxStaticText* toStringProcFriday = new wxStaticText( procSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
+    toStringProcFriday->SetToolTip(procDaysTimeTT);
+    procDaysSizer->Add(toStringProcFriday , 0, wxTOP, 5 );
 
-    m_txtProcFriday = new wxTextCtrl( m_panelProcSpecialTimes, ID_TXTPROCFRIDAY, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("00:00-23:59")), 0 );
-    procDaysSizer->Add( m_txtProcFriday, 0, wxALL, 1 );
+    m_txtProcFridayStop = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCFRIDAYSTOP, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    procDaysSizer->Add( m_txtProcFridayStop, 0, wxALL, 1 );
 
-    m_chkProcSaturday = new wxCheckBox( m_panelProcSpecialTimes, ID_CHKPROCSATURDAY, _("Saturday"), wxDefaultPosition, wxDefaultSize, 0 );
-    procDaysSizer->Add( m_chkProcSaturday, 0, wxALL, 5 );
+    m_chkProcTuesday = new wxCheckBox( procSpecialTimesStaticBox, ID_CHKPROCTUESDAY, _("Tuesday"), wxDefaultPosition, wxDefaultSize, 0 );
+    procDaysSizer->Add( m_chkProcTuesday, 0, wxTOP, 5 );
 
-    m_txtProcSaturday = new wxTextCtrl( m_panelProcSpecialTimes, ID_TXTPROCSATURDAY, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("00:00-23:59")), 0 );
-    procDaysSizer->Add( m_txtProcSaturday, 0, wxALL, 1 );
+    m_txtProcTuesdayStart = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCTUESDAYSTART, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    procDaysSizer->Add( m_txtProcTuesdayStart, 0, wxALL, 1 );
 
-    m_chkProcSunday = new wxCheckBox( m_panelProcSpecialTimes, ID_CHKPROCSUNDAY, _("Sunday"), wxDefaultPosition, wxDefaultSize, 0 );
-    procDaysSizer->Add( m_chkProcSunday, 0, wxALL, 5 );
+    wxStaticText* toStringProcTuesday = new wxStaticText( procSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
+    toStringProcTuesday->SetToolTip(procDaysTimeTT);
+    procDaysSizer->Add(toStringProcTuesday , 0, wxTOP, 5 );
 
-    m_txtProcSunday = new wxTextCtrl( m_panelProcSpecialTimes, ID_TXTPROCSUNDAY, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("00:00-23:59")), 0 );
-    procDaysSizer->Add( m_txtProcSunday, 0, wxALL, 1 );
+    m_txtProcTuesdayStop = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCTUESDAYSTOP, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    procDaysSizer->Add( m_txtProcTuesdayStop, 0, wxALL, 1 );
 
-    m_panelProcSpecialTimes->SetSizer( procDaysSizer );
-    m_panelProcSpecialTimes->Layout();
-    procDaysSizer->Fit( m_panelProcSpecialTimes );
+    procDaysSizer->AddSpacer(15);
+
+    m_chkProcSaturday = new wxCheckBox( procSpecialTimesStaticBox, ID_CHKPROCSATURDAY, _("Saturday"), wxDefaultPosition, wxDefaultSize, 0 );
+    procDaysSizer->Add( m_chkProcSaturday, 0, wxTOP, 5 );
+
+    m_txtProcSaturdayStart = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCSATURDAYSTART, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    procDaysSizer->Add( m_txtProcSaturdayStart, 0, wxALL, 1 );
+
+    wxStaticText* toStringProcSaturday = new wxStaticText( procSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
+    toStringProcSaturday->SetToolTip(procDaysTimeTT);
+    procDaysSizer->Add(toStringProcSaturday , 0, wxTOP, 5 );
+
+    m_txtProcSaturdayStop = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCSATURDAYSTOP, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    procDaysSizer->Add( m_txtProcSaturdayStop, 0, wxALL, 1 );
+
+    m_chkProcWednesday = new wxCheckBox( procSpecialTimesStaticBox, ID_CHKPROCWEDNESDAY, _("Wednesday"), wxDefaultPosition, wxDefaultSize, 0 );
+    procDaysSizer->Add( m_chkProcWednesday, 0, wxTOP, 5 );
+
+    m_txtProcWednesdayStart = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCWEDNESDAYSTART, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    procDaysSizer->Add( m_txtProcWednesdayStart, 0, wxALL, 1 );
+
+    wxStaticText* toStringProcWednesday = new wxStaticText( procSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
+    toStringProcWednesday->SetToolTip(procDaysTimeTT);
+    procDaysSizer->Add(toStringProcWednesday , 0, wxTOP, 5 );
+
+    m_txtProcWednesdayStop = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCWEDNESDAYSTOP, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    procDaysSizer->Add( m_txtProcWednesdayStop, 0, wxALL, 1 );
+
+    procDaysSizer->AddSpacer(15);
+
+    m_chkProcSunday = new wxCheckBox( procSpecialTimesStaticBox, ID_CHKPROCSUNDAY, _("Sunday"), wxDefaultPosition, wxDefaultSize, 0 );
+    procDaysSizer->Add( m_chkProcSunday, 0, wxTOP, 5 );
+
+    m_txtProcSundayStart = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCSUNDAYSTART, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    procDaysSizer->Add( m_txtProcSundayStart, 0, wxALL, 1 );
+
+    wxStaticText* toStringProcSunday = new wxStaticText( procSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
+    toStringProcSunday->SetToolTip(procDaysTimeTT);
+    procDaysSizer->Add(toStringProcSunday , 0, wxTOP, 5 );
+
+    m_txtProcSundayStop = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCSUNDAYSTOP, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    procDaysSizer->Add( m_txtProcSundayStop, 0, wxALL, 1 );
+
+    m_chkProcThursday = new wxCheckBox( procSpecialTimesStaticBox, ID_CHKPROCTHURSDAY, _("Thursday"), wxDefaultPosition, wxDefaultSize, 0 );
+    procDaysSizer->Add( m_chkProcThursday, 0, wxTOP, 5 );
+
+    m_txtProcThursdayStart = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCTHURSDAYSTART, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    procDaysSizer->Add( m_txtProcThursdayStart, 0, wxALL, 1 );
+
+    wxStaticText* toStringProcThursday = new wxStaticText( procSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
+    toStringProcThursday->SetToolTip(procDaysTimeTT);
+    procDaysSizer->Add(toStringProcThursday , 0, wxTOP, 5 );
+
+    m_txtProcThursdayStop = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCTHURSDAYSTOP, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    procDaysSizer->Add( m_txtProcThursdayStop, 0, wxALL, 1 );
     
-    procSpecialTimesStaticBoxSizer->Add( m_panelProcSpecialTimes, 0, wxALL, 0 );
-    computingTimesStaticBoxSizer->Add( procSpecialTimesStaticBoxSizer, 1, wxEXPAND | wxALL, 1 );
-    dailySchedulesTabSizer->Add( computingTimesStaticBoxSizer, 1, wxEXPAND | wxALL, 1 );
+#ifdef __WXMAC__
+    procSpecialTimesStaticBoxSizer->Add( procDaysSizer, 0, wxRIGHT | wxBOTTOM, DAYOFWEEKBORDERSIZE );
+    computingTimesStaticBoxSizer->Add( procSpecialTimesStaticBoxSizer, 0, wxRIGHT | wxBOTTOM, STATICBOXBORDERSIZE + 3 );
+#else
+    procSpecialTimesStaticBoxSizer->Add( procDaysSizer, 1, wxRIGHT | wxLEFT | wxBOTTOM, DAYOFWEEKBORDERSIZE );
+    computingTimesStaticBoxSizer->Add(procSpecialTimesStaticBoxSizer, 1, wxRIGHT | wxLEFT | wxBOTTOM, STATICBOXBORDERSIZE );
+#endif
+    dailySchedulesTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
+    dailySchedulesTabSizer->Add( computingTimesStaticBoxSizer, 1, wxRIGHT | wxLEFT | wxEXPAND, STATICBOXBORDERSIZE );
     
     // Network schedule
     //
-    wxStaticBox* networkTimesStaticBox = new wxStaticBox( dailySchedulesTab, -1, _("Schedule network usage") );
+    wxStaticBox* networkTimesStaticBox = new wxStaticBox( dailySchedulesTab, -1, _("Network") );
     wxStaticBoxSizer* networkTimesBoxSizer = new wxStaticBoxSizer( networkTimesStaticBox, wxVERTICAL );
     makeStaticBoxLabelItalic(networkTimesStaticBox);
 
-    wxBoxSizer* networkTimesEveryDaySizer = new wxBoxSizer( wxHORIZONTAL );
-
+    wxString NetEveryDayTT(_("Transfer files only during a particular range of hours each day."));
     m_chkNetEveryDay = new wxCheckBox(
-        networkTimesStaticBox, ID_CHKNETEVERYDAY, _("Tranfer files only between"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkTimesEveryDaySizer->Add( m_chkNetEveryDay, 0, wxLEFT|wxRIGHT, 5 );
+        networkTimesStaticBox, ID_CHKNETEVERYDAY, _("Transfer files only between"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    m_txtNetEveryDayStart = new wxTextCtrl( networkTimesStaticBox, ID_TXTNETEVERYDAYSTART, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("23:59")), 0 );
-    m_txtNetEveryDayStart->SetToolTip( _("allow file tranfers starting at this time") );
-    networkTimesEveryDaySizer->Add( m_txtNetEveryDayStart, 0, wxLEFT|wxRIGHT, 1 );
+    m_txtNetEveryDayStart = new wxTextCtrl( networkTimesStaticBox, ID_TXTNETEVERYDAYSTART, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
 
-    wxStaticText* staticText37 = new wxStaticText( networkTimesStaticBox, ID_DEFAULT, _("and"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkTimesEveryDaySizer->Add( staticText37, 0, wxLEFT|wxRIGHT, 5 );
+    wxStaticText* staticText37 = new wxStaticText( networkTimesStaticBox, ID_DEFAULT, andString, wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
 
-    m_txtNetEveryDayStop = new wxTextCtrl( networkTimesStaticBox, ID_TXTNETEVERYDAYSTOP, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("23:59")), 0 );
-    m_txtNetEveryDayStop->SetToolTip( _("stop allowing file tranfers at this time") );
+    m_txtNetEveryDayStop = new wxTextCtrl( networkTimesStaticBox, ID_TXTNETEVERYDAYSTOP, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
 
-    networkTimesEveryDaySizer->Add( m_txtNetEveryDayStop, 0, wxLEFT|wxRIGHT, 1 );
-
-    networkTimesBoxSizer->Add( networkTimesEveryDaySizer, 0, wxLEFT|wxRIGHT, 1 );
+    addNewRowToSizer(networkTimesBoxSizer, NetEveryDayTT, m_chkNetEveryDay, m_txtNetEveryDayStart, staticText37, m_txtNetEveryDayStop);
 
     wxStaticBox* netSpecialTimesStaticBox = new wxStaticBox(networkTimesStaticBox, -1, _("Day-of-week override") );
     wxStaticBoxSizer* netSpecialTimesStaticBoxSizer = new wxStaticBoxSizer(netSpecialTimesStaticBox, wxVERTICAL);
     makeStaticBoxLabelItalic(netSpecialTimesStaticBox);
     
-    wxStaticText* staticText39 = new wxStaticText( netSpecialTimesStaticBox, ID_DEFAULT, _("Selected days will override the \"Every day\" times above"), wxDefaultPosition, wxDefaultSize, 0 );
-    netSpecialTimesStaticBoxSizer->Add( staticText39, 0, wxALL, 0 );
-
-    m_panelNetSpecialTimes = new wxPanel( netSpecialTimesStaticBox, ID_DEFAULT, wxDefaultPosition, wxDefaultSize);
-    m_panelNetSpecialTimes->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
-    m_panelNetSpecialTimes->SetToolTip(_("On each selected \"override\" day, ignore the \"Every day\" times above and suspend if the time is outside the range shown for that day"));
+    wxStaticText* staticText39 = new wxStaticText( netSpecialTimesStaticBox, ID_DEFAULT, _("Override the times above on the selected days:"), wxDefaultPosition, wxDefaultSize, 0 );
+#ifdef __WXMAC__
+    netSpecialTimesStaticBoxSizer->Add( staticText39, 0, wxLEFT, 5 );
+#else
+    netSpecialTimesStaticBoxSizer->Add( staticText39, 0, wxLEFT, DAYOFWEEKBORDERSIZE );
+#endif
+    netSpecialTimesStaticBoxSizer->AddSpacer(3);
+    
+//    netSpecialTimesStaticBox->SetToolTip(_("On each selected \"override\" day, ignore the \"Every day\" times above and suspend if the time is outside the range shown for that day"));
    
-    wxFlexGridSizer* netDaysGridSizer = new wxFlexGridSizer( 4, 4, 0, 0 );
+    // Tooltips for Day-of-Week overrides are set in CDlgAdvPreferences::SetSpecialTooltips()
+    wxString netDaysTimeTT(NET_DAY_OF_WEEK_TOOLTIP_TEXT);
+
+    wxFlexGridSizer* netDaysGridSizer = new wxFlexGridSizer( 4, 9, 0, 0 );
     netDaysGridSizer->SetFlexibleDirection( wxHORIZONTAL );
     netDaysGridSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 
-    m_chkNetMonday = new wxCheckBox( m_panelNetSpecialTimes, ID_CHKNETMONDAY, _("Monday"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_chkNetMonday = new wxCheckBox( netSpecialTimesStaticBox, ID_CHKNETMONDAY, _("Monday"), wxDefaultPosition, wxDefaultSize, 0 );
+    netDaysGridSizer->Add( m_chkNetMonday, 0, wxTOP, 5 );
 
-    netDaysGridSizer->Add( m_chkNetMonday, 0, wxALL, 5 );
+    m_txtNetMondayStart = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETMONDAYSTART, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    netDaysGridSizer->Add( m_txtNetMondayStart, 0, wxALL, 1 );
 
-    m_txtNetMonday = new wxTextCtrl( m_panelNetSpecialTimes, ID_TXTNETMONDAY, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("00:00-23:59")), 0 );
-    netDaysGridSizer->Add( m_txtNetMonday, 0, wxALL, 1 );
+    wxStaticText* toStringNetMonday = new wxStaticText( netSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
+    toStringNetMonday->SetToolTip(netDaysTimeTT);
+    netDaysGridSizer->Add(toStringNetMonday , 0, wxTOP, 5 );
 
-    m_chkNetTuesday = new wxCheckBox( m_panelNetSpecialTimes, ID_CHKNETTUESDAY, _("Tuesday"), wxDefaultPosition, wxDefaultSize, 0 );
-    netDaysGridSizer->Add( m_chkNetTuesday, 0, wxALL, 5 );
+    m_txtNetMondayStop = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETMONDAYSTOP, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    netDaysGridSizer->Add( m_txtNetMondayStop, 0, wxALL, 1 );
 
-    m_txtNetTuesday = new wxTextCtrl( m_panelNetSpecialTimes, ID_TXTNETTUESDAY, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("00:00-23:59")), 0 );
-    netDaysGridSizer->Add( m_txtNetTuesday, 0, wxALL, 1 );
+    netDaysGridSizer->AddSpacer(15);
 
-    m_chkNetWednesday = new wxCheckBox( m_panelNetSpecialTimes, ID_CHKNETWEDNESDAY, _("Wednesday"), wxDefaultPosition, wxDefaultSize, 0 );
-    netDaysGridSizer->Add( m_chkNetWednesday, 0, wxALL, 5 );
+    m_chkNetFriday = new wxCheckBox( netSpecialTimesStaticBox, ID_CHKNETFRIDAY, _("Friday"), wxDefaultPosition, wxDefaultSize, 0 );
+    netDaysGridSizer->Add( m_chkNetFriday, 0, wxTOP, 5 );
 
-    m_txtNetWednesday = new wxTextCtrl( m_panelNetSpecialTimes, ID_TXTNETWEDNESDAY, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("00:00-23:59")), 0 );
-    netDaysGridSizer->Add( m_txtNetWednesday, 0, wxALL, 1 );
+    m_txtNetFridayStart = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETFRIDAYSTART, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    netDaysGridSizer->Add( m_txtNetFridayStart, 0, wxALL, 1 );
 
-    m_chkNetThursday = new wxCheckBox( m_panelNetSpecialTimes, ID_CHKNETTHURSDAY, _("Thursday"), wxDefaultPosition, wxDefaultSize, 0 );
-    netDaysGridSizer->Add( m_chkNetThursday, 0, wxALL, 5 );
+    wxStaticText* toStringNetFriday = new wxStaticText( netSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
+    toStringNetFriday->SetToolTip(netDaysTimeTT);
+    netDaysGridSizer->Add(toStringNetFriday , 0, wxTOP, 5 );
 
-    m_txtNetThursday = new wxTextCtrl( m_panelNetSpecialTimes, ID_TXTNETTHURSDAY, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("00:00-23:59")), 0 );
-    netDaysGridSizer->Add( m_txtNetThursday, 0, wxALL, 1 );
-
-    m_chkNetFriday = new wxCheckBox( m_panelNetSpecialTimes, ID_CHKNETFRIDAY, _("Friday"), wxDefaultPosition, wxDefaultSize, 0 );
-    netDaysGridSizer->Add( m_chkNetFriday, 0, wxALL, 5 );
-
-    m_txtNetFriday = new wxTextCtrl( m_panelNetSpecialTimes, ID_TXTNETFRIDAY, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("00:00-23:59")), 0 );
-    netDaysGridSizer->Add( m_txtNetFriday, 0, wxALL, 1 );
-
-    m_chkNetSaturday = new wxCheckBox( m_panelNetSpecialTimes, ID_CHKNETSATURDAY, _("Saturday"), wxDefaultPosition, wxDefaultSize, 0 );
-    netDaysGridSizer->Add( m_chkNetSaturday, 0, wxALL, 5 );
-
-    m_txtNetSaturday = new wxTextCtrl( m_panelNetSpecialTimes, ID_TXTNETSATURDAY, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("00:00-23:59")), 0 );
-    netDaysGridSizer->Add( m_txtNetSaturday, 0, wxALL, 1 );
-    m_chkNetSunday = new wxCheckBox( m_panelNetSpecialTimes, ID_CHKNETSUNDAY, _("Sunday"), wxDefaultPosition, wxDefaultSize, 0 );
-    netDaysGridSizer->Add( m_chkNetSunday, 0, wxALL, 5 );
-
-    m_txtNetSunday = new wxTextCtrl( m_panelNetSpecialTimes, ID_TXTNETSUNDAY, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("00:00-23:59")), 0 );
-    netDaysGridSizer->Add( m_txtNetSunday, 0, wxALL, 1 );
-
-    m_panelNetSpecialTimes->SetSizer( netDaysGridSizer );
-    m_panelNetSpecialTimes->Layout();
-    netDaysGridSizer->Fit( m_panelNetSpecialTimes );
+    m_txtNetFridayStop = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETFRIDAYSTOP, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    netDaysGridSizer->Add( m_txtNetFridayStop, 0, wxALL, 1 );
     
-    netSpecialTimesStaticBoxSizer->Add( m_panelNetSpecialTimes, 1, wxEXPAND | wxALL, 1 );
-    networkTimesBoxSizer->Add(netSpecialTimesStaticBoxSizer, 1, wxEXPAND | wxALL, 1 );
-    dailySchedulesTabSizer->Add( networkTimesBoxSizer, 1, wxEXPAND | wxALL, 1 );
+    m_chkNetTuesday = new wxCheckBox( netSpecialTimesStaticBox, ID_CHKNETTUESDAY, _("Tuesday"), wxDefaultPosition, wxDefaultSize, 0 );
+    netDaysGridSizer->Add( m_chkNetTuesday, 0, wxTOP, 5 );
+
+    m_txtNetTuesdayStart = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETTUESDAYSTART, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    netDaysGridSizer->Add( m_txtNetTuesdayStart, 0, wxALL, 1 );
+
+    wxStaticText* toStringNetTuesay = new wxStaticText( netSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
+    toStringNetTuesay->SetToolTip(netDaysTimeTT);
+    netDaysGridSizer->Add(toStringNetTuesay , 0, wxTOP, 5 );
+
+    m_txtNetTuesdayStop = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETTUESDAYSTOP, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    netDaysGridSizer->Add( m_txtNetTuesdayStop, 0, wxALL, 1 );
+
+    netDaysGridSizer->AddSpacer(15);
+
+    m_chkNetSaturday = new wxCheckBox( netSpecialTimesStaticBox, ID_CHKNETSATURDAY, _("Saturday"), wxDefaultPosition, wxDefaultSize, 0 );
+    netDaysGridSizer->Add( m_chkNetSaturday, 0, wxTOP, 5 );
+
+    m_txtNetSaturdayStart = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETSATURDAYSTART, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    netDaysGridSizer->Add( m_txtNetSaturdayStart, 0, wxALL, 1 );
+
+    wxStaticText* toStringNetSaturday = new wxStaticText( netSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
+    toStringNetSaturday->SetToolTip(netDaysTimeTT);
+    netDaysGridSizer->Add(toStringNetSaturday , 0, wxTOP, 5 );
+
+    m_txtNetSaturdayStop = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETSATURDAYSTOP, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    netDaysGridSizer->Add( m_txtNetSaturdayStop, 0, wxALL, 1 );
+
+    m_chkNetWednesday = new wxCheckBox( netSpecialTimesStaticBox, ID_CHKNETWEDNESDAY, _("Wednesday"), wxDefaultPosition, wxDefaultSize, 0 );
+    netDaysGridSizer->Add( m_chkNetWednesday, 0, wxTOP, 5 );
+
+    m_txtNetWednesdayStart = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETWEDNESDAYSTART, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    netDaysGridSizer->Add( m_txtNetWednesdayStart, 0, wxALL, 1 );
+
+    wxStaticText* toStringNetWednesday = new wxStaticText( netSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
+    toStringNetWednesday->SetToolTip(netDaysTimeTT);
+    netDaysGridSizer->Add(toStringNetWednesday , 0, wxTOP, 5 );
+
+    m_txtNetWednesdayStop = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETWEDNESDAYSTOP, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    netDaysGridSizer->Add( m_txtNetWednesdayStop, 0, wxALL, 1 );
+
+    netDaysGridSizer->AddSpacer(15);
+    
+    m_chkNetSunday = new wxCheckBox( netSpecialTimesStaticBox, ID_CHKNETSUNDAY, _("Sunday"), wxDefaultPosition, wxDefaultSize, 0 );
+    netDaysGridSizer->Add( m_chkNetSunday, 0, wxTOP, 5 );
+
+    m_txtNetSundayStart = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETSUNDAYSTART, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    netDaysGridSizer->Add( m_txtNetSundayStart, 0, wxALL, 1 );
+
+    wxStaticText* toStringNetSunday = new wxStaticText( netSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
+    toStringNetSunday->SetToolTip(netDaysTimeTT);
+    netDaysGridSizer->Add(toStringNetSunday , 0, wxTOP, 5 );
+
+    m_txtNetSundayStop = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETSUNDAYSTOP, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    netDaysGridSizer->Add( m_txtNetSundayStop, 0, wxALL, 1 );
+
+    m_chkNetThursday = new wxCheckBox( netSpecialTimesStaticBox, ID_CHKNETTHURSDAY, _("Thursday"), wxDefaultPosition, wxDefaultSize, 0 );
+    netDaysGridSizer->Add( m_chkNetThursday, 0, wxTOP, 5 );
+
+    m_txtNetThursdayStart = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETTHURSDAYSTART, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    netDaysGridSizer->Add( m_txtNetThursdayStart, 0, wxALL, 1 );
+
+    wxStaticText* toStringNetThursday = new wxStaticText( netSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
+    toStringNetThursday->SetToolTip(netDaysTimeTT);
+    netDaysGridSizer->Add(toStringNetThursday , 0, wxTOP, 5 );
+
+    m_txtNetThursdayStop = new wxTextCtrl( netSpecialTimesStaticBox, ID_TXTNETTHURSDAYSTOP, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    netDaysGridSizer->Add( m_txtNetThursdayStop, 0, wxALL, 1 );
+
+#ifdef __WXMAC__
+    netSpecialTimesStaticBoxSizer->Add( netDaysGridSizer, 1, wxRIGHT | wxBOTTOM, DAYOFWEEKBORDERSIZE );
+    networkTimesBoxSizer->Add(netSpecialTimesStaticBoxSizer, 1, wxRIGHT | wxBOTTOM, STATICBOXBORDERSIZE +3 );
+#else
+    netSpecialTimesStaticBoxSizer->Add( netDaysGridSizer, 1, wxRIGHT | wxLEFT | wxBOTTOM, DAYOFWEEKBORDERSIZE );
+    networkTimesBoxSizer->Add(netSpecialTimesStaticBoxSizer, 1, wxRIGHT | wxLEFT | wxBOTTOM, STATICBOXBORDERSIZE );
+#endif
+    dailySchedulesTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
+    dailySchedulesTabSizer->Add( networkTimesBoxSizer, 1, wxRIGHT | wxLEFT | wxEXPAND, STATICBOXBORDERSIZE );
+    dailySchedulesTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
    
     dailySchedulesTab->SetSizer( dailySchedulesTabSizer );
     dailySchedulesTab->Layout();
