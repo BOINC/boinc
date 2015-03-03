@@ -9,7 +9,7 @@ set -x
 cd ./build
 
 # if the versioning changes try to delete the old directory and change .travis.yml to cache the new directory
-if [ ! -d "wxWidgets-3.0.2" ]; then
+if [ ! -e "wxWidgets-3.0.2/build_complete" ]; then
   wget https://sourceforge.net/projects/wxwindows/files/3.0.2/wxWidgets-3.0.2.tar.bz2
   tar -xf wxWidgets-3.0.2.tar.bz2
   cd wxWidgets-3.0.2
@@ -17,7 +17,9 @@ if [ ! -d "wxWidgets-3.0.2" ]; then
   cd buildgtk
   ../configure --with-gtk --disable-shared --enable-webview --disable-gtktest --disable-sdltest
   make
-  cd ../..
+  cd ..
+  touch build_complete
+  cd ..
 fi
 
 # change back to root directory
