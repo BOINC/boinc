@@ -464,10 +464,6 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
     addNewRowToSizer(networkUsageLimitsBoxSizer, daily_xfer_limitTT, m_chk_daily_xfer_limit, m_txt_daily_xfer_limit_mb, staticText_daily_xfer2, m_txt_daily_xfer_period_days, staticText_daily_xfer4);
 
      networkUsageLimitsBoxSizer->Add(
-        new wxStaticText( networkUsageLimitsStaticBox, ID_DEFAULT, wxT("See also \"Suspend when computer is in use\" in the \"Computing\" section."), wxDefaultPosition, wxDefaultSize, 0),
-        0, wxALL, 5
-    );
-     networkUsageLimitsBoxSizer->Add(
         new wxStaticText( networkUsageLimitsStaticBox, ID_DEFAULT, wxT("To limit transfers by time of day, see the \"Daily Schedules\" section."), wxDefaultPosition, wxDefaultSize, 0),
         0, wxALL, 5
     );
@@ -522,7 +518,7 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
     makeStaticBoxLabelItalic(diskUsageStaticBox);
 
     wxString MostRestrictiveText = wxEmptyString;
-    MostRestrictiveText.Printf(_("%s will use the most restrictive of these three settings:"), pSkinAdvanced->GetApplicationShortName().c_str());
+    MostRestrictiveText.Printf(_("%s will use the most restrictive of these settings:"), pSkinAdvanced->GetApplicationShortName().c_str());
     diskUsageBoxSizer->Add(new wxStaticText( diskUsageStaticBox, -1, MostRestrictiveText, wxDefaultPosition, wxDefaultSize, 0),
         0, wxALL, 5
     );

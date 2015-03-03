@@ -271,7 +271,7 @@ void CDlgAdvPreferences::DisplayValue(double value, wxTextCtrl* textCtrl, wxChec
             return;
         }
     }
-    buffer.Printf(wxT("%.2f"), value);
+    buffer.Printf(wxT("%g"), value);
     textCtrl->ChangeValue(buffer);
     textCtrl->Enable();
 }
@@ -281,8 +281,6 @@ void CDlgAdvPreferences::DisplayValue(double value, wxTextCtrl* textCtrl, wxChec
 void CDlgAdvPreferences::ReadPreferenceSettings() {
     m_bInInit=true;//prevent dialog handlers from doing anything
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    wxString buffer = wxEmptyString;;
-    wxString dashes = wxT("--");
     int retval;
 
     wxASSERT(pDoc);
@@ -324,8 +322,7 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     // idle for X minutes
     if (m_chkProcInUse->IsChecked() || m_chkGPUProcInUse->IsChecked()) {
         m_txtProcIdleFor->Enable();
-        buffer.Printf(wxT("%.2f"), prefs.idle_time_to_run);
-        m_txtProcIdleFor->ChangeValue(buffer);
+        DisplayValue(prefs.idle_time_to_run, m_txtProcIdleFor);
     } else {
         m_txtProcIdleFor->Clear();
         m_txtProcIdleFor->Disable();
@@ -335,8 +332,7 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     DisplayValue(prefs.suspend_cpu_usage, m_txtMaxLoad, m_chkMaxLoad);
 
     // connection interval
-    buffer.Printf(wxT("%01.2f"),prefs.work_buf_min_days);
-    m_txtNetConnectInterval->SetValue(buffer);
+    DisplayValue(prefs.work_buf_min_days, m_txtNetConnectInterval);
 
     DisplayValue(prefs.work_buf_additional_days, m_txtNetAdditionalDays);
 
@@ -358,17 +354,8 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     DisplayValue((prefs.max_bytes_sec_up / 1024), m_txtNetUploadRate, m_chkNetUploadRate);
 
     m_chk_daily_xfer_limit->SetValue((prefs.daily_xfer_limit_mb > 0.0) && (prefs.daily_xfer_period_days > 0.0));
-    if (m_chk_daily_xfer_limit->IsChecked()) {
-        buffer.Printf(wxT("%.2f"),prefs.daily_xfer_limit_mb);
-        m_txt_daily_xfer_limit_mb->SetValue(buffer);
-        buffer.Printf(wxT("%d"),prefs.daily_xfer_period_days );
-        m_txt_daily_xfer_period_days->SetValue(buffer);
-    } else {
-        m_txt_daily_xfer_limit_mb->Clear();
-        m_txt_daily_xfer_limit_mb->Disable();
-        m_txt_daily_xfer_period_days->Clear();
-        m_txt_daily_xfer_period_days->Disable();
-    }
+    DisplayValue(prefs.daily_xfer_limit_mb, m_txt_daily_xfer_limit_mb, m_chk_daily_xfer_limit);
+    DisplayValue(prefs.daily_xfer_period_days, m_txt_daily_xfer_period_days, m_chk_daily_xfer_limit);
     
     //
     // skip image verification
@@ -648,9 +635,7 @@ void CDlgAdvPreferences::UpdateControlStates() {
     m_txtProcIdleFor->Enable(shouldEnable);
     if (wasEnabled && !shouldEnable) m_txtProcIdleFor->Clear();
     if (shouldEnable && !wasEnabled) {
-        wxString buffer = wxEmptyString;
-        buffer.Printf(wxT("%.2f"), defaultPrefs.idle_time_to_run);
-        m_txtProcIdleFor->ChangeValue(buffer);
+        DisplayValue(defaultPrefs.idle_time_to_run, m_txtProcIdleFor);
     }
     
     // If we suspend work when in use, disable and check "Use GPU when in use"
@@ -687,9 +672,8 @@ void CDlgAdvPreferences::UpdateControlStates() {
 
 /* validates the entered informations */
 bool CDlgAdvPreferences::ValidateInput() {
-    wxString invMsgFloat = _("invalid number");
-    wxString invMsgTime = _("invalid time, format is HH:MM");
-    wxString invMsgInterval = _("invalid time interval, format is HH:MM-HH:MM");
+    wxString invMsgFloat = _("Invalid number");
+    wxString invMsgTime = _("Invalid time, value must be between 0:00 and 24:00, format is HH:MM");
     wxString invMsgLimit10 = _("Number must be between 0 and 10");
     wxString invMsgLimit100 = _("Number must be between 0 and 100");
     wxString buffer;
@@ -1007,10 +991,7 @@ void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
             switch (ev.GetId()) {
             // processor usage page
             case ID_CHKMAXLOAD:
-                if (ev.IsChecked()) {
-                    buffer.Printf(wxT("%.0f"), defaultPrefs.suspend_cpu_usage);
-                }
-                m_txtMaxLoad->ChangeValue(buffer);
+                DisplayValue(defaultPrefs.suspend_cpu_usage, m_txtMaxLoad, m_chkMaxLoad);
                 break;
             
             // network usage page
@@ -1021,15 +1002,8 @@ void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
                 DisplayValue((defaultPrefs.max_bytes_sec_up / 1024), m_txtNetUploadRate, m_chkNetUploadRate);
                 break;
             case ID_CHKDAILYXFERLIMIT:
-                if (ev.IsChecked()) {
-                    buffer.Printf(wxT("%.2f"),defaultPrefs.daily_xfer_limit_mb);
-                    m_txt_daily_xfer_limit_mb->ChangeValue(buffer);
-                    buffer.Printf(wxT("%d"),defaultPrefs.daily_xfer_period_days );
-                    m_txt_daily_xfer_period_days->ChangeValue(buffer);
-                } else {
-                    m_txt_daily_xfer_limit_mb->ChangeValue(buffer);
-                    m_txt_daily_xfer_period_days->ChangeValue(buffer);
-                }
+                DisplayValue(prefs.daily_xfer_limit_mb, m_txt_daily_xfer_limit_mb, m_chk_daily_xfer_limit);
+                DisplayValue(prefs.daily_xfer_period_days, m_txt_daily_xfer_period_days, m_chk_daily_xfer_limit);
                 break;
                 
             // disk usage page
@@ -1058,7 +1032,10 @@ void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
             case ID_CHKPROCTHURSDAY:
             case ID_CHKPROCFRIDAY:
             case ID_CHKPROCSATURDAY:
-                if (!ev.IsChecked()) {
+                if (ev.IsChecked()) {
+                    (procDayStartTxts[ev.GetId() - ID_CHKPROCSUNDAY])->SetValue(wxT("0:00"));
+                    (procDayStopTxts[ev.GetId() - ID_CHKPROCSUNDAY])->SetValue(wxT("0:00"));
+                } else {
                     (procDayStartTxts[ev.GetId() - ID_CHKPROCSUNDAY])->Clear();
                     (procDayStopTxts[ev.GetId() - ID_CHKPROCSUNDAY])->Clear();
                 }
@@ -1079,7 +1056,10 @@ void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
             case ID_CHKNETTHURSDAY:
             case ID_CHKNETFRIDAY:
             case ID_CHKNETSATURDAY:
-                if (!ev.IsChecked()) {
+               if (ev.IsChecked()) {
+                    (netDayStartTxts[ev.GetId() - ID_CHKNETSUNDAY])->SetValue(wxT("0:00"));
+                    (netDayStopTxts[ev.GetId() - ID_CHKNETSUNDAY])->SetValue(wxT("0:00"));
+                } else {
                     (netDayStartTxts[ev.GetId() - ID_CHKNETSUNDAY])->Clear();
                     (netDayStopTxts[ev.GetId() - ID_CHKNETSUNDAY])->Clear();
                 }
