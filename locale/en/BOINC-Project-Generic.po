@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2015-03-02 13:52 PST\n"
-"PO-Revision-Date: 2015-03-02 21:54+0000\n"
+"POT-Creation-Date: 2015-03-03 12:00 PST\n"
+"PO-Revision-Date: 2015-03-03 20:02+0000\n"
 "Last-Translator: Rom Walton\n"
 "Language-Team: English (http://www.transifex.com/projects/p/boinc/language/en/)\n"
 "MIME-Version: 1.0\n"
@@ -797,24 +797,21 @@ msgid "Last time contacted server"
 msgstr "Last time contacted server"
 
 #: ../inc/host.inc:186
-#, php-format
-msgid "% of time BOINC is running"
-msgstr "% of time BOINC is running"
+msgid "Fraction of time BOINC is running"
+msgstr "Fraction of time BOINC is running"
 
 #: ../inc/host.inc:188
-#, php-format
-msgid "While BOINC running, % of time host has an Internet connection"
-msgstr "While BOINC running, % of time host has an Internet connection"
+msgid ""
+"While BOINC is running, fraction of time computer has an Internet connection"
+msgstr "While BOINC is running, fraction of time computer has an Internet connection"
 
 #: ../inc/host.inc:190
-#, php-format
-msgid "While BOINC running, % of time work is allowed"
-msgstr "While BOINC running, % of time work is allowed"
+msgid "While BOINC is running, fraction of time computing is allowed"
+msgstr "While BOINC is running, fraction of time computing is allowed"
 
 #: ../inc/host.inc:191
-#, php-format
-msgid "While BOINC running, % of time GPU work is allowed"
-msgstr "While BOINC running, % of time GPU work is allowed"
+msgid "While is BOINC running, fraction of time GPU computing is allowed"
+msgstr "While is BOINC running, fraction of time GPU computing is allowed"
 
 #: ../inc/host.inc:193
 msgid "Average CPU efficiency"
@@ -1135,8 +1132,8 @@ msgid "Compute only between"
 msgstr "Compute only between"
 
 #: ../inc/prefs.inc:98
-msgid "Compute only during a particular range of hours each day."
-msgstr "Compute only during a particular range of hours each day."
+msgid "Compute only during a particular period each day."
+msgstr "Compute only during a particular period each day."
 
 #: ../inc/prefs.inc:101 ../inc/prefs.inc:206
 #: ../user/forum_banishment_vote.php:70
@@ -1306,8 +1303,8 @@ msgid "Transfer files only between"
 msgstr "Transfer files only between"
 
 #: ../inc/prefs.inc:203
-msgid "Transfer files only during a particular range of hours each day."
-msgstr "Transfer files only during a particular range of hours each day."
+msgid "Transfer files only during a particular period each day."
+msgstr "Transfer files only during a particular period each day."
 
 #: ../inc/prefs.inc:208
 msgid "Skip data verification for image files"
