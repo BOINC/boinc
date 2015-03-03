@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-02 16:41-0500\n"
-"PO-Revision-Date: 2015-03-03 15:19+0000\n"
+"POT-Creation-Date: 2015-03-03 14:52-0500\n"
+"PO-Revision-Date: 2015-03-03 20:22+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -1061,39 +1061,35 @@ msgstr "Berkeley Open Infrastructure for Network Computing"
 msgid "&OK"
 msgstr "OK(&O)"
 
-#: clientgui/DlgAdvPreferences.cpp:690
-msgid "invalid number"
+#: clientgui/DlgAdvPreferences.cpp:675
+msgid "Invalid number"
 msgstr "無効な数字"
 
-#: clientgui/DlgAdvPreferences.cpp:691
-msgid "invalid time, format is HH:MM"
-msgstr "無効な時間です。形式は「HH:MM」"
+#: clientgui/DlgAdvPreferences.cpp:676
+msgid "Invalid time, value must be between 0:00 and 24:00, format is HH:MM"
+msgstr "無効な時間です、値は 0:00 から 24:00 の間、書式は HH:MM でなければなりません"
 
-#: clientgui/DlgAdvPreferences.cpp:692
-msgid "invalid time interval, format is HH:MM-HH:MM"
-msgstr "無効な時間帯です。形式は「HH:MM-HH:MM」"
-
-#: clientgui/DlgAdvPreferences.cpp:693
+#: clientgui/DlgAdvPreferences.cpp:677
 msgid "Number must be between 0 and 10"
 msgstr "数字は 0 から 10 の間でなければなりません"
 
-#: clientgui/DlgAdvPreferences.cpp:694
+#: clientgui/DlgAdvPreferences.cpp:678
 msgid "Number must be between 0 and 100"
 msgstr "数字は 0 から 100 の間でなければなりません"
 
-#: clientgui/DlgAdvPreferences.cpp:927
+#: clientgui/DlgAdvPreferences.cpp:911
 msgid "invalid input value detected"
 msgstr "無効な入力値が検出されました"
 
-#: clientgui/DlgAdvPreferences.cpp:929
+#: clientgui/DlgAdvPreferences.cpp:913
 msgid "Validation Error"
 msgstr "検証エラー"
 
-#: clientgui/DlgAdvPreferences.cpp:1150
+#: clientgui/DlgAdvPreferences.cpp:1129
 msgid "Discard local preferences and use web-based preferences?"
 msgstr "ローカル・プレファレンスを放棄してウェブ上のプレファレンスを使用しますか？"
 
-#: clientgui/DlgAdvPreferences.cpp:1151
+#: clientgui/DlgAdvPreferences.cpp:1130
 msgid "Confirmation"
 msgstr "確認"
 
@@ -1140,12 +1136,12 @@ msgid "Restore web-based preferences and close the dialog."
 msgstr "ウェブ上のプレファレンスを復元しダイアログを終了します。"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:143
-#: clientgui/DlgAdvPreferencesBase.cpp:641
+#: clientgui/DlgAdvPreferencesBase.cpp:637
 msgid "Computing"
 msgstr "計算"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:146
-#: clientgui/DlgAdvPreferencesBase.cpp:789
+#: clientgui/DlgAdvPreferencesBase.cpp:785
 msgid "Network"
 msgstr "ネットワーク"
 
@@ -1268,7 +1264,7 @@ msgid "Suspend computing when your computer is busy running other programs."
 msgstr "コンピュータが他のプログラムによってビジー状態にある時、計算を一時停止します。"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:344
-#: clientgui/DlgAdvPreferencesBase.cpp:478
+#: clientgui/DlgAdvPreferencesBase.cpp:474
 msgid "Other"
 msgstr "その他"
 
@@ -1356,195 +1352,195 @@ msgstr "MB/"
 msgid "days"
 msgstr "日"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:483
+#: clientgui/DlgAdvPreferencesBase.cpp:479
 #, c-format
 msgid ""
 "Check this only if your Internet provider modifies image files. Skipping "
 "verification reduces the security of %s."
 msgstr "インターネットプロバイダが画像ファイルを変更する場合はチェックを入れてください。検証をスキップすると %s のセキュリティレベルは低下します。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:485
+#: clientgui/DlgAdvPreferencesBase.cpp:481
 msgid "Skip data verification for image files"
 msgstr "画像ファイルのデータ検証をスキップする"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:489
+#: clientgui/DlgAdvPreferencesBase.cpp:485
 msgid "Confirm before connecting to Internet"
 msgstr "インターネットに接続する前に確認する"
 
+#: clientgui/DlgAdvPreferencesBase.cpp:486
 #: clientgui/DlgAdvPreferencesBase.cpp:490
-#: clientgui/DlgAdvPreferencesBase.cpp:494
 msgid "Useful only if you have a modem, ISDN or VPN connection."
 msgstr "モデム、ISDN または VPN 接続を使っているときのみ役立ちます。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:493
+#: clientgui/DlgAdvPreferencesBase.cpp:489
 msgid "Disconnect when done"
 msgstr "終わったら切断"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:520
+#: clientgui/DlgAdvPreferencesBase.cpp:516
 msgid "Disk"
 msgstr "ディスク"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:525
+#: clientgui/DlgAdvPreferencesBase.cpp:521
 #, c-format
-msgid "%s will use the most restrictive of these three settings:"
+msgid "%s will use the most restrictive of these settings:"
 msgstr "%sは、これら3つの設定のうち最も制限的なものを使用します:"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:531
+#: clientgui/DlgAdvPreferencesBase.cpp:527
 #, c-format
 msgid "Limit the total amount of disk space used by %s."
 msgstr "%sによって使用されるディスク領域の合計を制限します。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:534
-#: clientgui/DlgAdvPreferencesBase.cpp:558
+#: clientgui/DlgAdvPreferencesBase.cpp:530
+#: clientgui/DlgAdvPreferencesBase.cpp:554
 msgid "Use no more than"
 msgstr "使用上限:"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:538
+#: clientgui/DlgAdvPreferencesBase.cpp:534
 msgid "GB"
 msgstr "GB"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:543
+#: clientgui/DlgAdvPreferencesBase.cpp:539
 #, c-format
 msgid ""
 "Limit disk usage to leave this much free space on the volume where %s stores"
 " data."
 msgstr "%s のデータを格納するボリュームでこれだけの空きスペースを残してディスク使用量を制限します。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:546
+#: clientgui/DlgAdvPreferencesBase.cpp:542
 msgid "Leave at least"
 msgstr "最低限の空き領域"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:550
+#: clientgui/DlgAdvPreferencesBase.cpp:546
 msgid "GB free"
 msgstr "GB の空き領域"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:555
+#: clientgui/DlgAdvPreferencesBase.cpp:551
 #, c-format
 msgid ""
 "Limit the percentage of disk space used by %s on the volume where it stores "
 "data."
 msgstr "データを格納するボリュームで %s が使用するディスク領域の割合を制限します。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:563
+#: clientgui/DlgAdvPreferencesBase.cpp:559
 #, no-c-format
 msgid "% of total"
 msgstr "% まで(全体比)"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:570
+#: clientgui/DlgAdvPreferencesBase.cpp:566
 msgid "Memory"
 msgstr "メモリ"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:575
+#: clientgui/DlgAdvPreferencesBase.cpp:571
 #, c-format
 msgid "Limit the memory used by %s when you're using the computer."
 msgstr "あなたがコンピュータを使用している時 %s よって使用されるメモリを制限します。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:577
+#: clientgui/DlgAdvPreferencesBase.cpp:573
 msgid "When computer is in use, use at most"
 msgstr "コンピュータを使用中、最大使用時でも"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:583
-#: clientgui/DlgAdvPreferencesBase.cpp:595
-#: clientgui/DlgAdvPreferencesBase.cpp:611
+#: clientgui/DlgAdvPreferencesBase.cpp:579
+#: clientgui/DlgAdvPreferencesBase.cpp:591
+#: clientgui/DlgAdvPreferencesBase.cpp:607
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:588
+#: clientgui/DlgAdvPreferencesBase.cpp:584
 #, c-format
 msgid "Limit the memory used by %s when you're not using the computer."
 msgstr "あなたがコンピュータを使用していない時 %s によって使用されるメモリを制限します。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:590
+#: clientgui/DlgAdvPreferencesBase.cpp:586
 msgid "When computer is not in use, use at most"
 msgstr "コンピュータが使用されていない時、最大使用時でも"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:599
+#: clientgui/DlgAdvPreferencesBase.cpp:595
 msgid "Leave non-GPU tasks in memory while suspended"
 msgstr "一時停止中に、GPU向けでないタスクをメモリ上に残す"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:600
+#: clientgui/DlgAdvPreferencesBase.cpp:596
 msgid ""
 "If checked, suspended tasks stay in memory, and resume with no work lost. If"
 " unchecked, suspended tasks are removed from memory, and resume from their "
 "last checkpoint."
 msgstr "チェックを入れた場合、一時停止されたタスクはメモリにとどまり、仕事のロスなしで再開します。チェックを外した場合、一時停止されたタスクはメモリから取り除かれ、最後のチェックポイントから再開します。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:604
+#: clientgui/DlgAdvPreferencesBase.cpp:600
 #, c-format
 msgid "Limit the swap space (page file) used by %s."
 msgstr "%s によって使用されるスワップ領域(ページファイル)を制限します。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:606
+#: clientgui/DlgAdvPreferencesBase.cpp:602
 msgid "Page/swap file: use at most"
 msgstr "ページ/スワップファイル: 最大使用時でも"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:631
+#: clientgui/DlgAdvPreferencesBase.cpp:627
 msgid "and"
 msgstr "～"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:632
+#: clientgui/DlgAdvPreferencesBase.cpp:628
 msgid "to"
 msgstr "へ"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:645
-msgid "Compute only during a particular range of hours each day."
+#: clientgui/DlgAdvPreferencesBase.cpp:641
+msgid "Compute only during a particular period each day."
 msgstr "それぞれの日の特定範囲の時間帯だけ計算します。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:648
+#: clientgui/DlgAdvPreferencesBase.cpp:644
 msgid "Compute only between"
 msgstr "下記の間だけ計算:"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:658
-#: clientgui/DlgAdvPreferencesBase.cpp:805
+#: clientgui/DlgAdvPreferencesBase.cpp:654
+#: clientgui/DlgAdvPreferencesBase.cpp:801
 msgid "Day-of-week override"
 msgstr "曜日ごとの設定"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:662
-#: clientgui/DlgAdvPreferencesBase.cpp:809
+#: clientgui/DlgAdvPreferencesBase.cpp:658
+#: clientgui/DlgAdvPreferencesBase.cpp:805
 msgid "Override the times above on the selected days:"
 msgstr "選択した日には上記の時間を設定解除します:"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:680
-#: clientgui/DlgAdvPreferencesBase.cpp:826
+#: clientgui/DlgAdvPreferencesBase.cpp:676
+#: clientgui/DlgAdvPreferencesBase.cpp:822
 msgid "Monday"
 msgstr "月曜日"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:695
-#: clientgui/DlgAdvPreferencesBase.cpp:841
+#: clientgui/DlgAdvPreferencesBase.cpp:691
+#: clientgui/DlgAdvPreferencesBase.cpp:837
 msgid "Friday"
 msgstr "金曜日"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:708
-#: clientgui/DlgAdvPreferencesBase.cpp:854
+#: clientgui/DlgAdvPreferencesBase.cpp:704
+#: clientgui/DlgAdvPreferencesBase.cpp:850
 msgid "Tuesday"
 msgstr "火曜日"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:723
-#: clientgui/DlgAdvPreferencesBase.cpp:869
+#: clientgui/DlgAdvPreferencesBase.cpp:719
+#: clientgui/DlgAdvPreferencesBase.cpp:865
 msgid "Saturday"
 msgstr "土曜日"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:736
-#: clientgui/DlgAdvPreferencesBase.cpp:882
+#: clientgui/DlgAdvPreferencesBase.cpp:732
+#: clientgui/DlgAdvPreferencesBase.cpp:878
 msgid "Wednesday"
 msgstr "水曜日"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:751
-#: clientgui/DlgAdvPreferencesBase.cpp:897
+#: clientgui/DlgAdvPreferencesBase.cpp:747
+#: clientgui/DlgAdvPreferencesBase.cpp:893
 msgid "Sunday"
 msgstr "日曜日"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:764
-#: clientgui/DlgAdvPreferencesBase.cpp:910
+#: clientgui/DlgAdvPreferencesBase.cpp:760
+#: clientgui/DlgAdvPreferencesBase.cpp:906
 msgid "Thursday"
 msgstr "木曜日"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:793
-msgid "Transfer files only during a particular range of hours each day."
-msgstr "それぞれの日の特定範囲の時間帯だけファイルを転送します。"
+#: clientgui/DlgAdvPreferencesBase.cpp:789
+msgid "Transfer files only during a particular period each day."
+msgstr "それぞれの日の特定範囲の時間帯だけ計算します。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:795
+#: clientgui/DlgAdvPreferencesBase.cpp:791
 msgid "Transfer files only between"
 msgstr "下記の間だけファイルを転送"
 
