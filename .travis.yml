@@ -24,7 +24,7 @@ addons:
       name: "BOINC/boinc"
       description: "Build submitted via Travis CI"
     notification_email: christian.beer@posteo.de
-    build_command_prepend: "./configure --disable-manager"
+    build_command_prepend: "./configure --enable-apps"
     build_command:   "make -j 4"
     branch_pattern: coverity_scan
   apt_packages:
@@ -36,7 +36,7 @@ addons:
     #- libcurl4-openssl-dev
     #- libxss-dev
     - libnotify-dev
-    #- libxcb-util0-dev
+    - libxcb-util0-dev
     - libsqlite3-dev
     - libgtk2.0-dev
     - libwebkitgtk-dev
@@ -65,4 +65,4 @@ script:
 - if [[ "${BOINC_TYPE}" == "server" ]]; then ( ./configure --disable-client --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "client" ]]; then ( ./configure --disable-server --disable-manager && make ) fi
 - if [[ "${BOINC_TYPE}" == "apps" ]]; then ( ./configure --enable-apps --disable-server --disable-client --disable-manager && make ) fi
-- if [[ "${BOINC_TYPE}" == "manager" ]]; then ( ./configure --disable-server --disable-client && make ) fi
+- if [[ "${BOINC_TYPE}" == "manager" ]]; then ( ./build/getWxWidgets.sh && ./configure --disable-server --disable-client --with-wxdir=./build/wxWidgets-3.0.2/buildgtk && make ) fi
