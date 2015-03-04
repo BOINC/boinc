@@ -13,42 +13,58 @@
 function boinctranslate_admin_settings(&$form_state) {
   $form = array();
   $default = array(
-    'translation_file_urls_generic' => variable_get('boinc_translation_service_files', ''),
-    'translation_file_urls_project' => variable_get('boinc_translation_service_files_project', ''),
+    'transifex_user' => variable_get('boinc_translate_transifex_user', ''),
+    'transifex_pass' => variable_get('boinc_translate_transifex_pass', ''),
+    'transifex_resources' => variable_get(
+      'boinc_translate_transifex_project_resources', ''
+    ), 
   );
   
   // Define the form
   
-  if (trim($default['translation_file_urls_generic'])) {
-    $form['import_now'] = array(
-      '#value' => '<div class="form-item">'
-      . '<label>' . t('Import translations') . ':</label>'
-      . '<p>'
-      . l(t('Run the import now'), 'admin/boinc/translation/import')
-      . '</p>'
-      . '</div>',
-    );
+  if ($default['transifex_user'] AND $default['transifex_pass']) {
+    if (trim($default['transifex_resources'])) {
+      $form['import_now'] = array(
+        '#value' => '<div class="form-item">'
+        . '<label>' . t('Import translations') . ':</label>'
+        . '<p>'
+        . l(t('Run the import now'), 'admin/boinc/translation/import')
+        . '</p>'
+        . '</div>',
+      );
+    }
   }
   
-  $form['boinc_translation_service_files'] = array(
-    '#type' => 'textarea',
-    '#title' => t('Generic translation file URLs'),
-    '#default_value' => $default['translation_file_urls_generic'],
-    '#description' => t('List URLs to translation files (.po) that should be
-      used for translating strings on this site (enter one URL per line). Files
-      will be imported in the order they are given, so translations from the
-      files at the top of the list will be overridden by any matching
-      translations that appear in files further down the list.'),
-  ); 
-  
-  $form['boinc_translation_service_files_project'] = array(
-    '#type' => 'textarea',
-    '#title' => t('Project-specific translation file URLs'),
-    '#default_value' => $default['translation_file_urls_project'],
-    '#description' => t('As above, list URLs to project-specific translation
-      files (.po) to use for translation of strings that were added by
-      customizations to this project (e.g. project-specific preferences).'),
+  $form['transifex'] = array(
+    '#title' => t('Transifex settings'),
+    '#type' => 'fieldset',
+    '#description' => '',
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    '#attributes' => array('class' => '')
   );
+  $form['transifex']['boinc_translate_transifex_user'] = array(
+    '#type' => 'textfield',
+    '#title' => t('User name'),
+    '#default_value' => $default['transifex_user'],
+  );
+  $form['transifex']['boinc_translate_transifex_pass'] = array(
+    '#type' => 'password',
+    '#title' => t('Password'),
+    '#attributes' => array(
+      'placeholder' => $default['transifex_pass'] ? '********' : '',
+    ),
+  );
+  $form['transifex']['boinc_translate_transifex_project_resources'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Project-specific resources'),
+    '#default_value' => $default['transifex_resources'],
+    '#description' => t('List Transifex project resources to be used for
+      translating strings on this site (one per line in "project:resource"
+      format). Resources will be imported in the order they are given, so
+      translations from the resources at the top of the list will be overridden
+      by any matching translations found in resources further down the list.'),
+  ); 
   
   return system_settings_form($form);
 }
@@ -59,25 +75,94 @@ function boinctranslate_admin_settings(&$form_state) {
 function boinctranslate_admin_settings_validate($form, &$form_state) {
   $values = $form_state['values'];
   $errors = array();
-  $url_groups = array(
-    'boinc_translation_service_files',
-    'boinc_translation_service_files_project',
-  );
-  foreach ($url_groups as $url_group) {
-    // Try to retrieve the files in the given URLs
-    $urls = explode("\n", $values[$url_group]);
-    foreach ($urls as $url) {
-      $url = trim($url);
-      if (!$url OR $url[0] == '#') {
-        // Ignore empty lines and comments
-        continue;
-      }
-      $result = drupal_http_request($url, array(), 'GET', NULL, 1, 30);
-      if (!$result OR $result->code == '404' OR !$result->data) {
+  $api_base_url = 'https://www.transifex.com/api/2';
+  
+  if (!$values['boinc_translate_transifex_user']) {
+    form_set_error('boinc_translate_transifex_user', t('User name is required.'));
+  }
+  if (!$values['boinc_translate_transifex_pass']) {
+    if (!variable_get('boinc_translate_transifex_pass', '')) {
+      form_set_error('boinc_translate_transifex_pass', t('Password is required.'));
+    }
+    else {
+      unset($form_state['values']['boinc_translate_transifex_pass']);
+    }
+  }
+  
+  $username = $values['boinc_translate_transifex_user'];
+  $password = ($values['boinc_translate_transifex_pass']) ? $values['boinc_translate_transifex_pass'] : variable_get('boinc_translate_transifex_pass', '');
+  
+  if ($username AND $password) {
+    // Test authentication
+    $authenticated = FALSE;
+    $ch = curl_init();
+    $resource_url = "{$api_base_url}/project/boinc/resource/project-generic";
+    curl_setopt($ch, CURLOPT_URL, "{$resource_url}/translation/en");
+    curl_setopt($ch, CURLOPT_HTTPHEADER,
+      array(
+        "Authorization: Basic " . base64_encode($username . ":" . $password)
+      )
+    );
+    curl_setopt($ch, CURLOPT_HEADER, 1);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    
+    if ($result) {
+      if (strstr($result, '401 UNAUTHORIZED')) {
         form_set_error(
-          $url_group, 
-          t('@url is not accessible', array('@url' => $url))
+          'boinc_translate_transifex_pass',
+          t('Transifex authentication failed.')
         );
+      }
+      else {
+        $authenticated = TRUE;
+      }
+    }
+    
+    if ($authenticated) {
+      // Try to access the given resources
+      $project_resources = explode("\n", $values['boinc_translate_transifex_project_resources']);
+      foreach ($project_resources as $line => $project_resource) {
+        $project_resource = trim($project_resource);
+        if (!$project_resource OR $project_resource[0] == '#') {
+          // Ignore empty lines and comments
+          continue;
+        }
+        // Check that resources can be parsed
+        list($project, $resource) = array_pad(explode(':', $project_resource), 2, '');
+        if (!$project OR !$resource) {
+          form_set_error(
+            'boinc_translate_transifex_project_resources',
+            t('Project resource could not be parsed at line @line',
+              array('@line' => $line+1)
+            )
+          );
+          break;
+        }
+        
+        $ch = curl_init();
+        $resource_url = "{$api_base_url}/project/{$project}/resource/{$resource}";
+        curl_setopt($ch, CURLOPT_URL, "{$resource_url}/translation/en");
+        curl_setopt($ch, CURLOPT_HTTPHEADER,
+          array(
+            "Authorization: Basic " . base64_encode($username . ":" . $password)
+          )
+        );
+        curl_setopt($ch, CURLOPT_HEADER, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        $result = curl_exec($ch);
+        
+        if (strstr($result, '404 NOT FOUND')) {
+          form_set_error(
+            'boinc_translate_transifex_project_resources',
+            t('Project resource %name not found.',
+              array('%name' => "{$project}:{$resource}")
+            )
+          );
+        }
       }
     }
   }
