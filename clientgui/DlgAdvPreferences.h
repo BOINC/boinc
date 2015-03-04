@@ -64,8 +64,6 @@ private:
     GLOBAL_PREFS      defaultPrefs;
     LOG_FLAGS log_flags;
     CC_CONFIG config;
-	bool m_bPrefsDataChanged;
-	bool m_bInInit;
 	wxArrayInt m_arrTabPageIds;
     wxTextValidator* m_vTimeValidator;
     wxCheckBox* procDayChks[7];

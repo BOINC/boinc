@@ -278,6 +278,10 @@ void GLOBAL_PREFS::enabled_defaults() {
     daily_xfer_period_days = 30;
     max_bytes_sec_down = 100*KILO;
     max_bytes_sec_up = 100*KILO;
+    cpu_times.start_hour = 0;
+    cpu_times.end_hour = 23.983;    // 23:59
+    net_times.start_hour = 0;
+    net_times.end_hour = 23.983;    // 23:59
 }
 
 // call before parsing

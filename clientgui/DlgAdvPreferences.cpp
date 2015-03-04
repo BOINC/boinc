@@ -42,8 +42,6 @@ IMPLEMENT_DYNAMIC_CLASS(CDlgAdvPreferences, wxDialog)
 
 BEGIN_EVENT_TABLE(CDlgAdvPreferences, wxDialog)
     EVT_COMMAND_RANGE(ID_ADV_PREFS_START,ID_ADV_PREFS_LAST,wxEVT_COMMAND_CHECKBOX_CLICKED,CDlgAdvPreferences::OnHandleCommandEvent)
-    EVT_COMMAND_RANGE(ID_ADV_PREFS_START,ID_ADV_PREFS_LAST,wxEVT_COMMAND_RADIOBUTTON_SELECTED,CDlgAdvPreferences::OnHandleCommandEvent)
-    EVT_COMMAND_RANGE(ID_ADV_PREFS_START,ID_ADV_PREFS_LAST,wxEVT_COMMAND_TEXT_UPDATED,CDlgAdvPreferences::OnHandleCommandEvent)
     //buttons
     EVT_BUTTON(wxID_OK,CDlgAdvPreferences::OnOK)
     EVT_BUTTON(ID_HELPBOINC,CDlgAdvPreferences::OnHelp)
@@ -52,8 +50,6 @@ END_EVENT_TABLE()
 
 /* Constructor */
 CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBase(parent,ID_ANYDIALOG) {
-    m_bInInit=false;
-    m_bPrefsDataChanged=false;
     m_arrTabPageIds.Add(ID_TABPAGE_PROC);
     m_arrTabPageIds.Add(ID_TABPAGE_NET);
     m_arrTabPageIds.Add(ID_TABPAGE_DISK);
@@ -266,7 +262,7 @@ void CDlgAdvPreferences::DisplayValue(double value, wxTextCtrl* textCtrl, wxChec
     
     if (checkBox) {
         if (! checkBox->IsChecked()) {
-            textCtrl->ChangeValue(wxEmptyString);
+            textCtrl->Clear();
             textCtrl->Disable();
             return;
         }
@@ -279,7 +275,6 @@ void CDlgAdvPreferences::DisplayValue(double value, wxTextCtrl* textCtrl, wxChec
 
 /* read preferences from core client and initialize control values */
 void CDlgAdvPreferences::ReadPreferenceSettings() {
-    m_bInInit=true;//prevent dialog handlers from doing anything
     CMainDocument* pDoc = wxGetApp().GetDocument();
     int retval;
 
@@ -324,7 +319,7 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
         m_txtProcIdleFor->Enable();
         DisplayValue(prefs.idle_time_to_run, m_txtProcIdleFor);
     } else {
-        m_txtProcIdleFor->ChangeValue(wxEmptyString);
+        m_txtProcIdleFor->Clear();
         m_txtProcIdleFor->Disable();
     }
 
@@ -425,7 +420,6 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
         }
     }
 
-    m_bInInit=false;
     //update control states
     this->UpdateControlStates();
 }
@@ -633,7 +627,7 @@ void CDlgAdvPreferences::UpdateControlStates() {
     bool wasEnabled = m_txtProcIdleFor->IsEnabled();
     bool shouldEnable = m_chkProcInUse->IsChecked() || m_chkGPUProcInUse->IsChecked();
     m_txtProcIdleFor->Enable(shouldEnable);
-    if (wasEnabled && !shouldEnable) m_txtProcIdleFor->ChangeValue(wxEmptyString);
+    if (wasEnabled && !shouldEnable) m_txtProcIdleFor->Clear();
     if (shouldEnable && !wasEnabled) {
         DisplayValue(defaultPrefs.idle_time_to_run, m_txtProcIdleFor);
     }
@@ -981,94 +975,90 @@ bool CDlgAdvPreferences::IsValidTimeValue(const wxString& value) {
 // handles all control command events
 void CDlgAdvPreferences::OnHandleCommandEvent(wxCommandEvent& ev) {
     ev.Skip();
-    if(!m_bInInit) {
-        m_bPrefsDataChanged=true;
-        // If user has just set the checkbox, set textedit field to default value.
-        // Note: use ChangeValue() here to avoid generating extra events.
-        // m_txtProcIdleFor depends on 2 checkboxes, set it in UpdateControlStates().
-        if ((ev.GetEventType() == wxEVT_CHECKBOX)) {
-            switch (ev.GetId()) {
-            // processor usage page
-            case ID_CHKMAXLOAD:
-                DisplayValue(defaultPrefs.suspend_cpu_usage, m_txtMaxLoad, m_chkMaxLoad);
-                break;
-            
-            // network usage page
-            case ID_CHKNETDOWNLOADRATE:
-                DisplayValue((defaultPrefs.max_bytes_sec_down / 1024), m_txtNetDownloadRate, m_chkNetDownloadRate);
-                break;
-            case ID_CHKNETUPLOADRATE:
-                DisplayValue((defaultPrefs.max_bytes_sec_up / 1024), m_txtNetUploadRate, m_chkNetUploadRate);
-                break;
-            case ID_CHKDAILYXFERLIMIT:
-                DisplayValue(prefs.daily_xfer_limit_mb, m_txt_daily_xfer_limit_mb, m_chk_daily_xfer_limit);
-                DisplayValue(prefs.daily_xfer_period_days, m_txt_daily_xfer_period_days, m_chk_daily_xfer_limit);
-                break;
-                
-            // disk usage page
-            case ID_CHKDISKMAXSPACE:
-                DisplayValue(defaultPrefs.disk_max_used_gb, m_txtDiskMaxSpace, m_chkDiskMaxSpace);
-                break;
-            case ID_CHKDISKLEASTFREE:
-                DisplayValue(defaultPrefs.disk_min_free_gb, m_txtDiskLeastFree, m_chkDiskLeastFree);
-                break;
-            case ID_CHKDISKMAXOFTOTAL:
-                DisplayValue(defaultPrefs.disk_max_used_pct, m_txtDiskMaxOfTotal, m_chkDiskMaxOfTotal);
-                break;
-            case ID_CHKPROCEVERYDAY:
-                if (ev.IsChecked()) {
-                    m_txtProcEveryDayStart->ChangeValue(wxT("0:00"));
-                    m_txtProcEveryDayStop->ChangeValue(wxT("0:00"));
-                } else {
-                    m_txtProcEveryDayStart->ChangeValue(wxEmptyString);
-                    m_txtProcEveryDayStop->ChangeValue(wxEmptyString);
-                }
-                break;
-            case ID_CHKPROCSUNDAY:
-            case ID_CHKPROCMONDAY:
-            case ID_CHKPROCTUESDAY:
-            case ID_CHKPROCWEDNESDAY:
-            case ID_CHKPROCTHURSDAY:
-            case ID_CHKPROCFRIDAY:
-            case ID_CHKPROCSATURDAY:
-                if (ev.IsChecked()) {
-                    (procDayStartTxts[ev.GetId() - ID_CHKPROCSUNDAY])->ChangeValue(wxT("0:00"));
-                    (procDayStopTxts[ev.GetId() - ID_CHKPROCSUNDAY])->ChangeValue(wxT("0:00"));
-                } else {
-                    (procDayStartTxts[ev.GetId() - ID_CHKPROCSUNDAY])->ChangeValue(wxEmptyString);
-                    (procDayStopTxts[ev.GetId() - ID_CHKPROCSUNDAY])->ChangeValue(wxEmptyString);
-                }
-                break;
-            case ID_CHKNETEVERYDAY:
-               if (ev.IsChecked()) {
-                    m_txtNetEveryDayStart->ChangeValue(wxT("0:00"));
-                    m_txtNetEveryDayStop->ChangeValue(wxT("0:00"));
-                } else {
-                    m_txtNetEveryDayStart->ChangeValue(wxEmptyString);
-                    m_txtNetEveryDayStop->ChangeValue(wxEmptyString);
-                }
-                break;
-            case ID_CHKNETSUNDAY:
-            case ID_CHKNETMONDAY:
-            case ID_CHKNETTUESDAY:
-            case ID_CHKNETWEDNESDAY:
-            case ID_CHKNETTHURSDAY:
-            case ID_CHKNETFRIDAY:
-            case ID_CHKNETSATURDAY:
-               if (ev.IsChecked()) {
-                    (netDayStartTxts[ev.GetId() - ID_CHKNETSUNDAY])->ChangeValue(wxT("0:00"));
-                    (netDayStopTxts[ev.GetId() - ID_CHKNETSUNDAY])->ChangeValue(wxT("0:00"));
-                } else {
-                    (netDayStartTxts[ev.GetId() - ID_CHKNETSUNDAY])->ChangeValue(wxEmptyString);
-                    (netDayStopTxts[ev.GetId() - ID_CHKNETSUNDAY])->ChangeValue(wxEmptyString);
-                }
-                break;
-            
-            default:
-                break;
-            }
+    // If user has just set the checkbox, set textedit field to default value.
+    // Note: use ChangeValue() here to avoid generating extra events.
+    // m_txtProcIdleFor depends on 2 checkboxes, set it in UpdateControlStates().
+    switch (ev.GetId()) {
+    // processor usage page
+    case ID_CHKMAXLOAD:
+        DisplayValue(defaultPrefs.suspend_cpu_usage, m_txtMaxLoad, m_chkMaxLoad);
+        break;
+    
+    // network usage page
+    case ID_CHKNETDOWNLOADRATE:
+        DisplayValue((defaultPrefs.max_bytes_sec_down / 1024), m_txtNetDownloadRate, m_chkNetDownloadRate);
+        break;
+    case ID_CHKNETUPLOADRATE:
+        DisplayValue((defaultPrefs.max_bytes_sec_up / 1024), m_txtNetUploadRate, m_chkNetUploadRate);
+        break;
+    case ID_CHKDAILYXFERLIMIT:
+        DisplayValue(defaultPrefs.daily_xfer_limit_mb, m_txt_daily_xfer_limit_mb, m_chk_daily_xfer_limit);
+        DisplayValue(defaultPrefs.daily_xfer_period_days, m_txt_daily_xfer_period_days, m_chk_daily_xfer_limit);
+        break;
+        
+    // disk usage page
+    case ID_CHKDISKMAXSPACE:
+        DisplayValue(defaultPrefs.disk_max_used_gb, m_txtDiskMaxSpace, m_chkDiskMaxSpace);
+        break;
+    case ID_CHKDISKLEASTFREE:
+        DisplayValue(defaultPrefs.disk_min_free_gb, m_txtDiskLeastFree, m_chkDiskLeastFree);
+        break;
+    case ID_CHKDISKMAXOFTOTAL:
+        DisplayValue(defaultPrefs.disk_max_used_pct, m_txtDiskMaxOfTotal, m_chkDiskMaxOfTotal);
+        break;
+    case ID_CHKPROCEVERYDAY:
+        if (ev.IsChecked()) {
+            m_txtProcEveryDayStart->ChangeValue(DoubleToTimeString(defaultPrefs.cpu_times.start_hour));
+            m_txtProcEveryDayStop->ChangeValue(DoubleToTimeString(defaultPrefs.cpu_times.end_hour));
+        } else {
+            m_txtProcEveryDayStart->Clear();
+            m_txtProcEveryDayStop->Clear();
         }
+        break;
+    case ID_CHKPROCSUNDAY:
+    case ID_CHKPROCMONDAY:
+    case ID_CHKPROCTUESDAY:
+    case ID_CHKPROCWEDNESDAY:
+    case ID_CHKPROCTHURSDAY:
+    case ID_CHKPROCFRIDAY:
+    case ID_CHKPROCSATURDAY:
+        if (ev.IsChecked()) {
+            (procDayStartTxts[ev.GetId() - ID_CHKPROCSUNDAY])->ChangeValue(DoubleToTimeString(defaultPrefs.cpu_times.start_hour));
+            (procDayStopTxts[ev.GetId() - ID_CHKPROCSUNDAY])->ChangeValue(DoubleToTimeString(defaultPrefs.cpu_times.end_hour));
+        } else {
+            (procDayStartTxts[ev.GetId() - ID_CHKPROCSUNDAY])->Clear();
+            (procDayStopTxts[ev.GetId() - ID_CHKPROCSUNDAY])->Clear();
+        }
+        break;
+    case ID_CHKNETEVERYDAY:
+       if (ev.IsChecked()) {
+            m_txtNetEveryDayStart->ChangeValue(DoubleToTimeString(defaultPrefs.net_times.start_hour));
+            m_txtNetEveryDayStop->ChangeValue(DoubleToTimeString(defaultPrefs.net_times.end_hour));
+        } else {
+            m_txtNetEveryDayStart->Clear();
+            m_txtNetEveryDayStop->Clear();
+        }
+        break;
+    case ID_CHKNETSUNDAY:
+    case ID_CHKNETMONDAY:
+    case ID_CHKNETTUESDAY:
+    case ID_CHKNETWEDNESDAY:
+    case ID_CHKNETTHURSDAY:
+    case ID_CHKNETFRIDAY:
+    case ID_CHKNETSATURDAY:
+       if (ev.IsChecked()) {
+            (netDayStartTxts[ev.GetId() - ID_CHKNETSUNDAY])->ChangeValue(DoubleToTimeString(defaultPrefs.net_times.start_hour));
+            (netDayStopTxts[ev.GetId() - ID_CHKNETSUNDAY])->ChangeValue(DoubleToTimeString(defaultPrefs.net_times.end_hour));
+        } else {
+            (netDayStartTxts[ev.GetId() - ID_CHKNETSUNDAY])->Clear();
+            (netDayStopTxts[ev.GetId() - ID_CHKNETSUNDAY])->Clear();
+        }
+        break;
+    
+    default:
+        break;
     }
+//    }
     UpdateControlStates();
 }
 
