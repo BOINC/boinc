@@ -51,6 +51,7 @@ function option($name, $val) {
 }
 
 define('COLOR_DESC', tra('Color scheme for graphics'));
+// xgettext:no-php-format
 define("MAX_GFX_CPU_PCT_DESC", tra("Maximum CPU % for graphics%10 ... 100%2", "<br><p class=\"text-muted\">", "</p>"));
 define('APP_SELECT_DESC', tra('Run only the selected applications'));
 define('APP_SELECT_TOOLTIP', tra('Only get tasks for certain applications. Useful to focus on particular applications, or to exclude them.'));
