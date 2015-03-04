@@ -190,6 +190,9 @@ static HANDLE hSharedMem;
 HANDLE worker_thread_handle;
     // used to suspend worker thread, and to measure its CPU time
 DWORD timer_thread_id;
+#if !(defined(_MT) && defined(_DLL))
+	HANDLE timer_thread_handle;
+#endif
 #else
 static volatile bool worker_thread_exit_flag = false;
 static volatile int worker_thread_exit_status;
@@ -697,7 +700,11 @@ int boinc_finish_message(int status, const char* msg, bool is_notice) {
     );
     finishing = true;
     boinc_sleep(2.0);   // let the timer thread send final messages
-    boinc_disable_timer_thread = true;     // then disable it
+	boinc_disable_timer_thread = true;     // then disable it
+	#if !(defined(_MT) && defined(_DLL)) // Static C-Runtime special care,
+		WaitForSingleObject( timer_thread_handle, INFINITE ); // Wait for the timer thread to exit, so we can free the handle
+		CloseHandle( timer_thread_handle );
+	#endif
 
     if (options.main_program) {
         FILE* f = fopen(BOINC_FINISH_CALLED_FILE, "w");
@@ -1240,7 +1247,13 @@ DWORD WINAPI timer_thread(void *) {
         if (!boinc_status.suspended) {
             nrunning_ticks++;
         }
+		#if !(defined(_MT) && defined(_DLL))
+			if (boinc_disable_timer_thread) break; // For static C-Runtime, we need to _endthreadex for resource cleanup
+		#endif
     }
+	#if !(defined(_MT) && defined(_DLL))  //Static C-Runtime
+		_endthreadex(0);
+	#endif
     return 0;
 }
 
@@ -1308,14 +1321,28 @@ int start_timer_thread() {
 
     // Create the timer thread
     //
-    if (!CreateThread(NULL, 0, timer_thread, 0, 0, &timer_thread_id)) {
-        fprintf(stderr,
-            "%s start_timer_thread(): CreateThread() failed, errno %d\n",
-            boinc_msg_prefix(buf, sizeof(buf)), errno
-        );
-        return errno;
-    }
-    
+	// Dynamic or Static C-Runtime determined correct threading Api to use
+	// see documentation at 
+	#if defined(_MT) && defined (_DLL) //Dynamic linked C-Runtime, leave as is for now pending later review 
+		if (!CreateThread(NULL, 0, timer_thread, 0, 0, &timer_thread_id)) {
+			fprintf(stderr,
+				"%s start_timer_thread(): CreateThread() failed, errno %d\n",
+				boinc_msg_prefix(buf, sizeof(buf)), errno
+			);
+			return errno;
+		}
+	#else  // Static linked C-Runtime, prevent resource leaks
+		timer_thread_handle = (HANDLE) _beginthreadex(NULL,0,(unsigned int  (__stdcall *)(void *)) &timer_thread,
+			0,0,(unsigned int *) &timer_thread_id);
+		if (!timer_thread_handle) {
+			fprintf(stderr,
+				"%s start_timer_thread(): _beginthreadex() failed, errno %d\n",
+				boinc_msg_prefix(buf, sizeof(buf)), errno
+			);
+			return errno;
+		}
+	#endif 
+
     if (!options.normal_thread_priority) {
         // lower our (worker thread) priority
         //
