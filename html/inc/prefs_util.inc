@@ -493,7 +493,7 @@ class PREF_HOUR_RANGE extends PREF {
             $d = "";
         }
         echo "<td class=fieldvalue>"
-            ."<input type=checkbox id=$checkbox_id onClick=\"checkbox_clicked2('$checkbox_id', '$t1_id', '$t2_id', 0, 0)\" $c>"
+            ."<input type=checkbox id=$checkbox_id onClick=\"checkbox_clicked2('$checkbox_id', '$t1_id', '$t2_id', 0, 23)\" $c>"
 
             .hour_select($prefs->$tag, $tag, $t1_id, $d)
             ." "
