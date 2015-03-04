@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC $Id$\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2015-03-03 12:00 PST\n"
+"POT-Creation-Date: 2015-03-04 08:56 PST\n"
 "Last-Translator: Generated automatically from source files\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -593,16 +593,16 @@ msgstr ""
 msgid "Unavailable"
 msgstr ""
 
-#: ../inc/host.inc:56 ../inc/prefs.inc:657 ../inc/prefs_util.inc:547
+#: ../inc/host.inc:56 ../inc/prefs.inc:665 ../inc/prefs_util.inc:547
 msgid "Home"
 msgstr ""
 
-#: ../inc/host.inc:57 ../inc/prefs.inc:658 ../inc/prefs_util.inc:549
+#: ../inc/host.inc:57 ../inc/prefs.inc:666 ../inc/prefs_util.inc:549
 #: ../user/server_status.php:138
 msgid "Work"
 msgstr ""
 
-#: ../inc/host.inc:58 ../inc/prefs.inc:659 ../inc/prefs_util.inc:548
+#: ../inc/host.inc:58 ../inc/prefs.inc:667 ../inc/prefs_util.inc:548
 msgid "School"
 msgstr ""
 
@@ -699,7 +699,7 @@ msgstr ""
 msgid "BOINC version"
 msgstr ""
 
-#: ../inc/host.inc:129 ../inc/prefs.inc:229
+#: ../inc/host.inc:129 ../inc/prefs.inc:237
 msgid "Memory"
 msgstr ""
 
@@ -1032,389 +1032,392 @@ msgstr ""
 msgid "Private message"
 msgstr ""
 
-#: ../inc/prefs.inc:45 ../inc/prefs.inc:179
+#: ../inc/prefs.inc:45 ../inc/prefs.inc:187
 msgid "Usage limits"
 msgstr ""
 
-#: ../inc/prefs.inc:47 ../inc/prefs.inc:53
+#: ../inc/prefs.inc:47 ../inc/prefs.inc:55
 msgid "Use at most"
 msgstr ""
 
-#: ../inc/prefs.inc:48
+#: ../inc/prefs.inc:49
+#, no-php-format
 msgid ""
 "Keep some CPUs free for other applications. Example: 75% means use 6 cores "
 "on an 8-core CPU."
 msgstr ""
 
-#: ../inc/prefs.inc:50
-#, php-format
+#: ../inc/prefs.inc:52
+#, no-php-format
 msgid "% of the CPUs"
 msgstr ""
 
-#: ../inc/prefs.inc:54
+#: ../inc/prefs.inc:57
+#, no-php-format
 msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
 "energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, "
 "and repeat."
 msgstr ""
 
-#: ../inc/prefs.inc:56
-#, php-format
+#: ../inc/prefs.inc:60
+#, no-php-format
 msgid "% of CPU time"
 msgstr ""
 
-#: ../inc/prefs.inc:58 ../inc/prefs.inc:200
+#: ../inc/prefs.inc:62 ../inc/prefs.inc:208
 msgid "When to suspend"
 msgstr ""
 
-#: ../inc/prefs.inc:60
+#: ../inc/prefs.inc:64
 msgid "Suspend when computer is on battery"
 msgstr ""
 
-#: ../inc/prefs.inc:61
+#: ../inc/prefs.inc:65
 msgid ""
 "Check this to suspend computing on portables when running on battery power."
 msgstr ""
 
-#: ../inc/prefs.inc:66
+#: ../inc/prefs.inc:70
 msgid "Suspend when computer is in use"
 msgstr ""
 
-#: ../inc/prefs.inc:67
+#: ../inc/prefs.inc:71
 msgid ""
 "Check this to suspend computing and file transfers when you're using the "
 "computer."
 msgstr ""
 
-#: ../inc/prefs.inc:72
+#: ../inc/prefs.inc:76
 msgid "Suspend GPU computing when computer is in use"
 msgstr ""
 
-#: ../inc/prefs.inc:73
+#: ../inc/prefs.inc:77
 msgid "Check this to suspend GPU computing when you're using the computer."
 msgstr ""
 
-#: ../inc/prefs.inc:78
+#: ../inc/prefs.inc:82
 msgid "'In use' means mouse/keyboard input in last"
 msgstr ""
 
-#: ../inc/prefs.inc:79
+#: ../inc/prefs.inc:83
 msgid "This determines when the computer is considered 'in use'."
 msgstr ""
 
-#: ../inc/prefs.inc:81 ../inc/prefs.inc:88 ../inc/prefs.inc:118
+#: ../inc/prefs.inc:85 ../inc/prefs.inc:92 ../inc/prefs.inc:122
 msgid "minutes"
 msgstr ""
 
-#: ../inc/prefs.inc:85
+#: ../inc/prefs.inc:89
 msgid "Suspend when no mouse/keyboard input in last"
 msgstr ""
 
-#: ../inc/prefs.inc:86
+#: ../inc/prefs.inc:90
 msgid "This allows some computers to enter low-power mode when not in use."
 msgstr ""
 
-#: ../inc/prefs.inc:91
+#: ../inc/prefs.inc:95
 msgid "Suspend when non-BOINC CPU usage is above"
 msgstr ""
 
-#: ../inc/prefs.inc:92
+#: ../inc/prefs.inc:96
 msgid "Suspend computing when your computer is busy running other programs."
 msgstr ""
 
-#: ../inc/prefs.inc:97
+#: ../inc/prefs.inc:101
 msgid "Compute only between"
 msgstr ""
 
-#: ../inc/prefs.inc:98
+#: ../inc/prefs.inc:102
 msgid "Compute only during a particular period each day."
 msgstr ""
 
-#: ../inc/prefs.inc:101 ../inc/prefs.inc:206
+#: ../inc/prefs.inc:105 ../inc/prefs.inc:214
 #: ../user/forum_banishment_vote.php:70
 #: ../user/forum_banishment_vote_action.php:65
 #: ../user/forum_moderate_post.php:63 ../user/forum_moderate_thread.php:61
 msgid "Other"
 msgstr ""
 
-#: ../inc/prefs.inc:103
+#: ../inc/prefs.inc:107
 msgid "Store at least"
 msgstr ""
 
-#: ../inc/prefs.inc:104
+#: ../inc/prefs.inc:108
 msgid "Store at least enough tasks to keep the computer busy for this long."
 msgstr ""
 
-#: ../inc/prefs.inc:106 ../inc/prefs.inc:112
+#: ../inc/prefs.inc:110 ../inc/prefs.inc:116
 msgid "days of work"
 msgstr ""
 
-#: ../inc/prefs.inc:109
+#: ../inc/prefs.inc:113
 msgid "Store up to an additional"
 msgstr ""
 
-#: ../inc/prefs.inc:110
+#: ../inc/prefs.inc:114
 msgid ""
 "Store additional tasks above the minimum level.  Determines how much work is "
 "requested when contacting a project."
 msgstr ""
 
-#: ../inc/prefs.inc:115
+#: ../inc/prefs.inc:119
 msgid "Switch between tasks about every"
 msgstr ""
 
-#: ../inc/prefs.inc:116
+#: ../inc/prefs.inc:120
 msgid "If you run several projects, BOINC may switch between them this often."
 msgstr ""
 
-#: ../inc/prefs.inc:121
+#: ../inc/prefs.inc:125
 msgid "Request tasks to checkpoint at most every"
 msgstr ""
 
-#: ../inc/prefs.inc:122
+#: ../inc/prefs.inc:126
 msgid ""
 "This controls how often tasks save their state to disk, so that they can be "
 "restarted later."
 msgstr ""
 
-#: ../inc/prefs.inc:124
+#: ../inc/prefs.inc:128
 msgid "seconds"
 msgstr ""
 
-#: ../inc/prefs.inc:132 ../inc/prefs.inc:144
+#: ../inc/prefs.inc:136 ../inc/prefs.inc:148
 msgid "Use no more than"
 msgstr ""
 
-#: ../inc/prefs.inc:133
+#: ../inc/prefs.inc:137
 msgid "Limit the total amount of disk space used by BOINC."
 msgstr ""
 
-#: ../inc/prefs.inc:135
+#: ../inc/prefs.inc:139
 msgid "GB"
 msgstr ""
 
-#: ../inc/prefs.inc:138
+#: ../inc/prefs.inc:142
 msgid "Leave at least"
 msgstr ""
 
-#: ../inc/prefs.inc:139
+#: ../inc/prefs.inc:143
 msgid ""
 "Limit disk usage to leave this much free space on the volume where BOINC "
 "stores data."
 msgstr ""
 
-#: ../inc/prefs.inc:141
+#: ../inc/prefs.inc:145
 msgid "GB free"
 msgstr ""
 
-#: ../inc/prefs.inc:145
+#: ../inc/prefs.inc:149
 msgid ""
 "Limit the percentage of disk space used by BOINC on the volume where it "
 "stores data."
 msgstr ""
 
-#: ../inc/prefs.inc:147
-#, php-format
+#: ../inc/prefs.inc:152
+#, no-php-format
 msgid "% of total"
 msgstr ""
 
-#: ../inc/prefs.inc:153
+#: ../inc/prefs.inc:158
 msgid "When computer is in use, use at most"
 msgstr ""
 
-#: ../inc/prefs.inc:154
+#: ../inc/prefs.inc:159
 msgid "Limit the memory used by BOINC when you're using the computer."
 msgstr ""
 
-#: ../inc/prefs.inc:156 ../inc/prefs.inc:162 ../inc/prefs.inc:174
+#: ../inc/prefs.inc:162 ../inc/prefs.inc:169 ../inc/prefs.inc:182
+#, no-php-format
 msgid "%"
 msgstr ""
 
-#: ../inc/prefs.inc:159
+#: ../inc/prefs.inc:165
 msgid "When computer is not in use, use at most"
 msgstr ""
 
-#: ../inc/prefs.inc:160
+#: ../inc/prefs.inc:166
 msgid "Limit the memory used by BOINC when you're not using the computer."
 msgstr ""
 
-#: ../inc/prefs.inc:165
+#: ../inc/prefs.inc:172
 msgid "Leave non-GPU tasks in memory while suspended"
 msgstr ""
 
-#: ../inc/prefs.inc:166
+#: ../inc/prefs.inc:173
 msgid ""
 "If checked, suspended tasks stay in memory, and resume with no work lost. If "
 "unchecked, suspended tasks are removed from memory, and resume from their "
 "last checkpoint."
 msgstr ""
 
-#: ../inc/prefs.inc:171
+#: ../inc/prefs.inc:178
 msgid "Page/swap file: use at most"
 msgstr ""
 
-#: ../inc/prefs.inc:172
+#: ../inc/prefs.inc:179
 msgid "Limit the swap space (page file) used by BOINC."
 msgstr ""
 
-#: ../inc/prefs.inc:181
+#: ../inc/prefs.inc:189
 msgid "Limit download rate to"
 msgstr ""
 
-#: ../inc/prefs.inc:182
+#: ../inc/prefs.inc:190
 msgid "Limit the download rate of file transfers."
 msgstr ""
 
-#: ../inc/prefs.inc:184 ../inc/prefs.inc:190
+#: ../inc/prefs.inc:192 ../inc/prefs.inc:198
 msgid "KB/second"
 msgstr ""
 
-#: ../inc/prefs.inc:187
+#: ../inc/prefs.inc:195
 msgid "Limit upload rate to"
 msgstr ""
 
-#: ../inc/prefs.inc:188
+#: ../inc/prefs.inc:196
 msgid "Limit the upload rate of file transfers."
 msgstr ""
 
-#: ../inc/prefs.inc:193
+#: ../inc/prefs.inc:201
 msgid "Limit usage to"
 msgstr ""
 
-#: ../inc/prefs.inc:194
+#: ../inc/prefs.inc:202
 msgid "Example: BOINC should transfer at most 2000 MB of data every 30 days."
 msgstr ""
 
-#: ../inc/prefs.inc:197
+#: ../inc/prefs.inc:205
 msgid "MB every"
 msgstr ""
 
-#: ../inc/prefs.inc:198 ../inc/util.inc:303
+#: ../inc/prefs.inc:206 ../inc/util.inc:303
 msgid "days"
 msgstr ""
 
-#: ../inc/prefs.inc:202
+#: ../inc/prefs.inc:210
 msgid "Transfer files only between"
 msgstr ""
 
-#: ../inc/prefs.inc:203
+#: ../inc/prefs.inc:211
 msgid "Transfer files only during a particular period each day."
 msgstr ""
 
-#: ../inc/prefs.inc:208
+#: ../inc/prefs.inc:216
 msgid "Skip data verification for image files"
 msgstr ""
 
-#: ../inc/prefs.inc:209
+#: ../inc/prefs.inc:217
 msgid ""
 "Check this only if your Internet provider modifies image files. Skipping "
 "verification reduces the security of BOINC."
 msgstr ""
 
-#: ../inc/prefs.inc:214
+#: ../inc/prefs.inc:222
 msgid "Confirm before connecting to Internet"
 msgstr ""
 
-#: ../inc/prefs.inc:215 ../inc/prefs.inc:221
+#: ../inc/prefs.inc:223 ../inc/prefs.inc:229
 msgid "Useful only if you have a modem, ISDN or VPN connection."
 msgstr ""
 
-#: ../inc/prefs.inc:220
+#: ../inc/prefs.inc:228
 msgid "Disconnect when done"
 msgstr ""
 
-#: ../inc/prefs.inc:227 ../inc/prefs.inc:464 ../user/explain_state.php:94
+#: ../inc/prefs.inc:235 ../inc/prefs.inc:472 ../user/explain_state.php:94
 msgid "Computing"
 msgstr ""
 
-#: ../inc/prefs.inc:228
+#: ../inc/prefs.inc:236
 msgid "Disk"
 msgstr ""
 
-#: ../inc/prefs.inc:230
+#: ../inc/prefs.inc:238
 msgid "Network"
 msgstr ""
 
-#: ../inc/prefs.inc:233
+#: ../inc/prefs.inc:241
 msgid ""
 "These preferences apply to all the BOINC projects in which you participate."
 msgstr ""
 
-#: ../inc/prefs.inc:236
+#: ../inc/prefs.inc:244
 msgid ""
 "%1Unable to update preferences.%2 The values marked in red below were out of "
 "range or not numeric."
 msgstr ""
 
-#: ../inc/prefs.inc:475
+#: ../inc/prefs.inc:483
 msgid "Separate preferences for %1"
 msgstr ""
 
-#: ../inc/prefs.inc:485 ../inc/prefs.inc:520 ../inc/prefs_project.inc:291
+#: ../inc/prefs.inc:493 ../inc/prefs.inc:528 ../inc/prefs_project.inc:291
 msgid "Edit preferences"
 msgstr ""
 
-#: ../inc/prefs.inc:486 ../user/edit_forum_preferences_form.php:149
+#: ../inc/prefs.inc:494 ../user/edit_forum_preferences_form.php:149
 #: ../user/team_admins.php:36
 msgid "Remove"
 msgstr ""
 
-#: ../inc/prefs.inc:491
+#: ../inc/prefs.inc:499
 msgid "Add separate preferences for %1"
 msgstr ""
 
-#: ../inc/prefs.inc:498
+#: ../inc/prefs.inc:506
 msgid "These settings apply to all computers using this account except"
 msgstr ""
 
-#: ../inc/prefs.inc:500
+#: ../inc/prefs.inc:508
 msgid ""
 "computers where you have set preferences locally using the BOINC Manager"
 msgstr ""
 
-#: ../inc/prefs.inc:502
+#: ../inc/prefs.inc:510
 msgid "Android devices"
 msgstr ""
 
-#: ../inc/prefs.inc:505
+#: ../inc/prefs.inc:513
 msgid "(Switch view)"
 msgstr ""
 
-#: ../inc/prefs.inc:507 ../inc/prefs_project.inc:272
+#: ../inc/prefs.inc:515 ../inc/prefs_project.inc:272
 msgid "Combined preferences"
 msgstr ""
 
-#: ../inc/prefs.inc:514 ../inc/prefs_project.inc:283
+#: ../inc/prefs.inc:522 ../inc/prefs_project.inc:283
 msgid "Primary (default) preferences"
 msgstr ""
 
-#: ../inc/prefs.inc:529
+#: ../inc/prefs.inc:537
 msgid "Preferences last modified:"
 msgstr ""
 
-#: ../inc/prefs.inc:545
+#: ../inc/prefs.inc:553
 msgid "Add preferences"
 msgstr ""
 
-#: ../inc/prefs.inc:549
+#: ../inc/prefs.inc:557
 msgid "Update preferences"
 msgstr ""
 
-#: ../inc/prefs.inc:620 ../project.sample/project_specific_prefs.inc:83
-#: ../project.sample/project_specific_prefs.inc:223
+#: ../inc/prefs.inc:628 ../project.sample/project_specific_prefs.inc:84
+#: ../project.sample/project_specific_prefs.inc:224
 msgid "yes"
 msgstr ""
 
-#: ../inc/prefs.inc:622 ../project.sample/project_specific_prefs.inc:85
-#: ../project.sample/project_specific_prefs.inc:223
+#: ../inc/prefs.inc:630 ../project.sample/project_specific_prefs.inc:86
+#: ../project.sample/project_specific_prefs.inc:224
 msgid "no"
 msgstr ""
 
-#: ../inc/prefs.inc:630
+#: ../inc/prefs.inc:638
 msgid "Default computer location"
 msgstr ""
 
-#: ../inc/prefs.inc:631
+#: ../inc/prefs.inc:639
 msgid ""
 "New computers will use this location for computing and project preferences."
 msgstr ""
@@ -6426,30 +6429,31 @@ msgstr ""
 msgid "Color scheme for graphics"
 msgstr ""
 
-#: ../project.sample/project_specific_prefs.inc:54
+#: ../project.sample/project_specific_prefs.inc:55
+#, no-php-format
 msgid "Maximum CPU % for graphics%10 ... 100%2"
 msgstr ""
 
-#: ../project.sample/project_specific_prefs.inc:55
+#: ../project.sample/project_specific_prefs.inc:56
 msgid "Run only the selected applications"
 msgstr ""
 
-#: ../project.sample/project_specific_prefs.inc:56
+#: ../project.sample/project_specific_prefs.inc:57
 msgid ""
 "Only get tasks for certain applications. Useful to focus on particular "
 "applications, or to exclude them."
 msgstr ""
 
-#: ../project.sample/project_specific_prefs.inc:57
+#: ../project.sample/project_specific_prefs.inc:58
 msgid ""
 "If no work for selected applications is available, accept work from other "
 "applications?"
 msgstr ""
 
-#: ../project.sample/project_specific_prefs.inc:58
+#: ../project.sample/project_specific_prefs.inc:59
 msgid "Use faster non-graphical applications if available?"
 msgstr ""
 
-#: ../project.sample/project_specific_prefs.inc:89
+#: ../project.sample/project_specific_prefs.inc:90
 msgid "(all applications)"
 msgstr ""
