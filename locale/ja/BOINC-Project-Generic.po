@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-03-03 12:00 PST\n"
-"PO-Revision-Date: 2015-03-04 14:41+0000\n"
+"PO-Revision-Date: 2015-03-04 16:06+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -1149,7 +1149,7 @@ msgstr "最低限の備蓄量:"
 
 #: ../inc/prefs.inc:104
 msgid "Store at least enough tasks to keep the computer busy for this long."
-msgstr "この長期間コンピュータのビジー状態を保つために、最低に見積もっても十分なタスクを蓄えておきます。"
+msgstr "長時間コンピュータのビジー状態を保つために、最低に見積もっても十分なタスクを蓄えておきます。"
 
 #: ../inc/prefs.inc:106 ../inc/prefs.inc:112
 msgid "days of work"
@@ -1175,7 +1175,7 @@ msgstr "いくつかのプロジェクトを動作させる場合、BOINC はこ
 
 #: ../inc/prefs.inc:121
 msgid "Request tasks to checkpoint at most every"
-msgstr "タスクにチェックポイント書き込みを要求する最小間隔"
+msgstr "タスクにチェックポイント書き込みを要求する最大間隔"
 
 #: ../inc/prefs.inc:122
 msgid ""
@@ -1257,7 +1257,7 @@ msgstr "チェックを入れた場合、一時停止されたタスクはメモ
 
 #: ../inc/prefs.inc:171
 msgid "Page/swap file: use at most"
-msgstr "ページ/スワップファイル: 最大でも"
+msgstr "ページ/スワップファイル: 最大使用時でも"
 
 #: ../inc/prefs.inc:172
 msgid "Limit the swap space (page file) used by BOINC."
@@ -1265,7 +1265,7 @@ msgstr "BOINC によって使用されるスワップ領域(ページファイ�
 
 #: ../inc/prefs.inc:181
 msgid "Limit download rate to"
-msgstr "ダウンロード速度を下記に制限"
+msgstr "ダウンロード速度を下記に制限:"
 
 #: ../inc/prefs.inc:182
 msgid "Limit the download rate of file transfers."
@@ -1277,7 +1277,7 @@ msgstr "KB/秒"
 
 #: ../inc/prefs.inc:187
 msgid "Limit upload rate to"
-msgstr "アップロード速度を下記に制限"
+msgstr "アップロード速度を下記に制限:"
 
 #: ../inc/prefs.inc:188
 msgid "Limit the upload rate of file transfers."
@@ -1371,7 +1371,7 @@ msgstr "%1用に個別プレファレンスを追加する"
 
 #: ../inc/prefs.inc:498
 msgid "These settings apply to all computers using this account except"
-msgstr "これらの設定は以下を除くものの、このアカウントを使用するすべてのコンピュータに適用します"
+msgstr "これらの設定はこのアカウントを使用するすべてのコンピュータに適用します。以下の場合は除きます:"
 
 #: ../inc/prefs.inc:500
 msgid ""
@@ -2472,7 +2472,7 @@ msgid ""
 "tasks for one or more of these applications will be assigned to your "
 "computer. The current version of the application will be downloaded to your "
 "computer. This happens automatically; you don't have to do anything."
-msgstr "%1 プロジェクトには、現在下記のアプリケーションがあります。 %1 プロジェクトに参加すると、これらのアプリケーションのうち、 1つまたは複数のアプリケーションの仕事があなたのコンピュータに割り当てられます。これらのアプリケーションの最新版がダウンロードされます。これらは自動的に行われるので、何もする必要はありません。 "
+msgstr "%1 プロジェクトには、現在下記のアプリケーションがあります。 %1 プロジェクトに参加すると、これらのアプリケーションのうち、 1つまたは複数のアプリケーションのタスクがあなたのコンピュータに割り当てられます。これらのアプリケーションの最新版がダウンロードされます。これらは自動的に行われるので、何もする必要はありません。 "
 
 #: ../user/apps.php:54
 msgid "Platform"
@@ -3975,17 +3975,17 @@ msgstr "報告は登録されませんでした"
 
 #: ../user/forum_report_post.php:94
 msgid "Your report could not be recorded. Please wait a while and try again."
-msgstr "あなたの報告を記録することができませんでした。少々待ってからもう一度試してみてくださいませ。"
+msgstr "あなたの報告を記録することができませんでした。少し待ってからもう一度試してみてください。"
 
 #: ../user/forum_report_post.php:95
 msgid ""
 "If this is not a temporary error, please report it to the project "
 "developers."
-msgstr "このエラーが一時的なものでないなら、このプロジェクトの開発者に報告してください。"
+msgstr "これが一時的なエラーでないなら、このプロジェクトの開発者に報告してください。"
 
 #: ../user/forum_rss.php:38
 msgid "%1 RSS feed"
-msgstr "%1 の RSS 配信"
+msgstr "%1 の RSS フィード"
 
 #: ../user/forum_rss.php:39
 msgid "This message board is available as an RSS feed."
