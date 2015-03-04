@@ -701,10 +701,12 @@ int boinc_finish_message(int status, const char* msg, bool is_notice) {
     finishing = true;
     boinc_sleep(2.0);   // let the timer thread send final messages
 	boinc_disable_timer_thread = true;     // then disable it
+#ifdef _WIN32
 	#if !(defined(_MT) && defined(_DLL)) // Static C-Runtime special care,
 		WaitForSingleObject( timer_thread_handle, INFINITE ); // Wait for the timer thread to exit, so we can free the handle
 		CloseHandle( timer_thread_handle );
 	#endif
+#endif
 
     if (options.main_program) {
         FILE* f = fopen(BOINC_FINISH_CALLED_FILE, "w");
@@ -1323,7 +1325,7 @@ int start_timer_thread() {
     //
 	// Dynamic or Static C-Runtime determined correct threading Api to use
 	// see documentation at 
-	#if defined(_MT) && defined (_DLL) //Dynamic linked C-Runtime, leave as is for now pending later review 
+	#if defined(_MT) && defined(_DLL) //Dynamic linked C-Runtime, leave as is for now pending later review 
 		if (!CreateThread(NULL, 0, timer_thread, 0, 0, &timer_thread_id)) {
 			fprintf(stderr,
 				"%s start_timer_thread(): CreateThread() failed, errno %d\n",
