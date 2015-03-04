@@ -48,6 +48,7 @@ $cpu_prefs = array(
         // xgettext:no-php-format
         tra("Keep some CPUs free for other applications. Example: 75% means use 6 cores on an 8-core CPU."),
         "max_ncpus_pct",
+        // xgettext:no-php-format
         new NUM_SPEC(tra("% of the CPUs"), 1, 100, 100)
     ),
     new PREF_NUM(
@@ -55,6 +56,7 @@ $cpu_prefs = array(
         // xgettext:no-php-format
         tra("Suspend/resume computing every few seconds to reduce CPU temperature and energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, and repeat."),
         "cpu_usage_limit",
+        // xgettext:no-php-format
         new NUM_SPEC(tra("% of CPU time"), 1, 100, 100)
     ),
     tra("When to suspend"),
