@@ -209,6 +209,12 @@ function boinctranslate_refresh_translations() {
         }
       }
     }
+    // Unset repetitive notices, just show the last import summary message
+    $notices = drupal_get_messages('status');
+    $notice_count = count($notices['status']);
+    if ($notice_count >= 2) {
+      drupal_set_message($notices['status'][$notice_count-2]);
+    }
   }
   else {
     drupal_set_message('The translation environment is not configured.');
