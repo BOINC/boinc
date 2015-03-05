@@ -469,7 +469,7 @@ function prefs_show_global($prefs) {
 }
 
 function subset_name($subset) {
-    if ($subset == "global") return tra("Computing");
+    if ($subset == "global") return tra("computing");
     return PROJECT;
 }
 
