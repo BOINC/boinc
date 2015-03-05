@@ -235,9 +235,6 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
     //pDoc->disk_usage.d_allowed = 0;
 	//data for pie chart 2 (total disk usage)
 	//
-	// good source of color palettes:
-	// http://www.siteprocentral.com/cgi-bin/feed/feed.cgi
-	//
 	bool refreshTotal=false;
 	double free = pDoc->disk_usage.d_free;
 	double total = pDoc->disk_usage.d_total;
