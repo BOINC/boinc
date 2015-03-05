@@ -6,13 +6,14 @@
 # FileID  : $Id$
 # 
 # Translators:
+# Vesa Nilakari, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: boinc\n"
+"Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2015-02-08 19:45+0000\n"
-"Last-Translator: Rom Walton <romw@romwnet.org>\n"
+"PO-Revision-Date: 2015-03-05 05:07+0000\n"
+"Last-Translator: Vesa Nilakari\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/boinc/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,11 +24,11 @@ msgstr ""
 
 #: docutil.php:21
 msgid "Search"
-msgstr "Hae"
+msgstr "Etsi"
 
 #: docutil.php:103
 msgid "Return to BOINC main page"
-msgstr "BOINCin etusivulle"
+msgstr "Palaa BOINC:n pääsivulle"
 
 #: docutil.php:114
 #, php-format
@@ -56,12 +57,12 @@ msgstr "järjestelmälle %s"
 #: download.php:57 download.php:72
 #, php-format
 msgid "BOINC version %s"
-msgstr "BOINC versio %s"
+msgstr "BOINC, versio %s"
 
 #: download.php:59
 #, php-format
 msgid "VirtualBox version %s"
-msgstr "VirtualBox versio %s"
+msgstr "VirtualBox, versio %s"
 
 #: download.php:67
 msgid "Download BOINC"
