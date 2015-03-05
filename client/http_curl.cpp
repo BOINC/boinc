@@ -63,6 +63,10 @@ static CURLM* g_curlMulti = NULL;
 static char g_user_agent_string[256] = {""};
 static const char g_content_type[] = {"Content-Type: application/x-www-form-urlencoded"};
 static unsigned int g_trace_count = 0;
+static bool got_expectation_failed = false;
+    // Whether we've got a 417 HTTP error.
+    // If we did, it's probably because we talked HTTP 1.1 to a 1.0 proxy;
+    // use 1.0 from now on.
 
 char* get_user_agent_string() {
     sprintf(g_user_agent_string, "BOINC client (%s %d.%d.%d)",
@@ -557,7 +561,7 @@ int HTTP_OP::libcurl_exec(
     // force curl to use HTTP/1.0 if config specifies it
     // (curl uses 1.1 by default)
     //
-    if (cc_config.http_1_0 || (cc_config.force_auth == "ntlm")) {
+    if (cc_config.http_1_0 || (cc_config.force_auth == "ntlm") || got_expectation_failed) {
         curl_easy_setopt(curlEasy, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
     }
     curl_easy_setopt(curlEasy, CURLOPT_MAXREDIRS, 50L);
@@ -1011,6 +1015,9 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
             safe_strcpy(error_msg, boincerror(response));
             break;
         default:                                    // 400
+            if (response == HTTP_STATUS_EXPECTATION_FAILED) {
+                got_expectation_failed = true;
+            }
             http_op_retval = ERR_HTTP_PERMANENT;
             safe_strcpy(error_msg, boincerror(response));
             break;
