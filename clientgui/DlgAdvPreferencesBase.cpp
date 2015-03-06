@@ -146,7 +146,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     m_Notebook->AddPage( m_panelNetwork, _("Network"), true );
 
     m_panelDiskAndMemory = createDiskAndMemoryTab(m_Notebook);
-    m_Notebook->AddPage( m_panelDiskAndMemory, _("Disk & Memory"), true );
+    m_Notebook->AddPage( m_panelDiskAndMemory, _("Disk && Memory"), true );
 
     m_panelDailySchedules = createDailySchedulesTab(m_Notebook);
     m_Notebook->AddPage( m_panelDailySchedules, _("Daily Schedules"), true );
