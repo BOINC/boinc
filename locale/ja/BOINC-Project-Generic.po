@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-03-04 08:56 PST\n"
-"PO-Revision-Date: 2015-03-07 08:32+0000\n"
+"PO-Revision-Date: 2015-03-07 18:37+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -5353,19 +5353,19 @@ msgstr "CPU モデル"
 msgid ""
 "More detailed statistics for %1 and other BOINC-based projects are available"
 " at several web sites:"
-msgstr "%1 と他の BOINC プロジェクトについてのより詳しい統計データを、 下記のいくつかのウェブサイトで見ることができます。"
+msgstr "%1 と他の BOINC プロジェクトについてのより詳しい統計データを、下記のいくつかのウェブサイトで見ることができます:"
 
 #: ../user/stats.php:56
 msgid ""
 "You can also get your current statistics in the form of a \"signature "
 "image\":"
-msgstr "ご自分の統計データを、シグネチャ用画像に埋め込んで使うことができます。下記をご覧ください。"
+msgstr "ご自分の統計データを、シグネチャ用画像に埋め込んで使うことができます。下記をご覧ください:"
 
 #: ../user/stats.php:59
 msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1home page%2."
-msgstr "さらに、すべての BOINC プロジェクトに渡って集計されたご自分の統計データを得ることが、 いくつかのサイトから可能です。 ご自分の%1ホームページ%2 をご覧ください。"
+msgstr "さらに、すべての BOINC プロジェクトに渡って集計されたご自分の統計データを得ることが、いくつかのサイトから可能です。ご自分の %1ホームページ%2 をご覧ください。"
 
 #: ../user/team.php:27
 msgid "Teams"
@@ -5373,7 +5373,7 @@ msgstr "チーム"
 
 #: ../user/team.php:29
 msgid "%1 participants may form %2teams%3."
-msgstr "%1 の参加者は %2チーム%3 を作ることができます"
+msgstr "%1 の参加者は %2チーム%3 を作ることができます。"
 
 #: ../user/team.php:31
 msgid ""
@@ -5382,27 +5382,27 @@ msgstr "所属できるチームは1つだけです。チームへの参加と�
 
 #: ../user/team.php:33
 msgid "Each team has a %1founder%2 who may:"
-msgstr "それぞれのチームには、%1創設者%2 が1名います。創設者ができることは以下のとおりです。"
+msgstr "それぞれのチームには、%1創設者%2 が1名います。創設者ができることは以下のとおりです:"
 
 #: ../user/team.php:35
 msgid "access team members' email addresses"
-msgstr "チームメンバーのメイルアドレスにアクセス"
+msgstr "チームメンバーのメールアドレスにアクセス"
 
 #: ../user/team.php:36
 msgid "edit the team's name and description"
-msgstr "チームの名称と説明文を編集"
+msgstr "チームの名称と説明を編集"
 
 #: ../user/team.php:37
 msgid "add or remove team admins"
-msgstr "チーム管理者を追加／削除する"
+msgstr "チーム管理者を追加/削除"
 
 #: ../user/team.php:38
 msgid "remove members from the team"
-msgstr "メンバーをチームから削除"
+msgstr "チームからメンバーを削除"
 
 #: ../user/team.php:39
 msgid "disband a team if it has no members"
-msgstr "メンバーがいなければチームを解散すること"
+msgstr "メンバーがいなければチームを解散する"
 
 #: ../user/team.php:42
 msgid "To join a team, visit its team page and click %1Join this team%2."
@@ -5427,7 +5427,7 @@ msgstr "新しくチームを作る"
 #: ../user/team.php:61
 msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."
-msgstr "あなたに適切だと思うチームが見つからなかったら、新しく %1チームを作る%2 こともできます。"
+msgstr "あなたにふさわしいと思うチームが見つからなかったら、新しく %1チームを作る%2 こともできます。"
 
 #: ../user/team_admins.php:36
 msgid "Remove Team Admin status from this member"
