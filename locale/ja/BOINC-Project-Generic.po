@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-03-04 08:56 PST\n"
-"PO-Revision-Date: 2015-03-07 18:37+0000\n"
+"PO-Revision-Date: 2015-03-07 19:51+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -275,11 +275,11 @@ msgstr "投稿の多い順"
 
 #: ../inc/forum.inc:126
 msgid "Search for words in forum messages"
-msgstr "フォーラム内のメッセージ内を語句検索します"
+msgstr "掲示板内のメッセージ内を語句検索します"
 
 #: ../inc/forum.inc:126
 msgid "Search forums"
-msgstr "フォーラムを検索"
+msgstr "掲示板を検索"
 
 #: ../inc/forum.inc:127
 msgid "Advanced search"
@@ -3574,7 +3574,7 @@ msgstr "あなたにはこの投稿を編集する権限がありません。"
 
 #: ../user/forum_edit.php:86 ../user/forum_search.php:74
 msgid "Forum"
-msgstr "フォーラム"
+msgstr "掲示板"
 
 #: ../user/forum_edit.php:110
 msgid "Edit your message"
@@ -3604,7 +3604,7 @@ msgstr "新しいスレッド"
 
 #: ../user/forum_forum.php:99
 msgid "Add a new thread to this forum"
-msgstr "このフォーラムに新しいスレッドを追加"
+msgstr "この掲示板に新しいスレッドを追加"
 
 #: ../user/forum_forum.php:119
 msgid "This message board is available as an %1RSS feed%2"
@@ -3821,11 +3821,11 @@ msgstr "理由を分類から選ぶか、あるいは、なぜそのスレッド
 
 #: ../user/forum_moderate_thread.php:78
 msgid "Current forum"
-msgstr "現在のフォーラム"
+msgstr "現在の掲示板"
 
 #: ../user/forum_moderate_thread.php:79
 msgid "Destination forum"
-msgstr "移動先のフォーラム"
+msgstr "移動先の掲示板"
 
 #: ../user/forum_moderate_thread.php:83
 msgid "New title:"
@@ -3953,7 +3953,7 @@ msgstr "モデレーターはあなたの報告を確認してからどうする
 
 #: ../user/forum_report_post.php:74
 msgid "Report a forum post"
-msgstr "フォーラムの投稿について報告"
+msgstr "掲示板の投稿について報告"
 
 #: ../user/forum_report_post.php:76
 msgid ""
@@ -4012,7 +4012,7 @@ msgstr "スレッドのみ: %1 (各スレッドの最初の投稿だけを含め
 
 #: ../user/forum_search.php:29
 msgid "Forum search"
-msgstr "フォーラム内の検索"
+msgstr "掲示板内の検索"
 
 #: ../user/forum_search.php:33
 msgid "Search query"
@@ -4068,7 +4068,7 @@ msgstr "無制限"
 
 #: ../user/forum_search.php:75
 msgid "Only display posts from this forum"
-msgstr "指定したフォーラムの投稿だけから検索します"
+msgstr "指定した掲示板の投稿だけから検索します"
 
 #: ../user/forum_search.php:86
 msgid "Sort by"
@@ -4080,7 +4080,7 @@ msgstr "検索開始"
 
 #: ../user/forum_search_action.php:143
 msgid "Forum search results"
-msgstr "フォーラムの検索結果"
+msgstr "掲示板の検索結果"
 
 #: ../user/forum_search_action.php:176
 msgid "Thread titles matching your query:"
@@ -4148,7 +4148,7 @@ msgstr "不明な参加行動"
 
 #: ../user/forum_thread.php:66
 msgid "This forum is not visible to you."
-msgstr "あなたはこのフォーラムを見ることはできません。"
+msgstr "あなたはこの掲示板を見ることはできません。"
 
 #: ../user/forum_thread.php:74
 msgid "This thread has been hidden by moderators."
@@ -4208,7 +4208,7 @@ msgstr "表示位置を一覧の先頭へ固定する"
 
 #: ../user/forum_thread.php:210
 msgid "Make this thread always appear at top of forum"
-msgstr "このスレッドが常にフォーラムの上部に表示されるようにする"
+msgstr "このスレッドが常に掲示板の上部に表示されるようにする"
 
 #: ../user/forum_thread.php:216
 msgid "Unlock"
@@ -4228,7 +4228,7 @@ msgstr "このスレッドへの新しい投稿を許可しない"
 
 #: ../user/forum_thread.php:230
 msgid "Move this thread to a different forum"
-msgstr "このスレッドを別のフォーラムに移動します"
+msgstr "このスレッドを別の掲示板に移動します"
 
 #: ../user/forum_thread.php:235
 msgid "Edit title"
@@ -4766,7 +4766,7 @@ msgid ""
 "Messages posted to the %1 forums are visible to everyone, including non-"
 "members.  By posting to the forums, you are granting irrevocable license for"
 " anyone to view and copy your posts."
-msgstr "このウェブサイトのフォーラムをお使いになるのでしたら、%2投稿のガイドライン%3 に従わなければなりません。この %1 フォーラムに投稿されたメッセージは、メンバー以外の方も含め誰でも読むことができます。いったんメッセージを投稿すると、どのような人にでもあなたの投稿内容を見たり、それをコピーする許可を永久に取り消すことのできない形で与えることを認めたことになります。 "
+msgstr "このウェブサイトの掲示板をお使いになるのでしたら、%2投稿のガイドライン%3 に従わなければなりません。この %1 掲示板に投稿されたメッセージは、メンバー以外の方も含め誰でも読むことができます。いったんメッセージを投稿すると、どのような人にでもあなたの投稿内容を見たり、それをコピーする許可を永久に取り消すことのできない形で与えることを認めたことになります。 "
 
 #: ../user/info.php:48
 msgid "Is it safe to run %1?"
@@ -4946,7 +4946,7 @@ msgid ""
 "This moderation policy is set by the %1 project.\n"
 "If you have comments about the policy, email %2.\n"
 "\n"
-msgstr "\n<p>\nモデレーターは、これらの規約のいずれかに違反する投稿を削除する場合があります。\n削除された投稿者には、Eメールで通知されます。\n悪質な違反者はメッセージを投稿する能力が一時的に無効にされている場合があります(悪用を防ぐためではありますが、唯一プロジェクト管理者がそうする能力を持っています)。\n正規のルールに記載されていないものの、さらなる種類の有害行動はそれでもやはり同じような罰則につながる可能性があります(他の参加者のIPアドレスをトラップする「盗聴」のような投稿、フォーラムへのスパムのための過度のスレッドの作成など)。\n<p>\nある投稿が投稿規約のいずれかに違反すると思われる場合は、該当する投稿の赤いXをクリックし、フォームに必要事項を記入します。そうすることでモデレーターにあなたの苦情が通知されます。\n個人的異議以外・明確な違反についてのみこのボタンを使用してください。\n<p>\n私たちは調停するとき、できる限り公平にしようとしますが、多くの異なる観点をもつユーザーの大規模なコミュニティには、常に私たちの節度の決定に満足できない一部の人々が存在します。\n私たちがこの問題が発生したことを後悔している間、全期間全ての人々に合わせることはできず、私たちの方策に基づいてフォーラム全体のためには何が最良であるか意思決定をしなければならないことを理解してください。\nフォーラムで私たちの調整ポリシーを議論しないでください。私たちは社会工学プロジェクトではありませんし、完全に公正なシステムを作成するためのビジネスではありません。ゆえにそのような議論は逆効果であったり潜在的に扇動的になる傾向があります。あなたが正当な主張を持っている場合、下記のアドレスにメールを送信してください。\n<p>\nこの調整ポリシーは ％1 プロジェクトによって設定されています。\nポリシーに関するコメントがございましたら、 %2 あてにEメールをお送りください。\n"
+msgstr "\n<p>\nモデレーターは、これらの規約のいずれかに違反する投稿を削除する場合があります。\n削除された投稿者には、Eメールで通知されます。\n悪質な違反者はメッセージを投稿する能力が一時的に無効にされている場合があります(悪用を防ぐためではありますが、唯一プロジェクト管理者がそうする能力を持っています)。\n正規のルールに記載されていないものの、さらなる種類の有害行動はそれでもやはり同じような罰則につながる可能性があります(他の参加者のIPアドレスをトラップする「盗聴」のような投稿、掲示板へのスパムのための過度のスレッドの作成など)。\n<p>\nある投稿が投稿規約のいずれかに違反すると思われる場合は、該当する投稿の赤いXをクリックし、フォームに必要事項を記入します。そうすることでモデレーターにあなたの苦情が通知されます。\n個人的異議以外・明確な違反についてのみこのボタンを使用してください。\n<p>\n私たちは調停するとき、できる限り公平にしようとしますが、多くの異なる観点をもつユーザーの大規模なコミュニティには、常に私たちの節度の決定に満足できない一部の人々が存在します。\n私たちがこの問題が発生したことを後悔している間、全期間全ての人々に合わせることはできず、私たちの方策に基づいて掲示板全体のためには何が最良であるか意思決定をしなければならないことを理解してください。\n掲示板で私たちの調整ポリシーを議論しないでください。私たちは社会工学プロジェクトではありませんし、完全に公正なシステムを作成するためのビジネスではありません。ゆえにそのような議論は逆効果であったり潜在的に扇動的になる傾向があります。あなたが正当な主張を持っている場合、下記のアドレスにメールを送信してください。\n<p>\nこの調整ポリシーは ％1 プロジェクトによって設定されています。\nポリシーに関するコメントがございましたら、 %2 あてにEメールをお送りください。\n"
 
 #: ../user/pending.php:66
 msgid "Pending credit"
@@ -5069,7 +5069,7 @@ msgstr "ブロックできる相手の数に限りがあります。ご注意く
 msgid ""
 "Once the user has been blocked you can unblock it using forum preferences "
 "page."
-msgstr "この利用者からのメッセージを一旦ブロックしても、フォーラムのプレファレンス(好みの設定)でブロックを解除することができます。"
+msgstr "この利用者からのメッセージを一旦ブロックしても、掲示板のプレファレンス(好みの設定)でブロックを解除することができます。"
 
 #: ../user/pm.php:257
 msgid "No, cancel"
@@ -5435,7 +5435,7 @@ msgstr "このメンバーをチーム管理者の地位からはずします"
 
 #: ../user/team_admins.php:42 ../user/team_admins.php:53
 msgid "Add or remove Team Admins"
-msgstr "チーム管理者を追加／削除する"
+msgstr "チーム管理者を追加/削除する"
 
 #: ../user/team_admins.php:43
 msgid "You can select team members as 'Team Admins'. Team Admins can:"
@@ -5443,21 +5443,21 @@ msgstr "チームのメンバーから「チーム管理者」を複数選べま
 
 #: ../user/team_admins.php:45
 msgid "Edit team information (name, URL, description, country)"
-msgstr "チームの情報(名前、URL、説明文、国名)を編集する"
+msgstr "チームの情報(名前、URL、説明、国名)を編集する"
 
 #: ../user/team_admins.php:46
 msgid "View the team's join/quit history"
-msgstr "チームへの参加・脱退の履歴を見る"
+msgstr "チームへの参加/脱退の履歴を見る"
 
 #: ../user/team_admins.php:47
 msgid ""
 "Moderate the team forum, if any (admins get email notification of moderation"
 " events and red X reports)"
-msgstr "必要に応じてチーム掲示板の司会役(モデレータ）をすること (司会が必要な状況を知らせるメイル、あるいは、Red X レポートを受信した場合)"
+msgstr "必要に応じて(調停が必要な状態を知らせるメール、あるいは、Red X レポートを受信した場合)チーム掲示板の仲裁をする"
 
 #: ../user/team_admins.php:49
 msgid "Team Admins cannot:"
-msgstr "チーム管理者にはできないことは以下のとおり:"
+msgstr "チーム管理者にはできないことは以下のとおりです:"
 
 #: ../user/team_admins.php:51
 msgid "Change the team founder"
@@ -5469,13 +5469,13 @@ msgstr "メンバーの除名"
 
 #: ../user/team_admins.php:55
 msgid "If a Team Admin quits the team, they cease to be a Team Admin."
-msgstr "チーム管理者がそのチームを脱退したら、チーム管理者ではなくなります。"
+msgstr "チーム管理者がそのチームを脱退したとすれば、チーム管理者もやめることになります。"
 
 #: ../user/team_admins.php:56
 msgid ""
 "We recommend that you select only people you know and trust very well as "
 "Team Admins."
-msgstr "チーム管理者としては、あなたが知っていて十分信頼している人を選ぶことをお薦めします。"
+msgstr "チーム管理者として、あなたが知っていて十分信頼している人のみを選ぶことをお薦めします。"
 
 #: ../user/team_admins.php:61
 msgid "There are currently no Team Admins"
@@ -5487,7 +5487,7 @@ msgstr "現在のチーム管理者"
 
 #: ../user/team_admins.php:64
 msgid "Became Team Admin on"
-msgstr "チーム管理者になりました"
+msgstr "以下のチームのチーム管理者になりました:"
 
 #: ../user/team_admins.php:79
 msgid "Add Team Admin"
@@ -5495,7 +5495,7 @@ msgstr "チーム管理者を追加する"
 
 #: ../user/team_admins.php:80
 msgid "Email address of team member:"
-msgstr "チームメンバーの Eメイルアドレス:"
+msgstr "チームメンバーのEメールアドレス:"
 
 #: ../user/team_admins.php:81
 msgid "Add"
@@ -5549,13 +5549,13 @@ msgstr "%1 の創設者を変更する"
 msgid ""
 "Team member %1 requested this team's foundership on %2, but left the team, "
 "thus canceling the request."
-msgstr "チームメンバであった %1 は、%2の創設者の地位を要求していましたが、チームから脱退してしまったので、その要求を取り消します。"
+msgstr "チームメンバであった %1 は、%2 でこのチームの創設者の地位を要求していましたが、チームから脱退してしまったので、その要求を取り消します。"
 
 #: ../user/team_change_founder_form.php:51
 msgid ""
 "Team member %1 has requested this team's foundership. This may be because "
 "you left the team or haven't had contact with the team for a long time."
-msgstr "チームメンバの %1 は、このチームの創設者の地位を要求しています。 それはあなたがそのチームを去ったか、あるいは長い間チームとの連絡を絶っていたからかもしれません。"
+msgstr "チームメンバの %1 は、このチームの創設者の地位を要求しています。それはあなたがそのチームを去ったか、あるいは長い間チームとの連絡を絶っていたからかもしれません。"
 
 #: ../user/team_change_founder_form.php:57
 msgid "decline request"
@@ -5565,7 +5565,7 @@ msgstr "要求を拒否する"
 msgid ""
 "If you don't decline the request by %1, %2 will have the option of assuming team foundership.<br /><br />\n"
 "                  To accept the request, assign foundership to %3 using the form below."
-msgstr "%1 による要求を拒否しないなら、%2 はチームの創設者を引き受ける権利をもつことになります。<br /><br />\n                  要求を受け入れるなら、下記のフォームを使って創設者の権限を%3 に割り当ててください。"
+msgstr "%1 による要求を拒否しないなら、%2 はチームの創設者を引き受ける選択権をもつことになります。<br /><br />\n要求を受け入れるには、下記のフォームを使って創設者の権限を %3 に割り当てます。"
 
 #: ../user/team_change_founder_form.php:68
 msgid "No transfer request is pending."
@@ -5575,11 +5575,11 @@ msgstr "保留されている権限委譲の要求はありません。"
 msgid ""
 "To assign foundership of this team to another member, check the box next to "
 "member name and click <strong>Change founder</strong> below."
-msgstr "他のメンバーにこのチームの創設者権限を割り当てるには、 メンバー名の横にあるボックスにチェックを入れて、下にある <strong>創設者の変更</strong> をクリックします。"
+msgstr "他のメンバーにこのチームの創設者権限を割り当てるには、メンバー名の横にあるボックスにチェックを入れて、下にある <strong>創設者の変更</strong> をクリックします。"
 
 #: ../user/team_change_founder_form.php:78
 msgid "New founder?"
-msgstr "新しい創設者?"
+msgstr "新しい創設者ですか？"
 
 #: ../user/team_change_founder_form.php:107 ../user/team_manage.php:58
 msgid "Change founder"
@@ -5587,19 +5587,19 @@ msgstr "創設者の変更"
 
 #: ../user/team_change_founder_form.php:110
 msgid "There are no users to transfer team to."
-msgstr "チームを移動させるユーザーはいません。"
+msgstr "チームを移動するユーザーはいません。"
 
 #: ../user/team_create_action.php:31
 msgid "You must choose a non-blank team name"
-msgstr "チームの名前を決めます。その名前は空白であってはなりません。"
+msgstr "チームの名前は空白であってはなりません"
 
 #: ../user/team_create_action.php:36
 msgid "A team named %1 already exists - try another name"
-msgstr "%1 という名前のチームは既に存在します。別の名前で試してください。"
+msgstr "%1 という名前のチームは既に存在します - 別の名前で試してください"
 
 #: ../user/team_create_action.php:56
 msgid "Could not create team - please try later."
-msgstr "チームを作ることができませんでした。しばらくたってからもう一度試してください。"
+msgstr "チームを作ることができませんでした - しばらくたってからもう一度試してください。"
 
 #: ../user/team_create_form.php:29 ../user/team_create_form.php:34
 msgid "Create a team"
@@ -5608,7 +5608,7 @@ msgstr "チームを作る"
 #: ../user/team_create_form.php:32
 msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."
-msgstr "あなたは %1 に属しています。 新しいチームを作るには、%2 このチームから離脱する %3 必要があります。"
+msgstr "あなたは %1 に属しています。新しいチームを作る前に、 %2 このチームから離脱する %3 必要があります。"
 
 #: ../user/team_delta.php:66
 msgid "Not founder or admin"
@@ -5648,11 +5648,11 @@ msgstr "チームの名前は指定必須です"
 
 #: ../user/team_edit_action.php:92
 msgid "Could not update team - please try again later."
-msgstr "チームの情報を更新できませんでした。しばらくたってからもう一度試してください。"
+msgstr "チームの情報を更新できませんでした - しばらくたってからもう一度試してください。"
 
 #: ../user/team_edit_form.php:35
 msgid "Edit %1"
-msgstr "% を編集"
+msgstr "%1 を編集"
 
 #: ../user/team_edit_form.php:36
 msgid "Update team info"
@@ -5660,7 +5660,7 @@ msgstr "チームの情報を更新"
 
 #: ../user/team_email_list.php:70
 msgid "%1 Email List"
-msgstr "%1 のメンバーの Eメイル一覧"
+msgstr "%1 のメンバーのEメール一覧"
 
 #: ../user/team_email_list.php:72
 msgid "Member list of %1"
@@ -5668,7 +5668,7 @@ msgstr "%1 のメンバー一覧"
 
 #: ../user/team_email_list.php:87
 msgid "Show as plain text"
-msgstr "プレインテキストで表示"
+msgstr "プレーンテキストとして表示"
 
 #: ../user/team_forum.php:30 ../user/team_forum.php:41
 msgid "Create Message Board"
@@ -5676,7 +5676,7 @@ msgstr "掲示板を作成する"
 
 #: ../user/team_forum.php:31
 msgid "You may create a message board for use by %1."
-msgstr "%1 によって使われる掲示板を作ることもできます。"
+msgstr "%1 によって使われる掲示板を作ることができます。"
 
 #: ../user/team_forum.php:33
 msgid "Only team members will be able to post."
@@ -5684,11 +5684,11 @@ msgstr "チームに所属するメンバーだけが投稿できます。"
 
 #: ../user/team_forum.php:34
 msgid "At your option, only members will be able to read."
-msgstr "チームのメンバーだけが読めるようにすることも選べます。"
+msgstr "チームのメンバーだけが閲覧できるようにすることも選択できます。"
 
 #: ../user/team_forum.php:35
 msgid "You and your Team Admins will have moderator privileges."
-msgstr "あなたとチーム管理者に司会者(モデレータ）の権限が付きます。"
+msgstr "あなたとチーム管理者にモデレーターの権限が付きます。"
 
 #: ../user/team_forum.php:42
 msgid "Create a message board for %1"
@@ -5696,7 +5696,7 @@ msgstr "%1 用の掲示板を作成する"
 
 #: ../user/team_forum.php:50
 msgid "Team already has a message board"
-msgstr "チームにはすでに掲示板が作られています"
+msgstr "チームにはすでに掲示板があります"
 
 #: ../user/team_forum.php:61
 msgid "Team Message Board"
@@ -5704,7 +5704,7 @@ msgstr "チームの掲示板"
 
 #: ../user/team_forum.php:73
 msgid "Minimum time between posts (seconds)"
-msgstr "連続投稿の間の最小時間間隔(秒)"
+msgstr "連続投稿の間隔の最小時間(秒)"
 
 #: ../user/team_forum.php:76
 msgid "Minimum total credit to post"
@@ -5720,18 +5720,18 @@ msgstr "送信"
 
 #: ../user/team_forum.php:91
 msgid "Remove your team's message board."
-msgstr "チーム掲示板を削除する。"
+msgstr "チームの掲示板を削除します。"
 
 #: ../user/team_forum.php:99
 msgid "Really remove message board?"
-msgstr "本当に掲示板を削除しますか?"
+msgstr "本当に掲示板を削除しますか？"
 
 #: ../user/team_forum.php:100
 msgid ""
 "Are you sure you want to remove your team's message board? All threads and "
 "posts will be permanently removed. (You may, however, create a new message "
 "board later)."
-msgstr "あなたのチームの掲示板を削除しようとしていますが、よろしいですか? すべのスレッドと投稿内容が永久に失われます。(それでも、その後で新しい掲示板を作ることはできます。)"
+msgstr "本当にチームの掲示板を削除してもよろしいですか？すべてのスレッドと投稿内容が永久に失われます(それでも、その後で新しい掲示板を作ることはできます)。"
 
 #: ../user/team_forum.php:102
 msgid "Yes - remove message board"
