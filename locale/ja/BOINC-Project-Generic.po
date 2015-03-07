@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-03-04 08:56 PST\n"
-"PO-Revision-Date: 2015-03-07 05:07+0000\n"
+"PO-Revision-Date: 2015-03-07 06:09+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -5100,18 +5100,18 @@ msgid ""
 "Your preferences have been updated, and\n"
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
-msgstr "あなたのプレファレンス(好みの設定)は更新されました。\nこの更新が効果を発揮するタイミングは、あなたのコンピュータが %1 と通信をしたとき、または、あなたが %2更新%3 の指令を BOINC マネージャから出したときです。"
+msgstr "あなたのプレファレンス(好みの設定)は更新されました。\nこの更新が効果を発揮するタイミングは、あなたのコンピュータが %1 と通信したとき、または、あなたが %2更新%3 の指令を BOINC マネージャから出したときです。"
 
 #: ../user/prefs.php:42
 msgid ""
 "Your preferences have been reset to the defaults, and\n"
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
-msgstr "あなたのプレファレンスは初期値にリセットされました。この更新が効果を発揮するタイミングは、あなたのコンピュータが %1 と通信をしたとき、またはあなたが %2更新%3 の指令を BOINC マネージャから出したときです。"
+msgstr "あなたのプレファレンスは初期値にリセットされました。\nこの更新が効果を発揮するタイミングは、あなたのコンピュータが %1 と通信したとき、またはあなたが %2更新%3 の指令を BOINC マネージャから出したときです。"
 
 #: ../user/prefs_edit.php:66 ../user/prefs_edit.php:94
 msgid "%1 for %2"
-msgstr "%2用の %1"
+msgstr "%2 用の %1"
 
 #: ../user/prefs_edit.php:112
 msgid "Back to preferences"
@@ -5123,7 +5123,7 @@ msgstr "プレファレンス削除の確認"
 
 #: ../user/prefs_remove.php:49
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
-msgstr "%2用の 個別 %1 プレファレンスを削除しようとしています。削除してもよろしいですか？"
+msgstr "本当に %2 用の 個別 %1 プレファレンスを削除してもよろしいですか？"
 
 #: ../user/prefs_remove.php:53
 msgid "Remove preferences"
@@ -5141,7 +5141,7 @@ msgstr "プロフィール"
 msgid ""
 "%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
 "community."
-msgstr "%1自己紹介記事(プロファイル)%2 は、参加者個人それぞれが、このプロジェクトの %3コミュニティとの間で、バックグラウンドや意見を共有することを可能にします。"
+msgstr "%1プロフィール%2 は、参加者個人それぞれが、このプロジェクトの  %3 コミュニティとの間で、経歴や意見を共有することを可能にします。"
 
 #: ../user/profile_menu.php:38
 msgid ""
@@ -5153,7 +5153,7 @@ msgstr "ボランティアで参加している仲間の多彩さをみて回り
 msgid ""
 "If you haven't already, you can %1create your own user profile%2 for others "
 "to see!"
-msgstr "まだご自身の自己紹介記事(プロファイル)を作っていないのでしたら、 他の参加者が見ることができるように、%1あなたの自己紹介を作りましょう%2。"
+msgstr "まだご自身のプロフィールを作っていないなら、他の参加者が見ることができるように、%1あなたのプロフィールを作りましょう！%2"
 
 #: ../user/profile_menu.php:44
 msgid "User of the Day"
@@ -5161,29 +5161,29 @@ msgstr "毎日の参加者紹介"
 
 #: ../user/profile_menu.php:59
 msgid "User Profile Explorer"
-msgstr "参加者の自己紹介記事(プロファイル)のイクスプローラ"
+msgstr "参加者のプロフィールのエクスプローラ"
 
 #: ../user/profile_menu.php:62
 msgid "View the %1User Picture Gallery%2."
-msgstr "%1参加者の写真ギャラリー%2 を見る"
+msgstr "%1参加者の写真ギャラリー%2 を見ます。"
 
 #: ../user/profile_menu.php:63
 msgid "Browse profiles %1by country%2."
-msgstr "%1国ごと%2に自己紹介を見る"
+msgstr "%1国ごと%2に自己紹介を見ます。"
 
 #: ../user/profile_menu.php:64
 msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
-msgstr "自己紹介を見る：%1無作為に選択%2、%3画像付きのものから無作為に選択%4、 %5画像なしのものから無作為に選択%6。"
+msgstr "プロフィールを見る：%1無作為に選択%2、%3画像付きのものから無作為に選択%4、 %5画像なしのものから無作為に選択%6。"
 
 #: ../user/profile_menu.php:68
 msgid "Alphabetical profile listings:"
-msgstr "アルファベット順の自己紹介一覧："
+msgstr "アルファベット順の自己紹介一覧:"
 
 #: ../user/profile_menu.php:74
 msgid "Search profile text"
-msgstr "自己紹介のテキストを検索"
+msgstr "プロフィールのテキストを検索"
 
 #: ../user/profile_menu.php:100
 msgid "No profiles"
