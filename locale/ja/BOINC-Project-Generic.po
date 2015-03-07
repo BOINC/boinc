@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-03-04 08:56 PST\n"
-"PO-Revision-Date: 2015-03-07 04:04+0000\n"
+"PO-Revision-Date: 2015-03-07 05:07+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -5037,70 +5037,70 @@ msgstr "IDが %1 の参加者は見つかりませんでした"
 
 #: ../user/pm.php:215
 msgid "Could not find user with username %1"
-msgstr "名前が %1 の参加者は見つかりませんでした"
+msgstr "ユーザー名が %1 の参加者は見つかりませんでした"
 
 #: ../user/pm.php:217
 msgid "%1 is not a unique username; you will have to use user ID"
-msgstr "名前 %1 は複数存在します。IDを指定してください。"
+msgstr "ユーザー名 %1 は複数存在します。IDを指定してください。"
 
 #: ../user/pm.php:222
 msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr "%1 さん(ID: %2) は、あなたからの非公開メッセージを受け付けていません。"
+msgstr "%1 さん(ID: %2 )は、あなたからの非公開メッセージを受け付けていません。"
 
 #: ../user/pm.php:245 ../user/view_profile.php:28
 msgid "No such user"
-msgstr "該当する参加者はありません"
+msgstr "該当する参加者はいません"
 
 #: ../user/pm.php:247
 msgid "Really block %1?"
-msgstr "本当に %1 を遮断しますか？"
+msgstr "本当に %1 をブロックしますか？"
 
 #: ../user/pm.php:248
 msgid ""
 "Are you really sure you want to block user %1 from sending you private "
 "messages?"
-msgstr "本当に %1 から送信される非公開メッセージを遮断しますか？"
+msgstr "本当に %1 から送信される非公開メッセージをブロックしますか？"
 
 #: ../user/pm.php:249
 msgid "Please note that you can only block a limited amount of users."
-msgstr "遮断できる相手の数に限りがあります。ご注意ください。"
+msgstr "ブロックできる相手の数に限りがあります。ご注意ください。"
 
 #: ../user/pm.php:250
 msgid ""
 "Once the user has been blocked you can unblock it using forum preferences "
 "page."
-msgstr "この利用者からのメッセージを一旦遮断しても、 掲示板のプレファレンス（好みの設定)で遮断状態は解除することができます。"
+msgstr "この利用者からのメッセージを一旦ブロックしても、フォーラムのプレファレンス(好みの設定)でブロックを解除することができます。"
 
 #: ../user/pm.php:257
 msgid "No, cancel"
-msgstr "いいえ、やめます。"
+msgstr "いいえ、やめます"
 
 #: ../user/pm.php:265 ../user/team_admins.php:100
 msgid "no such user"
-msgstr "該当する参加者はありません"
+msgstr "該当する参加者はいません"
 
 #: ../user/pm.php:268
 msgid "User %1 blocked"
-msgstr "参加者 %1 を遮断しました。"
+msgstr "参加者 %1 をブロックしました"
 
 #: ../user/pm.php:270
 msgid "User %1 has been blocked from sending you private messages."
-msgstr "参加者 %1 については、すでにあなたへ非公開メッセージを送れない遮断状態になっています。"
+msgstr "参加者 %1 については、すでにあなたへ非公開メッセージを送れないブロック状態になっています。"
 
 #: ../user/pm.php:271
 msgid "To unblock, visit %1message board preferences%2"
-msgstr "遮断状態を解除するには、%1掲示板のプレファレンス（好みの設定)%2 で設定を変更してください。"
+msgstr "ブロックを解除するには、%1掲示板のプレファレンス(好みの設定)%2 で設定を変更してください。"
 
 #: ../user/pm.php:307
 msgid "Unknown action"
-msgstr "不明の動作"
+msgstr "不明な動作"
 
 #: ../user/prefs.php:33
 msgid ""
 "Your preferences have been updated, and\n"
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
-msgstr "あなたのプレファレンス（好みの設定）は更新されました。この更新が効果を発揮\n\t するタイミングは、あなたのコンピュータが %1 と通信をしたとき、\n\t または、あなたが %2更新%3 の指令を BOINC Manager から出したときです。"
+msgstr "あなたのプレファレンス(好みの設定)は更新されました。\nこの更新が効果を発揮するタイミングは、あなたのコンピュータが %1 と通信をしたとき、または、あなたが %2更新%3 の指令を BOINC マネージャから出したときです。"
 
 #: ../user/prefs.php:42
 msgid ""
