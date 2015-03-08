@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-03-04 08:56 PST\n"
-"PO-Revision-Date: 2015-03-07 19:51+0000\n"
+"PO-Revision-Date: 2015-03-08 03:58+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -5775,26 +5775,26 @@ msgstr "%1 の創設者権限の委譲を要求中"
 msgid ""
 "The current founder has been notified of your request by email and private message.<br /><br />\n"
 "                       If the founder does not respond within 60 days you will be allowed to become the founder."
-msgstr "あなたの要求を現在の創設者に Eメイルと非公開メッセージの両方で通知しました。<br /><br />\n                       創設者が 60日以内に応答しなければ、あなたが創設者になることが許されます。"
+msgstr "あなたの要求を現在の創設者にEメールと非公開メッセージの両方で通知しました。<br /><br />\n創設者が 60日以内に応答しなければ、あなたが創設者になることが許されます。"
 
 #: ../user/team_founder_transfer_action.php:104
 #: ../user/team_founder_transfer_action.php:115
 msgid "Foundership request not allowed now"
-msgstr "創設者権限の要求は現在許されません"
+msgstr "創設者権限の要求は現在許されていません"
 
 #: ../user/team_founder_transfer_action.php:111
 msgid "Assumed foundership of %1"
-msgstr "%1 の創設者権限を引継ぎました"
+msgstr "%1 の創設者権限を引き継ぎました"
 
 #: ../user/team_founder_transfer_action.php:113
 msgid ""
 "Congratulations, you are now the founder of team %1. Go to %2Your Account "
 "page%3 to find the Team Admin options."
-msgstr "おめでとうございます。今、あなたはチーム %1 の創設者になりました。%2あなたのアカウントのページ%3へ行って、チーム管理者の選択の部分を見てください。"
+msgstr "おめでとうございます。今、あなたはチーム %1 の創設者になりました。チーム管理者のオプションを見るには、%2あなたのアカウントのページ%3へ行ってください。"
 
 #: ../user/team_founder_transfer_action.php:122
 msgid "Decline founder change request"
-msgstr "創設者変更の要求を拒絶する"
+msgstr "創設者変更の要求を拒否する"
 
 #: ../user/team_founder_transfer_action.php:129
 msgid "The foundership request from %1 has been declined."
@@ -5802,11 +5802,11 @@ msgstr "%1 からの創設者変更の要求は拒否されました。"
 
 #: ../user/team_founder_transfer_action.php:132
 msgid "There were no foundership requests."
-msgstr "創設者権限移譲の要求はありませんでした。"
+msgstr "創設者権限の要求はありませんでした。"
 
 #: ../user/team_founder_transfer_action.php:136
 msgid "undefined action %1"
-msgstr "undefined action %1"
+msgstr "未定義のアクション %1"
 
 #: ../user/team_founder_transfer_action.php:139
 #: ../user/team_founder_transfer_form.php:85
@@ -5827,13 +5827,13 @@ msgstr "あなたは今、チーム %1 の創設者になりました。"
 
 #: ../user/team_founder_transfer_form.php:46
 msgid "You requested the foundership of %1 on %2."
-msgstr "あなたは %2に %1 の創設者権限を要求しました。"
+msgstr "あなたは %2 で %1 の創設者権限を要求しました。"
 
 #: ../user/team_founder_transfer_form.php:49
 msgid ""
 "60 days have elapsed since your request, and the founder has not responded. "
 "You may now assume foundership by clicking here:"
-msgstr "あなたが要求を出してから 60日が経過しましたが、創設者は応答しませんでした。 ここをクリックして創設者権限を引き継いでください:"
+msgstr "あなたが要求を出してから60日が経過しましたが、創設者は応答しませんでした。ここをクリックすることによって創設者権限を引き継げます:"
 
 #: ../user/team_founder_transfer_form.php:52
 msgid "Assume foundership"
@@ -5843,13 +5843,13 @@ msgstr "創設者権限を引き継ぐ"
 msgid ""
 "The founder was notified of your request. If he/she does not respond by %1 "
 "you will be given an option to become founder."
-msgstr "創設者にあなたの要求が通知されました. %1 までに創設者が応答しなければ、あなたが創設者になれます。"
+msgstr "創設者にあなたの要求が通知されました。%1 までに創設者が応答しなければ、あなたが創設者になる選択権が与えられます。"
 
 #: ../user/team_founder_transfer_form.php:62
 msgid ""
 "If the team founder is not active and you want to assume the role of founder, click the button below. The current founder will be sent an email detailing your request, and will be able to transfer foundership to you or to decline your request. If the founder does not respond in 60 days, you will be allowed to become the founder.<br /><br />\n"
 "                       Are you sure you want to request foundership?"
-msgstr "チームの創設者が活動しておらず、あなたがその役割を引き継ぎたい場合、 以下のボタンをクリックしてください。現在の創設者にEメイルが送信され、 あなたの要求が説明されます。創設者は権限をあなたに委譲するか、 委譲要求を拒否するかを選べます。創設者が60日以内に応答しなければ、 あなたが新しい創設者になります。<br /><br />\n 創設者の権限委譲を要求しますか？"
+msgstr "チームの創設者が活動しておらず、あなたがその役割を引き継ぎたい場合、以下のボタンをクリックしてください。現在の創設者にEメールが送信され、あなたの要求が説明されます。創設者は権限をあなたに委譲するか、委譲要求を拒否するかを選べます。創設者が60日以内に応答しなければ、あなたが新しい創設者になります。<br /><br />\n本当に創設者の権限委譲を要求しますか？"
 
 #: ../user/team_founder_transfer_form.php:67
 msgid "Request foundership"
