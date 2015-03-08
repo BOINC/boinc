@@ -468,7 +468,7 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
                 m_bConnected = true;
                 if (IsDualGPUMacbook) {
                     ccstate.clear();
-                    ccstate.global_prefs.clear_bools();
+                    ccstate.global_prefs.init_bools();
                     int result = rpc->get_state(ccstate);
                     if (!result) {
                         OKToRunOnBatteries = ccstate.global_prefs.run_on_batteries;
