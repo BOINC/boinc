@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2015-03-08 14:46+0000\n"
+"PO-Revision-Date: 2015-03-08 17:41+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -598,7 +598,7 @@ msgstr "最先端の気候モデルにおいて必須の近似技術を研究し
 
 #: projects.inc:207
 msgid "Physical Science"
-msgstr "物理学"
+msgstr "自然科学"
 
 #: projects.inc:213
 msgid "Mechanical engineering"
@@ -688,7 +688,7 @@ msgstr "ウィスコンシン大学 - ミルウォーキー、マックスプラ
 
 #: projects.inc:295
 msgid "Astrophysics"
-msgstr "宇宙物理学"
+msgstr "天体物理学"
 
 #: projects.inc:296
 msgid ""
@@ -729,7 +729,7 @@ msgstr "カリフォルニア大学バークレー校"
 
 #: projects.inc:327
 msgid "Astrophysics, astrobiology"
-msgstr "宇宙物理、宇宙生物学"
+msgstr "天体物理学、天体生物学"
 
 #: projects.inc:328
 msgid ""
