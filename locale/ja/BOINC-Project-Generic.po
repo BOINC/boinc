@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-03-04 08:56 PST\n"
-"PO-Revision-Date: 2015-03-08 03:58+0000\n"
+"PO-Revision-Date: 2015-03-08 05:08+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -5827,7 +5827,7 @@ msgstr "あなたは今、チーム %1 の創設者になりました。"
 
 #: ../user/team_founder_transfer_form.php:46
 msgid "You requested the foundership of %1 on %2."
-msgstr "あなたは %2 で %1 の創設者権限を要求しました。"
+msgstr "あなたは %2 に %1 の創設者権限を要求しました。"
 
 #: ../user/team_founder_transfer_form.php:49
 msgid ""
@@ -5863,7 +5863,7 @@ msgstr "創設者の変更は %1 からすでに %2 に要求されています�
 msgid ""
 "A foundership change was requested during the last 90 days, so new requests "
 "are not allowed. Please try again later."
-msgstr "過去90日内に創設者の権限委譲が要求されていましたので、 新規の要求は許されません。しばらくたってからもう一度試してください。"
+msgstr "過去90日内に創設者の権限委譲が要求されていましたので、新規の要求は許可されません。しばらくたってからもう一度試してください。"
 
 #: ../user/team_join.php:34 ../user/team_join_action.php:34
 #: ../user/team_join_form.php:31
@@ -5880,7 +5880,7 @@ msgstr "あなたはすでに %1 に所属しています。"
 
 #: ../user/team_join.php:44 ../user/team_join_action.php:45
 msgid "Couldn't join team - please try again later."
-msgstr "チームに参加不可 - しばらくたってからもう一度試してください。"
+msgstr "チームに参加できませんでした - しばらくたってからもう一度試してください。"
 
 #: ../user/team_join_action.php:42
 msgid "Joined %1"
@@ -5900,7 +5900,7 @@ msgstr "以下にご注意ください:"
 
 #: ../user/team_join_form.php:37
 msgid "Joining a team gives its founder access to your email address."
-msgstr "チームに参加すると、その創設者にあなたの Eメイルアドレスが知らされます。"
+msgstr "チームに参加すると、その創設者にあなたの Eメールアドレスが知らされます。"
 
 #: ../user/team_join_form.php:38
 msgid "Joining a team does not affect your account's credit."
