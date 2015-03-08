@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-03-03 14:52-0500\n"
-"PO-Revision-Date: 2015-03-04 18:37+0000\n"
+"PO-Revision-Date: 2015-03-08 13:21+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -1125,7 +1125,7 @@ msgstr "クリア"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:115
 msgid "Clear all local preferences and close the dialog."
-msgstr "このコンピュータだけに適用するプレファレンス(好みの設定)を全てクリアして、ダイアログを終了します。"
+msgstr "このコンピュータだけに適用するプレファレンスを全てクリアして、ダイアログを終了します。"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:118
 msgid "Use web prefs"
@@ -1185,7 +1185,7 @@ msgstr "使用量の制限"
 msgid ""
 "Keep some CPUs free for other applications. Example: 75% means use 6 cores "
 "on an 8-core CPU."
-msgstr "他のアプリケーションのためにいくつかの CPU を自由に保ちます。例: 75%であれば、8コアCPUの場合そのうち6コアを使用することを意味します。"
+msgstr "他のアプリケーションのためにいくつかの CPU を自由に保ちます。例: 75%であれば、8コアCPUの場合そのうち6コアを使用するということです。"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:246
 #: clientgui/DlgAdvPreferencesBase.cpp:258
@@ -1203,7 +1203,7 @@ msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
 "energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, "
 "and repeat."
-msgstr "CPU温度とエネルギー使用量を抑制するために数秒ごとに計算を一時停止/再開する。例: 75%であれば、3秒計算・1秒一時停止を繰り返します。"
+msgstr "CPU温度とエネルギー使用量を抑制するために数秒ごとに計算を一時停止/再開する。例: 75%であれば、3秒計算・1秒一時停止を繰り返すということです。"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:263
 #, no-c-format
@@ -1221,7 +1221,7 @@ msgstr "コンピュータがバッテリーで稼働している時一時停止
 #: clientgui/DlgAdvPreferencesBase.cpp:279
 msgid ""
 "Check this to suspend computing on portables when running on battery power."
-msgstr "携帯用機器でバッテリー電源で動作している時コンピューティングを一時停止するには、ここにチェックを入れてください。"
+msgstr "携帯用機器でバッテリー電源で動作している時計算を一時停止するには、ここにチェックを入れてください。"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:285
 msgid "Suspend when computer is in use"
@@ -1239,7 +1239,7 @@ msgstr "コンピュータを使用中は、GPU による計算を一時停止"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:297
 msgid "Check this to suspend GPU computing when you're using the computer."
-msgstr "あなたがコンピュータを使用している時GPU による計算を一時停止するには、ここにチェックを入れます。"
+msgstr "あなたがコンピュータを使用している時 GPU による計算を一時停止するには、ここにチェックを入れます。"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:302
 msgid "This determines when the computer is considered 'in use'."
@@ -1270,7 +1270,7 @@ msgstr "その他"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:349
 msgid "Store at least enough tasks to keep the computer busy for this long."
-msgstr "この長期間コンピュータのビジー状態を保つために、最低に見積もっても十分なタスクを蓄えておきます。"
+msgstr "長期間コンピュータのビジー状態を保つために、最低に見積もっても十分なタスクを蓄えておきます。"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:352
 msgid "Store at least"
@@ -1308,7 +1308,7 @@ msgstr "ここではタスクが後ほど再起動されることが出来るよ
 
 #: clientgui/DlgAdvPreferencesBase.cpp:392
 msgid "Request tasks to checkpoint at most every"
-msgstr "タスクにチェックポイント書き込みを要求する最小間隔"
+msgstr "タスクにチェックポイント書き込みを要求する最大間隔"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:396
 msgid "seconds"
@@ -1370,7 +1370,7 @@ msgstr "インターネットに接続する前に確認する"
 #: clientgui/DlgAdvPreferencesBase.cpp:486
 #: clientgui/DlgAdvPreferencesBase.cpp:490
 msgid "Useful only if you have a modem, ISDN or VPN connection."
-msgstr "モデム、ISDN または VPN 接続を使っているときのみ役立ちます。"
+msgstr "モデム、ISDN または VPN 接続を使っているときのみ便利です。"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:489
 msgid "Disconnect when done"
@@ -1538,7 +1538,7 @@ msgstr "木曜日"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:789
 msgid "Transfer files only during a particular period each day."
-msgstr "それぞれの日の特定範囲の時間帯だけ計算します。"
+msgstr "それぞれの日の特定範囲の時間帯だけファイルを転送します。"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:791
 msgid "Transfer files only between"
@@ -2497,7 +2497,7 @@ msgstr "開始まで待機"
 
 #: clientgui/MainDocument.cpp:2529
 msgid "Postponed: "
-msgstr "次の時間まで延期:"
+msgstr "次まで延期:"
 
 #: clientgui/MainDocument.cpp:2532
 msgid "Postponed"
