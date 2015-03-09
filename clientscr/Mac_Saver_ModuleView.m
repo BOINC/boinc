@@ -552,24 +552,28 @@ print_to_log_file(" Entered closeSheetSave");
     gBlankingTime = [ mBlankingTimeString intValue ];
     scanner = [ NSScanner scannerWithString:mBlankingTimeString];
     if (![ scanner scanInt:&period ]) goto Bad;
+    if (![ scanner isAtEnd ]) goto Bad;
     if ((period < 0) || (period > 999)) goto Bad;
     gBlankingTime = period;
 
 	mDefaultPeriodString = [ mDefaultPeriodTextField stringValue ];
     scanner2 = [ scanner initWithString:mDefaultPeriodString];
     if (![ scanner2 scanInt:&period ]) goto Bad;
+    if (![ scanner2 isAtEnd ]) goto Bad;
     if ((period < 0) || (period > 999)) goto Bad;
     setGFXDefaultPeriod((double)(period * 60));
 
 	mSciencePeriodString = [ mSciencePeriodTextField stringValue ];
     scanner2 = [ scanner initWithString:mSciencePeriodString];
     if (![ scanner2 scanInt:&period ]) goto Bad;
+    if (![ scanner2 isAtEnd ]) goto Bad;
     if ((period < 0) || (period > 999)) goto Bad;
     setGFXSciencePeriod((double)(period * 60));
 
 	mChangePeriodString = [ mChangePeriodTextField stringValue ];
     scanner2 = [ scanner initWithString:mChangePeriodString];
     if (![ scanner2 scanInt:&period ]) goto Bad;
+    if (![ scanner2 isAtEnd ]) goto Bad;
     if ((period < 0) || (period > 999)) goto Bad;
     setGGFXChangePeriod((double)(period * 60));
 	
