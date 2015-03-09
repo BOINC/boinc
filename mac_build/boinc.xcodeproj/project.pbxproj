@@ -46,7 +46,7 @@
 		DD01B6790C16723C0023A806 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD01B7120C16723D0023A806 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD08648D19E0BE6D00994039 /* ProjectWelcomePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD08648B19E0BE6D00994039 /* ProjectWelcomePage.cpp */; };
-		DD0A06F50869A2D2007CD86E /* prefs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BE407C5B1670043025C /* prefs.cpp */; };
+		DD0A06F50869A2D2007CD86E /* prefs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BE407C5B1670043025C /* prefs.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DD0C5A8B0816711400CEC5D7 /* boinc.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DD0C5A8A0816711400CEC5D7 /* boinc.jpg */; };
 		DD11E5B617D1A89700947975 /* MacAccessiblity.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD1907FA17D1A2F100596F03 /* MacAccessiblity.mm */; };
 		DD1277C4081F3E73007B5DE1 /* PostInstall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1277C0081F3E73007B5DE1 /* PostInstall.cpp */; };
@@ -72,8 +72,8 @@
 		DD25F72B15914F8C007845B5 /* gpu_detect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD25F72615914F8C007845B5 /* gpu_detect.cpp */; };
 		DD262C781366D2A200C9A187 /* cc_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4AE04B13652BD700285859 /* cc_config.cpp */; };
 		DD262C811366D35A00C9A187 /* cc_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4AE04B13652BD700285859 /* cc_config.cpp */; };
-		DD262C821366D35D00C9A187 /* cc_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4AE04B13652BD700285859 /* cc_config.cpp */; };
-		DD262C871366D4D200C9A187 /* proxy_info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BEF07C5B1770043025C /* proxy_info.cpp */; };
+		DD262C821366D35D00C9A187 /* cc_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4AE04B13652BD700285859 /* cc_config.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DD262C871366D4D200C9A187 /* proxy_info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BEF07C5B1770043025C /* proxy_info.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DD2B6C8013149177005D6F3E /* procinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2B6C7E13149177005D6F3E /* procinfo.cpp */; };
 		DD2B6C8113149177005D6F3E /* procinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2B6C7E13149177005D6F3E /* procinfo.cpp */; };
 		DD2B6C8D131491B7005D6F3E /* procinfo_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */; };
@@ -187,7 +187,7 @@
 		DD6617880A3FFD8C00FFEBEB /* check_security.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.cpp */; };
 		DD67F8140ADB9DD000B0015E /* wxPieCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD40E75D0ADB87BC00214518 /* wxPieCtrl.cpp */; };
 		DD6802310E701ACD0067D009 /* cert_sig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD68022E0E701ACD0067D009 /* cert_sig.cpp */; };
-		DD6803440E70A61D0067D009 /* diagnostics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BA207C5AE5A0043025C /* diagnostics.cpp */; };
+		DD6803440E70A61D0067D009 /* diagnostics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BA207C5AE5A0043025C /* diagnostics.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DD69FEF508416C6B00C01361 /* gui_rpc_client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C5CC07C5D7D90098A04D /* gui_rpc_client.cpp */; };
 		DD69FEF708416C9A00C01361 /* boinc_cmd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD69FEF608416C9A00C01361 /* boinc_cmd.cpp */; };
 		DD69FF0C084171CF00C01361 /* network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.cpp */; };
@@ -197,8 +197,8 @@
 		DD728D45175DD3B900A1CE23 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
 		DD728D47175DD41B00A1CE23 /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
 		DD73E36E08A0720500656EB1 /* gui_rpc_server_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E36208A06ED400656EB1 /* gui_rpc_server_ops.cpp */; };
-		DD73E3A708A07CA600656EB1 /* hostinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BB607C5AEEE0043025C /* hostinfo.cpp */; };
-		DD73E3B608A07FC600656EB1 /* gui_rpc_client_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.cpp */; };
+		DD73E3A708A07CA600656EB1 /* hostinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BB607C5AEEE0043025C /* hostinfo.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DD73E3B608A07FC600656EB1 /* gui_rpc_client_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DD7475510D86273300860636 /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DD7475520D86273300860636 /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DD74B686177074AF005CF7DC /* PutInTrash.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD74B685177074AF005CF7DC /* PutInTrash.icns */; };
@@ -208,7 +208,7 @@
 		DD76BF9717CB465C0075936D /* opencl_boinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD76BF9117CB45870075936D /* opencl_boinc.cpp */; };
 		DD76BF9817CB465E0075936D /* opencl_boinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD76BF9117CB45870075936D /* opencl_boinc.cpp */; };
 		DD76BF9917CB46610075936D /* opencl_boinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD76BF9117CB45870075936D /* opencl_boinc.cpp */; };
-		DD76BF9A17CB46830075936D /* opencl_boinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD76BF9117CB45870075936D /* opencl_boinc.cpp */; };
+		DD76BF9A17CB46830075936D /* opencl_boinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD76BF9117CB45870075936D /* opencl_boinc.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DD7748B50A356D6C0025D05E /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD7749680A3596380025D05E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD77A71812F2D1C9006B82E9 /* MacBitmapComboBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD77A71612F2D1C9006B82E9 /* MacBitmapComboBox.cpp */; };
@@ -216,8 +216,8 @@
 		DD7A5D8312EEBE5E0006268E /* sg_TaskCommandPopup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7A5D8212EEBE5E0006268E /* sg_TaskCommandPopup.cpp */; };
 		DD7A5D9F12EEBFC20006268E /* sg_ProjectWebSitesPopup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7A5D9E12EEBFC20006268E /* sg_ProjectWebSitesPopup.cpp */; };
 		DD7A5DAB12EEC37B0006268E /* sg_ProjectCommandPopup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7A5DAA12EEC37B0006268E /* sg_ProjectCommandPopup.cpp */; };
-		DD7AEB4A0C87CE1300AC3B5C /* screensaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7AEB490C87CE1300AC3B5C /* screensaver.cpp */; };
-		DD7BF7DA0B8E7A9800A009F7 /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
+		DD7AEB4A0C87CE1300AC3B5C /* screensaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7AEB490C87CE1300AC3B5C /* screensaver.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DD7BF7DA0B8E7A9800A009F7 /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DD7BF7E10B8E7B3700A009F7 /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
 		DD7BF7E40B8E7B5000A009F7 /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
 		DD7BF7E60B8E7B6C00A009F7 /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
@@ -324,7 +324,7 @@
 		DDA12A6D0A36974600FBDD12 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DDA12AA20A369B5500FBDD12 /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DDA12AAE0A369C5800FBDD12 /* SecurityUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */; };
-		DDA165E513B49B0D00CB4DD5 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
+		DDA165E513B49B0D00CB4DD5 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DDA1F1EE126D105B005EFFEB /* current_version.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA1F1EC126D105B005EFFEB /* current_version.cpp */; };
 		DDA2EC1618AA592D002664B6 /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA2EC1518AA592D002664B6 /* libsqlite3.a */; };
 		DDA45500140F7DE200D97676 /* synch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD407AED07D2FE7200163EF5 /* synch.cpp */; };
@@ -361,7 +361,7 @@
 		DDB693500ABFE9C600689FD8 /* procinfo_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */; };
 		DDB6E3EF0D5B27AA00ED12B8 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DDB74A6C0D74259E00E97A40 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFE854A0B60CFD0009B43D9 /* AppKit.framework */; };
-		DDB873990C85072500E0DE1F /* mac_saver_module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB873960C85072500E0DE1F /* mac_saver_module.cpp */; };
+		DDB873990C85072500E0DE1F /* mac_saver_module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB873960C85072500E0DE1F /* mac_saver_module.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DDB8739A0C85072500E0DE1F /* Mac_Saver_ModuleView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB873980C85072500E0DE1F /* Mac_Saver_ModuleView.m */; };
 		DDB873EE0C850BC800E0DE1F /* gutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD40825507D3076400163EF5 /* gutil.cpp */; };
 		DDB873EF0C850BC800E0DE1F /* macglutfix.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6D82DA08131AB1008F7200 /* macglutfix.m */; };
@@ -447,7 +447,7 @@
 		DDD9C5A510CCF61F00A1E4CD /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DDD9C5AA10CCF6A000A1E4CD /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DDD9C5AB10CCF6A300A1E4CD /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
-		DDD9C5AC10CCF6AB00A1E4CD /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
+		DDD9C5AC10CCF6AB00A1E4CD /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DDDC2055183B560B00CB5845 /* mac_address.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDDC2053183B560B00CB5845 /* mac_address.cpp */; };
 		DDDD6D8012E4611300C258A0 /* sg_ProjectPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDDD6D7E12E4611300C258A0 /* sg_ProjectPanel.cpp */; };
 		DDDE43B10EC04C1800083520 /* DlgExitMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDDE43B00EC04C1800083520 /* DlgExitMessage.cpp */; };
@@ -477,7 +477,7 @@
 		DDF5E23318B8673E005DEA6E /* uninstall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4688590C1661970089F500 /* uninstall.cpp */; };
 		DDF5E23418B86803005DEA6E /* AddRemoveUser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD33709106224E800867C7D /* AddRemoveUser.cpp */; };
 		DDF5F85A10DD05DB006A50CD /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
-		DDF5F85B10DD05E4006A50CD /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
+		DDF5F85B10DD05E4006A50CD /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DDF93511176B0D0C00A2793C /* translate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDF9350F176B0D0C00A2793C /* translate.cpp */; };
 		DDF9EC0A144EB2BB005D6144 /* boinc_opencl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDF9EC08144EB2BB005D6144 /* boinc_opencl.cpp */; };
 		DDF9EC0B144EB2BB005D6144 /* boinc_opencl.h in Headers */ = {isa = PBXBuildFile; fileRef = DDF9EC09144EB2BB005D6144 /* boinc_opencl.h */; };
@@ -495,15 +495,15 @@
 		DDFA61900CB348E90037B88C /* md5_file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5159564029EB02001F5651B /* md5_file.cpp */; };
 		DDFA61920CB349020037B88C /* proxy_info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BEF07C5B1770043025C /* proxy_info.cpp */; };
 		DDFA61940CB349160037B88C /* prefs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BE407C5B1670043025C /* prefs.cpp */; };
-		DDFD5F0F0818F2EE002B23D4 /* gui_rpc_client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C5CC07C5D7D90098A04D /* gui_rpc_client.cpp */; };
-		DDFD5F270818F329002B23D4 /* filesys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD475031AEFF8018E201A /* filesys.cpp */; };
-		DDFD5F280818F33C002B23D4 /* md5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5159562029EB02001F5651B /* md5.cpp */; };
-		DDFD5F290818F346002B23D4 /* md5_file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5159564029EB02001F5651B /* md5_file.cpp */; };
-		DDFD5F2A0818F34F002B23D4 /* mfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD207C5B1150043025C /* mfile.cpp */; };
-		DDFD5F2B0818F359002B23D4 /* miofile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD507C5B1150043025C /* miofile.cpp */; };
-		DDFD5F2C0818F368002B23D4 /* network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.cpp */; };
-		DDFD5F2D0818F372002B23D4 /* parse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B901602AC0A2201FB7237 /* parse.cpp */; };
-		DDFD5F2E0818F3A1002B23D4 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.cpp */; };
+		DDFD5F0F0818F2EE002B23D4 /* gui_rpc_client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C5CC07C5D7D90098A04D /* gui_rpc_client.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DDFD5F270818F329002B23D4 /* filesys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD475031AEFF8018E201A /* filesys.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DDFD5F280818F33C002B23D4 /* md5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5159562029EB02001F5651B /* md5.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DDFD5F290818F346002B23D4 /* md5_file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5159564029EB02001F5651B /* md5_file.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DDFD5F2A0818F34F002B23D4 /* mfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD207C5B1150043025C /* mfile.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DDFD5F2B0818F359002B23D4 /* miofile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD507C5B1150043025C /* miofile.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DDFD5F2C0818F368002B23D4 /* network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DDFD5F2D0818F372002B23D4 /* parse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B901602AC0A2201FB7237 /* parse.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DDFD5F2E0818F3A1002B23D4 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DDFE4E3D10AB778100919319 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
 		DDFE4E9110AB7C3A00919319 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
 		DDFE84E50B60CD66009B43D9 /* DlgAdvPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDFE84E10B60CD66009B43D9 /* DlgAdvPreferences.cpp */; };
@@ -2405,9 +2405,9 @@
 		20286C28FDCF999611CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0610;
 			};
-			buildConfigurationList = DD9E2381091CBDAE0048316E /* Build configuration list for PBXProject "boinc" */;
+			buildConfigurationList = DD9E2381091CBDAE0048316E /* Build configuration list for PBXProject "boinc-Xcode6" */;
 			compatibilityVersion = "Xcode 3.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -3568,7 +3568,6 @@
 					"../../sqlite-autoconf-3080300/.libs/",
 					"\"$(SRCROOT)/../../sqlite-autoconf-3080300/.libs\"",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
 					"-D_FILE_OFFSET_BITS=64",
@@ -3578,7 +3577,7 @@
 					"-D_THREAD_SAFE",
 					"-D__WXMAC__",
 					"-D_DEBUG",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1050",
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1060",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
@@ -3624,7 +3623,6 @@
 					"../../sqlite-autoconf-3080300/.libs/",
 					"\"$(SRCROOT)/../../sqlite-autoconf-3080300/.libs\"",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
 					"-D_FILE_OFFSET_BITS=64",
@@ -3636,7 +3634,7 @@
 					"-DSANDBOX",
 					"-D_NDEBUG",
 					"-DBUILDING_MANAGER",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1050",
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1060",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
@@ -3864,11 +3862,9 @@
 		DD9843DD09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					x86_64,
-				);
-				GCC_ENABLE_OBJC_GC = supported;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				GCC_ENABLE_OBJC_GC = unsupported;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				OTHER_LDFLAGS = (
@@ -3878,6 +3874,7 @@
 					AppKit,
 				);
 				PRODUCT_NAME = BOINCSaver;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = saver;
 			};
 			name = Deployment;
@@ -3982,9 +3979,9 @@
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO;
 				LIBRARY_STYLE = STATIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.4;
-				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.6;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.6;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
@@ -4037,8 +4034,9 @@
 		DD9E2362091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				GCC_ENABLE_OBJC_GC = supported;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				GCC_ENABLE_OBJC_GC = unsupported;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				OTHER_LDFLAGS = (
@@ -4048,6 +4046,7 @@
 					AppKit,
 				);
 				PRODUCT_NAME = BOINCSaver;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = saver;
 			};
 			name = Development;
@@ -4152,9 +4151,9 @@
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO;
 				LIBRARY_STYLE = STATIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.4;
-				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.6;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.6;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-D_DEBUG",
@@ -4484,7 +4483,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		DD9E2381091CBDAE0048316E /* Build configuration list for PBXProject "boinc" */ = {
+		DD9E2381091CBDAE0048316E /* Build configuration list for PBXProject "boinc-Xcode6" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD9E2382091CBDAE0048316E /* Development */,
