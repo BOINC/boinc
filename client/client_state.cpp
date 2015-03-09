@@ -391,7 +391,7 @@ int CLIENT_STATE::init() {
     msg_printf(NULL, MSG_INFO, "Libraries: %s", curl_version());
 
     if (executing_as_daemon) {
-        msg_printf(NULL, MSG_INFO, "Running as a daemon");
+        msg_printf(NULL, MSG_INFO, "Running as a daemon (GPU computing disabled)");
     }
 
     relative_to_absolute("", buf);
