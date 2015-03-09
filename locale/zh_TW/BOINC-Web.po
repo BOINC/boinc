@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2015-03-07 17:29+0000\n"
+"PO-Revision-Date: 2015-03-09 17:11+0000\n"
 "Last-Translator: Willy Wu <df910105@yahoo.com.tw>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/boinc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -368,7 +368,7 @@ msgstr "分散式傳感"
 
 #: projects.inc:19
 msgid "Stanford University"
-msgstr "史丹福大學"
+msgstr "Stanford University"
 
 #: projects.inc:20
 msgid "Seismology"
@@ -383,7 +383,7 @@ msgstr "捕震網(QCN)正在開發世界上最大的地震網路，使用傳感�
 
 #: projects.inc:27
 msgid "BOINC Poland Foundation"
-msgstr "BOINC波蘭基金會"
+msgstr "BOINC Poland Foundation"
 
 #: projects.inc:28
 msgid "Environmental research"
@@ -429,7 +429,7 @@ msgstr "生物和醫藥"
 
 #: projects.inc:82
 msgid "University College Dublin"
-msgstr "都柏林大學"
+msgstr "University College Dublin"
 
 #: projects.inc:83
 msgid "Antimalarial drug discovery"
@@ -446,7 +446,7 @@ msgstr "造成瘧疾的寄生蟲持續對於抵抗藥物治療進化中。我們
 
 #: projects.inc:90
 msgid "University of Karlsruhe (Germany)"
-msgstr "德國卡爾斯魯厄（Karlsruhe）大學"
+msgstr "University of Karlsruhe (Germany)"
 
 #: projects.inc:91
 msgid "Protein structure prediction"
@@ -463,7 +463,7 @@ msgstr "POEM@HOME通過運算的途徑預測蛋白質的生物結構、理解蛋
 
 #: projects.inc:98
 msgid "University of Delaware"
-msgstr "美國德拉瓦大學"
+msgstr "University of Delaware"
 
 #: projects.inc:99
 msgid "Study of protein - ligand interactions"
@@ -527,7 +527,7 @@ msgstr "The Lattice Project 為馬里蘭大學的科學家們提供運算資源�
 
 #: projects.inc:146
 msgid "The Swiss Tropical Institute"
-msgstr "瑞士熱帶研究所"
+msgstr "The Swiss Tropical Institute"
 
 #: projects.inc:147
 msgid "Epidemiology"
@@ -546,7 +546,7 @@ msgstr "模擬瘧疾的傳播動力學模型，用於對瘧疾的控制，包括
 
 #: projects.inc:170
 msgid "University of Washington"
-msgstr "美國華盛頓大學"
+msgstr "University of Washington"
 
 #: projects.inc:171 projects.inc:179
 msgid "Biology"
@@ -564,7 +564,7 @@ msgstr "對蛋白質的3D結構進行預測，可能最終能幫助找到一些�
 
 #: projects.inc:178
 msgid "University of Vienna"
-msgstr "維也納大學"
+msgstr "University of Vienna"
 
 #: projects.inc:180
 msgid ""
@@ -649,7 +649,7 @@ msgstr "理論化學、凝集態物理和材料科學中的一個常見問題是
 
 #: projects.inc:262
 msgid "University of Illinois at Urbana-Champaign"
-msgstr "伊利諾伊大學厄巴納-香檳分校"
+msgstr "University of Illinois at Urbana-Champaign"
 
 #: projects.inc:264
 msgid ""
@@ -660,7 +660,7 @@ msgstr "Cosmology@Home 的目標是搜索可以描述我們宇宙的最適合的
 
 #: projects.inc:270
 msgid "Rensselaer Polytechnic Institute"
-msgstr "倫斯勒理工學院"
+msgstr "Rensselaer Polytechnic Institute"
 
 #: projects.inc:272
 msgid ""
@@ -671,7 +671,7 @@ msgstr "Milkeyway@Home使用Sloan Digital Sky Survey的數據對銀河系進行�
 
 #: projects.inc:278
 msgid "Leiden University, The Netherlands"
-msgstr "荷蘭萊頓大學"
+msgstr "Leiden University, The Netherlands"
 
 #: projects.inc:280
 msgid ""
@@ -685,7 +685,7 @@ msgstr "使用經典力學進行表面科學的運算。Leiden Classical允許�
 
 #: projects.inc:294
 msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
-msgstr "美國威斯康星大學密爾沃基分校，德國馬克斯普朗克研究所"
+msgstr "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
 
 #: projects.inc:295
 msgid "Astrophysics"
@@ -726,7 +726,7 @@ msgstr "這專案在參與者的電腦中使用CERN為了完備的LHC物理模�
 
 #: projects.inc:326
 msgid "University of California, Berkeley"
-msgstr "美國加州大學伯克利分校"
+msgstr "University of California, Berkeley"
 
 #: projects.inc:327
 msgid "Astrophysics, astrobiology"
@@ -743,7 +743,7 @@ msgstr "SETI(搜索外星智慧)的研究領域是探測地球之外的智慧生
 
 #: projects.inc:342
 msgid "Bielefeld University of Applied Sciences"
-msgstr "比勒費爾德應用科技大學"
+msgstr "Bielefeld University of Applied Sciences"
 
 #: projects.inc:343
 msgid "Chemical engineering and nanotechnology"
@@ -759,11 +759,11 @@ msgstr "研究分子磁體和奈米尺度的磁力學。這些分子磁體可用
 
 #: projects.inc:351
 msgid "Multiple applications"
-msgstr "多個程式"
+msgstr "複合專案"
 
 #: projects.inc:356
 msgid "Chinese Academy of Sciences"
-msgstr "中國科學院"
+msgstr "Chinese Academy of Sciences"
 
 #: projects.inc:357
 msgid "Physics, biochemistry, and others"
@@ -788,7 +788,7 @@ msgstr "Yoyo@home 將一些傳統的志願運算專案，包括ECM、Muon、Evol
 
 #: projects.inc:371 projects.inc:527
 msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
-msgstr "匈牙利 MTA-SZTAKI 並行和分佈式系統實驗室"
+msgstr "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
 
 #: projects.inc:372
 msgid "European research projects"
@@ -816,7 +816,7 @@ msgstr "物理學、材料科學和生物醫藥學方面的研究"
 
 #: projects.inc:387
 msgid "IBM Corporate Citizenship"
-msgstr "IBM企業公民"
+msgstr "IBM Corporate Citizenship"
 
 #: projects.inc:388
 msgid "Medical, environmental and other humanitarian research"
@@ -867,7 +867,7 @@ msgstr "研究考拉茲猜想（Collat​​z conje​​cture），一個尚未
 
 #: projects.inc:471
 msgid "California State University Fullerton"
-msgstr "加州大學富爾頓分校"
+msgstr "California State University Fullerton"
 
 #: projects.inc:472
 msgid "Factorization of large integers"
@@ -887,7 +887,7 @@ msgstr "NFS@Home 是一個利用通過網路互連的電腦進行大整數數域
 msgid ""
 "Vilnius Gediminas Technical University and Kaunas University of Technology "
 "(Lithuania)"
-msgstr "Vilnius Gediminas 理工大學和Kaunas 理工大學（立陶宛）"
+msgstr "Vilnius Gediminas Technical University and Kaunas University of Technology (Lithuania)"
 
 #: projects.inc:480
 msgid "Software testing"
@@ -903,7 +903,7 @@ msgstr "本專案的目的是為維爾紐斯格迪米納斯科技大學(VGTU)和
 
 #: projects.inc:503
 msgid "Mathematical Institute of Leiden University / Kennislink"
-msgstr "萊頓（Leiden）大學數字學院（Kennislink）"
+msgstr "Mathematical Institute of Leiden University / Kennislink"
 
 #: projects.inc:505
 msgid ""
@@ -924,7 +924,7 @@ msgstr "Primegrid 有許多子專案，用於尋找非常大且型態不同的�
 
 #: projects.inc:519
 msgid "Hochschule RheinMain University of Applied Sciences"
-msgstr "萊茵曼應用技術大學"
+msgstr "Hochschule RheinMain University of Applied Sciences"
 
 #: projects.inc:521
 msgid ""
@@ -945,4 +945,4 @@ msgstr "評論"
 #: ../html/inc/news.inc:111
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr "可以透過 %sRSS feed%s 查看新聞"
+msgstr "可以透過%sRSS feed%s查看新聞"
