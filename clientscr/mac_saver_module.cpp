@@ -221,21 +221,6 @@ double getDTime() {
 }
 
 
-bool validateNumericString(CFStringRef s) {
-    CFIndex i;
-    CFRange range, result;
-    CFIndex len = CFStringGetLength(s);
-    CFCharacterSetRef theSet = CFCharacterSetGetPredefined(kCFCharacterSetDecimalDigit);
-    
-    for (i=0; i<len; i++) {
-        range = CFRangeMake(i, 1);
-        if (!CFStringFindCharacterFromSet(s, theSet, range, kCFCompareAnchored, &result))
-            return false;
-    }
-    return true;
-}
-
-
 CScreensaver::CScreensaver() {
     struct ss_periods periods;
     

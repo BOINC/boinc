@@ -43,7 +43,6 @@ bool            getShow_default_ss_first();
 double          getGFXDefaultPeriod();
 double          getGFXSciencePeriod();
 double          getGGFXChangePeriod();
-bool            validateNumericString(CFStringRef s);
 void            setShow_default_ss_first(bool value);
 void            setGFXDefaultPeriod(double value);
 void            setGFXSciencePeriod(double value);
