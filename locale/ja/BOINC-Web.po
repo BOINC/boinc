@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2015-03-09 10:36+0000\n"
+"PO-Revision-Date: 2015-03-09 12:08+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -913,13 +913,13 @@ msgid ""
 "any real h > 1. The ABC conjecture is currently one of the greatest open "
 "problems in mathematics. If it is proven to be true, a lot of other open "
 "problems can be answered directly from it."
-msgstr "’abc-triples’ を探します。’abc-triples’ とは 3つの正整数 a b c で、a + b = c  かつ、a &lt; b かつ、b &lt; c  かつ、a b c が互いに素であり、c >  rad(abc) であるようなものです。ただしここで rad( n ) とは、n の互いに異なる個々の素因数の積です。ABC 予想とは、h > 1 のどのような実数 h についても、log( c ) / log( rad( abc ) ) > h  となるような a, b, c の組はたかだか有限個しかないという予想です。 これが正しいと証明されると、まだ解決をみていない多くの数学の問題に答えをここから直接に与えることができます。"
+msgstr "「abc-triples」を探します。「abc-triples」とは、3つの正の整数を a, b, c とするとき、a + b = c  かつ、a &lt; b &lt; c  かつ、a, b, c が互いに素であり、c > rad(abc) であるようなものです。ただしここで rad( n) とは、n の互いに異なる個々の素因数の積です。ABC予想とは、h > 1 のどのような実数 h についても、log(c) / log(rad(abc)) > h となるような a, b, c の組はたかだか有限個しかないという予想です。ABC予想は現在多数ある数学の未解決問題のうちのひとつです。これが正しいと証明されると、まだ未解決の多くの数学の問題に答えをここから直接与えることができます。"
 
 #: projects.inc:513
 msgid ""
 "Primegrid has multiple projects searching for different forms of very large "
 "prime numbers, including searching for the largest known prime number."
-msgstr "Primegridは違う形でとても大きな素数の探索をしている多様なプロジェクトの集合を有しています。既知の最大の素数を探すことも含まれています。"
+msgstr "Primegrid は違う形でとても大きな素数(既知の最大の素数を探すことも含まれます)の探索をしている複数のプロジェクトを有します。"
 
 #: projects.inc:519
 msgid "Hochschule RheinMain University of Applied Sciences"
@@ -935,7 +935,7 @@ msgstr "素数判定法に関する2つの予想について反例を探しま�
 msgid ""
 "Find all the generalized binary number systems (in which bases are matrices "
 "and digits are vectors) up to dimension 11."
-msgstr "このプロジェクトは、一般化された 2進数系を11次元まですべて探すことを目的にしています。 "
+msgstr "一般化された2進数系(この場合、ベースが配列で、桁がベクトル)を11次元まですべて探り出します。"
 
 #: ../html/inc/news.inc:40
 msgid "Comment"
