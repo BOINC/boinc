@@ -221,21 +221,6 @@ double getDTime() {
 }
 
 
-bool validateNumericString(CFStringRef s) {
-    CFIndex i;
-    CFRange range, result;
-    CFIndex len = CFStringGetLength(s);
-    CFCharacterSetRef theSet = CFCharacterSetGetPredefined(kCFCharacterSetDecimalDigit);
-    
-    for (i=0; i<len; i++) {
-        range = CFRangeMake(i, 1);
-        if (!CFStringFindCharacterFromSet(s, theSet, range, kCFCompareAnchored, &result))
-            return false;
-    }
-    return true;
-}
-
-
 CScreensaver::CScreensaver() {
     struct ss_periods periods;
     
@@ -468,7 +453,7 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
                 m_bConnected = true;
                 if (IsDualGPUMacbook) {
                     ccstate.clear();
-                    ccstate.global_prefs.init_bools();
+                    ccstate.global_prefs.clear_bools();
                     int result = rpc->get_state(ccstate);
                     if (!result) {
                         OKToRunOnBatteries = ccstate.global_prefs.run_on_batteries;

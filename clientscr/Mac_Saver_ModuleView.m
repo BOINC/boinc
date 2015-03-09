@@ -542,7 +542,6 @@ int signof(float x) {
     
     NSScanner *scanner, *scanner2;
     
-print_to_log_file(" Entered closeSheetSave");
     // get the defaults
 	ScreenSaverDefaults *defaults = [ ScreenSaverDefaults defaultsForModuleWithName:mBundleID ];
 
@@ -600,7 +599,6 @@ Bad:
     [alert setMessageText:@"Please enter a number between 0 and 999."];
     [alert setAlertStyle:NSCriticalAlertStyle];
     [alert beginSheetModalForWindow:mConfigureSheet modalDelegate:self didEndSelector:nil contextInfo:nil];
-print_to_log_file("called beginSheetModalForWindow");
 }
 
 // Called when the user clicked the CANCEL button
