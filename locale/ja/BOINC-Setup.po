@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Masahiro Tagashira <m.t.aiko55@gmail.com>, 2015
+# Masahiro Tagashira, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: boinc\n"
+"Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2015-02-16 22:08+0000\n"
-"Last-Translator: Masahiro Tagashira <m.t.aiko55@gmail.com>\n"
+"PO-Revision-Date: 2015-03-09 18:40+0000\n"
+"Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: Installer.cpp:124
 #, c-format
 msgid "Sorry, this version of %s requires system 10.5 or higher."
-msgstr "申し訳ありません、このバージョンの%sには10.5以上のシステムが必要です。"
+msgstr "申し訳ありません、このバージョンの %s には 10.5 以降のシステムが必要です。"
 
 #: PostInstall.cpp:130 PostInstall.cpp:1136 uninstall.cpp:1618
 msgid "Yes"
@@ -33,7 +33,7 @@ msgstr "いいえ"
 
 #: PostInstall.cpp:133
 msgid "Should BOINC run even when no user is logged in?"
-msgstr "どのユーザーもログオンしていない時でもBOINCを動作させるべきですか？"
+msgstr "どのユーザーもログオンしていない時も BOINC を動作させますか？"
 
 #: PostInstall.cpp:1416
 #, c-format
@@ -41,12 +41,12 @@ msgid ""
 "Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
 "\n"
 "Do you also want non-administrative users to be able to run and control %s on this Mac?"
-msgstr "このコンピュータの管理者権限を持つユーザーは自動的に%sの動作と制御が可能になります。\nこのMacで管理者権限を持たないユーザーによる%sの動作・制御を同様に可能にすることを望みますか？"
+msgstr "このコンピュータの管理者権限を持つユーザーは自動的に %s の動作および制御が可能になります。\nこの Mac で管理者権限を持たないユーザーによる %s の動作および制御を同様に可能にしますか？"
 
 #: PostInstall.cpp:1444
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
-msgstr "このMacにおいて全ての%sユーザーに%sをスクリーンセーバーとして設定することを望みますか？"
+msgstr "この Mac の全ての %s ユーザーに %s をスクリーンセーバーとして設定しますか？"
 
 #: uninstall.cpp:82
 msgid "OK"
@@ -60,7 +60,7 @@ msgstr "再起動後の権限エラー"
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
-msgstr "除去には数分かかるかもしれません。\nどうか我慢して下さい。"
+msgstr "削除には数分かかることがあります。\nどうかもうしばらくお待ち下さい。"
 
 #: uninstall.cpp:156
 #, c-format
@@ -68,12 +68,12 @@ msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
 "\n"
 "This will remove the executables but will not touch %s data files."
-msgstr "本当にあなたのコンピュータから完全に%sを除去しますか？\nこれは実行可能ファイルを除去しますが%sのデータファイルに触れることはありません。"
+msgstr "本当にあなたのコンピュータから完全に %s を削除しますか？\nこれは実行可能ファイルを削除しますが %s のデータファイルに触れることはありません。"
 
 #: uninstall.cpp:163
 #, c-format
 msgid "Canceled: %s has not been touched."
-msgstr "キャンセルされました: %sは触れられていません"
+msgstr "キャンセルされました: %s は触れられていません"
 
 #: uninstall.cpp:174
 #, c-format
@@ -88,7 +88,7 @@ msgstr "ユーザーの名前"
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
-msgstr "VirtualBoxもまたあなたのコンピュータから除去しますか？\n(VirtualBoxはBOINCと一緒にインストールされました。)"
+msgstr "VirtualBox もあなたのコンピュータから削除しますか？\n( VirtualBox は BOINC と一緒にインストールされました。)"
 
 #: uninstall.cpp:312
 #, c-format
@@ -100,14 +100,14 @@ msgid ""
 "\n"
 "for each user, the file\n"
 "\"%s\"."
-msgstr "除去が完了しました。\n\n次に述べる残っているアイテムを削除したい場合はFinderを使います。ディレクトリ名は「%s」です。\nそれぞれのユーザーのファイル名は「%s」です。"
+msgstr "削除が完了しました。\n\n次に述べる残っているアイテムを削除したい場合はFinderを使います。ディレクトリ名は\" %s \"です。\nそれぞれのユーザーのファイル名は\" %s \"です。"
 
 #: uninstall.cpp:840
 #, c-format
 msgid ""
 "Enter your administrator password to completely remove %s from you computer.\n"
 "\n"
-msgstr "%sをあなたのコンピュータから完全に除去するためにあなたの管理者パスワードを入力してください。\n"
+msgstr "%s をあなたのコンピュータから完全に削除するため、あなたの管理者パスワードを入力してください。\n"
 
 #: uninstall.cpp:1616
 msgid "Cancel"
