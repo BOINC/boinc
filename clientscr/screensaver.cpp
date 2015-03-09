@@ -562,6 +562,8 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
         }
 
         // Core client suspended?
+        // We ignore SUSPEND_REASON_CPU_USAGE in SS coordinator, so it won't kill graphics apps for
+        // short-term CPU usage spikes (such as anti-virus.)  Added 9 April 2010
         if (suspend_reason && !(suspend_reason & (SUSPEND_REASON_CPU_THROTTLE | SUSPEND_REASON_CPU_USAGE))) {
             if (!m_bDefault_gfx_running) {
                 SetError(TRUE, m_hrError);          // No GFX App is running: show moving BOINC logo
@@ -680,8 +682,12 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
             // and launch its graphics app
             //
             if ((m_bDefault_gfx_running || (m_hGraphicsApplication == 0)) && (graphics_app_result_ptr == NULL)) {
-                graphics_app_result_ptr = get_random_graphics_app(results, previous_result_ptr);
-                previous_result_ptr = NULL;
+                if (suspend_reason && !(suspend_reason & (SUSPEND_REASON_CPU_THROTTLE | SUSPEND_REASON_CPU_USAGE))) {
+                    graphics_app_result_ptr = NULL;
+                } else {
+                    graphics_app_result_ptr = get_random_graphics_app(results, previous_result_ptr);
+                    previous_result_ptr = NULL;
+                }
                 
                 if (graphics_app_result_ptr) {
                     if (m_bDefault_gfx_running) {
