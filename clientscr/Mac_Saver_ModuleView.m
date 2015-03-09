@@ -212,9 +212,9 @@ int signof(float x) {
  
     gTopWindowListIndex = -1;
     
-    if (gBOINC_Logo) {
-        [ gBOINC_Logo release ];
-    }
+//    if (gBOINC_Logo) {
+//        [ gBOINC_Logo release ];
+//    }
     gBOINC_Logo = NULL;
     
     // gPathToBundleResources has been released by autorelease
@@ -259,7 +259,6 @@ int signof(float x) {
             [ myImage setScalesWhenResized:YES ];
             [ myImage setSize:theFrame.size ];
             [ myImage drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 ];
-            [ myImage release ];
         }
         [ self setAnimationTimeInterval:1/1.0 ];
 #else   // Code for possible future use if we want to draw more in preview
@@ -539,8 +538,11 @@ int signof(float x) {
 // Called when the user clicked the SAVE button
 - (IBAction) closeSheetSave:(id) sender
 {
-    int period;
-
+    int period = 0;
+    
+    NSScanner *scanner, *scanner2;
+    
+print_to_log_file(" Entered closeSheetSave");
     // get the defaults
 	ScreenSaverDefaults *defaults = [ ScreenSaverDefaults defaultsForModuleWithName:mBundleID ];
 
@@ -548,24 +550,27 @@ int signof(float x) {
 	gGoToBlank = [ mGoToBlankCheckbox state ];
 	mBlankingTimeString = [ mBlankingTimeTextField stringValue ];
     gBlankingTime = [ mBlankingTimeString intValue ];
-    if ((gBlankingTime < 0) || (gBlankingTime > 999)) goto Bad;
+    scanner = [ NSScanner scannerWithString:mBlankingTimeString];
+    if (![ scanner scanInt:&period ]) goto Bad;
+    if ((period < 0) || (period > 999)) goto Bad;
+    gBlankingTime = period;
 
 	mDefaultPeriodString = [ mDefaultPeriodTextField stringValue ];
-    period = [ mDefaultPeriodString intValue ];
-    if (!validateNumericString((CFStringRef)mDefaultPeriodString)) goto Bad;
+    scanner2 = [ scanner initWithString:mDefaultPeriodString];
+    if (![ scanner2 scanInt:&period ]) goto Bad;
     if ((period < 0) || (period > 999)) goto Bad;
     setGFXDefaultPeriod((double)(period * 60));
 
 	mSciencePeriodString = [ mSciencePeriodTextField stringValue ];
-    period = [ mSciencePeriodString intValue ];
-    if (!validateNumericString((CFStringRef)mSciencePeriodString)) goto Bad;
+    scanner2 = [ scanner initWithString:mSciencePeriodString];
+    if (![ scanner2 scanInt:&period ]) goto Bad;
     if ((period < 0) || (period > 999)) goto Bad;
     setGFXSciencePeriod((double)(period * 60));
 
 	mChangePeriodString = [ mChangePeriodTextField stringValue ];
-    period = [ mChangePeriodString intValue ];
-     if (!validateNumericString((CFStringRef)mChangePeriodString)) goto Bad;
-   if ((period < 0) || (period > 999)) goto Bad;
+    scanner2 = [ scanner initWithString:mChangePeriodString];
+    if (![ scanner2 scanInt:&period ]) goto Bad;
+    if ((period < 0) || (period > 999)) goto Bad;
     setGGFXChangePeriod((double)(period * 60));
 	
 	// write the defaults
@@ -586,11 +591,12 @@ int signof(float x) {
     return;
 Bad:
 ;   // Empty statement is needed to prevent compiler error
-    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+    NSAlert *alert = [[NSAlert alloc] init];
     [alert addButtonWithTitle:@"OK"];
     [alert setMessageText:@"Please enter a number between 0 and 999."];
     [alert setAlertStyle:NSCriticalAlertStyle];
     [alert beginSheetModalForWindow:mConfigureSheet modalDelegate:self didEndSelector:nil contextInfo:nil];
+print_to_log_file("called beginSheetModalForWindow");
 }
 
 // Called when the user clicked the CANCEL button
