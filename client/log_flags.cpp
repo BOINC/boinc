@@ -153,60 +153,6 @@ static void show_exclude_gpu(EXCLUDE_GPU& e) {
 //
 void CC_CONFIG::show() {
     unsigned int i;
-    if (ncpus>0) {
-        msg_printf(NULL, MSG_INFO, "Config: simulate %d CPUs", cc_config.ncpus);
-    }
-    if (no_gpus) {
-        msg_printf(NULL, MSG_INFO, "Config: don't use coprocessors");
-    }
-    if (dont_use_vbox) {
-        msg_printf(NULL, MSG_INFO, "Config: don't use VirtualBox");
-    }
-    if (no_info_fetch) {
-        msg_printf(NULL, MSG_INFO, "Config: don't fetch project list or client version info");
-    }
-    if (no_priority_change) {
-        msg_printf(NULL, MSG_INFO, "Config: run apps at regular priority");
-    }
-    if (report_results_immediately) {
-        msg_printf(NULL, MSG_INFO, "Config: report completed tasks immediately");
-    }
-    if (use_all_gpus) {
-        msg_printf(NULL, MSG_INFO, "Config: use all coprocessors");
-    }
-    if (fetch_minimal_work) {
-        msg_printf(NULL, MSG_INFO, "Config: fetch minimal work");
-    }
-    if (max_event_log_lines != DEFAULT_MAX_EVENT_LOG_LINES) {
-        if (max_event_log_lines) {
-            msg_printf(NULL, MSG_INFO,
-                "Config: event log limit %d lines", max_event_log_lines
-            );
-        } else {
-            msg_printf(NULL, MSG_INFO, "Config: event log limit disabled");
-        }
-    }
-    if (fetch_on_update) {
-        msg_printf(NULL, MSG_INFO, "Config: fetch on update");
-    }
-    for (int j=1; j<NPROC_TYPES; j++) {
-        show_gpu_ignore(ignore_gpu_instance[j], j);
-    }
-    for (i=0; i<exclude_gpus.size(); i++) {
-        show_exclude_gpu(exclude_gpus[i]);
-    }
-    for (i=0; i<exclusive_apps.size(); i++) {
-        msg_printf(NULL, MSG_INFO,
-            "Config: don't compute while %s is running",
-            exclusive_apps[i].c_str()
-        );
-    }
-    for (i=0; i<exclusive_gpu_apps.size(); i++) {
-        msg_printf(NULL, MSG_INFO,
-            "Config: don't use GPUs while %s is running",
-            exclusive_gpu_apps[i].c_str()
-        );
-    }
     if (allow_remote_gui_rpc) {
         msg_printf(NULL, MSG_INFO,
             "Config: GUI RPC allowed from any host"
@@ -227,6 +173,72 @@ void CC_CONFIG::show() {
             }
         }
         fclose(f);
+    }
+    if (disallow_attach) {
+        msg_printf(NULL, MSG_INFO, "Config: disallow project attach");
+    }
+    if (dont_check_file_sizes) {
+        msg_printf(NULL, MSG_INFO, "Config: don't check file sizes");
+    }
+    if (dont_suspend_nci) {
+        msg_printf(NULL, MSG_INFO, "Config: don't suspend NCI tasks");
+    }
+    if (dont_use_vbox) {
+        msg_printf(NULL, MSG_INFO, "Config: don't use VirtualBox");
+    }
+    for (i=0; i<exclude_gpus.size(); i++) {
+        show_exclude_gpu(exclude_gpus[i]);
+    }
+    for (i=0; i<exclusive_apps.size(); i++) {
+        msg_printf(NULL, MSG_INFO,
+            "Config: don't compute while %s is running",
+            exclusive_apps[i].c_str()
+        );
+    }
+    for (i=0; i<exclusive_gpu_apps.size(); i++) {
+        msg_printf(NULL, MSG_INFO,
+            "Config: don't use GPUs while %s is running",
+            exclusive_gpu_apps[i].c_str()
+        );
+    }
+    if (fetch_minimal_work) {
+        msg_printf(NULL, MSG_INFO, "Config: fetch minimal work");
+    }
+    if (fetch_on_update) {
+        msg_printf(NULL, MSG_INFO, "Config: fetch on update");
+    }
+    if (http_1_0) {
+        msg_printf(NULL, MSG_INFO, "Config: use HTTP 1.0");
+    }
+    for (int j=1; j<NPROC_TYPES; j++) {
+        show_gpu_ignore(ignore_gpu_instance[j], j);
+    }
+    if (max_event_log_lines != DEFAULT_MAX_EVENT_LOG_LINES) {
+        if (max_event_log_lines) {
+            msg_printf(NULL, MSG_INFO,
+                "Config: event log limit %d lines", max_event_log_lines
+            );
+        } else {
+            msg_printf(NULL, MSG_INFO, "Config: event log limit disabled");
+        }
+    }
+    if (ncpus>0) {
+        msg_printf(NULL, MSG_INFO, "Config: simulate %d CPUs", cc_config.ncpus);
+    }
+    if (no_gpus) {
+        msg_printf(NULL, MSG_INFO, "Config: don't use coprocessors");
+    }
+    if (no_info_fetch) {
+        msg_printf(NULL, MSG_INFO, "Config: don't fetch project list or client version info");
+    }
+    if (no_priority_change) {
+        msg_printf(NULL, MSG_INFO, "Config: run apps at regular priority");
+    }
+    if (report_results_immediately) {
+        msg_printf(NULL, MSG_INFO, "Config: report completed tasks immediately");
+    }
+    if (use_all_gpus) {
+        msg_printf(NULL, MSG_INFO, "Config: use all coprocessors");
     }
     if (vbox_window) {
         msg_printf(NULL, MSG_INFO,
