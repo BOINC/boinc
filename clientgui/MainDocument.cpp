@@ -2500,16 +2500,10 @@ wxString result_description(RESULT* result, bool show_resources) {
             strBuffer += _("Project suspended by user");
         } else if (result->suspended_via_gui) {
             strBuffer += _("Task suspended by user");
-
-        // do this check before the following because (if dont_suspend_nci is set)
-        // an NCI task may be running even if computation suspended
-        //
-        } else if (result->active_task && result->scheduler_state == CPU_SCHED_SCHEDULED) {
-            strBuffer += _("Running");
-            if (project && project->non_cpu_intensive) {
-                strBuffer += _(" (non-CPU-intensive)");
-            }
-        } else if (status.task_suspend_reason && !throttled) {
+        } else if (status.task_suspend_reason && !throttled && result->active_task_state != PROCESS_EXECUTING) {
+            // an NCI process can be running even though computation is suspended
+            // (because of <dont_suspend_nci>
+            //
             strBuffer += _("Suspended - ");
             strBuffer += suspend_reason_wxstring(status.task_suspend_reason);
         } else if (status.gpu_suspend_reason && uses_gpu(result)) {
@@ -2520,6 +2514,11 @@ wxString result_description(RESULT* result, bool show_resources) {
                 strBuffer += _("Waiting for memory");
             } else if (result->needs_shmem) {
                 strBuffer += _("Waiting for shared memory");
+            } else if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
+                strBuffer += _("Running");
+                if (project && project->non_cpu_intensive) {
+                    strBuffer += _(" (non-CPU-intensive)");
+                }
             } else if (result->scheduler_state == CPU_SCHED_PREEMPTED) {
                 strBuffer += _("Waiting to run");
             } else if (result->scheduler_state == CPU_SCHED_UNINITIALIZED) {

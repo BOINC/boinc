@@ -1148,7 +1148,28 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
 
 
 bool CSimpleTaskPanel::isRunning(RESULT* result) {
-    return (result->scheduler_state == CPU_SCHED_SCHEDULED);
+
+    // It must be scheduled to be running
+    if ( result->scheduler_state != CPU_SCHED_SCHEDULED ) {
+        return false;
+    }
+    // If either the project or task have been suspended, then it cannot be running
+    if (result->suspended_via_gui || result->project_suspended_via_gui ) {
+        return false;
+    }
+    CC_STATUS status;
+    CMainDocument*      pDoc = wxGetApp().GetDocument();
+    wxASSERT(pDoc);
+
+    pDoc->GetCoreClientStatus(status);
+    // Make sure that the core client isn't global suspended for some reason
+    if (status.task_suspend_reason == 0 || status.task_suspend_reason == SUSPEND_REASON_CPU_THROTTLE) {
+        return true;
+    }
+    if (result->active_task_state == PROCESS_EXECUTING) {
+        return true;
+    }
+    return false;
 }
 
 
