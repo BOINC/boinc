@@ -77,6 +77,10 @@ function foundership_transfer_link($user, $team) {
     return '<a href="team_founder_transfer_form.php">'.tra('Deferred').'</a>';
 }
 
+// $team is the team record with a bunch of additional data
+// (see team_display.php)
+// $user is viewer (not necessarily team founder) or null
+//
 function display_team_page($team, $user) {
     global $team_name_sites;
     page_head("$team->name");
@@ -90,7 +94,8 @@ function display_team_page($team, $user) {
     }
     row2("Created", date_str($team->create_time));
     if (defined("SHOW_NONVALIDATED_TEAMS")) {
-        row2("Founder email validated", $user->email_validated?"Yes":"No (team will not be exported)");
+        $founder = $team->founder;
+        row2("Founder email validated", $founder->email_validated?"Yes":"No (team will not be exported)");
     }
     if (strlen($team->url)) {;
         if (strstr($team->url, "http://")) {
