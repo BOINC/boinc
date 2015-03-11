@@ -44,6 +44,12 @@ function boinctranslate_menu() {
     'access arguments' => array('administer site configuration'),
     'type' => MENU_CALLBACK,
   );
+  $items['admin/boinc/translation/initialize-languages'] = array(
+    'title' => 'Install official BOINC languages',
+    'page callback' => 'boinctranslate_initialize_languages',
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_CALLBACK,
+  );
   return $items;
 }
 
@@ -66,6 +72,194 @@ function boinctranslate_panels_pane_content_alter($content, $pane, $args, $conte
 /**
  * 
  */
+function boinctranslate_initialize_languages() {
+  require_once(getcwd() . '/includes/locale.inc');
+  $api_base_url = 'https://www.transifex.com/api/2';
+  $username = variable_get('boinc_translate_transifex_user', '');
+  $password = variable_get('boinc_translate_transifex_pass', '');
+  $project_name = variable_get(
+    'boinc_translate_transifex_project_name', ''
+  );
+  
+  if ($username AND $password AND $project_name) {
+    // Get all languages configured for this project at Transifex
+    $ch = curl_init();
+    $resource_url = "{$api_base_url}/project/{$project_name}";
+    curl_setopt($ch, CURLOPT_URL, "{$resource_url}/languages");
+    curl_setopt($ch, CURLOPT_HTTPHEADER,
+      array(
+        "Authorization: Basic " . base64_encode($username . ":" . $password)
+      )
+    );
+    curl_setopt($ch, CURLOPT_HEADER, 1);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+    $result = curl_exec($ch);
+    list($response_header, $response_body) = explode("\r\n\r\n", $result, 2);
+    
+    if (strstr($response_header, '404 NOT FOUND')) {
+      drupal_set_message(
+        t('Unable to get languages for %project.',
+          array(
+            '%project' => $project,
+          )
+        ), 'warning'
+      );
+    }
+    elseif ($response_body) {
+      // Process as JSON
+      $json_data = json_decode($response_body, TRUE);
+      if (!empty($json_data)) {
+        $installed_languages = language_list();
+        $available_languages = _locale_get_predefined_list();
+        $language_map = array(
+          'zh_CN' => 'zh-hans',
+        );
+        $reverse_map = array_flip($language_map);
+        $transifex_languages = array();
+        // Establish list of languages to import
+        foreach ($json_data as $language) {
+          $code = $language['language_code'];
+          if (isset($language_map[$code])) {
+            $code = $language_map[$code];
+          }
+          $transifex_languages[] = $code;
+        }
+        foreach ($transifex_languages as $code) {
+          if (!isset($installed_languages[$code])) {
+            // See if this language can be installed from a predefined list
+            if (isset($available_languages[$code])) {
+              locale_add_language(
+                $code,
+                NULL,
+                NULL,
+                NULL,
+                NULL,
+                NULL,
+                FALSE
+              );
+              drupal_set_message(
+                'Added predefined language: '.$available_languages[$code][0]
+              );
+            }
+            else {
+              // Retrieve language details from Transifex
+              $ch = curl_init();
+              $resource_url = "{$api_base_url}/language/{$code}";
+              curl_setopt($ch, CURLOPT_URL, "{$resource_url}");
+              curl_setopt($ch, CURLOPT_HTTPHEADER,
+                array(
+                  "Authorization: Basic " . base64_encode($username . ":" . $password)
+                )
+              );
+              curl_setopt($ch, CURLOPT_HEADER, 1);
+              curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+              curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+              $result = curl_exec($ch);
+              list($response_header, $response_body) = explode("\r\n\r\n", $result, 2);
+              
+              if (strstr($response_header, '404 NOT FOUND')) {
+                drupal_set_message(
+                  t('Unable to get details for language %code.',
+                    array(
+                      '%code' => $code,
+                    )
+                  ), 'warning'
+                );
+              }
+              elseif ($response_body) {
+                // Process as JSON
+                $language_info = json_decode($response_body, TRUE);
+                if (!empty($language_info['name'])) {
+                  // Add a custom language to Drupal (and set to disabled)
+                  locale_add_language(
+                    $code,
+                    $language_info['name'],
+                    $language_info['name'],
+                    $language_info['rtl'],
+                    NULL,
+                    NULL,
+                    FALSE
+                  );
+                  drupal_set_message(
+                    'Added new language: '.$language_info['name']
+                  );
+                }
+                else {
+                  $variables = array(
+                    '%code' => $code,
+                  );
+                  drupal_set_message(
+                    t('Unable to get details for language %code.', $variables),
+                    'error'
+                  );
+                  watchdog(
+                    'boinctranslate',
+                    'Unable to get details for language %code.',
+                    $variables,
+                    WATCHDOG_ERROR
+                  );
+                }
+              }
+              else {
+               $variables = array(
+                  '%code' => $code,
+                );
+                drupal_set_message(
+                  t('Invalid response while getting details for language %code.', $variables),
+                  'error'
+                );
+                watchdog(
+                  'boinctranslate',
+                  'Invalid response while getting details for language %code.',
+                  $variables,
+                  WATCHDOG_ERROR
+                );
+              }
+            }
+            // Import any language files for the newly added language
+            if ($batch = locale_batch_by_language($code, '_locale_batch_language_finished')) {
+              batch_set($batch);
+            }
+          }
+        }
+        drupal_set_message('Finished installing official BOINC languages.');
+        batch_process('admin/boinc/translation');
+      }
+      else {
+        $variables = array(
+          '%project' => $project,
+        );
+        drupal_set_message(
+          t('No languages found for %project.', $variables),
+          'error'
+        );
+        watchdog(
+          'boinctranslate',
+          'No languages found for %project.',
+          $variables,
+          WATCHDOG_ERROR
+        );
+      }
+    }
+    else {
+     $variables = array(
+        '%project' => $project,
+      );
+      drupal_set_message(
+        t('Invalid response while getting languages for %project.', $variables),
+        'error'
+      );
+      watchdog(
+        'boinctranslate',
+        'Invalid response while getting languages for %project.',
+        $variables,
+        WATCHDOG_ERROR
+      );
+    }
+  }
+  drupal_goto('admin/boinc/translation');
+}
 
 
 /**

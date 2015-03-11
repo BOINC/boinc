@@ -119,6 +119,13 @@ function boinctranslate_admin_settings(&$form_state) {
     '#submit' => array('boinctranslate_admin_settings_import_now'),
     '#disabled' => !$import_enabled,
   );
+  $form['tools']['initialize_languages'] = array(
+    '#type' => 'button',
+    '#value' => t('Install official BOINC languages'),
+    '#executes_submit_callback' => TRUE,
+    '#submit' => array('boinctranslate_admin_settings_initialize_languages'),
+    '#disabled' => !$initialized,
+  );
   
   $form['#submit'][] = 'system_settings_form_submit';
   $form['#theme'] = 'system_settings_form'; 
@@ -129,6 +136,11 @@ function boinctranslate_admin_settings(&$form_state) {
 function boinctranslate_admin_settings_import_now() {
   drupal_goto('admin/boinc/translation/import');
 }
+
+function boinctranslate_admin_settings_initialize_languages() {
+  drupal_goto('admin/boinc/translation/initialize-languages');
+}
+
 
 /**
   * Validate the BOINC translation settings form.
