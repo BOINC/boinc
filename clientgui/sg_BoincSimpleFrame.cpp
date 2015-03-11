@@ -162,13 +162,6 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     // View menu
     wxMenu *menuView = new wxMenu;
 
-    menuView->Append(
-        ID_CHANGEGUI,
-        _("Advanced View...\tCtrl+Shift+A"),
-        _("Display the advanced graphical interface.")
-    );
-
-    menuView->AppendSeparator();
 
     menuView->Append(
         ID_SGSKINSELECTOR,
@@ -181,6 +174,19 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     if (m_pSubmenuSkins->GetMenuItemCount() <= 1) {
         menuView->Enable(ID_SGSKINSELECTOR, false);
     }
+    menuView->AppendSeparator();
+    menuView->Append(
+        ID_EVENTLOG, 
+        _("Event Log...\tCtrl+Shift+E"),
+        _("Display diagnostic messages.")
+    );
+    menuView->AppendSeparator();
+    menuView->Append(
+        ID_CHANGEGUI,
+        _("Advanced View...\tCtrl+Shift+A"),
+        _("Display the advanced graphical interface.")
+    );
+
 
     // Tools menu
     wxMenu *menuTools = new wxMenu;
@@ -193,21 +199,17 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     
     menuTools->Append(
         ID_SGOPTIONS, 
-        _("&Options..."),
+        _("&Other Options..."),
         _("Configure display options and proxy settings")
     );
 
     // Help menu
     wxMenu *menuHelp = new wxMenu;
 
-    // %s is the project name
-    //    i.e. 'BOINC Manager', 'GridRepublic'
     strMenuName.Printf(
         _("%s &help"), 
         pSkinAdvanced->GetApplicationShortName().c_str()
     );
-    // %s is the project name
-    //    i.e. 'BOINC', 'GridRepublic'
     strMenuDescription.Printf(
         _("Show information about %s"), 
         pSkinAdvanced->GetApplicationShortName().c_str()
@@ -218,14 +220,10 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
         strMenuDescription
     );
 
-    // %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuName.Printf(
         _("&%s"), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
-    // %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuDescription.Printf(
         _("Show information about the %s"), 
         pSkinAdvanced->GetApplicationName().c_str()
@@ -235,15 +233,11 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
         strMenuName, 
         strMenuDescription
     );
-
-    // %s is the project name
-    //    i.e. 'BOINC', 'GridRepublic'
+    menuHelp->AppendSeparator();
     strMenuName.Printf(
         _("%s &web site"), 
         pSkinAdvanced->GetApplicationShortName().c_str()
     );
-    // %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuDescription.Printf(
         _("Show information about BOINC and %s"),
         pSkinAdvanced->GetApplicationName().c_str()
@@ -253,9 +247,8 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
         strMenuName, 
         strMenuDescription
     );
+    menuHelp->AppendSeparator();
 
-    // %s is the project name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuName.Printf(
         _("&About %s..."), 
         pSkinAdvanced->GetApplicationName().c_str()
@@ -278,7 +271,7 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     );
     m_pMenubar->Append(
         menuTools,
-        _("&Tools")
+        _("&Options")
     );
     m_pMenubar->Append(
         menuHelp,
