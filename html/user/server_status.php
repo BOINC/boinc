@@ -238,10 +238,14 @@ function show_status_xml($x) {
 }
 
 function local_daemon_running($cmd) {
-    $cmd = explode(" ", $cmd);
-    $prog = $cmd[0];
-    $out = exec("ps -C $prog");
-    if (strstr($out, $prog)) return 1;
+    $cmd = trim($cmd);
+    $x = explode(" ", $cmd);
+    $prog = $x[0];
+    $out = Array();
+    exec("ps -Fw -C $prog", $out);
+    foreach ($out as $y) {
+        if (strstr($y, $cmd)) return 1;
+    }
     return 0;
 }
 
@@ -263,6 +267,10 @@ function get_daemon_status() {
     $main_host = (string)$config->host;
     $master_url = (string)$config->master_url;
     $u = parse_url($master_url);
+    if (!array_key_exists("host", $u)) {
+        print_r($u);
+        die("can't parse URL $master_url");
+    }
     $master_host = $u["host"];
     if ($config->www_host) {
         $web_host = (string) $config->www_host;
