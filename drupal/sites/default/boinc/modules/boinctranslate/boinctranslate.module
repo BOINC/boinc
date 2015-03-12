@@ -277,7 +277,7 @@ function boinctranslate_export_translations() {
           'name' => 'Drupal-Project',
           'i18n_type' => 'PO',
           'category' => 'Drupal',
-          'content' => json_encode(array('content' => boinctranslate_get_po('en', 'project'))),
+          'content' => boinctranslate_get_po('en', 'project'),
         );
         drupal_set_message('Establishing new translation resource...');
       }
@@ -285,7 +285,7 @@ function boinctranslate_export_translations() {
         // Update the source
         $path = "project/{$project_name}/resource/drupal-project/content";
         $post = array(
-          'content' => json_encode(array('content' => boinctranslate_get_po('en', 'project')))
+          'content' => boinctranslate_get_po('en', 'project')
         );
         drupal_set_message('Updating translation resource...');
       }
@@ -293,7 +293,7 @@ function boinctranslate_export_translations() {
       drupal_set_message('Result: '. print_r($result,1));
     }
     
-    if ($result != '400 BAD REQUEST') {
+    if (substr($result, 0, 6) != 'ERROR:') {
       $enabled_languages = locale_language_list();
       foreach ($enabled_languages as $langcode => $language_name) {
         if ($langcode == en) {
@@ -301,12 +301,23 @@ function boinctranslate_export_translations() {
         }
         $path = "project/{$project_name}/resource/drupal-project/translation/{$langcode}";
         $post = array(
-          'content' => json_encode(array('content' => boinctranslate_get_po($langcode, 'project'))),
+          'content' => boinctranslate_get_po($langcode, 'project'),
         );
-        $result = boinctranslate_transifex_request($path, $post);
+        $result = boinctranslate_transifex_request($path, $post, TRUE, TRUE);
         drupal_set_message("Updating {$language_name} translations...");
-        drupal_set_message($result);
+        if (substr($result, 0, 6) == 'ERROR:') {
+          drupal_set_message(
+            "Unable to update {$language_name} translations: {$result}",
+            'warning'
+          );
+        }
       }
+    }
+    else {
+      drupal_set_message(
+        "Unable to update the translation source: {$result}",
+        'warning'
+      );
     }
   }
   else {
@@ -321,7 +332,7 @@ function boinctranslate_export_translations() {
 /**
  *
  */
-function boinctranslate_transifex_request($path, $post = NULL, $json = TRUE) {
+function boinctranslate_transifex_request($path, $post = NULL, $json = TRUE, $use_put = FALSE) {
   // Transifex details
   $api_base_url = 'https://www.transifex.com/api/2';
   $username = variable_get('boinc_translate_transifex_user', '');
@@ -334,13 +345,14 @@ function boinctranslate_transifex_request($path, $post = NULL, $json = TRUE) {
   );
   if ($post AND $json) {
     $header[] = 'Content-Type: application/json';
+    $post = json_encode($post);
   }
   curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
   curl_setopt($ch, CURLOPT_HEADER, 1);
-curl_setopt($ch, CURLINFO_HEADER_OUT, true);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-  if ($post) curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
+  if ($post) curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+  if ($use_put) curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
   $result = curl_exec($ch);
   
   list($response_header, $response_body) = explode("\r\n\r\n", $result, 2);
@@ -351,16 +363,14 @@ curl_setopt($ch, CURLINFO_HEADER_OUT, true);
   elseif (strstr($response_header, '401 UNAUTHORIZED')) {
     return '401 UNAUTHORIZED';
   }
-  elseif (strstr($response_header, '100 Continue')
-  AND strstr($response_body, '400 BAD REQUEST')) {
-    watchdog('DEBUG', 'Post to '.$path.': <pre>'.print_r($post,1).'</pre>');
-    watchdog('DEBUG', 'Debug info for '.$path.': <pre>'.print_r(curl_getinfo($ch),1).'</pre>');
-    watchdog('DEBUG', 'Bad result from '.$path.': <pre>'.print_r($result,1).'</pre>');
-    return '400 BAD REQUEST';
+  elseif (strstr($response_header, '100 Continue')) {
+    list($response_header, $response_body) = explode("\r\n\r\n", $response_body, 2);
+    if ( strstr($response_header, '400 BAD REQUEST')) {
+      return "ERROR: {$response_body}";
+    }
   }
   elseif ($json) {
     // Process as JSON
-    //watchdog('DEBUG', 'Request to '.$path.': <pre>'.print_r($result,1).'</pre>');
     return json_decode($response_body, TRUE);
   }
   else {
