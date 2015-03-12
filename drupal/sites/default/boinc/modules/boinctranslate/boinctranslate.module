@@ -38,6 +38,12 @@ function boinctranslate_menu() {
     'type' => MENU_NORMAL_ITEM,
     'file' => 'boinctranslate.admin.inc'
   );
+  $items['admin/boinc/translation/export'] = array(
+    'title' => 'Export translations',
+    'page callback' => 'boinctranslate_export_translations',
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_CALLBACK,
+  );
   $items['admin/boinc/translation/import'] = array(
     'title' => 'Import translations',
     'page callback' => 'boinctranslate_refresh_translations',
@@ -75,29 +81,16 @@ function boinctranslate_panels_pane_content_alter($content, $pane, $args, $conte
 function boinctranslate_initialize_languages() {
   require_once(getcwd() . '/includes/locale.inc');
   $api_base_url = 'https://www.transifex.com/api/2';
-  $username = variable_get('boinc_translate_transifex_user', '');
-  $password = variable_get('boinc_translate_transifex_pass', '');
   $project_name = variable_get(
     'boinc_translate_transifex_project_name', ''
   );
   
-  if ($username AND $password AND $project_name) {
+  if ($project_name) {
     // Get all languages configured for this project at Transifex
-    $ch = curl_init();
-    $resource_url = "{$api_base_url}/project/{$project_name}";
-    curl_setopt($ch, CURLOPT_URL, "{$resource_url}/languages");
-    curl_setopt($ch, CURLOPT_HTTPHEADER,
-      array(
-        "Authorization: Basic " . base64_encode($username . ":" . $password)
-      )
-    );
-    curl_setopt($ch, CURLOPT_HEADER, 1);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-    $result = curl_exec($ch);
-    list($response_header, $response_body) = explode("\r\n\r\n", $result, 2);
+    $path = "project/{$project_name}/languages";
+    $response = boinctranslate_transifex_request($path);
     
-    if (strstr($response_header, '404 NOT FOUND')) {
+    if ($response == '404 NOT FOUND') {
       drupal_set_message(
         t('Unable to get languages for %project.',
           array(
@@ -106,10 +99,9 @@ function boinctranslate_initialize_languages() {
         ), 'warning'
       );
     }
-    elseif ($response_body) {
-      // Process as JSON
-      $json_data = json_decode($response_body, TRUE);
-      if (!empty($json_data)) {
+    elseif ($response) {
+      if (is_array($response)) {
+      
         $installed_languages = language_list();
         $available_languages = _locale_get_predefined_list();
         $language_map = array(
@@ -117,8 +109,10 @@ function boinctranslate_initialize_languages() {
         );
         $reverse_map = array_flip($language_map);
         $transifex_languages = array();
+        $process_batches = FALSE;
+        
         // Establish list of languages to import
-        foreach ($json_data as $language) {
+        foreach ($response as $language) {
           $code = $language['language_code'];
           if (isset($language_map[$code])) {
             $code = $language_map[$code];
@@ -144,21 +138,10 @@ function boinctranslate_initialize_languages() {
             }
             else {
               // Retrieve language details from Transifex
-              $ch = curl_init();
-              $resource_url = "{$api_base_url}/language/{$code}";
-              curl_setopt($ch, CURLOPT_URL, "{$resource_url}");
-              curl_setopt($ch, CURLOPT_HTTPHEADER,
-                array(
-                  "Authorization: Basic " . base64_encode($username . ":" . $password)
-                )
-              );
-              curl_setopt($ch, CURLOPT_HEADER, 1);
-              curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-              curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-              $result = curl_exec($ch);
-              list($response_header, $response_body) = explode("\r\n\r\n", $result, 2);
+              $path = "language/{$code}";
+              $response = boinctranslate_transifex_request($path);
               
-              if (strstr($response_header, '404 NOT FOUND')) {
+              if ($response == '404 NOT FOUND') {
                 drupal_set_message(
                   t('Unable to get details for language %code.',
                     array(
@@ -167,22 +150,20 @@ function boinctranslate_initialize_languages() {
                   ), 'warning'
                 );
               }
-              elseif ($response_body) {
-                // Process as JSON
-                $language_info = json_decode($response_body, TRUE);
-                if (!empty($language_info['name'])) {
+              elseif ($response) {
+                if (!empty($response['name'])) {
                   // Add a custom language to Drupal (and set to disabled)
                   locale_add_language(
                     $code,
-                    $language_info['name'],
-                    $language_info['name'],
-                    $language_info['rtl'],
+                    $response['name'],
+                    $response['name'],
+                    $response['rtl'],
                     NULL,
                     NULL,
                     FALSE
                   );
                   drupal_set_message(
-                    'Added new language: '.$language_info['name']
+                    'Added new language: '.$response['name']
                   );
                 }
                 else {
@@ -220,11 +201,14 @@ function boinctranslate_initialize_languages() {
             // Import any language files for the newly added language
             if ($batch = locale_batch_by_language($code, '_locale_batch_language_finished')) {
               batch_set($batch);
+              $process_batches = TRUE;
             }
           }
         }
         drupal_set_message('Finished installing official BOINC languages.');
-        batch_process('admin/boinc/translation');
+        if ($process_batches) {
+          batch_process('admin/boinc/translation');
+        }
       }
       else {
         $variables = array(
@@ -261,6 +245,159 @@ function boinctranslate_initialize_languages() {
   drupal_goto('admin/boinc/translation');
 }
 
+/**
+ *
+ */
+function boinctranslate_export_translations() {
+  require_once(getcwd() . '/includes/locale.inc');
+  $project_name = variable_get(
+    'boinc_translate_transifex_project_name', ''
+  );
+  
+  if ($project_name) {
+    // Create or update the translation source, if needed
+    $source_exists = FALSE;
+    $path = "project/{$project_name}/resources";
+    $resources = boinctranslate_transifex_request($path);
+    if ($resources AND is_array($resources)) {
+      foreach ($resources as $resource) {
+        if ($resource['slug'] == 'drupal-project') {
+          $source_exists = TRUE;
+          break;
+        }
+      }
+      if (!$source_exists) {
+        // Create the source
+        $path = "project/{$project_name}/resources";
+        $post = array(
+          'slug' => 'drupal-project',
+          'name' => 'Drupal-Project',
+          'i18n_type' => 'PO',
+          'category' => 'Drupal',
+          'content' => json_encode(array('content' => boinctranslate_get_po('en', 'project'))),
+        );
+        drupal_set_message('Establishing new translation resource...');
+      }
+      else {
+        // Update the source
+        $path = "project/{$project_name}/resource/drupal-project/content";
+        $post = array(
+          'content' => json_encode(array('content' => boinctranslate_get_po('en', 'project')))
+        );
+        drupal_set_message('Updating translation resource...');
+      }
+      $result = boinctranslate_transifex_request($path, $post);
+      drupal_set_message('Result: '. print_r($result,1));
+    }
+    
+    if ($result != '400 BAD REQUEST') {
+      $enabled_languages = locale_language_list();
+      foreach ($enabled_languages as $langcode => $language_name) {
+        if ($langcode == en) {
+          continue;
+        }
+        $path = "project/{$project_name}/resource/drupal-project/translation/{$langcode}";
+        $post = array(
+          'content' => json_encode(array('content' => boinctranslate_get_po($langcode, 'project'))),
+        );
+        $result = boinctranslate_transifex_request($path, $post);
+        drupal_set_message("Updating {$language_name} translations...");
+        drupal_set_message($result);
+      }
+    }
+  }
+  else {
+    drupal_set_message(
+      'Failed to export translations: Transifex settings are not intiailized.',
+      'error'
+    );
+  }
+  drupal_goto('admin/boinc/translation');
+}
+
+/**
+ *
+ */
+function boinctranslate_transifex_request($path, $post = NULL, $json = TRUE) {
+  // Transifex details
+  $api_base_url = 'https://www.transifex.com/api/2';
+  $username = variable_get('boinc_translate_transifex_user', '');
+  $password = variable_get('boinc_translate_transifex_pass', '');
+  
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, "{$api_base_url}/{$path}");
+  $header = array(
+    "Authorization: Basic " . base64_encode($username . ":" . $password)
+  );
+  if ($post AND $json) {
+    $header[] = 'Content-Type: application/json';
+  }
+  curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+  curl_setopt($ch, CURLOPT_HEADER, 1);
+curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+  if ($post) curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
+  $result = curl_exec($ch);
+  
+  list($response_header, $response_body) = explode("\r\n\r\n", $result, 2);
+  
+  if (strstr($response_header, '404 NOT FOUND')) {
+    return '404 NOT FOUND';
+  }
+  elseif (strstr($response_header, '401 UNAUTHORIZED')) {
+    return '401 UNAUTHORIZED';
+  }
+  elseif (strstr($response_header, '100 Continue')
+  AND strstr($response_body, '400 BAD REQUEST')) {
+    watchdog('DEBUG', 'Post to '.$path.': <pre>'.print_r($post,1).'</pre>');
+    watchdog('DEBUG', 'Debug info for '.$path.': <pre>'.print_r(curl_getinfo($ch),1).'</pre>');
+    watchdog('DEBUG', 'Bad result from '.$path.': <pre>'.print_r($result,1).'</pre>');
+    return '400 BAD REQUEST';
+  }
+  elseif ($json) {
+    // Process as JSON
+    //watchdog('DEBUG', 'Request to '.$path.': <pre>'.print_r($result,1).'</pre>');
+    return json_decode($response_body, TRUE);
+  }
+  else {
+    return $response_body;
+  }
+}
+
+/**
+ *
+ */
+function boinctranslate_get_po($langcode, $type = 'standard') {
+  $all_languages = language_list();
+  $language = $all_languages[$langcode];
+  $textgroups = array();
+  $strings = array();
+  
+  switch ($type) {
+  case 'standard':
+    $textgroups = array(
+      'default',
+      'taxonomy',
+      'views',
+    );
+    break;
+  case 'project':
+    $textgroups = array(
+      'blocks',
+      'menu',
+      'project',
+    );
+    break;
+  default:
+  }
+  
+  foreach ($textgroups as $textgroup) {
+    $strings += _locale_export_get_strings($language, $textgroup);
+  }
+  
+  return _locale_export_po_generate($language, $strings);
+}
 
 /**
  *
@@ -268,9 +405,6 @@ function boinctranslate_initialize_languages() {
 function boinctranslate_refresh_translations() {
   require_once(getcwd() . '/includes/locale.inc');
   $errors = array();
-  $api_base_url = 'https://www.transifex.com/api/2';
-  $username = variable_get('boinc_translate_transifex_user', '');
-  $password = variable_get('boinc_translate_transifex_pass', '');
   $languages = locale_language_list();
   $translation_resources = array();
   
@@ -307,113 +441,95 @@ function boinctranslate_refresh_translations() {
     );
   }
   
-  if ($username AND $password) {
-    foreach ($languages as $langcode => $language) {
-      if ($langcode == 'en') {
-        continue;
-      }
-      foreach ($translation_resources as $project => $translation) {
-        foreach ($translation['resources'] as $resource) {
-          
-          // Import the configured resources
-          $ch = curl_init();
-          $resource_url = "{$api_base_url}/project/{$project}";
-          $resource_url .= "/resource/{$resource}";
-          curl_setopt($ch, CURLOPT_URL, "{$resource_url}/translation/{$langcode}");
-          curl_setopt($ch, CURLOPT_HTTPHEADER,
-            array(
-              "Authorization: Basic " . base64_encode($username . ":" . $password)
-            )
-          );
-          curl_setopt($ch, CURLOPT_HEADER, 1);
-          curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-          curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-          $result = curl_exec($ch);
-          list($response_header, $response_body) = explode("\r\n\r\n", $result, 2);
-          
-          if (strstr($response_header, '404 NOT FOUND')) {
-            drupal_set_message(
-              t('Project resource %name not found in @language.',
-                array(
-                  '%name' => "{$project}:{$resource}",
-                  '@language' => $language,
-                )
-              ), 'warning'
-            );
-          }
-          elseif ($response_body) {
-            // Process as JSON
-            $json_data = json_decode($response_body, TRUE);
-            if (!empty($json_data['content'])) {
-              $po_text = $json_data['content'];
-              
-              // Write the translation file to a temporary location
-              $file = new stdClass();
-              $file->filepath = file_save_data($po_text, NULL);
-              $file->filename = basename($file->filepath);
-              if (!$file->filepath) {
-                drupal_set_message(t(
-                  'Unable to create temporary file in %tmpdir for @language translation resource %name',
-                  array(
-                    '%tmpdir' => file_directory_temp(),
-                    '@language' => $language,
-                    '%name' => "{$project}:{$resource}",
-                  )
-                ), 'error');
-                continue;
-              }
-              
-              foreach ($translation['textgroups'] as $textgroup) {
-                watchdog(
-                  'boinctranslate',
-                  'Importing @language translation of %resource into %group textgroup',
-                  array(
-                    '@language' => $language,
-                    '%resource' => "{$project}:{$resource}",
-                    '%group' => $textgroup,
-                  ),
-                  WATCHDOG_NOTICE);
-                // Import the translations from the file to each related textgroup
-                if (!_boinctranslate_locale_import_po($file, $langcode, LOCALE_IMPORT_OVERWRITE, $textgroup)) {
-                  $variables = array(
-                    '@language' => $language,
-                    '%resource' => "{$project}:{$resource}",
-                  ); 
-                  drupal_set_message(t('The @language translation import of %resource failed.', $variables), 'error');
-                  watchdog('locale', 'The @language translation import of %resource failed.', $variables, WATCHDOG_ERROR);
-                  break;
-                }
-              }
-            }
-            else {
-              $variables = array(
+  foreach ($languages as $langcode => $language) {
+    if ($langcode == 'en') {
+      continue;
+    }
+    foreach ($translation_resources as $project => $translation) {
+      foreach ($translation['resources'] as $resource) {
+        
+        // Import the configured resources
+        $path = "project/{$project}/resource/{$resource}/translation/{$langcode}";
+        $response = boinctranslate_transifex_request($path);
+        
+        if ($response == '404 NOT FOUND') {
+          drupal_set_message(
+            t('Project resource %name not found in @language.',
+              array(
+                '%name' => "{$project}:{$resource}",
                 '@language' => $language,
-                '%resource' => "{$project}:{$resource}",
+              )
+            ), 'warning'
+          );
+        }
+        elseif ($response) {
+          if (!empty($response['content'])) {
+            $po_text = $response['content'];
+            
+            // Write the translation file to a temporary location
+            $file = new stdClass();
+            $file->filepath = file_save_data($po_text, NULL);
+            $file->filename = basename($file->filepath);
+            if (!$file->filepath) {
+              drupal_set_message(t(
+                'Unable to create temporary file in %tmpdir for @language translation resource %name',
+                array(
+                  '%tmpdir' => file_directory_temp(),
+                  '@language' => $language,
+                  '%name' => "{$project}:{$resource}",
+                )
+              ), 'error');
+              continue;
+            }
+            
+            foreach ($translation['textgroups'] as $textgroup) {
+              watchdog(
+                'boinctranslate',
+                'Importing @language translation of %resource into %group textgroup',
+                array(
+                  '@language' => $language,
+                  '%resource' => "{$project}:{$resource}",
+                  '%group' => $textgroup,
+                ),
+                WATCHDOG_NOTICE
               );
-              drupal_set_message(t('Unable to read response for @language translation import of %resource.', $variables), 'error');
-              watchdog('locale', 'Unable to read response for @language translation import of %resource.', $variables, WATCHDOG_ERROR);
+              // Import the translations from the file to each related textgroup
+              if (!_boinctranslate_locale_import_po($file, $langcode, LOCALE_IMPORT_OVERWRITE, $textgroup)) {
+                $variables = array(
+                  '@language' => $language,
+                  '%resource' => "{$project}:{$resource}",
+                ); 
+                drupal_set_message(t('The @language translation import of %resource failed.', $variables), 'error');
+                watchdog('locale', 'The @language translation import of %resource failed.', $variables, WATCHDOG_ERROR);
+                break;
+              }
             }
           }
           else {
-           $variables = array(
+            $variables = array(
               '@language' => $language,
               '%resource' => "{$project}:{$resource}",
             );
-            drupal_set_message(t('Translation data not found in response for @language translation import of %resource.', $variables), 'error');
-            watchdog('locale', 'Translation data not found in response for @language translation import of %resource.', $variables, WATCHDOG_ERROR);
+            drupal_set_message(t('Unable to read response for @language translation import of %resource.', $variables), 'error');
+            watchdog('locale', 'Unable to read response for @language translation import of %resource.', $variables, WATCHDOG_ERROR);
           }
+        }
+        else {
+         $variables = array(
+            '@language' => $language,
+            '%resource' => "{$project}:{$resource}",
+          );
+          drupal_set_message(t('Translation data not found in response for @language translation import of %resource.', $variables), 'error');
+          watchdog('locale', 'Translation data not found in response for @language translation import of %resource.', $variables, WATCHDOG_ERROR);
         }
       }
     }
-    // Unset repetitive notices, just show the last import summary message
-    $notices = drupal_get_messages('status');
-    $notice_count = count($notices['status']);
-    if ($notice_count >= 2) {
-      drupal_set_message($notices['status'][$notice_count-2]);
-    }
   }
-  else {
-    drupal_set_message('The translation environment is not configured.');
+  // Unset repetitive notices, just show the last import summary message
+  $notices = drupal_get_messages('status');
+  $notice_count = count($notices['status']);
+  if ($notice_count >= 2) {
+    drupal_set_message($notices['status'][$notice_count-2]);
   }
   
   

@@ -126,11 +126,22 @@ function boinctranslate_admin_settings(&$form_state) {
     '#submit' => array('boinctranslate_admin_settings_initialize_languages'),
     '#disabled' => !$initialized,
   );
+  $form['tools']['export_now'] = array(
+    '#type' => 'button',
+    '#value' => t('Export translations'),
+    '#executes_submit_callback' => TRUE,
+    '#submit' => array('boinctranslate_admin_settings_export_now'),
+    '#disabled' => !$import_enabled,
+  );
   
   $form['#submit'][] = 'system_settings_form_submit';
   $form['#theme'] = 'system_settings_form'; 
   
   return $form;
+}
+
+function boinctranslate_admin_settings_export_now() {
+  drupal_goto('admin/boinc/translation/export');
 }
 
 function boinctranslate_admin_settings_import_now() {
@@ -182,23 +193,11 @@ function boinctranslate_admin_settings_validate($form, &$form_state) {
   if ($username AND $password AND $boinc_name AND $boinc_resources) {
     // Test authentication
     $authenticated = FALSE;
-    $ch = curl_init();
-    $resource_url = "{$api_base_url}/project/{$boinc_name}";
-    $resource_url .= "/resource/{$boinc_resources[0]}";
-    curl_setopt($ch, CURLOPT_URL, "{$resource_url}/translation/en");
-    curl_setopt($ch, CURLOPT_HTTPHEADER,
-      array(
-        "Authorization: Basic " . base64_encode($username . ":" . $password)
-      )
-    );
-    curl_setopt($ch, CURLOPT_HEADER, 1);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-    $result = curl_exec($ch);
-    curl_close($ch);
+    $path = "project/{$boinc_name}/resource/{$boinc_resources[0]}/translation/en";
+    $response = boinctranslate_transifex_request($path);
     
-    if ($result) {
-      if (strstr($result, '401 UNAUTHORIZED')) {
+    if ($response) {
+      if ($response == '401 UNAUTHORIZED') {
         form_set_error(
           'boinc_translate_transifex_pass',
           t('Transifex authentication failed.')
@@ -239,21 +238,10 @@ function boinctranslate_admin_settings_validate($form, &$form_state) {
       foreach ($transifex_resources as $project => $resources) {
         foreach ($resources as $resource) {
           
-          $ch = curl_init();
-          $resource_url = "{$api_base_url}/project/{$project}/resource/{$resource}";
-          curl_setopt($ch, CURLOPT_URL, "{$resource_url}/translation/en");
-          curl_setopt($ch, CURLOPT_HTTPHEADER,
-            array(
-              "Authorization: Basic " . base64_encode($username . ":" . $password)
-            )
-          );
-          curl_setopt($ch, CURLOPT_HEADER, 1);
-          curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-          curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-          $result = curl_exec($ch);
-          list($response_header, $response_body) = explode("\r\n\r\n", $result, 2);
+          $path = "project/{$project}/resource/{$resource}/translation/en";
+          $response = boinctranslate_transifex_request($path);
           
-          if (strstr($response_header, '404 NOT FOUND')) {
+          if ($response == '404 NOT FOUND') {
             form_set_error(
               'boinc_translate_transifex_' . ($project == $boinc_name ? 'standard' : 'project') . '_resources',
               t('Resource %name not found in %project.',
