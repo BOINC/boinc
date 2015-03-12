@@ -105,29 +105,24 @@ function boinctranslate_initialize_languages() {
         $installed_languages = language_list();
         $available_languages = _locale_get_predefined_list();
         $language_map = array(
-          'it_IT' => 'it',
-          'pt_BR' => 'pt-br',
-          'pt_PT' => 'pt-pt',
           'zh_CN' => 'zh-hans',
         );
         $reverse_map = array_flip($language_map);
         $transifex_languages = array();
         $process_batches = FALSE;
         
-        // Establish list of languages to import
+        // Set up Transifex languages in Drupal
         foreach ($response as $language) {
-          $code = $language['language_code'];
-          if (isset($language_map[$code])) {
-            $code = $language_map[$code];
+          $posix_code = $language['language_code'];
+          $rfc_code = strtolower(str_replace('_', '-', $posix_code));
+          if (isset($language_map[$posix_code])) {
+            $rfc_code = $language_map[$posix_code];
           }
-          $transifex_languages[] = $code;
-        }
-        foreach ($transifex_languages as $code) {
-          if (!isset($installed_languages[$code])) {
+          if (!isset($installed_languages[$rfc_code])) {
             // See if this language can be installed from a predefined list
-            if (isset($available_languages[$code])) {
+            if (isset($available_languages[$rfc_code])) {
               locale_add_language(
-                $code,
+                $rfc_code,
                 NULL,
                 NULL,
                 NULL,
@@ -136,19 +131,19 @@ function boinctranslate_initialize_languages() {
                 FALSE
               );
               drupal_set_message(
-                'Added predefined language: '.$available_languages[$code][0]
+                'Added predefined language: '.$available_languages[$rfc_code][0]
               );
             }
             else {
               // Retrieve language details from Transifex
-              $path = "language/{$code}";
+              $path = "language/{$posix_code}";
               $response = boinctranslate_transifex_request($path);
               
               if ($response == '404 NOT FOUND') {
                 drupal_set_message(
                   t('Unable to get details for language %code.',
                     array(
-                      '%code' => $code,
+                      '%code' => $posix_code,
                     )
                   ), 'warning'
                 );
@@ -157,7 +152,7 @@ function boinctranslate_initialize_languages() {
                 if (!empty($response['name'])) {
                   // Add a custom language to Drupal (and set to disabled)
                   locale_add_language(
-                    $code,
+                    $rfc_code,
                     $response['name'],
                     $response['name'],
                     $response['rtl'],
@@ -171,7 +166,7 @@ function boinctranslate_initialize_languages() {
                 }
                 else {
                   $variables = array(
-                    '%code' => $code,
+                    '%code' => $posix_code,
                   );
                   drupal_set_message(
                     t('Unable to get details for language %code.', $variables),
@@ -187,7 +182,7 @@ function boinctranslate_initialize_languages() {
               }
               else {
                $variables = array(
-                  '%code' => $code,
+                  '%code' => $posix_code,
                 );
                 drupal_set_message(
                   t('Invalid response while getting details for language %code.', $variables),
@@ -290,7 +285,6 @@ function boinctranslate_export_translations() {
         drupal_set_message('Updating translation resource...');
       }
       $result = boinctranslate_transifex_request($path, $post);
-      drupal_set_message('Result: '. print_r($result,1));
     }
     
     if (substr($result, 0, 6) != 'ERROR:') {
