@@ -322,11 +322,11 @@ bool CAdvancedFrame::CreateMenu() {
     wxMenu *menuFile = new wxMenu;
 
     strMenuName.Printf(
-        _("New %s Window..."), 
+        _("New %s window..."), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
     strMenuDescription.Printf(
-        _("Open another %s Window"), 
+        _("Open another %s window"), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
     menuFile->Append(
@@ -337,12 +337,12 @@ bool CAdvancedFrame::CreateMenu() {
 
     menuFile->Append(
         ID_SELECTCOMPUTER, 
-        _("Select Computer..."),
+        _("Select computer..."),
         _("Connect to a BOINC client on another computer")
     );
     menuFile->Append(
         ID_SHUTDOWNCORECLIENT, 
-        _("Shut Down Connected Client..."),
+        _("Shut down connected client..."),
         _("Shut down the currently connected BOINC client")
     );
     menuFile->AppendSeparator();
@@ -351,7 +351,7 @@ bool CAdvancedFrame::CreateMenu() {
         _("Close the %s window"), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
-    strMenuName = _("&Close Window");
+    strMenuName = _("&Close window");
     strMenuName += wxT("\tCtrl+W");
     menuFile->Append(
         ID_CLOSEWINDOW,
@@ -491,7 +491,7 @@ bool CAdvancedFrame::CreateMenu() {
     );
     menuTools->Append(
         ID_RETRYCOMMUNICATIONS, 
-        _("Retry Pending Transfers"),
+        _("Retry pending transfers"),
         _("Retry deferred file transfers and task requests")
     );
 
@@ -603,17 +603,17 @@ bool CAdvancedFrame::CreateMenu() {
     menuOptions->AppendSeparator();
     menuOptions->Append(
 		ID_SELECTCOLUMNS,
-        _("Select Columns..."),
+        _("Select columns..."),
         _("Select which columns to display")
     );
     menuOptions->Append(
 		ID_DIAGNOSTICLOGFLAGS,
-        _("Event Log Options...\tCtrl+Shift+F"),
+        _("Event Log options...\tCtrl+Shift+F"),
         _("Enable or disable various diagnostic messages")
     );
     menuOptions->Append(
         ID_OPTIONS, 
-        _("&Other Options..."),
+        _("&Other options..."),
         _("Configure display options and network settings")
     );
     menuOptions->AppendSeparator();

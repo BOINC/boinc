@@ -114,13 +114,11 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     // File menu
     wxMenu *menuFile = new wxMenu;
 
-    // %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuDescription.Printf(
         _("Close the %s window"), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
-    strMenuName = _("&Close Window");
+    strMenuName = _("&Close window");
     strMenuName += wxT("\tCtrl+W");
     menuFile->Append(
         ID_CLOSEWINDOW,
@@ -199,7 +197,7 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     
     menuTools->Append(
         ID_SGOPTIONS, 
-        _("&Other Options..."),
+        _("&Other options..."),
         _("Configure display options and proxy settings")
     );
 
