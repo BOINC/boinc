@@ -304,7 +304,9 @@ $mac = array(
     "description"=>"Version 10.5.0+",
     "dbname" => "x86_64-apple-darwin",
     "versions"=>array(
+          $m74dev,
           $m74,
+          $m74cdev,
           $m74c,
     )
 );
