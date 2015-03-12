@@ -320,12 +320,13 @@ bool CAdvancedFrame::CreateMenu() {
 
     // File menu
     wxMenu *menuFile = new wxMenu;
-    strMenuDescription.Printf(
-        _("Open another %s Window..."), 
+
+    strMenuName.Printf(
+        _("New %s Window..."), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
-    strMenuName.Printf(
-        _("New %s Window"), 
+    strMenuDescription.Printf(
+        _("Open another %s Window"), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
     menuFile->Append(
@@ -333,19 +334,16 @@ bool CAdvancedFrame::CreateMenu() {
         strMenuName,
         strMenuDescription
     );
-    strMenuDescription.Printf(
-        _("Connect to another computer running %s"), 
-        pSkinAdvanced->GetApplicationShortName().c_str()
-    );
+
     menuFile->Append(
         ID_SELECTCOMPUTER, 
         _("Select Computer..."),
-        strMenuDescription
+        _("Connect to a BOINC client on another computer")
     );
     menuFile->Append(
         ID_SHUTDOWNCORECLIENT, 
         _("Shut Down Connected Client..."),
-        _("Shut down the currently connected client")
+        _("Shut down the currently connected BOINC client")
     );
     menuFile->AppendSeparator();
 
@@ -395,51 +393,51 @@ bool CAdvancedFrame::CreateMenu() {
     menuView->Append(
         ID_ADVNOTICESVIEW,
         _("&Notices\tCtrl+Shift+N"),
-        _("Display notices")
+        _("Show notices")
     );
 
     menuView->Append(
         ID_ADVPROJECTSVIEW,
         _("&Projects\tCtrl+Shift+P"),
-        _("Display projects")
+        _("Show projects")
     );
 
     menuView->Append(
         ID_ADVTASKSVIEW,
         _("&Tasks\tCtrl+Shift+T"),
-        _("Display tasks")
+        _("Show tasks")
     );
 
     menuView->Append(
         ID_ADVTRANSFERSVIEW,
         _("Trans&fers\tCtrl+Shift+X"),
-        _("Display transfers")
+        _("Show file transfers")
     );
 
     menuView->Append(
         ID_ADVSTATISTICSVIEW,
         _("&Statistics\tCtrl+Shift+S"),
-        _("Display statistics")
+        _("Show statistics")
     );
 
     menuView->Append(
         ID_ADVRESOURCEUSAGEVIEW,
         _("&Disk\tCtrl+Shift+D"),
-        _("Display disk usage")
+        _("Show disk usage")
     );
 
     menuView->AppendSeparator();
     menuView->Append(
         ID_EVENTLOG, 
         _("Event Log...\tCtrl+Shift+E"),
-        _("Display diagnostic messages.")
+        _("Show diagnostic messages")
     );
     menuView->AppendSeparator();
 
     menuView->Append(
         ID_CHANGEGUI,
         _("Simple &View...\tCtrl+Shift+V"),
-        _("Display the simple graphical interface.")
+        _("Switch to the Simple View")
     );
 
     // Screen too small?
@@ -454,7 +452,7 @@ bool CAdvancedFrame::CreateMenu() {
         menuTools->Append(
             ID_WIZARDATTACH, 
             _("&Add project or account manager..."),
-            _("Volunteer for any or all of 30+ projects in many areas of science")
+            _("Add a new science project, or use an account manager")
         );
     } else {
         strMenuName.Printf(
@@ -489,12 +487,12 @@ bool CAdvancedFrame::CreateMenu() {
     menuTools->Append(
         ID_RUNBENCHMARKS, 
         _("Run CPU &benchmarks"),
-        _("Runs BOINC CPU benchmarks")
+        _("Run tests that measure CPU speed")
     );
     menuTools->Append(
         ID_RETRYCOMMUNICATIONS, 
-        _("Do network communication"),
-        _("Do all pending network communication")
+        _("Retry Pending Transfers"),
+        _("Retry deferred file transfers and task requests")
     );
 
     // Activity menu
@@ -573,7 +571,7 @@ bool CAdvancedFrame::CreateMenu() {
 
     menuActivity->AppendRadioItem(
         ID_ADVNETWORKRUNALWAYS,
-        _("Network activity always available"),
+        _("Network activity always allowed"),
         _("Allow network activity regardless of preferences")
     );
     menuActivity->AppendRadioItem(
@@ -616,7 +614,7 @@ bool CAdvancedFrame::CreateMenu() {
     menuOptions->Append(
         ID_OPTIONS, 
         _("&Other Options..."),
-        _("Configure display options and proxy settings")
+        _("Configure display options and network settings")
     );
     menuOptions->AppendSeparator();
     menuOptions->Append(
