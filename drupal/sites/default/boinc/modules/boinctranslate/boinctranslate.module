@@ -94,7 +94,7 @@ function boinctranslate_initialize_languages() {
       drupal_set_message(
         t('Unable to get languages for %project.',
           array(
-            '%project' => $project,
+            '%project' => $project_name,
           )
         ), 'warning'
       );
