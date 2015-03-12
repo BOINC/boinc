@@ -88,8 +88,8 @@
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">wrapper_26012_windows_x86_64</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">wrapper_26012_windows_intelx86</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">wrapper_26013_windows_x86_64</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">wrapper_26013_windows_intelx86</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">wrapper_6.1_windows_x86_64</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
