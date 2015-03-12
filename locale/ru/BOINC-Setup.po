@@ -1,0 +1,117 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: BOINC\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-01-26 00:00-0800\n"
+"PO-Revision-Date: 2015-03-12 17:53+0000\n"
+"Last-Translator: Nikolay Sakharov <saharovna@gmail.com>\n"
+"Language-Team: Russian (http://www.transifex.com/projects/p/boinc/language/ru/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: Installer.cpp:124
+#, c-format
+msgid "Sorry, this version of %s requires system 10.5 or higher."
+msgstr "Извините, данная версия %s требует систему 10.5 или выше."
+
+#: PostInstall.cpp:130 PostInstall.cpp:1136 uninstall.cpp:1618
+msgid "Yes"
+msgstr "Да"
+
+#: PostInstall.cpp:131 PostInstall.cpp:1137 uninstall.cpp:1619
+msgid "No"
+msgstr "Нет"
+
+#: PostInstall.cpp:133
+msgid "Should BOINC run even when no user is logged in?"
+msgstr "Должен ли BOINC работать, даже если пользователь не вошёл в систему?"
+
+#: PostInstall.cpp:1416
+#, c-format
+msgid ""
+"Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
+"\n"
+"Do you also want non-administrative users to be able to run and control %s on this Mac?"
+msgstr "Пользователи с правами администратора этого компьютера автоматически смогут запускать и управлять %s.\n\nХотите ли вы, чтобы простые пользователи без административных прав также могли запускать и управлять %s на этом компьютере Mac?"
+
+#: PostInstall.cpp:1444
+#, c-format
+msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
+msgstr "Вы хотите установить %s как скринсейвер для всех пользователей %s на этом Mac?"
+
+#: uninstall.cpp:82
+msgid "OK"
+msgstr "ОК"
+
+#: uninstall.cpp:136
+msgid "Permission error after relaunch"
+msgstr "Ошибка доступа после перезапуска"
+
+#: uninstall.cpp:141
+msgid ""
+"Removal may take several minutes.\n"
+"Please be patient."
+msgstr "Удаление может занять несколько минут.\nПожалуйста, подождите."
+
+#: uninstall.cpp:156
+#, c-format
+msgid ""
+"Are you sure you want to completely remove %s from your computer?\n"
+"\n"
+"This will remove the executables but will not touch %s data files."
+msgstr "Вы уверены, что хотите полностью удалить %s с вашего компьютера?\n\nБудут удалены исполняемые файлы, но файлы данных %s останутся."
+
+#: uninstall.cpp:163
+#, c-format
+msgid "Canceled: %s has not been touched."
+msgstr "Отменено: %s не был изменён."
+
+#: uninstall.cpp:174
+#, c-format
+msgid "An error occurred: error code %d"
+msgstr "Произошла ошибка: код ошибки %d"
+
+#: uninstall.cpp:230
+msgid "name  of user"
+msgstr "имя  пользователя"
+
+#: uninstall.cpp:272
+msgid ""
+"Do you also want to remove VirtualBox from your computer?\n"
+"(VirtualBox was installed along with BOINC.)"
+msgstr "Хотите ли Вы также удалить VirtualBox с вашего компьютера?\n(VirtualBox был установлен вместе с BOINC.)"
+
+#: uninstall.cpp:312
+#, c-format
+msgid ""
+"Removal completed.\n"
+"\n"
+" You may want to remove the following remaining items using the Finder: \n"
+"the directory \"%s\"\n"
+"\n"
+"for each user, the file\n"
+"\"%s\"."
+msgstr "Удаление завершено.\n\n Вы можете удалить следующие оставшиеся объекты с помощью Поисковика: \nкаталог \"%s\"\n\nдля каждого пользователя, файл\n\"%s\"."
+
+#: uninstall.cpp:840
+#, c-format
+msgid ""
+"Enter your administrator password to completely remove %s from you computer.\n"
+"\n"
+msgstr "Для полного удаления %s с вашего компьютера введите пароль администратора.\n\n"
+
+#: uninstall.cpp:1616
+msgid "Cancel"
+msgstr "Отмена"
+
+#: uninstall.cpp:1617
+msgid "Continue..."
+msgstr "Продолжить..."
