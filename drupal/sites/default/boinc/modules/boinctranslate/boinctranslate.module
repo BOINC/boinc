@@ -215,12 +215,12 @@ function boinctranslate_initialize_languages() {
           '%project' => $project,
         );
         drupal_set_message(
-          t('No languages found for %project.', $variables),
+          t('No languages found for %project. (Does the configured account have sufficient privileges at Transifex?)', $variables),
           'error'
         );
         watchdog(
           'boinctranslate',
-          'No languages found for %project.',
+          'No languages found for %project. (Does the configured account have sufficient privileges at Transifex?)',
           $variables,
           WATCHDOG_ERROR
         );
