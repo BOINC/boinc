@@ -105,6 +105,9 @@ function boinctranslate_initialize_languages() {
         $installed_languages = language_list();
         $available_languages = _locale_get_predefined_list();
         $language_map = array(
+          'it_IT' => 'it',
+          'pt_BR' => 'pt-br',
+          'pt_PT' => 'pt-pt',
           'zh_CN' => 'zh-hans',
         );
         $reverse_map = array_flip($language_map);
