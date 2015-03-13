@@ -112,13 +112,6 @@ function boinctranslate_admin_settings(&$form_state) {
     '#collapsed' => FALSE,
     '#attributes' => array('class' => '')
   );
-  $form['tools']['import_now'] = array(
-    '#type' => 'button',
-    '#value' => t('Import translations'),
-    '#executes_submit_callback' => TRUE,
-    '#submit' => array('boinctranslate_admin_settings_import_now'),
-    '#disabled' => !$import_enabled,
-  );
   $form['tools']['initialize_languages'] = array(
     '#type' => 'button',
     '#value' => t('Install official BOINC languages'),
@@ -131,6 +124,13 @@ function boinctranslate_admin_settings(&$form_state) {
     '#value' => t('Export translations'),
     '#executes_submit_callback' => TRUE,
     '#submit' => array('boinctranslate_admin_settings_export_now'),
+    '#disabled' => !$import_enabled,
+  );
+  $form['tools']['import_now'] = array(
+    '#type' => 'button',
+    '#value' => t('Import translations'),
+    '#executes_submit_callback' => TRUE,
+    '#submit' => array('boinctranslate_admin_settings_import_now'),
     '#disabled' => !$import_enabled,
   );
   
