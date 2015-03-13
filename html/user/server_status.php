@@ -264,8 +264,8 @@ function get_daemon_status() {
     }
     $daemons = $c->daemons;
     $config = $c->config;
-    $main_host = (string)$config->host;
-    $master_url = (string)$config->master_url;
+    $main_host = trim((string)$config->host);
+    $master_url = trim((string)$config->master_url);
     $u = parse_url($master_url);
     if (!array_key_exists("host", $u)) {
         print_r($u);
@@ -273,7 +273,7 @@ function get_daemon_status() {
     }
     $master_host = $u["host"];
     if ($config->www_host) {
-        $web_host = (string) $config->www_host;
+        $web_host = trim((string) $config->www_host);
     } else {
         $web_host = $main_host;
     }
@@ -283,7 +283,7 @@ function get_daemon_status() {
 
     // the upload and download servers are sort of daemons too
     //
-    $url = (string) $config->download_url;
+    $url = trim((string) $config->download_url);
     $u = parse_url($url);
     $h = $u["host"];
     if ($h == $master_host) {
@@ -295,7 +295,7 @@ function get_daemon_status() {
     } else {
         $have_remote = true;
     }
-    $url = (string) $config->upload_url;
+    $url = trim((string) $config->upload_url);
     $u = parse_url($url);
     $h = $u["host"];
     if ($h == $master_host) {
