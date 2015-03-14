@@ -146,10 +146,10 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     m_Notebook->AddPage( m_panelNetwork, _("Network"), true );
 
     m_panelDiskAndMemory = createDiskAndMemoryTab(m_Notebook);
-    m_Notebook->AddPage( m_panelDiskAndMemory, _("Disk && Memory"), true );
+    m_Notebook->AddPage( m_panelDiskAndMemory, _("Disk and memory"), true );
 
     m_panelDailySchedules = createDailySchedulesTab(m_Notebook);
-    m_Notebook->AddPage( m_panelDailySchedules, _("Daily Schedules"), true );
+    m_Notebook->AddPage( m_panelDailySchedules, _("Daily schedules"), true );
 
     notebookSizer->Add( m_Notebook, 1, wxEXPAND | wxALL, 1 );
 
