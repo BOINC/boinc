@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Sami Nordlund <sami.nordlund@kolumbus.fi>, 2015
 # Vesa Nilakari, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2015-03-05 21:32+0000\n"
+"PO-Revision-Date: 2015-03-14 11:42+0000\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/boinc/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +21,7 @@ msgstr ""
 
 #: acct_mgr.cpp:450 acct_mgr.cpp:459
 msgid "Message from account manager"
-msgstr "Viesti tilinhallinnalta"
+msgstr "Viesti tilihallitsijalta"
 
 #: client_msgs.cpp:81
 msgid "Message from server"
