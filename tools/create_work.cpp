@@ -41,6 +41,8 @@
 
 using std::string;
 
+bool verbose = false;
+
 void usage() {
     fprintf(stderr,
         "usage: create_work [options] infile1 infile2 ...\n"
@@ -73,6 +75,7 @@ void usage() {
         "   [ --target_nresults n ]\n"
         "   [ --target_team ID ]\n"
         "   [ --target_user ID ]\n"
+        "   [ --verbose ]\n"
         "   [ --wu_id ID ]   ID of existing workunit record (used by boinc_submit)\n"
         "   [ --wu_name name ]              default: generate a name based on app name\n"
         "   [ --wu_template filename ]      default: appname_in\n"
@@ -291,6 +294,8 @@ int main(int argc, char** argv) {
             id.nbytes = atof(argv[++i]);
             strcpy(id.md5, argv[++i]);
             jd.infiles.push_back(id);
+        } else if (arg(argv, i, "verbose")) {
+            verbose = true;
         } else {
             if (!strncmp("-", argv[i], 1)) {
                 fprintf(stderr, "create_work: bad argument '%s'\n", argv[i]);
@@ -473,6 +478,9 @@ void JOB_DESC::create() {
     if (retval) {
         fprintf(stderr, "create_work: %s\n", boincerror(retval));
         exit(1);
+    }
+    if (verbose) {
+        fprintf(stderr, "created workunit; name %s, ID %u\n", wu.name, wu.id);
     }
     if (assign_flag) {
         DB_ASSIGNMENT assignment;
