@@ -293,6 +293,22 @@ function boinctranslate_export_translations() {
       else {
         drupal_set_message('Established new translation resource at Transifex');
       }
+      // Ensure this exported project resource is in the config
+      $resource_config = (variable_get(
+        'boinc_translate_transifex_project_resources', ''
+      ));
+      $resource_names = boinctranslate_parse_resources($resource_config);
+      if (!in_array('drupal-project', $resource_names)) {
+        $resource_config .= "\n" . 'drupal-project';
+        variable_set(
+          'boinc_translate_transifex_project_resources',
+          $resource_config
+        );
+        drupal_set_message(
+          'Added drupal-project to Project-specific resources'
+        );
+      }
+      // Try to export translations for all enabled languages
       foreach ($enabled_languages as $langcode => $language_name) {
         if ($langcode == en) {
           continue;
