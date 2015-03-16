@@ -104,10 +104,6 @@ function boinctranslate_initialize_languages() {
       
         $installed_languages = language_list();
         $available_languages = _locale_get_predefined_list();
-        $language_map = array(
-          'zh_CN' => 'zh-hans',
-        );
-        $reverse_map = array_flip($language_map);
         $transifex_languages = array();
         $process_batches = FALSE;
         
@@ -115,9 +111,6 @@ function boinctranslate_initialize_languages() {
         foreach ($response as $language) {
           $posix_code = $language['language_code'];
           $rfc_code = strtolower(str_replace('_', '-', $posix_code));
-          if (isset($language_map[$posix_code])) {
-            $rfc_code = $language_map[$posix_code];
-          }
           if (!isset($installed_languages[$rfc_code])) {
             // See if this language can be installed from a predefined list
             if (isset($available_languages[$rfc_code])) {
