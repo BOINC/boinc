@@ -52,17 +52,22 @@ function usage() {
     --gzip      make a gzipped version of file for compressed download
                 (use with <gzip/> in the input template)
     --copy      copy the file (default is to move it)
+    --verbose   verbose output
     path        The file to stage; if directory, stage all files in that dir
 ");
 }
 
 function stage_file($path) {
-    global $download_dir, $fanout, $copy, $gzip;
+    global $download_dir, $fanout, $copy, $gzip, $verbose;
 
     if (!file_exists($path)) error_exit("no such file: $path\n");
     $file = basename($path);
     $dl_path = dir_hier_path($file, $download_dir, $fanout);
     $dl_md5_path = "$dl_path.md5";
+
+    if ($verbose) {
+        echo "staging $file to $dl_path\n";
+    }
 
     // compute the file's MD5
     //
@@ -80,19 +85,27 @@ function stage_file($path) {
             $dl_md5 = md5_file($dl_path);
         }
         if ($md5 != $dl_md5) {
-            error_exit("There is already a file in your project's download directory
-    with that name, but different contents.
-    This is not allowed by BOINC, which requires that files are 'immutable'.
-    Please use a different file name.
-    ");
+            error_exit("
+There is already a file in your project's download directory with that name,
+but with different contents.
+This is not allowed by BOINC, which requires that files be immutable.
+Please use a different file name.
+");
+        }
+        if ($verbose) {
+            echo "    file already exists as $dl_path\n";
         }
     } else {
         // move or copy the file
         //
         if ($copy) {
-            copy($path, $dl_path);
+            $ret = copy($path, $dl_path);
+            if (!$ret) error_exit("    copy failed\n");
+            if ($verbose) echo "    copied file\n";
         } else {
-            rename($path, $dl_path);
+            $ret = rename($path, $dl_path);
+            if (!$ret) error_exit("    copy failed\n");
+            if ($verbose) echo "    moved file\n";
         }
         @unlink($dl_md5_path);
     }
@@ -101,7 +114,9 @@ function stage_file($path) {
     //
     if (!file_exists($dl_md5_path)) {
         $x = $md5." ".$file_size."\n";
-        file_put_contents($dl_md5_path, $x);
+        $ret = file_put_contents($dl_md5_path, $x);
+        if (!$ret) error_exit("failed to create MD5 file $dl_md5_path\n");
+        if ($verbose) echo "    created MD5 file $dl_md5_path\n";
     }
 
     // make gzipped version if needed
@@ -113,6 +128,7 @@ function stage_file($path) {
             if ($retval) {
                 error_exit("failed to gzip file: $output\n");
             }
+            if ($verbose) echo "    created .gzip file $dl_gzip_path\n";
         }
     }
 }
@@ -125,6 +141,7 @@ if ($argc < 2) usage();
 
 $gzip = false;
 $copy = false;
+$verbose = false;
 
 for ($i=1; $i<$argc-1; $i++) {
     switch($argv[$i]) {
@@ -133,6 +150,9 @@ for ($i=1; $i<$argc-1; $i++) {
         break;
     case "--copy":
         $copy = true;
+        break;
+    case "--verbose":
+        $verbose = true;
         break;
     default:
         usage();
