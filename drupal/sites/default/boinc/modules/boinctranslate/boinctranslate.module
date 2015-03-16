@@ -274,7 +274,6 @@ function boinctranslate_export_translations() {
           'category' => 'Drupal',
           'content' => boinctranslate_get_po('en', 'project'),
         );
-        drupal_set_message('Establishing new translation resource...');
       }
       else {
         // Update the source
@@ -282,13 +281,18 @@ function boinctranslate_export_translations() {
         $post = array(
           'content' => boinctranslate_get_po('en', 'project')
         );
-        drupal_set_message('Updating translation resource...');
       }
       $result = boinctranslate_transifex_request($path, $post);
     }
     
     if (substr($result, 0, 6) != 'ERROR:') {
       $enabled_languages = locale_language_list();
+      if ($source_exists) {
+        drupal_set_message('Updated source translation strings at Transifex');
+      }
+      else {
+        drupal_set_message('Established new translation resource at Transifex');
+      }
       foreach ($enabled_languages as $langcode => $language_name) {
         if ($langcode == en) {
           continue;
