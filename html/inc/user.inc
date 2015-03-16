@@ -561,11 +561,16 @@ function make_user(
 
     $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, 1, 1, '$cross_project_id', '$passwd_hash')");
 
-    if ($uid) {
-        return BoincUser::lookup_id($uid);
-    } else {
+    if (!$uid) {
         return null;
     }
+    $user = BoincUser::lookup_id($uid);
+    if (defined('RECORD_USER_IP')) {
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $ip = BoincDb::escape_string($ip);
+        $user->update("venue='$ip'");
+    }
+    return $user;
 }
 
 function make_user_ldap($email_addr, $name) {

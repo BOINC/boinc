@@ -80,7 +80,7 @@ if ($user) {
         xml_error(ERR_DB_NOT_UNIQUE);
     }
     
-    if(defined('INVITE_CODES')) {
+    if (defined('INVITE_CODES')) {
         error_log("Account for '$email_addr' created using invitation code '$invite_code'");
     }
 }
