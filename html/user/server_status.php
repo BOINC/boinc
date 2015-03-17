@@ -130,6 +130,9 @@ function show_status_html($x) {
     if ($daemons->missing_remote_status) {
         echo "<br>Status of remote daemons is missing\n";
     }
+    if (function_exists('server_status_project_info')) {
+        server_status_project_info();
+    }
     echo "</td><td>\n";
     echo "<h2>".tra("Computing status")."</h2>\n";
     start_table();
