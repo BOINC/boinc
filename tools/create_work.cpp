@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2014 University of California
+// Copyright (C) 2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -42,6 +42,7 @@
 using std::string;
 
 bool verbose = false;
+bool continue_on_error = false;
 
 void usage() {
     fprintf(stderr,
@@ -296,6 +297,8 @@ int main(int argc, char** argv) {
             jd.infiles.push_back(id);
         } else if (arg(argv, i, "verbose")) {
             verbose = true;
+        } else if (arg(argv, i, "continue_on_error")) {
+            continue_on_error = true;
         } else {
             if (!strncmp("-", argv[i], 1)) {
                 fprintf(stderr, "create_work: bad argument '%s'\n", argv[i]);
@@ -420,7 +423,11 @@ int main(int argc, char** argv) {
                 );
                 if (retval) {
                     fprintf(stderr, "create_work() failed: %d\n", retval);
-                    exit(1);
+                    if (continue_on_error) {
+                        continue;
+                    } else {
+                        exit(1);
+                    }
                 }
                 if (values.size()) {
                     values += ",";
