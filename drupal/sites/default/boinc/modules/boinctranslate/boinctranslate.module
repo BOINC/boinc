@@ -306,17 +306,27 @@ function boinctranslate_export_translations() {
         if ($langcode == en) {
           continue;
         }
-        $path = "project/{$project_name}/resource/drupal-project/translation/{$langcode}";
-        $post = array(
-          'content' => boinctranslate_get_po($langcode, 'project'),
-        );
-        $result = boinctranslate_transifex_request($path, $post, TRUE, TRUE);
-        drupal_set_message("Updating {$language_name} translations...");
-        if (substr($result, 0, 6) == 'ERROR:') {
-          drupal_set_message(
-            "Unable to update {$language_name} translations: {$result}",
-            'warning'
+        $po_file = boinctranslate_get_po($langcode, 'project');
+        if ($po_file) {
+          $path = "project/{$project_name}/resource/drupal-project/translation/{$langcode}";
+          $post = array(
+            'content' => $po_file,
           );
+          $result = boinctranslate_transifex_request($path, $post, TRUE, TRUE);
+          if (!is_array($result)
+          AND substr($result, 0, 6) == 'ERROR:') {
+            drupal_set_message(
+              "Unable to update {$language_name} translations: {$result}",
+              'warning'
+            );
+          }
+          else {
+            drupal_set_message("Updated {$language_name} translations");
+            //drupal_set_message('DEBUG: <pre>'.print_r($result,1).'</pre>');
+          }
+        }
+        else {
+          drupal_set_message("No translations to export for {$language_name}");
         }
       }
     }
@@ -381,7 +391,7 @@ function boinctranslate_transifex_request($path, $post = NULL, $json = TRUE, $us
     return json_decode($response_body, TRUE);
   }
   else {
-    return $response_body;
+    return (string) $response_body;
   }
 }
 
@@ -415,8 +425,19 @@ function boinctranslate_get_po($langcode, $type = 'standard') {
   foreach ($textgroups as $textgroup) {
     $strings += _locale_export_get_strings($language, $textgroup);
   }
+  if ($langcode != 'en') {
+    // If not the source language, remove untranslated strings from the ouput
+    foreach ($strings as $i => $string) {
+      if (!$string['translation']) {
+        unset($strings[$i]);
+      }
+    }
+  }
+  if ($strings) {
+    return _locale_export_po_generate($language, $strings);
+  }
   
-  return _locale_export_po_generate($language, $strings);
+  return NULL;
 }
 
 /**
