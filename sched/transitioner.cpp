@@ -25,6 +25,7 @@
 //   [ --d x ]               debug level x
 //   [ --mod n i ]           process only WUs with (id mod n) == i
 //   [ --sleep_interval x ]  sleep x seconds if nothing to do
+//   [ --wu_id n ]           transition WU n (debugging)
 
 #include "config.h"
 #include <vector>
@@ -67,6 +68,7 @@ int mod_n, mod_i;
 bool do_mod = false;
 bool one_pass = false;
 int sleep_interval = DEFAULT_SLEEP_INTERVAL;
+int wu_id = 0;
 
 void signal_handler(int) {
     log_messages.printf(MSG_NORMAL, "Signaled by simulator\n");
@@ -692,6 +694,11 @@ bool do_pass() {
     // loop over entries that are due to be checked
     //
     while (1) {
+        if (wu_id) {
+            // kludge to tell enumerate to return a given WU
+            mod_n = 1;
+            mod_i = wu_id;
+        }
         retval = transitioner.enumerate(
             (int)time(0), SELECT_LIMIT, mod_n, mod_i, items
         );
@@ -804,6 +811,9 @@ int main(int argc, char** argv) {
         } else if (is_arg(argv[i], "v") || is_arg(argv[i], "version")) {
             printf("%s\n", SVN_VERSION);
             exit(0);
+        } else if (is_arg(argv[i], "wu_id")) {
+            wu_id = atoi(argv[++i]);
+            one_pass = true;
         } else {
             log_messages.printf(MSG_CRITICAL, "unknown command line argument: %s\n\n", argv[i]);
             usage(argv[0]);

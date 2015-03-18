@@ -1519,10 +1519,17 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
 
     if (!cursor.active) {
         if (wu_id_modulus) {
-            sprintf(mod_clause,
-                " and wu.id %% %d = %d ",
-                wu_id_modulus, wu_id_remainder
-            );
+            // terrible kludge: if rem >= mod, treat it as a WU ID
+            // This is to support the --wu_id debugging feature
+            //
+            if (wu_id_remainder < wu_id_modulus) {
+                sprintf(mod_clause,
+                    " and wu.id %% %d = %d ",
+                    wu_id_modulus, wu_id_remainder
+                );
+            } else {
+                sprintf(mod_clause, " and wu.id = %u ", wu_id_remainder);
+            }
         } else {
             strcpy(mod_clause, "");
         }
