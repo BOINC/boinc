@@ -876,16 +876,16 @@ int VBOX_VM::deregister_vm(bool delete_media) {
     if (SUCCEEDED(rc)) {
         if (delete_media) {
             rc = pSession.CoCreateInstance(CLSID_Session);
-            CHECK_ERROR(rc);
+            if (CHECK_ERROR(rc)) goto CLEANUP;
 
             rc = pMachineRO->LockMachine(pSession, LockType_Write);
-            CHECK_ERROR(rc);
+            if (CHECK_ERROR(rc)) goto CLEANUP;
 
             rc = pSession->get_Console(&pConsole);
-            CHECK_ERROR(rc);
+            if (CHECK_ERROR(rc)) goto CLEANUP;
 
             rc = pSession->get_Machine(&pMachine);
-            CHECK_ERROR(rc);
+            if (CHECK_ERROR(rc)) goto CLEANUP;
 
 
             // Delete snapshots
@@ -1020,6 +1020,7 @@ int VBOX_VM::deregister_vm(bool delete_media) {
         }
     }
 
+CLEANUP:
     return 0;
 }
 
