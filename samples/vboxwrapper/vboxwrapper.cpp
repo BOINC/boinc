@@ -151,7 +151,7 @@ void read_completion_file_info(unsigned long& exit_code, bool& is_notice, string
 bool temporary_exit_file_exists(VBOX_VM& vm) {
     char path[MAXPATHLEN];
     sprintf(path, "shared/%s", vm.temporary_exit_trigger_file.c_str());
-    if (boinc_file_exists(path)) return true;
+    if (vm.temporary_exit_trigger_file.size() && boinc_file_exists(path)) return true;
     return false;
 }
 
