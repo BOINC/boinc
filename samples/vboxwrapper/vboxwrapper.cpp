@@ -121,7 +121,7 @@ void read_fraction_done(double& frac_done, VBOX_VM& vm) {
 bool completion_file_exists(VBOX_VM& vm) {
     char path[MAXPATHLEN];
     sprintf(path, "shared/%s", vm.completion_trigger_file.c_str());
-    if (boinc_file_exists(path)) return true;
+    if (vm.completion_trigger_file.size() && boinc_file_exists(path)) return true;
     return false;
 }
 
