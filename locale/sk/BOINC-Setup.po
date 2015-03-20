@@ -1,70 +1,67 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# aceman, 2015
+# Michal, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: sk\n"
+"PO-Revision-Date: 2015-03-20 22:02+0000\n"
+"Last-Translator: aceman\n"
+"Language-Team: Slovak (http://www.transifex.com/projects/p/boinc/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.5\n"
-"X-Poedit-SearchPath-0: mac_installer\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
-"X-Poedit-KeywordsList: _\n"
+"Language: sk\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: Installer.cpp:124
 #, c-format
 msgid "Sorry, this version of %s requires system 10.5 or higher."
-msgstr ""
+msgstr "Je nám ľúto, táto verzia %s vyžaduje systém verzie 10.5 a vyšší."
 
 #: PostInstall.cpp:130 PostInstall.cpp:1136 uninstall.cpp:1618
 msgid "Yes"
-msgstr ""
+msgstr "Áno"
 
 #: PostInstall.cpp:131 PostInstall.cpp:1137 uninstall.cpp:1619
 msgid "No"
-msgstr ""
+msgstr "Nie"
 
 #: PostInstall.cpp:133
 msgid "Should BOINC run even when no user is logged in?"
-msgstr ""
+msgstr "Má BOINC bežať aj keď nie je prihlásený žiadny používateľ?"
 
 #: PostInstall.cpp:1416
 #, c-format
 msgid ""
-"Users who are permitted to administer this computer will automatically be "
-"allowed to run and control %s.\n"
+"Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
 "\n"
-"Do you also want non-administrative users to be able to run and control %s "
-"on this Mac?"
-msgstr ""
+"Do you also want non-administrative users to be able to run and control %s on this Mac?"
+msgstr "Užívatelia s administrátorskými oprávneniami môžu automaticky spúšťať a ovládať %s.\n\nChcete povoliť spúšťanie a ovládanie %s aj ostatným užívateľom tohoto Macu?"
 
 #: PostInstall.cpp:1444
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
-msgstr ""
+msgstr "Chcete nastaviť %s ako šetrič obrazovky pre všetkých užívateľov %s na tomto Macu?"
 
 #: uninstall.cpp:82
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: uninstall.cpp:136
 msgid "Permission error after relaunch"
-msgstr ""
+msgstr "Chyba oprávnení po reštarte"
 
 #: uninstall.cpp:141
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
-msgstr ""
+msgstr "Odstránenie môže trvať niekoľko minút.\nČakajte, prosím."
 
 #: uninstall.cpp:156
 #, c-format
@@ -72,27 +69,27 @@ msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
 "\n"
 "This will remove the executables but will not touch %s data files."
-msgstr ""
+msgstr "Skutočne chcete odstrániť %s z vášho počítača?\n\nBudú odstránené len spúštacie súbory, dátové súbory %s ostanú nedotknuté."
 
 #: uninstall.cpp:163
 #, c-format
 msgid "Canceled: %s has not been touched."
-msgstr ""
+msgstr "Zrušené: S %s nebolo manipulované."
 
 #: uninstall.cpp:174
 #, c-format
 msgid "An error occurred: error code %d"
-msgstr ""
+msgstr "Nastala chyba: Kód %d"
 
 #: uninstall.cpp:230
 msgid "name  of user"
-msgstr ""
+msgstr "meno používateľa"
 
 #: uninstall.cpp:272
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
-msgstr ""
+msgstr "Chcete z vášho počítača odstrániť aj VirtualBox?\n(VirtualBox bol nainštalovaný spolu s BOINC.)"
 
 #: uninstall.cpp:312
 #, c-format
@@ -104,20 +101,19 @@ msgid ""
 "\n"
 "for each user, the file\n"
 "\"%s\"."
-msgstr ""
+msgstr "Odstránenie bolo dokončené.\n\nMôžete odstrániť nasledovné pozostatky s použitím prehliadača:\nadresár \"%s\"\n\npre každého užívateľa, súbor\n\"%s."
 
 #: uninstall.cpp:840
 #, c-format
 msgid ""
-"Enter your administrator password to completely remove %s from you "
-"computer.\n"
+"Enter your administrator password to completely remove %s from you computer.\n"
 "\n"
-msgstr ""
+msgstr "Napíšte vaše správcovské heslo na úplné odstránenie %s z vášho počítača.\n\n"
 
 #: uninstall.cpp:1616
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušiť"
 
 #: uninstall.cpp:1617
 msgid "Continue..."
-msgstr ""
+msgstr "Pokračovať..."
