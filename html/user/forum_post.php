@@ -117,7 +117,7 @@ if ($force_title && $title){
     );
 }
 
-row2(tra("Message").html_info().post_warning().$body_help,
+row2(tra("Message").html_info().post_warning($forum).$body_help,
      $bbcode_html."<textarea name=\"content\" rows=\"12\" cols=\"80\" class=\"message_field\">".htmlspecialchars($content)."</textarea>"
 );
 

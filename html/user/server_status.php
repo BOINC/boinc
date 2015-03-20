@@ -131,6 +131,7 @@ function show_status_html($x) {
         echo "<br>Status of remote daemons is missing\n";
     }
     if (function_exists('server_status_project_info')) {
+        echo "<br>";
         server_status_project_info();
     }
     echo "</td><td>\n";

@@ -777,15 +777,26 @@ function post_rules() {
     ";
 }
 
-function post_warning() {
-    return "<br><br>
+function post_warning($forum=null) {
+    $x = "<br><br>
         <table><tr><td align=left>
+    ";
+
+    // let projects add extra instructions in specific forums,
+    // e.g. Questions and Problems
+    //
+    if (function_exists('project_forum_post_info')) {
+        $x .= project_forum_post_info($forum);
+    }
+
+    $x .= "
         <font size=-2>
         ".tra("Rules:").post_rules()."
         <a href=moderation.php>".tra("More info")."</a>
         </font>
         </td></tr></table>
     ";
+    return $x;
 }
 
 function notify_subscriber($thread, $user) {
