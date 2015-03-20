@@ -723,6 +723,7 @@ bool do_pass() {
         }
 
         if (!one_pass) check_stop_daemons();
+        if (wu_id) break;
     }
     return did_something;
 }
@@ -740,8 +741,10 @@ void main_loop() {
 
     while (1) {
         log_messages.printf(MSG_DEBUG, "doing a pass\n");
-        if (!do_pass()) {
+        if (1) {
+            bool did_something = do_pass();
             if (one_pass) break;
+            if (did_something) continue;
 #ifdef GCL_SIMULATOR
             continue_simulation("transitioner");
             signal(SIGUSR2, simulator_signal_handler);

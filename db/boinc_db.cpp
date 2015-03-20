@@ -1514,10 +1514,12 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
     int retval;
     char query[MAX_QUERY_LEN];
     char mod_clause[256];;
+    char time_clause[256];
     MYSQL_ROW row;
     TRANSITIONER_ITEM new_item;
 
     if (!cursor.active) {
+        sprintf(time_clause, " wu.transition_time < %d ", transition_time);
         if (wu_id_modulus) {
             // terrible kludge: if rem >= mod, treat it as a WU ID
             // This is to support the --wu_id debugging feature
@@ -1529,6 +1531,7 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
                 );
             } else {
                 sprintf(mod_clause, " and wu.id = %u ", wu_id_remainder);
+                strcpy(time_clause, " true ");
             }
         } else {
             strcpy(mod_clause, "");
@@ -1574,10 +1577,10 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
             "   workunit AS wu "
             "       LEFT JOIN result AS res ON wu.id = res.workunitid "
             "WHERE "
-            "   wu.transition_time < %d %s and transitioner_flags<>%d "
+            "   %s %s and transitioner_flags<>%d "
             "LIMIT "
             "   %d ",
-            transition_time, mod_clause, TRANSITION_NONE, nresult_limit
+            time_clause, mod_clause, TRANSITION_NONE, nresult_limit
         );
 
         retval = db->do_query(query);
