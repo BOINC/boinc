@@ -845,6 +845,7 @@ int main(int argc, char** argv) {
         vboxlog_msg("  This might be a temporary problem and so this job will be rescheduled for another time.");
         pVM->reset_vm_process_priority();
         pVM->poweroff();
+        pVM->dump_hypervisor_logs(true);
         boinc_temporary_exit(86400,
             "VM Hypervisor failed to enter an online state in a timely fashion."
         );
