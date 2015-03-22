@@ -6,7 +6,7 @@
 # Rafał Kaźmierczak <prometh.dragu@gmail.com>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: boinc\n"
+"Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
 "PO-Revision-Date: 2015-02-23 23:14+0000\n"
