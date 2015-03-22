@@ -14,7 +14,7 @@
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 11/17/14\
+Last updated 3/22/15\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0 \
 This document applies to BOINC version 7.4.28 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
@@ -76,12 +76,12 @@ You need to take certain steps to ensure that you use only APIs that are availab
 \f2\fs32 \
 \pard\pardeftab720\sa260
 
-\f0\b0\fs24 \cf0 Apple provides the tools necessary to cross-compile for both BOINC Mac platforms on any Mac running OS 10.8.x or OS 10.9.x.\
+\f0\b0\fs24 \cf0 Apple provides the tools necessary to cross-compile for both BOINC Mac platforms on any Mac running OS 10.8.x or later.\
 You get these tools, including the GCC compilers and system library header files, by installing the Xcode Tools package. \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
 
 \b \cf0 Building BOINC now requires Xcode Tools version 4.6 or later. 
-\b0  \
+\b0 Build with Xcode 5.1.1 or earlier to fully support OS X back to OS 10.5.  Xcode 6 or later will build a screensaver which requires OS 10.6 or later, but all other built components will work with OS 10.5 or later.  \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0 \
 \pard\pardeftab720\sa260
