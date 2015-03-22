@@ -254,20 +254,6 @@ int VBOX_VM::create_vm() {
 
     // Tweak the VM's Network Configuration
     //
-    if (enable_network) {
-        vboxlog_msg("Enabling VM Network Access.");
-        command  = "modifyvm \"" + vm_name + "\" ";
-        command += "--cableconnected1 on ";
-        retval = vbm_popen(command, output, "enable network");
-        if (retval) return retval;
-    } else {
-        vboxlog_msg("Disabling VM Network Access.");
-        command  = "modifyvm \"" + vm_name + "\" ";
-        command += "--cableconnected1 off ";
-        retval = vbm_popen(command, output, "disable network");
-        if (retval) return retval;
-    }
-
     if (network_bridged_mode) {
         vboxlog_msg("Setting Network Configuration for Bridged Mode.");
         command  = "modifyvm \"" + vm_name + "\" ";
@@ -295,6 +281,20 @@ int VBOX_VM::create_vm() {
         command += "--cableconnected1 off ";
 
         retval = vbm_popen(command, output, "set nat mode");
+        if (retval) return retval;
+    }
+
+    if (enable_network) {
+        vboxlog_msg("Enabling VM Network Access.");
+        command  = "modifyvm \"" + vm_name + "\" ";
+        command += "--cableconnected1 on ";
+        retval = vbm_popen(command, output, "enable network");
+        if (retval) return retval;
+    } else {
+        vboxlog_msg("Disabling VM Network Access.");
+        command  = "modifyvm \"" + vm_name + "\" ";
+        command += "--cableconnected1 off ";
+        retval = vbm_popen(command, output, "disable network");
         if (retval) return retval;
     }
 
