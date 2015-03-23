@@ -444,10 +444,10 @@ function boinctranslate_get_po($langcode, $type = 'standard') {
  *
  */
 function boinctranslate_refresh_translations() {
-  require_once(getcwd() . '/includes/locale.inc');
   $errors = array();
   $languages = locale_language_list();
   $translation_resources = array();
+  $operations = array();
   
   $boinc_name = variable_get(
     'boinc_translate_transifex_standard_name', ''
@@ -486,201 +486,171 @@ function boinctranslate_refresh_translations() {
     if ($langcode == 'en') {
       continue;
     }
+    
+    $import_stats = array(
+      'new' => 0,
+      'updated' => 0,
+      'deleted' => 0,
+      'skipped' => 0,
+    );
+  
     foreach ($translation_resources as $project => $translation) {
       foreach ($translation['resources'] as $resource) {
         
-        // Import the configured resources
-        $path = "project/{$project}/resource/{$resource}/translation/{$langcode}";
-        $response = boinctranslate_transifex_request($path);
-        
-        if ($response == '404 NOT FOUND') {
-          drupal_set_message(
-            t('Project resource %name not found in @language.',
-              array(
-                '%name' => "{$project}:{$resource}",
-                '@language' => $language,
-              )
-            ), 'warning'
-          );
-        }
-        elseif ($response) {
-          if (!empty($response['content'])) {
-            $po_text = $response['content'];
-            
-            // Write the translation file to a temporary location
-            $file = new stdClass();
-            $file->filepath = file_save_data($po_text, NULL);
-            $file->filename = basename($file->filepath);
-            if (!$file->filepath) {
-              drupal_set_message(t(
-                'Unable to create temporary file in %tmpdir for @language translation resource %name',
-                array(
-                  '%tmpdir' => file_directory_temp(),
-                  '@language' => $language,
-                  '%name' => "{$project}:{$resource}",
-                )
-              ), 'error');
-              continue;
-            }
-            
-            foreach ($translation['textgroups'] as $textgroup) {
-              watchdog(
-                'boinctranslate',
-                'Importing @language translation of %resource into %group textgroup',
-                array(
-                  '@language' => $language,
-                  '%resource' => "{$project}:{$resource}",
-                  '%group' => $textgroup,
-                ),
-                WATCHDOG_NOTICE
-              );
-              // Import the translations from the file to each related textgroup
-              if (!_boinctranslate_locale_import_po($file, $langcode, LOCALE_IMPORT_OVERWRITE, $textgroup)) {
-                $variables = array(
-                  '@language' => $language,
-                  '%resource' => "{$project}:{$resource}",
-                ); 
-                drupal_set_message(t('The @language translation import of %resource failed.', $variables), 'error');
-                watchdog('locale', 'The @language translation import of %resource failed.', $variables, WATCHDOG_ERROR);
-                break;
-              }
-            }
-          }
-          else {
-            $variables = array(
-              '@language' => $language,
-              '%resource' => "{$project}:{$resource}",
-            );
-            drupal_set_message(t('Unable to read response for @language translation import of %resource.', $variables), 'error');
-            watchdog('locale', 'Unable to read response for @language translation import of %resource.', $variables, WATCHDOG_ERROR);
-          }
-        }
-        else {
-         $variables = array(
-            '@language' => $language,
-            '%resource' => "{$project}:{$resource}",
-          );
-          drupal_set_message(t('Translation data not found in response for @language translation import of %resource.', $variables), 'error');
-          watchdog('locale', 'Translation data not found in response for @language translation import of %resource.', $variables, WATCHDOG_ERROR);
-        }
+        // Add this language to the batch operations
+        $operations[] = array(
+          'boinctranslate_refresh_translations_op',
+          array(
+            $project, $resource, $langcode, $language, $translation['textgroups']
+          ),
+        );
       }
     }
   }
-  // Unset repetitive notices, just show the last import summary message
-  $notices = drupal_get_messages('status');
-  $notice_count = count($notices['status']);
-  if ($notice_count >= 2) {
-    drupal_set_message($notices['status'][$notice_count-2]);
-  }
   
-  
-  /*
-  $textgroups = array(
-    'default' => 'boinc_translation_service_files',
-    'project' => 'boinc_translation_service_files_project',
+  $batch = array(
+    'operations' => $operations,
+    'finished' => 'boinctranslate_refresh_translations_finished',
+    'title' => t('Importing translations'),
+    'init_message' => t('Beginning translation import...'),
+    'progress_message' => t('Applied @current out of @total translation updates.'),
+    'error_message' => t('Translation import has encountered an error.'),
   );
-  foreach ($textgroups as $textgroup => $url_variable) {
-    $urls = variable_get($url_variable, '');
-    // Try to retrieve the files in the given URLs
-    $urls = explode("\n", $urls);
-    foreach ($urls as $url) {
-      $url = trim($url);
-      if (!$url OR $url[0] == '#') {
-        // Ignore empty lines and comments
-        continue;
-      }
-      $result = drupal_http_request($url, array(), 'GET', NULL, 1, 30);
-      if ($result AND $result->code != '404' AND $result->data) {
-        if ($result->data[0] == '{') {
-          // Process as JSON
-          $json_data = json_decode($result->data, TRUE);
-          if (!empty($json_data['content'])) {
-            $result->data = $json_data['content'];
-          }
-        }
-        // Get the language code from the file and add if not yet supported
-        $langcode = substr(strstr($result->data, 'Language: '), 10, 2);
-        if (!$langcode) {
-          drupal_set_message(t('Unable to determine language of translation file: %file', array('%file' => $url)), 'error');
-          continue;
-        }
-        $languages = language_list('language', TRUE);
-        if (!isset($languages[$langcode])) {
-          $predefined = _locale_get_predefined_list();
-          locale_add_language($langcode);
-          drupal_set_message(t('The language %language has been created.', array('%language' => t($predefined[$langcode][0]))));
-        }
-        // Write the translation file to a temporary location
-        $file = new stdClass();
-        $file->filepath = file_save_data($result->data, NULL);
-        $file->filename = basename($file->filepath);
-        if (!$file->filepath) {
-          drupal_set_message(t('Unable to create temporary file in %tmpdir for translation file %url', array('%tmpdir' => file_directory_temp(), '%url' => $url)), 'error');
-          continue;
-        }
-        // Import the translations from the file
-        if (!_boinctranslate_locale_import_po($file, $langcode, LOCALE_IMPORT_OVERWRITE, $textgroup)) {
-          $variables = array('%filename' => $url);
-          drupal_set_message(t('The translation import of %filename failed.', $variables), 'error');
-          watchdog('locale', 'The translation import of %filename failed.', $variables, WATCHDOG_ERROR);
-        }
-      }
-      else {
-        drupal_set_message(t('Translation file not found: %file', array('%file' => $url)), 'error');
-      }
-    }
-  }*/
-  drupal_goto('admin/boinc/translation');
+  
+  batch_set($batch);
+  batch_process();
+  //drupal_set_message('Translations have been imported');
+  //drupal_goto('admin/boinc/translation');
 }
 
 
 /**
+ * Batch operation for importing translations
+ */
+function boinctranslate_refresh_translations_op($project, $resource, $langcode, $language, $textgroups, &$context) {
+  require_once(getcwd() . '/includes/locale.inc');
+  
+  // Import the configured resources
+  $success = FALSE;
+  $message = '';
+  $path = "project/{$project}/resource/{$resource}/translation/{$langcode}";
+  $response = boinctranslate_transifex_request($path);
+  
+  if ($response == '404 NOT FOUND') {
+    $message = "Project resource {$project}:{$resource} not found in {$language}.";
+  }
+  elseif ($response) {
+    if (!empty($response['content'])) {
+      $po_text = $response['content'];
+      
+      // Write the translation file to a temporary location
+      $file = new stdClass();
+      $file->filepath = file_save_data($po_text, NULL);
+      $file->filename = basename($file->filepath);
+      if (!$file->filepath) {
+        $message = 'Unable to create temporary file in '
+          . file_directory_temp() . " for {$language} translation "
+          . "resource {$project}:{$resource}";
+      }
+      
+      foreach ($textgroups as $textgroup) {
+        /*watchdog(
+          'boinctranslate',
+          'Importing @language translation of %resource into %group textgroup',
+          array(
+            '@language' => $language,
+            '%resource' => "{$project}:{$resource}",
+            '%group' => $textgroup,
+          ),
+          WATCHDOG_NOTICE
+        );*/
+        // Import the translations from the file to each related textgroup
+        if (!$results = _boinctranslate_locale_import_po($file, $langcode, LOCALE_IMPORT_OVERWRITE, $textgroup)) {
+          $message = "The {$language} translation import of"
+            . " {$project}:{$resource} failed.";
+          $success = FALSE;
+          break;
+        }
+        else {
+          // Update stats
+          //$import_stats = $results;
+          $success = TRUE;
+        }
+      }
+    }
+    else {
+      $message = "Unable to read response for {$language} translation import"
+        . " of {$project}:{$resource}.";
+    }
+  }
+  else {
+    $message = "Translation data not found in response for {$language}"
+      . " translation import of {$project}:{$resource}.";
+  }
+  
+  if ($success) {
+    // Store some result for post-processing in the finished callback.
+    $context['results']['success'][] = "{$langcode}:{$textgroup}";
+    $message = "Imported translations for {$language} from {$project}:{$resource} ({$results['new']} added, {$results['updated']} refreshed, {$results['deleted']} removed)";
+  }
+  else {
+    $context['results']['failure'][] = "{$langcode}:{$textgroup}";
+    watchdog(
+      'boinctranslate',
+      $message,
+      array(),
+      WATCHDOG_WARNING
+    );
+  }
+  
+  // Update our progress information.
+  $context['sandbox']['progress']++;
+  $context['sandbox']['language'] = $langcode;
+  $context['message'] = $message;
+
+  // Update the progress for the batch engine
+  if ($context['sandbox']['progress'] >= $context['sandbox']['max']) {
+    $context['finished'] = 1;
+  }
+  else {
+    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  }
+}
+
+/**
+ * Batch 'finished' callback
+ */
+function boinctranslate_refresh_translations_finished($success, $results, $operations) {
+  if ($success) {
+    // Let's count our successes
+    $count = count($results['success']);
+    $message = "Successfully completed {$count} import operations";
+    watchdog(
+      'boinctranslate',
+      'Successfully completed @count import operations.',
+      array('@count' => $count),
+      WATCHDOG_INFO
+    ); 
+  }
+  else {
+    // An error occurred.
+    // $operations contains the operations that remained unprocessed.
+    $error_operation = reset($operations);
+    $message = 'An error occurred while processing ' . $error_operation[0] . ' with arguments :' . print_r($error_operation[0], TRUE);
+    watchdog(
+      'boinctranslate',
+      $message,
+      array(),
+      WATCHDOG_WARNING
+    );
+  }
+  drupal_set_message($message);
+  drupal_goto('admin/boinc/translation');
+}
+
+/**
  *
  */
-/*function _boinctranslate_import_po($file, $langcode) {
-  // Try to allocate enough time to parse and import the data.
-  if (function_exists('set_time_limit')) {
-    @set_time_limit(240);
-  }
-
-  // Check if we have the language already in the database.
-  if (!db_fetch_object(db_query("SELECT language FROM {languages} WHERE language = '%s'", $langcode))) {
-    drupal_set_message(t('The language selected for import is not supported.'), 'error');
-    return FALSE;
-  }
-
-  // Get strings from file (returns on failure after a partial import, or on success)
-  $status = _locale_import_read_po('db-store', $file, $mode, $langcode, $group);
-  if ($status === FALSE) {
-    // Error messages are set in _locale_import_read_po().
-    return FALSE;
-  }
-
-  // Get status information on import process.
-  list($headerdone, $additions, $updates, $deletes, $skips) = _locale_import_one_string('db-report');
-
-  if (!$headerdone) {
-    drupal_set_message(t('The translation file %filename appears to have a missing or malformed header.', array('%filename' => $file->filename)), 'error');
-  }
-
-  // Clear cache and force refresh of JavaScript translations.
-  _locale_invalidate_js($langcode);
-  cache_clear_all('locale:', 'cache', TRUE);
-
-  // Rebuild the menu, strings may have changed.
-  menu_rebuild();
-
-  drupal_set_message(t('The translation was successfully imported. There are %number newly created translated strings, %update strings were updated and %delete strings were removed.', array('%number' => $additions, '%update' => $updates, '%delete' => $deletes)));
-  watchdog('locale', 'Imported %file into %locale: %number new strings added, %update updated and %delete removed.', array('%file' => $file->filename, '%locale' => $langcode, '%number' => $additions, '%update' => $updates, '%delete' => $deletes));
-  if ($skips) {
-    $skip_message = format_plural($skips, 'One translation string was skipped because it contains disallowed HTML.', '@count translation strings were skipped because they contain disallowed HTML.');
-    drupal_set_message($skip_message);
-    watchdog('locale', $skip_message, NULL, WATCHDOG_WARNING);
-  }
-  return TRUE;
-}*/
-
-
 function _boinctranslate_locale_import_po($file, $langcode, $mode, $group = NULL) {
   // Try to allocate enough time to parse and import the data.
   if (function_exists('set_time_limit')) {
@@ -702,26 +672,24 @@ function _boinctranslate_locale_import_po($file, $langcode, $mode, $group = NULL
 
   // Get status information on import process.
   list($headerdone, $additions, $updates, $deletes, $skips) = _boinctranslate_locale_import_one_string('db-report');
-
+  
   if (!$headerdone) {
     drupal_set_message(t('The translation file %filename appears to have a missing or malformed header.', array('%filename' => $file->filename)), 'error');
   }
-
+  
   // Clear cache and force refresh of JavaScript translations.
   _locale_invalidate_js($langcode);
   cache_clear_all('locale:', 'cache', TRUE);
 
   // Rebuild the menu, strings may have changed.
   menu_rebuild();
-
-  drupal_set_message(t('The translation was successfully imported. There are %number newly created translated strings, %update strings were updated and %delete strings were removed.', array('%number' => $additions, '%update' => $updates, '%delete' => $deletes)));
-  watchdog('locale', 'Imported %file into %locale: %number new strings added, %update updated and %delete removed.', array('%file' => $file->filename, '%locale' => $langcode, '%number' => $additions, '%update' => $updates, '%delete' => $deletes));
-  if ($skips) {
-    $skip_message = format_plural($skips, 'One translation string was skipped because it contains disallowed HTML.', '@count translation strings were skipped because they contain disallowed HTML.');
-    drupal_set_message($skip_message);
-    watchdog('locale', $skip_message, NULL, WATCHDOG_WARNING);
-  }
-  return TRUE;
+  
+  return array(
+    'new' => $additions,
+    'updated' => $updates,
+    'deleted' => $deletes,
+    'skipped' => $skips,
+  );
 }
 
 /**
@@ -988,10 +956,16 @@ function _boinctranslate_locale_import_one_string($op, $value = NULL, $mode = NU
       */
     }
   }
-  elseif ($mode == LOCALE_IMPORT_OVERWRITE) {
-    // Empty translation, remove existing if instructed.
-    db_query("DELETE FROM {locales_target} WHERE language = '%s' AND lid = %d AND plid = %d AND plural = %d", $langcode, $lid, $plid, $plural);
-    $report['deletes']++;
+  elseif ($mode == LOCALE_IMPORT_OVERWRITE AND $lid) {
+    $exists = (bool) db_result(db_query("SELECT lid FROM {locales_target} WHERE lid = %d AND language = '%s'", $lid, $langcode));
+    if ($exists) {
+      // Empty translation, remove existing if instructed.
+      db_query("DELETE FROM {locales_target} WHERE language = '%s' AND lid = %d AND plid = %d AND plural = %d", $langcode, $lid, $plid, $plural);
+      $report['deletes']++;
+    }
+  }
+  else {
+    $report['skips']++;
   }
 
   return $lid;
