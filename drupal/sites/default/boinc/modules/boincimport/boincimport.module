@@ -3383,7 +3383,7 @@ function boincimport_subscriptions_finished($success, $results, $operations) {
     );
     watchdog('boincimport',
       'Successfully imported @count subscriptions for @distinct users.',
-      array('@count' => $subscriptions_imported, '@istinct' => $user_count),
+      array('@count' => $subscriptions_imported, '@distinct' => $user_count),
       WATCHDOG_INFO
     ); 
     // Set the subscription import successful flag in the variable table
