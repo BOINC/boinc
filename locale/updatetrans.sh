@@ -15,7 +15,7 @@ for file in `find -name 'BOINC-Manager.po'` ; do
 
   cd $projdir/${locale}
  
-  if test ${template_name}.po -nt ${template_name}.mo
+  if test ${template_name}.po -nt ${template_name}.mo.flag
   then
 
     # Compile the PO file into an MO file.
@@ -26,7 +26,7 @@ for file in `find -name 'BOINC-Manager.po'` ; do
     
     # Touch each file to adjust timestamps
     touch ${template_name}.po
-    touch ${template_name}.mo 
+    touch ${template_name}.mo.flag 
 
   fi  
 done
@@ -41,7 +41,7 @@ for file in `find -name 'BOINC-Client.po'` ; do
 
   cd $projdir/${locale}
  
-  if test ${template_name}.po -nt ${template_name}.mo
+  if test ${template_name}.po -nt ${template_name}.mo.flag
   then
 
     # Compile the PO file into an MO file.
@@ -52,7 +52,7 @@ for file in `find -name 'BOINC-Client.po'` ; do
     
     # Touch each file to adjust timestamps
     touch ${template_name}.po
-    touch ${template_name}.mo 
+    touch ${template_name}.mo.flag
 
   fi  
 done
@@ -67,7 +67,7 @@ for file in `find -name 'BOINC-Web.po'` ; do
 
   cd $projdir/${locale}
  
-  if test ${template_name}.po -nt ${template_name}.mo
+  if test ${template_name}.po -nt ${template_name}.mo.flag
   then
 
     # Compile the PO file into an MO file.
@@ -78,7 +78,7 @@ for file in `find -name 'BOINC-Web.po'` ; do
     
     # Touch each file to adjust timestamps
     touch ${template_name}.po
-    touch ${template_name}.mo 
+    touch ${template_name}.mo.flag
 
   fi  
 done
@@ -93,7 +93,7 @@ for file in `find -name 'BOINC-Setup.po'` ; do
 
   cd $projdir/${locale}
  
-  if test ${template_name}.po -nt ${template_name}.mo
+  if test ${template_name}.po -nt ${template_name}.mo.flag
   then
 
     # Compile the PO file into an MO file.
@@ -104,7 +104,7 @@ for file in `find -name 'BOINC-Setup.po'` ; do
     
     # Touch each file to adjust timestamps
     touch ${template_name}.po
-    touch ${template_name}.mo 
+    touch ${template_name}.mo.flag
 
   fi  
 done
