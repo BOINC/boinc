@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2015-02-23 23:14+0000\n"
+"PO-Revision-Date: 2015-03-24 19:31+0000\n"
 "Last-Translator: Rafał Kaźmierczak <prometh.dragu@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/boinc/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -73,7 +73,7 @@ msgstr "Czy na pewno chcesz całkowicie usunąć %s ze swojego komputera?\n\nSpo
 #: uninstall.cpp:163
 #, c-format
 msgid "Canceled: %s has not been touched."
-msgstr "Anulowano: nie dotknięto %s."
+msgstr "Anulowano: nie naruszono %s."
 
 #: uninstall.cpp:174
 #, c-format
