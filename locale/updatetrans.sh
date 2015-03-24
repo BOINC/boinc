@@ -3,19 +3,17 @@
 # Look for .po files modified later than .mo, and regenerate .mo file
 # Then commit and push changes.
 
-# This is run in the Pootle copy of the source tree (~/pootle/repos/boinctrunk)
-# It's run from pootle/update.sh, which is run from cron every 12 hours.
-#
 projname=boinc
 projdir=/home/boincadm/rwalton/$projname/locale
 
 cd $projdir
 
-
 for file in `find -name 'BOINC-Manager.po'` ; do
   dir=`dirname $file`
   locale=`basename $dir`
-  template_name=${projdir}/${locale}/BOINC-Manager
+  template_name=BOINC-Manager
+
+  cd $projdir/${locale}
  
   if test ${template_name}.po -nt ${template_name}.mo
   then
@@ -33,11 +31,15 @@ for file in `find -name 'BOINC-Manager.po'` ; do
   fi  
 done
 
+
+cd $projdir
 
 for file in `find -name 'BOINC-Client.po'` ; do
   dir=`dirname $file`
   locale=`basename $dir`
-  template_name=${projdir}/${locale}/BOINC-Client
+  template_name=BOINC-Client
+
+  cd $projdir/${locale}
  
   if test ${template_name}.po -nt ${template_name}.mo
   then
@@ -55,11 +57,15 @@ for file in `find -name 'BOINC-Client.po'` ; do
   fi  
 done
 
+
+cd $projdir
 
 for file in `find -name 'BOINC-Web.po'` ; do
   dir=`dirname $file`
   locale=`basename $dir`
-  template_name=${projdir}/${locale}/BOINC-Web
+  template_name=BOINC-Web
+
+  cd $projdir/${locale}
  
   if test ${template_name}.po -nt ${template_name}.mo
   then
@@ -78,10 +84,14 @@ for file in `find -name 'BOINC-Web.po'` ; do
 done
 
 
+cd $projdir
+
 for file in `find -name 'BOINC-Setup.po'` ; do
   dir=`dirname $file`
   locale=`basename $dir`
-  template_name=${projdir}/${locale}/BOINC-Setup
+  template_name=BOINC-Setup
+
+  cd $projdir/${locale}
  
   if test ${template_name}.po -nt ${template_name}.mo
   then
