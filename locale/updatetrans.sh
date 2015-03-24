@@ -7,7 +7,7 @@
 # It's run from pootle/update.sh, which is run from cron every 12 hours.
 #
 projname=boinc
-projdir=/home/boincadm/rwalton/$projname
+projdir=/home/boincadm/rwalton/$projname/locale
 
 cd $projdir
 
