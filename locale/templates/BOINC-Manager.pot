@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC 7.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-13 14:24-0500\n"
-"PO-Revision-Date: 2015-03-13 14:24-0500\n"
+"POT-Creation-Date: 2015-03-24 13:36-0500\n"
+"PO-Revision-Date: 2015-03-24 13:37-0500\n"
 "Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Localization Team <boinc_loc@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -1158,11 +1158,11 @@ msgid "Network"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:149
-msgid "Disk && Memory"
+msgid "Disk and memory"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:152
-msgid "Daily Schedules"
+msgid "Daily schedules"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:165
@@ -2870,137 +2870,21 @@ msgstr ""
 msgid "%s - Notices"
 msgstr ""
 
-#: clientgui/sg_DlgPreferences.cpp:270
-msgid "This dialog controls preferences for this computer only."
-msgstr ""
-
-#: clientgui/sg_DlgPreferences.cpp:275
-msgid "Click OK to set preferences."
-msgstr ""
-
-#: clientgui/sg_DlgPreferences.cpp:280
-msgid "Click Clear to restore web-based settings for all preferences listed below."
-msgstr ""
-
-#: clientgui/sg_DlgPreferences.cpp:287
+#: clientgui/sg_DlgPreferences.cpp:187
 msgid "For additional settings, select Computing Preferences in the Advanced View."
 msgstr ""
 
-#: clientgui/sg_DlgPreferences.cpp:315
-msgid "Do work only between:"
+#: clientgui/sg_DlgPreferences.cpp:289
+msgid "GB of disk space"
 msgstr ""
 
-#: clientgui/sg_DlgPreferences.cpp:337
-msgid "Connect to internet only between:"
-msgstr ""
-
-#: clientgui/sg_DlgPreferences.cpp:359
-#: clientgui/sg_DlgPreferences.cpp:376
-msgid "Use no more than:"
-msgstr ""
-
-#: clientgui/sg_DlgPreferences.cpp:372
-msgid "of disk space"
-msgstr ""
-
-#: clientgui/sg_DlgPreferences.cpp:389
-msgid "of the processor"
-msgstr ""
-
-#: clientgui/sg_DlgPreferences.cpp:393
-msgid "Do work while on battery?"
-msgstr ""
-
-#: clientgui/sg_DlgPreferences.cpp:406
-msgid "Do work after idle for:"
-msgstr ""
-
-#: clientgui/sg_DlgPreferences.cpp:431
-msgid "Clear all local preferences listed above and close the dialog"
-msgstr ""
-
-#: clientgui/sg_DlgPreferences.cpp:609
-#: clientgui/sg_DlgPreferences.cpp:612
-#: clientgui/sg_DlgPreferences.cpp:688
-#: clientgui/sg_DlgPreferences.cpp:692
-#: clientgui/sg_DlgPreferences.cpp:704
-#: clientgui/sg_DlgPreferences.cpp:708
-#: clientgui/sg_DlgPreferences.cpp:851
-#: clientgui/sg_DlgPreferences.cpp:862
-msgid "Anytime"
-msgstr ""
-
-#: clientgui/sg_DlgPreferences.cpp:645
-msgid "100 MB"
-msgstr ""
-
-#: clientgui/sg_DlgPreferences.cpp:646
-msgid "200 MB"
-msgstr ""
-
-#: clientgui/sg_DlgPreferences.cpp:647
-msgid "500 MB"
-msgstr ""
-
-#: clientgui/sg_DlgPreferences.cpp:648
-msgid "1 GB"
-msgstr ""
-
-#: clientgui/sg_DlgPreferences.cpp:649
-msgid "2 GB"
-msgstr ""
-
-#: clientgui/sg_DlgPreferences.cpp:650
-msgid "5 GB"
-msgstr ""
-
-#: clientgui/sg_DlgPreferences.cpp:651
-msgid "10 GB"
-msgstr ""
-
-#: clientgui/sg_DlgPreferences.cpp:652
-msgid "20 GB"
-msgstr ""
-
-#: clientgui/sg_DlgPreferences.cpp:653
-msgid "50 GB"
-msgstr ""
-
-#: clientgui/sg_DlgPreferences.cpp:654
-msgid "100 GB"
-msgstr ""
-
-#: clientgui/sg_DlgPreferences.cpp:724
-#, c-format
-msgid "%d MB"
-msgstr ""
-
-#: clientgui/sg_DlgPreferences.cpp:726
-#, c-format
-msgid "%4.2f GB"
-msgstr ""
-
-#: clientgui/sg_DlgPreferences.cpp:767
-#, c-format
-msgid "%d%%"
-msgstr ""
-
-#: clientgui/sg_DlgPreferences.cpp:803
-msgid "0 (Run Always)"
-msgstr ""
-
-#: clientgui/sg_DlgPreferences.cpp:806
-#, c-format
-msgid "%d"
-msgstr ""
-
-#: clientgui/sg_DlgPreferences.cpp:953
+#: clientgui/sg_DlgPreferences.cpp:980
 #, c-format
 msgid "%s - Computing Preferences"
 msgstr ""
 
-#: clientgui/sg_DlgPreferences.cpp:1033
-msgid "Do you really want to clear all local preferences?\n"
+#: clientgui/sg_DlgPreferences.cpp:1061
+msgid "Discard all local preferences and use web-based preferences?"
 msgstr ""
 
 #: clientgui/sg_ProjectCommandPopup.cpp:66
