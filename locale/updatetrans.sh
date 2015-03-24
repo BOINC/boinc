@@ -21,7 +21,10 @@ for file in `find -name 'BOINC-Manager.po'` ; do
   then
 
     # Compile the PO file into an MO file.
-    pocompile ${template_name}.po ${template_name}.mo 
+    pocompile ${template_name}.po ${template_name}.mo
+
+	# Add the updated file to git
+	git add ${template_name}.mo
     
     # Touch each file to adjust timestamps
     touch ${template_name}.po
@@ -41,6 +44,9 @@ for file in `find -name 'BOINC-Client.po'` ; do
 
     # Compile the PO file into an MO file.
     pocompile ${template_name}.po ${template_name}.mo
+
+	# Add the updated file to git
+	git add ${template_name}.mo
     
     # Touch each file to adjust timestamps
     touch ${template_name}.po
@@ -60,6 +66,9 @@ for file in `find -name 'BOINC-Web.po'` ; do
 
     # Compile the PO file into an MO file.
     pocompile ${template_name}.po ${template_name}.mo
+
+	# Add the updated file to git
+	git add ${template_name}.mo
     
     # Touch each file to adjust timestamps
     touch ${template_name}.po
@@ -79,6 +88,9 @@ for file in `find -name 'BOINC-Setup.po'` ; do
 
     # Compile the PO file into an MO file.
     pocompile ${template_name}.po ${template_name}.mo
+
+	# Add the updated file to git
+	git add ${template_name}.mo
     
     # Touch each file to adjust timestamps
     touch ${template_name}.po
