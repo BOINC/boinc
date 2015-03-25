@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-13 14:24-0500\n"
-"PO-Revision-Date: 2015-03-15 05:16+0000\n"
+"POT-Creation-Date: 2015-03-24 13:36-0500\n"
+"PO-Revision-Date: 2015-03-25 08:08+0000\n"
 "Last-Translator: 秦赫阳 <qysnn1@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/boinc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -1154,11 +1154,11 @@ msgid "Network"
 msgstr "网络"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:149
-msgid "Disk && Memory"
-msgstr "磁盘与内存"
+msgid "Disk and memory"
+msgstr "磁盘和内存"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:152
-msgid "Daily Schedules"
+msgid "Daily schedules"
 msgstr "每日计划"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:165
@@ -2856,135 +2856,23 @@ msgstr "关闭"
 msgid "%s - Notices"
 msgstr "%s - 通知"
 
-#: clientgui/sg_DlgPreferences.cpp:270
-msgid "This dialog controls preferences for this computer only."
-msgstr "本对话框中的设置仅对当前计算机有效。"
-
-#: clientgui/sg_DlgPreferences.cpp:275
-msgid "Click OK to set preferences."
-msgstr "点击确定可以保存并应用当前的参数设置。"
-
-#: clientgui/sg_DlgPreferences.cpp:280
-msgid ""
-"Click Clear to restore web-based settings for all preferences listed below."
-msgstr "点击清除可将下列所有参数设置恢复到项目网站上的设定。"
-
-#: clientgui/sg_DlgPreferences.cpp:287
+#: clientgui/sg_DlgPreferences.cpp:187
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
 msgstr "更多的参数设置，请在高级视图下选择“计算参数设置”来查看。"
 
-#: clientgui/sg_DlgPreferences.cpp:315
-msgid "Do work only between:"
-msgstr "计算时间段："
+#: clientgui/sg_DlgPreferences.cpp:289
+msgid "GB of disk space"
+msgstr "GB 的磁盘空间"
 
-#: clientgui/sg_DlgPreferences.cpp:337
-msgid "Connect to internet only between:"
-msgstr "连接互联网的时间段："
-
-#: clientgui/sg_DlgPreferences.cpp:359 clientgui/sg_DlgPreferences.cpp:376
-msgid "Use no more than:"
-msgstr "最多使用："
-
-#: clientgui/sg_DlgPreferences.cpp:372
-msgid "of disk space"
-msgstr "磁盘空间"
-
-#: clientgui/sg_DlgPreferences.cpp:389
-msgid "of the processor"
-msgstr "处理器"
-
-#: clientgui/sg_DlgPreferences.cpp:393
-msgid "Do work while on battery?"
-msgstr "电池供电时仍然计算？"
-
-#: clientgui/sg_DlgPreferences.cpp:406
-msgid "Do work after idle for:"
-msgstr "闲置一定时间后开始计算："
-
-#: clientgui/sg_DlgPreferences.cpp:431
-msgid "Clear all local preferences listed above and close the dialog"
-msgstr "清除所有本地的参数设置并关闭对话框"
-
-#: clientgui/sg_DlgPreferences.cpp:609 clientgui/sg_DlgPreferences.cpp:612
-#: clientgui/sg_DlgPreferences.cpp:688 clientgui/sg_DlgPreferences.cpp:692
-#: clientgui/sg_DlgPreferences.cpp:704 clientgui/sg_DlgPreferences.cpp:708
-#: clientgui/sg_DlgPreferences.cpp:851 clientgui/sg_DlgPreferences.cpp:862
-msgid "Anytime"
-msgstr "任何时候"
-
-#: clientgui/sg_DlgPreferences.cpp:645
-msgid "100 MB"
-msgstr "100 MB"
-
-#: clientgui/sg_DlgPreferences.cpp:646
-msgid "200 MB"
-msgstr "200 MB"
-
-#: clientgui/sg_DlgPreferences.cpp:647
-msgid "500 MB"
-msgstr "500 MB"
-
-#: clientgui/sg_DlgPreferences.cpp:648
-msgid "1 GB"
-msgstr "1 GB"
-
-#: clientgui/sg_DlgPreferences.cpp:649
-msgid "2 GB"
-msgstr "2 GB"
-
-#: clientgui/sg_DlgPreferences.cpp:650
-msgid "5 GB"
-msgstr "5 GB"
-
-#: clientgui/sg_DlgPreferences.cpp:651
-msgid "10 GB"
-msgstr "10 GB"
-
-#: clientgui/sg_DlgPreferences.cpp:652
-msgid "20 GB"
-msgstr "20 GB"
-
-#: clientgui/sg_DlgPreferences.cpp:653
-msgid "50 GB"
-msgstr "50 GB"
-
-#: clientgui/sg_DlgPreferences.cpp:654
-msgid "100 GB"
-msgstr "100 GB"
-
-#: clientgui/sg_DlgPreferences.cpp:724
-#, c-format
-msgid "%d MB"
-msgstr "%d MB"
-
-#: clientgui/sg_DlgPreferences.cpp:726
-#, c-format
-msgid "%4.2f GB"
-msgstr "%4.2f GB"
-
-#: clientgui/sg_DlgPreferences.cpp:767
-#, c-format
-msgid "%d%%"
-msgstr "%d%%"
-
-#: clientgui/sg_DlgPreferences.cpp:803
-msgid "0 (Run Always)"
-msgstr "0 ( 一直运行 )"
-
-#: clientgui/sg_DlgPreferences.cpp:806
-#, c-format
-msgid "%d"
-msgstr "%d"
-
-#: clientgui/sg_DlgPreferences.cpp:953
+#: clientgui/sg_DlgPreferences.cpp:980
 #, c-format
 msgid "%s - Computing Preferences"
 msgstr "%s -计算参数设置"
 
-#: clientgui/sg_DlgPreferences.cpp:1033
-msgid "Do you really want to clear all local preferences?\n"
-msgstr "您确定要清除所有的本地参数设置吗？\n"
+#: clientgui/sg_DlgPreferences.cpp:1061
+msgid "Discard all local preferences and use web-based preferences?"
+msgstr "放弃所有本地设置并使用网站上的设置吗？"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:66
 msgid "Update"
@@ -3970,8 +3858,8 @@ msgstr "退出 %s"
 
 #: clientgui/DlgAdvPreferencesBase.h:45
 msgid "On this day of the week, compute only during these hours."
-msgstr "这一周中的天，计算只在这些时间内。"
+msgstr "在这一周中的此天，只在这些时间内计算。"
 
 #: clientgui/DlgAdvPreferencesBase.h:46
 msgid "On this day of the week, transfer files only during these hours."
-msgstr "这一周中的天，只在这些时间内传输文件。"
+msgstr "在这一周中的此天，只在这些时间内传输文件。"
