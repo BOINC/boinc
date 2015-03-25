@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-13 14:24-0500\n"
-"PO-Revision-Date: 2015-03-13 20:32+0000\n"
+"POT-Creation-Date: 2015-03-24 13:36-0500\n"
+"PO-Revision-Date: 2015-03-25 14:45+0000\n"
 "Last-Translator: Nikolay Sakharov <saharovna@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/boinc/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -1154,11 +1154,11 @@ msgid "Network"
 msgstr "Сеть"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:149
-msgid "Disk && Memory"
+msgid "Disk and memory"
 msgstr "Диск и память"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:152
-msgid "Daily Schedules"
+msgid "Daily schedules"
 msgstr "Ежедневное расписание"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:165
@@ -2856,135 +2856,23 @@ msgstr "Закрыть"
 msgid "%s - Notices"
 msgstr "%s - Уведомления "
 
-#: clientgui/sg_DlgPreferences.cpp:270
-msgid "This dialog controls preferences for this computer only."
-msgstr "Это диалоговое окно управляет настройками только этого компьютера."
-
-#: clientgui/sg_DlgPreferences.cpp:275
-msgid "Click OK to set preferences."
-msgstr "Для сохранения настроек нажмите 'OK'."
-
-#: clientgui/sg_DlgPreferences.cpp:280
-msgid ""
-"Click Clear to restore web-based settings for all preferences listed below."
-msgstr "Нажмите кнопку 'Удалить', чтобы восстановить параметры, указанные на веб-сайте проекта, для всех настроек, перечисленных ниже."
-
-#: clientgui/sg_DlgPreferences.cpp:287
+#: clientgui/sg_DlgPreferences.cpp:187
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
 msgstr "Для дополнительных параметров выберите 'Настройки клиента' в меню 'Полный вид'."
 
-#: clientgui/sg_DlgPreferences.cpp:315
-msgid "Do work only between:"
-msgstr "Обрабатывать только с"
+#: clientgui/sg_DlgPreferences.cpp:289
+msgid "GB of disk space"
+msgstr "ГБ дискового пространства"
 
-#: clientgui/sg_DlgPreferences.cpp:337
-msgid "Connect to internet only between:"
-msgstr "Доступ в интернет только с"
-
-#: clientgui/sg_DlgPreferences.cpp:359 clientgui/sg_DlgPreferences.cpp:376
-msgid "Use no more than:"
-msgstr "Использовать не более:"
-
-#: clientgui/sg_DlgPreferences.cpp:372
-msgid "of disk space"
-msgstr "места на диске"
-
-#: clientgui/sg_DlgPreferences.cpp:389
-msgid "of the processor"
-msgstr "процессора"
-
-#: clientgui/sg_DlgPreferences.cpp:393
-msgid "Do work while on battery?"
-msgstr "Работать на батареях?"
-
-#: clientgui/sg_DlgPreferences.cpp:406
-msgid "Do work after idle for:"
-msgstr "Запуск обработки при простое:"
-
-#: clientgui/sg_DlgPreferences.cpp:431
-msgid "Clear all local preferences listed above and close the dialog"
-msgstr "Удалить локально хранимые настройки для данного компьютера и закрыть диалоговое окно"
-
-#: clientgui/sg_DlgPreferences.cpp:609 clientgui/sg_DlgPreferences.cpp:612
-#: clientgui/sg_DlgPreferences.cpp:688 clientgui/sg_DlgPreferences.cpp:692
-#: clientgui/sg_DlgPreferences.cpp:704 clientgui/sg_DlgPreferences.cpp:708
-#: clientgui/sg_DlgPreferences.cpp:851 clientgui/sg_DlgPreferences.cpp:862
-msgid "Anytime"
-msgstr "всегда"
-
-#: clientgui/sg_DlgPreferences.cpp:645
-msgid "100 MB"
-msgstr "100 Мб"
-
-#: clientgui/sg_DlgPreferences.cpp:646
-msgid "200 MB"
-msgstr "200 Мб"
-
-#: clientgui/sg_DlgPreferences.cpp:647
-msgid "500 MB"
-msgstr "500 Мб"
-
-#: clientgui/sg_DlgPreferences.cpp:648
-msgid "1 GB"
-msgstr "1 Гб"
-
-#: clientgui/sg_DlgPreferences.cpp:649
-msgid "2 GB"
-msgstr "2 Гб"
-
-#: clientgui/sg_DlgPreferences.cpp:650
-msgid "5 GB"
-msgstr "5 Гб"
-
-#: clientgui/sg_DlgPreferences.cpp:651
-msgid "10 GB"
-msgstr "10 Гб"
-
-#: clientgui/sg_DlgPreferences.cpp:652
-msgid "20 GB"
-msgstr "20 Гб"
-
-#: clientgui/sg_DlgPreferences.cpp:653
-msgid "50 GB"
-msgstr "50 Гб"
-
-#: clientgui/sg_DlgPreferences.cpp:654
-msgid "100 GB"
-msgstr "100 Гб"
-
-#: clientgui/sg_DlgPreferences.cpp:724
-#, c-format
-msgid "%d MB"
-msgstr "%d МБ"
-
-#: clientgui/sg_DlgPreferences.cpp:726
-#, c-format
-msgid "%4.2f GB"
-msgstr "%4.2f ГБ"
-
-#: clientgui/sg_DlgPreferences.cpp:767
-#, c-format
-msgid "%d%%"
-msgstr "%d%%"
-
-#: clientgui/sg_DlgPreferences.cpp:803
-msgid "0 (Run Always)"
-msgstr "0 (работать всегда)"
-
-#: clientgui/sg_DlgPreferences.cpp:806
-#, c-format
-msgid "%d"
-msgstr "%d"
-
-#: clientgui/sg_DlgPreferences.cpp:953
+#: clientgui/sg_DlgPreferences.cpp:980
 #, c-format
 msgid "%s - Computing Preferences"
 msgstr "%s - Настройки вычислений"
 
-#: clientgui/sg_DlgPreferences.cpp:1033
-msgid "Do you really want to clear all local preferences?\n"
-msgstr "Вы действительно хотите удалить все локально хранимые настройки?\n"
+#: clientgui/sg_DlgPreferences.cpp:1061
+msgid "Discard all local preferences and use web-based preferences?"
+msgstr "Отменить все локальные настройки и использовать веб-настройки?"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:66
 msgid "Update"
