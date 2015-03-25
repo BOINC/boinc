@@ -303,7 +303,7 @@
   <string name="suspend_delay">初始化延遲。</string>
   <string name="suspend_exclusiveapp">有衝突的程式正在執行。</string>
   <string name="suspend_cpu">您的裝置忙於其他程式。</string>
-  <string name="suspend_network_quota">BOINC已達到網路傳輸限制量。</string>
+  <string name="suspend_network_quota">BOINC已達到網路傳輸上限。</string>
   <string name="suspend_os">被Android系統停止。</string>
   <string name="suspend_wifi">沒有連線到WiFi。</string>
   <string name="suspend_battery_charging">等待電池充電。</string>
@@ -338,9 +338,9 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">版本</string>
   <string name="about_name_long">柏克萊開放式網絡運算平台</string>
-  <string name="about_copyright">\u00A9 2003–2014 美國加州大學柏克萊分校</string>
-  <string name="about_copyright_reserved">保留所有權力。</string>
-  <string name="about_credits">特別感謝Max Planck Institute for Gravitational Physics,IBM Corporation和HTC Corporation的技術支援及貢獻。</string>
+  <string name="about_copyright">\u00A9 2003–2014 University of California, Berkeley.</string>
+  <string name="about_copyright_reserved">All Rights Reserved.</string>
+  <string name="about_credits">特別感謝Max Planck Institute for Gravitational Physics,IBM Corporation和HTC Corporation的技術支援。</string>
   <!--notice notification-->
   <string name="notice_notification_single_header">新訊息來自</string>
   <!--e.g. New notice from SETI@HOME-->
