@@ -134,6 +134,41 @@ public:
 };
 
 
+#ifdef __WXMAC__
+#define CTransparentHyperlinkCtrl wxHyperlinkCtrl
+#else
+class CTransparentHyperlinkCtrl : public wxHyperlinkCtrl
+{
+    DECLARE_DYNAMIC_CLASS (CTransparentHyperlinkCtrl)
+    DECLARE_EVENT_TABLE()
+
+public:
+    CTransparentHyperlinkCtrl();
+    CTransparentHyperlinkCtrl(wxWindow *parent,
+                    wxWindowID id,
+                    const wxString& label, const wxString& url,
+                    const wxPoint& pos = wxDefaultPosition,
+                    const wxSize& size = wxDefaultSize,
+                    long style = wxHL_DEFAULT_STYLE,
+                    const wxString& name = wxHyperlinkCtrlNameStr);
+
+    // Creation function (for two-step construction).
+    bool Create(wxWindow *parent,
+                wxWindowID id,
+                const wxString& label, const wxString& url,
+                const wxPoint& pos = wxDefaultPosition,
+                const wxSize& size = wxDefaultSize,
+                long style = wxHL_DEFAULT_STYLE,
+                const wxString& name = wxHyperlinkCtrlNameStr);
+
+    virtual bool HasTransparentBackground() { return true; };
+
+    virtual void OnEraseBackground(wxEraseEvent& event);
+    virtual void OnPaint(wxPaintEvent& event);
+};
+#endif
+
+
 class CTransparentStaticTextAssociate : public wxPanel
 { 
     DECLARE_DYNAMIC_CLASS (CTransparentStaticTextAssociate)

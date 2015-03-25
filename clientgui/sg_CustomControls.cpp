@@ -126,6 +126,62 @@ void CTransparentButton::OnEraseBackground(wxEraseEvent& WXUNUSED(event))
 }
 
 
+#ifndef __WXMAC__
+
+IMPLEMENT_DYNAMIC_CLASS (CTransparentHyperlinkCtrl, wxHyperlinkCtrl)
+
+BEGIN_EVENT_TABLE(CTransparentHyperlinkCtrl, wxHyperlinkCtrl)
+    EVT_ERASE_BACKGROUND(CTransparentHyperlinkCtrl::OnEraseBackground)
+#ifndef __WXMAC__
+    EVT_PAINT(CTransparentHyperlinkCtrl::OnPaint)
+#endif
+END_EVENT_TABLE()
+
+CTransparentHyperlinkCtrl::CTransparentHyperlinkCtrl() {}
+
+CTransparentHyperlinkCtrl::CTransparentHyperlinkCtrl(wxWindow *parent,
+                    wxWindowID id,
+                    const wxString& label, const wxString& url,
+                    const wxPoint& pos,
+                    const wxSize& size,
+                    long style,
+                    const wxString& name)
+{
+    (void)Create(parent, id, label, url, pos, size, style, name);
+}
+
+bool CTransparentHyperlinkCtrl::Create(wxWindow *parent,
+                wxWindowID id,
+                const wxString& label, const wxString& url,
+                const wxPoint& pos,
+                const wxSize& size,
+                long style,
+                const wxString& name)
+{
+    SetBackgroundStyle(wxBG_STYLE_CUSTOM);
+    bool bRetVal = wxHyperlinkCtrl::Create(parent, id, label, url, pos, size, style|wxTRANSPARENT_WINDOW, name);
+
+    SetBackgroundColour(parent->GetBackgroundColour());
+    SetForegroundColour(wxColour(0, 100, 225));
+
+    return bRetVal;
+}
+
+void CTransparentHyperlinkCtrl::OnEraseBackground(wxEraseEvent& WXUNUSED(event))
+{
+}
+
+void CTransparentHyperlinkCtrl::OnPaint(wxPaintEvent& /*event*/) {
+    wxPaintDC dc(this);
+    wxFont myFont = GetFont();
+    myFont.SetUnderlined(true);
+    dc.SetFont(myFont);
+    dc.DrawText(GetLabel(), 0, 0);
+}
+
+#endif
+
+
 IMPLEMENT_DYNAMIC_CLASS (CTransparentStaticTextAssociate, wxPanel)
 
 BEGIN_EVENT_TABLE(CTransparentStaticTextAssociate, wxPanel)

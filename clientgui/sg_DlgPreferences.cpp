@@ -121,11 +121,16 @@ void CPanelPreferences::CreateControls()
     wxBoxSizer* itemBoxSizer2 = new wxBoxSizer(wxVERTICAL);
     itemDialog1->SetSizer(itemBoxSizer2);
 
-    wxStaticBox* topControlsStaticBox = new wxStaticBox( this, -1, wxEmptyString );
+    wxStaticBox* topSectionStaticBox = new wxStaticBox();
+    topSectionStaticBox->SetBackgroundStyle(wxBG_STYLE_TRANSPARENT);
+    topSectionStaticBox->Create(this, -1, wxEmptyString);
 
-    wxStaticBoxSizer* topControlsSizer = new wxStaticBoxSizer( topControlsStaticBox, wxHORIZONTAL );
+    wxStaticBoxSizer* topSectionSizer = new wxStaticBoxSizer( topSectionStaticBox, wxVERTICAL );
 
-    wxStaticBitmap* bmpWarning = new wxStaticBitmap( topControlsStaticBox, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, 0 );
+    wxBoxSizer* topControlsSizer = new wxBoxSizer( wxHORIZONTAL );
+    topSectionSizer->Add(topControlsSizer);
+    
+    wxStaticBitmap* bmpWarning = new wxStaticBitmap( topSectionStaticBox, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, 0 );
     bmpWarning->SetMinSize( wxSize( 48,48 ) );
     topControlsSizer->Add( bmpWarning, 0, wxALIGN_CENTER_VERTICAL|wxALL, 0 );
     bmpWarning->SetBitmap(wxBitmap(warning_xpm));
@@ -135,7 +140,7 @@ void CPanelPreferences::CreateControls()
     bool usingLocalPrefs = doesLocalPrefsFileExist();
     if (usingLocalPrefs) {
         legendSizer->Add(
-            new CTransparentStaticText( topControlsStaticBox, wxID_ANY,
+            new CTransparentStaticText( topSectionStaticBox, wxID_ANY,
                         _("Using local preferences.\n"
                         "Click \"Use web prefs\" to use web-based preferences from"
                         ), wxDefaultPosition, wxDefaultSize, 0 ),
@@ -143,7 +148,7 @@ void CPanelPreferences::CreateControls()
         );
     } else {
         legendSizer->Add(
-            new CTransparentStaticText( topControlsStaticBox, wxID_ANY,
+            new CTransparentStaticText( topSectionStaticBox, wxID_ANY,
                         _("Using web-based preferences from"),
                         wxDefaultPosition, wxDefaultSize, 0 ),
             0, wxALL, 1
@@ -151,25 +156,42 @@ void CPanelPreferences::CreateControls()
     }
     
      legendSizer->Add(
-        new wxHyperlinkCtrl(
-            topControlsStaticBox, wxID_ANY, *web_prefs_url, *web_prefs_url,
+        new CTransparentHyperlinkCtrl(
+            topSectionStaticBox, wxID_ANY, *web_prefs_url, *web_prefs_url,
             wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE
         ),
-        0, wxLEFT, 5
+        0, wxLEFT|wxEXPAND, 5
     );
     
     if (!usingLocalPrefs) {
         legendSizer->Add(
-            new CTransparentStaticText( topControlsStaticBox, wxID_ANY,
+            new CTransparentStaticText( topSectionStaticBox, wxID_ANY,
                  _("Set values and click OK to use local preferences instead."),
                  wxDefaultPosition, wxDefaultSize, 0 ),
             0, wxALL, 1
         );
     }
   
+#if 1
+    topSectionSizer->AddSpacer( 10 );
+
+    CTransparentStaticLine* itemStaticLine8 = new CTransparentStaticLine( topSectionStaticBox, wxID_ANY, wxDefaultPosition, wxSize(300, 1), wxLI_HORIZONTAL|wxNO_BORDER );
+    itemStaticLine8->SetLineColor(pSkinSimple->GetStaticLineColor());
+    topSectionSizer->Add(itemStaticLine8, 0, wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT, ADJUSTFORXDPI(20));
+
+    topSectionSizer->AddSpacer( 10 );
+
+    CTransparentStaticText* itemStaticText7 = new CTransparentStaticText( topSectionStaticBox, wxID_ANY, _("For additional settings, select Computing Preferences in the Advanced View."), wxDefaultPosition, wxDefaultSize, 0 );
+    
+//    itemStaticText7->SetFont(wxFont(MEDIUM_FONT, wxSWISS, wxNORMAL, wxBOLD, false, _T("Arial")));
+    topSectionSizer->Add(itemStaticText7, 0, wxALL, 0);
+
+    topSectionSizer->AddSpacer( 10 );
+#endif
+
     topControlsSizer->Add( legendSizer, 1, wxALL, 1 );
 
-    m_btnClear = new wxButton( topControlsStaticBox, ID_SGPREFERENCESCLEAR, _("Use web prefs"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_btnClear = new wxButton( topSectionStaticBox, ID_SGPREFERENCESCLEAR, _("Use web prefs"), wxDefaultPosition, wxDefaultSize, 0 );
     m_btnClear->SetToolTip( _("Restore web-based preferences and close the dialog.") );
     if (!usingLocalPrefs) {
         m_btnClear->Hide();
@@ -178,46 +200,50 @@ void CPanelPreferences::CreateControls()
     topControlsSizer->Add( m_btnClear, 0, wxALIGN_BOTTOM|wxALL, 4 );
 
 #ifdef __WXMAC__
-    itemBoxSizer2->Add( topControlsSizer, 0, wxTOP|wxLEFT|wxRIGHT|wxEXPAND, 10 );
+    itemBoxSizer2->Add( topSectionSizer, 0, wxTOP|wxLEFT|wxRIGHT|wxEXPAND, 10 );
 #else
-    itemBoxSizer2->Add( topControlsSizer, 0, wxALL|wxEXPAND, 5 );
+    itemBoxSizer2->Add( topSectionSizer, 0, wxALL|wxEXPAND, 5 );
 #endif
 
-#if 0
-    CTransparentStaticText* itemStaticText7 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("For additional settings, select Computing Preferences in the Advanced View."), wxDefaultPosition, wxDefaultSize, 0 );
-    
-//    itemStaticText7->SetFont(wxFont(MEDIUM_FONT, wxSWISS, wxNORMAL, wxBOLD, false, _T("Arial")));
-    itemFlexGridSizer3->Add(itemStaticText7, 0, wxALL, 0);
-
-    CTransparentStaticLine* itemStaticLine8 = new CTransparentStaticLine( itemDialog1, wxID_ANY, wxDefaultPosition, wxSize(300, 1), wxLI_HORIZONTAL|wxNO_BORDER );
-    itemStaticLine8->SetLineColor(pSkinSimple->GetStaticLineColor());
-    itemBoxSizer2->Add(itemStaticLine8, 0, wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT, ADJUSTFORXDPI(20));
-#endif
 
 //    wxFlexGridSizer* itemFlexGridSizer9 = new wxFlexGridSizer(1, 1, 0, 0);
 //    itemFlexGridSizer9->AddGrowableCol(0);
 //    itemBoxSizer2->Add(itemFlexGridSizer9, 0, wxGROW|wxALL, ADJUSTFORXDPI(5));
 
     wxBoxSizer* itemBoxSizer11 = new wxBoxSizer(wxVERTICAL);
-    itemBoxSizer2->Add(itemBoxSizer11, 0, wxALIGN_CENTER_HORIZONTAL|wxLEFT, ADJUSTFORXDPI(20));
+    itemBoxSizer2->Add(itemBoxSizer11, 0, wxLEFT, ADJUSTFORXDPI(20));
+
+    wxString ProcOnBatteriesTT(_("Check this to suspend computing on portables when running on battery power."));
 
     m_chkProcOnBatteries = new wxCheckBox(
         itemDialog1, ID_CHKPROCONBATTERIES,
-        _("Suspend when computer is on battery"), wxDefaultPosition, wxDefaultSize, 0
+        wxEmptyString, wxDefaultPosition, wxDefaultSize, 0
     );
-    m_chkProcOnBatteries->SetToolTip(
-        _("Check this to suspend computing on portables when running on battery power.")
-    );
-    itemBoxSizer11->Add( m_chkProcOnBatteries, 0, wxALL, 5 );
+
+    CTransparentStaticTextAssociate* staticText1 = new CTransparentStaticTextAssociate(
+            itemDialog1, wxID_ANY,
+            _("Suspend when computer is on battery"),
+            wxDefaultPosition, wxDefaultSize, 0
+        );
+    staticText1->AssociateWindow(m_chkProcOnBatteries); // Treat clicks on staticText1 like clicks on m_chkProcOnBatteries
+    
+    addNewRowToSizer(itemBoxSizer11, ProcOnBatteriesTT, m_chkProcOnBatteries, staticText1);
+
+    wxString ProcInUseTT(_("Check this to suspend computing and file transfers when you're using the computer."));
 
     m_chkProcInUse = new wxCheckBox(
         itemDialog1, ID_CHKPROCINUSE,
-        _("Suspend when computer is in use"), wxDefaultPosition, wxDefaultSize, 0
+        wxEmptyString, wxDefaultPosition, wxDefaultSize, 0
     );
-    m_chkProcInUse->SetToolTip(
-        _("Check this to suspend computing and file transfers when you're using the computer.")
-    );
-    itemBoxSizer11->Add( m_chkProcInUse, 0, wxALL, 5 );
+
+    CTransparentStaticTextAssociate* staticText2 = new CTransparentStaticTextAssociate(
+            itemDialog1, wxID_ANY,
+            _("Suspend when computer is in use"),
+            wxDefaultPosition, wxDefaultSize, 0
+        );
+    staticText2->AssociateWindow(m_chkProcInUse);   // Treat clicks on staticText2 like clicks on m_chkProcOnBatteries
+
+    addNewRowToSizer(itemBoxSizer11, ProcInUseTT, m_chkProcInUse, staticText2);
 
     // min idle time
     wxString ProcIdleForTT(_("This determines when the computer is considered 'in use'."));
@@ -242,7 +268,14 @@ void CPanelPreferences::CreateControls()
     wxString ProcEveryDayTT(_("Compute only during a particular period each day."));
     m_chkProcEveryDay = new wxCheckBox(
         itemDialog1, ID_CHKPROCEVERYDAY,
-        _("Compute only between"), wxDefaultPosition, wxDefaultSize, 0 );
+        wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+
+    CTransparentStaticTextAssociate* staticText3 = new CTransparentStaticTextAssociate(
+            itemDialog1, wxID_ANY,
+            _("Compute only between"),
+            wxDefaultPosition, wxDefaultSize, 0
+        );
+    staticText3->AssociateWindow(m_chkProcEveryDay);    // Treat clicks on staticText3 like clicks on m_chkProcEveryDay
 
     m_txtProcEveryDayStart = new wxTextCtrl( itemDialog1, ID_TXTPROCEVERYDAYSTART, wxEmptyString, wxDefaultPosition, timeCtrlSize, wxTE_RIGHT );
 
@@ -250,7 +283,7 @@ void CPanelPreferences::CreateControls()
 
     m_txtProcEveryDayStop = new wxTextCtrl( itemDialog1, ID_TXTPROCEVERYDAYSTOP, wxEmptyString, wxDefaultPosition, timeCtrlSize, wxTE_RIGHT );
 
-    addNewRowToSizer(itemBoxSizer11, ProcEveryDayTT, m_chkProcEveryDay, m_txtProcEveryDayStart, staticText26, m_txtProcEveryDayStop);
+    addNewRowToSizer(itemBoxSizer11, ProcEveryDayTT, m_chkProcEveryDay, staticText3, m_txtProcEveryDayStart, staticText26, m_txtProcEveryDayStop);
 
 
     /*xgettext:no-c-format*/
@@ -267,7 +300,14 @@ void CPanelPreferences::CreateControls()
 
     wxString NetEveryDayTT(_("Transfer files only during a particular period each day."));
     m_chkNetEveryDay = new wxCheckBox(
-        itemDialog1, ID_CHKNETEVERYDAY, _("Transfer files only between"), wxDefaultPosition, wxDefaultSize, 0 );
+        itemDialog1, ID_CHKNETEVERYDAY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+
+    CTransparentStaticTextAssociate* staticText4 = new CTransparentStaticTextAssociate(
+            itemDialog1, wxID_ANY,
+            _("Transfer files only between"),
+            wxDefaultPosition, wxDefaultSize, 0
+        );
+    staticText4->AssociateWindow(m_chkNetEveryDay); // Treat clicks on staticText4 like clicks on m_chkNetEveryDay
 
     m_txtNetEveryDayStart = new wxTextCtrl( itemDialog1, ID_TXTNETEVERYDAYSTART, wxEmptyString, wxDefaultPosition, timeCtrlSize, 0 );
 
@@ -275,20 +315,27 @@ void CPanelPreferences::CreateControls()
 
     m_txtNetEveryDayStop = new wxTextCtrl( itemDialog1, ID_TXTNETEVERYDAYSTOP, wxEmptyString, wxDefaultPosition, timeCtrlSize, 0 );
 
-    addNewRowToSizer(itemBoxSizer11, NetEveryDayTT, m_chkNetEveryDay, m_txtNetEveryDayStart, staticText37, m_txtNetEveryDayStop);
+    addNewRowToSizer(itemBoxSizer11, NetEveryDayTT, m_chkNetEveryDay, staticText4, m_txtNetEveryDayStart, staticText37, m_txtNetEveryDayStop);
 
 
     wxString DiskMaxSpaceTT = wxEmptyString;
     DiskMaxSpaceTT.Printf(_("Limit the total amount of disk space used by %s."), pSkinAdvanced->GetApplicationShortName().c_str());
 
     m_chkDiskMaxSpace = new wxCheckBox (
-        itemDialog1, ID_CHKDISKMAXSPACE, _("Use no more than"), wxDefaultPosition, wxDefaultSize, 0 );
+        itemDialog1, ID_CHKDISKMAXSPACE, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+
+    CTransparentStaticTextAssociate* staticText5 = new CTransparentStaticTextAssociate(
+            itemDialog1, wxID_ANY,
+            _("Use no more than"),
+            wxDefaultPosition, wxDefaultSize, 0
+        );
+    staticText5->AssociateWindow(m_chkDiskMaxSpace);    // Treat clicks on staticText5 like clicks on m_chkDiskMaxSpace
 
     m_txtDiskMaxSpace = new wxTextCtrl( itemDialog1, ID_TXTDISKMAXSPACE,wxEmptyString, wxDefaultPosition, getTextCtrlSize(wxT("9999.99")), wxTE_RIGHT );
 
     CTransparentStaticText* staticText41 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("GB of disk space"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    addNewRowToSizer(itemBoxSizer11, DiskMaxSpaceTT, m_chkDiskMaxSpace, m_txtDiskMaxSpace, staticText41);
+    addNewRowToSizer(itemBoxSizer11, DiskMaxSpaceTT, m_chkDiskMaxSpace, staticText5, m_txtDiskMaxSpace, staticText41);
 
     wxBoxSizer* itemBoxSizer44 = new wxBoxSizer(wxHORIZONTAL);
     itemBoxSizer2->Add(itemBoxSizer44, 0, wxALIGN_RIGHT|wxALL, ADJUSTFORXDPI(5));
@@ -623,9 +670,8 @@ bool CPanelPreferences::SavePreferenceSettings() {
         m_txtProcIdleFor->GetValue().ToDouble(&td);
         global_preferences_working.idle_time_to_run=RoundToHundredths(td);
         global_preferences_override_mask.idle_time_to_run=true;
-    } else {
-        global_preferences_override_mask.idle_time_to_run=false;
     }
+    // else leave idle_time_to_run value and mask unchanged (in case run_gpu_if_user_active is false)
 
     // do work between
     if (m_chkProcEveryDay->IsChecked()) {
@@ -854,29 +900,40 @@ void CPanelPreferences::addNewRowToSizer(
 {
     wxBoxSizer* rowSizer = new wxBoxSizer( wxHORIZONTAL );
     
-#ifdef __WXMSW__
-    // MSW adds space to the right of checkbox label
-    if (first->IsKindOf(CLASSINFO(wxCheckBox))) {
+    bool hasCheckBox = first->IsKindOf(CLASSINFO(wxCheckBox));
+    
+    if (hasCheckBox) {
         rowSizer->Add(first, 0, wxTOP | wxBOTTOM |wxLEFT, 5 );
-    } else
-#endif
+    } else {
         rowSizer->Add(first, 0, wxALL, 5 );
-
+    }
+    
     first->SetToolTip(toolTipText);
     
-    rowSizer->Add(second, 0, wxALL, 2 );
+    // MSW adds space to the right of checkbox label
+    if (hasCheckBox) {
+        rowSizer->Add(second, 0, wxTOP | wxBOTTOM, 5 ); //CTransparentStaticText
+    } else {
+        rowSizer->Add(second, 0, wxALL, 2 );    // wxTextCtrl
+    }
     second->SetToolTip(toolTipText);
 
-    rowSizer->Add(third, 0, wxALL, 5 );
-    third->SetToolTip(toolTipText);
-
+    if (third) {
+        if (hasCheckBox) {
+            rowSizer->Add(third, 0, wxALL, 2 );    // wxTextCtrl
+        } else {
+            rowSizer->Add(third, 0, wxTOP | wxBOTTOM, 5 ); //CTransparentStaticText
+        }
+        third->SetToolTip(toolTipText);
+    }
+    
     if (fourth) {
-        rowSizer->Add(fourth, 0, wxALL, 2 );
+        rowSizer->Add(fourth, 0, wxTOP | wxBOTTOM, 5 ); //CTransparentStaticText
         fourth->SetToolTip(toolTipText);
     }
     
     if (fifth) {
-        rowSizer->Add(fifth, 0, wxALL, 5 );
+        rowSizer->Add(fifth, 0, wxALL, 2 );    // wxTextCtrl
         fifth->SetToolTip(toolTipText);
     }
     
