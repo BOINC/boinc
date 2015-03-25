@@ -102,6 +102,9 @@ public:
     // http://boinc.berkeley.edu/trac/wiki/GraphicsApi#File
     bool enable_graphics_support;
 
+    // whether to use savestate instead of poweroff on exit
+    bool enable_vm_savestate_usage;
+
     // whether to disable automatic checkpoint support
     bool disable_automatic_checkpoints;
 

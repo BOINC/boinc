@@ -876,7 +876,16 @@ int main(int argc, char** argv) {
 
         if (boinc_status.no_heartbeat || boinc_status.quit_request) {
             pVM->reset_vm_process_priority();
-            pVM->poweroff();
+            if (pVM->enable_vm_savestate_usage) {
+                retval = pVM->create_snapshot(elapsed_time);
+                if (!retval) {
+                    checkpoint.update(elapsed_time, current_cpu_time);
+                    boinc_checkpoint_completed();
+                }
+                pVM->stop();
+            } else {
+                pVM->poweroff();
+            }
             boinc_temporary_exit(86400);
         }
         if (boinc_status.abort_request) {
@@ -907,7 +916,12 @@ int main(int argc, char** argv) {
             }
             delete_temporary_exit_trigger_file(*pVM);
             pVM->reset_vm_process_priority();
-            pVM->stop();
+            retval = pVM->create_snapshot(elapsed_time);
+            if (!retval) {
+                checkpoint.update(elapsed_time, current_cpu_time);
+                boinc_checkpoint_completed();
+            }
+            pVM->poweroff();
             if (is_notice) {
                 boinc_temporary_exit(temp_delay, message.c_str(), is_notice);
             } else {

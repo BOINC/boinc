@@ -117,6 +117,7 @@ void VBOX_JOB::clear() {
     enable_remotedesktop = false;
     enable_gbac = false;
     enable_graphics_support = false;
+    enable_vm_savestate_usage = false;
     disable_automatic_checkpoints = false;
     pf_guest_port = 0;
     pf_host_port = 0;
@@ -169,6 +170,7 @@ int VBOX_JOB::parse() {
         else if (xp.parse_bool("enable_remotedesktop", enable_remotedesktop)) continue;
         else if (xp.parse_bool("enable_gbac", enable_gbac)) continue;
         else if (xp.parse_bool("enable_graphics_support", enable_graphics_support)) continue;
+        else if (xp.parse_bool("enable_vm_savestate_usage", enable_vm_savestate_usage)) continue;
         else if (xp.parse_bool("disable_automatic_checkpoints", disable_automatic_checkpoints)) continue;
         else if (xp.parse_int("pf_guest_port", pf_guest_port)) continue;
         else if (xp.parse_int("pf_host_port", pf_host_port)) continue;
