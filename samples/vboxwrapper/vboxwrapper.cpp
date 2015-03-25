@@ -689,7 +689,7 @@ int main(int argc, char** argv) {
         return EXIT_TIME_LIMIT_EXCEEDED;
     }
 
-    retval = pVM->run((current_cpu_time > 0));
+    retval = pVM->run(current_cpu_time > 0);
     if (retval) {
         // All 'failure to start' errors are unrecoverable by default
         bool   unrecoverable_error = true;

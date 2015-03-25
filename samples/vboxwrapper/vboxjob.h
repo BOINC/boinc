@@ -102,6 +102,9 @@ public:
     // http://boinc.berkeley.edu/trac/wiki/GraphicsApi#File
     bool enable_graphics_support;
 
+    // whether to disable automatic checkpoint support
+    bool disable_automatic_checkpoints;
+
     // maximum amount of wall-clock time this VM is allowed to run before
     // considering itself done.
     double job_duration;

@@ -1544,6 +1544,8 @@ int VBOX_VM::create_snapshot(double elapsed_time) {
     CComPtr<IConsole> pConsole;
     CComPtr<IProgress> pProgress;
 
+    if (disable_automatic_checkpoints) return BOINC_SUCCESS;
+
     vboxlog_msg("Creating new snapshot for VM.");
 
     // Pause VM - Try and avoid the live snapshot and trigger an online
@@ -1645,6 +1647,8 @@ int VBOX_VM::restore_snapshot() {
     CComPtr<IConsole> pConsole;
     CComPtr<ISnapshot> pSnapshot;
     CComPtr<IProgress> pProgress;
+
+    if (disable_automatic_checkpoints) return BOINC_SUCCESS;
 
     rc = m_pPrivate->m_pVirtualBox->FindMachine(CComBSTR(vm_name.c_str()), &pMachineRO);
     if (SUCCEEDED(rc)) {

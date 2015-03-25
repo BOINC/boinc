@@ -1140,7 +1140,9 @@ int VBOX_VM::create_snapshot(double elapsed_time) {
     string command;
     string output;
     char buf[256];
-    int retval;
+    int retval = BOINC_SUCCESS;
+
+    if (disable_automatic_checkpoints) return BOINC_SUCCESS;
 
     vboxlog_msg("Creating new snapshot for VM.");
 
@@ -1252,6 +1254,8 @@ int VBOX_VM::restore_snapshot() {
     string command;
     string output;
     int retval = BOINC_SUCCESS;
+
+    if (disable_automatic_checkpoints) return BOINC_SUCCESS;
 
     vboxlog_msg("Restore from previously saved snapshot.");
 
