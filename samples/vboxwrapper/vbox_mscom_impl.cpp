@@ -76,25 +76,25 @@ const char *MachineStateToName(MachineState State)
     retval = virtualbox_check_error(rc, __FUNCTION__, __FILE__, __LINE__)
 
 int virtualbox_check_error(HRESULT rc, char* szFunction, char* szFile, int iLine) {
-    HRESULT local_rc;
+    HRESULT hr;
     CComPtr<IErrorInfo> pErrorInfo;
     CComBSTR strSource;
     CComBSTR strDescription;
 
     if (FAILED(rc)) {
         vboxlog_msg("Error 0x%x in %s (%s:%d)", rc, szFunction, szFile, iLine);
-        local_rc = GetErrorInfo(0, &pErrorInfo);
-        if (SUCCEEDED(local_rc)) {
-            local_rc = pErrorInfo->GetSource(&strSource);
-            if (SUCCEEDED(local_rc) && strSource) {
+        hr = ::GetErrorInfo(0, &pErrorInfo);
+        if (SUCCEEDED(hr) && pErrorInfo) {
+            hr = pErrorInfo->GetSource(&strSource);
+            if (SUCCEEDED(hr) && strSource) {
                 vboxlog_msg("Error Source     : %S", strSource);
             }
-            local_rc = pErrorInfo->GetDescription(&strDescription);
-            if (SUCCEEDED(local_rc) && strDescription) {
+            hr = pErrorInfo->GetDescription(&strDescription);
+            if (SUCCEEDED(hr) && strDescription) {
                 vboxlog_msg("Error Description: %S", strDescription);
             }
         } else {
-            vboxlog_msg("Error: Getting Error Info! rc = 0x%x", local_rc);
+            vboxlog_msg("Error: Getting Error Info! hr = 0x%x", hr);
         }
     }
     return rc;
