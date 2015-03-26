@@ -42,7 +42,7 @@
   <string name="attachproject_hint_projectwebsite_science">更深入了解科學</string>
   <string name="attachproject_hint_projectwebsite_stats">查看貢獻統計</string>
   <string name="attachproject_hint_projectwebsite_community">與其他參與者互動</string>
-  <string name="attachproject_hint_platforms_header">BOINC也支援電腦及筆電，造訪boinc.berkeley.edu了解更多資訊。</string>
+  <string name="attachproject_hint_platforms_header">BOINC也支援電腦及筆電，造訪 boinc.berkeley.edu 了解更多資訊。</string>
   <!--project login-->
   <string name="attachproject_login_loading">正連線到專案伺服器...</string>
   <string name="attachproject_login_image_description">專案標誌。</string>
