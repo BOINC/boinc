@@ -78,18 +78,23 @@ const char *MachineStateToName(MachineState State)
 int virtualbox_check_error(HRESULT rc, char* szFunction, char* szFile, int iLine) {
     HRESULT local_rc;
     CComPtr<IErrorInfo> pErrorInfo;
+    CComBSTR strSource;
     CComBSTR strDescription;
 
     if (FAILED(rc)) {
+        vboxlog_msg("Error 0x%x in %s (%s:%d)", rc, szFunction, szFile, iLine);
         local_rc = GetErrorInfo(0, &pErrorInfo);
         if (SUCCEEDED(local_rc)) {
-            vboxlog_msg("Error in %s (%s:%d)", szFunction, szFile, iLine);
-            rc = pErrorInfo->GetDescription(&strDescription);
-            if (SUCCEEDED(rc) && strDescription) {
-                vboxlog_msg("Error description: %S", strDescription);
+            local_rc = pErrorInfo->GetSource(&strSource);
+            if (SUCCEEDED(local_rc) && strSource) {
+                vboxlog_msg("Error Source     : %S", strSource);
+            }
+            local_rc = pErrorInfo->GetDescription(&strDescription);
+            if (SUCCEEDED(local_rc) && strDescription) {
+                vboxlog_msg("Error Description: %S", strDescription);
             }
         } else {
-            vboxlog_msg("Error: getting error info! rc = 0x%x", rc);
+            vboxlog_msg("Error: Getting Error Info! rc = 0x%x", local_rc);
         }
     }
     return rc;
