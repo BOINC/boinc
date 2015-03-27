@@ -165,6 +165,7 @@ public:
 
     virtual void OnEraseBackground(wxEraseEvent& event);
     virtual void OnPaint(wxPaintEvent& event);
+    virtual wxSize GetBestSize();
 };
 #endif
 
@@ -208,6 +209,79 @@ public:
 private:
     wxWindow*   m_pWnd;
 }; 
+
+
+#ifdef __WXMAC__
+#define CTransparentStaticBitmap wxStaticBitmap
+#else
+class CTransparentStaticBitmap : public wxPanel
+{ 
+    DECLARE_DYNAMIC_CLASS (CTransparentStaticBitmap)
+
+public:
+    CTransparentStaticBitmap();
+    CTransparentStaticBitmap(
+        wxWindow* parent, 
+        wxWindowID id, 
+        const wxBitmap& bitmap,
+        const wxPoint& pos = wxDefaultPosition, 
+        const wxSize& size = wxDefaultSize,
+        long style = 0, 
+        const wxString& name= wxStaticBitmapNameStr
+    );
+
+    bool Create(
+        wxWindow* parent, 
+        wxWindowID id, 
+        const wxBitmap& bitmap,
+        const wxPoint& pos = wxDefaultPosition, 
+        const wxSize& size = wxDefaultSize,
+        long style = 0, 
+        const wxString& name= wxStaticBitmapNameStr
+    );
+
+    virtual bool HasTransparentBackground() { return true; };
+
+    virtual void OnEraseBackground(wxEraseEvent& /*event*/) {};
+    virtual void OnPaint(wxPaintEvent& event);
+
+    DECLARE_EVENT_TABLE()
+private:
+    wxBitmap   m_bitMap;
+};
+#endif
+
+
+#ifdef __WXMAC__
+#define CTransparentCheckBox wxCheckBox
+#else
+class CTransparentCheckBox : public wxCheckBox
+{ 
+    DECLARE_DYNAMIC_CLASS (CTransparentCheckBox)
+
+public:
+    CTransparentCheckBox();
+    CTransparentCheckBox(wxWindow *parent, wxWindowID id, const wxString& label,
+            const wxPoint& pos = wxDefaultPosition,
+            const wxSize& size = wxDefaultSize, long style = 0,
+            const wxValidator& validator = wxDefaultValidator,
+            const wxString& name = wxCheckBoxNameStr
+            );
+
+    bool Create(wxWindow *parent, wxWindowID id, const wxString& label,
+            const wxPoint& pos = wxDefaultPosition,
+            const wxSize& size = wxDefaultSize, long style = 0,
+            const wxValidator& validator = wxDefaultValidator,
+            const wxString& name = wxCheckBoxNameStr
+            );
+
+    virtual bool HasTransparentBackground() { return true; };
+
+    virtual void OnEraseBackground(wxEraseEvent& /*event*/) {};
+
+    DECLARE_EVENT_TABLE()
+};
+#endif
 
 
 class CLinkButton : public wxBitmapButton

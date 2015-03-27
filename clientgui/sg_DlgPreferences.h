@@ -37,7 +37,6 @@
  */
 
 ////@begin forward declarations
-class CTransparentCheckBox;
 ////@end forward declarations
 
 /*!
@@ -141,7 +140,7 @@ public:
 	void OnHandleCheckboxEvent(wxCommandEvent& ev);
     
     void addNewRowToSizer(wxSizer* toSizer, wxString& toolTipText,
-                wxWindow* first, wxWindow* second, wxWindow* third=NULL,
+                wxWindow* first, wxWindow* second, wxWindow* third,
                 wxWindow* fourth=NULL, wxWindow* fifth=NULL);
     wxSize getTextCtrlSize(wxString maxText);
     bool doesLocalPrefsFileExist();

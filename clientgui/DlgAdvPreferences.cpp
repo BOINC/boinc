@@ -76,7 +76,7 @@ CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBas
     m_Notebook->SetPageImage(3,iImageIndex);
 
     //setting warning bitmap
-    m_bmpWarning->SetBitmap(wxBitmap(warning_xpm));
+    m_bmpWarning->SetBitmap(GetScaledBitmapFromXPMData(warning_xpm));
 
     wxCheckBox* proc_cb[] = {m_chkProcSunday,m_chkProcMonday,m_chkProcTuesday,m_chkProcWednesday,m_chkProcThursday,m_chkProcFriday,m_chkProcSaturday};
     wxTextCtrl* proc_tstarts[] = {m_txtProcSundayStart,m_txtProcMondayStart,m_txtProcTuesdayStart,m_txtProcWednesdayStart,m_txtProcThursdayStart,m_txtProcFridayStart,m_txtProcSaturdayStart};

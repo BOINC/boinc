@@ -130,10 +130,15 @@ void CPanelPreferences::CreateControls()
     wxBoxSizer* topControlsSizer = new wxBoxSizer( wxHORIZONTAL );
     topSectionSizer->Add(topControlsSizer);
     
-    wxStaticBitmap* bmpWarning = new wxStaticBitmap( topSectionStaticBox, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, 0 );
-    bmpWarning->SetMinSize( wxSize( 48,48 ) );
+    wxBitmap warningBmp = GetScaledBitmapFromXPMData(warning_xpm);
+    CTransparentStaticBitmap* bmpWarning = new CTransparentStaticBitmap(
+                                topSectionStaticBox, wxID_ANY, 
+                                warningBmp, 
+                                wxDefaultPosition, wxDefaultSize, 0
+                                );
+    bmpWarning->SetMinSize( warningBmp.GetSize() );
+
     topControlsSizer->Add( bmpWarning, 0, wxALIGN_CENTER_VERTICAL|wxALL, 0 );
-    bmpWarning->SetBitmap(wxBitmap(warning_xpm));
 
     wxBoxSizer* legendSizer = new wxBoxSizer( wxVERTICAL );
 
@@ -160,7 +165,7 @@ void CPanelPreferences::CreateControls()
             topSectionStaticBox, wxID_ANY, *web_prefs_url, *web_prefs_url,
             wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE
         ),
-        0, wxLEFT|wxEXPAND, 5
+        0, wxLEFT, 5
     );
     
     if (!usingLocalPrefs) {
@@ -215,35 +220,25 @@ void CPanelPreferences::CreateControls()
 
     wxString ProcOnBatteriesTT(_("Check this to suspend computing on portables when running on battery power."));
 
-    m_chkProcOnBatteries = new wxCheckBox(
+    m_chkProcOnBatteries = new CTransparentCheckBox(
         itemDialog1, ID_CHKPROCONBATTERIES,
-        wxEmptyString, wxDefaultPosition, wxDefaultSize, 0
+        _("Suspend when computer is on battery"), wxDefaultPosition, wxDefaultSize, 0
     );
 
-    CTransparentStaticTextAssociate* staticText1 = new CTransparentStaticTextAssociate(
-            itemDialog1, wxID_ANY,
-            _("Suspend when computer is on battery"),
-            wxDefaultPosition, wxDefaultSize, 0
-        );
-    staticText1->AssociateWindow(m_chkProcOnBatteries); // Treat clicks on staticText1 like clicks on m_chkProcOnBatteries
+    m_chkProcOnBatteries->SetToolTip(ProcOnBatteriesTT);
     
-    addNewRowToSizer(itemBoxSizer11, ProcOnBatteriesTT, m_chkProcOnBatteries, staticText1);
+    itemBoxSizer11->Add(m_chkProcOnBatteries, 0, wxALL, 5 );
 
     wxString ProcInUseTT(_("Check this to suspend computing and file transfers when you're using the computer."));
 
-    m_chkProcInUse = new wxCheckBox(
+    m_chkProcInUse = new CTransparentCheckBox(
         itemDialog1, ID_CHKPROCINUSE,
-        wxEmptyString, wxDefaultPosition, wxDefaultSize, 0
+        _("Suspend when computer is in use"), wxDefaultPosition, wxDefaultSize, 0
     );
 
-    CTransparentStaticTextAssociate* staticText2 = new CTransparentStaticTextAssociate(
-            itemDialog1, wxID_ANY,
-            _("Suspend when computer is in use"),
-            wxDefaultPosition, wxDefaultSize, 0
-        );
-    staticText2->AssociateWindow(m_chkProcInUse);   // Treat clicks on staticText2 like clicks on m_chkProcOnBatteries
+    m_chkProcInUse->SetToolTip(ProcInUseTT);
 
-    addNewRowToSizer(itemBoxSizer11, ProcInUseTT, m_chkProcInUse, staticText2);
+    itemBoxSizer11->Add(m_chkProcInUse, 0, wxALL, 5 );
 
     // min idle time
     wxString ProcIdleForTT(_("This determines when the computer is considered 'in use'."));
@@ -266,16 +261,9 @@ void CPanelPreferences::CreateControls()
     wxString andString(_("and"));
 
     wxString ProcEveryDayTT(_("Compute only during a particular period each day."));
-    m_chkProcEveryDay = new wxCheckBox(
+    m_chkProcEveryDay = new CTransparentCheckBox(
         itemDialog1, ID_CHKPROCEVERYDAY,
-        wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-
-    CTransparentStaticTextAssociate* staticText3 = new CTransparentStaticTextAssociate(
-            itemDialog1, wxID_ANY,
-            _("Compute only between"),
-            wxDefaultPosition, wxDefaultSize, 0
-        );
-    staticText3->AssociateWindow(m_chkProcEveryDay);    // Treat clicks on staticText3 like clicks on m_chkProcEveryDay
+        _("Compute only between"), wxDefaultPosition, wxDefaultSize, 0 );
 
     m_txtProcEveryDayStart = new wxTextCtrl( itemDialog1, ID_TXTPROCEVERYDAYSTART, wxEmptyString, wxDefaultPosition, timeCtrlSize, wxTE_RIGHT );
 
@@ -283,7 +271,7 @@ void CPanelPreferences::CreateControls()
 
     m_txtProcEveryDayStop = new wxTextCtrl( itemDialog1, ID_TXTPROCEVERYDAYSTOP, wxEmptyString, wxDefaultPosition, timeCtrlSize, wxTE_RIGHT );
 
-    addNewRowToSizer(itemBoxSizer11, ProcEveryDayTT, m_chkProcEveryDay, staticText3, m_txtProcEveryDayStart, staticText26, m_txtProcEveryDayStop);
+    addNewRowToSizer(itemBoxSizer11, ProcEveryDayTT, m_chkProcEveryDay, m_txtProcEveryDayStart, staticText26, m_txtProcEveryDayStop);
 
 
     /*xgettext:no-c-format*/
@@ -299,15 +287,8 @@ void CPanelPreferences::CreateControls()
     addNewRowToSizer(itemBoxSizer11, MaxCPUTimeTT, staticText22, m_txtProcUseCPUTime, staticText23);
 
     wxString NetEveryDayTT(_("Transfer files only during a particular period each day."));
-    m_chkNetEveryDay = new wxCheckBox(
-        itemDialog1, ID_CHKNETEVERYDAY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-
-    CTransparentStaticTextAssociate* staticText4 = new CTransparentStaticTextAssociate(
-            itemDialog1, wxID_ANY,
-            _("Transfer files only between"),
-            wxDefaultPosition, wxDefaultSize, 0
-        );
-    staticText4->AssociateWindow(m_chkNetEveryDay); // Treat clicks on staticText4 like clicks on m_chkNetEveryDay
+    m_chkNetEveryDay = new CTransparentCheckBox(
+        itemDialog1, ID_CHKNETEVERYDAY, _("Transfer files only between"), wxDefaultPosition, wxDefaultSize, 0 );
 
     m_txtNetEveryDayStart = new wxTextCtrl( itemDialog1, ID_TXTNETEVERYDAYSTART, wxEmptyString, wxDefaultPosition, timeCtrlSize, 0 );
 
@@ -315,27 +296,20 @@ void CPanelPreferences::CreateControls()
 
     m_txtNetEveryDayStop = new wxTextCtrl( itemDialog1, ID_TXTNETEVERYDAYSTOP, wxEmptyString, wxDefaultPosition, timeCtrlSize, 0 );
 
-    addNewRowToSizer(itemBoxSizer11, NetEveryDayTT, m_chkNetEveryDay, staticText4, m_txtNetEveryDayStart, staticText37, m_txtNetEveryDayStop);
+    addNewRowToSizer(itemBoxSizer11, NetEveryDayTT, m_chkNetEveryDay, m_txtNetEveryDayStart, staticText37, m_txtNetEveryDayStop);
 
 
     wxString DiskMaxSpaceTT = wxEmptyString;
     DiskMaxSpaceTT.Printf(_("Limit the total amount of disk space used by %s."), pSkinAdvanced->GetApplicationShortName().c_str());
 
-    m_chkDiskMaxSpace = new wxCheckBox (
-        itemDialog1, ID_CHKDISKMAXSPACE, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-
-    CTransparentStaticTextAssociate* staticText5 = new CTransparentStaticTextAssociate(
-            itemDialog1, wxID_ANY,
-            _("Use no more than"),
-            wxDefaultPosition, wxDefaultSize, 0
-        );
-    staticText5->AssociateWindow(m_chkDiskMaxSpace);    // Treat clicks on staticText5 like clicks on m_chkDiskMaxSpace
+    m_chkDiskMaxSpace = new CTransparentCheckBox (
+        itemDialog1, ID_CHKDISKMAXSPACE, _("Use no more than"), wxDefaultPosition, wxDefaultSize, 0 );
 
     m_txtDiskMaxSpace = new wxTextCtrl( itemDialog1, ID_TXTDISKMAXSPACE,wxEmptyString, wxDefaultPosition, getTextCtrlSize(wxT("9999.99")), wxTE_RIGHT );
 
     CTransparentStaticText* staticText41 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("GB of disk space"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    addNewRowToSizer(itemBoxSizer11, DiskMaxSpaceTT, m_chkDiskMaxSpace, staticText5, m_txtDiskMaxSpace, staticText41);
+    addNewRowToSizer(itemBoxSizer11, DiskMaxSpaceTT, m_chkDiskMaxSpace, m_txtDiskMaxSpace, staticText41);
 
     wxBoxSizer* itemBoxSizer44 = new wxBoxSizer(wxHORIZONTAL);
     itemBoxSizer2->Add(itemBoxSizer44, 0, wxALIGN_RIGHT|wxALL, ADJUSTFORXDPI(5));
@@ -900,40 +874,29 @@ void CPanelPreferences::addNewRowToSizer(
 {
     wxBoxSizer* rowSizer = new wxBoxSizer( wxHORIZONTAL );
     
-    bool hasCheckBox = first->IsKindOf(CLASSINFO(wxCheckBox));
-    
-    if (hasCheckBox) {
+#ifdef __WXMSW__
+    // MSW adds space to the right of checkbox label
+    if (first->IsKindOf(CLASSINFO(CTransparentCheckBox))) {
         rowSizer->Add(first, 0, wxTOP | wxBOTTOM |wxLEFT, 5 );
-    } else {
+    } else
+#endif
         rowSizer->Add(first, 0, wxALL, 5 );
-    }
     
     first->SetToolTip(toolTipText);
     
-    // MSW adds space to the right of checkbox label
-    if (hasCheckBox) {
-        rowSizer->Add(second, 0, wxTOP | wxBOTTOM, 5 ); //CTransparentStaticText
-    } else {
-        rowSizer->Add(second, 0, wxALL, 2 );    // wxTextCtrl
-    }
+    rowSizer->Add(second, 0, wxALL, 2 );
     second->SetToolTip(toolTipText);
 
-    if (third) {
-        if (hasCheckBox) {
-            rowSizer->Add(third, 0, wxALL, 2 );    // wxTextCtrl
-        } else {
-            rowSizer->Add(third, 0, wxTOP | wxBOTTOM, 5 ); //CTransparentStaticText
-        }
-        third->SetToolTip(toolTipText);
-    }
-    
+    rowSizer->Add(third, 0, wxALL, 5 );
+    third->SetToolTip(toolTipText);
+
     if (fourth) {
-        rowSizer->Add(fourth, 0, wxTOP | wxBOTTOM, 5 ); //CTransparentStaticText
+        rowSizer->Add(fourth, 0, wxALL, 2 );
         fourth->SetToolTip(toolTipText);
     }
     
     if (fifth) {
-        rowSizer->Add(fifth, 0, wxALL, 2 );    // wxTextCtrl
+        rowSizer->Add(fifth, 0, wxALL, 5 );
         fifth->SetToolTip(toolTipText);
     }
     
