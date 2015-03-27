@@ -144,42 +144,45 @@ CTransparentHyperlinkCtrl::CTransparentHyperlinkCtrl(wxWindow *parent,
                     const wxPoint& pos,
                     const wxSize& size,
                     long style,
-                    const wxString& name)
+                    const wxString& name,
+                    wxBitmap** parentsBgBmp)
 {
-    (void)Create(parent, id, label, url, pos, size, style, name);
+    (void)Create(parent, id, label, url, pos, size, style, name, parentsBgBmp);
 }
 
 bool CTransparentHyperlinkCtrl::Create(wxWindow *parent,
-                wxWindowID id,
-                const wxString& label, const wxString& url,
-                const wxPoint& pos,
-                const wxSize& size,
-                long style,
-                const wxString& name)
+                    wxWindowID id,
+                    const wxString& label, const wxString& url,
+                    const wxPoint& pos,
+                    const wxSize& size,
+                    long style,
+                    const wxString& name,
+                    wxBitmap** parentsBgBmp)
 {
-    SetBackgroundStyle(wxBG_STYLE_CUSTOM);
-    bool bRetVal = wxHyperlinkCtrl::Create(parent, id, label, url, pos, size, style|wxTRANSPARENT_WINDOW, name);
+    bool bRetVal = wxHyperlinkCtrl::Create(parent, id, label, url, pos, size, style, name);
 
+    m_pParentsBgBmp = parentsBgBmp;
     SetBackgroundColour(parent->GetBackgroundColour());
     SetForegroundColour(wxColour(0, 100, 225));
+    wxFont myFont = GetFont();
+    myFont.SetUnderlined(true);
+    SetFont(myFont);
 
     return bRetVal;
 }
 
-wxSize CTransparentHyperlinkCtrl::GetBestSize() {
-    return GetTextExtent(GetLabel());
-}
-
-void CTransparentHyperlinkCtrl::OnEraseBackground(wxEraseEvent& WXUNUSED(event))
+void CTransparentHyperlinkCtrl::OnEraseBackground(wxEraseEvent& event)
 {
-}
-
-void CTransparentHyperlinkCtrl::OnPaint(wxPaintEvent& /*event*/) {
-    wxPaintDC dc(this);
-    wxFont myFont = GetFont();
-    myFont.SetUnderlined(true);
-    dc.SetFont(myFont);
-    dc.DrawText(GetLabel(), 0, 0);
+    if (m_pParentsBgBmp && *m_pParentsBgBmp) {
+        wxMemoryDC memDC(**m_pParentsBgBmp);
+        wxSize sz = GetClientSize();
+        wxDC *dc = event.GetDC();
+        wxCoord x, y;
+        GetPosition(&x, &y);
+        dc->Blit(0, 0, sz.GetWidth(), sz.GetHeight(), &memDC, x, y, wxCOPY);
+    } else {
+        event.Skip();
+    }
 }
 
 #endif
@@ -331,23 +334,40 @@ CTransparentCheckBox::CTransparentCheckBox(wxWindow *parent, wxWindowID id, cons
             const wxPoint& pos,
             const wxSize& size, long style,
             const wxValidator& validator,
-            const wxString& name
+            const wxString& name,
+            wxBitmap** parentsBgBmp
         ) {
-        Create(parent, id, label, pos, size, style, validator, name);
+        Create(parent, id, label, pos, size, style, validator, name, parentsBgBmp);
 }
 
 bool CTransparentCheckBox::Create(wxWindow *parent, wxWindowID id, const wxString& label,
             const wxPoint& pos,
             const wxSize& size, long style,
             const wxValidator& validator,
-            const wxString& name
+            const wxString& name,
+            wxBitmap** parentsBgBmp
             ) {
-    bool bRetVal = wxCheckBox::Create(parent, id, label, pos, size, style|wxTRANSPARENT_WINDOW, validator, name);
+    bool bRetVal = wxCheckBox::Create(parent, id, label, pos, size, style, validator, name);
 
+    m_pParentsBgBmp = parentsBgBmp;
     SetBackgroundColour(parent->GetBackgroundColour());
     SetForegroundColour(parent->GetForegroundColour());
 
     return bRetVal;
+}
+
+void CTransparentCheckBox::OnEraseBackground(wxEraseEvent& event)
+{
+    if (m_pParentsBgBmp && *m_pParentsBgBmp) {
+        wxMemoryDC memDC(**m_pParentsBgBmp);
+        wxSize sz = GetClientSize();
+        wxDC *dc = event.GetDC();
+        wxCoord x, y;
+        GetPosition(&x, &y);
+        dc->Blit(0, 0, sz.GetWidth(), sz.GetHeight(), &memDC, x, y, wxCOPY);
+    } else {
+        event.Skip();
+    }
 }
 
 #endif

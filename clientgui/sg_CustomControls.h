@@ -150,7 +150,9 @@ public:
                     const wxPoint& pos = wxDefaultPosition,
                     const wxSize& size = wxDefaultSize,
                     long style = wxHL_DEFAULT_STYLE,
-                    const wxString& name = wxHyperlinkCtrlNameStr);
+                    const wxString& name = wxHyperlinkCtrlNameStr,
+                    wxBitmap** parentsBgBmp = NULL
+                    );
 
     // Creation function (for two-step construction).
     bool Create(wxWindow *parent,
@@ -159,13 +161,13 @@ public:
                 const wxPoint& pos = wxDefaultPosition,
                 const wxSize& size = wxDefaultSize,
                 long style = wxHL_DEFAULT_STYLE,
-                const wxString& name = wxHyperlinkCtrlNameStr);
-
-    virtual bool HasTransparentBackground() { return true; };
+                const wxString& name = wxHyperlinkCtrlNameStr,
+                wxBitmap** parentsBgBmp = NULL
+                );
 
     virtual void OnEraseBackground(wxEraseEvent& event);
-    virtual void OnPaint(wxPaintEvent& event);
-    virtual wxSize GetBestSize();
+private:
+    wxBitmap** m_pParentsBgBmp;
 };
 #endif
 
@@ -265,19 +267,21 @@ public:
             const wxPoint& pos = wxDefaultPosition,
             const wxSize& size = wxDefaultSize, long style = 0,
             const wxValidator& validator = wxDefaultValidator,
-            const wxString& name = wxCheckBoxNameStr
+            const wxString& name = wxCheckBoxNameStr,
+            wxBitmap** parentsBgBmp = NULL
             );
 
     bool Create(wxWindow *parent, wxWindowID id, const wxString& label,
             const wxPoint& pos = wxDefaultPosition,
             const wxSize& size = wxDefaultSize, long style = 0,
             const wxValidator& validator = wxDefaultValidator,
-            const wxString& name = wxCheckBoxNameStr
+            const wxString& name = wxCheckBoxNameStr,
+            wxBitmap** parentsBgBmp = NULL
             );
 
-    virtual bool HasTransparentBackground() { return true; };
-
-    virtual void OnEraseBackground(wxEraseEvent& /*event*/) {};
+    virtual void OnEraseBackground(wxEraseEvent& event);
+private:
+    wxBitmap** m_pParentsBgBmp;
 
     DECLARE_EVENT_TABLE()
 };

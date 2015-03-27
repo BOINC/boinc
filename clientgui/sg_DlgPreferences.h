@@ -97,11 +97,15 @@ public:
     CPanelPreferences( );
     CPanelPreferences( wxWindow* parent );
 
+    ~CPanelPreferences( );
+
     /// Creation
     bool Create();
 
     /// Creates the controls and sizers
     void CreateControls();
+
+    void MakeBackgroundBitmap();
 
 ////@begin CPanelPreferences event handler declarations
     /// wxEVT_ERASE_BACKGROUND event handler for ID_DLGPREFERENCES
@@ -144,6 +148,7 @@ public:
                 wxWindow* fourth=NULL, wxWindow* fifth=NULL);
     wxSize getTextCtrlSize(wxString maxText);
     bool doesLocalPrefsFileExist();
+    wxBitmap* GetBackgroundBmp() { return m_backgroundBitmap; }
 
 private:
 ////@begin CPanelPreferences member variables
@@ -163,7 +168,9 @@ private:
     wxTextValidator* m_vTimeValidator;
     wxButton* m_btnClear;
     wxString *web_prefs_url;
-    
+ 
+    wxBitmap* m_backgroundBitmap;
+   
 ////@end CPanelPreferences member variables
     GLOBAL_PREFS      global_preferences_working;
     GLOBAL_PREFS_MASK global_preferences_mask;

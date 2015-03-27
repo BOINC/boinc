@@ -80,12 +80,23 @@ CPanelPreferences::CPanelPreferences( wxWindow* parent ) :
 }
 
 
+CPanelPreferences::~CPanelPreferences( )
+{
+    if (m_backgroundBitmap) {
+        delete m_backgroundBitmap;
+        m_backgroundBitmap = NULL;
+    }
+}
+
+
 /*!
  * CPanelPreferences creator
  */
 
 bool CPanelPreferences::Create()
 {
+    m_backgroundBitmap = NULL;
+
     CreateControls();
 
     defaultPrefs.enabled_defaults();
@@ -163,7 +174,8 @@ void CPanelPreferences::CreateControls()
      legendSizer->Add(
         new CTransparentHyperlinkCtrl(
             topSectionStaticBox, wxID_ANY, *web_prefs_url, *web_prefs_url,
-            wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE
+            wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE,
+            wxHyperlinkCtrlNameStr, &m_backgroundBitmap
         ),
         0, wxLEFT, 5
     );
@@ -180,7 +192,11 @@ void CPanelPreferences::CreateControls()
 #if 1
     topSectionSizer->AddSpacer( 10 );
 
-    CTransparentStaticLine* itemStaticLine8 = new CTransparentStaticLine( topSectionStaticBox, wxID_ANY, wxDefaultPosition, wxSize(300, 1), wxLI_HORIZONTAL|wxNO_BORDER );
+    CTransparentStaticLine* itemStaticLine8 = new CTransparentStaticLine( topSectionStaticBox, wxID_ANY, 
+                                                                        wxDefaultPosition, 
+                                                                        wxSize(ADJUSTFORXDPI(300), 1),
+                                                                         wxLI_HORIZONTAL|wxNO_BORDER
+                                                                         );
     itemStaticLine8->SetLineColor(pSkinSimple->GetStaticLineColor());
     topSectionSizer->Add(itemStaticLine8, 0, wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT, ADJUSTFORXDPI(20));
 
@@ -222,7 +238,10 @@ void CPanelPreferences::CreateControls()
 
     m_chkProcOnBatteries = new CTransparentCheckBox(
         itemDialog1, ID_CHKPROCONBATTERIES,
-        _("Suspend when computer is on battery"), wxDefaultPosition, wxDefaultSize, 0
+        _("Suspend when computer is on battery"), 
+        wxDefaultPosition, wxDefaultSize, 0,
+        wxDefaultValidator,  wxCheckBoxNameStr, 
+        &m_backgroundBitmap
     );
 
     m_chkProcOnBatteries->SetToolTip(ProcOnBatteriesTT);
@@ -233,7 +252,10 @@ void CPanelPreferences::CreateControls()
 
     m_chkProcInUse = new CTransparentCheckBox(
         itemDialog1, ID_CHKPROCINUSE,
-        _("Suspend when computer is in use"), wxDefaultPosition, wxDefaultSize, 0
+        _("Suspend when computer is in use"), 
+        wxDefaultPosition, wxDefaultSize, 0,
+        wxDefaultValidator,  wxCheckBoxNameStr, 
+        &m_backgroundBitmap
     );
 
     m_chkProcInUse->SetToolTip(ProcInUseTT);
@@ -263,7 +285,11 @@ void CPanelPreferences::CreateControls()
     wxString ProcEveryDayTT(_("Compute only during a particular period each day."));
     m_chkProcEveryDay = new CTransparentCheckBox(
         itemDialog1, ID_CHKPROCEVERYDAY,
-        _("Compute only between"), wxDefaultPosition, wxDefaultSize, 0 );
+        _("Compute only between"), 
+        wxDefaultPosition, wxDefaultSize, 0,
+        wxDefaultValidator,  wxCheckBoxNameStr, 
+        &m_backgroundBitmap
+    );
 
     m_txtProcEveryDayStart = new wxTextCtrl( itemDialog1, ID_TXTPROCEVERYDAYSTART, wxEmptyString, wxDefaultPosition, timeCtrlSize, wxTE_RIGHT );
 
@@ -288,7 +314,11 @@ void CPanelPreferences::CreateControls()
 
     wxString NetEveryDayTT(_("Transfer files only during a particular period each day."));
     m_chkNetEveryDay = new CTransparentCheckBox(
-        itemDialog1, ID_CHKNETEVERYDAY, _("Transfer files only between"), wxDefaultPosition, wxDefaultSize, 0 );
+        itemDialog1, ID_CHKNETEVERYDAY, _("Transfer files only between"), 
+        wxDefaultPosition, wxDefaultSize, 0,
+        wxDefaultValidator,  wxCheckBoxNameStr, 
+        &m_backgroundBitmap
+    );
 
     m_txtNetEveryDayStart = new wxTextCtrl( itemDialog1, ID_TXTNETEVERYDAYSTART, wxEmptyString, wxDefaultPosition, timeCtrlSize, 0 );
 
@@ -303,7 +333,11 @@ void CPanelPreferences::CreateControls()
     DiskMaxSpaceTT.Printf(_("Limit the total amount of disk space used by %s."), pSkinAdvanced->GetApplicationShortName().c_str());
 
     m_chkDiskMaxSpace = new CTransparentCheckBox (
-        itemDialog1, ID_CHKDISKMAXSPACE, _("Use no more than"), wxDefaultPosition, wxDefaultSize, 0 );
+        itemDialog1, ID_CHKDISKMAXSPACE, _("Use no more than"), 
+        wxDefaultPosition, wxDefaultSize, 0,
+        wxDefaultValidator,  wxCheckBoxNameStr, 
+        &m_backgroundBitmap
+    );
 
     m_txtDiskMaxSpace = new wxTextCtrl( itemDialog1, ID_TXTDISKMAXSPACE,wxEmptyString, wxDefaultPosition, getTextCtrlSize(wxT("9999.99")), wxTE_RIGHT );
 
@@ -380,11 +414,7 @@ void CPanelPreferences::OnButtonHelp( wxCommandEvent& event ) {
 }
 
 
-/*!
- * wxEVT_ERASE_BACKGROUND event handler for ID_DLGPREFERENCES
- */
-
-void CPanelPreferences::OnEraseBackground( wxEraseEvent& event ) {
+void CPanelPreferences::MakeBackgroundBitmap() {
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
     
     wxASSERT(pSkinSimple);
@@ -399,23 +429,12 @@ void CPanelPreferences::OnEraseBackground( wxEraseEvent& event ) {
     // Dialog dimensions
     wxSize sz = GetClientSize();
 
-    // Create a buffered device context to reduce flicker
-    wxBufferedDC dc(event.GetDC(), sz, wxBUFFER_CLIENT_AREA);
+    m_backgroundBitmap = new wxBitmap(sz);
+    wxMemoryDC dc(*m_backgroundBitmap);
 
     // bitmap dimensions
     w = bmp.GetWidth();
     h = bmp.GetHeight();
-
-#if TEST_BACKGROUND_WITH_MAGENTA_FILL
-    // Fill the dialog with a magenta color so people can detect when something
-    //   is wrong
-    dc.SetBrush(wxBrush(wxColour(255,0,255)));
-    dc.SetPen(wxPen(wxColour(255,0,255)));
-    dc.DrawRectangle(0, 0, sz.GetWidth(), sz.GetHeight());
-#else
-    wxColour bgColor(*pSkinSimple->GetDialogBackgroundImage()->GetBackgroundColor());
-    SetBackgroundColour(bgColor);
-#endif
 
     // Is the bitmap smaller than the window?
     if ( (w < sz.x) || (h < sz.y) ) {
@@ -440,6 +459,40 @@ void CPanelPreferences::OnEraseBackground( wxEraseEvent& event ) {
 
         // Drop the bitmap
         memDC.SelectObject(wxNullBitmap);
+    }
+}
+
+
+/*!
+ * wxEVT_ERASE_BACKGROUND event handler for ID_DLGPREFERENCES
+ */
+
+void CPanelPreferences::OnEraseBackground( wxEraseEvent& event ) {
+    if (!m_backgroundBitmap) {
+        MakeBackgroundBitmap();
+    }
+    // Create a buffered device context to reduce flicker
+    wxSize sz = GetClientSize();
+    wxBufferedDC dc(event.GetDC(), sz, wxBUFFER_CLIENT_AREA);
+
+#if TEST_BACKGROUND_WITH_MAGENTA_FILL
+    // Fill the dialog with a magenta color so people can detect when something
+    //   is wrong
+    dc.SetBrush(wxBrush(wxColour(255,0,255)));
+    dc.SetPen(wxPen(wxColour(255,0,255)));
+    dc.DrawRectangle(0, 0, sz.GetWidth(), sz.GetHeight());
+#else
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+    
+    wxASSERT(pSkinSimple);
+    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+
+    wxColour bgColor(*pSkinSimple->GetDialogBackgroundImage()->GetBackgroundColor());
+    SetBackgroundColour(bgColor);
+#endif
+
+    if (m_backgroundBitmap->IsOk()) {
+       dc.DrawBitmap(*m_backgroundBitmap, 0, 0);
     }
 }
 
