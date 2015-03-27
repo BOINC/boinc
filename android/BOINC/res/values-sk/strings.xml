@@ -177,7 +177,7 @@
   <string name="prefs_disk_access_interval_header">Interval prístupov</string>
   <string name="prefs_disk_access_interval_description">Odporučiť interval medzi prístupmi na disk</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Denný limit prenosov</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">Nastaví prenos súborov pre BOINC</string>
+  <string name="prefs_network_daily_xfer_limit_mb_description">Nastaví obmedzenia prenosu súborov pre BOINC.</string>
   <string name="prefs_network_wifi_only_header">Prenos úloh len pri pripojení k WiFi</string>
   <string name="prefs_autostart_header">Automatický štart</string>
   <string name="prefs_show_notification_notices_header">Zobraziť upozornenia pri nových správach</string>
