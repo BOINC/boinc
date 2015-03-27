@@ -127,14 +127,14 @@ void CTransparentButton::OnEraseBackground(wxEraseEvent& WXUNUSED(event))
 }
 
 
-#ifndef __WXMAC__
-
 IMPLEMENT_DYNAMIC_CLASS (CTransparentHyperlinkCtrl, wxHyperlinkCtrl)
 
+#ifndef __WXMAC__
 BEGIN_EVENT_TABLE(CTransparentHyperlinkCtrl, wxHyperlinkCtrl)
     EVT_ERASE_BACKGROUND(CTransparentHyperlinkCtrl::OnEraseBackground)
     EVT_PAINT(CTransparentHyperlinkCtrl::OnPaint)
 END_EVENT_TABLE()
+#endif
 
 CTransparentHyperlinkCtrl::CTransparentHyperlinkCtrl() {}
 
@@ -161,16 +161,19 @@ bool CTransparentHyperlinkCtrl::Create(wxWindow *parent,
 {
     bool bRetVal = wxHyperlinkCtrl::Create(parent, id, label, url, pos, size, style, name);
 
+#ifndef __WXMAC__
     m_pParentsBgBmp = parentsBgBmp;
     SetBackgroundColour(parent->GetBackgroundColour());
     SetForegroundColour(wxColour(0, 100, 225));
     wxFont myFont = GetFont();
     myFont.SetUnderlined(true);
     SetFont(myFont);
+#endif
 
     return bRetVal;
 }
 
+#ifndef __WXMAC__
 void CTransparentHyperlinkCtrl::OnEraseBackground(wxEraseEvent& event)
 {
     if (m_pParentsBgBmp && *m_pParentsBgBmp) {
@@ -183,8 +186,7 @@ void CTransparentHyperlinkCtrl::OnEraseBackground(wxEraseEvent& event)
     } else {
         event.Skip();
     }
-}
-
+}                           								
 #endif
 
 
@@ -319,14 +321,13 @@ void CTransparentStaticBitmap::OnPaint(wxPaintEvent& /*event*/) {
 #endif
 
 
-#ifndef __WXMAC__
-
 IMPLEMENT_DYNAMIC_CLASS (CTransparentCheckBox, wxCheckBox)
 
+#ifndef __WXMAC__
 BEGIN_EVENT_TABLE(CTransparentCheckBox, wxCheckBox)
     EVT_ERASE_BACKGROUND(CTransparentCheckBox::OnEraseBackground)
 END_EVENT_TABLE()
-
+#endif
 
 CTransparentCheckBox::CTransparentCheckBox() {}
 
@@ -349,13 +350,15 @@ bool CTransparentCheckBox::Create(wxWindow *parent, wxWindowID id, const wxStrin
             ) {
     bool bRetVal = wxCheckBox::Create(parent, id, label, pos, size, style, validator, name);
 
+#ifndef __WXMAC__
     m_pParentsBgBmp = parentsBgBmp;
     SetBackgroundColour(parent->GetBackgroundColour());
     SetForegroundColour(parent->GetForegroundColour());
-
+#endif
     return bRetVal;
 }
 
+#ifndef __WXMAC__
 void CTransparentCheckBox::OnEraseBackground(wxEraseEvent& event)
 {
     if (m_pParentsBgBmp && *m_pParentsBgBmp) {
@@ -369,7 +372,6 @@ void CTransparentCheckBox::OnEraseBackground(wxEraseEvent& event)
         event.Skip();
     }
 }
-
 #endif
 
 

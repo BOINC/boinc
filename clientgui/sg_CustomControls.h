@@ -134,13 +134,9 @@ public:
 };
 
 
-#ifdef __WXMAC__
-#define CTransparentHyperlinkCtrl wxHyperlinkCtrl
-#else
 class CTransparentHyperlinkCtrl : public wxHyperlinkCtrl
 {
     DECLARE_DYNAMIC_CLASS (CTransparentHyperlinkCtrl)
-    DECLARE_EVENT_TABLE()
 
 public:
     CTransparentHyperlinkCtrl();
@@ -165,11 +161,14 @@ public:
                 wxBitmap** parentsBgBmp = NULL
                 );
 
+#ifndef __WXMAC__
     virtual void OnEraseBackground(wxEraseEvent& event);
 private:
     wxBitmap** m_pParentsBgBmp;
-};
+
+    DECLARE_EVENT_TABLE()
 #endif
+};
 
 
 class CTransparentStaticTextAssociate : public wxPanel
@@ -254,9 +253,6 @@ private:
 #endif
 
 
-#ifdef __WXMAC__
-#define CTransparentCheckBox wxCheckBox
-#else
 class CTransparentCheckBox : public wxCheckBox
 { 
     DECLARE_DYNAMIC_CLASS (CTransparentCheckBox)
@@ -279,13 +275,14 @@ public:
             wxBitmap** parentsBgBmp = NULL
             );
 
+#ifndef __WXMAC__
     virtual void OnEraseBackground(wxEraseEvent& event);
 private:
     wxBitmap** m_pParentsBgBmp;
 
     DECLARE_EVENT_TABLE()
-};
 #endif
+};
 
 
 class CLinkButton : public wxBitmapButton
