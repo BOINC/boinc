@@ -867,7 +867,13 @@ int main(int argc, char** argv) {
         loop_iteration += 1;
 
         // Discover the VM's current state
-        pVM->poll();
+        retval = pVM->poll();
+        if (retval) {
+            vboxlog_msg("ERROR: Vboxwrapper lost communication with VirtualBox, rescheduling task for a later time.");
+            pVM->reset_vm_process_priority();
+            pVM->poweroff();
+            boinc_temporary_exit(86400, "VM job unmanageable, restarting later.");
+        }
 
         // Write updates for the graphics application's use
         if (pVM->enable_graphics_support) {

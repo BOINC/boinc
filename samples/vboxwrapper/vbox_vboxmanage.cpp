@@ -824,7 +824,8 @@ int VBOX_VM::deregister_stale_vm() {
     return 0;
 }
 
-void VBOX_VM::poll(bool log_state) {
+int VBOX_VM::poll(bool log_state) {
+    int retval = ERR_EXEC;
     APP_INIT_DATA aid;
     string command;
     string output;
@@ -955,6 +956,8 @@ void VBOX_VM::poll(bool log_state) {
                 vboxlog_msg("VM state change detected. (old = '%s', new = '%s')", vmstate_old.c_str(), vmstate.c_str());
                 vmstate_old = vmstate;
             }
+
+            retval = BOINC_SUCCESS;
         }
     }
 
@@ -970,6 +973,8 @@ void VBOX_VM::poll(bool log_state) {
     // Dump any new VM Guest Log entries
     //
     dump_vmguestlog_entries();
+
+    return retval;
 }
 
 int VBOX_VM::start() {

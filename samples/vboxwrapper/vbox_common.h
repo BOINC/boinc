@@ -168,7 +168,7 @@ public:
     virtual int register_vm() = 0;
     virtual int deregister_vm(bool delete_media) = 0;
     virtual int deregister_stale_vm() = 0;
-    virtual void poll(bool log_state = true) = 0;
+    virtual int poll(bool log_state = true) = 0;
     virtual int start() = 0;
     virtual int stop() = 0;
     virtual int poweroff() = 0;

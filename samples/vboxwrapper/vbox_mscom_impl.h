@@ -27,7 +27,7 @@ public:
     int register_vm();
     int deregister_vm(bool delete_media);
     int deregister_stale_vm();
-    void poll(bool log_state = true);
+    int poll(bool log_state = true);
     int start();
     int stop();
     int poweroff();
