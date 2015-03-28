@@ -6,13 +6,14 @@
 # FileID  : $Id$
 # 
 # Translators:
+# Antonio Regidor García <chikitosan@gmail.com>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: boinc\n"
+"Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2015-02-08 19:26+0000\n"
-"Last-Translator: Rom Walton <romw@romwnet.org>\n"
+"PO-Revision-Date: 2015-03-28 11:57+0000\n"
+"Last-Translator: Antonio Regidor García <chikitosan@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/boinc/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,7 +43,7 @@ msgstr "Le recomendamos que instale también VirtualBox, para que su computador 
 
 #: download.php:41
 msgid "Learn more about VirtualBox."
-msgstr "Saber más sobre VirtualBox."
+msgstr "Saber más de VirtualBox."
 
 #: download.php:51
 msgid "Download BOINC + VirtualBox"
@@ -78,13 +79,13 @@ msgstr "BOINC es un programa que le permite donar el tiempo en que su computador
 msgid ""
 "After installing BOINC on your computer, you can connect it to as many of "
 "these projects as you like."
-msgstr "Después de instalar BOINC en su computador, puede conectarlo con tantos proyectos como quiera."
+msgstr "Tras instalar BOINC en su computador, puede conectarlo con tantos proyectos como quiera."
 
 #: download.php:127
 msgid ""
 "You may run this software on a computer only if you own the computer or have"
 " the permission of its owner."
-msgstr "Puede ejecutar este programa en un ordenador sólo si es de su propiedad o tiene permiso de su propietario."
+msgstr "Puede ejecutar este programa en un computador sólo si es de su propiedad o tiene permiso de su propietario."
 
 #: download.php:132
 msgid ""
@@ -127,7 +128,7 @@ msgid ""
 " can: %s answer questions about BOINC and volunteer computing; %s walk you "
 "through the process of installing and using BOINC; %s troubleshoot any "
 "problems you might have."
-msgstr "La ayuda en línea de BOINC le permite hablar de forma individual con usuarios de BOINC con experiencia, que pueden: %s contestar preguntas sobre BOINC y la computación voluntaria, %s guiarle en el proceso de instalar y usar BOINC, y %s resolver cualquier problema que pudiera tener."
+msgstr "La ayuda en línea de BOINC le permite hablar de forma individual con usuarios de BOINC con experiencia, que pueden: %s contestar a preguntas sobre BOINC y la computación voluntaria, %s guiarle en el proceso de instalar y usar BOINC, y %s resolver cualquier problema que pudiera tener."
 
 #: help.php:21
 #, php-format
@@ -136,7 +137,7 @@ msgid ""
 " Skype is free (both the software and the calls).  If you don't already have"
 " Skype, please %sdownload and install it now%s.  When you're finished, "
 "return to this page."
-msgstr "La ayuda en línea de BOINC está basada en %sSkype%s, un sistema de telefonía por Internet. Skype es gratuito (el programa y las llamadas). Si todavía no tiene Skype, %sdescárguelo e instálelo ahora%s. Cuando haya terminado, vuelva a esta página."
+msgstr "La ayuda en línea de BOINC está basada en %sSkype%s, un sistema de telefonía por Internet. Skype es gratuito (el programa y las llamadas). Si todavía no tiene Skype, %sdescárguelo e instálelo%s. Cuando haya terminado, vuelva a esta página."
 
 #: help.php:28
 msgid ""
@@ -144,7 +145,7 @@ msgid ""
 "microphone and speakers or an external headset for your computer.  You can "
 "also use Skype's text-based chat system or regular email (if you don't have "
 "Skype) to communicate with Help Volunteers."
-msgstr "El mejor modo de obtener ayuda es por voz, para lo que necesita micrófono y altavoces integrados en su computador o externos. Puede usar también el chat de texto de Skype o el correo electrónico normal (si no tiene Skype) para comunicarse con ayudantes voluntarios."
+msgstr "El mejor modo de obtener ayuda es por voz, para lo que necesita un micrófono y altavoces integrados en su computador o externos. Puede usar también el chat de texto de Skype o el correo electrónico normal (si no tiene Skype) para comunicarse con ayudantes voluntarios."
 
 #: help.php:31
 msgid ""
@@ -162,7 +163,7 @@ msgid ""
 "If you're an experienced BOINC user, we encourage you to %sbecome a Help "
 "Volunteer%s.  It's a great way to help the cause of scientific research and "
 "volunteer computing - and it's fun!"
-msgstr "Si es un usuario de BOINC con experiencia, le animamos a %sser ayudante voluntario%s. Es un gran modo de ayudar a la causa de la investigación científica y la computación voluntaria. ¡Y es interesante!"
+msgstr "Si es un usuario de BOINC con experiencia, le animamos a %sser ayudante voluntario%s. Es una estupenda manera de ayudar a la causa de la investigación científica y la computación voluntaria. ¡Y es interesante!"
 
 #: help.php:56
 #, php-format
@@ -218,7 +219,7 @@ msgstr "Noticias"
 
 #: index.php:83
 msgid "Volunteer"
-msgstr "Voluntario"
+msgstr "Ayudar"
 
 #: index.php:85
 msgid "Download"
@@ -241,15 +242,15 @@ msgid ""
 "Use the idle time on your computer (Windows, Mac, Linux, or Android) to cure"
 " diseases, study global warming, discover pulsars, and do many other types "
 "of scientific research.  It's safe, secure, and easy:"
-msgstr "Use el tiempo en que su computador está inactivo (Windows, Mac, Linux o Android) para curar enfermedades, estudiar el calentamiento global, descubrir púlsares y muchos otros tipos de investigaciones científicas. Es seguro y fácil:"
+msgstr "Use el tiempo en que su computador (Windows, Mac, Linux o Android) está inactivo para curar enfermedades, estudiar el calentamiento global, descubrir púlsares y muchos otros tipos de investigaciones científicas. Es seguro y fácil:"
 
 #: index.php:96
 msgid "Choose projects"
-msgstr "Elija proyectos"
+msgstr "Elegir proyectos"
 
 #: index.php:97
 msgid "Download BOINC software"
-msgstr "Descargue los programas BOINC"
+msgstr "Descargar BOINC"
 
 #: index.php:98
 msgid "Enter an email address and password."
@@ -264,7 +265,7 @@ msgstr "O, si ejecuta varios proyectos, pruebe un %sadministrador de cuentas%s, 
 
 #: index.php:118
 msgid "Compute with BOINC"
-msgstr "Compute con BOINC"
+msgstr "Computar con BOINC"
 
 #: index.php:121
 msgid "Software updates"
@@ -274,17 +275,17 @@ msgstr "Actualizaciones de programas"
 msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving"
 " you the computing power of thousands of CPUs."
-msgstr "%1Científicos%2: use BOINC para crear un %3proyecto de computación voluntaria%4 que le dé la potencia de procesamiento de miles de CPUs."
+msgstr "%1Científicos%2: usen BOINC para crear un %3proyecto de computación voluntaria%4 que les dará la potencia de procesamiento de miles de CPUs."
 
 #: index.php:132
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
-msgstr "%1Universidades%2: use BOINC para crear un %3centro de supercomputación virtual del campus%4"
+msgstr "%1Universidades%2: usen BOINC para crear un %3centro de supercomputación virtual del campus%4"
 
 #: index.php:137
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
-msgstr "%1Empresas%2: use BOINC para %3computación en red con computadores de sobremesa%4."
+msgstr "%1Empresas%2: usen BOINC para la %3computación en red con ordenadores de sobremesa%4."
 
 #: index.php:149
 msgid "The BOINC project"
@@ -358,7 +359,7 @@ msgstr "Programas de código abierto para %scomputación voluntaria%s y %scomput
 
 #: index.php:230
 msgid "BOINC is based at The University of California, Berkeley"
-msgstr "BOINC está emplazado en la Universidad de California en Berkeley"
+msgstr "BOINC tiene su sede en la Universidad de California en Berkeley"
 
 #: projects.inc:14
 msgid "Distributed sensing"
@@ -440,7 +441,7 @@ msgid ""
 "existing drugs. Importantly, these new drugs need to target NEW proteins in "
 "the parasite. The FightMalaria@Home project is aimed at finding these new "
 "targets."
-msgstr "El parásito que causa la malaria sigue desarrollando resistencia a la medicación disponible. Por tanto, necesitamos urgentemente descubrir medicamentos nuevos para reemplazar a los existentes. Y lo más importante, estos medicamentos deben estar dirigidos a proteínas del parásito NUEVAS. El objetivo del proyecto FightMalaria@Home es encontrar estas proteínas nuevas."
+msgstr "El parásito que causa la malaria sigue desarrollando resistencia a la medicación disponible. Por tanto, necesitamos descubrir con urgencia medicamentos nuevos para reemplazar a los existentes. Y, lo más importante, estos medicamentos deben estar dirigidos a proteínas del parásito NUEVAS. El objetivo del proyecto FightMalaria@Home es encontrar estas proteínas nuevas."
 
 #: projects.inc:90
 msgid "University of Karlsruhe (Germany)"
@@ -473,7 +474,7 @@ msgid ""
 "aims to further knowledge of the atomic details of protein-ligand "
 "interactions and, by doing so, will search for insights into the discovery "
 "of novel pharmaceuticals."
-msgstr "Docking@Home tiene objetivos tanto biocientíficos como de ciencia de la computación. El proyecto pretende aumentar el conocimiento de los detalles atómicos de las interacciones proteína-ligando y, con ello, buscar pistas para descubrir fármacos novedosos."
+msgstr "Docking@Home tiene objetivos tanto biocientíficos como informáticos. El proyecto pretende aumentar el conocimiento de los detalles atómicos de las interacciones proteína-ligando y, con ello, buscar pistas para descubrir fármacos novedosos."
 
 #: projects.inc:114
 msgid "Barcelona Biomedical Research Park (PRBB)"
@@ -489,7 +490,7 @@ msgid ""
 "molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. "
 "New biomedical applications suddenly become possible giving a new role to "
 "computational biology for biomedical research."
-msgstr "GPUGrid.net abre nuevas posibilidades computacionales con el primer código de dinámica molecular a nivel atómico (CellMD) especialmente optimizado para ejecutarse en las GPU NVIDIA. De repente se han vuelto posibles nuevas aplicaciones biomédicas, lo que le da un nuevo papel a la biología computacional para la investigación biomédica."
+msgstr "GPUGrid.net abre nuevas posibilidades computacionales con el primer código de dinámica molecular a nivel atómico (CellMD) optimizado para ejecutarse en las GPU NVIDIA. De repente se han vuelto posibles nuevas aplicaciones biomédicas, lo que le da un nuevo papel a la biología computacional para la investigación biomédica."
 
 #: projects.inc:122
 msgid "Technion, Israel"
@@ -593,7 +594,7 @@ msgid ""
 "changes and also to things like changes in carbon dioxide and the sulphur "
 "cycle. This will allow us to explore how climate may change in the next "
 "century under a wide range of different scenarios."
-msgstr "Investiga las aproximaciones que han de hacerse en los modelos climáticos más avanzados. Ejecutando el modelo miles de veces esperamos encontrar cómo responde a ligeros ajustes de estas aproximaciones (lo bastante pequeñas para no hacer las aproximaciones menos realistas). Esto nos permitirá mejorar nuestro conocimiento sobre la sensibilidad de nuestros modelos a cambios pequeños y también a cosas como cambios en el dióxido de carbono y en el ciclo del azufre. Esto nos permitirá explorar cómo puede que cambie el clima en el próximo siglo en un rango amplio de casos."
+msgstr "Investiga las aproximaciones que han de hacerse en los modelos climáticos más avanzados. Ejecutando el modelo miles de veces esperamos averiguar cómo responde a ligeros ajustes de estas aproximaciones (lo bastante pequeñas para no hacer las aproximaciones menos realistas). Esto nos permitirá mejorar nuestro conocimiento sobre la sensibilidad de nuestros modelos a cambios pequeños y también a cosas como cambios en el dióxido de carbono y en el ciclo del azufre. Esto nos permitirá explorar cómo puede que cambie el clima en el próximo siglo en un rango amplio de casos."
 
 #: projects.inc:207
 msgid "Physical Science"
