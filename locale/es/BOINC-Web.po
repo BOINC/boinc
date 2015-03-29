@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2015-03-28 11:57+0000\n"
+"PO-Revision-Date: 2015-03-29 02:01+0000\n"
 "Last-Translator: Antonio Regidor García <chikitosan@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/boinc/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -880,7 +880,7 @@ msgid ""
 "breaking an integer into prime factors, such as 15 = 3 * 5 or 35 = 5 * 7. "
 "NFS@Home is a continuation of that experience, only with integers that are "
 "hundreds of digits long."
-msgstr "NFS@Home es un proyecto de investigación que usa computadores conectados a Internet para hacer el paso del cribado de red en la factorización de enteros grandes mediante la criba de cuerpos numéricos. Seguramente usted tuvo su primera experiencia con la descomposición de enteros en factores primos cuando estudiaba en la escuela primaria, haciendo descomposiciones como  15 = 3 * 5 o 35 = 5 * 7. NFS@Home es una continuación de esa experiencia, sólo que con enteros de cientos de cifras."
+msgstr "NFS@Home es un proyecto de investigación que usa computadores conectados con Internet para hacer el paso del cribado de red en la factorización de enteros grandes mediante la criba de cuerpos numéricos. Seguramente usted tuvo su primera experiencia con la descomposición de enteros en factores primos cuando estudiaba en la escuela primaria, haciendo descomposiciones como  15 = 3 * 5 o 35 = 5 * 7. NFS@Home es una continuación de esa experiencia, sólo que con enteros de cientos de cifras."
 
 #: projects.inc:479
 msgid ""
@@ -939,7 +939,7 @@ msgstr "Encontrar todos los sistemas numéricos binarios generalizados (en los q
 
 #: ../html/inc/news.inc:40
 msgid "Comment"
-msgstr "Comentarios"
+msgstr "Comentar"
 
 #: ../html/inc/news.inc:111
 #, php-format
