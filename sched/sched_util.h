@@ -51,6 +51,7 @@ inline int generalized_app_version_id(int avid, int appid) {
 extern int count_workunits(int&, const char* query);
 extern int count_unsent_results(int&, int appid, int size_class=-1);
 extern int restrict_wu_to_user(WORKUNIT& wu, int userid);
+extern int restrict_wu_to_host(WORKUNIT& wu, int hostid);
 extern int min_transition_time(double&);
 
 #endif

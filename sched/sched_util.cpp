@@ -74,11 +74,11 @@ int count_unsent_results(int& n, int appid, int size_class) {
 }
 
 // Arrange that further results for this workunit
-// will be sent only to hosts with the given user ID.
+// will be sent only to the specific host(s).
 // This could be used, for example, so that late workunits
 // are sent only to cloud or cluster resources
 //
-int restrict_wu_to_user(WORKUNIT& _wu, int userid) {
+static int restrict_wu(WORKUNIT& _wu, int id, int assign_type) {
     DB_RESULT result;
     DB_ASSIGNMENT asg;
     DB_WORKUNIT wu;
@@ -110,12 +110,20 @@ int restrict_wu_to_user(WORKUNIT& _wu, int userid) {
     //
     asg.clear();
     asg.create_time = time(0);
-    asg.target_id = userid;
-    asg.target_type = ASSIGN_USER;
+    asg.target_id = id;
+    asg.target_type = assign_type;
     asg.multi = 0;
     asg.workunitid = wu.id;
     retval = asg.insert();
     return retval;
+}
+
+int restrict_wu_to_user(WORKUNIT& wu, int userid) {
+    return restrict_wu(wu, userid, ASSIGN_USER);
+}
+
+int restrict_wu_to_host(WORKUNIT& wu, int hostid) {
+    return restrict_wu(wu, hostid, ASSIGN_HOST);
 }
 
 // return the min transition time.
