@@ -354,7 +354,8 @@ bool CTransparentCheckBox::Create(wxWindow *parent, wxWindowID id, const wxStrin
             const wxString& name,
             wxBitmap** parentsBgBmp
             ) {
-    bool bRetVal = wxCheckBox::Create(parent, id, label, pos, size, style, validator, name);
+    wxString spacedLabel = wxT(" ") + label;
+    bool bRetVal = wxCheckBox::Create(parent, id, spacedLabel, pos, size, style, validator, name);
 
 #ifndef __WXMAC__
     m_pParentsBgBmp = parentsBgBmp;
