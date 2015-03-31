@@ -135,6 +135,7 @@ IMPLEMENT_DYNAMIC_CLASS (CTransparentHyperlinkCtrl, wxHyperlinkCtrl)
 #ifndef __WXMAC__
 BEGIN_EVENT_TABLE(CTransparentHyperlinkCtrl, wxHyperlinkCtrl)
     EVT_ERASE_BACKGROUND(CTransparentHyperlinkCtrl::OnEraseBackground)
+    EVT_PAINT(CTransparentHyperlinkCtrl::OnPaint)
 END_EVENT_TABLE()
 #endif
 
