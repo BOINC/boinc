@@ -410,7 +410,7 @@ bool CSkinSimple::InitializeDelayedValidation() {
         wxT("background"), (const char**)background_image_xpm, wxT("211:211:211")
     );
     m_DialogBackgroundImage.SetDefaults(
-        wxT("dialog background"), (const char**)dialog_background_image_xpm, wxT("211:211:211")
+        wxT("dialog background"), (const char**)dialog_background_image_xpm, wxT("255:255:255")
     );
     m_ProjectImage.SetDefaults(
         wxT("project"), (const char**)project_image_xpm
