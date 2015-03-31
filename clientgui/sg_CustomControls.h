@@ -161,10 +161,12 @@ public:
                 wxBitmap** parentsBgBmp = NULL
                 );
 
-#ifndef __WXMAC__
-    virtual void OnEraseBackground(wxEraseEvent& event);
 private:
     wxBitmap** m_pParentsBgBmp;
+
+#ifndef __WXMAC__
+    public:
+    virtual void OnEraseBackground(wxEraseEvent& event);
 
     DECLARE_EVENT_TABLE()
 #endif
@@ -212,7 +214,7 @@ private:
 }; 
 
 
-#ifdef __WXMAC__
+#ifndef __WXMSW__
 #define CTransparentStaticBitmap wxStaticBitmap
 #else
 class CTransparentStaticBitmap : public wxPanel
@@ -275,10 +277,12 @@ public:
             wxBitmap** parentsBgBmp = NULL
             );
 
-#ifndef __WXMAC__
-    virtual void OnEraseBackground(wxEraseEvent& event);
 private:
     wxBitmap** m_pParentsBgBmp;
+
+#ifndef __WXMAC__
+public:
+    virtual void OnEraseBackground(wxEraseEvent& event);
 
     DECLARE_EVENT_TABLE()
 #endif

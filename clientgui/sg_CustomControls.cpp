@@ -106,6 +106,7 @@ CTransparentButton::CTransparentButton(wxWindow* parent, wxWindowID id, const wx
     Create(parent, id, label, pos, size, style, validator, name);
 }
 
+
 bool CTransparentButton::Create(wxWindow* parent, wxWindowID id, const wxString& label, const wxPoint& pos, const wxSize& size, long style, const wxValidator& validator, const wxString& name )
 {
     bool bRetVal = wxButton::Create(parent, id, label, pos, size, style|wxTRANSPARENT_WINDOW, validator, name);
@@ -117,10 +118,12 @@ bool CTransparentButton::Create(wxWindow* parent, wxWindowID id, const wxString&
     return bRetVal;
 }
 
+
 void CTransparentButton::SetLabel(const wxString& label)
 {
     wxButton::SetLabel(label);
 }
+
 
 void CTransparentButton::OnEraseBackground(wxEraseEvent& WXUNUSED(event))
 {
@@ -132,7 +135,6 @@ IMPLEMENT_DYNAMIC_CLASS (CTransparentHyperlinkCtrl, wxHyperlinkCtrl)
 #ifndef __WXMAC__
 BEGIN_EVENT_TABLE(CTransparentHyperlinkCtrl, wxHyperlinkCtrl)
     EVT_ERASE_BACKGROUND(CTransparentHyperlinkCtrl::OnEraseBackground)
-    EVT_PAINT(CTransparentHyperlinkCtrl::OnPaint)
 END_EVENT_TABLE()
 #endif
 
@@ -150,6 +152,7 @@ CTransparentHyperlinkCtrl::CTransparentHyperlinkCtrl(wxWindow *parent,
     (void)Create(parent, id, label, url, pos, size, style, name, parentsBgBmp);
 }
 
+
 bool CTransparentHyperlinkCtrl::Create(wxWindow *parent,
                     wxWindowID id,
                     const wxString& label, const wxString& url,
@@ -161,8 +164,9 @@ bool CTransparentHyperlinkCtrl::Create(wxWindow *parent,
 {
     bool bRetVal = wxHyperlinkCtrl::Create(parent, id, label, url, pos, size, style, name);
 
-#ifndef __WXMAC__
     m_pParentsBgBmp = parentsBgBmp;
+
+#ifndef __WXMAC__
     SetBackgroundColour(parent->GetBackgroundColour());
     SetForegroundColour(wxColour(0, 100, 225));
     wxFont myFont = GetFont();
@@ -172,6 +176,7 @@ bool CTransparentHyperlinkCtrl::Create(wxWindow *parent,
 
     return bRetVal;
 }
+
 
 #ifndef __WXMAC__
 void CTransparentHyperlinkCtrl::OnEraseBackground(wxEraseEvent& event)
@@ -290,8 +295,7 @@ void CTransparentStaticTextAssociate::OnMouse(wxMouseEvent& event) {
 }
 
 
-#ifndef __WXMAC__
-
+#ifdef __WXMSW__
 IMPLEMENT_DYNAMIC_CLASS (CTransparentStaticBitmap, wxStaticText)
 
 BEGIN_EVENT_TABLE(CTransparentStaticBitmap, wxPanel)
@@ -323,7 +327,6 @@ void CTransparentStaticBitmap::OnPaint(wxPaintEvent& /*event*/) {
     wxPaintDC dc(this);
     dc.DrawBitmap(m_bitMap, 0, 0, true);
 }
-
 #endif
 
 
@@ -347,6 +350,7 @@ CTransparentCheckBox::CTransparentCheckBox(wxWindow *parent, wxWindowID id, cons
         Create(parent, id, label, pos, size, style, validator, name, parentsBgBmp);
 }
 
+
 bool CTransparentCheckBox::Create(wxWindow *parent, wxWindowID id, const wxString& label,
             const wxPoint& pos,
             const wxSize& size, long style,
@@ -357,13 +361,15 @@ bool CTransparentCheckBox::Create(wxWindow *parent, wxWindowID id, const wxStrin
     wxString spacedLabel = wxT(" ") + label;
     bool bRetVal = wxCheckBox::Create(parent, id, spacedLabel, pos, size, style, validator, name);
 
-#ifndef __WXMAC__
     m_pParentsBgBmp = parentsBgBmp;
+
+#ifndef __WXMAC__
     SetBackgroundColour(parent->GetBackgroundColour());
     SetForegroundColour(parent->GetForegroundColour());
 #endif
     return bRetVal;
 }
+
 
 #ifndef __WXMAC__
 void CTransparentCheckBox::OnEraseBackground(wxEraseEvent& event)
