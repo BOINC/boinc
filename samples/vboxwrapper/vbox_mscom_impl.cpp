@@ -428,16 +428,15 @@ int VBOX_VM::create_vm() {
     // Tweak the VM's USB Configuration
     //
     vboxlog_msg("Disabling USB Support for VM.");
-#ifdef _VIRTUALBOX43_
-    rc = pMachine->GetUSBControllerCountByType(USBControllerType_OHCI, &lOHCICtrls);
-    if (SUCCEEDED(rc) && lOHCICtrls) {
-        pMachine->RemoveUSBController(CComBSTR("OHCI"));
-    }
-#endif
 #ifdef _VIRTUALBOX42_
     rc = pMachine->get_USBController(&pUSBContoller);
     if (SUCCEEDED(rc)) {
         pUSBContoller->put_Enabled(FALSE);
+    }
+#else
+    rc = pMachine->GetUSBControllerCountByType(USBControllerType_OHCI, &lOHCICtrls);
+    if (SUCCEEDED(rc) && lOHCICtrls) {
+        pMachine->RemoveUSBController(CComBSTR("OHCI"));
     }
 #endif
 
@@ -1007,16 +1006,15 @@ int VBOX_VM::deregister_vm(bool delete_media) {
                 pMedium->Close();
             }
 
-#ifdef _VIRTUALBOX43_
-            pMachineRO->DeleteConfig(pEmptyHardDisks, &pProgress);
+#ifdef _VIRTUALBOX42_
+            pMachineRO->Delete(pEmptyHardDisks, &pProgress);
             if (SUCCEEDED(rc)) {
                 pProgress->WaitForCompletion(-1);
             } else {
                 CHECK_ERROR(rc);
             }
-#endif
-#ifdef _VIRTUALBOX42_
-            pMachineRO->Delete(pEmptyHardDisks, &pProgress);
+#else
+            pMachineRO->DeleteConfig(pEmptyHardDisks, &pProgress);
             if (SUCCEEDED(rc)) {
                 pProgress->WaitForCompletion(-1);
             } else {
