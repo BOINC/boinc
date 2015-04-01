@@ -478,7 +478,11 @@ int VBOX_VM::create_vm() {
     // Tweak the VM's Drag & Drop Support
     //
     vboxlog_msg("Disabling Drag and Drop Support for VM.");
+#if defined(_VIRTUALBOX42_) || defined (_VIRTUALBOX43_)
     pMachine->put_DragAndDropMode(DragAndDropMode_Disabled);
+#else
+    pMachine->put_DnDMode(DnDMode_Disabled);
+#endif
 
     // Check to see if the processor supports hardware acceleration for virtualization
     // If it doesn't, disable the use of it in VirtualBox. Multi-core jobs require hardware
