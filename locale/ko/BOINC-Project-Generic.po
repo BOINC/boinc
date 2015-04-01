@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-03-04 08:56 PST\n"
-"PO-Revision-Date: 2015-03-21 13:06+0000\n"
+"PO-Revision-Date: 2015-04-01 11:22+0000\n"
 "Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/boinc/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -1052,7 +1052,7 @@ msgstr "최대 사용량"
 msgid ""
 "Keep some CPUs free for other applications. Example: 75% means use 6 cores "
 "on an 8-core CPU."
-msgstr "다른 응용 프로그램을 위해 CPU를 대기시킵니다. 예시: 75%로 설정시 8코어 CPU 중에서 6코어만 사용합니다."
+msgstr "다른 응용 프로그램을 위해 CPU를 유휴 상태로 남겨둡니다. 예시: 75%이면 8코어 CPU 중 6코어를 사용합니다."
 
 #: ../inc/prefs.inc:52
 #, no-php-format
