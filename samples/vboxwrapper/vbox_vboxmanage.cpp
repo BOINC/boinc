@@ -448,16 +448,18 @@ int VBOX_VM::create_vm() {
 
         // Add guest additions to the VM
         //
-        vboxlog_msg("Adding VirtualBox Guest Additions to VM.");
-        command  = "storageattach \"" + vm_name + "\" ";
-        command += "--storagectl \"Hard Disk Controller\" ";
-        command += "--port 2 ";
-        command += "--device 0 ";
-        command += "--type dvddrive ";
-        command += "--medium \"" + virtualbox_guest_additions + "\" ";
+        if (virtualbox_guest_additions.size()) {
+            vboxlog_msg("Adding VirtualBox Guest Additions to VM.");
+            command  = "storageattach \"" + vm_name + "\" ";
+            command += "--storagectl \"Hard Disk Controller\" ";
+            command += "--port 2 ";
+            command += "--device 0 ";
+            command += "--type dvddrive ";
+            command += "--medium \"" + virtualbox_guest_additions + "\" ";
 
-        retval = vbm_popen(command, output, "storage attach (guest additions image)");
-        if (retval) return retval;
+            retval = vbm_popen(command, output, "storage attach (guest additions image)");
+            if (retval) return retval;
+        }
 
         // Add a virtual cache disk drive to VM
         //
@@ -493,16 +495,18 @@ int VBOX_VM::create_vm() {
 
         // Add guest additions to the VM
         //
-        vboxlog_msg("Adding VirtualBox Guest Additions to VM.");
-        command  = "storageattach \"" + vm_name + "\" ";
-        command += "--storagectl \"Hard Disk Controller\" ";
-        command += "--port 1 ";
-        command += "--device 0 ";
-        command += "--type dvddrive ";
-        command += "--medium \"" + virtualbox_guest_additions + "\" ";
+        if (virtualbox_guest_additions.size()) {
+            vboxlog_msg("Adding VirtualBox Guest Additions to VM.");
+            command  = "storageattach \"" + vm_name + "\" ";
+            command += "--storagectl \"Hard Disk Controller\" ";
+            command += "--port 1 ";
+            command += "--device 0 ";
+            command += "--type dvddrive ";
+            command += "--medium \"" + virtualbox_guest_additions + "\" ";
 
-        retval = vbm_popen(command, output, "storage attach (guest additions image)");
-        if (retval) return retval;
+            retval = vbm_popen(command, output, "storage attach (guest additions image)");
+            if (retval) return retval;
+        }
 
     }
 
@@ -1514,7 +1518,13 @@ int VBOX_VM::get_guest_additions(string& guest_additions) {
     ga_end = output.find("\n", ga_start);
     guest_additions = output.substr(ga_start, ga_end - ga_start);
     strip_whitespace(guest_additions);
+
     if (guest_additions.size() <= 0) {
+        return ERR_NOT_FOUND;
+    }
+
+    if (!boinc_file_exists(guest_additions.c_str())) {
+        guest_additions.clear();
         return ERR_NOT_FOUND;
     }
 

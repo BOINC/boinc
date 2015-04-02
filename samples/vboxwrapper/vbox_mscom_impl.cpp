@@ -605,25 +605,27 @@ int VBOX_VM::create_vm() {
 
         // Add guest additions to the VM
         //
-        vboxlog_msg("Adding VirtualBox Guest Additions to VM.");
-        CComPtr<IMedium> pGuestAdditionsImage;
-        rc = m_pPrivate->m_pVirtualBox->OpenMedium(
-            CComBSTR(virtualbox_guest_additions.c_str()),
-            DeviceType_DVD,
-            AccessMode_ReadOnly,
-            FALSE,
-            &pGuestAdditionsImage
-        );
-        if (CHECK_ERROR(rc)) goto CLEANUP;
+        if (virtualbox_guest_additions.size()) {
+            vboxlog_msg("Adding VirtualBox Guest Additions to VM.");
+            CComPtr<IMedium> pGuestAdditionsImage;
+            rc = m_pPrivate->m_pVirtualBox->OpenMedium(
+                CComBSTR(virtualbox_guest_additions.c_str()),
+                DeviceType_DVD,
+                AccessMode_ReadOnly,
+                FALSE,
+                &pGuestAdditionsImage
+            );
+            if (CHECK_ERROR(rc)) goto CLEANUP;
 
-        rc = pMachine->AttachDevice(
-            CComBSTR("Hard Disk Controller"),
-            2,
-            0,
-            DeviceType_DVD,
-            pGuestAdditionsImage
-        );
-        if (CHECK_ERROR(rc)) goto CLEANUP;
+            rc = pMachine->AttachDevice(
+                CComBSTR("Hard Disk Controller"),
+                2,
+                0,
+                DeviceType_DVD,
+                pGuestAdditionsImage
+            );
+            if (CHECK_ERROR(rc)) goto CLEANUP;
+        }
 
         // Add a virtual cache disk drive to VM
         //
@@ -673,25 +675,27 @@ int VBOX_VM::create_vm() {
 
         // Add guest additions to the VM
         //
-        vboxlog_msg("Adding VirtualBox Guest Additions to VM.");
-        CComPtr<IMedium> pGuestAdditionsImage;
-        rc = m_pPrivate->m_pVirtualBox->OpenMedium(
-            CComBSTR(virtualbox_guest_additions.c_str()),
-            DeviceType_DVD,
-            AccessMode_ReadOnly,
-            FALSE,
-            &pGuestAdditionsImage
-        );
-        if (CHECK_ERROR(rc)) goto CLEANUP;
+        if (virtualbox_guest_additions.size()) {
+            vboxlog_msg("Adding VirtualBox Guest Additions to VM.");
+            CComPtr<IMedium> pGuestAdditionsImage;
+            rc = m_pPrivate->m_pVirtualBox->OpenMedium(
+                CComBSTR(virtualbox_guest_additions.c_str()),
+                DeviceType_DVD,
+                AccessMode_ReadOnly,
+                FALSE,
+                &pGuestAdditionsImage
+            );
+            if (CHECK_ERROR(rc)) goto CLEANUP;
 
-        rc = pMachine->AttachDevice(
-            CComBSTR("Hard Disk Controller"),
-            1,
-            0,
-            DeviceType_DVD,
-            pGuestAdditionsImage
-        );
-        if (CHECK_ERROR(rc)) goto CLEANUP;
+            rc = pMachine->AttachDevice(
+                CComBSTR("Hard Disk Controller"),
+                1,
+                0,
+                DeviceType_DVD,
+                pGuestAdditionsImage
+            );
+            if (CHECK_ERROR(rc)) goto CLEANUP;
+        }
     }
 
     // Adding virtual floppy disk drive to VM
@@ -1935,7 +1939,7 @@ int VBOX_VM::get_version_information(string& version) {
 }
 
 int VBOX_VM::get_guest_additions(string& guest_additions) {
-    int retval = ERR_EXEC;
+    int retval = ERR_NOT_FOUND;
     HRESULT rc;
     CComPtr<ISystemProperties> properties;
     CComBSTR tmp;
@@ -1945,7 +1949,11 @@ int VBOX_VM::get_guest_additions(string& guest_additions) {
         rc = properties->get_DefaultAdditionsISO(&tmp);
         if (SUCCEEDED(rc)) {
             guest_additions = CW2A(tmp);
-            retval = BOINC_SUCCESS;
+            if (!boinc_file_exists(guest_additions.c_str())) {
+                guest_additions.clear();
+            } else {
+                retval = BOINC_SUCCESS;
+            }
         }
     }
 
