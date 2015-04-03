@@ -22,6 +22,11 @@
 require_once("../inc/util.inc");
 require_once("../inc/result.inc");
 
+$ncodes = get_int('ncodes', true);
+if (!$ncodes) $ncodes = 10;
+$nresults_per_code = get_int('nresults_per_code', true);
+if (!$nresults_per_code) $nresults_per_code = 10;
+
 function compare ($x, $y) {
     return $x->count < $y->count;
 }
@@ -38,7 +43,7 @@ foreach ($results as $r) {
         $error_codes[$e] = $x;
     } else {
         $x = new StdClass;
-        $x->count = 0;
+        $x->count = 1;
         $x->results = array($r);
         $error_codes[$e] = $x;
     }
@@ -49,13 +54,13 @@ uasort($error_codes, 'compare');
 page_head("Error summary");
 $i = 0;
 foreach ($error_codes as $code => $x) {
-    if ($i++ > 10) break;
-    echo "<br><br>Exit status".exit_status_string($code)." ($x->count results)\n";
+    if ($i++ >= $ncodes) break;
+    echo "<h2>Exit status: ".exit_status_string($code)." ($x->count results)</h2>\n";
     $results = $x->results;
     $j = 0;
     foreach ($results as $r) {
-        if ($j++ > 10) break;
-        echo "<br>   <a href=result.php?resultid=$r->id>$r->id</a>\n";
+        if ($j++ >= $nresults_per_code) break;
+        echo "&nbsp;<a href=".URL_BASE."result.php?resultid=$r->id>$r->id</a><br>\n";
     }
 }
 page_tail();
