@@ -16,7 +16,7 @@
 #define WRAPPER_RELEASE 26013
 
 /* Release part of vboxwrapper version number */
-#define VBOXWRAPPER_RELEASE 26162
+#define VBOXWRAPPER_RELEASE 26163
 
 /* String representation of BOINC version number */
 #define BOINC_VERSION_STRING "7.5.1"
