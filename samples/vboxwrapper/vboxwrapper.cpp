@@ -80,6 +80,7 @@
 #ifdef _WIN32
 #include "vbox_mscom42.h"
 #include "vbox_mscom43.h"
+#include "vbox_mscom50.h"
 #endif
 #include "vbox_vboxmanage.h"
 
@@ -395,7 +396,6 @@ int main(int argc, char** argv) {
     string message;
     char buf[256];
 
-
     // Initialize diagnostics system
     //
     boinc_init_diagnostics(BOINC_DIAG_DEFAULTS);
@@ -444,7 +444,9 @@ int main(int argc, char** argv) {
     int vbox_major = 0, vbox_minor = 0;
 
     if (BOINC_SUCCESS != vbox42::VBOX_VM::get_version_information(vbox_version)) {
-        vbox43::VBOX_VM::get_version_information(vbox_version);
+        if (BOINC_SUCCESS != vbox43::VBOX_VM::get_version_information(vbox_version)) {
+            vbox50::VBOX_VM::get_version_information(vbox_version);
+        }
     }
     if (!vbox_version.empty()) {
         sscanf(vbox_version.c_str(), "%d.%d", &vbox_major, &vbox_minor);
@@ -453,6 +455,9 @@ int main(int argc, char** argv) {
         }
         if ((4 == vbox_major) && (3 == vbox_minor)) {
             pVM = (VBOX_VM*) new vbox43::VBOX_VM();
+        }
+        if ((5 == vbox_major) && (0 == vbox_minor)) {
+            pVM = (VBOX_VM*) new vbox50::VBOX_VM();
         }
     }
     if (!pVM) {
