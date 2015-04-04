@@ -50,7 +50,7 @@ public:
     void ReskinInterface();
 	void UpdateProjectView();
     void OnFrameRender();
-	void OnProjectsAttachToProject();
+	void OnProjectsAttachToProject(wxCommandEvent& event);
     void OnShowNotices(wxCommandEvent& event);
     void OnSuspendResume(wxCommandEvent& event);
     void OnHelp( wxCommandEvent& event );
@@ -114,7 +114,7 @@ public:
     void OnHelpBOINC( wxCommandEvent& event );
     void OnHelpAbout( wxCommandEvent& event );
 
-    void OnProjectsAttachToProject();
+    void OnProjectsAttachToProject(wxCommandEvent& event);
 
 	void OnConnect(CFrameEvent& event );
     void OnReloadSkin( CFrameEvent& event );

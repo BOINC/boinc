@@ -78,6 +78,7 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_MENU(ID_PREFERENCES, CSimpleFrame::OnPreferences)
     EVT_MENU(ID_SGOPTIONS, CSimpleFrame::OnOptions)
 	EVT_MENU(ID_SGDIAGNOSTICLOGFLAGS, CSimpleFrame::OnDiagnosticLogFlags)
+    EVT_MENU(ID_WIZARDATTACH, CSimpleFrame::OnProjectsAttachToProject)
     EVT_MENU(ID_HELPBOINC, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCMANAGER, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCWEBSITE, CSimpleFrame::OnHelpBOINC)
@@ -168,16 +169,10 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
         _("Select the appearance of the user interface.")
     );
 
-    // Skins sumenu always contains the Default entry
+    // Skins submenu always contains the Default entry
     if (m_pSubmenuSkins->GetMenuItemCount() <= 1) {
         menuView->Enable(ID_SGSKINSELECTOR, false);
     }
-    menuView->AppendSeparator();
-    menuView->Append(
-        ID_EVENTLOG, 
-        _("Event Log...\tCtrl+Shift+E"),
-        _("Display diagnostic messages.")
-    );
     menuView->AppendSeparator();
     menuView->Append(
         ID_CHANGEGUI,
@@ -186,19 +181,33 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     );
 
 
-    // Tools menu
-    wxMenu *menuTools = new wxMenu;
+    // Options menu
+    wxMenu *menuOptions = new wxMenu;
 
-    menuTools->Append(
+    menuOptions->Append(
         ID_PREFERENCES,
         _("Computing &preferences..."),
         _("Configure computing preferences")
     );
     
-    menuTools->Append(
+    menuOptions->Append(
         ID_SGOPTIONS, 
         _("&Other options..."),
         _("Configure display options and proxy settings")
+    );
+
+    // Tools menu
+    wxMenu *menuTools = new wxMenu;
+    menuTools->Append(
+        ID_WIZARDATTACH, 
+        _("&Add project..."),
+        _("Add a project")
+    );
+    menuTools->AppendSeparator();
+    menuTools->Append(
+        ID_EVENTLOG, 
+        _("Event Log...\tCtrl+Shift+E"),
+        _("Display diagnostic messages.")
     );
 
     // Help menu
@@ -268,8 +277,12 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
         _("&View")
     );
     m_pMenubar->Append(
-        menuTools,
+        menuOptions,
         _("&Options")
+    );
+    m_pMenubar->Append(
+        menuTools,
+        _("&Tools")
     );
     m_pMenubar->Append(
         menuHelp,
@@ -630,7 +643,7 @@ void CSimpleFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
 }
 
 
-void CSimpleFrame::OnProjectsAttachToProject() {
+void CSimpleFrame::OnProjectsAttachToProject(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnProjectsAttachToProject - Function Begin"));
 
     CMainDocument* pDoc     = wxGetApp().GetDocument();
@@ -968,13 +981,13 @@ void CSimpleGUIPanel::ReskinInterface() {
 }
 
 
-void CSimpleGUIPanel::OnProjectsAttachToProject() {
+void CSimpleGUIPanel::OnProjectsAttachToProject(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::OnProjectsAttachToProject - Function Begin"));
 	
     CSimpleFrame* pFrame = wxDynamicCast(GetParent(), CSimpleFrame);
     wxASSERT(pFrame);
 
-    pFrame->OnProjectsAttachToProject();
+    pFrame->OnProjectsAttachToProject(event);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnProjectsAttachToProject - Function End"));
 }

@@ -427,12 +427,6 @@ bool CAdvancedFrame::CreateMenu() {
     );
 
     menuView->AppendSeparator();
-    menuView->Append(
-        ID_EVENTLOG, 
-        _("Event Log...\tCtrl+Shift+E"),
-        _("Show diagnostic messages")
-    );
-    menuView->AppendSeparator();
 
     menuView->Append(
         ID_CHANGEGUI,
@@ -493,6 +487,12 @@ bool CAdvancedFrame::CreateMenu() {
         ID_RETRYCOMMUNICATIONS, 
         _("Retry pending transfers"),
         _("Retry deferred file transfers and task requests")
+    );
+    menuTools->AppendSeparator();
+    menuTools->Append(
+        ID_EVENTLOG, 
+        _("Event Log...\tCtrl+Shift+E"),
+        _("Show diagnostic messages")
     );
 
     // Activity menu

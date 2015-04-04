@@ -52,7 +52,7 @@ class CSimpleProjectPanel : public CSimplePanelBase
         void OnProjectSelection(wxCommandEvent &event);
         void OnProjectCommandButton(wxCommandEvent& /*event*/);
         void OnAddProject(wxCommandEvent& /*event*/);
-        void OnWizardAttach();
+        void OnWizardAttach(wxCommandEvent&);
         void OnWizardUpdate();
         void OnProjectWebSiteButton(wxCommandEvent& /*event*/);
         void UpdateProjectList();

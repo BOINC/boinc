@@ -314,16 +314,16 @@ void CSimpleProjectPanel::ReskinInterface() {
 }
 
 
-void CSimpleProjectPanel::OnAddProject(wxCommandEvent& /*event*/) {
+void CSimpleProjectPanel::OnAddProject(wxCommandEvent& event) {
     if (m_UsingAccountManager) {
         OnWizardUpdate();
     } else {
-        OnWizardAttach();
+        OnWizardAttach(event);
     }
 }
 
 
-void CSimpleProjectPanel::OnWizardAttach() {
+void CSimpleProjectPanel::OnWizardAttach(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectsComponent::OnWizardAttach - Function Begin"));
 
     CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -339,7 +339,7 @@ void CSimpleProjectPanel::OnWizardAttach() {
 
     pPanel->SetDlgOpen(true);
 
-    pPanel->OnProjectsAttachToProject();
+    pPanel->OnProjectsAttachToProject(event);
 //    btnAddProj->Refresh();
 
     pPanel->SetDlgOpen(false);
