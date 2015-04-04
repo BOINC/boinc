@@ -98,14 +98,17 @@ define('S_TESTER', 3);
 define('S_VOLUNTEER', 4);
 define('S_VOLUNTEER_TESTER', 5);
 define('S_SCIENTIST', 6);
+define('S_HELP_DESK_EXPERT', 7);
+define('S_NFLAGS', 8);
 
-$special_user_bitfield[S_MODERATOR]="Volunteer moderator";
-$special_user_bitfield[S_ADMIN]="Project administrator";
-$special_user_bitfield[S_DEV]="Project developer";
-$special_user_bitfield[S_TESTER]="Project tester";
-$special_user_bitfield[S_VOLUNTEER]="Volunteer developer";
-$special_user_bitfield[S_VOLUNTEER_TESTER]="Volunteer tester";
-$special_user_bitfield[S_SCIENTIST]="Project scientist";
+$special_user_bitfield[S_MODERATOR] = tra("Volunteer moderator");
+$special_user_bitfield[S_ADMIN] = tra("Project administrator");
+$special_user_bitfield[S_DEV] = tra("Project developer");
+$special_user_bitfield[S_TESTER] = tra("Project tester");
+$special_user_bitfield[S_VOLUNTEER] = tra("Volunteer developer");
+$special_user_bitfield[S_VOLUNTEER_TESTER] = tra("Volunteer tester");
+$special_user_bitfield[S_SCIENTIST] = tra("Project scientist");
+$special_user_bitfield[S_HELP_DESK_EXPERT] = tra("Help desk expert");
 
 // show a banner with search form on left and PM info on right
 //
