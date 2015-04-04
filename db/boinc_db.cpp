@@ -1750,15 +1750,27 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
 ) {
     int retval;
     char query[MAX_QUERY_LEN], mod_clause[256];
+    char main_clause[256];
     MYSQL_ROW row;
     VALIDATOR_ITEM new_item;
 
     if (!cursor.active) {
+        sprintf(main_clause,
+            " and wu.appid = %d and wu.need_validate > 0 ", appid
+        );
         if (wu_id_modulus) {
-            sprintf(mod_clause,
-                " and wu.id %% %d = %d ",
-                wu_id_modulus, wu_id_remainder
-            );
+            // terrible kludge: if rem >= mod, treat it as a WU ID
+            // This is to support the --wu_id debugging feature
+            //
+            if (wu_id_remainder < wu_id_modulus) {
+                sprintf(mod_clause,
+                    " and wu.id %% %d = %d ",
+                    wu_id_modulus, wu_id_remainder
+                );
+            } else {
+                sprintf(mod_clause, " and wu.id = %u ", wu_id_remainder);
+                strcpy(main_clause, "");
+            }
         } else {
             strcpy(mod_clause, "");
         }
@@ -1812,10 +1824,10 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
             "   res.runtime_outlier "
             "FROM "
             "   workunit AS wu, result AS res where wu.id = res.workunitid "
-            "   and wu.appid = %d and wu.need_validate > 0 %s "
+            "   %s %s "
             "LIMIT "
             "   %d ",
-            appid, mod_clause, nresult_limit
+            main_clause, mod_clause, nresult_limit
         );
 
         retval = db->do_query(query);
