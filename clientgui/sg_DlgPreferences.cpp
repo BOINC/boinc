@@ -750,7 +750,9 @@ bool CPanelPreferences::SavePreferenceSettings() {
 bool CPanelPreferences::ValidateInput() {
     wxString invMsgFloat = _("Invalid number");
     wxString invMsgTime = _("Invalid time, value must be between 0:00 and 24:00, format is HH:MM");
+    wxString invMsgTimeSpan = _("Start time must be different from end time");
     wxString invMsgLimit100 = _("Number must be between 0 and 100");
+    double startTime, endTime;
     wxString buffer;
 
     if(m_txtProcIdleFor->IsEnabled()) {
@@ -772,6 +774,12 @@ bool CPanelPreferences::ValidateInput() {
             ShowErrorMessage(invMsgTime,m_txtProcEveryDayStop);
             return false;
         }
+        startTime = TimeStringToDouble(m_txtProcEveryDayStart->GetValue());
+        endTime = TimeStringToDouble(m_txtProcEveryDayStop->GetValue());
+        if (startTime == endTime) {
+            ShowErrorMessage(invMsgTimeSpan,m_txtProcEveryDayStop);
+            return false;
+        }
     }
     
     buffer = m_txtProcUseCPUTime->GetValue();
@@ -789,6 +797,12 @@ bool CPanelPreferences::ValidateInput() {
         buffer = m_txtNetEveryDayStop->GetValue();
         if(!IsValidTimeValue(buffer)) {
             ShowErrorMessage(invMsgTime,m_txtNetEveryDayStop);
+            return false;
+        }
+        startTime = TimeStringToDouble(m_txtNetEveryDayStart->GetValue());
+        endTime = TimeStringToDouble(m_txtNetEveryDayStop->GetValue());
+        if (startTime == endTime) {
+            ShowErrorMessage(invMsgTimeSpan,m_txtNetEveryDayStop);
             return false;
         }
     }
