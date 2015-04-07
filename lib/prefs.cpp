@@ -185,6 +185,7 @@ bool TIME_PREFS::suspended(double now) {
 
 void WEEK_PREFS::set(int day, double start, double end) {
     if (day < 0 || day > 6) return;
+    if (start == end) return;
     days[day].present = true;
     days[day].start_hour = start;
     days[day].end_hour = end;
@@ -193,6 +194,7 @@ void WEEK_PREFS::set(int day, double start, double end) {
 
 void WEEK_PREFS::set(int day, TIME_SPAN* time) {
     if (day < 0 || day > 6) return;
+    if (time->start_hour == time->end_hour) return;
     days[day].present = true;
     days[day].start_hour = time->start_hour;
     days[day].end_hour = time->end_hour;
@@ -388,6 +390,12 @@ int GLOBAL_PREFS::parse_override(
         if (!xp.is_tag) continue;
         if (xp.match_tag("global_preferences")) continue;
         if (xp.match_tag("/global_preferences")) {
+            if (cpu_times.start_hour == cpu_times.end_hour) {
+                mask.start_hour = mask.end_hour = false;
+            }
+            if (net_times.start_hour == net_times.end_hour) {
+                mask.net_start_hour = mask.net_end_hour = false;
+            }
             return 0;
         }
         if (in_venue) {
