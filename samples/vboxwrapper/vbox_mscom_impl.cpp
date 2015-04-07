@@ -1516,10 +1516,12 @@ int VBOX_VM::pause() {
     if (CHECK_ERROR(rc)) goto CLEANUP;
 
     // Pause the machine.
-    rc = pConsole->Pause();
-    if (CHECK_ERROR(rc)) goto CLEANUP;
+    if (pConsole) {
+        rc = pConsole->Pause();
+        if (CHECK_ERROR(rc)) goto CLEANUP;
 
-    retval = BOINC_SUCCESS;
+        retval = BOINC_SUCCESS;
+    }
 
 CLEANUP:
     return retval;
@@ -1543,10 +1545,12 @@ int VBOX_VM::resume() {
     if (CHECK_ERROR(rc)) goto CLEANUP;
 
     // Resume the machine.
-    rc = pConsole->Resume();
-    if (CHECK_ERROR(rc)) goto CLEANUP;
+    if (pConsole) {
+        rc = pConsole->Resume();
+        if (CHECK_ERROR(rc)) goto CLEANUP;
 
-    retval = BOINC_SUCCESS;
+        retval = BOINC_SUCCESS;
+    }
 
 CLEANUP:
     return retval;
