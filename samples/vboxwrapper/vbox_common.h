@@ -107,45 +107,47 @@ public:
 
     FloppyIONS::FloppyIO* pFloppy;
 
+    // last polled copy of the log file
     std::string vm_log;
-        // last polled copy of the log file
+    // last VM guest log entry detected
     VBOX_TIMESTAMP vm_log_timestamp;
-        // last VM guest log entry detected
+    // unique name for the VM
     std::string vm_master_name;
-        // unique name for the VM
+    // unique description for the VM
     std::string vm_master_description;
-        // unique description for the VM
+    // unique name for the VM or UUID of a stale VM if deregistering it
     std::string vm_name;
-        // unique name for the VM or UUID of a stale VM if deregistering it
+    // required CPU core count
     std::string vm_cpu_count;
-        // required CPU core count
+    // name of the virtual machine disk image file
     std::string image_filename;
-        // name of the virtual machine disk image file
+    // name of the virtual machine iso9660 disk image file
     std::string iso_image_filename;
-        // name of the virtual machine iso9660 disk image file
+    // name of the virtual machine cache disk image file
     std::string cache_disk_filename;
-        // name of the virtual machine cache disk image file
+    // name of the virtual machine floppy disk image file
     std::string floppy_image_filename;
-        // name of the virtual machine floppy disk image file
+    // amount of CPU time consumed by the VM (note: use get_vm_cpu_time())
     double current_cpu_time;
-        // amount of CPU time consumed by the VM (note: use get_vm_cpu_time())
+    // is the VM suspended?
     bool suspended;
-        // is the VM suspended?
+    // is network access temporarily suspended?
     bool network_suspended;
-        // is network access temporarily suspended?
+    // is VM even online?
     bool online;
-        // is VM even online?
+    // Is VM saving from checkpoint?
     bool saving;
-        // Is VM saving from checkpoint?
+    // Is VM restoring from checkpoint?
     bool restoring;
-        // Is VM restoring from checkpoint?
+    // Has the VM crashed?
     bool crashed;
-        // Has the VM crashed?
+    // Has the VM been successfully started?
+    bool started_successfully;
+    // whether we were instructed to only register the VM.
+    // useful for debugging VMs.
     bool register_only;
-        // whether we were instructed to only register the VM.
-        // useful for debugging VMs.
+    // for optional remote desktop; dynamically assigned
     int rd_host_port;
-        // for optional remote desktop; dynamically assigned
     bool headless;
 
     int vm_pid;

@@ -1177,7 +1177,7 @@ int VBOX_VM::poll(bool log_state) {
     if (aid.using_sandbox && vboxsvc_pid_handle && !process_exists(vboxsvc_pid_handle)) {
         vboxlog_msg("Status Report: vboxsvc.exe is no longer running.");
     }
-    if (vm_pid_handle && !process_exists(vm_pid_handle)) {
+    if (started_successfully && vm_pid_handle && !process_exists(vm_pid_handle)) {
         vboxlog_msg("Status Report: virtualbox.exe/vboxheadless.exe is no longer running.");
     }
 
@@ -1376,6 +1376,7 @@ int VBOX_VM::start() {
             } while (timeout >= dtime());
 
             vboxlog_msg("Successfully started VM. (PID = '%d')", vm_pid);
+            started_successfully = true;
             retval = BOINC_SUCCESS;
         } else {
             vboxlog_msg("VM failed to start.");

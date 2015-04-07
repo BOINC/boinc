@@ -110,6 +110,7 @@ VBOX_BASE::VBOX_BASE() : VBOX_JOB() {
     saving = false;
     restoring = false;
     crashed = false;
+    started_successfully = false;
     register_only = false;
     rd_host_port = 0;
     headless = true;
