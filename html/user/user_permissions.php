@@ -24,47 +24,58 @@ function user_permissions_form() {
     global $special_user_bitfield;
     page_head('Manage user privileges');
 
-    start_table("align=\"center\"");
-    row1("Current special users", '9');
+    start_table();
+    row1("Current special users", 99);
 
-    echo "<tr><td>User</td>";
+    echo "<tr><th>User</th>";
     for ($i=0; $i<S_NFLAGS; $i++) {
-        echo "<td width=\"15\">" . $special_user_bitfield[$i] . "</td>\n";
+        echo "<th>" . $special_user_bitfield[$i] . "</th>\n";
     }
-    echo "</tr>";
+    echo "<th> </th></tr>";
 
     $result = _mysql_query(
         "SELECT prefs.userid, prefs.special_user, user.id, user.name 
         FROM forum_preferences as prefs, user 
         WHERE CONVERT(special_user, DECIMAL) > 0 and prefs.userid=user.id"
     );
-    for ($i=1; $i<=_mysql_num_rows($result); $i++){
-        $foo = _mysql_fetch_object($result);
-        echo "<form action=\"user_permissions.php\" method=\"POST\">\n";
-        echo "<input type=\"hidden\" name=\"userid\" value=\"$foo->userid\"
-            <tr><td>$foo->name ($foo->id)</td>
+    $i = 0;
+    while ($foo = _mysql_fetch_object($result)) {
+        echo "<tr class=row$i>
+            <td>$foo->name ($foo->id)</td>
+            <form action=\"user_permissions.php\" method=\"POST\">
+            <input type=\"hidden\" name=\"userid\" value=\"$foo->userid\">
         ";
         for ($j=0; $j<S_NFLAGS; $j++) {
             $bit = substr($foo->special_user, $j, 1);
-            echo "<td><input type=\"checkbox\" name=\"role".$j."\" value=\"1\"";
-            if ($bit == 1) {
-                echo " checked=\"checked\"";
-            }
-            echo "></td>\n";
+            $c = ($bit == 1)?"checked":"";
+            echo "<td>
+                <input type=\"checkbox\" name=\"role".$j."\" value=\"1\" $c>
+                </td>
+            ";
         }
-        echo "<td><input class=\"btn btn-default\" type=\"submit\" value=\"Update\"></form></td>";
-        echo "</tr>\n";
+        echo "<td><input class=\"btn btn-default\" type=\"submit\" value=\"Update\"></td>";
+        echo "</form></tr>\n";
+        $i = 1 - $i;
     }
 
-    echo "<tr><form action=\"manage_special_users_action.php\" method=\"POST\">\n";
-    echo "<td>Add UserID:<input type=\"text\" name=\"userid\" size=\"6\"></td>";
+    echo "
+        <tr class=row$i>
+        <form action=\"user_permissions.php\" method=\"POST\">
+        <td>Add User ID:<input type=\"text\" name=\"userid\" size=\"6\"></td>
+    ";
 
     for ($j=0; $j<S_NFLAGS; $j++) {
-        echo "<td><input type=\"checkbox\" name=\"role".$j."\" value=\"1\"";
-        echo "></td>\n";
+        echo "<td>
+            <input type=\"checkbox\" name=\"role".$j."\" value=\"1\">
+            </td>
+        ";
     }
-    echo "<td><input class=\"btn btn-default\" type=\"submit\" value=\"Update\"></form></td>";
-    echo "</tr>\n";
+    echo "<td>
+        <input class=\"btn btn-default\" type=\"submit\" value=\"Update\">
+        </td>
+        </form>
+        </tr>
+    ";
 
     end_table();
 
@@ -72,34 +83,22 @@ function user_permissions_form() {
 }
 
 function user_permissions_action() {
-    page_head("Manage special users action");
-
     $bitset = '';
 
-    for ($i=0;$i<S_NFLAGS;$i++) {
-        if (post_int("role".$i, TRUE) == '1') {
-            $bitset = str_pad($bitset, $i+1, '1');
+    for ($i=0; $i<S_NFLAGS; $i++) {
+        if (post_int("role".$i, TRUE) == 1) {
+            $bitset .= '1';
+            echo "<br> setting $i";
         } else {
-            $bitset = str_pad($bitset, $i+1, '0');
+            $bitset .= '0';
         }
     }
-    if ($bitset == "0000000") $bitset = '';
     $userid = post_int("userid");
 
-    $query = "UPDATE forum_preferences SET special_user='$bitset' WHERE userid='$userid'";
+    $query = "UPDATE forum_preferences SET special_user='$bitset' WHERE userid=$userid";
     _mysql_query($query);
 
-    if (_mysql_affected_rows() == 1) {
-        echo "<center><h2>Success</h2>";
-    } else {
-        echo "<center><h2>Failure</h2>";
-    }
-
-    echo "Query was: $query</center>";
-
-    //echo "<br><a href=\"manage_special_users.php\">Manage users</a>";
-
-    page_tail();
+    Header("Location: user_permissions.php");
 }
 
 $user = get_logged_in_user();
