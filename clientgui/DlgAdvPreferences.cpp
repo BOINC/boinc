@@ -76,8 +76,10 @@ CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBas
     m_Notebook->SetPageImage(3,iImageIndex);
 
     //setting warning bitmap
-    m_bmpWarning->SetBitmap(GetScaledBitmapFromXPMData(warning_xpm));
-
+    if (m_bmpWarning) {
+        m_bmpWarning->SetBitmap(GetScaledBitmapFromXPMData(warning_xpm));
+    }
+    
     wxCheckBox* proc_cb[] = {m_chkProcSunday,m_chkProcMonday,m_chkProcTuesday,m_chkProcWednesday,m_chkProcThursday,m_chkProcFriday,m_chkProcSaturday};
     wxTextCtrl* proc_tstarts[] = {m_txtProcSundayStart,m_txtProcMondayStart,m_txtProcTuesdayStart,m_txtProcWednesdayStart,m_txtProcThursdayStart,m_txtProcFridayStart,m_txtProcSaturdayStart};
     wxTextCtrl* proc_tstops[] = {m_txtProcSundayStop,m_txtProcMondayStop,m_txtProcTuesdayStop,m_txtProcWednesdayStop,m_txtProcThursdayStop,m_txtProcFridayStop,m_txtProcSaturdayStop};
@@ -99,6 +101,9 @@ CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBas
     SetValidators();
     //read in settings and initialize controls
     ReadPreferenceSettings();
+
+    if (! m_bOKToShow) return;
+
     // Get default preference values
     defaultPrefs.enabled_defaults();
     //
@@ -130,7 +135,9 @@ CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBas
 
 /* destructor */
 CDlgAdvPreferences::~CDlgAdvPreferences() {
-    SaveState();
+    if (m_bOKToShow) {
+        SaveState();
+    }
     delete m_vTimeValidator;
 }
 
@@ -286,8 +293,14 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     if (retval == ERR_NOT_FOUND) {
         // Older clients don't support get_global_prefs_working_struct RPC
         prefs = pDoc->state.global_prefs;
-        pDoc->rpc.get_global_prefs_override_struct(prefs, mask);
+        retval = pDoc->rpc.get_global_prefs_override_struct(prefs, mask);
     }
+    if (retval) {
+        m_bOKToShow = false;
+        return;
+    }
+    
+    m_bOKToShow = true;
 
     // ######### proc usage page
     // max cpus
