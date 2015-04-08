@@ -569,6 +569,7 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
     wxFont         font = wxNullFont;
     size_t         loc = 0;
     bool           is_dialog_detected = false;
+    bool           enableSnoozeItems = false;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -583,6 +584,8 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
     if (wxGetApp().IsModalDialogDisplayed()) {
         is_dialog_detected = true;
     }
+    
+    enableSnoozeItems = (!is_dialog_detected) && pDoc->IsConnected();
         
     for (loc = 0; loc < pMenu->GetMenuItemCount(); loc++) {
         pMenuItem = pMenu->FindItemByPosition(loc);
@@ -625,25 +628,18 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
         case RUN_MODE_NEVER:
             m_SnoozeMenuItem->SetItemLabel(_("Resume"));
             m_SnoozeMenuItem->Check(false);
-            if (!is_dialog_detected) {
-                m_SnoozeMenuItem->Enable(true);
-            }
+            m_SnoozeMenuItem->Enable(enableSnoozeItems);
             break;
         default:
             m_SnoozeMenuItem->SetItemLabel(_("Snooze"));
             m_SnoozeMenuItem->Check(true);
-            if (!is_dialog_detected) {
-                m_SnoozeMenuItem->Enable(true);
-            }
         }
         break;
     default:
         m_SnoozeMenuItem->SetItemLabel(_("Snooze"));
         m_SnoozeMenuItem->Check(false);
-        if (!is_dialog_detected) {
-            m_SnoozeMenuItem->Enable(true);
-        }
     }
+    m_SnoozeMenuItem->Enable(enableSnoozeItems);
     
     if (pDoc->state.have_gpu()) {
         switch (status.gpu_mode) {
@@ -652,30 +648,22 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
             case RUN_MODE_NEVER:
                 m_SnoozeGPUMenuItem->SetItemLabel(_("Resume GPU"));
                 m_SnoozeGPUMenuItem->Check(false);
-                if (!is_dialog_detected) {
-                    m_SnoozeGPUMenuItem->Enable(true);
-                }
                 break;
             default:
                 m_SnoozeGPUMenuItem->SetItemLabel(_("Snooze GPU"));
                 m_SnoozeGPUMenuItem->Check(true);
-                if (!is_dialog_detected) {
-                    m_SnoozeGPUMenuItem->Enable(true);
-                }
             }
             break;
         default:
             m_SnoozeGPUMenuItem->SetItemLabel(_("Snooze GPU"));
             m_SnoozeGPUMenuItem->Check(false);
-            if (!is_dialog_detected) {
-                m_SnoozeGPUMenuItem->Enable(true);
-            }
             break;
         }
         if (status.task_mode == RUN_MODE_NEVER) {
             m_SnoozeGPUMenuItem->Check(false);
             m_SnoozeGPUMenuItem->Enable(false);
         }
+        m_SnoozeGPUMenuItem->Enable(enableSnoozeItems);
     }
 }
 
