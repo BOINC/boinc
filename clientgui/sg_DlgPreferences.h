@@ -150,6 +150,8 @@ public:
     bool doesLocalPrefsFileExist();
     wxBitmap* GetBackgroundBmp() { return m_backgroundBitmap; }
 
+    bool OKToShow() { return m_bOKToShow; }
+
 private:
 ////@begin CPanelPreferences member variables
     wxCheckBox* m_chkProcOnBatteries;
@@ -170,6 +172,8 @@ private:
     wxString *web_prefs_url;
  
     wxBitmap* m_backgroundBitmap;
+    
+    bool m_bOKToShow;
    
 ////@end CPanelPreferences member variables
     GLOBAL_PREFS      global_preferences_working;
@@ -207,6 +211,8 @@ public:
     void OnOK( wxCommandEvent& event );
 
     bool ConfirmClear();
+
+    bool OKToShow() { return m_pBackgroundPanel->OKToShow(); }
 
 private:
 ////@begin CDlgPreferences member variables

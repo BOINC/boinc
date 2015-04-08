@@ -1357,7 +1357,9 @@ void CAdvancedFrame::OnPreferences(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnPreferences - Function Begin"));
 
     CDlgAdvPreferences dlg(this);
-	dlg.ShowModal();
+    if (dlg.OKToShow()) {
+        dlg.ShowModal();
+    }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnPreferences - Function End"));
 }

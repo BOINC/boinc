@@ -59,76 +59,81 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     this->SetTitle(strCaption);
 
     wxBoxSizer* dialogSizer = new wxBoxSizer( wxVERTICAL );
-    wxStaticBox* topControlsStaticBox = new wxStaticBox( this, -1, wxEmptyString );
 
-    wxStaticBoxSizer* topControlsSizer = new wxStaticBoxSizer( topControlsStaticBox, wxHORIZONTAL );
-
-    m_bmpWarning = new wxStaticBitmap( topControlsStaticBox, ID_DEFAULT, wxNullBitmap, wxDefaultPosition, wxDefaultSize, 0 );
-    m_bmpWarning->SetMinSize( wxSize( 48,48 ) );
-
-    topControlsSizer->Add( m_bmpWarning, 0, wxALIGN_CENTER_VERTICAL|wxALL, 0 );
-
-    wxBoxSizer* legendSizer = new wxBoxSizer( wxVERTICAL );
 
     bool usingLocalPrefs = doesLocalPrefsFileExist();
-    if (usingLocalPrefs) {
-        legendSizer->Add(
-            new wxStaticText( topControlsStaticBox, ID_DEFAULT,
-                        _("Using local preferences.\n"
-                        "Click \"Use web prefs\" to use web-based preferences from"
-                        ), wxDefaultPosition, wxDefaultSize, 0 ),
-            0, wxALL, 1
-        );
+    if (web_prefs_url->IsEmpty()) {
+        m_bmpWarning = NULL;
     } else {
+        wxStaticBox* topControlsStaticBox = new wxStaticBox( this, -1, wxEmptyString );
+
+        wxStaticBoxSizer* topControlsSizer = new wxStaticBoxSizer( topControlsStaticBox, wxHORIZONTAL );
+
+        m_bmpWarning = new wxStaticBitmap( topControlsStaticBox, ID_DEFAULT, wxNullBitmap, wxDefaultPosition, wxDefaultSize, 0 );
+        m_bmpWarning->SetMinSize( wxSize( 48,48 ) );
+
+        topControlsSizer->Add( m_bmpWarning, 0, wxALIGN_CENTER_VERTICAL|wxALL, 0 );
+
+        wxBoxSizer* legendSizer = new wxBoxSizer( wxVERTICAL );
+
+        if (usingLocalPrefs) {
+            legendSizer->Add(
+                new wxStaticText( topControlsStaticBox, ID_DEFAULT,
+                            _("Using local preferences.\n"
+                            "Click \"Use web prefs\" to use web-based preferences from"
+                            ), wxDefaultPosition, wxDefaultSize, 0 ),
+                0, wxALL, 1
+            );
+        } else {
+            legendSizer->Add(
+                new wxStaticText( topControlsStaticBox, ID_DEFAULT,
+                            _("Using web-based preferences from"),
+                            wxDefaultPosition, wxDefaultSize, 0 ),
+                0, wxALL, 1
+            );
+        }
+        
         legendSizer->Add(
-            new wxStaticText( topControlsStaticBox, ID_DEFAULT,
-                        _("Using web-based preferences from"),
-                        wxDefaultPosition, wxDefaultSize, 0 ),
-            0, wxALL, 1
+            new wxHyperlinkCtrl(
+                topControlsStaticBox, wxID_ANY, *web_prefs_url, *web_prefs_url,
+                wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE
+            ),
+            0, wxLEFT, 5
         );
-    }
-    
-     legendSizer->Add(
-        new wxHyperlinkCtrl(
-            topControlsStaticBox, wxID_ANY, *web_prefs_url, *web_prefs_url,
-            wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE
-        ),
-        0, wxLEFT, 5
-    );
-    
-    if (!usingLocalPrefs) {
-        legendSizer->Add(
-            new wxStaticText( topControlsStaticBox, ID_DEFAULT,
-                 _("Set values and click OK to use local preferences instead."),
-                 wxDefaultPosition, wxDefaultSize, 0 ),
-            0, wxALL, 1
-        );
-    }
-  
-    topControlsSizer->Add( legendSizer, 1, wxALL, 1 );
+        
+        if (!usingLocalPrefs) {
+            legendSizer->Add(
+                new wxStaticText( topControlsStaticBox, ID_DEFAULT,
+                     _("Set values and click OK to use local preferences instead."),
+                     wxDefaultPosition, wxDefaultSize, 0 ),
+                0, wxALL, 1
+            );
+        }
+      
+        topControlsSizer->Add( legendSizer, 1, wxALL, 1 );
 
 #if 0
-    wxStaticText* staticText321 = new wxStaticText( topControlsStaticBox, ID_DEFAULT, _("This dialog controls preferences for this computer only.\nClick OK to set preferences.\nClick Clear to restore web-based settings."), wxDefaultPosition, wxDefaultSize, 0 );
-    topControlsSizer->Add( staticText321, 1, wxALL, 1 );
+        wxStaticText* staticText321 = new wxStaticText( topControlsStaticBox, ID_DEFAULT, _("This dialog controls preferences for this computer only.\nClick OK to set preferences.\nClick Clear to restore web-based settings."), wxDefaultPosition, wxDefaultSize, 0 );
+        topControlsSizer->Add( staticText321, 1, wxALL, 1 );
 
-    m_btnClear = new wxButton( topControlsStaticBox, ID_BTN_CLEAR, _("Clear"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_btnClear->SetToolTip( _("Clear all local preferences and close the dialog.") );
+        m_btnClear = new wxButton( topControlsStaticBox, ID_BTN_CLEAR, _("Clear"), wxDefaultPosition, wxDefaultSize, 0 );
+        m_btnClear->SetToolTip( _("Clear all local preferences and close the dialog.") );
 #endif
 
-    m_btnClear = new wxButton( topControlsStaticBox, ID_BTN_CLEAR, _("Use web prefs"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_btnClear->SetToolTip( _("Restore web-based preferences and close the dialog.") );
-    if (!usingLocalPrefs) {
-        m_btnClear->Hide();
-    }
-    
-    topControlsSizer->Add( m_btnClear, 0, wxALIGN_BOTTOM|wxALL, 4 );
+        m_btnClear = new wxButton( topControlsStaticBox, ID_BTN_CLEAR, _("Use web prefs"), wxDefaultPosition, wxDefaultSize, 0 );
+        m_btnClear->SetToolTip( _("Restore web-based preferences and close the dialog.") );
+        if (!usingLocalPrefs) {
+            m_btnClear->Hide();
+        }
+        
+        topControlsSizer->Add( m_btnClear, 0, wxALIGN_BOTTOM|wxALL, 4 );
 
 #ifdef __WXMAC__
-    dialogSizer->Add( topControlsSizer, 0, wxTOP|wxLEFT|wxRIGHT|wxEXPAND, 10 );
+        dialogSizer->Add( topControlsSizer, 0, wxTOP|wxLEFT|wxRIGHT|wxEXPAND, 10 );
 #else
-    dialogSizer->Add( topControlsSizer, 0, wxALL|wxEXPAND, 5 );
+        dialogSizer->Add( topControlsSizer, 0, wxALL|wxEXPAND, 5 );
 #endif
-
+    }
     m_panelControls = new wxPanel( this, ID_DEFAULT, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
     m_panelControls->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
 
@@ -967,10 +972,14 @@ bool CDlgAdvPreferencesBase::doesLocalPrefsFileExist() {
     web_prefs.init();
     
     retval = pDoc->rpc.get_global_prefs_file(s);
-    mf.init_buf_read(s.c_str());
-    XML_PARSER xp(&mf);
-    web_prefs.parse(xp, "", found_venue, mask);
-    web_prefs_url = new wxString(web_prefs.source_project);
+    if (retval) {
+        web_prefs_url = new wxString(wxEmptyString);
+    } else {
+        mf.init_buf_read(s.c_str());
+        XML_PARSER xp(&mf);
+        web_prefs.parse(xp, "", found_venue, mask);
+        web_prefs_url = new wxString(web_prefs.source_project);
+    }
     
     return local_prefs_found;
 }

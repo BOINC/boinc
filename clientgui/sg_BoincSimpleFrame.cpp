@@ -538,7 +538,9 @@ void CSimpleFrame::OnPreferences(wxCommandEvent& WXUNUSED(event)) {
 	m_pBackgroundPanel->SetDlgOpen(true);
 
 	CDlgPreferences dlg(GetParent());
-    dlg.ShowModal();
+    if (dlg.OKToShow()) {
+        dlg.ShowModal();
+    }
 
     m_pBackgroundPanel->SetDlgOpen(false);
 

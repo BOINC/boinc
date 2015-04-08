@@ -58,6 +58,7 @@ public:
 	void OnHelp(wxCommandEvent& event);
 	void OnClear(wxCommandEvent& event);
     void DisplayValue(double value, wxTextCtrl* textCtrl, wxCheckBox* checkBox=NULL);
+    bool OKToShow() { return m_bOKToShow; }
 private:
     GLOBAL_PREFS      prefs;
     GLOBAL_PREFS_MASK mask;
@@ -72,6 +73,7 @@ private:
     wxCheckBox* netDayChks[7];
     wxTextCtrl* netDayStartTxts[7];
     wxTextCtrl* netDayStopTxts[7];
+    bool m_bOKToShow;
 };
 
 #endif // _DLGADVPREFERENCES_H_
