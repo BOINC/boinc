@@ -25,6 +25,7 @@
 #
 # by Charlie Fenton 7/27/12
 # Updated 2/7/14 for OS 10.9
+# Updated 4/8/15 to check for spaces in path
 #
 ## This script requires OS 10.6 or later
 #
@@ -39,6 +40,23 @@
 ##
 ## the -clean argument will force a full rebuild.
 ##
+
+
+Path=$PWD
+echo "${Path}" | grep " " > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+    echo "**********************************************************"
+    echo "**********************************************************"
+    echo "**********                                      **********"
+    echo "********** ERROR: Path must not contain spaces! **********"
+    echo "**********                                      **********"
+    echo "**********************************************************"
+    echo "**********************************************************"
+    echo "**********************************************************"
+    return 1
+fi
+
+echo ""
 
 if [ "$1" != "-clean" ]; then
     if [ -f objs/.libs/libfreetype.a ]; then
