@@ -70,6 +70,7 @@ public:
     void OnGPUSelection( wxCommandEvent& event );
     void OnNetworkSelection( wxCommandEvent& event );
 
+    void OnMenuOpening( wxMenuEvent &event);
     void OnOptions( wxCommandEvent& event );
 	void OnPreferences( wxCommandEvent& event );
     void OnExclusiveApps( wxCommandEvent& event );

@@ -102,6 +102,7 @@ public:
 
    ~CSimpleFrame();
 
+    void OnMenuOpening( wxMenuEvent &event);
     void OnChangeGUI( wxCommandEvent& event );
     void BuildSkinSubmenu( wxMenu *submenu );
     void OnSelectDefaultSkin( wxCommandEvent& event );

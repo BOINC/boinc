@@ -68,6 +68,7 @@ IMPLEMENT_DYNAMIC_CLASS(CSimpleFrame, CBOINCBaseFrame)
 
 BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_SIZE(CSimpleFrame::OnSize)
+    EVT_MENU_OPEN(CSimpleFrame::OnMenuOpening)
     EVT_MENU(ID_CHANGEGUI, CSimpleFrame::OnChangeGUI)
     EVT_MENU(ID_SGDEFAULTSKINSELECTOR, CSimpleFrame::OnSelectDefaultSkin)
     EVT_MENU_RANGE(ID_SGFIRSTSKINSELECTOR, ID_LASTSGSKINSELECTOR, CSimpleFrame::OnSelectSkin)
@@ -144,6 +145,7 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     );
 
 #ifdef __WXMAC__
+    // wxWidgets actually puts this in the BOINCManager menu
     menuFile->Append(
         wxID_PREFERENCES,
         _("Preferences…")
@@ -379,6 +381,44 @@ int CSimpleFrame::_GetCurrentViewPage() {
         return VW_SGUI;
     }
     return 0;       // Should never happen.
+}
+
+
+void CSimpleFrame::OnMenuOpening( wxMenuEvent &event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnMenuOpening - Function Begin"));
+
+    CMainDocument*     pDoc = wxGetApp().GetDocument();
+    wxMenu* menuFile = NULL;
+    wxMenu* menuHelp = NULL;
+    
+    wxASSERT(pDoc);
+    
+    bool isConnected = pDoc->IsConnected();
+    wxMenu* menu = event.GetMenu();
+    
+    menu->FindItem(ID_CLOSEWINDOW, &menuFile);
+    menu->FindItem(ID_HELPBOINC, &menuHelp);
+    size_t numItems = menu->GetMenuItemCount();
+    for (size_t pos = 0; pos < numItems; ++pos) {
+        wxMenuItem * item = menu->FindItemByPosition(pos);
+        if ((menu == menuFile) || (menu == menuHelp)) {
+            // Always enable all items in File menu or Help menu:
+            // ID_CLOSEWINDOW, wxID_EXIT, ID_HELPBOINC, ID_HELPBOINCMANAGER,
+            // ID_HELPBOINCWEBSITE, wxID_ABOUT
+            item->Enable(true);
+        } else {
+            // Disable other menu items if not connected to client
+            item->Enable(isConnected);
+        }
+    }
+    
+    // wxID_EXIT and wxID_PREFERENCES are not in File menu on some platforms
+    wxMenuItem* exitItem = menu->FindChildItem(wxID_EXIT, NULL);
+    if (exitItem) {
+        exitItem->Enable(true);
+    }
+    
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnMenuOpening - Function End"));
 }
 
 
