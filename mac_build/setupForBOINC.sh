@@ -33,6 +33,7 @@
 # Updated 2/7/14 for wxWidgets-3.0.0
 # Updated 2/11/14 for c-ares 1.10.0, curl 7.35.0, openssl 1.0.1f, sqlite 3.8.3
 # Updated 9/2/14 for openssl 1.0.1h
+# Updated 4/8/15 for curl 7.39.0, openssl 1.0.1j
 #
 # Download these seven packages and place them in a common parent 
 # directory with the BOINC source tree.
@@ -80,13 +81,13 @@ fi
 
 echo ""
 echo "----------------------------------"
-echo "------- BUILD CURL-7.35.0 --------"
+echo "------- BUILD CURL-7.39.0 --------"
 echo "----------------------------------"
 echo ""
 
 cd "${SCRIPT_DIR}"
 
-cd ../../curl-7.35.0/
+cd ../../curl-7.39.0/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildcurl.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -96,13 +97,13 @@ fi
 
 echo ""
 echo "----------------------------------"
-echo "----- BUILD OPENSSL-1.0.1h -------"
+echo "----- BUILD OPENSSL-1.0.1j -------"
 echo "----------------------------------"
 echo ""
 
 cd "${SCRIPT_DIR}"
 
-cd ../../openssl-1.0.1h/
+cd ../../openssl-1.0.1j/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildopenssl.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -189,7 +190,7 @@ if [ "${curlOK}" = "NO" ]; then
     echo "-----------------------------------"
     echo "------------ WARNING --------------"
     echo "------------         --------------"
-    echo "--- COULD NOT BUILD CURL-7.35.0 ---"
+    echo "--- COULD NOT BUILD CURL-7.39.0 ---"
     echo "-----------------------------------"
     echo ""
 fi
@@ -199,7 +200,7 @@ if [ "${opensslOK}" = "NO" ]; then
     echo "----------------------------------"
     echo "------------ WARNING -------------"
     echo "------------         -------------"
-    echo "- COULD NOT BUILD OPENSSL-1.0.1h -"
+    echo "- COULD NOT BUILD OPENSSL-1.0.1j -"
     echo "----------------------------------"
     echo ""
 fi
