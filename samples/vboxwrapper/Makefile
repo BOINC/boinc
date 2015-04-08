@@ -41,14 +41,11 @@ vboxcheckpoint.o: vboxcheckpoint.cpp
 vboxjob.o: vboxjob.cpp
 	g++ $(CXXFLAGS) -c vboxjob.cpp
 
-vboxlog.o: vboxlog.cpp
-	g++ $(CXXFLAGS) -c vboxlog.cpp
-
 vboxlogging.o: vboxlogging.cpp
 	g++ $(CXXFLAGS) -c vboxlogging.cpp
 
 vboxwrapper.o: vboxwrapper.cpp
 	g++ $(CXXFLAGS) -c vboxwrapper.cpp
 
-vboxwrapper: vboxwrapper.o vbox_common.o vbox_vboxmanage.o vboxcheckpoint.o vboxjob.o vboxlog.o vboxlogging.o floppyio.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
-	g++ $(CXXFLAGS) -o vboxwrapper vboxwrapper.o vbox_common.o vbox_vboxmanage.o vboxcheckpoint.o vboxjob.o vboxlog.o vboxlogging.o floppyio.o libstdc++.a -pthread -lboinc_api -lboinc
+vboxwrapper: vboxwrapper.o vbox_common.o vbox_vboxmanage.o vboxcheckpoint.o vboxjob.o vboxlogging.o floppyio.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
+	g++ $(CXXFLAGS) -o vboxwrapper vboxwrapper.o vbox_common.o vbox_vboxmanage.o vboxcheckpoint.o vboxjob.o vboxlogging.o floppyio.o libstdc++.a -pthread -lboinc_api -lboinc

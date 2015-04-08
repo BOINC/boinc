@@ -301,7 +301,6 @@
     <ClCompile Include="..\samples\vboxwrapper\floppyio.cpp" />
     <ClCompile Include="..\samples\vboxwrapper\vboxcheckpoint.cpp" />
     <ClCompile Include="..\samples\vboxwrapper\vboxjob.cpp" />
-    <ClCompile Include="..\samples\vboxwrapper\vboxlog.cpp" />
     <ClCompile Include="..\samples\vboxwrapper\vboxlogging.cpp" />
     <ClCompile Include="..\samples\vboxwrapper\vboxwrapper.cpp" />
     <ClCompile Include="..\samples\vboxwrapper\vbox_common.cpp" />
@@ -315,7 +314,6 @@
     <ClInclude Include="..\samples\vboxwrapper\floppyio.h" />
     <ClInclude Include="..\samples\vboxwrapper\vboxcheckpoint.h" />
     <ClInclude Include="..\samples\vboxwrapper\vboxjob.h" />
-    <ClInclude Include="..\samples\vboxwrapper\vboxlog.h" />
     <ClInclude Include="..\samples\vboxwrapper\vboxlogging.h" />
     <ClInclude Include="..\samples\vboxwrapper\vboxwrapper.h" />
     <ClInclude Include="..\samples\vboxwrapper\vboxwrapper_win.h" />
