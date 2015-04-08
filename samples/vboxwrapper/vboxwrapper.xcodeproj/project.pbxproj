@@ -36,8 +36,6 @@
 		DDC81AFB1A6888A7000D8CEA /* vbox_vboxmanage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC81AF91A6888A7000D8CEA /* vbox_vboxmanage.cpp */; };
 		DDC81B021A688939000D8CEA /* vboxlogging.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC81AFD1A688939000D8CEA /* vboxlogging.cpp */; };
 		DDC81B031A688939000D8CEA /* vboxlogging.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC81AFD1A688939000D8CEA /* vboxlogging.cpp */; };
-		DDC81B041A688939000D8CEA /* vboxlog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC81AFE1A688939000D8CEA /* vboxlog.cpp */; };
-		DDC81B051A688939000D8CEA /* vboxlog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC81AFE1A688939000D8CEA /* vboxlog.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,8 +70,6 @@
 		DDC81AF91A6888A7000D8CEA /* vbox_vboxmanage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vbox_vboxmanage.cpp; sourceTree = "<group>"; };
 		DDC81AFC1A688902000D8CEA /* vbox_vboxmanage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vbox_vboxmanage.h; sourceTree = "<group>"; };
 		DDC81AFD1A688939000D8CEA /* vboxlogging.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vboxlogging.cpp; sourceTree = "<group>"; };
-		DDC81AFE1A688939000D8CEA /* vboxlog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vboxlog.cpp; sourceTree = "<group>"; };
-		DDC81AFF1A688939000D8CEA /* vboxlog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vboxlog.h; sourceTree = "<group>"; };
 		DDC81B001A688939000D8CEA /* vboxlogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vboxlogging.h; sourceTree = "<group>"; };
 		DDC81B011A688939000D8CEA /* vboxwrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vboxwrapper.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -112,8 +108,6 @@
 				DDC81B011A688939000D8CEA /* vboxwrapper.h */,
 				DDC81AFD1A688939000D8CEA /* vboxlogging.cpp */,
 				DDC81B001A688939000D8CEA /* vboxlogging.h */,
-				DDC81AFE1A688939000D8CEA /* vboxlog.cpp */,
-				DDC81AFF1A688939000D8CEA /* vboxlog.h */,
 				DDC81AF91A6888A7000D8CEA /* vbox_vboxmanage.cpp */,
 				DDC81AFC1A688902000D8CEA /* vbox_vboxmanage.h */,
 				DDC81AF11A68884B000D8CEA /* vboxjob.cpp */,
@@ -243,7 +237,6 @@
 				DDC81AF51A68884B000D8CEA /* vboxjob.cpp in Sources */,
 				DDC81AEF1A688808000D8CEA /* vbox_common.cpp in Sources */,
 				DDC81B021A688939000D8CEA /* vboxlogging.cpp in Sources */,
-				DDC81B041A688939000D8CEA /* vboxlog.cpp in Sources */,
 				DDC81AFA1A6888A7000D8CEA /* vbox_vboxmanage.cpp in Sources */,
 				DDC81AF71A68884B000D8CEA /* vboxcheckpoint.cpp in Sources */,
 			);
@@ -258,7 +251,6 @@
 				DDC81AF61A68884B000D8CEA /* vboxjob.cpp in Sources */,
 				DDC81AF01A688808000D8CEA /* vbox_common.cpp in Sources */,
 				DDC81B031A688939000D8CEA /* vboxlogging.cpp in Sources */,
-				DDC81B051A688939000D8CEA /* vboxlog.cpp in Sources */,
 				DDC81AFB1A6888A7000D8CEA /* vbox_vboxmanage.cpp in Sources */,
 				DDC81AF81A68884B000D8CEA /* vboxcheckpoint.cpp in Sources */,
 			);
