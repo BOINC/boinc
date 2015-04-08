@@ -40,6 +40,7 @@
 ## updated 1/22/14 by Charlie Fenton: embed VBox uninstaller in BOINC uninstaller
 ## updated 9/30/14 by Charlie Fenton to code sign the BOINC client and Manager
 ## updated 12/16/14 by Charlie Fenton to name folders "x86_64" not "i686"
+## updated 4/7/15 by Charlie Fenton to comment on problem with BOINC+VBox installer
 ##
 ## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -60,6 +61,19 @@
 ## * Copy VirtualBox_Uninstall.tool from the VirtualBox installer disk
 ##   image (.dmg) into this "VirtualBox Installer" directory.
 ##
+## NOTE: As of 5/7/15, I recommend against releasing the combined Macintosh
+## BOINC+VirtualBox installer because each version of VirtualBox comes with
+## its own uninsall script included as a separate command-line utility.
+## Using the uninstall script from a previous version of VirtualBox may not
+## work correctly, so we can't just add the current script to our "Uninstall
+## BOINC" utility because the user may later upgrade to a newer version of
+## VirtualBox.  We should not install VirtualBox as part of the BOINC install
+## unless our BOINC uninstaller will uninstall it.  We can't expect BOINC users
+## to be comfortable finding and running a command-line utility.
+##
+## We have asked Oracle to include their uninstall script inside the VirtualBox
+## bundle, or some other standard place where our BOINC uninstaller can find
+## the current version, but they have not yet done so.
 
 ## Usage:
 ##
