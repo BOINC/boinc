@@ -217,15 +217,34 @@ void VBOX_BASE::cleanup() {
 void VBOX_BASE::dump_hypervisor_logs(bool include_error_logs) {
     string local_system_log;
     string local_vm_log;
+    string local_startup_log;
     string local_trace_log;
     unsigned long vm_exit_code = 0;
 
     get_system_log(local_system_log);
     get_vm_log(local_vm_log);
     get_trace_log(local_trace_log);
+    get_trace_log(local_startup_log);
     get_vm_exit_code(vm_exit_code);
 
-    if (include_error_logs) {
+    if (include_error_logs  && !started_successfully) {
+        fprintf(
+            stderr,
+            "\n"
+            "    Hypervisor System Log:\n\n"
+            "%s\n"
+            "    VM Execution Log:\n\n"
+            "%s\n"
+            "    VM Startup Log:\n\n"
+            "%s\n"
+            "    VM Trace Log:\n\n"
+            "%s",
+            local_system_log.c_str(),
+            local_vm_log.c_str(),
+            local_startup_log.c_str(),
+            local_trace_log.c_str()
+        );
+    } else {
         fprintf(
             stderr,
             "\n"
@@ -507,6 +526,55 @@ int VBOX_BASE::get_trace_log(string& log, bool tail_only, unsigned int buffer_si
 
     } else {
         retval = ERR_NOT_FOUND;
+    }
+
+    return retval;
+}
+
+int VBOX_BASE::get_startup_log(string& log, bool tail_only, unsigned int buffer_size) {
+    string slot_directory;
+    string virtualbox_startup_log_src;
+    string virtualbox_startup_log_dst;
+    string::iterator iter;
+    int retval = BOINC_SUCCESS;
+
+    // Where should we copy temp files to?
+    get_slot_directory(slot_directory);
+
+    // Locate and read log file
+    virtualbox_startup_log_src = vm_master_name + "/Logs/VBoxStartup.log";
+    virtualbox_startup_log_dst = slot_directory + "/VBoxStartup.log";
+
+    if (boinc_file_exists(virtualbox_startup_log_src.c_str())) {
+        // Skip having to deal with various forms of file locks by just making a temp
+        // copy of the log file.
+        boinc_copy(virtualbox_startup_log_src.c_str(), virtualbox_startup_log_dst.c_str());
+    }
+
+    if (boinc_file_exists(virtualbox_startup_log_dst.c_str())) {
+        if (tail_only) {
+            // Keep only the last 8k if it is larger than that.
+            read_file_string(virtualbox_startup_log_dst.c_str(), log, buffer_size, true);
+        } else {
+            read_file_string(virtualbox_startup_log_dst.c_str(), log);
+        }
+
+        sanitize_output(log);
+
+        if (tail_only) {
+            if (log.size() >= (buffer_size - 115)) {
+                // Look for the next whole line of text.
+                iter = log.begin();
+                while (iter != log.end()) {
+                    if (*iter == '\n') {
+                        log.erase(iter);
+                        break;
+                    }
+                    iter = log.erase(iter);
+                }
+            }
+        }
+
     }
 
     return retval;

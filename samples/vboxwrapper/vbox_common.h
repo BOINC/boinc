@@ -214,6 +214,7 @@ public:
     virtual int get_system_log(std::string& log, bool tail_only = true, unsigned int buffer_size = 8192);
     virtual int get_vm_log(std::string& log, bool tail_only = true, unsigned int buffer_size = 8192);
     virtual int get_trace_log(std::string& log, bool tail_only = true, unsigned int buffer_size = 8192);
+    virtual int get_startup_log(std::string& log, bool tail_only = true, unsigned int buffer_size = 8192);
 
     virtual int set_network_access(bool enabled) = 0;
     virtual int set_cpu_usage(int percentage) = 0;
