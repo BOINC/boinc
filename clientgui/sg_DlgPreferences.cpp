@@ -443,20 +443,41 @@ void CPanelPreferences::MakeBackgroundBitmap() {
         wxImage img = bmp.ConvertToImage();
         img.Rescale((int) sz.x, (int) sz.y);
 
-        // Draw our cool background (centered)
+        // Draw our cool background (enlarged and centered)
         dc.DrawBitmap(wxBitmap(img), 0, 0);
     } else {
-        // Snag the center of the bitmap and use it
-        //   for the background image
-        x = wxMax(0, (w - sz.x)/2);
-        y = wxMax(0, (h - sz.y)/2);
+        switch(pSkinSimple->GetDialogBackgroundImage()->GetHorizontalAnchor()) {
+        case BKGD_ANCHOR_HORIZ_LEFT:
+        default:
+            x = 0;
+            break;
+        case BKGD_ANCHOR_HORIZ_CENTER:
+            x = (w - sz.x) / 2;
+            break;
+        case BKGD_ANCHOR_HORIZ_RIGHT:
+            x = w - sz.x;
+            break;
+        }
+
+        switch(pSkinSimple->GetDialogBackgroundImage()->GetVerticalAnchor()) {
+        case BKGD_ANCHOR_VERT_TOP:
+        default:
+            y = 0;
+            break;
+        case BKGD_ANCHOR_VERT_CENTER:
+            y = (h - sz.y) /2;
+            break;
+        case BKGD_ANCHOR_VERT_BOTTOM:
+            y = h - sz.y;
+            break;
+        }
 
         // Select the desired bitmap into the memory DC so we can take
-        //   the center chunk of it.
+        //   the desired chunk of it.
         memDC.SelectObject(bmp);
 
-        // Draw the center chunk on the window
-        dc.Blit(0, 0, w, h, &memDC, x, y, wxCOPY);
+        // Draw the desired chunk on the window
+        dc.Blit(0, 0, sz.x, sz.y, &memDC, x, y, wxCOPY);
 
         // Drop the bitmap
         memDC.SelectObject(wxNullBitmap);

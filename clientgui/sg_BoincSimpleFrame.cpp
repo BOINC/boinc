@@ -985,7 +985,6 @@ void CSimpleGUIPanel::SetBackgroundBitmap() {
 
     wxColour bgColor(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
     SetBackgroundColour(bgColor);
-
     wxRect panelRect = GetRect();
     m_bmpBg = wxBitmap(panelRect.width, panelRect.height);
     wxMemoryDC dc(m_bmpBg);
@@ -1000,7 +999,68 @@ void CSimpleGUIPanel::SetBackgroundBitmap() {
     dc.SetPen(bgPen);
     dc.DrawRectangle(panelRect);
 #endif
-    dc.DrawBitmap(*pSkinSimple->GetBackgroundImage()->GetBitmap(), 0, 0, false);
+
+    int srcX, srcY, destX, destY, h, w;
+    wxBitmap* srcBmp = pSkinSimple->GetBackgroundImage()->GetBitmap();
+    wxSize srcSize = srcBmp->GetSize();
+    switch(pSkinSimple->GetBackgroundImage()->GetHorizontalAnchor()) {
+    case BKGD_ANCHOR_HORIZ_LEFT:
+    default:
+        srcX = 0;
+        destX = 0;
+        break;
+    case BKGD_ANCHOR_HORIZ_CENTER:
+        if (panelRect.width < srcSize.GetWidth()) {
+            srcX = (srcSize.GetWidth() - panelRect.width) / 2;
+            destX = 0;
+        } else {
+            srcX = 0;
+            destX = (panelRect.width - srcSize.GetWidth()) / 2;
+        }
+        break;
+    case BKGD_ANCHOR_HORIZ_RIGHT:
+        if (panelRect.width < srcSize.GetWidth()) {
+            srcX = (srcSize.GetWidth() - panelRect.width);
+            destX = 0;
+        } else {
+            srcX = 0;
+            destX = (panelRect.width - srcSize.GetWidth());
+        }
+        break;
+    }
+    w = wxMin(panelRect.width, srcSize.GetWidth());
+
+    switch(pSkinSimple->GetBackgroundImage()->GetVerticalAnchor()) {
+    case BKGD_ANCHOR_VERT_TOP:
+    default:
+        srcY = 0;
+        destY = 0;
+        break;
+    case BKGD_ANCHOR_VERT_CENTER:
+        if (panelRect.height < srcSize.GetHeight()) {
+            srcY = (srcSize.GetHeight() - panelRect.height) / 2;
+            destY = 0;
+        } else {
+            srcY = 0;
+            destY = (panelRect.height - srcSize.GetHeight()) / 2;
+        }
+        break;
+    case BKGD_ANCHOR_VERT_BOTTOM:
+        if (panelRect.height < srcSize.GetHeight()) {
+            srcY = (srcSize.GetHeight() - panelRect.height);
+            destY = 0;
+        } else {
+            srcY = 0;
+            destY = (panelRect.height - srcSize.GetHeight());
+        }
+        break;
+    }
+    h = wxMin(panelRect.height, srcSize.GetHeight());
+
+    wxMemoryDC srcDC(*srcBmp);
+    dc.Blit(destX, destY, w, h, &srcDC, srcX, srcY, wxCOPY);
+
+//    dc.DrawBitmap(*pSkinSimple->GetBackgroundImage()->GetBitmap(), 0, 0, false);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::SetBackgroundBitmap - Function End"));
 }
