@@ -84,6 +84,7 @@ function boinctranslate_initialize_languages() {
   $project_name = variable_get(
     'boinc_translate_transifex_project_name', ''
   );
+  $operations = array();
   
   if ($project_name) {
     // Get all languages configured for this project at Transifex
@@ -190,14 +191,19 @@ function boinctranslate_initialize_languages() {
               }
             }
             // Import any language files for the newly added language
-            if ($batch = locale_batch_by_language($code, '_locale_batch_language_finished')) {
-              batch_set($batch);
+            if ($batch = locale_batch_by_language($rfc_code, '_locale_batch_language_finished')) {
+              $operations = array_merge($operations, $batch['operations']);
               $process_batches = TRUE;
             }
           }
         }
         drupal_set_message('Finished installing official BOINC languages.');
         if ($process_batches) {
+          $batch = array(
+            'operations' => $operations,
+          );
+          drupal_set_message('Updating translations...<pre>' . print_r($batch,1) . '</pre>');
+          batch_set($batch);
           batch_process('admin/boinc/translation');
         }
       }
@@ -444,6 +450,7 @@ function boinctranslate_get_po($langcode, $type = 'standard') {
  *
  */
 function boinctranslate_refresh_translations() {
+  require_once(getcwd() . '/includes/locale.inc');
   $errors = array();
   $languages = locale_language_list();
   $translation_resources = array();
@@ -506,6 +513,16 @@ function boinctranslate_refresh_translations() {
         );
       }
     }
+    if ($batch = locale_batch_by_language($langcode)) {
+      foreach ($batch['operations'] as $op) {
+        $operations[] = array(
+          'boinctranslate_refresh_translations_op',
+          array(
+            NULL, $op[1][0], $langcode, $language, array('default')
+          ),
+        );
+      }
+    }
   }
   
   $batch = array(
@@ -519,8 +536,6 @@ function boinctranslate_refresh_translations() {
   
   batch_set($batch);
   batch_process();
-  //drupal_set_message('Translations have been imported');
-  //drupal_goto('admin/boinc/translation');
 }
 
 
@@ -530,62 +545,68 @@ function boinctranslate_refresh_translations() {
 function boinctranslate_refresh_translations_op($project, $resource, $langcode, $language, $textgroups, &$context) {
   require_once(getcwd() . '/includes/locale.inc');
   
-  // Import the configured resources
-  $success = FALSE;
-  $message = '';
-  $path = "project/{$project}/resource/{$resource}/translation/{$langcode}";
-  $response = boinctranslate_transifex_request($path);
-  
-  if ($response == '404 NOT FOUND') {
-    $message = "Project resource {$project}:{$resource} not found in {$language}.";
-  }
-  elseif ($response) {
-    if (!empty($response['content'])) {
-      $po_text = $response['content'];
-      
-      // Write the translation file to a temporary location
-      $file = new stdClass();
-      $file->filepath = file_save_data($po_text, NULL);
-      $file->filename = basename($file->filepath);
-      if (!$file->filepath) {
-        $message = 'Unable to create temporary file in '
-          . file_directory_temp() . " for {$language} translation "
-          . "resource {$project}:{$resource}";
+  if ($project) {
+    // Import the configured resources
+    $success = FALSE;
+    $message = '';
+    $path = "project/{$project}/resource/{$resource}/translation/{$langcode}";
+    $response = boinctranslate_transifex_request($path);
+    
+    if ($response == '404 NOT FOUND') {
+      $message = "Project resource {$project}:{$resource} not found in {$language}.";
+    }
+    elseif ($response) {
+      if (!empty($response['content'])) {
+        $po_text = $response['content'];
+        
+        // Write the translation file to a temporary location
+        $file = new stdClass();
+        $file->filepath = file_save_data($po_text, NULL);
+        $file->filename = basename($file->filepath);
+        if (!$file->filepath) {
+          $message = 'Unable to create temporary file in '
+            . file_directory_temp() . " for {$language} translation "
+            . "resource {$project}:{$resource}";
+        }
+        
+        foreach ($textgroups as $textgroup) {
+          // Import the translations from the file to each related textgroup
+          if (!$results = _boinctranslate_locale_import_po($file, $langcode, LOCALE_IMPORT_OVERWRITE, $textgroup)) {
+            $message = "The {$language} translation import of"
+              . " {$project}:{$resource} failed.";
+            $success = FALSE;
+            break;
+          }
+          else {
+            $success = TRUE;
+          }
+        }
       }
-      
-      foreach ($textgroups as $textgroup) {
-        /*watchdog(
-          'boinctranslate',
-          'Importing @language translation of %resource into %group textgroup',
-          array(
-            '@language' => $language,
-            '%resource' => "{$project}:{$resource}",
-            '%group' => $textgroup,
-          ),
-          WATCHDOG_NOTICE
-        );*/
-        // Import the translations from the file to each related textgroup
-        if (!$results = _boinctranslate_locale_import_po($file, $langcode, LOCALE_IMPORT_OVERWRITE, $textgroup)) {
-          $message = "The {$language} translation import of"
-            . " {$project}:{$resource} failed.";
-          $success = FALSE;
-          break;
-        }
-        else {
-          // Update stats
-          //$import_stats = $results;
-          $success = TRUE;
-        }
+      else {
+        $message = "Unable to read response for {$language} translation import"
+          . " of {$project}:{$resource}.";
       }
     }
     else {
-      $message = "Unable to read response for {$language} translation import"
-        . " of {$project}:{$resource}.";
+      $message = "Translation data not found in response for {$language}"
+        . " translation import of {$project}:{$resource}.";
     }
   }
   else {
-    $message = "Translation data not found in response for {$language}"
-      . " translation import of {$project}:{$resource}.";
+    // If project isn't specified, import as a local Drupal resource
+    $project = 'drupal.local';
+    $file = new stdClass();
+    $file->filepath = $resource;
+    $file->filename = basename($file->filepath);
+    if (!$results = _boinctranslate_locale_import_po($file, $langcode, LOCALE_IMPORT_OVERWRITE, $textgroup)) {
+      $message = "The {$language} translation import of"
+        . " local file {$resource} failed.";
+      $success = FALSE;
+      break;
+    }
+    else {
+      $success = TRUE;
+    }
   }
   
   if ($success) {
