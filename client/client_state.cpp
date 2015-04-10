@@ -511,6 +511,10 @@ int CLIENT_STATE::init() {
     set_ncpus();
     show_host_info();
 
+    // this follows parse_state_file() because that's where we read project names
+    //
+    sort_projects_by_name();
+
     // check for app_config.xml files in project dirs
     //
     check_app_config();
