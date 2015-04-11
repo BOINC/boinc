@@ -206,6 +206,4 @@ public:
 
 };
 
-extern char* get_user_agent_string();
-
 #endif //__HTTP_CURL_

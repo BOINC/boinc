@@ -68,12 +68,17 @@ static bool got_expectation_failed = false;
     // If we did, it's probably because we talked HTTP 1.1 to a 1.0 proxy;
     // use 1.0 from now on.
 
-char* get_user_agent_string() {
+static void get_user_agent_string() {
+    if (g_user_agent_string[0]) return;
     sprintf(g_user_agent_string, "BOINC client (%s %d.%d.%d)",
         gstate.get_primary_platform(),
         BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, BOINC_RELEASE
     );
-    return (char*)&g_user_agent_string;
+    if (strlen(gstate.client_brand)) {
+        char buf[256];
+        sprintf(buf, " (%s)", gstate.client_brand);
+        strcat(g_user_agent_string, buf);
+    }
 }
 
 size_t libcurl_write(void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
