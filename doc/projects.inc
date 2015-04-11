@@ -82,6 +82,16 @@ $biomed = array(
     tra("Biology and Medicine"),
     array(
         array(
+            "DENIS@Home",
+            "http://denis.usj.es/denisathome/",
+            "San Jorge University, Zaragoza, Spain",
+            "Medical physiology",
+            "DENIS@Home does cardiac electrophysiological simulations, studying the electrical activity of the heart.",
+            "",
+            "",
+            "Study the physiology of the heart"
+        ),
+        array(
             "RNA World",
             "http://www.rnaworld.de/rnaworld/",
             "Rechenkraft.net e.V.",
@@ -310,6 +320,16 @@ $astro_phys_chem = array(
             "cosmo.jpg",
             "",
             "Study the evolution of the Universe"
+        ),
+        array(
+            "Universe@Home",
+            "universeathome.pl/universe/",
+            "University of Warsaw",
+            tra("Astronomy"),
+            "Universe@Home aims to create the first database of the simulated stellar content of the Universe, from the earliest stars to the most exotic black hole binaries.",
+            "universe_at_home.png",
+            "",
+            "Do research in physics and astronomy"
         ),
         array(
             "Milkyway@home",
