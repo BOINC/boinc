@@ -1478,23 +1478,14 @@ void ACTIVE_TASK_SET::get_msgs() {
     }
     last_time = gstate.now;
 
-    double et_diff, et_diff_throttle;
-    switch (gstate.suspend_reason) {
-    case 0:
-    case SUSPEND_REASON_CPU_THROTTLE:
-        et_diff = delta_t;
-        et_diff_throttle = delta_t * gstate.global_prefs.cpu_usage_limit/100;
-        break;
-    default:
-        et_diff = et_diff_throttle = 0;
-        break;
-    }
+    double et_diff = delta_t;
+    double et_diff_throttle = delta_t * gstate.global_prefs.cpu_usage_limit/100;
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (!atp->process_exists()) continue;
         old_time = atp->checkpoint_cpu_time;
-        if (atp->scheduler_state == CPU_SCHED_SCHEDULED) {
+        if (atp->task_state() == PROCESS_EXECUTING) {
             double x = atp->result->dont_throttle()?et_diff:et_diff_throttle;
             atp->elapsed_time += x;
             atp->wup->project->elapsed_time += x;
