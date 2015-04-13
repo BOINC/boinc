@@ -227,7 +227,7 @@ void VBOX_BASE::dump_hypervisor_logs(bool include_error_logs) {
     get_trace_log(local_startup_log);
     get_vm_exit_code(vm_exit_code);
 
-    if (include_error_logs  && !started_successfully) {
+    if (include_error_logs) {
         fprintf(
             stderr,
             "\n"
@@ -242,20 +242,6 @@ void VBOX_BASE::dump_hypervisor_logs(bool include_error_logs) {
             local_system_log.c_str(),
             local_vm_log.c_str(),
             local_startup_log.c_str(),
-            local_trace_log.c_str()
-        );
-    } else {
-        fprintf(
-            stderr,
-            "\n"
-            "    Hypervisor System Log:\n\n"
-            "%s\n"
-            "    VM Execution Log:\n\n"
-            "%s\n"
-            "    VM Trace Log:\n\n"
-            "%s",
-            local_system_log.c_str(),
-            local_vm_log.c_str(),
             local_trace_log.c_str()
         );
     }
