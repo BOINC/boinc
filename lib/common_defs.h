@@ -42,8 +42,9 @@
     // restore permanent mode - used only in set_X_mode() GUI RPC
 
 // values of ACTIVE_TASK::scheduler_state and ACTIVE_TASK::next_scheduler_state
-// "SCHEDULED" is synonymous with "executing" except when CPU throttling
-// is in use.
+// "SCHEDULED" doesn't mean the task is actually running;
+// e.g. it won't be running if tasks are suspended or CPU throttling is in use
+//
 #define CPU_SCHED_UNINITIALIZED   0
 #define CPU_SCHED_PREEMPTED       1
 #define CPU_SCHED_SCHEDULED       2

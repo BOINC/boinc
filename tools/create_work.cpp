@@ -442,7 +442,11 @@ int main(int argc, char** argv) {
                     retval = wu.insert_batch(values);
                     if (retval) {
                         fprintf(stderr,
-                            "wu.insert_batch() failed: %d\n", retval
+                            "wu.insert_batch() failed: %d; size %d\n",
+                            retval, (int)values.size()
+                        );
+                        fprintf(stderr,
+                            "MySQL error: %s\n", boinc_db.error_string()
                         );
                         exit(1);
                     }
@@ -454,6 +458,9 @@ int main(int argc, char** argv) {
                 if (retval) {
                     fprintf(stderr,
                         "wu.insert_batch() failed: %d\n", retval
+                    );
+                    fprintf(stderr,
+                        "MySQL error: %s\n", boinc_db.error_string()
                     );
                     exit(1);
                 }
