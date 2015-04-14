@@ -3,6 +3,7 @@
 #   cd to the boinc/samples/openclapp directory
 #   make -f Makefile_mac [clean] all
 #
+# Updated 4/14/15 for compatibility with Xcode 6
 
 
 BOINC_DIR = ../..
@@ -10,8 +11,10 @@ BOINC_API_DIR = $(BOINC_DIR)/api
 BOINC_LIB_DIR = $(BOINC_DIR)/lib 
 BOINC_BUILD_DIR = $(BOINC_DIR)/mac_build/build/Deployment
 BOINC_MAC_CONFIG_DIR = $(BOINC_DIR)/clientgui/mac
+FRAMEWORKS_DIR = /System/Library/Frameworks
 
 CXXFLAGS = -g \
+    -stdlib=libstdc++ \
     -I$(BOINC_DIR) \
     -I$(BOINC_LIB_DIR) \
     -I$(BOINC_API_DIR) \
