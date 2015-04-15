@@ -554,15 +554,18 @@ int get_os_information(
 							case PRODUCT_PROFESSIONAL_WMC:
 								strcat(szSKU, "Professional with Media Center ");
 								break;
-							
-                       }
+                        }
+
                     } else if( (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2) ) {
+
                         if( osvi.wSuiteMask & VER_SUITE_PERSONAL ) {
                             strcat(szSKU, "Home ");
                         } else {
                             strcat(szSKU, "Professional ");
                         }
+
                     } else if( (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 1) ) {
+
                         if( osvi.wSuiteMask & VER_SUITE_PERSONAL ) {
                             strcat(szSKU, "Home ");
                         } else if( GetSystemMetrics(SM_TABLETPC) ) {
@@ -574,18 +577,23 @@ int get_os_information(
                         } else {
                             strcat(szSKU, "Professional ");
                         }
+
                     } else if( (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 0) ) {
+
                         strcat(szSKU, "Professional ");
+
                     } else if(  (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 0) ) {
+
                         strcat(szSKU, "Workstation ");
+
                     }
                 }
 
 				// Test for the server type.
                 else if ( (osvi.wProductType == VER_NT_SERVER) || (osvi.wProductType == VER_NT_DOMAIN_CONTROLLER) ) {
-                    // all NT6 or higher (Server 2008,2008r2,2012,2012r2,2015...)
-					if( (osvi.dwMajorVersion >= 6) ) {
 
+                    // all NT6 or higher (Server 2008,2008r2,2012,2012r2,2015...)
+                    if( (osvi.dwMajorVersion >= 6) ) {
                         switch(dwType) {
                             case PRODUCT_CLUSTER_SERVER:
                                strcat( szSKU, "Cluster Server ");
@@ -645,8 +653,8 @@ int get_os_information(
                                strcat( szSKU, "Server For Small Business ");
                                break;
                             case PRODUCT_HYPERV:
-								strcat( szSKU, "Hyper-V ");
-								break;
+                               strcat( szSKU, "Hyper-V ");
+                               break;
                         }
 
                     } else if( (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2) ) {
