@@ -224,7 +224,7 @@ void VBOX_BASE::dump_hypervisor_logs(bool include_error_logs) {
     get_system_log(local_system_log);
     get_vm_log(local_vm_log);
     get_trace_log(local_trace_log);
-    get_trace_log(local_startup_log);
+    get_startup_log(local_startup_log);
     get_vm_exit_code(vm_exit_code);
 
     if (include_error_logs) {
