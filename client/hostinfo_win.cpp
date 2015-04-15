@@ -139,6 +139,74 @@
 #ifndef PRODUCT_CLOUD_STORAGE_SERVER
 #define PRODUCT_CLOUD_STORAGE_SERVER                0x0000006E
 #endif
+// added with Windows 10 SDK
+#ifndef PRODUCT_CORE_CONNECTED
+#define PRODUCT_CORE_CONNECTED                      0x0000006F
+#endif
+#ifndef PRODUCT_PROFESSIONAL_STUDENT
+#define PRODUCT_PROFESSIONAL_STUDENT                0x00000070
+#endif
+#ifndef PRODUCT_CORE_CONNECTED_N
+#define PRODUCT_CORE_CONNECTED_N                    0x00000071
+#endif
+#ifndef PRODUCT_PROFESSIONAL_STUDENT_N
+#define PRODUCT_PROFESSIONAL_STUDENT_N              0x00000072
+#endif
+#ifndef PRODUCT_CORE_CONNECTED_SINGLELANGUAGE
+#define PRODUCT_CORE_CONNECTED_SINGLELANGUAGE       0x00000073
+#endif
+#ifndef PRODUCT_CORE_CONNECTED_COUNTRYSPECIFIC
+#define PRODUCT_CORE_CONNECTED_COUNTRYSPECIFIC      0x00000074
+#endif
+#ifndef PRODUCT_CONNECTED_CAR
+#define PRODUCT_CONNECTED_CAR                       0x00000075
+#endif
+#ifndef PRODUCT_INDUSTRY_HANDHELD
+#define PRODUCT_INDUSTRY_HANDHELD                   0x00000076
+#endif
+#ifndef PRODUCT_PPI_PRO
+#define PRODUCT_PPI_PRO                             0x00000077
+#endif
+#ifndef PRODUCT_ARM64_SERVER
+#define PRODUCT_ARM64_SERVER                        0x00000078
+#endif
+#ifndef PRODUCT_EDUCATION
+#define PRODUCT_EDUCATION                           0x00000079
+#endif
+#ifndef PRODUCT_EDUCATION_N
+#define PRODUCT_EDUCATION_N                         0x0000007A
+#endif
+#ifndef PRODUCT_IOTUAP
+#define PRODUCT_IOTUAP                              0x0000007B
+#endif
+#ifndef PRODUCT_CLOUD_HOST_INFRASTRUCTURE_SERVER
+#define PRODUCT_CLOUD_HOST_INFRASTRUCTURE_SERVER    0x0000007C
+#endif
+#ifndef PRODUCT_ENTERPRISE_S
+#define PRODUCT_ENTERPRISE_S                        0x0000007D
+#endif
+#ifndef PRODUCT_ENTERPRISE_S_N
+#define PRODUCT_ENTERPRISE_S_N                      0x0000007E
+#endif
+#ifndef PRODUCT_PROFESSIONAL_S
+#define PRODUCT_PROFESSIONAL_S                      0x0000007F
+#endif
+#ifndef PRODUCT_PROFESSIONAL_S_N
+#define PRODUCT_PROFESSIONAL_S_N                    0x00000080
+#endif
+#ifndef PRODUCT_ENTERPRISE_S_EVALUATION
+#define PRODUCT_ENTERPRISE_S_EVALUATION             0x00000081
+#endif
+#ifndef PRODUCT_ENTERPRISE_S_N_EVALUATION
+#define PRODUCT_ENTERPRISE_S_N_EVALUATION           0x00000082
+#endif
+
+
+// new Architecture(s)
+#ifndef PROCESSOR_ARCHITECTURE_ARM64
+#define PROCESSOR_ARCHITECTURE_ARM64            12
+#endif
+
 
 /* HAVE_DECL__XGETBV should be set by autoconf or in boinc_win.h */
 #if !defined(HAVE_DECL__XGETBV) || !HAVE_DECL__XGETBV
@@ -405,7 +473,8 @@ int get_os_information(
                 // Test for the workstation type.
                 if ( osvi.wProductType == VER_NT_WORKSTATION ) {
 
-                    if( (osvi.dwMajorVersion == 6) ) {
+					// all NT6 or higher have dwType (Vista,7,8,81,10...)
+                    if( (osvi.dwMajorVersion >= 6) ) {
                         switch(dwType) {
                             case PRODUCT_ULTIMATE:
                                strcat(szSKU, "Ultimate ");
@@ -514,7 +583,8 @@ int get_os_information(
 
 				// Test for the server type.
                 else if ( (osvi.wProductType == VER_NT_SERVER) || (osvi.wProductType == VER_NT_DOMAIN_CONTROLLER) ) {
-                    if( (osvi.dwMajorVersion == 6) ) {
+                    // all NT6 or higher (Server 2008,2008r2,2012,2012r2,2015...)
+					if( (osvi.dwMajorVersion >= 6) ) {
 
                         switch(dwType) {
                             case PRODUCT_CLUSTER_SERVER:
@@ -637,6 +707,9 @@ int get_os_information(
 					// could be needed for Windows RT Boinc ?
 					case PROCESSOR_ARCHITECTURE_ARM:
 						strcat(szSKU, "ARM");
+						break;
+					case PROCESSOR_ARCHITECTURE_ARM64:
+						strcat(szSKU, "ARM64");
 						break;
 					case PROCESSOR_ARCHITECTURE_UNKNOWN:
                         strcat(szSKU, "Unknown ");
