@@ -975,6 +975,20 @@ function update_10_8_2014() {
     do_query("alter table user_submit_app add primary key(user_id, app_id)");
 }
 
+function update_4_15_2015() {
+    do_query("alter table forum
+        alter timestamp set default 0,
+        alter threads set default 0,
+        alter posts set default 0,
+        alter rate_min_expavg_credit set default 0,
+        alter rate_min_total_credit set default 0,
+        alter post_min_interval set default 0,
+        alter post_min_expavg_credit set default 0,
+        alter post_min_total_credit set default 0,
+        alter parent_type set default 0
+    ");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -1019,6 +1033,7 @@ $db_updates = array (
     array(27010, "update_6_5_2014"),
     array(27011, "update_8_15_2014"),
     array(27012, "update_10_8_2014"),
+    array(27013, "update_4_15_2015"),
 );
 
 ?>
