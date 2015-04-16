@@ -133,6 +133,15 @@ function boinctranslate_admin_settings(&$form_state) {
     '#submit' => array('boinctranslate_admin_settings_import_now'),
     '#disabled' => !$import_enabled,
   );
+  if (user_access('update official BOINC translations')) {
+    $form['tools']['update_official_boinc'] = array(
+      '#type' => 'button',
+      '#value' => t('Update official BOINC translations'),
+      '#executes_submit_callback' => TRUE,
+      '#submit' => array('boinctranslate_admin_settings_update_official_boinc'),
+      '#disabled' => !$import_enabled,
+    );
+  }
   
   $form['#submit'][] = 'system_settings_form_submit';
   $form['#theme'] = 'system_settings_form'; 
@@ -150,6 +159,10 @@ function boinctranslate_admin_settings_import_now() {
 
 function boinctranslate_admin_settings_initialize_languages() {
   drupal_goto('admin/boinc/translation/initialize-languages');
+}
+
+function boinctranslate_admin_settings_update_official_boinc() {
+  drupal_goto('admin/boinc/translation/update-official-boinc');
 }
 
 

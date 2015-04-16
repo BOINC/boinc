@@ -56,6 +56,12 @@ function boinctranslate_menu() {
     'access arguments' => array('administer site configuration'),
     'type' => MENU_CALLBACK,
   );
+  $items['admin/boinc/translation/update-official-boinc'] = array(
+    'title' => 'Update official BOINC translations',
+    'page callback' => 'boinctranslate_update_official_boinc_translations',
+    'access arguments' => array('update official BOINC translations'),
+    'type' => MENU_CALLBACK,
+  );
   return $items;
 }
 
@@ -362,6 +368,116 @@ function boinctranslate_export_translations() {
 /**
  *
  */
+function boinctranslate_update_official_boinc_translations() {
+  require_once(getcwd() . '/includes/locale.inc');
+  $project_name = variable_get(
+    'boinc_translate_transifex_standard_name', ''
+  );
+  
+  if ($project_name) {
+    // Create or update the translation source, if needed
+    $source_exists = FALSE;
+    $path = "project/{$project_name}/resources";
+    $resources = boinctranslate_transifex_request($path);
+    if ($resources AND is_array($resources)) {
+      foreach ($resources as $resource) {
+        if ($resource['slug'] == 'drupal-generic') {
+          $source_exists = TRUE;
+          break;
+        }
+      }
+      if (!$source_exists) {
+        // Create the source
+        $path = "project/{$project_name}/resources";
+        $post = array(
+          'slug' => 'drupal-generic',
+          'name' => 'Drupal-Generic',
+          'i18n_type' => 'PO',
+          'category' => 'Drupal',
+          'content' => boinctranslate_get_po('en', 'boinc'),
+        );
+      }
+      else {
+        // Update the source
+        $path = "project/{$project_name}/resource/drupal-generic/content";
+        $post = array(
+          'content' => boinctranslate_get_po('en', 'boinc')
+        );
+      }
+      $result = boinctranslate_transifex_request($path, $post);
+    }
+    
+    if ($result AND substr($result, 0, 6) != 'ERROR:') {
+      $enabled_languages = locale_language_list();
+      if ($source_exists) {
+        drupal_set_message('Updated source translation strings at Transifex');
+      }
+      else {
+        drupal_set_message('Established new translation resource at Transifex');
+      }
+      // Ensure this exported project resource is in the config
+      $resource_config = (variable_get(
+        'boinc_translate_transifex_standard_resources', ''
+      ));
+      $resource_names = boinctranslate_parse_resources($resource_config);
+      if (!in_array('drupal-generic', $resource_names)) {
+        $resource_config .= "\n" . 'drupal-generic';
+        variable_set(
+          'boinc_translate_transifex_standard_resources',
+          $resource_config
+        );
+        drupal_set_message(
+          'Added drupal-generic to BOINC resources'
+        );
+      }
+      // Try to export translations for all enabled languages
+      foreach ($enabled_languages as $langcode => $language_name) {
+        if ($langcode == en) {
+          continue;
+        }
+        $po_file = boinctranslate_get_po($langcode, 'boinc');
+        if ($po_file) {
+          $path = "project/{$project_name}/resource/drupal-generic/translation/{$langcode}";
+          $post = array(
+            'content' => $po_file,
+          );
+          $result = boinctranslate_transifex_request($path, $post, TRUE, TRUE);
+          if (!is_array($result)
+          AND substr($result, 0, 6) == 'ERROR:') {
+            drupal_set_message(
+              "Unable to update {$language_name} official BOINC translations: {$result}",
+              'warning'
+            );
+          }
+          else {
+            drupal_set_message("Updated {$language_name} official BOINC translations");
+            //drupal_set_message('DEBUG: <pre>'.print_r($result,1).'</pre>');
+          }
+        }
+        else {
+          drupal_set_message("No official BOINC translations to export for {$language_name}");
+        }
+      }
+    }
+    else {
+      drupal_set_message(
+        "Unable to update the official BOINC translation source: {$result}",
+        'warning'
+      );
+    }
+  }
+  else {
+    drupal_set_message(
+      'Failed to export official BOINC translations: Transifex settings are not intiailized.',
+      'error'
+    );
+  }
+  drupal_goto('admin/boinc/translation');
+}
+
+/**
+ *
+ */
 function boinctranslate_transifex_request($path, $post = NULL, $json = TRUE, $use_put = FALSE) {
   // Transifex details
   $api_base_url = 'https://www.transifex.com/api/2';
@@ -423,6 +539,11 @@ function boinctranslate_get_po($langcode, $type = 'standard') {
       'default',
       'taxonomy',
       'views',
+    );
+    break;
+  case 'boinc':
+    $textgroups = array(
+      'boinc',
     );
     break;
   case 'project':
