@@ -239,6 +239,20 @@ function boinccore_link_alter(&$links, $node, $comment = NULL) {
   }
 }
 
+/**
+ * Implementation of hook_locale().
+ */
+function boinccore_locale($op = 'groups', $group = NULL) {
+  switch ($op) {
+    case 'groups':
+      return array('boinc' => t('BOINC'));
+    case 'info':
+      //$info['boinc']['refresh callback'] = 'boinccore_locale_refresh';
+      $info['boinc']['format'] = FALSE;
+      return $info;
+  }
+}
+
 /*
 function boinccore_link($type, $object, $teaser = FALSE) {
   // Add custom links with this hook
@@ -669,3 +683,35 @@ function boinccore_get_country_list() {
   );
 }
 
+/*
+ * BOINC wrapper for string translation
+ */
+function bts($string, $args = array(), $context = 'boinc: ') {
+  if (function_exists('i18nstrings_ts')) {
+    $string = i18nstrings_ts($context, $string, NULL, TRUE);
+  }
+  if (empty($args)) {
+    return $string;
+  }
+  else {
+    // Transform arguments before inserting them.
+    foreach ($args as $key => $value) {
+      switch ($key [0]) {
+        case '@':
+          // Escaped only.
+          $args [$key] = check_plain($value);
+          break;
+
+        case '%':
+        default:
+          // Escaped and placeholder.
+          $args [$key] = theme('placeholder', $value);
+          break;
+
+        case '!':
+          // Pass-through.
+      }
+    }
+    return strtr($string, $args);
+  }
+}
