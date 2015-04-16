@@ -71,6 +71,13 @@ function boinctranslate_panels_pane_content_alter($content, $pane, $args, $conte
   return $content;
 }
 
+/**
+ * Implementation of hook_perm()
+ */
+function boinctranslate_perm() {
+  return array('update official BOINC translations');
+}
+
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Page callbacks from hook_menu()
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
