@@ -287,6 +287,10 @@ function process_create_profile($user, $profile) {
             ." response1 = '".BoincDb::escape_string($response1)."',"
             ." response2 = '".BoincDb::escape_string($response2)."',"
             ." has_picture = '$hasPicture',"
+            ." recommend=0, "
+            ." reject=0, "
+            ." posts=0, "
+            ." uotd_time=0, "
             ." verification=0";
         $result = BoincProfile::insert($query);
         if (!$result) {
