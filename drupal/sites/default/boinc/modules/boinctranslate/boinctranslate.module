@@ -594,6 +594,7 @@ function boinctranslate_refresh_translations() {
     $translation_resources[$boinc_name] = array(
       'resources' => $boinc_resources,
       'textgroups' => array(
+        'boinc',
         'default',
         'taxonomy',
         'views',
@@ -615,6 +616,17 @@ function boinctranslate_refresh_translations() {
         'project',
       ),
     );
+    // Be sure any strings from the override file are added to the boinc group
+    $override_file = './' . drupal_get_path('module', 'boinctranslate') . '/includes/other-boinc-translation-strings.txt';
+    $other_strings = file($override_file);
+    if ($other_strings) {
+      foreach ($other_strings as $string) {
+        $string = trim($string);
+        if ($string) {
+          bts($string);
+        }
+      }
+    }
   }
   
   foreach ($languages as $langcode => $language) {
@@ -1081,7 +1093,9 @@ function _boinctranslate_locale_import_one_string($op, $value = NULL, $mode = NU
     }
     elseif ($lid) {
       // We have this source string saved already.
-      db_query("UPDATE {locales_source} SET location = '%s' WHERE lid = %d", $location, $lid);
+      // Don't update location, that just makes Drupal add the same strings
+      // over and over
+      //db_query("UPDATE {locales_source} SET location = '%s' WHERE lid = %d", $location, $lid);
       $exists = (bool) db_result(db_query("SELECT lid FROM {locales_target} WHERE lid = %d AND language = '%s'", $lid, $langcode));
       if (!$exists) {
         // No translation in this language.
