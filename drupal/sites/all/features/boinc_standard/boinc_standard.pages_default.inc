@@ -530,22 +530,11 @@ echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->po
     $pane->subtype = 'custom';
     $pane->shown = TRUE;
     $pane->access = array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'role',
-          'settings' => array(
-            'rids' => array(
-              0 => 1,
-            ),
-          ),
-          'context' => 'logged-in-user',
-          'not' => FALSE,
-        ),
-      ),
+      'plugins' => array(),
     );
     $pane->configuration = array(
       'admin_title' => 'BOINC overview',
-      'title' => 'What is Einstein@Home?',
+      'title' => '',
       'body' => '<?php print boincuser_home_page(); ?>',
       'format' => '3',
       'substitute' => TRUE,
@@ -564,45 +553,6 @@ echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->po
     $display->panels['content'][0] = 'new-1';
     $pane = new stdClass;
     $pane->pid = 'new-2';
-    $pane->panel = 'content';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
-    $pane->shown = TRUE;
-    $pane->access = array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'role',
-          'settings' => array(
-            'rids' => array(
-              0 => 2,
-            ),
-          ),
-          'context' => 'logged-in-user',
-          'not' => FALSE,
-        ),
-      ),
-    );
-    $pane->configuration = array(
-      'admin_title' => 'BOINC user home',
-      'title' => 'Welcome back!',
-      'body' => '<?php print boincuser_home_page(); ?>',
-      'format' => '3',
-      'substitute' => TRUE,
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array(
-      'css_id' => '',
-      'css_class' => 'panel-primary container shadow',
-    );
-    $pane->extras = array();
-    $pane->position = 1;
-    $display->content['new-2'] = $pane;
-    $display->panels['content'][1] = 'new-2';
-    $pane = new stdClass;
-    $pane->pid = 'new-3';
     $pane->panel = 'sidebar_first';
     $pane->type = 'panels_mini';
     $pane->subtype = 'project_stats_overview';
@@ -622,10 +572,10 @@ echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->po
     );
     $pane->extras = array();
     $pane->position = 0;
-    $display->content['new-3'] = $pane;
-    $display->panels['sidebar_first'][0] = 'new-3';
+    $display->content['new-2'] = $pane;
+    $display->panels['sidebar_first'][0] = 'new-2';
     $pane = new stdClass;
-    $pane->pid = 'new-4';
+    $pane->pid = 'new-3';
     $pane->panel = 'sidebar_first';
     $pane->type = 'views';
     $pane->subtype = 'news';
@@ -657,8 +607,8 @@ echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->po
     );
     $pane->extras = array();
     $pane->position = 1;
-    $display->content['new-4'] = $pane;
-    $display->panels['sidebar_first'][1] = 'new-4';
+    $display->content['new-3'] = $pane;
+    $display->panels['sidebar_first'][1] = 'new-3';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
