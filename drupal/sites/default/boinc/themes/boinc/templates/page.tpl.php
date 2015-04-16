@@ -150,7 +150,7 @@
     <div id="header"><div class="section clearfix">
 
       <?php if ($logo): ?>
-        <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" id="logo"><img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" /></a>
+        <a href="<?php print $front_page; ?>" title="<?php print bts('Home'); ?>" rel="home" id="logo"><img src="<?php print $logo; ?>" alt="<?php print bts('Home'); ?>" /></a>
       <?php endif; ?>
 
       <?php if ($site_name || $site_slogan): ?>
@@ -158,11 +158,11 @@
           <?php if ($site_name): ?>
             <?php if ($title): ?>
               <div id="site-name"><strong>
-                <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home"><span><?php print strtoupper($site_name); ?></span></a>
+                <a href="<?php print $front_page; ?>" title="<?php print bts('Home'); ?>" rel="home"><span><?php print strtoupper($site_name); ?></span></a>
               </strong></div>
             <?php else: // Use h1 when the content title is empty  ?>
               <h1 id="site-name">
-                <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home"><span><?php print strtoupper($site_name); ?></span></a>
+                <a href="<?php print $front_page; ?>" title="<?php print bts('Home'); ?>" rel="home"><span><?php print strtoupper($site_name); ?></span></a>
               </h1>
             <?php endif; ?>
           <?php endif; ?>
@@ -204,14 +204,14 @@
               global $user;
               global $base_path;
               if ($user->uid):
-                echo '<a href="' . $base_path . 'logout"><span class="secondary-link tab">' . t('Logout') . '</span></a>';
+                echo '<a href="' . $base_path . 'logout"><span class="secondary-link tab">' . bts('Logout') . '</span></a>';
               else:
-                echo '<a href="' . $base_path . 'user/login?' . drupal_get_destination() . '"><span class="secondary-link tab">' . t('Login') . '</span></a>';
+                echo '<a href="' . $base_path . 'user/login?' . drupal_get_destination() . '"><span class="secondary-link tab">' . bts('Login') . '</span></a>';
               endif;
             ?>
             </li>
             <?php if (module_exists('global_search') OR module_exists('global_search_solr')): ?>
-              <li class="last"><a class="search" href="<?php print $base_path; ?>search/site"><span class="tab"><?php print t('search'); ?></span></a></li>
+              <li class="last"><a class="search" href="<?php print $base_path; ?>search/site"><span class="tab"><?php print bts('search'); ?></span></a></li>
             <?php endif; ?>
           </ul>
         </div>
@@ -241,7 +241,7 @@
       <?php
         $active_menu_item = '';
         $heading_overrides = array(
-          'join' => t('Join now')
+          'join' => bts('Join now')
         );
         if (isset($heading_overrides[arg(0)])) {
           $active_menu_item = $heading_overrides[arg(0)];
@@ -330,7 +330,7 @@
           <ul id="server-status" class="tab-list">
             
             <li class="first tab">
-              <?php print l(t('Server status'), $server_status_url); ?>
+              <?php print l(bts('Server status'), $server_status_url); ?>
             </li>
             <!--<li class="first tab">Server status</li>
             <li class="tab">
@@ -349,7 +349,7 @@
         <div id="footer-info">
           <div id="language"
             style="background: url(<?php print base_path() . path_to_theme() . '/images/flags/' . $language->language . '.png'; ?>) no-repeat right;">
-              <?php print t('Language'); ?>
+              <?php print bts('Language'); ?>
           </div>
           
           <?php if ($footer_message): ?>
