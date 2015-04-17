@@ -493,8 +493,11 @@ function boinctranslate_transifex_request($path, $post = NULL, $json = TRUE, $us
   }
   elseif (strstr($response_header, '100 Continue')) {
     list($response_header, $response_body) = explode("\r\n\r\n", $response_body, 2);
-    if ( strstr($response_header, '400 BAD REQUEST')) {
+    if (strstr($response_header, '400 BAD REQUEST')) {
       return "ERROR: {$response_body}";
+    }
+    elseif (strstr($response_header, '405 METHOD NOT ALLOWED')) {
+      return "ERROR: User not allowed to perform this action";
     }
   }
   elseif ($json) {
