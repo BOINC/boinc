@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-03-04 08:56 PST\n"
-"PO-Revision-Date: 2015-03-27 23:10+0000\n"
-"Last-Translator: Michal\n"
+"PO-Revision-Date: 2015-04-17 15:24+0000\n"
+"Last-Translator: aceman\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/boinc/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -260,7 +260,7 @@ msgstr "Od najnovších"
 
 #: ../inc/forum.inc:40
 msgid "Highest rated posts first"
-msgstr "Zobraziť najlepšie hodntené správy ako prvé"
+msgstr "Zobraziť najlepšie hodnotené správy ako prvé"
 
 #: ../inc/forum.inc:42
 msgid "Newest post first"
@@ -434,7 +434,7 @@ msgstr "Odpovedať na túto správu"
 
 #: ../inc/forum.inc:691
 msgid "Quote"
-msgstr "Citát"
+msgstr "Citovať"
 
 #: ../inc/forum.inc:691
 msgid "Post a reply by quoting this message"
@@ -450,7 +450,7 @@ msgstr "Uverejnené %1 od %2"
 
 #: ../inc/forum.inc:751
 msgid "You may not post or rate messages until %1"
-msgstr "Počkajte s odosielaním alebo hodnotením správ do %1"
+msgstr "Nemôžete odosielať alebo hodnotiť správy do %1"
 
 #: ../inc/forum.inc:762
 msgid ""
@@ -468,7 +468,7 @@ msgid ""
 "        <li> No abusive comments involving race, religion,\n"
 "            nationality, gender, class or sexuality.\n"
 "        "
-msgstr "\n<ul>\n<li> Správy musia byt vhodné aj pre detského čitateľa, nesú obsahovať obscénny, nenávistný alebo erotický obsah.\n<li> Žiadne reklamy\n<li> Žiadne odkazy na stránky s erotickým obsahom, propagujúcim hazard alebo nenávisť.\n<li> Žiadne správy s urážlivým obsahom voči jednotlivcom alebo skupinám ľudí.\n<li> Žiadne urážlivé komentáre namierené proti náboženstvu, národnosti, rase, pohlaviu alebo sexuálnej orientácii."
+msgstr "\n<ul>\n<li> Správy musia byť vhodné aj pre detského čitateľa, nesmú obsahovať obscénny, nenávistný alebo erotický obsah.\n<li> Žiadne reklamy.\n<li> Žiadne odkazy na stránky s erotickým obsahom, propagujúcim hazard alebo nenávisť.\n<li> Žiadne správy určené na obťažovanie iných ľudí alebo ovládnutie témy.\n<li> Žiadne správy s urážlivým obsahom voči jednotlivcom alebo skupinám ľudí.\n<li> Žiadne urážlivé komentáre namierené proti náboženstvu, národnosti, rase, pohlaviu alebo sexuálnej orientácii."
 
 #: ../inc/forum.inc:784
 msgid "Rules:"
@@ -484,7 +484,7 @@ msgstr "Odkryť"
 
 #: ../inc/forum.inc:1082
 msgid "Unhide this post"
-msgstr "Zobraziť túto správu"
+msgstr "Odkryť túto správu"
 
 #: ../inc/forum.inc:1084 ../user/forum_thread.php:196
 msgid "Hide"
@@ -508,15 +508,15 @@ msgstr "Zablokovať autora"
 
 #: ../inc/forum.inc:1101
 msgid "Vote to banish author"
-msgstr "Voliť na zablokovanie autora"
+msgstr "Hlasovať za zablokovanie autora"
 
 #: ../inc/forum.inc:1105
 msgid "Vote not to banish author"
-msgstr "Voliť na neblokovanie autora"
+msgstr "Hlasovať za neblokovanie autora"
 
 #: ../inc/forum.inc:1110
 msgid "Start vote to banish author"
-msgstr "Začať voľbu na zablokovanie autora"
+msgstr "Začať hlasovanie na zablokovanie autora"
 
 #: ../inc/forum.inc:1115 ../inc/user.inc:312 ../user/forum_thread.php:243
 #: ../user/pm.php:112 ../user/pm.php:152
@@ -800,7 +800,7 @@ msgstr "Posledné skontaktovanie so serverom"
 
 #: ../inc/host.inc:186
 msgid "Fraction of time BOINC is running"
-msgstr "Časť času kedy BOINC beží."
+msgstr "Podiel času kedy BOINC beží"
 
 #: ../inc/host.inc:188
 msgid ""
@@ -888,7 +888,7 @@ msgstr "Detaily"
 
 #: ../inc/host.inc:345
 msgid "Cross-project stats:"
-msgstr "Medziprojektové štatistiký:"
+msgstr "Medziprojektové štatistiky:"
 
 #: ../inc/host.inc:520
 msgid "Host %1 has overlapping lifetime:"
