@@ -1,0 +1,120 @@
+# LANGUAGE translation of PROJECT
+# Copyright (c) YEAR NAME <EMAIL@ADDRESS>
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: BOINC\n"
+"POT-Creation-Date: 2015-04-17 14:29+0000\n"
+"PO-Revision-Date: 2015-04-17 15:02+0000\n"
+"Last-Translator: Rom Walton\n"
+"Language-Team: English (http://www.transifex.com/projects/p/boinc/language/en/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Email address"
+msgstr "Email address"
+
+msgid "Home"
+msgstr "Home"
+
+msgid "Login"
+msgstr "Login"
+
+msgid "search"
+msgstr "search"
+
+msgid "Server status"
+msgstr "Server status"
+
+msgid "Language"
+msgstr "Language"
+
+msgid "Enter your @s email address."
+msgstr "Enter your @s email address."
+
+msgid "Join now"
+msgstr "Join now"
+
+msgid "I'm new"
+msgstr "I'm new"
+
+msgid "I'm a BOINC user"
+msgstr "I'm a BOINC user"
+
+msgid "Welcome back!"
+msgstr "Welcome back!"
+
+msgid ""
+"Einstein@Home is a program that uses your computer's idle time to run a "
+"screensaver to search for gravitational waves from spinning neutron stars "
+"(also called pulsars) using data from the LIGO gravitational wave detector."
+msgstr "Einstein@Home is a program that uses your computer's idle time to run a screensaver to search for gravitational waves from spinning neutron stars (also called pulsars) using data from the LIGO gravitational wave detector."
+
+msgid "Learn more"
+msgstr "Learn more"
+
+msgid "View account"
+msgstr "View account"
+
+msgid "About our screensaver"
+msgstr "About our screensaver"
+
+msgid "Over 500,000 volunteers and counting."
+msgstr "Over 500,000 volunteers and counting."
+
+msgid "Windows"
+msgstr "Windows"
+
+msgid "Mac"
+msgstr "Mac"
+
+msgid "Linux"
+msgstr "Linux"
+
+msgid "Logout"
+msgstr "Logout"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Avg credit"
+msgstr "Avg credit"
+
+msgid "Total credit"
+msgstr "Total credit"
+
+msgid "Enter your password to save changes"
+msgstr "Enter your password to save changes"
+
+msgid ""
+"Enter your current password if changing your email\n"
+"          address or password."
+msgstr "Enter your current password if changing your email\n          address or password."
+
+msgid "BOINC user ID"
+msgstr "BOINC user ID"
+
+msgid "Drupal user ID"
+msgstr "Drupal user ID"
+
+msgid "Account key"
+msgstr "Account key"
+
+msgid "Weak account key"
+msgstr "Weak account key"
+
+msgid "Cross-project ID"
+msgstr "Cross-project ID"
+
+msgid "Save changes"
+msgstr "Save changes"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Change password"
+msgstr "Change password"
