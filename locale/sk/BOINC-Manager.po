@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-03-24 13:36-0500\n"
-"PO-Revision-Date: 2015-03-27 23:03+0000\n"
+"PO-Revision-Date: 2015-04-17 15:24+0000\n"
 "Last-Translator: aceman\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/boinc/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -1125,7 +1125,7 @@ msgid ""
 "This dialog controls preferences for this computer only.\n"
 "Click OK to set preferences.\n"
 "Click Clear to restore web-based settings."
-msgstr "Táto ponuka obsahuje nastavenia len pre tento počítač.\nKliknite OK pre nastavenia.\nKliknite Clear na obnovenie nastavení z webstránky."
+msgstr "Táto ponuka obsahuje nastavenia len pre tento počítač.\nKliknite OK pre nastavenia.\nKliknite Vymazať pre obnovenie nastavení z webstránky."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:114
 msgid "Clear"
@@ -1141,7 +1141,7 @@ msgstr "Použiť webové nastavenia"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:119
 msgid "Restore web-based preferences and close the dialog."
-msgstr "Obnoviť nastavenia stránky a zavrieť ponuku."
+msgstr "Obnoviť nastavenia z webstránky a zavrieť ponuku."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:143
 #: clientgui/DlgAdvPreferencesBase.cpp:637
@@ -1293,11 +1293,11 @@ msgstr "dní práce"
 msgid ""
 "Store additional tasks above the minimum level.  Determines how much work is"
 " requested when contacting a project."
-msgstr "Ukladať dodatočné úlohy nad minimálnou úrovňou. Určuje aké úsilie je nutné pri kontaktovaní projektu."
+msgstr "Ukladať dodatočné úlohy nad minimálnou úrovňou. Určuje aké koľko práce sa bude vyžadovať pri kontaktovaní projektu."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:368
 msgid "Store up to an additional"
-msgstr "Uložiť až do"
+msgstr "Uložiť navyše"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:381
 #, c-format
@@ -1337,7 +1337,7 @@ msgstr "KB/s"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:440
 msgid "Limit the upload rate of file transfers."
-msgstr "Nastaviť rýchlosť odosielania súborov"
+msgstr "Obmedziť rýchlosť odosielania súborov"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:441
 msgid "Limit upload rate to"
@@ -1396,7 +1396,7 @@ msgstr "%s použije najprísnejšie z nasledovných nastavení:"
 #: clientgui/DlgAdvPreferencesBase.cpp:527
 #, c-format
 msgid "Limit the total amount of disk space used by %s."
-msgstr "Nastaví využitie disku pre %s."
+msgstr "Obmedziť využitie disku pre %s."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:530
 #: clientgui/DlgAdvPreferencesBase.cpp:554
@@ -1412,7 +1412,7 @@ msgstr "GB"
 msgid ""
 "Limit disk usage to leave this much free space on the volume where %s stores"
 " data."
-msgstr "Nastaví použitie disku aby ostalo aspoň toľko voľného miesta na disku, kde sú uložené dáta %s."
+msgstr "Obmedzí použitie disku, aby ostalo aspoň toľko voľného miesta na disku, kde sú uložené dáta %s."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:542
 msgid "Leave at least"
@@ -1427,7 +1427,7 @@ msgstr "GB voľných"
 msgid ""
 "Limit the percentage of disk space used by %s on the volume where it stores "
 "data."
-msgstr "Nastaví percentuálne využitie miesta na disku aplikácoiu %s."
+msgstr "Obmedzí percentuálne využitie miesta na disku aplikáciou %s."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:559
 #, no-c-format
@@ -1441,7 +1441,7 @@ msgstr "Pamäť"
 #: clientgui/DlgAdvPreferencesBase.cpp:571
 #, c-format
 msgid "Limit the memory used by %s when you're using the computer."
-msgstr "Nastavenie pamäte, ktorú %s využíva, ked používate počítač."
+msgstr "Obmedzenie pamäte, ktorú %s využíva, keď používate počítač."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:573
 msgid "When computer is in use, use at most"
@@ -1457,7 +1457,7 @@ msgstr "%"
 #: clientgui/DlgAdvPreferencesBase.cpp:584
 #, c-format
 msgid "Limit the memory used by %s when you're not using the computer."
-msgstr "Nastavenie pamäte, ktorú %s využíva, ked nepoužívate počítač."
+msgstr "Obmedzenie pamäte, ktorú %s využíva, keď nepoužívate počítač."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:586
 msgid "When computer is not in use, use at most"
@@ -1472,12 +1472,12 @@ msgid ""
 "If checked, suspended tasks stay in memory, and resume with no work lost. If"
 " unchecked, suspended tasks are removed from memory, and resume from their "
 "last checkpoint."
-msgstr "Ak je zaškrtnuté, pozastavené úlohy ostanú v medzipamäti a môžu byť obnovené bez strát. Ak nie je zaškrtnuté, pozastavené úlohy nebudú uložené v medzipamäti a môžu byť obnovené z ich posledného času uloženia."
+msgstr "Ak je zaškrtnuté, pozastavené úlohy ostanú v pamäti a môžu byť obnovené bez strát práce. Ak nie je zaškrtnuté, pozastavené úlohy nebudú uložené v pamäti a musia byť obnovené z ich posledného času uloženia."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:600
 #, c-format
 msgid "Limit the swap space (page file) used by %s."
-msgstr "Nastaviť využitie ukladacieho priestoru (stránkovacieho súboru) pre %s."
+msgstr "Obmedziť využitie ukladacieho priestoru (stránkovacieho súboru) pre %s."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:602
 msgid "Page/swap file: use at most"
@@ -1493,7 +1493,7 @@ msgstr "až"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:641
 msgid "Compute only during a particular period each day."
-msgstr "Vykonávať výpočty v určitý čas každý deň"
+msgstr "Vykonávať výpočty len v určitý čas každý deň"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:644
 msgid "Compute only between"
@@ -1502,7 +1502,7 @@ msgstr "Počítať len medzi"
 #: clientgui/DlgAdvPreferencesBase.cpp:654
 #: clientgui/DlgAdvPreferencesBase.cpp:801
 msgid "Day-of-week override"
-msgstr "Samostatné nastavenia pre dni v týždni:"
+msgstr "Samostatné nastavenia pre dni v týždni"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:658
 #: clientgui/DlgAdvPreferencesBase.cpp:805
@@ -2872,7 +2872,7 @@ msgstr "%s - &Preferencie počítania"
 
 #: clientgui/sg_DlgPreferences.cpp:1061
 msgid "Discard all local preferences and use web-based preferences?"
-msgstr "Ignorovať lokálne nastavenia a použiť nastavenia z webstránky projektu?"
+msgstr "Odstrániť lokálne nastavenia a použiť nastavenia z webstránky projektu?"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:66
 msgid "Update"
