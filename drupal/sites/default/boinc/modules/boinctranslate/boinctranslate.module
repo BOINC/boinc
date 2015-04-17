@@ -322,7 +322,7 @@ function boinctranslate_export_translations() {
       }
       // Try to export translations for all enabled languages
       foreach ($enabled_languages as $langcode => $language_name) {
-        if ($langcode == en) {
+        if ($langcode == 'en') {
           continue;
         }
         $po_file = boinctranslate_get_po($langcode, 'project');
@@ -394,14 +394,6 @@ function boinctranslate_update_official_boinc_translations() {
         $result = "ERROR: The {$drupal_resource} resource does not exist"
           . " in the {$project_name} project at Transifex";
       }
-      else {
-        // Update the source
-        $path = "project/{$project_name}/resource/{$drupal_resource}/content";
-        $post = array(
-          'content' => boinctranslate_get_po('en', 'boinc')
-        );
-        $result = boinctranslate_transifex_request($path, $post);
-      }
     }
     
     if ($result AND substr($result, 0, 6) != 'ERROR:') {
@@ -414,7 +406,7 @@ function boinctranslate_update_official_boinc_translations() {
       }
       // Try to export translations for all enabled languages
       foreach ($enabled_languages as $langcode => $language_name) {
-        if ($langcode == en) {
+        if ($langcode == 'en') {
           continue;
         }
         $po_file = boinctranslate_get_po($langcode, 'boinc');
