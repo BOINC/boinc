@@ -77,26 +77,24 @@ function boinctranslate_admin_settings(&$form_state) {
     '#default_value' => $default['transifex_boinc_name'],
     '#description' => t('The portion of the Transifex URL that identifies BOINC.'),
   );
+  $form['transifex']['boinc_translate_transifex_boinc_drupal_resource'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Official BOINC Drupal resource'),
+    '#default_value' => $default['transifex_boinc_drupal_resource'],
+    '#description' => t('The portion of the Transifex URL that identifies
+      the standard BOINC resource to use for translation of the public
+      content defined in the Drupal system.'),
+  );
   $form['transifex']['boinc_translate_transifex_standard_resources'] = array(
     '#type' => 'textarea',
-    '#title' => t('BOINC resources'),
+    '#title' => t('Additional BOINC resources'),
     '#default_value' => $default['transifex_boinc_resources'],
-    '#description' => t('List BOINC Transifex resources to be used for
-      translating strings on this site (one resource string per line).
+    '#description' => t('List additional BOINC Transifex resources to be used
+      for translating strings on this site (one resource string per line).
       Resources will be imported in the order they are given, so
       translations from the resources at the top of the list will be overridden
       by any matching translations found in resources further down the list.'),
   );
-  if (user_access('update official BOINC translations')) {
-    $form['transifex']['boinc_translate_transifex_boinc_drupal_resource'] = array(
-      '#type' => 'textfield',
-      '#title' => t('BOINC Drupal resource'),
-      '#default_value' => $default['transifex_boinc_drupal_resource'],
-      '#description' => t('The portion of the Transifex URL that identifies
-        the standard BOINC resource to use for translation of the public
-        content defined in the Drupal system.'),
-    );
-  }
   $form['transifex']['boinc_translate_transifex_project_name'] = array(
     '#type' => 'textfield',
     '#title' => t('Project-specific Transifex project'),
