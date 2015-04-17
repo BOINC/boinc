@@ -389,21 +389,10 @@ function boinctranslate_update_official_boinc_translations() {
           break;
         }
       }
-      if (!$source_exists) {
-        // Error
-        $result = "ERROR: The {$drupal_resource} resource does not exist"
-          . " in the {$project_name} project at Transifex";
-      }
     }
     
-    if ($result AND substr($result, 0, 6) != 'ERROR:') {
+    if ($source_exists) {
       $enabled_languages = locale_language_list();
-      if ($source_exists) {
-        drupal_set_message('Updated source translation strings at Transifex');
-      }
-      else {
-        drupal_set_message('Established new translation resource at Transifex');
-      }
       // Try to export translations for all enabled languages
       foreach ($enabled_languages as $langcode => $language_name) {
         if ($langcode == 'en') {
@@ -416,12 +405,21 @@ function boinctranslate_update_official_boinc_translations() {
             'content' => $po_file,
           );
           $result = boinctranslate_transifex_request($path, $post, TRUE, TRUE);
-          if (!is_array($result)
-          AND substr($result, 0, 6) == 'ERROR:') {
-            drupal_set_message(
-              "Unable to update {$language_name} official BOINC translations: {$result}",
-              'warning'
-            );
+          
+          if (!is_array($result)) {
+            if (substr($result, 0, 6) == 'ERROR:') {
+              drupal_set_message(
+                "Unable to update {$language_name} official BOINC translations: {$result}",
+                'warning'
+              );
+            }
+            elseif ($result == '401 UNAUTHORIZED') {
+              drupal_set_message(
+                'Not authorized to update official BOINC translations',
+                'warning'
+              );
+              break;
+            }
           }
           else {
             drupal_set_message("Updated {$language_name} official BOINC translations");
@@ -435,7 +433,7 @@ function boinctranslate_update_official_boinc_translations() {
     }
     else {
       drupal_set_message(
-        "Unable to update the official BOINC translation source: {$result}",
+        "The {$drupal_resource} resource does not exist in the {$project_name} project at Transifex",
         'warning'
       );
     }
