@@ -1,0 +1,153 @@
+# LANGUAGE translation of PROJECT
+# Copyright (c) YEAR NAME <EMAIL@ADDRESS>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2015-04-17 14:29+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#:  
+msgid "Email address"
+msgstr ""
+
+#:  
+msgid "Home"
+msgstr ""
+
+#:  
+msgid "Login"
+msgstr ""
+
+#:  
+msgid "search"
+msgstr ""
+
+#:  
+msgid "Server status"
+msgstr ""
+
+#:  
+msgid "Language"
+msgstr ""
+
+#:  
+msgid "Enter your @s email address."
+msgstr ""
+
+#:  
+msgid "Join now"
+msgstr ""
+
+#:  
+msgid "I'm new"
+msgstr ""
+
+#:  
+msgid "I'm a BOINC user"
+msgstr ""
+
+#:  
+msgid "Welcome back!"
+msgstr ""
+
+#:  
+msgid ""
+"Einstein@Home is a program that uses your computer's idle time to run "
+"a screensaver to search for gravitational waves from spinning neutron "
+"stars (also called pulsars) using data from the LIGO gravitational "
+"wave detector."
+msgstr ""
+
+#:  
+msgid "Learn more"
+msgstr ""
+
+#:  
+msgid "View account"
+msgstr ""
+
+#:  
+msgid "About our screensaver"
+msgstr ""
+
+#:  
+msgid "Over 500,000 volunteers and counting."
+msgstr ""
+
+#:  
+msgid "Windows"
+msgstr ""
+
+#:  
+msgid "Mac"
+msgstr ""
+
+#:  
+msgid "Linux"
+msgstr ""
+
+#:  
+msgid "Logout"
+msgstr ""
+
+#:  
+msgid "Name"
+msgstr ""
+
+#:  
+msgid "Avg credit"
+msgstr ""
+
+#:  
+msgid "Total credit"
+msgstr ""
+
+#:  
+msgid "Enter your password to save changes"
+msgstr ""
+
+#:  
+msgid ""
+"Enter your current password if changing your email\n"
+"          address or password."
+msgstr ""
+
+#:  
+msgid "BOINC user ID"
+msgstr ""
+
+#:  
+msgid "Drupal user ID"
+msgstr ""
+
+#:  
+msgid "Account key"
+msgstr ""
+
+#:  
+msgid "Weak account key"
+msgstr ""
+
+#:  
+msgid "Cross-project ID"
+msgstr ""
+
+#:  
+msgid "Save changes"
+msgstr ""
+
+#:  
+msgid "Cancel"
+msgstr ""
+
+#:  
+msgid "Change password"
+msgstr ""
+
