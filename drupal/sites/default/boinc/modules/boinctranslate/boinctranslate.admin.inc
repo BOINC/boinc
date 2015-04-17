@@ -24,6 +24,10 @@ function boinctranslate_admin_settings(&$form_state) {
       'boinc_translate_transifex_standard_resources',
       "project-generic\nweb"
     ),
+    'transifex_boinc_drupal_resource' => variable_get(
+      'boinc_translate_transifex_boinc_drupal_resource',
+      'drupal'
+    ), 
     'transifex_project_name' => variable_get(
       'boinc_translate_transifex_project_name', ''
     ),
@@ -83,6 +87,16 @@ function boinctranslate_admin_settings(&$form_state) {
       translations from the resources at the top of the list will be overridden
       by any matching translations found in resources further down the list.'),
   );
+  if (user_access('update official BOINC translations')) {
+    $form['transifex']['boinc_translate_transifex_boinc_drupal_resource'] = array(
+      '#type' => 'textfield',
+      '#title' => t('BOINC Drupal resource'),
+      '#default_value' => $default['transifex_boinc_drupal_resource'],
+      '#description' => t('The portion of the Transifex URL that identifies
+        the standard BOINC resource to use for translation of the public
+        content defined in the Drupal system.'),
+    );
+  }
   $form['transifex']['boinc_translate_transifex_project_name'] = array(
     '#type' => 'textfield',
     '#title' => t('Project-specific Transifex project'),

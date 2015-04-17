@@ -373,15 +373,18 @@ function boinctranslate_update_official_boinc_translations() {
   $project_name = variable_get(
     'boinc_translate_transifex_standard_name', ''
   );
+  $drupal_resource = variable_get(
+    'boinc_translate_transifex_boinc_drupal_resource', ''
+  );
   
-  if ($project_name) {
+  if ($project_name AND $drupal_resource) {
     // Create or update the translation source, if needed
     $source_exists = FALSE;
     $path = "project/{$project_name}/resources";
     $resources = boinctranslate_transifex_request($path);
     if ($resources AND is_array($resources)) {
       foreach ($resources as $resource) {
-        if ($resource['slug'] == 'drupal-generic') {
+        if ($resource['slug'] == $drupal_resource) {
           $source_exists = TRUE;
           break;
         }
@@ -390,8 +393,8 @@ function boinctranslate_update_official_boinc_translations() {
         // Create the source
         $path = "project/{$project_name}/resources";
         $post = array(
-          'slug' => 'drupal-generic',
-          'name' => 'Drupal-Generic',
+          'slug' => $drupal_resource,
+          'name' => 'locale/templates/BOINC-Drupal.pot',
           'i18n_type' => 'PO',
           'category' => 'Drupal',
           'content' => boinctranslate_get_po('en', 'boinc'),
@@ -399,7 +402,7 @@ function boinctranslate_update_official_boinc_translations() {
       }
       else {
         // Update the source
-        $path = "project/{$project_name}/resource/drupal-generic/content";
+        $path = "project/{$project_name}/resource/{$drupal_resource}/content";
         $post = array(
           'content' => boinctranslate_get_po('en', 'boinc')
         );
@@ -415,21 +418,6 @@ function boinctranslate_update_official_boinc_translations() {
       else {
         drupal_set_message('Established new translation resource at Transifex');
       }
-      // Ensure this exported project resource is in the config
-      $resource_config = (variable_get(
-        'boinc_translate_transifex_standard_resources', ''
-      ));
-      $resource_names = boinctranslate_parse_resources($resource_config);
-      if (!in_array('drupal-generic', $resource_names)) {
-        $resource_config .= "\n" . 'drupal-generic';
-        variable_set(
-          'boinc_translate_transifex_standard_resources',
-          $resource_config
-        );
-        drupal_set_message(
-          'Added drupal-generic to BOINC resources'
-        );
-      }
       // Try to export translations for all enabled languages
       foreach ($enabled_languages as $langcode => $language_name) {
         if ($langcode == en) {
@@ -437,7 +425,7 @@ function boinctranslate_update_official_boinc_translations() {
         }
         $po_file = boinctranslate_get_po($langcode, 'boinc');
         if ($po_file) {
-          $path = "project/{$project_name}/resource/drupal-generic/translation/{$langcode}";
+          $path = "project/{$project_name}/resource/{$drupal_resource}/translation/{$langcode}";
           $post = array(
             'content' => $po_file,
           );
