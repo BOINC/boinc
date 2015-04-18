@@ -1,0 +1,120 @@
+# LANGUAGE translation of PROJECT
+# Copyright (c) YEAR NAME <EMAIL@ADDRESS>
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: BOINC\n"
+"POT-Creation-Date: 2015-04-17 14:29+0000\n"
+"PO-Revision-Date: 2015-04-18 15:47+0000\n"
+"Last-Translator: Rom Walton\n"
+"Language-Team: Korean (http://www.transifex.com/projects/p/boinc/language/ko/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ko\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Email address"
+msgstr "Email 주소"
+
+msgid "Home"
+msgstr "집"
+
+msgid "Login"
+msgstr "로그인"
+
+msgid "search"
+msgstr "검색"
+
+msgid "Server status"
+msgstr "서버 상태"
+
+msgid "Language"
+msgstr "언어"
+
+msgid "Enter your @s email address."
+msgstr "@ 이메일 주소를 입력하세요."
+
+msgid "Join now"
+msgstr "지금 "
+
+msgid "I'm new"
+msgstr "새 사용"
+
+msgid "I'm a BOINC user"
+msgstr "BOINC 사용자입니다"
+
+msgid "Welcome back!"
+msgstr "재방문을 환영합니다!"
+
+msgid ""
+"Einstein@Home is a program that uses your computer's idle time to run a "
+"screensaver to search for gravitational waves from spinning neutron stars "
+"(also called pulsars) using data from the LIGO gravitational wave detector."
+msgstr "Einstein@Home은 LIGO 중력파 감지기에서 뽑아온 데이터를 이용해 회전하는 중성자 별(흔히 펄서로 알려짐)에서 온 중력파를 찾기 위해서 여러분의 컴퓨터가 쉬는 동안에 화면 보호기를 실행해 연산을 하는 프로그램입니다."
+
+msgid "Learn more"
+msgstr "더 "
+
+msgid "View account"
+msgstr "계정 "
+
+msgid "About our screensaver"
+msgstr "화면 보호기에 대해 알아보기"
+
+msgid "Over 500,000 volunteers and counting."
+msgstr "5십만 이상의 기여자 혹은 그 이상."
+
+msgid "Windows"
+msgstr "Windows"
+
+msgid "Mac"
+msgstr "Mac"
+
+msgid "Linux"
+msgstr "Linux"
+
+msgid "Logout"
+msgstr "로그아웃"
+
+msgid "Name"
+msgstr "이름"
+
+msgid "Avg credit"
+msgstr "평균 "
+
+msgid "Total credit"
+msgstr "총 크레딧"
+
+msgid "Enter your password to save changes"
+msgstr "변경사항을 저장하려면 비밀번호를 입력하세요"
+
+msgid ""
+"Enter your current password if changing your email\n"
+"          address or password."
+msgstr "이메일 또는 비밀번호를 변경할 경우 현재 사용 중인\n          비밀번호를 입력하세요."
+
+msgid "BOINC user ID"
+msgstr "BOINC  ID"
+
+msgid "Drupal user ID"
+msgstr "Drupal  ID"
+
+msgid "Account key"
+msgstr "계정 "
+
+msgid "Weak account key"
+msgstr "약한 계정 키"
+
+msgid "Cross-project ID"
+msgstr "공유-프로젝트 ID"
+
+msgid "Save changes"
+msgstr "변경사항 저장"
+
+msgid "Cancel"
+msgstr "취소"
+
+msgid "Change password"
+msgstr "비밀번호 변경"
