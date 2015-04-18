@@ -25,7 +25,7 @@ class DB_REC {
 }
 
 
-$db_name = parse_config($config, "<db_name>");
+$db_name = parse_config(get_config(), "<db_name>");
 
 db_init();
 
