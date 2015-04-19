@@ -546,10 +546,11 @@ int GLOBAL_PREFS::parse_override(
             mask.max_bytes_sec_down = true;
             continue;
         }
-        if (xp.parse_double("cpu_usage_limit", cpu_usage_limit)) {
-            if (cpu_usage_limit < 0) cpu_usage_limit = 0;
-            if (cpu_usage_limit > 100) cpu_usage_limit = 100;
-            mask.cpu_usage_limit = true;
+        if (xp.parse_double("cpu_usage_limit", dtemp)) {
+            if (dtemp > 0 && dtemp <= 100) {
+                cpu_usage_limit = dtemp;
+                mask.cpu_usage_limit = true;
+            }
             continue;
         }
         if (xp.parse_double("daily_xfer_limit_mb", dtemp)) {
