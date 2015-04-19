@@ -1114,7 +1114,7 @@ void* throttler(void*) {
         client_mutex.lock();
         if (gstate.tasks_suspended
             || gstate.global_prefs.cpu_usage_limit > 99
-            || gstate.global_prefs.cpu_usage_limit < 0.004
+            || gstate.global_prefs.cpu_usage_limit < 0.005
             ) {
             client_mutex.unlock();
             boinc_sleep(10);
