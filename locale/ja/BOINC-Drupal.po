@@ -1,0 +1,121 @@
+# LANGUAGE translation of PROJECT
+# Copyright (c) YEAR NAME <EMAIL@ADDRESS>
+# 
+# Translators:
+# Masahiro Tagashira, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: BOINC\n"
+"POT-Creation-Date: 2015-04-17 14:29+0000\n"
+"PO-Revision-Date: 2015-04-19 19:15+0000\n"
+"Last-Translator: Masahiro Tagashira\n"
+"Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ja\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Email address"
+msgstr "Eメールアドレス"
+
+msgid "Home"
+msgstr "自宅"
+
+msgid "Login"
+msgstr "ログイン"
+
+msgid "search"
+msgstr "検索"
+
+msgid "Server status"
+msgstr "サーバー側の状態"
+
+msgid "Language"
+msgstr "言語"
+
+msgid "Enter your @s email address."
+msgstr "あなたのEメールアドレスを入力してください。"
+
+msgid "Join now"
+msgstr "今すぐ参加"
+
+msgid "I'm new"
+msgstr "私は新規ユーザーです"
+
+msgid "I'm a BOINC user"
+msgstr "私は BOINC ユーザーです"
+
+msgid "Welcome back!"
+msgstr "おかえりなさい！"
+
+msgid ""
+"Einstein@Home is a program that uses your computer's idle time to run a "
+"screensaver to search for gravitational waves from spinning neutron stars "
+"(also called pulsars) using data from the LIGO gravitational wave detector."
+msgstr "Einstein@Home は LIGO 重力波検出器からのデータを使用して、自転している中性子星(パルサーとも呼ばれます)からの重力波を探すためのスクリーンセーバーを実行するために、あなたのコンピュータのアイドル時間を使用するプログラムです。"
+
+msgid "Learn more"
+msgstr "もっと詳しく知る"
+
+msgid "View account"
+msgstr "アカウントを見る"
+
+msgid "About our screensaver"
+msgstr "私たちのスクリーンセーバーについて"
+
+msgid "Over 500,000 volunteers and counting."
+msgstr "500,000を超えるボランティアがおり、なおも増えています。"
+
+msgid "Windows"
+msgstr "Windows"
+
+msgid "Mac"
+msgstr "Mac"
+
+msgid "Linux"
+msgstr "Linux"
+
+msgid "Logout"
+msgstr "ログアウト"
+
+msgid "Name"
+msgstr "名前"
+
+msgid "Avg credit"
+msgstr "平均功績値"
+
+msgid "Total credit"
+msgstr "総功績"
+
+msgid "Enter your password to save changes"
+msgstr "変更を保存するにはパスワードを入力してください"
+
+msgid ""
+"Enter your current password if changing your email\n"
+"          address or password."
+msgstr "Eメールアドレスもしくはパスワードを変更するなら、現在のパスワードを入力してください。"
+
+msgid "BOINC user ID"
+msgstr "BOINC のユーザーID"
+
+msgid "Drupal user ID"
+msgstr "Drupal のユーザーID"
+
+msgid "Account key"
+msgstr "アカウント・キー"
+
+msgid "Weak account key"
+msgstr "弱いアカウント・キー"
+
+msgid "Cross-project ID"
+msgstr "プロジェクト横断 ID"
+
+msgid "Save changes"
+msgstr "変更を保存する"
+
+msgid "Cancel"
+msgstr "キャンセル"
+
+msgid "Change password"
+msgstr "パスワードの変更"
