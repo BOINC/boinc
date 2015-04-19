@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-03-04 08:56 PST\n"
-"PO-Revision-Date: 2015-04-19 19:16+0000\n"
+"PO-Revision-Date: 2015-04-19 19:22+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -998,7 +998,7 @@ msgstr "宛先"
 
 #: ../inc/pm.inc:82
 msgid "User IDs or unique usernames, separated with commas"
-msgstr "参加者のIDあるいは、一意な名前を入力します。複数の場合はカンマで区切ってください。"
+msgstr "ユーザーIDあるいは、一意の名前を入力します。複数の場合はカンマで区切ってください。"
 
 #: ../inc/pm.inc:85 ../user/pm.php:90 ../user/pm.php:144
 msgid "Subject"
@@ -2914,11 +2914,11 @@ msgstr "匿名での寄付"
 msgid ""
 "Select this if you dont want your name and account number displayed in\n"
 "donator lists.<br>If not checked, you will be recorded as user ID %1"
-msgstr "寄付者一覧にあなたの名前やアカウント番号を載せたくなければ、\nここを選択してください。<br> チェックを入れなければ、参加者ID %1 であなたの寄付を記録いたします。"
+msgstr "寄付者一覧にあなたの名前やアカウント番号を載せたくなければ、\nここを選択してください。<br> チェックを入れなければ、ユーザーID %1 であなたの寄付を記録いたします。"
 
 #: ../user/donations.php:324
 msgid "To assign the donation with your user ID, please log in."
-msgstr "あなたの参加者IDに寄付を結びつけるには、ログインしてください。"
+msgstr "あなたのユーザーIDに寄付を結びつけるには、ログインしてください。"
 
 #: ../user/donations.php:328
 msgid "Proceed"
@@ -3180,7 +3180,7 @@ msgstr "これらの参加者による掲示板への投稿と非公開メッセ
 
 #: ../user/edit_forum_preferences_form.php:156
 msgid "User ID (For instance: 123456789)"
-msgstr "参加者の ID (たとえば、123456789)"
+msgstr "ユーザーID (たとえば、123456789)"
 
 #: ../user/edit_forum_preferences_form.php:157 ../user/pm.php:256
 msgid "Add user to filter"
@@ -3503,7 +3503,7 @@ msgstr "投稿禁止の採決"
 
 #: ../user/forum_banishment_vote.php:52
 msgid "No user with this ID found."
-msgstr "この ID の参加者は見つかりません。"
+msgstr "このIDの参加者は見つかりません。"
 
 #: ../user/forum_banishment_vote.php:57 ../user/forum_moderate_post.php:79
 msgid "User is already banished"
@@ -4000,7 +4000,7 @@ msgstr "オプション:"
 
 #: ../user/forum_rss.php:45
 msgid "Include only posts by user ID %1 (default: all users)."
-msgstr "参加者ID %1(デフォルト:すべての参加者)からの投稿だけを含める。"
+msgstr "ユーザーID %1(デフォルト:すべての参加者)からの投稿だけを含める。"
 
 #: ../user/forum_rss.php:47
 msgid "Include only posts from the last %1 days (default: 30)."
@@ -5041,7 +5041,7 @@ msgstr "ユーザー名が %1 の参加者は見つかりませんでした"
 
 #: ../user/pm.php:217
 msgid "%1 is not a unique username; you will have to use user ID"
-msgstr "ユーザー名 %1 は複数存在します。IDを指定してください。"
+msgstr "ユーザー名 %1 は複数存在します。ユーザーIDを指定してください。"
 
 #: ../user/pm.php:222
 msgid "User %1 (ID: %2) is not accepting private messages from you."
@@ -5255,7 +5255,7 @@ msgstr "アクセス禁止"
 
 #: ../user/results.php:69
 msgid "Missing user ID or host ID"
-msgstr "参加者のIDまたは計算機のIDが指定されていません"
+msgstr "ユーザーIDまたは計算機のIDが指定されていません"
 
 #: ../user/results.php:107
 msgid "No tasks to display"
