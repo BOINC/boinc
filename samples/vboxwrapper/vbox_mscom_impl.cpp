@@ -100,6 +100,27 @@ int virtualbox_check_error(HRESULT rc, char* szFunction, char* szFile, int iLine
     return rc;
 }
 
+void __stdcall virtualbox_com_raise_error(HRESULT rc, IErrorInfo* perrinfo) {
+    HRESULT hr;
+    CComPtr<IErrorInfo> pErrorInfo;
+    CComBSTR strSource;
+    CComBSTR strDescription;
+
+    pErrorInfo.Attach(perrinfo);
+
+    vboxlog_msg("COM Error 0x%x", rc);
+    hr = pErrorInfo->GetSource(&strSource);
+    if (SUCCEEDED(hr) && strSource) {
+        vboxlog_msg("Error Source     : %S", strSource);
+    }
+    hr = pErrorInfo->GetDescription(&strDescription);
+    if (SUCCEEDED(hr) && strDescription) {
+        vboxlog_msg("Error Description: %S", strDescription);
+    }
+
+    DebugBreak();
+}
+
 
 // We want to recurisively walk the snapshot tree so that we can get the most recent children first.
 // We also want to skip whatever the most current snapshot is.
@@ -166,6 +187,10 @@ void TraverseMediums(std::vector<CComPtr<IMedium>>& mediums, IMedium* pMedium) {
 
 
 VBOX_VM::VBOX_VM() {
+    // Initialize COM Exception Trap
+    //
+    _set_com_error_handler(virtualbox_com_raise_error);
+
     m_pPrivate = new VBOX_PRIV();
 }
 
