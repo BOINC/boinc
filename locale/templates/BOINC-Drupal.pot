@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: boinc\n"
-"POT-Creation-Date: 2015-04-17 14:29+0000\n"
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2015-04-20 12:14+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -12,6 +12,73 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#:  
+msgid "What is @this_project?"
+msgstr ""
+
+#:  
+msgid "no projects..."
+msgstr ""
+
+#:  
+msgid "Download the desktop software"
+msgstr ""
+
+#:  
+msgid "Run the installer"
+msgstr ""
+
+#:  
+msgid "When prompted enter @siteurl"
+msgstr ""
+
+#:  
+msgid "Enter the password that accompanies your username."
+msgstr ""
+
+#:  
+msgid "Request new password"
+msgstr ""
+
+#:  
+msgid ""
+"If you're already running BOINC, select <i>Add\n"
+"      Project</i>."
+msgstr ""
+
+#:  
+msgid ""
+"If you're running a command-line version of BOINC,\n"
+"        first use the BOINC Manager software (elsewhere if necessary) "
+"to create an\n"
+"        an account at this project, then use that account to connect "
+"with the\n"
+"        command-line version."
+msgstr ""
+
+#:  
+msgid ""
+"If you're running a pre-5.0 version of BOINC, please\n"
+"        upgrade to a more recent version to create an account\n"
+"        at this project."
+msgstr ""
+
+#:  
+msgid ""
+"1) If you know your account&apos;s email address, and you can receive "
+"email there:"
+msgstr ""
+
+#:  
+msgid ""
+"Enter the email address and click OK. You will be sent email "
+"instructions for resetting your password."
+msgstr ""
+
+#:  
+msgid "OK"
+msgstr ""
 
 #:  
 msgid "Email address"
@@ -149,5 +216,9 @@ msgstr ""
 
 #:  
 msgid "Change password"
+msgstr ""
+
+#:  
+msgid "Password"
 msgstr ""
 
