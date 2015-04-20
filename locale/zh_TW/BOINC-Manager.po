@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-03-24 13:36-0500\n"
-"PO-Revision-Date: 2015-03-25 06:07+0000\n"
+"PO-Revision-Date: 2015-04-20 12:34+0000\n"
 "Last-Translator: Died <doomdied@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/boinc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -2873,7 +2873,7 @@ msgstr "%s - 運算偏好設定"
 
 #: clientgui/sg_DlgPreferences.cpp:1061
 msgid "Discard all local preferences and use web-based preferences?"
-msgstr "放棄本機偏好設定改用網站偏好設定?"
+msgstr "放棄所有本機偏好設定改用網站偏好設定?"
 
 #: clientgui/sg_ProjectCommandPopup.cpp:66
 msgid "Update"
