@@ -1,33 +1,26 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2014-02-02 21:30+0000\n"
-"Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: fr\n"
+"PO-Revision-Date: 2015-04-20 12:34+0000\n"
+"Last-Translator: Rom Walton\n"
+"Language-Team: French (http://www.transifex.com/projects/p/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Pootle 2.5.0\n"
-"X-Poedit-SearchPath-0: mac_installer\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
-"X-POOTLE-MTIME: 1391376604.0\n"
-"X-Poedit-KeywordsList: _\n"
 
 #: Installer.cpp:124
 #, c-format
 msgid "Sorry, this version of %s requires system 10.5 or higher."
-msgstr ""
-"Veuillez nous excuser, cette version de %s requiert un système 10.5 ou "
-"supérieur."
+msgstr "Veuillez nous excuser, cette version de %s requiert un système 10.5 ou supérieur."
 
 #: PostInstall.cpp:130 PostInstall.cpp:1136 uninstall.cpp:1618
 msgid "Yes"
@@ -44,24 +37,15 @@ msgstr "BOINC doit-il fonctionner même lorsqu'aucun utilisateur n'est connecté
 #: PostInstall.cpp:1416
 #, c-format
 msgid ""
-"Users who are permitted to administer this computer will automatically be "
-"allowed to run and control %s.\n"
+"Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
 "\n"
-"Do you also want non-administrative users to be able to run and control %s "
-"on this Mac?"
-msgstr ""
-"Les utilisateurs ayant les privilèges administrateurs sur cet ordinateur "
-"seront automatiquement autorisés à exécuter et contrôler %s.\n"
-"\n"
-"Voulez-vous aussi autoriser les utilisateurs non-administrateurs à exécuter "
-"et contrôler %s sur ce Mac ?"
+"Do you also want non-administrative users to be able to run and control %s on this Mac?"
+msgstr "Les utilisateurs ayant les privilèges administrateurs sur cet ordinateur seront automatiquement autorisés à exécuter et contrôler %s.\n\nVoulez-vous aussi autoriser les utilisateurs non-administrateurs à exécuter et contrôler %s sur ce Mac ?"
 
 #: PostInstall.cpp:1444
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
-msgstr ""
-"Voulez-vous établir %s comme économiseur d'écran pour tous les utilisateurs "
-"%s sur ce Mac ?"
+msgstr "Voulez-vous établir %s comme économiseur d'écran pour tous les utilisateurs %s sur ce Mac ?"
 
 #: uninstall.cpp:82
 msgid "OK"
@@ -75,9 +59,7 @@ msgstr "Erreur de droit d'accès après un redémarrage"
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
-msgstr ""
-"La suppression peut durer plusieurs minutes.\n"
-"Veuillez patienter."
+msgstr "La suppression peut durer plusieurs minutes.\nVeuillez patienter."
 
 #: uninstall.cpp:156
 #, c-format
@@ -85,11 +67,7 @@ msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
 "\n"
 "This will remove the executables but will not touch %s data files."
-msgstr ""
-"Êtes-vous certain de vouloir supprimer %s de votre ordinateur ?\n"
-"\n"
-"Cela supprimera les fichiers exécutables mais pas les fichiers de données %"
-"s."
+msgstr "Êtes-vous certain de vouloir supprimer %s de votre ordinateur ?\n\nCela supprimera les fichiers exécutables mais pas les fichiers de données %s."
 
 #: uninstall.cpp:163
 #, c-format
@@ -109,9 +87,7 @@ msgstr "nom d'utilisateur"
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
-msgstr ""
-"Voulez-vous également supprimer VirtualBox de votre ordinateur?\n"
-"(VirtualBox a été installé en même temps que BOINC)"
+msgstr "Voulez-vous également supprimer VirtualBox de votre ordinateur?\n(VirtualBox a été installé en même temps que BOINC)"
 
 #: uninstall.cpp:312
 #, c-format
@@ -123,26 +99,14 @@ msgid ""
 "\n"
 "for each user, the file\n"
 "\"%s\"."
-msgstr ""
-"Suppression effectuée.\n"
-"\n"
-"Vous voulez peut-être supprimer les éléments restants suivants en utilisant "
-"l'outil de recherche: \n"
-"le répertoire \"%s\"\n"
-"\n"
-"pour chaque utilisateur, le fichier\n"
-"\"%s\"."
+msgstr "Suppression effectuée.\n\nVous voulez peut-être supprimer les éléments restants suivants en utilisant l'outil de recherche: \nle répertoire \"%s\"\n\npour chaque utilisateur, le fichier\n\"%s\"."
 
 #: uninstall.cpp:840
 #, c-format
 msgid ""
-"Enter your administrator password to completely remove %s from you "
-"computer.\n"
+"Enter your administrator password to completely remove %s from you computer.\n"
 "\n"
-msgstr ""
-"Inscrivez votre mot de passe administrateur pour effacer complètement %s de "
-"votre ordinateur. \n"
-"\n"
+msgstr "Inscrivez votre mot de passe administrateur pour effacer complètement %s de votre ordinateur. \n\n"
 
 #: uninstall.cpp:1616
 msgid "Cancel"
