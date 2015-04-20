@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
-"POT-Creation-Date: 2015-04-17 14:29+0000\n"
-"PO-Revision-Date: 2015-04-19 19:15+0000\n"
+"POT-Creation-Date: 2015-04-20 12:14+0000\n"
+"PO-Revision-Date: 2015-04-20 15:43+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -15,6 +15,58 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "What is @this_project?"
+msgstr "@this_project とは何ですか？"
+
+msgid "no projects..."
+msgstr "プロジェクトがありません…"
+
+msgid "Download the desktop software"
+msgstr "デスクトップ・ソフトウェアをダウンロード"
+
+msgid "Run the installer"
+msgstr "インストーラーを実行"
+
+msgid "When prompted enter @siteurl"
+msgstr "@siteurl を入力するよう促されたら"
+
+msgid "Enter the password that accompanies your username."
+msgstr "ユーザー名に付随するパスワードを入力してください。"
+
+msgid "Request new password"
+msgstr "新しいパスワードを要求"
+
+msgid ""
+"If you're already running BOINC, select <i>Add\n"
+"      Project</i>."
+msgstr "すでに BOINC を実行しているならば、<i>プロジェクトを追加</i>を選択してください。"
+
+msgid ""
+"If you're running a command-line version of BOINC,\n"
+"        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
+"        an account at this project, then use that account to connect with the\n"
+"        command-line version."
+msgstr "もし コマンドラインバージョンの BOINC を実行しているならば、\nまずこのプロジェクトでのアカウントを作成するために BOINC マネージャ・ソフトウェア(他の場所で必要な場合)を使用し、その上でコマンドラインバージョンに接続するためにそのアカウントを使用します。"
+
+msgid ""
+"If you're running a pre-5.0 version of BOINC, please\n"
+"        upgrade to a more recent version to create an account\n"
+"        at this project."
+msgstr "BOINC の5.0より前のバージョンを実行している場合、このプロジェクトでのアカウントを作成するために、より新しいバージョンにアップグレードしてください。"
+
+msgid ""
+"1) If you know your account&apos;s email address, and you can receive email "
+"there:"
+msgstr "1) アカウントに登録したあなたのEメールアドレスを覚えているならば、こちらからEメールを受け取ることができます:"
+
+msgid ""
+"Enter the email address and click OK. You will be sent email instructions "
+"for resetting your password."
+msgstr "そのEメールアドレスを入力し OK を押してください。パスワードをリセットするための手順を書いたEメールがあなたに送信されます。"
+
+msgid "OK"
+msgstr "OK"
 
 msgid "Email address"
 msgstr "Eメールアドレス"
@@ -119,3 +171,6 @@ msgstr "キャンセル"
 
 msgid "Change password"
 msgstr "パスワードの変更"
+
+msgid "Password"
+msgstr "パスワード:"
