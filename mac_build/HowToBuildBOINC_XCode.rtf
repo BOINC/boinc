@@ -181,11 +181,9 @@ MAC_OS_X_VERSION_MIN_REQUIRED=1050\
 
 \f0\fs24 \cf0 \
 \pard\pardeftab720\sa260
-\cf0 These are not done automatically by either the Xcode projects which come with wf Xcode is obtained from the Apple Store then it will be installed automatically into the Applications folder.  Double-click on the installed Xcode icon to run Xcode.  Xcode will display a dialog allowing you to finish the installation; you must do this before running BOINC's build scripts.  (Some versions of Xcode may not display this dialog until you open a file with Xcode.)\
-xWidgets-3.0.0-3.0.0, nor  the AutoMake scripts supplied with wf Xcode is obtained from the Apple Store then it will be installed automatically into the Applications folder.  Double-click on the installed Xcode icon to run Xcode.  Xcode will display a dialog allowing you to finish the installation; you must do this before running BOINC's build scripts.  (Some versions of Xcode may not display this dialog until you open a file with Xcode.)\
-xWidgets-3.0.0-3.0.0, c-ares-1.10.0, curl-7.39.0, openssl-1.0.1j, freetype-2.4.10, ftgl-2.1.3~rc5 and sqlite-3.8.3.  So be sure to use our special scripts to build these packages.\
+\cf0 These are not done automatically by either the Xcode projects which come with wxWidgets-3.0.0, nor  the AutoMake scripts supplied with wxWidgets-3.0.0, c-ares-1.10.0, curl-7.39.0, openssl-1.0.1j, freetype-2.4.10, ftgl-2.1.3~rc5 and sqlite-3.8.3.  So be sure to use our special scripts to build these packages.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
-\cf0 1] Make sure you are logged into the Mac using an account with administrator privileges.  Create a parent directory within which to work.  In this description; we will call it BOINC_dev, but you can name it anything you wish.\
+\cf0 [1] Make sure you are logged into the Mac using an account with administrator privileges.  Create a parent directory within which to work.  In this description; we will call it BOINC_dev, but you can name it anything you wish.\
 \
 [2] Move the following 7 directories from the Downloads folder into the BOINC_dev folder (omit any you don't need):\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
@@ -233,7 +231,7 @@ Important: do not change the names of any of these 7 directories.  Remember that
 \pard\pardeftab720
 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab720
-\cf0 If the above method does not work try the following alternate method.\
+\cf0 If the above method does not work try the following alternate method:\
 \pard\pardeftab720
 
 \f1 \cf5 \expnd0\expndtw0\kerning0
@@ -314,12 +312,12 @@ The options for BuildMacBOINC.sh are:\
   The following arguments determine which targets to build\
 	-all		build all targets (i.e. target "Build_All" -- this is the default)\
 \
-	-lib		build the five libraries: libboinc_api.a, libboinc_graphics_api.a, libboinc.a, libboinc_opencl.a, jpeglib.a\
+	-lib		build the six libraries: libboinc_api.a, libboinc_graphics_api.a, libboinc.a, libboinc_opencl.a, libboinc_zip.a, jpeglib.a\
 \
 	-client		build two targets: boinc client and command-line utility {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/wiki/Boinccmd_tool"}}{\fldrslt boinccmd}}\
 			(also builds libboinc.a, since boinc_cmd requires it.)\
 \
- Both -lib and -client may be specified to build seven targets (no BOINC Manager or screensaver.)\
+ Both -lib and -client may be specified to build eight targets (no BOINC Manager or screensaver.)\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
