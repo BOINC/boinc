@@ -183,7 +183,7 @@ function boinc_preprocess_forums(&$vars, $hook) {
     unset($vars['links']['forum']);
     // Add a link to manage subscriptions for the user
     $vars['links']['subscriptions'] = array(
-      'title' => t('Manage subscriptions'),
+      'title' => bts('Manage subscriptions'),
       'href' => 'account/prefs/subscriptions',
     );
   }
@@ -210,55 +210,55 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
     $node_control = "node_control/{$vars['node']->nid}";
     if ($vars['node']->status) {
       $vars['moderator_links']['hide'] = array(
-        'title' => t('Hide'),
+        'title' => bts('Hide'),
         'href' => "{$node_control}/hide",
         'attributes' => array(
-          'title' => t('Hide this topic')
+          'title' => bts('Hide this topic')
         )
       );
     }
     else {
       $vars['moderator_links']['unhide'] = array(
-        'title' => t('Unhide'),
+        'title' => bts('Unhide'),
         'href' => "{$node_control}/unhide",
         'attributes' => array(
-          'title' => t('Unhide this topic')
+          'title' => bts('Unhide this topic')
         )
       );
     }
     if ($vars['node']->comment == 2) {
       $vars['moderator_links']['lock'] = array(
-        'title' => t('Lock'),
+        'title' => bts('Lock'),
         'href' => "{$node_control}/lock",
         'attributes' => array(
-          'title' => t('Lock this thread for comments')
+          'title' => bts('Lock this thread for comments')
         )
       );
     }
     else {
       $vars['moderator_links']['unlock'] = array(
-        'title' => t('Unlock'),
+        'title' => bts('Unlock'),
         'href' => "{$node_control}/unlock",
         'attributes' => array(
-          'title' => t('Unlock this thread for comments')
+          'title' => bts('Unlock this thread for comments')
         )
       );
     }
     if ($vars['node']->sticky) {
       $vars['moderator_links']['make_unsticky'] = array(
-        'title' => t('Make unsticky'),
+        'title' => bts('Make unsticky'),
         'href' => "{$node_control}/unsticky",
         'attributes' => array(
-          'title' => t('Make this topic sticky')
+          'title' => bts('Remove sticky status from this topic')
         )
       );
     }
     else {
       $vars['moderator_links']['make_sticky'] = array(
-        'title' => t('Make sticky'),
+        'title' => bts('Make sticky'),
         'href' => "{$node_control}/sticky",
         'attributes' => array(
-          'title' => t('Remove sticky status from this topic')
+          'title' => bts('Make this topic sticky')
         )
       );
     }
@@ -307,34 +307,34 @@ function boinc_preprocess_comment(&$vars, $hook) {
       // Reorganize links for moderators
       $vars['links'] = array();
       $links['reply'] = array(
-        'title' => t('Reply'),
+        'title' => bts('Reply'),
         'href' => "comment/reply/{$nid}/{$cid}",
         'attributes' => array(
-          'title' => t('Reply to this comment')
+          'title' => bts('Reply to this comment')
         )
       );
       $links['quote'] = array(
-        'title' => t('Quote'),
+        'title' => bts('Quote'),
         'href' => "comment/reply/{$nid}/{$cid}",
         'attributes' => array(
-          'title' => t('Reply to this comment with quote')
+          'title' => bts('Reply to this comment with quote')
         ),
         'fragment' => 'comment-form',
         'query' => 'quote=1',
       );
       // Move edit and delete controls into moderator links
       $moderator_links['edit'] = array(
-        'title' => t('Edit'),
+        'title' => bts('Edit'),
         'href' => "comment/edit/{$cid}",
         'attributes' => array(
-          'title' => t('Edit this comment')
+          'title' => bts('Edit this comment')
         )
       );
       $moderator_links['delete'] = array(
-        'title' => t('Delete'),
+        'title' => bts('Delete'),
         'href' => "comment/delete/{$cid}",
         'attributes' => array(
-          'title' => t('Delete this comment')
+          'title' => bts('Delete this comment')
         )
       );
       
@@ -342,19 +342,19 @@ function boinc_preprocess_comment(&$vars, $hook) {
       $comment_control = "comment_control/{$cid}";
       if ($vars['comment']->status == 0) {
         $moderator_links['hide'] = array(
-          'title' => t('Hide'),
+          'title' => bts('Hide'),
           'href' => "{$comment_control}/hide",
           'attributes' => array(
-            'title' => t('Hide this comment')
+            'title' => bts('Hide this comment')
           )
         );
       }
       else {
         $moderator_links['unhide'] = array(
-          'title' => t('Unhide'),
+          'title' => bts('Unhide'),
           'href' => "{$comment_control}/unhide",
           'attributes' => array(
-            'title' => t('Unhide this comment')
+            'title' => bts('Unhide this comment')
           )
         );
       }
@@ -365,10 +365,10 @@ function boinc_preprocess_comment(&$vars, $hook) {
       ));
       if ($reply_count == 0) {
         $moderator_links['convert'] = array(
-          'title' => t('Convert'),
+          'title' => bts('Convert'),
           'href' => "{$comment_control}/convert",
           'attributes' => array(
-            'title' => t('Convert this comment to a new topic')
+            'title' => bts('Convert this comment to a new topic')
           ) 
         );
       }
@@ -378,10 +378,10 @@ function boinc_preprocess_comment(&$vars, $hook) {
       $links = comment_links($vars['comment'], FALSE);
       if (user_access('post comments')) {
         $links['comment_quote'] = array(
-          'title' => t('Quote'),
+          'title' => bts('Quote'),
           'href' => "comment/reply/{$nid}/{$cid}",
           'attributes' => array(
-            'title' => t('Reply to this comment with quote'),
+            'title' => bts('Reply to this comment with quote'),
           ),
           'fragment' => 'comment-form',
           'query' => 'quote=1',
@@ -481,7 +481,7 @@ function boinc_preprocess_views_view(&$vars, $hook) {
     $view->execute();
     $result = reset($view->result);
     // Display the stderr output in the footer
-    $vars['footer'] = '<h3>' . t('Stderr output') .'</h3>';
+    $vars['footer'] = '<h3>' . bts('Stderr output') .'</h3>';
     $vars['footer'] .= '<pre>' . htmlspecialchars($result->result_stderr_out) . '</pre>';
     break;
   case 'boinc_teams':
@@ -552,7 +552,7 @@ function boinc_preprocess_search_result(&$variables) {
 // Remove the mess of text under the search form and don't display "no results"
 // if a search hasn't even been submitted
 function boinc_apachesolr_search_noresults() {
-  $message = t('No results found...');
+  $message = bts('No results found...');
   if (!arg(2)) {
     $message = '';
   }
@@ -576,7 +576,7 @@ function phptemplate_username($object) {
     }
 
     if (user_access('access user profiles')) {
-      $output = l($name, 'account/' . $object->uid, array('attributes' => array('title' => t('View user profile.'))));
+      $output = l($name, 'account/' . $object->uid, array('attributes' => array('title' => bts('View user profile.'))));
     }
     else {
       $output = check_plain($name);
@@ -594,10 +594,10 @@ function phptemplate_username($object) {
       $output = check_plain($object->name);
     }
 
-    $output .= ' (' . t('not verified') . ')';
+    $output .= ' (' . bts('not verified') . ')';
   }
   else {
-    $output = check_plain(variable_get('anonymous', t('Anonymous')));
+    $output = check_plain(variable_get('anonymous', bts('Anonymous')));
   }
 
   return $output;
@@ -634,11 +634,11 @@ function boinc_flag_friend_message_email($status, $flag, $recipient, $sender) {
   switch ($status) {
     case FLAG_FRIEND_FLAGGED:
       // Sender accepted recipient's friend request
-      $email['subject'] = t('!name accepted your friend request [!site]', array(
+      $email['subject'] = bts('!name accepted your friend request [!site]', array(
         '!name' => $sender->boincuser_name,
         '!site' => variable_get('site_name', ''),
         ));
-      $email['body'] = t('!name confirmed you as a friend on !site.
+      $email['body'] = bts('!name confirmed you as a friend on !site.
 
 Follow this link to view his or her profile:
 !link
@@ -649,15 +649,15 @@ Thanks,
 The !site team', array(
         '!name' => isset($sender->boincuser_name) ? $sender->boincuser_name : $sender->name,
         '!site' => variable_get('site_name', ''),
-        '!message' => $flag->friend_message ? t('Message') . ': ' . $flag->friend_message : '',
+        '!message' => $flag->friend_message ? bts('Message') . ': ' . $flag->friend_message : '',
         '!link' => url('account/'. $sender->uid, array('absolute' => TRUE)),
         ));
       break;
 
     case FLAG_FRIEND_PENDING:
       // Sender is requesting to be recipient's friend
-      $email['subject'] = t('Friend request from !name [!site]', array('!name' => $sender->boincuser_name, '!site' => variable_get('site_name', '')));
-      $email['body'] = t('!name added you as a friend on !site. You can approve or deny this request. Denying a request will not send a notification, but will remove the request from both of your accounts.
+      $email['subject'] = bts('Friend request from !name [!site]', array('!name' => $sender->boincuser_name, '!site' => variable_get('site_name', '')));
+      $email['body'] = bts('!name added you as a friend on !site. You can approve or deny this request. Denying a request will not send a notification, but will remove the request from both of your accounts.
 
 Follow the link below to view this request:
 !link
@@ -668,7 +668,7 @@ Thanks,
 The !site team', array(
         '!name' => isset($sender->boincuser_name) ? $sender->boincuser_name : $sender->name,
         '!site' => variable_get('site_name', ''),
-        '!message' => $flag->friend_message ? t('Message') . ': ' . $flag->friend_message : '',
+        '!message' => $flag->friend_message ? bts('Message') . ': ' . $flag->friend_message : '',
         '!link' => url('goto/friend-requests', array('absolute' => TRUE)),
         ));
       break;

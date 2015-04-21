@@ -11,7 +11,7 @@
  // title in the RSS auto discovery link on the front page, and setting the
  // description in the view does not allow the site_name variable.
  $site_name = variable_get('site_name', 'BOINC');
- $description = t('The latest news from the @site_name project',
+ $description = bts('The latest news from the @site_name project',
     array('@site_name' => $site_name));
   
 ?>

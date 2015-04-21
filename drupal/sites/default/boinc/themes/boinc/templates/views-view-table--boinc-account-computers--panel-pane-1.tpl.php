@@ -15,9 +15,9 @@
 <table>
 <thead>
   <tr>
-    <th><?php print t('Name'); ?></th>
-    <th class="numeric"><?php print t('Avg credit'); ?></th>
-    <th class="numeric"><?php print t('Total credit'); ?></th>
+    <th><?php print bts('Name'); ?></th>
+    <th class="numeric"><?php print bts('Avg credit'); ?></th>
+    <th class="numeric"><?php print bts('Total credit'); ?></th>
   </tr>
 </thead>
 <tbody>
@@ -32,9 +32,9 @@
 </table>
 <ul class="more-link tab-list">
   <li class="first tab">
-    <?php print l(t('More'), 'account/computers/all'); ?>
+    <?php print l(bts('More'), 'account/computers/all'); ?>
   </li>
   <li class="first alt tab">
-    <?php print l(t('Tasks'), 'account/tasks/active'); ?>
+    <?php print l(bts('Tasks'), 'account/tasks/active'); ?>
   </li>
 </ul>

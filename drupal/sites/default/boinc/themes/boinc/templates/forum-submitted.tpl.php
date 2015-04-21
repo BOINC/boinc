@@ -18,11 +18,12 @@
  */
 ?>
 <?php if ($time): ?>
-  <?php print t(
-  '@time ago<!--<br />by !author-->', array(
+  <?php print bts('@time ago', array('@time' => $time)); ?>
+  <?php /* print bts(
+  '@time ago <br />by !author', array(
     '@time' => $time,
     '!author' => $author,
-    )); ?>
+    )); */ ?>
 <?php else: ?>
-  <?php print t('n/a'); ?>
+  <?php print bts('n/a'); ?>
 <?php endif; ?>

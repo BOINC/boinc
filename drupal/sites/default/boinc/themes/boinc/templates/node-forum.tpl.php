@@ -103,7 +103,7 @@
   <h2 class="title"><?php print $subtitle; ?></h2>
   
   <?php if ($unpublished): ?>
-    <div class="unpublished"><?php print t('Unpublished'); ?></div>
+    <div class="unpublished"><?php print bts('Unpublished'); ?></div>
   <?php endif; ?>
   
   <?php // Only show this post on the first page of a thread ?>
@@ -140,7 +140,7 @@
             $ignore_link['ignore_user']['href'],
             array('query' => $ignore_link['ignore_user']['query'])); ?>
           </div>
-          <div class="pm-link"><?php print l(t('Send message'),
+          <div class="pm-link"><?php print l(bts('Send message'),
             privatemsg_get_link(array($account)),
             array('query' => drupal_get_destination())); ?>
           </div>
@@ -167,7 +167,7 @@
       </div>
       <?php if ($moderator_links): ?>
         <div class="moderator-links">
-          <span class="label">(<?php print t('moderation'); ?>:</span>
+          <span class="label">(<?php print bts('moderation'); ?>:</span>
           <?php print $moderator_links; ?>
           <span class="label">)</span>
         </div>

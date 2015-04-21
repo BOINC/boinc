@@ -104,11 +104,11 @@
       <td class="created"><?php print $topic->created; ?></td>
       <td class="last-reply">
         <?php if ($topic->sticky AND $topic->comment_mode == COMMENT_NODE_READ_ONLY): ?>
-          <?php print t('Featured') . ' / ' . t('Locked'); ?>
+          <?php print bts('Featured') . ' / ' . bts('Locked'); ?>
         <?php elseif ($topic->sticky): ?>
-          <?php print t('Featured'); ?>
+          <?php print bts('Featured'); ?>
         <?php elseif ($topic->comment_mode == COMMENT_NODE_READ_ONLY): ?>
-          <?php print t('Locked'); ?>
+          <?php print bts('Locked'); ?>
         <?php else: ?>
           <?php print $topic->last_reply; ?>
         <?php endif; ?>

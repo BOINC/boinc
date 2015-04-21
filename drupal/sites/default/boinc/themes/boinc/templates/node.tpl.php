@@ -81,7 +81,7 @@
   <?php endif; ?>
 
   <?php if ($unpublished): ?>
-    <div class="unpublished"><?php print t('Unpublished'); ?></div>
+    <div class="unpublished"><?php print bts('Unpublished'); ?></div>
   <?php endif; ?>
 
   <?php if ($display_submitted || $terms): ?>
@@ -90,10 +90,10 @@
         <span class="submitted">
           <?php
             if ($type == 'news') {
-              print t('Submitted on !datetime', array('!datetime' => date('j M Y H:i:s T', $node->created)));
+              print bts('Submitted on !datetime', array('!datetime' => date('j M Y H:i:s T', $node->created)));
             }
             else {
-              print t('Submitted by !username on !datetime',
+              print bts('Submitted by !username on !datetime',
                 array('!username' => $name, '!datetime' => date('j M Y H:i:s T', $node->created)));
             }
           ?>

@@ -66,11 +66,11 @@
       // Absurd nested functions to remove wrappers are as follows.
       $content = strstr(end(explode('<div class="ignore-user-content">', $content)), '</div></div>', TRUE);
       print '<div class="ignore-user-container">';
-      print t('!username is on your !ignore_list. Click !here to view this post.',
+      print bts('!username is on your !ignore_list. Click !here to view this post.',
         array(
           '!username' => theme('username', $authors[$comment->uid]),
-          '!ignore_list' => l(t('ignore list'), 'ignore_user/list'),
-          '!here' => l(t('here'), "node/{$comment->nid}#comment-{$comment->cid}",
+          '!ignore_list' => l(bts('ignore list'), 'ignore_user/list'),
+          '!here' => l(bts('here'), "node/{$comment->nid}#comment-{$comment->cid}",
             array('attributes' => array('class' => 'ignore-user-content-link')))
         )
       );
@@ -109,7 +109,7 @@
           $ignore_link['ignore_user']['href'],
           array('query' => $ignore_link['ignore_user']['query'])); ?>
         </div>
-        <div class="pm-link"><?php print l(t('Send message'),
+        <div class="pm-link"><?php print l(bts('Send message'),
           privatemsg_get_link(array($account)),
           array('query' => drupal_get_destination())); ?>
         </div>
@@ -129,26 +129,26 @@
     <?php endif; ?>
 
     <?php if ($unpublished): ?>
-      <div class="unpublished"><?php print t('Unpublished'); ?></div>
+      <div class="unpublished"><?php print bts('Unpublished'); ?></div>
     <?php endif; ?>
 
     <div class="submitted">
       <?php print date('j M Y H:i:s T', $comment->timestamp); ?>
     </div>
     <div class="comment-id">
-      <?php echo l(t('Message @id', array('@id' => $comment->cid)),
+      <?php echo l(bts('Message @id', array('@id' => $comment->cid)),
         "goto/comment/{$comment->cid}"); ?>
       <?php 
         if ($comment->pid):
           $parent = _comment_load($comment->pid);
           if ($parent->status == COMMENT_PUBLISHED) {
-            $parent_link = l(t('message @id', array('@id' => $comment->pid)),
+            $parent_link = l(bts('message @id', array('@id' => $comment->pid)),
             "goto/comment/{$comment->pid}");
           }
           else {
-            $parent_link = '(' . t('parent removed') . ')';
+            $parent_link = '(' . bts('parent removed') . ')';
           }
-          echo t(' in response to !parent', array(
+          echo bts(' in response to !parent', array(
             '!parent' => $parent_link
           ));
         endif;
@@ -159,7 +159,7 @@
     </div>
     <?php if ($moderator_links): ?>
       <div class="moderator-links">
-        <span class="label">(<?php print t('moderation'); ?>:</span>
+        <span class="label">(<?php print bts('moderation'); ?>:</span>
         <?php print $moderator_links; ?>
         <span class="label">)</span>
       </div>
@@ -176,5 +176,5 @@
 </div> <!-- /.comment -->
 
 <?php if ($status == 'comment-preview'): ?>
-  <h2 class="title"><?php print t('Revise or post comment'); ?></h2>
+  <h2 class="title"><?php print bts('Revise or post comment'); ?></h2>
 <?php endif; ?>

@@ -58,7 +58,7 @@ if ($user->uid AND ($user->uid != $account->uid)) {
   if (module_exists('private_messages')) {
   // if (function_exists('privatemsg_get_link')) {
     $user_links[] = array(
-      'title' => t('Send message'),
+      'title' => bts('Send message'),
       'href' => privatemsg_get_link(array($account))
     );
   }
@@ -71,26 +71,26 @@ if ($user->uid AND ($user->uid != $account->uid)) {
     case FLAG_FRIEND_BOTH:
     case FLAG_FRIEND_FLAGGED:
       $user_links[] = array(
-        'title' => t('Remove friend'),
+        'title' => bts('Remove friend'),
         'href' => "flag/confirm/unfriend/friend/{$account->uid}"
       );
       break;
     case FLAG_FRIEND_PENDING:
       $user_links[] = array(
-        'title' => t('Cancel friend request'),
+        'title' => bts('Cancel friend request'),
         'href' => "flag/confirm/unflag/friend/{$account->uid}"
       );
       break;
     case FLAG_FRIEND_APPROVAL:
        $user_links[] = array(
-        'title' => t('Approve friend request'),
+        'title' => bts('Approve friend request'),
         'href' => "flag/confirm/flag/friend/{$account->uid}"
       );
       break;
     case FLAG_FRIEND_UNFLAGGED:
     default:
       $user_links[] = array(
-        'title' => t('Add as friend'),
+        'title' => bts('Add as friend'),
         'href' => "flag/confirm/flag/friend/{$account->uid}"
       );
     }
@@ -100,13 +100,13 @@ if ($user->uid AND ($user->uid != $account->uid)) {
       OR user_access('assign all roles')) {
     if (array_search('community member', $account->roles)) {
       $user_links[] = array(
-        'title' => t('Ban user'),
+        'title' => bts('Ban user'),
         'href' => "user_control/{$account->uid}/ban"
       );
     }
     else {
       $user_links[] = array(
-        'title' => t('Lift user ban'),
+        'title' => bts('Lift user ban'),
         'href' => "user_control/{$account->uid}/lift-ban"
       );
     }
@@ -128,16 +128,16 @@ if ($user->uid AND ($user->uid != $account->uid)) {
       <span class="value"><?php print $name; ?></span>
     </div>
     <div class="join-date">
-      <span class="label"><?php print t('Member since'); ?>:</span>
+      <span class="label"><?php print bts('Member since'); ?>:</span>
       <span class="value"><?php print $join_date; ?></span>
     </div>
     <div class="country">
-      <span class="label"><?php print t('Country'); ?>:</span>
+      <span class="label"><?php print bts('Country'); ?>:</span>
       <span class="value"><?php print $country; ?></span>
     </div>
     <?php if ($website): ?>
       <div class="website">
-        <span class="label"><?php print t('Website'); ?>:</span>
+        <span class="label"><?php print bts('Website'); ?>:</span>
         <span class="value"><?php print l($website, (strpos($website, 'http') === false) ? "http://{$website}" : $website); ?></span>
       </div>
     <?php endif; ?>
@@ -149,9 +149,9 @@ if ($user->uid AND ($user->uid != $account->uid)) {
           </li>
           <!--
           <?php if (module_exists('private_messages')): ?>
-            <li class="first tab"><?php print l(t('Send message'), privatemsg_get_link(array($account)), array('query' => drupal_get_destination())); ?></li>
+            <li class="first tab"><?php print l(bts('Send message'), privatemsg_get_link(array($account)), array('query' => drupal_get_destination())); ?></li>
           <?php endif; ?>
-          <li class="last tab"><?php print l(t('Add as friend'), "flag/confirm/flag/friend/{$account->uid}", array('query' => drupal_get_destination())); ?></li>
+          <li class="last tab"><?php print l(bts('Add as friend'), "flag/confirm/flag/friend/{$account->uid}", array('query' => drupal_get_destination())); ?></li>
           -->
         <?php endforeach; ?>
       </ul>
@@ -162,13 +162,13 @@ if ($user->uid AND ($user->uid != $account->uid)) {
     <div class="bio">
       <?php if ($background): ?>
         <div class="background">
-          <span class="label"><?php print t('Background'); ?></span>
+          <span class="label"><?php print bts('Background'); ?></span>
           <span class="value"><?php print $background; ?></span>
         </div>
       <?php endif; ?>
       <?php if ($opinions): ?>
         <div class="opinions">
-          <span class="label"><?php print t('Opinion'); ?></span>
+          <span class="label"><?php print bts('Opinion'); ?></span>
           <span class="value"><?php print $opinions; ?></span>
         </div>
       <?php endif; ?>

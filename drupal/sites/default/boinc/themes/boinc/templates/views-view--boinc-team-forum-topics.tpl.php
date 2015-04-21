@@ -101,7 +101,7 @@
   
   <ul class="links">
     <li class="forum first last">
-      <?php print l(t('Post new topic'), "node/add/team-forum/{$team_forum_id}"); ?>
+      <?php print l(bts('Post new topic'), "node/add/team-forum/{$team_forum_id}"); ?>
     </li>
   </ul>
   <div class="clearfix"></div>

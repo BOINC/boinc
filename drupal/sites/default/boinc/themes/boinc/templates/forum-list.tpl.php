@@ -39,9 +39,9 @@
     <?php if ($forum->is_container): ?>
       <tr class="heading">
         <td class="primary"><div class="name"><?php print $forum->name; ?></div></td>
-        <td><?php print t('Threads');?></td>
-        <td><?php print t('Posts'); ?></td>
-        <td><?php print t('Last post'); ?></td>
+        <td><?php print bts('Threads');?></td>
+        <td><?php print bts('Posts'); ?></td>
+        <td><?php print bts('Last post'); ?></td>
       </tr>
     <?php else: ?>
       <tr id="forum-list-<?php print $child_id; ?>" class="<?php print $forum->zebra; ?>">
@@ -79,10 +79,10 @@
   <?php if (module_exists('boincteam_forum')
       AND $team_forums = boincteam_forum_list()): ?>
       <tr class="heading">
-        <td class="primary"><div class="name"><?php echo t('Team'); ?></div></td>
-        <td><?php print t('Threads');?></td>
-        <td><?php print t('Posts'); ?></td>
-        <td><?php print t('Last post'); ?></td>
+        <td class="primary"><div class="name"><?php echo bts('Team'); ?></div></td>
+        <td><?php print bts('Threads');?></td>
+        <td><?php print bts('Posts'); ?></td>
+        <td><?php print bts('Last post'); ?></td>
       </tr>
   
     <?php foreach ($team_forums as $child_id => $forum): ?>

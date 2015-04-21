@@ -81,11 +81,11 @@
       <td class="created"><?php print $topic->created; ?></td>
       <td class="last-reply">
         <?php if ($topic->sticky AND $topic->comment == 'Read only'): ?>
-          <?php print t('Featured') . ' / ' . t('Locked'); ?>
+          <?php print bts('Featured') . ' / ' . bts('Locked'); ?>
         <?php elseif ($topic->sticky): ?>
-          <?php print t('Featured'); ?>
+          <?php print bts('Featured'); ?>
         <?php elseif ($topic->comment == 'Read only'): ?>
-          <?php print t('Locked'); ?>
+          <?php print bts('Locked'); ?>
         <?php else: ?>
           <?php print $topic->last_comment_timestamp; ?>
         <?php endif; ?>
