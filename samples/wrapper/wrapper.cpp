@@ -970,17 +970,22 @@ void write_checkpoint(int ntasks_completed, double cpu, double rt) {
     boinc_checkpoint_completed();
 }
 
+// read the checkpoint file;
+// return nonzero if it's missing or bad format
+//
 int read_checkpoint(int& ntasks_completed, double& cpu, double& rt) {
     int nt;
     double c, r;
 
     ntasks_completed = 0;
     cpu = 0;
+    rt = 0;
     FILE* f = fopen(CHECKPOINT_FILENAME, "r");
     if (!f) return ERR_FOPEN;
     int n = fscanf(f, "%d %lf %lf", &nt, &c, &r);
     fclose(f);
-    if (n != 2) return 0;
+    if (n != 3) return -1;
+
     ntasks_completed = nt;
     cpu = c;
     rt = r;
@@ -1025,8 +1030,7 @@ int main(int argc, char** argv) {
     if (retval && !zip_filename.empty()) {
         // this is the first time we've run.
         // If we're going to zip output files,
-        // make a list of files present at this point
-        // so we can exclude them.
+        // make a list of files present at this point so we can exclude them.
         //
         write_checkpoint(0, 0, 0);
         get_initial_file_list();
