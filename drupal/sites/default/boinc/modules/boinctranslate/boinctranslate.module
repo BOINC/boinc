@@ -577,6 +577,13 @@ function boinctranslate_refresh_translations() {
   $boinc_resources = boinctranslate_parse_resources(
     variable_get('boinc_translate_transifex_standard_resources', array())
   );
+  // Add the Official BOINC resource to the list of BOINC resources;
+  // The official resource overrides any additional resources provided, so it
+  // should be added to the end so as to be processed last
+  $drupal_resource = variable_get(
+    'boinc_translate_transifex_boinc_drupal_resource', ''
+  );
+  $boinc_resources[] = $drupal_resource;
   if ($boinc_name AND $boinc_resources) {
     $translation_resources[$boinc_name] = array(
       'resources' => $boinc_resources,
