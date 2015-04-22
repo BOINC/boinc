@@ -116,7 +116,7 @@ function node_comment_block_form_block_admin_configure_alter(&$form, &$form_stat
   if (isset($form['delta'])) {
     if ($form['delta']['#value'] == 'node_comments') {
       $form['settings']['title']['#disabled'] = TRUE;
-      $form['settings']['title']['#description'] = t('The title for this block cannot be overriden.');
+      $form['settings']['title']['#description'] = t('The title for this block cannot be overridden.');
     }
   }
 }

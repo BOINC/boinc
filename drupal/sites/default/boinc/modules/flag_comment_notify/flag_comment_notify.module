@@ -88,11 +88,11 @@ function flag_comment_notify_mail($key, &$message, $params) {
   $variables['!author'] = $params['author']->name;
   switch($key) {
   case 'comment_posted':
-    $message['subject'] = t('!site: comment posted to "!topic_name"', $variables,
+    $message['subject'] = bts('!site: comment posted to "!topic_name"', $variables,
       $language->language);
-    $message['body'][] = t("!author has posted a reply to \"!topic_name\".",
+    $message['body'][] = bts('!author has posted a reply to "!topic_name".',
       $variables, $language->language);
-    $message['body'][] = t("To view this topic at !site, click here: \n!comment_url",
+    $message['body'][] = bts("To view this topic at !site, click here: \n!comment_url",
       $variables, $language->language);
     break;
   default:

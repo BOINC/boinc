@@ -19,7 +19,7 @@ function comment_form_block_block($op = 'list', $delta = 0, $edit = array()) {
         $node = node_load($nid);
         if ($node->comment !== 0 AND user_access('post comments', $user)) {
           $block['subject'] = NULL; // This should be NULL otherwise there will be duplicate h2 elements.
-          $block['content'] = '<h2>' . t('Post new comment') . '</h2>';
+          $block['content'] = '<h2>' . bts('Post new comment') . '</h2>';
           $block['content'] .= drupal_get_form('comment_form', array('nid' => $nid)); 
         }
       }
@@ -39,7 +39,7 @@ function comment_form_block_block($op = 'list', $delta = 0, $edit = array()) {
  */
 function comment_form_block_block_info() {
   $blocks['comment_form'] = array(
-    'info' => t('Comment form'),
+    'info' => bts('Comment form'),
   );
 
   return $blocks;
@@ -84,7 +84,7 @@ function comment_form_block_form_block_admin_configure_alter(&$form, &$form_stat
   if (isset($form['delta'])) {
     if ($form['delta']['#value'] == 'comment_form') {
       $form['settings']['title']['#disabled'] = TRUE;
-      $form['settings']['title']['#description'] = t('The title for this block cannot be overriden.');
+      $form['settings']['title']['#description'] = t('The title for this block cannot be overridden.');
     }
   }
 }

@@ -294,6 +294,6 @@ function boincuser_views_friends_block_header($context = null) {
   $view = views_get_current_view();
   $account_id = $view->args[0];
   $friend_count = flag_friend_get_friend_count($account_id);
-  return '<h2 class="pane-title">' . t('Friends (@friend_count)', 
-    array('@friend_count' => $friend_count)) . '</h2>';
+  return '<h2 class="pane-title">' . bts('Friends (@count)', 
+    array('@count' => $friend_count)) . '</h2>';
 }

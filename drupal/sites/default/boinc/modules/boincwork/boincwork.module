@@ -60,7 +60,7 @@ function boincwork_menu() {
     'weight' => 15
   );
   $items['account/certs'] = array(
-    'title' => t('Account certificate'),
+    'title' =>'Account certificate',
     'page callback' => 'boincwork_certificates',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK
@@ -92,42 +92,42 @@ function boincwork_menu() {
     'file' => 'boincwork.admin.inc'
   );
   $items['host/%/delete'] = array(
-    'title' => t('Delete host'),
+    'title' => 'Delete host',
     'page callback' => 'boincwork_host_delete',
     'page arguments' => array(1),
     'access callback' => 'user_is_logged_in',
     'type' => MENU_CALLBACK,
   );
   $items['host/%/log'] = array(
-    'title' => t('Host log'),
+    'title' => 'Host log',
     'page callback' => 'boincwork_host_log',
     'page arguments' => array(1),
     'access callback' => 'user_is_logged_in',
     'type' => MENU_CALLBACK,
   );
   $items['host/%/merge'] = array(
-    'title' => t('Merge computer'),
+    'title' => 'Merge computer',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('boincwork_host_merge_form', 1),
     'access callback' => 'user_is_logged_in',
     'type' => MENU_CALLBACK,
   );
   $items['host/%/set-venue/%'] = array(
-    'title' => t('Set host venue'),
+    'title' => 'Set host venue',
     'page callback' => 'boincwork_host_set_venue',
     'page arguments' => array(1,3),
     'access callback' => 'user_is_logged_in',
     'type' => MENU_CALLBACK,
   );
   $items['user/%/mobile'] = array(
-    'title' => t('Mobile stats'),
+    'title' => 'Mobile stats',
     'page callback' => 'boincwork_mobile_stats',
     'page arguments' => array(1),
     'access callback' => 'user_is_logged_in',
     'type' => MENU_CALLBACK
   );
   $items['server_status.php'] = array(
-    'title' => t('Server status'),
+    'title' => 'Server status',
     'page callback' => 'boincwork_server_status',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK
@@ -151,7 +151,7 @@ function boincwork_views_api() {
 function boincwork_locale($op = 'groups', $group = NULL) {
   switch ($op) {
     case 'groups':
-      return array('project' => t('Project'));
+      return array('project' => bts('Project'));
     case 'info':
       $info['project']['refresh callback'] = 'boincwork_locale_refresh';
       $info['project']['format'] = FALSE;
@@ -190,7 +190,6 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
   $pref_sets = array('generic', 'home', 'school', 'work');
   $output = null;
   // Set the page title
-  //$title = t('Edit computing preferences @for-venue', array('@for-venue' => ($venue ? "for {$venue}" : '')));
   $title = 'Computing';
   drupal_set_title($title);
   
@@ -217,10 +216,10 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
       drupal_prepare_form('boincwork_generalprefs_form', $prefs[$pref_set], $form_state);
     }
     
-    $output .= '<p>' . t('These apply to all BOINC projects in which you participate.') . '<br/>';
-    $output .= t('On computers attached to multiple projects, the most recently modified preferences will be used.') . '</p>';
-    $output .= '<p>' . t('Preferences last modified: @mod_time', array('@mod_time' => pretty_time_str($prefs['generic']['modified']['#value']))) . '</p>';
-    $output .= '<h2>' . t('Combined preferences') . ' ' . l('(' . t('Switch View') . ')', 'account/prefs/computing') . '</h2>';
+    $output .= '<p>' . bts('These apply to all BOINC projects in which you participate.') . '<br/>';
+    $output .= bts('On computers attached to multiple projects, the most recently modified preferences will be used.') . '</p>';
+    $output .= '<p>' . bts('Preferences last modified: @mod_time', array('@mod_time' => pretty_time_str($prefs['generic']['modified']['#value']))) . '</p>';
+    $output .= '<h2>' . bts('Combined preferences') . ' ' . l('(' . bts('Switch View') . ')', 'account/prefs/computing') . '</h2>';
     
     $output .= '<table class="preferences combined">';
     
@@ -242,9 +241,9 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
           'daily_xfer_limit_mb' => 'daily_xfer_period_days',
         );
         $special_delimiter = array(
-          'start_hour' => t('and'),
-          'net_start_hour'=> t('and'),
-          'daily_xfer_limit_mb' => t('every'),
+          'start_hour' => bts('and'),
+          'net_start_hour'=> bts('and'),
+          'daily_xfer_limit_mb' => bts('every'),
         );
         $special = isset($special_map[$name]);
         $very_special = in_array($name, $special_map);
@@ -303,18 +302,18 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
     $output .= '<tr>';
     $output .= '<td></td>';
     foreach ($pref_sets as $pref_set) {
-      $action_text = ($prefs[$pref_set]['#established']) ? t('Edit') : t('Add');
+      $action_text = ($prefs[$pref_set]['#established']) ? bts('Edit') : bts('Add');
       $output .= '<td><ul class="tab-list"><li class="first tab">';
       $output .= l($action_text, "account/prefs/computing/edit/{$pref_set}/1",
         array('fragment' => "")
       );
       // Show Clear links for established preference sets
       if ($pref_set != 'generic' AND $prefs[$pref_set]['#established']) {
-        $output .= ' </li><li class="tab"> ' . l(t('Clear'), "account/prefs/computing/clear/{$pref_set}",
+        $output .= ' </li><li class="tab"> ' . l(bts('Clear'), "account/prefs/computing/clear/{$pref_set}",
           array(
             'query' => drupal_get_destination(),
             'attributes' => array(
-              'onclick' => 'return confirm(\'' . t('This will remove all of your settings from the \"@name\" preference set. Are you sure?',
+              'onclick' => 'return confirm(\'' . bts('This will remove all of your settings from the "@name" preference set. Are you sure?',
                 array('@name' => ucfirst($pref_set))) . '\')'
             )
           )
@@ -331,8 +330,8 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
   case 'view':
     require_boinc('util');
     
-    $output .= '<p>' . t('These apply to all BOINC projects in which you participate.') . '<br/>';
-    $output .= t('On computers attached to multiple projects, the most recently modified preferences will be used.') . '</p>';
+    $output .= '<p>' . bts('These apply to all BOINC projects in which you participate.') . '<br/>';
+    $output .= bts('On computers attached to multiple projects, the most recently modified preferences will be used.') . '</p>';
     
     if ($venue) $pref_sets = array($venue);
     foreach ($pref_sets as $pref_set) {
@@ -342,11 +341,11 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
       if (isset($prefs['venue'])) {
         if ($pref_set == 'generic') {
           // Global preferences
-          $output .= '<p>' . t('Preferences last modified: @mod_time', array('@mod_time' => pretty_time_str($prefs['modified']['#value']))) . '</p>';
-          $output .= '<h2>' . t('Primary (generic) preferences') . ' ' . l('(' . t('Switch View') . ')', 'account/prefs/computing/combined') . '</h2>';
+          $output .= '<p>' . bts('Preferences last modified: @mod_time', array('@mod_time' => pretty_time_str($prefs['modified']['#value']))) . '</p>';
+          $output .= '<h2>' . bts('Primary (generic) preferences') . ' ' . l('(' . bts('Switch View') . ')', 'account/prefs/computing/combined') . '</h2>';
         } else {
           // Venue specific preferences
-          $output .= '<h2>' . t('Separate preferences for @venue', array('@venue' => $pref_set)) . '</h2>';
+          $output .= '<h2>' . bts('Separate preferences for @venue', array('@venue' => $pref_set)) . '</h2>';
         }
         $output .= '<table>';
         
@@ -374,7 +373,7 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
         $output .= '</table>';
       } else {
         // Venue preferences not defined
-        $output .= '<p>' . l(t('Add separate preferences for @venue', array('@venue' => $pref_set)), "account/prefs/computing/edit/{$pref_set}") . '</p>';
+        $output .= '<p>' . l(bts('Add separate preferences for @venue', array('@venue' => $pref_set)), "account/prefs/computing/edit/{$pref_set}") . '</p>';
       }
     }
     break;
@@ -387,10 +386,10 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
     if (function_exists('jump_quickly')) {
       $path = 'account/prefs/computing/edit';
       $venues = array(
-        "{$path}/generic" => t('Generic'),
-        "{$path}/home" => t('Home'),
-        "{$path}/work" => t('Work'),
-        "{$path}/school" => t('School')
+        "{$path}/generic" => bts('Generic'),
+        "{$path}/home" => bts('Home'),
+        "{$path}/work" => bts('Work'),
+        "{$path}/school" => bts('School')
       );
       variable_set('jump_use_js_venues-Array', 1);
       drupal_add_js(drupal_get_path('module', 'jump') . '/jump.js');
@@ -479,7 +478,7 @@ function projectprefs_page($action = null, $venue = null) {
       drupal_prepare_form('boincwork_projectprefs_form', $prefs[$pref_set], $form_state);
     }
     
-    $output .= '<h2>' . t('Combined preferences') . ' ' . l('(' . t('Switch View') . ')', 'account/prefs/project') . '</h2>';
+    $output .= '<h2>' . bts('Combined preferences') . ' ' . l('(' . bts('Switch View') . ')', 'account/prefs/project') . '</h2>';
     
     $output .= '<table class="preferences combined">';
     
@@ -526,16 +525,16 @@ function projectprefs_page($action = null, $venue = null) {
     $output .= '<tr>';
     $output .= '<td></td>';
     foreach ($pref_sets as $pref_set) {
-      $action_text = ($prefs[$pref_set]['#established']) ? t('Edit') : t('Add');
+      $action_text = ($prefs[$pref_set]['#established']) ? bts('Edit') : bts('Add');
       $output .= '<td><ul class="tab-list"><li class="first tab">';
       $output .= l($action_text, "account/prefs/project/edit/{$pref_set}");
       // Show Clear links for established preference sets
       if ($pref_set != 'generic' AND $prefs[$pref_set]['#established']) {
-        $output .= ' </li><li class="tab"> ' . l(t('Clear'), "account/prefs/project/clear/{$pref_set}",
+        $output .= ' </li><li class="tab"> ' . l(bts('Clear'), "account/prefs/project/clear/{$pref_set}",
           array(
             'query' => drupal_get_destination(),
             'attributes' => array(
-              'onclick' => 'return confirm(\'' . t('This will remove all of your settings from the \"@name\" preference set. Are you sure?',
+              'onclick' => 'return confirm(\'' . bts('This will remove all of your settings from the "@name" preference set. Are you sure?',
                 array('@name' => ucfirst($pref_set))) . '\')'
             )
           )
@@ -570,10 +569,10 @@ function projectprefs_page($action = null, $venue = null) {
       if (isset($prefs['venue'])) {
         if ($pref_set == 'generic') {
           // Global preferences
-          $output .= '<h2>' . t('Primary (generic) preferences') . ' ' . l('(' . t('Switch View') . ')', 'account/prefs/project/combined') . '</h2>';
+          $output .= '<h2>' . bts('Primary (generic) preferences') . ' ' . l('(' . bts('Switch View') . ')', 'account/prefs/project/combined') . '</h2>';
         } else {
           // Venue specific preferences
-          $output .= '<h2>' . t('Separate preferences for @venue', array('@venue' => $pref_set)) . '</h2>';
+          $output .= '<h2>' . bts('Separate preferences for @venue', array('@venue' => $pref_set)) . '</h2>';
         }
         $output .= '<table>';
         $sections = array(
@@ -610,14 +609,14 @@ function projectprefs_page($action = null, $venue = null) {
         // Edit preferences link
         $output .= '<tr>';
         $output .= '<td></td>';
-        $output .= '<td>' . l(t('Edit @project preferences', array('@project' => PROJECT)), "account/prefs/project/edit/{$pref_set}") . '</td>';
+        $output .= '<td>' . l(bts('Edit @project preferences', array('@project' => PROJECT)), "account/prefs/project/edit/{$pref_set}") . '</td>';
         $output .= '</tr>';
         
         $output .= '</table>';
       }
       else {
         // Venue preferences not defined
-        $output .= '<p>' . l(t('Add separate preferences for @venue', array('@venue' => $pref_set)), "account/prefs/project/edit/{$pref_set}") . '</p>';
+        $output .= '<p>' . l(bts('Add separate preferences for @venue', array('@venue' => $pref_set)), "account/prefs/project/edit/{$pref_set}") . '</p>';
       }
     }
     break;
@@ -631,10 +630,10 @@ function projectprefs_page($action = null, $venue = null) {
     if (function_exists('jump_quickly')) {
       $path = 'account/prefs/project/edit';
       $venues = array(
-        "{$path}/generic" => t('Generic'),
-        "{$path}/home" => t('Home'),
-        "{$path}/work" => t('Work'),
-        "{$path}/school" => t('School')
+        "{$path}/generic" => bts('Generic'),
+        "{$path}/home" => bts('Home'),
+        "{$path}/work" => bts('Work'),
+        "{$path}/school" => bts('School')
       );
       variable_set('jump_use_js_venues-Array', 1);
       drupal_add_js(drupal_get_path('module', 'jump') . '/jump.js');
@@ -730,7 +729,7 @@ function privacyprefs_page($action = null) {
     // Edit preferences link
     $output .= '<tr>';
     $output .= '<td></td>';
-    $output .= '<td>' . l(t('Edit privacy preferences', array('@project' => PROJECT)), "account/prefs/privacy/edit") . '</td>';
+    $output .= '<td>' . l(bts('Edit privacy preferences', array('@project' => PROJECT)), "account/prefs/privacy/edit") . '</td>';
     $output .= '</tr>';
     
     $output .= '</table>';
@@ -988,20 +987,20 @@ function boincwork_host_set_venue($host_id = NULL, $venue = NULL) {
     );
     if ($updated) {
       drupal_set_message(
-        t('The location for this host has been updated.')
-        . t('This will take effect next time the host contacts the project.')
+        bts('The location for this host has been updated.')
+        . bts('This will take effect next time the host contacts the project.')
       );
     }
     else {
       drupal_set_message(
-        t('Unable to save changes to this host for some reason!'),
+        bts('Unable to save changes to this host for some reason!'),
         'error'
       );
     }
   }
   else {
     drupal_set_message(
-      t('You are now allowed to make changes to this host.'),
+      bts('You are not allowed to make changes to this host.'),
       'warning'
     );
   }

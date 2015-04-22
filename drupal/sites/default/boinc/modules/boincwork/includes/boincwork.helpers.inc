@@ -418,7 +418,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
         '#type' => 'textfield',
         '#default_value' => $value,
         '#size' => 5,
-        '#description' => $description . t(' Default value: @default', array('@default' => $default))
+        '#description' => $description . bts(' Default value: @default', array('@default' => $default))
       );
     }
     break;
@@ -464,7 +464,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       $form[$name] = array(
         '#title' => $title,
         '#type' => 'radios',
-        '#options' => array(1 => t('yes'), 0 => t('no')),
+        '#options' => array(1 => bts('yes'), 0 => bts('no')),
         '#attributes' => array('class' => 'fancy'),
         '#default_value' => $value,
         '#description' => $description
@@ -524,7 +524,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
         '#options' => $options,
         '#attributes' => array('class' => 'fancy'),
         '#default_value' => $value,
-        '#description' => $description . t(' Default value: @default', array('@default' =>$default))
+        '#description' => $description . bts(' Default value: @default', array('@default' =>$default))
       );
     }
     break;
@@ -539,7 +539,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       }
     
     $form['applications'] = array(
-      '#title' => t('Applications'),
+      '#title' => bts('Applications'),
       '#type' => 'fieldset',
       '#description' => $title,
       '#collapsible' => TRUE,
@@ -678,10 +678,10 @@ function boincwork_make_prefs_table($prefs, $top_level = TRUE) {
       if (in_array($key, array('start_hour', 'net_start_hour'))) {
         switch ($key) {
         case 'start_hour':
-          $element['#title'] = t('Do work only between the hours of:');
+          $element['#title'] = bts('Do work only between the hours of:');
           break;
         case 'net_start_hour':
-          $element['#title'] = t('Use network only between the hours of:');
+          $element['#title'] = bts('Use network only between the hours of:');
           break;
         default:
         }
@@ -705,14 +705,14 @@ function boincwork_make_prefs_table($prefs, $top_level = TRUE) {
   if ($prefs_table AND $uncategorized) {
     // Throw any settings that don't fit elsewhere into "other"
     $prefs_table['other'] = array(
-      'name' => t('Other settings'),
+      'name' => bts('Other settings'),
       'elements' => $uncategorized,
     );
   }
   elseif ($uncategorized) {
     // If nothing is categorized, output all prefs under a general "settings"
     $prefs_table['settings'] = array(
-      'name' => t('Settings'),
+      'name' => bts('Settings'),
       'elements' => $uncategorized,
     );
   }
@@ -915,13 +915,13 @@ function boincwork_validate_form($validation_rules, $values, $path = array()) {
         $form_field = $field;
       }
       if (isset($rules['datatype']) AND !boincwork_validate_datatype($values[$field], $rules['datatype'])) {
-        form_set_error($form_field, t('Invalid data type for @field', array('@field' => $field)));
+        form_set_error($form_field, bts('Invalid data type for @field', array('@field' => $field)));
       }
       if (isset($rules['min']) AND $values[$field] < $rules['min']) {
-        form_set_error($form_field, t('Minimum value not met for @field', array('@field' => $field)));
+        form_set_error($form_field, bts('Minimum value not met for @field', array('@field' => $field)));
       }
       if (isset($rules['max']) AND $values[$field] > $rules['max']) {
-        form_set_error($form_field, t('Maximum value exceeded for @field', array('@field' => $field)));
+        form_set_error($form_field, bts('Maximum value exceeded for @field', array('@field' => $field)));
       }
     }
   }
@@ -1237,28 +1237,28 @@ function boincwork_views_host_list_empty_text($context = NULL) {
   if ($boincuser->show_hosts) {
     switch($context) {
     case 'active':
-      $output .=  '<h2>' . t('No active computers') . '</h2>';
-      $output .=  '<p>' . t('This user has no computers that have been active
-        in the last 30 days.') . '</p>';
+      $output .=  '<h2>' . bts('No active computers') . '</h2>';
+      $output .=  '<p>' . bts('This user has no computers that have been'
+      . ' active in the last 30 days.') . '</p>';
       break;
       
     case 'preferences':
-      $output .=  '<h2>' . t('No computers') . '</h2>';
-      $output .=  '<p>' . t('There are no computers assigned to this preference
-        set.') . '</p>';
+      $output .=  '<h2>' . bts('No computers') . '</h2>';
+      $output .=  '<p>' . bts('There are no computers assigned to this'
+      . ' preference set.') . '</p>';
       break;
     
     default:
-      $output .=  '<h2>' . t('Computers pending') . '</h2>';
-      $output .=  '<p>' . t('This user does not yet have any associated
-        computers. Computers will be displayed when they have earned their
-        first credits.') . '</p>';
+      $output .=  '<h2>' . bts('Computers pending') . '</h2>';
+      $output .=  '<p>' . bts('This user does not yet have any associated'
+      . ' computers. Computers will be displayed when they have earned their'
+      . ' first credits.') . '</p>';
     }
   }
   else {
-    $output .=  '<h2>' . t('Computers hidden') . '</h2>';
-    $output .=  '<p>' . t('This user has chosen not to show information about
-      their computers.') . '</p>';
+    $output .=  '<h2>' . bts('Computers hidden') . '</h2>';
+    $output .=  '<p>' . bts('This user has chosen not to show information'
+    . ' about their computers.') . '</p>';
   }
   return $output;
 }
@@ -1272,8 +1272,10 @@ function boincwork_views_task_list_empty_text($context = NULL) {
   $output = '';
   switch($context) {
   default:
-    $output .=  '<h2>' . t('No @type tasks', array('@type' => $context)) . '</h2>';
-    $output .=  '<p>' . t('There are no tasks of this type on record') . '</p>';
+    $output .=  '<h2>' . bts('No @type tasks', array('@type' => $context))
+    . '</h2>';
+    $output .=  '<p>' . bts('There are no tasks of this type on record')
+    . '</p>';
   }
   return $output;
 }
@@ -1286,16 +1288,18 @@ function boincwork_host_action_links($host_id) {
   if (boincwork_host_user_is_owner($host_id)) {
     // Show merge hosts option
     $output = '<ul class="tab-list"><li class="first tab">';
-    $output .= l(t('Merge'), "host/{$host_id}/merge");
+    $output .= l(bts('Merge'), "host/{$host_id}/merge");
     $output .= '</li>';
     // If host has no tasks, allow the host to be deleted
     if (!boincwork_host_get_task_count($host_id)) {
       $output .= '<li class="tab">';
-      $output .= l(t('Delete'), "host/{$host_id}/delete",
+      $output .= l(bts('Delete'), "host/{$host_id}/delete",
         array(
           'attributes' => array(
-            'onclick' => 'return confirm(\'' . t('This will delete host @id from your account forever. Are you sure this is OK?',
-              array('@id' => $host_id)) . '\')'
+            'onclick' => 'return confirm(\'' . bts('This will delete host @id'
+              . ' from your account forever. Are you sure this is OK?',
+              array('@id' => $host_id)
+            ) . '\')'
           )
         )
       );
@@ -1379,10 +1383,10 @@ function boincwork_host_venue_selector($host_id) {
   if (function_exists('jump_quickly')) {
     $path = "host/{$host_id}/set-venue";
     $venues = array(
-      "{$path}/generic" => t('Generic'),
-      "{$path}/home" => t('Home'),
-      "{$path}/work" => t('Work'),
-      "{$path}/school" => t('School')
+      "{$path}/generic" => bts('Generic'),
+      "{$path}/home" => bts('Home'),
+      "{$path}/work" => bts('Work'),
+      "{$path}/school" => bts('School')
     );
     variable_set('jump_use_js_venues-Array', 1);
     drupal_add_js(drupal_get_path('module', 'jump') . '/jump.js');

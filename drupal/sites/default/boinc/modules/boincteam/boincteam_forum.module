@@ -315,7 +315,8 @@ function boincteam_forum_lookup_nid($tfid) {
  */
 function boincteam_forum_create_form_panel() {
   $output = '';
-  $output .= '<h2 class="pane-title">' . t('Create team message board') . '</h2>';
+  $output .= '<h2 class="pane-title">' . bts('Create team message board')
+    . '</h2>';
   $output .= drupal_get_form('boincteam_forum_create_form');
   
   return $output;
@@ -327,7 +328,7 @@ function boincteam_forum_create_form_panel() {
 function boincteam_forum_edit_form_panel($tfid) {
   $team_forum = boincteam_forum_load($tfid);
   $output = '';
-  $output .= '<h2 class="pane-title">' . t('Edit message board') . ': ' . 
+  $output .= '<h2 class="pane-title">' . bts('Edit message board') . ': ' . 
     $team_forum->title . '</h2>';
   $output .= drupal_get_form('boincteam_forum_edit_form', $tfid);
   
@@ -344,15 +345,17 @@ function boincteam_forum_link_panel($team_id) {
   );
   $forums = boincteam_forum_list($team_id);
   $output = '';
-  $output .= '<h2 class="pane-title">' . t('Team forum') . '</h2>';
-  $output .= '<p>' . t('A discussion forum has been set up for team members.') . '</p>';
+  $output .= '<h2 class="pane-title">' . bts('Team forum') . '</h2>';
+  $output .= '<p>'
+    . bts('A discussion forum has been set up for team members.')
+    . '</p>';
   $output .= '<ul class="tab-list action-list">';
   foreach ($forums as $forum) {
     if (!$show_public_only OR $forum->public) {
       $output .= '  <li class="tab primary">' . 
         l(
           //$forum->title,
-          t('Enter forum'),
+          bts('Enter forum'),
           "community/teams/{$team_id}/forum/{$forum->tfid}"
         ) . '</li>';
       // Since we're only supporting one team forum for now, we've labeled the
@@ -369,20 +372,20 @@ function boincteam_forum_link_panel($team_id) {
  */                                         
 function boincteam_forum_topic_overview_panel($nid = NULL) {
   $output = '';
-  $output .= '<h2 class="pane-title">' . t('About message boards') . '</h2>';
+  $output .= '<h2 class="pane-title">' . bts('About message boards') . '</h2>';
   $output .= '<div>';
   if ($nid) {
     $team = node_load($nid);
-    $output .= '<p>' . t('You may create a message board for use by @team',
+    $output .= '<p>' . bts('You may create a message board for use by @team',
       array('@team' => $team->title)) . ':</p>';
   }
   else {
-    $output .= '<p>' . t('This is a team-only message board') . ':</p>';
+    $output .= '<p>' . bts('This is a team-only message board') . ':</p>';
   }
   $output .= '<ul>';
-  $output .= '  <li>' . t('Only members may post') . '</li>';
-  $output .= '  <li>' . t('Only members may read (optional)') . '</li>';
-  $output .= '  <li>' . t('Founder & Team Admins have moderator privileges') .
+  $output .= '  <li>' . bts('Only members may post') . '</li>';
+  $output .= '  <li>' . bts('Only members may read (optional)') . '</li>';
+  $output .= '  <li>' . bts('Founder & Team Admins have moderator privileges') .
     '</li>';
   $output .= '</ul>';
   $output .= '</div>';

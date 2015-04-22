@@ -698,27 +698,28 @@ function boincteam_user_requested_foundership($team_id, $user_id = NULL) {
  */                                         
 function boincteam_about_admins_panel() {
   $output = '';
-  $output .= '<h2 class="pane-title">' . t('About team admins') . '</h2>';
+  $output .= '<h2 class="pane-title">' . bts('About team admins') . '</h2>';
   $output .= '<div>';
-  $output .= '<p>' . t('Team admins can') . ':</p>';
+  $output .= '<p>' . bts('Team admins can:') . '</p>';
   $output .= '<ul>';
-  $output .= '  <li>' . t('Edit team information') . '</li>';
-  $output .= '  <li>' . t('View the team\'s join / quit history') . '</li>';
-  $output .= '  <li>' . t('Moderate the team forum') . '</li>';
-  $output .= '  <li>' . t('Remove members from the team') . '</li>';
-  $output .= '  <li>' . t('Disband a team if it has no members') . '</li>';
+  $output .= '  <li>' . bts('Edit team information') . '</li>';
+  $output .= '  <li>' . bts("View the team's join / quit history") . '</li>';
+  $output .= '  <li>' . bts('Moderate the team forum') . '</li>';
+  $output .= '  <li>' . bts('Remove members from the team') . '</li>';
+  $output .= '  <li>' . bts('Disband a team if it has no members') . '</li>';
   $output .= '</ul>';
   $output .= '</div>';
   $output .= '<div>';
-  $output .= '<p>' . t('Team admins cannot') . ':</p>';
+  $output .= '<p>' . bts('Team admins cannot:') . '</p>';
   $output .= '<ul>';
-  $output .= '  <li>' . t('Change the team founder') . '</li>';
-  $output .= '  <li>' . t('Remove members') . '</li>';
-  $output .= '  <li>' . t('Add / Remove team admins') . '</li>';
+  $output .= '  <li>' . bts('Change the team founder') . '</li>';
+  $output .= '  <li>' . bts('Remove members') . '</li>';
+  $output .= '  <li>' . bts('Add / Remove team admins') . '</li>';
   $output .= '</ul>';
   $output .= '</div>';
-  $output .= '<p>' . t('If a team admin quits the team, they cease to be a team
-    admin. We recommend only selecting people you know and trust') . '</p>';
+  $output .= '<p>' . bts('If a team admin quits the team, they cease to be a'
+    . ' team admin. We recommend only selecting people you know and trust')
+    . '</p>';
   return $output;
 }
 
@@ -727,21 +728,26 @@ function boincteam_about_admins_panel() {
  */                                         
 function boincteam_about_founder_panel() {
   $output = '';
-  $output .= '<h2 class="pane-title">' . t('Changing the team founder') . '</h2>';
+  $output .= '<h2 class="pane-title">' . bts('Changing the team founder')
+    . '</h2>';
   $output .= '<div>';
-  $output .= '<p>' . t('Notes about changes in foundership') . ':</p>';
+  $output .= '<p>' . bts('Notes about changes in foundership:') . '</p>';
   $output .= '<ul>';
-  $output .= '  <li>' . t('Any member of the team is eligible') . '</li>';
-  $output .= '  <li>' . t('Current founder becomes a normal user') . '</li>';
+  $output .= '  <li>' . bts('Any member of the team is eligible') . '</li>';
+  $output .= '  <li>' . bts('Current founder becomes a normal user') . '</li>';
   $output .= '</ul>';
   $output .= '</div>';
   $output .= '<div>';
-  $output .= '<p>' . t('Foundership can be requested by team members') . ':</p>';
+  $output .= '<p>' . bts('Foundership can be requested by team members:')
+    . '</p>';
   $output .= '<ul>';
-  $output .= '  <li>' . t('One request is allowed at a time') . '</li>';
-  $output .= '  <li>' . t('It must be 60 days since any previous request') . '</li>';
-  $output .= '  <li>' . t('Any active request must be older than 90 days') . '</li>';
-  $output .= '  <li>' . t('Current founder has 60 days to respond to a request') . '</li>';
+  $output .= '  <li>' . bts('One request is allowed at a time') . '</li>';
+  $output .= '  <li>' . bts('It must be 60 days since any previous request')
+    . '</li>';
+  $output .= '  <li>' . bts('Any active request must be older than 90 days')
+    . '</li>';
+  $output .= '  <li>' . bts('Current founder has 60 days to respond to a'
+    . ' request') . '</li>';
   $output .= '</ul>';
   $output .= '</div>';
   return $output;
@@ -755,22 +761,27 @@ function boincteam_create_team_link_panel() {
   $account = user_load($user->uid);
   $unrestricted_role = array_search('verified contributor', user_roles(true));
   $output = '';
-  $output .= '<h2 class="pane-title">' . t('Create a new team') . '</h2>';
-  $output .= '<p>' . t('If you cannot find a team that is right for you, you
-    can create a team.') . '</p>';
+  $output .= '<h2 class="pane-title">' . bts('Create a new team') . '</h2>';
+  $output .= '<p>' . bts('If you cannot find a team that is right for you, you'
+    . ' can create a team.') . '</p>';
   $output .= '<ul class="tab-list">';
   $output .= '  <li class="first last tab">';
   if (isset($account->roles[$unrestricted_role])) {
-    $output .= l(t('Create new team'), 'community/teams/add');
+    $output .= l(bts('Create new team'), 'community/teams/add');
   }
   else {
     $min_credit_needed = variable_get('boinc_comment_min_credit', 0);
-    $output .= '[' . t('You must earn @more_credit!',
-      array('@more_credit' => format_plural(
-        $min_credit_needed - $account->boincuser_total_credit,
-        '1 more credit', '@count more credits'
-      ))
-    ) . ']';
+    $credit_needed = $min_credit_needed - $account->boincuser_total_credit;
+    $output .= '[';
+    if ($credit_needed == 1) {
+      $output .= bts('You must earn 1 more credit!');
+    }
+    else {
+      $output .= bts('You must earn @count more credits!',
+        array('@count' => $credit_needed)
+      );
+    }
+    $output .= ']';
   }
   $output .= '  </li>';
   $output .= '</ul>';
@@ -782,7 +793,7 @@ function boincteam_create_team_link_panel() {
  */
 function boincteam_create_team_panel() {
   $output = '';
-  $output .= '<h2 class="pane-title">' . t('Create a team') . '</h2>';
+  $output .= '<h2 class="pane-title">' . bts('Create a team') . '</h2>';
   $output .= drupal_get_form('boincteam_create_form');
   
   return $output;
@@ -802,20 +813,20 @@ function boincteam_dashboard_panel($uid = NULL) {
     $team = boincteam_load(boincteam_lookup_id($account->team));
     $output .= '<h2 class="pane-title">' . $team->name . '</h2>';
     $output .= '<div class="stats">';
-    $output .= '  <label>' . t('Member since: ') . '</label>';
+    $output .= '  <label>' . bts('Member since') . ': </label>';
     $output .= '  <span>' . date('j F Y', boincteam_get_member_join_date($team->id, $account->boincuser_id)) . '</span>';
     $output .= '</div>' . "\n";
     $output .= '<div class="stats">';
-    $output .= '  <label>' . t('Country: ') . '</label>';
+    $output .= '  <label>' . bts('Country') . ': </label>';
     $output .= '  <span>' . $team->country . '</span>';
     $output .= '</div>' . "\n";
     $output .= '<div class="stats">';
-    $output .= '  <label>' . t('Total credit: ') . '</label>';
+    $output .= '  <label>' . bts('Total credit') . ': </label>';
     $output .= '  <span>' . number_format($team->total_credit, 2) . '</span>';
     $output .= '</div>' . "\n";
     $output .= '<ul class="tab-list">';
     $output .= '  <li class="first last tab">' . 
-      l(t('View team'), "community/teams/{$account->team}") . '</li>';
+      l(bts('View team'), "community/teams/{$account->team}") . '</li>';
     $output .= '</ul>';
   }
   return $output;
@@ -839,12 +850,12 @@ function boincteam_edit_team_panel($team_id) {
 function boincteam_join_team_panel($team_id) {
   $team = node_load($team_id);
   $output = '';
-  $output .= '<h2 class="pane-title">' . t('Join team') . '</h2>';
-  $output .= '<p>' . t('Click here to become a member of @this_team',
+  $output .= '<h2 class="pane-title">' . bts('Join team') . '</h2>';
+  $output .= '<p>' . bts('Click here to become a member of @this_team',
     array('@this_team' =>$team->title)) . '</p>';
   $output .= '<ul class="tab-list">';
   $output .= '  <li class="first last tab">' . 
-    l(t('Join this team'), "community/teams/{$team_id}/join") . '</li>';
+    l(bts('Join this team'), "community/teams/{$team_id}/join") . '</li>';
   $output .= '</ul>';
   return $output;
 }
@@ -855,12 +866,12 @@ function boincteam_join_team_panel($team_id) {
 function boincteam_leave_team_panel($team_id) {
   $team = node_load($team_id);
   $output = '';
-  $output .= '<h2 class="pane-title">' . t('Leave team') . '</h2>';
-  $output .= '<p>' . t('Click here to revoke your membership with @this_team',
-    array('@this_team' =>$team->title)) . '</p>';
+  $output .= '<h2 class="pane-title">' . bts('Leave team') . '</h2>';
+  $output .= '<p>' . bts('Click here to revoke your membership with'
+    . ' @this_team', array('@this_team' =>$team->title)) . '</p>';
   $output .= '<ul class="tab-list">';
   $output .= '  <li class="first last tab">' . 
-    l(t('Leave this team'), "community/teams/{$team_id}/leave") . '</li>';
+    l(bts('Leave this team'), "community/teams/{$team_id}/leave") . '</li>';
   $output .= '</ul>';
   return $output;
 }
@@ -870,10 +881,10 @@ function boincteam_leave_team_panel($team_id) {
  */                                         
 function boincteam_manage_admins_panel_header($team_id) {
   $output = '';
-  $output .= '<h4>' . t('Add team admin') . '</h4>';
+  $output .= '<h4>' . bts('Add team admin') . '</h4>';
   $output .= drupal_get_form('boincteam_add_admin_form', $team_id);
   $output .= '<div class="clearfix"></div>';
-  $output .= '<h4>' . t('Current team admins') . '</h4>';
+  $output .= '<h4>' . bts('Current team admins') . '</h4>';
   
   return $output;
 }
@@ -885,11 +896,11 @@ function boincteam_management_panel($team_id) {
   $is_founder = boincteam_is_founder($team_id);
   $team = node_load($team_id);
   $output = '';
-  $output .= '<h2 class="pane-title">' . t('Manage team') . '</h2>';
+  $output .= '<h2 class="pane-title">' . bts('Manage team') . '</h2>';
   
   // Member list
   $output .= '<div class="form-item">';
-  $output .= '  <label>' . t('View member list') . '</label>';
+  $output .= '  <label>' . bts('View member list') . '</label>';
   $output .= '  <ul class="tab-list">';
   $output .= '    <li class="first tab primary">' . 
     l('HTML', "community/teams/{$team_id}/members") . '</li>';
@@ -897,13 +908,13 @@ function boincteam_management_panel($team_id) {
     l('text', "community/teams/{$team_id}/members/email") . '</li>';
   $output .= '  </ul>';
   $output .= '  <div class="description">';
-  $output .=   t('Member names and emails');
+  $output .=   bts('Member names and emails');
   $output .= '  </div>';
   $output .= '</div>'; 
   
   // Team history
   $output .= '<div class="form-item">';
-  $output .= '  <label>' . t('View change history') . '</label>';
+  $output .= '  <label>' . bts('View change history') . '</label>';
   $output .= '  <ul class="tab-list">';
   $output .= '    <li class="first tab primary">' . 
     l('HTML', "community/teams/{$team_id}/history") . '</li>';
@@ -911,7 +922,7 @@ function boincteam_management_panel($team_id) {
     l('XML', "community/teams/{$team_id}/history/xml") . '</li>';
   $output .= '  </ul>';
   $output .= '  <div class="description">';
-  $output .=   t('See member activity');
+  $output .=   bts('See member activity');
   $output .= '  </div>';
   $output .= '</div>';
   
@@ -929,12 +940,12 @@ function boincteam_management_panel($team_id) {
       $output .= '<div class="form-item">';
       $output .= '  <ul class="tab-list action-list">';
       $output .= '    <li class="first tab primary">' .   
-        l(t('Manage team message board'),
+        l(bts('Manage team message board'),
           "community/teams/{$team_id}/forum/{$team_forum_link_path}"
         );
       $output .= '    </li>';
       $output .= '  <div class="description">';
-      $output .=   t('Create or manage message board');
+      $output .=   bts('Create or manage message board');
       $output .= '  </div>';
       $output .= '</div>';
     }
@@ -944,28 +955,28 @@ function boincteam_management_panel($team_id) {
   $output .= '<div class="form-item">';
   $output .= '  <ul class="tab-list action-list">';
   $output .= '    <li class="first tab primary">' . 
-    l(t('Remove members'), "community/teams/{$team_id}/edit/members") . '</li>';
+    l(bts('Remove members'), "community/teams/{$team_id}/edit/members") . '</li>';
   
   if ($is_founder) {
     
     // Change founder
     $output .= '    <li class="tab primary">' . 
-      l(t('Change founder'), "community/teams/{$team_id}/edit/founder") . '</li>';
+      l(bts('Change founder'), "community/teams/{$team_id}/edit/founder") . '</li>';
       
       // Manage admins
     $output .= '    <li class="tab primary">' . 
-      l(t('Manage team admins'), "community/teams/{$team_id}/edit/admins") . '</li>';
+      l(bts('Manage team admins'), "community/teams/{$team_id}/edit/admins") . '</li>';
   }
   
   // Edit team information
   $output .= '    <li class="tab primary">' . 
-    l(t('Edit team info'), "community/teams/{$team_id}/edit/info") . '</li>';
+    l(bts('Edit team info'), "community/teams/{$team_id}/edit/info") . '</li>';
     
   if ($is_founder) {
     
     // Delete the team
     $output .= '    <li class="last tab primary">' . 
-      l(t('Remove team'), "community/teams/{$team_id}/delete") . '</li>';
+      l(bts('Remove team'), "community/teams/{$team_id}/delete") . '</li>';
   }
   
   $output .= '  </ul>';
@@ -982,12 +993,12 @@ function boincteam_member_link_panel() {
   $account = user_load($user->uid);
   $team = node_load($account->team);
   $output = '';
-  $output .= '<h2 class="pane-title">' . t('My team') . '</h2>';
-  $output .= '<p>' . t('You are a member of @team.', 
+  $output .= '<h2 class="pane-title">' . bts('My team') . '</h2>';
+  $output .= '<p>' . bts('You are a member of @team.', 
     array('@team' => $team->title)) . '</p>';
   $output .= '<ul class="tab-list">';
   $output .= '  <li class="first last tab">' . 
-    l(t('View my team'), "community/teams/{$account->team}") . '</li>';
+    l(bts('View my team'), "community/teams/{$account->team}") . '</li>';
   $output .= '</ul>';
   return $output;
 }
@@ -1003,7 +1014,7 @@ function boincteam_request_foundership_panel($team_id) {
   $boincteam = boincteam_load($boincteam_id);
   $boincuser_id = $account->boincuser_id;
   $output = '';
-  $output .= '<h2 class="pane-title">' . t('Request foundership') . '</h2>';
+  $output .= '<h2 class="pane-title">' . bts('Request foundership') . '</h2>';
   
   if (boincteam_user_requested_foundership($team_id)) {
     $deadline = boincteam_foundership_transfer_ok_time($boincteam);
@@ -1011,35 +1022,56 @@ function boincteam_request_foundership_panel($team_id) {
     $request_age = 60 - $days_to_deadline;
     $days_to_respond = 30 + $days_to_deadline;
     if (time() > $deadline) {
-      $output .= '<p>' . t('@age_days have elapsed since your request and the
-        founder has not responded. You now have @days to assume foundership
-        before another team member may submit a request.',
-        array(
-          '@age_days' => format_plural($request_age, '1 day', '@count days'),
-          '@days' => format_plural($days_to_respond, '1 day', '@count days'),
-        )
-      );
+      $output .= '<p>';
+      if ($request_age == 1) {
+        $output .= bts('1 day has elapsed since your request and'
+          . ' the founder has not responded.');
+      }
+      else {
+        $output .= bts('@count days have elapsed since your request and'
+          . ' the founder has not responded.',
+          array('@count' => $request_age)
+        );
+      }
+      if ($days_to_respond == 1) {
+        $output .= bts('You now have 1 day to assume foundership before'
+          . ' another team member may submit a request.');
+      }
+      else {
+        $output .= bts('You now have @count days to assume foundership before'
+          . ' another team member may submit a request.',
+          array('@count' => $days_to_respond)
+        );
+      }
+      $output .= '</p>';
       $output .= '<ul class="tab-list">';
       $output .= '  <li class="first last tab">' . 
-        l(t('Assume foundership'), "community/teams/{$team_id}/assume-foundership") . '</li>';
+        l(bts('Assume foundership'), "community/teams/{$team_id}/assume-foundership") . '</li>';
       $output .= '</ul>';
     }
     else {
-      $output .= '<p>' . t('The team founder has @days to respond to your
-        transfer request.', array('@days' => format_plural(
-          $days_to_deadline, '1 day', '@count days'
-        ))
-      );
+      $output .= '<p>';
+      if ($days_to_deadline == 1) {
+        $output .= bts('The team founder has 1 day to respond to your'
+          . ' transfer request.'
+        );
+      }
+      else {
+        $output .= bts('The team founder has @count days to respond to your'
+          . ' transfer request.', array('@count' => $days_to_deadline)
+        );
+      }
+      $output .= '</p>';
     }
   }
   else {
-    $output .= '<p>' . t('If the team founder is not active and you want to
-      assume the role of founder, click below to request foundership of
-      @this_team.',
+    $output .= '<p>' . bts('If the team founder is not active and you want to'
+      . ' assume the role of founder, click below to request foundership of'
+      . ' @this_team.',
       array('@this_team' =>$team->title)) . '</p>';
     $output .= '<ul class="tab-list">';
     $output .= '  <li class="first last tab">' . 
-      l(t('Initiate request'), "community/teams/{$team_id}/request-foundership") . '</li>';
+      l(bts('Initiate request'), "community/teams/{$team_id}/request-foundership") . '</li>';
     $output .= '</ul>';
   }
   return $output;
@@ -1060,9 +1092,11 @@ function boincteam_request_foundership_response_panel($team_id) {
   if ($boincteam->ping_user) {
     if ($boincteam->ping_user < 0) {
       $member = user_load(boincuser_lookup_uid(-$boincteam->ping_user));
-      $output .= '<h2 class="pane-title">' . t('Obsolete transfer request') . '</h2>';
-      $output .= '<p>' . t('Team member @name requested team foundership on
-        @date, but then left the team. This request is now canceled.', array(
+      $output .= '<h2 class="pane-title">' . bts('Obsolete transfer request')
+        . '</h2>';
+      $output .= '<p>' . bts('Team member @name requested team foundership on'
+        . ' @date, but then left the team. This request is now canceled.',
+        array(
           '@name' => $member->boincuser_name,
           '@date' => date('j M Y', $boincteam->ping_time),
         )
@@ -1079,23 +1113,26 @@ function boincteam_request_foundership_response_panel($team_id) {
     }
     else {
       $member = user_load(boincuser_lookup_uid($boincteam->ping_user));
-      $output .= '<h2 class="pane-title">' . t('Respond to transfer request') . '</h2>';
-      $output .= '<p>' . t('Team member @name has requested team foundership.
-        This may be because you left the team or have not had contact with the
-        team for a long time.', array(
+      $output .= '<h2 class="pane-title">' . bts('Respond to transfer request')
+        . '</h2>';
+      $output .= '<p>' . bts('Team member @name has requested team foundership.'
+        . ' This may be because you left the team or have not had contact with'
+        . ' the team for a long time.', array(
           '@name' => $member->boincuser_name,
         )
       ) . '</p>';
-      $output .= '<p>' . t('If you don\'t decline the request by @date, @name
-        will have the option of assuming team foundership. (note: To accept the
-        request, assign foundership to @name using the form below)', array(
+      $output .= '<p>' . bts("If you don't decline the request by @date, @name"
+        . ' will have the option of assuming team foundership. (note: To'
+        . ' accept the request, assign foundership to @name using the form'
+        . ' below)',
+        array(
           '@name' => $member->boincuser_name,
           '@date' => date('j M Y', boincteam_foundership_transfer_ok_time($boincteam)),
         )
       ) . '</p>';
       $output .= '<ul class="tab-list">';
       $output .= '  <li class="first last tab">' . 
-        l(t('Deny request'), "community/teams/{$team_id}/deny-foundership-request") . '</li>';
+        l(bts('Deny request'), "community/teams/{$team_id}/deny-foundership-request") . '</li>';
       $output .= '</ul>';
     }
   }
@@ -1105,8 +1142,8 @@ function boincteam_request_foundership_response_panel($team_id) {
 function boincteam_search_panel() {
   $output = '';
   if (module_exists('global_search_teams_solr')) {
-    $output .= '<h2 class="pane-title">' . t('Search teams') . '</h2>';
-    //$output .= '<p>' . t('Render a search form here.') . '</p>';
+    $output .= '<h2 class="pane-title">' . bts('Search teams') . '</h2>';
+    //$output .= '<p>' . bts('Render a search form here.') . '</p>';
     $output .= '<p>' . boincteam_search_view() . '</p>';
   }
   return $output;
@@ -1123,20 +1160,20 @@ function boincteam_search_view($type = 'team') {
  * General info about the concept of teams
  */                                         
 function boincteam_topic_overview_panel() {
-  $site_name =  variable_get('site_name', t('Project'));
+  $site_name =  variable_get('site_name', bts('Project'));
   $output = '';
-  $output .= '<h2 class="pane-title">' . t('Teams') . '</h2>';
+  $output .= '<h2 class="pane-title">' . bts('Teams') . '</h2>';
   $output .= '<div class="">';
-  $output .= '<p>' . t('@project participants may form teams. You may belong
-    to only one team. You can join or quit a team at any time. To join a team,
-    visit its team page and click "Join this team". Each team has a founder who
-    may:', array('@project' => $site_name)) . '</p>';
+  $output .= '<p>' . bts('@project participants may form teams. You may belong'
+    . ' to only one team. You can join or quit a team at any time. To join a'
+    . ' team, visit its team page and click "Join this team". Each team has a'
+    . ' founder who may:', array('@project' => $site_name)) . '</p>';
   $output .= '<ul>';
-  $output .= '  <li>' . t('access team members\' email addresses') . '</li>';
-  $output .= '  <li>' . t('edit the team\'s name and description') . '</li>';
-  $output .= '  <li>' . t('add or remove team admins') . '</li>';
-  $output .= '  <li>' . t('remove members from the team') . '</li>';
-  $output .= '  <li>' . t('disband a team if it has no members') . '</li>';
+  $output .= '  <li>' . bts("access team members' email addresses") . '</li>';
+  $output .= '  <li>' . bts("edit the team's name and description") . '</li>';
+  $output .= '  <li>' . bts('add or remove team admins') . '</li>';
+  $output .= '  <li>' . bts('remove members from the team') . '</li>';
+  $output .= '  <li>' . bts('disband a team if it has no members') . '</li>';
   $output .= '</ul>';
   $output .= '</div>';
   return $output;
@@ -1182,30 +1219,30 @@ function boincteam_view_team_panel($team_id) {
   $output .= '<div>';
   $output .= '<div class="left-column">';
   $output .= '<ul class="stats">';
-  $output .= '  <li>' . t('Total credits') . ': ' . number_format($boincteam->total_credit, 2) . '</li>';
-  $output .= '  <li>' . t('Recent avg credits') . ': ' . number_format($boincteam->expavg_credit, 2) . '</li>';
-  $output .= '  <li>' . t('Country') . ': ' . $boincteam->country . '</li>';
-  $output .= '  <li>' . t('Type') . ': ' . boincteam_get_type($team_id) . '</li>';
+  $output .= '  <li>' . bts('Total credits') . ': ' . number_format($boincteam->total_credit, 2) . '</li>';
+  $output .= '  <li>' . bts('Recent avg credits') . ': ' . number_format($boincteam->expavg_credit, 2) . '</li>';
+  $output .= '  <li>' . bts('Country') . ': ' . $boincteam->country . '</li>';
+  $output .= '  <li>' . bts('Type') . ': ' . boincteam_get_type($team_id) . '</li>';
   $output .= '</ul>';
   $output .= '</div>';
   $output .= '<div class="right-column">';
   $output .= '<ul class="stats">';
-  $output .= '  <li>' . t('Founder') . ': ' . l($founder->boincuser_name, "account/{$founder->uid}") . '</li>';
-  $output .= '  <li>' . t('New members in last day') . ': ' . implode('&middot;', $new_members) . '</li>';
-  $output .= '  <li>' . t('Total members') . ': ' . l($boincteam->nusers, "community/teams/{$team_id}/members") . '</li>';
-  $output .= '  <li>' . t('Active members') . ': ' . $boincteam->nusers_active . '</li>';
-  $output .= '  <li>' . t('Members with credit') . ': ' . $boincteam->nusers_worked . '</li>';
+  $output .= '  <li>' . bts('Founder') . ': ' . l($founder->boincuser_name, "account/{$founder->uid}") . '</li>';
+  $output .= '  <li>' . bts('New members in last day') . ': ' . implode('&middot;', $new_members) . '</li>';
+  $output .= '  <li>' . bts('Total members') . ': ' . l($boincteam->nusers, "community/teams/{$team_id}/members") . '</li>';
+  $output .= '  <li>' . bts('Active members') . ': ' . $boincteam->nusers_active . '</li>';
+  $output .= '  <li>' . bts('Members with credit') . ': ' . $boincteam->nusers_worked . '</li>';
   $output .= '</ul>';
   $output .= '</div>';
   $output .= '</div>';
   $output .= '<div class="clearfix"></div>';
   if ($boincteam->url) {
     $output .= '<div class="stats">';
-    $output .= t('Web site') . ': ' . l("http://{$boincteam->url}", "http://{$boincteam->url}");
+    $output .= bts('Web site') . ': ' . l("http://{$boincteam->url}", "http://{$boincteam->url}");
     $output .= '</div>';
   }
   if ($team->body) {
-    $output .= '<h3>' . t('Description') . '</h3>';
+    $output .= '<h3>' . bts('Description') . '</h3>';
     $output .= $team->body;
     $output .= '</div>';
   }

@@ -31,45 +31,45 @@ function boincteam_forum_create_form(&$form_state) {
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
-    '#value' => array(1 => t('yes'), 0 => t('no')),
+    '#value' => array(1 => bts('yes'), 0 => bts('no')),
   );
   
   // Form elements
   $form['title'] = array(
-    '#title' => t('Message board title'),
+    '#title' => bts('Message board title'),
     '#type' => 'textfield',
     '#default_value' => $default['title'],
     '#size' => 34,
-    '#description' => t('Text only, no HTML tags'),
+    '#description' => bts('Text only, no HTML tags'),
   );
   $form['min_time_between_posts'] = array(
-    '#title' => t('Minimum time between posts'),
+    '#title' => bts('Minimum time between posts'),
     '#type' => 'textfield',
     '#default_value' => $default['min_time_between_posts'],
     '#size' => 12,
-    '#description' => t('Seconds'),
+    '#description' => bts('Seconds'),
   );
   $form['min_total_credit_to_post'] = array(
-    '#title' => t('Minimum total credit to post'),
+    '#title' => bts('Minimum total credit to post'),
     '#type' => 'textfield',
     '#default_value' => $default['min_total_credit_to_post'],
     '#size' => 12,
   );
   $form['min_avg_credit_to_post'] = array(
-    '#title' => t('Minimum avg credit to post'),
+    '#title' => bts('Minimum avg credit to post'),
     '#type' => 'textfield',
     '#default_value' => $default['min_avg_credit_to_post'],
     '#size' => 12,
   );
   $form['public'] = array(
-    '#title' => t('Allow public to read board?'),
+    '#title' => bts('Allow public to read board?'),
     '#type' => 'radios',
     '#options' => $form['boolean_options']['#value'],
     '#attributes' => array('class' => 'fancy'),
     '#default_value' => $default['public'],
   );
   $form['description'] = array(
-    '#title' => t('Description'),
+    '#title' => bts('Description'),
     '#type' => 'textarea',
     '#default_value' => $default['description'],
     '#size' => 5,
@@ -82,11 +82,11 @@ function boincteam_forum_create_form(&$form_state) {
   $form['submit'] = array(
     '#prefix' => '<li class="first tab">',
     '#type' => 'submit',
-    '#value' => t('Create message board'),
+    '#value' => bts('Create message board'),
     '#suffix' => '</li>',
   );
   $form['form control tabs'] = array(
-    '#value' => '<li class="tab">' . l(t('Cancel'), strstr($_GET['q'], '/forum/add', TRUE)) . '</li>'
+    '#value' => '<li class="tab">' . l(bts('Cancel'), strstr($_GET['q'], '/forum/add', TRUE)) . '</li>'
   );
   
   $form['#redirect'] = "community/teams/{$account->team}";
@@ -102,27 +102,27 @@ function boincteam_forum_create_form_validate($form, &$form_state) {
   $values = $form_state['values'];
   
   if (!$values['title']) {
-    form_set_error('name', t('Message board title is required.'));
+    form_set_error('name', bts('Message board title is required.'));
   }
   if (!is_numeric($values['min_time_between_posts']) OR
       $values['min_time_between_posts'] < 0) {
     form_set_error('min_time_between_posts',
-      t('Please set the minimum time required between posts.')
+      bts('Please set the minimum time required between posts.')
     );
   }
   if (!is_numeric($values['min_total_credit_to_post']) OR
       $values['min_total_credit_to_post'] < 0) {
     form_set_error('min_total_credit_to_post',
-      t('Please set the minimum total credit that a user
-        must earn in order to post to this message board.'
+      bts('Please set the minimum total credit that a user'
+        . ' must earn in order to post to this message board.'
       )
     );
   }
   if (!is_numeric($values['min_avg_credit_to_post']) OR
       $values['min_avg_credit_to_post'] < 0) {
     form_set_error('min_avg_credit_to_post',
-      t('Please set the minimum average credit that a user
-        is required to have in order to post to this message board.'
+      bts('Please set the minimum average credit that a user'
+        . ' is required to have in order to post to this message board.'
       )
     );
   }
@@ -188,45 +188,45 @@ function boincteam_forum_edit_form(&$form_state, $tfid) {
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
-    '#value' => array(1 => t('yes'), 0 => t('no')),
+    '#value' => array(1 => bts('yes'), 0 => bts('no')),
   );
   
   // Form elements
   $form['title'] = array(
-    '#title' => t('Message board title'),
+    '#title' => bts('Message board title'),
     '#type' => 'textfield',
     '#default_value' => $default['title'],
     '#size' => 34,
-    '#description' => t('Text only, no HTML tags'),
+    '#description' => bts('Text only, no HTML tags'),
   );
   $form['min_time_between_posts'] = array(
-    '#title' => t('Minimum time between posts'),
+    '#title' => bts('Minimum time between posts'),
     '#type' => 'textfield',
     '#default_value' => $default['min_time_between_posts'],
     '#size' => 12,
-    '#description' => t('Seconds'),
+    '#description' => bts('Seconds'),
   );
   $form['min_total_credit_to_post'] = array(
-    '#title' => t('Minimum total credit to post'),
+    '#title' => bts('Minimum total credit to post'),
     '#type' => 'textfield',
     '#default_value' => $default['min_total_credit_to_post'],
     '#size' => 12,
   );
   $form['min_avg_credit_to_post'] = array(
-    '#title' => t('Minimum avg credit to post'),
+    '#title' => bts('Minimum avg credit to post'),
     '#type' => 'textfield',
     '#default_value' => $default['min_avg_credit_to_post'],
     '#size' => 12,
   );
   $form['public'] = array(
-    '#title' => t('Allow public to read board?'),
+    '#title' => bts('Allow public to read board?'),
     '#type' => 'radios',
     '#options' => $form['boolean_options']['#value'],
     '#attributes' => array('class' => 'fancy'),
     '#default_value' => $default['public'],
   );
   $form['description'] = array(
-    '#title' => t('Description'),
+    '#title' => bts('Description'),
     '#type' => 'textarea',
     '#default_value' => $default['description'],
     '#size' => 5,
@@ -239,11 +239,11 @@ function boincteam_forum_edit_form(&$form_state, $tfid) {
   $form['submit'] = array(
     '#prefix' => '<li class="first tab">',
     '#type' => 'submit',
-    '#value' => t('Save message board'),
+    '#value' => bts('Save message board'),
     '#suffix' => '</li>',
   );
   $form['form control tabs'] = array(
-    '#value' => '<li class="tab">' . l(t('Cancel'), strstr($_GET['q'], '/forum', TRUE)) . '</li>'
+    '#value' => '<li class="tab">' . l(bts('Cancel'), strstr($_GET['q'], '/forum', TRUE)) . '</li>'
   );
   
   $form['#redirect'] = "community/teams/{$boincteam_forum->nid}";
@@ -259,27 +259,27 @@ function boincteam_forum_edit_form_validate($form, &$form_state) {
   $values = $form_state['values'];
   
   if (!$values['title']) {
-    form_set_error('name', t('Message board title is required.'));
+    form_set_error('name', bts('Message board title is required.'));
   }
   if (!is_numeric($values['min_time_between_posts']) OR
       $values['min_time_between_posts'] < 0) {
     form_set_error('min_time_between_posts', 
-      t('Please set the minimum time required between posts.')
+      bts('Please set the minimum time required between posts.')
     );
   }
   if (!is_numeric($values['min_total_credit_to_post']) OR
       $values['min_total_credit_to_post'] < 0) {
     form_set_error('min_total_credit_to_post',
-      t('Please set the minimum total credit that a user
-        must earn in order to post to this message board.'
+      bts('Please set the minimum total credit that a user'
+        . ' must earn in order to post to this message board.'
       )
     );
   }
   if (!is_numeric($values['min_avg_credit_to_post']) OR
       $values['min_avg_credit_to_post'] < 0) {
     form_set_error('min_avg_credit_to_post', 
-      t('Please set the minimum average credit that a user
-        is required to have in order to post to this message board.'
+      bts('Please set the minimum average credit that a user'
+        . ' is required to have in order to post to this message board.'
       )
     );
   }

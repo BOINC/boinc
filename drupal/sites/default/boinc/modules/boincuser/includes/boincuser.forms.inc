@@ -35,7 +35,7 @@ function boincuser_login_validate($form, &$form_state) {
   // Call our custom authentication function to check for an existing BOINC user
   if (!boincuser_login_authenticate($form_state['values'])) {
     // Authentication failed; set an error accordingly
-    form_set_error('name', t('Sorry, unrecognized email address or password. <a href="@password">Have you forgotten your password?</a>', array('@password' => url('user/password'))));
+    form_set_error('name', bts('Sorry, unrecognized email address or password.') . ' ' . l(bts('Have you forgotten your password?'), 'user/password'));
   }
 }
 
@@ -340,7 +340,7 @@ function boincuser_account_validate($edit, $account) {
     // E-mail address is set to change; check for an existing BOINC user
     $boinc_user_already_exists = BoincUser::lookup_email_addr($edit['mail']);
     if ($boinc_user_already_exists) {
-      form_set_error('mail', t('A BOINC account already exists for @email.', array('@email' => $edit['mail'])));
+      form_set_error('mail', bts('A BOINC account already exists for @email.', array('@email' => $edit['mail'])));
     }
   }
   
@@ -353,10 +353,10 @@ function boincuser_account_validate($edit, $account) {
     else {
       $given_hash = md5($edit['current_pass'] . $account->mail);
       if (!$edit['current_pass']) {
-        form_set_error('current_pass', t('Authentication is required when changing E-mail address or setting new password.'));
+        form_set_error('current_pass', bts('Authentication is required when changing E-mail address or setting new password.'));
       }
       elseif ($given_hash != $boinc_user->passwd_hash) {
-        form_set_error('current_pass', t('Password entered is not valid. Please verify that it is correct.'));
+        form_set_error('current_pass', bts('Password entered is not valid. Please verify that it is correct.'));
       }
     }
   }
@@ -377,8 +377,8 @@ function boincuser_request_pass_validate($form, &$form_state) {
   $edit = $form_state['values'];
   // The Drupal submit function expects a "name" field, even though
   // it contains an email address and we will not allow a user name
-  if (!$edit['name']) form_set_error('name', t('Please enter your email address'));
-  elseif (!valid_email_address($edit['name'])) form_set_error('name', t('@email is not a well formed email address, please verify', array('@email' => $edit['name'])));
+  if (!$edit['name']) form_set_error('name', bts('Please enter your email address'));
+  elseif (!valid_email_address($edit['name'])) form_set_error('name', bts('@email is not a well formed email address, please verify', array('@email' => $edit['name'])));
   else {
     // First look for an existing Drupal account
     if ($account = user_load_by_mail($edit['name'])) return;
@@ -390,7 +390,7 @@ function boincuser_request_pass_validate($form, &$form_state) {
       boincuser_register_make_drupal_user($boinc_user);
     } else {
       // If there is no existing BOINC user either, show an error
-      form_set_error('name', t('No account exists for @email -- select &quot;Create new account&quot; to register', array('@email' => $edit['name'])));
+      form_set_error('name', bts('No account exists for @email -- select "Create new account" to register', array('@email' => $edit['name'])));
     }
   }
 }
@@ -401,16 +401,16 @@ function boincuser_request_pass_validate($form, &$form_state) {
 function boincuser_authloginform() {
   $form['heading'] = array(
     '#type' => 'markup',
-    '#value' => '<h3>' . t('2) If you forgot your account&apos;s email address, or you can&apos;t receive email there:') . '</h3>'
+    '#value' => '<h3>' . bts("2) If you forgot your account's email address, or you can't receive email there:") . '</h3>'
   );
   $form['instructions'] = array(
     '#type' => 'markup',
     '#value' => '' .
-      '<p>' . t('If you have run BOINC under the account, you can still access it. Here&apos;s how:') .
+      '<p>' . bts("If you have run BOINC under the account, you can still access it. Here's how:") .
       '  <ul>' .
-      '    <li>' . t('Go to the BOINC data directory on your computer (on Windows this is usually @path1 or @path2.', array('@path1' => '<b>C:\Documents and Settings\All Users\Application Data\BOINC</b>', '@path2' => '<b>C:\Program Files\BOINC</b>')) . '</li>' .
-      '    <li>' . t('Find your account file for this project; it will have a name like @file (where the project URL is @url).', array('@file' => '<b>account_lhcathome.cern.ch.xml</b>', '@url' => '<b>http://lhcathome.cern.ch</b>')) . '</li>' .
-      '    <li>' . t('Open the file in a text editor like Notepad. You&apos;ll see something like') .
+      '    <li>' . bts('Go to the BOINC data directory on your computer (on Windows this is usually @path1 or @path2.', array('@path1' => '<b>C:\Documents and Settings\All Users\Application Data\BOINC</b>', '@path2' => '<b>C:\Program Files\BOINC</b>')) . '</li>' .
+      '    <li>' . bts('Find your account file for this project; it will have a name like @file (where the project URL is @url).', array('@file' => '<b>account_lhcathome.cern.ch.xml</b>', '@url' => '<b>http://lhcathome.cern.ch</b>')) . '</li>' .
+      '    <li>' . bts("Open the file in a text editor like Notepad. You'll see something like:") .
       '      <pre>' .
       '&lt;account&gt;' . "\n" .
       '  &lt;master_url&gt;http://lhcathome.cern.ch/&lt;/master_url&gt;' . "\n" .
@@ -420,14 +420,14 @@ function boincuser_authloginform() {
       '&lt;/account&gt;' .
       '      </pre>' .
       '    </li>' .
-      '    <li>' . t('Select and Copy the string between <authenticator> and </authenticator> (@auth in the above example).', array('@auth' => '<b>8b8496fdd26df7dc0423ecd43c09a56b</b>')) . '</li>' .
-      '    <li>' . t('Paste the string into the field below, and click OK.') . '</li>' .
-      '    <li>' . t('You will now be logged in to your account; update the email and password of your account.') . '</li>' .
+      '    <li>' . bts('Select and Copy the string between <authenticator> and </authenticator> (@auth in the above example).', array('@auth' => '<b>8b8496fdd26df7dc0423ecd43c09a56b</b>')) . '</li>' .
+      '    <li>' . bts('Paste the string into the field below, and click OK.') . '</li>' .
+      '    <li>' . bts('You will now be logged in to your account; update the email and password of your account.') . '</li>' .
       '  </ul>' .
       '</p>'
   );
   $form['authenticator'] = array(
-    '#title' => t('Log in with authenticator'),
+    '#title' => bts('Log in with authenticator'),
     '#type' => 'textfield',
     '#size' => 60,
     '#maxlength' => 32,
@@ -436,7 +436,7 @@ function boincuser_authloginform() {
   );
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => t('OK')
+    '#value' => bts('OK')
   );
   return $form;
 }
@@ -448,11 +448,11 @@ function boincuser_authloginform_validate($form, &$form_state) {
   $authenticator = $form_state['values']['authenticator'];
   if (strlen($authenticator) != 32) {
     // We notify the form API that this field has failed validation.
-    form_set_error('authenticator', t('That authenticator is not valid.'));
+    form_set_error('authenticator', bts('That authenticator is not valid.'));
   } else {
     require_boinc('boinc_db');
     $boinc_user = BoincUser::lookup_auth($authenticator);
-    if (!$boinc_user) form_set_error('authenticator', t('There is no account with that authenticator.'));
+    if (!$boinc_user) form_set_error('authenticator', bts('There is no account with that authenticator.'));
   }
 }
 

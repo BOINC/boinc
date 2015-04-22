@@ -29,13 +29,13 @@ function boincteam_create_form(&$form_state) {
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
-    '#value' => array(1 => t('yes'), 0 => t('no')),
+    '#value' => array(1 => bts('yes'), 0 => bts('no')),
   );
   
   // Vocabulary based option sets
   $form['type_options'] = array(
     '#type' => 'value',
-    '#value' => array(0 => t('Choose type'))
+    '#value' => array(0 => bts('Choose type'))
   );
   $vocabs = taxonomy_get_vocabularies(NULL);
   foreach ($vocabs as $vocab) {
@@ -59,40 +59,40 @@ function boincteam_create_form(&$form_state) {
   
   // Form elements
   $form['name'] = array(
-    '#title' => t('Team name'),
+    '#title' => bts('Team name'),
     '#type' => 'textfield',
     '#default_value' => $default['name'],
     '#size' => 34,
-    '#description' => t('Text only, no HTML tags'),
+    '#description' => bts('Text only, no HTML tags'),
   );
   $form['name_html'] = array(
-    '#title' => t('Team name -- HTML version (optional)'),
+    '#title' => bts('Team name -- HTML version (optional)'),
     '#type' => 'textfield',
     '#default_value' => $default['name_html'],
     '#size' => 34,
-    '#description' => t('You may use limited HTML tags'),
+    '#description' => bts('You may use limited HTML tags'),
   );
   $form['website'] = array(
-    '#title' => t('Team website (optional)'),
+    '#title' => bts('Team website (optional)'),
     '#type' => 'textfield',
     '#default_value' => $default['website'],
     '#size' => 34,
-    '#description' => t('Displayed on the team\'s page'),
+    '#description' => bts("Displayed on the team's page"),
   );
   $form['type'] = array(
-    '#title' => t('Type of team'),
+    '#title' => bts('Type of team'),
     '#type' => 'select',
     '#options' => $form['type_options']['#value'],
     '#default_value' => $default['type'],
   );
   $form['country'] = array(
-    '#title' => t('Country'),
+    '#title' => bts('Country'),
     '#type' => 'select',
     '#options' => $form['country_options']['#value'],
     '#default_value' => $default['country'],
   );
   $form['joinable'] = array(
-    '#title' => t('Accept new members?'),
+    '#title' => bts('Accept new members?'),
     '#type' => 'radios',
     '#options' => $form['boolean_options']['#value'],
     '#attributes' => array('class' => 'fancy'),
@@ -100,7 +100,7 @@ function boincteam_create_form(&$form_state) {
     '#size' => 34,
   );
   $form['description'] = array(
-    '#title' => t('Description of team'),
+    '#title' => bts('Description of team'),
     '#type' => 'textarea',
     '#default_value' => $default['description'],
     '#size' => 5,
@@ -115,11 +115,11 @@ function boincteam_create_form(&$form_state) {
   $form['submit'] = array(
     '#prefix' => '<li class="first tab">',
     '#type' => 'submit',
-    '#value' => t('Save team'),
+    '#value' => bts('Save team'),
     '#suffix' => '</li>',
   );
   $form['form control tabs'] = array(
-    '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li>'
+    '#value' => '<li class="tab">' . l(bts('Cancel'), $_GET['q']) . '</li>'
   );
   
   return $form;
@@ -134,18 +134,18 @@ function boincteam_create_form_validate($form, &$form_state) {
   $name = $values['name'];
   
   if (!$name) {
-    form_set_error('name', t('Team name is required.'));
+    form_set_error('name', bts('Team name is required.'));
   }
   else {
     require_boinc('boinc_db');
     if (BoincTeam::lookup_name($name)) {
-      form_set_error('name', t('A team named "@name" already exists.',
+      form_set_error('name', bts('A team named "@name" already exists.',
         array('@name' => $name)));
     }
   }
   
   if (!$values['type'] OR !isset($values['type_options'][$values['type']])) {
-    form_set_error('type', t('Please select a team type.'));
+    form_set_error('type', bts('Please select a team type.'));
   }
 }
 
@@ -279,13 +279,13 @@ function boincteam_edit_form(&$form_state, $team_id) {
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
-    '#value' => array(1 => t('yes'), 0 => t('no')),
+    '#value' => array(1 => bts('yes'), 0 => bts('no')),
   );
   
   // Vocabulary based option sets
   $form['type_options'] = array(
     '#type' => 'value',
-    '#value' => array(0 => t('Choose type'))
+    '#value' => array(0 => bts('Choose type'))
   );
   $vocabs = taxonomy_get_vocabularies(NULL);
   foreach ($vocabs as $vocab) {
@@ -309,45 +309,45 @@ function boincteam_edit_form(&$form_state, $team_id) {
   
   // Form elements
   $form['name'] = array(
-    '#title' => t('Team name'),
+    '#title' => bts('Team name'),
     '#type' => 'textfield',
     '#default_value' => $default['name'],
     '#size' => 34,
-    '#description' => t('Text only, no HTML tags'),
+    '#description' => bts('Text only, no HTML tags'),
     '#disabled' => $is_boinc_wide,
   );
   $form['name_html'] = array(
-    '#title' => t('Team name -- HTML version (optional)'),
+    '#title' => bts('Team name -- HTML version (optional)'),
     '#type' => 'textfield',
     '#default_value' => $default['name_html'],
     '#size' => 34,
-    '#description' => t('You may use limited HTML tags'),
+    '#description' => bts('You may use limited HTML tags'),
     '#disabled' => $is_boinc_wide,
   );
   $form['website'] = array(
-    '#title' => t('Team website (optional)'),
+    '#title' => bts('Team website (optional)'),
     '#type' => 'textfield',
     '#default_value' => $default['website'],
     '#size' => 34,
-    '#description' => t('Displayed on the team\'s page'),
+    '#description' => bts("Displayed on the team's page"),
     '#disabled' => $is_boinc_wide,
   );
   $form['type'] = array(
-    '#title' => t('Type of team'),
+    '#title' => bts('Type of team'),
     '#type' => 'select',
     '#options' => $form['type_options']['#value'],
     '#default_value' => $default['type'],
     '#disabled' => $is_boinc_wide,
   );
   $form['country'] = array(
-    '#title' => t('Country'),
+    '#title' => bts('Country'),
     '#type' => 'select',
     '#options' => $form['country_options']['#value'],
     '#default_value' => $default['country'],
     '#disabled' => $is_boinc_wide,
   );
   $form['joinable'] = array(
-    '#title' => t('Accept new members?'),
+    '#title' => bts('Accept new members?'),
     '#type' => 'radios',
     '#options' => $form['boolean_options']['#value'],
     '#attributes' => array('class' => 'fancy'),
@@ -357,7 +357,7 @@ function boincteam_edit_form(&$form_state, $team_id) {
   );
   if (!$is_boinc_wide) {
     $form['description'] = array(
-      '#title' => t('Description of team'),
+      '#title' => bts('Description of team'),
       '#type' => 'textarea',
       '#default_value' => $default['description'],
       '#size' => 5,
@@ -372,22 +372,22 @@ function boincteam_edit_form(&$form_state, $team_id) {
     $form['submit'] = array(
       '#prefix' => '<li class="first tab">',
       '#type' => 'submit',
-      '#value' => t('Save changes'),
+      '#value' => bts('Save changes'),
       '#suffix' => '</li>',
     );
     $form['form control tabs'] = array(
-      '#value' => '<li class="tab">' . l(t('Cancel'), strstr($_GET['q'], '/edit', TRUE)) . '</li>'
+      '#value' => '<li class="tab">' . l(bts('Cancel'), strstr($_GET['q'], '/edit', TRUE)) . '</li>'
     );
   }
   else {
     $form['description'] = array(
-      '#prefix' => '<div class="form-item"><label>' . t('Description') . ':</label></div><div class="form-item">',
+      '#prefix' => '<div class="form-item"><label>' . bts('Description') . ':</label></div><div class="form-item">',
       '#value' => $default['description'],
       '#suffix' => '</div>',
     );
     drupal_set_message(
-      t('This is a BOINC-wide team. Changes can be made at the !site.',
-        array('!site' => l(t('BOINC-wide teams site'),
+      bts('This is a BOINC-wide team. Changes can be made at the !site.',
+        array('!site' => l(bts('BOINC-wide teams site'),
           'http://boinc.berkeley.edu/teams/'
         ))
       ),
@@ -408,11 +408,11 @@ function boincteam_edit_form_validate($form, &$form_state) {
   $name = $values['name'];
   
   if ($form_state['storage']['is_boinc_wide']) {
-    form_set_error('none', t('This team is managed by the BOINC-wide teams system and cannot be updated here.'));
+    form_set_error('none', bts('This team is managed by the BOINC-wide teams system and cannot be updated here.'));
   }
   else {
     if (!$name) {
-      form_set_error('name', t('Team name is required.'));
+      form_set_error('name', bts('Team name is required.'));
     }
     else {
       $team = node_load($form_state['storage']['team_id']);
@@ -420,14 +420,14 @@ function boincteam_edit_form_validate($form, &$form_state) {
         // If changing the name ("title" in Drupal terms), check that the new name is available
         require_boinc('boinc_db');
         if (BoincTeam::lookup_name($name)) {
-          form_set_error('name', t('A team named "@name" already exists.',
+          form_set_error('name', bts('A team named "@name" already exists.',
             array('@name' => $name)));
         }
       }
     }
   
     if (!$values['type'] OR !isset($values['type_options'][$values['type']])) {
-      form_set_error('type', t('Please select a team type.'));
+      form_set_error('type', bts('Please select a team type.'));
     }
   }
 }
@@ -515,7 +515,7 @@ function boincteam_add_admin_form(&$form_state, $team_id) {
   
   // Form elements
   $form['email'] = array(
-    '#title' => t('Enter email address'),
+    '#title' => bts('Enter email address'),
     '#type' => 'textfield',
     '#default_value' => $default['email'],
     '#size' => 34,
@@ -528,11 +528,11 @@ function boincteam_add_admin_form(&$form_state, $team_id) {
   $form['submit'] = array(
     '#prefix' => '<li class="first tab">',
     '#type' => 'submit',
-    '#value' => t('Add'),
+    '#value' => bts('Add'),
     '#suffix' => '</li>',
   );
   $form['form control tabs'] = array(
-    '#value' => '<li class="tab">' . l(t('Cancel'), strstr($_GET['q'], '/edit', TRUE)) . '</li>'
+    '#value' => '<li class="tab">' . l(bts('Cancel'), strstr($_GET['q'], '/edit', TRUE)) . '</li>'
   );
   
   //$form['#redirect'] = "community/teams/{$team_id}";
@@ -551,16 +551,15 @@ function boincteam_add_admin_form_validate($form, &$form_state) {
   $team = node_load($team_id);
   
   if (!$values['email']) {
-    form_set_error('email', t('Email address is required.'));
+    form_set_error('email', bts('Email address is required.'));
   }
   else {
     $account = user_load(array('mail' => $values['email']));
     if ((!$account) OR ($account->team != $team_id)) {
-      form_set_error('email', t('There is no user on your team with that email
-        address.'));
+      form_set_error('email', bts('There is no user on your team with that email address.'));
     }
     elseif (boincteam_is_founder($team_id, $account->uid)) {
-      form_set_error('email', t('@user is the founder of @team!',
+      form_set_error('email', bts('@user is the founder of @team!',
         array(
           '@user' => $account->boincuser_name,
           '@team' => $team->title,
@@ -568,7 +567,7 @@ function boincteam_add_admin_form_validate($form, &$form_state) {
       ));
     }
     elseif (boincteam_is_admin($team_id, $account->uid)) {
-      form_set_error('email', t('@user is already an admin of @team.',
+      form_set_error('email', bts('@user is already an admin of @team.',
         array(
           '@user' => $account->boincuser_name,
           '@team' => $team->title,

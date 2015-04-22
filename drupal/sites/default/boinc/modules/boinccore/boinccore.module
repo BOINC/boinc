@@ -137,7 +137,7 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
     
     module_load_include('inc', 'bbcode', 'bbcode-help');
     $form['bbcode_help'] = array(
-      '#title' => t('BBcode help'),
+      '#title' => bts('BBcode help'),
       '#type' => 'fieldset',
       '#attributes' => array(
         'class' => 'bbcode_help',
@@ -165,7 +165,7 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
     $form['buttons']['submit'] = $form['submit'];
     unset($form['submit']);
     $form['buttons']['submit']['#prefix'] = '<li class="first tab">';
-    $form['buttons']['submit']['#value'] = t('Post comment');
+    $form['buttons']['submit']['#value'] = bts('Post comment');
     $form['buttons']['submit']['#suffix'] = '</li>';
     $form['buttons']['submit']['#weight'] = 1002;
     // We want all these buttons together under the "buttons" array, but the
@@ -179,7 +179,7 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
     $form['buttons']['preview']['#suffix'] = '</li>';
     $form['buttons']['preview']['#weight'] = 1003;
     $form['buttons']['cancel'] = array(
-      '#value' => '<li class="tab">' . l(t('Cancel'), $cancel_url) . '</li>',
+      '#value' => '<li class="tab">' . l(bts('Cancel'), $cancel_url) . '</li>',
       '#weight' => 1004,
     );
     $form['buttons']['form control tabs suffix'] = array(
@@ -206,7 +206,7 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
       '#weight' => 1001,
     );
     $form['buttons']['submit']['#prefix'] = '<li class="first tab">';
-    $form['buttons']['submit']['#value'] = t('Post topic');
+    $form['buttons']['submit']['#value'] = bts('Post topic');
     $form['buttons']['submit']['#suffix'] = '</li>';
     $form['buttons']['submit']['#weight'] = 1002;
     $form['buttons']['preview']['#prefix'] = '<li class="tab">';
@@ -216,7 +216,7 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
     $form['buttons']['preview_changes']['#suffix'] = '</li>';
     $form['buttons']['preview_changes']['#weight'] = 1004;
     $form['buttons']['cancel'] = array(
-      '#value' => '<li class="tab">' . l(t('Cancel'), "community/forum/{$forum_id}") . '</li>',
+      '#value' => '<li class="tab">' . l(bts('Cancel'), "community/forum/{$forum_id}") . '</li>',
       '#weight' => 1005,
     );
     $form['buttons']['form control tabs suffix'] = array(
@@ -245,7 +245,7 @@ function boinccore_link_alter(&$links, $node, $comment = NULL) {
 function boinccore_locale($op = 'groups', $group = NULL) {
   switch ($op) {
     case 'groups':
-      return array('boinc' => t('BOINC'));
+      return array('boinc' => bts('BOINC'));
     case 'info':
       //$info['boinc']['refresh callback'] = 'boinccore_locale_refresh';
       $info['boinc']['format'] = FALSE;
@@ -262,10 +262,10 @@ function boinccore_link($type, $object, $teaser = FALSE) {
       $comment_control = "comment_control/{$object->cid}";
       if ($object->status == 0) {
         $links['hide'] = array(
-          'title' => t('Hide'),
+          'title' => bts('Hide'),
           'href' => "{$comment_control}/hide",
           'attributes' => array(
-            'title' => t('Hide this comment')
+            'title' => bts('Hide this comment')
           )
         );
       }
@@ -686,9 +686,9 @@ function boinccore_get_country_list() {
 /*
  * BOINC wrapper for string translation
  */
-function bts($string, $args = array(), $context = 'boinc: ') {
+function bts($string, $args = array(), $langcode = NULL, $context = 'boinc: ') {
   if (function_exists('i18nstrings_ts')) {
-    $string = i18nstrings_ts($context, $string, NULL, TRUE);
+    $string = i18nstrings_ts($context, $string, $langcode, TRUE);
   }
   if (empty($args)) {
     return $string;
