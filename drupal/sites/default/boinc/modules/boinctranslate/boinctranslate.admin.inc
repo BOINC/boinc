@@ -133,14 +133,14 @@ function boinctranslate_admin_settings(&$form_state) {
   );
   $form['tools']['export_now'] = array(
     '#type' => 'button',
-    '#value' => t('Export translations'),
+    '#value' => t('Update project-specific resources'),
     '#executes_submit_callback' => TRUE,
     '#submit' => array('boinctranslate_admin_settings_export_now'),
     '#disabled' => !$import_enabled,
   );
   $form['tools']['import_now'] = array(
     '#type' => 'button',
-    '#value' => t('Import translations'),
+    '#value' => t('Import all translations'),
     '#executes_submit_callback' => TRUE,
     '#submit' => array('boinctranslate_admin_settings_import_now'),
     '#disabled' => !$import_enabled,
