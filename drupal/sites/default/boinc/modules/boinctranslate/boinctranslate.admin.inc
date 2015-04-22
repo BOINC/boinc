@@ -93,7 +93,9 @@ function boinctranslate_admin_settings(&$form_state) {
       for translating strings on this site (one resource string per line).
       Resources will be imported in the order they are given, so
       translations from the resources at the top of the list will be overridden
-      by any matching translations found in resources further down the list.'),
+      by any matching translations found in resources further down the list.
+      Note that strings from the Official BOINC Drupal resource will override
+      any strings from these additional resources.'),
   );
   $form['transifex']['boinc_translate_transifex_project_name'] = array(
     '#type' => 'textfield',
