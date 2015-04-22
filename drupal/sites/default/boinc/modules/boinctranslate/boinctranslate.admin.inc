@@ -219,7 +219,7 @@ function boinctranslate_admin_settings_validate($form, &$form_state) {
     // Test authentication
     $authenticated = FALSE;
     $path = "project/{$boinc_name}/resource/{$boinc_resources[0]}/translation/en";
-    $response = boinctranslate_transifex_request($path);
+    $response = boinctranslate_transifex_request($path, NULL, TRUE, FALSE, $username, $password);
     
     if ($response) {
       if ($response == '401 UNAUTHORIZED') {

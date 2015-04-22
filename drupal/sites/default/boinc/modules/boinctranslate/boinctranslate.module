@@ -459,11 +459,11 @@ function boinctranslate_update_official_boinc_translations() {
 /**
  *
  */
-function boinctranslate_transifex_request($path, $post = NULL, $json = TRUE, $use_put = FALSE) {
+function boinctranslate_transifex_request($path, $post = NULL, $json = TRUE, $use_put = FALSE, $username = '', $password = '') {
   // Transifex details
   $api_base_url = 'https://www.transifex.com/api/2';
-  $username = variable_get('boinc_translate_transifex_user', '');
-  $password = variable_get('boinc_translate_transifex_pass', '');
+  if (!$username) $username = variable_get('boinc_translate_transifex_user', '');
+  if (!$password) $password = variable_get('boinc_translate_transifex_pass', '');
   
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, "{$api_base_url}/{$path}");
