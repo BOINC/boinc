@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-04-20 12:14+0000\n"
+"POT-Creation-Date: 2015-04-22 11:34+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -78,6 +78,583 @@ msgstr ""
 
 #:  
 msgid "OK"
+msgstr ""
+
+#:  
+msgid "The latest news from the @site_name project"
+msgstr ""
+
+#:  
+msgid "Comment form"
+msgstr ""
+
+#:  
+msgid "Total credits"
+msgstr ""
+
+#:  
+msgid "Recent avg credits"
+msgstr ""
+
+#:  
+msgid "Country"
+msgstr ""
+
+#:  
+msgid "Type"
+msgstr ""
+
+#:  
+msgid "Founder"
+msgstr ""
+
+#:  
+msgid "New members in last day"
+msgstr ""
+
+#:  
+msgid "Total members"
+msgstr ""
+
+#:  
+msgid "Active members"
+msgstr ""
+
+#:  
+msgid "Members with credit"
+msgstr ""
+
+#:  
+msgid "Description"
+msgstr ""
+
+#:  
+msgid "Search teams"
+msgstr ""
+
+#:  
+msgid "Send message"
+msgstr ""
+
+#:  
+msgid "BOINC"
+msgstr ""
+
+#:  
+msgid "Project"
+msgstr ""
+
+#:  
+msgid "Web site"
+msgstr ""
+
+#:  
+msgid "No active computers"
+msgstr ""
+
+#:  
+msgid "This user has no computers that have been active in the last 30 days."
+msgstr ""
+
+#:  
+msgid " Default value: @default"
+msgstr ""
+
+#:  
+msgid "Applications"
+msgstr ""
+
+#:  
+msgid "yes"
+msgstr ""
+
+#:  
+msgid "no"
+msgstr ""
+
+#:  
+msgid "Message @id"
+msgstr ""
+
+#:  
+msgid "message @id"
+msgstr ""
+
+#:  
+msgid " in response to !parent"
+msgstr ""
+
+#:  
+msgid "Credits per day"
+msgstr ""
+
+#:  
+msgid "Computers hidden"
+msgstr ""
+
+#:  
+msgid "This user has chosen not to show information about their computers."
+msgstr ""
+
+#:  
+msgid "Stderr output"
+msgstr ""
+
+#:  
+msgid "@time ago"
+msgstr ""
+
+#:  
+msgid "n/a"
+msgstr ""
+
+#:  
+msgid "Submitted by !username on !datetime"
+msgstr ""
+
+#:  
+msgid "Member since"
+msgstr ""
+
+#:  
+msgid "View team"
+msgstr ""
+
+#:  
+msgid "Friends (@count)"
+msgstr ""
+
+#:  
+msgid "Website"
+msgstr ""
+
+#:  
+msgid "Locked"
+msgstr ""
+
+#:  
+msgid "Computers pending"
+msgstr ""
+
+#:  
+msgid ""
+"This user does not yet have any associated computers. Computers will "
+"be displayed when they have earned their first credits."
+msgstr ""
+
+#:  
+msgid "No results found..."
+msgstr ""
+
+#:  
+msgid "Background"
+msgstr ""
+
+#:  
+msgid "Teams"
+msgstr ""
+
+#:  
+msgid ""
+"@project participants may form teams. You may belong to only one team. "
+"You can join or quit a team at any time. To join a team, visit its "
+"team page and click \"Join this team\". Each team has a founder who "
+"may:"
+msgstr ""
+
+#:  
+msgid "access team members' email addresses"
+msgstr ""
+
+#:  
+msgid "edit the team's name and description"
+msgstr ""
+
+#:  
+msgid "add or remove team admins"
+msgstr ""
+
+#:  
+msgid "remove members from the team"
+msgstr ""
+
+#:  
+msgid "disband a team if it has no members"
+msgstr ""
+
+#:  
+msgid "Create a new team"
+msgstr ""
+
+#:  
+msgid ""
+"If you cannot find a team that is right for you, you can create a "
+"team."
+msgstr ""
+
+#:  
+msgid "You must earn @count more credits!"
+msgstr ""
+
+#:  
+msgid "Threads"
+msgstr ""
+
+#:  
+msgid "Posts"
+msgstr ""
+
+#:  
+msgid "Last post"
+msgstr ""
+
+#:  
+msgid "Manage subscriptions"
+msgstr ""
+
+#:  
+msgid "Featured"
+msgstr ""
+
+#:  
+msgid "Submitted on !datetime"
+msgstr ""
+
+#:  
+msgid "Comments"
+msgstr ""
+
+#:  
+msgid "Opinion"
+msgstr ""
+
+#:  
+msgid "More"
+msgstr ""
+
+#:  
+msgid "Tasks"
+msgstr ""
+
+#:  
+msgid "Generic"
+msgstr ""
+
+#:  
+msgid "Work"
+msgstr ""
+
+#:  
+msgid "School"
+msgstr ""
+
+#:  
+msgid "Presets"
+msgstr ""
+
+#:  
+msgid "Standard"
+msgstr ""
+
+#:  
+msgid "Maximum"
+msgstr ""
+
+#:  
+msgid "Green"
+msgstr ""
+
+#:  
+msgid "Minimum"
+msgstr ""
+
+#:  
+msgid "Custom"
+msgstr ""
+
+#:  
+msgid "Update preset"
+msgstr ""
+
+#:  
+msgid "Advanced settings"
+msgstr ""
+
+#:  
+msgid "Processor usage"
+msgstr ""
+
+#:  
+msgid "Run while computer is on battery power?"
+msgstr ""
+
+#:  
+msgid "Only applies to portable computers"
+msgstr ""
+
+#:  
+msgid "Run while computer is in use?"
+msgstr ""
+
+#:  
+msgid "Run GPU work while computer is in use?"
+msgstr ""
+
+#:  
+msgid "Enforced by version @number"
+msgstr ""
+
+#:  
+msgid "\"In use\" means mouse/keyboard activity in last"
+msgstr ""
+
+#:  
+msgid "minutes"
+msgstr ""
+
+#:  
+msgid "Suspend work if no mouse/keyboard activity in last"
+msgstr ""
+
+#:  
+msgid "Needed to enter low-power mode on some computers"
+msgstr ""
+
+#:  
+msgid "Suspend work if CPU usage is above"
+msgstr ""
+
+#:  
+msgid "0 means no restriction. Enforced by version @number"
+msgstr ""
+
+#:  
+msgid "Do work only between the hours of:"
+msgstr ""
+
+#:  
+msgid "and"
+msgstr ""
+
+#:  
+msgid "No restriction if equal"
+msgstr ""
+
+#:  
+msgid "Leave tasks in memory while suspended?"
+msgstr ""
+
+#:  
+msgid "Suspended tasks will consume swap space if \"yes\""
+msgstr ""
+
+#:  
+msgid "Switch between tasks every"
+msgstr ""
+
+#:  
+msgid "Recommended: @period minutes"
+msgstr ""
+
+#:  
+msgid "On multiprocessors, use at most"
+msgstr ""
+
+#:  
+msgid "processors"
+msgstr ""
+
+#:  
+msgid "Set to 0 for no limit"
+msgstr ""
+
+#:  
+msgid "% of the processors"
+msgstr ""
+
+#:  
+msgid "Use at most"
+msgstr ""
+
+#:  
+msgid "% of the CPU time"
+msgstr ""
+
+#:  
+msgid "Can be used to reduce CPU heat"
+msgstr ""
+
+#:  
+msgid "Disk and memory usage"
+msgstr ""
+
+#:  
+msgid "Disk: use at most"
+msgstr ""
+
+#:  
+msgid "Disk: leave free at least"
+msgstr ""
+
+#:  
+msgid "Values smaller than @number are ignored"
+msgstr ""
+
+#:  
+msgid "% of total"
+msgstr ""
+
+#:  
+msgid "Tasks checkpoint to disk at most every"
+msgstr ""
+
+#:  
+msgid "seconds"
+msgstr ""
+
+#:  
+msgid "Swap space: use at most"
+msgstr ""
+
+#:  
+msgid "Memory: when computer is in use, use at most"
+msgstr ""
+
+#:  
+msgid "Memory: when computer is not in use, use at most"
+msgstr ""
+
+#:  
+msgid "Network usage"
+msgstr ""
+
+#:  
+msgid "Computer is connected to the Internet about every"
+msgstr ""
+
+#:  
+msgid "days"
+msgstr ""
+
+#:  
+msgid ""
+"Leave blank or 0 if always connected. @project will try to maintain at "
+"least this much work."
+msgstr ""
+
+#:  
+msgid "Maintain enough work for an additional"
+msgstr ""
+
+#:  
+msgid "Confirm before connecting to Internet?"
+msgstr ""
+
+#:  
+msgid "Matters only if you have a modem, ISDN, or VPN connection"
+msgstr ""
+
+#:  
+msgid "Disconnect when done?"
+msgstr ""
+
+#:  
+msgid "Maximum download rate"
+msgstr ""
+
+#:  
+msgid "Maximum upload rate"
+msgstr ""
+
+#:  
+msgid "Use network only between the hours of:"
+msgstr ""
+
+#:  
+msgid "Transfer at most"
+msgstr ""
+
+#:  
+msgid "Skip image file verification?"
+msgstr ""
+
+#:  
+msgid ""
+"Check this ONLY if your Internet provider modifies image files (UMTS "
+"does this, for example). Skipping verification reduces the security of "
+"BOINC."
+msgstr ""
+
+#:  
+msgid "Show comparison view"
+msgstr ""
+
+#:  
+msgid "Resource settings"
+msgstr ""
+
+#:  
+msgid "Resource share"
+msgstr ""
+
+#:  
+msgid ""
+"Determines the proportion of your computer's resources allocated to "
+"this project. Example: if you participate in two BOINC projects with "
+"resource shares of 100 and 200, the first will get 1/3 of your "
+"resources and the second will get 2/3."
+msgstr ""
+
+#:  
+msgid "Use CPU"
+msgstr ""
+
+#:  
+msgid "Use NVIDIA GPU"
+msgstr ""
+
+#:  
+msgid "Use ATI GPU"
+msgstr ""
+
+#:  
+msgid "Use INTEL GPU"
+msgstr ""
+
+#:  
+msgid "Beta settings"
+msgstr ""
+
+#:  
+msgid "Run test applications?"
+msgstr ""
+
+#:  
+msgid ""
+"This helps us develop applications, but may cause jobs to fail on your "
+"computer"
+msgstr ""
+
+#:  
+msgid "Default set"
+msgstr ""
+
+#:  
+msgid "Set used for new computers"
+msgstr ""
+
+#:  
+msgid "Merge"
+msgstr ""
+
+#:  
+msgid "Delete"
+msgstr ""
+
+#:  
+msgid ""
+"This will delete host @id from your account forever. Are you sure this "
+"is OK?"
 msgstr ""
 
 #:  
