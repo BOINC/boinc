@@ -127,7 +127,7 @@
   <string name="tab_status">Stav</string>
   <string name="tab_projects">Projekty</string>
   <string name="tab_tasks">Úkoly</string>
-  <string name="tab_transfers">Přenos</string>
+  <string name="tab_transfers">Přenosy</string>
   <string name="tab_preferences">Předvolby</string>
   <string name="tab_notices">Zprávy</string>
   <string name="tab_desc">Navigace</string>
@@ -188,7 +188,7 @@
   <string name="prefs_cpu_other_load_suspension_description">Určuje kdy se BOINC pozastaví kvůli využití procesoru ostatními aplikacemi.</string>
   <string name="prefs_cpu_time_max_header">Omezení procesoru</string>
   <string name="prefs_cpu_time_max_description">Omezuje procesorový čas, který BOINC využívá pro počítání.</string>
-  <string name="prefs_memory_max_idle_header">limit paměti</string>
+  <string name="prefs_memory_max_idle_header">Limit paměti</string>
   <string name="prefs_memory_max_idle_description">Limituje množství paměti použitelné pro výpočet.</string>
   <string name="prefs_client_log_flags_header">Praporky zápisu BOINC klienta</string>
   <string name="prefs_gui_log_level_header">Úroveň protokolu GUI</string>
@@ -340,7 +340,8 @@
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing 
 (Berkeleyská Otevřená Infrastruktura pro Síťové Výpočty)</string>
   <string name="about_copyright">\u00A9 2003 – 2014 Univerzita v Kalifornii, Berkeley.</string>
-  <string name="about_copyright_reserved">Všechna práva vyhrazena.</string>
+  <string name="about_copyright_reserved">Všechna práva vyhrazena.
+Překlad do češtiny: petnek</string>
   <string name="about_credits">Díky patří Max Planck institutu pro gravitační fyziku, IBM Corporation a HTC Corporation za jejich podporu.</string>
   <!--notice notification-->
   <string name="notice_notification_single_header">Nové oznámení od</string>
