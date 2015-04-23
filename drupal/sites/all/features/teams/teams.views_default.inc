@@ -978,7 +978,7 @@ if ($data->user_send_email OR boincuser_lookup_uid($data->id) == $user->uid) {
   echo $data->user_email_addr;
 }
 else {
-  echo \'(\' . t(\'hidden\') . \')\';
+  echo \'(\' . bts(\'hidden\') . \')\';
 }
 ?>',
       'exclude' => 0,
@@ -1175,7 +1175,7 @@ else {
   $team_id = arg(2);
   $user_id = boincuser_lookup_uid($data->id);
   if (!boincteam_is_founder($team_id, $user_id) AND ($user_id != $user->uid)) {
-    echo l(t(\'Remove\'), "community/teams/{$team_id}/edit/members/remove/{$user_id}");
+    echo l(bts(\'Remove\'), "community/teams/{$team_id}/edit/members/remove/{$user_id}");
   }
 ?>',
       'exclude' => 1,
@@ -1830,7 +1830,7 @@ if ($data->user_send_email OR boincuser_lookup_uid($data->id) == $user->uid) {
   echo $data->user_email_addr;
 }
 else {
-  echo \'(\' . t(\'hidden\') . \')\';
+  echo \'(\' . bts(\'hidden\') . \')\';
 }
 ?>',
       'exclude' => 0,
@@ -1998,7 +1998,7 @@ else {
   $team_id = arg(2);
   $user_id = boincuser_lookup_uid($data->id);
   if (!boincteam_is_founder($team_id, $user_id) AND ($user_id != $user->uid)) {
-    echo l(t(\'Remove\'), "community/teams/{$team_id}/edit/members/remove/{$user_id}");
+    echo l(bts(\'Remove\'), "community/teams/{$team_id}/edit/members/remove/{$user_id}");
   }
 ?>',
       'exclude' => 0,
@@ -2370,7 +2370,7 @@ if ($data->user_send_email OR boincuser_lookup_uid($data->id) == $user->uid) {
   echo $data->user_email_addr;
 }
 else {
-  echo \'(\' . t(\'hidden\') . \')\';
+  echo \'(\' . bts(\'hidden\') . \')\';
 }
 ?>',
       'exclude' => 1,
@@ -2538,7 +2538,7 @@ else {
   $team_id = arg(2);
   $user_id = boincuser_lookup_uid($data->id);
   if (!boincteam_is_founder($team_id, $user_id) AND ($user_id != $user->uid)) {
-    echo l(t(\'Make founder\'), "community/teams/{$team_id}/edit/founder/set/{$user_id}");
+    echo l(bts(\'Make founder\'), "community/teams/{$team_id}/edit/founder/set/{$user_id}");
   }
 ?>',
       'exclude' => 0,
@@ -3056,6 +3056,8 @@ else {
   $handler->override_option('cache', array(
     'type' => 'none',
   ));
+  $handler->override_option('header_format', '1');
+  $handler->override_option('header_empty', 1);
   $handler = $view->new_display('panel_pane', 'Top teams pane', 'panel_pane_1');
   $handler->override_option('use_more', 1);
   $handler->override_option('use_more_always', 1);
@@ -3766,7 +3768,7 @@ else {
       'value' => '<?php
 $team_id = boincteam_lookup_nid($data->id);
 $user_id = get_drupal_id($data->team_admin_userid);
-echo l(t(\'Remove\'), "community/teams/{$team_id}/edit/admins/remove/{$user_id}");
+echo l(bts(\'Remove\'), "community/teams/{$team_id}/edit/admins/remove/{$user_id}");
 ?>',
       'exclude' => 0,
       'id' => 'phpcode',
@@ -3885,8 +3887,6 @@ echo l(t(\'Remove\'), "community/teams/{$team_id}/edit/admins/remove/{$user_id}"
       'relationship' => 'none',
     ),
   ));
-  $handler->override_option('header_format', '1');
-  $handler->override_option('header_empty', 1);
   $handler->override_option('empty', 'There are currently no team admins.');
   $handler->override_option('empty_format', '5');
   $handler->override_option('style_plugin', 'table');

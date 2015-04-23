@@ -53,14 +53,16 @@ function work_and_host_stats_views_default_views() {
       'relationship' => 'none',
     ),
     'workunitid' => array(
-      'label' => 'Work unit ID',
+      'label' => 'Workunit ID',
       'alter' => array(
         'alter_text' => 0,
         'text' => '',
         'make_link' => 1,
         'path' => 'workunit/[workunitid]',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -75,10 +77,14 @@ function work_and_host_stats_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'set_precision' => FALSE,
       'precision' => 0,
       'decimal' => '.',
       'separator' => '',
+      'format_plural' => 0,
+      'format_plural_singular' => '1',
+      'format_plural_plural' => '@count',
       'prefix' => '',
       'suffix' => '',
       'exclude' => 0,
@@ -508,14 +514,16 @@ function work_and_host_stats_views_default_views() {
       'relationship' => 'none',
     ),
     'elapsed_time' => array(
-      'label' => 'Run time (sec)',
+      'label' => 'Run time',
       'alter' => array(
         'alter_text' => 0,
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -530,10 +538,14 @@ function work_and_host_stats_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'set_precision' => 1,
       'precision' => '2',
       'decimal' => '.',
       'separator' => ',',
+      'format_plural' => 0,
+      'format_plural_singular' => '1',
+      'format_plural_plural' => '@count',
       'prefix' => '',
       'suffix' => '',
       'exclude' => 0,
@@ -543,14 +555,16 @@ function work_and_host_stats_views_default_views() {
       'relationship' => 'none',
     ),
     'cpu_time' => array(
-      'label' => 'CPU time (sec)',
+      'label' => 'CPU time',
       'alter' => array(
         'alter_text' => 0,
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -565,10 +579,14 @@ function work_and_host_stats_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'set_precision' => 1,
       'precision' => '2',
       'decimal' => '.',
       'separator' => ',',
+      'format_plural' => 0,
+      'format_plural_singular' => '1',
+      'format_plural_plural' => '@count',
       'prefix' => '',
       'suffix' => '',
       'exclude' => 0,
@@ -1671,13 +1689,15 @@ function work_and_host_stats_views_default_views() {
     if ($showIP) {
       $last_ip = $data->host_last_ip_addr;
       if ($last_ip) {
-        echo "{$data->host_last_ip_addr} (same the last {$data->host_nsame_ip_addr} times)";
+        echo bts(\'@ip_address (same the last @count times)\',
+          array(\'@ip_address\' => $data->host_last_ip_addr, \'@count\' => $data->host_nsame_ip_addr)
+        );
       }
       else {
         echo \'n/a\';
       }
     } else {
-      echo l(\'Show IP address\', arg(0).\'/\'.arg(1).\'/1\');
+      echo l(bts(\'Show IP address\'), arg(0).\'/\'.arg(1).\'/1\');
     }
   }
 ?>',
@@ -1829,8 +1849,10 @@ function work_and_host_stats_views_default_views() {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -1845,9 +1867,10 @@ function work_and_host_stats_views_default_views() {
       'empty' => '',
       'hide_empty' => 1,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'value' => '<?php
   if (is_current_boinc_user($data->host_userid)) {
-    echo \'UTC \' . ($data->host_timezone > 0 ? \'+\' : \'\') . $data->host_timezone / 3600 . \' hours\';
+    echo \'UTC \' . ($data->host_timezone > 0 ? \'+\' : \'\') . $data->host_timezone / 3600 . \' \' . bts(\'hours\');
   }
 ?>',
       'exclude' => 0,
@@ -1922,7 +1945,7 @@ function work_and_host_stats_views_default_views() {
     $owner = BoincUser::lookup_id($data->host_userid);
     $drupal_id = get_drupal_id($owner->id);
     $profile_link = ($drupal_id) ? l($owner->name, "user/{$drupal_id}") : $owner->name;
-    echo ($owner->show_hosts) ? $profile_link : \'Anonymous\';
+    echo ($owner->show_hosts) ? $profile_link : bts(\'Anonymous\');
   }
 ?>',
       'exclude' => 0,
@@ -2891,8 +2914,10 @@ function work_and_host_stats_views_default_views() {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -2907,8 +2932,11 @@ function work_and_host_stats_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'value' => '<?php
-  echo round($data->host_p_fpops/(1000*1000), 2) . \' million ops/sec\';
+  echo bts(\'@count million ops/sec\',
+    array(\'@count\' => round($data->host_p_fpops/(1000*1000), 2))
+  );
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_13',
@@ -2923,8 +2951,10 @@ function work_and_host_stats_views_default_views() {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -2939,8 +2969,11 @@ function work_and_host_stats_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'value' => '<?php
-  echo round($data->host_p_iops/(1000*1000), 2) . \' million ops/sec\';
+  echo bts(\'@count million ops/sec\',
+    array(\'@count\' => round($data->host_p_iops/(1000*1000), 2))
+  );
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_14',
@@ -2955,8 +2988,10 @@ function work_and_host_stats_views_default_views() {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -2971,9 +3006,10 @@ function work_and_host_stats_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'value' => '<?php
   $rate = round($data->host_n_bwup/(1024), 2);
-  echo ($rate > 0) ? "{$rate} KiB/sec" : \'Unknown\';
+  echo ($rate > 0) ? bts(\'@rate KiB/sec\', array(\'@rate\' => $rate)) : bts(\'Unknown\');
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_15',
@@ -2988,8 +3024,10 @@ function work_and_host_stats_views_default_views() {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -3004,9 +3042,10 @@ function work_and_host_stats_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'value' => '<?php
   $rate = round($data->host_n_bwdown/(1024), 2);
-  echo ($rate > 0) ? "{$rate} KiB/sec" : \'Unknown\';
+  echo ($rate > 0) ? bts(\'@rate KiB/sec\', array(\'@rate\' => $rate)) : bts(\'Unknown\');
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_16',
@@ -3021,8 +3060,10 @@ function work_and_host_stats_views_default_views() {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -3037,8 +3078,9 @@ function work_and_host_stats_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'value' => '<?php
-  echo round($data->host_avg_turnaround/(60*60*24), 2) . \' days\';
+  echo bts(\'@count days\', array(\'@count\' => round($data->host_avg_turnaround/(60*60*24), 2)));
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_17',
@@ -4850,8 +4892,10 @@ Cross-project stats:
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -4866,8 +4910,9 @@ Cross-project stats:
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'value' => '<?php
-  echo l(\'Details\', "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(\'Tasks\', "host/{$data->id}/tasks");
+  echo l(bts(\'Details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\'), "host/{$data->id}/tasks");
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_3',
@@ -5766,8 +5811,10 @@ Cross-project stats:
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -5782,14 +5829,18 @@ Cross-project stats:
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'value' => '<?php
-  echo l(\'Details\', "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(\'Tasks\', "host/{$data->id}/tasks");
+  echo l(bts(\'Details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\'), "host/{$data->id}/tasks");
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_3',
       'table' => 'customfield',
       'field' => 'phpcode',
       'relationship' => 'none',
+      'override' => array(
+        'button' => 'Use default',
+      ),
     ),
     'host_cpid' => array(
       'label' => 'Cross project ID',
@@ -5929,7 +5980,7 @@ if ($data->user_host_show_hosts) {
   echo l($data->user_host_name, "user/{$uid}");
 }
 else {
-  echo \'Anonymous\';
+  echo bts(\'Anonymous\');
 }',
       'exclude' => 0,
       'id' => 'phpcode_5',
@@ -6837,14 +6888,16 @@ else {
       'relationship' => 'none',
     ),
     'elapsed_time' => array(
-      'label' => 'Run time (sec)',
+      'label' => 'Run time',
       'alter' => array(
         'alter_text' => 0,
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -6859,10 +6912,14 @@ else {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'set_precision' => 1,
       'precision' => '2',
       'decimal' => '.',
       'separator' => ',',
+      'format_plural' => 0,
+      'format_plural_singular' => '1',
+      'format_plural_plural' => '@count',
       'prefix' => '',
       'suffix' => '',
       'exclude' => 0,
@@ -6872,14 +6929,16 @@ else {
       'relationship' => 'none',
     ),
     'cpu_time' => array(
-      'label' => 'CPU time (sec)',
+      'label' => 'CPU time',
       'alter' => array(
         'alter_text' => 0,
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -6894,10 +6953,14 @@ else {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'set_precision' => 1,
       'precision' => '2',
       'decimal' => '.',
       'separator' => ',',
+      'format_plural' => 0,
+      'format_plural_singular' => '1',
+      'format_plural_plural' => '@count',
       'prefix' => '',
       'suffix' => '',
       'exclude' => 0,
@@ -9523,8 +9586,10 @@ else {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -9539,10 +9604,11 @@ else {
       'empty' => '',
       'hide_empty' => 1,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'value' => '<?php
   if ($data->app_target_nresults <= 0 OR $data->workunit_canonical_resultid) {
     if ($data->workunit_need_validate) {
-      echo \'Pending\';
+      echo bts(\'Pending\');
     }
   }
 ?>',
@@ -10093,14 +10159,16 @@ else {
       'relationship' => 'none',
     ),
     'elapsed_time' => array(
-      'label' => 'Run time (sec)',
+      'label' => 'Run time',
       'alter' => array(
         'alter_text' => 0,
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -10115,10 +10183,14 @@ else {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'set_precision' => 1,
       'precision' => '2',
       'decimal' => '.',
       'separator' => ',',
+      'format_plural' => 0,
+      'format_plural_singular' => '1',
+      'format_plural_plural' => '@count',
       'prefix' => '',
       'suffix' => '',
       'exclude' => 0,
@@ -10128,14 +10200,16 @@ else {
       'relationship' => 'none',
     ),
     'cpu_time' => array(
-      'label' => 'CPU time (sec)',
+      'label' => 'CPU time',
       'alter' => array(
         'alter_text' => 0,
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -10150,10 +10224,14 @@ else {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'set_precision' => 1,
       'precision' => '2',
       'decimal' => '.',
       'separator' => ',',
+      'format_plural' => 0,
+      'format_plural_singular' => '1',
+      'format_plural_plural' => '@count',
       'prefix' => '',
       'suffix' => '',
       'exclude' => 0,

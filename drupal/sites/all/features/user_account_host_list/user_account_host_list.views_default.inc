@@ -69,8 +69,10 @@ function user_account_host_list_views_default_views() {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -85,8 +87,9 @@ function user_account_host_list_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'value' => '<?php
-  echo l(\'Details\', "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(\'Tasks\', "host/{$data->id}/tasks");
+  echo l(bts(\'Details\'), "host/{$data->id}") . \'&nbsp;|&nbsp;\' . l(bts(\'Tasks\'), "host/{$data->id}/tasks");
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_3',

@@ -221,7 +221,7 @@ function user_profiles_views_default_views() {
 
 switch($data->node_type) {
 case \'forum\':
-  $action = t(\'started discussion\');
+  $action = bts(\'started discussion\');
   $url = "node/{$data->node_nid}";
   break;
 //case \'wiki_page\':
@@ -229,17 +229,17 @@ case \'forum\':
 //  $url = \'/\' . drupal_lookup_path(\'alias\',"node/{$data->node_nid}");
 //  break;
 case \'story\':
-  $action = t(\'published\');
+  $action = bts(\'published\');
   //$url = \'/news/blogs/\' . basename(drupal_lookup_path(\'alias\',"node/{$data->node_nid}"));
   $url = "node/{$data->node_nid}";
   break;
 case \'comment\':
-  $action = t(\'commented on\');
+  $action = bts(\'commented on\');
   $url = "node/{$data->node_nid}";
   $fragment = "comment-{$data->vid}";
   break;
 default:
-  $action = t(\'posted\');
+  $action = bts(\'posted\');
 }
 
 $uid = $data->users_node_revisions_uid;
