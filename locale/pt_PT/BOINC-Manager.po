@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-03-24 13:36-0500\n"
-"PO-Revision-Date: 2015-03-26 00:34+0000\n"
+"PO-Revision-Date: 2015-04-23 09:24+0000\n"
 "Last-Translator: Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -129,7 +129,7 @@ msgstr "Actualizar o gestor de conta"
 
 #: clientgui/AccountInfoPage.cpp:560
 msgid "Use account manager"
-msgstr "Usar gestor de conta"
+msgstr "Utilizar gestor de conta"
 
 #: clientgui/AccountInfoPage.cpp:567
 msgid "Please enter a user name."
@@ -197,7 +197,7 @@ msgstr "Ocorreu um erro interno no servidor.\n"
 
 #: clientgui/AdvancedFrame.cpp:99
 msgid "Connected"
-msgstr "Conectado"
+msgstr "Ligado"
 
 #: clientgui/AdvancedFrame.cpp:107
 msgid "Disconnected"
@@ -219,7 +219,7 @@ msgstr "Seleccionar computador..."
 
 #: clientgui/AdvancedFrame.cpp:341
 msgid "Connect to a BOINC client on another computer"
-msgstr "Conectar-se a um cliente BOINC noutro computador"
+msgstr "Ligar a um cliente BOINC noutro computador"
 
 #: clientgui/AdvancedFrame.cpp:345
 msgid "Shut down connected client..."
@@ -318,7 +318,7 @@ msgstr "&Adicionar projecto ou gestor de conta..."
 
 #: clientgui/AdvancedFrame.cpp:455
 msgid "Add a new science project, or use an account manager"
-msgstr "Adicionar um novo projecto de ciência, ou utilizar um gestor de conta"
+msgstr "Adicionar um novo projecto de ciência, ou utilize um gestor de conta"
 
 #: clientgui/AdvancedFrame.cpp:459
 #, c-format
@@ -490,7 +490,7 @@ msgstr "Ler ficheiro de preferências locais"
 
 #: clientgui/AdvancedFrame.cpp:628
 msgid "Read preferences from global_prefs_override.xml."
-msgstr "Ler preferências em global_prefs_override.xml"
+msgstr "Ler preferências de global_prefs_override.xml"
 
 #: clientgui/AdvancedFrame.cpp:636
 #, c-format
@@ -580,7 +580,7 @@ msgstr "%s - Desligar o cliente actual..."
 msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
-msgstr "%s vai desligar o cliente ligado actualmente\ne ser-lhe-á solicitado para que se ligue a outro anfitrião."
+msgstr "%s irá desligar o cliente ligado actualmente\ne ser-lhe-á solicitado para que se ligue a outro anfitrião."
 
 #: clientgui/AdvancedFrame.cpp:1832
 #, c-format
@@ -600,7 +600,7 @@ msgstr "%s - (%s)"
 #: clientgui/AdvancedFrame.cpp:1981
 #, c-format
 msgid "Connecting to %s"
-msgstr "A ligar a %s"
+msgstr "Ligando a %s"
 
 #: clientgui/AdvancedFrame.cpp:1984
 #, c-format
@@ -609,7 +609,7 @@ msgstr "Ligado a %s (%s)"
 
 #: clientgui/AlreadyExistsPage.cpp:184
 msgid "Username already in use"
-msgstr "Nome de utilizador já em uso"
+msgstr "Nome de utilizador já em utilização"
 
 #: clientgui/AlreadyExistsPage.cpp:187
 msgid ""
@@ -621,7 +621,7 @@ msgstr "Uma conta com esse nome de utilizador já existe e tem uma\npalavra-pass
 
 #: clientgui/AlreadyExistsPage.cpp:191
 msgid "Email address already in use"
-msgstr "Endereço de e-mail já em uso"
+msgstr "Endereço de e-mail já em utilização"
 
 #: clientgui/AlreadyExistsPage.cpp:194
 msgid ""
@@ -669,11 +669,11 @@ msgstr "Não está autorizado actualmente a gerir o cliente.\nPor favor, contact
 msgid ""
 "Authorization failed connecting to running client.\n"
 "Make sure you start this program in the same directory as the client."
-msgstr "Autorização falhada ao conectar-se ao cliente em execução.\nConfirme que inicia este programa na mesma directoria que a do cliente."
+msgstr "Autorização falhada ao ligar-se ao cliente em execução.\nConfirme que inicia este programa na mesma directoria que a do cliente."
 
 #: clientgui/BOINCBaseFrame.cpp:532
 msgid "Authorization failed connecting to running client."
-msgstr "Autorização falhada ao conectar-se ao cliente em execução."
+msgstr "Autorização falhada ao ligar-se ao cliente em execução."
 
 #: clientgui/BOINCBaseFrame.cpp:540
 msgid "The password you have provided is incorrect, please try again."
@@ -689,7 +689,7 @@ msgstr "%s - Conexão Falhada"
 msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
-msgstr "%s não consegue se conectar ao %s cliente.\nQuer tentar conectar-se novamente?"
+msgstr "%s não consegue ligar-se ao cliente %s.\nQuer tentar ligar novamente?"
 
 #: clientgui/BOINCBaseFrame.cpp:629
 #, c-format
@@ -721,7 +721,7 @@ msgid ""
 "%s is not currently connected to a %s client.\n"
 "Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
-msgstr "%s não está actualmente conectado ao %s cliente.\nPor favor vá ao menu 'Avançado\\Escolher Computador...' para se conectar ao %s cliente.\nPara se conectar ao seu computador local, use 'localhost' como o nome de anfitrião."
+msgstr "%s não está actualmente ligado ao cliente %s.\nPor favor utilize o menu 'Avançado\\Escolher Computador...' para se ligar ao cliente %s.\nPara se ligar ao seu computador local, utilize o 'localhost' como o nome de anfitrião."
 
 #: clientgui/BOINCBaseView.cpp:790
 msgid "Project web pages"
@@ -749,17 +749,17 @@ msgstr "%s - Estado da Rede"
 msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
-msgstr "%s precisa de se conectar à Internet.\nPode fazê-lo agora?"
+msgstr "%s precisa de se ligar à Internet.\nPode fazê-lo agora?"
 
 #: clientgui/BOINCDialupManager.cpp:254
 #, c-format
 msgid "%s is connecting to the Internet."
-msgstr "%s está a conectar-se à Internet."
+msgstr "%s está a ligar-se à Internet."
 
 #: clientgui/BOINCDialupManager.cpp:303
 #, c-format
 msgid "%s has successfully connected to the Internet."
-msgstr "%s conectou-se com sucesso à Internet."
+msgstr "%s ligou-se com sucesso à Internet."
 
 #: clientgui/BOINCDialupManager.cpp:331
 #, c-format
@@ -771,17 +771,17 @@ msgstr "%s falhou a conexão à Internet."
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
-msgstr "%s detectou que está actualmente conectado à Internet.\nA actualizar todos os projectos e a tentar novamente todas as transferências."
+msgstr "%s detectou que está actualmente ligado à Internet.\nA actualizar todos os projectos e a tentar novamente todas as transferências."
 
 #: clientgui/BOINCDialupManager.cpp:417
 #, c-format
 msgid "%s has successfully disconnected from the Internet."
-msgstr "%s desconectou-se com sucesso da Internet."
+msgstr "%s desligou-se com sucesso da Internet."
 
 #: clientgui/BOINCDialupManager.cpp:433
 #, c-format
 msgid "%s failed to disconnected from the Internet."
-msgstr "%s falhou ao disconectar-se da Internet."
+msgstr "%s falhou ao desligar-se da Internet."
 
 #: clientgui/BOINCGUIApp.cpp:597
 #, c-format
@@ -794,7 +794,7 @@ msgid ""
 " or\n"
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
-msgstr "Não está autorizado a gerir o cliente.\n\nPara executar %s como este utilizador, por favor:\n  - reinstale %s respondendo \"Sim\" à questão acerca de\n    utilizadores não administrativos\nou\n  - contacte o seu administrador para o adicionar ao  grupo de utilizadores\n    'boinc_master'."
+msgstr "Não está autorizado de momento a gerir o cliente.\n\nPara executar o %s com este utilizador, por favor:\n  - reinstale o %s respondendo \"Sim\" à questão sobre\n    utilizadores não administrativos\nou\n  - contacte o seu administrador para o adicionar ao  grupo de utilizadores 'boinc_master'."
 
 #: clientgui/BOINCGUIApp.cpp:603
 #, c-format
@@ -819,11 +819,11 @@ msgstr "É necessário que reinicie o computador para que o BOINC seja executado
 
 #: clientgui/BOINCGUIApp.cpp:643
 msgid "BOINC Manager"
-msgstr "Gestor do BOINC"
+msgstr "BOINC Manager"
 
 #: clientgui/BOINCGUIApp.cpp:904
 msgid "BOINC Manager was started by the operating system automatically"
-msgstr "O Gestor do BOINC foi iniciado pelo sistema operativo automaticamente"
+msgstr "O BOINC Manager foi iniciado pelo sistema operativo automaticamente"
 
 #: clientgui/BOINCGUIApp.cpp:906
 msgid "Startup BOINC so only the system tray icon is visible"
@@ -863,11 +863,11 @@ msgstr "iniciar o modo de depuração para habilitar o gestor de mensagens de er
 
 #: clientgui/BOINCGUIApp.cpp:917
 msgid "multiple instances of BOINC Manager allowed"
-msgstr "multiplas instâncias do Gestor do BOINC permitidas"
+msgstr "multiplas instâncias do BOINC Manager permitidas"
 
 #: clientgui/BOINCGUIApp.cpp:919
 msgid "Not used: workaround for bug in XCode 4.2"
-msgstr "Não usado: solução para o bug no XCode 4.2"
+msgstr "Não utilizado: solução alternativa para esse bug no XCode 4.2"
 
 #: clientgui/BOINCGUIApp.cpp:1166
 msgid "(Automatic Detection)"
@@ -939,11 +939,11 @@ msgstr "Actividade de rede está suspensa - "
 
 #: clientgui/BOINCTaskBar.cpp:764
 msgid "Reconnecting to client."
-msgstr "A reconectar-se ao cliente."
+msgstr "Ligando novamente ao cliente."
 
 #: clientgui/BOINCTaskBar.cpp:766
 msgid "Not connected to a client."
-msgstr "Não conectado ao cliente."
+msgstr "Não ligado ao cliente."
 
 #: clientgui/BOINCTaskBar.cpp:819
 #, c-format
@@ -1117,7 +1117,7 @@ msgstr "Utilizando preferências web de"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:102
 msgid "Set values and click OK to use local preferences instead."
-msgstr "Defina valores e clique em OK para usar preferências locais."
+msgstr "Defina valores e clique em OK para utilizar as preferências locais."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:111
 msgid ""
@@ -1242,7 +1242,7 @@ msgstr "Seleccione aqui para suspender a computação e transferência de fichei
 
 #: clientgui/DlgAdvPreferencesBase.cpp:294
 msgid "Suspend GPU computing when computer is in use"
-msgstr "Suspender computação da GPU quando o computador estiver em utilização"
+msgstr "Suspende computação da GPU quando o computador está a ser utilizado"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:297
 msgid "Check this to suspend GPU computing when you're using the computer."
@@ -1315,7 +1315,7 @@ msgstr "Isto controla com que frequência as tarefas guardam no disco o seu esta
 
 #: clientgui/DlgAdvPreferencesBase.cpp:392
 msgid "Request tasks to checkpoint at most every"
-msgstr "Solicitar às tarefas que criem um checkpoint no máximo a cada"
+msgstr "Pedir às tarefas que criem um checkpoint no máximo a cada"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:396
 msgid "seconds"
@@ -1372,16 +1372,16 @@ msgstr "Saltar verificação de dados para imagens"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:485
 msgid "Confirm before connecting to Internet"
-msgstr "Confirmar antes de se conectar à Internet"
+msgstr "Confirmar antes de se ligar à Internet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:486
 #: clientgui/DlgAdvPreferencesBase.cpp:490
 msgid "Useful only if you have a modem, ISDN or VPN connection."
-msgstr "Útil apenas se tiver um modem, ISDN ou conexão VPN."
+msgstr "Útil apenas se tiver um modem, ISDN ou uma conexão VPN."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:489
 msgid "Disconnect when done"
-msgstr "Disconectar quando terminado"
+msgstr "Desligar quando terminado"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:516
 msgid "Disk"
@@ -1456,7 +1456,7 @@ msgstr "%"
 #: clientgui/DlgAdvPreferencesBase.cpp:584
 #, c-format
 msgid "Limit the memory used by %s when you're not using the computer."
-msgstr "Limitar a utilização de memória por %s quando não estiver a utilizar o computador."
+msgstr "Limitar a utilização de memória pelo %s quando não estiver a utilizar o computador."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:586
 msgid "When computer is not in use, use at most"
@@ -1737,7 +1737,7 @@ msgid ""
 "\n"
 "If you also want to stop running the tasks,\n"
 "choose from the following options:"
-msgstr "Solicitou a saída do %s,\nque lhe permite ver e gerir as tarefas\nem execução no seu computador.\n\nSe também quer parar as tarefas em execução,\nescolha uma das seguintes opções:"
+msgstr "Pediu para terminar o %s,\nque lhe permite ver e gerir as tarefas\nem execução no seu computador.\n\nSe também quer parar as tarefas em execução,\nescolha uma das seguintes opções:"
 
 #: clientgui/DlgExitMessage.cpp:135
 #, c-format
@@ -1882,7 +1882,7 @@ msgstr "não"
 
 #: clientgui/DlgItemProperties.cpp:263
 msgid "Don't request more work"
-msgstr "Não solicitar mais trabalhos "
+msgstr "Não pedir mais trabalhos "
 
 #: clientgui/DlgItemProperties.cpp:265
 msgid "Scheduler call in progress"
@@ -2030,11 +2030,11 @@ msgstr "Linguagem:"
 
 #: clientgui/DlgOptions.cpp:185
 msgid "What language should BOINC use?"
-msgstr "Que idioma deve o BOINC usar?"
+msgstr "Que idioma deve o BOINC utilizar?"
 
 #: clientgui/DlgOptions.cpp:189
 msgid "Notice reminder interval:"
-msgstr "Lembrete de intervalo de noticias:"
+msgstr "Intervalo de advertência de noticias:"
 
 #: clientgui/DlgOptions.cpp:196
 msgid "How often should BOINC remind you of new notices?"
@@ -2046,7 +2046,7 @@ msgstr "Executar o Gestor no login?"
 
 #: clientgui/DlgOptions.cpp:207
 msgid "Run the BOINC Manager when you log on."
-msgstr "Executar o Gestor do BOINC quando se logar."
+msgstr "Executar o BOINC Manager quando se liga"
 
 #: clientgui/DlgOptions.cpp:212
 msgid "Enable Manager exit dialog?"
@@ -2070,15 +2070,15 @@ msgstr "&Limpar Predefinido"
 
 #: clientgui/DlgOptions.cpp:255
 msgid "Default Connection:"
-msgstr "Conexão Predefinida:"
+msgstr "Ligação Predefinida:"
 
 #: clientgui/DlgOptions.cpp:262
 msgid "Connections"
-msgstr "Conexões"
+msgstr "Ligações"
 
 #: clientgui/DlgOptions.cpp:271
 msgid "Connect via HTTP proxy server"
-msgstr "Conectar através do servidor HTTP proxy"
+msgstr "Ligar através de servidor HTTP proxy"
 
 #: clientgui/DlgOptions.cpp:275
 msgid "HTTP Proxy Server Configuration"
@@ -2115,7 +2115,7 @@ msgstr "HTTP Proxy"
 
 #: clientgui/DlgOptions.cpp:335
 msgid "Connect via SOCKS proxy server"
-msgstr "Conectar através de servidor SOCKS proxy"
+msgstr "Ligar através de servidor SOCKS proxy"
 
 #: clientgui/DlgOptions.cpp:339
 msgid "SOCKS Proxy Server Configuration"
@@ -2369,7 +2369,7 @@ msgstr "A iniciar cliente"
 
 #: clientgui/MainDocument.cpp:591
 msgid "Connecting to client"
-msgstr "A conectar-se ao cliente"
+msgstr "Ligando-se ao cliente"
 
 #: clientgui/MainDocument.cpp:1205
 msgid "Retrieving system state; please wait..."
@@ -2395,7 +2395,7 @@ msgstr "computador em utilização"
 
 #: clientgui/MainDocument.cpp:2444
 msgid "user request"
-msgstr "solicitação do utilizador"
+msgstr "pedido do utilizador"
 
 #: clientgui/MainDocument.cpp:2445
 msgid "time of day"
@@ -2431,7 +2431,7 @@ msgstr "limite de largura de banda excedido"
 
 #: clientgui/MainDocument.cpp:2453
 msgid "requested by operating system"
-msgstr "solicitado pelo sistema operativo"
+msgstr "pedido pelo sistema operativo"
 
 #: clientgui/MainDocument.cpp:2455
 msgid "unknown reason"
@@ -2568,7 +2568,7 @@ msgstr "Sem ligação à Internet"
 
 #: clientgui/NoInternetConnectionPage.cpp:182
 msgid "Please connect to the Internet and try again."
-msgstr "Por favor conecte-se à Internet e tente novamente."
+msgstr "Por favor ligue-se à Internet e tente novamente."
 
 #: clientgui/NotDetectedPage.cpp:181
 msgid "Project not found"
@@ -2591,7 +2591,7 @@ msgid ""
 "manager.\n"
 "\n"
 "Please check the URL and try again."
-msgstr "O URL que forneceu não é de uma conta com base no\nGestor BOINC.\n\nPor favor, verifique o URL e tente novamente."
+msgstr "O URL que forneceu não é de uma conta baseada no\nBOINC Manager.\n\nPor favor, verifique o URL e tente novamente."
 
 #: clientgui/NotFoundPage.cpp:181
 msgid "Login Failed."
@@ -2615,7 +2615,7 @@ msgstr "Escolha o projecto"
 
 #: clientgui/ProjectInfoPage.cpp:226
 msgid "To choose a project, click its name or type its URL below."
-msgstr "Para escolher o projecto, carregue nele ou escreva o URL em baixo."
+msgstr "Para escolher o projecto, clique nele ou escreva o URL em baixo."
 
 #: clientgui/ProjectInfoPage.cpp:242
 msgid "Categories:"
@@ -2741,7 +2741,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr "The World Community Grid - O software BOINC falhou ao realizar a comunicação\nà Internet. As razões mais prováveis são:\n\n1) Problemas de conectividade. Verifique a sua conexão à rede ou o modem,\ndepois clique em voltar Atrás e tente novamente.\n\n2) Software da firewall pessoal está a bloquear o World Community\nGrid - Software BOINC. Configure a sua firewall pessoal para permitir que o\nBOINC e o Gestor do BOINC comunique na porta 80 e na porta 443,\ndepois clique em voltar atrás e tente novamente.\n\n3) Está a utilizar um servidor de proxy.\nClique em Próximo para configurar as definições de proxy do BOINC."
+msgstr "The World Community Grid - O software BOINC falhou ao efectuar a comunicação\nà Internet. As razões mais prováveis são:\n\n1) Problemas de conectividade. Verifique a sua ligação à rede ou o modem,\ndepois clique em voltar Atrás e tente novamente.\n\n2) Software da firewall pessoal está a bloquear o World Community\nGrid - Software BOINC. Configure a sua firewall pessoal para permitir que o\nBOINC e o BOINC Manager comunique na porta 80 e na porta 443,\ndepois clique em voltar atrás e tente novamente.\n\n3) Está a utilizar um servidor de proxy.\nClique em Próximo para configurar as definições de proxy do BOINC."
 
 #: clientgui/ProxyInfoPage.cpp:203
 msgid ""
@@ -2758,7 +2758,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr "O BOINC falhou ao realizar a comunicação à Internet.\nAs razões mais prováveis são:\n\n1) Problemas de conectividade. Verifique a rede\nou a conexão ao modem e depois clique em Voltar Atrás e tente novamente.\n\n2) Software da firewall pessoal está a bloquear o BOINC.\nConfigure a sua firewall pessoal para permitir o BOINC e\no Gestor do BOINC comunicar na porta 80,\ndepois clique em Voltar Atrás e tente novamente.\n\n3) Está a utilizar um servidor de proxy.\nClique em Próximo para configurar as definições de proxy do BOINC."
+msgstr "O BOINC falhou ao efectuar a comunicação à Internet.\nAs razões mais prováveis são:\n\n1) Problemas de conectividade. Verifique a rede\nou a ligação ao modem e depois clique em Voltar Atrás e tente novamente.\n\n2) Software da firewall pessoal está a bloquear o BOINC.\nConfigure a sua firewall pessoal para permitir o BOINC e\no BOINC Manager comunicar na porta 80,\ndepois clique em Voltar Atrás e tente novamente.\n\n3) Está a utilizar um servidor de proxy.\nClique em Próximo para configurar as definições de proxy do BOINC."
 
 #: clientgui/ProxyPage.cpp:331
 msgid "Proxy configuration"
@@ -3152,7 +3152,7 @@ msgstr "Sem trabalhos disponíveis para processar"
 
 #: clientgui/sg_TaskPanel.cpp:1263
 msgid "Unable to connect to the core client"
-msgstr "Incapaz de se conectar ao core do cliente"
+msgstr "Não foi possível ligar ao cliente de core"
 
 #: clientgui/TermsOfUsePage.cpp:218
 msgid "Terms of Use"
@@ -3164,11 +3164,11 @@ msgstr "Por favor, leia os seguintes termos de uso:"
 
 #: clientgui/TermsOfUsePage.cpp:231
 msgid "I agree to the terms of use."
-msgstr "Eu concordo com os termos de uso."
+msgstr "Concordo com os termos de uso."
 
 #: clientgui/TermsOfUsePage.cpp:237
 msgid "I do not agree to the terms of use."
-msgstr "Eu não concordo com os termos de utilização."
+msgstr "Não concordo com os termos de utilização."
 
 #: clientgui/UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
@@ -3346,7 +3346,7 @@ msgstr "A lançar o navegador..."
 
 #: clientgui/ViewProjects.cpp:1140
 msgid "Requested by user"
-msgstr "Solicitado pelo utilizador"
+msgstr "Pedido pelo utilizador"
 
 #: clientgui/ViewProjects.cpp:1141
 msgid "To fetch work"
@@ -3362,7 +3362,7 @@ msgstr "Para enviar mensagem de aviso"
 
 #: clientgui/ViewProjects.cpp:1144
 msgid "Requested by account manager"
-msgstr "Solicitado pelo gestor de conta"
+msgstr "Pedido pelo gestor de conta"
 
 #: clientgui/ViewProjects.cpp:1145
 msgid "Project initialization"
@@ -3370,7 +3370,7 @@ msgstr "Inicialização do projecto"
 
 #: clientgui/ViewProjects.cpp:1146
 msgid "Requested by project"
-msgstr "Solicitado pelo projecto"
+msgstr "Pedido pelo projecto"
 
 #: clientgui/ViewProjects.cpp:1147
 msgid "Unknown reason"
@@ -3394,11 +3394,11 @@ msgstr "Irá remover quando as tarefas concluirem"
 
 #: clientgui/ViewProjects.cpp:1173
 msgid "Scheduler request pending"
-msgstr "Solicitação de agendamento pendente"
+msgstr "Pedido de agendamento pendente"
 
 #: clientgui/ViewProjects.cpp:1179
 msgid "Scheduler request in progress"
-msgstr "Solicitação de agendamento em progresso"
+msgstr "Pedido de agendamento em progresso"
 
 #: clientgui/ViewProjects.cpp:1182
 msgid "Trickle up message pending"
@@ -3571,7 +3571,7 @@ msgstr "Mostrar lista de projectos"
 
 #: clientgui/ViewStatistics.cpp:2394
 msgid "Uses smaller area for graphs"
-msgstr "Usar área mais pequena para os gráficos"
+msgstr "Utiliza uma área menor para os gráficos"
 
 #: clientgui/ViewTransfers.cpp:187
 msgid "Retry Now"
@@ -3761,7 +3761,7 @@ msgstr "Adicionar projecto ou gestor de conta"
 
 #: clientgui/WelcomePage.cpp:288
 msgid "Add project or use BOINC Account Manager"
-msgstr "Adicionar projecto ou utilizar um Gestor de Contas BOINC"
+msgstr "Adicione projecto ou utilize um Gestor de Contas BOINC"
 
 #: clientgui/WelcomePage.cpp:297
 #, c-format
@@ -3780,7 +3780,7 @@ msgid ""
 "and you can volunteer for as many of them as you like.\n"
 "You can add a project directly,\n"
 "or use an 'Account Manager' web site to select projects."
-msgstr "Existem mais de 30 projectos com base no BOINC\na realizar pesquisas em várias áreas da ciência,\ne você pode-se voluntariar para tantos quanto quiser.\nPode adicionar um projecto directamente,\nou usar o website de um 'Gestor de Conta' para seleccionar projectos."
+msgstr "Existem mais de 30 projectos baseados no BOINC\na realizar pesquisas em várias áreas da ciência,\ne você pode voluntariar-se para tantos quanto quiser.\nPode adicionar um projecto directamente,\nou utilizar o website de um 'Gestor de Conta' para seleccionar projectos."
 
 #: clientgui/WelcomePage.cpp:325
 msgid ""
@@ -3799,7 +3799,7 @@ msgstr "Escolheu adicionar um novo projecto de computação voluntária ou alter
 
 #: clientgui/WelcomePage.cpp:339
 msgid "Use a BOINC Account Manager"
-msgstr "Usar um Gestor de Conta BOINC"
+msgstr "Utilize um Gestor de Conta BOINC"
 
 #: clientgui/WelcomePage.cpp:358
 msgid "Add or change your World Community Grid projects"
