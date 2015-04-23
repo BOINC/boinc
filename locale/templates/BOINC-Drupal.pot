@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-04-22 14:08+0000\n"
+"POT-Creation-Date: 2015-04-23 08:59+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -12,280 +12,6 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-
-#:  
-msgid "The latest news from the @site_name project"
-msgstr ""
-
-#:  
-msgid "Comment form"
-msgstr ""
-
-#:  
-msgid "Total credits"
-msgstr ""
-
-#:  
-msgid "Recent avg credits"
-msgstr ""
-
-#:  
-msgid "Search teams"
-msgstr ""
-
-#:  
-msgid "No active computers"
-msgstr ""
-
-#:  
-msgid "This user has no computers that have been active in the last 30 days."
-msgstr ""
-
-#:  
-msgid " Default value: @default"
-msgstr ""
-
-#:  
-msgid "Message @id"
-msgstr ""
-
-#:  
-msgid "message @id"
-msgstr ""
-
-#:  
-msgid " in response to !parent"
-msgstr ""
-
-#:  
-msgid "Credits per day"
-msgstr ""
-
-#:  
-msgid "This user has chosen not to show information about their computers."
-msgstr ""
-
-#:  
-msgid "@time ago"
-msgstr ""
-
-#:  
-msgid "n/a"
-msgstr ""
-
-#:  
-msgid "Submitted by !username on !datetime"
-msgstr ""
-
-#:  
-msgid "Member since"
-msgstr ""
-
-#:  
-msgid "View team"
-msgstr ""
-
-#:  
-msgid "Friends (@count)"
-msgstr ""
-
-#:  
-msgid "Website"
-msgstr ""
-
-#:  
-msgid "Locked"
-msgstr ""
-
-#:  
-msgid "Computers pending"
-msgstr ""
-
-#:  
-msgid ""
-"This user does not yet have any associated computers. Computers will "
-"be displayed when they have earned their first credits."
-msgstr ""
-
-#:  
-msgid "No results found..."
-msgstr ""
-
-#:  
-msgid "Background"
-msgstr ""
-
-#:  
-msgid ""
-"@project participants may form teams. You may belong to only one team. "
-"You can join or quit a team at any time. To join a team, visit its "
-"team page and click \"Join this team\". Each team has a founder who "
-"may:"
-msgstr ""
-
-#:  
-msgid ""
-"If you cannot find a team that is right for you, you can create a "
-"team."
-msgstr ""
-
-#:  
-msgid "You must earn @count more credits!"
-msgstr ""
-
-#:  
-msgid "Manage subscriptions"
-msgstr ""
-
-#:  
-msgid "Featured"
-msgstr ""
-
-#:  
-msgid "Submitted on !datetime"
-msgstr ""
-
-#:  
-msgid "Comments"
-msgstr ""
-
-#:  
-msgid "Opinion"
-msgstr ""
-
-#:  
-msgid "More"
-msgstr ""
-
-#:  
-msgid "Generic"
-msgstr ""
-
-#:  
-msgid "Presets"
-msgstr ""
-
-#:  
-msgid "Standard"
-msgstr ""
-
-#:  
-msgid "Maximum"
-msgstr ""
-
-#:  
-msgid "Minimum"
-msgstr ""
-
-#:  
-msgid "Custom"
-msgstr ""
-
-#:  
-msgid "Update preset"
-msgstr ""
-
-#:  
-msgid "Advanced settings"
-msgstr ""
-
-#:  
-msgid "Run while computer is on battery power?"
-msgstr ""
-
-#:  
-msgid "Only applies to portable computers"
-msgstr ""
-
-#:  
-msgid "Run while computer is in use?"
-msgstr ""
-
-#:  
-msgid "Run GPU work while computer is in use?"
-msgstr ""
-
-#:  
-msgid "Enforced by version @number"
-msgstr ""
-
-#:  
-msgid "\"In use\" means mouse/keyboard activity in last"
-msgstr ""
-
-#:  
-msgid "Suspend work if no mouse/keyboard activity in last"
-msgstr ""
-
-#:  
-msgid "Needed to enter low-power mode on some computers"
-msgstr ""
-
-#:  
-msgid "Suspend work if CPU usage is above"
-msgstr ""
-
-#:  
-msgid "0 means no restriction. Enforced by version @number"
-msgstr ""
-
-#:  
-msgid "Do work only between the hours of:"
-msgstr ""
-
-#:  
-msgid "No restriction if equal"
-msgstr ""
-
-#:  
-msgid "Leave tasks in memory while suspended?"
-msgstr ""
-
-#:  
-msgid "Suspended tasks will consume swap space if \"yes\""
-msgstr ""
-
-#:  
-msgid "Recommended: @period minutes"
-msgstr ""
-
-#:  
-msgid "Set to 0 for no limit"
-msgstr ""
-
-#:  
-msgid "% of the CPU time"
-msgstr ""
-
-#:  
-msgid "Can be used to reduce CPU heat"
-msgstr ""
-
-#:  
-msgid "Disk: leave free at least"
-msgstr ""
-
-#:  
-msgid "Values smaller than @number are ignored"
-msgstr ""
-
-#:  
-msgid "Computer is connected to the Internet about every"
-msgstr ""
-
-#:  
-msgid ""
-"Leave blank or 0 if always connected. @project will try to maintain at "
-"least this much work."
-msgstr ""
-
-#:  
-msgid "Maintain enough work for an additional"
-msgstr ""
-
-#:  
-msgid "Confirm before connecting to Internet?"
-msgstr ""
 
 #:  
 msgid "Matters only if you have a modem, ISDN, or VPN connection"
@@ -403,17 +129,9 @@ msgid "There are no tasks of this type on record"
 msgstr ""
 
 #:  
-msgid "Clear"
-msgstr ""
-
-#:  
 msgid ""
 "This will remove all of your settings from the @name preference set. "
 "Are you sure?"
-msgstr ""
-
-#:  
-msgid "These apply to all BOINC projects in which you participate."
 msgstr ""
 
 #:  
@@ -427,29 +145,13 @@ msgid "Preferences last modified: @mod_time"
 msgstr ""
 
 #:  
-msgid "Combined preferences"
-msgstr ""
-
-#:  
 msgid "Switch View"
-msgstr ""
-
-#:  
-msgid "every"
-msgstr ""
-
-#:  
-msgid "Edit"
 msgstr ""
 
 #:  
 msgid ""
 "This will remove all of your settings from the \"@name\" preference "
 "set. Are you sure?"
-msgstr ""
-
-#:  
-msgid "Add"
 msgstr ""
 
 #:  
@@ -512,10 +214,6 @@ msgid "This is not available until your profile is set up."
 msgstr ""
 
 #:  
-msgid "Create a profile"
-msgstr ""
-
-#:  
 msgid "Upload an avatar"
 msgstr ""
 
@@ -533,10 +231,6 @@ msgstr ""
 
 #:  
 msgid "Sort comments in discussions"
-msgstr ""
-
-#:  
-msgid "Newest post first"
 msgstr ""
 
 #:  
@@ -568,23 +262,11 @@ msgid "Should @project show your computers on its web site?"
 msgstr ""
 
 #:  
-msgid "Hide"
-msgstr ""
-
-#:  
 msgid "Hide this topic"
 msgstr ""
 
 #:  
-msgid "Lock"
-msgstr ""
-
-#:  
 msgid "Lock this thread for comments"
-msgstr ""
-
-#:  
-msgid "Make sticky"
 msgstr ""
 
 #:  
@@ -604,27 +286,11 @@ msgid "You must earn 1 more credit!"
 msgstr ""
 
 #:  
-msgid "Joined"
-msgstr ""
-
-#:  
-msgid "Credit"
-msgstr ""
-
-#:  
 msgid "RAC"
 msgstr ""
 
 #:  
-msgid "Join team"
-msgstr ""
-
-#:  
 msgid "Click here to become a member of @this_team"
-msgstr ""
-
-#:  
-msgid "Join this team"
 msgstr ""
 
 #:  
@@ -656,23 +322,7 @@ msgid "Create or manage message board"
 msgstr ""
 
 #:  
-msgid "Remove members"
-msgstr ""
-
-#:  
-msgid "Change founder"
-msgstr ""
-
-#:  
 msgid "Manage team admins"
-msgstr ""
-
-#:  
-msgid "Edit team info"
-msgstr ""
-
-#:  
-msgid "Remove team"
 msgstr ""
 
 #:  
@@ -717,10 +367,6 @@ msgstr ""
 
 #:  
 msgid "Seconds"
-msgstr ""
-
-#:  
-msgid "Minimum total credit to post"
 msgstr ""
 
 #:  
@@ -836,10 +482,6 @@ msgid "Team admins cannot:"
 msgstr ""
 
 #:  
-msgid "Change the team founder"
-msgstr ""
-
-#:  
 msgid "Add / Remove team admins"
 msgstr ""
 
@@ -851,10 +493,6 @@ msgstr ""
 
 #:  
 msgid "Choose type"
-msgstr ""
-
-#:  
-msgid "Team name"
 msgstr ""
 
 #:  
@@ -874,23 +512,7 @@ msgid "Displayed on the team's page"
 msgstr ""
 
 #:  
-msgid "Type of team"
-msgstr ""
-
-#:  
-msgid "Accept new members?"
-msgstr ""
-
-#:  
-msgid "Description of team"
-msgstr ""
-
-#:  
 msgid "Create new team"
-msgstr ""
-
-#:  
-msgid "Create a team"
 msgstr ""
 
 #:  
@@ -917,6 +539,462 @@ msgstr ""
 
 #:  
 msgid "Post new topic"
+msgstr ""
+
+#:  
+msgid "Unpublished"
+msgstr ""
+
+#:  
+msgid "parent removed"
+msgstr ""
+
+#:  
+msgid "Sorry, unrecognized email address or password."
+msgstr ""
+
+#:  
+msgid "Have you forgotten your password?"
+msgstr ""
+
+#:  
+msgid "Id"
+msgstr ""
+
+#:  
+msgid "Recent average credit"
+msgstr ""
+
+#:  
+msgid "Members"
+msgstr ""
+
+#:  
+msgid "Total Credit"
+msgstr ""
+
+#:  
+msgid "User ID"
+msgstr ""
+
+#:  
+msgid "User"
+msgstr ""
+
+#:  
+msgid "Admin since"
+msgstr ""
+
+#:  
+msgid "Team ID"
+msgstr ""
+
+#:  
+msgid "User joined"
+msgstr ""
+
+#:  
+msgid "Timestamp"
+msgstr ""
+
+#:  
+msgid "Account Key"
+msgstr ""
+
+#:  
+msgid "CPID"
+msgstr ""
+
+#:  
+msgid "Email Address"
+msgstr ""
+
+#:  
+msgid "Password Hash"
+msgstr ""
+
+#:  
+msgid "Postal Code"
+msgstr ""
+
+#:  
+msgid "Send Email"
+msgstr ""
+
+#:  
+msgid "Show Hosts"
+msgstr ""
+
+#:  
+msgid "URL"
+msgstr ""
+
+#:  
+msgid "Computer ID"
+msgstr ""
+
+#:  
+msgid "Location"
+msgstr ""
+
+#:  
+msgid "While BOINC running, % of time work is allowed"
+msgstr ""
+
+#:  
+msgid "Average turnaround time"
+msgstr ""
+
+#:  
+msgid "Created"
+msgstr ""
+
+#:  
+msgid "While BOINC running, % of time host has an Internet connection"
+msgstr ""
+
+#:  
+msgid "Average CPU efficiency"
+msgstr ""
+
+#:  
+msgid "Free disk space"
+msgstr ""
+
+#:  
+msgid "Total disk space"
+msgstr ""
+
+#:  
+msgid "Task duration correction factor"
+msgstr ""
+
+#:  
+msgid "Avg. credit"
+msgstr ""
+
+#:  
+msgid "External IP address"
+msgstr ""
+
+#:  
+msgid "Cross project ID"
+msgstr ""
+
+#:  
+msgid "Last IP address"
+msgstr ""
+
+#:  
+msgid "Cache"
+msgstr ""
+
+#:  
+msgid "Memory"
+msgstr ""
+
+#:  
+msgid "Swap space"
+msgstr ""
+
+#:  
+msgid "Maximum daily WU quota per CPU"
+msgstr ""
+
+#:  
+msgid "Average download rate"
+msgstr ""
+
+#:  
+msgid "Average upload rate"
+msgstr ""
+
+#:  
+msgid "Same IP address count"
+msgstr ""
+
+#:  
+msgid "% of time BOINC client is running"
+msgstr ""
+
+#:  
+msgid "Operating system"
+msgstr ""
+
+#:  
+msgid "Operating system version"
+msgstr ""
+
+#:  
+msgid "Measured floating point speed"
+msgstr ""
+
+#:  
+msgid "Measured integer speed"
+msgstr ""
+
+#:  
+msgid "CPU model"
+msgstr ""
+
+#:  
+msgid "Number of processors"
+msgstr ""
+
+#:  
+msgid "CPU"
+msgstr ""
+
+#:  
+msgid "Number of times client has contacted server"
+msgstr ""
+
+#:  
+msgid "Last contact"
+msgstr ""
+
+#:  
+msgid "Serial number"
+msgstr ""
+
+#:  
+msgid "Timezone"
+msgstr ""
+
+#:  
+msgid "Platform ID"
+msgstr ""
+
+#:  
+msgid "Task ID"
+msgstr ""
+
+#:  
+msgid "Workunit ID"
+msgstr ""
+
+#:  
+msgid "Host ID"
+msgstr ""
+
+#:  
+msgid "Application ID"
+msgstr ""
+
+#:  
+msgid "Application version"
+msgstr ""
+
+#:  
+msgid "Claimed credit"
+msgstr ""
+
+#:  
+msgid "Client state"
+msgstr ""
+
+#:  
+msgid "CPU time"
+msgstr ""
+
+#:  
+msgid "Run time"
+msgstr ""
+
+#:  
+msgid "Exit status"
+msgstr ""
+
+#:  
+msgid "Granted credit"
+msgstr ""
+
+#:  
+msgid "Outcome"
+msgstr ""
+
+#:  
+msgid "Received time"
+msgstr ""
+
+#:  
+msgid "Report deadline"
+msgstr ""
+
+#:  
+msgid "Sent"
+msgstr ""
+
+#:  
+msgid "Server state"
+msgstr ""
+
+#:  
+msgid "Stderr out"
+msgstr ""
+
+#:  
+msgid "Validation state"
+msgstr ""
+
+#:  
+msgid "App ID"
+msgstr ""
+
+#:  
+msgid "Canonical credit"
+msgstr ""
+
+#:  
+msgid "Canonical result ID"
+msgstr ""
+
+#:  
+msgid "Created time"
+msgstr ""
+
+#:  
+msgid "Error mask"
+msgstr ""
+
+#:  
+msgid "Minimum quorum"
+msgstr ""
+
+#:  
+msgid "Max error tasks"
+msgstr ""
+
+#:  
+msgid "Max success tasks"
+msgstr ""
+
+#:  
+msgid "Max total tasks"
+msgstr ""
+
+#:  
+msgid "Needs validation"
+msgstr ""
+
+#:  
+msgid "Initial replication"
+msgstr ""
+
+#:  
+msgid "Target number of results"
+msgstr ""
+
+#:  
+msgid "Application version ID"
+msgstr ""
+
+#:  
+msgid "Plan class"
+msgstr ""
+
+#:  
+msgid "Version number"
+msgstr ""
+
+#:  
+msgid "Computer"
+msgstr ""
+
+#:  
+msgid "App version ID"
+msgstr ""
+
+#:  
+msgid "Consecutive valid tasks"
+msgstr ""
+
+#:  
+msgid "Number of tasks completed"
+msgstr ""
+
+#:  
+msgid "Max tasks per day"
+msgstr ""
+
+#:  
+msgid "Number of tasks today"
+msgstr ""
+
+#:  
+msgid "Show IP address"
+msgstr ""
+
+#:  
+msgid "hours"
+msgstr ""
+
+#:  
+msgid "@count million ops/sec"
+msgstr ""
+
+#:  
+msgid "@rate KiB/sec"
+msgstr ""
+
+#:  
+msgid "@count days"
+msgstr ""
+
+#:  
+msgid "Remove friend"
+msgstr ""
+
+#:  
+msgid "Ban user"
+msgstr ""
+
+#:  
+msgid "Add as friend"
+msgstr ""
+
+#:  
+msgid "Team"
+msgstr ""
+
+#:  
+msgid "Reply"
+msgstr ""
+
+#:  
+msgid "Reply to this comment"
+msgstr ""
+
+#:  
+msgid "Quote"
+msgstr ""
+
+#:  
+msgid "Reply to this comment with quote"
+msgstr ""
+
+#:  
+msgid "Edit this comment"
+msgstr ""
+
+#:  
+msgid "Delete this comment"
+msgstr ""
+
+#:  
+msgid "Hide this comment"
+msgstr ""
+
+#:  
+msgid "Convert"
+msgstr ""
+
+#:  
+msgid "Convert this comment to a new topic"
+msgstr ""
+
+#:  
+msgid "Details"
 msgstr ""
 
 #:  
@@ -1129,6 +1207,22 @@ msgid "OK"
 msgstr ""
 
 #:  
+msgid "The latest news from the @site_name project"
+msgstr ""
+
+#:  
+msgid "Comment form"
+msgstr ""
+
+#:  
+msgid "Total credits"
+msgstr ""
+
+#:  
+msgid "Recent avg credits"
+msgstr ""
+
+#:  
 msgid "Country"
 msgstr ""
 
@@ -1161,6 +1255,10 @@ msgid "Description"
 msgstr ""
 
 #:  
+msgid "Search teams"
+msgstr ""
+
+#:  
 msgid "Send message"
 msgstr ""
 
@@ -1177,6 +1275,18 @@ msgid "Web site"
 msgstr ""
 
 #:  
+msgid "No active computers"
+msgstr ""
+
+#:  
+msgid "This user has no computers that have been active in the last 30 days."
+msgstr ""
+
+#:  
+msgid " Default value: @default"
+msgstr ""
+
+#:  
 msgid "Applications"
 msgstr ""
 
@@ -1189,7 +1299,27 @@ msgid "no"
 msgstr ""
 
 #:  
+msgid "Message @id"
+msgstr ""
+
+#:  
+msgid "message @id"
+msgstr ""
+
+#:  
+msgid " in response to !parent"
+msgstr ""
+
+#:  
+msgid "Credits per day"
+msgstr ""
+
+#:  
 msgid "Computers hidden"
+msgstr ""
+
+#:  
+msgid "This user has chosen not to show information about their computers."
 msgstr ""
 
 #:  
@@ -1197,7 +1327,65 @@ msgid "Stderr output"
 msgstr ""
 
 #:  
+msgid "@time ago"
+msgstr ""
+
+#:  
+msgid "n/a"
+msgstr ""
+
+#:  
+msgid "Submitted by !username on !datetime"
+msgstr ""
+
+#:  
+msgid "Member since"
+msgstr ""
+
+#:  
+msgid "View team"
+msgstr ""
+
+#:  
+msgid "Friends (@count)"
+msgstr ""
+
+#:  
+msgid "Website"
+msgstr ""
+
+#:  
+msgid "Locked"
+msgstr ""
+
+#:  
+msgid "Computers pending"
+msgstr ""
+
+#:  
+msgid ""
+"This user does not yet have any associated computers. Computers will "
+"be displayed when they have earned their first credits."
+msgstr ""
+
+#:  
+msgid "No results found..."
+msgstr ""
+
+#:  
+msgid "Background"
+msgstr ""
+
+#:  
 msgid "Teams"
+msgstr ""
+
+#:  
+msgid ""
+"@project participants may form teams. You may belong to only one team. "
+"You can join or quit a team at any time. To join a team, visit its "
+"team page and click \"Join this team\". Each team has a founder who "
+"may:"
 msgstr ""
 
 #:  
@@ -1225,6 +1413,16 @@ msgid "Create a new team"
 msgstr ""
 
 #:  
+msgid ""
+"If you cannot find a team that is right for you, you can create a "
+"team."
+msgstr ""
+
+#:  
+msgid "You must earn @count more credits!"
+msgstr ""
+
+#:  
 msgid "Threads"
 msgstr ""
 
@@ -1237,7 +1435,35 @@ msgid "Last post"
 msgstr ""
 
 #:  
+msgid "Manage subscriptions"
+msgstr ""
+
+#:  
+msgid "Featured"
+msgstr ""
+
+#:  
+msgid "Submitted on !datetime"
+msgstr ""
+
+#:  
+msgid "Comments"
+msgstr ""
+
+#:  
+msgid "Opinion"
+msgstr ""
+
+#:  
+msgid "More"
+msgstr ""
+
+#:  
 msgid "Tasks"
+msgstr ""
+
+#:  
+msgid "Generic"
 msgstr ""
 
 #:  
@@ -1249,7 +1475,35 @@ msgid "School"
 msgstr ""
 
 #:  
+msgid "Presets"
+msgstr ""
+
+#:  
+msgid "Standard"
+msgstr ""
+
+#:  
+msgid "Maximum"
+msgstr ""
+
+#:  
 msgid "Green"
+msgstr ""
+
+#:  
+msgid "Minimum"
+msgstr ""
+
+#:  
+msgid "Custom"
+msgstr ""
+
+#:  
+msgid "Update preset"
+msgstr ""
+
+#:  
+msgid "Advanced settings"
 msgstr ""
 
 #:  
@@ -1257,7 +1511,51 @@ msgid "Processor usage"
 msgstr ""
 
 #:  
+msgid "Run while computer is on battery power?"
+msgstr ""
+
+#:  
+msgid "Only applies to portable computers"
+msgstr ""
+
+#:  
+msgid "Run while computer is in use?"
+msgstr ""
+
+#:  
+msgid "Run GPU work while computer is in use?"
+msgstr ""
+
+#:  
+msgid "Enforced by version @number"
+msgstr ""
+
+#:  
+msgid "\"In use\" means mouse/keyboard activity in last"
+msgstr ""
+
+#:  
 msgid "minutes"
+msgstr ""
+
+#:  
+msgid "Suspend work if no mouse/keyboard activity in last"
+msgstr ""
+
+#:  
+msgid "Needed to enter low-power mode on some computers"
+msgstr ""
+
+#:  
+msgid "Suspend work if CPU usage is above"
+msgstr ""
+
+#:  
+msgid "0 means no restriction. Enforced by version @number"
+msgstr ""
+
+#:  
+msgid "Do work only between the hours of:"
 msgstr ""
 
 #:  
@@ -1265,7 +1563,23 @@ msgid "and"
 msgstr ""
 
 #:  
+msgid "No restriction if equal"
+msgstr ""
+
+#:  
+msgid "Leave tasks in memory while suspended?"
+msgstr ""
+
+#:  
+msgid "Suspended tasks will consume swap space if \"yes\""
+msgstr ""
+
+#:  
 msgid "Switch between tasks every"
+msgstr ""
+
+#:  
+msgid "Recommended: @period minutes"
 msgstr ""
 
 #:  
@@ -1277,6 +1591,10 @@ msgid "processors"
 msgstr ""
 
 #:  
+msgid "Set to 0 for no limit"
+msgstr ""
+
+#:  
 msgid "% of the processors"
 msgstr ""
 
@@ -1285,11 +1603,27 @@ msgid "Use at most"
 msgstr ""
 
 #:  
+msgid "% of the CPU time"
+msgstr ""
+
+#:  
+msgid "Can be used to reduce CPU heat"
+msgstr ""
+
+#:  
 msgid "Disk and memory usage"
 msgstr ""
 
 #:  
 msgid "Disk: use at most"
+msgstr ""
+
+#:  
+msgid "Disk: leave free at least"
+msgstr ""
+
+#:  
+msgid "Values smaller than @number are ignored"
 msgstr ""
 
 #:  
@@ -1321,7 +1655,25 @@ msgid "Network usage"
 msgstr ""
 
 #:  
+msgid "Computer is connected to the Internet about every"
+msgstr ""
+
+#:  
 msgid "days"
+msgstr ""
+
+#:  
+msgid ""
+"Leave blank or 0 if always connected. @project will try to maintain at "
+"least this much work."
+msgstr ""
+
+#:  
+msgid "Maintain enough work for an additional"
+msgstr ""
+
+#:  
+msgid "Confirm before connecting to Internet?"
 msgstr ""
 
 #:  
@@ -1368,5 +1720,113 @@ msgstr ""
 
 #:  
 msgid "Delete"
+msgstr ""
+
+#:  
+msgid "Clear"
+msgstr ""
+
+#:  
+msgid "These apply to all BOINC projects in which you participate."
+msgstr ""
+
+#:  
+msgid "Combined preferences"
+msgstr ""
+
+#:  
+msgid "every"
+msgstr ""
+
+#:  
+msgid "Edit"
+msgstr ""
+
+#:  
+msgid "Add"
+msgstr ""
+
+#:  
+msgid "Create a profile"
+msgstr ""
+
+#:  
+msgid "Newest post first"
+msgstr ""
+
+#:  
+msgid "Hide"
+msgstr ""
+
+#:  
+msgid "Lock"
+msgstr ""
+
+#:  
+msgid "Make sticky"
+msgstr ""
+
+#:  
+msgid "Joined"
+msgstr ""
+
+#:  
+msgid "Credit"
+msgstr ""
+
+#:  
+msgid "Join team"
+msgstr ""
+
+#:  
+msgid "Join this team"
+msgstr ""
+
+#:  
+msgid "Remove members"
+msgstr ""
+
+#:  
+msgid "Change founder"
+msgstr ""
+
+#:  
+msgid "Edit team info"
+msgstr ""
+
+#:  
+msgid "Remove team"
+msgstr ""
+
+#:  
+msgid "Minimum total credit to post"
+msgstr ""
+
+#:  
+msgid "Change the team founder"
+msgstr ""
+
+#:  
+msgid "Team name"
+msgstr ""
+
+#:  
+msgid "Type of team"
+msgstr ""
+
+#:  
+msgid "Accept new members?"
+msgstr ""
+
+#:  
+msgid "Description of team"
+msgstr ""
+
+#:  
+msgid "Create a team"
+msgstr ""
+
+#:  
+msgid "Anonymous"
 msgstr ""
 
