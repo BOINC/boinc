@@ -49,7 +49,7 @@ function boincteam_views_data() {
   // Primary keys allowed as arguments
   
   $data['team']['id'] = array(
-    'title' => t('Id'),
+    'title' => bts('Id'),
     'help' => t('The BOINC ID of the team.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -79,7 +79,7 @@ function boincteam_views_data() {
   // Foreign key fields
   
   $data['team']['userid'] = array(
-    'title' => t('Founder'),
+    'title' => bts('Founder'),
     'help' => t('The founder of this team.'),
     // This is a foreign key to the {user} table. When the view is configured
     // with this relationship, all the fields for the related user node will be 
@@ -111,7 +111,7 @@ function boincteam_views_data() {
   // Descriptions of general fields (alphabetized)
   /*
   $data['team']['create_time'] = array(
-    'title' => t('Team established'),
+    'title' => bts('Team established'),
     'help' => t('When the BOINC team was created.'),
     'field' => array(
       'handler' => 'views_handler_field_date',
@@ -125,7 +125,7 @@ function boincteam_views_data() {
     )
   );
   $data['team']['url'] = array(
-    'title' => t('URL'),
+    'title' => bts('URL'),
     'help' => t('The URL of a team.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -141,7 +141,7 @@ function boincteam_views_data() {
   */
    
   $data['team']['country'] = array(
-    'title' => t('Country'),
+    'title' => bts('Country'),
     'help' => t('The country of a team.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -155,7 +155,7 @@ function boincteam_views_data() {
     )
   );
   $data['team']['expavg_credit'] = array(
-    'title' => t('Recent average credit'),
+    'title' => bts('Recent average credit'),
     'help' => t('A decaying average of team credit per day.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -170,7 +170,7 @@ function boincteam_views_data() {
     )
   );
   $data['team']['name'] = array(
-    'title' => t('Name'),
+    'title' => bts('Name'),
     'help' => t('The name of the team.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -184,7 +184,7 @@ function boincteam_views_data() {
     )
   );
   $data['team']['nusers'] = array(
-    'title' => t('Members'),
+    'title' => bts('Members'),
     'help' => t('Count of team members.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -198,7 +198,7 @@ function boincteam_views_data() {
     )
   );
   $data['team']['total_credit'] = array(
-    'title' => t('Total Credit'),
+    'title' => bts('Total Credit'),
     'help' => t('The total team accumulated BOINC credit.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -249,7 +249,7 @@ function boincteam_views_data() {
   // Primary keys allowed as arguments
   
   $data['team_admin']['teamid'] = array(
-    'title' => t('Id'),
+    'title' => bts('Id'),
     'help' => t('The BOINC ID of the team on which this user is an admin.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -278,7 +278,7 @@ function boincteam_views_data() {
   // Foreign key fields
   
   $data['team_admin']['userid'] = array(
-    'title' => t('User ID'),
+    'title' => bts('User ID'),
     'help' => t('The user that is a team admin.'),
     // This is a foreign key to the {user} table. When the view is configured
     // with this relationship, all the fields for the related user node will be 
@@ -293,7 +293,7 @@ function boincteam_views_data() {
       'base' => 'user',
       'field' => 'userid',
       'handler' => 'views_handler_relationship',
-      'label' => t('User')
+      'label' => bts('User')
     ),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -310,7 +310,7 @@ function boincteam_views_data() {
   // Descriptions of general fields (alphabetized)
   
   $data['team_admin']['create_time'] = array(
-    'title' => t('Create Time'),
+    'title' => bts('Admin since'),
     'help' => t('When the BOINC user became a team admin.'),
     'field' => array(
       'handler' => 'views_handler_field_date',
@@ -338,7 +338,7 @@ function boincteam_views_data() {
   // Primary keys allowed as arguments
   
   $data['team_delta']['teamid'] = array(
-    'title' => t('Team ID'),
+    'title' => bts('Team ID'),
     'help' => t('The team ID for this team history event.'),
     // This is a foreign key to the {team} table. When the view is configured
     // with this relationship, all the fields for the related user node will be 
@@ -364,7 +364,7 @@ function boincteam_views_data() {
   // Foreign key fields
   
   $data['team_delta']['userid'] = array(
-    'title' => t('User ID'),
+    'title' => bts('User ID'),
     'help' => t('The user for this team history event.'),
     'relationship' => array(
       'base' => 'user',
@@ -387,7 +387,7 @@ function boincteam_views_data() {
   // Descriptions of general fields (alphabetized)
   
   $data['team_delta']['joining'] = array(
-    'title' => t('User joined'),
+    'title' => bts('User joined'),
     'help' => t('Whether the event is the user joining the team or leaving.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -401,7 +401,7 @@ function boincteam_views_data() {
     )
   );
   $data['team_delta']['timestamp'] = array(
-    'title' => t('Timestamp'),
+    'title' => bts('Timestamp'),
     'help' => t('When the BOINC team history event took place.'),
     'field' => array(
       'handler' => 'views_handler_field_date',
@@ -415,7 +415,7 @@ function boincteam_views_data() {
     )
   );
   $data['team_delta']['total_credit'] = array(
-    'title' => t('Total Credit'),
+    'title' => bts('Total Credit'),
     'help' => t('The total accumulated BOINC credit of the user when the
       history event took place.'),
     'field' => array(

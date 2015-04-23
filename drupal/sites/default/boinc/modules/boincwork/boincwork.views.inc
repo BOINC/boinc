@@ -49,7 +49,7 @@ function boincwork_views_data() {
   // Primary keys allowed as arguments
   
   $data['host']['id'] = array(
-    'title' => t('Computer ID'),
+    'title' => bts('Computer ID'),
     'help' => t('The ID number of this host.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -69,7 +69,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['venue'] = array(
-    'title' => t('Venue'),
+    'title' => bts('Location'),
     'help' => t('The name of the preference set assigned to this host.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -90,7 +90,7 @@ function boincwork_views_data() {
   // Foreign key fields
   
   $data['host']['userid'] = array(
-    'title' => t('User ID'),
+    'title' => bts('User ID'),
     'help' => t('The owner of this host.'),
     // Because this is a foreign key to the {user} table. This allows us to
     // have, when the view is configured with this relationship, all the fields
@@ -122,7 +122,7 @@ function boincwork_views_data() {
   // Descriptions of general host fields (alphabetized)
   
   $data['host']['active_frac'] = array(
-    'title' => t('While BOINC running, % of time work is allowed'),
+    'title' => bts('While BOINC running, % of time work is allowed'),
     'help' => t('The percentage of time that work is allowed.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -137,7 +137,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['avg_turnaround'] = array(
-    'title' => t('Average turnaround time'),
+    'title' => bts('Average turnaround time'),
     'help' => t('The average time required for work to be completed.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -152,7 +152,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['create_time'] = array(
-    'title' => t('Created'),
+    'title' => bts('Created'),
     'help' => t('The time the host record was created.'),
     'field' => array(
       'handler' => 'views_handler_field_date',
@@ -166,7 +166,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['connected_frac'] = array(
-    'title' => t('While BOINC running, % of time host has an Internet connection'),
+    'title' => bts('While BOINC running, % of time host has an Internet connection'),
     'help' => t('The percentage of time that the host has an Internet connection.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -181,7 +181,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['cpu_efficiency'] = array(
-    'title' => t('Average CPU efficiency'),
+    'title' => bts('Average CPU efficiency'),
     'help' => t('The average efficiency of the host CPU.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -196,7 +196,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['d_free'] = array(
-    'title' => t('Free disk space'),
+    'title' => bts('Free disk space'),
     'help' => t('The amount of disk space that is not in use.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -210,7 +210,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['d_total'] = array(
-    'title' => t('Total disk space'),
+    'title' => bts('Total disk space'),
     'help' => t('The size of the disk on which BOINC is installed.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -224,7 +224,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['domain_name'] = array(
-    'title' => t('Domain name'),
+    'title' => bts('Name'),
     'help' => t('The name of the host.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -238,7 +238,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['duration_correction_factor'] = array(
-    'title' => t('Task duration correction factor'),
+    'title' => bts('Task duration correction factor'),
     'help' => t('Task duration correction factor.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -253,7 +253,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['expavg_credit'] = array(
-    'title' => t('Recent average credit'),
+    'title' => bts('Avg. credit'),
     'help' => t('A decaying average of credit per day.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -268,7 +268,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['external_ip_addr'] = array(
-    'title' => t('External IP address'),
+    'title' => bts('External IP address'),
     'help' => t('The IP address from which the host last communicated.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -282,7 +282,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['host_cpid'] = array(
-    'title' => t('Cross project ID'),
+    'title' => bts('Cross project ID'),
     'help' => t('The consistent identifier of the host across projects.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -296,7 +296,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['last_ip_addr'] = array(
-    'title' => t('Last IP address'),
+    'title' => bts('Last IP address'),
     'help' => t('The IP address of the host at last communication.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -310,7 +310,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['m_cache'] = array(
-    'title' => t('Cache'),
+    'title' => bts('Cache'),
     'help' => t('The amount of cache on the processor(s).'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -324,7 +324,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['m_nbytes'] = array(
-    'title' => t('Memory'),
+    'title' => bts('Memory'),
     'help' => t('The amount of memory installed.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -338,7 +338,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['m_swap'] = array(
-    'title' => t('Swap space'),
+    'title' => bts('Swap space'),
     'help' => t('The amount of swap space configured.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -352,7 +352,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['max_results_day'] = array(
-    'title' => t('Maximum daily WU quota per CPU'),
+    'title' => bts('Maximum daily WU quota per CPU'),
     'help' => t('The maximum number of workunits to be allocated per CPU.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -366,7 +366,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['n_bwdown'] = array(
-    'title' => t('Average download rate'),
+    'title' => bts('Average download rate'),
     'help' => t('The average rate at which new work is downloaded.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -381,7 +381,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['n_bwup'] = array(
-    'title' => t('Average upload rate'),
+    'title' => bts('Average upload rate'),
     'help' => t('The average rate at which completed work is uploaded.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -396,7 +396,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['nsame_ip_addr'] = array(
-    'title' => t('Same IP address count'),
+    'title' => bts('Same IP address count'),
     'help' => t('The number of times the last IP address.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -410,7 +410,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['on_frac'] = array(
-    'title' => t('% of time BOINC client is running'),
+    'title' => bts('% of time BOINC client is running'),
     'help' => t('The percentage of time that the BOINC client is running.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -425,7 +425,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['os_name'] = array(
-    'title' => t('Operating system'),
+    'title' => bts('Operating system'),
     'help' => t('The name of the host operating system.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -439,7 +439,7 @@ function boincwork_views_data() {
     )
   );  
   $data['host']['os_version'] = array(
-    'title' => t('Operating system version'),
+    'title' => bts('Operating system version'),
     'help' => t('The version of the host operating system.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -453,7 +453,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['p_fpops'] = array(
-    'title' => t('Measured floating point speed'),
+    'title' => bts('Measured floating point speed'),
     'help' => t('The capability of the host in floating point operations per second.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -468,7 +468,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['p_iops'] = array(
-    'title' => t('Measured integer speed'),
+    'title' => bts('Measured integer speed'),
     'help' => t('The capability of the host in integer operations per second.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -483,7 +483,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['p_model'] = array(
-    'title' => t('CPU model'),
+    'title' => bts('CPU model'),
     'help' => t('The model of the CPU in the host.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -497,7 +497,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['p_ncpus'] = array(
-    'title' => t('Number of CPUs'),
+    'title' => bts('Number of processors'),
     'help' => t('The count of CPU cores in the system.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -511,7 +511,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['p_vendor'] = array(
-    'title' => t('CPU vendor'),
+    'title' => bts('CPU'),
     'help' => t('The manufacturer of the CPU in the host.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -525,7 +525,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['rpc_seqno'] = array(
-    'title' => t('Number of times client has contacted server'),
+    'title' => bts('Number of times client has contacted server'),
     'help' => t('The number of times the client has contacted the server.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -539,7 +539,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['rpc_time'] = array(
-    'title' => t('Last contact'),
+    'title' => bts('Last contact'),
     'help' => t('The time of the last RPC contact with the host.'),
     'field' => array(
       'handler' => 'views_handler_field_date',
@@ -553,7 +553,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['serialnum'] = array(
-    'title' => t('Serial number'),
+    'title' => bts('Serial number'),
     'help' => t('Contains the release number of the BOINC application in use and the GPU of the host.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -567,7 +567,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['timezone'] = array(
-    'title' => t('Timezone'),
+    'title' => bts('Timezone'),
     'help' => t('The UTC offset of the local time.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -581,7 +581,7 @@ function boincwork_views_data() {
     )
   );
   $data['host']['total_credit'] = array(
-    'title' => t('Total Credit'),
+    'title' => bts('Total Credit'),
     'help' => t('The total accumulated BOINC credit.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -611,7 +611,7 @@ function boincwork_views_data() {
   // Primary keys allowed as arguments
 
   $data['platform']['id'] = array(
-    'title' => t('Platform ID'),
+    'title' => bts('Platform ID'),
     'help' => t('The ID number of the platform.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -634,7 +634,7 @@ function boincwork_views_data() {
   // Descriptions of app fields (alphabetized)
   
   $data['platform']['name'] = array(
-    'title' => t('Name'),
+    'title' => bts('Name'),
     'help' => t('The name of the platform.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -680,7 +680,7 @@ function boincwork_views_data() {
   // Primary keys allowed as arguments
 
   $data['result']['id'] = array(
-    'title' => t('Result ID'),
+    'title' => bts('Task ID'),
     'help' => t('The ID number of this result.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -703,7 +703,7 @@ function boincwork_views_data() {
   // Foreign key fields
   
   $data['result']['userid'] = array(
-    'title' => t('User ID'),
+    'title' => bts('User ID'),
     'help' => t('The owner of this result.'),
     // Foreign key to the {user} table
     'argument' => array(
@@ -720,7 +720,7 @@ function boincwork_views_data() {
     )
   );
   $data['result']['workunitid'] = array(
-    'title' => t('Workunit ID'),
+    'title' => bts('Workunit ID'),
     'help' => t('The workunit associated with this result.'),
     // Foreign key to the {workunit} table
     'argument' => array(
@@ -747,7 +747,7 @@ function boincwork_views_data() {
     )
   );
   $data['result']['hostid'] = array(
-    'title' => t('Host ID'),
+    'title' => bts('Host ID'),
     'help' => t('The host associated with this result.'),
     // Foreign key to the {host} table
     'argument' => array(
@@ -777,7 +777,7 @@ function boincwork_views_data() {
   // Descriptions of result fields (alphabetized)
   
   $data['result']['appid'] = array(
-    'title' => t('Application ID'),
+    'title' => bts('Application ID'),
     'help' => t('The ID number of the application.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -791,7 +791,7 @@ function boincwork_views_data() {
     )
   );
   $data['result']['app_version_id'] = array(
-    'title' => t('Application version'),
+    'title' => bts('Application version'),
     'help' => t('The version number of the application.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -805,7 +805,7 @@ function boincwork_views_data() {
     )
   );
   $data['result']['claimed_credit'] = array(
-    'title' => t('Claimed credit'),
+    'title' => bts('Claimed credit'),
     'help' => t('The credit claimed for this result.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -820,7 +820,7 @@ function boincwork_views_data() {
     )
   );
   $data['result']['client_state'] = array(
-    'title' => t('Client state'),
+    'title' => bts('Client state'),
     'help' => t('The state of the task on the client side.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -834,7 +834,7 @@ function boincwork_views_data() {
     )
   );
   $data['result']['cpu_time'] = array(
-    'title' => t('CPU time'),
+    'title' => bts('CPU time'),
     'help' => t('The CPU time spent on the task.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -849,7 +849,7 @@ function boincwork_views_data() {
     )
   );
   $data['result']['create_time'] = array(
-    'title' => t('Created'),
+    'title' => bts('Created'),
     'help' => t('The time that the task was created.'),
     'field' => array(
       'handler' => 'views_handler_field_date',
@@ -863,7 +863,7 @@ function boincwork_views_data() {
     )
   );
   $data['result']['elapsed_time'] = array(
-    'title' => t('Run time'),
+    'title' => bts('Run time'),
     'help' => t('The run time of the task.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -878,7 +878,7 @@ function boincwork_views_data() {
     )
   );
   $data['result']['exit_status'] = array(
-    'title' => t('Exit status'),
+    'title' => bts('Exit status'),
     'help' => t('The exit code of the task.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -892,7 +892,7 @@ function boincwork_views_data() {
     )
   );
   $data['result']['granted_credit'] = array(
-    'title' => t('Granted credit'),
+    'title' => bts('Granted credit'),
     'help' => t('The credit granted for this result.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -907,7 +907,7 @@ function boincwork_views_data() {
     )
   );
   $data['result']['name'] = array(
-    'title' => t('Name'),
+    'title' => bts('Name'),
     'help' => t('The name of the task.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -921,7 +921,7 @@ function boincwork_views_data() {
     )
   );
   $data['result']['outcome'] = array(
-    'title' => t('Outcome'),
+    'title' => bts('Outcome'),
     'help' => t('The outcome of the task.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -935,7 +935,7 @@ function boincwork_views_data() {
     )
   );
   $data['result']['received_time'] = array(
-    'title' => t('Received time'),
+    'title' => bts('Received time'),
     'help' => t('The time that the result was received.'),
     'field' => array(
       'handler' => 'views_handler_field_date',
@@ -949,7 +949,7 @@ function boincwork_views_data() {
     )
   );
   $data['result']['report_deadline'] = array(
-    'title' => t('Report deadline'),
+    'title' => bts('Report deadline'),
     'help' => t('The deadline for the task.'),
     'field' => array(
       'handler' => 'views_handler_field_date',
@@ -963,7 +963,7 @@ function boincwork_views_data() {
     )
   );
   $data['result']['sent_time'] = array(
-    'title' => t('Sent'),
+    'title' => bts('Sent'),
     'help' => t('The time that the task was sent.'),
     'field' => array(
       'handler' => 'views_handler_field_date',
@@ -977,7 +977,7 @@ function boincwork_views_data() {
     )
   );
   $data['result']['server_state'] = array(
-    'title' => t('Server state'),
+    'title' => bts('Server state'),
     'help' => t('The state of task on the server side.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -991,7 +991,7 @@ function boincwork_views_data() {
     )
   );
   $data['result']['stderr_out'] = array(
-    'title' => t('Stderr out'),
+    'title' => bts('Stderr out'),
     'help' => t('The output to standard error.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -1005,7 +1005,7 @@ function boincwork_views_data() {
     )
   );
   $data['result']['validate_state'] = array(
-    'title' => t('Validation state'),
+    'title' => bts('Validation state'),
     'help' => t('The state of validation of this result.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -1043,7 +1043,7 @@ function boincwork_views_data() {
   // Primary keys allowed as arguments
   
   $data['workunit']['id'] = array(
-    'title' => t('Workunit ID'),
+    'title' => bts('Workunit ID'),
     'help' => t('The ID number of this workunit.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -1066,7 +1066,7 @@ function boincwork_views_data() {
   // Foreign key fields
   
   $data['workunit']['appid'] = array(
-    'title' => t('App ID'),
+    'title' => bts('App ID'),
     'help' => t('The application associated with this workunit.'), 
     'argument' => array( // foreign key to the {app} table
       'handler' => 'views_handler_argument',
@@ -1095,7 +1095,7 @@ function boincwork_views_data() {
   // Descriptions of workunit fields (alphabetized)
   
   $data['workunit']['canonical_credit'] = array(
-    'title' => t('Canonical credit'),
+    'title' => bts('Canonical credit'),
     'help' => t('The canonical credit of the workunit.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -1110,7 +1110,7 @@ function boincwork_views_data() {
     )
   );
   $data['workunit']['canonical_resultid'] = array(
-    'title' => t('Canonical result ID'),
+    'title' => bts('Canonical result ID'),
     'help' => t('The ID of the canonical result associated with the workunit.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -1124,7 +1124,7 @@ function boincwork_views_data() {
     )
   );
   $data['workunit']['create_time'] = array(
-    'title' => t('Created time'),
+    'title' => bts('Created time'),
     'help' => t('The time that the workunit was created.'),
     'field' => array(
       'handler' => 'views_handler_field_date',
@@ -1138,7 +1138,7 @@ function boincwork_views_data() {
     )
   );
   $data['workunit']['error_mask'] = array(
-    'title' => t('Error mask'),
+    'title' => bts('Error mask'),
     'help' => t('Error mask of the workunit.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -1152,7 +1152,7 @@ function boincwork_views_data() {
     )
   );
   $data['workunit']['min_quorum'] = array(
-    'title' => t('Minimum quorum'),
+    'title' => bts('Minimum quorum'),
     'help' => t('Minimum quorum of the workunit.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -1166,7 +1166,7 @@ function boincwork_views_data() {
     )
   );
   $data['workunit']['name'] = array(
-    'title' => t('Name'),
+    'title' => bts('Name'),
     'help' => t('The name of the workunit.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -1180,7 +1180,7 @@ function boincwork_views_data() {
     )
   );
   $data['workunit']['max_error_results'] = array(
-    'title' => t('Max error tasks'),
+    'title' => bts('Max error tasks'),
     'help' => t('The maximum number of error tasks in the workunit.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -1194,7 +1194,7 @@ function boincwork_views_data() {
     )
   );
   $data['workunit']['max_success_results'] = array(
-    'title' => t('Max success tasks'),
+    'title' => bts('Max success tasks'),
     'help' => t('The maximum number of successful tasks in the workunit.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -1208,7 +1208,7 @@ function boincwork_views_data() {
     )
   );
   $data['workunit']['max_total_results'] = array(
-    'title' => t('Max total tasks'),
+    'title' => bts('Max total tasks'),
     'help' => t('The maximum number of total tasks in the workunit.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -1222,7 +1222,7 @@ function boincwork_views_data() {
     )
   );
   $data['workunit']['need_validate'] = array(
-    'title' => t('Needs validation'),
+    'title' => bts('Needs validation'),
     'help' => t('Whether or not a workunit needs validation.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -1236,7 +1236,7 @@ function boincwork_views_data() {
     )
   );
   $data['workunit']['target_nresults'] = array(
-    'title' => t('Initial replication'),
+    'title' => bts('Initial replication'),
     'help' => t('The target number of results for the workunit.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -1265,7 +1265,7 @@ function boincwork_views_data() {
   // Primary keys allowed as arguments
 
   $data['app']['id'] = array(
-    'title' => t('Application ID'),
+    'title' => bts('Application ID'),
     'help' => t('The ID number of this application.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -1288,7 +1288,7 @@ function boincwork_views_data() {
   // Descriptions of app fields (alphabetized)
   
   $data['app']['target_nresults'] = array(
-    'title' => t('Target number of results'),
+    'title' => bts('Target number of results'),
     'help' => t('The number of times to replicate tasks in this application.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -1302,7 +1302,7 @@ function boincwork_views_data() {
     )
   );
   $data['app']['user_friendly_name'] = array(
-    'title' => t('Name'),
+    'title' => bts('Name'),
     'help' => t('The user friendly name of the application.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -1331,7 +1331,7 @@ function boincwork_views_data() {
   // Primary keys allowed as arguments
 
   $data['app_version']['id'] = array(
-    'title' => t('Application version ID'),
+    'title' => bts('Application version ID'),
     'help' => t('The ID number of this application version.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -1354,7 +1354,7 @@ function boincwork_views_data() {
   // Foreign key fields
   
   $data['app_version']['appid'] = array(
-    'title' => t('App ID'),
+    'title' => bts('App ID'),
     'help' => t('The app ID associated with this app version.'),
     // Because this is a foreign key to the {app} table. This allows us to
     // have, when the view is configured with this relationship, all the fields
@@ -1384,7 +1384,7 @@ function boincwork_views_data() {
   );
   
   $data['app_version']['platformid'] = array(
-    'title' => t('Platform ID'),
+    'title' => bts('Platform ID'),
     'help' => t('The platform ID associated with this app version.'),
     // Because this is a foreign key to the {platform} table. This allows us to
     // have, when the view is configured with this relationship, all the fields
@@ -1416,7 +1416,7 @@ function boincwork_views_data() {
   // Descriptions of app fields (alphabetized)
   
   $data['app_version']['plan_class'] = array(
-    'title' => t('Plan class'),
+    'title' => bts('Plan class'),
     'help' => t('App version plan class.'),
     'field' => array(
       'handler' => 'views_handler_field',
@@ -1430,7 +1430,7 @@ function boincwork_views_data() {
     )
   );
   $data['app_version']['version_num'] = array(
-    'title' => t('Version number'),
+    'title' => bts('Version number'),
     'help' => t('The application version number.'),
     'field' => array(
       'handler' => 'views_handler_field_boincwork_app_version_number',
@@ -1469,7 +1469,7 @@ function boincwork_views_data() {
   // Primary keys allowed as arguments
 
   $data['host_app_version']['host_id'] = array(
-    'title' => t('Host ID'),
+    'title' => bts('Computer'),
     'help' => t('The host ID connected to this app version data.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -1492,7 +1492,7 @@ function boincwork_views_data() {
   // Foreign key fields
   
   $data['host_app_version']['app_version_id'] = array(
-    'title' => t('App version ID'),
+    'title' => bts('App version ID'),
     'help' => t('The app version ID connected to this host data.'),
     // Because this is a foreign key to the {host} table. This allows us to
     // have, when the view is configured with this relationship, all the fields
@@ -1524,7 +1524,7 @@ function boincwork_views_data() {
   // Descriptions of host_app_version fields (alphabetized)
   
   $data['host_app_version']['consecutive_valid'] = array(
-    'title' => t('Consecutive valid tasks'),
+    'title' => bts('Consecutive valid tasks'),
     'help' => t('The number of consecutive valid tasks for this app and by this host.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -1538,7 +1538,7 @@ function boincwork_views_data() {
     )
   );
   $data['host_app_version']['et_avg'] = array(
-    'title' => t('et_avg'),
+    'title' => t('Average processing rate'),
     'help' => t('The "et_avg" for this app and by this host.'),
     'field' => array(
       'handler' => 'views_handler_field_boincwork_host_app_et_avg',
@@ -1552,7 +1552,7 @@ function boincwork_views_data() {
     )
   );
   $data['host_app_version']['et_n'] = array(
-    'title' => t('Number of tasks completed'),
+    'title' => bts('Number of tasks completed'),
     'help' => t('The tasks completed for this app and by this host.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -1566,7 +1566,7 @@ function boincwork_views_data() {
     )
   );
   $data['host_app_version']['max_jobs_per_day'] = array(
-    'title' => t('Max tasks per day'),
+    'title' => bts('Max tasks per day'),
     'help' => t('The maximum tasks per day for this app and by this host.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -1580,7 +1580,7 @@ function boincwork_views_data() {
     )
   );
   $data['host_app_version']['n_jobs_today'] = array(
-    'title' => t('Number of tasks today'),
+    'title' => bts('Number of tasks today'),
     'help' => t('The number of tasks today for this app and by this host.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
@@ -1594,7 +1594,7 @@ function boincwork_views_data() {
     )
   );
   $data['host_app_version']['turnaround_avg'] = array(
-    'title' => t('Average task turnaround time'),
+    'title' => bts('Average turnaround time'),
     'help' => t('The average turnaround time per task for this app and by this host.'),
     'field' => array(
       'handler' => 'views_handler_field_boincwork_host_app_turnaround_avg',
@@ -1609,7 +1609,7 @@ function boincwork_views_data() {
     )
   );
   $data['host_app_version']['user_friendly_name'] = array(
-    'title' => t('Name'),
+    'title' => bts('Name'),
     'help' => t('The user friendly name of the application.'),
     'field' => array(
       'handler' => 'views_handler_field',
