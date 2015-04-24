@@ -132,8 +132,8 @@
 #ifndef PRODUCT_EMBEDDED_E_EVAL
 #define PRODUCT_EMBEDDED_E_EVAL                     0x0000006C
 #endif
-#ifndef PRODUCT_CORE_SERVER
-#define PRODUCT_CORE_SERVER                         0x0000006D
+#ifndef PRODUCT_NANO_SERVER
+#define PRODUCT_NANO_SERVER                         0x0000006D
 #endif
 #ifndef PRODUCT_CLOUD_STORAGE_SERVER
 #define PRODUCT_CLOUD_STORAGE_SERVER                0x0000006E
