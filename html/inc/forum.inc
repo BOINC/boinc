@@ -669,7 +669,7 @@ function show_post(
         $posttext = output_transform($posttext, $options);
         
         echo "<p>", $posttext, "</p>";
-        echo "</td></tr><tr><td class=\"postfooter\">ID: <i>", $post->id;
+        echo "</td></tr><tr><td class=\"postfooter\"><span>ID: <i>", $post->id;
         if ($no_forum_rating) {
             echo " &middot; <a href=\"forum_report_post.php?post=".$post->id."\">";
             show_image(REPORT_POST_IMAGE, tra("Report this post as offensive"), tra("Report as offensive"), REPORT_POST_IMAGE_HEIGHT);
@@ -693,7 +693,7 @@ function show_post(
             $url = "forum_reply.php?thread=" . $thread->id . "&amp;post=" . $post->id . "#input";
             show_button($url, tra("Quote"), tra("Post a reply by quoting this message"));
         }
-        echo "</td></tr>";
+        echo "</span></td></tr>";
     } else {
         echo "</td></tr><tr><td class=\"postfooter\">";
     }
