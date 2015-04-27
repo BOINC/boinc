@@ -79,7 +79,7 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_MENU(ID_PREFERENCES, CSimpleFrame::OnPreferences)
     EVT_MENU(ID_SGOPTIONS, CSimpleFrame::OnOptions)
 	EVT_MENU(ID_SGDIAGNOSTICLOGFLAGS, CSimpleFrame::OnDiagnosticLogFlags)
-    EVT_MENU(ID_WIZARDATTACH, CSimpleFrame::OnProjectsAttachToProject)
+    EVT_MENU(ID_WIZARDATTACHPROJECT, CSimpleFrame::OnProjectsAttachToProject)
     EVT_MENU(ID_HELPBOINC, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCMANAGER, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCWEBSITE, CSimpleFrame::OnHelpBOINC)
@@ -201,7 +201,7 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     // Tools menu
     wxMenu *menuTools = new wxMenu;
     menuTools->Append(
-        ID_WIZARDATTACH, 
+        ID_WIZARDATTACHPROJECT, 
         _("&Add project..."),
         _("Add a project")
     );

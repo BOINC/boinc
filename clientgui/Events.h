@@ -28,9 +28,10 @@
 #define ID_DOCUMENTPOLLTIMER                    6105
 #define ID_ALERTPOLLTIMER                       6106
 #define ID_REFRESHSTATETIMER                    6107
-#define ID_WIZARDATTACH                         6108
-#define ID_WIZARDUPDATE                         6109
-#define ID_WIZARDDETACH                         6110
+#define ID_WIZARDATTACHPROJECT                  6108
+#define ID_WIZARDATTACHACCOUNTMANAGER           6109
+#define ID_WIZARDUPDATE                         6110
+#define ID_WIZARDDETACH                         6111
 
 
 //

@@ -62,7 +62,7 @@ public:
     void OnChangeView( wxCommandEvent& event );
     void OnChangeGUI( wxCommandEvent& event );
 
-    void OnWizardAttach( wxCommandEvent& event );
+    void OnWizardAttachProject( wxCommandEvent& event );
     void OnWizardUpdate( wxCommandEvent& event );
     void OnWizardDetach( wxCommandEvent& event );
 

@@ -33,7 +33,6 @@
 //
 
 // Generic Pages
-#define ID_WELCOMEPAGE 10100
 #define ID_ACCOUNTINFOPAGE 10102
 #define ID_COMPLETIONPAGE 10103
 #define ID_COMPLETIONERRORPAGE 10104
@@ -133,7 +132,6 @@
 
 // Forward declare the generic page classes
 //
-class CWelcomePage;
 class CAccountInfoPage;
 class CTermsOfUsePage;
 class CCompletionPage;
@@ -320,7 +318,6 @@ public:
     static bool ShowToolTips();
 
 ////@begin CWizardAttachProject member variables
-    CWelcomePage* m_WelcomePage;
     CProjectInfoPage* m_ProjectInfoPage;
     CProjectPropertiesPage* m_ProjectPropertiesPage;
     CProjectProcessingPage* m_ProjectProcessingPage;

@@ -166,7 +166,8 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MENU_RANGE(ID_ADVNOTICESVIEW, ID_ADVRESOURCEUSAGEVIEW, CAdvancedFrame::OnChangeView)
     EVT_MENU(ID_CHANGEGUI, CAdvancedFrame::OnChangeGUI)
     // Tools
-    EVT_MENU(ID_WIZARDATTACH, CAdvancedFrame::OnWizardAttach)
+    EVT_MENU(ID_WIZARDATTACHPROJECT, CAdvancedFrame::OnWizardAttachProject)
+    EVT_MENU(ID_WIZARDATTACHACCOUNTMANAGER, CAdvancedFrame::OnWizardUpdate)
     EVT_MENU(ID_WIZARDUPDATE, CAdvancedFrame::OnWizardUpdate)
     EVT_MENU(ID_WIZARDDETACH, CAdvancedFrame::OnWizardDetach)
     // Activity
@@ -385,7 +386,7 @@ bool CAdvancedFrame::CreateMenu() {
     // wxWidgets actually puts this in the BOINCManager menu
     menuFile->Append(
         wxID_PREFERENCES,
-        _("Preferences…")
+        _("Preferences...")
     );
 #endif
 
@@ -446,9 +447,14 @@ bool CAdvancedFrame::CreateMenu() {
 
     if (!is_acct_mgr_detected) {
         menuTools->Append(
-            ID_WIZARDATTACH, 
-            _("&Add project or account manager..."),
-            _("Add a new science project, or use an account manager")
+            ID_WIZARDATTACHPROJECT, 
+            _("&Add project..."),
+            _("Add a project")
+        );
+        menuTools->Append(
+            ID_WIZARDATTACHACCOUNTMANAGER, 
+            _("&Use account manager..."),
+            _("Use an account manager to control this computer.")
         );
     } else {
         strMenuName.Printf(
@@ -465,7 +471,7 @@ bool CAdvancedFrame::CreateMenu() {
             strMenuDescription
         );
         menuTools->Append(
-            ID_WIZARDATTACH, 
+            ID_WIZARDATTACHPROJECT, 
             _("&Add project..."),
             _("Add a project")
         );
@@ -1123,8 +1129,8 @@ void CAdvancedFrame::OnChangeGUI(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
-void CAdvancedFrame::OnWizardAttach( wxCommandEvent& WXUNUSED(event) ) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnWizardAttach - Function Begin"));
+void CAdvancedFrame::OnWizardAttachProject( wxCommandEvent& WXUNUSED(event) ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnWizardAttachProject - Function Begin"));
 
     CMainDocument* pDoc     = wxGetApp().GetDocument();
 
@@ -1161,7 +1167,7 @@ void CAdvancedFrame::OnWizardAttach( wxCommandEvent& WXUNUSED(event) ) {
         ShowNotCurrentlyConnectedAlert();
     }
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnWizardAttach - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnWizardAttachProject - Function End"));
 }
 
 
@@ -1990,7 +1996,7 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
                     UpdateNetworkModeControls(status);
 
                     if (status.disallow_attach) {
-                        pMenuBar->Enable(ID_WIZARDATTACH, false);
+                        pMenuBar->Enable(ID_WIZARDATTACHPROJECT, false);
                     }
                 }
 
