@@ -16,6 +16,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// DEPRECATED - WON'T WORK.
+// result.claimed_credit is not used any more
+
 // Award credit to users/hosts/teams for WU which have been
 // cancelled or have otherwise failed (error_mask != 0).
 // Credit granted is credit claimed, with a hardwired limit of 300 units.

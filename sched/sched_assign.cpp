@@ -256,7 +256,10 @@ bool send_jobs(int assign_type) {
     }
 
     while (!asg.enumerate(query)) {
-        if (!work_needed(false)) continue; 
+        if (!work_needed(false)) {
+            asg.end_enumerate();
+            break;
+        }
 
         // if the WU doesn't exist, delete the assignment record.
         //
