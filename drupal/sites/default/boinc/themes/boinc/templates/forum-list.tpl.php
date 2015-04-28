@@ -112,15 +112,14 @@
 </table>
 
 <div class="fine-print">
-  <p>Please be responsible in what you write and do not create posts which are
-  offensive or insulting. Offensive posts or threads may be deleted by
-  forum moderators without warning or discussion. Do not respond to offensive
-  postings. Click on the "report" button at the bottom of the post to call it
-  to the attention of the moderators.</p>
-  <p>We also ask that you keep all discussion on the message boards related
-  to Einstein@Home or BOINC with the small exception of the Science message
-  board where you are free to discuss anything about physics or astronomy.
-  Participants interested in broader discussions should post to unofficial
-  E@H forums.</p>
-  <p>These message boards now support BBCode tags only.</p>
+  <p>
+    <?php print bts('Please be responsible in what you write and do not create posts which are offensive or insulting. Offensive posts or threads may be deleted by forum moderators without warning or discussion. Do not respond to offensive postings. Click on the "report" button at the bottom of the post to call it to the attention of the moderators.'); ?>
+  </p>
+  <p>
+    <?php print bts('We also ask that you keep all discussion on the message boards related to @project or BOINC with the small exception of the Science message board where you are free to discuss anything relevant to the underlying science. Participants interested in broader discussions should post to unofficial forums for @project.',
+      array('@project' => variable_get('site_name', bts('this project')))); ?>
+  </p>
+  <p>
+    <?php print bts('These message boards now support BBCode tags only.'); ?>
+  </p>
 </div>
