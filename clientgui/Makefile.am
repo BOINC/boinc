@@ -93,7 +93,6 @@ boincmgr_SOURCES = \
     ViewStatistics.cpp \
     ViewTransfers.cpp \
     ViewWork.cpp \
-    WelcomePage.cpp \
     WizardAttach.cpp \
     wizardex.cpp
 
