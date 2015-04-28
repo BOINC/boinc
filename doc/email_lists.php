@@ -65,22 +65,6 @@ list_item("<a href=http://groups.google.com/group/boinc-team-founders>BOINC team
 );
 list_end();
 
-echo "
-<h2>Problems with email lists</h2>
-<p>
-Dec 2 2005: some people are reporting that their postings
-to these email lists never appear.
-Here's a reply from our system administrator:
-<blockquote>
-My first guess is that the barracuda antispam system is matching their email address or email sending server to a DNSBL (blacklist) and dropping the message. We use several popular DNSBL's to either block or tag blatant spam (spamcop, spamhaus, etc.) The lists we use are usually pretty good at only listing blatant spammers, but sometimes valid addresses are listed for short periods until they can get delisted. This typically happens when a spammer is using an ISP with DHCP addresses -- the spammer gets caught, the dhcp address goes to someone else and that person gets screwed.
-
-<p>
-We could disable antispam filtering on your lists, but I wouldn't advise it as you'd get a lot more of spam. For instance, according to my count for the period 11/13 - 12/1, boinc_alpha list got around 58 valid messages, while the antispam system blocked another 85 messages. It's your call.
-
-</blockquote>
-
-";
-
 page_tail();
 
 ?>
