@@ -295,7 +295,7 @@
   <string name="suspend_batteries">Napojte vaše zariadenie na nabíjačku, aby výpočty mohli pokračovať.</string>
   <string name="suspend_screen_on">Vypnite obrazovku pre pokračovanie vo výpočtoch.</string>
   <string name="suspend_useractive">Užívateľ je aktívny.</string>
-  <string name="suspend_tod">Mimo časového rámcu výpočtov.</string>
+  <string name="suspend_tod">Mimo časového rámca výpočtov.</string>
   <string name="suspend_bm">BOINC meria výkon zariadenia...</string>
   <string name="suspend_disksize">Nedostatok miesta na disku.</string>
   <string name="suspend_cputhrottle">Plánované obmedzenie procesoru.</string>
