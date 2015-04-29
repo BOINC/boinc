@@ -148,7 +148,7 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     // wxWidgets actually puts this in the BOINCManager menu
     menuFile->Append(
         wxID_PREFERENCES,
-        _("Preferences…")
+        _("Preferences...")
     );
 #endif
 
