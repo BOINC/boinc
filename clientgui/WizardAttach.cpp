@@ -280,10 +280,14 @@ bool CWizardAttach::Run(
         }
     }
 
-    if (strProjectURL.Length() && m_ProjectPropertiesPage) {
-        return RunWizard(m_ProjectPropertiesPage);
-    } else if (m_ProjectInfoPage) {
-        return RunWizard(m_ProjectInfoPage);
+    if (m_ProjectPropertiesPage || m_ProjectInfoPage) {
+        IsAttachToProjectWizard = true;
+        IsAccountManagerWizard = false;
+        if (strProjectURL.Length()) {
+            return RunWizard(m_ProjectPropertiesPage);
+        } else {
+            return RunWizard(m_ProjectInfoPage);
+        }
     }
 
     return FALSE;
@@ -302,6 +306,8 @@ bool CWizardAttach::RunSimpleProjectAttach(
     }
     SetProjectKnown(strKnown.length() > 0);
 
+    IsAttachToProjectWizard = true;
+    IsAccountManagerWizard = false;
     return RunWizard(m_ProjectWelcomePage);
 }
 
@@ -354,10 +360,14 @@ bool CWizardAttach::SyncToAccountManager() {
         }
     }
 
-    if (!ami.acct_mgr_url.size()) {
-        return RunWizard(m_AccountManagerInfoPage);
-    } else if (m_AccountManagerPropertiesPage) {
-        return RunWizard(m_AccountManagerPropertiesPage);
+    if (m_AccountManagerInfoPage || m_AccountManagerPropertiesPage) {
+        IsAttachToProjectWizard = false;
+        IsAccountManagerWizard = true;
+        if (!ami.acct_mgr_url.size()) {
+            return RunWizard(m_AccountManagerInfoPage);
+        } else {
+            return RunWizard(m_AccountManagerPropertiesPage);
+        }
     }
 
     return FALSE;
