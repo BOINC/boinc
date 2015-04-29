@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-04-23 08:59+0000\n"
+"POT-Creation-Date: 2015-04-29 14:36+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,75 +14,6 @@ msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #:  
-msgid "Matters only if you have a modem, ISDN, or VPN connection"
-msgstr ""
-
-#:  
-msgid "Disconnect when done?"
-msgstr ""
-
-#:  
-msgid "Use network only between the hours of:"
-msgstr ""
-
-#:  
-msgid "Skip image file verification?"
-msgstr ""
-
-#:  
-msgid ""
-"Check this ONLY if your Internet provider modifies image files (UMTS "
-"does this, for example). Skipping verification reduces the security of "
-"BOINC."
-msgstr ""
-
-#:  
-msgid "Show comparison view"
-msgstr ""
-
-#:  
-msgid "Resource settings"
-msgstr ""
-
-#:  
-msgid ""
-"Determines the proportion of your computer's resources allocated to "
-"this project. Example: if you participate in two BOINC projects with "
-"resource shares of 100 and 200, the first will get 1/3 of your "
-"resources and the second will get 2/3."
-msgstr ""
-
-#:  
-msgid "Use INTEL GPU"
-msgstr ""
-
-#:  
-msgid "Beta settings"
-msgstr ""
-
-#:  
-msgid "Default set"
-msgstr ""
-
-#:  
-msgid "Set used for new computers"
-msgstr ""
-
-#:  
-msgid ""
-"This will delete host @id from your account forever. Are you sure this "
-"is OK?"
-msgstr ""
-
-#:  
-msgid "Mark all topics read"
-msgstr ""
-
-#:  
-msgid "Mark all forums read"
-msgstr ""
-
-#:  
 msgid ""
 "CAPTCHA validation error: unknown CAPTCHA session ID. Contact the site "
 "administrator if this problem persists."
@@ -90,38 +21,6 @@ msgstr ""
 
 #:  
 msgid "The answer you entered for the CAPTCHA was not correct."
-msgstr ""
-
-#:  
-msgid "Access denied. You must login to view this page."
-msgstr ""
-
-#:  
-msgid "You are not authorized to access this page."
-msgstr ""
-
-#:  
-msgid "Disable rich-text"
-msgstr ""
-
-#:  
-msgid "Enable rich-text"
-msgstr ""
-
-#:  
-msgid "View user profile."
-msgstr ""
-
-#:  
-msgid "BBcode help"
-msgstr ""
-
-#:  
-msgid "Post comment"
-msgstr ""
-
-#:  
-msgid "No @type tasks"
 msgstr ""
 
 #:  
@@ -155,30 +54,6 @@ msgid ""
 msgstr ""
 
 #:  
-msgid "General settings"
-msgstr ""
-
-#:  
-msgid "Time zone"
-msgstr ""
-
-#:  
-msgid "Notification settings"
-msgstr ""
-
-#:  
-msgid "Receive email notification for private messages?"
-msgstr ""
-
-#:  
-msgid "Receive email notification for friend requests?"
-msgstr ""
-
-#:  
-msgid "Language settings"
-msgstr ""
-
-#:  
 msgid ""
 "This account's default language for e-mails and preferred language for "
 "site presentation."
@@ -206,19 +81,7 @@ msgid "Gravatar will not be shown if an avatar is uploaded."
 msgstr ""
 
 #:  
-msgid "Avatar settings"
-msgstr ""
-
-#:  
 msgid "This is not available until your profile is set up."
-msgstr ""
-
-#:  
-msgid "Upload an avatar"
-msgstr ""
-
-#:  
-msgid "Forum settings"
 msgstr ""
 
 #:  
@@ -226,19 +89,7 @@ msgid "In discussion topics, show at most @comments_per_page"
 msgstr ""
 
 #:  
-msgid "comments per page"
-msgstr ""
-
-#:  
 msgid "Sort comments in discussions"
-msgstr ""
-
-#:  
-msgid "Oldest post first"
-msgstr ""
-
-#:  
-msgid "Signature"
 msgstr ""
 
 #:  
@@ -250,19 +101,11 @@ msgid "Hide signatures in forums"
 msgstr ""
 
 #:  
-msgid "Privacy settings"
-msgstr ""
-
-#:  
 msgid "Is it OK for @project and your team (if any) to email you?"
 msgstr ""
 
 #:  
 msgid "Should @project show your computers on its web site?"
-msgstr ""
-
-#:  
-msgid "Hide this topic"
 msgstr ""
 
 #:  
@@ -274,59 +117,11 @@ msgid "Make this topic sticky"
 msgstr ""
 
 #:  
-msgid "moderation"
-msgstr ""
-
-#:  
-msgid "Post new comment"
-msgstr ""
-
-#:  
 msgid "You must earn 1 more credit!"
 msgstr ""
 
 #:  
-msgid "RAC"
-msgstr ""
-
-#:  
 msgid "Click here to become a member of @this_team"
-msgstr ""
-
-#:  
-msgid "Manage team"
-msgstr ""
-
-#:  
-msgid "View member list"
-msgstr ""
-
-#:  
-msgid "Member names and emails"
-msgstr ""
-
-#:  
-msgid "View change history"
-msgstr ""
-
-#:  
-msgid "See member activity"
-msgstr ""
-
-#:  
-msgid "Manage team message board"
-msgstr ""
-
-#:  
-msgid "Create or manage message board"
-msgstr ""
-
-#:  
-msgid "Manage team admins"
-msgstr ""
-
-#:  
-msgid "Team forum"
 msgstr ""
 
 #:  
@@ -562,23 +357,7 @@ msgid "Id"
 msgstr ""
 
 #:  
-msgid "Recent average credit"
-msgstr ""
-
-#:  
-msgid "Members"
-msgstr ""
-
-#:  
 msgid "Total Credit"
-msgstr ""
-
-#:  
-msgid "User ID"
-msgstr ""
-
-#:  
-msgid "User"
 msgstr ""
 
 #:  
@@ -606,10 +385,6 @@ msgid "CPID"
 msgstr ""
 
 #:  
-msgid "Email Address"
-msgstr ""
-
-#:  
 msgid "Password Hash"
 msgstr ""
 
@@ -626,55 +401,7 @@ msgid "Show Hosts"
 msgstr ""
 
 #:  
-msgid "URL"
-msgstr ""
-
-#:  
-msgid "Computer ID"
-msgstr ""
-
-#:  
-msgid "Location"
-msgstr ""
-
-#:  
-msgid "While BOINC running, % of time work is allowed"
-msgstr ""
-
-#:  
-msgid "Average turnaround time"
-msgstr ""
-
-#:  
-msgid "Created"
-msgstr ""
-
-#:  
-msgid "While BOINC running, % of time host has an Internet connection"
-msgstr ""
-
-#:  
-msgid "Average CPU efficiency"
-msgstr ""
-
-#:  
 msgid "Free disk space"
-msgstr ""
-
-#:  
-msgid "Total disk space"
-msgstr ""
-
-#:  
-msgid "Task duration correction factor"
-msgstr ""
-
-#:  
-msgid "Avg. credit"
-msgstr ""
-
-#:  
-msgid "External IP address"
 msgstr ""
 
 #:  
@@ -686,27 +413,7 @@ msgid "Last IP address"
 msgstr ""
 
 #:  
-msgid "Cache"
-msgstr ""
-
-#:  
-msgid "Memory"
-msgstr ""
-
-#:  
-msgid "Swap space"
-msgstr ""
-
-#:  
 msgid "Maximum daily WU quota per CPU"
-msgstr ""
-
-#:  
-msgid "Average download rate"
-msgstr ""
-
-#:  
-msgid "Average upload rate"
 msgstr ""
 
 #:  
@@ -718,39 +425,11 @@ msgid "% of time BOINC client is running"
 msgstr ""
 
 #:  
-msgid "Operating system"
-msgstr ""
-
-#:  
 msgid "Operating system version"
 msgstr ""
 
 #:  
-msgid "Measured floating point speed"
-msgstr ""
-
-#:  
-msgid "Measured integer speed"
-msgstr ""
-
-#:  
 msgid "CPU model"
-msgstr ""
-
-#:  
-msgid "Number of processors"
-msgstr ""
-
-#:  
-msgid "CPU"
-msgstr ""
-
-#:  
-msgid "Number of times client has contacted server"
-msgstr ""
-
-#:  
-msgid "Last contact"
 msgstr ""
 
 #:  
@@ -770,39 +449,7 @@ msgid "Task ID"
 msgstr ""
 
 #:  
-msgid "Workunit ID"
-msgstr ""
-
-#:  
-msgid "Host ID"
-msgstr ""
-
-#:  
 msgid "Application ID"
-msgstr ""
-
-#:  
-msgid "Application version"
-msgstr ""
-
-#:  
-msgid "Claimed credit"
-msgstr ""
-
-#:  
-msgid "Client state"
-msgstr ""
-
-#:  
-msgid "CPU time"
-msgstr ""
-
-#:  
-msgid "Run time"
-msgstr ""
-
-#:  
-msgid "Exit status"
 msgstr ""
 
 #:  
@@ -810,23 +457,7 @@ msgid "Granted credit"
 msgstr ""
 
 #:  
-msgid "Outcome"
-msgstr ""
-
-#:  
 msgid "Received time"
-msgstr ""
-
-#:  
-msgid "Report deadline"
-msgstr ""
-
-#:  
-msgid "Sent"
-msgstr ""
-
-#:  
-msgid "Server state"
 msgstr ""
 
 #:  
@@ -898,35 +529,7 @@ msgid "Version number"
 msgstr ""
 
 #:  
-msgid "Computer"
-msgstr ""
-
-#:  
 msgid "App version ID"
-msgstr ""
-
-#:  
-msgid "Consecutive valid tasks"
-msgstr ""
-
-#:  
-msgid "Number of tasks completed"
-msgstr ""
-
-#:  
-msgid "Max tasks per day"
-msgstr ""
-
-#:  
-msgid "Number of tasks today"
-msgstr ""
-
-#:  
-msgid "Show IP address"
-msgstr ""
-
-#:  
-msgid "hours"
 msgstr ""
 
 #:  
@@ -950,23 +553,7 @@ msgid "Ban user"
 msgstr ""
 
 #:  
-msgid "Add as friend"
-msgstr ""
-
-#:  
-msgid "Team"
-msgstr ""
-
-#:  
-msgid "Reply"
-msgstr ""
-
-#:  
 msgid "Reply to this comment"
-msgstr ""
-
-#:  
-msgid "Quote"
 msgstr ""
 
 #:  
@@ -994,7 +581,60 @@ msgid "Convert this comment to a new topic"
 msgstr ""
 
 #:  
-msgid "Details"
+msgid "@ip_address (same the last @count times)"
+msgstr ""
+
+#:  
+msgid "commented on"
+msgstr ""
+
+#:  
+msgid "Make unsticky"
+msgstr ""
+
+#:  
+msgid "Remove sticky status from this topic"
+msgstr ""
+
+#:  
+msgid ""
+"Sometimes BOINC assigns separate identities to the same computer by "
+"mistake. You can correct this by merging old identities with the "
+"newest one."
+msgstr ""
+
+#:  
+msgid ""
+"Check the computers that are the same as @name (created on @date at "
+"@time with computer ID @id)"
+msgstr ""
+
+#:  
+msgid "Computer @old_id has been merged successfully into @id."
+msgstr ""
+
+#:  
+msgid "started discussion"
+msgstr ""
+
+#:  
+msgid "posted"
+msgstr ""
+
+#:  
+msgid "Minimum value not met for @field"
+msgstr ""
+
+#:  
+msgid "Remove"
+msgstr ""
+
+#:  
+msgid "hidden"
+msgstr ""
+
+#:  
+msgid "Invalid data type for @field"
 msgstr ""
 
 #:  
@@ -1677,6 +1317,14 @@ msgid "Confirm before connecting to Internet?"
 msgstr ""
 
 #:  
+msgid "Matters only if you have a modem, ISDN, or VPN connection"
+msgstr ""
+
+#:  
+msgid "Disconnect when done?"
+msgstr ""
+
+#:  
 msgid "Maximum download rate"
 msgstr ""
 
@@ -1685,11 +1333,42 @@ msgid "Maximum upload rate"
 msgstr ""
 
 #:  
+msgid "Use network only between the hours of:"
+msgstr ""
+
+#:  
 msgid "Transfer at most"
 msgstr ""
 
 #:  
+msgid "Skip image file verification?"
+msgstr ""
+
+#:  
+msgid ""
+"Check this ONLY if your Internet provider modifies image files (UMTS "
+"does this, for example). Skipping verification reduces the security of "
+"BOINC."
+msgstr ""
+
+#:  
+msgid "Show comparison view"
+msgstr ""
+
+#:  
+msgid "Resource settings"
+msgstr ""
+
+#:  
 msgid "Resource share"
+msgstr ""
+
+#:  
+msgid ""
+"Determines the proportion of your computer's resources allocated to "
+"this project. Example: if you participate in two BOINC projects with "
+"resource shares of 100 and 200, the first will get 1/3 of your "
+"resources and the second will get 2/3."
 msgstr ""
 
 #:  
@@ -1705,6 +1384,14 @@ msgid "Use ATI GPU"
 msgstr ""
 
 #:  
+msgid "Use INTEL GPU"
+msgstr ""
+
+#:  
+msgid "Beta settings"
+msgstr ""
+
+#:  
 msgid "Run test applications?"
 msgstr ""
 
@@ -1715,11 +1402,65 @@ msgid ""
 msgstr ""
 
 #:  
+msgid "Default set"
+msgstr ""
+
+#:  
+msgid "Set used for new computers"
+msgstr ""
+
+#:  
 msgid "Merge"
 msgstr ""
 
 #:  
 msgid "Delete"
+msgstr ""
+
+#:  
+msgid ""
+"This will delete host @id from your account forever. Are you sure this "
+"is OK?"
+msgstr ""
+
+#:  
+msgid "Mark all topics read"
+msgstr ""
+
+#:  
+msgid "Mark all forums read"
+msgstr ""
+
+#:  
+msgid "Access denied. You must login to view this page."
+msgstr ""
+
+#:  
+msgid "You are not authorized to access this page."
+msgstr ""
+
+#:  
+msgid "Disable rich-text"
+msgstr ""
+
+#:  
+msgid "Enable rich-text"
+msgstr ""
+
+#:  
+msgid "View user profile."
+msgstr ""
+
+#:  
+msgid "BBcode help"
+msgstr ""
+
+#:  
+msgid "Post comment"
+msgstr ""
+
+#:  
+msgid "No @type tasks"
 msgstr ""
 
 #:  
@@ -1747,7 +1488,47 @@ msgid "Add"
 msgstr ""
 
 #:  
+msgid "General settings"
+msgstr ""
+
+#:  
+msgid "Time zone"
+msgstr ""
+
+#:  
+msgid "Notification settings"
+msgstr ""
+
+#:  
+msgid "Receive email notification for private messages?"
+msgstr ""
+
+#:  
+msgid "Receive email notification for friend requests?"
+msgstr ""
+
+#:  
+msgid "Language settings"
+msgstr ""
+
+#:  
+msgid "Avatar settings"
+msgstr ""
+
+#:  
 msgid "Create a profile"
+msgstr ""
+
+#:  
+msgid "Upload an avatar"
+msgstr ""
+
+#:  
+msgid "Forum settings"
+msgstr ""
+
+#:  
+msgid "comments per page"
 msgstr ""
 
 #:  
@@ -1755,7 +1536,23 @@ msgid "Newest post first"
 msgstr ""
 
 #:  
+msgid "Oldest post first"
+msgstr ""
+
+#:  
+msgid "Signature"
+msgstr ""
+
+#:  
+msgid "Privacy settings"
+msgstr ""
+
+#:  
 msgid "Hide"
+msgstr ""
+
+#:  
+msgid "Hide this topic"
 msgstr ""
 
 #:  
@@ -1767,11 +1564,23 @@ msgid "Make sticky"
 msgstr ""
 
 #:  
+msgid "moderation"
+msgstr ""
+
+#:  
+msgid "Post new comment"
+msgstr ""
+
+#:  
 msgid "Joined"
 msgstr ""
 
 #:  
 msgid "Credit"
+msgstr ""
+
+#:  
+msgid "RAC"
 msgstr ""
 
 #:  
@@ -1783,6 +1592,34 @@ msgid "Join this team"
 msgstr ""
 
 #:  
+msgid "Manage team"
+msgstr ""
+
+#:  
+msgid "View member list"
+msgstr ""
+
+#:  
+msgid "Member names and emails"
+msgstr ""
+
+#:  
+msgid "View change history"
+msgstr ""
+
+#:  
+msgid "See member activity"
+msgstr ""
+
+#:  
+msgid "Manage team message board"
+msgstr ""
+
+#:  
+msgid "Create or manage message board"
+msgstr ""
+
+#:  
 msgid "Remove members"
 msgstr ""
 
@@ -1791,11 +1628,19 @@ msgid "Change founder"
 msgstr ""
 
 #:  
+msgid "Manage team admins"
+msgstr ""
+
+#:  
 msgid "Edit team info"
 msgstr ""
 
 #:  
 msgid "Remove team"
+msgstr ""
+
+#:  
+msgid "Team forum"
 msgstr ""
 
 #:  
@@ -1828,5 +1673,217 @@ msgstr ""
 
 #:  
 msgid "Anonymous"
+msgstr ""
+
+#:  
+msgid "Recent average credit"
+msgstr ""
+
+#:  
+msgid "Members"
+msgstr ""
+
+#:  
+msgid "User ID"
+msgstr ""
+
+#:  
+msgid "User"
+msgstr ""
+
+#:  
+msgid "Email Address"
+msgstr ""
+
+#:  
+msgid "URL"
+msgstr ""
+
+#:  
+msgid "Computer ID"
+msgstr ""
+
+#:  
+msgid "Location"
+msgstr ""
+
+#:  
+msgid "While BOINC running, % of time work is allowed"
+msgstr ""
+
+#:  
+msgid "Average turnaround time"
+msgstr ""
+
+#:  
+msgid "Created"
+msgstr ""
+
+#:  
+msgid "While BOINC running, % of time host has an Internet connection"
+msgstr ""
+
+#:  
+msgid "Average CPU efficiency"
+msgstr ""
+
+#:  
+msgid "Total disk space"
+msgstr ""
+
+#:  
+msgid "Task duration correction factor"
+msgstr ""
+
+#:  
+msgid "Avg. credit"
+msgstr ""
+
+#:  
+msgid "External IP address"
+msgstr ""
+
+#:  
+msgid "Cache"
+msgstr ""
+
+#:  
+msgid "Memory"
+msgstr ""
+
+#:  
+msgid "Swap space"
+msgstr ""
+
+#:  
+msgid "Average download rate"
+msgstr ""
+
+#:  
+msgid "Average upload rate"
+msgstr ""
+
+#:  
+msgid "Operating system"
+msgstr ""
+
+#:  
+msgid "Measured floating point speed"
+msgstr ""
+
+#:  
+msgid "Measured integer speed"
+msgstr ""
+
+#:  
+msgid "Number of processors"
+msgstr ""
+
+#:  
+msgid "CPU"
+msgstr ""
+
+#:  
+msgid "Number of times client has contacted server"
+msgstr ""
+
+#:  
+msgid "Last contact"
+msgstr ""
+
+#:  
+msgid "Workunit ID"
+msgstr ""
+
+#:  
+msgid "Host ID"
+msgstr ""
+
+#:  
+msgid "Application version"
+msgstr ""
+
+#:  
+msgid "Claimed credit"
+msgstr ""
+
+#:  
+msgid "Client state"
+msgstr ""
+
+#:  
+msgid "CPU time"
+msgstr ""
+
+#:  
+msgid "Run time"
+msgstr ""
+
+#:  
+msgid "Exit status"
+msgstr ""
+
+#:  
+msgid "Outcome"
+msgstr ""
+
+#:  
+msgid "Report deadline"
+msgstr ""
+
+#:  
+msgid "Sent"
+msgstr ""
+
+#:  
+msgid "Server state"
+msgstr ""
+
+#:  
+msgid "Computer"
+msgstr ""
+
+#:  
+msgid "Consecutive valid tasks"
+msgstr ""
+
+#:  
+msgid "Number of tasks completed"
+msgstr ""
+
+#:  
+msgid "Max tasks per day"
+msgstr ""
+
+#:  
+msgid "Number of tasks today"
+msgstr ""
+
+#:  
+msgid "Show IP address"
+msgstr ""
+
+#:  
+msgid "hours"
+msgstr ""
+
+#:  
+msgid "Add as friend"
+msgstr ""
+
+#:  
+msgid "Team"
+msgstr ""
+
+#:  
+msgid "Reply"
+msgstr ""
+
+#:  
+msgid "Quote"
+msgstr ""
+
+#:  
+msgid "Details"
 msgstr ""
 
