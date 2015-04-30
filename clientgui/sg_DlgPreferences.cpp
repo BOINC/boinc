@@ -205,7 +205,6 @@ void CPanelPreferences::CreateControls()
 
         CTransparentStaticText* itemStaticText7 = new CTransparentStaticText( topSectionStaticBox, wxID_ANY, _("For additional settings, select Computing Preferences in the Advanced View."), wxDefaultPosition, wxDefaultSize, 0 );
         
-    //    itemStaticText7->SetFont(wxFont(MEDIUM_FONT, wxSWISS, wxNORMAL, wxBOLD, false, _T("Arial")));
         topSectionSizer->Add(itemStaticText7, 0, wxALL, 0);
 
         topSectionSizer->AddSpacer( 10 );
@@ -227,10 +226,6 @@ void CPanelPreferences::CreateControls()
         itemBoxSizer2->Add( topSectionSizer, 0, wxALL|wxEXPAND, 5 );
 #endif
     }
-
-//    wxFlexGridSizer* itemFlexGridSizer9 = new wxFlexGridSizer(1, 1, 0, 0);
-//    itemFlexGridSizer9->AddGrowableCol(0);
-//    itemBoxSizer2->Add(itemFlexGridSizer9, 0, wxGROW|wxALL, ADJUSTFORXDPI(5));
 
     wxBoxSizer* itemBoxSizer11 = new wxBoxSizer(wxVERTICAL);
     itemBoxSizer2->Add(itemBoxSizer11, 0, wxLEFT, ADJUSTFORXDPI(20));
@@ -353,11 +348,6 @@ void CPanelPreferences::CreateControls()
 
     itemBoxSizer44->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, ADJUSTFORXDPI(5));
 
-//    m_btnClear = new wxButton( this, ID_SGPREFERENCESCLEAR, _("Clear"), wxDefaultPosition, wxDefaultSize, 0 );
-//    m_btnClear->SetToolTip( _("Clear all local preferences listed above and close the dialog") );
-
-//    itemBoxSizer44->Add(m_btnClear, 0, wxALIGN_CENTER_VERTICAL|wxALL, ADJUSTFORXDPI(5));
-    
     wxButton* itemButton45 = new wxButton( itemDialog1, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer44->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, ADJUSTFORXDPI(5));
     
