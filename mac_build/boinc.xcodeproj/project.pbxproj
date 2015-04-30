@@ -135,7 +135,6 @@
 		DD3E15140A774397007E0084 /* ValidateURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C42607C5D1D70098A04D /* ValidateURL.cpp */; };
 		DD3E151A0A774397007E0084 /* ViewStatistics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDEF388E0802B73500E87552 /* ViewStatistics.cpp */; };
 		DD3E151B0A774397007E0084 /* UnavailablePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C46108F334EA00C1DF66 /* UnavailablePage.cpp */; };
-		DD3E151C0A774397007E0084 /* WelcomePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C46308F334EA00C1DF66 /* WelcomePage.cpp */; };
 		DD3E151F0A774397007E0084 /* wizardex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C46908F334EA00C1DF66 /* wizardex.cpp */; };
 		DD3E15200A774397007E0084 /* BOINCDialupManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD8DD4A509D9432F0043019E /* BOINCDialupManager.cpp */; };
 		DD3E15210A774397007E0084 /* check_security.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.cpp */; };
@@ -890,8 +889,6 @@
 		DD58C46008F334EA00C1DF66 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = resource.h; path = ../clientgui/resource.h; sourceTree = SOURCE_ROOT; };
 		DD58C46108F334EA00C1DF66 /* UnavailablePage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = UnavailablePage.cpp; path = ../clientgui/UnavailablePage.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C46208F334EA00C1DF66 /* UnavailablePage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = UnavailablePage.h; path = ../clientgui/UnavailablePage.h; sourceTree = SOURCE_ROOT; };
-		DD58C46308F334EA00C1DF66 /* WelcomePage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = WelcomePage.cpp; path = ../clientgui/WelcomePage.cpp; sourceTree = SOURCE_ROOT; };
-		DD58C46408F334EA00C1DF66 /* WelcomePage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = WelcomePage.h; path = ../clientgui/WelcomePage.h; sourceTree = SOURCE_ROOT; };
 		DD58C46908F334EA00C1DF66 /* wizardex.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = wizardex.cpp; path = ../clientgui/wizardex.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C46A08F334EA00C1DF66 /* wizardex.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wizardex.h; path = ../clientgui/wizardex.h; sourceTree = SOURCE_ROOT; };
 		DD5EF07007C5B329007CCE8D /* whetstone.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = whetstone.cpp; sourceTree = "<group>"; };
@@ -1648,8 +1645,6 @@
 				DDD52DC70C03CAE6009B5FC0 /* ViewTransfers.h */,
 				DDD52DC80C03CAE6009B5FC0 /* ViewWork.cpp */,
 				DDD52DC90C03CAE6009B5FC0 /* ViewWork.h */,
-				DD58C46308F334EA00C1DF66 /* WelcomePage.cpp */,
-				DD58C46408F334EA00C1DF66 /* WelcomePage.h */,
 				DDA850A21207EED900B473A6 /* WizardAttach.cpp */,
 				DDA850A31207EED900B473A6 /* WizardAttach.h */,
 				DD58C46908F334EA00C1DF66 /* wizardex.cpp */,
@@ -2407,7 +2402,7 @@
 			attributes = {
 				LastUpgradeCheck = 0610;
 			};
-			buildConfigurationList = DD9E2381091CBDAE0048316E /* Build configuration list for PBXProject "boinc-Xcode6" */;
+			buildConfigurationList = DD9E2381091CBDAE0048316E /* Build configuration list for PBXProject "boinc" */;
 			compatibilityVersion = "Xcode 3.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -2867,7 +2862,6 @@
 				DD3E15140A774397007E0084 /* ValidateURL.cpp in Sources */,
 				DD3E151A0A774397007E0084 /* ViewStatistics.cpp in Sources */,
 				DD3E151B0A774397007E0084 /* UnavailablePage.cpp in Sources */,
-				DD3E151C0A774397007E0084 /* WelcomePage.cpp in Sources */,
 				DD3E151F0A774397007E0084 /* wizardex.cpp in Sources */,
 				DD3E15200A774397007E0084 /* BOINCDialupManager.cpp in Sources */,
 				DD3E15210A774397007E0084 /* check_security.cpp in Sources */,
@@ -4483,7 +4477,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		DD9E2381091CBDAE0048316E /* Build configuration list for PBXProject "boinc-Xcode6" */ = {
+		DD9E2381091CBDAE0048316E /* Build configuration list for PBXProject "boinc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD9E2382091CBDAE0048316E /* Development */,
