@@ -344,6 +344,23 @@ void CBOINCListCtrl::SetListColumnOrder(wxArrayString& orderArray) {
         }
     }
     
+    // Prevent a crash bug if we just changed to a new locale.
+    //
+    // If a column has the same name in both the old and new locale, we guard against
+    // changing the sort column to that column.
+    //
+    // CBOINCListCtrl::OnRestoreState() may have incorrectly added the column names in
+    // the new locale as "new" columns, so check against both shownColCount and stdCount.
+    if (columnIndex < wxMin(shownColCount, stdCount)) {
+        SetStandardColumnOrder();
+        for (columnID=0; columnID<shownColCount; ++columnID) {
+            aOrder[columnID] = columnID;
+            pView->AppendColumn(columnID);
+            pView->m_iColumnIndexToColumnID.Add(columnID);
+            pView->m_iColumnIDToColumnIndex[columnID] = columnID;
+        }
+    }
+    
     // If sort column is now hidden, set the new first column as sort column
     if (pView->m_iSortColumnID >= 0) {
         sortColumnIndex = pView->m_iColumnIDToColumnIndex[pView->m_iSortColumnID];
@@ -358,7 +375,9 @@ void CBOINCListCtrl::SetListColumnOrder(wxArrayString& orderArray) {
     }
     
 #ifdef wxHAS_LISTCTRL_COLUMN_ORDER
-    SetColumnsOrder(aOrder);
+    if ((shownColCount > 0) && (shownColCount <= stdCount) && (colCount > 0)) {
+        SetColumnsOrder(aOrder);
+    }
 #endif
 }
 
@@ -385,7 +404,9 @@ void CBOINCListCtrl::SetStandardColumnOrder() {
         aOrder[i] = i;
     }
 #ifdef wxHAS_LISTCTRL_COLUMN_ORDER
-    SetColumnsOrder(aOrder);
+    if (colCount) {
+        SetColumnsOrder(aOrder);
+    }
 #endif
 }
 

@@ -214,7 +214,7 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
     m_aStdColNameOrder->Insert(_("Speed"), COLUMN_SPEED);
     m_aStdColNameOrder->Insert(_("Status"), COLUMN_STATUS);
 
-    // m_aStdColNameOrder is an array of the width for each column.
+    // m_iStdColWidthOrder is an array of the width for each column.
     // Entries must be in order of ascending Column ID.  We initalize
     // it here to the default column widths.  It is updated by
     // CBOINCListCtrl::OnRestoreState() and also when a user resizes
