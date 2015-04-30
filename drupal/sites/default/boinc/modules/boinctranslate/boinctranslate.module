@@ -65,6 +65,116 @@ function boinctranslate_menu() {
   return $items;
 }
 
+/**
+ * Implementation of hook_nodeapi(); add custom actions to node operations
+ * Obsolete in Drupal 7...
+ */
+function boinctranslate_nodeapi(&$node, $op, $a3 = null, $a4 = null) {
+  // In Drupal 7, these operation cases will all exist as their own hooks,
+  // so let's approximate that here so that this function can simply be removed
+  // upon migration to 7
+  switch($op) {
+  case 'update':
+    boinctranslate_node_update($node);
+    break;
+  case 'view':
+    global $language;
+    boinctranslate_node_view($node, 'full', $language->language);
+    break;
+  default:
+  }
+}
+
+/**
+ * Implementation of hook_node_update(); add custom actions when a node
+ * is updated (forward compatible to Drupal 7)
+ */
+function boinctranslate_node_update($node) {
+  switch($node->type) {
+  case 'page':
+    // Add page content to translation table
+    $textgroup = 'project';
+    $location = "node:{$node->nid}:body";
+    $status = NULL;
+    $lid = db_result(db_query("
+      SELECT lid FROM {locales_source}
+      WHERE location = '%s' AND textgroup = '%s'",
+      $location, $textgroup
+    ));
+    if ($lid) {
+      $result = db_query("
+        UPDATE {locales_source}
+        SET source = '%s'
+        WHERE lid = %d",
+        $node->body, $lid
+      );
+      if ($result) {
+        watchdog(
+          'boinctranslate',
+          'Updated translation source strings for node @nid.',
+          array('@nid' => $node->nid)
+        );
+      }
+      else {
+        drupal_set_message(
+          t('Unable to update translation source strings.'), 'error'
+        );
+        watchdog(
+          'boinctranslate',
+          'Unable to update translation source strings for node @nid.',
+          array('@nid' => $node->nid),
+          WATCHDOG_ERROR
+        );
+      }
+    }
+    else {
+      $result = db_query("
+        INSERT INTO {locales_source}
+        SET location = '%s', textgroup = '%s', source = '%s'",
+        $location, $textgroup, $node->body
+      );
+      if ($result) {
+        watchdog(
+          'boinctranslate',
+          'Added translation source strings for node @nid.',
+          array('@nid' => $node->nid)
+        );
+      }
+      else {
+        drupal_set_message(
+          t('Unable to add translation source strings.'), 'error'
+        );
+        watchdog(
+          'boinctranslate',
+          'Unable to add translation source strings for node @nid.',
+          array('@nid' => $node->nid),
+          WATCHDOG_ERROR
+        );
+      }
+    }
+    break;
+    
+  default:
+    
+  }
+}
+
+/**
+ * Implementation of hook_node_view(); add custom actions when a node
+ * is viewed (forward compatible to Drupal 7)
+ */
+function boinctranslate_node_view($node, $view_mode, $langcode) {
+  switch($node->type) {
+  case 'page':
+    // Replace the node body with translated content, if available
+    $node->content['body']['#value'] = bts(
+      $node->body, array(), $langcode, "project:node:{$node->nid}:body", FALSE
+    );
+    break;
+  default:
+  }
+}
+
 
 /**
  * Implementation of hook_panels_pane_content_alter()
