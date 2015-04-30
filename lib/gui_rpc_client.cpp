@@ -378,10 +378,13 @@ int RPC::parse_reply() {
     char buf[256], error_msg[256];
     int n;
     while (fin.fgets(buf, 256)) {
+        if (strstr(buf, "boinc_gui_rpc_reply>"))
+                continue;
         if (strstr(buf, "<success")) return 0;
         if (parse_int(buf, "<status>", n)) {
             return n;
         }
+        if (strstr(buf, "<unauthorized/>")) return ERR_AUTHENTICATOR;
         if (parse_str(buf, "<error>", error_msg, sizeof(error_msg))) {
             fprintf(stderr, "%s: GUI RPC error: %s\n",
                 time_to_string(dtime()), error_msg
