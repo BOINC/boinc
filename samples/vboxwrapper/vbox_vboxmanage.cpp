@@ -1362,6 +1362,15 @@ bool VBOX_VM::is_system_ready(std::string& message) {
         rc = false;
     }
 
+    if (
+        (output.find("Warning: program compiled against ") != string::npos) &&
+        (output.find(" using older ") != string::npos)
+    ){
+        vboxlog_msg("WARNING: VirtualBox incompatible dependencies detected.");
+        message = "Please update/reinstall VirtualBox";
+        rc = false;
+    }
+
     return rc;
 }
 
