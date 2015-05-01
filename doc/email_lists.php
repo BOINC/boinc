@@ -1,7 +1,7 @@
 <?php
 require_once("docutil.php");
 
-page_head("Email lists");
+page_head("BOINC email lists");
 
 
 echo "
@@ -50,7 +50,7 @@ list_item(
     "For people developing web sites showing statistics for BOINC projects."
 );
 list_item("<a href=http://lists.ssl.berkeley.edu/mailman/listinfo/boinc_cvs>boinc_cvs</a>",
-    "Summaries of BOINC CVS checkins are posted to this list.
+    "Summaries of changes to the BOINC source code are posted to this list.
     No other posts, please."
 );
 list_item("<a href=http://lists.ssl.berkeley.edu/mailman/listinfo/boinc_opt>boinc_opt</a>",
