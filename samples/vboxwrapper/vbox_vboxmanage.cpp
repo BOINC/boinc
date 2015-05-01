@@ -42,6 +42,7 @@ using std::string;
 #if defined(_MSC_VER)
 #define getcwd      _getcwd
 #define stricmp     _stricmp
+#define snprintf    _snprintf
 #endif
 
 #include "diagnostics.h"
@@ -1471,7 +1472,9 @@ int VBOX_VM::get_install_directory(string& install_directory) {
 int VBOX_VM::get_version_information(string& version) {
     string command;
     string output;
+    int vbox_major = 0, vbox_minor = 0, vbox_release = 0;
     int retval;
+    char buf[256];
 
     // Record the VirtualBox version information for later use.
     command = "--version ";
@@ -1487,7 +1490,17 @@ int VBOX_VM::get_version_information(string& version) {
                 ++iter;
             }
         }
-        version = string("VirtualBox VboxManage Interface (Version: ") + output + string(")");
+
+        if (3 == sscanf(output.c_str(), "%d.%d.%d", &vbox_major, &vbox_minor, &vbox_release)) {
+            snprintf(
+                buf, sizeof(buf),
+                "VirtualBox VboxManage Interface (Version: %d.%d.%d)",
+                vbox_major, vbox_minor, vbox_release
+            );
+            version = buf;
+        } else {
+            version = "VirtualBox VboxManage Interface (Version: Unknown)";
+        }
     }
 
     return retval;
