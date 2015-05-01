@@ -1351,8 +1351,11 @@ bool VBOX_VM::is_system_ready(std::string& message) {
         rc = false;
     }
 
-    if (output.find("WARNING: The vboxdrv kernel module is not loaded.") != string::npos) {
-        vboxlog_msg("WARNING: The vboxdrv kernel module is not loaded.");
+    if (
+        (output.find("WARNING: The vboxdrv kernel module is not loaded.") != string::npos) ||
+        (output.find("WARNING: The VirtualBox kernel modules are not loaded.") != string::npos)
+    ){
+        vboxlog_msg("WARNING: The VirtualBox kernel modules are not loaded.");
         vboxlog_msg("WARNING: Please update/recompile VirtualBox kernel drivers.");
         message = "Please update/recompile VirtualBox kernel drivers.";
         rc = false;
