@@ -42,6 +42,7 @@ using std::string;
 #if defined(_MSC_VER)
 #define getcwd      _getcwd
 #define stricmp     _stricmp
+#define snprintf    _snprintf
 #endif
 
 #include "diagnostics.h"
@@ -1351,10 +1352,22 @@ bool VBOX_VM::is_system_ready(std::string& message) {
         rc = false;
     }
 
-    if (output.find("WARNING: The vboxdrv kernel module is not loaded.") != string::npos) {
-        vboxlog_msg("WARNING: The vboxdrv kernel module is not loaded.");
+    if (
+        (output.find("WARNING: The vboxdrv kernel module is not loaded.") != string::npos) ||
+        (output.find("WARNING: The VirtualBox kernel modules are not loaded.") != string::npos)
+    ){
+        vboxlog_msg("WARNING: The VirtualBox kernel modules are not loaded.");
         vboxlog_msg("WARNING: Please update/recompile VirtualBox kernel drivers.");
         message = "Please update/recompile VirtualBox kernel drivers.";
+        rc = false;
+    }
+
+    if (
+        (output.find("Warning: program compiled against ") != string::npos) &&
+        (output.find(" using older ") != string::npos)
+    ){
+        vboxlog_msg("WARNING: VirtualBox incompatible dependencies detected.");
+        message = "Please update/reinstall VirtualBox";
         rc = false;
     }
 
@@ -1468,7 +1481,9 @@ int VBOX_VM::get_install_directory(string& install_directory) {
 int VBOX_VM::get_version_information(string& version) {
     string command;
     string output;
+    int vbox_major = 0, vbox_minor = 0, vbox_release = 0;
     int retval;
+    char buf[256];
 
     // Record the VirtualBox version information for later use.
     command = "--version ";
@@ -1484,7 +1499,17 @@ int VBOX_VM::get_version_information(string& version) {
                 ++iter;
             }
         }
-        version = string("VirtualBox VboxManage Interface (Version: ") + output + string(")");
+
+        if (3 == sscanf(output.c_str(), "%d.%d.%d", &vbox_major, &vbox_minor, &vbox_release)) {
+            snprintf(
+                buf, sizeof(buf),
+                "VirtualBox VboxManage Interface (Version: %d.%d.%d)",
+                vbox_major, vbox_minor, vbox_release
+            );
+            version = buf;
+        } else {
+            version = "VirtualBox VboxManage Interface (Version: Unknown)";
+        }
     }
 
     return retval;
