@@ -8,7 +8,7 @@
   <string name="generic_button_finish">Terminer</string>
   <!--attach project-->
   <!--selection list-->
-  <string name="attachproject_list_desc">Choisir un projet scientifique auquel vous voulez collaborer:</string>
+  <string name="attachproject_list_desc">Choisir un projet scientifique auquel vous voulez collaborer :</string>
   <string name="attachproject_list_header">Choisissez un projet</string>
   <string name="attachproject_list_manual_button">Ajouter un projet via son URL</string>
   <string name="attachproject_list_manual_dialog_title">URL du projet:</string>
