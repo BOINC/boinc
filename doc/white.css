@@ -55,8 +55,8 @@ body {
 }
 
 span.title{
-    font-variant: small-caps;
-    font-size: 2em;
+#font-variant: small-caps;
+    font-size: 1.8em;
 }
 span.subtitle{
     font-size: 1.3em;

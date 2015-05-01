@@ -308,6 +308,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
 
     wxStaticText* staticText24 = new wxStaticText(
             suspendComputingStaticBox, ID_DEFAULT,
+            // context: 'In use' means mouse/keyboard input in last ___ minutes
             _("'In use' means mouse/keyboard input in last"),
             wxDefaultPosition, wxDefaultSize, 0
         );
@@ -316,8 +317,12 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
         suspendComputingStaticBox, ID_TXTPROCIDLEFOR, wxEmptyString, wxDefaultPosition, getTextCtrlSize(wxT("999.99")), wxTE_RIGHT
     );
 
-    wxStaticText* staticText25 = new wxStaticText(suspendComputingStaticBox, ID_DEFAULT, _("minutes"),
-            wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText* staticText25 = new wxStaticText(
+        suspendComputingStaticBox, ID_DEFAULT,
+        // context: 'In use' means mouse/keyboard input in last ___ minutes
+        _("minutes"),
+        wxDefaultPosition, wxDefaultSize, 0
+    );
 
     addNewRowToSizer(suspendComputingBoxSizer, ProcIdleForTT, staticText24, m_txtProcIdleFor, staticText25);
 
@@ -346,7 +351,11 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     processorTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
     processorTabSizer->Add( suspendComputingBoxSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE );
 
-    wxStaticBox* miscProcStaticBox = new wxStaticBox( processorTab, -1, _("Other") );
+    wxStaticBox* miscProcStaticBox = new wxStaticBox(
+        processorTab, -1,
+        // Context: heading for a group of miscellaneous preferences
+        _("Other")
+    );
     wxStaticBoxSizer* miscProcBoxSizer = new wxStaticBoxSizer( miscProcStaticBox, wxVERTICAL );
     makeStaticBoxLabelItalic(miscProcStaticBox);
 
@@ -354,7 +363,9 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     wxString NetConnectIntervalTT(_("Store at least enough tasks to keep the computer busy for this long."));
     wxStaticText* staticText30 = new wxStaticText(
         miscProcStaticBox, ID_DEFAULT,
-        _("Store at least"), wxDefaultPosition, wxDefaultSize, 0
+        // context: Store at least ___ days of work
+        _("Store at least"),
+        wxDefaultPosition, wxDefaultSize, 0
     );
 
     m_txtNetConnectInterval = new wxTextCtrl(
@@ -362,7 +373,10 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     );
 
     wxStaticText* staticText31 = new wxStaticText(
-        miscProcStaticBox, ID_DEFAULT, _("days of work"), wxDefaultPosition, wxDefaultSize, 0
+        miscProcStaticBox, ID_DEFAULT,
+        // context: Store at least ___ days of work
+        _("days of work"),
+        wxDefaultPosition, wxDefaultSize, 0
     );
 
     addNewRowToSizer(miscProcBoxSizer, NetConnectIntervalTT, staticText30, m_txtNetConnectInterval, staticText31);
@@ -370,7 +384,9 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     wxString NetAdditionalDaysTT(_("Store additional tasks above the minimum level.  Determines how much work is requested when contacting a project."));
     wxStaticText* staticText331 = new wxStaticText(
         miscProcStaticBox, ID_DEFAULT,
-        _("Store up to an additional"), wxDefaultPosition, wxDefaultSize, 0
+        // context: Store up to an additional ___ days of work
+        _("Store up to an additional"),
+        wxDefaultPosition, wxDefaultSize, 0
     );
     staticText331->SetToolTip(NetAdditionalDaysTT);
 
@@ -378,27 +394,52 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
         miscProcStaticBox, ID_TXTNETADDITIONALDAYS, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT
     );
 
-    wxStaticText* staticText341 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("days of work"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText* staticText341 = new wxStaticText(
+        miscProcStaticBox, ID_DEFAULT,
+        // context: Store up to an additional ___ days of work
+        _("days of work"),
+        wxDefaultPosition, wxDefaultSize, 0
+    );
 
     addNewRowToSizer(miscProcBoxSizer, NetAdditionalDaysTT, staticText331, m_txtNetAdditionalDays, staticText341);
 
     wxString ProcSwitchEveryTT = wxEmptyString;
     ProcSwitchEveryTT.Printf(_("If you run several projects, %s may switch between them this often."), pSkinAdvanced->GetApplicationShortName().c_str());
     
-    wxStaticText* staticText18 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("Switch between tasks every"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText* staticText18 = new wxStaticText(
+        miscProcStaticBox, ID_DEFAULT,
+        // context: Switch between tasks every ___ minutes
+        _("Switch between tasks every"),
+        wxDefaultPosition, wxDefaultSize, 0
+    );
     
     m_txtProcSwitchEvery = new wxTextCtrl( miscProcStaticBox, ID_TXTPROCSWITCHEVERY, wxEmptyString, wxDefaultPosition, getTextCtrlSize(wxT("9999.99")), wxTE_RIGHT );
 
-    wxStaticText* staticText19 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("minutes"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText* staticText19 = new wxStaticText(
+        miscProcStaticBox, ID_DEFAULT,
+        // context: Switch between tasks every ___ minutes
+        _("minutes"),
+        wxDefaultPosition, wxDefaultSize, 0
+    );
 
     addNewRowToSizer(miscProcBoxSizer, ProcSwitchEveryTT, staticText18, m_txtProcSwitchEvery, staticText19);
 
     wxString DiskWriteToDiskTT(_("This controls how often tasks save their state to disk, so that they can be restarted later."));
-    wxStaticText* staticText46 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("Request tasks to checkpoint at most every"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText* staticText46 = new wxStaticText(
+        miscProcStaticBox, ID_DEFAULT,
+        // context: Request tasks to checkpoint at most every ___ seconds
+        _("Request tasks to checkpoint at most every"),
+        wxDefaultPosition, wxDefaultSize, 0
+    );
 
     m_txtDiskWriteToDisk = new wxTextCtrl( miscProcStaticBox, ID_TXTDISKWRITETODISK, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
 
-    wxStaticText* staticText47 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("seconds"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText* staticText47 = new wxStaticText(
+        miscProcStaticBox, ID_DEFAULT,
+        // context: Request tasks to checkpoint at most every ___ seconds
+        _("seconds"),
+        wxDefaultPosition, wxDefaultSize, 0
+    );
 
     addNewRowToSizer(miscProcBoxSizer, DiskWriteToDiskTT, staticText46, m_txtDiskWriteToDisk, staticText47);
 
@@ -476,7 +517,12 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
     networkTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
     networkTabSizer->Add( networkUsageLimitsBoxSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, STATICBOXBORDERSIZE );
 
-    wxStaticBox* connectOptionsStaticBox = new wxStaticBox( networkTab, -1, _("Other") );
+        // Context: heading for a group of miscellaneous preferences
+    wxStaticBox* connectOptionsStaticBox = new wxStaticBox(
+        networkTab, -1,
+        // Context: heading for a group of miscellaneous preferences
+        _("Other")
+    );
     wxStaticBoxSizer* connectOptionsSizer = new wxStaticBoxSizer( connectOptionsStaticBox, wxVERTICAL );
     makeStaticBoxLabelItalic(connectOptionsStaticBox);
 

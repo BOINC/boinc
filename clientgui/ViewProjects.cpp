@@ -254,7 +254,7 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     // Entries must be in order of ascending Column ID.  We initalize
     // it here to the default column widths.  It is updated by
     // CBOINCListCtrl::OnRestoreState() and also when a user resizes
-    // a column bby dragging the divider between two columns.
+    // a column by dragging the divider between two columns.
     //
     m_iStdColWidthOrder.Clear();
     m_iStdColWidthOrder.Insert(150, COLUMN_PROJECT);
