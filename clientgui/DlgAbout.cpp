@@ -200,16 +200,12 @@ void CDlgAbout::CreateControls() {
     itemBoxSizer2->Add(itemBoxSizer3, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
 
     wxStaticText* itemStaticText15 = new wxStaticText;
-    itemStaticText15->Create( itemDialog1, wxID_STATIC, _("Visit "), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText15->Create( itemDialog1, wxID_STATIC, _("For more information, visit "), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer3->Add(itemStaticText15, 0, wxALIGN_CENTER|wxALL, 5);
 
     m_AboutBOINCURLCtrl = new wxHyperlinkCtrl;
     m_AboutBOINCURLCtrl->Create( itemDialog1, ID_ABOUTBOINCLINK, wxT("http://boinc.berkeley.edu/"), wxT("http://boinc.berkeley.edu/"), wxDefaultPosition, wxDefaultSize, wxNO_BORDER | wxHL_ALIGN_CENTRE | wxHL_CONTEXTMENU );
     itemBoxSizer3->Add(m_AboutBOINCURLCtrl, 0, wxALIGN_CENTER|wxALL, 0);
-
-    wxStaticText* itemStaticText16 = new wxStaticText;
-    itemStaticText16->Create( itemDialog1, wxID_STATIC, _("for more information."), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer3->Add(itemStaticText16, 0, wxALIGN_CENTER|wxALL, 5);
 
     wxStaticLine* itemStaticLine15 = new wxStaticLine;
     itemStaticLine15->Create( itemDialog1, wxID_STATIC, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );

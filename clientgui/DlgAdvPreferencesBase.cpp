@@ -323,7 +323,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
 
     // max CPU load
     wxString MaxLoadCheckBoxText = wxEmptyString;
-    MaxLoadCheckBoxText.Printf(_("Suspend when non-%s CPU usage is above"), pSkinAdvanced->GetApplicationShortName().c_str());
+    MaxLoadCheckBoxText.Printf(_("Suspend when non-BOINC CPU usage is above"));
 
     wxString MaxLoadTT(_("Suspend computing when your computer is busy running other programs."));
     m_chkMaxLoad = new wxCheckBox(
