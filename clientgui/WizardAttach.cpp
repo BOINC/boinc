@@ -432,7 +432,15 @@ bool CWizardAttach::HasNextPage( wxWizardPageEx* page )
  
 bool CWizardAttach::HasPrevPage( wxWizardPageEx* page )
 {
-    if ((page == m_ProjectWelcomePage) || (page == m_CompletionPage) || (page == m_CompletionErrorPage))
+    bool bNoPrevPageDetected = false;
+
+    bNoPrevPageDetected |= (page == m_ProjectWelcomePage);
+    bNoPrevPageDetected |= (page == m_ProjectInfoPage);
+    bNoPrevPageDetected |= (page == m_AccountManagerInfoPage);
+    bNoPrevPageDetected |= (page == m_CompletionPage);
+    bNoPrevPageDetected |= (page == m_CompletionErrorPage);
+
+    if (bNoPrevPageDetected)
         return false;
     return true;
 }
