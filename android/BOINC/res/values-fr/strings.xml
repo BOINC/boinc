@@ -222,15 +222,15 @@
   <string name="projects_control_suspend">Suspendre</string>
   <string name="projects_control_resume">Reprendre</string>
   <string name="projects_control_nonewtasks">Pas de nouveau travail</string>
-  <string name="projects_control_allownewtasks">Autoriser du nouveau travail</string>
+  <string name="projects_control_allownewtasks">Autoriser une nouvelle tâche</string>
   <string name="projects_control_reset">Réinitialiser</string>
   <string name="projects_control_dialog_title_acctmgr">Commandes du gestionnaire de compte:</string>
   <string name="projects_control_sync_acctmgr">Synchroniser</string>
   <string name="projects_control_remove_acctmgr">Désactiver</string>
   <!--project confirm dialog-->
-  <string name="projects_confirm_detach_title">Supprimer le projet?</string>
+  <string name="projects_confirm_detach_title">Supprimer le projet ?</string>
   <string name="projects_confirm_detach_message">Êtes-vous sûr de vouloir supprimer </string>
-  <string name="projects_confirm_detach_message2">de BOINC ?</string>
+  <string name="projects_confirm_detach_message2">de BOINC ?</string>
   <string name="projects_confirm_detach_confirm">Supprimer</string>
   <string name="projects_confirm_reset_title">Recommencer le projet</string>
   <string name="projects_confirm_reset_message">Êtes-vous sûr de vouloir recommencer </string>
@@ -249,7 +249,7 @@
   <string name="tasks_result_files_downloading">En attente de téléchargement</string>
   <string name="tasks_result_files_downloaded">Téléchargement terminé</string>
   <string name="tasks_result_compute_error">erreur de calcul</string>
-  <string name="tasks_result_files_uploading">Téléversement (upload)</string>
+  <string name="tasks_result_files_uploading">Transférer</string>
   <string name="tasks_result_files_uploaded">Mise à jour effectuée</string>
   <string name="tasks_result_aborted">annulé</string>
   <string name="tasks_result_upload_failed">échec du chargement </string>
@@ -262,8 +262,8 @@
   <string name="tasks_custom_project_suspended_via_gui">projet suspendu</string>
   <string name="tasks_custom_ready_to_report">prêt à valider</string>
   <!--confirmation dialog-->
-  <string name="confirm_abort_task_title">Abandonner la tâche?</string>
-  <string name="confirm_abort_task_message">Abandonner la tâche:</string>
+  <string name="confirm_abort_task_title">Abandonner la tâche ?</string>
+  <string name="confirm_abort_task_message">Abandonner la tâche :</string>
   <string name="confirm_abort_task_confirm">Abandonner</string>
   <string name="confirm_cancel">Annuler</string>
   <string name="confirm_image_desc">Confirmation</string>
@@ -277,10 +277,10 @@
   <string name="trans_active">actif</string>
   <string name="trans_pending">en attente</string>
   <string name="trans_projectbackoff"> retrait de projet</string>
-  <string name="trans_header_name">Fichier:</string>
+  <string name="trans_header_name">Fichier :</string>
   <string name="trans_control_retry">Réessayer le transfert</string>
-  <string name="confirm_abort_trans_title">Annuler le transfert?</string>
-  <string name="confirm_abort_trans_message">Annuler le transfert de fichier</string>
+  <string name="confirm_abort_trans_title">Annuler le transfert ?</string>
+  <string name="confirm_abort_trans_message">Abandonner le fichier :</string>
   <string name="confirm_abort_trans_confirm">Abandonner</string>
   <!--notices tab strings-->
   <string name="notices_loading">Lecture des remarques...</string>
