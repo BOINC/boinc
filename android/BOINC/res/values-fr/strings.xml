@@ -173,7 +173,7 @@
   <string name="prefs_disk_max_pct_header">Espace de stockage utilisé maximum</string>
   <string name="prefs_disk_max_pct_description">Quel pourcentage de l\'espace de stockage BOINC peut-il utiliser ? </string>
   <string name="prefs_disk_min_free_gb_header">Capacité de stockage minimum</string>
-  <string name="prefs_disk_min_free_gb_description">Quelle capacité de stockage de votre appareil doit rester disponible ? </string>
+  <string name="prefs_disk_min_free_gb_description">Quelle capacité de stockage de votre appareil doit rester disponible ? </string>
   <string name="prefs_disk_access_interval_header">Intervalle d\'accès</string>
   <string name="prefs_disk_access_interval_description">Suggère un intervalle entre les accès disque</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Limite de transfert journalier</string>
