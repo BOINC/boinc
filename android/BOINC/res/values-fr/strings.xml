@@ -120,7 +120,7 @@
   <string name="attachproject_working_acctmgr_sync">Synchroniser</string>
   <!--main activity-->
   <string name="main_noproject_warning">Touchez ici pour choisir un projet.</string>
-  <string name="main_error">Oups!</string>
+  <string name="main_error">Oups !</string>
   <string name="main_error_long">...ceci ne devrait pas se produire!\nCliquer sur l\'icône pour essayer de nouveau.</string>
   <string name="main_title_icon_desc">Icône de BOINC</string>
   <!--tab names-->
@@ -171,7 +171,7 @@
   <string name="battery_temperature_max_header">Température batterie maximale.</string>
   <string name="battery_temperature_max_description">BOINC suspend le calcul au dessus de la température de batterie définie. Il n\'est pas recommandé de modifier cette valeur.</string>
   <string name="prefs_disk_max_pct_header">Espace de stockage utilisé maximum</string>
-  <string name="prefs_disk_max_pct_description">Quel pourcentage de l\'espace de stockage BOINC peut-il utiliser ? </string>
+  <string name="prefs_disk_max_pct_description">Quel pourcentage de l\'espace de stockage BOINC peut-il utiliser ? </string>
   <string name="prefs_disk_min_free_gb_header">Capacité de stockage minimum</string>
   <string name="prefs_disk_min_free_gb_description">Quelle capacité de stockage de votre appareil doit rester disponible ? </string>
   <string name="prefs_disk_access_interval_header">Intervalle d\'accès</string>
@@ -182,7 +182,7 @@
   <string name="prefs_autostart_header">Démarage automatique</string>
   <string name="prefs_show_notification_notices_header">Afficher les notifications pour les nouvelles remarques</string>
   <string name="prefs_show_notification_suspended_header">Afficher les notifications lorsque suspendu</string>
-  <string name="prefs_cpu_number_cpus_header">Cores CPU utilisés</string>
+  <string name="prefs_cpu_number_cpus_header">Cœurs du CPU utilisés</string>
   <string name="prefs_cpu_number_cpus_description">Limiter le nombre de cores CPU que BOINC peut utiliser pour le calcul.</string>
   <string name="prefs_cpu_other_load_suspension_header">Mettre en pause si l\'utilisation du CPU dépasse</string>
   <string name="prefs_cpu_other_load_suspension_description">Détermine si BOINC doit suspendre les calculs du fait de l\'exécution d\'autres applications.</string>
@@ -192,7 +192,7 @@
   <string name="prefs_memory_max_idle_description">Limite la quantité de RAM que les tâches peuvent utiliser. </string>
   <string name="prefs_client_log_flags_header">Drapeaux de journal du client BOINC</string>
   <string name="prefs_gui_log_level_header">Journal niveau GUI</string>
-  <string name="prefs_gui_log_level_description">Définit le niveau de détail des messages du journal GUI</string>
+  <string name="prefs_gui_log_level_description">Définit le niveau de détail de la GUI des messages du journal</string>
   <string name="prefs_unit_mb">Mo</string>
   <string name="prefs_unit_gb">Go</string>
   <string name="prefs_unit_pct">%</string>
@@ -207,7 +207,7 @@
   <string name="projects_credits_user_header">(total)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Suspendu par l\'utilisateur</string>
-  <string name="projects_status_dontrequestmorework">Pas de nouveau travail</string>
+  <string name="projects_status_dontrequestmorework">Pas de nouvelle tâche</string>
   <string name="projects_status_ended">Projet terminé - OK pour le retirer.</string>
   <string name="projects_status_detachwhendone">Se détacher une fois les tâches terminées</string>
   <string name="projects_status_schedrpcpending">Requête au planificateur en attente</string>
@@ -216,12 +216,12 @@
   <string name="projects_status_backoff">Communication prévue dans:</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Commandes du projet:</string>
-  <string name="projects_control_visit_website">Visitez le site web</string>
+  <string name="projects_control_visit_website">Visitez le site Web</string>
   <string name="projects_control_update">Mise à jour</string>
   <string name="projects_control_remove">Supprimer</string>
   <string name="projects_control_suspend">Suspendre</string>
   <string name="projects_control_resume">Reprendre</string>
-  <string name="projects_control_nonewtasks">Pas de nouveau travail</string>
+  <string name="projects_control_nonewtasks">Pas de nouvelle tâche</string>
   <string name="projects_control_allownewtasks">Autoriser une nouvelle tâche</string>
   <string name="projects_control_reset">Réinitialiser</string>
   <string name="projects_control_dialog_title_acctmgr">Commandes du gestionnaire de compte:</string>
