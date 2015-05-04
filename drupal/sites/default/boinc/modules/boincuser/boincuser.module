@@ -50,6 +50,33 @@ function boincuser_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => 5
   );
+  $items['moderate/profile/%user/approve'] = array(
+    'title' => 'Profile approval',
+    'description' => 'Approve profile content',
+    'page callback' => 'boincuser_moderate_profile_approve',
+    'page arguments' => array(2),
+    'access arguments' => array('edit any profile content'),
+    'type' => MENU_CALLBACK,
+    'weight' => 5
+  );
+  $items['moderate/profile/%user/edit'] = array(
+    'title' => 'Profile editor',
+    'description' => 'Edit a user profile',
+    'page callback' => 'boincuser_edit_profile',
+    'page arguments' => array(2),
+    'access arguments' => array('edit any profile content'),
+    'type' => MENU_CALLBACK,
+    'weight' => 5
+  );
+  $items['moderate/profile/%user/remove'] = array(
+    'title' => 'Profile removal',
+    'description' => 'Remove profile content',
+    'page callback' => 'boincuser_moderate_profile_remove',
+    'page arguments' => array(2),
+    'access arguments' => array('delete any profile content'),
+    'type' => MENU_CALLBACK,
+    'weight' => 5
+  );
   $items['join'] = array(
     'title' => '',
     'description' => '',
@@ -1219,7 +1246,32 @@ function boincuser_control($uid = NULL, $action = NULL) {
     break;
   default:
   }
-  drupal_goto("user/{$account->uid}");
+  drupal_goto("account/{$account->uid}");
+}
+
+/**
+ * Allow user profile to be approved by direct link rather than through the
+ * user account info form.
+ */
+function boincuser_moderate_profile_approve($account) {
+  $profile = content_profile_load('profile', $account->uid);
+  $profile->status = 1;
+  node_save($profile);
+  drupal_set_message('This profile has been marked as approved.');
+  drupal_goto("account/{$account->uid}");
+}
+
+/**
+ * Allow user profile to be removed by direct link rather than through the
+ * user account info form.
+ */
+function boincuser_moderate_profile_remove($account) {
+  $profile = content_profile_load('profile', $account->uid);
+  if ($profile->nid) {
+    node_delete($profile->nid);
+    //drupal_set_message('This profile has been removed from the system.');
+  }
+  drupal_goto("account/{$account->uid}");
 }
 
 
@@ -1353,4 +1405,73 @@ function boincuser_get_projects($account = null) {
   $account_stats = boincuser_get_stats_user_data($account->boincuser_cpid);
   
   return ($account_stats AND isset($account_stats->project)) ? $account_stats->project : null;
+}
+
+
+/**
+ * Get the links to display under the user profile
+ */
+function boincuser_get_profile_links($uid) {
+  global $user;
+  $account = user_load($uid);
+  $profile = content_profile_load('profile', $account->uid);
+  $output = '';
+  if ($profile) {
+    $profile_is_approved = $profile->status;
+    $user_is_moderator = user_access('edit any profile content');
+    $is_own_profile = ($user->uid == $account->uid);
+    $profile_moderation_path = "moderate/profile/{$account->uid}";
+    $links = array();
+    
+    if (!$profile_is_approved AND $user_is_moderator) {
+      $links['approve_profile'] = array(
+        'title' => bts('Approve profile'),
+        'href' => "{$profile_moderation_path}/approve",
+        'attributes' => array(
+          'title' => bts('Approve this profile content'),
+          'class' => 'first primary tab',
+        )
+      );
+      $links['edit_profile'] = array(
+        'title' => bts('Edit profile'),
+        'href' => "{$profile_moderation_path}/edit",
+        'attributes' => array(
+          'title' => bts('Edit the content of this profile'),
+          'class' => 'tab',
+        )
+      );
+      $links['remove_profile'] = array(
+        'title' => bts('Remove profile'),
+        'href' => "{$profile_moderation_path}/remove",
+        'attributes' => array(
+          'title' => bts('Remove this profile content from the system'),
+          'class' => 'tab',
+        )
+      );
+    }
+    $output .= '<ul class="tab-list">';
+    $count = 0;
+    foreach ($links as $key => $link) {
+      $output .= '<li class="' . (($count == 0) ? 'first primary ' : '') . 'tab">';
+      $output .= l($link['title'], $link['href'], array('query' => drupal_get_destination()));
+      $output .= '</li>';
+      $count++;
+    }
+    $output .= '<li class="' . (($count) ? '' : 'first ') . 'last tab">' . flag_create_link('abuse_user', $account->uid) . '</li>';
+    $output .= '</ul>';
+  }
+  return $output;
+/*
+<ul class="tab-list">
+  <li class="primary first tab">
+    <?php print l(bts('Approve profile'), 'moderate/profile/%user:uid/approve'); ?>
+  </li>
+  <li class="tab">
+    <?php print l(bts('Remove profile'), 'moderate/profile/%user:uid/remove'); ?>
+  </li>
+  <li class="last tab">
+    <?php print flag_create_link('abuse_user', %user:uid); ?>
+  </li>
+</ul>
+*/
 }

@@ -37,6 +37,7 @@ function user_profiles_user_default_permissions() {
     'name' => 'delete any profile content',
     'roles' => array(
       '0' => 'administrator',
+      '1' => 'moderator',
     ),
   );
 
@@ -62,6 +63,7 @@ function user_profiles_user_default_permissions() {
     'name' => 'edit any profile content',
     'roles' => array(
       '0' => 'administrator',
+      '1' => 'moderator',
     ),
   );
 

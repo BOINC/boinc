@@ -67,9 +67,7 @@ function user_profiles_default_panels_mini() {
     $pane->configuration = array(
       'admin_title' => 'Flag user',
       'title' => '',
-      'body' => '<?php
-  print flag_create_link(\'abuse_user\', %user:uid);
-?>',
+      'body' => '<?php print boincuser_get_profile_links(%user:uid); ?>',
       'format' => '3',
       'substitute' => 1,
     );

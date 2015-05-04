@@ -43,6 +43,7 @@
 ?>
 <?php
 
+global $user;
 drupal_set_title('');
 $account = user_load($account->uid);
 $content_profile = content_profile_load('profile', $account->uid);
@@ -53,6 +54,9 @@ $website = check_plain($content_profile->field_url[0]['value']);
 $background = $content_profile->field_background[0]['value'];
 $opinions = $content_profile->field_opinions[0]['value'];
 $user_links = array();
+$profile_is_approved = $content_profile->status;
+$user_is_moderator = user_access('edit any profile content');
+$is_own_profile = ($user->uid == $account->uid);
 
 if ($user->uid AND ($user->uid != $account->uid)) {
   if (module_exists('private_messages')) {
@@ -64,7 +68,6 @@ if ($user->uid AND ($user->uid != $account->uid)) {
   }
   
   if (module_exists('friends')) {
-    global $user;
     $flag = flag_get_flag('friend');
     $friend_status = flag_friend_determine_friend_status($flag, $account->uid, $user->uid);
     switch ($friend_status) {
@@ -135,7 +138,7 @@ if ($user->uid AND ($user->uid != $account->uid)) {
       <span class="label"><?php print bts('Country'); ?>:</span>
       <span class="value"><?php print $country; ?></span>
     </div>
-    <?php if ($website): ?>
+    <?php if ($website AND ($profile_is_approved OR $user_is_moderator OR $is_own_profile)): ?>
       <div class="website">
         <span class="label"><?php print bts('Website'); ?>:</span>
         <span class="value"><?php print l($website, (strpos($website, 'http') === false) ? "http://{$website}" : $website); ?></span>
@@ -160,22 +163,25 @@ if ($user->uid AND ($user->uid != $account->uid)) {
   </div>
   <?php if ($background OR $opinions): ?>
     <div class="bio">
-      <?php if ($background): ?>
-        <div class="background">
-          <span class="label"><?php print bts('Background'); ?></span>
-          <span class="value"><?php print $background; ?></span>
-        </div>
+      <?php if ($profile_is_approved OR $user_is_moderator OR $is_own_profile): ?>
+        <?php if ($background): ?>
+          <div class="background">
+            <span class="label"><?php print bts('Background'); ?></span>
+            <span class="value"><?php print $background; ?></span>
+          </div>
+        <?php endif; ?>
+        <?php if ($opinions): ?>
+          <div class="opinions">
+            <span class="label"><?php print bts('Opinion'); ?></span>
+            <span class="value"><?php print $opinions; ?></span>
+          </div>
+        <?php endif; ?>
       <?php endif; ?>
-      <?php if ($opinions): ?>
-        <div class="opinions">
-          <span class="label"><?php print bts('Opinion'); ?></span>
-          <span class="value"><?php print $opinions; ?></span>
+      <?php if (!$profile_is_approved): ?>
+        <div class="background">
+          (<?php print bts('Profile awaiting moderator approval'); ?>)
         </div>
       <?php endif; ?>
     </div>
   <?php endif; ?>
-  <?php /*print $user_profile; ?>
-  <pre><?php print_r($profile); ?></pre>
-  <pre><?php print_r($account); ?></pre>
-  <pre><?php print_r($content_profile); ?></pre> */ ?>
 </div>
