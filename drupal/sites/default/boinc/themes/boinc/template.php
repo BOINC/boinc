@@ -76,6 +76,22 @@ function boinc_theme(&$existing, $type, $theme, $path) {
   return $hooks;
 }
 
+
+/**
+ * Remove undesired local task tabs
+ */
+function boinc_menu_local_task($link, $active = FALSE) {
+  if (strpos($link, 'admin/build/pages') !== FALSE
+  AND strpos($link, 'Edit Panel')) {
+    // Remove Edit Panel tab
+    return '';
+  }
+  else {
+    return '<li '. ($active ? 'class="active" ' : '') .'>'. $link ."</li>\n";
+  }
+}
+
+
 /**
  * Override or insert variables into all templates.
  *

@@ -125,6 +125,11 @@ class BoincUser {
         }
         return self::$cache[$id];
     }
+    static function lookup_email_addr($email_addr) {
+        $db = BoincDb::get();
+        $email_addr = BoincDb::escape_string($email_addr);
+        return self::lookup("email_addr='$email_addr'");
+    }
     static function count($clause) {
         $db = BoincDb::get();
         return $db->count('user', $clause);
@@ -193,6 +198,11 @@ class BoincTeam {
     static function lookup($clause) {
         $db = BoincDb::get();
         return $db->lookup('team', 'BoincTeam', $clause);
+    }
+    static function lookup_name($name) {
+        $db = BoincDb::get();
+        $name = BoincDb::escape_string($name);
+        return self::lookup("name='$name'");
     }
     function delete() {
         $db = BoincDb::get();

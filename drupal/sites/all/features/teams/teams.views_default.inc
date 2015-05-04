@@ -3058,7 +3058,7 @@ else {
   ));
   $handler->override_option('header_format', '1');
   $handler->override_option('header_empty', 1);
-  $handler = $view->new_display('panel_pane', 'Top teams pane', 'panel_pane_1');
+  $handler = $view->new_display('panel_pane', 'Top teams overview pane', 'panel_pane_1');
   $handler->override_option('use_more', 1);
   $handler->override_option('use_more_always', 1);
   $handler->override_option('use_more_text', 'view more');
@@ -3070,20 +3070,28 @@ else {
     'order' => 'desc',
     'summary' => '',
     'columns' => array(
+      'rownumber' => 'rownumber',
       'id' => 'id',
       'name' => 'name',
+      'phpcode' => 'phpcode',
       'expavg_credit' => 'expavg_credit',
       'total_credit' => 'total_credit',
       'country' => 'country',
       'nusers' => 'nusers',
     ),
     'info' => array(
+      'rownumber' => array(
+        'separator' => '',
+      ),
       'id' => array(
         'sortable' => 1,
         'separator' => '',
       ),
       'name' => array(
         'sortable' => 1,
+        'separator' => '',
+      ),
+      'phpcode' => array(
         'separator' => '',
       ),
       'expavg_credit' => array(
@@ -3103,7 +3111,7 @@ else {
         'separator' => '',
       ),
     ),
-    'default' => 'total_credit',
+    'default' => 'expavg_credit',
   ));
   $handler->override_option('pane_title', '');
   $handler->override_option('pane_description', '');
@@ -3126,7 +3134,6 @@ else {
   $handler->override_option('link_to_view', 0);
   $handler->override_option('inherit_panels_path', 0);
   $handler = $view->new_display('page', 'Page', 'page_1');
-  $handler->override_option('title', 'Top teams');
   $handler->override_option('items_per_page', 50);
   $handler->override_option('use_pager', '1');
   $handler->override_option('style_plugin', 'table');
@@ -3137,20 +3144,28 @@ else {
     'order' => 'desc',
     'summary' => '',
     'columns' => array(
+      'rownumber' => 'rownumber',
       'id' => 'id',
       'name' => 'name',
+      'phpcode' => 'phpcode',
       'expavg_credit' => 'expavg_credit',
       'total_credit' => 'total_credit',
       'country' => 'country',
       'nusers' => 'nusers',
     ),
     'info' => array(
+      'rownumber' => array(
+        'separator' => '',
+      ),
       'id' => array(
         'sortable' => 1,
         'separator' => '',
       ),
       'name' => array(
         'sortable' => 1,
+        'separator' => '',
+      ),
+      'phpcode' => array(
         'separator' => '',
       ),
       'expavg_credit' => array(
@@ -3170,7 +3185,7 @@ else {
         'separator' => '',
       ),
     ),
-    'default' => 'total_credit',
+    'default' => 'expavg_credit',
   ));
   $handler->override_option('path', 'community/stats/teams');
   $handler->override_option('menu', array(
@@ -3953,6 +3968,317 @@ echo l(bts(\'Remove\'), "community/teams/{$team_id}/edit/admins/remove/{$user_id
       'label' => 'BOINC: Id',
     ),
   ));
+  $handler->override_option('link_to_view', 0);
+  $handler->override_option('inherit_panels_path', 0);
+  $handler = $view->new_display('panel_pane', 'Top teams pane', 'panel_pane_4');
+  $handler->override_option('fields', array(
+    'rownumber' => array(
+      'label' => 'Rank',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'absolute' => 0,
+        'link_class' => '',
+        'alt' => '',
+        'rel' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'hide_alter_empty' => 1,
+      'exclude' => 0,
+      'id' => 'rownumber',
+      'table' => 'customfield',
+      'field' => 'rownumber',
+      'relationship' => 'none',
+    ),
+    'id' => array(
+      'label' => 'Id',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'absolute' => 0,
+        'link_class' => '',
+        'alt' => '',
+        'rel' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'hide_alter_empty' => 1,
+      'set_precision' => FALSE,
+      'precision' => 0,
+      'decimal' => '.',
+      'separator' => '',
+      'format_plural' => 0,
+      'format_plural_singular' => '1',
+      'format_plural_plural' => '@count',
+      'prefix' => '',
+      'suffix' => '',
+      'exclude' => 1,
+      'id' => 'id',
+      'table' => 'team',
+      'field' => 'id',
+      'relationship' => 'none',
+    ),
+    'name' => array(
+      'label' => 'Name',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => 'community/teams/[id]',
+        'absolute' => 0,
+        'link_class' => '',
+        'alt' => '',
+        'rel' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'hide_alter_empty' => 1,
+      'exclude' => 1,
+      'id' => 'name',
+      'table' => 'team',
+      'field' => 'name',
+      'relationship' => 'none',
+    ),
+    'phpcode' => array(
+      'label' => 'Name',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'absolute' => 0,
+        'link_class' => '',
+        'alt' => '',
+        'rel' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'hide_alter_empty' => 1,
+      'value' => '<?php
+  $team_id = boincteam_lookup_nid($data->id);
+  echo l($data->team_name, "community/teams/{$team_id}");
+?>',
+      'exclude' => 0,
+      'id' => 'phpcode',
+      'table' => 'customfield',
+      'field' => 'phpcode',
+      'relationship' => 'none',
+    ),
+    'nusers' => array(
+      'id' => 'nusers',
+      'table' => 'team',
+      'field' => 'nusers',
+    ),
+    'country' => array(
+      'id' => 'country',
+      'table' => 'team',
+      'field' => 'country',
+    ),
+    'expavg_credit' => array(
+      'label' => 'Recent average credit',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'absolute' => 0,
+        'link_class' => '',
+        'alt' => '',
+        'rel' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'hide_alter_empty' => 1,
+      'set_precision' => 1,
+      'precision' => '2',
+      'decimal' => '.',
+      'separator' => ',',
+      'format_plural' => 0,
+      'format_plural_singular' => '1',
+      'format_plural_plural' => '@count',
+      'prefix' => '',
+      'suffix' => '',
+      'exclude' => 0,
+      'id' => 'expavg_credit',
+      'table' => 'team',
+      'field' => 'expavg_credit',
+      'relationship' => 'none',
+    ),
+    'total_credit' => array(
+      'label' => 'Total Credit',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'absolute' => 0,
+        'link_class' => '',
+        'alt' => '',
+        'rel' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'hide_alter_empty' => 1,
+      'set_precision' => 1,
+      'precision' => '2',
+      'decimal' => '.',
+      'separator' => ',',
+      'format_plural' => 0,
+      'format_plural_singular' => '1',
+      'format_plural_plural' => '@count',
+      'prefix' => '',
+      'suffix' => '',
+      'exclude' => 0,
+      'id' => 'total_credit',
+      'table' => 'team',
+      'field' => 'total_credit',
+      'relationship' => 'none',
+    ),
+  ));
+  $handler->override_option('title', 'Top teams');
+  $handler->override_option('use_more', 1);
+  $handler->override_option('use_more_always', 1);
+  $handler->override_option('use_more_text', 'view more');
+  $handler->override_option('style_plugin', 'table');
+  $handler->override_option('style_options', array(
+    'grouping' => '',
+    'override' => 1,
+    'sticky' => 0,
+    'order' => 'desc',
+    'summary' => '',
+    'columns' => array(
+      'rownumber' => 'rownumber',
+      'id' => 'id',
+      'name' => 'name',
+      'phpcode' => 'phpcode',
+      'nusers' => 'nusers',
+      'country' => 'country',
+      'expavg_credit' => 'expavg_credit',
+      'total_credit' => 'total_credit',
+    ),
+    'info' => array(
+      'rownumber' => array(
+        'separator' => '',
+      ),
+      'id' => array(
+        'sortable' => 1,
+        'separator' => '',
+      ),
+      'name' => array(
+        'sortable' => 1,
+        'separator' => '',
+      ),
+      'phpcode' => array(
+        'separator' => '',
+      ),
+      'nusers' => array(
+        'sortable' => 1,
+        'separator' => '',
+      ),
+      'country' => array(
+        'sortable' => 1,
+        'separator' => '',
+      ),
+      'expavg_credit' => array(
+        'sortable' => 1,
+        'separator' => '',
+      ),
+      'total_credit' => array(
+        'sortable' => 1,
+        'separator' => '',
+      ),
+    ),
+    'default' => 'expavg_credit',
+  ));
+  $handler->override_option('pane_title', '');
+  $handler->override_option('pane_description', '');
+  $handler->override_option('pane_category', array(
+    'name' => 'View panes',
+    'weight' => 0,
+  ));
+  $handler->override_option('allow', array(
+    'use_pager' => 'use_pager',
+    'items_per_page' => 'items_per_page',
+    'offset' => 0,
+    'link_to_view' => 'link_to_view',
+    'more_link' => 'more_link',
+    'path_override' => 0,
+    'title_override' => 'title_override',
+    'exposed_form' => 0,
+    'fields_override' => 0,
+  ));
+  $handler->override_option('argument_input', array());
   $handler->override_option('link_to_view', 0);
   $handler->override_option('inherit_panels_path', 0);
 
