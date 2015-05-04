@@ -35,7 +35,7 @@ $cpid_stats_sites = array(
         "http://boinc.netsoft-online.com/e107_plugins/boinc/get_user.php?cpid=%s&amp;html=1"
     ),
     array("The Knights Who Say 'Ni!'",
-        "http://stats.kwsn.net/user.php?proj=all&amp;cpid=%s"
+        "http://stats.kwsn.info/user.php?proj=all&amp;cpid=%s"
     ),
 );
 
@@ -81,7 +81,7 @@ $stats_sites = array(
         "SETI@Netherlands stats page",
         ""
     ),
-    array("http://stats.kwsn.net/",
+    array("http://stats.kwsn.info/",
         "The Knights Who Say 'Ni' stats",
         ""
     ),
