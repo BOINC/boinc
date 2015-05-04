@@ -271,6 +271,12 @@ int delete_project_owned_file(const char* path, bool retry) {
         } while (dtime() < start + FILE_RETRY_INTERVAL);
     }
     if (retval) {
+        if (log_flags.slot_debug) {
+            msg_printf(0, MSG_INFO,
+                "[slot] failed to remove file %s: %s",
+                path, boincerror(retval)
+            );
+        }
         safe_strcpy(boinc_failed_file, path);
         return ERR_UNLINK;
     }

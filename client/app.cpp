@@ -571,6 +571,12 @@ int ACTIVE_TASK::get_free_slot(RESULT* rp) {
             if (is_dir(path)) {
                 retval = client_clean_out_dir(path, "get_free_slot()");
                 if (!retval) break;
+                if (log_flags.slot_debug) {
+                    msg_printf(rp->project, MSG_INFO,
+                        "[slot] failed to clean out dir: %s",
+                        boincerror(retval)
+                    );
+                }
             }
         } else {
             retval = make_slot_dir(j);
