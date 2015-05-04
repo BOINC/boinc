@@ -314,6 +314,12 @@ int client_clean_out_dir(const char* dirpath, const char* reason) {
         retval = dir_scan(filename, dirp, sizeof(filename));
         if (retval) {
             if (retval != ERR_NOT_FOUND) {
+                if (log_flags.slot_debug) {
+                    msg_printf(0, MSG_INFO,
+                        "[slot] dir_scan(%s) failed: %s",
+                        dirpath, boincerror(retval)
+                    );
+                }
                 final_retval = retval;
             }
             break;
