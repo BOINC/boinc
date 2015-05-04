@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-30 14:53-0500\n"
-"PO-Revision-Date: 2015-05-01 00:58+0000\n"
+"POT-Creation-Date: 2015-05-01 17:08-0500\n"
+"PO-Revision-Date: 2015-05-03 00:32+0000\n"
 "Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/boinc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -659,15 +659,9 @@ msgstr "退出 %s (&X)"
 msgid "%s - Communication"
 msgstr "%s - 网络通讯"
 
-#. m_btnClear = new wxButton( this, ID_SGPREFERENCESCLEAR, _("Clear"),
-#. wxDefaultPosition, wxDefaultSize, 0 );
-#. m_btnClear->SetToolTip( _("Clear all local preferences listed above and
-#. close the dialog") );
-#. itemBoxSizer44->Add(m_btnClear, 0, wxALIGN_CENTER_VERTICAL|wxALL,
-#. ADJUSTFORXDPI(5));
 #: clientgui/AsyncRPC.cpp:1056 clientgui/DlgAdvPreferencesBase.cpp:176
 #: clientgui/DlgDiagnosticLogFlags.cpp:127 clientgui/DlgExclusiveApps.cpp:152
-#: clientgui/DlgHiddenColumns.cpp:108 clientgui/sg_DlgPreferences.cpp:361
+#: clientgui/DlgHiddenColumns.cpp:108 clientgui/sg_DlgPreferences.cpp:351
 msgid "Cancel"
 msgstr "取消"
 
@@ -1079,28 +1073,24 @@ msgid "BOINC is distributed under the GNU Lesser General Public License v3.0."
 msgstr "BOINC以GNU较宽松通用公共许可证 (LGPL) v3.0为授权协议而发布"
 
 #: clientgui/DlgAbout.cpp:203
-msgid "Visit "
-msgstr "访问"
+msgid "For more information, visit "
+msgstr "要获取更多信息，请访问"
 
-#: clientgui/DlgAbout.cpp:211
-msgid "for more information."
-msgstr "以获取更多的信息。"
-
-#: clientgui/DlgAbout.cpp:219 clientgui/DlgExitMessage.cpp:173
+#: clientgui/DlgAbout.cpp:215 clientgui/DlgExitMessage.cpp:173
 #: clientgui/DlgGenericMessage.cpp:120 clientgui/DlgOptions.cpp:399
 #: clientgui/DlgSelectComputer.cpp:163
 msgid "&OK"
 msgstr "确定(&O)"
 
-#: clientgui/DlgAdvPreferences.cpp:682 clientgui/sg_DlgPreferences.cpp:779
+#: clientgui/DlgAdvPreferences.cpp:682 clientgui/sg_DlgPreferences.cpp:769
 msgid "Invalid number"
 msgstr "无效的数字"
 
-#: clientgui/DlgAdvPreferences.cpp:683 clientgui/sg_DlgPreferences.cpp:780
+#: clientgui/DlgAdvPreferences.cpp:683 clientgui/sg_DlgPreferences.cpp:770
 msgid "Invalid time, value must be between 0:00 and 24:00, format is HH:MM"
 msgstr "无效的时间，值必须介于 0:00 至 24:00之间，格式是 hh: mm"
 
-#: clientgui/DlgAdvPreferences.cpp:684 clientgui/sg_DlgPreferences.cpp:781
+#: clientgui/DlgAdvPreferences.cpp:684 clientgui/sg_DlgPreferences.cpp:771
 msgid "Start time must be different from end time"
 msgstr "起始时间必须和结束时间不同"
 
@@ -1108,15 +1098,15 @@ msgstr "起始时间必须和结束时间不同"
 msgid "Number must be between 0 and 10"
 msgstr "必须是0到10之间的数字"
 
-#: clientgui/DlgAdvPreferences.cpp:686 clientgui/sg_DlgPreferences.cpp:782
+#: clientgui/DlgAdvPreferences.cpp:686 clientgui/sg_DlgPreferences.cpp:772
 msgid "Number must be between 0 and 100"
 msgstr "数字必须介于 0 和 100 之间"
 
-#: clientgui/DlgAdvPreferences.cpp:944 clientgui/sg_DlgPreferences.cpp:853
+#: clientgui/DlgAdvPreferences.cpp:944 clientgui/sg_DlgPreferences.cpp:843
 msgid "invalid input value detected"
 msgstr "检测到错误的输入值"
 
-#: clientgui/DlgAdvPreferences.cpp:946 clientgui/sg_DlgPreferences.cpp:855
+#: clientgui/DlgAdvPreferences.cpp:946 clientgui/sg_DlgPreferences.cpp:845
 msgid "Validation Error"
 msgstr "验证错误"
 
@@ -1124,7 +1114,7 @@ msgstr "验证错误"
 msgid "Discard local preferences and use web-based preferences?"
 msgstr "放弃本地首选项并使用网上的首选项吗？"
 
-#: clientgui/DlgAdvPreferences.cpp:1159 clientgui/sg_DlgPreferences.cpp:1181
+#: clientgui/DlgAdvPreferences.cpp:1159 clientgui/sg_DlgPreferences.cpp:1171
 msgid "Confirmation"
 msgstr "确认"
 
@@ -1162,23 +1152,23 @@ msgstr "清除"
 msgid "Clear all local preferences and close the dialog."
 msgstr "清除所有本地的参数设置并关闭对话框"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:123 clientgui/sg_DlgPreferences.cpp:216
+#: clientgui/DlgAdvPreferencesBase.cpp:123 clientgui/sg_DlgPreferences.cpp:215
 msgid "Use web prefs"
 msgstr "使用项目网站上的设置"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:124 clientgui/sg_DlgPreferences.cpp:217
+#: clientgui/DlgAdvPreferencesBase.cpp:124 clientgui/sg_DlgPreferences.cpp:216
 msgid "Restore web-based preferences and close the dialog."
 msgstr "恢复使用项目网站上的参数设置并关闭对话框"
 
 #. Computing schedule
 #: clientgui/DlgAdvPreferencesBase.cpp:148
-#: clientgui/DlgAdvPreferencesBase.cpp:643
+#: clientgui/DlgAdvPreferencesBase.cpp:688
 msgid "Computing"
 msgstr "正在计算"
 
 #. Network schedule
 #: clientgui/DlgAdvPreferencesBase.cpp:151
-#: clientgui/DlgAdvPreferencesBase.cpp:791
+#: clientgui/DlgAdvPreferencesBase.cpp:836
 msgid "Network"
 msgstr "网络"
 
@@ -1192,7 +1182,7 @@ msgstr "每日计划"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:170
 #: clientgui/DlgDiagnosticLogFlags.cpp:119 clientgui/DlgExclusiveApps.cpp:146
-#: clientgui/DlgHiddenColumns.cpp:100 clientgui/sg_DlgPreferences.cpp:352
+#: clientgui/DlgHiddenColumns.cpp:100 clientgui/sg_DlgPreferences.cpp:347
 msgid "OK"
 msgstr "确定"
 
@@ -1207,7 +1197,7 @@ msgstr "放弃更改并关闭对话框"
 #: clientgui/DlgAdvPreferencesBase.cpp:181 clientgui/DlgExclusiveApps.cpp:157
 #: clientgui/Localization.cpp:35 clientgui/Localization.cpp:121
 #: clientgui/Localization.cpp:139 clientgui/sg_BoincSimpleFrame.cpp:930
-#: clientgui/sg_DlgPreferences.cpp:367
+#: clientgui/sg_DlgPreferences.cpp:357
 msgid "Help"
 msgstr "帮助"
 
@@ -1216,29 +1206,28 @@ msgid "Shows the preferences web page."
 msgstr "显示参数设置网页"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:244
-#: clientgui/DlgAdvPreferencesBase.cpp:431
+#: clientgui/DlgAdvPreferencesBase.cpp:471
 msgid "Usage limits"
 msgstr "使用率限制"
 
-#. Test Comment
-#: clientgui/DlgAdvPreferencesBase.cpp:250
+#: clientgui/DlgAdvPreferencesBase.cpp:249
 #, no-c-format
 msgid ""
 "Keep some CPUs free for other applications. Example: 75% means use 6 cores "
 "on an 8-core CPU."
 msgstr "保留一些CPU核心以供其他应用程序使用。例如： 75%意味着在8核CPU上使用6个核心。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:252
-#: clientgui/DlgAdvPreferencesBase.cpp:264 clientgui/sg_DlgPreferences.cpp:307
+#: clientgui/DlgAdvPreferencesBase.cpp:251
+#: clientgui/DlgAdvPreferencesBase.cpp:263 clientgui/sg_DlgPreferences.cpp:302
 msgid "Use at most"
 msgstr "最多使用"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:257
+#: clientgui/DlgAdvPreferencesBase.cpp:256
 #, no-c-format
 msgid "% of the CPUs"
 msgstr "%的CPU"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:262 clientgui/sg_DlgPreferences.cpp:305
+#: clientgui/DlgAdvPreferencesBase.cpp:261 clientgui/sg_DlgPreferences.cpp:300
 #, no-c-format
 msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
@@ -1246,345 +1235,355 @@ msgid ""
 "and repeat."
 msgstr "每隔几秒钟就暂停一下然后恢复计算，以降低CPU温度并减少电能使用。比如：75%意味着每计算 3 秒就暂停 1 秒，然后如此重复。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:269 clientgui/sg_DlgPreferences.cpp:312
+#: clientgui/DlgAdvPreferencesBase.cpp:268 clientgui/sg_DlgPreferences.cpp:307
 #, no-c-format
 msgid "% of CPU time"
 msgstr "% 的处理器时间"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:276
+#: clientgui/DlgAdvPreferencesBase.cpp:275
 msgid "When to suspend"
 msgstr "以下情况暂停计算"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:282 clientgui/sg_DlgPreferences.cpp:242
+#: clientgui/DlgAdvPreferencesBase.cpp:281 clientgui/sg_DlgPreferences.cpp:237
 msgid "Suspend when computer is on battery"
 msgstr "当计算机正在使用电池供电时暂停计算"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:285 clientgui/sg_DlgPreferences.cpp:238
+#: clientgui/DlgAdvPreferencesBase.cpp:284 clientgui/sg_DlgPreferences.cpp:233
 msgid ""
 "Check this to suspend computing on portables when running on battery power."
 msgstr "勾选这个选项以使得笔记本电脑在靠电池电源运行时暂停计算。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:291 clientgui/sg_DlgPreferences.cpp:256
+#: clientgui/DlgAdvPreferencesBase.cpp:290 clientgui/sg_DlgPreferences.cpp:251
 msgid "Suspend when computer is in use"
 msgstr "当计算机正在使用时暂停计算"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:294 clientgui/sg_DlgPreferences.cpp:252
+#: clientgui/DlgAdvPreferencesBase.cpp:293 clientgui/sg_DlgPreferences.cpp:247
 msgid ""
 "Check this to suspend computing and file transfers when you're using the "
 "computer."
 msgstr "勾选这个选项以使得当您使用计算机时暂停计算和文件传输。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:300
+#: clientgui/DlgAdvPreferencesBase.cpp:299
 msgid "Suspend GPU computing when computer is in use"
 msgstr "当使用计算机时暂停 GPU 计算"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:303
+#: clientgui/DlgAdvPreferencesBase.cpp:302
 msgid "Check this to suspend GPU computing when you're using the computer."
 msgstr "勾选这个选项以使得当您使用计算机时暂停GPU计算。"
 
 #. min idle time
-#: clientgui/DlgAdvPreferencesBase.cpp:308 clientgui/sg_DlgPreferences.cpp:267
+#: clientgui/DlgAdvPreferencesBase.cpp:307 clientgui/sg_DlgPreferences.cpp:262
 msgid "This determines when the computer is considered 'in use'."
 msgstr "这将确定在怎样的情况下计算机会被视为“正在使用”。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:312 clientgui/sg_DlgPreferences.cpp:271
+#. context: 'In use' means mouse/keyboard input in last ___ minutes
+#: clientgui/DlgAdvPreferencesBase.cpp:312 clientgui/sg_DlgPreferences.cpp:266
 msgid "'In use' means mouse/keyboard input in last"
 msgstr "如果在最近的多少分钟内有鼠标或键盘操作则认为计算机在使用中"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:320
-#: clientgui/DlgAdvPreferencesBase.cpp:393 clientgui/sg_DlgPreferences.cpp:279
+#. context: 'In use' means mouse/keyboard input in last ___ minutes
+#. context: Switch between tasks every ___ minutes
+#: clientgui/DlgAdvPreferencesBase.cpp:323
+#: clientgui/DlgAdvPreferencesBase.cpp:421 clientgui/sg_DlgPreferences.cpp:274
 msgid "minutes"
 msgstr "分钟"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:327
-#, c-format
-msgid "Suspend when non-%s CPU usage is above"
-msgstr "当非%s CPU使用率高于多少时暂停"
+#: clientgui/DlgAdvPreferencesBase.cpp:331
+msgid "Suspend when non-BOINC CPU usage is above"
+msgstr "当非BOINC CPU使用率高于多少时暂停"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:329
+#: clientgui/DlgAdvPreferencesBase.cpp:333
 msgid "Suspend computing when your computer is busy running other programs."
 msgstr "当您的计算机正忙于运行其他程序时暂停计算。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:350
-#: clientgui/DlgAdvPreferencesBase.cpp:480
+#. Context: heading for a group of miscellaneous preferences
+#: clientgui/DlgAdvPreferencesBase.cpp:357
+#: clientgui/DlgAdvPreferencesBase.cpp:524
 msgid "Other"
 msgstr "其它"
 
 #. buffer sizes
-#: clientgui/DlgAdvPreferencesBase.cpp:355
+#: clientgui/DlgAdvPreferencesBase.cpp:363
 msgid "Store at least enough tasks to keep the computer busy for this long."
 msgstr "存储至少足够使计算机计算如此长时间的任务。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:358
+#. context: Store at least ___ days of work
+#: clientgui/DlgAdvPreferencesBase.cpp:367
 msgid "Store at least"
 msgstr "至少存储"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:366
-#: clientgui/DlgAdvPreferencesBase.cpp:382
+#. context: Store at least ___ days of work
+#. context: Store up to an additional ___ days of work
+#: clientgui/DlgAdvPreferencesBase.cpp:378
+#: clientgui/DlgAdvPreferencesBase.cpp:400
 msgid "days of work"
 msgstr "天的工作"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:371
+#: clientgui/DlgAdvPreferencesBase.cpp:384
 msgid ""
 "Store additional tasks above the minimum level.  Determines how much work is"
 " requested when contacting a project."
 msgstr "在最低限度之上额外存储一些任务。这将决定BOINC客户端在联系一个项目时要求多少新任务。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:374
+#. context: Store up to an additional ___ days of work
+#: clientgui/DlgAdvPreferencesBase.cpp:388
 msgid "Store up to an additional"
 msgstr "额外存储"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:387
+#: clientgui/DlgAdvPreferencesBase.cpp:407
 #, c-format
 msgid "If you run several projects, %s may switch between them this often."
 msgstr "如果您同时运行几个项目，%s 将每隔这么长时间切换一次任务。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:389
+#. context: Switch between tasks every ___ minutes
+#: clientgui/DlgAdvPreferencesBase.cpp:412
 msgid "Switch between tasks every"
 msgstr "每隔多少分钟切换任务"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:397
+#: clientgui/DlgAdvPreferencesBase.cpp:427
 msgid ""
 "This controls how often tasks save their state to disk, so that they can be "
 "restarted later."
 msgstr "这个选项决定计算任务向磁盘保存其进度的频繁程度，以便于之后重新启动。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:398
+#. context: Request tasks to checkpoint at most every ___ seconds
+#: clientgui/DlgAdvPreferencesBase.cpp:431
 msgid "Request tasks to checkpoint at most every"
 msgstr "要求任务每隔多少分钟储存一次进度"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:402
+#. context: Request tasks to checkpoint at most every ___ seconds
+#: clientgui/DlgAdvPreferencesBase.cpp:440
 msgid "seconds"
 msgstr "秒"
 
 #. upload/download rates
-#: clientgui/DlgAdvPreferencesBase.cpp:437
+#: clientgui/DlgAdvPreferencesBase.cpp:477
 msgid "Limit the download rate of file transfers."
 msgstr "限制文件传输的下载速率。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:438
+#: clientgui/DlgAdvPreferencesBase.cpp:478
 msgid "Limit download rate to"
 msgstr "限制下载速度为"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:442
-#: clientgui/DlgAdvPreferencesBase.cpp:451
+#: clientgui/DlgAdvPreferencesBase.cpp:482
+#: clientgui/DlgAdvPreferencesBase.cpp:491
 msgid "KB/second"
 msgstr "KB每秒"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:446
+#: clientgui/DlgAdvPreferencesBase.cpp:486
 msgid "Limit the upload rate of file transfers."
 msgstr "限制文件传输的上传速率。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:447
+#: clientgui/DlgAdvPreferencesBase.cpp:487
 msgid "Limit upload rate to"
 msgstr "限制上传速率为"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:458
+#: clientgui/DlgAdvPreferencesBase.cpp:498
 #, c-format
 msgid "Example: %s should transfer at most 2000 MB of data every 30 days."
 msgstr "例如： 限制%s在30天内最多传输2000 MB数据。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:460
+#: clientgui/DlgAdvPreferencesBase.cpp:500
 msgid "Limit usage to"
 msgstr "限制使用量为"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:464
+#: clientgui/DlgAdvPreferencesBase.cpp:504
 msgid "MB every"
 msgstr "MB 每"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:468
+#: clientgui/DlgAdvPreferencesBase.cpp:508
 msgid "days"
 msgstr "天"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:485
+#: clientgui/DlgAdvPreferencesBase.cpp:530
 #, c-format
 msgid ""
 "Check this only if your Internet provider modifies image files. Skipping "
 "verification reduces the security of %s."
 msgstr "仅当您的Internet提供商会修改图像文件的情况下才需要选中此选项。跳过验证会降低%s的安全性。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:487
+#: clientgui/DlgAdvPreferencesBase.cpp:532
 msgid "Skip data verification for image files"
 msgstr "跳过图像文件的数据校验"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:491
+#: clientgui/DlgAdvPreferencesBase.cpp:536
 msgid "Confirm before connecting to Internet"
 msgstr "接入互联网前先确认"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:492
-#: clientgui/DlgAdvPreferencesBase.cpp:496
+#: clientgui/DlgAdvPreferencesBase.cpp:537
+#: clientgui/DlgAdvPreferencesBase.cpp:541
 msgid "Useful only if you have a modem, ISDN or VPN connection."
 msgstr "仅 Modem、ISDN 和 VPN 用户需要使用该设置"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:495
+#: clientgui/DlgAdvPreferencesBase.cpp:540
 msgid "Disconnect when done"
 msgstr "传输完成后断开连接"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:522 clientgui/ViewResources.cpp:116
+#: clientgui/DlgAdvPreferencesBase.cpp:567 clientgui/ViewResources.cpp:116
 msgid "Disk"
 msgstr "磁盘"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:527
+#: clientgui/DlgAdvPreferencesBase.cpp:572
 #, c-format
 msgid "%s will use the most restrictive of these settings:"
 msgstr "%s 将使用这些设置中最严格的设置："
 
-#: clientgui/DlgAdvPreferencesBase.cpp:533 clientgui/sg_DlgPreferences.cpp:334
+#: clientgui/DlgAdvPreferencesBase.cpp:578 clientgui/sg_DlgPreferences.cpp:329
 #, c-format
 msgid "Limit the total amount of disk space used by %s."
 msgstr "限制%s使用的磁盘空间总量。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:536
-#: clientgui/DlgAdvPreferencesBase.cpp:560 clientgui/sg_DlgPreferences.cpp:337
+#: clientgui/DlgAdvPreferencesBase.cpp:581
+#: clientgui/DlgAdvPreferencesBase.cpp:605 clientgui/sg_DlgPreferences.cpp:332
 msgid "Use no more than"
 msgstr "最多使用"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:540
+#: clientgui/DlgAdvPreferencesBase.cpp:585
 msgid "GB"
 msgstr "GB"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:545
+#: clientgui/DlgAdvPreferencesBase.cpp:590
 #, c-format
 msgid ""
 "Limit disk usage to leave this much free space on the volume where %s stores"
 " data."
 msgstr "限制%s的磁盘使用，在存储数据的卷上保留如下数量的空闲空间。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:548
+#: clientgui/DlgAdvPreferencesBase.cpp:593
 msgid "Leave at least"
 msgstr "至少保留"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:552
+#: clientgui/DlgAdvPreferencesBase.cpp:597
 msgid "GB free"
 msgstr "GB可用空间"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:557
+#: clientgui/DlgAdvPreferencesBase.cpp:602
 #, c-format
 msgid ""
 "Limit the percentage of disk space used by %s on the volume where it stores "
 "data."
 msgstr "限制%s在存储数据的卷上使用的磁盘空间的百分比。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:565
+#: clientgui/DlgAdvPreferencesBase.cpp:610
 #, no-c-format
 msgid "% of total"
 msgstr "%"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:572
+#: clientgui/DlgAdvPreferencesBase.cpp:617
 msgid "Memory"
 msgstr "内存（RAM）"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:577
+#: clientgui/DlgAdvPreferencesBase.cpp:622
 #, c-format
 msgid "Limit the memory used by %s when you're using the computer."
 msgstr "限制当您使用计算机时%s 使用的内存。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:579
+#: clientgui/DlgAdvPreferencesBase.cpp:624
 msgid "When computer is in use, use at most"
 msgstr "当计算机在使用时，最多使用"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:585
-#: clientgui/DlgAdvPreferencesBase.cpp:597
-#: clientgui/DlgAdvPreferencesBase.cpp:613
+#: clientgui/DlgAdvPreferencesBase.cpp:630
+#: clientgui/DlgAdvPreferencesBase.cpp:642
+#: clientgui/DlgAdvPreferencesBase.cpp:658
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:590
+#: clientgui/DlgAdvPreferencesBase.cpp:635
 #, c-format
 msgid "Limit the memory used by %s when you're not using the computer."
 msgstr "限制当您未使用计算机时%s 使用的内存。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:592
+#: clientgui/DlgAdvPreferencesBase.cpp:637
 msgid "When computer is not in use, use at most"
 msgstr "当计算机未在使用时，最多使用"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:601
+#: clientgui/DlgAdvPreferencesBase.cpp:646
 msgid "Leave non-GPU tasks in memory while suspended"
 msgstr "在暂停时将非GPU任务留在内存中"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:602
+#: clientgui/DlgAdvPreferencesBase.cpp:647
 msgid ""
 "If checked, suspended tasks stay in memory, and resume with no work lost. If"
 " unchecked, suspended tasks are removed from memory, and resume from their "
 "last checkpoint."
 msgstr "如果选中此选项，暂停的任务将会留在内存中，恢复时不会有进度损失。如果未选中，暂停的任务将从内存中被清除，继续计算时从最后一个保存点开始。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:606
+#: clientgui/DlgAdvPreferencesBase.cpp:651
 #, c-format
 msgid "Limit the swap space (page file) used by %s."
 msgstr "限制 %s 使用的交换空间 (页面文件)大小。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:608
+#: clientgui/DlgAdvPreferencesBase.cpp:653
 msgid "Page/swap file: use at most"
 msgstr "虚拟内存：最多使用"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:633 clientgui/sg_DlgPreferences.cpp:284
+#: clientgui/DlgAdvPreferencesBase.cpp:678 clientgui/sg_DlgPreferences.cpp:279
 msgid "and"
 msgstr "到"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:634
+#: clientgui/DlgAdvPreferencesBase.cpp:679
 msgid "to"
 msgstr "至"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:647 clientgui/sg_DlgPreferences.cpp:286
+#: clientgui/DlgAdvPreferencesBase.cpp:692 clientgui/sg_DlgPreferences.cpp:281
 msgid "Compute only during a particular period each day."
 msgstr "仅在每天的特定时间段内计算。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:650 clientgui/sg_DlgPreferences.cpp:289
+#: clientgui/DlgAdvPreferencesBase.cpp:695 clientgui/sg_DlgPreferences.cpp:284
 msgid "Compute only between"
 msgstr "仅在如下时间段内计算。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:660
-#: clientgui/DlgAdvPreferencesBase.cpp:807
+#: clientgui/DlgAdvPreferencesBase.cpp:705
+#: clientgui/DlgAdvPreferencesBase.cpp:852
 msgid "Day-of-week override"
 msgstr "自定义每周内各天的可用时间段："
 
-#: clientgui/DlgAdvPreferencesBase.cpp:664
-#: clientgui/DlgAdvPreferencesBase.cpp:811
+#: clientgui/DlgAdvPreferencesBase.cpp:709
+#: clientgui/DlgAdvPreferencesBase.cpp:856
 msgid "Override the times above on the selected days:"
 msgstr "在一周选定的各天自定义上述时间设置"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:682
-#: clientgui/DlgAdvPreferencesBase.cpp:828
+#: clientgui/DlgAdvPreferencesBase.cpp:727
+#: clientgui/DlgAdvPreferencesBase.cpp:873
 msgid "Monday"
 msgstr "周一"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:697
-#: clientgui/DlgAdvPreferencesBase.cpp:843
+#: clientgui/DlgAdvPreferencesBase.cpp:742
+#: clientgui/DlgAdvPreferencesBase.cpp:888
 msgid "Friday"
 msgstr "周五"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:710
-#: clientgui/DlgAdvPreferencesBase.cpp:856
+#: clientgui/DlgAdvPreferencesBase.cpp:755
+#: clientgui/DlgAdvPreferencesBase.cpp:901
 msgid "Tuesday"
 msgstr "周二"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:725
-#: clientgui/DlgAdvPreferencesBase.cpp:871
+#: clientgui/DlgAdvPreferencesBase.cpp:770
+#: clientgui/DlgAdvPreferencesBase.cpp:916
 msgid "Saturday"
 msgstr "周六"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:738
-#: clientgui/DlgAdvPreferencesBase.cpp:884
+#: clientgui/DlgAdvPreferencesBase.cpp:783
+#: clientgui/DlgAdvPreferencesBase.cpp:929
 msgid "Wednesday"
 msgstr "周三"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:753
-#: clientgui/DlgAdvPreferencesBase.cpp:899
+#: clientgui/DlgAdvPreferencesBase.cpp:798
+#: clientgui/DlgAdvPreferencesBase.cpp:944
 msgid "Sunday"
 msgstr "周日"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:766
-#: clientgui/DlgAdvPreferencesBase.cpp:912
+#: clientgui/DlgAdvPreferencesBase.cpp:811
+#: clientgui/DlgAdvPreferencesBase.cpp:957
 msgid "Thursday"
 msgstr "周四"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:795 clientgui/sg_DlgPreferences.cpp:316
+#: clientgui/DlgAdvPreferencesBase.cpp:840 clientgui/sg_DlgPreferences.cpp:311
 msgid "Transfer files only during a particular period each day."
 msgstr "仅在每天的特定时间段内传输文件。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:797 clientgui/sg_DlgPreferences.cpp:318
+#: clientgui/DlgAdvPreferencesBase.cpp:842 clientgui/sg_DlgPreferences.cpp:313
 msgid "Transfer files only between"
 msgstr "传输文件的时间段："
 
@@ -3576,11 +3575,11 @@ msgstr "继续计算当前任务。"
 msgid "Suspend work for this task."
 msgstr "暂停计算当前任务。"
 
-#: clientgui/WizardAttach.cpp:563
+#: clientgui/WizardAttach.cpp:571
 msgid "Do you really want to cancel?"
 msgstr "您确定要取消吗？"
 
-#: clientgui/WizardAttach.cpp:564
+#: clientgui/WizardAttach.cpp:572
 msgid "Question"
 msgstr "问题"
 
@@ -3655,7 +3654,7 @@ msgstr "继续计算"
 msgid "Open a window to view notices from projects or BOINC"
 msgstr "打开一个窗口，查看来自计算网站或 BOINC 网站的通知消息。"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:934 clientgui/sg_DlgPreferences.cpp:370
+#: clientgui/sg_BoincSimpleFrame.cpp:934 clientgui/sg_DlgPreferences.cpp:360
 #, c-format
 msgid "Get help with %s"
 msgstr "获取 %s 的帮助信息"
@@ -3674,16 +3673,16 @@ msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
 msgstr "更多的参数设置，请在高级视图下选择“计算参数设置”来查看。"
 
-#: clientgui/sg_DlgPreferences.cpp:345
+#: clientgui/sg_DlgPreferences.cpp:340
 msgid "GB of disk space"
 msgstr "GB 的磁盘空间"
 
-#: clientgui/sg_DlgPreferences.cpp:1099
+#: clientgui/sg_DlgPreferences.cpp:1089
 #, c-format
 msgid "%s - Computing Preferences"
 msgstr "%s -计算参数设置"
 
-#: clientgui/sg_DlgPreferences.cpp:1180
+#: clientgui/sg_DlgPreferences.cpp:1170
 msgid "Discard all local preferences and use web-based preferences?"
 msgstr "放弃所有本地设置并使用网站上的设置吗？"
 

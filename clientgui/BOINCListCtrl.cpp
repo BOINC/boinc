@@ -377,7 +377,8 @@ void CBOINCListCtrl::SetListColumnOrder(wxArrayString& orderArray) {
     }
     
 #ifdef wxHAS_LISTCTRL_COLUMN_ORDER
-    if ((shownColCount > 0) && (shownColCount <= stdCount) && (colCount > 0)) {
+    colCount = GetColumnCount();
+    if ((shownColCount > 0) && (shownColCount <= stdCount) && (colCount == shownColCount)) {
         SetColumnsOrder(aOrder);
     }
 #endif
