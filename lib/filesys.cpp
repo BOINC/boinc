@@ -178,7 +178,8 @@ int dir_scan(char* p, DIRREF dirp, int p_len) {
                 if (p) strlcpy(p, data.cFileName, p_len);
                 return 0;
             } else {
-                DWORD ret = FindClose(dirp->handle);
+                DWORD ret = GetLastError();
+                FindClose(dirp->handle);
                 dirp->handle = INVALID_HANDLE_VALUE;
                 if (ret == ERROR_NO_MORE_FILES) {
                     return ERR_NOT_FOUND;
