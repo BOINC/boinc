@@ -2566,7 +2566,7 @@ wxString result_description(RESULT* result, bool show_resources) {
             strBuffer += _("Aborted: not started by deadline");
             break;
         case EXIT_DISK_LIMIT_EXCEEDED:
-            strBuffer += _("Aborted: disk limit exceeded");
+            strBuffer += _("Aborted: task disk limit exceeded");
             break;
         case EXIT_TIME_LIMIT_EXCEEDED:
             strBuffer += _("Aborted: run time limit exceeded");

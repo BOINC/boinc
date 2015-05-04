@@ -805,7 +805,7 @@ bool ACTIVE_TASK::check_max_disk_exceeded() {
                 "Aborting task %s: exceeded disk limit: %.2fMB > %.2fMB\n",
                 result->name, disk_usage/MEGA, max_disk_usage/MEGA
             );
-            abort_task(EXIT_DISK_LIMIT_EXCEEDED, "Maximum disk usage exceeded");
+            abort_task(EXIT_DISK_LIMIT_EXCEEDED, "Disk usage limit exceeded");
             return true;
         }
     }

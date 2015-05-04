@@ -312,7 +312,12 @@ int client_clean_out_dir(const char* dirpath, const char* reason) {
     while (1) {
         strcpy(filename, "");
         retval = dir_scan(filename, dirp, sizeof(filename));
-        if (retval) break;
+        if (retval) {
+            if (retval != ERR_NOT_FOUND) {
+                final_retval = retval;
+            }
+            break;
+        }
         sprintf(path, "%s/%s", dirpath,  filename);
         if (is_dir(path)) {
             retval = client_clean_out_dir(path, NULL);
