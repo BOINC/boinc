@@ -2287,7 +2287,18 @@ int VBOX_VM::launch_vboxsvc() {
 
                 command = "\"VBoxSVC.exe\" --logrotate 1";
 
-                CreateProcess(NULL, (LPTSTR)command.c_str(), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
+                CreateProcess(
+                    NULL,
+                    (LPTSTR)command.c_str(),
+                    NULL,
+                    NULL,
+                    TRUE,
+                    CREATE_NO_WINDOW,
+                    NULL,
+                    virtualbox_home_directory.c_str(),
+                    &si,
+                    &pi
+                );
 
                 if (pi.hThread) CloseHandle(pi.hThread);
                 if (pi.hProcess) {
