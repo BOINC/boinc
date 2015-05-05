@@ -2287,7 +2287,8 @@ int VBOX_VM::launch_vboxsvc() {
 
                 command = "\"VBoxSVC.exe\" --logrotate 1";
 
-                CreateProcess(
+                // Execute command
+                if (!CreateProcess(
                     NULL,
                     (LPTSTR)command.c_str(),
                     NULL,
@@ -2298,7 +2299,16 @@ int VBOX_VM::launch_vboxsvc() {
                     virtualbox_home_directory.c_str(),
                     &si,
                     &pi
-                );
+                )) {
+                    vboxlog_msg(
+                        "Status Report: Launching vboxsvc.exe failed!."
+                    );
+                    vboxlog_msg(
+                        "        Error: %s (%d)",
+                        windows_format_error_string(GetLastError(), buf, sizeof(buf)),
+                        GetLastError()
+                    );
+                }
 
                 if (pi.hThread) CloseHandle(pi.hThread);
                 if (pi.hProcess) {
@@ -2306,9 +2316,6 @@ int VBOX_VM::launch_vboxsvc() {
                     vboxsvc_pid = pi.dwProcessId;
                     vboxsvc_pid_handle = pi.hProcess;
                     retval = BOINC_SUCCESS;
-                } else {
-                    vboxlog_msg("Status Report: Launching vboxsvc.exe failed!.");
-                    vboxlog_msg("        Error: %s", windows_format_error_string(GetLastError(), buf, sizeof(buf)));
                 }
             }
         }
