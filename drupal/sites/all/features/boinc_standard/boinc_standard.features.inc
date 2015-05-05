@@ -199,58 +199,59 @@ function boinc_standard_rules_defaults() {
   return array(
     'rules' => array(
       'rules_offensive_comment_reported' => array(
+        '#type' => 'rule',
+        '#set' => 'event_flag_flagged_abuse_comment',
+        '#label' => 'Offensive comment reported',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'moderator notification',
+          '1' => 'boinc_standard',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(),
         '#actions' => array(
-          '0' => array(
+          '1' => array(
             '#info' => array(
+              'label' => 'Notify moderators via email',
+              'module' => 'BOINC core',
               'eval input' => array(
-                '0' => 'from',
+                '0' => 'subject',
                 '1' => 'message',
-                '2' => 'subject',
+                '2' => 'from',
               ),
-              'label' => 'Send a mail to all users of a role',
-              'module' => 'System',
             ),
-            '#name' => 'rules_action_mail_to_users_of_role',
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
             '#settings' => array(
-              '#eval input' => array(
-                'token_rules_input_evaluator' => array(
-                  'from' => array(
-                    '0' => ':global',
-                  ),
-                  'message' => array(
-                    '0' => ':global',
-                    '1' => 'comment',
-                    '2' => 'flagging_user',
-                    '3' => 'node',
-                  ),
-                  'subject' => array(
-                    '0' => ':global',
-                    '1' => 'node',
-                  ),
-                ),
-              ),
+              'from' => '',
+              'subject' => 'Report of offensive [node:type] comment at [:global:site-name]',
               'message' => '[flagging_user:display-name] has reported the following comment on [node:type] content as being offensive or inappropriate for the [:global:site-name] site:
 
 [:global:site-url]goto/comment/[comment:comment-cid]
 
 Total reports of this comment: [comment:flag-abuse-comment-count]',
-              'recipients' => array(
-                '0' => 1271379760,
-              ),
-              'subject' => 'Report of offensive [node:type] comment at [:global:site-name]',
-            ),
-            '#type' => 'action',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => 'node',
+                    '1' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'flagging_user',
+                    '1' => 'comment',
+                    '2' => 'node',
+                    '3' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
           ),
         ),
-        '#active' => 1,
-        '#categories' => array(
-          '0' => 'boinc_standard',
-          '1' => 'moderator notification',
         ),
-        '#label' => 'Offensive comment reported',
-        '#set' => 'event_flag_flagged_abuse_comment',
-        '#status' => 'default',
-        '#type' => 'rule',
+            ),
+            '#type' => 'action',
+            '#weight' => 0,
+          ),
+        ),
         '#version' => 6003,
       ),
       'rules_offensive_content_reported' => array(
@@ -266,22 +267,9 @@ Total reports of this comment: [comment:flag-abuse-comment-count]',
         '#status' => 'default',
         '#conditions' => array(),
         '#actions' => array(
-          '0' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Send a mail to all users of a role',
-              'module' => 'System',
-              'eval input' => array(
-                '0' => 'subject',
-                '1' => 'message',
-                '2' => 'from',
-              ),
-            ),
-            '#name' => 'rules_action_mail_to_users_of_role',
+          '1' => array(
+            '#type' => 'action',
             '#settings' => array(
-              'recipients' => array(
-                '0' => 1271379760,
-              ),
               'from' => '',
               'subject' => 'Report of offensive [node:type] content at [:global:site-name]',
               'message' => '[flagging_user:display-name] has reported the following [node:type] content as being offensive or inappropriate for the [:global:site-name] site:
@@ -306,7 +294,17 @@ Total reports of this content: [node:flag-abuse-node-count]',
                 ),
               ),
             ),
-            '#type' => 'action',
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
+            '#info' => array(
+              'label' => 'Notify moderators via email',
+              'module' => 'BOINC core',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#weight' => 0,
           ),
         ),
         '#version' => 6003,
@@ -324,13 +322,9 @@ Total reports of this content: [node:flag-abuse-node-count]',
         '#status' => 'default',
         '#conditions' => array(),
         '#actions' => array(
-          '0' => array(
-            '#weight' => 0,
+          '1' => array(
             '#type' => 'action',
             '#settings' => array(
-              'recipients' => array(
-                '0' => 1271379760,
-              ),
               'from' => '',
               'subject' => 'Report of offensive user at [:global:site-name]',
               'message' => '[flagging_user:display-name] has reported [account:display-name] for inappropriate behavior:
@@ -354,16 +348,17 @@ Total current reports of this user: [account:flag-abuse-user-count]',
                 ),
               ),
             ),
-            '#name' => 'rules_action_mail_to_users_of_role',
+            '#name' => 'boinccore_rules_action_mail_to_moderators',
             '#info' => array(
-              'label' => 'Send a mail to all users of a role',
-              'module' => 'System',
+              'label' => 'Notify moderators via email',
+              'module' => 'BOINC core',
               'eval input' => array(
                 '0' => 'subject',
                 '1' => 'message',
                 '2' => 'from',
               ),
             ),
+            '#weight' => 0,
           ),
         ),
         '#version' => 6003,

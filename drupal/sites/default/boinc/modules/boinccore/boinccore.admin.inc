@@ -15,6 +15,8 @@ function boinccore_admin_community(&$form_state) {
   $default = array(
     'min_credit_to_post' => variable_get('boinc_comment_min_credit', 0),
     'penalty_period' => variable_get('boinc_penalty_period', 7*24*60*60),
+    'moderator_mailing_list' => variable_get('boinc_moderator_mailing_list', ''),
+    'moderator_force_individual_notifications' => variable_get('boinc_moderator_force_individual_notifications', 0),
   );
   
   // Define the form
@@ -31,6 +33,21 @@ function boinccore_admin_community(&$form_state) {
     '#default_value' => $default['penalty_period'],
     '#description' => t('The amount of time (in seconds) that user privileges
       are revoked when a user is banned from community participation.'),
+  );
+  $form['boinc_moderator_mailing_list'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Moderator mailing list'),
+    '#default_value' => $default['moderator_mailing_list'],
+    '#description' => t('As an alternative to sending moderator notifications
+      to individual users with the moderator role, enter a mailing list address
+      here to be the only target of the notification emails.'),
+  );
+  $form['boinc_moderator_force_individual_notifications'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Always send individual notifications'),
+    '#default_value' => $default['moderator_force_individual_notifications'],
+    '#description' => t('Continue to send individual moderator notification
+      emails even when a mailing list is provided.'),
   );
   
   return system_settings_form($form);

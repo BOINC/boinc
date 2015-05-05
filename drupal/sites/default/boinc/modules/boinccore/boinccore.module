@@ -95,6 +95,19 @@ function boinccore_enable() {
 }
 
 /**
+ * Implementation of hook_rules_action_info().
+ */
+function boinccore_rules_action_info() {
+  return array(
+    'boinccore_rules_action_mail_to_moderators' => array(
+      'label' => t('Notify moderators via email'),
+      'module' => 'BOINC core',
+      'eval input' => array('subject', 'message', 'from'),
+    ),
+  );
+}
+
+/**
  * Implementation of hook_form_alter()
  */
 function boinccore_form_alter(&$form, $form_state, $form_id) {
@@ -681,6 +694,43 @@ function boinccore_get_country_list() {
     'Zambia' => 'Zambia',
     'Zimbabwe' => 'Zimbabwe',
   );
+}
+
+/**
+ * Action: Send mail to moderators.
+ */
+function boinccore_rules_action_mail_to_moderators($settings) {
+  $mailing_list = variable_get('boinc_moderator_mailing_list', '');
+  $force_individual_notifications = variable_get('boinc_moderator_force_individual_notifications', 0);
+  
+  if (!$mailing_list OR $force_individual_notifications) {
+    // Send individual emails to all moderators
+    $roles = user_roles();
+    $moderator_rid = array_search('moderator', $roles);
+    if ($moderator_rid !== FALSE) {
+      $settings['recipients'] = array($moderator_rid);
+      rules_action_mail_to_users_of_role($settings);
+    }
+    else {
+      watchdog(
+        'boinccore',
+        'Unable to identify members of the moderator role to send moderator notifications!',
+        array(),
+        WATCHDOG_ERROR
+      );
+    }
+  }
+  if ($mailing_list) {
+    $settings['to'] = $mailing_list;
+    rules_action_mail($settings);
+  }
+}
+/**
+ * Action "Send mail to moderators" configuration form
+ */
+function boinccore_rules_action_mail_to_moderators_form($settings = array(), &$form) {
+  // Select only non-anonymous user roles because anonymous users won't have emails.
+  rules_action_mail_to_user_form($settings, $form);
 }
 
 /*

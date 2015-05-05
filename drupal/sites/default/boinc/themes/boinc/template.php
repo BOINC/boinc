@@ -408,11 +408,14 @@ function boinc_preprocess_comment(&$vars, $hook) {
     $vars['links'] = theme_links($links);
     
     if ($user->uid) {
-      $report_comment_link = '' .
-        '<ul class="links">';
-          '<li class="first">' . flag_create_link('abuse_comment', $comment->cid) . '</li>' .
-        '</ul>';
-      $vars['links'] = $report_comment_link . $vars['links'];
+      $abuse_link = flag_create_link('abuse_comment', $cid);
+      if ($abuse_link) {
+        $report_comment_link = '' .
+          '<ul class="links">' .
+            '<li class="first">' . $abuse_link . '</li>' .
+          '</ul>';
+        $vars['links'] = $report_comment_link . $vars['links'];
+      }
     }
     
     // Show signatures based on user preference
