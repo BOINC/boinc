@@ -15,7 +15,7 @@ function work_and_host_stats_default_page_manager_pages() {
   $page->access = array();
   $page->menu = array(
     'type' => 'normal',
-    'title' => 'Stats',
+    'title' => 'Statistics',
     'name' => 'primary-links',
     'weight' => '20',
     'parent' => array(

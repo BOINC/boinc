@@ -3190,7 +3190,7 @@ else {
   $handler->override_option('path', 'community/stats/teams');
   $handler->override_option('menu', array(
     'type' => 'tab',
-    'title' => 'Top teams',
+    'title' => 'Top Teams',
     'description' => '',
     'weight' => '10',
     'name' => 'primary-links',
