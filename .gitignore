@@ -149,3 +149,4 @@ tools/sign_executable
 vda/ssim
 vda/vda
 vda/vdad
+/win_build/*.sdf

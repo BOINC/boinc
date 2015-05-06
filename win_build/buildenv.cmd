@@ -94,8 +94,10 @@ rem ***** Visual Studio Hint Detection *****
 rem
 SET _ArgBuildDevEnvDir=%_ArgBuildDevEnvDir:IDE\=%
 SET _ArgVS100COMNTOOLS=%VS100COMNTOOLS:Tools\=%
+SET _ArgVS120COMNTOOLS=%VS120COMNTOOLS:Tools\=%
 
 IF /I "%_ArgVS100COMNTOOLS%" == "%_ArgBuildDevEnvDir%" GOTO :DETECTVS2010
+IF /I "%_ArgVS120COMNTOOLS%" == "%_ArgBuildDevEnvDir%" GOTO :DETECTVS2013
 
 rem ***** Software Detection *****
 rem
@@ -107,9 +109,17 @@ IF EXIST "%VS100COMNTOOLS%\vsvars32.bat" (
 	GOTO :SOFTDETECTIONCOMPLETE
 )
 
+:DETECTVS2013
+IF EXIST "%VS120COMNTOOLS%\vsvars32.bat" (
+    ECHO Software Platform Detected: Visual Studio 2013
+    CALL "%VS120COMNTOOLS%\vsvars32.bat" > NUL: 2> NUL:
+    SET BUILDCOMPILERDETECTED=vs2013
+	GOTO :SOFTDETECTIONCOMPLETE
+)
+
 :SOFTDETECTIONCOMPLETE
 IF "%VCINSTALLDIR%"=="" (
-	ECHO Software Platform NOT Detected: Microsoft Visual Studio 2010...
+	ECHO Software Platform NOT Detected: Microsoft Visual Studio 2010 or Microsoft Visual Studio 2013...
     EXIT /B 1
 )
 

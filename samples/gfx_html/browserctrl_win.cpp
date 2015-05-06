@@ -40,12 +40,12 @@
 #include "browserctrl_win.h"
 
 
-#ifdef __IDeveloperConsoleMessageReceiver_INTERNAL__
-
 // New for IE10
+#ifndef IDM_ADDCONSOLEMESSAGERECEIVER
 #define IDM_ADDCONSOLEMESSAGERECEIVER     3800
+#endif
+#ifndef IDM_REMOVECONSOLEMESSAGERECEIVER
 #define IDM_REMOVECONSOLEMESSAGERECEIVER  3801
-
 #endif
 
 
