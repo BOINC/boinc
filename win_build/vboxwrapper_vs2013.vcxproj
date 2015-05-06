@@ -139,7 +139,7 @@
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
-      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2010\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2013\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>libboinc_staticcrt.lib;libgraphics2.lib;libcmt.lib;libcpmt.lib;atls.lib;comsuppw.lib;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;wsock32.lib;psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -191,7 +191,7 @@
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
-      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2010\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2013\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>libboinc_staticcrt.lib;libgraphics2.lib;libcmt.lib;libcpmt.lib;atls.lib;comsuppw.lib;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;wsock32.lib;psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -239,7 +239,7 @@
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
-      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2010\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2013\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>libboinc_staticcrt.lib;libgraphics2.lib;libcmtd.lib;libcpmtd.lib;atlsd.lib;comsuppwd.lib;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;psapi.lib;wsock32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -287,7 +287,7 @@
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
-      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2010\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2013\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>libboinc_staticcrt.lib;libgraphics2.lib;libcmtd.lib;libcpmtd.lib;atlsd.lib;comsuppwd.lib;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;wsock32.lib;psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>

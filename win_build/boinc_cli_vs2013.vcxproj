@@ -111,7 +111,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2010/openssl/include;../../boinc_depends_win_vs2010/curl/include;../../boinc_depends_win_vs2010/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2013/openssl/include;../../boinc_depends_win_vs2013/curl/include;../../boinc_depends_win_vs2013/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WIN32;_DEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_USE_CURL;USE_SSL;USE_SSLEAY;USE_OPENSSL;ZLIB_WINAPI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <ExceptionHandling>Async</ExceptionHandling>
@@ -143,7 +143,7 @@
       <AdditionalDependencies>zlib1d.lib;ssleay32.lib;libeay32.lib;libcurld_imp.lib;nvapi.lib;MSVCRTD.LIB;MSVCPRTD.LIB;wsock32.lib;winhttp.lib;winmm.lib;Iphlpapi.lib;kernel32.lib;user32.lib;advapi32.lib;shell32.lib;sensapi.lib;userenv.lib;secur32.lib;wtsapi32.lib</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\boinc.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2010/openssl/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2010/curl/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2010/zlib/mswin/$(Platform)/$(Configuration)/lib;../coprocs/NVIDIA/mswin/$(Platform)/$(Configuration)/lib;../../;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2013/openssl/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2013/curl/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2013/zlib/mswin/$(Platform)/$(Configuration)/lib;../coprocs/NVIDIA/mswin/$(Platform)/$(Configuration)/lib;../../;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -173,7 +173,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2010/openssl/include;../../boinc_depends_win_vs2010/curl/include;../../boinc_depends_win_vs2010/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2013/openssl/include;../../boinc_depends_win_vs2013/curl/include;../../boinc_depends_win_vs2013/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WIN32;_DEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_USE_CURL;USE_SSL;USE_SSLEAY;USE_OPENSSL;ZLIB_WINAPI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <ExceptionHandling>Async</ExceptionHandling>
@@ -205,7 +205,7 @@
       <AdditionalDependencies>zlib1d.lib;ssleay32.lib;libeay32.lib;libcurld_imp.lib;nvapi.lib;MSVCRTD.LIB;MSVCPRTD.LIB;wsock32.lib;winhttp.lib;winmm.lib;sensapi.lib;userenv.lib;Iphlpapi.lib;kernel32.lib;user32.lib;advapi32.lib;shell32.lib;secur32.lib;wtsapi32.lib</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\boinc.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2010/openssl/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2010/curl/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2010/zlib/mswin/$(Platform)/$(Configuration)/lib;../coprocs/NVIDIA/mswin/$(Platform)/$(Configuration)/lib;../../;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2013/openssl/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2013/curl/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2013/zlib/mswin/$(Platform)/$(Configuration)/lib;../coprocs/NVIDIA/mswin/$(Platform)/$(Configuration)/lib;../../;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -236,7 +236,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2010/openssl/include;../../boinc_depends_win_vs2010/curl/include;../../boinc_depends_win_vs2010/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2013/openssl/include;../../boinc_depends_win_vs2013/curl/include;../../boinc_depends_win_vs2013/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WIN32;NDEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_USE_CURL;USE_SSL;USE_SSLEAY;USE_OPENSSL;ZLIB_WINAPI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>Async</ExceptionHandling>
@@ -266,7 +266,7 @@
       <ShowProgress>NotSet</ShowProgress>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\boinc.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2010/openssl/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2010/curl/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2010/zlib/mswin/$(Platform)/$(Configuration)/lib;../coprocs/NVIDIA/mswin/$(Platform)/$(Configuration)/lib;../../;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2013/openssl/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2013/curl/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2013/zlib/mswin/$(Platform)/$(Configuration)/lib;../coprocs/NVIDIA/mswin/$(Platform)/$(Configuration)/lib;../../;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -297,7 +297,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2010/openssl/include;../../boinc_depends_win_vs2010/curl/include;../../boinc_depends_win_vs2010/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2013/openssl/include;../../boinc_depends_win_vs2013/curl/include;../../boinc_depends_win_vs2013/zlib/include;../coprocs/NVIDIA/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WIN32;NDEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_USE_CURL;USE_SSL;USE_SSLEAY;USE_OPENSSL;ZLIB_WINAPI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <ExceptionHandling>Async</ExceptionHandling>
@@ -327,7 +327,7 @@
       <ShowProgress>NotSet</ShowProgress>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\boinc.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2010/openssl/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2010/curl/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2010/zlib/mswin/$(Platform)/$(Configuration)/lib;../coprocs/NVIDIA/mswin/$(Platform)/$(Configuration)/lib;../../;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2013/openssl/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2013/curl/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2013/zlib/mswin/$(Platform)/$(Configuration)/lib;../coprocs/NVIDIA/mswin/$(Platform)/$(Configuration)/lib;../../;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>

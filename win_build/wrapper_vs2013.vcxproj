@@ -132,7 +132,7 @@
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
-      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2010\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2013\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>libboinc_staticcrt.lib;libboinczip_staticcrt.lib;libgraphics2.lib;libcmt.lib;libcpmt.lib;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;psapi.lib;oldnames.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -183,7 +183,7 @@
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
-      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2010\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2013\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>libboinc_staticcrt.lib;libboinczip_staticcrt.lib;libgraphics2.lib;libcmt.lib;libcpmt.lib;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;psapi.lib;oldnames.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -230,7 +230,7 @@
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
-      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2010\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2013\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>libboinc_staticcrt.lib;libboinczip_staticcrt.lib;libgraphics2.lib;libcmtd.lib;libcpmtd.lib;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;psapi.lib;oldnames.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -277,7 +277,7 @@
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
-      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2010\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2013\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>libboinc_staticcrt.lib;libboinczip_staticcrt.lib;libgraphics2.lib;libcmtd.lib;libcpmtd.lib;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;psapi.lib;oldnames.lib;%(AdditionalDependencies)</AdditionalDependencies>

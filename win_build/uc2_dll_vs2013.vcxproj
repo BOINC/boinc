@@ -93,7 +93,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..;../win_build;../lib;../api;../../boinc_depends_win_vs2010/openssl/include;../coprocs/cuda/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;../win_build;../lib;../api;../../boinc_depends_win_vs2013/openssl/include;../coprocs/cuda/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN32;WIN32;_MT;_DEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;CLIENT;BOINC_APP_GRAPHICS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <ExceptionHandling>Async</ExceptionHandling>
@@ -124,7 +124,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..;../win_build;../lib;../api;../../boinc_depends_win_vs2010/openssl/include;../coprocs/cuda/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;../win_build;../lib;../api;../../boinc_depends_win_vs2013/openssl/include;../coprocs/cuda/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN32;WIN32;_MT;_DEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;CLIENT;BOINC_APP_GRAPHICS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <ExceptionHandling>Async</ExceptionHandling>
@@ -151,7 +151,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..;../win_build;../lib;../api;../../boinc_depends_win_vs2010/openssl/include;../coprocs/cuda/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;../win_build;../lib;../api;../../boinc_depends_win_vs2013/openssl/include;../coprocs/cuda/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN32;WIN32;_MT;NDEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;CLIENT;BOINC_APP_GRAPHICS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Async</ExceptionHandling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -178,7 +178,7 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>..;../win_build;../lib;../api;../../boinc_depends_win_vs2010/openssl/include;../coprocs/cuda/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;../win_build;../lib;../api;../../boinc_depends_win_vs2013/openssl/include;../coprocs/cuda/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN32;WIN32;_MT;NDEBUG;_LIB_WIN32;_WINDOWS;_CONSOLE;CLIENT;BOINC_APP_GRAPHICS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Async</ExceptionHandling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>

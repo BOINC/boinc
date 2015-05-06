@@ -109,7 +109,7 @@
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>.;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2010/freetype/include;../../boinc_depends_win_vs2010/ftgl/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2013/freetype/include;../../boinc_depends_win_vs2013/ftgl/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_MT;_CONSOLE;FTGL_LIBRARY_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -135,7 +135,7 @@
       <AdditionalDependencies>opengl32.lib;glu32.lib;odbc32.lib;odbccp32.lib;psapi.lib;libcmt.lib;libcpmt.lib;freetype2410.lib;ftgl_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2010/freetype/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2010/ftgl/mswin/$(Platform)/$(Configuration)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2013/freetype/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2013/ftgl/mswin/$(Platform)/$(Configuration)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <DelayLoadDLLs>GDI32.DLL;OPENGL32.DLL;GLU32.DLL;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -159,7 +159,7 @@
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>.;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2010/freetype/include;../../boinc_depends_win_vs2010/ftgl/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2013/freetype/include;../../boinc_depends_win_vs2013/ftgl/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_MT;_CONSOLE;FTGL_LIBRARY_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -186,7 +186,7 @@
       <AdditionalDependencies>opengl32.lib;glu32.lib;odbc32.lib;odbccp32.lib;psapi.lib;libcmt.lib;libcpmt.lib;freetype2410.lib;ftgl_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2010/freetype/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2010/ftgl/mswin/$(Platform)/$(Configuration)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2013/freetype/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2013/ftgl/mswin/$(Platform)/$(Configuration)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <DelayLoadDLLs>GDI32.DLL;OPENGL32.DLL;GLU32.DLL;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -208,7 +208,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2010/freetype/include;../../boinc_depends_win_vs2010/ftgl/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2013/freetype/include;../../boinc_depends_win_vs2013/ftgl/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_MT;_CONSOLE;FTGL_LIBRARY_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -233,7 +233,7 @@
       <AdditionalDependencies>libcmtd.lib;libcpmtd.lib;kernel32.lib;user32.lib;gdi32.lib;opengl32.lib;psapi.lib;glu32.lib;ole32.lib;delayimp.lib;freetype2410_D.lib;ftgl_static_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2010/freetype/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2010/ftgl/mswin/$(Platform)/$(Configuration)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2013/freetype/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2013/ftgl/mswin/$(Platform)/$(Configuration)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <DelayLoadDLLs>GDI32.DLL;OPENGL32.DLL;GLU32.DLL;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -255,7 +255,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2010/freetype/include;../../boinc_depends_win_vs2010/ftgl/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2013/freetype/include;../../boinc_depends_win_vs2013/ftgl/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_MT;_CONSOLE;FTGL_LIBRARY_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -280,7 +280,7 @@
       <AdditionalDependencies>libcmtd.lib;libcpmtd.lib;kernel32.lib;user32.lib;gdi32.lib;opengl32.lib;glu32.lib;ole32.lib;psapi.lib;delayimp.lib;freetype2410_D.lib;ftgl_static_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2010/freetype/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2010/ftgl/mswin/$(Platform)/$(Configuration)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2013/freetype/mswin/$(Platform)/$(Configuration)/lib;../../boinc_depends_win_vs2013/ftgl/mswin/$(Platform)/$(Configuration)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <DelayLoadDLLs>GDI32.DLL;OPENGL32.DLL;GLU32.DLL;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
