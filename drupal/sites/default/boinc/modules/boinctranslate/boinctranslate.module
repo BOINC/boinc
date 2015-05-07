@@ -396,6 +396,7 @@ function boinctranslate_export_translations() {
           'category' => 'Drupal',
           'content' => boinctranslate_get_po('en', 'project'),
         );
+        $result = boinctranslate_transifex_request($path, $post);
       }
       else {
         // Update the source
@@ -403,8 +404,8 @@ function boinctranslate_export_translations() {
         $post = array(
           'content' => boinctranslate_get_po('en', 'project')
         );
+        $result = boinctranslate_transifex_request($path, $post, TRUE, TRUE);
       }
-      $result = boinctranslate_transifex_request($path, $post);
     }
     
     if (substr($result, 0, 6) != 'ERROR:') {
@@ -606,6 +607,7 @@ function boinctranslate_transifex_request($path, $post = NULL, $json = TRUE, $us
       return "ERROR: {$response_body}";
     }
     elseif (strstr($response_header, '405 METHOD NOT ALLOWED')) {
+      watchdog('boinctranslate', "The following response was received when trying to communicate with the Transifex system: \n{$result}", array(), WATCHDOG_WARNING);
       return "ERROR: User not allowed to perform this action";
     }
     elseif (strstr($response_header, '200 OK')) {
