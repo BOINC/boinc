@@ -673,12 +673,13 @@ table.user-projects {
 
 .item-count-wrapper {
   display: inline-block;
+  height: 21px;
   margin-left: 10px;
-  padding-bottom: 3px;
   background: url(../images/speech-bubble-tail.png) no-repeat bottom center
 }
 .item-count {
   color: #fff;
+  display: inline-block;
   font-size: 10px;
   font-weight: bold;
   padding: 3px 5px 1px;
@@ -741,6 +742,9 @@ table.user-projects {
   clear: both;
   margin: 5px 0;
   border-top: 1px dotted #AAA;
+}
+.user-profile .bio .messages {
+  margin-top: 10px;
 }
 .user-profile .bio .background,
 .user-profile .bio .opinions {

@@ -54,7 +54,7 @@ $website = check_plain($content_profile->field_url[0]['value']);
 $background = $content_profile->field_background[0]['value'];
 $opinions = $content_profile->field_opinions[0]['value'];
 $user_links = array();
-$profile_is_approved = $content_profile->status;
+$profile_is_approved = ($content_profile->status AND !$content_profile->moderate);
 $user_is_moderator = user_access('edit any profile content');
 $is_own_profile = ($user->uid == $account->uid);
 
@@ -163,6 +163,11 @@ if ($user->uid AND ($user->uid != $account->uid)) {
   </div>
   <?php if ($background OR $opinions): ?>
     <div class="bio">
+      <?php if (!$profile_is_approved): ?>
+        <div class="messages warning">
+          <?php print bts('Profile awaiting moderator approval'); ?>
+        </div>
+      <?php endif; ?>
       <?php if ($profile_is_approved OR $user_is_moderator OR $is_own_profile): ?>
         <?php if ($background): ?>
           <div class="background">
@@ -176,11 +181,6 @@ if ($user->uid AND ($user->uid != $account->uid)) {
             <span class="value"><?php print $opinions; ?></span>
           </div>
         <?php endif; ?>
-      <?php endif; ?>
-      <?php if (!$profile_is_approved): ?>
-        <div class="background">
-          (<?php print bts('Profile awaiting moderator approval'); ?>)
-        </div>
       <?php endif; ?>
     </div>
   <?php endif; ?>

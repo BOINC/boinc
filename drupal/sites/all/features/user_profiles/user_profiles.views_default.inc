@@ -154,18 +154,18 @@ function user_profiles_views_default_views() {
     ),
   ));
   $handler->override_option('filters', array(
-    'status' => array(
+    'moderate' => array(
       'operator' => '=',
-      'value' => '0',
+      'value' => '1',
       'group' => '0',
       'exposed' => FALSE,
       'expose' => array(
         'operator' => FALSE,
         'label' => '',
       ),
-      'id' => 'status',
+      'id' => 'moderate',
       'table' => 'node',
-      'field' => 'status',
+      'field' => 'moderate',
       'relationship' => 'none',
     ),
   ));
@@ -319,18 +319,21 @@ function user_profiles_views_default_views() {
     ),
   ));
   $handler->override_option('filters', array(
-    'status' => array(
+    'moderate' => array(
       'operator' => '=',
-      'value' => '0',
+      'value' => '1',
       'group' => '0',
       'exposed' => FALSE,
       'expose' => array(
         'operator' => FALSE,
         'label' => '',
       ),
-      'id' => 'status',
+      'id' => 'moderate',
       'table' => 'node',
-      'field' => 'status',
+      'field' => 'moderate',
+      'override' => array(
+        'button' => 'Use default',
+      ),
       'relationship' => 'none',
     ),
     'type' => array(

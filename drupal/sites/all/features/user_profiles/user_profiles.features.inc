@@ -55,7 +55,16 @@ function user_profiles_rules_defaults() {
         '#status' => 'default',
         '#conditions' => array(
           '0' => array(
-            '#weight' => 0,
+            '#type' => 'condition',
+            '#settings' => array(
+              'type' => array(
+                'profile' => 'profile',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#name' => 'rules_condition_content_is_type',
             '#info' => array(
               'label' => 'Created content is Profile',
               'arguments' => array(
@@ -66,29 +75,11 @@ function user_profiles_rules_defaults() {
               ),
               'module' => 'Node',
             ),
-            '#name' => 'rules_condition_content_is_type',
-            '#settings' => array(
-              'type' => array(
-                'profile' => 'profile',
-              ),
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#type' => 'condition',
+            '#weight' => 0,
           ),
           '1' => array(
-            '#settings' => array(
-              'roles' => array(
-                '0' => 1271379760,
-              ),
-              'operation' => 'OR',
-              '#argument map' => array(
-                'user' => 'user',
-              ),
-            ),
-            '#type' => 'condition',
-            '#name' => 'rules_condition_user_hasrole',
+            '#negate' => 1,
+            '#weight' => 0,
             '#info' => array(
               'label' => 'User has role(s)',
               'arguments' => array(
@@ -99,36 +90,39 @@ function user_profiles_rules_defaults() {
               ),
               'module' => 'User',
             ),
-            '#weight' => 0,
-            '#negate' => 1,
+            '#name' => 'rules_condition_user_hasrole',
+            '#settings' => array(
+              'roles' => array(
+                '0' => 1271379760,
+              ),
+              'operation' => 'OR',
+              '#argument map' => array(
+                'user' => 'user',
+              ),
+            ),
+            '#type' => 'condition',
           ),
         ),
         '#actions' => array(
-          '0' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Unpublish created content',
-              'module' => 'Node',
-              'arguments' => array(
-                'node' => array(
-                  'label' => 'Content',
-                  'type' => 'node',
-                ),
-              ),
-              'base' => 'rules_core_action_execute',
-              'action_name' => 'node_unpublish_action',
-              'configurable' => FALSE,
-              'label callback' => 'rules_core_node_label_callback',
-              'label_skeleton' => 'Unpublish @node',
-            ),
-            '#name' => 'rules_core_node_unpublish_action',
+          '1' => array(
+            '#type' => 'action',
             '#settings' => array(
-              'auto_save' => 1,
               '#argument map' => array(
                 'node' => 'node',
               ),
             ),
-            '#type' => 'action',
+            '#name' => 'boinccore_rules_action_mark_content_for_moderation',
+            '#info' => array(
+              'label' => 'Mark content for moderation',
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'module' => 'BOINC core',
+            ),
+            '#weight' => 0,
           ),
         ),
         '#version' => 6003,
@@ -169,6 +163,7 @@ function user_profiles_rules_defaults() {
             '#type' => 'condition',
           ),
           '1' => array(
+            '#type' => 'condition',
             '#settings' => array(
               'roles' => array(
                 '0' => 1271379760,
@@ -178,7 +173,6 @@ function user_profiles_rules_defaults() {
                 'user' => 'user',
               ),
             ),
-            '#type' => 'condition',
             '#name' => 'rules_condition_user_hasrole',
             '#info' => array(
               'label' => 'User has role(s)',
@@ -190,36 +184,30 @@ function user_profiles_rules_defaults() {
               ),
               'module' => 'User',
             ),
-            '#weight' => 0,
             '#negate' => 1,
+            '#weight' => 0,
           ),
         ),
         '#actions' => array(
-          '0' => array(
-            '#weight' => 0,
-            '#info' => array(
-              'label' => 'Unpublish created content',
-              'module' => 'Node',
-              'arguments' => array(
-                'node' => array(
-                  'label' => 'Content',
-                  'type' => 'node',
-                ),
-              ),
-              'base' => 'rules_core_action_execute',
-              'action_name' => 'node_unpublish_action',
-              'configurable' => FALSE,
-              'label callback' => 'rules_core_node_label_callback',
-              'label_skeleton' => 'Unpublish @node',
-            ),
-            '#name' => 'rules_core_node_unpublish_action',
+          '1' => array(
+            '#type' => 'action',
             '#settings' => array(
-              'auto_save' => 1,
               '#argument map' => array(
                 'node' => 'node',
               ),
             ),
-            '#type' => 'action',
+            '#name' => 'boinccore_rules_action_mark_content_for_moderation',
+            '#info' => array(
+              'label' => 'Mark content for moderation',
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'module' => 'BOINC core',
+            ),
+            '#weight' => 0,
           ),
         ),
         '#version' => 6003,

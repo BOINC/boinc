@@ -68,12 +68,12 @@ function boincuser_menu() {
     'type' => MENU_CALLBACK,
     'weight' => 5
   );
-  $items['moderate/profile/%user/remove'] = array(
-    'title' => 'Profile removal',
-    'description' => 'Remove profile content',
-    'page callback' => 'boincuser_moderate_profile_remove',
-    'page arguments' => array(2),
-    'access arguments' => array('delete any profile content'),
+  $items['moderate/profile/%/reject'] = array(
+    'title' => bts('Reject profile'),
+    'description' => 'Reject profile content',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boincuser_moderate_profile_reject_form', 2),
+    'access arguments' => array('edit any profile content'),
     'type' => MENU_CALLBACK,
     'weight' => 5
   );
@@ -1250,28 +1250,56 @@ function boincuser_control($uid = NULL, $action = NULL) {
 }
 
 /**
- * Allow user profile to be approved by direct link rather than through the
- * user account info form.
+ * Mark a user profile as approved by publishing it and turning off the
+ * moderation flag.
  */
 function boincuser_moderate_profile_approve($account) {
   $profile = content_profile_load('profile', $account->uid);
+  $profile->moderate = 0;
   $profile->status = 1;
   node_save($profile);
   drupal_set_message('This profile has been marked as approved.');
-  drupal_goto("account/{$account->uid}");
+  drupal_goto();
 }
 
 /**
- * Allow user profile to be removed by direct link rather than through the
- * user account info form.
+ * Mark a user profile as rejected and notify the user of the reason.
  */
-function boincuser_moderate_profile_remove($account) {
+function boincuser_moderate_profile_reject($uid, $reason = '') {
+  $account = user_load($uid);
   $profile = content_profile_load('profile', $account->uid);
   if ($profile->nid) {
-    node_delete($profile->nid);
-    //drupal_set_message('This profile has been removed from the system.');
+    global $user;
+    global $base_url;
+    global $base_path;
+    $site_name = variable_get('site_name', bts('project'));
+    $site_url = $base_url . $base_path;
+    $moderator = user_load($user->uid);
+    $profile->moderate = 0;
+    $profile->status = 0;
+    node_save($profile);
+    $settings = array(
+      'from' => '',
+      'subject' => "Profile moderation at {$site_name}",
+      'message' => ''
+      . "{$account->boincuser_name},\n"
+      . "\n"
+      . "{$moderator->boincuser_name} has rejected your profile at"
+      . " {$site_name}. {$reason}\n"
+      . "\n"
+      . "Since it has not been approved, your profile is not visible to other"
+      . " {$site_name} users. Please make the needed changes here:\n"
+      . "\n"
+      . "{$site_url}account/profile \n"
+      . "\n"
+      . "Thanks, \n"
+      . "\n"
+      . "{$site_name} support team",
+    );
+    rules_action_mail_to_user($account, $settings);
+    drupal_set_message('This profile has been marked as rejected.');
   }
-  drupal_goto("account/{$account->uid}");
+  drupal_goto();
 }
 
 
@@ -1417,13 +1445,13 @@ function boincuser_get_profile_links($uid) {
   $profile = content_profile_load('profile', $account->uid);
   $output = '';
   if ($profile) {
-    $profile_is_approved = $profile->status;
+    $profile_is_approved = ($profile->status AND !$profile->moderate);
     $user_is_moderator = user_access('edit any profile content');
     $is_own_profile = ($user->uid == $account->uid);
     $profile_moderation_path = "moderate/profile/{$account->uid}";
     $links = array();
     
-    if (!$profile_is_approved AND $user_is_moderator) {
+    if ($profile->moderate AND $user_is_moderator) {
       $links['approve_profile'] = array(
         'title' => bts('Approve profile'),
         'href' => "{$profile_moderation_path}/approve",
@@ -1432,19 +1460,19 @@ function boincuser_get_profile_links($uid) {
           'class' => 'first primary tab',
         )
       );
-      $links['edit_profile'] = array(
+      /*$links['edit_profile'] = array(
         'title' => bts('Edit profile'),
         'href' => "{$profile_moderation_path}/edit",
         'attributes' => array(
           'title' => bts('Edit the content of this profile'),
           'class' => 'tab',
         )
-      );
-      $links['remove_profile'] = array(
-        'title' => bts('Remove profile'),
-        'href' => "{$profile_moderation_path}/remove",
+      );*/
+      $links['reject_profile'] = array(
+        'title' => bts('Reject profile'),
+        'href' => "{$profile_moderation_path}/reject",
         'attributes' => array(
-          'title' => bts('Remove this profile content from the system'),
+          'title' => bts('Reject this profile content'),
           'class' => 'tab',
         )
       );

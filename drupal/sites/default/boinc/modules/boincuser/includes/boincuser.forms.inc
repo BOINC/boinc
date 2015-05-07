@@ -469,6 +469,51 @@ function boincuser_authloginform_submit($form, &$form_state) {
 
 
 /**
+ * The definition of the moderator reject user profile form.
+ */
+function boincuser_moderate_profile_reject_form(&$form_state, $uid) {
+  $form_state['storage']['reject_profile_uid'] = $uid;
+  $form['reason'] = array(
+    '#title' => bts('Reason for rejecting this profile'),
+    '#type' => 'textarea',
+    '#description' => bts('This reason will be included in an email to the user. Please write a brief explanation of the problem and how to fix it.'),
+    '#default_value' => '',
+  );
+  
+  // Form control
+  $form['form control tabs prefix'] = array(
+    '#value' => '<ul class="form-control tab-list">',
+    '#weight' => 1001,
+  );
+  $form['submit'] = array(
+    '#prefix' => '<li class="first tab">',
+    '#type' => 'submit',
+    '#value' => bts('Submit'),
+    '#suffix' => '</li>',
+    '#weight' => 1002,
+  );
+  $form['form control tabs'] = array(
+    '#value' => '<li class="tab">' . l(bts('Cancel'), "account/{$uid}") . '</li>',
+    '#weight' => 1003,
+  );
+  $form['form control tabs suffix'] = array(
+    '#value' => '</ul>',
+    '#weight' => 1004,
+  );
+  return $form;
+}
+
+/**
+ * The moderator reject user profile submit handler
+ */
+function boincuser_moderate_profile_reject_form_submit($form, &$form_state) {
+  $uid = $form_state['storage']['reject_profile_uid'];
+  $reason = $form_state['values']['reason'];
+  boincuser_moderate_profile_reject($uid, $reason);
+}
+
+
+/**
  * Hack to fix submission of the flag friend unfriend form
  */
 function boincuser_fix_unfriend_form_submit($form, &$form_state) {
