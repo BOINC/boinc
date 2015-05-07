@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-04-29 14:36+0000\n"
+"POT-Creation-Date: 2015-05-07 12:21+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -12,52 +12,6 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-
-#:  
-msgid ""
-"CAPTCHA validation error: unknown CAPTCHA session ID. Contact the site "
-"administrator if this problem persists."
-msgstr ""
-
-#:  
-msgid "The answer you entered for the CAPTCHA was not correct."
-msgstr ""
-
-#:  
-msgid "There are no tasks of this type on record"
-msgstr ""
-
-#:  
-msgid ""
-"This will remove all of your settings from the @name preference set. "
-"Are you sure?"
-msgstr ""
-
-#:  
-msgid ""
-"On computers attached to multiple projects, the most recently modified "
-"preferences will be used."
-msgstr ""
-
-#:  
-msgid "Preferences last modified: @mod_time"
-msgstr ""
-
-#:  
-msgid "Switch View"
-msgstr ""
-
-#:  
-msgid ""
-"This will remove all of your settings from the \"@name\" preference "
-"set. Are you sure?"
-msgstr ""
-
-#:  
-msgid ""
-"This account's default language for e-mails and preferred language for "
-"site presentation."
-msgstr ""
 
 #:  
 msgid ""
@@ -85,55 +39,7 @@ msgid "This is not available until your profile is set up."
 msgstr ""
 
 #:  
-msgid "In discussion topics, show at most @comments_per_page"
-msgstr ""
-
-#:  
-msgid "Sort comments in discussions"
-msgstr ""
-
-#:  
-msgid "Your signature will be publicly displayed at the end of your comments."
-msgstr ""
-
-#:  
-msgid "Hide signatures in forums"
-msgstr ""
-
-#:  
-msgid "Is it OK for @project and your team (if any) to email you?"
-msgstr ""
-
-#:  
 msgid "Should @project show your computers on its web site?"
-msgstr ""
-
-#:  
-msgid "Lock this thread for comments"
-msgstr ""
-
-#:  
-msgid "Make this topic sticky"
-msgstr ""
-
-#:  
-msgid "You must earn 1 more credit!"
-msgstr ""
-
-#:  
-msgid "Click here to become a member of @this_team"
-msgstr ""
-
-#:  
-msgid "A discussion forum has been set up for team members."
-msgstr ""
-
-#:  
-msgid "Enter forum"
-msgstr ""
-
-#:  
-msgid "Leave team"
 msgstr ""
 
 #:  
@@ -141,55 +47,7 @@ msgid "Click here to revoke your membership with @this_team"
 msgstr ""
 
 #:  
-msgid "Leave this team"
-msgstr ""
-
-#:  
-msgid "Edit message board"
-msgstr ""
-
-#:  
-msgid "Message board title"
-msgstr ""
-
-#:  
-msgid "Text only, no HTML tags"
-msgstr ""
-
-#:  
-msgid "Minimum time between posts"
-msgstr ""
-
-#:  
-msgid "Seconds"
-msgstr ""
-
-#:  
 msgid "Minimum avg credit to post"
-msgstr ""
-
-#:  
-msgid "Allow public to read board?"
-msgstr ""
-
-#:  
-msgid "Save message board"
-msgstr ""
-
-#:  
-msgid "About message boards"
-msgstr ""
-
-#:  
-msgid "This is a team-only message board"
-msgstr ""
-
-#:  
-msgid "Only members may post"
-msgstr ""
-
-#:  
-msgid "Only members may read (optional)"
 msgstr ""
 
 #:  
@@ -197,19 +55,7 @@ msgid "Founder & Team Admins have moderator privileges"
 msgstr ""
 
 #:  
-msgid "Changing the team founder"
-msgstr ""
-
-#:  
 msgid "Notes about changes in foundership:"
-msgstr ""
-
-#:  
-msgid "Any member of the team is eligible"
-msgstr ""
-
-#:  
-msgid "Current founder becomes a normal user"
 msgstr ""
 
 #:  
@@ -221,63 +67,11 @@ msgid "One request is allowed at a time"
 msgstr ""
 
 #:  
-msgid "It must be 60 days since any previous request"
-msgstr ""
-
-#:  
 msgid "Any active request must be older than 90 days"
 msgstr ""
 
 #:  
 msgid "Current founder has 60 days to respond to a request"
-msgstr ""
-
-#:  
-msgid "Add team admin"
-msgstr ""
-
-#:  
-msgid "Enter email address"
-msgstr ""
-
-#:  
-msgid "Current team admins"
-msgstr ""
-
-#:  
-msgid "About team admins"
-msgstr ""
-
-#:  
-msgid "Team admins can:"
-msgstr ""
-
-#:  
-msgid "Edit team information"
-msgstr ""
-
-#:  
-msgid "View the team's join / quit history"
-msgstr ""
-
-#:  
-msgid "Moderate the team forum"
-msgstr ""
-
-#:  
-msgid "Remove members from the team"
-msgstr ""
-
-#:  
-msgid "Disband a team if it has no members"
-msgstr ""
-
-#:  
-msgid "Team admins cannot:"
-msgstr ""
-
-#:  
-msgid "Add / Remove team admins"
 msgstr ""
 
 #:  
@@ -287,57 +81,7 @@ msgid ""
 msgstr ""
 
 #:  
-msgid "Choose type"
-msgstr ""
-
-#:  
-msgid "Team name -- HTML version (optional)"
-msgstr ""
-
-#:  
-msgid "You may use limited HTML tags"
-msgstr ""
-
-#:  
-msgid "Team website (optional)"
-msgstr ""
-
-#:  
-msgid "Displayed on the team's page"
-msgstr ""
-
-#:  
-msgid "Create new team"
-msgstr ""
-
-#:  
-msgid "Save team"
-msgstr ""
-
-#:  
-msgid "Create team message board"
-msgstr ""
-
-#:  
-msgid "Create message board"
-msgstr ""
-
-#:  
 msgid "You may create a message board for use by @team"
-msgstr ""
-
-#:  
-msgid ""
-"Please set the minimum average credit that a user is required to have "
-"in order to post to this message board."
-msgstr ""
-
-#:  
-msgid "Post new topic"
-msgstr ""
-
-#:  
-msgid "Unpublished"
 msgstr ""
 
 #:  
@@ -345,115 +89,7 @@ msgid "parent removed"
 msgstr ""
 
 #:  
-msgid "Sorry, unrecognized email address or password."
-msgstr ""
-
-#:  
-msgid "Have you forgotten your password?"
-msgstr ""
-
-#:  
-msgid "Id"
-msgstr ""
-
-#:  
-msgid "Total Credit"
-msgstr ""
-
-#:  
-msgid "Admin since"
-msgstr ""
-
-#:  
-msgid "Team ID"
-msgstr ""
-
-#:  
-msgid "User joined"
-msgstr ""
-
-#:  
-msgid "Timestamp"
-msgstr ""
-
-#:  
-msgid "Account Key"
-msgstr ""
-
-#:  
-msgid "CPID"
-msgstr ""
-
-#:  
-msgid "Password Hash"
-msgstr ""
-
-#:  
-msgid "Postal Code"
-msgstr ""
-
-#:  
-msgid "Send Email"
-msgstr ""
-
-#:  
-msgid "Show Hosts"
-msgstr ""
-
-#:  
-msgid "Free disk space"
-msgstr ""
-
-#:  
-msgid "Cross project ID"
-msgstr ""
-
-#:  
-msgid "Last IP address"
-msgstr ""
-
-#:  
 msgid "Maximum daily WU quota per CPU"
-msgstr ""
-
-#:  
-msgid "Same IP address count"
-msgstr ""
-
-#:  
-msgid "% of time BOINC client is running"
-msgstr ""
-
-#:  
-msgid "Operating system version"
-msgstr ""
-
-#:  
-msgid "CPU model"
-msgstr ""
-
-#:  
-msgid "Serial number"
-msgstr ""
-
-#:  
-msgid "Timezone"
-msgstr ""
-
-#:  
-msgid "Platform ID"
-msgstr ""
-
-#:  
-msgid "Task ID"
-msgstr ""
-
-#:  
-msgid "Application ID"
-msgstr ""
-
-#:  
-msgid "Granted credit"
 msgstr ""
 
 #:  
@@ -461,27 +97,7 @@ msgid "Received time"
 msgstr ""
 
 #:  
-msgid "Stderr out"
-msgstr ""
-
-#:  
-msgid "Validation state"
-msgstr ""
-
-#:  
 msgid "App ID"
-msgstr ""
-
-#:  
-msgid "Canonical credit"
-msgstr ""
-
-#:  
-msgid "Canonical result ID"
-msgstr ""
-
-#:  
-msgid "Created time"
 msgstr ""
 
 #:  
@@ -502,14 +118,6 @@ msgstr ""
 
 #:  
 msgid "Max total tasks"
-msgstr ""
-
-#:  
-msgid "Needs validation"
-msgstr ""
-
-#:  
-msgid "Initial replication"
 msgstr ""
 
 #:  
@@ -545,42 +153,6 @@ msgid "@count days"
 msgstr ""
 
 #:  
-msgid "Remove friend"
-msgstr ""
-
-#:  
-msgid "Ban user"
-msgstr ""
-
-#:  
-msgid "Reply to this comment"
-msgstr ""
-
-#:  
-msgid "Reply to this comment with quote"
-msgstr ""
-
-#:  
-msgid "Edit this comment"
-msgstr ""
-
-#:  
-msgid "Delete this comment"
-msgstr ""
-
-#:  
-msgid "Hide this comment"
-msgstr ""
-
-#:  
-msgid "Convert"
-msgstr ""
-
-#:  
-msgid "Convert this comment to a new topic"
-msgstr ""
-
-#:  
 msgid "@ip_address (same the last @count times)"
 msgstr ""
 
@@ -589,18 +161,7 @@ msgid "commented on"
 msgstr ""
 
 #:  
-msgid "Make unsticky"
-msgstr ""
-
-#:  
 msgid "Remove sticky status from this topic"
-msgstr ""
-
-#:  
-msgid ""
-"Sometimes BOINC assigns separate identities to the same computer by "
-"mistake. You can correct this by merging old identities with the "
-"newest one."
 msgstr ""
 
 #:  
@@ -626,15 +187,119 @@ msgid "Minimum value not met for @field"
 msgstr ""
 
 #:  
-msgid "Remove"
-msgstr ""
-
-#:  
-msgid "hidden"
-msgstr ""
-
-#:  
 msgid "Invalid data type for @field"
+msgstr ""
+
+#:  
+msgid ""
+"Authentication is required when changing E-mail address or setting new "
+"password."
+msgstr ""
+
+#:  
+msgid "Request foundership"
+msgstr ""
+
+#:  
+msgid ""
+"If the team founder is not active and you want to assume the role of "
+"founder, click below to request foundership of @this_team."
+msgstr ""
+
+#:  
+msgid "Initiate request"
+msgstr ""
+
+#:  
+msgid "A BOINC account already exists for @email."
+msgstr ""
+
+#:  
+msgid ""
+"Please be responsible in what you write and do not create posts which "
+"are offensive or insulting. Offensive posts or threads may be deleted "
+"by forum moderators without warning or discussion. Do not respond to "
+"offensive postings. Click on the \"report\" button at the bottom of "
+"the post to call it to the attention of the moderators."
+msgstr ""
+
+#:  
+msgid "this project"
+msgstr ""
+
+#:  
+msgid ""
+"We also ask that you keep all discussion on the message boards related "
+"to @project or BOINC with the small exception of the Science message "
+"board where you are free to discuss anything relevant to the "
+"underlying science. Participants interested in broader discussions "
+"should post to unofficial forums for @project."
+msgstr ""
+
+#:  
+msgid "These message boards now support BBCode tags only."
+msgstr ""
+
+#:  
+msgid "Posts contributed"
+msgstr ""
+
+#:  
+msgid "Profile awaiting moderator approval"
+msgstr ""
+
+#:  
+msgid "Approve profile"
+msgstr ""
+
+#:  
+msgid "Approve this profile content"
+msgstr ""
+
+#:  
+msgid "Edit profile"
+msgstr ""
+
+#:  
+msgid "Edit the content of this profile"
+msgstr ""
+
+#:  
+msgid "Remove profile"
+msgstr ""
+
+#:  
+msgid "Remove this profile content from the system"
+msgstr ""
+
+#:  
+msgid "The team founder has @count days to respond to your transfer request."
+msgstr ""
+
+#:  
+msgid "Reject profile"
+msgstr ""
+
+#:  
+msgid "Reject this profile content"
+msgstr ""
+
+#:  
+msgid "Reason for rejecting this profile"
+msgstr ""
+
+#:  
+msgid ""
+"This reason will be included in an email to the user. Please write a "
+"brief explanation of the problem and how to fix it."
+msgstr ""
+
+#:  
+msgid "Submit"
+msgstr ""
+
+#:  
+msgid "project"
 msgstr ""
 
 #:  
@@ -1432,6 +1097,16 @@ msgid "Mark all forums read"
 msgstr ""
 
 #:  
+msgid ""
+"CAPTCHA validation error: unknown CAPTCHA session ID. Contact the site "
+"administrator if this problem persists."
+msgstr ""
+
+#:  
+msgid "The answer you entered for the CAPTCHA was not correct."
+msgstr ""
+
+#:  
 msgid "Access denied. You must login to view this page."
 msgstr ""
 
@@ -1464,7 +1139,17 @@ msgid "No @type tasks"
 msgstr ""
 
 #:  
+msgid "There are no tasks of this type on record"
+msgstr ""
+
+#:  
 msgid "Clear"
+msgstr ""
+
+#:  
+msgid ""
+"This will remove all of your settings from the @name preference set. "
+"Are you sure?"
 msgstr ""
 
 #:  
@@ -1472,7 +1157,21 @@ msgid "These apply to all BOINC projects in which you participate."
 msgstr ""
 
 #:  
+msgid ""
+"On computers attached to multiple projects, the most recently modified "
+"preferences will be used."
+msgstr ""
+
+#:  
+msgid "Preferences last modified: @mod_time"
+msgstr ""
+
+#:  
 msgid "Combined preferences"
+msgstr ""
+
+#:  
+msgid "Switch View"
 msgstr ""
 
 #:  
@@ -1481,6 +1180,12 @@ msgstr ""
 
 #:  
 msgid "Edit"
+msgstr ""
+
+#:  
+msgid ""
+"This will remove all of your settings from the \"@name\" preference "
+"set. Are you sure?"
 msgstr ""
 
 #:  
@@ -1512,6 +1217,12 @@ msgid "Language settings"
 msgstr ""
 
 #:  
+msgid ""
+"This account's default language for e-mails and preferred language for "
+"site presentation."
+msgstr ""
+
+#:  
 msgid "Avatar settings"
 msgstr ""
 
@@ -1528,7 +1239,15 @@ msgid "Forum settings"
 msgstr ""
 
 #:  
+msgid "In discussion topics, show at most @comments_per_page"
+msgstr ""
+
+#:  
 msgid "comments per page"
+msgstr ""
+
+#:  
+msgid "Sort comments in discussions"
 msgstr ""
 
 #:  
@@ -1544,7 +1263,19 @@ msgid "Signature"
 msgstr ""
 
 #:  
+msgid "Your signature will be publicly displayed at the end of your comments."
+msgstr ""
+
+#:  
+msgid "Hide signatures in forums"
+msgstr ""
+
+#:  
 msgid "Privacy settings"
+msgstr ""
+
+#:  
+msgid "Is it OK for @project and your team (if any) to email you?"
 msgstr ""
 
 #:  
@@ -1560,7 +1291,15 @@ msgid "Lock"
 msgstr ""
 
 #:  
+msgid "Lock this thread for comments"
+msgstr ""
+
+#:  
 msgid "Make sticky"
+msgstr ""
+
+#:  
+msgid "Make this topic sticky"
 msgstr ""
 
 #:  
@@ -1569,6 +1308,10 @@ msgstr ""
 
 #:  
 msgid "Post new comment"
+msgstr ""
+
+#:  
+msgid "You must earn 1 more credit!"
 msgstr ""
 
 #:  
@@ -1585,6 +1328,10 @@ msgstr ""
 
 #:  
 msgid "Join team"
+msgstr ""
+
+#:  
+msgid "Click here to become a member of @this_team"
 msgstr ""
 
 #:  
@@ -1644,7 +1391,127 @@ msgid "Team forum"
 msgstr ""
 
 #:  
+msgid "A discussion forum has been set up for team members."
+msgstr ""
+
+#:  
+msgid "Enter forum"
+msgstr ""
+
+#:  
+msgid "Leave team"
+msgstr ""
+
+#:  
+msgid "Leave this team"
+msgstr ""
+
+#:  
+msgid "Edit message board"
+msgstr ""
+
+#:  
+msgid "Message board title"
+msgstr ""
+
+#:  
+msgid "Text only, no HTML tags"
+msgstr ""
+
+#:  
+msgid "Minimum time between posts"
+msgstr ""
+
+#:  
+msgid "Seconds"
+msgstr ""
+
+#:  
 msgid "Minimum total credit to post"
+msgstr ""
+
+#:  
+msgid "Allow public to read board?"
+msgstr ""
+
+#:  
+msgid "Save message board"
+msgstr ""
+
+#:  
+msgid "About message boards"
+msgstr ""
+
+#:  
+msgid "This is a team-only message board"
+msgstr ""
+
+#:  
+msgid "Only members may post"
+msgstr ""
+
+#:  
+msgid "Only members may read (optional)"
+msgstr ""
+
+#:  
+msgid "Changing the team founder"
+msgstr ""
+
+#:  
+msgid "Any member of the team is eligible"
+msgstr ""
+
+#:  
+msgid "Current founder becomes a normal user"
+msgstr ""
+
+#:  
+msgid "It must be 60 days since any previous request"
+msgstr ""
+
+#:  
+msgid "Add team admin"
+msgstr ""
+
+#:  
+msgid "Enter email address"
+msgstr ""
+
+#:  
+msgid "Current team admins"
+msgstr ""
+
+#:  
+msgid "About team admins"
+msgstr ""
+
+#:  
+msgid "Team admins can:"
+msgstr ""
+
+#:  
+msgid "Edit team information"
+msgstr ""
+
+#:  
+msgid "View the team's join / quit history"
+msgstr ""
+
+#:  
+msgid "Moderate the team forum"
+msgstr ""
+
+#:  
+msgid "Remove members from the team"
+msgstr ""
+
+#:  
+msgid "Disband a team if it has no members"
+msgstr ""
+
+#:  
+msgid "Team admins cannot:"
 msgstr ""
 
 #:  
@@ -1652,7 +1519,31 @@ msgid "Change the team founder"
 msgstr ""
 
 #:  
+msgid "Add / Remove team admins"
+msgstr ""
+
+#:  
+msgid "Choose type"
+msgstr ""
+
+#:  
 msgid "Team name"
+msgstr ""
+
+#:  
+msgid "Team name -- HTML version (optional)"
+msgstr ""
+
+#:  
+msgid "You may use limited HTML tags"
+msgstr ""
+
+#:  
+msgid "Team website (optional)"
+msgstr ""
+
+#:  
+msgid "Displayed on the team's page"
 msgstr ""
 
 #:  
@@ -1668,11 +1559,53 @@ msgid "Description of team"
 msgstr ""
 
 #:  
+msgid "Create new team"
+msgstr ""
+
+#:  
 msgid "Create a team"
 msgstr ""
 
 #:  
+msgid "Save team"
+msgstr ""
+
+#:  
+msgid "Create team message board"
+msgstr ""
+
+#:  
+msgid "Create message board"
+msgstr ""
+
+#:  
+msgid ""
+"Please set the minimum average credit that a user is required to have "
+"in order to post to this message board."
+msgstr ""
+
+#:  
+msgid "Post new topic"
+msgstr ""
+
+#:  
 msgid "Anonymous"
+msgstr ""
+
+#:  
+msgid "Unpublished"
+msgstr ""
+
+#:  
+msgid "Sorry, unrecognized email address or password."
+msgstr ""
+
+#:  
+msgid "Have you forgotten your password?"
+msgstr ""
+
+#:  
+msgid "Id"
 msgstr ""
 
 #:  
@@ -1684,6 +1617,10 @@ msgid "Members"
 msgstr ""
 
 #:  
+msgid "Total Credit"
+msgstr ""
+
+#:  
 msgid "User ID"
 msgstr ""
 
@@ -1692,7 +1629,47 @@ msgid "User"
 msgstr ""
 
 #:  
+msgid "Admin since"
+msgstr ""
+
+#:  
+msgid "Team ID"
+msgstr ""
+
+#:  
+msgid "User joined"
+msgstr ""
+
+#:  
+msgid "Timestamp"
+msgstr ""
+
+#:  
+msgid "Account Key"
+msgstr ""
+
+#:  
+msgid "CPID"
+msgstr ""
+
+#:  
 msgid "Email Address"
+msgstr ""
+
+#:  
+msgid "Password Hash"
+msgstr ""
+
+#:  
+msgid "Postal Code"
+msgstr ""
+
+#:  
+msgid "Send Email"
+msgstr ""
+
+#:  
+msgid "Show Hosts"
 msgstr ""
 
 #:  
@@ -1728,6 +1705,10 @@ msgid "Average CPU efficiency"
 msgstr ""
 
 #:  
+msgid "Free disk space"
+msgstr ""
+
+#:  
 msgid "Total disk space"
 msgstr ""
 
@@ -1741,6 +1722,14 @@ msgstr ""
 
 #:  
 msgid "External IP address"
+msgstr ""
+
+#:  
+msgid "Cross project ID"
+msgstr ""
+
+#:  
+msgid "Last IP address"
 msgstr ""
 
 #:  
@@ -1764,7 +1753,19 @@ msgid "Average upload rate"
 msgstr ""
 
 #:  
+msgid "Same IP address count"
+msgstr ""
+
+#:  
+msgid "% of time BOINC client is running"
+msgstr ""
+
+#:  
 msgid "Operating system"
+msgstr ""
+
+#:  
+msgid "Operating system version"
 msgstr ""
 
 #:  
@@ -1773,6 +1774,10 @@ msgstr ""
 
 #:  
 msgid "Measured integer speed"
+msgstr ""
+
+#:  
+msgid "CPU model"
 msgstr ""
 
 #:  
@@ -1792,11 +1797,31 @@ msgid "Last contact"
 msgstr ""
 
 #:  
+msgid "Serial number"
+msgstr ""
+
+#:  
+msgid "Timezone"
+msgstr ""
+
+#:  
+msgid "Platform ID"
+msgstr ""
+
+#:  
+msgid "Task ID"
+msgstr ""
+
+#:  
 msgid "Workunit ID"
 msgstr ""
 
 #:  
 msgid "Host ID"
+msgstr ""
+
+#:  
+msgid "Application ID"
 msgstr ""
 
 #:  
@@ -1824,6 +1849,10 @@ msgid "Exit status"
 msgstr ""
 
 #:  
+msgid "Granted credit"
+msgstr ""
+
+#:  
 msgid "Outcome"
 msgstr ""
 
@@ -1837,6 +1866,34 @@ msgstr ""
 
 #:  
 msgid "Server state"
+msgstr ""
+
+#:  
+msgid "Stderr out"
+msgstr ""
+
+#:  
+msgid "Validation state"
+msgstr ""
+
+#:  
+msgid "Canonical credit"
+msgstr ""
+
+#:  
+msgid "Canonical result ID"
+msgstr ""
+
+#:  
+msgid "Created time"
+msgstr ""
+
+#:  
+msgid "Needs validation"
+msgstr ""
+
+#:  
+msgid "Initial replication"
 msgstr ""
 
 #:  
@@ -1868,6 +1925,14 @@ msgid "hours"
 msgstr ""
 
 #:  
+msgid "Remove friend"
+msgstr ""
+
+#:  
+msgid "Ban user"
+msgstr ""
+
+#:  
 msgid "Add as friend"
 msgstr ""
 
@@ -1880,10 +1945,57 @@ msgid "Reply"
 msgstr ""
 
 #:  
+msgid "Reply to this comment"
+msgstr ""
+
+#:  
 msgid "Quote"
 msgstr ""
 
 #:  
+msgid "Reply to this comment with quote"
+msgstr ""
+
+#:  
+msgid "Edit this comment"
+msgstr ""
+
+#:  
+msgid "Delete this comment"
+msgstr ""
+
+#:  
+msgid "Hide this comment"
+msgstr ""
+
+#:  
+msgid "Convert"
+msgstr ""
+
+#:  
+msgid "Convert this comment to a new topic"
+msgstr ""
+
+#:  
 msgid "Details"
+msgstr ""
+
+#:  
+msgid "Make unsticky"
+msgstr ""
+
+#:  
+msgid ""
+"Sometimes BOINC assigns separate identities to the same computer by "
+"mistake. You can correct this by merging old identities with the "
+"newest one."
+msgstr ""
+
+#:  
+msgid "Remove"
+msgstr ""
+
+#:  
+msgid "hidden"
 msgstr ""
 
