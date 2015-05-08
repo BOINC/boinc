@@ -87,20 +87,22 @@ char boinc_failed_file[MAXPATHLEN];
 // routines for enumerating the entries in a directory
 
 int is_file(const char* path) {
-    struct stat sbuf;
 #ifdef _WIN32
-    int retval = stat(path, &sbuf);
+    struct __stat64 sbuf;
+    int retval = _stat64(path, &sbuf);
 #else
+    struct stat sbuf;
     int retval = lstat(path, &sbuf);
 #endif
     return (!retval && (((sbuf.st_mode) & S_IFMT) == S_IFREG));
 }
 
 int is_dir(const char* path) {
-    struct stat sbuf;
 #ifdef _WIN32
-    int retval = stat(path, &sbuf);
+    struct __stat64 sbuf;
+    int retval = _stat64(path, &sbuf);
 #else
+    struct stat sbuf;
     int retval = lstat(path, &sbuf);
 #endif
     return (!retval && (((sbuf.st_mode) & S_IFMT) == S_IFDIR));
@@ -509,8 +511,13 @@ FILE* boinc_fopen(const char* path, const char* mode) {
 
 
 int boinc_file_exists(const char* path) {
+#ifdef _WIN32
+    struct __stat64 buf;
+    if (_stat64(path, &buf)) {
+#else
     struct stat buf;
     if (stat(path, &buf)) {
+#endif
         return false;     // stat() returns zero on success
     }
     return true;
@@ -519,10 +526,11 @@ int boinc_file_exists(const char* path) {
 // same, but doesn't traverse symlinks
 //
 int boinc_file_or_symlink_exists(const char* path) {
-    struct stat buf;
 #ifdef _WIN32
-    if (stat(path, &buf)) {
+    struct __stat64 buf;
+    if (_stat64(path, &buf)) {
 #else
+    struct stat buf;
     if (lstat(path, &buf)) {
 #endif
         return false;     // stat() returns zero on success
@@ -533,7 +541,6 @@ int boinc_file_or_symlink_exists(const char* path) {
 // returns zero on success, nonzero if didn't touch file
 //
 int boinc_touch_file(const char *path) {
-
     if (boinc_file_exists(path)) {
         return 0;
     }
