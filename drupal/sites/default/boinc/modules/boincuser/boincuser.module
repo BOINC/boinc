@@ -1257,7 +1257,11 @@ function boincuser_control($uid = NULL, $action = NULL) {
  * moderation flag.
  */
 function boincuser_moderate_profile_approve($account) {
-  $profile = content_profile_load('profile', $account->uid);
+  $node = new stdClass;
+  $node->type = 'profile';
+  $node->language = '';
+  $nid = content_profile_profile_exists($node, $account->uid);
+  $profile = node_load($nid);
   $profile->moderate = 0;
   $profile->status = 1;
   node_save($profile);
@@ -1270,7 +1274,11 @@ function boincuser_moderate_profile_approve($account) {
  */
 function boincuser_moderate_profile_reject($uid, $reason = '') {
   $account = user_load($uid);
-  $profile = content_profile_load('profile', $account->uid);
+  $node = new stdClass;
+  $node->type = 'profile';
+  $node->language = '';
+  $nid = content_profile_profile_exists($node, $uid);
+  $profile = node_load($nid);
   if ($profile->nid) {
     global $user;
     global $base_url;
