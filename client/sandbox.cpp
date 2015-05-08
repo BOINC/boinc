@@ -231,10 +231,16 @@ int set_to_project_group(const char*) {
 }
 #endif // ! _WIN32
 
+// delete a file.
+// return success if we deleted it or it didn't exist in the first place
+//
 static int delete_project_owned_file_aux(const char* path) {
 #ifdef _WIN32
     if (DeleteFile(path)) return 0;
     int error = GetLastError();
+    if (error == ERROR_FILE_NOT_FOUND) {
+        return 0;
+    }
     if (error == ERROR_ACCESS_DENIED) {
         SetFileAttributes(path, FILE_ATTRIBUTE_NORMAL);
         if (DeleteFile(path)) return 0;
@@ -242,6 +248,9 @@ static int delete_project_owned_file_aux(const char* path) {
     return ERR_UNLINK;
 #else
     int retval = unlink(path);
+    if (retval == ENOENT) {
+        return 0;
+    }
     if (retval && g_use_sandbox && (errno == EACCES)) {
         // We may not have permission to read subdirectories created by projects
         return remove_project_owned_file_or_dir(path);
@@ -258,9 +267,6 @@ static int delete_project_owned_file_aux(const char* path) {
 int delete_project_owned_file(const char* path, bool retry) {
     int retval = 0;
 
-    if (!boinc_file_or_symlink_exists(path)) {
-        return 0;
-    }
     retval = delete_project_owned_file_aux(path);
     if (retval && retry) {
         double start = dtime();
