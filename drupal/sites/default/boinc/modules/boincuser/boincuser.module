@@ -836,6 +836,9 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     // Preview is ugly, unset until it works
     unset($form['buttons']['preview']);
     
+    // Delete doesn't work, be rid of it
+    unset($form['buttons']['delete']);
+    
     unset($form['title']);
     unset($form['body_field']);
     $form['#redirect'] = 'account/profile';
