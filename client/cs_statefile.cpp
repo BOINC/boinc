@@ -878,7 +878,8 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
             // check that the file is actually there
             //
             get_pathname(fip, path, sizeof(path));
-            if (!boinc_file_exists(path)) {
+            double size;
+            if (file_size(path, size)) {
                 safe_strcpy(buf,
                     _("File referenced in app_info.xml does not exist: ")
                 );
@@ -887,6 +888,7 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
                 delete fip;
                 continue;
             }
+            fip->nbytes = size;
             fip->status = FILE_PRESENT;
             fip->anonymous_platform_file = true;
             file_infos.push_back(fip);
