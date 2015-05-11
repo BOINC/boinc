@@ -3863,7 +3863,7 @@ The show graphics feature does NOT work in this configuration.</td><td>0</td><td
 		<row><td>ID_STRING36</td><td>1033</td><td>BOINCM~1|BOINC Manager Startup</td><td>0</td><td/><td>1352434064</td></row>
 		<row><td>ID_STRING37</td><td>1033</td><td>BOINCT~1|BOINC Tray</td><td>0</td><td/><td>1352434096</td></row>
 		<row><td>ID_STRING38</td><td>1033</td><td>BOINCM~1|BOINC Manager</td><td>0</td><td/><td>1352436176</td></row>
-		<row><td>ID_STRING39</td><td>1033</td><td>[ProductName] requires that your computer is running Windows 2000 with Service Pack 4. Please go to the Microsoft web site and download Service Pack 4.</td><td>0</td><td/><td>438070669</td></row>
+		<row><td>ID_STRING39</td><td>1033</td><td>[ProductName] requires that your computer is running Windows XP or newer.</td><td>0</td><td/><td>1520679245</td></row>
 		<row><td>ID_STRING4</td><td>1033</td><td>Closing any running instances of the BOINC Manager</td><td>0</td><td/><td>1092167440</td></row>
 		<row><td>ID_STRING40</td><td>1033</td><td>Installing [ProductName] on a domain controller is not currently supported.</td><td>0</td><td/><td>-887319952</td></row>
 		<row><td>ID_STRING41</td><td>1033</td><td>BOINC</td><td>0</td><td/><td>1042332494</td></row>
@@ -4244,9 +4244,7 @@ VwBlAGIAAQBXAEUAQgB4ADgANgA=
 	<table name="LaunchCondition">
 		<col key="yes" def="s255">Condition</col>
 		<col def="l255">Description</col>
-		<row><td>(((Not Version9X=400) And (Not Version9X=410) And (Not Version9X=490) And (Not VersionNT=400)) Or ((VersionNT&gt;=500) And (MsiNTProductType &lt;&gt; 2))) </td><td>##ID_STRING40##</td></row>
-		<row><td>(((Not Version9X=400) And (Not Version9X=410) And (Not Version9X=490) And (Not VersionNT=400)) Or (VersionNT&gt;500) Or ((VersionNT=500) And (ServicePackLevel &gt;= 4)))</td><td>##ID_STRING39##</td></row>
-		<row><td>(Not Version9X=400) And (Not Version9X=410) And (Not Version9X=490) And (Not VersionNT=400)</td><td>##IDPROP_EXPRESS_LAUNCH_CONDITION_OS##</td></row>
+		<row><td>((Not Version9X=400) And (Not Version9X=410) And (Not Version9X=490) And (Not VersionNT=400)) And (VersionNT&gt;500)</td><td>##ID_STRING39##</td></row>
 		<row><td>AdminUser</td><td>##IDPROP_EXPRESS_LAUNCH_CONDITION_ADMIN##</td></row>
 	</table>
 
