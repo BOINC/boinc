@@ -104,7 +104,7 @@ if ($user->uid AND ($user->uid != $account->uid)) {
     if (array_search('community member', $account->roles)) {
       $user_links[] = array(
         'title' => bts('Ban user'),
-        'href' => "user_control/{$account->uid}/ban"
+        'href' => "moderate/user/{$account->uid}/ban"
       );
     }
     else {

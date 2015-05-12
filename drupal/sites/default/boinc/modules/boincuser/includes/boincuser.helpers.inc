@@ -58,6 +58,10 @@ function boincuser_check_credit_requirements() {
   
   // Set user roles based on current penalty status and total credit
   if ($account->boincuser_penalty_expiration > time()) {
+    drupal_set_message(bts(
+      'You are banned from community participation until @date',
+      array('@date' => format_date($account->boincuser_penalty_expiration))
+    ), 'warning', FALSE);
     if (isset($account->roles[$community_role])) {
       // Remove from the community role, if not already
       unset($account->roles[$community_role]);
@@ -77,11 +81,9 @@ function boincuser_check_credit_requirements() {
     }
   }
   else {
-    drupal_set_message(t('You must earn @more_credit to be able to post
-      comments on this site.', array('@more_credit' => format_plural(
-        $min_credit_to_post - $account->boincuser_total_credit,
-        '1 more credit', '@count more credits'
-      ))
+    drupal_set_message(bts(
+      'You must earn @count more credits to be able to post comments on this site.',
+      array('@count' => $min_credit_to_post - $account->boincuser_total_credit)
     ), 'warning', FALSE);
     if (isset($account->roles[$unrestricted_role])) {
       // Either the threshold has been raised or credits have been revoked;

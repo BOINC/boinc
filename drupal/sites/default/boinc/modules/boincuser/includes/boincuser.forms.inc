@@ -514,6 +514,59 @@ function boincuser_moderate_profile_reject_form_submit($form, &$form_state) {
 
 
 /**
+ * The definition of the ban user form.
+ */
+function boincuser_moderate_user_ban_form(&$form_state, $uid) {
+  $form_state['storage']['ban_user_uid'] = $uid;
+  $form['reason'] = array(
+    '#title' => bts('Reason for banning this user'),
+    '#type' => 'textarea',
+    '#description' => bts('This reason will be included in an email to the user. Please write a brief explanation of why the user is being banned.'),
+    '#default_value' => '',
+  );
+  $form['duration'] = array(
+    '#title' => bts('Duration of the ban'),
+    '#type' => 'textfield',
+    '#description' => bts('The number of days until the ban expires. Set to 0 to ban permanently.'),
+    '#default_value' => '',
+  );
+  
+  // Form control
+  $form['form control tabs prefix'] = array(
+    '#value' => '<ul class="form-control tab-list">',
+    '#weight' => 1001,
+  );
+  $form['submit'] = array(
+    '#prefix' => '<li class="first tab">',
+    '#type' => 'submit',
+    '#value' => bts('Submit'),
+    '#suffix' => '</li>',
+    '#weight' => 1002,
+  );
+  $form['form control tabs'] = array(
+    '#value' => '<li class="tab">' . l(bts('Cancel'), "account/{$uid}") . '</li>',
+    '#weight' => 1003,
+  );
+  $form['form control tabs suffix'] = array(
+    '#value' => '</ul>',
+    '#weight' => 1004,
+  );
+  return $form;
+}
+
+/**
+ * The ban user submit handler
+ */
+function boincuser_moderate_user_ban_form_submit($form, &$form_state) {
+  $uid = $form_state['storage']['ban_user_uid'];
+  $reason = $form_state['values']['reason'];
+  $duration = $form_state['values']['duration'];
+  if ($duration) $duration = $duration * 24*60*60;
+  boincuser_moderate_user_ban($uid, $reason, $duration);
+}
+
+
+/**
  * Hack to fix submission of the flag friend unfriend form
  */
 function boincuser_fix_unfriend_form_submit($form, &$form_state) {

@@ -77,6 +77,14 @@ function boincuser_menu() {
     'type' => MENU_CALLBACK,
     'weight' => 5
   );
+  $items['moderate/user/%/ban'] = array(
+    'title' => bts('Ban user'),
+    'description' => 'Ban a user from using community features',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boincuser_moderate_user_ban_form', 2),
+    'access arguments' => array('assign community member role'),
+    'type' => MENU_CALLBACK,
+  );
   $items['join'] = array(
     'title' => '',
     'description' => '',
@@ -1318,6 +1326,66 @@ function boincuser_moderate_profile_reject($uid, $reason = '') {
     );
     rules_action_mail_to_user($account, $settings);
     drupal_set_message('This profile has been marked as rejected.');
+  }
+  drupal_goto();
+}
+
+/**
+ * Ban a user and send a notification of the reason.
+ */
+function boincuser_moderate_user_ban($uid, $reason = '', $duration = '') {
+  if (user_access('assign community member role')
+  OR user_access('assign all roles')) {
+    $account = user_load($uid);
+    if ($account->uid) {
+      module_load_include('inc', 'rules', 'modules/system.rules');
+      if ($duration === '') {
+        $duration = variable_get('boinc_penalty_period', 7*24*60*60);
+      }
+      $penalty_expiration = ($duration > 0) ? time() + $duration : 4294967295;
+      $boincuser_record = array(
+        'uid' => $uid,
+        'penalty_expiration' => $penalty_expiration,
+      );
+      drupal_write_record('boincuser', $boincuser_record, 'uid');
+      
+      $community_role = array_search('community member', user_roles(true));
+      if (isset($account->roles[$community_role])) {
+        unset($account->roles[$community_role]);
+        user_save($account, array('roles' => $account->roles));
+      }
+      
+      global $user;
+      global $base_url;
+      global $base_path;
+      $site_name = variable_get('site_name', bts('project'));
+      $site_url = $base_url . $base_path;
+      $moderator = user_load($user->uid);
+      $settings = array(
+        'from' => '',
+        'subject' => "User moderation at {$site_name}",
+        'message' => ''
+        . "{$account->boincuser_name},\n"
+        . "\n"
+        . "You have been banned from using community features at"
+        . " {$site_name} for the following reason: \n"
+        . "\n"
+        . "{$reason}\n"
+        . "\n"
+        . "The duration of this ban can be found on your account page: \n"
+        . "\n"
+        . "{$site_url}account \n"
+        . "\n"
+        . "If you feel that this decision was made in error, please send a"
+        . " private message to {$moderator->boincuser_name}. \n"
+        . "\n"
+        . "Thanks, \n"
+        . "\n"
+        . "{$site_name} support team",
+      );
+      rules_action_mail_to_user($account, $settings);
+      drupal_set_message('This user has been banned.');
+    }
   }
   drupal_goto();
 }
