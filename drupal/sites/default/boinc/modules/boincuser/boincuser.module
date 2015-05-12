@@ -1223,28 +1223,34 @@ function boincuser_control($uid = NULL, $action = NULL) {
   }
   switch ($action) {
   case 'ban':
-    $penalty_period = variable_get('boinc_penalty_period', 7*24*60*60);
-    $boincuser_record = array(
-      'uid' => $uid,
-      'penalty_expiration' => time() + $penalty_period,
-    );
-    drupal_write_record('boincuser', $boincuser_record, 'uid');
-    $community_role = array_search('community member', user_roles(true));
-    if (isset($account->roles[$community_role])) {
-      unset($account->roles[$community_role]);
-      user_save($account, array('roles' => $account->roles));
+    if (user_access('assign community member role')
+    OR user_access('assign all roles')) {
+      $penalty_period = variable_get('boinc_penalty_period', 7*24*60*60);
+      $boincuser_record = array(
+        'uid' => $uid,
+        'penalty_expiration' => time() + $penalty_period,
+      );
+      drupal_write_record('boincuser', $boincuser_record, 'uid');
+      $community_role = array_search('community member', user_roles(true));
+      if (isset($account->roles[$community_role])) {
+        unset($account->roles[$community_role]);
+        user_save($account, array('roles' => $account->roles));
+      }
     }
     break;
   case 'lift-ban':
-    $boincuser_record = array(
-      'uid' => $uid,
-      'penalty_expiration' => 0,
-    );
-    drupal_write_record('boincuser', $boincuser_record, 'uid');
-    $community_role = array_search('community member', user_roles(true));
-    if (!isset($account->roles[$community_role])) {
-      $account->roles[$community_role] = 'community member';
-      user_save($account, array('roles' => $account->roles));
+    if (user_access('assign community member role')
+    OR user_access('assign all roles')) {
+      $boincuser_record = array(
+        'uid' => $uid,
+        'penalty_expiration' => 0,
+      );
+      drupal_write_record('boincuser', $boincuser_record, 'uid');
+      $community_role = array_search('community member', user_roles(true));
+      if (!isset($account->roles[$community_role])) {
+        $account->roles[$community_role] = 'community member';
+        user_save($account, array('roles' => $account->roles));
+      }
     }
     break;
   default:
