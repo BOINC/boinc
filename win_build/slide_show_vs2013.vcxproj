@@ -294,35 +294,35 @@
     <ClCompile Include="..\api\ttfont.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="glut.vcxproj">
+    <ProjectReference Include="glut_vs2013.vcxproj">
       <Project>{c4165626-f68f-4f66-a126-3b82ddbb7480}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="image_libs.vcxproj">
+    <ProjectReference Include="image_libs_vs2013.vcxproj">
       <Project>{d3d21f11-a7e7-4ea2-8518-e24695133bff}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="jpeglib.vcxproj">
+    <ProjectReference Include="jpeglib_vs2013.vcxproj">
       <Project>{5f065eac-b881-4e9a-9e34-7a21d7a01d98}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="libboincapi_staticcrt.vcxproj">
+    <ProjectReference Include="libboincapi_staticcrt_vs2013.vcxproj">
       <Project>{07bda8f7-4aaf-4a3b-b96e-ea72a143c5ae}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="libboincopencl_staticcrt.vcxproj">
+    <ProjectReference Include="libboincopencl_staticcrt_vs2013.vcxproj">
       <Project>{c0a2deee-2ec5-4f67-8048-53264b6bd14d}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="libboinczip_staticcrt.vcxproj">
+    <ProjectReference Include="libboinczip_staticcrt_vs2013.vcxproj">
       <Project>{753e897d-9ece-42b1-9f0d-cd566775c77e}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="libboinc_staticcrt.vcxproj">
+    <ProjectReference Include="libboinc_staticcrt_vs2013.vcxproj">
       <Project>{b00664bd-71eb-46c1-957e-cd851418d395}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="libgraphics2.vcxproj">
+    <ProjectReference Include="libgraphics2_vs2013.vcxproj">
       <Project>{814ebfd3-3ce6-4933-a580-c1fe3147acb4}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>

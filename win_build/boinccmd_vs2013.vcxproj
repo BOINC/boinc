@@ -342,11 +342,11 @@
     <ResourceCompile Include="..\client\win\boinc_cmd.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="boinc_cli.vcxproj">
+    <ProjectReference Include="boinc_cli_vs2013.vcxproj">
       <Project>{c04f0fcc-bb5d-4627-8656-6173b28bd69e}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="libboinc.vcxproj">
+    <ProjectReference Include="libboinc_vs2013.vcxproj">
       <Project>{e8f6bd7e-461a-4733-b7d8-37b09a099ed8}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>

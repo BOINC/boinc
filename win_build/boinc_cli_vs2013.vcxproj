@@ -466,7 +466,7 @@
     <ResourceCompile Include="..\client\win\boinc_cli.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="libboinc.vcxproj">
+    <ProjectReference Include="libboinc_vs2013.vcxproj">
       <Project>{e8f6bd7e-461a-4733-b7d8-37b09a099ed8}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
