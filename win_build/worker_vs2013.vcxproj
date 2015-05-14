@@ -285,11 +285,11 @@
     <ClCompile Include="..\samples\worker\worker.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="libboincapi_staticcrt.vcxproj">
+    <ProjectReference Include="libboincapi_staticcrt_vs2013.vcxproj">
       <Project>{07bda8f7-4aaf-4a3b-b96e-ea72a143c5ae}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="libboinc_staticcrt.vcxproj">
+    <ProjectReference Include="libboinc_staticcrt_vs2013.vcxproj">
       <Project>{b00664bd-71eb-46c1-957e-cd851418d395}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
