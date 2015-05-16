@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-03-04 08:56 PST\n"
-"PO-Revision-Date: 2015-05-16 14:41+0000\n"
+"PO-Revision-Date: 2015-05-16 14:55+0000\n"
 "Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/boinc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -1156,7 +1156,7 @@ msgstr "Speichere ausreichend Aufträge, um den Rechner so lange zu beschäftige
 
 #: ../inc/prefs.inc:110 ../inc/prefs.inc:116
 msgid "days of work"
-msgstr "Arbeitstage"
+msgstr "Tage"
 
 #: ../inc/prefs.inc:113
 msgid "Store up to an additional"
