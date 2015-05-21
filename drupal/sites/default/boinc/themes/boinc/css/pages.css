@@ -685,6 +685,26 @@ table.user-projects {
   padding: 3px 5px 1px;
   background: #747477;
 }
+.new-mail-indicator {
+  background: url(../images/icon-mail.png) 0 0 no-repeat;
+  background-size: 25px;
+  float: right;
+  height: 25px;
+  margin-top: 5px;
+  text-align: center;
+  width: 25px;
+}
+.new-mail-indicator .item-count-wrapper {
+  background: none;
+  margin: 0;
+  padding: 0;
+}
+.new-mail-indicator .item-count {
+  background-color: #800;
+  color: #fff;
+  margin: 6px 0 0;
+  padding: 0 1px;
+}
 
 .item-list .pager {
   font-size: 10px;
