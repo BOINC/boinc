@@ -42,6 +42,7 @@ function boincuser_admin_environment(&$form_state) {
     'boinc_user_image_dir' => variable_get('boinc_user_image_dir', ''),
     'boinc_host_sched_logs_dir' => variable_get('boinc_host_sched_logs_dir', ''),
     'boinc_server_status_url' => variable_get('boinc_server_status_url', ''),
+    'boinc_debug_mode' => variable_get('boinc_debug_mode', 0),
   );
   //drupal_set_message(print_r($default, true));
   //drupal_set_message(print_r($form_state, true));
@@ -49,10 +50,21 @@ function boincuser_admin_environment(&$form_state) {
   $show_overrides = FALSE;
   if ($default['boinc_root_dir']) {
     foreach ($default as $key => $dir) {
-      if ($key == 'boinc_root_dir') continue;
-      if (!$dir) {
-        $default[$key] = $form_state['values'][$key];
-        $show_overrides = TRUE;
+      switch ($key) {
+      case 'boinc_config_xml_dir':
+      case 'boinc_html_inc_dir':
+      case 'boinc_project_config_dir':
+      case 'boinc_user_image_dir':
+        // If any of these values are not set, show the overrides section
+        if (!$dir) {
+          $default[$key] = $form_state['values'][$key];
+          $show_overrides = TRUE;
+          break;
+        }
+        break;
+      default:
+      }
+      if ($show_overrides) {
         break;
       }
     }
@@ -120,6 +132,11 @@ function boincuser_admin_environment(&$form_state) {
     '#title' => t('BOINC host scheduler log directory (optional)'),
     '#default_value' => $default['boinc_host_sched_logs_dir'],
     '#description' => t('The filesystem directory that contains host scheduler logs'),
+  );
+  $form['boinc_debug_mode'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show debug messages in system log'),
+    '#default_value' => $default['boinc_debug_mode']
   );
   return system_settings_form($form);
 }
