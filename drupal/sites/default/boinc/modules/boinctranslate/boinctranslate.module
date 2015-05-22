@@ -571,6 +571,8 @@ function boinctranslate_update_official_boinc_translations() {
  *
  */
 function boinctranslate_transifex_request($path, $post = NULL, $json = TRUE, $use_put = FALSE, $username = '', $password = '') {
+  $debug_mode = variable_get('boinc_debug_mode', 0);
+  
   // Transifex details
   $api_base_url = 'https://www.transifex.com/api/2';
   if (!$username) $username = variable_get('boinc_translate_transifex_user', '');
@@ -604,10 +606,11 @@ function boinctranslate_transifex_request($path, $post = NULL, $json = TRUE, $us
   elseif (strstr($response_header, '100 Continue')) {
     list($response_header, $response_body) = explode("\r\n\r\n", $response_body, 2);
     if (strstr($response_header, '400 BAD REQUEST')) {
+      if ($debug_mode) watchdog('boinctranslate', "The following response was received when trying to communicate with the Transifex system: \n{$result} \n\n ---------------- \n\n POST DATA: \n\n{$post}", array(), WATCHDOG_WARNING);
       return "ERROR: {$response_body}";
     }
     elseif (strstr($response_header, '405 METHOD NOT ALLOWED')) {
-      watchdog('boinctranslate', "The following response was received when trying to communicate with the Transifex system: \n{$result}", array(), WATCHDOG_WARNING);
+      if ($debug_mode) watchdog('boinctranslate', "The following response was received when trying to communicate with the Transifex system: \n{$result}", array(), WATCHDOG_WARNING);
       return "ERROR: User not allowed to perform this action";
     }
     elseif (strstr($response_header, '200 OK')) {
