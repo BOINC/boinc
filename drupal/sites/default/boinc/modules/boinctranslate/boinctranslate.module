@@ -658,8 +658,25 @@ function boinctranslate_get_po($langcode, $type = 'standard') {
   default:
   }
   
+  // Merge textgroup strings together for export as one file
   foreach ($textgroups as $textgroup) {
     $strings += _locale_export_get_strings($language, $textgroup);
+  }
+  ksort($strings);
+  $unique_strings = array();
+  $duplicate_strings = array();
+  foreach ($strings as $id => $string) {
+    // Build a set of duplicate strings
+    if (!isset($unique_strings[$string['source']])) {
+      $unique_strings[$string['source']] = $id;
+    }
+    else {
+      $duplicate_strings[] = $id;
+    }
+  }
+  foreach ($duplicate_strings as $id) {
+    // Remove any duplicate source strings from the original array
+    unset($strings[$id]);
   }
   if ($langcode != 'en') {
     // If not the source language, remove untranslated strings from the ouput
