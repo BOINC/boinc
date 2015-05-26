@@ -1,0 +1,1519 @@
+# LANGUAGE translation of PROJECT
+# Copyright (c) YEAR NAME <EMAIL@ADDRESS>
+# 
+# Translators:
+# Michal, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: BOINC\n"
+"POT-Creation-Date: 2015-05-07 12:21+0000\n"
+"PO-Revision-Date: 2015-05-26 08:23+0000\n"
+"Last-Translator: Michal\n"
+"Language-Team: Slovak (http://www.transifex.com/projects/p/boinc/language/sk/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sk\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+msgid ""
+"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
+" your e-mail address, it will be used for your user picture."
+msgstr "Ak máte <a href=\"@gravatar-check\"> platný Gravatar</a> spojený s mailovou adresou, bude použitý ako váš obrázok používateľa."
+
+msgid "Your Gravatar will not be shown if you upload a user picture."
+msgstr "Váš Gravatar nebude zobrazený ak nahráte obrázok používateľa."
+
+msgid ""
+"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
+" your e-mail address, use it for your user picture."
+msgstr "Ak máte <a href=\"@gravatar-check\"> platný Gravatar</a> priradený k mailovej adrese, použite ho ako obrázok používateľa."
+
+msgid "Gravatar will not be shown if an avatar is uploaded."
+msgstr "Váš Gravatar nebude zobrazený ak nahráte obrázok používateľa."
+
+msgid "This is not available until your profile is set up."
+msgstr "Nedostupné kým nebude nastavený profil."
+
+msgid "Should @project show your computers on its web site?"
+msgstr "Môže @projekt zobraziť vaše počítače na svojej stránke?"
+
+msgid "Click here to revoke your membership with @this_team"
+msgstr "Kliknite sem, ak chcete opustiť @tím."
+
+msgid "Minimum avg credit to post"
+msgstr "Minimálny priemerný počet kreditov na posielanie správ"
+
+msgid "Founder & Team Admins have moderator privileges"
+msgstr "Zakladateľ a administrátori tímu majú práva moderátora."
+
+msgid "Notes about changes in foundership:"
+msgstr "Poznámky o zmene zakladateľstva:"
+
+msgid "Foundership can be requested by team members:"
+msgstr "Titul zakladateľa môže byť požadované od členov tímu:"
+
+msgid "One request is allowed at a time"
+msgstr "Naraz je dovolená len jedna žiadosť."
+
+msgid "Any active request must be older than 90 days"
+msgstr "Aktívna žiadosť musí byť staršia ako 90 dní."
+
+msgid "Current founder has 60 days to respond to a request"
+msgstr "Aktuálny zakladateľ má 60 dní na odpoveď na žiadosť."
+
+msgid ""
+"If a team admin quits the team, they cease to be a team admin. We recommend "
+"only selecting people you know and trust"
+msgstr "Ak administrátor tímu tím opustí, prestane byť administrátorom. Odporúčame menovať ľudí, ktorých poznáte a dôverujete im."
+
+msgid "You may create a message board for use by @team"
+msgstr "Môžete vytvoriť nástenku pre @team"
+
+msgid "parent removed"
+msgstr "nadradené odstránené"
+
+msgid "Maximum daily WU quota per CPU"
+msgstr "Maximum denných PJ za deň"
+
+msgid "Received time"
+msgstr "Prijaté"
+
+msgid "App ID"
+msgstr "ID Aplikácie"
+
+msgid "Error mask"
+msgstr "Maska chyby"
+
+msgid "Minimum quorum"
+msgstr "Minimálne quorum"
+
+msgid "Max error tasks"
+msgstr "Maximum chybných úloh"
+
+msgid "Max success tasks"
+msgstr "Maximum úspešných úloh"
+
+msgid "Max total tasks"
+msgstr "Maximum úloh"
+
+msgid "Target number of results"
+msgstr "Cieľový počet úloh"
+
+msgid "Application version ID"
+msgstr "ID verzie aplikácie"
+
+msgid "Plan class"
+msgstr "Trieda plánu"
+
+msgid "Version number"
+msgstr "Verzia"
+
+msgid "App version ID"
+msgstr "ID verzie aplikácie"
+
+msgid "@count million ops/sec"
+msgstr "@count milión operácií za sekundu"
+
+msgid "@rate KiB/sec"
+msgstr "@rate KB/sec"
+
+msgid "@count days"
+msgstr "@count dní"
+
+msgid "@ip_address (same the last @count times)"
+msgstr "@ip_address (rovnaká ako posledných @count krát)"
+
+msgid "commented on"
+msgstr "komentované"
+
+msgid "Remove sticky status from this topic"
+msgstr "Odstrániť status lepkavé z tejto témy"
+
+msgid ""
+"Check the computers that are the same as @name (created on @date at @time "
+"with computer ID @id)"
+msgstr "Skontrolovať počítače, ktoré sú rovnaké ako @name (vytvorené @date o @time s počítačom ID @id)"
+
+msgid "Computer @old_id has been merged successfully into @id."
+msgstr "Počítač @id_old bol úspešne spojený s @id."
+
+msgid "started discussion"
+msgstr "začatá diskusia"
+
+msgid "posted"
+msgstr "poslané"
+
+msgid "Minimum value not met for @field"
+msgstr "Nebola splnená minimálna hodnota pre @pole"
+
+msgid "Invalid data type for @field"
+msgstr "Nesprávne údaje v @field"
+
+msgid ""
+"Authentication is required when changing E-mail address or setting new "
+"password."
+msgstr "Je potrebné sa prihlásiť ak chcete zmeniť mailovú adresu alebo nastaviť nové heslo."
+
+msgid "Request foundership"
+msgstr "Požiadať status zakladateľa"
+
+msgid ""
+"If the team founder is not active and you want to assume the role of "
+"founder, click below to request foundership of @this_team."
+msgstr "Ak zakladateľ tímu nie je aktívny a chcete prevziať status zakladateľa, kliknite nižšie na požiadanie statusu zakladateľa tímu @this_team."
+
+msgid "Initiate request"
+msgstr "Iniciovať žiadosť"
+
+msgid "A BOINC account already exists for @email."
+msgstr "BOINC účet @email už existuje."
+
+msgid ""
+"Please be responsible in what you write and do not create posts which are "
+"offensive or insulting. Offensive posts or threads may be deleted by forum "
+"moderators without warning or discussion. Do not respond to offensive "
+"postings. Click on the \"report\" button at the bottom of the post to call "
+"it to the attention of the moderators."
+msgstr "Prosíme, píšte správy zodpovedne a nevytvárajte nepriateľskú atmosféru. Urážlivé správy alebo témy môžu byť zmazané moderátormi fóra bez predchádzajúceho upozornenia. Neodpovedajte na urážlivé správy; namiesto toho kliknite na tlačidlo \"ohlásiť\" na spodku správu na jej ohlásenie moderátorom."
+
+msgid "this project"
+msgstr "tento projekt"
+
+msgid ""
+"We also ask that you keep all discussion on the message boards related to "
+"@project or BOINC with the small exception of the Science message board "
+"where you are free to discuss anything relevant to the underlying science. "
+"Participants interested in broader discussions should post to unofficial "
+"forums for @project."
+msgstr "Ďalej vás chceme požiadať, aby sa diskusie na nástenke tématicky držali projektu @project alebo BOINC s malou odchýlkou pri vedeckých nástenkách, kde je možné diskutovať na vedecké témy. Účastníci, ktorí majú záujem o všeobecné diskusie môžu diskutovať na neoficiálnych fórach projektvu @project."
+
+msgid "These message boards now support BBCode tags only."
+msgstr "Tieto nástenky podporujú len BBCode tagy."
+
+msgid "Posts contributed"
+msgstr "Správ odoslaných"
+
+msgid "Profile awaiting moderator approval"
+msgstr "Profil čaká na schválenie moderátora"
+
+msgid "Approve profile"
+msgstr "Schváliť profil"
+
+msgid "Approve this profile content"
+msgstr "Schváliť obsah profilu"
+
+msgid "Edit profile"
+msgstr "Upraviť profil"
+
+msgid "Edit the content of this profile"
+msgstr "Upraviť obsah profilu"
+
+msgid "Remove profile"
+msgstr "Odstrániť profil"
+
+msgid "Remove this profile content from the system"
+msgstr "Odstrániť obsah profilu zo systému"
+
+msgid "The team founder has @count days to respond to your transfer request."
+msgstr "Zakladateľ tímu má @count dní na to, aby odpovedal na vašu žiadosť ohľadom prenosu."
+
+msgid "Reject profile"
+msgstr "Odmietnuť profil"
+
+msgid "Reject this profile content"
+msgstr "Odmietnuť obsah tohoto profilu"
+
+msgid "Reason for rejecting this profile"
+msgstr "Dôvod zamietnutia tohoto profilu"
+
+msgid ""
+"This reason will be included in an email to the user. Please write a brief "
+"explanation of the problem and how to fix it."
+msgstr "Dôvod bude priložený v maili užívateľovi. Prosím, napíšte krátke vysvetlenie problému a spôsob ako ho opraviť."
+
+msgid "Submit"
+msgstr "Odoslať"
+
+msgid "project"
+msgstr "projekt"
+
+msgid "Email address"
+msgstr "Mailová adresa"
+
+msgid "Home"
+msgstr "Domov"
+
+msgid "Login"
+msgstr "Prihlásenie"
+
+msgid "search"
+msgstr "vyhľadať"
+
+msgid "Server status"
+msgstr "Stav serveru"
+
+msgid "Language"
+msgstr "Jazyk"
+
+msgid "Enter your @s email address."
+msgstr "Uveďte vašu @s mailovú adresu."
+
+msgid "Join now"
+msgstr "Pridať sa teraz"
+
+msgid "I'm new"
+msgstr "Som tu nový"
+
+msgid "I'm a BOINC user"
+msgstr "Som užívateľ BOINC"
+
+msgid "Welcome back!"
+msgstr "Vitajte späť!"
+
+msgid ""
+"Einstein@Home is a program that uses your computer's idle time to run a "
+"screensaver to search for gravitational waves from spinning neutron stars "
+"(also called pulsars) using data from the LIGO gravitational wave detector."
+msgstr "Einstein@Home je program, ktorý využíva počítač počas jeho nečinnosti na vyhľadávanie gravitačných vĺn z rotujúcich neutrónových hviezd (nazývaných aj pulzary) s využitím údajov z detektoru gravitačných vĺn LIGO."
+
+msgid "Learn more"
+msgstr "Zistiť viac"
+
+msgid "View account"
+msgstr "Zobraziť účet"
+
+msgid "About our screensaver"
+msgstr "O našom šetriči obrazovky"
+
+msgid "Over 500,000 volunteers and counting."
+msgstr "Vyše 500 000 dobrovoľníkov a číslo stále rastie."
+
+msgid "Windows"
+msgstr "Windows"
+
+msgid "Mac"
+msgstr "Mac"
+
+msgid "Linux"
+msgstr "Linux"
+
+msgid "Logout"
+msgstr "Odhlásenie"
+
+msgid "Name"
+msgstr "Názov"
+
+msgid "Avg credit"
+msgstr "Priemerný kredit"
+
+msgid "Total credit"
+msgstr "Celkový kredit"
+
+msgid "Enter your password to save changes"
+msgstr "Na uloženie zmien zadajte heslo."
+
+msgid ""
+"Enter your current password if changing your email\n"
+"          address or password."
+msgstr "Uveďte vaše aktuálne heslo ak meníte mailovú\nadresu alebo heslo."
+
+msgid "BOINC user ID"
+msgstr "Užívateľské ID BOINC"
+
+msgid "Drupal user ID"
+msgstr "Užívateľské ID Drupal"
+
+msgid "Account key"
+msgstr "Kľúč účtu"
+
+msgid "Weak account key"
+msgstr "Slabý kľúč účtu"
+
+msgid "Cross-project ID"
+msgstr "Medziprojektové ID"
+
+msgid "Save changes"
+msgstr "Uložiť zmeny"
+
+msgid "Cancel"
+msgstr "Zrušiť"
+
+msgid "Change password"
+msgstr "Zmeniť heslo"
+
+msgid "What is @this_project?"
+msgstr "Čo je @tento_projekt?"
+
+msgid "no projects..."
+msgstr "žiadne projekty..."
+
+msgid "Download the desktop software"
+msgstr "Stiahnuť aplikáciu na plochu"
+
+msgid "Run the installer"
+msgstr "Spustiť inštaláciu"
+
+msgid "When prompted enter @siteurl"
+msgstr "Pri požiadaní, uveďte @url_stránky"
+
+msgid "Password"
+msgstr "Heslo"
+
+msgid "Enter the password that accompanies your username."
+msgstr "Uveďte heslo k užívateľskému menu."
+
+msgid "Request new password"
+msgstr "Požiadať nové heslo"
+
+msgid ""
+"If you're already running BOINC, select <i>Add\n"
+"      Project</i>."
+msgstr "Ak už používate BOINC, vyberte <i>Pridať\nProjekt</i>."
+
+msgid ""
+"If you're running a command-line version of BOINC,\n"
+"        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
+"        an account at this project, then use that account to connect with the\n"
+"        command-line version."
+msgstr "Pokiaľ používate verziu BOINC na príkazový riadok,\nnajprv spusťte aplikáciu BOINC Manage (ak je to nutné, aj na inom zariadení) na vytvorenie \núčtu na tomto projekte. Potom účet použite na pripojenie sa \ncez príkazový riadok."
+
+msgid ""
+"If you're running a pre-5.0 version of BOINC, please\n"
+"        upgrade to a more recent version to create an account\n"
+"        at this project."
+msgstr "Pokiaľ používate verziu BOINC staršiu ako 5.0, prosím\naktualizujte ju na novšiu, aby bolo možné vytvoriť si účet\nna tomto projekte."
+
+msgid ""
+"1) If you know your account&apos;s email address, and you can receive email "
+"there:"
+msgstr "1) Ak viete vašu mailovú adresu a môžete na ňu príjmať mail:"
+
+msgid ""
+"Enter the email address and click OK. You will be sent email instructions "
+"for resetting your password."
+msgstr "Uveďte mailovú adresu a kliknite OK. Odošleme vám na ňu inštrukcie ako si resetovať heslo."
+
+msgid "OK"
+msgstr "OK"
+
+msgid "The latest news from the @site_name project"
+msgstr "Posledné správy z projektu @site_name"
+
+msgid "Comment form"
+msgstr "Dotazník na komentár"
+
+msgid "Total credits"
+msgstr "Celkový kredit"
+
+msgid "Recent avg credits"
+msgstr "Nedávny priemerný kredit"
+
+msgid "Country"
+msgstr "Krajina"
+
+msgid "Type"
+msgstr "Typ"
+
+msgid "Founder"
+msgstr "Zakladateľ"
+
+msgid "New members in last day"
+msgstr "Noví členovia zo včerajška"
+
+msgid "Total members"
+msgstr "Počet členov"
+
+msgid "Active members"
+msgstr "Aktívni členovia"
+
+msgid "Members with credit"
+msgstr "Členovia s kreditom"
+
+msgid "Description"
+msgstr "Popis"
+
+msgid "Search teams"
+msgstr "Hľadať tímy"
+
+msgid "Send message"
+msgstr "Poslať správu"
+
+msgid "BOINC"
+msgstr "BOINC"
+
+msgid "Project"
+msgstr "Projekt"
+
+msgid "Web site"
+msgstr "Stránka"
+
+msgid "No active computers"
+msgstr "Žiadne aktívne počítače"
+
+msgid "This user has no computers that have been active in the last 30 days."
+msgstr "Tento užívateľ nemá žiadne aktívne počítače za posledných 30 dní."
+
+msgid " Default value: @default"
+msgstr "Pôvodná hodnota: @pôvodné"
+
+msgid "Applications"
+msgstr "Aplikácie"
+
+msgid "yes"
+msgstr "áno"
+
+msgid "no"
+msgstr "nie"
+
+msgid "Message @id"
+msgstr "@id správy"
+
+msgid "message @id"
+msgstr "@id správy"
+
+msgid " in response to !parent"
+msgstr "ako odpoveď na !predošlé"
+
+msgid "Credits per day"
+msgstr "Kreditov za deň"
+
+msgid "Computers hidden"
+msgstr "Počítače skryté"
+
+msgid "This user has chosen not to show information about their computers."
+msgstr "Tento užívateľ sa rozhodol nezdieľať informácie o svojich počítačoch."
+
+msgid "Stderr output"
+msgstr "Výstup stderr"
+
+msgid "@time ago"
+msgstr "@pred"
+
+msgid "n/a"
+msgstr "-"
+
+msgid "Submitted by !username on !datetime"
+msgstr "Poslané !užívateľom na !dátum"
+
+msgid "Member since"
+msgstr "Členom od"
+
+msgid "View team"
+msgstr "Zobraziť tím"
+
+msgid "Friends (@count)"
+msgstr "Priatelia (@počet)"
+
+msgid "Website"
+msgstr "Stránka"
+
+msgid "Locked"
+msgstr "Zamknuté"
+
+msgid "Computers pending"
+msgstr "Čaká sa na počítače"
+
+msgid ""
+"This user does not yet have any associated computers. Computers will be "
+"displayed when they have earned their first credits."
+msgstr "Tento užívateľ nemá zatiaľ žiadne priradené počítače. Tie budú zobrazené, keď získa prvé kredity."
+
+msgid "No results found..."
+msgstr "Žiadne výsledky neboli nájdené"
+
+msgid "Background"
+msgstr "Pozadie"
+
+msgid "Teams"
+msgstr "Tímy"
+
+msgid ""
+"@project participants may form teams. You may belong to only one team. You "
+"can join or quit a team at any time. To join a team, visit its team page and"
+" click \"Join this team\". Each team has a founder who may:"
+msgstr "Účastníci projektu @project môžu vytvárať tímy. Môžete byť členom len jedného tímu. Tím môžete kedykoľvek opustiť, alebo sa do nejakého pridať. Aby ste sa pridali do tímu, navštívte jeho stránku a kliknite na \"Pridať sa do tímu\". Každý tím má zakladateľa, ktorý môže:"
+
+msgid "access team members' email addresses"
+msgstr "prístup k mailovým adresám členov tímov"
+
+msgid "edit the team's name and description"
+msgstr "upraviť názov tímu a jeho popis"
+
+msgid "add or remove team admins"
+msgstr "pridať alebo odobrať administrátorov tímu"
+
+msgid "remove members from the team"
+msgstr "odobrať členov z tímu"
+
+msgid "disband a team if it has no members"
+msgstr "rozpustiť tím pokiaľ nemá žiadnych členov"
+
+msgid "Create a new team"
+msgstr "Vytvoriť nový tím"
+
+msgid ""
+"If you cannot find a team that is right for you, you can create a team."
+msgstr "Pokiaľ nenájdete tím, ktorý by bol pre vás ten pravý, môžete tím vytvoríť."
+
+msgid "You must earn @count more credits!"
+msgstr "Potrebujete o @count viac kreditov!"
+
+msgid "Threads"
+msgstr "Vlákna"
+
+msgid "Posts"
+msgstr "Príspevkov"
+
+msgid "Last post"
+msgstr "Posledný príspevok"
+
+msgid "Manage subscriptions"
+msgstr "Spravovať odbery"
+
+msgid "Featured"
+msgstr "Odporúčané"
+
+msgid "Submitted on !datetime"
+msgstr "Poslané !datetime"
+
+msgid "Comments"
+msgstr "Komentáre"
+
+msgid "Opinion"
+msgstr "Názor"
+
+msgid "More"
+msgstr "Viac"
+
+msgid "Tasks"
+msgstr "Úlohy"
+
+msgid "Generic"
+msgstr "Všeobecné"
+
+msgid "Work"
+msgstr "Práca"
+
+msgid "School"
+msgstr "Škola"
+
+msgid "Presets"
+msgstr "Prednastavené"
+
+msgid "Standard"
+msgstr "Štandartné"
+
+msgid "Maximum"
+msgstr "Maximum"
+
+msgid "Green"
+msgstr "Zelená"
+
+msgid "Minimum"
+msgstr "Minimum"
+
+msgid "Custom"
+msgstr "Vlastné"
+
+msgid "Update preset"
+msgstr "Aktualizovať prednastavené"
+
+msgid "Advanced settings"
+msgstr "Pokročilé nastavenia"
+
+msgid "Processor usage"
+msgstr "Utilizare procesor"
+
+msgid "Run while computer is on battery power?"
+msgstr "Spustiť ak je počítač na batériách?"
+
+msgid "Only applies to portable computers"
+msgstr "Len pri prenosných zariadeniach"
+
+msgid "Run while computer is in use?"
+msgstr "Spúšťať ak je počítač používaný"
+
+msgid "Run GPU work while computer is in use?"
+msgstr "Spúšťať prácu pre GPU ak je počítač používaný?"
+
+msgid "Enforced by version @number"
+msgstr "Vynútené verziou @number"
+
+msgid "\"In use\" means mouse/keyboard activity in last"
+msgstr "\"Používa sa\" znamená použitie myši alebo klávesnice za posledných"
+
+msgid "minutes"
+msgstr "minút(y)"
+
+msgid "Suspend work if no mouse/keyboard activity in last"
+msgstr "Pozastaviť keď sa myš alebo klávesnica nepoužili posledných"
+
+msgid "Needed to enter low-power mode on some computers"
+msgstr "Je potrebné prejsť do nizkoenergetického módu na niektorých počítačoch."
+
+msgid "Suspend work if CPU usage is above"
+msgstr "Pozastaviť prácu ak je využitie procesoru nad"
+
+msgid "0 means no restriction. Enforced by version @number"
+msgstr "0 znamená bez obmedzení. Vynútené verziou @number"
+
+msgid "Do work only between the hours of:"
+msgstr "Pracovať len medzi:"
+
+msgid "and"
+msgstr "a"
+
+msgid "No restriction if equal"
+msgstr "Bez obmedzenia ak sa zhoduje"
+
+msgid "Leave tasks in memory while suspended?"
+msgstr "Ponechať aplikácie v pamäti pri ich pozastavení?"
+
+msgid "Suspended tasks will consume swap space if \"yes\""
+msgstr "Pri hodnote \"áno\" budú úlohy využívať odkladací priestor."
+
+msgid "Switch between tasks every"
+msgstr "Prepínať medzi aplikáciami približne každých"
+
+msgid "Recommended: @period minutes"
+msgstr "Odporúčané @period minút"
+
+msgid "On multiprocessors, use at most"
+msgstr "Pe multiprocesor, foloseşte cel mult"
+
+msgid "processors"
+msgstr "procesorov"
+
+msgid "Set to 0 for no limit"
+msgstr "0 znamená bez obmedzení"
+
+msgid "% of the processors"
+msgstr "% din procesoare"
+
+msgid "Use at most"
+msgstr "Použiť najviac"
+
+msgid "% of the CPU time"
+msgstr "% procesorového času"
+
+msgid "Can be used to reduce CPU heat"
+msgstr "Môže sa použiť na zníženie teploty procesoru"
+
+msgid "Disk and memory usage"
+msgstr "Utilizare disc şi memorie"
+
+msgid "Disk: use at most"
+msgstr "Disc: utilizează cel mult"
+
+msgid "Disk: leave free at least"
+msgstr "Disk: ponechať voľných aspoň"
+
+msgid "Values smaller than @number are ignored"
+msgstr "Hodnoty nižšie ako @number sú ignorované"
+
+msgid "% of total"
+msgstr "% celku"
+
+msgid "Tasks checkpoint to disk at most every"
+msgstr "Ukladať stav úloh každých"
+
+msgid "seconds"
+msgstr "sekúnd"
+
+msgid "Swap space: use at most"
+msgstr "Spaţiu swap: foloseşte cel mult"
+
+msgid "Memory: when computer is in use, use at most"
+msgstr "Memorie: când calculatorul este folosit, foloseşte cel mult"
+
+msgid "Memory: when computer is not in use, use at most"
+msgstr "Memorie: când calculatorul nu este folosit, foloseşte cel mult"
+
+msgid "Network usage"
+msgstr "Utilizare reţea"
+
+msgid "Computer is connected to the Internet about every"
+msgstr "Počítač je pripojený k internetu každých"
+
+msgid "days"
+msgstr "dňa (dní)"
+
+msgid ""
+"Leave blank or 0 if always connected. @project will try to maintain at least"
+" this much work."
+msgstr "Nechajte prázdne alebo 0 ak je pripojenie stálé. @project sa pokúsi spracovať aspoň toľko práce."
+
+msgid "Maintain enough work for an additional"
+msgstr "Pripraviť dostatok práce na nasledujúcich"
+
+msgid "Confirm before connecting to Internet?"
+msgstr "Potvrdiť pred pripojením k Internetu"
+
+msgid "Matters only if you have a modem, ISDN, or VPN connection"
+msgstr "Má vplyv len pri pripojení cez modem, ISDN alebo VPN."
+
+msgid "Disconnect when done?"
+msgstr "Odpojiť po skončení?"
+
+msgid "Maximum download rate"
+msgstr "Maximálna rýchlosť sťahovania"
+
+msgid "Maximum upload rate"
+msgstr "Maximálna rýchlosť odosielania"
+
+msgid "Use network only between the hours of:"
+msgstr "Používať sieť len medzi:"
+
+msgid "Transfer at most"
+msgstr "Preniesť najviac"
+
+msgid "Skip image file verification?"
+msgstr "Preskočiť overovanie obrazov?"
+
+msgid ""
+"Check this ONLY if your Internet provider modifies image files (UMTS does "
+"this, for example). Skipping verification reduces the security of BOINC."
+msgstr "Zaškrtnite len ak váš poskytovateľ pripojenia modifikuje súbory. Preskočenie overovaní znižuje bezpečnosť aplikácie BOINC."
+
+msgid "Show comparison view"
+msgstr "Zobraziť porovnanie"
+
+msgid "Resource settings"
+msgstr "Nastavenie zdrojov"
+
+msgid "Resource share"
+msgstr "Podiel výkonu"
+
+msgid ""
+"Determines the proportion of your computer's resources allocated to this "
+"project. Example: if you participate in two BOINC projects with resource "
+"shares of 100 and 200, the first will get 1/3 of your resources and the "
+"second will get 2/3."
+msgstr "Určí akú časť zo zdrojov nastavenú pre tento projekt bude využívať. Napríklad, zúčastnite sa dvoch BOINC projektov s pomerom zdrojov 100 a 200, prvý projekt dostane 1/3 vašich zdrojov a druhý projekt dostane 2/3."
+
+msgid "Use CPU"
+msgstr "Použiť procesoru"
+
+msgid "Use NVIDIA GPU"
+msgstr "Použiť NVIDIA GPU"
+
+msgid "Use ATI GPU"
+msgstr "Použiť ATI GPU"
+
+msgid "Use INTEL GPU"
+msgstr "Použiť INTEL GPU"
+
+msgid "Beta settings"
+msgstr "Nastavenia beta"
+
+msgid "Run test applications?"
+msgstr "Spustiť testovacie aplikácie?"
+
+msgid ""
+"This helps us develop applications, but may cause jobs to fail on your "
+"computer"
+msgstr "Toto nám pomáha pri vývojí aplikácií, no môže spôsobiť zlyhanie úloh na vašom počítači"
+
+msgid "Default set"
+msgstr "Východzie nastavenia"
+
+msgid "Set used for new computers"
+msgstr "Nastaviť pre nové počítače"
+
+msgid "Merge"
+msgstr "Spojiť"
+
+msgid "Delete"
+msgstr "Zmazať"
+
+msgid ""
+"This will delete host @id from your account forever. Are you sure this is "
+"OK?"
+msgstr "Týmto navždy vymažete počítač @id z vášho účtu. Ste si tým istý?"
+
+msgid "Mark all topics read"
+msgstr "Označiť všetky témy ako prečítané"
+
+msgid "Mark all forums read"
+msgstr "Označiť všetky fóra ako prečítané"
+
+msgid ""
+"CAPTCHA validation error: unknown CAPTCHA session ID. Contact the site "
+"administrator if this problem persists."
+msgstr "Chyba overenia CAPTCHA: neznáme ID CAPTCHA relácie. Pokiaľ problém pretrváva, kontaktujte správcu stránky."
+
+msgid "The answer you entered for the CAPTCHA was not correct."
+msgstr "Odpoveď na CAPTCHA bola nesprávna."
+
+msgid "Access denied. You must login to view this page."
+msgstr "Prístup bol zamietnutý. Na zobrazenie obsahu sa prihláste."
+
+msgid "You are not authorized to access this page."
+msgstr "Nemáte oprávnenie na zobrazenie tejto stránky."
+
+msgid "Disable rich-text"
+msgstr "Vypnuť rich-text"
+
+msgid "Enable rich-text"
+msgstr "Zapnúť rich-text"
+
+msgid "View user profile."
+msgstr "Zobraziť profil užívateľa"
+
+msgid "BBcode help"
+msgstr "Pomoc BBcode"
+
+msgid "Post comment"
+msgstr "Odoslať komentár"
+
+msgid "No @type tasks"
+msgstr "Žiadne úlohy @type"
+
+msgid "There are no tasks of this type on record"
+msgstr "V tomto zázname nie sú žiadne úlohy"
+
+msgid "Clear"
+msgstr "Vymazať"
+
+msgid ""
+"This will remove all of your settings from the @name preference set. Are you"
+" sure?"
+msgstr "Týmto odstránite všetky vaše nastavenia z @name . Ste si istý?"
+
+msgid "These apply to all BOINC projects in which you participate."
+msgstr "Acestea se aplică tuturor proiectelor BOINC în care participaţi."
+
+msgid ""
+"On computers attached to multiple projects, the most recently modified "
+"preferences will be used."
+msgstr "Na počítačoch, ktoré sú pripojené k viacerým projektom, bude použitý ten, ktorý bol pozmeneý ako posledný."
+
+msgid "Preferences last modified: @mod_time"
+msgstr "Posledná zmena nastavení: @mod_time"
+
+msgid "Combined preferences"
+msgstr "Kombinované nastavenia"
+
+msgid "Switch View"
+msgstr "Prepnúť vzhľad"
+
+msgid "every"
+msgstr "každých"
+
+msgid "Edit"
+msgstr "Upraviť"
+
+msgid ""
+"This will remove all of your settings from the \"@name\" preference set. Are"
+" you sure?"
+msgstr "Týmto odstránite všetky vaše nastavenia z @name . Ste si istý?"
+
+msgid "Add"
+msgstr "Pridať"
+
+msgid "General settings"
+msgstr "Všeobecné nastavenia"
+
+msgid "Time zone"
+msgstr "Časová zóna"
+
+msgid "Notification settings"
+msgstr "Nastavenia upozornení"
+
+msgid "Receive email notification for private messages?"
+msgstr "Dostávať mailové upozornenia na súkromné správy?"
+
+msgid "Receive email notification for friend requests?"
+msgstr "Informovať mailom o žiadosti o priateľstvo?"
+
+msgid "Language settings"
+msgstr "Nastavenia jazyka"
+
+msgid ""
+"This account's default language for e-mails and preferred language for site "
+"presentation."
+msgstr "Východzí jazyk pre tento účet na maily a preferovaný jazyk na stránky."
+
+msgid "Avatar settings"
+msgstr "Nastavenie avataru"
+
+msgid "Create a profile"
+msgstr "Vytvoriť profil"
+
+msgid "Upload an avatar"
+msgstr "Nahrať avatara"
+
+msgid "Forum settings"
+msgstr "Nastavenia fóra"
+
+msgid "In discussion topics, show at most @comments_per_page"
+msgstr "V diskusiách zobraziť najviac @comments_per_page"
+
+msgid "comments per page"
+msgstr "komentárov na stránku"
+
+msgid "Sort comments in discussions"
+msgstr "Zoradiť komentáre v diskusiách"
+
+msgid "Newest post first"
+msgstr "Od najnovších"
+
+msgid "Oldest post first"
+msgstr "Od najstarších"
+
+msgid "Signature"
+msgstr "Podpis"
+
+msgid "Your signature will be publicly displayed at the end of your comments."
+msgstr "Váš podpis bude zverejnený na konci vašich komentárov."
+
+msgid "Hide signatures in forums"
+msgstr "Skryť podpisy vo fórach"
+
+msgid "Privacy settings"
+msgstr "Nastavenia súkromia"
+
+msgid "Is it OK for @project and your team (if any) to email you?"
+msgstr "Súhlasite aby vám a vášmu teamu @project posielal maily?"
+
+msgid "Hide"
+msgstr "Skryť"
+
+msgid "Hide this topic"
+msgstr "Skryť túto tému"
+
+msgid "Lock"
+msgstr "Zamknúť"
+
+msgid "Lock this thread for comments"
+msgstr "Uzamknúť túto tému"
+
+msgid "Make sticky"
+msgstr "Označiť ako lepkavé"
+
+msgid "Make this topic sticky"
+msgstr "Označiť ako lepkavé"
+
+msgid "moderation"
+msgstr "moderovanie"
+
+msgid "Post new comment"
+msgstr "Poslať novú správu"
+
+msgid "You must earn 1 more credit!"
+msgstr "Potrebujete ešte 1 kredit"
+
+msgid "Joined"
+msgstr "Pridanie sa"
+
+msgid "Credit"
+msgstr "Kredit"
+
+msgid "RAC"
+msgstr "RAC"
+
+msgid "Join team"
+msgstr "Vstúpiť do tímu"
+
+msgid "Click here to become a member of @this_team"
+msgstr "Ak sa chcete stať členom @tohoto tímu, kliknite sem"
+
+msgid "Join this team"
+msgstr "Vstúpiť do tímu"
+
+msgid "Manage team"
+msgstr "Spravovať tím"
+
+msgid "View member list"
+msgstr "Zobraziť členov"
+
+msgid "Member names and emails"
+msgstr "Mená a adresy členov"
+
+msgid "View change history"
+msgstr "Zobraziť históriu zmien"
+
+msgid "See member activity"
+msgstr "Zobraziť činnosť členov"
+
+msgid "Manage team message board"
+msgstr "Spravovať tímovú nástenku"
+
+msgid "Create or manage message board"
+msgstr "Vytvoriť alebo nastaviť nástenku"
+
+msgid "Remove members"
+msgstr "Odobrať členov"
+
+msgid "Change founder"
+msgstr "Zmeniť zakladateľa"
+
+msgid "Manage team admins"
+msgstr "Spravovať administrátorov tímu"
+
+msgid "Edit team info"
+msgstr "Upraviť údaje o tíme"
+
+msgid "Remove team"
+msgstr "Odstrániť tím"
+
+msgid "Team forum"
+msgstr "Tímové fórum"
+
+msgid "A discussion forum has been set up for team members."
+msgstr "Bolo vytvorené fórum pre členov tímu"
+
+msgid "Enter forum"
+msgstr "Vstúpiť do fóra"
+
+msgid "Leave team"
+msgstr "Opustiť fórum"
+
+msgid "Leave this team"
+msgstr "Opustiť tím"
+
+msgid "Edit message board"
+msgstr "Upraviť nástenku"
+
+msgid "Message board title"
+msgstr "Názov nástenky"
+
+msgid "Text only, no HTML tags"
+msgstr "Len text bez HTML tagov"
+
+msgid "Minimum time between posts"
+msgstr "Minimálny čas medzi správami"
+
+msgid "Seconds"
+msgstr "Sekúnd"
+
+msgid "Minimum total credit to post"
+msgstr "Minimálny celkový počet kreditov na posielanie správ"
+
+msgid "Allow public to read board?"
+msgstr "Povoliť verejnosti čítať nástenku?"
+
+msgid "Save message board"
+msgstr "Uložiť nástenku"
+
+msgid "About message boards"
+msgstr "O nástenkách"
+
+msgid "This is a team-only message board"
+msgstr "Toto je nástenka len pre tím"
+
+msgid "Only members may post"
+msgstr "Len členovia môžu posielať správy"
+
+msgid "Only members may read (optional)"
+msgstr "Len členovia môžu čítať (voliteľné)"
+
+msgid "Changing the team founder"
+msgstr "Zmeniť zakladateľa tímu"
+
+msgid "Any member of the team is eligible"
+msgstr "Každý člen tímu môže"
+
+msgid "Current founder becomes a normal user"
+msgstr "Aktuálny zakladateľ sa stane normálnym užívateľom"
+
+msgid "It must be 60 days since any previous request"
+msgstr "Od poslednej žiadosti musí prejst aspoň 60 dní"
+
+msgid "Add team admin"
+msgstr "Pridať administrátora tímu"
+
+msgid "Enter email address"
+msgstr "Uviesť mailovú adresu"
+
+msgid "Current team admins"
+msgstr "Aktuálni administátori tímu"
+
+msgid "About team admins"
+msgstr "O administrátoroch tímu"
+
+msgid "Team admins can:"
+msgstr "Administrátori tímu môžu:"
+
+msgid "Edit team information"
+msgstr "Upraviť údaje o tíme"
+
+msgid "View the team's join / quit history"
+msgstr "Zobraziť údaje o nových/odídených členoch"
+
+msgid "Moderate the team forum"
+msgstr "Moderovať tímové fórum"
+
+msgid "Remove members from the team"
+msgstr "Odstrániť členov z tímu"
+
+msgid "Disband a team if it has no members"
+msgstr "Rozpustiť tím ak nemá žiadnych členov"
+
+msgid "Team admins cannot:"
+msgstr "Administrátori tímu nemôžu:"
+
+msgid "Change the team founder"
+msgstr "Zmeniť zakladateľa tímu"
+
+msgid "Add / Remove team admins"
+msgstr "Pridať / Odstrániť administrátorov tímu"
+
+msgid "Choose type"
+msgstr "Zvoliť typ"
+
+msgid "Team name"
+msgstr "Názov tímu"
+
+msgid "Team name -- HTML version (optional)"
+msgstr "Názov tímu -- HTML verzia (nepovinné)"
+
+msgid "You may use limited HTML tags"
+msgstr "Môžete použiť niektoré HTML tagy"
+
+msgid "Team website (optional)"
+msgstr "Stránka tímu (nepovinné)"
+
+msgid "Displayed on the team's page"
+msgstr "Zobrazené na stránke tímu"
+
+msgid "Type of team"
+msgstr "Typ tímu"
+
+msgid "Accept new members?"
+msgstr "Príjmať nových členov?"
+
+msgid "Description of team"
+msgstr "Popis tímu"
+
+msgid "Create new team"
+msgstr "Vytvoriť nový tím"
+
+msgid "Create a team"
+msgstr "Vytvoriť tím"
+
+msgid "Save team"
+msgstr "Uložit tím"
+
+msgid "Create team message board"
+msgstr "Vytvoriť tímovú nástenku"
+
+msgid "Create message board"
+msgstr "Vytvoriť nástenku"
+
+msgid ""
+"Please set the minimum average credit that a user is required to have in "
+"order to post to this message board."
+msgstr "Prosím, nastavte minimum priemerných kreditov, ktoré sp potrebné pre užívateľa, aby mohol posielať správy na nástenku."
+
+msgid "Post new topic"
+msgstr "Poslať novú tému"
+
+msgid "Anonymous"
+msgstr "Anonymný"
+
+msgid "Unpublished"
+msgstr "Nezverejnené"
+
+msgid "Sorry, unrecognized email address or password."
+msgstr "Nesprávne heslo alebo mailová adresa"
+
+msgid "Have you forgotten your password?"
+msgstr "Zabudli ste heslo?"
+
+msgid "Id"
+msgstr "Id"
+
+msgid "Recent average credit"
+msgstr "Súčasný priemerný kredit"
+
+msgid "Members"
+msgstr "Členovia"
+
+msgid "Total Credit"
+msgstr "Celkový kredit"
+
+msgid "User ID"
+msgstr "Užívateľské ID"
+
+msgid "User"
+msgstr "Používateľ"
+
+msgid "Admin since"
+msgstr "Administrátorom od"
+
+msgid "Team ID"
+msgstr "ID tímu"
+
+msgid "User joined"
+msgstr "Užívateľ sa pridal"
+
+msgid "Timestamp"
+msgstr "Čas"
+
+msgid "Account Key"
+msgstr "Kľúč účtu"
+
+msgid "CPID"
+msgstr "CPID"
+
+msgid "Email Address"
+msgstr "E-mailová adresa"
+
+msgid "Password Hash"
+msgstr "Zakódovanie hesla"
+
+msgid "Postal Code"
+msgstr "PSČ"
+
+msgid "Send Email"
+msgstr "Poslať mail"
+
+msgid "Show Hosts"
+msgstr "Zobraziť zariadenia"
+
+msgid "URL"
+msgstr "URL"
+
+msgid "Computer ID"
+msgstr "ID počítača"
+
+msgid "Location"
+msgstr "Umiestnenie"
+
+msgid "While BOINC running, % of time work is allowed"
+msgstr "Când BOINC rulează, % din timp lucrul este permis"
+
+msgid "Average turnaround time"
+msgstr "Priemerná návratová doba "
+
+msgid "Created"
+msgstr "Vytvorený"
+
+msgid "While BOINC running, % of time host has an Internet connection"
+msgstr "Pokým je BOINC spustený, % dĺžka času Internetového spojenia"
+
+msgid "Average CPU efficiency"
+msgstr "Priemerná efektivita procesora"
+
+msgid "Free disk space"
+msgstr "Voľné miesto na disku"
+
+msgid "Total disk space"
+msgstr "Celkový úložný priestor"
+
+msgid "Task duration correction factor"
+msgstr "Korekčný faktor pre dobu výpočtu"
+
+msgid "Avg. credit"
+msgstr "Priemerný kredit"
+
+msgid "External IP address"
+msgstr "Vonkajšia IP adresa"
+
+msgid "Cross project ID"
+msgstr "Medziprojektové ID"
+
+msgid "Last IP address"
+msgstr "Posledná IP adresa"
+
+msgid "Cache"
+msgstr "Vyrovnávacia pamäť"
+
+msgid "Memory"
+msgstr "Pamäť"
+
+msgid "Swap space"
+msgstr "Odkladací priestor"
+
+msgid "Average download rate"
+msgstr "Priemerná rýchlosť sťahovania"
+
+msgid "Average upload rate"
+msgstr "Priemerná rýchlosť odosielania"
+
+msgid "Same IP address count"
+msgstr "Počet rovnakých IP adries"
+
+msgid "% of time BOINC client is running"
+msgstr "Podiel času kedy BOINC beží"
+
+msgid "Operating system"
+msgstr "Operačný systém"
+
+msgid "Operating system version"
+msgstr "Verzia operačného systému"
+
+msgid "Measured floating point speed"
+msgstr "Zmeraná rýchlosť s plávajúcou desatinnou čiarkou"
+
+msgid "Measured integer speed"
+msgstr "Zmeraná celočíselná rýchlosť"
+
+msgid "CPU model"
+msgstr "Model procesoru"
+
+msgid "Number of processors"
+msgstr "Počet procesorov"
+
+msgid "CPU"
+msgstr "Procesor"
+
+msgid "Number of times client has contacted server"
+msgstr "Koľkokrát BOINC klient skontaktoval server"
+
+msgid "Last contact"
+msgstr "Posledný čas kontaktu"
+
+msgid "Serial number"
+msgstr "Sériové číslo"
+
+msgid "Timezone"
+msgstr "Časová zóna"
+
+msgid "Platform ID"
+msgstr "ID Platformy"
+
+msgid "Task ID"
+msgstr "ID úlohy"
+
+msgid "Workunit ID"
+msgstr "ID Pracovnej jednotky"
+
+msgid "Host ID"
+msgstr "ID počítača"
+
+msgid "Application ID"
+msgstr "ID Aplikácie"
+
+msgid "Application version"
+msgstr "Verzia aplikácie"
+
+msgid "Claimed credit"
+msgstr "Získaný kredit"
+
+msgid "Client state"
+msgstr "Stav klienta"
+
+msgid "CPU time"
+msgstr "Procesorový čas"
+
+msgid "Run time"
+msgstr "Čas priebehu"
+
+msgid "Exit status"
+msgstr "Opustiť stav"
+
+msgid "Granted credit"
+msgstr "Udelené kredity"
+
+msgid "Outcome"
+msgstr "Výsledok"
+
+msgid "Report deadline"
+msgstr "Odoslať do"
+
+msgid "Sent"
+msgstr "Poslané"
+
+msgid "Server state"
+msgstr "Stat serveru"
+
+msgid "Stderr out"
+msgstr "Výstup stderr"
+
+msgid "Validation state"
+msgstr "Stav overenia"
+
+msgid "Canonical credit"
+msgstr "Kanonický kredit"
+
+msgid "Canonical result ID"
+msgstr "ID kanonického výsledku"
+
+msgid "Created time"
+msgstr "Vytvorený"
+
+msgid "Needs validation"
+msgstr "Potrebné overiť"
+
+msgid "Initial replication"
+msgstr "Počiatočná replikácia"
+
+msgid "Computer"
+msgstr "Počítač"
+
+msgid "Consecutive valid tasks"
+msgstr "Správne úlohy za sebou"
+
+msgid "Number of tasks completed"
+msgstr "Počet dokončených úloh"
+
+msgid "Max tasks per day"
+msgstr "Maximálny počet úloh za deň"
+
+msgid "Number of tasks today"
+msgstr "Počet úloh za dnes"
+
+msgid "Show IP address"
+msgstr "Zobraziť IP adresu"
+
+msgid "hours"
+msgstr "hodiny"
+
+msgid "Remove friend"
+msgstr "Odstrániť z priateľov"
+
+msgid "Ban user"
+msgstr "Zablokovať užívateľa"
+
+msgid "Add as friend"
+msgstr "Pridať ako priateľa"
+
+msgid "Team"
+msgstr "Tím"
+
+msgid "Reply"
+msgstr "Odpovedať"
+
+msgid "Reply to this comment"
+msgstr "Odpovedať na túto správu"
+
+msgid "Quote"
+msgstr "Citovať"
+
+msgid "Reply to this comment with quote"
+msgstr "Odpovedať na túto správu s citátom"
+
+msgid "Edit this comment"
+msgstr "Upraviť komentár"
+
+msgid "Delete this comment"
+msgstr "Odstrániť komentár"
+
+msgid "Hide this comment"
+msgstr "Skryť komentár"
+
+msgid "Convert"
+msgstr "Konvertovať"
+
+msgid "Convert this comment to a new topic"
+msgstr "Premeniť komentár na novú tému"
+
+msgid "Details"
+msgstr "Detaily"
+
+msgid "Make unsticky"
+msgstr "Zrušiť označenie lepkavé"
+
+msgid ""
+"Sometimes BOINC assigns separate identities to the same computer by mistake."
+" You can correct this by merging old identities with the newest one."
+msgstr "BOINC niekedy chybne pridá rozdielne identity tomu istému počítaču. Dá sa to opraviť spojením starších identít s novšou."
+
+msgid "Remove"
+msgstr "Odobrať"
+
+msgid "hidden"
+msgstr "skryté"
