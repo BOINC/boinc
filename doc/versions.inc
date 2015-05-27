@@ -89,7 +89,7 @@ $w5816 = array(
     "type"=>"win_new",
 );
 
-$w74x64dev = array(
+$w76x64dev = array(
     "num"=>"7.6.2",
     "status"=>"Development version",
     "file"=>"boinc_7.6.2_windows_x86_64.exe",
