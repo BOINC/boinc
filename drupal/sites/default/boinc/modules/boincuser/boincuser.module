@@ -82,7 +82,7 @@ function boincuser_menu() {
     'description' => 'Ban a user from using community features',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('boincuser_moderate_user_ban_form', 2),
-    'access arguments' => array('assign community member role'),
+    'access callback' => 'boincuser_moderate_community_access',
     'type' => MENU_CALLBACK,
   );
   $items['join'] = array(
@@ -1220,6 +1220,17 @@ function boincuser_create_account() {
 }
 
 /**
+ * Determine if the user has permission to control community access
+ */
+function boincuser_moderate_community_access() {
+  if (user_access('assign community member role')
+  OR user_access('assign all roles')) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
+/**
  * Controller for handling simple user account status configuration.
  * Allow community membership status to be set for users by direct link rather
  * than through the user account info form.
@@ -1231,8 +1242,7 @@ function boincuser_control($uid = NULL, $action = NULL) {
   }
   switch ($action) {
   case 'ban':
-    if (user_access('assign community member role')
-    OR user_access('assign all roles')) {
+    if (boincuser_moderate_community_access()) {
       $penalty_period = variable_get('boinc_penalty_period', 7*24*60*60);
       $boincuser_record = array(
         'uid' => $uid,
@@ -1247,8 +1257,7 @@ function boincuser_control($uid = NULL, $action = NULL) {
     }
     break;
   case 'lift-ban':
-    if (user_access('assign community member role')
-    OR user_access('assign all roles')) {
+    if (boincuser_moderate_community_access()) {
       $boincuser_record = array(
         'uid' => $uid,
         'penalty_expiration' => 0,

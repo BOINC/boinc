@@ -140,12 +140,10 @@ function boinc_standard_default_page_manager_pages() {
     $pane->shown = TRUE;
     $pane->access = array(
       'plugins' => array(
-        0 => array(
-          'name' => 'role',
+        1 => array(
+          'name' => 'perm',
           'settings' => array(
-            'rids' => array(
-              0 => 1271379760,
-            ),
+            'perm' => 'edit any profile content',
           ),
           'context' => 'context_user_1',
           'not' => FALSE,
