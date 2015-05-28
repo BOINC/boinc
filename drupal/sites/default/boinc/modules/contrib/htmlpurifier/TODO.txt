@@ -1,0 +1,20 @@
+
+TODO List
+
+Non-code
+- Add better documentation about what's different about configuring
+  the PHP and what's configuring the web interface
+- Make distinction between module and library clearer
+- Link to WYSIWYG editors, research integration prospects, and how
+  they're handling security
+  - http://drupal.org/project/htmlarea
+  - http://drupal.org/project/fckeditor
+  - http://drupal.org/project/tinymce
+- Competitors
+  - http://drupal.org/project/safehtml
+
+1.3
+- Improve help text (this might be a good addition to the HTML Purifier
+  core). This would be for filter tips as well as for the form.
+- Compatibility
+  - Paging comments

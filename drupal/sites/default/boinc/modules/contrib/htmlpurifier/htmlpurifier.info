@@ -1,0 +1,12 @@
+; $Id: htmlpurifier.info,v 1.6 2008/04/24 04:13:09 ezyang Exp $
+name = "HTML Purifier"
+description = "Filter that removes malicious HTML and ensures standards compliant output."
+core = 6.x
+php = 5.0.5
+
+; Information added by drupal.org packaging script on 2010-10-23
+version = "6.x-2.4"
+core = "6.x"
+project = "htmlpurifier"
+datestamp = "1287798330"
+
