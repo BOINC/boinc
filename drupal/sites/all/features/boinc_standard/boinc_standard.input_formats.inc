@@ -8,28 +8,19 @@ function boinc_standard_input_formats() {
 
   $input_format = new stdClass;
   $input_format->api_version = 1;
-  $input_format->name = 'PHP code';
-  $input_format->roles = array();
-  $input_format->cache = FALSE;
-  $input_format->settings = array(
-  );
-  $input_format->filters = array(
-    'php' => array(
-      // Delta => Weight for: PHP evaluator
-      '0' => '0',
-    ),
-  );
-  $input_format->machine = 'php_code';
-  $input_formats['php_code'] = $input_format;
-
-  $input_format = new stdClass;
-  $input_format->api_version = 1;
   $input_format->name = 'Rich text';
   $input_format->roles = array(
     1 => 'anonymous user',
     2 => 'authenticated user',
+    3519698132 => 'administrator',
+    1110965548 => 'community member',
+    2938987599 => 'content editor',
+    1257454314 => 'forum control (system use only)',
+    268174006 => 'Forum Moderator',
+    1271379760 => 'moderator',
+    933038561 => 'verified contributor',
   );
-  $input_format->cache = TRUE;
+  $input_format->cache = FALSE;
   $input_format->settings = array(
     // Settings for: tableofcontents module
     'tableofcontents' => array(
@@ -119,6 +110,32 @@ function boinc_standard_input_formats() {
       'filter_pathologic_local_paths' => '/',
       'filter_pathologic_absolute' => 1,
     ),
+    // Settings for: htmlpurifier module
+    'htmlpurifier' => array(
+      'htmlpurifier_clear_cac' => array(
+          '#description' => NULL,
+          '#value' => 'Clear cache (Warning: Can result in performance degradation)',
+        ),
+      // Display help text
+      'htmlpurifier_help' => 1,
+      'htmlpurifier_config' => array(
+          '#description' => NULL,
+          '#value' => array(
+            'Attr.EnableID' => '0',
+            'AutoFormat.AutoParagraph' => '1',
+            'AutoFormat.Linkify' => '1',
+            'AutoFormat.RemoveEmpty' => '0',
+            'Null_HTML.Allowed' => '1',
+            'HTML.ForbiddenAttributes' => '',
+            'HTML.ForbiddenElements' => '',
+            'HTML.SafeObject' => '1',
+            'Output.FlashCompat' => '1',
+            'URI.DisableExternalResources' => '0',
+            'URI.DisableResources' => '0',
+            'Null_URI.Munge' => '1',
+          ),
+        ),
+    ),
   );
   $input_format->filters = array(
     'tableofcontents' => array(
@@ -133,9 +150,28 @@ function boinc_standard_input_formats() {
       // Delta => Weight for: Pathologic
       '0' => '-8',
     ),
+    'htmlpurifier' => array(
+      // Delta => Weight for: HTML Purifier
+      '0' => '-7',
+    ),
   );
   $input_format->machine = 'rich_text';
   $input_formats['rich_text'] = $input_format;
+
+  $input_format = new stdClass;
+  $input_format->api_version = 1;
+  $input_format->name = 'PHP code';
+  $input_format->roles = array();
+  $input_format->cache = FALSE;
+  $input_format->settings = array(
+  );
+  $input_format->filters = array(
+    'php' => array(
+      '0' => '0',
+    ),
+  );
+  $input_format->machine = 'php_code';
+  $input_formats['php_code'] = $input_format;
 
   $input_format = new stdClass;
   $input_format->api_version = 1;
