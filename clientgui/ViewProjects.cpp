@@ -72,6 +72,14 @@ static int DefaultShownColumns[] = { COLUMN_PROJECT, COLUMN_ACCOUNTNAME, COLUMN_
 #define BTN_DETACH       4
 #define BTN_PROPERTIES   5
 
+// TODO: thousands separators
+// TODO: use these in simple view too.
+static void format_total_credit(float credit, wxString& strBuffer)  {
+    strBuffer.Printf(wxT("%.0f"), credit);
+}
+static void format_avg_credit(float credit, wxString& strBuffer)  {
+    strBuffer.Printf(wxT("%0.2f"), credit);
+}
 
 CProject::CProject() {
     m_fTotalCredit = -1.0;
@@ -904,7 +912,7 @@ bool CViewProjects::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex
             GetDocTotalCredit(m_iSortedIndexes[iRowIndex], fDocumentFloat);
             if (fDocumentFloat != project->m_fTotalCredit) {
                 project->m_fTotalCredit = fDocumentFloat;
-                FormatTotalCredit(fDocumentFloat, project->m_strTotalCredit);
+                format_total_credit(fDocumentFloat, project->m_strTotalCredit);
                 return true;
             }
             break;
@@ -912,7 +920,7 @@ bool CViewProjects::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex
             GetDocAVGCredit(m_iSortedIndexes[iRowIndex], fDocumentFloat);
             if (fDocumentFloat != project->m_fAVGCredit) {
                 project->m_fAVGCredit = fDocumentFloat;
-                FormatAVGCredit(fDocumentFloat, project->m_strAVGCredit);
+                format_avg_credit(fDocumentFloat, project->m_strAVGCredit);
                 return true;
             }
             break;
@@ -1067,13 +1075,6 @@ void CViewProjects::GetDocTotalCredit(wxInt32 item, float& fBuffer) const {
 }
 
 
-wxInt32 CViewProjects::FormatTotalCredit(float fBuffer, wxString& strBuffer) const {
-    strBuffer.Printf(wxT("%0.2f"), fBuffer);
-
-    return 0;
-}
-
-
 void CViewProjects::GetDocAVGCredit(wxInt32 item, float& fBuffer) const {
     PROJECT* project = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -1088,14 +1089,6 @@ void CViewProjects::GetDocAVGCredit(wxInt32 item, float& fBuffer) const {
         fBuffer = 0.0;
     }
 }
-
-
-wxInt32 CViewProjects::FormatAVGCredit(float fBuffer, wxString& strBuffer) const {
-    strBuffer.Printf(wxT("%0.2f"), fBuffer);
-
-    return 0;
-}
-
 
 void CViewProjects::GetDocResourceShare(wxInt32 item, float& fBuffer) const {
     PROJECT* project = NULL;
