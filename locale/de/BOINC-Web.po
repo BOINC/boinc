@@ -6,12 +6,13 @@
 # FileID  : $Id$
 # 
 # Translators:
+# Christian Beer <christian.beer@posteo.de>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: boinc\n"
+"Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2015-02-13 16:05+0000\n"
+"PO-Revision-Date: 2015-05-28 09:05+0000\n"
 "Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/boinc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -260,7 +261,7 @@ msgstr "Geben Sie eine E-Mail Adresse und Passwort ein."
 msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as "
 "%sGridRepublic%s or %sBAM!%s. "
-msgstr "Oder, wenn sie an verschiedenen Projekte teilnehmen, probieren sie einen %sKontomanager%s wie z.B. %sGridrepublic%s oder %sBAM!%s."
+msgstr "Oder, wenn sie an verschiedenen Projekte teilnehmen, probieren sie eine %sKontoverwaltung%s wie z.B. %sGridrepublic%s oder %sBAM!%s."
 
 #: index.php:118
 msgid "Compute with BOINC"
@@ -324,7 +325,7 @@ msgstr "und"
 
 #: index.php:166
 msgid "Help wanted"
-msgstr "Helfer gesucht!"
+msgstr "Helfer gesucht"
 
 #: index.php:168
 msgid "Programming"
@@ -344,7 +345,7 @@ msgstr "Öffentlichkeitsarbeit"
 
 #: index.php:174
 msgid "Software development"
-msgstr "Software entwickeln"
+msgstr "Softwareentwicklung"
 
 #: index.php:175
 msgid "APIs for add-on software"
@@ -879,13 +880,13 @@ msgid ""
 "breaking an integer into prime factors, such as 15 = 3 * 5 or 35 = 5 * 7. "
 "NFS@Home is a continuation of that experience, only with integers that are "
 "hundreds of digits long."
-msgstr "NFS@Home ist ein Forschungsprojekt welches die mit dem Internet verbundenen Computer dazu benutzt eine schrittweise Primfaktorzerlegung einer großen ganzen Zahl durchzuführen. Als junger Schüler hast du deine ersten Erfahrung damit gemacht ganze Zahlen in Primzahlfaktoren zu zerlegen, wie 15= 3+5 oder 35= 5*7. NFS@Home setzt diese Erfahrung fort, lediglich mit ganzen Zahlen welche hunderte von Stellen lang sind."
+msgstr "NFS@Home ist ein Forschungsprojekt welches die mit dem Internet verbundenen Computer dazu benutzt eine schrittweise Primfaktorzerlegung einer großen ganzen Zahl durchzuführen. Als junger Schüler hast du deine ersten Erfahrung damit gemacht ganze Zahlen in Primzahlfaktoren zu zerlegen, wie 15= 3*5 oder 35= 5*7. NFS@Home setzt diese Erfahrung fort, lediglich mit ganzen Zahlen welche hunderte von Stellen lang sind."
 
 #: projects.inc:479
 msgid ""
 "Vilnius Gediminas Technical University and Kaunas University of Technology "
 "(Lithuania)"
-msgstr "Technische Gediminas-Universität Vilnius und der Technischen Universität Kaunas in Litauen"
+msgstr "Technische Gediminas-Universität Vilnius und Technischen Universität Kaunas in Litauen"
 
 #: projects.inc:480
 msgid "Software testing"
