@@ -1178,7 +1178,7 @@ void CViewProjects::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
         wxDateTime dtNow(wxDateTime::Now());
         if (dtNextRPC > dtNow) {
             wxTimeSpan tsNextRPC(dtNextRPC - dtNow);
-            append_to_status(strBuffer, _("Communication deferred ") + tsNextRPC.Format());
+            append_to_status(strBuffer, _("Communication deferred ") + wxString(" ") + tsNextRPC.Format());
         }
     }
 }
