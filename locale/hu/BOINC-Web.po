@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2015-05-31 15:11+0000\n"
+"PO-Revision-Date: 2015-05-31 15:21+0000\n"
 "Last-Translator: misibacsi\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -727,7 +727,7 @@ msgstr "Ez a projekt a CERN által fejlesztett virtuális gép technológiát ha
 
 #: projects.inc:326
 msgid "University of California, Berkeley"
-msgstr "Californiai Egyetem, Berkeley"
+msgstr "Kaliforniai Egyetem, Berkeley"
 
 #: projects.inc:327
 msgid "Astrophysics, astrobiology"
@@ -937,7 +937,7 @@ msgstr "Prímszámok azonosításához kapcsolódó két sejtéshez tartozó ell
 msgid ""
 "Find all the generalized binary number systems (in which bases are matrices "
 "and digits are vectors) up to dimension 11."
-msgstr "Találd meg az összes általánosított kettes számrendszert (melyekben a bázisok mátrixok, a számjegyek pedig vektorok) egészen a 11. dimenzióig."
+msgstr "Az összes általánosított kettes számrendszer megtalálása (melyekben a bázisok mátrixok, a számjegyek pedig vektorok) egészen 11 dimenzióig."
 
 #: ../html/inc/news.inc:40
 msgid "Comment"
@@ -946,4 +946,4 @@ msgstr "Hozzászólás"
 #: ../html/inc/news.inc:111
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr "A hírek %sRSS hírfolyamként%s érhetőek el"
+msgstr "A hírek %sRSS hírfolyamként%s érhetők el"
