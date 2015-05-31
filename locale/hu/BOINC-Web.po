@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2015-05-31 14:59+0000\n"
+"PO-Revision-Date: 2015-05-31 15:05+0000\n"
 "Last-Translator: misibacsi\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -277,13 +277,13 @@ msgstr "Szoftverfrissítések"
 msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving"
 " you the computing power of thousands of CPUs."
-msgstr "%1Kutatók%2: Használjanak BOINC-ot egy olyan %3önkéntes számítási projekt%4 létrehozásához, amellyel több ezer processzor számítási teljesítményét használhatja fel."
+msgstr "%1Kutatók%2: Használjanak BOINC-ot olyan %3önkéntes számítási projekt%4 létrehozásához, amellyel több ezer processzor számítási teljesítményét használhatják fel."
 
 #: index.php:132
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
-msgstr "%1Egyetemek%2: Használjanak BOINC-ot egy %3Virtuális Campus Szuperszámítóközpont%4 létrehozásához."
+msgstr "%1Egyetemek%2: Használjanak BOINC-ot %3Virtuális Szuperszámítóközpont%4 létrehozásához."
 
 #: index.php:137
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
@@ -361,7 +361,7 @@ msgstr "Nyílt forráskódú szoftver %sönkéntes%s, illetve %sgriden végzett 
 
 #: index.php:230
 msgid "BOINC is based at The University of California, Berkeley"
-msgstr "A BOINC központja a California egyetemen, Berkeley-ben található"
+msgstr "A BOINC központja a Kalifornia Egyetemen, Berkeley-ben található"
 
 #: projects.inc:14
 msgid "Distributed sensing"
@@ -380,7 +380,7 @@ msgid ""
 "The Quake-Catcher Network is developing the world's largest seismic network "
 "using sensors attached to Internet-connected computers.  You must buy a "
 "sensor to participate."
-msgstr "A Quake-Catcher Network az Internethez csatlakoztatott számítógépekre szerelt érzékelők segítségével a világ legnagyobb szeizmikus hálózatát fejleszti ki. A részvételhez vásárolnod kell egy érzékelőt."
+msgstr "A Quake-Catcher Network az internethez csatlakoztatott számítógépekre szerelt érzékelők segítségével a világ legnagyobb szeizmikus hálózatát fejleszti ki. A részvételhez vásárolnod kell egy érzékelőt."
 
 #: projects.inc:27
 msgid "BOINC Poland Foundation"
@@ -395,7 +395,7 @@ msgid ""
 "This project is creating a free and continuously updated map of radiation "
 "levels by using sensors connected to volunteers' computers.  You must buy a "
 "sensor to participate."
-msgstr "A projekt célja egy ingyenes és folyamatosan frissülő sugárzási térkép létrehozása, a résztvevő számítógépeihez kapcsolt érzékelők adatai alapján. A részvételhez vásárolnod kell egy érzékelőt."
+msgstr "A projekt célja ingyenes és folyamatosan frissülő sugárzási térkép létrehozása a résztvevő számítógépekhez kapcsolt érzékelők adatai alapján. A részvételhez vásárolnod kell egy érzékelőt."
 
 #: projects.inc:33
 msgid ""
