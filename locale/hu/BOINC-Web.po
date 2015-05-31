@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2015-05-31 15:05+0000\n"
+"PO-Revision-Date: 2015-05-31 15:11+0000\n"
 "Last-Translator: misibacsi\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -401,7 +401,7 @@ msgstr "A projekt célja ingyenes és folyamatosan frissülő sugárzási térk�
 msgid ""
 "To participate in these projects you must buy a sensor and attach it to your"
 " computer."
-msgstr "Az ebben a projektben való részvételhez vásárolnod kell egy érzékelőt, és csatlakoztatnod kell a számítógépedhez."
+msgstr "Az ezekben a projektekben való részvételhez vásárolnod kell egy érzékelőt, és csatlakoztatnod kell a számítógépedhez."
 
 #: projects.inc:37
 msgid "Cognitive science and artifical intelligence"
@@ -443,7 +443,7 @@ msgid ""
 "existing drugs. Importantly, these new drugs need to target NEW proteins in "
 "the parasite. The FightMalaria@Home project is aimed at finding these new "
 "targets."
-msgstr "A maláriát okozó parazita egy idő után rezisztenssé válik az elérhető gyógyszerekre. Ezért sürgősen szükségünk van új gyógyszerek felfedezésére, a mostani gyógyszerek lecserélésére. Fontos, hogy ezek az új gyógyszerek a parazita ÚJ fehérjéit célozzák meg. A FightMalaria@Home projekt célja ezeknek az új célpontoknak a megtalálása."
+msgstr "A maláriát okozó parazita egy idő után rezisztenssé válik az elérhető gyógyszerekre. Ezért sürgősen szükségünk van új gyógyszerek felfedezésére, a mostani gyógyszerek lecserélésére. Fontos, hogy ezek az új gyógyszerek a parazita új fehérjéit célozzák meg. A FightMalaria@Home projekt célja ezeknek az új célpontoknak a megtalálása."
 
 #: projects.inc:90
 msgid "University of Karlsruhe (Germany)"
@@ -496,11 +496,11 @@ msgstr "A GPUGrid.net új számítási utakat nyit az első, speciálisan NVIDIA
 
 #: projects.inc:122
 msgid "Technion, Israel"
-msgstr "Technion, Israel"
+msgstr "Technion, Izrael"
 
 #: projects.inc:123
 msgid "Genetic linkage analysis"
-msgstr "Genetikai okok felderítése"
+msgstr "Genetikai kapcsolatok elemzése"
 
 #: projects.inc:124
 msgid ""
@@ -584,7 +584,7 @@ msgstr "Oxfordi Egyetem"
 
 #: projects.inc:199
 msgid "Climate study"
-msgstr "Klíma tanulmány"
+msgstr "Klímakutatás"
 
 #: projects.inc:200
 msgid ""
