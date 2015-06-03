@@ -184,7 +184,7 @@ public:
     void db_print_values(char*);
     void db_parse(MYSQL_ROW &row);
     void operator=(RESULT& r) {RESULT::operator=(r);}
-    int get_unsent_counts(APP&, int* unsent);
+    int get_unsent_counts(APP&, int* unsent, int count_max);
     int make_unsent(
         APP&, int size_class, int n, const char* order_clause, int& nchanged
     );

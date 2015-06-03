@@ -1138,6 +1138,38 @@ void DB_RESULT::db_parse(MYSQL_ROW &r) {
     peak_disk_usage = atof(r[i++]);
 }
 
+// faster version.
+// return unsent count up to a max of "count_max"
+//
+int DB_RESULT::get_unsent_counts(APP& app, int* unsent_count, int count_max) {
+    char query[1024];
+    int retval;
+    MYSQL_RES *rp;
+
+    for (int i=0; i<app.n_size_classes; i++) {
+        sprintf(query,
+            "select id from result where appid=%d and server_state=%d and size_class=%d limit %d",
+            app.id, RESULT_SERVER_STATE_UNSENT, i, count_max
+        );
+        retval = db->do_query(query);
+        if (retval) return mysql_errno(db->mysql);
+        rp = mysql_store_result(db->mysql);
+        if (!rp) return mysql_errno(db->mysql);
+        int count = 0;
+        while (1) {
+            MYSQL_ROW row = mysql_fetch_row(rp);
+            if (!row) break;
+            count++;
+        }
+        mysql_free_result(rp);
+        unsent_count[i] = count;
+    }
+    return 0;
+}
+
+#if 0
+// the following is too slow if result table is large.
+//
 int DB_RESULT::get_unsent_counts(APP& app, int* unsent_count) {
     char query[1024];
     MYSQL_RES *rp;
@@ -1169,6 +1201,7 @@ int DB_RESULT::get_unsent_counts(APP& app, int* unsent_count) {
     mysql_free_result(rp);
     return retval;
 }
+#endif
 
 int DB_RESULT::make_unsent(
     APP& app, int size_class, int n, const char* order_clause, int& nchanged
