@@ -1483,8 +1483,8 @@ function boincuser_get_projects_table($account = null) {
   foreach ($projects AS $project) {
     $output .= '  <tr>' . "\n";
     $output .= "    <td>{$project->name}</td>" . "\n";
-    $output .= "    <td class=\"numeric\">{$project->expavg_credit}</td>" . "\n"; 
-    $output .= "    <td class=\"numeric\">{$project->total_credit}</td>" . "\n";
+    $output .= '    <td class="numeric">' . number_format((float) $project->expavg_credit) . '</td>' . "\n"; 
+    $output .= '    <td class="numeric">' . number_format((float) $project->total_credit) . '</td>' . "\n";
     $output .= '  </tr>' . "\n";
   }
   $output .= '</tbody>' . "\n";
