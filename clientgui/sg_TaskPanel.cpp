@@ -494,6 +494,7 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
     wxBoxSizer* bSizer3;
     bSizer3 = new wxBoxSizer( wxHORIZONTAL );
     
+    // what project the task is from, e.g. "From: SETI@home"
     m_TaskProjectLabel = new CTransparentStaticText( this, wxID_ANY, _("From:"), wxDefaultPosition, wxDefaultSize, 0 );
     m_TaskProjectLabel->Wrap( -1 );
     bSizer3->Add( m_TaskProjectLabel, 0, wxRIGHT, ADJUSTFORXDPI(5) );

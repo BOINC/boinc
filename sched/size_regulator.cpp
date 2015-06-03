@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// daemon to regulate the transition of jobs from INACTIVE to UNSENT,
-// to maintain a buffer of UNSENT jobs of each size class.
+// daemon to regulate the transition of results from INACTIVE to UNSENT,
+// to maintain a buffer of UNSENT results of each size class.
 
 #include <stdio.h>
 
@@ -43,7 +43,7 @@ void usage(){
 int do_pass(bool& action) {
     DB_RESULT result;
     int unsent[100];
-    int retval = result.get_unsent_counts(app, unsent);
+    int retval = result.get_unsent_counts(app, unsent, hi);
     if (retval) return retval;
     action = false;
     for (int i=0; i<app.n_size_classes; i++) {
