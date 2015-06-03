@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-29 16:51-0500\n"
-"PO-Revision-Date: 2015-05-29 22:19+0000\n"
+"POT-Creation-Date: 2015-06-03 14:18-0500\n"
+"PO-Revision-Date: 2015-06-03 18:51+0000\n"
 "Last-Translator: Nikolay Sakharov <saharovna@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/boinc/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -2065,7 +2065,7 @@ msgid "Process ID"
 msgstr "ID процесса"
 
 #: clientgui/DlgItemProperties.cpp:456 clientgui/ViewWork.cpp:1125
-#: clientgui/sg_TaskPanel.cpp:827
+#: clientgui/sg_TaskPanel.cpp:828
 msgid "Local: "
 msgstr "Локальное: "
 
@@ -3196,8 +3196,8 @@ msgid "Trickle up message pending"
 msgstr "Ожидание отправки промежуточного сообщения"
 
 #: clientgui/ViewProjects.cpp:1181
-msgid "Communication deferred "
-msgstr "Повтор через "
+msgid "Communication deferred"
+msgstr "Повтор через"
 
 #: clientgui/ViewResources.cpp:62
 msgid "Total disk usage"
@@ -3760,100 +3760,101 @@ msgstr "Задания:"
 msgid "Select a task to access"
 msgstr "Выбрать задание для доступа"
 
-#: clientgui/sg_TaskPanel.cpp:497
+#. what project the task is from, e.g. "From: SETI@home"
+#: clientgui/sg_TaskPanel.cpp:498
 msgid "From:"
 msgstr "От:"
 
-#: clientgui/sg_TaskPanel.cpp:551
+#: clientgui/sg_TaskPanel.cpp:552
 msgid "This task's progress"
 msgstr "Прогресс этого задания"
 
-#: clientgui/sg_TaskPanel.cpp:569
+#: clientgui/sg_TaskPanel.cpp:570
 msgid "Task Commands"
 msgstr "Команды задания"
 
-#: clientgui/sg_TaskPanel.cpp:570
+#: clientgui/sg_TaskPanel.cpp:571
 msgid "Pop up a menu of commands to apply to this task"
 msgstr "Показать меню команд, применимых к этому заданию"
 
-#: clientgui/sg_TaskPanel.cpp:705
+#: clientgui/sg_TaskPanel.cpp:706
 #, c-format
 msgid "Application: %s"
 msgstr "Приложение: %s"
 
-#: clientgui/sg_TaskPanel.cpp:728
+#: clientgui/sg_TaskPanel.cpp:729
 #, c-format
 msgid "%.3f%%"
 msgstr "%.3f%%"
 
-#: clientgui/sg_TaskPanel.cpp:736
+#: clientgui/sg_TaskPanel.cpp:737
 msgid "Application: Not available"
 msgstr "Приложение: недоступно"
 
-#: clientgui/sg_TaskPanel.cpp:836
+#: clientgui/sg_TaskPanel.cpp:837
 msgid "Not Available"
 msgstr "Недоступно"
 
-#: clientgui/sg_TaskPanel.cpp:851
+#: clientgui/sg_TaskPanel.cpp:852
 #, c-format
 msgid "Elapsed: %s"
 msgstr "Затрачено: %s"
 
-#: clientgui/sg_TaskPanel.cpp:865
+#: clientgui/sg_TaskPanel.cpp:866
 #, c-format
 msgid "Remaining (estimated): %s"
 msgstr "Осталось (приблизительно): %s"
 
-#: clientgui/sg_TaskPanel.cpp:880
+#: clientgui/sg_TaskPanel.cpp:881
 #, c-format
 msgid "Status: %s"
 msgstr "Статус: %s"
 
-#: clientgui/sg_TaskPanel.cpp:1228
+#: clientgui/sg_TaskPanel.cpp:1229
 msgid "Retrieving current status."
 msgstr "Проверка текущего состояния."
 
-#: clientgui/sg_TaskPanel.cpp:1234
+#: clientgui/sg_TaskPanel.cpp:1235
 msgid "Downloading work from the server."
 msgstr "Загрузка заданий с сервера проекта."
 
-#: clientgui/sg_TaskPanel.cpp:1239
+#: clientgui/sg_TaskPanel.cpp:1240
 msgid "Processing Suspended:  Running On Batteries."
 msgstr "Обработка приостановлена:  работа компьютера от батарей."
 
-#: clientgui/sg_TaskPanel.cpp:1241
+#: clientgui/sg_TaskPanel.cpp:1242
 msgid "Processing Suspended:  User Active."
 msgstr "Обработка приостановлена:  пользователь работает."
 
-#: clientgui/sg_TaskPanel.cpp:1243
+#: clientgui/sg_TaskPanel.cpp:1244
 msgid "Processing Suspended:  User paused processing."
 msgstr "Обработка приостановлена:  по инициативе пользователя."
 
-#: clientgui/sg_TaskPanel.cpp:1245
+#: clientgui/sg_TaskPanel.cpp:1246
 msgid "Processing Suspended:  Time of Day."
 msgstr "Обработка приостановлена:  запрещённое время суток."
 
-#: clientgui/sg_TaskPanel.cpp:1247
+#: clientgui/sg_TaskPanel.cpp:1248
 msgid "Processing Suspended:  Benchmarks Running."
 msgstr "Обработка приостановлена:  запущен тест производительности."
 
-#: clientgui/sg_TaskPanel.cpp:1249
+#: clientgui/sg_TaskPanel.cpp:1250
 msgid "Processing Suspended."
 msgstr "Обработка приостановлена."
 
-#: clientgui/sg_TaskPanel.cpp:1253
+#: clientgui/sg_TaskPanel.cpp:1254
 msgid "Waiting to contact project servers."
 msgstr "Подождите пожалуйста."
 
-#: clientgui/sg_TaskPanel.cpp:1257 clientgui/sg_TaskPanel.cpp:1266
+#: clientgui/sg_TaskPanel.cpp:1258 clientgui/sg_TaskPanel.cpp:1267
 msgid "Retrieving current status"
 msgstr "Проверка текущего состояния"
 
-#: clientgui/sg_TaskPanel.cpp:1261
+#: clientgui/sg_TaskPanel.cpp:1262
 msgid "No work available to process"
 msgstr "Нет заданий для обработки"
 
-#: clientgui/sg_TaskPanel.cpp:1263
+#: clientgui/sg_TaskPanel.cpp:1264
 msgid "Unable to connect to the core client"
 msgstr "Не удалось подключиться к BOINC клиенту"
 
