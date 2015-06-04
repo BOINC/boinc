@@ -12,13 +12,6 @@ function boinc_standard_input_formats() {
   $input_format->roles = array(
     1 => 'anonymous user',
     2 => 'authenticated user',
-    3519698132 => 'administrator',
-    1110965548 => 'community member',
-    2938987599 => 'content editor',
-    1257454314 => 'forum control (system use only)',
-    268174006 => 'Forum Moderator',
-    1271379760 => 'moderator',
-    933038561 => 'verified contributor',
   );
   $input_format->cache = FALSE;
   $input_format->settings = array(
