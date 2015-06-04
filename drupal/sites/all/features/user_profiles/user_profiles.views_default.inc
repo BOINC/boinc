@@ -180,6 +180,7 @@ function user_profiles_views_default_views() {
   ));
   $handler->override_option('empty', 'No content is in the queue for moderation.');
   $handler->override_option('empty_format', '4');
+  $handler->override_option('use_pager', '1');
   $handler->override_option('style_plugin', 'table');
   $handler->override_option('style_options', array(
     'grouping' => '',
