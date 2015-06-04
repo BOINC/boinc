@@ -64,6 +64,14 @@
   position: absolute;
   bottom: 0;
 }
+.boinc-overview-details .detail {
+  font-size: 12px;
+  font-weight: bold;
+  color: #00aeef;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 5px;
+}
 .boinc-overview-details .user-of-the-day {
   display: block;
   float: left;
@@ -76,9 +84,7 @@
 .boinc-overview-details .user-of-the-day .text,
 .boinc-overview-details .user-of-the-day .detail {
   margin-left: 60px;
-}
-.boinc-overview-details .user-of-the-day .detail {
-  margin-top: 5px;
+  max-width: 135px;
 }
 .boinc-overview-details .user-of-the-day .picture {
   float: left;
@@ -108,14 +114,8 @@
 }
 .boinc-overview-details .platform {
   float: left;
-}
-.platform {
-  font-size: 12px;
-  font-weight: bold;
-  color: #faa341;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  padding: 5px 16px 5px 30px;
+  padding-left: 30px;
+  padding-right: 16px;
 }
 .platform.linux {
   background: url(../images/icon-linux.png) no-repeat top left;

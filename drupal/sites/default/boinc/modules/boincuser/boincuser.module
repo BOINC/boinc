@@ -1197,9 +1197,9 @@ function boincuser_home_page() {
   $output .= '    <div class="volunteers">';
   $output .= '      <div class="text">' . bts('Over 500,000 volunteers and counting.') . '</div>';
   $output .= '      <div class="platforms">';
-  $output .= '        <div class="platform windows">' . bts('Windows') . '</div>';
-  $output .= '        <div class="platform mac">' .  bts('Mac') . '</div>';
-  $output .= '        <div class="platform linux">' . bts('Linux') . '</div>';
+  $output .= '        <div class="detail platform windows">' . bts('Windows') . '</div>';
+  $output .= '        <div class="detail platform mac">' .  bts('Mac') . '</div>';
+  $output .= '        <div class="detail platform linux">' . bts('Linux') . '</div>';
   $output .= '      </div>';
   $output .= '    </div>';
   $output .= '  </div>';
