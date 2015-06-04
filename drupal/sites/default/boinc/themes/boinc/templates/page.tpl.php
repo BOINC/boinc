@@ -148,21 +148,6 @@
     <div id="header-wrapper" class="shadow">
     
     <div id="header"><div class="section clearfix">
-    
-    <?php if ($logged_in): ?>
-      <?php $pm_count = privatemsg_unread_count(); ?>
-      <?php if ($pm_count): ?>
-        <a href="<?php echo $base_path; ?>messages">
-          <div class="new-mail-indicator">
-            <div class="item-count-wrapper">
-              <span class="item-count">
-                <?php print $pm_count; ?>
-              </span>
-            </div>
-          </div>
-        </a>
-      <?php endif; ?>
-    <?php endif; ?>
 
       <?php if ($logo): ?>
         <a href="<?php print $front_page; ?>" title="<?php print bts('Home'); ?>" rel="home" id="logo"><img src="<?php print $logo; ?>" alt="<?php print bts('Home'); ?>" /></a>
