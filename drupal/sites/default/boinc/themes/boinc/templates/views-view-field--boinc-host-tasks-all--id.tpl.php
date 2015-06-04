@@ -19,6 +19,6 @@
   * the view is modified.
   */
 ?>
-<span>
+<span class="task-name">
   <?php print l($row->result_name, "task/{$row->id}"); ?>
 </span>

@@ -143,6 +143,21 @@
 }
 
 /**
+ * Computer and task lists
+ */
+.views-table .views-field-expavg-credit,
+.views-table .views-field-total-credit,
+.views-table .views-field-elapsed-time,
+.views-table .views-field-cpu-time,
+.views-table .views-field-claimed-credit-1,
+.views-table .views-field-granted-credit {
+  text-align: right;
+}
+.views-table .views-field .task-name {
+  word-break: break-all;
+}
+
+/**
  * Friends block
  */
 .view-friends .imagefield,
