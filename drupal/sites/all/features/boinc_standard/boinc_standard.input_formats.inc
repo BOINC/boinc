@@ -93,7 +93,7 @@ function boinc_standard_input_formats() {
       // Email address encoding
       'bbcode_encode_mailto' => '1',
       // Smart paragraph and line breaks
-      'bbcode_paragraph_breaks' => '2',
+      'bbcode_paragraph_breaks' => '0',
       // Print debugging info
       'bbcode_debug' => '0',
     ),

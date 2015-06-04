@@ -1243,7 +1243,7 @@ function boincteam_view_team_panel($team_id) {
   }
   if ($team->body) {
     $output .= '<h3>' . bts('Description') . '</h3>';
-    $output .= $team->body;
+    $output .= check_markup($team->body, $team->format);
     $output .= '</div>';
   }
   return $output;

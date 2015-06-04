@@ -158,6 +158,9 @@ function boincteam_create_form_submit($form, &$form_state) {
   $values = $form_state['values'];
   //drupal_set_message('<pre>' . print_r($values,true) . '</pre>');
   
+  $input_format = !empty($values['format']) ? $values['format'] : 4;
+  $values['description'] = check_markup($values['description'], $input_format);
+  
   // Create the team in the BOINC db
   
   require_boinc(array('user','team'));
@@ -442,6 +445,9 @@ function boincteam_edit_form_submit($form, &$form_state) {
   
   $team = node_load($team_id);
   $boincteam_id = boincteam_lookup_id($team_id);
+  
+  $input_format = !empty($values['format']) ? $values['format'] : 4;
+  $values['description'] = check_markup($values['description'], $input_format);
   
   // Update the team in the BOINC db
   db_set_active('boinc');
