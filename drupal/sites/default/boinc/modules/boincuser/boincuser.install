@@ -56,7 +56,15 @@ function boincuser_schema() {
       ),
       'penalty_expiration' => array(
         'description' => t('A timestamp at which point any penalty period will
-          expire (i.e. restrictions on posting or community participation'),
+          expire (i.e. restrictions on posting or community participation)'),
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'uotd_time' => array(
+        'description' => t('A timestamp of the last time this user was deemed
+          user of the day'),
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
@@ -88,5 +96,22 @@ function boincuser_update_6100() {
     'default' => 0,
   );
   db_add_field($result, 'boincuser', 'penalty_expiration', $spec);
+  return $result;
+}
+
+/**
+ * Add uotd_time field to boincuser table
+ */
+function boincuser_update_6101() {
+  $result = array();
+  $spec = array(
+    'description' => 'A timestamp of the last time this user was deemed
+          user of the day',
+    'type' => 'int',
+    'unsigned' => TRUE,
+    'not null' => TRUE,
+    'default' => 0,
+  );
+  db_add_field($result, 'boincuser', 'uotd_time', $spec);
   return $result;
 }

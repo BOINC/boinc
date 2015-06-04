@@ -1119,6 +1119,59 @@ function join_page($type = null) {
 function boincuser_home_page() {
   global $user;
   $site_name = variable_get('site_name', '');
+  // Determine the user of the day
+  $current_uotd = db_fetch_object(db_query("
+    SELECT
+      uid,
+      uotd_time
+    FROM {boincuser}
+    ORDER BY uotd_time DESC
+    LIMIT 1"
+  ));
+  if ($current_uotd->uotd_time < strtotime('today midnight')) {
+    // Select a new user of the day
+    // First get a list of users with recent credit
+    db_set_active('boinc');
+    $users_with_credit = db_query("
+      SELECT
+        id
+      FROM {user} u
+      JOIN {profile} p ON p.userid = u.id
+      WHERE expavg_credit > 1
+      ORDER BY uotd_time ASC, RAND()"
+    );
+    db_set_active('default');
+    $active_users = array();
+    while ($user_with_credit = db_fetch_object($users_with_credit)) {
+      $active_users[] = $user_with_credit->id;
+    }
+    $active_users = implode(',', $active_users);
+    $new_uotd_uid = db_result(db_query("
+      SELECT
+        n.uid
+      FROM {node} n
+      JOIN {boincuser} bu ON bu.uid = n.uid
+      WHERE n.type = 'profile'
+      AND n.status = 1
+      AND n.moderate = 0
+      " . ($active_users ? " AND bu.boinc_id IN ({$active_users}) " : '') . "
+      ORDER BY RAND()
+      LIMIT 1"
+    ));
+    $uotd = user_load($new_uotd_uid);
+    if ($uotd->uid) {
+      db_query("
+        UPDATE {boincuser}
+        SET uotd_time = '%d'
+        WHERE uid = '%d'",
+        time(), $uotd->uid
+      );
+    }
+  }
+  else {
+    $uotd = user_load($current_uotd->uid);
+  }
+  $uotd_image = boincuser_get_user_profile_image($uotd->uid, FALSE);
   $output = '<h2 class="pane-title">';
   $output .= ($user->uid) ? bts('Welcome back!') : ($site_name ? bts('What is @this_project?', array('@this_project' => $site_name)) : bts('Welcome!'));
   $output .= '</h2>';
@@ -1133,10 +1186,15 @@ function boincuser_home_page() {
   $output .= '</div>';
   $output .= '<div class="boinc-overview-details">';
   $output .= '  <div class="detail-container">';
-  $output .= '    <div class="detail-section">';
-  $output .= '      <div class="about text">' . bts('About our screensaver') . '</div>';
-  $output .= '    </div>';
-  $output .= '    <div class="detail-section">';
+  $output .= '    <a class="user-of-the-day" href="account/' . $uotd->uid . '">';
+  $output .= '      <div class="picture">';
+  $output .= theme('imagefield_image', $uotd_image['image'], $uotd_image['alt'],
+    $uotd_image['alt'], array(), FALSE);
+  $output .= '      </div>';
+  $output .= '      <div class="text">' . bts('User of the day') . '</div>';
+  $output .= '      <div class="detail">' . $uotd->boincuser_name . '</div>';
+  $output .= '    </a>';
+  $output .= '    <div class="volunteers">';
   $output .= '      <div class="text">' . bts('Over 500,000 volunteers and counting.') . '</div>';
   $output .= '      <div class="platforms">';
   $output .= '        <div class="platform windows">' . bts('Windows') . '</div>';

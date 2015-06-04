@@ -60,14 +60,39 @@
   position: relative;
 }
 .boinc-overview-details .detail-container {
-  background: url(../images/icon-screensaver.png) no-repeat top left;
   padding: 5px 0;
   position: absolute;
   bottom: 0;
 }
-.boinc-overview-details .detail-section {
+.boinc-overview-details .user-of-the-day {
+  display: block;
   float: left;
-  margin: 0 0 0 20px;
+}
+.boinc-overview-details a.user-of-the-day,
+.boinc-overview-details a.user-of-the-day:hover {
+  color: inherit;
+  text-decoration: none;
+}
+.boinc-overview-details .user-of-the-day .text,
+.boinc-overview-details .user-of-the-day .detail {
+  margin-left: 60px;
+}
+.boinc-overview-details .user-of-the-day .detail {
+  margin-top: 5px;
+}
+.boinc-overview-details .user-of-the-day .picture {
+  float: left;
+  margin-top: -7px;
+  max-height: 50px;
+  overflow: hidden;
+}
+.boinc-overview-details .user-of-the-day .picture img {
+  width: 50px;
+  margin: 0;
+}
+.boinc-overview-details .volunteers {
+  float: left;
+  margin: 0 0 0 40px;
 }
 .boinc-overview-details .text {
   font-size: 15px;
