@@ -164,9 +164,11 @@ function user_profiles_rules_defaults() {
           ),
           '1' => array(
             '#type' => 'condition',
+            '#weight' => 0,
             '#settings' => array(
               'roles' => array(
-                '0' => 1271379760,
+                '0' => 3519698132,
+                '1' => 1271379760,
               ),
               'operation' => 'OR',
               '#argument map' => array(
@@ -185,6 +187,30 @@ function user_profiles_rules_defaults() {
               'module' => 'User',
             ),
             '#negate' => 1,
+          ),
+          '2' => array(
+            '#type' => 'condition',
+            '#settings' => array(
+              '#argument map' => array(
+                'user1' => 'user',
+                'user2' => 'author',
+              ),
+            ),
+            '#name' => 'rules_condition_user_comparison',
+            '#info' => array(
+              'label' => 'Compare two users',
+              'arguments' => array(
+                'user1' => array(
+                  'type' => 'user',
+                  'label' => 'User account 1',
+                ),
+                'user2' => array(
+                  'type' => 'user',
+                  'label' => 'User account 2',
+                ),
+              ),
+              'module' => 'User',
+            ),
             '#weight' => 0,
           ),
         ),
