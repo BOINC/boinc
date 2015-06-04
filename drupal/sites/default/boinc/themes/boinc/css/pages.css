@@ -675,7 +675,8 @@ table.user-projects {
   display: inline-block;
   height: 21px;
   margin-left: 10px;
-  background: url(../images/speech-bubble-tail.png) no-repeat bottom center
+  background: url(../images/speech-bubble-tail.png) no-repeat bottom center;
+  vertical-align: middle;
 }
 .item-count {
   color: #fff;
@@ -684,6 +685,7 @@ table.user-projects {
   font-weight: bold;
   padding: 3px 5px 1px;
   background: #747477;
+  vertical-align: top;
 }
 .new-mail-indicator {
   background: url(../images/icon-mail.png) 0 0 no-repeat;

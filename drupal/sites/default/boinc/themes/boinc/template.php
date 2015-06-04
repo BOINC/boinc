@@ -78,6 +78,38 @@ function boinc_theme(&$existing, $type, $theme, $path) {
 
 
 /**
+ * Adjust the rendering of the menu
+ */
+function boinc_links__system_main_menu($links, $menu, $element) {
+  $html .= '<ul id="' . $menu['id'] . '" class="' . $menu['class'] . '">' . "\n";
+  $item_count = count($links);
+  $i = 1;
+  foreach ($links as $key => $link) {
+    $classes = array($key);
+    if (strpos($key, 'active-trail')) $classes[] = 'active';
+    if ($i == 1) $classes[] = 'first';
+    if ($i == $item_count) $classes[] = 'last';
+    $html .= '<li class="' . implode(' ', $classes) .'">';
+    if (module_exists('privatemsg')) {
+      // Put a new mail notification next to the Account menu item
+      if ($link['href'] == 'dashboard') {
+        $item_count = privatemsg_unread_count();
+        if ($item_count) {
+          $link['title'] .= ' <div class="item-count-wrapper"><span class="item-count">' . $item_count . '</span></div>';
+          $link['html'] = TRUE;
+        }
+      }
+    }
+    $html .= l($link['title'], $link['href'], $link);
+    $html .= '</li>';
+    $i++;
+  }
+  $html .= '</ul>' . "\n";
+  return $html;
+}
+
+
+/**
  * Remove undesired local task tabs
  */
 function boinc_menu_local_task($link, $active = FALSE) {

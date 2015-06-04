@@ -176,6 +176,9 @@ body {
 #action-links a {
   color: #222;
 }
+#navigation li a .item-count-wrapper {
+  margin-left: 3px;
+}
 
 #action-links {
   float: right;
