@@ -1289,6 +1289,21 @@ function boincuser_moderate_community_access() {
 }
 
 /**
+ * Get the count of items in the moderation queue
+ */
+function boincuser_moderation_queue_count() {
+  if (user_access(array('edit any profile content'))) {
+    return db_result(db_query("
+      SELECT COUNT(*)
+      FROM {node}
+      WHERE type = 'profile'
+      AND moderate = 1"
+    ));
+  }
+  return NULL;
+}
+
+/**
  * Controller for handling simple user account status configuration.
  * Allow community membership status to be set for users by direct link rather
  * than through the user account info form.

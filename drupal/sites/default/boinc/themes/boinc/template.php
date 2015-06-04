@@ -100,6 +100,14 @@ function boinc_links__system_main_menu($links, $menu, $element) {
         }
       }
     }
+    // Put a count of items on the Moderation menu item
+    if ($link['href'] == 'moderate') {
+      $item_count = boincuser_moderation_queue_count();
+      if ($item_count) {
+        $link['title'] .= ' <div class="item-count-wrapper"><span class="item-count">' . $item_count . '</span></div>';
+        $link['html'] = TRUE;
+      }
+    }
     $html .= l($link['title'], $link['href'], $link);
     $html .= '</li>';
     $i++;
