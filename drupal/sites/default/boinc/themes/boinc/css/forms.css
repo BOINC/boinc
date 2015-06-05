@@ -224,6 +224,31 @@ form ul.tab-list {
 /*
  * Login form
  */
+#user-login .form-item,
+#user-pass .form-item {
+  margin: 1.5em 0;
+}
+#user-login .form-item label,
+#user-pass .form-item label {
+  margin-right: 20px;
+  width: 140px;
+}
+#user-login .form-item input,
+#user-pass .form-item input {
+  width: 250px;
+}
+#user-login .description {
+  display: none;
+}
+#user-pass .description {
+  margin-left: 160px;
+  width: 250px;
+}
+#user-login .form-submit,
+#user-pass .form-submit {
+  margin-top: 14px;
+}
+
 span.password-strength,
 span.password-confirm {
   color: #707070;

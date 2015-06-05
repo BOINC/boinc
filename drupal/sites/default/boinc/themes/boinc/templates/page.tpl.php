@@ -240,11 +240,14 @@
     <?php if ($tabs): ?>
       <?php
         $active_menu_item = '';
+        $current_path = $_GET['q'];
         $heading_overrides = array(
-          'join' => bts('Join now')
+          'join' => bts('Join now'),
+          'user/login' => bts('Account'),
+          'user/password' => bts('Account'),
         );
-        if (isset($heading_overrides[arg(0)])) {
-          $active_menu_item = $heading_overrides[arg(0)];
+        if (isset($heading_overrides[$current_path])) {
+          $active_menu_item = $heading_overrides[$current_path];
         }
         else {
           $target_menu = ($secondary_links) ? $secondary_links : $primary_links;

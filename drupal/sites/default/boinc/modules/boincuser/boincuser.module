@@ -619,6 +619,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
   // Login form
   case 'user_login':
   case 'user_login_block':
+    drupal_set_title(bts('Login'));
     // Replace name with email in login form
     unset($form['name']);
     array_unshift($form, array(
@@ -638,9 +639,25 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     ));
     $form['#redirect'] = 'home';
     
+    // Wrap action buttons for styling consistency
+    $form['buttons']['form control tabs prefix'] = array(
+      '#value' => '<ul class="form-control tab-list">',
+      '#weight' => 1001,
+    );
+    $form['buttons']['submit'] = $form['submit'];
+    $form['buttons']['submit']['#prefix'] = '<li class="first tab">';
+    $form['buttons']['submit']['#value'] = bts('Log in');
+    $form['buttons']['submit']['#suffix'] = '</li>';
+    $form['buttons']['submit']['#weight'] = 1002;
+    $form['buttons']['form control tabs suffix'] = array(
+      '#value' => '</ul>',
+      '#weight' => 1010,
+    );
+    unset($form['submit']);
+    
     // Set the tab indices to follow a logical procession...
     isset($form['pass']['#attributes']) ? array_push($form['pass']['#attributes'], array('tabindex' => '2')) : $form['pass']['#attributes'] = array('tabindex' => '2');
-    isset($form['submit']['#attributes']) ? array_push($form['submit']['#attributes'], array('tabindex' => '3')) : $form['submit']['#attributes'] = array('tabindex' => '3');
+    isset($form['buttons']['submit']['#attributes']) ? array_push($form['buttons']['submit']['#attributes'], array('tabindex' => '3')) : $form['buttons']['submit']['#attributes'] = array('tabindex' => '3');
     // If the user login form is being submitted, use BOINC validation handler.
     if (isset($form_state['post']['email']) and isset($form_state['post']['pass'])) {
       // Find the local validation function's entry so we can replace it.
@@ -899,28 +916,41 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     
   // Request new password form
   case 'user_pass':
+    drupal_set_title(bts('Forgot password'));
     // Replace name/email text box with email only; retain "name" label
     // for compatibility with standard Drupal submit function
-    unset($form['name'], $form['submit']);
+    unset($form['name']);
     array_unshift($form, array(
-      'heading' => array(
-        '#type' => 'markup',
-        '#value' => '<h3>' . bts('1) If you know your account&apos;s email address, and you can receive email there:') . '<h3>'
-      ),
       'name' => array(
         '#type' => 'textfield',
         '#title' => bts('Email address'),
         '#size' => 60,
         '#maxlength' => EMAIL_MAX_LENGTH,
         '#required' => TRUE,
-        '#description' => bts('Enter the email address and click OK. You will be sent email instructions for resetting your password.')
+        '#description' => bts('Enter your email address to receive instructions for resetting your password.')
       ),
-      'submit' => array(
-        '#type' => 'submit',
-        '#value' => bts('OK'),
-        '#name' => 'op'
-      )
     ));
+    
+    // Wrap action buttons for styling consistency
+    $form['buttons']['form control tabs prefix'] = array(
+      '#value' => '<ul class="form-control tab-list">',
+      '#weight' => 1001,
+    );
+    $form['buttons']['submit'] = $form['submit'];
+    $form['buttons']['submit']['#prefix'] = '<li class="first tab">';
+    $form['buttons']['submit']['#value'] = bts('Send');
+    $form['buttons']['submit']['#suffix'] = '</li>';
+    $form['buttons']['submit']['#weight'] = 1002;
+    $form['buttons']['cancel'] = array(
+      '#value' => '<li class="tab">' . l(bts('Cancel'), 'user/login') . '</li>',
+      '#weight' => 1005,
+    );
+    $form['buttons']['form control tabs suffix'] = array(
+      '#value' => '</ul>',
+      '#weight' => 1010,
+    );
+    unset($form['submit']);
+    
     // If the form is being submitted, use BOINC validation handler.
     if (isset($form_state['post']['name'])) {
       // Prepend the BOINC validation function to local validation
