@@ -1331,7 +1331,7 @@ function boincuser_moderate_community_access() {
  * Get the count of items in the moderation queue
  */
 function boincuser_moderation_queue_count() {
-  if (user_access(array('edit any profile content'))) {
+  if (user_access('edit any profile content')) {
     return db_result(db_query("
       SELECT COUNT(*)
       FROM {node}
