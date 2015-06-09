@@ -95,8 +95,9 @@ function boinc_links__system_main_menu($links, $menu, $element) {
       if ($link['href'] == 'dashboard') {
         $item_count = privatemsg_unread_count();
         if ($item_count) {
-          $link['title'] .= ' <div class="item-count-wrapper"><span class="item-count">' . $item_count . '</span></div>';
+          $link['title'] .= '</a> <a href="/messages" class="compound secondary"><div class="item-count-wrapper"><span class="item-count">' . $item_count . '</span></div>';
           $link['html'] = TRUE;
+          $link['attributes']['class'] = 'compound';
         }
       }
     }

@@ -176,6 +176,14 @@ body {
 #action-links a {
   color: #222;
 }
+#navigation li a.compound {
+  display: inline-block;
+  padding-right: 1px;
+}
+#navigation li a.compound.secondary {
+  padding-left: 0;
+  padding-right: 12px;
+}
 #navigation li a .item-count-wrapper {
   margin-left: 3px;
 }
