@@ -326,7 +326,7 @@ print >>open(httpd_conf_template_filename,'w'), '''
 
     # in the following, the "Order" and "Allow" lines are for Apache 2.2;
     # for Apache 2.4, replace them with the single line
-    * Require all granted
+    # Require all granted
 
     <Directory "%(proot)s/html">
         Options Indexes FollowSymlinks MultiViews
