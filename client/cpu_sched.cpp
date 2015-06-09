@@ -207,15 +207,16 @@ struct PROC_RESOURCES {
     }
 
     bool sufficient_coprocs(RESULT& r) {
-        double x;
         APP_VERSION& av = *r.avp;
         int rt = av.gpu_usage.rsc_type;
         if (!rt) return true;
-        x = av.gpu_usage.usage;
+        double x = av.gpu_usage.usage;
         COPROC& cp = pr_coprocs.coprocs[rt];
         for (int i=0; i<cp.count; i++) {
             if (gpu_excluded(r.app, cp, i)) continue;
-            if (cp.usage[i]+x <=1) return true;
+            double unused = 1 - cp.usage[i];
+            x -= unused;
+            if (x <= 0) return true;
         }
         if (log_flags.cpu_sched_debug) {
             msg_printf(r.project, MSG_INFO,
@@ -234,13 +235,20 @@ struct PROC_RESOURCES {
         x = av.gpu_usage.usage;
         for (int i=0; i<cp.count; i++) {
             if (gpu_excluded(r.app, cp, i)) continue;
-            if (cp.usage[i]+x >1) continue;
-            cp.usage[i] += x;
+            double unused = 1 - cp.usage[i];
+            if (unused >= x) {
+                cp.usage[i] += x;
+                break;
+            } else {
+                cp.usage[i] = 1;
+                x -= unused;
+            }
             break;
         }
         if (log_flags.cpu_sched_debug) {
             msg_printf(r.project, MSG_INFO,
-                "[cpu_sched_debug] reserving %f of coproc %s", x, cp.type
+                "[cpu_sched_debug] reserving %f of coproc %s",
+                av.gpu_usage.usage, cp.type
             );
         }
     }
