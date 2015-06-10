@@ -278,6 +278,11 @@ function get_daemon_status() {
     } else {
         $web_host = $main_host;
     }
+    if ($config->sched_host) {
+       $sched_host = trim((string) $config->sched_host);
+    } else {
+       $sched_host = $main_host;
+    }
     $have_remote = false;
     $local_daemons = array();
     $disabled_daemons = array();
@@ -303,7 +308,19 @@ function get_daemon_status() {
         $y = new StdClass;
         $y->cmd = "Upload server";
         $y->host = $h;
-        $y->status = 1;
+        $y->status = 1
+        $local_daemons[] = $y;
+    } else {
+        $have_remote = true;
+    }
+
+    // Scheduler is a daemon too
+    //
+    if ($sched_host == $main_host) {
+        $y = new StdClass;
+        $y->cmd = "Scheduler";
+        $y->host = $sched_host;
+        $y->status = 1
         $local_daemons[] = $y;
     } else {
         $have_remote = true;
