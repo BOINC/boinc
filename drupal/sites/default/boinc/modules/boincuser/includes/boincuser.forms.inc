@@ -251,6 +251,7 @@ function boincuser_create_drupal_profile($account, $boinc_user) {
   // Populate the profile object
   $profile_node = new stdClass();
   $profile_node->title = $boinc_user->name;
+  $profile_node->uid = $account->uid;
   $profile_node->body = '';
   $profile_node->type = 'profile'; 
   $profile_node->created = $now;
