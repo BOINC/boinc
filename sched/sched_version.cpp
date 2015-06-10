@@ -805,14 +805,15 @@ BEST_APP_VERSION* get_app_version(
             //
             DB_HOST_APP_VERSION* havp = gavid_to_havp(av.id);
             double r = 1;
-            long n=1;
+            long n = 1;
             if (havp) {
                 // slowly move from raw calc to measured performance as number
                 // of results increases
-                n=std::max((long)havp->pfc.n,(long)n);
-                double old_projected_flops=host_usage.projected_flops;
+                //
+                n = std::max((long)havp->pfc.n, (long)n);
+                double old_projected_flops = host_usage.projected_flops;
                 estimate_flops(host_usage, av);
-                host_usage.projected_flops=(host_usage.projected_flops*(n-1)+old_projected_flops)/n;
+                host_usage.projected_flops = (host_usage.projected_flops*(n-1) + old_projected_flops)/n;
 
                 // special case for versions that don't work on a given host.
                 // This is defined as:
@@ -821,13 +822,14 @@ BEST_APP_VERSION* get_app_version(
                 // 3. Consecutive valid is 0.
                 // In that case, heavily penalize this app_version most of the
                 // time.
+                //
                 if ((havp->pfc.n==0) && (havp->max_jobs_per_day==1) && (havp->consecutive_valid==0)) {
-                    if (drand()>0.01) {
-                        host_usage.projected_flops*=0.01;
-                        if (config.debug_version_select  && bavp && bavp->avp) {
+                    if (drand() > 0.01) {
+                        host_usage.projected_flops *= 0.01;
+                        if (config.debug_version_select) {
                             log_messages.printf(MSG_NORMAL,
                                 "[version] App version AV#%d is failing on HOST#%d\n",
-                                havp->app_version_id,havp->host_id
+                                havp->app_version_id, havp->host_id
                             );
                         }
                    }
@@ -835,11 +837,15 @@ BEST_APP_VERSION* get_app_version(
             }
             if (config.version_select_random_factor) {
                 r += config.version_select_random_factor*rand_normal()/n;
+                if (r <= .1) {
+                    r = .1;
+                }
             }
-            if (config.debug_version_select  && bavp && bavp->avp) {
+            if (config.debug_version_select && bavp && bavp->avp) {
                 log_messages.printf(MSG_NORMAL,
                     "[version] Comparing AV#%d (%.2f GFLOP) against AV#%d (%.2f GFLOP)\n",
-                    av.id,host_usage.projected_flops/1e+9,bavp->avp->id,bavp->host_usage.projected_flops/1e+9
+                    av.id, host_usage.projected_flops/1e+9,
+                    bavp->avp->id, bavp->host_usage.projected_flops/1e+9
                 );
             }
             if (r*host_usage.projected_flops > bavp->host_usage.projected_flops) {
@@ -860,7 +866,14 @@ BEST_APP_VERSION* get_app_version(
                           bavp->avp->id, bavp->host_usage.projected_flops/1e+9
                     );
                 }
-
+            } else {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                            "[version] Not selected, AV#%d r*%.2f GFLOP <= Best AV %.2f GFLOP (r=%f, n=%ld)\n",
+                            av.id, host_usage.projected_flops/1e+9,
+                            bavp->host_usage.projected_flops/1e+9, r, n
+                    );
+                }
             }
         }   // loop over app versions
 
