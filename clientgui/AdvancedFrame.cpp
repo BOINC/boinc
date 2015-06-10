@@ -579,7 +579,7 @@ bool CAdvancedFrame::CreateMenu() {
 
     menuActivity->AppendRadioItem(
         ID_ADVNETWORKRUNALWAYS,
-        _("Network activity always allowed"),
+        _("Network activity always"),
         _("Allow network activity regardless of preferences")
     );
     menuActivity->AppendRadioItem(
@@ -589,8 +589,8 @@ bool CAdvancedFrame::CreateMenu() {
     );
     menuActivity->AppendRadioItem(
         ID_ADVNETWORKSUSPEND,
-        _("Network activity suspended"),
-        _("Stop BOINC network activity")
+        _("Suspend network activity"),
+        _("Stop network activity")
     );
 
     // Options menu

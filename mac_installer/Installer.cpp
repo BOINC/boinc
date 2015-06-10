@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
         p = strrchr(brand, ' ');         // Strip off last space character and everything following
         if (p)
             *p = '\0'; 
-        ShowMessage((char *)_("Sorry, this version of %s requires system 10.5 or higher."), brand);
+        ShowMessage((char *)_("Sorry, this version of %s requires system 10.6 or higher."), brand);
 
         system("rm -dfR /tmp/BOINC_payload");
         return -1;

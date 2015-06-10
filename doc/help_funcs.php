@@ -47,6 +47,35 @@ function online($status) {
 //<script type="text/javascript" src="http://download.skype.com/share/skypebuttons/js/skypeCheck.js"></script>
 //<a href="skype:rare44?call"><img src="http://mystatus.skype.com/balloon/rare44" style="border: none;" width="150" height="60" alt="My status" /></a>
 
+// NOTE: mothing above works anymore; Skype turned off their mystatus API.
+// Instead we now have the following
+
+function skype_script() {
+    echo '<script type="text/javascript" src="http://www.skypeassets.com/i/scom/js/skype-uri.js"></script>
+';
+}
+
+function skype_call_button($vol) {
+    if ($vol->text_ok && $vol->voice_ok) {
+        $x = "dropdown";
+    } else if ($vol->voice_ok) {
+        $x = "call";
+    } else {
+        $x = "chat";
+    }
+    echo "
+        <div id=\"SkypeButton_Call_".$vol->skypeid."_1\">
+          <script type=\"text/javascript\">
+            Skype.ui({
+              \"name\": \"$x\",
+              \"element\": \"SkypeButton_Call_".$vol->skypeid."_1\",
+              \"participants\": [\"".$vol->skypeid."\"],
+              \"imageSize\": 24
+            });
+          </script>
+        </div>
+    ";
+}
 
 function input($name, $val) {
     return "<input name=$name size=40 value=\"$val\">";

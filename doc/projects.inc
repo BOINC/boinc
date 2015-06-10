@@ -311,16 +311,16 @@ $astro_phys_chem = array(
 //            tra("Monitor and study the hazard posed by near-Earth asteroids"),
 //            "http://orbit.psi.edu/"
 //        ),
-        array(
-            "Cosmology@Home",
-            "http://www.cosmologyathome.org/",
-            tra("University of Illinois at Urbana-Champaign"),
-            tra("Astronomy"),
-            tra("The goal of Cosmology@Home is to search for the model that best describes our Universe and to find the range of models that agree with the available astronomical particle physics data."),
-            "cosmo.jpg",
-            "",
-            "Study the evolution of the Universe"
-        ),
+//        array(
+//            "Cosmology@Home",
+//            "http://www.cosmologyathome.org/",
+//            tra("University of Illinois at Urbana-Champaign"),
+//            tra("Astronomy"),
+//            tra("The goal of Cosmology@Home is to search for the model that best describes our Universe and to find the range of models that agree with the available astronomical particle physics data."),
+//            "cosmo.jpg",
+//            "",
+//            "Study the evolution of the Universe"
+//        ),
         array(
             "Universe@Home",
             "universeathome.pl/universe/",
@@ -443,7 +443,7 @@ $mixed = array(
     array(
         array(
             "Citizen Science Grid",
-            "http://volunteer.cs.und.edu/csg/",
+            "http://csgrid.org",
             "University of North Dakota",
             "Molecular biology, Computer Science",
             "The Citizen Science Grid is dedicated to supporting a wide range of research and educational projects using volunteer computing and citizen science.",
@@ -516,16 +516,16 @@ $math = array(
 //            "",
 //            "Study the Subset Sum problem"
 //        ),
-        array(
-            "OProject@Home",
-            "http://oproject.info/",
-            tra("Private"),
-            tra("Mathematics, Physics, Artificial Intelligence"),
-            tra("Simulation of quantum computing; Goldbach's conjecture."),
-            "oproject_logo.png",
-            "",
-            "Do research in math, physics, and Artificial Intelligence"
-        ),
+//        array(
+//            "OProject@Home",
+//            "http://oproject.info/",
+//            tra("Private"),
+//            tra("Mathematics, Physics, Artificial Intelligence"),
+//            tra("Simulation of quantum computing; Goldbach's conjecture."),
+//            "oproject_logo.png",
+//            "",
+//            "Do research in math, physics, and Artificial Intelligence"
+//        ),
         array(
             "NumberFields@home",
             "http://numberfields.asu.edu/NumberFields/",

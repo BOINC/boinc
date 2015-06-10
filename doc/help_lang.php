@@ -91,7 +91,6 @@ function show_vol($vol) {
     $image = button_image($status);
     list_item_array(array(
         vol_info($vol),
-        status_string($status),
         vol_modes($vol),
         info($vol),
         rating_info($vol)
@@ -115,7 +114,6 @@ function show_vols($vols) {
     list_start("border=0");
     list_heading_array(array(
         "Volunteer name<br><font size=2>click to contact</font>",
-        "Status",
         "Voice/Text",
         "Info",
         "Feedback <br><font size=-2>Click to see comments</font>",
