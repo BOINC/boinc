@@ -238,15 +238,27 @@ function show_status_xml($x) {
 ";
 }
 
-function local_daemon_running($cmd) {
-    $cmd = trim($cmd);
-    $x = explode(" ", $cmd);
-    $prog = $x[0];
-    $out = Array();
-    exec("ps -Fw -C $prog", $out);
-    foreach ($out as $y) {
-        if (strstr($y, $cmd)) return 1;
+function local_daemon_running($cmd, $pidname, $host) {
+    if (!$pidname) {
+        $cmd = trim($cmd);
+        $x = explode(" ", $cmd);
+        $prog = $x[0];
+        $pidname = $prog . '.pid';
     }
+
+    $path = "../../pid_$host/$pidname";
+    if (is_file($path)) {
+        $pid = file_get_contents($path);
+        if ($pid) {
+            $pid = trim($pid);
+            $out = Array();
+            exec("ps -ww $pid", $out);
+            foreach ($out as $y) {
+                if (strstr($y, (string)$pid)) return 1;
+            }
+        }
+    }
+
     return 0;
 }
 
@@ -343,7 +355,7 @@ function get_daemon_status() {
         }
         $x = new StdClass;
         $x->cmd = (string)$d->cmd;
-        $x->status = local_daemon_running($x->cmd);
+        $x->status = local_daemon_running($x->cmd, $d->pid_file, $web_host);
         $x->host = $web_host;
         $local_daemons[] = $x;
 
