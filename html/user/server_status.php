@@ -308,7 +308,7 @@ function get_daemon_status() {
         $y = new StdClass;
         $y->cmd = "Upload server";
         $y->host = $h;
-        $y->status = 1
+        $y->status = !file_exists("../../stop_upload");
         $local_daemons[] = $y;
     } else {
         $have_remote = true;
@@ -320,7 +320,7 @@ function get_daemon_status() {
         $y = new StdClass;
         $y->cmd = "Scheduler";
         $y->host = $sched_host;
-        $y->status = 1
+        $y->status = !file_exists("../../stop_sched");
         $local_daemons[] = $y;
     } else {
         $have_remote = true;
