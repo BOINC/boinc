@@ -51,9 +51,7 @@ function command_display($cmd) {
     return $prog;
 }
 
-$row_parity = 0;
 function daemon_html($d) {
-    global $row_parity;
     switch ($d->status) {
     case 0:
         $s = tra("Not Running");
@@ -68,13 +66,12 @@ function daemon_html($d) {
         $c = "disabled";
         break;
     }
-    echo "<tr class=row$row_parity>
+    echo "<tr>
         <td>".command_display($d->cmd)."</td>
         <td>$d->host</td>
         <td class=\"$c\"><nobr>$s</nobr></td>
     <tr>
 ";
-    $row_parity = 1-$row_parity;
 }
 
 function daemon_xml($d) {
