@@ -379,6 +379,12 @@ int ACTIVE_TASK::setup_file(
     int retval;
     PROJECT* project = result->project;
 
+    if (log_flags.slot_debug) {
+        msg_printf(wup->project, MSG_INFO,
+            "setup_file: %s (%s)", file_path, input?"input":"output"
+        );
+    }
+
     if (strlen(fref.open_name)) {
         if (is_io_file) {
             prepend_prefix(
