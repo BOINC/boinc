@@ -95,6 +95,28 @@ function boincuser_check_credit_requirements() {
 }
 
 /**
+ * Get the cid of the first comment the user has not seen on a given node
+ */
+function boincuser_get_first_unread_comment_id($nid, $uid = NULL) {
+  if (!$uid) {
+    global $user;
+    $uid = $user->uid;
+  }
+  return db_result(db_query("
+    SELECT c.cid
+    FROM {node} n
+    INNER JOIN {comments} c ON c.nid = n.nid
+    LEFT JOIN {history} h ON n.nid = h.nid AND h.uid = %d
+    WHERE n.nid = %d
+    AND n.status = 1
+    AND c.timestamp > h.timestamp
+    ORDER BY c.timestamp ASC
+    LIMIT 1",
+    $uid, $nid
+  ));
+}
+
+/**
  * Determine the first unique name from a given base
  */
 function find_unique_name($requested_name) {
