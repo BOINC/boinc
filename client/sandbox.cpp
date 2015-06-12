@@ -245,17 +245,19 @@ static int delete_project_owned_file_aux(const char* path) {
         SetFileAttributes(path, FILE_ATTRIBUTE_NORMAL);
         if (DeleteFile(path)) return 0;
     }
-    return ERR_UNLINK;
+    return error;
 #else
     int retval = unlink(path);
-    if (retval == ENOENT) {
+    if (retval == 0) return 0;
+    if (errno == ENOENT) {
         return 0;
     }
-    if (retval && g_use_sandbox && (errno == EACCES)) {
+    if (g_use_sandbox && (errno == EACCES)) {
         // We may not have permission to read subdirectories created by projects
+        //
         return remove_project_owned_file_or_dir(path);
     }
-    return retval;
+    return ERR_UNLINK;
 #endif
 }
 
@@ -269,6 +271,11 @@ int delete_project_owned_file(const char* path, bool retry) {
 
     retval = delete_project_owned_file_aux(path);
     if (retval && retry) {
+        if (log_flags.slot_debug) {
+            msg_printf(0, MSG_INFO,
+                "delete of %s failed (%d); retrying", path, retval
+            );
+        }
         double start = dtime();
         do {
             boinc_sleep(drand()*2);       // avoid lockstep
