@@ -491,6 +491,42 @@ return variable_get(\'site_name\', \'BOINC\');
   $handler = $view->new_display('page', 'Short blurbs', 'page_2');
   $handler->override_option('relationships', array());
   $handler->override_option('fields', array(
+    'nid' => array(
+      'label' => 'Nid',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'absolute' => 0,
+        'link_class' => '',
+        'alt' => '',
+        'rel' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'hide_alter_empty' => 1,
+      'link_to_node' => 0,
+      'exclude' => 1,
+      'id' => 'nid',
+      'table' => 'node',
+      'field' => 'nid',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
     'title' => array(
       'label' => '',
       'alter' => array(
@@ -629,15 +665,17 @@ return variable_get(\'site_name\', \'BOINC\');
       ),
       'relationship' => 'none',
     ),
-    'view_node' => array(
+    'phpcode' => array(
       'label' => '',
       'alter' => array(
         'alter_text' => 0,
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -652,11 +690,16 @@ return variable_get(\'site_name\', \'BOINC\');
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
-      'text' => 'discuss',
+      'hide_alter_empty' => 1,
+      'value' => '<?php
+  $cid = boincuser_get_first_unread_comment_id($data->nid);
+  $link = ($cid) ? "goto/comment/{$cid}" : "node/{$data->nid}";
+  return l(bts(\'discuss\'), $link);
+?>',
       'exclude' => 0,
-      'id' => 'view_node',
-      'table' => 'node',
-      'field' => 'view_node',
+      'id' => 'phpcode',
+      'table' => 'customfield',
+      'field' => 'phpcode',
       'override' => array(
         'button' => 'Use default',
       ),
