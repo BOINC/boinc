@@ -218,6 +218,12 @@ function boinc_preprocess_page(&$vars, $hook) {
 function boinc_preprocess_node(&$vars, $hook) {
   
   //$vars['sample_variable'] = t('Lorem ipsum.');
+  
+  // Detach subscribe link from the Links list
+  if (!empty($vars['node']->links['flag-subscriptions']['title'])) {
+    $vars['subscribe_link'] = $vars['node']->links['flag-subscriptions']['title'];
+    unset($vars['node']->links['flag-subscriptions']);
+  }
 
   // Optionally, run node-type-specific preprocess functions, like
   // boinc_preprocess_node_page() or boinc_preprocess_node_story().
@@ -256,10 +262,6 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
   
   // Get the author of the node
   $account = user_load($vars['uid']);
-  
-  // Detach subscribe link from the Links list
-  $vars['subscribe_link'] = $vars['node']->links['flag-subscriptions']['title'];
-  unset($vars['node']->links['flag-subscriptions']);
   
   // Add topic moderator controls
   if (user_access('edit any forum topic')) {
