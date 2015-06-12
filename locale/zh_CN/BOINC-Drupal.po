@@ -7,52 +7,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
-"POT-Creation-Date: 2015-04-29 14:36+0000\n"
-"PO-Revision-Date: 2015-05-01 10:53+0000\n"
-"Last-Translator: Yin Gang <zenith.yin@gmail.com>\n"
+"POT-Creation-Date: 2015-05-07 12:21+0000\n"
+"PO-Revision-Date: 2015-06-12 05:20+0000\n"
+"Last-Translator: 秦赫阳 <qysnn1@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/boinc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-
-msgid ""
-"CAPTCHA validation error: unknown CAPTCHA session ID. Contact the site "
-"administrator if this problem persists."
-msgstr "CAPTCHA 验证错误：未知的 CAPTCHA 会话 ID。如果问题一直存在请联系网站管理员。"
-
-msgid "The answer you entered for the CAPTCHA was not correct."
-msgstr "你输入的 CAPTCHA 答案不正确。"
-
-msgid "There are no tasks of this type on record"
-msgstr "没有该类型的任务记录"
-
-msgid ""
-"This will remove all of your settings from the @name preference set. Are you"
-" sure?"
-msgstr "将要移除你在 @name 的所有参数设定，确定继续吗？"
-
-msgid ""
-"On computers attached to multiple projects, the most recently modified "
-"preferences will be used."
-msgstr "对于加入了多个项目的计算机，将使用最近更新过的参数设定。"
-
-msgid "Preferences last modified: @mod_time"
-msgstr "参数设定最后的修改时间：@mod_time"
-
-msgid "Switch View"
-msgstr "切换视图"
-
-msgid ""
-"This will remove all of your settings from the \"@name\" preference set. Are"
-" you sure?"
-msgstr "将要移除你在“@name”的所有参数设定，确定继续吗？"
-
-msgid ""
-"This account's default language for e-mails and preferred language for site "
-"presentation."
-msgstr "该账户用于电子邮件的缺省语言和站点内容呈现的首选语言"
 
 msgid ""
 "If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
@@ -73,101 +36,20 @@ msgstr "如果上传了头像，则不会显示 Gravatar。"
 msgid "This is not available until your profile is set up."
 msgstr "仅在你的档案创建后才可用。"
 
-msgid "In discussion topics, show at most @comments_per_page"
-msgstr "在讨论主题里，最多显示 @comments_per_page 条回复"
-
-msgid "Sort comments in discussions"
-msgstr "讨论主题的回复排序"
-
-msgid "Your signature will be publicly displayed at the end of your comments."
-msgstr "你的签字将在回复的最后进行显示。"
-
-msgid "Hide signatures in forums"
-msgstr "在论坛里隐藏签名"
-
-msgid "Is it OK for @project and your team (if any) to email you?"
-msgstr "是否允许 @project 和你所在的团队（如果有的话）给你发送邮件？"
-
 msgid "Should @project show your computers on its web site?"
 msgstr "@project 是否应该在网站上显示你的计算机？"
-
-msgid "Lock this thread for comments"
-msgstr "关闭本主题"
-
-msgid "Make this topic sticky"
-msgstr "将本主题置顶显示"
-
-msgid "You must earn 1 more credit!"
-msgstr "你的积分必须至少为1！"
-
-msgid "Click here to become a member of @this_team"
-msgstr "点击这里成为 @this_team 的成员"
-
-msgid "A discussion forum has been set up for team members."
-msgstr "已为团队成员创建论坛。"
-
-msgid "Enter forum"
-msgstr "进入论坛"
-
-msgid "Leave team"
-msgstr "离开团队"
 
 msgid "Click here to revoke your membership with @this_team"
 msgstr "点击这里来退出 @this_team"
 
-msgid "Leave this team"
-msgstr "离开该团队"
-
-msgid "Edit message board"
-msgstr "编辑留言板"
-
-msgid "Message board title"
-msgstr "留言板标题"
-
-msgid "Text only, no HTML tags"
-msgstr "仅文本，不允许 HTML 标签"
-
-msgid "Minimum time between posts"
-msgstr "最小的发贴时间间隔"
-
-msgid "Seconds"
-msgstr "秒"
-
 msgid "Minimum avg credit to post"
 msgstr "发帖要求的最低平均积分"
-
-msgid "Allow public to read board?"
-msgstr "是否允许公众访问该留言板？"
-
-msgid "Save message board"
-msgstr "保存留言板"
-
-msgid "About message boards"
-msgstr "关于留言板"
-
-msgid "This is a team-only message board"
-msgstr "这里只对团队成员开放的留言板"
-
-msgid "Only members may post"
-msgstr "只有团队成员可以发贴"
-
-msgid "Only members may read (optional)"
-msgstr "只有团队成员可以阅读（可选）"
 
 msgid "Founder & Team Admins have moderator privileges"
 msgstr "创建人和团队管理员有仲裁的权利"
 
-msgid "Changing the team founder"
-msgstr "改变团队创建人"
-
 msgid "Notes about changes in foundership:"
 msgstr "创建人修改的注意事项："
-
-msgid "Any member of the team is eligible"
-msgstr "每个团队成员都可以成为创建人"
-
-msgid "Current founder becomes a normal user"
-msgstr "当前创建人将变成普通用户"
 
 msgid "Foundership can be requested by team members:"
 msgstr "团队成员可以主动请求成为创建人"
@@ -175,204 +57,31 @@ msgstr "团队成员可以主动请求成为创建人"
 msgid "One request is allowed at a time"
 msgstr "一次只能处理一个请求"
 
-msgid "It must be 60 days since any previous request"
-msgstr "请求的间隔至少是 60 天"
-
 msgid "Any active request must be older than 90 days"
 msgstr "请求的有效期至少是 90 天"
 
 msgid "Current founder has 60 days to respond to a request"
 msgstr "当前的创建人有 60 天的时间来处理一个请求"
 
-msgid "Add team admin"
-msgstr "增加团队管理员"
-
-msgid "Enter email address"
-msgstr "输入电子邮件地址"
-
-msgid "Current team admins"
-msgstr "当前的团队管理员"
-
-msgid "About team admins"
-msgstr "关于团队管理员"
-
-msgid "Team admins can:"
-msgstr "团队管理员可以："
-
-msgid "Edit team information"
-msgstr "编辑团队信息"
-
-msgid "View the team's join / quit history"
-msgstr "查看团队的成员加入、退出历史"
-
-msgid "Moderate the team forum"
-msgstr "团队论坛仲裁"
-
-msgid "Remove members from the team"
-msgstr "从团队中移除成员"
-
-msgid "Disband a team if it has no members"
-msgstr "解散没有成员的团队"
-
-msgid "Team admins cannot:"
-msgstr "团队管理员不能："
-
-msgid "Add / Remove team admins"
-msgstr "增加或移除团队管理员"
-
 msgid ""
 "If a team admin quits the team, they cease to be a team admin. We recommend "
 "only selecting people you know and trust"
 msgstr "如果团队管理员退出团队，他将不再是团队管理员。我们建议只选择你认识并信任的人。"
 
-msgid "Choose type"
-msgstr "选择类型"
-
-msgid "Team name -- HTML version (optional)"
-msgstr "团队名称 -- HTML 版本（可选）"
-
-msgid "You may use limited HTML tags"
-msgstr "你可以使用有限的 HTML 标签"
-
-msgid "Team website (optional)"
-msgstr "团队网站（可选）"
-
-msgid "Displayed on the team's page"
-msgstr "在团队页面上显示"
-
-msgid "Create new team"
-msgstr "创建新团队"
-
-msgid "Save team"
-msgstr "保存团队"
-
-msgid "Create team message board"
-msgstr "创建团队留言板"
-
-msgid "Create message board"
-msgstr "创建留言板"
-
 msgid "You may create a message board for use by @team"
 msgstr "你可以为 @team 团队创建一个留言板"
-
-msgid ""
-"Please set the minimum average credit that a user is required to have in "
-"order to post to this message board."
-msgstr "请设置用户在该留言板发贴所要求的最小平均积分。"
-
-msgid "Post new topic"
-msgstr "发表新主题"
-
-msgid "Unpublished"
-msgstr "未发表"
 
 msgid "parent removed"
 msgstr "parent 已移除"
 
-msgid "Sorry, unrecognized email address or password."
-msgstr "对不起，无法识别的邮件地址或登录密码。"
-
-msgid "Have you forgotten your password?"
-msgstr "忘记密码？"
-
-msgid "Id"
-msgstr "ID"
-
-msgid "Total Credit"
-msgstr "总积分"
-
-msgid "Admin since"
-msgstr "成为管理员"
-
-msgid "Team ID"
-msgstr "团队 ID"
-
-msgid "User joined"
-msgstr "成为用户"
-
-msgid "Timestamp"
-msgstr "时间戳"
-
-msgid "Account Key"
-msgstr "帐户密钥"
-
-msgid "CPID"
-msgstr "CPID"
-
-msgid "Password Hash"
-msgstr "密码哈希"
-
-msgid "Postal Code"
-msgstr "邮编"
-
-msgid "Send Email"
-msgstr "发送邮件"
-
-msgid "Show Hosts"
-msgstr "显示主机"
-
-msgid "Free disk space"
-msgstr "剩余磁盘空间"
-
-msgid "Cross project ID"
-msgstr "跨项目标识符（CPID）"
-
-msgid "Last IP address"
-msgstr "最近使用的 IP 地址"
-
 msgid "Maximum daily WU quota per CPU"
 msgstr "单 CPU 每日 WU 限额"
-
-msgid "Same IP address count"
-msgstr "同 IP 地址的数量"
-
-msgid "% of time BOINC client is running"
-msgstr "% BOINC 客户端运行时间"
-
-msgid "Operating system version"
-msgstr "操作系统版本"
-
-msgid "CPU model"
-msgstr "CPU 型号"
-
-msgid "Serial number"
-msgstr "序列号"
-
-msgid "Timezone"
-msgstr "时区"
-
-msgid "Platform ID"
-msgstr "平台 ID"
-
-msgid "Task ID"
-msgstr "任务 ID"
-
-msgid "Application ID"
-msgstr "应用程序 ID"
-
-msgid "Granted credit"
-msgstr "授予的积分"
 
 msgid "Received time"
 msgstr "接收时间"
 
-msgid "Stderr out"
-msgstr "标准错误输出"
-
-msgid "Validation state"
-msgstr "验证状态"
-
 msgid "App ID"
 msgstr "应用 ID"
-
-msgid "Canonical credit"
-msgstr "规范积分"
-
-msgid "Canonical result ID"
-msgstr "规范结果 ID"
-
-msgid "Created time"
-msgstr "创建时间"
 
 msgid "Error mask"
 msgstr "错误掩码"
@@ -388,12 +97,6 @@ msgstr "最大的成功任务"
 
 msgid "Max total tasks"
 msgstr "最大的总任务"
-
-msgid "Needs validation"
-msgstr "需要验证"
-
-msgid "Initial replication"
-msgstr "初始任务拷贝"
 
 msgid "Target number of results"
 msgstr "结果的目标数量"
@@ -419,49 +122,14 @@ msgstr "@rate 千字节/秒"
 msgid "@count days"
 msgstr "@count 天"
 
-msgid "Remove friend"
-msgstr "移除朋友"
-
-msgid "Ban user"
-msgstr "禁止用户"
-
-msgid "Reply to this comment"
-msgstr "回复该消息"
-
-msgid "Reply to this comment with quote"
-msgstr "引用回复该消息"
-
-msgid "Edit this comment"
-msgstr "编辑此回复"
-
-msgid "Delete this comment"
-msgstr "删除此回复"
-
-msgid "Hide this comment"
-msgstr "隐藏此恢复"
-
-msgid "Convert"
-msgstr "转换"
-
-msgid "Convert this comment to a new topic"
-msgstr "将此回复转移成一个新主题"
-
 msgid "@ip_address (same the last @count times)"
 msgstr "@ip_address（最近 @count 次）"
 
 msgid "commented on"
 msgstr "评论时间"
 
-msgid "Make unsticky"
-msgstr "取消置顶"
-
 msgid "Remove sticky status from this topic"
 msgstr "去除此主题的置顶状态"
-
-msgid ""
-"Sometimes BOINC assigns separate identities to the same computer by mistake."
-" You can correct this by merging old identities with the newest one."
-msgstr "有时候，BOINC 会给同一台计算机赋予多个唯一标识，你可以通过将旧标识和新标识合并以纠正该问题。"
 
 msgid ""
 "Check the computers that are the same as @name (created on @date at @time "
@@ -480,14 +148,96 @@ msgstr "已发表"
 msgid "Minimum value not met for @field"
 msgstr "@field 未达到最小值"
 
-msgid "Remove"
-msgstr "删除"
-
-msgid "hidden"
-msgstr "隐藏"
-
 msgid "Invalid data type for @field"
 msgstr "@field 非法数据类型"
+
+msgid ""
+"Authentication is required when changing E-mail address or setting new "
+"password."
+msgstr "更改电子邮件地址或密码时，需要验证身份。"
+
+msgid "Request foundership"
+msgstr "请求创建人资格"
+
+msgid ""
+"If the team founder is not active and you want to assume the role of "
+"founder, click below to request foundership of @this_team."
+msgstr "在团队创始人处于不活跃状态的情况下，如果您想要代替其成为创始人，请点击下面以申请成为 @this_team 的创始人。"
+
+msgid "Initiate request"
+msgstr "发起请求"
+
+msgid "A BOINC account already exists for @email."
+msgstr "@email名下已经注册了一个BOINC账户，请尝试登录。"
+
+msgid ""
+"Please be responsible in what you write and do not create posts which are "
+"offensive or insulting. Offensive posts or threads may be deleted by forum "
+"moderators without warning or discussion. Do not respond to offensive "
+"postings. Click on the \"report\" button at the bottom of the post to call "
+"it to the attention of the moderators."
+msgstr "请对你所写的内容负责，不要发表含有攻击性或侮辱性的帖子。论坛版主可以不经警告或讨论而直接删除不恰当的帖子或主题。不要在无礼的帖子上浪费时间，请直接单击底部的\"报告\"按钮向版主报告这个帖子。"
+
+msgid "this project"
+msgstr "此项目"
+
+msgid ""
+"We also ask that you keep all discussion on the message boards related to "
+"@project or BOINC with the small exception of the Science message board "
+"where you are free to discuss anything relevant to the underlying science. "
+"Participants interested in broader discussions should post to unofficial "
+"forums for @project."
+msgstr "我们也要求你保证留言板上的所有讨论均在@project 或 BOINC的范围内。除了一个小小的例外，科学留言板，你可以在那里自由讨论任何有关的基本科学问题。更广泛的讨论应该发表到 @project 的非正式论坛。"
+
+msgid "These message boards now support BBCode tags only."
+msgstr "这些留言板目前仅支持BBCode标记。"
+
+msgid "Posts contributed"
+msgstr "发表的帖子"
+
+msgid "Profile awaiting moderator approval"
+msgstr "待审核的个人资料"
+
+msgid "Approve profile"
+msgstr "批准个人资料"
+
+msgid "Approve this profile content"
+msgstr "批准此个人资料内容"
+
+msgid "Edit profile"
+msgstr "编辑个人资料"
+
+msgid "Edit the content of this profile"
+msgstr "编辑此个人资料的内容"
+
+msgid "Remove profile"
+msgstr "删除个人资料"
+
+msgid "Remove this profile content from the system"
+msgstr "从系统中删除此个人资料的内容"
+
+msgid "The team founder has @count days to respond to your transfer request."
+msgstr "团队创始人有 @count 天来回应您的转让申请。"
+
+msgid "Reject profile"
+msgstr "拒绝个人资料"
+
+msgid "Reject this profile content"
+msgstr "拒绝此个人资料内容"
+
+msgid "Reason for rejecting this profile"
+msgstr "拒绝此个人资料的原因"
+
+msgid ""
+"This reason will be included in an email to the user. Please write a brief "
+"explanation of the problem and how to fix it."
+msgstr "这个原因将附在给用户的电子邮件里。请简要说明存在的问题以及修复它的方法。"
+
+msgid "Submit"
+msgstr "提交"
+
+msgid "project"
+msgstr "项目"
 
 msgid "Email address"
 msgstr "电子邮件地址"
@@ -1089,6 +839,14 @@ msgstr "标记所有主题已读"
 msgid "Mark all forums read"
 msgstr "标记所有讨论已读"
 
+msgid ""
+"CAPTCHA validation error: unknown CAPTCHA session ID. Contact the site "
+"administrator if this problem persists."
+msgstr "CAPTCHA 验证错误：未知的 CAPTCHA 会话 ID。如果问题一直存在请联系网站管理员。"
+
+msgid "The answer you entered for the CAPTCHA was not correct."
+msgstr "你输入的 CAPTCHA 答案不正确。"
+
 msgid "Access denied. You must login to view this page."
 msgstr "访问被拒绝，你必须登录才能查看该页面。"
 
@@ -1113,20 +871,44 @@ msgstr "发表回复"
 msgid "No @type tasks"
 msgstr "没有 @type 类型的任务"
 
+msgid "There are no tasks of this type on record"
+msgstr "没有该类型的任务记录"
+
 msgid "Clear"
 msgstr "清除"
+
+msgid ""
+"This will remove all of your settings from the @name preference set. Are you"
+" sure?"
+msgstr "将要移除你在 @name 的所有参数设定，确定继续吗？"
 
 msgid "These apply to all BOINC projects in which you participate."
 msgstr "这些参数设置对你参加的所有 BOINC 项目均有效。"
 
+msgid ""
+"On computers attached to multiple projects, the most recently modified "
+"preferences will be used."
+msgstr "对于加入了多个项目的计算机，将使用最近更新过的参数设定。"
+
+msgid "Preferences last modified: @mod_time"
+msgstr "参数设定最后的修改时间：@mod_time"
+
 msgid "Combined preferences"
 msgstr "横排的参数设置"
+
+msgid "Switch View"
+msgstr "切换视图"
 
 msgid "every"
 msgstr "每"
 
 msgid "Edit"
 msgstr "编辑"
+
+msgid ""
+"This will remove all of your settings from the \"@name\" preference set. Are"
+" you sure?"
+msgstr "将要移除你在“@name”的所有参数设定，确定继续吗？"
 
 msgid "Add"
 msgstr "添加"
@@ -1149,6 +931,11 @@ msgstr "接收好友请求的邮件通知？"
 msgid "Language settings"
 msgstr "语言设定"
 
+msgid ""
+"This account's default language for e-mails and preferred language for site "
+"presentation."
+msgstr "该账户用于电子邮件的缺省语言和站点内容呈现的首选语言"
+
 msgid "Avatar settings"
 msgstr "头像设定"
 
@@ -1161,8 +948,14 @@ msgstr "上传一个新头像"
 msgid "Forum settings"
 msgstr "论坛设定"
 
+msgid "In discussion topics, show at most @comments_per_page"
+msgstr "在讨论主题里，最多显示 @comments_per_page 条回复"
+
 msgid "comments per page"
 msgstr "每页评论数"
+
+msgid "Sort comments in discussions"
+msgstr "讨论主题的回复排序"
 
 msgid "Newest post first"
 msgstr "发帖时间最新的在前面"
@@ -1173,8 +966,17 @@ msgstr "发帖时间最旧的在前面"
 msgid "Signature"
 msgstr "签名"
 
+msgid "Your signature will be publicly displayed at the end of your comments."
+msgstr "你的签字将在回复的最后进行显示。"
+
+msgid "Hide signatures in forums"
+msgstr "在论坛里隐藏签名"
+
 msgid "Privacy settings"
 msgstr "隐私设定"
+
+msgid "Is it OK for @project and your team (if any) to email you?"
+msgstr "是否允许 @project 和你所在的团队（如果有的话）给你发送邮件？"
 
 msgid "Hide"
 msgstr "隐藏"
@@ -1185,14 +987,23 @@ msgstr "隐藏帖子"
 msgid "Lock"
 msgstr "锁定"
 
+msgid "Lock this thread for comments"
+msgstr "关闭本主题"
+
 msgid "Make sticky"
 msgstr "置顶"
+
+msgid "Make this topic sticky"
+msgstr "将本主题置顶显示"
 
 msgid "moderation"
 msgstr "仲裁"
 
 msgid "Post new comment"
 msgstr "发表新回复"
+
+msgid "You must earn 1 more credit!"
+msgstr "你的积分必须至少为1！"
 
 msgid "Joined"
 msgstr "已加入"
@@ -1205,6 +1016,9 @@ msgstr "近期平均积分"
 
 msgid "Join team"
 msgstr "加入团队"
+
+msgid "Click here to become a member of @this_team"
+msgstr "点击这里成为 @this_team 的成员"
 
 msgid "Join this team"
 msgstr "加入该团队"
@@ -1248,14 +1062,122 @@ msgstr "移除团队"
 msgid "Team forum"
 msgstr "团队论坛"
 
+msgid "A discussion forum has been set up for team members."
+msgstr "已为团队成员创建论坛。"
+
+msgid "Enter forum"
+msgstr "进入论坛"
+
+msgid "Leave team"
+msgstr "离开团队"
+
+msgid "Leave this team"
+msgstr "离开该团队"
+
+msgid "Edit message board"
+msgstr "编辑留言板"
+
+msgid "Message board title"
+msgstr "留言板标题"
+
+msgid "Text only, no HTML tags"
+msgstr "仅文本，不允许 HTML 标签"
+
+msgid "Minimum time between posts"
+msgstr "最小的发贴时间间隔"
+
+msgid "Seconds"
+msgstr "秒"
+
 msgid "Minimum total credit to post"
 msgstr "发贴要求的最低总积分"
+
+msgid "Allow public to read board?"
+msgstr "是否允许公众访问该留言板？"
+
+msgid "Save message board"
+msgstr "保存留言板"
+
+msgid "About message boards"
+msgstr "关于留言板"
+
+msgid "This is a team-only message board"
+msgstr "这里只对团队成员开放的留言板"
+
+msgid "Only members may post"
+msgstr "只有团队成员可以发贴"
+
+msgid "Only members may read (optional)"
+msgstr "只有团队成员可以阅读（可选）"
+
+msgid "Changing the team founder"
+msgstr "改变团队创建人"
+
+msgid "Any member of the team is eligible"
+msgstr "每个团队成员都可以成为创建人"
+
+msgid "Current founder becomes a normal user"
+msgstr "当前创建人将变成普通用户"
+
+msgid "It must be 60 days since any previous request"
+msgstr "请求的间隔至少是 60 天"
+
+msgid "Add team admin"
+msgstr "增加团队管理员"
+
+msgid "Enter email address"
+msgstr "输入电子邮件地址"
+
+msgid "Current team admins"
+msgstr "当前的团队管理员"
+
+msgid "About team admins"
+msgstr "关于团队管理员"
+
+msgid "Team admins can:"
+msgstr "团队管理员可以："
+
+msgid "Edit team information"
+msgstr "编辑团队信息"
+
+msgid "View the team's join / quit history"
+msgstr "查看团队的成员加入、退出历史"
+
+msgid "Moderate the team forum"
+msgstr "团队论坛仲裁"
+
+msgid "Remove members from the team"
+msgstr "从团队中移除成员"
+
+msgid "Disband a team if it has no members"
+msgstr "解散没有成员的团队"
+
+msgid "Team admins cannot:"
+msgstr "团队管理员不能："
 
 msgid "Change the team founder"
 msgstr "改变团队创建人"
 
+msgid "Add / Remove team admins"
+msgstr "增加或移除团队管理员"
+
+msgid "Choose type"
+msgstr "选择类型"
+
 msgid "Team name"
 msgstr "团队名称"
+
+msgid "Team name -- HTML version (optional)"
+msgstr "团队名称 -- HTML 版本（可选）"
+
+msgid "You may use limited HTML tags"
+msgstr "你可以使用有限的 HTML 标签"
+
+msgid "Team website (optional)"
+msgstr "团队网站（可选）"
+
+msgid "Displayed on the team's page"
+msgstr "在团队页面上显示"
 
 msgid "Type of team"
 msgstr "团队类型"
@@ -1266,11 +1188,43 @@ msgstr "是否接受新的团队成员？"
 msgid "Description of team"
 msgstr "团队描述"
 
+msgid "Create new team"
+msgstr "创建新团队"
+
 msgid "Create a team"
 msgstr "创建一个团队"
 
+msgid "Save team"
+msgstr "保存团队"
+
+msgid "Create team message board"
+msgstr "创建团队留言板"
+
+msgid "Create message board"
+msgstr "创建留言板"
+
+msgid ""
+"Please set the minimum average credit that a user is required to have in "
+"order to post to this message board."
+msgstr "请设置用户在该留言板发贴所要求的最小平均积分。"
+
+msgid "Post new topic"
+msgstr "发表新主题"
+
 msgid "Anonymous"
 msgstr "匿名"
+
+msgid "Unpublished"
+msgstr "未发表"
+
+msgid "Sorry, unrecognized email address or password."
+msgstr "对不起，无法识别的邮件地址或登录密码。"
+
+msgid "Have you forgotten your password?"
+msgstr "忘记密码？"
+
+msgid "Id"
+msgstr "ID"
 
 msgid "Recent average credit"
 msgstr "近期平均积分"
@@ -1278,14 +1232,47 @@ msgstr "近期平均积分"
 msgid "Members"
 msgstr "成员"
 
+msgid "Total Credit"
+msgstr "总积分"
+
 msgid "User ID"
 msgstr "用户 ID"
 
 msgid "User"
 msgstr "用户"
 
+msgid "Admin since"
+msgstr "成为管理员"
+
+msgid "Team ID"
+msgstr "团队 ID"
+
+msgid "User joined"
+msgstr "成为用户"
+
+msgid "Timestamp"
+msgstr "时间戳"
+
+msgid "Account Key"
+msgstr "帐户密钥"
+
+msgid "CPID"
+msgstr "CPID"
+
 msgid "Email Address"
 msgstr "电子邮件地址"
+
+msgid "Password Hash"
+msgstr "密码哈希"
+
+msgid "Postal Code"
+msgstr "邮编"
+
+msgid "Send Email"
+msgstr "发送邮件"
+
+msgid "Show Hosts"
+msgstr "显示主机"
 
 msgid "URL"
 msgstr "网址"
@@ -1311,6 +1298,9 @@ msgstr "当 BOINC 在运行时，主机拥有互联网连接的时间比例"
 msgid "Average CPU efficiency"
 msgstr "平均的 CPU 运行效率"
 
+msgid "Free disk space"
+msgstr "剩余磁盘空间"
+
 msgid "Total disk space"
 msgstr "总磁盘空间"
 
@@ -1322,6 +1312,12 @@ msgstr "平均积分"
 
 msgid "External IP address"
 msgstr "外部 IP 地址"
+
+msgid "Cross project ID"
+msgstr "跨项目标识符（CPID）"
+
+msgid "Last IP address"
+msgstr "最近使用的 IP 地址"
 
 msgid "Cache"
 msgstr "缓存"
@@ -1338,14 +1334,26 @@ msgstr "平均下载速度"
 msgid "Average upload rate"
 msgstr "平均上传速度"
 
+msgid "Same IP address count"
+msgstr "同 IP 地址的数量"
+
+msgid "% of time BOINC client is running"
+msgstr "% BOINC 客户端运行时间"
+
 msgid "Operating system"
 msgstr "操作系统"
+
+msgid "Operating system version"
+msgstr "操作系统版本"
 
 msgid "Measured floating point speed"
 msgstr "浮点运算速度"
 
 msgid "Measured integer speed"
 msgstr "整数运算速度"
+
+msgid "CPU model"
+msgstr "CPU 型号"
 
 msgid "Number of processors"
 msgstr "数据器数量"
@@ -1359,11 +1367,26 @@ msgstr "客户端连接服务端的次数"
 msgid "Last contact"
 msgstr "最近一次通讯"
 
+msgid "Serial number"
+msgstr "序列号"
+
+msgid "Timezone"
+msgstr "时区"
+
+msgid "Platform ID"
+msgstr "平台 ID"
+
+msgid "Task ID"
+msgstr "任务 ID"
+
 msgid "Workunit ID"
 msgstr "任务单元 ID"
 
 msgid "Host ID"
 msgstr "主机 ID"
+
+msgid "Application ID"
+msgstr "应用程序 ID"
 
 msgid "Application version"
 msgstr "计算程序版本"
@@ -1383,6 +1406,9 @@ msgstr "运行时间"
 msgid "Exit status"
 msgstr "退出状态"
 
+msgid "Granted credit"
+msgstr "授予的积分"
+
 msgid "Outcome"
 msgstr "结果"
 
@@ -1394,6 +1420,27 @@ msgstr "发送时间"
 
 msgid "Server state"
 msgstr "服务端状态"
+
+msgid "Stderr out"
+msgstr "标准错误输出"
+
+msgid "Validation state"
+msgstr "验证状态"
+
+msgid "Canonical credit"
+msgstr "规范积分"
+
+msgid "Canonical result ID"
+msgstr "规范结果 ID"
+
+msgid "Created time"
+msgstr "创建时间"
+
+msgid "Needs validation"
+msgstr "需要验证"
+
+msgid "Initial replication"
+msgstr "初始任务拷贝"
 
 msgid "Computer"
 msgstr "计算机"
@@ -1416,6 +1463,12 @@ msgstr "显示 IP 地址"
 msgid "hours"
 msgstr "时"
 
+msgid "Remove friend"
+msgstr "移除朋友"
+
+msgid "Ban user"
+msgstr "禁止用户"
+
 msgid "Add as friend"
 msgstr "添加为好友"
 
@@ -1425,8 +1478,43 @@ msgstr "团队"
 msgid "Reply"
 msgstr "回复"
 
+msgid "Reply to this comment"
+msgstr "回复该消息"
+
 msgid "Quote"
 msgstr "引用"
 
+msgid "Reply to this comment with quote"
+msgstr "引用回复该消息"
+
+msgid "Edit this comment"
+msgstr "编辑此回复"
+
+msgid "Delete this comment"
+msgstr "删除此回复"
+
+msgid "Hide this comment"
+msgstr "隐藏此恢复"
+
+msgid "Convert"
+msgstr "转换"
+
+msgid "Convert this comment to a new topic"
+msgstr "将此回复转移成一个新主题"
+
 msgid "Details"
 msgstr "详细"
+
+msgid "Make unsticky"
+msgstr "取消置顶"
+
+msgid ""
+"Sometimes BOINC assigns separate identities to the same computer by mistake."
+" You can correct this by merging old identities with the newest one."
+msgstr "有时候，BOINC 会给同一台计算机赋予多个唯一标识，你可以通过将旧标识和新标识合并以纠正该问题。"
+
+msgid "Remove"
+msgstr "删除"
+
+msgid "hidden"
+msgstr "隐藏"
