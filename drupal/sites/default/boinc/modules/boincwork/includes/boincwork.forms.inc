@@ -1648,6 +1648,9 @@ function communityprefs_form_submit($form, &$form_state) {
   user_save($user, $settings);
   
   drupal_set_message(t('Your community preferences have been updated.'));
+  
+  // Form will not redirect if storage is set; not good if language changes
+  unset($form_state['storage']);
 }
 
 /**
