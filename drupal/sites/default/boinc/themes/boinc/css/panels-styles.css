@@ -150,7 +150,8 @@
   padding-right: 10px;
   position: relative;
 }
-.panel-secondary.pane-news .views-field-view-node {
+.panel-secondary.pane-news .views-field-view-node,
+.panel-secondary.pane-news .views-field-phpcode {
   border-left: 1px solid #808080;
   margin-left: 1em;
   padding-left: 1em;

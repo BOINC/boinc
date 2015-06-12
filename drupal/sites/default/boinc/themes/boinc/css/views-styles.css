@@ -70,7 +70,8 @@
   padding-bottom: 0;
 }
 .view-news .views-field-view-node,
-.view-news .views-field-view-node-1 {
+.view-news .views-field-view-node-1,
+.view-news .views-field-phpcode {
   float: left;
   font-size: 10px;
   font-weight: bold;
