@@ -134,6 +134,26 @@ function boinc_standard_default_page_manager_pages() {
     $display->panels['content'][0] = 'new-1';
     $pane = new stdClass;
     $pane->pid = 'new-2';
+    $pane->panel = 'content';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'subscriptions-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'panel-primary container shadow',
+    );
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-2'] = $pane;
+    $display->panels['content'][1] = 'new-2';
+    $pane = new stdClass;
+    $pane->pid = 'new-3';
     $pane->panel = 'sidebar_first';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -167,10 +187,10 @@ function boinc_standard_default_page_manager_pages() {
     );
     $pane->extras = array();
     $pane->position = 0;
-    $display->content['new-2'] = $pane;
-    $display->panels['sidebar_first'][0] = 'new-2';
+    $display->content['new-3'] = $pane;
+    $display->panels['sidebar_first'][0] = 'new-3';
     $pane = new stdClass;
-    $pane->pid = 'new-3';
+    $pane->pid = 'new-4';
     $pane->panel = 'sidebar_first';
     $pane->type = 'panels_mini';
     $pane->subtype = 'user_mail_summary';
@@ -190,10 +210,10 @@ function boinc_standard_default_page_manager_pages() {
     );
     $pane->extras = array();
     $pane->position = 1;
-    $display->content['new-3'] = $pane;
-    $display->panels['sidebar_first'][1] = 'new-3';
+    $display->content['new-4'] = $pane;
+    $display->panels['sidebar_first'][1] = 'new-4';
     $pane = new stdClass;
-    $pane->pid = 'new-4';
+    $pane->pid = 'new-5';
     $pane->panel = 'sidebar_first';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -220,10 +240,10 @@ if (module_exists(\'boincteam\')) {
     );
     $pane->extras = array();
     $pane->position = 2;
-    $display->content['new-4'] = $pane;
-    $display->panels['sidebar_first'][2] = 'new-4';
+    $display->content['new-5'] = $pane;
+    $display->panels['sidebar_first'][2] = 'new-5';
     $pane = new stdClass;
-    $pane->pid = 'new-5';
+    $pane->pid = 'new-6';
     $pane->panel = 'sidebar_first';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -254,10 +274,10 @@ echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->po
     );
     $pane->extras = array();
     $pane->position = 3;
-    $display->content['new-5'] = $pane;
-    $display->panels['sidebar_first'][3] = 'new-5';
+    $display->content['new-6'] = $pane;
+    $display->panels['sidebar_first'][3] = 'new-6';
     $pane = new stdClass;
-    $pane->pid = 'new-6';
+    $pane->pid = 'new-7';
     $pane->panel = 'sidebar_first';
     $pane->type = 'views';
     $pane->subtype = 'boinc_friends';
@@ -292,8 +312,8 @@ echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->po
     );
     $pane->extras = array();
     $pane->position = 4;
-    $display->content['new-6'] = $pane;
-    $display->panels['sidebar_first'][4] = 'new-6';
+    $display->content['new-7'] = $pane;
+    $display->panels['sidebar_first'][4] = 'new-7';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

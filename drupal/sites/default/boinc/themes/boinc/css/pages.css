@@ -844,7 +844,8 @@ table.user-projects {
 #forum .subscriptions {
   margin: 32px 5px;
 }
-#forum .topic.updated .title {
+#forum .topic.updated .title,
+.view-subscriptions .title.updated {
   font-weight: bold;
 }
 .forum-topic-navigation {
