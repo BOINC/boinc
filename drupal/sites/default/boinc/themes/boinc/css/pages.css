@@ -314,6 +314,12 @@ ul.links li a {
   line-height: 2.35em;
   text-transform: uppercase;
 }
+.subscribe .flag-message,
+.view-subscriptions .flag-message {
+  left: initial;
+  right: 0;
+  text-align: right;
+}
 
 .toc {
   background-color: transparent;
