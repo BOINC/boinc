@@ -3,70 +3,241 @@
 # 
 # Translators:
 # Nikolay Sakharov <saharovna@gmail.com>, 2015
+# Olga Liienko <o.k.lienko@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
-"POT-Creation-Date: 2015-04-20 12:14+0000\n"
-"PO-Revision-Date: 2015-04-20 16:59+0000\n"
+"POT-Creation-Date: 2015-05-07 12:21+0000\n"
+"PO-Revision-Date: 2015-06-14 20:39+0000\n"
 "Last-Translator: Nikolay Sakharov <saharovna@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/boinc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ru\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-
-msgid "What is @this_project?"
-msgstr "Что такое @this_project?"
-
-msgid "no projects..."
-msgstr "нет проектов..."
-
-msgid "Download the desktop software"
-msgstr "Загрузите программное обеспечение для настольного компьютера"
-
-msgid "Run the installer"
-msgstr "Запустите программу установки"
-
-msgid "When prompted enter @siteurl"
-msgstr "При появлении запроса введите @siteurl"
-
-msgid "Enter the password that accompanies your username."
-msgstr "Введите пароль, соответствующий вашему имени пользователя."
-
-msgid "Request new password"
-msgstr "Запросить новый пароль"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 msgid ""
-"If you're already running BOINC, select <i>Add\n"
-"      Project</i>."
-msgstr "Если Вы уже используете BOINC, выберите команду <i>Добавить проект</i>."
+"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
+" your e-mail address, it will be used for your user picture."
+msgstr "Если у Вас есть <a href=\"@gravatar-check\"> действительный Gravatar</a>, связанный с вашим адресом электронной почты, он будет использоваться в качестве фотографии пользователя."
+
+msgid "Your Gravatar will not be shown if you upload a user picture."
+msgstr "Ваш Gravatar не будет отображаться, если Вы загрузите пользовательскую фотографию."
 
 msgid ""
-"If you're running a command-line version of BOINC,\n"
-"        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
-"        an account at this project, then use that account to connect with the\n"
-"        command-line version."
-msgstr "Если Вы используете версию BOINC для командной строки, для создания учётной записи в этом проекте сначала используйте программное обеспечение BOINC Manager (или другое в случае необходимости), а затем используйте эту учётную запись для подключения с помощью версии для командной строки."
+"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
+" your e-mail address, use it for your user picture."
+msgstr "Если у Вас есть <a href=\"@gravatar-check\"> действительный Gravatar</a>, связанный с вашим адресом электронной почты, используйте его в качестве фотографии пользователя."
+
+msgid "Gravatar will not be shown if an avatar is uploaded."
+msgstr "Gravatar не будет отображаться если загружен аватар."
+
+msgid "This is not available until your profile is set up."
+msgstr "Это не доступно до тех пор, пока не настроен ваш профиль."
+
+msgid "Should @project show your computers on its web site?"
+msgstr "Должен ли @project показывать ваши компьютеры на своём веб-сайте?"
+
+msgid "Click here to revoke your membership with @this_team"
+msgstr "Нажмите здесь, чтобы отменить ваше членство в команде @this_team"
+
+msgid "Minimum avg credit to post"
+msgstr "Минимальное среднее количество очков для написания сообщений"
+
+msgid "Founder & Team Admins have moderator privileges"
+msgstr "Основатель и Администраторы команды обладают правами модератора"
+
+msgid "Notes about changes in foundership:"
+msgstr "Заметки об изменениях в возможностях основателя команды:"
+
+msgid "Foundership can be requested by team members:"
+msgstr "Права основателя могут быть запрошены членами команды:"
+
+msgid "One request is allowed at a time"
+msgstr "Единовременно разрешён только один запрос"
+
+msgid "Any active request must be older than 90 days"
+msgstr "Любой активный запрос должен быть старше 90 дней"
+
+msgid "Current founder has 60 days to respond to a request"
+msgstr "У текущего основателя есть 60 дней для ответа на запрос"
 
 msgid ""
-"If you're running a pre-5.0 version of BOINC, please\n"
-"        upgrade to a more recent version to create an account\n"
-"        at this project."
-msgstr "Если Вы используете версию BOINC ниже 5.0, выполните обновление до более новой версии для создания учетной записи в этом проекте."
+"If a team admin quits the team, they cease to be a team admin. We recommend "
+"only selecting people you know and trust"
+msgstr "Если администратор команды покинет команду, он перестанет быть администратором команды. Мы рекомендуем выбирать только людей, которых Вы знаете и доверяете."
+
+msgid "You may create a message board for use by @team"
+msgstr "Вы можете создать доску сообщений для общения в команде @team."
+
+msgid "parent removed"
+msgstr "родитель удалён"
+
+msgid "Maximum daily WU quota per CPU"
+msgstr "Максимальная ежедневная квота заданий на ЦП"
+
+msgid "Received time"
+msgstr "Время получения"
+
+msgid "App ID"
+msgstr "ID приложения"
+
+msgid "Error mask"
+msgstr "Маска ошибок"
+
+msgid "Minimum quorum"
+msgstr "Минимальный кворум"
+
+msgid "Max error tasks"
+msgstr "Макс количество ошибочных заданий"
+
+msgid "Max success tasks"
+msgstr "Макс количество успешных заданий"
+
+msgid "Max total tasks"
+msgstr "Макс общее количество заданий"
+
+msgid "Target number of results"
+msgstr "Целевое количество результатов"
+
+msgid "Application version ID"
+msgstr "ID версии приложения"
+
+msgid "Plan class"
+msgstr "План-класс"
+
+msgid "Version number"
+msgstr "Номер версии"
+
+msgid "App version ID"
+msgstr "ID версии приложения"
+
+msgid "@count million ops/sec"
+msgstr "@count млн операций/с"
+
+msgid "@rate KiB/sec"
+msgstr "@rate КБ/с"
+
+msgid "@count days"
+msgstr "@count дней"
+
+msgid "@ip_address (same the last @count times)"
+msgstr "@ip_address (такой же последние @count раз)"
+
+msgid "commented on"
+msgstr "прокомментировал"
+
+msgid "Remove sticky status from this topic"
+msgstr "Удалить признак закрепления с этой темы"
 
 msgid ""
-"1) If you know your account&apos;s email address, and you can receive email "
-"there:"
-msgstr "1) Если Вы знаете адрес электронной почты вашей учётной записи, и Вы можете получить письмо:"
+"Check the computers that are the same as @name (created on @date at @time "
+"with computer ID @id)"
+msgstr "Отметьте компьютеры, такие же как и @name (создан @date в @time с ID компьютера @id)"
+
+msgid "Computer @old_id has been merged successfully into @id."
+msgstr "Компьютер @old_id успешно объединён с @id."
+
+msgid "started discussion"
+msgstr "началось обсуждение"
+
+msgid "posted"
+msgstr "опубликовано"
+
+msgid "Minimum value not met for @field"
+msgstr "Минимальное значение не встретилось для @field"
+
+msgid "Invalid data type for @field"
+msgstr "Недопустимый тип данных для @field"
 
 msgid ""
-"Enter the email address and click OK. You will be sent email instructions "
-"for resetting your password."
-msgstr "Введите адрес электронной почты и нажмите OK. Вам будут высланы инструкции для сброса вашего пароля."
+"Authentication is required when changing E-mail address or setting new "
+"password."
+msgstr "При изменении адреса электронной почты или установке нового пароля требуется проверка подлинности."
 
-msgid "OK"
-msgstr "OK"
+msgid "Request foundership"
+msgstr "Запросить смену основателя"
+
+msgid ""
+"If the team founder is not active and you want to assume the role of "
+"founder, click below to request foundership of @this_team."
+msgstr "Если основатель команды не активен и Вы хотите взять на себя роль основателя, нажмите ниже, чтобы запросить право основателя команды @this_team."
+
+msgid "Initiate request"
+msgstr "Инициировать запрос"
+
+msgid "A BOINC account already exists for @email."
+msgstr "Для @email уже существует учётная запись BOINC."
+
+msgid ""
+"Please be responsible in what you write and do not create posts which are "
+"offensive or insulting. Offensive posts or threads may be deleted by forum "
+"moderators without warning or discussion. Do not respond to offensive "
+"postings. Click on the \"report\" button at the bottom of the post to call "
+"it to the attention of the moderators."
+msgstr "Пожалуйста, будьте ответственны в том, что Вы пишите, и не создавайте сообщения, которые являются оскорбительными или обидными. Оскорбительные сообщения или темы могут быть удалены модераторами форума без предупреждения или обсуждения. Не отвечайте на оскорбительные сообщения. Нажмите на кнопку \"отчёт\", расположенную в нижней части сообщения, чтобы обратить на него внимание модераторов."
+
+msgid "this project"
+msgstr "этот проект"
+
+msgid ""
+"We also ask that you keep all discussion on the message boards related to "
+"@project or BOINC with the small exception of the Science message board "
+"where you are free to discuss anything relevant to the underlying science. "
+"Participants interested in broader discussions should post to unofficial "
+"forums for @project."
+msgstr "Мы также просим Вас вести все обсуждения на досках сообщений, касающихся @project или BOINC, за небольшим исключением доски сообщений о Науке, где Вы можете обсуждать всё, что относится к науке, лежащей в основе проекта. Участникам, заинтересованным в более широких обсуждениях, следует общаться на неофициальных форумах @project."
+
+msgid "These message boards now support BBCode tags only."
+msgstr "Эти доски сообщений теперь поддерживают только теги BBCode."
+
+msgid "Posts contributed"
+msgstr "Сообщений размещено"
+
+msgid "Profile awaiting moderator approval"
+msgstr "Профиль ожидает одобрения модератором"
+
+msgid "Approve profile"
+msgstr "Утвердить профиль"
+
+msgid "Approve this profile content"
+msgstr "Утвердить содержимое этого профиля"
+
+msgid "Edit profile"
+msgstr "Редактировать профиль"
+
+msgid "Edit the content of this profile"
+msgstr "Изменить содержимое этого профиля"
+
+msgid "Remove profile"
+msgstr "Удалить профиль"
+
+msgid "Remove this profile content from the system"
+msgstr "Удалить содержимое этого профиля из системы"
+
+msgid "The team founder has @count days to respond to your transfer request."
+msgstr "У основателя команды есть @count дней для ответа на ваш запрос."
+
+msgid "Reject profile"
+msgstr "Отклонить профиль"
+
+msgid "Reject this profile content"
+msgstr "Отклонить содержимое этого профиля"
+
+msgid "Reason for rejecting this profile"
+msgstr "Причина для отклонения этого профиля"
+
+msgid ""
+"This reason will be included in an email to the user. Please write a brief "
+"explanation of the problem and how to fix it."
+msgstr "Эта причина будет включена в сообщение электронной почты пользователю. Пожалуйста, напишите краткое объяснение проблемы и как её исправить."
+
+msgid "Submit"
+msgstr "Отправить"
+
+msgid "project"
+msgstr "проект"
 
 msgid "Email address"
 msgstr "Адрес электронной почты"
@@ -172,5 +343,1178 @@ msgstr "Отмена"
 msgid "Change password"
 msgstr "Поменять пароль"
 
+msgid "What is @this_project?"
+msgstr "Что такое @this_project?"
+
+msgid "no projects..."
+msgstr "нет проектов..."
+
+msgid "Download the desktop software"
+msgstr "Загрузите программное обеспечение для настольного компьютера"
+
+msgid "Run the installer"
+msgstr "Запустите программу установки"
+
+msgid "When prompted enter @siteurl"
+msgstr "При появлении запроса введите @siteurl"
+
 msgid "Password"
 msgstr "Пароль"
+
+msgid "Enter the password that accompanies your username."
+msgstr "Введите пароль, соответствующий вашему имени пользователя."
+
+msgid "Request new password"
+msgstr "Запросить новый пароль"
+
+msgid ""
+"If you're already running BOINC, select <i>Add\n"
+"      Project</i>."
+msgstr "Если Вы уже используете BOINC, выберите команду <i>Добавить проект</i>."
+
+msgid ""
+"If you're running a command-line version of BOINC,\n"
+"        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
+"        an account at this project, then use that account to connect with the\n"
+"        command-line version."
+msgstr "Если Вы используете версию BOINC для командной строки, для создания учётной записи в этом проекте сначала используйте программное обеспечение BOINC Manager (или другое в случае необходимости), а затем используйте эту учётную запись для подключения с помощью версии для командной строки."
+
+msgid ""
+"If you're running a pre-5.0 version of BOINC, please\n"
+"        upgrade to a more recent version to create an account\n"
+"        at this project."
+msgstr "Если Вы используете версию BOINC ниже 5.0, выполните обновление до более новой версии для создания учетной записи в этом проекте."
+
+msgid ""
+"1) If you know your account&apos;s email address, and you can receive email "
+"there:"
+msgstr "1) Если Вы знаете адрес электронной почты вашей учётной записи, и Вы можете получить письмо:"
+
+msgid ""
+"Enter the email address and click OK. You will be sent email instructions "
+"for resetting your password."
+msgstr "Введите адрес электронной почты и нажмите OK. Вам будут высланы инструкции для сброса вашего пароля."
+
+msgid "OK"
+msgstr "OK"
+
+msgid "The latest news from the @site_name project"
+msgstr "Последние новости от проекта @site_name"
+
+msgid "Comment form"
+msgstr "Форма комментария"
+
+msgid "Total credits"
+msgstr "Всего очков"
+
+msgid "Recent avg credits"
+msgstr "Очков в среднем за последнее время"
+
+msgid "Country"
+msgstr "Страна"
+
+msgid "Type"
+msgstr "Тип"
+
+msgid "Founder"
+msgstr "Основатель"
+
+msgid "New members in last day"
+msgstr "Новые участники за последний день"
+
+msgid "Total members"
+msgstr "Всего участников"
+
+msgid "Active members"
+msgstr "Активных участников"
+
+msgid "Members with credit"
+msgstr "Участников с заработанными очками"
+
+msgid "Description"
+msgstr "Описание"
+
+msgid "Search teams"
+msgstr "Поиск команд"
+
+msgid "Send message"
+msgstr "Отправить сообщение"
+
+msgid "BOINC"
+msgstr "BOINC"
+
+msgid "Project"
+msgstr "Проект"
+
+msgid "Web site"
+msgstr "Вебсайт"
+
+msgid "No active computers"
+msgstr "Нет активных компьютеров"
+
+msgid "This user has no computers that have been active in the last 30 days."
+msgstr "У этого пользователя нет компьютеров, которые были активны в течение последних 30 дней."
+
+msgid " Default value: @default"
+msgstr "Значение по умолчанию: @default"
+
+msgid "Applications"
+msgstr "Приложения"
+
+msgid "yes"
+msgstr "да"
+
+msgid "no"
+msgstr "нет"
+
+msgid "Message @id"
+msgstr "Сообщение @id"
+
+msgid "message @id"
+msgstr "сообщение @id"
+
+msgid " in response to !parent"
+msgstr " в ответ на !parent"
+
+msgid "Credits per day"
+msgstr "Очков в день"
+
+msgid "Computers hidden"
+msgstr "Компьютеры скрыты"
+
+msgid "This user has chosen not to show information about their computers."
+msgstr "Этот пользователь предпочёл скрыть информацию о своих компьютерах."
+
+msgid "Stderr output"
+msgstr "Текст протокола"
+
+msgid "@time ago"
+msgstr "@time назад"
+
+msgid "n/a"
+msgstr "н/д"
+
+msgid "Submitted by !username on !datetime"
+msgstr "Отправил !username от !datetime"
+
+msgid "Member since"
+msgstr "Участник с"
+
+msgid "View team"
+msgstr "Просмотр команды"
+
+msgid "Friends (@count)"
+msgstr "Друзья (@count)"
+
+msgid "Website"
+msgstr "Веб-сайт"
+
+msgid "Locked"
+msgstr "Заблокировано"
+
+msgid "Computers pending"
+msgstr "Компьютеры в ожидании"
+
+msgid ""
+"This user does not yet have any associated computers. Computers will be "
+"displayed when they have earned their first credits."
+msgstr "У этого пользователя ещё нет каких-либо связанных компьютеров. Компьютеры появятся, когда они заработают свои первые очки."
+
+msgid "No results found..."
+msgstr "Результаты не найдены..."
+
+msgid "Background"
+msgstr "Фон"
+
+msgid "Teams"
+msgstr "Команды"
+
+msgid ""
+"@project participants may form teams. You may belong to only one team. You "
+"can join or quit a team at any time. To join a team, visit its team page and"
+" click \"Join this team\". Each team has a founder who may:"
+msgstr "Участники @project могут образовывать команды. Вы можете принадлежать только одной команде. Вы можете вступить или выйти из команды в любое время. Чтобы присоединиться к команде, посетите страницу команды и нажмите кнопку «Присоединиться к этой команде». Каждая команда имеет основателя, который может:"
+
+msgid "access team members' email addresses"
+msgstr "иметь доступ к адресам электронной почты участников команды"
+
+msgid "edit the team's name and description"
+msgstr "редактировать название и описание команды"
+
+msgid "add or remove team admins"
+msgstr "добавить или удалить Администраторов команды"
+
+msgid "remove members from the team"
+msgstr "удалять участников из команды"
+
+msgid "disband a team if it has no members"
+msgstr "расформировать команду, в которой нет участников"
+
+msgid "Create a new team"
+msgstr "Создать новую команду"
+
+msgid ""
+"If you cannot find a team that is right for you, you can create a team."
+msgstr "Если Вы не можете найти подходящую Вам команду, Вы можете создать новую команду."
+
+msgid "You must earn @count more credits!"
+msgstr "Вы должны заработать ещё @count очков!"
+
+msgid "Threads"
+msgstr "Обсуждения"
+
+msgid "Posts"
+msgstr "Сообщения"
+
+msgid "Last post"
+msgstr "Последнее сообщение"
+
+msgid "Manage subscriptions"
+msgstr "Управление подписками"
+
+msgid "Featured"
+msgstr "Рекомендуемые"
+
+msgid "Submitted on !datetime"
+msgstr "Отправлено !datetime"
+
+msgid "Comments"
+msgstr "Комментарии"
+
+msgid "Opinion"
+msgstr "Мнение"
+
+msgid "More"
+msgstr "Больше"
+
+msgid "Tasks"
+msgstr "Задания"
+
+msgid "Generic"
+msgstr "Универсальный"
+
+msgid "Work"
+msgstr "Работа"
+
+msgid "School"
+msgstr "Школа"
+
+msgid "Presets"
+msgstr "Начальные установки"
+
+msgid "Standard"
+msgstr "Стандарт"
+
+msgid "Maximum"
+msgstr "Максимум"
+
+msgid "Green"
+msgstr "Зелёный"
+
+msgid "Minimum"
+msgstr "Минимум"
+
+msgid "Custom"
+msgstr "Пользовательский"
+
+msgid "Update preset"
+msgstr "Обновление начальных установок"
+
+msgid "Advanced settings"
+msgstr "Дополнительные настройки"
+
+msgid "Processor usage"
+msgstr "Использование процессора"
+
+msgid "Run while computer is on battery power?"
+msgstr "Выполнять обработку, когда компьютер работает от аккумулятора?"
+
+msgid "Only applies to portable computers"
+msgstr "Применимо только к портативным компьютерам"
+
+msgid "Run while computer is in use?"
+msgstr "Выполнять обработку, когда компьютер используется?"
+
+msgid "Run GPU work while computer is in use?"
+msgstr "Выполнять обработку на ГП, когда компьютер используется?"
+
+msgid "Enforced by version @number"
+msgstr "Начиная с версии @number"
+
+msgid "\"In use\" means mouse/keyboard activity in last"
+msgstr "\"Использование\" означает активность мыши или клавиатуры за последние"
+
+msgid "minutes"
+msgstr "минут"
+
+msgid "Suspend work if no mouse/keyboard activity in last"
+msgstr "Приостановить работу, если нет активности мыши или клавиатуры за последние"
+
+msgid "Needed to enter low-power mode on some computers"
+msgstr "Необходимо для входа в режим пониженного энергопотребления на некоторых компьютерах"
+
+msgid "Suspend work if CPU usage is above"
+msgstr "Приостановить, если использование процессора выше"
+
+msgid "0 means no restriction. Enforced by version @number"
+msgstr "0 означает отсутствие ограничений. Начиная с версии @number"
+
+msgid "Do work only between the hours of:"
+msgstr "Обрабатывать только между указанными часами:"
+
+msgid "and"
+msgstr "и"
+
+msgid "No restriction if equal"
+msgstr "Без ограничений если равны"
+
+msgid "Leave tasks in memory while suspended?"
+msgstr "Оставлять в памяти неактивные задания?"
+
+msgid "Suspended tasks will consume swap space if \"yes\""
+msgstr "Если \"да\", приостановленные задания будут занимать место в файле подкачки"
+
+msgid "Switch between tasks every"
+msgstr "Переключение между заданиями каждые"
+
+msgid "Recommended: @period minutes"
+msgstr "Рекомендуется: @period минут"
+
+msgid "On multiprocessors, use at most"
+msgstr "На многопроцессорных системах использовать не более"
+
+msgid "processors"
+msgstr "процессоров"
+
+msgid "Set to 0 for no limit"
+msgstr "Значение 0 - нет ограничений"
+
+msgid "% of the processors"
+msgstr "% процессоров"
+
+msgid "Use at most"
+msgstr "Использовать не более"
+
+msgid "% of the CPU time"
+msgstr "% процессорного времени"
+
+msgid "Can be used to reduce CPU heat"
+msgstr "Может использоваться для уменьшения нагрева процессора"
+
+msgid "Disk and memory usage"
+msgstr "Использование диска и памяти"
+
+msgid "Disk: use at most"
+msgstr "Диск: использовать не более"
+
+msgid "Disk: leave free at least"
+msgstr "Диск: оставлять свободным не менее"
+
+msgid "Values smaller than @number are ignored"
+msgstr "Значения меньше, чем @number, игнорируются"
+
+msgid "% of total"
+msgstr "% от полного объема диска"
+
+msgid "Tasks checkpoint to disk at most every"
+msgstr "Задания сохраняют промежуточные результаты на диск примерно каждые"
+
+msgid "seconds"
+msgstr "секунд"
+
+msgid "Swap space: use at most"
+msgstr "Файл подкачки: использовать не более"
+
+msgid "Memory: when computer is in use, use at most"
+msgstr "Память: когда компьютер используется, использовать не более"
+
+msgid "Memory: when computer is not in use, use at most"
+msgstr "Память: когда компьютер не используется, использовать не более"
+
+msgid "Network usage"
+msgstr "Использование сети"
+
+msgid "Computer is connected to the Internet about every"
+msgstr "Компьютер подключается к сети Интернет примерно каждые"
+
+msgid "days"
+msgstr "дней"
+
+msgid ""
+"Leave blank or 0 if always connected. @project will try to maintain at least"
+" this much work."
+msgstr "Оставьте пустым или 0, если всегда подключен. @project попытается поддерживать как минимум указанный объём работы."
+
+msgid "Maintain enough work for an additional"
+msgstr "Поддерживать достаточный объём работы для дополнительных"
+
+msgid "Confirm before connecting to Internet?"
+msgstr "Предупреждать перед подключением к сети Интернет?"
+
+msgid "Matters only if you have a modem, ISDN, or VPN connection"
+msgstr "Применимо только если у вас есть модем, ISDN или VPN подключения"
+
+msgid "Disconnect when done?"
+msgstr "Разорвать соединение после завершения?"
+
+msgid "Maximum download rate"
+msgstr "Максимальная скорость загрузки"
+
+msgid "Maximum upload rate"
+msgstr "Максимальная скорость отправки"
+
+msgid "Use network only between the hours of:"
+msgstr "Использовать сеть только между указанными часами:"
+
+msgid "Transfer at most"
+msgstr "Передавать не более"
+
+msgid "Skip image file verification?"
+msgstr "Пропускать проверку файлов изображений?"
+
+msgid ""
+"Check this ONLY if your Internet provider modifies image files (UMTS does "
+"this, for example). Skipping verification reduces the security of BOINC."
+msgstr "Выберите этот пункт ТОЛЬКО если ваш Интернет-провайдер изменяет файлы изображений (например, так делает UMTS). Пропуск проверки уменьшает безопасность BOINC."
+
+msgid "Show comparison view"
+msgstr "Показать сравнение"
+
+msgid "Resource settings"
+msgstr "Настройки ресурсов"
+
+msgid "Resource share"
+msgstr "Выделено ресурсов"
+
+msgid ""
+"Determines the proportion of your computer's resources allocated to this "
+"project. Example: if you participate in two BOINC projects with resource "
+"shares of 100 and 200, the first will get 1/3 of your resources and the "
+"second will get 2/3."
+msgstr "Определяет долю ресурсов вашего компьютера, выделенных на этот проект. Пример: Если Вы участвуете в двух проектах BOINC с долями ресурсов 100 и 200, первый проект получит 1/3 ваших ресурсов, а второй получит 2/3."
+
+msgid "Use CPU"
+msgstr "Использовать ЦП"
+
+msgid "Use NVIDIA GPU"
+msgstr "Использовать ГП NVIDIA"
+
+msgid "Use ATI GPU"
+msgstr "Использовать ГП ATI"
+
+msgid "Use INTEL GPU"
+msgstr "Использовать ГП INTEL"
+
+msgid "Beta settings"
+msgstr "Настройки бета-версии"
+
+msgid "Run test applications?"
+msgstr "Выполнять тестовые приложения?"
+
+msgid ""
+"This helps us develop applications, but may cause jobs to fail on your "
+"computer"
+msgstr "Это поможет нам в разработке приложений, но может привести к ошибкам в расчётах заданий на вашем компьютере"
+
+msgid "Default set"
+msgstr "Набор по умолчанию"
+
+msgid "Set used for new computers"
+msgstr "Набор для новых компьютеров"
+
+msgid "Merge"
+msgstr "Объединить"
+
+msgid "Delete"
+msgstr "Удалить"
+
+msgid ""
+"This will delete host @id from your account forever. Are you sure this is "
+"OK?"
+msgstr "Хост @id будет удалён из вашей учётной записи навсегда. Вы уверены, что это нормально?"
+
+msgid "Mark all topics read"
+msgstr "Пометить все темы прочитанными"
+
+msgid "Mark all forums read"
+msgstr "Пометить все форумы прочитанными"
+
+msgid ""
+"CAPTCHA validation error: unknown CAPTCHA session ID. Contact the site "
+"administrator if this problem persists."
+msgstr "Ошибка проверки CAPTCHA: неизвестный код сеанса. Если проблема не устраняется, обратитесь к администратору сайта."
+
+msgid "The answer you entered for the CAPTCHA was not correct."
+msgstr "Ответ, введённый для CAPTCHA, был неправильным."
+
+msgid "Access denied. You must login to view this page."
+msgstr "Доступ запрещён. Вы должны войти для просмотра этой страницы."
+
+msgid "You are not authorized to access this page."
+msgstr "У Вас нет доступа к этой странице."
+
+msgid "Disable rich-text"
+msgstr "Отключить RTF"
+
+msgid "Enable rich-text"
+msgstr "Включить RTF"
+
+msgid "View user profile."
+msgstr "Просмотреть профиль пользователя."
+
+msgid "BBcode help"
+msgstr "Справка по BBcode"
+
+msgid "Post comment"
+msgstr "Добавить комментарий"
+
+msgid "No @type tasks"
+msgstr "Нет заданий типа @type"
+
+msgid "There are no tasks of this type on record"
+msgstr "Нет заданий этого типа"
+
+msgid "Clear"
+msgstr "Удалить"
+
+msgid ""
+"This will remove all of your settings from the @name preference set. Are you"
+" sure?"
+msgstr "Это удалит все ваши настройки из конфигурации @name. Вы уверены?"
+
+msgid "These apply to all BOINC projects in which you participate."
+msgstr "Эти параметры применяются ко всем проектам BOINC, в которых Вы участвуете."
+
+msgid ""
+"On computers attached to multiple projects, the most recently modified "
+"preferences will be used."
+msgstr "На компьютерах, подключенных к нескольким проектам, будут использоваться настройки, изменённые самыми последними."
+
+msgid "Preferences last modified: @mod_time"
+msgstr "Последнее изменение настроек: @mod_time"
+
+msgid "Combined preferences"
+msgstr "Объединённые настройки"
+
+msgid "Switch View"
+msgstr "Переключить вид"
+
+msgid "every"
+msgstr "каждые"
+
+msgid "Edit"
+msgstr "Редактировать"
+
+msgid ""
+"This will remove all of your settings from the \"@name\" preference set. Are"
+" you sure?"
+msgstr "Это удалит все ваши настройки из конфигурации \"@name\". Вы уверены?"
+
+msgid "Add"
+msgstr "Добавить"
+
+msgid "General settings"
+msgstr "Общие настройки"
+
+msgid "Time zone"
+msgstr "Часовой пояс"
+
+msgid "Notification settings"
+msgstr "Настройки уведомлений"
+
+msgid "Receive email notification for private messages?"
+msgstr "Получать уведомления по электронной почте для личных сообщений?"
+
+msgid "Receive email notification for friend requests?"
+msgstr "Получать уведомления по электронной почте для запросов о дружбе?"
+
+msgid "Language settings"
+msgstr "Языковые настройки"
+
+msgid ""
+"This account's default language for e-mails and preferred language for site "
+"presentation."
+msgstr "Язык по умолчанию в этой учётной записи для электронных писем и предпочтительный язык для внешнего вида сайта."
+
+msgid "Avatar settings"
+msgstr "Настройки аватара"
+
+msgid "Create a profile"
+msgstr "Создать профиль"
+
+msgid "Upload an avatar"
+msgstr "Загрузить аватар"
+
+msgid "Forum settings"
+msgstr "Настройки форума"
+
+msgid "In discussion topics, show at most @comments_per_page"
+msgstr "В темах обсуждений показывать не более @comments_per_page"
+
+msgid "comments per page"
+msgstr "комментариев на страницу"
+
+msgid "Sort comments in discussions"
+msgstr "Сортировка комментариев в обсуждениях"
+
+msgid "Newest post first"
+msgstr "Сначала с самыми новыми сообщениями"
+
+msgid "Oldest post first"
+msgstr "Сначала самые старые сообщения"
+
+msgid "Signature"
+msgstr "Подпись"
+
+msgid "Your signature will be publicly displayed at the end of your comments."
+msgstr "Ваша подпись будет видна всем в конце ваших комментариев."
+
+msgid "Hide signatures in forums"
+msgstr "Скрывать подписи на форумах"
+
+msgid "Privacy settings"
+msgstr "Настройки конфиденциальности"
+
+msgid "Is it OK for @project and your team (if any) to email you?"
+msgstr "Могут ли @project и ваша команда (при наличии) отправлять Вам электронные письма?"
+
+msgid "Hide"
+msgstr "Скрыть"
+
+msgid "Hide this topic"
+msgstr "Скрыть эту тему"
+
+msgid "Lock"
+msgstr "Заблокировать"
+
+msgid "Lock this thread for comments"
+msgstr "Заблокировать это обсуждение для комментариев"
+
+msgid "Make sticky"
+msgstr "Закрепить"
+
+msgid "Make this topic sticky"
+msgstr "Закрепить эту тему"
+
+msgid "moderation"
+msgstr "модерация"
+
+msgid "Post new comment"
+msgstr "Добавить новый комментарий"
+
+msgid "You must earn 1 more credit!"
+msgstr "Вы должны заработать ещё 1 очко!"
+
+msgid "Joined"
+msgstr "Присоединился"
+
+msgid "Credit"
+msgstr "Очки"
+
+msgid "RAC"
+msgstr "RAC"
+
+msgid "Join team"
+msgstr "Присоединиться к команде"
+
+msgid "Click here to become a member of @this_team"
+msgstr "Нажмите здесь, чтобы стать участником команды @this_team"
+
+msgid "Join this team"
+msgstr "Присоединиться к этой команде"
+
+msgid "Manage team"
+msgstr "Управление командой"
+
+msgid "View member list"
+msgstr "Список участников"
+
+msgid "Member names and emails"
+msgstr "Имена и адреса электронной почты участников"
+
+msgid "View change history"
+msgstr "Просмотр истории изменений"
+
+msgid "See member activity"
+msgstr "Активность участников"
+
+msgid "Manage team message board"
+msgstr "Управление доской сообщений команды"
+
+msgid "Create or manage message board"
+msgstr "Создание или управление доской сообщений"
+
+msgid "Remove members"
+msgstr "Удалить участников"
+
+msgid "Change founder"
+msgstr "Поменять основателя"
+
+msgid "Manage team admins"
+msgstr "Управление администрацией команды"
+
+msgid "Edit team info"
+msgstr "Редактировать информацию о команде"
+
+msgid "Remove team"
+msgstr "Удалить команду"
+
+msgid "Team forum"
+msgstr "Форум команды"
+
+msgid "A discussion forum has been set up for team members."
+msgstr "Дискуссионный форум был создан для участников команды."
+
+msgid "Enter forum"
+msgstr "Войти на форум"
+
+msgid "Leave team"
+msgstr "Покинуть команду"
+
+msgid "Leave this team"
+msgstr "Покинуть эту команду"
+
+msgid "Edit message board"
+msgstr "Редактировать доску сообщений"
+
+msgid "Message board title"
+msgstr "Заголовок доски сообщений"
+
+msgid "Text only, no HTML tags"
+msgstr "Только текст, без тегов HTML"
+
+msgid "Minimum time between posts"
+msgstr "Минимальное время между сообщениями"
+
+msgid "Seconds"
+msgstr "Cекунд"
+
+msgid "Minimum total credit to post"
+msgstr "Минимальное общее количество очков для написания сообщений"
+
+msgid "Allow public to read board?"
+msgstr "Разрешить публичный доступ на чтение доски?"
+
+msgid "Save message board"
+msgstr "Сохранить доску сообщений"
+
+msgid "About message boards"
+msgstr "О досках сообщений"
+
+msgid "This is a team-only message board"
+msgstr "Это командная доска сообщений"
+
+msgid "Only members may post"
+msgstr "Только участники могут оставлять сообщения"
+
+msgid "Only members may read (optional)"
+msgstr "Только участники могут читать (опционально)"
+
+msgid "Changing the team founder"
+msgstr "Изменение основателя команды"
+
+msgid "Any member of the team is eligible"
+msgstr "Любой участник команды имеет право"
+
+msgid "Current founder becomes a normal user"
+msgstr "Текущий основатель становится обычным пользователем"
+
+msgid "It must be 60 days since any previous request"
+msgstr "Должно пройти 60 дней с момента любого предыдущего запроса"
+
+msgid "Add team admin"
+msgstr "Добавить администратора команды"
+
+msgid "Enter email address"
+msgstr "Введите адрес электронной почты"
+
+msgid "Current team admins"
+msgstr "Текущие администраторы команды"
+
+msgid "About team admins"
+msgstr "Об администраторах команды"
+
+msgid "Team admins can:"
+msgstr "Администраторы команды могут:"
+
+msgid "Edit team information"
+msgstr "Редактировать информацию о команде"
+
+msgid "View the team's join / quit history"
+msgstr "Просматривать историю присоединения/выхода из команды"
+
+msgid "Moderate the team forum"
+msgstr "Модерировать форум команды"
+
+msgid "Remove members from the team"
+msgstr "Удалять участников из команды"
+
+msgid "Disband a team if it has no members"
+msgstr "Расформировать команду, в которой нет участников"
+
+msgid "Team admins cannot:"
+msgstr "Администраторы команды не могут:"
+
+msgid "Change the team founder"
+msgstr "Поменять основателя команды"
+
+msgid "Add / Remove team admins"
+msgstr "Добавить или удалить администраторов команды"
+
+msgid "Choose type"
+msgstr "Выберите тип"
+
+msgid "Team name"
+msgstr "Название команды"
+
+msgid "Team name -- HTML version (optional)"
+msgstr "Название команды -- HTML-версия (не обязательно)"
+
+msgid "You may use limited HTML tags"
+msgstr "Вы можете использовать ограниченные теги HTML"
+
+msgid "Team website (optional)"
+msgstr "Веб-сайт команды (не обязательно)"
+
+msgid "Displayed on the team's page"
+msgstr "Отображается на странице команды"
+
+msgid "Type of team"
+msgstr "Тип команды"
+
+msgid "Accept new members?"
+msgstr "Принимать новых участников?"
+
+msgid "Description of team"
+msgstr "Описание команды"
+
+msgid "Create new team"
+msgstr "Создать новую команду"
+
+msgid "Create a team"
+msgstr "Создать команду"
+
+msgid "Save team"
+msgstr "Сохранить команду"
+
+msgid "Create team message board"
+msgstr "Создать доску сообщений команды"
+
+msgid "Create message board"
+msgstr "Создать доску сообщений"
+
+msgid ""
+"Please set the minimum average credit that a user is required to have in "
+"order to post to this message board."
+msgstr "Пожалуйста, установите минимальное среднее количество очков, которое пользователю необходимо иметь для того, чтобы писать на этой доске сообщений."
+
+msgid "Post new topic"
+msgstr "Опубликовать новую тему"
+
+msgid "Anonymous"
+msgstr "Анонимный"
+
+msgid "Unpublished"
+msgstr "Неопубликовано"
+
+msgid "Sorry, unrecognized email address or password."
+msgstr "К сожалению, адрес электронной почты или пароль не распознаны."
+
+msgid "Have you forgotten your password?"
+msgstr "Вы забыли ваш пароль?"
+
+msgid "Id"
+msgstr "Id"
+
+msgid "Recent average credit"
+msgstr "В среднем за день"
+
+msgid "Members"
+msgstr "Участники"
+
+msgid "Total Credit"
+msgstr "Всего очков"
+
+msgid "User ID"
+msgstr "ID пользователя"
+
+msgid "User"
+msgstr "Участник"
+
+msgid "Admin since"
+msgstr "Администратор с"
+
+msgid "Team ID"
+msgstr "ID команды"
+
+msgid "User joined"
+msgstr "Пользователь присоединился"
+
+msgid "Timestamp"
+msgstr "Штамп времени"
+
+msgid "Account Key"
+msgstr "Ключ учётной записи"
+
+msgid "CPID"
+msgstr "CPID"
+
+msgid "Email Address"
+msgstr "Адрес электронной почты"
+
+msgid "Password Hash"
+msgstr "Хэш пароля"
+
+msgid "Postal Code"
+msgstr "Почтовый индекс"
+
+msgid "Send Email"
+msgstr "Отправить письмо"
+
+msgid "Show Hosts"
+msgstr "Показать компьютеры"
+
+msgid "URL"
+msgstr "URL"
+
+msgid "Computer ID"
+msgstr "ID компьютера"
+
+msgid "Location"
+msgstr "Размещение"
+
+msgid "While BOINC running, % of time work is allowed"
+msgstr "% времени разрешённого выполнения расчётов за время работы BOINC"
+
+msgid "Average turnaround time"
+msgstr "Среднее время обработки"
+
+msgid "Created"
+msgstr "Создан"
+
+msgid "While BOINC running, % of time host has an Internet connection"
+msgstr "% времени подключения компьютера к Интернет за время работы BOINC"
+
+msgid "Average CPU efficiency"
+msgstr "Средняя эффективность ЦП"
+
+msgid "Free disk space"
+msgstr "Свободное дисковое пространство"
+
+msgid "Total disk space"
+msgstr "Полное дисковое пространство"
+
+msgid "Task duration correction factor"
+msgstr "Фактор исправления продолжительности выполнения задания"
+
+msgid "Avg. credit"
+msgstr "В среднем за день"
+
+msgid "External IP address"
+msgstr "Внешний IP-адрес"
+
+msgid "Cross project ID"
+msgstr "Межпроектный ID"
+
+msgid "Last IP address"
+msgstr "Последний IP-адрес"
+
+msgid "Cache"
+msgstr "Кэш"
+
+msgid "Memory"
+msgstr "Память"
+
+msgid "Swap space"
+msgstr "Файл подкачки"
+
+msgid "Average download rate"
+msgstr "Средняя скорость загрузки данных"
+
+msgid "Average upload rate"
+msgstr "Средняя скорость отправки данных"
+
+msgid "Same IP address count"
+msgstr "Сколько раз был этот же IP-адрес"
+
+msgid "% of time BOINC client is running"
+msgstr "% времени работы клиента BOINC"
+
+msgid "Operating system"
+msgstr "Операционная система"
+
+msgid "Operating system version"
+msgstr "Версия операционной системы"
+
+msgid "Measured floating point speed"
+msgstr "Измеренная скорость вычислений с плавающей запятой"
+
+msgid "Measured integer speed"
+msgstr "Измеренная скорость целочисленных вычислений"
+
+msgid "CPU model"
+msgstr "Модель процессора"
+
+msgid "Number of processors"
+msgstr "Число процессоров"
+
+msgid "CPU"
+msgstr "Тип ЦП"
+
+msgid "Number of times client has contacted server"
+msgstr "Количество контактов клиента с сервером"
+
+msgid "Last contact"
+msgstr "Последний контакт"
+
+msgid "Serial number"
+msgstr "Серийный номер"
+
+msgid "Timezone"
+msgstr "Часовой пояс"
+
+msgid "Platform ID"
+msgstr "ID платформы"
+
+msgid "Task ID"
+msgstr "ID задания"
+
+msgid "Workunit ID"
+msgstr "ID задачи"
+
+msgid "Host ID"
+msgstr "ID компьютера"
+
+msgid "Application ID"
+msgstr "ID приложения"
+
+msgid "Application version"
+msgstr "Версия приложения"
+
+msgid "Claimed credit"
+msgstr "Запрошено очков"
+
+msgid "Client state"
+msgstr "Состояние клиента"
+
+msgid "CPU time"
+msgstr "Время ЦП"
+
+msgid "Run time"
+msgstr "Время выполнения"
+
+msgid "Exit status"
+msgstr "Статус выхода"
+
+msgid "Granted credit"
+msgstr "Предоставлено очков"
+
+msgid "Outcome"
+msgstr "Результат выполнения"
+
+msgid "Report deadline"
+msgstr "Крайний срок отчёта"
+
+msgid "Sent"
+msgstr "Отправлен"
+
+msgid "Server state"
+msgstr "Состояние сервера"
+
+msgid "Stderr out"
+msgstr "Текст протокола"
+
+msgid "Validation state"
+msgstr "Состояние проверки"
+
+msgid "Canonical credit"
+msgstr "Канонических очков"
+
+msgid "Canonical result ID"
+msgstr "ID канонического результата"
+
+msgid "Created time"
+msgstr "Время создания"
+
+msgid "Needs validation"
+msgstr "Необходима проверка"
+
+msgid "Initial replication"
+msgstr "Начальная репликация"
+
+msgid "Computer"
+msgstr "Компьютер"
+
+msgid "Consecutive valid tasks"
+msgstr "Правильные задания завершённые подряд"
+
+msgid "Number of tasks completed"
+msgstr "Число завершённых заданий"
+
+msgid "Max tasks per day"
+msgstr "Максимум заданий в день"
+
+msgid "Number of tasks today"
+msgstr "Число заданий сегодня"
+
+msgid "Show IP address"
+msgstr "Показать IP-адрес"
+
+msgid "hours"
+msgstr "часов"
+
+msgid "Remove friend"
+msgstr "Удалить друга"
+
+msgid "Ban user"
+msgstr "Заблокировать пользователя"
+
+msgid "Add as friend"
+msgstr "Добавить друга"
+
+msgid "Team"
+msgstr "Команда"
+
+msgid "Reply"
+msgstr "Ответить"
+
+msgid "Reply to this comment"
+msgstr "Ответить на этот комментарий"
+
+msgid "Quote"
+msgstr "Цитата"
+
+msgid "Reply to this comment with quote"
+msgstr "Ответить на этот комментарий с цитатой"
+
+msgid "Edit this comment"
+msgstr "Редактировать этот комментарий"
+
+msgid "Delete this comment"
+msgstr "Удалить этот комментарий"
+
+msgid "Hide this comment"
+msgstr "Скрыть этот комментарий"
+
+msgid "Convert"
+msgstr "Конвертировать"
+
+msgid "Convert this comment to a new topic"
+msgstr "Конвертировать этот комментарий в новую тему"
+
+msgid "Details"
+msgstr "Подробности"
+
+msgid "Make unsticky"
+msgstr "Открепить"
+
+msgid ""
+"Sometimes BOINC assigns separate identities to the same computer by mistake."
+" You can correct this by merging old identities with the newest one."
+msgstr "Иногда BOINC по ошибке назначает различные идентификаторы одному и тому же компьютеру. Вы можете исправить это объединив старые идентификаторы с самым новым."
+
+msgid "Remove"
+msgstr "Удалить"
+
+msgid "hidden"
+msgstr "скрыто"
