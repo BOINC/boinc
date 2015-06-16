@@ -268,7 +268,6 @@
 		<row><td>NewBinary18</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\InstallStateMenu.ico</td></row>
 		<row><td>NewBinary19</td><td/><td>&lt;ISProjectFolder&gt;\redist\Progress\ptp_Splash.bmp</td></row>
 		<row><td>NewBinary2</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\New.ibd</td></row>
-		<row><td>NewBinary20</td><td/><td>&lt;ISProjectFolder&gt;\redist\windows\Win32\boinccas95.dll</td></row>
 		<row><td>NewBinary21</td><td/><td>&lt;ISProjectFolder&gt;\redist\Progress\PTP_IsDialogBitmap.bmp</td></row>
 		<row><td>NewBinary3</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\Up.ibd</td></row>
 		<row><td>NewBinary4</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\WarningIcon.ibd</td></row>
@@ -353,8 +352,8 @@
 		<row><td>_BOINCData</td><td>{4E793828-A468-4366-892F-FC2F36EC99D9}</td><td>DATADIR</td><td>16</td><td/><td/><td>145</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCDataProjects</td><td>{9C720438-35E8-4377-A105-AF3675664094}</td><td>PROJECTS</td><td>16</td><td/><td/><td>145</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCDataSlots</td><td>{C9FE7A6E-2470-4666-949B-4DB2BB936E5F}</td><td>SLOTS</td><td>16</td><td/><td/><td>145</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>_BOINCDepends</td><td>{69AF1C45-9D67-4F33-B97B-5DA096D77908}</td><td>INSTALLDIR</td><td>0</td><td/><td>msvcr80.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>_BOINCManager</td><td>{7EBB5E76-86BA-4EBA-98AA-DD908C215D72}</td><td>INSTALLDIR</td><td>0</td><td/><td>progressthruprocessors.exe</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>_BOINCDepends</td><td>{69AF1C45-9D67-4F33-B97B-5DA096D77908}</td><td>INSTALLDIR</td><td>0</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>_BOINCManager</td><td>{7EBB5E76-86BA-4EBA-98AA-DD908C215D72}</td><td>INSTALLDIR</td><td>0</td><td/><td>boincmgr.exe</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCManagerGlobalization</td><td>{F92B6595-2E79-45F0-BF41-4EDB52645FFC}</td><td>LOCALE</td><td>0</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCManagerSkin</td><td>{AD6F1C10-1DF7-4EDE-8ED8-18A9BA07CECA}</td><td>PROGRESSTHRUPROCESSORS</td><td>0</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCManagerStartMenu</td><td>{71A32D47-CA9B-4A6E-8811-2723938317C1}</td><td>INSTALLDIR</td><td>0</td><td>ENABLESTARTMENUITEMS = 1</td><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -1745,6 +1744,7 @@
 		<row><td>boinc.exe1</td><td>BOINCServiceConfig</td><td>boinc.exe</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\boinc.exe</td><td>1</td><td/></row>
 		<row><td>boinc.scr</td><td>_Screensaver</td><td>boinc.scr</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\boinc.scr</td><td>1</td><td/></row>
 		<row><td>boinccmd.exe</td><td>_BOINCCMD</td><td>boinccmd.exe</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\boinccmd.exe</td><td>1</td><td/></row>
+		<row><td>boincmgr.exe</td><td>_BOINCManager</td><td>boincmgr.exe</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\boincmgr.exe</td><td>1</td><td/></row>
 		<row><td>boincscr.exe</td><td>_BOINCScreensaver</td><td>boincscr.exe</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientscr\progress\win\x86\boincscr.exe</td><td>1</td><td/></row>
 		<row><td>boincsvcctrl.exe</td><td>_BOINCSvcCtrl</td><td>BOINCS~1.EXE|boincsvcctrl.exe</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\boincsvcctrl.exe</td><td>1</td><td/></row>
 		<row><td>boinctray.exe</td><td>_BOINCTray</td><td>BOINCT~1.EXE|boinctray.exe</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\boinctray.exe</td><td>1</td><td/></row>
@@ -1752,31 +1752,22 @@
 		<row><td>cc_config.xml</td><td>_BOINCData</td><td>CC_CON~1.XML|cc_config.xml</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\redist\Progress\cc_config.xml</td><td>1</td><td/></row>
 		<row><td>copying</td><td>_BOINCDepends</td><td>COPYING</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\COPYING</td><td>1</td><td/></row>
 		<row><td>copyright</td><td>_BOINCDepends</td><td>COPYRI~1|COPYRIGHT</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\COPYRIGHT</td><td>1</td><td/></row>
-		<row><td>dbghelp.dll</td><td>_BOINCDepends</td><td>dbghelp.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\dbghelp.dll</td><td>1</td><td/></row>
-		<row><td>dbghelp95.dll</td><td>_BOINCDepends</td><td>DBGHEL~1.DLL|dbghelp95.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\dbghelp95.dll</td><td>1</td><td/></row>
 		<row><td>gr.rgb</td><td>_BOINCScreensaver</td><td>gr.rgb</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientscr\progress\gr.rgb</td><td>1</td><td/></row>
 		<row><td>gradient.jpg</td><td>_BOINCScreensaver</td><td>gradient.jpg</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientscr\progress\gradient.jpg</td><td>1</td><td/></row>
 		<row><td>intel.rgb</td><td>_BOINCScreensaver</td><td>intel.rgb</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientscr\progress\intel.rgb</td><td>1</td><td/></row>
 		<row><td>libcurl.dll</td><td>_BOINCDepends</td><td>libcurl.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\libcurl.dll</td><td>1</td><td/></row>
 		<row><td>libeay32.dll</td><td>_BOINCDepends</td><td>libeay32.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\libeay32.dll</td><td>1</td><td/></row>
-		<row><td>microsoft.vc80.crt.manifest</td><td>_BOINCDepends</td><td>MICROS~1.MAN|Microsoft.VC80.CRT.manifest</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ProgramFilesFolder&gt;\microsoft visual studio 8\vc\redist\x86\microsoft.vc80.crt\Microsoft.VC80.CRT.manifest</td><td>1</td><td/></row>
-		<row><td>msvcm80.dll</td><td>_BOINCDepends</td><td>msvcm80.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ProgramFilesFolder&gt;\microsoft visual studio 8\vc\redist\x86\microsoft.vc80.crt\msvcm80.dll</td><td>1</td><td/></row>
-		<row><td>msvcp80.dll</td><td>_BOINCDepends</td><td>msvcp80.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ProgramFilesFolder&gt;\microsoft visual studio 8\vc\redist\x86\microsoft.vc80.crt\msvcp80.dll</td><td>1</td><td/></row>
-		<row><td>msvcr80.dll</td><td>_BOINCDepends</td><td>msvcr80.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ProgramFilesFolder&gt;\microsoft visual studio 8\vc\redist\x86\microsoft.vc80.crt\msvcr80.dll</td><td>1</td><td/></row>
+		<row><td>msvcp100.dll</td><td>_BOINCDepends</td><td>msvcp100.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\msvcp100.dll</td><td>1</td><td/></row>
+		<row><td>msvcr100.dll</td><td>_BOINCDepends</td><td>msvcr100.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\msvcr100.dll</td><td>1</td><td/></row>
 		<row><td>placeholder.txt</td><td>_BOINCData</td><td>PLACEH~1.TXT|placeholder.txt</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\redist\placeholder.txt</td><td>1</td><td/></row>
 		<row><td>placeholder.txt1</td><td>_BOINCDataProjects</td><td>PLACEH~1.TXT|placeholder.txt</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\redist\placeholder.txt</td><td>1</td><td/></row>
 		<row><td>placeholder.txt2</td><td>_BOINCDataSlots</td><td>PLACEH~1.TXT|placeholder.txt</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\redist\placeholder.txt</td><td>1</td><td/></row>
-		<row><td>progress.ico</td><td>_BOINCManager</td><td>progress.ico</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\redist\Progress\progress.ico</td><td>1</td><td/></row>
-		<row><td>progressthruprocessors.exe</td><td>_BOINCManager</td><td>PROGRE~1.EXE|progressthruprocessors.exe</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\progressthruprocessors.exe</td><td>1</td><td/></row>
 		<row><td>project.jpg</td><td>_BOINCScreensaver</td><td>project.jpg</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientscr\progress\project.jpg</td><td>1</td><td/></row>
 		<row><td>project_mask.jpg</td><td>_BOINCScreensaver</td><td>PROJEC~1.JPG|project_mask.jpg</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientscr\progress\project_mask.jpg</td><td>1</td><td/></row>
 		<row><td>simt</td><td>_BOINCScreensaver</td><td>simt</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientscr\progress\simt</td><td>1</td><td/></row>
 		<row><td>sqlite3.dll</td><td>_BOINCManager</td><td>sqlite3.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\sqlite3.dll</td><td>1</td><td/></row>
-		<row><td>srcsrv.dll</td><td>_BOINCDepends</td><td>srcsrv.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\srcsrv.dll</td><td>1</td><td/></row>
 		<row><td>ss_config.xml</td><td>_BOINCData</td><td>SS_CON~1.XML|ss_config.xml</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\redist\Progress\ss_config.xml</td><td>1</td><td/></row>
 		<row><td>ssleay32.dll</td><td>_BOINCDepends</td><td>ssleay32.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\ssleay32.dll</td><td>1</td><td/></row>
-		<row><td>symsrv.dll</td><td>_BOINCDepends</td><td>symsrv.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\symsrv.dll</td><td>1</td><td/></row>
-		<row><td>symsrv.yes</td><td>_BOINCDepends</td><td>symsrv.yes</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\symsrv.yes</td><td>1</td><td/></row>
 		<row><td>total.jpg</td><td>_BOINCScreensaver</td><td>total.jpg</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientscr\progress\total.jpg</td><td>1</td><td/></row>
 		<row><td>total_mask.jpg</td><td>_BOINCScreensaver</td><td>TOTAL_~1.JPG|total_mask.jpg</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientscr\progress\total_mask.jpg</td><td>1</td><td/></row>
 		<row><td>zlib1.dll</td><td>_BOINCDepends</td><td>zlib1.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\zlib1.dll</td><td>1</td><td/></row>
@@ -2417,7 +2408,7 @@
 		<row><td>WEBx86</td><td>ProductCode</td><td/></row>
 		<row><td>WEBx86</td><td>ProductName</td><td/></row>
 		<row><td>WEBx86</td><td>ProductVersion</td><td/></row>
-		<row><td>WEBx86</td><td>SetupFileName</td><td>ptp_7.0.72_windows_intelx86</td></row>
+		<row><td>WEBx86</td><td>SetupFileName</td><td>ptp_7.6.3_windows_intelx86</td></row>
 		<row><td>WEBx86</td><td>UpgradeCode</td><td/></row>
 	</table>
 
@@ -4002,38 +3993,44 @@ Click Advanced to customize.</td><td>0</td><td/><td>1427879980</td></row>
 		<col def="I2">Sequence</col>
 		<col def="S255">ISComments</col>
 		<col def="I4">ISAttributes</col>
-		<row><td>AllocateRegistrySpace</td><td>NOT Installed</td><td>1554</td><td>AllocateRegistrySpace</td><td/></row>
+		<row><td>AllocateRegistrySpace</td><td>NOT Installed</td><td>1563</td><td>AllocateRegistrySpace</td><td/></row>
 		<row><td>AppSearch</td><td/><td>400</td><td>AppSearch</td><td/></row>
 		<row><td>BindImage</td><td/><td>4300</td><td>BindImage</td><td/></row>
+		<row><td>CAAnnounceUpgrade</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>1001</td><td/><td/></row>
 		<row><td>CACleanupOldBinaries</td><td>REMOVE &lt;&gt; "ALL"</td><td>796</td><td/><td/></row>
 		<row><td>CACreateAcctMgrLoginFile</td><td>NOT Installed</td><td>6605</td><td/><td/></row>
 		<row><td>CACreateBOINCAccounts</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1546</td><td/><td/></row>
-		<row><td>CACreateBOINCGroups</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>1549</td><td/><td/></row>
+		<row><td>CACreateBOINCGroups</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1553</td><td/><td/></row>
 		<row><td>CACreateClientAuthFile</td><td>VersionNT And NOT Installed</td><td>6604</td><td/><td/></row>
 		<row><td>CACreateProjectInitFile</td><td>NOT Installed</td><td>6606</td><td/><td/></row>
+		<row><td>CADeleteBOINCAccounts</td><td>VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1552</td><td/><td/></row>
+		<row><td>CADeleteBOINCGroups</td><td>VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1562</td><td/><td/></row>
 		<row><td>CAGetAdministratorsGroupName</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>1537</td><td/><td/></row>
 		<row><td>CAGetUsersGroupName</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>1543</td><td/><td/></row>
-		<row><td>CAGrantBOINCAdminsRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1550</td><td/><td/></row>
+		<row><td>CAGrantBOINCAdminsRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1554</td><td/><td/></row>
+		<row><td>CAGrantBOINCAdminsVirtualBoxRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1556</td><td/><td/></row>
 		<row><td>CAGrantBOINCMasterRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1547</td><td/><td/></row>
-		<row><td>CAGrantBOINCProjectRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1548</td><td/><td/></row>
-		<row><td>CAGrantBOINCProjectsRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1552</td><td/><td/></row>
-		<row><td>CAGrantBOINCUsersRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1551</td><td/><td/></row>
-		<row><td>CAMigrateBOINCData</td><td/><td>1553</td><td/><td/></row>
-		<row><td>CAMigrateBOINCDataCleanup</td><td>REMOVE &lt;&gt; "ALL"</td><td>6613</td><td/><td/></row>
-		<row><td>CAMigrateBOINCDataInstall</td><td/><td>3950</td><td/><td/></row>
-		<row><td>CAMigrateBOINCDataRollback</td><td/><td>3900</td><td/><td/></row>
-		<row><td>CAMigrateBOINCDataVersion</td><td>REMOVE &lt;&gt; "ALL"</td><td>409</td><td/><td/></row>
+		<row><td>CAGrantBOINCProjectRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1550</td><td/><td/></row>
+		<row><td>CAGrantBOINCProjectsRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1559</td><td/><td/></row>
+		<row><td>CAGrantBOINCProjectsVirtualBoxRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1561</td><td/><td/></row>
+		<row><td>CAGrantBOINCUsersRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1557</td><td/><td/></row>
+		<row><td>CARestorePermissionBOINCData</td><td>VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>6611</td><td/><td/></row>
+		<row><td>CARestoreSetupState</td><td>VersionNT And REMOVE = "ALL"</td><td>1002</td><td/><td/></row>
+		<row><td>CARevokeBOINCAdminsRights</td><td>VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1555</td><td/><td/></row>
+		<row><td>CARevokeBOINCMasterRights</td><td>VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1548</td><td/><td/></row>
+		<row><td>CARevokeBOINCProjectRights</td><td>VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1551</td><td/><td/></row>
+		<row><td>CARevokeBOINCProjectsRights</td><td>VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1560</td><td/><td/></row>
+		<row><td>CARevokeBOINCUsersRights</td><td>VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1558</td><td/><td/></row>
 		<row><td>CASaveExecutionState</td><td/><td>6615</td><td/><td/></row>
 		<row><td>CASaveSetupState</td><td/><td>6614</td><td/><td/></row>
 		<row><td>CASetBOINCDataProjects</td><td/><td>1004</td><td/><td/></row>
 		<row><td>CASetBOINCDataSlots</td><td/><td>1003</td><td/><td/></row>
-		<row><td>CASetPermissionBOINC</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>6607</td><td/><td/></row>
-		<row><td>CASetPermissionBOINCData</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>6608</td><td/><td/></row>
-		<row><td>CASetPermissionBOINCDataProjects</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>6609</td><td/><td/></row>
-		<row><td>CASetPermissionBOINCDataSlots</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>6611</td><td/><td/></row>
+		<row><td>CASetPermissionBOINC</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>6607</td><td/><td/></row>
+		<row><td>CASetPermissionBOINCData</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>6608</td><td/><td/></row>
+		<row><td>CASetPermissionBOINCDataProjects</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>6609</td><td/><td/></row>
+		<row><td>CASetPermissionBOINCDataSlots</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>6610</td><td/><td/></row>
 		<row><td>CAShutdownBOINC</td><td>VersionNT</td><td>403</td><td/><td/></row>
 		<row><td>CAShutdownBOINCManager</td><td>VersionNT</td><td>404</td><td/><td/></row>
-		<row><td>CAShutdownBOINCManager95</td><td>Version9X</td><td>405</td><td/><td/></row>
 		<row><td>CAShutdownBOINCScreensaver</td><td>VersionNT</td><td>408</td><td/><td/></row>
 		<row><td>CAValidateInstall</td><td>REMOVE &lt;&gt; "ALL"</td><td>6602</td><td/><td/></row>
 		<row><td>CAValidateRebootRequest</td><td>REMOVE &lt;&gt; "ALL" AND RETURN_REBOOTREQUESTED = "1"</td><td>6603</td><td/><td/></row>
@@ -4048,13 +4045,9 @@ Click Advanced to customize.</td><td>0</td><td/><td>1427879980</td></row>
 		<row><td>FileCost</td><td/><td>900</td><td>FileCost</td><td/></row>
 		<row><td>FindRelatedProducts</td><td>NOT ISSETUPDRIVEN</td><td>420</td><td>FindRelatedProducts</td><td/></row>
 		<row><td>ISPreventDowngrade</td><td>ISFOUNDNEWERPRODUCTVERSION</td><td>450</td><td/><td/></row>
-		<row><td>ISSelfRegisterCosting</td><td/><td>2201</td><td/><td/></row>
-		<row><td>ISSelfRegisterFiles</td><td/><td>5601</td><td/><td/></row>
-		<row><td>ISSelfRegisterFinalize</td><td/><td>6610</td><td/><td/></row>
 		<row><td>ISSetAllUsers</td><td>Not Installed</td><td>10</td><td/><td/></row>
 		<row><td>ISSetupFilesCleanup</td><td/><td>6616</td><td/><td/></row>
 		<row><td>ISSetupFilesExtract</td><td/><td>3</td><td/><td/></row>
-		<row><td>ISUnSelfRegisterFiles</td><td/><td>2202</td><td/><td/></row>
 		<row><td>InstallFiles</td><td/><td>4000</td><td>InstallFiles</td><td/></row>
 		<row><td>InstallFinalize</td><td/><td>6601</td><td>InstallFinalize</td><td/></row>
 		<row><td>InstallInitialize</td><td/><td>1501</td><td>InstallInitialize</td><td/></row>
@@ -4527,12 +4520,12 @@ VwBlAGIAAQBXAEUAQgB4ADgANgA=
 		<row><td>PROGMSG_IIS_REMOVEWEBSITES</td><td>##IDS_PROGMSG_IIS_REMOVEWEBSITES##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKAPPPOOLS</td><td>##IDS_PROGMSG_IIS_ROLLBACKAPPPOOLS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
-		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[#progressthruprocessors.exe]</td><td/></row>
-		<row><td>ProductCode</td><td>{33E589B9-D591-4EF7-A776-700F7B13981C}</td><td/></row>
+		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[#boincmgr.exe]</td><td/></row>
+		<row><td>ProductCode</td><td>{3B3D3B2F-C163-4F63-A048-567A30E2DBBD}</td><td/></row>
 		<row><td>ProductID</td><td>none</td><td/></row>
 		<row><td>ProductLanguage</td><td>1033</td><td/></row>
 		<row><td>ProductName</td><td>Progress Thru Processors</td><td/></row>
-		<row><td>ProductVersion</td><td>7.0.72</td><td/></row>
+		<row><td>ProductVersion</td><td>7.6.3</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>
@@ -4598,10 +4591,10 @@ VwBlAGIAAQBXAEUAQgB4ADgANgA=
 		<col def="I4">ISAttributes</col>
 		<row><td>Registry1</td><td>1</td><td>Control Panel\Desktop</td><td>SCRNSAVE.EXE</td><td>boinc.scr</td><td>_ScreensaverEnableNT</td><td>0</td></row>
 		<row><td>Registry2</td><td>1</td><td>Control Panel\Desktop</td><td>ScreenSaveActive</td><td>1</td><td>_ScreensaverEnableNT</td><td>0</td></row>
-		<row><td>Registry3</td><td>1</td><td>SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>boincmgr</td><td>"[INSTALLDIR]progressthruprocessors.exe" /a /s</td><td>_BOINCManagerStartup</td><td>0</td></row>
+		<row><td>Registry3</td><td>1</td><td>SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>boincmgr</td><td>"[INSTALLDIR]boincmgr.exe" /a /s</td><td>_BOINCManagerStartup</td><td>0</td></row>
 		<row><td>Registry30</td><td>2</td><td>SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>boinctray</td><td>"[INSTALLDIR]boinctray.exe"</td><td>_BOINCTrayStartup</td><td>0</td></row>
 		<row><td>Registry4</td><td>1</td><td>Control Panel\Desktop</td><td>ScreenSaveTimeOut</td><td>300</td><td>_ScreensaverEnableNT</td><td>0</td></row>
-		<row><td>Registry5</td><td>2</td><td>SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>boincmgr</td><td>"[INSTALLDIR]progressthruprocessors.exe" /a /s</td><td>_BOINCManagerStartupAll</td><td>0</td></row>
+		<row><td>Registry5</td><td>2</td><td>SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>boincmgr</td><td>"[INSTALLDIR]boincmgr.exe" /a /s</td><td>_BOINCManagerStartupAll</td><td>0</td></row>
 		<row><td>Registry6</td><td>1</td><td>Software\Space Sciences Laboratory, U.C. Berkeley\BOINC Manager</td><td>Skin</td><td>ProgressThruProcessors</td><td>_BOINCManagerSkin</td><td>0</td></row>
 	</table>
 
@@ -4703,7 +4696,7 @@ VwBlAGIAAQBXAEUAQgB4ADgANgA=
 		<col def="S255">ISComments</col>
 		<col def="S255">ISShortcutName</col>
 		<col def="I4">ISAttributes</col>
-		<row><td>BOINCManagerShortcut</td><td>newfolder1</td><td>##IDS_FEATURE_BOINC_MANAGER_NAME##</td><td>_BOINCManagerStartMenu</td><td>[INSTALLDIR]progressthruprocessors.exe</td><td/><td>##IDS_FEATURE_BOINC_MANAGER_DESCRIPTION##</td><td/><td>BOINCManagerShortc_22DD455C797043E280CB5EA88416A8D5.exe</td><td>0</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>BOINCManagerShortcut</td><td>newfolder1</td><td>##IDS_FEATURE_BOINC_MANAGER_NAME##</td><td>_BOINCManagerStartMenu</td><td>[INSTALLDIR]boincmgr.exe</td><td/><td>##IDS_FEATURE_BOINC_MANAGER_DESCRIPTION##</td><td/><td>BOINCManagerShortc_22DD455C797043E280CB5EA88416A8D5.exe</td><td>0</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="Signature">
