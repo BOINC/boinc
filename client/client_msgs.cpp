@@ -56,7 +56,8 @@ void show_message(
 ) {
     const char* x;
     char message[1024], event_msg[1024], evt_message[2048];
-    char* time_string = time_to_string(gstate.now);
+    double t = dtime();
+    char* time_string = time_to_string(t);
 
     // Cycle the log files if needed
     //
@@ -84,7 +85,7 @@ void show_message(
     default:
         strlcpy(event_msg, message, sizeof(event_msg));
     }
-    message_descs.insert(p, priority, (int)gstate.now, event_msg);
+    message_descs.insert(p, priority, (int)t, event_msg);
 
     // add a notice
     //
@@ -105,7 +106,7 @@ void show_message(
         if (p) {
             safe_strcpy(n.project_name, p->get_project_name());
         }
-        n.create_time = n.arrival_time = gstate.now;
+        n.create_time = n.arrival_time = t;
         safe_strcpy(n.category, (priority==MSG_USER_ALERT)?"client":"scheduler");
         notices.append(n);
     }

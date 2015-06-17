@@ -273,7 +273,7 @@ int delete_project_owned_file(const char* path, bool retry) {
     if (retval && retry) {
         if (log_flags.slot_debug) {
             msg_printf(0, MSG_INFO,
-                "delete of %s failed (%d); retrying", path, retval
+                "[slot] delete of %s failed (%d); retrying", path, retval
             );
         }
         double start = dtime();

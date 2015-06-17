@@ -628,6 +628,10 @@ int boinc_rename(const char* old, const char* newf) {
 
     retval = boinc_rename_aux(old, newf);
     if (retval) {
+        // if the rename failed, and the file exists,
+        // retry a few times
+        //
+        if (!boinc_file_exists(old)) return ERR_FILE_MISSING;
         double start = dtime();
         do {
             boinc_sleep(drand()*2);       // avoid lockstep
