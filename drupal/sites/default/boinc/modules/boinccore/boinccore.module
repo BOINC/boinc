@@ -95,6 +95,32 @@ function boinccore_enable() {
 }
 
 /**
+ * Implementation of hook_cron()
+ */
+function boinccore_cron() {
+  // Notify moderators if there is site content that requires moderator action
+  $items_in_queue = boincuser_moderation_queue_count();
+  $last_notification = variable_get('boinccore_last_content_moderation_reminder', 0);
+  if ($items_in_queue AND $last_notification < time() - 24*60*60) {
+    global $base_url;
+    global $base_path;
+    $site_name = variable_get('site_name', bts('project'));
+    $site_url = $base_url . $base_path;
+    $settings = array(
+      'from' => '',
+      'subject' => "Content at {$site_name} is awaiting moderation",
+      'message' => ''
+      . "Please visit the moderation queue page to review content that "
+      . "requires moderator action: \n"
+      . "\n"
+      . "{$site_url}moderate",
+    );
+    boinccore_rules_action_mail_to_moderators($settings);
+    variable_set('boinccore_last_content_moderation_reminder', time());
+  }
+}
+
+/**
  * Implementation of hook_rules_action_info().
  */
 function boinccore_rules_action_info() {
@@ -716,6 +742,7 @@ function boinccore_rules_action_mark_content_for_moderation($node) {
  * Action: Send mail to moderators.
  */
 function boinccore_rules_action_mail_to_moderators($settings) {
+  module_load_include('inc', 'rules', 'modules/system.rules');
   $mailing_list = variable_get('boinc_moderator_mailing_list', '');
   $force_individual_notifications = variable_get('boinc_moderator_force_individual_notifications', 0);
   
