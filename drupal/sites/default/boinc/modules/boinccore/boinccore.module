@@ -462,17 +462,20 @@ function boinccore_am_get_info() {
   $xml = ob_get_clean();
   $xml = load_configuration($xml);
   // See if the account has an approved profile in Drupal
-  $content_profile = content_profile_load('profile', $account->uid);
-  $profile_is_approved = ($content_profile->status AND !$content_profile->moderate);
-  $country = check_plain($content_profile->field_country[0]['value']);
-  $website = '';
-  if ($profile_is_approved) {
-    $website = check_plain($content_profile->field_url[0]['value']);
+  $uid = boincuser_lookup_uid($xml['am_get_info_reply']['id']);
+  if ($uid) {
+    $content_profile = content_profile_load('profile', $uid);
+    $profile_is_approved = ($content_profile->status AND !$content_profile->moderate);
+    $country = check_plain($content_profile->field_country[0]['value']);
+    $website = '';
+    if ($profile_is_approved) {
+      $website = check_plain($content_profile->field_url[0]['value']);
+    }
+    // Override BOINC values with Drupal values as needed
+    $xml['am_get_info_reply']['has_profile']['@value'] = ($profile_is_approved) ? 1 : 0;
+    $xml['am_get_info_reply']['country']['@value'] = $country;
+    $xml['am_get_info_reply']['url']['@value'] = $website;
   }
-  // Override BOINC values with Drupal values as needed
-  $xml['am_get_info_reply']['has_profile']['@value'] = ($profile_is_approved) ? 1 : 0;
-  $xml['am_get_info_reply']['country']['@value'] = $country;
-  $xml['am_get_info_reply']['url']['@value'] = $website;
   print save_configuration($xml);
 }
 
