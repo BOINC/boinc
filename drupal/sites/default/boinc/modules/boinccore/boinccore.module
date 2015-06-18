@@ -62,6 +62,16 @@ function boinccore_menu() {
     'type' => MENU_NORMAL_ITEM,
     'file' => 'boinccore.admin.inc'
   );
+  
+  // BOINC RPC wrappers
+  $items['lookup_account.php'] = array(
+    'title' => 'Look up account RPC',
+    'description' => 'RPC for getting the authenticator for a user account.',
+    'page callback' => 'boinccore_lookup_account',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
+  );
+  
   return $items;
 }
 
@@ -422,6 +432,14 @@ function boinccore_comment_control($cid = NULL, $action = NULL) {
   default:
   }
   drupal_goto($return_path, NULL, $return_anchor);
+}
+
+/**
+ * Page callback for the look up account RPC (lookup_account.php).
+ * Get the authenticator for a given account
+ */
+function boinccore_lookup_account() {
+  include_boinc('user/lookup_account.php');
 }
 
 /**
