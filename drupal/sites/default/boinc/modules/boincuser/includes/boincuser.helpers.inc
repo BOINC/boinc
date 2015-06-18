@@ -158,12 +158,15 @@ function require_boinc($libraries) {
 
 /**
  * Include BOINC code
- * The path from the BOINC root must be included (e.g. user/file.php)
+ * The path from the BOINC html root must be included (e.g. user/file.php)
  */
 function include_boinc($file) {
   if ($include_dir = boinc_get_path()) {
+    $include_dir .= '/html';
     $workingDir = getcwd();
-    chdir($include_dir);
+    $path = dirname($file);
+    $file = basename($file);
+    chdir("{$include_dir}/{$path}");
     include($file);
     chdir($workingDir);
   }
