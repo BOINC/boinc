@@ -204,8 +204,10 @@ void CDlgItemProperties::show_rsc(wxString rsc_name, RSC_DESC rsc_desc) {
     }
     double x = rsc_desc.backoff_time - dtime();
     if (x<0) x = 0;
-    addProperty(rsc_name + _(" work fetch deferred for"), FormatTime(x));
-    addProperty(rsc_name + _(" work fetch deferral interval"), FormatTime(rsc_desc.backoff_interval));
+    if (x) {
+        addProperty(rsc_name + _(" work fetch deferred for"), FormatTime(x));
+        addProperty(rsc_name + _(" work fetch deferral interval"), FormatTime(rsc_desc.backoff_interval));
+    }
 }
 
 // show project properties
@@ -241,7 +243,7 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
     SetTitle(wxTitle);
     //layout controls
     addSection(_("General"));
-    addProperty(_("Master URL"), wxString(project->master_url, wxConvUTF8));
+    addProperty(_("URL"), wxString(project->master_url, wxConvUTF8));
     addProperty(_("User name"), wxString(project->user_name.c_str(), wxConvUTF8));
     addProperty(_("Team name"), wxString(project->team_name.c_str(), wxConvUTF8));
     addProperty(_("Resource share"), wxString::Format(wxT("%0.0f"), project->resource_share));
@@ -332,6 +334,11 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
                 wxString::Format(wxT("%0.4f"), dcf)
             );
         }
+    }
+    if (project->last_rpc_time) {
+        wxDateTime dt;
+        dt.Set((time_t)project->last_rpc_time);
+        addProperty(_("Last scheduler reply"), dt.Format());
     }
     m_gbSizer->Layout();
     m_scrolledWindow->FitInside();

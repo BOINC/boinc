@@ -105,6 +105,8 @@ struct PROJECT : PROJ_AM {
     double ams_resource_share;
         // resource share according to AMS; overrides project
         // -1 means not specified by AMS, or not using an AMS
+    double last_rpc_time;
+        // when last RPC finished; used by Manager
 
     // stuff related to scheduler RPCs and master fetch
     //
@@ -134,10 +136,6 @@ struct PROJECT : PROJ_AM {
         // may still need to be done for given project
     bool trickle_up_pending;
         // have trickle up to send
-    double last_rpc_time;
-        // when last RPC finished
-        // not maintained across client sessions
-        // used by Manager (simple view)
 
     // Other stuff
 
