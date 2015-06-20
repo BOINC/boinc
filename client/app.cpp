@@ -1133,6 +1133,7 @@ void* throttler(void*) {
             || gstate.global_prefs.cpu_usage_limit < 0.005
             ) {
             client_mutex.unlock();
+//            ::Sleep((int)(1000*10));  // for Win debugging
             boinc_sleep(10);
             continue;
         }
