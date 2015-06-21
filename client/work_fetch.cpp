@@ -906,8 +906,8 @@ void WORK_FETCH::handle_reply(
 }
 
 // set up for initial RPC.
-// arrange to always get one job, even if we don't need it or can't handle it.
-// (this is probably what user wants)
+// Ask for just 1 job per instance,
+// since we don't have good runtime estimates yet
 //
 void WORK_FETCH::set_initial_work_request(PROJECT* p) {
     for (int i=0; i<coprocs.n_rsc; i++) {
@@ -918,7 +918,6 @@ void WORK_FETCH::set_initial_work_request(PROJECT* p) {
                 rsc_work_fetch[i].req_secs = 0;
             }
         }
-        rsc_work_fetch[i].req_instances = 0;
         rsc_work_fetch[i].busy_time_estimator.reset();
     }
 }
