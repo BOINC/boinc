@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-03 14:18-0500\n"
-"PO-Revision-Date: 2015-06-21 09:57+0000\n"
+"PO-Revision-Date: 2015-06-21 10:12+0000\n"
 "Last-Translator: Josef Andersson <josef.andersson@fripost.org>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/boinc/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -1353,7 +1353,7 @@ msgstr "Begär att uppgifter ska lagra kontrollpunkt var"
 #. context: Request tasks to checkpoint at most every ___ seconds
 #: clientgui/DlgAdvPreferencesBase.cpp:440
 msgid "seconds"
-msgstr "sekunder"
+msgstr "sekund"
 
 #. upload/download rates
 #: clientgui/DlgAdvPreferencesBase.cpp:477
