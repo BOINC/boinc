@@ -108,6 +108,8 @@ ACTIVE_TASK::ACTIVE_TASK() {
 
     fraction_done = 0;
     fraction_done_elapsed_time = 0;
+    first_fraction_done = 0;
+    first_fraction_done_elapsed_time = 0;
     scheduler_state = CPU_SCHED_UNINITIALIZED;
     signal = 0;
     run_interval_start_wall_time = gstate.now;
@@ -712,6 +714,12 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         too_large?"   <too_large/>\n":"",
         needs_shmem?"   <needs_shmem/>\n":""
     );
+    if (elapsed_time > first_fraction_done_elapsed_time) {
+        fout.printf(
+            "   <progress_rate>%f</progress_rate>\n",
+            (fd - first_fraction_done)/(elapsed_time - first_fraction_done_elapsed_time)
+        );
+    }
     if (strlen(app_version->graphics_exec_path)) {
         fout.printf(
             "   <graphics_exec_path>%s</graphics_exec_path>\n"
