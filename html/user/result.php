@@ -30,9 +30,10 @@ if ($x) {
 }
 
 if (!$result) {
-    error_page(tra("No such task: $x"));
+    error_page(tra("No such task:")." ".htmlspecialchars($x));
+        // the htmlspecialchars prevents XSS
 }
-page_head(tra("Task %1", $x));
+page_head(tra("Task")." ".htmlspecialchars($x));
 show_result($result);
 page_tail();
 
