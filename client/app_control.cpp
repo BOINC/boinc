@@ -1361,6 +1361,10 @@ bool ACTIVE_TASK::get_app_status_msg() {
         if (fd) {
             fraction_done = fd;
             fraction_done_elapsed_time = elapsed_time;
+            if (!first_fraction_done) {
+                first_fraction_done = fd;
+                first_fraction_done_elapsed_time = elapsed_time;
+            }
         }
     }
     parse_double(msg_buf, "<current_cpu_time>", current_cpu_time);
