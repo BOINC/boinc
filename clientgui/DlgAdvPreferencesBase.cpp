@@ -678,35 +678,63 @@ wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
     wxString andString(_("and"));
     wxString toString(wxT(" ")+_("to")+wxT(" "));
     
-    wxPanel* dailySchedulesTab = new wxPanel( notebook, ID_TABPAGE_SCHED, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+    wxPanel* dailySchedulesTab = new wxPanel(
+        notebook, ID_TABPAGE_SCHED, wxDefaultPosition,
+        wxDefaultSize, wxTAB_TRAVERSAL
+    );
     dailySchedulesTab->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
 
     wxBoxSizer* dailySchedulesTabSizer = new wxBoxSizer( wxVERTICAL );
 
     // Computing schedule
     //
-    wxStaticBox* computingTimesStaticBox = new wxStaticBox(dailySchedulesTab, -1, _("Computing") );
-    wxStaticBoxSizer* computingTimesStaticBoxSizer = new wxStaticBoxSizer(computingTimesStaticBox, wxVERTICAL);
+    wxStaticBox* computingTimesStaticBox = new wxStaticBox(
+        dailySchedulesTab, -1, _("Computing")
+    );
+    wxStaticBoxSizer* computingTimesStaticBoxSizer = new wxStaticBoxSizer(
+        computingTimesStaticBox, wxVERTICAL
+    );
     makeStaticBoxLabelItalic(computingTimesStaticBox);
 
     wxString ProcEveryDayTT(_("Compute only during a particular period each day."));
     m_chkProcEveryDay = new wxCheckBox(
         computingTimesStaticBox, ID_CHKPROCEVERYDAY,
-        _("Compute only between"), wxDefaultPosition, wxDefaultSize, 0 );
+        _("Compute only between"), wxDefaultPosition, wxDefaultSize, 0
+    );
 
-    m_txtProcEveryDayStart = new wxTextCtrl( computingTimesStaticBox, ID_TXTPROCEVERYDAYSTART, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
+    m_txtProcEveryDayStart = new wxTextCtrl(
+        computingTimesStaticBox, ID_TXTPROCEVERYDAYSTART, wxEmptyString,
+        wxDefaultPosition, textCtrlSize, wxTE_RIGHT
+    );
 
-    wxStaticText* staticText25 = new wxStaticText( computingTimesStaticBox, ID_DEFAULT, andString, wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
+    wxStaticText* staticText25 = new wxStaticText(
+        computingTimesStaticBox, ID_DEFAULT, andString, wxDefaultPosition,
+        wxDefaultSize, wxALIGN_CENTRE
+    );
 
-    m_txtProcEveryDayStop = new wxTextCtrl( computingTimesStaticBox, ID_TXTPROCEVERYDAYSTOP, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
+    m_txtProcEveryDayStop = new wxTextCtrl(
+        computingTimesStaticBox, ID_TXTPROCEVERYDAYSTOP, wxEmptyString,
+        wxDefaultPosition, textCtrlSize, wxTE_RIGHT
+    );
 
-    addNewRowToSizer(computingTimesStaticBoxSizer, ProcEveryDayTT, m_chkProcEveryDay, m_txtProcEveryDayStart, staticText25, m_txtProcEveryDayStop);
+    addNewRowToSizer(
+        computingTimesStaticBoxSizer, ProcEveryDayTT, m_chkProcEveryDay,
+        m_txtProcEveryDayStart, staticText25, m_txtProcEveryDayStop
+    );
 
-    wxStaticBox* procSpecialTimesStaticBox = new wxStaticBox(computingTimesStaticBox, -1, _("Day-of-week override") );
-    wxStaticBoxSizer* procSpecialTimesStaticBoxSizer = new wxStaticBoxSizer(procSpecialTimesStaticBox, wxVERTICAL);
+    wxStaticBox* procSpecialTimesStaticBox = new wxStaticBox(
+        computingTimesStaticBox, -1, _("Day-of-week override")
+    );
+    wxStaticBoxSizer* procSpecialTimesStaticBoxSizer = new wxStaticBoxSizer(
+        procSpecialTimesStaticBox, wxVERTICAL
+    );
     makeStaticBoxLabelItalic(procSpecialTimesStaticBox);
 
-    wxStaticText* staticText36 = new wxStaticText( procSpecialTimesStaticBox, ID_DEFAULT, _("Override the times above on the selected days:"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText* staticText36 = new wxStaticText(
+        procSpecialTimesStaticBox, ID_DEFAULT,
+        _("Override the times above on the selected days:"),
+        wxDefaultPosition, wxDefaultSize, 0
+    );
 #ifdef __WXMAC__
     procSpecialTimesStaticBoxSizer->Add( staticText36, 0, wxLEFT, 5 );
 #else
@@ -721,25 +749,42 @@ wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
     procDaysSizer->SetFlexibleDirection( wxHORIZONTAL );
     procDaysSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 
-    // Tooltips for Day-of-Week override wxCheckBoxes and wxTextCtrls are set in CDlgAdvPreferences::SetSpecialTooltips()
+    // Tooltips for Day-of-Week override wxCheckBoxes and wxTextCtrls
+    // are set in CDlgAdvPreferences::SetSpecialTooltips()
+    //
     wxString procDaysTimeTT(PROC_DAY_OF_WEEK_TOOLTIP_TEXT);
 
-    m_chkProcMonday = new wxCheckBox( procSpecialTimesStaticBox, ID_CHKPROCMONDAY, _("Monday"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_chkProcMonday = new wxCheckBox(
+        procSpecialTimesStaticBox, ID_CHKPROCMONDAY, _("Monday"),
+        wxDefaultPosition, wxDefaultSize, 0
+    );
     procDaysSizer->Add( m_chkProcMonday, 0, wxTOP, 5 );
 
-    m_txtProcMondayStart = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCMONDAYSTART, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    m_txtProcMondayStart = new wxTextCtrl(
+        procSpecialTimesStaticBox, ID_TXTPROCMONDAYSTART, wxEmptyString,
+        wxDefaultPosition, textCtrlSize, 0
+    );
     procDaysSizer->Add( m_txtProcMondayStart, 0, wxALL, 1 );
 
-    wxStaticText* toStringProcMonday = new wxStaticText( procSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText* toStringProcMonday = new wxStaticText(
+        procSpecialTimesStaticBox, ID_DEFAULT, toString, wxDefaultPosition,
+        wxDefaultSize, 0
+    );
     toStringProcMonday->SetToolTip(procDaysTimeTT);
     procDaysSizer->Add(toStringProcMonday , 0, wxTOP, 5 );
 
-    m_txtProcMondayStop = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCMONDAYSTOP, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
+    m_txtProcMondayStop = new wxTextCtrl(
+        procSpecialTimesStaticBox, ID_TXTPROCMONDAYSTOP, wxEmptyString,
+        wxDefaultPosition, textCtrlSize, 0
+    );
     procDaysSizer->Add( m_txtProcMondayStop, 0, wxALL, 1 );
 
     procDaysSizer->AddSpacer(15);
 
-    m_chkProcFriday = new wxCheckBox( procSpecialTimesStaticBox, ID_CHKPROCFRIDAY, _("Friday"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_chkProcFriday = new wxCheckBox(
+        procSpecialTimesStaticBox, ID_CHKPROCFRIDAY, _("Friday"),
+        wxDefaultPosition, wxDefaultSize, 0
+    );
     procDaysSizer->Add( m_chkProcFriday, 0, wxTOP, 5 );
 
     m_txtProcFridayStart = new wxTextCtrl( procSpecialTimesStaticBox, ID_TXTPROCFRIDAYSTART, wxEmptyString, wxDefaultPosition, textCtrlSize, 0 );
@@ -822,14 +867,27 @@ wxPanel* CDlgAdvPreferencesBase::createDailySchedulesTab(wxNotebook* notebook)
     procDaysSizer->Add( m_txtProcThursdayStop, 0, wxALL, 1 );
     
 #ifdef __WXMAC__
-    procSpecialTimesStaticBoxSizer->Add( procDaysSizer, 0, wxRIGHT | wxBOTTOM, DAYOFWEEKBORDERSIZE );
-    computingTimesStaticBoxSizer->Add( procSpecialTimesStaticBoxSizer, 0, wxRIGHT | wxBOTTOM, STATICBOXBORDERSIZE + 3 );
+    procSpecialTimesStaticBoxSizer->Add(
+        procDaysSizer, 0, wxRIGHT | wxBOTTOM, DAYOFWEEKBORDERSIZE
+    );
+    computingTimesStaticBoxSizer->Add(
+        procSpecialTimesStaticBoxSizer, 0, wxRIGHT | wxBOTTOM,
+        STATICBOXBORDERSIZE + 3
+    );
 #else
-    procSpecialTimesStaticBoxSizer->Add( procDaysSizer, 1, wxRIGHT | wxLEFT | wxBOTTOM, DAYOFWEEKBORDERSIZE );
-    computingTimesStaticBoxSizer->Add(procSpecialTimesStaticBoxSizer, 1, wxRIGHT | wxLEFT | wxBOTTOM, STATICBOXBORDERSIZE );
+    procSpecialTimesStaticBoxSizer->Add(
+        procDaysSizer, 1, wxRIGHT | wxLEFT | wxBOTTOM, DAYOFWEEKBORDERSIZE
+    );
+    computingTimesStaticBoxSizer->Add(
+        procSpecialTimesStaticBoxSizer, 1, wxRIGHT | wxLEFT | wxBOTTOM,
+        STATICBOXBORDERSIZE
+    );
 #endif
     dailySchedulesTabSizer->AddSpacer( STATICBOXVERTICALSPACER );
-    dailySchedulesTabSizer->Add( computingTimesStaticBoxSizer, 1, wxRIGHT | wxLEFT | wxEXPAND, STATICBOXBORDERSIZE );
+    dailySchedulesTabSizer->Add(
+        computingTimesStaticBoxSizer, 1, wxRIGHT | wxLEFT | wxEXPAND,
+        STATICBOXBORDERSIZE
+    );
     
     // Network schedule
     //
