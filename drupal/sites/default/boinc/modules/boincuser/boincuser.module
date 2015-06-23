@@ -220,9 +220,13 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
         SELECT COUNT(*) FROM {node}
         WHERE uid = '%d'
         AND type IN('page','story','forum','news')
+        AND status = 1
       ) AS total_posts
       FROM {comments}
-      WHERE uid = '%d'", $account->uid, $account->uid
+      INNER JOIN node ON comments.nid = node.nid
+      WHERE comments.uid = '%d'
+      AND node.status = 1",
+      $account->uid, $account->uid
     ));
     break;
     
