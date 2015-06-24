@@ -612,7 +612,9 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
             // If we exit(0), the client will keep restarting us.
             // Instead, tell the client not to restart us for 10 min.
             //
-            boinc_temporary_exit(600, "Waiting to acquire lock");
+            boinc_temporary_exit(600,
+                "Waiting to acquire slot directory lock.  Another instance may be running."
+            );
         }
     }
 
