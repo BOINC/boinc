@@ -179,6 +179,13 @@ bool ACTIVE_TASK::kill_all_children() {
 #endif
 #endif
 
+static void print_descendants(int pid, vector<int>desc, const char* where) {
+    msg_printf(0, MSG_INFO, "%s: PID %d has %d descendants", where, pid, desc.size());
+    for (unsigned int i=0; i<desc.size(); i++) {
+        msg_printf(0, MSG_INFO, "   PID %d", desc[i]);
+    }
+}
+
 // Send a quit message, start timer, get descendants
 //
 int ACTIVE_TASK::request_exit() {
@@ -191,6 +198,11 @@ int ACTIVE_TASK::request_exit() {
     set_task_state(PROCESS_QUIT_PENDING, "request_exit()");
     quit_time = gstate.now;
     get_descendants(pid, descendants);
+#if 0
+    if (log_flags.task_debug) {
+        print_descendants(pid, descendants, "request_exit()");
+    }
+#endif
     return 0;
 }
 
@@ -206,6 +218,11 @@ int ACTIVE_TASK::request_abort() {
     set_task_state(PROCESS_ABORT_PENDING, "request_abort");
     abort_time = gstate.now;
     get_descendants(pid, descendants);
+#if 0
+    if (log_flags.task_debug) {
+        print_descendants(pid, descendants, "request_abort()");
+    }
+#endif
     return 0;
 }
 

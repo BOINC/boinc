@@ -396,11 +396,11 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
             // express rate in the largest time unit (hr/min/sec) for which rate < 100%
             //
             if (result->progress_rate*3600 < 1) {
-                addProperty("Progress rate", wxString::Format(wxT("%f %% per hour"), 100*3600*result->progress_rate));
+                addProperty(_("Progress rate"), wxString::Format(wxT("%f %% %s"), 100*3600*result->progress_rate, _("per hour")));
             } else if (result->progress_rate*60 < 1) {
-                addProperty("Progress rate", wxString::Format(wxT("%f %% per minute"), 100*60*result->progress_rate));
+                addProperty(_("Progress rate"), wxString::Format(wxT("%f %% %s"), 100*60*result->progress_rate, _("per minute")));
             } else {
-                addProperty("Progress rate", wxString::Format(wxT("%f %% per second"), 100*result->progress_rate));
+                addProperty(_("Progress rate"), wxString::Format(wxT("%f %% %s"), 100*result->progress_rate, _("per second")));
             }
         }
     } else if (result->state >= RESULT_COMPUTE_ERROR) {
