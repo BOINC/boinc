@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2015-05-28 09:05+0000\n"
+"PO-Revision-Date: 2015-06-24 10:34+0000\n"
 "Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/boinc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -219,7 +219,7 @@ msgstr "Nachrichten"
 
 #: index.php:83
 msgid "Volunteer"
-msgstr "Helfer"
+msgstr "Mithelfen"
 
 #: index.php:85
 msgid "Download"
