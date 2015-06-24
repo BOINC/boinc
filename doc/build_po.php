@@ -39,8 +39,8 @@ $out = fopen("BOINC-Web.pot", "w");
 
 fwrite($out, $header);
 stream_copy_to_stream($pipe, $out);
-fclose($pipe);
 
+fclose($pipe);
 fclose($out);
 
 echo "Created BOINC-Web.pot.  If it's OK, move it to ../locale/templates and commit\n";

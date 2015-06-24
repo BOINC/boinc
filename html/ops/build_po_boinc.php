@@ -38,14 +38,14 @@ msgstr ""
 
 HDR;
 
+$pipe = popen(
+    "xgettext --omit-header --add-comments -o - --keyword=tra -L PHP $FILE_LIST",
+    "r"
+);
+
 $out = fopen("BOINC-Project-Generic.pot", "w");
 
 fwrite($out, $header);
-
-$pipe = popen(
-    "xgettext --omit-header -o - --keyword=tra -L PHP $FILE_LIST",
-    "r"
-);
 stream_copy_to_stream($pipe, $out);
 
 fclose($pipe);
