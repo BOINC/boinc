@@ -80,7 +80,10 @@ function show_participate() {
     <a href=http://www.facebook.com/pages/BOINC/32672338584><img width=36 src=images/facebook_logo.jpg align=left title='BOINC on Facebook'></a>
     <a href=https://plus.google.com/117150698502685192946/posts><img width=36 src=images/google_plus_logo.jpg align=left title='BOINC on Google+'></a>
         <center>
-        <span class=section_title>".tra("Volunteer")."</span>
+        <span class=section_title>"
+        // "Volunteer" is used as a verb
+        .tra("Volunteer")
+        ."</span>
         <br>
         <a class=heading href=download.php><b>".tra("Download")."</b></a>
         &middot; <a class=heading href=\"/wiki/BOINC_Help\"><b>".tra("Help")."</b></a>

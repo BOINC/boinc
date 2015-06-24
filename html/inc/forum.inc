@@ -689,8 +689,10 @@ function show_post(
         if (($controls == FORUM_CONTROLS) && (can_reply($thread, $forum, $logged_in_user))) {
             echo "&nbsp;&nbsp;&nbsp;&nbsp;";
             $url = "forum_reply.php?thread=" . $thread->id . "&amp;post=" . $post->id . "&amp;no_quote=1#input";
+            // "Reply" is used as a verb
             show_button($url, tra("Reply"), tra("Post a reply to this message"));
             $url = "forum_reply.php?thread=" . $thread->id . "&amp;post=" . $post->id . "#input";
+            // "Quote" is used as a verb
             show_button($url, tra("Quote"), tra("Post a reply by quoting this message"));
         }
         echo "</span></td></tr>";
