@@ -111,13 +111,14 @@ function handle_main() {
             $first = false;
             echo "<h2>Completed batches</h2>\n";
             start_table();
-            table_header("name", "ID", "# jobs", "submitted");
+            table_header("name", "ID", "# jobs", "submitted", "CPU Time");
         }
         table_row(
             "<a href=submit_example.php?action=query_batch&batch_id=$batch->id>$batch->name</a>",
             "<a href=submit_example.php?action=query_batch&batch_id=$batch->id>$batch->id</a>",
             $batch->njobs,
-            local_time_str($batch->create_time)
+            local_time_str($batch->create_time),
+            BoincBatchTotalCPUTime::get_cpu_time($batch->id)
         );
     }
     if ($first) {

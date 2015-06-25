@@ -372,6 +372,9 @@ function print_batch_params($batch) {
         <name>$batch->name</name>
         <app_name>$app->name</app_name>
 ";
+    echo "        <total_cpu_time>";
+    echo BoincBatchTotalCPUTime::get_cpu_time($batch->id);
+    echo "</total_cpu_time>\n";
 }
 
 function query_batches($r) {
