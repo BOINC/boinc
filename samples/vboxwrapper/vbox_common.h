@@ -101,6 +101,7 @@ public:
     virtual ~VBOX_BASE();
 
     std::string virtualbox_home_directory;
+    std::string virtualbox_scratch_directory;
     std::string virtualbox_install_directory;
     std::string virtualbox_guest_additions;
     std::string virtualbox_version;
@@ -201,6 +202,7 @@ public:
     virtual bool is_virtualbox_version_newer(int maj, int min, int rel);
 
     static int get_install_directory(std::string& dir);
+    static int get_scratch_directory(std::string& dir);
     static int get_version_information(std::string& version);
     virtual int get_guest_additions(std::string& dir) = 0;
     virtual int get_slot_directory(std::string& dir);

@@ -395,6 +395,7 @@ int main(int argc, char** argv) {
     bool is_notice = false;
     int temp_delay = 86400;
     string message;
+    string scratch_dir;
     char buf[256];
 
     // Initialize diagnostics system
@@ -594,6 +595,7 @@ int main(int argc, char** argv) {
     // Validate whatever configuration options we can
     //
     if (pVM->enable_shared_directory) {
+        pVM->get_scratch_directory(scratch_dir);
         if (boinc_file_exists("shared")) {
             if (!is_dir("shared")) {
                 vboxlog_msg("ERROR: 'shared' exists but is not a directory.");
@@ -601,7 +603,17 @@ int main(int argc, char** argv) {
         } else {
             retval = boinc_mkdir("shared");
             if (retval) {
-                vboxlog_msg("ERROR: couldn't created shared directory: %s.", boincerror(retval));
+                vboxlog_msg("ERROR: couldn't create shared directory: %s.", boincerror(retval));
+            }
+        }
+        if (boinc_file_exists(scratch_dir.c_str())) {
+            if (!is_dir(scratch_dir.c_str())) {
+                vboxlog_msg("ERROR: 'scratch' exists but is not a directory.");
+            }
+        } else {
+            retval = boinc_mkdir(scratch_dir.c_str());
+            if (retval) {
+                vboxlog_msg("ERROR: couldn't create scratch directory: %s.", boincerror(retval));
             }
         }
     }

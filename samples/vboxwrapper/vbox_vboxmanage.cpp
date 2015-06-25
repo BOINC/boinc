@@ -82,6 +82,7 @@ int VBOX_VM::initialize() {
 
     boinc_get_init_data_p(&aid);
     get_install_directory(virtualbox_install_directory);
+    get_scratch_directory(virtualbox_scratch_directory);
 
     // Prep the environment so we can execute the vboxmanage application
     //
@@ -610,7 +611,7 @@ int VBOX_VM::create_vm() {
         }
     }
 
-    // Enable the shared folder if a shared folder is specified.
+    // Enable the shared folders if a shared folder is specified.
     //
     if (enable_shared_directory) {
         vboxlog_msg("Enabling shared directory for VM.");
@@ -619,6 +620,14 @@ int VBOX_VM::create_vm() {
         command += "--hostpath \"" + virtual_machine_slot_directory + "/shared\"";
 
         retval = vbm_popen(command, output, "enable shared dir");
+        if (retval) return retval;
+
+        vboxlog_msg("Enabling scratch shared directory for VM.");
+        command  = "sharedfolder add \"" + vm_name + "\" ";
+        command += "--name \"scratch\" ";
+        command += "--hostpath \"" + virtualbox_scratch_directory + "\"";
+
+        retval = vbm_popen(command, output, "enable scratch shared dir");
         if (retval) return retval;
     }
 

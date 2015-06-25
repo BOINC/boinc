@@ -86,6 +86,7 @@ static bool is_timestamp_newer(VBOX_TIMESTAMP& t1, VBOX_TIMESTAMP& t2) {
 VBOX_BASE::VBOX_BASE() : VBOX_JOB() {
     VBOX_JOB::clear();
     virtualbox_home_directory.clear();
+    virtualbox_scratch_directory.clear();
     virtualbox_install_directory.clear();
     virtualbox_guest_additions.clear();
     virtualbox_version.clear();
@@ -361,6 +362,18 @@ bool VBOX_BASE::is_virtualbox_version_newer(int maj, int min, int rel) {
         if (rel < vbox_release) return true;
     }
     return false;
+}
+
+int VBOX_BASE::get_scratch_directory(string& dir) {
+    APP_INIT_DATA aid;
+    boinc_get_init_data_p(&aid);
+
+    dir = aid.project_dir + std::string("/scratch");
+
+    if (!dir.empty()) {
+        return 1;
+    }
+    return 0;
 }
 
 // Returns the current directory in which the executable resides.

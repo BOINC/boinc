@@ -822,13 +822,22 @@ int VBOX_VM::create_vm() {
         }
     }
 
-    // Enable the shared folder if a shared folder is specified.
+    // Enable the shared folders if a shared folder is specified.
     //
     if (enable_shared_directory) {
         vboxlog_msg("Enabling shared directory for VM.");
         rc = pMachine->CreateSharedFolder(
             CComBSTR("shared"),
             CComBSTR(string(virtual_machine_slot_directory + "\\shared").c_str()),
+            TRUE,
+            TRUE
+        );
+        if (CHECK_ERROR(rc)) goto CLEANUP;
+
+        vboxlog_msg("Enabling scratch shared directory for VM.");
+        rc = pMachine->CreateSharedFolder(
+            CComBSTR("scratch"),
+            CComBSTR(virtualbox_scratch_directory.c_str()),
             TRUE,
             TRUE
         );
