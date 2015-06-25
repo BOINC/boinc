@@ -1032,16 +1032,15 @@ function boincuser_views_pre_execute(&$view) {
     $view->build_info['query']= "
       SELECT node_revisions.vid AS vid,
         node.nid AS node_nid,
-        users_node_revisions.uid AS users_node_revisions_uid,
+        node.uid AS users_node_uid,
         node.type AS node_type,
         node.title AS node_title,
         node_revisions.body AS node_revisions_body,
         node_revisions.timestamp AS node_revisions_timestamp
       FROM node_revisions node_revisions 
-      INNER JOIN users users_node_revisions ON node_revisions.uid = users_node_revisions.uid
       LEFT JOIN node node ON node_revisions.nid = node.nid
       INNER JOIN users users ON node.uid = users.uid
-      WHERE (node.type in ('forum', 'news', 'page', 'story')) AND (node.status = 1) AND (users_node_revisions.uid = {$account_id} )
+      WHERE (node.type in ('forum', 'news', 'page', 'story')) AND (node.status = 1) AND (node.uid = {$account_id} )
       
       UNION
       

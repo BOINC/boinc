@@ -612,7 +612,7 @@ default:
   $action = bts(\'posted\');
 }
 
-$uid = $data->users_node_revisions_uid;
+$uid = $data->users_node_uid;
 $account = user_load($uid);
 echo l($account->boincuser_name, "account/{$uid}") . " {$action} " . l($data->node_title, $url, array(\'fragment\' => $fragment));
 ?>',
