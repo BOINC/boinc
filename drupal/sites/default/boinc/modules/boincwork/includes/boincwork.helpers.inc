@@ -959,6 +959,36 @@ function boincwork_validate_datatype($data, $datatype = NULL) {
   return TRUE;
 }
 
+/**
+ * Format a number to be displayed using a maximum number of digits
+ */ 
+function boincwork_format_stats($number, $max_digits = 4) {
+  $suffix = array(
+    0 => '',
+    1 => 'k',
+    2 => 'M',
+    3 => 'G',
+    4 => 'T',
+    5 => 'P',
+    6 => 'E',
+    7 => 'Z',
+    8 => 'Y'
+  );
+  if (!is_numeric($number)) $number = 0;
+  
+  $digits = floor(log($number, 10)) + 1;
+  $magnitude = 0;
+  $precision = 0;
+  if ($digits > $max_digits) {
+    $magnitude = floor(($digits - ($max_digits - 3)) / 3);
+    $precision = $max_digits - ($digits - ($magnitude * 3) + 1);
+    $number = round($number / pow(1000, $magnitude), $precision);
+  }
+  $number = number_format($number, $precision) . (($magnitude) ? "{$suffix[$magnitude]}" : '');
+  
+  return $number;
+}
+
 
   //------------------------------------------------------------------------------------------------
   //  load_configuration(): Convert structured text/xml to array
