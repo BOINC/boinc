@@ -155,6 +155,7 @@ function batch_xml_to_object($batch) {
     $b->credit_canonical = (double)($batch->credit_canonical);
     $b->name = (string)($batch->name);
     $b->app_name = (string)($batch->app_name);
+    $b->total_cpu_time = (string)($batch->total_cpu_time);
     return $b;
 }
 
