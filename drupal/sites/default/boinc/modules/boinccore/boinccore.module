@@ -78,6 +78,13 @@ function boinccore_menu() {
     'access callback' => TRUE,
     'type' => MENU_CALLBACK
   );
+  $items['am_set_info.php'] = array(
+    'title' => 'Account manager set info RPC',
+    'description' => 'RPC for updating assorted details of a user account.',
+    'page callback' => 'boinccore_am_set_info',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
+  );
   
   return $items;
 }
@@ -462,7 +469,7 @@ function boinccore_am_get_info() {
   $xml = ob_get_clean();
   $xml = load_configuration($xml);
   // See if the account has an approved profile in Drupal
-  $uid = boincuser_lookup_uid($xml['am_get_info_reply']['id']);
+  $uid = !empty($xml['am_get_info_reply']['id']) ? boincuser_lookup_uid($xml['am_get_info_reply']['id']) : 0;
   if ($uid) {
     $content_profile = content_profile_load('profile', $uid);
     $profile_is_approved = ($content_profile->status AND !$content_profile->moderate);
@@ -475,6 +482,50 @@ function boinccore_am_get_info() {
     $xml['am_get_info_reply']['has_profile']['@value'] = ($profile_is_approved) ? 1 : 0;
     $xml['am_get_info_reply']['country']['@value'] = $country;
     $xml['am_get_info_reply']['url']['@value'] = $website;
+  }
+  print save_configuration($xml);
+}
+
+/**
+ * Page callback for the account manager set info RPC (am_set_info.php).
+ * Update assorted details for a given account
+ */
+function boinccore_am_set_info() {
+  // Remove q from the GET request or BOINC will panic
+  unset($_GET['q']);
+  // Capture the XML output of the RPC so we can override things
+  ob_start();
+  include_boinc('user/am_set_info.php');
+  $xml = ob_get_clean();
+  $xml = load_configuration($xml);
+  if (isset($xml['am_set_info_reply']['success'])) {
+    // Find the account in Drupal
+    $boinc_auth = !empty($_POST['account_key']) ? $_POST['account_key'] : $_GET['account_key'];
+    db_set_active('boinc');
+    $boinc_id = db_result(db_query("
+      SELECT id
+      FROM {user}
+      WHERE authenticator = '%s'",
+      $boinc_auth
+    ));
+    db_set_active('default');
+    $uid = boincuser_lookup_uid($boinc_id);
+    
+    // Apply any relevant updates to the Drupal account, also
+    $country = !empty($_POST['country']) ? $_POST['country'] : (!empty($_GET['country']) ? $_GET['country'] : NULL);
+    $url = !empty($_POST['url']) ? $_POST['url'] : (!empty($_GET['url']) ? $_GET['url'] : NULL);
+    $email_addr = !empty($_POST['email_addr']) ? $_POST['email_addr'] : (!empty($_GET['email_addr']) ? $_GET['email_addr'] : NULL);
+    
+    if ($email_addr) {
+      $account = user_load($uid);
+      user_save($account, array('mail' => $email_addr));
+    }
+    if ($country OR $url) {
+      $content_profile = content_profile_load('profile', $uid);
+      if ($country) $content_profile->field_country[0]['value'] = $country;
+      if ($url) $content_profile->field_url[0]['value'] = $url;
+      node_save($content_profile);
+    }
   }
   print save_configuration($xml);
 }
