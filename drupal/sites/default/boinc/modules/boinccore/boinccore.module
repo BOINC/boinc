@@ -99,6 +99,13 @@ function boinccore_menu() {
     'access callback' => TRUE,
     'type' => MENU_CALLBACK
   );
+  $items['pending.php'] = array(
+    'title' => 'Pending credit RPC',
+    'description' => 'RPC for getting pending credit for a given account.',
+    'page callback' => 'boinccore_pending_credit',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
+  );
   
   return $items;
 }
@@ -590,6 +597,16 @@ function boinccore_show_user() {
     $xml['user']['url']['@value'] = $website;
   }
   print save_configuration($xml);
+}
+
+/**
+ * Page callback for the pending credit RPC (pending.php).
+ * Get pending credit information for a given account
+ */
+function boinccore_pending_credit() {
+  // Remove q from the GET request or BOINC will panic
+  unset($_GET['q']);
+  include_boinc('user/pending.php');
 }
 
 /**
