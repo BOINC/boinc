@@ -85,6 +85,13 @@ function boinccore_menu() {
     'access callback' => TRUE,
     'type' => MENU_CALLBACK
   );
+  $items['am_set_host_info.php'] = array(
+    'title' => 'Account manager set host info RPC',
+    'description' => 'RPC for updating the venue for a given host.',
+    'page callback' => 'boinccore_am_set_host_info',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
+  );
   
   return $items;
 }
@@ -526,6 +533,24 @@ function boinccore_am_set_info() {
       if ($url) $content_profile->field_url[0]['value'] = $url;
       node_save($content_profile);
     }
+  }
+  print save_configuration($xml);
+}
+
+/**
+ * Page callback for the set host info RPC (am_set_host_info.php).
+ * Update the venue for the given host
+ */
+function boinccore_am_set_host_info() {
+  // Remove q from the GET request or BOINC will panic
+  unset($_GET['q']);
+  // Capture the XML output of the RPC so we can override things
+  ob_start();
+  include_boinc('user/am_set_host_info.php');
+  $xml = ob_get_clean();
+  $xml = load_configuration($xml);
+  if (isset($xml['am_set_host_info_reply']['success'])) {
+    // Override anything that needs overriding
   }
   print save_configuration($xml);
 }
