@@ -92,6 +92,13 @@ function boinccore_menu() {
     'access callback' => TRUE,
     'type' => MENU_CALLBACK
   );
+  $items['show_user.php'] = array(
+    'title' => 'Show user RPC',
+    'description' => 'RPC for getting assorted details of a user account.',
+    'page callback' => 'boinccore_show_user',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
+  );
   
   return $items;
 }
@@ -551,6 +558,36 @@ function boinccore_am_set_host_info() {
   $xml = load_configuration($xml);
   if (isset($xml['am_set_host_info_reply']['success'])) {
     // Override anything that needs overriding
+  }
+  print save_configuration($xml);
+}
+
+/**
+ * Page callback for the show user RPC (show_user.php).
+ * Get assorted details for a given account
+ */
+function boinccore_show_user() {
+  // Remove q from the GET request or BOINC will panic
+  unset($_GET['q']);
+  // Capture the XML output of the RPC so we can override things
+  ob_start();
+  include_boinc('user/show_user.php');
+  $xml = ob_get_clean();
+  $xml = load_configuration($xml);
+  // See if the account has an approved profile in Drupal
+  $uid = !empty($xml['user']['id']) ? boincuser_lookup_uid($xml['user']['id']) : 0;
+  if ($uid) {
+    $content_profile = content_profile_load('profile', $uid);
+    $profile_is_approved = ($content_profile->status AND !$content_profile->moderate);
+    $country = check_plain($content_profile->field_country[0]['value']);
+    $website = '';
+    if ($profile_is_approved) {
+      $website = check_plain($content_profile->field_url[0]['value']);
+    }
+    // Override BOINC values with Drupal values as needed
+    $xml['user']['has_profile']['@value'] = ($profile_is_approved) ? 1 : 0;
+    $xml['user']['country']['@value'] = $country;
+    $xml['user']['url']['@value'] = $website;
   }
   print save_configuration($xml);
 }
