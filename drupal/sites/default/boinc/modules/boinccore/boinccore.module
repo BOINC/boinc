@@ -106,6 +106,13 @@ function boinccore_menu() {
     'access callback' => TRUE,
     'type' => MENU_CALLBACK
   );
+  $items['apps.php'] = array(
+    'title' => 'Apps RPC',
+    'description' => 'RPC for getting the applications in the system.',
+    'page callback' => 'boinccore_apps',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
+  );
   
   return $items;
 }
@@ -607,6 +614,16 @@ function boinccore_pending_credit() {
   // Remove q from the GET request or BOINC will panic
   unset($_GET['q']);
   include_boinc('user/pending.php');
+}
+
+/**
+ * Page callback for the applications RPC (apps.php).
+ * Get information on applications in the system
+ */
+function boinccore_apps() {
+  // Remove q from the GET request or BOINC will panic
+  unset($_GET['q']);
+  include_boinc('user/apps.php');
 }
 
 /**
