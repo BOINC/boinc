@@ -611,7 +611,7 @@ int VBOX_VM::create_vm() {
         }
     }
 
-    // Enable the shared folders if a shared folder is specified.
+    // Enable the shared folder if a shared folder is specified.
     //
     if (enable_shared_directory) {
         vboxlog_msg("Enabling shared directory for VM.");
@@ -621,7 +621,11 @@ int VBOX_VM::create_vm() {
 
         retval = vbm_popen(command, output, "enable shared dir");
         if (retval) return retval;
+    }
 
+    // Enable the scratch folder if a scratch folder is specified.
+    //
+    if (enable_scratch_directory) {
         vboxlog_msg("Enabling scratch shared directory for VM.");
         command  = "sharedfolder add \"" + vm_name + "\" ";
         command += "--name \"scratch\" ";

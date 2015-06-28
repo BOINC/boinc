@@ -833,7 +833,11 @@ int VBOX_VM::create_vm() {
             TRUE
         );
         if (CHECK_ERROR(rc)) goto CLEANUP;
+    }
 
+    // Enable the scratch folder if a scratch folder is specified.
+    //
+    if (enable_scratch_directory) {
         vboxlog_msg("Enabling scratch shared directory for VM.");
         rc = pMachine->CreateSharedFolder(
             CComBSTR("scratch"),
@@ -843,6 +847,7 @@ int VBOX_VM::create_vm() {
         );
         if (CHECK_ERROR(rc)) goto CLEANUP;
     }
+
 
 CLEANUP:
     if (pMachine) {
