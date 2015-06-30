@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-03 14:18-0500\n"
-"PO-Revision-Date: 2015-06-12 04:26+0000\n"
+"POT-Creation-Date: 2015-06-24 16:15-0500\n"
+"PO-Revision-Date: 2015-06-25 09:21+0000\n"
 "Last-Translator: 秦赫阳 <qysnn1@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/boinc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -530,7 +530,7 @@ msgstr "%s 网站(&W)"
 msgid "Show information about BOINC and %s"
 msgstr "查看 BOINC 和 %s 的信息"
 
-#: clientgui/AdvancedFrame.cpp:688 clientgui/BOINCTaskBar.cpp:544
+#: clientgui/AdvancedFrame.cpp:688 clientgui/BOINCTaskBar.cpp:541
 #: clientgui/sg_BoincSimpleFrame.cpp:262
 #, c-format
 msgid "&About %s..."
@@ -662,7 +662,7 @@ msgstr "%s - 网络通讯"
 
 #: clientgui/AsyncRPC.cpp:1056 clientgui/DlgAdvPreferencesBase.cpp:176
 #: clientgui/DlgDiagnosticLogFlags.cpp:127 clientgui/DlgExclusiveApps.cpp:152
-#: clientgui/DlgHiddenColumns.cpp:108 clientgui/sg_DlgPreferences.cpp:351
+#: clientgui/DlgHiddenColumns.cpp:108 clientgui/sg_DlgPreferences.cpp:355
 msgid "Cancel"
 msgstr "取消"
 
@@ -896,79 +896,79 @@ msgstr "( 未知 )"
 msgid "(User Defined)"
 msgstr "( 用户自定义 )"
 
-#: clientgui/BOINCTaskBar.cpp:522
+#: clientgui/BOINCTaskBar.cpp:519
 #, c-format
 msgid "Open %s Web..."
 msgstr "打开 %s 的网站..."
 
-#: clientgui/BOINCTaskBar.cpp:529
+#: clientgui/BOINCTaskBar.cpp:526
 #, c-format
 msgid "Open %s..."
 msgstr "打开 %s..."
 
-#: clientgui/BOINCTaskBar.cpp:536 clientgui/BOINCTaskBar.cpp:634
-#: clientgui/BOINCTaskBar.cpp:639
+#: clientgui/BOINCTaskBar.cpp:533 clientgui/BOINCTaskBar.cpp:631
+#: clientgui/BOINCTaskBar.cpp:636
 msgid "Snooze"
 msgstr "休息一下"
 
-#: clientgui/BOINCTaskBar.cpp:538 clientgui/BOINCTaskBar.cpp:653
-#: clientgui/BOINCTaskBar.cpp:658
+#: clientgui/BOINCTaskBar.cpp:535 clientgui/BOINCTaskBar.cpp:650
+#: clientgui/BOINCTaskBar.cpp:655
 msgid "Snooze GPU"
 msgstr "让 GPU 休息一下"
 
-#: clientgui/BOINCTaskBar.cpp:556
+#: clientgui/BOINCTaskBar.cpp:553
 msgid "E&xit"
 msgstr "退出(&X)"
 
-#: clientgui/BOINCTaskBar.cpp:629 clientgui/ViewProjects.cpp:806
+#: clientgui/BOINCTaskBar.cpp:626 clientgui/ViewProjects.cpp:806
 #: clientgui/ViewWork.cpp:882 clientgui/sg_BoincSimpleFrame.cpp:894
 #: clientgui/sg_ProjectCommandPopup.cpp:125
 #: clientgui/sg_TaskCommandPopup.cpp:118
 msgid "Resume"
 msgstr "继续"
 
-#: clientgui/BOINCTaskBar.cpp:649
+#: clientgui/BOINCTaskBar.cpp:646
 msgid "Resume GPU"
 msgstr "继续 GPU 计算"
 
-#: clientgui/BOINCTaskBar.cpp:715
+#: clientgui/BOINCTaskBar.cpp:712
 msgid "Computing is enabled"
 msgstr "计算已启用"
 
-#: clientgui/BOINCTaskBar.cpp:719
+#: clientgui/BOINCTaskBar.cpp:716
 msgid "Computing is suspended - "
 msgstr "计算已暂停 - "
 
-#: clientgui/BOINCTaskBar.cpp:729
+#: clientgui/BOINCTaskBar.cpp:726
 msgid "GPU computing is enabled"
 msgstr "GPU 计算已启用"
 
-#: clientgui/BOINCTaskBar.cpp:732
+#: clientgui/BOINCTaskBar.cpp:729
 msgid "GPU computing is suspended - "
 msgstr "GPU 计算已暂停 - "
 
-#: clientgui/BOINCTaskBar.cpp:741
+#: clientgui/BOINCTaskBar.cpp:738
 msgid "Network is enabled"
 msgstr "网络已启用"
 
-#: clientgui/BOINCTaskBar.cpp:744
+#: clientgui/BOINCTaskBar.cpp:741
 msgid "Network is suspended - "
 msgstr "网络已暂停 - "
 
-#: clientgui/BOINCTaskBar.cpp:752
+#: clientgui/BOINCTaskBar.cpp:749
 msgid "Reconnecting to client."
 msgstr "正在重新连接至客户端。"
 
-#: clientgui/BOINCTaskBar.cpp:754
+#: clientgui/BOINCTaskBar.cpp:751
 msgid "Not connected to a client."
 msgstr "当前没有连接到任何客户端。"
 
-#: clientgui/BOINCTaskBar.cpp:807
+#: clientgui/BOINCTaskBar.cpp:804
 #, c-format
 msgid "%s Notices"
 msgstr "%s 通知"
 
-#: clientgui/BOINCTaskBar.cpp:813
+#: clientgui/BOINCTaskBar.cpp:810
 msgid "There are new notices - click to view."
 msgstr "有新的通知 - 点击查看。"
 
@@ -1083,15 +1083,15 @@ msgstr "要获取更多信息，请访问"
 msgid "&OK"
 msgstr "确定(&O)"
 
-#: clientgui/DlgAdvPreferences.cpp:682 clientgui/sg_DlgPreferences.cpp:769
+#: clientgui/DlgAdvPreferences.cpp:682 clientgui/sg_DlgPreferences.cpp:773
 msgid "Invalid number"
 msgstr "无效的数字"
 
-#: clientgui/DlgAdvPreferences.cpp:683 clientgui/sg_DlgPreferences.cpp:770
+#: clientgui/DlgAdvPreferences.cpp:683 clientgui/sg_DlgPreferences.cpp:774
 msgid "Invalid time, value must be between 0:00 and 24:00, format is HH:MM"
 msgstr "无效的时间，值必须介于 0:00 至 24:00之间，格式是 hh: mm"
 
-#: clientgui/DlgAdvPreferences.cpp:684 clientgui/sg_DlgPreferences.cpp:771
+#: clientgui/DlgAdvPreferences.cpp:684 clientgui/sg_DlgPreferences.cpp:775
 msgid "Start time must be different from end time"
 msgstr "起始时间必须和结束时间不同"
 
@@ -1099,15 +1099,15 @@ msgstr "起始时间必须和结束时间不同"
 msgid "Number must be between 0 and 10"
 msgstr "必须是0到10之间的数字"
 
-#: clientgui/DlgAdvPreferences.cpp:686 clientgui/sg_DlgPreferences.cpp:772
+#: clientgui/DlgAdvPreferences.cpp:686 clientgui/sg_DlgPreferences.cpp:776
 msgid "Number must be between 0 and 100"
 msgstr "数字必须介于 0 和 100 之间"
 
-#: clientgui/DlgAdvPreferences.cpp:944 clientgui/sg_DlgPreferences.cpp:843
+#: clientgui/DlgAdvPreferences.cpp:944 clientgui/sg_DlgPreferences.cpp:847
 msgid "invalid input value detected"
 msgstr "检测到错误的输入值"
 
-#: clientgui/DlgAdvPreferences.cpp:946 clientgui/sg_DlgPreferences.cpp:845
+#: clientgui/DlgAdvPreferences.cpp:946 clientgui/sg_DlgPreferences.cpp:849
 msgid "Validation Error"
 msgstr "验证错误"
 
@@ -1115,7 +1115,7 @@ msgstr "验证错误"
 msgid "Discard local preferences and use web-based preferences?"
 msgstr "放弃本地首选项并使用网上的首选项吗？"
 
-#: clientgui/DlgAdvPreferences.cpp:1159 clientgui/sg_DlgPreferences.cpp:1171
+#: clientgui/DlgAdvPreferences.cpp:1159 clientgui/sg_DlgPreferences.cpp:1175
 msgid "Confirmation"
 msgstr "确认"
 
@@ -1161,15 +1161,14 @@ msgstr "使用项目网站上的设置"
 msgid "Restore web-based preferences and close the dialog."
 msgstr "恢复使用项目网站上的参数设置并关闭对话框"
 
-#. Computing schedule
 #: clientgui/DlgAdvPreferencesBase.cpp:148
-#: clientgui/DlgAdvPreferencesBase.cpp:688
+#: clientgui/DlgAdvPreferencesBase.cpp:692
 msgid "Computing"
 msgstr "正在计算"
 
 #. Network schedule
 #: clientgui/DlgAdvPreferencesBase.cpp:151
-#: clientgui/DlgAdvPreferencesBase.cpp:836
+#: clientgui/DlgAdvPreferencesBase.cpp:894
 msgid "Network"
 msgstr "网络"
 
@@ -1183,7 +1182,7 @@ msgstr "每日计划"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:170
 #: clientgui/DlgDiagnosticLogFlags.cpp:119 clientgui/DlgExclusiveApps.cpp:146
-#: clientgui/DlgHiddenColumns.cpp:100 clientgui/sg_DlgPreferences.cpp:347
+#: clientgui/DlgHiddenColumns.cpp:100 clientgui/sg_DlgPreferences.cpp:351
 msgid "OK"
 msgstr "确定"
 
@@ -1198,7 +1197,7 @@ msgstr "放弃更改并关闭对话框"
 #: clientgui/DlgAdvPreferencesBase.cpp:181 clientgui/DlgExclusiveApps.cpp:157
 #: clientgui/Localization.cpp:35 clientgui/Localization.cpp:121
 #: clientgui/Localization.cpp:139 clientgui/sg_BoincSimpleFrame.cpp:930
-#: clientgui/sg_DlgPreferences.cpp:357
+#: clientgui/sg_DlgPreferences.cpp:361
 msgid "Help"
 msgstr "帮助"
 
@@ -1219,7 +1218,7 @@ msgid ""
 msgstr "保留一些CPU核心以供其他应用程序使用。例如： 75%意味着在8核CPU上使用6个核心。"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:251
-#: clientgui/DlgAdvPreferencesBase.cpp:263 clientgui/sg_DlgPreferences.cpp:302
+#: clientgui/DlgAdvPreferencesBase.cpp:263 clientgui/sg_DlgPreferences.cpp:284
 msgid "Use at most"
 msgstr "最多使用"
 
@@ -1228,7 +1227,7 @@ msgstr "最多使用"
 msgid "% of the CPUs"
 msgstr "%的CPU"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:261 clientgui/sg_DlgPreferences.cpp:300
+#: clientgui/DlgAdvPreferencesBase.cpp:261 clientgui/sg_DlgPreferences.cpp:282
 #, no-c-format
 msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
@@ -1236,7 +1235,7 @@ msgid ""
 "and repeat."
 msgstr "每隔几秒钟就暂停一下然后恢复计算，以降低CPU温度并减少电能使用。比如：75%意味着每计算 3 秒就暂停 1 秒，然后如此重复。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:268 clientgui/sg_DlgPreferences.cpp:307
+#: clientgui/DlgAdvPreferencesBase.cpp:268 clientgui/sg_DlgPreferences.cpp:289
 #, no-c-format
 msgid "% of CPU time"
 msgstr "% 的处理器时间"
@@ -1429,13 +1428,13 @@ msgstr "磁盘"
 msgid "%s will use the most restrictive of these settings:"
 msgstr "%s 将使用这些设置中最严格的设置："
 
-#: clientgui/DlgAdvPreferencesBase.cpp:578 clientgui/sg_DlgPreferences.cpp:329
+#: clientgui/DlgAdvPreferencesBase.cpp:578 clientgui/sg_DlgPreferences.cpp:333
 #, c-format
 msgid "Limit the total amount of disk space used by %s."
 msgstr "限制%s使用的磁盘空间总量。"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:581
-#: clientgui/DlgAdvPreferencesBase.cpp:605 clientgui/sg_DlgPreferences.cpp:332
+#: clientgui/DlgAdvPreferencesBase.cpp:605 clientgui/sg_DlgPreferences.cpp:336
 msgid "Use no more than"
 msgstr "最多使用"
 
@@ -1519,7 +1518,7 @@ msgstr "限制 %s 使用的交换空间 (页面文件)大小。"
 msgid "Page/swap file: use at most"
 msgstr "虚拟内存：最多使用"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:678 clientgui/sg_DlgPreferences.cpp:279
+#: clientgui/DlgAdvPreferencesBase.cpp:678 clientgui/sg_DlgPreferences.cpp:293
 msgid "and"
 msgstr "到"
 
@@ -1527,64 +1526,64 @@ msgstr "到"
 msgid "to"
 msgstr "至"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:692 clientgui/sg_DlgPreferences.cpp:281
+#: clientgui/DlgAdvPreferencesBase.cpp:699 clientgui/sg_DlgPreferences.cpp:294
 msgid "Compute only during a particular period each day."
 msgstr "仅在每天的特定时间段内计算。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:695 clientgui/sg_DlgPreferences.cpp:284
+#: clientgui/DlgAdvPreferencesBase.cpp:702 clientgui/sg_DlgPreferences.cpp:297
 msgid "Compute only between"
 msgstr "仅在如下时间段内计算。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:705
-#: clientgui/DlgAdvPreferencesBase.cpp:852
+#: clientgui/DlgAdvPreferencesBase.cpp:726
+#: clientgui/DlgAdvPreferencesBase.cpp:910
 msgid "Day-of-week override"
 msgstr "自定义每周内各天的可用时间段："
 
-#: clientgui/DlgAdvPreferencesBase.cpp:709
-#: clientgui/DlgAdvPreferencesBase.cpp:856
+#: clientgui/DlgAdvPreferencesBase.cpp:735
+#: clientgui/DlgAdvPreferencesBase.cpp:914
 msgid "Override the times above on the selected days:"
 msgstr "在一周选定的各天自定义上述时间设置"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:727
-#: clientgui/DlgAdvPreferencesBase.cpp:873
+#: clientgui/DlgAdvPreferencesBase.cpp:758
+#: clientgui/DlgAdvPreferencesBase.cpp:931
 msgid "Monday"
 msgstr "周一"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:742
-#: clientgui/DlgAdvPreferencesBase.cpp:888
+#: clientgui/DlgAdvPreferencesBase.cpp:785
+#: clientgui/DlgAdvPreferencesBase.cpp:946
 msgid "Friday"
 msgstr "周五"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:755
-#: clientgui/DlgAdvPreferencesBase.cpp:901
+#: clientgui/DlgAdvPreferencesBase.cpp:800
+#: clientgui/DlgAdvPreferencesBase.cpp:959
 msgid "Tuesday"
 msgstr "周二"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:770
-#: clientgui/DlgAdvPreferencesBase.cpp:916
+#: clientgui/DlgAdvPreferencesBase.cpp:815
+#: clientgui/DlgAdvPreferencesBase.cpp:974
 msgid "Saturday"
 msgstr "周六"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:783
-#: clientgui/DlgAdvPreferencesBase.cpp:929
+#: clientgui/DlgAdvPreferencesBase.cpp:828
+#: clientgui/DlgAdvPreferencesBase.cpp:987
 msgid "Wednesday"
 msgstr "周三"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:798
-#: clientgui/DlgAdvPreferencesBase.cpp:944
+#: clientgui/DlgAdvPreferencesBase.cpp:843
+#: clientgui/DlgAdvPreferencesBase.cpp:1002
 msgid "Sunday"
 msgstr "周日"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:811
-#: clientgui/DlgAdvPreferencesBase.cpp:957
+#: clientgui/DlgAdvPreferencesBase.cpp:856
+#: clientgui/DlgAdvPreferencesBase.cpp:1015
 msgid "Thursday"
 msgstr "周四"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:840 clientgui/sg_DlgPreferences.cpp:311
+#: clientgui/DlgAdvPreferencesBase.cpp:898 clientgui/sg_DlgPreferences.cpp:315
 msgid "Transfer files only during a particular period each day."
 msgstr "仅在每天的特定时间段内传输文件。"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:842 clientgui/sg_DlgPreferences.cpp:313
+#: clientgui/DlgAdvPreferencesBase.cpp:900 clientgui/sg_DlgPreferences.cpp:317
 msgid "Transfer files only between"
 msgstr "传输文件的时间段："
 
@@ -1857,216 +1856,237 @@ msgstr "项目未提供的任务类型 "
 msgid "Client configuration excludes "
 msgstr "客户端已排除的任务类型 "
 
-#: clientgui/DlgItemProperties.cpp:207
+#: clientgui/DlgItemProperties.cpp:208
 msgid " work fetch deferred for"
 msgstr "任务获取被延迟"
 
-#: clientgui/DlgItemProperties.cpp:208
+#: clientgui/DlgItemProperties.cpp:209
 msgid " work fetch deferral interval"
 msgstr "任务获取延迟间隔"
 
 #. set dialog title
-#: clientgui/DlgItemProperties.cpp:239
+#: clientgui/DlgItemProperties.cpp:241
 msgid "Properties of project "
 msgstr "项目属性"
 
 #. layout controls
-#: clientgui/DlgItemProperties.cpp:243 clientgui/DlgOptions.cpp:221
+#: clientgui/DlgItemProperties.cpp:245 clientgui/DlgOptions.cpp:221
 msgid "General"
 msgstr "综合"
 
-#: clientgui/DlgItemProperties.cpp:244
-msgid "Master URL"
-msgstr "主网址 (Master URL)"
+#: clientgui/DlgItemProperties.cpp:246
+msgid "URL"
+msgstr "URL"
 
-#: clientgui/DlgItemProperties.cpp:245
+#: clientgui/DlgItemProperties.cpp:247
 msgid "User name"
 msgstr "用户名称"
 
-#: clientgui/DlgItemProperties.cpp:246
+#: clientgui/DlgItemProperties.cpp:248
 msgid "Team name"
 msgstr "团队名称"
 
-#: clientgui/DlgItemProperties.cpp:247 clientgui/ViewProjects.cpp:258
+#: clientgui/DlgItemProperties.cpp:249 clientgui/ViewProjects.cpp:258
 msgid "Resource share"
 msgstr "资源分享"
 
-#: clientgui/DlgItemProperties.cpp:249
+#: clientgui/DlgItemProperties.cpp:251
 msgid "Scheduler RPC deferred for"
 msgstr "远程调度请求被延迟"
 
-#: clientgui/DlgItemProperties.cpp:252
+#: clientgui/DlgItemProperties.cpp:254
 msgid "File downloads deferred for"
 msgstr "文件下载被延迟"
 
-#: clientgui/DlgItemProperties.cpp:255
+#: clientgui/DlgItemProperties.cpp:257
 msgid "File uploads deferred for"
 msgstr "文件上传被延迟"
 
-#: clientgui/DlgItemProperties.cpp:257
+#: clientgui/DlgItemProperties.cpp:259
 msgid "Disk usage"
 msgstr "磁盘使用"
 
-#: clientgui/DlgItemProperties.cpp:258
+#: clientgui/DlgItemProperties.cpp:260
 msgid "Computer ID"
 msgstr "计算机编号"
 
-#: clientgui/DlgItemProperties.cpp:260
+#: clientgui/DlgItemProperties.cpp:262
 msgid "Non CPU intensive"
 msgstr "非 CPU 密集"
 
-#: clientgui/DlgItemProperties.cpp:260 clientgui/DlgItemProperties.cpp:262
-#: clientgui/DlgItemProperties.cpp:263 clientgui/DlgItemProperties.cpp:265
-#: clientgui/DlgItemProperties.cpp:268 clientgui/DlgItemProperties.cpp:277
-#: clientgui/DlgItemProperties.cpp:280 clientgui/DlgItemProperties.cpp:283
+#: clientgui/DlgItemProperties.cpp:262 clientgui/DlgItemProperties.cpp:264
+#: clientgui/DlgItemProperties.cpp:265 clientgui/DlgItemProperties.cpp:267
+#: clientgui/DlgItemProperties.cpp:270 clientgui/DlgItemProperties.cpp:279
+#: clientgui/DlgItemProperties.cpp:282 clientgui/DlgItemProperties.cpp:285
 msgid "yes"
 msgstr "是"
 
-#: clientgui/DlgItemProperties.cpp:262
+#: clientgui/DlgItemProperties.cpp:264
 msgid "Suspended via GUI"
 msgstr "已在界面上被暂停"
 
-#: clientgui/DlgItemProperties.cpp:262 clientgui/DlgItemProperties.cpp:263
+#: clientgui/DlgItemProperties.cpp:264 clientgui/DlgItemProperties.cpp:265
 msgid "no"
 msgstr "否"
 
-#: clientgui/DlgItemProperties.cpp:263
+#: clientgui/DlgItemProperties.cpp:265
 msgid "Don't request more work"
 msgstr "已禁止下载新任务"
 
-#: clientgui/DlgItemProperties.cpp:265
+#: clientgui/DlgItemProperties.cpp:267
 msgid "Scheduler call in progress"
 msgstr "正在进行调度请求"
 
-#: clientgui/DlgItemProperties.cpp:268
+#: clientgui/DlgItemProperties.cpp:270
 msgid "Trickle-up pending"
 msgstr "上传消息等待中"
 
-#: clientgui/DlgItemProperties.cpp:271 clientgui/DlgItemProperties.cpp:273
+#: clientgui/DlgItemProperties.cpp:273 clientgui/DlgItemProperties.cpp:275
 msgid "Host location"
 msgstr "主机位置"
 
-#: clientgui/DlgItemProperties.cpp:273
+#: clientgui/DlgItemProperties.cpp:275
 msgid "default"
 msgstr "缺省"
 
-#: clientgui/DlgItemProperties.cpp:277
+#: clientgui/DlgItemProperties.cpp:279
 msgid "Added via account manager"
 msgstr "已通过帐户管理器增加"
 
-#: clientgui/DlgItemProperties.cpp:280
+#: clientgui/DlgItemProperties.cpp:282
 msgid "Remove when tasks done"
 msgstr "任务完成后移除项目"
 
-#: clientgui/DlgItemProperties.cpp:283
+#: clientgui/DlgItemProperties.cpp:285
 msgid "Ended"
 msgstr "已结束"
 
-#: clientgui/DlgItemProperties.cpp:285
+#: clientgui/DlgItemProperties.cpp:287
 msgid "Tasks completed"
 msgstr "任务已完成"
 
-#: clientgui/DlgItemProperties.cpp:286
+#: clientgui/DlgItemProperties.cpp:288
 msgid "Tasks failed"
 msgstr "任务失败"
 
-#: clientgui/DlgItemProperties.cpp:288
+#: clientgui/DlgItemProperties.cpp:290
 msgid "Credit"
 msgstr "积分"
 
-#: clientgui/DlgItemProperties.cpp:289
+#: clientgui/DlgItemProperties.cpp:291
 msgid "User"
 msgstr "用户"
 
-#: clientgui/DlgItemProperties.cpp:296
+#: clientgui/DlgItemProperties.cpp:298
 msgid "Host"
 msgstr "主机"
 
-#: clientgui/DlgItemProperties.cpp:305
+#: clientgui/DlgItemProperties.cpp:307
 msgid "Scheduling"
 msgstr "调度"
 
-#: clientgui/DlgItemProperties.cpp:306
+#: clientgui/DlgItemProperties.cpp:308
 msgid "Scheduling priority"
 msgstr "调度优先级"
 
-#: clientgui/DlgItemProperties.cpp:307
+#: clientgui/DlgItemProperties.cpp:309
 msgid "CPU"
 msgstr "CPU"
 
-#: clientgui/DlgItemProperties.cpp:331
+#: clientgui/DlgItemProperties.cpp:333
 msgid "Duration correction factor"
 msgstr "时长校正因子"
 
-#: clientgui/DlgItemProperties.cpp:345
+#: clientgui/DlgItemProperties.cpp:341
+msgid "Last scheduler reply"
+msgstr "调度程序上次响应时间"
+
+#: clientgui/DlgItemProperties.cpp:352
 msgid "Properties of task "
 msgstr "任务属性"
 
-#: clientgui/DlgItemProperties.cpp:357 clientgui/ViewWork.cpp:266
+#: clientgui/DlgItemProperties.cpp:364 clientgui/ViewWork.cpp:266
 msgid "Application"
 msgstr "计算程序"
 
-#: clientgui/DlgItemProperties.cpp:358 clientgui/ViewWork.cpp:267
+#: clientgui/DlgItemProperties.cpp:365 clientgui/ViewWork.cpp:267
 msgid "Name"
 msgstr "任务名称"
 
-#: clientgui/DlgItemProperties.cpp:359
+#: clientgui/DlgItemProperties.cpp:366
 msgid "State"
 msgstr "状态"
 
-#: clientgui/DlgItemProperties.cpp:362
+#: clientgui/DlgItemProperties.cpp:369
 msgid "Received"
 msgstr "接收时间"
 
-#: clientgui/DlgItemProperties.cpp:365
+#: clientgui/DlgItemProperties.cpp:372
 msgid "Report deadline"
 msgstr "上报期限"
 
-#: clientgui/DlgItemProperties.cpp:367
+#: clientgui/DlgItemProperties.cpp:374
 msgid "Resources"
 msgstr "资源"
 
-#: clientgui/DlgItemProperties.cpp:370
+#: clientgui/DlgItemProperties.cpp:377
 msgid "Estimated computation size"
 msgstr "预计的任务大小"
 
-#: clientgui/DlgItemProperties.cpp:373
+#: clientgui/DlgItemProperties.cpp:380
 msgid "CPU time at last checkpoint"
 msgstr "上次存盘的 CPU 时间"
 
-#: clientgui/DlgItemProperties.cpp:374 clientgui/DlgItemProperties.cpp:389
+#: clientgui/DlgItemProperties.cpp:381 clientgui/DlgItemProperties.cpp:407
 msgid "CPU time"
 msgstr "已用 CPU 时间"
 
-#: clientgui/DlgItemProperties.cpp:376 clientgui/DlgItemProperties.cpp:390
+#: clientgui/DlgItemProperties.cpp:383 clientgui/DlgItemProperties.cpp:408
 msgid "Elapsed time"
 msgstr "已用时间"
 
-#: clientgui/DlgItemProperties.cpp:378
+#: clientgui/DlgItemProperties.cpp:385
 msgid "Estimated time remaining"
 msgstr "预计剩余时间"
 
-#: clientgui/DlgItemProperties.cpp:379
+#: clientgui/DlgItemProperties.cpp:386
 msgid "Fraction done"
 msgstr "完成百分比"
 
-#: clientgui/DlgItemProperties.cpp:380
+#: clientgui/DlgItemProperties.cpp:387
 msgid "Virtual memory size"
 msgstr "虚存占用大小"
 
-#: clientgui/DlgItemProperties.cpp:381
+#: clientgui/DlgItemProperties.cpp:388
 msgid "Working set size"
 msgstr "工作集大小"
 
-#: clientgui/DlgItemProperties.cpp:383
+#: clientgui/DlgItemProperties.cpp:390
 msgid "Directory"
 msgstr "目录"
 
-#: clientgui/DlgItemProperties.cpp:386
+#: clientgui/DlgItemProperties.cpp:393
 msgid "Process ID"
 msgstr "进程标识"
 
-#: clientgui/DlgItemProperties.cpp:456 clientgui/ViewWork.cpp:1125
+#: clientgui/DlgItemProperties.cpp:399 clientgui/DlgItemProperties.cpp:401
+#: clientgui/DlgItemProperties.cpp:403
+msgid "Progress rate"
+msgstr "计算效率"
+
+#: clientgui/DlgItemProperties.cpp:399
+msgid "per hour"
+msgstr "每小时"
+
+#: clientgui/DlgItemProperties.cpp:401
+msgid "per minute"
+msgstr "每分钟"
+
+#: clientgui/DlgItemProperties.cpp:403
+msgid "per second"
+msgstr "每秒"
+
+#: clientgui/DlgItemProperties.cpp:474 clientgui/ViewWork.cpp:1125
 #: clientgui/sg_TaskPanel.cpp:828
 msgid "Local: "
 msgstr "本地："
@@ -3584,10 +3604,6 @@ msgstr "您确定要取消吗？"
 msgid "Question"
 msgstr "问题"
 
-#: clientgui/common/wxPieCtrl.cpp:64 clientgui\common/wxPieCtrl.cpp:64
-msgid "Pie Ctrl"
-msgstr "图表控制"
-
 #: clientgui/mac/Mac_GUI.cpp:35 clientgui\mac/Mac_GUI.cpp:35
 msgid "Services"
 msgstr "服务"
@@ -3655,7 +3671,7 @@ msgstr "继续计算"
 msgid "Open a window to view notices from projects or BOINC"
 msgstr "打开一个窗口，查看来自计算网站或 BOINC 网站的通知消息。"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:934 clientgui/sg_DlgPreferences.cpp:360
+#: clientgui/sg_BoincSimpleFrame.cpp:934 clientgui/sg_DlgPreferences.cpp:364
 #, c-format
 msgid "Get help with %s"
 msgstr "获取 %s 的帮助信息"
@@ -3674,16 +3690,16 @@ msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
 msgstr "更多的参数设置，请在高级视图下选择“计算参数设置”来查看。"
 
-#: clientgui/sg_DlgPreferences.cpp:340
+#: clientgui/sg_DlgPreferences.cpp:344
 msgid "GB of disk space"
 msgstr "GB 的磁盘空间"
 
-#: clientgui/sg_DlgPreferences.cpp:1089
+#: clientgui/sg_DlgPreferences.cpp:1093
 #, c-format
 msgid "%s - Computing Preferences"
 msgstr "%s -计算参数设置"
 
-#: clientgui/sg_DlgPreferences.cpp:1170
+#: clientgui/sg_DlgPreferences.cpp:1174
 msgid "Discard all local preferences and use web-based preferences?"
 msgstr "放弃所有本地设置并使用网站上的设置吗？"
 
