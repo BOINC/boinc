@@ -2,7 +2,7 @@
 <!--
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2013 University of California
+# Copyright (C) 2015 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -22,7 +22,6 @@
         <bundle-version>
             <bundle CFBundleVersion="x.y.z" id="edu.berkeley.boinc" path="Applications/BOINCManager.app"/>
             <bundle CFBundleVersion="x.y.z" id="edu.berkeley.boincsaver" path="Library/Screen Savers/BOINCSaver.saver"/>
-           <bundle CFBundleVersion="x.y.z" id="edu.berkeley.boinc.PostInstall" path="tmp/PostInstall.app"/>
         </bundle-version>
     </pkg-ref>
     <options customize="never" require-scripts="false" rootVolumeOnly="true"/>

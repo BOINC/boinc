@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2014 University of California
+# Copyright (C) 2015 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -43,6 +43,7 @@
 ## updated 12/16/14 by Charlie Fenton to also code sign the installer package
 ## updated 12/17/14 by Charlie Fenton to fix typo in build of BOINC+VBox installer
 ## updated 4/7/15 by Charlie Fenton to comment on problem with BOINC+VBox installer
+## updated 7/1/15 by Charlie Fenton for compatibility with OS 10.11
 ##
 ## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -194,7 +195,6 @@ mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/locale
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins
-mkdir -p ../BOINC_Installer/Pkg_Root/tmp
 
 # We must create virtualbox directory so installer will set up its
 # ownership and permissions correctly, because vboxwrapper won't 
@@ -223,8 +223,6 @@ cp -fpRL $BUILDPATH/boincscr ../BOINC_Installer/Pkg_Root/Library/Application\ Su
 cp -fpRL $BUILDPATH/BOINCManager.app ../BOINC_Installer/Pkg_Root/Applications/
 
 cp -fpRL $BUILDPATH/BOINCSaver.saver ../BOINC_Installer/Pkg_Root/Library/Screen\ Savers/
-
-cp -fpRL $BUILDPATH/PostInstall.app ../BOINC_Installer/Pkg_Root/tmp/
 
 ## Copy the localization files into the installer tree
 ## Old way copies CVS and *.po files which are not needed
@@ -309,6 +307,8 @@ sudo chmod -R u+r-w,g+r-w,o+r-w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1
 
 # Copy the installer wrapper application "BOINC Installer.app"
 cp -fpRL $BUILDPATH/BOINC\ Installer.app ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/
+
+cp -fpR $BUILDPATH/PostInstall.app "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources"
 
 # Prepare to build the BOINC+VirtualBox installer if VirtualBox.pkg exists
 VirtualBoxPackageName="VirtualBox.pkg"
