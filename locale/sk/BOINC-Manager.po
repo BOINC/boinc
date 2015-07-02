@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-24 16:15-0500\n"
-"PO-Revision-Date: 2015-06-29 12:21+0000\n"
-"Last-Translator: Michal\n"
+"POT-Creation-Date: 2015-06-03 14:18-0500\n"
+"PO-Revision-Date: 2015-06-23 19:52+0000\n"
+"Last-Translator: aceman\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/boinc/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -528,7 +528,7 @@ msgstr "&Webstránka %s"
 msgid "Show information about BOINC and %s"
 msgstr "Zobraziť informácie o BOINC a %s"
 
-#: clientgui/AdvancedFrame.cpp:688 clientgui/BOINCTaskBar.cpp:541
+#: clientgui/AdvancedFrame.cpp:688 clientgui/BOINCTaskBar.cpp:544
 #: clientgui/sg_BoincSimpleFrame.cpp:262
 #, c-format
 msgid "&About %s..."
@@ -660,7 +660,7 @@ msgstr "%s - Komunikácia"
 
 #: clientgui/AsyncRPC.cpp:1056 clientgui/DlgAdvPreferencesBase.cpp:176
 #: clientgui/DlgDiagnosticLogFlags.cpp:127 clientgui/DlgExclusiveApps.cpp:152
-#: clientgui/DlgHiddenColumns.cpp:108 clientgui/sg_DlgPreferences.cpp:355
+#: clientgui/DlgHiddenColumns.cpp:108 clientgui/sg_DlgPreferences.cpp:351
 msgid "Cancel"
 msgstr "Späť"
 
@@ -894,79 +894,79 @@ msgstr "(Neznáme)"
 msgid "(User Defined)"
 msgstr "(Používateľom definované)"
 
-#: clientgui/BOINCTaskBar.cpp:519
+#: clientgui/BOINCTaskBar.cpp:522
 #, c-format
 msgid "Open %s Web..."
 msgstr "Otvoriť web %s..."
 
-#: clientgui/BOINCTaskBar.cpp:526
+#: clientgui/BOINCTaskBar.cpp:529
 #, c-format
 msgid "Open %s..."
 msgstr "Otvoriť %s..."
 
-#: clientgui/BOINCTaskBar.cpp:533 clientgui/BOINCTaskBar.cpp:631
-#: clientgui/BOINCTaskBar.cpp:636
+#: clientgui/BOINCTaskBar.cpp:536 clientgui/BOINCTaskBar.cpp:634
+#: clientgui/BOINCTaskBar.cpp:639
 msgid "Snooze"
 msgstr "Uspať"
 
-#: clientgui/BOINCTaskBar.cpp:535 clientgui/BOINCTaskBar.cpp:650
-#: clientgui/BOINCTaskBar.cpp:655
+#: clientgui/BOINCTaskBar.cpp:538 clientgui/BOINCTaskBar.cpp:653
+#: clientgui/BOINCTaskBar.cpp:658
 msgid "Snooze GPU"
 msgstr "Uspať GPU"
 
-#: clientgui/BOINCTaskBar.cpp:553
+#: clientgui/BOINCTaskBar.cpp:556
 msgid "E&xit"
 msgstr "&Ukončiť"
 
-#: clientgui/BOINCTaskBar.cpp:626 clientgui/ViewProjects.cpp:806
+#: clientgui/BOINCTaskBar.cpp:629 clientgui/ViewProjects.cpp:806
 #: clientgui/ViewWork.cpp:882 clientgui/sg_BoincSimpleFrame.cpp:894
 #: clientgui/sg_ProjectCommandPopup.cpp:125
 #: clientgui/sg_TaskCommandPopup.cpp:118
 msgid "Resume"
 msgstr "Pokračovať"
 
-#: clientgui/BOINCTaskBar.cpp:646
+#: clientgui/BOINCTaskBar.cpp:649
 msgid "Resume GPU"
 msgstr "Pokračovať na GPU"
 
-#: clientgui/BOINCTaskBar.cpp:712
+#: clientgui/BOINCTaskBar.cpp:715
 msgid "Computing is enabled"
 msgstr "Počítanie je povolené"
 
-#: clientgui/BOINCTaskBar.cpp:716
+#: clientgui/BOINCTaskBar.cpp:719
 msgid "Computing is suspended - "
 msgstr "Počítanie je pozastavené - "
 
-#: clientgui/BOINCTaskBar.cpp:726
+#: clientgui/BOINCTaskBar.cpp:729
 msgid "GPU computing is enabled"
 msgstr "Počítanie na GPU je povolené"
 
-#: clientgui/BOINCTaskBar.cpp:729
+#: clientgui/BOINCTaskBar.cpp:732
 msgid "GPU computing is suspended - "
 msgstr "Počítanie na GPU je pozastavené - "
 
-#: clientgui/BOINCTaskBar.cpp:738
+#: clientgui/BOINCTaskBar.cpp:741
 msgid "Network is enabled"
 msgstr "Sieťové aktivity povolené"
 
-#: clientgui/BOINCTaskBar.cpp:741
+#: clientgui/BOINCTaskBar.cpp:744
 msgid "Network is suspended - "
 msgstr "Sieťové aktivity pozastavené - "
 
-#: clientgui/BOINCTaskBar.cpp:749
+#: clientgui/BOINCTaskBar.cpp:752
 msgid "Reconnecting to client."
 msgstr "Obnovuje sa spojenie s klientom."
 
-#: clientgui/BOINCTaskBar.cpp:751
+#: clientgui/BOINCTaskBar.cpp:754
 msgid "Not connected to a client."
 msgstr "Nepripojené ku klientovi."
 
-#: clientgui/BOINCTaskBar.cpp:804
+#: clientgui/BOINCTaskBar.cpp:807
 #, c-format
 msgid "%s Notices"
 msgstr "%s Oznamy"
 
-#: clientgui/BOINCTaskBar.cpp:810
+#: clientgui/BOINCTaskBar.cpp:813
 msgid "There are new notices - click to view."
 msgstr "Objavili sa nové oznamy - kliknite pre ich zobrazenie."
 
@@ -1081,15 +1081,15 @@ msgstr "Pre viac informácií navštívte"
 msgid "&OK"
 msgstr "&OK"
 
-#: clientgui/DlgAdvPreferences.cpp:682 clientgui/sg_DlgPreferences.cpp:773
+#: clientgui/DlgAdvPreferences.cpp:682 clientgui/sg_DlgPreferences.cpp:769
 msgid "Invalid number"
 msgstr "Neplatné číslo"
 
-#: clientgui/DlgAdvPreferences.cpp:683 clientgui/sg_DlgPreferences.cpp:774
+#: clientgui/DlgAdvPreferences.cpp:683 clientgui/sg_DlgPreferences.cpp:770
 msgid "Invalid time, value must be between 0:00 and 24:00, format is HH:MM"
 msgstr "Nesprávny čas, hodnota musí byť medzi 0:00 a 24:00, formát je HH:MM"
 
-#: clientgui/DlgAdvPreferences.cpp:684 clientgui/sg_DlgPreferences.cpp:775
+#: clientgui/DlgAdvPreferences.cpp:684 clientgui/sg_DlgPreferences.cpp:771
 msgid "Start time must be different from end time"
 msgstr "Začiatočný čas musí byť iný ako koncový"
 
@@ -1097,15 +1097,15 @@ msgstr "Začiatočný čas musí byť iný ako koncový"
 msgid "Number must be between 0 and 10"
 msgstr "Číslo musí byť od 0 do 10"
 
-#: clientgui/DlgAdvPreferences.cpp:686 clientgui/sg_DlgPreferences.cpp:776
+#: clientgui/DlgAdvPreferences.cpp:686 clientgui/sg_DlgPreferences.cpp:772
 msgid "Number must be between 0 and 100"
 msgstr "Číslo musí byť medzi 0 a 100"
 
-#: clientgui/DlgAdvPreferences.cpp:944 clientgui/sg_DlgPreferences.cpp:847
+#: clientgui/DlgAdvPreferences.cpp:944 clientgui/sg_DlgPreferences.cpp:843
 msgid "invalid input value detected"
 msgstr "bola nájdená neplatná vstupná hodnota"
 
-#: clientgui/DlgAdvPreferences.cpp:946 clientgui/sg_DlgPreferences.cpp:849
+#: clientgui/DlgAdvPreferences.cpp:946 clientgui/sg_DlgPreferences.cpp:845
 msgid "Validation Error"
 msgstr "Chyba pri validácii"
 
@@ -1113,7 +1113,7 @@ msgstr "Chyba pri validácii"
 msgid "Discard local preferences and use web-based preferences?"
 msgstr "Ignorovať lokálne nastavenia a použiť nastavenia z webstránky projektu?"
 
-#: clientgui/DlgAdvPreferences.cpp:1159 clientgui/sg_DlgPreferences.cpp:1175
+#: clientgui/DlgAdvPreferences.cpp:1159 clientgui/sg_DlgPreferences.cpp:1171
 msgid "Confirmation"
 msgstr "Potvrdenie"
 
@@ -1159,14 +1159,15 @@ msgstr "Použiť webové nastavenia"
 msgid "Restore web-based preferences and close the dialog."
 msgstr "Obnoviť nastavenia z webstránky a zavrieť ponuku."
 
+#. Computing schedule
 #: clientgui/DlgAdvPreferencesBase.cpp:148
-#: clientgui/DlgAdvPreferencesBase.cpp:692
+#: clientgui/DlgAdvPreferencesBase.cpp:688
 msgid "Computing"
 msgstr "Výpočty"
 
 #. Network schedule
 #: clientgui/DlgAdvPreferencesBase.cpp:151
-#: clientgui/DlgAdvPreferencesBase.cpp:894
+#: clientgui/DlgAdvPreferencesBase.cpp:836
 msgid "Network"
 msgstr "Sieť"
 
@@ -1180,7 +1181,7 @@ msgstr "Denné plány"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:170
 #: clientgui/DlgDiagnosticLogFlags.cpp:119 clientgui/DlgExclusiveApps.cpp:146
-#: clientgui/DlgHiddenColumns.cpp:100 clientgui/sg_DlgPreferences.cpp:351
+#: clientgui/DlgHiddenColumns.cpp:100 clientgui/sg_DlgPreferences.cpp:347
 msgid "OK"
 msgstr "OK"
 
@@ -1195,7 +1196,7 @@ msgstr "Zavrieť ponuku bez uloženia."
 #: clientgui/DlgAdvPreferencesBase.cpp:181 clientgui/DlgExclusiveApps.cpp:157
 #: clientgui/Localization.cpp:35 clientgui/Localization.cpp:121
 #: clientgui/Localization.cpp:139 clientgui/sg_BoincSimpleFrame.cpp:930
-#: clientgui/sg_DlgPreferences.cpp:361
+#: clientgui/sg_DlgPreferences.cpp:357
 msgid "Help"
 msgstr "Pomoc"
 
@@ -1216,7 +1217,7 @@ msgid ""
 msgstr "Ponechať časť procesorov voľnú pre iné aplikácie. Napríklad 75% znamená 6 jadier na 8 jadrovom procesore."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:251
-#: clientgui/DlgAdvPreferencesBase.cpp:263 clientgui/sg_DlgPreferences.cpp:284
+#: clientgui/DlgAdvPreferencesBase.cpp:263 clientgui/sg_DlgPreferences.cpp:302
 msgid "Use at most"
 msgstr "Použiť najviac"
 
@@ -1225,7 +1226,7 @@ msgstr "Použiť najviac"
 msgid "% of the CPUs"
 msgstr "% z procesorov"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:261 clientgui/sg_DlgPreferences.cpp:282
+#: clientgui/DlgAdvPreferencesBase.cpp:261 clientgui/sg_DlgPreferences.cpp:300
 #, no-c-format
 msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
@@ -1233,7 +1234,7 @@ msgid ""
 "and repeat."
 msgstr "Pozastaviť/obnoviť výpočty každých pár sekúnd na zníženie teploty a spotreby energie. Príklad: 75% znamená, že budú prebiehať výpočty 3 sekundy a 1 sekundu sa bude čakať a potom opakovať."
 
-#: clientgui/DlgAdvPreferencesBase.cpp:268 clientgui/sg_DlgPreferences.cpp:289
+#: clientgui/DlgAdvPreferencesBase.cpp:268 clientgui/sg_DlgPreferences.cpp:307
 #, no-c-format
 msgid "% of CPU time"
 msgstr "% času CPU"
@@ -1426,13 +1427,13 @@ msgstr "Disk"
 msgid "%s will use the most restrictive of these settings:"
 msgstr "%s použije najprísnejšie z nasledovných nastavení:"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:578 clientgui/sg_DlgPreferences.cpp:333
+#: clientgui/DlgAdvPreferencesBase.cpp:578 clientgui/sg_DlgPreferences.cpp:329
 #, c-format
 msgid "Limit the total amount of disk space used by %s."
 msgstr "Obmedziť využitie disku pre %s."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:581
-#: clientgui/DlgAdvPreferencesBase.cpp:605 clientgui/sg_DlgPreferences.cpp:336
+#: clientgui/DlgAdvPreferencesBase.cpp:605 clientgui/sg_DlgPreferences.cpp:332
 msgid "Use no more than"
 msgstr "Nepoužiť viac ako"
 
@@ -1516,7 +1517,7 @@ msgstr "Obmedziť využitie ukladacieho priestoru (stránkovacieho súboru) pre 
 msgid "Page/swap file: use at most"
 msgstr "Stránkovací súbor: využiť najviac"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:678 clientgui/sg_DlgPreferences.cpp:293
+#: clientgui/DlgAdvPreferencesBase.cpp:678 clientgui/sg_DlgPreferences.cpp:279
 msgid "and"
 msgstr "a"
 
@@ -1524,64 +1525,64 @@ msgstr "a"
 msgid "to"
 msgstr "až"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:699 clientgui/sg_DlgPreferences.cpp:294
+#: clientgui/DlgAdvPreferencesBase.cpp:692 clientgui/sg_DlgPreferences.cpp:281
 msgid "Compute only during a particular period each day."
 msgstr "Vykonávať výpočty len v určitý čas každý deň"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:702 clientgui/sg_DlgPreferences.cpp:297
+#: clientgui/DlgAdvPreferencesBase.cpp:695 clientgui/sg_DlgPreferences.cpp:284
 msgid "Compute only between"
 msgstr "Počítať len medzi"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:726
-#: clientgui/DlgAdvPreferencesBase.cpp:910
+#: clientgui/DlgAdvPreferencesBase.cpp:705
+#: clientgui/DlgAdvPreferencesBase.cpp:852
 msgid "Day-of-week override"
 msgstr "Samostatné nastavenia pre dni v týždni"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:735
-#: clientgui/DlgAdvPreferencesBase.cpp:914
+#: clientgui/DlgAdvPreferencesBase.cpp:709
+#: clientgui/DlgAdvPreferencesBase.cpp:856
 msgid "Override the times above on the selected days:"
 msgstr "Použiť špecifické nastavenia časov pre tieto dni:"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:758
-#: clientgui/DlgAdvPreferencesBase.cpp:931
+#: clientgui/DlgAdvPreferencesBase.cpp:727
+#: clientgui/DlgAdvPreferencesBase.cpp:873
 msgid "Monday"
 msgstr "Pondelok"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:785
-#: clientgui/DlgAdvPreferencesBase.cpp:946
+#: clientgui/DlgAdvPreferencesBase.cpp:742
+#: clientgui/DlgAdvPreferencesBase.cpp:888
 msgid "Friday"
 msgstr "Piatok"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:800
-#: clientgui/DlgAdvPreferencesBase.cpp:959
+#: clientgui/DlgAdvPreferencesBase.cpp:755
+#: clientgui/DlgAdvPreferencesBase.cpp:901
 msgid "Tuesday"
 msgstr "Utorok"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:815
-#: clientgui/DlgAdvPreferencesBase.cpp:974
+#: clientgui/DlgAdvPreferencesBase.cpp:770
+#: clientgui/DlgAdvPreferencesBase.cpp:916
 msgid "Saturday"
 msgstr "Sobota"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:828
-#: clientgui/DlgAdvPreferencesBase.cpp:987
+#: clientgui/DlgAdvPreferencesBase.cpp:783
+#: clientgui/DlgAdvPreferencesBase.cpp:929
 msgid "Wednesday"
 msgstr "Streda"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:843
-#: clientgui/DlgAdvPreferencesBase.cpp:1002
+#: clientgui/DlgAdvPreferencesBase.cpp:798
+#: clientgui/DlgAdvPreferencesBase.cpp:944
 msgid "Sunday"
 msgstr "Nedeľa"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:856
-#: clientgui/DlgAdvPreferencesBase.cpp:1015
+#: clientgui/DlgAdvPreferencesBase.cpp:811
+#: clientgui/DlgAdvPreferencesBase.cpp:957
 msgid "Thursday"
 msgstr "Štvrtok"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:898 clientgui/sg_DlgPreferences.cpp:315
+#: clientgui/DlgAdvPreferencesBase.cpp:840 clientgui/sg_DlgPreferences.cpp:311
 msgid "Transfer files only during a particular period each day."
 msgstr "Prenášať súbory len v určitý čas každý deň"
 
-#: clientgui/DlgAdvPreferencesBase.cpp:900 clientgui/sg_DlgPreferences.cpp:317
+#: clientgui/DlgAdvPreferencesBase.cpp:842 clientgui/sg_DlgPreferences.cpp:313
 msgid "Transfer files only between"
 msgstr "Prenos súborov len medzi"
 
@@ -1854,237 +1855,216 @@ msgstr "Projekt nemá aplikácie pre "
 msgid "Client configuration excludes "
 msgstr "Nastavenie klienta vylučuje "
 
-#: clientgui/DlgItemProperties.cpp:208
+#: clientgui/DlgItemProperties.cpp:207
 msgid " work fetch deferred for"
 msgstr " získavanie práce odložené o"
 
-#: clientgui/DlgItemProperties.cpp:209
+#: clientgui/DlgItemProperties.cpp:208
 msgid " work fetch deferral interval"
 msgstr " interval odkladania získavania práce"
 
 #. set dialog title
-#: clientgui/DlgItemProperties.cpp:241
+#: clientgui/DlgItemProperties.cpp:239
 msgid "Properties of project "
 msgstr "Vlastnosti projektu "
 
 #. layout controls
-#: clientgui/DlgItemProperties.cpp:245 clientgui/DlgOptions.cpp:221
+#: clientgui/DlgItemProperties.cpp:243 clientgui/DlgOptions.cpp:221
 msgid "General"
 msgstr "Všeobecné"
 
-#: clientgui/DlgItemProperties.cpp:246
-msgid "URL"
-msgstr "URL"
+#: clientgui/DlgItemProperties.cpp:244
+msgid "Master URL"
+msgstr "Hlavné URL"
 
-#: clientgui/DlgItemProperties.cpp:247
+#: clientgui/DlgItemProperties.cpp:245
 msgid "User name"
 msgstr "Používateľské meno"
 
-#: clientgui/DlgItemProperties.cpp:248
+#: clientgui/DlgItemProperties.cpp:246
 msgid "Team name"
 msgstr "Názov tímu"
 
-#: clientgui/DlgItemProperties.cpp:249 clientgui/ViewProjects.cpp:258
+#: clientgui/DlgItemProperties.cpp:247 clientgui/ViewProjects.cpp:258
 msgid "Resource share"
 msgstr "Podiel výkonu"
 
-#: clientgui/DlgItemProperties.cpp:251
+#: clientgui/DlgItemProperties.cpp:249
 msgid "Scheduler RPC deferred for"
 msgstr "RPC plánovača odložené o"
 
-#: clientgui/DlgItemProperties.cpp:254
+#: clientgui/DlgItemProperties.cpp:252
 msgid "File downloads deferred for"
 msgstr "Sťahovanie súborov odložené o"
 
-#: clientgui/DlgItemProperties.cpp:257
+#: clientgui/DlgItemProperties.cpp:255
 msgid "File uploads deferred for"
 msgstr "Odosielanie súborov odložené o"
 
-#: clientgui/DlgItemProperties.cpp:259
+#: clientgui/DlgItemProperties.cpp:257
 msgid "Disk usage"
 msgstr "Využitie disku"
 
-#: clientgui/DlgItemProperties.cpp:260
+#: clientgui/DlgItemProperties.cpp:258
 msgid "Computer ID"
 msgstr "ID počítača"
 
-#: clientgui/DlgItemProperties.cpp:262
+#: clientgui/DlgItemProperties.cpp:260
 msgid "Non CPU intensive"
 msgstr "Nenáročné na procesor"
 
-#: clientgui/DlgItemProperties.cpp:262 clientgui/DlgItemProperties.cpp:264
-#: clientgui/DlgItemProperties.cpp:265 clientgui/DlgItemProperties.cpp:267
-#: clientgui/DlgItemProperties.cpp:270 clientgui/DlgItemProperties.cpp:279
-#: clientgui/DlgItemProperties.cpp:282 clientgui/DlgItemProperties.cpp:285
+#: clientgui/DlgItemProperties.cpp:260 clientgui/DlgItemProperties.cpp:262
+#: clientgui/DlgItemProperties.cpp:263 clientgui/DlgItemProperties.cpp:265
+#: clientgui/DlgItemProperties.cpp:268 clientgui/DlgItemProperties.cpp:277
+#: clientgui/DlgItemProperties.cpp:280 clientgui/DlgItemProperties.cpp:283
 msgid "yes"
 msgstr "áno"
 
-#: clientgui/DlgItemProperties.cpp:264
+#: clientgui/DlgItemProperties.cpp:262
 msgid "Suspended via GUI"
 msgstr "Pozastavené cez GUI"
 
-#: clientgui/DlgItemProperties.cpp:264 clientgui/DlgItemProperties.cpp:265
+#: clientgui/DlgItemProperties.cpp:262 clientgui/DlgItemProperties.cpp:263
 msgid "no"
 msgstr "nie"
 
-#: clientgui/DlgItemProperties.cpp:265
+#: clientgui/DlgItemProperties.cpp:263
 msgid "Don't request more work"
 msgstr "Neprijímať ďalšiu prácu"
 
-#: clientgui/DlgItemProperties.cpp:267
+#: clientgui/DlgItemProperties.cpp:265
 msgid "Scheduler call in progress"
 msgstr "Spracováva sa požiadavka plánovača"
 
-#: clientgui/DlgItemProperties.cpp:270
+#: clientgui/DlgItemProperties.cpp:268
 msgid "Trickle-up pending"
 msgstr "Rýchla správa odosielaná"
 
-#: clientgui/DlgItemProperties.cpp:273 clientgui/DlgItemProperties.cpp:275
+#: clientgui/DlgItemProperties.cpp:271 clientgui/DlgItemProperties.cpp:273
 msgid "Host location"
 msgstr "Umiestnenie počítača"
 
-#: clientgui/DlgItemProperties.cpp:275
+#: clientgui/DlgItemProperties.cpp:273
 msgid "default"
 msgstr "predvolené"
 
-#: clientgui/DlgItemProperties.cpp:279
+#: clientgui/DlgItemProperties.cpp:277
 msgid "Added via account manager"
 msgstr "Pripojené cez Správcu konta"
 
-#: clientgui/DlgItemProperties.cpp:282
+#: clientgui/DlgItemProperties.cpp:280
 msgid "Remove when tasks done"
 msgstr "Odpojiť po skončení úloh"
 
-#: clientgui/DlgItemProperties.cpp:285
+#: clientgui/DlgItemProperties.cpp:283
 msgid "Ended"
 msgstr "Ukončené"
 
-#: clientgui/DlgItemProperties.cpp:287
+#: clientgui/DlgItemProperties.cpp:285
 msgid "Tasks completed"
 msgstr "Úlohy dokončené"
 
-#: clientgui/DlgItemProperties.cpp:288
+#: clientgui/DlgItemProperties.cpp:286
 msgid "Tasks failed"
 msgstr "Úlohy zlyhali"
 
-#: clientgui/DlgItemProperties.cpp:290
+#: clientgui/DlgItemProperties.cpp:288
 msgid "Credit"
 msgstr "Kredit"
 
-#: clientgui/DlgItemProperties.cpp:291
+#: clientgui/DlgItemProperties.cpp:289
 msgid "User"
 msgstr "Používateľ"
 
-#: clientgui/DlgItemProperties.cpp:298
+#: clientgui/DlgItemProperties.cpp:296
 msgid "Host"
 msgstr "Počítač"
 
-#: clientgui/DlgItemProperties.cpp:307
+#: clientgui/DlgItemProperties.cpp:305
 msgid "Scheduling"
 msgstr "Plánovanie"
 
-#: clientgui/DlgItemProperties.cpp:308
+#: clientgui/DlgItemProperties.cpp:306
 msgid "Scheduling priority"
 msgstr "Priorita plánovania"
 
-#: clientgui/DlgItemProperties.cpp:309
+#: clientgui/DlgItemProperties.cpp:307
 msgid "CPU"
 msgstr "CPU"
 
-#: clientgui/DlgItemProperties.cpp:333
+#: clientgui/DlgItemProperties.cpp:331
 msgid "Duration correction factor"
 msgstr "Koeficient pre korekciu trvania úloh"
 
-#: clientgui/DlgItemProperties.cpp:341
-msgid "Last scheduler reply"
-msgstr "Posledná odpoveď plánovača"
-
-#: clientgui/DlgItemProperties.cpp:352
+#: clientgui/DlgItemProperties.cpp:345
 msgid "Properties of task "
 msgstr "Vlastnosti úlohy "
 
-#: clientgui/DlgItemProperties.cpp:364 clientgui/ViewWork.cpp:266
+#: clientgui/DlgItemProperties.cpp:357 clientgui/ViewWork.cpp:266
 msgid "Application"
 msgstr "Aplikácia"
 
-#: clientgui/DlgItemProperties.cpp:365 clientgui/ViewWork.cpp:267
+#: clientgui/DlgItemProperties.cpp:358 clientgui/ViewWork.cpp:267
 msgid "Name"
 msgstr "Názov"
 
-#: clientgui/DlgItemProperties.cpp:366
+#: clientgui/DlgItemProperties.cpp:359
 msgid "State"
 msgstr "Stav"
 
-#: clientgui/DlgItemProperties.cpp:369
+#: clientgui/DlgItemProperties.cpp:362
 msgid "Received"
 msgstr "Prijatá"
 
-#: clientgui/DlgItemProperties.cpp:372
+#: clientgui/DlgItemProperties.cpp:365
 msgid "Report deadline"
 msgstr "Odoslať do"
 
-#: clientgui/DlgItemProperties.cpp:374
+#: clientgui/DlgItemProperties.cpp:367
 msgid "Resources"
 msgstr "Prostriedky"
 
-#: clientgui/DlgItemProperties.cpp:377
+#: clientgui/DlgItemProperties.cpp:370
 msgid "Estimated computation size"
 msgstr "Odhadovaná doba výpočtu"
 
-#: clientgui/DlgItemProperties.cpp:380
+#: clientgui/DlgItemProperties.cpp:373
 msgid "CPU time at last checkpoint"
 msgstr "Čas CPU pri poslednom uložení stavu"
 
-#: clientgui/DlgItemProperties.cpp:381 clientgui/DlgItemProperties.cpp:407
+#: clientgui/DlgItemProperties.cpp:374 clientgui/DlgItemProperties.cpp:389
 msgid "CPU time"
 msgstr "Čas CPU"
 
-#: clientgui/DlgItemProperties.cpp:383 clientgui/DlgItemProperties.cpp:408
+#: clientgui/DlgItemProperties.cpp:376 clientgui/DlgItemProperties.cpp:390
 msgid "Elapsed time"
 msgstr "Uplynutý čas"
 
-#: clientgui/DlgItemProperties.cpp:385
+#: clientgui/DlgItemProperties.cpp:378
 msgid "Estimated time remaining"
 msgstr "Odhad zostávajúceho času"
 
-#: clientgui/DlgItemProperties.cpp:386
+#: clientgui/DlgItemProperties.cpp:379
 msgid "Fraction done"
 msgstr "Hotový podiel"
 
-#: clientgui/DlgItemProperties.cpp:387
+#: clientgui/DlgItemProperties.cpp:380
 msgid "Virtual memory size"
 msgstr "Veľkosť virtuálnej pamäte"
 
-#: clientgui/DlgItemProperties.cpp:388
+#: clientgui/DlgItemProperties.cpp:381
 msgid "Working set size"
 msgstr "Veľkosť pracovnej sady"
 
-#: clientgui/DlgItemProperties.cpp:390
+#: clientgui/DlgItemProperties.cpp:383
 msgid "Directory"
 msgstr "Priečinok"
 
-#: clientgui/DlgItemProperties.cpp:393
+#: clientgui/DlgItemProperties.cpp:386
 msgid "Process ID"
 msgstr "ID procesu"
 
-#: clientgui/DlgItemProperties.cpp:399 clientgui/DlgItemProperties.cpp:401
-#: clientgui/DlgItemProperties.cpp:403
-msgid "Progress rate"
-msgstr "Rýchlosť progresu"
-
-#: clientgui/DlgItemProperties.cpp:399
-msgid "per hour"
-msgstr "za hodinu"
-
-#: clientgui/DlgItemProperties.cpp:401
-msgid "per minute"
-msgstr "za minútu"
-
-#: clientgui/DlgItemProperties.cpp:403
-msgid "per second"
-msgstr "za sekundu"
-
-#: clientgui/DlgItemProperties.cpp:474 clientgui/ViewWork.cpp:1125
+#: clientgui/DlgItemProperties.cpp:456 clientgui/ViewWork.cpp:1125
 #: clientgui/sg_TaskPanel.cpp:828
 msgid "Local: "
 msgstr "Lokálne: "
@@ -3602,6 +3582,10 @@ msgstr "Chcete skutočne zrušiť operáciu?"
 msgid "Question"
 msgstr "Otázka"
 
+#: clientgui/common/wxPieCtrl.cpp:64 clientgui\common/wxPieCtrl.cpp:64
+msgid "Pie Ctrl"
+msgstr "Pie Ctrl"
+
 #: clientgui/mac/Mac_GUI.cpp:35 clientgui\mac/Mac_GUI.cpp:35
 msgid "Services"
 msgstr "Služby"
@@ -3669,7 +3653,7 @@ msgstr "Pokračovať vo výpočtoch"
 msgid "Open a window to view notices from projects or BOINC"
 msgstr "Otvoriť okno zobrazujúce oznamy z projektov a BOINC"
 
-#: clientgui/sg_BoincSimpleFrame.cpp:934 clientgui/sg_DlgPreferences.cpp:364
+#: clientgui/sg_BoincSimpleFrame.cpp:934 clientgui/sg_DlgPreferences.cpp:360
 #, c-format
 msgid "Get help with %s"
 msgstr "Získať pomoc s %s"
@@ -3688,16 +3672,16 @@ msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
 msgstr "Pre ďalšie nastavenie vyberte Výpočtové preferencie v Pokročilom zobrazení."
 
-#: clientgui/sg_DlgPreferences.cpp:344
+#: clientgui/sg_DlgPreferences.cpp:340
 msgid "GB of disk space"
 msgstr "Miesto na disku (GB)"
 
-#: clientgui/sg_DlgPreferences.cpp:1093
+#: clientgui/sg_DlgPreferences.cpp:1089
 #, c-format
 msgid "%s - Computing Preferences"
 msgstr "%s - &Preferencie počítania"
 
-#: clientgui/sg_DlgPreferences.cpp:1174
+#: clientgui/sg_DlgPreferences.cpp:1170
 msgid "Discard all local preferences and use web-based preferences?"
 msgstr "Odstrániť lokálne nastavenia a použiť nastavenia z webstránky projektu?"
 
