@@ -68,7 +68,6 @@ CFStringRef     valueNoRestart = CFSTR("NoRestart");
 int main(int argc, char *argv[])
 {
     char                    pkgPath[MAXPATHLEN];
-    char                    postInstallAppPath[MAXPATHLEN];
     char                    temp[MAXPATHLEN];
     char                    brand[64], s[256];
     char                    *p;
@@ -91,9 +90,6 @@ int main(int argc, char *argv[])
     strlcpy(temp, pkgPath, sizeof(temp));
 
     strlcat(pkgPath, "/Contents/Resources/", sizeof(pkgPath));
-    
-    strlcpy(postInstallAppPath, pkgPath, sizeof(postInstallAppPath));
-    strlcat(postInstallAppPath, "PostInstall.app", sizeof(postInstallAppPath));
 
    // To allow for branding, assume name of installer package inside bundle corresponds to name of this application
     p = strrchr(temp, '/');         // Point to name of this application (e.g., "BOINC Installer.app")
@@ -113,16 +109,12 @@ int main(int argc, char *argv[])
     // Expand the installer package
     system("rm -dfR /tmp/BOINC.pkg");
     system("rm -dfR /tmp/expanded_BOINC.pkg");
-    system("rm -dfR /tmp/PostInstall.app");
     system("rm -f /tmp/BOINC_preferred_languages");
     system("rm -f /tmp/BOINC_restart_flag");
 
-    sprintf(temp, "cp -fpR \"%s\" /tmp/PostInstall.app", postInstallAppPath);
-    err = system(temp);
-    
     sprintf(temp, "pkgutil --expand \"%s\" /tmp/expanded_BOINC.pkg", pkgPath);
     err = system(temp);
-
+    
     if (err == noErr) {
         GetPreferredLanguages();
     }
