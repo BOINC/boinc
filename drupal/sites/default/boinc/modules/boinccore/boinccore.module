@@ -106,6 +106,13 @@ function boinccore_menu() {
     'access callback' => TRUE,
     'type' => MENU_CALLBACK
   );
+  $items['team_email_list.php'] = array(
+    'title' => 'Get team member list RPC',
+    'description' => 'RPC for getting a list of members of a given team.',
+    'page callback' => 'boinccore_team_email_list',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
+  );
   $items['forum_get_data.php'] = array(
     'title' => 'Forum get data RPC',
     'description' => 'RPC for getting recent forum activity for a given user.',
@@ -621,6 +628,82 @@ function boinccore_pending_credit() {
   // Remove q from the GET request or BOINC will panic
   unset($_GET['q']);
   include_boinc('user/pending.php');
+}
+
+/**
+ * Page callback for the team email list RPC (team_email_list.php).
+ * Get members of a given team
+ */
+function boinccore_team_email_list() {
+  // See if the account has an approved profile in Drupal
+  $boincteam_id = !empty($_POST['teamid']) ? $_POST['teamid'] : $_GET['teamid'];
+  $account_key = !empty($_POST['account_key']) ? $_POST['account_key'] : $_GET['account_key'];
+  $show_xml = !empty($_POST['xml']) ? $_POST['xml'] : $_GET['xml'];
+  $admin_request = FALSE;
+  if ($boincteam_id) {
+    if ($account_key) {
+      // See if this is a team admin
+      db_set_active('boinc');
+      $boincuser_id = db_result(db_query("
+        SELECT 
+          u.id
+        FROM {user} u
+        WHERE u.authenticator = '%s'
+        LIMIT 1",
+        $account_key
+      ));
+      db_set_active('default');
+      require_boinc('team');
+      $boincuser = boincuser_load(boincuser_lookup_uid($boincuser_id), TRUE);
+      $boincteam = boincteam_load($boincteam_id);
+      $admin_request = is_team_admin($boincuser, $boincteam) OR is_team_founder($boincuser, $boincteam);
+    }
+    $members = array();
+    db_set_active('boinc');
+    $result = db_query("
+      SELECT 
+        u.name, u.email_addr
+      FROM {user} u
+      WHERE u.teamid = %d
+      ORDER BY u.email_addr ASC",
+      $boincteam_id
+    );
+    db_set_active('default');
+    
+    while ($member = db_fetch_object($result)) {
+      $members[] = user_load(array('mail' => $member->email_addr));
+    }
+    
+    $xml = array('users' => array());
+    foreach ($members as $member) {
+      $content_profile = content_profile_load('profile', $member->uid);
+      $team_member = array(
+        'id' => $member->boincuser_id,
+        'cpid' => $member->boincuser_cpid,
+        'create_time' => $member->created,
+        'name' => $member->boincuser_name,
+        'country' => $content_profile->field_country[0]['value'],
+        'total_credit' => $member->boincuser_total_credit,
+        'expavg_credit' => $member->boincuser_expavg_credit,
+        'expavg_time' => $member->boincuser_expavg_time,
+        'url' => $content_profile->field_url[0]['value'],
+        'has_profile' => ($content_profile->status AND !$content_profile->moderate) ? 1 : 0,
+      );
+      if ($admin_request) {
+        $team_member['email_addr'] = $member->mail;
+      }
+      $xml['users']['user'][] = $team_member;
+    }
+  }
+  else {
+    $xml = array(
+      'error' => array(
+        'error_num' => -136,
+        'error_msg' => 'Not found',
+      ),
+    );
+  }
+  print xml_to_text(array_to_xml($xml), TRUE, TRUE);
 }
 
 /**

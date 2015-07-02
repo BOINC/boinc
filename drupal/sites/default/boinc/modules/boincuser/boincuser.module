@@ -189,6 +189,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
         passwd_hash,
         total_credit, 
         expavg_credit,
+        expavg_time,
         cross_project_id,
         teamid,
         venue
@@ -201,6 +202,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
     $account->boincuser_weak_auth = md5($boinc_user->authenticator . $boinc_user->passwd_hash);
     $account->boincuser_total_credit = round($boinc_user->total_credit);
     $account->boincuser_expavg_credit = round($boinc_user->expavg_credit);
+    $account->boincuser_expavg_time = round($boinc_user->expavg_time);
     $account->boincuser_cpid = md5($boinc_user->cross_project_id . $account->mail);
     $account->boincuser_default_pref_set = $boinc_user->venue;
     $account->boincteam_id = $boinc_user->teamid;
