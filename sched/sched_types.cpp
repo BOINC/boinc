@@ -255,13 +255,17 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
                     if (retval) {
                         if (!strcmp(platform.name, "anonymous")) {
                             if (retval == ERR_NOT_FOUND) {
-                                g_reply->insert_message(
-                                    _("Unknown app name in app_info.xml"),
-                                    "notice"
+                                char buf[1024];
+                                snprintf(buf, sizeof(buf),
+                                    "Unknown app name %s in app_info.xml",
+                                    cav.app_name
+
                                 );
+                                buf[1023] = 0;
+                                g_reply->insert_message(buf, "notice");
                             } else {
                                 g_reply->insert_message(
-                                    _("Syntax error in app_info.xml"),
+                                    "Syntax error in app_info.xml",
                                     "notice"
                                 );
                             }
