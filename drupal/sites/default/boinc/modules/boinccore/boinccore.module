@@ -106,6 +106,13 @@ function boinccore_menu() {
     'access callback' => TRUE,
     'type' => MENU_CALLBACK
   );
+  $items['forum_get_data.php'] = array(
+    'title' => 'Forum get data RPC',
+    'description' => 'RPC for getting recent forum activity for a given user.',
+    'page callback' => 'boinccore_forum_get_data',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
+  );
   $items['apps.php'] = array(
     'title' => 'Apps RPC',
     'description' => 'RPC for getting the applications in the system.',
@@ -614,6 +621,124 @@ function boinccore_pending_credit() {
   // Remove q from the GET request or BOINC will panic
   unset($_GET['q']);
   include_boinc('user/pending.php');
+}
+
+/**
+ * Page callback for the user forum activity RPC (forum_get_data.php).
+ * Get the last comments OR threads made by a given user
+ */
+function boinccore_forum_get_data() {
+  // Do not pass through to BOINC in this case as BOINC forums are no longer
+  // relevant -- use Drupal data only
+  
+  $xml = array();
+  $boinc_id = !empty($_POST['userid']) ? $_POST['userid'] : (!empty($_GET['userid']) ? $_GET['userid'] : NULL);
+  $uid = boincuser_lookup_uid($boinc_id);
+  
+  if ($uid) {
+    $method = !empty($_POST['method']) ? $_POST['method'] : (!empty($_GET['method']) ? $_GET['method'] : NULL);
+    $count = !empty($_POST['count']) ? $_POST['count'] : (!empty($_GET['count']) ? $_GET['count'] : NULL);
+    if (!$count) $count = 10;
+    
+    switch ($method) {
+    case 'user_posts':
+      $content_length = !empty($_POST['content_length']) ? $_POST['content_length'] : (!empty($_GET['content_length']) ? $_GET['content_length'] : NULL);
+      $posts = db_query("
+        SELECT
+          c.cid,
+          n.nid,
+          c.uid,
+          n.title,
+          c.comment,
+          c.timestamp
+        FROM comments c
+        INNER JOIN node n ON c.nid = n.nid
+        WHERE (n.status = 1) AND (c.uid = '%d')
+        ORDER BY timestamp DESC
+        LIMIT %d",
+        $uid, (int) $count
+      );
+      $xml = array(
+        'rpc_response' => array(
+          'count' => 0,
+          'posts' => array(),
+        ),
+      );
+      $post_count = 0;
+      while ($post = db_fetch_object($posts)) {
+        $xml['rpc_response']['posts']['post'][] = array(
+          'id' => $post->cid,
+          'threadid' => $post->nid,
+          'threadtitle' => $post->title,
+          'timestamp' => $post->timestamp,
+          'content' => ($content_length ? substr($post->comment, 0, $content_length) : $post->comment),
+        );
+        $post_count++;
+      }
+      $xml['rpc_response']['count'] = $post_count;
+      break;
+      
+    case 'user_threads':
+      $threads = db_query("
+        SELECT
+          n.nid,
+          n.uid,
+          n.title,
+          nc.totalcount AS views,
+          n.changed,
+          n.title,
+          tn.tid,
+          (
+            SELECT COUNT(*)
+            FROM {comments} c
+            WHERE c.nid = n.nid
+          ) AS replies
+        FROM {node} n 
+        LEFT JOIN {node_counter} nc ON nc.nid = n.nid
+        LEFT JOIN {term_node} tn ON tn.nid = n.nid
+        WHERE (n.status = 1) AND (n.uid = '%d')
+        ORDER BY changed DESC
+        LIMIT %d",
+        $uid, (int) $count
+      );
+      $xml = array(
+        'rpc_response' => array(
+          'count' => 0,
+          'threads' => array(),
+        ),
+      );
+      $thread_count = 0;
+      while ($thread = db_fetch_object($threads)) {
+        $xml['rpc_response']['threads']['thread'][] = array(
+          'id' => $thread->nid,
+          'forumid' => $thread->tid,
+          'replies' => $thread->replies,
+          'views' => $thread->views,
+          'timestamp' => $thread->changed,
+          'title' => $thread->title,
+        );
+        $thread_count++;
+      }
+      $xml['rpc_response']['count'] = $thread_count;
+      break;
+    default:
+      $xml = array(
+        'error' => array(
+          'error_num' => -1,
+          'error_msg' => 'Unknown error',
+        ),
+      );
+    }
+  }
+  else {
+    $xml = array(
+      'error' => array(
+        'error_num' => -136,
+        'error_msg' => 'Not found',
+      ),
+    );
+  }
+  print xml_to_text(array_to_xml($xml), TRUE, TRUE);
 }
 
 /**
