@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2015-06-25 09:27+0000\n"
+"PO-Revision-Date: 2015-07-03 11:37+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -91,7 +91,7 @@ msgstr "a felhasználó neve"
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
-msgstr "El akarja távolítani a VirtualBox-ot is a számítógépről?\n(a VirtualBox a BOINC mellett lett felrakva)"
+msgstr "El akarod távolítani a VirtualBox-ot is a számítógépről?\n(a VirtualBox a BOINC-cal együtt lett felrakva)"
 
 #: uninstall.cpp:312
 #, c-format
@@ -103,14 +103,14 @@ msgid ""
 "\n"
 "for each user, the file\n"
 "\"%s\"."
-msgstr "Eltávolítás befejezve.\n\nEltávolíthatja a következő fenn maradó elemeket a Kereső használatával: \n a \"%s\" könyvár \n\nminden felhasználóhoz, a \"%s\" file."
+msgstr "Eltávolítás befejezve.\n\nEltávolíthatod a következő fennmaradó elemeket a Kereső használatával:\n a \"%s\" könyvár \n\nminden felhasználóhoz, a \"%s\" fájl."
 
 #: uninstall.cpp:840
 #, c-format
 msgid ""
 "Enter your administrator password to completely remove %s from you computer.\n"
 "\n"
-msgstr "Adja meg az adminisztrátori jelszót %s eltávolításához erről a számítógépről.\n"
+msgstr "Add meg az adminisztrátori jelszót %s teljes eltávolításához erről a számítógépről.\n"
 
 #: uninstall.cpp:1616
 msgid "Cancel"
