@@ -16,20 +16,21 @@ fi
 
 rm -f /tmp/BOINCInstallLog.txt
 
-pipath=`echo $1 | sed -e "s/BOINC.pkg/PostInstall.app/"`
-## echo "pi path = $pipath" >> /tmp/BOINCInstallLog.txt
+# PostInstall.app is in the same directory as the package (BOINC.pkg or GridRepublic.pkg, etc.)
+pipath=`dirname "$1"`/PostInstall.app/Contents/MacOS/PostInstall
+echo "PostInstall.app path = $pipath"
 
 # Run the Postinstall Application
 if [ "${COMMAND_LINE_INSTALL}" = "1" ]; then
-"$pipath/Contents/MacOS/PostInstall" -part1 >> /tmp/BOINCInstallLog.txt
+"$pipath" -part1 >> /tmp/BOINCInstallLog.txt
 sleep 2
-"$pipath/Contents/MacOS/PostInstall" -part2 >> /tmp/BOINCInstallLog.txt &
+"$pipath" -part2 >> /tmp/BOINCInstallLog.txt &
 else
-"$pipath/Contents/MacOS/PostInstall" -part1
+"$pipath" -part1
 sleep 2
 # part2 continues to run after Installer finishes, 
 # and fails unless we redirect stdout to a file
-"$pipath/Contents/MacOS/PostInstall" -part2 >> /tmp/BOINCInstallLog.txt &
+"$pipath" -part2 >> /tmp/BOINCInstallLog.txt &
 fi
 
 exit 0
