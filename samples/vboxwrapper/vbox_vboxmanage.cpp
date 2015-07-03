@@ -771,11 +771,7 @@ int VBOX_VM::deregister_stale_vm() {
 
     get_slot_directory(virtual_machine_slot_directory);
 
-    command  = "showhdinfo \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
-    retval = vbm_popen(command, output, "get HDD info");
-    if (retval) return retval;
-
-    // Output should look a little like this:
+    // Output from showhdinfo should look a little like this:
     //   UUID:                 c119acaf-636c-41f6-86c9-38e639a31339
     //   Accessible:           yes
     //   Logical size:         10240 MBytes
@@ -786,31 +782,11 @@ int VBOX_VM::deregister_stale_vm() {
     //   In use by VMs:        test2 (UUID: 000ab2be-1254-4c6a-9fdc-1536a478f601)
     //   Location:             C:\Users\romw\VirtualBox VMs\test2\test2.vdi
     //
-    uuid_start = output.find("(UUID: ");
-    if (uuid_start != string::npos) {
-        // We can parse the virtual machine ID from the output
-        uuid_start += 7;
-        uuid_end = output.find(")", uuid_start);
-        vm_name = output.substr(uuid_start, uuid_end - uuid_start);
-
-        // Deregister stale VM by UUID
-        return deregister_vm(false);
-    } else if (enable_isocontextualization && enable_isocontextualization) {
+    if (enable_isocontextualization && enable_isocontextualization) {
         command  = "showhdinfo \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
         retval = vbm_popen(command, output, "get HDD info");
         if (retval) return retval;
 
-        // Output should look a little like this:
-        //   UUID:                 c119acaf-636c-41f6-86c9-38e639a31339
-        //   Accessible:           yes
-        //   Logical size:         10240 MBytes
-        //   Current size on disk: 0 MBytes
-        //   Type:                 normal (base)
-        //   Storage format:       VDI
-        //   Format variant:       dynamic default
-        //   In use by VMs:        test2 (UUID: 000ab2be-1254-4c6a-9fdc-1536a478f601)
-        //   Location:             C:\Users\romw\VirtualBox VMs\test2\test2.vdi
-        //
         uuid_start = output.find("(UUID: ");
         if (uuid_start != string::npos) {
             // We can parse the virtual machine ID from the output
@@ -822,20 +798,35 @@ int VBOX_VM::deregister_stale_vm() {
             return deregister_vm(false);
         }
     } else {
-        // Did the user delete the VM in VirtualBox and not the medium?  If so,
-        // just remove the medium.
-        command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
-        vbm_popen(command, output, "remove virtual disk", false, false);
-        if (enable_floppyio) {
-            command  = "closemedium floppy \"" + virtual_machine_slot_directory + "/" + floppy_image_filename + "\" ";
-            vbm_popen(command, output, "remove virtual floppy disk", false, false);
-        }
-        if (enable_isocontextualization) {
-            command  = "closemedium dvd \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
-            vbm_popen(command, output, "remove virtual ISO 9660 disk", false);
-            if (enable_cache_disk) {
-                command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
-                vbm_popen(command, output, "remove virtual cache disk", false);
+        command  = "showhdinfo \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
+        retval = vbm_popen(command, output, "get HDD info");
+        if (retval) return retval;
+
+        uuid_start = output.find("(UUID: ");
+        if (uuid_start != string::npos) {
+            // We can parse the virtual machine ID from the output
+            uuid_start += 7;
+            uuid_end = output.find(")", uuid_start);
+            vm_name = output.substr(uuid_start, uuid_end - uuid_start);
+
+            // Deregister stale VM by UUID
+            return deregister_vm(false);
+        } else {
+            // Did the user delete the VM in VirtualBox and not the medium?  If so,
+            // just remove the medium.
+            command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
+            vbm_popen(command, output, "remove virtual disk", false, false);
+            if (enable_floppyio) {
+                command  = "closemedium floppy \"" + virtual_machine_slot_directory + "/" + floppy_image_filename + "\" ";
+                vbm_popen(command, output, "remove virtual floppy disk", false, false);
+            }
+            if (enable_isocontextualization) {
+                command  = "closemedium dvd \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
+                vbm_popen(command, output, "remove virtual ISO 9660 disk", false);
+                if (enable_cache_disk) {
+                    command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
+                    vbm_popen(command, output, "remove virtual cache disk", false);
+                }
             }
         }
     }
