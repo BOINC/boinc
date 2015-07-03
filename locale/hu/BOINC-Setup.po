@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2015-07-03 11:37+0000\n"
+"PO-Revision-Date: 2015-07-03 11:45+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -71,7 +71,7 @@ msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
 "\n"
 "This will remove the executables but will not touch %s data files."
-msgstr "Biztosan eltávolítja:  %s -t erről a számítógépről?\n\nEz letörli a végrehajtható állományokat, de meghagyja %s adatfájljait."
+msgstr "Biztosan eltávolítod:  %s -t erről a számítógépről?\n\nEz letörli a végrehajtható állományokat, de meghagyja %s adatfájljait."
 
 #: uninstall.cpp:163
 #, c-format
