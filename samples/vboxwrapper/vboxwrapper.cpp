@@ -468,7 +468,7 @@ int main(int argc, char** argv) {
                 pVM = NULL;
             }
         }
-        if ((5 == vbox_major) && (0 >= vbox_minor)) {
+        if ((5 == vbox_major) && (0 <= vbox_minor)) {
             pVM = (VBOX_VM*) new vbox50::VBOX_VM();
             retval = pVM->initialize();
             if (retval) {
