@@ -454,19 +454,47 @@ int main(int argc, char** argv) {
         sscanf(vbox_version.c_str(), "%d.%d", &vbox_major, &vbox_minor);
         if ((4 == vbox_major) && (2 == vbox_minor)) {
             pVM = (VBOX_VM*) new vbox42::VBOX_VM();
+            retval = pVM->initialize();
+            if (retval) {
+                delete pVM;
+                pVM = NULL;
+            }
         }
         if ((4 == vbox_major) && (3 == vbox_minor)) {
             pVM = (VBOX_VM*) new vbox43::VBOX_VM();
+            retval = pVM->initialize();
+            if (retval) {
+                delete pVM;
+                pVM = NULL;
+            }
         }
-        if ((5 == vbox_major) && (0 == vbox_minor)) {
+        if ((5 == vbox_major) && (0 >= vbox_minor)) {
             pVM = (VBOX_VM*) new vbox50::VBOX_VM();
+            retval = pVM->initialize();
+            if (retval) {
+                delete pVM;
+                pVM = NULL;
+            }
         }
     }
     if (!pVM) {
         pVM = (VBOX_VM*) new vboxmanage::VBOX_VM();
+        retval = pVM->initialize();
+        if (retval) {
+            vboxlog_msg("Could not detect VM Hypervisor. Rescheduling execution for a later date.");
+            boinc_temporary_exit(86400, "Detection of VM Hypervisor failed.");
+        }
     }
 #else
     pVM = (VBOX_VM*) new vboxmanage::VBOX_VM();
+
+    // Initialize VM Hypervisor
+    //
+    retval = pVM->initialize();
+    if (retval) {
+        vboxlog_msg("Could not detect VM Hypervisor. Rescheduling execution for a later date.");
+        boinc_temporary_exit(86400, "Detection of VM Hypervisor failed.");
+    }
 #endif
 
     // Parse command line parameters
@@ -515,14 +543,6 @@ int main(int argc, char** argv) {
         boinc_temporary_exit(86400, "Architecture incompatibility detected.");
     }
 #endif
-
-    // Initialize VM Hypervisor
-    //
-    retval = pVM->initialize();
-    if (retval) {
-        vboxlog_msg("Could not detect VM Hypervisor. Rescheduling execution for a later date.");
-        boinc_temporary_exit(86400, "Detection of VM Hypervisor failed.");
-    }
 
     // Record what version of VirtualBox was used.
     // 

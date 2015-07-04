@@ -244,6 +244,7 @@ public:
 };
 
 class VBOX_VM : public VBOX_BASE {
+public:
     VBOX_VM();
     ~VBOX_VM();
 };
