@@ -2011,7 +2011,7 @@ int VBOX_VM::get_version_information(string& version_raw, string& version_displa
     if (lpszRegistryValue) free(lpszRegistryValue);
     if (version_raw.empty()) {
 		version_raw = "Unknown";
-        version_display = "VirtualBox VboxManage Interface (Version: Unknown)";
+        version_display = "VirtualBox COM Interface (Version: Unknown)";
     }
     return BOINC_SUCCESS;
 }
