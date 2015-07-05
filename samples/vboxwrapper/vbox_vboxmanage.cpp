@@ -156,7 +156,7 @@ int VBOX_VM::initialize() {
     launch_vboxsvc();
 #endif
 
-    rc = get_version_information(virtualbox_version);
+    rc = get_version_information(virtualbox_version_raw, virtualbox_version_display);
     if (rc) return rc;
 
     get_guest_additions(virtualbox_guest_additions);
@@ -1482,7 +1482,7 @@ int VBOX_VM::get_install_directory(string& install_directory) {
 #endif
 }
 
-int VBOX_VM::get_version_information(string& version) {
+int VBOX_VM::get_version_information(std::string& version_raw, std::string& version_display) {
     string command;
     string output;
     int vbox_major = 0, vbox_minor = 0, vbox_release = 0;
@@ -1505,14 +1505,21 @@ int VBOX_VM::get_version_information(string& version) {
         }
 
         if (3 == sscanf(output.c_str(), "%d.%d.%d", &vbox_major, &vbox_minor, &vbox_release)) {
-            snprintf(
+			snprintf(
+                buf, sizeof(buf),
+                "%d.%d.%d",
+                vbox_major, vbox_minor, vbox_release
+            );
+            version_raw = buf;
+			snprintf(
                 buf, sizeof(buf),
                 "VirtualBox VboxManage Interface (Version: %d.%d.%d)",
                 vbox_major, vbox_minor, vbox_release
             );
-            version = buf;
+            version_display = buf;
         } else {
-            version = "VirtualBox VboxManage Interface (Version: Unknown)";
+			version_raw = "Unknown";
+            version_display = "VirtualBox VboxManage Interface (Version: Unknown)";
         }
     }
 

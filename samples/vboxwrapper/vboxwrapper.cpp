@@ -442,16 +442,17 @@ int main(int argc, char** argv) {
     //       on the machine because it will attempt to launch the 'vboxsvc' process
     //       without out environment variable changes and muck everything up.
     //
-    string vbox_version;
+    string vbox_version_raw;
+    string vbox_version_display;
     int vbox_major = 0, vbox_minor = 0;
 
-    if (BOINC_SUCCESS != vbox42::VBOX_VM::get_version_information(vbox_version)) {
-        if (BOINC_SUCCESS != vbox43::VBOX_VM::get_version_information(vbox_version)) {
-            vbox50::VBOX_VM::get_version_information(vbox_version);
+    if (BOINC_SUCCESS != vbox42::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display)) {
+        if (BOINC_SUCCESS != vbox43::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display)) {
+            vbox50::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display);
         }
     }
-    if (!vbox_version.empty()) {
-        sscanf(vbox_version.c_str(), "%d.%d", &vbox_major, &vbox_minor);
+    if (!vbox_version_raw.empty()) {
+        sscanf(vbox_version_raw.c_str(), "%d.%d", &vbox_major, &vbox_minor);
         if ((4 == vbox_major) && (2 == vbox_minor)) {
             pVM = (VBOX_VM*) new vbox42::VBOX_VM();
             retval = pVM->initialize();
@@ -546,8 +547,8 @@ int main(int argc, char** argv) {
 
     // Record what version of VirtualBox was used.
     // 
-    if (!pVM->virtualbox_version.empty()) {
-        vboxlog_msg("Detected: %s", pVM->virtualbox_version.c_str());
+    if (!pVM->virtualbox_version_display.empty()) {
+        vboxlog_msg("Detected: %s", pVM->virtualbox_version_display.c_str());
     }
 
     // Record if anonymous platform was used.
@@ -581,9 +582,9 @@ int main(int argc, char** argv) {
     // VirtualBox 4.2.6 crashes during snapshot operations
     // and 4.2.18 fails to restore from snapshots properly.
     //
-    if ((pVM->virtualbox_version.find("4.2.6") != std::string::npos) || 
-        (pVM->virtualbox_version.find("4.2.18") != std::string::npos) || 
-        (pVM->virtualbox_version.find("4.3.0") != std::string::npos) ) {
+    if ((pVM->virtualbox_version_raw.find("4.2.6") != std::string::npos) || 
+        (pVM->virtualbox_version_raw.find("4.2.18") != std::string::npos) || 
+        (pVM->virtualbox_version_raw.find("4.3.0") != std::string::npos) ) {
         vboxlog_msg("Incompatible version of VirtualBox detected. Please upgrade to a later version.");
         boinc_temporary_exit(86400,
             "Incompatible version of VirtualBox detected; please upgrade.",

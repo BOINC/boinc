@@ -89,7 +89,8 @@ VBOX_BASE::VBOX_BASE() : VBOX_JOB() {
     virtualbox_scratch_directory.clear();
     virtualbox_install_directory.clear();
     virtualbox_guest_additions.clear();
-    virtualbox_version.clear();
+    virtualbox_version_raw.clear();
+    virtualbox_version_display.clear();
     pFloppy = NULL;
     vm_log.clear();
     vm_log_timestamp.hours = 0;
@@ -354,7 +355,7 @@ bool VBOX_BASE::is_logged_failure_guest_job_out_of_memory() {
 
 bool VBOX_BASE::is_virtualbox_version_newer(int maj, int min, int rel) {
     int vbox_major = 0, vbox_minor = 0, vbox_release = 0;
-    if (3 == sscanf(virtualbox_version.c_str(), "%d.%d.%d", &vbox_major, &vbox_minor, &vbox_release)) {
+    if (3 == sscanf(virtualbox_version_raw.c_str(), "%d.%d.%d", &vbox_major, &vbox_minor, &vbox_release)) {
         if (maj < vbox_major) return true;
         if (maj > vbox_major) return false;
         if (min < vbox_minor) return true;

@@ -104,7 +104,8 @@ public:
     std::string virtualbox_scratch_directory;
     std::string virtualbox_install_directory;
     std::string virtualbox_guest_additions;
-    std::string virtualbox_version;
+    std::string virtualbox_version_raw;
+    std::string virtualbox_version_display;
 
     FloppyIONS::FloppyIO* pFloppy;
 
@@ -203,7 +204,7 @@ public:
 
     static int get_install_directory(std::string& dir);
     static int get_scratch_directory(std::string& dir);
-    static int get_version_information(std::string& version);
+    static int get_version_information(std::string& version_raw, std::string& version_display);
     virtual int get_guest_additions(std::string& dir) = 0;
     virtual int get_slot_directory(std::string& dir);
     virtual int get_default_network_interface(std::string& iface) = 0;

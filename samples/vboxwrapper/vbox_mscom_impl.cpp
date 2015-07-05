@@ -205,7 +205,6 @@ int VBOX_VM::initialize() {
     int rc = BOINC_SUCCESS;
     string old_path;
     string new_path;
-    string version;
     APP_INIT_DATA aid;
     bool force_sandbox = false;
 
@@ -272,11 +271,8 @@ int VBOX_VM::initialize() {
         return rc;
     }
 
-    rc = get_version_information(version);
+    rc = get_version_information(virtualbox_version_raw, virtualbox_version_display);
     if (rc) return rc;
-
-    // Fix-up version string
-    virtualbox_version = "VirtualBox COM Interface (Version: " + version + ")";
 
     // Get the guest addition information
     get_guest_additions(virtualbox_guest_additions);
@@ -1961,25 +1957,26 @@ int VBOX_VM::get_install_directory(string& install_directory ) {
     return BOINC_SUCCESS;
 }
 
-int VBOX_VM::get_version_information(string& version) {
+int VBOX_VM::get_version_information(string& version_raw, string& version_display) {
     LONG    lReturnValue;
     HKEY    hkSetupHive;
-    LPTSTR  lpszRegistryValue = NULL;
+    LPSTR   lpszRegistryValue = NULL;
     DWORD   dwSize = 0;
+    char    buf[256];
 
     // change the current directory to the boinc data directory if it exists
-    lReturnValue = RegOpenKeyEx(
+    lReturnValue = RegOpenKeyExA(
         HKEY_LOCAL_MACHINE, 
-        _T("SOFTWARE\\Oracle\\VirtualBox"),  
+        "SOFTWARE\\Oracle\\VirtualBox",  
         0, 
         KEY_READ,
         &hkSetupHive
     );
     if (lReturnValue == ERROR_SUCCESS) {
         // How large does our buffer need to be?
-        lReturnValue = RegQueryValueEx(
+        lReturnValue = RegQueryValueExA(
             hkSetupHive,
-            _T("VersionExt"),
+            "VersionExt",
             NULL,
             NULL,
             NULL,
@@ -1991,23 +1988,30 @@ int VBOX_VM::get_version_information(string& version) {
             (*lpszRegistryValue) = NULL;
 
             // Now get the data
-            lReturnValue = RegQueryValueEx( 
+            lReturnValue = RegQueryValueExA( 
                 hkSetupHive,
-                _T("VersionExt"),
+                "VersionExt",
                 NULL,
                 NULL,
                 (LPBYTE)lpszRegistryValue,
                 &dwSize
             );
+            version_raw = lpszRegistryValue;
 
-            version = lpszRegistryValue;
+			snprintf(
+                buf, sizeof(buf),
+                "VirtualBox COM Interface (Version: %s)",
+                lpszRegistryValue
+            );
+            version_display = buf;
         }
     }
 
     if (hkSetupHive) RegCloseKey(hkSetupHive);
     if (lpszRegistryValue) free(lpszRegistryValue);
-    if (version.empty()) {
-        return ERR_FREAD;
+    if (version_raw.empty()) {
+		version_raw = "Unknown";
+        version_display = "VirtualBox VboxManage Interface (Version: Unknown)";
     }
     return BOINC_SUCCESS;
 }
