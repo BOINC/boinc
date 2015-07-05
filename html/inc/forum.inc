@@ -886,8 +886,8 @@ function create_thread($title, $content, $user, $forum, $signature, $export) {
 function hide_post($post, $thread, $forum) {
     $ret = $post->update("hidden=1");
     if (!$ret) return $ret;
-    $thread->update("replies=replies-1");
-    $forum->update("posts=posts-1");
+    $thread->update("replies=if(replies>0, replies-1, 0)");
+    $forum->update("posts=if(posts>0, posts-1, 0)");
     update_thread_timestamp($thread);
     update_forum_timestamp($forum);
     return true;
@@ -906,13 +906,13 @@ function unhide_post($post, $thread, $forum) {
 function delete_post($post, $thread, $forum) {
     $post->delete();
     if (!$post->hidden) {
-        $thread->update("replies=replies-1");
-        $forum->update("posts=posts-1");
+        $thread->update("replies=if(replies>0, replies-1, 0)");
+        $forum->update("posts=if(posts>0, posts-1, 0)");
     }
     $count = BoincPost::count("thread=$thread->id");
     if ($count == 0) {
         if (!$thread->hidden) {
-            $forum->update("threads=threads-1");
+            $forum->update("threads=if(threads>0, threads-1, 0)");
         }
         $thread->delete();
     } else {
@@ -926,7 +926,7 @@ function delete_thread($thread, $forum) {
     $forum->update("posts=posts-$nposts");
     BoincPost::delete_aux("thread=$thread->id");
     if (!$thread->hidden) {
-        $forum->update("threads=threads-1");
+        $forum->update("threads=if(threads>0, threads-1, 0)");
     }
     $thread->delete();
 }
@@ -954,9 +954,9 @@ function forum_delete_user($user) {
 function move_post($post, $old_thread, $old_forum, $new_thread, $new_forum) {
     global $g_logged_in_user;
     $post->update("thread=$new_thread->id");
-    $old_thread->update("replies=replies-1");
+    $old_thread->update("replies=if(replies>0, replies-1, 0)");
     $new_thread->update("replies=replies+1");
-    $old_forum->update("posts=posts-1");
+    $old_forum->update("posts=if(posts>0, posts-1, 0)");
     $new_forum->update("posts=posts+1");
     update_thread_timestamp($old_thread);
     update_thread_timestamp($new_thread);
@@ -969,7 +969,7 @@ function move_post($post, $old_thread, $old_forum, $new_thread, $new_forum) {
 function hide_thread($thread, $forum) {
     $ret = $thread->update("hidden=1");
     if (!$ret) return $ret;
-    $forum->update("threads=threads-1");
+    $forum->update("threads=if(threads>0, threads-1, 0)");
     $forum->update("posts=posts-$thread->replies-1");
     update_forum_timestamp($forum);
     return true;
@@ -985,7 +985,7 @@ function unhide_thread($thread, $forum) {
 
 function move_thread($thread, $old_forum, $new_forum) {
     $now = time();
-    $old_forum->update("threads=threads-1, posts=posts-$thread->replies-1");
+    $old_forum->update("threads=if(threads>0, threads-1, 0), posts=posts-$thread->replies-1");
     $new_forum->update("threads=threads+1, posts=posts+$thread->replies+1, timestamp=$now");
     return $thread->update("forum=$new_forum->id");
 }
