@@ -7,5 +7,5 @@ core = 6.x
 version = "6.x-2.4-dev-boinc-1"
 core = "6.x"
 project = "wysiwyg"
-datestamp = "1434048305"
+datestamp = "1436308868"
 
