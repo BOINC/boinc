@@ -333,6 +333,9 @@
           <ul id="server-status" class="tab-list">
             
             <li class="first tab">
+              <?php print l(bts('Applications'), $app_list_url); ?>
+            </li>
+            <li class="last tab">
               <?php print l(bts('Server status'), $server_status_url); ?>
             </li>
             <!--<li class="first tab">Server status</li>

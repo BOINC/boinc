@@ -42,6 +42,7 @@ function boincuser_admin_environment(&$form_state) {
     'boinc_user_image_dir' => variable_get('boinc_user_image_dir', ''),
     'boinc_host_sched_logs_dir' => variable_get('boinc_host_sched_logs_dir', ''),
     'boinc_server_status_url' => variable_get('boinc_server_status_url', ''),
+    'boinc_app_list_url' => variable_get('boinc_app_list_url', ''),
     'boinc_debug_mode' => variable_get('boinc_debug_mode', 0),
   );
   //drupal_set_message(print_r($default, true));
@@ -124,6 +125,17 @@ function boincuser_admin_environment(&$form_state) {
       array(
         '%full_url' => $base_url . '/server_status.php',
         '%relative_url' => 'server_status.php',
+      )
+    ),
+  );
+  $form['boinc_app_list_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('BOINC applications page URL (optional)'),
+    '#default_value' => $default['boinc_app_list_url'],
+    '#description' => t('An absolute URL or path relative to the site base to the applications page (e.g. %full_url or just %relative_url).',
+      array(
+        '%full_url' => $base_url . '/apps.php',
+        '%relative_url' => 'apps.php',
       )
     ),
   );

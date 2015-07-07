@@ -173,6 +173,12 @@ function boinc_preprocess_page(&$vars, $hook) {
     }
     $vars['server_status_url'] = $server_status_url;
     
+    $app_list_url = variable_get('boinc_app_list_url', '');
+    if (!$app_list_url) {
+      $app_list_url = 'apps.php';
+    }
+    $vars['app_list_url'] = $app_list_url;
+    
     // Remove title from search page
     if (arg(0) == 'search') {
       unset($vars['title']);
