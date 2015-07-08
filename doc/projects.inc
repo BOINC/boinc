@@ -443,7 +443,7 @@ $mixed = array(
     array(
         array(
             "Citizen Science Grid",
-            "http://csgrid.org",
+            "http://csgrid.org/csg/",
             "University of North Dakota",
             "Molecular biology, Computer Science",
             "The Citizen Science Grid is dedicated to supporting a wide range of research and educational projects using volunteer computing and citizen science.",
