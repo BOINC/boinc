@@ -11,11 +11,12 @@ function news_menu_default_menu_links() {
     'menu_name' => 'primary-links',
     'link_path' => 'news',
     'router_path' => 'news',
-    'link_title' => 'News & Blogs',
+    'link_title' => 'News',
     'options' => array(
       'attributes' => array(
         'title' => '',
       ),
+      'alter' => TRUE,
     ),
     'module' => 'menu',
     'hidden' => '0',
@@ -26,7 +27,7 @@ function news_menu_default_menu_links() {
   );
   // Translatables
   // Included for use with string extractors like potx.
-  t('News & Blogs');
+  t('News');
 
 
   return $menu_links;
