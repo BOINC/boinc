@@ -400,6 +400,9 @@ function boincuser_request_pass_validate($form, &$form_state) {
  * The definition of the authenticator login form.
  */
 function boincuser_authloginform() {
+  $headers = apache_request_headers();
+  $project_name = variable_get('site_name', 'einsteinathome.org');
+  $project_domain = $headers['Host'];
   $form['heading'] = array(
     '#type' => 'markup',
     '#value' => '<h3>' . bts("If you forgot your account's email address, or you can't receive email there:") . '</h3>'
@@ -410,13 +413,13 @@ function boincuser_authloginform() {
       '<p>' . bts("If you have run BOINC under the account, you can still access it. Here's how:") .
       '  <ul>' .
       '    <li>' . bts('Go to the BOINC data directory on your computer (see !boinc_wiki for help finding this).', array('!boinc_wiki' => l(bts('BOINC documentation'), 'http://boinc.berkeley.edu/wiki/BOINC_Data_directory'))) . '</li>' .
-      '    <li>' . bts('Find your account file for this project; it will have a name like %file (where the project URL is %url).', array('%file' => 'account_lhcathome.cern.ch.xml', '%url' => 'http://lhcathome.cern.ch')) . '</li>' .
+      '    <li>' . bts('Find your account file for this project; it will have a name like %file (where the project URL is %url).', array('%file' => "account_{$project_domain}.xml", '%url' => "http://{$project_domain}")) . '</li>' .
       '    <li>' . bts("Open the file in a text editor like Notepad. You'll see something like:") .
       '      <pre>' .
       '&lt;account&gt;' . "\n" .
-      '  &lt;master_url&gt;http://lhcathome.cern.ch/&lt;/master_url&gt;' . "\n" .
+      "  &lt;master_url&gt;http://{$project_domain}/&lt;/master_url&gt;" . "\n" .
       '  &lt;authenticator&gt;8b8496fdd26df7dc0423ecd43c09a56b&lt;/authenticator&gt;' . "\n" .
-      '  &lt;project_name&gt;lhcathome&lt;/project_name&gt;' . "\n" .
+      "  &lt;project_name&gt;{$project_name}&lt;/project_name&gt;" . "\n" .
       '  ...' . "\n" .
       '&lt;/account&gt;' .
       '      </pre>' .
