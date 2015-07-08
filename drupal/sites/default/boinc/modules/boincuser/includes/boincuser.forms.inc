@@ -402,15 +402,15 @@ function boincuser_request_pass_validate($form, &$form_state) {
 function boincuser_authloginform() {
   $form['heading'] = array(
     '#type' => 'markup',
-    '#value' => '<h3>' . bts("2) If you forgot your account's email address, or you can't receive email there:") . '</h3>'
+    '#value' => '<h3>' . bts("If you forgot your account's email address, or you can't receive email there:") . '</h3>'
   );
   $form['instructions'] = array(
     '#type' => 'markup',
     '#value' => '' .
       '<p>' . bts("If you have run BOINC under the account, you can still access it. Here's how:") .
       '  <ul>' .
-      '    <li>' . bts('Go to the BOINC data directory on your computer (on Windows this is usually @path1 or @path2.', array('@path1' => '<b>C:\Documents and Settings\All Users\Application Data\BOINC</b>', '@path2' => '<b>C:\Program Files\BOINC</b>')) . '</li>' .
-      '    <li>' . bts('Find your account file for this project; it will have a name like @file (where the project URL is @url).', array('@file' => '<b>account_lhcathome.cern.ch.xml</b>', '@url' => '<b>http://lhcathome.cern.ch</b>')) . '</li>' .
+      '    <li>' . bts('Go to the BOINC data directory on your computer (on Windows this is usually %path1 or %path2.', array('%path1' => 'C:\Documents and Settings\All Users\Application Data\BOINC', '%path2' => 'C:\Program Files\BOINC')) . '</li>' .
+      '    <li>' . bts('Find your account file for this project; it will have a name like %file (where the project URL is %url).', array('%file' => 'account_lhcathome.cern.ch.xml', '%url' => 'http://lhcathome.cern.ch')) . '</li>' .
       '    <li>' . bts("Open the file in a text editor like Notepad. You'll see something like:") .
       '      <pre>' .
       '&lt;account&gt;' . "\n" .
@@ -421,7 +421,7 @@ function boincuser_authloginform() {
       '&lt;/account&gt;' .
       '      </pre>' .
       '    </li>' .
-      '    <li>' . bts('Select and Copy the string between <authenticator> and </authenticator> (@auth in the above example).', array('@auth' => '<b>8b8496fdd26df7dc0423ecd43c09a56b</b>')) . '</li>' .
+      '    <li>' . bts('Select and Copy the string between &lt;authenticator&gt; and &lt;/authenticator&gt; (%auth in the above example).', array('%auth' => '8b8496fdd26df7dc0423ecd43c09a56b')) . '</li>' .
       '    <li>' . bts('Paste the string into the field below, and click OK.') . '</li>' .
       '    <li>' . bts('You will now be logged in to your account; update the email and password of your account.') . '</li>' .
       '  </ul>' .
@@ -435,9 +435,26 @@ function boincuser_authloginform() {
     '#required' => TRUE,
     '#description' => null
   );
+  
+  // Form control
+  $form['form control tabs prefix'] = array(
+    '#value' => '<ul class="form-control tab-list">',
+    '#weight' => 1001,
+  );
   $form['submit'] = array(
+    '#prefix' => '<li class="first tab">',
     '#type' => 'submit',
-    '#value' => bts('OK')
+    '#value' => bts('OK'),
+    '#suffix' => '</li>',
+    '#weight' => 1002,
+  );
+  $form['form control tabs'] = array(
+    '#value' => '<li class="tab">' . l(bts('Cancel'), 'user/password') . '</li>',
+    '#weight' => 1003,
+  );
+  $form['form control tabs suffix'] = array(
+    '#value' => '</ul>',
+    '#weight' => 1004,
   );
   return $form;
 }
@@ -452,7 +469,7 @@ function boincuser_authloginform_validate($form, &$form_state) {
     form_set_error('authenticator', bts('That authenticator is not valid.'));
   } else {
     require_boinc('boinc_db');
-    $boinc_user = BoincUser::lookup_auth($authenticator);
+    $boinc_user = BoincUser::lookup("authenticator='".addslashes($authenticator)."'");
     if (!$boinc_user) form_set_error('authenticator', bts('There is no account with that authenticator.'));
   }
 }
@@ -462,10 +479,11 @@ function boincuser_authloginform_validate($form, &$form_state) {
  */
 function boincuser_authloginform_submit($form, &$form_state) {
   global $user;
+  $authenticator = $form_state['values']['authenticator'];
   require_boinc('boinc_db');
-  $boinc_user = BoincUser::lookup_auth($form_state['values']['authenticator']);
+  $boinc_user = BoincUser::lookup("authenticator='".addslashes($authenticator)."'");
   if (!$user = user_load(get_drupal_id($boinc_user->id))) drupal_set_message(t('An unresolved error occurred while logging into this account.'));
-  else $form_state['redirect'] = "user/{$user->uid}/edit";
+  else $form_state['redirect'] = 'account/info/edit';
 }
 
 

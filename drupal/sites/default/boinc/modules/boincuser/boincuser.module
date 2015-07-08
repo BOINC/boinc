@@ -108,6 +108,14 @@ function boincuser_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => 5
   );
+  $items['user/login/auth'] = array(
+    'title' => bts('Authenticator login'),
+    'description' => 'Log in using a user authenticator',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boincuser_authloginform'),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
   $items['user_control'] = array(
     'page callback' => 'boincuser_control',
     'access arguments' => array('access user profiles'),
@@ -933,7 +941,15 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
         '#size' => 60,
         '#maxlength' => EMAIL_MAX_LENGTH,
         '#required' => TRUE,
-        '#description' => bts('Enter your email address to receive instructions for resetting your password.')
+        '#description' => bts(
+          'Enter your email address to receive instructions for resetting your password (or use the !authenticator_login).',
+          array(
+            '!authenticator_login' => l(
+              bts('authenticator-based login'),
+              'user/login/auth'
+            )
+          )
+        ),
       ),
     ));
     
