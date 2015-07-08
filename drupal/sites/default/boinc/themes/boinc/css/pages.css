@@ -513,6 +513,9 @@ ul.links li a {
 #footer-info {
   margin: 15px 0;
 }
+#content-management-links {
+  float: left;
+}
 #language {
   font-size: 12px;
   float: right;
