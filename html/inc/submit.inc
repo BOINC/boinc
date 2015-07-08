@@ -189,7 +189,7 @@ function boinc_submit_batch($req) {
 
 function boinc_query_batches($req) {
     $get_cpu_time =
-        empty($req->get_cpu_time)?"   <get_cpu_time>1</get_cpu_time>\n":""
+        !empty($req->get_cpu_time)?"   <get_cpu_time>1</get_cpu_time>\n":""
     ;
     $req_xml = "<query_batches>
     <authenticator>$req->authenticator</authenticator>
@@ -208,7 +208,7 @@ $get_cpu_time
 
 function boinc_query_batch($req) {
     $get_cpu_time =
-        empty($req->get_cpu_time)?"   <get_cpu_time>1</get_cpu_time>\n":""
+        !empty($req->get_cpu_time)?"   <get_cpu_time>1</get_cpu_time>\n":""
     ;
     $req_xml = "<query_batch>
     <authenticator>$req->authenticator</authenticator>
