@@ -38,8 +38,7 @@ if (!$user->teamid) {
     error_page(tra("You must be a member of a team to access this page."));
 }
 
-function send_founder_transfer_email($team, $user) {
-    $founder = BoincUser::lookup_id($team->userid);
+function send_founder_transfer_email($team, $user, $founder) {
 
     // send founder a private message for good measure
 
@@ -87,10 +86,19 @@ $action = post_str("action");
 switch ($action) {
 case "initiate_transfer":
     $team = BoincTeam::lookup_id($user->teamid);
+    $founder = BoincUser::lookup_id($team->userid);
+    if (!$founder) {
+        // no founder - request is granted immediately
+        //
+        $team->update("userid=$user->id");
+        page_head("Team founder request granted");
+        echo "You are now the founder of $team->name<p>";
+        break;
+    }
     $now = time();
     if (new_transfer_request_ok($team, $now)) {
         page_head(tra("Requesting foundership of %1", $team->name));
-        $success = send_founder_transfer_email($team, $user);
+        $success = send_founder_transfer_email($team, $user, $founder);
 
         // Go ahead with the transfer even if the email send fails.
         // Otherwise it would be impossible to rescue a team
