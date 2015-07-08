@@ -409,7 +409,7 @@ function boincuser_authloginform() {
     '#value' => '' .
       '<p>' . bts("If you have run BOINC under the account, you can still access it. Here's how:") .
       '  <ul>' .
-      '    <li>' . bts('Go to the <a href="%wikiref">BOINC data directory</a> on your computer (on Windows this is usually %path1 or %path2.', array('%wikiref' => 'http://boinc.berkeley.edu/wiki/BOINC_Data_directory','%path1' => 'C:\Documents and Settings\All Users\Application Data\BOINC\', '%path2' => 'C:\ProgramData\BOINC\')) . '</li>' .
+      '    <li>' . bts('Go to the BOINC data directory on your computer (on Windows this is usually %path1 or %path2.', array('%path1' => 'C:\Documents and Settings\All Users\Application Data\BOINC', '%path2' => 'C:\ProgramData\BOINC')) . '</li>' .
       '    <li>' . bts('Find your account file for this project; it will have a name like %file (where the project URL is %url).', array('%file' => 'account_einstein.phys.uwm.edu.xml', '%url' => 'http://einstein.phys.uwm.edu')) . '</li>' .
       '    <li>' . bts("Open the file in a text editor like Notepad. You'll see something like:") .
       '      <pre>' .
