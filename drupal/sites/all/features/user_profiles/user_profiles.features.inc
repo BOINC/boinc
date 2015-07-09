@@ -140,16 +140,7 @@ function user_profiles_rules_defaults() {
         '#status' => 'default',
         '#conditions' => array(
           '0' => array(
-            '#type' => 'condition',
-            '#settings' => array(
-              'type' => array(
-                'profile' => 'profile',
-              ),
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#name' => 'rules_condition_content_is_type',
+            '#weight' => 0,
             '#info' => array(
               'label' => 'Created content is Profile',
               'arguments' => array(
@@ -160,21 +151,20 @@ function user_profiles_rules_defaults() {
               ),
               'module' => 'Node',
             ),
-            '#weight' => 0,
+            '#name' => 'rules_condition_content_is_type',
+            '#settings' => array(
+              'type' => array(
+                'profile' => 'profile',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#type' => 'condition',
           ),
           '1' => array(
-            '#negate' => 1,
-            '#info' => array(
-              'label' => 'User has role(s)',
-              'arguments' => array(
-                'user' => array(
-                  'type' => 'user',
-                  'label' => 'User',
-                ),
-              ),
-              'module' => 'User',
-            ),
-            '#name' => 'rules_condition_user_hasrole',
+            '#type' => 'condition',
+            '#weight' => 0,
             '#settings' => array(
               'roles' => array(
                 '0' => 3519698132,
@@ -185,11 +175,28 @@ function user_profiles_rules_defaults() {
                 'user' => 'user',
               ),
             ),
-            '#type' => 'condition',
-            '#weight' => 0,
+            '#name' => 'rules_condition_user_hasrole',
+            '#info' => array(
+              'label' => 'User has role(s)',
+              'arguments' => array(
+                'user' => array(
+                  'type' => 'user',
+                  'label' => 'User',
+                ),
+              ),
+              'module' => 'User',
+            ),
+            '#negate' => 1,
           ),
           '2' => array(
-            '#weight' => 0,
+            '#type' => 'condition',
+            '#settings' => array(
+              '#argument map' => array(
+                'user1' => 'user',
+                'user2' => 'author',
+              ),
+            ),
+            '#name' => 'rules_condition_user_comparison',
             '#info' => array(
               'label' => 'Compare two users',
               'arguments' => array(
@@ -204,18 +211,21 @@ function user_profiles_rules_defaults() {
               ),
               'module' => 'User',
             ),
-            '#name' => 'rules_condition_user_comparison',
-            '#settings' => array(
-              '#argument map' => array(
-                'user1' => 'user',
-                'user2' => 'author',
-              ),
-            ),
-            '#type' => 'condition',
+            '#weight' => 0,
           ),
           '3' => array(
-            '#type' => 'OR',
+            '#weight' => 0,
             '0' => array(
+              '#weight' => 0,
+              '#type' => 'condition',
+              '#settings' => array(
+                'field_name' => 'field_background',
+                '#argument map' => array(
+                  'node' => 'node',
+                  'node_unchanged' => 'node_unchanged',
+                ),
+              ),
+              '#name' => 'content_rules_field_changed',
               '#info' => array(
                 'label' => 'Updated content\'s field \'field_background\' has been changed',
                 'arguments' => array(
@@ -230,20 +240,18 @@ function user_profiles_rules_defaults() {
                 ),
                 'module' => 'CCK',
               ),
-              '#name' => 'content_rules_field_changed',
+            ),
+            '#type' => 'OR',
+            '1' => array(
+              '#type' => 'condition',
               '#settings' => array(
-                'field_name' => 'field_background',
+                'field_name' => 'field_opinions',
                 '#argument map' => array(
                   'node' => 'node',
                   'node_unchanged' => 'node_unchanged',
                 ),
               ),
-              '#type' => 'condition',
-              '#weight' => 0,
-            ),
-            '#weight' => 0,
-            '1' => array(
-              '#weight' => 0,
+              '#name' => 'content_rules_field_changed',
               '#info' => array(
                 'label' => 'Updated content\'s field \'field_opinions\' has been changed',
                 'arguments' => array(
@@ -258,26 +266,10 @@ function user_profiles_rules_defaults() {
                 ),
                 'module' => 'CCK',
               ),
-              '#name' => 'content_rules_field_changed',
-              '#settings' => array(
-                'field_name' => 'field_opinions',
-                '#argument map' => array(
-                  'node' => 'node',
-                  'node_unchanged' => 'node_unchanged',
-                ),
-              ),
-              '#type' => 'condition',
+              '#weight' => 0,
             ),
             '2' => array(
-              '#type' => 'condition',
-              '#settings' => array(
-                'field_name' => 'field_image',
-                '#argument map' => array(
-                  'node' => 'node',
-                  'node_unchanged' => 'node_unchanged',
-                ),
-              ),
-              '#name' => 'content_rules_field_changed',
+              '#weight' => 0,
               '#info' => array(
                 'label' => 'Updated content\'s field \'field_image\' has been changed',
                 'arguments' => array(
@@ -292,10 +284,26 @@ function user_profiles_rules_defaults() {
                 ),
                 'module' => 'CCK',
               ),
-              '#weight' => 0,
+              '#name' => 'content_rules_field_changed',
+              '#settings' => array(
+                'field_name' => 'field_image',
+                '#argument map' => array(
+                  'node' => 'node',
+                  'node_unchanged' => 'node_unchanged',
+                ),
+              ),
+              '#type' => 'condition',
             ),
             '3' => array(
-              '#weight' => 0,
+              '#type' => 'condition',
+              '#settings' => array(
+                'field_name' => 'field_profile_image',
+                '#argument map' => array(
+                  'node' => 'node',
+                  'node_unchanged' => 'node_unchanged',
+                ),
+              ),
+              '#name' => 'content_rules_field_changed',
               '#info' => array(
                 'label' => 'Updated content\'s field \'field_profile_image\' has been changed',
                 'arguments' => array(
@@ -310,26 +318,10 @@ function user_profiles_rules_defaults() {
                 ),
                 'module' => 'CCK',
               ),
-              '#name' => 'content_rules_field_changed',
-              '#settings' => array(
-                'field_name' => 'field_profile_image',
-                '#argument map' => array(
-                  'node' => 'node',
-                  'node_unchanged' => 'node_unchanged',
-                ),
-              ),
-              '#type' => 'condition',
+              '#weight' => 0,
             ),
             '4' => array(
-              '#type' => 'condition',
-              '#settings' => array(
-                'field_name' => 'field_url',
-                '#argument map' => array(
-                  'node' => 'node',
-                  'node_unchanged' => 'node_unchanged',
-                ),
-              ),
-              '#name' => 'content_rules_field_changed',
+              '#weight' => 0,
               '#info' => array(
                 'label' => 'Updated content\'s field \'field_url\' has been changed',
                 'arguments' => array(
@@ -344,27 +336,9 @@ function user_profiles_rules_defaults() {
                 ),
                 'module' => 'CCK',
               ),
-              '#weight' => 0,
-            ),
-            '5' => array(
-              '#weight' => 0,
-              '#info' => array(
-                'label' => 'Updated content\'s field \'field_zip\' has been changed',
-                'arguments' => array(
-                  'node' => array(
-                    'type' => 'node',
-                    'label' => 'Content containing changes',
-                  ),
-                  'node_unchanged' => array(
-                    'type' => 'node',
-                    'label' => 'Content not containing changes',
-                  ),
-                ),
-                'module' => 'CCK',
-              ),
               '#name' => 'content_rules_field_changed',
               '#settings' => array(
-                'field_name' => 'field_zip',
+                'field_name' => 'field_url',
                 '#argument map' => array(
                   'node' => 'node',
                   'node_unchanged' => 'node_unchanged',
@@ -376,7 +350,13 @@ function user_profiles_rules_defaults() {
         ),
         '#actions' => array(
           '1' => array(
-            '#weight' => 0,
+            '#type' => 'action',
+            '#settings' => array(
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#name' => 'boinccore_rules_action_mark_content_for_moderation',
             '#info' => array(
               'label' => 'Mark content for moderation',
               'arguments' => array(
@@ -387,13 +367,7 @@ function user_profiles_rules_defaults() {
               ),
               'module' => 'BOINC core',
             ),
-            '#name' => 'boinccore_rules_action_mark_content_for_moderation',
-            '#settings' => array(
-              '#argument map' => array(
-                'node' => 'node',
-              ),
-            ),
-            '#type' => 'action',
+            '#weight' => 0,
           ),
         ),
         '#version' => 6003,
