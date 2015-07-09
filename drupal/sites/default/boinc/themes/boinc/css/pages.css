@@ -514,7 +514,7 @@ ul.links li a {
   margin: 15px 0;
 }
 #content-management-links {
-  float: left;
+  margin: 12px 0;
 }
 #language {
   font-size: 12px;

@@ -354,22 +354,22 @@
         
         <div id="footer-info">
           
+          <div id="language"
+            style="background: url(<?php print base_path() . path_to_theme() . '/images/flags/' . $language->language . '.png'; ?>) no-repeat right;">
+              <?php print bts('Language'); ?>
+          </div>
+          
+          <?php if ($footer_message): ?>
+            <div id="footer-message"><?php print $footer_message; ?></div>
+          <?php endif; ?>
+          
           <?php if (user_access('create page content') OR user_access('create news content')): ?>
             <div id="content-management-links">
               <?php print l(bts('Create content'), 'node/add'); ?>
             </div>
           <?php endif; ?>
           
-          <div id="language"
-            style="background: url(<?php print base_path() . path_to_theme() . '/images/flags/' . $language->language . '.png'; ?>) no-repeat right;">
-              <?php print bts('Language'); ?>
-          </div>
-          
           <div class="clearfix"></div>
-          
-          <?php if ($footer_message): ?>
-            <div id="footer-message"><?php print $footer_message; ?></div>
-          <?php endif; ?>
 
           <?php print $footer; ?>
         </div>
