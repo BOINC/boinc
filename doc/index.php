@@ -68,7 +68,11 @@ function show_news_items() {
         <span class=section_title>".tra("News")."</span>
         </center>
     ";
-    show_news(0, 5);
+    if (!file_exists("stop_web")) {
+        show_news(0, 5);
+    } else {
+        echo "<p>Database not available; please try again later.";
+    }
     echo "
         </td></tr></table>
     ";

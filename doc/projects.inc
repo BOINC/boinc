@@ -48,8 +48,8 @@ $cogsci = array(
             "MindModeling@Home",
             "http://mindmodeling.org/",
             "University of Dayton and Wright State University",
-            "Cognitive Science",
-            "MindModeling@Home uses computational cognitive process modeling to better understand the human mind, and specifically to study the mechanisms and processes that enable and moderate human performance and learning.",
+            tra("Cognitive Science"),
+            tra("MindModeling@Home uses computational cognitive process modeling to better understand the human mind, and specifically to study the mechanisms and processes that enable and moderate human performance and learning."),
             "mmlogo.gif",
             "",
             "Model the human brain"
@@ -85,8 +85,8 @@ $biomed = array(
             "DENIS@Home",
             "http://denis.usj.es/denisathome/",
             "San Jorge University, Zaragoza, Spain",
-            "Medical physiology",
-            "DENIS@Home does cardiac electrophysiological simulations, studying the electrical activity of the heart.",
+            tra("Medical physiology"),
+            tra("DENIS@Home does cardiac electrophysiological simulations, studying the electrical activity of the heart."),
             "",
             "",
             "Study the physiology of the heart"
@@ -95,8 +95,8 @@ $biomed = array(
             "RNA World",
             "http://www.rnaworld.de/rnaworld/",
             "Rechenkraft.net e.V.",
-            "Molecular biology",
-            "RNA World seeks to identify, analyze, structurally predict and design RNA molecules on the basis of established bioinformatics software.",
+            tra("Molecular biology"),
+            tra("RNA World seeks to identify, analyze, structurally predict and design RNA molecules on the basis of established bioinformatics software."),
             "rna4.png",
             "",
             "Study and design RNA molecules"
@@ -277,8 +277,8 @@ $astro_phys_chem = array(
             "Asteroids@home",
             "http://asteroidsathome.net/boinc/",
             "Charles University in Prague",
-            "Astrophysics",
-            "The aim of the project is to derive shapes and spin for a significant part of the asteroid population. As input data, we use any asteroid photometry that is available. The results are asteroid convex shape models with the direction of the spin axis and the rotation period.",
+            tra("Astrophysics"),
+            tra("The aim of the project is to derive shapes and spin for a significant part of the asteroid population. As input data, we use any asteroid photometry that is available. The results are asteroid convex shape models with the direction of the spin axis and the rotation period."),
             "asteroids_logo.jpg",
             "",
             "Study the properties of asteroids"
@@ -287,11 +287,11 @@ $astro_phys_chem = array(
             "Constellation",
             "http://aerospaceresearch.net/constellation/",
             "<a href='http://rechenkraft.net'>Rechenkraft.net</a>, <a href='http://stuttgart.dglr.de'>DGLR</a>, <a href='http://selfnet.de'>Selfnet</a>, and <a href='http://shackspace.de'>shack</a>",
-            "Aerospace-related science and engineering",
-            "Constellation is a platform for aerospace-related simulations, including trajectory optimization of launchers, satellites and probes, simulation of Moon's near-surface exosphere, and analysis of dynamic systems of exploration-rovers",
+            tra("Aerospace-related science and engineering"),
+            tra("Constellation is a platform for aerospace-related simulations, including trajectory optimization of launchers, satellites and probes, simulation of Moon's near-surface exosphere, and analysis of dynamic systems of exploration-rovers"),
             "constellation2.png",
             "",
-            "Perform aerospace-related simulations"
+            tra("Perform aerospace-related simulations")
         ),
 //        array(
 //            "eOn",
@@ -326,10 +326,10 @@ $astro_phys_chem = array(
             "universeathome.pl/universe/",
             "University of Warsaw",
             tra("Astronomy"),
-            "Universe@Home aims to create the first database of the simulated stellar content of the Universe, from the earliest stars to the most exotic black hole binaries.",
+            tra("Universe@Home aims to create the first database of the simulated stellar content of the Universe, from the earliest stars to the most exotic black hole binaries."),
             "universe_at_home.png",
             "",
-            "Do research in physics and astronomy"
+            tra("Do research in physics and astronomy")
         ),
         array(
             "Milkyway@home",
@@ -339,7 +339,7 @@ $astro_phys_chem = array(
             tra("The goal of Milkyway@Home is to create a highly accurate three dimensional model of the Milky Way galaxy using data gathered by the Sloan Digital Sky Survey."),
             "mw.png",
             "",
-            "Study the structure of the Milky Way galaxy"
+            tra("Study the structure of the Milky Way galaxy")
         ),
         array(
             "Leiden Classical",
@@ -349,7 +349,7 @@ $astro_phys_chem = array(
             tra("Surface science calculations using Classical Dynamics.  Leiden Classical allows volunteers, students and other scientist to submit their personal calculations to the grid. Each user has his own personal queue for Classical Dynamics jobs. In this way students have used the grid to simulate liquid argon, or to test the validity of the ideal gas law by actually doing the simulations through the grid."),
             "leiden_classical.png",
             "",
-            "Help students do atomic simulations"
+            tra("Help students do atomic simulations")
         ),
 //        array(
 //            "uFluids@home",
@@ -367,7 +367,7 @@ $astro_phys_chem = array(
             tra("Search for spinning neutron stars (also called pulsars) using data from the LIGO and GEO gravitational wave detectors, and from the Arecibo radio observatory.  Einstein@Home is a World Year of Physics 2005 project supported by the American Physical Society (APS) and by a number of international organizations."),
             "einstein.jpg",
             "",
-            "Help detect pulsars and gravitational waves"
+            tra("Help detect pulsars and gravitational waves")
         ),
 //        array(
 //            "Albert@home",
@@ -385,7 +385,7 @@ $astro_phys_chem = array(
             tra("The Large Hadron Collider (LHC) is a particle accelerator at CERN, the European Organization for Nuclear Research, the world's largest particle physics laboratory.  It is the most powerful instrument ever built to investigate on particles proprieties. LHC@home runs simulations to improve the design of LHC and its detectors."),
             "lhc.jpg",
             "",
-            "Improve the design of the Large Hadron Collider"
+            tra("Improve the design of the Large Hadron Collider")
         ),
         array(
             "vLHCathome",
@@ -395,7 +395,7 @@ $astro_phys_chem = array(
             tra("This project uses CERN-developed virtual machine technology for LHC event physics simulation on volunteer computers.  Requires that you install VirtualBox on your computer"),
             "t4t.png",
             "",
-            "Simulate high-energy particle collisions"
+            tra("Simulate high-energy particle collisions")
         ),
         array(
             "ATLAS@Home",
@@ -405,7 +405,7 @@ $astro_phys_chem = array(
             tra("ATLAS@Home uses volunteer computing to run simulations for ATLAS, a particle physics experiment at CERN's Large Hadron Collider.  ATLAS searches for new particles and processes using head-on collisions of protons of extraordinary high energy."),
             "atlas_at_home.jpg",
             "",
-            "Simulate high-energy particle collisions for CERN"
+            tra("Simulate high-energy particle collisions for CERN")
         ),
         array(
             "SETI@home",
@@ -415,7 +415,7 @@ $astro_phys_chem = array(
             tra("SETI (Search for Extraterrestrial Intelligence) is a scientific area whose goal is to detect intelligent life outside Earth. One approach, known as radio SETI, uses radio telescopes to listen for narrow-bandwidth radio signals from space. Such signals are not known to occur naturally, so a detection would provide evidence of extraterrestrial technology."),
             "seti_logo.png",
             "",
-            "Search for evidence of extra-terrestrial life"
+            tra("Search for evidence of extra-terrestrial life")
         ),
 //        array(
 //            "Quantum Monte Carlo at Home",
@@ -445,11 +445,11 @@ $mixed = array(
             "Citizen Science Grid",
             "http://csgrid.org/csg/",
             "University of North Dakota",
-            "Molecular biology, Computer Science",
-            "The Citizen Science Grid is dedicated to supporting a wide range of research and educational projects using volunteer computing and citizen science.",
+            tra("Molecular biology, Computer Science"),
+            tra("The Citizen Science Grid is dedicated to supporting a wide range of research and educational projects using volunteer computing and citizen science."),
             "",
             "",
-            "Support science from the University of North Dakota"
+            tra("Support science from the University of North Dakota")
         ),
         array(
             "CAS@home",
@@ -459,7 +459,7 @@ $mixed = array(
             tra("The objective of CAS@home is to encourage and assist scientists in China to adopt the technologies of volunteer computing and volunteer thinking for their research."),
             "cas_at_home.jpg",
             "",
-            "Help Chinese researchers"
+            tra("Help Chinese researchers")
         ),
         array(
             "Yoyo@home",
@@ -469,7 +469,7 @@ $mixed = array(
             tra("Yoyo@home is an adapter between BOINC and several existing volunteer computing projects: ECM, Muon, Evolution@home, and distributed.net"),
             "",
             "",
-            "Do research in math, physics, and evolution"
+            tra("Do research in math, physics, and evolution")
         ),
         array(
             "EDGeS@Home",
@@ -479,7 +479,7 @@ $mixed = array(
             tra("The EDGeS@Home Beta project integrates volunteer computing into the service grid network of Europe by allowing service grids to send workunits to be processed by the volunteers of this project. The scientific projects covered by the project include math, physics, biology, etc."),
             "logo_edges.png",
             "",
-            "Help European researchers"
+            tra("Help European researchers")
         ),
         array(
             "Ibercivis",
@@ -489,7 +489,7 @@ $mixed = array(
             tra("Research in physics, material science, and biomedicine"),
             "cabecera2.jpg",
             "",
-            "Help Spanish researchers"
+            tra("Help Spanish researchers")
         ),
         array(
             "World Community Grid",
@@ -499,7 +499,7 @@ $mixed = array(
             tra("To further critical non-profit research on some of humanity's most pressing problems by creating the world's largest volunteer computing grid.  Research includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, clean water and many more."),
             "wcg.jpg",
             "",
-            "Do biomedical and environmental research"
+            tra("Do biomedical and environmental research")
         ),
     ),
 );
@@ -530,11 +530,11 @@ $math = array(
             "NumberFields@home",
             "http://numberfields.asu.edu/NumberFields/",
             "Arizona State University, school of Mathematics",
-            "Mathematics",
-            "NumberFields@home searches for fields with special properties. The primary application of this research is in the realm of algebraic number theory. Number theorists can mine the data for interesting patterns to help them formulate conjectures about number fields. Ultimately, this research will lead to a deeper understanding of the profound properties of numbers, the basic building blocks of all mathematics.",
+            tra("Mathematics"),
+            tra("NumberFields@home searches for fields with special properties. The primary application of this research is in the realm of algebraic number theory. Number theorists can mine the data for interesting patterns to help them formulate conjectures about number fields. Ultimately, this research will lead to a deeper understanding of the profound properties of numbers, the basic building blocks of all mathematics."),
             "nf_banner_10.jpg",
             "",
-            "Do research in algebraic number theory"
+            tra("Do research in algebraic number theory")
         ),
 //        array(
 //            "VolPEx",
@@ -550,11 +550,11 @@ $math = array(
             "SAT@home",
             "http://sat.isa.ru/pdsat/",
             "Institute for System Dynamics and Control Theory and Institute for Information Transmission Problems, Russian Academy of Science",
-            "Computer Science",
-            "Solve hard and practically important problems (discrete functions inversion problems, discrete optimization, bioinformatics, etc.) that can be effectively reduced to Boolean satisfiability problem.",
+            tra("Computer Science"),
+            tra("Solve hard and practically important problems (discrete functions inversion problems, discrete optimization, bioinformatics, etc.) that can be effectively reduced to Boolean satisfiability problem."),
             "sat_logo.png",
             "",
-            "Study computational complexity"
+            tra("Study computational complexity")
         ),
 //        array(
 //            "Mersenne@home",
@@ -580,10 +580,10 @@ $math = array(
             "http://moowrap.net/",
             "Private",
             tra("Cryptography and combinatorics"),
-            "Run applications from distributed.net",
+            tra("Run applications from distributed.net"),
             "",
             "",
-            "Run applications from distributed.net"
+            tra("Run applications from distributed.net")
         ),
         array(
             "Enigma@Home",
@@ -593,7 +593,7 @@ $math = array(
             tra("Attempt to decode 3 original Enigma messages. The signals were intercepted in the North Atlantic in 1942 and are believed to be unbroken."),
             "",
             "",
-            "Decode WWII submarine messages"
+            tra("Decode WWII submarine messages")
         ),
         array(
             "Collatz Conjecture",
@@ -603,7 +603,7 @@ $math = array(
             tra("Study the Collatz Conjecture, an unsolved conjecture in mathematics"),
             "",
             "",
-            "Study the Collatz Conjecture"
+            tra("Study the Collatz Conjecture")
         ),
         array(
             "NFS@home",
@@ -613,7 +613,7 @@ $math = array(
             tra("NFS@Home is a research project that uses Internet-connected computers to do the lattice sieving step in the Number Field Sieve factorization of large integers. As a young school student, you gained your first experience at breaking an integer into prime factors, such as 15 = 3 * 5 or 35 = 5 * 7. NFS@Home is a continuation of that experience, only with integers that are hundreds of digits long."),
             "NFS_Logo.jpg",
             "",
-            "Study the factorization of large integers"
+            tra("Study the factorization of large integers")
         ),
 //        array(
 //            "VTU@home",
@@ -659,7 +659,7 @@ $math = array(
             tra("Primegrid has multiple projects searching for different forms of very large prime numbers, including searching for the largest known prime number."),
             "primegrid_logo.png",
             "",
-            "Search for large prime numbers"
+            tra("Search for large prime numbers")
         ),
         array(
             "primaboinca",
@@ -669,7 +669,7 @@ $math = array(
             tra("Search for counterexamples to two conjectures related to the identification of prime numbers"),
             "logo_primaboinca.gif",
             "",
-            "Study the properties of prime numbers"
+            tra("Study the properties of prime numbers")
         ),
         array(
             "SZTAKI Desktop Grid",
@@ -679,7 +679,7 @@ $math = array(
             tra("Find all the generalized binary number systems (in which bases are matrices and digits are vectors) up to dimension 11."),
             "szdg1_small.jpg",
             "",
-            "Study number theory"
+            tra("Study number theory")
         ),
 //        array(
 //            "Riesel Sieve",
@@ -736,7 +736,7 @@ $math = array(
             "http://gerasim.boinc.ru/",
             "Southwest State University (Russia)",
             "Computer engineering",
-            "Testing and comparison of heuristic methods for getting separations of parallel algorithms working in the CAD system for designing logic control systems",
+            tra("Testing and comparison of heuristic methods for getting separations of parallel algorithms working in the CAD system for designing logic control systems"),
             "gerasim.gif",
             "",
             "",
