@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC $Id$\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2015-06-24 13:05 PDT\n"
+"POT-Creation-Date: 2015-07-09 18:59 PDT\n"
 "Last-Translator: Generated automatically from source files\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -96,7 +96,7 @@ msgstr ""
 msgid "Release notes"
 msgstr ""
 
-#: download.php:179 index.php:89
+#: download.php:179 index.php:93
 msgid "Help"
 msgstr ""
 
@@ -213,152 +213,102 @@ msgid "News"
 msgstr ""
 
 #. "Volunteer" is used as a verb
-#: index.php:85
+#: index.php:89
 msgid "Volunteer"
 msgstr ""
 
-#: index.php:88
+#: index.php:92
 msgid "Download"
 msgstr ""
 
-#: index.php:90 index.php:132 index.php:184
+#: index.php:94 index.php:138
 msgid "Documentation"
 msgstr ""
 
-#: index.php:91
+#: index.php:95
 msgid "Add-ons"
 msgstr ""
 
-#: index.php:92
+#: index.php:96
 msgid "Links"
 msgstr ""
 
-#: index.php:97
+#: index.php:101
 msgid ""
 "Use the idle time on your computer (Windows, Mac, Linux, or Android) to cure "
 "diseases, study global warming, discover pulsars, and do many other types of "
 "scientific research.  It's safe, secure, and easy:"
 msgstr ""
 
-#: index.php:99
+#: index.php:103
 msgid "Choose projects"
 msgstr ""
 
-#: index.php:100
+#: index.php:104
 msgid "Download BOINC software"
 msgstr ""
 
-#: index.php:101
+#: index.php:105
 msgid "Enter an email address and password."
 msgstr ""
 
-#: index.php:105
+#: index.php:109
 #, php-format
 msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as %"
 "sGridRepublic%s or %sBAM!%s. "
 msgstr ""
 
-#: index.php:130
+#: index.php:136
 msgid "Compute with BOINC"
 msgstr ""
 
-#: index.php:133
+#: index.php:139
 msgid "Software updates"
 msgstr ""
 
-#: index.php:140
+#: index.php:146
 msgid ""
-"%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
-"you the computing power of thousands of CPUs."
+"%1Scientists%2: use BOINC to create a %3volunteer computing project%4, "
+"giving you the power of thousands of CPUs and GPUs."
 msgstr ""
 
-#: index.php:144
+#: index.php:150
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
 msgstr ""
 
-#: index.php:149
+#: index.php:155
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
 msgstr ""
 
-#: index.php:161
-msgid "The BOINC project"
-msgstr ""
-
 #: index.php:167
-msgid "Message boards"
-msgstr ""
-
-#: index.php:168
-msgid "Email lists"
-msgstr ""
-
-#: index.php:169
-msgid "Personnel and contributors"
-msgstr ""
-
-#: index.php:170
-msgid "Events"
-msgstr ""
-
-#: index.php:171
-msgid "Papers and talks"
-msgstr ""
-
-#: index.php:172
-msgid "Research projects"
-msgstr ""
-
-#: index.php:173
-msgid "Logos and graphics"
-msgstr ""
-
-#: index.php:174
-msgid "and"
-msgstr ""
-
-#: index.php:178
-msgid "Source code"
-msgstr ""
-
-#: index.php:179
-msgid "Help wanted"
+msgid "About BOINC"
 msgstr ""
 
 #: index.php:181
-msgid "Programming"
+msgid "Message boards"
 msgstr ""
 
 #: index.php:182
-msgid "Translation"
+msgid "Email lists"
 msgstr ""
 
 #: index.php:183
-msgid "Testing"
+msgid "Events"
 msgstr ""
 
-#: index.php:185
-msgid "Publicity"
+#: index.php:184
+msgid "Source code"
 msgstr ""
 
-#: index.php:187
-msgid "Software development"
-msgstr ""
-
-#: index.php:188
+#: index.php:186
 msgid "APIs for add-on software"
 msgstr ""
 
-#: index.php:230
-#, php-format
-msgid ""
-"Open-source software for %svolunteer computing%s and %sgrid computing%s."
-msgstr ""
-
-#: index.php:243
-msgid "BOINC is based at The University of California, Berkeley"
+#: index.php:231
+msgid "Open-source software for volunteer computing"
 msgstr ""
 
 #: projects.inc:19
@@ -398,6 +348,17 @@ msgstr ""
 msgid "Cognitive science and artifical intelligence"
 msgstr ""
 
+#: projects.inc:51
+msgid "Cognitive Science"
+msgstr ""
+
+#: projects.inc:52
+msgid ""
+"MindModeling@Home uses computational cognitive process modeling to better "
+"understand the human mind, and specifically to study the mechanisms and "
+"processes that enable and moderate human performance and learning."
+msgstr ""
+
 #: projects.inc:70 projects.inc:467 projects.inc:591 projects.inc:601
 #: projects.inc:657
 msgid "Private"
@@ -417,6 +378,26 @@ msgstr ""
 
 #: projects.inc:82
 msgid "Biology and Medicine"
+msgstr ""
+
+#: projects.inc:88
+msgid "Medical physiology"
+msgstr ""
+
+#: projects.inc:89
+msgid ""
+"DENIS@Home does cardiac electrophysiological simulations, studying the "
+"electrical activity of the heart."
+msgstr ""
+
+#: projects.inc:98
+msgid "Molecular biology"
+msgstr ""
+
+#: projects.inc:99
+msgid ""
+"RNA World seeks to identify, analyze, structurally predict and design RNA "
+"molecules on the basis of established bioinformatics software."
 msgstr ""
 
 #: projects.inc:107
@@ -573,6 +554,45 @@ msgid ""
 "better understand the distant universe."
 msgstr ""
 
+#: projects.inc:280 projects.inc:366
+msgid "Astrophysics"
+msgstr ""
+
+#: projects.inc:281
+msgid ""
+"The aim of the project is to derive shapes and spin for a significant part "
+"of the asteroid population. As input data, we use any asteroid photometry "
+"that is available. The results are asteroid convex shape models with the "
+"direction of the spin axis and the rotation period."
+msgstr ""
+
+#: projects.inc:290
+msgid "Aerospace-related science and engineering"
+msgstr ""
+
+#: projects.inc:291
+msgid ""
+"Constellation is a platform for aerospace-related simulations, including "
+"trajectory optimization of launchers, satellites and probes, simulation of "
+"Moon's near-surface exosphere, and analysis of dynamic systems of "
+"exploration-rovers"
+msgstr ""
+
+#: projects.inc:294
+msgid "Perform aerospace-related simulations"
+msgstr ""
+
+#: projects.inc:329
+msgid ""
+"Universe@Home aims to create the first database of the simulated stellar "
+"content of the Universe, from the earliest stars to the most exotic black "
+"hole binaries."
+msgstr ""
+
+#: projects.inc:332
+msgid "Do research in physics and astronomy"
+msgstr ""
+
 #: projects.inc:337
 msgid "Rensselaer Polytechnic Institute"
 msgstr ""
@@ -582,6 +602,10 @@ msgid ""
 "The goal of Milkyway@Home is to create a highly accurate three dimensional "
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
 "Survey."
+msgstr ""
+
+#: projects.inc:342
+msgid "Study the structure of the Milky Way galaxy"
 msgstr ""
 
 #: projects.inc:347
@@ -602,12 +626,12 @@ msgid ""
 "simulations through the grid."
 msgstr ""
 
-#: projects.inc:365
-msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
+#: projects.inc:352
+msgid "Help students do atomic simulations"
 msgstr ""
 
-#: projects.inc:366
-msgid "Astrophysics"
+#: projects.inc:365
+msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
 msgstr ""
 
 #: projects.inc:367
@@ -617,6 +641,10 @@ msgid ""
 "observatory.  Einstein@Home is a World Year of Physics 2005 project "
 "supported by the American Physical Society (APS) and by a number of "
 "international organizations."
+msgstr ""
+
+#: projects.inc:370
+msgid "Help detect pulsars and gravitational waves"
 msgstr ""
 
 #: projects.inc:383 projects.inc:393 projects.inc:403
@@ -636,11 +664,19 @@ msgid ""
 "the design of LHC and its detectors."
 msgstr ""
 
+#: projects.inc:388
+msgid "Improve the design of the Large Hadron Collider"
+msgstr ""
+
 #: projects.inc:395
 msgid ""
 "This project uses CERN-developed virtual machine technology for LHC event "
 "physics simulation on volunteer computers.  Requires that you install "
 "VirtualBox on your computer"
+msgstr ""
+
+#: projects.inc:398
+msgid "Simulate high-energy particle collisions"
 msgstr ""
 
 #: projects.inc:405
@@ -649,6 +685,10 @@ msgid ""
 "physics experiment at CERN's Large Hadron Collider.  ATLAS searches for new "
 "particles and processes using head-on collisions of protons of extraordinary "
 "high energy."
+msgstr ""
+
+#: projects.inc:408
+msgid "Simulate high-energy particle collisions for CERN"
 msgstr ""
 
 #: projects.inc:413
@@ -668,8 +708,26 @@ msgid ""
 "detection would provide evidence of extraterrestrial technology."
 msgstr ""
 
+#: projects.inc:418
+msgid "Search for evidence of extra-terrestrial life"
+msgstr ""
+
 #: projects.inc:442
 msgid "Multiple applications"
+msgstr ""
+
+#: projects.inc:448
+msgid "Molecular biology, Computer Science"
+msgstr ""
+
+#: projects.inc:449
+msgid ""
+"The Citizen Science Grid is dedicated to supporting a wide range of research "
+"and educational projects using volunteer computing and citizen science."
+msgstr ""
+
+#: projects.inc:452
+msgid "Support science from the University of North Dakota"
 msgstr ""
 
 #: projects.inc:457
@@ -687,6 +745,10 @@ msgid ""
 "their research."
 msgstr ""
 
+#: projects.inc:462
+msgid "Help Chinese researchers"
+msgstr ""
+
 #: projects.inc:468
 msgid "Mathematics, physics, evolution"
 msgstr ""
@@ -695,6 +757,10 @@ msgstr ""
 msgid ""
 "Yoyo@home is an adapter between BOINC and several existing volunteer "
 "computing projects: ECM, Muon, Evolution@home, and distributed.net"
+msgstr ""
+
+#: projects.inc:472
+msgid "Do research in math, physics, and evolution"
 msgstr ""
 
 #: projects.inc:477 projects.inc:677
@@ -713,6 +779,10 @@ msgid ""
 "by the project include math, physics, biology, etc."
 msgstr ""
 
+#: projects.inc:482
+msgid "Help European researchers"
+msgstr ""
+
 #: projects.inc:487
 msgid "Spanish universities and research centers"
 msgstr ""
@@ -723,6 +793,10 @@ msgstr ""
 
 #: projects.inc:489
 msgid "Research in physics, material science, and biomedicine"
+msgstr ""
+
+#: projects.inc:492
+msgid "Help Spanish researchers"
 msgstr ""
 
 #: projects.inc:497
@@ -741,12 +815,54 @@ msgid ""
 "clean water and many more."
 msgstr ""
 
+#: projects.inc:502
+msgid "Do biomedical and environmental research"
+msgstr ""
+
 #: projects.inc:507
 msgid "Mathematics, computing, and games"
 msgstr ""
 
+#: projects.inc:533 projects.inc:602 projects.inc:658 projects.inc:668
+#: projects.inc:678
+msgid "Mathematics"
+msgstr ""
+
+#: projects.inc:534
+msgid ""
+"NumberFields@home searches for fields with special properties. The primary "
+"application of this research is in the realm of algebraic number theory. "
+"Number theorists can mine the data for interesting patterns to help them "
+"formulate conjectures about number fields. Ultimately, this research will "
+"lead to a deeper understanding of the profound properties of numbers, the "
+"basic building blocks of all mathematics."
+msgstr ""
+
+#: projects.inc:537
+msgid "Do research in algebraic number theory"
+msgstr ""
+
+#: projects.inc:553
+msgid "Computer Science"
+msgstr ""
+
+#: projects.inc:554
+msgid ""
+"Solve hard and practically important problems (discrete functions inversion "
+"problems, discrete optimization, bioinformatics, etc.) that can be "
+"effectively reduced to Boolean satisfiability problem."
+msgstr ""
+
+#: projects.inc:557
+msgid "Study computational complexity"
+msgstr ""
+
 #: projects.inc:582
 msgid "Cryptography and combinatorics"
+msgstr ""
+
+#: projects.inc:583 projects.inc:586
+msgid "Run applications from distributed.net"
 msgstr ""
 
 #: projects.inc:592
@@ -759,12 +875,16 @@ msgid ""
 "in the North Atlantic in 1942 and are believed to be unbroken."
 msgstr ""
 
-#: projects.inc:602 projects.inc:658 projects.inc:668 projects.inc:678
-msgid "Mathematics"
+#: projects.inc:596
+msgid "Decode WWII submarine messages"
 msgstr ""
 
 #: projects.inc:603
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
+msgstr ""
+
+#: projects.inc:606
+msgid "Study the Collatz Conjecture"
 msgstr ""
 
 #: projects.inc:611
@@ -785,10 +905,18 @@ msgid ""
 "hundreds of digits long."
 msgstr ""
 
+#: projects.inc:616
+msgid "Study the factorization of large integers"
+msgstr ""
+
 #: projects.inc:659
 msgid ""
 "Primegrid has multiple projects searching for different forms of very large "
 "prime numbers, including searching for the largest known prime number."
+msgstr ""
+
+#: projects.inc:662
+msgid "Search for large prime numbers"
 msgstr ""
 
 #: projects.inc:667
@@ -801,10 +929,25 @@ msgid ""
 "of prime numbers"
 msgstr ""
 
+#: projects.inc:672
+msgid "Study the properties of prime numbers"
+msgstr ""
+
 #: projects.inc:679
 msgid ""
 "Find all the generalized binary number systems (in which bases are matrices "
 "and digits are vectors) up to dimension 11."
+msgstr ""
+
+#: projects.inc:682
+msgid "Study number theory"
+msgstr ""
+
+#: projects.inc:739
+msgid ""
+"Testing and comparison of heuristic methods for getting separations of "
+"parallel algorithms working in the CAD system for designing logic control "
+"systems"
 msgstr ""
 
 #: ../html/inc/news.inc:40
