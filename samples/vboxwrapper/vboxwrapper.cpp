@@ -504,7 +504,7 @@ int main(int argc, char** argv) {
         if (!strcmp(argv[i], "--trickle")) {
             trickle_period = atof(argv[++i]);
         }
-        if (!strcmp(argv[i], "--ncpus")) {
+        if (!strcmp(argv[i], "--nthreads")) {
             ncpus = atof(argv[++i]);
         }
         if (!strcmp(argv[i], "--memory_size_mb")) {
