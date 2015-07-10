@@ -252,16 +252,16 @@ $earth = array(
 $astro_phys_chem = array(
     tra("Physical Science"),
     array(
-        array(
-            "CONVECTOR",
-            "http://convector.fsv.cvut.cz/",
-            "Czech Technical University in Prague",
-            tra("Mechanical engineering"),
-            tra("Currently we are calculating the optimum design of a structure call the 52 bar truss"),
-            "convector.jpg",
-            "",
-            "Study mechanical engineering"
-        ),
+//        array(
+//            "CONVECTOR",
+//            "http://convector.fsv.cvut.cz/",
+//            "Czech Technical University in Prague",
+//            tra("Mechanical engineering"),
+//            tra("Currently we are calculating the optimum design of a structure call the 52 bar truss"),
+//            "convector.jpg",
+//            "",
+//            "Study mechanical engineering"
+//        ),
         array(
             "theSkyNet POGS",
             "http://pogs.theskynet.org/pogs/",
@@ -323,7 +323,7 @@ $astro_phys_chem = array(
 //        ),
         array(
             "Universe@Home",
-            "universeathome.pl/universe/",
+            "http://universeathome.pl/universe/",
             "University of Warsaw",
             tra("Astronomy"),
             tra("Universe@Home aims to create the first database of the simulated stellar content of the Universe, from the earliest stars to the most exotic black hole binaries."),
