@@ -42,7 +42,8 @@ function do_app($app) {
         " where host_app_version.app_version_id = app_version.id " .
         " and app_version.appid = $app->id " .
         " and et_n > 0  and et_avg > 0 " .
-        " and host.id = host_app_version.host_id";
+        " and host.id = host_app_version.host_id " .
+        " and host.expavg_credit > 10";
     $result = $db->do_query($query);
     $a = array();
     while ($x = _mysql_fetch_object($result)) {
