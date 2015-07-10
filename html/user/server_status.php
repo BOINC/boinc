@@ -51,9 +51,7 @@ function command_display($cmd) {
     return $prog;
 }
 
-$row_parity = 0;
 function daemon_html($d) {
-    global $row_parity;
     switch ($d->status) {
     case 0:
         $s = tra("Not Running");
@@ -68,13 +66,12 @@ function daemon_html($d) {
         $c = "disabled";
         break;
     }
-    echo "<tr class=row$row_parity>
+    echo "<tr>
         <td>".command_display($d->cmd)."</td>
         <td>$d->host</td>
         <td class=\"$c\"><nobr>$s</nobr></td>
     <tr>
 ";
-    $row_parity = 1-$row_parity;
 }
 
 function daemon_xml($d) {
@@ -241,15 +238,27 @@ function show_status_xml($x) {
 ";
 }
 
-function local_daemon_running($cmd) {
-    $cmd = trim($cmd);
-    $x = explode(" ", $cmd);
-    $prog = $x[0];
-    $out = Array();
-    exec("ps -Fw -C $prog", $out);
-    foreach ($out as $y) {
-        if (strstr($y, $cmd)) return 1;
+function local_daemon_running($cmd, $pidname, $host) {
+    if (!$pidname) {
+        $cmd = trim($cmd);
+        $x = explode(" ", $cmd);
+        $prog = $x[0];
+        $pidname = $prog . '.pid';
     }
+
+    $path = "../../pid_$host/$pidname";
+    if (is_file($path)) {
+        $pid = file_get_contents($path);
+        if ($pid) {
+            $pid = trim($pid);
+            $out = Array();
+            exec("ps -ww $pid", $out);
+            foreach ($out as $y) {
+                if (strstr($y, (string)$pid)) return 1;
+            }
+        }
+    }
+
     return 0;
 }
 
@@ -281,6 +290,11 @@ function get_daemon_status() {
     } else {
         $web_host = $main_host;
     }
+    if ($config->sched_host) {
+       $sched_host = trim((string) $config->sched_host);
+    } else {
+       $sched_host = $main_host;
+    }
     $have_remote = false;
     $local_daemons = array();
     $disabled_daemons = array();
@@ -306,7 +320,19 @@ function get_daemon_status() {
         $y = new StdClass;
         $y->cmd = "Upload server";
         $y->host = $h;
-        $y->status = 1;
+        $y->status = !file_exists("../../stop_upload");
+        $local_daemons[] = $y;
+    } else {
+        $have_remote = true;
+    }
+
+    // Scheduler is a daemon too
+    //
+    if ($sched_host == $main_host) {
+        $y = new StdClass;
+        $y->cmd = "Scheduler";
+        $y->host = $sched_host;
+        $y->status = !file_exists("../../stop_sched");
         $local_daemons[] = $y;
     } else {
         $have_remote = true;
@@ -329,7 +355,7 @@ function get_daemon_status() {
         }
         $x = new StdClass;
         $x->cmd = (string)$d->cmd;
-        $x->status = local_daemon_running($x->cmd);
+        $x->status = local_daemon_running($x->cmd, $d->pid_file, $web_host);
         $x->host = $web_host;
         $local_daemons[] = $x;
 

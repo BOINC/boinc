@@ -16,7 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once("../inc/util_basic.inc");
+$d = dirname(__FILE__);
+require_once("$d/util_basic.inc");
 
 // database-related functions.
 // Presentation code (HTML) shouldn't be here
