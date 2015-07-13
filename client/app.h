@@ -108,6 +108,10 @@ struct ACTIVE_TASK {
         // will be zero if the app doesn't use this call
     double fraction_done_elapsed_time;
         // elapsed time when fraction done was last reported
+    double first_fraction_done;
+        // first frac done reported during this run of task
+    double first_fraction_done_elapsed_time;
+        // elapsed time when the above was reported
     int scheduler_state;
     int next_scheduler_state; // temp
     int signal;

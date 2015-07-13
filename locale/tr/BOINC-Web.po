@@ -9,10 +9,10 @@
 # Faruk SARI <faruksari@hotmail.com>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: boinc\n"
+"Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2015-02-10 14:33+0000\n"
+"PO-Revision-Date: 2015-05-17 15:28+0000\n"
 "Last-Translator: Faruk SARI <faruksari@hotmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/boinc/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -137,7 +137,7 @@ msgid ""
 " Skype is free (both the software and the calls).  If you don't already have"
 " Skype, please %sdownload and install it now%s.  When you're finished, "
 "return to this page."
-msgstr "BOINC Online Yardım, %sSkype%s tabanlı bir İnternet telefonu sistemidir. Skype bedavadır (yazılım ve görüşmeler). Eğer Skype'a sahip değilseniz, lütfen şimdi %sindirip kurun%s.  Tamamladığınızda, bu sayfaya geri dönün."
+msgstr "BOINC Online Yardım, %sSkype%s tabanlı bir İnternet telefonu sistemidir. Skype bedavadır (yazılım ve görüşmeler). Eğer Skype'a sahip değilseniz, lütfen şimdi %s indirip kurun%s.  Tamamladığınızda, bu sayfaya geri dönün."
 
 #: help.php:28
 msgid ""
@@ -847,7 +847,7 @@ msgstr "Kuantum bilgisayar simülasyonu; Goldbach Hipotezi (Varsayımı)."
 
 #: projects.inc:450 projects.inc:458
 msgid "Cryptography"
-msgstr "Kriptografi"
+msgstr "Şifre Bilimi"
 
 #: projects.inc:459
 msgid ""

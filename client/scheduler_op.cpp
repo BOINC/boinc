@@ -578,6 +578,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     MIOFILE mf;
     XML_PARSER xp(&mf);
     std::string delete_file_name;
+    bool verify_files_on_app_start = false;
+    bool non_cpu_intensive = false;
+    bool ended = false;
 
     mf.init_file(in);
     bool found_start_tag = false, btemp;
@@ -634,6 +637,13 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             if (project->dont_use_dcf) {
                 project->duration_correction_factor = 1;
             }
+
+            // boolean project attributes.
+            // If the scheduler reply didn't specify them, they're not set.
+            //
+            project->verify_files_on_app_start = verify_files_on_app_start;
+            project->non_cpu_intensive = non_cpu_intensive;
+            project->ended = ended;
             return 0;
         }
         else if (xp.parse_str("project_name", project->project_name, sizeof(project->project_name))) {
@@ -834,9 +844,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 );
             }
             continue;
-        } else if (xp.parse_bool("non_cpu_intensive", project->non_cpu_intensive)) {
+        } else if (xp.parse_bool("non_cpu_intensive", non_cpu_intensive)) {
             continue;
-        } else if (xp.parse_bool("ended", project->ended)) {
+        } else if (xp.parse_bool("ended", ended)) {
             continue;
         } else if (xp.parse_bool("no_cpu_apps", btemp)) {
             if (!project->anonymous_platform) {
@@ -861,7 +871,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 handle_no_rsc_apps(buf, project, true);
             }
             continue;
-        } else if (xp.parse_bool("verify_files_on_app_start", project->verify_files_on_app_start)) {
+        } else if (xp.parse_bool("verify_files_on_app_start", verify_files_on_app_start)) {
             continue;
         } else if (xp.parse_bool("send_full_workload", send_full_workload)) {
             continue;

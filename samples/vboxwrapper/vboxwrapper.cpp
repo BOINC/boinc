@@ -395,6 +395,7 @@ int main(int argc, char** argv) {
     bool is_notice = false;
     int temp_delay = 86400;
     string message;
+    string scratch_dir;
     char buf[256];
 
     // Initialize diagnostics system
@@ -441,31 +442,60 @@ int main(int argc, char** argv) {
     //       on the machine because it will attempt to launch the 'vboxsvc' process
     //       without out environment variable changes and muck everything up.
     //
-    string vbox_version;
+    string vbox_version_raw;
+    string vbox_version_display;
     int vbox_major = 0, vbox_minor = 0;
 
-    if (BOINC_SUCCESS != vbox42::VBOX_VM::get_version_information(vbox_version)) {
-        if (BOINC_SUCCESS != vbox43::VBOX_VM::get_version_information(vbox_version)) {
-            vbox50::VBOX_VM::get_version_information(vbox_version);
+    if (BOINC_SUCCESS != vbox42::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display)) {
+        if (BOINC_SUCCESS != vbox43::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display)) {
+            vbox50::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display);
         }
     }
-    if (!vbox_version.empty()) {
-        sscanf(vbox_version.c_str(), "%d.%d", &vbox_major, &vbox_minor);
+    if (!vbox_version_raw.empty()) {
+        sscanf(vbox_version_raw.c_str(), "%d.%d", &vbox_major, &vbox_minor);
         if ((4 == vbox_major) && (2 == vbox_minor)) {
             pVM = (VBOX_VM*) new vbox42::VBOX_VM();
+            retval = pVM->initialize();
+            if (retval) {
+                delete pVM;
+                pVM = NULL;
+            }
         }
         if ((4 == vbox_major) && (3 == vbox_minor)) {
             pVM = (VBOX_VM*) new vbox43::VBOX_VM();
+            retval = pVM->initialize();
+            if (retval) {
+                delete pVM;
+                pVM = NULL;
+            }
         }
-        if ((5 == vbox_major) && (0 == vbox_minor)) {
+        if ((5 == vbox_major) && (0 <= vbox_minor)) {
             pVM = (VBOX_VM*) new vbox50::VBOX_VM();
+            retval = pVM->initialize();
+            if (retval) {
+                delete pVM;
+                pVM = NULL;
+            }
         }
     }
     if (!pVM) {
         pVM = (VBOX_VM*) new vboxmanage::VBOX_VM();
+        retval = pVM->initialize();
+        if (retval) {
+            vboxlog_msg("Could not detect VM Hypervisor. Rescheduling execution for a later date.");
+            boinc_temporary_exit(86400, "Detection of VM Hypervisor failed.");
+        }
     }
 #else
     pVM = (VBOX_VM*) new vboxmanage::VBOX_VM();
+
+    // Initialize VM Hypervisor
+    //
+    retval = pVM->initialize();
+    if (retval) {
+        vboxlog_msg("Could not detect VM Hypervisor. Rescheduling execution for a later date.");
+        boinc_temporary_exit(86400, "Detection of VM Hypervisor failed.");
+    }
 #endif
 
     // Parse command line parameters
@@ -474,7 +504,7 @@ int main(int argc, char** argv) {
         if (!strcmp(argv[i], "--trickle")) {
             trickle_period = atof(argv[++i]);
         }
-        if (!strcmp(argv[i], "--ncpus")) {
+        if (!strcmp(argv[i], "--nthreads")) {
             ncpus = atof(argv[++i]);
         }
         if (!strcmp(argv[i], "--memory_size_mb")) {
@@ -515,18 +545,10 @@ int main(int argc, char** argv) {
     }
 #endif
 
-    // Initialize VM Hypervisor
-    //
-    retval = pVM->initialize();
-    if (retval) {
-        vboxlog_msg("Could not detect VM Hypervisor. Rescheduling execution for a later date.");
-        boinc_temporary_exit(86400, "Detection of VM Hypervisor failed.");
-    }
-
     // Record what version of VirtualBox was used.
     // 
-    if (!pVM->virtualbox_version.empty()) {
-        vboxlog_msg("Detected: %s", pVM->virtualbox_version.c_str());
+    if (!pVM->virtualbox_version_display.empty()) {
+        vboxlog_msg("Detected: %s", pVM->virtualbox_version_display.c_str());
     }
 
     // Record if anonymous platform was used.
@@ -560,9 +582,9 @@ int main(int argc, char** argv) {
     // VirtualBox 4.2.6 crashes during snapshot operations
     // and 4.2.18 fails to restore from snapshots properly.
     //
-    if ((pVM->virtualbox_version.find("4.2.6") != std::string::npos) || 
-        (pVM->virtualbox_version.find("4.2.18") != std::string::npos) || 
-        (pVM->virtualbox_version.find("4.3.0") != std::string::npos) ) {
+    if ((pVM->virtualbox_version_raw.find("4.2.6") != std::string::npos) || 
+        (pVM->virtualbox_version_raw.find("4.2.18") != std::string::npos) || 
+        (pVM->virtualbox_version_raw.find("4.3.0") != std::string::npos) ) {
         vboxlog_msg("Incompatible version of VirtualBox detected. Please upgrade to a later version.");
         boinc_temporary_exit(86400,
             "Incompatible version of VirtualBox detected; please upgrade.",
@@ -594,6 +616,7 @@ int main(int argc, char** argv) {
     // Validate whatever configuration options we can
     //
     if (pVM->enable_shared_directory) {
+        pVM->get_scratch_directory(scratch_dir);
         if (boinc_file_exists("shared")) {
             if (!is_dir("shared")) {
                 vboxlog_msg("ERROR: 'shared' exists but is not a directory.");
@@ -601,7 +624,17 @@ int main(int argc, char** argv) {
         } else {
             retval = boinc_mkdir("shared");
             if (retval) {
-                vboxlog_msg("ERROR: couldn't created shared directory: %s.", boincerror(retval));
+                vboxlog_msg("ERROR: couldn't create shared directory: %s.", boincerror(retval));
+            }
+        }
+        if (boinc_file_exists(scratch_dir.c_str())) {
+            if (!is_dir(scratch_dir.c_str())) {
+                vboxlog_msg("ERROR: 'scratch' exists but is not a directory.");
+            }
+        } else {
+            retval = boinc_mkdir(scratch_dir.c_str());
+            if (retval) {
+                vboxlog_msg("ERROR: couldn't create scratch directory: %s.", boincerror(retval));
             }
         }
     }

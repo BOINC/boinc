@@ -276,24 +276,6 @@ void CPanelPreferences::CreateControls()
 
     addNewRowToSizer(itemBoxSizer11, ProcIdleForTT, staticText24, m_txtProcIdleFor, staticText25);
 
-    wxString andString(_("and"));
-
-    wxString ProcEveryDayTT(_("Compute only during a particular period each day."));
-    m_chkProcEveryDay = new CTransparentCheckBox(
-        itemDialog1, ID_CHKPROCEVERYDAY,
-        _("Compute only between"), 
-        wxDefaultPosition, wxDefaultSize, 0,
-        wxDefaultValidator,  wxCheckBoxNameStr, 
-        &m_backgroundBitmap
-    );
-
-    m_txtProcEveryDayStart = new wxTextCtrl( itemDialog1, ID_TXTPROCEVERYDAYSTART, wxEmptyString, wxDefaultPosition, timeCtrlSize, wxTE_RIGHT );
-
-    CTransparentStaticText* staticText26 = new CTransparentStaticText( itemDialog1, wxID_ANY, andString, wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
-
-    m_txtProcEveryDayStop = new wxTextCtrl( itemDialog1, ID_TXTPROCEVERYDAYSTOP, wxEmptyString, wxDefaultPosition, timeCtrlSize, wxTE_RIGHT );
-
-    addNewRowToSizer(itemBoxSizer11, ProcEveryDayTT, m_chkProcEveryDay, m_txtProcEveryDayStart, staticText26, m_txtProcEveryDayStop);
 
 
     /*xgettext:no-c-format*/
@@ -307,6 +289,28 @@ void CPanelPreferences::CreateControls()
     CTransparentStaticText* staticText23 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("% of CPU time"), wxDefaultPosition, wxDefaultSize, 0 );
 
     addNewRowToSizer(itemBoxSizer11, MaxCPUTimeTT, staticText22, m_txtProcUseCPUTime, staticText23);
+
+    wxString andString(_("and"));
+    wxString ProcEveryDayTT(_("Compute only during a particular period each day."));
+    m_chkProcEveryDay = new CTransparentCheckBox(
+        itemDialog1, ID_CHKPROCEVERYDAY,
+        _("Compute only between"), 
+        wxDefaultPosition, wxDefaultSize, 0,
+        wxDefaultValidator,  wxCheckBoxNameStr, 
+        &m_backgroundBitmap
+    );
+    m_txtProcEveryDayStart = new wxTextCtrl(
+        itemDialog1, ID_TXTPROCEVERYDAYSTART, wxEmptyString, wxDefaultPosition, timeCtrlSize, wxTE_RIGHT
+    );
+    CTransparentStaticText* staticText26 = new CTransparentStaticText(
+        itemDialog1, wxID_ANY, andString, wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE
+    );
+    m_txtProcEveryDayStop = new wxTextCtrl(
+        itemDialog1, ID_TXTPROCEVERYDAYSTOP, wxEmptyString, wxDefaultPosition, timeCtrlSize, wxTE_RIGHT
+    );
+    addNewRowToSizer(
+        itemBoxSizer11, ProcEveryDayTT, m_chkProcEveryDay, m_txtProcEveryDayStart, staticText26, m_txtProcEveryDayStop
+    );
 
     wxString NetEveryDayTT(_("Transfer files only during a particular period each day."));
     m_chkNetEveryDay = new CTransparentCheckBox(

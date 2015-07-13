@@ -43,6 +43,16 @@ function linux_info() {
     instead.  ";
 }
 
+$w76dev = array(
+    "num"=>"7.6.2",
+    "status"=>"Development version",
+    "file"=>"boinc_7.6.2_windows_intelx86.exe",
+    "vbox_file"=>"boinc_7.6.2_windows_intelx86_vbox.exe",
+    "vbox_version"=>"4.3.12",
+    "date"=>"27 May 2015",
+    "type"=>"win_new",
+);
+
 $w74 = array(
     "num"=>"7.4.42",
     "status"=>"Recommended version",
@@ -79,6 +89,16 @@ $w5816 = array(
     "type"=>"win_new",
 );
 
+$w76x64dev = array(
+    "num"=>"7.6.2",
+    "status"=>"Development version",
+    "file"=>"boinc_7.6.2_windows_x86_64.exe",
+    "vbox_file"=>"boinc_7.6.2_windows_x86_64_vbox.exe",
+    "vbox_version"=>"4.3.12",
+    "date"=>"27 May 2015",
+    "type"=>"win_new",
+);
+
 $w74x64 = array(
     "num"=>"7.4.42",
     "status"=>"Recommended version",
@@ -97,6 +117,14 @@ $w72x64 = array(
     "vbox_version"=>"4.2.16",
     "date"=>"28 Feb 2014",
     "type"=>"win_new",
+);
+
+$m76dev = array(
+	"num"=>"7.6.2",
+	"status"=>"Development version (standard GUI)",
+	"file"=>"boinc_7.6.2_macOSX_x86_64.zip",
+	"date"=>"1 Jun 2015",
+	"type"=>"mac_advanced",
 );
 
 $m74 = array(
@@ -129,6 +157,14 @@ $m66 = array(
     "file"=>"boinc_6.6.36_macOSX_universal.zip",
     "date"=>"10 June 2009",
     "type"=>"mac_advanced",
+);
+
+$m76cdev = array(
+	"num"=>"7.6.2",
+	"status"=>"Development version (Unix command-line version)",
+	"file"=>"boinc_7.6.2_x86_64-apple-darwin.zip",
+	"date"=>"1 Jun 2015",
+	"type"=>"bare_core",
 );
 
 $m74c = array(
@@ -244,6 +280,7 @@ $windows = array(
     "description"=>"XP/Vista/7/8/8.1",
     "dbname" => "windows_intelx86",
     "versions"=>array(
+          $w76dev,
           $w74,
           $w72,
           $w66,
@@ -256,6 +293,7 @@ $windowsx64 = array(
     "description"=>"XP/Vista/7/8/8.1",
     "dbname" => "windows_x86_64",
     "versions"=>array(
+          $w76x64dev,
           $w74x64,
           $w72x64,
     )
@@ -263,9 +301,11 @@ $windowsx64 = array(
 
 $mac = array(
     "name"=>"Mac OS X (64-bit Intel)",
-    "description"=>"Version 10.5.0+",
+    "description"=>"Version 10.6.0+",
     "dbname" => "x86_64-apple-darwin",
     "versions"=>array(
+          $m76dev,
+          $m76cdev,
           $m74,
           $m74c,
     )

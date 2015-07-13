@@ -354,7 +354,7 @@ function create_batch($r) {
     echo "<batch_id>$batch_id</batch_id>\n";
 }
 
-function print_batch_params($batch) {
+function print_batch_params($batch, $get_cpu_time) {
     $app = BoincApp::lookup_id($batch->app_id);
     if (!$app) $app->name = "none";
     echo "
@@ -372,11 +372,15 @@ function print_batch_params($batch) {
         <name>$batch->name</name>
         <app_name>$app->name</app_name>
 ";
+    if ($get_cpu_time) {
+        echo "        <total_cpu_time>".$batch->get_cpu_time()."</total_cpu_time>\n";
+    }
 }
 
 function query_batches($r) {
     list($user, $user_submit) = authenticate_user($r, null);
     $batches = BoincBatch::enum("user_id = $user->id");
+    $get_cpu_time = (int)($r->get_cpu_time);
     echo "<batches>\n";
     foreach ($batches as $batch) {
         if ($batch->state < BATCH_STATE_COMPLETE) {
@@ -384,7 +388,7 @@ function query_batches($r) {
             $batch = get_batch_params($batch, $wus);
         }
         echo "    <batch>\n";
-        print_batch_params($batch);
+        print_batch_params($batch, $get_cpu_time);
         echo "   </batch>\n";
     }
     echo "</batches>\n";
@@ -423,7 +427,8 @@ function query_batch($r) {
     $wus = BoincWorkunit::enum("batch = $batch->id");
     $batch = get_batch_params($batch, $wus);
     echo "<batch>\n";
-    print_batch_params($batch);
+    $get_cpu_time = (int)($r->get_cpu_time);
+    print_batch_params($batch, $get_cpu_time);
     $n_outfiles = n_outfiles($wus[0]);
     foreach ($wus as $wu) {
         echo "    <job>

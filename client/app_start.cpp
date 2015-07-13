@@ -379,6 +379,12 @@ int ACTIVE_TASK::setup_file(
     int retval;
     PROJECT* project = result->project;
 
+    if (log_flags.slot_debug) {
+        msg_printf(wup->project, MSG_INFO,
+            "setup_file: %s (%s)", file_path, input?"input":"output"
+        );
+    }
+
     if (strlen(fref.open_name)) {
         if (is_io_file) {
             prepend_prefix(
@@ -472,21 +478,29 @@ int ACTIVE_TASK::copy_output_files() {
         );
         sprintf(slotfile, "%s/%s", slot_dir, open_name);
         get_pathname(fip, projfile, sizeof(projfile));
-#if 1
-        boinc_rename(slotfile, projfile);
-#else
         int retval = boinc_rename(slotfile, projfile);
-        // this isn't a BOINC error.
-        // it just means the app didn't create an output file
-        // that it was supposed to.
+        // the rename fails if the output file isn't there.
         //
         if (retval) {
-            msg_printf(wup->project, MSG_INTERNAL_ERROR,
-                "Can't rename output file %s to %s: %s",
-                fip->name, projfile, boincerror(retval)
-            );
+            if (retval == ERR_FILE_MISSING) {
+                if (log_flags.slot_debug) {
+                    msg_printf(wup->project, MSG_INFO,
+                        "[slot] output file %s missing, not copying", slotfile
+                    );
+                }
+            } else {
+                msg_printf(wup->project, MSG_INTERNAL_ERROR,
+                    "Can't rename output file %s to %s: %s",
+                    slotfile, projfile, boincerror(retval)
+                );
+            }
+        } else {
+            if (log_flags.slot_debug) {
+                msg_printf(wup->project, MSG_INFO,
+                    "[slot] renamed %s to %s", slotfile, projfile
+                );
+            }
         }
-#endif
     }
     return 0;
 }

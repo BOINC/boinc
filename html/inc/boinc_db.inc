@@ -376,9 +376,9 @@ class BoincApp {
         $db = BoincDb::get();
         return $db->update($this, 'app', $clause);
     }
-    static function sum($field) {
+    static function sum($field, $clause=null) {
         $db = BoincDb::get();
-        return $db->sum('app', $field);
+        return $db->sum('app', $field, $clause);
     }
 }
 

@@ -204,8 +204,10 @@ void CDlgItemProperties::show_rsc(wxString rsc_name, RSC_DESC rsc_desc) {
     }
     double x = rsc_desc.backoff_time - dtime();
     if (x<0) x = 0;
-    addProperty(rsc_name + _(" work fetch deferred for"), FormatTime(x));
-    addProperty(rsc_name + _(" work fetch deferral interval"), FormatTime(rsc_desc.backoff_interval));
+    if (x) {
+        addProperty(rsc_name + _(" work fetch deferred for"), FormatTime(x));
+        addProperty(rsc_name + _(" work fetch deferral interval"), FormatTime(rsc_desc.backoff_interval));
+    }
 }
 
 // show project properties
@@ -241,7 +243,7 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
     SetTitle(wxTitle);
     //layout controls
     addSection(_("General"));
-    addProperty(_("Master URL"), wxString(project->master_url, wxConvUTF8));
+    addProperty(_("URL"), wxString(project->master_url, wxConvUTF8));
     addProperty(_("User name"), wxString(project->user_name.c_str(), wxConvUTF8));
     addProperty(_("Team name"), wxString(project->team_name.c_str(), wxConvUTF8));
     addProperty(_("Resource share"), wxString::Format(wxT("%0.0f"), project->resource_share));
@@ -333,6 +335,11 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
             );
         }
     }
+    if (project->last_rpc_time) {
+        wxDateTime dt;
+        dt.Set((time_t)project->last_rpc_time);
+        addProperty(_("Last scheduler reply"), dt.Format());
+    }
     m_gbSizer->Layout();
     m_scrolledWindow->FitInside();
 }
@@ -384,6 +391,17 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
         }
         if (result->pid) {
             addProperty(_("Process ID"), wxString::Format(wxT("%d"), result->pid));
+        }
+        if (result->progress_rate) {
+            // express rate in the largest time unit (hr/min/sec) for which rate < 100%
+            //
+            if (result->progress_rate*3600 < 1) {
+                addProperty(_("Progress rate"), wxString::Format(wxT("%f %% %s"), 100*3600*result->progress_rate, _("per hour")));
+            } else if (result->progress_rate*60 < 1) {
+                addProperty(_("Progress rate"), wxString::Format(wxT("%f %% %s"), 100*60*result->progress_rate, _("per minute")));
+            } else {
+                addProperty(_("Progress rate"), wxString::Format(wxT("%f %% %s"), 100*result->progress_rate, _("per second")));
+            }
         }
     } else if (result->state >= RESULT_COMPUTE_ERROR) {
         addProperty(_("CPU time"), FormatTime(result->final_cpu_time));

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
         p = strrchr(brand, ' ');         // Strip off last space character and everything following
         if (p)
             *p = '\0'; 
-        ShowMessage((char *)_("Sorry, this version of %s requires system 10.5 or higher."), brand);
+        ShowMessage((char *)_("Sorry, this version of %s requires system 10.6 or higher."), brand);
 
         system("rm -dfR /tmp/BOINC_payload");
         return -1;

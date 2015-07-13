@@ -89,6 +89,9 @@ public:
     // whether to use shared directory infrastructure
     bool enable_shared_directory;
 
+    // whether to use scratch directory infrastructure
+    bool enable_scratch_directory;
+
     // whether to use floppy io infrastructure
     bool enable_floppyio;
 

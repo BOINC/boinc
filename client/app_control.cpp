@@ -179,6 +179,15 @@ bool ACTIVE_TASK::kill_all_children() {
 #endif
 #endif
 
+static void print_descendants(int pid, vector<int>desc, const char* where) {
+    msg_printf(0, MSG_INFO, "%s: PID %d has %d descendants",
+        where, pid, (int)desc.size()
+    );
+    for (unsigned int i=0; i<desc.size(); i++) {
+        msg_printf(0, MSG_INFO, "   PID %d", desc[i]);
+    }
+}
+
 // Send a quit message, start timer, get descendants
 //
 int ACTIVE_TASK::request_exit() {
@@ -191,6 +200,9 @@ int ACTIVE_TASK::request_exit() {
     set_task_state(PROCESS_QUIT_PENDING, "request_exit()");
     quit_time = gstate.now;
     get_descendants(pid, descendants);
+    if (log_flags.task_debug) {
+        print_descendants(pid, descendants, "request_exit()");
+    }
     return 0;
 }
 
@@ -206,37 +218,41 @@ int ACTIVE_TASK::request_abort() {
     set_task_state(PROCESS_ABORT_PENDING, "request_abort");
     abort_time = gstate.now;
     get_descendants(pid, descendants);
+    if (log_flags.task_debug) {
+        print_descendants(pid, descendants, "request_abort()");
+    }
     return 0;
 }
 
 #ifdef _WIN32
-static void kill_app_process(int pid, bool will_restart, bool show_errors) {
+static void kill_app_process(int pid, bool will_restart) {
     int retval = 0;
     retval = kill_program(pid, will_restart?0:EXIT_ABORTED_BY_CLIENT);
-    if (retval && log_flags.task_debug && show_errors) {
+    if (retval && log_flags.task_debug) {
         msg_printf(0, MSG_INFO,
-            "[task] kill_app_process() failed: %s",
-            strerror(retval)
+            "[task] kill_program(%d) failed: %s",
+            pid, boincerror(retval)
         );
     }
 }
 #else
-static void kill_app_process(int pid, bool, bool show_errors) {
+static void kill_app_process(int pid, bool) {
     int retval = 0;
     if (g_use_sandbox) {
         retval = kill_via_switcher(pid);
-        if (retval && log_flags.task_debug && show_errors) {
+        if (retval && log_flags.task_debug) {
             msg_printf(0, MSG_INFO,
-                "[task] kill_via_switcher() failed: %s (%d)",
+                "[task] kill_via_switcher(%d) failed: %s (%d)",
+                pid,
                 (retval>=0) ? strerror(errno) : boincerror(retval), retval
             );
         }
     } else {
-        retval = kill(pid, SIGKILL);
-        if (retval && log_flags.task_debug && show_errors) {
+        retval = kill_program(pid);
+        if (retval && log_flags.task_debug) {
             msg_printf(0, MSG_INFO,
-                "[task] kill() failed: %s",
-                strerror(errno)
+                "[task] kill_program(%d) failed: %s",
+                pid, strerror(errno)
             );
         }
     }
@@ -248,7 +264,7 @@ static void kill_app_process(int pid, bool, bool show_errors) {
 // will be cleaned up after it exits, by cleanup_task();
 //
 int ACTIVE_TASK::kill_running_task(bool will_restart) {
-    kill_app_process(pid, will_restart, true);
+    kill_app_process(pid, will_restart);
     return 0;
 }
 
@@ -262,10 +278,10 @@ int ACTIVE_TASK::kill_running_task(bool will_restart) {
 int ACTIVE_TASK::kill_subsidiary_processes() {
     unsigned int i;
     for (i=0; i<other_pids.size(); i++) {
-        kill_app_process(other_pids[i], false, false);
+        kill_app_process(other_pids[i], false);
     }
     for (i=0; i<descendants.size(); i++) {
-        kill_app_process(descendants[i], false, false);
+        kill_app_process(descendants[i], false);
     }
     return 0;
 }
@@ -1361,6 +1377,10 @@ bool ACTIVE_TASK::get_app_status_msg() {
         if (fd) {
             fraction_done = fd;
             fraction_done_elapsed_time = elapsed_time;
+            if (!first_fraction_done) {
+                first_fraction_done = fd;
+                first_fraction_done_elapsed_time = elapsed_time;
+            }
         }
     }
     parse_double(msg_buf, "<current_cpu_time>", current_cpu_time);
@@ -1485,7 +1505,7 @@ void ACTIVE_TASK_SET::get_msgs() {
         atp = active_tasks[i];
         if (!atp->process_exists()) continue;
         old_time = atp->checkpoint_cpu_time;
-        if (atp->task_state() == PROCESS_EXECUTING) {
+        if (atp->scheduler_state == CPU_SCHED_SCHEDULED) {
             double x = atp->result->dont_throttle()?et_diff:et_diff_throttle;
             atp->elapsed_time += x;
             atp->wup->project->elapsed_time += x;

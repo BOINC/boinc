@@ -239,13 +239,8 @@ class DbConn {
     function table_exists($table_name) {
         $result = $this->do_query("show tables from DBNAME like '$table_name'");
         if (!$result) error_page("database error on query $query");
-        if (MYSQLI) {
-            $t = $result->fetch_array();
-            $result->free();
-        } else {
-            $t = mysql_fetch_array($result);
-            mysql_free_result($result);
-        }
+        $t = _mysql_fetch_array($result);
+        _mysql_free_result($result);
         if ($t[0] == "$table_name") return true;
         return false;
     }

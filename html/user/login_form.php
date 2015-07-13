@@ -23,7 +23,7 @@ require_once("../inc/account.inc");
 check_get_args(array("next_url"));
 
 $next_url = sanitize_local_url(get_str('next_url', true));
-$next_url = urlencode($next_url);
+$next_url = urldecode($next_url);
 
 $u = "login_form.php?next_url=".$next_url;
 redirect_to_secure_url($u);

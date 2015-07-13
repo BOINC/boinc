@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <?xml-stylesheet type="text/xsl" href="is.xsl" ?>
 <!DOCTYPE msi [
    <!ELEMENT msi   (summary,table*)>
@@ -1814,8 +1814,8 @@
 		<row><td>libcurl.dll</td><td>_BOINCDepends</td><td>libcurl.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\libcurl.dll</td><td>1</td><td/></row>
 		<row><td>libeay32.dll</td><td>_BOINCDepends</td><td>libeay32.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\libeay32.dll</td><td>1</td><td/></row>
 		<row><td>liberationsans_regular.ttf</td><td>_BOINCScreensaver</td><td>LIBERA~1.TTF|LiberationSans-Regular.ttf</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\api\ttf\liberation-fonts-ttf-2.00.0\LiberationSans-Regular.ttf</td><td>1</td><td/></row>
-		<row><td>msvcp100.dll</td><td>_BOINCDepends</td><td>msvcp100.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\msvcp100.dll</td><td>1</td><td/></row>
-		<row><td>msvcr100.dll</td><td>_BOINCDepends</td><td>msvcr100.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\msvcr100.dll</td><td>1</td><td/></row>
+		<row><td>msvcp120.dll</td><td>_BOINCDepends</td><td>msvcp120.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\msvcp120.dll</td><td>1</td><td/></row>
+		<row><td>msvcr120.dll</td><td>_BOINCDepends</td><td>msvcr120.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\msvcr120.dll</td><td>1</td><td/></row>
 		<row><td>placeholder.txt</td><td>_BOINCData</td><td>PLACEH~1.TXT|placeholder.txt</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\redist\placeholder.txt</td><td>1</td><td/></row>
 		<row><td>placeholder.txt1</td><td>_BOINCDataProjects</td><td>PLACEH~1.TXT|placeholder.txt</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\redist\placeholder.txt</td><td>1</td><td/></row>
 		<row><td>placeholder.txt2</td><td>_BOINCDataSlots</td><td>PLACEH~1.TXT|placeholder.txt</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\redist\placeholder.txt</td><td>1</td><td/></row>
@@ -2495,7 +2495,7 @@
 		<col def="S255">DotNetBuildConfiguration</col>
 		<col def="S255">MsiCommandLine</col>
 		<col def="I4">ISSetupPrerequisiteLocation</col>
-		<row><td>Web</td><td>WEBx86</td><td>&lt;ISProjectDataFolder&gt;</td><td>PackageName</td><td>1</td><td>1033</td><td>2</td><td>1</td><td>Intel</td><td/><td>1033</td><td>0</td><td>0</td><td>1</td><td>0</td><td/><td>0</td><td/><td>MediaLocation</td><td/><td>http://boinc.berkeley.edu/</td><td/><td>&lt;PATH_TO_BOINC_CODESIGN&gt;\boinc.pfx</td><td/><td>Copyright (C) 2004 University of California at Berkeley. All Rights Reserved.</td><td>579579279</td><td/><td/><td/><td>1</td></row>
+		<row><td>Web</td><td>WEBx86</td><td>&lt;ISProjectDataFolder&gt;</td><td>PackageName</td><td>1</td><td>1033</td><td>2</td><td>1</td><td>Intel</td><td/><td>1033</td><td>0</td><td>0</td><td>1</td><td>0</td><td/><td>0</td><td/><td>MediaLocation</td><td/><td>http://boinc.berkeley.edu/</td><td/><td/><td/><td>Copyright (C) 2004 University of California at Berkeley. All Rights Reserved.</td><td>42708365</td><td/><td/><td/><td>1</td></row>
 	</table>
 
 	<table name="ISReleaseASPublishInfo">
@@ -2536,7 +2536,7 @@
 		<col def="I4">MsiEngineVersion</col>
 		<col def="S255">WinMsi30Url</col>
 		<col def="S255">CertPassword</col>
-		<row><td>Web</td><td>WEBx86</td><td>0</td><td>http://</td><td>0</td><td>install</td><td>install</td><td>[WindowsFolder]Downloaded Installations</td><td>0</td><td>http://www.installengine.com/Msiengine20</td><td>http://www.installengine.com/Msiengine20</td><td>0</td><td>http://www.installengine.com/cert05/isengine</td><td/><td/><td/><td/><td>3</td><td>http://www.installengine.com/cert05/dotnetfx</td><td>0</td><td>1033</td><td/><td/><td/><td/><td>1040</td><td>3</td><td>4</td><td>http://www.installengine.com/Msiengine30</td><td>5D6FE4CEBE1D</td></row>
+		<row><td>Web</td><td>WEBx86</td><td>0</td><td>http://</td><td>0</td><td>install</td><td>install</td><td>[WindowsFolder]Downloaded Installations</td><td>0</td><td>http://www.installengine.com/Msiengine20</td><td>http://www.installengine.com/Msiengine20</td><td>0</td><td>http://www.installengine.com/cert05/isengine</td><td/><td/><td/><td/><td>3</td><td>http://www.installengine.com/cert05/dotnetfx</td><td>0</td><td>1033</td><td/><td/><td/><td/><td>1040</td><td>3</td><td>4</td><td>http://www.installengine.com/Msiengine30</td><td/></row>
 	</table>
 
 	<table name="ISReleaseProperty">

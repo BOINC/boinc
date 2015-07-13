@@ -99,9 +99,7 @@ protected:
     void                    GetDocTeamName(wxInt32 item, wxString& strBuffer) const;
     wxInt32                 FormatTeamName( wxInt32 item, wxString& strBuffer ) const;
     void                    GetDocTotalCredit(wxInt32 item, float& fBuffer) const;
-    wxInt32                 FormatTotalCredit( float fBuffer, wxString& strBuffer ) const;
     void                    GetDocAVGCredit(wxInt32 item, float& fBuffer) const;
-    wxInt32                 FormatAVGCredit( float fBuffer, wxString& strBuffer ) const;
     void                    GetDocResourceShare(wxInt32 item, float& fBuffer) const;
     void                    GetDocResourcePercent(wxInt32 item, float& fBuffer) const;
     wxInt32                 FormatResourceShare( float fBuffer, float fBufferPercent, wxString& strBuffer ) const;

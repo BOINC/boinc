@@ -155,6 +155,7 @@ function batch_xml_to_object($batch) {
     $b->credit_canonical = (double)($batch->credit_canonical);
     $b->name = (string)($batch->name);
     $b->app_name = (string)($batch->app_name);
+    $b->total_cpu_time = (double)($batch->total_cpu_time);
     return $b;
 }
 
@@ -187,8 +188,12 @@ function boinc_submit_batch($req) {
 }
 
 function boinc_query_batches($req) {
+    $get_cpu_time =
+        !empty($req->get_cpu_time)?"   <get_cpu_time>1</get_cpu_time>\n":""
+    ;
     $req_xml = "<query_batches>
     <authenticator>$req->authenticator</authenticator>
+$get_cpu_time
 </query_batches>
 ";
     list($reply, $errmsg) = do_http_op($req, $req_xml, "");
@@ -202,9 +207,13 @@ function boinc_query_batches($req) {
 }
 
 function boinc_query_batch($req) {
+    $get_cpu_time =
+        !empty($req->get_cpu_time)?"   <get_cpu_time>1</get_cpu_time>\n":""
+    ;
     $req_xml = "<query_batch>
     <authenticator>$req->authenticator</authenticator>
     <batch_id>$req->batch_id</batch_id>
+$get_cpu_time
 </query_batch>
 ";
     list($reply, $errmsg) = do_http_op($req, $req_xml, "");

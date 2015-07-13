@@ -52,7 +52,7 @@ namespace vboxmanage {
         bool is_virtualbox_installed();
 
         int get_install_directory(std::string& dir);
-        int get_version_information(std::string& version);
+        int get_version_information(std::string& version_raw, std::string& version_display);
         int get_guest_additions(std::string& dir);
         int get_default_network_interface(std::string& iface);
         int get_vm_network_bytes_sent(double& sent);

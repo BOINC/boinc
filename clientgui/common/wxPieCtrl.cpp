@@ -61,7 +61,7 @@ wxPieCtrl::wxPieCtrl(wxWindow * parent, wxWindowID id, wxPoint pos,
 	m_LabelFont = *wxSWISS_FONT;
 	m_legendHorBorder = 10;
  	m_LegendVerBorder = 10;
-	m_szTitle = _("Pie Ctrl");
+	m_szTitle = wxT("Pie Ctrl");
 
     m_firstlabelToDraw = 0;
     m_scrollBar = new wxScrollBar(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSB_VERTICAL);

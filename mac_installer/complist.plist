@@ -22,17 +22,5 @@
 		<key>RootRelativeBundlePath</key>
 		<string>Library/Screen Savers/BOINCSaver.saver</string>
 	</dict>
-	<dict>
-		<key>BundleHasStrictIdentifier</key>
-		<true/>
-		<key>BundleIsRelocatable</key>
-		<false/>
-		<key>BundleIsVersionChecked</key>
-		<false/>
-		<key>BundleOverwriteAction</key>
-		<string>upgrade</string>
-		<key>RootRelativeBundlePath</key>
-		<string>tmp/PostInstall.app</string>
-	</dict>
 </array>
 </plist>

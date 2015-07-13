@@ -82,6 +82,7 @@ int VBOX_VM::initialize() {
 
     boinc_get_init_data_p(&aid);
     get_install_directory(virtualbox_install_directory);
+    get_scratch_directory(virtualbox_scratch_directory);
 
     // Prep the environment so we can execute the vboxmanage application
     //
@@ -155,7 +156,7 @@ int VBOX_VM::initialize() {
     launch_vboxsvc();
 #endif
 
-    rc = get_version_information(virtualbox_version);
+    rc = get_version_information(virtualbox_version_raw, virtualbox_version_display);
     if (rc) return rc;
 
     get_guest_additions(virtualbox_guest_additions);
@@ -622,6 +623,18 @@ int VBOX_VM::create_vm() {
         if (retval) return retval;
     }
 
+    // Enable the scratch folder if a scratch folder is specified.
+    //
+    if (enable_scratch_directory) {
+        vboxlog_msg("Enabling scratch shared directory for VM.");
+        command  = "sharedfolder add \"" + vm_name + "\" ";
+        command += "--name \"scratch\" ";
+        command += "--hostpath \"" + virtualbox_scratch_directory + "\"";
+
+        retval = vbm_popen(command, output, "enable scratch shared dir");
+        if (retval) return retval;
+    }
+
     return 0;
 }
 
@@ -758,11 +771,7 @@ int VBOX_VM::deregister_stale_vm() {
 
     get_slot_directory(virtual_machine_slot_directory);
 
-    command  = "showhdinfo \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
-    retval = vbm_popen(command, output, "get HDD info");
-    if (retval) return retval;
-
-    // Output should look a little like this:
+    // Output from showhdinfo should look a little like this:
     //   UUID:                 c119acaf-636c-41f6-86c9-38e639a31339
     //   Accessible:           yes
     //   Logical size:         10240 MBytes
@@ -773,31 +782,11 @@ int VBOX_VM::deregister_stale_vm() {
     //   In use by VMs:        test2 (UUID: 000ab2be-1254-4c6a-9fdc-1536a478f601)
     //   Location:             C:\Users\romw\VirtualBox VMs\test2\test2.vdi
     //
-    uuid_start = output.find("(UUID: ");
-    if (uuid_start != string::npos) {
-        // We can parse the virtual machine ID from the output
-        uuid_start += 7;
-        uuid_end = output.find(")", uuid_start);
-        vm_name = output.substr(uuid_start, uuid_end - uuid_start);
-
-        // Deregister stale VM by UUID
-        return deregister_vm(false);
-    } else if (enable_isocontextualization && enable_isocontextualization) {
+    if (enable_isocontextualization && enable_isocontextualization) {
         command  = "showhdinfo \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
         retval = vbm_popen(command, output, "get HDD info");
         if (retval) return retval;
 
-        // Output should look a little like this:
-        //   UUID:                 c119acaf-636c-41f6-86c9-38e639a31339
-        //   Accessible:           yes
-        //   Logical size:         10240 MBytes
-        //   Current size on disk: 0 MBytes
-        //   Type:                 normal (base)
-        //   Storage format:       VDI
-        //   Format variant:       dynamic default
-        //   In use by VMs:        test2 (UUID: 000ab2be-1254-4c6a-9fdc-1536a478f601)
-        //   Location:             C:\Users\romw\VirtualBox VMs\test2\test2.vdi
-        //
         uuid_start = output.find("(UUID: ");
         if (uuid_start != string::npos) {
             // We can parse the virtual machine ID from the output
@@ -809,20 +798,35 @@ int VBOX_VM::deregister_stale_vm() {
             return deregister_vm(false);
         }
     } else {
-        // Did the user delete the VM in VirtualBox and not the medium?  If so,
-        // just remove the medium.
-        command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
-        vbm_popen(command, output, "remove virtual disk", false, false);
-        if (enable_floppyio) {
-            command  = "closemedium floppy \"" + virtual_machine_slot_directory + "/" + floppy_image_filename + "\" ";
-            vbm_popen(command, output, "remove virtual floppy disk", false, false);
-        }
-        if (enable_isocontextualization) {
-            command  = "closemedium dvd \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
-            vbm_popen(command, output, "remove virtual ISO 9660 disk", false);
-            if (enable_cache_disk) {
-                command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
-                vbm_popen(command, output, "remove virtual cache disk", false);
+        command  = "showhdinfo \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
+        retval = vbm_popen(command, output, "get HDD info");
+        if (retval) return retval;
+
+        uuid_start = output.find("(UUID: ");
+        if (uuid_start != string::npos) {
+            // We can parse the virtual machine ID from the output
+            uuid_start += 7;
+            uuid_end = output.find(")", uuid_start);
+            vm_name = output.substr(uuid_start, uuid_end - uuid_start);
+
+            // Deregister stale VM by UUID
+            return deregister_vm(false);
+        } else {
+            // Did the user delete the VM in VirtualBox and not the medium?  If so,
+            // just remove the medium.
+            command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
+            vbm_popen(command, output, "remove virtual disk", false, false);
+            if (enable_floppyio) {
+                command  = "closemedium floppy \"" + virtual_machine_slot_directory + "/" + floppy_image_filename + "\" ";
+                vbm_popen(command, output, "remove virtual floppy disk", false, false);
+            }
+            if (enable_isocontextualization) {
+                command  = "closemedium dvd \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
+                vbm_popen(command, output, "remove virtual ISO 9660 disk", false);
+                if (enable_cache_disk) {
+                    command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
+                    vbm_popen(command, output, "remove virtual cache disk", false);
+                }
             }
         }
     }
@@ -1478,7 +1482,7 @@ int VBOX_VM::get_install_directory(string& install_directory) {
 #endif
 }
 
-int VBOX_VM::get_version_information(string& version) {
+int VBOX_VM::get_version_information(std::string& version_raw, std::string& version_display) {
     string command;
     string output;
     int vbox_major = 0, vbox_minor = 0, vbox_release = 0;
@@ -1501,14 +1505,21 @@ int VBOX_VM::get_version_information(string& version) {
         }
 
         if (3 == sscanf(output.c_str(), "%d.%d.%d", &vbox_major, &vbox_minor, &vbox_release)) {
-            snprintf(
+			snprintf(
+                buf, sizeof(buf),
+                "%d.%d.%d",
+                vbox_major, vbox_minor, vbox_release
+            );
+            version_raw = buf;
+			snprintf(
                 buf, sizeof(buf),
                 "VirtualBox VboxManage Interface (Version: %d.%d.%d)",
                 vbox_major, vbox_minor, vbox_release
             );
-            version = buf;
+            version_display = buf;
         } else {
-            version = "VirtualBox VboxManage Interface (Version: Unknown)";
+			version_raw = "Unknown";
+            version_display = "VirtualBox VboxManage Interface (Version: Unknown)";
         }
     }
 

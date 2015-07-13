@@ -109,6 +109,7 @@ void VBOX_JOB::clear() {
     temporary_exit_trigger_file.clear();
     enable_cern_dataformat = false;
     enable_shared_directory = false;
+    enable_scratch_directory = false;
     enable_floppyio = false;
     enable_cache_disk = false;
     enable_isocontextualization = false;
@@ -164,6 +165,7 @@ int VBOX_JOB::parse() {
         else if (xp.parse_bool("enable_network", enable_network)) continue;
         else if (xp.parse_bool("network_bridged_mode", network_bridged_mode)) continue;
         else if (xp.parse_bool("enable_shared_directory", enable_shared_directory)) continue;
+        else if (xp.parse_bool("enable_scratch_directory", enable_scratch_directory)) continue;
         else if (xp.parse_bool("enable_floppyio", enable_floppyio)) continue;
         else if (xp.parse_bool("enable_cache_disk", enable_cache_disk)) continue;
         else if (xp.parse_bool("enable_isocontextualization", enable_isocontextualization)) continue;

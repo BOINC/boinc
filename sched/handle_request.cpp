@@ -423,7 +423,12 @@ make_new_host:
                 "[HOST#%d] [USER#%d] Found similar existing host for this user - assigned.\n",
                 host.id, host.userid
             );
-            mark_results_over(host);
+            if (g_request->other_results.size() == 0) {
+                // mark host's jobs as abandoned
+                // if client has no jobs in progress
+                //
+                mark_results_over(host);
+            }
             goto got_host;
         }
         // either of the above cases,
