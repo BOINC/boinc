@@ -51,7 +51,7 @@ If you do not respond within 60 days, ".$user->name." will
 be allowed to become the team founder.
 ";
 
-    pm_send($user, $founder, $subject, $body, false);
+    pm_send_msg($user, $founder, $subject, $body, false);
 
     $subject = PROJECT." team founder transfer";
     $body = "Team member ".$user->name." has asked that you
