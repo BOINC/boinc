@@ -41,6 +41,11 @@
 
 include_once("../inc/prefs_util.inc");
 
+global $cpu_prefs;
+global $disk_prefs;
+global $mem_prefs;
+global $net_prefs;
+
 $cpu_prefs = array(
     tra("Usage limits"),
     new PREF_NUM(
