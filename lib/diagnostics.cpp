@@ -286,7 +286,11 @@ int diagnostics_init(
     //
     if (flags & BOINC_DIAG_REDIRECTSTDERR) {
         file_size(stderr_log, stderr_file_size);
+#ifdef _WIN32
+        stderr_file = freopen(stderr_log, "ac", stderr);
+#else
         stderr_file = freopen(stderr_log, "a", stderr);
+#endif
         if (!stderr_file) {
             return ERR_FOPEN;
         }
@@ -294,7 +298,11 @@ int diagnostics_init(
     }
 
     if (flags & BOINC_DIAG_REDIRECTSTDERROVERWRITE) {
+#ifdef _WIN32
+        stderr_file = freopen(stderr_log, "wc", stderr);
+#else
         stderr_file = freopen(stderr_log, "w", stderr);
+#endif
         if (!stderr_file) {
             return ERR_FOPEN;
         }
