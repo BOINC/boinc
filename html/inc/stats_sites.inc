@@ -18,6 +18,7 @@
 
 // the following sites generate stats for a given CPID
 //
+global $cpid_stats_sites;
 $cpid_stats_sites = array(
     array("Free-DC",
         "http://stats.free-dc.org/stats.php?page=userbycpid&amp;cpid=%s"
@@ -168,6 +169,7 @@ $team_name_sites = array(
     ),
 );
 
+global $host_sites;
 $host_sites = array(
     array(
         "http://boincstats.com/en/stats/-1/host/detail/",

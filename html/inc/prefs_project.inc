@@ -45,8 +45,10 @@
 include_once("../inc/prefs_util.inc");
 include_once("../project/project_specific_prefs.inc");
 
+global $app_types;
 $app_types = get_app_types();
 
+global $project_pref_descs;
 $project_pref_descs = array(
     new PREF_NUM(
         tra("Resource share"),
