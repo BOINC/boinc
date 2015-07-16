@@ -44,12 +44,12 @@ function linux_info() {
 }
 
 $w76dev = array(
-    "num"=>"7.6.2",
+    "num"=>"7.6.6",
     "status"=>"Development version",
-    "file"=>"boinc_7.6.2_windows_intelx86.exe",
-    "vbox_file"=>"boinc_7.6.2_windows_intelx86_vbox.exe",
+    "file"=>"boinc_7.6.6_windows_intelx86.exe",
+    "vbox_file"=>"boinc_7.6.6_windows_intelx86_vbox.exe",
     "vbox_version"=>"4.3.12",
-    "date"=>"27 May 2015",
+    "date"=>"16 July 2015",
     "type"=>"win_new",
 );
 
@@ -90,12 +90,12 @@ $w5816 = array(
 );
 
 $w76x64dev = array(
-    "num"=>"7.6.2",
+    "num"=>"7.6.6",
     "status"=>"Development version",
-    "file"=>"boinc_7.6.2_windows_x86_64.exe",
-    "vbox_file"=>"boinc_7.6.2_windows_x86_64_vbox.exe",
+    "file"=>"boinc_7.6.6_windows_x86_64.exe",
+    "vbox_file"=>"boinc_7.6.6_windows_x86_64_vbox.exe",
     "vbox_version"=>"4.3.12",
-    "date"=>"27 May 2015",
+    "date"=>"16 July 2015",
     "type"=>"win_new",
 );
 
@@ -120,10 +120,10 @@ $w72x64 = array(
 );
 
 $m76dev = array(
-	"num"=>"7.6.2",
+	"num"=>"7.6.6",
 	"status"=>"Development version (standard GUI)",
-	"file"=>"boinc_7.6.2_macOSX_x86_64.zip",
-	"date"=>"1 Jun 2015",
+	"file"=>"boinc_7.6.6_macOSX_x86_64.zip",
+	"date"=>"16 July 2015",
 	"type"=>"mac_advanced",
 );
 
@@ -160,10 +160,10 @@ $m66 = array(
 );
 
 $m76cdev = array(
-	"num"=>"7.6.2",
+	"num"=>"7.6.6",
 	"status"=>"Development version (Unix command-line version)",
-	"file"=>"boinc_7.6.2_x86_64-apple-darwin.zip",
-	"date"=>"1 Jun 2015",
+	"file"=>"boinc_7.6.6_x86_64-apple-darwin.zip",
+	"date"=>"16 July 2015",
 	"type"=>"bare_core",
 );
 
