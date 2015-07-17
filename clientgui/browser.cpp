@@ -484,9 +484,7 @@ bool detect_cookie_mozilla_v3(
     std::string profile_root, std::string& project_url, std::string& name, std::string& value
 ) {
     bool        retval = false;
-    bool        firstpass = true;
-    std::string cookieFilePath;
-    std::string cookieCopyFilePath;
+    std::string tmp;
     std::string hostname;
     char        query[1024];
     sqlite3*    db;
@@ -500,13 +498,11 @@ bool detect_cookie_mozilla_v3(
 
 
     // now we should open up the cookie database.
-    cookieFilePath = profile_root + "cookies.sqlite";
-retry:
-    rc = sqlite3_open(cookieFilePath.c_str(), &db);
+    tmp = profile_root + "cookies.sqlite";
+    rc = sqlite3_open(tmp.c_str(), &db);
     if ( rc ) {
         sqlite3_close(db);
-        retval = false;
-        goto cleanUpCopy;
+        return false;
     }
     
     // construct SQL query to extract the desired cookie
@@ -526,26 +522,9 @@ retry:
     // cleanup
     sqlite3_close(db);
 
-    if (((rc == SQLITE_BUSY) || (rc == SQLITE_LOCKED)) && firstpass) {
-        firstpass = false;
-        cookieCopyFilePath = profile_root + "boinc_cookies.sqlite";
-        rc = boinc_copy(cookieFilePath.c_str(), cookieCopyFilePath.c_str());
-        if (rc) {
-            retval = false;
-            goto cleanUpCopy;
-        }
-        cookieFilePath = cookieCopyFilePath;
-        goto retry;
-    }
-    
     if ( !cookie.value.empty() ) {
         value = cookie.value;
         retval = true;
-    }
-
-cleanUpCopy:
-    if (!firstpass) {
-        boinc_delete_file(cookieCopyFilePath.c_str());
     }
 
     return retval;
