@@ -8,7 +8,7 @@
   <string name="generic_button_finish">Terminer</string>
   <!--attach project-->
   <!--selection list-->
-  <string name="attachproject_list_desc">Choisir un projet scientifique auquel vous voulez collaborer :</string>
+  <string name="attachproject_list_desc">Choisir un projet scientifique auquel vous voulez collaborer:</string>
   <string name="attachproject_list_header">Choisissez un projet</string>
   <string name="attachproject_list_manual_button">Ajouter un projet via son URL</string>
   <string name="attachproject_list_manual_dialog_title">URL du projet:</string>
@@ -120,7 +120,7 @@
   <string name="attachproject_working_acctmgr_sync">Synchroniser</string>
   <!--main activity-->
   <string name="main_noproject_warning">Touchez ici pour choisir un projet.</string>
-  <string name="main_error">Oups !</string>
+  <string name="main_error">Oups!</string>
   <string name="main_error_long">...ceci ne devrait pas se produire!\nCliquer sur l\'icône pour essayer de nouveau.</string>
   <string name="main_title_icon_desc">Icône de BOINC</string>
   <!--tab names-->
@@ -171,9 +171,9 @@
   <string name="battery_temperature_max_header">Température batterie maximale.</string>
   <string name="battery_temperature_max_description">BOINC suspend le calcul au dessus de la température de batterie définie. Il n\'est pas recommandé de modifier cette valeur.</string>
   <string name="prefs_disk_max_pct_header">Espace de stockage utilisé maximum</string>
-  <string name="prefs_disk_max_pct_description">Quel pourcentage de l\'espace de stockage BOINC peut-il utiliser ? </string>
+  <string name="prefs_disk_max_pct_description">Quel pourcentage de l\'espace de stockage BOINC peut-il utiliser ? </string>
   <string name="prefs_disk_min_free_gb_header">Capacité de stockage minimum</string>
-  <string name="prefs_disk_min_free_gb_description">Quelle capacité de stockage de votre appareil doit rester disponible ? </string>
+  <string name="prefs_disk_min_free_gb_description">Quelle capacité de stockage de votre appareil doit rester disponible ? </string>
   <string name="prefs_disk_access_interval_header">Intervalle d\'accès</string>
   <string name="prefs_disk_access_interval_description">Suggère un intervalle entre les accès disque</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Limite de transfert journalier</string>
@@ -182,7 +182,7 @@
   <string name="prefs_autostart_header">Démarage automatique</string>
   <string name="prefs_show_notification_notices_header">Afficher les notifications pour les nouvelles remarques</string>
   <string name="prefs_show_notification_suspended_header">Afficher les notifications lorsque suspendu</string>
-  <string name="prefs_cpu_number_cpus_header">Cœurs du CPU utilisés</string>
+  <string name="prefs_cpu_number_cpus_header">Cores CPU utilisés</string>
   <string name="prefs_cpu_number_cpus_description">Limiter le nombre de cores CPU que BOINC peut utiliser pour le calcul.</string>
   <string name="prefs_cpu_other_load_suspension_header">Mettre en pause si l\'utilisation du CPU dépasse</string>
   <string name="prefs_cpu_other_load_suspension_description">Détermine si BOINC doit suspendre les calculs du fait de l\'exécution d\'autres applications.</string>
@@ -192,7 +192,7 @@
   <string name="prefs_memory_max_idle_description">Limite la quantité de RAM que les tâches peuvent utiliser. </string>
   <string name="prefs_client_log_flags_header">Drapeaux de journal du client BOINC</string>
   <string name="prefs_gui_log_level_header">Journal niveau GUI</string>
-  <string name="prefs_gui_log_level_description">Définit le niveau de détail de la GUI des messages du journal</string>
+  <string name="prefs_gui_log_level_description">Définit le niveau de détail des messages du journal GUI</string>
   <string name="prefs_unit_mb">Mo</string>
   <string name="prefs_unit_gb">Go</string>
   <string name="prefs_unit_pct">%</string>
@@ -207,7 +207,7 @@
   <string name="projects_credits_user_header">(total)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Suspendu par l\'utilisateur</string>
-  <string name="projects_status_dontrequestmorework">Pas de nouvelle tâche</string>
+  <string name="projects_status_dontrequestmorework">Pas de nouveau travail</string>
   <string name="projects_status_ended">Projet terminé - OK pour le retirer.</string>
   <string name="projects_status_detachwhendone">Se détacher une fois les tâches terminées</string>
   <string name="projects_status_schedrpcpending">Requête au planificateur en attente</string>
@@ -216,21 +216,21 @@
   <string name="projects_status_backoff">Communication prévue dans:</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Commandes du projet:</string>
-  <string name="projects_control_visit_website">Visitez le site Web</string>
+  <string name="projects_control_visit_website">Visitez le site web</string>
   <string name="projects_control_update">Mise à jour</string>
   <string name="projects_control_remove">Supprimer</string>
   <string name="projects_control_suspend">Suspendre</string>
   <string name="projects_control_resume">Reprendre</string>
-  <string name="projects_control_nonewtasks">Pas de nouvelle tâche</string>
-  <string name="projects_control_allownewtasks">Autoriser une nouvelle tâche</string>
+  <string name="projects_control_nonewtasks">Pas de nouveau travail</string>
+  <string name="projects_control_allownewtasks">Autoriser du nouveau travail</string>
   <string name="projects_control_reset">Réinitialiser</string>
   <string name="projects_control_dialog_title_acctmgr">Commandes du gestionnaire de compte:</string>
   <string name="projects_control_sync_acctmgr">Synchroniser</string>
   <string name="projects_control_remove_acctmgr">Désactiver</string>
   <!--project confirm dialog-->
-  <string name="projects_confirm_detach_title">Supprimer le projet ?</string>
+  <string name="projects_confirm_detach_title">Supprimer le projet?</string>
   <string name="projects_confirm_detach_message">Êtes-vous sûr de vouloir supprimer </string>
-  <string name="projects_confirm_detach_message2">de BOINC ?</string>
+  <string name="projects_confirm_detach_message2">de BOINC ?</string>
   <string name="projects_confirm_detach_confirm">Supprimer</string>
   <string name="projects_confirm_reset_title">Recommencer le projet</string>
   <string name="projects_confirm_reset_message">Êtes-vous sûr de vouloir recommencer </string>
@@ -249,7 +249,7 @@
   <string name="tasks_result_files_downloading">En attente de téléchargement</string>
   <string name="tasks_result_files_downloaded">Téléchargement terminé</string>
   <string name="tasks_result_compute_error">erreur de calcul</string>
-  <string name="tasks_result_files_uploading">Transférer</string>
+  <string name="tasks_result_files_uploading">Téléversement (upload)</string>
   <string name="tasks_result_files_uploaded">Mise à jour effectuée</string>
   <string name="tasks_result_aborted">annulé</string>
   <string name="tasks_result_upload_failed">échec du chargement </string>
@@ -262,8 +262,8 @@
   <string name="tasks_custom_project_suspended_via_gui">projet suspendu</string>
   <string name="tasks_custom_ready_to_report">prêt à valider</string>
   <!--confirmation dialog-->
-  <string name="confirm_abort_task_title">Abandonner la tâche ?</string>
-  <string name="confirm_abort_task_message">Abandonner la tâche :</string>
+  <string name="confirm_abort_task_title">Abandonner la tâche?</string>
+  <string name="confirm_abort_task_message">Abandonner la tâche:</string>
   <string name="confirm_abort_task_confirm">Abandonner</string>
   <string name="confirm_cancel">Annuler</string>
   <string name="confirm_image_desc">Confirmation</string>
@@ -277,17 +277,17 @@
   <string name="trans_active">actif</string>
   <string name="trans_pending">en attente</string>
   <string name="trans_projectbackoff"> retrait de projet</string>
-  <string name="trans_header_name">Fichier :</string>
+  <string name="trans_header_name">Fichier:</string>
   <string name="trans_control_retry">Réessayer le transfert</string>
-  <string name="confirm_abort_trans_title">Annuler le transfert ?</string>
-  <string name="confirm_abort_trans_message">Abandonner le fichier :</string>
+  <string name="confirm_abort_trans_title">Annuler le transfert?</string>
+  <string name="confirm_abort_trans_message">Annuler le transfert de fichier</string>
   <string name="confirm_abort_trans_confirm">Abandonner</string>
   <!--notices tab strings-->
   <string name="notices_loading">Lecture des remarques...</string>
   <!--eventlog tab strings-->
   <string name="eventlog_loading">Chargement du journal de messages...</string>
   <string name="eventlog_client_header">Messages du client</string>
-  <string name="eventlog_gui_header">GUI des Messages</string>
+  <string name="eventlog_gui_header">Messages GUI</string>
   <string name="eventlog_copy_toast">Journal copié dans le presse-papier.</string>
   <string name="eventlog_email_subject">Journal de message pour le client BOINC Android:</string>
   <!--suspend reasons-->
@@ -323,18 +323,18 @@
   <string name="rpcreason_projectreq">Demandé par le projet</string>
   <string name="rpcreason_unknown">Raison inconnue</string>
   <!--menu-->
-  <string name="menu_refresh">Rafraîchir</string>
-  <string name="menu_emailto">Envoyer en e-mail </string>
+  <string name="menu_refresh">Rafraichir</string>
+  <string name="menu_emailto">Envoyer via un email </string>
   <string name="menu_copy">Copier dans le presse-papier</string>
   <string name="menu_eventlog">Journal des évènements</string>
   <string name="menu_exit">Fermer BOINC</string>
   <string name="menu_run_mode_disable">Suspendre</string>
   <string name="menu_run_mode_enable">Reprendre</string>
-  <string name="menu_about">A propos</string>
+  <string name="menu_about">A propos de</string>
   <string name="menu_help">Aide</string>
   <!--about dialog-->
   <string name="about_button">Retour</string>
-  <string name="about_title">A propos</string>
+  <string name="about_title">A propos de</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Version</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
@@ -352,9 +352,9 @@
   <string name="nonexcl_dialog_exit">Quitter</string>
   <!--social integration-->
   <string name="social_invite_button">Inviter des amis</string>
-  <string name="social_invite_intent_title">Comment voulez-vous partager ? </string>
-  <string name="social_invite_content_title">Je fais du calcul scientifique sur mon smatphone !</string>
-  <string name="social_invite_content_body">J\'utilise mon %1$s pour faire du calcul scientifique. Vous pouvez le faire aussi ! Téléchargez l\'application à partir de : %2$s</string>
+  <string name="social_invite_intent_title">Comment voulez-vous partager ? </string>
+  <string name="social_invite_content_title">Je fais du calcul scientifique sur mon smatphone !</string>
+  <string name="social_invite_content_body">J\'utilise mon %1$s pour faire du calcul scientifique. Vous pouvez le faire aussi! Téléchargez l\'application à partir de: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
 </resources>
