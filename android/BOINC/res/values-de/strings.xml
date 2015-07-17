@@ -306,7 +306,7 @@
   <string name="suspend_network_quota">Netzwerkübertragungslimit erreicht.</string>
   <string name="suspend_os">Gestoppt von Android.</string>
   <string name="suspend_wifi">Nicht per WLAN verbunden.</string>
-  <string name="suspend_battery_charging">Warten bis der Akku geladen ist.</string>
+  <string name="suspend_battery_charging">Der Akku muss geladen werden bevor die Berechnung fortgesetzt werden kann.</string>
   <string name="suspend_battery_charging_long">Berechnung wird fortgesetzt wenn der Ladezustand größer</string>
   <string name="suspend_battery_charging_long2"></string>
   <string name="suspend_battery_charging_current">aktuell</string>
