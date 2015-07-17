@@ -1615,7 +1615,7 @@ function boincuser_get_projects_table($account = null) {
   $output .= '<tbody>' . "\n";
   foreach ($projects AS $project) {
     $output .= '  <tr>' . "\n";
-    $output .= "    <td>{$project->name}</td>" . "\n";
+    $output .= '    <td>' . l($project->name, '', array('fragment' => ' ', 'html' => TRUE, 'external' => TRUE)) . '</td>' . "\n";
     $output .= '    <td class="numeric">' . boincwork_format_stats((float) $project->expavg_credit) . '</td>' . "\n"; 
     $output .= '    <td class="numeric">' . boincwork_format_stats((float) $project->total_credit) . '</td>' . "\n";
     $output .= '  </tr>' . "\n";

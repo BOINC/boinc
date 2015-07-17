@@ -666,8 +666,6 @@ a.help.button {
 }
 
 table tr.link:hover {
-  background-color: #e8e8e8;
-  cursor: pointer;
 }
 table tr.inactive {
   color: #d0d0d0;
