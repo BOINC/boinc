@@ -674,6 +674,9 @@ table tr.inactive {
   width: 100%;
   margin: 0;
 }
+#mini-panel-dashboard_tables table tr td:first-child {
+  width: 140px;
+}
 table.user-projects {
   margin: 0;
 }
