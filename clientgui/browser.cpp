@@ -361,7 +361,7 @@ static int find_site_cookie_mozilla_v3(
     void* cookie, int /* argc */, char **argv, char ** /* szColumnName */
 ) {
     COOKIE_SQL* _cookie = (COOKIE_SQL*)cookie;
-    char host[256], cookie_name[256], cookie_value[256];
+    char host[256], cookie_name[256], cookie_value[4096];
     long long expires;
 
 
@@ -372,7 +372,7 @@ static int find_site_cookie_mozilla_v3(
 
     sscanf( argv[0], "%255s", host );
     sscanf( argv[1], "%255s", cookie_name );
-    sscanf( argv[2], "%255s", cookie_value );
+    sscanf( argv[2], "%4096s", cookie_value );
     sscanf( argv[3],
 #ifdef _WIN32
         "%I64d",
@@ -582,7 +582,7 @@ static int find_site_cookie_chrome(
     void* cookie, int /* argc */, char **argv, char ** /* szColumnName */
 ) {
     COOKIE_SQL* _cookie = (COOKIE_SQL*)cookie;
-    char host[256], cookie_name[256], cookie_value[256];
+    char host[256], cookie_name[256], cookie_value[4096];
     long long expires;
     long httponly;
 
@@ -593,7 +593,7 @@ static int find_site_cookie_chrome(
 
     sscanf( argv[0], "%255s", host );
     sscanf( argv[1], "%255s", cookie_name );
-    sscanf( argv[2], "%255s", cookie_value );
+    sscanf( argv[2], "%4096s", cookie_value );
     sscanf( argv[3],
 #ifdef _WIN32
         "%I64d",
@@ -736,7 +736,7 @@ bool detect_cookie_ie_supported(std::string& project_url, std::string& name, std
 {
     bool        bReturnValue = false;
     bool        bCheckDomainName = false;
-    char        szCookieBuffer[2048];
+    char        szCookieBuffer[4096];
     char*       pszCookieFragment = NULL;
     DWORD       dwSize = sizeof(szCookieBuffer)/sizeof(char);
     std::string strCookieFragment;
@@ -807,7 +807,7 @@ bool detect_cookie_ie_supported_uac(std::string& project_url, std::string& name,
     bool         bReturnValue = false;
     bool         bCheckDomainName = false;
     HRESULT      rc;
-    WCHAR        szCookieBuffer[2048];
+    WCHAR        szCookieBuffer[4096];
     WCHAR*       pszCookieFragment = NULL;
     DWORD        dwSize = sizeof(szCookieBuffer)/sizeof(WCHAR);
     std::wstring strCookieFragment;
@@ -930,7 +930,7 @@ bool find_site_cookie_ie(
     FILE* cf = NULL;
    	MIOFILE cmf;
     char buf[256];
-    char host[256], expiration_low[256], expiration_high[256], cookie_name[256], cookie_value[256];
+    char host[256], expiration_low[256], expiration_high[256], cookie_name[256], cookie_value[4096];
     time_t expires;
 
     // now we should open up the cookie file.
