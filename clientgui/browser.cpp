@@ -351,78 +351,6 @@ void MOZILLA_COOKIE_SQL::clear() {
 
 
 // search for the project specific cookie for mozilla based browsers.
-//
-// file format is:
-// 
-// host \t isDomain \t path \t secure \t expires \t name \t cookie
-// 
-// if this format isn't respected we move onto the next line in the file.
-// isDomain is "TRUE" or "FALSE" (default to "FALSE")
-// isSecure is "TRUE" or "FALSE" (default to "TRUE")
-// expires is a PRInt64 integer
-// note 1: cookie can contain tabs.
-// note 2: cookies are written in order of lastAccessed time:
-//         most-recently used come first; least-recently-used come last.
-// 
-bool find_site_cookie_mozilla_v2(
-    MIOFILE& in, std::string& project_url, std::string& name, std::string& value
-) {
-    bool retval = false;
-    char buf[2048];
-    char host[256], domain[16], path[256], secure[16], cookie_name[256], cookie_value[256];
-    long long expires;
-    std::string hostname;
-
-
-    strcpy(host, "");
-    strcpy(domain, "");
-    strcpy(path, "");
-    strcpy(secure, "");
-    strcpy(cookie_name, "");
-    strcpy(cookie_value, "");
-    expires = 0;
-
-
-    // determine the project hostname using the project url
-    parse_hostname_mozilla_compatible(project_url, hostname);
-
-    // traverse cookie file
-    while (in.fgets(buf, sizeof(buf))) {
-        sscanf(
-            buf,
-#ifdef _WIN32
-            "%255s\t%15s\t%255s\t%15s\t%I64d\t%255s\t%255s",
-#elif defined(__APPLE__)
-            "%255s\t%15s\t%255s\t%15s\t%lld\t%255s\t%255s",
-#else
-            "%255s\t%15s\t%255s\t%15s\t%Ld\t%255s\t%255s",
-#endif
-            host, domain, path, secure, &expires, cookie_name, cookie_value
-        );
-
-        // is this a real cookie?
-        // temporary cookie? these cookies do not trickle back up
-        // to the jscript interface, so ignore them.
-        if (starts_with(host, "#HttpOnly")) continue;
-
-        // is this the right host?
-        if (!strstr(host, hostname.c_str())) continue;
-
-        // has the cookie expired?
-        if (time(0) > expires) continue;
-
-        // is this the right cookie?
-        if (starts_with(cookie_name, name)) {
-            value = cookie_value;
-            retval = true;
-        }
-    }
-
-    return retval;
-}
-
-
-// search for the project specific cookie for mozilla based browsers.
 // SELECT host, name, value, expiry from moz_cookies WHERE name = '%s' AND host LIKE '%s'
 //
 static int find_site_cookie_mozilla_v3(
@@ -548,38 +476,6 @@ bool get_firefox_profile_root( std::string& profile_root ) {
 }
 
 
-// traverse the various cookies looking for the one we want
-//
-bool detect_cookie_mozilla_v2(
-    std::string profile_root, std::string& project_url, std::string& name, std::string& value
-) {
-    bool retval = false;
-    FILE* cf = NULL;
-   	MIOFILE cmf;
-    std::string tmp;
-
-    // now we should open up the cookie file.
-    tmp = profile_root + "cookies.txt";
-    cf = fopen(tmp.c_str(), "r");
-
-    // if the cookie file exists, lookup the projects 'Setup' cookie.
-    if (cf) {
-        cmf.init_file(cf);
-        retval = find_site_cookie_mozilla_v2(
-            cmf,
-            project_url,
-            name,
-            value
-        );
-    }
-
-    // cleanup
-    if (cf) fclose(cf);
-
-    return retval;
-}
-
-    
 bool detect_cookie_mozilla_v3(
     std::string profile_root, std::string& project_url, std::string& name, std::string& value
 ) {
@@ -655,21 +551,6 @@ cleanUpCopy:
 //
 // Firefox Browser Support
 //
-
-bool detect_cookie_firefox_2(
-    std::string& project_url, std::string& name, std::string& value
-) {
-    std::string profile_root;
-    get_firefox_profile_root(profile_root);
-
-    return detect_cookie_mozilla_v2(
-        profile_root,
-        project_url,
-        name,
-        value
-    );
-}
-
 
 bool detect_cookie_firefox_3(
     std::string& project_url, std::string& name, std::string& value
@@ -1256,7 +1137,6 @@ bool detect_setup_authenticator(
 #endif
     if (detect_cookie_chrome(project_url, strCookieSetup, authenticator)) goto END;
     if (detect_cookie_firefox_3(project_url, strCookieSetup, authenticator)) goto END;
-    if (detect_cookie_firefox_2(project_url, strCookieSetup, authenticator)) goto END;
 
 END:
     if (is_authenticator_valid(authenticator)) {
@@ -1328,16 +1208,6 @@ bool detect_simple_account_credentials(
         detect_cookie_firefox_3(strCookieServer, strCookieKnown, known);
         goto END;
     }
-    if ( detect_cookie_firefox_2(strCookieServer, strCookieProjectName, project_name) &&
-         detect_cookie_firefox_2(strCookieServer, strCookieProjectURL, project_url)
-    ){
-        detect_cookie_firefox_2(strCookieServer, strCookieAuthenticator, authenticator);
-        detect_cookie_firefox_2(strCookieServer, strCookieProjectInstitution, project_institution);
-        detect_cookie_firefox_2(strCookieServer, strCookieProjectDescription, project_description);
-        detect_cookie_firefox_2(strCookieServer, strCookieKnown, known);
-        goto END;
-    }
-
 END:
     if (!project_name.empty() && !project_url.empty()) {
         retval = true;
@@ -1391,13 +1261,6 @@ bool detect_account_manager_credentials(
          detect_cookie_firefox_3(project_url, strCookiePasswordHash, password_hash) 
     ){
         detect_cookie_firefox_3(project_url, strCookieReturnURL, return_url);
-        goto END;
-    }
-
-    if ( detect_cookie_firefox_2(project_url, strCookieLogon, login) && 
-         detect_cookie_firefox_2(project_url, strCookiePasswordHash, password_hash)
-    ){
-        detect_cookie_firefox_2(project_url, strCookieReturnURL, return_url);
         goto END;
     }
 
