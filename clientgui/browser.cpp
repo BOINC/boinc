@@ -235,6 +235,34 @@ bool parse_hostname_ie_compatible(
 
 
 //
+// Generic Browser Support
+//
+
+class COOKIE_SQL {
+public:
+    std::string host;
+    std::string name;
+    std::string value;
+
+    COOKIE_SQL();
+
+    void clear();
+};
+
+
+COOKIE_SQL::COOKIE_SQL() {
+    clear();
+}
+
+
+void COOKIE_SQL::clear() {
+    host.clear();
+    name.clear();
+    value.clear();
+}
+
+
+//
 // Mozilla-Based Browser Support
 //
 
@@ -260,18 +288,6 @@ public:
 
     void clear();
     int parse(MIOFILE& in);
-};
-
-
-class MOZILLA_COOKIE_SQL {
-public:
-    std::string host;
-    std::string name;
-    std::string value;
-
-    MOZILLA_COOKIE_SQL();
-
-    void clear();
 };
 
 
@@ -338,25 +354,13 @@ int MOZILLA_PROFILES::parse(MIOFILE& in) {
 }
 
 
-MOZILLA_COOKIE_SQL::MOZILLA_COOKIE_SQL() {
-    clear();
-}
-
-
-void MOZILLA_COOKIE_SQL::clear() {
-    host.clear();
-    name.clear();
-    value.clear();
-}
-
-
 // search for the project specific cookie for mozilla based browsers.
 // SELECT host, name, value, expiry from moz_cookies WHERE name = '%s' AND host LIKE '%s'
 //
 static int find_site_cookie_mozilla_v3(
     void* cookie, int /* argc */, char **argv, char ** /* szColumnName */
 ) {
-    MOZILLA_COOKIE_SQL* _cookie = (MOZILLA_COOKIE_SQL*)cookie;
+    COOKIE_SQL* _cookie = (COOKIE_SQL*)cookie;
     char host[256], cookie_name[256], cookie_value[256];
     long long expires;
 
@@ -488,7 +492,7 @@ bool detect_cookie_mozilla_v3(
     sqlite3*    db;
     char*       lpszSQLErrorMessage = NULL;
     int         rc;
-    MOZILLA_COOKIE_SQL cookie;
+    COOKIE_SQL  cookie;
 
 
     // determine the project hostname using the project url
@@ -571,37 +575,13 @@ bool detect_cookie_firefox_3(
 // Chrome-Based Browser Support
 //
 
-class CHROME_COOKIE_SQL {
-public:
-    std::string host;
-    std::string name;
-    std::string value;
-
-    CHROME_COOKIE_SQL();
-
-    void clear();
-};
-
-
-CHROME_COOKIE_SQL::CHROME_COOKIE_SQL() {
-    clear();
-}
-
-
-void CHROME_COOKIE_SQL::clear() {
-    host.clear();
-    name.clear();
-    value.clear();
-}
-
-
 // search for the project specific cookie for chrome based browsers.
 // SELECT host_key, name, value, expires_utc, httponly from cookies WHERE name = '%s' AND host_key LIKE '%s'
 //
 static int find_site_cookie_chrome(
     void* cookie, int /* argc */, char **argv, char ** /* szColumnName */
 ) {
-    CHROME_COOKIE_SQL* _cookie = (CHROME_COOKIE_SQL*)cookie;
+    COOKIE_SQL* _cookie = (COOKIE_SQL*)cookie;
     char host[256], cookie_name[256], cookie_value[256];
     long long expires;
     long httponly;
@@ -681,7 +661,7 @@ bool detect_cookie_chrome(
     sqlite3*    db;
     char*       lpszSQLErrorMessage = NULL;
     int         rc;
-    CHROME_COOKIE_SQL cookie;
+    COOKIE_SQL  cookie;
 
 
     // determine the project hostname using the project url
