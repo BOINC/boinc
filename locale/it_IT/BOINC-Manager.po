@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-24 16:15-0500\n"
-"PO-Revision-Date: 2015-07-18 09:51+0000\n"
+"PO-Revision-Date: 2015-07-18 11:34+0000\n"
 "Last-Translator: Gianfranco Costamagna <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/p/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -293,7 +293,7 @@ msgstr "Visualizza le statistiche"
 
 #: clientgui/AdvancedFrame.cpp:428
 msgid "&Disk\tCtrl+Shift+D"
-msgstr "Utilizzo &Disco⇥Ctrl+Shift+D"
+msgstr "Utilizzo &Disco\tCtrl+Shift+D"
 
 #: clientgui/AdvancedFrame.cpp:429
 msgid "Show disk usage"
@@ -362,7 +362,7 @@ msgstr "Ritenta i trasferimenti e le richieste di nuove elaborazioni rimandate"
 
 #: clientgui/AdvancedFrame.cpp:502 clientgui/sg_BoincSimpleFrame.cpp:211
 msgid "Event Log...\tCtrl+Shift+E"
-msgstr "Lista degli eventi...\t Ctrl+Shift+E"
+msgstr "Registro eventi...\tCTRL + MAIUSC + E"
 
 #: clientgui/AdvancedFrame.cpp:503
 msgid "Show diagnostic messages"
@@ -466,7 +466,7 @@ msgstr "Seleziona le colonne da visualizzare"
 
 #: clientgui/AdvancedFrame.cpp:619
 msgid "Event Log options...\tCtrl+Shift+F"
-msgstr "Opzioni Log Eventi...⇥Ctrl+Shift+F"
+msgstr "Opzioni Log Eventi...\tCtrl+Shift+F"
 
 #: clientgui/AdvancedFrame.cpp:620
 msgid "Enable or disable various diagnostic messages"
