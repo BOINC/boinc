@@ -530,7 +530,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 #elif __powerpc__ || __sparc__
             strstr(buf, "cpu\t\t: ")
 #elif __arm__
-            strstr(buf, "Processor\t: ")
+            strstr(buf, "Processor\t: ") || strstr(buf, "model name")
 #else
             strstr(buf, "model name\t: ") || strstr(buf, "cpu model\t\t: ")
 #endif
@@ -559,7 +559,8 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
                 }
 #endif
                 model_found = true;
-                strlcpy(buf2, strchr(buf, ':') + 2, sizeof(host.p_model) - strlen(host.p_model) - 1);
+                strlcpy(buf2, strchr(buf, ':') + 1, sizeof(host.p_model) - strlen(host.p_model) - 1);
+                strip_whitespace(buf2);
                 strcat(host.p_model, buf2);
             }
         }
