@@ -455,12 +455,14 @@ class Project:
                  master_url=None,
                  db_name=None,
                  web_only=False,
+                 no_db=False,
                  production=False
                  ):
         init()
 
         self.production     = production
         self.web_only       = web_only
+        self.no_db          = no_db
         self.short_name     = short_name
         self.long_name      = long_name or 'Project ' + self.short_name.replace('_',' ').capitalize()
 
@@ -578,12 +580,15 @@ class Project:
         print >>f, "<link rel=\"boinc_scheduler\" href=\"" + self.scheduler_url.strip()+ "\">"
         f.close()
 
-        verbose_echo(1, "Setting up database")
-        database.create_database(
-            srcdir = options.srcdir,
-            config = self.config.config,
-            drop_first = options.drop_db_first
-            )
+        if self.no_db:
+            verbose_echo(1, "Not setting up database (--no_db was specified)")
+        else:
+            verbose_echo(1, "Setting up database")
+            database.create_database(
+                srcdir = options.srcdir,
+                config = self.config.config,
+                drop_first = options.drop_db_first
+                )
 
         verbose_echo(1, "Writing config files")
 

@@ -35,6 +35,7 @@ Misc options:
    --drop_db_first      drop database first (from prev installation)
    --test_app           install example application
    --web_only           install web files, no executables (for Bossa, Bolt)
+   --no_db              don't create the database
    --srcdir             where to find the source files (default: current directory)
 
 Dir-options:
@@ -76,6 +77,7 @@ try:
             'no_query',
             'test_app',
             'web_only',
+            'no_db',
             'srcdir=',
             'user_name=',
             'drop_db_first',
@@ -99,6 +101,7 @@ options.url_base = None
 options.no_query = False
 options.test_app = False
 options.web_only = False
+options.no_db = False
 options.delete_prev_inst = False
 options.srcdir = None
 
@@ -109,6 +112,7 @@ for o,a in opts:
     elif o == '--no_query':      options.no_query       = True
     elif o == '--test_app':      options.test_app       = True
     elif o == '--web_only':      options.web_only       = True
+    elif o == '--no_db':         options.no_db          = True
     elif o == '--srcdir':        options.srcdir         = a
     elif o == '--user_name':     options.user_name      = a
     elif o == '--drop_db_first': options.drop_db_first  = True
@@ -215,6 +219,7 @@ project = Project(
     key_dir = options.key_dir,
     db_name = options.db_name,
     web_only = options.web_only,
+    no_db = options.no_db,
     production = True
     )
 
@@ -288,10 +293,11 @@ t.disabled = 0
 
 project.config.write()
 
-try:
-    os.system('cd '+proot+'/html/ops; ./db_schemaversion.php > '+proot+'/db_revision')
-except:
-    print '''Couldn't set db schema version number'''
+if not options.no_db:
+    try:
+        os.system('cd '+proot+'/html/ops; ./db_schemaversion.php > '+proot+'/db_revision')
+    except:
+        print '''Couldn't set db schema version number'''
 
 try:
     os.system('cd '+proot+'/html/ops; ./update_translations.php -d 1')
