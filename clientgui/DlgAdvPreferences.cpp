@@ -719,13 +719,13 @@ bool CDlgAdvPreferences::ValidateInput() {
     //limit additional days from 0 to 10
     buffer = m_txtNetConnectInterval->GetValue();
     if(!IsValidFloatValueBetween(buffer, 0.0, 10.0)) {
-        ShowErrorMessage(invMsgLimit100,m_txtNetConnectInterval);
+        ShowErrorMessage(invMsgLimit10,m_txtNetConnectInterval);
         return false;
     }
     
     buffer = m_txtNetAdditionalDays->GetValue();
     if(!IsValidFloatValueBetween(buffer, 0.0, 10.0)) {
-        ShowErrorMessage(invMsgLimit100,m_txtNetAdditionalDays);
+        ShowErrorMessage(invMsgLimit10,m_txtNetAdditionalDays);
         return false;
     }
 
