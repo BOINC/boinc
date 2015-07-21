@@ -952,7 +952,7 @@ void CDlgAdvPreferences::ShowErrorMessage(wxString& message,wxTextCtrl* errorCtr
     if (lastErrorCtrl != errorCtrl) {
         stdTextBkgdColor = errorCtrl->GetBackgroundColour();
     }
-    errorCtrl->SetBackgroundColour(*wxRED);
+    errorCtrl->SetBackgroundColour(wxColour(255, 192, 192));
     errorCtrl->Refresh();
     lastErrorCtrl = errorCtrl;
     wxGetApp().SafeMessageBox(message,_("Validation Error"),wxOK | wxCENTRE | wxICON_ERROR,this);
