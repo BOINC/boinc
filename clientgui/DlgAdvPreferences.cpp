@@ -127,6 +127,8 @@ CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBas
         m_Notebook->SetMinSize(sz);
     }
 #endif
+    lastErrorCtrl = NULL;
+    stdTextBkgdColor = *wxWHITE;
 
     Layout();
     Fit();
@@ -943,6 +945,15 @@ void CDlgAdvPreferences::ShowErrorMessage(wxString& message,wxTextCtrl* errorCtr
     if(message.IsEmpty()){
         message = _("invalid input value detected");
     }
+    if (lastErrorCtrl != errorCtrl) {
+        stdTextBkgdColor = m_txtProcIdleFor->GetBackgroundColour();
+    }
+    if (lastErrorCtrl) {
+        lastErrorCtrl->SetBackgroundColour(stdTextBkgdColor);
+        lastErrorCtrl->Refresh();
+    }
+    errorCtrl->SetBackgroundColour(*wxRED);
+    lastErrorCtrl = errorCtrl;
     wxGetApp().SafeMessageBox(message,_("Validation Error"),wxOK | wxCENTRE | wxICON_ERROR,this);
     errorCtrl->SetFocus();
 }
