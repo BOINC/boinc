@@ -811,7 +811,11 @@ function boincteam_dashboard_panel($uid = NULL) {
   $account = user_load($uid);
   if ($account->team) {
     $team = boincteam_load(boincteam_lookup_id($account->team));
-    $output .= '<h2 class="pane-title">' . $team->name . '</h2>';
+    $output .= '<h2 class="pane-title">' . bts('Team') . '</h2>';
+    $output .= '<div class="stats">';
+    $output .= '  <label>' . bts('Name') . ': </label>';
+    $output .= '  <span>' . l($team->name, "community/teams/{$account->team}") . '</span>';
+    $output .= '</div>' . "\n";
     $output .= '<div class="stats">';
     $output .= '  <label>' . bts('Member since') . ': </label>';
     $output .= '  <span>' . date('j F Y', boincteam_get_member_join_date($team->id, $account->boincuser_id)) . '</span>';
@@ -824,10 +828,6 @@ function boincteam_dashboard_panel($uid = NULL) {
     $output .= '  <label>' . bts('Total credit') . ': </label>';
     $output .= '  <span>' . number_format($team->total_credit, 2) . '</span>';
     $output .= '</div>' . "\n";
-    $output .= '<ul class="tab-list">';
-    $output .= '  <li class="first last tab">' . 
-      l(bts('View team'), "community/teams/{$account->team}") . '</li>';
-    $output .= '</ul>';
   }
   return $output;
 }
