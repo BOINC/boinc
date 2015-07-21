@@ -945,12 +945,12 @@ void CDlgAdvPreferences::ShowErrorMessage(wxString& message,wxTextCtrl* errorCtr
     if(message.IsEmpty()){
         message = _("invalid input value detected");
     }
-    if (lastErrorCtrl != errorCtrl) {
-        stdTextBkgdColor = m_txtProcIdleFor->GetBackgroundColour();
-    }
     if (lastErrorCtrl) {
         lastErrorCtrl->SetBackgroundColour(stdTextBkgdColor);
         lastErrorCtrl->Refresh();
+    }
+    if (lastErrorCtrl != errorCtrl) {
+        stdTextBkgdColor = errorCtrl->GetBackgroundColour();
     }
     errorCtrl->SetBackgroundColour(*wxRED);
     lastErrorCtrl = errorCtrl;
