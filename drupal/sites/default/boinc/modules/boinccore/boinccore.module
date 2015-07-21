@@ -165,7 +165,7 @@ function boinccore_enable() {
  */
 function boinccore_cron() {
   // Notify moderators if there is site content that requires moderator action
-  $items_in_queue = boincuser_moderation_queue_count();
+  $items_in_queue = boincuser_moderation_queue_count('cron');
   $last_notification = variable_get('boinccore_last_content_moderation_reminder', 0);
   if ($items_in_queue AND $last_notification < time() - 24*60*60) {
     global $base_url;
