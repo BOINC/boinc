@@ -74,6 +74,8 @@ private:
     wxTextCtrl* netDayStartTxts[7];
     wxTextCtrl* netDayStopTxts[7];
     bool m_bOKToShow;
+    wxColour stdTextBkgdColor;
+    wxTextCtrl* lastErrorCtrl;
 };
 
 #endif // _DLGADVPREFERENCES_H_
