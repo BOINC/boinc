@@ -1,0 +1,41 @@
+<?xml version="1.0" standalone="no"?>
+<!--
+	Configuration template for the uppercase example application
+-->
+<master>
+	<!-- Application name -->
+	<name>uppercase-example</name>
+
+	<!-- Application version. There are no restrictions for the format of
+	     master version numbers -->
+	<version>@PACKAGE_VERSION@</version>
+
+	<!-- Data files used by the master -->
+	<files>
+		<file>input.txt</file>
+	</files>
+
+	<!-- Master daemon definition -->
+	<daemon>
+		<binary>uppercase-example-master</binary>
+		<arguments>
+			<arg>--config</arg>
+			<arg>${workdir}/dc-api.conf</arg>
+		</arguments>
+	</daemon>
+
+	<!-- The application manager script will substitute the correct
+	     values for us -->
+	<dcapi-conf>dc-api.conf</dcapi-conf>
+
+	<!-- Validator daemon definition -->
+	<daemon>
+		<name>sample_trivial_validator</name>
+		<arguments>
+			<arg>-d</arg>
+			<arg>3</arg>
+			<arg>-app</arg>
+			<arg>uppercase-example</arg>
+		</arguments>
+	</daemon>
+</master>

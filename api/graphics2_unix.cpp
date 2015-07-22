@@ -191,8 +191,11 @@ static void boinc_glut_init(int *argc, char** argv) {
     FILE *f = boinc_fopen("gfx_info", "r");
     if (f) {
         // ToDo: change this to XML parsing
-        fscanf(f, "%d %d %d %d\n", &xpos, &ypos, &width, &height);
+        int n = fscanf(f, "%d %d %d %d\n", &xpos, &ypos, &width, &height);
         fclose(f);
+        if (n != 4) {
+            fprintf(stderr, "failed to parse gfx_info");
+        }
     }
 
     glutInit (argc, argv);

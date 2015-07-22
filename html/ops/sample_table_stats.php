@@ -24,9 +24,9 @@ function showTableStatus($db) {
     start_table();
     row1($db, 15);
     row_array(array("Name", "Engine", "Version", "Row Format", "Rows", "Avg Row Length (KB)", "Data Length (MB)", "Max Data Length (MB)", "Index Length (MB)", "Data free (MB)", "Create Time", "Update Time", "Check Time", "Create Options", "Comment"));
-    mysql_select_db($db);
-    $result = mysql_query("show table status");
-    while($row = mysql_fetch_array($result)) {
+    _mysql_select_db($db);
+    $result = _mysql_query("show table status");
+    while($row = _mysql_fetch_array($result)) {
         $size += ($row["Data_length"] + $row["Index_length"]);
         $engine = $row["Engine"];
         if (!$engine) $engine = $row["Type"];

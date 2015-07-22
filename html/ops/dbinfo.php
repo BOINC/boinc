@@ -25,7 +25,7 @@ class DB_REC {
 }
 
 
-$db_name = parse_config($config, "<db_name>");
+$db_name = parse_config(get_config(), "<db_name>");
 
 db_init();
 
@@ -68,7 +68,7 @@ function size_format($size){
 function get_db_info($db_name) 
 {
 	// Carl grabbed this from the mysql.com boards http://dev.mysql.com/doc/refman/5.0/en/show-table-status.html  
-    $result = mysql_query("SHOW TABLE STATUS FROM $db_name");
+    $result = _mysql_query("SHOW TABLE STATUS FROM $db_name");
 
     // SQL output
     // mysql> show table status from [table_name];
@@ -85,7 +85,7 @@ function get_db_info($db_name)
 
 	$i = 0;
 	$db_rec = array();
-	while($myarr = mysql_fetch_assoc($result)) {
+	while($myarr = _mysql_fetch_assoc($result)) {
 
 		// sum grand totals
 		$total  =  $myarr["Data_length"] + $myarr["Index_length"];
@@ -110,16 +110,16 @@ function show_db_info($db_name, $db_rec)
 
 	echo "<table cols=6>";
 	echo "<tr>";
-	echo "<td class=heading colspan=6> Database $db_name </td>";
+	echo "<th colspan=6> Database $db_name </th>";
 	echo "</tr>";
 
 	echo "<tr>";
-	echo "<td class=heading>Table</td>";
-	echo "<td class=heading>Data Size</td>";
-	echo "<td class=heading>Index Size</td>";
-	echo "<td class=heading>Total Size</td>";
-	echo "<td class=heading>Total Rows</td>";
-	echo "<td class=heading>Avg. Size per Row</td>";
+	echo "<th>Table</th>";
+	echo "<th>Data Size</th>";
+	echo "<th>Index Size</th>";
+	echo "<th>Total Size</th>";
+	echo "<th>Total Rows</th>";
+	echo "<th>Avg. Size per Row</th>";
 	echo "</tr>";
 
 	for ($i = 0; $i < sizeof($db_rec)-1; $i++){ 
@@ -136,12 +136,12 @@ function show_db_info($db_name, $db_rec)
 	// Last record is just a summary
 	$i = sizeof($db_rec)-1;
 	echo "<tr>";
-    echo "<td align=left class=heading>" . $db_rec[$i]->name . "</td>";
-    echo "<td align=left class=heading>" . size_format($db_rec[$i]->data_size)  . "</td>";
-    echo "<td align=left class=heading>" . size_format($db_rec[$i]->index_size) . "</td>";
-    echo "<td align=left class=heading>" . size_format($db_rec[$i]->total_size) . "</td>";
-    echo "<td align=left class=heading>" . number_format($db_rec[$i]->rows)     . "</td>";
-    echo "<td align=left class=heading></td>";
+    echo "<th align=left>" . $db_rec[$i]->name . "</th>";
+    echo "<th align=left>" . size_format($db_rec[$i]->data_size)  . "</th>";
+    echo "<th align=left>" . size_format($db_rec[$i]->index_size) . "</th>";
+    echo "<th align=left>" . size_format($db_rec[$i]->total_size) . "</th>";
+    echo "<th align=left>" . number_format($db_rec[$i]->rows)     . "</th>";
+    echo "<th align=left></th>";
 	echo "</tr>";
 
     echo "</table>";
@@ -190,16 +190,16 @@ function sort_db_info($db_name, $db_rec)
 
 	echo "<table cols=6>";
 	echo "<tr>";
-	echo "<td class=heading colspan=6> Database $db_name </td>";
+	echo "<th colspan=6> Database $db_name </th>";
 	echo "</tr>";
 
 	echo "<tr>";
-	echo "<td class=heading><a href='dbinfo.php?sort=name&r=" . (!$r) . "'>Table </a></td>";
-	echo "<td class=heading><a href='dbinfo.php?sort=data_size&r=" . (!$r) . "'>Data Size</a></td>";
-	echo "<td class=heading><a href='dbinfo.php?sort=index_size&r=" . (!$r) . "'>Index Size</a></td>";
-	echo "<td class=heading><a href='dbinfo.php?sort=total_size&r=" . (!$r) . "'>Total Size</a></td>";
-	echo "<td class=heading><a href='dbinfo.php?sort=rows&r=" . (!$r) . "'>Total Rows</a></td>";
-	echo "<td class=heading><a href='dbinfo.php?sort=size_per_row&r=" . (!$r) . "'>Avg. Size per Row</a></td>";
+	echo "<th><a href='dbinfo.php?sort=name&r=" . (!$r) . "'>Table </a></th>";
+	echo "<th><a href='dbinfo.php?sort=data_size&r=" . (!$r) . "'>Data Size</a></th>";
+	echo "<th><a href='dbinfo.php?sort=index_size&r=" . (!$r) . "'>Index Size</a></th>";
+	echo "<th><a href='dbinfo.php?sort=total_size&r=" . (!$r) . "'>Total Size</a></th>";
+	echo "<th><a href='dbinfo.php?sort=rows&r=" . (!$r) . "'>Total Rows</a></th>";
+	echo "<th><a href='dbinfo.php?sort=size_per_row&r=" . (!$r) . "'>Avg. Size per Row</a></th>";
 	echo "</tr>";
 
 	$i = 0;
@@ -219,12 +219,12 @@ function sort_db_info($db_name, $db_rec)
 	// Last record is just a summary
 	$i = sizeof($db_rec)-1;
 	echo "<tr>";
-    echo "<td align=left class=heading>" . $db_rec[$i]->name . "</td>";
-    echo "<td align=left class=heading>" . size_format($db_rec[$i]->data_size)  . "</td>";
-    echo "<td align=left class=heading>" . size_format($db_rec[$i]->index_size) . "</td>";
-    echo "<td align=left class=heading>" . size_format($db_rec[$i]->total_size) . "</td>";
-    echo "<td align=left class=heading>" . number_format($db_rec[$i]->rows)     . "</td>";
-    echo "<td align=left class=heading></td>";
+    echo "<th align=left>" . $db_rec[$i]->name . "</th>";
+    echo "<th align=left>" . size_format($db_rec[$i]->data_size)  . "</th>";
+    echo "<th align=left>" . size_format($db_rec[$i]->index_size) . "</th>";
+    echo "<th align=left>" . size_format($db_rec[$i]->total_size) . "</th>";
+    echo "<th align=left>" . number_format($db_rec[$i]->rows)     . "</th>";
+    echo "<th align=left></th>";
 	echo "</tr>";
 
     echo "</table>";

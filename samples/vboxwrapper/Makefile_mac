@@ -2,6 +2,8 @@
 # This is invoked from BuildMacVboxWrapper.sh shell script.
 # It should not be used by itself without the script.
 # Updated 7/10/12 for Xcode 4.3 and later which are not at a fixed address
+# Updated 4/10/15 to remove deleted files vboxlog.cpp and vboxlog.h
+# Updated 4/14/15 for compatibility with Xcode 6
 
 
 BOINC_DIR = ../..
@@ -23,7 +25,11 @@ CXXFLAGS = $(VARIANTFLAGS) \
 
 OBJ = \
     floppyio.o \
-    vbox.o \
+    vbox_common.o \
+    vbox_vboxmanage.o \
+    vboxcheckpoint.o \
+    vboxjob.o \
+    vboxlogging.o \
     vboxwrapper.o
 
 PROGS = vboxwrapper
@@ -36,8 +42,23 @@ clean:
 floppyio.o: floppyio.cpp
 	$(CXX) $(CXXFLAGS) -c floppyio.cpp
 
-vbox.o: vbox.cpp
-	$(CXX) $(CXXFLAGS) -c vbox.cpp
+vbox_common.o: vbox_common.cpp
+	$(CXX) $(CXXFLAGS) -c vbox_common.cpp
 
-vboxwrapper: vboxwrapper.o vbox.o floppyio.o $(BOINC_BUILD_DIR)/libboinc.a $(BOINC_BUILD_DIR)/libboinc_api.a
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o vboxwrapper vboxwrapper.o vbox.o floppyio.o -pthread -lboinc_api -lboinc
+vbox_vboxmanage.o: vbox_vboxmanage.cpp
+	$(CXX) $(CXXFLAGS) -c vbox_vboxmanage.cpp
+
+vboxcheckpoint.o: vboxcheckpoint.cpp
+	$(CXX) $(CXXFLAGS) -c vboxcheckpoint.cpp
+
+vboxjob.o: vboxjob.cpp
+	$(CXX) $(CXXFLAGS) -c vboxjob.cpp
+
+vboxlogging.o: vboxlogging.cpp
+	$(CXX) $(CXXFLAGS) -c vboxlogging.cpp
+
+vboxwrapper.o: vboxwrapper.cpp
+	$(CXX) $(CXXFLAGS) -c vboxwrapper.cpp
+
+vboxwrapper: vboxwrapper.o vbox_common.o vbox_vboxmanage.o vboxcheckpoint.o vboxjob.o vboxlogging.o floppyio.o $(BOINC_BUILD_DIR)/libboinc.a $(BOINC_BUILD_DIR)/libboinc_api.a
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o vboxwrapper vboxwrapper.o vbox_common.o vbox_vboxmanage.o vboxcheckpoint.o vboxjob.o vboxlogging.o floppyio.o -pthread -lboinc_api -lboinc

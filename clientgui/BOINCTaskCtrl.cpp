@@ -22,11 +22,18 @@
 #include "stdwx.h"
 #include "BOINCBaseView.h"
 #include "BOINCTaskCtrl.h"
+#include "MainDocument.h"
 
-#define TASKPANEWIDTH 200
-#define TASKBUTTONWIDTH (TASKPANEWIDTH - 55)
+#define TASKPANEWIDTH ADJUSTFORXDPI(200)
+#define TASKBUTTONWIDTH ADJUSTFORXDPI(TASKPANEWIDTH - 55)
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCTaskCtrl, wxScrolledWindow)
+
+#ifdef __WXMSW__
+BEGIN_EVENT_TABLE (CBOINCTaskCtrl, CBOINCBaseView)
+    EVT_CHILD_FOCUS(CBOINCTaskCtrl::OnChildFocus)
+END_EVENT_TABLE ()
+#endif
 
 
 CBOINCTaskCtrl::CBOINCTaskCtrl() {}
@@ -155,6 +162,7 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
     unsigned int        i;
     unsigned int        j;
     bool                bCreateMainSizer = false;
+    int                 layoutChanged = 0;
     CTaskItemGroup*     pGroup = NULL;
     CTaskItem*          pItem = NULL;
 
@@ -164,6 +172,7 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
         SetAutoLayout(TRUE);
         m_pSizer = new wxBoxSizer( wxVERTICAL  );
         m_pSizer->Add(5, 5, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+        layoutChanged = 1;
     }
 
 
@@ -174,9 +183,7 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
             pGroup->m_pStaticBox = new wxStaticBox(this, wxID_ANY, pGroup->m_strName);
             pGroup->m_pStaticBoxSizer = new wxStaticBoxSizer(pGroup->m_pStaticBox, wxVERTICAL);
             m_pSizer->Add(pGroup->m_pStaticBoxSizer, 0, wxEXPAND|wxALL, 5);
-#ifdef __WXMAC__
-            pGroup->SetupMacAccessibilitySupport();
-#endif
+            layoutChanged = 1;
         }
     }
 
@@ -189,12 +196,21 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
                 pItem->m_pButton = new wxButton;
                 pItem->m_strNameEllipsed = pItem->m_strName;
                 EllipseStringIfNeeded(pItem->m_strNameEllipsed);
+#ifdef __WXMSW__
+                // On Windows with wxWidgets 2.9.4, buttons don't refresh properly unless
+                // they are children of the wxStaticBox, but on Mac the layout is wrong
+                // unless the buttons are children of the parent of the wxStaticBox.
+                // ToDo: merge these cases when these bugs are fixed in wxWidgets.
+                pItem->m_pButton->Create(pGroup->m_pStaticBox, pItem->m_iEventID, pItem->m_strNameEllipsed, wxDefaultPosition, wxSize(TASKBUTTONWIDTH, -1), 0);
+#else
                 pItem->m_pButton->Create(this, pItem->m_iEventID, pItem->m_strNameEllipsed, wxDefaultPosition, wxSize(TASKBUTTONWIDTH, -1), 0);
+#endif
                 pItem->m_pButton->SetHelpText(pItem->m_strDescription);
 #if wxUSE_TOOLTIPS
                 pItem->m_pButton->SetToolTip(pItem->m_strDescription);
 #endif
                 pGroup->m_pStaticBoxSizer->Add(pItem->m_pButton, 0, wxEXPAND|wxALL, 5);
+                layoutChanged = 1;
             }
         }
     }
@@ -205,9 +221,11 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
 
     // Force update layout and scrollbars, since nothing we do here
     // necessarily generates a size event which would do it for us.
-    FitInside();
+    if (layoutChanged) {
+        Fit ();
+    }
     
-    return 0;
+    return layoutChanged;
 }
 
 
@@ -249,6 +267,55 @@ bool CBOINCTaskCtrl::OnRestoreState(wxConfigBase* pConfig) {
 
     return true;
 }
+
+
+#ifdef __WXMSW__
+// Work around a problem on Windows where clicking on a button
+// in the web sites Task Item Group sometimes causes the task
+// control panel to scroll that button out of view but does not
+// send the button clicked event.  This is because the task
+// control panel is the parent of the Task Item Group's
+// wxStaticBox, which is the parent of the button; if we have
+// scroll bars the Child Focus Event scrolls the task control
+// panel to make the wxStaticBox fully visible. To prevent this,
+// we intercept the Child Focus Event, scroll only enough to
+// make the button visible if it is not already visible, and 
+// do not call event.Skip.
+void CBOINCTaskCtrl::OnChildFocus(wxChildFocusEvent&) {
+    int stepx, stepy;
+    int startx, starty;
+    int diff = 0;
+
+    wxWindow* theButton = wxWindow::FindFocus();
+    if (!theButton) return;
+    
+    // Get button position relative to Task Control's viewing area
+    wxRect buttonRect(
+		ScreenToClient(theButton->GetScreenPosition()), theButton->GetSize()
+	);
+    
+    const wxRect viewRect(GetClientRect());
+    if (viewRect.Contains(buttonRect)){
+        return; // Already fully visible
+    }
+
+    GetScrollPixelsPerUnit(&stepx, &stepy);
+
+    GetViewStart(&startx, &starty);
+
+    if (buttonRect.GetTop() < 0) {
+        diff = buttonRect.GetTop();
+    } else if (buttonRect.GetBottom() > viewRect.GetHeight()) {
+        diff = buttonRect.GetBottom() - viewRect.GetHeight() + 1;
+        // round up to next scroll step if we can't get exact position,
+        // so that the button is fully visible
+        diff += stepy - 1;
+    }
+
+    starty = (starty * stepy + diff) / stepy;
+    Scroll(startx, starty);
+}
+#endif
 
 
 void CBOINCTaskCtrl::EllipseStringIfNeeded(wxString& s) {

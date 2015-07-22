@@ -31,6 +31,7 @@ using std::vector;
 
 #include "boinc_db.h"
 #include "error_numbers.h"
+#include "filesys.h"
 
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
@@ -60,23 +61,43 @@ void SCHED_SHMEM::init(int nwu_results) {
     max_wu_results = nwu_results;
 }
 
-static int error_return(const char* p) {
-    fprintf(stderr, "Error in structure: %s\n", p);
+static int error_return(const char* p, int expe, int got) {
+    fprintf(stderr, "shmem: size mismatch in %s: expected %d, got %d\n", p, expe, got);
     return ERR_SCHED_SHMEM;
 }
 
 int SCHED_SHMEM::verify() {
+    if (platform_size != sizeof(PLATFORM)) {
+        return error_return("platform", sizeof(PLATFORM), platform_size);
+    }
+    if (app_size != sizeof(APP)) {
+        return error_return("app", sizeof(APP), app_size);
+    }
+    if (app_version_size != sizeof(APP_VERSION)) {
+        return error_return("app_version", sizeof(APP_VERSION), app_version_size);
+    }
+    if (assignment_size != sizeof(ASSIGNMENT)) {
+        return error_return("assignment", sizeof(ASSIGNMENT), assignment_size);
+    }
+    if (wu_result_size != sizeof(WU_RESULT)) {
+        return error_return("wu_result", sizeof(WU_RESULT), wu_result_size);
+    }
+    if (max_platforms != MAX_PLATFORMS) {
+        return error_return("max platform", MAX_PLATFORMS, max_platforms);
+    }
+    if (max_apps != MAX_APPS) {
+        return error_return("max apps", MAX_APPS, max_apps);
+    }
+    if (max_app_versions != MAX_APP_VERSIONS) {
+        return error_return("max app versions", MAX_APP_VERSIONS, max_app_versions);
+    }
+    if (max_assignments != MAX_ASSIGNMENTS) {
+        return error_return("max assignments", MAX_ASSIGNMENTS, max_assignments);
+    }
     int size = sizeof(SCHED_SHMEM) + max_wu_results*sizeof(WU_RESULT);
-    if (ss_size != size) return error_return("shmem");
-    if (platform_size != sizeof(PLATFORM)) return error_return("platform");
-    if (app_size != sizeof(APP)) return error_return("app");
-    if (app_version_size != sizeof(APP_VERSION)) return error_return("app_version");
-    if (assignment_size != sizeof(ASSIGNMENT)) return error_return("assignment");
-    if (wu_result_size != sizeof(WU_RESULT)) return error_return("wu_result");
-    if (max_platforms != MAX_PLATFORMS) return error_return("max platform");
-    if (max_apps != MAX_APPS) return error_return("max apps");
-    if (max_app_versions != MAX_APP_VERSIONS) return error_return("max app versions");
-    if (max_assignments != MAX_ASSIGNMENTS) return error_return("max assignments");
+    if (ss_size != size) {
+        return error_return("shmem segment", size, ss_size);
+    }
     return 0;
 }
 
@@ -145,6 +166,7 @@ int SCHED_SHMEM::scan_tables() {
                     log_messages.printf(MSG_CRITICAL,
                         "Size census file for app %s is too short\n", app.name
                     );
+                    fclose(f);
                     return ERR_XML_PARSE;   // whatever
                 }
                 app.size_class_quantiles[i] = atof(buf);
@@ -211,15 +233,14 @@ int SCHED_SHMEM::scan_tables() {
     }
     for (i=0; i<napp_versions; i++) {
         APP_VERSION& av = app_versions[i];
-        if (strstr(av.plan_class, "cuda") || strstr(av.plan_class, "nvidia")) {
-            have_apps_for_proc_type[PROC_TYPE_NVIDIA_GPU] = true;
-        } else if (strstr(av.plan_class, "ati")) {
-            have_apps_for_proc_type[PROC_TYPE_AMD_GPU] = true;
-        } else if (strstr(av.plan_class, "intel_gpu")) {
-            have_apps_for_proc_type[PROC_TYPE_INTEL_GPU] = true;
-        } else {
-            have_apps_for_proc_type[PROC_TYPE_CPU] = true;
-        }
+        int rt = plan_class_to_proc_type(av.plan_class);
+        have_apps_for_proc_type[rt] = true;
+    }
+    for (i=0; i<NPROC_TYPES; i++) {
+        fprintf(stderr, "have apps for %s: %s\n",
+            proc_type_name(i),
+            have_apps_for_proc_type[i]?"yes":"no"
+        );
     }
 
     n = 0;

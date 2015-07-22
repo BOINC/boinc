@@ -1,0 +1,30 @@
+package hu.sztaki.lpds.dc.client;
+
+/**
+ * The <code>Version</code> class contains the version of the DC-API package
+ * the Java interface was built for.
+ *
+ * This class is used by both the Java and the JNI component to test each
+ * other's version number.
+ *
+ * @author Gábor Gombás
+ */
+
+public final class Version {
+
+	/**
+	 * Returns the version of the Java interface package.
+	 *
+	 * @return		the version string.
+	 */
+	public static final String getVersion() {
+		return "@PACKAGE_VERSION@";
+	}
+
+	/**
+	 * Returns the version of the underlying JNI libraries.
+	 *
+	 * @return		the version string.
+	 */
+	public static final native String getNativeVersion();
+}

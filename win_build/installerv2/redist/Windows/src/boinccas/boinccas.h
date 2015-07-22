@@ -48,6 +48,9 @@ public:
     // Called when we are being executed from the InstallUISequence
     virtual UINT OnExecution();
 
+    //
+    UINT SetUpgradeParameters();
+    BOOL IsUpgrading();
 
     // Registry Property Management
     UINT GetRegistryValue( 

@@ -30,18 +30,7 @@ BoincForumPrefs::lookup($user);
 
 page_head(tra("Community preferences"));
 
-// output a script for counting chars left in text field
-//
-echo "<script type=\"text/javascript\">
-    function textCounter(field, countfield, maxlimit) {
-        if (field.value.length > maxlimit) {
-            field.value =field.value.substring(0, maxlimit);
-        } else {
-            countfield.value = maxlimit - field.value.length
-        }
-    }
-    </script>
-";
+text_counter_script();
 
 start_table();
 echo "<form method=\"post\" action=\"edit_forum_preferences_action.php\" enctype=\"multipart/form-data\">";
@@ -60,6 +49,7 @@ row2(
     "
 );
 
+if (!DISABLE_FORUMS) {
 // ------------ Forum identity -----------
 
 $select_0 = $select_1 = $select_2 = "";
@@ -74,8 +64,8 @@ if (strlen($user->prefs->avatar)){
 }
 row1(tra("Message-board identity"));
 row2(tra("Avatar")."
-    <br><span class=\"note\">".tra("An image representing you on the message boards.")."
-    <br>".tra("Format: JPG or PNG. Size: at most 4 KB, 100x100 pixels")."</span>",
+    <br><p class=\"text-muted\">".tra("An image representing you on the message boards.")."
+    <br>".tra("Format: JPG or PNG. Size: at most 4 KB, 100x100 pixels")."</p>",
     "<input type=\"radio\" id=\"avatar_select_0\" name=\"avatar_select\" value=\"0\" ".$select_0.">
         <label for=\"avatar_select_0\">".tra("Don't use an avatar")."</label><br>
     <input type=\"radio\" id=\"avatar_select_1\" name=\"avatar_select\" value=\"1\" ".$select_1.">
@@ -84,7 +74,7 @@ row2(tra("Avatar")."
         <label for=\"avatar_select_2\">".tra("Use this uploaded avatar:")."</label> <input type=\"file\" name=\"picture\">"
 );
 if (strlen($user->prefs->avatar)){
-    row2(tra("Avatar preview")."<br><span class=\"note\">".tra("This is how your avatar will look")."</span>",
+    row2(tra("Avatar preview")."<br><p class=\"text-muted\">".tra("This is how your avatar will look")."</p>",
     "<img src=\"".$user->prefs->avatar."\" width=\"100\" height=\"100\">");
 }
 
@@ -99,14 +89,12 @@ row2(
     .tra("Check out %1various free services%2
 <br> providing dynamic 'signature images'
 <br> showing your latest credit info, project news, etc.", "<a href=http://boinc.berkeley.edu/links.php#sigs>", "</a>"),
-    "<textarea name=\"signature\" rows=4 cols=50 id=\"signature\" onkeydown=\"textCounter(this.form.signature, this.form.remLen,$maxlen);\"
-    onkeyup=\"textCounter(this.form.signature, this.form.remLen,250);\">".$signature."</textarea>
-    <br><input name=\"remLen\" type=\"text\" id=\"remLen\" value=\"".($maxlen-strlen($signature))."\" size=\"3\" maxlength=\"3\" readonly> ".tra("characters remaining")."
-    <br><input type=\"checkbox\" name=\"signature_by_default\" ".$signature_by_default."> ".tra("Attach signature by default")
+    textarea_with_counter("signature", 250, $signature)
+    ."<br><input type=\"checkbox\" name=\"signature_by_default\" ".$signature_by_default."> ".tra("Attach signature by default")
 );
 if ($user->prefs->signature!=""){
     row2(tra("Signature preview").
-        "<br><span class=note>".tra("This is how your signature will look in the forums")."</span>",
+        "<br><p class=\"text-muted\">".tra("This is how your signature will look in the forums")."</p>",
         output_transform($user->prefs->signature)
     );
 }
@@ -142,6 +130,7 @@ row2(tra("How to sort"),
     <input type=\"checkbox\" name=\"forum_ignore_sticky_posts\" ".$forum_ignore_sticky_posts.">".tra("Don't move sticky posts to top")."<br>
     "
 );
+}   // DISABLE_FORUMS
 
 // ------------ Message filtering  -----------
 
@@ -157,24 +146,24 @@ for ($i=0; $i<sizeof($filtered_userlist); $i++){
             echo "Missing user $id";
             continue;
         }
-        $forum_filtered_userlist .= "<input type =\"submit\" name=\"remove".$filtered_user->id."\" value=\"".tra("Remove")."\"> ".$filtered_user->id." - ".user_links($filtered_user)."<br>";
+        $forum_filtered_userlist .= "<input class=\"btn btn-default\" type=\"submit\" name=\"remove".$filtered_user->id."\" value=\"".tra("Remove")."\"> ".$filtered_user->id." - ".user_links($filtered_user)."<br>";
     }
 }
 
 row2(tra("Filtered users").
-    "<br><span class=note>".tra("Ignore message board posts and private messages from these users.")."</span>",
+    "<br><p class=\"text-muted\">".tra("Ignore message board posts and private messages from these users.")."</p>",
     "$forum_filtered_userlist
         <input type=\"text\" name=\"forum_filter_user\" size=12> ".tra("User ID (For instance: 123456789)")."
-        <br><input type=\"submit\" name=\"add_user_to_filter\" value=\"".tra("Add user to filter")."\">
+        <br><input class=\"btn btn-default\" type=\"submit\" name=\"add_user_to_filter\" value=\"".tra("Add user to filter")."\">
     "
 );
 
 row1(tra("Update"));
-row2(tra("Click here to update preferences"), "<input type=submit value=\"".tra("Update")."\">");
+row2(tra("Click here to update preferences"), "<input class=\"btn btn-primary\" type=submit value=\"".tra("Update")."\">");
 echo "</form>\n";
 row1(tra("Reset"));
 row2(tra("Or click here to reset preferences to the defaults"),
-    "<form method=\"post\" action=\"edit_forum_preferences_action.php\"><input type=\"submit\" value=\"".tra("Reset")."\"><input type=\"hidden\" name=\"action\" value=\"reset_confirm\"></form>"
+    "<form method=\"post\" action=\"edit_forum_preferences_action.php\"><input class=\"btn btn-warning\" type=\"submit\" value=\"".tra("Reset")."\"><input type=\"hidden\" name=\"action\" value=\"reset_confirm\"></form>"
 );
 end_table();
 page_tail();

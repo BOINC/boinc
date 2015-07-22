@@ -25,17 +25,19 @@
 #include "LogBOINC.h"
 
 
-wxLogBOINC::wxLogBOINC() {
-    m_fp = stdout;
+wxLogBOINC::wxLogBOINC() : wxLogStderr(stdout)
+{
 }
 
-void wxLogBOINC::DoLogString(const wxChar *szString, time_t t) {
+void wxLogBOINC::DoLogText(const wxString& msg) {
     diagnostics_cycle_logs();
 #ifdef __WXMSW__
-    wxString strDebug = szString;
+    wxString strDebug = msg;
     strDebug += wxT("\r\n");
-    ::OutputDebugString(strDebug.c_str());
+    diagnostics_trace_to_debugger(strDebug.mb_str());
 #endif
-    wxLogStderr::DoLogString(szString, t);
+#ifdef __WXDEBUG__
+    wxLogStderr::DoLogText(msg);
+#endif
 }
 

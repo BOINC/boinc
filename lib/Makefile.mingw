@@ -30,6 +30,7 @@ HEADERS = $(BOINC_SRC)/version.h \
 	$(BOINC_SRC)/lib/coproc.h \
 	$(BOINC_SRC)/lib/cal_boinc.h \
 	$(BOINC_SRC)/lib/cl_boinc.h \
+	$(BOINC_SRC)/lib/opencl_boinc.h \
 	$(BOINC_SRC)/svn_version.h \
 	$(BOINC_SRC)/win_build/config.h \
 	$(BOINC_SRC)/lib/str_util.h
@@ -59,6 +60,7 @@ LIB_OBJ = app_ipc.o \
 	mem_usage.o \
 	mfile.o \
 	miofile.o \
+	opencl_boinc.o \
 	procinfo_win.o \
 	procinfo.o \
 	proc_control.o \
@@ -202,10 +204,6 @@ wrapper.o: $(BOINC_SRC)/samples/wrapper/wrapper.cpp
 	$(CXX) -c $< -o $@ $(CPPFLAGS) $(CXXFLAGS)
 %.o: $(BOINC_SRC)/samples/wrapper/%.c
 	$(CC) -c $< -o $@ $(CPPFLAGS) $(CFLAGS)
-
-# C-mode file
-md5.o: $(BOINC_SRC)/lib/md5.c
-	$(CXX) -c $(BOINC_SRC)/lib/md5.c -o md5.o $(CPPFLAGS) $(CXXFLAGS)
 
 # for boinc_zip. Don't change the order!
 zip:

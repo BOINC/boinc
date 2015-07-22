@@ -17,33 +17,14 @@
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >    
+    android:layout_height="match_parent" >    
     
     <ListView
         android:id="@+id/projectsList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/addProjectButton" >
-
+        android:layout_height="match_parent" >
     </ListView>	 
-    
-    <Button
-		android:id="@+id/addProjectButton"
-		android:layout_width="200dp"
-		android:layout_height="wrap_content"
-		android:padding="5dp"
-		android:layout_margin="10dp"
-		android:layout_gravity="center_horizontal"
-		android:layout_centerHorizontal="true"
-		android:layout_alignParentBottom="true"
-		android:clickable="true"
-		android:background="@drawable/shape_button_blue"
-		android:textColor="@color/white_smoke"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:onClick="addProject"
-		android:text="@string/projects_add" /> 
 
-</RelativeLayout>
+</LinearLayout>

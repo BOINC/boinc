@@ -30,6 +30,10 @@
 #endif
 #endif
 
+#ifdef HAVE_DLFCN_H
+#include <dlfcn.h>
+#endif
+
 
 // flags for boinc_init_diagnostics()
 //
@@ -46,6 +50,7 @@
 #define BOINC_DIAG_TRACETOSTDOUT            0x00000400L
 #define BOINC_DIAG_HEAPCHECKEVERYALLOC      0x00000800L
 #define BOINC_DIAG_BOINCAPPLICATION         0x00001000L
+#define BOINC_DIAG_PERUSERLOGFILES          0x00002000L
 #define BOINC_DIAG_DEFAULTS \
     BOINC_DIAG_DUMPCALLSTACKENABLED | \
     BOINC_DIAG_HEAPCHECKENABLED | \
@@ -76,6 +81,7 @@ extern int boinc_finish_diag();
 extern int diagnostics_init(
     int flags, const char* stdout_prefix, const char* stderr_prefix
 );
+extern int diagnostics_thread_init();
 extern int diagnostics_finish();
 extern int diagnostics_is_initialized();
 extern int diagnostics_is_flag_set(int flags);
@@ -102,12 +108,13 @@ extern int diagnostics_update_thread_list();
 extern int diagnostics_set_thread_exempt_suspend();
 extern int diagnostics_is_thread_exempt_suspend(long thread_id);
 
-// Message Monitoring
+// Message Monitoring (debugger viewport)
 extern int diagnostics_init_message_monitor();
 extern int diagnostics_finish_message_monitor();
 #ifdef _WIN32
 extern UINT WINAPI diagnostics_message_monitor(LPVOID lpParameter);
 #endif
+extern int diagnostics_trace_to_debugger(const char* msg);
 
 // Unhandled exception monitor
 extern int diagnostics_init_unhandled_exception_monitor();
@@ -117,9 +124,15 @@ extern UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID lpParameter);
 extern LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
 extern void boinc_catch_signal_invalid_parameter(const wchar_t* expression, const wchar_t* function, const wchar_t* file, unsigned int line, uintptr_t pReserved);
 #else
+#ifdef HAVE_SIGACTION
+typedef void (*handler_t)(int, struct siginfo *, void *);
+extern void boinc_catch_signal(int signal, struct siginfo *siginfo, void *sigcontext);
+#else
+typedef void (*handler_t)(int);
 extern void boinc_catch_signal(int signal);
-extern void boinc_set_signal_handler(int sig, void(*handler)(int));
-extern void boinc_set_signal_handler_force(int sig, void(*handler)(int));
+#endif
+extern void boinc_set_signal_handler(int sig, handler_t handler);
+extern void boinc_set_signal_handler_force(int sig, handler_t handler);
 #endif
 
 
@@ -134,6 +147,74 @@ extern void set_signal_exit_code(int);
 }
 #endif
 
+#ifdef ANDROID
+// Yes, these are undocumented android functions located
+// libcorkscrew.so .  They may not always be there, but it's better than
+// nothing.  And we've got source so we could reimplement them if necessary.
+extern const char *argv0;
+
+typedef struct map_info_t map_info_t;
+
+typedef struct {
+    uintptr_t absolute_pc;
+    uintptr_t stack_top;
+    size_t stack_size;
+} backtrace_frame_t;
+
+typedef struct {
+    uintptr_t relative_pc;
+    uintptr_t relative_symbol_addr;
+    char* map_name;
+    char* symbol_name;
+    char* demangled_name;
+} backtrace_symbol_t;
+
+typedef struct {
+    uintptr_t start;
+    uintptr_t end;
+    char* name;
+} symbol_t;
+
+typedef struct {
+    symbol_t* symbols;
+    size_t num_symbols;
+} symbol_table_t;
+
+
+typedef ssize_t (*unwind_backtrace_signal_arch_t)(
+        siginfo_t *, void *, const map_info_t *, backtrace_frame_t *, 
+        size_t , size_t 
+    );
+extern unwind_backtrace_signal_arch_t unwind_backtrace_signal_arch;
+
+typedef map_info_t *(*acquire_my_map_info_list_t)();
+extern acquire_my_map_info_list_t acquire_my_map_info_list;
+
+typedef void (*release_my_map_info_list_t)(map_info_t *);
+extern release_my_map_info_list_t release_my_map_info_list;
+
+typedef void (*get_backtrace_symbols_t)(
+        const backtrace_frame_t *, size_t, backtrace_symbol_t *
+    );
+extern get_backtrace_symbols_t get_backtrace_symbols;
+
+typedef void (*free_backtrace_symbols_t)(backtrace_symbol_t* symbols,
+size_t frames);    
+extern free_backtrace_symbols_t free_backtrace_symbols;
+
+typedef symbol_table_t *(*load_symbol_table_t)(const char *);
+extern load_symbol_table_t load_symbol_table;
+
+typedef void (*free_symbol_table_t)(symbol_table_t *);
+extern free_symbol_table_t free_symbol_table;
+
+typedef symbol_t *(*find_symbol_t)(const symbol_table_t *, uintptr_t );
+extern find_symbol_t find_symbol;
+
+typedef void (* format_backtrace_line_t)(unsigned, const backtrace_frame_t *, const backtrace_symbol_t *, char *, size_t);
+extern format_backtrace_line_t format_backtrace_line;
+
+#endif // ANDROID
 
 #ifdef _WIN32
 
@@ -171,10 +252,10 @@ extern void set_signal_exit_code(int);
 
 #if defined(__MINGW32__) || defined(__CYGWIN32__)
 #define BOINCASSERT(expr)   assert(expr)
-#define BOINCTRACE(...)     boinc_trace
+#define BOINCTRACE          boinc_trace
 #else  // __MINGW32__
 #define BOINCASSERT(expr)   __noop
-#define BOINCTRACE          boinc_trace
+#define BOINCTRACE          __noop
 #endif // __MINGW32__
 
 #endif // _DEBUG
@@ -193,7 +274,11 @@ extern void set_signal_exit_code(int);
 
 #define BOINCASSERT(expr)         
 #ifndef IRIX
-#define BOINCTRACE(...)          
+#if defined(__MINGW32__) || defined(__CYGWIN32__)
+#define BOINCTRACE
+#else
+#define BOINCTRACE(...)
+#endif
 #endif
 
 #endif // _DEBUG

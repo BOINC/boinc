@@ -58,14 +58,14 @@ $cpu_string[ 21 ] = "Intel Core2";
 
 $query = "SELECT COUNT(workunit.id) AS count FROM workunit LEFT JOIN result ON workunit.id=result.workunitid WHERE result.server_state=2 AND workunit.hr_class=";
 
-function get_mysql_count( $hr_class ) {
-    $result = mysql_query("select count(id) as count from workunit where hr_class=" . $hr_class);
-    $count = mysql_fetch_object($result);
-    mysql_free_result($result);
+function get_mysql_count($hr_class) {
+    $result = _mysql_query("select count(id) as count from workunit where hr_class=" . $hr_class);
+    $count = _mysql_fetch_object($result);
+    _mysql_free_result($result);
     return $count->count;
 }
 
-function make_reset_url( $hr_class ) {
+function make_reset_url($hr_class) {
     return ("<a href=ops_reset_hrclass.php?hr_class=".$hr_class.">".$hr_class."</a>");
 }
 
@@ -74,22 +74,30 @@ db_init();
 $timestr = time_str(time(0));
 $title = "hr_class summary list at ".$timestr;
 
-admin_page_head( $title );
+admin_page_head($title);
 
 start_table();
 
-row4( "<b>hr_class</b>", "<b>System</b>", "<b>CPU</b>", "<b># unsent results</b>" );
+table_header(
+    "hr_class", "System", "CPU", "# unsent results"
+);
 
 $unsentresults = get_mysql_count( 0 );
-row4( make_reset_url( 0 ), $system_string[ 128 ], $cpu_string[ 0 ], $unsentresults  );
+table_row(
+    make_reset_url(0), $system_string[ 128 ], $cpu_string[ 0 ], $unsentresults  );
 
-for( $system = 2; $system < 6; ++$system ) {
-    for( $cpu = 1; $cpu < 22; ++$cpu ) {
+for ($system = 2; $system < 6; ++$system ) {
+    for ($cpu = 1; $cpu < 22; ++$cpu ) {
         $hr_class=128*$system+$cpu;
 
         $unsentresults = get_mysql_count( $hr_class );
 
-        row4( make_reset_url( $hr_class ), $system_string[ $system * 128 ], $cpu_string[ $cpu ], $unsentresults  );
+        table_row(
+            make_reset_url($hr_class),
+            $system_string[$system * 128],
+            $cpu_string[$cpu],
+            $unsentresults
+        );
     }
 }
 

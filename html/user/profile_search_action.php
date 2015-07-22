@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,11 +19,13 @@
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 
+if (DISABLE_PROFILES) error_page("Profiles are disabled");
+
 check_get_args(array("search_string", "offset"));
 
 function show_profile_link2($profile, $n) {
-    $user = lookup_user_id($profile->userid);
-    echo "<tr><td>".user_links($user)."</td><td>".date_str($user->create_time)."</td><td>$user->country</td><td>".(int)$user->total_credit."</td><td>".(int)$user->expavg_credit."</td></tr>\n";
+    $user = BoincUser::lookup_id($profile->userid);
+    echo "<tr><td>".user_links($user, BADGE_HEIGHT_SMALL)."</td><td>".date_str($user->create_time)."</td><td>$user->country</td><td>".(int)$user->total_credit."</td><td>".(int)$user->expavg_credit."</td></tr>\n";
 }
 
 $search_string = get_str('search_string');

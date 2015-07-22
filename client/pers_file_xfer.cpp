@@ -260,9 +260,6 @@ bool PERS_FILE_XFER::poll() {
                 // the project must not have a file_upload_handler.
                 // Treat this as a transient error.
                 //
-                msg_printf(fip->project, MSG_INFO,
-                    "Project file upload handler is missing"
-                );
                 transient_failure(fxp->file_xfer_retval);
             } else {
                 permanent_failure(fxp->file_xfer_retval);
@@ -437,6 +434,9 @@ int PERS_FILE_XFER::write(MIOFILE& fout) {
         last_bytes_xferred,
         is_upload?1:0
     );
+
+    // the following is for GUI RPCs
+    //
     if (fxp) {
         fout.printf(
             "    <file_xfer>\n"
@@ -521,7 +521,7 @@ int PERS_FILE_XFER_SET::remove(PERS_FILE_XFER* pfx) {
             iter = pers_file_xfers.erase(iter);
             return 0;
         }
-        iter++;
+        ++iter;
     }
     msg_printf(
         pfx->fip->project, MSG_INTERNAL_ERROR,

@@ -29,6 +29,33 @@ define("UOTD_ADMIN_EMAIL", "admin@$master_url");
 // offensive forum posts.
 define("POST_REPORT_EMAILS", "moderator1@$master_url|moderator2@$master_url");
 
+// If you use PHPMailer, uncomment the following
+// and complete the function definition based on your SMTP server
+// (not all fields may be needed)
+//
+if (0) {
+function make_php_mailer() {
+    $mail = new PHPMailer();
+    $mail->IsSMTP();
+    //$mail->Mailer = 'smtp';
+    $mail->SMTPAuth = true;
+    $mail->SMTPSecure = "tls";
+    $mail->Host = "smtp.gmail.com";
+    $mail->Port = 587;
+    $mail->Username = "john.doe@gmail.com";
+    $mail->Password = "xxx";
+        // Google's application-specific password,
+        // if you are using the 2-Step Verification: 16 characters, no spaces.
+        // OR: Put here the regular Gmail password if you are not using the
+        // 2-Step Verification with your Gmail account.
+        // See https://support.google.com/accounts/answer/185833?hl=en";
+    $mail->SetFrom('admin@boincproject.com', 'John Doe');
+    $mail->AddReplyTo("admin@boincproject.com", "John Doe");
+    $mail->From = "admin@boincproject.com";
+    return $mail;
+}
+}
+
 function project_banner($title, $prefix) {
     // Put your project title and logo here
     // If you include any links, prepend URL with $prefix
@@ -45,7 +72,7 @@ function project_footer($show_return, $show_date, $prefix) {
     echo "<br><br>".tra("Copyright")." &copy; ".gmdate("Y ").COPYRIGHT_HOLDER."</center>\n";
     if ($show_date) {
         $t = time_str(time());
-        echo "<span class=\"note\">".tra("Generated")." $t</span>\n";
+        echo "<p class=\"text-muted\">".tra("Generated")." $t</p>\n";
     }
 }
 
@@ -107,9 +134,77 @@ function project_user_page_private($user){
     // shown in the private account page
 }
 
-function project_user_credit($user){
-    // shown in the the private account page, credit area
+if (0) {
+
+// show project-specific credit on user/team pages
+//
+function show_app_credit_user($user, $app_name, $appids) {
+    $t = 0;
+    $a = 0;
+    $n = 0;
+    foreach ($appids as $appid) {
+        $cu = BoincCreditUser::lookup(
+            "userid=$user->id and appid=$appid and credit_type=0"
+        );
+        if ($cu) {
+            $t += $cu->total;
+            $a += $cu->expavg;
+            $n += $cu->njobs;
+        }
+    }
+    row2("$app_name credit",
+        format_credit_large($t)." total, ".
+        format_credit($a)." average".
+        " ($n tasks)"
+    );
 }
+function show_app_credit_team($team, $app_name, $appids) {
+    $t = 0;
+    $a = 0;
+    $n = 0;
+    foreach ($appids as $appid) {
+        $ct = BoincCreditTeam::lookup(
+            "teamid=$team->id and appid=$appid and credit_type=0"
+        );
+        if ($ct) {
+            $t += $ct->total;
+            $a += $ct->expavg;
+            $n += $ct->njobs;
+        }
+    }
+    row2("$app_name credit",
+        format_credit_large($t)." total, ".
+        format_credit($a)." average".
+        " ($n tasks)"
+    );
+}
+
+// a list of "sub-projects", used in the display of per-app credit and badges.
+// A subproject is:
+// - a set of 1 or more apps; an app can belong to at most 1 subproject.
+// - a name, shown on the web site
+// - a short name, used in badge names.  Don't use "total".
+//
+$sub_projects = array(
+    array("name" => "Remote Test", "short_name" => "RT", "appids" => array(16)),
+    array("name" => "Uppercase", "short_name" => "UC", "appids" => array(1, 25)),
+);
+
+function project_user_credit($user){
+    global $sub_projects;
+    foreach ($sub_projects as $sp) {
+        show_app_credit_user($user, $sp["name"], $sp["appids"]);
+    }
+}
+
+function project_team_credit($team) {
+    global $sub_projects;
+    foreach ($sub_projects as $sp) {
+        show_app_credit_team($team, $sp["name"], $sp["appids"]);
+    }
+}
+
+}   // if(0)
 
 function project_forum_post_rules() {
     // additional forum post rules

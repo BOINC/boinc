@@ -4,7 +4,7 @@
 
 require_once("../inc/boinc_db.inc");
 
-$db = BoincDb::get();
+db_init();
 
 $min_claimed_credit = 0;
 $max_claimed_credit = 5000;
@@ -20,9 +20,9 @@ if ($limit) {
     $query .= " limit $limit";
 }
 
-$r = $db->do_query($query);
+$r = _mysql_query($query);
 $f = fopen("credit_test_data", "w");
-while ($x = mysql_fetch_object($r)) {
+while ($x = _mysql_fetch_object($r)) {
     fprintf($f, "$x->id $x->workunitid $x->appid $x->hostid $x->claimed_credit $x->app_version_id $x->elapsed_time $x->flops_estimate $x->cpu_time $x->rsc_fpops_est\n");
 }
 fclose($f);

@@ -27,7 +27,6 @@
 
 
 class CNoticeListCtrl;
-class NoticeListCtrlEvent;
 
 
 class CViewNotices : public CBOINCBaseView {
@@ -44,25 +43,19 @@ public:
     virtual const char**    GetViewIcon();
     virtual int             GetViewRefreshRate();
     virtual int             GetViewCurrentViewPage();
-    void                    ReloadNotices();
 
 protected:
-    wxStaticText*           m_ReloadNoticesText;
-    wxButton*               m_ReloadNoticesButton;
 	CNoticeListCtrl*        m_pHtmlListPane;
     wxStaticText*           m_FetchingNoticesText;
     wxStaticText*           m_NoNoticesText;
-    bool                    m_bMissingItems;
+    bool                    m_bFetchingNoticesTextWasDisplayed;
+    bool                    m_bNoNoticesTextWasDisplayed;
 
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );
 
     virtual void            OnListRender( wxTimerEvent& event );
-    void                    OnLinkClicked( NoticeListCtrlEvent& event );
     void                    OnRetryButton( wxCommandEvent& event );
-
-
-    DECLARE_EVENT_TABLE()
 };
 
 

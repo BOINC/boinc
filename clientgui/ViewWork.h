@@ -58,6 +58,7 @@ public:
 
     ~CViewWork();
 
+    void                    AppendColumn(int columnID);
     virtual wxString&       GetViewName();
     virtual wxString&       GetViewDisplayName();
     virtual const char**    GetViewIcon();
@@ -75,6 +76,7 @@ public:
     void                    OnActiveTasksOnly( wxCommandEvent& event );
 
     void                    OnProjectWebsiteClicked( wxEvent& event );
+    void                    OnColResize( wxListEvent& event);
     
     std::vector<CWork*>     m_WorkCache;
 

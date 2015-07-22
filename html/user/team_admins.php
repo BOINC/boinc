@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,6 +20,8 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
+if (DISABLE_TEAMS) error_page("Teams are disabled");
+
 check_get_args(array("tnow", "ttok", "userid", "email_addr", "teamid", "action"));
 
 function show_admin($user, $admin) {
@@ -27,7 +29,7 @@ function show_admin($user, $admin) {
     $tokens = url_tokens($user->authenticator);
     $date = date_str($admin->create_time);
     echo "<tr>
-        <td>".user_links($admin_user)."</td>
+        <td>".user_links($admin_user, BADGE_HEIGHT_MEDIUM)."</td>
         <td>$date</td>
         <td>
     ";
@@ -76,7 +78,7 @@ function show_admins($user, $teamid) {
     start_table();
     row1(tra("Add Team Admin"));
     row2(tra("Email address of team member:"), "<input name=email_addr>");
-    row2("", "<input type=submit action value=\"".tra("Add")."\">");
+    row2("", "<input class=\"btn btn-default\" type=submit action value=\"".tra("Add")."\">");
     end_table();
     echo "</form>";
 

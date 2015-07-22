@@ -1,6 +1,9 @@
 ## -*- mode: makefile; tab-width: 4 -*-
 ## $Id$
 
+## To build for Macintosh (Darwin), please read the instructions at 
+## mac_build/HowToBuildBOINC_XCode.rtf
+
 include $(top_srcdir)/Makefile.incl
 
 if ENABLE_CLIENT_RELEASE
@@ -15,22 +18,6 @@ else
   AM_LDFLAGS += -static
 endif
 endif ## ENABLE_CLIENT_RELEASE
-
-if OS_DARWIN
-   LIBS += -framework IOKit -framework Foundation -framework ScreenSaver -framework Cocoa -framework Security
-   mac_sources = mac/SystemMenu.m \
-                 mac/mac_saver_module.cpp \
-                 mac/Mac_Saver_ModuleView.m \
-                 mac/MacBitmapComboBox.cpp \
-                 mac/MacSysMenu.cpp \
-                 mac/Mac_GUI.cpp\
-                 mac/browser_safari.mm
-
-   mac_headers = mac/*.h
-else
-   mac_headers =
-   mac_sources = 
-endif
 
 bin_PROGRAMS = boincmgr
 
@@ -47,26 +34,26 @@ boincmgr_SOURCES = \
     BOINCBaseFrame.cpp \
     BOINCBaseView.cpp \
     BOINCBaseWizard.cpp \
-    BOINCBitmapComboBox.cpp \
     BOINCClientManager.cpp \
     BOINCDialupManager.cpp \
     BOINCGUIApp.cpp \
-    BOINCHtmlLBox.cpp \
-    BOINCInternetFSHandler.cpp \
     BOINCListCtrl.cpp \
     BOINCTaskBar.cpp \
     BOINCTaskCtrl.cpp \
     browser.cpp \
+    common/wxPieCtrl.cpp \
     CompletionErrorPage.cpp \
     CompletionPage.cpp \
-    common/wxPieCtrl.cpp \
     DlgAbout.cpp 		\
     DlgAdvPreferences.cpp \
     DlgAdvPreferencesBase.cpp \
+    DlgDiagnosticLogFlags.cpp \
     DlgEventLog.cpp \
     DlgEventLogListCtrl.cpp \
+    DlgExclusiveApps.cpp \
     DlgExitMessage.cpp \
     DlgGenericMessage.cpp \
+    DlgHiddenColumns.cpp \
     DlgItemProperties.cpp \
     DlgOptions.cpp \
     DlgSelectComputer.cpp \
@@ -78,9 +65,9 @@ boincmgr_SOURCES = \
     NotFoundPage.cpp \
     NoticeListCtrl.cpp \
     ProjectInfoPage.cpp \
-    ProjectListCtrl.cpp \
     ProjectProcessingPage.cpp \
     ProjectPropertiesPage.cpp \
+	ProjectWelcomePage.cpp \
     ProxyInfoPage.cpp \
     ProxyPage.cpp \
     sg_BoincSimpleFrame.cpp \
@@ -106,20 +93,18 @@ boincmgr_SOURCES = \
     ViewStatistics.cpp \
     ViewTransfers.cpp \
     ViewWork.cpp \
-    WelcomePage.cpp \
     WizardAttach.cpp \
-    wizardex.cpp \
-    $(mac_sources)
+    wizardex.cpp
 
 EXTRA_DIST = *.h \
     res \
     msw \
     ../lib/error_numbers.h \
-    locale $(mac_headers)
+    locale
 
-boincmgr_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(SQLITE3_CPPFLAGS) $(LIBNOTIFY_CFLAGS) $(CLIENTGUIFLAGS) `pkg-config --cflags gtk+-2.0`
-boincmgr_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(SQLITE3_CPPFLAGS) $(LIBNOTIFY_CFLAGS) $(CLIENTGUIFLAGS) `pkg-config --cflags gtk+-2.0`
-boincmgr_LDFLAGS = $(LIBBOINC) $(SQLITE3_LIBS) $(LIBNOTIFY_LIBS) $(CLIENTGUILIBS) $(BOINC_EXTRA_LIBS) $(CLIENTLIBS) `pkg-config --libs gtk+-2.0` -lnotify
+boincmgr_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(SQLITE3_CPPFLAGS) $(LIBNOTIFY_CFLAGS) $(CLIENTGUIFLAGS) $(GTK_CLFAGS)
+boincmgr_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(SQLITE3_CPPFLAGS) $(LIBNOTIFY_CFLAGS) $(CLIENTGUIFLAGS) $(GTK_CFLAGS)
+boincmgr_LDADD = $(LIBBOINC) $(SQLITE3_LIBS) $(LIBNOTIFY_LIBS) $(CLIENTGUILIBS) $(BOINC_EXTRA_LIBS) $(CLIENTLIBS) $(GTK_LIBS)
 
 win_config.h: $(top_srcdir)/config.h
 	grep '#define.*BOINC.*VERSION' $^ > $@

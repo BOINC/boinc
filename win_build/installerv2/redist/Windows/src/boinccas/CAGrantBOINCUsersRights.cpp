@@ -81,7 +81,7 @@ UINT CAGrantBOINCUsersRights::OnExecution()
     if(
         GetAccountSid(
             NULL,                                    // default lookup logic
-            tstring(L"boinc_users").c_str(),         // account to obtain SID
+            L"boinc_users",                          // account to obtain SID
             &pSid                                    // buffer to allocate to contain resultant SID
             )
     ) 

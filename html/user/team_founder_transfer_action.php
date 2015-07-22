@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -29,6 +29,8 @@ require_once("../inc/team.inc");
 require_once("../inc/email.inc");
 require_once("../inc/pm.inc");
 
+if (DISABLE_TEAMS) error_page("Teams are disabled");
+
 check_get_args(array());
 
 $user = get_logged_in_user();
@@ -36,8 +38,7 @@ if (!$user->teamid) {
     error_page(tra("You must be a member of a team to access this page."));
 }
 
-function send_founder_transfer_email($team, $user) {
-    $founder = lookup_user_id($team->userid);
+function send_founder_transfer_email($team, $user, $founder) {
 
     // send founder a private message for good measure
 
@@ -85,10 +86,19 @@ $action = post_str("action");
 switch ($action) {
 case "initiate_transfer":
     $team = BoincTeam::lookup_id($user->teamid);
+    $founder = BoincUser::lookup_id($team->userid);
+    if (!$founder) {
+        // no founder - request is granted immediately
+        //
+        $team->update("userid=$user->id");
+        page_head("Team founder request granted");
+        echo "You are now the founder of $team->name<p>";
+        break;
+    }
     $now = time();
     if (new_transfer_request_ok($team, $now)) {
         page_head(tra("Requesting foundership of %1", $team->name));
-        $success = send_founder_transfer_email($team, $user);
+        $success = send_founder_transfer_email($team, $user, $founder);
 
         // Go ahead with the transfer even if the email send fails.
         // Otherwise it would be impossible to rescue a team
@@ -115,7 +125,7 @@ case "finalize_transfer":
     break;
 case "decline":
     $teamid = post_int("teamid");
-    $team = lookup_team($teamid);
+    $team = BoincTeam::lookup_id($teamid);
     require_founder_login($user, $team);
     page_head(tra("Decline founder change request"));
     

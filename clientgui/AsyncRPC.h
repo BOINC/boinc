@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2013 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -33,6 +33,10 @@
 #include <pthread.h>
 
 
+#if 1
+#define BOINC_Mutex wxMutex
+#define BOINC_Condition wxCondition
+#else
 class BOINC_Mutex
 {
 public:
@@ -76,7 +80,7 @@ private:
 };
 
 #endif
-
+#endif
 
 class CMainDocument;    // Forward declaration
 
@@ -134,6 +138,7 @@ enum RPC_SELECTOR {
     RPC_GET_NOTICES,
     RPC_GET_CC_CONFIG,
     RPC_SET_CC_CONFIG,
+	RPC_SET_LANGUAGE,
     NUM_RPC_SELECTORS
 };
 
@@ -231,8 +236,8 @@ public:
             { return RPC_Wait(RPC_GET_FILE_TRANSFERS, (void*)&arg1); }
     int get_simple_gui_info(SIMPLE_GUI_INFO& arg1)
             { return RPC_Wait(RPC_GET_SIMPLE_GUI_INFO1, (void*)&arg1); }
-    int get_simple_gui_info(PROJECTS& arg1, CC_STATE& ccbuf, RESULTS& rbuf)
-            { return RPC_Wait(RPC_GET_SIMPLE_GUI_INFO2, (void*)&arg1, (void*)&ccbuf, (void*)&rbuf); }
+    int get_simple_gui_info(PROJECTS& arg1, CC_STATE& ccbuf, RESULTS& rbuf, bool& activeTasksOnly)
+            { return RPC_Wait(RPC_GET_SIMPLE_GUI_INFO2, (void*)&arg1, (void*)&ccbuf, (void*)&rbuf, (void*)&activeTasksOnly); }
     int get_project_status(PROJECTS& arg1, CC_STATE& arg2)
             { return RPC_Wait(RPC_GET_PROJECT_STATUS1, (void*)&arg1, (void*)&arg2); }
     int get_project_status(PROJECTS& arg1)
@@ -334,9 +339,9 @@ public:
             { return RPC_Wait(RPC_GET_GLOBAL_PREFS_OVERRIDE_STRUCT, (void*)&arg1, (void*)&arg2); }
     int set_global_prefs_override_struct(GLOBAL_PREFS& arg1, GLOBAL_PREFS_MASK& arg2)
             { return RPC_Wait(RPC_SET_GLOBAL_PREFS_OVERRIDE_STRUCT, (void*)&arg1, (void*)&arg2); }
-    int get_cc_config(CONFIG& arg1, LOG_FLAGS& arg2)
+    int get_cc_config(CC_CONFIG& arg1, LOG_FLAGS& arg2)
             { return RPC_Wait(RPC_GET_CC_CONFIG, (void*)&arg1, (void*)&arg2); }
-    int set_cc_config(CONFIG& arg1, LOG_FLAGS& arg2)
+    int set_cc_config(CC_CONFIG& arg1, LOG_FLAGS& arg2)
             { return RPC_Wait(RPC_SET_CC_CONFIG, (void*)&arg1, (void*)&arg2); }
 private:
     CMainDocument*              m_pDoc;

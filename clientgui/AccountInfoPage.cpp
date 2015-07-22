@@ -54,9 +54,9 @@ IMPLEMENT_DYNAMIC_CLASS( CAccountInfoPage, wxWizardPageEx )
 BEGIN_EVENT_TABLE( CAccountInfoPage, wxWizardPageEx )
  
 ////@begin CAccountInfoPage event table entries
-    EVT_WIZARDEX_PAGE_CHANGED( -1, CAccountInfoPage::OnPageChanged )
-    EVT_WIZARDEX_PAGE_CHANGING( -1, CAccountInfoPage::OnPageChanging )
-    EVT_WIZARDEX_CANCEL( -1, CAccountInfoPage::OnCancel )
+    EVT_WIZARDEX_PAGE_CHANGED( wxID_ANY, CAccountInfoPage::OnPageChanged )
+    EVT_WIZARDEX_PAGE_CHANGING( wxID_ANY, CAccountInfoPage::OnPageChanging )
+    EVT_WIZARDEX_CANCEL( wxID_ANY, CAccountInfoPage::OnCancel )
     EVT_RADIOBUTTON( ID_ACCOUNTCREATECTRL, CAccountInfoPage::OnAccountCreateCtrlSelected )
     EVT_RADIOBUTTON( ID_ACCOUNTUSEEXISTINGCTRL, CAccountInfoPage::OnAccountUseExistingCtrlSelected )
 ////@end CAccountInfoPage event table entries
@@ -162,7 +162,7 @@ void CAccountInfoPage::CreateControls()
     m_pAccountInformationStaticCtrl->Create( itemWizardPage56, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer57->Add(m_pAccountInformationStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer64 = new wxFlexGridSizer(4, 2, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer64 = new wxFlexGridSizer(2, 0, 0);
     itemFlexGridSizer64->AddGrowableCol(1);
     itemBoxSizer57->Add(itemFlexGridSizer64, 0, wxEXPAND|wxALL, 0);
 
@@ -213,14 +213,6 @@ void CAccountInfoPage::CreateControls()
     m_pAccountForgotPasswordCtrl->Create( itemWizardPage56, ID_ACCOUNTFORGOTPASSWORDCTRL, wxT(" "), wxT(" "), wxDefaultPosition, wxDefaultSize, wxNO_BORDER | wxHL_ALIGN_LEFT | wxHL_CONTEXTMENU );
     itemBoxSizer57->Add(m_pAccountForgotPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    // Set validators
-    // m_pAccountEmailAddressCtrl/m_pAccountUsernameCtrl is setup when the OnPageChange event is fired since
-    //   it can be a username or an email address.
-    m_pAccountEmailAddressCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, &m_strAccountEmailAddress) );
-    m_pAccountUsernameCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, &m_strAccountUsername) );
-    m_pAccountPasswordCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, &m_strAccountPassword) );
-    m_pAccountConfirmPasswordCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, &m_strAccountConfirmPassword) );
-    
 #ifdef __WXMAC__
     //Accessibility
     HIViewRef buttonView = (HIViewRef)m_pAccountCreateCtrl->GetHandle();
@@ -306,24 +298,6 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
  
     wxASSERT(pSkinAdvanced);
     wxASSERT(pSkinWizardATAM);
-    wxASSERT(m_pTitleStaticCtrl);
-    wxASSERT(m_pCookieDetectionFailedStaticCtrl);
-    wxASSERT(m_pCookieDetectionFailedCtrl);
-    wxASSERT(m_pAccountQuestionStaticCtrl);
-    wxASSERT(m_pAccountInformationStaticCtrl);
-    wxASSERT(m_pAccountCreateCtrl);
-    wxASSERT(m_pAccountUseExistingCtrl);
-    wxASSERT(m_pAccountEmailAddressStaticCtrl);
-    wxASSERT(m_pAccountEmailAddressCtrl);
-    wxASSERT(m_pAccountUsernameStaticCtrl);
-    wxASSERT(m_pAccountUsernameCtrl);
-    wxASSERT(m_pAccountPasswordStaticCtrl);
-    wxASSERT(m_pAccountPasswordCtrl);
-    wxASSERT(m_pAccountConfirmPasswordStaticCtrl);
-    wxASSERT(m_pAccountConfirmPasswordCtrl);
-    wxASSERT(m_pAccountPasswordRequirmentsStaticCtrl);
-    wxASSERT(m_pAccountManagerLinkLabelStaticCtrl);
-    wxASSERT(m_pAccountForgotPasswordCtrl);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
     wxASSERT(wxDynamicCast(pSkinWizardATAM, CSkinWizardATAM));
 
@@ -345,7 +319,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     }
 
     if (IS_ACCOUNTMANAGERWIZARD()) {
-        if (!(pWA->m_bCookieRequired && !pWA->m_bCredentialsDetected)) {
+        if (!(pWA->IsCookieRequired() && !pWA->IsCredentialsDetected())) {
             m_pCookieDetectionFailedStaticCtrl->Hide();
             m_pCookieDetectionFailedCtrl->Hide();
         } else {
@@ -362,7 +336,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         m_pAccountConfirmPasswordCtrl->Hide();
         m_pAccountPasswordRequirmentsStaticCtrl->Hide();
 
-        if (pWA->m_bCookieRequired && !pWA->m_bCredentialsDetected) {
+        if (pWA->IsCookieRequired() && !pWA->IsCredentialsDetected()) {
             m_pAccountManagerLinkLabelStaticCtrl->Hide();
             m_pAccountForgotPasswordCtrl->Hide();
         }
@@ -408,7 +382,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
             _("&Yes, existing user")
         );
     } else {
-        if (pWA->m_bCookieRequired && !pWA->m_bCredentialsDetected) {
+        if (pWA->IsCookieRequired() && !pWA->IsCredentialsDetected()) {
             m_pCookieDetectionFailedStaticCtrl->SetLabel(
                 _("We were not able to set up your account information\nautomatically.\n\nPlease click on the 'Find login information' link\nbelow to find out what to put in the email address and\npassword fields.")
             );
@@ -416,7 +390,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                 _("Find login information")
             );
             m_pCookieDetectionFailedCtrl->SetURL(
-                pWA->m_strCookieFailureURL
+                pWA->GetCookieFailureURL()
             );
         }
 
@@ -492,9 +466,11 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
             }
         }
 
-        m_pAccountEmailAddressCtrl->SetValidator(
-            CValidateEmailAddress(&m_strAccountEmailAddress)
-        );
+        if (!pc.ldap_auth) {
+            m_pAccountEmailAddressCtrl->SetValidator(
+                CValidateEmailAddress(&m_strAccountEmailAddress)
+            );
+        }
         m_pAccountUsernameCtrl->SetValidator(
             wxTextValidator(wxFILTER_NONE, &m_strAccountUsername)
         );
@@ -504,16 +480,22 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         m_pAccountUsernameStaticCtrl->Hide();
         m_pAccountUsernameCtrl->Hide();
 
-        m_pAccountEmailAddressStaticCtrl->SetLabel(
-            _("&Email address:")
-        );
+        if (pc.ldap_auth) {
+            m_pAccountEmailAddressStaticCtrl->SetLabel(
+                _("&Email address or LDAP ID:")
+            );
+        } else {
+            m_pAccountEmailAddressStaticCtrl->SetLabel(
+                _("&Email address:")
+            );
+        }
         m_pAccountEmailAddressCtrl->SetValue(m_strAccountEmailAddress);
     }
 
     if (pc.min_passwd_length) {
-        wxString str;
+        wxString str2;
         str.Printf(_("minimum length %d"), pc.min_passwd_length);
-        m_pAccountPasswordRequirmentsStaticCtrl->SetLabel( str );
+        m_pAccountPasswordRequirmentsStaticCtrl->SetLabel( str2 );
     }
 
 
@@ -522,17 +504,17 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
             _("Forgot your password?")
         );
         m_pAccountForgotPasswordCtrl->SetURL(
-            wxString(pWA->m_ProjectInfoPage->GetProjectURL() + _T("get_passwd.php"))
+            wxString(pWA->GetProjectURL() + _T("get_passwd.php"))
         );
     } else {
         m_pAccountManagerLinkLabelStaticCtrl->SetLabel(
             _("If you have not yet registered with this account manager,\nplease do so before proceeding.  Click on the link below\nto register or to retrieve a forgotten password." )
         );
         m_pAccountForgotPasswordCtrl->SetLabel(
-            _("Account manager website")
+            _("Account manager web site")
         );
         m_pAccountForgotPasswordCtrl->SetURL(
-            wxString(pWA->m_AccountManagerInfoPage->GetProjectURL())
+            wxString(pWA->GetProjectURL())
         );
     }
 
@@ -582,27 +564,9 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
         if (!m_pAccountUseExistingCtrl->GetValue()) {
             if (!(m_pAccountPasswordCtrl->GetValue().Length() > 0)) {
                 if (pc.uses_username) {
-                    if (IS_ATTACHTOPROJECTWIZARD()) {
-                        strMessage.Printf(
-                            _("The minimum username length for this project is 1. Please enter a different username.")
-                        );
-                    }
-                    if (IS_ACCOUNTMANAGERWIZARD()) {
-                        strMessage.Printf(
-                            _("The minimum username length for this account manager is 1. Please enter a different username.")
-                        );
-                    }
+                    strMessage.Printf(_("Please enter a user name."));
                 } else {
-                    if (IS_ATTACHTOPROJECTWIZARD()) {
-                        strMessage.Printf(
-                            _("The minimum email address length for this project is 1. Please enter a different email address.")
-                        );
-                    }
-                    if (IS_ACCOUNTMANAGERWIZARD()) {
-                        strMessage.Printf(
-                            _("The minimum email address length for this account manager is 1. Please enter a different email address.")
-                        );
-                    }
+                    strMessage.Printf(_("Please enter an email address."));
                 }
                 bDisplayError = true;
             }
@@ -611,19 +575,10 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
         // Verify minimum password length
         if (!m_pAccountUseExistingCtrl->GetValue()) {
             if (m_pAccountPasswordCtrl->GetValue().Length() < (size_t)pc.min_passwd_length) {
-                if (IS_ATTACHTOPROJECTWIZARD()) {
-                    strMessage.Printf(
-                        _("The minimum password length for this project is %d. Please enter a different password."),
-                        pc.min_passwd_length
-                    );
-                }
-                if (IS_ACCOUNTMANAGERWIZARD()) {
-                    strMessage.Printf(
-                        _("The minimum password length for this account manager is %d. Please enter a different password."),
-                        pc.min_passwd_length
-                    );
-                }
-
+                strMessage.Printf(
+                    _("Please enter a password of at least %d characters."),
+                    pc.min_passwd_length
+                );
                 bDisplayError = true;
             }
         }
@@ -637,6 +592,7 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
         }
  
         if (bDisplayError) {
+
             wxGetApp().SafeMessageBox(
                 strMessage,
                 strTitle,
@@ -644,6 +600,14 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
                 this
             );
             event.Veto();
+
+        } else {
+
+            // Update authoritative data in CWizardAttach
+            pWA->SetAccountEmailAddress(m_strAccountEmailAddress);
+            pWA->SetAccountUsername(m_strAccountUsername);
+            pWA->SetAccountPassword(m_pAccountPasswordCtrl->GetValue());
+
         }
     }
 }

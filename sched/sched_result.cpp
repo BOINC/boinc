@@ -57,6 +57,11 @@ static inline void got_good_result(SCHED_RESULT_ITEM& sri) {
     }
 }
 
+// This is called then a job crashed or exceeded limits on a host.
+// Enforce
+// - mechanism that reduces jobs per day to that host
+// - mechanism that categorizes hosts as "reliable"
+//
 static inline void got_bad_result(SCHED_RESULT_ITEM& sri) {
     int gavid = generalized_app_version_id(sri.app_version_id, sri.appid);
     DB_HOST_APP_VERSION* havp = gavid_to_havp(gavid);
@@ -125,7 +130,8 @@ int handle_results() {
     // which srip appears as an lval. These are:
     // hostid, teamid, received_time, client_state, cpu_time, exit_status,
     // app_version_num, claimed_credit, server_state, stderr_out,
-    // xml_doc_out, outcome, validate_state, elapsed_time
+    // xml_doc_out, outcome, validate_state, elapsed_time,
+    // and peak_*
     //
     retval = result_handler.enumerate();
     if (retval) {
@@ -295,22 +301,32 @@ int handle_results() {
         srip->client_state = rp->client_state;
         srip->cpu_time = rp->cpu_time;
         srip->elapsed_time = rp->elapsed_time;
+        srip->peak_working_set_size = rp->peak_working_set_size;
+        srip->peak_swap_size = rp->peak_swap_size;
+        srip->peak_disk_usage = rp->peak_disk_usage;
 
-        // Some buggy clients sporadically report very low elapsed time
-        // but actual CPU time.
-        // Try to fix the elapsed time, since it's critical to credit
+        // elapsed time is used to compute credit.
+        // do various sanity checks on it.
+
+        // 1) Some buggy clients report very low elapsed time
+        // but actual CPU time;
+        // if it's a single-thread app, set ET = CPU
         //
         if (srip->elapsed_time < srip->cpu_time) {
             int avid = srip->app_version_id;
             if (avid > 0) {
                 APP_VERSION* avp = ssp->lookup_app_version(avid);
                 if (avp && !avp->is_multithread()) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[HOST#%d] [RESULT#%u] elapsed time %f < CPU %f for seq app; setting to CPU\n",
+                        srip->hostid, srip->id, srip->elapsed_time, srip->cpu_time
+                    );
                     srip->elapsed_time = srip->cpu_time;
                 }
             }
         }
 
-        // check for impossible elapsed time
+        // 2) If it's negative, set to zero
         //
         if (srip->elapsed_time < 0) {
             log_messages.printf(MSG_NORMAL,
@@ -320,6 +336,19 @@ int handle_results() {
             );
             srip->elapsed_time = 0;
         }
+
+        // 3) If it's zero, set to CPU time.
+        //
+        if (srip->elapsed_time == 0 && srip->cpu_time > 0) {
+            srip->elapsed_time = srip->cpu_time;
+            log_messages.printf(MSG_NORMAL,
+                "[HOST#%d] [RESULT#%u] elapsed time is zero; setting to CPU time %f\n",
+                srip->hostid, srip->id, srip->cpu_time
+            );
+        }
+
+        // 4) If it's greater than turnaround time, set to turnaround time
+        //
         double turnaround_time = srip->received_time - srip->sent_time;
         if (turnaround_time < 0) {
             log_messages.printf(MSG_CRITICAL,
@@ -335,6 +364,17 @@ int handle_results() {
                 );
                 srip->elapsed_time = turnaround_time;
             }
+        }
+
+        // Now do sanity check on CPU time
+        //
+        if (srip->cpu_time > srip->elapsed_time*g_reply->host.p_ncpus) {
+            log_messages.printf(MSG_NORMAL,
+                "[HOST#%d] [RESULT#%u] [WU#%u] impossible CPU time: %f > %f * %d\n",
+                srip->hostid, srip->id, srip->workunitid,
+                srip->cpu_time, srip->elapsed_time, g_reply->host.p_ncpus
+            );
+            srip->cpu_time = srip->elapsed_time*g_reply->host.p_ncpus;
         }
 
         srip->exit_status = rp->exit_status;
@@ -373,9 +413,12 @@ int handle_results() {
             srip->outcome = RESULT_OUTCOME_CLIENT_ERROR;
             srip->validate_state = VALIDATE_STATE_INVALID;
 
-            // adjust quota and reset error rate
+            // adjust quota and reset consecutive valid
+            // (but not if aborted by project)
             //
-            got_bad_result(*srip);
+            if (srip->exit_status != EXIT_ABORTED_BY_PROJECT) {
+                got_bad_result(*srip);
+            }
         }
     } // loop over all incoming results
 
@@ -391,7 +434,8 @@ int handle_results() {
                 "[HOST#%d] [RESULT#%u] [WU#%u] can't update result: %s\n",
                 g_reply->host.id, sri.id, sri.workunitid, boinc_db.error_string()
             );
-        } else {
+        }
+        if (retval == 0 || retval == ERR_DB_NOT_FOUND) {
             g_reply->result_acks.push_back(std::string(sri.name));
         }
     }

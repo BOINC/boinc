@@ -18,14 +18,16 @@
 #ifndef _PROCESS_INPUT_TEMPLATE_
 #define _PROCESS_INPUT_TEMPLATE_
 
+#include <vector>
+
 #include "boinc_db.h"
 #include "sched_config.h"
+#include "backend_lib.h"
 
 extern int process_input_template(
     WORKUNIT& wu,
     char* tmplate,
-    const char** infiles,
-    int ninfiles,
+    std::vector<INFILE_DESC> &infiles,
     SCHED_CONFIG& config_loc,
     const char* command_line,
     const char* additional_xml

@@ -1,0 +1,336 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{49723CA5-DA05-43C0-93AB-6FD30D046919}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfAtl>Static</UseOfAtl>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfAtl>Static</UseOfAtl>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfAtl>Static</UseOfAtl>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfAtl>Static</UseOfAtl>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;BOINCCAS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>atlsd.lib;msi.lib;libcmtd.lib;libcpmtd.lib;delayimp.lib;netapi32.lib;advapi32.lib;kernel32.lib;user32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)boinccas.dll</OutputFile>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <ModuleDefinitionFile>boinccas.def</ModuleDefinitionFile>
+      <DelayLoadDLLs>netapi32.dll;advapi32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)boinccas.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <ImportLibrary>$(OutDir)boinccas.lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;BOINCCAS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>atlsd.lib;msi.lib;libcmtd.lib;libcpmtd.lib;delayimp.lib;netapi32.lib;advapi32.lib;kernel32.lib;user32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)boinccas.dll</OutputFile>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <ModuleDefinitionFile>boinccas.def</ModuleDefinitionFile>
+      <DelayLoadDLLs>netapi32.dll;advapi32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)boinccas.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <ImportLibrary>$(OutDir)boinccas.lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <OmitFramePointers>true</OmitFramePointers>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;BOINCCAS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>atls.lib;msi.lib;libcmt.lib;libcpmt.lib;delayimp.lib;netapi32.lib;advapi32.lib;kernel32.lib;user32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)boinccas.dll</OutputFile>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <ModuleDefinitionFile>boinccas.def</ModuleDefinitionFile>
+      <DelayLoadDLLs>netapi32.dll;advapi32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)boinccas.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <ImportLibrary>$(OutDir)boinccas.lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <OmitFramePointers>true</OmitFramePointers>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;BOINCCAS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>atls.lib;msi.lib;libcmt.lib;libcpmt.lib;delayimp.lib;netapi32.lib;advapi32.lib;kernel32.lib;user32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)boinccas.dll</OutputFile>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <ModuleDefinitionFile>boinccas.def</ModuleDefinitionFile>
+      <DelayLoadDLLs>netapi32.dll;advapi32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)boinccas.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <ImportLibrary>$(OutDir)boinccas.lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="aclmgmt.cpp" />
+    <ClCompile Include="boinccas.cpp" />
+    <ClCompile Include="CAAnnounceUpgrade.cpp" />
+    <ClCompile Include="CACCConfigMd5sum.cpp" />
+    <ClCompile Include="CACleanupOldBinaries.cpp" />
+    <ClCompile Include="CACreateAcctMgrLoginFile.cpp" />
+    <ClCompile Include="CACreateBOINCAccounts.cpp" />
+    <ClCompile Include="CACreateBOINCGroups.cpp" />
+    <ClCompile Include="CACreateClientAuthFile.cpp" />
+    <ClCompile Include="CACreateProjectInitFile.cpp" />
+    <ClCompile Include="CADeleteBOINCAccounts.cpp" />
+    <ClCompile Include="CADeleteBOINCGroups.cpp" />
+    <ClCompile Include="CAGetAdministratorsGroupName.cpp" />
+    <ClCompile Include="CAGetUsersGroupName.cpp" />
+    <ClCompile Include="CAGrantBOINCAdminsRights.cpp" />
+    <ClCompile Include="CAGrantBOINCAdminsVirtualBoxRights.cpp" />
+    <ClCompile Include="CAGrantBOINCMasterRights.cpp" />
+    <ClCompile Include="CAGrantBOINCProjectRights.cpp" />
+    <ClCompile Include="CAGrantBOINCProjectsRights.cpp" />
+    <ClCompile Include="CAGrantBOINCProjectsVirtualBoxRights.cpp" />
+    <ClCompile Include="CAGrantBOINCUsersRights.cpp" />
+    <ClCompile Include="CALaunchBOINCManager.cpp" />
+    <ClCompile Include="CALaunchBOINCTray.cpp" />
+    <ClCompile Include="CARestoreExecutionState.cpp" />
+    <ClCompile Include="CARestorePermissionBOINCData.cpp" />
+    <ClCompile Include="CARestoreSetupState.cpp" />
+    <ClCompile Include="CARevokeBOINCAdminsRights.cpp" />
+    <ClCompile Include="CARevokeBOINCMasterRights.cpp" />
+    <ClCompile Include="CARevokeBOINCProjectRights.cpp" />
+    <ClCompile Include="CARevokeBOINCProjectsRights.cpp" />
+    <ClCompile Include="CARevokeBOINCUsersRights.cpp" />
+    <ClCompile Include="CASaveExecutionState.cpp" />
+    <ClCompile Include="CASaveSetupState.cpp" />
+    <ClCompile Include="CASetPermissionBOINC.cpp" />
+    <ClCompile Include="CASetPermissionBOINCData.cpp" />
+    <ClCompile Include="CASetPermissionBOINCDataProjects.cpp" />
+    <ClCompile Include="CASetPermissionBOINCDataSlots.cpp" />
+    <ClCompile Include="CAShutdownBOINC.cpp" />
+    <ClCompile Include="CAShutdownBOINCManager.cpp" />
+    <ClCompile Include="CAShutdownBOINCScreensaver.cpp" />
+    <ClCompile Include="CAShutdownUD.cpp" />
+    <ClCompile Include="CAValidateInstall.cpp" />
+    <ClCompile Include="CAValidateRebootRequest.cpp" />
+    <ClCompile Include="CAValidateSetupType.cpp" />
+    <ClCompile Include="CAVerifyInstallDirectories.cpp" />
+    <ClCompile Include="dirops.cpp" />
+    <ClCompile Include="launcher.cpp" />
+    <ClCompile Include="listacl.cpp" />
+    <ClCompile Include="lkuprid.cpp" />
+    <ClCompile Include="lsaprivs.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="password.cpp" />
+    <ClCompile Include="sdmgmt.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="terminate.cpp" />
+    <ClCompile Include="utils.cpp" />
+    <ClCompile Include="wrappers.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="boinccas.h" />
+    <ClInclude Include="CAAnnounceUpgrade.h" />
+    <ClInclude Include="CACCConfigMd5sum.h" />
+    <ClInclude Include="CACleanupOldBinaries.h" />
+    <ClInclude Include="CACreateAcctMgrLoginFile.h" />
+    <ClInclude Include="CACreateBOINCAccounts.h" />
+    <ClInclude Include="CACreateBOINCGroups.h" />
+    <ClInclude Include="CACreateClientAuthFile.h" />
+    <ClInclude Include="CACreateProjectInitFile.h" />
+    <ClInclude Include="CADeleteBOINCAccounts.h" />
+    <ClInclude Include="CADeleteBOINCGroups.h" />
+    <ClInclude Include="CAGetAdministratorsGroupName.h" />
+    <ClInclude Include="CAGetUsersGroupName.h" />
+    <ClInclude Include="CAGrantBOINCAdminsRights.h" />
+    <ClInclude Include="CAGrantBOINCAdminsVirtualBoxRights.h" />
+    <ClInclude Include="CAGrantBOINCMasterRights.h" />
+    <ClInclude Include="CAGrantBOINCProjectRights.h" />
+    <ClInclude Include="CAGrantBOINCProjectsRights.h" />
+    <ClInclude Include="CAGrantBOINCProjectsVirtualBoxRights.h" />
+    <ClInclude Include="CAGrantBOINCUsersRights.h" />
+    <ClInclude Include="CALaunchBOINCManager.h" />
+    <ClInclude Include="CALaunchBOINCTray.h" />
+    <ClInclude Include="CARestoreExecutionState.h" />
+    <ClInclude Include="CARestorePermissionBOINCData.h" />
+    <ClInclude Include="CARestoreSetupState.h" />
+    <ClInclude Include="CARevokeBOINCAdminsRights.h" />
+    <ClInclude Include="CARevokeBOINCMasterRights.h" />
+    <ClInclude Include="CARevokeBOINCProjectRights.h" />
+    <ClInclude Include="CARevokeBOINCProjectsRights.h" />
+    <ClInclude Include="CARevokeBOINCUsersRights.h" />
+    <ClInclude Include="CASaveExecutionState.h" />
+    <ClInclude Include="CASaveSetupState.h" />
+    <ClInclude Include="CASetPermissionBOINC.h" />
+    <ClInclude Include="CASetPermissionBOINCData.h" />
+    <ClInclude Include="CASetPermissionBOINCDataProjects.h" />
+    <ClInclude Include="CASetPermissionBOINCDataSlots.h" />
+    <ClInclude Include="CAShutdownBOINC.h" />
+    <ClInclude Include="CAShutdownBOINCManager.h" />
+    <ClInclude Include="CAShutdownBOINCScreensaver.h" />
+    <ClInclude Include="CAShutdownUD.h" />
+    <ClInclude Include="CAValidateInstall.h" />
+    <ClInclude Include="CAValidateRebootRequest.h" />
+    <ClInclude Include="CAValidateSetupType.h" />
+    <ClInclude Include="CAVerifyInstallDirectories.h" />
+    <ClInclude Include="dcomperm.h" />
+    <ClInclude Include="dirops.h" />
+    <ClInclude Include="launcher.h" />
+    <ClInclude Include="lkuprid.h" />
+    <ClInclude Include="lsaprivs.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="password.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="terminate.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="boinccas.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="boinccas.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

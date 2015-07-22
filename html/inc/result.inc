@@ -46,7 +46,7 @@ function app_version_string($result) {
 
     $id = $result->app_version_id;
     switch ($id) {
-    case 0: return "";
+    case 0: return "---";
     case ANON_PLATFORM_UNKNOWN:
         return anon_platform_string($result);
     case ANON_PLATFORM_CPU:
@@ -133,37 +133,37 @@ $state_clause = array(
 );
 
 function state_num($result) {
-	if ($result->server_state == 4) return 1;
-	if ($result->server_state == 5 && $result->outcome == 1) {
-        if ($result->validate_state == 0) {
+	if ($result->server_state == RESULT_SERVER_STATE_IN_PROGRESS) return 1;
+	if ($result->server_state == RESULT_SERVER_STATE_OVER && $result->outcome == RESULT_OUTCOME_SUCCESS) {
+        if ($result->validate_state == VALIDATE_STATE_INIT) {
             return STATE_PENDING;
         }
-        if ($result->validate_state == 4) {
+        if ($result->validate_state == VALIDATE_STATE_INCONCLUSIVE) {
             return STATE_INCONCLUSIVE;
         }
 	}
-	if ($result->server_state == 5
-		&& $result->outcome == 1
-		&& $result->validate_state == 1
+	if ($result->server_state == RESULT_SERVER_STATE_OVER
+		&& $result->outcome == RESULT_OUTCOME_SUCCESS
+		&& $result->validate_state == VALIDATE_STATE_VALID
 	) {
 		return STATE_VALID;
 	}
-	if ($result->server_state == 5
-		&& ($result->outcome == 6
-			|| ($result->outcome ==1
-				&& ($result->validate_state == 2
-					|| $result->validate_state == 3
-					|| $result->validate_state == 5
+	if ($result->server_state == RESULT_SERVER_STATE_OVER
+		&& ($result->outcome == RESULT_OUTCOME_VALIDATE_ERROR
+			|| ($result->outcome == RESULT_OUTCOME_SUCCESS
+				&& ($result->validate_state == VALIDATE_STATE_INVALID
+					|| $result->validate_state == VALIDATE_STATE_NO_CHECK
+					|| $result->validate_state == VALIDATE_STATE_TOO_LATE
 				)
 			)
 		)
 	) {
 		return STATE_INVALID;
 	}
-	if ($result->server_state == 5
-		&& ($result->outcome == 3
-			|| $result->outcome = 4
-			|| $result->outcome = 7
+	if ($result->server_state == RESULT_SERVER_STATE_OVER
+		&& ($result->outcome == RESULT_OUTCOME_CLIENT_ERROR
+			|| $result->outcome = RESULT_OUTCOME_NO_REPLY
+			|| $result->outcome = RESULT_OUTCOME_CLIENT_DETACHED
 		)
 	) {
 		return STATE_ERROR;
@@ -173,23 +173,23 @@ function state_num($result) {
 
 function state_string($result) {
     switch ($result->server_state) {
-    case 1: return tra("Inactive");
-    case 2: return tra("Unsent");
-    case 4: return tra("In progress");
-    case 5:
+    case RESULT_SERVER_STATE_INACTIVE: return tra("Inactive");
+    case RESULT_SERVER_STATE_UNSENT: return tra("Unsent");
+    case RESULT_SERVER_STATE_IN_PROGRESS: return tra("In progress");
+    case RESULT_SERVER_STATE_OVER:
         switch ($result->outcome) {
-        case 1:
+        case RESULT_OUTCOME_SUCCESS:
             switch ($result->validate_state) {
-            case 0: return tra("Completed, waiting for validation");
-            case 1: return tra("Completed and validated");
-            case 2: return tra("Completed, marked as invalid");
-            case 3: return tra("Completed, can't validate");
-            case 4: return tra("Completed, validation inconclusive");
-            case 5: return tra("Completed, too late to validate");
+            case VALIDATE_STATE_INIT: return tra("Completed, waiting for validation");
+            case VALIDATE_STATE_VALID: return tra("Completed and validated");
+            case VALIDATE_STATE_INVALID: return tra("Completed, marked as invalid");
+            case VALIDATE_STATE_NO_CHECK: return tra("Completed, can't validate");
+            case VALIDATE_STATE_INCONCLUSIVE: return tra("Completed, validation inconclusive");
+            case VALIDATE_STATE_TOO_LATE: return tra("Completed, too late to validate");
             }
             return tra("Completed");
-        case 2: return tra("Couldn't send");
-        case 3:
+        case RESULT_OUTCOME_COULDNT_SEND: return tra("Couldn't send");
+        case RESULT_OUTCOME_CLIENT_ERROR:
             if ($result->exit_status == -221
                 || $result->exit_status == 202
             ) {
@@ -201,18 +201,18 @@ function state_string($result) {
                 return tra("Not started by deadline - canceled");
             }
             switch($result->client_state) {
-            case 1: return tra("Error while downloading");
-            case 2:
-            case 3: return tra("Error while computing");
-            case 4: return tra("Error while uploading");
-            case 6: return tra("Aborted by user");
-            case 7: return tra("Upload failed");
+            case RESULT_FILES_DOWNLOADING: return tra("Error while downloading");
+            case RESULT_FILES_DOWNLOADED:
+            case RESULT_COMPUTE_ERROR: return tra("Error while computing");
+            case RESULT_FILES_UPLOADING: return tra("Error while uploading");
+            case RESULT_ABORTED: return tra("Aborted by user");
+            case RESULT_UPLOAD_FAILED: return tra("Upload failed");
             }
             return tra("Error");
-        case 4: return tra("Timed out - no response");
-        case 5: return tra("Didn't need");
-        case 6: return tra("Validate error");
-        case 7: return tra("Abandoned");
+        case RESULT_OUTCOME_NO_REPLY: return tra("Timed out - no response");
+        case RESULT_OUTCOME_DIDNT_NEED: return tra("Didn't need");
+        case RESULT_OUTCOME_VALIDATE_ERROR: return tra("Validate error");
+        case RESULT_OUTCOME_CLIENT_DETACHED: return tra("Abandoned");
         }
     }
     return tra("Unknown");
@@ -220,105 +220,109 @@ function state_string($result) {
 
 function result_server_state_string($result) {
     switch($result->server_state) {
-    case 1: return tra("Inactive");
-    case 2: return tra("Unsent");
-    case 4: return tra("In progress");
-    case 5: return tra("Over");
+    case RESULT_SERVER_STATE_INACTIVE: return tra("Inactive");
+    case RESULT_SERVER_STATE_UNSENT: return tra("Unsent");
+    case RESULT_SERVER_STATE_IN_PROGRESS: return tra("In progress");
+    case RESULT_SERVER_STATE_OVER: return tra("Over");
     }
     return tra("Unknown");
 }
 
 function result_outcome_string($result) {
     switch($result->outcome) {
-    case 0: return "---";
-    case 1: return tra("Success");
-    case 2: return tra("Couldn't send");
-    case 3:
+    case RESULT_OUTCOME_INIT: return "---";
+    case RESULT_OUTCOME_SUCCESS: return tra("Success");
+    case RESULT_OUTCOME_COULDNT_SEND: return tra("Couldn't send");
+    case RESULT_OUTCOME_CLIENT_ERROR:
         if ($result->exit_status <> -221) {
             return tra("Computation error");
         }
         return tra("Redundant result");
-    case 4: return tra("No reply");
-    case 5: return tra("Didn't need");
-    case 6: return tra("Validate error");
-    case 7: return tra("Abandoned");
+    case RESULT_OUTCOME_NO_REPLY: return tra("No reply");
+    case RESULT_OUTCOME_DIDNT_NEED: return tra("Didn't need");
+    case RESULT_OUTCOME_VALIDATE_ERROR: return tra("Validate error");
+    case RESULT_OUTCOME_CLIENT_DETACHED: return tra("Abandoned");
     }
     return tra("Unknown");
 }
 
 function result_client_state_string($result) {
     switch($result->client_state) {
-    case 0: return tra("New");
-    case 1: return tra("Downloading");
-    case 2: return tra("Processing");
-    case 3: return tra("Compute error");
-    case 4: return tra("Uploading");
-    case 5: return tra("Done");
-    case 6:
-        if ($result->exit_status == -221) {
+    case RESULT_NEW: return tra("New");
+    case RESULT_FILES_DOWNLOADING: return tra("Downloading");
+    case RESULT_FILES_DOWNLOADED: return tra("Processing");
+    case RESULT_COMPUTE_ERROR: return tra("Compute error");
+    case RESULT_FILES_UPLOADING: return tra("Uploading");
+    case RESULT_FILES_UPLOADED: return tra("Done");
+    case RESULT_ABORTED:
+        if ($result->exit_status == -221 || $result->exit_status == 202) {
             return tra("Cancelled by server");
         }
         return tra("Aborted by user");
-    case 7: return tra("Upload failed");
+    case RESULT_UPLOAD_FAILED: return tra("Upload failed");
     }
     return tra("Unknown");
 }
 
 function validate_state_str($result) {
     switch($result->validate_state) {
-    case 0: return tra("Initial");
-    case 1: return tra("Valid");
-    case 2:
+    case VALIDATE_STATE_INIT: return tra("Initial");
+    case VALIDATE_STATE_VALID: return tra("Valid");
+    case VALIDATE_STATE_INVALID:
         if ($result->exit_status <> -221) {
             return tra("Invalid");
         }
         return tra("Not necessary");
-    case 3: return tra("Workunit error - check skipped");
-    case 4: return tra("Checked, but no consensus yet");
-    case 5: return tra("Task was reported too late to validate");
+    case VALIDATE_STATE_NO_CHECK: return tra("Workunit error - check skipped");
+    case VALIDATE_STATE_INCONCLUSIVE: return tra("Checked, but no consensus yet");
+    case VALIDATE_STATE_TOO_LATE: return tra("Task was reported too late to validate");
     }
     return tra("Unknown");
 }
 
 function assimilate_state_str($s) {
     switch($s) {
-    case 0: return "Initial";
-    case 1: return "Ready to assimilate";
-    case 2: return "Assimilated";
+    case ASSIMILATE_INIT: return "Initial";
+    case ASSIMILATE_READY: return "Ready to assimilate";
+    case ASSIMILATE_DONE: return "Assimilated";
     }
     return "Unknown";
 }
 
 function file_delete_state_str($s) {
     switch($s) {
-    case 0: return "Initial";
-    case 1: return "Ready to delete";
-    case 2: return "Deleted";
-    case 3: return "Delete Error";
+    case FILE_DELETE_INIT: return "Initial";
+    case FILE_DELETE_READY: return "Ready to delete";
+    case FILE_DELETE_DONE: return "Deleted";
+    case FILE_DELETE_ERROR: return "Delete Error";
     }
     return "Unknown";
 }
 function wu_error_mask_str($s) {
     $x = "";
-    if ($s & 1) {
+    if ($s & WU_ERROR_COULDNT_SEND_RESULT) {
         $x = $x." ".tra("Couldn't send result");
-        $s -= 1;
+        $s -= WU_ERROR_COULDNT_SEND_RESULT;
     }
-    if ($s & 2) {
+    if ($s & WU_ERROR_TOO_MANY_ERROR_RESULTS) {
         $x = $x." ".tra("Too many errors (may have bug)");
-        $s -= 2;
+        $s -= WU_ERROR_TOO_MANY_ERROR_RESULTS;
     }
-    if ($s & 4) {
+    if ($s & WU_ERROR_TOO_MANY_SUCCESS_RESULTS) {
         $x = $x." ".tra("Too many results (may be nondeterministic)");
-        $s -= 4;
+        $s -= WU_ERROR_TOO_MANY_SUCCESS_RESULTS;
     }
-    if ($s & 8) {
+    if ($s & WU_ERROR_TOO_MANY_TOTAL_RESULTS) {
         $x = $x." ".tra("Too many total results");
-        $s -= 8;
+        $s -= WU_ERROR_TOO_MANY_TOTAL_RESULTS;
     }
-    if ($s & 16) {
+    if ($s & WU_ERROR_CANCELLED) {
         $x = $x." ".tra("WU cancelled");
-        $s -= 16;
+        $s -= WU_ERROR_CANCELLED;
+    }
+    if ($s & WU_ERROR_NO_CANONICAL_RESULT) {
+        $x = $x." ".tra("Canonical result is missing");
+        $s -= WU_ERROR_NO_CANONICAL_RESULT;
     }
     if ($s) {
         $x = $x." ".tra("Unrecognized Error: %1", $s);
@@ -348,18 +352,18 @@ function result_table_start($show_wu_link, $show_host_link, $info) {
             $i2 = clone $info;
             $i2->show_names = 0;
             $url = result_page_url($i2);
-            echo "<th>".tra("Task name")."<br><span class=\"smalltext\">".tra("click for details")."<br><a href=$url>".tra("Show IDs")."</a></span></th>\n";
+            echo "<th>".tra("Task name")."<br><small>".tra("click for details")."<br><a href=$url>".tra("Show IDs")."</a></small></th>\n";
         } else {
             $i2 = clone $info;
             $i2->show_names = 1;
             $url = result_page_url($i2);
-            echo "<th>Task<br><span class=\"smalltext\">".tra("click for details")."<br><a href=$url>".tra("Show names")."</a></span></th>\n";
+            echo "<th>Task<br><small>".tra("click for details")."<br><a href=$url>".tra("Show names")."</a></small></th>\n";
         }
     } else {
-        echo "<th>".tra("Task")."<br><span class=\"smalltext\">".tra("click for details")."</span></th>\n";
+        echo "<th>".tra("Task")."<br><small>".tra("click for details")."</small></th>\n";
     }
     if ($show_wu_link) {
-        echo "<th>".tra("Work unit")."<br><span class=\"smalltext\">".tra("click for details")."</span></th>\n";
+        echo "<th>".tra("Work unit")."<br><small>".tra("click for details")."</small></th>\n";
         if (function_exists('project_result_info_heading')) {
             $x = project_result_info_heading();
             if ($x) {
@@ -373,7 +377,7 @@ function result_table_start($show_wu_link, $show_host_link, $info) {
     echo "
         <th>".tra("Sent")."</th>
         <th>".tra("Time reported<br />or deadline")."
-            <br><span class=\"smalltext\"><a href=\"explain_state.php?field=result_time\">".tra("explain")."</a></span>
+            <br><small><a href=\"explain_state.php?field=result_time\">".tra("explain")."</a></small>
         </th>
         <th>".tra("Status")."</th>
         <th>".tra("Run time<br />(sec)")."</th>
@@ -621,14 +625,7 @@ function result_error_mask_str($x){
     }
 }
 
-function exit_status_string($result) {
-    $x = $result->exit_status;
-    if ($x == 0) {
-        $y = parse_element($result->stderr_out, "<exit_status>");
-        if ($y) {
-            $x = (int)$y;
-        }
-    }
+function exit_status_string($x) {
     return sprintf("%d (0x%x)", $x, $x). " ".result_error_mask_str($x);
 }
 
@@ -638,18 +635,31 @@ function show_result($result, $show_outfile_links=false) {
     row2(tra("Workunit"), "<a href=\"workunit.php?wuid=$result->workunitid\">$result->workunitid</a>");
     row2(tra("Created"), time_str($result->create_time));
     row2(tra("Sent"), time_str($result->sent_time));
+    row2(tra("Report deadline"), time_str($result->report_deadline));
     row2(tra("Received"), time_str($result->received_time));
     row2(tra("Server state"), result_server_state_string($result));
     row2(tra("Outcome"), result_outcome_string($result));
     row2(tra("Client state"), result_client_state_string($result));
-    row2(tra("Exit status"), exit_status_string($result));
+    row2(tra("Exit status"), exit_status_string($result->exit_status));
     row2(tra("Computer ID"), host_link($result->hostid));
-    row2(tra("Report deadline"), time_str($result->report_deadline));
-    row2(tra("Run time"), number_format($result->elapsed_time, 2));
-    row2(tra("CPU time"), number_format($result->cpu_time, 2));
+    row2(tra("Run time"), time_diff($result->elapsed_time));
+    row2(tra("CPU time"), time_diff($result->cpu_time));
     row2(tra("Validate state"), validate_state_str($result));
     row2(tra("Credit"), number_format($result->granted_credit, 2));
+    row2(tra("Device peak FLOPS"), number_format($result->flops_estimate/1e9, 2)." GFLOPS");
     row2(tra("Application version"), app_version_string($result));
+    if ($result->peak_working_set_size) {
+        $x = number_format($result->peak_working_set_size/MEGA, 2);
+        row2("Peak working set size", "$x MB");
+    }
+    if ($result->peak_swap_size) {
+        $x = number_format($result->peak_swap_size/MEGA, 2);
+        row2("Peak swap size", "$x MB");
+    }
+    if ($result->peak_disk_usage) {
+        $x = number_format($result->peak_disk_usage/MEGA, 2);
+        row2("Peak disk usage", "$x MB");
+    }
     if ($show_outfile_links && $result->outcome == 1) {
         $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
         $names = get_outfile_names($result);
@@ -684,9 +694,14 @@ function result_navigation($info, $where_clause) {
 	}
 	$app_count[0] = 0;
 
-	$results = BoincResult::enum_fields("appid, server_state, outcome, validate_state", $where_clause, null);
+	$results = BoincResult::enum_fields(
+        "appid, server_state, outcome, validate_state",
+        $where_clause, null
+    );
 	foreach ($results as $r) {
-		$app_count[$r->appid]++;
+        if (array_key_exists($r->appid, $app_count)) {
+            $app_count[$r->appid]++;
+        }
 		$app_count[0]++;
         if (!$info->appid || ($r->appid == $info->appid)) {
             $state_count[state_num($r)]++;
@@ -753,6 +768,7 @@ function result_navigation($info, $where_clause) {
         }
     }
 
+    $x .= "<form action=result.php>".tra("Task name:")."<input size=40 name=result_name><input class=\"btn btn-primary\" type=submit value='OK'></form>";
     $x .= "</center><br>";
 	return $x;
 }

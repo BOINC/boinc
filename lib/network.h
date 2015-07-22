@@ -48,12 +48,15 @@ extern bool is_localhost(sockaddr_storage& s);
 extern bool same_ip_addr(sockaddr_storage& s1, sockaddr_storage& s2);
 extern int resolve_hostname(const char* hostname, sockaddr_storage& ip_addr);
 extern int resolve_hostname_or_ip_addr(const char* hostname, sockaddr_storage& ip_addr);
-extern int boinc_socket(int& sock);
+extern int boinc_socket(int& sock, int protocol=AF_INET);
+    // create a stream-mode socket of the given family
 extern int boinc_socket_asynch(int sock, bool asynch);
+    // make an existing socket asynchronous or synchronous
 extern void boinc_close_socket(int sock);
 extern int get_socket_error(int fd);
 extern const char* socket_error_str();
 extern void reset_dns();
+extern int boinc_get_port(bool is_remote, int& port);
 
 #if defined(_WIN32) && !defined(__CYGWIN32__)
 typedef int BOINC_SOCKLEN_T;

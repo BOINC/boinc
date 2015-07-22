@@ -16,11 +16,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+require_once('../inc/boinc_db.inc');
 require_once('../inc/email.inc');
 require_once('../inc/profile.inc');
 
-define('UOTD_THRESHOLD', 7);
+if (!defined('UOTD_THRESHOLD')) {
+    define('UOTD_THRESHOLD', 7);
     // email sysadmin if # of UOTD candidates falls below this
+}
 
 function uotd_thumbnail($profile, $user) {
     if ($profile->has_picture) {
@@ -33,10 +36,12 @@ function uotd_thumbnail($profile, $user) {
 // show UOTD in a small box
 //
 function show_uotd($profile) {
-    $user = lookup_user_id($profile->userid);
+    $user = BoincUser::lookup_id($profile->userid);
     echo uotd_thumbnail($profile, $user);
-    echo user_links($user, true)."<br>";
-    echo sub_sentence(output_transform(sanitize_tags($profile->response1)), ' ', 150, true);
+    echo user_links($user, BADGE_HEIGHT_MEDIUM)."<br>";
+    $x = output_transform($profile->response1);
+    $x = sanitize_tags($x);
+    echo sub_sentence($x, ' ', 150, true);
 }
 
 // return the last UOTD profile, or null
@@ -58,7 +63,7 @@ function select_uotd() {
         $assigned = getdate($current_uotd->uotd_time);
         $now = getdate(time());
         if ($assigned['mday'] == $now['mday']) {
-            $user = lookup_user_id($current_uotd->userid);
+            $user = BoincUser::lookup_id($current_uotd->userid);
             echo "Already have UOTD for today\n";
             generate_uotd_gadget($current_uotd, $user);
             exit();
@@ -73,38 +78,41 @@ function select_uotd() {
     } else {
         $query = default_uotd_candidates_query();
     }
-    $result = mysql_query($query);
+    $result = _mysql_query($query);
 
     // If the number of approved profiles dips below a threshold,
     // email the sys admin every time we pick a new one.
     //
-    if ($result && mysql_num_rows($result) < UOTD_THRESHOLD) {
+    if (defined('UOTD_ADMIN_EMAIL')
+        && $result
+        && _mysql_num_rows($result) < UOTD_THRESHOLD
+    ) {
         $u = new BoincUser;
         $u->email_addr = UOTD_ADMIN_EMAIL;
         $u->name = "UOTD admin";
         send_email($u,
             PROJECT . ": User of the Day pool is running low!",
             "The pool of approved candidates for User of the Day has".
-            " reached your assigned threshold: there are now only " . mysql_num_rows($result) . " approved users.\n\n".
+            " reached your assigned threshold: there are now only " . _mysql_num_rows($result) . " approved users.\n\n".
             "To approve more candidates for User of the Day,".
             " go to the " . PROJECT . " administration page and click \"Screen user profiles\""
         );
     }
 
-    if ($result && mysql_num_rows($result) == 0) {
+    if ($result && _mysql_num_rows($result) == 0) {
         // If all verified profiles have been selected as UOTD,
         // reshow the one that was shown least recently.
         //
-        $result = mysql_query("SELECT * FROM profile,user WHERE profile.userid=user.id AND verification=1 ORDER BY uotd_time ASC LIMIT 1");
+        $result = _mysql_query("SELECT * FROM profile,user WHERE profile.userid=user.id AND verification=1 ORDER BY uotd_time ASC LIMIT 1");
     }
 
-    if (!$result || mysql_num_rows($result) == 0) {
+    if (!$result || _mysql_num_rows($result) == 0) {
         // No valid users of the day - do something.
         echo "No screened users found\n";
         exit();
     }
-    $profile = mysql_fetch_object($result);
-    $user = lookup_user_id($profile->userid);
+    $profile = _mysql_fetch_object($result);
+    $user = BoincUser::lookup_id($profile->userid);
 
     // if profile is "orphaned", delete it and try again
     //
@@ -114,7 +122,7 @@ function select_uotd() {
     }
 
     $sql = "UPDATE profile SET uotd_time = ".time()." WHERE userid=$user->id";
-    mysql_query($sql);
+    _mysql_query($sql);
 
     send_email($user,
         "You're the " . PROJECT . " user of the day!",
@@ -151,11 +159,11 @@ function count_uotd_candidates(){
         $query = default_uotd_candidates_query();
     }
     
-    $result = mysql_query($query);
+    $result = _mysql_query($query);
     if($result) {
-        $n = mysql_num_rows($result);
+        $n = _mysql_num_rows($result);
     }
-    mysql_free_result($result);
+    _mysql_free_result($result);
     
     return $n;
 }
@@ -170,10 +178,9 @@ function generate_uotd_gadget($profile, $user) {
         echo "age: $age";
         if($age <= 86400+3600) { // allow for slop
             $x .= uotd_thumbnail($profile, $user);
-            $x .= user_links($user);
-            $x .= "&nbsp;&nbsp;".
-                sub_sentence(sanitize_tags(output_transform($profile->response1)), ' ',
-                             250, true);
+            $x .= user_links($user, BADGE_HEIGHT_MEDIUM);
+            $resp = sanitize_tags(output_transform($profile->response1));
+            $x .= "&nbsp;&nbsp;". sub_sentence($resp, ' ', 250, true);
         }
         else {
             $x .= "<font color='fuscia'>

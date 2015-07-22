@@ -142,7 +142,7 @@ if ($post->signature) {
 }
 row2("", "<input id=\"add_signature\" name=\"add_signature\" value=\"1\" ".$enable_signature." type=\"checkbox\">
     <label for=\"add_signature\">".tra("Add my signature to this post")."</label>");
-row2("", "<input type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\"><input type=\"submit\" name=\"submit\" value=\"OK\">"
+row2("", "<input class=\"btn btn-default\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\"><input class=\"btn btn-primary\" type=\"submit\" name=\"submit\" value=\"OK\">"
 );
 
 end_table();

@@ -93,32 +93,14 @@ SET BUILDPLATFORM=%_ArgBuildPlatform%
 rem ***** Visual Studio Hint Detection *****
 rem
 SET _ArgBuildDevEnvDir=%_ArgBuildDevEnvDir:IDE\=%
-SET _ArgVS80COMNTOOLS=%VS80COMNTOOLS:Tools\=%
-SET _ArgVS90COMNTOOLS=%VS90COMNTOOLS:Tools\=%
 SET _ArgVS100COMNTOOLS=%VS100COMNTOOLS:Tools\=%
+SET _ArgVS120COMNTOOLS=%VS120COMNTOOLS:Tools\=%
 
-IF /I "%_ArgVS80COMNTOOLS%" == "%_ArgBuildDevEnvDir%"  GOTO :DETECTVS2005
-IF /I "%_ArgVS90COMNTOOLS%" == "%_ArgBuildDevEnvDir%"  GOTO :DETECTVS2008
 IF /I "%_ArgVS100COMNTOOLS%" == "%_ArgBuildDevEnvDir%" GOTO :DETECTVS2010
+IF /I "%_ArgVS120COMNTOOLS%" == "%_ArgBuildDevEnvDir%" GOTO :DETECTVS2013
 
 rem ***** Software Detection *****
 rem
-:DETECTVS2005
-IF EXIST "%VS80COMNTOOLS%\vsvars32.bat" (
-    ECHO Software Platform Detected: Visual Studio 2005
-    CALL "%VS80COMNTOOLS%\vsvars32.bat" > NUL: 2> NUL:
-    SET BUILDCOMPILERDETECTED=vs2005
-	GOTO :SOFTDETECTIONCOMPLETE
-)
-
-:DETECTVS2008
-IF EXIST "%VS90COMNTOOLS%\vsvars32.bat" (
-    ECHO Software Platform Detected: Visual Studio 2008
-    CALL "%VS90COMNTOOLS%\vsvars32.bat" > NUL: 2> NUL:
-    SET BUILDCOMPILERDETECTED=vs2008
-	GOTO :SOFTDETECTIONCOMPLETE
-)
-
 :DETECTVS2010
 IF EXIST "%VS100COMNTOOLS%\vsvars32.bat" (
     ECHO Software Platform Detected: Visual Studio 2010
@@ -127,9 +109,17 @@ IF EXIST "%VS100COMNTOOLS%\vsvars32.bat" (
 	GOTO :SOFTDETECTIONCOMPLETE
 )
 
+:DETECTVS2013
+IF EXIST "%VS120COMNTOOLS%\vsvars32.bat" (
+    ECHO Software Platform Detected: Visual Studio 2013
+    CALL "%VS120COMNTOOLS%\vsvars32.bat" > NUL: 2> NUL:
+    SET BUILDCOMPILERDETECTED=vs2013
+	GOTO :SOFTDETECTIONCOMPLETE
+)
+
 :SOFTDETECTIONCOMPLETE
 IF "%VCINSTALLDIR%"=="" (
-	ECHO Software Platform NOT Detected: Microsoft Visual Studio 2005/2008/2010...
+	ECHO Software Platform NOT Detected: Microsoft Visual Studio 2010 or Microsoft Visual Studio 2013...
     EXIT /B 1
 )
 
@@ -173,10 +163,11 @@ IF /I NOT "%PROCESSOR_ARCHITECTURE%"=="%BUILDPLATFORM%" GOTO :BUILDENVCROSS
 rem Building a native binary for the current platform.
 :BUILDENVNATIVE
 
-IF /I NOT "%BUILDPLATFORM%"=="x86" (
-    CALL "%VCINSTALLDIR%\bin\%PROCESSOR_ARCHITECTURE%\vcvars%PROCESSOR_ARCHITECTURE%.bat" > NUL: 2> NUL:
+IF /I "%BUILDPLATFORM%"=="amd64" (
+    CALL "%VCINSTALLDIR%\bin\%PROCESSOR_ARCHITECTURE%\vcvars64.bat" > NUL: 2> NUL:
     IF ERRORLEVEL 1 GOTO :BUILDENVFAILURE
-) ELSE (
+)
+IF /I "%BUILDPLATFORM%"=="x86" (
     CALL "%VCINSTALLDIR%\bin\vcvars32.bat" > NUL: 2> NUL:
     IF ERRORLEVEL 1 GOTO :BUILDENVFAILURE
 )
@@ -226,12 +217,12 @@ SET SRCSRV_SYMBOLS=%BUILDROOT%\win_build\build\%VSPLATFORM%\%BUILDTYPE%
 SET SRCSRV_SOURCE=%BUILDROOT%
 
 rem Add deployable symbol store environment variables
-SET BUILDSYMBOLSTORE=%BUILDTOOLSROOT%\Developr\%USERNAME%\symstore
+SET BUILDSYMBOLSTORE="%BUILDTOOLSROOT%\Developr\%USERNAME%\symstore"
 
 rem Add _NT_SYMBOL_PATH to the environment
 SET _NT_SYMBOL_PATH=%BUILDSYMBOLSTORE%
-SET _NT_SYMBOL_PATH=%_NT_SYMBOL_PATH%;srv*%BUILDTOOLSROOT%\Developr\%USERNAME%\symbols*http://msdl.microsoft.com/download/symbols
-SET _NT_SYMBOL_PATH=%_NT_SYMBOL_PATH%;srv*%BUILDTOOLSROOT%\Developr\%USERNAME%\symbols*http://boinc.berkeley.edu/symstore/
+SET _NT_SYMBOL_PATH=%_NT_SYMBOL_PATH%;srv*"%BUILDTOOLSROOT%\Developr\%USERNAME%\symbols"*http://msdl.microsoft.com/download/symbols
+SET _NT_SYMBOL_PATH=%_NT_SYMBOL_PATH%;srv*"%BUILDTOOLSROOT%\Developr\%USERNAME%\symbols"*http://boinc.berkeley.edu/symstore/
 
 rem Add standard macros to the environment
 DOSKEY /MACROFILE="%BUILDTOOLSROOT%\developr\generic.mac"
@@ -252,26 +243,26 @@ TITLE BOINC Build Environment for Windows %BUILDVERSIONMAJOR%.%BUILDVERSIONMINOR
 rem ***** Customized Developer Environment *****
 rem
 SET BUILDHOMEDIR=%BUILDTOOLSROOT%\Developr\%USERNAME%
-IF NOT EXIST %BUILDHOMEDIR% MKDIR %BUILDHOMEDIR%
+IF NOT EXIST "%BUILDHOMEDIR%" MKDIR "%BUILDHOMEDIR%"
 
 rem Create a default directory layout
-IF NOT EXIST %BUILDHOMEDIR%\bin mkdir %BUILDHOMEDIR%\bin
-IF NOT EXIST %BUILDHOMEDIR%\bin\%PROCESSOR_ARCHITECTURE% mkdir %BUILDHOMEDIR%\bin\%PROCESSOR_ARCHITECTURE%
-IF NOT EXIST %BUILDHOMEDIR%\temp mkdir %BUILDHOMEDIR%\temp
-IF NOT EXIST %BUILDHOMEDIR%\symbols mkdir %BUILDHOMEDIR%\symbols
-IF NOT EXIST %BUILDHOMEDIR%\symstore mkdir %BUILDHOMEDIR%\symstore
+IF NOT EXIST "%BUILDHOMEDIR%\bin" mkdir "%BUILDHOMEDIR%\bin"
+IF NOT EXIST "%BUILDHOMEDIR%\bin\%PROCESSOR_ARCHITECTURE%" mkdir "%BUILDHOMEDIR%\bin\%PROCESSOR_ARCHITECTURE%"
+IF NOT EXIST "%BUILDHOMEDIR%\temp" mkdir "%BUILDHOMEDIR%\temp"
+IF NOT EXIST "%BUILDHOMEDIR%\symbols" mkdir "%BUILDHOMEDIR%\symbols"
+IF NOT EXIST "%BUILDHOMEDIR%\symstore" mkdir "%BUILDHOMEDIR%\symstore"
 
 rem Add custom shell scripts to the path
-SET PATH=%BUILDHOMEDIR%\bin;%BUILDHOMEDIR%\bin\%PROCESSOR_ARCHITECTURE%;%PATH%
+SET PATH="%BUILDHOMEDIR%\bin";"%BUILDHOMEDIR%\bin\%PROCESSOR_ARCHITECTURE%";%PATH%
 
 rem Add custom macros to the environment
-IF EXIST %BUILDHOMEDIR%\custom.mac (
-	DOSKEY /MACROFILE=%BUILDHOMEDIR%\custom.mac
+IF EXIST "%BUILDHOMEDIR%\custom.mac" (
+	DOSKEY /MACROFILE="%BUILDHOMEDIR%\custom.mac"
 )
 
 rem Execute a custom shell script as defined by the developer
-IF EXIST %BUILDHOMEDIR%\customenv.cmd (
-	CALL %BUILDHOMEDIR%\customenv.cmd
+IF EXIST "%BUILDHOMEDIR%\customenv.cmd" (
+	CALL "%BUILDHOMEDIR%\customenv.cmd"
 )
 
 

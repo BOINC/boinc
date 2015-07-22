@@ -35,9 +35,8 @@
 #include "version.h"
 #include "sg_DlgMessages.h"
 #include "NoticeListCtrl.h"
-#include "BOINCInternetFSHandler.h"
 
-
+#define TEST_BACKGROUND_WITH_MAGENTA_FILL 0
 
 ////@begin includes
 ////@end includes
@@ -62,11 +61,9 @@ IMPLEMENT_DYNAMIC_CLASS( CPanelMessages, wxPanel )
 
 BEGIN_EVENT_TABLE( CPanelMessages, wxPanel )
 ////@begin CPanelMessages event table entries
-    EVT_NOTICELIST_ITEM_DISPLAY( CPanelMessages::OnLinkClicked )
     EVT_ERASE_BACKGROUND( CPanelMessages::OnEraseBackground )
     EVT_BUTTON( wxID_OK, CPanelMessages::OnOK )
     EVT_BUTTON(ID_SIMPLE_HELP, CPanelMessages::OnButtonHelp)
-    EVT_BUTTON( ID_LIST_RELOADNOTICES, CPanelMessages::OnRetryButton )
 ////@end CPanelMessages event table entries
 END_EVENT_TABLE()
 
@@ -79,7 +76,7 @@ CPanelMessages::CPanelMessages( )
 }
 
 
-CPanelMessages::CPanelMessages( wxWindow* parent ) :  
+CPanelMessages::CPanelMessages( wxWindow* parent ) :
     wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNO_BORDER)
 {
     Create();
@@ -94,7 +91,6 @@ bool CPanelMessages::Create()
 {
 ////@begin CPanelMessages member initialisation
     m_bProcessingRefreshEvent = false;
-    m_bWaitingToClose = false;
 ////@end CPanelMessages member initialisation
 
     CreateControls();
@@ -119,52 +115,9 @@ void CPanelMessages::CreateControls()
 {
     CPanelMessages* itemDialog1 = this;
 
-    m_ReloadNoticesPanel = new wxPanel(this);
-    m_ReloadNoticesPanel->SetBackgroundColour(*wxWHITE);
-
-    wxFlexGridSizer* itemReloadButtonSizer = new wxFlexGridSizer(1, 2, 0, 0);
-    itemReloadButtonSizer->AddGrowableCol(1);
-   
-    m_ReloadNoticesText = new wxStaticText(m_ReloadNoticesPanel,
-                            wxID_ANY,
-                            _("One or more items failed to load from the Internet."),
-                            wxDefaultPosition, wxDefaultSize, 0
-                            );
-    itemReloadButtonSizer->Add(m_ReloadNoticesText, 1, wxALL, 5);
-    
-    m_ReloadNoticesButton = new wxButton(
-                                    m_ReloadNoticesPanel,
-                                    ID_LIST_RELOADNOTICES,
-                                    _("Retry now"),
-                                    wxDefaultPosition, wxDefaultSize, 0
-                                    );
-    itemReloadButtonSizer->Add(m_ReloadNoticesButton, 1, wxALL, 5);
-    
-    m_ReloadNoticesPanel->SetSizer(itemReloadButtonSizer);
-    m_ReloadNoticesPanel->Layout();
-
-    wxFlexGridSizer* itemFlexGridSizer2 = new wxFlexGridSizer(3, 1, 1, 0);
-    itemFlexGridSizer2->AddGrowableRow(1);
+    wxFlexGridSizer* itemFlexGridSizer2 = new wxFlexGridSizer(5, 1, 1, 0);
+    itemFlexGridSizer2->AddGrowableRow(2);
     itemFlexGridSizer2->AddGrowableCol(0);
-    itemDialog1->SetSizer(itemFlexGridSizer2);
-
-    itemFlexGridSizer2->Add(m_ReloadNoticesPanel, 1, wxGROW|wxALL, 1);
-
-    m_pHtmlListPane = new CNoticeListCtrl(itemDialog1);
-    itemFlexGridSizer2->Add(m_pHtmlListPane, 0, wxGROW|wxALL, 5);
-
-    wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
-    
-#ifdef __WXMAC__            // Don't let Close button overlap window's grow icon
-    itemFlexGridSizer2->Add(itemBoxSizer4, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 12);
-#else
-    itemFlexGridSizer2->Add(itemBoxSizer4, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-#endif
-
-    wxButton* itemButton44 = new wxButton(itemDialog1, wxID_OK, _("Close"),  wxDefaultPosition, wxDefaultSize);
-
-    itemBoxSizer4->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
     
     m_FetchingNoticesText = new wxStaticText(
                                     this, wxID_ANY, 
@@ -172,6 +125,7 @@ void CPanelMessages::CreateControls()
                                     wxPoint(20, 20), wxDefaultSize, 0
                                     );
     m_FetchingNoticesText->SetBackgroundColour(*wxWHITE);
+    itemFlexGridSizer2->Add(m_FetchingNoticesText, 0, wxEXPAND | wxLEFT | wxRIGHT, ADJUSTFORXDPI(5));
     
     m_NoNoticesText = new wxStaticText(
                                     this, wxID_ANY, 
@@ -179,13 +133,34 @@ void CPanelMessages::CreateControls()
                                     wxPoint(20, 20), wxDefaultSize, 0
                                     );
     m_NoNoticesText->SetBackgroundColour(*wxWHITE);
+    itemFlexGridSizer2->Add(m_NoNoticesText, 0, wxEXPAND | wxLEFT | wxRIGHT, ADJUSTFORXDPI(5));
 
-    m_FetchingNoticesText->Hide();
-    m_NoNoticesText->Hide();
-    m_ReloadNoticesPanel->Hide();
-    Layout();
+
+    m_pHtmlListPane = new CNoticeListCtrl(itemDialog1);
+	wxASSERT(m_pHtmlListPane);
+
+    itemFlexGridSizer2->Add(m_pHtmlListPane, 0, wxGROW|wxALL, ADJUSTFORXDPI(5));
+
+    wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
+
+    wxButton* itemButton44 = new wxButton(itemDialog1, wxID_OK, _("Close"),  wxDefaultPosition, wxDefaultSize);
+
+    itemBoxSizer4->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, ADJUSTFORXDPI(5));
     
-    m_bMissingItems =  false;
+#ifdef __WXMAC__            // Don't let Close button overlap window's grow icon
+    itemFlexGridSizer2->Add(itemBoxSizer4, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, ADJUSTFORXDPI(12));
+#else
+    itemFlexGridSizer2->Add(itemBoxSizer4, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, ADJUSTFORXDPI(5));
+#endif
+
+    itemDialog1->SetSizer(itemFlexGridSizer2);
+    
+    m_FetchingNoticesText->Hide();
+    m_bFetchingNoticesTextWasDisplayed = false;
+
+    m_NoNoticesText->Hide();
+    m_bNoNoticesTextWasDisplayed = false;
+    Layout();
 }
 
 
@@ -215,11 +190,16 @@ void CPanelMessages::OnEraseBackground(wxEraseEvent& event){
     w = bmp.GetWidth();
     h = bmp.GetHeight();
 
+#if TEST_BACKGROUND_WITH_MAGENTA_FILL
     // Fill the dialog with a magenta color so people can detect when something
     //   is wrong
     dc.SetBrush(wxBrush(wxColour(255,0,255)));
     dc.SetPen(wxPen(wxColour(255,0,255)));
     dc.DrawRectangle(0, 0, sz.GetWidth(), sz.GetHeight());
+#else
+    wxColour bgColor(*pSkinSimple->GetDialogBackgroundImage()->GetBackgroundColor());
+    SetBackgroundColour(bgColor);
+#endif
 
     // Is the bitmap smaller than the window?
     if ( (w < sz.x) || (h < sz.y) ) {
@@ -253,22 +233,17 @@ void CPanelMessages::OnEraseBackground(wxEraseEvent& event){
  */
 
 void CPanelMessages::OnRefresh() {
-    if (m_bWaitingToClose) return;
-    
     if (!m_bProcessingRefreshEvent) {
         m_bProcessingRefreshEvent = true;
 
         static wxString strLastMachineName = wxEmptyString;
         wxString strNewMachineName = wxEmptyString;
-        bool bMissingItems;
         CC_STATUS status;
         CMainDocument* pDoc = wxGetApp().GetDocument();
-        wxFileSystemHandler *internetFSHandler = wxGetApp().GetInternetFSHandler();
         
         wxASSERT(pDoc);
         wxASSERT(m_pHtmlListPane);
         wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-        wxASSERT(internetFSHandler);
 
         if (pDoc->IsConnected()) {
             pDoc->GetConnectedComputerName(strNewMachineName);
@@ -276,13 +251,12 @@ void CPanelMessages::OnRefresh() {
                 strLastMachineName = strNewMachineName;
                 m_FetchingNoticesText->Show();
                 m_NoNoticesText->Hide();
-                ((CBOINCInternetFSHandler*)internetFSHandler)->ClearCache();
                 m_pHtmlListPane->Clear();
-                if (m_bMissingItems) {
-                    m_ReloadNoticesPanel->Hide();
-                    m_bMissingItems = false;
+                if (m_bNoNoticesTextWasDisplayed || !m_bFetchingNoticesTextWasDisplayed) {
                     Layout();
                 }
+                m_bFetchingNoticesTextWasDisplayed = true;
+                m_bNoNoticesTextWasDisplayed = false;
             }
         } else {
             m_pHtmlListPane->Clear();
@@ -290,23 +264,19 @@ void CPanelMessages::OnRefresh() {
 
         // Don't call Freeze() / Thaw() here because it causes an unnecessary redraw
         m_pHtmlListPane->UpdateUI();
-
-        if (m_bWaitingToClose) {
-            wxCommandEvent evt(wxEVT_COMMAND_BUTTON_CLICKED, wxID_OK);
-            GetEventHandler()->AddPendingEvent(evt);
-        } else {
-            bMissingItems = ((CBOINCInternetFSHandler*)internetFSHandler)->ItemsFailedToLoad();
-            if (bMissingItems != m_bMissingItems) {
-                m_ReloadNoticesPanel->Show(bMissingItems);
-                Layout();
-                m_bMissingItems = bMissingItems;
-            }
-            
-            m_FetchingNoticesText->Show(m_pHtmlListPane->m_bDisplayFetchingNotices);
-            m_NoNoticesText->Show(m_pHtmlListPane->m_bDisplayEmptyNotice);
+    
+        if (m_bFetchingNoticesTextWasDisplayed != m_pHtmlListPane->m_bDisplayFetchingNotices) {
+            m_bFetchingNoticesTextWasDisplayed = m_pHtmlListPane->m_bDisplayFetchingNotices;
+            m_FetchingNoticesText->Show(m_bFetchingNoticesTextWasDisplayed);
+            Layout();
         }
-        
-        m_bProcessingRefreshEvent = false;
+        if (m_bNoNoticesTextWasDisplayed != m_pHtmlListPane->m_bDisplayEmptyNotice) {
+            m_bNoNoticesTextWasDisplayed = m_pHtmlListPane->m_bDisplayEmptyNotice;
+            m_NoNoticesText->Show(m_bNoNoticesTextWasDisplayed);
+            Layout();
+        }
+
+        pDoc->UpdateUnreadNoticeState();
     }
 }
 
@@ -316,21 +286,6 @@ void CPanelMessages::OnRefresh() {
  */
 
 void CPanelMessages::OnOK( wxCommandEvent& event ) {
-    // Shut down any asynchronous Internet access in progress
-    wxFileSystemHandler *internetFSHandler = wxGetApp().GetInternetFSHandler();
-    if (internetFSHandler) {
-        ((CBOINCInternetFSHandler*)internetFSHandler)->SetAbortInternetIO();
-    }
-    
-    // If we were called during Yield() in async Internet I/O, 
-    // it is not safe to call our destructor until OnRefresh()
-    // has returned from m_pHtmlListPane->UpdateUI(), so just
-    // set a flag to close this dialog at that time.
-    if (m_bProcessingRefreshEvent) {
-        m_bWaitingToClose = true;
-        return;
-    }
-    
     event.Skip();
 }
 
@@ -363,30 +318,6 @@ void CPanelMessages::OnButtonHelp( wxCommandEvent& WXUNUSED(event) ) {
  * wxEVT_NOTICELIST_ITEM_DISPLAY event handler for ID_LIST_NOTIFICATIONSVIEW
  */
 
-void CPanelMessages::OnLinkClicked( NoticeListCtrlEvent& event ) {
-    if (event.GetURL().StartsWith(wxT("http://"))) {
-		wxLaunchDefaultBrowser(event.GetURL());
-    }
-}
-
-
-void CPanelMessages::OnRetryButton( wxCommandEvent& ) {
-    m_ReloadNoticesPanel->Hide();
-    m_bMissingItems = false;
-    Layout();
-    ReloadNotices();
-}
-
-
-void CPanelMessages::ReloadNotices() {
-    wxFileSystemHandler *internetFSHandler = wxGetApp().GetInternetFSHandler();
-    if (internetFSHandler) {
-        ((CBOINCInternetFSHandler*)internetFSHandler)->UnchacheMissingItems();
-        m_pHtmlListPane->Clear();
-        m_FetchingNoticesText->Show();
-        m_NoNoticesText->Hide();
-    }
-}
 
 bool CPanelMessages::OnSaveState(wxConfigBase* /* pConfig */) {
     return true;
@@ -465,16 +396,13 @@ bool CDlgMessages::Create( wxWindow* parent, wxWindowID id, const wxString& capt
     SetTitle(strCaption);
 
     // Initialize Application Icon
-    wxIconBundle icons;
-    icons.AddIcon(*pSkinAdvanced->GetApplicationIcon());
-    icons.AddIcon(*pSkinAdvanced->GetApplicationIcon32());
-    SetIcons(icons);
+    SetIcons(*pSkinAdvanced->GetApplicationIcon());
 
     Freeze();
 
     SetBackgroundStyle(wxBG_STYLE_CUSTOM);
 
-#ifdef __WXDEBUG__
+#if TEST_BACKGROUND_WITH_MAGENTA_FILL
     SetBackgroundColour(wxColour(255, 0, 255));
 #endif
     SetForegroundColour(*wxBLACK);
@@ -523,7 +451,7 @@ void CDlgMessages::OnShow(wxShowEvent& event) {
         bAlreadyRunning = true;
 
         wxLogTrace(wxT("Function Status"), wxT("CDlgMessages::OnShow - Show/Hide Event for CAdvancedFrame detected"));
-        if (event.GetShow()) {
+        if (event.IsShown()) {
             RestoreWindowDimensions();
         } else {
             SaveWindowDimensions();
@@ -670,6 +598,10 @@ void CDlgMessages::RestoreWindowDimensions() {
     pConfig->Read(wxT("Height"), &iHeight, 480);
     pConfig->Read(wxT("WindowIconized"), &bWindowIconized, false);
     pConfig->Read(wxT("WindowMaximized"), &bWindowMaximized, false);
+
+    // Guard against a rare situation where registry values are zero
+    if (iWidth < 50) iWidth = 640;
+    if (iHeight < 50) iHeight = 480;
 
 #ifndef __WXMAC__
 

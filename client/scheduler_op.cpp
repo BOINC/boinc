@@ -128,7 +128,7 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
         // Now's a good time to check for new BOINC versions
         // and project list
         //
-        if (!config.no_info_fetch) {
+        if (!cc_config.no_info_fetch) {
             gstate.new_version_check();
             gstate.all_projects_list_check();
         }
@@ -216,7 +216,7 @@ static void request_string(char* buf) {
     for (int i=0; i<coprocs.n_rsc; i++) {
         if (rsc_work_fetch[i].req_secs) {
             if (!first) strcat(buf, " and ");
-            strcat(buf, rsc_name(i));
+            strcat(buf, rsc_name_long(i));
             first = false;
         }
     }
@@ -228,7 +228,7 @@ static void request_string(char* buf) {
 //
 int SCHEDULER_OP::start_rpc(PROJECT* p) {
     int retval;
-    char request_file[1024], reply_file[1024], buf[256];
+    char request_file[1024], reply_file[1024], buf[1024];
 
     safe_strcpy(scheduler_url, p->get_scheduler_url(url_index, url_random));
     if (log_flags.sched_ops) {
@@ -247,10 +247,9 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
         if (strlen(buf)) {
             msg_printf(p, MSG_INFO, "Requesting new tasks for %s", buf);
         } else {
-            if (p->pwf.cant_fetch_work_reason) {
+            if (p->pwf.project_reason) {
                 msg_printf(p, MSG_INFO,
-                    "Not requesting tasks: %s",
-                    cant_fetch_work_string(p->pwf.cant_fetch_work_reason)
+                    "Not requesting tasks: %s", project_reason_string(p, buf)
                 );
             } else {
                 msg_printf(p, MSG_INFO, "Not requesting tasks");
@@ -261,7 +260,7 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
         for (int i=0; i<coprocs.n_rsc; i++) {
             msg_printf(p, MSG_INFO,
                 "[sched_op] %s work request: %.2f seconds; %.2f devices",
-                rsc_name(i),
+                rsc_name_long(i),
                 rsc_work_fetch[i].req_secs,
                 rsc_work_fetch[i].req_instances
             );
@@ -579,6 +578,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     MIOFILE mf;
     XML_PARSER xp(&mf);
     std::string delete_file_name;
+    bool verify_files_on_app_start = false;
+    bool non_cpu_intensive = false;
+    bool ended = false;
 
     mf.init_file(in);
     bool found_start_tag = false, btemp;
@@ -591,6 +593,12 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         // Don't overwrite the host venue in that case.
     sr_feeds.clear();
     trickle_up_urls.clear();
+
+    if (!project->anonymous_platform) {
+        for (int i=0; i<MAX_RSC; i++) {
+            project->no_rsc_apps[i] = false;
+        }
+    }
 
     // First line should either be tag (HTTP 1.0) or
     // hex length of response (HTTP 1.1)
@@ -629,6 +637,13 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             if (project->dont_use_dcf) {
                 project->duration_correction_factor = 1;
             }
+
+            // boolean project attributes.
+            // If the scheduler reply didn't specify them, they're not set.
+            //
+            project->verify_files_on_app_start = verify_files_on_app_start;
+            project->non_cpu_intensive = non_cpu_intensive;
+            project->ended = ended;
             return 0;
         }
         else if (xp.parse_str("project_name", project->project_name, sizeof(project->project_name))) {
@@ -819,6 +834,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             continue;
         } else if (xp.parse_str("cross_project_id", project->cross_project_id, sizeof(project->cross_project_id))) {
             continue;
+        } else if (xp.parse_str("external_cpid", project->external_cpid, sizeof(project->external_cpid))) {
+            continue;
         } else if (xp.match_tag("trickle_down")) {
             retval = gstate.handle_trickle_down(project, in);
             if (retval) {
@@ -827,9 +844,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 );
             }
             continue;
-        } else if (xp.parse_bool("non_cpu_intensive", project->non_cpu_intensive)) {
+        } else if (xp.parse_bool("non_cpu_intensive", non_cpu_intensive)) {
             continue;
-        } else if (xp.parse_bool("ended", project->ended)) {
+        } else if (xp.parse_bool("ended", ended)) {
             continue;
         } else if (xp.parse_bool("no_cpu_apps", btemp)) {
             if (!project->anonymous_platform) {
@@ -854,7 +871,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 handle_no_rsc_apps(buf, project, true);
             }
             continue;
-        } else if (xp.parse_bool("verify_files_on_app_start", project->verify_files_on_app_start)) {
+        } else if (xp.parse_bool("verify_files_on_app_start", verify_files_on_app_start)) {
             continue;
         } else if (xp.parse_bool("send_full_workload", send_full_workload)) {
             continue;

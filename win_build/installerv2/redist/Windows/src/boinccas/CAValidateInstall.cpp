@@ -175,7 +175,7 @@ BOOL CAValidateInstall::ValidateExecutable( tstring strExecutable, tstring strDe
             );
 
             // Which language should be used to lookup the structure?
-            safe_strcpy(szQuery, _T("\\VarFileInfo\\Translation"));
+            _tcscpy(szQuery, _T("\\VarFileInfo\\Translation"));
             VerQueryValue(lpData, szQuery, (LPVOID*)&lpTranslate, &uiVarSize);
 
             // Version specified as part of the root record.

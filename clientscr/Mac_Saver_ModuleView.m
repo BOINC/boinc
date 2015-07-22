@@ -40,22 +40,11 @@ typedef int NSInteger;
 typedef float CGFloat;
 #endif
 
-#ifndef GrafPtr
-// OS 10.7 SDK and later do not have QuickDraw headers
-// Although the run-time libraries are still available, 
-// we use weak linking in case they are removed in 
-// future versions of OS X. 
-typedef struct OpaqueGrafPtr* GrafPtr;
-void GetPort(GrafPtr * port) __attribute__((weak_import));
-void SetPortTextFont(GrafPtr port,short txFont) __attribute__((weak_import));
-void SetPortTextSize(CGrafPtr port, short txSize) __attribute__((weak_import));
-#endif
-#define kHelveticaFontID 21
+static int compareOSVersionTo(int toMajor, int toMinor);
 
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
 
-static SInt32 gSystemVersion = 0;
 static double gSS_StartTime = 0.0;
 mach_port_t gEventHandle = 0;
 
@@ -106,12 +95,7 @@ int signof(float x) {
 
     gEventHandle = NXOpenEventStatus();
 
-    OSStatus err = Gestalt(gestaltSystemVersion, &gSystemVersion);
-    if (err != noErr) {
-        gSystemVersion = 0;
-    }
-    
-    initBOINCSaver();  
+    initBOINCSaver();
 
     if (gBOINC_Logo == NULL) {
         if (self) {
@@ -228,9 +212,9 @@ int signof(float x) {
  
     gTopWindowListIndex = -1;
     
-    if (gBOINC_Logo) {
-        [ gBOINC_Logo release ];
-    }
+//    if (gBOINC_Logo) {
+//        [ gBOINC_Logo release ];
+//    }
     gBOINC_Logo = NULL;
     
     // gPathToBundleResources has been released by autorelease
@@ -275,7 +259,6 @@ int signof(float x) {
             [ myImage setScalesWhenResized:YES ];
             [ myImage setSize:theFrame.size ];
             [ myImage drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 ];
-            [ myImage release ];
         }
         [ self setAnimationTimeInterval:1/1.0 ];
 #else   // Code for possible future use if we want to draw more in preview
@@ -288,12 +271,12 @@ int signof(float x) {
 
     // For unkown reasons, OS 10.7 Lion screensaver delays several seconds after 
     // user activity before calling stopAnimation, so we check user activity here
-    if ((gSystemVersion >= 0x1070) && ((getDTime() - gSS_StartTime) > 2.0)) {
+    if ((compareOSVersionTo(10, 7) >= 0) && ((getDTime() - gSS_StartTime) > 2.0)) {
         kernResult = IOHIDGetParameter( gEventHandle, CFSTR(EVSIOIDLE), sizeof(UInt64), &params, &rcnt );
         if ( kernResult == kIOReturnSuccess ) {
             idleTime = ((double)params) / 1000.0 / 1000.0 / 1000.0;
             if (idleTime < 1.5) {
-                [ self stopAnimation ];
+                [ NSApp terminate:nil ];
             }
         }
     }
@@ -464,29 +447,14 @@ int signof(float x) {
             CGContextTranslateCTM (myContext, 0, viewBounds.origin.y + viewBounds.size.height);
             CGContextScaleCTM (myContext, 1.0f, -1.0f);
 
-            if (gSystemVersion >= 0x1050) {
-                CTFontRef myFont = CTFontCreateWithName(CFSTR("Helvetica"), 20, NULL);
+            CTFontRef myFont = CTFontCreateWithName(CFSTR("Helvetica"), 20, NULL);
 
-                HIThemeTextInfo theTextInfo = {kHIThemeTextInfoVersionOne, kThemeStateActive, kThemeSpecifiedFont, 
-                            kHIThemeTextHorizontalFlushLeft, kHIThemeTextVerticalFlushTop, 
-                            kHIThemeTextBoxOptionNone, kHIThemeTextTruncationNone, 0, false,
-                            0, myFont
-                            };
-                textInfo = theTextInfo;
-            } else {
-#ifndef __x86_64__
-                GrafPtr port;
-                GetPort(&port);
-                SetPortTextFont(port, kHelveticaFontID);
-                SetPortTextSize(port, 20);
-                
-                HIThemeTextInfo theTextInfo = {0, kThemeStateActive, kThemeCurrentPortFont, //kThemeMenuItemCmdKeyFont, //kThemePushButtonFont, 
-                            kHIThemeTextHorizontalFlushLeft, kHIThemeTextVerticalFlushTop, 
-                            kHIThemeTextBoxOptionNone, kHIThemeTextTruncationNone, 0, false 
-                            };
-                textInfo = theTextInfo;
-#endif
-            }
+            HIThemeTextInfo theTextInfo = {kHIThemeTextInfoVersionOne, kThemeStateActive, kThemeSpecifiedFont, 
+                        kHIThemeTextHorizontalFlushLeft, kHIThemeTextVerticalFlushTop, 
+                        kHIThemeTextBoxOptionNone, kHIThemeTextTruncationNone, 0, false,
+                        0, myFont
+                        };
+            textInfo = theTextInfo;
 
             HIThemeGetTextDimensions(cf_msg, (float)gMovingRect.size.width, &textInfo, NULL, &gActualTextBoxHeight, NULL);
             gActualTextBoxHeight += TEXTBOXTOPBORDER;
@@ -570,8 +538,10 @@ int signof(float x) {
 // Called when the user clicked the SAVE button
 - (IBAction) closeSheetSave:(id) sender
 {
-    int period;
-
+    int period = 0;
+    
+    NSScanner *scanner, *scanner2;
+    
     // get the defaults
 	ScreenSaverDefaults *defaults = [ ScreenSaverDefaults defaultsForModuleWithName:mBundleID ];
 
@@ -579,24 +549,31 @@ int signof(float x) {
 	gGoToBlank = [ mGoToBlankCheckbox state ];
 	mBlankingTimeString = [ mBlankingTimeTextField stringValue ];
     gBlankingTime = [ mBlankingTimeString intValue ];
-    if ((gBlankingTime < 0) || (gBlankingTime > 999)) goto Bad;
+    scanner = [ NSScanner scannerWithString:mBlankingTimeString];
+    if (![ scanner scanInt:&period ]) goto Bad;
+    if (![ scanner isAtEnd ]) goto Bad;
+    if ((period < 0) || (period > 999)) goto Bad;
+    gBlankingTime = period;
 
 	mDefaultPeriodString = [ mDefaultPeriodTextField stringValue ];
-    period = [ mDefaultPeriodString intValue ];
-    if (!validateNumericString((CFStringRef)mDefaultPeriodString)) goto Bad;
+    scanner2 = [ scanner initWithString:mDefaultPeriodString];
+    if (![ scanner2 scanInt:&period ]) goto Bad;
+    if (![ scanner2 isAtEnd ]) goto Bad;
     if ((period < 0) || (period > 999)) goto Bad;
     setGFXDefaultPeriod((double)(period * 60));
 
 	mSciencePeriodString = [ mSciencePeriodTextField stringValue ];
-    period = [ mSciencePeriodString intValue ];
-    if (!validateNumericString((CFStringRef)mSciencePeriodString)) goto Bad;
+    scanner2 = [ scanner initWithString:mSciencePeriodString];
+    if (![ scanner2 scanInt:&period ]) goto Bad;
+    if (![ scanner2 isAtEnd ]) goto Bad;
     if ((period < 0) || (period > 999)) goto Bad;
     setGFXSciencePeriod((double)(period * 60));
 
 	mChangePeriodString = [ mChangePeriodTextField stringValue ];
-    period = [ mChangePeriodString intValue ];
-     if (!validateNumericString((CFStringRef)mChangePeriodString)) goto Bad;
-   if ((period < 0) || (period > 999)) goto Bad;
+    scanner2 = [ scanner initWithString:mChangePeriodString];
+    if (![ scanner2 scanInt:&period ]) goto Bad;
+    if (![ scanner2 isAtEnd ]) goto Bad;
+    if ((period < 0) || (period > 999)) goto Bad;
     setGGFXChangePeriod((double)(period * 60));
 	
 	// write the defaults
@@ -617,7 +594,7 @@ int signof(float x) {
     return;
 Bad:
 ;   // Empty statement is needed to prevent compiler error
-    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+    NSAlert *alert = [[NSAlert alloc] init];
     [alert addButtonWithTitle:@"OK"];
     [alert setMessageText:@"Please enter a number between 0 and 999."];
     [alert setAlertStyle:NSCriticalAlertStyle];
@@ -632,3 +609,27 @@ Bad:
 }
 
 @end
+
+
+static int compareOSVersionTo(int toMajor, int toMinor) {
+    SInt32 major, minor;
+    OSStatus err = noErr;
+    
+    err = Gestalt(gestaltSystemVersionMajor, &major);
+    if (err != noErr) {
+        fprintf(stderr, "Gestalt(gestaltSystemVersionMajor) returned error %ld\n", (long)err);
+        fflush(stderr);
+        return -1;  // gestaltSystemVersionMajor selector was not available before OS 10.4
+    }
+    if (major < toMajor) return -1;
+    if (major > toMajor) return 1;
+    err = Gestalt(gestaltSystemVersionMinor, &minor);
+    if (err != noErr) {
+        fprintf(stderr, "Gestalt(gestaltSystemVersionMinor) returned error %ld\n", (long)err);
+        fflush(stderr);
+        return -1;  // gestaltSystemVersionMajor selector was not available before OS 10.4
+    }
+    if (minor < toMinor) return -1;
+    if (minor > toMinor) return 1;
+    return 0;
+}

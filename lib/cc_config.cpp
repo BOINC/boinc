@@ -191,12 +191,12 @@ int LOG_FLAGS::write(MIOFILE& out) {
     return 0;
 }
 
-CONFIG::CONFIG() {
+CC_CONFIG::CC_CONFIG() {
 }
 
 // this is called first thing by client
 //
-void CONFIG::defaults() {
+void CC_CONFIG::defaults() {
     abort_jobs_on_exit = false;
     allow_multiple_clients = false;
     allow_remote_gui_rpc = false;
@@ -205,10 +205,11 @@ void CONFIG::defaults() {
     client_new_version_text = "";
     client_version_check_url = "http://boinc.berkeley.edu/download.php?xml=1";
     config_coprocs.clear();
-    data_dir[0] = 0;
     disallow_attach = false;
     dont_check_file_sizes = false;
     dont_contact_ref_site = false;
+    dont_suspend_nci = false;
+    dont_use_vbox = false;
     exclude_gpus.clear();
     exclusive_apps.clear();
     exclusive_gpu_apps.clear();
@@ -239,7 +240,11 @@ void CONFIG::defaults() {
     os_random_only = false;
     proxy_info.clear();
     rec_half_life = 10*86400;
+#ifdef ANDROID
+    report_results_immediately = true;
+#else
     report_results_immediately = false;
+#endif
     run_apps_manually = false;
     save_stats_days = 30;
     simple_gui_only = false;
@@ -278,9 +283,9 @@ int EXCLUDE_GPU::parse(XML_PARSER& xp) {
 }
 
 // This is used by GUI RPC clients, NOT by the BOINC client
-// KEEP IN SYNCH WITH CONFIG::parse_options_client()!!
+// KEEP IN SYNCH WITH CC_CONFIG::parse_options_client()!!
 //
-int CONFIG::parse_options(XML_PARSER& xp) {
+int CC_CONFIG::parse_options(XML_PARSER& xp) {
     string s;
     int n, retval;
 
@@ -331,12 +336,11 @@ int CONFIG::parse_options(XML_PARSER& xp) {
             config_coprocs.add(c);
             continue;
         }
-        if (xp.parse_str("data_dir", data_dir, sizeof(data_dir))) {
-            continue;
-        }
         if (xp.parse_bool("disallow_attach", disallow_attach)) continue;
         if (xp.parse_bool("dont_check_file_sizes", dont_check_file_sizes)) continue;
         if (xp.parse_bool("dont_contact_ref_site", dont_contact_ref_site)) continue;
+        if (xp.parse_bool("dont_suspend_nci", dont_suspend_nci)) continue;
+        if (xp.parse_bool("dont_use_vbox", dont_use_vbox)) continue;
         if (xp.match_tag("exclude_gpu")) {
             EXCLUDE_GPU eg;
             retval = eg.parse(xp);
@@ -426,12 +430,12 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool("use_certs_only", use_certs_only)) continue;
         if (xp.parse_bool("vbox_window", vbox_window)) continue;
 
-        xp.skip_unexpected(true, "CONFIG::parse_options");
+        xp.skip_unexpected(true, "CC_CONFIG::parse_options");
     }
     return ERR_XML_PARSE;
 }
 
-int CONFIG::parse(XML_PARSER& xp, LOG_FLAGS& log_flags) {
+int CC_CONFIG::parse(XML_PARSER& xp, LOG_FLAGS& log_flags) {
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
             continue;
@@ -451,7 +455,32 @@ int CONFIG::parse(XML_PARSER& xp, LOG_FLAGS& log_flags) {
     return ERR_XML_PARSE;
 }
 
-int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
+void EXCLUDE_GPU::write(MIOFILE& out) {
+    out.printf(
+        "    <exclude_gpu>\n"
+        "        <url>%s</url>\n"
+        "        <device_num>%d</device_num>\n",
+        url.c_str(),
+        device_num
+    );
+    if (type.length()) {
+        out.printf(
+            "        <type>%s</type>\n",
+            type.c_str()
+        );
+    }
+    if (appname.length()) {
+        out.printf(
+            "        <app>%s</app>\n",
+            appname.c_str()
+        );
+    }
+    out.printf(
+        "    </exclude_gpu>\n"
+    );
+}
+
+int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
     int j;
     unsigned int i;
 
@@ -510,20 +539,23 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         );
     }
     
-    // Older versions of BOINC choke on empty data_dir string 
-    if (strlen(data_dir)) {
-        out.printf("        <data_dir>%s</data_dir>\n", data_dir);
-    }
-    
     out.printf(
         "        <disallow_attach>%d</disallow_attach>\n"
         "        <dont_check_file_sizes>%d</dont_check_file_sizes>\n"
-        "        <dont_contact_ref_site>%d</dont_contact_ref_site>\n",
+        "        <dont_contact_ref_site>%d</dont_contact_ref_site>\n"
+        "        <dont_suspend_nci>%d</dont_suspend_nci>\n"
+        "        <dont_use_vbox>%d</dont_use_vbox>\n",
         disallow_attach,
         dont_check_file_sizes,
-        dont_contact_ref_site
+        dont_contact_ref_site,
+        dont_suspend_nci,
+        dont_use_vbox
     );
     
+    for (i=0; i<exclude_gpus.size(); i++) {
+        exclude_gpus[i].write(out);
+    }
+
     for (i=0; i<exclusive_apps.size(); ++i) {
         out.printf(
             "        <exclusive_app>%s</exclusive_app>\n",
@@ -537,7 +569,7 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
             exclusive_gpu_apps[i].c_str()
         );
     }
-            
+
     out.printf(
         "        <exit_after_finish>%d</exit_after_finish>\n"
         "        <exit_before_start>%d</exit_before_start>\n"
@@ -618,7 +650,7 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <save_stats_days>%d</save_stats_days>\n"
         "        <skip_cpu_benchmarks>%d</skip_cpu_benchmarks>\n"
         "        <simple_gui_only>%d</simple_gui_only>\n"
-        "        <start_delay>%d</start_delay>\n"
+        "        <start_delay>%f</start_delay>\n"
         "        <stderr_head>%d</stderr_head>\n"
         "        <suppress_net_info>%d</suppress_net_info>\n"
         "        <unsigned_apps_ok>%d</unsigned_apps_ok>\n"

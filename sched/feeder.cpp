@@ -23,6 +23,7 @@
 //  [ --allapps ]           interleave results from all applications uniformly
 //  [ --by_batch ]          interleave results from all batches uniformly
 //  [ --random_order ]      order by "random" field of result
+//  [ --random_order_db ]   randomize order with SQL rand(sysdate())
 //  [ --priority_order ]    order by decreasing "priority" field of result
 //  [ --priority_asc ]      order by increasing "priority" field of result
 //  [ --priority_order_create_time ]
@@ -107,14 +108,15 @@
 #include <vector>
 using std::vector;
 
-#include "version.h"
 #include "boinc_db.h"
-#include "shmem.h"
 #include "error_numbers.h"
-#include "synch.h"
-#include "util.h"
+#include "filesys.h"
+#include "shmem.h"
 #include "str_util.h"
 #include "svn_version.h"
+#include "synch.h"
+#include "util.h"
+#include "version.h"
 
 #include "credit.h"
 #include "sched_config.h"
@@ -705,6 +707,7 @@ void usage(char *name) {
         "  [ -d X | --debug_level X]        Set log verbosity to X (1..4)\n"
         "  [ --allapps ]                    Interleave results from all applications uniformly.\n"
         "  [ --random_order ]               order by \"random\" field of result\n"
+        "  [ --random_order_db ]            randomize order with SQL rand(sysdate())\n"
         "  [ --priority_asc ]               order by increasing \"priority\" field of result\n"
         "  [ --priority_order ]             order by decreasing \"priority\" field of result\n"
         "  [ --priority_order_create_time ] order by priority, then by increasing WU create time\n"
@@ -738,6 +741,8 @@ int main(int argc, char** argv) {
             if (dl == 4) g_print_queries = true;
         } else if (is_arg(argv[i], "random_order")) {
             order_clause = "order by r1.random ";
+        } else if (is_arg(argv[i], "random_order_db")) {
+            order_clause = "order by rand(sysdate()) ";
         } else if (is_arg(argv[i], "allapps")) {
             all_apps = true;
         } else if (is_arg(argv[i], "priority_asc")) {

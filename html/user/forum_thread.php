@@ -37,10 +37,15 @@ if ($filter != "false"){
 }
 
 $logged_in_user = get_logged_in_user(false);
+
 $tokens = "";
 if ($logged_in_user) {
     BoincForumPrefs::lookup($logged_in_user);
     $tokens = url_tokens($logged_in_user->authenticator);
+}
+
+if (DISABLE_FORUMS && !is_admin($logged_in_user)) {
+    error_page("Forums are disabled");
 }
 
 if ($threadid < 1) {
@@ -94,11 +99,7 @@ if ($temp_sort_style) {
     }
 }
 
-if ($logged_in_user && $logged_in_user->prefs->jump_to_unread){
-    page_head($title, 'jumpToUnread();');
-} else {
-    page_head($title);
-}
+page_head($title, 'jumpToUnread();');
 
 $is_subscribed = $logged_in_user && BoincSubscription::lookup($logged_in_user->id, $thread->id);
 
@@ -151,115 +152,128 @@ echo "
 ";
 
 $reply_url = "";
-if (can_reply($thread, $forum, $logged_in_user)) {
-    $reply_url = "forum_reply.php?thread=".$thread->id."#input";
-    show_button(
-        $reply_url,
-        tra("Post to thread"),
-        tra("Add a new message to this thread")
-    );
-}
-
-if ($is_subscribed) {
-    $type = NOTIFY_SUBSCRIBED_POST;
-    BoincNotify::delete_aux(
-        "userid=$logged_in_user->id and type=$type and opaque=$thread->id"
-    );
-    $url = "forum_subscribe.php?action=unsubscribe&amp;thread=".$thread->id."$tokens";
-    show_button(
-        $url,
-        tra("Unsubscribe"),
-        tra("You are subscribed to this thread.  Click here to unsubscribe.")
-    );
+if (!$logged_in_user) {
+    echo "To post messages, you must <a href=login_form.php>log in</a>.";
 } else {
-    $url = "forum_subscribe.php?action=subscribe&amp;thread=".$thread->id."$tokens";
-    show_button(
-        $url,
-        tra("Subscribe"),
-        tra("Click to get email when there are new posts in this thread")
-    );
-}
+    if (can_reply($thread, $forum, $logged_in_user)) {
+        $reply_url = "forum_reply.php?thread=".$thread->id."#input";
+        show_button(
+            $reply_url,
+            tra("Post to thread"),
+            tra("Add a new message to this thread")
+        );
+    }
 
-//If the logged in user is moderator enable some extra features
-//
-if (is_moderator($logged_in_user, $forum)) {
-    if ($thread->hidden){
+    if ($is_subscribed) {
+        $type = NOTIFY_SUBSCRIBED_POST;
+        BoincNotify::delete_aux(
+            "userid=$logged_in_user->id and type=$type and opaque=$thread->id"
+        );
+        $url = "forum_subscribe.php?action=unsubscribe&amp;thread=".$thread->id."$tokens";
         show_button(
-            "forum_moderate_thread_action.php?action=unhide&amp;thread=".$thread->id."$tokens",
-            tra("Unhide"),
-            tra("Unhide this thread")
+            $url,
+            tra("Unsubscribe"),
+            tra("You are subscribed to this thread.  Click here to unsubscribe.")
         );
     } else {
+        $url = "forum_subscribe.php?action=subscribe&amp;thread=".$thread->id."$tokens";
         show_button(
-            "forum_moderate_thread.php?action=hide&amp;thread=".$thread->id,
-            tra("Hide"),
-            tra("Hide this thread")
+            $url,
+            tra("Subscribe"),
+            tra("Click to get email when there are new posts in this thread")
         );
     }
-    if ($thread->sticky){
-        show_button(
-            "forum_moderate_thread_action.php?action=desticky&amp;thread=".$thread->id."$tokens",
-            tra("Make unsticky"),
-            tra("Make this thread not sticky")
-        );
-    } else {
-        show_button(
-            "forum_moderate_thread_action.php?action=sticky&amp;thread=".$thread->id."$tokens",
-            tra("Make sticky"),
-            tra("Make this thread sticky")
-        );
-    }
-    if ($thread->locked) {
-        show_button(
-            "forum_moderate_thread_action.php?action=unlock&amp;thread=".$thread->id."$tokens",
-            tra("Unlock"),
-            tra("Unlock this thread")
-        );
-    } else {
-        show_button(
-            "forum_moderate_thread.php?action=lock&amp;thread=".$thread->id."$tokens",
-            tra("Lock"),
-            tra("Lock this thread")
-        );
-    }
-    if ($forum->parent_type == 0) {
-        show_button(
-            "forum_moderate_thread.php?action=move&amp;thread=".$thread->id."$tokens",
-            tra("Move"),
-            tra("Move this thread to a different forum")
-        );
-    }
-    show_button(
-        "forum_moderate_thread.php?action=title&amp;thread=".$thread->id."$tokens",
-        tra("Edit title"),
-        tra("Edit thread title")
-    );
-}
 
-// let admins decide whether a news item should be exported as notice
-//
-if (is_news_forum($forum) && $logged_in_user && ($logged_in_user->id == $thread->owner)) {
-    if ($thread->status) {
+    // If logged in user is moderator, enable some extra features
+    //
+    if (is_moderator($logged_in_user, $forum)) {
+        if ($thread->hidden){
+            show_button(
+                "forum_moderate_thread_action.php?action=unhide&amp;thread=".$thread->id."$tokens",
+                tra("Unhide"),
+                tra("Unhide this thread")
+            );
+        } else {
+            show_button(
+                "forum_moderate_thread.php?action=hide&amp;thread=".$thread->id,
+                tra("Hide"),
+                tra("Hide this thread")
+            );
+        }
+        if ($thread->sticky){
+            show_button(
+                "forum_moderate_thread_action.php?action=desticky&amp;thread=".$thread->id."$tokens",
+                tra("Make unsticky"),
+                tra("Make this thread not sticky")
+            );
+        } else {
+            show_button(
+                "forum_moderate_thread_action.php?action=sticky&amp;thread=".$thread->id."$tokens",
+                tra("Make sticky"),
+                tra("Make this thread always appear at top of forum")
+            );
+        }
+        if ($thread->locked) {
+            show_button(
+                "forum_moderate_thread_action.php?action=unlock&amp;thread=".$thread->id."$tokens",
+                tra("Unlock"),
+                tra("Allow new posts in this thread")
+            );
+        } else {
+            show_button(
+                "forum_moderate_thread.php?action=lock&amp;thread=".$thread->id."$tokens",
+                tra("Lock"),
+                tra("Don't allow new posts in this thread")
+            );
+        }
+        if ($forum->parent_type == 0) {
+            show_button(
+                "forum_moderate_thread.php?action=move&amp;thread=".$thread->id."$tokens",
+                tra("Move"),
+                tra("Move this thread to a different forum")
+            );
+        }
         show_button(
-            "forum_thread_status.php?action=clear&amp;id=$thread->id",
-            tra("Export as Notice"),
-            "Show this message to all volunteers in the desktop GUI.  Use this only for messages of interest or importance to all volunteers."
+            "forum_moderate_thread.php?action=title&amp;thread=".$thread->id."$tokens",
+            tra("Edit title"),
+            tra("Edit thread title")
         );
-    } else {
+    }
+
+    if (is_admin($logged_in_user)) {
         show_button(
-            "forum_thread_status.php?action=set&amp;id=$thread->id",
-            tra("Don't export"),
-            tra("Don't export this news item as a Notice")
+            "forum_moderate_thread.php?action=delete&amp;thread=".$thread->id."$tokens",
+            tra("Delete"),
+            tra("Delete thread permanently")
         );
+    }
+
+    // let admins decide whether a news item should be exported as notice
+    //
+    if (is_news_forum($forum) && $logged_in_user && ($logged_in_user->id == $thread->owner)) {
+        if ($thread->status) {
+            show_button(
+                "forum_thread_status.php?action=clear&amp;id=$thread->id",
+                tra("Export as Notice"),
+                "Show this message to all volunteers in the desktop GUI.  Use this only for messages of interest or importance to all volunteers."
+            );
+        } else {
+            show_button(
+                "forum_thread_status.php?action=set&amp;id=$thread->id",
+                tra("Don't export"),
+                tra("Don't export this news item as a Notice")
+            );
+        }
     }
 }
 
 // Display a box that allows the user to select sorting of the posts
+//
 echo "</td><td align=\"right\">
     <input type=\"hidden\" name=\"id\" value=\"", $thread->id, "\">" .
     tra("Sort");
 echo select_from_array("sort", $thread_sort_styles, $sort_style);
-echo "<input type=\"submit\" value=\"".tra('Sort')."\">
+echo "<input class=\"btn btn-default\" type=\"submit\" value=\"".tra('Sort')."\">
     </td></tr></table></form>
 ";
 

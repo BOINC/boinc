@@ -2,40 +2,46 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-03 18:11-0700\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-01-26 00:00-0800\n"
+"PO-Revision-Date: 2013-10-21 15:34+0000\n"
+"Last-Translator: chris g <chr1407@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.9.0\n"
-"X-Poedit-SourceCharset: utf-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.5.0\n"
+"X-Poedit-SearchPath-0: mac_installer\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
+"X-POOTLE-MTIME: 1382369640.0\n"
+"X-Poedit-KeywordsList: _\n"
 
-#: Installer.cpp:120
+#: Installer.cpp:124
 #, c-format
-msgid "Sorry, this version of %s requires system 10.4 or higher."
+msgid "Sorry, this version of %s requires system 10.5 or higher."
 msgstr ""
 
-#: PostInstall.cpp:130
+#: PostInstall.cpp:130 PostInstall.cpp:1136 uninstall.cpp:1618
 msgid "Yes"
-msgstr ""
+msgstr "Ναι"
 
-#: PostInstall.cpp:131
+#: PostInstall.cpp:131 PostInstall.cpp:1137 uninstall.cpp:1619
 msgid "No"
-msgstr ""
+msgstr "Όχι"
 
 #: PostInstall.cpp:133
 msgid "Should BOINC run even when no user is logged in?"
 msgstr ""
+"Να εκτελείται το BOINC ακόμη και όταν κανένας χρήστης δεν είναι "
+"συνδεδεμένος;"
 
-#: PostInstall.cpp:1433
+#: PostInstall.cpp:1416
 #, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be "
@@ -45,66 +51,92 @@ msgid ""
 "on this Mac?"
 msgstr ""
 
-#: PostInstall.cpp:1461
+#: PostInstall.cpp:1444
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr ""
 
-#: uninstall.cpp:71
+#: uninstall.cpp:82
 msgid "OK"
-msgstr ""
+msgstr "Εντάξει"
 
-#: uninstall.cpp:72
-msgid "Cancel"
-msgstr ""
-
-#: uninstall.cpp:73
-msgid "Continue..."
-msgstr ""
-
-#: uninstall.cpp:89
+#: uninstall.cpp:136
 msgid "Permission error after relaunch"
-msgstr ""
+msgstr "Σφάλμα άδειας μετά απο επανεκτέλεση"
 
-#: uninstall.cpp:93
+#: uninstall.cpp:141
+#, fuzzy
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
 msgstr ""
+"Η Αφαίρεση μπορεί να διαρκέσει αρκετά λεπτά.\n"
+"Παρακαλώ να είστε υπομονετικοί."
 
-#: uninstall.cpp:133
+#: uninstall.cpp:156
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
 "\n"
 "This will remove the executables but will not touch %s data files."
 msgstr ""
+"Είστε σίγουροι οτι θέλετε να αφαιρέσετε τελείως το %s απο τον υπολογιστή "
+"σας;\n"
+"\n"
+"Αυτό θα αφαιρέσει τα εκτελέσιμα αρχεία αλλά τα %s αρχεία δεδομένων θα "
+"μείνουν ανέπαφα."
 
-#: uninstall.cpp:142
+#: uninstall.cpp:163
 #, c-format
 msgid "Canceled: %s has not been touched."
-msgstr ""
+msgstr "Ακυρώθηκε: %s έμειναν ανέπαφα."
 
-#: uninstall.cpp:151
+#: uninstall.cpp:174
 #, c-format
 msgid "An error occurred: error code %d"
+msgstr "Ένα σφάλμα συνέβει: κωδικός σφάλματος %d"
+
+#: uninstall.cpp:230
+msgid "name  of user"
+msgstr "όνομα   του χρήστη"
+
+#: uninstall.cpp:272
+msgid ""
+"Do you also want to remove VirtualBox from your computer?\n"
+"(VirtualBox was installed along with BOINC.)"
 msgstr ""
 
-#: uninstall.cpp:153
+#: uninstall.cpp:312
+#, c-format
 msgid ""
 "Removal completed.\n"
 "\n"
 " You may want to remove the following remaining items using the Finder: \n"
-"\"/Library/Application Support/BOINC Data\" directory\n"
+"the directory \"%s\"\n"
 "\n"
 "for each user, the file\n"
-"\"/Users/[username]/Library/Preferences/BOINC Manager Preferences\"."
+"\"%s\"."
 msgstr ""
 
-#: uninstall.cpp:686
+#: uninstall.cpp:840
 #, c-format
 msgid ""
 "Enter your administrator password to completely remove %s from you "
 "computer.\n"
 "\n"
 msgstr ""
+"Βάλτε τον κωδικό διαχειριστή για να αφαιρέσετε τελείως το %s απο τον "
+"υπολογιστή σας\n"
+"\n"
+
+#: uninstall.cpp:1616
+msgid "Cancel"
+msgstr "Ακύρωση"
+
+#: uninstall.cpp:1617
+msgid "Continue..."
+msgstr "Συνέχεια..."
+
+#, c-format
+#~ msgid "Sorry, this version of %s requires system 10.4 or higher."
+#~ msgstr "Συγγνώμη, αυτή η έκδοση του %s απαιτεί σύστημα 10.4 ή μεγαλύτερο."

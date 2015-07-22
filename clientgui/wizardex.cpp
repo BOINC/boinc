@@ -8,7 +8,7 @@
 //              3) Fixed ShowPage() bug on displaying bitmaps
 //              Robert Vazan (sizers)
 // Created:     15.08.99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: wizardex.cpp 19603 2009-11-18 17:30:03Z romw $
 // Copyright:   (c) 1999 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -650,7 +650,7 @@ void wxWizardEx::OnCancel(wxCommandEvent& WXUNUSED(eventUnused))
     // page, but a small extra check won't hurt
     wxWindow *win = m_page ? (wxWindow *)m_page : (wxWindow *)this;
 
-    wxWizardExEvent event(wxEVT_WIZARD_CANCEL, GetId(), false, m_page);
+    wxWizardExEvent event(wxEVT_WIZARDEX_CANCEL, GetId(), false, m_page);
     if ( !win->GetEventHandler()->ProcessEvent(event) || event.IsAllowed() )
     {
         // no objections - close the dialog

@@ -28,10 +28,6 @@
 #pragma interface "BOINCGUIApp.cpp"
 #endif
 
-#ifdef __WXMAC__
-#include "mac/MacSysMenu.h"     // Must be included before MainDocument.h
-#endif
-
 ///
 /// Which view is on display
 ///
@@ -54,8 +50,10 @@ class CBOINCGUIApp : public wxApp {
 
 protected:
     int                 OnExit();
-#if (defined(__WXMSW__) && !wxCHECK_VERSION(2, 9, 4))
+#ifndef __WXMAC__
     void                OnEndSession(wxCloseEvent& event);
+
+    void                OnFatalException(); 
 #endif
     
     void                OnInitCmdLine(wxCmdLineParser &parser);
@@ -74,17 +72,18 @@ protected:
     wxConfig*           m_pConfig;
     wxLocale*           m_pLocale;
     wxLogBOINC*         m_pLog;
+    wxSingleInstanceChecker* m_pInstanceChecker;
 
     CSkinManager*       m_pSkinManager;
     CBOINCBaseFrame*    m_pFrame;
     CMainDocument*      m_pDocument;
     CTaskBarIcon*       m_pTaskBarIcon;
     CDlgEventLog*       m_pEventLog;
+    bool                m_bEventLogWasActive;
+    bool                m_bProcessingActivateAppEvent;
 #ifdef __WXMAC__
-    CMacSystemMenu*     m_pMacSystemMenu;
+    CTaskBarIcon*       m_pMacDockIcon;
 #endif
-    wxFileSystemHandler* m_pInternetFSHandler;
-    
     wxString            m_strBOINCMGRExecutableName;
     wxString            m_strBOINCMGRRootDirectory;
     wxString            m_strBOINCMGRDataDirectory;
@@ -104,10 +103,8 @@ protected:
     bool                m_bDebugSkins;
     bool                m_bMultipleInstancesOK;
     bool                m_bFilterEvents;
+    bool                m_bAboutDialogIsOpen;
 
-#ifdef __WXMSW__
-    HINSTANCE           m_hClientLibraryDll;
-#endif
 #ifdef __WXMAC__
     ProcessSerialNumber m_psnCurrentProcess;
 #endif
@@ -116,6 +113,7 @@ protected:
     // The last value defined in the wxLanguage enum is wxLANGUAGE_USER_DEFINED.
     // defined in: wx/intl.h
     wxArrayString       m_astrLanguages;
+    wxString            m_strISOLanguageCode;
     
     int                 m_bSafeMessageBoxDisplayed;
 
@@ -137,13 +135,13 @@ public:
     int                 GetClientRPCPortArg()       { return m_iRPCPortArg; }
     CDlgEventLog*       GetEventLog()               { return m_pEventLog; }
     CTaskBarIcon*       GetTaskBarIcon()            { return m_pTaskBarIcon; }
-    void                DeleteTaskBarIcon();
 
+    bool                IsAnotherInstanceRunning()  { return m_pInstanceChecker->IsAnotherRunning(); }
     bool                IsMgrMultipleInstance()     { return m_bMultipleInstancesOK; }
 
 #ifdef __WXMAC__
-    CMacSystemMenu*     GetMacSystemMenu()          { return m_pMacSystemMenu; }
-    void                DeleteMacSystemMenu();
+    void                OnFinishInit();
+    CTaskBarIcon*       GetMacDockIcon()            { return m_pMacDockIcon; }
     int                 ShouldShutdownCoreClient()  { return true; }
 #else
     int                 ShouldShutdownCoreClient()  { return m_iShutdownCoreClient; }
@@ -161,9 +159,11 @@ public:
 
 
     wxArrayString&      GetSupportedLanguages()     { return m_astrLanguages; }
+    wxString            GetISOLanguageCode()        { return m_strISOLanguageCode; }
+    void                SetISOLanguageCode(wxString strISOLanguageCode)
+                                                    { m_strISOLanguageCode = strISOLanguageCode; }
     
-    wxFileSystemHandler*   GetInternetFSHandler()  { return m_pInternetFSHandler; }
-
+    void                SetEventLogWasActive(bool wasActive) { m_bEventLogWasActive = wasActive; }
     void                DisplayEventLog(bool bShowWindow = true);
     void                OnEventLogClose();
 
@@ -189,7 +189,6 @@ public:
                             int y = wxDefaultCoord
                         );
 
-    int                 IsAnotherInstanceRunning();
     bool                IsApplicationVisible();
     void                ShowApplication(bool bShow);
     bool                ShowInterface();
@@ -204,10 +203,29 @@ public:
     int                 UpdateSystemIdleDetection();
     
     void                SetEventFiltering(bool set) { m_bFilterEvents = set; }
+    
+    void                SetAboutDialogIsOpen(bool set) { m_bAboutDialogIsOpen = set; }
+    bool                GetAboutDialogIsOpen() { return m_bAboutDialogIsOpen; }
+
+#ifdef __WXMAC__
+    // The following Cocoa routines are in CBOINCGUIApp.mm
+    //
+    void                HideThisApp(void);
+
+#if !wxCHECK_VERSION(3,0,1)
+// This should be fixed after wxCocoa 3.0.0:
+// http://trac.wxwidgets.org/ticket/16156
+
+    // Override standard wxCocoa wxApp::CallOnInit() to allow Manager
+    // to run properly when launched hidden on login via Login Item. 
+    bool                CallOnInit();
+#endif
+
+    void                CheckPartialActivation();
+#endif
 
 DECLARE_EVENT_TABLE()
 };
-
 
 DECLARE_APP(CBOINCGUIApp)
 

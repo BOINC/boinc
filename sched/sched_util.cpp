@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,204 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Utility functions for server software (not just scheduler)
-
 #include "config.h"
-#include <cstdlib>
-#include <csignal>
-#include <cerrno>
-#include <unistd.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <fcntl.h>
 
-#include "filesys.h"
-#include "md5_file.h"
-#include "error_numbers.h"
-
-#include "sched_msgs.h"
+#include "boinc_db.h"
 #include "sched_util.h"
-#include "sched_config.h"
-#include "util.h"
-
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
-
-const char* STOP_DAEMONS_FILENAME = "stop_daemons";
-    // NOTE: this must be same as in the "start" script
-const char* STOP_SCHED_FILENAME = "stop_sched";
-    // NOTE: this must be same as in the "start" script
-const int STOP_SIGNAL = SIGHUP;
-    // NOTE: this must be same as in the "start" script
-
-void write_pid_file(const char* filename) {
-#ifndef _USING_FCGI_
-    FILE* fpid = fopen(filename, "w");
-#else
-    FCGI_FILE* fpid = FCGI::fopen(filename,"w");
-#endif
-
-    if (!fpid) {
-        log_messages.printf(MSG_CRITICAL, "Couldn't write pid file\n");
-        return;
-    }
-    fprintf(fpid, "%d\n", (int)getpid());
-    fclose(fpid);
-}
-
-// caught_sig_int will be set to true if STOP_SIGNAL (normally SIGHUP)
-//  is caught.
-bool caught_stop_signal = false;
-static void stop_signal_handler(int) {
-    fprintf(stderr, "GOT STOP SIGNAL\n");
-    caught_stop_signal = true;
-}
-
-void install_stop_signal_handler() {
-    signal(STOP_SIGNAL, stop_signal_handler);
-    // handler is now default again so hitting ^C again will kill the program.
-}
-
-void check_stop_daemons() {
-    if (caught_stop_signal) {
-        log_messages.printf(MSG_NORMAL, "Quitting due to SIGHUP\n");
-        exit(0);
-    }
-    const char *stop_file = config.project_path(STOP_DAEMONS_FILENAME);
-    if (boinc_file_exists(stop_file)) {
-        log_messages.printf(MSG_NORMAL,
-            "Quitting because trigger file '%s' is present\n",
-            stop_file
-        );
-        exit(0);
-    }
-}
-
-// sleep for n seconds, but check every second for trigger file
-//
-void daemon_sleep(int nsecs) {
-    for (int i=0; i<nsecs; i++) {
-        check_stop_daemons();
-        sleep(1);
-    }
-}
-
-bool check_stop_sched() {
-    return boinc_file_exists(config.project_path(STOP_SCHED_FILENAME));
-}
-
-// try to open a file.
-// On failure:
-//   return ERR_FOPEN if the dir is there but not file
-//     (this is generally a nonrecoverable failure)
-//   return ERR_OPENDIR if dir is not there.
-//     (this is generally a recoverable error,
-//     like NFS mount failure, that may go away later)
-//
-#ifndef _USING_FCGI_
-int try_fopen(const char* path, FILE*& f, const char* mode) {
-#else
-int try_fopen(const char* path, FCGI_FILE*& f, const char *mode) {
-#endif
-    const char* p;
-    DIR* d;
-    char dirpath[MAXPATHLEN];
-
-#ifndef _USING_FCGI_
-    f = fopen(path, mode);
-#else
-    f = FCGI::fopen(path, mode);
-#endif
-
-    if (!f) {
-        memset(dirpath, '\0', sizeof(dirpath));
-        p = strrchr(path, '/');
-        if (p) {
-            strncpy(dirpath, path, (int)(p-path));
-        } else {
-            strcpy(dirpath, ".");
-        }
-        if ((d = opendir(dirpath)) == NULL) {
-            return ERR_OPENDIR;
-        } else {
-            closedir(d);
-            return ERR_FOPEN;
-        }
-    }
-    return 0;
-}
-
-void get_log_path(char* p, const char* filename) {
-    char host[256];
-    const char *dir;
-
-    gethostname(host, 256);
-    char* q = strchr(host, '.');
-    if (q) *q=0;
-    dir = config.project_path("log_%s", host);
-    sprintf(p, "%s/%s", dir, filename);
-    mode_t old_mask = umask(0);
-    mkdir(dir, 01770);
-        // make log_x directory sticky and group-rwx
-        // so that whatever apache puts there will be owned by us
-    umask(old_mask);
-}
-
-static void filename_hash(const char* filename, int fanout, char* dir) {
-    std::string s = md5_string((const unsigned char*)filename, strlen(filename));
-    int x = strtol(s.substr(1, 7).c_str(), 0, 16);
-    sprintf(dir, "%x", x % fanout);
-}
-
-// given a filename, compute its path in a directory hierarchy
-// If create is true, create the directory if needed
-//
-int dir_hier_path(
-    const char* filename, const char* root, int fanout,
-    char* path, bool create
-) {
-    char dir[256], dirpath[MAXPATHLEN];
-    int retval;
-
-    if (fanout==0) {
-        sprintf(path, "%s/%s", root, filename);
-        return 0;
-    }
-
-    filename_hash(filename, fanout, dir);
-
-    sprintf(dirpath, "%s/%s", root, dir);
-    if (create) {
-        retval = boinc_mkdir(dirpath);
-        if (retval && (errno != EEXIST)) {
-            fprintf(stderr, "boinc_mkdir(%s): %s: errno %d\n",
-                dirpath, boincerror(retval), errno
-            );
-            return ERR_MKDIR;
-        }
-    }
-    sprintf(path, "%s/%s", dirpath, filename);
-    return 0;
-}
-
-// same, but the output is a URL (used by tools/backend_lib.C)
-//
-int dir_hier_url(
-    const char* filename, const char* root, int fanout,
-    char* result
-) {
-    char dir[256];
-
-    if (fanout==0) {
-        sprintf(result, "%s/%s", root, filename);
-        return 0;
-    }
-
-    filename_hash(filename, fanout, dir);
-    sprintf(result, "%s/%s/%s", root, dir, filename);
-    return 0;
-}
 
 void compute_avg_turnaround(HOST& host, double turnaround) {
     double new_avg;
@@ -243,26 +49,6 @@ int PERF_INFO::get_from_db() {
     return 0;
 }
 
-// Request lock on the given file with given fd.  Returns:
-// 0 if we get lock
-// PID (>0) if another process has lock
-// -1 if error
-//
-int mylockf(int fd) {
-    struct flock fl;
-    fl.l_type=F_WRLCK;
-    fl.l_whence=SEEK_SET;
-    fl.l_start=0;
-    fl.l_len=0;
-    if (-1 != fcntl(fd, F_SETLK, &fl)) return 0;
-
-    // if lock failed, find out why
-    errno=0;
-    fcntl(fd, F_GETLK, &fl);
-    if (fl.l_pid>0) return fl.l_pid;
-    return -1;
-}
-
 int count_results(char* query, int& n) {
     DB_RESULT result;
     return result.count(n, query);
@@ -273,51 +59,26 @@ int count_workunits(int& n, const char* query) {
     return workunit.count(n, query);
 }
 
-int count_unsent_results(int& n, int appid) {
-    char buf[256];
+int count_unsent_results(int& n, int appid, int size_class) {
+    char query[1024], buf[256];
+    sprintf(query, "where server_state<=%d", RESULT_SERVER_STATE_UNSENT);
     if (appid) {
-        sprintf(buf, "where server_state<=%d and appid=%d ",
-            RESULT_SERVER_STATE_UNSENT, appid
-        );
-    } else {
-        sprintf(buf, "where server_state<=%d", RESULT_SERVER_STATE_UNSENT);
+        sprintf(buf, " and appid=%d", appid);
+        strcat(query, buf);
     }
-    return count_results(buf, n);
-
-}
-
-bool is_arg(const char* x, const char* y) {
-    char buf[256];
-    strcpy(buf, "--");
-    strcat(buf, y);
-    if (!strcmp(buf, x)) return true;
-    if (!strcmp(buf+1, x)) return true;
-    return false;
-}
-
-// the following is used, among other things,
-// to enforce limits on in-progress jobs
-// for GPUs and CPUs (see handle_request.cpp)
-//
-bool app_plan_uses_gpu(const char* plan_class) {
-    if (strstr(plan_class, "cuda")) {
-        return true;
+    if (size_class >= 0) {
+        sprintf(buf, " and size_class=%d", size_class);
+        strcat(query, buf);
     }
-    if (strstr(plan_class, "nvidia")) {
-        return true;
-    }
-    if (strstr(plan_class, "ati")) {
-        return true;
-    }
-    return false;
+    return count_results(query, n);
 }
 
 // Arrange that further results for this workunit
-// will be sent only to hosts with the given user ID.
+// will be sent only to the specific host(s).
 // This could be used, for example, so that late workunits
 // are sent only to cloud or cluster resources
 //
-int restrict_wu_to_user(WORKUNIT& _wu, int userid) {
+static int restrict_wu(WORKUNIT& _wu, int id, int assign_type) {
     DB_RESULT result;
     DB_ASSIGNMENT asg;
     DB_WORKUNIT wu;
@@ -349,50 +110,25 @@ int restrict_wu_to_user(WORKUNIT& _wu, int userid) {
     //
     asg.clear();
     asg.create_time = time(0);
-    asg.target_id = userid;
-    asg.target_type = ASSIGN_USER;
+    asg.target_id = id;
+    asg.target_type = assign_type;
     asg.multi = 0;
     asg.workunitid = wu.id;
     retval = asg.insert();
     return retval;
 }
 
-#ifdef GCL_SIMULATOR
-
-void simulator_signal_handler(int signum) {
-    FILE *fsim;
-    char currenttime[64];
-    fsim = fopen(config.project_path("simulator/sim_time.txt"),"r");
-    if(fsim){
-        fscanf(fsim,"%s", currenttime);
-        simtime = atof(currenttime);
-        fclose(fsim);
-    }
-    log_messages.printf(MSG_NORMAL,
-        "Invoked by the simulator at time %.0f... \n", simtime
-    );
+int restrict_wu_to_user(WORKUNIT& wu, int userid) {
+    return restrict_wu(wu, userid, ASSIGN_USER);
 }
 
-int itime() {
-    return (int) simtime;
+int restrict_wu_to_host(WORKUNIT& wu, int hostid) {
+    return restrict_wu(wu, hostid, ASSIGN_HOST);
 }
 
-void continue_simulation(const char *daemonname){
-    char daemonfilelok[64];
-    char daemonfile[64];
-    sprintf(daemonfile, strcat((char*)config.project_path("simulator/"),"sim_%s.txt"),daemonname);
-    sprintf(daemonfilelok, strcat((char*)config.project_path("simulator/"),"sim_%s.lok"),daemonname);
-    FILE *fsimlok = fopen(daemonfilelok, "w");
-    if (fsimlok){
-        fclose(fsimlok);
-        FILE *fsim = fopen(daemonfile, "w");
-        if (fsim) {
-            fclose(fsim);
-        }
-    }
-    remove(daemonfilelok);
+// return the min transition time.
+// This lets you check if the transitioner is backed up.
+//
+int min_transition_time(double& x) {
+    return boinc_db.get_double("select min(transition_time) from workunit", x);
 }
-
-#endif
-
-const char *BOINC_RCSID_affa6ef1e4 = "$Id$";

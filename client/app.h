@@ -23,10 +23,11 @@
 #include <vector>
 #endif
 
-#include "client_types.h"
-#include "common_defs.h"
 #include "app_ipc.h"
+#include "common_defs.h"
 #include "procinfo.h"
+
+#include "client_types.h"
 
 #define ABORT_TIMEOUT   15
     // if we send app <abort> request, wait this long before killing it.
@@ -71,11 +72,9 @@ struct ACTIVE_TASK {
     PROCESS_ID pid;
     PROCINFO procinfo;
 
-    // START OF ITEMS SAVED IN STATE FILE
-    int _task_state;
-        // PROCESS_*; see common_defs.h
-    int slot;
-        // subdirectory of slots/ where this runs
+    // START OF ITEMS SAVED IN TASK STATE FILE
+    // (in addition to result name and project URL)
+
     double checkpoint_cpu_time;
         // CPU at the last checkpoint
         // Note: "CPU time" refers to the sum over all episodes.
@@ -83,6 +82,16 @@ struct ACTIVE_TASK {
         // in episodes before the current one)
     double checkpoint_elapsed_time;
         // elapsed time at last checkpoint
+    double peak_working_set_size;
+    double peak_swap_size;
+    double peak_disk_usage;
+
+    // START OF ITEMS ALSO SAVED IN CLIENT STATE FILE
+
+    int _task_state;
+        // PROCESS_*; see common_defs.h
+    int slot;
+        // subdirectory of slots/ where this runs
     double checkpoint_fraction_done;
         // fraction done at last checkpoint
     double checkpoint_fraction_done_elapsed_time;
@@ -99,6 +108,10 @@ struct ACTIVE_TASK {
         // will be zero if the app doesn't use this call
     double fraction_done_elapsed_time;
         // elapsed time when fraction done was last reported
+    double first_fraction_done;
+        // first frac done reported during this run of task
+    double first_fraction_done_elapsed_time;
+        // elapsed time when the above was reported
     int scheduler_state;
     int next_scheduler_state; // temp
     int signal;
@@ -108,8 +121,12 @@ struct ACTIVE_TASK {
         // wall time at the last checkpoint
     double elapsed_time;
         // current total elapsed (running) time
+    double bytes_sent_episode;
+        // bytes sent in current episode of job,
+        // as (optionally) reported by boinc_network_usage()
+    double bytes_received_episode;
     double bytes_sent;
-        // reported by the app if it does network I/O
+        // bytes in all episodes
     double bytes_received;
     char slot_dir[256];
         // directory where process runs (relative)
@@ -178,6 +195,8 @@ struct ACTIVE_TASK {
             || _task_state == PROCESS_EXECUTING
             || _task_state == PROCESS_SUSPENDED;
     }
+    void copy_final_info();
+        // copy final CPU time etc. to result
 
     ACTIVE_TASK();
     ~ACTIVE_TASK();
@@ -186,13 +205,12 @@ struct ACTIVE_TASK {
 
     int current_disk_usage(double&);
         // disk used by output files and temp files of this task
-    void get_free_slot(RESULT*);
-    int start();         // start a process
+    int get_free_slot(RESULT*);
+    int start(bool test=false);         // start a process
 
     // Termination stuff.
     // Terminology:
     // "kill": forcibly kill the main process and all its descendants.
-    //    (note: on Windows secure mode, we can't kill the descendants)
     // "request exit": send a request-exit message, and enumerate descendants.
     //      If after 15 secs any processes remain, kill them
     //      called from:
@@ -211,16 +229,27 @@ struct ACTIVE_TASK {
     //
     int request_exit();
     int request_abort();
-    int kill_task(bool will_restart);
-        // Kill process and descendants forcibly.
+    int kill_running_task(bool will_restart);
+        // Kill process and subsidiary processes forcibly.
         // Unix: send a SIGKILL signal, Windows: TerminateProcess()
+    int kill_subsidiary_processes();
+        // kill subsidiary processes of a job
+        // whose main process has already exited
     int abort_task(int exit_status, const char*);
         // can be called whether or not process exists
 
+    // is the GPU task running or suspended (due to CPU throttling)
+    //
+    inline bool is_gpu_task_running() {
+        int s = task_state();
+        return s == PROCESS_EXECUTING || s == PROCESS_SUSPENDED;
+    }
 
     // Implementation stuff related to termination
     //
     std::vector<int> descendants;
+        // PIDs of descendants, computed every 10 sec or so
+        // during resource usage computation.
     bool process_exists();
     bool has_task_exited();
         // return true if this task has exited
@@ -228,9 +257,9 @@ struct ACTIVE_TASK {
     int suspend();
         // tell a process to stop executing (but stay in mem)
         // Done by sending it a <suspend> message
-    int unsuspend();
+    int unsuspend(int reason=0);
         // Undo a suspend: send a <resume> message
-    int preempt(int preempt_type);
+    int preempt(int preempt_type, int reason=0);
         // preempt (via suspend or quit) a running task
     int resume_or_start(bool);
     void send_network_available();
@@ -240,7 +269,7 @@ struct ACTIVE_TASK {
     void handle_exited_app(int stat);
 #endif
     void handle_premature_exit(bool&);
-    void handle_temporary_exit(bool&, double, const char*);
+    void handle_temporary_exit(bool&, double, const char*, bool);
 
     bool check_max_disk_exceeded();
 
@@ -250,7 +279,7 @@ struct ACTIVE_TASK {
     double est_dur();
     int read_stderr_file();
     bool finish_file_present();
-    bool temporary_exit_file_present(double&, char*);
+    bool temporary_exit_file_present(double&, char*, bool&);
     void init_app_init_data(APP_INIT_DATA&);
     int write_app_init_file(APP_INIT_DATA&);
     int move_trickle_file();
@@ -278,7 +307,7 @@ public:
     void init();
     bool poll();
     void suspend_all(int reason);
-    void unsuspend_all();
+    void unsuspend_all(int reason=0);
     bool is_task_executing();
     void request_tasks_exit(PROJECT* p=0);
     int wait_for_exit(double, PROJECT* p=0);
@@ -314,5 +343,13 @@ extern double exclusive_app_running;    // last time an exclusive app was runnin
 extern double exclusive_gpu_app_running;
 extern int gpu_suspend_reason;
 extern double non_boinc_cpu_usage;
+
+extern void run_test_app();
+
+#ifdef _WIN32
+extern DWORD WINAPI throttler(void*);
+#else
+extern void* throttler(void*);
+#endif
 
 #endif

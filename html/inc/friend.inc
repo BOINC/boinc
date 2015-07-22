@@ -20,13 +20,13 @@
 //
 function friend_notify_req_email_line($notify) {
     $src_user = BoincUser::lookup_id($notify->opaque);
-    if (!$src_user) return "";
+    if (!$src_user) return null;
     return "$src_user->name has requested friendship with you. Please accept or decline.";
 }
 
 function friend_notify_accept_email_line($notify) {
     $src_user = BoincUser::lookup_id($notify->opaque);
-    if (!$src_user) return "";
+    if (!$src_user) return null;
     return "$src_user->name has confirmed you as a friend";
 }
 
@@ -35,6 +35,7 @@ function friend_notify_accept_email_line($notify) {
 //
 function friend_notify_req_web_line($notify) {
     $user = BoincUser::lookup_id($notify->opaque);
+    if (!$user) return null;
     return "
         <a href=friend.php?action=query&userid=$notify->opaque>Friendship request</a> from <a href=show_user.php?userid=$user->id>$user->name</a>
     ";
@@ -42,6 +43,7 @@ function friend_notify_req_web_line($notify) {
 
 function friend_notify_accept_web_line($notify) {
     $user = BoincUser::lookup_id($notify->opaque);
+    if (!$user) return null;
     return "
         <a href=friend.php?action=accepted&userid=$notify->opaque>Friendship confirmation</a> from $user->name
     ";
@@ -93,6 +95,10 @@ Do not reply to this message.
 
 function friend_req_rss($notify, &$title, &$msg, &$url) {
     $src_user = BoincUser::lookup_id($notify->opaque);
+    if (!$src_user) {
+        $msg = null;
+        return;
+    }
     $title = "Friend request";
     $msg = "$src_user->name has requested friendship with you. Please accept or decline.";
     $url = URL_BASE."friend.php?action=query&target_userid=$notify->userid&userid=$notify->opaque";
@@ -100,6 +106,10 @@ function friend_req_rss($notify, &$title, &$msg, &$url) {
 
 function friend_accept_rss($notify, &$title, &$msg, &$url) {
     $src_user = BoincUser::lookup_id($notify->opaque);
+    if (!$src_user) {
+        $msg = null;
+        return;
+    }
     $title = "Friendship confirmation";
     $msg = "$src_user->name has confirmed you as a friend";
     $url = URL_BASE."home.php";

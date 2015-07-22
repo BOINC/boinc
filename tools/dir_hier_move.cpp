@@ -28,8 +28,8 @@
 
 #include "error_numbers.h"
 #include "filesys.h"
-#include "util.h"
 #include "sched_util.h"
+#include "util.h"
 
 const char *usage = 
 "\nUsage: dir_hier_move <src_dir> <dst_dir> <fanout>\n"	

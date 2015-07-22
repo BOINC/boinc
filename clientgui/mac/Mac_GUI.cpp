@@ -30,6 +30,17 @@ using std::min;
 using std::max;
 
 
+/* Begin items to include "BOINC Manager" Mac menu items in localization templates */
+void ThisDummyRoutineIsNeverCalled() {
+    wxString (_("Services"));
+    wxString (_("Hide %s"));
+    wxString (_("Hide Others"));
+    wxString (_("Show All"));
+    wxString (_("Quit %s"));
+}
+/* End items to include "BOINC Manager" Mac menu items in localization templates */
+
+
 // Determine if the currently logged-in user is auhorized to 
 // perform operations which have potential security risks.  
 // An example is "Attach to Project", where a dishonest user might
@@ -71,127 +82,6 @@ Boolean Mac_Authorize()
     }
         
     return sIsAuthorized;
-}
-
-
-// Localize the items in the Mac's BOINC menu
-void MacLocalizeBOINCMenu() {
-    MenuRef BOINCMenu;
-    MenuItemIndex itemIndex;
-    wxString originalText = wxEmptyString;
-    char originalCharStr[1024];
-    CFStringRef localizedText;
-    CFStringRef menuItemString;
-    OSStatus err;
-    UInt16 count;
-    CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
-    wxASSERT(pSkinAdvanced);
-    
-    const wxChar *shortName = pSkinAdvanced->GetApplicationShortName().c_str();
-    if (!shortName) return;     // Should never happen
-    
-    err = GetIndMenuItemWithCommandID(NULL, kHICommandAbout, 1, &BOINCMenu, &itemIndex);
-    if (!err) {
-        originalText.Printf(_("About %s"), shortName);
-        strlcpy(originalCharStr, originalText.utf8_str(), sizeof(originalCharStr));
-        if (originalCharStr[0]) {
-            localizedText = CFStringCreateWithCString(NULL, originalCharStr, kCFStringEncodingUTF8);
-            if (localizedText) {
-                SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
-                CFRelease( localizedText );
-            }
-        }
-    }
-    
-    originalText.Clear();
-    err = GetIndMenuItemWithCommandID(NULL, kHICommandPreferences, 1, &BOINCMenu, &itemIndex);
-    if (!err) {
-        originalText = _("Preferences…");
-        strlcpy(originalCharStr, originalText.utf8_str(), sizeof(originalCharStr));
-        if (originalCharStr[0]) {
-            localizedText = CFStringCreateWithCString(NULL, originalCharStr, kCFStringEncodingUTF8);
-            if (localizedText) {
-                SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
-                CFRelease( localizedText );
-            }
-        }
-    }
-    
-    originalText.Clear();
-    originalText = _("Services");
-        strlcpy(originalCharStr, originalText.utf8_str(), sizeof(originalCharStr));
-        if (originalCharStr[0]) {
-        localizedText = CFStringCreateWithCString(NULL, originalCharStr, kCFStringEncodingUTF8);
-        count = CountMenuItems(BOINCMenu);
-        if (localizedText) {
-            for (itemIndex=1; itemIndex<=count; ++itemIndex) {
-                err = CopyMenuItemTextAsCFString(BOINCMenu, itemIndex, &menuItemString);
-                if (err == noErr) {
-                    if (CFStringCompare(menuItemString, CFSTR("Services"), 0) == kCFCompareEqualTo) {
-                        SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
-                        break;
-                    }
-                }
-            }
-            CFRelease( localizedText );
-        }
-    }
-    
-    originalText.Clear();
-    err = GetIndMenuItemWithCommandID(NULL, kHICommandHide, 1, &BOINCMenu, &itemIndex);
-    if (!err) {
-        originalText.Printf(_("Hide %s"), shortName);
-        strlcpy(originalCharStr, originalText.utf8_str(), sizeof(originalCharStr));
-        if (originalCharStr[0]) {
-            localizedText = CFStringCreateWithCString(NULL, originalCharStr, kCFStringEncodingUTF8);
-            if (localizedText) {
-                SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
-                CFRelease( localizedText );
-            }
-        }
-    }
-
-    originalText.Clear();
-    err = GetIndMenuItemWithCommandID(NULL, kHICommandHideOthers, 1, &BOINCMenu, &itemIndex);
-    if (!err) {
-        originalText = _("Hide Others");
-        strlcpy(originalCharStr, originalText.utf8_str(), sizeof(originalCharStr));
-        if (originalCharStr[0]) {
-            localizedText = CFStringCreateWithCString(NULL, originalCharStr, kCFStringEncodingUTF8);
-            if (localizedText) {
-                SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
-                CFRelease( localizedText );
-            }
-        }
-    }
-    
-    originalText.Clear();
-    err = GetIndMenuItemWithCommandID(NULL, kHICommandShowAll, 1, &BOINCMenu, &itemIndex);
-    if (!err) {
-        originalText = _("Show All");
-        strlcpy(originalCharStr, originalText.utf8_str(), sizeof(originalCharStr));
-        if (originalCharStr[0]) {
-            localizedText = CFStringCreateWithCString(NULL, originalCharStr, kCFStringEncodingUTF8);
-            if (localizedText) {
-                SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
-                CFRelease( localizedText );
-            }
-        }
-    }
-    
-    originalText.Clear();
-    err = GetIndMenuItemWithCommandID(NULL, kHICommandQuit, 1, &BOINCMenu, &itemIndex);
-    if (!err) {
-        originalText.Printf(_("Quit %s"), shortName);
-        strlcpy(originalCharStr, originalText.utf8_str(), sizeof(originalCharStr));
-        if (originalCharStr[0]) {
-            localizedText = CFStringCreateWithCString(NULL, originalCharStr, kCFStringEncodingUTF8);
-            if (localizedText) {
-                SetMenuItemTextWithCFString(BOINCMenu, itemIndex, localizedText);
-                CFRelease( localizedText );
-            }
-        }
-    }
 }
 
 

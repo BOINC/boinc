@@ -16,26 +16,26 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once("../project/project.inc");
-
 function news_item($date, $title, $post) {
     echo "<p>";
     if ($title) {
         echo "<span class=news_title>$title</span><br>\n";
     }
     $d = time_str($date);
+    $options = new output_options();
+    $options->htmlitems = false;
     if (is_string($post)) {
         $forum_link = false;
-        $text = output_transform($post);
+        $text = output_transform($post, $options);
     } else {
         $forum_link = true;
-        $text = output_transform($post->content);
+        $text = output_transform($post->content, $options);
     }
     echo "
         <span class=news_content>$text</span>
         <span class=news_date>$d
     ";
-    if ($forum_link) {
+    if ($forum_link && !DISABLE_FORUMS) {
         echo "
             &middot; <a href=".URL_BASE."forum_thread.php?id=$post->thread> ".tra("Comment")."</a>
         ";
@@ -106,12 +106,15 @@ function show_news($start, $count) {
         echo "<a href=".URL_BASE."old_news.php>... more</a>";
     }
     echo "
-        <br><br><p class=\"smalltext\">
+        <br><br><small>
     ";
     printf(tra("News is available as an %sRSS feed%s"),
         "<a href=rss_main.php>",
         " &nbsp; <img src=\"img/rss_icon.gif\" alt=\"RSS\"></a>"
     );
+    echo "
+        </small>
+    ";
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

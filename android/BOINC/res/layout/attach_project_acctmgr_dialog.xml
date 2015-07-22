@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is part of BOINC.
+  http://boinc.berkeley.edu
+  Copyright (C) 2012 University of California
+  
+  BOINC is free software; you can redistribute it and/or modify it
+  under the terms of the GNU Lesser General Public License
+  as published by the Free Software Foundation,
+  either version 3 of the License, or (at your option) any later version.
+  
+  BOINC is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  See the GNU Lesser General Public License for more details.
+  
+  You should have received a copy of the GNU Lesser General Public License
+  along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:minWidth="200dp"
+    android:background="@color/white">
+    
+    <TextView 
+        android:id="@+id/title"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:textAppearance="?android:attr/textAppearanceLarge"
+    	android:textStyle="bold"
+	    android:singleLine="true"
+    	android:padding="20dp"
+    	android:background="@drawable/shape_light_blue_background"
+        android:text="@string/attachproject_acctmgr_header"/>
+    
+    <Spinner
+    	android:id="@+id/url_spinner"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+		android:layout_margin="10dp" />
+
+    <EditText 
+        android:id="@+id/name_input"
+        android:inputType="textNoSuggestions"
+        android:hint="@string/attachproject_acctmgr_header_name"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:layout_margin="10dp"
+    	android:minWidth="200dp"/>
+
+    <EditText 
+        android:id="@+id/pwd_input"
+        android:inputType="textPassword"
+        android:hint="@string/attachproject_acctmgr_header_pwd"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:layout_margin="10dp"
+    	android:minWidth="200dp"/>
+    
+    <TextView 
+        android:id="@+id/warning"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+	    android:gravity="center"
+	    android:textAppearance="?android:attr/textAppearanceMedium"
+	    android:visibility="gone"
+	    android:background="@drawable/shape_light_red_background"
+    	android:padding="10dp"
+    	android:layout_marginTop="10dp"/>
+		        
+    <Button 
+        android:id="@+id/continue_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/generic_button_continue"
+		android:textColor="@android:color/white"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+        android:background="@drawable/shape_button_blue"
+        android:minWidth="150dp"
+		android:padding="5dp"
+    	android:layout_gravity="right"
+		android:layout_margin="10dp"/>
+    
+        
+    <LinearLayout 
+        android:id="@+id/ongoing_wrapper"
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal"
+    	android:background="@drawable/shape_light_blue_background"
+    	android:padding="20dp"
+    	android:layout_marginTop="10dp"
+    	android:visibility="gone">
+        
+	    <ProgressBar 
+	    	android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+        	style="?android:attr/progressBarStyleSmall"
+        	android:background="@android:color/transparent"
+        	android:layout_marginRight="10dp"
+        	android:layout_gravity="center_vertical"/>
+	    
+	    <TextView 
+	        android:id="@+id/ongoing_desc"
+	    	android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:textAppearance="?android:attr/textAppearanceMedium"
+	    	android:gravity="center"
+	        android:text="@string/attachproject_acctmgr_header"/>
+        
+    </LinearLayout>
+
+</LinearLayout>

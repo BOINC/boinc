@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2012 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -71,12 +71,6 @@ struct PROJECT : PROJ_AM {
     //
     bool no_rsc_ams[MAX_RSC];
 
-    // the following set dynamically
-    //
-    bool rsc_defer_sched[MAX_RSC];
-        // This project has a GPU job for which there's insuff. video RAM.
-        // Don't fetch more jobs of this type; they might have same problem
-
     char host_venue[256];
         // logically, this belongs in the client state file
         // rather than the account file.
@@ -95,6 +89,9 @@ struct PROJECT : PROJ_AM {
     char team_name[256];
     char email_hash[MD5_LEN];
     char cross_project_id[MD5_LEN];
+        // the "internal" user CPID
+    char external_cpid[MD5_LEN];
+        // the "external" user CPID (as exported to stats sites)
     double cpid_time;
     double user_total_credit;
     double user_expavg_credit;
@@ -107,7 +104,9 @@ struct PROJECT : PROJ_AM {
     double host_create_time;
     double ams_resource_share;
         // resource share according to AMS; overrides project
-        // -1 means not specified by AMS
+        // -1 means not specified by AMS, or not using an AMS
+    double last_rpc_time;
+        // when last RPC finished; used by Manager
 
     // stuff related to scheduler RPCs and master fetch
     //
@@ -137,10 +136,6 @@ struct PROJECT : PROJ_AM {
         // may still need to be done for given project
     bool trickle_up_pending;
         // have trickle up to send
-    double last_rpc_time;
-        // when last RPC finished
-        // not maintained across client sessions
-        // used by Manager (simple view)
 
     // Other stuff
 
@@ -184,6 +179,7 @@ struct PROJECT : PROJ_AM {
     std::vector<FILE_REF> user_files;
     std::vector<FILE_REF> project_files;
         // files not specific to apps or work - e.g. icons
+
     int parse_preferences_for_user_files();
     void write_project_files(MIOFILE&);
     void link_project_files();
@@ -228,6 +224,8 @@ struct PROJECT : PROJ_AM {
     bool some_result_suspended();
     bool uploading();
     bool has_results();
+    int n_concurrent;
+        // used to enforce APP_CONFIGS::max_concurrent
 
     struct RESULT *next_runnable_result;
         // the next result to run for this project
@@ -293,6 +291,15 @@ struct PROJECT : PROJ_AM {
     //
     APP_CONFIGS app_configs;
 
+    // job counting
+    //
+    int njobs_success;
+    int njobs_error;
+
+    // total elapsed time of this project's jobs (for export to GUI)
+    //
+    double elapsed_time;
+
     PROJECT();
     ~PROJECT(){}
     void init();
@@ -305,6 +312,7 @@ struct PROJECT : PROJ_AM {
     int write_state(MIOFILE&, bool gui_rpc=false);
     const char* project_dir();
     const char* project_dir_absolute();
+    void show_no_work_notice();
 
     // statistic of the last x days
     std::vector<DAILY_STATS> statistics;
@@ -322,10 +330,16 @@ struct PROJECT : PROJ_AM {
     // clear AMS-related fields
     inline void detach_ams() {
         attached_via_acct_mgr = false;
-        ams_resource_share = -1;
         for (int i=0; i<MAX_RSC; i++) {
             no_rsc_ams[i] = false;
         }
+
+        ams_resource_share = -1;
+
+        // parse the account file to get right resource share
+        // in case AMS had set it
+        //
+        parse_account_file();
     }
 
 #ifdef SIM

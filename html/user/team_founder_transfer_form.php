@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,6 +19,8 @@
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
+
+if (DISABLE_TEAMS) error_page("Teams are disabled");
 
 check_get_args(array());
 
@@ -47,7 +49,7 @@ if ($user->id == $team->ping_user) {
         echo tra("60 days have elapsed since your request, and the founder has not responded. You may now assume foundership by clicking here:")
             ."<form method=\"post\" action=\"team_founder_transfer_action.php\">
             <input type=\"hidden\" name=\"action\" value=\"finalize_transfer\">
-            <input type=\"submit\" value=\"".tra("Assume foundership")."\">
+            <input class=\"btn btn-default\" type=\"submit\" value=\"".tra("Assume foundership")."\">
             </form>
         ";
     } else {
@@ -62,7 +64,7 @@ if ($user->id == $team->ping_user) {
         ."</p>";
 
         echo "<input type=\"hidden\" name=\"action\" value=\"initiate_transfer\">
-            <input type=\"submit\" value=\"".tra("Request foundership")."\">
+            <input class=\"btn btn-default\" type=\"submit\" value=\"".tra("Request foundership")."\">
             </form>
         ";
     } else {

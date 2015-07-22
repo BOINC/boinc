@@ -9,7 +9,7 @@
 //              Added wxWIZARD_HELP event
 //              Robert Vazan (sizers)
 // Created:     15.08.99
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: wizardex.h 19588 2009-11-17 19:19:50Z romw $
 // Copyright:   (c) 1999 Vadim Zeitlin <zeitlin@dptmaths.ens-cachan.fr>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -49,7 +49,7 @@ public:
                  const wxChar* resource = NULL
     );
 
-    virtual bool Create(
+    bool Create(
                 wxWizardEx *parent,
                 int id = wxID_ANY,
                 const wxChar* resource = NULL
@@ -60,7 +60,7 @@ public:
     virtual wxWizardPageEx *GetPrev() const = 0;
     virtual wxWizardPageEx *GetNext() const = 0;
 
-#if wxUSE_VALIDATOR
+#if wxUSE_VALIDATORS
     /// Override the base functions to allow a validator to be assigned to this page.
     bool TransferDataToWindow()
     {
@@ -77,7 +77,7 @@ public:
         return GetValidator() ? GetValidator()->Validate(this) 
                               : wxPanel::Validate();
     }
-#endif // wxUSE_VALIDATOR
+#endif // wxUSE_VALIDATORS
 
 protected:
     // common part of ctors:

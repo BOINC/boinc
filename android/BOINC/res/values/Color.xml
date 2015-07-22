@@ -19,16 +19,20 @@
 -->
 <resources>
     <!-- layout colors -->
+		<color name="white">#FFFFFF</color>
 		<color name="white_smoke">#F5F5F5</color>
 		<color name="dark_blue">#003366</color>
 		<color name="dark_blue_transparent">#DD003366</color>
 		<color name="dark_blue_gradient">#0C4175</color>
+		<color name="dark_blue_gradient2">#004C96</color>
 		<color name="light_blue">#A2CFFC</color>
 		<color name="lightest_blue">#D6EBFF</color>
+		<color name="boinc_icon_light_blue">#1E6EA0</color>
+		<color name="boinc_icon_dark_blue">#1E3C6E</color>
 		<color name="dark_grey">#4D4D4D</color>
+		<color name="light_grey">#B0B0B0</color>
 		<color name="red">#990033</color>
 		<color name="yellow">#FCEC3D</color>
-		<color name="dark_yellow">#E3D10E</color>
 		<color name="light_yellow">#FCF281</color>
 		<color name="light_green">#B1F5A4</color>
 		<color name="dark_green">#1FBD00</color>
@@ -36,13 +40,5 @@
 		<color name="dark_red">#DB0000</color>
     <!-- global colors -->
 		<color name="warning">#FCEC3D</color>
-    <!-- preferences tab colors -->
-		<color name="status">#11A800</color>
-    <!-- tasks tab colors -->
-		<color name="active">#11A800</color>
-		<color name="paused">#EDDA07</color>
-		<color name="error">#ED0202</color>
-		
-		
 		<color name="black">#000000</color>
 </resources>

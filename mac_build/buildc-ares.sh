@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2008 University of California
+# Copyright (C) 2014 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -18,13 +18,15 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build Macintosh 32-bit Intel library of c-ares-1.9.1 for
+# Script to build Macintosh 32-bit Intel library of c-ares-1.10.0 for
 # use in building BOINC.
 #
 # by Charlie Fenton 7/21/06
 # Updated 10/18/11 for OS 10.7 Lion and XCode 4.2
 # Updated 6/25/12 for c-ares 1.9.1
 # Updated 7/10/12 for Xcode 4.3 and later which are not at a fixed address
+# Updated 2/11/14 for c-ares 1.10.0
+# Updated 9/2/14 for bulding c-ares as 64-bit binary
 #
 ## This script requires OS 10.6 or later
 #
@@ -32,8 +34,8 @@
 ## and clicked the Install button on the dialog which appears to 
 ## complete the Xcode installation before running this script.
 #
-## In Terminal, CD to the c-ares-1.9.1 directory.
-##     cd [path]/c-ares-1.9.1/
+## In Terminal, CD to the c-ares-1.10.0 directory.
+##     cd [path]/c-ares-1.10.0/
 ## then run this script:
 ##     source [path]/buildc-ares.sh [ -clean ]
 ##
@@ -42,7 +44,7 @@
 
 if [ "$1" != "-clean" ]; then
     if [ -f .libs/libcares.a ]; then
-        echo "c-ares-1.9.1 already built"
+        echo "c-ares-1.10.0 already built"
         return 0
     fi
 fi
@@ -84,13 +86,15 @@ rm -f .libs/libcares.a
 if [  $? -ne 0 ]; then return 1; fi
 
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
-export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,i386"
-export CPPFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040"
-export CFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040"
+export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
+export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64"
+export CFLAGS="-isysroot ${SDKPATH} -arch x86_64"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.4
+export MACOSX_DEPLOYMENT_TARGET=10.5
+export MAC_OS_X_VERSION_MAX_ALLOWED=1050
+export MAC_OS_X_VERSION_MIN_REQUIRED=1050
 
-./configure --enable-shared=NO prefix=/tmp/installed-c-ares --host=i386
+./configure --enable-shared=NO prefix=/tmp/installed-c-ares --host=x86_64
 if [  $? -ne 0 ]; then return 1; fi
 
 if [ "$1" = "-clean" ]; then

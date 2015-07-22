@@ -36,7 +36,7 @@ $cpid_stats_sites = array(
         "http://boinc.netsoft-online.com/e107_plugins/boinc/get_user.php?cpid=%s&amp;html=1"
     ),
     array("The Knights Who Say 'Ni!'",
-        "http://stats.kwsn.net/user.php?proj=all&amp;cpid=%s"
+        "http://stats.kwsn.info/user.php?proj=all&amp;cpid=%s"
     ),
 );
 
@@ -82,7 +82,7 @@ $stats_sites = array(
         "SETI@Netherlands stats page",
         ""
     ),
-    array("http://stats.kwsn.net/",
+    array("http://stats.kwsn.info/",
         "The Knights Who Say 'Ni' stats",
         ""
     ),
@@ -145,11 +145,11 @@ $sig_sites = array(
         "BOINC All Project Stats",
         "(Signature files for both users and teams)"
     ),
-    array(
-        "http://www.unitedboinc.com/news-sig/",
-        "United BOINC",
-        "(Images showing the latest news from your choice of projects)"
-    ),
+//    array(
+//        "http://www.unitedboinc.com/news-sig/",
+//        "United BOINC",
+//        "(Images showing the latest news from your choice of projects)"
+//    ),
 );
 
 // the following sites generate cross-project team stats based on CPID
@@ -163,7 +163,7 @@ $team_name_sites = array(
         "BOINCstats.com",
         "hashlc"
     ),
-    array("http://stats.setibzh.fr/team.php?teamcpid=",
+    array("http://statsbzh.boinc-af.org/team.php?teamcpid=",
         "SETIBZH",
         "hashlc"
     ),

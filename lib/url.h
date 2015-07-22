@@ -45,5 +45,6 @@ extern void escape_project_url(char *in, char* out);
 extern bool valid_master_url(char*);
 extern void canonicalize_master_url(char *url, int len);
 extern void canonicalize_master_url(std::string&);
+extern bool is_https(const char*);
 
 #endif

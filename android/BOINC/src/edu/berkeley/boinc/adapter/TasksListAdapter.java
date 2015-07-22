@@ -19,16 +19,13 @@
 package edu.berkeley.boinc.adapter;
 
 import edu.berkeley.boinc.utils.*;
-
 import java.sql.Date;
 import java.util.ArrayList;
-
+import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.TasksActivity.TaskData;
-import edu.berkeley.boinc.client.Monitor;
+import edu.berkeley.boinc.TasksFragment.TaskData;
 import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.utils.BOINCDefs;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -76,15 +73,14 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 			v.setTag(listItem.id);
 		}
 		
-		ProgressBar epb = (ProgressBar) v.findViewById(R.id.progressBar);
-		ProgressBar cpb = (ProgressBar) v.findViewById(R.id.collapsedProgressBar);
+		ProgressBar pb = (ProgressBar) v.findViewById(R.id.progressBar);
 		TextView header = (TextView) v.findViewById(R.id.taskHeader);
 		TextView status = (TextView) v.findViewById(R.id.taskStatus);
 		TextView time = (TextView) v.findViewById(R.id.taskTime);
-		TextView cpbPercentageText = (TextView) v.findViewById(R.id.taskProgressCollapsedActive);
 		TextView statusPercentage = (TextView) v.findViewById(R.id.taskStatusPercentage);
+		ImageView expandButton = (ImageView) v.findViewById(R.id.expandCollapse);
 		
-		// set up view elements that are independent of "active" and "expanded" state
+		// --- set up view elements that are independent of "active" and "expanded" state
 		ImageView ivIcon = (ImageView)v.findViewById(R.id.projectIcon);
 		String finalIconId = (String)ivIcon.getTag();
 	    if(finalIconId == null || !finalIconId.equals(listItem.id)) {
@@ -110,50 +106,49 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 			}
 		}
 		((TextView) v.findViewById(R.id.projectName)).setText(tempProjectName);
+		
+		// status text
+		String statusT = determineStatusText(listItem);
+		status.setText(statusT);
+		if(listItem.result.state == BOINCDefs.RESULT_ABORTED ||
+				listItem.result.state == BOINCDefs.RESULT_COMPUTE_ERROR ||
+				listItem.result.state == BOINCDefs.RESULT_FILES_DOWNLOADING ||
+				listItem.result.state == BOINCDefs.RESULT_FILES_UPLOADED ||
+				listItem.result.state == BOINCDefs.RESULT_FILES_UPLOADING ||
+				listItem.result.state == BOINCDefs.RESULT_READY_TO_REPORT ||
+				listItem.result.state == BOINCDefs.RESULT_UPLOAD_FAILED)
+			statusPercentage.setVisibility(View.GONE);
+		else {
+			statusPercentage.setVisibility(View.VISIBLE);
+			statusPercentage.setText(String.format("%.1f", listItem.result.fraction_done * 100) + "%");
+		}
 		// --- end of independent view elements
 		
-		RelativeLayout expansionWrapper = (RelativeLayout) v.findViewById(R.id.expansion);
-		LinearLayout statusTextWrapper = (LinearLayout) v.findViewById(R.id.statusTextWrapper);
-		RelativeLayout statusCollapsedActiveWrapper = (RelativeLayout) v.findViewById(R.id.statusCollapsedActiveWrapper);
+		// progress bar: show when task active or expanded
+		// result and process state are overlapping, e.g. PROCESS_EXECUTING and RESULT_FILES_DOWNLOADING
+		// therefore check also whether task is active
+		Boolean active = (listItem.isTaskActive() && listItem.determineState() == BOINCDefs.PROCESS_EXECUTING);
+		if (active || listItem.expanded){
+			pb.setVisibility(View.VISIBLE);
+			pb.setIndeterminate(false);
+			pb.setProgressDrawable(this.activity.getResources().getDrawable(R.drawable.progressbar));
+			pb.setProgress(Math.round(listItem.result.fraction_done * pb.getMax()));
+		} else 
+			pb.setVisibility(View.GONE);
+		
+		// expansion
+		RelativeLayout rightColumnExpandWrapper = (RelativeLayout) v.findViewById(R.id.rightColumnExpandWrapper);
+		LinearLayout centerColumnExpandWrapper = (LinearLayout) v.findViewById(R.id.centerColumnExpandWrapper);
 		if(!listItem.expanded) {
 			// view is collapsed
-			((ImageView)v.findViewById(R.id.expandCollapse)).setImageResource(R.drawable.collapse);
-			expansionWrapper.setVisibility(View.GONE);
-
-			// result and process state are overlapping, e.g. PROCESS_EXECUTING and RESULT_FILES_DOWNLOADING
-			// therefore check also whether task is active
-			if(listItem.isTaskActive() && listItem.determineState() == BOINCDefs.PROCESS_EXECUTING) {
-				// task is active
-				statusTextWrapper.setVisibility(View.GONE);
-				statusCollapsedActiveWrapper.setVisibility(View.VISIBLE);
-				cpb.setIndeterminate(false);
-				cpb.setProgressDrawable(this.activity.getResources().getDrawable(R.drawable.progressbar));
-				determineProgress(listItem, cpbPercentageText, cpb);
-			} else {
-				// task is not active
-				statusTextWrapper.setVisibility(View.VISIBLE);
-				statusCollapsedActiveWrapper.setVisibility(View.GONE);
-				
-				String statusT = determineStatusText(listItem);
-				status.setText(statusT);
-				
-				determineProgress(listItem, statusPercentage, epb);
-			}
+			expandButton.setImageResource(R.drawable.collapse);
+			rightColumnExpandWrapper.setVisibility(View.GONE);
+			centerColumnExpandWrapper.setVisibility(View.GONE);
 		} else {
 			// view is expanded
-			((ImageView)v.findViewById(R.id.expandCollapse)).setImageResource(R.drawable.expand);
-			expansionWrapper.setVisibility(View.VISIBLE);
-			statusTextWrapper.setVisibility(View.VISIBLE);
-			statusCollapsedActiveWrapper.setVisibility(View.GONE);
-			
-			// status text
-			String statusT = determineStatusText(listItem);
-			status.setText(statusT);
-			
-			// progress bar
-			epb.setIndeterminate(false);
-			epb.setProgressDrawable(this.activity.getResources().getDrawable(R.drawable.progressbar));
-			determineProgress(listItem, statusPercentage, epb);
+			expandButton.setImageResource(R.drawable.expand);
+			rightColumnExpandWrapper.setVisibility(View.VISIBLE);
+			centerColumnExpandWrapper.setVisibility(View.VISIBLE);
 			
 			// elapsed time
 			int elapsedTime;
@@ -174,7 +169,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 			ImageView suspendResume = (ImageView) v.findViewById(R.id.suspendResumeTask);
 			ImageView abortButton = (ImageView) v.findViewById(R.id.abortTask);
 			if(listItem.determineState() == BOINCDefs.PROCESS_ABORTED) { //dont show buttons for aborted task
-				((RelativeLayout)v.findViewById(R.id.taskButtons)).setVisibility(View.INVISIBLE);
+				rightColumnExpandWrapper.setVisibility(View.INVISIBLE);
 			} else {
 				if (listItem.nextState == -1) { // not waiting for new state
 					suspendResume.setOnClickListener(listItem.iconClickListener);
@@ -200,6 +195,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 						suspendResume.setVisibility(View.GONE);
 					}
 				} else {
+					// waiting for a new state
 					suspendResume.setVisibility(View.INVISIBLE);
 					abortButton.setVisibility(View.INVISIBLE);
 					((ProgressBar)v.findViewById(R.id.request_progressBar)).setVisibility(View.VISIBLE);
@@ -210,21 +206,17 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 		return v;
 	}
 	
-	private void determineProgress(TaskData data, TextView progress, ProgressBar pb) {
-		Float fraction = Float.valueOf((float) 1.0); // default is 100 (e.g. abort show full red progress bar)
-		if(!data.result.active_task && data.result.ready_to_report) { //fraction not available
-			progress.setVisibility(View.GONE);
-		} else { // fraction available
-			fraction =  data.result.fraction_done;
-			progress.setVisibility(View.VISIBLE);
-			progress.setText(Math.round(fraction * 100) + "%");
-		}
-		pb.setProgress(Math.round(fraction * pb.getMax()));
-	}
-
-	
 	private Bitmap getIcon(int position) {
-		return Monitor.getClientStatus().getProjectIcon(entries.get(position).result.project_url);
+		// try to get current client status from monitor
+		//ClientStatus status;
+		try{
+			//status  = Monitor.getClientStatus();
+			return BOINCActivity.monitor.getProjectIcon(entries.get(position).result.project_url);
+		} catch (Exception e){
+			if(Logging.WARNING) Log.w(Logging.TAG,"TasksListAdapter: Could not load data, clientStatus not initialized.");
+			return null;
+		}
+		//return status.getProjectIcon(entries.get(position).result.project_url);
 	}
 
 	private String determineStatusText(TaskData tmp) {

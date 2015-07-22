@@ -25,11 +25,11 @@
 #include <string>
 #include <unistd.h>
 
-#include "parse.h"
 #include "error_numbers.h"
 #include "filesys.h"
-#include "str_util.h"
+#include "parse.h"
 #include "str_replace.h"
+#include "str_util.h"
 
 #include "sched_msgs.h"
 #include "sched_util.h"
@@ -92,6 +92,7 @@ int SCHED_CONFIG::parse(FILE* f) {
     max_ncpus = MAX_NCPUS;
     scheduler_log_buffer = 32768;
     version_select_random_factor = 1.;
+    maintenance_delay = 3600;
 
     if (!xp.parse_start("boinc")) return ERR_XML_PARSE;
     if (!xp.parse_start("config")) return ERR_XML_PARSE;
@@ -141,6 +142,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool("non_cpu_intensive", non_cpu_intensive)) continue;
         if (xp.parse_bool("verify_files_on_app_start", verify_files_on_app_start)) continue;
         if (xp.parse_int("homogeneous_redundancy", homogeneous_redundancy)) continue;
+        if (xp.parse_bool("hr_class_static", hr_class_static)) continue;
         if (xp.parse_bool("hr_allocate_slots", hr_allocate_slots)) continue;
         if (xp.parse_bool("msg_to_host", msg_to_host)) continue;
         if (xp.parse_bool("ignore_upload_certificates", ignore_upload_certificates)) continue;
@@ -228,16 +230,18 @@ int SCHED_CONFIG::parse(FILE* f) {
             }
             continue;
         }
-        if (xp.parse_bool("matchmaker", matchmaker)) continue;
+        if (xp.parse_bool("sched_old", sched_old)) continue;
         if (xp.parse_int("max_ncpus", max_ncpus)) continue;
         if (xp.parse_int("max_wus_in_progress", itemp)) {
-            max_jobs_in_progress.project_limits.cpu.base_limit = itemp;
-            max_jobs_in_progress.project_limits.cpu.per_proc = true;
+            max_jobs_in_progress.project_limits.proc_type_limits[PROC_TYPE_CPU].base_limit = itemp;
+            max_jobs_in_progress.project_limits.proc_type_limits[PROC_TYPE_CPU].per_proc = true;
             continue;
         }
         if (xp.parse_int("max_wus_in_progress_gpu", itemp)) {
-            max_jobs_in_progress.project_limits.gpu.base_limit = itemp;
-            max_jobs_in_progress.project_limits.gpu.per_proc = true;
+            for (int i=1; i<NPROC_TYPES; i++) {
+                max_jobs_in_progress.project_limits.proc_type_limits[i].base_limit = itemp;
+                max_jobs_in_progress.project_limits.proc_type_limits[i].per_proc = true;
+            }
             continue;
         }
         if (xp.parse_int("max_results_accepted", max_results_accepted)) continue;
@@ -262,8 +266,6 @@ int SCHED_CONFIG::parse(FILE* f) {
         }
         if (xp.parse_int("min_core_client_upgrade_deadline", min_core_client_upgrade_deadline)) continue;
         if (xp.parse_int("min_sendwork_interval", min_sendwork_interval)) continue;
-        if (xp.parse_int("mm_min_slots", mm_min_slots)) continue;
-        if (xp.parse_int("mm_max_slots", mm_max_slots)) continue;
         if (xp.parse_double("next_rpc_delay", next_rpc_delay)) continue;
         if (xp.parse_bool("no_amd_k6", no_amd_k6)) {
             if (no_amd_k6) {
@@ -294,11 +296,11 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool("workload_sim", workload_sim)) continue;
         if (xp.parse_bool("prefer_primary_platform", prefer_primary_platform)) continue;
         if (xp.parse_double("version_select_random_factor", version_select_random_factor)) continue;
+        if (xp.parse_double("maintenance_delay", maintenance_delay)) continue;
+        if (xp.parse_bool("credit_by_app", credit_by_app)) continue;
 
         //////////// SCHEDULER LOG FLAGS /////////
 
-        if (xp.parse_bool("debug_array", debug_array)) continue;
-        if (xp.parse_bool("debug_array_detail", debug_array_detail)) continue;
         if (xp.parse_bool("debug_assignment", debug_assignment)) continue;
         if (xp.parse_bool("debug_client_files", debug_client_files)) continue;
         if (xp.parse_bool("debug_credit", debug_credit)) continue;
@@ -314,6 +316,8 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool("debug_request_headers", debug_request_headers)) continue;
         if (xp.parse_bool("debug_resend", debug_resend)) continue;
         if (xp.parse_bool("debug_send", debug_send)) continue;
+        if (xp.parse_bool("debug_send_job", debug_send_job)) continue;
+        if (xp.parse_bool("debug_send_scan", debug_send_scan)) continue;
         if (xp.parse_bool("debug_user_messages", debug_user_messages)) continue;
         if (xp.parse_bool("debug_vda", debug_vda)) continue;
         if (xp.parse_bool("debug_version_select", debug_version_select)) continue;

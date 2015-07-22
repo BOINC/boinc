@@ -96,19 +96,11 @@ public:
 
     void OnRefresh();
 
-    void ReloadNotices();
-
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
     void OnOK( wxCommandEvent& event );
 
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SIMPLE_HELP
     void OnButtonHelp( wxCommandEvent& event );
-
-    /// wxEVT_NOTICELIST_ITEM_DISPLAY event handler for ID_LIST_NOTIFICATIONSVIEW
-    void OnLinkClicked( NoticeListCtrlEvent& event );
-
-    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_LIST_RELOADNOTICES
-    void OnRetryButton( wxCommandEvent& event );
 
 ////@end CPanelMessages event handler declarations
 
@@ -123,13 +115,10 @@ private:
 	CNoticeListCtrl*        m_pHtmlListPane;
 
 protected:
-    wxPanel*                m_ReloadNoticesPanel;
-    wxStaticText*           m_ReloadNoticesText;
-    wxButton*               m_ReloadNoticesButton;
     wxStaticText*           m_FetchingNoticesText;
     wxStaticText*           m_NoNoticesText;
-    bool                    m_bMissingItems;
-    bool                    m_bWaitingToClose;
+    bool                    m_bFetchingNoticesTextWasDisplayed;
+    bool                    m_bNoNoticesTextWasDisplayed;
 };
 
 

@@ -38,20 +38,18 @@ msgstr ""
 
 HDR;
 
-$out = fopen("en.po", "w");
-
-fwrite($out, $header);
-
 $pipe = popen(
-    "xgettext --omit-header -o - --keyword=tra -L PHP $FILE_LIST",
+    "xgettext --omit-header --add-comments -o - --keyword=tra -L PHP $FILE_LIST",
     "r"
 );
+
+$out = fopen("BOINC-Project-Generic.pot", "w");
+
+fwrite($out, $header);
 stream_copy_to_stream($pipe, $out);
 
 fclose($pipe);
 fclose($out);
-
-system("mv en.po ../../locale/templates/BOINC-Project-Generic.pot\n");
 
 echo "Done\n";
 

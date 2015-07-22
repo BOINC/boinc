@@ -45,9 +45,26 @@ char project_url[256];
 char authenticator[256];
 char response_prefix[256];
 
+// The following are used to implement "asynchronous mode",
+// in which we send "R" when a command has completed.
+// Synchronization is needed in case 2 commands complete around the same time.
+//
+bool wrote_r = false;
+bool async_mode = false;
+
+#define BPRINTF(fmt, ...) \
+    printf( "%s" fmt, response_prefix, ##__VA_ARGS__ ); \
+
 bool debug_mode = false;
     // if set, handle commands synchronously rather than
     // handling them in separate threads
+
+struct SUBMIT_REQ {
+    char batch_name[256];
+    char app_name[256];
+    vector<JOB> jobs;
+    int batch_id;
+};
 
 // represents a command.
 //
@@ -65,6 +82,8 @@ struct COMMAND {
     vector<string> abort_job_names;
     vector<string> batch_names;
     char batch_name[256];
+    double lease_end_time;
+    double min_mod_time;
 
     COMMAND(char* _in) {
         in = _in;
@@ -80,6 +99,7 @@ struct COMMAND {
     int parse_fetch_output(char*);
     int parse_abort_jobs(char*);
     int parse_retire_batch(char*);
+    int parse_set_lease(char*);
 };
 
 vector<COMMAND*> commands;
@@ -114,6 +134,9 @@ int process_input_files(SUBMIT_REQ& req, string& error_msg) {
     unsigned int i, j;
     int retval;
     char buf[1024];
+    map<string, LOCAL_FILE> local_files;
+        // maps local path to info about file
+
 
     // get the set of unique source paths
     //
@@ -121,7 +144,7 @@ int process_input_files(SUBMIT_REQ& req, string& error_msg) {
     for (i=0; i<req.jobs.size(); i++) {
         JOB& job = req.jobs[i];
         for (j=0; j<job.infiles.size(); j++) {
-            INFILE infile = job.infiles[j];
+            INFILE& infile = job.infiles[j];
             unique_paths.insert(infile.src_path);
         }
     }
@@ -135,26 +158,25 @@ int process_input_files(SUBMIT_REQ& req, string& error_msg) {
         LOCAL_FILE lf;
         retval = compute_md5(s, lf);
         if (retval) return retval;
-        req.local_files.insert(std::pair<string, LOCAL_FILE>(s, lf));
-        iter++;
+        local_files.insert(std::pair<string, LOCAL_FILE>(s, lf));
+        ++iter;
     }
 
     // ask the server which files it doesn't already have.
     //
     map<string, LOCAL_FILE>::iterator map_iter;
-    map_iter = req.local_files.begin();
+    map_iter = local_files.begin();
     vector<string> md5s, paths;
     vector<int> absent_files;
-    while (map_iter != req.local_files.end()) {
+    while (map_iter != local_files.end()) {
         LOCAL_FILE lf = map_iter->second;
         paths.push_back(map_iter->first);
         md5s.push_back(lf.md5);
-        map_iter++;
+        ++map_iter;
     }
     retval = query_files(
         project_url,
         authenticator,
-        paths,
         md5s,
         req.batch_id,
         absent_files,
@@ -179,6 +201,19 @@ int process_input_files(SUBMIT_REQ& req, string& error_msg) {
         error_msg
     );
     if (retval) return retval;
+
+    // fill in the physical file names in the submit request
+    //
+    for (unsigned int i=0; i<req.jobs.size(); i++) {
+        JOB& job = req.jobs[i];
+        for (unsigned int j=0; j<job.infiles.size(); j++) {
+            INFILE& infile = job.infiles[j];
+            map<string, LOCAL_FILE>::iterator iter = local_files.find(infile.src_path);
+            LOCAL_FILE& lf = iter->second;
+            sprintf(infile.physical_name, "jf_%s", lf.md5);
+        }
+    }
+
     return 0;
 }
 
@@ -200,7 +235,7 @@ int COMMAND::parse_submit(char* p) {
         for (int j=0; j<ninfiles; j++) {
             INFILE infile;
             strcpy(infile.src_path, strtok_r(NULL, " ", &p));
-            strcpy(infile.dst_filename, strtok_r(NULL, " ", &p));
+            strcpy(infile.logical_name, strtok_r(NULL, " ", &p));
             job.infiles.push_back(infile);
         }
         submit_req.jobs.push_back(job);
@@ -229,8 +264,10 @@ void handle_submit(COMMAND& c) {
         c.out = strdup(s.c_str());
         return;
     }
+    double expire_time = time(0) + 3600;
     retval = create_batch(
-        project_url, authenticator, req.batch_name, req.app_name, req.batch_id, error_msg
+        project_url, authenticator, req.batch_name, req.app_name, expire_time,
+        req.batch_id, error_msg
     );
     if (retval) {
         sprintf(buf, "error\\ creating\\ batch:\\ %d\\ ", retval);
@@ -245,7 +282,11 @@ void handle_submit(COMMAND& c) {
         c.out = strdup(s.c_str());
         return;
     }
-    retval = submit_jobs(project_url, authenticator, req, error_msg);
+
+    retval = submit_jobs(
+        project_url, authenticator,
+        req.app_name, req.batch_id, req.jobs, error_msg
+    );
     if (retval) {
         sprintf(buf, "error\\ submitting\\ jobs:\\ %d\\ ", retval);
         s = string(buf) + escape_str(error_msg);
@@ -256,6 +297,7 @@ void handle_submit(COMMAND& c) {
 }
 
 int COMMAND::parse_query_batches(char* p) {
+    min_mod_time = atof(strtok_r(NULL, " ", &p));
     int n = atoi(strtok_r(NULL, " ", &p));
     for (int i=0; i<n; i++) {
         char* q = strtok_r(NULL, " ", &p);
@@ -264,25 +306,27 @@ int COMMAND::parse_query_batches(char* p) {
     return 0;
 }
 
-void handle_query_batches(COMMAND&c) {
-    QUERY_BATCH_REPLY reply;
+void handle_query_batches(COMMAND& c) {
+    QUERY_BATCH_SET_REPLY reply;
     char buf[256];
     string error_msg, s;
-    int retval = query_batches(
-        project_url, authenticator, c.batch_names, reply, error_msg
+    int retval = query_batch_set(
+        project_url, authenticator, c.min_mod_time, c.batch_names, reply, error_msg
     );
     if (retval) {
         sprintf(buf, "error\\ querying\\ batch:\\ %d\\ ", retval);
         s = string(buf) + escape_str(error_msg);
     } else {
         s = string("NULL");
+        sprintf(buf, " %f", reply.server_time);
+        s += string(buf);
         int i = 0;
         for (unsigned int j=0; j<reply.batch_sizes.size(); j++) {
             int n = reply.batch_sizes[j];
             sprintf(buf, " %d", n);
             s += string(buf);
             for (int k=0; k<n; k++) {
-                QUERY_BATCH_JOB &j = reply.jobs[i++];
+                JOB_STATUS &j = reply.jobs[i++];
                 sprintf(buf, " %s %s", j.job_name.c_str(), j.status.c_str());
                 s += string(buf);
             }
@@ -385,7 +429,11 @@ void handle_fetch_output(COMMAND& c) {
     // write stderr output to specified file
     //
     if (cjd.canonical_resultid || cjd.error_resultid) {
-        sprintf(path, "%s/%s", req.dir, req.stderr_filename.c_str());
+        if (req.stderr_filename[0] == '/') {
+            sprintf(path, "%s", req.stderr_filename.c_str());
+        } else {
+            sprintf(path, "%s/%s", req.dir, req.stderr_filename.c_str());
+        }
         FILE* f = fopen(path, "w");
         if (!f) {
             sprintf(buf, "can't\\ open\\ stderr\\ output\\ file\\ %s ", path);
@@ -399,7 +447,7 @@ void handle_fetch_output(COMMAND& c) {
     if (zipped_output(td)) {
         // the job's output file is a zip archive.  Get it and unzip
         //
-        sprintf(path, "%s/temp.zip", req.dir);
+        sprintf(path, "%s/%s_output.zip", req.dir, req.job_name);
         retval = get_output_file(
             project_url, authenticator, req.job_name, 0, path, error_msg
         );
@@ -407,10 +455,12 @@ void handle_fetch_output(COMMAND& c) {
             sprintf(buf, "get_output_file()\\ returned\\ %d\\ ", retval);
             s = string(buf) + escape_str(error_msg);
         } else {
-            sprintf(buf, "cd %s; unzip temp.zip");
+            sprintf(buf, "cd %s; unzip %s_output.zip", req.dir, req.job_name);
             retval = system(buf);
             if (retval) {
                 s = string("unzip\\ failed");
+            } else {
+                unlink(path);
             }
         }
     } else if (req.fetch_all) {
@@ -515,6 +565,28 @@ void handle_retire_batch(COMMAND& c) {
     c.out = strdup(s.c_str());
 }
 
+int COMMAND::parse_set_lease(char* p) {
+    strcpy(batch_name, strtok_r(NULL, " ", &p));
+    lease_end_time = atof(strtok_r(NULL, " ", &p));
+    return 0;
+}
+
+void handle_set_lease(COMMAND& c) {
+    string error_msg;
+    int retval = set_expire_time(
+        project_url, authenticator, c.batch_name, c.lease_end_time, error_msg
+    );
+    string s;
+    char buf[256];
+    if (retval) {
+        sprintf(buf, "set_lease()\\ returned\\ %d\\ ", retval);
+        s = string(buf) + escape_str(error_msg);
+    } else {
+        s = "NULL";
+    }
+    c.out = strdup(s.c_str());
+}
+
 void handle_ping(COMMAND& c) {
     string error_msg, s;
     char buf[256];
@@ -540,11 +612,20 @@ void* handle_command_aux(void* q) {
         handle_abort_jobs(c);
     } else if (!strcasecmp(c.cmd, "BOINC_RETIRE_BATCH")) {
         handle_retire_batch(c);
+    } else if (!strcasecmp(c.cmd, "BOINC_SET_LEASE")) {
+        handle_set_lease(c);
     } else if (!strcasecmp(c.cmd, "BOINC_PING")) {
         handle_ping(c);
     } else {
         c.out = strdup("Unknown command");
     }
+    flockfile(stdout);
+    if ( async_mode && !wrote_r ) {
+        BPRINTF("R\n");
+        fflush(stdout);
+        wrote_r = true;
+    }
+    funlockfile(stdout);
     return NULL;
 }
 
@@ -568,6 +649,8 @@ int COMMAND::parse_command() {
         retval = parse_abort_jobs(p);
     } else if (!strcasecmp(cmd, "BOINC_RETIRE_BATCH")) {
         retval = parse_retire_batch(p);
+    } else if (!strcasecmp(cmd, "BOINC_SET_LEASE")) {
+        retval = parse_set_lease(p);
     } else if (!strcasecmp(cmd, "BOINC_PING")) {
         retval = 0;
     } else {
@@ -576,14 +659,15 @@ int COMMAND::parse_command() {
     return retval;
 }
 
-void print_version() {
-    printf("$GahpVersion: 1.0 %s BOINC\\ GAHP $\n", __DATE__);
+void print_version(bool startup) {
+    BPRINTF("%s$GahpVersion: 1.0 %s BOINC\\ GAHP $\n", startup ? "" : "S ",
+            __DATE__);
 }
 
 int n_results() {
     int n = 0;
     vector<COMMAND*>::iterator i;
-    for (i = commands.begin(); i != commands.end(); i++) {
+    for (i = commands.begin(); i != commands.end(); ++i) {
         COMMAND *c2 = *i;
         if (c2->out) {
             n++;
@@ -598,56 +682,69 @@ int handle_command(char* p) {
     char cmd[256];
     int id;
 
+    cmd[0] = '\0';
     sscanf(p, "%s", cmd);
     if (!strcasecmp(cmd, "VERSION")) {
-        printf("S ");
-        print_version();
+        print_version(false);
     } else if (!strcasecmp(cmd, "COMMANDS")) {
-        printf("S ASYNC_MODE_OFF ASYNC_MODE_ON BOINC_ABORT_JOBS BOINC_FETCH_OUTPUT BOINC_PING BOINC_QUERY_BATCHES BOINC_RETIRE_BATCH BOINC_SELECT_PROJECT BOINC_SUBMIT COMMANDS QUIT RESULTS VERSION\n");
+        BPRINTF("S ASYNC_MODE_OFF ASYNC_MODE_ON BOINC_ABORT_JOBS BOINC_FETCH_OUTPUT BOINC_PING BOINC_QUERY_BATCHES BOINC_RETIRE_BATCH BOINC_SELECT_PROJECT BOINC_SET_LEASE BOINC_SUBMIT COMMANDS QUIT RESULTS VERSION\n");
     } else if (!strcasecmp(cmd, "RESPONSE_PREFIX")) {
-        printf("S\n");
+        flockfile(stdout);
+        BPRINTF("S\n");
         strcpy(response_prefix, p+strlen("RESPONSE_PREFIX "));
+        funlockfile(stdout);
     } else if (!strcasecmp(cmd, "ASYNC_MODE_ON")) {
-        printf("S\n");
+        flockfile(stdout);
+        BPRINTF("S\n");
+        async_mode = true;
+        funlockfile(stdout);
     } else if (!strcasecmp(cmd, "ASYNC_MODE_OFF")) {
-        printf("S\n");
+        flockfile(stdout);
+        BPRINTF("S\n");
+        async_mode = false;
+        funlockfile(stdout);
     } else if (!strcasecmp(cmd, "QUIT")) {
         exit(0);
     } else if (!strcasecmp(cmd, "RESULTS")) {
-        printf("S %d\n", n_results());
+        flockfile(stdout);
+        int cnt = n_results();
+        BPRINTF("S %d\n", cnt);
         vector<COMMAND*>::iterator i = commands.begin();
-        while (i != commands.end()) {
+        int j = 0;
+        while (i != commands.end() && j < cnt) {
             COMMAND *c2 = *i;
             if (c2->out) {
-	        printf("%s%d %s\n", response_prefix, c2->id, c2->out);
-                free(c2->out);
-                free(c2->in);
-                free(c2);
+                BPRINTF("%d %s\n", c2->id, c2->out);
+                delete c2;
                 i = commands.erase(i);
+                j++;
             } else {
-                i++;
+                ++i;
             }
         }
+        wrote_r = false;
+        funlockfile(stdout);
     } else if (!strcasecmp(cmd, "BOINC_SELECT_PROJECT")) {
         int n = sscanf(p, "%s %s %s", cmd, project_url, authenticator);
         if (n ==3) {
-            printf("S\n");
+            BPRINTF("S\n");
         } else {
-            printf("E\n");
+            BPRINTF("E\n");
         }
     } else {
         // asynchronous commands go here
         //
         COMMAND *cp = new COMMAND(p);
+        p = NULL;
         int retval = cp->parse_command();
         if (retval) {
-            printf("E\n");
+            BPRINTF("E\n");
             delete cp;
             return 0;
         }
         if (debug_mode) {
             handle_command_aux(cp);
-            printf("result: %s\n", cp->out);
+            BPRINTF("result: %s\n", cp->out);
             delete cp;
         } else {
             printf("S\n");
@@ -655,7 +752,7 @@ int handle_command(char* p) {
             pthread_t thread_handle;
             pthread_attr_t thread_attrs;
             pthread_attr_init(&thread_attrs);
-            pthread_attr_setstacksize(&thread_attrs, 32768);
+            pthread_attr_setstacksize(&thread_attrs, 256*1024);
             int retval = pthread_create(
                 &thread_handle, &thread_attrs, &handle_command_aux, cp
             );
@@ -665,6 +762,7 @@ int handle_command(char* p) {
             }
         }
     }
+    free(p);
     return 0;
 }
 
@@ -684,6 +782,9 @@ char* get_cmd() {
         }
         if (c == '\n') {
             p[len] = 0;
+            if ( len > 0 && p[len-1] == '\r' ) {
+                p[len-1] = 0;
+            }
             return p;
         }
         p[len++] = c;
@@ -718,14 +819,11 @@ void read_config() {
 int main() {
     read_config();
     strcpy(response_prefix, "");
-    print_version();
+    print_version(true);
     fflush(stdout);
     while (1) {
         char* p = get_cmd();
         if (p == NULL) break;
-        if (strlen(response_prefix)) {
-            printf("%s", response_prefix);
-        }
         handle_command(p);
         fflush(stdout);
     }

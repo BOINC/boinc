@@ -17,15 +17,30 @@
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/checkbox_wrapper"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-        
-    <CheckBox android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:padding="5dp">
+    
+    <TextView 
+        android:id="@+id/checkbox_text"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/checkbox"
-        android:onClick="onCbClick"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/black" />
-</LinearLayout>
+        android:textColor="@color/black"
+        android:layout_toLeftOf="@+id/checkbox"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"/>
+        
+    <CheckBox 
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:padding="3dp"
+        android:layout_centerVertical="true"
+        android:clickable="false" />
+    
+</RelativeLayout>

@@ -322,6 +322,30 @@ int read_file_malloc(const char* path, char*& buf, size_t max_len, bool tail) {
     int retval;
     double size;
 
+    // Win: if another process has this file open for writing,
+    // wait for up to 5 seconds.
+    // This is because when a job exits, the write to stderr.txt
+    // sometimes (inexplicably) doesn't appear immediately
+
+#ifdef _WIN32
+    for (int i=0; i<5; i++) {
+        HANDLE h = CreateFileA(
+            path,
+            GENERIC_WRITE,
+            0,
+            NULL,
+            OPEN_EXISTING,
+            FILE_ATTRIBUTE_NORMAL,
+            NULL
+        );
+        if (h != INVALID_HANDLE_VALUE) {
+            CloseHandle(h);
+            break;
+        }
+        boinc_sleep(1);
+    }
+#endif
+
     retval = file_size(path, size);
     if (retval) return retval;
 
@@ -413,7 +437,10 @@ int run_program(
     );
     if (!retval) {
         windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
-        fprintf(stderr, "CreateProcess failed: '%s'\n", error_msg);
+        fprintf(stderr,
+            "%s: CreateProcess failed: '%s'\n",
+            time_to_string(dtime()), error_msg
+        );
         return -1; // CreateProcess returns 1 if successful, false if it failed.
     }
 
@@ -425,6 +452,7 @@ int run_program(
             }
         }
     }
+    if (process_info.hThread) CloseHandle(process_info.hThread);
     id = process_info.hProcess;
     return 0;
 }
@@ -460,27 +488,42 @@ int run_program(
 #endif
 
 #ifdef _WIN32
-void kill_program(HANDLE pid) {
-    TerminateProcess(pid, 0);
+int kill_program(int pid, int exit_code) {
+    int retval;
+
+    HANDLE h = OpenProcess(PROCESS_TERMINATE, false, pid);
+    if (h == NULL) return 0;
+        // process isn't there, so no error
+
+    if (TerminateProcess(h, exit_code)) {
+        retval = 0;
+    } else {
+        retval = ERR_KILL;
+    }
+    CloseHandle(h);
+    return retval;
 }
+
+int kill_program(HANDLE pid) {
+    if (TerminateProcess(pid, 0)) return 0;
+    return ERR_KILL;
+}
+
 #else
-void kill_program(int pid) {
-    kill(pid, SIGKILL);
+int kill_program(int pid) {
+    if (kill(pid, SIGKILL)) {
+        if (errno == ESRCH) return 0;
+        return ERR_KILL;
+    }
+    return 0;
 }
 #endif
 
 #ifdef _WIN32
 int get_exit_status(HANDLE pid_handle) {
     unsigned long status=1;
-    while (1) {
-        if (GetExitCodeProcess(pid_handle, &status)) {
-            if (status == STILL_ACTIVE) {
-                boinc_sleep(1);
-            } else {
-                break;
-            }
-        }
-    }
+    WaitForSingleObject(pid_handle, INFINITE);
+    GetExitCodeProcess(pid_handle, &status);
     return (int) status;
 }
 bool process_exists(HANDLE h) {
@@ -490,7 +533,6 @@ bool process_exists(HANDLE h) {
     }
     return false;
 }
-
 #else
 int get_exit_status(int pid) {
     int status;
@@ -498,9 +540,8 @@ int get_exit_status(int pid) {
     return status;
 }
 bool process_exists(int pid) {
-    int p = waitpid(pid, 0, WNOHANG);
-    if (p == pid) return false;     // process has exited
-    if (p == -1) return false;      // PID doesn't exist
+    int retval = kill(pid, 0);
+    if (retval == -1 && errno == ESRCH) return false;
     return true;
 }
 #endif
@@ -511,9 +552,7 @@ static int get_client_mutex(const char*) {
     
     // Global mutex on Win2k and later
     //
-    if (IsWindows2000Compatible()) {
-        strcpy(buf, "Global\\");
-    }
+    strcpy(buf, "Global\\");
     strcat(buf, RUN_MUTEX);
 
     HANDLE h = CreateMutexA(NULL, true, buf);
@@ -551,7 +590,6 @@ int wait_client_mutex(const char* dir, double timeout) {
 bool boinc_is_finite(double x) {
 #if defined (HPUX_SOURCE)
     return _Isfinite(x);
-    return false;
 #else
     return finite(x) != 0;
 #endif

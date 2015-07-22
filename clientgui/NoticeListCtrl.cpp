@@ -34,344 +34,24 @@
 #include "SkinManager.h"
 #include "MainDocument.h"
 #include "NoticeListCtrl.h"
-#include "BOINCInternetFSHandler.h"
 
 ////@begin XPM images
 ////@end XPM images
 
-#if wxUSE_ACCESSIBILITY || defined(__WXMAC__)
-
-#ifdef __WXMAC__
-
-CNoticeListCtrlAccessible::CNoticeListCtrlAccessible(wxWindow* win) {
-    mp_win = win;
-    SetupMacAccessibilitySupport();
-}
-
-
-CNoticeListCtrlAccessible::~CNoticeListCtrlAccessible() {
-    RemoveMacAccessibilitySupport();
-}
-
-#endif
-
-// Gets the name of the specified object.
-wxAccStatus CNoticeListCtrlAccessible::GetName(int childId, wxString* name) {
-    static wxString strBuffer;
-
-    if (childId == wxACC_SELF) {
-        *name = _("Notice List");
-    } else {
-        CMainDocument* pDoc = wxDynamicCast(wxGetApp().GetDocument(), CMainDocument);
-        strBuffer = wxEmptyString;
-
-        if (pDoc) {
-            strBuffer = wxString(pDoc->notice(childId-1)->title, wxConvUTF8);
-            pDoc->LocalizeNoticeText(strBuffer, true);
-            strBuffer = StripHTMLTags(strBuffer);
-            *name = strBuffer.c_str();
-        }
-    }
-    return wxACC_OK;
-}
-
-
-// Can return either a child object, or an integer
-// representing the child element, starting from 1.
-wxAccStatus CNoticeListCtrlAccessible::HitTest(const wxPoint& pt, int* childId, wxAccessible** /*childObject*/) {
-    CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
-    if (pCtrl) {
-        *childId = pCtrl->HitTest(pt);
-        return wxACC_OK;
-    }
-    // Let the framework handle the other cases.
-    return wxACC_NOT_IMPLEMENTED;
-}
-
-
-// Returns the rectangle for this object (id = 0) or a child element (id > 0).
-wxAccStatus CNoticeListCtrlAccessible::GetLocation(wxRect& rect, int elementId) {
-    CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
-    if (pCtrl && (0 == elementId)) {
-        // List control
-        rect.SetPosition(pCtrl->GetScreenPosition());
-        rect.SetWidth(pCtrl->GetSize().GetWidth());
-        rect.SetHeight(pCtrl->GetSize().GetHeight());
-        return wxACC_OK;
-    } else if (pCtrl && (0 != elementId)) {
-        pCtrl->GetItemRect(elementId - 1, rect);
-        pCtrl->ClientToScreen(&rect.x, &rect.y);
-
-        return wxACC_OK;
-    }
-    // Let the framework handle the other cases.
-    return wxACC_FALSE;
-}
-
-
-// Gets the number of children.
-wxAccStatus CNoticeListCtrlAccessible::GetChildCount(int* childCount) {
-    CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
-    if (pCtrl) {
-        *childCount = (int)pCtrl->GetItemCount();
-        return wxACC_OK;
-    }
-    // Let the framework handle the other cases.
-    return wxACC_NOT_IMPLEMENTED;
-}
-
-
-// Performs the default action. childId is 0 (the action for this object)
-// or > 0 (the action for a child).
-// Return wxACC_NOT_SUPPORTED if there is no default action for this
-// window (e.g. an edit control).
-wxAccStatus CNoticeListCtrlAccessible::DoDefaultAction(int childId) {
-#if ALLOW_NOTICES_SELECTION
-
-    CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
-    CMainDocument* pDoc = wxDynamicCast(wxGetApp().GetDocument(), CMainDocument);
-    if (pCtrl && (childId != wxACC_SELF)) {
-        // Zero-based array index
-        int iRealChildId = childId - 1;
-
-        pCtrl->SetSelection(iRealChildId);
-
-        // Fire Event 
-        NoticeListCtrlEvent evt( 
-            wxEVT_NOTICELIST_ITEM_CHANGE, 
-            pDoc->notice(iRealChildId)->seqno,  
-            wxString(pDoc->notice(iRealChildId)->link, wxConvUTF8)
-        ); 
-#ifdef __WXMAC__
-        evt.SetEventObject(pCtrl); 
-#else
-        evt.SetEventObject(this); 
-#endif
-
-        pCtrl->GetParent()->AddPendingEvent( evt ); 
-
-        return wxACC_OK;
-    }
-    
-#endif      // ALLOW_NOTICES_SELECTION
-
-    // Let the framework handle the other cases.
-    return wxACC_NOT_IMPLEMENTED;
-}
-
-// Returns the description for this object or a child.
-wxAccStatus CNoticeListCtrlAccessible::GetDescription(int childId, wxString* description) {
-    CMainDocument* pDoc = wxGetApp().GetDocument();
-    static wxString strBuffer;
-    wxDateTime dtBuffer;
-    wxString strDescription = wxEmptyString;
-    wxString strProjectName = wxEmptyString;
-    wxString strArrivalTime = wxEmptyString;
-
-    if (pDoc && (childId != wxACC_SELF)) {
-        strBuffer = wxEmptyString;
-        
-        strProjectName = wxString(pDoc->notice(childId-1)->project_name, wxConvUTF8);
-
-        strDescription = wxString(pDoc->notice(childId-1)->description.c_str(), wxConvUTF8);
-        pDoc->LocalizeNoticeText(strDescription, true);
-
-        dtBuffer.Set((time_t)pDoc->notice(childId-1)->arrival_time);
-        strArrivalTime = dtBuffer.Format();
-
-        if (strProjectName.IsEmpty()) {
-            strBuffer.Printf(_("%s; received on %s"), strDescription.c_str(), strArrivalTime.c_str());
-        } else {
-            strBuffer.Printf(_("%s; received from %s; on %s"), strDescription.c_str(), strProjectName.c_str(), strArrivalTime.c_str());
-        }
-
-        strBuffer = StripHTMLTags(strBuffer);
-        *description = strBuffer.c_str();
-        
-        return wxACC_OK;
-    }
-
-    // Let the framework handle the other cases.
-    return wxACC_NOT_IMPLEMENTED;
-}
-
-
-wxString CNoticeListCtrlAccessible::StripHTMLTags(wxString inBuf) {
-    wxString outBuf = wxEmptyString;
-    wxString tempBuf = inBuf;
-
-    while (!tempBuf.IsEmpty()) {
-        outBuf += tempBuf.BeforeFirst(wxT('<'));
-        tempBuf = tempBuf.AfterFirst(wxT('<'));
-        if (tempBuf.IsEmpty()) break;
-        tempBuf = tempBuf.AfterFirst(wxT('>'));
-    }
-
-    return outBuf;
-}
-
-#ifndef __WXMAC__
-
-// Navigates from fromId to toId/toObject.
-wxAccStatus CNoticeListCtrlAccessible::Navigate(
-    wxNavDir navDir, int fromId, int* toId, wxAccessible** toObject
-) {
-
-    CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
-    *toObject = NULL;
-
-    if (0 != fromId) {
-        switch (navDir) {
-        case wxNAVDIR_PREVIOUS:
-        case wxNAVDIR_UP:
-            if (1 == fromId){
-                return wxACC_FALSE;
-            } else {
-                *toId = fromId - 1;
-                return wxACC_OK;
-            }
-            break;
-        case wxNAVDIR_NEXT:
-        case wxNAVDIR_DOWN:
-            if ((int)pCtrl->GetItemCount() == fromId) {
-                return wxACC_FALSE;
-            } else {
-                *toId = fromId + 1;
-                return wxACC_OK;
-            }
-            return wxACC_FALSE;
-            break;
-        case wxNAVDIR_LEFT:
-            return wxACC_FALSE;
-            break;
-        case wxNAVDIR_RIGHT:
-            return wxACC_FALSE;           
-            break;
-        case wxNAVDIR_FIRSTCHILD:
-            if (1 == fromId) {
-                return wxACC_FALSE;
-            } else {
-                *toId = 1;
-                return wxACC_OK;
-            }
-            break;
-        case wxNAVDIR_LASTCHILD:
-            if ((int)pCtrl->GetItemCount() == fromId) {
-                return wxACC_FALSE;
-            } else {
-                *toId = (int)pCtrl->GetItemCount();
-                return wxACC_OK;
-            }
-            break;
-        }
-    }
-    // Let the framework handle the other cases.
-    return wxACC_NOT_IMPLEMENTED;
-}
-
-
-// Gets the default action for this object (0) or > 0 (the action for a child).
-// Return wxACC_OK even if there is no action. actionName is the action, or the empty
-// string if there is no action.
-// The retrieved string describes the action that is performed on an object,
-// not what the object does as a result. For example, a toolbar button that prints
-// a document has a default action of "Press" rather than "Prints the current document."
-wxAccStatus CNoticeListCtrlAccessible::GetDefaultAction(int childId, wxString* actionName) {
-    CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
-    if (pCtrl && (childId != wxACC_SELF)) {
-        *actionName = _("Click");
-        return wxACC_OK;
-    }
-    // Let the framework handle the other cases.
-    return wxACC_NOT_IMPLEMENTED;
-}
-
-
-// Returns a role constant.
-wxAccStatus CNoticeListCtrlAccessible::GetRole(int childId, wxAccRole* role) {
-    if (childId == wxACC_SELF) {
-        *role = wxROLE_SYSTEM_LIST;
-    } else {
-        *role = wxROLE_SYSTEM_LISTITEM;
-    }
-    return wxACC_OK;
-}
-
-
-// Returns a role constant.
-wxAccStatus CNoticeListCtrlAccessible::GetState(int childId, long* state) {
-    if (childId == wxACC_SELF) {
-        *state = wxACC_STATE_SYSTEM_DEFAULT;
-    } else {
-        CNoticeListCtrl* pCtrl = wxDynamicCast(GetWindow(), CNoticeListCtrl);
-        if (pCtrl && (pCtrl->IsSelected(childId - 1))) {
-            *state = wxACC_STATE_SYSTEM_SELECTABLE |
-                     wxACC_STATE_SYSTEM_FOCUSABLE | 
-                     wxACC_STATE_SYSTEM_SELECTED | 
-                     wxACC_STATE_SYSTEM_FOCUSED;
-        } else if (pCtrl && (pCtrl->IsVisible(childId - 1))) {
-            *state = wxACC_STATE_SYSTEM_SELECTABLE |
-                     wxACC_STATE_SYSTEM_FOCUSABLE;
-        } else {
-            *state = wxACC_STATE_SYSTEM_SELECTABLE |
-                     wxACC_STATE_SYSTEM_FOCUSABLE |
-                     wxACC_STATE_SYSTEM_OFFSCREEN |
-                     wxACC_STATE_SYSTEM_INVISIBLE;
-        }
-    }
-    return wxACC_OK;
-}
-
-
-// Selects the object or child.
-wxAccStatus CNoticeListCtrlAccessible::Select(int , wxAccSelectionFlags ) {
-    // Let the framework handle the other cases.
-    return wxACC_NOT_IMPLEMENTED;
-}
-
-
-// Gets a variant representing the selected children
-// of this object.
-// Acceptable values:
-// - a null variant (IsNull() returns true)
-// - a list variant (GetType() == wxT("list"))
-// - an integer representing the selected child element,
-//   or 0 if this object is selected (GetType() == wxT("long"))
-// - a "void*" pointer to a wxAccessible child object
-wxAccStatus CNoticeListCtrlAccessible::GetSelections(wxVariant* ) {
-    // Let the framework handle the other cases.
-    return wxACC_NOT_IMPLEMENTED;
-}
-#endif      // ifndef __WXMAC__
-
-#endif      // wxUSE_ACCESSIBILITY || defined(__WXMAC__)
-
-
-/*!
- * CNoticeListCtrl event definitions
+ /* CNoticeListCtrl type definition
  */
-DEFINE_EVENT_TYPE( wxEVT_NOTICELIST_ITEM_CHANGE )
-DEFINE_EVENT_TYPE( wxEVT_NOTICELIST_ITEM_DISPLAY )
-
-
-/*!
- * CNoticeListCtrl type definition
- */
-IMPLEMENT_DYNAMIC_CLASS( CNoticeListCtrl, CBOINCHtmlListBox )
-IMPLEMENT_DYNAMIC_CLASS( NoticeListCtrlEvent, wxNotifyEvent )
+IMPLEMENT_DYNAMIC_CLASS( CNoticeListCtrl, wxWindow )
 
 
 /*!
  * CNoticeListCtrl event table definition
  */
  
-BEGIN_EVENT_TABLE( CNoticeListCtrl, CBOINCHtmlListBox )
+BEGIN_EVENT_TABLE( CNoticeListCtrl, wxWindow )
 
 ////@begin CNoticeListCtrl event table entries
-    EVT_LISTBOX(ID_LIST_NOTIFICATIONSVIEW, CNoticeListCtrl::OnSelected)
-    EVT_LISTBOX_DCLICK(ID_LIST_NOTIFICATIONSVIEW, CNoticeListCtrl::OnDClicked)
-    EVT_HTML_CELL_CLICKED(ID_LIST_NOTIFICATIONSVIEW, CNoticeListCtrl::OnClicked)
-    EVT_HTML_LINK_CLICKED(ID_LIST_NOTIFICATIONSVIEW, CNoticeListCtrl::OnLinkClicked)
+    EVT_WEBVIEW_NAVIGATING(ID_LIST_NOTIFICATIONSVIEW, CNoticeListCtrl::OnLinkClicked)
+    EVT_WEBVIEW_ERROR(ID_LIST_NOTIFICATIONSVIEW, CNoticeListCtrl::OnWebViewError)
 ////@end CNoticeListCtrl event table entries
  
 END_EVENT_TABLE()
@@ -380,33 +60,15 @@ END_EVENT_TABLE()
  * CNoticeListCtrl constructors
  */
  
-CNoticeListCtrl::CNoticeListCtrl( )
-{
+CNoticeListCtrl::CNoticeListCtrl( ) {
 }
  
-CNoticeListCtrl::CNoticeListCtrl( wxWindow* parent )
-{
+CNoticeListCtrl::CNoticeListCtrl( wxWindow* parent ) {
     Create( parent );
-    
-    wxFileSystemHandler *internetFSHandler = wxGetApp().GetInternetFSHandler();
-    if (internetFSHandler) {
-        ((CBOINCInternetFSHandler*)internetFSHandler)->SetAbortInternetIO(false);
-    }
 }
  
  
-CNoticeListCtrl::~CNoticeListCtrl( )
-{
-#ifdef __WXMAC__
-    if (m_accessible) {
-        delete m_accessible;
-    }
-#endif
-
-    wxFileSystemHandler *internetFSHandler = wxGetApp().GetInternetFSHandler();
-    if (internetFSHandler) {
-        ((CBOINCInternetFSHandler*)internetFSHandler)->SetAbortInternetIO(false);
-    }
+CNoticeListCtrl::~CNoticeListCtrl( ) {
 }
 
 
@@ -414,25 +76,27 @@ CNoticeListCtrl::~CNoticeListCtrl( )
  * CNoticeListCtrl creator
  */
  
-bool CNoticeListCtrl::Create( wxWindow* parent )
-{
+bool CNoticeListCtrl::Create( wxWindow* parent ) {
 ////@begin CNoticeListCtrl member initialisation
 ////@end CNoticeListCtrl member initialisation
 
 ////@begin CNoticeListCtrl creation
-    CBOINCHtmlListBox::Create( parent, ID_LIST_NOTIFICATIONSVIEW, wxDefaultPosition, wxDefaultSize,
+    wxWindow::Create( parent, ID_LIST_NOTIFICATIONSVIEW, wxDefaultPosition, wxDefaultSize,
         wxSUNKEN_BORDER | wxTAB_TRAVERSAL );
 
-#if wxUSE_ACCESSIBILITY
-    SetAccessible(new CNoticeListCtrlAccessible(this));
-#endif
-#ifdef __WXMAC__
-    // Enable accessibility only after drawing the page 
-    // to avoid a mysterious crash bug
-    m_accessible = NULL;
-#endif
+    m_browser = wxWebView::New( this, ID_LIST_NOTIFICATIONSVIEW );
 ////@end CNoticeListCtrl creation
 
+    wxBoxSizer *topsizer;
+    topsizer = new wxBoxSizer(wxVERTICAL);
+    
+    topsizer->Add(m_browser, 1, wxEXPAND);
+    SetAutoLayout(true);
+    SetSizer(topsizer);
+    
+    m_itemCount = 0;
+    m_noticesBody = wxT("<html><head></head><body></body></html>");
+    
     // Display the fetching notices message until we have notices
     // to display or have determined that there are no notices.
     m_bDisplayFetchingNotices = false;
@@ -443,47 +107,14 @@ bool CNoticeListCtrl::Create( wxWindow* parent )
 }
 
 
-void CNoticeListCtrl::OnSelected( wxCommandEvent& event )
-{
-    // Fire Event 
-    NoticeListCtrlEvent evt( 
-        wxEVT_NOTICELIST_ITEM_CHANGE, 
-        event.GetInt(),
-        wxEmptyString
-    ); 
-    evt.SetEventObject(this); 
-
-    GetParent()->AddPendingEvent( evt ); 
+int CNoticeListCtrl::GetItemCount() {
+    return m_itemCount;
 }
 
 
-void CNoticeListCtrl::OnClicked( wxHtmlCellEvent& event )
-{
-    event.Skip();
-}
+void CNoticeListCtrl::SetItemCount(int newCount) {
+    int i;
 
-
-void CNoticeListCtrl::OnDClicked( wxCommandEvent& event )
-{
-    event.Skip();
-}
-
-
-void CNoticeListCtrl::OnLinkClicked( wxHtmlLinkEvent& event )
-{
-    // Fire Event 
-    NoticeListCtrlEvent evt( 
-        wxEVT_NOTICELIST_ITEM_DISPLAY, 
-        event.GetInt(),
-        event.GetLinkInfo().GetHref()
-    ); 
-    evt.SetEventObject(this); 
-
-    GetParent()->AddPendingEvent( evt ); 
-}
-
-
-wxString CNoticeListCtrl::OnGetItem(size_t i) const {
     CMainDocument* pDoc = wxGetApp().GetDocument();
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString strTitle = wxEmptyString;
@@ -501,76 +132,111 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const {
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
-    if (pDoc->IsConnected()) {
-        NOTICE* np = pDoc->notice((unsigned int)i);
+    m_itemCount = newCount;
+    m_noticesBody =  wxT("<html><head></head><body><font face=helvetica>");
 
-        strCategory = wxString(np->category, wxConvUTF8);
+    for (i=0; i<newCount; ++i) {
+        if (pDoc->IsConnected()) {
+            NOTICE* np = pDoc->notice((unsigned int)i);
 
-        strProjectName = wxString(np->project_name, wxConvUTF8);
+            strCategory = wxString(np->category, wxConvUTF8);
 
-        strURL = wxString(np->link, wxConvUTF8);
+            strProjectName = wxString(np->project_name, wxConvUTF8);
 
-        strTitle = wxString(np->title, wxConvUTF8);
+            strURL = wxString(np->link, wxConvUTF8);
 
-        // Fix-up title
-        if (strCategory == wxT("client")) {
-            strBuffer.Printf(
-                wxT("_(\"Notice from %s\")"),
-                pSkinAdvanced->GetApplicationShortName().c_str()
-            );
-            if (strProjectName.size()) {
-                strTemp.Printf(wxT("%s: %s"), strProjectName.c_str(), strBuffer.c_str());
+            strTitle = wxString(np->title, wxConvUTF8);
+
+            // Fix-up title
+            if (strCategory == wxT("client")) {
+                strBuffer.Printf(
+                    wxT("_(\"Notice from %s\")"),
+                    pSkinAdvanced->GetApplicationShortName().c_str()
+                );
+                if (strProjectName.size()) {
+                    strTemp.Printf(wxT("%s: %s"), strProjectName.c_str(), strBuffer.c_str());
+                } else {
+                    strTemp.Printf(wxT("%s"), strBuffer.c_str());
+                }
+            } else if (strCategory == wxT("scheduler")) {
+                strTemp.Printf(wxT("%s: %s"), strProjectName.c_str(), wxT("_(\"Notice from server\")"));
             } else {
-                strTemp.Printf(wxT("%s"), strBuffer.c_str());
+                if (strProjectName.size()) {
+                    strTemp.Printf(wxT("%s: %s"), strProjectName.c_str(), strTitle.c_str());
+                } else {
+                    strTemp = strTitle;
+                }
             }
-        } else if (strCategory == wxT("scheduler")) {
-            strTemp.Printf(wxT("%s: %s"), strProjectName.c_str(), wxT("_(\"Notice from server\")"));
-        } else {
-            if (strProjectName.size()) {
-                strTemp.Printf(wxT("%s: %s"), strProjectName.c_str(), strTitle.c_str());
+
+            strTitle = strTemp;
+            eol_to_br(strTitle);
+            localize(strTitle);
+
+            strDescription = wxString(np->description.c_str(), wxConvUTF8);
+            eol_to_br(strDescription);
+            localize(strDescription);
+
+            // RSS feeds and web pages may use protocol-relative (scheme-relative) 
+            // URLs, such as <img src="//sample.com/test.jpg"/>
+            // Since the html comes from a web server via http, the scheme is
+            // assumed to also be http.  But we have cached the html in a local 
+            // file, so it is no longer associated with the http protocol / scheme.
+            // Therefore all our URLs must explicity specify the http protocol.
+            //
+            // The second argument to wxWebView::SetPage is supposed to take care 
+            // of this automatically, but fails to do so under Windows, so we do 
+            // it here explicitly.
+            strDescription.Replace(wxT("\"//"), wxT("\"http://"));
+			strDescription.Replace(wxT("</a>"), wxT("</a> "));
+
+            // Apparently attempting to follow links with other targets specified
+            // fails to fire our event handler.  For now we will just strip out
+            // the special _blank/_new target which is supposed to open a new
+            // browser window anyways.  
+            strDescription.Replace(wxT("target=\"_blank\""), wxT(""));
+            strDescription.Replace(wxT("target=\"_new\""), wxT(""));
+
+            dtBuffer.Set((time_t)np->create_time);
+            strCreateTime = dtBuffer.Format();
+
+            // Put dividers between notices, but not before first or after last
+            if (i == 0) {
+                strBuffer = wxEmptyString;
             } else {
-                strTemp = strTitle;
+                strBuffer = wxT("<hr>");
             }
+
+            strBuffer += wxT("<table border=0 cellpadding=5><tr><td>");
+
+            if (!strTitle.IsEmpty()) {
+                strTemp.Printf(
+                    wxT("<b>%s</b><br>"),
+                    strTitle.c_str()
+                );
+                strBuffer += strTemp;
+            }
+
+            strBuffer += strDescription;
+
+            strBuffer += wxT("<br><font size=-2 color=#8f8f8f>");
+
+            strBuffer += strCreateTime;
+
+            if (!strURL.IsEmpty()) {
+                strTemp.Printf(
+                    wxT(" &middot; <a href=%s>%s</a> "),
+                    strURL.c_str(),
+                    _("more...")
+                );
+                strBuffer += strTemp;
+            }
+
+            strBuffer += wxT("</font></td></tr></table>");
         }
-
-        strTitle = strTemp;
-        pDoc->LocalizeNoticeText(strTitle, true);
-
-        strDescription = wxString(np->description.c_str(), wxConvUTF8);
-        pDoc->LocalizeNoticeText(strDescription, true);
-
-        dtBuffer.Set((time_t)np->create_time);
-        strCreateTime = dtBuffer.Format();
-
-        strBuffer = wxT("<table border=0 cellpadding=5><tr><td>");
-
-        if (!strTitle.IsEmpty()) {
-            strTemp.Printf(
-                wxT("<b>%s</b><br>"),
-                strTitle.c_str()
-            );
-            strBuffer += strTemp;
-        }
-
-        strBuffer += strDescription;
-
-        strBuffer += wxT("<br><font size=-2 color=#8f8f8f>");
-
-        strBuffer += strCreateTime;
-
-        if (!strURL.IsEmpty()) {
-            strTemp.Printf(
-                wxT(" &middot; <a target=_new href=%s>%s</a> "),
-                strURL.c_str(),
-                _("more...")
-            );
-            strBuffer += strTemp;
-        }
-
-        strBuffer += wxT("</font></td></tr></table><hr>");
+        m_noticesBody += strBuffer;
     }
-
-    return strBuffer;
+    m_noticesBody += wxT("</font></body></html>");
+    m_browser->SetPage(m_noticesBody, wxT("http://"));
 }
 
 
@@ -580,11 +246,28 @@ void CNoticeListCtrl::Clear() {
 }
 
 
+void CNoticeListCtrl::OnLinkClicked( wxWebViewEvent& event ) {
+    if (event.GetURL().StartsWith(wxT("http://")) || event.GetURL().StartsWith(wxT("https://"))) {
+        event.Veto();   // Tell wxWebView not to follow link
+		wxLaunchDefaultBrowser(event.GetURL());
+    } else {
+        event.Skip();
+    }
+}
+
+
+void CNoticeListCtrl::OnWebViewError( wxWebViewEvent& event ) {
+   fprintf(stderr, "wxWebView error: target=%s, URL=%s\n", 
+            (event.GetTarget().ToStdString()).c_str(), (event.GetURL().ToStdString()).c_str());
+
+    event.Skip();
+}
+
+
 /*!
  * Update the UI.
  */
-bool CNoticeListCtrl::UpdateUI()
-{
+bool CNoticeListCtrl::UpdateUI() {
     static bool bAlreadyRunning = false;
     CMainDocument*  pDoc   = wxGetApp().GetDocument();
 
@@ -617,9 +300,6 @@ bool CNoticeListCtrl::UpdateUI()
         return true;
     }
     
-    // We must prevent re-entry because our asynchronous 
-    // Internet access on Windows calls Yield() which can 
-    // allow this to be called again.
     if (!bAlreadyRunning) {
         bAlreadyRunning = true;
         if (
@@ -634,13 +314,6 @@ bool CNoticeListCtrl::UpdateUI()
             m_bDisplayEmptyNotice = false;
             Thaw();
         }
-#ifdef __WXMAC__
-        // Enable accessibility only after drawing the page 
-        // to avoid a mysterious crash bug
-        if (m_accessible == NULL) {
-            m_accessible = new CNoticeListCtrlAccessible(this);
-        }
-#endif
 
         bAlreadyRunning = false;
     }

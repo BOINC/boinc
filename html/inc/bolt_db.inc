@@ -139,6 +139,7 @@ class BoltCourse {
     }
     static function lookup_name($name) {
         $db = BoltDb::get();
+        $name = BoincDb::escape_string($name);
         return $db->lookup('bolt_course', 'BoltCourse', "short_name='$name'");
     }
     static function enum() {

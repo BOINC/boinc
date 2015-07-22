@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,11 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#define NEW_SCORE
+// job dispatch using a score-based approach.  See sched_score.cpp
 
-#ifdef NEW_SCORE
 struct JOB {
-    int index;
+    int index;          // index into shared-mem job array
     int result_id;
     double score;
     APP* app;
@@ -28,43 +27,4 @@ struct JOB {
     bool get_score(WU_RESULT&);
 };
 
-#else
-#include <list>
-
-struct JOB {
-    int index;
-    double score;
-    double est_time;
-    double disk_usage;
-    APP* app;
-    BEST_APP_VERSION* bavp;
-
-    bool get_score();
-};
-
-struct JOB_SET {
-    double work_req;
-    double est_time;
-    double disk_usage;
-    double disk_limit;
-    int max_jobs;
-    std::list<JOB> jobs;     // sorted high to low
-
-    JOB_SET() {
-        work_req = g_request->work_req_seconds;
-        est_time = 0;
-        disk_usage = 0;
-        disk_limit = g_wreq->disk_available;
-        max_jobs = g_wreq->max_jobs_per_rpc;
-    }
-    void add_job(JOB&);
-    double higher_score_disk_usage(double);
-    double lowest_score();
-    inline bool request_satisfied() {
-        return est_time >= work_req;
-    }
-    void send();
-};
-
-#endif
 extern void send_work_score();

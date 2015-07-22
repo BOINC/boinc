@@ -37,7 +37,6 @@
  */
 
 ////@begin forward declarations
-class CTransparentCheckBox;
 ////@end forward declarations
 
 /*!
@@ -51,15 +50,26 @@ class CTransparentCheckBox;
 #define SYMBOL_CDLGPREFERENCES_IDNAME ID_DLGPREFERENCES
 #define SYMBOL_CDLGPREFERENCES_SIZE wxDefaultSize
 #define SYMBOL_CDLGPREFERENCES_POSITION wxDefaultPosition
-#define ID_WORKBETWEENBEGIN 10004
-#define ID_WORKBETWEENEND 10006
-#define ID_CONNECTBETWEENBEGIN 10007
-#define ID_CONNECTBETWEENEND 10009
-#define ID_MAXDISKUSAGE 10010
-#define ID_MAXCPUUSAGE 10011
-#define ID_WORKWHILEONBATTERY 10005
-#define ID_WORKWHENIDLE 10012
-#define ID_SGPREFERENCESCLEAR 10001
+
+#define ID_SG_PREFS_START ID_DLGPREFERENCES+1
+
+enum {
+    ID_SGPREFERENCESCLEAR = ID_SG_PREFS_START,
+    ID_CHKPROCONBATTERIES,
+    ID_CHKPROCINUSE,
+    ID_TXTPROCIDLEFOR,
+    ID_CHKPROCEVERYDAY,
+    ID_TXTPROCEVERYDAYSTART,
+    ID_TXTPROCEVERYDAYSTOP,
+    ID_TXTPOCUSECPUTIME,
+    ID_CHKNETEVERYDAY,
+    ID_TXTNETEVERYDAYSTART,
+    ID_TXTNETEVERYDAYSTOP,
+    ID_CHKDISKMAXSPACE,
+    ID_TXTDISKMAXSPACE,
+    ID_SG_PREFS_LAST
+};
+
 ////@end control identifiers
 
 /*!
@@ -87,11 +97,15 @@ public:
     CPanelPreferences( );
     CPanelPreferences( wxWindow* parent );
 
+    ~CPanelPreferences( );
+
     /// Creation
     bool Create();
 
     /// Creates the controls and sizers
     void CreateControls();
+
+    void MakeBackgroundBitmap();
 
 ////@begin CPanelPreferences event handler declarations
     /// wxEVT_ERASE_BACKGROUND event handler for ID_DLGPREFERENCES
@@ -108,66 +122,65 @@ public:
     
 ////@end CPanelPreferences event handler declarations
 
-////@begin CPanelPreferences member function declarations
-    wxString GetWorkBetweenBegin() const { return m_strWorkBetweenBegin ; }
-    void SetWorkBetweenBegin(wxString value) { m_strWorkBetweenBegin = value ; }
-
-    wxString GetWorkBetweenEnd() const { return m_strWorkBetweenEnd ; }
-    void SetWorkBetweenEnd(wxString value) { m_strWorkBetweenEnd = value ; }
-
-    wxString GetConnectBetweenBegin() const { return m_strConnectBetweenBegin ; }
-    void SetConnectBetweenBegin(wxString value) { m_strConnectBetweenBegin = value ; }
-
-    wxString GetConnectBetweenEnd() const { return m_strConnectBetweenEnd ; }
-    void SetConnectBetweenEnd(wxString value) { m_strConnectBetweenEnd = value ; }
-
-    wxString GetMaxDiskUsage() const { return m_strMaxDiskUsage ; }
-    void SetMaxDiskUsage(wxString value) { m_strMaxDiskUsage = value ; }
-
-    wxString GetMaxCPUUsage() const { return m_strMaxCPUUsage ; }
-    void SetMaxCPUUsage(wxString value) { m_strMaxCPUUsage = value ; }
-
-    bool GetWorkWhileOnBattery() const { return m_bWorkWhileOnBattery ; }
-    void SetWorkWhileOnBattery(bool value) { m_bWorkWhileOnBattery = value ; }
-
-    wxString GetWorkWhenIdle() const { return m_strWorkWhenIdle ; }
-    void SetWorkWhenIdle(wxString value) { m_strWorkWhenIdle = value ; }
-
-////@end CPanelPreferences member function declarations
-
     void OnButtonClear();
-    void OnOK();
+    bool OnOK();
 
     bool UpdateControlStates();
 
     bool ClearPreferenceSettings();
+	wxString DoubleToTimeString(double dt);
+	double TimeStringToDouble(wxString timeStr);
+    double RoundToHundredths(double td);
+    void DisplayValue(double value, wxTextCtrl* textCtrl, wxCheckBox* checkBox=NULL);
     bool ReadPreferenceSettings();
     bool SavePreferenceSettings();
+	bool ValidateInput();
+	void ShowErrorMessage(wxString& msg,wxTextCtrl* errorCtrl);
+	bool IsValidFloatChar(const wxChar& ch);
+	bool IsValidFloatValue(const wxString& value, bool allowNegative=false);
+    bool IsValidFloatValueBetween(const wxString& value, double minVal, double maxVal);
+	bool IsValidTimeChar(const wxChar& ch);
+	bool IsValidTimeValue(const wxString& value);
+	void OnHandleCheckboxEvent(wxCommandEvent& ev);
+    
+    void addNewRowToSizer(wxSizer* toSizer, wxString& toolTipText,
+                wxWindow* first, wxWindow* second, wxWindow* third,
+                wxWindow* fourth=NULL, wxWindow* fifth=NULL);
+    wxSize getTextCtrlSize(wxString maxText);
+    bool doesLocalPrefsFileExist();
+    wxBitmap* GetBackgroundBmp() { return m_backgroundBitmap; }
+
+    bool OKToShow() { return m_bOKToShow; }
 
 private:
 ////@begin CPanelPreferences member variables
-    wxComboBox* m_WorkBetweenBeginCtrl;
-    wxComboBox* m_WorkBetweenEndCtrl;
-    wxComboBox* m_ConnectBetweenBeginCtrl;
-    wxComboBox* m_ConnectBetweenEndCtrl;
-    wxComboBox* m_MaxDiskUsageCtrl;
-    wxComboBox* m_MaxCPUUsageCtrl;
-    wxCheckBox* m_WorkWhileOnBatteryCtrl;
-    wxComboBox* m_WorkWhenIdleCtrl;
-    wxString m_strWorkBetweenBegin;
-    wxString m_strWorkBetweenEnd;
-    wxString m_strConnectBetweenBegin;
-    wxString m_strConnectBetweenEnd;
-    wxString m_strMaxDiskUsage;
-    wxString m_strMaxCPUUsage;
-    bool m_bWorkWhileOnBattery;
-    wxString m_strWorkWhenIdle;
+    wxCheckBox* m_chkProcOnBatteries;
+    wxCheckBox* m_chkProcInUse;
+    wxTextCtrl* m_txtProcIdleFor;
+    wxCheckBox* m_chkProcEveryDay;
+    wxTextCtrl* m_txtProcEveryDayStart;
+    wxTextCtrl* m_txtProcEveryDayStop;
+    wxTextCtrl* m_txtProcUseCPUTime;
+    wxCheckBox* m_chkNetEveryDay;
+    wxTextCtrl* m_txtNetEveryDayStart;
+    wxTextCtrl* m_txtNetEveryDayStop;
+    wxCheckBox* m_chkDiskMaxSpace;
+    wxTextCtrl* m_txtDiskMaxSpace;
+
+    wxTextValidator* m_vTimeValidator;
     wxButton* m_btnClear;
+    wxString *web_prefs_url;
+ 
+    wxBitmap* m_backgroundBitmap;
     
+    bool m_bOKToShow;
+   
 ////@end CPanelPreferences member variables
     GLOBAL_PREFS      global_preferences_working;
     GLOBAL_PREFS_MASK global_preferences_mask;
     GLOBAL_PREFS_MASK global_preferences_override_mask;
+    GLOBAL_PREFS      defaultPrefs;
+
 };
 
 
@@ -198,6 +211,8 @@ public:
     void OnOK( wxCommandEvent& event );
 
     bool ConfirmClear();
+
+    bool OKToShow() { return m_pBackgroundPanel->OKToShow(); }
 
 private:
 ////@begin CDlgPreferences member variables

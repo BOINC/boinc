@@ -54,6 +54,11 @@ void RESULT::clear() {
     got_server_ack = false;
     final_cpu_time = 0;
     final_elapsed_time = 0;
+    final_peak_working_set_size = 0;
+    final_peak_swap_size = 0;
+    final_peak_disk_usage = 0;
+    final_bytes_sent = 0;
+    final_bytes_received = 0;
 #ifdef SIM
     peak_flop_count = 0;
 #endif
@@ -145,6 +150,11 @@ int RESULT::parse_state(XML_PARSER& xp) {
         }
         if (xp.parse_double("final_cpu_time", final_cpu_time)) continue;
         if (xp.parse_double("final_elapsed_time", final_elapsed_time)) continue;
+        if (xp.parse_double("final_peak_working_set_size", final_peak_working_set_size)) continue;
+        if (xp.parse_double("final_peak_swap_size", final_peak_swap_size)) continue;
+        if (xp.parse_double("final_peak_disk_usage", final_peak_disk_usage)) continue;
+        if (xp.parse_double("final_bytes_sent", final_bytes_sent)) continue;
+        if (xp.parse_double("final_bytes_received", final_bytes_received)) continue;
         if (xp.parse_int("exit_status", exit_status)) continue;
         if (xp.parse_bool("got_server_ack", got_server_ack)) continue;
         if (xp.parse_bool("ready_to_report", ready_to_report)) continue;
@@ -207,6 +217,36 @@ int RESULT::write(MIOFILE& out, bool to_server) {
     }
     if (intops_cumulative) {
         out.printf("    <intops_cumulative>%f</intops_cumulative>\n", intops_cumulative);
+    }
+    if (final_peak_working_set_size) {
+        out.printf(
+            "    <final_peak_working_set_size>%.0f</final_peak_working_set_size>\n",
+            final_peak_working_set_size
+        );
+    }
+    if (final_peak_swap_size) {
+        out.printf(
+            "    <final_peak_swap_size>%.0f</final_peak_swap_size>\n",
+            final_peak_swap_size
+        );
+    }
+    if (final_peak_disk_usage) {
+        out.printf(
+            "    <final_peak_disk_usage>%.0f</final_peak_disk_usage>\n",
+            final_peak_disk_usage
+        );
+    }
+    if (final_bytes_sent) {
+        out.printf(
+            "    <final_bytes_sent>%.0f</final_bytes_sent>\n",
+            final_bytes_sent
+        );
+    }
+    if (final_bytes_received) {
+        out.printf(
+            "    <final_bytes_received>%.0f</final_bytes_received>\n",
+            final_bytes_received
+        );
     }
     if (to_server) {
         out.printf(
@@ -328,16 +368,16 @@ int RESULT::write_gui(MIOFILE& out) {
         if (avp->gpu_usage.rsc_type) {
             if (avp->gpu_usage.usage == 1) {
                 sprintf(resources,
-                    "%.3g CPUs + 1 %s GPU",
+                    "%.3g CPUs + 1 %s",
                     avp->avg_ncpus,
-                    rsc_name(avp->gpu_usage.rsc_type)
+                    rsc_name_long(avp->gpu_usage.rsc_type)
                 );
             } else {
                 sprintf(resources,
-                    "%.3g CPUs + %.3g %s GPUs",
+                    "%.3g CPUs + %.3g %ss",
                     avp->avg_ncpus,
                     avp->gpu_usage.usage,
-                    rsc_name(avp->gpu_usage.rsc_type)
+                    rsc_name_long(avp->gpu_usage.rsc_type)
                 );
             }
         } else if (avp->missing_coproc) {
@@ -353,7 +393,7 @@ int RESULT::write_gui(MIOFILE& out) {
     if (strlen(resources)>1) {
         char buf[256];
         strcpy(buf, "");
-        if (atp && atp->task_state() == PROCESS_EXECUTING) {
+        if (atp && atp->scheduler_state == CPU_SCHED_SCHEDULED) {
             if (avp->gpu_usage.rsc_type) {
                 COPROC& cp = coprocs.coprocs[avp->gpu_usage.rsc_type];
                 if (cp.count > 1) {
@@ -468,9 +508,10 @@ void RESULT::append_log_record() {
     job_log_filename(*project, filename, sizeof(filename));
     FILE* f = fopen(filename, "ab");
     if (!f) return;
-    fprintf(f, "%.0f ue %f ct %f fe %.0f nm %s et %f\n",
+    fprintf(f, "%.0f ue %f ct %f fe %.0f nm %s et %f es %d\n",
         gstate.now, estimated_runtime_uncorrected(), final_cpu_time,
-        wup->rsc_fpops_est, name, final_elapsed_time
+        wup->rsc_fpops_est, name, final_elapsed_time,
+        exit_status
     );
     fclose(f);
 }
@@ -491,7 +532,12 @@ bool RESULT::runnable() {
     if (state() != RESULT_FILES_DOWNLOADED) return false;
     if (coproc_missing) return false;
     if (schedule_backoff > gstate.now) return false;
-    if (avp->needs_network && gstate.network_suspended) return false;
+    if (avp->needs_network && gstate.file_xfers_suspended) {
+        // check file_xfers_suspended rather than network_suspended;
+        // the latter remains false for a period after GUI RPCs
+        //
+        return false;
+    }
     return true;
 }
 
@@ -598,3 +644,55 @@ void RESULT::set_state(int val, const char* where) {
     }
 }
 
+void add_old_result(RESULT& r) {
+    while (!old_results.empty()) {
+        OLD_RESULT& ores = *old_results.begin();
+        if (ores.create_time < gstate.now - 3600) {
+            old_results.pop_front();
+        } else {
+            break;
+        }
+    }
+    OLD_RESULT ores;
+    strcpy(ores.project_url, r.project->master_url);
+    strcpy(ores.result_name, r.name);
+    strcpy(ores.app_name, r.app->name);
+    ores.elapsed_time = r.final_elapsed_time;
+    ores.cpu_time = r.final_cpu_time;
+    ores.completed_time = r.completed_time;
+    ores.create_time = gstate.now;
+    ores.exit_status = r.exit_status;
+    old_results.push_back(ores);
+}
+
+void print_old_results(MIOFILE& mf) {
+    mf.printf("<old_results>\n");
+    deque<OLD_RESULT>::iterator i = old_results.begin();
+    while (i != old_results.end()) {
+        OLD_RESULT& ores = *i;
+        mf.printf(
+            "    <old_result>\n"
+            "         <project_url>%s</project_url>\n"
+            "         <result_name>%s</result_name>\n"
+            "         <app_name>%s</app_name>\n"
+            "         <exit_status>%d</exit_status>\n"
+            "         <elapsed_time>%f</elapsed_time>\n"
+            "         <cpu_time>%f</cpu_time>\n"
+            "         <completed_time>%f</completed_time>\n"
+            "         <create_time>%f</create_time>\n"
+            "    </old_result>\n",
+            ores.project_url,
+            ores.result_name,
+            ores.app_name,
+            ores.exit_status,
+            ores.elapsed_time,
+            ores.cpu_time,
+            ores.completed_time,
+            ores.create_time
+        );
+        i++;
+    }
+    mf.printf("</old_results>\n");
+}
+
+std::deque<OLD_RESULT> old_results;

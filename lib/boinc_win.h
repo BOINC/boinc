@@ -22,9 +22,12 @@
 #ifndef _BOINC_WIN_
 #define _BOINC_WIN_
 
-#ifndef __CYGWIN32__
+#ifndef HAVE_CONFIG_H
 
 // Windows C Runtime Library
+// These are version dependent.  If you aren't using MSC, you'll probably need
+// to edit this file or create a config.h
+// For MINGW32 and MINGW64, it's best to run autoconf if possible.
 
 #ifndef HAVE_STD_MAX
 #define HAVE_STD_MAX 1
@@ -46,9 +49,45 @@
 #define HAVE_STRCASECMP 1
 #endif
 
+/* 
+ * WINSOCK vs WINSOCK2 could be an issue in compiles because we include multiple
+ * packages that have the same choice.  The wx currently packed with BOINC 
+ * uses WINSOCK, so we have to not include WINSOCK2 by undefining 
+ * HAVE_WINSOCK2_H.  That limits what CURL in its header file as well.  We might
+ * need something more complicated if CURL and wxWidgets decide to go in
+ * opposite directions.
+ */
+#define USE_WINSOCK 1
+#undef HAVE_WINSOCK2_H
+#define HAVE_WINSOCK_H 1
+#define HAVE_WINDOWS_H 1
+#define HAVE_WS2TCPIP_H 1
+#define HAVE_WINHTTP_H 1
+#define HAVE_WINTERNL_H 1
+#define HAVE_DELAYIMP_H 1
+#define HAVE_INTRIN_H 1
+#define HAVE_FCNTL_H 1
+#define HAVE_CRTDBG_H 1
+#define HAVE_DECL_FPRESET 1
+#define HAVE_DECL__FPRESET 1
+#define HAVE_DECL___CPUID 1
+#define HAVE_MSVCRT 1
+#undef HAVE_STRDUP 
+#define HAVE__STRDUP 1
+#undef NO_PER_THREAD_LOCALE
+#define HAVE_DECL__CONFIGTHREADLOCALE 1
+#define HAVE__CONFIGTHREADLOCALE 1
+#define HAVE_DECL___CPUID 1
+
+#if ( _MSC_FULL_VER >= 160040219 )
+#define HAVE_DECL__XGETBV 1
+#else
+#define HAVE_DECL__XGETBV 0
+#endif
+
 #else
 
-// Under CYGWIN we need to include config.h first.
+// Under any system that can run configure we need to include config.h first.
 #include "config.h"
 
 #endif
@@ -73,37 +112,42 @@
 
 #endif
 
-// Target Windows 2000 or better with Internet Explorer 5.01 or better
+// Target Windows XP or better with Internet Explorer 5.01 or better
 #ifndef WINVER
-#define WINVER 0x0500
+#define WINVER 0x0501
 #endif
 #ifndef _WIN32_WINNT
-#define _WIN32_WINNT 0x0500
+#define _WIN32_WINNT 0x0501
 #endif
 #ifndef _WIN32_WINDOWS
-#define _WIN32_WINDOWS 0x0500
+#define _WIN32_WINDOWS 0x0501
 #endif
 #ifndef _WIN32_IE
 #define _WIN32_IE 0x0501
 #endif
+#ifndef SECURITY_WIN32
+#define SECURITY_WIN32
+#endif
 
-#include <windows.h>
-#include <share.h>
-#include <shlobj.h>
-#include <userenv.h>
-#include <aclapi.h>
-#include <psapi.h>
-#include <iphlpapi.h>
 
 #if !defined(__CYGWIN32__) || defined(USE_WINSOCK)
 
 /* If we're not running under CYGWIN use windows networking */
 #undef USE_WINSOCK
 #define USE_WINSOCK 1
+/* wxWidgets doesn't do winsock 2, so ignore it for now */
+#ifdef HAVE_WINSOCK2_H
+#include <winsock2.h>
+#elif defined(HAVE_WINSOCK_H)
 #include <winsock.h>
-#include <wininet.h>
+#endif
+#ifdef HAVE_WINHTTP_H
+#include <winhttp.h>
+#endif
 
+#ifndef HAVE_SOCKLEN_T
 typedef size_t socklen_t;
+#endif
 
 #else 
 
@@ -123,6 +167,18 @@ typedef size_t socklen_t;
 
 #endif
 
+#include <windows.h>
+#ifdef HAVE_WINTERNL_H
+#include <winternl.h>
+#endif
+#include <share.h>
+#include <shlobj.h>
+#include <userenv.h>
+#include <aclapi.h>
+#include <psapi.h>
+#include <iphlpapi.h>
+#include <wtsapi32.h>
+
 #include <process.h>
 #if defined(__MINGW32__) || defined(__CYGWIN32__)
 #include <pbt.h>
@@ -132,11 +188,19 @@ typedef size_t socklen_t;
 #include <raserror.h>
 #if defined(__MINGW32__)
 #include <stdint.h>
+#ifdef HAVE_SECURITY_H
+#include <security.h>
+#endif
+#ifdef HAVE_DBGHELP_H
+#include <dbghelp.h>
+#endif
 #include <imagehlp.h>
 #else
+#include <security.h>
 #include <dbghelp.h>
 #endif
 #include <tlhelp32.h>
+
 
 #include <io.h>
 #if !defined(__CYGWIN32__)
@@ -168,15 +232,28 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 // C headers
 #include <sys/stat.h>
 #include <sys/types.h>
-#if !defined(__MINGW32__)
+#ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #endif
 #include <malloc.h>
 
-#if !defined(__MINGW32__) && !defined(__CYGWIN32__)
+#ifdef HAVE_CRTDBG_H
 #include <crtdbg.h>
+#endif
+
+#if defined(HAVE_DELAYIMP_H) 
 #include <delayimp.h>
 #endif
+
+#if defined(__MINGW32__) && !defined(HAVE_WINTERNL_H)
+#ifdef HAVE_NTAPI_H
+#include <ntapi.h>
+#elif defined(HAVE_DDK_NTAPI_H)
+#include <ddk/ntapi.h>
+#endif
+#endif
+
+
 
 #ifdef __cplusplus
 #include <algorithm>
@@ -252,8 +329,15 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 #ifdef __cplusplus
 extern "C" {
 #endif
-void __cdecl _fpreset (void);
-void __cdecl fpreset (void);
+#ifndef __MINGW_NOTHROW
+#define __MINGW_NOTHROW
+#endif
+#if !HAVE_DECL__FPRESET
+void __cdecl __MINGW_NOTHROW _fpreset (void);
+#endif
+#if !HAVE_DECL_FPRESET
+void __cdecl __MINGW_NOTHROW fpreset (void);
+#endif
 #ifdef __cplusplus
 }
 #endif //cplusplus

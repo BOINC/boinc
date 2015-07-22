@@ -1,108 +1,219 @@
-a:link {
-	color: blue;
-}
-
-a:visited {
-	color: blue;
-}
-
-a:active {
-	color: blue;
-}
-
-body , table , input , select {
-	font-family: Verdana, Arial, Sans Serif;
-	font-size: small;
+a, a:link, a:visited, a:active {
+	color: #0069A1;
 }
 
 body {
-	background-color: white;
-    color: black;
+	//background: #fff url("img/gray_gradient.png") repeat-x;
+	color: black;
 }
 
-table {
-    border: 0px;
+h1 {
+	color: #203C66;
 }
 
-table.bordered {
-      border: 1px solid black;
+hr {
+    border:0;
+	border-top: 2px solid #e8e8e8;
+}
+
+hr.news_line {
+    border: 0;
+    border-bottom: 1px solid rgb(200, 200, 200);
+}
+
+.table-bordered, .bordered {
+	border-color: #e8e8e8;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 6px;
 }
 
 th {
-	background-color: #ffffcc;
-	font-weight: bold;
-}
-
-td {
-    border: 1px solid white;
+	background-color: #c0c0c0;
 }
 
 td.bordered {
-        border: 1px solid grey;
+	border-color: gray;
 }
 
 td.indent {
-         border-left: 4px solid white;
+	border-color: #fff;
 }
 
-td.heading {
-        background-color: rgb(217,217,217);
-	    font-weight: bold;
+th, td.heading {
+	background-color: #d8d8d8;
+}
+
+th.subheading {
+	background-color: #eee;
 }
 
 td.fieldname {
-        background-color: rgb(237,237,237);
+	background-color: #eee;
 }
 
-td.category {
-        border: 1px solid black;
+td.fieldname_error,
+td.fieldvalue_error  {
+	background-color: #f88;
 }
 
-tr.row0 {
-        background-color: rgb(217,217,217);
+td.friend {
+	background-color: #e8e8e8;
 }
 
-tr.row1 {
-        background-color: rgb(237,237,237);
+.row0 {
+	background-color: #d9d9d9;
 }
 
-tr.subtitle {
-	background-color: white;
-	color: black;
-	font-weight: bold;
+.row1 {
+	background-color: #eee;
+}
+
+.highlighted_row0 {
+	background-color: #b9d9f9;
+}
+
+.highlighted_row1 {
+	background-color: #ceeefe;
+}
+
+.row_hd0 {
+	background-color: #cffacf;
+}
+
+.row_hd1 {
+	background-color: #defade;
 }
 
 tr.message {
-    background-color:#E0E0EF;
+	background-color: #e0e0e0;
 }
 
-input , select {
-	vertical-align: middle;
-}
-
-h1 , h2 {
+input[type="button"],
+input[type="submit"],
+.btn,
+a.btn {
+#background: #d0f8d0;
+    background: #EDEDED url(img/white_grad.png) repeat-x scroll left top;
 	color: black;
-	font-size: x-large;
-	font-weight: normal;
-	margin-top: 10px;
+	border-color: #ccc;
 }
 
-h3 , h4 {
+input[type="button"]:hover,
+input[type="submit"]:hover,
+input.btn:hover,
+.btn:hover ,
+.forum_toplinks a:hover {
+	border: 1px solid #555;
+	color: #0069A1;
+}
+
+a.btn-green {
+	border: 1px solid #555;
 	color: black;
-	font-size: small;
-	font-weight: bold;
+    background: #a0f0a0;
+    font-size: 1.2em;
+	border-color: #60a060;
 }
 
-img {
-    border: 0px;
+input[type="text"], input[type="password"], select, textarea {
+	border-color: #bbb;
 }
 
-.title {
-	font-size: small;
-	font-weight: bold;
+input[type="text"]:focus, input[type="password"]:focus, select:focus, textarea:focus {
+	border-color: #0069A1;
 }
 
-.description {
-	font-size: 80%;
-	font-weight: normal;
+td.news {
+	background-color: #dff0ff;
+	border-color: #add8e6;
 }
+
+td.uotd {
+	background-color: #d3d3d3;
+	border-color: #eee;
+}
+
+td.category {
+   background-color: #ddd;
+}
+
+td.postheader {
+	background-color: #eee;
+	color: #333;
+}
+
+td.postbody {
+	background-color: #fff;
+}
+
+td.postfooter {
+	background-color: #eee;
+	color: #333;
+}
+
+tr.postseparator {
+	background-color: #c8c8c8;
+    border-color: #aaa;
+}
+
+div.authorcol {
+	background-color: white;
+	border-color: #c8c8c8;
+}
+
+.authorinfo {
+	color: #333;
+}
+
+.authorinfo img {
+	border-color: #a8a8a8;
+}
+
+blockquote.postbody {
+	border-left-color: #0089e1;
+	background-color: #f5fffa;
+}
+
+span.news_date {
+    color: rgb(100,100,100);
+    font-size: 0.9em;
+    float: right;
+}
+
+span.highlight {
+	background-color: #ffc;
+}
+
+.code {
+	border-left-color: #caa;
+}
+
+p.text-danger, .error {
+	color: #f00;
+}
+
+.notice {
+	color: #090;
+}
+
+div.pm_preview {
+    border-width: 2px;
+    border-style: solid;
+    margin: 1em;
+    padding: 0.2em;
+    font-size: 1.1em;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+
+	border-color: #ccc;
+	background-color: #eee;
+	border-bottom-color:  #ccc;
+}
+
+/*   Server Status Page   */
+
+td.running { background-color: #9aff4f; }
+
+td.notrunning { background-color: #ff4f4f; }
+td.disabled { background-color: #bbb; }

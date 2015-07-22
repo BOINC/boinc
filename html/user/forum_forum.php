@@ -33,6 +33,11 @@ if (!$start) $start = 0;
 $forum = BoincForum::lookup_id($id);
 if (!$forum) error_page("forum ID not found");
 $user = get_logged_in_user(false);
+BoincForumPrefs::lookup($user);
+
+if (DISABLE_FORUMS && !is_admin($user)) {
+    error_page("Forums are disabled");
+}
 
 if (!is_forum_visible_to_user($forum, $user)) {
     if ($user) {
@@ -40,8 +45,6 @@ if (!is_forum_visible_to_user($forum, $user)) {
     }
     error_page(tra("Not visible to you"));
 }
-
-BoincForumPrefs::lookup($user);
 
 if (!$sort_style) {
     // get the sort style either from the logged in user or a cookie
@@ -102,7 +105,7 @@ echo "</td>
     <input type=\"hidden\" name=\"id\" value=\"$forum->id\">
 ";
 echo select_from_array("sort", $forum_sort_styles, $sort_style);
-echo "<input type=\"submit\" value=\"Sort\">
+echo "<input class=\"btn btn-default\" type=\"submit\" value=\"Sort\">
     </td>
     </tr>
     </table>
@@ -158,6 +161,7 @@ function show_forum($forum, $start, $sort_style, $user) {
     $n = 0; $i=0;
     foreach ($threads as $thread) {
         $owner = BoincUser::lookup_id($thread->owner);
+        if (!$owner) continue;
         $unread = thread_is_unread($user, $thread);
 
         //if ($thread->status==1){
@@ -213,7 +217,7 @@ function show_forum($forum, $start, $sort_style, $user) {
 
         echo '
             <td class="numbers">'.($thread->replies+1).'</td>
-            <td>'.user_links($owner).'</td>
+            <td>'.user_links($owner, BADGE_HEIGHT_SMALL).'</td>
             <td class="numbers">'.$thread->views.'</td>
             <td class="lastpost">'.time_diff_str($thread->timestamp, time()).'</td>
             </tr>

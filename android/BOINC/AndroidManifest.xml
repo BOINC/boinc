@@ -19,69 +19,126 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.berkeley.boinc"
-    
-    android:versionCode="14"
-    android:versionName="7.1.19"
-    
-    android:installLocation="internalOnly" > <!-- installation on SD card would break boot receiver -->
+    android:installLocation="internalOnly"
+    android:versionCode="72"
+    android:versionName="7.5.0" > <!-- installation on SD card would break boot receiver -->
+
 
     <!-- Add Google Play store metadata informing the store we can run on tablets and other large screen devices -->
     <supports-screens
         android:anyDensity="true"
-        android:smallScreens="true"
-        android:normalScreens="true"
         android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"
         android:xlargeScreens="true" />
 
-    <!-- CAUTION: increasing targetSDK to >10 changes AsyncTask's threadpool size!  -->
     <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="10" />
-    
+        android:minSdkVersion="16"
+        android:targetSdkVersion="19" />
+
     <!-- Required Permissions -->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
 
     <application
+        android:allowBackup="true"
+        android:debuggable="true"
         android:icon="@drawable/boinc"
         android:label="@string/app_name"
-        android:theme="@style/Theme"
-        android:allowBackup="true"
-        android:debuggable="true"> <!-- android:largeHeap="true" , possible api level > 10. grants application larger dalvik vm heap. better performance when showing many slideshow pictures. -->
-        
+        android:theme="@style/Theme.Styled"
+        android:largeHeap="true">
+
         <activity
-            android:name="edu.berkeley.boinc.BOINCActivity"
-            android:label="@string/app_name">
+            android:name="edu.berkeley.boinc.SplashActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Styled.NoActionBar"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AttachProjectListActivity"/>
-        <activity android:name=".AttachProjectLoginActivity"
-            android:configChanges="orientation"/>
-        <activity android:name=".AttachProjectRegistrationActivity"/>
-        <activity android:name=".AttachProjectWorkingActivity"
-            android:configChanges="orientation"/>
-        <activity android:name=".StatusActivity" />
-        <activity android:name=".TasksActivity" />
-        <activity android:name=".TransActivity" />
-        <activity android:name=".PrefsActivity" />
-        <activity android:name=".ProjectsActivity" />
-        <activity android:name=".EventLogActivity" />
-        <service android:name=".client.Monitor"></service>
-        <service android:name="edu.berkeley.boinc.client.ClientRemoteService"
-            android:enabled="true"
-            android:exported="true"/>
-        <receiver android:name=".receiver.BootReceiver">
+        <activity
+            android:name="edu.berkeley.boinc.BOINCActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:exported="true" >
+        </activity>
+        <activity android:name="edu.berkeley.boinc.attach.AcctMgrFragment" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.berkeley.boinc.BOINCActivity" />
+        </activity>
+        <activity
+            android:name="edu.berkeley.boinc.attach.SelectionListActivity"
+            android:theme="@style/Theme.Styled.NoActionBar"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="edu.berkeley.boinc.attach.CredentialInputActivity"
+            android:theme="@style/Theme.Styled.NoActionBar"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="edu.berkeley.boinc.attach.BatchProcessingActivity"
+            android:theme="@style/Theme.Styled.NoActionBar"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="edu.berkeley.boinc.attach.BatchConflictListActivity"
+            android:theme="@style/Theme.Styled.NoActionBar"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="edu.berkeley.boinc.attach.IndividualAttachActivity"
+            android:theme="@style/Theme.Styled.NoActionBar"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity android:name="edu.berkeley.boinc.attach.AttachProjectRegistrationActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.berkeley.boinc.AttachProjectListActivity" />
+        </activity>
+        <activity
+     		android:name="edu.berkeley.boinc.attach.AttachProjectWorkingActivity"
+            android:configChanges="orientation"
+            android:noHistory="true" />
+        <activity android:name="edu.berkeley.boinc.EventLogActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.berkeley.boinc.BOINCActivity" />
+        </activity>
+
+        <service android:name="edu.berkeley.boinc.client.Monitor" android:process=":remote">
+        </service>
+        <service android:name="edu.berkeley.boinc.attach.ProjectAttachService">
+        </service>
+
+        <receiver android:name="edu.berkeley.boinc.receiver.BootReceiver" >
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
+        <receiver android:name="edu.berkeley.boinc.receiver.PowerConnectedReceiver" >
+	        <intent-filter>
+	            <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+	        </intent-filter>
+        </receiver>
+        <receiver android:name="edu.berkeley.boinc.receiver.PackageReplacedReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+                <data android:path="edu.berkeley.boinc" android:scheme="package" />
+            </intent-filter>
+        </receiver>
+        <activity android:name=".BoincNotExclusiveDialog" android:theme="@android:style/Theme.Dialog">
+        </activity>
     </application>
 
 </manifest>

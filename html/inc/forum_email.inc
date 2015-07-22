@@ -20,8 +20,6 @@ require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../project/project.inc");
 
-define('MASTER_URL', $master_url);
-
 // send an email to admins:
 // - project forums: everyone in POST_REPORT_EMAILS
 // - team message board: team founder and admins
@@ -62,6 +60,7 @@ function mail_report_list($forum, $subject, $body, $must_send=false) {
 //////////////////// post hidden/unhidden ///////////
 //
 function send_moderation_email($forum, $post, $thread, $explanation, $action) {
+    $master_url = parse_config(get_config(), "<master_url>");
     $moderator=get_logged_in_user();
     $body = "";
     $user = BoincUser::lookup_id($post->user);
@@ -76,7 +75,7 @@ $explanation
 The content of your post:
 $post->content
 
-For assistance with ".PROJECT." go to ".MASTER_URL;
+For assistance with ".PROJECT." go to ".$master_url;
 
     $success = send_email($user, $subject, $body);
     pm_send_msg($user, $user, $subject, $body, false);
@@ -99,6 +98,7 @@ $body
 function send_thread_moderation_email(
     $forum, $thread, $message, $action_name, $explanation
 ) {
+    $master_url = parse_config(get_config(), "<master_url>");
     $moderator = get_logged_in_user();
     $user = BoincUser::lookup_id($thread->owner);
     $body = "";
@@ -109,7 +109,7 @@ function send_thread_moderation_email(
 has been $action_name by moderator $moderator->name (ID $moderator->id).
 $explanation
 
-For assistance with ".PROJECT." go to ".MASTER_URL;
+For assistance with ".PROJECT." go to ".$master_url;
 
     $subject = "THREAD $action REPORT: $thread->title";
     $success = mail_report_list($forum, $subject, $body);
@@ -139,6 +139,7 @@ Do not reply to this message.
 //////////////////// a user clicks the red "x" to report a post ///////////
 //
 function send_report_post_email($user, $forum, $thread,  $post, $message) {
+	$master_url = parse_config(get_config(), "<master_url>");
     $body = "";
     $owner = BoincUser::lookup_id($post->user);
 
@@ -157,7 +158,7 @@ $message
 Contents of the post:
 $post->content
 
-For assistance with ".PROJECT." go to ".MASTER_URL;
+For assistance with ".PROJECT." go to ".$master_url;
 
     $success = mail_report_list($forum, $subject, $body, true);
 
@@ -193,9 +194,10 @@ because your postings have not followed our guidelines.
 //////////////////// a banishment vote has been started  ///////////
 //
 function send_banish_vote_email($user, $duration, $reason, $end_time) {
+	$master_url = parse_config(get_config(), "<master_url>");
     $now=time();
     $subject = PROJECT." banishment vote underway";
-    $vote_url=parse_config(get_config(), "<master_url>")."forum_banishment_vote.php";
+    $vote_url = $master_url."forum_banishment_vote.php";
     $body = "
 A vote has been started to banish you
 from the ".PROJECT." message boards until ".date('M j,

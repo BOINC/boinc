@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<sect1>
+  <title>Introduction</title>
+
+  <para>
+    The DC-API was created by MTA SZTAKI to allow easy implementation and
+    deployment of distributed applications on multiple grid environments.
+  </para>
+  <para>
+    In order to accomodate the needs of very different grid environments, the
+    DC-API supports only a restricted master-worker programming model. The
+    restrictions include:
+    <itemizedlist>
+      <listitem>
+	<para>
+	  Master-worker concept: there is a designated
+	  <emphasis>master</emphasis> process running somewhere on the grid
+	  infrastructure. The master process can submit worker processes called
+	  <emphasis>work units</emphasis>.
+	</para>
+      </listitem>
+      <listitem>
+	<para>
+	  Every work unit is a sequential application.
+	</para>
+      </listitem>
+      <listitem>
+	<para>
+	  There is support for limited messaging between the master and the
+	  running work units. It can be used to send status and control
+	  messages, but it is not suitable for parallel programming.
+	</para>
+      </listitem>
+      <listitem>
+	<para>
+	  There can not be any direct communication between work units.
+	</para>
+      </listitem>
+    </itemizedlist>
+  </para>
+
+</sect1>
+<!-- vim: set ai sw=2 tw=80: -->

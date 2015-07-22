@@ -34,21 +34,21 @@
             </image>
          </workunit_suspended_image>
 		 
-		 <dialog_background_image>
+		     <dialog_background_image>
             <image>
                <imagesrc>dialog_background_image.png</imagesrc>
             </image>
          </dialog_background_image>
 		 
-		 <project_image>
+		     <project_image>
             <image>
                <imagesrc>project_image.png</imagesrc>
             </image>
-         </project_background_image>
+         </project_image>
 
       </simple>
 	  <advanced>
-      <application_name>Charity Engine - BOINC Manager</application_name>
+      <application_name>Charity Engine Desktop</application_name>
       <application_short_name>Charity Engine</application_short_name>
 
       <application_logo>ce_about.ico</application_logo>
@@ -83,8 +83,8 @@
 	  <is_branded>1</is_branded>
 
       <organization_name>Charity Engine</organization_name>
-      <organization_website>http://www.charityengine.org</organization_website>
-      <organization_help_url>http://www.charityengine.org/about</organization_help_url> 
+      <organization_website>http://www.charityengine.com</organization_website>
+      <organization_help_url>http://www.charityengine.com/manager_menu.php</organization_help_url> 
 
     </advanced>
 	

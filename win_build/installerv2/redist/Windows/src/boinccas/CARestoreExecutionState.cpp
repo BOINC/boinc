@@ -64,16 +64,22 @@ UINT CARestoreExecutionState::OnExecution()
     tstring     strReturnRebootRequested;
     tstring     strReturnValidateInstall;
     tstring     strRebootPrompt;
+    tstring     strBOINCMasterAccountUsername;
+    tstring     strBOINCProjectAccountUsername;
 
     GetRegistryValue( _T("LAUNCHPROGRAM"), strLaunchProgram );
-    GetRegistryValue( _T("RETURN_REBOOTREQUESTED"), strReturnRebootRequested );
     GetRegistryValue( _T("REBOOTPROMPT"), strRebootPrompt );
+    GetRegistryValue( _T("RETURN_REBOOTREQUESTED"), strReturnRebootRequested );
     GetRegistryValue( _T("RETURN_VALIDATEINSTALL"), strReturnValidateInstall );
+    GetRegistryValue( _T("RETURN_BOINC_MASTER_USERNAME"), strBOINCMasterAccountUsername );
+    GetRegistryValue( _T("RETURN_BOINC_PROJECT_USERNAME"), strBOINCProjectAccountUsername );
 
     SetProperty( _T("LAUNCHPROGRAM"), strLaunchProgram );
-    SetProperty( _T("RETURN_REBOOTREQUESTED"), strReturnRebootRequested );
     SetProperty( _T("REBOOTPROMPT"), strRebootPrompt );
+    SetProperty( _T("RETURN_REBOOTREQUESTED"), strReturnRebootRequested );
     SetProperty( _T("RETURN_VALIDATEINSTALL"), strReturnValidateInstall );
+    SetProperty( _T("BOINC_MASTER_USERNAME"), strBOINCMasterAccountUsername );
+    SetProperty( _T("BOINC_PROJECT_USERNAME"), strBOINCProjectAccountUsername );
 
     return ERROR_SUCCESS;
 }

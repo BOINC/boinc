@@ -40,6 +40,11 @@ struct RESULT {
         // we've received the ack for this result from the server
     double final_cpu_time;
     double final_elapsed_time;
+    double final_peak_working_set_size;
+    double final_peak_swap_size;
+    double final_peak_disk_usage;
+    double final_bytes_sent;
+    double final_bytes_received;
 #ifdef SIM
     double peak_flop_count;
     double sim_flops_left;
@@ -139,6 +144,12 @@ struct RESULT {
     inline bool uses_coprocs() {
         return (avp->gpu_usage.rsc_type != 0);
     }
+    inline bool uses_gpu() {
+        int rt = avp->gpu_usage.rsc_type;
+        if (!rt) return false;
+        if (coprocs.coprocs[rt].non_gpu) return false;
+        return true;
+    }
     inline int resource_type() {
         return avp->gpu_usage.rsc_type;
     }
@@ -162,6 +173,7 @@ struct RESULT {
     bool already_selected;
         // used to keep cpu scheduler from scheduling a result twice
         // transient; used only within schedule_cpus()
+        // also used in round-robin simulation
     double computation_deadline();
         // report deadline - prefs.work_buf_min - time slice
     bool rr_sim_misses_deadline;
@@ -179,19 +191,49 @@ struct RESULT {
         // textual description of resources used
     double schedule_backoff;
         // don't try to schedule until this time
-        // (wait for free GPU RAM)
+        // (because the app called boinc_temporary_exit())
     char schedule_backoff_reason[256];
 };
 
 inline bool max_concurrent_exceeded(RESULT* rp) {
     APP* app = rp->app;
-    if (!app->max_concurrent) return false;
-    return (app->n_concurrent >= app->max_concurrent);
-
+    if (app->max_concurrent) {
+        if (app->n_concurrent >= app->max_concurrent) {
+            return true;
+        }
+    }
+    PROJECT* p = rp->project;
+    if (p->app_configs.project_max_concurrent) {
+        if (p->n_concurrent >= p->app_configs.project_max_concurrent) {
+            return true;
+        }
+    }
+    return false;
 }
 
 inline void max_concurrent_inc(RESULT* rp) {
     rp->app->n_concurrent++;
+    rp->project->n_concurrent++;
 }
+
+// a completed result, for which the RESULT record no longer exists.
+// We keep an in-memory log of these.
+// Keep this consistent with lib/gui_rpc_client.h
+//
+struct OLD_RESULT {
+    char project_url[256];
+    char result_name[256];
+    char app_name[256];
+    int exit_status;
+    double elapsed_time;
+    double cpu_time;
+    double completed_time;
+    double create_time;     // when this record was created
+};
+
+extern std::deque<OLD_RESULT> old_results;
+
+void add_old_result(RESULT&);
+extern void print_old_results(MIOFILE&);
 
 #endif

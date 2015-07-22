@@ -26,24 +26,26 @@ $cli_only = true;
 require_once("../inc/forum_db.inc");
 require_once("../inc/util_ops.inc");
 
+db_init();
+
 function update_thread_timestamps() {
     $threads = BoincThread::enum();
     foreach ($threads as $thread) {
         $q = "select max(timestamp) as foo from post where thread=$thread->id";
-        $r2 = mysql_query($q);
-        $m = mysql_fetch_object($r2);
+        $r2 = _mysql_query($q);
+        $m = _mysql_fetch_object($r2);
         echo "id: $thread->id; min: $m->foo\n";
-        mysql_free_result($r2);
+        _mysql_free_result($r2);
         $n = $m->foo;
         if ($n) {
             $q = "update thread set timestamp=$n where id=$thread->id";
-            mysql_query($q);
+            _mysql_query($q);
         }
     }
 }
 
 function update_user_posts() {
-    $users = BoincUser::enum();
+    $users = BoincUser::enum("");
     foreach ($users as $user) {
         BoincForumPrefs::lookup($user);
         $num = BoincPost::count("user=$user->id");
@@ -66,7 +68,8 @@ function update_thread_replies() {
     }
 }
 
-//update_thread_replies(); exit();
+update_thread_timestamps();
+update_user_posts();
+update_thread_replies();
 
-echo "You must uncomment a function call in the script\n";
 ?>

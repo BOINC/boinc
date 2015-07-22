@@ -114,6 +114,12 @@ public:
     wxString m_strComputerName;
     wxString m_strComputerPassword;
 ////@end CDlgSelectComputer member variables
+
+#ifdef __WXMAC__
+protected:
+    wxAcceleratorEntry  m_Shortcuts[3];     // For Copy, Cut & Paste keyboard shortcuts
+    wxAcceleratorTable* m_pAccelTable;
+#endif
 };
 
 #endif

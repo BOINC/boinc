@@ -34,8 +34,8 @@ function get_lists() {
     $config = get_config();
     $db_name = parse_config($config, "<db_name>");
     $db_host = parse_config($config, "<db_host>");
-    system("mysql $db_name -h $db_host -e \"select workunitid, id from result \" | tail +2 | sort -n > dbc_res.dat");
-    system("mysql $db_name -h $db_host -e \"select id from workunit\" | tail +2 | sort -n > dbc_wu.dat");
+    system("mysql $db_name -h $db_host -e \"select workunitid, id from result \" | tail -n +2 | sort -n > dbc_res.dat");
+    system("mysql $db_name -h $db_host -e \"select id from workunit\" | tail -n +2 | sort -n > dbc_wu.dat");
 }
 
 // N.B.: on Linux we can use join -v to find results without WU.
@@ -91,12 +91,12 @@ function delete_results() {
             echo "bad line: $x\n";
             continue;
         }
-        $result = lookup_result($resid);
+        $result = BoincResult::lookup_id($resid);
         if (!$result) {
             echo "no result $resultid\n";
             continue;
         }
-        $wu = lookup_wu($result->workunitid);
+        $wu = BoincWorkunit::lookup_id($result->workunitid);
         if ($wu) {
             echo "result has WU: $resid\n";
             continue;
@@ -106,7 +106,7 @@ function delete_results() {
         // uncomment the following to actually delete
 
         die("edit script to enable deletion\n");
-        //mysql_query("delete from result where id=$resid");
+        //_mysql_query("delete from result where id=$resid");
     }
 }
 

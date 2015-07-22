@@ -16,8 +16,15 @@ graphics2_files = \
     gutil.cpp \
     gutil_text.cpp \
     reduce_lib.cpp \
-    graphics2.cpp \
-    graphics2_unix.cpp
+    graphics2.cpp 
+
+if OS_WIN32
+    graphics2_files += graphics2_win.cpp \
+                       $(top_srcdir)/samples/image_libs/bmplib.cpp \
+                       $(top_srcdir)/samples/image_libs/tgalib.cpp
+else
+    graphics2_files += graphics2_unix.cpp 
+endif
 
 if OS_DARWIN
     graphics2_files += mac_icon.cpp
@@ -41,8 +48,8 @@ libboinc_api_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -version-number $(LIBBOIN
 if BUILD_GRAPHICS_API
 lib_LTLIBRARIES += libboinc_graphics2.la
 libboinc_graphics2_la_SOURCES = $(graphics2_files)
-# libboinc_graphics2_la_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/lib
-libboinc_graphics2_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -version-number $(LIBBOINC_VERSION)
+libboinc_graphics2_la_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/lib -I$(top_srcdir)/samples/image_libs
+libboinc_graphics2_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -version-number $(LIBBOINC_VERSION) -ljpeg
 endif #BUILD_GRAPHICS_API
 
 lib_LTLIBRARIES += libboinc_opencl.la

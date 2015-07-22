@@ -63,6 +63,8 @@ UINT CASaveSetupState::OnExecution()
     tstring     strInstallDirectory;
     tstring     strDataDirectory;
     tstring     strLaunchProgram;
+    tstring     strBOINCMasterAccountUsername;
+    tstring     strBOINCProjectAccountUsername;
     tstring     strEnableLaunchAtLogon;
     tstring     strEnableScreensaver;
     tstring     strEnableProtectedApplicationExecution;
@@ -74,6 +76,8 @@ UINT CASaveSetupState::OnExecution()
     GetProperty( _T("INSTALLDIR"), strInstallDirectory );
     GetProperty( _T("DATADIR"), strDataDirectory );
     GetProperty( _T("LAUNCHPROGRAM"), strLaunchProgram );
+    GetProperty( _T("BOINC_MASTER_USERNAME"), strBOINCMasterAccountUsername );
+    GetProperty( _T("BOINC_PROJECT_USERNAME"), strBOINCProjectAccountUsername );
     GetProperty( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
     GetProperty( _T("ENABLESCREENSAVER"), strEnableScreensaver );
     GetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"), strEnableProtectedApplicationExecution );
@@ -87,6 +91,9 @@ UINT CASaveSetupState::OnExecution()
     } else {
         SetRegistryValue( _T("LAUNCHPROGRAM"), _T("0") );
     }
+
+    SetRegistryValue( _T("BOINC_MASTER_USERNAME"), strBOINCMasterAccountUsername );
+    SetRegistryValue( _T("BOINC_PROJECT_USERNAME"), strBOINCProjectAccountUsername );
 
     if (_T("1") == strEnableLaunchAtLogon) {
         SetRegistryValue( _T("ENABLELAUNCHATLOGON"), _T("1") );

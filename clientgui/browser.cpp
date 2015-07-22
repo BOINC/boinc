@@ -22,12 +22,27 @@
 
 #ifdef _WIN32
 #include "win_util.h"
+
+#ifndef InternetGetCookie
+
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
+BOOL WINAPI InternetGetCookieA( LPCSTR lpszUrl, LPCSTR lpszCookieName, LPSTR lpszCookieData, LPDWORD lpdwSize );
+
+#if defined(__cplusplus)
+}
+#endif
+
+#endif
 #else
 #include <string>
 #include <vector>
 #include <time.h>
 #endif
 
+#include <sqlite3.h>
 #include "error_numbers.h"
 #include "mfile.h"
 #include "miofile.h"
@@ -123,7 +138,7 @@ bool is_authenticator_valid(const std::string authenticator) {
         if (!isalpha(*it) && !isdigit(*it)) {
             return false;
         }
-        it++;
+        ++it;
     }
 
     return true;
@@ -220,6 +235,34 @@ bool parse_hostname_ie_compatible(
 
 
 //
+// Generic Browser Support
+//
+
+class COOKIE_SQL {
+public:
+    std::string host;
+    std::string name;
+    std::string value;
+
+    COOKIE_SQL();
+
+    void clear();
+};
+
+
+COOKIE_SQL::COOKIE_SQL() {
+    clear();
+}
+
+
+void COOKIE_SQL::clear() {
+    host.clear();
+    name.clear();
+    value.clear();
+}
+
+
+//
 // Mozilla-Based Browser Support
 //
 
@@ -245,18 +288,6 @@ public:
 
     void clear();
     int parse(MIOFILE& in);
-};
-
-
-class MOZILLA_COOKIE_SQL {
-public:
-    std::string host;
-    std::string name;
-    std::string value;
-
-    MOZILLA_COOKIE_SQL();
-
-    void clear();
 };
 
 
@@ -323,98 +354,14 @@ int MOZILLA_PROFILES::parse(MIOFILE& in) {
 }
 
 
-MOZILLA_COOKIE_SQL::MOZILLA_COOKIE_SQL() {
-    clear();
-}
-
-
-void MOZILLA_COOKIE_SQL::clear() {
-    host.clear();
-    name.clear();
-    value.clear();
-}
-
-
-// search for the project specific cookie for mozilla based browsers.
-//
-// file format is:
-// 
-// host \t isDomain \t path \t secure \t expires \t name \t cookie
-// 
-// if this format isn't respected we move onto the next line in the file.
-// isDomain is "TRUE" or "FALSE" (default to "FALSE")
-// isSecure is "TRUE" or "FALSE" (default to "TRUE")
-// expires is a PRInt64 integer
-// note 1: cookie can contain tabs.
-// note 2: cookies are written in order of lastAccessed time:
-//         most-recently used come first; least-recently-used come last.
-// 
-bool find_site_cookie_mozilla_v2(
-    MIOFILE& in, std::string& project_url, std::string& name, std::string& value
-) {
-    bool retval = false;
-    char buf[2048];
-    char host[256], domain[16], path[256], secure[16], cookie_name[256], cookie_value[256];
-    long long expires;
-    std::string hostname;
-
-
-    strcpy(host, "");
-    strcpy(domain, "");
-    strcpy(path, "");
-    strcpy(secure, "");
-    strcpy(cookie_name, "");
-    strcpy(cookie_value, "");
-    expires = 0;
-
-
-    // determine the project hostname using the project url
-    parse_hostname_mozilla_compatible(project_url, hostname);
-
-    // traverse cookie file
-    while (in.fgets(buf, sizeof(buf))) {
-        sscanf(
-            buf,
-#ifdef _WIN32
-            "%255s\t%15s\t%255s\t%15s\t%I64d\t%255s\t%255s",
-#elif defined(__APPLE__)
-            "%255s\t%15s\t%255s\t%15s\t%lld\t%255s\t%255s",
-#else
-            "%255s\t%15s\t%255s\t%15s\t%Ld\t%255s\t%255s",
-#endif
-            host, domain, path, secure, &expires, cookie_name, cookie_value
-        );
-
-        // is this a real cookie?
-        // temporary cookie? these cookies do not trickle back up
-        // to the jscript interface, so ignore them.
-        if (starts_with(host, "#HttpOnly")) continue;
-
-        // is this the right host?
-        if (!strstr(host, hostname.c_str())) continue;
-
-        // has the cookie expired?
-        if (time(0) > expires) continue;
-
-        // is this the right cookie?
-        if (starts_with(cookie_name, name)) {
-            value = cookie_value;
-            retval = true;
-        }
-    }
-
-    return retval;
-}
-
-
 // search for the project specific cookie for mozilla based browsers.
 // SELECT host, name, value, expiry from moz_cookies WHERE name = '%s' AND host LIKE '%s'
 //
 static int find_site_cookie_mozilla_v3(
     void* cookie, int /* argc */, char **argv, char ** /* szColumnName */
 ) {
-    MOZILLA_COOKIE_SQL* _cookie = (MOZILLA_COOKIE_SQL*)cookie;
-    char host[256], cookie_name[256], cookie_value[256];
+    COOKIE_SQL* _cookie = (COOKIE_SQL*)cookie;
+    char host[256], cookie_name[256], cookie_value[4096];
     long long expires;
 
 
@@ -425,7 +372,7 @@ static int find_site_cookie_mozilla_v3(
 
     sscanf( argv[0], "%255s", host );
     sscanf( argv[1], "%255s", cookie_name );
-    sscanf( argv[2], "%255s", cookie_value );
+    sscanf( argv[2], "%4096s", cookie_value );
     sscanf( argv[3],
 #ifdef _WIN32
         "%I64d",
@@ -533,69 +480,29 @@ bool get_firefox_profile_root( std::string& profile_root ) {
 }
 
 
-// traverse the various cookies looking for the one we want
-//
-bool detect_cookie_mozilla_v2(
-    std::string profile_root, std::string& project_url, std::string& name, std::string& value
-) {
-    bool retval = false;
-    FILE* cf = NULL;
-   	MIOFILE cmf;
-    std::string tmp;
-
-    // now we should open up the cookie file.
-    tmp = profile_root + "cookies.txt";
-    cf = fopen(tmp.c_str(), "r");
-
-    // if the cookie file exists, lookup the projects 'Setup' cookie.
-    if (cf) {
-        cmf.init_file(cf);
-        retval = find_site_cookie_mozilla_v2(
-            cmf,
-            project_url,
-            name,
-            value
-        );
-    }
-
-    // cleanup
-    if (cf) fclose(cf);
-
-    return retval;
-}
-
-    
 bool detect_cookie_mozilla_v3(
     std::string profile_root, std::string& project_url, std::string& name, std::string& value
 ) {
     bool        retval = false;
-    bool        firstpass = true;
-    std::string cookieFilePath;
-    std::string cookieCopyFilePath;
+    std::string tmp;
     std::string hostname;
     char        query[1024];
     sqlite3*    db;
     char*       lpszSQLErrorMessage = NULL;
     int         rc;
-    MOZILLA_COOKIE_SQL cookie;
+    COOKIE_SQL  cookie;
 
-#if defined(__APPLE__)
-    // sqlite3 is not available on Mac OS 10.3.9
-    if (sqlite3_open == NULL) return false;
-#endif
 
     // determine the project hostname using the project url
     parse_hostname_mozilla_compatible(project_url, hostname);
 
 
     // now we should open up the cookie database.
-    cookieFilePath = profile_root + "cookies.sqlite";
-retry:
-    rc = sqlite3_open(cookieFilePath.c_str(), &db);
+    tmp = profile_root + "cookies.sqlite";
+    rc = sqlite3_open(tmp.c_str(), &db);
     if ( rc ) {
         sqlite3_close(db);
-        retval = false;
-        goto cleanUpCopy;
+        return false;
     }
     
     // construct SQL query to extract the desired cookie
@@ -615,26 +522,9 @@ retry:
     // cleanup
     sqlite3_close(db);
 
-    if (((rc == SQLITE_BUSY) || (rc == SQLITE_LOCKED)) && firstpass) {
-        firstpass = false;
-        cookieCopyFilePath = profile_root + "boinc_cookies.sqlite";
-        rc = boinc_copy(cookieFilePath.c_str(), cookieCopyFilePath.c_str());
-        if (rc) {
-            retval = false;
-            goto cleanUpCopy;
-        }
-        cookieFilePath = cookieCopyFilePath;
-        goto retry;
-    }
-    
     if ( !cookie.value.empty() ) {
         value = cookie.value;
         retval = true;
-    }
-
-cleanUpCopy:
-    if (!firstpass) {
-        boinc_delete_file(cookieCopyFilePath.c_str());
     }
 
     return retval;
@@ -644,21 +534,6 @@ cleanUpCopy:
 //
 // Firefox Browser Support
 //
-
-bool detect_cookie_firefox_2(
-    std::string& project_url, std::string& name, std::string& value
-) {
-    std::string profile_root;
-    get_firefox_profile_root(profile_root);
-
-    return detect_cookie_mozilla_v2(
-        profile_root,
-        project_url,
-        name,
-        value
-    );
-}
-
 
 bool detect_cookie_firefox_3(
     std::string& project_url, std::string& name, std::string& value
@@ -679,38 +554,14 @@ bool detect_cookie_firefox_3(
 // Chrome-Based Browser Support
 //
 
-class CHROME_COOKIE_SQL {
-public:
-    std::string host;
-    std::string name;
-    std::string value;
-
-    CHROME_COOKIE_SQL();
-
-    void clear();
-};
-
-
-CHROME_COOKIE_SQL::CHROME_COOKIE_SQL() {
-    clear();
-}
-
-
-void CHROME_COOKIE_SQL::clear() {
-    host.clear();
-    name.clear();
-    value.clear();
-}
-
-
 // search for the project specific cookie for chrome based browsers.
 // SELECT host_key, name, value, expires_utc, httponly from cookies WHERE name = '%s' AND host_key LIKE '%s'
 //
 static int find_site_cookie_chrome(
     void* cookie, int /* argc */, char **argv, char ** /* szColumnName */
 ) {
-    CHROME_COOKIE_SQL* _cookie = (CHROME_COOKIE_SQL*)cookie;
-    char host[256], cookie_name[256], cookie_value[256];
+    COOKIE_SQL* _cookie = (COOKIE_SQL*)cookie;
+    char host[256], cookie_name[256], cookie_value[4096];
     long long expires;
     long httponly;
 
@@ -721,7 +572,7 @@ static int find_site_cookie_chrome(
 
     sscanf( argv[0], "%255s", host );
     sscanf( argv[1], "%255s", cookie_name );
-    sscanf( argv[2], "%255s", cookie_value );
+    sscanf( argv[2], "%4096s", cookie_value );
     sscanf( argv[3],
 #ifdef _WIN32
         "%I64d",
@@ -733,11 +584,7 @@ static int find_site_cookie_chrome(
         &expires
     );
     sscanf( argv[4],
-#ifdef _WIN32
-        "%I64d",
-#else
         "%ld",
-#endif
         &httponly
     );
 
@@ -793,12 +640,8 @@ bool detect_cookie_chrome(
     sqlite3*    db;
     char*       lpszSQLErrorMessage = NULL;
     int         rc;
-    CHROME_COOKIE_SQL cookie;
+    COOKIE_SQL  cookie;
 
-#if defined(__APPLE__)
-    // sqlite3 is not available on Mac OS 10.3.9
-    if (sqlite3_open == NULL) return false;
-#endif
 
     // determine the project hostname using the project url
     parse_hostname_chrome_compatible(project_url, hostname);
@@ -809,7 +652,12 @@ bool detect_cookie_chrome(
     rc = sqlite3_open(tmp.c_str(), &db);
     if ( rc ) {
         sqlite3_close(db);
-        return false;
+        tmp = profile_root + "Safe Browsing Cookies";
+        rc = sqlite3_open(tmp.c_str(), &db);
+        if ( rc ) {
+            sqlite3_close(db);
+            return false;
+        }
     }
     
     // construct SQL query to extract the desired cookie
@@ -867,7 +715,7 @@ bool detect_cookie_ie_supported(std::string& project_url, std::string& name, std
 {
     bool        bReturnValue = false;
     bool        bCheckDomainName = false;
-    char        szCookieBuffer[2048];
+    char        szCookieBuffer[4096];
     char*       pszCookieFragment = NULL;
     DWORD       dwSize = sizeof(szCookieBuffer)/sizeof(char);
     std::string strCookieFragment;
@@ -913,7 +761,7 @@ bool detect_cookie_ie_supported(std::string& project_url, std::string& name, std
         strCookieName = strCookieFragment.substr(0, uiDelimeterLocation);
         strCookieValue = strCookieFragment.substr(uiDelimeterLocation + 1);
 
-        if (name == strCookieName) {
+        if (0 == strcmp(name.c_str(), strCookieName.c_str())) {
             // Now we found it!  Yea - auto attach!
             value = strCookieValue;
             bReturnValue = true;
@@ -938,7 +786,7 @@ bool detect_cookie_ie_supported_uac(std::string& project_url, std::string& name,
     bool         bReturnValue = false;
     bool         bCheckDomainName = false;
     HRESULT      rc;
-    WCHAR        szCookieBuffer[2048];
+    WCHAR        szCookieBuffer[4096];
     WCHAR*       pszCookieFragment = NULL;
     DWORD        dwSize = sizeof(szCookieBuffer)/sizeof(WCHAR);
     std::wstring strCookieFragment;
@@ -964,15 +812,15 @@ bool detect_cookie_ie_supported_uac(std::string& project_url, std::string& name,
     }
 
     // Convert name into wide character string
-    name_w = A2W(name);
+    name_w = boinc_ascii_to_wide(name);
 
     // if we don't find the cookie at the exact project dns name, check one higher
     //   (i.e. www.worldcommunitygrid.org becomes worldcommunitygrid.org
     parse_hostname_ie_compatible(project_url, hostname, domainname);
 
     // InternetGetCookie expects them in URL format
-    hostname_w = std::wstring(_T("http://")) + A2W(hostname) + std::wstring(_T("/"));
-    domainname_w = std::wstring(_T("http://")) + A2W(domainname) + std::wstring(_T("/"));
+    hostname_w = std::wstring(_T("http://")) + boinc_ascii_to_wide(hostname) + std::wstring(_T("/"));
+    domainname_w = std::wstring(_T("http://")) + boinc_ascii_to_wide(domainname) + std::wstring(_T("/"));
 
     // First check to see if the desired cookie is assigned to the hostname.
     rc = pIEGPMC(hostname_w.c_str(), NULL, szCookieBuffer, &dwSize, NULL) == TRUE;
@@ -1001,9 +849,9 @@ bool detect_cookie_ie_supported_uac(std::string& project_url, std::string& name,
         strCookieName = strCookieFragment.substr(0, uiDelimeterLocation);
         strCookieValue = strCookieFragment.substr(uiDelimeterLocation + 1);
 
-        if (name_w == strCookieName) {
+        if (0 == wcscmp(name_w.c_str(), strCookieName.c_str())) {
             // Now we found it!  Yea - auto attach!
-            value = W2A(strCookieValue);
+            value = boinc_wide_to_ascii(strCookieValue);
             bReturnValue = true;
         }
 
@@ -1011,187 +859,6 @@ bool detect_cookie_ie_supported_uac(std::string& project_url, std::string& name,
     }
 
     return bReturnValue;
-}
-
-// Convert a FILETIME to an epoch time
-//
-time_t file_time_to_epoch( char* high, char* low ) {
-    double dbl = 0.0;
-    time_t total = 0;
-    unsigned long _high = 0, _low = 0;
-
-    _high = strtoul(high, NULL, 10);
-    _low = strtoul(low, NULL, 10);
-
-    dbl = ((double)_high)*(pow((double)2.0,32));
-    dbl += (double)(_low);
-
-    if ( dbl==0 ) {
-    return 0;
-    }
-
-    dbl *= 1.0e-7;
-    dbl -= 11644473600;
-
-    total = (time_t)dbl;
-
-    return total;
-}
-
-
-// Traverse the various cookies looking for the one we want, the cookie
-//   format looks like the following:
-//     Cookie name
-//     Cookie value
-//     Host/path for the web server setting the cookie
-//     Flags
-//     Expiration time (low)
-//     Expiration time (high)
-//     Creation time (low)
-//     Creation time (high)
-//     Record delimiter (*)
-//
-// NOTE: While cookies themselves can be 4k in size, valid BOINC cookies
-//   are shorter.
-//
-bool find_site_cookie_ie(
-    char* cookie_file, std::string& path, std::string& name, std::string& value
-) {
-    bool retval = false;
-    FILE* cf = NULL;
-   	MIOFILE cmf;
-    char buf[256];
-    char host[256], expiration_low[256], expiration_high[256], cookie_name[256], cookie_value[256];
-    time_t expires;
-
-    // now we should open up the cookie file.
-    cf = fopen(cookie_file, "r");
-
-    // if the cookie file exists, lookup the projects 'Setup' cookie.
-    if (cf) {
-        cmf.init_file(cf);
-        while (!cmf.eof()) {
-
-            // Extract one complete cookie
-            cmf.fgets(cookie_name, sizeof(cookie_name));
-            cmf.fgets(cookie_value, sizeof(cookie_value));
-            cmf.fgets(host, sizeof(host));
-            cmf.fgets(buf, sizeof(buf));
-            cmf.fgets(expiration_low, sizeof(expiration_low));
-            cmf.fgets(expiration_high, sizeof(expiration_high));
-            cmf.fgets(buf, sizeof(buf));
-            cmf.fgets(buf, sizeof(buf));
-            cmf.fgets(buf, sizeof(buf));
-
-            // Convert the expiration time from a FILETIME structure
-            //   to Epoch time.
-            expires = file_time_to_epoch((char*)&expiration_high, (char*)&expiration_low);
-
-            // is this the right host?
-            if (!strstr(host, path.c_str())) continue;
-
-            // has the cookie expired?
-            if (time(0) > expires) continue;
-
-            // is this the right cookie?
-            if (starts_with(cookie_name, name)) {
-                value = cookie_value;
-                retval = true;
-                break;
-            }
-        }
-    }
-
-    // cleanup
-    if (cf) fclose(cf);
-
-    return retval;
-}
-
-    
-//
-// Detect a cookie in Internet Explorer by parsing cookie files.
-// Supports: 7.x (UAC Turned On).
-//
-// Example cookie file names:
-//   romw@boinc.berkeley[1].txt
-//   romw@boinc.berkeley[2].txt
-//   romw@boinc.berkeley[4].txt
-//   romw@breitbart[1].txt
-//
-// Ideally we would parse the index.dat file which is treated as
-//   an in memory index which we could then use to find the correct
-//   file. However, the contents of the index.dat file is
-//   undocumented.
-//
-bool detect_cookie_ie_unsupported(std::string& project_url, std::string& name, std::string& value) {
-    char        buf[512], buf2[512];
-    int         i;
-    std::string cookie_path;
-    std::string username;
-    std::string hostname;
-    std::string domainname;
-
-    // Initialize variables
-    i = 0;
-    strcpy(buf, "");
-    strcpy(buf2, "");
-
-    // Determine which path to look for the cookie files in
-    get_internet_explorer_cookie_path(true, cookie_path);
-
-    // Get the users name
-    get_user_name(username);
-
-    // Get the host name and domain name from the url.
-    parse_hostname_ie_compatible(project_url, hostname, domainname);
-
-    // Strip the TLDs from both the hostname and domain name.
-    hostname.erase(hostname.rfind("."));
-    domainname.erase(domainname.rfind("."));
-
-    // Loop through looking for valid cookie files, check for a
-    //   host specific one first and then a domain one. If there
-    //   are more than ten different cookie paths for an account
-    //   manager or BOINC project there is a problem with
-    //   the design.
-    for ( i = 1; i <= 10; ++i ) {
-        //
-        // Construct the host cookie file name
-        //
-
-        // Original naming scheme
-        snprintf(buf, sizeof(buf), "%s%s@%s[%d].txt", cookie_path.c_str(), username.c_str(), hostname.c_str(), i);
-        if (find_site_cookie_ie((char*)&buf, hostname, name, value)) {
-            break;
-        }
-
-        // IE 7.x or better
-        string_substitute(buf, buf2, sizeof(buf2), " ", "_");
-        if (find_site_cookie_ie((char*)&buf2, hostname, name, value)) {
-            break;
-        }
-
-
-        //
-        // Construct the domainname cookie file name
-        //
-        snprintf(buf, sizeof(buf), "%s%s@%s[%d].txt", cookie_path.c_str(), username.c_str(), domainname.c_str(), i);
-        if (find_site_cookie_ie((char*)&buf, domainname, name, value)) {
-            break;
-        }
-
-        // IE 7.x or better
-        string_substitute(buf, buf2, sizeof(buf2), " ", "_");
-        if (find_site_cookie_ie((char*)&buf2, domainname, name, value)) {
-            break;
-        }
-    }
-
-    if (!name.empty() && !value.empty()) {
-        return true;
-    }
-    return false;
 }
 
 
@@ -1203,23 +870,6 @@ bool detect_cookie_ie(std::string& project_url, std::string& name, std::string& 
     // Check using the supported methods first
     if (detect_cookie_ie_supported( project_url, name, value )) return true;
     if (detect_cookie_ie_supported_uac( project_url, name, value )) return true;
-
-    // If the supported methods didn't return a hit we need to use the
-    //   unsupported method for Windows Vista machines to account
-    //   for UAC which stores browser cookies in a different directory
-    //   which keeps the InternetGetCookie() API from detecting them.
-    //
-    // NOTE: Windows Vista with IE 7 did not expose the IEGetProtectedModeCookie
-    // API.
-    //
-    OSVERSIONINFO osvi;
-    ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
-    osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-    GetVersionEx(&osvi);
-
-    if (osvi.dwMajorVersion >= 6) {
-        if (detect_cookie_ie_unsupported( project_url, name, value )) return true;
-    }
     return false;
 }
 
@@ -1248,10 +898,79 @@ bool detect_setup_authenticator(
 #endif
     if (detect_cookie_chrome(project_url, strCookieSetup, authenticator)) goto END;
     if (detect_cookie_firefox_3(project_url, strCookieSetup, authenticator)) goto END;
-    if (detect_cookie_firefox_2(project_url, strCookieSetup, authenticator)) goto END;
 
 END:
     if (is_authenticator_valid(authenticator)) {
+        retval = true;
+    }
+
+    return retval;
+}
+
+
+//
+// walk through the various browsers looking up the
+// various cookies that make up the simple account creation scheme.
+//
+// give preference to the default platform specific browers first before going
+// to the platform independant browsers since most people don't switch from
+// the default.
+// 
+bool detect_simple_account_credentials(
+    std::string& project_name, std::string& project_url, std::string& authenticator, 
+    std::string& project_institution, std::string& project_description, std::string& known
+) {
+    bool retval = false;
+    std::string strCookieServer("http://boinc.berkeley.edu");
+    std::string strCookieProjectName("attach_project_name");
+    std::string strCookieProjectURL("attach_master_url");
+    std::string strCookieAuthenticator("attach_auth");
+    std::string strCookieProjectInstitution("attach_project_inst");
+    std::string strCookieProjectDescription("attach_project_desc");
+    std::string strCookieKnown("attach_known");
+
+#ifdef _WIN32
+    if ( detect_cookie_ie(strCookieServer, strCookieProjectName, project_name) &&
+         detect_cookie_ie(strCookieServer, strCookieProjectURL, project_url)
+    ){
+        detect_cookie_ie(strCookieServer, strCookieAuthenticator, authenticator);
+        detect_cookie_ie(strCookieServer, strCookieProjectInstitution, project_institution);
+        detect_cookie_ie(strCookieServer, strCookieProjectDescription, project_description);
+        detect_cookie_ie(strCookieServer, strCookieKnown, known);
+        goto END;
+    }
+#endif
+#ifdef __APPLE__
+    if ( detect_cookie_safari(strCookieServer, strCookieProjectName, project_name) &&
+         detect_cookie_safari(strCookieServer, strCookieProjectURL, project_url)
+    ){
+        detect_cookie_safari(strCookieServer, strCookieAuthenticator, authenticator);
+        detect_cookie_safari(strCookieServer, strCookieProjectInstitution, project_institution);
+        detect_cookie_safari(strCookieServer, strCookieProjectDescription, project_description);
+        detect_cookie_safari(strCookieServer, strCookieKnown, known);
+        goto END;
+    }
+#endif
+    if ( detect_cookie_chrome(strCookieServer, strCookieProjectName, project_name) &&
+         detect_cookie_chrome(strCookieServer, strCookieProjectURL, project_url)
+    ){
+        detect_cookie_chrome(strCookieServer, strCookieAuthenticator, authenticator);
+        detect_cookie_chrome(strCookieServer, strCookieProjectInstitution, project_institution);
+        detect_cookie_chrome(strCookieServer, strCookieProjectDescription, project_description);
+        detect_cookie_chrome(strCookieServer, strCookieKnown, known);
+        goto END;
+    }
+    if ( detect_cookie_firefox_3(strCookieServer, strCookieProjectName, project_name) &&
+         detect_cookie_firefox_3(strCookieServer, strCookieProjectURL, project_url)
+    ){
+        detect_cookie_firefox_3(strCookieServer, strCookieAuthenticator, authenticator);
+        detect_cookie_firefox_3(strCookieServer, strCookieProjectInstitution, project_institution);
+        detect_cookie_firefox_3(strCookieServer, strCookieProjectDescription, project_description);
+        detect_cookie_firefox_3(strCookieServer, strCookieKnown, known);
+        goto END;
+    }
+END:
+    if (!project_name.empty() && !project_url.empty()) {
         retval = true;
     }
 
@@ -1303,13 +1022,6 @@ bool detect_account_manager_credentials(
          detect_cookie_firefox_3(project_url, strCookiePasswordHash, password_hash) 
     ){
         detect_cookie_firefox_3(project_url, strCookieReturnURL, return_url);
-        goto END;
-    }
-
-    if ( detect_cookie_firefox_2(project_url, strCookieLogon, login) && 
-         detect_cookie_firefox_2(project_url, strCookiePasswordHash, password_hash)
-    ){
-        detect_cookie_firefox_2(project_url, strCookieReturnURL, return_url);
         goto END;
     }
 

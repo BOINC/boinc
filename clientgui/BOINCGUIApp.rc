@@ -1,6 +1,5 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -21,28 +20,6 @@
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 #pragma code_page(1252)
 #endif //_WIN32
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-#if   defined(_GRIDREPUBLIC)
-APP_ICON                ICON                    "res\\gridrepublic.ico"
-#elif defined(_PROGRESSTHRUPROCESSORS)
-APP_ICON                ICON                    "res\\progress.ico"
-#elif defined(_CHARITYENGINE)
-APP_ICON                ICON                    "res\\ce.ico"
-#elif defined(_WCG)
-APP_ICON                ICON                    "res\\wcg.ico"
-#else
-APP_ICON                ICON                    "res\\boincguiApp.ico"
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -75,6 +52,23 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Icon
 //
 
+#if   defined(_GRIDREPUBLIC)
+boinc                      ICON                    "res\\gridrepublic.ico"
+#elif defined(_PROGRESSTHRUPROCESSORS)
+boinc                      ICON                    "res\\progress.ico"
+#elif defined(_CHARITYENGINE)
+boinc                      ICON                    "res\\ce.ico"
+#elif defined(_WCG)
+boinc                      ICON                    "res\\wcg.ico"
+#else
+boinc                      ICON                    "res\\boinc.ico"
+#endif
+
+boincdisconnect            ICON                    "res\\boincdisconnect.ico"
+boincsnooze                ICON                    "res\\boincsnooze.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Bitmap
@@ -88,17 +82,12 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
-END
-
-2 TEXTINCLUDE 
-BEGIN
     "#include <wx/msw/wx.rc>\r\n"
     "#include ""win_config.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE 
+2 TEXTINCLUDE 
 BEGIN
     "\0"
 END

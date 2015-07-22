@@ -131,12 +131,13 @@ struct EXCLUDE_GPU {
     int device_num;         // -1 means all instances
 
     int parse(XML_PARSER&);
+    void write(MIOFILE&);
 };
 
 // if you add anything, you must add it to
 // defaults(), parse_options(), and write()
 //
-struct CONFIG {
+struct CC_CONFIG {
     bool abort_jobs_on_exit;
     bool allow_multiple_clients;
     bool allow_remote_gui_rpc;
@@ -145,11 +146,11 @@ struct CONFIG {
     std::string client_new_version_text;
     std::string client_version_check_url;
     COPROCS config_coprocs;
-    char data_dir[256];
     bool disallow_attach;
     bool dont_check_file_sizes;
-    int max_event_log_lines;
     bool dont_contact_ref_site;
+    bool dont_suspend_nci;
+    bool dont_use_vbox;
     std::vector<EXCLUDE_GPU> exclude_gpus;
     std::vector<std::string> exclusive_apps;
     std::vector<std::string> exclusive_gpu_apps;
@@ -163,6 +164,7 @@ struct CONFIG {
     int http_transfer_timeout_bps;
     int http_transfer_timeout;
     std::vector<int> ignore_gpu_instance[NPROC_TYPES];
+    int max_event_log_lines;
     int max_file_xfers;
     int max_file_xfers_per_project;
     int max_stderr_file_size;
@@ -192,7 +194,7 @@ struct CONFIG {
         // overrides use_certs
     bool vbox_window;
 
-    CONFIG();
+    CC_CONFIG();
     void defaults();
 	int parse(FILE*);
 	int parse(XML_PARSER&, LOG_FLAGS&);

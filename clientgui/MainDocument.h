@@ -119,7 +119,7 @@ public:
     // Global
     //
 private:
-
+    char                        m_szLanguage[256];
     wxDateTime                  m_dtCachedCCStatusTimestamp;
     bool                        m_bClientStartCheckCompleted;
 
@@ -224,7 +224,7 @@ private:
 public:
     int                         CachedProjectStatusUpdate(bool bForce = false);
     PROJECT*                    project(unsigned int);
-	PROJECT* project(char* url);
+	PROJECT*                    project(char* url);
     float                       m_fProjectTotalResourceShare;
 
     int                         GetProjectCount();
@@ -301,7 +301,6 @@ public:
 
     void                        UpdateUnreadNoticeState();
     int                         ResetNoticeState();
-    bool                        LocalizeNoticeText(wxString& strMessage, bool bSanitize = false, bool bClean = false);
 
 
     //
@@ -412,6 +411,23 @@ public:
 extern wxString suspend_reason_wxstring(int reason);
 extern wxString result_description(RESULT*, bool show_resources=true);
 extern wxString process_client_message(const char*);
+extern void localize(wxString& strMessage);
+extern void eol_to_br(wxString& strMessage);
+extern void remove_eols(wxString& strMessage);
+extern void https_to_http(wxString& strMessage);
+extern void color_cycle(int i, int n, wxColour& color);
+
+#ifdef __WXMSW__
+#define ADJUSTFORXDPI(x) (int)(x * GetXDPIScaling())
+#define ADJUSTFORYDPI(y) (int)(y * GetYDPIScaling())
+extern float GetXDPIScaling();
+extern float GetYDPIScaling();
+#else
+#define ADJUSTFORXDPI(x) x
+#define ADJUSTFORYDPI(y) y
+#endif
+
+wxBitmap GetScaledBitmapFromXPMData(const char** XPMData);
 
 #ifdef SANDBOX
 #define BOINC_MASTER_GROUP_NAME "boinc_master"

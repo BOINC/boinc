@@ -45,24 +45,36 @@
 #include <Carbon/Carbon.h>
 #endif
 
-#include "str_util.h"
-#include "str_replace.h"
-#include "parse.h"
-#include "util.h"
-#include "file_names.h"
 #include "error_numbers.h"
+#include "file_names.h"
+#include "mac_address.h"
+#include "parse.h"
+#include "str_replace.h"
+#include "str_util.h"
+#include "util.h"
 
 #include "client_msgs.h"
 
 #include "hostinfo.h"
 
 // get domain name and IP address of this host
+// Android: if domain_name is empty, set it to android_xxxxxxxx
 //
 int HOST_INFO::get_local_network_info() {
+    strcpy(ip_addr, "");
+
+#ifdef ANDROID
+    if (strlen(domain_name) && strcmp(domain_name, "localhost")) return 0;
+    char buf[256];
+    make_random_string("", buf);
+    buf[8] = 0;
+    sprintf(domain_name, "android_%s", buf);
+    return 0;
+#endif
+
     struct sockaddr_storage s;
     
     strcpy(domain_name, "");
-    strcpy(ip_addr, "");
 
     // it seems like we should use getdomainname() instead of gethostname(),
     // but on FC6 it returns "(none)".
@@ -110,6 +122,26 @@ void HOST_INFO::make_random_string(const char* salt, char* out) {
 // Should be unique across hosts with very high probability
 //
 void HOST_INFO::generate_host_cpid() {
-    make_random_string("", host_cpid);
-}
+    int retval;
+    char buf[256+MAXPATHLEN];
+    char dir[MAXPATHLEN];
 
+    // if a MAC address is available, compute an ID based on it;
+    // this has the advantage of stability
+    // (a given host will get the same ID each time BOINC is reinstalled)
+    //
+    retval = get_mac_address(buf);
+    if (retval) {
+        make_random_string("", host_cpid);
+        return;
+    }
+
+    // append the current dir to the MAC address;
+    // that way if there are multiple instances per host
+    // (used by some grid installations)
+    // the instances will get different CPIDs
+    //
+    boinc_getcwd(dir);
+    strcat(buf, dir);
+    md5_block((const unsigned char*) buf, (int)strlen(buf), host_cpid);
+}

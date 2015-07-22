@@ -37,9 +37,9 @@ if ((post_int("anonymous", true) == 1) || ($logged_in_user == null)) {
 $order_time = time();
 
 // Write user id to paypal table, so the return script knows it's expecting this payment
-mysql_query("INSERT INTO donation_paypal SET order_time = '".$order_time."', userid = '$userid', item_number=".$item_id.", order_amount = '".boinc_real_escape_string($amount)."'");
+_mysql_query("INSERT INTO donation_paypal SET order_time = '".$order_time."', userid = '$userid', item_number=".$item_id.", order_amount = '".boinc_real_escape_string($amount)."'");
 
-$payment_id = mysql_insert_id();
+$payment_id = _mysql_insert_id();
 
 $URL = "www.paypal.com/cgi-bin/webscr";
 

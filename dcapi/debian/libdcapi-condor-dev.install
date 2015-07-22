@@ -1,0 +1,4 @@
+debian/tmp/usr/lib/libdcapi-client-condor.a
+debian/tmp/usr/lib/libdcapi-condor.a
+debian/tmp/usr/lib/pkgconfig/dcapi-condor-client.pc
+debian/tmp/usr/lib/pkgconfig/dcapi-condor-master.pc

@@ -69,12 +69,13 @@ void HOST_INFO::clear_host_info() {
     strcpy(os_name, "");
     strcpy(os_version, "");
     strcpy(product_name, "");
+    strcpy(mac_address, "");
 
     strcpy(virtualbox_version, "");
-    have_cpu_opencl = false;
+    num_opencl_cpu_platforms = 0;
 }
 
-int HOST_INFO::parse(XML_PARSER& xp, bool benchmarks_only) {
+int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
     while (!xp.get_tag()) {
         if (xp.match_tag("/host_info")) return 0;
         if (xp.parse_double("p_fpops", p_fpops)) {
@@ -93,18 +94,21 @@ int HOST_INFO::parse(XML_PARSER& xp, bool benchmarks_only) {
         }
         if (xp.parse_double("p_calculated", p_calculated)) continue;
         if (xp.parse_bool("p_vm_extensions_disabled", p_vm_extensions_disabled)) continue;
+        if (xp.parse_str("host_cpid", host_cpid, sizeof(host_cpid))) continue;
 #ifdef ANDROID
         if (xp.parse_str("product_name", product_name, sizeof(product_name))) continue;
+        if (xp.parse_str("mac_address", mac_address, sizeof(mac_address))) continue;
+        if (xp.parse_str("domain_name", domain_name, sizeof(domain_name))) continue;
 #endif
 
-        if (benchmarks_only) continue;
+        if (static_items_only) continue;
 
-        // WARNING: NOTHING AFTER HERE IS READ FROM STATE FILE ON THE CLIENT
+        // Items after here are determined dynamically at startup,
+        // so don't parse them from the state file
 
         if (xp.parse_int("timezone", timezone)) continue;
         if (xp.parse_str("domain_name", domain_name, sizeof(domain_name))) continue;
         if (xp.parse_str("ip_addr", ip_addr, sizeof(ip_addr))) continue;
-        if (xp.parse_str("host_cpid", host_cpid, sizeof(host_cpid))) continue;
         if (xp.parse_int("p_ncpus", p_ncpus)) continue;
         if (xp.parse_str("p_vendor", p_vendor, sizeof(p_vendor))) continue;
         if (xp.parse_str("p_model", p_model, sizeof(p_model))) continue;
@@ -123,9 +127,13 @@ int HOST_INFO::parse(XML_PARSER& xp, bool benchmarks_only) {
         if (xp.match_tag("coprocs")) {
             this->coprocs.parse(xp);
         }
-        if (xp.match_tag("cpu_opencl_prop")) {
-            int retval = cpu_opencl_prop.parse(xp, "/cpu_opencl_prop");
-            if (!retval) have_cpu_opencl = true;
+        
+        // The same CPU can have a different opencl_cpu_prop
+        // for each of multiple OpenCL platforms
+        //
+        if (xp.match_tag("opencl_cpu_prop")) {
+            int retval = opencl_cpu_prop[num_opencl_cpu_platforms].parse(xp);
+            if (!retval) num_opencl_cpu_platforms++;
         }
     }
     return ERR_XML_PARSE;
@@ -205,6 +213,12 @@ int HOST_INFO::write(
             pn
         );
     }
+    if (strlen(mac_address)) {
+        out.printf(
+            "    <mac_address>%s</mac_address>\n",
+            mac_address
+        );
+    }
     if (strlen(virtualbox_version)) {
         char buf[256];
         xml_escape(virtualbox_version, buf, sizeof(buf));
@@ -216,8 +230,17 @@ int HOST_INFO::write(
     if (include_coprocs) {
         this->coprocs.write_xml(out, false);
     }
-    if (have_cpu_opencl) {
-        cpu_opencl_prop.write_xml(out, "cpu_opencl_prop");
+    
+    // The same CPU can have a different opencl_cpu_prop 
+    // for each of multiple OpenCL platforms.
+    // We send them all to the project server because:
+    // - Different OpenCL platforms report different values
+    //   for the same CPU
+    // - Some OpenCL CPU apps may work better with certain
+    //   OpenCL platforms
+    //
+    for (int i=0; i<num_opencl_cpu_platforms; i++) {
+        opencl_cpu_prop[i].write_xml(out);
     }
     out.printf(
         "</host_info>\n"
@@ -263,4 +286,3 @@ int HOST_INFO::write_cpu_benchmarks(FILE* out) {
     );
     return 0;
 }
-

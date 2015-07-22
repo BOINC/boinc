@@ -20,20 +20,16 @@
 
 require_once("../inc/util_ops.inc");
 
-admin_page_head("Cancel workunit(s)");
+admin_page_head("Cancel jobs");
 
 echo "<form action=\"cancel_wu_action.php\">
 ";
 echo "<p>
-	This form may be used to cancel unnecessary or unwanted workunits.
-    We recommend that you stop the project before doing this.
-    Note that the workunits and their corresponding
-    results (if any) are NOT removed from the database.
+    We recommend that you stop the project before canceling jobs.
+    <p>
+    Canceled jobs are not removed from the database.
     Instead, they are marked as 'no longer needed'.
-    In most cases you should probably only remove workunits whose results
-    are all unsent,
-    since otherwise a user will not get credit
-    for a result that they might return.
+    <p>
     <p>
 ";
 // TODO: David, a query that shows all workunits that do not have all results unsent is:
@@ -42,9 +38,18 @@ echo "<p>
 // be useful to incorporate into this page.
 
 start_table();
-row2("First Workunit (ID) to cancel", "<input size=\"32\" name=\"wuid1\"");
-row2("Last  Workunit (ID) to cancel", "<input size=\"32\" name=\"wuid2\"");
-row2("", "<input type=\"submit\" value=\"CANCEL WORKUNITS\">");
+row2("Workunit ID of first job to cancel", "<input size=\"32\" name=\"wuid1\"");
+row2("Workunit ID of last job to cancel", "<input size=\"32\" name=\"wuid2\"");
+row2(
+    "Cancel only jobs with no instance in progress
+        <br><p class=\"text-muted\">
+        You can cancel jobs with instances that are in progress,
+        but if you do so, users will not get credit for these instances.
+        </p>
+    ",
+    "<input type=checkbox name=unsent_only>"
+);
+row2("", "<input class=\"btn btn-default\" type=\"submit\" value=\"Cancel jobs\">");
 end_table();
 echo "
     </form>

@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,6 +20,8 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
+if (DISABLE_TEAMS) error_page("Teams are disabled");
+
 check_get_args(array());
 
 $user = get_logged_in_user();
@@ -29,7 +31,7 @@ if (strlen($name) == 0) {
     error_page(tra("You must choose a non-blank team name"));
 }
 
-$new_team = lookup_team_name($name);
+$new_team = BoincTeam::lookup_name($name);
 if ($new_team) {
     error_page(tra("A team named %1 already exists - try another name", htmlentities($name)));
 }

@@ -54,6 +54,10 @@
 #  define HAVE_TERMIOS_H
 #endif
 
+#ifndef _WIN32
+#include <unistd.h>     /* defines POSIX_VERSION */
+#endif
+
 #ifdef _POSIX_VERSION
 #  ifndef USE_POSIX_TERMIOS
 #    define USE_POSIX_TERMIOS  /* use POSIX style termio (termios) */

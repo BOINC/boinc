@@ -94,7 +94,7 @@ inline int scaled_max_jobs_per_day(DB_HOST_APP_VERSION& hav, HOST_USAGE& hu) {
             n *= g_reply->host.p_ncpus;
         }
     } else {
-        COPROC* cp = g_request->coprocs.type_to_coproc(hu.proc_type);
+        COPROC* cp = g_request->coprocs.proc_type_to_coproc(hu.proc_type);
         if (cp->count) {
             n *= cp->count;
         }
@@ -321,13 +321,15 @@ void estimate_flops_anon_platform() {
     }
 }
 
-// compute HOST_USAGE::projected_flops as best we can:
+// compute HOST_USAGE::projected_flops, which is used to estimate job runtime:
+//   est. runtime = wu.rsc_fpops_est / projected_flops
+// so project_flops must reflect systematic errors in rsc_fpops_est
 // 
 // 1) if we have statistics for (host, app version) and
 //    <estimate_flops_from_hav_pfc> is not set use elapsed time,
 //    otherwise use pfc_avg.
 // 2) if we have statistics for app version elapsed time, use those.
-// 3) else use a conservative estimate (p_fpops*(cpus+gpus))
+// 3) else use a conservative estimate (p_fpops*(cpu usage + gpu usage))
 //    This prevents jobs from aborting with "time limit exceeded"
 //    even if the estimate supplied by the plan class function is way off
 //
@@ -533,6 +535,10 @@ BEST_APP_VERSION* get_app_version(
     bool job_needs_64b = (wu.rsc_memory_bound > max_32b_address_space());
 
     if (config.debug_version_select) {
+        log_messages.printf(MSG_NORMAL,
+            "[version] get_app_version(): getting app version for WU#%d (%s) appid:%d\n",
+            wu.id, wu.name, wu.appid
+        );
         if (job_needs_64b) {
             log_messages.printf(MSG_NORMAL,
                 "[version] job needs 64-bit app version: mem bnd %f\n",
@@ -584,8 +590,8 @@ BEST_APP_VERSION* get_app_version(
             // app and resource type, fall through and find another version
             //
             if (config.max_jobs_in_progress.exceeded(
-                app, bavp->host_usage.uses_gpu())
-            ) {
+                app, bavp->host_usage.proc_type
+            )) {
                 if (config.debug_version_select) {
                     app_version_desc(*bavp, buf);
                     log_messages.printf(MSG_NORMAL,
@@ -622,7 +628,7 @@ BEST_APP_VERSION* get_app_version(
             }
             return bavp;
         }
-        bavi++;
+        ++bavi;
     }
 
     // here if app was not in memoized array,
@@ -681,6 +687,11 @@ BEST_APP_VERSION* get_app_version(
             APP_VERSION& av = ssp->app_versions[j];
             if (av.appid != wu.appid) continue;
             if (av.platformid != p->id) continue;
+            if (av.beta) {
+                if (!g_wreq->allow_beta_work) {
+                    continue;
+                }
+            }
 
             if (strlen(av.plan_class)) {
                 if (!app_plan(*g_request, av.plan_class, host_usage)) {
@@ -742,7 +753,7 @@ BEST_APP_VERSION* get_app_version(
 
             // skip versions for which we're at the jobs-in-progress limit
             //
-            if (config.max_jobs_in_progress.exceeded(app, host_usage.uses_gpu())) {
+            if (config.max_jobs_in_progress.exceeded(app, host_usage.proc_type)) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
                         "[version] [AV#%d] jobs in progress limit exceeded\n",
@@ -794,14 +805,15 @@ BEST_APP_VERSION* get_app_version(
             //
             DB_HOST_APP_VERSION* havp = gavid_to_havp(av.id);
             double r = 1;
-            long n=1;
+            long n = 1;
             if (havp) {
                 // slowly move from raw calc to measured performance as number
                 // of results increases
-                n=std::max((long)havp->pfc.n,(long)n);
-                double old_projected_flops=host_usage.projected_flops;
+                //
+                n = std::max((long)havp->pfc.n, (long)n);
+                double old_projected_flops = host_usage.projected_flops;
                 estimate_flops(host_usage, av);
-                host_usage.projected_flops=(host_usage.projected_flops*(n-1)+old_projected_flops)/n;
+                host_usage.projected_flops = (host_usage.projected_flops*(n-1) + old_projected_flops)/n;
 
                 // special case for versions that don't work on a given host.
                 // This is defined as:
@@ -810,13 +822,14 @@ BEST_APP_VERSION* get_app_version(
                 // 3. Consecutive valid is 0.
                 // In that case, heavily penalize this app_version most of the
                 // time.
+                //
                 if ((havp->pfc.n==0) && (havp->max_jobs_per_day==1) && (havp->consecutive_valid==0)) {
-                    if (drand()>0.01) {
-                        host_usage.projected_flops*=0.01;
-                        if (config.debug_version_select  && bavp && bavp->avp) {
+                    if (drand() > 0.01) {
+                        host_usage.projected_flops *= 0.01;
+                        if (config.debug_version_select) {
                             log_messages.printf(MSG_NORMAL,
                                 "[version] App version AV#%d is failing on HOST#%d\n",
-                                havp->app_version_id,havp->host_id
+                                havp->app_version_id, havp->host_id
                             );
                         }
                    }
@@ -824,11 +837,15 @@ BEST_APP_VERSION* get_app_version(
             }
             if (config.version_select_random_factor) {
                 r += config.version_select_random_factor*rand_normal()/n;
+                if (r <= .1) {
+                    r = .1;
+                }
             }
-            if (config.debug_version_select  && bavp && bavp->avp) {
+            if (config.debug_version_select && bavp && bavp->avp) {
                 log_messages.printf(MSG_NORMAL,
                     "[version] Comparing AV#%d (%.2f GFLOP) against AV#%d (%.2f GFLOP)\n",
-                    av.id,host_usage.projected_flops/1e+9,bavp->avp->id,bavp->host_usage.projected_flops/1e+9
+                    av.id, host_usage.projected_flops/1e+9,
+                    bavp->avp->id, bavp->host_usage.projected_flops/1e+9
                 );
             }
             if (r*host_usage.projected_flops > bavp->host_usage.projected_flops) {
@@ -849,7 +866,14 @@ BEST_APP_VERSION* get_app_version(
                           bavp->avp->id, bavp->host_usage.projected_flops/1e+9
                     );
                 }
-
+            } else {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                            "[version] Not selected, AV#%d r*%.2f GFLOP <= Best AV %.2f GFLOP (r=%f, n=%ld)\n",
+                            av.id, host_usage.projected_flops/1e+9,
+                            bavp->host_usage.projected_flops/1e+9, r, n
+                    );
+                }
             }
         }   // loop over app versions
 

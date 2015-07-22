@@ -20,9 +20,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/status_wrapper"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="center"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:descendantFocusability="blocksDescendants" >
 
     <LinearLayout 
         android:id="@+id/center_wrapper"
@@ -30,8 +31,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:background="@drawable/shape_light_blue_background"
         android:visibility="gone">
         
@@ -66,57 +67,14 @@
         </LinearLayout>
     </LinearLayout>
     
-    <RelativeLayout 
-        android:id="@+id/slideshow_wrapper"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:visibility="gone"
-        android:paddingTop="10dp"
-    	android:orientation="vertical">
-            
-        <ImageView
-	        android:id="@+id/image_view"
-	        android:layout_width="fill_parent"
-	        android:layout_height="fill_parent"
-	        android:contentDescription="@string/status_image_description"
-	        android:scaleType="fitCenter"
-	        android:layout_marginBottom="130dp"
-	        android:layout_alignParentTop="true"
-	        android:adjustViewBounds="true"/>
-        
-        <LinearLayout 
-        	android:id="@+id/gallery_wrapper"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-	        android:background="@drawable/shape_light_blue_background"
-	        android:layout_alignParentBottom="true"
-	        android:orientation="vertical">
-		    <TextView 
-	            android:id="@+id/image_description"
-	            android:layout_width="fill_parent"
-	            android:layout_height="wrap_content"
-	            android:gravity="center_horizontal"
-	            android:background="@android:color/transparent"
-	            android:textStyle="bold"
-		        android:textAppearance="?android:attr/textAppearanceSmall"/>  
-            
-		    <Gallery 
-		        android:id="@+id/gallery"
-	        	android:layout_width="fill_parent"
-	        	android:layout_height="wrap_content"
-	        	android:spacing="5dp"
-	            android:background="@android:color/transparent"/>
-        </LinearLayout>
-    </RelativeLayout>
-    
     <LinearLayout 
     	android:id="@+id/restarting_wrapper"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:gravity="center"
 	    android:orientation="horizontal"
-	    android:paddingTop="20dp"
-	    android:paddingBottom="20dp"
+	    android:paddingTop="10dp"
+	    android:paddingBottom="10dp"
 	    android:background="@drawable/shape_light_blue_background"
 	    android:visibility="gone" >
 

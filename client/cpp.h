@@ -15,9 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// Don't include config.h or C++ header files from here.
+// there are #defines that alter the behiour of the standard C and C++ headers.
+// In this case we need to use the "small files" environment on some unix
+// systems.  That can't be done if we include "cpp.h"
+
 #if defined(_WIN32) && !defined(__CYGWIN32__)
 
-#if defined(_WIN64) && defined(_M_X64)
+#if defined(_WIN64) && (defined(_M_X64) || defined(__x86_64__))
 #define HOSTTYPE    "windows_x86_64"
 #define HOSTTYPEALT "windows_intelx86"
 #else

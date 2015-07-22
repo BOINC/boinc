@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <PropertyPageSchema
+      Include="$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml" />
+    <AvailableItemName
+      Include="CUDA_Build_Rule">
+      <Targets>_CUDA_Build_Rule</Targets>
+    </AvailableItemName>
+  </ItemGroup>
+  <UsingTask
+    TaskName="CUDA_Build_Rule"
+    TaskFactory="XamlTaskFactory"
+    AssemblyName="Microsoft.Build.Tasks.v4.0">
+    <Task>$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml</Task>
+  </UsingTask>
+  <Target
+    Name="_CUDA_Build_Rule"
+    BeforeTargets="$(CUDA_Build_RuleBeforeTargets)"
+    AfterTargets="$(CUDA_Build_RuleAfterTargets)"
+    Condition="'@(CUDA_Build_Rule)' != ''"
+    DependsOnTargets="$(CUDA_Build_RuleDependsOn);ComputeCUDA_Build_RuleOutput"
+    Outputs="@(CUDA_Build_Rule-&gt;Metadata('Outputs')-&gt;Distinct())"
+    Inputs="@(CUDA_Build_Rule);%(CUDA_Build_Rule.AdditionalDependencies);$(MSBuildProjectFile)">
+    <ItemGroup
+      Condition="'@(SelectedFiles)' != ''">
+      <CUDA_Build_Rule
+        Remove="@(CUDA_Build_Rule)"
+        Condition="'%(Identity)' != '@(SelectedFiles)'" />
+    </ItemGroup>
+    <ItemGroup>
+      <CUDA_Build_Rule_tlog
+        Include="%(CUDA_Build_Rule.Outputs)"
+        Condition="'%(CUDA_Build_Rule.Outputs)' != '' and '%(CUDA_Build_Rule.ExcludedFromBuild)' != 'true'">
+        <Source>@(CUDA_Build_Rule, '|')</Source>
+      </CUDA_Build_Rule_tlog>
+    </ItemGroup>
+    <Message
+      Importance="High"
+      Text="%(CUDA_Build_Rule.ExecutionDescription)" />
+    <WriteLinesToFile
+      Condition="'@(CUDA_Build_Rule_tlog)' != '' and '%(CUDA_Build_Rule_tlog.ExcludedFromBuild)' != 'true'"
+      File="$(IntDir)$(ProjectName).write.1.tlog"
+      Lines="^%(CUDA_Build_Rule_tlog.Source);@(CUDA_Build_Rule_tlog-&gt;'%(Fullpath)')" />
+    <CUDA_Build_Rule
+      Condition="'@(CUDA_Build_Rule)' != '' and '%(CUDA_Build_Rule.ExcludedFromBuild)' != 'true'"
+      CommandLineTemplate="%(CUDA_Build_Rule.CommandLineTemplate)"
+      Debug="%(CUDA_Build_Rule.Debug)"
+      Emulation="%(CUDA_Build_Rule.Emulation)"
+      FastMath="%(CUDA_Build_Rule.FastMath)"
+      PtxAsOptionV="%(CUDA_Build_Rule.PtxAsOptionV)"
+      CInterleavedPTX="%(CUDA_Build_Rule.CInterleavedPTX)"
+      Keep="%(CUDA_Build_Rule.Keep)"
+      TypeInfo="%(CUDA_Build_Rule.TypeInfo)"
+      Include="%(CUDA_Build_Rule.Include)"
+      OutputFile="%(CUDA_Build_Rule.OutputFile)"
+      OverrideCompileOutName="%(CUDA_Build_Rule.OverrideCompileOutName)"
+      AlternateNvccPath="%(CUDA_Build_Rule.AlternateNvccPath)"
+      ExtraNvccOptions="%(CUDA_Build_Rule.ExtraNvccOptions)"
+      Defines="%(CUDA_Build_Rule.Defines)"
+      AddedDependencies="%(CUDA_Build_Rule.AddedDependencies)"
+      ExtraCppOptions="%(CUDA_Build_Rule.ExtraCppOptions)"
+      MaxRegCount="%(CUDA_Build_Rule.MaxRegCount)"
+      NvccCompilation="%(CUDA_Build_Rule.NvccCompilation)"
+      compileout="%(CUDA_Build_Rule.compileout)"
+      Arch1="%(CUDA_Build_Rule.Arch1)"
+      Arch2="%(CUDA_Build_Rule.Arch2)"
+      Arch3="%(CUDA_Build_Rule.Arch3)"
+      CompilerPath="%(CUDA_Build_Rule.CompilerPath)"
+      Warning="%(CUDA_Build_Rule.Warning)"
+      Optimization="%(CUDA_Build_Rule.Optimization)"
+      RuntimeChecks="%(CUDA_Build_Rule.RuntimeChecks)"
+      Runtime="%(CUDA_Build_Rule.Runtime)"
+      AdditionalOptions="%(CUDA_Build_Rule.AdditionalOptions)"
+      Inputs="@(CUDA_Build_Rule)" />
+  </Target>
+  <PropertyGroup>
+    <ComputeLinkInputsTargets>
+            $(ComputeLinkInputsTargets);
+            ComputeCUDA_Build_RuleOutput;
+          </ComputeLinkInputsTargets>
+    <ComputeLibInputsTargets>
+            $(ComputeLibInputsTargets);
+            ComputeCUDA_Build_RuleOutput;
+          </ComputeLibInputsTargets>
+  </PropertyGroup>
+  <Target
+    Name="ComputeCUDA_Build_RuleOutput"
+    Condition="'@(CUDA_Build_Rule)' != ''">
+    <ItemGroup>
+      <CUDA_Build_RuleDirsToMake
+        Condition="'@(CUDA_Build_Rule)' != '' and '%(CUDA_Build_Rule.ExcludedFromBuild)' != 'true'"
+        Include="%(CUDA_Build_Rule.Outputs)" />
+      <Link
+        Include="%(CUDA_Build_RuleDirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+      <Lib
+        Include="%(CUDA_Build_RuleDirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+      <ImpLib
+        Include="%(CUDA_Build_RuleDirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+    </ItemGroup>
+    <MakeDir
+      Directories="@(CUDA_Build_RuleDirsToMake-&gt;'%(RootDir)%(Directory)')" />
+  </Target>
+</Project>

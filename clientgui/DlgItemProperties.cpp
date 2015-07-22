@@ -52,6 +52,7 @@ CDlgItemProperties::CDlgItemProperties(wxWindow* parent) :
     m_bSizer2 = new wxBoxSizer( wxVERTICAL );
     
     m_gbSizer = new wxGridBagSizer( 0, 0 );
+    m_gbSizer->SetCols(2);
     m_gbSizer->AddGrowableCol( 1 );
     m_gbSizer->SetFlexibleDirection( wxBOTH );
     m_gbSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
@@ -70,8 +71,6 @@ CDlgItemProperties::CDlgItemProperties(wxWindow* parent) :
     SetSizer( m_bSizer1 );
     Layout();
     
-    Centre( wxBOTH );
-
     m_current_row=0;
 
     int currentTabView = pFrame->GetCurrentViewPage();
@@ -105,55 +104,87 @@ bool CDlgItemProperties::SaveState() {
     pConfig->SetPath(m_strBaseConfigLocation);
     pConfig->Write(wxT("Width"), GetSize().GetWidth());
     pConfig->Write(wxT("Height"), GetSize().GetHeight());
-#ifdef __WXMAC__
     pConfig->Write(wxT("XPos"), GetPosition().x);
     pConfig->Write(wxT("YPos"), GetPosition().y);
-#endif
 
     pConfig->Flush();
     
     return true;
 }
 
-/* restores former dialog size and (on Mac) position */
+/* restores former dialog size and position */
 bool CDlgItemProperties::RestoreState() {
-    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-    int                iWidth, iHeight;
+    wxConfigBase* pConfig = wxConfigBase::Get(FALSE);
+    wxPoint oTempPoint;
+    wxSize  oTempSize;
 
     wxASSERT(pConfig);
     if (!pConfig) return false;
 
     pConfig->SetPath(m_strBaseConfigLocation);
 
-    pConfig->Read(wxT("Width"), &iWidth, wxDefaultCoord);
-    pConfig->Read(wxT("Height"), &iHeight, wxDefaultCoord);
+    pConfig->Read(wxT("YPos"), &oTempPoint.y, wxDefaultCoord);
+    pConfig->Read(wxT("XPos"), &oTempPoint.x, wxDefaultCoord);
+    pConfig->Read(wxT("Width"), &oTempSize.x, wxDefaultCoord);
+    pConfig->Read(wxT("Height"), &oTempSize.y, wxDefaultCoord);
 
-#ifndef __WXMAC__
-    // Set size to saved values or defaults if no saved values
-    SetSize(iWidth, iHeight);    
-#else
-    int                iTop, iLeft;
-    
-    pConfig->Read(wxT("YPos"), &iTop, wxDefaultCoord);
-    pConfig->Read(wxT("XPos"), &iLeft, wxDefaultCoord);
-    
+    // Guard against a rare situation where registry values are zero
+    if ((oTempSize.x < 50) && (oTempSize.x != wxDefaultCoord)) oTempSize.x = wxDefaultCoord;
+    if ((oTempSize.y < 50) && (oTempSize.y != wxDefaultCoord)) oTempSize.y = wxDefaultCoord;
+
     // If either co-ordinate is less then 0 then set it equal to 0 to ensure
     // it displays on the screen.
-    if ((iLeft < 0) && (iLeft != wxDefaultCoord)) iLeft = 30;
-    if ((iTop < 0) && (iTop != wxDefaultCoord)) iTop = 30;
+    if ((oTempPoint.x < 0) && (oTempPoint.x != wxDefaultCoord)) oTempPoint.x = wxDefaultCoord;
+    if ((oTempPoint.y < 0) && (oTempPoint.y != wxDefaultCoord)) oTempPoint.y = wxDefaultCoord;
 
     // Set size and position to saved values or defaults if no saved values
-    SetSize(iLeft, iTop, iWidth, iHeight, wxSIZE_USE_EXISTING);
+    SetSize(oTempPoint.x, oTempPoint.y, oTempSize.x, oTempSize.y, wxSIZE_USE_EXISTING);
 
     // Now make sure window is on screen
-    GetScreenPosition(&iLeft, &iTop);
-    GetSize(&iWidth, &iHeight);
+    oTempPoint = GetScreenPosition();
+    oTempSize = GetSize();
 
-    if (!IsWindowOnScreen(iLeft, iTop, iWidth, iHeight)) {
-        iTop = iLeft = 30;
-        SetSize(iLeft, iTop, iWidth, iHeight, wxSIZE_USE_EXISTING);
-    }
+#ifdef __WXMSW__
+    // Get the current display space for the current window
+	int iDisplay = wxNOT_FOUND;
+	if ( wxGetApp().GetFrame() != NULL )
+        iDisplay = wxDisplay::GetFromWindow(this);
+	if ( iDisplay == wxNOT_FOUND )
+        iDisplay = 0;
+    wxDisplay *display = new wxDisplay(iDisplay);
+    wxRect rDisplay = display->GetClientArea();
+
+	// Check that the saved height and width is not larger than the displayable space.
+	// If it is, then reduce the size.
+    if ( oTempSize.GetWidth() > rDisplay.width ) oTempSize.SetWidth(rDisplay.width);
+    if ( oTempSize.GetHeight() > rDisplay.height ) oTempSize.SetHeight(rDisplay.height);
+
+    // Check if part of the display was going to be off the screen, if so, center the 
+    // display on that axis
+	if ( oTempPoint.x < rDisplay.x ) {
+		oTempPoint.x = rDisplay.x;
+	} else if ( oTempPoint.x + oTempSize.GetWidth() > rDisplay.x + rDisplay.width ) {
+		oTempPoint.x = rDisplay.x + rDisplay.width - oTempSize.GetWidth();
+	}
+
+	if ( oTempPoint.y < rDisplay.y ) {
+		oTempPoint.y = rDisplay.y;
+	} else if ( oTempPoint.y + oTempSize.GetHeight() > rDisplay.y + rDisplay.height ) {
+		oTempPoint.y = rDisplay.y + rDisplay.height - oTempSize.GetHeight();
+	}
+
+    delete display;
 #endif
+#ifdef __WXMAC__
+    // If the user has changed the arrangement of multiple 
+    // displays, make sure the window title bar is still on-screen.
+    if (!IsWindowOnScreen(oTempPoint.x, oTempPoint.y, oTempSize.GetWidth(), oTempSize.GetHeight())) {
+        oTempPoint.y = oTempPoint.x = 30;
+    }
+#endif  // ! __WXMAC__
+
+    // Set size and position to saved values or defaults if no saved values
+    SetSize(oTempPoint.x, oTempPoint.y, oTempSize.x, oTempSize.y, wxSIZE_USE_EXISTING);
 
     return true;
 }
@@ -173,8 +204,10 @@ void CDlgItemProperties::show_rsc(wxString rsc_name, RSC_DESC rsc_desc) {
     }
     double x = rsc_desc.backoff_time - dtime();
     if (x<0) x = 0;
-    addProperty(rsc_name + _(" work fetch deferred for"), FormatTime(x));
-    addProperty(rsc_name + _(" work fetch deferral interval"), FormatTime(rsc_desc.backoff_interval));
+    if (x) {
+        addProperty(rsc_name + _(" work fetch deferred for"), FormatTime(x));
+        addProperty(rsc_name + _(" work fetch deferral interval"), FormatTime(rsc_desc.backoff_interval));
+    }
 }
 
 // show project properties
@@ -210,7 +243,7 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
     SetTitle(wxTitle);
     //layout controls
     addSection(_("General"));
-    addProperty(_("Master URL"), wxString(project->master_url, wxConvUTF8));
+    addProperty(_("URL"), wxString(project->master_url, wxConvUTF8));
     addProperty(_("User name"), wxString(project->user_name.c_str(), wxConvUTF8));
     addProperty(_("Team name"), wxString(project->team_name.c_str(), wxConvUTF8));
     addProperty(_("Resource share"), wxString::Format(wxT("%0.0f"), project->resource_share));
@@ -251,6 +284,9 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
     if (project->ended) {
         addProperty(_("Ended"), _("yes"));
     }
+    addProperty(_("Tasks completed"), wxString::Format(wxT("%d"), project->njobs_success));
+    addProperty(_("Tasks failed"), wxString::Format(wxT("%d"), project->njobs_error));
+
     addSection(_("Credit"));
     addProperty(_("User"),
         wxString::Format(
@@ -299,6 +335,11 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
             );
         }
     }
+    if (project->last_rpc_time) {
+        wxDateTime dt;
+        dt.Set((time_t)project->last_rpc_time);
+        addProperty(_("Last scheduler reply"), dt.Format());
+    }
     m_gbSizer->Layout();
     m_scrolledWindow->FitInside();
 }
@@ -321,7 +362,7 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
     }
     
     addProperty(_("Application"), FormatApplicationName(result));
-    addProperty(_("Workunit name"), wxString(result->wu_name, wxConvUTF8));
+    addProperty(_("Name"), wxString(result->wu_name, wxConvUTF8));
     addProperty(_("State"), result_description(result, false));
     if (result->received_time) {
         dt.Set((time_t)result->received_time);
@@ -351,6 +392,17 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
         if (result->pid) {
             addProperty(_("Process ID"), wxString::Format(wxT("%d"), result->pid));
         }
+        if (result->progress_rate) {
+            // express rate in the largest time unit (hr/min/sec) for which rate < 100%
+            //
+            if (result->progress_rate*3600 < 1) {
+                addProperty(_("Progress rate"), wxString::Format(wxT("%f %% %s"), 100*3600*result->progress_rate, _("per hour")));
+            } else if (result->progress_rate*60 < 1) {
+                addProperty(_("Progress rate"), wxString::Format(wxT("%f %% %s"), 100*60*result->progress_rate, _("per minute")));
+            } else {
+                addProperty(_("Progress rate"), wxString::Format(wxT("%f %% %s"), 100*result->progress_rate, _("per second")));
+            }
+        }
     } else if (result->state >= RESULT_COMPUTE_ERROR) {
         addProperty(_("CPU time"), FormatTime(result->final_cpu_time));
         addProperty(_("Elapsed time"), FormatTime(result->final_elapsed_time));
@@ -361,20 +413,16 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
 
 //
 wxString CDlgItemProperties::FormatDiskSpace(double bytes) {    
-    double         xTera = 1099511627776.0;
-    double         xGiga = 1073741824.0;
-    double         xMega = 1048576.0;
-    double         xKilo = 1024.0;
     wxString strBuffer= wxEmptyString;
 
-    if (bytes >= xTera) {
-        strBuffer.Printf(wxT("%0.2f TB"), bytes/xTera);
-    } else if (bytes >= xGiga) {
-        strBuffer.Printf(wxT("%0.2f GB"), bytes/xGiga);
-    } else if (bytes >= xMega) {
-        strBuffer.Printf(wxT("%0.2f MB"), bytes/xMega);
-    } else if (bytes >= xKilo) {
-        strBuffer.Printf(wxT("%0.2f KB"), bytes/xKilo);
+    if (bytes >= TERA) {
+        strBuffer.Printf(wxT("%0.2f TB"), bytes/TERA);
+    } else if (bytes >= GIGA) {
+        strBuffer.Printf(wxT("%0.2f GB"), bytes/GIGA);
+    } else if (bytes >= MEGA) {
+        strBuffer.Printf(wxT("%0.2f MB"), bytes/MEGA);
+    } else if (bytes >= KILO) {
+        strBuffer.Printf(wxT("%0.2f KB"), bytes/KILO);
     } else {
         strBuffer.Printf(wxT("%0.0f bytes"), bytes);
     }

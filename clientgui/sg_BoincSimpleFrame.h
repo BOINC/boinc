@@ -25,7 +25,6 @@
 #pragma interface "sg_BoincSimpleFrame.cpp"
 #endif
 
-class CTransparentButton;
 class CSimpleTaskPanel;
 class CSimpleProjectPanel;
 class CSimpleTaskPanel;
@@ -51,7 +50,7 @@ public:
     void ReskinInterface();
 	void UpdateProjectView();
     void OnFrameRender();
-	void OnProjectsAttachToProject();
+	void OnProjectsAttachToProject(wxCommandEvent& event);
     void OnShowNotices(wxCommandEvent& event);
     void OnSuspendResume(wxCommandEvent& event);
     void OnHelp( wxCommandEvent& event );
@@ -72,17 +71,12 @@ protected:
     void OnPaint(wxPaintEvent& event);
     void OnEraseBackground(wxEraseEvent& event);
 #ifdef __WXMAC__
-//    void SetupMacAccessibilitySupport();
-//    void RemoveMacAccessibilitySupport();
-    
-//    EventHandlerRef m_pSGAccessibilityEventHandlerRef;
-
     int         m_iRedRingRadius;
 #endif
     wxBitmap    m_bmpBg;
-    CTransparentButton *m_NoticesButton;
-    CTransparentButton *m_SuspendResumeButton;
-    CTransparentButton *m_HelpButton;
+    wxButton    *m_NoticesButton;
+    wxButton    *m_SuspendResumeButton;
+    wxButton    *m_HelpButton;
     wxString    m_sSuspendString;
     wxString    m_sResumeString;
     int         m_oldWorkCount;
@@ -104,22 +98,24 @@ class CSimpleFrame : public CBOINCBaseFrame
 
 public:
     CSimpleFrame();
-    CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint position, wxSize size);
+    CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position, wxSize size);
 
    ~CSimpleFrame();
 
+    void OnMenuOpening( wxMenuEvent &event);
     void OnChangeGUI( wxCommandEvent& event );
     void BuildSkinSubmenu( wxMenu *submenu );
     void OnSelectDefaultSkin( wxCommandEvent& event );
     void OnSelectSkin( wxCommandEvent& event );
     void OnPreferences( wxCommandEvent& event );
     void OnOptions( wxCommandEvent& event );
+    void OnDiagnosticLogFlags( wxCommandEvent& event );
     void OnOldSG( wxCommandEvent& event );
     void OnHelp( wxHelpEvent& event );
     void OnHelpBOINC( wxCommandEvent& event );
     void OnHelpAbout( wxCommandEvent& event );
 
-    void OnProjectsAttachToProject();
+    void OnProjectsAttachToProject(wxCommandEvent& event);
 
 	void OnConnect(CFrameEvent& event );
     void OnReloadSkin( CFrameEvent& event );
@@ -130,15 +126,17 @@ public:
 	void SetMsgsDlgOpen(CDlgMessages* newDlgPtr) { dlgMsgsPtr = newDlgPtr; }
     bool isMessagesDlgOpen() { return (dlgMsgsPtr != NULL); }
 
+    bool SaveWindowPosition();
     bool SaveState();
     bool RestoreState();
+    void OnMove(wxMoveEvent& event);
 
 protected:
     virtual int     _GetCurrentViewPage();
 
 	wxMenuBar*          m_pMenubar;
     wxMenu*             m_pSubmenuSkins;
-    wxAcceleratorEntry  m_Shortcuts[2];
+    wxAcceleratorEntry  m_Shortcuts[3];
     wxAcceleratorTable* m_pAccelTable;
 
 	CSimpleGUIPanel* m_pBackgroundPanel;

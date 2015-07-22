@@ -16,6 +16,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// DEPRECATED - WON'T WORK.
+// result.claimed_credit is not used any more
+
 // Award credit to users/hosts/teams for WU which have been
 // cancelled or have otherwise failed (error_mask != 0).
 // Credit granted is credit claimed, with a hardwired limit of 300 units.
@@ -40,7 +43,7 @@ function testquery($argstring) {
         echo "WOULD DO: $argstring\n";
     }
     else {
-        mysql_query($argstring);
+        _mysql_query($argstring);
     }
     return;
 }
@@ -48,19 +51,19 @@ function testquery($argstring) {
 function grant_credits_for_wu($wuid) {
     $max_credit=300;
     $ndone = 0;
-    $query_r = mysql_query("select * from result where granted_credit=0 and claimed_credit>0 and workunitid=$wuid");
+    $query_r = _mysql_query("select * from result where granted_credit=0 and claimed_credit>0 and workunitid=$wuid");
  
-    while ($result = mysql_fetch_object($query_r)) {
+    while ($result = _mysql_fetch_object($query_r)) {
         echo "STARTING RESULT $result->id [Credit $result->claimed_credit] ...";
         $ndone++;
 
         $hostid  = $result->hostid;
-        $query_h = mysql_query("select * from host where id=$hostid");
-        $host    = mysql_fetch_object($query_h);
+        $query_h = _mysql_query("select * from host where id=$hostid");
+        $host    = _mysql_fetch_object($query_h);
 
         $userid  = $result->userid;
-        $query_u = mysql_query("select * from user where id=$userid");
-        $user    = mysql_fetch_object($query_u);
+        $query_u = _mysql_query("select * from user where id=$userid");
+        $user    = _mysql_fetch_object($query_u);
 
         $credit = $result->claimed_credit;
         if ($credit>$max_credit) {
@@ -87,30 +90,30 @@ function grant_credits_for_wu($wuid) {
 
         $teamid = $user->teamid;
         if ($teamid) {
-            $query_t = mysql_query("select * from team where id=$teamid");
-            $team    = mysql_fetch_object($query_t);
+            $query_t = _mysql_query("select * from team where id=$teamid");
+            $team    = _mysql_fetch_object($query_t);
             $team->total_credit += $credit;
             update_average(time(0), $result->sent_time, $credit, $team->expavg_credit, $team->expavg_time);
             testquery("update team set total_credit=$team->total_credit, expavg_credit=$team->expavg_credit, expavg_time=$team->expavg_time where id=$teamid");
-            mysql_free_result($query_t);
+            _mysql_free_result($query_t);
         }
-        mysql_free_result($query_h);
-        mysql_free_result($query_u);
+        _mysql_free_result($query_h);
+        _mysql_free_result($query_u);
         echo " DONE\n";
     }
-    mysql_free_result($query_r);
+    _mysql_free_result($query_r);
     return $ndone;
 }
 
 function grant_credits_for_cancelled() {
     $ngranted=0;
-    $query_w  = mysql_query("select * from workunit where error_mask!=0");
-    while (($workunit = mysql_fetch_object($query_w))) {
+    $query_w  = _mysql_query("select * from workunit where error_mask!=0");
+    while (($workunit = _mysql_fetch_object($query_w))) {
         // echo "Starting WU $workunit->id\n";
         $ngranted += grant_credits_for_wu($workunit->id);
         // NEED TO SET assimilate_state=READY for WU!!
     }
-    mysql_free_result($query_w);
+    _mysql_free_result($query_w);
 
     echo "\nGranted credits to $ngranted results\n";
 }

@@ -3,9 +3,7 @@
 ini_set('display_errors', 'stdout');
 error_reporting(E_ALL);
 
-// Mediawiki extension to show a project's platforms.
 // The platforms for a given project are stored in a file platforms/URL
-//
 
 function friendly_name($p) {
     $x = explode('[', $p);
@@ -35,25 +33,99 @@ function friendly_name($p) {
     case 'x86_64-pc-solaris': $q = 'Solaris/x64'; break;
     case 'windows_intelx86_64': $q = 'Windows/x64'; break;
     case 'arm-android-linux-gnu': $q = 'Android/ARM'; break;
+    case 'arm-android': $q = 'Android/ARM'; break;
     case 'arm-unknown-linux-gnu': $q = 'Linux/ARM'; break;
     case 'x86_64-pc-freebsd': $q = 'FreeBSD/x86'; break;
+    case 'arm-unknown-linux-gnueabihf': $q = 'Linux on ARM (e.g., Raspberry Pi)';
     }
     if (strlen($pc)) {
         if (strstr($pc, 'cuda')) $q .= " (NVIDIA GPU)";
         else if (strstr($pc, 'ati')) $q .= " (AMD/ATI GPU)";
+        else if (strstr($pc, 'intel_gpu')) $q .= " (Intel GPU)";
         else if (strstr($pc, 'mt')) $q .= " (multicore)";
+        else if (strstr($pc, 'vbox32')) $q .= " (VirtualBox 32-bit)";
+        else if (strstr($pc, 'vbox64')) $q .= " (VirtualBox 64-bit)";
     }
     return $q;
 }
 
+function get_platform_icon_flags($l) {
+    $x = new StdClass;
+    $x->windows = false;
+    $x->mac = false;
+    $x->linux = false;
+    $x->android = false;
+    $x->freebsd = false;
+    $x->rasp_pi = false;
+    $x->nvidia_gpu = false;
+    $x->amd_gpu = false;
+    $x->intel_gpu = false;
+    $x->vbox = false;
+    foreach ($l as $p) {
+        $y = explode('[', $p);
+        $pc = "";
+        if (sizeof($y) > 1) {
+            $p = $y[0];
+            $pc = substr($y[1], 0, -1);
+        }
+        if (strstr($p, "windows")) $x->windows = true;
+        if (strstr($p, "darwin")) $x->mac = true;
+        if (strstr($p, "linux")) $x->linux = true;
+        if (strstr($p, "android")) $x->android = true;
+        if (strstr($p, "freebsd")) $x->freebsd = true;
+        if (strstr($p, "arm-unknown-linux-gnueabihf")) $x->rasp_pi = true;
+        if (strstr($p, "armv5")) $x->rasp_pi = true;
+        if (strstr($p, "armv6")) $x->rasp_pi = true;
+        if (strstr($pc, "ati")) $x->amd_gpu = true;
+        if (strstr($pc, "cuda")) $x->nvidia_gpu = true;
+        if (strstr($pc, "intel_gpu")) $x->intel_gpu = true;
+        if (strstr($pc, "vbox")) $x->vbox = true;
+    }
+    return $x;
+}
+
+function platform_icons($f) {
+    $x = "";
+    $ht = 40;
+    $hs = 5;
+    if ($f->windows) {
+        $x .= "<img hspace=$hs height=$ht src=images/windows.jpg title=\"Supports Microsoft Windows\">";
+    }
+    if ($f->mac) {
+        $x .= "<img hspace=$hs height=$ht src=images/mac.jpg title=\"Supports Mac OS X\">";
+    }
+    if ($f->linux) {
+        $x .= "<img hspace=$hs height=$ht src=images/linux.jpg title=\"Supports Linux\">";
+    }
+    if ($f->android) {
+        $x .= "<img hspace=$hs height=$ht src=images/android.png title=\"Supports Android\">";
+    }
+    if ($f->freebsd) {
+        $x .= "<img hspace=$hs height=$ht src=images/freebsd.png title=\"Supports FreeBSD\">";
+    }
+    if ($f->rasp_pi) {
+        $x .= "<img hspace=$hs height=$ht src=images/raspberry-pi.jpg title=\"Supports Raspberry Pi\">";
+    }
+    if ($f->nvidia_gpu) {
+        $x .= "<img hspace=$hs height=$ht src=images/nvidia.jpg title=\"Supports NVIDIA GPUs\">";
+    }
+    if ($f->amd_gpu) {
+        $x .= "<img hspace=$hs height=$ht src=images/amd_gpu.jpg title=\"Supports AMD GPUs\">";
+    }
+    if ($f->intel_gpu) {
+        $x .= "<img hspace=$hs height=$ht src=images/intel_gpu.jpg title=\"Supports Intel GPUs\">";
+    }
+    if ($f->vbox) {
+        $x .= "<img hspace=$hs height=$ht src=images/vbox.jpg title=\"Supports VirtualBox\">";
+    }
+    return $x;
+}
+
 function canonical_plan_class($pc) {
-    //if (strstr($pc, "mt")) return "mt";
 	if (strstr($pc, "atiOpenCL")) return "opencl_ati";
 	if (strstr($pc, "nvidiaOpenCL")) return "opencl_nvidia";
-	if (strstr($pc, "intelOpenCL")) return "opencl_intel";
-	if (strstr($pc, "cuda")) return "cuda";
-	if (strstr($pc, "ati")) return "ati";
-    return null;
+	if (strstr($pc, "intelOpenCL")) return "opencl_intel_gpu";
+    return $pc;
 }
 
 // get platforms from get_project_config.php (preferred method)
@@ -76,15 +148,20 @@ function canonical_plan_class($pc) {
 //   </platform>
 //   ...
 //
-function get_platforms(&$url) {
+function get_platforms($url) {
+    if (strstr($url, "radioactive")) return null;
     $url .= 'get_project_config.php';
     $x = @file_get_contents($url);
-    if (!$x) return null;
+    if (!$x) {
+        //echo "no file $url";
+        return null;
+    }
     libxml_use_internal_errors(true);
+    $x = trim($x);
     $s = simplexml_load_string($x);
-    if (!$s) return null;
-    if (array_key_exists('rpc_prefix', $s)) {
-        $url = $s->rpc_prefix;
+    if (!$s) {
+        //echo "XML parse error";
+        return null;
     }
     if (!array_key_exists('platforms', $s)) {
         return null;
@@ -126,7 +203,10 @@ function get_platforms(&$url) {
 function get_platforms2($url) {
     $url .= 'apps.php?xml=1';
     $x = @file_get_contents($url);
-    if (!$x) return null;
+    if (!$x) {
+        //echo "no file $url\n";
+        return null;
+    }
     libxml_use_internal_errors(true);
     $s = simplexml_load_string($x);
     $list = null;
@@ -151,18 +231,27 @@ function get_platforms2($url) {
 // convert an array of platform names into a comma-separated
 // list of human-readable names
 //
-function make_friendly_string($l) {
+function make_friendly_string($l, $comma) {
     if (!count($l)) return "Unknown";
-    $x = "";
-    $first = true;
+    $fn = array();
     foreach($l as $p) {
         $p = friendly_name($p);
         if (!$p) continue;
+        $fn[] = $p;
+    }
+    $fn = array_unique($fn);
+    $x = "";
+    $first = true;
+    foreach($fn as $p) {
         if ($first) {
             $x .= "$p";
             $first = false;
         } else {
-            $x .= ", $p";
+            if ($comma) {
+                $x .= ", $p";
+            } else {
+                $x .= "<br>$p";
+            }
         }
     }
     return $x;
@@ -174,7 +263,7 @@ function get_platforms_cached($url) {
     $u = urlencode($url);
     $fname = "/home/boincadm/boinc/doc/platforms/$u";
     $t = @filemtime($fname);
-    if ($t && $t > time() - 86400) {
+	if ($t && $t > time() - 604800) {
         $l = json_decode(file_get_contents($fname));
     } else {
         $l = get_platforms($url);
@@ -197,22 +286,34 @@ function get_platforms_cached($url) {
 
 // return platforms as a human-readable string
 //
-function get_platforms_string($url) {
+function get_platforms_string($url, $comma=true) {
     $l = get_platforms_cached($url);
-    return make_friendly_string($l);
+    return make_friendly_string($l, $comma);
+}
+
+function get_platform_icons($url) {
+    $l = get_platforms_cached($url);
+    $flags = get_platform_icon_flags($l);
+    return platform_icons($flags);
 }
 
 //$u = "http://www.worldcommunitygrid.org/";
+//$u = "http://asteroidsathome.net/boinc/";
 //$u = "http://setiathome.berkeley.edu/";
 //$u = "http://aqua.dwavesys.com/";
 //$u = "http://lhcathome2.cern.ch/test4theory";
+//$u = "http://www.rnaworld.de/rnaworld/";
+//$u = "http://boinc.gorlaeus.net/";
+//$u = "http://einstein.phys.uwm.edu/";
 //$x = get_platforms($u);
 //print_r($x);
-//echo get_platforms_string("http://setiathome.berkeley.edu/");
+//echo get_platforms_string($u);
 //$x = "http://sat.isa.ru/pdsat/";
 //print_r( get_platforms($x));
 
 
+// Mediawiki extension to show a project's platforms.
+//
 function wfPlatforms() {
     global $wgParser;
     $wgParser->setHook( "platforms", "get_platforms_string" );

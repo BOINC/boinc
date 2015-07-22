@@ -63,13 +63,22 @@ static CURLM* g_curlMulti = NULL;
 static char g_user_agent_string[256] = {""};
 static const char g_content_type[] = {"Content-Type: application/x-www-form-urlencoded"};
 static unsigned int g_trace_count = 0;
+static bool got_expectation_failed = false;
+    // Whether we've got a 417 HTTP error.
+    // If we did, it's probably because we talked HTTP 1.1 to a 1.0 proxy;
+    // use 1.0 from now on.
 
-char* get_user_agent_string() {
+static void get_user_agent_string() {
+    if (g_user_agent_string[0]) return;
     sprintf(g_user_agent_string, "BOINC client (%s %d.%d.%d)",
         gstate.get_primary_platform(),
         BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, BOINC_RELEASE
     );
-    return (char*)&g_user_agent_string;
+    if (strlen(gstate.client_brand)) {
+        char buf[256];
+        sprintf(buf, " (%s)", gstate.client_brand);
+        strcat(g_user_agent_string, buf);
+    }
 }
 
 size_t libcurl_write(void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
@@ -329,6 +338,7 @@ int HTTP_OP::init_post(
 // with optional offset,
 // and the output goes to memory (also r1, limited by r1_len)
 // This is used for file upload (both get_file_size and file_upload)
+// and for trickle-ups.
 //
 int HTTP_OP::init_post2(
     PROJECT* p, const char* url, char* r1, int r1_len, const char* in, double offset
@@ -409,10 +419,8 @@ int HTTP_OP::libcurl_exec(
     bool is_post
 ) {
     CURLMcode curlMErr;
-    char strTmp[128];
+    char buf[256];
     static int outfile_seqno=0;
-
-    safe_strcpy(m_url, url);
 
     if (g_user_agent_string[0] == 0x00) {
         get_user_agent_string();
@@ -441,9 +449,8 @@ int HTTP_OP::libcurl_exec(
     // the following seems to be a no-op
     // curl_easy_setopt(curlEasy, CURLOPT_ERRORBUFFER, error_msg);
 
-    char esc_url[1024];
-    string_substitute(m_url, esc_url, sizeof(esc_url), " ", "%20");
-    curl_easy_setopt(curlEasy, CURLOPT_URL, esc_url);
+    string_substitute(url, m_url, sizeof(m_url), " ", "%20");
+    curl_easy_setopt(curlEasy, CURLOPT_URL, m_url);
 
     // This option determines whether curl verifies that the server
     // claims to be who you want it to be.
@@ -466,6 +473,7 @@ int HTTP_OP::libcurl_exec(
     // To control lying, see CURLOPT_SSL_VERIFYPEER.
     //
     curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYHOST, 2L);
+    //curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYHOST, 0);
 
     // the following sets "tough" certificate checking
     // (i.e. whether self-signed is OK)
@@ -474,6 +482,7 @@ int HTTP_OP::libcurl_exec(
     // if non-zero below, you need a valid 3rd party CA (i.e. Verisign, Thawte)
     //
     curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYPEER, 1L);
+    //curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYPEER, FALSE);
 
     // if the above is nonzero, you need the following:
     //
@@ -550,14 +559,14 @@ int HTTP_OP::libcurl_exec(
     // setup timeouts
     //
     curl_easy_setopt(curlEasy, CURLOPT_TIMEOUT, 0L);
-    curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_LIMIT, config.http_transfer_timeout_bps);
-    curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_TIME, config.http_transfer_timeout);
+    curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_LIMIT, cc_config.http_transfer_timeout_bps);
+    curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_TIME, cc_config.http_transfer_timeout);
     curl_easy_setopt(curlEasy, CURLOPT_CONNECTTIMEOUT, 120L);
 
     // force curl to use HTTP/1.0 if config specifies it
     // (curl uses 1.1 by default)
     //
-    if (config.http_1_0 || (config.force_auth == "ntlm")) {
+    if (cc_config.http_1_0 || (cc_config.force_auth == "ntlm") || got_expectation_failed) {
         curl_easy_setopt(curlEasy, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
     }
     curl_easy_setopt(curlEasy, CURLOPT_MAXREDIRS, 50L);
@@ -573,9 +582,9 @@ int HTTP_OP::libcurl_exec(
     // Per: http://curl.haxx.se/dev/readme-encoding.html
     // NULL disables, empty string accepts all.
     if (out) {
-        if (ends_with(out, ".gzt")) {
+        if (ends_with(out, ".gzt") || ends_with(out, ".gz") || ends_with(out, ".tgz")) {
             curl_easy_setopt(curlEasy, CURLOPT_ENCODING, NULL);
-        } else if (!ends_with(out, ".gz")) {
+        } else {
             curl_easy_setopt(curlEasy, CURLOPT_ENCODING, "");
         }
     } else {
@@ -591,12 +600,17 @@ int HTTP_OP::libcurl_exec(
     //
     pcurlList = curl_slist_append(pcurlList, g_content_type);
 
+    if (strlen(gstate.language)) {
+        sprintf(buf, "Accept-Language: %s", gstate.language);
+        pcurlList = curl_slist_append(pcurlList, buf);
+    }
+
     // set the file offset for resumable downloads
     //
     if (!is_post && offset>0.0f) {
         file_offset = offset;
-        sprintf(strTmp, "Range: bytes=%.0f-", offset);
-        pcurlList = curl_slist_append(pcurlList, strTmp);
+        sprintf(buf, "Range: bytes=%.0f-", offset);
+        pcurlList = curl_slist_append(pcurlList, buf);
     }
 
     // set up an output file for the reply
@@ -779,7 +793,7 @@ int HTTP_OP_SET::remove(HTTP_OP* p) {
             iter = http_ops.erase(iter);
             return 0;
         }
-        iter++;
+        ++iter;
     }
     return ERR_NOT_FOUND;
 }
@@ -825,13 +839,13 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
         curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.http_server_name);
 
         if (pi.use_http_auth) {
-            if (config.force_auth == "basic") {
+            if (cc_config.force_auth == "basic") {
                 curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_BASIC);
-            } else if (config.force_auth == "digest") {
+            } else if (cc_config.force_auth == "digest") {
                 curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_DIGEST);
-            } else if (config.force_auth == "gss-negotiate") {
+            } else if (cc_config.force_auth == "gss-negotiate") {
                 curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_GSSNEGOTIATE);
-            } else if (config.force_auth == "ntlm") {
+            } else if (cc_config.force_auth == "ntlm") {
                 curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_NTLM);
             } else {
                 curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY);
@@ -996,16 +1010,19 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
 
     if (CurlResult == CURLE_OK) {
         switch ((response/100)*100) {
-        case HTTP_STATUS_OK:
+        case HTTP_STATUS_OK:                        // 200
             http_op_retval = 0;
             break;
-        case HTTP_STATUS_CONTINUE:
+        case HTTP_STATUS_CONTINUE:                  // 100
             return;
-        case HTTP_STATUS_INTERNAL_SERVER_ERROR:
+        case HTTP_STATUS_INTERNAL_SERVER_ERROR:     // 500
             http_op_retval = ERR_HTTP_TRANSIENT;
             safe_strcpy(error_msg, boincerror(response));
             break;
-        default:
+        default:                                    // 400
+            if (response == HTTP_STATUS_EXPECTATION_FAILED) {
+                got_expectation_failed = true;
+            }
             http_op_retval = ERR_HTTP_PERMANENT;
             safe_strcpy(error_msg, boincerror(response));
             break;

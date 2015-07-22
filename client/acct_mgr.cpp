@@ -76,6 +76,7 @@ int ACCT_MGR_OP::do_rpc(
             gstate.projects[i]->detach_ams();
         }
         ::rss_feeds.update_feed_list();
+        gstate.set_client_state_dirty("detach from AMS");
         return 0;
     }
 
@@ -156,6 +157,7 @@ int ACCT_MGR_OP::do_rpc(
             "      <dont_request_more_work>%d</dont_request_more_work>\n"
             "      <detach_when_done>%d</detach_when_done>\n"
             "      <ended>%d</ended>\n"
+            "      <resource_share>%f</resource_share>\n"
             "   </project>\n",
             p->master_url,
             p->project_name,
@@ -167,7 +169,8 @@ int ACCT_MGR_OP::do_rpc(
             p->attached_via_acct_mgr?1:0,
             p->dont_request_more_work?1:0,
             p->detach_when_done?1:0,
-            p->ended?1:0
+            p->ended?1:0,
+            p->resource_share
         );
     }
     MIOFILE mf;
@@ -186,7 +189,7 @@ int ACCT_MGR_OP::do_rpc(
             fclose(fprefs);
         }
     }
-    gstate.host_info.write(mf, !config.suppress_net_info, true);
+    gstate.host_info.write(mf, !cc_config.suppress_net_info, true);
     if (strlen(gstate.acct_mgr_info.opaque)) {
         fprintf(f,
             "   <opaque>\n%s\n"
@@ -276,6 +279,7 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
 
         if (xp.parse_str("no_rsc", buf, sizeof(buf))) {
             handle_no_rsc(buf, true);
+            continue;
         }
         if (xp.parse_bool("dont_request_more_work", btemp)) {
             dont_request_more_work.set(btemp);
@@ -401,7 +405,7 @@ int ACCT_MGR_OP::parse(FILE* f) {
         }
         if (log_flags.unparsed_xml) {
             msg_printf(NULL, MSG_INFO,
-                "[unparsed_xml] ACCT_MGR_OP::parse: unrecognized %s",
+                "[unparsed_xml] ACCT_MGR_OP::parse: unrecognized tag <%s>",
                 xp.parsed_tag
             );
         }
@@ -452,11 +456,20 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
             error_num = ERR_XML_PARSE;
         }
     } else if (error_num) {
-        msg_printf(&ami, MSG_USER_ALERT,
-            "%s: %s",
-            _("Message from account manager"),
-            boincerror(error_num)
-        );
+        if (error_num == http_op_retval) {
+            // if it was an HTTP error, don't notify the user;
+            // probably the acct mgr server is down
+            //
+            msg_printf(&ami, MSG_INFO,
+                "Account manager RPC failed: %s", boincerror(error_num)
+            );
+        } else {
+            msg_printf(&ami, MSG_USER_ALERT,
+                "%s: %s",
+                _("Message from account manager"),
+                boincerror(error_num)
+            );
+        }
     }
 
     if (error_num) {
@@ -639,6 +652,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
             }
         }
 
+#ifdef USE_NET_PREFS
         bool read_prefs = false;
         if (strlen(host_venue) && strcmp(host_venue, gstate.main_host_venue)) {
             safe_strcpy(gstate.main_host_venue, host_venue);
@@ -662,10 +676,13 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         if (read_prefs) {
             gstate.read_global_prefs();
         }
+#endif
 
-        if (got_rss_feeds) {
-            handle_sr_feeds(rss_feeds, &gstate.acct_mgr_info);
-        }
+        handle_sr_feeds(rss_feeds, &gstate.acct_mgr_info);
+
+        // in case no_project_notices changed
+        //
+        ::rss_feeds.update_feed_list();
     }
 
     safe_strcpy(
@@ -802,7 +819,15 @@ int ACCT_MGR_INFO::init() {
 
     clear();
     p = fopen(ACCT_MGR_URL_FILENAME, "r");
-    if (!p) return 0;
+    if (!p) {
+        // if not using acct mgr, make sure projects not flagged,
+        // otherwise won't be able to detach them.
+        //
+        for (unsigned int i=0; i<gstate.projects.size(); i++) {
+            gstate.projects[i]->attached_via_acct_mgr = false;
+        }
+        return 0;
+    }
     mf.init_file(p);
     XML_PARSER xp(&mf);
     if (!xp.parse_start("acct_mgr_login")) {

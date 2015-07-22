@@ -20,6 +20,8 @@ require_once('../inc/forum.inc');
 require_once('../inc/util.inc');
 require_once('../inc/time.inc');
 
+if (DISABLE_FORUMS) error_page("Forums are disabled");
+
 check_get_args(array());
 
 $user = get_logged_in_user(false);
@@ -63,7 +65,7 @@ foreach ($categories as $category) {
         <tr class=\"row$j\">
         <td>
             <a href=\"forum_forum.php?id=$forum->id\">$forum->title</a>
-            <br><span class=\"smalltext\">", $forum->description, "</span>
+            <br><small>", $forum->description, "</small>
         </td>
         <td class=\"numbers\">", $forum->threads, "</td>
         <td class=\"lastpost\">", time_diff_str($forum->timestamp, time()), "</td>

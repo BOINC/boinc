@@ -120,7 +120,7 @@ using std::vector;
     // CPPFLAGS=-DGETRUSAGE_IN_TIMER_THREAD
 #endif
 
-const char* api_version="API_VERSION_"PACKAGE_VERSION;
+const char* api_version = "API_VERSION_" PACKAGE_VERSION;
 static APP_INIT_DATA aid;
 static FILE_LOCK file_lock;
 APP_CLIENT_SHM* app_client_shm = 0;
@@ -135,9 +135,15 @@ static volatile bool standalone = false;
 static volatile double initial_wu_cpu_time;
 static volatile bool have_new_trickle_up = false;
 static volatile bool have_trickle_down = true;
-    // on first call, scan slot dir for msgs
+    // set if the client notified us of a trickle-down.
+    // init to true so the first call to boinc_receive_trickle_down()
+    // will scan the slot dir for old trickle-down files
+static volatile bool handle_trickle_downs = false;
+    // whether we should check for notifications of trickle_downs
+    // and file upload status.
+    // set by boinc_receive_trickle_down() and boinc_upload_file().
 static volatile int heartbeat_giveup_count;
-    // interrupt count value at which to give up on core client
+    // interrupt count value at which to give up on client
 #ifdef _WIN32
 static volatile int nrunning_ticks = 0;
 #endif
@@ -149,11 +155,13 @@ static volatile int interrupt_count = 0;
 static volatile int running_interrupt_count = 0;
     // number of timer interrupts while not suspended.
     // Used to compute elapsed time
+static volatile bool finishing;
+    // used for worker/timer synch during boinc_finish();
 static int want_network = 0;
 static int have_network = 1;
 static double bytes_sent = 0;
 static double bytes_received = 0;
-bool g_sleep = false;
+bool boinc_disable_timer_thread = false;
     // simulate unresponsive app by setting to true (debugging)
 static FUNC_PTR timer_callback = 0;
 char web_graphics_url[256];
@@ -164,15 +172,16 @@ int app_min_checkpoint_period = 0;
     // min checkpoint period requested by app
 
 #define TIMER_PERIOD 0.1
-    // period of worker-thread timer interrupts.
-    // Determines rate of handling messages from client.
+    // Sleep interval for timer thread;
+    // determines max rate of handling messages from client.
+    // Unix: period of worker-thread timer interrupts.
 #define TIMERS_PER_SEC 10
+    // reciprocal of TIMER_PERIOD
     // This determines the resolution of fraction done and CPU time reporting
-    // to the core client, and of checkpoint enabling.
-    // It doesn't influence graphics, so 1 sec is enough.
+    // to the client, and of checkpoint enabling.
 #define HEARTBEAT_GIVEUP_SECS 30
 #define HEARTBEAT_GIVEUP_COUNT ((int)(HEARTBEAT_GIVEUP_SECS/TIMER_PERIOD))
-    // quit if no heartbeat from core in this #interrupts
+    // quit if no heartbeat from client in this #interrupts
 #define LOCKFILE_TIMEOUT_PERIOD 35
     // quit if we cannot aquire slot lock file in this #secs after startup
 
@@ -186,6 +195,7 @@ static volatile bool worker_thread_exit_flag = false;
 static volatile int worker_thread_exit_status;
     // the above are used by the timer thread to tell
     // the worker thread to exit
+static pthread_t worker_thread_handle;
 static pthread_t timer_thread_handle;
 #ifndef GETRUSAGE_IN_TIMER_THREAD
 static struct rusage worker_thread_ru;
@@ -203,7 +213,6 @@ struct UPLOAD_FILE_STATUS {
 static bool have_new_upload_file;
 static std::vector<UPLOAD_FILE_STATUS> upload_file_status;
 
-static void graphics_cleanup();
 static int resume_activities();
 static void boinc_exit(int);
 static void block_sigalrm();
@@ -298,7 +307,7 @@ static int setup_shared_mem() {
 #ifdef _WIN32
 static HANDLE mutex;
 static void init_mutex() {
-    mutex = CreateMutex(NULL, TRUE, NULL);
+    mutex = CreateMutex(NULL, FALSE, NULL);
 }
 static inline void acquire_mutex() {
     WaitForSingleObject(mutex, INFINITE);
@@ -310,9 +319,21 @@ static inline void release_mutex() {
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 static void init_mutex() {}
 static inline void acquire_mutex() {
+#ifdef DEBUG_BOINC_API
+    char buf[256];
+    fprintf(stderr, "%s acquiring mutex\n",
+        boinc_msg_prefix(buf, sizeof(buf))
+    );
+#endif
     pthread_mutex_lock(&mutex);
 }
 static inline void release_mutex() {
+#ifdef DEBUG_BOINC_API
+    char buf[256];
+    fprintf(stderr, "%s releasing mutex\n",
+        boinc_msg_prefix(buf, sizeof(buf))
+    );
+#endif
     pthread_mutex_unlock(&mutex);
 }
 #endif
@@ -341,7 +362,7 @@ double boinc_worker_thread_cpu_time() {
     return cpu;
 }
 
-// Communicate to the core client (via shared mem)
+// Communicate to the client (via shared mem)
 // the current CPU time and fraction done.
 // NOTE: various bugs could cause some of these FP numbers to be enormous,
 // possibly overflowing the buffer.
@@ -402,24 +423,22 @@ static void handle_heartbeat_msg() {
 }
 
 static bool client_dead() {
+    char buf[256];
     bool dead;
     if (aid.client_pid) {
         // check every 10 sec
         //
         if (interrupt_count%(TIMERS_PER_SEC*10)) return false;
 #ifdef _WIN32
-        // Windows lacks an easy way to check for process existence :-(
+        HANDLE h = OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, aid.client_pid);
+        // If the process exists but is running under a different user account (boinc_master)
+        // then the handle returned is NULL and GetLastError() returns ERROR_ACCESS_DENIED.
         //
-        DWORD pids[4096], nb;
-        BOOL r = EnumProcesses(pids, sizeof(pids), &nb);
-        if (!r) return false;
-        int n = nb/sizeof(DWORD);
-        dead = true;
-        for (int i=0; i<n; i++) {
-            if (pids[i] == aid.client_pid) {
-                dead = false;
-                break;
-            }
+        if ((h == NULL) && (GetLastError() != ERROR_ACCESS_DENIED)) {
+            dead = true;
+        } else {
+            if (h) CloseHandle(h);
+            dead = false;
         }
 #else
         int retval = kill(aid.client_pid, 0);
@@ -429,7 +448,6 @@ static bool client_dead() {
         dead = (interrupt_count > heartbeat_giveup_count);
     }
     if (dead) {
-        char buf[256];
         boinc_msg_prefix(buf, sizeof(buf));
         fputs(buf, stderr);     // don't use fprintf() here
         if (aid.client_pid) {
@@ -594,7 +612,9 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
             // If we exit(0), the client will keep restarting us.
             // Instead, tell the client not to restart us for 10 min.
             //
-            boinc_temporary_exit(600, "Waiting to acquire lock");
+            boinc_temporary_exit(600,
+                "Waiting to acquire slot directory lock.  Another instance may be running."
+            );
         }
     }
 
@@ -649,7 +669,6 @@ int boinc_get_status(BOINC_STATUS *s) {
 //
 static void send_trickle_up_msg() {
     char buf[MSG_CHANNEL_SIZE];
-    BOINCINFO("Sending Trickle Up Message");
     if (standalone) return;
     strcpy(buf, "");
     if (have_new_trickle_up) {
@@ -659,6 +678,7 @@ static void send_trickle_up_msg() {
         strcat(buf, "<have_new_upload_file/>\n");
     }
     if (strlen(buf)) {
+        BOINCINFO("Sending Trickle Up Message");
         if (app_client_shm->shm->trickle_up.send_msg(buf)) {
             have_new_trickle_up = false;
             have_new_upload_file = false;
@@ -666,23 +686,30 @@ static void send_trickle_up_msg() {
     }
 }
 
-// NOTE: a non-zero status tells the core client that we're exiting with 
+// NOTE: a non-zero status tells the client that we're exiting with 
 // an "unrecoverable error", which will be reported back to server. 
 // A zero exit-status tells the client we've successfully finished the result.
 //
-int boinc_finish(int status) {
+int boinc_finish_message(int status, const char* msg, bool is_notice) {
     char buf[256];
     fraction_done = 1;
     fprintf(stderr,
-        "%s called boinc_finish\n",
-        boinc_msg_prefix(buf, sizeof(buf))
+        "%s called boinc_finish(%d)\n",
+        boinc_msg_prefix(buf, sizeof(buf)), status
     );
+    finishing = true;
     boinc_sleep(2.0);   // let the timer thread send final messages
-    g_sleep = true;     // then disable it
+    boinc_disable_timer_thread = true;     // then disable it
 
-    if (options.main_program && status==0) {
+    if (options.main_program) {
         FILE* f = fopen(BOINC_FINISH_CALLED_FILE, "w");
-        if (f) fclose(f);
+        if (f) {
+            fprintf(f, "%d\n", status);
+            if (msg) {
+                fprintf(f, "%s\n%s\n", msg, is_notice?"notice":"");
+            }
+            fclose(f);
+        }
     }
 
     boinc_exit(status);
@@ -690,7 +717,11 @@ int boinc_finish(int status) {
     return 0;   // never reached
 }
 
-int boinc_temporary_exit(int delay, const char* reason) {
+int boinc_finish(int status) {
+    return boinc_finish_message(status, NULL, false);
+}
+
+int boinc_temporary_exit(int delay, const char* reason, bool is_notice) {
     FILE* f = fopen(TEMPORARY_EXIT_FILE, "w");
     if (!f) {
         return ERR_FOPEN;
@@ -698,6 +729,9 @@ int boinc_temporary_exit(int delay, const char* reason) {
     fprintf(f, "%d\n", delay);
     if (reason) {
         fprintf(f, "%s\n", reason);
+        if (is_notice) {
+            fprintf(f, "notice\n");
+        }
     }
     fclose(f);
     boinc_exit(0);
@@ -714,8 +748,6 @@ void boinc_exit(int status) {
     int retval;
     char buf[256];
 
-    graphics_cleanup();
-    
     if (options.main_program && file_lock.locked) {
         retval = file_lock.unlock(LOCKFILE);
         if (retval) {
@@ -838,6 +870,8 @@ int boinc_parse_init_data_file() {
     return 0;
 }
 
+// used by wrappers
+//
 int boinc_report_app_status_aux(
     double cpu_time,
     double checkpoint_cpu_time,
@@ -900,13 +934,23 @@ int boinc_wu_cpu_time(double& cpu_t) {
     return 0;
 }
 
-// suspend this job
+// Suspend this job.
+// Can be called from either timer or worker thread.
 //
 static int suspend_activities(bool called_from_worker) {
+#ifdef DEBUG_BOINC_API
+    char log_buf[256];
+    fprintf(stderr, "%s suspend_activities() called from %s\n",
+        boinc_msg_prefix(log_buf, sizeof(log_buf)),
+        called_from_worker?"worker thread":"timer thread"
+    );
+#endif
 #ifdef _WIN32
     static vector<int> pids;
     if (options.multi_thread) {
-        if (pids.size() == 0) pids.push_back(GetCurrentProcessId());
+        if (pids.size() == 0) {
+            pids.push_back(GetCurrentProcessId());
+        }
         suspend_or_resume_threads(pids, timer_thread_id, false, true);
     } else {
         SuspendThread(worker_thread_handle);
@@ -920,19 +964,21 @@ static int suspend_activities(bool called_from_worker) {
     // suspension is done by signal handler in worker thread
     //
     if (called_from_worker) {
-        // mutex is locked in this case
         while (boinc_status.suspended) {
-            release_mutex();
             sleep(1);
-            acquire_mutex();
         }
-        // return with mutex locked
     }
 #endif
     return 0;
 }
 
 int resume_activities() {
+#ifdef DEBUG_BOINC_API
+    char log_buf[256];
+    fprintf(stderr, "%s resume_activities()\n",
+        boinc_msg_prefix(log_buf, sizeof(log_buf))
+    );
+#endif
 #ifdef _WIN32
     static vector<int> pids;
     if (options.multi_thread) {
@@ -983,7 +1029,7 @@ static void handle_upload_file_status() {
     }
 }
 
-// handle trickle and file upload messages
+// handle trickle and file upload status messages
 //
 static void handle_trickle_down_msg() {
     char buf[MSG_CHANNEL_SIZE];
@@ -1011,7 +1057,7 @@ static void handle_process_control_msg() {
     if (app_client_shm->shm->process_control_request.get_msg(buf)) {
         acquire_mutex();
 #ifdef DEBUG_BOINC_API
-        char log_buf[256]
+        char log_buf[256];
         fprintf(stderr, "%s got process control msg %s\n",
             boinc_msg_prefix(log_buf, sizeof(log_buf)), buf
         );
@@ -1061,6 +1107,7 @@ static void handle_process_control_msg() {
 #elif defined(__APPLE__)
                 PrintBacktrace();
 #endif
+                release_mutex();
                 exit_from_timer_thread(EXIT_ABORTED_BY_CLIENT);
             }
         }
@@ -1074,160 +1121,51 @@ static void handle_process_control_msg() {
     }
 }
 
-// The following is used by V6 apps so that graphics
-// will work with pre-V6 clients.
-// If we get a graphics message, run/kill the (separate) graphics app
-//
-//
-struct GRAPHICS_APP {
-    bool fullscreen;
-#ifdef _WIN32
-    HANDLE pid;
-#else
-    int pid;
-#endif
-    GRAPHICS_APP(bool f) {fullscreen=f;}
-    void run(char* path) {
-        int argc;
-        char* argv[4];
-        char abspath[MAXPATHLEN];
-#ifdef _WIN32
-        GetFullPathName(path, MAXPATHLEN, abspath, NULL);
-#else
-        strlcpy(abspath, path, sizeof(abspath));
-#endif
-        argv[0] = const_cast<char*>(GRAPHICS_APP_FILENAME);
-        if (fullscreen) {
-            argv[1] = const_cast<char*>("--fullscreen");
-            argv[2] = 0;
-            argc = 2;
-        } else {
-            argv[1] = 0;
-            argc = 1;
-        }
-        int retval = run_program(0, abspath, argc, argv, 0, pid);
-        if (retval) {
-            pid = 0;
-        }
-    }
-    bool is_running() {
-        if (pid && process_exists(pid)) return true;
-        pid = 0;
-        return false;
-    }
-    void kill() {
-        if (pid) {
-            kill_program(pid);
-            pid = 0;
-        }
-    }
-};
-
-static GRAPHICS_APP ga_win(false), ga_full(true);
-static bool have_graphics_app;
-
-// The following is for backwards compatibility with version 5 clients.
-//
-static inline void handle_graphics_messages() {
-    static char graphics_app_path[MAXPATHLEN];
-    char buf[MSG_CHANNEL_SIZE];
-    GRAPHICS_MSG m;
-    static bool first=true;
-    if (first) {
-        first = false;
-        boinc_resolve_filename(
-            GRAPHICS_APP_FILENAME, graphics_app_path,
-            sizeof(graphics_app_path)
-        );
-        // if the above returns "graphics_app", there was no link file,
-        // so there's no graphics app
-        //
-        if (!strcmp(graphics_app_path, GRAPHICS_APP_FILENAME)) {
-            have_graphics_app = false;
-        } else {
-            have_graphics_app = true;
-            app_client_shm->shm->graphics_reply.send_msg(
-                xml_graphics_modes[MODE_HIDE_GRAPHICS]
-            );
-        }
-    }
-
-    if (!have_graphics_app) return;
-
-    if (app_client_shm->shm->graphics_request.get_msg(buf)) {
-        app_client_shm->decode_graphics_msg(buf, m);
-        switch (m.mode) {
-        case MODE_HIDE_GRAPHICS:
-            if (ga_full.is_running()) {
-                ga_full.kill();
-            } else if (ga_win.is_running()) {
-                ga_win.kill();
-            }
-            break;
-        case MODE_WINDOW:
-            if (!ga_win.is_running()) ga_win.run(graphics_app_path);
-            break;
-        case MODE_FULLSCREEN:
-            if (!ga_full.is_running()) ga_full.run(graphics_app_path);
-            break;
-        case MODE_BLANKSCREEN:
-            // we can't actually blank the screen; just kill the app
-            //
-            if (ga_full.is_running()) {
-                ga_full.kill();
-            }
-            break;
-        }
-        app_client_shm->shm->graphics_reply.send_msg(
-            xml_graphics_modes[m.mode]
-        );
-    }
-}
-
-static void graphics_cleanup() {
-    if (!have_graphics_app) return;
-    if (ga_full.is_running()) ga_full.kill();
-    if (ga_win.is_running()) ga_win.kill();
-}
-
 // timer handler; runs in the timer thread
 //
 static void timer_handler() {
     char buf[512];
-    if (g_sleep) return;
+#ifdef DEBUG_BOINC_API
+    fprintf(stderr, "%s timer handler: disabled %s; in critical section %s; finishing %s\n",
+        boinc_msg_prefix(buf, sizeof(buf)),
+        boinc_disable_timer_thread?"yes":"no",
+        in_critical_section?"yes":"no",
+        finishing?"yes":"no"
+    );
+#endif
+    if (boinc_disable_timer_thread) {
+        return;
+    }
+    if (finishing) {
+        if (options.send_status_msgs) {
+            double cur_cpu = boinc_worker_thread_cpu_time();
+            last_wu_cpu_time = cur_cpu + initial_wu_cpu_time;
+            update_app_progress(last_wu_cpu_time, last_checkpoint_cpu_time);
+        }
+        boinc_disable_timer_thread = true;
+        return;
+    }
     interrupt_count++;
     if (!boinc_status.suspended) {
         running_interrupt_count++;
     }
-
-#ifdef DEBUG_BOINC_API
-    if (in_critical_section) {
-        fprintf(stderr,
-            "%s: timer_handler(): in critical section\n",
-            boinc_msg_prefix(buf, sizeof(buf))
-        );
-    }
-#endif
-
-    // handle messages from the core client
+    // handle messages from the client
     //
     if (app_client_shm) {
         if (options.check_heartbeat) {
             handle_heartbeat_msg();
         }
-        if (options.handle_trickle_downs) {
+        if (handle_trickle_downs) {
             handle_trickle_down_msg();
         }
         if (options.handle_process_control) {
             handle_process_control_msg();
         }
-        handle_graphics_messages();
     }
-
     if (interrupt_count % TIMERS_PER_SEC) return;
 
 #ifdef DEBUG_BOINC_API
-    fprintf(stderr, "%s 1 sec elapsed\n", boinc_msg_prefix(buf, sizeof(buf)));
+    fprintf(stderr, "%s 1 sec elapsed - doing slow actions\n", boinc_msg_prefix(buf, sizeof(buf)));
 #endif
 
     // here if we're at a one-second boundary; do slow stuff
@@ -1240,12 +1178,15 @@ static void timer_handler() {
         }
     }
 
-    // see if the core client has died, which means we need to die too
+    // see if the client has died, which means we need to die too
     // (unless we're in a critical section)
     //
-    if (in_critical_section==0 && options.check_heartbeat) {
+    if (options.check_heartbeat) {
         if (client_dead()) {
-            if (options.direct_process_action) {
+            fprintf(stderr, "%s timer handler: client dead, exiting\n",
+                boinc_msg_prefix(buf, sizeof(buf))
+            );
+            if (options.direct_process_action && !in_critical_section) {
                 exit_from_timer_thread(0);
             } else {
                 boinc_status.no_heartbeat = true;
@@ -1261,18 +1202,7 @@ static void timer_handler() {
         update_app_progress(last_wu_cpu_time, last_checkpoint_cpu_time);
     }
     
-    // If running under V5 client, notify the client if the graphics app exits
-    // (e.g., if user clicked in the graphics window's close box.)
-    //
-    if (ga_win.pid) {
-        if (!ga_win.is_running()) {
-            app_client_shm->shm->graphics_reply.send_msg(
-                xml_graphics_modes[MODE_HIDE_GRAPHICS]
-            );
-        }
-    }
-    
-    if (options.handle_trickle_ups) {
+    if (have_new_trickle_up || have_new_upload_file) {
         send_trickle_up_msg();
     }
     if (timer_callback) {
@@ -1340,6 +1270,17 @@ static void worker_signal_handler(int) {
     }
     if (options.direct_process_action) {
         while (boinc_status.suspended && in_critical_section==0) {
+#ifdef ANDROID
+            // per-thread signal masking doesn't work
+            // on old (pre-4.1) versions of Android.
+            // If we're handling this signal in the timer thread,
+            // send signal explicitly to worker thread.
+            //
+            if (pthread_self() == timer_thread_handle) {
+                pthread_kill(worker_thread_handle, SIGALRM);
+                return;
+            }
+#endif
             sleep(1);   // don't use boinc_sleep() because it does FP math
         }
     }
@@ -1383,6 +1324,7 @@ int start_timer_thread() {
         SetThreadPriority(worker_thread_handle, THREAD_PRIORITY_IDLE);
     }
 #else
+    worker_thread_handle = pthread_self();
     pthread_attr_t thread_attrs;
     pthread_attr_init(&thread_attrs);
     pthread_attr_setstacksize(&thread_attrs, 32768);
@@ -1426,11 +1368,13 @@ static int start_worker_signals() {
 #endif
 
 int boinc_send_trickle_up(char* variety, char* p) {
-    if (!options.handle_trickle_ups) return ERR_NO_OPTION;
     FILE* f = boinc_fopen(TRICKLE_UP_FILENAME, "wb");
     if (!f) return ERR_FOPEN;
     fprintf(f, "<variety>%s</variety>\n", variety);
-    size_t n = fwrite(p, strlen(p), 1, f);
+    size_t n = 1;
+    if (strlen(p)) {
+        n = fwrite(p, strlen(p), 1, f);
+    }
     fclose(f);
     if (n != 1) return ERR_WRITE;
     have_new_trickle_up = true;
@@ -1458,10 +1402,24 @@ int boinc_checkpoint_completed() {
 }
 
 void boinc_begin_critical_section() {
+#ifdef DEBUG_BOINC_API
+    char buf[256];
+    fprintf(stderr,
+        "%s begin_critical_section\n",
+        boinc_msg_prefix(buf, sizeof(buf))
+    );
+#endif
     in_critical_section++;
 }
 
 void boinc_end_critical_section() {
+#ifdef DEBUG_BOINC_API
+    char buf[256];
+    fprintf(stderr,
+        "%s end_critical_section\n",
+        boinc_msg_prefix(buf, sizeof(buf))
+    );
+#endif
     in_critical_section--;
     if (in_critical_section < 0) {
         in_critical_section = 0;        // just in case
@@ -1473,20 +1431,25 @@ void boinc_end_critical_section() {
     // See if we got suspend/quit/abort while in critical section,
     // and handle them here.
     //
-    if (boinc_status.quit_request) {
-        boinc_exit(0);
-    }
-    if (boinc_status.abort_request) {
-        boinc_exit(EXIT_ABORTED_BY_CLIENT);
-    }
     if (options.direct_process_action) {
+        if (boinc_status.no_heartbeat) {
+            boinc_exit(0);
+        }
+        if (boinc_status.quit_request) {
+            boinc_exit(0);
+        }
+        if (boinc_status.abort_request) {
+            boinc_exit(EXIT_ABORTED_BY_CLIENT);
+        }
         acquire_mutex();
         if (suspend_request) {
             suspend_request = false;
             boinc_status.suspended = true;
+            release_mutex();
             suspend_activities(true);
+        } else {
+            release_mutex();
         }
-        release_mutex();
     }
 }
 
@@ -1499,7 +1462,7 @@ int boinc_receive_trickle_down(char* buf, int len) {
     std::string filename;
     char path[MAXPATHLEN];
 
-    if (!options.handle_trickle_downs) return false;
+    handle_trickle_downs = true;
 
     if (have_trickle_down) {
         relative_to_absolute("", path);
@@ -1527,9 +1490,14 @@ int boinc_upload_file(std::string& name) {
     if (!f) return ERR_FOPEN;
     have_new_upload_file = true;
     fclose(f);
+
+    // file upload status messages are on same channel as
+    // trickle down messages, so listen to that channel
+    //
+    handle_trickle_downs = true;
+
     return 0;
 }
-
 
 int boinc_upload_status(std::string& name) {
     for (unsigned int i=0; i<upload_file_status.size(); i++) {

@@ -18,7 +18,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once("html/inc/boinc_db.inc");
+chdir("html/ops");
+require_once("../inc/boinc_db.inc");
+chdir("../..");
 
 // script to let transitioners catch up, then run start
 
@@ -27,8 +29,10 @@ function catchup() {
         $now = time();
         $wus = BoincWorkunit::enum("transition_time<$now limit 1");
         if (count($wus) == 0) break;
-        echo "There are ".count($wus)." WUs needing transition.\n";
-        system("bin/transitioner --one_pass");
+        echo "Some WUs need transition - running transitioner.\n";
+        $ret = system("bin/transitioner --one_pass");
+        echo "ret: $ret\n";
+        sleep(1);
     }
     echo "Transitioner is caught up.\n";
 }

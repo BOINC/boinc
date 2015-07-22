@@ -38,7 +38,6 @@
 #include "AccountInfoPage.h"
 #include "CompletionErrorPage.h"
 
-
 ////@begin XPM images
 #include "res/wizprogress01.xpm"
 #include "res/wizprogress02.xpm"
@@ -150,14 +149,14 @@ void CProjectProcessingPage::CreateControls()
     itemFlexGridSizer40->AddGrowableCol(2);
     itemBoxSizer37->Add(itemFlexGridSizer40, 0, wxGROW|wxALL, 5);
 
-    itemFlexGridSizer40->Add(5, 5, 0, wxGROW|wxGROW|wxALL, 5);
+    itemFlexGridSizer40->Add(5, 5, 0, wxGROW|wxALL, 5);
 
     wxBitmap itemBitmap41(GetBitmapResource(wxT("res/wizprogress01.xpm")));
     m_pProgressIndicator = new wxStaticBitmap;
-    m_pProgressIndicator->Create( itemWizardPage36, ID_PROGRESSCTRL, itemBitmap41, wxDefaultPosition, wxSize(184, 48), 0 );
+    m_pProgressIndicator->Create( itemWizardPage36, ID_PROGRESSCTRL, itemBitmap41, wxDefaultPosition, wxSize(ADJUSTFORXDPI(184), ADJUSTFORYDPI(48)), 0 );
     itemFlexGridSizer40->Add(m_pProgressIndicator, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    itemFlexGridSizer40->Add(5, 5, 0, wxGROW|wxGROW|wxALL, 5);
+    itemFlexGridSizer40->Add(5, 5, 0, wxGROW|wxALL, 5);
 ////@end CProjectProcessingPage content construction
 }
   
@@ -231,65 +230,66 @@ void CProjectProcessingPage::FinishProgress(wxStaticBitmap* pBitmap) {
  
 wxBitmap CProjectProcessingPage::GetBitmapResource( const wxString& name )
 {
+// TODO: Choose from multiple size images if provided, else resize the closest one
     // Bitmap retrieval
     if (name == wxT("res/wizprogress01.xpm"))
     {
-        wxBitmap bitmap(wizprogress01_xpm);
+        wxBitmap bitmap(GetScaledBitmapFromXPMData(wizprogress01_xpm));
         return bitmap;
     }
     else if (name == wxT("res/wizprogress02.xpm"))
     {
-        wxBitmap bitmap(wizprogress02_xpm);
+        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress02_xpm));
         return bitmap;
     }
     else if (name == wxT("res/wizprogress03.xpm"))
     {
-        wxBitmap bitmap(wizprogress03_xpm);
+        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress03_xpm));
         return bitmap;
     }
     else if (name == wxT("res/wizprogress04.xpm"))
     {
-        wxBitmap bitmap(wizprogress04_xpm);
+        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress04_xpm));
         return bitmap;
     }
     else if (name == wxT("res/wizprogress05.xpm"))
     {
-        wxBitmap bitmap(wizprogress05_xpm);
+        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress05_xpm));
         return bitmap;
     }
     else if (name == wxT("res/wizprogress06.xpm"))
     {
-        wxBitmap bitmap(wizprogress06_xpm);
+        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress06_xpm));
         return bitmap;
     }
     else if (name == wxT("res/wizprogress07.xpm"))
     {
-        wxBitmap bitmap(wizprogress07_xpm);
+        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress07_xpm));
         return bitmap;
     }
     else if (name == wxT("res/wizprogress08.xpm"))
     {
-        wxBitmap bitmap(wizprogress08_xpm);
+        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress08_xpm));
         return bitmap;
     }
     else if (name == wxT("res/wizprogress09.xpm"))
     {
-        wxBitmap bitmap(wizprogress09_xpm);
+        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress09_xpm));
         return bitmap;
     }
     else if (name == wxT("res/wizprogress10.xpm"))
     {
-        wxBitmap bitmap(wizprogress10_xpm);
+        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress10_xpm));
         return bitmap;
     }
     else if (name == wxT("res/wizprogress11.xpm"))
     {
-        wxBitmap bitmap(wizprogress11_xpm);
+        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress11_xpm));
         return bitmap;
     }
     else if (name == wxT("res/wizprogress12.xpm"))
     {
-        wxBitmap bitmap(wizprogress12_xpm);
+        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress12_xpm));
         return bitmap;
     }
     return wxNullBitmap;
@@ -375,24 +375,25 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
             SetNextState(ATTACHPROJECT_ACCOUNTQUERY_EXECUTE);
             break;
         case ATTACHPROJECT_ACCOUNTQUERY_EXECUTE:
-            // Attempt to create the account or reterieve the authenticator.
+            // Attempt to create the account or retrieve the authenticator.
             ai->clear();
             ao->clear();
 
-            // Newer versions of the server-side software contain the correct
-            //   master url in the get_project_config response.  If it is available
-            //   use it instead of what the user typed in.
-            if (!pWA->project_config.master_url.empty()) {
+            // use the web RPC URL in the get_project_config response
+            // if present, otherwise use what the user typed
+            //
+            if (!pWA->project_config.web_rpc_url_base.empty()) {
+                ai->url = pWA->project_config.web_rpc_url_base;
+            } else if (!pWA->project_config.master_url.empty()) {
                 ai->url = pWA->project_config.master_url;
             } else {
-                ai->url = (const char*)pWA->m_ProjectInfoPage->GetProjectURL().mb_str();
+                ai->url = (const char*)pWA->GetProjectURL().mb_str();
             }
 
             if (!pWA->GetProjectAuthenticator().IsEmpty() || 
-                pWA->m_bCredentialsCached || 
-                pWA->m_bCredentialsDetected
+                pWA->IsCredentialsCached() || pWA->IsCredentialsDetected()
             ) {
-                if (!pWA->m_bCredentialsCached || pWA->m_bCredentialsDetected) {
+                if (!pWA->IsCredentialsCached() || pWA->IsCredentialsDetected()) {
                     ao->authenticator = (const char*)pWA->GetProjectAuthenticator().mb_str();
                 }
                 SetProjectCommunicationsSucceeded(true);
@@ -400,16 +401,17 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                 // Setup initial values for both the create and lookup API
 
                 if (pWA->project_config.uses_username) {
-                    ai->email_addr = (const char*)pWA->m_AccountInfoPage->GetAccountUsername().mb_str();
+                    ai->email_addr = (const char*)pWA->GetAccountUsername().mb_str();
                 } else {
-                    ai->email_addr = (const char*)pWA->m_AccountInfoPage->GetAccountEmailAddress().mb_str();
+                    ai->email_addr = (const char*)pWA->GetAccountEmailAddress().mb_str();
                 }
-                ai->passwd = (const char*)pWA->m_AccountInfoPage->GetAccountPassword().mb_str();
+                ai->passwd = (const char*)pWA->GetAccountPassword().mb_str();
                 ai->user_name = (const char*)::wxGetUserName().mb_str();
                 if (ai->user_name.empty()) {
                     ai->user_name = (const char*)::wxGetUserId().mb_str();
                 }
                 //ai->team_name = (const char*)pWA->GetTeamName().mb_str();
+                ai->ldap_auth = pWA->project_config.ldap_auth;
 
                 if (pWA->m_AccountInfoPage->m_pAccountCreateCtrl->GetValue()) {
 					creating_account = true;
@@ -437,7 +439,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                         IncrementProgress(m_pProgressIndicator);
 
                         ::wxMilliSleep(500);
-                        ::wxSafeYield(GetParent());
+                        wxEventLoopBase::GetActive()->YieldFor(wxEVT_CATEGORY_USER_INPUT);
                     }
 
                     if ((!retval) && !ao->error_num) {
@@ -472,7 +474,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                         IncrementProgress(m_pProgressIndicator);
 
                         ::wxMilliSleep(500);
-                        ::wxSafeYield(GetParent());
+                        wxEventLoopBase::GetActive()->YieldFor(wxEVT_CATEGORY_USER_INPUT);
                     }
                 }
  
@@ -537,11 +539,17 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                     !CHECK_CLOSINGINPROGRESS()
                 ) {
                     if (ERR_RETRY == reply.error_num) {
-                        if (pWA->m_bCredentialsCached) {
+                        if (pWA->IsCredentialsCached()) {
                             pDoc->rpc.project_attach_from_file();
                         } else {
+                            std::string master_url;
+                            if (!pWA->project_config.master_url.empty()) {
+                                master_url = pWA->project_config.master_url;
+                            } else {
+                                master_url = (const char*)pWA->GetProjectURL().mb_str();
+                            }
                             pDoc->rpc.project_attach(
-                                ai->url.c_str(),
+                                master_url.c_str(),
                                 ao->authenticator.c_str(),
                                 pWA->project_config.name.c_str()
                             );
@@ -555,7 +563,12 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                     IncrementProgress(m_pProgressIndicator);
 
                     ::wxMilliSleep(500);
+#ifdef __WXMAC__
+                    wxEventLoopBase * const modalLoop = wxEventLoopBase::GetActive();
+                    modalLoop->YieldFor(wxEVT_CATEGORY_USER_INPUT);
+#else
                     ::wxSafeYield(GetParent());
+#endif
                 }
      
                 if (!retval && !reply.error_num) {
@@ -575,7 +588,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                             strBuffer += wxString(reply.messages[i].c_str(), wxConvUTF8) + wxString(wxT("\n"));
                         }
                     }
-                    pWA->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(wxString(strBuffer, wxConvUTF8));
+                    pWA->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
                 }
             } else {
                 SetProjectAttachSucceeded(false);

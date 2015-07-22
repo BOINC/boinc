@@ -40,6 +40,7 @@
 #include <unistd.h>
 #include <cstdlib>
 #include <cstring>
+#include <cstddef>
 #endif
 
 #include "diagnostics.h"
@@ -94,7 +95,7 @@ int RPC_CLIENT::get_ip_addr(const char* host, int port) {
     //printf("trying port %d\n", htons(addr.sin_port));
     int retval;
     if (host) {
-        retval = resolve_hostname(host, addr);
+        retval = resolve_hostname_or_ip_addr(host, addr);
         if (retval) {
             return ERR_GETHOSTBYNAME;
         }
@@ -125,7 +126,7 @@ int RPC_CLIENT::get_ip_addr(const char* host, int port) {
 int RPC_CLIENT::init(const char* host, int port) {
     int retval = get_ip_addr(host, port);
     if (retval) return retval;
-    boinc_socket(sock);
+    boinc_socket(sock, AF_INET);
 
     // set up receive timeout; avoid hang if client doesn't respond
     //
@@ -166,7 +167,7 @@ int RPC_CLIENT::init_asynch(
     retval = get_ip_addr(host, port);
     if (retval) return retval;
 
-    retval = boinc_socket(sock);
+    retval = boinc_socket(sock, AF_INET);
     BOINCTRACE("init_asynch() boinc_socket: %d\n", sock);
     if (retval) return retval;
 
@@ -224,7 +225,7 @@ int RPC_CLIENT::init_poll() {
     if (retval) {
         if (retry) {
             boinc_close_socket(sock);
-            retval = boinc_socket(sock);
+            retval = boinc_socket(sock, AF_INET);
             retval = boinc_socket_asynch(sock, true);
             retval = connect(sock, (const sockaddr*)(&addr), addr_len(addr));
             BOINCTRACE("init_poll(): retrying connect: %d\n", retval);
@@ -234,6 +235,28 @@ int RPC_CLIENT::init_poll() {
         }
     }
     return ERR_RETRY;
+}
+
+int RPC_CLIENT::init_unix_domain() {
+#if defined(_WIN32)
+	fprintf(stderr, "Unix domain not implemented in Windows\n");
+	return -1;
+#else
+    struct sockaddr_un addr_un;
+    int retval = boinc_socket(sock, AF_UNIX);
+    if (retval) return retval;
+    addr_un.sun_family = AF_UNIX;
+#ifdef __APPLE__
+    addr_un.sun_len = sizeof(addr_un);
+#endif
+    strcpy(addr_un.sun_path, GUI_RPC_FILE);
+    socklen_t len = offsetof(sockaddr_un, sun_path) + strlen(GUI_RPC_FILE);
+    if (connect(sock, (struct sockaddr*)&addr_un, len) < 0) {
+        boinc_close_socket(sock);
+        return ERR_CONNECT;
+    }
+    return 0;
+#endif
 }
 
 int RPC_CLIENT::authorize(const char* passwd) {
@@ -343,18 +366,35 @@ int RPC::do_rpc(const char* req) {
     return 0;
 }
 
+// parse an RPC reply, of the form
+//
+// <success/>
+// or
+// <error>error message</error>
+// or
+// <status>N</status>
+//
 int RPC::parse_reply() {
     char buf[256], error_msg[256];
+    int n;
     while (fin.fgets(buf, 256)) {
-        if (parse_str(buf, "<error>", error_msg, sizeof(error_msg))) {
-            fprintf(stderr, "RPC error: %s\n", error_msg);
-            continue;
+        if (strstr(buf, "boinc_gui_rpc_reply>"))
+                continue;
+        if (strstr(buf, "<success")) return 0;
+        if (parse_int(buf, "<status>", n)) {
+            return n;
         }
-        if (strstr(buf, "unauthorized")) return ERR_AUTHENTICATOR;
-        if (strstr(buf, "Missing authenticator")) return ERR_AUTHENTICATOR;
-        if (strstr(buf, "Missing URL")) return ERR_INVALID_URL;
-        if (strstr(buf, "Already attached to project")) return ERR_ALREADY_ATTACHED;
-        if (strstr(buf, "success")) return 0;
+        if (strstr(buf, "<unauthorized/>")) return ERR_AUTHENTICATOR;
+        if (parse_str(buf, "<error>", error_msg, sizeof(error_msg))) {
+            fprintf(stderr, "%s: GUI RPC error: %s\n",
+                time_to_string(dtime()), error_msg
+            );
+            if (strstr(error_msg, "unauthorized")) return ERR_AUTHENTICATOR;
+            if (strstr(error_msg, "Missing authenticator")) return ERR_AUTHENTICATOR;
+            if (strstr(error_msg, "Missing URL")) return ERR_INVALID_URL;
+            if (strstr(error_msg, "Already attached to project")) return ERR_ALREADY_ATTACHED;
+            return -1;
+        }
     }
     return -1;
 }

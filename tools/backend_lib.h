@@ -24,6 +24,22 @@
 #include "sched_config.h"
 #include "boinc_db.h"
 
+// describes an input file, possibly remote
+//
+struct INFILE_DESC {
+    bool is_remote;
+
+    // the following defined if remote (physical name is jf_MD5)
+    //
+    double nbytes;
+    char md5[64];
+    char url[1024];         // make this a vector to support multiple URLs
+
+    // the following defined if not remote
+    //
+    char name[1024];     // physical name
+};
+
 extern int add_signatures(char*, R_RSA_PRIVATE_KEY&);
 extern int remove_signatures(char*);
 
@@ -68,7 +84,20 @@ extern int create_work(
     int ninfiles,
     SCHED_CONFIG&,
     const char* command_line = NULL,
-    const char* additional_xml = NULL
+    const char* additional_xml = NULL,
+    char* query_string = 0
+);
+
+extern int create_work2(
+    DB_WORKUNIT& wu,
+    const char* wu_template,
+    const char* result_template_filename,
+    const char* result_template_filepath,
+    vector<INFILE_DESC>&,
+    SCHED_CONFIG&,
+    const char* command_line = NULL,
+    const char* additional_xml = NULL,
+    char* query_string = 0
 );
 
 extern int stage_file(const char*, bool);

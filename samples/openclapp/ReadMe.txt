@@ -1,6 +1,14 @@
-Windows projects.
+To build the openclapp sample for Macintosh:
 
-To build for Mac:
+First build the BOINC libraries:
+cd [path]/mac_build
+source BuildMacBOINC.sh -lib
+
+For more details, see the instructions in that script's comments or at:
+[path]/mac_build/HowToBuildBOINC_XCode.rtf
+
+After building the libraries, run the make file in this directory:
+cd [path]/samples/openclapp
 make -f Makefile_mac
 
 To build for Linux (assuming you have installed the appropriate GPU computing SDK):

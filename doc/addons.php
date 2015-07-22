@@ -8,23 +8,25 @@ if (!$strip_header) {
 page_head('BOINC add-on software');
 echo "
 <p>
-The following programs complement or enhance BOINC.
-Note:
+The following programs complement or enhance BOINC,
+but were not developed by the BOINC project.
 <ul>
 <li>
 
 These applications are not endorsed by BOINC and
 you use them at your own risk.
 <li>
-We do not provide instructions for installing these applications.
-However, the author may have provided some help on installing or
-uninstalling the application.
-If this is not enough you should contact the author.
+We do not provide instructions for installing or using these applications.
+In most cases the author has provided these instructions.
+If not, contact the author.
 Instructions for installing and running BOINC are
 <a href=http://boinc.berkeley.edu/wiki/User_manual>here</a>.
 <li>
-To submit an item for inclusion in this list,
+To submit software for inclusion in this list,
 please email <a href=http://boinc.berkeley.edu/trac/wiki/ProjectPeople>David Anderson</a>.
+BOINC provides several
+<a href=http://boinc.berkeley.edu/trac/wiki/SoftwareAddon>APIs for
+developing add-on software</a>.
 </ul>
 ";
 

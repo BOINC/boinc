@@ -28,6 +28,30 @@
 #define CUSTOMACTION_PROGRESSTITLE      _T("Obtain the md5sum of the current cc_config.xml file.")
 
 
+void remove_white(TCHAR* pContents) {
+	int i = 0, j = 0;
+	while ( pContents[j] != '\0' ) {
+		if ( isspace(pContents[j]) ) {
+			j++;
+			continue;
+		}
+		pContents[i++] = pContents[j++];
+	}
+	pContents[i] = '\0';
+}
+
+
+bool CheckFile(TCHAR* pContents)
+{
+	bool match = false;
+	TCHAR* cc510 = _T("<cc_config><log_flags></log_flags><options><dont_contact_ref_site>1</dont_contact_ref_site></options></cc_config>");
+	if ( _tcsstr(pContents, cc510) ) match = true;
+	TCHAR* cc602 = _T("<cc_config><log_flags></log_flags><options><version_check_server>www.worldcommunitygrid.org</version_check_server><proxy_test_server>www.ibm.com</proxy_test_server><start_delay>120</start_delay></options></cc_config>");
+	if ( _tcsstr(pContents, cc602) ) match = true;
+    return match; 
+}
+
+
 /////////////////////////////////////////////////////////////////////
 // 
 // Function:    
@@ -52,18 +76,6 @@ CACCConfigMd5sum::~CACCConfigMd5sum()
     BOINCCABase::~BOINCCABase();
 }
 
-void remove_white(char *contents) {
-	int i=0,j=0;
-	while ( contents[j] != '\0' ) {
-		if ( isspace(contents[j]) ) {
-			j++;
-			continue;
-		}
-		contents[i++]=contents[j++];
-	}
-	contents[i]='\0';
-}
-
 
 /////////////////////////////////////////////////////////////////////
 // 
@@ -74,10 +86,10 @@ void remove_white(char *contents) {
 /////////////////////////////////////////////////////////////////////
 UINT CACCConfigMd5sum::OnExecution()
 {
-	std::string strDataDirectory;
-	std::string strInstallDirectory;
-	std::string strLocation;
-	char contents[8196];
+	tstring strDataDirectory;
+	tstring strInstallDirectory;
+	tstring strLocation;
+	TCHAR   contents[8196];
     UINT    uiReturnValue = 0;
     TCHAR   szMessage[16392];
 	FILE *file;
@@ -87,7 +99,7 @@ UINT CACCConfigMd5sum::OnExecution()
     uiReturnValue = GetProperty( _T("INSTALLDIR"), strInstallDirectory );
     if ( uiReturnValue ) return uiReturnValue;
 	if (strInstallDirectory.rfind('\\') != strInstallDirectory.size() - 1 ) {
-		strInstallDirectory = strInstallDirectory + "\\";
+		strInstallDirectory = strInstallDirectory + _T("\\");
 		_sntprintf(szMessage,sizeof(szMessage),_T("Added trailing slash to install dir"),strLocation.c_str());
 		LogMessage(INSTALLMESSAGE_INFO,NULL, NULL,NULL,NULL,szMessage);
 	}
@@ -95,7 +107,7 @@ UINT CACCConfigMd5sum::OnExecution()
     uiReturnValue = GetProperty( _T("DATADIR"), strDataDirectory );
     if ( uiReturnValue ) return uiReturnValue;
 	if (strDataDirectory.rfind('\\') != strDataDirectory.size() - 1 ) {
-		strDataDirectory = strDataDirectory + "\\";
+		strDataDirectory = strDataDirectory + _T("\\");
 		_sntprintf(szMessage,sizeof(szMessage),_T("Added trailing slash to data dir"),strLocation.c_str());
 		LogMessage(INSTALLMESSAGE_INFO,NULL, NULL,NULL,NULL,szMessage);
 	}
@@ -103,12 +115,12 @@ UINT CACCConfigMd5sum::OnExecution()
 	// Figure out of the file is in the data directory or the install directory
 	// it should be in the data directory, but if it isn't we will check the install directory
     strLocation = strDataDirectory + _T("cc_config.xml");
-	file = fopen(strLocation.c_str(),"r");
+	file = _tfopen(strLocation.c_str(), _T("r"));
 	if ( file == NULL ) {
 		_sntprintf(szMessage,sizeof(szMessage),_T("fopen: Error Message '%s': '%s'"),strerror(errno),strLocation.c_str());
 		LogMessage(INSTALLMESSAGE_INFO,NULL, NULL,NULL,NULL,szMessage);
 		strLocation = strInstallDirectory + _T("cc_config.xml");
-		file = fopen(strLocation.c_str(),"r");
+		file = _tfopen(strLocation.c_str(), _T("r"));
 		if ( file == NULL ) {
 			_sntprintf(szMessage,sizeof(szMessage),_T("fopen: Error Message '%s': '%s'"),strerror(errno),strLocation.c_str());
 			LogMessage(INSTALLMESSAGE_INFO,NULL, NULL,NULL,NULL,szMessage);
@@ -148,7 +160,7 @@ UINT CACCConfigMd5sum::OnExecution()
 	LogMessage(INSTALLMESSAGE_INFO,NULL, NULL,NULL,NULL,szMessage);
 
 	if ( CheckFile(contents) ) {
-		if ( remove(strLocation.c_str()) ) {
+		if ( DeleteFile(strLocation.c_str()) ) {
 			_sntprintf(szMessage,sizeof(szMessage),_T("Failed to delete CCConfig version from previous install.  Error Message '%s'"),strerror(errno));
 			LogMessage(INSTALLMESSAGE_INFO,NULL, NULL,NULL,NULL,szMessage);
 			return ERROR_FAIL_I24;
@@ -162,16 +174,6 @@ UINT CACCConfigMd5sum::OnExecution()
 	SetProperty(_T("KEEPEXISTINGCONFIG"), _T("1"));
 	LogMessage(INSTALLMESSAGE_INFO,NULL, NULL,NULL,NULL,szMessage);
     return ERROR_SUCCESS;
-}
-
-bool CACCConfigMd5sum::CheckFile(char *contents)
-{
-	bool match = false;
-	char *cc510="<cc_config><log_flags></log_flags><options><dont_contact_ref_site>1</dont_contact_ref_site></options></cc_config>";
-	if ( strstr(contents, cc510) ) match = true;
-	char *cc602="<cc_config><log_flags></log_flags><options><version_check_server>www.worldcommunitygrid.org</version_check_server><proxy_test_server>www.ibm.com</proxy_test_server><start_delay>120</start_delay></options></cc_config>";
-	if ( strstr(contents, cc602) ) match = true;
-    return match; 
 }
 
 UINT __stdcall CCConfigMd5sum(MSIHANDLE hInstall)

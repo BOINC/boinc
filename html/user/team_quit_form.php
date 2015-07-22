@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,16 +16,16 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
+if (DISABLE_TEAMS) error_page("Teams are disabled");
+
 check_get_args(array());
 
-db_init();
 $user = get_logged_in_user(true);
 
-$team = lookup_team($user->teamid);
+$team = BoincTeam::lookup_id($user->teamid);
 if (!$team) {
     error_page(tra("No such team"));
 }
@@ -39,7 +39,7 @@ echo tra("<strong>Please note before quitting a team:</strong>
     ."<form method=\"post\" action=\"team_quit_action.php\">";
 echo form_tokens($user->authenticator);
 echo "<input type=\"hidden\" name=\"id\" value=\"$team->id\">
-    <input type=\"submit\" value=\"".tra("Quit Team")."\">
+    <input class=\"btn btn-default\" type=\"submit\" value=\"".tra("Quit Team")."\">
     </form>
 ";
 page_tail();

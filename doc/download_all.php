@@ -22,7 +22,11 @@ $version = get_str2("version");
 $type_name = get_str2("type");
 $client_info = $_SERVER['HTTP_USER_AGENT'];
 
-if (!$xml) $dev=1;
+// if not XML, dev defaults to 1
+//
+if (!$xml) {
+    if ($dev === null) $dev=1;
+}
 
 function dl_item($x, $y) {
     echo "<tr><td valign=top  align=right width=\"30%\">$x</td>
@@ -30,14 +34,14 @@ function dl_item($x, $y) {
     ";
 }
 
-function version_url($v) {
+function version_url($file) {
     global $url_base;
-    $file = $v["file"];
-    if (is_dev($v)) {
-        return "http://boinc.berkeley.edu/dl/$file";
-    } else {
-        return $url_base.$file;
-    }
+    return $url_base.$file;
+//    if (is_dev($v)) {
+//        return "http://boinc.berkeley.edu/dl/$file";
+//    } else {
+//        return $url_base.$file;
+//    }
 }
 
 function show_detail($v) {
@@ -45,7 +49,7 @@ function show_detail($v) {
     $file = $v["file"];
     $status = $v["status"];
     $path = "dl/$file";
-    $url = version_url($v);
+    $url = version_url($v['file']);
     $dlink = "<a href=$url>$file</a>";
     $s = number_format(filesize($path)/1000000, 2);
     $date = $v["date"];
@@ -66,7 +70,7 @@ function show_version_xml($v, $p) {
     $file = $v["file"];
     $status = $v["status"];
     $path = "dl/$file";
-    $url = version_url($v);
+    $url = version_url($v['file']);
     $dlink = "<a href=$url>$file</a>";
     $s = number_format(filesize($path)/1000000, 2);
     $date = $v["date"];
@@ -87,6 +91,7 @@ function show_version_xml($v, $p) {
 }
 
 function show_version($pname, $i, $v) {
+    if (!$v) return;
     $num = $v["num"];
     $file = $v["file"];
     $status = $v["status"];
@@ -102,11 +107,22 @@ function show_version($pname, $i, $v) {
     $date = $v["date"];
     $type = $v["type"];
     $type_text = type_text($type);
-    $url = version_url($v);
+    $url = version_url($v['file']);
+
+    $link = "";
+    if (array_key_exists('vbox_file', $v)) {
+        $vbox_file = $v['vbox_file'];
+        $vbox_version = $v['vbox_version'];
+        $vbox_url = version_url($vbox_file);
+        $vbox_path = "dl/$vbox_file";
+        $vbox_size = number_format(filesize($vbox_path)/1000000, 2);
+        $link = "<a href=\"$vbox_url\"><b>Download BOINC + VirtualBox $vbox_version</b></a> ($vbox_size MB)<br>";
+    }
+    $link .= "<a href=\"$url\"><b>Download</b></a> ($s MB)";
     echo "<tr>
        <td class=rowlineleft>$num</td>
         <td class=rowline>$status</td>
-        <td class=rowline><a href=\"$url\"><b>Download</b></a> ($s MB)</td>
+        <td class=rowline>$link</td>
         <td class=rowlineright>$date</td>
         </tr>
     ";
@@ -163,16 +179,16 @@ if ($pname && $version) {
 
 if ($xml) {
     header('Content-type: text/xml');
-    echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n
-<versions>\n
+    echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
+<versions>
 ";
-	if (FALSE === strpos($client_info, '6.8.')) {
+    if (FALSE === strpos($client_info, '6.8.')) {
         foreach($platforms as $short_name=>$p) {
             show_platform_xml($short_name, $p, $dev);
         }
     }
     echo "
-</versions>\n
+</versions>
 ";
 } else {
     if ($pname) {

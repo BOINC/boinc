@@ -357,7 +357,7 @@ int main(int argc, char** argv) {
             }
         } else {
             // o2b
-            rsa_key_ = (RSA *)calloc(1, sizeof(RSA));
+            rsa_key_ = RSA_new();
             if (rsa_key_ == NULL) {
                 die("could not allocate memory for RSA structure.\n");
             }

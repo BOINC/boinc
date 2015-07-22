@@ -22,7 +22,10 @@ package edu.berkeley.boinc.rpc;
 
 import java.io.Serializable;
 
-public class Message implements Serializable{
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Message implements Serializable, Parcelable{
 	private static final long serialVersionUID = 1L;
 	public static final int MSG_INFO = 1;
 	public static final int MSG_USER_ALERT = 2;
@@ -35,4 +38,38 @@ public class Message implements Serializable{
 	public int    seqno;
 	public long   timestamp;
 	public String body;
+	
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		// TODO Auto-generated method stub
+		dest.writeString(project);
+		dest.writeInt(priority);
+		dest.writeInt(seqno);
+		dest.writeLong(timestamp);
+		dest.writeString(body);
+	}
+	
+	public Message() {}
+	
+	private Message(Parcel in) {
+		project = in.readString();
+		priority = in.readInt();
+		seqno = in.readInt();
+		timestamp = in.readLong();
+		body = in.readString();
+	}
+	
+	public static final Parcelable.Creator<Message> CREATOR = new Parcelable.Creator<Message>() {
+		public Message createFromParcel(Parcel in) {
+		    return new Message(in);
+		}
+		public Message[] newArray(int size) {
+		    return new Message[size];
+		}
+	};
 }

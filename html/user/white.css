@@ -3,7 +3,7 @@ a, a:link, a:visited, a:active {
 }
 
 body {
-	#background: #fff url("img/gray_gradient.png") repeat-x;
+	//background: #fff url("img/gray_gradient.png") repeat-x;
 	color: black;
 }
 
@@ -21,13 +21,10 @@ hr.news_line {
     border-bottom: 1px solid rgb(200, 200, 200);
 }
 
-table.bordered {
+.table-bordered, .bordered {
 	border-color: #e8e8e8;
     border-width: 2px;
     border-style: solid;
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
-    -khtml-border-radius: 6px;
     border-radius: 6px;
 }
 
@@ -43,13 +40,16 @@ td.indent {
 	border-color: #fff;
 }
 
-td.heading {
+th, td.heading {
 	background-color: #d8d8d8;
+}
+
+th.subheading {
+	background-color: #eee;
 }
 
 td.fieldname {
 	background-color: #eee;
-	color: #333;
 }
 
 td.fieldname_error,
@@ -92,8 +92,9 @@ tr.message {
 input[type="button"],
 input[type="submit"],
 .btn,
-a.button {
-	background: #EDEDED url(img/white_grad.png) repeat-x scroll left top;
+a.btn {
+#background: #d0f8d0;
+    background: #EDEDED url(img/white_grad.png) repeat-x scroll left top;
 	color: black;
 	border-color: #ccc;
 }
@@ -101,10 +102,18 @@ a.button {
 input[type="button"]:hover,
 input[type="submit"]:hover,
 input.btn:hover,
-.button:hover ,
+.btn:hover ,
 .forum_toplinks a:hover {
 	border: 1px solid #555;
 	color: #0069A1;
+}
+
+a.btn-green {
+	border: 1px solid #555;
+	color: black;
+    background: #a0f0a0;
+    font-size: 1.2em;
+	border-color: #60a060;
 }
 
 input[type="text"], input[type="password"], select, textarea {
@@ -180,7 +189,7 @@ span.highlight {
 	border-left-color: #caa;
 }
 
-.error {
+p.text-danger, .error {
 	color: #f00;
 }
 
@@ -206,6 +215,5 @@ div.pm_preview {
 
 td.running { background-color: #9aff4f; }
 
-td.notrunning { background-color: #feff6f; }
-
-td.disabled { background-color: #ff4f4f; }
+td.notrunning { background-color: #ff4f4f; }
+td.disabled { background-color: #bbb; }

@@ -16,22 +16,21 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/host.inc");
 
 check_get_args(array("hostid"));
 
-db_init();
 $user = get_logged_in_user();
 
 page_head(tra("Updating computer credit"));
 
 $hostid = get_int("hostid");
 
-$host = lookup_host($hostid);
+$host = BoincHost::lookup_id($hostid);
 if (!$host || $host->userid != $user->id) {
-    error_page(We have no record of that computer");
+    error_page("We have no record of that computer");
 }
 
 host_update_credit($hostid);

@@ -45,10 +45,21 @@ function escape2($strin) {
 }
 
 function escape($strin) {
-    return htmlspecialchars($strin);
+    $dom = new DOMDocument('1.0');
+    $element = $dom->createElement('Element');
+    $element->appendChild(
+        $dom->createTextNode($strin)
+    );
+
+    $dom->appendChild($element);
+    $x = $dom->saveXml();
+    $x = substr($x, 31);
+    $x = substr($x, 0, -11);
+    return $x;
 }
 
 function handle_team($team, $f) {
+    echo "Team: $team->name\n";
     $user = BoincUser::lookup_id($team->userid);
     if (!$user) {
         echo "no user for team $team->id\n";
@@ -97,6 +108,7 @@ function main() {
     if (!rename("temp.xml", "/home/boincadm/boinc/doc/boinc_teams.xml")) {
         echo "Rename failed\n";
     }
+    echo "------------ Finished at ".time_str(time())."-------\n";
 }
 
 main();

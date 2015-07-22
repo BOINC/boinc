@@ -59,7 +59,7 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
     EVT_TASKBAR_RIGHT_DOWN(CTaskBarIcon::OnRButtonDown)
     EVT_TASKBAR_RIGHT_UP(CTaskBarIcon::OnRButtonUp)
     EVT_TASKBAR_CONTEXT_USERCLICK(CTaskBarIcon::OnNotificationClick)
-    EVT_TASKBAR_BALLOON_TIMEOUT(CTaskBarIcon::OnNotificationTimeout)
+    EVT_TASKBAR_BALLOON_USERTIMEOUT(CTaskBarIcon::OnNotificationTimeout)
 #endif
     EVT_MENU(ID_OPENBOINCMANAGER, CTaskBarIcon::OnOpen)
     EVT_MENU(ID_OPENWEBSITE, CTaskBarIcon::OnOpenWebsite)
@@ -73,25 +73,23 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
     EVT_TASKBAR_APPRESTORE(CTaskBarIcon::OnAppRestore)
 #endif
 
-#ifdef __WXMAC__
-    // wxMac-2.6.3 "helpfully" converts wxID_ABOUT to kHICommandAbout, wxID_EXIT to kHICommandQuit, 
-    //  wxID_PREFERENCES to kHICommandPreferences
-    EVT_MENU(kHICommandAbout, CTaskBarIcon::OnAbout)
-#endif
-
 END_EVENT_TABLE()
 
 
-CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze) : 
+CTaskBarIcon::CTaskBarIcon(wxString title, wxIconBundle* icon, wxIconBundle* iconDisconnected, wxIconBundle* iconSnooze
 #ifdef __WXMAC__
-    wxTaskBarIcon(DOCK)
+, wxTaskBarIconType iconType
+#endif
+) :
+#ifdef __WXMAC__
+    wxTaskBarIcon(iconType)
 #else 
     wxTaskBarIconEx(wxT("BOINCManagerSystray"), 1)
 #endif
 {
-    m_iconTaskBarNormal = *icon;
-    m_iconTaskBarDisconnected = *iconDisconnected;
-    m_iconTaskBarSnooze = *iconSnooze;
+    m_iconTaskBarNormal = icon->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
+    m_iconTaskBarDisconnected = iconDisconnected->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
+    m_iconTaskBarSnooze = iconSnooze->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
     m_SnoozeGPUMenuItem = NULL;
 
     m_bTaskbarInitiatedShutdown = false;
@@ -101,6 +99,7 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnecte
     m_dtLastNotificationAlertExecuted = wxDateTime((time_t)0);
     m_iLastNotificationUnreadMessageCount = 0;
 #ifdef __WXMAC__
+    m_iconType = iconType;
     m_pNotificationRequest = NULL;
 #endif
 }
@@ -257,6 +256,15 @@ void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
         bEventLogWasShown = eventLog->IsShown();
         if (bEventLogWasShown && !bWasVisible) eventLog->Show(false);
     }
+
+    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+    if (pFrame) {
+        if (!bWasVisible) {
+            // We really do need to hide the frame here
+            // See comment in CBOINCGUIApp::OnFinishInit()
+            pFrame->wxFrame::Show(false);
+        }
+    }
 #endif
     
     wxGetApp().ShowApplication(true);
@@ -264,14 +272,17 @@ void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
     ResetTaskBar();
 
     CDlgAbout dlg(NULL);
+    wxGetApp().SetAboutDialogIsOpen(true);
     dlg.ShowModal();
+    wxGetApp().SetAboutDialogIsOpen(false);
 
     if (!bWasVisible) {
         wxGetApp().ShowApplication(false);
     }
-    
+
 #ifdef __WXMAC__
-    if (bEventLogWasShown) eventLog->Show(true);
+    // See comment in CBOINCGUIApp::OnFinishInit()
+    pFrame->wxWindow::Show(true);
 #endif
 }
 
@@ -279,10 +290,7 @@ void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
 void CTaskBarIcon::OnExit(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnExit - Function Begin"));
 
-#ifndef __WXMAC__
-    if (wxGetApp().ConfirmExit()) 
-#endif
-    {
+    if (wxGetApp().ConfirmExit()) {
         wxCloseEvent eventClose;
         OnClose(eventClose);
         if (eventClose.GetSkipped()) event.Skip();
@@ -337,14 +345,9 @@ void CTaskBarIcon::OnReloadSkin(CTaskbarEvent& WXUNUSED(event)) {
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
-    m_iconTaskBarNormal = *pSkinAdvanced->GetApplicationIcon();
-    m_iconTaskBarDisconnected = *pSkinAdvanced->GetApplicationDisconnectedIcon();
-    m_iconTaskBarSnooze = *pSkinAdvanced->GetApplicationSnoozeIcon();
-
-#ifdef __WXMAC__
-    // For unknown reasons, menus won't work if we call BuildMenu() here 
-    wxGetApp().GetMacSystemMenu()->SetNeedToRebuildMenu();
-#endif
+    m_iconTaskBarNormal = pSkinAdvanced->GetApplicationIcon()->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
+    m_iconTaskBarDisconnected = pSkinAdvanced->GetApplicationDisconnectedIcon()->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
+    m_iconTaskBarSnooze = pSkinAdvanced->GetApplicationSnoozeIcon()->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
 }
 
 
@@ -356,6 +359,19 @@ void CTaskBarIcon::FireReloadSkin() {
 
 void CTaskBarIcon::ResetTaskBar() {
     SetIcon(m_iconTaskBarNormal);
+}
+
+
+wxSize CTaskBarIcon::GetBestIconSize() {
+    wxSize size;
+
+#ifdef _WIN32
+    size = wxSize(wxSystemSettings::GetMetric(wxSYS_SMALLICON_X), wxSystemSettings::GetMetric(wxSYS_SMALLICON_Y));
+#else
+    size = wxSize(16, 16);
+#endif
+
+    return size;
 }
 
 
@@ -372,36 +388,26 @@ wxMenu *CTaskBarIcon::CreatePopupMenu() {
     return menu;
 }
 
-
 // Override the standard wxTaskBarIcon::SetIcon() because we are only providing a 
 // 16x16 icon for the menubar, while the Dock needs a 128x128 icon.
 // Rather than using an entire separate icon, overlay the Dock icon with a badge 
 // so we don't need additional Snooze and Disconnected icons for branding.
 bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& ) {
-    CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
-    if (pTaskbar) {
-        return pTaskbar->SetMacTaskBarIcon(icon);
-    }
-    return false;
-}
-
-
-bool CTaskBarIcon::SetMacTaskBarIcon(const wxIcon& icon) {
     wxIcon macIcon;
     bool result;
     OSStatus err = noErr ;
     int w, h, x, y;
+
+    if (m_iconType != wxTBI_DOCK) {
+        result = wxGetApp().GetMacDockIcon()->SetIcon(icon);
+        return (result && wxTaskBarIcon::SetIcon(icon));
+    }
 
     if (icon.IsSameAs(m_iconCurrentIcon))
         return true;
     
     m_iconCurrentIcon = icon;
     
-    CMacSystemMenu* sysMenu = wxGetApp().GetMacSystemMenu();
-    if (sysMenu == NULL) return 0;
-    
-    result = sysMenu->SetMacMenuIcon(icon);
-
     RestoreApplicationDockTileImage();      // Remove any previous badge
 
     if (m_iconTaskBarDisconnected.IsSameAs(icon))
@@ -409,7 +415,7 @@ bool CTaskBarIcon::SetMacTaskBarIcon(const wxIcon& icon) {
     else if (m_iconTaskBarSnooze.IsSameAs(icon))
         macIcon = macsnoozebadge;
     else
-        return result;
+        return true;
     
     // Convert the wxIcon into a wxBitmap so we can perform some
     // wxBitmap operations with it
@@ -438,7 +444,7 @@ bool CTaskBarIcon::SetMacTaskBarIcon(const wxIcon& icon) {
         }
     }
 
-    CGImageRef pImage = (CGImageRef) bmp.CGImageCreate(); 
+    CGImageRef pImage = (CGImageRef) bmp.CreateCGImage(); 
     
     // Actually set the dock image    
     err = OverlayApplicationDockTileImage(pImage);
@@ -449,7 +455,7 @@ bool CTaskBarIcon::SetMacTaskBarIcon(const wxIcon& icon) {
     if (pImage != NULL)
         CGImageRelease(pImage);
 
-    return result;
+    return true;
 }
 
 
@@ -500,10 +506,12 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     // Prevent recursive entry of CMainDocument::RequestRPC() 
-     if (!pDoc->WaitingForRPC()) {
-        // Account managers have a different menu arrangement
-        pDoc->rpc.acct_mgr_info(ami);
-        is_acct_mgr_detected = ami.acct_mgr_url.size() ? true : false;
+    if (!pDoc->WaitingForRPC()) {
+        if (pDoc->IsConnected()) {
+            // Account managers have a different menu arrangement
+            pDoc->rpc.acct_mgr_info(ami);
+            is_acct_mgr_detected = ami.acct_mgr_url.size() ? true : false;
+        }
     }
     
     if (is_acct_mgr_detected) {
@@ -536,12 +544,14 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
 
     pMenu->Append(wxID_ABOUT, menuName, wxEmptyString);
 
-#ifndef __WXMAC__
+#ifdef __WXMAC__
     // These should be in Windows Task Bar Menu but not in Mac's Dock menu
-    pMenu->AppendSeparator();
-
-    pMenu->Append(wxID_EXIT, _("E&xit"), wxEmptyString);
+    if (m_iconType != wxTBI_DOCK)
 #endif
+    {
+        pMenu->AppendSeparator();
+        pMenu->Append(wxID_EXIT, _("E&xit"), wxEmptyString);
+    }
 
     AdjustMenuItems(pMenu);
 
@@ -556,6 +566,7 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
     wxFont         font = wxNullFont;
     size_t         loc = 0;
     bool           is_dialog_detected = false;
+    bool           enableSnoozeItems = false;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -570,6 +581,8 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
     if (wxGetApp().IsModalDialogDisplayed()) {
         is_dialog_detected = true;
     }
+    
+    enableSnoozeItems = (!is_dialog_detected) && pDoc->IsConnected();
         
     for (loc = 0; loc < pMenu->GetMenuItemCount(); loc++) {
         pMenuItem = pMenu->FindItemByPosition(loc);
@@ -587,19 +600,18 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
     //   a bit. It shouldn't hurt other platforms.
     for (loc = 0; loc < pMenu->GetMenuItemCount(); loc++) {
         pMenuItem = pMenu->FindItemByPosition(loc);
-        if (!pMenuItem->IsSeparator() && pMenuItem->IsEnabled()) {
-            pMenu->Remove(pMenuItem);
+        pMenu->Remove(pMenuItem);
 
-            font = pMenuItem->GetFont();
-            if (pMenuItem->GetId() != ID_OPENBOINCMANAGER) {
-                font.SetWeight(wxFONTWEIGHT_NORMAL);
-            } else {
-                font.SetWeight(wxFONTWEIGHT_BOLD);
-            }
-            pMenuItem->SetFont(font);
-
-            pMenu->Insert(loc, pMenuItem);
+        font = pMenuItem->GetFont();
+        font.SetPointSize(8);
+        if (pMenuItem->GetId() != ID_OPENBOINCMANAGER) {
+            font.SetWeight(wxFONTWEIGHT_NORMAL);
+        } else {
+            font.SetWeight(wxFONTWEIGHT_BOLD);
         }
+        pMenuItem->SetFont(font);
+
+        pMenu->Insert(loc, pMenuItem);
     }
 #endif
 
@@ -613,25 +625,18 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
         case RUN_MODE_NEVER:
             m_SnoozeMenuItem->SetItemLabel(_("Resume"));
             m_SnoozeMenuItem->Check(false);
-            if (!is_dialog_detected) {
-                m_SnoozeMenuItem->Enable(true);
-            }
+            m_SnoozeMenuItem->Enable(enableSnoozeItems);
             break;
         default:
             m_SnoozeMenuItem->SetItemLabel(_("Snooze"));
             m_SnoozeMenuItem->Check(true);
-            if (!is_dialog_detected) {
-                m_SnoozeMenuItem->Enable(true);
-            }
         }
         break;
     default:
         m_SnoozeMenuItem->SetItemLabel(_("Snooze"));
         m_SnoozeMenuItem->Check(false);
-        if (!is_dialog_detected) {
-            m_SnoozeMenuItem->Enable(true);
-        }
     }
+    m_SnoozeMenuItem->Enable(enableSnoozeItems);
     
     if (pDoc->state.have_gpu()) {
         switch (status.gpu_mode) {
@@ -640,30 +645,22 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
             case RUN_MODE_NEVER:
                 m_SnoozeGPUMenuItem->SetItemLabel(_("Resume GPU"));
                 m_SnoozeGPUMenuItem->Check(false);
-                if (!is_dialog_detected) {
-                    m_SnoozeGPUMenuItem->Enable(true);
-                }
                 break;
             default:
                 m_SnoozeGPUMenuItem->SetItemLabel(_("Snooze GPU"));
                 m_SnoozeGPUMenuItem->Check(true);
-                if (!is_dialog_detected) {
-                    m_SnoozeGPUMenuItem->Enable(true);
-                }
             }
             break;
         default:
             m_SnoozeGPUMenuItem->SetItemLabel(_("Snooze GPU"));
             m_SnoozeGPUMenuItem->Check(false);
-            if (!is_dialog_detected) {
-                m_SnoozeGPUMenuItem->Enable(true);
-            }
             break;
         }
         if (status.task_mode == RUN_MODE_NEVER) {
             m_SnoozeGPUMenuItem->Check(false);
             m_SnoozeGPUMenuItem->Enable(false);
         }
+        m_SnoozeGPUMenuItem->Enable(enableSnoozeItems);
     }
 }
 
@@ -684,10 +681,13 @@ void CTaskBarIcon::UpdateTaskbarStatus() {
     if (!pDoc->IsConnected()) {
         SetIcon(m_iconTaskBarDisconnected);
     } else {
-        if (RUN_MODE_NEVER == status.task_mode) {
-            SetIcon(m_iconTaskBarSnooze);
-        } else {
+        switch(status.task_suspend_reason) {
+        case SUSPEND_REASON_CPU_THROTTLE:
+        case 0:
             SetIcon(m_iconTaskBarNormal);
+            break;
+        default:
+            SetIcon(m_iconTaskBarSnooze);
         }
     }
 #else
@@ -705,9 +705,6 @@ void CTaskBarIcon::UpdateTaskbarStatus() {
 
     if (pDoc->IsConnected()) {
         icnIcon = m_iconTaskBarNormal;
-        if (RUN_MODE_NEVER == status.task_mode) {
-            icnIcon = m_iconTaskBarSnooze;
-        }
         bool comp_suspended = false;
         switch(status.task_suspend_reason) {
         case SUSPEND_REASON_CPU_THROTTLE:
@@ -715,6 +712,7 @@ void CTaskBarIcon::UpdateTaskbarStatus() {
             strMessage += _("Computing is enabled");
             break;
         default:
+            icnIcon = m_iconTaskBarSnooze;
             strMessage += _("Computing is suspended - ");
             strMessage += suspend_reason_wxstring(status.task_suspend_reason);
             comp_suspended = true;

@@ -19,6 +19,7 @@
 #define STR_UTIL_H
 
 #include <string>
+#include <vector>
 #include <string.h>
 
 extern void strcpy_overlap(char*, const char*);
@@ -75,6 +76,18 @@ extern int string_substitute(
 //
 extern void mysql_timestamp(double, char*);
 
+// parse host.serialnum into component parts.
+// Given a string of the form
+// [BOINC|7.2.42][CUDA|GeForce GTX 860M|1|2048MB|34052|101][INTEL|Intel(R) HD Graphics 4600|1|1752MB||102][vbox|4.2.16]
+// split it into the BOINC, vbox, and other (coproc) parts
+//
+extern void parse_serialnum(char* in, char* boinc, char* vbox, char* coprocs);
+
+// take a malloced string.
+// if \n is not last char, add it.
+//
+extern char* lf_terminate(char*);
+
 extern const char* network_status_string(int);
 extern const char* rpc_reason_string(int);
 extern const char* suspend_reason_string(int reason);
@@ -83,7 +96,9 @@ extern const char* battery_state_string(int state);
 extern const char* result_client_state_string(int state);
 extern const char* result_scheduler_state_string(int state);
 extern const char* active_task_state_string(int state);
+extern const char* batch_state_string(int state);
 
 extern void strip_translation(char* p);
 
+extern std::vector<std::string> split(std::string, char delim);
 #endif

@@ -18,6 +18,10 @@
 #ifndef _CLIENT_STATE_
 #define _CLIENT_STATE_
 
+#define NEW_CPU_THROTTLE
+// do CPU throttling using a separate thread.
+// This makes it possible to throttle faster than the client's 1-sec poll period
+
 #ifndef _WIN32
 #include <string>
 #include <vector>
@@ -29,6 +33,9 @@ using std::vector;
 
 #include "coproc.h"
 #include "util.h"
+#ifdef NEW_CPU_THROTTLE
+#include "thread.h"
+#endif
 
 #include "acct_mgr.h"
 #include "acct_setup.h"
@@ -70,6 +77,7 @@ using std::vector;
 struct CLIENT_STATE {
     vector<PLATFORM> platforms;
     vector<PROJECT*> projects;
+        // in alphabetical order, to improve display
     vector<APP*> apps;
     vector<FILE_INFO*> file_infos;
     vector<APP_VERSION*> app_versions;
@@ -102,6 +110,10 @@ struct CLIENT_STATE {
     DEVICE_STATUS device_status;
     double device_status_time;
 
+    char language[16];                // ISO language code reported by GUI
+    char client_brand[256];
+        // contents of client_brand.txt, e.g. "HTC Power to Give"
+        // reported to scheduler
     VERSION_INFO core_client_version;
     string statefile_platform_name;
     int file_xfer_giveup_period;
@@ -130,17 +142,19 @@ struct CLIENT_STATE {
         // Determine when it is safe to leave the quit_client() handler
         // and to finish cleaning up.
     char detach_project_url[256];
-        // stores URL for -detach_project option
+        // stores URL for --detach_project option
     char reset_project_url[256];
-        // stores URL for -reset_project option
+        // stores URL for --reset_project option
     char update_prefs_url[256];
-        // stores URL for -update_prefs option
+        // stores URL for --update_prefs option
     char main_host_venue[256];
         // venue from project or AMS that gave us general prefs
     char attach_project_url[256];
     char attach_project_auth[256];
     bool exit_before_upload;
         // exit when about to upload a file
+    bool run_test_app;
+        // API test mode
 #ifndef _WIN32
     gid_t boinc_project_gid;
 #endif
@@ -172,8 +186,10 @@ struct CLIENT_STATE {
     int pers_giveup;
 
     bool tasks_suspended;
-        // Don't run apps.
+        // Computing suspended for reason other than throttling
     int suspend_reason;
+    bool tasks_throttled;
+        // Computing suspended because of throttling
 
     bool network_suspended;
         // Don't use network.
@@ -208,10 +224,7 @@ struct CLIENT_STATE {
     int old_minor_version;
     int old_release;
     bool run_cpu_benchmarks;
-        // if set, run benchmarks on client startup
-    bool cpu_benchmarks_pending;
-        // set if a benchmark fails to start because of a job that doesn't exit
-        // Persists so that the next start of BOINC runs the benchmarks.
+        // if set, run benchmarks when possible
 
     int exit_after_app_start_secs;
         // if nonzero, exit this many seconds after starting an app
@@ -253,6 +266,8 @@ struct CLIENT_STATE {
     int report_result_error(RESULT&, const char *format, ...);
     int reset_project(PROJECT*, bool detaching);
     bool no_gui_rpc;
+    bool gui_rpc_unix_domain;
+        // do GUI RPC over Unix-domain sockets rather than TCP
     void start_abort_sequence();
     bool abort_sequence_done();
     int quit_activities();
@@ -357,7 +372,8 @@ struct CLIENT_STATE {
 // --------------- cs_benchmark.cpp:
     bool benchmarks_running;
 
-    bool should_run_cpu_benchmarks();
+    void check_if_need_benchmarks();
+    bool can_run_cpu_benchmarks();
     void start_cpu_benchmarks();
     bool cpu_benchmarks_poll();
     void abort_cpu_benchmarks();
@@ -394,7 +410,7 @@ struct CLIENT_STATE {
     void get_disk_shares();
     double allowed_disk_usage(double boinc_total);
     int allowed_project_disk_usage(double&);
-    int suspend_tasks(int reason);
+    void show_suspend_tasks_message(int reason);
     int resume_tasks(int reason=0);
     void read_global_prefs(
         const char* fname = GLOBAL_PREFS_FILE_NAME,
@@ -441,6 +457,7 @@ struct CLIENT_STATE {
     int write_file_transfers_gui(MIOFILE&);
     int write_tasks_gui(MIOFILE&, bool);
     void sort_results();
+    void sort_projects_by_name();
 
 // --------------- cs_trickle.cpp:
     int read_trickle_files(PROJECT*, FILE*);
@@ -506,6 +523,11 @@ extern double calculate_exponential_backoff(
     int n, double MIN, double MAX
 );
 
+#ifdef NEW_CPU_THROTTLE
+extern THREAD_LOCK client_mutex;
+extern THREAD throttle_thread;
+#endif
+
 //////// TIME-RELATED CONSTANTS ////////////
 
 //////// CLIENT INTERNAL
@@ -550,7 +572,7 @@ extern double calculate_exponential_backoff(
     // so if the project develops a GPU app,
     // we'll find out about it within a day.
 
-#define WF_DEFER_INTERVAL   300
+#define WF_UPLOAD_DEFER_INTERVAL   300
     // if a project is uploading,
     // and the last upload started within this interval,
     // don't fetch work from it.
@@ -600,4 +622,18 @@ extern double calculate_exponential_backoff(
     // min/max account manager RPC backoff
 
 #define ANDROID_KEEPALIVE_TIMEOUT   30
+    // Android: if don't get a report_device_status() RPC from the GUI
+    // in this interval, exit.
+    // We rely on the GUI to report battery status.
+
+#ifndef ANDROID
+#define USE_NET_PREFS
+    // use preferences obtained over the network
+    // (i.e. through scheduler replies)
+    // Don't do this on Android
+#endif
+
+#define NEED_NETWORK_MSG _("BOINC can't access Internet - check network connection or proxy configuration.")
+#define NO_WORK_MSG _("Your current settings do not allow tasks from this project.")
+
 #endif

@@ -18,21 +18,11 @@
 #ifndef _WIN_UTIL_
 #define _WIN_UTIL_
 
-extern BOOL IsWindows2000Compatible();extern BOOL IsTerminalServicesEnabled();
-extern BOOL ValidateProductSuite(LPSTR SuiteName);
 extern BOOL TerminateProcessById(DWORD dwProcessId);
-extern BOOL AddAceToWindowStation(HWINSTA hwinsta, PSID psid);
-extern BOOL AddAceToDesktop(HDESK hdesk, PSID psid);
-extern BOOL GetAccountSid(
-    LPCSTR SystemName,          // where to lookup account
-    LPCSTR AccountName,         // account of interest
-    PSID *Sid                   // resultant buffer containing SID
-);
 extern void chdir_to_data_dir();
-extern bool is_remote_desktop();
 
-extern std::wstring A2W(const std::string& str);
-extern std::string W2A(const std::wstring& str);
+extern std::wstring boinc_ascii_to_wide(const std::string& str);
+extern std::string boinc_wide_to_ascii(const std::wstring& str);
 
 extern char* windows_format_error_string(
     unsigned long dwError, char* pszBuf, int iSize

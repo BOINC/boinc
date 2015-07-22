@@ -30,9 +30,10 @@ extern void push_unique(std::string, std::vector<std::string>&);
 // NOTE: use #include <functional>   to get max,min
 
 #define SECONDS_PER_DAY 86400
-#define KILO (1024.0)
-#define MEGA (1048576.0)
-#define GIGA (1024.*1048576.0)
+#define KILO (1024.)
+#define MEGA (1024.*KILO)
+#define GIGA (1024.*MEGA)
+#define TERA (1024.*GIGA)
 
 static inline double drand() {
     return (double)rand()/(double)RAND_MAX;
@@ -40,7 +41,7 @@ static inline double drand() {
 extern double rand_normal();
 
 #ifdef _WIN32
-#include <windows.h>
+#include "boinc_win.h"
 extern int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu);
 extern int boinc_process_cpu_time(HANDLE process_handle, double& cpu);
 #else
@@ -49,6 +50,7 @@ extern int boinc_process_cpu_time(HANDLE process_handle, double& cpu);
 //
 static const int PROCESS_IDLE_PRIORITY = 19;
 static const int PROCESS_MEDIUM_PRIORITY = 10;
+static const int PROCESS_NORMAL_PRIORITY = 0;
 extern double linux_cpu_time(int pid);
 #endif
 
@@ -80,18 +82,25 @@ extern int read_file_string(
 #ifdef _WIN32
 
 extern int run_program(
-    const char* dir, const char* file, int argc, char *const argv[], double, HANDLE&
+    const char* dir,    // directory to run program in; NULL if current dir
+    const char* file,   // path of executable
+    int argc, char *const argv[],   // cmdline args, UNIX-style
+    double,             // if nonzero, wait for X seconds, then check
+                        // whether process is still running, return error if not
+    HANDLE&             // process handle
 );
 
-extern void kill_program(HANDLE);
+extern int kill_program(HANDLE);
+extern int kill_program(int, int exit_code=0);
 extern int get_exit_status(HANDLE);
 extern bool process_exists(HANDLE);
 
 #else
+// like Win version, but returns PID
 extern int run_program(
     const char* dir, const char* file, int argc, char *const argv[], double, int&
 );
-extern void kill_program(int);
+extern int kill_program(int);
 extern int get_exit_status(int);
 extern bool process_exists(int);
 #endif

@@ -21,45 +21,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <LinearLayout 
-	    android:id="@+id/headerWrapper"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shape_dark_blue_gradient_background"
-        android:padding="15dp"
-	    android:gravity="center_horizontal">
-        <TextView android:textAppearance="?android:attr/textAppearanceLarge"
-	        android:id="@+id/header"
-	        android:text="@string/attachproject_list_header"
-	        android:background="@android:color/transparent"
-	        android:textColor="@color/white_smoke"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:singleLine="true"/>
-    </LinearLayout>
+    
+    <ImageView 
+        android:id="@+id/logo"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_marginLeft="40dp"
+    	android:layout_marginRight="40dp"
+    	android:layout_marginBottom="20dp"
+    	android:layout_marginTop="20dp"
+    	android:maxWidth="400dp"
+    	android:adjustViewBounds="true"
+    	android:src="@drawable/boinc_logo_large"
+    	android:contentDescription="@string/app_name"
+    	android:layout_centerHorizontal="true"/>
+    
+    <TextView 
+        android:id="@+id/desc"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:text="@string/attachproject_list_desc"
+    	android:textAppearance="?android:attr/textAppearanceSmall"
+    	android:textStyle="bold"
+    	android:textColor="@android:color/white"
+    	android:layout_below="@+id/logo"
+    	android:padding="5dp"
+    	android:background="@drawable/shape_dark_blue_background_wo_stroke"
+    	android:layout_centerHorizontal="true"/>
 
     <ListView
         android:id="@+id/listview"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/headerWrapper"
-        android:layout_marginBottom="50dp" >
-    </ListView>
+        android:layout_height="wrap_content"
+    	android:layout_below="@+id/desc"
+        android:layout_above="@+id/continue_button"/>
     
-    <Button
-		android:id="@+id/manualUrlButton"
-		android:layout_width="200dp"
-		android:layout_height="wrap_content"
+    <Button 
+        android:id="@+id/continue_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:text="@string/generic_button_continue"
+		android:textColor="@android:color/white"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+        android:background="@drawable/shape_button_blue"
+        android:minWidth="150dp"
 		android:padding="5dp"
 		android:layout_margin="10dp"
-		android:layout_gravity="center_horizontal"
-		android:layout_centerHorizontal="true"
-		android:layout_alignParentBottom="true"
-		android:clickable="true"
-		android:background="@drawable/shape_button_blue"
-		android:textColor="@color/white_smoke"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:onClick="manualUrlItem"
-		android:text="@string/attachproject_list_manual_button" /> 
+		android:onClick="continueClicked"/>
 
 </RelativeLayout>

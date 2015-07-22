@@ -1,0 +1,96 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "browser_win.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winresrc.h"
+#include "version.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON                          ICON              "res\\boinc.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+// Helpful macros to convert version to string notation
+#define TOSTR(s) #s
+#define VER_TOSTR(maj,min,rel) TOSTR(maj) "." TOSTR(min) "." TOSTR(rel) "\0"
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION BOINC_MAJOR_VERSION,BOINC_MINOR_VERSION,VBOXWRAPPER_RELEASE,0
+ PRODUCTVERSION BOINC_MAJOR_VERSION,BOINC_MINOR_VERSION,VBOXWRAPPER_RELEASE,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName", "Space Sciences Laboratory"
+            VALUE "FileDescription", "BOINC HTML Graphics"
+            VALUE "FileVersion", VER_TOSTR(BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, WRAPPER_RELEASE)
+            VALUE "InternalName", "htmlgfx"
+            VALUE "LegalCopyright", "© 2011-2015 University of California"
+            VALUE "OriginalFilename", "htmlgfx.exe"
+            VALUE "ProductName", "BOINC HTML Graphics"
+            VALUE "ProductVersion", VER_TOSTR(BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, WRAPPER_RELEASE)
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+#endif
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+1 TYPELIB "browser.tlb"
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED

@@ -31,6 +31,7 @@
 #include <sys/un.h>
 #include <cstdio>
 #include <unistd.h>
+#include <time.h>
 #include <cstdlib>
 #include <cstring>
 #endif
@@ -56,8 +57,8 @@ void DAILY_XFER_HISTORY::print() {
         time_t t = dx.when*86400;
         struct tm* tm = localtime(&t);
         strftime(buf, sizeof(buf)-1, "%d-%b-%Y", tm);
-        printf("%s: %d bytes uploaded, %d bytes downloaded\n",
-            buf, (int)dx.up, (int)dx.down
+        printf("%s: %.0f bytes uploaded, %.0f bytes downloaded\n",
+            buf, dx.up, dx.down
         );
     }
 }
@@ -99,11 +100,16 @@ void PROJECT::print() {
     printf("   suspended via GUI: %s\n", suspended_via_gui?"yes":"no");
     printf("   don't request more work: %s\n", dont_request_more_work?"yes":"no");
     printf("   disk usage: %f\n", disk_usage);
-    printf("   last RPC: %f\n", last_rpc_time);
+    time_t foo = (time_t)last_rpc_time;
+    printf("   last RPC: %s\n", ctime(&foo));
     printf("   project files downloaded: %f\n", project_files_downloaded_time);
     for (i=0; i<gui_urls.size(); i++) {
         gui_urls[i].print();
     }
+    printf("   jobs succeeded: %d\n", njobs_success);
+    printf("   jobs failed: %d\n", njobs_error);
+    printf("   elapsed time: %f\n", elapsed_time);
+    printf("   cross-project ID: %s\n", external_cpid);
 }
 
 void APP::print() {
@@ -145,9 +151,14 @@ void RESULT::print() {
     printf("   checkpoint CPU time: %f\n", checkpoint_cpu_time);
     printf("   current CPU time: %f\n", current_cpu_time);
     printf("   fraction done: %f\n", fraction_done);
-    printf("   swap size: %f\n", swap_size);
-    printf("   working set size: %f\n", working_set_size_smoothed);
+    printf("   swap size: %.0f MB\n", swap_size/MEGA);
+    printf("   working set size: %.0f MB\n", working_set_size_smoothed/MEGA);
     printf("   estimated CPU time remaining: %f\n", estimated_cpu_time_remaining);
+    if (bytes_sent || bytes_received) {
+        printf("   bytes sent: %.0f received: %.0f\n",
+            bytes_sent, bytes_received
+        );
+    }
 }
 
 void FILE_TRANSFER::print() {
@@ -218,8 +229,16 @@ void TIME_STATS::print() {
     printf("  cpu_and_network_available_frac: %f\n", cpu_and_network_available_frac);
     printf("  active_frac: %f\n", active_frac);
     printf("  gpu_active_frac: %f\n", gpu_active_frac);
-    printf("  client_start_time: %f\n", client_start_time);
+    time_t foo = (time_t)client_start_time;
+    printf("  client_start_time: %s\n", ctime(&foo));
     printf("  previous_uptime: %f\n", previous_uptime);
+    printf("  session_active_duration: %f\n", session_active_duration);
+    printf("  session_gpu_active_duration: %f\n", session_gpu_active_duration);
+    foo = (time_t)total_start_time;
+    printf("  total_start_time: %s\n", ctime(&foo));
+    printf("  total_duration: %f\n", total_duration);
+    printf("  total_active_duration: %f\n", total_active_duration);
+    printf("  total_gpu_active_duration: %f\n", total_gpu_active_duration);
 }
 
 void CC_STATE::print() {
@@ -305,6 +324,13 @@ void PROJECTS::print() {
     }
 }
 
+void PROJECTS::print_urls() {
+    unsigned int i;
+    for (i=0; i<projects.size(); i++) {
+        printf("%s\n", projects[i]->master_url);
+    }
+}
+
 void DISK_USAGE::print() {
     unsigned int i;
     printf("======== Disk usage ========\n");
@@ -362,3 +388,21 @@ void ACCOUNT_OUT::print() {
     }
 }
 
+void OLD_RESULT::print() {
+    printf(
+        "task %s:\n"
+        "   project URL: %s\n"
+        "   app name: %s\n"
+        "   exit status: %d\n"
+        "   elapsed time: %f sec\n"
+        "   completed time: %s\n"
+        "   reported time: %s\n",
+        result_name,
+        project_url,
+        app_name,
+        exit_status,
+        elapsed_time,
+        time_to_string(completed_time),
+        time_to_string(create_time)
+    );
+}

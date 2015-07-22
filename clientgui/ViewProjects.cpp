@@ -34,7 +34,14 @@
 
 #include "res/proj.xpm"
 
-
+// Column IDs must be equal to the column's default
+// position (left to right, zero-based) when all
+// columns are shown.  However, any column may be
+// hidden, either by default or by the user.
+// (On MS Windows only, the user can also rearrange
+// the columns from the default order.)
+//
+// Column IDs
 #define COLUMN_PROJECT              0
 #define COLUMN_ACCOUNTNAME          1
 #define COLUMN_TEAMNAME             2
@@ -42,6 +49,16 @@
 #define COLUMN_AVGCREDIT            4
 #define COLUMN_RESOURCESHARE        5
 #define COLUMN_STATUS               6
+
+// DefaultShownColumns is an array containing the
+// columnIDs of the columns to be shown by default,
+// in ascending order.  It may or may not include
+// all columns.
+//
+// For now, show all columns by default
+static int DefaultShownColumns[] = { COLUMN_PROJECT, COLUMN_ACCOUNTNAME, COLUMN_TEAMNAME,
+                                COLUMN_TOTALCREDIT, COLUMN_AVGCREDIT,
+                                COLUMN_RESOURCESHARE, COLUMN_STATUS};
 
 // groups that contain buttons
 #define GRP_TASKS    0
@@ -55,6 +72,14 @@
 #define BTN_DETACH       4
 #define BTN_PROPERTIES   5
 
+// TODO: thousands separators
+// TODO: use these in simple view too.
+static void format_total_credit(float credit, wxString& strBuffer)  {
+    strBuffer.Printf(wxT("%.0f"), credit);
+}
+static void format_avg_credit(float credit, wxString& strBuffer)  {
+    strBuffer.Printf(wxT("%0.2f"), credit);
+}
 
 CProject::CProject() {
     m_fTotalCredit = -1.0;
@@ -82,10 +107,16 @@ BEGIN_EVENT_TABLE (CViewProjects, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_PROJECT_DETACH, CViewProjects::OnProjectDetach)
     EVT_BUTTON(ID_TASK_PROJECT_SHOW_PROPERTIES, CViewProjects::OnShowItemProperties)
     EVT_CUSTOM_RANGE(wxEVT_COMMAND_BUTTON_CLICKED, ID_TASK_PROJECT_WEB_PROJDEF_MIN, ID_TASK_PROJECT_WEB_PROJDEF_MAX, CViewProjects::OnProjectWebsiteClicked)
-    EVT_LIST_ITEM_SELECTED(ID_LIST_PROJECTSVIEW, CViewProjects::OnListSelected)
-    EVT_LIST_ITEM_DESELECTED(ID_LIST_PROJECTSVIEW, CViewProjects::OnListDeselected)
-    EVT_LIST_COL_CLICK(ID_LIST_PROJECTSVIEW, CViewProjects::OnColClick)
+// We currently handle EVT_LIST_CACHE_HINT on Windows or 
+// EVT_CHECK_SELECTION_CHANGED on Mac & Linux instead of EVT_LIST_ITEM_SELECTED
+// or EVT_LIST_ITEM_DESELECTED.  See CBOINCBaseView::OnCacheHint() for info.
+#if USE_LIST_CACHE_HINT
     EVT_LIST_CACHE_HINT(ID_LIST_PROJECTSVIEW, CViewProjects::OnCacheHint)
+#else
+	EVT_CHECK_SELECTION_CHANGED(CViewProjects::OnCheckSelectionChanged)
+#endif
+    EVT_LIST_COL_CLICK(ID_LIST_PROJECTSVIEW, CViewProjects::OnColClick)
+    EVT_LIST_COL_END_DRAG(ID_LIST_PROJECTSVIEW, CViewProjects::OnColResize)
 END_EVENT_TABLE ()
 
 
@@ -108,7 +139,7 @@ static bool CompareViewProjectsItems(int iRowIndex1, int iRowIndex2) {
         return 0;
     }
 
-    switch (myCViewProjects->m_iSortColumn) {
+    switch (myCViewProjects->m_iSortColumnID) {
     case COLUMN_PROJECT:
         result = project1->m_strProjectName.CmpNoCase(project2->m_strProjectName);
         break;
@@ -154,7 +185,7 @@ CViewProjects::CViewProjects()
 
 
 CViewProjects::CViewProjects(wxNotebook* pNotebook) :
-    CBOINCBaseView(pNotebook, ID_TASK_PROJECTSVIEW, DEFAULT_TASK_FLAGS, ID_LIST_PROJECTSVIEW, DEFAULT_LIST_MULTI_SEL_FLAGS)
+    CBOINCBaseView(pNotebook, ID_TASK_PROJECTSVIEW, DEFAULT_TASK_FLAGS, ID_LIST_PROJECTSVIEW, DEFAULT_LIST_FLAGS)
 {
     CTaskItemGroup* pGroup = NULL;
     CTaskItem*      pItem = NULL;
@@ -214,15 +245,38 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     // Create Task Pane Items
     m_pTaskPane->UpdateControls();
 
-    // Create List Pane Items
-    m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 150);
-    m_pListPane->InsertColumn(COLUMN_ACCOUNTNAME, _("Account"), wxLIST_FORMAT_LEFT, 80);
-    m_pListPane->InsertColumn(COLUMN_TEAMNAME, _("Team"), wxLIST_FORMAT_LEFT, 80);
-    m_pListPane->InsertColumn(COLUMN_TOTALCREDIT, _("Work done"), wxLIST_FORMAT_RIGHT, 80);
-    m_pListPane->InsertColumn(COLUMN_AVGCREDIT, _("Avg. work done"), wxLIST_FORMAT_RIGHT, 80);
-    m_pListPane->InsertColumn(COLUMN_RESOURCESHARE, _("Resource share"), wxLIST_FORMAT_CENTRE, 85);
-    m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, 150);
+    // m_aStdColNameOrder is an array of all column heading labels
+    // (localized) in order of ascending Column ID.
+    // Once initialized, it should not be modified.
+    //
+    m_aStdColNameOrder = new wxArrayString;
+    m_aStdColNameOrder->Insert(_("Project"), COLUMN_PROJECT);
+    m_aStdColNameOrder->Insert(_("Account"), COLUMN_ACCOUNTNAME);
+    m_aStdColNameOrder->Insert(_("Team"), COLUMN_TEAMNAME);
+    m_aStdColNameOrder->Insert(_("Work done"), COLUMN_TOTALCREDIT);
+    m_aStdColNameOrder->Insert(_("Avg. work done"), COLUMN_AVGCREDIT);
+    m_aStdColNameOrder->Insert(_("Resource share"), COLUMN_RESOURCESHARE);
+    m_aStdColNameOrder->Insert(_("Status"), COLUMN_STATUS);
 
+    // m_iStdColWidthOrder is an array of the width for each column.
+    // Entries must be in order of ascending Column ID.  We initalize
+    // it here to the default column widths.  It is updated by
+    // CBOINCListCtrl::OnRestoreState() and also when a user resizes
+    // a column by dragging the divider between two columns.
+    //
+    m_iStdColWidthOrder.Clear();
+    m_iStdColWidthOrder.Insert(150, COLUMN_PROJECT);
+    m_iStdColWidthOrder.Insert(80, COLUMN_ACCOUNTNAME);
+    m_iStdColWidthOrder.Insert(80, COLUMN_TEAMNAME);
+    m_iStdColWidthOrder.Insert(80, COLUMN_TOTALCREDIT);
+    m_iStdColWidthOrder.Insert(80, COLUMN_AVGCREDIT);
+    m_iStdColWidthOrder.Insert(80, COLUMN_RESOURCESHARE);
+    m_iStdColWidthOrder.Insert(80, COLUMN_STATUS);
+
+    wxASSERT(m_iStdColWidthOrder.size() == m_aStdColNameOrder->size());
+
+    m_iDefaultShownColumns = DefaultShownColumns;
+    m_iNumDefaultShownColumns = sizeof(DefaultShownColumns) / sizeof(int);
     m_iProgressColumn = COLUMN_RESOURCESHARE;
  
     // Needed by static sort routine;
@@ -236,6 +290,41 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
 CViewProjects::~CViewProjects() {
     EmptyCache();
     EmptyTasks();
+}
+
+
+// Create List Pane Items
+void CViewProjects::AppendColumn(int columnID){
+    switch(columnID) {
+        case COLUMN_PROJECT:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_PROJECT],
+                    wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_PROJECT]);
+            break;
+        case COLUMN_ACCOUNTNAME:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_ACCOUNTNAME],
+                    wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_ACCOUNTNAME]);
+            break;
+        case COLUMN_TEAMNAME:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_TEAMNAME],
+                    wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_TEAMNAME]);
+            break;
+        case COLUMN_TOTALCREDIT:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_TOTALCREDIT],
+                    wxLIST_FORMAT_RIGHT, m_iStdColWidthOrder[COLUMN_TOTALCREDIT]);
+            break;
+        case COLUMN_AVGCREDIT:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_AVGCREDIT],
+                    wxLIST_FORMAT_RIGHT, m_iStdColWidthOrder[COLUMN_AVGCREDIT]);
+            break;
+        case COLUMN_RESOURCESHARE:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_RESOURCESHARE],
+                    wxLIST_FORMAT_CENTRE, m_iStdColWidthOrder[COLUMN_RESOURCESHARE]);
+            break;
+        case COLUMN_STATUS:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_STATUS],
+                    wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_STATUS]);
+            break;
+    }
 }
 
 
@@ -554,6 +643,15 @@ void CViewProjects::OnProjectWebsiteClicked( wxEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectWebsiteClicked - Function End"));
 }
 
+void CViewProjects::OnColResize( wxListEvent& ) {
+    // Register the new column widths immediately
+    CAdvancedFrame* pFrame = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+
+    wxASSERT(pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
+    pFrame->SaveState();
+}
+
 
 wxInt32 CViewProjects::GetDocCount() {
     CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -576,8 +674,8 @@ wxString CViewProjects::OnListGetItemText(long item, long column) const {
         project = NULL;
     }
 
-    if (project) {
-        switch(column) {
+    if (project && (column >= 0)) {
+        switch(m_iColumnIndexToColumnID[column]) {
             case COLUMN_PROJECT:
                 strBuffer = project->m_strProjectName;
                 break;
@@ -782,9 +880,11 @@ bool CViewProjects::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex
             return false;
     }
 
+    if (iColumnIndex < 0) return false;
+
     strDocumentText.Empty();
 
-    switch (iColumnIndex) {
+   switch (m_iColumnIndexToColumnID[iColumnIndex]) {
         case COLUMN_PROJECT:
             GetDocProjectName(m_iSortedIndexes[iRowIndex], strDocumentText);
             GetDocProjectURL(m_iSortedIndexes[iRowIndex], strDocumentText2);
@@ -812,7 +912,7 @@ bool CViewProjects::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex
             GetDocTotalCredit(m_iSortedIndexes[iRowIndex], fDocumentFloat);
             if (fDocumentFloat != project->m_fTotalCredit) {
                 project->m_fTotalCredit = fDocumentFloat;
-                FormatTotalCredit(fDocumentFloat, project->m_strTotalCredit);
+                format_total_credit(fDocumentFloat, project->m_strTotalCredit);
                 return true;
             }
             break;
@@ -820,7 +920,7 @@ bool CViewProjects::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex
             GetDocAVGCredit(m_iSortedIndexes[iRowIndex], fDocumentFloat);
             if (fDocumentFloat != project->m_fAVGCredit) {
                 project->m_fAVGCredit = fDocumentFloat;
-                FormatAVGCredit(fDocumentFloat, project->m_strAVGCredit);
+                format_avg_credit(fDocumentFloat, project->m_strAVGCredit);
                 return true;
             }
             break;
@@ -975,13 +1075,6 @@ void CViewProjects::GetDocTotalCredit(wxInt32 item, float& fBuffer) const {
 }
 
 
-wxInt32 CViewProjects::FormatTotalCredit(float fBuffer, wxString& strBuffer) const {
-    strBuffer.Printf(wxT("%0.2f"), fBuffer);
-
-    return 0;
-}
-
-
 void CViewProjects::GetDocAVGCredit(wxInt32 item, float& fBuffer) const {
     PROJECT* project = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -996,14 +1089,6 @@ void CViewProjects::GetDocAVGCredit(wxInt32 item, float& fBuffer) const {
         fBuffer = 0.0;
     }
 }
-
-
-wxInt32 CViewProjects::FormatAVGCredit(float fBuffer, wxString& strBuffer) const {
-    strBuffer.Printf(wxT("%0.2f"), fBuffer);
-
-    return 0;
-}
-
 
 void CViewProjects::GetDocResourceShare(wxInt32 item, float& fBuffer) const {
     PROJECT* project = NULL;
@@ -1093,7 +1178,7 @@ void CViewProjects::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
         wxDateTime dtNow(wxDateTime::Now());
         if (dtNextRPC > dtNow) {
             wxTimeSpan tsNextRPC(dtNextRPC - dtNow);
-            append_to_status(strBuffer, _("Communication deferred ") + tsNextRPC.Format());
+            append_to_status(strBuffer, _("Communication deferred") + wxString(" ") + tsNextRPC.Format());
         }
     }
 }

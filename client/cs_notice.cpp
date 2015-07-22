@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2009 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -143,7 +143,7 @@ void handle_sr_feeds(vector<RSS_FEED>& feeds, PROJ_AM* p) {
     while (iter != p->proj_feeds.end()) {
         RSS_FEED& rf = *iter;
         if (rf.found) {
-            iter++;
+            ++iter;
         } else {
             iter = p->proj_feeds.erase(iter);
             feed_set_changed = true;
@@ -286,8 +286,12 @@ static inline bool string_equal_nodigits(string& s1, string& s2) {
 }
 
 static inline bool same_text(NOTICE& n1, NOTICE& n2) {
-    if (strcmp(n1.title, n2.title)) return false;
-    if (!string_equal_nodigits(n1.description, n2.description)) return false;
+    if (strcmp(n1.title, n2.title)) {
+        return false;
+    }
+    if (!string_equal_nodigits(n1.description, n2.description)) {
+        return false;
+    }
     return true;
 }
 
@@ -296,7 +300,7 @@ void NOTICES::clear_keep() {
     while (i != notices.end()) {
         NOTICE& n = *i;
         n.keep = false;
-        i++;
+        ++i;
     }
 }
 
@@ -309,7 +313,7 @@ void NOTICES::unkeep(const char* url) {
             i = notices.erase(i);
             removed_something = true;
         } else {
-            i++;
+            ++i;
         }
     }
 #ifndef SIM
@@ -319,10 +323,12 @@ void NOTICES::unkeep(const char* url) {
 #endif
 }
 
+#if 0
 static inline bool same_guid(NOTICE& n1, NOTICE& n2) {
     if (!strlen(n1.guid)) return false;
     return !strcmp(n1.guid, n2.guid);
 }
+#endif
 
 // we're considering adding a notice n.
 // If there's already an identical message n2
@@ -340,14 +346,30 @@ bool NOTICES::remove_dups(NOTICE& n) {
     double min_time = gstate.now - 30*86400;
     while (i != notices.end()) {
         NOTICE& n2 = *i;
+
+        if (log_flags.notice_debug) {
+            msg_printf(0, MSG_INFO,
+                "[notice] scanning old notice %d: %s",
+                n2.seqno, strlen(n2.title)?n2.title:n2.description.c_str()
+            );
+        }
         if (n2.arrival_time < min_time
             || (n2.create_time && n2.create_time < min_time)
         ) {
             i = notices.erase(i);
             removed_something = true;
+            if (log_flags.notice_debug) {
+                msg_printf(0, MSG_INFO,
+                    "[notice] removing old notice %d: %s",
+                    n2.seqno, strlen(n2.title)?n2.title:n2.description.c_str()
+                );
+            }
+#if 0
+        // this check prevents news item edits from showing; skip it
         } else if (same_guid(n, n2)) {
             n2.keep = true;
             return false;
+#endif
         } else if (same_text(n, n2)) {
             int min_diff = 0;
 
@@ -360,10 +382,20 @@ bool NOTICES::remove_dups(NOTICE& n) {
             if (n.create_time > n2.create_time + min_diff) {
                 i = notices.erase(i);
                 removed_something = true;
+                if (log_flags.notice_debug) {
+                    msg_printf(0, MSG_INFO,
+                        "[notice] replacing identical older notice %d", n2.seqno
+                    );
+                }
             } else {
                 n2.keep = true;
                 retval = false;
                 ++i;
+                if (log_flags.notice_debug) {
+                    msg_printf(0, MSG_INFO,
+                        "[notice] keeping identical older notice %d", n2.seqno
+                    );
+                }
             }
         } else {
             ++i;
@@ -380,6 +412,12 @@ bool NOTICES::remove_dups(NOTICE& n) {
 // add a notice.
 // 
 bool NOTICES::append(NOTICE& n) {
+    if (log_flags.notice_debug) {
+        msg_printf(0, MSG_INFO,
+            "[notice] processing notice: %s",
+            strlen(n.title)?n.title:n.description.c_str()
+        );
+    }
     if (!remove_dups(n)) {
         return false;
     }
@@ -390,8 +428,7 @@ bool NOTICES::append(NOTICE& n) {
     }
     if (log_flags.notice_debug) {
         msg_printf(0, MSG_INFO,
-            "[notice] appending notice %d: %s",
-            n.seqno, strlen(n.title)?n.title:n.description.c_str()
+            "[notice] adding notice %d", n.seqno
         );
     }
     notices.push_front(n);
@@ -482,19 +519,44 @@ void NOTICES::write_archive(RSS_FEED* rfp) {
     fclose(f);
 }
 
-// Remove "need network access" notices
+// Remove outdated notices
 //
-void NOTICES::remove_network_msg() {
+void NOTICES::remove_notices(PROJECT* p, int which) {
     deque<NOTICE>::iterator i = notices.begin();
     while (i != notices.end()) {
         NOTICE& n = *i;
-        if (!strcmp(n.description.c_str(), NEED_NETWORK_MSG)) {
+        if (p && strcmp(n.project_name, p->get_project_name())) {
+            ++i;
+            continue;
+        }
+        bool remove = false;
+        switch (which) {
+        case REMOVE_NETWORK_MSG:
+            remove = !strcmp(n.description.c_str(), NEED_NETWORK_MSG);
+            break;
+        case REMOVE_SCHEDULER_MSG:
+            remove = !strcmp(n.category, "scheduler");
+            break;
+        case REMOVE_NO_WORK_MSG:
+            remove = !strcmp(n.description.c_str(), NO_WORK_MSG);
+            break;
+        case REMOVE_CONFIG_MSG:
+            remove = (strstr(n.description.c_str(), "cc_config.xml") != NULL);
+            break;
+        case REMOVE_APP_INFO_MSG:
+            remove = (strstr(n.description.c_str(), "app_info.xml") != NULL);
+            break;
+        case REMOVE_APP_CONFIG_MSG:
+            remove = (strstr(n.description.c_str(), "app_config.xml") != NULL);
+            break;
+        }
+        if (remove) {
             i = notices.erase(i);
 #ifndef SIM
             gstate.gui_rpcs.set_notice_refresh();
 #endif
             if (log_flags.notice_debug) {
-                msg_printf(0, MSG_INFO, "REMOVING NETWORK MESSAGE");
+                msg_printf(p, MSG_INFO, "Removing notices of type %d", which);
             }
         } else {
             ++i;
@@ -510,7 +572,7 @@ void NOTICES::write(int seqno, GUI_RPC_CONN& grc, bool public_only) {
     MIOFILE mf;
 
     if (!net_status.need_physical_connection) {
-        remove_network_msg();
+        remove_notices(NULL, REMOVE_NETWORK_MSG);
     }
     if (log_flags.notice_debug) {
         msg_printf(0, MSG_INFO, "NOTICES::write: seqno %d, refresh %s, %d notices",
@@ -688,6 +750,14 @@ int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
     return func_ret;
 }
 
+void RSS_FEED::delete_files() {
+    char path[MAXPATHLEN];
+    feed_file_name(path);
+    boinc_delete_file(path);
+    archive_file_name(path);
+    boinc_delete_file(path);
+}
+
 ///////////// RSS_FEED_OP ////////////////
 
 RSS_FEED_OP::RSS_FEED_OP() {
@@ -713,8 +783,8 @@ bool RSS_FEED_OP::poll() {
                     "[notice] start fetch from %s", rf.url
                 );
             }
-            char url[256];
-            safe_strcpy(url, rf.url);
+            char url[1024];
+            strcpy(url, rf.url);
             gstate.gui_http.do_rpc(this, url, filename, true);
             break;
         }
@@ -882,7 +952,7 @@ void RSS_FEEDS::update_feed_list() {
     while (iter != feeds.end()) {
         RSS_FEED& rf = *iter;
         if (rf.found) {
-            iter++;
+            ++iter;
         } else {
             // cancel op if active
             //
@@ -898,6 +968,7 @@ void RSS_FEEDS::update_feed_list() {
                     rf.url
                 );
             }
+            rf.delete_files();
             iter = feeds.erase(iter);
         }
     }
@@ -911,4 +982,10 @@ void RSS_FEEDS::write_feed_list() {
     fout.init_file(f);
     write_rss_feed_descs(fout, feeds);
     fclose(f);
+}
+
+void delete_project_notice_files(PROJECT* p) {
+    char path[MAXPATHLEN];
+    project_feed_list_file_name(p, path);
+    boinc_delete_file(path);
 }

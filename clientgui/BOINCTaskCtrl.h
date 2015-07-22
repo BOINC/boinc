@@ -50,6 +50,10 @@ public:
     virtual bool OnSaveState( wxConfigBase* pConfig );
     virtual bool OnRestoreState( wxConfigBase* pConfig );
 
+#ifdef __WXMSW__
+    void OnChildFocus(wxChildFocusEvent& event);
+#endif
+
     void EllipseStringIfNeeded( wxString& s );
 
 private:
@@ -57,6 +61,10 @@ private:
     CBOINCBaseView*  m_pParent;
 
     wxBoxSizer*      m_pSizer;
+
+#ifdef __WXMSW__
+    DECLARE_EVENT_TABLE()
+#endif
 };
 
 

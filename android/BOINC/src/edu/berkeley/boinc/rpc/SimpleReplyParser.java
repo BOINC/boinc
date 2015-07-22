@@ -79,6 +79,8 @@ public class SimpleReplyParser extends BaseParser {
 			} else if (localName.equalsIgnoreCase("error")) {
 				trimEnd();
 				errorMessage = mCurrentElement.toString(); 
+				mSuccess = false;
+				mParsed = true;
 			}
 		}
 		mElementStarted = false;

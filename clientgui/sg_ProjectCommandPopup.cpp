@@ -27,7 +27,7 @@
 IMPLEMENT_DYNAMIC_CLASS(CSimpleProjectCommandPopupButton, CTransparentButton)
 
 BEGIN_EVENT_TABLE(CSimpleProjectCommandPopupButton, CTransparentButton)
-    EVT_LEFT_DOWN(CSimpleProjectCommandPopupButton::OnProjectCommandsButton)
+    EVT_LEFT_DOWN(CSimpleProjectCommandPopupButton::OnProjectCommandsMouseDown)
     EVT_MENU(ID_TASK_PROJECT_UPDATE, CSimpleProjectCommandPopupButton::OnProjectUpdate)
     EVT_MENU(ID_TASK_PROJECT_SUSPEND, CSimpleProjectCommandPopupButton::OnProjectSuspendResume)
     EVT_MENU(ID_TASK_PROJECT_NONEWWORK, CSimpleProjectCommandPopupButton::OnProjectNoNewWork)
@@ -47,6 +47,11 @@ CSimpleProjectCommandPopupButton::CSimpleProjectCommandPopupButton(wxWindow* par
 
     m_ProjectCommandsPopUpMenu = new wxMenu();
     AddMenuItems();
+    Connect(
+        id, 
+        wxEVT_BUTTON,
+        (wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction) &CSimpleProjectCommandPopupButton::OnProjectCommandsKeyboardNav
+    );
 }
         
 
@@ -94,7 +99,17 @@ void CSimpleProjectCommandPopupButton::AddMenuItems() {
 }
 
 
-void CSimpleProjectCommandPopupButton::OnProjectCommandsButton(wxMouseEvent& /*event*/) {
+void CSimpleProjectCommandPopupButton::OnProjectCommandsMouseDown(wxMouseEvent&) {
+    ShowProjectCommandsMenu(ScreenToClient(wxGetMousePosition()));
+}
+
+
+void CSimpleProjectCommandPopupButton::OnProjectCommandsKeyboardNav(wxCommandEvent&) {
+    ShowProjectCommandsMenu(wxPoint(GetSize().GetWidth()/2, GetSize().GetHeight()/2));
+}
+
+
+void CSimpleProjectCommandPopupButton::ShowProjectCommandsMenu(wxPoint pos) {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     
     wxASSERT(pDoc);
@@ -129,7 +144,7 @@ void CSimpleProjectCommandPopupButton::OnProjectCommandsButton(wxMouseEvent& /*e
     wxToolTip::Enable(false);
 #endif
 
-	PopupMenu(m_ProjectCommandsPopUpMenu);
+	PopupMenu(m_ProjectCommandsPopUpMenu, pos.x, pos.y);
 }
 
 

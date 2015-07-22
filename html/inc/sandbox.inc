@@ -25,15 +25,19 @@ require_once("../inc/dir_hier.inc");
 // Return path of sandbox directory for the given user.
 // Create dir if not present.
 //
+if (!function_exists("sandbox_dir")){
 function sandbox_dir($user) {
-    if (!is_dir("../../sandbox")) {
-        mkdir("../../sandbox");
+    $dir = parse_config(get_config(), "<sandbox_dir>");
+    if (!$dir) { $dir = "../../sandbox/"; }
+    if (!is_dir($dir)) {
+        mkdir($dir);
     }
-    $d = "../../sandbox/$user->id";
+    $d = "$dir/$user->id";
     if (!is_dir($d)) {
         mkdir($d);
     }
     return $d;
+}
 }
 
 function sandbox_write_link_file($path, $size, $md5) {
@@ -65,6 +69,7 @@ function sandbox_lf_exist($user, $md5) {
 // parse a link file and return (error, size, md5)
 //
 function sandbox_parse_link_file($path) {
+    if (!file_exists($path)) { return array(true, null, null); }
     $x = file_get_contents($path);
     $n = sscanf($x, "%s %d %s", $s, $size, $md5);
     if ($n != 3) return array(true, null, null);
@@ -83,14 +88,17 @@ function sandbox_file_name($user, $md5) {
 
 // return the path of the file in the download directory
 //
+if (!function_exists('sandbox_physical_path')) {
 function sandbox_physical_path($user, $md5) {
     global $fanout;
     $f = sandbox_file_name($user, $md5);
-    return dir_hier_path($f, "../../download", $fanout);
+    return dir_hier_path($f, parse_config(get_config(), "<download_dir>"), $fanout);
+}
 }
 
 // return list of files in sandbox
 //
+if (!function_exists('sandbox_file_names')) {
 function sandbox_file_names($user) {
     $d = opendir(sandbox_dir($user));
     $names = array();
@@ -99,21 +107,31 @@ function sandbox_file_names($user) {
         if ($f == '..') continue;
         $names[] = $f;
     }
+    natsort($names);
     return $names;
+}
 }
 
 // return a <select> for files in sandbox
 //
-function sandbox_file_select($user, $select_name) {
+if (!function_exists('sandbox_file_select')) {
+function sandbox_file_select($user, $select_name, $regexp = null, $allow_none = false) {
+    if ($regexp === null) {
+        $regexp = $select_name;
+    }
     $x = "<select name=$select_name>\n";
+    if ($allow_none) {
+        $x .= "<option value=\"\">--- None</option>\n";
+    }
     $files = sandbox_file_names($user);
     foreach ($files as $f) {
-        if(preg_match("/$select_name/",$f)){
+        if(preg_match("/$regexp/",$f)){
             $x .= "<option value=\"$f\">$f</option>\n";
         }
     }
     $x .= "</select>\n";
     return $x;
+}
 }
 
 //check if a file is still being used by a unfinished batch

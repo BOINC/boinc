@@ -51,6 +51,7 @@
 #include "floppyio.h"
 
 using namespace std;
+using namespace FloppyIONS;
 
 // FloppyIO Exception singleton
 static FloppyIOException   __FloppyIOExceptionSingleton;

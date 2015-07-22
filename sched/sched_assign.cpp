@@ -29,11 +29,13 @@
 #include <sys/param.h>
 #include <unistd.h>
 
+#include "backend_lib.h"
 #include "boinc_db.h"
 #include "crypt.h"
-#include "backend_lib.h"
 #include "error_numbers.h"
+#include "filesys.h"
 
+#include "sched_check.h"
 #include "sched_main.h"
 #include "sched_msgs.h"
 #include "sched_send.h"
@@ -41,6 +43,61 @@
 #include "sched_types.h"
 
 #include "sched_assign.h"
+
+// The workunit is targeted to the host (or user or team).
+// Decide if we should actually send an instance
+//
+bool need_targeted_instance(WORKUNIT& wu, int hostid) {
+
+    // don't send if WU had error or was canceled
+    // (db_purge will eventually delete WU and assignment records)
+    //
+    if (wu.error_mask) {
+        return false;
+    }
+
+    // don't send if WU is validation pending or completed,
+    // or has transition pending
+    //
+    if (wu.need_validate) return false;
+    if (wu.canonical_resultid) return false;
+    if (wu.transition_time < time(0)) return false;
+
+    // See if this WU needs another instance.
+    // This replicates logic in the transitioner
+    //
+    char buf[256];
+    DB_RESULT result;
+    int nunsent=0, ninprogress=0, nsuccess=0;
+    sprintf(buf, "where workunitid=%d", wu.id);
+    while (!result.enumerate(buf)) {
+        // send at most 1 instance to a given host
+        //
+        if (result.hostid == hostid) {
+            return false;
+        }
+        switch (result.server_state) {
+        case RESULT_SERVER_STATE_INACTIVE:
+        case RESULT_SERVER_STATE_UNSENT:
+            nunsent++;
+            break;
+        case RESULT_SERVER_STATE_IN_PROGRESS:
+            ninprogress++;
+            break;
+        case RESULT_SERVER_STATE_OVER:
+            if (result.outcome == RESULT_OUTCOME_SUCCESS
+                && result.validate_state != VALIDATE_STATE_INVALID
+            ) {
+                nsuccess++;
+            }
+            break;
+        }
+    }
+    int needed = wu.target_nresults - nunsent - ninprogress - nsuccess;
+    if (needed <= 0) return false;
+
+    return true;
+}
 
 // send a job for the given assignment
 //
@@ -70,6 +127,13 @@ static int send_assigned_job(ASSIGNMENT& asg) {
             "assigned WU %d not found\n", asg.workunitid
         );
         return retval;
+    }
+
+    if (app_not_selected(wu.appid)) {
+        log_messages.printf(MSG_CRITICAL,
+            "Assigned WU %s is for app not selected by user\n", wu.name
+        );
+        return -1;
     }
 
     bavp = get_app_version(wu, false, false);
@@ -105,10 +169,10 @@ static int send_assigned_job(ASSIGNMENT& asg) {
     return 0;
 }
 
-// Send this host any "multi" assigned jobs.
+// Send this host any broadcast jobs.
 // Return true iff we sent anything
 //
-bool send_assigned_jobs_multi() {
+bool send_broadcast_jobs() {
     DB_RESULT result;
     int retval;
     char buf[256];
@@ -119,7 +183,7 @@ bool send_assigned_jobs_multi() {
 
         if (config.debug_assignment) {
             log_messages.printf(MSG_NORMAL,
-                "[assign] processing multi assignment type %d\n",
+                "[assign] processing broadcast type %d\n",
                 asg.target_type
             );
         }
@@ -161,23 +225,41 @@ bool send_assigned_jobs_multi() {
     return sent_something;
 }
 
-// send non-multi assigned jobs
+// Send targeted jobs of a given type.
+// NOTE: there may be an atomicity problem in the following.
+// Ideally it should be in a transaction.
 //
-bool send_assigned_jobs() {
+bool send_jobs(int assign_type) {
     DB_ASSIGNMENT asg;
     DB_RESULT result;
     DB_WORKUNIT wu;
-    bool sent_something = false;
     int retval;
+    bool sent_something = false;
+    char query[256];
 
-    // for now, only look for user assignments
-    //
-    char buf[256];
-    sprintf(buf, "where target_type=%d and target_id=%d and multi=0",
-        ASSIGN_USER, g_reply->user.id
-    );
-    while (!asg.enumerate(buf)) {
-        if (!work_needed(false)) continue; 
+    switch (assign_type) {
+    case ASSIGN_USER:
+        sprintf(query, "where target_type=%d and target_id=%d and multi=0",
+            ASSIGN_USER, g_reply->user.id
+        );
+        break;
+    case ASSIGN_HOST:
+        sprintf(query, "where target_type=%d and target_id=%d and multi=0",
+            ASSIGN_HOST, g_reply->host.id
+        );
+        break;
+    case ASSIGN_TEAM:
+        sprintf(query, "where target_type=%d and target_id=%d and multi=0",
+            ASSIGN_TEAM, g_reply->team.id
+        );
+        break;
+    }
+
+    while (!asg.enumerate(query)) {
+        if (!work_needed(false)) {
+            asg.end_enumerate();
+            break;
+        }
 
         // if the WU doesn't exist, delete the assignment record.
         //
@@ -186,37 +268,25 @@ bool send_assigned_jobs() {
             asg.delete_from_db();
             continue;
         }
-        // don't send if WU is validation pending or completed,
-        // or has transition pending
-        //
-        if (wu.need_validate) continue;
-        if (wu.canonical_resultid) continue;
-        if (wu.transition_time < time(0)) continue;
 
-        // don't send if we already sent one to this host
-        //
-        sprintf(buf, "where workunitid=%d and hostid=%d",
-            asg.workunitid,
-            g_reply->host.id
-        );
-        retval = result.lookup(buf);
-        if (retval != ERR_DB_NOT_FOUND) continue;
-
-        // don't send if there's already one in progress to this user
-        //
-        sprintf(buf,
-            "where workunitid=%d and userid=%d and server_state=%d",
-            asg.workunitid,
-            g_reply->user.id,
-            RESULT_SERVER_STATE_IN_PROGRESS
-        );
-        retval = result.lookup(buf);
-        if (retval != ERR_DB_NOT_FOUND) continue;
+        if (!need_targeted_instance(wu, g_reply->host.id)) {
+            continue;
+        }
 
         // OK, send the job
         //
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL,
+                "sending targeted job: %s\n", wu.name
+            );
+        }
         retval = send_assigned_job(asg);
-        if (retval) continue;
+        if (retval) {
+            log_messages.printf(MSG_NORMAL,
+                "failed to send targeted job: %s\n", boincerror(retval)
+            );
+            continue;
+        }
 
         sent_something = true;
 
@@ -231,5 +301,18 @@ bool send_assigned_jobs() {
             wu.update_field(buf2);
         }
     }
+    return sent_something;
+}
+
+// send targeted jobs
+//
+bool send_targeted_jobs() {
+    bool sent_something = false;
+    if (config.debug_send) {
+        log_messages.printf(MSG_NORMAL, "checking for targeted jobs\n");
+    }
+    sent_something |= send_jobs(ASSIGN_USER);
+    sent_something |= send_jobs(ASSIGN_HOST);
+    sent_something |= send_jobs(ASSIGN_TEAM);
     return sent_something;
 }

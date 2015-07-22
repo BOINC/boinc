@@ -28,6 +28,20 @@
 #define USE_NATIVE_LISTCONTROL 0
 #endif
 
+
+// Virtual wxListCtrl does not reliably generate selection and
+// deselection events, so we must check for these differently.
+// We get more events than we need using EVT_LIST_CACHE_HINT, 
+// so testing on mouse events is more efficient, but it doesn't
+// work on Windows.
+#ifdef __WXMSW__
+// On Windows, check for selection / deselection on EVT_LIST_CACHE_HINT. 
+#define USE_LIST_CACHE_HINT 1
+#else
+// On Mac & Linux, check for selection / deselection on EVT_LEFT_DOWN. 
+#define USE_LIST_CACHE_HINT 0
+#endif
+
 #if USE_NATIVE_LISTCONTROL
 #define LISTCTRL_BASE wxListCtrl
 #include "wx/listctrl.h"
@@ -40,10 +54,6 @@
 //  - causes major flicker of progress bars, (probably due to full redraws.)
 #define LISTCTRL_BASE wxGenericListCtrl
 #include "wx/generic/listctrl.h"
-#endif
-
-#ifdef __WXMAC__
-#include "macAccessiblity.h"
 #endif
 
 #include "BOINCBaseView.h"
@@ -64,6 +74,13 @@ public:
     virtual bool            OnSaveState(wxConfigBase* pConfig);
     virtual bool            OnRestoreState(wxConfigBase* pConfig);
 
+    void                    TokenizedStringToArray(wxString tokenized, char * delimiters, wxArrayString* array);
+    void                    SetListColumnOrder(wxArrayString& orderArray);
+    void                    SetStandardColumnOrder();
+    bool                    IsColumnOrderStandard();
+    void                    SetDefaultColumnDisplay();
+    void                    InsertShownColumns(wxString tokenized, char * delimiters);
+
     long                    GetFocusedItem() { return GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_FOCUSED); }
     long                    GetFirstSelected() { return GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED); }
     long                    GetNextSelected(int i) { return GetNextItem(i, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED); }
@@ -71,11 +88,7 @@ public:
     void                    AddPendingProgressBar(int row);
     void                    RefreshCell(int row, int col);
     
-    bool                    m_bIsSingleSelection;
-
 private:
-    virtual void            OnClick(wxCommandEvent& event);
-
     virtual wxString        OnGetItemText(long item, long column) const;
     virtual int             OnGetItemImage(long item) const;
 #if BASEVIEW_STRIPES
@@ -85,6 +98,10 @@ private:
     CBOINCBaseView*         m_pParentView;
     wxArrayInt              m_iRowsNeedingProgressBars;
 
+#if ! USE_LIST_CACHE_HINT
+    void                    OnMouseDown(wxMouseEvent& event);
+#endif
+
 #if USE_NATIVE_LISTCONTROL
 public:
    void                     PostDrawProgressBarEvent();
@@ -93,23 +110,24 @@ private:
     void                    DrawProgressBars(void);
     
     bool                    m_bProgressBarEventPending;
-
-    DECLARE_EVENT_TABLE()
 #else
  public:
+    void                    SaveEventHandler(wxEvtHandler *stdHandler) { savedHandler = stdHandler; }
     void                    DrawProgressBars(void);
     wxScrolledWindow*       GetMainWin(void) { return (wxScrolledWindow*) m_mainWin; }
-    wxCoord                 GetHeaderHeight(void) { return m_headerHeight; }
+    wxCoord                 GetHeaderHeight(void) { return ((wxWindow *)m_headerWin)->GetSize().y; }
+    wxEvtHandler*           savedHandler;
 #ifdef __WXMAC__
     void                    SetupMacAccessibilitySupport();
     void                    RemoveMacAccessibilitySupport();
+    void                    OnSize( wxSizeEvent &event );
 
-    ListAccessData          accessibilityHandlerData;
-    
-    EventHandlerRef         m_pHeaderAccessibilityEventHandlerRef;
-    EventHandlerRef         m_pBodyAccessibilityEventHandlerRef;
+    void*                   m_fauxHeaderView;
+    void*                   m_fauxBodyView;
 #endif
 #endif
+
+    DECLARE_EVENT_TABLE()
 };
 
 class CDrawProgressBarEvent : public wxEvent
@@ -124,22 +142,47 @@ public:
     virtual wxEvent *       Clone() const { return new CDrawProgressBarEvent(*this); }
 };
 
+class CCheckSelectionChangedEvent : public wxEvent
+{
+public:
+    CCheckSelectionChangedEvent(wxEventType evtType, CBOINCListCtrl* myCtrl)
+        : wxEvent(-1, evtType)
+        {
+            SetEventObject(myCtrl);
+        }
+
+    virtual wxEvent *       Clone() const { return new CCheckSelectionChangedEvent(*this); }
+};
+
+
 BEGIN_DECLARE_EVENT_TYPES()
 DECLARE_EVENT_TYPE( wxEVT_DRAW_PROGRESSBAR, 12000 )
+DECLARE_EVENT_TYPE( wxEVT_CHECK_SELECTION_CHANGED, 12002 )
 END_DECLARE_EVENT_TYPES()
 
 #define EVT_DRAW_PROGRESSBAR(fn)            DECLARE_EVENT_TABLE_ENTRY(wxEVT_DRAW_PROGRESSBAR, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
+
+#define EVT_CHECK_SELECTION_CHANGED(fn)            DECLARE_EVENT_TABLE_ENTRY(wxEVT_CHECK_SELECTION_CHANGED, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 
 
 // Define a custom event handler
 class MyEvtHandler : public wxEvtHandler
 {
+    DECLARE_DYNAMIC_CLASS(MyEvtHandler)
+
 public:
-    MyEvtHandler(CBOINCListCtrl *theListControl) { m_listCtrl = theListControl; }
+    MyEvtHandler();
+    MyEvtHandler(CBOINCListCtrl *theListControl);
     void                    OnPaint(wxPaintEvent & event);
 
 private:
     CBOINCListCtrl *        m_listCtrl;
+    
+#if !USE_NATIVE_LISTCONTROL
+#ifdef __WXGTK__
+    int                     m_view_startX;
+#endif
+#endif
 
     DECLARE_EVENT_TABLE()
 };

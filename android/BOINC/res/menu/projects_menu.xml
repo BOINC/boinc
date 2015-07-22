@@ -17,11 +17,16 @@
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:yourapp="http://schemas.android.com/apk/res-auto" >
     <item android:id="@+id/projects_add"
          android:enabled="true"
          android:visible="true"
          android:title="@string/projects_add"
-         android:icon="@drawable/plusw"></item>
-
+         android:icon="@drawable/plusw"
+         yourapp:showAsAction="ifRoom|withText"></item>
+    <item android:id="@+id/projects_add_url"
+         android:enabled="true"
+         android:visible="true"
+         android:title="@string/attachproject_list_manual_button"></item>
 </menu>

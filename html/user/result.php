@@ -18,18 +18,22 @@
 
 // show a result
 
-require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/result.inc");
 
-check_get_args(array("resultid"));
-
-$resultid = get_int("resultid");
-$result = lookup_result($resultid);
-if (!$result) {
-    error_page(tra("No such task"));
+$x = get_int("resultid", true);
+if ($x) {
+    $result = BoincResult::lookup_id($x);
+} else {
+    $x = get_str("result_name");
+    $result = BoincResult::lookup_name($x);
 }
-page_head(tra("Task %1", $resultid));
+
+if (!$result) {
+    error_page(tra("No such task:")." ".htmlspecialchars($x));
+        // the htmlspecialchars prevents XSS
+}
+page_head(tra("Task")." ".htmlspecialchars($x));
 show_result($result);
 page_tail();
 

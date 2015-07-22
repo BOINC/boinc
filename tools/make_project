@@ -248,13 +248,13 @@ t = project.config.tasks.make_node_and_append("task")
 t.period = '1 days'
 t.output = 'update_uotd.out'
 t.cmd = 'run_in_ops ./update_uotd.php'
-t.disabled = 1
+t.disabled = 0
 
 t = project.config.tasks.make_node_and_append("task")
 t.period = '1 hour'
 t.output = 'update_forum_activities.out'
 t.cmd = 'run_in_ops ./update_forum_activities.php'
-t.disabled = 1
+t.disabled = 0
 
 t = project.config.tasks.make_node_and_append("task")
 t.period = '1 days'
@@ -266,7 +266,7 @@ t = project.config.tasks.make_node_and_append("task")
 t.period = '24 hours'
 t.output = 'update_profile_pages.out'
 t.cmd = 'run_in_ops ./update_profile_pages.php'
-t.disabled = 1
+t.disabled = 0
 
 t = project.config.tasks.make_node_and_append("task")
 t.period = '24 hours'
@@ -278,7 +278,13 @@ t = project.config.tasks.make_node_and_append("task")
 t.period = '24 hours'
 t.output = 'notify.out'
 t.cmd = 'run_in_ops ./notify.php'
-t.disabled = 1
+t.disabled = 0
+
+t = project.config.tasks.make_node_and_append("task")
+t.period = '24 hours'
+t.output = 'badge_assign.out'
+t.cmd = 'run_in_ops ./badge_assign.php'
+t.disabled = 0
 
 project.config.write()
 
@@ -317,6 +323,10 @@ print >>open(httpd_conf_template_filename,'w'), '''
     ScriptAlias /%(project_shortname)s_cgi %(proot)s/cgi-bin
 
     # Note: projects/*/keys/ should NOT be readable!
+
+    # in the following, the "Order" and "Allow" lines are for Apache 2.2;
+    # for Apache 2.4, replace them with the single line
+    # Require all granted
 
     <Directory "%(proot)s/html">
         Options Indexes FollowSymlinks MultiViews

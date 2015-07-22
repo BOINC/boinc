@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,6 +22,8 @@
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 require_once("../inc/boinc_db.inc");
+
+if (DISABLE_TEAMS) error_page("Teams are disabled");
 
 check_get_args(array("teamid"));
 
@@ -52,7 +54,7 @@ if ($team->ping_user != 0) {
             <form method=\"post\" action=\"team_founder_transfer_action.php\">
             <input type=\"hidden\" name=\"action\" value=\"decline\">
             <input type=\"hidden\" name=\"teamid\" value=\"".$team->id."\">
-            <input type=\"submit\" value=\"".tra("decline request")."\">
+            <input class=\"btn btn-default\" type=\"submit\" value=\"".tra("decline request")."\">
             </form>
             <p>
             ".tra("If you don't decline the request by %1, %2 will have the option of assuming team foundership.<br /><br />
@@ -102,12 +104,12 @@ foreach ($users as $user) {
 if ($navailable_users > 0) {
     echo "<input type=hidden name=navailable_users value=$navailable_users>";
     end_table();
-    echo "<input type=submit value=\"".tra("Change founder")."\">";
+    echo "<input class=\"btn btn-default\" type=submit value=\"".tra("Change founder")."\">";
 } else {
-    echo '<tr>
-        <td colspan="4">".tra("There are no users to transfer team to.")."</td>
+    echo "<tr>
+        <td colspan='4'>".tra("There are no users to transfer team to.")."</td>
         </tr>
-    ';
+    ";
     end_table();
 }
 echo "</form>";

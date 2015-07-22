@@ -1,0 +1,41 @@
+Guide for preparing Java Runtime Environment (JRE) 
+for use in a BOINC infrastructure on Linux clients.
+---------------------------------------------------
+
+1. Requirements
+---------------
+
+   i. JRE available at http://java.sun.com/javase/downloads/index.jsp
+
+   ii. DC-API for java (libdcapi-java-client-0.9.so, libdcapi-boinc-client.so)
+
+2. Preparing 
+------------
+
+   i. Extract the 'bin' and 'lib' directories from the JRE distribution.
+      This can be done, by installing JRE on a machine and locating the
+      necessary directories in the installation directory.
+      Copy these two directories with all of their content to a directory
+      called jre.
+
+   ii. Put the files of DC-API in a directory called lib
+   
+   iii. Tar the contents of the above directories (jre, lib) in an archive
+	called lidc-jre.tar
+	eg.: tar czvf lidc-jre.tar jre lib
+
+
+3. Deploying a java application on a BOINC server
+-------------------------------------------------
+
+   i. The java application on BOINC consists of the following 
+      a. libdcapi-jre.tar - the jre prepared in part 2.
+      b. application.jar - the java application to be run in BOINC
+      c. launcher - script that untars jre and calls java with the
+	 jar of the application on the client computer
+   
+   ii. Give execution rights to the launcher script only.
+
+   iii. Proceed with signing the files and installing them to the boinc server as usual...
+
+

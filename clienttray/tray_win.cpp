@@ -51,15 +51,15 @@ INT CBOINCTray::Run( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR /* lpCm
     // Initialize the BOINC Diagnostics Framework
     int flags =
 #ifdef _DEBUG
+        BOINC_DIAG_HEAPCHECKENABLED |
         BOINC_DIAG_MEMORYLEAKCHECKENABLED |
 #endif
         BOINC_DIAG_DUMPCALLSTACKENABLED |
-        BOINC_DIAG_HEAPCHECKENABLED |
+        BOINC_DIAG_PERUSERLOGFILES |
         BOINC_DIAG_TRACETOSTDOUT |
         BOINC_DIAG_REDIRECTSTDERR |
         BOINC_DIAG_REDIRECTSTDOUT;
 
-    chdir_to_data_dir();
     diagnostics_init(flags, "stdouttray", "stderrtray");
 
     // Create application window class

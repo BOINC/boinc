@@ -23,8 +23,10 @@
 #include "config.h"
 #include <sys/types.h>
 #include <sys/wait.h>
-#include <grp.h>
 #include <errno.h>
+#include <fcntl.h> 
+#include <unistd.h>
+#include <grp.h>
 #endif
 
 #include "error_numbers.h"
@@ -42,14 +44,123 @@
 bool g_use_sandbox = false;
 
 #ifndef _WIN32
-#ifndef _DEBUG
-static int lookup_group(const char* name, gid_t& gid) {
-    struct group* gp = getgrnam(name);
-    if (!gp) return ERR_GETGRNAM;
-    gid = gp->gr_gid;
+
+// POSIX requires that shells run from an application will use the 
+// real UID and GID if different from the effective UID and GID.  
+// Mac OS 10.4 did not enforce this, but OS 10.5 does.  Since 
+// system() invokes a shell, we can't use it to run the switcher 
+// or setprojectgrp utilities, so we must do a fork() and execv().
+//
+int switcher_exec(const char *util_filename, const char* cmdline) {
+    char* argv[100];
+    char util_path[MAXPATHLEN];
+    char command [1024];
+    char buffer[1024];
+    int fds_out[2], fds_err[2];
+    int stat;
+    int retval;
+    std::string output_out, output_err;
+
+    sprintf(util_path, "%s/%s", SWITCHER_DIR, util_filename);
+    argv[0] = const_cast<char*>(util_filename);
+    // Make a copy of cmdline because parse_command_line modifies it
+    safe_strcpy(command, cmdline);
+    parse_command_line(const_cast<char*>(cmdline), argv+1);
+
+    // Create the output pipes
+    if (pipe(fds_out) == -1) {
+        perror("pipe() for fds_out failed in switcher_exec");
+        return ERR_PIPE;
+    }
+    
+    if (pipe(fds_err) == -1) {
+        perror("pipe() for fds_err failed in switcher_exec");
+        return ERR_PIPE;
+    }
+
+    int pid = fork();
+    if (pid == -1) {
+        perror("fork() failed in switcher_exec");
+        return ERR_FORK;
+    }
+    if (pid == 0) {
+        // This is the new (forked) process
+
+        // Setup pipe redirects
+        while ((dup2(fds_out[1], STDOUT_FILENO) == -1) && (errno == EINTR)) {}
+        while ((dup2(fds_err[1], STDERR_FILENO) == -1) && (errno == EINTR)) {}
+        // Child only needs one-way (write) pipes so close read pipes
+        close(fds_out[0]);
+        close(fds_err[0]);
+
+        execv(util_path, argv);
+        fprintf(stderr, "execv failed in switcher_exec(%s, %s): %s", util_path, cmdline, strerror(errno));
+
+        _exit(EXIT_FAILURE);
+    }
+    // Parent only needs one-way (read) pipes so close write pipes
+    close(fds_out[1]);
+    close(fds_err[1]);
+    
+    // Capture stdout output
+    while (1) {
+        ssize_t count = read(fds_out[0], buffer, sizeof(buffer));
+        if (count == -1) {
+            if (errno == EINTR) {
+                continue;
+            } else {
+                break;
+            }
+        } else if (count == 0) {
+            break;
+        } else {
+            buffer[count] = '\0';
+            output_out += buffer;
+        }
+    }
+
+    // Capture stderr output
+    while (1) {
+        ssize_t count = read(fds_err[0], buffer, sizeof(buffer));
+        if (count == -1) {
+            if (errno == EINTR) {
+                continue;
+            } else {
+                break;
+            }
+        } else if (count == 0) {
+            break;
+        } else {
+            buffer[count] = '\0';
+            output_err += buffer;
+        }
+    }
+
+    // Wait for command to complete, like system() does.
+    waitpid(pid, &stat, 0);
+
+    // Close pipe descriptors
+    close(fds_out[0]);
+    close(fds_err[0]);
+
+    if (WIFEXITED(stat)) {
+        retval = WEXITSTATUS(stat);
+
+        if (retval) {
+            if (log_flags.task_debug) {
+                msg_printf(0, MSG_INTERNAL_ERROR, "[task_debug] failure in switcher_exec");
+                msg_printf(0, MSG_INTERNAL_ERROR, "[task_debug]   switcher: %s", util_path);
+                msg_printf(0, MSG_INTERNAL_ERROR, "[task_debug]    command: %s", command);
+                msg_printf(0, MSG_INTERNAL_ERROR, "[task_debug]  exit code: %d", retval);
+                msg_printf(0, MSG_INTERNAL_ERROR, "[task_debug]     stdout: %s", output_out.c_str());
+                msg_printf(0, MSG_INTERNAL_ERROR, "[task_debug]     stderr: %s", output_err.c_str());
+            }
+        }
+        return retval;
+    }
+
     return 0;
 }
-#endif
 
 int kill_via_switcher(int pid) {
     char cmd[1024];
@@ -64,9 +175,34 @@ int kill_via_switcher(int pid) {
     return switcher_exec(SWITCHER_FILE_NAME, cmd);
 }
 
+#ifndef _DEBUG
+static int lookup_group(const char* name, gid_t& gid) {
+    struct group* gp = getgrnam(name);
+    if (!gp) return ERR_GETGRNAM;
+    gid = gp->gr_gid;
+    return 0;
+}
+#endif
+
+int remove_project_owned_file_or_dir(const char* path) {
+    char cmd[1024];
+
+    if (g_use_sandbox) {
+        sprintf(cmd, "/bin/rm rm -fR \"%s\"", path);
+        if (switcher_exec(SWITCHER_FILE_NAME, cmd)) {
+            return ERR_UNLINK;
+        } else {
+            return 0;
+        }
+    }
+    return ERR_UNLINK;
+}
+
 int get_project_gid() {
     if (g_use_sandbox) {
 #ifdef _DEBUG
+        // GDB can't attach to applications which are running as a different user   
+        //  or group, so fix up data with current user and group during debugging
         gstate.boinc_project_gid = getegid();
 #else
         return lookup_group(BOINC_PROJECT_GROUP_NAME, gstate.boinc_project_gid);
@@ -86,67 +222,42 @@ int set_to_project_group(const char* path) {
     return 0;
 }
 
-// POSIX requires that shells run from an application will use the 
-// real UID and GID if different from the effective UID and GID.  
-// Mac OS 10.4 did not enforce this, but OS 10.5 does.  Since 
-// system() invokes a shell, we can't use it to run the switcher 
-// or setprojectgrp utilities, so we must do a fork() and execv().
-//
-int switcher_exec(const char *util_filename, const char* cmdline) {
-    char* argv[100];
-    char util_path[MAXPATHLEN];
-
-    sprintf(util_path, "%s/%s", SWITCHER_DIR, util_filename);
-    argv[0] = const_cast<char*>(util_filename);
-    parse_command_line(const_cast<char*>(cmdline), argv+1);
-    int pid = fork();
-    if (pid == -1) {
-        perror("fork() failed in switcher_exec");
-        return ERR_FORK;
-    }
-    if (pid == 0) {
-        // This is the new (forked) process
-        execv(util_path, argv);
-        fprintf(stderr, "execv failed in switcher_exec(%s, %s): %s", util_path, cmdline, strerror(errno));
-        return ERR_EXEC;
-    }
-    // Wait for command to complete, like system() does.
-    waitpid(pid, 0, 0); 
+#else
+int get_project_gid() {
     return 0;
 }
-
-int remove_project_owned_file_or_dir(const char* path) {
-    char cmd[1024];
-
-    if (g_use_sandbox) {
-        sprintf(cmd, "/bin/rm rm -fR \"%s\"", path);
-        if (switcher_exec(SWITCHER_FILE_NAME, cmd)) {
-            return ERR_UNLINK;
-        } else {
-            return 0;
-        }
-    }
-    return ERR_UNLINK;
+int set_to_project_group(const char*) {
+    return 0;
 }
-
 #endif // ! _WIN32
 
+// delete a file.
+// return success if we deleted it or it didn't exist in the first place
+//
 static int delete_project_owned_file_aux(const char* path) {
 #ifdef _WIN32
     if (DeleteFile(path)) return 0;
     int error = GetLastError();
+    if (error == ERROR_FILE_NOT_FOUND) {
+        return 0;
+    }
     if (error == ERROR_ACCESS_DENIED) {
         SetFileAttributes(path, FILE_ATTRIBUTE_NORMAL);
         if (DeleteFile(path)) return 0;
     }
-    return ERR_UNLINK;
+    return error;
 #else
     int retval = unlink(path);
-    if (retval && g_use_sandbox && (errno == EACCES)) {
+    if (retval == 0) return 0;
+    if (errno == ENOENT) {
+        return 0;
+    }
+    if (g_use_sandbox && (errno == EACCES)) {
         // We may not have permission to read subdirectories created by projects
+        //
         return remove_project_owned_file_or_dir(path);
     }
-    return retval;
+    return ERR_UNLINK;
 #endif
 }
 
@@ -158,11 +269,13 @@ static int delete_project_owned_file_aux(const char* path) {
 int delete_project_owned_file(const char* path, bool retry) {
     int retval = 0;
 
-    if (!boinc_file_or_symlink_exists(path)) {
-        return 0;
-    }
     retval = delete_project_owned_file_aux(path);
     if (retval && retry) {
+        if (log_flags.slot_debug) {
+            msg_printf(0, MSG_INFO,
+                "[slot] delete of %s failed (%d); retrying", path, retval
+            );
+        }
         double start = dtime();
         do {
             boinc_sleep(drand()*2);       // avoid lockstep
@@ -171,6 +284,12 @@ int delete_project_owned_file(const char* path, bool retry) {
         } while (dtime() < start + FILE_RETRY_INTERVAL);
     }
     if (retval) {
+        if (log_flags.slot_debug) {
+            msg_printf(0, MSG_INFO,
+                "[slot] failed to remove file %s: %s",
+                path, boincerror(retval)
+            );
+        }
         safe_strcpy(boinc_failed_file, path);
         return ERR_UNLINK;
     }
@@ -206,7 +325,18 @@ int client_clean_out_dir(const char* dirpath, const char* reason) {
     while (1) {
         strcpy(filename, "");
         retval = dir_scan(filename, dirp, sizeof(filename));
-        if (retval) break;
+        if (retval) {
+            if (retval != ERR_NOT_FOUND) {
+                if (log_flags.slot_debug) {
+                    msg_printf(0, MSG_INFO,
+                        "[slot] dir_scan(%s) failed: %s",
+                        dirpath, boincerror(retval)
+                    );
+                }
+                final_retval = retval;
+            }
+            break;
+        }
         sprintf(path, "%s/%s", dirpath,  filename);
         if (is_dir(path)) {
             retval = client_clean_out_dir(path, NULL);

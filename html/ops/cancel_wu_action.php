@@ -24,31 +24,27 @@
 require_once("../inc/db.inc");
 require_once("../inc/util_ops.inc");
 
-admin_page_head("Cancel WU");
-
 db_init();
 
 $wuid1 = get_int('wuid1');
 $wuid2 = get_int('wuid2');
+$unsent_only = get_str('unsent_only', true);
 
 if ($wuid1<1 || $wuid2<$wuid1) {
-    echo "<h2>Workunit IDs fail to satisfy the conditions:<br/>
-        1 <= WU1 ($wuid1) <= WU2 ($wuid2)<br/>
-        Unable to process request to cancel workunits.
-        </h2>
-    ";
-    exit();
+    admin_error_page(
+        "<h2>Workunit IDs fail to satisfy the conditions:<p> 0 < ID1 <= ID2"
+    );
 }
 
-echo "CANCELLING workunits $wuid1 to $wuid2 inclusive....<br/>";
-
-if (cancel_wu($wuid1, $wuid2)) {
-    echo "<h2>Failed in";
+if ($unsent_only) {
+    cancel_wus_if_unsent($wuid1, $wuid2);
 } else {
-    echo "<h2>Success in";
+    cancel_wus($wuid1, $wuid2);
 }
-echo " cancelling workunits $wuid1 <= WUID <= $wuid2</h2>";
 
+admin_page_head("Cancel jobs");
+echo " canceled jobs with $wuid1 <= workunit ID <= $wuid2</h2>";
 admin_page_tail();
+
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

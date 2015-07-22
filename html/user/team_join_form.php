@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,17 +16,17 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
+if (DISABLE_TEAMS) error_page("Teams are disabled");
+
 check_get_args(array("id"));
 
-db_init();
 $user = get_logged_in_user();
 $teamid = get_int("id");
 
-$team = lookup_team($teamid);
+$team = BoincTeam::lookup_id($teamid);
 if (!$team->joinable) {
     error_page(tra("The team %1 is not joinable.", $team->name));
 }
@@ -42,7 +42,7 @@ echo " <p><b>".tra("Please note:")."</b>
 echo form_tokens($user->authenticator);
 echo "
     <input type=\"hidden\" name=\"teamid\" value=\"$teamid\">
-    <input type=\"submit\" value=\"".tra("Join team")."\">
+    <input class=\"btn btn-default\" type=\"submit\" value=\"".tra("Join team")."\">
     </form>
 ";
 page_tail();

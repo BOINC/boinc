@@ -48,6 +48,7 @@ function user_row($u) {
     }
     echo "</td>\n";
     echo "<td>$u->quota</td>\n";
+    echo "<td>$u->max_jobs_in_progress</td>\n";
     echo "<td>";
     if ($u->logical_start_time > time()) {
         echo local_time_str($u->logical_start_time);
@@ -69,10 +70,11 @@ function handle_list() {
     $us = BoincUserSubmit::enum("");
     start_table();
     table_header(
-        "User<br><span class=note>Click to change permissions or quota</span>",
+        "User<br><p class=\"text-muted\">Click to change permissions or quota</p>",
         "Can submit jobs for",
         "Quota",
-        "Current priority<br><span class=note>Later time = lower priority</span>"
+        "Max jobs in progress<br><p class=\"text-muted\">0 means no limit</p>",
+        "Current priority<br><p class=\"text-muted\">Later time = lower priority</p>"
     );
     foreach ($us as $u) {
         user_row($u);
@@ -88,9 +90,9 @@ function handle_edit_form() {
     $user_id = get_int('user_id');
     $user = BoincUser::lookup_id($user_id);
     $usub = BoincUserSubmit::lookup_userid($user_id);
-    page_head("Permissions for $user->name");
+    page_head("Job submission permissions for $user->name");
     echo "
-        $user->name is allowed to submit jobs for:
+        $user->name can submit jobs for:
         <p>
         <form action=manage_project.php>
         <input type=hidden name=action value=edit_action>
@@ -114,6 +116,7 @@ function handle_edit_form() {
         echo "<br>&nbsp;&nbsp;&nbsp; <input type=checkbox name=app_$app->id $checked> $app->name\n";
     }
     $q = (string) $usub->quota;
+    $mj = $usub->max_jobs_in_progress;
     $sav = $usub->create_app_versions?"checked":"";
     $sa = $usub->create_apps?"checked":"";
     echo "
@@ -121,7 +124,10 @@ function handle_edit_form() {
         Quota: <input name=quota value=$q>
         This determines how much computing capacity is allocated to $user->name.
         <p>
-        <input type=submit value=OK>
+        Max jobs in progress:
+        <input name=max_jobs_in_progress value=$mj>
+        <p>
+        <input class=\"btn btn-default\" type=submit value=OK>
         </form>
         <p>
         <a href=manage_project.php>Return to project-wide management functions</a>
@@ -151,6 +157,10 @@ function handle_edit_action() {
     if ($quota != $us->quota) {
         $us->update("quota=$quota");
     }
+    $mj = (int) get_str('max_jobs_in_progress');
+    if ($mj != $us->max_jobs_in_progress) {
+        $us->update("max_jobs_in_progress=$mj");
+    }
     header('Location: manage_project.php');
 }
 
@@ -161,7 +171,7 @@ function handle_add_form() {
         <input type=hidden name=action value=add_action>
         User ID: <input name=user_id>
         <br>
-        <input type=submit value=OK>
+        <input class=\"btn btn-default\" type=submit value=OK>
         </form>
     ";
     page_tail();

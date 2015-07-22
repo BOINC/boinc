@@ -21,6 +21,8 @@
 require_once("../inc/profile.inc");
 require_once("../inc/akismet.inc");
 
+if (DISABLE_PROFILES) error_page("Profiles are disabled");
+
 check_get_args(array());
 
 // output a select form item with the given name,
@@ -102,17 +104,12 @@ function show_language_selection($profile) {
 
 function show_submit() {
     row1(tra("Submit profile"));
-    echo "<script>var RecaptchaOptions = { theme : 'white' };</script>";
     $config = get_config();
     $publickey = parse_config($config, "<recaptcha_public_key>");
     if ($publickey) {
-        table_row(
-            tra("Please enter the words shown in the image.")
-            ."<br>\n"
-            .recaptcha_get_html($publickey)
-        );
+        table_row(recaptcha_get_html($publickey));
     }
-    table_row("<p><input type=\"submit\" value=\"".tra("Create/edit profile") ."\" name=\"submit\">");
+    table_row("<p><input class=\"btn btn-primary\" type=\"submit\" value=\"".tra("Create/edit profile") ."\" name=\"submit\">");
 }
 
 // Returns an array containing:
@@ -203,10 +200,9 @@ function process_create_profile($user, $profile) {
 
     $privatekey = parse_config($config, "<recaptcha_private_key>");
     if ($privatekey) {
-        $resp = recaptcha_check_answer($privatekey, $_SERVER["REMOTE_ADDR"],
-            $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]
-        );
-        if (!$resp->is_valid) {
+        $recaptcha = new ReCaptcha($privatekey);
+        $resp = $recaptcha->verifyResponse($_SERVER["REMOTE_ADDR"], $_POST["g-recaptcha-response"]);
+        if (!$resp->success) {
             $profile->response1 = $response1;
             $profile->response2 = $response2;
             show_profile_form($profile,
@@ -253,10 +249,10 @@ function process_create_profile($user, $profile) {
         $profile->verification = 0;
     }
 
-    $profile ? $hasPicture = $profile->has_picture: $hasPicture = false;
+    $profile ? $has_picture = $profile->has_picture: $has_picture = false;
 
     if (is_uploaded_file($_FILES['picture']['tmp_name'])) {
-        $hasPicture = true;
+        $has_picture = true;
         if ($profile) $profile->verification = 0;
 
         // echo "<br>Name: " . $_FILES['picture']['name'];
@@ -273,24 +269,30 @@ function process_create_profile($user, $profile) {
     }
     $response1 = sanitize_html($response1);
     $response2 = sanitize_html($response2);
+
+    $has_picture = $has_picture?1:0;
     if ($profile) {
         $query = " response1 = '".BoincDb::escape_string($response1)."',"
             ." response2 = '".BoincDb::escape_string($response2)."',"
             ." language = '".BoincDb::escape_string($language)."',"
-            ." has_picture = '$hasPicture',"
-            ." verification = '$profile->verification'"
-            ." WHERE userid = '$user->id'";
+            ." has_picture = $has_picture,"
+            ." verification = $profile->verification"
+            ." WHERE userid = $user->id";
         $result = BoincProfile::update_aux($query);
         if (!$result) {
             error_page(tra("Could not update the profile: database error"));
         }
     } else {
         $query = 'SET '
-            ." userid = '$user->id',"
+            ." userid=$user->id,"
             ." language = '".BoincDb::escape_string($language)."',"
             ." response1 = '".BoincDb::escape_string($response1)."',"
             ." response2 = '".BoincDb::escape_string($response2)."',"
-            ." has_picture = '$hasPicture',"
+            ." has_picture = $has_picture,"
+            ." recommend=0, "
+            ." reject=0, "
+            ." posts=0, "
+            ." uotd_time=0, "
             ." verification=0";
         $result = BoincProfile::insert($query);
         if (!$result) {
@@ -303,20 +305,22 @@ function process_create_profile($user, $profile) {
 
     echo tra("Congratulations! Your profile was successfully entered into our database.")
         ."<br><br>"
-        .tra("%1View your profile%2", "<a href=\"view_profile.php?userid=".$user->id."\">", "</a><br>")
+        ."<a href=\"view_profile.php?userid=".$user->id."\">"
+        .tra("View your profile")
+        ."</a><br>"
     ;
     page_tail();
 }
 
 function show_profile_form($profile, $warning=null) {
     if ($profile) {
-        page_head(tra("Edit your profile"), null, null, null, IE_COMPAT_MODE);
+        page_head(tra("Edit your profile"), null, null, null, recaptcha_get_head_extra());
     } else {
-        page_head(tra("Create a profile"), null, null, null, IE_COMPAT_MODE);
+        page_head(tra("Create a profile"), null, null, null, recaptcha_get_head_extra());
     }
 
     if ($warning) {
-        echo "<span class=error>$warning</span><p>
+        echo "<p class=\"text-danger\">$warning</p>
         ";
     }
 

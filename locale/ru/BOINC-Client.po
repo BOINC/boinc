@@ -1,111 +1,100 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-05 10:24-0700\n"
-"PO-Revision-Date: 2013-06-08 13:30+0200\n"
-"Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: ru\n"
+"POT-Creation-Date: 2013-10-15 22:25-0700\n"
+"PO-Revision-Date: 2015-03-12 17:51+0000\n"
+"Last-Translator: Nikolay Sakharov <saharovna@gmail.com>\n"
+"Language-Team: Russian (http://www.transifex.com/projects/p/boinc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Pootle 2.1.6\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: acct_mgr.cpp:448 acct_mgr.cpp:457
+#: acct_mgr.cpp:450 acct_mgr.cpp:459
 msgid "Message from account manager"
 msgstr "Сообщение от менеджера проектов"
 
-#: client_msgs.cpp:85
+#: client_msgs.cpp:81
 msgid "Message from server"
 msgstr "Сообщение от сервера"
 
-#: client_state.cpp:246
+#: client_state.cpp:258
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
-msgstr ""
-"Некоторые задания требуют больше памяти, чем разрешено вашими настройками.  "
-"Пожалуйста, проверьте настройки."
+msgstr "Некоторые задания требуют больше памяти, чем разрешено вашими настройками.  Пожалуйста, проверьте настройки."
 
-#: client_state.cpp:501
+#: client_state.cpp:520
 msgid "Couldn't write state file; check directory permissions"
 msgstr "Не удалось записать файл состояния; проверьте права доступа к каталогу"
 
-#: cs_cmdline.cpp:299
+#: cs_cmdline.cpp:303
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "HTTP-прокси должен быть определен в переменной окружения HTTP_PROXY"
 
-#: cs_scheduler.cpp:575
+#: cs_scheduler.cpp:613
 #, c-format
 msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
 "project, then add %s"
-msgstr ""
-"Для этого проекта Вы использовали неправильный URL.  Как только будет "
-"возможно, удалите этот проект, затем добавьте %s"
+msgstr "Для этого проекта Вы использовали неправильный URL.  Как только будет возможно, удалите этот проект, затем добавьте %s"
 
-#: cs_statefile.cpp:829 ../sched/sched_types.cpp:259
+#: cs_statefile.cpp:828 ../sched/sched_types.cpp:259
 msgid "Syntax error in app_info.xml"
 msgstr "Ошибка синтаксиса в файле app_info.xml"
 
-#: cs_statefile.cpp:869
+#: cs_statefile.cpp:868
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "Файл, на который ссылается app_info.xml, не существует: "
 
-#: current_version.cpp:90
+#: current_version.cpp:91
 msgid "A new version of BOINC is available."
 msgstr "Доступна новая версия BOINC."
 
-#: current_version.cpp:94
+#: current_version.cpp:94 current_version.cpp:102
 msgid "Download"
 msgstr "Загрузить"
 
-#: log_flags.cpp:259 log_flags.cpp:436
+#: log_flags.cpp:269 log_flags.cpp:449
 msgid "Unexpected text in cc_config.xml"
 msgstr "Неожиданный текст в файле cc_config.xml"
 
-#: log_flags.cpp:410 log_flags.cpp:462
+#: log_flags.cpp:423 log_flags.cpp:475
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Нераспознанный тэг в файле cc_config.xml"
 
-#: log_flags.cpp:427
+#: log_flags.cpp:440
 msgid "Missing start tag in cc_config.xml"
 msgstr "Отсутствует начальный тэг в файле cc_config.xml"
 
-#: log_flags.cpp:452
+#: log_flags.cpp:465
 msgid "Error in cc_config.xml options"
 msgstr "Ошибка в параметрах cc_config.xml"
 
-#: log_flags.cpp:470
+#: log_flags.cpp:483
 msgid "Missing end tag in cc_config.xml"
 msgstr "Отсутствует завершающий тэг в файле cc_config.xml"
 
 #: ../sched/handle_request.cpp:307
 msgid "Invalid or missing account key.  To fix, remove and add this project."
-msgstr ""
-"Неправильный или отсутствующий ключ учётной записи.  Для исправления удалите "
-"и снова добавьте этот проект."
+msgstr "Неправильный или отсутствующий ключ учётной записи.  Для исправления удалите и снова добавьте этот проект."
 
 #: ../sched/handle_request.cpp:849
 msgid "Invalid code signing key.  To fix, remove and add this project."
-msgstr ""
-"Неправильный ключ подписания кода.  Для исправления удалите и снова добавьте "
-"этот проект."
+msgstr "Неправильный ключ подписания кода.  Для исправления удалите и снова добавьте этот проект."
 
 #: ../sched/handle_request.cpp:859
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
-msgstr ""
-"Проект изменил свой ключ безопасности.  Пожалуйста, удалите и снова добавьте "
-"этот проект."
+msgstr "Проект изменил свой ключ безопасности.  Пожалуйста, удалите и снова добавьте этот проект."
 
 #: ../sched/handle_request.cpp:943
 msgid "This project doesn't support operating system"
@@ -118,39 +107,30 @@ msgstr "Этот проект не поддерживает тип ЦП"
 #: ../sched/handle_request.cpp:993
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
-msgstr ""
-"У Вас слишком старая версия программного обеспечения BOINC-клиента.  "
-"Пожалуйста, установите текущую версию."
+msgstr "У Вас слишком старая версия программного обеспечения BOINC-клиента.  Пожалуйста, установите текущую версию."
 
 #: ../sched/handle_request.cpp:1259
 msgid "This project doesn't support computers of type"
 msgstr "Этот проект не поддерживает компьютеры типа"
 
 #: ../sched/sched_send.cpp:1092
-msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
-msgstr ""
-"Для обработки задач, использующих ГП вашего компьютера, обновите драйвер до "
-"самой последней версии"
+msgid ""
+"Upgrade to the latest driver to process tasks using your computer's GPU"
+msgstr "Для обработки задач, использующих ГП вашего компьютера, обновите драйвер до самой последней версии"
 
 #: ../sched/sched_send.cpp:1099
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
-msgstr ""
-"Для использования всех приложений данного проекта, работающих на ГП, "
-"обновите драйвер до самой последней версии"
+msgstr "Для использования всех приложений данного проекта, работающих на ГП, обновите драйвер до самой последней версии"
 
 #: ../sched/sched_send.cpp:1118
 msgid ""
-"A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
-"the current version"
-msgstr ""
-"Необходима более новая версия BOINC для использования вашего ГП NVIDIA; "
-"пожалуйста, обновитесь до текущей версии"
+"A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
+" the current version"
+msgstr "Необходима более новая версия BOINC для использования вашего ГП NVIDIA; пожалуйста, обновитесь до текущей версии"
 
-# 94%
 #: ../sched/sched_send.cpp:1146
 #, c-format
-#, c-format, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "Для обработки заданий данного проекта необходима видеокарта %s"
 
@@ -164,8 +144,7 @@ msgstr "Тип вашего компьютера не поддерживаетс
 
 #: ../sched/sched_send.cpp:1294
 msgid "Newer BOINC version required; please install current version"
-msgstr ""
-"Необходима более новая версия BOINC; пожалуйста, установите текущую версию"
+msgstr "Необходима более новая версия BOINC; пожалуйста, установите текущую версию"
 
 #: ../sched/sched_send.cpp:1305
 #, c-format
@@ -180,40 +159,3 @@ msgstr "Неизвестное имя приложения в файле app_inf
 #: ../sched/sched_version.cpp:214
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "Ваш файл app_info.xml не имеет годной версии"
-
-#~ msgid "Download it."
-#~ msgstr "Загрузить её."
-
-#~ msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
-#~ msgstr ""
-#~ "Для обработки заданий данного проекта необходима видеокарта NVIDIA или ATI"
-
-#~ msgid "An NVIDIA GPU is required to run tasks for this project"
-#~ msgstr "Для обработки заданий данного проекта необходима видеокарта NVIDIA"
-
-#~ msgid "An ATI GPU is required to run tasks for this project"
-#~ msgstr "Для обработки заданий данного проекта необходима видеокарта ATI"
-
-#~ msgid ""
-#~ "Tasks for NVIDIA GPU are available, but your preferences are set to not "
-#~ "accept them"
-#~ msgstr ""
-#~ "Доступны задачи для ГП NVIDIA, но ваши настройки не позволяют принимать их"
-
-#~ msgid ""
-#~ "Tasks for ATI GPU are available, but your preferences are set to not accept "
-#~ "them"
-#~ msgstr "Доступны задачи для ГП ATI, но ваши настройки не позволяют принимать их"
-
-#~ msgid ""
-#~ "Tasks for CPU are available, but your preferences are set to not accept them"
-#~ msgstr "Доступны задачи для ЦП, но ваши настройки не позволяют принимать их"
-
-#~ msgid "error"
-#~ msgstr "ошибка"
-
-#~ msgid "Can't resolve hostname in remote_hosts.cfg"
-#~ msgstr "Невозможно определить имя компьютера в файле remote_hosts.cfg"
-
-#~ msgid "is not available for"
-#~ msgstr "не доступно для"

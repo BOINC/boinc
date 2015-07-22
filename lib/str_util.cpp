@@ -26,9 +26,11 @@
 
 #ifndef _WIN32
 #include "config.h"
+#include <sstream>
 #include <string>
 #include <cmath>
 #include <string.h>
+#include <time.h>
 #include <stdlib.h>
 #include <ctype.h>
 #endif
@@ -44,6 +46,8 @@
 #include "str_util.h"
 
 using std::string;
+using std::stringstream;
+using std::vector;
 
 // Use this instead of strncpy().
 // Result will always be null-terminated, and it's faster.
@@ -80,7 +84,7 @@ size_t strlcat(char *dst, const char *src, size_t size) {
 
 #if !HAVE_STRCASESTR
 // BOINC only uses strcasestr() for short strings,
-// so the following till suffice
+// so the following will suffice
 //
 const char *strcasestr(const char *s1, const char *s2) {
     char needle[1024], haystack[1024], *p=NULL;
@@ -330,9 +334,13 @@ void strip_whitespace(string& str) {
 
 char* time_to_string(double t) {
     static char buf[100];
-    time_t x = (time_t)t;
-    struct tm* tm = localtime(&x);
-    strftime(buf, sizeof(buf)-1, "%d-%b-%Y %H:%M:%S", tm);
+    if (!t) {
+        strcpy(buf, "---");
+    } else {
+        time_t x = (time_t)t;
+        struct tm* tm = localtime(&x);
+        strftime(buf, sizeof(buf)-1, "%d-%b-%Y %H:%M:%S", tm);
+    }
     return buf;
 }
 
@@ -427,6 +435,7 @@ const char* boincerror(int which_error) {
         case ERR_NO_SIGNATURE: return "no signature";
         case ERR_THREAD: return "thread failure";
         case ERR_SIGNAL_CATCH: return "caught signal";
+        case ERR_BAD_FORMAT: return "bad file format";
         case ERR_UPLOAD_TRANSIENT: return "transient upload error";
         case ERR_UPLOAD_PERMANENT: return "permanent upload error";
         case ERR_IDLE_PERIOD: return "user preferences say can't start work";
@@ -435,6 +444,7 @@ const char* boincerror(int which_error) {
         case ERR_GETRUSAGE: return "getrusage() failed";
         case ERR_BENCHMARK_FAILED: return "benchmark failed";
         case ERR_BAD_HEX_FORMAT: return "hex format key data bad";
+        case ERR_GETADDRINFO: return "getaddrinfo() failed";
         case ERR_DB_NOT_FOUND: return "no database rows found in lookup/enumerate";
         case ERR_DB_NOT_UNIQUE: return "database lookup not unique";
         case ERR_DB_CANT_CONNECT: return "can't connect to database";
@@ -461,6 +471,7 @@ const char* boincerror(int which_error) {
         case ERR_NOT_FOUND: return "not found";
         case ERR_NO_EXIT_STATUS: return "no exit status in scheduler request";
         case ERR_FILE_MISSING: return "file missing";
+        case ERR_KILL: return "kill() or TerminateProcess() failed";
         case ERR_SEMGET: return "semget() failed";
         case ERR_SEMCTL: return "semctl() failed";
         case ERR_SEMOP: return "semop() failed";
@@ -521,14 +532,17 @@ const char* boincerror(int which_error) {
         case ERR_CRYPTO: return "encryption error";
         case ERR_ABORTED_ON_EXIT: return "job was aborted on client exit";
         case ERR_PROC_PARSE: return "a /proc entry was not parsed correctly";
-        case 404: return "HTTP file not found";
-        case 407: return "HTTP proxy authentication failure";
-        case 416: return "HTTP range request error";
-        case 500: return "HTTP internal server error";
-        case 501: return "HTTP not implemented";
-        case 502: return "HTTP bad gateway";
-        case 503: return "HTTP service unavailable";
-        case 504: return "HTTP gateway timeout";
+        case ERR_PIPE: return "pipe() failed";
+        case ERR_NEED_HTTPS: return "HTTPS needed";
+        case HTTP_STATUS_NOT_FOUND: return "HTTP file not found";
+        case HTTP_STATUS_PROXY_AUTH_REQ: return "HTTP proxy authentication failure";
+        case HTTP_STATUS_RANGE_REQUEST_ERROR: return "HTTP range request error";
+        case HTTP_STATUS_EXPECTATION_FAILED: return "HTTP expectation failed";
+        case HTTP_STATUS_INTERNAL_SERVER_ERROR: return "HTTP internal server error";
+        case HTTP_STATUS_NOT_IMPLEMENTED: return "HTTP not implemented";
+        case HTTP_STATUS_BAD_GATEWAY: return "HTTP bad gateway";
+        case HTTP_STATUS_SERVICE_UNAVAILABLE: return "HTTP service unavailable";
+        case HTTP_STATUS_GATEWAY_TIMEOUT: return "HTTP gateway timeout";
     }
     static char buf[128];
     sprintf(buf, "Error %d", which_error);
@@ -570,11 +584,12 @@ const char* suspend_reason_string(int reason) {
     case SUSPEND_REASON_INITIAL_DELAY: return "initial delay";
     case SUSPEND_REASON_EXCLUSIVE_APP_RUNNING: return "an exclusive app is running";
     case SUSPEND_REASON_CPU_USAGE: return "CPU is busy";
-    case SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED: return "network bandwidth limit exceeded";
+    case SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED: return "network transfer limit exceeded";
     case SUSPEND_REASON_OS: return "requested by operating system";
     case SUSPEND_REASON_WIFI_STATE: return "not connected to WiFi network";
     case SUSPEND_REASON_BATTERY_CHARGING: return "battery low";
     case SUSPEND_REASON_BATTERY_OVERHEATED: return "battery thermal protection";
+    case SUSPEND_REASON_NO_GUI_KEEPALIVE: return "GUI not active";
     }
     return "unknown reason";
 }
@@ -638,6 +653,17 @@ const char* active_task_state_string(int state) {
     return "Unknown";
 }
 
+const char* batch_state_string(int state) {
+    switch (state) {
+    case BATCH_STATE_INIT: return "uninitialized";
+    case BATCH_STATE_IN_PROGRESS: return "in progress";
+    case BATCH_STATE_COMPLETE: return "completed";
+    case BATCH_STATE_ABORTED: return "aborted";
+    case BATCH_STATE_RETIRED: return "retired";
+    }
+    return "unknown";
+}
+
 // string substitution:
 // haystack is the input string
 // out is the output buffer
@@ -680,9 +706,53 @@ inline void remove_str(char* p, const char* str) {
     }
 }
 
-// remove _( and ") from string
+// remove _(" and ") from string
 //
 void strip_translation(char* p) {
     remove_str(p, "_(\"");
     remove_str(p, "\")");
+}
+
+char* lf_terminate(char* p) {
+    int n = (int)strlen(p);
+    if (p[n-1] == '\n') {
+        return p;
+    }
+    p = (char*)realloc(p, n+2);
+    p[n] = '\n';
+    p[n+1] = 0;
+    return p;
+}
+
+void parse_serialnum(char* in, char* boinc, char* vbox, char* coprocs) {
+    strcpy(boinc, "");
+    strcpy(vbox, "");
+    strcpy(coprocs, "");
+    while (*in) {
+        if (*in != '[') break;      // format error
+        char* p = strchr(in, ']');
+        if (!p) break;              // format error
+        p++;
+        char c = *p;
+        *p = 0;
+        if (strstr(in, "BOINC")) {
+            strcpy(boinc, in);
+        } else if (strstr(in, "vbox")) {
+            strcpy(vbox, in);
+        } else {
+            strcat(coprocs, in);
+        }
+        *p = c;
+        in = p;
+    }
+}
+
+vector<string> split(string s, char delim) {
+    vector<string> result;
+    stringstream ss(s);
+    string item;
+    while (getline(ss, item, delim)) {
+        result.push_back(item);
+    }
+    return result;
 }

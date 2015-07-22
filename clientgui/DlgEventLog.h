@@ -74,7 +74,16 @@ class CDlgEventLogListCtrl;
 #define wxFIXED_MINSIZE 0
 #endif
 
-class CDlgEventLog : public wxDialog
+// To work around a Linux bug in wxWidgets 3.0 which prevents
+// bringing the main frame forward on top of a modeless dialog,
+// the Event Log is now a wxFrame on Linux only.
+#ifdef __WXGTK__
+#define DlgEventLogBase wxFrame
+#else
+#define DlgEventLogBase wxDialog
+#endif
+
+class CDlgEventLog : public DlgEventLogBase
 {
     DECLARE_DYNAMIC_CLASS( CDlgEventLog )
     DECLARE_EVENT_TABLE()
@@ -100,6 +109,9 @@ public:
     /// wxEVT_HELP event handler for ID_DLGEVENTLOG
     void OnHelp( wxHelpEvent& event );
 
+    /// wxEVT_Activate event handler for ID_DLGEVENTLOG
+    void OnActivate( wxActivateEvent& event );
+
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
     void OnOK( wxCommandEvent& event );
     
@@ -118,6 +130,12 @@ public:
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_SIMPLE_HELP
     void OnButtonHelp( wxCommandEvent& event );
 
+    /// EVT_MENU event handler for ID_SGDIAGNOSTICLOGFLAGS
+    void OnDiagnosticLogFlags( wxCommandEvent& event );
+
+    /// EVT_LIST_COL_END_DRAG event handler for ID_SIMPLE_MESSAGESVIEW
+    void OnColResize( wxListEvent& event );
+    
     /// called from CMainDocument::HandleCompletedRPC() after wxEVT_RPC_FINISHED event
     void OnRefresh();
 ////@end CDlgEventLog event handler declarations
@@ -164,6 +182,9 @@ private:
     bool                    m_bProcessingRefreshEvent;
     bool                    m_bWasConnected;
     bool                    m_bEventLogIsOpen;
+
+    wxAcceleratorEntry      m_Shortcuts[1];
+    wxAcceleratorTable*     m_pAccelTable;
 
     bool                    SaveState();
     bool                    RestoreState();

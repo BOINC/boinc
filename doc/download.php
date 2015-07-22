@@ -9,24 +9,27 @@ require_once("../html/inc/translation.inc");
 
 $client_info = $_SERVER['HTTP_USER_AGENT'];
 
-function latest_version($p) {
-    foreach ($p['versions'] as $i=>$v) {
-        if (!$dev && is_dev($v)) continue;
-        return $v;
-    }
-    foreach ($p['versions'] as $i=>$v) {
-        return $v;
-    }
-}
-
 // show a download link as a button or table row
 //
 function download_link($pname, $button=false) {
     global $platforms;
     global $url_base;
+    global $client_info;
     $p = $platforms[$pname];
     $v = latest_version($p);
     $file = $v['file'];
+    if (array_key_exists('vbox_file', $v)) {
+        $vbox_file = $v['vbox_file'];
+        $vbox_version = $v['vbox_version'];
+        $vbox_url = $url_base.$vbox_file;
+        $vbox_path = "dl/$vbox_file";
+        $vbox_size = number_format(filesize($vbox_path)/1000000, 2);
+    } else {
+        $vbox_file = null;
+    }
+    if (strstr($client_info, 'Windows NT 4') || strstr($client_info, 'Windows NT 5')) {
+        $vbox_file = null;
+    }
     $long_name = $p['name'];
     $num = $v['num'];
     $path = "dl/$file";
@@ -35,17 +38,58 @@ function download_link($pname, $button=false) {
     $s = number_format(filesize($path)/1000000, 2);
 
     if ($button) {
+        if ($vbox_file) {
+            echo tra("We recommend that you also install VirtualBox, so your computer can work on science projects that require it.");
+            echo " <a href=wiki/VirtualBox>";
+            echo tra("Learn more about VirtualBox.");
+            echo "</a>";
+
+            echo "<table><tr valign=top><td>\n";
+
+            echo "
+                <table cellpadding=10><tr valign=top><td class=button>
+                <a href=\"$vbox_url\"><font size=4><u>"
+                .tra("Download BOINC + VirtualBox")
+                ."</u></font></a>
+                <br>"
+                // "for %s" identifies the operating system, e.g. "for Windows"
+                .sprintf(tra("for %s"), $long_name)
+                ." ($vbox_size MB)"
+                ."<br><span class=note>"
+                .sprintf(tra("BOINC %s"), $num)
+                .", "
+                .sprintf(tra("VirtualBox %s"), $vbox_version)
+                ."</span></td></tr>
+                </table>
+            ";
+            echo "</td><td>\n";
+        }
         echo "
-            <table cellpadding=10><tr><td class=heading>
+            <table cellpadding=10><tr valign=top><td class=button>
             <a href=\"$url\"><font size=4><u>".tra("Download BOINC")."</u></font></a>
-            <br>".
-            sprintf(tra("%s for %s (%s MB)"), $num, $long_name, $s )."
-            </td></tr> </table>
+            <br>"
+            .sprintf(tra("for %s"), $long_name)
+            ." ($s MB)"
+            ."<br><span class=note>"
+            .sprintf(tra("BOINC %s"), $num)
+            ."</span></td></tr>
+            </table>
         ";
+        if ($vbox_file) {
+            echo "</td></tr></table>\n";
+        }
         if ($pname == 'linux'||$pname == 'linuxx64') {
             echo "<p>", linux_info();
         }
     } else {
+        if ($vbox_file) {
+            echo "<tr>
+                <td class=rowlineleft>$long_name</td>
+                <td class=rowline> $num (with Virtualbox $vbox_version)</td>
+                <td class=rowlineright><a href=$vbox_url>Download</a> ($vbox_size MB)</td>
+                </tr>
+            ";
+        }
         echo "<tr>
             <td class=rowlineleft>$long_name</td>
             <td class=rowline> $num</td>
@@ -86,19 +130,27 @@ function show_pictures() {
 function show_download($pname) {
     echo "
         <table cellpadding=10><tr><td valign=top>
-        ".tra("BOINC is a program that lets you donate your idle computer time to science projects like SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, and many others. <p> After installing BOINC on your computer, you can connect it to as many of these projects as you like.")
+        ".tra("BOINC is a program that lets you donate your idle computer time to science projects like SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, and many others.")
+        ."  "
+        .tra("After installing BOINC on your computer, you can connect it to as many of these projects as you like.")
         ."<p>"
         .tra("You may run this software on a computer only if you own the computer or have the permission of its owner.").
         "<p>"
     ;
+    if ($pname == 'android') {
+        echo "<b>"
+            .tra("We recommend that you download BOINC from the Google Play Store or Amazon Appstore, not from here.")
+            ." </b>
+        ";
+    }
     if ($pname) {
         download_link($pname, true);
     } else {
         list_start();
         list_heading_array(array(
             'Computer type',
-            'Current version ',
-            'Size'
+            'BOINC version ',
+            'Click to download'
         ));
         download_link('win');
         download_link('winx64');
@@ -107,15 +159,19 @@ function show_download($pname) {
         download_link('linux');
         download_link('linuxx64');
         download_link('linuxcompat');
-        end_table();
+        download_link('android');
+        list_end();
+        echo "Linux users: BOINC is available as a package for many Linux distributions.  It is available for Linux/ARM as a package for Debian and Ubuntu for ARM, and Raspbian (for Raspberry Pi).";
+    }
+    if ($pname != 'android') {
+        echo "
+            <p>
+            After downloading BOINC you must <b>install</b> it:
+            typically this means double-clicking on the file icon
+            when the download is finished.
+        ";
     }
     echo "
-        <p>
-        After downloading BOINC you must <b>install</b> it:
-        <ul>
-        <li> Save the file to disk.
-        <li> Double-click on the file icon.
-        </ul>
         <p>
         <center>
         <a href=\"wiki/System_requirements\"><span class=nobr>".tra("System requirements")."</span></a>
@@ -157,9 +213,11 @@ if (get_str2('all_platforms')) {
 	} else {
 		show_download('mac');
 	}
-} else if (strstr($client_info, 'Linux') && strstr($client_info, 'Android')) {
-	// Check for Android before Linux, since Android contains the Linux kernel and the
-	// web browser user agent string list Linux too.
+} else if (strstr($client_info, 'Android')) {
+    // Check for Android before Linux,
+    // since Android contains the Linux kernel and the
+    // web browser user agent string lists Linux too.
+    //
 	show_download('android');
 } else if (strstr($client_info, 'Linux')) {
 	if (strstr($client_info, 'x86_64')) {

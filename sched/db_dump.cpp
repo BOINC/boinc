@@ -18,9 +18,12 @@
 /// db_dump: dump database views in XML format
 // see http://boinc.berkeley.edu/trac/wiki/DbDump
 
-// Note: this program is way more configurable than it needs to be.
-// All projects export stats in the same format,
-// as described in the default db_dump_spec.xml that is created for you.
+// Note:
+// 1) this program is way more configurable than it needs to be.
+//    All projects export stats in the same format,
+//    as described in the default db_dump_spec.xml that is created for you.
+// 2) should scrap this and replace it with a 100 line PHP script.
+//    I'll get to this someday.
 
 #include "config.h"
 #include <cstdio>
@@ -70,6 +73,7 @@ const char* tag_name[3] = {"users", "teams", "hosts"};
 
 int nusers, nhosts, nteams;
 double total_credit;
+bool have_badges = false;
 
 struct OUTPUT {
     int recs_per_file;
@@ -341,14 +345,30 @@ void write_host(HOST& host, FILE* f, bool detail) {
     );
 
     // host.serialnum stores coprocessor description
+    // and client and vbox versions.
     //
-    if (strlen(host.serialnum)) {
-        char serialnum[1024];
-        xml_escape(host.serialnum, serialnum, sizeof(serialnum));
+    char boinc[256], vbox[256], coprocs[256];
+    char buf[1024];
+    parse_serialnum(host.serialnum, boinc, vbox, coprocs);
+    if (strlen(boinc)) {
+        xml_escape(boinc, buf, sizeof(buf));
         fprintf(f,
-            "    <coprocs>%s</coprocs>\n", serialnum
+            "    <boinc_version>%s</boinc_version>\n", buf
         );
     }
+    if (strlen(vbox)) {
+        xml_escape(vbox, buf, sizeof(buf));
+        fprintf(f,
+            "    <vbox_version>%s</vbox_version>\n", buf
+        );
+    }
+    if (strlen(coprocs)) {
+        xml_escape(coprocs, buf, sizeof(buf));
+        fprintf(f,
+            "    <coprocs>%s</coprocs>\n", buf
+        );
+    }
+
     if (detail) {
         fprintf(f,
             "  <create_time>%d</create_time>\n"
@@ -460,6 +480,48 @@ void write_user(USER& user, FILE* f, bool /*detail*/) {
     fprintf(f,
         "</user>\n"
     );
+}
+
+void write_badge_user(char* output_dir) {
+    DB_BADGE_USER bu;
+    char path[MAXPATHLEN];
+    ZFILE* f = new ZFILE("badge_users", COMPRESSION_GZIP);
+    sprintf(path, "%s/badge_user", output_dir);
+    f->open(path);
+    while (!bu.enumerate("")) {
+        fprintf(f->f,
+            " <badge_user>\n"
+            "    <user_id>%d</user_id>\n"
+            "    <badge_id>%d</badge_id>\n"
+            "    <create_time>%.0f</create_time>\n"
+            " </badge_user>\n",
+            bu.user_id,
+            bu.badge_id,
+            bu.create_time
+        );
+    }
+    f->close();
+}
+
+void write_badge_team(char* output_dir) {
+    DB_BADGE_TEAM bt;
+    char path[MAXPATHLEN];
+    ZFILE* f = new ZFILE("badge_teams", COMPRESSION_GZIP);
+    sprintf(path, "%s/badge_team", output_dir);
+    f->open(path);
+    while (!bt.enumerate("")) {
+        fprintf(f->f,
+            " <badge_team>\n"
+            "    <team_id>%d</team_id>\n"
+            "    <badge_id>%d</badge_id>\n"
+            "    <create_time>%.0f</create_time>\n"
+            " </badge_team>\n",
+            bt.team_id,
+            bt.badge_id,
+            bt.create_time
+        );
+    }
+    f->close();
 }
 
 void write_team(TEAM& team, FILE* f, bool detail) {
@@ -595,6 +657,27 @@ int print_apps(FILE* f) {
     return 0;
 }
 
+void print_badges(FILE* f) {
+    DB_BADGE badge;
+    fprintf(f, "    <badges>\n");
+    while (!badge.enumerate()) {
+        have_badges = true;
+        fprintf(f,
+            "       <badge>\n"
+            "           <id>%d</id>\n"
+            "           <name>%s</name>\n"
+            "           <title>%s</title>\n"
+            "           <image_url>%s</image_url>\n"
+            "       </badge>\n",
+            badge.id,
+            badge.name,
+            badge.title,
+            badge.image_url
+        );
+    }
+    fprintf(f, "    </badges>\n");
+}
+
 int tables_file(char* dir) {
     char buf[256];
 
@@ -605,11 +688,15 @@ int tables_file(char* dir) {
         "    <update_time>%d</update_time>\n",
         (int)time(0)
     );
+    if (config.credit_by_app) {
+        fprintf(f.f, "    <credit_by_app/>\n");
+    }
     if (nusers) fprintf(f.f, "    <nusers_total>%d</nusers_total>\n", nusers);
     if (nteams) fprintf(f.f, "    <nteams_total>%d</nteams_total>\n", nteams);
     if (nhosts) fprintf(f.f, "    <nhosts_total>%d</nhosts_total>\n", nhosts);
     if (total_credit) fprintf(f.f, "    <total_credit>%lf</total_credit>\n", total_credit);
     print_apps(f.f);
+    print_badges(f.f);
     f.close();
     return 0;
 }
@@ -747,6 +834,7 @@ void usage(char* name) {
         "    --dump_spec filename          Use the given config file (use ../db_dump_spec.xml)\n"
         "    [-d N | --debug_level]        Set verbosity level (1 to 4)\n"
         "    [--db_host H]                 Use the DB server on host H\n"
+        "    [--retry_period H]            When can't connect to DB, retry after N sec instead of terminating\n"
         "    [-h | --help]                 Show this\n"
         "    [-v | --version]              Show version information\n",
         name
@@ -759,10 +847,12 @@ int main(int argc, char** argv) {
     char* db_host = 0;
     char spec_filename[256], buf[256];
     FILE_LOCK file_lock;
+    int retry_period = 0;
 
     check_stop_daemons();
     setbuf(stderr, 0);
 
+    retval = system("cd ../html/ops; echo 2");
     log_messages.printf(MSG_NORMAL, "db_dump starting\n");
     strcpy(spec_filename, "");
     for (i=1; i<argc; i++) {
@@ -773,6 +863,13 @@ int main(int argc, char** argv) {
                 exit(1);
             }
             safe_strcpy(spec_filename, argv[i]);
+        } else if (is_arg(argv[i], "retry_period")) {
+            if (!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            retry_period = atoi(argv[i]);
         } else if (is_arg(argv[i], "d") || is_arg(argv[i], "debug_level")) {
             if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
@@ -837,15 +934,25 @@ int main(int argc, char** argv) {
         );
         exit(1);
     }
-    retval = boinc_db.open(
+
+    retval = boinc_mkdir(spec.output_dir);
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "boinc_mkdir(%s): %s; %s\n",
+            spec.output_dir, boincerror(retval), boinc_db.error_string()
+        );
+        exit(1);
+    }
+
+    while ((retval = boinc_db.open(
         config.replica_db_name,
         db_host?db_host:config.replica_db_host,
         config.replica_db_user,
         config.replica_db_passwd
-    );
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL, "Can't open DB\n");
-        exit(1);
+    ))) {
+        log_messages.printf(MSG_CRITICAL, "Can't open DB: %d\n", retval);
+        if (retry_period == 0) exit(1);
+	boinc_sleep(retry_period);
     }
     retval = boinc_db.set_isolation_level(READ_UNCOMMITTED);
     if (retval) {
@@ -863,7 +970,23 @@ int main(int argc, char** argv) {
         e.make_it_happen(spec.output_dir);
     }
 
+    if (config.credit_by_app) {
+        retval = system("cd ../html/ops ; ./export_credit_by_app.php ../stats_tmp");
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "export_credit_by_app.php failed: %d\n", WEXITSTATUS(retval)
+            );
+        }
+    }
+
+    // this must follow the above loop, to get tables counts
+    //
     tables_file(spec.output_dir);
+
+    if (have_badges) {
+        write_badge_user(spec.output_dir);
+        write_badge_team(spec.output_dir);
+    }
 
     sprintf(buf, "cp %s %s/db_dump.xml", spec_filename, spec.output_dir);
     retval = system(buf);

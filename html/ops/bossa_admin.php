@@ -73,22 +73,22 @@ function add_app_form() {
     start_table();
     row1("Add app");
     row2(
-        "Name<span class=note><br>Visible to users</span>",
+        "Name<br><p class=\"text-muted\">Visible to users</p>",
         "<input name=app_name>"
     );
     row2(
-        "Short name<span class=note><br>Used in file and function names - no spaces or special characters</span>",
+        "Short name<br><p class=\"text-muted\">Used in file and function names - no spaces or special characters</p>",
         "<input name=short_name>"
     );
     row2(
-        "Description<span class=note><br>Visible to users</span>",
+        "Description<br><p class=\"text-muted\">Visible to users</p>",
         "<textarea name=description cols=60></textarea>"
     );
     row2("Average time per job", "<input name=time_estimate> seconds");
     row2("Time limit per job", "<input name=time_limit> seconds");
     row2("Fraction of calibration jobs", "<input name=calibration_frac>");
     row2("Name of Bolt training course", "<input name=training_course>");
-    row2("", "<input type=submit submit value=\"Create app\">");
+    row2("", "<input class=\"btn btn-default\" type=submit submit value=\"Create app\">");
     end_table();
     echo "</form>";
 }
@@ -105,7 +105,7 @@ function user_settings() {
     row2("Show hidden apps?", "<input type=checkbox name=show_all $x>");
     $x = ($flags&BOLT_FLAGS_DEBUG)?"checked":"";
     row2("Show debugging output?", "<input type=checkbox name=debug $x>");
-    row2("", "<input type=submit value=\"Update user\">");
+    row2("", "<input class=\"btn btn-default\" type=submit value=\"Update user\">");
     end_table();
     echo "</form>";
 }

@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,10 +19,13 @@
 // Post a reply to a thread.
 // Both input (form) and action take place here.
 
+require_once('../inc/util.inc');
 require_once('../inc/forum_email.inc');
 require_once('../inc/forum.inc');
 require_once('../inc/bbcode_html.inc');
 require_once('../inc/akismet.inc');
+
+if (DISABLE_FORUMS) error_page("Forums are disabled");
 
 $logged_in_user = get_logged_in_user(true);
 BoincForumPrefs::lookup($logged_in_user);
@@ -90,7 +93,7 @@ page_head(tra("Post to thread"),'','','', $bbcode_js);
 show_forum_header($logged_in_user);
 
 if ($warning) {
-    echo "<span class=error>$warning</span><p>";
+    echo "<p class=\"text-danger\">$warning</p>";
 }
 
 switch ($forum->parent_type) {
@@ -106,6 +109,9 @@ echo "<p>";
 
 if ($preview == tra("Preview")) {
     $options = new output_options;
+    if (is_admin($logged_in_user)) {
+        $options->htmlitems = false;
+    }
     echo "<h2>".tra("Preview")."</h2>\n";
     echo "<div class=\"pm_preview\">"
         .output_transform($content, $options)
@@ -162,8 +168,8 @@ function show_message_row($thread, $parent_post) {
         $enable_signature="";
     }
     $x2 .= "</textarea><p>
-        <input type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\">
-        <input type=\"submit\" value=\"".tra("Post reply")."\">
+        <input class=\"btn btn-default\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\">
+        <input class=\"btn btn-primary\" type=\"submit\" value=\"".tra("Post reply")."\">
         &nbsp;&nbsp;&nbsp;
         <input type=\"checkbox\" name=\"add_signature\" id=\"add_signature\" value=\"add_it\" ".$enable_signature.">
         <label for=\"add_signature\">".tra("Add my signature to this reply")."</label>

@@ -66,25 +66,31 @@ if ($action=='Preview') {
         $n = get_str("n$i", true);
         $e = get_str("e$i", true);
         if ($n && $e) {
+            $html_body = replace($n, $comment, $uname, $html);
+            $text_body = replace($n, $comment, $uname, $text);
             $found = true;
-            $mail = new PHPMailer();
-            $mail->AddAddress($e, $n);
-            $mail->Subject = $subject;
-            if ($html) {
-                $mail->Body = replace($n, $comment, $uname, $html);
-                $mail->AltBody = replace($n, $comment, $uname, $text);
+            if (function_exists("make_php_mailer")) {
+                $mail = make_php_mailer();
+                $mail->AddAddress($e, $n);
+                $mail->Subject = $subject;
+                if ($html) {
+                    $mail->Body = $html_body;
+                    $mail->AltBody = $text_body;
+                } else {
+                    $mail->Body = replace($n, $comment, $uname, $text);
+                }
+                $mail->From = $uemail;
+                $mail->FromName = $uname;
+                if (!$mail->Send()) {
+                    echo "<br>".tra("failed to send email to %1: %2", $e, $mail->ErrorInfo)."\n";
+                    continue;
+                }
             } else {
-                $mail->Body = replace($n, $comment, $uname, $text);
+                if (!mail($e, $subject, $text_body, "$uname <$uemail>")) {
+                    echo "<br>".tra("failed to send email to %1", $e)."\n";
+                }
             }
-            $mail->From = $uemail;
-            $mail->FromName = $uname;
-            $mail->Host = $PHPMAILER_HOST;
-            $mail->Mailer = $PHPMAILER_MAILER;
-            if ($mail->Send()) {
-                echo "<br>".tra("email sent successfully to %1", $e)."\n";
-            } else {
-                echo "<br>".tra("failed to send email to %1: %2", $e, $mail->ErrorInfo)."\n";
-            }
+            echo "<br>".tra("email sent successfully to %1", $e)."\n";
         }
     }
     if ($found) {

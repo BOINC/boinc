@@ -15,6 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifdef __APPLE__
+#include <Carbon/Carbon.h>
+#endif
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
@@ -56,7 +60,6 @@
 #include "cs_trickle.h"
 #include "file_names.h"
 #include "hostinfo.h"
-#include "hostinfo_network.h"
 #include "http_curl.h"
 #include "network.h"
 #include "project.h"
@@ -70,6 +73,13 @@ using std::max;
 
 CLIENT_STATE gstate;
 COPROCS coprocs;
+
+#ifndef SIM
+#ifdef NEW_CPU_THROTTLE
+THREAD_LOCK client_mutex;
+THREAD throttle_thread;
+#endif
+#endif
 
 CLIENT_STATE::CLIENT_STATE()
     : lookup_website_op(&gui_http),
@@ -91,6 +101,7 @@ CLIENT_STATE::CLIENT_STATE()
     file_xfer_giveup_period = PERS_GIVEUP;
     had_or_requested_work = false;
     tasks_suspended = false;
+    tasks_throttled = false;
     network_suspended = false;
     suspend_reason = 0;
     network_suspend_reason = 0;
@@ -102,9 +113,12 @@ CLIENT_STATE::CLIENT_STATE()
 #else
     core_client_version.prerelease = false;
 #endif
+    strcpy(language, "");
+    strcpy(client_brand, "");
     exit_after_app_start_secs = 0;
     app_started = 0;
     exit_before_upload = false;
+    run_test_app = false;
     show_projects = false;
     strcpy(detach_project_url, "");
     strcpy(main_host_venue, "");
@@ -139,6 +153,7 @@ CLIENT_STATE::CLIENT_STATE()
     retry_shmem_time = 0;
     must_schedule_cpus = true;
     no_gui_rpc = false;
+    gui_rpc_unix_domain = false;
     new_version_check_time = 0;
     all_projects_list_check_time = 0;
     detach_console = false;
@@ -148,6 +163,7 @@ CLIENT_STATE::CLIENT_STATE()
     launched_by_manager = false;
     initialized = false;
     last_wakeup_time = dtime();
+    device_status_time = 0;
 #ifdef _WIN32
     have_sysmon_msg = false;
 #endif
@@ -156,6 +172,10 @@ CLIENT_STATE::CLIENT_STATE()
 void CLIENT_STATE::show_host_info() {
     char buf[256], buf2[256];
 
+    msg_printf(NULL, MSG_INFO,
+        "Host name: %s",
+        host_info.domain_name
+    );
     nbytes_to_string(host_info.m_cache, 0, buf, sizeof(buf));
     msg_printf(NULL, MSG_INFO,
         "Processor: %d %s %s",
@@ -176,10 +196,25 @@ void CLIENT_STATE::show_host_info() {
         "Processor features: %s", host_info.p_features
     );
 #ifdef __APPLE__
+    SInt32 temp;
     int major, minor, rev;
-    sscanf(host_info.os_version, "%d.%d.%d", &major, &minor, &rev);
+    OSStatus err = noErr;
+    
+    err = Gestalt(gestaltSystemVersionMajor, &temp);
+    major = temp;
+    if (!err) {
+    err = Gestalt(gestaltSystemVersionMinor, &temp);
+    minor = temp;
+    }
+    if (!err) {
+    err = Gestalt(gestaltSystemVersionBugFix, &temp);
+    rev = temp;
+    }
+    if (err) {
+        sscanf(host_info.os_version, "%d.%d.%d", &major, &minor, &rev);
+    }
     msg_printf(NULL, MSG_INFO,
-        "OS: Mac OS X 10.%d.%d (%s %s)", major-4, minor,
+        "OS: Mac OS X %d.%d.%d (%s %s)", major, minor, rev, 
         host_info.os_name, host_info.os_version
     );
 #else
@@ -208,6 +243,14 @@ void CLIENT_STATE::show_host_info() {
             "VirtualBox version: %s",
             host_info.virtualbox_version
         );
+    } else {
+#if defined (_WIN32) && !defined(_WIN64)
+        if (!strcmp(get_primary_platform(), "windows_x86_64")) {
+            msg_printf(NULL, MSG_USER_ALERT,
+                "Can't detect VirtualBox because this is a 32-bit version of BOINC; to fix, please install a 64-bit version."
+            );
+        }
+#endif
     }
 }
 
@@ -222,8 +265,18 @@ int rsc_index(const char* name) {
     return -1;
 }
 
+// used in XML and COPROC::type
+//
 const char* rsc_name(int i) {
     return coprocs.coprocs[i].type;
+}
+
+// user-friendly version
+//
+const char* rsc_name_long(int i) {
+    int num = coproc_type_name_to_num(coprocs.coprocs[i].type);
+    if (num >= 0) return proc_type_name(num);   // CPU, NVIDIA GPU, AMD GPU or Intel GPU
+    return coprocs.coprocs[i].type;             // Some other type
 }
 
 // alert user if any jobs need more RAM than available
@@ -270,6 +323,10 @@ void CLIENT_STATE::set_now() {
     clock_change = false;
     if (x < (now-60)) {
         clock_change = true;
+        msg_printf(NULL, MSG_INFO,
+            "New system time (%.0f) < old system time (%.0f); clearing timeouts",
+            x, now
+        );
         clear_absolute_times();
     }
 
@@ -298,6 +355,9 @@ int CLIENT_STATE::init() {
 
     srand((unsigned int)time(0));
     now = dtime();
+#ifdef ANDROID
+    device_status_time = dtime();
+#endif
     scheduler_op->url_random = drand();
 
     notices.init();
@@ -331,7 +391,11 @@ int CLIENT_STATE::init() {
     msg_printf(NULL, MSG_INFO, "Libraries: %s", curl_version());
 
     if (executing_as_daemon) {
+#ifdef _WIN32
+        msg_printf(NULL, MSG_INFO, "Running as a daemon (GPU computing disabled)");
+#else
         msg_printf(NULL, MSG_INFO, "Running as a daemon");
+#endif
     }
 
     relative_to_absolute("", buf);
@@ -345,22 +409,21 @@ int CLIENT_STATE::init() {
     msg_printf(NULL, MSG_INFO, "Running under account %s", pbuf);
 #endif
 
+    FILE* f = fopen(CLIENT_BRAND_FILENAME, "r");
+    if (f) {
+        fgets(client_brand, sizeof(client_brand), f);
+        strip_whitespace(client_brand);
+        msg_printf(NULL, MSG_INFO, "Client brand: %s", client_brand);
+        fclose(f);
+    }
+
     parse_account_files();
     parse_statistics_files();
 
-    host_info.get_host_info();
-    set_ncpus();
-    show_host_info();
-
     // check for GPUs.
     //
-    for (int j=1; j<coprocs.n_rsc; j++) {
-        msg_printf(NULL, MSG_INFO, "GPU specified in cc_config.xml: %d %s",
-            coprocs.coprocs[j].count,
-            coprocs.coprocs[j].type
-        );
-    }
-    if (!config.no_gpus
+    coprocs.bound_counts();     // show GPUs described in cc_config.xml
+    if (!cc_config.no_gpus
 #ifdef _WIN32
         && !executing_as_daemon
 #endif
@@ -368,7 +431,7 @@ int CLIENT_STATE::init() {
         vector<string> descs;
         vector<string> warnings;
         coprocs.get(
-            config.use_all_gpus, descs, warnings, config.ignore_gpu_instance
+            cc_config.use_all_gpus, descs, warnings, cc_config.ignore_gpu_instance
         );
         for (i=0; i<descs.size(); i++) {
             msg_printf(NULL, MSG_INFO, "%s", descs[i].c_str());
@@ -380,7 +443,7 @@ int CLIENT_STATE::init() {
         }
 #if 0
         msg_printf(NULL, MSG_INFO, "Faking an NVIDIA GPU");
-        coprocs.nvidia.fake(18000, 512*MEGA, 490*MEGA, 1);
+        coprocs.nvidia.fake(18000, 512*MEGA, 490*MEGA, 2);
 #endif
 #if 0
         msg_printf(NULL, MSG_INFO, "Faking an ATI GPU");
@@ -413,6 +476,8 @@ int CLIENT_STATE::init() {
             coprocs.add(coprocs.intel_gpu);
         }
     }
+    coprocs.add_other_coproc_types();
+    
     host_info.coprocs = coprocs;
     
     if (coprocs.none() ) {
@@ -424,7 +489,7 @@ int CLIENT_STATE::init() {
     // check for app_info.xml file in project dirs.
     // If find, read app info from there, set project.anonymous_platform
     // - this must follow coproc.get() (need to know if GPUs are present)
-    // - this is being done before CPU speed has been read,
+    // - this is being done before CPU speed has been read from state file,
     // so we'll need to patch up avp->flops later;
     //
     check_anonymous();
@@ -439,14 +504,25 @@ int CLIENT_STATE::init() {
     //
     parse_state_file();
 
+    // this follows parse_state_file() since we need to have read
+    // domain_name for Android
+    //
+    host_info.get_host_info(true);
+    set_ncpus();
+    show_host_info();
+
+    // this follows parse_state_file() because that's where we read project names
+    //
+    sort_projects_by_name();
+
     // check for app_config.xml files in project dirs
     //
     check_app_config();
 
-    // this needs to go after parse_state_file because
+    // this needs to go after parse_state_file() because
     // GPU exclusions refer to projects
     //
-    config.show();
+    cc_config.show();
 
     // inform the user if there's a newer version of client
     //
@@ -545,7 +621,7 @@ int CLIENT_STATE::init() {
     if (new_client) {
         run_cpu_benchmarks = true;
         all_projects_list_check_time = 0;
-        if (config.dont_contact_ref_site) {
+        if (cc_config.dont_contact_ref_site) {
             if (projects.size() > 0) {
                 projects[0]->master_url_fetch_pending = true;
             }
@@ -553,6 +629,8 @@ int CLIENT_STATE::init() {
             net_status.need_to_contact_reference_site = true;
         }
     }
+
+    check_if_need_benchmarks();
 
     log_show_projects();
 
@@ -588,22 +666,24 @@ int CLIENT_STATE::init() {
     // set up for handling GUI RPCs
     //
     if (!no_gui_rpc) {
-        // When we're running at boot time,
-        // it may be a few seconds before we can socket/bind/listen.
-        // So retry a few times.
-        //
-        for (i=0; i<30; i++) {
-            bool last_time = (i==29);
-            retval = gui_rpcs.init(last_time);
-            if (!retval) break;
-            boinc_sleep(1.0);
+        if (gui_rpc_unix_domain) {
+            retval = gui_rpcs.init_unix_domain();
+        } else {
+            // When we're running at boot time,
+            // it may be a few seconds before we can socket/bind/listen.
+            // So retry a few times.
+            //
+            for (i=0; i<30; i++) {
+                bool last_time = (i==29);
+                retval = gui_rpcs.init_tcp(last_time);
+                if (!retval) break;
+                boinc_sleep(1.0);
+            }
         }
         if (retval) return retval;
     }
 
-#ifdef SANDBOX
-    get_project_gid();
-#endif
+    if (g_use_sandbox) get_project_gid();
 #ifdef _WIN32
     get_sandbox_account_service_token();
     if (sandbox_account_service_token != NULL) g_use_sandbox = true;
@@ -641,7 +721,7 @@ int CLIENT_STATE::init() {
     // get list of BOINC projects occasionally,
     // and initialize notice RSS feeds
     //
-    if (!config.no_info_fetch) {
+    if (!cc_config.no_info_fetch) {
         all_projects_list_check();
         notices.init_rss();
     }
@@ -654,6 +734,10 @@ int CLIENT_STATE::init() {
     //
     project_priority_init(false);
 
+#ifdef NEW_CPU_THROTTLE
+    client_mutex.lock();
+    throttle_thread.run(throttler, NULL);
+#endif
     initialized = true;
     return 0;
 }
@@ -685,12 +769,18 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
         all_fds = curl_fds;
         gui_rpcs.get_fdset(gui_rpc_fds, all_fds);
         double_to_timeval(action?0:x, tv);
+#ifdef NEW_CPU_THROTTLE
+        client_mutex.unlock();
+#endif
         n = select(
             all_fds.max_fd+1,
             &all_fds.read_fds, &all_fds.write_fds, &all_fds.exc_fds,
             &tv
         );
         //printf("select in %d out %d\n", all_fds.max_fd, n);
+#ifdef NEW_CPU_THROTTLE
+        client_mutex.lock();
+#endif
 
         // Note: curl apparently likes to have curl_multi_perform()
         // (called from net_xfers->got_select())
@@ -761,7 +851,7 @@ bool CLIENT_STATE::poll_slow_events() {
         last_wakeup_time = now;
     }
 
-    if (should_run_cpu_benchmarks() && !benchmarks_running) {
+    if (run_cpu_benchmarks && can_run_cpu_benchmarks()) {
         run_cpu_benchmarks = false;
         start_cpu_benchmarks();
     }
@@ -786,7 +876,7 @@ bool CLIENT_STATE::poll_slow_events() {
 #endif
 
     if (user_active != old_user_active) {
-        request_schedule_cpus("Idle state change");
+        request_schedule_cpus(user_active?"Not idle":"Idle");
     }
 
 #if 0
@@ -832,11 +922,12 @@ bool CLIENT_STATE::poll_slow_events() {
     if (tasks_restarted) {
         if (suspend_reason) {
             if (!tasks_suspended) {
-                suspend_tasks(suspend_reason);
+                show_suspend_tasks_message(suspend_reason);
+                active_tasks.suspend_all(suspend_reason);
             }
             last_suspend_reason = suspend_reason;
         } else {
-            if (tasks_suspended) {
+            if (tasks_suspended && !tasks_throttled) {
                 resume_tasks(last_suspend_reason);
             }
         }
@@ -845,10 +936,7 @@ bool CLIENT_STATE::poll_slow_events() {
         //
         first = false;
         if (suspend_reason) {
-            msg_printf(NULL, MSG_INFO,
-                "Suspending computation - %s",
-                suspend_reason_string(suspend_reason)
-            );
+            show_suspend_tasks_message(suspend_reason);
         }
     }
     tasks_suspended = (suspend_reason != 0);
@@ -886,6 +974,7 @@ bool CLIENT_STATE::poll_slow_events() {
             } else {
                 msg_printf(NULL, MSG_INFO, "Resuming file transfers");
             }
+            request_schedule_cpus("network resumed");
         }
 
         // if we're emerging from a bandwidth quota suspension,
@@ -937,7 +1026,7 @@ bool CLIENT_STATE::poll_slow_events() {
             //      handle transient and permanent failures
             //      delete the FILE_XFER
 
-        if (!config.no_info_fetch) {
+        if (!cc_config.no_info_fetch) {
             POLL_ACTION(rss_feed_op            , rss_feed_op.poll );
         }
     }
@@ -1070,8 +1159,6 @@ int CLIENT_STATE::link_file_info(PROJECT* p, FILE_INFO* fip) {
 
 int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
     APP* app;
-    FILE_INFO* fip;
-    unsigned int i;
 
     avp->project = p;
     app = lookup_app(p, avp->app_name);
@@ -1099,9 +1186,9 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
     strcpy(avp->graphics_exec_path, "");
     strcpy(avp->graphics_exec_file, "");
 
-    for (i=0; i<avp->app_files.size(); i++) {
+    for (unsigned int i=0; i<avp->app_files.size(); i++) {
         FILE_REF& file_ref = avp->app_files[i];
-        fip = lookup_file_info(p, file_ref.file_name);
+        FILE_INFO* fip = lookup_file_info(p, file_ref.file_name);
         if (!fip) {
             msg_printf(p, MSG_INTERNAL_ERROR,
                 "State file error: missing application file %s",
@@ -1120,7 +1207,7 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
 
         // any file associated with an app version must be signed
         //
-        if (!config.unsigned_apps_ok) {
+        if (!cc_config.unsigned_apps_ok) {
             fip->signature_required = true;
         }
 
@@ -1378,6 +1465,7 @@ bool CLIENT_STATE::garbage_collect_always() {
                         rp->name
                     );
                 }
+                add_old_result(*rp);
                 delete rp;
                 result_iter = results.erase(result_iter);
                 action = true;
@@ -1438,7 +1526,7 @@ bool CLIENT_STATE::garbage_collect_always() {
 #endif
         rp->avp->ref_cnt++;
         rp->wup->ref_cnt++;
-        result_iter++;
+        ++result_iter;
     }
 
     // delete WORKUNITs not referenced by any in-progress result;
@@ -1461,7 +1549,7 @@ bool CLIENT_STATE::garbage_collect_always() {
             for (i=0; i<wup->input_files.size(); i++) {
                 wup->input_files[i].file_info->ref_cnt++;
             }
-            wu_iter++;
+            ++wu_iter;
         }
     }
 
@@ -1491,10 +1579,10 @@ bool CLIENT_STATE::garbage_collect_always() {
                 avp_iter = app_versions.erase(avp_iter);
                 action = true;
             } else {
-                avp_iter++;
+                ++avp_iter;
             }
         } else {
-            avp_iter++;
+            ++avp_iter;
         }
     }
 
@@ -1511,8 +1599,12 @@ bool CLIENT_STATE::garbage_collect_always() {
     // reference-count sticky files not marked for deletion
     //
 
-    for (fi_iter = file_infos.begin(); fi_iter!=file_infos.end(); fi_iter++) {
+    for (fi_iter = file_infos.begin(); fi_iter!=file_infos.end(); ++fi_iter) {
         fip = *fi_iter;
+        if (fip->sticky_expire_time && now > fip->sticky_expire_time) {
+            fip->sticky = false;
+            fip->sticky_expire_time = 0;
+        }
         if (!fip->sticky) continue;
         if (fip->status < 0) continue;
         fip->ref_cnt++;
@@ -1530,7 +1622,7 @@ bool CLIENT_STATE::garbage_collect_always() {
             delete pfx;
             pfx_iter = pers_file_xfers->pers_file_xfers.erase(pfx_iter);
         } else {
-            pfx_iter++;
+            ++pfx_iter;
         }
     }
 
@@ -1551,7 +1643,7 @@ bool CLIENT_STATE::garbage_collect_always() {
             fi_iter = file_infos.erase(fi_iter);
             action = true;
         } else {
-            fi_iter++;
+            ++fi_iter;
         }
     }
 
@@ -1630,7 +1722,7 @@ bool CLIENT_STATE::update_results() {
             }
             break;
         }
-        result_iter++;
+        ++result_iter;
     }
     return action;
 }
@@ -1648,7 +1740,7 @@ bool CLIENT_STATE::time_to_exit() {
         );
         return true;
     }
-    if (config.exit_when_idle
+    if (cc_config.exit_when_idle
         && (results.size() == 0)
         && had_or_requested_work
     ) {
@@ -1852,7 +1944,7 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
                 avp_iter = app_versions.erase(avp_iter);
                 delete avp;
             } else {
-                avp_iter++;
+                ++avp_iter;
             }
         }
 
@@ -1863,11 +1955,20 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
                 app_iter = apps.erase(app_iter);
                 delete app;
             } else {
-                app_iter++;
+                ++app_iter;
             }
         }
         garbage_collect_always();
     }
+#ifdef ANDROID
+    // space is likely to be an issue on Android, so clean out project dir
+    // If we did this on other platforms we'd need to avoid deleting
+    // app_config.xml, but this isn't likely to exist on Android.
+    //
+    if (!project->anonymous_platform) {
+        client_clean_out_dir(project->project_dir(), "reset project");
+    }
+#endif
 
     // force refresh of scheduler URLs
     //
@@ -1889,6 +1990,7 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
 // - delete all file infos
 // - delete account file
 // - delete project directory
+// - delete various per-project files
 //
 int CLIENT_STATE::detach_project(PROJECT* project) {
     vector<PROJECT*>::iterator project_iter;
@@ -1911,21 +2013,13 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
             fi_iter = file_infos.erase(fi_iter);
             delete fip;
         } else {
-            fi_iter++;
+            ++fi_iter;
         }
-    }
-
-    // if global prefs came from this project, delete file and reinit
-    //
-    p = lookup_project(global_prefs.source_project);
-    if (p == project) {
-        boinc_delete_file(GLOBAL_PREFS_FILE_NAME);
-        global_prefs.defaults();
     }
 
     // find project and remove it from the vector
     //
-    for (project_iter = projects.begin(); project_iter != projects.end(); project_iter++) {
+    for (project_iter = projects.begin(); project_iter != projects.end(); ++project_iter) {
         p = *project_iter;
         if (p == project) {
             project_iter = projects.erase(project_iter);
@@ -1971,6 +2065,12 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
         );
     }
 
+    // remove miscellaneous per-project files
+    //
+    //job_log_filename(*project, path, sizeof(path));
+    //boinc_delete_file(path);
+    delete_project_notice_files(project);
+
     rss_feeds.update_feed_list();
 
     delete project;
@@ -2014,6 +2114,10 @@ int CLIENT_STATE::quit_activities() {
 void CLIENT_STATE::check_clock_reset() {
     if (!time_stats.last_update) return;
     if (time_stats.last_update <= now) return;
+    msg_printf(NULL, MSG_INFO,
+        "System clock (%.0f) < state file timestamp (%.0f); clearing timeouts",
+        now, time_stats.last_update
+    );
     clear_absolute_times();
 }
 
@@ -2025,10 +2129,6 @@ void CLIENT_STATE::check_clock_reset() {
 // that we could try to patch up, but it's not clear how.
 //
 void CLIENT_STATE::clear_absolute_times() {
-    msg_printf(NULL, MSG_INFO,
-        "System clock was turned backwards; clearing timeouts"
-    );
-
     exclusive_app_running = 0;
     exclusive_gpu_app_running = 0;
     new_version_check_time = now;
@@ -2082,6 +2182,7 @@ void CLIENT_STATE::log_show_projects() {
         if (p->ended) {
             msg_printf(p, MSG_INFO, "Project has ended - OK to detach");
         }
+        p->show_no_work_notice();
     }
 }
 

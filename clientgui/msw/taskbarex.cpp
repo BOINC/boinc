@@ -55,7 +55,7 @@ DEFINE_EVENT_TYPE( wxEVT_TASKBAR_SELECT )
 DEFINE_EVENT_TYPE( wxEVT_TASKBAR_KEY_SELECT )
 DEFINE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_SHOW )
 DEFINE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_HIDE )
-DEFINE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_TIMEOUT )
+DEFINE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_USERTIMEOUT )
 DEFINE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_USERCLICK )
 DEFINE_EVENT_TYPE( wxEVT_TASKBAR_SHUTDOWN )
 DEFINE_EVENT_TYPE( wxEVT_TASKBAR_APPRESTORE )
@@ -304,13 +304,7 @@ WXHWND wxTaskBarIconEx::CreateTaskBarWindow( wxChar* szWindowTitle )
 
 bool wxTaskBarIconEx::IsBalloonsSupported()
 {
-    wxInt32 iMajor = 0, iMinor = 0;
-    if ( wxWINDOWS_NT == wxGetOsVersion( &iMajor, &iMinor ) )
-    {
-        if ( (6 >= iMajor) || ((5 >= iMajor) && (0 <= iMinor)) )
-            return true;
-    }
-    return false;
+    return true;
 }
 
 long wxTaskBarIconEx::WindowProc( WXHWND hWnd, unsigned int msg, unsigned int wParam, long lParam )
@@ -394,7 +388,7 @@ long wxTaskBarIconEx::WindowProc( WXHWND hWnd, unsigned int msg, unsigned int wP
                 break;
 
             case NIN_BALLOONTIMEOUT:
-                eventType = wxEVT_TASKBAR_BALLOON_TIMEOUT;
+                eventType = wxEVT_TASKBAR_BALLOON_USERTIMEOUT;
                 break;
 
             case NIN_BALLOONUSERCLICK:

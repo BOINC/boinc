@@ -58,7 +58,6 @@ class CScrolledTextBox : public wxScrolledWindow
         void OnOutputLine(const wxString& line);
 
         wxBoxSizer*                 m_TextSizer;
-        int                         m_iAvailableHeight;
         bool                        m_eol;
         wxString                    m_text;
         int                         m_hLine;
@@ -81,18 +80,18 @@ class CSlideShowPanel : public wxPanel
 		~CSlideShowPanel();
 
         void OnSlideShowTimer(wxTimerEvent& WXUNUSED(event));
+        void SetDescriptionText(void);
         void AdvanceSlideShow(bool changeSlide, bool reload);
         void OnPaint(wxPaintEvent& WXUNUSED(event));
         void OnEraseBackground(wxEraseEvent& event);
                 
     private:
-        CTransparentStaticText*     m_institution;
-        CTransparentStaticText*     m_scienceArea;
         CScrolledTextBox*           m_description;
         wxTimer*                    m_ChangeSlideTimer;
         wxBitmap                    m_SlideBitmap;
         bool                        m_bCurrentSlideIsDefault;
         bool                        m_bGotAllProjectsList;
+        bool                        m_bHasBeenDrawn;
         ALL_PROJECTS_LIST           m_AllProjectsList;
 };
 
@@ -101,13 +100,10 @@ class CSlideShowPanel : public wxPanel
 /// Class CSimpleTaskPanel
 ///////////////////////////////////////////////////////////////////////////////
 
-#if 0
 #ifdef __WXMAC__
 #include "MacBitmapComboBox.h"
 #else
 #define CBOINCBitmapComboBox wxBitmapComboBox
-#define EVT_BOINCBITMAPCOMBOBOX EVT_COMBOBOX
-#endif
 #endif
 
 class CSimpleTaskPanel : public CSimplePanelBase 

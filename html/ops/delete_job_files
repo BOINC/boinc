@@ -44,7 +44,7 @@ while (1) {
         if (!$result) {
             die("query failed: $query\n");
         }
-        $b = mysql_fetch_object($result);
+        $b = _mysql_fetch_object($result);
         if (!$b) continue;
 
         $fname = job_file_name($file->md5);

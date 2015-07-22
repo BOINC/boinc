@@ -71,6 +71,10 @@ if ($receiver > 0) {
         // lapsed users
         $query = "select user.id,user.name,user.email_addr from user left join result on user.id=result.userid where send_email>0 and total_credit>0 and isnull(result.id)";
         break;
+    case 6:
+        $userids = post_str('userids');
+        $query = "select * from user where id in ($userids)";
+        break;
     default:
         // should never happen!
         exit_error("Got impossible value of receiver from selection!");
@@ -78,8 +82,8 @@ if ($receiver > 0) {
     // FOR DEBUGGING
     //$query .= " LIMIT 10";
 
-    $result = mysql_query($query);
-    while ($user = mysql_fetch_object($result)) {
+    $result = _mysql_query($query);
+    while ($user = _mysql_fetch_object($result)) {
     	// TODO: might want to also replace TOTAL_CREDIT, RAC, and similar.
         $body_to_send = str_replace("USERNAME", $user->name, $body);
         $body_to_send .= "\n\nTo opt out of future emails from ".PROJECT.", please edit your project preferences at ".URL_BASE."prefs.php?subset=project\n";
@@ -102,14 +106,12 @@ echo "<p>\n";
 start_table();
 echo "<tr><td align=right>Send email to: </td><td> ";
 echo "
-    <select name=\"receiver\">
-      <option value='0' selected> PLEASE CHOOSE DESIRED SET OF USERS TO EMAIL
-      <option value='1' > All users
-      <option value='2' > Unsuccessful users: total_credit = 0, create time > 1 week ago, NO results in DB 
-      <option value='3' > Successful users: total_credit > 0
-      <option value='4' > Currently contributing users: total_credit > 0 and at least one result in DB
-      <option value='5' > Lapsed users: total_credit > 0 but NO results in DB
-    </select>
+    <input type=radio name=receiver value='1' > All users
+    <br><input type=radio name=receiver value='2' > Unsuccessful users: total_credit = 0, create time > 1 week ago, no jobs in DB 
+    <br><input type=radio name=receiver value='3' > Successful users: total_credit > 0
+    <br><input type=radio name=receiver value='4' > Currently contributing users: total_credit > 0 and at least one job in DB
+    <br><input type=radio name=receiver value='5' > Lapsed users: total_credit > 0 but no jobs in DB
+    <br><input type=radio name=receiver value='6' checked> User IDs, comma-separated: <input name=userids>
     </td></tr>
     <tr>
       <td align=\"right\">Email subject</td>
@@ -120,7 +122,7 @@ echo "
       <td><textarea name=\"body\" rows=25 cols=50 id=\"body\"></textarea></td>
     </tr>
         ";
-row2("", "<input type=\"submit\" value=\"OK\">\n");
+row2("", "<input class=\"btn btn-default\" type=\"submit\" value=\"OK\">\n");
 
 end_table();
 echo "</form>\n";

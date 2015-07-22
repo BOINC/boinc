@@ -19,8 +19,11 @@
 
 package edu.berkeley.boinc.rpc;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class HostInfo {
+
+public class HostInfo implements Parcelable {
 	// all attributes are public for simple access
 	/** Local STANDARD time - UTC time (in seconds) */
 	public int    timezone;
@@ -49,4 +52,69 @@ public class HostInfo {
 	public String os_name;
 	public String os_version;
 	public String virtualbox_version = null;
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(timezone);
+		dest.writeString(domain_name);
+		dest.writeString(ip_addr);
+		dest.writeString(host_cpid);
+		dest.writeInt(p_ncpus);
+		dest.writeString(p_vendor);
+		dest.writeString(p_model);
+		dest.writeString(p_features);
+		dest.writeDouble(p_fpops);
+		dest.writeDouble(p_iops);
+		dest.writeDouble(p_membw);
+		dest.writeString(product_name);
+		dest.writeLong(p_calculated);
+		dest.writeDouble(m_nbytes);
+		dest.writeDouble(m_cache);
+		dest.writeDouble(m_swap);
+		dest.writeDouble(d_total);
+		dest.writeDouble(d_free);
+		dest.writeString(os_name);
+		dest.writeString(os_version);
+		dest.writeString(virtualbox_version);
+	}
+	
+	public HostInfo() {}
+	
+	private HostInfo(Parcel in) {
+		timezone = in.readInt();
+		domain_name = in.readString();
+		ip_addr = in.readString();
+		host_cpid = in.readString();
+		p_ncpus = in.readInt();
+		p_vendor = in.readString();
+		p_model = in.readString();
+		p_features = in.readString();
+		p_fpops = in.readDouble();
+		p_iops = in.readDouble();
+		p_membw = in.readDouble();
+		product_name = in.readString();
+		p_calculated = in.readLong();
+		m_nbytes = in.readDouble();
+		m_cache = in.readDouble();
+		m_swap = in.readDouble();
+		d_total = in.readDouble();
+		d_free = in.readDouble();
+		os_name = in.readString();
+		os_version = in.readString();
+		virtualbox_version = in.readString();
+		
+	}
+	
+	public static final Parcelable.Creator<HostInfo> CREATOR = new Parcelable.Creator<HostInfo>() {
+		public HostInfo createFromParcel(Parcel in) {
+		    return new HostInfo(in);
+		}
+		public HostInfo[] newArray(int size) {
+		    return new HostInfo[size];
+		}
+	};
 }

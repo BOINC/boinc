@@ -81,6 +81,22 @@ using std::string;
 using std::vector;
 using std::sort;
 
+int OLD_RESULT::parse(XML_PARSER& xp) {
+    memset(this, 0, sizeof(OLD_RESULT));
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/old_result")) return 0;
+        if (xp.parse_str("project_url", project_url, sizeof(project_url))) continue;
+        if (xp.parse_str("result_name", result_name, sizeof(result_name))) continue;
+        if (xp.parse_str("app_name", app_name, sizeof(app_name))) continue;
+        if (xp.parse_int("exit_status", exit_status)) continue;
+        if (xp.parse_double("elapsed_time", elapsed_time)) continue;
+        if (xp.parse_double("cpu_time", cpu_time)) continue;
+        if (xp.parse_double("completed_time", completed_time)) continue;
+        if (xp.parse_double("create_time", create_time)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
 int TIME_STATS::parse(XML_PARSER& xp) {
     memset(this, 0, sizeof(TIME_STATS));
     while (!xp.get_tag()) {
@@ -93,6 +109,12 @@ int TIME_STATS::parse(XML_PARSER& xp) {
         if (xp.parse_double("gpu_active_frac", gpu_active_frac)) continue;
         if (xp.parse_double("client_start_time", client_start_time)) continue;
         if (xp.parse_double("previous_uptime", previous_uptime)) continue;
+        if (xp.parse_double("session_active_duration", session_active_duration)) continue;
+        if (xp.parse_double("session_gpu_active_duration", session_gpu_active_duration)) continue;
+        if (xp.parse_double("total_start_time", total_start_time)) continue;
+        if (xp.parse_double("total_duration", total_duration)) continue;
+        if (xp.parse_double("total_active_duration", total_active_duration)) continue;
+        if (xp.parse_double("total_gpu_active_duration", total_gpu_active_duration)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -135,10 +157,6 @@ int GUI_URL::parse(XML_PARSER& xp) {
 
 
 PROJECT_LIST_ENTRY::PROJECT_LIST_ENTRY() {
-    clear();
-}
-
-PROJECT_LIST_ENTRY::~PROJECT_LIST_ENTRY() {
     clear();
 }
 
@@ -186,10 +204,6 @@ AM_LIST_ENTRY::AM_LIST_ENTRY() {
     clear();
 }
 
-AM_LIST_ENTRY::~AM_LIST_ENTRY() {
-    clear();
-}
-
 int AM_LIST_ENTRY::parse(XML_PARSER& xp) {
     while (!xp.get_tag()) {
         if (xp.match_tag("/account_manager")) return 0;
@@ -209,10 +223,6 @@ void AM_LIST_ENTRY::clear() {
 }
 
 ALL_PROJECTS_LIST::ALL_PROJECTS_LIST() {
-}
-
-ALL_PROJECTS_LIST::~ALL_PROJECTS_LIST() {
-    clear();
 }
 
 bool compare_project_list_entry(
@@ -254,10 +264,6 @@ PROJECT::PROJECT() {
     clear();
 }
 
-PROJECT::~PROJECT() {
-    clear();
-}
-
 void PROJECT::get_name(std::string& s) {
     if (project_name.length() == 0) {
         s = master_url;
@@ -271,7 +277,9 @@ int PROJECT::parse(XML_PARSER& xp) {
     char buf[256];
 
     while (!xp.get_tag()) {
-        if (xp.match_tag("/project")) return 0;
+        if (xp.match_tag("/project")) {
+            return 0;
+        }
         if (xp.parse_str("master_url", master_url, sizeof(master_url))) continue;
         if (xp.parse_double("resource_share", resource_share)) continue;
         if (xp.parse_string("project_name", project_name)) continue;
@@ -304,9 +312,9 @@ int PROJECT::parse(XML_PARSER& xp) {
         if (xp.parse_double("cuda_backoff_time", rsc_desc_nvidia.backoff_time)) continue;
         if (xp.parse_double("cuda_backoff_interval", rsc_desc_nvidia.backoff_interval)) continue;
         if (xp.parse_double("ati_backoff_time", rsc_desc_ati.backoff_time)) continue;
-        if (xp.parse_double("ati_backoff_interval", rsc_desc_intel_gpu.backoff_interval)) continue;
+        if (xp.parse_double("ati_backoff_interval", rsc_desc_ati.backoff_interval)) continue;
         if (xp.parse_double("intel_gpu_backoff_time", rsc_desc_intel_gpu.backoff_time)) continue;
-        if (xp.parse_double("intel_gpu_backoff_interval", rsc_desc_ati.backoff_interval)) continue;
+        if (xp.parse_double("intel_gpu_backoff_interval", rsc_desc_intel_gpu.backoff_interval)) continue;
         if (xp.parse_double("last_rpc_time", last_rpc_time)) continue;
 
         // deprecated elements
@@ -322,11 +330,11 @@ int PROJECT::parse(XML_PARSER& xp) {
                 if (xp.match_tag("/rsc_backoff_time")) {
                     if (!strcmp(buf, "CPU")) {
                         rsc_desc_cpu.backoff_time = value;
-                    } else if (!strcmp(buf, "NVIDIA")) {
+                    } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_NVIDIA_GPU))) {
                         rsc_desc_nvidia.backoff_time = value;
-                    } else if (!strcmp(buf, "ATI")) {
+                    } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_AMD_GPU))) {
                         rsc_desc_ati.backoff_time = value;
-                    } else if (!strcmp(buf, "INTEL_GPU")) {
+                    } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_INTEL_GPU))) {
                         rsc_desc_intel_gpu.backoff_time = value;
                     }
                     break;
@@ -342,11 +350,11 @@ int PROJECT::parse(XML_PARSER& xp) {
                 if (xp.match_tag("/rsc_backoff_interval")) {
                     if (!strcmp(buf, "CPU")) {
                         rsc_desc_cpu.backoff_interval = value;
-                    } else if (!strcmp(buf, "NVIDIA")) {
+                    } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_NVIDIA_GPU))) {
                         rsc_desc_nvidia.backoff_interval = value;
-                    } else if (!strcmp(buf, "ATI")) {
+                    } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_AMD_GPU))) {
                         rsc_desc_ati.backoff_interval = value;
-                    } else if (!strcmp(buf, "INTEL_GPU")) {
+                    } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_INTEL_GPU))) {
                         rsc_desc_intel_gpu.backoff_interval = value;
                     }
                     break;
@@ -433,6 +441,10 @@ int PROJECT::parse(XML_PARSER& xp) {
         if (xp.parse_double("project_files_downloaded_time", project_files_downloaded_time)) continue;
         if (xp.parse_bool("no_ati_pref", rsc_desc_cpu.no_rsc_pref)) continue;
         if (xp.parse_str("venue", venue, sizeof(venue))) continue;
+        if (xp.parse_int("njobs_success", njobs_success)) continue;
+        if (xp.parse_int("njobs_error", njobs_error)) continue;
+        if (xp.parse_double("elapsed_time", elapsed_time)) continue;
+        if (xp.parse_str("external_cpid", external_cpid, sizeof(external_cpid))) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -484,13 +496,13 @@ void PROJECT::clear() {
     gui_urls.clear();
     statistics.clear();
     strcpy(venue, "");
+    njobs_success = 0;
+    njobs_error = 0;
+    elapsed_time = 0;
+    strcpy(external_cpid, "");
 }
 
 APP::APP() {
-    clear();
-}
-
-APP::~APP() {
     clear();
 }
 
@@ -510,10 +522,6 @@ void APP::clear() {
 }
 
 APP_VERSION::APP_VERSION() {
-    clear();
-}
-
-APP_VERSION::~APP_VERSION() {
     clear();
 }
 
@@ -555,10 +563,6 @@ WORKUNIT::WORKUNIT() {
     clear();
 }
 
-WORKUNIT::~WORKUNIT() {
-    clear();
-}
-
 int WORKUNIT::parse(XML_PARSER& xp) {
     while (!xp.get_tag()) {
         if (xp.match_tag("/workunit")) return 0;
@@ -586,10 +590,6 @@ void WORKUNIT::clear() {
 }
 
 RESULT::RESULT() {
-    clear();
-}
-
-RESULT::~RESULT() {
     clear();
 }
 
@@ -649,10 +649,13 @@ int RESULT::parse(XML_PARSER& xp) {
         if (xp.parse_double("checkpoint_cpu_time", checkpoint_cpu_time)) continue;
         if (xp.parse_double("current_cpu_time", current_cpu_time)) continue;
         if (xp.parse_double("elapsed_time", elapsed_time)) continue;
+        if (xp.parse_double("progress_rate", progress_rate)) continue;
         if (xp.parse_double("swap_size", swap_size)) continue;
         if (xp.parse_double("working_set_size_smoothed", working_set_size_smoothed)) continue;
         if (xp.parse_double("fraction_done", fraction_done)) continue;
         if (xp.parse_double("estimated_cpu_time_remaining", estimated_cpu_time_remaining)) continue;
+        if (xp.parse_double("bytes_sent", bytes_sent)) continue;
+        if (xp.parse_double("bytes_received", bytes_received)) continue;
         if (xp.parse_bool("too_large", too_large)) continue;
         if (xp.parse_bool("needs_shmem", needs_shmem)) continue;
         if (xp.parse_bool("edf_scheduled", edf_scheduled)) continue;
@@ -703,9 +706,12 @@ void RESULT::clear() {
     current_cpu_time = 0;
     fraction_done = 0;
     elapsed_time = 0;
+    progress_rate = 0;
     swap_size = 0;
     working_set_size_smoothed = 0;
     estimated_cpu_time_remaining = 0;
+    bytes_sent = 0;
+    bytes_received = 0;
     too_large = false;
     needs_shmem = false;
     edf_scheduled = false;
@@ -717,10 +723,6 @@ void RESULT::clear() {
 }
 
 FILE_TRANSFER::FILE_TRANSFER() {
-    clear();
-}
-
-FILE_TRANSFER::~FILE_TRANSFER() {
     clear();
 }
 
@@ -786,10 +788,6 @@ MESSAGE::MESSAGE() {
     clear();
 }
 
-MESSAGE::~MESSAGE() {
-    clear();
-}
-
 int MESSAGE::parse(XML_PARSER& xp) {
     char buf[1024];
     while (!xp.get_tag()) {
@@ -815,10 +813,6 @@ void MESSAGE::clear() {
 }
 
 GR_PROXY_INFO::GR_PROXY_INFO() {
-    clear();
-}
-
-GR_PROXY_INFO::~GR_PROXY_INFO() {
     clear();
 }
 
@@ -861,10 +855,6 @@ void GR_PROXY_INFO::clear() {
 }
 
 CC_STATE::CC_STATE() {
-    clear();
-}
-
-CC_STATE::~CC_STATE() {
     clear();
 }
 
@@ -1092,20 +1082,12 @@ RESULT* CC_STATE::lookup_result(const char* url, const char* name) {
     return 0;
 }
 
-PROJECTS::~PROJECTS() {
-    clear();
-}
-
 void PROJECTS::clear() {
     unsigned int i;
     for (i=0; i<projects.size(); i++) {
         delete projects[i];
     }
     projects.clear();
-}
-
-DISK_USAGE::~DISK_USAGE() {
-    clear();
 }
 
 void DISK_USAGE::clear() {
@@ -1120,10 +1102,6 @@ void DISK_USAGE::clear() {
     d_allowed = 0;
 }
 
-RESULTS::~RESULTS() {
-    clear();
-}
-
 void RESULTS::clear() {
     unsigned int i;
     for (i=0; i<results.size(); i++) {
@@ -1133,10 +1111,6 @@ void RESULTS::clear() {
 }
 
 FILE_TRANSFERS::FILE_TRANSFERS() {
-    clear();
-}
-
-FILE_TRANSFERS::~FILE_TRANSFERS() {
     clear();
 }
 
@@ -1152,10 +1126,6 @@ MESSAGES::MESSAGES() {
     clear();
 }
 
-MESSAGES::~MESSAGES() {
-    clear();
-}
-
 void MESSAGES::clear() {
     unsigned int i;
     for (i=0; i<messages.size(); i++) {
@@ -1165,10 +1135,6 @@ void MESSAGES::clear() {
 }
 
 NOTICES::NOTICES() {
-    clear();
-}
-
-NOTICES::~NOTICES() {
     clear();
 }
 
@@ -1277,10 +1243,6 @@ PROJECT_CONFIG::PROJECT_CONFIG() {
     clear();
 }
 
-PROJECT_CONFIG::~PROJECT_CONFIG() {
-    clear();
-}
-
 int PROJECT_CONFIG::parse(XML_PARSER& xp) {
     std::string msg;
     clear();
@@ -1289,6 +1251,7 @@ int PROJECT_CONFIG::parse(XML_PARSER& xp) {
         if (xp.parse_int("error_num", error_num)) continue;
         if (xp.parse_string("name", name)) continue;
         if (xp.parse_string("master_url", master_url)) continue;
+        if (xp.parse_string("web_rpc_url_base", web_rpc_url_base)) continue;
         if (xp.parse_int("local_revision", local_revision)) continue;
         if (xp.parse_int("min_passwd_length", min_passwd_length)) continue;
         if (xp.parse_bool("account_manager", account_manager)) continue;
@@ -1309,6 +1272,7 @@ int PROJECT_CONFIG::parse(XML_PARSER& xp) {
             platforms.push_back(msg);
             continue;
         }
+        if (xp.parse_bool("ldap_auth", ldap_auth)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -1317,6 +1281,7 @@ void PROJECT_CONFIG::clear() {
     error_num = 0;
     name.clear();
     master_url.clear();
+    web_rpc_url_base.clear();
     error_msg.clear();
     terms_of_use.clear();
     min_passwd_length = 6;
@@ -1328,13 +1293,10 @@ void PROJECT_CONFIG::clear() {
     sched_stopped = false;
     web_stopped = false;
     min_client_version = 0;
+    ldap_auth = false;
 }
 
 ACCOUNT_IN::ACCOUNT_IN() {
-    clear();
-}
-
-ACCOUNT_IN::~ACCOUNT_IN() {
     clear();
 }
 
@@ -1347,10 +1309,6 @@ void ACCOUNT_IN::clear() {
 }
 
 ACCOUNT_OUT::ACCOUNT_OUT() {
-    clear();
-}
-
-ACCOUNT_OUT::~ACCOUNT_OUT() {
     clear();
 }
 
@@ -1371,10 +1329,6 @@ void ACCOUNT_OUT::clear() {
 }
 
 CC_STATUS::CC_STATUS() {
-    clear();
-}
-
-CC_STATUS::~CC_STATUS() {
     clear();
 }
 
@@ -1491,6 +1445,30 @@ int RPC_CLIENT::get_results(RESULTS& t, bool active_only) {
         }
     }
     return retval;
+}
+
+int RPC_CLIENT::get_old_results(vector<OLD_RESULT>& r) {
+    int retval;
+    SET_LOCALE sl;
+    char buf[256];
+    RPC rpc(this);
+
+    r.clear();
+
+    retval = rpc.do_rpc("<get_old_results/>\n");
+    if (retval) return retval;
+    while (rpc.fin.fgets(buf, 256)) {
+        if (match_tag(buf, "</old_results>")) break;
+        if (match_tag(buf, "<old_result>")) {
+            OLD_RESULT ores;
+            retval = ores.parse(rpc.xp);
+            if (!retval) {
+                r.push_back(ores);
+            }
+            continue;
+        }
+    }
+    return 0;
 }
 
 int RPC_CLIENT::get_file_transfers(FILE_TRANSFERS& t) {
@@ -1911,7 +1889,7 @@ int RPC_CLIENT::run_benchmarks() {
     return rpc.parse_reply();
 }
 
-int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& pi) {
+int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& procinfo) {
     int retval;
     SET_LOCALE sl;
     char buf[1792];
@@ -1932,18 +1910,18 @@ int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& pi) {
 		"        <no_proxy>%s</no_proxy>\n"
         "    </proxy_info>\n"
         "</set_proxy_settings>\n",
-        pi.use_http_proxy?"        <use_http_proxy/>\n":"",
-        pi.use_socks_proxy?"        <use_socks_proxy/>\n":"",
-        pi.use_http_authentication?"        <use_http_auth/>\n":"",
-        pi.http_server_name.c_str(),
-        pi.http_server_port,
-        pi.http_user_name.c_str(),
-        pi.http_user_passwd.c_str(),
-        pi.socks_server_name.c_str(),
-        pi.socks_server_port,
-        pi.socks5_user_name.c_str(),
-        pi.socks5_user_passwd.c_str(),
-		pi.noproxy_hosts.c_str()
+        procinfo.use_http_proxy?"        <use_http_proxy/>\n":"",
+        procinfo.use_socks_proxy?"        <use_socks_proxy/>\n":"",
+        procinfo.use_http_authentication?"        <use_http_auth/>\n":"",
+        procinfo.http_server_name.c_str(),
+        procinfo.http_server_port,
+        procinfo.http_user_name.c_str(),
+        procinfo.http_user_passwd.c_str(),
+        procinfo.socks_server_name.c_str(),
+        procinfo.socks_server_port,
+        procinfo.socks5_user_name.c_str(),
+        procinfo.socks5_user_passwd.c_str(),
+		procinfo.noproxy_hosts.c_str()
     );
     buf[sizeof(buf)-1] = 0;
     retval = rpc.do_rpc(buf);
@@ -2241,18 +2219,27 @@ int RPC_CLIENT::lookup_account(ACCOUNT_IN& ai) {
     SET_LOCALE sl;
     char buf[1024];
     RPC rpc(this);
+    string passwd_hash;
 
-    downcase_string(ai.email_addr);
-    string passwd_hash = get_passwd_hash(ai.passwd, ai.email_addr);
+    if (ai.ldap_auth && !strchr(ai.email_addr.c_str(), '@')) {
+        // LDAP case
+        //
+        passwd_hash = ai.passwd;
+    } else {
+        downcase_string(ai.email_addr);
+        passwd_hash = get_passwd_hash(ai.passwd, ai.email_addr);
+    }
     snprintf(buf, sizeof(buf),
         "<lookup_account>\n"
         "   <url>%s</url>\n"
         "   <email_addr>%s</email_addr>\n"
         "   <passwd_hash>%s</passwd_hash>\n"
+        "   <ldap_auth>%d</ldap_auth>\n"
         "</lookup_account>\n",
         ai.url.c_str(),
         ai.email_addr.c_str(),
-        passwd_hash.c_str()
+        passwd_hash.c_str(),
+        ai.ldap_auth?1:0
     );
     buf[sizeof(buf)-1] = 0;
 
@@ -2505,7 +2492,7 @@ int RPC_CLIENT::read_cc_config() {
     return rpc.parse_reply();
 }
 
-int RPC_CLIENT::get_cc_config(CONFIG& config, LOG_FLAGS& log_flags) {
+int RPC_CLIENT::get_cc_config(CC_CONFIG& config, LOG_FLAGS& log_flags) {
     int retval;
     SET_LOCALE sl;
     RPC rpc(this);
@@ -2516,7 +2503,7 @@ int RPC_CLIENT::get_cc_config(CONFIG& config, LOG_FLAGS& log_flags) {
     return config.parse(rpc.xp, log_flags);
 }
 
-int RPC_CLIENT::set_cc_config(CONFIG& config, LOG_FLAGS& log_flags) {
+int RPC_CLIENT::set_cc_config(CC_CONFIG& config, LOG_FLAGS& log_flags) {
     SET_LOCALE sl;
     char buf[64000];
     MIOFILE mf;
@@ -2598,4 +2585,16 @@ int RPC_CLIENT::get_daily_xfer_history(DAILY_XFER_HISTORY& dxh) {
     retval = rpc.do_rpc("<get_daily_xfer_history/>\n");
     if (retval) return retval;
     return dxh.parse(rpc.xp);
+}
+
+int RPC_CLIENT::set_language(const char* language) {
+	SET_LOCALE sl;
+	RPC rpc(this);
+	int retval;
+	char buf[256];
+
+	sprintf(buf, "<set_language>\n   <language>%s</language>\n</set_language>\n", language);
+	retval = rpc.do_rpc(buf);
+	if (retval) return retval;
+	return rpc.parse_reply();
 }

@@ -88,7 +88,7 @@ extern "C" {
             wxTaskBarIconExEvent eventUserClicked(wxEVT_TASKBAR_BALLOON_USERCLICK, taskBarIcon);
             taskBarIcon->AddPendingEvent(eventUserClicked);
         } else {
-            wxTaskBarIconExEvent eventTimeout(wxEVT_TASKBAR_BALLOON_TIMEOUT, taskBarIcon);
+            wxTaskBarIconExEvent eventTimeout(wxEVT_TASKBAR_BALLOON_USERTIMEOUT, taskBarIcon);
             taskBarIcon->AddPendingEvent(eventTimeout);
         }
 
@@ -109,7 +109,7 @@ DEFINE_EVENT_TYPE( wxEVT_TASKBAR_SELECT )
 DEFINE_EVENT_TYPE( wxEVT_TASKBAR_KEY_SELECT )
 DEFINE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_SHOW )
 DEFINE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_HIDE )
-DEFINE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_TIMEOUT )
+DEFINE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_USERTIMEOUT )
 DEFINE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_USERCLICK )
 DEFINE_EVENT_TYPE( wxEVT_TASKBAR_SHUTDOWN )
 
@@ -208,7 +208,7 @@ bool wxTaskBarIconEx::SetIcon(const wxIcon& icon, const wxString& message)
     gtk_status_icon_set_from_pixbuf(g_pStatusIcon, bitmap.GetPixbuf());
     if (!message.empty())
     {
-        gtk_status_icon_set_tooltip(g_pStatusIcon, message.mb_str());
+        gtk_status_icon_set_tooltip_text(g_pStatusIcon, message.mb_str());
     }
     gtk_status_icon_set_visible(g_pStatusIcon, TRUE);
 

@@ -77,8 +77,6 @@
 using std::vector;
 using std::string;
 
-#include "LoginItemAPI.h"
-
 #include "SetupSecurity.h"
 #include "translate.h"
 
@@ -92,14 +90,12 @@ using std::string;
 void Initialize(void);	/* function prototypes */
 Boolean myFilterProc(DialogRef theDialog, EventRecord *theEvent, DialogItemIndex *itemHit);
 int DeleteReceipt(void);
-OSStatus CheckLogoutRequirement(int *finalAction);
 Boolean IsRestartNeeded();
 void CheckUserAndGroupConflicts();
 Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userName);
-Boolean SetLoginItemAPI(long brandID, Boolean deleteLogInItem);
 OSErr GetCurrentScreenSaverSelection(char *moduleName, size_t maxLen);
 OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type);
-void SetSkinInUserPrefs(char *userName, char *skinName);
+void SetSkinInUserPrefs(char *userName, char *nameOfSkin);
 Boolean CheckDeleteFile(char *name);
 void SetEUIDBackToUser (void);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
@@ -110,11 +106,11 @@ int CountGroupMembershipEntries(const char *userName, const char *groupName);
 OSErr UpdateAllVisibleUsers(long brandID);
 long GetBrandID(void);
 int TestRPCBind(void);
+static int compareOSVersionTo(int toMajor, int toMinor);
 static OSStatus ResynchSystem(void);
 OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN);
 pid_t FindProcessPID(char* name, pid_t thePID);
 static void SleepTicks(UInt32 ticksToSleep);
-int FindSkinName(char *name, size_t len);
 static OSErr QuitOneProcess(OSType signature);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
 void print_to_log_file(const char *format, ...);
@@ -146,7 +142,6 @@ static Boolean                  gCommandLineInstall = false;
 static Boolean                  gQuitFlag = false;
 static Boolean                  currentUserCanRunBOINC = false;
 static char                     loginName[256];
-static long                     OSVersion = 0;
 static time_t                   waitPermissionsStartTime;
 
 static char *saverName[NUMBRANDS];
@@ -156,6 +151,7 @@ static char *appName[NUMBRANDS];
 static char *appPath[NUMBRANDS];
 static char *appPathEscaped[NUMBRANDS];
 static char *receiptNameEscaped[NUMBRANDS];
+static char *skinName[NUMBRANDS];
 
 enum { launchWhenDone,
         logoutRequired,
@@ -195,6 +191,7 @@ int main(int argc, char *argv[])
     saverName[0] = "BOINCSaver";
     saverNameEscaped[0] = "BOINCSaver";
     receiptNameEscaped[0] = "/Library/Receipts/BOINC\\ Installer.pkg";
+    skinName[0] = "Default";
 
     appName[1] = "GridRepublic Desktop";
     appPath[1] = "/Applications/GridRepublic Desktop.app";
@@ -203,6 +200,7 @@ int main(int argc, char *argv[])
     saverName[1] = "GridRepublic";
     saverNameEscaped[1] = "GridRepublic";
     receiptNameEscaped[1] = "/Library/Receipts/GridRepublic\\ Installer.pkg";
+    skinName[1] = "GridRepublic";
 
     appName[2] = "Progress Thru Processors Desktop";
     appPath[2] = "/Applications/Progress Thru Processors Desktop.app";
@@ -211,6 +209,7 @@ int main(int argc, char *argv[])
     saverName[2] = "Progress Thru Processors";
     saverNameEscaped[2] = "Progress\\ Thru\\ Processors";
     receiptNameEscaped[2] = "/Library/Receipts/Progress\\ Thru\\ Processors\\ Installer.pkg";
+    skinName[2] = "ProgressThruProcessors";
 
     appName[3] = "Charity Engine Desktop";
     appPath[3] = "/Applications/Charity Engine Desktop.app";
@@ -219,6 +218,7 @@ int main(int argc, char *argv[])
     saverName[3] = "Charity Engine";
     saverNameEscaped[3] = "Charity\\ Engine";
     receiptNameEscaped[3] = "/Library/Receipts/Charity\\ Engine\\ Installer.pkg";
+    skinName[3] = "Charity Engine";
 
     ::GetCurrentProcess (&ourProcess);
 
@@ -235,13 +235,6 @@ int main(int argc, char *argv[])
         fflush(stdout);
     }
 
-    err = Gestalt(gestaltSystemVersion, &OSVersion);
-    if (err != noErr) {
-        printf("Gestalt(gestaltSystemVersion) returned error %ld\n", err);
-        fflush(stdout);
-        return err;
-    }
-    
     for (i=0; i<argc; i++) {
         if (strcmp(argv[i], "-part2") == 0)
             return DeleteReceipt();
@@ -267,11 +260,13 @@ int main(int argc, char *argv[])
         brandID = 0;
     }
     
-    if (OSVersion < 0x1040) {
+    LoadPreferredLanguages();
+
+    if (compareOSVersionTo(10, 6) < 0) {
         ::SetFrontProcess(&ourProcess);
         // Remove everything we've installed
-        // "\pSorry, this version of GridRepublic requires system 10.4.0 or higher."
-        s[0] = sprintf(s+1, "Sorry, this version of %s requires system 10.4.0 or higher.", brandName[brandID]);
+        // "\pSorry, this version of GridRepublic requires system 10.6 or higher."
+        s[0] = sprintf(s+1, "Sorry, this version of %s requires system 10.6 or higher.", brandName[brandID]);
         StandardAlert (kAlertStopAlert, (StringPtr)s, NULL, NULL, &itemHit);
 
         // "rm -rf /Applications/GridRepublic\\ Desktop.app"
@@ -301,9 +296,11 @@ int main(int argc, char *argv[])
     f = fopen("/Library/Application Support/BOINC Data/all_projects_list.xml", "r");
     if (f) {
         fclose(f);      // Already exists
+        unlink("/Library/Application Support/BOINC Data/installer_projects_list.xml");
     } else {
-        system ("cp -fp Contents/Resources/all_projects_list.xml /Library/Application\\ Support/BOINC\\ Data/");
-        system ("chmod a-x /Library/Application\\ Support/BOINC\\ Data/all_projects_list.xml");
+        unlink("/Library/Application Support/BOINC Data/all_projects_list.xml");
+        rename("/Library/Application Support/BOINC Data/installer_projects_list.xml",
+                "/Library/Application Support/BOINC Data/all_projects_list.xml");
     }
     
     Success = false;
@@ -550,7 +547,8 @@ int DeleteReceipt()
     Initialize();
 
     restartNeeded = IsRestartNeeded();
-//    print_to_log_file("IsRestartNeeded() returned %d\n", (int)restartNeeded);
+    printf("IsRestartNeeded() returned %d\n", (int)restartNeeded);
+    fflush(stdout);
     
     brandID = GetBrandID();
 
@@ -570,9 +568,11 @@ int DeleteReceipt()
            // Launch BOINC Manager when user closes installer or after 15 seconds
             for (i=0; i<15; i++) { // Wait 15 seconds max for installer to quit
                 sleep (1);
-                if (err == noErr)
-                    if (FindProcessPID(NULL, installerPID) == 0)
+                if (err == noErr) {
+                    if (FindProcessPID(NULL, installerPID) == 0) {
                         break;
+                    }
+                }
             }
         }
 
@@ -597,6 +597,9 @@ Boolean IsRestartNeeded() {
     int value;
 
     restartNeededFile = fopen("/tmp/BOINC_restart_flag", "r");
+    if (!restartNeededFile) {
+        restartNeededFile = fopen("/private/tmp/BOINC_restart_flag", "r");
+    }
     if (restartNeededFile) {
         fscanf(restartNeededFile,"%d", &value);
         fclose(restartNeededFile);
@@ -604,82 +607,6 @@ Boolean IsRestartNeeded() {
     }
     
     return true;
-}
-
-OSStatus CheckLogoutRequirement(int *finalAction)
-{    
-    *finalAction = restartRequired;
-
-    if (OSVersion < 0x1040) {
-        return noErr;   // Always require restart on OS 10.3.9
-    }
-    
-#ifdef SANDBOX
-    if (loginName[0]) {
-        if (!IsUserMemberOfGroup(loginName, boinc_master_group_name)) {
-            *finalAction = nothingrequired;
-            return noErr;   // Logged in user is not a member of group boinc_master
-        }
-    }
-#endif  // SANDBOX
-
-    char                    path[MAXPATHLEN];
-    FSRef                   infoPlistFileRef;
-    Boolean                 isDirectory, result;
-    CFURLRef                xmlURL = NULL;
-    CFDataRef               xmlDataIn = NULL;
-    CFPropertyListRef       propertyListRef = NULL;
-    CFStringRef             restartKey = CFSTR("IFPkgFlagRestartAction");
-    CFStringRef             currentValue = NULL;
-//    CFStringRef             valueRestartRequired = CFSTR("RequiredRestart");
-    CFStringRef             valueLogoutRequired = CFSTR("RequiredLogout");
-    CFStringRef             valueNoRestart = CFSTR("NoRestart");
-    CFStringRef             errorString = NULL;
-    OSStatus                err = noErr;
-
-    getcwd(path, sizeof(path));
-    strlcat(path, "/Contents/Info.plist", sizeof(path));
-
-    err = FSPathMakeRef((UInt8*)path, &infoPlistFileRef, &isDirectory);
-    if (err)
-        return err;
-        
-    xmlURL = CFURLCreateFromFSRef(NULL, &infoPlistFileRef);
-    if (xmlURL == NULL)
-        return -1;
-
-    // Read XML Data from file
-    result = CFURLCreateDataAndPropertiesFromResource(NULL, xmlURL, &xmlDataIn, NULL, NULL, &err);
-    if (err == noErr)
-        if (!result)
-            err = coreFoundationUnknownErr;
-	
-    if (err == noErr) { // Convert XML Data to internal CFPropertyListRef / CFDictionaryRef format
-        propertyListRef = CFPropertyListCreateFromXMLData(NULL, xmlDataIn, kCFPropertyListMutableContainersAndLeaves, &errorString);
-        if (propertyListRef == NULL)
-            err = coreFoundationUnknownErr;
-    }
-    
-    if (err == noErr) { // Get current value for our key
-        currentValue = (CFStringRef)CFDictionaryGetValue((CFDictionaryRef)propertyListRef, restartKey);
-        if (currentValue == NULL)
-            err = coreFoundationUnknownErr;
-    }    
-    
-    if (err == noErr) {
-        if (CFStringCompare(currentValue, valueLogoutRequired, 0) == kCFCompareEqualTo)
-            *finalAction = logoutRequired;
-        else if (CFStringCompare(currentValue, valueNoRestart, 0) == kCFCompareEqualTo)
-            *finalAction = launchWhenDone;
-    }
-   
-    if (xmlURL)
-        CFRelease(xmlURL);
-    if (xmlDataIn)
-        CFRelease(xmlDataIn);
-    if (propertyListRef)
-        CFRelease(propertyListRef);
-    return err;
 }
 
 
@@ -707,7 +634,7 @@ void CheckUserAndGroupConflicts()
     int             entryCount;
     OSErr           err = noErr;
 
-    if (OSVersion < 0x1050) {
+    if (compareOSVersionTo(10, 5) < 0) {
         // This fails under OS 10.4, but should not be needed under OS 10.4
         return;     
     }
@@ -853,7 +780,7 @@ enum {
 
 Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userName)
 {
-    int                     i;
+    int                     i, j;
     char                    cmd[2048];
     char                    systemEventsPath[1024];
     ProcessSerialNumber     SystemEventsPSN;
@@ -885,37 +812,43 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
         if (i >= 50) {
             fprintf(stdout, "Failed to make System Events quit\n");
             fflush(stdout);
+            err = noErr;
+            goto cleanupSystemEvents;
         }
-        sleep(2);
+        sleep(4);
     }
     
     err = LSFindApplicationForInfo(kSystemEventsCreator, NULL, NULL, &appRef, NULL);
     if (err != noErr) {
         fprintf(stdout, "LSFindApplicationForInfo(kSystemEventsCreator) returned error %d \n", (int) err);
         fflush(stdout);
+        goto cleanupSystemEvents;
     } else {
         FSRefMakePath(&appRef, (UInt8*)systemEventsPath, sizeof(systemEventsPath));
         fprintf(stdout, "SystemEvents is at %s\n", systemEventsPath);
         fprintf(stdout, "Launching SystemEvents for user %s\n", userName);
         fflush(stdout);
 
-        sprintf(cmd, "sudo -iu \"%s\" \\\"%s/Contents/MacOS/System Events\\\" &", userName, systemEventsPath);
-        err = system(cmd);
-        if (err) {
-            fprintf(stdout, "[2] Command: %s returned error %d\n", cmd, (int) err);
+        for (j=0; j<5; ++j) {
+            sprintf(cmd, "sudo -u \"%s\" \"%s/Contents/MacOS/System Events\" &", userName, systemEventsPath);
+            err = system(cmd);
+            if (err) {
+                fprintf(stdout, "[2] Command: %s returned error %d (try %d of 5)\n", cmd, (int) err, j);
+            }
+            // Wait for the process to start
+            for (i=0; i<50; ++i) {      // 5 seconds max delay
+                SleepTicks(6);  // 6 Ticks == 1/10 second
+                err = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
+                if (err == noErr) break;
+            }
+            if (i < 50) break;  // Exit j loop on success
         }
-    }
-    // Wait for the process to start
-    for (i=0; i<50; ++i) {      // 5 seconds max delay
-        SleepTicks(6);  // 6 Ticks == 1/10 second
-        err = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
-        if (err == noErr) break;
-    }
-    if (i >= 50) {
-        fprintf(stdout, "Failed to launch System Events for user %s\n", userName);
-        fflush(stdout);
-        err = noErr;
-        goto cleanupSystemEvents;
+        if (j >= 5) {
+            fprintf(stdout, "Failed to launch System Events for user %s\n", userName);
+            fflush(stdout);
+            err = noErr;
+            goto cleanupSystemEvents;
+        }
     }
     sleep(2);
     
@@ -955,67 +888,25 @@ cleanupSystemEvents:
         fprintf(stdout, "QuitOneProcess(kSystemEventsCreator) returned error %d \n", (int) err2);
         fflush(stdout);
     }
-    sleep(2);
+    // Wait for the process to be gone
+    for (i=0; i<50; ++i) {      // 5 seconds max delay
+        SleepTicks(6);  // 6 Ticks == 1/10 second
+        err2 = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
+        if (err2 != noErr) break;
+    }
+    if (i >= 50) {
+        fprintf(stdout, "Failed to make System Events quit\n");
+        fflush(stdout);
+    }
+    
+    sleep(4);
         
     return (err == noErr);
 }
 
 
-Boolean SetLoginItemAPI(long brandID, Boolean deleteLogInItem)
-{
-    Boolean                 Success;
-    int                     NumberOfLoginItems, Counter;
-    char                    *p, *q;
-    char                    s[256];
-    int                     i;
-
-    Success = false;
-    
-    NumberOfLoginItems = GetCountOfLoginItems(kCurrentUser);
-    
-    // Search existing login items in reverse order, deleting any duplicates of ours
-    for (Counter = NumberOfLoginItems ; Counter > 0 ; Counter--)
-    {
-        p = ReturnLoginItemPropertyAtIndex(kCurrentUser, kApplicationNameInfo, Counter-1);
-        q = p;
-        while (*q)
-        {
-            // It is OK to modify the returned string because we "own" it
-            *q = toupper(*q);	// Make it case-insensitive
-            q++;
-        }
-    
-        for (i=0; i<NUMBRANDS; i++) {
-            q = strrchr(appPath[i], '/');
-            if (!q) continue;       // Should never happen
-            strncpy(s, q+1, sizeof(s)-1);
-            q = s;
-            while (*q) {
-                *q = toupper(*q);
-                q++;
-            }
-
-            // if (strcmp(p, "BOINCMANAGER.APP") == 0)
-            // if (strcmp(p, "GRIDREPUBLIC DESKTOP.APP") == 0)
-            // if (strcmp(p, "PROGRESS THRU PROCESSORS DESKTOP.APP") == 0)
-            // if (strcmp(p, "CHARITY ENGINE DESKTOP.APP") == 0)
-            if (strcmp(p, s) == 0) {
-                Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
-            }
-        }
-    }
-
-    if (deleteLogInItem)
-        return false;
-        
-    Success = AddLoginItemWithPropertiesToUser(kCurrentUser, appPath[brandID], kHideOnLaunch);
-
-    return Success;
-}
-
-
 // Sets the skin selection in the specified user's preferences to the specified skin
-void SetSkinInUserPrefs(char *userName, char *skinName)
+void SetSkinInUserPrefs(char *userName, char *nameOfSkin)
 {
     passwd              *pw;
     FILE                *oldPrefs, *newPrefs;
@@ -1026,7 +917,7 @@ void SetSkinInUserPrefs(char *userName, char *skinName)
     group               *grp;
     OSStatus            statErr;
 
-    if (skinName[0]) {
+    if (nameOfSkin[0]) {
         sprintf(oldFileName, "/Users/%s/Library/Preferences/BOINC Manager Preferences", userName);
         sprintf(tempFilename, "/Users/%s/Library/Preferences/BOINC Manager NewPrefs", userName);
         newPrefs = fopen(tempFilename, "w");
@@ -1038,7 +929,7 @@ void SetSkinInUserPrefs(char *userName, char *skinName)
             if (oldPrefs) {
                 while (fgets(buf, sizeof(buf), oldPrefs)) {
                     if (strstr(buf, "Skin=")) {
-                        fprintf(newPrefs, "Skin=%s\n", skinName);
+                        fprintf(newPrefs, "Skin=%s\n", nameOfSkin);
                         wroteSkinName = 1;
                     } else {
                         fputs(buf, newPrefs);
@@ -1048,7 +939,7 @@ void SetSkinInUserPrefs(char *userName, char *skinName)
             }
             
             if (! wroteSkinName)
-                fprintf(newPrefs, "Skin=%s\n", skinName);
+                fprintf(newPrefs, "Skin=%s\n", nameOfSkin);
                 
             fclose(newPrefs);
             rename(tempFilename, oldFileName);  // Deletes old file
@@ -1110,8 +1001,7 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
     char *p = buf;
     size_t len = buflen;
     size_t datalen = 0;
-
-    *buf = '\0';
+    memset(buf, 0, buflen);
     while (datalen < (buflen - 1)) {
         fgets(p, len, f);
         if (feof(f)) break;
@@ -1130,6 +1020,11 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
 // user, before the Apple Installer switches us to root.
 // So we get the preferred languages in our Installer.app which 
 // writes them to a temporary file which we retrieve here.
+// We must do it this way because, for unknown reasons, the
+// CFBundleCopyLocalizationsForPreferences() API does not work
+// correctly if we seteuid and setuid to the logged in user by
+// calling SetEUIDBackToUser() after running as root.
+//
 static void LoadPreferredLanguages(){
     FILE *f;
     int i;
@@ -1138,7 +1033,7 @@ static void LoadPreferredLanguages(){
 
     BOINCTranslationInit();
 
-    // Install.app wrote a list of our preferred languages to a temp file
+    // GetPreferredLanguages() wrote a list of our preferred languages to a temp file
     f = fopen("/tmp/BOINC_preferred_languages", "r");
     if (!f) return;
     
@@ -1184,7 +1079,7 @@ static Boolean ShowMessage(Boolean allowCancel, const char *format, ...) {
 #endif
 
     // If defaultButton is nil or an empty string, a default localized
-    // button title (ÒOKÓ in English) is used.
+    // button title ("OK" in English) is used.
     
 #if 0
     enum {
@@ -1296,7 +1191,6 @@ OSErr UpdateAllVisibleUsers(long brandID)
     uid_t               saved_uid;
     Boolean             deleteLoginItem;
     char                human_user_name[256];
-    char                skinName[256];
     char                s[256];
     Boolean             saverAlreadySetForAll = true;
     Boolean             setSaverForAllUsers = false;
@@ -1317,7 +1211,9 @@ OSErr UpdateAllVisibleUsers(long brandID)
     char                *p;
     int                 flag;
     
-    FindSkinName(skinName, sizeof(skinName));
+//    char                nameOfSkin[256];
+//    FindSkinName(nameOfSkin, sizeof(nameOfSkin));
+        
 
     // Step through all users
     puts("Beginning first pass through all users\n");
@@ -1426,10 +1322,10 @@ OSErr UpdateAllVisibleUsers(long brandID)
             }
             
             saved_uid = geteuid();
-            seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
             
-            if (OSVersion < 0x1060) {
-                f = popen("defaults -currentHost read com.apple.screensaver moduleName", "r");
+            if (compareOSVersionTo(10, 6) < 0) {
+                sprintf(cmd, "sudo -u \"%s\" defaults -currentHost read com.apple.screensaver moduleName", pw->pw_name);
+                f = popen(cmd, "r");
             
                 if (f) {
                     found = false;
@@ -1444,22 +1340,21 @@ OSErr UpdateAllVisibleUsers(long brandID)
                         saverAlreadySetForAll = false;
                     }
                 }
+
             } else {
+                seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
                 err = GetCurrentScreenSaverSelection(s, sizeof(s) -1);
                 if (err == noErr) {
                     if (!strstr(s, saverName[brandID])) {
                         saverAlreadySetForAll = false;
                     }
                 }
+                seteuid(saved_uid);                         // Set effective uid back to privileged user
             }
-            
-            seteuid(saved_uid);                         // Set effective uid back to privileged user
         }       // End if (isGroupMember)
     }           // End for (userIndex=0; userIndex< human_user_names.size(); ++userIndex)
     
     ResynchSystem();
-
-    LoadPreferredLanguages();
 
     if (allNonAdminUsersAreSet) {
         puts("[2] All non-admin users are already members of group boinc_master\n");
@@ -1604,28 +1499,12 @@ OSErr UpdateAllVisibleUsers(long brandID)
         }
 
         // Set login item for this user
-        if (OSVersion >= 0x1070) {
-            // LoginItemAPI.c does not set hidden property for login items
-            // under OS 10.7.0, so use AppleScript instead to prevent Lion 
-            // from opening BOINC windows at system startup.  This was 
-            // apparently fixed in OS 10.7.1.
-            // LoginItemAPI.c does not work at all under OS 10.8 Preview 3 
-            // but this version of SetLoginItemOSAScript works for OS 10.7.0 
-            // and later, so we use it for OS 10.7.0 and later.
-            printf("[2] calling SetLoginItemOSAScript for user %s, euid = %d, deleteLoginItem = %d\n", 
-                pw->pw_name, geteuid(), deleteLoginItem);
-            fflush(stdout);
+        printf("[2] calling SetLoginItemOSAScript for user %s, euid = %d, deleteLoginItem = %d\n", 
+            pw->pw_name, geteuid(), deleteLoginItem);
+        fflush(stdout);
 
-            SetLoginItemOSAScript(brandID, deleteLoginItem, pw->pw_name);
-        } else {
-            seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
-            printf("[2] calling SetLoginItemAPI for user %s, euid = %d, deleteLoginItem = %d\n", 
-                    pw->pw_name, geteuid(), deleteLoginItem);
-            fflush(stdout);
-            SetLoginItemAPI(brandID, deleteLoginItem);
-            seteuid(saved_uid);     // Set effective uid back to privileged user
-        }
-        
+        SetLoginItemOSAScript(brandID, deleteLoginItem, pw->pw_name);
+
         if (isBMGroupMember) {
             // For some reason we need to call getpwnam again on OS 10.5
             pw = getpwnam(human_user_name);
@@ -1634,23 +1513,35 @@ OSErr UpdateAllVisibleUsers(long brandID)
                 fflush(stdout);
                 continue;
             }
-            SetSkinInUserPrefs(pw->pw_name, skinName);
+            SetSkinInUserPrefs(pw->pw_name, skinName[brandID]);
         
             if (setSaverForAllUsers) {
-                seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
-                if (OSVersion < 0x1060) {
-                     sprintf(s, "defaults -currentHost write com.apple.screensaver moduleName %s", saverNameEscaped[brandID]);
+                if (compareOSVersionTo(10, 6) < 0) {
+                     sprintf(s, "sudo -u \"%s\" defaults -currentHost write com.apple.screensaver moduleName %s", pw->pw_name, saverNameEscaped[brandID]);
                     system (s);
-                    sprintf(s, "defaults -currentHost write com.apple.screensaver modulePath /Library/Screen\\ Savers/%s.saver", 
-                                saverNameEscaped[brandID]);
+                    sprintf(s, "sudo -u \"%s\" defaults -currentHost write com.apple.screensaver modulePath /Library/Screen\\ Savers/%s.saver", 
+                                pw->pw_name, saverNameEscaped[brandID]);
                     system (s);
                 } else {
+                    seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
                     sprintf(s, "/Library/Screen Savers/%s.saver", saverName[brandID]);
                     err = SetScreenSaverSelection(saverName[brandID], s, 0);
+                    seteuid(saved_uid);     // Set effective uid back to privileged user
                 }
-                seteuid(saved_uid);     // Set effective uid back to privileged user
             }
         }
+
+        // Delete the BOINC Manager's wxSingleInstanceChecker lock file, in case
+        // it was not deleted (such as due to a crash.)
+        // Lock file name always has "BOINC Manager" even if the application is
+        // branded, due to SetAppName(wxT("BOINC Manager")) in CBOINCGUIApp::OnInit().
+        // This path must match that in CBOINCGUIApp::DetectDuplicateInstance()
+        sprintf(cmd, "sudo -u \"%s\" rm -f \"/Users/%s/Library/Application Support/BOINC/BOINC Manager-%s\"",
+                            pw->pw_name, pw->pw_name, pw->pw_name);
+        err = system(cmd);
+        printf("[2] %s returned %d\n", cmd, err);
+        fflush(stdout);
+
     }   // End for (userIndex=0; userIndex< human_user_names.size(); ++userIndex)
 
     ResynchSystem();
@@ -1821,20 +1712,34 @@ int TestRPCBind()
 
 static OSStatus ResynchSystem() {
     OSStatus        err = noErr;
-    
-    if (OSVersion >= 0x1050) {
-        // OS 10.5
-        err = system("dscacheutil -flushcache");
-        err = system("dsmemberutil flushcache");
-        return noErr;
-    }
-    
-    err = system("lookupd -flushcache");
-    
-    if (OSVersion >= 0x1040)
-        err = system("memberd -r");           // Available only in OS 10.4
-    
+
+    err = system("dscacheutil -flushcache");
+    err = system("dsmemberutil flushcache");
     return noErr;
+}
+
+
+static int compareOSVersionTo(int toMajor, int toMinor) {
+    SInt32 major, minor;
+    OSStatus err = noErr;
+    
+    err = Gestalt(gestaltSystemVersionMajor, &major);
+    if (err != noErr) {
+        fprintf(stdout, "Gestalt(gestaltSystemVersionMajor) returned error %ld\n", err);
+        fflush(stdout);
+        return -1;  // gestaltSystemVersionMajor selector was not available before OS 10.4
+    }
+    if (major < toMajor) return -1;
+    if (major > toMajor) return 1;
+    err = Gestalt(gestaltSystemVersionMinor, &minor);
+    if (err != noErr) {
+        fprintf(stdout, "Gestalt(gestaltSystemVersionMinor) returned error %ld\n", err);
+        fflush(stdout);
+        return -1;  // gestaltSystemVersionMajor selector was not available before OS 10.4
+    }
+    if (minor < toMinor) return -1;
+    if (minor > toMinor) return 1;
+    return 0;
 }
 
 
@@ -1884,41 +1789,6 @@ static void SleepTicks(UInt32 ticksToSleep) {
 }
 
 
-int FindSkinName(char *name, size_t len)
-{
-    FILE *f;
-    char buf[MAXPATHLEN];
-    char *pattern = "/BOINC Data/skins/";
-    char *p, *q;
-
-    name[0] = '\0';
-    
-    f = popen("lsbom -d -s ./Contents/Archive.bom", "r");
-    if (f == NULL)
-        return 0;
-    
-    while (PersistentFGets(buf, sizeof(buf), f)) {
-        p = strstr(buf, pattern);
-        if (p) {
-            p += strlen(pattern);
-            q = strchr(p, '/');
-            if (q) *q = 0;
-            q = strchr(p, '\n');
-            if (q) *q = 0;
-
-            if (strlen(p) > (len-1))
-                return 0;
-            strlcpy(name, p, len);
-            pclose(f);
-            return 1;
-        }
-    }
-    pclose(f);
-    return 0;
-}
-
-
-
 pid_t FindProcessPID(char* name, pid_t thePID)
 {
     FILE *f;
@@ -1928,10 +1798,11 @@ pid_t FindProcessPID(char* name, pid_t thePID)
     
     if (name != NULL)     // Search ny name
         n = strlen(name);
-    
+
     f = popen("ps -a -x -c -o command,pid", "r");
-    if (f == NULL)
+    if (f == NULL) {
         return 0;
+    }
     
     while (PersistentFGets(buf, sizeof(buf), f))
     {

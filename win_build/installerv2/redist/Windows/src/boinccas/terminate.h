@@ -141,7 +141,7 @@ typedef enum _THREAD_WAIT_REASON {
 
 
 // Prototypes
-BOOL TerminateProcessEx( tstring& strProcessName );
+BOOL TerminateProcessEx( tstring& strProcessName, bool bRecursive = true );
 
 
 #endif

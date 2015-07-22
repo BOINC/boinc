@@ -82,9 +82,9 @@ if ($auth) {
     $password_hash = get_str("password_hash", true);
 }
 
-$user = lookup_user_auth($auth);
+$user = BoincUser::lookup_auth($auth);
 if (!$user) {
-    xml_error(-136);
+    xml_error(ERR_DB_NOT_FOUND);
 }
 
 $name = BoincDb::escape_string($name);
@@ -112,10 +112,10 @@ $show_hosts = BoincDb::escape_string($show_hosts);
 $venue = BoincDb::escape_string($venue);
 if ($email_addr) {
     if (!is_valid_email_addr($email_addr)) {
-        xml_error(-205, "Invalid email address");
+        xml_error(ERR_BAD_EMAIL_ADDR, "Invalid email address");
     }
     if (is_banned_email_addr($email_addr)) {
-        xml_error(-205, "Invalid email address");
+        xml_error(ERR_BAD_EMAIL_ADDR, "Invalid email address");
     }
     $email_addr = strtolower(BoincDb::escape_string($email_addr));
 }
@@ -143,7 +143,7 @@ if ($project_prefs) {
     $project_prefs = str_replace("\\r\\n", "\n", $project_prefs);
     $x = bad_xml($project_prefs, "<project_preferences>", "</project_preferences>");
     if ($x) {
-        xml_error(-112, "Invalid project preferences: $x");
+        xml_error(ERR_XML_PARSE, "Invalid project preferences: $x");
     }
     $query .= " project_prefs='$project_prefs', ";
 }
@@ -161,7 +161,7 @@ if (!is_null($teamid)) {
     if ($teamid==0) {
         user_quit_team($user);
     } else {
-        $team = lookup_team($teamid);
+        $team = BoincTeam::lookup_id_nocache($teamid);
         if ($team && $team->joinable) {
             user_join_team($team, $user);
         }

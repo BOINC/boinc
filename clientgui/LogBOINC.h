@@ -31,7 +31,7 @@ public:
     wxLogBOINC();
 
 protected:
-    virtual void DoLogString(const wxChar *szString, time_t t);
+    virtual void DoLogText(const wxString& msg);
 };
 
 

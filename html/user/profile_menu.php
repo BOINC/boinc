@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,14 +17,13 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 
-require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/uotd.inc");
 
-check_get_args(array("cmd", "pic"));
+if (DISABLE_PROFILES) error_page("Profiles are disabled");
 
-db_init();
+check_get_args(array("cmd", "pic"));
 
 $option = get_str('cmd', true);
 if ($option) {
@@ -47,10 +46,12 @@ row1($UOTD_heading);
 echo "<tr><td>";
     $profile = get_current_uotd();
     if ($profile) {
-        $user = lookup_user_id($profile->userid);
+        $user = BoincUser::lookup_id($profile->userid);
         echo uotd_thumbnail($profile, $user);
-        echo user_links($user)."<br>";
-        echo sub_sentence(output_transform(sanitize_tags($profile->response1)), ' ', 150, true);
+        echo user_links($user, BADGE_HEIGHT_MEDIUM)."<br>";
+        $resp = output_transform($profile->response1);
+        $resp = sanitize_tags($resp);
+        echo sub_sentence($resp, ' ', 150, true);
     }
 
 echo "</td></tr>";
@@ -74,7 +75,7 @@ row1(tra("Search profile text"));
 rowify("
     <form action=\"profile_search_action.php\" method=\"GET\">
     <input type=\"text\" name=\"search_string\">
-    <input type=\"submit\" value=\"".tra("Search")."\">
+    <input class=\"btn btn-default\" type=\"submit\" value=\"".tra("Search")."\">
     </form>
 ");
 end_table();

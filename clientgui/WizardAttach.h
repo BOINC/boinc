@@ -33,7 +33,6 @@
 //
 
 // Generic Pages
-#define ID_WELCOMEPAGE 10100
 #define ID_ACCOUNTINFOPAGE 10102
 #define ID_COMPLETIONPAGE 10103
 #define ID_COMPLETIONERRORPAGE 10104
@@ -50,6 +49,7 @@
 #define ID_PROJECTINFOPAGE 10200
 #define ID_PROJECTPROPERTIESPAGE 10201
 #define ID_PROJECTPROCESSINGPAGE 10202
+#define ID_PROJECTWELCOMEPAGE 10203
 
 // Account Manager Wizard Pages
 #define ID_ACCOUNTMANAGERINFOPAGE 10300
@@ -81,6 +81,7 @@
 #define ID_PROJECTLISTCTRL 11203
 #define ID_PROJECTURLSTATICCTRL 11204
 #define ID_PROJECTURLCTRL 11205
+#define ID_PROJECTWEBPAGECTRL 11206
 
 // Terms Of Use Controls
 #define ID_TERMSOFUSECTRL 11300
@@ -131,7 +132,6 @@
 
 // Forward declare the generic page classes
 //
-class CWelcomePage;
 class CAccountInfoPage;
 class CTermsOfUsePage;
 class CCompletionPage;
@@ -148,6 +148,7 @@ class CErrUserDisagreesPage;
 class CProjectInfoPage;
 class CProjectPropertiesPage;
 class CProjectProcessingPage;
+class CProjectWelcomePage;
 class CAccountManagerInfoPage;
 class CAccountManagerPropertiesPage;
 class CAccountManagerProcessingPage;
@@ -219,13 +220,21 @@ public:
 
     /// Runs the wizard.
     bool Run(
-        wxString& strName,
-        wxString& strURL,
-        wxString& wxString,
+        wxString strProjectURL,
         bool bCredentialsCached = true
     );
     
-    // Synchronize to Account Manager
+    /// Runs the wizard.
+    bool RunSimpleProjectAttach(
+        wxString strProjectName,
+        wxString strProjectURL,
+        wxString strAuthenticator, 
+        wxString strProjectInstitution,
+        wxString strProjectDescription,
+        wxString strKnown
+    );
+    
+    /// Synchronize to Account Manager
     bool SyncToAccountManager();
 
     /// Retrieves bitmap resources
@@ -233,7 +242,8 @@ public:
 
     /// Retrieves icon resources
     wxIcon GetIconResource( const wxString& name );
-////@end CWizardAttachProject member function declarations
+
+    ////@end CWizardAttachProject member function declarations
 
     /// Overrides
     virtual bool HasNextPage( wxWizardPageEx* page );
@@ -259,17 +269,59 @@ public:
     wxString GetProjectURL() const { return m_strProjectUrl ; }
     void SetProjectURL(wxString value) { m_strProjectUrl = value ; }
 
+    wxString GetProjectUserName() const { return m_strProjectUserName ; }
+    void SetProjectUserName(wxString value) { m_strProjectUserName = value ; }
+
     wxString GetProjectAuthenticator() const { return m_strProjectAuthenticator ; }
     void SetProjectAuthenticator(wxString value) { m_strProjectAuthenticator = value ; }
+
+    wxString GetProjectInstitution() const { return m_strProjectInstitution ; }
+    void SetProjectInstitution(wxString value) { m_strProjectInstitution = value ; }
+
+    wxString GetProjectDescription() const { return m_strProjectDescription ; }
+    void SetProjectDescription(wxString value) { m_strProjectDescription = value ; }
+
+    bool IsProjectKnown() const { return m_bProjectKnown ; }
+    void SetProjectKnown(bool value) { m_bProjectKnown = value ; }
+
+    wxString GetAccountEmailAddress() const { return m_strAccountEmailAddress ; }
+    void SetAccountEmailAddress(wxString value) { m_strAccountEmailAddress = value ; }
+
+    wxString GetAccountUsername() const { return m_strAccountUsername ; }
+    void SetAccountUsername(wxString value) { m_strAccountUsername = value ; }
+
+    wxString GetAccountPassword() const { return m_strAccountPassword ; }
+    void SetAccountPassword(wxString value) { m_strAccountPassword = value ; }
+
+    wxString GetAccountConfirmPassword() const { return m_strAccountConfirmPassword ; }
+    void SetAccountConfirmPassword(wxString value) { m_strAccountConfirmPassword = value ; }
+
+    wxString GetReturnURL() const { return m_strReturnURL ; }
+    void SetReturnURL(wxString value) { m_strReturnURL = value ; }
+
+    wxString GetCookieFailureURL() const { return m_strCookieFailureURL ; }
+    void SetCookieFailureURL(wxString value) { m_strCookieFailureURL = value ; }
+
+    bool IsCredentialsCached() const { return m_bCredentialsCached ; }
+    void SetCredentialsCached(bool value) { m_bCredentialsCached = value ; }
+
+    bool IsCredentialsDetected() const { return m_bCredentialsDetected ; }
+    void SetCredentialsDetected(bool value) { m_bCredentialsDetected = value ; }
+
+    bool IsCloseWhenCompleted() const { return m_bCloseWhenCompleted ; }
+    void SetCloseWhenCompleted(bool value) { m_bCloseWhenCompleted = value ; }
+
+    bool IsCookieRequired() const { return m_bCookieRequired ; }
+    void SetCookieRequired(bool value) { m_bCookieRequired = value ; }
 
     /// Should we show tooltips?
     static bool ShowToolTips();
 
 ////@begin CWizardAttachProject member variables
-    CWelcomePage* m_WelcomePage;
     CProjectInfoPage* m_ProjectInfoPage;
     CProjectPropertiesPage* m_ProjectPropertiesPage;
     CProjectProcessingPage* m_ProjectProcessingPage;
+    CProjectWelcomePage* m_ProjectWelcomePage;
     CAccountManagerInfoPage* m_AccountManagerInfoPage;
     CAccountManagerPropertiesPage* m_AccountManagerPropertiesPage;
     CAccountManagerProcessingPage* m_AccountManagerProcessingPage;
@@ -301,15 +353,22 @@ public:
     ACCOUNT_OUT         account_out;
     bool                account_created_successfully;
     bool                attached_to_project_successfully;
-    bool                close_when_completed;
+    bool                m_bCloseWhenCompleted;
     bool                m_bCredentialsCached;
     bool                m_bCredentialsDetected;
+    bool                m_bCookieRequired;
     wxString            m_strProjectName;
     wxString            m_strProjectUrl;
     wxString            m_strProjectAuthenticator;
-    wxString            m_strTeamName;
+    wxString            m_strProjectInstitution;
+    wxString            m_strProjectDescription;
+    wxString            m_strProjectUserName;
+    bool                m_bProjectKnown;
+    wxString            m_strAccountEmailAddress;
+    wxString            m_strAccountUsername;
+    wxString            m_strAccountPassword;
+    wxString            m_strAccountConfirmPassword;
     wxString            m_strReturnURL;
-    bool                m_bCookieRequired;
     wxString            m_strCookieFailureURL;
 };
 

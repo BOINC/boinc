@@ -6,14 +6,14 @@ AC_DEFUN([SAH_DEFAULT_BITNESS],[
     ${CC} ${CFLAGS} -c conftest.c >&5
     COMPILER_MODEL_BITS=32
     if test -f conftest.${OBJEXT} ; then
-      if test -n "`file conftest.${OBJEXT} | grep -i 64-bit`" 
+      if test -n "`objdump --file-headers conftest.${OBJEXT} | grep 'file format' | grep 64`" -o -n "`file conftest.${OBJEXT} | grep -i 64-bit`" 
       then
         COMPILER_MODEL_BITS=64
-      else
-        if test -n "`file conftest.${OBJEXT} | grep -i 16-bit`" 
-	then
-          COMPILER_MODEL_BITS=16
-        fi
+#      else
+#        if test -n "`objdump --file-headers conftest.${OBJEXT} | grep 'file format' | grep 16`" 
+#	then
+#          COMPILER_MODEL_BITS=16
+#        fi
       fi
     fi
     /bin/rm conftest.c

@@ -38,6 +38,7 @@
 #define EXIT_ABORTED_BY_PROJECT     202
 #define EXIT_ABORTED_VIA_GUI        203
 #define EXIT_UNKNOWN                204
+#define EXIT_OUT_OF_MEMORY          205
 
 // Function return values.
 // NOTE:  add new errors to the end of the list and don't change
@@ -81,6 +82,7 @@
 #define ERR_THREAD          -124
     // Error creating a thread
 #define ERR_SIGNAL_CATCH    -125
+#define ERR_BAD_FORMAT      -126
 #define ERR_UPLOAD_TRANSIENT    -127
 #define ERR_UPLOAD_PERMANENT    -128
 #define ERR_IDLE_PERIOD     -129
@@ -93,6 +95,7 @@
 #define ERR_BENCHMARK_FAILED -133
 #define ERR_BAD_HEX_FORMAT  -134
     // hex-format key data is bad
+#define ERR_GETADDRINFO     -135
 #define ERR_DB_NOT_FOUND    -136
     // no rows found in lookup() or enumerate()
 #define ERR_DB_NOT_UNIQUE   -137
@@ -126,10 +129,11 @@
 #define ERR_NOT_UNIQUE       -160
     // state files had redundant entries
 #define ERR_NOT_FOUND        -161
-    // inconsistent client state
+    // catch-all lookup error
 #define ERR_NO_EXIT_STATUS   -162
     // exit_status not found in scheduler request 
 #define ERR_FILE_MISSING    -163
+#define ERR_KILL            -164
 #define ERR_SEMGET          -165
 #define ERR_SEMCTL          -166
 #define ERR_SEMOP           -167
@@ -200,6 +204,8 @@
 #define ERR_ABORTED_ON_EXIT -232
 #define ERR_PROC_PARSE      -235
 #define ERR_STATFS          -236
+#define ERR_PIPE            -237
+#define ERR_NEED_HTTPS      -238
 
 // PLEASE: add a text description of your error to 
 // the text description function boincerror() in str_util.cpp.

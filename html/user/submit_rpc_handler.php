@@ -44,10 +44,20 @@ function get_app($name) {
     return $app;
 }
 
-function batch_flop_count($r) {
+// estimate FLOP count for a batch.
+// If estimates aren't included in the job descriptions,
+// use what's in the input template
+//
+function batch_flop_count($r, $template) {
     $x = 0;
+    $t = (double)$template->workunit->rsc_fpops_est;
     foreach($r->batch->job as $job) {
-        $x += (double)$job->rsc_fpops_est;
+        $y = (double)$job->rsc_fpops_est;
+        if ($y) {
+            $x += $y;
+        } else {
+            $x += $t;
+        }
     }
     return $x;
 }
@@ -61,23 +71,39 @@ function project_flops() {
     return $y;
 }
 
-function est_elapsed_time($r) {
+function est_elapsed_time($r, $template) {
     // crude estimate: batch FLOPs / project FLOPS
     //
-    return batch_flop_count($r) / project_flops();
+    return batch_flop_count($r, $template) / project_flops();
+}
+
+function read_input_template($app, $r) {
+    if ((isset($r->batch)) && (isset($r->batch->workunit_template_file)) && ($r->batch->workunit_template_file)) {
+        $path = "../../templates/".$r->batch->workunit_template_file;
+    } else {
+        $path = "../../templates/$app->name"."_in";
+    }
+    return simplexml_load_file($path);
+}
+
+function check_max_jobs_in_progress($r, $user_submit) {
+    if (!$user_submit->max_jobs_in_progress) return;
+    $query = "select count(*) as total from DBNAME.result, DBNAME.batch where batch.user_id=$userid and result.batch = batch.id and result.server_state<".RESULT_SERVER_STATE_OVER;
+    $db = BoincDb::get();
+    $n = $db->get_int($query);
+    if ($n === false) return;
+    if ($n + count($r->batch->job) > $user_submit->max_jobs_in_progress) {
+        xml_error(-1, "BOINC server: limit on jobs in progress exceeded");
+    }
 }
 
 function estimate_batch($r) {
     $app = get_app((string)($r->batch->app_name));
     list($user, $user_submit) = authenticate_user($r, $app);
 
-    $e = est_elapsed_time($r);
+    $template = read_input_template($app, $r);
+    $e = est_elapsed_time($r, $template);
     echo "<estimate>\n<seconds>$e</seconds>\n</estimate>\n";
-}
-
-function read_input_template($app) {
-    $path = "../../templates/$app->name"."_in";
-    return simplexml_load_file($path);
 }
 
 function validate_batch($jobs, $template) {
@@ -98,16 +124,20 @@ $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
 //
 function stage_file($file) {
     global $fanout;
+    $download_dir = parse_config(get_config(), "<download_dir>");
 
     switch ($file->mode) {
     case "semilocal":
     case "local":
+        // read the file (from disk or network) to get MD5.
+        // Copy to download hier, using a physical name based on MD5
+        //
         $md5 = md5_file($file->source);
         if (!$md5) {
             xml_error(-1, "BOINC server: Can't get MD5 of file $file->source");
         }
         $name = "jf_$md5";
-        $path = dir_hier_path($name, "../../download", $fanout);
+        $path = dir_hier_path($name, $download_dir, $fanout);
         if (file_exists($path)) return $name;
         if (!copy($file->source, $path)) {
             xml_error(-1, "BOINC server: can't copy file from $file->source to $path");
@@ -121,7 +151,7 @@ function stage_file($file) {
             xml_error(-1, "BOINC server: Can't get MD5 of inline data");
         }
         $name = "jf_$md5";
-        $path = dir_hier_path($name, "../../download", $fanout);
+        $path = dir_hier_path($name, $download_dir, $fanout);
         if (file_exists($path)) return $name;
         if (!file_put_contents($path, $file->source)) {
             xml_error(-1, "BOINC server: can't write to file $path");
@@ -136,23 +166,58 @@ function stage_file($file) {
 function stage_files(&$jobs, $template) {
     foreach($jobs as $job) {
         foreach ($job->input_files as $file) {
-            $file->name = stage_file($file);
+            if ($file->mode != "remote") {
+                $file->name = stage_file($file);
+            }
         }
     }
 }
 
-function submit_job($job, $template, $app, $batch_id, $i, $priority) {
+function submit_jobs(
+    $jobs, $template, $app, $batch_id, $priority,
+    $result_template_file = null, $workunit_template_file = null
+) {
+    $x = "";
+    foreach($jobs as $job) {
+        if ($job->name) {
+            $x .= " --wu_name $job->name";
+        }
+        if ($job->command_line) {
+            $x .= " --command_line \"$job->command_line\"";
+        }
+        if ($job->target_team) {
+            $x .= " --target_team $job->target_team";
+        } elseif ($job->target_user) {
+            $x .= " --target_user $job->target_user";
+        } elseif ($job->target_host) {
+            $x .= " --target_host $job->target_host";
+        }
+        foreach ($job->input_files as $file) {
+            if ($file->mode == "remote") {
+                $x .= " --remote_file $file->url $file->nbytes $file->md5";
+            } else {
+                $x .= " $file->name";
+            }
+        }
+        $x .= "\n";
+    }
+
     $cmd = "cd ../..; ./bin/create_work --appname $app->name --batch $batch_id --rsc_fpops_est $job->rsc_fpops_est --priority $priority";
-    if ($job->command_line) {
-        $cmd .= " --command_line \"$job->command_line\"";
+    if ($result_template_file) {
+        $cmd .= " --result_template templates/$result_template_file";
     }
-    $cmd .= " --wu_name $job->name";
-    foreach ($job->input_files as $file) {
-        $cmd .= " $file->name";
+    if ($workunit_template_file) {
+        $cmd .= " --wu_template templates/$workunit_template_file";
     }
-    $ret = system($cmd);
-    if ($ret === FALSE) {
-        xml_error(-1, "BOINC server: can't create job");
+    $cmd .= " --stdin";
+    $h = popen($cmd, "w");
+    if ($h === false) {
+        xml_error(-1, "BOINC server: can't run create_work");
+    }
+    fwrite($h, $x);
+    $ret = pclose($h);
+    if ($ret) {
+        xml_error(-1, "BOINC server: create_work failed");
     }
 }
 
@@ -162,12 +227,21 @@ function xml_get_jobs($r) {
         $job = new StdClass;
         $job->input_files = array();
         $job->command_line = (string)$j->command_line;
+        $job->target_team = (int)$j->target_team;
+        $job->target_user = (int)$j->target_user;
+        $job->target_host = (int)$j->target_host;
         $job->name = (string)$j->name;
         $job->rsc_fpops_est = (double)$j->rsc_fpops_est;
         foreach ($j->input_file as $f) {
             $file = new StdClass;
             $file->mode = (string)$f->mode;
-            $file->source = (string)$f->source;
+            if ($file->mode == "remote") {
+                $file->url = (string)$f->url;
+                $file->nbytes = (double)$f->nbytes;
+                $file->md5 = (string)$f->md5;
+            } else {
+                $file->source = (string)$f->source;
+            }
             $job->input_files[] = $file;
         }
         $jobs[] = $job;
@@ -178,7 +252,7 @@ function xml_get_jobs($r) {
 function submit_batch($r) {
     $app = get_app((string)($r->batch->app_name));
     list($user, $user_submit) = authenticate_user($r, $app);
-    $template = read_input_template($app);
+    $template = read_input_template($app, $r);
     $jobs = xml_get_jobs($r);
     validate_batch($jobs, $template);
     stage_files($jobs, $template);
@@ -228,18 +302,32 @@ function submit_batch($r) {
         if (!$ret) xml_error(-1, "BOINC server: batch->update() failed");
     } else {
         $batch_name = (string)($r->batch->batch_name);
+        $batch_name = BoincDb::escape_string($batch_name);
         $batch_id = BoincBatch::insert(
-            "(user_id, create_time, njobs, name, app_id, logical_end_time, state) values ($user->id, $now, $njobs, '$batch_name', $app->id, $let, ".BATCH_STATE_IN_INIT.")"
+            "(user_id, create_time, njobs, name, app_id, logical_end_time, state) values ($user->id, $now, $njobs, '$batch_name', $app->id, $let, ".BATCH_STATE_INIT.")"
         );
         if (!$batch_id) {
-            xml_error(-1, "BOINC server: Can't create batch: ".mysql_error());
+            xml_error(-1, "BOINC server: Can't create batch: ".BoincDb::error());
         }
         $batch = BoincBatch::lookup_id($batch_id);
     }
-    $i = 0;
-    foreach($jobs as $job) {
-        submit_job($job, $template, $app, $batch_id, $i++, $let);
+    
+    if ($r->batch->result_template_file) {
+        $result_template_file = $r->batch->result_template_file;
+    } else {
+        $result_template_file = null;
     }
+    
+    if ($r->batch->workunit_template_file) {
+        $workunit_template_file = $r->batch->workunit_template_file;
+    } else {
+        $workunit_template_file = null;
+    }
+
+    submit_jobs(
+        $jobs, $template, $app, $batch_id, $let,
+        $result_template_file, $workunit_template_file
+    );
 
     // set state to IN_PROGRESS only after creating jobs;
     // otherwise we might flag batch as COMPLETED
@@ -255,21 +343,24 @@ function create_batch($r) {
     list($user, $user_submit) = authenticate_user($r, $app);
     $now = time();
     $batch_name = (string)($r->batch->batch_name);
+    $batch_name = BoincDb::escape_string($batch_name);
+    $expire_time = (double)($r->expire_time);
     $batch_id = BoincBatch::insert(
-        "(user_id, create_time, name, app_id, state) values ($user->id, $now, '$batch_name', $app->id, ".BATCH_STATE_INIT.")"
+        "(user_id, create_time, name, app_id, state, expire_time) values ($user->id, $now, '$batch_name', $app->id, ".BATCH_STATE_INIT.", $expire_time)"
     );
     if (!$batch_id) {
-        xml_error(-1, "BOINC server: Can't create batch: ".mysql_error());
+        xml_error(-1, "BOINC server: Can't create batch: ".BoincDb::error());
     }
     echo "<batch_id>$batch_id</batch_id>\n";
 }
 
-function print_batch_params($batch) {
+function print_batch_params($batch, $get_cpu_time) {
     $app = BoincApp::lookup_id($batch->app_id);
     if (!$app) $app->name = "none";
     echo "
         <id>$batch->id</id>
         <create_time>$batch->create_time</create_time>
+        <expire_time>$batch->expire_time</expire_time>
         <est_completion_time>$batch->est_completion_time</est_completion_time>
         <njobs>$batch->njobs</njobs>
         <fraction_done>$batch->fraction_done</fraction_done>
@@ -281,11 +372,15 @@ function print_batch_params($batch) {
         <name>$batch->name</name>
         <app_name>$app->name</app_name>
 ";
+    if ($get_cpu_time) {
+        echo "        <total_cpu_time>".$batch->get_cpu_time()."</total_cpu_time>\n";
+    }
 }
 
 function query_batches($r) {
     list($user, $user_submit) = authenticate_user($r, null);
     $batches = BoincBatch::enum("user_id = $user->id");
+    $get_cpu_time = (int)($r->get_cpu_time);
     echo "<batches>\n";
     foreach ($batches as $batch) {
         if ($batch->state < BATCH_STATE_COMPLETE) {
@@ -293,7 +388,7 @@ function query_batches($r) {
             $batch = get_batch_params($batch, $wus);
         }
         echo "    <batch>\n";
-        print_batch_params($batch);
+        print_batch_params($batch, $get_cpu_time);
         echo "   </batch>\n";
     }
     echo "</batches>\n";
@@ -332,11 +427,13 @@ function query_batch($r) {
     $wus = BoincWorkunit::enum("batch = $batch->id");
     $batch = get_batch_params($batch, $wus);
     echo "<batch>\n";
-    print_batch_params($batch);
+    $get_cpu_time = (int)($r->get_cpu_time);
+    print_batch_params($batch, $get_cpu_time);
     $n_outfiles = n_outfiles($wus[0]);
     foreach ($wus as $wu) {
         echo "    <job>
         <id>$wu->id</id>
+        <name>$wu->name</name>
         <canonical_instance_id>$wu->canonical_resultid</canonical_instance_id>
         <n_outfiles>$n_outfiles</n_outfiles>
         </job>
@@ -365,9 +462,18 @@ function query_batch2($r) {
         $batches[] = $batch;
     }
 
+    $min_mod_time = (double)$r->min_mod_time;
+    if ($min_mod_time) {
+        $mod_time_clause = "and mod_time > FROM_UNIXTIME($min_mod_time)";
+    } else {
+        $mod_time_clause = "";
+    }
+
+    $t = dtime();
+    echo "<server_time>$t</server_time>\n";
     echo "<jobs>\n";
     foreach ($batches as $batch) {
-        $wus = BoincWorkunit::enum("batch = $batch->id");
+        $wus = BoincWorkunit::enum("batch = $batch->id $mod_time_clause");
         echo "   <batch_size>".count($wus)."</batch_size>\n";
         foreach ($wus as $wu) {
             if ($wu->canonical_resultid) {
@@ -515,6 +621,20 @@ function handle_retire_batch($r) {
     echo "<success>1</success>";
 }
 
+function handle_set_expire_time($r) {
+    list($user, $user_submit) = authenticate_user($r, null);
+    $batch = get_batch($r);
+    if ($batch->user_id != $user->id) {
+        xml_error(-1, "not owner");
+    }
+    $expire_time = (double)($r->expire_time);
+    if ($batch->update("expire_time=$expire_time")) {
+        echo "<success>1</success>";
+    } else {
+        xml_error(-1, "update failed");
+    }
+}
+
 function get_templates($r) {
     $app_name = (string)($r->app_name);
     if ($app_name) {
@@ -563,7 +683,7 @@ exit;
 
 if (0) {
 $r = simplexml_load_string("
-<submit_batch>
+<estimate_batch>
     <authenticator>x</authenticator>
     <batch>
     <app_name>remote_test</app_name>
@@ -577,10 +697,14 @@ $r = simplexml_load_string("
         </input_file>
     </job>
     </batch>
-</submit_batch>
+</estimate_batch>
 ");
-submit_batch($r);
+estimate_batch($r);
 exit;
+}
+
+if (0) {
+    require_once("submit_test.inc");
 }
 
 xml_header();
@@ -603,6 +727,7 @@ switch ($r->getName()) {
     case 'query_job': query_job($r); break;
     case 'query_completed_job': query_completed_job($r); break;
     case 'retire_batch': handle_retire_batch($r); break;
+    case 'set_expire_time': handle_set_expire_time($r); break;
     case 'submit_batch': submit_batch($r); break;
     default: xml_error(-1, "bad command: ".$r->getName());
 }

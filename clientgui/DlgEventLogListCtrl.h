@@ -23,7 +23,6 @@
 #endif
 
 #ifdef __WXMAC__
-#include "macAccessiblity.h"
 #define DLG_LISTCTRL_BASE wxGenericListCtrl
 #else
 #define DLG_LISTCTRL_BASE wxListView
@@ -34,6 +33,8 @@ class CDlgEventLog;
 
 class CDlgEventLogListCtrl : public DLG_LISTCTRL_BASE
 {
+using DLG_LISTCTRL_BASE::GetBackgroundColour;
+
     DECLARE_DYNAMIC_CLASS(CDlgEventLogListCtrl)
     DECLARE_EVENT_TABLE()
 
@@ -53,6 +54,8 @@ private:
     virtual wxColour        GetBackgroundColour();
     void                    OnMouseUp(wxMouseEvent& event);
 
+    void                    OnShow( wxShowEvent& event );
+
     bool                    m_bIsSingleSelection;
 
     CDlgEventLog*           m_pParentView;
@@ -60,11 +63,10 @@ private:
 #ifdef __WXMAC__
     void                    SetupMacAccessibilitySupport();
     void                    RemoveMacAccessibilitySupport();
+    void                    OnSize( wxSizeEvent &event );
 
-    ListAccessData   accessibilityHandlerData;
-    
-    EventHandlerRef         m_pHeaderAccessibilityEventHandlerRef;
-    EventHandlerRef         m_pBodyAccessibilityEventHandlerRef;
+    void*                   m_fauxHeaderView;
+    void*                   m_fauxBodyView;
 #endif
 };
 

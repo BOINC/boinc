@@ -16,19 +16,18 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// TODO: - find out if this is used (add some logging mechanism or so)
-//       - if used rewrite code to use display functions from util.inc
-//       - if used find a way to give the user a language choice (projects must translate messages themself)
+// TODO: - add a logging mechanism to see if people are using this.
+//       - use display functions from util.inc
+//       - give the user a language choice
 
 require_once("../inc/util.inc");
 
 check_get_args(array());
 
-db_init();
 $user = get_logged_in_user();
 
 if (!@file_get_contents('../ops/ffmail/subject')) {
-    error_page(tra("This project hasn\'t created an email message - please notify its administrators"));
+    error_page(tra("This project hasn't created an email message - please notify its administrators"));
 }
 
 page_head(tra("Tell your friends about %1", PROJECT));
@@ -40,13 +39,13 @@ echo "
 ".tra("Fill in this form with the names and email addresses of people you think might be interested in %1. We'll send them an email in your name, and you can add your own message if you like.", PROJECT)."
 <form method=get action=ffmail_action.php>
 <table cellpadding=4>
-<tr><td class=heading>".tra("Your name:")."</td><td class=heading>".tra("Your email address:")."</td></tr>
+<tr><th>".tra("Your name:")."</th><th>".tra("Your email address:")."</th></tr>
 <tr><td><b>$user->name</b></td><td><b>$user->email_addr</b></td></tr>
 
 <input type=hidden name=uname value=\"$user->name\">
 <input type=hidden name=uemail value=\"$user->email_addr\">
 
-<tr><td class=heading>".tra("Friend's name:")."</td><td class=heading>".tra("Friend's email address:")."</td></tr>
+<tr><th>".tra("Friend's name:")."</th><th>".tra("Friend's email address:")."</th></tr>
 ";
 for ($i=0; $i<5; $i++) {
     echo "
@@ -54,10 +53,10 @@ for ($i=0; $i<5; $i++) {
     ";
 }
 echo "
-<tr><td class=heading colspan=2>".tra("Additional message (optional)")."</td></tr>
+<tr><th colspan=2>".tra("Additional message (optional)")."</th></tr>
 <tr><td colspan=2><textarea name=comment rows=8 cols=50></textarea></td></tr>
-<tr><td align=center><input type=submit name=action value=".tra("Preview")."></td>
-    <td align=center><input type=submit name=action value=".tra("Send")."></td>
+<tr><td align=center><input class=\"btn btn-default\" type=submit name=action value=".tra("Preview")."></td>
+    <td align=center><input class=\"btn btn-primary\" type=submit name=action value=".tra("Send")."></td>
 </tr>
 </table>
 </form>

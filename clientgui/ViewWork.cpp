@@ -36,6 +36,14 @@
 #include "res/result.xpm"
 
 
+// Column IDs must be equal to the column's default
+// position (left to right, zero-based) when all
+// columns are shown.  However, any column may be
+// hidden, either by default or by the user.
+// (On MS Windows only, the user can also rearrange
+// the columns from the default order.)
+//
+// Column IDs
 #define COLUMN_PROJECT              0
 #define COLUMN_PROGRESS             1
 #define COLUMN_STATUS               2
@@ -44,6 +52,17 @@
 #define COLUMN_REPORTDEADLINE       5
 #define COLUMN_APPLICATION          6
 #define COLUMN_NAME                 7
+
+// DefaultShownColumns is an array containing the
+// columnIDs of the columns to be shown by default,
+// in ascending order.  It may or may not include
+// all columns.
+//
+// For now, show all columns by default
+static int DefaultShownColumns[] = { COLUMN_PROJECT, COLUMN_PROGRESS, COLUMN_STATUS, 
+                                COLUMN_CPUTIME, COLUMN_TOCOMPLETION,
+                                COLUMN_REPORTDEADLINE, COLUMN_APPLICATION, 
+                                COLUMN_NAME};
 
 // groups that contain buttons
 #define GRP_TASKS    0
@@ -89,10 +108,16 @@ BEGIN_EVENT_TABLE (CViewWork, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_SHOW_PROPERTIES, CViewWork::OnShowItemProperties)
     EVT_BUTTON(ID_TASK_ACTIVE_ONLY, CViewWork::OnActiveTasksOnly)
     EVT_CUSTOM_RANGE(wxEVT_COMMAND_BUTTON_CLICKED, ID_TASK_PROJECT_WEB_PROJDEF_MIN, ID_TASK_PROJECT_WEB_PROJDEF_MAX, CViewWork::OnProjectWebsiteClicked)
-    EVT_LIST_ITEM_SELECTED(ID_LIST_WORKVIEW, CViewWork::OnListSelected)
-    EVT_LIST_ITEM_DESELECTED(ID_LIST_WORKVIEW, CViewWork::OnListDeselected)
-    EVT_LIST_COL_CLICK(ID_LIST_WORKVIEW, CViewWork::OnColClick)
+// We currently handle EVT_LIST_CACHE_HINT on Windows or 
+// EVT_CHECK_SELECTION_CHANGED on Mac & Linux instead of EVT_LIST_ITEM_SELECTED
+// or EVT_LIST_ITEM_DESELECTED.  See CBOINCBaseView::OnCacheHint() for info.
+#if USE_LIST_CACHE_HINT
     EVT_LIST_CACHE_HINT(ID_LIST_WORKVIEW, CViewWork::OnCacheHint)
+#else
+	EVT_CHECK_SELECTION_CHANGED(CViewWork::OnCheckSelectionChanged)
+#endif
+    EVT_LIST_COL_CLICK(ID_LIST_WORKVIEW, CViewWork::OnColClick)
+    EVT_LIST_COL_END_DRAG(ID_LIST_WORKVIEW, CViewWork::OnColResize)
 END_EVENT_TABLE ()
 
 
@@ -115,7 +140,7 @@ static bool CompareViewWorkItems(int iRowIndex1, int iRowIndex2) {
         return 0;
     }
 
-    switch (myCViewWork->m_iSortColumn) {
+    switch (myCViewWork->m_iSortColumnID) {
     case COLUMN_PROJECT:
         result = work1->m_strProjectName.CmpNoCase(work2->m_strProjectName);
         break;
@@ -168,7 +193,7 @@ CViewWork::CViewWork()
 
 
 CViewWork::CViewWork(wxNotebook* pNotebook) :
-    CBOINCBaseView(pNotebook, ID_TASK_WORKVIEW, DEFAULT_TASK_FLAGS, ID_LIST_WORKVIEW, DEFAULT_LIST_MULTI_SEL_FLAGS)
+    CBOINCBaseView(pNotebook, ID_TASK_WORKVIEW, DEFAULT_TASK_FLAGS, ID_LIST_WORKVIEW, DEFAULT_LIST_FLAGS)
 {
     CTaskItemGroup* pGroup = NULL;
     CTaskItem*      pItem = NULL;
@@ -227,16 +252,40 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     // Create Task Pane Items
     m_pTaskPane->UpdateControls();
 
-    // Create List Pane Items
-    m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 125);
-    m_pListPane->InsertColumn(COLUMN_PROGRESS, _("Progress"), wxLIST_FORMAT_RIGHT, 60);
-    m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, 135);
-    m_pListPane->InsertColumn(COLUMN_CPUTIME, _("Elapsed"), wxLIST_FORMAT_RIGHT, 80);
-    m_pListPane->InsertColumn(COLUMN_TOCOMPLETION, _("Remaining (estimated)"), wxLIST_FORMAT_RIGHT, 100);
-    m_pListPane->InsertColumn(COLUMN_REPORTDEADLINE, _("Deadline"), wxLIST_FORMAT_RIGHT, 150);
-    m_pListPane->InsertColumn(COLUMN_APPLICATION, _("Application"), wxLIST_FORMAT_LEFT, 95);
-    m_pListPane->InsertColumn(COLUMN_NAME, _("Name"), wxLIST_FORMAT_LEFT, 285);
+    // m_aStdColNameOrder is an array of all column heading labels
+    // (localized) in order of ascending Column ID.
+    // Once initialized, it should not be modified.
+    //
+    m_aStdColNameOrder = new wxArrayString;
+    m_aStdColNameOrder->Insert(_("Project"), COLUMN_PROJECT);
+    m_aStdColNameOrder->Insert(_("Progress"), COLUMN_PROGRESS);
+    m_aStdColNameOrder->Insert(_("Status"), COLUMN_STATUS);
+    m_aStdColNameOrder->Insert(_("Elapsed"), COLUMN_CPUTIME);
+    m_aStdColNameOrder->Insert(_("Remaining (estimated)"), COLUMN_TOCOMPLETION);
+    m_aStdColNameOrder->Insert(_("Deadline"), COLUMN_REPORTDEADLINE);
+    m_aStdColNameOrder->Insert(_("Application"), COLUMN_APPLICATION);
+    m_aStdColNameOrder->Insert(_("Name"), COLUMN_NAME);
+    
+    // m_iStdColWidthOrder is an array of the width for each column.
+    // Entries must be in order of ascending Column ID.  We initalize
+    // it here to the default column widths.  It is updated by
+    // CBOINCListCtrl::OnRestoreState() and also when a user resizes
+    // a column by dragging the divider between two columns.
+    //
+    m_iStdColWidthOrder.Clear();
+    m_iStdColWidthOrder.Insert(125, COLUMN_PROJECT);
+    m_iStdColWidthOrder.Insert(60, COLUMN_PROGRESS);
+    m_iStdColWidthOrder.Insert(135, COLUMN_STATUS);
+    m_iStdColWidthOrder.Insert(80, COLUMN_CPUTIME);
+    m_iStdColWidthOrder.Insert(100, COLUMN_TOCOMPLETION);
+    m_iStdColWidthOrder.Insert(150, COLUMN_REPORTDEADLINE);
+    m_iStdColWidthOrder.Insert(95, COLUMN_APPLICATION);
+    m_iStdColWidthOrder.Insert(285, COLUMN_NAME);
 
+    wxASSERT(m_iStdColWidthOrder.size() == m_aStdColNameOrder->size());
+
+    m_iDefaultShownColumns = DefaultShownColumns;
+    m_iNumDefaultShownColumns = sizeof(DefaultShownColumns) / sizeof(int);
     m_iProgressColumn = COLUMN_PROGRESS;
 
     // Needed by static sort routine;
@@ -244,6 +293,45 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_funcSortCompare = CompareViewWorkItems;
 
     UpdateSelection();
+}
+
+
+// Create List Pane Items
+void CViewWork::AppendColumn(int columnID){
+    switch(columnID) {
+        case COLUMN_PROJECT:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_PROJECT],
+                wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_PROJECT]);
+            break;
+        case COLUMN_PROGRESS:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_PROGRESS],
+                wxLIST_FORMAT_RIGHT, m_iStdColWidthOrder[COLUMN_PROGRESS]);
+            break;
+        case COLUMN_STATUS:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_STATUS],
+                wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_STATUS]);
+            break;
+        case COLUMN_CPUTIME:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_CPUTIME],
+                wxLIST_FORMAT_RIGHT, m_iStdColWidthOrder[COLUMN_CPUTIME]);
+            break;
+        case COLUMN_TOCOMPLETION:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_TOCOMPLETION],
+                wxLIST_FORMAT_RIGHT, m_iStdColWidthOrder[COLUMN_TOCOMPLETION]);
+            break;
+        case COLUMN_REPORTDEADLINE:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_REPORTDEADLINE],
+                wxLIST_FORMAT_RIGHT, m_iStdColWidthOrder[COLUMN_REPORTDEADLINE]);
+            break;
+        case COLUMN_APPLICATION:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_APPLICATION],
+                wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_APPLICATION]);
+            break;
+        case COLUMN_NAME:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_NAME],
+                wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_NAME]);
+            break;
+    }
 }
 
 
@@ -611,6 +699,16 @@ void CViewWork::OnProjectWebsiteClicked( wxEvent& event ) {
 }
 
 
+void CViewWork::OnColResize( wxListEvent& ) {
+    // Register the new column widths immediately
+    CAdvancedFrame* pFrame = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+
+    wxASSERT(pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
+    pFrame->SaveState();
+}
+
+
 wxInt32 CViewWork::GetDocCount() {
     return wxGetApp().GetDocument()->GetWorkCount();
 }
@@ -628,8 +726,8 @@ wxString CViewWork::OnListGetItemText(long item, long column) const {
         work = NULL;
     }
 
-    if (work) {
-        switch(column) {
+    if (work && (column >= 0)) {
+        switch(m_iColumnIndexToColumnID[column]) {
             case COLUMN_PROJECT:
                 strBuffer = work->m_strProjectName;
                 break;
@@ -846,10 +944,14 @@ void CViewWork::UpdateSelection() {
     pGroup->m_Tasks[BTN_GRAPHICS]->m_pButton->Enable(enableShowGraphics);
     if (enableShowVMConsole) {
         pGroup->m_Tasks[BTN_VMCONSOLE]->m_pButton->Enable();
-        pGroup->m_Tasks[BTN_VMCONSOLE]->m_pButton->Show();
+        if (pGroup->m_Tasks[BTN_VMCONSOLE]->m_pButton->Show()) {
+            m_pTaskPane->FitInside();
+        }
     } else {
         pGroup->m_Tasks[BTN_VMCONSOLE]->m_pButton->Disable();
-        pGroup->m_Tasks[BTN_VMCONSOLE]->m_pButton->Hide();
+        if (pGroup->m_Tasks[BTN_VMCONSOLE]->m_pButton->Hide()) {
+            m_pTaskPane->FitInside();
+        };
     }
     pGroup->m_Tasks[BTN_SUSPEND]->m_pButton->Enable(enableSuspendResume);
     pGroup->m_Tasks[BTN_ABORT]->m_pButton->Enable(enableAbort);
@@ -884,8 +986,10 @@ bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
      if (GetWorkCacheAtIndex(work, m_iSortedIndexes[iRowIndex])) {
         return false;
     }
-        
-   switch (iColumnIndex) {
+    
+    if (iColumnIndex < 0) return false;
+    
+    switch (m_iColumnIndexToColumnID[iColumnIndex]) {
         case COLUMN_PROJECT:
             GetDocProjectName(m_iSortedIndexes[iRowIndex], strDocumentText);
             GetDocProjectURL(m_iSortedIndexes[iRowIndex], strDocumentText2);
@@ -1152,10 +1256,18 @@ void CViewWork::GetDocReportDeadline(wxInt32 item, time_t& time) const {
 
 
 wxInt32 CViewWork::FormatReportDeadline(time_t deadline, wxString& strBuffer) const {
+#ifdef __WXMAC__
+    // Work around a wxCocoa bug(?) in wxDateTime::Format()
+    char buf[80];
+    struct tm * timeinfo = localtime(&deadline);
+    strftime(buf, sizeof(buf), "%c", timeinfo);
+    strBuffer = buf;
+#else
     wxDateTime     dtTemp;
 
     dtTemp.Set(deadline);
     strBuffer = dtTemp.Format();
+#endif
 
     return 0;
 }

@@ -33,7 +33,7 @@ function show_assign($asgn) {
         } else {
             $y = "One host belonging to ";
         }
-        $x = "$y<a href=db_action.php?table=user&id=$asgn->target_id>Host $asgn->target_id</a>";
+        $x = "$y<a href=db_action.php?table=user&id=$asgn->target_id>User $asgn->target_id</a>";
         break;
     case 3:
         if ($asgn->multi) {

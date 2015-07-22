@@ -1,7 +1,7 @@
 # makefile for client simulator
 # DO MAKE CLEAN IN CLIENT/ and LIB/ FIRST
 
-CXXFLAGS = -g -DSIM \
+CXXFLAGS = -g -DSIM -Wall \
     -I ../lib \
     -I ..
 
@@ -13,6 +13,7 @@ OBJS = \
     client_msgs.o \
     client_state.o \
     client_types.o \
+	coproc_sched.o \
     cpu_sched.o \
 	cs_account.o \
     cs_apps.o \
@@ -60,6 +61,7 @@ OBJS = \
     ../lib/msg_log.o \
     ../lib/network.o \
     ../lib/notice.o \
+    ../lib/opencl_boinc.o \
     ../lib/parse.o \
     ../lib/prefs.o \
     ../lib/proxy_info.o \

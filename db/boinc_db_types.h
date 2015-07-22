@@ -21,6 +21,7 @@
 #include <vector>
 
 #include "average.h"
+#include "opencl_boinc.h"
 #include "parse.h"
 
 // Sizes of text buffers in memory, corresponding to database BLOBs.
@@ -81,6 +82,8 @@ struct APP {
         // type of locality scheduling used by this app (see above)
     int n_size_classes;
         // for multi-size apps, number of size classes
+    bool fraction_done_exact;
+        // fraction done reported by app is accurate
 
     int write(FILE*);
     void clear();
@@ -123,24 +126,23 @@ struct APP_VERSION {
     char plan_class[256];
     AVERAGE pfc;
         // the stats of (claimed PFC)/wu.rsc_fpops_est
-        // If wu.rsc_fpops_est is accurate,
-        // this is the reciprocal of efficiency
+        // What does this mean?
+        // Suppose X is the error in rsc_fpops_est
+        // (i.e. actual FPOPS = X*rsc_fpops_est)
+        // and Y is average efficiency
+        // (actual FLOPS = Y*peak FLOPS)
+        // Then this is X/Y.
     double pfc_scale;
         // PFC scaling factor for this app (or 0 if not enough data)
         // The reciprocal of this version's efficiency, averaged over all jobs,
         // relative to that of the most efficient version
     double expavg_credit;
     double expavg_time;
+    bool beta;
 
     // the following used by scheduler, not in DB
     //
     BEST_APP_VERSION* bavp;
-
-    // used by validator, not in DB
-    //
-    std::vector<double>pfc_samples;
-    std::vector<double>credit_samples;
-    std::vector<double>credit_times;
 
     int write(FILE*);
     void clear();
@@ -195,8 +197,13 @@ struct USER {
     double seti_total_cpu;          // number of CPU seconds
     char signature[256];
         // deprecated as of 9/2004 - may be used as temp
+        // currently used to store a nonce ID while email address
+        // is being verified.
     bool has_profile;
     char cross_project_id[256];
+        // the "internal" cross-project ID;
+        // the "external CPID" that  gets exported to stats sites
+        // is MD5(cpid, email)
     char passwd_hash[256];
     bool email_validated;           // deprecated
     int donated;
@@ -334,13 +341,20 @@ struct HOST {
         // that fail validation
         // DEPRECATED
     char product_name[256];
+    double gpu_active_frac;
 
-    // the following not in DB
+    // the following items are passed in scheduler requests,
+    // and used in the scheduler,
+    // but not stored in the DB
+    // TODO: move this stuff to a derived class HOST_SCHED
+    //
     char p_features[1024];
     char virtualbox_version[256];
     bool p_vm_extensions_disabled;
+    int num_opencl_cpu_platforms;
+    OPENCL_CPU_PROP opencl_cpu_prop[MAX_OPENCL_CPU_PLATFORMS];
+
     // stuff from time_stats
-    double gpu_active_frac;
     double cpu_and_network_available_frac;
     double client_start_time;
     double previous_uptime;
@@ -353,6 +367,7 @@ struct HOST {
 
     void fix_nans();
     void clear();
+    bool get_opencl_cpu_prop(const char* platform, OPENCL_CPU_PROP&);
 };
 
 // values for file_delete state
@@ -589,6 +604,11 @@ struct RESULT {
     int size_class;
         // -1 means none
 
+    // the following reported by 7.3.16+ clients
+    double peak_working_set_size;
+    double peak_swap_size;
+    double peak_disk_usage;
+
     void clear();
     RESULT() {clear();}
 };
@@ -625,20 +645,10 @@ struct BATCH {
         // project-assigned
     char description[256];
         // project-assigned
+    double expire_time;
+        // if nonzero, retire the batch after this time
+        // Condor calls this the batch's "lease".
 };
-
-// values of batch.state
-// see html/inc/common_defs.inc
-//
-#define BATCH_STATE_INIT            0
-#define BATCH_STATE_IN_PROGRESS     1
-#define BATCH_STATE_COMPLETE        2
-    // "complete" means all workunits have either
-    // a canonical result or an error
-#define BATCH_STATE_ABORTED         3
-#define BATCH_STATE_RETIRED         4
-    // input/output files can be deleted,
-    // result and workunit records can be purged.
 
 // info for users who can submit jobs
 //
@@ -757,6 +767,59 @@ struct VDA_CHUNK_HOST {
         return (transfer_in_progress && !present_on_host);
     }
     void print_status(int level);
+};
+
+struct BADGE {
+    int id;
+    double create_time;
+    int type;
+    char name[256];
+    char title[256];
+    char description[256];
+    char image_url[256];
+    char level[256];
+    char tags[256];
+    char sql_rule[256];
+    void clear();
+};
+
+struct BADGE_USER {
+    int badge_id;
+    int user_id;
+    double create_time;
+    double reassign_time;
+    void clear();
+};
+
+struct BADGE_TEAM {
+    int badge_id;
+    int team_id;
+    double create_time;
+    double reassign_time;
+    void clear();
+};
+
+struct CREDIT_USER {
+    int userid;
+    int appid;
+        // need not be an app ID
+    int njobs;
+    double total;
+    double expavg;
+    double expavg_time;
+    int credit_type;
+    void clear();
+};
+
+struct CREDIT_TEAM {
+    int teamid;
+    int appid;
+    int njobs;
+    double total;
+    double expavg;
+    double expavg_time;
+    int credit_type;
+    void clear();
 };
 
 #endif

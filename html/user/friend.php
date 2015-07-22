@@ -23,6 +23,8 @@ require_once("../inc/profile.inc");
 
 check_get_args(array("target_userid", "userid", "action"));
 
+text_counter_script();
+
 // see if there's already a request,
 // and whether the notification record is there
 //
@@ -76,9 +78,9 @@ function handle_add($user) {
         <p>" .
         tra("Add an optional message here:") ."
         <br>
-        <textarea name=message cols=64 rows=4></textarea>
+        ".textarea_with_counter("message", 250, "")."
         <p>
-        <input type=submit value=\"".tra("OK")."\">
+        <input class=\"btn btn-primary\" type=submit value=\"".tra("OK")."\">
         </form>
     ";
     page_tail();
@@ -121,7 +123,7 @@ function handle_add_confirm($user) {
 //
 function handle_query($user) {
     $target_userid = get_int('target_userid', true);
-    if ($target_user && $target_userid != $user->id) {
+    if ($target_userid && $target_userid != $user->id) {
         $target_user = BoincUser::lookup_id($target_userid);
         page_head(tra("Please log in as %1", $target_user->name));
         echo tra("You must log in as %1 to view this friend request",
@@ -137,7 +139,7 @@ function handle_query($user) {
     if (!$friend) error_page("Request not found");
     page_head(tra("Friend request"));
 	echo time_str($friend->create_time)."<p>\n";
-    $x = user_links($srcuser, true);
+    $x = user_links($srcuser, BADGE_HEIGHT_MEDIUM);
     echo tra("%1 has requested friendship with you.", $x);
     if (strlen($friend->message)) {
         echo "<p>".tra("%1 says: %2", $srcuser->name, $friend->message)."</p>";

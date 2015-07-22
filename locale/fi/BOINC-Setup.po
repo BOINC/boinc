@@ -1,132 +1,118 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
+# Translators:
+# Vesa Nilakari, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-03 18:11-0700\n"
-"PO-Revision-Date: 2013-06-16 09:29+0200\n"
-"Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: fi\n"
+"POT-Creation-Date: 2014-01-26 00:00-0800\n"
+"PO-Revision-Date: 2015-03-05 05:13+0000\n"
+"Last-Translator: Vesa Nilakari\n"
+"Language-Team: Finnish (http://www.transifex.com/projects/p/boinc/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
-"X-Poedit-SourceCharset: utf-8\n"
 
-#: Installer.cpp:120
+#: Installer.cpp:124
 #, c-format
-msgid "Sorry, this version of %s requires system 10.4 or higher."
-msgstr "%s -versio vaatii 10.4-järjestelmän tai uudemman."
+msgid "Sorry, this version of %s requires system 10.5 or higher."
+msgstr "Tämä %s -versio vaatii järjestelmän 10.5 tai uudemman."
 
-#: PostInstall.cpp:130
+#: PostInstall.cpp:130 PostInstall.cpp:1136 uninstall.cpp:1618
 msgid "Yes"
 msgstr "Kyllä"
 
-#: PostInstall.cpp:131
+#: PostInstall.cpp:131 PostInstall.cpp:1137 uninstall.cpp:1619
 msgid "No"
 msgstr "Ei"
 
 #: PostInstall.cpp:133
 msgid "Should BOINC run even when no user is logged in?"
-msgstr ""
-"Tulisiko BOINCin olla käynnissä myös silloin, kun käyttäjä ei ole "
-"kirjautunut sisään?"
+msgstr "Tulisiko BOINCin olla käynnissä myös silloin, kun käyttäjä ei ole kirjautunut sisään?"
 
-#: PostInstall.cpp:1433
+#: PostInstall.cpp:1416
 #, c-format
 msgid ""
-"Users who are permitted to administer this computer will automatically be "
-"allowed to run and control %s.\n"
+"Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
 "\n"
-"Do you also want non-administrative users to be able to run and control %s "
-"on this Mac?"
-msgstr ""
-"Käyttäjät, joilla on ylläpito-oikeudet, saavat automaattisesti ajaa ja "
-"hallinnoida %s.\n"
-"\n"
-"Haluatko myös muiden käyttäjien ajaa ja hallita %s tässä Macissa?"
+"Do you also want non-administrative users to be able to run and control %s on this Mac?"
+msgstr "Käyttäjät, joilla on ylläpito-oikeudet, saavat automaattisesti ajaa ja hallinnoida %s.\n\nHaluatko myös muiden käyttäjien ajaa ja hallita %s tässä Macissa?"
 
-#: PostInstall.cpp:1461
+#: PostInstall.cpp:1444
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
-msgstr ""
-"Haluatko asettaa %s näytönsäästäjäksi kaikille tämän Macin %s -käyttäjille?"
+msgstr "Haluatko asettaa %s näytönsäästäjäksi kaikille tämän Macin %s -käyttäjille?"
 
-#: uninstall.cpp:71
+#: uninstall.cpp:82
 msgid "OK"
 msgstr "OK"
 
-#: uninstall.cpp:72
-msgid "Cancel"
-msgstr "Peruuta"
-
-#: uninstall.cpp:73
-msgid "Continue..."
-msgstr "Jatka..."
-
-#: uninstall.cpp:89
+#: uninstall.cpp:136
 msgid "Permission error after relaunch"
 msgstr "Käyttöoikeusvirhe uudelleenkäynnistyksen jälkeen"
 
-#: uninstall.cpp:93
+#: uninstall.cpp:141
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
-msgstr ""
-"Poistaminen voi kestää useita minuutteja.\n"
-"Ole kärsivällinen."
+msgstr "Poistaminen voi kestää useita minuutteja.\nOle kärsivällinen."
 
-#: uninstall.cpp:133
+#: uninstall.cpp:156
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
 "\n"
 "This will remove the executables but will not touch %s data files."
-msgstr ""
-"Haluatko varmasti poistaa %s tietokoneelta?\n"
-"\n"
-"Tämä poistaa ohjelmatiedostot mutta ei koske %s datatiedostoihin."
+msgstr "Haluatko varmasti poistaa %s tietokoneelta?\n\nTämä poistaa ohjelmatiedostot mutta ei koske %s datatiedostoihin."
 
-#: uninstall.cpp:142
+#: uninstall.cpp:163
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "Peruttu: %s ei koskettu."
 
-#: uninstall.cpp:151
+#: uninstall.cpp:174
 #, c-format
 msgid "An error occurred: error code %d"
 msgstr "Tapahtui virhe: virhekoodi %d"
 
-#: uninstall.cpp:153
+#: uninstall.cpp:230
+msgid "name  of user"
+msgstr "käyttäjän nimi"
+
+#: uninstall.cpp:272
+msgid ""
+"Do you also want to remove VirtualBox from your computer?\n"
+"(VirtualBox was installed along with BOINC.)"
+msgstr "Haluatko poistaa myös VirtualBoxin tietokoneesta?\n(VirtualBox asennettiin BOINCin kanssa.)"
+
+#: uninstall.cpp:312
+#, c-format
 msgid ""
 "Removal completed.\n"
 "\n"
 " You may want to remove the following remaining items using the Finder: \n"
-"\"/Library/Application Support/BOINC Data\" directory\n"
+"the directory \"%s\"\n"
 "\n"
 "for each user, the file\n"
-"\"/Users/[username]/Library/Preferences/BOINC Manager Preferences\"."
-msgstr ""
-"Poisto suoritettu.\n"
-"\n"
-" Nämä jäljellejääneet tiedot voit poistaa käyttämällä Finderia: \n"
-"\"/Library/Application Support/BOINC Data\" hakemisto\n"
-"\n"
-"jokaisen käyttäjän kohdalla tiedosto\n"
-"\"/Users/[käyttäjänimi]/Library/Preferences/BOINC Manager Preferences\"."
+"\"%s\"."
+msgstr "Poistaminen valmis.\n\n Seuraavat kohdat voi poistaa käyttämällä Finderia: \nhakemisto \"%s\"\n\njokaiselta käyttäjältä tiedosto\n\"%s\"."
 
-#: uninstall.cpp:686
+#: uninstall.cpp:840
 #, c-format
 msgid ""
-"Enter your administrator password to completely remove %s from you "
-"computer.\n"
+"Enter your administrator password to completely remove %s from you computer.\n"
 "\n"
-msgstr ""
-"Anna ylläpitäjän salasana poistaaksesi %s kokonaan tietokoneesta.\n"
-"\n"
+msgstr "Anna ylläpitäjän salasana poistaaksesi %s kokonaan tietokoneesta.\n\n"
+
+#: uninstall.cpp:1616
+msgid "Cancel"
+msgstr "Peruuta"
+
+#: uninstall.cpp:1617
+msgid "Continue..."
+msgstr "Jatka..."

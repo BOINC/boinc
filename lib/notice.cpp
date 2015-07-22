@@ -22,6 +22,7 @@
 #endif
 
 #include "error_numbers.h"
+#include "str_replace.h"
 
 #include "notice.h"
 
@@ -29,11 +30,9 @@ NOTICE::NOTICE() {
     clear();
 }
 
-
 NOTICE::~NOTICE() {
     clear();
 }
-
 
 // This is to parse our own XML.
 // parse_rss() parses an RSS feed item.
@@ -43,14 +42,14 @@ int NOTICE::parse(XML_PARSER& xp) {
     while (!xp.get_tag()) {
         if (!xp.is_tag) continue;
         if (xp.match_tag("/notice")) {
+            if (strcasestr(description.c_str(), "youtube.com")) {
+                is_youtube_video = true;
+            }
             return 0;
         }
         if (xp.parse_int("seqno", seqno)) continue;
         if (xp.parse_str("title", title, sizeof(title))) continue;
-        if (xp.parse_string("description", description)) {
-            xml_unescape(description);   // 2nd pass
-            continue;
-        }
+        if (xp.parse_string("description", description)) continue;
         if (xp.parse_double("create_time", create_time)) continue;
         if (xp.parse_double("arrival_time", arrival_time)) continue;
         if (xp.parse_bool("is_private", is_private)) continue;
@@ -84,13 +83,13 @@ void NOTICE::write(MIOFILE& f, bool for_gui) {
         category,
         link
     );
-    if (!for_gui) {
+    if (for_gui) {
         f.printf(
-            "   <guid>%s</guid>\n", guid
+            "   <seqno>%d</seqno>\n", seqno
         );
     } else {
         f.printf(
-            "   <seqno>%d</seqno>\n", seqno
+            "   <guid>%s</guid>\n", guid
         );
     }
     f.printf(
@@ -105,7 +104,8 @@ void NOTICE::clear() {
     description = "";
     create_time = 0;
     arrival_time = 0;
-    is_private = 0;
+    is_private = false;
+    is_youtube_video = false;
     strcpy(category, "");
     strcpy(link, "");
     strcpy(project_name, "");

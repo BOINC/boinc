@@ -26,12 +26,8 @@
 #define IMAGE_FILENAME_EXTENSION "vdi"
 #define FLOPPY_IMAGE_FILENAME "vm_floppy"
 #define FLOPPY_IMAGE_FILENAME_EXTENSION "img"
-#define JOB_FILENAME "vbox_job.xml"
-#define CHECKPOINT_FILENAME "vbox_checkpoint.txt"
-#define PORTFORWARD_FILENAME "vbox_port_forward.xml"
-#define REMOTEDESKTOP_FILENAME "vbox_remote_desktop.xml"
+#define CACHE_DISK_FILENAME "vm_cache.vdi"
+#define ISO_IMAGE_FILENAME "vm_isocontext.iso"
 #define POLL_PERIOD 1.0
-
-extern char* vboxwrapper_msg_prefix(char*, int);
 
 #endif

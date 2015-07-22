@@ -56,6 +56,7 @@ public:
 
     ~CViewTransfers();
 
+    void                    AppendColumn(int columnID);
     virtual wxString&       GetViewName();
     virtual wxString&       GetViewDisplayName();
     virtual const char**    GetViewIcon();
@@ -67,6 +68,7 @@ public:
 
     void                    OnTransfersRetryNow( wxCommandEvent& event );
     void                    OnTransfersAbort( wxCommandEvent& event );
+    void                    OnColResize( wxListEvent& event);
 
     std::vector<CTransfer*> m_TransferCache;
 

@@ -25,7 +25,7 @@ admin_page_head("Manage special users action");
 
 $bitset = '';
 
-for ($i=0;$i<=6;$i++) {
+for ($i=0;$i<S_NFLAGS;$i++) {
     if (post_int("role".$i, TRUE) == '1') {
         $bitset = str_pad($bitset, $i+1, '1');
     } else {
@@ -36,9 +36,9 @@ if ($bitset == "0000000") $bitset = '';
 $userid = post_int("userid");
 
 $query = "UPDATE forum_preferences SET special_user='$bitset' WHERE userid='$userid'";
-mysql_query($query);
+_mysql_query($query);
 
-if (mysql_affected_rows() == 1) {
+if (_mysql_affected_rows() == 1) {
     echo "<center><h2>Success</h2>";
 } else {
     echo "<center><h2>Failure</h2>";

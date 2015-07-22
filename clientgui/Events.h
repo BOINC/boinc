@@ -28,9 +28,10 @@
 #define ID_DOCUMENTPOLLTIMER                    6105
 #define ID_ALERTPOLLTIMER                       6106
 #define ID_REFRESHSTATETIMER                    6107
-#define ID_WIZARDATTACH                         6108
-#define ID_WIZARDUPDATE                         6109
-#define ID_WIZARDDETACH                         6110
+#define ID_WIZARDATTACHPROJECT                  6108
+#define ID_WIZARDATTACHACCOUNTMANAGER           6109
+#define ID_WIZARDUPDATE                         6110
+#define ID_WIZARDDETACH                         6111
 
 
 //
@@ -86,6 +87,9 @@
 #define ID_READPREFERENCES                      6057
 #define ID_EVENTLOG                             6058
 #define ID_LAUNCHNEWINSTANCE                    6059
+#define ID_DIAGNOSTICLOGFLAGS                   6060
+#define ID_SELECTCOLUMNS                        6061
+#define ID_EXCLUSIVE_APPS                       6063
 
 // Help Menu
 #define ID_HELPBOINC                            6035  // Locked: Used by manager_links.php
@@ -164,10 +168,20 @@
 #define ID_SGOPTIONS                            6412
 #define ID_SGSKINSELECTOR                       6413
 #define ID_SGPROJECTDESCRIPTION                 6414
+#define ID_SGDIAGNOSTICLOGFLAGS                 6415
 #define ID_SGDEFAULTSKINSELECTOR                6500
 #define ID_SGFIRSTSKINSELECTOR                  6501
 // 6501-6599 Reserved for Skin Selection
 #define ID_LASTSGSKINSELECTOR                   6999
+
+#define ID_CHANGE_SLIDE_TIMER                   6600
+#define WEBSITE_URL_MENU_ID_REMOVE_PROJECT      6610
+#define WEBSITE_URL_MENU_ID_HOMEPAGE            6620
+#define WEBSITE_URL_MENU_ID                     6630
+
+
+
+
 
 //
 // Taskbar/System Tray

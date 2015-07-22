@@ -36,7 +36,11 @@ class CTaskbarEvent;
 
 class CTaskBarIcon : public wxTaskBarIconEx {
 public:
-    CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze);
+    CTaskBarIcon(wxString title, wxIconBundle* icon, wxIconBundle* iconDisconnected, wxIconBundle* iconSnooze
+#ifdef __WXMAC__
+                , wxTaskBarIconType iconType
+#endif
+                );
     ~CTaskBarIcon();
 
     void OnOpenWebsite(wxCommandEvent& event);
@@ -64,10 +68,12 @@ public:
     wxMenu *BuildContextMenu();
     void AdjustMenuItems(wxMenu* menu);
 
+    wxSize GetBestIconSize();
+
 #ifdef __WXMAC__
 private:
     NMRecPtr   m_pNotificationRequest;
-
+    wxTaskBarIconType m_iconType;
     void MacRequestUserAttention();
     void MacCancelUserAttentionRequest();
     bool SetMacTaskBarIcon(const wxIcon& icon);
@@ -76,29 +82,15 @@ public:
     wxMenu *CreatePopupMenu();
     bool SetIcon(const wxIcon& icon, const wxString& message = wxEmptyString);
 
-    inline bool IsBalloonsSupported() {
-        return false;
-    }
-    
 #define BALLOONTYPE_INFO 0
-
-    bool SetBalloon(
-        const wxIcon& icon, 
-        const wxString title = wxEmptyString,
-        const wxString message = wxEmptyString,
-        unsigned int iconballoon = BALLOONTYPE_INFO
-    ) {
-        return false;
-    }
+    bool IsBalloonsSupported();
 
     bool QueueBalloon(
         const wxIcon& icon, 
         const wxString title = wxEmptyString,
         const wxString message = wxEmptyString,
         unsigned int iconballoon = BALLOONTYPE_INFO
-    ) {
-        return false;
-    }
+    );
 #endif
 
     wxIcon          m_iconTaskBarNormal;

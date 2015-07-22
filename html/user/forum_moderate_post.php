@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,12 +16,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
 // The form where a moderator decides what he is going to do to a post.
-// Submits informaiton to forum_moderate_post_action.php for actual action
+// Submits information to forum_moderate_post_action.php for actual action
 // to be done.
 
+require_once('../inc/util.inc');
 require_once('../inc/forum.inc');
+
+if (DISABLE_FORUMS) error_page("Forums are disabled");
 
 check_get_args(array("id", "action", "userid", "tnow", "ttok"));
 
@@ -46,6 +48,7 @@ echo "<form action=\"forum_moderate_post_action.php?id=".$post->id."\" method=\"
 echo form_tokens($logged_in_user->authenticator);
 start_table();
 
+$get_reason = true;
 if (get_str('action')=="hide") {
     //display input that selects reason
     echo "<input type=hidden name=action value=hide>";
@@ -89,17 +92,26 @@ if (get_str('action')=="hide") {
     echo "<input type=\"hidden\" name=\"id\" value=\"".$postid."\">\n";
     echo "<input type=\"hidden\" name=\"userid\" value=\"".$userid."\">\n";
     echo "<input type=\"hidden\" name=\"confirmed\" value=\"yes\">\n";
+} elseif (get_str('action')=="delete") {
+    echo "<input type=hidden name=action value=delete>";
+    row2(
+        "Are you sure want to delete this post?  This cannot be undone.",
+        "<input class=\"btn btn-danger\" type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">"
+    );
+    $get_reason = false;
 } else {
     error_page("Unknown action");
 }
 
-row2(tra("Optional explanation %1 This is included in email to user.%2", "<br><span class=note>", "</span>"),
-    "<textarea name=\"reason\" rows=\"10\" cols=\"80\"></textarea>");
-
-row2(
-    "",
-    "<input type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">"
-);
+if ($get_reason) {
+    row2(tra("Optional explanation %1 This is included in email to user.%2", "<br><p class=\"text-muted\">", "</p>"),
+        "<textarea name=\"reason\" rows=\"10\" cols=\"80\"></textarea>"
+    );
+    row2(
+        "",
+        "<input class=\"btn btn-default\" type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">"
+    );
+}
 
 end_table();
 

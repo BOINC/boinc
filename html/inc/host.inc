@@ -19,6 +19,7 @@
 require_once("../inc/credit.inc");
 require_once("../inc/stats_sites.inc");
 require_once("../inc/boinc_db.inc");
+require_once("../inc/user.inc");
 
 function link_to_results($host) {
     if (!$host) return tra("No host");
@@ -44,7 +45,7 @@ function sched_log_link($x) {
 
 function location_form($host) {
     $none = "selected";
-    $h=$w=$s="";
+    $h=$w=$s=$m="";
     if ($host->venue == "home") $h = "selected";
     if ($host->venue == "work") $w = "selected";
     if ($host->venue == "school") $s = "selected";
@@ -56,7 +57,7 @@ function location_form($host) {
         <option value=work $w>".tra("Work")."
         <option value=school $s>".tra("School")."
         </select>
-        <input type=submit value=".tra("Update").">
+        <input class=\"btn btn-primary\" type=submit value=".tra("Update").">
         </form>
     ";
     return $x;
@@ -92,14 +93,16 @@ function show_host($host, $user, $ipprivate) {
             row2(tra("IP address"), "<a href=show_host_detail.php?hostid=$host->id&ipprivate=1>".tra("Show IP address")."</a>");
         }
         row2(tra("Domain name"), $host->domain_name);
+        if ($host->product_name) {
+            row2(tra("Product name"), $host->product_name);
+        }
         $x = $host->timezone/3600;
         if ($x >= 0) $x="+$x";
         row2(tra("Local Standard Time"), tra("UTC %1 hours", $x));
-        row2(tra("Name"), $host->domain_name);
     } else {
-        $owner = lookup_user_id($host->userid);
+        $owner = BoincUser::lookup_id($host->userid);
         if ($owner && $owner->show_hosts) {
-            row2(tra("Owner"), user_links($owner));
+            row2(tra("Owner"), user_links($owner, BADGE_HEIGHT_MEDIUM));
         } else {
             row2(tra("Owner"), tra("Anonymous"));
             $anonymous = true;
@@ -121,21 +124,23 @@ function show_host($host, $user, $ipprivate) {
     if ($v) {
         row2(tra("BOINC version"), $v);
     }
-    $x = $host->m_nbytes/(1024*1024);
+    $x = $host->m_nbytes/MEGA;
     $y = round($x, 2);
     row2(tra("Memory"), tra("%1 MB", $y));
-    $x = $host->m_cache/1024;
-    $y = round($x, 2);
-    row2(tra("Cache"), tra("%1 KB", $y));
+    if ($host->m_cache > 0) {
+        $x = $host->m_cache/KILO;
+        $y = round($x, 2);
+        row2(tra("Cache"), tra("%1 KB", $y));
+    }
 
     if ($user) {
-        $x = $host->m_swap/(1024*1024);
+        $x = $host->m_swap/MEGA;
         $y = round($x, 2);
         row2(tra("Swap space"), tra("%1 MB", $y));
-        $x = $host->d_total/(1024*1024*1024);
+        $x = $host->d_total/GIGA;
         $y = round($x, 2);
         row2(tra("Total disk space"), tra("%1 GB", $y));
-        $x = $host->d_free/(1024*1024*1024);
+        $x = $host->d_free/GIGA;
         $y = round($x, 2);
         row2(tra("Free Disk Space"), tra("%1 GB", $y));
     }
@@ -145,14 +150,14 @@ function show_host($host, $user, $ipprivate) {
     $x = $host->p_iops/(1000*1000);
     $y = round($x, 2);
     row2(tra("Measured integer speed"), tra("%1 million ops/sec", $y));
-    $x = $host->n_bwup/(1024);
+    $x = $host->n_bwup/KILO;
     $y = round($x, 2);
     if ($y > 0) {
         row2(tra("Average upload rate"), tra("%1 KB/sec", $y));
     } else {
         row2(tra("Average upload rate"), tra("Unknown"));
     }
-    $x = $host->n_bwdown/(1024);
+    $x = $host->n_bwdown/KILO;
     $y = round($x, 2);
     if ($y > 0) {
         row2(tra("Average download rate"), tra("%1 KB/sec", $y));
@@ -178,11 +183,12 @@ function show_host($host, $user, $ipprivate) {
     if ($user) {
         row2(tra("Number of times client has contacted server"), $host->rpc_seqno);
         row2(tra("Last time contacted server"), sched_log_link($host->rpc_time));
-        row2(tra("% of time BOINC is running"), 100*$host->on_frac." %");
+        row2(tra("Fraction of time BOINC is running"), number_format(100*$host->on_frac, 2)."%");
         if ($host->connected_frac > 0) {
-            row2(tra("While BOINC running, % of time host has an Internet connection"), 100*$host->connected_frac." %");
+            row2(tra("While BOINC is running, fraction of time computer has an Internet connection"), number_format(100*$host->connected_frac, 2)."%");
         }
-        row2(tra("While BOINC running, % of time work is allowed"), 100*$host->active_frac." %");
+        row2(tra("While BOINC is running, fraction of time computing is allowed"), number_format(100*$host->active_frac, 2)."%");
+        row2(tra("While is BOINC running, fraction of time GPU computing is allowed"), number_format(100*$host->gpu_active_frac, 2)."%");
         if ($host->cpu_efficiency) {
             row2(tra("Average CPU efficiency"), $host->cpu_efficiency);
         }
@@ -284,7 +290,7 @@ function gpu_desc($x) {
                     $i = (int)$d[5];
                     $maj = (int)($i/100);
                     $min = $i%100;
-                    $str .= sprintf(" OpenCL: %d.%02d", $maj, $min);
+                    $str .= sprintf(" OpenCL: %d.%d", $maj, $min);
                 }
             }
         }
@@ -300,9 +306,14 @@ function gpu_desc($x) {
 function boinc_version($x) {
     $y = strstr($x, 'BOINC');
     if (!$y) return '';
-    $y = substr($y, 6);
     $z = explode("]", $y, 2);
-    return $z[0];
+    $a = explode('|', $z[0]);
+    $v = $a[1];
+    if (array_key_exists(2, $a)) {
+        $brand = $a[2];
+        $v .= " ($brand)";
+    }
+    return $v;
 }
 
 function cpu_desc($host) {
@@ -313,7 +324,7 @@ function cpu_desc($host) {
 // so it's OK to show the domain name etc.
 // If private is false, show the owner's name only if they've given permission
 //
-function show_host_row($host, $i, $private, $show_owner) {
+function show_host_row($host, $i, $private, $show_owner, $any_product_name) {
     $j = $i % 2;
     $anonymous = false;
     if (!$private) {
@@ -331,13 +342,16 @@ function show_host_row($host, $i, $private, $show_owner) {
     ";
     if (!$anonymous) {
         echo "
-            <br><nobr><span class=note>".tra("Cross-project stats:")."</span></nobr><br>".cross_project_links($host);
+            <br><nobr><p class=\"text-muted\">".tra("Cross-project stats:")."</p></nobr><br>".cross_project_links($host);
     }
     echo "
         </td>
     ";
     if ($private) {
         echo "<td>$host->domain_name</td>\n";
+        if ($any_product_name) {
+            echo "<td>$host->product_name</td>\n";
+        }
         echo "<td>$host->venue</td>\n";
     } else {
         echo "<td>$i</td>\n";
@@ -345,7 +359,7 @@ function show_host_row($host, $i, $private, $show_owner) {
             if ($anonymous) {
                 echo "<td>".tra("Anonymous")."</td>\n";
             } else {
-                echo "<td>", user_links($user), "</td>\n";
+                echo "<td>", user_links($user, BADGE_HEIGHT_MEDIUM), "</td>\n";
             }
         }
     }
@@ -375,7 +389,7 @@ function show_host_row($host, $i, $private, $show_owner) {
             <td>%s</td>
             <td>%s</td>
             <td>%s</td>
-            <td>%s<br><span class=note>%s</span></td>
+            <td>%s<br><p class=\"text-muted\">%s</p></td>
             <td>%s</td>
             ",
             format_credit($host->expavg_credit),
@@ -648,7 +662,9 @@ function more_or_less($sort, $rev, $show_all) {
     echo "<p>";
 }
 
-function user_host_table_start($private, $sort, $rev, $show_all) {
+function user_host_table_start(
+    $private, $sort, $rev, $show_all, $any_product_name
+) {
     start_table();
     echo "<tr>";
     $url = link_url_rev($sort, "id", $rev, $show_all);
@@ -657,6 +673,9 @@ function user_host_table_start($private, $sort, $rev, $show_all) {
         $url = link_url_rev($sort, "name", $rev, $show_all);
         echo "<th><a href=$url>".tra("Name")."</a></th>\n";
         $url = link_url_rev($sort, "venue", $rev, $show_all);
+        if ($any_product_name) {
+            echo "<th>Model</th>\n";
+        }
         echo "<th><a href=$url>".tra("Location")."</th>\n";
     } else {
         echo "<th>".tra("Rank")."</th>";
@@ -697,12 +716,19 @@ function show_user_hosts($userid, $private, $show_all, $sort, $rev) {
         $sort_clause .= " desc";
     }
     more_or_less($sort, $rev, $show_all);
-    user_host_table_start($private, $sort, $rev, $show_all);
 
     $now = time();
     $old_hosts=0;
     $i = 1;
     $hosts = BoincHost::enum("userid=$userid order by $sort_clause");
+    $any_product_name = false;
+    foreach ($hosts as $host) {
+        if ($host->product_name) {
+            $any_product_name = true;
+            break;
+        }
+    }
+    user_host_table_start($private, $sort, $rev, $show_all, $any_product_name);
     foreach ($hosts as $host) {
         $is_old=false;
         if (($now - $host->rpc_time) > 30*86400) {
@@ -710,7 +736,7 @@ function show_user_hosts($userid, $private, $show_all, $sort, $rev) {
             $old_hosts++;
         }
         if (!$show_all && $is_old) continue;
-        show_host_row($host, $i, $private, false);
+        show_host_row($host, $i, $private, false, $any_product_name);
         $i++;
     }
     echo "</table>\n";

@@ -456,7 +456,7 @@ void CHUNK::recovery_plan() {
     if (present_on_server) {
         status = PRESENT;
         cost = 0;
-    } else if (hosts.size() > 0) {
+    } else if (!hosts.empty()) {
         // if file is not present on server, assume that it's present
         // on all hosts (otherwise we wouldn't have downloaded it).
         //
@@ -480,7 +480,7 @@ int CHUNK::compute_min_failures() {
     }
     int nreplicas = 0;
     set<VDA_CHUNK_HOST*>::iterator i;
-    for (i=hosts.begin(); i!=hosts.end(); i++) {
+    for (i=hosts.begin(); i!=hosts.end(); ++i) {
         VDA_CHUNK_HOST* ch = *i;
         if (ch->present_on_host) {
             nreplicas++;
@@ -492,7 +492,7 @@ int CHUNK::compute_min_failures() {
 
 bool CHUNK::download_in_progress() {
     set<VDA_CHUNK_HOST*>::iterator i;
-    for (i=hosts.begin(); i!=hosts.end(); i++) {
+    for (i=hosts.begin(); i!=hosts.end(); ++i) {
         VDA_CHUNK_HOST* ch = *i;
         if (ch->download_in_progress()) return true;
     }

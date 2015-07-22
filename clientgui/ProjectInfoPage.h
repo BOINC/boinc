@@ -67,8 +67,6 @@ public:
     /// wxEVT_WIZARD_CANCEL event handler for ID_PROJECTINFOPAGE
     void OnCancel( wxWizardExEvent& event );
 
-    void EllipseStringIfNeeded(wxString& s, wxWindow *win);
-
 ////@end CProjectInfoPage event handler declarations
 
 ////@begin CProjectInfoPage member function declarations
@@ -79,24 +77,6 @@ public:
     /// Gets the next page.
     virtual wxWizardPageEx* GetNext() const;
 
-    wxString GetProjectURL() const { return m_strProjectURL ; }
-    void SetProjectURL(wxString value) { m_strProjectURL = value ; }
-
-    wxString GetProjectDetailsDescription() const { return m_strProjectDetailsDescription ; }
-    void SetProjectDetailsDescription(wxString value) { m_strProjectDetailsDescription = value ; }
-
-    wxString GetProjectDetailsResearchArea() const { return m_strProjectDetailsResearchArea ; }
-    void SetProjectDetailsResearchArea(wxString value) { m_strProjectDetailsResearchArea = value ; }
-
-    wxString GetProjectDetailsOrganization() const { return m_strProjectDetailsOrganization ; }
-    void SetProjectDetailsOrganization(wxString value) { m_strProjectDetailsOrganization = value ; }
-
-    wxString GetProjectDetailsURL() const { return m_strProjectDetailsURL ; }
-    void SetProjectDetailsURL(wxString value) { m_strProjectDetailsURL = value ; }
-
-    bool GetProjectSupported() const { return m_bProjectSupported ; }
-    void SetProjectSupported(bool value) { m_bProjectSupported = value ; }
-
     /// Retrieves bitmap resources
     wxBitmap GetBitmapResource( const wxString& name );
 
@@ -106,6 +86,8 @@ public:
 
     /// Should we show tooltips?
     static bool ShowToolTips();
+
+    void EllipseStringIfNeeded(wxString& s, wxWindow *win);
 
 ////@begin CProjectInfoPage member variables
     wxStaticText* m_pTitleStaticCtrl;
@@ -129,16 +111,15 @@ public:
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformFreeBSDCtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformATICtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformNvidiaCtrl;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformAndroidCtrl;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformVirtualBoxCtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformBlankCtrl;
     wxStaticText* m_pProjectURLStaticCtrl;
     wxTextCtrl* m_pProjectURLCtrl;
 ////@end CProjectInfoPage member variables
 private:
+    ALL_PROJECTS_LIST* m_apl;
     wxString m_strProjectURL;
-    wxString m_strProjectDetailsDescription;
-    wxString m_strProjectDetailsResearchArea;
-    wxString m_strProjectDetailsOrganization;
-    wxString m_strProjectDetailsURL;
     std::vector<CProjectInfo*> m_Projects;
     bool m_bProjectSupported;
     bool m_bProjectListPopulated;

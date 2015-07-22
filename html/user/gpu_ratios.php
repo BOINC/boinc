@@ -30,6 +30,8 @@ $ati_scale_sum = 0;
 $ati_credit_sum = 0;
 $nvidia_scale_sum = 0;
 $nvidia_credit_sum = 0;
+$intel_gpu_scale_sum = 0;
+$intel_gpu_credit_sum = 0;
 $total_credit_sum= 0;
 
 $apps = BoincApp::enum("deprecated=0");
@@ -42,6 +44,9 @@ foreach ($apps as $app) {
         } else if (strstr($av->plan_class, "nvidia") || strstr($av->plan_class, "cuda")) {
             $nvidia_scale_sum += $av->pfc_scale * $av->expavg_credit;
             $nvidia_credit_sum += $av->expavg_credit;
+        } else if (strstr($av->plan_class, "intel_gpu")) {
+            $intel_gpu_scale_sum += $av->pfc_scale * $av->expavg_credit;
+            $intel_gpu_credit_sum += $av->expavg_credit;
         } else {
             $cpu_scale_sum += $av->pfc_scale * $av->expavg_credit;
             $cpu_credit_sum += $av->expavg_credit;
@@ -62,6 +67,9 @@ if ($ati_credit_sum) {
 }
 if ($nvidia_credit_sum) {
     echo "   <nvidia>", $nvidia_scale_sum/$nvidia_credit_sum, "</nvidia>\n";
+}
+if ($intel_gpu_credit_sum) {
+    echo "   <intel_gpu>", $intel_gpu_scale_sum/$intel_gpu_credit_sum, "</intel_gpu>\n";
 }
 echo "</scale_factors>\n";
 ?>

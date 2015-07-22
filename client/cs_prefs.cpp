@@ -207,7 +207,7 @@ int CLIENT_STATE::check_suspend_processing() {
         return SUSPEND_REASON_BENCHMARKS;
     }
 
-    if (config.start_delay && now < time_stats.client_start_time + config.start_delay) {
+    if (cc_config.start_delay && now < time_stats.client_start_time + cc_config.start_delay) {
         return SUSPEND_REASON_INITIAL_DELAY;
     }
 
@@ -227,9 +227,12 @@ int CLIENT_STATE::check_suspend_processing() {
         ) {
             return SUSPEND_REASON_BATTERIES;
         }
+#ifndef ANDROID
+        // perform this check after SUSPEND_REASON_BATTERY_CHARGING on Android
         if (!global_prefs.run_if_user_active && user_active) {
             return SUSPEND_REASON_USER_ACTIVE;
         }
+#endif
         if (global_prefs.cpu_times.suspended(now)) {
             return SUSPEND_REASON_TIME_OF_DAY;
         }
@@ -249,24 +252,9 @@ int CLIENT_STATE::check_suspend_processing() {
         }
     }
 
-    // CPU throttling
-    //
-    if (global_prefs.cpu_usage_limit < 99) {        // round-off?
-        static double last_time=0, debt=0;
-        double diff = now - last_time;
-        last_time = now;
-        if (diff >= POLL_INTERVAL/2. && diff < POLL_INTERVAL*10.) {
-            debt += diff*global_prefs.cpu_usage_limit/100;
-            if (debt < 0) {
-                return SUSPEND_REASON_CPU_THROTTLE;
-            } else {
-                debt -= diff;
-            }
-        }
-    }
-
 #ifdef ANDROID
     if (now > device_status_time + ANDROID_KEEPALIVE_TIMEOUT) {
+        requested_exit = true;
         return SUSPEND_REASON_NO_GUI_KEEPALIVE;
     }
 
@@ -287,6 +275,36 @@ int CLIENT_STATE::check_suspend_processing() {
     if (cp >= 0) {
         if (cp < global_prefs.battery_charge_min_pct) {
             return SUSPEND_REASON_BATTERY_CHARGING;
+        }
+    }
+    
+    // user active.
+    // Do this check after checks that user can not influence on Android.
+    // E.g.
+    // 1. "connect to charger to continue computing"
+    // 2. "charge battery until 90%"
+    // 3. "turn screen off to continue computing"
+    if (!global_prefs.run_if_user_active && user_active) {
+        return SUSPEND_REASON_USER_ACTIVE;
+    }
+#endif
+
+#ifndef NEW_CPU_THROTTLE
+    // CPU throttling.
+    // Do this check last; that way if suspend_reason is CPU_THROTTLE,
+    // the GUI knows there's no other source of suspension
+    //
+    if (global_prefs.cpu_usage_limit < 99) {        // round-off?
+        static double last_time=0, debt=0;
+        double diff = now - last_time;
+        last_time = now;
+        if (diff >= POLL_INTERVAL/2. && diff < POLL_INTERVAL*10.) {
+            debt += diff*global_prefs.cpu_usage_limit/100;
+            if (debt < 0) {
+                return SUSPEND_REASON_CPU_THROTTLE;
+            } else {
+                debt -= diff;
+            }
         }
     }
 #endif
@@ -331,29 +349,40 @@ int CLIENT_STATE::check_suspend_processing() {
     return 0;
 }
 
-int CLIENT_STATE::suspend_tasks(int reason) {
-    if (reason == SUSPEND_REASON_CPU_THROTTLE) {
-        if (log_flags.cpu_sched) {
-            msg_printf(NULL, MSG_INFO, "[cpu_sched] Suspending - CPU throttle");
-        }
-    } else {
+void CLIENT_STATE::show_suspend_tasks_message(int reason) {
+    if (reason != SUSPEND_REASON_CPU_THROTTLE) {
         if (log_flags.task) {
             msg_printf(NULL, MSG_INFO,
                 "Suspending computation - %s",
                 suspend_reason_string(reason)
             );
         }
+        switch (reason) {
+        case SUSPEND_REASON_BATTERY_OVERHEATED:
+            if (log_flags.task) {
+                msg_printf(NULL, MSG_INFO,
+                    "(battery temperature %.1f > limit %.1f Celsius)",
+                    device_status.battery_temperature_celsius,
+                    global_prefs.battery_max_temperature
+                );
+            }
+            break;
+        case SUSPEND_REASON_BATTERY_CHARGING:
+            if (log_flags.task) {
+                msg_printf(NULL, MSG_INFO,
+                    "(battery charge level %.1f%% < threshold %.1f%%",
+                    device_status.battery_charge_pct,
+                    global_prefs.battery_charge_min_pct
+                );
+            }
+            break;
+        }
     }
-    active_tasks.suspend_all(reason);
-    return 0;
 }
 
 int CLIENT_STATE::resume_tasks(int reason) {
     if (reason == SUSPEND_REASON_CPU_THROTTLE) {
-        if (log_flags.cpu_sched) {
-            msg_printf(NULL, MSG_INFO, "[cpu_sched] Resuming - CPU throttle");
-        }
-        active_tasks.unsuspend_all();
+        active_tasks.unsuspend_all(SUSPEND_REASON_CPU_THROTTLE);
     } else {
         if (log_flags.task) {
             msg_printf(NULL, MSG_INFO, "Resuming computation");
@@ -382,7 +411,7 @@ void CLIENT_STATE::check_suspend_network() {
 
     // no network traffic if we're allowing unsigned apps
     //
-    if (config.unsigned_apps_ok) {
+    if (cc_config.unsigned_apps_ok) {
         network_suspended = true;
         file_xfers_suspended = true;
         network_suspend_reason = SUSPEND_REASON_USER_REQ;
@@ -407,6 +436,7 @@ void CLIENT_STATE::check_suspend_network() {
 
 #ifdef ANDROID
     if (now > device_status_time + ANDROID_KEEPALIVE_TIMEOUT) {
+        requested_exit = true;
         file_xfers_suspended = true;
         if (!recent_rpc) network_suspended = true;
         network_suspend_reason = SUSPEND_REASON_NO_GUI_KEEPALIVE;
@@ -432,11 +462,16 @@ void CLIENT_STATE::check_suspend_network() {
         }
     }
 
+#ifndef ANDROID
+    // allow network transfers while user active, i.e. screen on.
+    // otherwise nothing (visible to the user) happens after initial attach
+    //
     if (!global_prefs.run_if_user_active && user_active) {
         file_xfers_suspended = true;
         if (!recent_rpc) network_suspended = true;
         network_suspend_reason = SUSPEND_REASON_USER_ACTIVE;
     }
+#endif    
     if (global_prefs.net_times.suspended(now)) {
         file_xfers_suspended = true;
         if (!recent_rpc) network_suspended = true;
@@ -558,6 +593,7 @@ void CLIENT_STATE::read_global_prefs(
     FILE* f;
     string foo;
 
+#ifdef USE_NET_PREFS
     if (override_fname) {
         retval = read_file_string(override_fname, foo);
         if (!retval) {
@@ -597,6 +633,7 @@ void CLIENT_STATE::read_global_prefs(
         }
         show_global_prefs_source(found_venue);
     }
+#endif
 
     // read the override file
     //
@@ -652,7 +689,7 @@ void CLIENT_STATE::read_global_prefs(
     }
     if (global_prefs.suspend_cpu_usage) {
         msg_printf(NULL, MSG_INFO,
-            "   suspend work if non-BOINC CPU load exceeds %.0f %%",
+            "   suspend work if non-BOINC CPU load exceeds %.0f%%",
             global_prefs.suspend_cpu_usage
         );
     }

@@ -13,6 +13,7 @@ if ($host == "bolt.berkeley.edu") {
 
 require_once("docutil.php");
 require_once("../html/inc/translation.inc");
+require_once("../html/inc/language_names.inc");
 
 function show_participant() {
     $i = rand(0, 99);
@@ -67,7 +68,11 @@ function show_news_items() {
         <span class=section_title>".tra("News")."</span>
         </center>
     ";
-    show_news(0, 5);
+    if (!file_exists("stop_web")) {
+        show_news(0, 5);
+    } else {
+        echo "<p>Database not available; please try again later.";
+    }
     echo "
         </td></tr></table>
     ";
@@ -79,7 +84,10 @@ function show_participate() {
     <a href=http://www.facebook.com/pages/BOINC/32672338584><img width=36 src=images/facebook_logo.jpg align=left title='BOINC on Facebook'></a>
     <a href=https://plus.google.com/117150698502685192946/posts><img width=36 src=images/google_plus_logo.jpg align=left title='BOINC on Google+'></a>
         <center>
-        <span class=section_title>".tra("Volunteer")."</span>
+        <span class=section_title>"
+        // "Volunteer" is used as a verb
+        .tra("Volunteer")
+        ."</span>
         <br>
         <a class=heading href=download.php><b>".tra("Download")."</b></a>
         &middot; <a class=heading href=\"/wiki/BOINC_Help\"><b>".tra("Help")."</b></a>
@@ -90,15 +98,11 @@ function show_participate() {
         </td></tr>
         <tr><td>
         <p>
-        ".sprintf(
-            tra(" Use the idle time on your computer (Windows, Mac, or Linux) to cure diseases, study global warming, discover pulsars, and do many other types of scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %sDownload%s and run BOINC software  %sEnter%s an email address and password. "),
-            "<ol> <li> <a href=projects.php><b>",
-            "</b></a>",
-            "<li> <a href=download.php><b>",
-            "</b></a>",
-            "<li> <b>",
-            "</b>"
-        )."
+        ".tra("Use the idle time on your computer (Windows, Mac, Linux, or Android) to cure diseases, study global warming, discover pulsars, and do many other types of scientific research.  It's safe, secure, and easy:")."
+        <ol>
+        <li> <a href=projects.php>".tra("Choose projects")."</a>
+        <li> <a href=download.php>".tra("Download BOINC software")."</a>
+        <li> ".tra("Enter an email address and password.")."
         </ol>
         <p>
         ".sprintf(
@@ -110,6 +114,17 @@ function show_participate() {
             "<a href=\"http://bam.boincstats.com/\">",
             "</a>"
         )."
+        <p>
+        For Android devices, download the BOINC
+"
+//        or <a href=http://www.htc.com/www/go/power-to-give-faqs/>HTC Power To Give</a>
+."
+        app from the Google Play Store or (for Kindle) the Amazon App Store.
+"
+//        <a href=http://www.htc.com/www/go/power-to-give-faqs/>
+//        <img align=right valign=top height=50 src=images/htc-power-to-give.jpg>
+//        </a>
+."
         </td></tr>
     ";
 }
@@ -128,7 +143,7 @@ function show_create() {
         <ul>
         <li>
     ",
-    tra("%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving you the computing power of thousands of CPUs.",
+    tra("%1Scientists%2: use BOINC to create a %3volunteer computing project%4, giving you the power of thousands of CPUs and GPUs.",
         "<b>", "</b>", "<a href=volunteer.php>", "</a>"
     ),
     "<li>",
@@ -149,35 +164,27 @@ function show_other() {
     echo "
         <tr><td class=heading_left>
         <center>
-        <span class=section_title>".tra("The BOINC project")."</span>
+        <span class=section_title>".tra("About BOINC")."</span>
         </center>
         </td></tr>
         <tr><td>
-            <table width=100%><tr><td width=50% valign=top>
+            BOINC is a
+            <a href=\"trac/wiki/ProjectGovernance\">community-based project</a>.
+            Anyone can
+            <a href=trac/wiki/ContributePage>contribute</a>,
+            by programming, testing,
+            documenting, translating, or answering questions.
+            Those who consistently make positive contributions
+            can become part of the project's decision-making process.
+            <p>
             <ul>
             <li> <a href=\"dev/\">".tra("Message boards")."</a>
-            <li> <a href=email_lists.php>".tra("Email lists")."</a>
-            <li> <a href=\"trac/wiki/ProjectPeople\">".tra("Personnel and contributors")."</a>
+            <li> <a href=\"trac/wiki/EmailLists\">".tra("Email lists")."</a>
             <li> <a href=\"trac/wiki/BoincEvents\">".tra("Events")."</a>
-            <li> <a href=\"trac/wiki/BoincPapers\">".tra("Papers and talks")."</a>
-            <li> <a href=\"trac/wiki/ResearchProjects\">".tra("Research projects")."</a>
-            <li> <a href=logo.php>".tra("Logos and graphics")."</a>
-            <li> <a href=\"http://bolt.berkeley.edu/\">Bolt</a> ",tra("and"),  " <a href=\"http://bossa.berkeley.edu/\">Bossa</a>
-            </ul>
-            </td><td valign=top>
-            <ul>
-            <li> ".tra("Help wanted")."
-            <ul>
-                <li> <a href=\"trac/wiki/DevProjects\">".tra("Programming")."</a>
-                <li> <a href=\"trac/wiki/TranslateIntro\">".tra("Translation")."</a>
-                <li> <a href=\"trac/wiki/AlphaInstructions\">".tra("Testing")."</a>
-                <li> <a href=\"trac/wiki/WikiMeta\">".tra("Documentation")."</a>
-                <li> <a href=\"http://boinc.berkeley.edu/wiki/Publicizing_BOINC\">".tra("Publicity")."</a>
-            </ul>
-            <li> <a href=\"trac/wiki/SoftwareDevelopment\">".tra("Software development")."</a>
+            <li> <a href=trac/wiki/SourceCodeGit>".tra("Source code")."</a>
+            <li> <a href=https://github.com/BOINC/boinc/issues>Issue tracker on Github</a>
             <li> <a href=\"trac/wiki/SoftwareAddon\">".tra("APIs for add-on software")."</a>
             </ul>
-            </td></tr></table>
             <br>
         </td></tr>
     ";
@@ -200,54 +207,11 @@ function show_nsf() {
     ";
 }
 
-// how to add language names:
-// paste into notepad++, select ANSI format,
-// then copy/paste into here
-function language_form() {
-    echo "
-        <table><tr><td>
-        <form name=language method=get action=set_language.php>
-        <select class=selectbox name=lang onchange=\"javascript: submit()\">
-        <option value=auto selected=\"selected\">-- language --
-        <option value=auto>".tra("Browser default")
-        //."<option value=ar>العربية (Arabic)"
-        //."<option value=be>Беларускі (Belarusian)"
-        //."<option value=bg>Българск� (Bulgarian)"
-        ."<option value=ca>Català(Catalan)"
-        ."<option value=cs>Čeština (Czech)"
-        ."<option value=de>Deutsch (German)"
-        ."<option value=en>English"
-        ."<option value=es>Espa&ntilde;ol (Spanish)"
-        ."<option value=fi>Suomi (Finnish)"
-        ."<option value=fr>Fran&ccedil;ais (French)"
-        ."<option value=el>﻿Ελληνικά (Greek)"
-        ."<option value=he>Hebrew (עִבְרִית)"
-        ."<option value=hu>Magyar (Hungarian)"
-        ."<option value=it>Italiano (Italian)"
-        ."<option value=ja>日本語 (Japanese)"
-        ."<option value=ko>한국어 (Korean)"
-        ."<option value=lt>Lietuvių (Lithuanian)"
-        ."<option value=nl>Nederlands (Dutch)"
-        //."<option value=pl>Polski (Polish)"
-        ."<option value=pt_PT>Portugu&ecirc;s (Portuguese)"
-        //."<option value=pt_BR>Portugu&ecirc;s - Brasil (Portuguese - Brazil)"
-        ."<option value=ru>Русский (Russian)"
-        //."<option value=sk>Slovenčina (Slovakian)"
-        ."<option value=sl> Slovenščina (Slovenian)"
-        ."<option value=tr>Türkçe (Turkish)"
-        ."<option value=zh_CN>简体中文 (Chinese)"
-        ."</select>
-        </form>
-        <script type=\"text/javascript\">
-        document.language.lang.selectedIndex=0;
-        </script>
-            </td></tr></table>
-    ";
-}
-
 header("Content-type: text/html; charset=utf-8");
 
 html_tag();
+$rh_col_width = 390;
+
 echo "
     <head>
     <link rel=\"shortcut icon\" href=\"logo/favicon.gif\">
@@ -258,29 +222,23 @@ echo "
     <meta name=keywords content=\"distributed scientific computing supercomputing grid SETI@home public computing volunteer computing \">
     </head>
     <body>
-    <table width=\"100%\" border=0><tr><td valign=top>
+    <table width=\"100%\" border=0><tr>
+    <td valign=top>
     <img hspace=20 vspace=6 align=left src=\"logo/www_logo.gif\" alt=\"BOINC logo\">
-    </td><td align=center>
-    <span class=\"subtitle\">
-    ".sprintf(tra("Open-source software for %svolunteer computing%s and %sgrid computing%s."), '<a href=volunteer.php><span class=nobr>', '</span></a>', '<a href=dg.php><span class=nobr>', '</span></a>')."
+    </td>
+    <td align=center>
+    <span class=\"title\">
+    ".sprintf(tra("Open-source software for volunteer computing"))."
     </span><br><br>
-    <table><tr><td>
+    </td>
+    <td width=$rh_col_width align=right>
 ";
-language_form();
-echo "</td><td>";
 search_form();
+language_form();
 echo "
-    </td></tr></table>
-    </td>
-    <td>
-    <center>
-    <a href=http://www.berkeley.edu>
-    <img src=images/uc_logo.jpg width=107 height=105 title=\"".tra("BOINC is based at The University of California, Berkeley")."\" alt=\"The University of California logo\">
-    </a>
-    </span>
-    </center>
-    </td>
-    </tr></table>
+    </td></tr>
+    </table>
+
     <table width=\"100%\" border=0 cellspacing=0 cellpadding=4>
     <tr>
     <td valign=top>
@@ -289,7 +247,7 @@ echo "
 show_participate();
 show_create();
 show_other();
-show_nsf();
+//show_nsf();
 echo "
     </table>
     </td>

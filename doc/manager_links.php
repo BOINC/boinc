@@ -42,7 +42,9 @@ if ($target == "notice") {
 		header('Location: http://boinc.berkeley.edu/wiki/BOINC_Help');
 	}
 } else if  ($target == "advanced_preferences") {
-    header('Location: http://boinc.berkeley.edu/wiki/Preferences');
+    header('Location: http://boinc.berkeley.edu/wiki/Local_preferences#Advanced_view');
+} else if  ($target == "simple_preferences") {
+    header('Location: http://boinc.berkeley.edu/wiki/Local_preferences#Simple_view');
 } else if (($target == "advanced") && version_compare($version, "5.10.0", ">=") && version_compare($version, "6.12.0", "<")) {
 	if ($controlid == "6024") {
 		header('Location: http://boinc.berkeley.edu');
@@ -83,8 +85,18 @@ if ($target == "notice") {
 	} else {
 		header('Location: http://boinc.berkeley.edu/wiki/BOINC_Help');
 	}
+} else if (($target == "simple") && version_compare($version, "7.2.0", ">=") && version_compare($version, "7.4.0", "<")) {
+	if ($controlid == "6024") {
+		header('Location: http://boinc.berkeley.edu');
+	} else if ($controlid == "6025") {
+		header('Location: http://boinc.berkeley.edu/wiki/Simple_view');
+	} else if ($controlid == "6035") {
+		header('Location: http://boinc.berkeley.edu/wiki/BOINC_Help');
+	} else {
+		header('Location: http://boinc.berkeley.edu/wiki/BOINC_Help');
+	}
 } else {
-    if ($target == "advanced") {
+  if ($target == "advanced") {
 		if ($controlid == "6024") {
 			header('Location: http://boinc.berkeley.edu');
 		} else if ($controlid == "6025") {
@@ -94,7 +106,7 @@ if ($target == "notice") {
 		} else {
 			header('Location: http://boinc.berkeley.edu/wiki/Advanced_view');
 		}
-	} else if ($target == "simple") {
+  } else if ($target == "simple") {
 		if ($controlid == "6024") {
 			// "Show info about BOINC" item on Mac simple-view menu
 			//
@@ -108,14 +120,18 @@ if ($target == "notice") {
 			// item on Mac simple-view menu ?? do we need this item?
 			//
 			header('Location: http://boinc.berkeley.edu/wiki/BOINC_Help');
+		} else if ($controlid >= "6400" && $controlid <= "6499") {
+			// Any control that has focus in the simple view
+			//
+			header('Location: http://boinc.berkeley.edu/wiki/Simple_view');
 		} else {
 			// the question-mark button
 			//
 			header('Location: http://boinc.berkeley.edu/wiki/BOINC_Help');
 		}
 	} else {
-        header('Location: http://boinc.berkeley.edu/wiki/BOINC_Help');
-    }
+    header('Location: http://boinc.berkeley.edu/wiki/BOINC_Help');
+  }
 }
 
 ?>

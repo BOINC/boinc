@@ -26,23 +26,23 @@ require_once("../project/project.inc");
 
 function numerical_query($query) {
     // execute a database query which returns a single numerical result
-    $result = mysql_query("$query");
-    $x = mysql_fetch_object($result);
+    $result = _mysql_query("$query");
+    $x = _mysql_fetch_object($result);
     return $x->total;
 }
 
 function count_estimate($query) {
     // this use of explain is way off at least for low counts -EAM 28Sep2004
-    //$result = mysql_query("explain $query");
-    $result = mysql_query("$query");
-    $x = mysql_fetch_object($result);
+    //$result = _mysql_query("explain $query");
+    $result = _mysql_query("$query");
+    $x = _mysql_fetch_object($result);
     //    return $x->rows-1;
     return $x->total;
 }
 
 function find_oldest() {
-   $result=mysql_query("select name,create_time from result where server_state=2 order by create_time limit 1");
-   $x = mysql_fetch_object($result);
+   $result=_mysql_query("select name,create_time from result where server_state=2 order by create_time limit 1");
+   $x = _mysql_fetch_object($result);
    return $x->create_time;
 }
 

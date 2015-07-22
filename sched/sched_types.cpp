@@ -71,8 +71,10 @@ int CLIENT_APP_VERSION::parse(XML_PARSER& xp) {
 
             double pf = host_usage.avg_ncpus * g_reply->host.p_fpops;
             if (host_usage.proc_type != PROC_TYPE_CPU) {
-                COPROC* cp = g_request->coprocs.type_to_coproc(host_usage.proc_type);
-                pf += host_usage.gpu_usage*cp->peak_flops;
+                COPROC* cp = g_request->coprocs.proc_type_to_coproc(host_usage.proc_type);
+                if (cp) {
+                    pf += host_usage.gpu_usage*cp->peak_flops;
+                }
             }
             host_usage.peak_flops = pf;
             return 0;
@@ -93,14 +95,15 @@ int CLIENT_APP_VERSION::parse(XML_PARSER& xp) {
             COPROC_REQ coproc_req;
             int retval = coproc_req.parse(xp);
             if (!retval) {
-                host_usage.gpu_usage = coproc_req.count;
-                if (!strcmp(coproc_req.type, "CUDA") || !strcmp(coproc_req.type, "NVIDIA")) {
-                    host_usage.proc_type = PROC_TYPE_NVIDIA_GPU;
-                } else if (!strcmp(coproc_req.type, "ATI")) {
-                    host_usage.proc_type = PROC_TYPE_AMD_GPU;
-                } else if (!strcmp(coproc_req.type, "INTEL")) {
-                    host_usage.proc_type = PROC_TYPE_INTEL_GPU;
+                int rt = coproc_type_name_to_num(coproc_req.type);
+                if (rt <= 0) {
+                    log_messages.printf(MSG_NORMAL,
+                        "UNKNOWN COPROC TYPE %s\n", coproc_req.type
+                    );
+                    continue;
                 }
+                host_usage.proc_type = rt;
+                host_usage.gpu_usage = coproc_req.count;
             }
             continue;
         }
@@ -183,6 +186,7 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
     strcpy(authenticator, "");
     strcpy(platform.name, "");
     strcpy(cross_project_id, "");
+    strcpy(client_brand, "");
     hostid = 0;
     core_client_major_version = 0;
     core_client_minor_version = 0;
@@ -199,6 +203,7 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
     strcpy(global_prefs_xml, "");
     strcpy(working_global_prefs_xml, "");
     strcpy(code_sign_key, "");
+    dont_send_work = false;
     memset(&global_prefs, 0, sizeof(global_prefs));
     memset(&host, 0, sizeof(host));
     have_other_results_list = false;
@@ -250,13 +255,17 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
                     if (retval) {
                         if (!strcmp(platform.name, "anonymous")) {
                             if (retval == ERR_NOT_FOUND) {
-                                g_reply->insert_message(
-                                    _("Unknown app name in app_info.xml"),
-                                    "notice"
+                                char buf[1024];
+                                snprintf(buf, sizeof(buf),
+                                    "Unknown app name %s in app_info.xml",
+                                    cav.app_name
+
                                 );
+                                buf[1023] = 0;
+                                g_reply->insert_message(buf, "notice");
                             } else {
                                 g_reply->insert_message(
-                                    _("Syntax error in app_info.xml"),
+                                    "Syntax error in app_info.xml",
                                     "notice"
                                 );
                             }
@@ -286,6 +295,7 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
         if (xp.parse_double("prrs_fraction", prrs_fraction)) continue;
         if (xp.parse_double("estimated_delay", cpu_estimated_delay)) continue;
         if (xp.parse_double("duration_correction_factor", host.duration_correction_factor)) continue;
+        if (xp.parse_bool("dont_send_work", dont_send_work)) continue;
         if (xp.match_tag("global_preferences")) {
             safe_strcpy(global_prefs_xml, "<global_preferences>\n");
             char buf[BLOB_SIZE];
@@ -420,6 +430,9 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
         if (xp.parse_int("sandbox", sandbox)) continue;
         if (xp.parse_int("allow_multiple_clients", allow_multiple_clients)) continue;
         if (xp.parse_string("client_opaque", client_opaque)) continue;
+        if (xp.parse_str("client_brand", client_brand, sizeof(client_brand))) continue;
+
+        // unused or deprecated stuff follows
 
         if (xp.match_tag("active_task_set")) continue;
         if (xp.match_tag("app")) continue;
@@ -588,6 +601,7 @@ int MSG_FROM_HOST_DESC::parse(XML_PARSER& xp) {
     char buf[256];
 
     msg_text = "";
+    strcpy(variety, "");
     MIOFILE& in = *(xp.f);
     while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</msg_from_host>")) return 0;
@@ -598,7 +612,7 @@ int MSG_FROM_HOST_DESC::parse(XML_PARSER& xp) {
 }
 
 SCHEDULER_REPLY::SCHEDULER_REPLY() {
-    memset(&wreq, 0, sizeof(wreq));
+    wreq.clear();
     memset(&disk_limits, 0, sizeof(disk_limits));
     request_delay = 0;
     hostid = 0;
@@ -618,8 +632,8 @@ static bool have_apps_for_client() {
     for (int i=0; i<NPROC_TYPES; i++) {
         if (ssp->have_apps_for_proc_type[i]) {
             if (!i) return true;
-            COPROC* cp = g_request->coprocs.type_to_coproc(i);
-            if (cp->count) return true;
+            COPROC* cp = g_request->coprocs.proc_type_to_coproc(i);
+            if (cp && cp->count) return true;
         }
     }
     return false;
@@ -771,9 +785,15 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
             );
         }
         if (strlen(user.cross_project_id)) {
+            char external_cpid[MD5_LEN];
+            safe_strcpy(buf, user.cross_project_id);
+            safe_strcat(buf, user.email_addr);
+            md5_block((unsigned char*)buf, strlen(buf), external_cpid);
             fprintf(fout,
-                "<cross_project_id>%s</cross_project_id>\n",
-                user.cross_project_id
+                "<cross_project_id>%s</cross_project_id>\n"
+                "<external_cpid>%s</external_cpid>\n",
+                user.cross_project_id,
+                external_cpid
             );
         }
 
@@ -928,7 +948,16 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
                 ssp->have_apps_for_proc_type[PROC_TYPE_AMD_GPU]?0:1
             );
         }
+
+        // write modern form.
+        //
         for (i=0; i<NPROC_TYPES; i++) {
+            if (i>0) {
+                // skip types that the client doesn't have
+                //
+                COPROC* cp = g_request->coprocs.proc_type_to_coproc(i);
+                if (!cp || !cp->count) continue;
+            }
             if (!ssp->have_apps_for_proc_type[i]) {
                 fprintf(fout,
                     "<no_rsc_apps>%s</no_rsc_apps>\n",
@@ -1025,9 +1054,11 @@ int APP::write(FILE* fout) {
         "    <name>%s</name>\n"
         "    <user_friendly_name>%s</user_friendly_name>\n"
         "    <non_cpu_intensive>%d</non_cpu_intensive>\n"
+        "    <fraction_done_exact>%d</fraction_done_exact>\n"
         "</app>\n",
         name, user_friendly_name,
-        non_cpu_intensive?1:0
+        non_cpu_intensive?1:0,
+        fraction_done_exact?1:0
     );
     return 0;
 }
@@ -1082,6 +1113,16 @@ int APP_VERSION::write(FILE* fout) {
             "        <count>%f</count>\n"
             "    </coproc>\n",
             nm,
+            bavp->host_usage.gpu_usage
+        );
+    }
+    if (strlen(bavp->host_usage.custom_coproc_type)) {
+        fprintf(fout,
+            "    <coproc>\n"
+            "        <type>%s</type>\n"
+            "        <count>%f</count>\n"
+            "    </coproc>\n",
+            bavp->host_usage.custom_coproc_type,
             bavp->host_usage.gpu_usage
         );
     }
@@ -1146,8 +1187,36 @@ int SCHED_DB_RESULT::parse_from_client(XML_PARSER& xp) {
         }
         if (xp.parse_str("name", name, sizeof(name))) continue;
         if (xp.parse_int("state", client_state)) continue;
-        if (xp.parse_double("final_cpu_time", cpu_time)) continue;
-        if (xp.parse_double("final_elapsed_time", elapsed_time)) continue;
+        if (xp.parse_double("final_cpu_time", cpu_time)) {
+            if (!boinc_is_finite(cpu_time)) {
+                cpu_time = 0;
+            }
+            continue;
+        }
+        if (xp.parse_double("final_elapsed_time", elapsed_time)) {
+            if (!boinc_is_finite(elapsed_time)) {
+                elapsed_time = 0;
+            }
+            continue;
+        }
+        if (xp.parse_double("final_peak_working_set_size", peak_working_set_size)) {
+            if (!boinc_is_finite(peak_working_set_size)) {
+                peak_working_set_size = 0;
+            }
+            continue;
+        }
+        if (xp.parse_double("final_peak_swap_size", peak_swap_size)) {
+            if (!boinc_is_finite(peak_swap_size)) {
+                peak_swap_size = 0;
+            }
+            continue;
+        }
+        if (xp.parse_double("final_peak_disk_usage", peak_disk_usage)) {
+            if (!boinc_is_finite(peak_disk_usage)) {
+                peak_disk_usage = 0;
+            }
+            continue;
+        }
         if (xp.parse_int("exit_status", exit_status)) continue;
         if (xp.parse_int("app_version_num", app_version_num)) continue;
         if (xp.match_tag("file_info")) {
@@ -1217,6 +1286,11 @@ int HOST::parse(XML_PARSER& xp) {
         if (xp.parse_str("p_features", p_features, sizeof(p_features))) continue;
         if (xp.parse_str("virtualbox_version", virtualbox_version, sizeof(virtualbox_version))) continue;
         if (xp.parse_bool("p_vm_extensions_disabled", p_vm_extensions_disabled)) continue;
+        if (xp.match_tag("opencl_cpu_prop")) {
+            int retval = opencl_cpu_prop[num_opencl_cpu_platforms].parse(xp);
+            if (!retval) num_opencl_cpu_platforms++;
+            continue;
+        }
 
         // parse deprecated fields to avoid error messages
         //
@@ -1231,7 +1305,7 @@ int HOST::parse(XML_PARSER& xp) {
         if (xp.parse_string("accelerators", stemp)) continue;
 
 #if 1
-        // not sure where these fields belong in the above categories
+        // deprecated items
         //
         if (xp.parse_string("cpu_caps", stemp)) continue;
         if (xp.parse_string("cache_l1", stemp)) continue;
@@ -1338,6 +1412,7 @@ void GLOBAL_PREFS::defaults() {
 void GUI_URLS::init() {
     text = 0;
     read_file_malloc(config.project_path("gui_urls.xml"), text);
+    if (text) text = lf_terminate(text);
 }
 
 void GUI_URLS::get_gui_urls(USER& user, HOST& host, TEAM& team, char* buf, int len) {
@@ -1379,6 +1454,7 @@ void GUI_URLS::get_gui_urls(USER& user, HOST& host, TEAM& team, char* buf, int l
 void PROJECT_FILES::init() {
     text = 0;
     read_file_malloc(config.project_path("project_files.xml"), text);
+    if (text) text = lf_terminate(text);
 }
 
 void get_weak_auth(USER& user, char* buf) {
@@ -1458,6 +1534,16 @@ double capped_host_fpops() {
         return ssp->perf_info.host_fpops_95_percentile*1.1;
     }
     return x;
+}
+
+bool HOST::get_opencl_cpu_prop(const char* platform, OPENCL_CPU_PROP& ocp) {
+    for (int i=0; i<num_opencl_cpu_platforms; i++) {
+        OPENCL_CPU_PROP& p = opencl_cpu_prop[i];
+        if (strcmp(p.platform_vendor, platform)) continue;
+        ocp = p;
+        return true;
+    }
+    return false;
 }
 
 const char *BOINC_RCSID_ea659117b3 = "$Id$";

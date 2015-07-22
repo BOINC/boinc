@@ -33,6 +33,7 @@
 #include "svn_version.h"
 
 #include "error_numbers.h"
+#include "filesys.h"
 #include "parse.h"
 #include "util.h"
 

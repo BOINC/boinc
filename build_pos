@@ -1,0 +1,37 @@
+#! /usr/bin/env php
+<?php
+
+// Generate translation templates from source code.
+// Compare them with the current versions in trunk;
+// if they differ, send email telling us to validate and commit
+// the new versions.
+
+$emails = "davea@ssl.berkeley.edu rwalton@ssl.berkeley.edu";
+$tdir = "locale/templates";
+
+system("cd doc; ./build_po.php");
+system("tools/compare_pot doc/BOINC-Web.pot $tdir/BOINC-Web.pot $emails");
+
+system("cd html/ops; ./build_po_boinc.php");
+system("tools/compare_pot html/ops/BOINC-Project-Generic.pot $tdir/BOINC-Project-Generic.pot $emails");
+
+system("cd client; ./build_po");
+system("tools/compare_pot client/BOINC-Client.pot $tdir/BOINC-Client.pot $emails");
+
+system("cd clientgui; ./build_po");
+system("tools/compare_pot clientgui/BOINC-Manager.pot $tdir/BOINC-Manager.pot $emails");
+
+system("cd mac_installer; ./build_po");
+system("tools/compare_pot mac_installer/BOINC-Setup.pot $tdir/BOINC-Setup.pot $emails");
+
+//system("cd android; a2po export -v");
+//system("tools/compare_pot android/BOINC-Android.pot $tdir/BOINC-Android.pot $emails");
+
+// generate translations for BOINC web site
+//
+system("cd doc; ./update_translations.php");
+
+// copy generic web files to html/translations
+//
+system("cd locale; ./copy_files.php");
+?>

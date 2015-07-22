@@ -90,6 +90,11 @@ function do_inbox($logged_in_user) {
         echo "<tr><th>".tra("Subject")."</th><th>".tra("Sender and date")."</th><th>".tra("Message")."</th></tr>\n";
         $i = 0;
         foreach($msgs as $msg) {
+            $sender = BoincUser::lookup_id($msg->senderid);
+            if (!$sender) {
+                $msg->delete();
+                continue;
+            }
             $i++;
             $class = ($i%2)? "row0": "row1";
             echo "<tr class=$class>\n";
@@ -98,7 +103,7 @@ function do_inbox($logged_in_user) {
                 $msg->update("opened=1");
             }
             echo "<td valign=top> $checkbox $msg->subject </td>\n";
-            echo "<td valign=top>".user_links(get_user_from_id($msg->senderid));
+            echo "<td valign=top>".user_links($sender, BADGE_HEIGHT_SMALL);
             show_block_link($msg->senderid);
             echo "<br>".time_str($msg->date)."</td>\n";
             echo "<td valign=top>".output_transform($msg->content, $options)."<p>";
@@ -114,7 +119,7 @@ function do_inbox($logged_in_user) {
             <a href=\"javascript:set_all(0)\">".tra("Unselect all")."</a>
             </td>
             <td colspan=2>
-            <input type=submit value=\"".tra("Delete selected messages")."\">
+            <input class=\"btn btn-danger\" type=submit value=\"".tra("Delete selected messages")."\">
             </td></tr>
         ";
         end_table();
@@ -137,7 +142,7 @@ function do_read($logged_in_user) {
 
     start_table();
     echo "<tr><th>".tra("Subject")."</th><td>".$message->subject."</td></tr>";
-    echo "<tr><th>".tra("Sender")."</th><td>".user_links($sender);
+    echo "<tr><th>".tra("Sender")."</th><td>".user_links($sender, BADGE_HEIGHT_SMALL);
     show_block_link($message->senderid);
     echo "</td></tr>";
     echo "<tr><th>".tra("Date")."</th><td>".time_str($message->date)."</td></tr>";
@@ -200,12 +205,12 @@ function do_send($logged_in_user) {
             $user = explode(" ", $username);
             if (is_numeric($user[0])) { // user ID is gived
                 $userid = $user[0];
-                $user = lookup_user_id($userid);
+                $user = BoincUser::lookup_id($userid);
                 if ($user == null) {
                     pm_form($replyto, $userid, tra("Could not find user with id %1", $userid));
                 }
             } else {
-                $user = lookup_user_name($username);
+                $user = BoincUser::lookup_name($username);
                 if ($user == null) {
                     pm_form($replyto, $userid, tra("Could not find user with username %1", $username));
                 } elseif ($user == -1) { // Non-unique username
@@ -248,7 +253,7 @@ function do_block($logged_in_user) {
     echo form_tokens($logged_in_user->authenticator);
     echo "<input type=\"hidden\" name=\"action\" value=\"confirmedblock\">\n";
     echo "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
-    echo "<input type=\"submit\" value=\"".tra("Add user to filter")."\">\n";
+    echo "<input class=\"btn btn-default\" type=\"submit\" value=\"".tra("Add user to filter")."\">\n";
     echo "<a href=\"pm.php?action=inbox\">".tra("No, cancel")."</a>\n";
     echo "</form>\n";
 }
@@ -274,7 +279,7 @@ function do_delete_selected($logged_in_user) {
     );
     foreach($msgs as $msg) {
         $x = "pm_select_$msg->id";
-        if ($_POST[$x]) {
+        if (post_str($x, true)) {
             $msg = BoincPrivateMessage::lookup_id($msg->id);
             $msg->delete();
         }

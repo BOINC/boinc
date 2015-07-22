@@ -7,5 +7,5 @@ require_once("../inc/util_ops.inc");
 
 db_init();
 
-//cancel_wu(0, 636);
+//cancel_wus(0, 636);
 ?>

@@ -25,11 +25,12 @@
 #include <cstdio>
 #include <sys/param.h>
 
+#include "filesys.h"
+#include "str_util.h"
 #include "util.h"
+
 #include "sched_config.h"
 #include "sched_util.h"
-#include "str_util.h"
-
 
 const char *usage = 
 "\nUsage: dir_hier_path <filename>\n"

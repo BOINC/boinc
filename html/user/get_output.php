@@ -72,7 +72,7 @@ function get_batch_output_files($auth_str) {
     $x = md5($user->authenticator.$batch->id);
     if ($x != $auth_str) die("bad auth str");
 
-    $zip_basename = tempnam("/tmp", "boinc_batch_");
+    $zip_basename = tempnam("../cache", "boinc_batch_");
     $zip_filename = $zip_basename.".zip";
     $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
     $upload_dir = parse_config(get_config(), "<upload_dir>");
@@ -100,7 +100,7 @@ function get_wu_output_file($wu_name, $file_num, $auth_str) {
     $wu = BoincWorkunit::lookup("name='$wu_name'");
     if (!$wu) die("no workunit $wu_name");
     $batch = BoincBatch::lookup_id($wu->batch);
-    if (!batch) die("no batch $wu->batch");
+    if (!$batch) die("no batch $wu->batch");
     $user = BoincUser::lookup_id($batch->user_id);
     if (!$user) die("no user $batch->user_id");
     if ($user->authenticator != $auth_str) die("bad auth str: x=$x, auth_str=$auth_str");
@@ -123,7 +123,7 @@ function get_wu_output_files($wu_id, $auth_str) {
     $wu = BoincWorkunit::lookup_id($wu_id);
     if (!$wu) die("no workunit $wu_id");
     $batch = BoincBatch::lookup_id($wu->batch);
-    if (!batch) die("no batch $wu->batch");
+    if (!$batch) die("no batch $wu->batch");
     $user = BoincUser::lookup_id($batch->user_id);
     if (!$user) die("no user $batch->user_id");
     $x = md5($user->authenticator.$wu_id);

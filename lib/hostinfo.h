@@ -63,6 +63,8 @@ public:
     char os_version[256];
     char product_name[256];       // manufacturer and/or model of system
                                   // currently used for Android devices
+    char mac_address[256];      // MAC addr e.g. 00:00:00:00:00:00
+                                // currently populated for Android
 
     // the following is non-empty if VBox is installed
     //
@@ -70,11 +72,11 @@ public:
 
     COPROCS coprocs;
 
-    bool have_cpu_opencl;
-    OPENCL_DEVICE_PROP cpu_opencl_prop;
+    int num_opencl_cpu_platforms;
+    OPENCL_CPU_PROP opencl_cpu_prop[MAX_OPENCL_CPU_PLATFORMS];
 
     HOST_INFO();
-    int parse(XML_PARSER&, bool benchmarks_only = false);
+    int parse(XML_PARSER&, bool static_items_only = false);
     int write(MIOFILE&, bool include_net_info, bool include_coprocs);
     int parse_cpu_benchmarks(FILE*);
     int write_cpu_benchmarks(FILE*);
@@ -86,7 +88,11 @@ public:
 #else
     bool users_idle(bool check_all_logins, double idle_time_to_run);
 #endif
-    int get_host_info();
+    int get_host_info(bool init);
+    int get_cpu_info();
+    int get_cpu_count();
+    int get_memory_info();
+    int get_os_info();
     int get_host_battery_charge();
     int get_host_battery_state();
     int get_local_network_info();

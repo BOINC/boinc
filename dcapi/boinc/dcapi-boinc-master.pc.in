@@ -1,0 +1,12 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: DC-API BOINC Master
+Description: BOINC master implementation for DC-API
+Version: @PACKAGE_VERSION@
+Requires: glib-2.0 uuid
+Libs: -L${libdir} -ldcapi-boinc
+Libs.private: @BOINC_SERVER_LIBS@ -lm
+Cflags: -I${includedir}

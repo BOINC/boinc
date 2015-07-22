@@ -802,7 +802,7 @@ unsigned char *zmbsrchr(str, c)
  |     to make the action of the code less obscure.
  ****************************************************************/
 
-void envargs(Pargc, Pargv, envstr, envstr2)
+int envargs(Pargc, Pargv, envstr, envstr2)
     int *Pargc;
     char ***Pargv;
     char *envstr;
@@ -825,7 +825,7 @@ void envargs(Pargc, Pargv, envstr, envstr2)
             while (isspace((uch)*envptr))
                 envptr++;
     if (envptr == NULL || *envptr == '\0')
-        return;
+        return 0;
 
     /* count the args so we can allocate room for them */
     argc = count_args(envptr);
@@ -902,6 +902,7 @@ void envargs(Pargc, Pargv, envstr, envstr2)
     /* save the values and return */
     *Pargv = argvect;
     *Pargc = argc;
+    return 0;
 }
 
 local int count_args(s)

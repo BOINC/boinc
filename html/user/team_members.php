@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,10 +20,13 @@ require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 require_once("../inc/cache.inc");
 
+if (DISABLE_TEAMS) error_page("Teams are disabled");
+
 check_get_args(array("sort_by", "offset", "teamid"));
 
 if (isset($_GET["sort_by"])) {
     $sort_by = $_GET["sort_by"];
+    $sort_by = strip_tags($sort_by);    // remove XSS nonsense
 } else {
     $sort_by = "expavg_credit";
 }
@@ -41,6 +44,7 @@ $cache_args = "teamid=$teamid";
 $team = unserialize(get_cached_data(TEAM_PAGE_TTL, $cache_args));
 if (!$team) {
     $team = BoincTeam::lookup_id($teamid);
+    if (!$team) error_page("no such team");
     set_cached_data(TEAM_PAGE_TTL, serialize($team), $cache_args);
 }
 

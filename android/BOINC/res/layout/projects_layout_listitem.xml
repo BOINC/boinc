@@ -22,23 +22,28 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:clickable="true"
-    android:padding="2dp">
-    
-    <ImageView 
-        android:id="@+id/project_icon"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:scaleType="fitCenter"
-	    android:contentDescription="@string/projects_icon"
-	    android:background="@drawable/shape_blue_border"
-	    android:padding="1dp" />
+    android:clickable="true">
+
+    <RelativeLayout 
+        android:id="@+id/icon_background"
+    	android:layout_width="60dp"
+    	android:layout_height="match_parent"
+    	android:minHeight="60dp"
+        android:background="@android:color/transparent">    
+	    <ImageView 
+	        android:id="@+id/project_icon"
+	        android:layout_width="48dp"
+	        android:layout_height="48dp"
+	        android:scaleType="fitCenter"
+		    android:contentDescription="@string/projects_icon"
+	    	android:layout_centerInParent="true" />
+    </RelativeLayout>
         
     <LinearLayout 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginLeft="3dp">
+        android:layout_margin="3dp">
         
 	    <TextView
 	        android:id="@+id/project_name"
@@ -55,6 +60,18 @@
 	        android:textColor="@color/dark_grey"
 	        android:textAppearance="?android:attr/textAppearanceMedium"
 	        android:layout_marginBottom="5dp" />
+	    
+	    <TextView 
+	   		android:layout_width="wrap_content"
+		    android:id="@+id/project_notice"
+	   		android:layout_height="wrap_content"
+	   		android:textAppearance="?android:attr/textAppearanceSmall"
+	   		android:background="@drawable/shape_yellow_background"
+	   		android:textColor="@color/black"
+	   		android:textStyle="bold"
+	   		android:padding="3dip"
+	   		android:layout_marginBottom="5dip"
+	   		android:visibility="gone"/>
         
 	    <TextView
 	        android:id="@+id/project_status"
@@ -62,6 +79,14 @@
 	        android:layout_height="wrap_content"
 	        android:textColor="@color/dark_grey"
 	        android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+	    <TextView
+	        android:id="@+id/project_transfers"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textColor="@color/dark_grey"
+	        android:textAppearance="?android:attr/textAppearanceSmall"
+	        android:visibility="gone" />
 	    
 	    <TextView 
 	   		android:layout_width="wrap_content"

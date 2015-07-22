@@ -134,6 +134,7 @@ int APP::parse(XML_PARSER& xp) {
         if (xp.parse_str("name", name, sizeof(name))) continue;
         if (xp.parse_str("user_friendly_name", user_friendly_name, sizeof(user_friendly_name))) continue;
         if (xp.parse_bool("non_cpu_intensive", non_cpu_intensive)) continue;
+        if (xp.parse_bool("fraction_done_exact", fraction_done_exact)) continue;
 #ifdef SIM
         if (xp.parse_double("latency_bound", latency_bound)) continue;
         if (xp.parse_double("fpops_est", fpops_est)) continue;
@@ -187,6 +188,8 @@ FILE_INFO::FILE_INFO() {
     executable = false;
     uploaded = false;
     sticky = false;
+    sticky_lifetime = 0;
+    sticky_expire_time = 0;
     gzip_when_done = false;
     download_gzipped = false;
     signature_required = false;
@@ -278,6 +281,8 @@ int FILE_INFO::set_permissions(const char* path) {
 }
 #endif
 
+// parse a <file_info>, from state file or scheduler RPC reply
+//
 int FILE_INFO::parse(XML_PARSER& xp) {
     char buf2[1024];
     std::string url;
@@ -365,6 +370,10 @@ int FILE_INFO::parse(XML_PARSER& xp) {
         if (xp.parse_bool("executable", executable)) continue;
         if (xp.parse_bool("uploaded", uploaded)) continue;
         if (xp.parse_bool("sticky", sticky)) continue;
+        if (xp.parse_double("sticky_expire_time", sticky_expire_time)) continue;
+            // state file has this
+        if (xp.parse_double("sticky_lifetime", sticky_lifetime)) continue;
+            // scheduler RPC reply has this
         if (xp.parse_bool("gzip_when_done", gzip_when_done)) continue;
         if (xp.parse_bool("download_gzipped", download_gzipped)) continue;
         if (xp.parse_bool("signature_required", signature_required)) continue;
@@ -448,6 +457,11 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         if (signature_required) out.printf("    <signature_required/>\n");
         if (is_user_file) out.printf("    <is_user_file/>\n");
         if (strlen(file_signature)) out.printf("    <file_signature>\n%s\n</file_signature>\n", file_signature);
+    }
+    if (sticky_expire_time) {
+        out.printf("    <sticky_expire_time>%f</sticky_expire_time>\n",
+            sticky_expire_time
+        );
     }
     for (i=0; i<download_urls.urls.size(); i++) {
         xml_escape(download_urls.urls[i].c_str(), buf, sizeof(buf));
@@ -617,6 +631,23 @@ int FILE_INFO::merge_info(FILE_INFO& new_info) {
         return retval;
     }
 
+    // sticky attributes
+    //
+    if (new_info.sticky) {
+        sticky = true;
+        if (new_info.sticky_lifetime) {
+            double x = gstate.now + new_info.sticky_lifetime;
+            if (x > sticky_expire_time) {
+                sticky_expire_time = x;
+            }
+        } else {
+            sticky_expire_time = 0;
+        }
+    } else {
+        sticky = false;
+        sticky_expire_time = 0;
+    }
+
     return 0;
 }
 
@@ -639,9 +670,9 @@ void FILE_INFO::failure_message(string& s) {
     sprintf(buf,
         "<file_xfer_error>\n"
         "  <file_name>%s</file_name>\n"
-        "  <error_code>%d</error_code>\n",
+        "  <error_code>%d (%s)</error_code>\n",
         name,
-        status
+        status, boincerror(status)
     );
     s = buf;
     if (error_msg.size()) {
@@ -725,11 +756,7 @@ int FILE_INFO::gunzip(char* md5_buf) {
     return 0;
 }
 
-int APP_VERSION::parse(XML_PARSER& xp) {
-    FILE_REF file_ref;
-    double dtemp;
-    int rt;
-
+void APP_VERSION::init() {
     strcpy(app_name, "");
     strcpy(api_version, "");
     version_num = 0;
@@ -748,12 +775,22 @@ int APP_VERSION::parse(XML_PARSER& xp) {
     missing_coproc = false;
     strcpy(missing_coproc_name, "");
     dont_throttle = false;
+    is_wrapper = false;
     needs_network = false;
+    is_vm_app = false;
+}
 
+int APP_VERSION::parse(XML_PARSER& xp) {
+    FILE_REF file_ref;
+    double dtemp;
+    int rt;
+
+    init();
     while (!xp.get_tag()) {
         if (xp.match_tag("/app_version")) {
             rt = gpu_usage.rsc_type;
             if (rt) {
+                dont_throttle = true;        // don't throttle GPU apps
                 if (strstr(plan_class, "opencl")) {
                     if (!coprocs.coprocs[rt].have_opencl) {
                         msg_printf(0, MSG_INFO,
@@ -783,12 +820,20 @@ int APP_VERSION::parse(XML_PARSER& xp) {
                     }
                 }
             }
+            if (strstr(plan_class, "vbox")) {
+                is_vm_app = true;
+            }
             return 0;
         }
         if (xp.parse_str("app_name", app_name, sizeof(app_name))) continue;
         if (xp.match_tag("file_ref")) {
-            file_ref.parse(xp);
-            app_files.push_back(file_ref);
+            int retval = file_ref.parse(xp);
+            if (!retval) {
+                if (strstr(file_ref.file_name, "vboxwrapper")) {
+                    is_vm_app = true;
+                }
+                app_files.push_back(file_ref);
+            }
             continue;
         }
         if (xp.parse_int("version_num", version_num)) continue;
@@ -832,6 +877,7 @@ int APP_VERSION::parse(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_bool("dont_throttle", dont_throttle)) continue;
+        if (xp.parse_bool("is_wrapper", is_wrapper)) continue;
         if (xp.parse_bool("needs_network", needs_network)) continue;
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
@@ -912,6 +958,11 @@ int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
             "    <dont_throttle/>\n"
         );
     }
+    if (is_wrapper) {
+        out.printf(
+            "    <is_wrapper/>\n"
+        );
+    }
     if (needs_network) {
         out.printf(
             "    <needs_network/>\n"
@@ -962,11 +1013,13 @@ void APP_VERSION::clear_errors() {
     }
 }
 
-int APP_VERSION::api_major_version() {
-    int v, n;
-    n = sscanf(api_version, "%d", &v);
-    if (n != 1) return 0;
-    return v;
+bool APP_VERSION::api_version_at_least(int major, int minor) {
+    int maj, min, n;
+    n = sscanf(api_version, "%d.%d", &maj, &min);
+    if (n != 2) return false;
+    if (maj < major) return false;
+    if (maj > major) return true;
+    return min >= minor;
 }
 
 int FILE_REF::parse(XML_PARSER& xp) {

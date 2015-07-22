@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+#
+# Copyright (C) 2008-2012 Oracle Corporation
+#
+# This file is part of VirtualBox Open Source Edition (OSE), as
+# available from http://www.virtualbox.org. This file is free software;
+# you can redistribute it and/or modify it under the terms of the GNU
+# General Public License (GPL) as published by the Free Software
+# Foundation, in version 2 as it comes in the "COPYING" file of the
+# VirtualBox OSE distribution. VirtualBox OSE is distributed in the
+# hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
+#
+# Modified by Charlie Fenton 11/2/13 for combined BOINC + VirtualBox 
+# installer.
+#
+## TODO: Find a way to automatically set the VirtualBox version
+#
+# This file, as modified, is part of BOINC.
+# http://boinc.berkeley.edu
+#
+-->
+<installer-gui-script minSpecVersion="1">
+    <title>BOINC Manager + VirtualBox</title>
+    <readme file="ReadMe.rtf" mime-type="text/rtf"/>
+    <license file="License.rtf" mime-type="text/rtf"/>
+    <options customize="never" allow-external-scripts="yes" rootVolumeOnly="true" hostArchitectures="i386"/>
+    <installation-check script="checkPrerequisite()"/>
+    <script>
+    /* js:pkmk:start */
+    function checkPrerequisite()
+    {
+       try
+       {
+           test = system.sysctl('hw.machine');
+           system.log("Hardware architecture detected: " + test);
+           result = (test == 'i386' || test == 'x86_64');
+       } catch (e) { system.log(e); result = false; }
+
+       if (!result)
+       {
+           my.result.type = 'Fatal';
+           my.result.title = system.localizedString('UNSUPPORTED_HW_MACHINE_TLE');
+           my.result.message = system.localizedString('UNSUPPORTED_HW_MACHINE_MSG');
+           return result;
+       }
+
+       try
+       {
+           test = system.version['ProductVersion'];
+           system.log("OS version detected: " + test);
+           result = (system.compareVersions(test, '10.6') >= 0);
+       } catch (e) { system.log(e); result = false; }
+
+       if (!result)
+       {
+           my.result.type = 'Fatal';
+           my.result.title = system.localizedString('UNSUPPORTED_OS_TLE');
+           my.result.message = system.localizedString('UNSUPPORTED_OS_MSG');
+           return result;
+       }
+
+       try
+       {
+           /* Embedded scripts are not available here. So, just do a command
+              line checking for running VMs instead. */
+           rcScript = system.run('/bin/sh', '-c', '/bin/ps -e | /usr/bin/grep -E "VirtualBoxVM.*startvm|VBoxNetDHCP" | /usr/bin/grep -qv grep');
+           result = (rcScript != 0);
+           system.log("system.run /bin/sh .. returned: " + rcScript + " result=" + result);
+       } catch (e) { system.log(e); result = false; }
+
+       if (!result)
+       {
+           my.result.type = 'Fatal';
+           my.result.title = system.localizedString('RUNNING_VMS_TLE');
+           my.result.message = system.localizedString('RUNNING_VMS_MSG');
+           return result;
+       }
+
+       system.log("result:" + result);
+       return result;
+    }
+    /* js:pkmk:end */
+    </script>
+    <choices-outline>
+        <line choice="choiceBOINC"/>
+        <line choice="choiceVBoxKEXTs"/>
+        <line choice="choiceVBoxStartup"/>
+        <line choice="choiceVBox"/>
+        <line choice="choiceVBoxCLI"/>
+    </choices-outline>
+    <choice id="choiceBOINC" title="BOINC Manager" description="Installs BOINC Manager, screensaver and data" visible="false" selected="true" enabled="false">
+        <pkg-ref id="edu.berkeley.boinc" title="BOINC Manager Installer"/>
+    </choice>
+    <choice id="choiceVBoxKEXTs" title="choiceVBoxKEXTs_title" description="choiceVBoxKEXTs_msg" visible="false" selected="true" enabled="false">
+        <pkg-ref id="org.virtualbox.pkg.vboxkexts"/>
+    </choice>
+    <choice id="choiceVBoxStartup" title="choiceVBoxStartup_title" description="choiceVBoxStartup_msg" visible="false" selected="true" enabled="false">
+        <pkg-ref id="org.virtualbox.pkg.vboxstartupitems"/>
+    </choice>
+    <choice id="choiceVBox" title="choiceVBox_title" description="choiceVBox_msg" visible="false" selected="true" enabled="false">
+        <pkg-ref id="org.virtualbox.pkg.virtualbox"/>
+    </choice>
+    <choice id="choiceVBoxCLI" title="choiceVBoxCLI_title" description="choiceVBoxCLI_msg" visible="false" selected="true" enabled="false">
+        <pkg-ref id="org.virtualbox.pkg.virtualboxcli"/>
+    </choice>
+    <pkg-ref id="edu.berkeley.boinc" version="x.y.z" onConclusion="none" installKBytes="18352" auth="Root">#BOINC.pkg</pkg-ref>
+    <pkg-ref id="edu.berkeley.boinc">
+        <bundle-version>
+            <bundle CFBundleVersion="x.y.z" id="edu.berkeley.boinc" path="Applications/BOINCManager.app"/>
+            <bundle CFBundleVersion="x.y.z" id="edu.berkeley.boincsaver" path="Library/Screen Savers/BOINCSaver.saver"/>
+           <bundle CFBundleVersion="x.y.z" id="edu.berkeley.boinc.PostInstall" path="tmp/PostInstall.app"/>
+        </bundle-version>
+    </pkg-ref>
+    <pkg-ref id="org.virtualbox.pkg.vboxkexts" auth="Root" version="4.3.12" installKBytes="900">#VBoxKEXTs.pkg</pkg-ref>
+    <pkg-ref id="org.virtualbox.pkg.vboxstartupitems" auth="Root" version="4.3.12" installKBytes="12">#VBoxStartupItems.pkg</pkg-ref>
+    <pkg-ref id="org.virtualbox.pkg.virtualbox" auth="Root" version="4.3.12" installKBytes="221657">#VirtualBox.pkg</pkg-ref>
+    <pkg-ref id="org.virtualbox.pkg.virtualboxcli" auth="Root" version="4.3.12" installKBytes="4">#VirtualBoxCLI.pkg</pkg-ref>
+    <pkg-ref id="org.virtualbox.pkg.vboxkexts">
+        <bundle-version>
+            <bundle CFBundleShortVersionString="4.3.12" CFBundleVersion="4.3.12" id="org.virtualbox.kext.VBoxNetAdp" path="VBoxNetAdp.kext"/>
+            <bundle CFBundleShortVersionString="4.3.12" CFBundleVersion="4.3.12" id="org.virtualbox.kext.VBoxDrv" path="VBoxDrv.kext"/>
+            <bundle CFBundleShortVersionString="4.3.12" CFBundleVersion="4.3.12" id="org.virtualbox.kext.VBoxNetFlt" path="VBoxNetFlt.kext"/>
+            <bundle CFBundleShortVersionString="4.3.12" CFBundleVersion="4.3.12" id="org.virtualbox.kext.VBoxUSB" path="VBoxUSB.kext"/>
+        </bundle-version>
+    </pkg-ref>
+    <pkg-ref id="org.virtualbox.pkg.vboxstartupitems">
+        <bundle-version/>
+    </pkg-ref>
+    <pkg-ref id="org.virtualbox.pkg.virtualbox">
+        <bundle-version>
+            <bundle CFBundleShortVersionString="4.3.12" CFBundleVersion="4.3.12" id="org.virtualbox.app.VirtualBox" path="VirtualBox.app"/>
+        </bundle-version>
+    </pkg-ref>
+    <pkg-ref id="org.virtualbox.pkg.virtualboxcli">
+        <bundle-version/>
+    </pkg-ref>
+    <product id="edu.berkeley.boinc" version="BOINC Manager x,y,z + VirtualBox 4.3.12"/>
+</installer-gui-script>

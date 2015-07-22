@@ -54,6 +54,7 @@
 				AdditionalIncludeDirectories="../lib;.."
 				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_CHARITYENGINE"
 				MinimalRebuild="false"
+				ExceptionHandling="2"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				FloatingPointModel="2"
@@ -85,7 +86,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB boinc_dll.lib"
+				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -95,7 +96,7 @@
 				IgnoreAllDefaultLibraries="true"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc_exe.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
 				SubSystem="1"
 				OptimizeReferences="0"
 				TargetMachine="1"
@@ -165,6 +166,7 @@
 				AdditionalIncludeDirectories="../lib;.."
 				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_CHARITYENGINE"
 				MinimalRebuild="false"
+				ExceptionHandling="2"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				FloatingPointModel="2"
@@ -196,7 +198,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB boinc_dll.lib"
+				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -206,7 +208,7 @@
 				IgnoreAllDefaultLibraries="true"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc_exe.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
 				SubSystem="1"
 				OptimizeReferences="0"
 				TargetMachine="17"
@@ -277,6 +279,7 @@
 				AdditionalIncludeDirectories="../lib;.."
 				PreprocessorDefinitions="WIN32;_WIN32;NDEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_CHARITYENGINE"
 				StringPooling="true"
+				ExceptionHandling="2"
 				RuntimeLibrary="2"
 				FloatingPointModel="2"
 				UsePrecompiledHeader="2"
@@ -306,7 +309,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB boinc_dll.lib"
+				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB"
 				ShowProgress="0"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"
@@ -317,7 +320,7 @@
 				IgnoreAllDefaultLibraries="true"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc_exe.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
 				SubSystem="1"
 				OptimizeReferences="2"
 				SetChecksum="true"
@@ -389,6 +392,7 @@
 				AdditionalIncludeDirectories="../lib;.."
 				PreprocessorDefinitions="WIN32;_WIN32;NDEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;_CHARITYENGINE"
 				StringPooling="false"
+				ExceptionHandling="2"
 				RuntimeLibrary="2"
 				FloatingPointModel="2"
 				UsePrecompiledHeader="2"
@@ -418,7 +422,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB boinc_dll.lib"
+				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB"
 				ShowProgress="0"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"
@@ -429,7 +433,7 @@
 				IgnoreAllDefaultLibraries="true"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc_exe.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
 				SubSystem="1"
 				OptimizeReferences="2"
 				SetChecksum="true"

@@ -1,30 +1,50 @@
 package edu.berkeley.boinc.utils;
 
+import java.io.IOException;
+import java.io.Reader;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import edu.berkeley.boinc.R;
 
 public class BOINCUtils {
+	
+	public static String readLineLimit(Reader reader, int limit) throws IOException {
+		StringBuilder sb = new StringBuilder();
+		
+		for(int i = 0; i < limit; i++) {
+			int c = reader.read(); //Read in single character
+			if(c == -1) {
+				return ((sb.length() > 0) ? sb.toString() : null);
+			}
+			
+			if(((char) c == '\n') || ((char) c == '\r')) { //Found end of line, break loop.
+				break;
+			}
+			
+			sb.append((char) c); // String is not over and end line not found
+		}
+		
+		return sb.toString(); //end of line was found.
+	}
 
-	public static String translateRPCReason(Activity activity, int reason) {
+	public static String translateRPCReason(Context ctx, int reason) {
 	    switch (reason) {
 		    case BOINCDefs.RPC_REASON_USER_REQ:
-		    	return activity.getResources().getString(R.string.rpcreason_userreq);
+		    	return ctx.getResources().getString(R.string.rpcreason_userreq);
 		    case BOINCDefs.RPC_REASON_NEED_WORK:
-		    	return activity.getResources().getString(R.string.rpcreason_needwork);
+		    	return ctx.getResources().getString(R.string.rpcreason_needwork);
 		    case BOINCDefs.RPC_REASON_RESULTS_DUE:
-		    	return activity.getResources().getString(R.string.rpcreason_resultsdue);
+		    	return ctx.getResources().getString(R.string.rpcreason_resultsdue);
 		    case BOINCDefs.RPC_REASON_TRICKLE_UP:
-		    	return activity.getResources().getString(R.string.rpcreason_trickleup);
+		    	return ctx.getResources().getString(R.string.rpcreason_trickleup);
 		    case BOINCDefs.RPC_REASON_ACCT_MGR_REQ:
-		    	return activity.getResources().getString(R.string.rpcreason_acctmgrreq);
+		    	return ctx.getResources().getString(R.string.rpcreason_acctmgrreq);
 		    case BOINCDefs.RPC_REASON_INIT:
-		    	return activity.getResources().getString(R.string.rpcreason_init);
+		    	return ctx.getResources().getString(R.string.rpcreason_init);
 		    case BOINCDefs.RPC_REASON_PROJECT_REQ:
-		    	return activity.getResources().getString(R.string.rpcreason_projectreq);
+		    	return ctx.getResources().getString(R.string.rpcreason_projectreq);
 		    default:
-		    	return activity.getResources().getString(R.string.rpcreason_unknown);
+		    	return ctx.getResources().getString(R.string.rpcreason_unknown);
 	    }
 	}
 	

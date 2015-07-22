@@ -16,7 +16,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once("../project/project.inc");
+require_once("../inc/util.inc");
 require_once("../inc/forum_rss.inc");
 require_once("../inc/news.inc");
 
@@ -25,5 +25,5 @@ if (!$forum) {
     exit;
 }
 
-forum_rss($forum->id, 0, 0, 1, 90);
+forum_rss($forum->id, 0, 1, 90);
 ?>

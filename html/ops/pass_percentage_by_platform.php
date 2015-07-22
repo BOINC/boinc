@@ -113,7 +113,7 @@ ORDER BY
        $query_order
 ";
 
-$result = mysql_query($main_query);
+$result = _mysql_query($main_query);
 
 start_table();
 table_header(
@@ -122,7 +122,7 @@ table_header(
     "Failed<br>Uploading", "Failed<br>Uploaded", "Aborted"
 );
 
-while ($res = mysql_fetch_object($result)) {
+while ($res = _mysql_fetch_object($result)) {
     $av = BoincAppVersion::lookup_id($res->app_version_id);
     if ($av) {
         $p = BoincPlatform::lookup_id($av->platformid);
@@ -179,7 +179,7 @@ while ($res = mysql_fetch_object($result)) {
     echo "</tr>\n";
 
 }
-mysql_free_result($result);
+_mysql_free_result($result);
 
 echo "</table>\n";
 
@@ -191,7 +191,7 @@ echo "<input type=\"checkbox\" name=\"allversions\" value=\"1\" $allversions>\n"
 echo "show anonymous platform versions&nbsp;&nbsp;\n";
 echo "<input type=\"checkbox\" name=\"allplatforms\" value=\"1\" $allplatforms>\n";
 echo "distinguish unknown platforms&nbsp;&nbsp;\n";
-echo "<input type=\"submit\" value=\"show\">\n";
+echo "<input class=\"btn btn-default\" type=\"submit\" value=\"show\">\n";
 echo "</form>\n";
 
 admin_page_tail();

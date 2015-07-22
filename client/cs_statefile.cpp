@@ -90,20 +90,18 @@ int CLIENT_STATE::parse_state_file() {
     const char *fname;
 
     // Look for a valid state file:
-    // First the regular one, then the "next" one.
+    // First "next", then regular, then "prev"
     //
     if (valid_state_file(STATE_FILE_NEXT)) {
         fname = STATE_FILE_NEXT;
+        msg_printf(0, MSG_INFO, "Using state file %s", STATE_FILE_NEXT);
     } else if (valid_state_file(STATE_FILE_NAME)) {
         fname = STATE_FILE_NAME;
     } else if (valid_state_file(STATE_FILE_PREV)) {
+        msg_printf(0, MSG_INFO, "Using state file %s", STATE_FILE_PREV);
         fname = STATE_FILE_PREV;
     } else {
-        if (log_flags.statefile_debug) {
-            msg_printf(0, MSG_INFO,
-                "[statefile] CLIENT_STATE::parse_state_file(): No state file; will create one"
-            );
-        }
+        msg_printf(0, MSG_INFO, "Creating new client state file");
 
         // avoid warning messages about version
         //
@@ -118,8 +116,6 @@ int CLIENT_STATE::parse_state_file() {
 int CLIENT_STATE::parse_state_file_aux(const char* fname) {
     PROJECT *project=NULL;
     int retval=0;
-    int failnum;
-    bool btemp;
     string stemp;
 
     FILE* f = fopen(fname, "r");
@@ -227,6 +223,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
             // If the file had a failure before,
             // don't start another file transfer
             //
+            int failnum;
             if (fip->had_failure(failnum)) {
                 if (fip->pers_file_xfer) {
                     delete fip->pers_file_xfer;
@@ -405,6 +402,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
 #ifdef SIM
             retval = host_info.parse(xp, false);
             coprocs = host_info.coprocs;
+            coprocs.bound_counts();
 #else
             retval = host_info.parse(xp, true);
 #endif
@@ -477,8 +475,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
         if (xp.parse_int("core_client_release", old_release)) {
             continue;
         }
-        if (xp.parse_bool("cpu_benchmarks_pending", btemp)) {
-            if (btemp) run_cpu_benchmarks = true;
+        if (xp.parse_str("language", language, sizeof(language))) {
             continue;
         }
         if (xp.match_tag("proxy_info")) {
@@ -569,6 +566,18 @@ void CLIENT_STATE::sort_results() {
         RESULT* rp = results[i];
         rp->index = i;
     }
+}
+
+static inline bool project_name_compare(PROJECT* p0, PROJECT* p1) {
+    return strcasecmp(p0->project_name, p1->project_name) < 0;
+}
+
+void CLIENT_STATE::sort_projects_by_name() {
+    std::sort(
+        projects.begin(),
+        projects.end(),
+        project_name_compare
+    );
 }
 
 #ifndef SIM
@@ -754,7 +763,6 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         "<user_gpu_request>%d</user_gpu_request>\n"
         "<user_gpu_prev_request>%d</user_gpu_prev_request>\n"
         "<user_network_request>%d</user_network_request>\n"
-        "%s"
         "<new_version_check_time>%f</new_version_check_time>\n"
         "<all_projects_list_check_time>%f</all_projects_list_check_time>\n",
         get_primary_platform(),
@@ -766,10 +774,12 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         gpu_run_mode.get_perm(),
         gpu_run_mode.get_prev(),
         network_run_mode.get_perm(),
-        cpu_benchmarks_pending?"<cpu_benchmarks_pending/>\n":"",
         new_version_check_time,
         all_projects_list_check_time
     );
+    if (strlen(language)) {
+        f.printf("<language>%s</language>\n", language);
+    }
     if (newer_version.size()) {
         f.printf("<newer_version>%s</newer_version>\n", newer_version.c_str());
     }
@@ -844,8 +854,11 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
 
     while (!xp.get_tag()) {
         if (xp.match_tag("app_info")) continue;
-        if (xp.match_tag("/app_info")) return 0;
-        if (xp.match_tag("file_info")) {
+        if (xp.match_tag("/app_info")) {
+            notices.remove_notices(p, REMOVE_APP_INFO_MSG);
+            return 0;
+        }
+        if (xp.match_tag("file_info") || xp.match_tag("file")) {
             FILE_INFO* fip = new FILE_INFO;
             if (fip->parse(xp)) {
                 delete fip;
@@ -865,7 +878,8 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
             // check that the file is actually there
             //
             get_pathname(fip, path, sizeof(path));
-            if (!boinc_file_exists(path)) {
+            double size;
+            if (file_size(path, size)) {
                 safe_strcpy(buf,
                     _("File referenced in app_info.xml does not exist: ")
                 );
@@ -874,6 +888,7 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
                 delete fip;
                 continue;
             }
+            fip->nbytes = size;
             fip->status = FILE_PRESENT;
             fip->anonymous_platform_file = true;
             file_infos.push_back(fip);
@@ -896,6 +911,13 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
         if (xp.match_tag("app_version")) {
             APP_VERSION* avp = new APP_VERSION;
             if (avp->parse(xp)) {
+                delete avp;
+                continue;
+            }
+            if (cc_config.dont_use_vbox && strstr(avp->plan_class, "vbox")) {
+                msg_printf(p, MSG_INFO,
+                    "skipping vbox app in app_info.xml; vbox disabled in cc_config.xml"
+                );
                 delete avp;
                 continue;
             }

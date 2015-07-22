@@ -180,6 +180,7 @@ void CSimplePanelBase::EraseBackground(wxDC *dc) {
     dc->GetSize(&w, &h);
     dc->DrawRoundedRectangle(0, 0, w, h, RECTANGLERADIUS);
 
+#if 0   // This does not work properly with wxCocoa 3.0 and is no longer needed
 #ifdef __WXMAC__
     // Mac progress bar can be hard to see on a colored 
     // background, so put it on a white background
@@ -189,6 +190,7 @@ void CSimplePanelBase::EraseBackground(wxDC *dc) {
         dc->SetBrush(*wxWHITE_BRUSH);
         dc->DrawRoundedRectangle(progressRect->x, progressRect->y, progressRect->width, progressRect->height, 2);
     }
+#endif
 #endif
 
     // Restore Mode, Pen and Brush 

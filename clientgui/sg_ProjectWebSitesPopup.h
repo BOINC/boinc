@@ -42,7 +42,9 @@ class CSimpleProjectWebSitesPopupButton : public CTransparentButton
 
 	private:
         void AddMenuItems();
-        void OnProjectWebSiteButton(wxMouseEvent& event);
+        void OnProjectWebSitesMouseDown(wxMouseEvent& event);
+        void OnProjectWebSitesKeyboardNav(wxCommandEvent& event);
+        void ShowProjectWebSitesMenu(wxPoint pos);
         void OnMenuLinkClicked(wxCommandEvent& event);
 
 	protected:

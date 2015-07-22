@@ -26,10 +26,12 @@
 // (Note: wxstd.mo files are encoded ISO 8859-1 not UTF-8.)
 //
 // We recommended that you first call BOINCTranslationAddCatalog()
-// for the user's preferred language, then for the user's second
-// preferred language and (optionally) then for the user's third
-// preferred language.  This will make it more likley that a
-// translation will be found in some language useful to the user.
+// for each desired catalog (*.mo) file for the user's preferred
+// language, then for each desired catalog (*.mo) file for the
+// user's second preferred language and (optionally) then for each
+// desired catalog (*.mo) file for the user's third preferred
+// language.  This will make it more likley that a translation 
+// will be found in some language useful to the user.
 //
 
 #include <stdint.h>
@@ -38,6 +40,7 @@
 #include <cstdlib>
 #include <sys/param.h>  // for MAXPATHLEN
 #include <sys/stat.h>   // For stat()
+#include <filesys.h>
 
 #include "translate.h"
 
@@ -45,6 +48,7 @@ static const uint32_t MSGCATALOG_MAGIC    = 0x950412de;
 static const uint32_t MSGCATALOG_MAGIC_SW = 0xde120495;
 
 #define MAXCATALOGS 20
+#define VERBOSE true
 
 // an entry in the string table
 struct MsgTableEntry {
@@ -65,13 +69,14 @@ struct MsgCatalogHeader {
 
 
 struct MsgCatalogData {
-    uint8_t         *pData;         // Pointer to catalog data
-    uint32_t        nSize;          // Amount of memory pointed to by pData.
-    uint32_t        NumStrings;     // number of strings in this domain
-    bool            bSwapped;       // wrong endianness?
-    MsgTableEntry   *pOrigTable;    // pointer to original strings
-    MsgTableEntry   *pTransTable;   // pointer to translated strings
-    bool            bIsEnglish;     // true if language code == "en"
+    uint8_t         *pData;             // Pointer to catalog data
+    uint32_t        nSize;              // Amount of memory pointed to by pData.
+    uint32_t        NumStrings;         // number of strings in this domain
+    bool            bSwapped;           // wrong endianness?
+    MsgTableEntry   *pOrigTable;        // pointer to original strings
+    MsgTableEntry   *pTransTable;       // pointer to translated strings
+    char            languageCode[32];   // language code (e.g., "it_IT")
+    char            catalogName[128];   // catalog name (e.g., "BOINC-Setup")
 };
 
 static struct MsgCatalogData theCatalogData[MAXCATALOGS];
@@ -104,6 +109,7 @@ static bool LoadCatalog(const char * catalogsDir,
                 const char *languageCode,
                 const char *catalogName
                 ) {
+    unsigned int j;
     char searchPath[MAXPATHLEN];
     struct stat sbuf;
     char temp[32];
@@ -116,9 +122,40 @@ static bool LoadCatalog(const char * catalogsDir,
     MsgTableEntry *pOrigTable;
     MsgTableEntry *pTransTable;
     MsgCatalogData *pCatalog;
-
+    
+#if VERBOSE
+    fprintf(stderr, "Attempting to load catalog %s for language code %s\n",
+            catalogName, languageCode);
+#endif
+    for (j=0; j<numLoadedCatalogs; ++j) {
+        pCatalog = &(theCatalogData[j]);
+        if (!strcmp(pCatalog->catalogName, catalogName)) {
+            if (!strcmp(pCatalog->languageCode, languageCode)) {
+                // Don't load a catalog twice for the same language
+#if VERBOSE
+                fprintf(stderr, "Ignoring Catalog %s for language code %s; it was already loaded\n",
+                        catalogName, languageCode);
+#endif
+                return true;    // Already loaded
+            }
+            // Don't load more languages for this catalog
+            // if we've already "loaded" it for English
+            if (!strcmp(pCatalog->languageCode, "en")) {
+#if VERBOSE
+                fprintf(stderr, "Ignoring Catalog %s for language code %s; after English for same catalog\n",
+                        catalogName, languageCode);
+#endif
+                return true;    // Already loaded
+            }
+        }
+    }
+    
+    // Since the original strings are English, no 
+    // translation is needed for language en.
     if (!strcmp("en", languageCode)) {
-        theCatalogData[numLoadedCatalogs++].bIsEnglish = true;
+        pCatalog = &(theCatalogData[numLoadedCatalogs++]);
+        strlcpy(pCatalog->languageCode, languageCode, sizeof(pCatalog->languageCode));
+        strlcpy(pCatalog->catalogName, catalogName, sizeof(pCatalog->catalogName));
         return true;
     }
   
@@ -184,7 +221,9 @@ static bool LoadCatalog(const char * catalogsDir,
     if (NumStrings <= 1) {
         // This file has no translations (is effectively 
         // empty) so don't load it for better efficiency.
+#if VERBOSE
         fprintf(stderr, "File %s contains no translated strings!\n", searchPath);
+#endif
         free(pData);
         pData = NULL;
         return true;    // Not an error
@@ -205,7 +244,9 @@ static bool LoadCatalog(const char * catalogsDir,
         if (begin != NULL) {
             begin += 34; //strlen("Content-Type: text/plain; charset=")
             if (strncasecmp(begin, "utf-8", 5)) {
+#if VERBOSE
                 fprintf(stderr, "File %s is not utf-8!\n", searchPath);
+#endif
                 free(pData);
                 pData = NULL;
                 return false;
@@ -220,8 +261,12 @@ static bool LoadCatalog(const char * catalogsDir,
     pCatalog->bSwapped = bSwapped;
     pCatalog->pOrigTable = pOrigTable;
     pCatalog->pTransTable = pTransTable;
-    pCatalog->bIsEnglish = false;
-    
+    strlcpy(pCatalog->languageCode, languageCode, sizeof(pCatalog->languageCode));
+    strlcpy(pCatalog->catalogName, catalogName, sizeof(pCatalog->catalogName));
+#if VERBOSE
+    fprintf(stderr, "Successfully loaded catalog %s for language code %s\n",
+            catalogName, languageCode);
+#endif
     return true;
 }
 
@@ -241,8 +286,8 @@ uint8_t * _(char *src) {
         
         // Since the original strings are English, no 
         // translation is needed for language en.
-        if (pCatalog->bIsEnglish) {
-            return (uint8_t *)src;
+        if (!strcmp("en", pCatalog->languageCode)) {
+            continue;   // Try next catalog
         }
         
         if (pCatalog->pData == NULL) continue;    // Should never happen
@@ -272,20 +317,39 @@ bool BOINCTranslationAddCatalog(const char * catalogsDir,
                                 const char *languageCode,
                                 const char * catalogName
                                 ) {
+    bool success = false;
+    DIRREF dirp;
+    char filename[64];
+    int retval;
+    
     if (numLoadedCatalogs >= (MAXCATALOGS)) {
+#if VERBOSE
         fprintf(stderr, "Trying to load too many catalogs\n");
+#endif
         return false;
     }
 
-    if (!LoadCatalog(catalogsDir, languageCode, catalogName)) {
-        fprintf(stderr,
-                "could not load catalog %s for langage %s\n",
-                catalogName, languageCode
-                );
-        return false;
+    // Add a catalog for this exact language and region code
+    success = LoadCatalog(catalogsDir, languageCode, catalogName);
+    
+    // Add catalogs for the same language code but different region codes
+    dirp = dir_open(catalogsDir);
+    if (dirp) {
+        while (true) {
+            retval = dir_scan(filename, dirp, sizeof(filename));
+            if (retval) break;
+            if (!strcmp(languageCode, filename)) continue;  // Already added above
+            if (!strncmp(languageCode, filename, 2)) {  // First 2 characters match
+                if (LoadCatalog(catalogsDir, filename, catalogName)) {
+                    success = true;
+                }
+            }
+        }
+        
+        dir_close(dirp);
     }
     
-    return true;
+    return success;
 }
 
 
@@ -303,7 +367,9 @@ void BOINCTranslationInit() {
         pCatalog->bSwapped = false;
         pCatalog->pOrigTable = NULL;
         pCatalog->pTransTable = NULL;
-        pCatalog->bIsEnglish = false;
+        pCatalog->languageCode[0] = '\0';
+        pCatalog->catalogName[0] = '\0';
+        
     }
 }
 
@@ -321,7 +387,8 @@ void BOINCTranslationCleanup() {
         pCatalog->bSwapped = false;
         pCatalog->pOrigTable = NULL;
         pCatalog->pTransTable = NULL;
-        pCatalog->bIsEnglish = false;
+        pCatalog->languageCode[0] = '\0';
+        pCatalog->catalogName[0] = '\0';
     }
 
     numLoadedCatalogs = 0;

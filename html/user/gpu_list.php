@@ -26,6 +26,9 @@
 
 require_once("../inc/util.inc");
 
+// take a host.serialnum field (which may encode several GPUs)
+// and extract the model name for the given vendor
+//
 function get_gpu_model($x, $vendor) {
     $descs = explode("]", $x);
     array_pop($descs);
@@ -42,7 +45,7 @@ function get_gpu_model($x, $vendor) {
 function add_model($model, $r, $wu, &$models) {
     if (array_key_exists($model, $models)) {
         $models[$model]->count++;
-        $models[$model]->time += $r->elapsed_time;
+        $models[$model]->time += $r->elapsed_time/$wu->rsc_fpops_est;
     } else {
         $x = new StdClass;
         $x->count = 1;
@@ -63,13 +66,25 @@ function get_gpu_list($vendor, $alt_vendor=null) {
         $clause .= " or plan_class like '%$alt_vendor%'";
     }
     $avs = BoincAppVersion::enum($clause);
-    if (count($avs) == 0) return null;
+    if (count($avs) == 0) {
+        $x = new StdClass;
+        $x->total = array();
+        return $x;
+    }
 
     $av_ids = "";
     foreach($avs as $av) {
         $av_ids .= "$av->id, ";
     }
-    $av_ids .= "0";
+    if ($vendor == "cuda") {
+        $av_ids .= "-3";
+    } else if ($vendor == "ati") {
+        $av_ids .= "-4";
+    } else if ($vendor == "intel_gpu") {
+        $av_ids .= "-5";
+    } else {
+        $av_ids .= "0";
+    }
 
     $t = time() - 30*86400;
     //echo "start enum $vendor $av_ids\n";
@@ -86,7 +101,14 @@ function get_gpu_list($vendor, $alt_vendor=null) {
         if (!$h) continue;
         $wu = BoincWorkunit::lookup_id($r->workunitid);
         if (!$wu) continue;
-        $v = $vendor=="cuda"?"CUDA":"CAL";
+        $v = "";
+        if ($vendor == "cuda") {
+            $v = "CUDA";
+        } else if ($vendor == "intel_gpu") {
+            $v = "INTEL";
+        } else {
+            $v = "CAL";
+        }
         $model = get_gpu_model($h->serialnum, $v);
         if (!$model) continue;
         add_model($model, $r, $wu, $total);
@@ -113,6 +135,8 @@ function get_gpu_lists() {
     $x = new StdClass;
     $x->cuda = get_gpu_list("cuda", "nvidia");
     $x->ati = get_gpu_list("ati");
+    $x->intel_gpu = get_gpu_list("intel_gpu");
+    $x->time = time();
     return $x;
 }
 
@@ -180,9 +204,11 @@ if ($d) {
 }
 
 page_head(tra("Top GPU models"));
-echo tra("The following lists show the most productive GPU models on different platforms.  Relative speeds are shown in parentheses.");
+echo tra("The following lists show the most productive GPU models on different platforms.  Relative speeds, measured by average elapsed time of tasks, are shown in parentheses.");
 show_vendor("NVIDIA", $data->cuda);
 show_vendor("ATI/AMD", $data->ati);
+show_vendor("Intel", $data->intel_gpu);
+echo "<p>Generated ".time_str($data->time);
 page_tail();
 
 ?>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--
+# This file is part of BOINC.
+# http://boinc.berkeley.edu
+# Copyright (C) 2015 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<installer-gui-script minSpecVersion="1">
+    <pkg-ref id="edu.berkeley.boinc">
+        <bundle-version>
+            <bundle CFBundleVersion="x.y.z" id="edu.berkeley.boinc" path="Applications/BOINCManager.app"/>
+            <bundle CFBundleVersion="x.y.z" id="edu.berkeley.boincsaver" path="Library/Screen Savers/BOINCSaver.saver"/>
+        </bundle-version>
+    </pkg-ref>
+    <options customize="never" require-scripts="false" rootVolumeOnly="true"/>
+    <title>BOINC Manager</title>
+    <readme file="ReadMe.rtf" mime-type="text/rtf"/>
+    <license file="License.rtf" mime-type="text/rtf"/>
+    <choices-outline>
+        <line choice="default">
+            <line choice="edu.berkeley.boinc"/>
+        </line>
+    </choices-outline>
+    <choice id="default"/>
+    <choice id="edu.berkeley.boinc" visible="false" enabled="false">
+        <pkg-ref id="edu.berkeley.boinc" title="BOINC Manager Installer" description="Installs BOINC Manager, screensaver and data"/>
+    </choice>
+    <pkg-ref id="edu.berkeley.boinc" version="0" onConclusion="none" installKBytes="18352" auth="Root">#BOINC.pkg</pkg-ref>
+    <product id="edu.berkeley.boinc" version="BOINC Manager x.y.z"/>
+</installer-gui-script>

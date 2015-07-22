@@ -87,16 +87,16 @@ function make_user($user) {
         $max_bytes_sec_up,
         $max_bytes_sec_down)
     ";
-    $retval = mysql_query($query);
+    $retval = _mysql_query($query);
     if (!$retval) {
-        echo mysql_error();
+        echo _mysql_error();
     }
 }
 
 set_time_limit(0);
 
-$result = mysql_query("select * from user where total_credit > 0");
-while ($user = mysql_fetch_object($result)) {
+$result = _mysql_query("select * from user where total_credit > 0");
+while ($user = _mysql_fetch_object($result)) {
     make_user($user);
 }
 

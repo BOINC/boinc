@@ -18,36 +18,15 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/wrapper"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:clickable="true"
-    android:onClick="onItemClick"
     android:padding="5dp" >
-    <LinearLayout 
-    	android:layout_width="wrap_content"
-    	android:layout_height="match_parent"
-    	android:orientation="vertical"
-    	android:layout_alignParentLeft="true"
-    	android:layout_centerVertical="true"
-    	android:layout_marginRight="105dp">
-    	
-        <TextView android:textAppearance="?android:attr/textAppearanceMedium"
-	        android:id="@+id/header"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content">
-	    </TextView>
-    	
-        <TextView android:textAppearance="?android:attr/textAppearanceSmall"
-	        android:id="@+id/description"
-	        android:textStyle="italic"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content">
-	    </TextView>
-	    
-    </LinearLayout>
     
     <LinearLayout 
+	    android:id="@+id/status_wrapper"
     	android:layout_width="wrap_content"
     	android:layout_height="match_parent"
     	android:orientation="vertical"
@@ -64,5 +43,29 @@
 	        android:textStyle="bold"
 	        android:background="@drawable/shape_preferences_status_background">
 	    </TextView>    
+    </LinearLayout>
+    
+    <LinearLayout 
+		android:id="@+id/description_wrapper"
+    	android:layout_width="wrap_content"
+    	android:layout_height="match_parent"
+    	android:orientation="vertical"
+    	android:layout_alignParentLeft="true"
+    	android:layout_centerVertical="true"
+    	android:layout_toLeftOf="@+id/status_wrapper">
+    	
+        <TextView android:textAppearance="?android:attr/textAppearanceMedium"
+	        android:id="@+id/header"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content">
+	    </TextView>
+    	
+        <TextView android:textAppearance="?android:attr/textAppearanceSmall"
+	        android:id="@+id/description"
+	        android:textColor="@color/dark_grey"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content">
+	    </TextView>
+	    
     </LinearLayout>
 </RelativeLayout>

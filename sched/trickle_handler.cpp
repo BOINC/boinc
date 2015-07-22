@@ -67,9 +67,12 @@ bool do_trickle_scan() {
         }
         retval = handle_trickle(mfh);
         if (!retval) {
-            mfh.handled = true;
-            mfh.update();
+            log_messages.printf(MSG_CRITICAL,
+                "handle_trickle(): %s", boincerror(retval)
+            );
         }
+        mfh.handled = true;
+        mfh.update();
         found = true;
     }
     return found;
@@ -168,7 +171,7 @@ int main(int argc, char** argv) {
     }
 
     argv[j] = 0;
-    retval = handle_trickle_init(argc, argv);
+    retval = handle_trickle_init(j, argv);
     if (retval) exit(1);
 
     log_messages.printf(MSG_NORMAL, "Starting trickle handler\n");

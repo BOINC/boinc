@@ -23,6 +23,9 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
 #else
 #ifdef __APPLE__
 // Suppress obsolete warning when building for OS 10.3.9
@@ -45,6 +48,8 @@ using std::string;
 
 #include "client_msgs.h"
 #include "gpu_detect.h"
+
+static void get_available_ati_ram(COPROC_ATI &cc, vector<string>& warnings);
 
 // criteria:
 //
@@ -105,9 +110,7 @@ int (*__calDeviceClose)(CALdevice);
 #endif
 
 void COPROC_ATI::get(
-    bool use_all,
-    vector<string>& warnings,
-    vector<int>& ignore_devs
+    vector<string>& warnings
 ) {
     CALuint numDevices, cal_major, cal_minor, cal_imp;
     char buf[256];
@@ -195,18 +198,6 @@ void COPROC_ATI::get(
         warnings.push_back("calDeviceGetInfo() missing from CAL library");
         return;
     }
-    if (!__calDeviceGetStatus) {
-        warnings.push_back("calDeviceGetStatus() missing from CAL library");
-        return;
-    }
-    if (!__calDeviceOpen) {
-        warnings.push_back("calDeviceOpen() missing from CAL library");
-        return;
-    }
-    if (!__calDeviceClose) {
-        warnings.push_back("calDeviceClose() missing from CAL library");
-        return;
-    }
 
     retval = (*__calInit)();
     if (retval != CAL_RESULT_OK) {
@@ -281,46 +272,40 @@ void COPROC_ATI::get(
             gpu_name="ATI Radeon HD 5800/5900 series (Cypress/Hemlock)";
             break;
         case 9:
-            gpu_name="ATI Radeon HD 5700 series (Juniper)";
+            gpu_name="ATI Radeon HD 5700/6750/6770 series (Juniper)";
             break;
         case 10:
             gpu_name="ATI Radeon HD 5500/5600 series (Redwood)";
-			// AMD Radeon HD 6390/7510 (OEM rebranded)
-			break;
+            break;
         case 11:
             gpu_name="ATI Radeon HD 5400 series (Cedar)";
-			// real names would be AMD Radeon HD 6290/6350/7350/8350 (OEM rebranded)
-			break;
-// AMD CAL Chaos - see http://developer.amd.com/download/AMD_Accelerated_Parallel_Processing_OpenCL_Programming_Guide.pdf @page 230
-		case 12:
-            gpu_name="AMD Radeon HD 6370D/6380G/6410D/6480G (Sumo)"; // OpenCL-Name = WinterPark
-			break;
+            break;
+        case 12:
+            gpu_name="AMD Radeon HD 6370D/6380G/6410D/6480G (Sumo)";
+            break;
         case 13:
-            gpu_name="AMD Radeon HD 6520G/6530D/6550D/6620G (SuperSumo)"; // OpenCL-Name = BeaverCreek
-			break;
+            gpu_name="AMD Radeon HD 6520G/6530D/6550D/6620G (SuperSumo)";
+            break;
         case 14:
-            gpu_name="AMD Radeon HD 6200/6300/7300 series (Wrestler)"; // OpenCL-Name = Loveland
-			// real names would be AMD Radeon HD 6250/6290/6310/6320/7310/7340 series (Wrestler)
+            gpu_name="AMD Radeon HD 6200/6300/7200/7300 series (Wrestler)";
             break;
         case 15:
             gpu_name="AMD Radeon HD 6900 series (Cayman)";
             break;
         case 16:
             gpu_name="AMD Radeon HD (Kauai)";
-			break;
+            break;
         case 17:
             gpu_name="AMD Radeon HD 6790/6850/6870 series (Barts)";
-			// AMD Radeon 7720 (OEM rebranded)
             break;
         case 18:
             gpu_name="AMD Radeon HD 6570/6670/7570/7670 series (Turks)";
             break;
         case 19:
             gpu_name="AMD Radeon HD 6350/6450/7450/7470 series (Caicos)";
-			// AMD Radeon HD 7450/7470/8450/8470/8490 (OEM rebranded)
             break;
         case 20:
-            gpu_name="AMD Radeon HD 7870/7950/7970 series (Tahiti)";
+            gpu_name="AMD Radeon HD 7870/7950/7970/R9 280X series (Tahiti)";
             break;
         case 21:
             gpu_name="AMD Radeon HD 7850/7870 series (Pitcairn)";
@@ -330,40 +315,42 @@ void COPROC_ATI::get(
             break;
         case 23:
             gpu_name="AMD Radeon HD 7500/7600/8500/8600 series (Devastator)";
-			// higher GPUs inside Trinity/Richland APUs
-			// PCI Device IDs 9900h to 991Fh 
             break;
-		case 24:
+        case 24:
             gpu_name="AMD Radeon HD 7400/7500/8300/8400 series (Scrapper)";
-			// (s)lower GPUs of Trinity/Richland APUs
-			// PCI Device IDs 9990h to 99AFh
             break;
         case 25:
-            gpu_name="AMD Radeon HD 8600/8790M (Oland)";
+            gpu_name="AMD Radeon HD 8600/8790M/R7 240/R7 250 (Oland)";
             break;
-		case 26:
-            gpu_name="AMD Radeon HD 7790 series (Bonaire)"; 
+        case 26:
+            gpu_name="AMD Radeon HD 7790/R7 260X (Bonaire)";
             break;
-		case 27:
-			gpu_name="AMD Radeon HD (Casper)";
-			break;
-		case 28:
-			gpu_name="AMD Radeon HD (Slimer)";
-			break;
-		case 29:
-			gpu_name="AMD Radeon HD 8200/8300/8400 series (Kalindi)";
-			// GPUs inside AMD Family 16h aka Kabini/Temash
-			break;
-		case 30:
-			gpu_name="AMD Radeon HD 8600M (Hainan)";
-			break;
-		case 31:
-			gpu_name="AMD Radeon HD (Curacao)";
-			break;
+        case 27:
+            gpu_name="AMD Radeon HD (Spectre)"; // Kaveri
+            break;
+        case 28:
+            gpu_name="AMD Radeon HD (Spooky)";  // Kaveri
+            break;
+        case 29:
+            gpu_name="AMD Radeon HD 8200/8300/8400 series (Kalindi)"; // Kabini
+            break;
+        case 30:
+            gpu_name="AMD Radeon HD 8600M (Hainan)";
+            break;
+        case 31:
+            gpu_name="AMD Radeon R9 270X (Curacao)";
+            break;
+        case 32:
+            gpu_name="AMD Radeon R9 290 (Hawaii)";
+            break;
+        case 33:
+            gpu_name="AMD Radeon R2/R3 (Skunk)"; // Mullins/new FT3 APU
+            break;
         default:
             gpu_name="AMD Radeon HD (unknown)";
             break;
         }
+        have_cal = true;
         cc.have_cal = true;
         cc.attribs = attribs;
         cc.info = info;
@@ -373,7 +360,7 @@ void COPROC_ATI::get(
         cc.atirt_detected = atirt_detected;
         cc.device_num = i;
         cc.set_peak_flops();
-        cc.get_available_ram();
+        get_available_ati_ram(cc, warnings);
         ati_gpus.push_back(cc);
     }
 
@@ -383,8 +370,17 @@ void COPROC_ATI::get(
 
     if (!ati_gpus.size()) {
         warnings.push_back("No ATI GPUs found");
-        return;
     }
+}
+
+
+void COPROC_ATI::correlate(
+    bool use_all,
+    vector<int>& ignore_devs
+) {
+    char buf[256];
+
+    if (!ati_gpus.size()) return;
 
     // find the most capable non-ignored instance
     //
@@ -405,9 +401,13 @@ void COPROC_ATI::get(
     //
     count = 0;
     for (i=0; i<ati_gpus.size(); i++) {
-        ati_gpus[i].description(buf);
+        ati_gpus[i].description(buf, sizeof(buf));
         if (in_vector(ati_gpus[i].device_num, ignore_devs)) {
             ati_gpus[i].is_used = COPROC_IGNORED;
+        } else if (this->have_opencl && !ati_gpus[i].have_opencl) {
+            ati_gpus[i].is_used = COPROC_UNUSED;
+        } else if (this->have_cal && !ati_gpus[i].have_cal) {
+            ati_gpus[i].is_used = COPROC_UNUSED;
         } else if (use_all || !ati_compare(ati_gpus[i], *this, true)) {
             device_nums[count] = ati_gpus[i].device_num;
             count++;
@@ -420,35 +420,62 @@ void COPROC_ATI::get(
 
 // get available RAM of ATI GPU
 //
-void COPROC_ATI::get_available_ram() {
+// CAUTION: as currently written, this method should be
+// called only from COPROC_ATI::get().  If in the future
+// you wish to call it from additional places:
+// * It must be called from a separate child process on
+//   dual-GPU laptops (e.g., Macbook Pros) with the results
+//   communicated to the main client process via IPC or a
+//   temp file.  See the comments about dual-GPU laptops 
+//   in gpu_detect.cpp and main.cpp for more details.
+// * The CAL library must be loaded and calInit() called 
+//   first.
+// * See client/coproc_detect.cpp and cpu_sched.cpp in
+//   BOINC 6.12.36 for an earlier attempt to call this
+//   from the scheduler.  Note that it was abandoned
+//   due to repeated calls crashing the driver.
+//
+static void get_available_ati_ram(COPROC_ATI &cc, vector<string>& warnings) {
     CALdevicestatus st;
     CALdevice dev;
+    char buf[256];
     int retval;
 
-    available_ram = attribs.localRAM*MEGA;
+    cc.available_ram = cc.attribs.localRAM*MEGA;
 
     st.struct_size = sizeof(CALdevicestatus);
 
-    retval = (*__calDeviceOpen)(&dev, device_num);
+    if (!__calDeviceOpen) {
+        warnings.push_back("calDeviceOpen() missing from CAL library");
+        return;
+    }
+    if (!__calDeviceGetStatus) {
+        warnings.push_back("calDeviceGetStatus() missing from CAL library");
+        return;
+    }
+    if (!__calDeviceClose) {
+        warnings.push_back("calDeviceClose() missing from CAL library");
+        return;
+    }
+
+    retval = (*__calDeviceOpen)(&dev, cc.device_num);
     if (retval) {
-        if (log_flags.coproc_debug) {
-            msg_printf(0, MSG_INFO,
-                "[coproc] calDeviceOpen(%d) returned %d", device_num, retval
-            );
-        }
+        snprintf(buf, sizeof(buf),
+            "[coproc] calDeviceOpen(%d) returned %d", cc.device_num, retval
+        );
+        warnings.push_back(buf);
         return;
     }
     retval = (*__calDeviceGetStatus)(&st, dev);
     if (retval) {
-        if (log_flags.coproc_debug) {
-            msg_printf(0, MSG_INFO,
-                "[coproc] calDeviceGetStatus(%d) returned %d",
-                device_num, retval
-            );
-        }
+        snprintf(buf, sizeof(buf),
+            "[coproc] calDeviceGetStatus(%d) returned %d",
+            cc.device_num, retval
+        );
+        warnings.push_back(buf);
         (*__calDeviceClose)(dev);
         return;
     }
-    available_ram = st.availLocalRAM*MEGA;
+    cc.available_ram = st.availLocalRAM*MEGA;
     (*__calDeviceClose)(dev);
 }

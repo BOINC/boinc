@@ -58,6 +58,7 @@
 
 extern int rsc_index(const char*);
 extern const char* rsc_name(int);
+extern const char* rsc_name_long(int);
 extern COPROCS coprocs;
 
 struct FILE_INFO;
@@ -104,6 +105,12 @@ struct FILE_INFO {
     bool executable;        // change file protections to make executable
     bool uploaded;          // file has been uploaded
     bool sticky;            // don't delete unless instructed to do so
+    double sticky_lifetime;
+        // how long file should stay sticky.
+        // passed from the server;
+        // used by client to calculate sticky_expire_time.
+    double sticky_expire_time;
+        // if nonzero, when sticky status expires
     bool signature_required;    // true iff associated with app version
     bool is_user_file;
     bool is_project_file;
@@ -243,6 +250,7 @@ struct APP {
     char name[256];
     char user_friendly_name[256];
     bool non_cpu_intensive;
+    bool fraction_done_exact;
     PROJECT* project;
     int max_concurrent;
         // Limit on # of concurrent jobs of this app; 0 if none
@@ -250,7 +258,7 @@ struct APP {
         // Can also specify in client_state.xml (for client emulator)
     int n_concurrent;
         // temp during job scheduling, to enforce max_concurrent
-    int non_excluded_instances[MAX_RSC];
+    COPROC_INSTANCE_BITMAP non_excluded_instances[MAX_RSC];
         // for each resource type, bitmap of the non-excluded instances
 #ifdef SIM
     double latency_bound;
@@ -268,7 +276,7 @@ struct APP {
 };
 
 struct GPU_USAGE {
-    int rsc_type;
+    int rsc_type;   // index into COPROCS array
     double usage;
 };
 
@@ -280,7 +288,7 @@ struct APP_VERSION {
     char api_version[16];
     double avg_ncpus;
     double max_ncpus;
-    GPU_USAGE gpu_usage;    // can only use 1 GPUtype
+    GPU_USAGE gpu_usage;    // can only use 1 GPU type
     double gpu_ram;
     double flops;
     char cmdline[256];
@@ -306,6 +314,12 @@ struct APP_VERSION {
     double missing_coproc_usage;
     char missing_coproc_name[256];
     bool dont_throttle;
+        // jobs of this app version are exempt from CPU throttling
+        // Set for coprocessor apps
+    bool is_vm_app;
+        // currently this set if plan class includes "vbox" (kludge)
+    bool is_wrapper;
+        // the main program is a wrapper; run it above idle priority
 
     int index;  // temp var for make_scheduler_request()
 #ifdef SIM
@@ -314,17 +328,21 @@ struct APP_VERSION {
 
     APP_VERSION(){}
     ~APP_VERSION(){}
+    void init();
     int parse(XML_PARSER&);
     int write(MIOFILE&, bool write_file_info = true);
     bool had_download_failure(int& failnum);
     void get_file_errors(std::string&);
     void clear_errors();
-    int api_major_version();
+    bool api_version_at_least(int major, int minor);
     inline bool uses_coproc(int rt) {
         return (gpu_usage.rsc_type == rt);
     }
     inline int rsc_type() {
         return gpu_usage.rsc_type;
+    }
+    inline bool is_opencl() {
+        return (strstr(plan_class, "opencl") != NULL);
     }
 };
 

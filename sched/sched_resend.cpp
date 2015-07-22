@@ -153,6 +153,26 @@ bool resend_lost_work() {
         }
         if (can_resend) {
             app = ssp->lookup_app(wu.appid);
+            if (!app) {
+                log_messages.printf(MSG_CRITICAL,
+                    "can't resend - app not found for [RESULT#%u]\n", result.id
+                );
+                can_resend = false;
+            }
+        }
+        if (can_resend && app->deprecated) {
+            log_messages.printf(MSG_NORMAL,
+                "[RESULT#%u] can't resend - app is deprecated \n", result.id
+            );
+            can_resend = false;
+        }
+        if (can_resend && app_not_selected(app->id)) {
+            log_messages.printf(MSG_NORMAL,
+                "[RESULT#%u] can't resend - app is not selected\n", result.id
+            );
+            can_resend = false;
+        }
+        if (can_resend) {
             bavp = get_app_version(wu, true, false);
             if (!bavp) {
                 if (config.debug_resend) {

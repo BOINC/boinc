@@ -40,145 +40,149 @@
 #ifndef FLOPPYIO_H
 #define	FLOPPYIO_H
 
-// Do not initialize (reset) floppy disk image at open.
-// (Flag used by the FloppyIO constructor)
-#define F_NOINIT 1
+namespace FloppyIONS {
 
-// Do not create the filename (assume it exists)
-// (Flag used by the FloppyIO constructor)
-#define F_NOCREATE 2
+    // Do not initialize (reset) floppy disk image at open.
+    // (Flag used by the FloppyIO constructor)
+    #define F_NOINIT 1
 
-// Synchronize I/O.
-// This flag will block the script until the guest has read/written the data.
-// (Flag used by the FloppyIO constructor)
-#define F_SYNCHRONIZED 4
+    // Do not create the filename (assume it exists)
+    // (Flag used by the FloppyIO constructor)
+    #define F_NOCREATE 2
 
-// Use exceptions instead of error codes
-// (Flag used by the FloppyIO constructor)
-#define F_EXCEPTIONS 8
+    // Synchronize I/O.
+    // This flag will block the script until the guest has read/written the data.
+    // (Flag used by the FloppyIO constructor)
+    #define F_SYNCHRONIZED 4
 
-// Initialize FloppyIO in client mode.
-// This flag will swap the input/output buffers, making the script usable from
-// within the virtual machine.
-// (Flag used by the FloppyIO constructor)
-#define F_CLIENT 16
+    // Use exceptions instead of error codes
+    // (Flag used by the FloppyIO constructor)
+    #define F_EXCEPTIONS 8
 
-//
-// Error code constants
-//
-#define FPIO_NOERR          0  // No error occured
-#define FPIO_ERR_IO        -1  // There was an I/O error on the strea,
-#define FPIO_ERR_TIMEOUT   -2  // The operation timed out
-#define FPIO_ERR_CREATE    -3  // Unable to freate the floppy file
-#define FPIO_ERR_NOTREADY  -4  // The I/O object is not ready
+    // Initialize FloppyIO in client mode.
+    // This flag will swap the input/output buffers, making the script usable from
+    // within the virtual machine.
+    // (Flag used by the FloppyIO constructor)
+    #define F_CLIENT 16
 
-//
-// Structure of the synchronization control byte.
-//
-// This byte usually resides at the beginning of the
-// floppy file for the receive buffer and at the end
-// of the file for the sending buffer.
-//
-// It's purpose is to force the entire floppy image
-// to be re-written/re-read by the hypervisor/guest OS and
-// to synchronize the I/O in case of large ammount of
-// data being exchanged.
-//
-typedef struct fpio_ctlbyte {
-    unsigned short bDataPresent  : 1;
-    unsigned short bReserved     : 7;
-} fpio_ctlbytex;
+    //
+    // Error code constants
+    //
+    #define FPIO_NOERR          0  // No error occured
+    #define FPIO_ERR_IO        -1  // There was an I/O error on the strea,
+    #define FPIO_ERR_TIMEOUT   -2  // The operation timed out
+    #define FPIO_ERR_CREATE    -3  // Unable to freate the floppy file
+    #define FPIO_ERR_NOTREADY  -4  // The I/O object is not ready
 
-// Default floppy disk size (In bytes)
-// 
-// VirtualBox complains if bigger than 28K
-// It's supposed to go till 1474560 however (1.44 Mb)
+    //
+    // Structure of the synchronization control byte.
+    //
+    // This byte usually resides at the beginning of the
+    // floppy file for the receive buffer and at the end
+    // of the file for the sending buffer.
+    //
+    // It's purpose is to force the entire floppy image
+    // to be re-written/re-read by the hypervisor/guest OS and
+    // to synchronize the I/O in case of large ammount of
+    // data being exchanged.
+    //
+    typedef struct fpio_ctlbyte {
+        unsigned short bDataPresent  : 1;
+        unsigned short bReserved     : 7;
+    } fpio_ctlbytex;
 
-#define DEFAULT_FIO_FLOPPY_SIZE 28672
+    // Default floppy disk size (In bytes)
+    // 
+    // VirtualBox complains if bigger than 28K
+    // It's supposed to go till 1474560 however (1.44 Mb)
 
-// Default synchronization timeout (seconds).
-// This constant defines how long we should wait for synchronization
-// feedback from the guest before aborting.
+    #define DEFAULT_FIO_FLOPPY_SIZE 28672
 
-#define DEFAULT_FIO_SYNC_TIMEOUT 5
+    // Default synchronization timeout (seconds).
+    // This constant defines how long we should wait for synchronization
+    // feedback from the guest before aborting.
 
-//
-// Floppy I/O Communication class
-//
-class FloppyIO {
-public:
+    #define DEFAULT_FIO_SYNC_TIMEOUT 5
+
+    //
+    // Floppy I/O Communication class
+    //
+    class FloppyIO {
+    public:
     
-    // Construcors
-    FloppyIO(const char * filename, int flags = 0);
-    virtual ~FloppyIO();
+        // Construcors
+        FloppyIO(const char * filename, int flags = 0);
+        virtual ~FloppyIO();
     
-    // Functions
-    void        reset();
-    int         send(std::string strData);
-    std::string receive();
-    int         receive(std::string* strBuffer);
+        // Functions
+        void        reset();
+        int         send(std::string strData);
+        std::string receive();
+        int         receive(std::string* strBuffer);
     
-    // Topology info
-    int         ofsInput;   // Input buffer offset & size
-    int         szInput;
-    int         ofsOutput;  // Output buffer offset & size
-    int         szOutput;
+        // Topology info
+        int         ofsInput;   // Input buffer offset & size
+        int         szInput;
+        int         ofsOutput;  // Output buffer offset & size
+        int         szOutput;
     
-    int         ofsCtrlByteIn;  // Control byte offset for input
-    int         ofsCtrlByteOut; // Control byte offset for output
+        int         ofsCtrlByteIn;  // Control byte offset for input
+        int         ofsCtrlByteOut; // Control byte offset for output
 
-    // Synchronization stuff
-    bool        synchronized;   // The read/writes are synchronized
-    int         syncTimeout;    // For how long should we wait
+        // Synchronization stuff
+        bool        synchronized;   // The read/writes are synchronized
+        int         syncTimeout;    // For how long should we wait
 
-    // Error reporting and checking
-    int         error;
-    std::string errorStr;
-    bool        useExceptions;  // If TRUE errors will raise exceptions
+        // Error reporting and checking
+        int         error;
+        std::string errorStr;
+        bool        useExceptions;  // If TRUE errors will raise exceptions
     
-    void        clear();        // Clear errors
-    bool        ready();        // Returns TRUE if there are no errors
+        void        clear();        // Clear errors
+        bool        ready();        // Returns TRUE if there are no errors
 
-private:
+    private:
 
-    // Floppy Info
-    std::fstream* fIO;
-    int         szFloppy;
+        // Floppy Info
+        std::fstream* fIO;
+        int         szFloppy;
 
-    // Functions
-    int         waitForSync(int controlByteOffset, char state, int timeout);
-    int         setError(int code, std::string message);
+        // Functions
+        int         waitForSync(int controlByteOffset, char state, int timeout);
+        int         setError(int code, std::string message);
     
-};
+    };
 
-//
-// Floppy I/O Exceptions
-//
-class FloppyIOException: public std::exception {
-public:
+    //
+    // Floppy I/O Exceptions
+    //
+    class FloppyIOException: public std::exception {
+    public:
 
-    int         code;
-    std::string message;
+        int         code;
+        std::string message;
 
-    // Default constructor/destructor
-    FloppyIOException() { this->code=0; this->message=""; };
-    virtual ~FloppyIOException() throw() { };
+        // Default constructor/destructor
+        FloppyIOException() { this->code=0; this->message=""; };
+        virtual ~FloppyIOException() throw() { };
 
-    // Get description
-    virtual const char* what() const throw() {
-        static std::ostringstream oss (std::ostringstream::out);
-        oss << this->message << ". Error code = " << this->code;
-        return oss.str().c_str();
-    }
+        // Get description
+        virtual const char* what() const throw() {
+            static std::ostringstream oss (std::ostringstream::out);
+            oss << this->message << ". Error code = " << this->code;
+            return oss.str().c_str();
+        }
 
-    // Change the message and return my instance
-    // (Used for singleton format)
-    FloppyIOException * set(int _code, std::string _message) {
-        this->code = _code;
-        this->message = _message;
-        return this;
-    }
+        // Change the message and return my instance
+        // (Used for singleton format)
+        FloppyIOException * set(int _code, std::string _message) {
+            this->code = _code;
+            this->message = _message;
+            return this;
+        }
     
+    };
+
 };
 
 #endif	// FLOPPYIO_H 

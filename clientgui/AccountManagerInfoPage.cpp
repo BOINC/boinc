@@ -36,7 +36,11 @@
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
 #include "AccountManagerInfoPage.h"
-#include "ProjectListCtrl.h"
+
+/*!
+ * CAcctMgrListItem type definition
+ */
+IMPLEMENT_DYNAMIC_CLASS( CAcctMgrListItem, wxObject )
 
 
 /*!
@@ -54,8 +58,9 @@ BEGIN_EVENT_TABLE( CAccountManagerInfoPage, wxWizardPageEx )
 ////@begin CAccountManagerInfoPage event table entries
     EVT_WIZARDEX_PAGE_CHANGED( -1, CAccountManagerInfoPage::OnPageChanged )
     EVT_WIZARDEX_PAGE_CHANGING( -1, CAccountManagerInfoPage::OnPageChanging )
-    EVT_PROJECTLIST_ITEM_CHANGE( CAccountManagerInfoPage::OnProjectItemChange )
-    EVT_PROJECTLIST_ITEM_DISPLAY( CAccountManagerInfoPage::OnProjectItemDisplay )
+    EVT_LISTBOX( ID_PROJECTS, CAccountManagerInfoPage::OnProjectSelected )
+	EVT_BUTTON( ID_PROJECTWEBPAGECTRL, CAccountManagerInfoPage::OnProjectItemDisplay )
+    EVT_TEXT( ID_PROJECTURLCTRL, CAccountManagerInfoPage::OnURLChanged )
     EVT_WIZARDEX_CANCEL( -1, CAccountManagerInfoPage::OnCancel )
 ////@end CAccountManagerInfoPage event table entries
 
@@ -108,6 +113,14 @@ bool CAccountManagerInfoPage::Create( CBOINCBaseWizard* parent )
 void CAccountManagerInfoPage::CreateControls()
 {    
 ////@begin CAccountManagerInfoPage content construction
+#ifdef __WXMAC__
+#define LISTBOXWIDTH 225
+#define DESCRIPTIONSWIDTH 350
+#else
+#define LISTBOXWIDTH ADJUSTFORXDPI(150)
+#define DESCRIPTIONSWIDTH ADJUSTFORXDPI(310)
+#endif
+
     CAccountManagerInfoPage* itemWizardPage23 = this;
 
     wxBoxSizer* itemBoxSizer24 = new wxBoxSizer(wxVERTICAL);
@@ -122,14 +135,29 @@ void CAccountManagerInfoPage::CreateControls()
     m_pDescriptionStaticCtrl->Create( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer24->Add(m_pDescriptionStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer3 = new wxFlexGridSizer(2, 1, 0, 0);
+    wxFlexGridSizer* itemFlexGridSizer3 = new wxFlexGridSizer(1, 2, 0, 0);
     itemFlexGridSizer3->AddGrowableRow(0);
     itemFlexGridSizer3->AddGrowableCol(0);
+    itemFlexGridSizer3->AddGrowableCol(1);
     itemBoxSizer24->Add(itemFlexGridSizer3, 1, wxGROW|wxALL, 5);
 
-    m_pProjectListCtrl = new CProjectListCtrl;
-    m_pProjectListCtrl->Create( itemWizardPage23 );
+    wxArrayString m_pProjectsCtrlStrings;
+    m_pProjectListCtrl = new wxListBox( itemWizardPage23, ID_PROJECTS, wxDefaultPosition, wxSize(LISTBOXWIDTH, ADJUSTFORYDPI(175)), m_pProjectsCtrlStrings, wxLB_SINGLE|wxLB_SORT );
     itemFlexGridSizer3->Add(m_pProjectListCtrl, 0, wxGROW|wxRIGHT, 10);
+
+    wxFlexGridSizer* itemFlexGridSizer4 = new wxFlexGridSizer(3, 1, 0, 0);
+    itemFlexGridSizer4->AddGrowableRow(1);
+    itemFlexGridSizer3->Add(itemFlexGridSizer4, 0, wxGROW|wxLEFT, 10);
+
+    m_pProjectDetailsStaticCtrl = new wxStaticText;
+    m_pProjectDetailsStaticCtrl->Create( itemWizardPage23, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer4->Add(m_pProjectDetailsStaticCtrl, 0, wxBOTTOM, 5);
+    
+    m_pProjectDetailsDescriptionCtrl = new wxTextCtrl( itemWizardPage23, ID_PROJECTDESCRIPTION, wxT(""), wxDefaultPosition, wxSize(DESCRIPTIONSWIDTH, ADJUSTFORYDPI(100)), wxTE_MULTILINE|wxTE_READONLY );
+    itemFlexGridSizer4->Add(m_pProjectDetailsDescriptionCtrl, 0, wxGROW);
+
+	m_pOpenWebSiteButton = new wxButton( this, ID_PROJECTWEBPAGECTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer4->Add(m_pOpenWebSiteButton, 0, wxALIGN_CENTER|wxTOP|wxBOTTOM, 5);
 
     wxFlexGridSizer* itemFlexGridSizer11 = new wxFlexGridSizer(2, 1, 0, 0);
     itemFlexGridSizer11->AddGrowableRow(0);
@@ -151,15 +179,6 @@ void CAccountManagerInfoPage::CreateControls()
     m_pProjectUrlCtrl->Create( itemWizardPage23, ID_PROJECTURLCTRL, wxEmptyString, wxDefaultPosition, wxSize(200, -1), 0 );
     itemFlexGridSizer14->Add(m_pProjectUrlCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    // Set validators
-    m_pProjectUrlCtrl->SetValidator( CValidateURL( & m_strProjectURL ) );
-    
-#ifdef __WXMAC__
-    //Accessibility
-    HIViewRef listView = (HIViewRef)m_pProjectListCtrl->GetHandle();
-    HIObjectRef   theObject = (HIObjectRef)HIViewGetSuperview(listView);
-    HIObjectSetAccessibilityIgnored(theObject, true);
-#endif
     ////@end CAccountManagerInfoPage content construction
 }
 
@@ -236,10 +255,13 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
     unsigned int      i;
     ALL_PROJECTS_LIST pl;
-    CMainDocument*    pDoc = wxGetApp().GetDocument();
+    CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pDescriptionStaticCtrl);
+    wxASSERT(m_pProjectDetailsStaticCtrl);
+    wxASSERT(m_pProjectDetailsDescriptionCtrl);
+    wxASSERT(m_pOpenWebSiteButton);
     wxASSERT(m_pProjectUrlStaticCtrl);
     wxASSERT(m_pProjectUrlCtrl);
 
@@ -250,11 +272,22 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     m_pDescriptionStaticCtrl->SetLabel(
         _("To choose an account manager, click its name or \ntype its URL below.")
     );
-    m_pProjectUrlStaticCtrl->SetLabel(
-        _("Account Manager &URL:")
+
+    m_pProjectDetailsStaticCtrl->SetLabel(
+        _("Account manager details:")
     );
 
-    // Populate the virtual list control with project information
+    m_pProjectUrlStaticCtrl->SetLabel(
+        _("Account manager &URL:")
+    );
+
+    m_pOpenWebSiteButton->SetLabel(
+        _("Open web page")
+    );
+
+    m_pOpenWebSiteButton->SetToolTip( _("Visit this account manager's web site"));
+
+    // Populate the list box with project information
     //
     if (!m_bAccountManagerListPopulated) {
         pDoc->rpc.get_all_projects_list(pl);
@@ -267,26 +300,28 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                 true
             );
 
+            CAcctMgrListItem* pItem = new CAcctMgrListItem();
+
+            pItem->SetURL( pl.account_managers[i]->url.c_str() );
+            pItem->SetName( pl.account_managers[i]->name.c_str() );
+            pItem->SetImage( pl.account_managers[i]->image.c_str() );
+            pItem->SetDescription( pl.account_managers[i]->description.c_str() );
+
+            
             m_pProjectListCtrl->Append(
-                wxString(pl.account_managers[i]->url.c_str(), wxConvUTF8),
                 wxString(pl.account_managers[i]->name.c_str(), wxConvUTF8),
-                wxString(pl.account_managers[i]->image.c_str(), wxConvUTF8),
-                wxString(pl.account_managers[i]->description.c_str(), wxConvUTF8),
-                false,
-                false,
-                true
+                pItem
             );
         }
 
         // Pre select the first element
-        if (m_pProjectListCtrl->GetItemCount()) {
+        if (m_pProjectListCtrl->GetCount()) {
             m_pProjectListCtrl->SetSelection(0);
-            m_strProjectURL = m_pProjectListCtrl->GetItem(0)->GetURL();
-            m_bProjectSupported = m_pProjectListCtrl->GetItem(0)->IsPlatformSupported();
+            CAcctMgrListItem* pItem = (CAcctMgrListItem*)(m_pProjectListCtrl->GetClientData(0));
+
+            m_pProjectUrlCtrl->SetValue(pItem->GetURL());
+            m_pProjectDetailsDescriptionCtrl->SetValue(pItem->GetDescription());
         }
-
-        TransferDataToWindow();
-
         m_bAccountManagerListPopulated = true;
     }
 
@@ -302,25 +337,49 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
  */
 
 void CAccountManagerInfoPage::OnPageChanging( wxWizardExEvent& event ) {
-    event.Skip();
+    if (event.GetDirection() == false) return;
+
+    CWizardAttach* pWA = ((CWizardAttach*)GetParent());
+	CAcctMgrListItem* pItem = (CAcctMgrListItem*)(m_pProjectListCtrl->GetClientData(m_pProjectListCtrl->GetSelection()));
+
+    // Update authoritative data in CWizardAttach
+	pWA->SetProjectURL(pItem->GetURL());
+	pWA->SetProjectName(pItem->GetName());
 }
 
 /*!
- * wxEVT_PROJECTLIST_ITEM_CHANGE event handler for ID_PROJECTSELECTIONCTRL
+ * wxEVT_LISTBOX event handler for ID_PROJECTS
  */
 
-void CAccountManagerInfoPage::OnProjectItemChange( ProjectListCtrlEvent& event ) {
-    SetProjectURL( event.GetURL() );
-    SetProjectSupported( event.IsSupported() );
-    TransferDataToWindow();
+void CAccountManagerInfoPage::OnProjectSelected( wxCommandEvent& /*event*/ ) {
+    int sel = m_pProjectListCtrl->GetSelection();
+    if (sel == wxNOT_FOUND) {
+        m_pProjectUrlCtrl->SetValue(wxEmptyString);
+        m_pProjectDetailsDescriptionCtrl->SetValue(wxEmptyString);
+    } else {
+        CAcctMgrListItem* pItem = (CAcctMgrListItem*)(m_pProjectListCtrl->GetClientData(sel));
+        m_pProjectUrlCtrl->SetValue(pItem->GetURL());
+        m_pProjectDetailsDescriptionCtrl->SetValue(pItem->GetDescription());
+    }
 }
 
 /*!
- * wxEVT_PROJECTLIST_ITEM_DISPLAY event handler for ID_PROJECTSELECTIONCTRL
+ * wxEVT_TEXT event handler for ID_PROJECTURLCTRL
  */
 
-void CAccountManagerInfoPage::OnProjectItemDisplay( ProjectListCtrlEvent& event ) {
-    wxLaunchDefaultBrowser( event.GetURL() );
+void CAccountManagerInfoPage::OnURLChanged( wxCommandEvent& /*event*/ ) {
+    m_pOpenWebSiteButton->Enable(!m_pProjectUrlCtrl->GetValue().IsEmpty());
+}
+
+/*!
+ * wxEVT_BUTTON event handler for ID_PROJECTWEBPAGECTRL
+ */
+
+void CAccountManagerInfoPage::OnProjectItemDisplay( wxCommandEvent& /*event*/ ) {
+    wxString url = m_pProjectUrlCtrl->GetValue();
+    if (!url.IsEmpty()) {
+        wxLaunchDefaultBrowser(url);
+    }
 }
 
 /*!

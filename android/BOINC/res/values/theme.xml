@@ -17,29 +17,37 @@
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="Theme" parent="android:Theme">
-    	<item name="android:background">@color/white_smoke</item>
+ <!-- All styles declared here are for the support library compatibility.
+ Style properties for API version 14+ can be found at values-14/theme.xml -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"> 
+
+    <style name="Theme.Styled" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="actionBarStyle">@style/StyledActionBar</item>
+        <item name="actionBarTabStyle">@style/StyledActionBarTabView</item>
+        <item name="actionMenuTextColor">@android:color/white</item>
+    	<item name="android:itemBackground">@color/dark_blue</item>
+        <item name="android:windowBackground">@color/white</item>
         <item name="android:textColor">@color/black</item>
-        <item name="android:windowTitleSize">35dp</item>
-        <item name="android:windowTitleStyle">@style/CustomWindowTitle</item>
-        <item name="android:windowTitleBackgroundStyle">@style/CustomWindowTitleBackground</item>
-		<item name="android:listViewStyle">@style/CustomListView</item>
-		<item name="android:panelFullBackground">@color/dark_blue_transparent</item>
     </style>
     
-    <!-- title bar -->
-    <style name="CustomWindowTitle">
-     	<item name="android:singleLine">true</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">0</item>
-        <item name="android:shadowRadius">5</item>
-        <item name="android:shadowColor">#1155CC</item>
+    <style name="Theme.Styled.NoActionBar" parent="Theme.Styled">
+    	<item name="android:windowNoTitle">true</item>
+	</style>
+    
+    <style name="StyledActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
+    	<item name="background">@drawable/shape_dark_blue_gradient_background</item>
+    	<item name="backgroundStacked">@color/dark_blue</item>
+    	<item name="titleTextStyle">@style/StyledActionBarTitleText</item>
+	</style>
+    
+    <style name="StyledActionBarTabView" parent="@style/Widget.AppCompat.ActionBar.TabView">
+   		<item name="android:gravity">center</item>
     </style>
-    <style name="CustomWindowTitleBackground">
-        <item name="android:background">@color/black</item>
-    </style>
+
+  	<style name="StyledActionBarTitleText" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+    	<item name="android:textColor">@android:color/white</item>
+  	</style>
     
     <!-- sub header -->
     <style name="SubHeader">

@@ -218,7 +218,7 @@ void CCompletionErrorPage::OnPageChanged( wxWizardExEvent& event ) {
 
     if (m_pServerMessagesCtrl->GetLabel().IsEmpty()) {
         m_pDirectionsStaticCtrl->SetLabel(
-            _("An error has occurred;\ncheck the Event Log for details.\n\nClick Finish to close.")
+            _("Please try again later.\n\nClick Finish to close.")
         );
     } else {
         m_pDirectionsStaticCtrl->SetLabel(

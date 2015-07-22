@@ -24,6 +24,7 @@
 #include <cstdio>
 #include <cstring>
 
+#include "filesys.h"
 #include "parse.h"
 
 #include "sched_types.h"

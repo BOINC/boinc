@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2011 University of California
+// Copyright (C) 2013 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,69 +22,75 @@
  *  BOINCManager precompiled headers file for Mac
  */
 
-// To use the Development (Debug) build of wxMac (allows stepping into wxMac 
-//   source code, enables debug, trace, Asserts, etc.):
-// (1) Set USE_DEBUG_WXMAC to 1 in this source file
-// (2) In the Project menu, set the Active Build Configuration to "Development"
-// (3) In the Project menu, set the Active Target to "mgr_boinc"
-// (4) In Xcode's main project window, control-click on the title "Groups & Files" at the 
-//      top of the left-hand pane and select "Target Membership" from the contextual menu.
-// (5) In the XCode project's Groups and Files column:
-//      uncheck "External Frameworks and Libraries/libwx_mac_static.a"
-// (6) In the XCode project's Groups and Files column:
-//      check "External Frameworks and Libraries/wxMac-BOINC.xcodeproj/libwx_mac_static.a"
+// To use the debugging features of the Development (Debug) build of
+// wxCocoa (trace, Asserts, etc.):
+// (1) Set USE_DEBUG_WXMAC and wxUSE_LOG_TRACE as desired in this source file.
+// (2) In the Project menu, set the Active Target to "mgr_boinc".
+// (3) In the Product menu, select "Build" or "Build For Running", or click on the
+//      "Run" icon at top left of the Xcode toolbar.
 //
-// This will have no effect on the BOINC Manager Deployment build, which will still 
-//  use the wxMac Deployment build.
+// This assumes wxWidgets-3.0 was built using the buildWxMac.sh script.
 //
-// To use the wxMac Deployment build even in BOINC Manager Development builds, reverse 
-// the above steps (setting USE_DEBUG_WXMAC to 0, etc.)
+// NOTE: normally, wxWidgets internal asserts are always enabled when running the
+// Development build, and USE_DEBUG_WXMAC afects only wxAssert() calls in the
+// BOINC Manager code.  However, you can disable ALL wxAssert() calls by BOTH:
+// [1] calling wxSetAssertHandler(NULL) in the code AND 
+// [2] setting USE_DEBUG_WXMAC to 1.
+// (While setting USE_DEBUG_WXMAC to 1 seems counterintuitive in this case, it
+// is needed because wxSetAssertHandler() is ignored when wxDEBUG_LEVEL==0.)
 
-#define USE_DEBUG_WXMAC 0
- 
-#define WX_PRECOMP
+// Set USE_DEBUG_WXMAC to 0 to disable wxAssert() calls in Manager Development builds.
+// Set USE_DEBUG_WXMAC to 1 to enable wxAssert() calls in Manager Development builds.
+// See the note above for a special exception.
+//
+#define USE_DEBUG_WXMAC 1
 
-#define HAVE_SSIZE_T
+// Set wxUSE_LOG_TRACE to 0 to disable wxLogTrace() calls in Manager Development builds.
+// Set both USE_DEBUG_WXMAC to 1 and wxUSE_LOG_TRACE to 1 to enable wxLogTrace() calls
+// in Manager Development builds.
+//
+// We are now building wxWidgets with wxDEBUG_LEVEL set to 0 in deployment builds, so all 
+// debugging, including wxLogTrace() calls, is always disabled in Manager Deployment builds.
+#define wxUSE_LOG_TRACE 0
 
-#include <wx/version.h> // For wxCHECK_VERSION
+#define __WXOSX_COCOA__
+#define __WX__
+#define wxUSE_BASE 1
+#define MACOS_CLASSIC
+#define __WXMAC_XCODE__ 1
+#define SCI_LEXER
+#define WX_PRECOMP 1
+#define wxUSE_UNICODE_UTF8 1
 
-#define TARGET_CARBON 1
+#define TARGET_COCOA 1
 #define wxUSE_UNICODE 1
 #define HAVE_WCSLEN 1
 
 #include <wchar.h>
 
-#if ((defined(__i386__) || defined(__x86_64__)) && wxCHECK_VERSION(2,8,2))
-// platform.h erroneously #defines __POWERPC__, so we include platform.h first 
-// and then #undef __POWERPC__ before including the other wxMac header files.
-// It's unclear if this affects non-CodeWarrior builds, but do it to be safe.
-#include <wx/platform.h>
-#ifdef __POWERPC__
-#undef __POWERPC__
-#endif
+
+#ifdef _DEBUG
+#undef wxDEBUG_LEVEL
+#define wxDEBUG_LEVEL USE_DEBUG_WXMAC
+#else
+#define wxDEBUG_LEVEL 0
 #endif
 
-#if (defined(_DEBUG) && (! USE_DEBUG_WXMAC))
-
-#undef _DEBUG       // so we can link with Deployment Wx libs
-#undef __WXDEBUG__
-
+#include <wx/wxprec.h>
 #include "stdwx.h"
 
-#define  _DEBUG     // Redefine _DEBUG for the rest of the code
-#define __WXDEBUG__
-
-#else   // ! (defined(_DEBUG) && (! USE_DEBUG_WXMAC))
-
-#include "stdwx.h"
-
-#endif  // ! (defined(_DEBUG) && (! USE_DEBUG_WXMAC))
+// Allow the BOINC definitions of these instead of the wxWidgets ones
+#undef PACKAGE_BUGREPORT
+#undef PACKAGE_NAME
+#undef PACKAGE_STRING
+#undef PACKAGE_TARNAME
+#undef PACKAGE_VERSION
 
 #include "config.h"
 
 // Prototypes for Mac_GUI.cpp
 Boolean Mac_Authorize(void);
-void MacLocalizeBOINCMenu();
+// void MacLocalizeBOINCMenu();
 Boolean IsWindowOnScreen(int iLeft, int iTop, int iWidth, int iHeight);
 
 #endif

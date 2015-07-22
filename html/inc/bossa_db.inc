@@ -223,22 +223,15 @@ class BossaJobInst {
 
         // first look for unfinished jobs previously assigned to this user
         //
-        $query = "select * from ".$db->db_name.".bossa_job_inst where app_id=$app->id and user_id=$user->id and finish_time=0 limit 1";
-        $result = $db->do_query($query);
-        if ($result) {
-            $ji = mysql_fetch_object($result, 'BossaJobInst');
-            mysql_free_result($result);
-            if ($ji) return $ji;
-        }
+        $job = $db->lookup("bossa_job_inst", "BossaJobInst",
+            "app_id=$app->id and user_id=$user->id and finish_time=0 limit 1"
+        );
+        if ($job) return $job;
 
         if ($app->calibration_frac && drand() < $app->calibration_frac) {
-            $query = "select * from ".$db->db_name.".bossa_job where app_id=$app->id and (select count(*) from ".$db->db_name.".bossa_job_inst where job_id=bossa_job.id and user_id=$user->id) = 0 and state=1 and calibration=1 order by priority_0 desc limit 1";
-            $result = $db->do_query($query);
-            if (!$result) return null;
-            $job = mysql_fetch_object($result, 'BossaJob');
+            $job = $db->lookup("bossa_job", "BossaJob", "app_id=$app->id and (select count(*) from ".$db->db_name.".bossa_job_inst where job_id=bossa_job.id and user_id=$user->id) = 0 and state=1 and calibration=1 order by priority_0 desc limit 1");
             if (!$job) return null;
             $job->update("priority_0=priority_0-1");
-            mysql_free_result($result);
         } else {
             if (isset($user->bossa->category)) {
                 $prio = "priority_".$user->bossa->category;
@@ -248,12 +241,8 @@ class BossaJobInst {
             // skips jobs for which this user
             // has already been assigned an instance
             //
-            $query = "select * from ".$db->db_name.".bossa_job where app_id=$app->id and (select count(*) from ".$db->db_name.".bossa_job_inst where job_id=bossa_job.id and user_id=$user->id) = 0 and state=1 and calibration=0 order by $prio desc limit 1";
-            $result = $db->do_query($query);
-            if (!$result) return null;
-            $job = mysql_fetch_object($result, 'BossaJob');
+            $job = $db->lookup("bossa_job", "BossaJob", "app_id=$app->id and (select count(*) from ".$db->db_name.".bossa_job_inst where job_id=bossa_job.id and user_id=$user->id) = 0 and state=1 and calibration=0 order by $prio desc limit 1");
             if (!$job) return null;
-            mysql_free_result($result);
         }
 
         $now = time();

@@ -23,6 +23,8 @@ require_once('../inc/time.inc');
 require_once('../inc/text_transform.inc');
 require_once('../inc/forum.inc');
 
+if (DISABLE_FORUMS) error_page("Forums are disabled");
+
 check_get_args(array());
 
 // Searches for the keywords in the $keyword_list array in thread titles.
@@ -34,7 +36,7 @@ function search_thread_titles(
 ){
     $search_string="%";
     foreach ($keyword_list as $key => $word) {
-        $search_string.=mysql_escape_string($word)."%";
+        $search_string .= BoincDb::escape_string($word)."%";
     }        
     $query = "title like '".$search_string."'";
     if ($forum && $forum != "all") {

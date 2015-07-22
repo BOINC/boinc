@@ -102,8 +102,8 @@ function email_contact($vol) {
     ";
 }
 
-$send_email = $_GET['send_email'];
-$rate = $_GET['rate'];
+$send_email = get_str2('send_email');
+$rate = get_str2('rate');
 session_set_cookie_params(86400*365);
 session_start();
 $uid = session_id();
@@ -178,7 +178,9 @@ if ($send_email) {
     page_tail();
 } else {
     page_head("Help Volunteer: $vol->name");
+    skype_script();
     echo show_info($vol);
+if (false) {
     $status = skype_status($vol->skypeid);
     if ($status != $vol->status) {
         $vol->status = $status;
@@ -197,11 +199,17 @@ if ($send_email) {
     if (online($status)) {
         live_contact($vol);
     }
+}
+    skype_call_button($vol);
     email_contact($vol);
     echo "</td></tr></table><p>\n";
     echo "<table class=box cellpadding=8 width=100%><tr><td>";
     $rating = rating_vol_auth($vol->id, $uid);
-    if (!$rating) $rating->rating = -1;
+    if (!$rating) {
+        $rating = new StdClass;
+        $rating->rating = -1;
+        $rating->comment = "";
+    }
     show_rating($vol, $rating);
     echo "</td></tr></table>\n";
 

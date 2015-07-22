@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -26,6 +26,11 @@ require_once('../inc/time.inc');
 check_get_args(array("read", "return", "tnow", "ttok"));
 
 $user = get_logged_in_user(false);
+BoincForumPrefs::lookup($user);
+
+if (DISABLE_FORUMS && !is_admin($user)) {
+    error_page("Forums are disabled");
+}
 
 // Process request to mark all posts as read
 //
@@ -58,7 +63,7 @@ function show_forum_summary($forum, $i) {
         <tr class=\"row$j\">
         <td>
             <a href=\"forum_forum.php?id=$forum->id\">$t</a>
-            <br><span class=\"smalltext\">$d</span>
+            <br><small>$d</small>
         </td>
         <td class=\"numbers\">$forum->threads</td>
         <td class=\"numbers\">$forum->posts</td>
@@ -71,7 +76,7 @@ page_head(tra("%1 Message boards", PROJECT));
 
 show_forum_header($user);
 
-if (FORUM_QA_MERGED_MODE === true){
+if (defined('FORUM_QA_MERGED_MODE') && FORUM_QA_MERGED_MODE){
     $categories = BoincCategory::enum("true order by orderID");
 } else {
     echo "<p>"

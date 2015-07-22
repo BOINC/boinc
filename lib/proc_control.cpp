@@ -39,6 +39,7 @@
 #endif
 #endif
 
+#include "common_defs.h"
 #include "procinfo.h"
 #include "str_util.h"
 #include "util.h"
@@ -48,6 +49,10 @@
 using std::vector;
 
 //#define DEBUG
+
+#ifdef DEBUG
+#include <stdio.h>
+#endif
 
 static void get_descendants_aux(PROC_MAP& pm, int pid, vector<int>& pids) {
     PROC_MAP::iterator i = pm.find(pid);
@@ -94,6 +99,8 @@ int suspend_or_resume_threads(
 ) { 
     HANDLE threads, thread;
     THREADENTRY32 te = {0}; 
+    int retval = 0;
+    DWORD n;
 
 #ifdef DEBUG
     fprintf(stderr, "start: check_exempt %d %s\n", check_exempt, precision_time_to_string(dtime()));
@@ -129,16 +136,17 @@ int suspend_or_resume_threads(
         if (!in_vector(te.th32OwnerProcessID, pids)) continue;
         thread = OpenThread(THREAD_SUSPEND_RESUME, FALSE, te.th32ThreadID);
         if (resume) {
-            DWORD n = ResumeThread(thread);
+            n = ResumeThread(thread);
 #ifdef DEBUG
             fprintf(stderr, "ResumeThread returns %d\n", n);
 #endif
         } else {
-            DWORD n = SuspendThread(thread);
+            n = SuspendThread(thread);
 #ifdef DEBUG
             fprintf(stderr, "SuspendThread returns %d\n", n);
 #endif
         }
+        if (n == -1) retval = -1;
         CloseHandle(thread);
     } while (Thread32Next(threads, &te)); 
 
@@ -146,7 +154,7 @@ int suspend_or_resume_threads(
 #ifdef DEBUG
     fprintf(stderr, "end: %s\n", precision_time_to_string(dtime()));
 #endif
-    return 0;
+    return retval;
 } 
 
 #else
@@ -240,5 +248,29 @@ void suspend_or_resume_process(int pid, bool resume) {
     suspend_or_resume_threads(pids, 0, resume, false);
 #else
     ::kill(pid, resume?SIGCONT:SIGSTOP);
+#endif
+}
+
+// return OS-specific value associated with priority code
+//
+int process_priority_value(int priority) {
+#ifdef _WIN32
+    switch (priority) {
+    case PROCESS_PRIORITY_LOWEST: return IDLE_PRIORITY_CLASS;
+    case PROCESS_PRIORITY_LOW: return BELOW_NORMAL_PRIORITY_CLASS;
+    case PROCESS_PRIORITY_NORMAL: return NORMAL_PRIORITY_CLASS;
+    case PROCESS_PRIORITY_HIGH: return ABOVE_NORMAL_PRIORITY_CLASS;
+    case PROCESS_PRIORITY_HIGHEST: return HIGH_PRIORITY_CLASS;
+    }
+    return 0;
+#else
+    switch (priority) {
+    case PROCESS_PRIORITY_LOWEST: return 19;
+    case PROCESS_PRIORITY_LOW: return 10;
+    case PROCESS_PRIORITY_NORMAL: return 0;
+    case PROCESS_PRIORITY_HIGH: return -10;
+    case PROCESS_PRIORITY_HIGHEST: return -16;
+    }
+    return 0;
 #endif
 }

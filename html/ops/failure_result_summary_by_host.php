@@ -61,7 +61,7 @@ GROUP BY
 order by error_count desc
 ";
 
-$result = mysql_query($main_query);
+$result = _mysql_query($main_query);
 
 start_table();
 table_header(
@@ -69,17 +69,15 @@ table_header(
     "Error count"
 );
 
-while ($res = mysql_fetch_object($result)) {
-    $av = BoincAppVersion::lookup_id($res->app_version_id);
-    $p = BoincPlatform::lookup_id($av->platformid);
+while ($res = _mysql_fetch_object($result)) {
     table_row(
-        sprintf("%.2f", $res->app_version_num/100)." $p->name [$av->plan_class]",
-        $res->Host_ID,
+        app_version_desc($res->app_version_id),
+        "<a href=".URL_BASE."show_host_detail.php?hostid=$res->Host_ID>$res->Host_ID</a>",
         $res->OS_Version, $res->Results_Today,
         "<a href=db_action.php?table=result&detail=low&hostid=$res->Host_ID&app_version_id=$res->app_version_id&server_state=5&outcome=3>$res->error_count</a>"
     );
 }
-mysql_free_result($result);
+_mysql_free_result($result);
 
 end_table();
 

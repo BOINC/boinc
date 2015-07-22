@@ -79,7 +79,7 @@ Both:
 
 import boinc_path_config
 from Boinc import boinc_project_path, configxml
-import sys, os, getopt, time, glob, fcntl, signal, socket
+import sys, os, getopt, time, glob, fcntl, signal, socket, getpass
 
 right_now = int(time.time())
 verbose = os.isatty(sys.stdout.fileno())
@@ -151,7 +151,10 @@ def is_daemon(task):
     return task._name == 'daemon'
 
 def get_task_command_basename(task):
-    return os.path.basename(task.cmd.split()[0])
+    x = task.cmd.split()[0]
+    if x == 'run_in_ops':
+        x = task.cmd.split()[1]
+    return os.path.basename(x)
 
 def get_task_output_name(task):
     return os.path.join(log_dir,
@@ -160,6 +163,9 @@ def get_task_output_name(task):
 def get_daemon_output_name(task):
     return os.path.join(log_dir,
         task.__dict__.get('output') or get_task_command_basename(task) + '.log')
+
+def get_daemon_silent_start(task):
+    return task.__dict__.get('silent_start') or 0
 
 def get_daemon_pid_name(task):
     return os.path.join(pid_dir,
@@ -404,7 +410,7 @@ def run_daemon(task):
         if verbose:
             print >>sys.stderr, "  Daemon already running:",task.cmd
         sys.exit(0)
-    if verbose or verbose_daemon_run:
+    if verbose or ( verbose_daemon_run and not get_daemon_silent_start(task) ):
         print "  Starting daemon:", task.cmd
         sys.stdout.flush()
     redirect(get_daemon_output_name(task))
@@ -416,8 +422,7 @@ def run_daemon(task):
 def run_daemons():
     found_any = False
     if verbose: print "Starting daemons"
-    if is_main_host:
-        remove_stop_daemons()
+    remove_stop_daemons()
     for task in config.daemons:
         if task.host != local_hostname:
             continue
@@ -706,6 +711,12 @@ if not command:
     raise SystemExit('No command specified and script name is not "start", "stop", or "status"')
 
 config = configxml.ConfigFile(config_filename).read()
+
+# if a <project_user_name> is configured, terminate script if not ran by this user
+if 'project_user_name' in config.config.__dict__:
+    if getpass.getuser() != config.config.project_user_name:
+        raise SystemExit('The script must be run by user "' + config.config.project_user_name + '"')
+
 run_state = configxml.RunStateFile(run_state_filename).read(failopen_ok = True)
 
 if 'ssh_exec' in config.config.__dict__:

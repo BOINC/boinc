@@ -74,7 +74,12 @@ if ($appid) {
     $clause2 .= ' AND appid='.$appid;
 }
 
-$query = "$clause2 order by id desc limit $offset,".($results_per_page+1);
+if ($show_names) {
+    $order_clause = "order by name";
+} else {
+    $order_clause = "order by sent_time desc";
+}
+$query = "$clause2 $order_clause limit $offset,".($results_per_page+1);
 $results = BoincResult::enum($query);
 
 $info = new StdClass;

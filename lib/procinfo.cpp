@@ -39,7 +39,7 @@ using std::vector;
 
 // Scan the process table adding in CPU time and mem usage.
 //
-void add_child_totals(PROCINFO& pi, PROC_MAP& pm, PROC_MAP::iterator i) {
+void add_child_totals(PROCINFO& procinfo, PROC_MAP& pm, PROC_MAP::iterator i) {
     PROCINFO parent = i->second;
     for (unsigned int j=0; j<parent.children.size(); j++) {
         int child_pid = parent.children[j];
@@ -49,20 +49,20 @@ void add_child_totals(PROCINFO& pi, PROC_MAP& pm, PROC_MAP::iterator i) {
         if (p.scanned) {
             return;     // cycle in graph - shouldn't happen
         }
-        pi.kernel_time += p.kernel_time;
-        pi.user_time += p.user_time;
+        procinfo.kernel_time += p.kernel_time;
+        procinfo.user_time += p.user_time;
         p.scanned = true;
 
         // only count process with most swap and memory
-        if (p.swap_size > pi.swap_size) {
-            pi.swap_size = p.swap_size;
+        if (p.swap_size > procinfo.swap_size) {
+            procinfo.swap_size = p.swap_size;
         }
-        if (p.working_set_size > pi.working_set_size) {
-            pi.working_set_size = p.working_set_size;
+        if (p.working_set_size > procinfo.working_set_size) {
+            procinfo.working_set_size = p.working_set_size;
         }
 
         p.is_boinc_app = true;
-        add_child_totals(pi, pm, i2); // recursion - woo hoo!
+        add_child_totals(procinfo, pm, i2); // recursion - woo hoo!
     }
 }
 
@@ -71,24 +71,24 @@ void add_child_totals(PROCINFO& pi, PROC_MAP& pm, PROC_MAP::iterator i) {
 // Set PROCINFO.is_boinc_app for all of them.
 //
 void procinfo_app(
-    PROCINFO& pi, vector<int>* other_pids, PROC_MAP& pm, char* graphics_exec_file
+    PROCINFO& procinfo, vector<int>* other_pids, PROC_MAP& pm, char* graphics_exec_file
 ) {
     PROC_MAP::iterator i;
-    for (i=pm.begin(); i!=pm.end(); i++) {
+    for (i=pm.begin(); i!=pm.end(); ++i) {
         PROCINFO& p = i->second;
-        if (p.id == pi.id
+        if (p.id == procinfo.id
             || (other_pids && in_vector(p.id, *other_pids))
         ) {
-            pi.kernel_time += p.kernel_time;
-            pi.user_time += p.user_time;
-            pi.swap_size += p.swap_size;
-            pi.working_set_size += p.working_set_size;
+            procinfo.kernel_time += p.kernel_time;
+            procinfo.user_time += p.user_time;
+            procinfo.swap_size += p.swap_size;
+            procinfo.working_set_size += p.working_set_size;
             p.is_boinc_app = true;
             p.scanned = true;
 
             // look for child processes
             //
-            add_child_totals(pi, pm, i);
+            add_child_totals(procinfo, pm, i);
         }
         if (graphics_exec_file && !strcmp(p.command, graphics_exec_file)) {
             p.is_boinc_app = true;
@@ -98,7 +98,7 @@ void procinfo_app(
 
 void find_children(PROC_MAP& pm) {
     PROC_MAP::iterator i;
-    for (i=pm.begin(); i!=pm.end(); i++) {
+    for (i=pm.begin(); i!=pm.end(); ++i) {
         int parentid = i->second.parentid;
         PROC_MAP::iterator j = pm.find(parentid);
         if (j == pm.end()) continue;    // should never happen
@@ -108,10 +108,10 @@ void find_children(PROC_MAP& pm) {
 
 // get resource usage of non-BOINC apps
 //
-void procinfo_non_boinc(PROCINFO& pi, PROC_MAP& pm) {
-    pi.clear();
+void procinfo_non_boinc(PROCINFO& procinfo, PROC_MAP& pm) {
+    procinfo.clear();
     PROC_MAP::iterator i;
-    for (i=pm.begin(); i!=pm.end(); i++) {
+    for (i=pm.begin(); i!=pm.end(); ++i) {
         PROCINFO& p = i->second;
 #ifdef _WIN32
         if (p.id == 0) continue;    // idle process
@@ -131,26 +131,26 @@ void procinfo_non_boinc(PROCINFO& pi, PROC_MAP& pm) {
             fprintf(stderr, "non-boinc: %s (%d) %f %f\n", p.command, p.id, p.user_time, p.kernel_time);
         }
 #endif
-        pi.kernel_time += p.kernel_time;
-        pi.user_time += p.user_time;
-        pi.swap_size += p.swap_size;
-        pi.working_set_size += p.working_set_size;
+        procinfo.kernel_time += p.kernel_time;
+        procinfo.user_time += p.user_time;
+        procinfo.swap_size += p.swap_size;
+        procinfo.working_set_size += p.working_set_size;
     }
 #if 0
-    fprintf(stderr, "total non-boinc: %f %f\n", pi.user_time, pi.kernel_time);
+    fprintf(stderr, "total non-boinc: %f %f\n", procinfo.user_time, procinfo.kernel_time);
 #endif
 }
 
 double process_tree_cpu_time(int pid) {
     PROC_MAP pm;
-    PROCINFO pi;
+    PROCINFO procinfo;
     int retval;
 
     retval = procinfo_setup(pm);
     if (retval) return 0;
 
-    pi.clear();
-    pi.id = pid;
-    procinfo_app(pi, NULL, pm, NULL);
-    return pi.user_time + pi.kernel_time;
+    procinfo.clear();
+    procinfo.id = pid;
+    procinfo_app(procinfo, NULL, pm, NULL);
+    return procinfo.user_time + procinfo.kernel_time;
 }

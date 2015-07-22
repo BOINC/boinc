@@ -36,7 +36,6 @@
 #include "Events.h"
 #include "DlgEventLog.h"
 #include "DlgSelectComputer.h"
-#include "BOINCInternetFSHandler.h"
 
 
 DEFINE_EVENT_TYPE(wxEVT_FRAME_ALERT)
@@ -57,6 +56,7 @@ BEGIN_EVENT_TABLE (CBOINCBaseFrame, wxFrame)
     EVT_FRAME_INITIALIZED(CBOINCBaseFrame::OnInitialized)
     EVT_FRAME_ALERT(CBOINCBaseFrame::OnAlert)
     EVT_FRAME_REFRESH(CBOINCBaseFrame::OnRefreshView)
+    EVT_ACTIVATE(CBOINCBaseFrame::OnActivate)
     EVT_CLOSE(CBOINCBaseFrame::OnClose)
     EVT_MENU(ID_CLOSEWINDOW, CBOINCBaseFrame::OnCloseWindow)
     EVT_MENU(wxID_EXIT, CBOINCBaseFrame::OnExit)
@@ -76,7 +76,6 @@ CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wx
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::CBOINCBaseFrame - Function Begin"));
 
     // Configuration Settings
-    m_iSelectedLanguage = 0;
     m_iReminderFrequency = 0;
     m_strNetworkDialupConnectionName = wxEmptyString;
     m_aSelectedComputerMRU.Clear();
@@ -108,6 +107,8 @@ CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wx
     //         CPU time
     wxUpdateUIEvent::SetUpdateInterval(500);
 
+    m_ptFramePos = wxPoint(0, 0);
+    
     // The second half of the initialization process picks up in the OnFrameRender()
     //   routine since the menus' and status bars' are drawn in the frameworks
     //   on idle routines, on idle events are sent in between the end of the
@@ -155,6 +156,16 @@ void CBOINCBaseFrame::OnPeriodicRPC(wxTimerEvent& WXUNUSED(event)) {
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+#ifdef __WXMAC__
+    static bool first = true;
+    if (first) {
+        first = false;
+        wxGetApp().OnFinishInit();
+    }
+    
+    wxGetApp().CheckPartialActivation();
+#endif
 
     if (!bAlreadyRunningLoop && m_pPeriodicRPCTimer->IsRunning()) {
         bAlreadyRunningLoop = true;
@@ -304,6 +315,13 @@ void CBOINCBaseFrame::OnAlert(CFrameAlertEvent& event) {
 }
 
 
+void CBOINCBaseFrame::OnActivate(wxActivateEvent& event) {
+    bool isActive = event.GetActive();
+    if (isActive) wxGetApp().SetEventLogWasActive(false);
+    event.Skip();
+}
+
+
 void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnClose - Function Begin"));
 
@@ -358,19 +376,8 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
 
     if (wxGetApp().ConfirmExit()) {
 
-    wxFileSystemHandler *internetFSHandler = wxGetApp().GetInternetFSHandler();
-    if (internetFSHandler) {
-        ((CBOINCInternetFSHandler*)internetFSHandler)->SetAbortInternetIO();
-    }
-
         // Save state before exiting
         SaveState();
-
-        // Under wxWidgets 2.8.0, the task bar icons must be deleted for app to exit its main loop
-#ifdef __WXMAC__
-        wxGetApp().DeleteMacSystemMenu();
-#endif
-        wxGetApp().DeleteTaskBarIcon();
 
         CDlgEventLog*   eventLog = wxGetApp().GetEventLog();
         if (eventLog) {
@@ -760,8 +767,6 @@ bool CBOINCBaseFrame::SaveState() {
     int             iItemCount;
 
 
-    wxASSERT(pConfig);
-
     // An odd case happens every once and awhile where wxWidgets looses
     //   the pointer to the config object, or it is cleaned up before
     //   the window has finished it's cleanup duty.  If we detect a NULL
@@ -773,9 +778,7 @@ bool CBOINCBaseFrame::SaveState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-    pConfig->Write(wxT("Language"), m_iSelectedLanguage);
     pConfig->Write(wxT("ReminderFrequencyV3"), m_iReminderFrequency);
-
     pConfig->Write(wxT("NetworkDialupConnectionName"), m_strNetworkDialupConnectionName);
 
 
@@ -830,9 +833,7 @@ bool CBOINCBaseFrame::RestoreState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-    pConfig->Read(wxT("Language"), &m_iSelectedLanguage, 0L);
     pConfig->Read(wxT("ReminderFrequencyV3"), &m_iReminderFrequency, 360L);
-
     pConfig->Read(wxT("NetworkDialupConnectionName"), &m_strNetworkDialupConnectionName, wxEmptyString);
 
 
@@ -887,8 +888,14 @@ bool CBOINCBaseFrame::Show(bool bShow) {
 #endif
     }
 
+#ifdef __WXMAC__
+    retval = (wxGetApp().IsApplicationVisible() != bShow);
+    if (bShow) {
+        retval = wxFrame::Show(bShow);
+    }
+#else
     retval = wxFrame::Show(bShow);
-    wxFrame::Raise();
+#endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::Show - Function End"));
     return retval;

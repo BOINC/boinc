@@ -1,0 +1,2001 @@
+# LANGUAGE translation of PROJECT
+# Copyright (c) YEAR NAME <EMAIL@ADDRESS>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2015-05-07 12:21+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#:  
+msgid ""
+"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> "
+"associated with your e-mail address, it will be used for your user "
+"picture."
+msgstr ""
+
+#:  
+msgid "Your Gravatar will not be shown if you upload a user picture."
+msgstr ""
+
+#:  
+msgid ""
+"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> "
+"associated with your e-mail address, use it for your user picture."
+msgstr ""
+
+#:  
+msgid "Gravatar will not be shown if an avatar is uploaded."
+msgstr ""
+
+#:  
+msgid "This is not available until your profile is set up."
+msgstr ""
+
+#:  
+msgid "Should @project show your computers on its web site?"
+msgstr ""
+
+#:  
+msgid "Click here to revoke your membership with @this_team"
+msgstr ""
+
+#:  
+msgid "Minimum avg credit to post"
+msgstr ""
+
+#:  
+msgid "Founder & Team Admins have moderator privileges"
+msgstr ""
+
+#:  
+msgid "Notes about changes in foundership:"
+msgstr ""
+
+#:  
+msgid "Foundership can be requested by team members:"
+msgstr ""
+
+#:  
+msgid "One request is allowed at a time"
+msgstr ""
+
+#:  
+msgid "Any active request must be older than 90 days"
+msgstr ""
+
+#:  
+msgid "Current founder has 60 days to respond to a request"
+msgstr ""
+
+#:  
+msgid ""
+"If a team admin quits the team, they cease to be a team admin. We "
+"recommend only selecting people you know and trust"
+msgstr ""
+
+#:  
+msgid "You may create a message board for use by @team"
+msgstr ""
+
+#:  
+msgid "parent removed"
+msgstr ""
+
+#:  
+msgid "Maximum daily WU quota per CPU"
+msgstr ""
+
+#:  
+msgid "Received time"
+msgstr ""
+
+#:  
+msgid "App ID"
+msgstr ""
+
+#:  
+msgid "Error mask"
+msgstr ""
+
+#:  
+msgid "Minimum quorum"
+msgstr ""
+
+#:  
+msgid "Max error tasks"
+msgstr ""
+
+#:  
+msgid "Max success tasks"
+msgstr ""
+
+#:  
+msgid "Max total tasks"
+msgstr ""
+
+#:  
+msgid "Target number of results"
+msgstr ""
+
+#:  
+msgid "Application version ID"
+msgstr ""
+
+#:  
+msgid "Plan class"
+msgstr ""
+
+#:  
+msgid "Version number"
+msgstr ""
+
+#:  
+msgid "App version ID"
+msgstr ""
+
+#:  
+msgid "@count million ops/sec"
+msgstr ""
+
+#:  
+msgid "@rate KiB/sec"
+msgstr ""
+
+#:  
+msgid "@count days"
+msgstr ""
+
+#:  
+msgid "@ip_address (same the last @count times)"
+msgstr ""
+
+#:  
+msgid "commented on"
+msgstr ""
+
+#:  
+msgid "Remove sticky status from this topic"
+msgstr ""
+
+#:  
+msgid ""
+"Check the computers that are the same as @name (created on @date at "
+"@time with computer ID @id)"
+msgstr ""
+
+#:  
+msgid "Computer @old_id has been merged successfully into @id."
+msgstr ""
+
+#:  
+msgid "started discussion"
+msgstr ""
+
+#:  
+msgid "posted"
+msgstr ""
+
+#:  
+msgid "Minimum value not met for @field"
+msgstr ""
+
+#:  
+msgid "Invalid data type for @field"
+msgstr ""
+
+#:  
+msgid ""
+"Authentication is required when changing E-mail address or setting new "
+"password."
+msgstr ""
+
+#:  
+msgid "Request foundership"
+msgstr ""
+
+#:  
+msgid ""
+"If the team founder is not active and you want to assume the role of "
+"founder, click below to request foundership of @this_team."
+msgstr ""
+
+#:  
+msgid "Initiate request"
+msgstr ""
+
+#:  
+msgid "A BOINC account already exists for @email."
+msgstr ""
+
+#:  
+msgid ""
+"Please be responsible in what you write and do not create posts which "
+"are offensive or insulting. Offensive posts or threads may be deleted "
+"by forum moderators without warning or discussion. Do not respond to "
+"offensive postings. Click on the \"report\" button at the bottom of "
+"the post to call it to the attention of the moderators."
+msgstr ""
+
+#:  
+msgid "this project"
+msgstr ""
+
+#:  
+msgid ""
+"We also ask that you keep all discussion on the message boards related "
+"to @project or BOINC with the small exception of the Science message "
+"board where you are free to discuss anything relevant to the "
+"underlying science. Participants interested in broader discussions "
+"should post to unofficial forums for @project."
+msgstr ""
+
+#:  
+msgid "These message boards now support BBCode tags only."
+msgstr ""
+
+#:  
+msgid "Posts contributed"
+msgstr ""
+
+#:  
+msgid "Profile awaiting moderator approval"
+msgstr ""
+
+#:  
+msgid "Approve profile"
+msgstr ""
+
+#:  
+msgid "Approve this profile content"
+msgstr ""
+
+#:  
+msgid "Edit profile"
+msgstr ""
+
+#:  
+msgid "Edit the content of this profile"
+msgstr ""
+
+#:  
+msgid "Remove profile"
+msgstr ""
+
+#:  
+msgid "Remove this profile content from the system"
+msgstr ""
+
+#:  
+msgid "The team founder has @count days to respond to your transfer request."
+msgstr ""
+
+#:  
+msgid "Reject profile"
+msgstr ""
+
+#:  
+msgid "Reject this profile content"
+msgstr ""
+
+#:  
+msgid "Reason for rejecting this profile"
+msgstr ""
+
+#:  
+msgid ""
+"This reason will be included in an email to the user. Please write a "
+"brief explanation of the problem and how to fix it."
+msgstr ""
+
+#:  
+msgid "Submit"
+msgstr ""
+
+#:  
+msgid "project"
+msgstr ""
+
+#:  
+msgid "Email address"
+msgstr ""
+
+#:  
+msgid "Home"
+msgstr ""
+
+#:  
+msgid "Login"
+msgstr ""
+
+#:  
+msgid "search"
+msgstr ""
+
+#:  
+msgid "Server status"
+msgstr ""
+
+#:  
+msgid "Language"
+msgstr ""
+
+#:  
+msgid "Enter your @s email address."
+msgstr ""
+
+#:  
+msgid "Join now"
+msgstr ""
+
+#:  
+msgid "I'm new"
+msgstr ""
+
+#:  
+msgid "I'm a BOINC user"
+msgstr ""
+
+#:  
+msgid "Welcome back!"
+msgstr ""
+
+#:  
+msgid ""
+"Einstein@Home is a program that uses your computer's idle time to run "
+"a screensaver to search for gravitational waves from spinning neutron "
+"stars (also called pulsars) using data from the LIGO gravitational "
+"wave detector."
+msgstr ""
+
+#:  
+msgid "Learn more"
+msgstr ""
+
+#:  
+msgid "View account"
+msgstr ""
+
+#:  
+msgid "About our screensaver"
+msgstr ""
+
+#:  
+msgid "Over 500,000 volunteers and counting."
+msgstr ""
+
+#:  
+msgid "Windows"
+msgstr ""
+
+#:  
+msgid "Mac"
+msgstr ""
+
+#:  
+msgid "Linux"
+msgstr ""
+
+#:  
+msgid "Logout"
+msgstr ""
+
+#:  
+msgid "Name"
+msgstr ""
+
+#:  
+msgid "Avg credit"
+msgstr ""
+
+#:  
+msgid "Total credit"
+msgstr ""
+
+#:  
+msgid "Enter your password to save changes"
+msgstr ""
+
+#:  
+msgid ""
+"Enter your current password if changing your email\n"
+"          address or password."
+msgstr ""
+
+#:  
+msgid "BOINC user ID"
+msgstr ""
+
+#:  
+msgid "Drupal user ID"
+msgstr ""
+
+#:  
+msgid "Account key"
+msgstr ""
+
+#:  
+msgid "Weak account key"
+msgstr ""
+
+#:  
+msgid "Cross-project ID"
+msgstr ""
+
+#:  
+msgid "Save changes"
+msgstr ""
+
+#:  
+msgid "Cancel"
+msgstr ""
+
+#:  
+msgid "Change password"
+msgstr ""
+
+#:  
+msgid "What is @this_project?"
+msgstr ""
+
+#:  
+msgid "no projects..."
+msgstr ""
+
+#:  
+msgid "Download the desktop software"
+msgstr ""
+
+#:  
+msgid "Run the installer"
+msgstr ""
+
+#:  
+msgid "When prompted enter @siteurl"
+msgstr ""
+
+#:  
+msgid "Password"
+msgstr ""
+
+#:  
+msgid "Enter the password that accompanies your username."
+msgstr ""
+
+#:  
+msgid "Request new password"
+msgstr ""
+
+#:  
+msgid ""
+"If you're already running BOINC, select <i>Add\n"
+"      Project</i>."
+msgstr ""
+
+#:  
+msgid ""
+"If you're running a command-line version of BOINC,\n"
+"        first use the BOINC Manager software (elsewhere if necessary) "
+"to create an\n"
+"        an account at this project, then use that account to connect "
+"with the\n"
+"        command-line version."
+msgstr ""
+
+#:  
+msgid ""
+"If you're running a pre-5.0 version of BOINC, please\n"
+"        upgrade to a more recent version to create an account\n"
+"        at this project."
+msgstr ""
+
+#:  
+msgid ""
+"1) If you know your account&apos;s email address, and you can receive "
+"email there:"
+msgstr ""
+
+#:  
+msgid ""
+"Enter the email address and click OK. You will be sent email "
+"instructions for resetting your password."
+msgstr ""
+
+#:  
+msgid "OK"
+msgstr ""
+
+#:  
+msgid "The latest news from the @site_name project"
+msgstr ""
+
+#:  
+msgid "Comment form"
+msgstr ""
+
+#:  
+msgid "Total credits"
+msgstr ""
+
+#:  
+msgid "Recent avg credits"
+msgstr ""
+
+#:  
+msgid "Country"
+msgstr ""
+
+#:  
+msgid "Type"
+msgstr ""
+
+#:  
+msgid "Founder"
+msgstr ""
+
+#:  
+msgid "New members in last day"
+msgstr ""
+
+#:  
+msgid "Total members"
+msgstr ""
+
+#:  
+msgid "Active members"
+msgstr ""
+
+#:  
+msgid "Members with credit"
+msgstr ""
+
+#:  
+msgid "Description"
+msgstr ""
+
+#:  
+msgid "Search teams"
+msgstr ""
+
+#:  
+msgid "Send message"
+msgstr ""
+
+#:  
+msgid "BOINC"
+msgstr ""
+
+#:  
+msgid "Project"
+msgstr ""
+
+#:  
+msgid "Web site"
+msgstr ""
+
+#:  
+msgid "No active computers"
+msgstr ""
+
+#:  
+msgid "This user has no computers that have been active in the last 30 days."
+msgstr ""
+
+#:  
+msgid " Default value: @default"
+msgstr ""
+
+#:  
+msgid "Applications"
+msgstr ""
+
+#:  
+msgid "yes"
+msgstr ""
+
+#:  
+msgid "no"
+msgstr ""
+
+#:  
+msgid "Message @id"
+msgstr ""
+
+#:  
+msgid "message @id"
+msgstr ""
+
+#:  
+msgid " in response to !parent"
+msgstr ""
+
+#:  
+msgid "Credits per day"
+msgstr ""
+
+#:  
+msgid "Computers hidden"
+msgstr ""
+
+#:  
+msgid "This user has chosen not to show information about their computers."
+msgstr ""
+
+#:  
+msgid "Stderr output"
+msgstr ""
+
+#:  
+msgid "@time ago"
+msgstr ""
+
+#:  
+msgid "n/a"
+msgstr ""
+
+#:  
+msgid "Submitted by !username on !datetime"
+msgstr ""
+
+#:  
+msgid "Member since"
+msgstr ""
+
+#:  
+msgid "View team"
+msgstr ""
+
+#:  
+msgid "Friends (@count)"
+msgstr ""
+
+#:  
+msgid "Website"
+msgstr ""
+
+#:  
+msgid "Locked"
+msgstr ""
+
+#:  
+msgid "Computers pending"
+msgstr ""
+
+#:  
+msgid ""
+"This user does not yet have any associated computers. Computers will "
+"be displayed when they have earned their first credits."
+msgstr ""
+
+#:  
+msgid "No results found..."
+msgstr ""
+
+#:  
+msgid "Background"
+msgstr ""
+
+#:  
+msgid "Teams"
+msgstr ""
+
+#:  
+msgid ""
+"@project participants may form teams. You may belong to only one team. "
+"You can join or quit a team at any time. To join a team, visit its "
+"team page and click \"Join this team\". Each team has a founder who "
+"may:"
+msgstr ""
+
+#:  
+msgid "access team members' email addresses"
+msgstr ""
+
+#:  
+msgid "edit the team's name and description"
+msgstr ""
+
+#:  
+msgid "add or remove team admins"
+msgstr ""
+
+#:  
+msgid "remove members from the team"
+msgstr ""
+
+#:  
+msgid "disband a team if it has no members"
+msgstr ""
+
+#:  
+msgid "Create a new team"
+msgstr ""
+
+#:  
+msgid ""
+"If you cannot find a team that is right for you, you can create a "
+"team."
+msgstr ""
+
+#:  
+msgid "You must earn @count more credits!"
+msgstr ""
+
+#:  
+msgid "Threads"
+msgstr ""
+
+#:  
+msgid "Posts"
+msgstr ""
+
+#:  
+msgid "Last post"
+msgstr ""
+
+#:  
+msgid "Manage subscriptions"
+msgstr ""
+
+#:  
+msgid "Featured"
+msgstr ""
+
+#:  
+msgid "Submitted on !datetime"
+msgstr ""
+
+#:  
+msgid "Comments"
+msgstr ""
+
+#:  
+msgid "Opinion"
+msgstr ""
+
+#:  
+msgid "More"
+msgstr ""
+
+#:  
+msgid "Tasks"
+msgstr ""
+
+#:  
+msgid "Generic"
+msgstr ""
+
+#:  
+msgid "Work"
+msgstr ""
+
+#:  
+msgid "School"
+msgstr ""
+
+#:  
+msgid "Presets"
+msgstr ""
+
+#:  
+msgid "Standard"
+msgstr ""
+
+#:  
+msgid "Maximum"
+msgstr ""
+
+#:  
+msgid "Green"
+msgstr ""
+
+#:  
+msgid "Minimum"
+msgstr ""
+
+#:  
+msgid "Custom"
+msgstr ""
+
+#:  
+msgid "Update preset"
+msgstr ""
+
+#:  
+msgid "Advanced settings"
+msgstr ""
+
+#:  
+msgid "Processor usage"
+msgstr ""
+
+#:  
+msgid "Run while computer is on battery power?"
+msgstr ""
+
+#:  
+msgid "Only applies to portable computers"
+msgstr ""
+
+#:  
+msgid "Run while computer is in use?"
+msgstr ""
+
+#:  
+msgid "Run GPU work while computer is in use?"
+msgstr ""
+
+#:  
+msgid "Enforced by version @number"
+msgstr ""
+
+#:  
+msgid "\"In use\" means mouse/keyboard activity in last"
+msgstr ""
+
+#:  
+msgid "minutes"
+msgstr ""
+
+#:  
+msgid "Suspend work if no mouse/keyboard activity in last"
+msgstr ""
+
+#:  
+msgid "Needed to enter low-power mode on some computers"
+msgstr ""
+
+#:  
+msgid "Suspend work if CPU usage is above"
+msgstr ""
+
+#:  
+msgid "0 means no restriction. Enforced by version @number"
+msgstr ""
+
+#:  
+msgid "Do work only between the hours of:"
+msgstr ""
+
+#:  
+msgid "and"
+msgstr ""
+
+#:  
+msgid "No restriction if equal"
+msgstr ""
+
+#:  
+msgid "Leave tasks in memory while suspended?"
+msgstr ""
+
+#:  
+msgid "Suspended tasks will consume swap space if \"yes\""
+msgstr ""
+
+#:  
+msgid "Switch between tasks every"
+msgstr ""
+
+#:  
+msgid "Recommended: @period minutes"
+msgstr ""
+
+#:  
+msgid "On multiprocessors, use at most"
+msgstr ""
+
+#:  
+msgid "processors"
+msgstr ""
+
+#:  
+msgid "Set to 0 for no limit"
+msgstr ""
+
+#:  
+msgid "% of the processors"
+msgstr ""
+
+#:  
+msgid "Use at most"
+msgstr ""
+
+#:  
+msgid "% of the CPU time"
+msgstr ""
+
+#:  
+msgid "Can be used to reduce CPU heat"
+msgstr ""
+
+#:  
+msgid "Disk and memory usage"
+msgstr ""
+
+#:  
+msgid "Disk: use at most"
+msgstr ""
+
+#:  
+msgid "Disk: leave free at least"
+msgstr ""
+
+#:  
+msgid "Values smaller than @number are ignored"
+msgstr ""
+
+#:  
+msgid "% of total"
+msgstr ""
+
+#:  
+msgid "Tasks checkpoint to disk at most every"
+msgstr ""
+
+#:  
+msgid "seconds"
+msgstr ""
+
+#:  
+msgid "Swap space: use at most"
+msgstr ""
+
+#:  
+msgid "Memory: when computer is in use, use at most"
+msgstr ""
+
+#:  
+msgid "Memory: when computer is not in use, use at most"
+msgstr ""
+
+#:  
+msgid "Network usage"
+msgstr ""
+
+#:  
+msgid "Computer is connected to the Internet about every"
+msgstr ""
+
+#:  
+msgid "days"
+msgstr ""
+
+#:  
+msgid ""
+"Leave blank or 0 if always connected. @project will try to maintain at "
+"least this much work."
+msgstr ""
+
+#:  
+msgid "Maintain enough work for an additional"
+msgstr ""
+
+#:  
+msgid "Confirm before connecting to Internet?"
+msgstr ""
+
+#:  
+msgid "Matters only if you have a modem, ISDN, or VPN connection"
+msgstr ""
+
+#:  
+msgid "Disconnect when done?"
+msgstr ""
+
+#:  
+msgid "Maximum download rate"
+msgstr ""
+
+#:  
+msgid "Maximum upload rate"
+msgstr ""
+
+#:  
+msgid "Use network only between the hours of:"
+msgstr ""
+
+#:  
+msgid "Transfer at most"
+msgstr ""
+
+#:  
+msgid "Skip image file verification?"
+msgstr ""
+
+#:  
+msgid ""
+"Check this ONLY if your Internet provider modifies image files (UMTS "
+"does this, for example). Skipping verification reduces the security of "
+"BOINC."
+msgstr ""
+
+#:  
+msgid "Show comparison view"
+msgstr ""
+
+#:  
+msgid "Resource settings"
+msgstr ""
+
+#:  
+msgid "Resource share"
+msgstr ""
+
+#:  
+msgid ""
+"Determines the proportion of your computer's resources allocated to "
+"this project. Example: if you participate in two BOINC projects with "
+"resource shares of 100 and 200, the first will get 1/3 of your "
+"resources and the second will get 2/3."
+msgstr ""
+
+#:  
+msgid "Use CPU"
+msgstr ""
+
+#:  
+msgid "Use NVIDIA GPU"
+msgstr ""
+
+#:  
+msgid "Use ATI GPU"
+msgstr ""
+
+#:  
+msgid "Use INTEL GPU"
+msgstr ""
+
+#:  
+msgid "Beta settings"
+msgstr ""
+
+#:  
+msgid "Run test applications?"
+msgstr ""
+
+#:  
+msgid ""
+"This helps us develop applications, but may cause jobs to fail on your "
+"computer"
+msgstr ""
+
+#:  
+msgid "Default set"
+msgstr ""
+
+#:  
+msgid "Set used for new computers"
+msgstr ""
+
+#:  
+msgid "Merge"
+msgstr ""
+
+#:  
+msgid "Delete"
+msgstr ""
+
+#:  
+msgid ""
+"This will delete host @id from your account forever. Are you sure this "
+"is OK?"
+msgstr ""
+
+#:  
+msgid "Mark all topics read"
+msgstr ""
+
+#:  
+msgid "Mark all forums read"
+msgstr ""
+
+#:  
+msgid ""
+"CAPTCHA validation error: unknown CAPTCHA session ID. Contact the site "
+"administrator if this problem persists."
+msgstr ""
+
+#:  
+msgid "The answer you entered for the CAPTCHA was not correct."
+msgstr ""
+
+#:  
+msgid "Access denied. You must login to view this page."
+msgstr ""
+
+#:  
+msgid "You are not authorized to access this page."
+msgstr ""
+
+#:  
+msgid "Disable rich-text"
+msgstr ""
+
+#:  
+msgid "Enable rich-text"
+msgstr ""
+
+#:  
+msgid "View user profile."
+msgstr ""
+
+#:  
+msgid "BBcode help"
+msgstr ""
+
+#:  
+msgid "Post comment"
+msgstr ""
+
+#:  
+msgid "No @type tasks"
+msgstr ""
+
+#:  
+msgid "There are no tasks of this type on record"
+msgstr ""
+
+#:  
+msgid "Clear"
+msgstr ""
+
+#:  
+msgid ""
+"This will remove all of your settings from the @name preference set. "
+"Are you sure?"
+msgstr ""
+
+#:  
+msgid "These apply to all BOINC projects in which you participate."
+msgstr ""
+
+#:  
+msgid ""
+"On computers attached to multiple projects, the most recently modified "
+"preferences will be used."
+msgstr ""
+
+#:  
+msgid "Preferences last modified: @mod_time"
+msgstr ""
+
+#:  
+msgid "Combined preferences"
+msgstr ""
+
+#:  
+msgid "Switch View"
+msgstr ""
+
+#:  
+msgid "every"
+msgstr ""
+
+#:  
+msgid "Edit"
+msgstr ""
+
+#:  
+msgid ""
+"This will remove all of your settings from the \"@name\" preference "
+"set. Are you sure?"
+msgstr ""
+
+#:  
+msgid "Add"
+msgstr ""
+
+#:  
+msgid "General settings"
+msgstr ""
+
+#:  
+msgid "Time zone"
+msgstr ""
+
+#:  
+msgid "Notification settings"
+msgstr ""
+
+#:  
+msgid "Receive email notification for private messages?"
+msgstr ""
+
+#:  
+msgid "Receive email notification for friend requests?"
+msgstr ""
+
+#:  
+msgid "Language settings"
+msgstr ""
+
+#:  
+msgid ""
+"This account's default language for e-mails and preferred language for "
+"site presentation."
+msgstr ""
+
+#:  
+msgid "Avatar settings"
+msgstr ""
+
+#:  
+msgid "Create a profile"
+msgstr ""
+
+#:  
+msgid "Upload an avatar"
+msgstr ""
+
+#:  
+msgid "Forum settings"
+msgstr ""
+
+#:  
+msgid "In discussion topics, show at most @comments_per_page"
+msgstr ""
+
+#:  
+msgid "comments per page"
+msgstr ""
+
+#:  
+msgid "Sort comments in discussions"
+msgstr ""
+
+#:  
+msgid "Newest post first"
+msgstr ""
+
+#:  
+msgid "Oldest post first"
+msgstr ""
+
+#:  
+msgid "Signature"
+msgstr ""
+
+#:  
+msgid "Your signature will be publicly displayed at the end of your comments."
+msgstr ""
+
+#:  
+msgid "Hide signatures in forums"
+msgstr ""
+
+#:  
+msgid "Privacy settings"
+msgstr ""
+
+#:  
+msgid "Is it OK for @project and your team (if any) to email you?"
+msgstr ""
+
+#:  
+msgid "Hide"
+msgstr ""
+
+#:  
+msgid "Hide this topic"
+msgstr ""
+
+#:  
+msgid "Lock"
+msgstr ""
+
+#:  
+msgid "Lock this thread for comments"
+msgstr ""
+
+#:  
+msgid "Make sticky"
+msgstr ""
+
+#:  
+msgid "Make this topic sticky"
+msgstr ""
+
+#:  
+msgid "moderation"
+msgstr ""
+
+#:  
+msgid "Post new comment"
+msgstr ""
+
+#:  
+msgid "You must earn 1 more credit!"
+msgstr ""
+
+#:  
+msgid "Joined"
+msgstr ""
+
+#:  
+msgid "Credit"
+msgstr ""
+
+#:  
+msgid "RAC"
+msgstr ""
+
+#:  
+msgid "Join team"
+msgstr ""
+
+#:  
+msgid "Click here to become a member of @this_team"
+msgstr ""
+
+#:  
+msgid "Join this team"
+msgstr ""
+
+#:  
+msgid "Manage team"
+msgstr ""
+
+#:  
+msgid "View member list"
+msgstr ""
+
+#:  
+msgid "Member names and emails"
+msgstr ""
+
+#:  
+msgid "View change history"
+msgstr ""
+
+#:  
+msgid "See member activity"
+msgstr ""
+
+#:  
+msgid "Manage team message board"
+msgstr ""
+
+#:  
+msgid "Create or manage message board"
+msgstr ""
+
+#:  
+msgid "Remove members"
+msgstr ""
+
+#:  
+msgid "Change founder"
+msgstr ""
+
+#:  
+msgid "Manage team admins"
+msgstr ""
+
+#:  
+msgid "Edit team info"
+msgstr ""
+
+#:  
+msgid "Remove team"
+msgstr ""
+
+#:  
+msgid "Team forum"
+msgstr ""
+
+#:  
+msgid "A discussion forum has been set up for team members."
+msgstr ""
+
+#:  
+msgid "Enter forum"
+msgstr ""
+
+#:  
+msgid "Leave team"
+msgstr ""
+
+#:  
+msgid "Leave this team"
+msgstr ""
+
+#:  
+msgid "Edit message board"
+msgstr ""
+
+#:  
+msgid "Message board title"
+msgstr ""
+
+#:  
+msgid "Text only, no HTML tags"
+msgstr ""
+
+#:  
+msgid "Minimum time between posts"
+msgstr ""
+
+#:  
+msgid "Seconds"
+msgstr ""
+
+#:  
+msgid "Minimum total credit to post"
+msgstr ""
+
+#:  
+msgid "Allow public to read board?"
+msgstr ""
+
+#:  
+msgid "Save message board"
+msgstr ""
+
+#:  
+msgid "About message boards"
+msgstr ""
+
+#:  
+msgid "This is a team-only message board"
+msgstr ""
+
+#:  
+msgid "Only members may post"
+msgstr ""
+
+#:  
+msgid "Only members may read (optional)"
+msgstr ""
+
+#:  
+msgid "Changing the team founder"
+msgstr ""
+
+#:  
+msgid "Any member of the team is eligible"
+msgstr ""
+
+#:  
+msgid "Current founder becomes a normal user"
+msgstr ""
+
+#:  
+msgid "It must be 60 days since any previous request"
+msgstr ""
+
+#:  
+msgid "Add team admin"
+msgstr ""
+
+#:  
+msgid "Enter email address"
+msgstr ""
+
+#:  
+msgid "Current team admins"
+msgstr ""
+
+#:  
+msgid "About team admins"
+msgstr ""
+
+#:  
+msgid "Team admins can:"
+msgstr ""
+
+#:  
+msgid "Edit team information"
+msgstr ""
+
+#:  
+msgid "View the team's join / quit history"
+msgstr ""
+
+#:  
+msgid "Moderate the team forum"
+msgstr ""
+
+#:  
+msgid "Remove members from the team"
+msgstr ""
+
+#:  
+msgid "Disband a team if it has no members"
+msgstr ""
+
+#:  
+msgid "Team admins cannot:"
+msgstr ""
+
+#:  
+msgid "Change the team founder"
+msgstr ""
+
+#:  
+msgid "Add / Remove team admins"
+msgstr ""
+
+#:  
+msgid "Choose type"
+msgstr ""
+
+#:  
+msgid "Team name"
+msgstr ""
+
+#:  
+msgid "Team name -- HTML version (optional)"
+msgstr ""
+
+#:  
+msgid "You may use limited HTML tags"
+msgstr ""
+
+#:  
+msgid "Team website (optional)"
+msgstr ""
+
+#:  
+msgid "Displayed on the team's page"
+msgstr ""
+
+#:  
+msgid "Type of team"
+msgstr ""
+
+#:  
+msgid "Accept new members?"
+msgstr ""
+
+#:  
+msgid "Description of team"
+msgstr ""
+
+#:  
+msgid "Create new team"
+msgstr ""
+
+#:  
+msgid "Create a team"
+msgstr ""
+
+#:  
+msgid "Save team"
+msgstr ""
+
+#:  
+msgid "Create team message board"
+msgstr ""
+
+#:  
+msgid "Create message board"
+msgstr ""
+
+#:  
+msgid ""
+"Please set the minimum average credit that a user is required to have "
+"in order to post to this message board."
+msgstr ""
+
+#:  
+msgid "Post new topic"
+msgstr ""
+
+#:  
+msgid "Anonymous"
+msgstr ""
+
+#:  
+msgid "Unpublished"
+msgstr ""
+
+#:  
+msgid "Sorry, unrecognized email address or password."
+msgstr ""
+
+#:  
+msgid "Have you forgotten your password?"
+msgstr ""
+
+#:  
+msgid "Id"
+msgstr ""
+
+#:  
+msgid "Recent average credit"
+msgstr ""
+
+#:  
+msgid "Members"
+msgstr ""
+
+#:  
+msgid "Total Credit"
+msgstr ""
+
+#:  
+msgid "User ID"
+msgstr ""
+
+#:  
+msgid "User"
+msgstr ""
+
+#:  
+msgid "Admin since"
+msgstr ""
+
+#:  
+msgid "Team ID"
+msgstr ""
+
+#:  
+msgid "User joined"
+msgstr ""
+
+#:  
+msgid "Timestamp"
+msgstr ""
+
+#:  
+msgid "Account Key"
+msgstr ""
+
+#:  
+msgid "CPID"
+msgstr ""
+
+#:  
+msgid "Email Address"
+msgstr ""
+
+#:  
+msgid "Password Hash"
+msgstr ""
+
+#:  
+msgid "Postal Code"
+msgstr ""
+
+#:  
+msgid "Send Email"
+msgstr ""
+
+#:  
+msgid "Show Hosts"
+msgstr ""
+
+#:  
+msgid "URL"
+msgstr ""
+
+#:  
+msgid "Computer ID"
+msgstr ""
+
+#:  
+msgid "Location"
+msgstr ""
+
+#:  
+msgid "While BOINC running, % of time work is allowed"
+msgstr ""
+
+#:  
+msgid "Average turnaround time"
+msgstr ""
+
+#:  
+msgid "Created"
+msgstr ""
+
+#:  
+msgid "While BOINC running, % of time host has an Internet connection"
+msgstr ""
+
+#:  
+msgid "Average CPU efficiency"
+msgstr ""
+
+#:  
+msgid "Free disk space"
+msgstr ""
+
+#:  
+msgid "Total disk space"
+msgstr ""
+
+#:  
+msgid "Task duration correction factor"
+msgstr ""
+
+#:  
+msgid "Avg. credit"
+msgstr ""
+
+#:  
+msgid "External IP address"
+msgstr ""
+
+#:  
+msgid "Cross project ID"
+msgstr ""
+
+#:  
+msgid "Last IP address"
+msgstr ""
+
+#:  
+msgid "Cache"
+msgstr ""
+
+#:  
+msgid "Memory"
+msgstr ""
+
+#:  
+msgid "Swap space"
+msgstr ""
+
+#:  
+msgid "Average download rate"
+msgstr ""
+
+#:  
+msgid "Average upload rate"
+msgstr ""
+
+#:  
+msgid "Same IP address count"
+msgstr ""
+
+#:  
+msgid "% of time BOINC client is running"
+msgstr ""
+
+#:  
+msgid "Operating system"
+msgstr ""
+
+#:  
+msgid "Operating system version"
+msgstr ""
+
+#:  
+msgid "Measured floating point speed"
+msgstr ""
+
+#:  
+msgid "Measured integer speed"
+msgstr ""
+
+#:  
+msgid "CPU model"
+msgstr ""
+
+#:  
+msgid "Number of processors"
+msgstr ""
+
+#:  
+msgid "CPU"
+msgstr ""
+
+#:  
+msgid "Number of times client has contacted server"
+msgstr ""
+
+#:  
+msgid "Last contact"
+msgstr ""
+
+#:  
+msgid "Serial number"
+msgstr ""
+
+#:  
+msgid "Timezone"
+msgstr ""
+
+#:  
+msgid "Platform ID"
+msgstr ""
+
+#:  
+msgid "Task ID"
+msgstr ""
+
+#:  
+msgid "Workunit ID"
+msgstr ""
+
+#:  
+msgid "Host ID"
+msgstr ""
+
+#:  
+msgid "Application ID"
+msgstr ""
+
+#:  
+msgid "Application version"
+msgstr ""
+
+#:  
+msgid "Claimed credit"
+msgstr ""
+
+#:  
+msgid "Client state"
+msgstr ""
+
+#:  
+msgid "CPU time"
+msgstr ""
+
+#:  
+msgid "Run time"
+msgstr ""
+
+#:  
+msgid "Exit status"
+msgstr ""
+
+#:  
+msgid "Granted credit"
+msgstr ""
+
+#:  
+msgid "Outcome"
+msgstr ""
+
+#:  
+msgid "Report deadline"
+msgstr ""
+
+#:  
+msgid "Sent"
+msgstr ""
+
+#:  
+msgid "Server state"
+msgstr ""
+
+#:  
+msgid "Stderr out"
+msgstr ""
+
+#:  
+msgid "Validation state"
+msgstr ""
+
+#:  
+msgid "Canonical credit"
+msgstr ""
+
+#:  
+msgid "Canonical result ID"
+msgstr ""
+
+#:  
+msgid "Created time"
+msgstr ""
+
+#:  
+msgid "Needs validation"
+msgstr ""
+
+#:  
+msgid "Initial replication"
+msgstr ""
+
+#:  
+msgid "Computer"
+msgstr ""
+
+#:  
+msgid "Consecutive valid tasks"
+msgstr ""
+
+#:  
+msgid "Number of tasks completed"
+msgstr ""
+
+#:  
+msgid "Max tasks per day"
+msgstr ""
+
+#:  
+msgid "Number of tasks today"
+msgstr ""
+
+#:  
+msgid "Show IP address"
+msgstr ""
+
+#:  
+msgid "hours"
+msgstr ""
+
+#:  
+msgid "Remove friend"
+msgstr ""
+
+#:  
+msgid "Ban user"
+msgstr ""
+
+#:  
+msgid "Add as friend"
+msgstr ""
+
+#:  
+msgid "Team"
+msgstr ""
+
+#:  
+msgid "Reply"
+msgstr ""
+
+#:  
+msgid "Reply to this comment"
+msgstr ""
+
+#:  
+msgid "Quote"
+msgstr ""
+
+#:  
+msgid "Reply to this comment with quote"
+msgstr ""
+
+#:  
+msgid "Edit this comment"
+msgstr ""
+
+#:  
+msgid "Delete this comment"
+msgstr ""
+
+#:  
+msgid "Hide this comment"
+msgstr ""
+
+#:  
+msgid "Convert"
+msgstr ""
+
+#:  
+msgid "Convert this comment to a new topic"
+msgstr ""
+
+#:  
+msgid "Details"
+msgstr ""
+
+#:  
+msgid "Make unsticky"
+msgstr ""
+
+#:  
+msgid ""
+"Sometimes BOINC assigns separate identities to the same computer by "
+"mistake. You can correct this by merging old identities with the "
+"newest one."
+msgstr ""
+
+#:  
+msgid "Remove"
+msgstr ""
+
+#:  
+msgid "hidden"
+msgstr ""
+

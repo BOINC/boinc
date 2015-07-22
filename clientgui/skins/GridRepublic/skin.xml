@@ -34,21 +34,21 @@
             </image>
          </workunit_suspended_image>
 		 
-		 <dialog_background_image>
+		     <dialog_background_image>
             <image>
                <imagesrc>dialog_background_image.png</imagesrc>
             </image>
          </dialog_background_image>
 		 
-		 <project_image>
+		     <project_image>
             <image>
                <imagesrc>project_image.png</imagesrc>
             </image>
-         </project_background_image>
+         </project_image>
 
       </simple>
 	  <advanced>
-      <application_name>GridRepublic - BOINC Manager</application_name>
+      <application_name>GridRepublic Desktop</application_name>
       <application_short_name>GridRepublic</application_short_name>
       <application_logo>gr_about.ico</application_logo>
 
@@ -84,7 +84,7 @@
 
       <organization_name>GridRepublic</organization_name>
       <organization_website>http://www.gridrepublic.org</organization_website>
-      <organization_help_url>http://www.gridrepublic.org/joomla/index.php?option=com_mambowiki&board=4&Itemid=35&page=Help&compars=help_documentation</organization_help_url> 
+      <organization_help_url>http://www.gridrepublic.org/manager_menu.php</organization_help_url> 
 
     </advanced>
 	

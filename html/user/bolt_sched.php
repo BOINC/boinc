@@ -161,7 +161,7 @@ function show_nav($links, $up_link, $view_id) {
         <input type=hidden name=view_id value=$view_id>
         <textarea name=question cols=60 onfocus=\"this.value=''\">Enter question or comment here</textarea>
         <br>
-        <input type=submit value=Submit>
+        <input class=\"btn btn-default\" type=submit value=Submit>
         </form>
         <p>
         $up_link

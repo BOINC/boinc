@@ -34,7 +34,7 @@ if (defined('INVITE_CODES')) {
 
 $config = get_config();
 if (parse_bool($config, "disable_account_creation")) {
-    echo "Account creation is disabled";
+    echo "Account creation is disabled\n";
     exit;
 }
 
@@ -42,27 +42,25 @@ if (parse_bool($config, "disable_account_creation")) {
 
 $dry_run = 0;
 
-function lookup_team_seti_id($id) {
-    $result = mysql_query("select * from team where seti_id=$id");
-    if ($result) {
-        $team = mysql_fetch_object($result);
-        mysql_free_result($result);
-        return $team;
-    }
-    return null;
+function lookup_team_seti_id($seti_id) {
+    return BoincTeam::lookup("seti_id=$seti_id");
+}
+
+function decode($x) {
+    return html_entity_decode($x, ENT_COMPAT, 'UTF-8');
 }
 
 function parse_team($f) {
     while ($s = fgets($f)) {
         if (strstr($s, '</team>')) {
-            $t->name = htmlspecialchars_decode($t->name);
-            $t->url = htmlspecialchars_decode($t->url);
-            $t->name_html = htmlspecialchars_decode($t->name_html);
-            $t->description = htmlspecialchars_decode($t->description);
-            $t->user_name = htmlspecialchars_decode($t->user_name);
-            $t->user_country = htmlspecialchars_decode($t->user_country);
-            $t->user_postal_code = htmlspecialchars_decode($t->user_postal_code);
-            $t->user_url = htmlspecialchars_decode($t->user_url);
+            $t->name = decode($t->name);
+            $t->url = decode($t->url);
+            $t->name_html = decode($t->name_html);
+            $t->description = decode($t->description);
+            $t->user_name = decode($t->user_name);
+            $t->user_country = decode($t->user_country);
+            $t->user_postal_code = decode($t->user_postal_code);
+            $t->user_url = decode($t->user_url);
             return $t;
         }
         else if (strstr($s, '<name>')) $t->name = parse_element($s, '<name>');
@@ -115,12 +113,12 @@ function update_team($t, $team, $user) {
     $name_html = BoincDb::escape_string($t->name_html);
     $description = BoincDb::escape_string($t->description);
     $country = BoincDb::escape_string($t->country);
-    $query = "update team set url='$url', type=$t->type, name_html='$name_html', description='$description', country='$country', seti_id=$t->id where id=$team->id";
+    $query = "url='$url', type=$t->type, name_html='$name_html', description='$description', country='$country', seti_id=$t->id";
     if ($dry_run) {
-        echo "   $query\n";
+        echo "   update to team $team->id: $query\n";
         return;
     }
-    $retval = mysql_query($query);
+    $retval = $team->update($query);
     if (!$retval) {
         echo "   update failed: $query\n";
         exit;
@@ -137,7 +135,7 @@ function insert_case($t, $user) {
     }
     if (!$user) {
         echo "   making user $t->user_email\n";
-        $user = make_user(mysql_real_escape_string($t->user_email), mysql_real_escape_string($t->user_name), random_string());
+        $user = make_user($t->user_email, $t->user_name, random_string());
         if (!$user) {
             echo "   Can't make user $t->user_email\n";
             return;
@@ -150,12 +148,12 @@ function insert_case($t, $user) {
     );
     if (!$team) {
         echo "   Can't make team $t->id\n";
-        echo mysql_error();
+        echo BoincDb::error();
         echo "\n";
         exit;
     }
-    mysql_query("update team set seti_id=$t->id where id=$team->id");
-    mysql_query("update user set teamid=$team->id where id=$user->id");
+    $team->update("seti_id=$t->id");
+    $user->update("teamid=$team->id");
 
     send_email($user, "Team created on ".PROJECT,
 "An instance of the BOINC-wide team '$t->name'
@@ -214,8 +212,8 @@ function handle_team($f) {
     }
 
     echo "Processing $t->name $t->user_email\n";
-    $user = lookup_user_email_addr($t->user_email);
-    $team = lookup_team_name($t->name);
+    $user = BoincUser::lookup_email_addr($t->user_email);
+    $team = BoincTeam::lookup_name($t->name);
     if ($team) {
         if (!$user) {
             echo "   team exists but user $t->user_email doesn't\n";

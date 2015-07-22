@@ -32,6 +32,7 @@ define('ANON_PLATFORM_NVIDIA',  -3);
 define('ANON_PLATFORM_ATI',     -4);
 define('ANON_PLATFORM_INTEL',   -5);
 
+define('RESULT_SERVER_STATE_INACTIVE',       1);
 define('RESULT_SERVER_STATE_UNSENT',         2);
 define('RESULT_SERVER_STATE_IN_PROGRESS',    4);
 define('RESULT_SERVER_STATE_OVER',           5);
@@ -52,6 +53,22 @@ define('VALIDATE_STATE_NO_CHECK',    3);
 define('VALIDATE_STATE_INCONCLUSIVE',4);
 define('VALIDATE_STATE_TOO_LATE',    5);
 
+define('WU_ERROR_COULDNT_SEND_RESULT',           1);
+define('WU_ERROR_TOO_MANY_ERROR_RESULTS',        2);
+define('WU_ERROR_TOO_MANY_SUCCESS_RESULTS',      4);
+define('WU_ERROR_TOO_MANY_TOTAL_RESULTS',        8);
+define('WU_ERROR_CANCELLED',                     16);
+define('WU_ERROR_NO_CANONICAL_RESULT',           32);
+
+define('FILE_DELETE_INIT',       0);
+define('FILE_DELETE_READY',      1);
+define('FILE_DELETE_DONE',       2);
+define('FILE_DELETE_ERROR',      3);
+
+define('ASSIMILATE_INIT',       0);
+define('ASSIMILATE_READY',      1);
+define('ASSIMILATE_DONE',       2);
+
 // from lib/common_defs.h
 //
 define('RESULT_NEW',                 0);
@@ -63,4 +80,17 @@ define('RESULT_FILES_UPLOADED',      5);
 define('RESULT_ABORTED',             6);
 define('RESULT_UPLOAD_FAILED',       7);
 
+// from lib/error_numbers.h
+//
+define('ERR_XML_PARSE',               -112);
+define('ERR_DB_NOT_FOUND',            -136);
+define('ERR_DB_NOT_UNIQUE',           -137);
+define('ERR_DB_CANT_CONNECT',         -138);
+define('ERR_PROJECT_DOWN',            -183);
+define('ERR_BAD_USER_NAME',           -188);
+define('ERR_BAD_EMAIL_ADDR',          -205);
+define('ERR_BAD_PASSWD',              -206);
+define('ERR_ACCT_CREATION_DISABLED',  -208);
+define('ERR_ATTACH_FAIL_INIT',        -209);
+define('ERR_ATTACH_FAIL_DOWNLOAD',    -210);
 ?>

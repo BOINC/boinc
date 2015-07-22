@@ -34,7 +34,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseView, wxPanel)
 
-
 CBOINCBaseView::CBOINCBaseView() {}
 
 CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
@@ -47,22 +46,24 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
     m_bIgnoreUIEvents = false;
     m_bNeedSort = false;
 
+    m_iPreviousSelectionCount = 0;
+    m_lPreviousFirstSelection = -1;
+
     //
     // Setup View
     //
     m_pTaskPane = NULL;
     m_pListPane = NULL;
     m_iProgressColumn = -1;
-    m_iSortColumn = -1;
+    m_iSortColumnID = -1;
     m_SortArrows = NULL;
+    
+    m_aStdColNameOrder = NULL;
+    m_iDefaultShownColumns = NULL;
+    m_iNumDefaultShownColumns = 0;
     
     SetName(GetViewName());
     SetAutoLayout(TRUE);
-
-#if BASEVIEW_STRIPES    
-    m_pWhiteBackgroundAttr = NULL;
-    m_pGrayBackgroundAttr = NULL;
-#endif
 }
 
 
@@ -74,6 +75,9 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxWindowID iTaskWindowID, 
 
     m_bForceUpdateSelection = true;
     m_bIgnoreUIEvents = false;
+
+    m_iPreviousSelectionCount = 0;
+    m_lPreviousFirstSelection = -1;
 
     //
     // Setup View
@@ -106,31 +110,22 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxWindowID iTaskWindowID, 
 #if USE_NATIVE_LISTCONTROL
     m_pListPane->PushEventHandler(new MyEvtHandler(m_pListPane));
 #else
+    m_pListPane->SaveEventHandler((m_pListPane->GetMainWin())->GetEventHandler());
     (m_pListPane->GetMainWin())->PushEventHandler(new MyEvtHandler(m_pListPane));
 #endif
 
     m_iProgressColumn = -1;
-    m_iSortColumn = -1;
+    m_iSortColumnID = -1;
     m_bReverseSort = false;
 
     m_SortArrows = new wxImageList(16, 16, true);
     m_SortArrows->Add( wxIcon( sortascending_xpm ) );
     m_SortArrows->Add( wxIcon( sortdescending_xpm ) );
     m_pListPane->SetImageList(m_SortArrows, wxIMAGE_LIST_SMALL);
-
-#if BASEVIEW_STRIPES    
-    m_pWhiteBackgroundAttr = new wxListItemAttr(
-        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
-        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW),
-        wxNullFont
-    );
-    m_pGrayBackgroundAttr = new wxListItemAttr(
-        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
-        wxColour(240, 240, 240),
-        wxNullFont
-    );
-#endif
-
+    
+    m_aStdColNameOrder = NULL;
+    m_iDefaultShownColumns = NULL;
+    m_iNumDefaultShownColumns = 0;
 }
 
 
@@ -148,18 +143,9 @@ CBOINCBaseView::~CBOINCBaseView() {
     m_arrSelectedKeys1.Clear();
     m_arrSelectedKeys2.Clear();
     m_iSortedIndexes.Clear();
-
-#if BASEVIEW_STRIPES    
-    if (m_pWhiteBackgroundAttr) {
-        delete m_pWhiteBackgroundAttr;
-        m_pWhiteBackgroundAttr = NULL;
+    if (m_aStdColNameOrder) {
+        delete m_aStdColNameOrder;
     }
-
-    if (m_pGrayBackgroundAttr) {
-        delete m_pGrayBackgroundAttr;
-        m_pGrayBackgroundAttr = NULL;
-    }
-#endif
 }
 
 
@@ -261,23 +247,6 @@ int CBOINCBaseView::FireOnListGetItemImage(long item) const {
 }
 
 
-#if BASEVIEW_STRIPES
-wxListItemAttr* CBOINCBaseView::FireOnListGetItemAttr(long item) const {
-    return OnListGetItemAttr(item);
-}
-
-
-wxListItemAttr* CBOINCBaseView::OnListGetItemAttr(long item) const {
-
-    // If we are using some theme where the default background color isn't
-    //   white, then our whole system is boned. Use defaults instead.
-    if (wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW) != wxColor(wxT("WHITE"))) return NULL;
-
-    return item % 2 ? m_pGrayBackgroundAttr : m_pWhiteBackgroundAttr;
-}
-#endif
-
-
 void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
     if (!m_bProcessingListRenderEvent) {
         m_bProcessingListRenderEvent = true;
@@ -315,7 +284,16 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
                         wxASSERT(!iReturnValue);
                     }
                     wxASSERT(GetDocCount() == GetCacheCount());
+//fprintf(stderr, "CBOINCBaseView::OnListRender(): m_pListPane->RefreshItems(0, %d)\n", iDocCount - 1);
                     m_pListPane->RefreshItems(0, iDocCount - 1);
+#ifdef __WXGTK__
+                    // Work around an apparent bug in wxWidgets 3.0
+                    // which drew blank lines at the top and failed
+                    // to draw the bottom items.  This could happen
+                    // if the list was scrolled near the bottom and
+                    // the user selected "Show active tasks."
+                    m_pListPane->EnsureVisible(iDocCount - 1);
+#endif
                     m_bNeedSort = true;
                 }
             }
@@ -328,31 +306,13 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
                     m_pListPane->EnsureVisible(iDocCount - 1);
                 }
             }
-
-            if (m_pListPane->m_bIsSingleSelection) {
-                // If no item has been selected yet, select the first item.
-#ifdef __WXMSW__
-                if ((m_pListPane->GetSelectedItemCount() == 0) &&
-                    (m_pListPane->GetItemCount() >= 1)) {
-
-                    long desiredstate = wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED;
-                    m_pListPane->SetItemState(0, desiredstate, desiredstate);
-                }
-#else
-                if ((m_pListPane->GetFirstSelected() < 0) &&
-                    (m_pListPane->GetItemCount() >= 1)) {
-                    m_pListPane->SetItemState(0, wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED, 
-                                                    wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED);
-                }
-#endif
-            }
         }
         
         // Find the previously selected items by their key values and reselect them
         RestoreSelections();
 
         UpdateSelection();
-        
+
         m_bProcessingListRenderEvent = false;
     }
 
@@ -374,7 +334,6 @@ bool CBOINCBaseView::OnSaveState(wxConfigBase* pConfig) {
     if (!m_pListPane->OnSaveState(pConfig)) {
         bReturnValue = false;
     }
-
     return bReturnValue;
 }
 
@@ -395,6 +354,9 @@ bool CBOINCBaseView::OnRestoreState(wxConfigBase* pConfig) {
 }
 
 
+// We don't use this because multiple selection virtual 
+// wxListCtrl does not generate selection events for
+// shift-click; see OnCheckSelectionChanged() below.
 void CBOINCBaseView::OnListSelected(wxListEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnListSelected - Function Begin"));
 
@@ -408,6 +370,9 @@ void CBOINCBaseView::OnListSelected(wxListEvent& event) {
 }
 
 
+// We don't use this because multiple selection virtual 
+// wxListCtrl does generates deselection events only for
+// control-click; see OnCheckSelectionChanged() below.
 void CBOINCBaseView::OnListDeselected(wxListEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnListDeselected - Function Begin"));
 
@@ -421,19 +386,39 @@ void CBOINCBaseView::OnListDeselected(wxListEvent& event) {
 }
 
 
-// Work around a bug (feature?) in virtual list control 
-//   which does not send deselection events
-void CBOINCBaseView::OnCacheHint(wxListEvent& event) {
-    static int oldSelectionCount = 0;
-    int newSelectionCount = m_pListPane->GetSelectedItemCount();
+void CBOINCBaseView::OnCheckSelectionChanged(CCheckSelectionChangedEvent& ) {
+    CheckSelectionChanged();
+}
 
-    if (newSelectionCount < oldSelectionCount) {
-        wxListEvent leDeselectedEvent(wxEVT_COMMAND_LIST_ITEM_DESELECTED, m_windowId);
-        leDeselectedEvent.SetEventObject(this);
-        OnListDeselected(leDeselectedEvent);
+
+void CBOINCBaseView::OnCacheHint(wxListEvent& ) {
+    CheckSelectionChanged();
+}
+
+
+// Work around features in multiple selection virtual wxListCtrl:
+//  * It does not send deselection events (except ctrl-click).
+//  * It does not send selection events if you add to selection
+//    using Shift_Click.
+//
+// We currently handle all selections and deselections here.
+// On the Mac, this is called due to an event posted by CBOINCListCtrl::OnMouseDown().
+// On Windows, it is called due to a EVT_LIST_CACHE_HINT from wxListCtrl.
+void CBOINCBaseView::CheckSelectionChanged() {
+    int newSelectionCount = m_pListPane->GetSelectedItemCount();
+    long currentSelection = m_pListPane->GetFirstSelected();
+    
+    if ((newSelectionCount != m_iPreviousSelectionCount) ||
+        (currentSelection != m_lPreviousFirstSelection)
+    ) {
+        if (!m_bIgnoreUIEvents) {
+            m_bForceUpdateSelection = true;
+            UpdateSelection();
+        }
     }
-    oldSelectionCount = newSelectionCount;
-    event.Skip();
+
+    m_iPreviousSelectionCount = newSelectionCount;
+    m_lPreviousFirstSelection = currentSelection;
 }
 
 
@@ -491,7 +476,7 @@ int CBOINCBaseView::SynchronizeCache() {
 
     iRowTotal = GetDocCount();
     iColumnTotal = m_pListPane->GetColumnCount();
-    
+
     for (iRowIndex = 0; iRowIndex < iRowTotal; iRowIndex++) {
         bNeedRefreshData = false;
 
@@ -503,8 +488,10 @@ int CBOINCBaseView::SynchronizeCache() {
                 // To reduce flicker, refresh only changed columns
                 m_pListPane->RefreshCell(iRowIndex, iColumnIndex);
 #endif
-                if (iColumnIndex == m_iSortColumn) {
-                    m_bNeedSort = true;
+                if (iColumnIndex >= 0) {
+                    if (m_iColumnIndexToColumnID[iColumnIndex] == m_iSortColumnID) {
+                        m_bNeedSort = true;
+                    }
                 }
             }
         }
@@ -531,25 +518,47 @@ bool CBOINCBaseView::SynchronizeCacheItem(wxInt32 WXUNUSED(iRowIndex), wxInt32 W
 
 void CBOINCBaseView::OnColClick(wxListEvent& event) {
     wxListItem      item;
-    int             newSortColumn = event.GetColumn();
-    wxArrayInt      selections;
-    int             i, j, m;
-
-    item.SetMask(wxLIST_MASK_IMAGE);
-    if (newSortColumn == m_iSortColumn) {
-        m_bReverseSort = !m_bReverseSort;
-    } else {
-        // Remove sort arrow from old sort column
-        if (m_iSortColumn >= 0) {
-            item.SetImage(-1);
-            m_pListPane->SetColumn(m_iSortColumn, item);
-        }
-        m_iSortColumn = newSortColumn;
-        m_bReverseSort = false;
+    int             newSortColIndex = event.GetColumn();
+    int             oldSortColIndex = -1;
+    
+    if (newSortColIndex < 0) return;  // Clicked past last column
+    
+    if (m_iSortColumnID >= 0) {
+        oldSortColIndex = m_iColumnIDToColumnIndex[m_iSortColumnID];
     }
     
+    item.SetMask(wxLIST_MASK_IMAGE);
+    if (newSortColIndex == oldSortColIndex) {
+        m_bReverseSort = !m_bReverseSort;
+        SetSortColumn(newSortColIndex);
+    } else {
+        // Remove sort arrow from old sort column
+
+        if (oldSortColIndex >= 0) {
+            item.SetImage(-1);
+            m_pListPane->SetColumn(oldSortColIndex, item);
+        }
+        m_iSortColumnID = m_iColumnIndexToColumnID[newSortColIndex];
+        m_bReverseSort = false;
+
+        SetSortColumn(newSortColIndex);
+    }
+    
+    // Write the change to the registry
+    // Do this here because SetListColumnOrder() can call SetSortColumn()
+    // even when neither m_iSortColumnID nor m_bReverseSort changes
+    wxConfigBase* pConfig = wxConfigBase::Get(false);
+    pConfig->SetPath(wxT("/") + GetViewName());
+    m_pListPane->OnSaveState(pConfig);
+}
+    
+void CBOINCBaseView::SetSortColumn(int newSortColIndex) {
+    wxListItem      item;
+    int             i, j, m;
+    wxArrayInt      selections;
+
     item.SetImage(m_bReverseSort ? 0 : 1);
-    m_pListPane->SetColumn(newSortColumn, item);
+    m_pListPane->SetColumn(newSortColIndex, item);
     
     Freeze();   // To reduce flicker
     // Remember which cache elements are selected and deselect them
@@ -581,10 +590,13 @@ void CBOINCBaseView::OnColClick(wxListEvent& event) {
 void CBOINCBaseView::InitSort() {
     wxListItem      item;
 
-    if (m_iSortColumn < 0) return;
+    if (m_iSortColumnID < 0) return;
+    int newSortColIndex = m_iColumnIDToColumnIndex[m_iSortColumnID];
+    if (newSortColIndex < 0) return;
+    
     item.SetMask(wxLIST_MASK_IMAGE);
     item.SetImage(m_bReverseSort ? 0 : 1);
-    m_pListPane->SetColumn(m_iSortColumn, item);
+    m_pListPane->SetColumn(newSortColIndex, item);
     Freeze();   // To reduce flicker
     sortData();
     Thaw();
@@ -592,7 +604,8 @@ void CBOINCBaseView::InitSort() {
 
 
 void CBOINCBaseView::sortData() {
-    if (m_iSortColumn < 0) return;
+    if (m_iSortColumnID < 0) return;
+    if (m_iColumnIDToColumnIndex[m_iSortColumnID] < 0) return;
     
     wxArrayInt oldSortedIndexes(m_iSortedIndexes);
     int i, n = (int)m_iSortedIndexes.GetCount();
@@ -732,8 +745,11 @@ void CBOINCBaseView::UpdateSelection(){
 
 void CBOINCBaseView::PostUpdateSelection(){
     wxASSERT(m_pTaskPane);
-    m_pTaskPane->UpdateControls();
-    Layout();
+    if (m_pTaskPane->UpdateControls()) {
+        // Under wxWidgets 2.9.4, Layout() causes ListCtrl 
+        // to repaint, so call only when actually needed.
+        Layout();
+    }
 }
 
 
@@ -797,6 +813,7 @@ void CBOINCBaseView::UpdateWebsiteSelection(long lControlGroup, PROJECT* project
             }
         }
 
+        m_pTaskPane->FitInside();
         m_bForceUpdateSelection = false;
     }
 }
@@ -808,6 +825,73 @@ void CBOINCBaseView::RefreshTaskPane() {
         m_pTaskPane->Refresh(true);
     }
 }
+
+
+#ifdef __WXMAC__
+// Fix Keyboard navigation on Mac
+//
+// NOTE: to select an item in wxListCtrl when none
+// has yet been selected, press tab and then space.
+#define SHIFT_MASK (1<<17)
+
+void CBOINCBaseView::OnKeyPressed(wxKeyEvent &event) {
+    wxWindow        next;
+    CTaskItemGroup* pGroup = NULL;
+    CTaskItem*      pItem = NULL;
+    int             i, j;
+    bool            focusOK = false;
+
+    if (m_pTaskPane) {
+        int keyCode = event.GetKeyCode();
+        wxUint32 keyFlags = event.GetRawKeyFlags();
+        
+        if (keyCode == WXK_TAB) {
+            wxWindow* focused = wxWindow::FindFocus();
+            if (!m_pTaskPane->IsDescendant(focused)) {
+                if (keyFlags & SHIFT_MASK) {
+                    for (i=m_TaskGroups.size()-1; i>=0; --i) {
+                        pGroup = m_TaskGroups[i];
+                        for (j=pGroup->m_Tasks.size()-1; j>=0; --j) {
+                            pItem = pGroup->m_Tasks[j];
+                            if (pItem->m_pButton) {
+                                if (pItem->m_pButton->CanAcceptFocus()) {
+                                    focusOK = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (focusOK) break;
+                    }
+                } else {
+                   for (i=0; i<m_TaskGroups.size(); ++i) {
+                        pGroup = m_TaskGroups[i];
+                        for (j=0; j<pGroup->m_Tasks.size(); ++j) {
+                            pItem = pGroup->m_Tasks[j];
+                            if (pItem->m_pButton) {
+                                if (pItem->m_pButton->CanAcceptFocus()) {
+                                    focusOK = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (focusOK) break;
+                    }
+                }
+                if (focusOK) {
+                    pItem->m_pButton->SetFocus();
+                    return;
+                }
+            }
+            wxNavigationKeyEvent evt;
+            evt.SetDirection((keyFlags & SHIFT_MASK) == 0);
+            evt.SetFromTab(true);
+            m_pTaskPane->GetEventHandler()->AddPendingEvent(evt);
+            return;
+        }
+    }
+    event.Skip();
+}
+#endif
 
 
 bool CBOINCBaseView::_IsSelectionManagementNeeded() {
@@ -839,6 +923,9 @@ wxString CBOINCBaseView::GetProgressText( long ) {
     return wxEmptyString;
 }
 
+void CBOINCBaseView::AppendColumn(int){
+}
+
 
 void CBOINCBaseView::append_to_status(wxString& existing, const wxChar* additional) {
     if (existing.size() == 0) {
@@ -861,120 +948,120 @@ wxString CBOINCBaseView::HtmlEntityEncode(wxString strRaw) {
     strEncodedHtml.Replace(wxT("\""), wxT("&quot;"),   true);
     strEncodedHtml.Replace(wxT("<"),  wxT("&lt;"),     true);
     strEncodedHtml.Replace(wxT(">"),  wxT("&gt;"),     true);
-    strEncodedHtml.Replace(wxT("Ç"),  wxT("&sbquo;"),  true);
-    strEncodedHtml.Replace(wxT("É"),  wxT("&fnof;"),   true);
-    strEncodedHtml.Replace(wxT("Ñ"),  wxT("&bdquo;"),  true);
-    strEncodedHtml.Replace(wxT("Ö"),  wxT("&hellip;"), true);
-    strEncodedHtml.Replace(wxT("Ü"),  wxT("&dagger;"), true);
-    strEncodedHtml.Replace(wxT("á"),  wxT("&Dagger;"), true);
-    strEncodedHtml.Replace(wxT("ä"),  wxT("&Scaron;"), true);
-    strEncodedHtml.Replace(wxT("å"),  wxT("&OElig;"),  true);
-    strEncodedHtml.Replace(wxT("ë"),  wxT("&lsquo;"),  true);
-    strEncodedHtml.Replace(wxT("í"),  wxT("&rsquo;"),  true);
-    strEncodedHtml.Replace(wxT("ì"),  wxT("&ldquo;"),  true);
-    strEncodedHtml.Replace(wxT("î"),  wxT("&rdquo;"),  true);
-    strEncodedHtml.Replace(wxT("ï"),  wxT("&bull;"),   true);
-    strEncodedHtml.Replace(wxT("ñ"),  wxT("&ndash;"),  true);
-    strEncodedHtml.Replace(wxT("ó"),  wxT("&mdash;"),  true);
-    strEncodedHtml.Replace(wxT("òò~"),  wxT("&tilde;"),  true);
-    strEncodedHtml.Replace(wxT("ô"),  wxT("&trade;"),  true);
-    strEncodedHtml.Replace(wxT("ö"),  wxT("&scaron;"), true);
-    strEncodedHtml.Replace(wxT("ú"),  wxT("&oelig;"),  true);
-    strEncodedHtml.Replace(wxT("ü"),  wxT("&Yuml;"),   true);
-    strEncodedHtml.Replace(wxT("°"),  wxT("&iexcl;"),  true);
-    strEncodedHtml.Replace(wxT("¢"),  wxT("&cent;"),   true);
-    strEncodedHtml.Replace(wxT("£"),  wxT("&pound;"),  true);
-    strEncodedHtml.Replace(wxT("§"),  wxT("&curren;"), true);
-    strEncodedHtml.Replace(wxT("•"),  wxT("&yen;"),    true);
-    strEncodedHtml.Replace(wxT("¶"),  wxT("&brvbar;"), true);
-    strEncodedHtml.Replace(wxT("ß"),  wxT("&sect;"),   true);
-    strEncodedHtml.Replace(wxT("®"),  wxT("&uml;"),    true);
-    strEncodedHtml.Replace(wxT("©"),  wxT("&copy;"),   true);
-    strEncodedHtml.Replace(wxT("™"),  wxT("&ordf;"),   true);
-    strEncodedHtml.Replace(wxT("´"),  wxT("&laquo;"),  true);
-    strEncodedHtml.Replace(wxT("¨"),  wxT("&not;"),    true);
-    strEncodedHtml.Replace(wxT("Æ"),  wxT("&reg;"),    true);
-    strEncodedHtml.Replace(wxT("Ø"),  wxT("&macr;"),   true);
-    strEncodedHtml.Replace(wxT("∞"),  wxT("&deg;"),    true);
-    strEncodedHtml.Replace(wxT("±"),  wxT("&plusmn;"), true);
-    strEncodedHtml.Replace(wxT("≤"),  wxT("&sup2;"),   true);
-    strEncodedHtml.Replace(wxT("≥"),  wxT("&sup3;"),   true);
-    strEncodedHtml.Replace(wxT("¥"),  wxT("&acute;"),  true);
-    strEncodedHtml.Replace(wxT("µ"),  wxT("&micro;"),  true);
-    strEncodedHtml.Replace(wxT("∂"),  wxT("&para;"),   true);
-    strEncodedHtml.Replace(wxT("∑"),  wxT("&middot;"), true);
-    strEncodedHtml.Replace(wxT("∏"),  wxT("&cedil;"),  true);
-    strEncodedHtml.Replace(wxT("π"),  wxT("&sup1;"),   true);
-    strEncodedHtml.Replace(wxT("∫"),  wxT("&ordm;"),   true);
-    strEncodedHtml.Replace(wxT("ª"),  wxT("&raquo;"),  true);
-    strEncodedHtml.Replace(wxT("º"),  wxT("&frac14;"), true);
-    strEncodedHtml.Replace(wxT("Ω"),  wxT("&frac12;"), true);
-    strEncodedHtml.Replace(wxT("æ"),  wxT("&frac34;"), true);
-    strEncodedHtml.Replace(wxT("ø"),  wxT("&iquest;"), true);
-    strEncodedHtml.Replace(wxT("¿"),  wxT("&Agrave;"), true);
-    strEncodedHtml.Replace(wxT("¡"),  wxT("&Aacute;"), true);
-    strEncodedHtml.Replace(wxT("¬"),  wxT("&Acirc;"),  true);
-    strEncodedHtml.Replace(wxT("√"),  wxT("&Atilde;"), true);
-    strEncodedHtml.Replace(wxT("ƒ"),  wxT("&Auml;"),   true);
-    strEncodedHtml.Replace(wxT("≈"),  wxT("&Aring;"),  true);
-    strEncodedHtml.Replace(wxT("∆"),  wxT("&AElig;"),  true);
-    strEncodedHtml.Replace(wxT("«"),  wxT("&Ccedil;"), true);
-    strEncodedHtml.Replace(wxT("»"),  wxT("&Egrave;"), true);
-    strEncodedHtml.Replace(wxT("…"),  wxT("&Eacute;"), true);
-    strEncodedHtml.Replace(wxT(" "),  wxT("&Ecirc;"),  true);
-    strEncodedHtml.Replace(wxT("À"),  wxT("&Euml;"),   true);
-    strEncodedHtml.Replace(wxT("Ã"),  wxT("&Igrave;"), true);
-    strEncodedHtml.Replace(wxT("Õ"),  wxT("&Iacute;"), true);
-    strEncodedHtml.Replace(wxT("Œ"),  wxT("&Icirc;"),  true);
-    strEncodedHtml.Replace(wxT("œ"),  wxT("&Iuml;"),   true);
-    strEncodedHtml.Replace(wxT("–"),  wxT("&ETH;"),    true);
-    strEncodedHtml.Replace(wxT("—"),  wxT("&Ntilde;"), true);
-    strEncodedHtml.Replace(wxT("“"),  wxT("&Ograve;"), true);
-    strEncodedHtml.Replace(wxT("”"),  wxT("&Oacute;"), true);
-    strEncodedHtml.Replace(wxT("‘"),  wxT("&Ocirc;"),  true);
-    strEncodedHtml.Replace(wxT("’"),  wxT("&Otilde;"), true);
-    strEncodedHtml.Replace(wxT("÷"),  wxT("&Ouml;"),   true);
-    strEncodedHtml.Replace(wxT("◊"),  wxT("&times;"),  true);
-    strEncodedHtml.Replace(wxT("ÿ"),  wxT("&Oslash;"), true);
-    strEncodedHtml.Replace(wxT("Ÿ"),  wxT("&Ugrave;"), true);
-    strEncodedHtml.Replace(wxT("⁄"),  wxT("&Uacute;"), true);
-    strEncodedHtml.Replace(wxT("€"),  wxT("&Ucirc;"),  true);
-    strEncodedHtml.Replace(wxT("‹"),  wxT("&Uuml;"),   true);
-    strEncodedHtml.Replace(wxT("›"),  wxT("&Yacute;"), true);
-    strEncodedHtml.Replace(wxT("ﬁ"),  wxT("&THORN;"),  true);
-    strEncodedHtml.Replace(wxT("ﬂ"),  wxT("&szlig;"),  true);
-    strEncodedHtml.Replace(wxT("‡"),  wxT("&agrave;"), true);
-    strEncodedHtml.Replace(wxT("·"),  wxT("&aacute;"), true);
-    strEncodedHtml.Replace(wxT("‚"),  wxT("&acirc;"),  true);
-    strEncodedHtml.Replace(wxT("„"),  wxT("&atilde;"), true);
-    strEncodedHtml.Replace(wxT("‰"),  wxT("&auml;"),   true);
-    strEncodedHtml.Replace(wxT("Â"),  wxT("&aring;"),  true);
-    strEncodedHtml.Replace(wxT("Ê"),  wxT("&aelig;"),  true);
-    strEncodedHtml.Replace(wxT("Á"),  wxT("&ccedil;"), true);
-    strEncodedHtml.Replace(wxT("Ë"),  wxT("&egrave;"), true);
-    strEncodedHtml.Replace(wxT("È"),  wxT("&eacute;"), true);
-    strEncodedHtml.Replace(wxT("Í"),  wxT("&ecirc;"),  true);
-    strEncodedHtml.Replace(wxT("Î"),  wxT("&euml;"),   true);
-    strEncodedHtml.Replace(wxT("Ï"),  wxT("&igrave;"), true);
-    strEncodedHtml.Replace(wxT("Ì"),  wxT("&iacute;"), true);
-    strEncodedHtml.Replace(wxT("Ó"),  wxT("&icirc;"),  true);
-    strEncodedHtml.Replace(wxT("Ô"),  wxT("&iuml;"),   true);
-    strEncodedHtml.Replace(wxT(""),  wxT("&eth;"),    true);
-    strEncodedHtml.Replace(wxT("Ò"),  wxT("&ntilde;"), true);
-    strEncodedHtml.Replace(wxT("Ú"),  wxT("&ograve;"), true);
-    strEncodedHtml.Replace(wxT("Û"),  wxT("&oacute;"), true);
-    strEncodedHtml.Replace(wxT("Ù"),  wxT("&ocirc;"),  true);
-    strEncodedHtml.Replace(wxT("ı"),  wxT("&otilde;"), true);
-    strEncodedHtml.Replace(wxT("ˆ"),  wxT("&ouml;"),   true);
-    strEncodedHtml.Replace(wxT("˜"),  wxT("&divide;"), true);
-    strEncodedHtml.Replace(wxT("¯"),  wxT("&oslash;"), true);
-    strEncodedHtml.Replace(wxT("˘"),  wxT("&ugrave;"), true);
-    strEncodedHtml.Replace(wxT("˙"),  wxT("&uacute;"), true);
-    strEncodedHtml.Replace(wxT("˚"),  wxT("&ucirc;"),  true);
-    strEncodedHtml.Replace(wxT("¸"),  wxT("&uuml;"),   true);
-    strEncodedHtml.Replace(wxT("˝"),  wxT("&yacute;"), true);
-    strEncodedHtml.Replace(wxT("˛"),  wxT("&thorn;"),  true);
-    strEncodedHtml.Replace(wxT("ˇ"),  wxT("&yuml;"),   true);
+    strEncodedHtml.Replace(wxT("‚Äö"),  wxT("&sbquo;"),  true);
+    strEncodedHtml.Replace(wxT("∆í"),  wxT("&fnof;"),   true);
+    strEncodedHtml.Replace(wxT("‚Äû"),  wxT("&bdquo;"),  true);
+    strEncodedHtml.Replace(wxT("‚Ä¶"),  wxT("&hellip;"), true);
+    strEncodedHtml.Replace(wxT("‚Ä†"),  wxT("&dagger;"), true);
+    strEncodedHtml.Replace(wxT("‚Ä°"),  wxT("&Dagger;"), true);
+    strEncodedHtml.Replace(wxT("≈†"),  wxT("&Scaron;"), true);
+    strEncodedHtml.Replace(wxT("≈í"),  wxT("&OElig;"),  true);
+    strEncodedHtml.Replace(wxT("‚Äò"),  wxT("&lsquo;"),  true);
+    strEncodedHtml.Replace(wxT("‚Äô"),  wxT("&rsquo;"),  true);
+    strEncodedHtml.Replace(wxT("‚Äú"),  wxT("&ldquo;"),  true);
+    strEncodedHtml.Replace(wxT("‚Äù"),  wxT("&rdquo;"),  true);
+    strEncodedHtml.Replace(wxT("‚Ä¢"),  wxT("&bull;"),   true);
+    strEncodedHtml.Replace(wxT("‚Äì"),  wxT("&ndash;"),  true);
+    strEncodedHtml.Replace(wxT("‚Äî"),  wxT("&mdash;"),  true);
+    strEncodedHtml.Replace(wxT("ÀúÀú~"),  wxT("&tilde;"),  true);
+    strEncodedHtml.Replace(wxT("‚Ñ¢"),  wxT("&trade;"),  true);
+    strEncodedHtml.Replace(wxT("≈°"),  wxT("&scaron;"), true);
+    strEncodedHtml.Replace(wxT("≈ì"),  wxT("&oelig;"),  true);
+    strEncodedHtml.Replace(wxT("≈∏"),  wxT("&Yuml;"),   true);
+    strEncodedHtml.Replace(wxT("¬°"),  wxT("&iexcl;"),  true);
+    strEncodedHtml.Replace(wxT("¬¢"),  wxT("&cent;"),   true);
+    strEncodedHtml.Replace(wxT("¬£"),  wxT("&pound;"),  true);
+    strEncodedHtml.Replace(wxT("¬§"),  wxT("&curren;"), true);
+    strEncodedHtml.Replace(wxT("¬•"),  wxT("&yen;"),    true);
+    strEncodedHtml.Replace(wxT("¬¶"),  wxT("&brvbar;"), true);
+    strEncodedHtml.Replace(wxT("¬ß"),  wxT("&sect;"),   true);
+    strEncodedHtml.Replace(wxT("¬®"),  wxT("&uml;"),    true);
+    strEncodedHtml.Replace(wxT("¬©"),  wxT("&copy;"),   true);
+    strEncodedHtml.Replace(wxT("¬™"),  wxT("&ordf;"),   true);
+    strEncodedHtml.Replace(wxT("¬´"),  wxT("&laquo;"),  true);
+    strEncodedHtml.Replace(wxT("¬¨"),  wxT("&not;"),    true);
+    strEncodedHtml.Replace(wxT("¬Æ"),  wxT("&reg;"),    true);
+    strEncodedHtml.Replace(wxT("¬Ø"),  wxT("&macr;"),   true);
+    strEncodedHtml.Replace(wxT("¬∞"),  wxT("&deg;"),    true);
+    strEncodedHtml.Replace(wxT("¬±"),  wxT("&plusmn;"), true);
+    strEncodedHtml.Replace(wxT("¬≤"),  wxT("&sup2;"),   true);
+    strEncodedHtml.Replace(wxT("¬≥"),  wxT("&sup3;"),   true);
+    strEncodedHtml.Replace(wxT("¬¥"),  wxT("&acute;"),  true);
+    strEncodedHtml.Replace(wxT("¬µ"),  wxT("&micro;"),  true);
+    strEncodedHtml.Replace(wxT("¬∂"),  wxT("&para;"),   true);
+    strEncodedHtml.Replace(wxT("¬∑"),  wxT("&middot;"), true);
+    strEncodedHtml.Replace(wxT("¬∏"),  wxT("&cedil;"),  true);
+    strEncodedHtml.Replace(wxT("¬π"),  wxT("&sup1;"),   true);
+    strEncodedHtml.Replace(wxT("¬∫"),  wxT("&ordm;"),   true);
+    strEncodedHtml.Replace(wxT("¬ª"),  wxT("&raquo;"),  true);
+    strEncodedHtml.Replace(wxT("¬º"),  wxT("&frac14;"), true);
+    strEncodedHtml.Replace(wxT("¬Ω"),  wxT("&frac12;"), true);
+    strEncodedHtml.Replace(wxT("¬æ"),  wxT("&frac34;"), true);
+    strEncodedHtml.Replace(wxT("¬ø"),  wxT("&iquest;"), true);
+    strEncodedHtml.Replace(wxT("√Ä"),  wxT("&Agrave;"), true);
+    strEncodedHtml.Replace(wxT("√Å"),  wxT("&Aacute;"), true);
+    strEncodedHtml.Replace(wxT("√Ç"),  wxT("&Acirc;"),  true);
+    strEncodedHtml.Replace(wxT("√É"),  wxT("&Atilde;"), true);
+    strEncodedHtml.Replace(wxT("√Ñ"),  wxT("&Auml;"),   true);
+    strEncodedHtml.Replace(wxT("√Ö"),  wxT("&Aring;"),  true);
+    strEncodedHtml.Replace(wxT("√Ü"),  wxT("&AElig;"),  true);
+    strEncodedHtml.Replace(wxT("√á"),  wxT("&Ccedil;"), true);
+    strEncodedHtml.Replace(wxT("√à"),  wxT("&Egrave;"), true);
+    strEncodedHtml.Replace(wxT("√â"),  wxT("&Eacute;"), true);
+    strEncodedHtml.Replace(wxT("√ä"),  wxT("&Ecirc;"),  true);
+    strEncodedHtml.Replace(wxT("√ã"),  wxT("&Euml;"),   true);
+    strEncodedHtml.Replace(wxT("√å"),  wxT("&Igrave;"), true);
+    strEncodedHtml.Replace(wxT("√ç"),  wxT("&Iacute;"), true);
+    strEncodedHtml.Replace(wxT("√é"),  wxT("&Icirc;"),  true);
+    strEncodedHtml.Replace(wxT("√è"),  wxT("&Iuml;"),   true);
+    strEncodedHtml.Replace(wxT("√ê"),  wxT("&ETH;"),    true);
+    strEncodedHtml.Replace(wxT("√ë"),  wxT("&Ntilde;"), true);
+    strEncodedHtml.Replace(wxT("√í"),  wxT("&Ograve;"), true);
+    strEncodedHtml.Replace(wxT("√ì"),  wxT("&Oacute;"), true);
+    strEncodedHtml.Replace(wxT("√î"),  wxT("&Ocirc;"),  true);
+    strEncodedHtml.Replace(wxT("√ï"),  wxT("&Otilde;"), true);
+    strEncodedHtml.Replace(wxT("√ñ"),  wxT("&Ouml;"),   true);
+    strEncodedHtml.Replace(wxT("√ó"),  wxT("&times;"),  true);
+    strEncodedHtml.Replace(wxT("√ò"),  wxT("&Oslash;"), true);
+    strEncodedHtml.Replace(wxT("√ô"),  wxT("&Ugrave;"), true);
+    strEncodedHtml.Replace(wxT("√ö"),  wxT("&Uacute;"), true);
+    strEncodedHtml.Replace(wxT("√õ"),  wxT("&Ucirc;"),  true);
+    strEncodedHtml.Replace(wxT("√ú"),  wxT("&Uuml;"),   true);
+    strEncodedHtml.Replace(wxT("√ù"),  wxT("&Yacute;"), true);
+    strEncodedHtml.Replace(wxT("√û"),  wxT("&THORN;"),  true);
+    strEncodedHtml.Replace(wxT("√ü"),  wxT("&szlig;"),  true);
+    strEncodedHtml.Replace(wxT("√†"),  wxT("&agrave;"), true);
+    strEncodedHtml.Replace(wxT("√°"),  wxT("&aacute;"), true);
+    strEncodedHtml.Replace(wxT("√¢"),  wxT("&acirc;"),  true);
+    strEncodedHtml.Replace(wxT("√£"),  wxT("&atilde;"), true);
+    strEncodedHtml.Replace(wxT("√§"),  wxT("&auml;"),   true);
+    strEncodedHtml.Replace(wxT("√•"),  wxT("&aring;"),  true);
+    strEncodedHtml.Replace(wxT("√¶"),  wxT("&aelig;"),  true);
+    strEncodedHtml.Replace(wxT("√ß"),  wxT("&ccedil;"), true);
+    strEncodedHtml.Replace(wxT("√®"),  wxT("&egrave;"), true);
+    strEncodedHtml.Replace(wxT("√©"),  wxT("&eacute;"), true);
+    strEncodedHtml.Replace(wxT("√™"),  wxT("&ecirc;"),  true);
+    strEncodedHtml.Replace(wxT("√´"),  wxT("&euml;"),   true);
+    strEncodedHtml.Replace(wxT("√¨"),  wxT("&igrave;"), true);
+    strEncodedHtml.Replace(wxT("√≠"),  wxT("&iacute;"), true);
+    strEncodedHtml.Replace(wxT("√Æ"),  wxT("&icirc;"),  true);
+    strEncodedHtml.Replace(wxT("√Ø"),  wxT("&iuml;"),   true);
+    strEncodedHtml.Replace(wxT("√∞"),  wxT("&eth;"),    true);
+    strEncodedHtml.Replace(wxT("√±"),  wxT("&ntilde;"), true);
+    strEncodedHtml.Replace(wxT("√≤"),  wxT("&ograve;"), true);
+    strEncodedHtml.Replace(wxT("√≥"),  wxT("&oacute;"), true);
+    strEncodedHtml.Replace(wxT("√¥"),  wxT("&ocirc;"),  true);
+    strEncodedHtml.Replace(wxT("√µ"),  wxT("&otilde;"), true);
+    strEncodedHtml.Replace(wxT("√∂"),  wxT("&ouml;"),   true);
+    strEncodedHtml.Replace(wxT("√∑"),  wxT("&divide;"), true);
+    strEncodedHtml.Replace(wxT("√∏"),  wxT("&oslash;"), true);
+    strEncodedHtml.Replace(wxT("√π"),  wxT("&ugrave;"), true);
+    strEncodedHtml.Replace(wxT("√∫"),  wxT("&uacute;"), true);
+    strEncodedHtml.Replace(wxT("√ª"),  wxT("&ucirc;"),  true);
+    strEncodedHtml.Replace(wxT("√º"),  wxT("&uuml;"),   true);
+    strEncodedHtml.Replace(wxT("√Ω"),  wxT("&yacute;"), true);
+    strEncodedHtml.Replace(wxT("√æ"),  wxT("&thorn;"),  true);
+    strEncodedHtml.Replace(wxT("√ø"),  wxT("&yuml;"),   true);
 #endif
 
     return strEncodedHtml;
@@ -989,120 +1076,120 @@ wxString CBOINCBaseView::HtmlEntityDecode(wxString strRaw) {
         strDecodedHtml.Replace(wxT("&quot;"),   wxT("\""), true);
         strDecodedHtml.Replace(wxT("&lt;"),     wxT("<"),  true);
         strDecodedHtml.Replace(wxT("&gt;"),     wxT(">"),  true);
-        strDecodedHtml.Replace(wxT("&sbquo;"),  wxT("Ç"),  true);
-        strDecodedHtml.Replace(wxT("&fnof;"),   wxT("É"),  true);
-        strDecodedHtml.Replace(wxT("&bdquo;"),  wxT("Ñ"),  true);
-        strDecodedHtml.Replace(wxT("&hellip;"), wxT("Ö"),  true);
-        strDecodedHtml.Replace(wxT("&dagger;"), wxT("Ü"),  true);
-        strDecodedHtml.Replace(wxT("&Dagger;"), wxT("á"),  true);
-        strDecodedHtml.Replace(wxT("&Scaron;"), wxT("ä"),  true);
-        strDecodedHtml.Replace(wxT("&OElig;"),  wxT("å"),  true);
-        strDecodedHtml.Replace(wxT("&lsquo;"),  wxT("ë"),  true);
-        strDecodedHtml.Replace(wxT("&rsquo;"),  wxT("í"),  true);
-        strDecodedHtml.Replace(wxT("&ldquo;"),  wxT("ì"),  true);
-        strDecodedHtml.Replace(wxT("&rdquo;"),  wxT("î"),  true);
-        strDecodedHtml.Replace(wxT("&bull;"),   wxT("ï"),  true);
-        strDecodedHtml.Replace(wxT("&ndash;"),  wxT("ñ"),  true);
-        strDecodedHtml.Replace(wxT("&mdash;"),  wxT("ó"),  true);
-        strDecodedHtml.Replace(wxT("&tilde;"),  wxT("òò~"),  true);
-        strDecodedHtml.Replace(wxT("&trade;"),  wxT("ô"),  true);
-        strDecodedHtml.Replace(wxT("&scaron;"), wxT("ö"),  true);
-        strDecodedHtml.Replace(wxT("&oelig;"),  wxT("ú"),  true);
-        strDecodedHtml.Replace(wxT("&Yuml;"),   wxT("ü"),  true);
-        strDecodedHtml.Replace(wxT("&iexcl;"),  wxT("°"),  true);
-        strDecodedHtml.Replace(wxT("&cent;"),   wxT("¢"),  true);
-        strDecodedHtml.Replace(wxT("&pound;"),  wxT("£"),  true);
-        strDecodedHtml.Replace(wxT("&curren;"), wxT("§"),  true);
-        strDecodedHtml.Replace(wxT("&yen;"),    wxT("•"),  true);
-        strDecodedHtml.Replace(wxT("&brvbar;"), wxT("¶"),  true);
-        strDecodedHtml.Replace(wxT("&sect;"),   wxT("ß"),  true);
-        strDecodedHtml.Replace(wxT("&uml;"),    wxT("®"),  true);
-        strDecodedHtml.Replace(wxT("&copy;"),   wxT("©"),  true);
-        strDecodedHtml.Replace(wxT("&ordf;"),   wxT("™"),  true);
-        strDecodedHtml.Replace(wxT("&laquo;"),  wxT("´"),  true);
-        strDecodedHtml.Replace(wxT("&not;"),    wxT("¨"),  true);
-        strDecodedHtml.Replace(wxT("&reg;"),    wxT("Æ"),  true);
-        strDecodedHtml.Replace(wxT("&macr;"),   wxT("Ø"),  true);
-        strDecodedHtml.Replace(wxT("&deg;"),    wxT("∞"),  true);
-        strDecodedHtml.Replace(wxT("&plusmn;"), wxT("±"),  true);
-        strDecodedHtml.Replace(wxT("&sup2;"),   wxT("≤"),  true);
-        strDecodedHtml.Replace(wxT("&sup3;"),   wxT("≥"),  true);
-        strDecodedHtml.Replace(wxT("&acute;"),  wxT("¥"),  true);
-        strDecodedHtml.Replace(wxT("&micro;"),  wxT("µ"),  true);
-        strDecodedHtml.Replace(wxT("&para;"),   wxT("∂"),  true);
-        strDecodedHtml.Replace(wxT("&middot;"), wxT("∑"),  true);
-        strDecodedHtml.Replace(wxT("&cedil;"),  wxT("∏"),  true);
-        strDecodedHtml.Replace(wxT("&sup1;"),   wxT("π"),  true);
-        strDecodedHtml.Replace(wxT("&ordm;"),   wxT("∫"),  true);
-        strDecodedHtml.Replace(wxT("&raquo;"),  wxT("ª"),  true);
-        strDecodedHtml.Replace(wxT("&frac14;"), wxT("º"),  true);
-        strDecodedHtml.Replace(wxT("&frac12;"), wxT("Ω"),  true);
-        strDecodedHtml.Replace(wxT("&frac34;"), wxT("æ"),  true);
-        strDecodedHtml.Replace(wxT("&iquest;"), wxT("ø"),  true);
-        strDecodedHtml.Replace(wxT("&Agrave;"), wxT("¿"),  true);
-        strDecodedHtml.Replace(wxT("&Aacute;"), wxT("¡"),  true);
-        strDecodedHtml.Replace(wxT("&Acirc;"),  wxT("¬"),  true);
-        strDecodedHtml.Replace(wxT("&Atilde;"), wxT("√"),  true);
-        strDecodedHtml.Replace(wxT("&Auml;"),   wxT("ƒ"),  true);
-        strDecodedHtml.Replace(wxT("&Aring;"),  wxT("≈"),  true);
-        strDecodedHtml.Replace(wxT("&AElig;"),  wxT("∆"),  true);
-        strDecodedHtml.Replace(wxT("&Ccedil;"), wxT("«"),  true);
-        strDecodedHtml.Replace(wxT("&Egrave;"), wxT("»"),  true);
-        strDecodedHtml.Replace(wxT("&Eacute;"), wxT("…"),  true);
-        strDecodedHtml.Replace(wxT("&Ecirc;"),  wxT(" "),  true);
-        strDecodedHtml.Replace(wxT("&Euml;"),   wxT("À"),  true);
-        strDecodedHtml.Replace(wxT("&Igrave;"), wxT("Ã"),  true);
-        strDecodedHtml.Replace(wxT("&Iacute;"), wxT("Õ"),  true);
-        strDecodedHtml.Replace(wxT("&Icirc;"),  wxT("Œ"),  true);
-        strDecodedHtml.Replace(wxT("&Iuml;"),   wxT("œ"),  true);
-        strDecodedHtml.Replace(wxT("&ETH;"),    wxT("–"),  true);
-        strDecodedHtml.Replace(wxT("&Ntilde;"), wxT("—"),  true);
-        strDecodedHtml.Replace(wxT("&Ograve;"), wxT("“"),  true);
-        strDecodedHtml.Replace(wxT("&Oacute;"), wxT("”"),  true);
-        strDecodedHtml.Replace(wxT("&Ocirc;"),  wxT("‘"),  true);
-        strDecodedHtml.Replace(wxT("&Otilde;"), wxT("’"),  true);
-        strDecodedHtml.Replace(wxT("&Ouml;"),   wxT("÷"),  true);
-        strDecodedHtml.Replace(wxT("&times;"),  wxT("◊"),  true);
-        strDecodedHtml.Replace(wxT("&Oslash;"), wxT("ÿ"),  true);
-        strDecodedHtml.Replace(wxT("&Ugrave;"), wxT("Ÿ"),  true);
-        strDecodedHtml.Replace(wxT("&Uacute;"), wxT("⁄"),  true);
-        strDecodedHtml.Replace(wxT("&Ucirc;"),  wxT("€"),  true);
-        strDecodedHtml.Replace(wxT("&Uuml;"),   wxT("‹"),  true);
-        strDecodedHtml.Replace(wxT("&Yacute;"), wxT("›"),  true);
-        strDecodedHtml.Replace(wxT("&THORN;"),  wxT("ﬁ"),  true);
-        strDecodedHtml.Replace(wxT("&szlig;"),  wxT("ﬂ"),  true);
-        strDecodedHtml.Replace(wxT("&agrave;"), wxT("‡"),  true);
-        strDecodedHtml.Replace(wxT("&aacute;"), wxT("·"),  true);
-        strDecodedHtml.Replace(wxT("&acirc;"),  wxT("‚"),  true);
-        strDecodedHtml.Replace(wxT("&atilde;"), wxT("„"),  true);
-        strDecodedHtml.Replace(wxT("&auml;"),   wxT("‰"),  true);
-        strDecodedHtml.Replace(wxT("&aring;"),  wxT("Â"),  true);
-        strDecodedHtml.Replace(wxT("&aelig;"),  wxT("Ê"),  true);
-        strDecodedHtml.Replace(wxT("&ccedil;"), wxT("Á"),  true);
-        strDecodedHtml.Replace(wxT("&egrave;"), wxT("Ë"),  true);
-        strDecodedHtml.Replace(wxT("&eacute;"), wxT("È"),  true);
-        strDecodedHtml.Replace(wxT("&ecirc;"),  wxT("Í"),  true);
-        strDecodedHtml.Replace(wxT("&euml;"),   wxT("Î"),  true);
-        strDecodedHtml.Replace(wxT("&igrave;"), wxT("Ï"),  true);
-        strDecodedHtml.Replace(wxT("&iacute;"), wxT("Ì"),  true);
-        strDecodedHtml.Replace(wxT("&icirc;"),  wxT("Ó"),  true);
-        strDecodedHtml.Replace(wxT("&iuml;"),   wxT("Ô"),  true);
-        strDecodedHtml.Replace(wxT("&eth;"),    wxT(""),  true);
-        strDecodedHtml.Replace(wxT("&ntilde;"), wxT("Ò"),  true);
-        strDecodedHtml.Replace(wxT("&ograve;"), wxT("Ú"),  true);
-        strDecodedHtml.Replace(wxT("&oacute;"), wxT("Û"),  true);
-        strDecodedHtml.Replace(wxT("&ocirc;"),  wxT("Ù"),  true);
-        strDecodedHtml.Replace(wxT("&otilde;"), wxT("ı"),  true);
-        strDecodedHtml.Replace(wxT("&ouml;"),   wxT("ˆ"),  true);
-        strDecodedHtml.Replace(wxT("&divide;"), wxT("˜"),  true);
-        strDecodedHtml.Replace(wxT("&oslash;"), wxT("¯"),  true);
-        strDecodedHtml.Replace(wxT("&ugrave;"), wxT("˘"),  true);
-        strDecodedHtml.Replace(wxT("&uacute;"), wxT("˙"),  true);
-        strDecodedHtml.Replace(wxT("&ucirc;"),  wxT("˚"),  true);
-        strDecodedHtml.Replace(wxT("&uuml;"),   wxT("¸"),  true);
-        strDecodedHtml.Replace(wxT("&yacute;"), wxT("˝"),  true);
-        strDecodedHtml.Replace(wxT("&thorn;"),  wxT("˛"),  true);
-        strDecodedHtml.Replace(wxT("&yuml;"),   wxT("ˇ"),  true);
+        strDecodedHtml.Replace(wxT("&sbquo;"),  wxT("‚Äö"),  true);
+        strDecodedHtml.Replace(wxT("&fnof;"),   wxT("∆í"),  true);
+        strDecodedHtml.Replace(wxT("&bdquo;"),  wxT("‚Äû"),  true);
+        strDecodedHtml.Replace(wxT("&hellip;"), wxT("‚Ä¶"),  true);
+        strDecodedHtml.Replace(wxT("&dagger;"), wxT("‚Ä†"),  true);
+        strDecodedHtml.Replace(wxT("&Dagger;"), wxT("‚Ä°"),  true);
+        strDecodedHtml.Replace(wxT("&Scaron;"), wxT("≈†"),  true);
+        strDecodedHtml.Replace(wxT("&OElig;"),  wxT("≈í"),  true);
+        strDecodedHtml.Replace(wxT("&lsquo;"),  wxT("‚Äò"),  true);
+        strDecodedHtml.Replace(wxT("&rsquo;"),  wxT("‚Äô"),  true);
+        strDecodedHtml.Replace(wxT("&ldquo;"),  wxT("‚Äú"),  true);
+        strDecodedHtml.Replace(wxT("&rdquo;"),  wxT("‚Äù"),  true);
+        strDecodedHtml.Replace(wxT("&bull;"),   wxT("‚Ä¢"),  true);
+        strDecodedHtml.Replace(wxT("&ndash;"),  wxT("‚Äì"),  true);
+        strDecodedHtml.Replace(wxT("&mdash;"),  wxT("‚Äî"),  true);
+        strDecodedHtml.Replace(wxT("&tilde;"),  wxT("ÀúÀú~"),  true);
+        strDecodedHtml.Replace(wxT("&trade;"),  wxT("‚Ñ¢"),  true);
+        strDecodedHtml.Replace(wxT("&scaron;"), wxT("≈°"),  true);
+        strDecodedHtml.Replace(wxT("&oelig;"),  wxT("≈ì"),  true);
+        strDecodedHtml.Replace(wxT("&Yuml;"),   wxT("≈∏"),  true);
+        strDecodedHtml.Replace(wxT("&iexcl;"),  wxT("¬°"),  true);
+        strDecodedHtml.Replace(wxT("&cent;"),   wxT("¬¢"),  true);
+        strDecodedHtml.Replace(wxT("&pound;"),  wxT("¬£"),  true);
+        strDecodedHtml.Replace(wxT("&curren;"), wxT("¬§"),  true);
+        strDecodedHtml.Replace(wxT("&yen;"),    wxT("¬•"),  true);
+        strDecodedHtml.Replace(wxT("&brvbar;"), wxT("¬¶"),  true);
+        strDecodedHtml.Replace(wxT("&sect;"),   wxT("¬ß"),  true);
+        strDecodedHtml.Replace(wxT("&uml;"),    wxT("¬®"),  true);
+        strDecodedHtml.Replace(wxT("&copy;"),   wxT("¬©"),  true);
+        strDecodedHtml.Replace(wxT("&ordf;"),   wxT("¬™"),  true);
+        strDecodedHtml.Replace(wxT("&laquo;"),  wxT("¬´"),  true);
+        strDecodedHtml.Replace(wxT("&not;"),    wxT("¬¨"),  true);
+        strDecodedHtml.Replace(wxT("&reg;"),    wxT("¬Æ"),  true);
+        strDecodedHtml.Replace(wxT("&macr;"),   wxT("¬Ø"),  true);
+        strDecodedHtml.Replace(wxT("&deg;"),    wxT("¬∞"),  true);
+        strDecodedHtml.Replace(wxT("&plusmn;"), wxT("¬±"),  true);
+        strDecodedHtml.Replace(wxT("&sup2;"),   wxT("¬≤"),  true);
+        strDecodedHtml.Replace(wxT("&sup3;"),   wxT("¬≥"),  true);
+        strDecodedHtml.Replace(wxT("&acute;"),  wxT("¬¥"),  true);
+        strDecodedHtml.Replace(wxT("&micro;"),  wxT("¬µ"),  true);
+        strDecodedHtml.Replace(wxT("&para;"),   wxT("¬∂"),  true);
+        strDecodedHtml.Replace(wxT("&middot;"), wxT("¬∑"),  true);
+        strDecodedHtml.Replace(wxT("&cedil;"),  wxT("¬∏"),  true);
+        strDecodedHtml.Replace(wxT("&sup1;"),   wxT("¬π"),  true);
+        strDecodedHtml.Replace(wxT("&ordm;"),   wxT("¬∫"),  true);
+        strDecodedHtml.Replace(wxT("&raquo;"),  wxT("¬ª"),  true);
+        strDecodedHtml.Replace(wxT("&frac14;"), wxT("¬º"),  true);
+        strDecodedHtml.Replace(wxT("&frac12;"), wxT("¬Ω"),  true);
+        strDecodedHtml.Replace(wxT("&frac34;"), wxT("¬æ"),  true);
+        strDecodedHtml.Replace(wxT("&iquest;"), wxT("¬ø"),  true);
+        strDecodedHtml.Replace(wxT("&Agrave;"), wxT("√Ä"),  true);
+        strDecodedHtml.Replace(wxT("&Aacute;"), wxT("√Å"),  true);
+        strDecodedHtml.Replace(wxT("&Acirc;"),  wxT("√Ç"),  true);
+        strDecodedHtml.Replace(wxT("&Atilde;"), wxT("√É"),  true);
+        strDecodedHtml.Replace(wxT("&Auml;"),   wxT("√Ñ"),  true);
+        strDecodedHtml.Replace(wxT("&Aring;"),  wxT("√Ö"),  true);
+        strDecodedHtml.Replace(wxT("&AElig;"),  wxT("√Ü"),  true);
+        strDecodedHtml.Replace(wxT("&Ccedil;"), wxT("√á"),  true);
+        strDecodedHtml.Replace(wxT("&Egrave;"), wxT("√à"),  true);
+        strDecodedHtml.Replace(wxT("&Eacute;"), wxT("√â"),  true);
+        strDecodedHtml.Replace(wxT("&Ecirc;"),  wxT("√ä"),  true);
+        strDecodedHtml.Replace(wxT("&Euml;"),   wxT("√ã"),  true);
+        strDecodedHtml.Replace(wxT("&Igrave;"), wxT("√å"),  true);
+        strDecodedHtml.Replace(wxT("&Iacute;"), wxT("√ç"),  true);
+        strDecodedHtml.Replace(wxT("&Icirc;"),  wxT("√é"),  true);
+        strDecodedHtml.Replace(wxT("&Iuml;"),   wxT("√è"),  true);
+        strDecodedHtml.Replace(wxT("&ETH;"),    wxT("√ê"),  true);
+        strDecodedHtml.Replace(wxT("&Ntilde;"), wxT("√ë"),  true);
+        strDecodedHtml.Replace(wxT("&Ograve;"), wxT("√í"),  true);
+        strDecodedHtml.Replace(wxT("&Oacute;"), wxT("√ì"),  true);
+        strDecodedHtml.Replace(wxT("&Ocirc;"),  wxT("√î"),  true);
+        strDecodedHtml.Replace(wxT("&Otilde;"), wxT("√ï"),  true);
+        strDecodedHtml.Replace(wxT("&Ouml;"),   wxT("√ñ"),  true);
+        strDecodedHtml.Replace(wxT("&times;"),  wxT("√ó"),  true);
+        strDecodedHtml.Replace(wxT("&Oslash;"), wxT("√ò"),  true);
+        strDecodedHtml.Replace(wxT("&Ugrave;"), wxT("√ô"),  true);
+        strDecodedHtml.Replace(wxT("&Uacute;"), wxT("√ö"),  true);
+        strDecodedHtml.Replace(wxT("&Ucirc;"),  wxT("√õ"),  true);
+        strDecodedHtml.Replace(wxT("&Uuml;"),   wxT("√ú"),  true);
+        strDecodedHtml.Replace(wxT("&Yacute;"), wxT("√ù"),  true);
+        strDecodedHtml.Replace(wxT("&THORN;"),  wxT("√û"),  true);
+        strDecodedHtml.Replace(wxT("&szlig;"),  wxT("√ü"),  true);
+        strDecodedHtml.Replace(wxT("&agrave;"), wxT("√†"),  true);
+        strDecodedHtml.Replace(wxT("&aacute;"), wxT("√°"),  true);
+        strDecodedHtml.Replace(wxT("&acirc;"),  wxT("√¢"),  true);
+        strDecodedHtml.Replace(wxT("&atilde;"), wxT("√£"),  true);
+        strDecodedHtml.Replace(wxT("&auml;"),   wxT("√§"),  true);
+        strDecodedHtml.Replace(wxT("&aring;"),  wxT("√•"),  true);
+        strDecodedHtml.Replace(wxT("&aelig;"),  wxT("√¶"),  true);
+        strDecodedHtml.Replace(wxT("&ccedil;"), wxT("√ß"),  true);
+        strDecodedHtml.Replace(wxT("&egrave;"), wxT("√®"),  true);
+        strDecodedHtml.Replace(wxT("&eacute;"), wxT("√©"),  true);
+        strDecodedHtml.Replace(wxT("&ecirc;"),  wxT("√™"),  true);
+        strDecodedHtml.Replace(wxT("&euml;"),   wxT("√´"),  true);
+        strDecodedHtml.Replace(wxT("&igrave;"), wxT("√¨"),  true);
+        strDecodedHtml.Replace(wxT("&iacute;"), wxT("√≠"),  true);
+        strDecodedHtml.Replace(wxT("&icirc;"),  wxT("√Æ"),  true);
+        strDecodedHtml.Replace(wxT("&iuml;"),   wxT("√Ø"),  true);
+        strDecodedHtml.Replace(wxT("&eth;"),    wxT("√∞"),  true);
+        strDecodedHtml.Replace(wxT("&ntilde;"), wxT("√±"),  true);
+        strDecodedHtml.Replace(wxT("&ograve;"), wxT("√≤"),  true);
+        strDecodedHtml.Replace(wxT("&oacute;"), wxT("√≥"),  true);
+        strDecodedHtml.Replace(wxT("&ocirc;"),  wxT("√¥"),  true);
+        strDecodedHtml.Replace(wxT("&otilde;"), wxT("√µ"),  true);
+        strDecodedHtml.Replace(wxT("&ouml;"),   wxT("√∂"),  true);
+        strDecodedHtml.Replace(wxT("&divide;"), wxT("√∑"),  true);
+        strDecodedHtml.Replace(wxT("&oslash;"), wxT("√∏"),  true);
+        strDecodedHtml.Replace(wxT("&ugrave;"), wxT("√π"),  true);
+        strDecodedHtml.Replace(wxT("&uacute;"), wxT("√∫"),  true);
+        strDecodedHtml.Replace(wxT("&ucirc;"),  wxT("√ª"),  true);
+        strDecodedHtml.Replace(wxT("&uuml;"),   wxT("√º"),  true);
+        strDecodedHtml.Replace(wxT("&yacute;"), wxT("√Ω"),  true);
+        strDecodedHtml.Replace(wxT("&thorn;"),  wxT("√æ"),  true);
+        strDecodedHtml.Replace(wxT("&yuml;"),   wxT("√ø"),  true);
 #endif
     }
 

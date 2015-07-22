@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2008 University of California
+# Copyright (C) 2014 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -18,11 +18,17 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build Macintosh 32-bit Intel openssl-1.0.1c libraries 
+# Script to build Macintosh 32-bit Intel openssl-1.0.1e libraries 
 # libcrypto.a and libssl.a for use in building BOINC.
 #
 # by Charlie Fenton 6/25/12
 # Updated 7/10/12 for Xcode 4.3 and later which are not at a fixed address
+# Updated 7/30/13 for openssl-1.0.1e
+# Updated 2/12/14 for openssl-1.0.1f
+# Updated 4/14/14 for openssl-1.0.1g
+# Updated 6/6/14 for openssl-1.0.1h
+# Updated 9/2/14 for bulding openssl as 64-bit binary
+# Updated 6/6/14 for openssl-1.0.1j
 #
 ## This script requires OS 10.6 or later
 #
@@ -30,8 +36,8 @@
 ## and clicked the Install button on the dialog which appears to 
 ## complete the Xcode installation before running this script.
 #
-## In Terminal, CD to the openssl-1.0.1c directory.
-##     cd [path]/openssl-1.0.1c/
+## In Terminal, CD to the openssl-1.0.1j directory.
+##     cd [path]/openssl-1.0.1j/
 ## then run this script:
 ##     source [path]/buildopenssl.sh [ -clean ]
 ##
@@ -40,7 +46,7 @@
 
 if [ "$1" != "-clean" ]; then
     if [ -f libssl.a ]&& [ -f libcrypto.a ]; then
-        echo "openssl-1.0.1c libraries already built"
+        echo "openssl-1.0.1j libraries already built"
         return 0
     fi
 fi
@@ -85,21 +91,21 @@ rm -f libcrypto.a
 if [  $? -ne 0 ]; then return 1; fi
 
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
-export LDFLAGS="-Wl,-sysroot,${SDKPATH},-syslibroot,${SDKPATH},-arch,i386"
-export CPPFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040"
-export CFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040"
+export LDFLAGS="-Wl,-sysroot,${SDKPATH},-syslibroot,${SDKPATH},-arch,x86_64"
+export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1050 -DMAC_OS_X_VERSION_MIN_REQUIRED=1050"
+export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1050 -DMAC_OS_X_VERSION_MIN_REQUIRED=1050"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.4
+export MACOSX_DEPLOYMENT_TARGET=10.5
 export LIBRARY_PATH="${SDKPATH}/usr/lib"
 
-./config no-shared
+./configure no-shared darwin64-x86_64-cc
 if [  $? -ne 0 ]; then return 1; fi
 
 if [ "$1" = "-clean" ]; then
     make clean
 fi
 
-make
+make build_crypto build_ssl build_engines
 if [  $? -ne 0 ]; then return 1; fi
 
 export CC="";export CXX=""

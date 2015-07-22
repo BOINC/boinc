@@ -25,6 +25,7 @@
 # Updated 7/12/12 for Xcode 4.3 and later which are not at a fixed address
 # Updated 8/3/12 for TrueType fonts
 # Updated 11/8/12 to add slide_show
+# Updated 4/14/15 to fix build instructions
 #
 ## This script requires OS 10.6 or later
 #
@@ -33,7 +34,6 @@
 ## complete the Xcode installation before running this script.
 #
 ## First, build the BOINC libraries using boinc/mac_build/BuildMacBOINC.sh
-## and boinc/zip/boinc_zip.xcodeproj 
 ## This file assumes the locations of the needed libraries are those 
 ## resulting from following the instructions found in the file:
 ##     boinc/mac_build/HowToBuildBOINC_XCode.rtf

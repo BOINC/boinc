@@ -57,6 +57,7 @@ public:
 
     ~CViewProjects();
 
+    void                    AppendColumn(int columnID);
     virtual wxString&       GetViewName();
     virtual wxString&       GetViewDisplayName();
     virtual const char**    GetViewIcon();
@@ -73,6 +74,7 @@ public:
     void                    OnShowItemProperties( wxCommandEvent& event );
 
     void                    OnProjectWebsiteClicked( wxEvent& event );
+    void                    OnColResize( wxListEvent& event);
 
     std::vector<CProject*>  m_ProjectCache;
 
@@ -97,9 +99,7 @@ protected:
     void                    GetDocTeamName(wxInt32 item, wxString& strBuffer) const;
     wxInt32                 FormatTeamName( wxInt32 item, wxString& strBuffer ) const;
     void                    GetDocTotalCredit(wxInt32 item, float& fBuffer) const;
-    wxInt32                 FormatTotalCredit( float fBuffer, wxString& strBuffer ) const;
     void                    GetDocAVGCredit(wxInt32 item, float& fBuffer) const;
-    wxInt32                 FormatAVGCredit( float fBuffer, wxString& strBuffer ) const;
     void                    GetDocResourceShare(wxInt32 item, float& fBuffer) const;
     void                    GetDocResourcePercent(wxInt32 item, float& fBuffer) const;
     wxInt32                 FormatResourceShare( float fBuffer, float fBufferPercent, wxString& strBuffer ) const;

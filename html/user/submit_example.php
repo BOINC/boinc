@@ -33,6 +33,7 @@
 require_once("../inc/submit.inc");
 require_once("../inc/common_defs.inc");
 require_once("../inc/submit_db.inc");
+require_once("../inc/submit_util.inc");
     // needed for access control stuff
 require_once("../inc/util.inc");
 require_once("../project/project.inc");
@@ -54,10 +55,11 @@ $auth = $user->authenticator;
 //
 function handle_main() {
     global $project, $auth;
+    $req = new StdClass;
     $req->project = $project;
     $req->authenticator = $auth;
     list($batches, $errmsg) = boinc_query_batches($req);
-    if ($errmsg) error_page($errmsg);
+    if ($errmsg) error_page(htmlentities($errmsg));
 
     page_head("Job submission and control");
 
@@ -214,10 +216,10 @@ function handle_create_form() {
     row2("Parameter high value (0..60)", "<input name=param_hi value=20>");
     row2("Parameter increment (>= 1)", "<input name=param_inc value=1>");
     row2("",
-        "<input type=submit name=get_estimate value=\"Get completion time estimate\">"
+        "<input class=\"btn btn-default\" type=submit name=get_estimate value=\"Get completion time estimate\">"
     );
     row2("",
-        "<input type=submit name=submit value=Submit>"
+        "<input class=\"btn btn-primary\" type=submit name=submit value=Submit>"
     );
     end_table();
     echo "</form>\n";
@@ -241,14 +243,16 @@ function form_to_request() {
     $param_inc = (double)get_str('param_inc');
     if ($param_inc < 1) error_page("param inc must be >= 1");
 
+    $req = new StdClass;
     $req->project = $project;
     $req->authenticator = $auth;
     $req->app_name = APP_NAME;
     $req->batch_name = get_str('batch_name');
-    $req->jobs = Array();
-
+    $req->jobs = array();
+    
+    $f = new StdClass;
     $f->source = $input_url;
-    $f->mode = "semilocal";
+    $f->mode = 'semilocal';
 
     for ($x=$param_lo; $x<$param_hi; $x += $param_inc) {
         $job = new StdClass;
@@ -270,7 +274,7 @@ function handle_create_action() {
     if ($get_estimate) {
         $req = form_to_request($project, $auth);
         list($e, $errmsg) = boinc_estimate_batch($req);
-        if ($errmsg) error_page($errmsg);
+        if ($errmsg) error_page(htmlentities($errmsg));
         page_head("Batch estimate");
         echo sprintf("Estimate: %.0f seconds", $e);
         echo "<p><a href=submit_example.php>Return to job control page</a>\n";
@@ -278,7 +282,7 @@ function handle_create_action() {
     } else {
         $req = form_to_request($project, $auth);
         list($id, $errmsg) = boinc_submit_batch($req);
-        if ($errmsg) error_page($errmsg);
+        if ($errmsg) error_page(htmlentities($errmsg));
         page_head("Batch submitted");
         echo "Batch created, ID: $id\n";
         echo "<p><a href=submit_example.php>Return to job control page</a>\n";
@@ -290,11 +294,13 @@ function handle_create_action() {
 //
 function handle_query_batch() {
     global $project, $auth;
-    $req->project = $project;
-    $req->authenticator = $auth;
-    $req->batch_id = get_int('batch_id');
+    $req = (object)array(
+        'project' => $project,
+        'authenticator' => $auth,
+        'batch_id' => get_int('batch_id'),
+    );
     list($batch, $errmsg) = boinc_query_batch($req);
-    if ($errmsg) error_page($errmsg);
+    if ($errmsg) error_page(htmlentities($errmsg));
 
     page_head("Batch $req->batch_id");
     start_table();
@@ -333,9 +339,9 @@ function handle_query_batch() {
     echo "<h2>Jobs</h2>\n";
     start_table();
     table_header(
-        "Job ID<br><span class=note>click for details or to get output files</span>",
+        "Job ID<br><p class=\"text-muted\">click for details or to get output files</p>",
         "status",
-        "Canonical instance<br><span class=note>click to see result page on BOINC server</span>"
+        "Canonical instance<br><p class=\"text-muted\">click to see result page on BOINC server</p>"
     );
     foreach($batch->jobs as $job) {
         $id = (int)$job->id;
@@ -364,18 +370,20 @@ function handle_query_batch() {
 // 
 function handle_query_job() {
     global $project, $auth;
+    $req = new StdClass;
     $req->project = $project;
     $req->authenticator = $auth;
     $req->job_id = get_int('job_id');
+
     list($reply, $errmsg) = boinc_query_job($req);
-    if ($errmsg) error_page($errmsg);
+    if ($errmsg) error_page(htmlentities($errmsg));
 
     page_head("Job $req->job_id");
     echo "<a href=$project/workunit.php?wuid=$req->job_id>View workunit page on BOINC server</a>\n";
     echo "<h2>Instances</h2>\n";
     start_table();
     table_header(
-        "Instance ID<br><span class=note>click for result page on BOINC server</span>",
+        "Instance ID<br><p class=\"text-muted\">click for result page on BOINC server</p>",
         "State", "Output files"
     );
     foreach($reply->instances as $inst) {
@@ -421,7 +429,7 @@ function handle_abort_batch() {
     $req->authenticator = $auth;
     $req->batch_id = get_int('batch_id');
     $errmsg = boinc_abort_batch($req);
-    if ($errmsg) error_page($errmsg);
+    if ($errmsg) error_page(htmlentities($errmsg));
     page_head("Batch aborted");
     echo "<p><a href=submit_example.php>Return to job control page</a>\n";
     page_tail();
@@ -449,7 +457,7 @@ function handle_retire_batch() {
     $req->authenticator = $auth;
     $req->batch_id = get_int('batch_id');
     $errmsg = boinc_retire_batch($req);
-    if ($errmsg) error_page($errmsg);
+    if ($errmsg) error_page(htmlentities($errmsg));
     page_head("Batch retired");
     echo "<p><a href=submit_example.php>Return to job control page</a>\n";
     page_tail();

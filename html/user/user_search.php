@@ -23,7 +23,7 @@ require_once("../inc/user.inc");
 function show_user($user) {
     echo "
         <tr class=row1>
-        <td>", user_links($user), " (ID $user->id)</td>
+        <td>", user_links($user, BADGE_HEIGHT_MEDIUM), " (ID $user->id)</td>
     ";
     if ($user->teamid) {
         $team = BoincTeam::lookup_id($user->teamid);
@@ -67,29 +67,13 @@ function search_form() {
     row2(tra("Decreasing sign-up time"), "<input type=radio name=search_type value=\"date\" checked>");
     row2(tra("Decreasing average credit"), "<input type=radio name=search_type value=\"rac\">");
     row2(tra("Decreasing total credit"), "<input type=radio name=search_type value=\"total\">");
-    row2("", "<input type=submit name=action value=".tra("Search").">");
+    row2("", "<input class=\"btn btn-default\" type=submit name=action value=".tra("Search").">");
     end_table();
     echo "
         <script>document.f.search_string.focus()</script>
     ";
             
     page_tail();
-}
-
-function compare_create_time($u1, $u2) {
-    if ($u1->create_time < $u2->create_time) return 1;
-    if ($u1->create_time > $u2->create_time) return -1;
-    return 0;
-}
-function compare_expavg_credit($u1, $u2) {
-    if ($u1->expavg_credit < $u2->expavg_credit) return 1;
-    if ($u1->expavg_credit > $u2->expavg_credit) return -1;
-    return 0;
-}
-function compare_total_credit($u1, $u2) {
-    if ($u1->total_credit < $u2->total_credit) return 1;
-    if ($u1->total_credit > $u2->total_credit) return -1;
-    return 0;
 }
 
 function search_action() {
@@ -120,16 +104,17 @@ function search_action() {
     } else if ($t == 'no') {
         $where .= " and has_profile=0";
     }
-    $fields = "id, create_time, name, country, total_credit, expavg_credit, teamid, url, has_profile, donated";
-    $users = BoincUser::enum_fields($fields, $where, "order by id desc limit 100");
+
     $search_type = get_str('search_type', true);
-    if ($search_type == 'date') {
-        usort($users, 'compare_create_time');
-    } else if ($search_type == 'rac') {
-        usort($users, 'compare_expavg_credit');
-    } else {
-        usort($users, 'compare_total_credit');
+    $order_clause = "id desc";
+    if ($search_type == 'rac') {
+        $order_clause ="expavg_credit desc";
+    } else if ($search_type == 'total') {
+        $order_clause ="total_credit desc";
     }
+
+    $fields = "id, create_time, name, country, total_credit, expavg_credit, teamid, url, has_profile, donated";
+    $users = BoincUser::enum_fields($fields, $where, "order by $order_clause limit 100");
     page_head(tra("User search results"));
     $n=0;
     foreach ($users as $user) {

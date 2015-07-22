@@ -82,22 +82,22 @@ bool CScreensaver::is_same_task(RESULT* taska, RESULT* taskb) {
     return true;
 }
 
-int CScreensaver::count_active_graphic_apps(RESULTS& results, RESULT* exclude) {
+int CScreensaver::count_active_graphic_apps(RESULTS& res, RESULT* exclude) {
     unsigned int i = 0;
     unsigned int graphics_app_count = 0;
 
     // Count the number of active graphics-capable apps excluding the specified result.
     // If exclude is NULL, don't exclude any results.
     //
-    for (i = 0; i < results.results.size(); i++) {
+    for (i = 0; i < res.results.size(); i++) {
         BOINCTRACE(_T("get_random_graphics_app -- active task detected\n"));
         BOINCTRACE(
             _T("get_random_graphics_app -- name = '%s', path = '%s'\n"),
-            results.results[i]->name, results.results[i]->graphics_exec_path
+            res.results[i]->name, res.results[i]->graphics_exec_path
         );
 
-        if (!strlen(results.results[i]->graphics_exec_path)) continue;
-        if (is_same_task(results.results[i], exclude)) continue;
+        if (!strlen(res.results[i]->graphics_exec_path)) continue;
+        if (is_same_task(res.results[i], exclude)) continue;
         BOINCTRACE(_T("get_random_graphics_app -- active task detected w/graphics\n"));
 
         graphics_app_count++;
@@ -111,7 +111,7 @@ int CScreensaver::count_active_graphic_apps(RESULTS& results, RESULT* exclude) {
 // If exclude is NULL or an empty string, don't exclude any results.
 //
 RESULT* CScreensaver::get_random_graphics_app(
-    RESULTS& results, RESULT* exclude
+    RESULTS& res, RESULT* exclude
 ) {
     RESULT*      rp = NULL;
     unsigned int i = 0;
@@ -122,13 +122,13 @@ RESULT* CScreensaver::get_random_graphics_app(
 
     BOINCTRACE(_T("get_random_graphics_app -- Function Start\n"));
 
-    graphics_app_count = count_active_graphic_apps(results, avoid);
+    graphics_app_count = count_active_graphic_apps(res, avoid);
     BOINCTRACE(_T("get_random_graphics_app -- graphics_app_count = '%d'\n"), graphics_app_count);
 
     // If no graphics app found other than the one excluded, count again without excluding any
     if ((0 == graphics_app_count) && (avoid != NULL)) {
         avoid = NULL;
-        graphics_app_count = count_active_graphic_apps(results, avoid);
+        graphics_app_count = count_active_graphic_apps(res, avoid);
     }
         
     // If no graphics app was found, return NULL
@@ -143,13 +143,13 @@ RESULT* CScreensaver::get_random_graphics_app(
 
     // find the chosen graphics application.
     //
-    for (i = 0; i < results.results.size(); i++) {
-        if (!strlen(results.results[i]->graphics_exec_path)) continue;
-        if (is_same_task(results.results[i], avoid)) continue;
+    for (i = 0; i < res.results.size(); i++) {
+        if (!strlen(res.results[i]->graphics_exec_path)) continue;
+        if (is_same_task(res.results[i], avoid)) continue;
 
         current_counter++;
         if (current_counter == random_selection) {
-            rp = results.results[i];
+            rp = res.results[i];
             break;
         }
     }
@@ -562,6 +562,8 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
         }
 
         // Core client suspended?
+        // We ignore SUSPEND_REASON_CPU_USAGE in SS coordinator, so it won't kill graphics apps for
+        // short-term CPU usage spikes (such as anti-virus.)  Added 9 April 2010
         if (suspend_reason && !(suspend_reason & (SUSPEND_REASON_CPU_THROTTLE | SUSPEND_REASON_CPU_USAGE))) {
             if (!m_bDefault_gfx_running) {
                 SetError(TRUE, m_hrError);          // No GFX App is running: show moving BOINC logo
@@ -680,8 +682,12 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
             // and launch its graphics app
             //
             if ((m_bDefault_gfx_running || (m_hGraphicsApplication == 0)) && (graphics_app_result_ptr == NULL)) {
-                graphics_app_result_ptr = get_random_graphics_app(results, previous_result_ptr);
-                previous_result_ptr = NULL;
+                if (suspend_reason && !(suspend_reason & (SUSPEND_REASON_CPU_THROTTLE | SUSPEND_REASON_CPU_USAGE))) {
+                    graphics_app_result_ptr = NULL;
+                } else {
+                    graphics_app_result_ptr = get_random_graphics_app(results, previous_result_ptr);
+                    previous_result_ptr = NULL;
+                }
                 
                 if (graphics_app_result_ptr) {
                     if (m_bDefault_gfx_running) {

@@ -71,7 +71,7 @@ struct NOTICES {
     int read_archive_file(const char* file, struct RSS_FEED*);
     void write_archive(struct RSS_FEED*);
     bool remove_dups(NOTICE&);
-    void remove_network_msg();
+    void remove_notices(PROJECT*, int which);
     void clear_keep();
         // prior to parsing an RSS feed, we mark all notices as "don't keep".
         // We clear this flag if the notice is present in the feed.
@@ -82,6 +82,20 @@ struct NOTICES {
         notices.clear();
     }
 };
+
+// args to remove_notices()
+#define REMOVE_NETWORK_MSG      0
+    // "need network access" notice
+#define REMOVE_SCHEDULER_MSG    1
+    // msgs from scheduler
+#define REMOVE_NO_WORK_MSG      2
+    // msgs about no work due to settings
+#define REMOVE_CONFIG_MSG       3
+    // notices about cc_config.xml
+#define REMOVE_APP_INFO_MSG     4
+    // notices about project/app_info.xml
+#define REMOVE_APP_CONFIG_MSG   5
+    // notices about project/app_config.xml
 
 extern NOTICES notices;
 
@@ -103,6 +117,7 @@ struct RSS_FEED {
     void feed_file_name(char*);
     void archive_file_name(char*);
     int read_archive_file();
+    void delete_files();
 };
 
 struct RSS_FEED_OP: public GUI_HTTP_OP {
@@ -135,5 +150,7 @@ extern RSS_FEEDS rss_feeds;
 int parse_rss_feed_descs(XML_PARSER&, std::vector<RSS_FEED>&);
 void handle_sr_feeds(std::vector<RSS_FEED>&, struct PROJ_AM*);
     // process the feeds in a scheduler reply
+
+void delete_project_notice_files(PROJECT*);
 
 #endif

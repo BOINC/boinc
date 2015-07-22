@@ -47,8 +47,6 @@ public:
 	
 	void DrawMarker(wxDC &dc);
 
-	void getDrawColour(wxColour &graphColour, int number);
-
 	void ClearXY();
 
 	void ClearLegendXY();
@@ -185,16 +183,6 @@ public:
     wxColour                m_pen_GraphTotalHostColour;
     wxColour                m_pen_GraphRACHostColour;
 
-    wxColour                m_pen_GraphColour00;
-    wxColour                m_pen_GraphColour01;
-    wxColour                m_pen_GraphColour02;
-    wxColour                m_pen_GraphColour03;
-    wxColour                m_pen_GraphColour04;
-    wxColour                m_pen_GraphColour05;
-    wxColour                m_pen_GraphColour06;
-    wxColour                m_pen_GraphColour07;
-    wxColour                m_pen_GraphColour08;
-    wxColour                m_pen_GraphColour09;
 protected:
     void OnPaint(wxPaintEvent& event);
 	void OnEraseBackground(wxEraseEvent & /*event*/){};
@@ -206,6 +194,14 @@ protected:
     void OnRightMouseUp(wxMouseEvent& event);
 	void OnMouseLeaveWindows(wxMouseEvent& event);
     void OnLegendScroll(wxScrollEvent& event);
+
+#ifdef __WXMAC__
+    void                    SetupMacAccessibilitySupport();
+    void                    ResizeMacAccessibilitySupport();
+    void                    RemoveMacAccessibilitySupport();
+    
+    void*                   m_fauxStatisticsView;
+#endif
 
 
 	DECLARE_EVENT_TABLE()
@@ -243,13 +239,6 @@ public:
 protected:
 
     CPaintStatistics*       m_PaintStatistics;
-
-#ifdef __WXMAC__
-    void                    SetupMacAccessibilitySupport();
-    void                    RemoveMacAccessibilitySupport();
-    
-    EventHandlerRef         m_pStatisticsAccessibilityEventHandlerRef;
-#endif
 
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );

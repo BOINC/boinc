@@ -34,7 +34,6 @@
 // -cpu_time N: use about N CPU seconds after copying files
 // -early_exit: exit(10) after 30 iterations
 // -early_crash: crash after 30 iterations
-// -early_sleep: go into infinite sleep after 30 iterations
 //
 // See http://boinc.berkeley.edu/trac/wiki/GPUApp for any compiling issues.
 // Original contributor: Tuan Le (tuanle86@berkeley.edu)
@@ -56,7 +55,6 @@ int main(int argc, char * argv[]) {
 	for (i=0; i<argc; i++) {
         if (!strcmp(argv[i], "-early_exit")) early_exit = true;
         if (!strcmp(argv[i], "-early_crash")) early_crash = true;
-        if (!strcmp(argv[i], "-early_sleep")) early_sleep = true;
         if (!strcmp(argv[i], "-run_slow")) run_slow = true;
         if (!strcmp(argv[i], "-cpu_time")) {
             cpu_time = atof(argv[++i]);
@@ -182,11 +180,6 @@ int main(int argc, char * argv[]) {
             boinc_crash();
         }
 
-        if (early_sleep && i>30) {
-            g_sleep = true;
-            while (1) boinc_sleep(1);
-        }
-		
         if (boinc_time_to_checkpoint()) {
             printf("Perform checkpointing at inversion # %d\n",i);
             //we'll need to write the current matrix to the state file.

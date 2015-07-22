@@ -82,6 +82,7 @@ void ACCOUNT_IN::parse(XML_PARSER& xp) {
     passwd_hash = "";
     user_name = "";
     team_name = "";
+    ldap_auth = false;
 
     while (!xp.get_tag()) {
         if (xp.parse_string("url", url)) continue;
@@ -89,6 +90,7 @@ void ACCOUNT_IN::parse(XML_PARSER& xp) {
         if (xp.parse_string("passwd_hash", passwd_hash)) continue;
         if (xp.parse_string("user_name", user_name)) continue;
         if (xp.parse_string("team_name", team_name)) continue;
+        if (xp.parse_bool("ldap_auth", ldap_auth)) continue;
     }
     canonicalize_master_url(url);
 }
@@ -132,16 +134,32 @@ int LOOKUP_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
 
     url = ai.url;
     canonicalize_master_url(url);
+    url += "lookup_account.php";
 
-    url += "lookup_account.php?email_addr=";
-    parameter = ai.email_addr;
-    escape_url(parameter);
-    url += parameter;
+    if (ai.ldap_auth && !strchr(ai.email_addr.c_str(), '@')) {
+        // LDAP case
+        //
+        if (!is_https(ai.url.c_str())) return ERR_NEED_HTTPS;
+        url += "?ldap_auth=1&ldap_uid=";
+        parameter = ai.email_addr;
+        escape_url(parameter);
+        url += parameter;
 
-    url += "&passwd_hash=";
-    parameter = ai.passwd_hash;
-    escape_url(parameter);
-    url += parameter;
+        url += "&passwd=";
+        parameter = ai.passwd_hash;
+        escape_url(parameter);
+        url += parameter;
+    } else {
+        url += "?email_addr=";
+        parameter = ai.email_addr;
+        escape_url(parameter);
+        url += parameter;
+
+        url += "&passwd_hash=";
+        parameter = ai.passwd_hash;
+        escape_url(parameter);
+        url += parameter;
+    }
 
     retval = gui_http->do_rpc(
         this, url.c_str(), LOOKUP_ACCOUNT_FILENAME, false
@@ -254,7 +272,7 @@ void GET_PROJECT_LIST_OP::handle_reply(int http_op_retval) {
 }
 
 void CLIENT_STATE::all_projects_list_check() {
-    if (config.dont_contact_ref_site) return;
+    if (cc_config.dont_contact_ref_site) return;
     if (all_projects_list_check_time) {
         if (now - all_projects_list_check_time < ALL_PROJECTS_LIST_CHECK_PERIOD) {
             return;

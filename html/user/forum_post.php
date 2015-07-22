@@ -36,6 +36,10 @@ check_banished($logged_in_user);
 $forumid = get_int("id");
 $forum = BoincForum::lookup_id($forumid);
 
+if (DISABLE_FORUMS && !is_admin($logged_in_user)) {
+    error_page("Forums are disabled");
+}
+
 if (!user_can_create_thread($logged_in_user, $forum)) {
     error_page(tra("Only project admins may create a thread here. However, you may reply to existing threads."));
 }
@@ -71,7 +75,7 @@ page_head(tra("Create new thread"),'','','', $bbcode_js);
 show_forum_header($logged_in_user);
 
 if ($warning) {
-    echo "<span class=error>$warning</span><p>";
+    echo "<p class=\"text-danger\">$warning</p>";
 }
 
 switch ($forum->parent_type) {
@@ -113,7 +117,7 @@ if ($force_title && $title){
     );
 }
 
-row2(tra("Message").html_info().post_warning().$body_help,
+row2(tra("Message").html_info().post_warning($forum).$body_help,
      $bbcode_html."<textarea name=\"content\" rows=\"12\" cols=\"80\" class=\"message_field\">".htmlspecialchars($content)."</textarea>"
 );
 
@@ -124,10 +128,10 @@ if (!$logged_in_user->prefs->no_signature_by_default) {
 }
 
 if (is_news_forum($forum)) {
-    row2("", "<input name=export type=checkbox>".tra("Show this item as a Notice in the BOINC Manager")."<br><span class=note>".tra("Do so only for items likely to be of interest to all volunteers.")."</span>");
+    row2("", "<input name=export type=checkbox>".tra("Show this item as a Notice in the BOINC Manager")."<br><p class=\"text-muted\">".tra("Do so only for items likely to be of interest to all volunteers.")."</p>");
 }
 row2("", "<input name=\"add_signature\" value=\"add_it\" ".$enable_signature." type=\"checkbox\"> ".tra("Add my signature to this post"));
-row2("", "<input type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\"> <input type=\"submit\" value=\"".tra("OK")."\">");
+row2("", "<input class=\"btn btn-default\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\"> <input class=\"btn btn-primary\" type=\"submit\" value=\"".tra("OK")."\">");
 
 
 end_table();

@@ -27,12 +27,12 @@ set_time_limit(0);
 function fix_profile($profile) {
     $text = html_to_bbcode($profile->response2);
     if ($text != $profile->response2) {
-        $query = "update profile set response2 = '".mysql_escape_string($text)."' where userid=".$profile->userid;
+        $query = "update profile set response2 = '"._mysql_escape_string($text)."' where userid=".$profile->userid;
         //echo "$profile->response2\n\n";
         //echo "$profile->thread $query\n\n";
-        $retval = mysql_query($query);
+        $retval = _mysql_query($query);
         if (!$retval) {
-            echo mysql_error();
+            echo _mysql_error();
             exit();
         }
     }
@@ -40,10 +40,10 @@ function fix_profile($profile) {
 
 function fix_profiles() {
     $start_id = 0; //Set this to something else if you like
-    $profiles = mysql_query("select * from profile where userid>$start_id order by userid");
-    echo mysql_error();
+    $profiles = _mysql_query("select * from profile where userid>$start_id order by userid");
+    echo _mysql_error();
     $i=0;
-    while ($profile = mysql_fetch_object($profiles)){
+    while ($profile = _mysql_fetch_object($profiles)){
         $i++; 
         if ($i%100 == 0) {                      //For every 100 profiles
             echo $profile->userid.". "; flush();   // print out where we are
@@ -58,8 +58,8 @@ function fix_profiles() {
 
 // use this to patch problem cases; hand-edit
 function fix_fix() {
-    $profiles = mysql_query("select * from profile where id=99");
-    $profile = mysql_fetch_object($profiles);
+    $profiles = _mysql_query("select * from profile where id=99");
+    $profile = _mysql_fetch_object($profiles);
     fix_profile($profile);
 }
 

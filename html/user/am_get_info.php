@@ -16,7 +16,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/xml.inc");
 
 xml_header();
@@ -27,9 +27,9 @@ if ($retval) xml_error($retval);
 check_get_args(array("account_key"));
 $auth = get_str("account_key");
 
-$user = lookup_user_auth($auth);
+$user = BoincUser::lookup_auth($auth);
 if (!$user) {
-    xml_error(-136);
+    xml_error(ERR_DB_NOT_FOUND);
 }
 
 $name = urlencode($user->name);
@@ -60,7 +60,7 @@ $user->project_prefs
 <venue>$user->venue</venue>";
 
 if ($user->teamid) {
-    $team = lookup_team($user->teamid);
+    $team = BoincTeam::lookup_id_nocache($user->teamid);
     if ($team->userid == $user->id) {
         $ret = $ret . "<teamfounder/>\n";
     }

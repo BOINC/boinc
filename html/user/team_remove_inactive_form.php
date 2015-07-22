@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,6 +19,8 @@
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
+
+if (DISABLE_TEAMS) error_page("Teams are disabled");
 
 check_get_args(array("teamid"));
 
@@ -53,7 +55,7 @@ foreach($users as $user) {
     echo "
         <tr>
         <td align=center><input type=checkbox name=remove_$ninactive_users value=$user->id>
-        <td>".user_links($user)." ($user->id)</td>
+        <td>".user_links($user, BADGE_HEIGHT_MEDIUM)." ($user->id)</td>
         <td>$user_total_credit</td>
         <td>$user_expavg_credit</td>
         </tr>
@@ -65,7 +67,7 @@ if ($ninactive_users == 0) {
     echo "<p>".tra("No members are eligible for removal.")."</p>";
 } else {
     echo "<input type=hidden name=ninactive_users value=$ninactive_users>";
-    echo "<input type=submit value=\"".tra("Remove users")."\">";
+    echo "<input class=\"btn btn-warning\" type=submit value=\"".tra("Remove users")."\">";
 }
 echo "</form>";
 page_tail();

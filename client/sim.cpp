@@ -281,7 +281,7 @@ void CLIENT_STATE::handle_completed_results(PROJECT* p) {
             delete rp;
             result_iter = results.erase(result_iter);
         } else {
-            result_iter++;
+            ++result_iter;
         }
     }
 }
@@ -342,7 +342,6 @@ double get_estimated_delay(RESULT* rp) {
 bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     char buf[256], buf2[256];
     vector<IP_RESULT> ip_results;
-    int infeasible_count = 0;
     vector<RESULT*> new_results;
 
     bool avail;
@@ -449,8 +448,8 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     }
 
     njobs += new_results.size();
-    msg_printf(0, MSG_INFO, "Got %d tasks", new_results.size());
-    sprintf(buf, "got %d tasks<br>", new_results.size());
+    msg_printf(0, MSG_INFO, "Got %lu tasks", new_results.size());
+    sprintf(buf, "got %lu tasks<br>", new_results.size());
     html_msg += buf;
 
     SCHEDULER_REPLY sr;
@@ -458,7 +457,8 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     work_fetch.handle_reply(p, &sr, new_results);
     p->nrpc_failures = 0;
     p->sched_rpc_pending = 0;
-    p->min_rpc_time = now + 900;
+    //p->min_rpc_time = now + 900;
+    p->min_rpc_time = now;
     if (sent_something) {
         request_schedule_cpus("simulate_rpc");
         request_work_fetch("simulate_rpc");
@@ -583,7 +583,7 @@ bool ACTIVE_TASK_SET::poll() {
         ACTIVE_TASK* atp = active_tasks[i];
         if (atp->task_state() != PROCESS_EXECUTING) continue;
         RESULT* rp = atp->result;
-        if (rp->uses_coprocs()) {
+        if (rp->uses_gpu()) {
             if (gpu_active) {
                 cpu_usage_gpu += rp->avp->avg_ncpus;
             }
@@ -605,12 +605,12 @@ bool ACTIVE_TASK_SET::poll() {
         ACTIVE_TASK* atp = active_tasks[i];
         if (atp->task_state() != PROCESS_EXECUTING) continue;
         RESULT* rp = atp->result;
-        if (!gpu_active && rp->uses_coprocs()) {
+        if (!gpu_active && rp->uses_gpu()) {
             continue;
         }
         atp->elapsed_time += diff;
         double flops = rp->avp->flops;
-        if (!rp->uses_coprocs()) {
+        if (!rp->uses_gpu()) {
             flops *= cpu_scale;
         }
 
@@ -897,8 +897,6 @@ void show_resource(int rsc_type) {
     fprintf(html_out, "</table></td>");
 }
 
-int nproc_types = 1;
-
 void html_start() {
     char buf[256];
 
@@ -921,13 +919,16 @@ void html_start() {
     fprintf(html_out,
         "<th width=%d>CPU</th>", WIDTH2
     );
-    if (coprocs.have_nvidia()) {
-        fprintf(html_out, "<th width=%d>NVIDIA GPU</th>", WIDTH2);
-        nproc_types++;
-    }
-    if (coprocs.have_ati()) {
-        fprintf(html_out, "<th width=%d>ATI GPU</th>", WIDTH2);
-        nproc_types++;
+    for (int i=1; i<coprocs.n_rsc; i++) {
+        int pt = coproc_type_name_to_num(coprocs.coprocs[i].type);
+        const char* name;
+        if (pt) {
+            name = proc_type_name(pt);
+        } else {
+            name = coprocs.coprocs[i].type;
+        }
+        fprintf(html_out, "<th width=%d>%s</th>\n", WIDTH2, name);
+
     }
     fprintf(html_out, "</tr></table>\n");
 }
@@ -940,7 +941,7 @@ void html_rec() {
         );
         fprintf(html_out,
             "<td width=%d valign=top><font size=-2>%s</font></td></tr></table>\n",
-            nproc_types*WIDTH2,
+            coprocs.n_rsc*WIDTH2,
             html_msg.c_str()
         );
         html_msg = "";
@@ -1049,7 +1050,7 @@ static void write_inputs() {
         include_empty_projects?"yes":"no"
     );
     fprintf(f,
-        "REC half-life: %f\n", config.rec_half_life
+        "REC half-life: %f\n", cc_config.rec_half_life
     );
     fprintf(f,
         "Simulation duration: %f\nTime step: %f\n",
@@ -1087,10 +1088,10 @@ void simulate() {
         gstate.global_prefs.cpu_scheduling_period(),
         cpu_sched_rr_only?"yes":"no",
         server_uses_workload?"yes":"no",
-        config.rec_half_life
+        cc_config.rec_half_life
     );
     fprintf(summary_file, "Jobs\n");
-    for (int i=0; i<gstate.results.size(); i++) {
+    for (unsigned int i=0; i<gstate.results.size(); i++) {
         RESULT* rp = gstate.results[i];
         fprintf(summary_file,
             "   %s time left %s deadline %s\n",
@@ -1328,7 +1329,6 @@ void cull_projects() {
     for (i=0; i<gstate.app_versions.size(); i++) {
         APP_VERSION* avp = gstate.app_versions[i];
         if (avp->app->ignore) continue;
-        int rt = avp->gpu_usage.rsc_type;
     }
     for (i=0; i<gstate.apps.size(); i++) {
         APP* app = gstate.apps[i];
@@ -1361,7 +1361,7 @@ void cull_projects() {
         if (atp->wup->project->ignore) {
             ati = gstate.active_tasks.active_tasks.erase(ati);
         } else {
-            ati++;
+            ++ati;
         }
     }
     vector<RESULT*>::iterator ri = gstate.results.begin();
@@ -1370,7 +1370,7 @@ void cull_projects() {
         if (rp->project->ignore) {
             ri = gstate.results.erase(ri);
         } else {
-            ri++;
+            ++ri;
         }
     }
 
@@ -1380,7 +1380,7 @@ void cull_projects() {
         if (p->ignore) {
             iter = gstate.projects.erase(iter);
         } else {
-            iter++;
+            ++iter;
         }
     }
 }
@@ -1391,7 +1391,7 @@ void do_client_simulation() {
     FILE* f;
 
     sprintf(buf, "%s%s", infile_prefix, CONFIG_FILE);
-    config.defaults();
+    cc_config.defaults();
     read_config_file(true, buf);
 
     log_flags.init();
@@ -1429,7 +1429,7 @@ void do_client_simulation() {
         }
     }
 
-    config.show();
+    cc_config.show();
     log_flags.show();
 
     sprintf(buf, "%s%s", infile_prefix, GLOBAL_PREFS_FILE_NAME);
@@ -1442,14 +1442,18 @@ void do_client_simulation() {
         SUMMARY_FNAME, LOG_FNAME
     );
 
-    // fill in GPU device nums
+    // fill in GPU device nums and OpenCL flags
     //
     for (int i=0; i<coprocs.n_rsc; i++) {
         COPROC& cp = coprocs.coprocs[i];
         for (int j=0; j<cp.count; j++) {
             cp.device_nums[j] = j;
+            if (cp.have_opencl) {
+                cp.instance_has_opencl[j] = true;
+            }
         }
     }
+    set_no_rsc_config();
     process_gpu_exclusions();
 
     get_app_params();
@@ -1521,7 +1525,7 @@ char* next_arg(int argc, char** argv, int& i) {
 }
 
 int main(int argc, char** argv) {
-    int i, retval;
+    int i;
     char buf[256];
 
     sim_results.clear();
@@ -1544,7 +1548,7 @@ int main(int argc, char** argv) {
         } else if (!strcmp(opt, "--include_empty_projects")) {
             include_empty_projects = true;
         } else if (!strcmp(opt, "--rec_half_life")) {
-            config.rec_half_life = atof(argv[i++]);
+            cc_config.rec_half_life = atof(argv[i++]);
         } else {
             usage(argv[0]);
         }

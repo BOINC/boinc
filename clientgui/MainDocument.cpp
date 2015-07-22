@@ -31,7 +31,6 @@
 #include "MainDocument.h"
 #include "BOINCBaseFrame.h"
 #include "AdvancedFrame.h"
-#include "sg_BoincSimpleGUI.h"
 #include "BOINCClientManager.h"
 #include "BOINCTaskBar.h"
 #include "DlgEventLog.h"
@@ -396,6 +395,8 @@ CMainDocument::CMainDocument() : rpc(this) {
     }
 #endif
 
+    strcpy(m_szLanguage, "");
+
     m_bClientStartCheckCompleted = false;
 
     m_ActiveTasksOnly = false;
@@ -556,24 +557,20 @@ int CMainDocument::OnExit() {
 
 
 int CMainDocument::OnPoll() {
+    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     int iRetVal = 0;
-    int otherInstanceID;
     wxString hostName = wxGetApp().GetClientHostNameArg();
-    int portNum = wxGetApp().GetClientRPCPortArg();
     wxString password = wxGetApp().GetClientPasswordArg();
+    int portNum = wxGetApp().GetClientRPCPortArg();
     
     wxASSERT(wxDynamicCast(m_pClientManager, CBOINCClientManager));
     wxASSERT(wxDynamicCast(m_pNetworkConnection, CNetworkConnection));
 
-    if (!m_bClientStartCheckCompleted) {
+    if (!m_bClientStartCheckCompleted && pFrame) {
         m_bClientStartCheckCompleted = true;
 
-        CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-
         if (IsComputerNameLocal(hostName)) {
-            otherInstanceID = wxGetApp().IsAnotherInstanceRunning();
-            if (otherInstanceID) {
+            if (wxGetApp().IsAnotherInstanceRunning()) {
                 if (!pFrame->SelectComputer(hostName, portNum, password, true)) {
                     s_bSkipExitConfirmation = true;
                     wxCommandEvent event;
@@ -907,11 +904,11 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
 
     if (!IsConnected()) {
         CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, pFrame);
-        pFrame->AddPendingEvent(event);
+        pFrame->GetEventHandler()->AddPendingEvent(event);
         CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
         if (pTaskbar) {
-            CTaskbarEvent tbevent(wxEVT_TASKBAR_REFRESH, pTaskbar);
-            pTaskbar->AddPendingEvent(tbevent);
+            CTaskbarEvent event(wxEVT_TASKBAR_REFRESH, pTaskbar);
+            pTaskbar->AddPendingEvent(event);
         }
         CDlgEventLog* eventLog = wxGetApp().GetEventLog();
         if (eventLog) {
@@ -933,6 +930,19 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
     if (wxGetApp().IsSafeMesageBoxDisplayed()) {
         return;
     }
+
+	// SET_LANGUAGE 
+
+	static bool first = true;
+	if (first) {
+		first = false;
+        strcpy(m_szLanguage, wxGetApp().GetISOLanguageCode().mb_str());
+		request.clear();
+		request.which_rpc = RPC_SET_LANGUAGE;
+		request.arg1 = (void*)(const char*)&m_szLanguage;
+		request.rpcType = RPC_TYPE_ASYNC_NO_REFRESH;
+		RequestRPC(request);
+	}
 
     // *********** RPC_GET_CC_STATUS **************
     
@@ -988,6 +998,14 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
             request.arg1 = &m_iNoticeSequenceNumber;
             request.arg2 = &notices;
             request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
+            if (!pFrame->IsShown()
+#ifdef __WXMAC__
+                || (!wxGetApp().IsApplicationVisible())
+#endif
+            ) {
+                request.rpcType = RPC_TYPE_ASYNC_NO_REFRESH;
+            }
+
             request.completionTime = &m_dtNoticesTimeStamp;
             request.resultPtr = &m_iGet_notices_rpc_result;
            
@@ -1025,7 +1043,10 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
     
     // Don't do periodic RPC calls when hidden / minimized
     if (!pFrame->IsShown()) return;
-   
+#ifdef __WXMAC__
+    if (!wxGetApp().IsApplicationVisible()) return;
+#endif
+
     m_dtLastFrameViewRefreshRPCTime = dtNow;
    
     // *********** RPC_GET_PROJECT_STATUS1 **************
@@ -1127,6 +1148,7 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
             request.arg1 = &async_projects_update_buf;
             request.arg2 = &state;
             request.arg3 = &async_results_buf;
+            request.arg4 = &m_ActiveTasksOnly;
             request.exchangeBuf = &results;
             request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
             request.completionTime = &m_dtCachedSimpleGUITimestamp;
@@ -1312,10 +1334,10 @@ PROJECT* CMainDocument::project(unsigned int i) {
 
 
 PROJECT* CMainDocument::project(char* url) {
-    for (unsigned int i=0; i< state.projects.size(); i++) {
-        PROJECT* tp = state.projects[i];
-        if (!strcmp(url, tp->master_url)) return tp;
-    }
+	for (unsigned int i=0; i< state.projects.size(); i++) {
+		PROJECT* tp = state.projects[i];
+		if (!strcmp(url, tp->master_url)) return tp;
+	}
     return NULL;
 }
 
@@ -1545,7 +1567,7 @@ RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(
     
     for( gfx_app_iter = m_running_gfx_apps.begin(); 
         gfx_app_iter != m_running_gfx_apps.end(); 
-        gfx_app_iter++
+        ++gfx_app_iter
     ) {
          if ((slot >= 0) && ((*gfx_app_iter).slot != slot)) continue;
 
@@ -1773,11 +1795,11 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
 }
 
 
-int CMainDocument::WorkShowVMConsole(RESULT* result) {
+int CMainDocument::WorkShowVMConsole(RESULT* res) {
     int iRetVal = 0;
     
-    if (strlen(result->remote_desktop_addr)) {
-        wxString strConnection(result->remote_desktop_addr, wxConvUTF8);
+    if (strlen(res->remote_desktop_addr)) {
+        wxString strConnection(res->remote_desktop_addr, wxConvUTF8);
         wxString strCommand;
 
 #if   defined(__WXMSW__)
@@ -1796,7 +1818,7 @@ int CMainDocument::WorkShowVMConsole(RESULT* result) {
         //
         // First try to find the CoRD application by Bundle ID and Creator Code
         status = LSFindApplicationForInfo('RDC#', CFSTR("net.sf.cord"),   
-                                        NULL, &theFSRef, NULL);
+                                            NULL, &theFSRef, NULL);
         if (status != noErr) {
             CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
             if (pFrame) {
@@ -1806,13 +1828,13 @@ int CMainDocument::WorkShowVMConsole(RESULT* result) {
                     wxOK | wxICON_INFORMATION,
                     false
                 );
-            } 
-            return ERR_FILE_MISSING;
-        }
+        } 
+        return ERR_FILE_MISSING;
+    }
 
-        strCommand = wxT("osascript -e 'tell application \"CoRD\"' -e 'activate' -e 'open location \"rdp://") + strConnection + wxT("\"' -e 'end tell'");
-        strCommand.Replace(wxT("localhost"), wxT("127.0.0.1"));
-        system(strCommand.char_str());
+    strCommand = wxT("osascript -e 'tell application \"CoRD\"' -e 'activate' -e 'open location \"rdp://") + strConnection + wxT("\"' -e 'end tell'");
+    strCommand.Replace(wxT("localhost"), wxT("127.0.0.1"));
+    system(strCommand.char_str());
 #endif
     }
 
@@ -1977,41 +1999,43 @@ int CMainDocument::ResetNoticeState() {
 }
 
 
-// parse out the _(...)'s, and translate them
+// Replace CRLFs and LFs with HTML breaks.
 //
-bool CMainDocument::LocalizeNoticeText(wxString& strMessage, bool bSanitize, bool bClean) {
+void eol_to_br(wxString& strMessage) {
+    strMessage.Replace(wxT("\r\n"), wxT("<BR>"));
+    strMessage.Replace(wxT("\n"), wxT("<BR>"));
+}
+
+// Remove CRLFs and LFs
+//
+void remove_eols(wxString& strMessage) {
+    strMessage.Replace(wxT("\r\n"), wxT(""));
+    strMessage.Replace(wxT("\n"), wxT(""));
+}
+
+// Replace https:// with http://
+//
+void https_to_http(wxString& strMessage) {
+    strMessage.Replace(wxT("https://"), wxT("http://"));
+}
+
+// replace substrings of the form _("X") with the translation of X
+//
+void localize(wxString& strMessage) {
     wxString strBuffer = wxEmptyString;
     wxString strStart = wxString(wxT("_(\""));
     wxString strEnd = wxString(wxT("\")"));
 
-    if (bSanitize) {
-        // Replace CRLFs with HTML breaks.
-        strMessage.Replace(wxT("\r\n"), wxT("<BR>"));
-        // Replace LFs with HTML breaks.
-        strMessage.Replace(wxT("\n"), wxT("<BR>"));
-    }
-    if (bClean) {
-        // Replace CRLFs with HTML breaks.
-        strMessage.Replace(wxT("\r\n"), wxT(""));
-        // Replace LFs with HTML breaks.
-        strMessage.Replace(wxT("\n"), wxT(""));
-    }
-
-    // Localize translatable text
     while (strMessage.Find(strStart.c_str()) != wxNOT_FOUND) {
-        strBuffer = 
-            strMessage.SubString(
-                strMessage.Find(strStart.c_str()) + strStart.Length(),
-                strMessage.Find(strEnd.c_str()) - (strEnd.Length() - 1)
-            );
-
+        strBuffer = strMessage.SubString(
+            strMessage.Find(strStart.c_str()) + strStart.Length(),
+            strMessage.Find(strEnd.c_str()) - (strEnd.Length() - 1)
+        );
         strMessage.Replace(
             wxString(strStart + strBuffer + strEnd).c_str(),
             wxGetTranslation(strBuffer.c_str())
         );
     }
-
-    return true;
 }
 
 
@@ -2367,7 +2391,7 @@ int CMainDocument::CachedSimpleGUIUpdate(bool bForce) {
     if (m_dtCachedSimpleGUITimestamp.IsEqualTo(wxDateTime((time_t)0))) bForce = true;
     if (bForce) {
         m_dtCachedSimpleGUITimestamp = wxDateTime::Now();
-        m_iGet_simple_gui2_rpc_result = rpc.get_simple_gui_info(async_projects_update_buf, state, results);
+        m_iGet_simple_gui2_rpc_result = rpc.get_simple_gui_info(async_projects_update_buf, state, results, m_ActiveTasksOnly);
     }
 
     if (m_iGet_simple_gui2_rpc_result) {
@@ -2405,11 +2429,11 @@ int CMainDocument::GetSimpleGUIWorkCount() {
     CachedSimpleGUIUpdate();
     CachedStateUpdate();
 
-    for(i=0; i<results.results.size(); i++) {
-        if (results.results[i]->active_task) {
-            iCount++;
-        }
-    }
+	for(i=0; i<results.results.size(); i++) {
+		if (results.results[i]->active_task) {
+			iCount++;
+		}
+	}
     return iCount;
 }
 
@@ -2441,7 +2465,7 @@ wxString result_description(RESULT* result, bool show_resources) {
     PROJECT* project;
     CC_STATUS       status;
     int             retval;
-    wxString strBuffer= wxEmptyString;
+	wxString strBuffer= wxEmptyString;
 
     strBuffer.Clear();
     retval = doc->GetCoreClientStatus(status);
@@ -2454,7 +2478,7 @@ wxString result_description(RESULT* result, bool show_resources) {
     }
 
     project = doc->state.lookup_project(result->project_url);
-    int throttled = status.task_suspend_reason & SUSPEND_REASON_CPU_THROTTLE;
+	int throttled = status.task_suspend_reason & SUSPEND_REASON_CPU_THROTTLE;
     switch(result->state) {
     case RESULT_NEW:
         strBuffer += _("New"); 
@@ -2476,29 +2500,22 @@ wxString result_description(RESULT* result, bool show_resources) {
             strBuffer += _("Project suspended by user");
         } else if (result->suspended_via_gui) {
             strBuffer += _("Task suspended by user");
-        } else if (status.task_suspend_reason && !throttled) {
+        } else if (status.task_suspend_reason && !throttled && result->active_task_state != PROCESS_EXECUTING) {
+            // an NCI process can be running even though computation is suspended
+            // (because of <dont_suspend_nci>
+            //
             strBuffer += _("Suspended - ");
             strBuffer += suspend_reason_wxstring(status.task_suspend_reason);
-            if (strlen(result->resources) && show_resources) {
-                strBuffer += wxString(wxT(" (")) + wxString(result->resources, wxConvUTF8) + wxString(wxT(")"));
-            }
         } else if (status.gpu_suspend_reason && uses_gpu(result)) {
             strBuffer += _("GPU suspended - ");
             strBuffer += suspend_reason_wxstring(status.gpu_suspend_reason);
-            if (strlen(result->resources) && show_resources) {
-                strBuffer += wxString(wxT(" (")) + wxString(result->resources, wxConvUTF8) + wxString(wxT(")"));
-            }
         } else if (result->active_task) {
             if (result->too_large) {
                 strBuffer += _("Waiting for memory");
             } else if (result->needs_shmem) {
                 strBuffer += _("Waiting for shared memory");
             } else if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
-                if (result->edf_scheduled) {
-                    strBuffer += _("Running, high priority");
-                } else {
-                    strBuffer += _("Running");
-                }
+                strBuffer += _("Running");
                 if (project && project->non_cpu_intensive) {
                     strBuffer += _(" (non-CPU-intensive)");
                 }
@@ -2507,23 +2524,19 @@ wxString result_description(RESULT* result, bool show_resources) {
             } else if (result->scheduler_state == CPU_SCHED_UNINITIALIZED) {
                 strBuffer += _("Ready to start");
             }
-            if (strlen(result->resources)>1 && show_resources) {
-                strBuffer += wxString(wxT(" (")) + wxString(result->resources, wxConvUTF8) + wxString(wxT(")"));
-            }
         } else {
             strBuffer += _("Ready to start");
         }
         if (result->scheduler_wait) {
             if (strlen(result->scheduler_wait_reason)) {
-                strBuffer += _(" (Scheduler wait: ");
+                strBuffer = _("Postponed: ");
                 strBuffer += wxString(result->scheduler_wait_reason, wxConvUTF8);
-                strBuffer += _(")");
             } else {
-                strBuffer += _(" (Scheduler wait)");
+                strBuffer = _("Postponed");
             }
         }
         if (result->network_wait) {
-            strBuffer += _(" (Waiting for network access)");
+            strBuffer = _("Waiting for network access");
         }
         break;
     case RESULT_COMPUTE_ERROR:
@@ -2553,7 +2566,7 @@ wxString result_description(RESULT* result, bool show_resources) {
             strBuffer += _("Aborted: not started by deadline");
             break;
         case EXIT_DISK_LIMIT_EXCEEDED:
-            strBuffer += _("Aborted: disk limit exceeded");
+            strBuffer += _("Aborted: task disk limit exceeded");
             break;
         case EXIT_TIME_LIMIT_EXCEEDED:
             strBuffer += _("Aborted: run time limit exceeded");
@@ -2575,6 +2588,96 @@ wxString result_description(RESULT* result, bool show_resources) {
         }
         break;
     }
+    if (strlen(result->resources)>1 && show_resources) {
+        strBuffer += wxString(wxT(" (")) + wxString(result->resources, wxConvUTF8) + wxString(wxT(")"));
+    }
     return strBuffer;
 }
 
+static void hsv2rgb(
+    double h, double s, double v, double& r, double& g, double& b
+) {
+    double m, n, f;
+    int i = floor(h);
+    f = h - i;
+    if (!(i&1)) f = 1 - f;
+    m = v * (1 - s);
+    n = v * (1 - s*f);
+    switch (i) {
+    case 6:
+    case 0: r = v; g = n; b = m; return;
+    case 1: r = n; g = v; b = m; return;
+    case 2: r = m; g = v; b = n; return;
+    case 3: r = m; g = n; b = v; return;
+    case 4: r = n; g = m; b = v; return;
+    case 5: r = v; g = m; b = n; return;
+    }
+}
+
+// return the ith out of n maximally distinct colors
+//
+void color_cycle(int i, int n, wxColour& color) {
+    double h = (double)i/(double)n;
+    double r, g, b;
+    double v = .75;
+    if (n > 6) v = .6 + (i % 3)*.1;
+        // cycle through 3 different brightnesses
+    hsv2rgb(h*6, .5, v, r, g, b);
+    unsigned char cr = (unsigned char) (r*256);
+    unsigned char cg = (unsigned char) (g*256);
+    unsigned char cb = (unsigned char) (b*256);
+    color = wxColour(cr, cg, cb);
+}
+
+#ifdef __WXMSW__
+static float XDPIScaleFactor = 0.0;
+static float YDPIScaleFactor = 0.0;
+
+void GetDPIScaling() {
+	XDPIScaleFactor = 1.0;
+	YDPIScaleFactor = 1.0;
+	// SetProcessDPIAware() requires Windows Vista or later
+	HMODULE hUser32 = LoadLibrary(_T("user32.dll"));
+	typedef BOOL (*SetProcessDPIAwareFunc)();
+	SetProcessDPIAwareFunc setDPIAware = (SetProcessDPIAwareFunc)GetProcAddress(hUser32, "SetProcessDPIAware");
+	if (setDPIAware) {
+		setDPIAware();
+		HWND hWnd = GetForegroundWindow();
+		HDC hdc = GetDC(hWnd);
+		XDPIScaleFactor = GetDeviceCaps(hdc, LOGPIXELSX) / 96.0f;
+		YDPIScaleFactor = GetDeviceCaps(hdc, LOGPIXELSY) / 96.0f;
+		ReleaseDC(hWnd, hdc);
+	}
+	FreeLibrary(hUser32);
+}
+
+float GetXDPIScaling() {
+	if (XDPIScaleFactor == 0.0) {
+		GetDPIScaling();
+	}
+	return XDPIScaleFactor;
+}
+
+float GetYDPIScaling() {
+	if (YDPIScaleFactor == 0.0) {
+		GetDPIScaling();
+	}
+	return YDPIScaleFactor;
+}
+#endif
+
+// TODO: Choose from multiple size images if provided, else resize the closest one
+wxBitmap GetScaledBitmapFromXPMData(const char** XPMData) {
+#ifdef __WXMSW__
+    if ((GetXDPIScaling() > 1.05) || (GetYDPIScaling() > 1.05)) {
+        wxImage img = wxImage(XPMData);
+        img.Rescale((int) (img.GetWidth()*GetXDPIScaling()), 
+                    (int) (img.GetHeight()*GetYDPIScaling()), 
+                    wxIMAGE_QUALITY_BILINEAR
+                );
+        wxBitmap *bm = new wxBitmap(img);
+        return *bm;
+    }
+#endif
+    return wxBitmap(XPMData);
+}

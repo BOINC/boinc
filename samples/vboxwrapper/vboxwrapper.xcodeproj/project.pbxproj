@@ -22,12 +22,20 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		DD3B677B140CF9470088683F /* vbox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD90CE9E140CAB3D0074CF46 /* vbox.cpp */; };
 		DD3B677C140CF9470088683F /* vboxwrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD90CEA0140CAB3D0074CF46 /* vboxwrapper.cpp */; };
 		DD52C39614A2D73900FC2A32 /* floppyio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD52C39414A2D73900FC2A32 /* floppyio.cpp */; };
 		DD52C39814A2D75900FC2A32 /* floppyio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD52C39414A2D73900FC2A32 /* floppyio.cpp */; };
-		DD90CEA1140CAB3D0074CF46 /* vbox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD90CE9E140CAB3D0074CF46 /* vbox.cpp */; };
 		DD90CEA2140CAB3D0074CF46 /* vboxwrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD90CEA0140CAB3D0074CF46 /* vboxwrapper.cpp */; };
+		DDC81AEF1A688808000D8CEA /* vbox_common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC81AED1A688808000D8CEA /* vbox_common.cpp */; };
+		DDC81AF01A688808000D8CEA /* vbox_common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC81AED1A688808000D8CEA /* vbox_common.cpp */; };
+		DDC81AF51A68884B000D8CEA /* vboxjob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC81AF11A68884B000D8CEA /* vboxjob.cpp */; };
+		DDC81AF61A68884B000D8CEA /* vboxjob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC81AF11A68884B000D8CEA /* vboxjob.cpp */; };
+		DDC81AF71A68884B000D8CEA /* vboxcheckpoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC81AF31A68884B000D8CEA /* vboxcheckpoint.cpp */; };
+		DDC81AF81A68884B000D8CEA /* vboxcheckpoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC81AF31A68884B000D8CEA /* vboxcheckpoint.cpp */; };
+		DDC81AFA1A6888A7000D8CEA /* vbox_vboxmanage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC81AF91A6888A7000D8CEA /* vbox_vboxmanage.cpp */; };
+		DDC81AFB1A6888A7000D8CEA /* vbox_vboxmanage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC81AF91A6888A7000D8CEA /* vbox_vboxmanage.cpp */; };
+		DDC81B021A688939000D8CEA /* vboxlogging.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC81AFD1A688939000D8CEA /* vboxlogging.cpp */; };
+		DDC81B031A688939000D8CEA /* vboxlogging.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC81AFD1A688939000D8CEA /* vboxlogging.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,9 +60,18 @@
 		DD3B6783140CF9470088683F /* vboxwrapper_x86_64 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vboxwrapper_x86_64; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD52C39414A2D73900FC2A32 /* floppyio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = floppyio.cpp; sourceTree = "<group>"; };
 		DD52C39514A2D73900FC2A32 /* floppyio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = floppyio.h; sourceTree = "<group>"; };
-		DD90CE9E140CAB3D0074CF46 /* vbox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vbox.cpp; sourceTree = SOURCE_ROOT; };
-		DD90CE9F140CAB3D0074CF46 /* vbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vbox.h; sourceTree = SOURCE_ROOT; };
 		DD90CEA0140CAB3D0074CF46 /* vboxwrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vboxwrapper.cpp; sourceTree = SOURCE_ROOT; };
+		DDC81AED1A688808000D8CEA /* vbox_common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vbox_common.cpp; sourceTree = "<group>"; };
+		DDC81AEE1A688808000D8CEA /* vbox_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vbox_common.h; sourceTree = "<group>"; };
+		DDC81AF11A68884B000D8CEA /* vboxjob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vboxjob.cpp; sourceTree = "<group>"; };
+		DDC81AF21A68884B000D8CEA /* vboxjob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vboxjob.h; sourceTree = "<group>"; };
+		DDC81AF31A68884B000D8CEA /* vboxcheckpoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vboxcheckpoint.cpp; sourceTree = "<group>"; };
+		DDC81AF41A68884B000D8CEA /* vboxcheckpoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vboxcheckpoint.h; sourceTree = "<group>"; };
+		DDC81AF91A6888A7000D8CEA /* vbox_vboxmanage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vbox_vboxmanage.cpp; sourceTree = "<group>"; };
+		DDC81AFC1A688902000D8CEA /* vbox_vboxmanage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vbox_vboxmanage.h; sourceTree = "<group>"; };
+		DDC81AFD1A688939000D8CEA /* vboxlogging.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vboxlogging.cpp; sourceTree = "<group>"; };
+		DDC81B001A688939000D8CEA /* vboxlogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vboxlogging.h; sourceTree = "<group>"; };
+		DDC81B011A688939000D8CEA /* vboxwrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vboxwrapper.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,11 +104,20 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				DD90CEA0140CAB3D0074CF46 /* vboxwrapper.cpp */,
+				DDC81B011A688939000D8CEA /* vboxwrapper.h */,
+				DDC81AFD1A688939000D8CEA /* vboxlogging.cpp */,
+				DDC81B001A688939000D8CEA /* vboxlogging.h */,
+				DDC81AF91A6888A7000D8CEA /* vbox_vboxmanage.cpp */,
+				DDC81AFC1A688902000D8CEA /* vbox_vboxmanage.h */,
+				DDC81AF11A68884B000D8CEA /* vboxjob.cpp */,
+				DDC81AF21A68884B000D8CEA /* vboxjob.h */,
+				DDC81AF31A68884B000D8CEA /* vboxcheckpoint.cpp */,
+				DDC81AF41A68884B000D8CEA /* vboxcheckpoint.h */,
+				DDC81AED1A688808000D8CEA /* vbox_common.cpp */,
+				DDC81AEE1A688808000D8CEA /* vbox_common.h */,
 				DD52C39414A2D73900FC2A32 /* floppyio.cpp */,
 				DD52C39514A2D73900FC2A32 /* floppyio.h */,
-				DD90CE9E140CAB3D0074CF46 /* vbox.cpp */,
-				DD90CE9F140CAB3D0074CF46 /* vbox.h */,
-				DD90CEA0140CAB3D0074CF46 /* vboxwrapper.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -149,6 +175,8 @@
 /* Begin PBXProject section */
 		08FB7793FE84155DC02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = 1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "vboxwrapper" */;
 			compatibilityVersion = "Xcode 3.1";
 			developmentRegion = English;
@@ -204,9 +232,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD90CEA1140CAB3D0074CF46 /* vbox.cpp in Sources */,
 				DD90CEA2140CAB3D0074CF46 /* vboxwrapper.cpp in Sources */,
 				DD52C39614A2D73900FC2A32 /* floppyio.cpp in Sources */,
+				DDC81AF51A68884B000D8CEA /* vboxjob.cpp in Sources */,
+				DDC81AEF1A688808000D8CEA /* vbox_common.cpp in Sources */,
+				DDC81B021A688939000D8CEA /* vboxlogging.cpp in Sources */,
+				DDC81AFA1A6888A7000D8CEA /* vbox_vboxmanage.cpp in Sources */,
+				DDC81AF71A68884B000D8CEA /* vboxcheckpoint.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,9 +246,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD3B677B140CF9470088683F /* vbox.cpp in Sources */,
 				DD3B677C140CF9470088683F /* vboxwrapper.cpp in Sources */,
 				DD52C39814A2D75900FC2A32 /* floppyio.cpp in Sources */,
+				DDC81AF61A68884B000D8CEA /* vboxjob.cpp in Sources */,
+				DDC81AF01A688808000D8CEA /* vbox_common.cpp in Sources */,
+				DDC81B031A688939000D8CEA /* vboxlogging.cpp in Sources */,
+				DDC81AFB1A6888A7000D8CEA /* vbox_vboxmanage.cpp in Sources */,
+				DDC81AF81A68884B000D8CEA /* vboxcheckpoint.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,7 +298,7 @@
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -283,7 +319,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = vboxwrapper;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Debug;
@@ -298,7 +334,7 @@
 				GCC_ENABLE_SYMBOL_SEPARATION = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -320,7 +356,7 @@
 				PREBINDING = NO;
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_NAME = vboxwrapper;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = Release;

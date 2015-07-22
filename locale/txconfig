@@ -1,0 +1,45 @@
+[main]
+host = https://www.transifex.com
+
+[boinc.manager]
+file_filter = locale/<lang>/BOINC-Manager.po
+source_file = locale/templates/BOINC-Manager.pot
+source_lang = en_US
+type = PO
+
+[boinc.client]
+file_filter = locale/<lang>/BOINC-Client.po
+source_file = locale/templates/BOINC-Client.pot
+source_lang = en_US
+type = PO
+
+[boinc.web]
+file_filter = locale/<lang>/BOINC-Web.po
+source_file = locale/templates/BOINC-Web.pot
+source_lang = en_US
+type = PO
+
+[boinc.setup]
+file_filter = locale/<lang>/BOINC-Setup.po
+source_file = locale/templates/BOINC-Setup.pot
+source_lang = en_US
+type = PO
+
+[boinc.project-generic]
+file_filter = locale/<lang>/BOINC-Project-Generic.po
+source_file = locale/templates/BOINC-Project-Generic.pot
+source_lang = en_US
+type = PO
+
+[boinc.drupal]
+file_filter = locale/<lang>/BOINC-Drupal.po
+source_file = locale/templates/BOINC-Drupal.pot
+source_lang = en_US
+type = PO
+
+[boinc.android]
+file_filter = android/BOINC/res/values-<lang>/strings.xml
+source_file = android/BOINC/res/values/strings.xml
+source_lang = en_US
+lang_map = it_IT:it-rIT,pt_BR:pt-rBR,pt_PT:pt-rPT,ru_RU:ru-rRU,sv_SE:sv-rSE,zh_CN:zh-rCN,zh_TW:zh-rTW
+type = ANDROID

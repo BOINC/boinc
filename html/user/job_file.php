@@ -86,9 +86,13 @@ function query_files($r) {
     $batch_id = (int)$r->batch_id;
     $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
     $i = 0;
+    $md5s= array();
     foreach($r->md5 as $f) {
         $md5 = (string)$f;
-        echo "processing $md5\n";
+        $md5s[] = $md5;
+    }
+    $md5s = array_unique($md5s);
+    foreach($md5s as $md5) {
         $fname = job_file_name($md5);
         $path = dir_hier_path($fname, "../../download", $fanout);
 
@@ -98,9 +102,9 @@ function query_files($r) {
         //
         $job_file = BoincJobFile::lookup_md5($md5);
         if ($job_file && $job_file->delete_time < $delete_time) {
-            $retval = $job_file::update("delete_time=$delete_time");
+            $retval = $job_file->update("delete_time=$delete_time");
             if ($retval) {
-                xml_error(-1, "job_file::update() failed: "+mysql_error());
+                xml_error(-1, "job_file->update() failed: ".BoincDb::error());
             }
         }
         if (file_exists($path)) {
@@ -121,7 +125,7 @@ function query_files($r) {
                 );
                 if (!$ret) {
                     xml_error(-1,
-                        "BoincBatchFileAssoc::insert() failed: "+mysql_error()
+                        "BoincBatchFileAssoc::insert() failed: ".BoincDb::error()
                     );
                 }
             }
@@ -162,7 +166,7 @@ function upload_files($r) {
             "(md5, create_time, delete_time) values ('$md5', $now, $delete_time)"
         );
         if (!$jf_id) {
-            xml_error(-1, "BoincJobFile::insert($md5) failed: "+mysql_error());
+            xml_error(-1, "BoincJobFile::insert($md5) failed: ".BoincDb::error());
         }
         if ($batch_id) {
             BoincBatchFileAssoc::insert(

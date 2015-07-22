@@ -157,9 +157,7 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
     } else {
         // Global mutex on Win2k and later
         //
-        if (IsWindows2000Compatible()) {
-            safe_strcpy(buf, "Global\\");
-        }
+        safe_strcpy(buf, "Global\\");
         strcat( buf, RUN_MUTEX);
 
         HANDLE h = CreateMutexA(NULL, true, buf);
@@ -199,7 +197,7 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
     if (retval) return false;     // Should never happen
     
     PROC_MAP::iterator i;
-    for (i=pm.begin(); i!=pm.end(); i++) {
+    for (i=pm.begin(); i!=pm.end(); ++i) {
         PROCINFO& pi = i->second;
         if (!strcmp(pi.command, "boinc")) {
             running = true;
@@ -222,12 +220,13 @@ bool CBOINCClientManager::StartupBOINCCore() {
 
     bool                bReturnValue = false;
     wxString            strExecute = wxEmptyString;
+    wxString            strDataDir = wxEmptyString;
 
     if (IsBOINCCoreRunning()) return true;
 
 #if defined(__WXMSW__)
-    LPTSTR  szExecute = NULL;
-    LPTSTR  szDataDirectory = NULL;
+    const char*  pszExecute = NULL;
+    const char*  pszDataDirectory = NULL;
 
     if (IsBOINCConfiguredAsDaemon()) {
         start_daemon_via_daemonctrl();
@@ -238,13 +237,13 @@ bool CBOINCClientManager::StartupBOINCCore() {
 
         // Append boinc.exe to the end of the strExecute string and get ready to rock
         strExecute.Printf(
-            wxT("\"%s\\boinc.exe\" --redirectio --launched_by_manager %s"),
+            wxT("\"%sboinc.exe\" --redirectio --launched_by_manager %s"),
             wxGetApp().GetRootDirectory().c_str(),
             wxGetApp().GetArguments().c_str()
         );
 
         PROCESS_INFORMATION pi;
-        STARTUPINFO         si;
+        STARTUPINFOA        si;
         BOOL                bProcessStarted;
 
         memset(&pi, 0, sizeof(pi));
@@ -254,25 +253,26 @@ bool CBOINCClientManager::StartupBOINCCore() {
         si.dwFlags = STARTF_USESHOWWINDOW;
         si.wShowWindow = SW_HIDE;
 
-        szExecute = (LPTSTR)strExecute.c_str();
+        pszExecute = (const char*)strExecute.mb_str();
         if (wxGetApp().GetDataDirectory().empty()) {
-            szDataDirectory = NULL;
+            pszDataDirectory = NULL;
         } else {
-            szDataDirectory = (LPTSTR)wxGetApp().GetDataDirectory().c_str();
+            strDataDir = wxGetApp().GetDataDirectory();
+            pszDataDirectory = (const char*)strDataDir.mb_str();
         }
 
-        wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szExecute '%s'\n"), szExecute);
-        wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - szDataDirectory '%s'\n"), szDataDirectory);
+        wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - pszExecute '%s'\n"), pszExecute);
+        wxLogTrace(wxT("Function Status"), wxT("CMainDocument::StartupBOINCCore - pszDataDirectory '%s'\n"), pszDataDirectory);
 
-        bProcessStarted = CreateProcess(
+        bProcessStarted = CreateProcessA(
             NULL,
-            szExecute,
+            (LPSTR)pszExecute,
             NULL,
             NULL,
             FALSE,
             CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW,
             NULL,
-            szDataDirectory,
+            (LPSTR)pszDataDirectory,
             &si,
             &pi
         );
@@ -445,10 +445,10 @@ void CBOINCClientManager::KillClient() {
 	if (retval) return;     // Should never happen
     
     PROC_MAP::iterator i;
-    for (i=pm.begin(); i!=pm.end(); i++) {
-        PROCINFO& pi = i->second;
-        if (!strcmp(pi.command, "boinc")) {
-            kill_program(pi.id);
+    for (i=pm.begin(); i!=pm.end(); ++i) {
+        PROCINFO& procinfo = i->second;
+        if (!strcmp(procinfo.command, "boinc")) {
+            kill_program(procinfo.id);
             break;
         }
     }

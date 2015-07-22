@@ -26,34 +26,24 @@ xml_header();
 // and update it every hour if possible.
 //
 function show_platforms() {
-    $path = "../cache/platform_list.xml";
-    $mtime = @filemtime($path);
-    if ($mtime && (time() - $mtime) < 3600) {
-        @readfile($path);
-    } else {
-        require_once("../inc/db.inc");
-        $retval = db_init_aux(true);
-        if (!$retval) {
-            $query = 'select name, user_friendly_name, plan_class from platform, app_version where app_version.platformid = platform.id and app_version.deprecated=0 group by name, plan_class';
-            $result = mysql_query($query);
-            $f = fopen($path, "w");
-            fwrite($f, "<platforms>\n");
-            while ($p = mysql_fetch_object($result)) {
-                if ($p->plan_class) {
-                    $pc = "   <plan_class>$p->plan_class</plan_class>\n";
-                } else {
-                    $pc = "";
-                }
-                fwrite($f,
-                    "  <platform>\n    <platform_name>$p->name</platform_name>\n    <user_friendly_name>$p->user_friendly_name</user_friendly_name>\n$pc  </platform>\n"
-                );
-            }
-            mysql_free_result($result);
-            fwrite($f, "</platforms>\n");
-            fclose($f);
-            @readfile($path);
+    $xmlFragment = unserialize(get_cached_data(3600, "project_config_platform_xml"));
+    if ($xmlFragment==false){
+        $platforms = BoincDB::get()->enum_fields("platform, DBNAME.app_version, DBNAME.app", "BoincPlatform", "platform.name, platform.user_friendly_name, plan_class", "app_version.platformid = platform.id and app_version.appid = app.id and app_version.deprecated=0 and app.deprecated=0 group by platform.name, plan_class", "");
+        $xmlFragment = "    <platforms>";
+        foreach ($platforms as $platform){
+            $xmlFragment .= "
+            <platform>
+                <platform_name>$platform->name</platform_name>
+                <user_friendly_name>$platform->user_friendly_name</user_friendly_name>";
+            if ($platform->plan_class) $xmlFragment .= "
+                <plan_class>$platform->plan_class</plan_class>\n"; 
+            $xmlFragment .= "
+            </platform>";
         }
+        $xmlFragment .= "\n    </platforms>\n";
+        set_cached_data(3600, serialize($xmlFragment), "project_config_platform_xml");
     }
+    echo $xmlFragment;
 }
 
 $config = get_config();
@@ -69,20 +59,21 @@ $master_url = parse_config($config, "<master_url>");
 echo "<project_config>
     <name>$long_name</name>
     <master_url>$master_url</master_url>
+    <web_rpc_url_base>".secure_url_base()."</web_rpc_url_base>
 ";
 
-$local_revision = trim(file_get_contents("../../local.revision"));
+$local_revision = @trim(file_get_contents("../../local.revision"));
 if ($local_revision) {
     echo "<local_revision>$local_revision</local_revision>\n";
 }
 
 if (web_stopped()) {
     echo "
-        <error_num>-183</error_num>
+        <error_num>".ERR_PROJECT_DOWN."</error_num>
         <web_stopped>1</web_stopped>
     ";
 } else {
-    echo "<web_stopped>0</web_stopped>\n";
+    echo "    <web_stopped>0</web_stopped>\n";
 }
 
 if ($disable_account_creation || defined('INVITE_CODES')) {
@@ -93,14 +84,12 @@ if (defined('INVITE_CODES')) {
 	echo "    <invite_code_required/>\n";
 }
 
-echo "
-    <min_passwd_length>$min_passwd_length</min_passwd_length>
-";
+echo "    <min_passwd_length>$min_passwd_length</min_passwd_length>\n";
 
 if (sched_stopped()) {
-    echo "<sched_stopped>1</sched_stopped>\n";
+    echo "    <sched_stopped>1</sched_stopped>\n";
 } else {
-    echo "<sched_stopped>0</sched_stopped>\n";
+    echo "    <sched_stopped>0</sched_stopped>\n";
 }
 
 $min_core_client_version = parse_config($config, "<min_core_client_version>");
@@ -114,12 +103,14 @@ $tou_file = "../../terms_of_use.txt";
 if (file_exists($tou_file)) {
     $terms_of_use = trim(file_get_contents($tou_file));
     if ($terms_of_use) {
-        echo "<terms_of_use>\n$terms_of_use\n</terms_of_use>\n";
+        echo "    <terms_of_use>\n$terms_of_use\n</terms_of_use>\n";
     }
 }
 
-echo "
-</project_config>
-";
+if (LDAP_HOST) {
+    echo "<ldap_auth/>\n";
+}
+
+echo "</project_config>";
 
 ?>

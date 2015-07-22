@@ -1,0 +1,453 @@
+/*
+main.css - general stylesheet for BOINC web pages
+
+No colors are defined here.
+Put colors in a separate stylesheet (e.g., white.css, style2.css)
+
+Use classes, not IDs.
+
+We use the following classes:
+
+.table-bordered
+    a table with a border around it
+td.bordered
+    bordered table cell (admin pages only)
+td.fieldname
+td.fieldvalue
+    table cells with name/value pairs
+td.fieldname_error
+td.fieldvalue_error
+    same, but colored to show error
+td.row0, row1
+    rows with alternating colors
+td.highlighted_row0, highlighted_row1
+    same, but highlighted
+
+... a bunch for message boards; see below
+
+In the home page:
+
+td.news
+td.uotd
+h2.headline
+div.mainnav
+
+*/
+
+a, a:link, a:visited, a:active {
+    text-decoration: none;
+}
+
+a:hover { text-decoration: underline; }
+
+body {
+    font-family: Verdana, Arial, Sans Serif;
+    font-size: 13px;
+    margin: 5px 10px;
+}
+
+h1 {
+    font-weight: normal;
+    margin: 10px;
+}
+
+h2 {
+    font-weight: normal;
+    font-size: 20px;
+}
+
+h3, h4 { font-weight: bold; }
+
+hr {
+    size: 0;
+    margin: 8px 2px;
+}
+
+img {
+    border: none;
+}
+
+.table {
+    padding: 4px 6px;
+    margin: 2px;
+}
+
+table.noborder {
+    cellpadding: 5;
+}
+
+.table-bordered, .bordered {
+    border-width: 2px;
+    border-style: solid;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -khtml-border-radius: 6px;
+    border-radius: 6px;
+}
+
+th {
+    font-weight: bold;
+    vertical-align: top;
+}
+
+td {
+    vertical-align: top;
+    padding: 2px;
+}
+
+td.bordered {
+    border-width: 1px;
+    border-style: solid;
+}
+
+th, td.heading {
+    font-weight: bold;
+    margin: 4px 0;
+    padding: 8px;
+}
+
+th.subheading {
+    text-align: left;
+    font-weight: normal;
+    font-size: small;
+    font-style: italic;
+}
+
+td.fieldname {
+    text-align: right;
+    padding-right: 10px;
+    /* font-size: 14px; */
+    margin: 2px 0;
+}
+
+td.fieldvalue {
+    margin: 2px 0;
+    vertical-align: top;
+}
+
+td.fieldname_error {
+    text-align: right;
+}
+
+td.fieldvalue_error {
+    font-weight: bold;
+}
+
+td.friend {
+    text-align: center;
+}
+
+.row0,
+.row1 ,
+.highlighted_row0,
+.highlighted_row1 {
+    text-align: left;
+}
+
+/*   Buttons etc.   */
+
+input[type="button"],
+input[type="submit"],
+.btn {
+    padding: 4px 4px;
+    margin: 2px;
+    border-width: 1px;
+    border-style: solid;
+    font-size: 13px;
+    font-weight: normal;
+    cursor: pointer;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+}
+
+    /* IE6 doesn't understand [type=XXXX] so we use class "btn" */
+
+a.btn {
+    line-height: 2.4em;
+    padding: 4px 4px;
+    margin: 0px 0px;
+    border-width: 1px;
+    border-style: solid;
+    font-size: 13px;
+    font-weight: normal;
+    white-space: nowrap;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+}
+
+input[type="button"]:hover,
+input[type="submit"]:hover,
+input.btn:hover,
+.btn:hover ,
+.forum_toplinks a:hover {
+    text-decoration: none;
+}
+
+input[type="text"], input[type="password"], select, textarea {
+    border-width: 1px;
+    border-style: solid;
+    margin: 2px 4px;
+    padding: 3px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+}
+
+/*   Main Page   */
+
+td.news {
+    border-width: 2px;
+    border-style: solid;
+    padding: 10px;
+    margin: 4px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    border-radius: 10px;
+}
+
+h2.headline {
+    margin-top: 0;
+}
+
+td.uotd {
+    border-width: 2px;
+    border-style: solid;
+    padding: 10px;
+    margin: 4px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    border-radius: 10px;
+}
+
+/*   Forum   */
+
+#thread {
+    table-layout: fixed;
+    overflow: visible;
+}
+
+td.category , tr.subtitle{
+    border: none;
+    font-weight: bold;
+    margin: 6px 0;
+}
+
+th {
+    font-weight: bold;
+    margin: 4px 2px;
+    padding: 4px;
+}
+
+td.postheader {
+    font-size: 12px;
+    margin-left: 4px;
+    padding-left: 8px;
+    height: 28px;
+    -moz-border-radius: 0 10px 0 0;
+    -webkit-border-radius-topright: 10px;
+    -khtml-border-radius-topright: 10px;
+    border-radius-topright: 10px;
+}
+
+td.postheader form {
+    padding: 4px;
+}
+
+td.postbody {
+    line-height: 140%;
+    padding: 4px 12px;
+}
+
+td.postfooter {
+    font-size: 12px;
+    height: 26px;
+    margin-left: 4px;
+    padding-left: 8px;
+    -moz-border-radius: 0 0 10px 0;
+    -khtml-border-radius-bottomright: 10px;
+    -webkit-border-radius-bottomright: 10px;
+    border-radius-bottomright: 10px;
+}
+
+td.postheader .btn,
+td.postfooter .btn {
+    font-size: 12px;
+}
+
+tr.helpdeskseparator {
+    height: 10pt;
+}
+
+tr.postseparator {
+    margin: 4px 0;
+}
+
+td.threadline {
+    text-align: left;
+    vertical-align: middle;
+}
+
+td.numbers {
+    vertical-align: middle;
+    text-align: center;
+}
+
+td.lastpost, td.threadicon {
+    vertical-align: middle;
+}
+
+.title {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.text-info, .description {
+    font-size: 80%;
+    font-weight: normal;
+}
+
+td.leftcol {
+    -moz-border-radius: 10px 0 0 10px;
+    -khtml-border-radius-topleft: 10px;
+    -khtml-border-radius-bottomleft: 10px;
+    -webkit-border-radius-topleft: 10px;
+    -webkit-border-radius-bottomleft: 10px;
+    border-radius-topleft: 10px;
+    border-radius-bottomleft: 10px;
+}
+
+.authorcol {
+    width: 136px;
+}
+
+div.authorcol {
+    border-width: 1px;
+    border-style: solid;
+    padding: 8px 5px;
+    width: 120px;
+    margin: 2px 0 2px 2px;
+    overflow: hidden;
+    word-wrap: break-word;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.authorinfo {
+    font-size: 11px;
+}
+
+img.authorinfo {
+    border-width: 1px;
+    border-style: solid;
+    margin: 3px 9px;
+}
+
+img.flag {
+    margin: 2px 1px;
+}
+
+.authorcol .btn {
+    font-size: 12px;
+    line-height: 2.6em;
+}
+
+blockquote.postbody {
+    border-left-width: 2px;
+    border-left-style: solid;
+    padding: 2px 6px;
+    margin: 0 6px 0 10px;
+    font-style: italic;
+}
+
+.forum_toplinks td {
+    vertical-align: middle;
+}
+
+.page_title {
+    font-size: 24px;
+    margin: 20px;
+}
+
+p.text-muted, span.note {
+    margin-top: 0.1em;
+    margin-bottom: 0.1em;
+    font-style: italic;
+    font-size: 0.8em;
+}
+
+span.news_date {
+    font-size: 0.8em;
+}
+
+span.news_title,
+span.inboxunread {
+    font-weight: bold;
+}
+
+.nobr{
+    white-space: nowrap;
+}
+
+.pre {
+    font-family: "Courier New", courier, monospace;
+    display: block;
+#white-space: pre;
+    overflow: auto;
+}
+
+.code {
+    font-family: "Courier New", courier, monospace;
+    display: block;
+    margin-left: 5em;
+    border-left-width: 3px;
+    border-left-style: solid;
+    padding-left: 1em;
+#white-space: pre;
+    overflow: auto;
+}
+
+.donationtext {
+    font-size: 0.8em;
+}
+
+small {
+    font-size: 0.8em;
+}
+
+p.text-danger, .error,
+.notice  {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+div.pm_preview {
+    border-width: 2px;
+    border-style: solid;
+    margin: 1em;
+    padding: 0.2em;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+
+    line-height: 140%;
+    padding: 4px 12px;
+}
+
+/*   IE hack   */
+
+* html body .code {
+    white-space: normal;
+}
+
+// this ignores additional bootstrap classes
+div.input-group, div.btn-group, ul.pager, div.pagination {
+    display: inline;
+}

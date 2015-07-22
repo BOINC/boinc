@@ -24,26 +24,29 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import edu.berkeley.boinc.ProjectsActivity.ProjectData;
+import edu.berkeley.boinc.ProjectsFragment.ProjectsListData;
+import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.client.Monitor;
-import edu.berkeley.boinc.rpc.Project;
-import edu.berkeley.boinc.utils.BOINCUtils;
+import edu.berkeley.boinc.rpc.Notice;
+import edu.berkeley.boinc.rpc.Transfer;
+import edu.berkeley.boinc.utils.Logging;
 
-public class ProjectsListAdapter extends ArrayAdapter<ProjectData> {
+public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
     //private final String TAG = "ProjectsListAdapter";
 	
-	private ArrayList<ProjectData> entries;
+	private ArrayList<ProjectsListData> entries;
     private Activity activity;
     
-    public ProjectsListAdapter(Activity activity, ListView listView, int textViewResourceId, ArrayList<ProjectData> entries) {
+    public ProjectsListAdapter(Activity activity, ListView listView, int textViewResourceId, ArrayList<ProjectsListData> entries) {
         super(activity, textViewResourceId, entries);
         this.entries = entries;
         this.activity = activity;
@@ -57,7 +60,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectData> {
 	}
 
 	@Override
-	public ProjectData getItem(int position) {
+	public ProjectsListData getItem(int position) {
 		return entries.get(position);
 	}
 
@@ -77,69 +80,33 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectData> {
 		if(!team.isEmpty()) user = user + " (" + team + ")";
 		return userString;
 	}
+	
+	public Boolean getIsAcctMgr(int position) {
+		return entries.get(position).isMgr;
+	}
 
 	public String getURL(int position) {
 		return entries.get(position).id;
 	}
 	
 	public Bitmap getIcon(int position) {
-		return Monitor.getClientStatus().getProjectIcon(entries.get(position).id);
-	}
-
-	public String getStatus(int position) {
-		Project project = getItem(position).project;
-		StringBuffer sb = new StringBuffer();
-		
-        if (project.suspended_via_gui) {
-        	appendToStatus(sb, activity.getResources().getString(R.string.projects_status_suspendedviagui));
-        }
-        if (project.dont_request_more_work) {
-        	appendToStatus(sb, activity.getResources().getString(R.string.projects_status_dontrequestmorework));
-        }
-        if (project.ended) {
-        	appendToStatus(sb, activity.getResources().getString(R.string.projects_status_ended));
-        }
-        if (project.detach_when_done) {
-        	appendToStatus(sb, activity.getResources().getString(R.string.projects_status_detachwhendone));
-        }
-        if (project.sched_rpc_pending > 0) {
-        	appendToStatus(sb, activity.getResources().getString(R.string.projects_status_schedrpcpending));
-            appendToStatus(sb, BOINCUtils.translateRPCReason(activity, project.sched_rpc_pending));
-        }
-        if (project.scheduler_rpc_in_progress) {
-        	appendToStatus(sb, activity.getResources().getString(R.string.projects_status_schedrpcinprogress));
-        }
-        if (project.trickle_up_pending) {
-        	appendToStatus(sb, activity.getResources().getString(R.string.projects_status_trickleuppending));
-        }
-        
-        Calendar minRPCTime = Calendar.getInstance();
-        Calendar now = Calendar.getInstance();
-        minRPCTime.setTimeInMillis((long)project.min_rpc_time*1000);
-        if (minRPCTime.compareTo(now) > 0) {
-            appendToStatus(
-            	sb,
-            	activity.getResources().getString(R.string.projects_status_backoff) + " " +
-            	DateUtils.formatElapsedTime((minRPCTime.getTimeInMillis() - now.getTimeInMillis()) / 1000)
-            );
-        }
-		
-		return sb.toString();
-	}
-
-	private void appendToStatus(StringBuffer existing, String additional) {
-	    if (existing.length() == 0) {
-	        existing.append(additional);
-	    } else {
-	        existing.append(", ");
-	        existing.append(additional);
-	    }
+		// try to get current client status from monitor
+		//ClientStatus status;
+		try{
+			//status  = Monitor.getClientStatus();
+			return BOINCActivity.monitor.getProjectIcon(entries.get(position).id);
+		} catch (Exception e){
+			if(Logging.WARNING) Log.w(Logging.TAG,"ProjectsListAdapter: Could not load data, clientStatus not initialized.");
+			return null;
+		}
+		//return status.getProjectIcon(entries.get(position).id);
 	}
 	
 	@Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-		ProjectData data = entries.get(position);
+		ProjectsListData data = entries.get(position);
+		Boolean isAcctMgr = data.isMgr;
 
 		View vi = convertView;
 		// setup new view, if:
@@ -154,58 +121,146 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectData> {
 		
 		if(setup){
 	    	// first time getView is called for this element
-	    	vi = ((LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.projects_layout_listitem, null);
+			if(isAcctMgr) vi = ((LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.projects_layout_listitem_acctmgr, null);
+			else vi = ((LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.projects_layout_listitem, null);
 	    	//set onclicklistener for expansion
 			vi.setOnClickListener(entries.get(position).projectsListClickListener);
 			vi.setTag(data.id);
 		}
 		
-	    // set data of standard elements
-        TextView tvName = (TextView)vi.findViewById(R.id.project_name);
-        tvName.setText(getName(position));
-        
-        TextView tvUser = (TextView)vi.findViewById(R.id.project_user);
-        String userText = getUser(position);
-        if(userText.isEmpty()) tvUser.setVisibility(View.GONE);
-        else {
-        	tvUser.setVisibility(View.VISIBLE);
-        	tvUser.setText(userText);
-        }
-        
-	    String statusText = getStatus(position);
-        TextView tvStatus = (TextView)vi.findViewById(R.id.project_status);
-	    if(statusText.isEmpty()) tvStatus.setVisibility(View.GONE);
-	    else {
-	    	tvStatus.setVisibility(View.VISIBLE);
-	    	tvStatus.setText(statusText);
-	    }
-	    
-	    ImageView ivIcon = (ImageView)vi.findViewById(R.id.project_icon);
-	    String finalIconId = (String)ivIcon.getTag();
-	    if(finalIconId == null || !finalIconId.equals(data.id)) {
-		    Bitmap icon = getIcon(position);
-		    // if available set icon, if not boinc logo
-		    if (icon == null) {
-		    	// boinc logo
-		    	ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boinc));
-		    } else {
-		    	// project icon
-		    	ivIcon.setImageBitmap(icon);
-		    	// mark as final
-		    	ivIcon.setTag(data.id);
+		if(isAcctMgr) {
+			// element is account manager
+			
+			// populate name
+	        TextView tvName = (TextView)vi.findViewById(R.id.name);
+	        tvName.setText(data.acctMgrInfo.acct_mgr_name);
+	        
+	        // populate url
+	        TextView tvUrl = (TextView)vi.findViewById(R.id.url);
+	        tvUrl.setText(data.acctMgrInfo.acct_mgr_url);
+			
+		} else {
+			// element is project
+			
+			// set data of standard elements
+	        TextView tvName = (TextView)vi.findViewById(R.id.project_name);
+	        tvName.setText(getName(position));
+	        
+	        TextView tvUser = (TextView)vi.findViewById(R.id.project_user);
+	        String userText = getUser(position);
+	        if(userText.isEmpty()) tvUser.setVisibility(View.GONE);
+	        else {
+	        	tvUser.setVisibility(View.VISIBLE);
+	        	tvUser.setText(userText);
+	        }
+	        
+		    String statusText = "";
+		    try{statusText = BOINCActivity.monitor.getProjectStatus(data.project.master_url);}catch(Exception e){}
+	        TextView tvStatus = (TextView)vi.findViewById(R.id.project_status);
+		    if(statusText.isEmpty()) tvStatus.setVisibility(View.GONE);
+		    else {
+		    	tvStatus.setVisibility(View.VISIBLE);
+		    	tvStatus.setText(statusText);
 		    }
-	    }
-	    
-    	// credits
-    	Integer totalCredit = Double.valueOf(data.project.user_total_credit).intValue();
-    	Integer hostCredit = Double.valueOf(data.project.host_total_credit).intValue();
-    	String creditsText = vi.getContext().getString(R.string.projects_credits_header) + " " + hostCredit;
-		TextView tvCredits = (TextView)vi.findViewById(R.id.project_credits);
-    	if(!hostCredit.equals(totalCredit)) // show host credit only if not like user credit
-    		creditsText += " " + vi.getContext().getString(R.string.projects_credits_host_header) + " "
-    					+ totalCredit + " " + vi.getContext().getString(R.string.projects_credits_user_header);
-    	tvCredits.setText(creditsText);
-    	
+		    
+		    ImageView ivIcon = (ImageView)vi.findViewById(R.id.project_icon);
+		    String finalIconId = (String)ivIcon.getTag();
+		    if(finalIconId == null || !finalIconId.equals(data.id)) {
+			    Bitmap icon = getIcon(position);
+			    // if available set icon, if not boinc logo
+			    if (icon == null) {
+			    	// boinc logo
+			    	ivIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.boinc));
+			    } else {
+			    	// project icon
+			    	ivIcon.setImageBitmap(icon);
+			    	// mark as final
+			    	ivIcon.setTag(data.id);
+			    }
+		    }
+		    
+		    // transfers
+		    Integer numberTransfers = data.projectTransfers.size();
+		    TextView tvTransfers = (TextView)vi.findViewById(R.id.project_transfers);
+		    String transfersString = "";
+		    if (numberTransfers > 0) { // ongoing transfers
+		    	// summarize information for compact representation
+		    	Integer numberTransfersUpload = 0;
+		    	Boolean uploadsPresent = false;
+		    	Integer numberTransfersDownload = 0;
+		    	Boolean downloadsPresent = false;
+		    	Boolean transfersActive = false; // true if at least one transfer is active
+		    	long nextRetryS = 0;
+			    for (Transfer trans: data.projectTransfers) {
+			    	if (trans.is_upload) {numberTransfersUpload++; uploadsPresent = true;}
+			    	else {numberTransfersDownload++; downloadsPresent = true;}
+			    	if(trans.xfer_active) transfersActive = true;
+			    	else if(trans.next_request_time < nextRetryS || nextRetryS == 0) nextRetryS = trans.next_request_time;
+			    }
+			    
+		    	String numberTransfersString = "("; // will never be empty
+		    	if(downloadsPresent) numberTransfersString += numberTransfersDownload + " " + activity.getResources().getString(R.string.trans_download);
+		    	if(downloadsPresent && uploadsPresent) numberTransfersString += " / ";
+		    	if(uploadsPresent) numberTransfersString += numberTransfersUpload + " " + activity.getResources().getString(R.string.trans_upload);
+		    	numberTransfersString += ")";
+		    	
+		    	String activityStatus = ""; // will never be empty
+			    String activityExplanation = "";
+			    if(!transfersActive) { // no transfers active, give reason
+			    	activityStatus += activity.getResources().getString(R.string.trans_pending);
+			    	
+			    	if(nextRetryS > 0) { // next try at defined time
+			    		long retryAtMs = nextRetryS * 1000;
+			    		long retryInMs = retryAtMs - Calendar.getInstance().getTimeInMillis();
+			    		if(retryInMs < 0) {}// timestamp in the past, write nothing
+			    		else {
+			    			activityExplanation += activity.getResources().getString(R.string.trans_retryin) + " " +
+					    			DateUtils.formatElapsedTime(retryInMs / 1000);
+			    		}
+			    		
+			    	}
+			    } else { // transfers active
+			    	activityStatus +=  activity.getResources().getString(R.string.trans_active);
+			    }
+			    
+			    transfersString += activity.getResources().getString(R.string.tab_transfers) + " " + activityStatus  + " " + numberTransfersString + " " + activityExplanation;
+			    tvTransfers.setVisibility(View.VISIBLE);
+			    tvTransfers.setText(transfersString);
+		    	
+		    } else { // no ongoing transfers
+		    	tvTransfers.setVisibility(View.GONE);
+		    }
+		    
+	    	// credits
+	    	Integer totalCredit = Double.valueOf(data.project.user_total_credit).intValue();
+	    	Integer hostCredit = Double.valueOf(data.project.host_total_credit).intValue();
+	    	String creditsText = vi.getContext().getString(R.string.projects_credits_header) + " " + hostCredit;
+			TextView tvCredits = (TextView)vi.findViewById(R.id.project_credits);
+	    	if(!hostCredit.equals(totalCredit)) // show host credit only if not like user credit
+	    		creditsText += " " + vi.getContext().getString(R.string.projects_credits_host_header) + " "
+	    					+ totalCredit + " " + vi.getContext().getString(R.string.projects_credits_user_header);
+	    	tvCredits.setText(creditsText);
+	    	
+	    	// server notice
+	    	Notice notice = data.getLastServerNotice();
+	        TextView tvNotice = (TextView)vi.findViewById(R.id.project_notice);
+	    	if(notice == null) {
+	    		tvNotice.setVisibility(View.GONE);
+	    	} else {
+	    		tvNotice.setVisibility(View.VISIBLE);
+	    		String noticeText = notice.description.trim();
+	    		tvNotice.setText(noticeText);
+	    	}
+	    	
+	    	// icon background
+    		RelativeLayout iconBackground = (RelativeLayout)vi.findViewById(R.id.icon_background);
+	    	if(data.project.attached_via_acct_mgr) {
+	    		iconBackground.setBackgroundDrawable(activity.getApplicationContext().getResources().getDrawable(R.drawable.shape_light_blue_background_wo_stroke));
+	    	} else {
+	    		iconBackground.setBackgroundColor(activity.getApplicationContext().getResources().getColor(android.R.color.transparent));
+	    	}
+		}
+		
         return vi;
     }
 }

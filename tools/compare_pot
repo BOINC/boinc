@@ -1,0 +1,38 @@
+#! /usr/bin/env php
+<?php
+
+// compare_pot file1 file2 [--email email_addr ...]
+//
+// compare two .pot files, ignoring comments and creation time.
+// If they differ, send email to the given addresses
+
+function strip_comments($x) {
+    $y = "";
+    foreach ($x as $l) {
+        if (substr($l, 0, 1) == '#') continue;
+        if (strstr($l, "POT-Creation-Date")) continue;
+        $y .= $l;
+    }
+    return $y;
+}
+
+function pot_same($f1, $f2) {
+    $c1 = strip_comments(file($f1));
+    $c2 = strip_comments(file($f2));
+    return ($c1 == $c2);
+}
+
+if ($argc < 3) die("Usage\n");
+if (pot_same($argv[1], $argv[2])) {
+    echo "files match\n";
+} else {
+    echo "files don't match\n";
+    for ($i=3; $i<$argc; $i++) {
+        mail($argv[$i],
+            $argv[1]." updated",
+            $argv[1]." was updated.  Please review, copy to boinc/locale/templates, and commit"
+        );
+    }
+}
+
+?>

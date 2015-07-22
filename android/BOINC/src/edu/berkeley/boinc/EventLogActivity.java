@@ -20,72 +20,76 @@ package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
 import java.util.ArrayList;
-import java.util.List;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.StringBuffer;
 import edu.berkeley.boinc.adapter.ClientLogListAdapter;
+import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Message;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBar.Tab;
 import android.text.ClipboardManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
-import android.view.View;
-import android.view.Window;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-
-public class EventLogActivity extends FragmentActivity {
+public class EventLogActivity extends ActionBarActivity {
 	
-	private Monitor monitor;
+	private IMonitor monitor;
 	private Boolean mIsBound = false;
 
-	private ListView clientLogList;
-	private ClientLogListAdapter clientLogListAdapter;
-	private ArrayList<Message> clientLogData = new ArrayList<Message>();
+	public EventLogClientFragment clientFrag;
+	public ListView clientLogList;
+	public ClientLogListAdapter clientLogListAdapter;
+	public ArrayList<Message> clientLogData = new ArrayList<Message>();
 
-	private ListView guiLogList;
-	private ArrayAdapter<String> guiLogListAdapter;
-	private ArrayList<String> guiLogData = new ArrayList<String>();
+	public EventLogGuiFragment guiFrag;
+	public ListView guiLogList;
+	public ArrayAdapter<String> guiLogListAdapter;
+	public ArrayList<String> guiLogData = new ArrayList<String>();
 	
-	// message retrieval
-	private Integer pastMsgsLoadingRange = 50; // amount messages loaded when end of list is reached
+	private ArrayList<EventLogActivityTabListener<?>> listener = new ArrayList<EventLogActivityTabListener<?>>();
+	
+	final static int GUI_LOG_TAB_ACTIVE =1;
+	final static int CLIENT_LOG_TAB_ACTIVE =2;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-
-		doBindService();
-		setLayoutLoading();
-        
-        // adapt to custom title bar
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar);
 
 	    super.onCreate(savedInstanceState);
-	}
+        
+        // setup action bar
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(R.string.menu_eventlog);
 
-	@Override
-	public void onResume() {
-		if(Logging.VERBOSE) Log.v(Logging.TAG, "EventLogActivity onResume()");
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        
+        EventLogActivityTabListener<EventLogClientFragment> clientListener = new EventLogActivityTabListener<EventLogClientFragment>(this, getString(R.string.eventlog_client_header), EventLogClientFragment.class);
+        listener.add(clientListener);
+        Tab tab = actionBar.newTab()
+                .setText(R.string.eventlog_client_header)
+                .setTabListener(clientListener);
+        actionBar.addTab(tab);
+        
+        EventLogActivityTabListener<EventLogGuiFragment> guiListener = new EventLogActivityTabListener<EventLogGuiFragment>(this, getString(R.string.eventlog_gui_header), EventLogGuiFragment.class);
+        listener.add(guiListener);
+        tab = actionBar.newTab()
+                .setText(R.string.eventlog_gui_header)
+                .setTabListener(guiListener);
+        actionBar.addTab(tab);
+        
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
-		super.onResume();
-		
-		new RetrieveRecentClientMsgs().execute(); // refresh messages
+		doBindService();
 	}
 	
 	@Override
@@ -100,10 +104,12 @@ public class EventLogActivity extends FragmentActivity {
 	 */
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
-	    	if(Logging.VERBOSE) Log.v(Logging.TAG,"EventLogActivity onServiceConnected");
-	        monitor = ((Monitor.LocalBinder)service).getService();
+	    	if(Logging.VERBOSE) Log.d(Logging.TAG,"EventLogActivity onServiceConnected");
+	        monitor = IMonitor.Stub.asInterface(service);
 		    mIsBound = true;
-		    initializeLayout();
+		    
+		    // initialize default fragment
+		    ((EventLogClientFragment) getSupportFragmentManager().findFragmentByTag(getString(R.string.eventlog_client_header))).init();
 	    }
 
 	    public void onServiceDisconnected(ComponentName className) {
@@ -125,61 +131,9 @@ public class EventLogActivity extends FragmentActivity {
 	    }
 	}
 	
-	// updates data list with most recent messages
-	private void loadRecentMsgs(ArrayList<Message> tmpA) {
-		// Prepend new messages to the event log
-		try {
-			int y = 0;
-			for (int x = tmpA.size()-1; x >= 0; x--) {
-				clientLogData.add(y, tmpA.get(x));
-				y++;
-			}
-		} catch (Exception e) {} //IndexOutOfBoundException
-		clientLogListAdapter.notifyDataSetChanged();
-	}
-	
-	// appends older messages to data list
-	private void loadPastMsgs(List<Message> tmpA) {
-		// Append old messages to the event log
-		try {
-			for(int x = tmpA.size()-1; x >= 0; x--) {
-				clientLogData.add(tmpA.get(x));
-			}
-		} catch (Exception e) {} //IndexOutOfBoundException
-		
-		clientLogListAdapter.notifyDataSetChanged();
-	}
-	
-	private void initializeLayout() {
-		try {
-			// check whether monitor is bound
-			if(!mIsBound) {
-				setLayoutLoading();
-				return;
-			}
-				
-			setContentView(R.layout.eventlog_layout); 
-			
-			clientLogList = (ListView) findViewById(R.id.clientLogList);
-			clientLogListAdapter = new ClientLogListAdapter(EventLogActivity.this, clientLogList, R.id.clientLogList, clientLogData);
-			clientLogList.setOnScrollListener(new EndlessScrollListener(5));
-			
-			guiLogList = (ListView) findViewById(R.id.guiLogList);
-			guiLogListAdapter = new ArrayAdapter<String>(EventLogActivity.this, R.layout.eventlog_gui_listitem_layout, guiLogData);
-			guiLogList.setAdapter(guiLogListAdapter);
-			
-			// initial data retrieval
-			new RetrievePastClientMsgs().execute();
-		} catch (Exception e) {
-			// data retrieval failed, set layout to loading...
-			setLayoutLoading();
-		}
-	}
-	
-	private void setLayoutLoading() {
-		setContentView(R.layout.generic_layout_loading); 
-        TextView loadingHeader = (TextView)findViewById(R.id.loading_header);
-        loadingHeader.setText(R.string.eventlog_loading);
+	public IMonitor getMonitorService() {
+		if(!mIsBound) if(Logging.WARNING) Log.w(Logging.TAG, "Fragment trying to obtain serive reference, but Monitor not bound in EventLogActivity");
+		return monitor;
 	}
 
 	@Override
@@ -190,34 +144,11 @@ public class EventLogActivity extends FragmentActivity {
 		return true;
 	}
 	
-	public void onClientLog(View v) {
-		//adapt header
-		v.setBackgroundColor(getResources().getColor(android.R.color.transparent));
-		TextView guiLogHeader = (TextView) findViewById(R.id.guiLogHeader);
-		guiLogHeader.setBackgroundResource(R.drawable.shape_light_blue_background);
-		// change lists
-		guiLogList.setVisibility(View.GONE);
-		clientLogList.setVisibility(View.VISIBLE);
-	}
-	
-	public void onGuiLog(View v) {
-		//adapt header
-		v.setBackgroundColor(getResources().getColor(android.R.color.transparent));
-		TextView clientLogHeader = (TextView) findViewById(R.id.clientLogHeader);
-		clientLogHeader.setBackgroundResource(R.drawable.shape_light_blue_background);
-		// change lists
-		clientLogList.setVisibility(View.GONE);
-		guiLogList.setVisibility(View.VISIBLE);
-		// read messages
-		readLogcat();
-	}
-	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
 			case R.id.refresh:
-				new RetrieveRecentClientMsgs().execute();
-				readLogcat();
+				updateCurrentFragment();
 				return true;
 			case R.id.email_to:
 				onEmailTo();
@@ -226,20 +157,43 @@ public class EventLogActivity extends FragmentActivity {
 				onCopy();
 				return true;
 		}
-		return true;
+		return super.onOptionsItemSelected(item);
+	}
+	
+	private int getActiveLog() {
+		for(EventLogActivityTabListener<?> tmp: listener) {
+			if(tmp.currentlySelected) {
+				if(tmp.mClass == EventLogClientFragment.class) return CLIENT_LOG_TAB_ACTIVE;
+				else if(tmp.mClass == EventLogGuiFragment.class) return GUI_LOG_TAB_ACTIVE;
+			}
+		}
+		return -1;
+	}
+	
+	private void updateCurrentFragment(){
+		for(EventLogActivityTabListener<?> tmp: listener) {
+			if(tmp.currentlySelected) {
+				if(tmp.mClass == EventLogClientFragment.class) {
+					((EventLogClientFragment) tmp.mFragment).update();
+				} else if(tmp.mClass == EventLogGuiFragment.class) {
+					((EventLogGuiFragment) tmp.mFragment).update();
+				}
+				break;
+			}
+		}
 	}
 	
 	private void onCopy() {
 		try {
 			ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE); 
-			clipboard.setText(getLogDataAsString(clientLogList.getVisibility() == View.VISIBLE));
+			clipboard.setText(getLogDataAsString());
 			Toast.makeText(getApplicationContext(), R.string.eventlog_copy_toast, Toast.LENGTH_SHORT).show();
 		} catch(Exception e) {if(Logging.WARNING) Log.w(Logging.TAG,"onCopy failed");}
 	}
 	
 	private void onEmailTo() {
 		try {
-			String emailText = getLogDataAsString(clientLogList.getVisibility() == View.VISIBLE);
+			String emailText = getLogDataAsString();
 			
 			Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 	
@@ -257,9 +211,10 @@ public class EventLogActivity extends FragmentActivity {
 	// returns the content of the log as string
 	// clientLog = true: client log
 	// clientlog = false: gui log
-	private String getLogDataAsString(Boolean clientLog) {
+	private String getLogDataAsString() {
 		StringBuffer text = new StringBuffer();
-		if(clientLog) {
+		int type = getActiveLog();
+		if(type == CLIENT_LOG_TAB_ACTIVE) {
 			text.append(getString(R.string.eventlog_client_header) + "\n\n");
 		    for (int index = 0; index < clientLogList.getCount(); index++) {
 				text.append(clientLogListAdapter.getDate(index));
@@ -269,135 +224,13 @@ public class EventLogActivity extends FragmentActivity {
 				text.append(clientLogListAdapter.getMessage(index));
 				text.append("\n");
 			}
-		} else {
+		} else if(type == GUI_LOG_TAB_ACTIVE) {
 			text.append(getString(R.string.eventlog_gui_header) + "\n\n");
 		    for (String line: guiLogData) {
 				text.append(line);
 				text.append("\n");
 			}
-		}
+		}else if(Logging.WARNING) Log.w(Logging.TAG,"EventLogActivity could not determine which log active.");
 		return text.toString();
-	}
-	
-	private void readLogcat() {
-		int number = getResources().getInteger(R.integer.eventlog_gui_messages);
-		guiLogData.clear();
-		try {
-			String logLevelFilter = Logging.TAG;
-			switch(Logging.LOGLEVEL){
-			case 0: return;
-			case 1:
-				logLevelFilter += ":E";
-				break;
-			case 2:
-				logLevelFilter += ":W";
-				break;
-			case 3:
-				logLevelFilter += ":I";
-				break;
-			case 4:
-				logLevelFilter += ":D";
-				break;
-			case 5:
-				logLevelFilter += ":V";
-				break;
-			}
-			Process process = Runtime.getRuntime().exec("logcat -d -t " + number + " -v time " + logLevelFilter + " *:S");
-			// filtering logcat output by application package is not possible on command line
-			// devices with SDK > 13 will automatically "session filter"
-			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-			String line = "";
-			int x = 0;
-			while ((line = bufferedReader.readLine()) != null) {
-				if(x > 1) guiLogData.add(0,line); // cut off first two lines, prepend to array (most current on top)
-				x++;
-			}
-			if(Logging.VERBOSE) Log.v(Logging.TAG, "readLogcat read " + guiLogData.size() + " lines.");
-			guiLogListAdapter.notifyDataSetChanged();
-		} catch (IOException e) {if(Logging.WARNING) Log.w(Logging.TAG, "readLogcat failed", e);}
-	}
-	
-	// onScrollListener for list view, implementing "endless scrolling"
-	public final class EndlessScrollListener implements OnScrollListener {
-
-        private int visibleThreshold = 5;
-        private int previousTotal = 0;
-        private boolean loading = true;
-
-        public EndlessScrollListener(int visibleThreshold) {
-            this.visibleThreshold = visibleThreshold;
-        }
-
-        @Override
-        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-            if (loading) {
-                if (totalItemCount > previousTotal) {
-                    loading = false;
-                    previousTotal = totalItemCount;
-                }
-            }
-            if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
-                new RetrievePastClientMsgs().execute();
-                loading = true;
-            }
-        }
-
-        @Override
-        public void onScrollStateChanged(AbsListView view, int scrollState) {
-        }
-    }
-	
-	private final class RetrieveRecentClientMsgs extends AsyncTask<Void,Void,ArrayList<Message>> {
-		
-		private Integer mostRecentSeqNo = 0;
-
-		@Override
-		protected void onPreExecute() {
-			if(!mIsBound) cancel(true); // cancel execution if monitor is not bound yet
-			if(!clientLogData.isEmpty()) mostRecentSeqNo = clientLogData.get(0).seqno;
-		}
-		
-		@Override
-		protected ArrayList<Message> doInBackground(Void... params) {
-			return monitor.getEventLogMessages(mostRecentSeqNo); 
-		}
-
-		@Override
-		protected void onPostExecute(ArrayList<Message> result) {
-			// back in UI thread
-			loadRecentMsgs(result);
-		}
-	}
-	
-	private final class RetrievePastClientMsgs extends AsyncTask<Void,Void,List<Message>> {
-		
-		//private int mostRecentSeqNo = 0; // most recent (highest) seqNo
-		private int pastSeqNo = -1; // oldest (lowest) seqNo currently loaded to GUI
-		//private int lastclientLogDataListIndex = 0; // index of last element (oldest message) in clientLogData
-
-		@Override
-		protected void onPreExecute() {
-			if(!mIsBound) cancel(true); // cancel execution if monitor is not bound yet
-			if(!clientLogData.isEmpty()) {
-				pastSeqNo = clientLogData.get(clientLogData.size() - 1).seqno;
-				if(pastSeqNo==0) {
-					if(Logging.DEBUG) Log.d("RetrievePastMsgs", "cancel, oldest messages already loaded");
-					cancel(true); // cancel if all past messages are present
-				}
-			}
-		}
-		
-		@Override
-		protected List<Message> doInBackground(Void... params) {
-			if(Logging.DEBUG) Log.d("RetrievePastMsgs", "calling monitor with: " + pastSeqNo + " / " + pastMsgsLoadingRange);
-			return monitor.getEventLogMessages(pastSeqNo, pastMsgsLoadingRange); 
-		}
-
-		@Override
-		protected void onPostExecute(List<Message> result) {
-			// back in UI thread
-			loadPastMsgs(result);
-		}
 	}
 }

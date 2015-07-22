@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -29,13 +29,13 @@ $email_addr = strtolower(post_str("email_addr", true));
 $passwd = stripslashes(post_str("passwd", true));
 
 if ($email_addr && $passwd) {
-    $user = lookup_user_email_addr($email_addr);
+    $user = BoincUser::lookup_email_addr($email_addr);
     if (!$user) {
-        error_page("No account found with email address $email_addr");
+        admin_error_page("No account found with email address $email_addr");
     }
     $passwd_hash = md5($passwd.$email_addr);
     if ($passwd_hash != $user->passwd_hash) {
-        error_page("Login failed");
+        admin_error_page("Login failed");
     }
     $authenticator = $user->authenticator;
     $next_url = $_POST["next_url"];

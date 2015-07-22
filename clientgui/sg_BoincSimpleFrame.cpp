@@ -21,9 +21,6 @@
 #endif
 
 #include "stdwx.h"
-#ifdef __WXMAC__
-#include "MacAccessiblity.h"
-#endif
 #include "diagnostics.h"
 #include "str_util.h"
 #include "mfile.h"
@@ -35,6 +32,7 @@
 #include "MainDocument.h"
 #include "Events.h"
 #include "BOINCBaseFrame.h"
+#include "browser.h"
 #include "wizardex.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
@@ -42,7 +40,6 @@
 #include "version.h"
 
 #include "sg_BoincSimpleFrame.h"
-#include "sg_CustomControls.h"
 #include "sg_TaskPanel.h"
 #include "sg_ProjectPanel.h"
 #include "sg_DlgMessages.h"
@@ -50,9 +47,18 @@
 #include "DlgEventLog.h"
 #include "DlgAbout.h"
 #include "DlgOptions.h"
+#include "DlgDiagnosticLogFlags.h"
+
+
+#ifdef __WXMAC__
+#include "util.h"
+
+static int compareOSVersionTo(int toMajor, int toMinor);
+#endif
 
 // Workaround for Linux refresh problem
-#if (defined(__WXMSW__) || defined(__WXMAC__))
+// and Mac keyboard navigation problem
+#ifdef __WXMSW__
 #define REFRESH_WAIT 0
 #else
 #define REFRESH_WAIT 1
@@ -62,6 +68,7 @@ IMPLEMENT_DYNAMIC_CLASS(CSimpleFrame, CBOINCBaseFrame)
 
 BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_SIZE(CSimpleFrame::OnSize)
+    EVT_MENU_OPEN(CSimpleFrame::OnMenuOpening)
     EVT_MENU(ID_CHANGEGUI, CSimpleFrame::OnChangeGUI)
     EVT_MENU(ID_SGDEFAULTSKINSELECTOR, CSimpleFrame::OnSelectDefaultSkin)
     EVT_MENU_RANGE(ID_SGFIRSTSKINSELECTOR, ID_LASTSGSKINSELECTOR, CSimpleFrame::OnSelectSkin)
@@ -71,11 +78,17 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_FRAME_NOTIFICATION(CSimpleFrame::OnNotification)
     EVT_MENU(ID_PREFERENCES, CSimpleFrame::OnPreferences)
     EVT_MENU(ID_SGOPTIONS, CSimpleFrame::OnOptions)
+	EVT_MENU(ID_SGDIAGNOSTICLOGFLAGS, CSimpleFrame::OnDiagnosticLogFlags)
+    EVT_MENU(ID_WIZARDATTACHPROJECT, CSimpleFrame::OnProjectsAttachToProject)
     EVT_MENU(ID_HELPBOINC, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCMANAGER, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCWEBSITE, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CSimpleFrame::OnHelpAbout)
 	EVT_MENU(ID_EVENTLOG, CSimpleFrame::OnEventLog)
+    EVT_MOVE(CSimpleFrame::OnMove)
+#ifdef __WXMAC__
+	EVT_MENU(wxID_PREFERENCES, CSimpleFrame::OnPreferences)
+#endif
 END_EVENT_TABLE()
 
 
@@ -85,17 +98,14 @@ CSimpleFrame::CSimpleFrame() {
 }
 
 
-CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint position, wxSize size) : 
+CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position, wxSize size) : 
     CBOINCBaseFrame((wxFrame *)NULL, ID_SIMPLEFRAME, title, position, size,
                     wxMINIMIZE_BOX | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN)
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame:: - Overloaded Constructor Function Begin"));
 
     // Initialize Application
-    wxIconBundle icons;
-    icons.AddIcon(*icon);
-    icons.AddIcon(*icon32);
-    SetIcons(icons);
+    SetIcons(*icons);
     
     CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString           strMenuName;
@@ -106,19 +116,41 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
     // File menu
     wxMenu *menuFile = new wxMenu;
 
-    // %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuDescription.Printf(
         _("Close the %s window"), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
-    strMenuName = _("&Close Window");
+    strMenuName = _("&Close window");
     strMenuName += wxT("\tCtrl+W");
     menuFile->Append(
         ID_CLOSEWINDOW,
         strMenuName,
         strMenuDescription
     );
+
+    strMenuDescription.Printf(
+        _("Exit %s"),
+        pSkinAdvanced->GetApplicationName().c_str()
+    );
+
+    strMenuName.Printf(
+        _("Exit %s"),
+        pSkinAdvanced->GetApplicationName().c_str()
+    );
+
+    menuFile->Append(
+        wxID_EXIT,
+        strMenuName,
+        strMenuDescription
+    );
+
+#ifdef __WXMAC__
+    // wxWidgets actually puts this in the BOINCManager menu
+    menuFile->Append(
+        wxID_PREFERENCES,
+        _("Preferences...")
+    );
+#endif
 
     // Skins submenu
     m_pSubmenuSkins = new wxMenu;
@@ -131,13 +163,6 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
     // View menu
     wxMenu *menuView = new wxMenu;
 
-    menuView->Append(
-        ID_CHANGEGUI,
-        _("Advanced View...\tCtrl+Shift+A"),
-        _("Display the advanced graphical interface.")
-    );
-
-    menuView->AppendSeparator();
 
     menuView->Append(
         ID_SGSKINSELECTOR,
@@ -146,37 +171,54 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
         _("Select the appearance of the user interface.")
     );
 
-    // Skins sumenu always contains the Default entry
+    // Skins submenu always contains the Default entry
     if (m_pSubmenuSkins->GetMenuItemCount() <= 1) {
         menuView->Enable(ID_SGSKINSELECTOR, false);
     }
+    menuView->AppendSeparator();
+    menuView->Append(
+        ID_CHANGEGUI,
+        _("Advanced View...\tCtrl+Shift+A"),
+        _("Display the advanced graphical interface.")
+    );
 
-    // Tools menu
-    wxMenu *menuTools = new wxMenu;
 
-    menuTools->Append(
+    // Options menu
+    wxMenu *menuOptions = new wxMenu;
+
+    menuOptions->Append(
         ID_PREFERENCES,
         _("Computing &preferences..."),
         _("Configure computing preferences")
     );
     
-    menuTools->Append(
+    menuOptions->Append(
         ID_SGOPTIONS, 
-        _("&Options..."),
+        _("&Other options..."),
         _("Configure display options and proxy settings")
+    );
+
+    // Tools menu
+    wxMenu *menuTools = new wxMenu;
+    menuTools->Append(
+        ID_WIZARDATTACHPROJECT, 
+        _("&Add project..."),
+        _("Add a project")
+    );
+    menuTools->AppendSeparator();
+    menuTools->Append(
+        ID_EVENTLOG, 
+        _("Event Log...\tCtrl+Shift+E"),
+        _("Display diagnostic messages.")
     );
 
     // Help menu
     wxMenu *menuHelp = new wxMenu;
 
-    // %s is the project name
-    //    i.e. 'BOINC Manager', 'GridRepublic'
     strMenuName.Printf(
         _("%s &help"), 
         pSkinAdvanced->GetApplicationShortName().c_str()
     );
-    // %s is the project name
-    //    i.e. 'BOINC', 'GridRepublic'
     strMenuDescription.Printf(
         _("Show information about %s"), 
         pSkinAdvanced->GetApplicationShortName().c_str()
@@ -187,14 +229,10 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
         strMenuDescription
     );
 
-    // %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuName.Printf(
         _("&%s"), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
-    // %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuDescription.Printf(
         _("Show information about the %s"), 
         pSkinAdvanced->GetApplicationName().c_str()
@@ -204,15 +242,11 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
         strMenuName, 
         strMenuDescription
     );
-
-    // %s is the project name
-    //    i.e. 'BOINC', 'GridRepublic'
+    menuHelp->AppendSeparator();
     strMenuName.Printf(
-        _("%s &website"), 
+        _("%s &web site"), 
         pSkinAdvanced->GetApplicationShortName().c_str()
     );
-    // %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuDescription.Printf(
         _("Show information about BOINC and %s"),
         pSkinAdvanced->GetApplicationName().c_str()
@@ -222,9 +256,8 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
         strMenuName, 
         strMenuDescription
     );
+    menuHelp->AppendSeparator();
 
-    // %s is the project name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuName.Printf(
         _("&About %s..."), 
         pSkinAdvanced->GetApplicationName().c_str()
@@ -246,6 +279,10 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
         _("&View")
     );
     m_pMenubar->Append(
+        menuOptions,
+        _("&Options")
+    );
+    m_pMenubar->Append(
         menuTools,
         _("&Tools")
     );
@@ -265,24 +302,21 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
     SendSizeEvent();
 #endif
 #ifdef __WXMAC__
-    m_pMenubar->MacInstallMenuBar();
-    MacLocalizeBOINCMenu();
-
-    // Enable Mac OS X's standard Preferences menu item (handled in MacSysMenu.cpp)
-    EnableMenuCommand(NULL, kHICommandPreferences);
+    // Mac needs a short delay to ensure that controls are
+    // created in proper order to allow keyboard navigation
+    m_iFrameRefreshRate = 1;    // 1 millisecond
+    m_pPeriodicRPCTimer->Start(m_iFrameRefreshRate);
 #endif
 
     m_Shortcuts[0].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
-#ifdef __WXMAC__
-    m_Shortcuts[1].Set(wxACCEL_CMD|wxACCEL_SHIFT, (int)'E', ID_EVENTLOG);
-#else
     m_Shortcuts[1].Set(wxACCEL_CTRL|wxACCEL_SHIFT, (int)'E', ID_EVENTLOG);
-#endif
-    m_pAccelTable = new wxAcceleratorTable(2, m_Shortcuts);
+    m_Shortcuts[2].Set(wxACCEL_CTRL|wxACCEL_SHIFT, (int)'F', ID_SGDIAGNOSTICLOGFLAGS);
+    m_pAccelTable = new wxAcceleratorTable(3, m_Shortcuts);
 
     SetAcceleratorTable(*m_pAccelTable);
     
     dlgMsgsPtr = NULL;
+
     m_pBackgroundPanel = new CSimpleGUIPanel(this);
     
     RestoreState();
@@ -301,10 +335,10 @@ CSimpleFrame::~CSimpleFrame() {
 }
 
 
-bool CSimpleFrame::SaveState() {
-	CBOINCBaseFrame::SaveState();
+bool CSimpleFrame::SaveWindowPosition() {
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
 	wxString        strBaseConfigLocation = wxString(wxT("/Simple"));
+    wxPoint         pos = GetPosition();
 
     wxASSERT(pConfig);
 
@@ -314,21 +348,29 @@ bool CSimpleFrame::SaveState() {
     //   pointer, return false.
     if (!pConfig) return false;
 
-    //
-    // Save Frame State
-    //
     pConfig->SetPath(strBaseConfigLocation);
 
-    pConfig->Write(wxT("XPos"), GetPosition().x);
-    pConfig->Write(wxT("YPos"), GetPosition().y);
-
+    pConfig->Write(wxT("XPos"), pos.x);
+    pConfig->Write(wxT("YPos"), pos.y);
     return true;
+}
+
+
+bool CSimpleFrame::SaveState() {
+	CBOINCBaseFrame::SaveState();
+    return SaveWindowPosition();
 }
 
 
 bool CSimpleFrame::RestoreState() {
 	CBOINCBaseFrame::RestoreState();
     return true;
+}
+
+
+void CSimpleFrame::OnMove(wxMoveEvent& event) {
+    SaveWindowPosition();
+    event.Skip();
 }
 
 
@@ -339,6 +381,44 @@ int CSimpleFrame::_GetCurrentViewPage() {
         return VW_SGUI;
     }
     return 0;       // Should never happen.
+}
+
+
+void CSimpleFrame::OnMenuOpening( wxMenuEvent &event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnMenuOpening - Function Begin"));
+
+    CMainDocument*     pDoc = wxGetApp().GetDocument();
+    wxMenu* menuFile = NULL;
+    wxMenu* menuHelp = NULL;
+    
+    wxASSERT(pDoc);
+    
+    bool isConnected = pDoc->IsConnected();
+    wxMenu* menu = event.GetMenu();
+    
+    menu->FindItem(ID_CLOSEWINDOW, &menuFile);
+    menu->FindItem(ID_HELPBOINC, &menuHelp);
+    size_t numItems = menu->GetMenuItemCount();
+    for (size_t pos = 0; pos < numItems; ++pos) {
+        wxMenuItem * item = menu->FindItemByPosition(pos);
+        if ((menu == menuFile) || (menu == menuHelp)) {
+            // Always enable all items in File menu or Help menu:
+            // ID_CLOSEWINDOW, wxID_EXIT, ID_HELPBOINC, ID_HELPBOINCMANAGER,
+            // ID_HELPBOINCWEBSITE, wxID_ABOUT
+            item->Enable(true);
+        } else {
+            // Disable other menu items if not connected to client
+            item->Enable(isConnected);
+        }
+    }
+    
+    // wxID_EXIT and wxID_PREFERENCES are not in File menu on some platforms
+    wxMenuItem* exitItem = menu->FindChildItem(wxID_EXIT, NULL);
+    if (exitItem) {
+        exitItem->Enable(true);
+    }
+    
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnMenuOpening - Function End"));
 }
 
 
@@ -458,7 +538,9 @@ void CSimpleFrame::OnPreferences(wxCommandEvent& WXUNUSED(event)) {
 	m_pBackgroundPanel->SetDlgOpen(true);
 
 	CDlgPreferences dlg(GetParent());
-    dlg.ShowModal();
+    if (dlg.OKToShow()) {
+        dlg.ShowModal();
+    }
 
     m_pBackgroundPanel->SetDlgOpen(false);
 
@@ -478,6 +560,16 @@ void CSimpleFrame::OnOptions(wxCommandEvent& WXUNUSED(event)) {
     m_pBackgroundPanel->SetDlgOpen(false);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnOptions - Function End"));
+}
+
+
+void CSimpleFrame::OnDiagnosticLogFlags(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnDiagnosticLogFlags - Function Begin"));
+
+    CDlgDiagnosticLogFlags dlg(this);
+	dlg.ShowModal();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnDiagnosticLogFlags - Function End"));
 }
 
 
@@ -508,7 +600,9 @@ void CSimpleFrame::OnHelpAbout(wxCommandEvent& /*event*/) {
 	m_pBackgroundPanel->SetDlgOpen(true);
 
     CDlgAbout dlg(this);
+    wxGetApp().SetAboutDialogIsOpen(true);
     dlg.ShowModal();
+    wxGetApp().SetAboutDialogIsOpen(false);
 
     m_pBackgroundPanel->SetDlgOpen(false);
 
@@ -544,7 +638,7 @@ void CSimpleFrame::OnReloadSkin(CFrameEvent& WXUNUSED(event)) {
 
     m_pBackgroundPanel->ReskinInterface();
     SetTitle(pSkinAdvanced->GetApplicationName());
-    SetIcon(*pSkinAdvanced->GetApplicationIcon());
+    SetIcon(pSkinAdvanced->GetApplicationIcon()->GetIcon(wxDefaultSize));
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnReloadSkin - Function End"));
 }
@@ -578,6 +672,11 @@ void CSimpleFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
     }
     
 #ifdef __WXMAC__
+    if (m_iFrameRefreshRate != 1000) {
+        m_iFrameRefreshRate = 1000;
+        m_pPeriodicRPCTimer->Start(m_iFrameRefreshRate);
+    }
+
     // We disabled tooltips on Mac while menus were popped up because they cover menus
     wxToolTip::Enable(true);
 #endif
@@ -586,7 +685,7 @@ void CSimpleFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
 }
 
 
-void CSimpleFrame::OnProjectsAttachToProject() {
+void CSimpleFrame::OnProjectsAttachToProject(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnProjectsAttachToProject - Function Begin"));
 
     CMainDocument* pDoc     = wxGetApp().GetDocument();
@@ -601,10 +700,8 @@ void CSimpleFrame::OnProjectsAttachToProject() {
 
         CWizardAttach* pWizard = new CWizardAttach(this);
 
-        wxString strName = wxEmptyString;
         wxString strURL = wxEmptyString;
-        wxString strTeamName = wxEmptyString;
-        pWizard->Run( strName, strURL, strTeamName, false );
+        pWizard->Run(strURL, false);
 
         if (pWizard)
             pWizard->Destroy();
@@ -626,20 +723,24 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxString strName = wxEmptyString;
     wxString strURL = wxEmptyString;
     wxString strTeamName = wxEmptyString;
+    std::string strProjectName;
+    std::string strProjectURL;
+    std::string strProjectAuthenticator;
+    std::string strProjectInstitution;
+    std::string strProjectDescription;
+    std::string strProjectKnown;
     bool bCachedCredentials = false;
     ACCT_MGR_INFO ami;
     PROJECT_INIT_STATUS pis;
 	CC_STATUS     status;
+    int wasShown = 0;
+    int wasVisible = 0;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     pDoc->ForceCacheUpdate();
     pDoc->GetCoreClientStatus(status, true);
-
-#ifdef __WXMAC__
-    wxGetApp().GetMacSystemMenu()->BuildMenu();
-#endif
 
 	// If we are connected to the localhost, run a really quick screensaver
     //   test to trigger a firewall popup.
@@ -652,28 +753,84 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 
     pDoc->rpc.get_project_init_status(pis);
     pDoc->rpc.acct_mgr_info(ami);
-    if (ami.acct_mgr_url.size() && !ami.have_credentials) {
-        if (!IsShown()) {
+
+    if (detect_simple_account_credentials(
+            strProjectName, strProjectURL, strProjectAuthenticator, strProjectInstitution, strProjectDescription, strProjectKnown
+        )
+    ){
+        if (!pDoc->project((char*)strProjectURL.c_str())) {
+            wasShown = IsShown();
             Show();
+            wasVisible = wxGetApp().IsApplicationVisible();
+            if (!wasVisible) {
+                wxGetApp().ShowApplication(true);
+            }
+        
+            pWizard = new CWizardAttach(this);
+
+            pWizard->RunSimpleProjectAttach(
+                wxURI::Unescape(strProjectName),
+                wxURI::Unescape(strProjectURL),
+                wxURI::Unescape(strProjectAuthenticator),
+                wxURI::Unescape(strProjectInstitution),
+                wxURI::Unescape(strProjectDescription),
+                wxURI::Unescape(strProjectKnown)
+            );
+        }
+    } else if (ami.acct_mgr_url.size() && ami.have_credentials) {
+        // Fall through
+        //
+        // There isn't a need to bring up the attach wizard, the account manager will
+        // take care of ataching to projects when it completes the RPCs
+        //
+    } else if (ami.acct_mgr_url.size() && !ami.have_credentials) {
+        wasShown = IsShown();
+        Show();
+        wasVisible = wxGetApp().IsApplicationVisible();
+        if (!wasVisible) {
+            wxGetApp().ShowApplication(true);
         }
 
         pWizard = new CWizardAttach(this);
         if (pWizard->SyncToAccountManager()) {
-            // If successful, hide the main window
-            Hide();
+
+            // _GRIDREPUBLIC, _PROGRESSTHRUPROCESSORS and _CHARITYENGINE
+            // are defined for those branded builds on Windows only
+#if defined(_GRIDREPUBLIC) || defined(_PROGRESSTHRUPROCESSORS) || defined(_CHARITYENGINE) || defined(__WXMAC__)
+#ifdef __WXMAC__
+            // For GridRepublic, Charity Engine or ProgressThruProcessors, 
+            // the Mac installer put a branding file in our data directory
+            long iBrandID = 0;  // 0 is unbranded (default) BOINC
+
+            FILE *f = boinc_fopen("/Library/Application Support/BOINC Data/Branding", "r");
+            if (f) {
+                fscanf(f, "BrandId=%ld\n", &iBrandID);
+                fclose(f);
+            }
+            if ((iBrandID > 0) && (iBrandID < 4))
+#endif
+            {
+                // If successful, hide the main window if we showed it
+                if (!wasVisible) {
+                    wxGetApp().ShowApplication(false);
+                }
+#ifndef __WXMAC__   // See comment in CBOINCGUIApp::OnFinishInit()
+                if (!wasShown) {
+                    Hide();
+                }
+#endif
+            }
+#endif
         }
     } else if ((pis.url.size() || (0 >= pDoc->GetSimpleProjectCount())) && !status.disallow_attach) {
-        if (!IsShown()) {
-            Show();
-        }
+        Show();
+        wxGetApp().ShowApplication(true);
 
-        strName = wxString(pis.name.c_str(), wxConvUTF8);
         strURL = wxString(pis.url.c_str(), wxConvUTF8);
-        strTeamName = wxString(pis.team_name.c_str(), wxConvUTF8);
         bCachedCredentials = pis.url.length() && pis.has_account_key;
 
         pWizard = new CWizardAttach(this);
-        pWizard->Run(strName, strURL, strTeamName, bCachedCredentials);
+        pWizard->Run(strURL, bCachedCredentials);
     }
 
  	if (pWizard) {
@@ -697,7 +854,6 @@ void CSimpleFrame::OnEventLog(wxCommandEvent& WXUNUSED(event)) {
 IMPLEMENT_DYNAMIC_CLASS(CSimpleGUIPanel, wxPanel)
 
 BEGIN_EVENT_TABLE(CSimpleGUIPanel, wxPanel)
-    EVT_SIZE(CSimpleGUIPanel::OnSize)
     EVT_ERASE_BACKGROUND(CSimpleGUIPanel::OnEraseBackground)    
 	EVT_BUTTON(ID_SGNOTICESBUTTON,CSimpleGUIPanel::OnShowNotices)
 	EVT_BUTTON(ID_SGSUSPENDRESUMEBUTTON,CSimpleGUIPanel::OnSuspendResume)
@@ -743,17 +899,17 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
     m_projPanel = new CSimpleProjectPanel(this);
 
     // Box Sizer
-	mainSizer = new wxBoxSizer(wxVERTICAL);
-	mainSizer->AddSpacer(68);
+    mainSizer = new wxBoxSizer(wxVERTICAL);
+    mainSizer->AddSpacer(ADJUSTFORYDPI(68));
     mainSizer->Add(m_taskPanel, 1, wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER, SIDEMARGINS);
-	mainSizer->AddSpacer(8);
+    mainSizer->AddSpacer(ADJUSTFORYDPI(8));
     mainSizer->Add(m_projPanel, 0, wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER, SIDEMARGINS);
-	mainSizer->AddSpacer(8);
+    mainSizer->AddSpacer(ADJUSTFORYDPI(8));
 
 	wxBoxSizer* buttonsSizer;
 	buttonsSizer = new wxBoxSizer( wxHORIZONTAL );
 
-	m_NoticesButton = new CTransparentButton( this, ID_SGNOTICESBUTTON, _("Notices"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_NoticesButton = new wxButton( this, ID_SGNOTICESBUTTON, _("Notices"), wxDefaultPosition, wxDefaultSize, 0 );
     m_NoticesButton->SetToolTip( _("Open a window to view notices from projects or BOINC"));
 	buttonsSizer->Add( m_NoticesButton, 0, wxEXPAND | wxALIGN_LEFT, 0 );
     buttonsSizer->AddStretchSpacer();
@@ -763,7 +919,7 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
     GetTextExtent(m_sResumeString, &resumeWidth, &y);
     
     m_bIsSuspended = suspendWidth > resumeWidth;
-    m_SuspendResumeButton = new CTransparentButton( this, ID_SGSUSPENDRESUMEBUTTON, 
+    m_SuspendResumeButton = new wxButton( this, ID_SGSUSPENDRESUMEBUTTON, 
                             m_bIsSuspended ? m_sSuspendString : m_sResumeString,
                             wxDefaultPosition, wxDefaultSize, 0 );
     m_SuspendResumeButton->SetToolTip(wxEmptyString);
@@ -771,7 +927,7 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
 	buttonsSizer->Add( m_SuspendResumeButton, 0, wxEXPAND | wxALIGN_RIGHT, 0 );
     buttonsSizer->AddStretchSpacer();
 
-    m_HelpButton = new CTransparentButton( this, ID_SIMPLE_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_HelpButton = new wxButton( this, ID_SIMPLE_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
 	buttonsSizer->Add( m_HelpButton, 0, wxEXPAND | wxALIGN_RIGHT, 0 );
 
     wxString helpTip;
@@ -779,7 +935,7 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
     m_HelpButton->SetToolTip(helpTip);
 
 	mainSizer->Add( buttonsSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, 2 * SIDEMARGINS );
-	mainSizer->AddSpacer(10);
+    mainSizer->AddSpacer(ADJUSTFORYDPI(10));
 
 	SetSizer(mainSizer);
     Layout();
@@ -792,9 +948,7 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
     // Tell accessibility aids to ignore this panel (but not its contents)
     HIObjectSetAccessibilityIgnored((HIObjectRef)GetHandle(), true);
     
-    SInt32 response;
-    OSStatus err = Gestalt(gestaltSystemVersion, &response);
-    if ((err == noErr) && (response >= 0x1070)) {
+    if (compareOSVersionTo(10, 7) >= 0) {
         m_iRedRingRadius = 4;
     } else {
         m_iRedRingRadius = 12;
@@ -802,6 +956,7 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
 #endif    
 
     m_SuspendResumeButton->Disable();
+
     OnFrameRender();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::CSimpleGUIPanel - Overloaded Constructor Function End"));
@@ -830,14 +985,82 @@ void CSimpleGUIPanel::SetBackgroundBitmap() {
 
     wxColour bgColor(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
     SetBackgroundColour(bgColor);
-
     wxRect panelRect = GetRect();
     m_bmpBg = wxBitmap(panelRect.width, panelRect.height);
     wxMemoryDC dc(m_bmpBg);
     wxBrush bgBrush(bgColor);
     dc.SetBackground(bgBrush);
     dc.Clear();
-    dc.DrawBitmap(*pSkinSimple->GetBackgroundImage()->GetBitmap(), 0, 0, false);
+#ifdef __WXMAC__
+    // Work around an apparent bug in wxMemoryDC::Clear() in wxCarbon 2.9.4
+    // TODO: remove this when the wxCarbon bug is fixed
+    dc.SetBrush(bgBrush);
+    wxPen bgPen(bgColor);
+    dc.SetPen(bgPen);
+    dc.DrawRectangle(panelRect);
+#endif
+
+    int srcX, srcY, destX, destY, h, w;
+    wxBitmap* srcBmp = pSkinSimple->GetBackgroundImage()->GetBitmap();
+    wxSize srcSize = srcBmp->GetSize();
+    switch(pSkinSimple->GetBackgroundImage()->GetHorizontalAnchor()) {
+    case BKGD_ANCHOR_HORIZ_LEFT:
+    default:
+        srcX = 0;
+        destX = 0;
+        break;
+    case BKGD_ANCHOR_HORIZ_CENTER:
+        if (panelRect.width < srcSize.GetWidth()) {
+            srcX = (srcSize.GetWidth() - panelRect.width) / 2;
+            destX = 0;
+        } else {
+            srcX = 0;
+            destX = (panelRect.width - srcSize.GetWidth()) / 2;
+        }
+        break;
+    case BKGD_ANCHOR_HORIZ_RIGHT:
+        if (panelRect.width < srcSize.GetWidth()) {
+            srcX = (srcSize.GetWidth() - panelRect.width);
+            destX = 0;
+        } else {
+            srcX = 0;
+            destX = (panelRect.width - srcSize.GetWidth());
+        }
+        break;
+    }
+    w = wxMin(panelRect.width, srcSize.GetWidth());
+
+    switch(pSkinSimple->GetBackgroundImage()->GetVerticalAnchor()) {
+    case BKGD_ANCHOR_VERT_TOP:
+    default:
+        srcY = 0;
+        destY = 0;
+        break;
+    case BKGD_ANCHOR_VERT_CENTER:
+        if (panelRect.height < srcSize.GetHeight()) {
+            srcY = (srcSize.GetHeight() - panelRect.height) / 2;
+            destY = 0;
+        } else {
+            srcY = 0;
+            destY = (panelRect.height - srcSize.GetHeight()) / 2;
+        }
+        break;
+    case BKGD_ANCHOR_VERT_BOTTOM:
+        if (panelRect.height < srcSize.GetHeight()) {
+            srcY = (srcSize.GetHeight() - panelRect.height);
+            destY = 0;
+        } else {
+            srcY = 0;
+            destY = (panelRect.height - srcSize.GetHeight());
+        }
+        break;
+    }
+    h = wxMin(panelRect.height, srcSize.GetHeight());
+
+    wxMemoryDC srcDC(*srcBmp);
+    dc.Blit(destX, destY, w, h, &srcDC, srcX, srcY, wxCOPY);
+
+//    dc.DrawBitmap(*pSkinSimple->GetBackgroundImage()->GetBitmap(), 0, 0, false);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::SetBackgroundBitmap - Function End"));
 }
@@ -860,13 +1083,13 @@ void CSimpleGUIPanel::ReskinInterface() {
 }
 
 
-void CSimpleGUIPanel::OnProjectsAttachToProject() {
+void CSimpleGUIPanel::OnProjectsAttachToProject(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::OnProjectsAttachToProject - Function Begin"));
 	
     CSimpleFrame* pFrame = wxDynamicCast(GetParent(), CSimpleFrame);
     wxASSERT(pFrame);
 
-    pFrame->OnProjectsAttachToProject();
+    pFrame->OnProjectsAttachToProject(event);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnProjectsAttachToProject - Function End"));
 }
@@ -1085,3 +1308,29 @@ void CSimpleGUIPanel::OnEraseBackground(wxEraseEvent& event) {
 #endif
     dc->DrawBitmap(m_bmpBg, 0, 0);
 }
+
+
+#ifdef __WXMAC__
+static int compareOSVersionTo(int toMajor, int toMinor) {
+    SInt32 major, minor;
+    OSStatus err = noErr;
+    
+    err = Gestalt(gestaltSystemVersionMajor, &major);
+    if (err != noErr) {
+        fprintf(stderr, "Gestalt(gestaltSystemVersionMajor) returned error %ld\n", err);
+        fflush(stderr);
+        return -1;  // gestaltSystemVersionMajor selector was not available before OS 10.4
+    }
+    if (major < toMajor) return -1;
+    if (major > toMajor) return 1;
+    err = Gestalt(gestaltSystemVersionMinor, &minor);
+    if (err != noErr) {
+        fprintf(stderr, "Gestalt(gestaltSystemVersionMinor) returned error %ld\n", err);
+        fflush(stderr);
+        return -1;  // gestaltSystemVersionMajor selector was not available before OS 10.4
+    }
+    if (minor < toMinor) return -1;
+    if (minor > toMinor) return 1;
+    return 0;
+}
+#endif

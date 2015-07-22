@@ -144,7 +144,6 @@ CScreensaver::CScreensaver() {
 //
 HRESULT CScreensaver::Create(HINSTANCE hInstance) {
     HRESULT hr;
-    int     retval;
     struct  ss_periods periods;
 
     m_hInstance = hInstance;
@@ -159,19 +158,18 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
     }
 
     // Initialize Diagnostics
-    retval = diagnostics_init (
+    int dwDiagnosticsFlags =
 #ifdef _DEBUG
         BOINC_DIAG_HEAPCHECKENABLED |
         BOINC_DIAG_MEMORYLEAKCHECKENABLED |
 #endif
         BOINC_DIAG_DUMPCALLSTACKENABLED | 
-        BOINC_DIAG_ARCHIVESTDOUT |
-        BOINC_DIAG_REDIRECTSTDOUTOVERWRITE |
-        BOINC_DIAG_REDIRECTSTDERROVERWRITE |
-        BOINC_DIAG_TRACETOSTDOUT,
-        "stdoutscr",
-        "stderrscr"
-    );
+        BOINC_DIAG_PERUSERLOGFILES |
+        BOINC_DIAG_REDIRECTSTDERR |
+        BOINC_DIAG_REDIRECTSTDOUT |
+        BOINC_DIAG_TRACETOSTDOUT;
+
+    diagnostics_init(dwDiagnosticsFlags, "stdoutscr", "stderrscr");
 
 
     // Parse the command line and do the appropriate thing

@@ -6,12 +6,13 @@
 
 require_once("submit.inc");
 
-define("PROJECT", "http://casathome.ihep.ac.cn");
+define("PROJECT", "http://casathome.ihep.ac.cn/");
 define("APP_NAME", "uppercase");
+define("LOCAL_DIR", "");
 
 function usage() {
    global $argv; 
-   die("
+   echo "
 Usage:
 $argv[0] submit sequence_file    (submit 1 job, print batch ID)
 $argv[0] query batch_id          (get the status of a specific batch)
@@ -20,11 +21,12 @@ $argv[0] query all               (get the status of all batches)
 $argv[0] get_output batch_id     (show URL of output file)
 $argv[0] abort batch_id          (abort a batch)
 $argv[0] retire batch_id         (retire a batch)
-\n");
+";
+    exit(1);
 }
 
 function get_auth() {
-    return trim(file_get_contents("auth"));
+    return trim(file_get_contents(LOCAL_DIR."auth"));
 }
 
 function handle_submit() {
@@ -44,6 +46,7 @@ function handle_submit() {
     list($id, $errmsg) = boinc_submit_batch($req);
     if ($errmsg) {
         echo "Error: $errmsg\n";
+        exit(1);
     } else {
         echo "batch ID: $id\n";
     }
@@ -97,7 +100,7 @@ function handle_query() {
     list($batches, $errmsg) = boinc_query_batches($req);
     if ($errmsg) {
         echo "Error: $errmsg\n";
-        return;
+        exit(1);
     }
     if ($argv[2] == 'all') {
         foreach ($batches as $batch) {
@@ -142,6 +145,7 @@ function handle_abort() {
     $errmsg = boinc_abort_batch($req);
     if ($errmsg) {
         echo "Error: $errmsg\n";
+        exit(1);
     } else {
         echo "Batch aborted\n";
     }
@@ -156,6 +160,7 @@ function handle_retire() {
     $errmsg = boinc_retire_batch($req);
     if ($errmsg) {
         echo "Error: $errmsg\n";
+        exit(1);
     } else {
         echo "Batch retired\n";
     }

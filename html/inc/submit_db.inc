@@ -27,6 +27,7 @@ class BoincBatch {
     }
     static function lookup_name($name) {
         $db = BoincDb::get();
+        $name = BoincDb::escape_string($name);
         return $db->lookup('batch', 'BoincBatch', "name='$name'");
     }
     static function enum($clause) {
@@ -46,6 +47,14 @@ class BoincBatch {
     static function update_aux($clause) {
         $db = BoincDb::get();
         return $db->update_aux('batch', $clause);
+    }
+    function get_cpu_time() {
+        $db = BoincDb::get();
+        $x = $db->get_double(
+            "select sum(result.cpu_time) as total_cpu_time from workunit join result on workunit.id = result.workunitid where workunit.batch=$this->id",
+            "total_cpu_time"
+        );
+        return $x;
     }
 }
 
@@ -135,6 +144,12 @@ class BoincBatchFileAssoc {
         $db = BoincDb::get();
         $db->delete_aux('batch_file_assoc',
             "job_file_id=$this->job_file_id and batch_id=$this->batch_id"
+        );
+    }
+    static function delete_batch($batch_id) {
+        $db = BoincDb::get();
+        $db->delete_aux('batch_file_assoc',
+            "batch_id=$batch_id"
         );
     }
 }

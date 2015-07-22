@@ -87,20 +87,22 @@ char boinc_failed_file[MAXPATHLEN];
 // routines for enumerating the entries in a directory
 
 int is_file(const char* path) {
-    struct stat sbuf;
 #ifdef _WIN32
-    int retval = stat(path, &sbuf);
+    struct __stat64 sbuf;
+    int retval = _stat64(path, &sbuf);
 #else
+    struct stat sbuf;
     int retval = lstat(path, &sbuf);
 #endif
     return (!retval && (((sbuf.st_mode) & S_IFMT) == S_IFREG));
 }
 
 int is_dir(const char* path) {
-    struct stat sbuf;
 #ifdef _WIN32
-    int retval = stat(path, &sbuf);
+    struct __stat64 sbuf;
+    int retval = _stat64(path, &sbuf);
 #else
+    struct stat sbuf;
     int retval = lstat(path, &sbuf);
 #endif
     return (!retval && (((sbuf.st_mode) & S_IFMT) == S_IFDIR));
@@ -149,7 +151,10 @@ DIRREF dir_open(const char* p) {
     return dirp;
 }
 
-// Scan through a directory and return the next file name in it
+// Scan through a directory and return:
+// 0 if an entry was found (the entry is returned in p)
+// ERR_NOT_FOUND if we reached the end of the directory
+// ERR_READDIR if some other error occurred
 //
 int dir_scan(char* p, DIRREF dirp, int p_len) {
 #ifdef _WIN32
@@ -175,9 +180,13 @@ int dir_scan(char* p, DIRREF dirp, int p_len) {
                 if (p) strlcpy(p, data.cFileName, p_len);
                 return 0;
             } else {
+                DWORD ret = GetLastError();
                 FindClose(dirp->handle);
                 dirp->handle = INVALID_HANDLE_VALUE;
-                return 1;
+                if (ret == ERROR_NO_MORE_FILES) {
+                    return ERR_NOT_FOUND;
+                }
+                return ERR_READDIR;
             }
         }
     }
@@ -190,7 +199,8 @@ int dir_scan(char* p, DIRREF dirp, int p_len) {
             if (p) strlcpy(p, dp->d_name, p_len);
             return 0;
         } else {
-            return ERR_READDIR;
+            if (errno) return ERR_READDIR;
+            return ERR_NOT_FOUND;
         }
     }
 #endif
@@ -501,8 +511,13 @@ FILE* boinc_fopen(const char* path, const char* mode) {
 
 
 int boinc_file_exists(const char* path) {
+#ifdef _WIN32
+    struct __stat64 buf;
+    if (_stat64(path, &buf)) {
+#else
     struct stat buf;
     if (stat(path, &buf)) {
+#endif
         return false;     // stat() returns zero on success
     }
     return true;
@@ -511,10 +526,11 @@ int boinc_file_exists(const char* path) {
 // same, but doesn't traverse symlinks
 //
 int boinc_file_or_symlink_exists(const char* path) {
-    struct stat buf;
 #ifdef _WIN32
-    if (stat(path, &buf)) {
+    struct __stat64 buf;
+    if (_stat64(path, &buf)) {
 #else
+    struct stat buf;
     if (lstat(path, &buf)) {
 #endif
         return false;     // stat() returns zero on success
@@ -525,7 +541,6 @@ int boinc_file_or_symlink_exists(const char* path) {
 // returns zero on success, nonzero if didn't touch file
 //
 int boinc_touch_file(const char *path) {
-
     if (boinc_file_exists(path)) {
         return 0;
     }
@@ -613,6 +628,10 @@ int boinc_rename(const char* old, const char* newf) {
 
     retval = boinc_rename_aux(old, newf);
     if (retval) {
+        // if the rename failed, and the file exists,
+        // retry a few times
+        //
+        if (!boinc_file_exists(old)) return ERR_FILE_MISSING;
         double start = dtime();
         do {
             boinc_sleep(drand()*2);       // avoid lockstep
@@ -765,10 +784,10 @@ void relative_to_absolute(const char* relname, char* path) {
     }
 }
 
-#if defined(_WIN32) && !(defined(WXDEBUG) || defined(WXNDEBUG))
+#if defined(_WIN32)
 int boinc_allocate_file(const char* path, double size) {
     int retval = 0;
-    HANDLE h = CreateFile(
+    HANDLE h = CreateFileA(
         path,
         GENERIC_WRITE,
         0,
@@ -797,36 +816,24 @@ int boinc_allocate_file(const char* path, double size) {
 #ifdef _WIN32
 int get_filesystem_info(double &total_space, double &free_space, char*) {
     char cwd[MAXPATHLEN];
+    ULARGE_INTEGER TotalNumberOfFreeBytes;
+    ULARGE_INTEGER TotalNumberOfBytes;
+    ULARGE_INTEGER FreeBytesAvailable;
+    signed __int64 uMB;
+
     boinc_getcwd(cwd);
-    FreeFn pGetDiskFreeSpaceEx;
-    pGetDiskFreeSpaceEx = (FreeFn)GetProcAddress(
-        GetModuleHandleA("kernel32.dll"), "GetDiskFreeSpaceExA"
+    GetDiskFreeSpaceExA(
+        cwd,
+        &FreeBytesAvailable,
+        &TotalNumberOfBytes,
+        &TotalNumberOfFreeBytes
     );
-    if (pGetDiskFreeSpaceEx) {
-        ULARGE_INTEGER TotalNumberOfFreeBytes;
-        ULARGE_INTEGER TotalNumberOfBytes;
-        ULARGE_INTEGER FreeBytesAvailable;
-        pGetDiskFreeSpaceEx(
-            cwd, &FreeBytesAvailable, &TotalNumberOfBytes,
-            &TotalNumberOfFreeBytes
-        );
-        signed __int64 uMB;
-        uMB = FreeBytesAvailable.QuadPart / (1024 * 1024);
-        free_space = uMB * 1024.0 * 1024.0;
-        uMB = TotalNumberOfBytes.QuadPart / (1024 * 1024);
-        total_space = uMB * 1024.0 * 1024.0;
-    } else {
-        DWORD dwSectPerClust;
-        DWORD dwBytesPerSect;
-        DWORD dwFreeClusters;
-        DWORD dwTotalClusters;
-        GetDiskFreeSpaceA(
-            cwd, &dwSectPerClust, &dwBytesPerSect, &dwFreeClusters,
-            &dwTotalClusters
-        );
-        free_space = (double)dwFreeClusters * dwSectPerClust * dwBytesPerSect;
-        total_space = (double)dwTotalClusters * dwSectPerClust * dwBytesPerSect;
-    }
+
+    uMB = FreeBytesAvailable.QuadPart / (1024 * 1024);
+    free_space = uMB * 1024.0 * 1024.0;
+    uMB = TotalNumberOfBytes.QuadPart / (1024 * 1024);
+    total_space = uMB * 1024.0 * 1024.0;
+
 #else
 int get_filesystem_info(double &total_space, double &free_space, char* path) {
 #ifdef STATFS

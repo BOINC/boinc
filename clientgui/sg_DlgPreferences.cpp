@@ -36,162 +36,11 @@
 #include "sg_CustomControls.h"
 #include "sg_DlgPreferences.h"
 
+#include "res/warning.xpm"
+
+#define TEST_BACKGROUND_WITH_MAGENTA_FILL 0
+
 using std::string;
-
-#ifdef __WXMAC__
-#define TINY_FONT 12
-#define SMALL_FONT 12
-#define MEDIUM_FONT 14
-#define LARGE_FONT 16
-#else
-#define TINY_FONT 8
-#define SMALL_FONT 9
-#define MEDIUM_FONT 12
-#define LARGE_FONT 16
-#endif
-
-
-////@begin includes
-////@end includes
-
-////@begin XPM images
-////@end XPM images
-
-// Useful arrays used as templates for arrays created at runtime.
-//
-int iTimeOfDayArraySize = 25;
-wxString astrTimeOfDayStrings[] = {
-    wxT("0:00"),
-    wxT("1:00"),
-    wxT("2:00"),
-    wxT("3:00"),
-    wxT("4:00"),
-    wxT("5:00"),
-    wxT("6:00"),
-    wxT("7:00"),
-    wxT("8:00"),
-    wxT("9:00"),
-    wxT("10:00"),
-    wxT("11:00"),
-    wxT("12:00"),
-    wxT("13:00"),
-    wxT("14:00"),
-    wxT("15:00"),
-    wxT("16:00"),
-    wxT("17:00"),
-    wxT("18:00"),
-    wxT("19:00"),
-    wxT("20:00"),
-    wxT("21:00"),
-    wxT("22:00"),
-    wxT("23:00"),
-    wxT("24:00")
-};
-
-
-int iDiskUsageArraySize = 10;
-wxString astrDiskUsageStrings[] = {
-    _("100 MB"),
-    _("200 MB"),
-    _("500 MB"),
-    _("1 GB"),
-    _("2 GB"),
-    _("5 GB"),
-    _("10 GB"),
-    _("20 GB"),
-    _("50 GB"),
-    _("100 GB")
-};
-
-// Used for sorting disk usage values
-static int CompareDiskUsage(const wxString& strFirst, const wxString& strSecond) {
-    long lFirstValue;
-    long lSecondValue;
-
-    // Is first measured in GB and second measured in MB?
-    if ((strFirst.Find(wxT("GB")) != -1) && (strSecond.Find(wxT("MB")) != -1)) return 1;
-
-    // Is first measured in MB and second measured in GB?
-    if ((strFirst.Find(wxT("MB")) != -1) && (strSecond.Find(wxT("GB")) != -1)) return -1;
-
-    // Convert to numbers
-    strFirst.ToLong(&lFirstValue);
-    strSecond.ToLong(&lSecondValue);
-
-    // Is lFirstValue larger than lSecondValue?
-    if (lFirstValue > lSecondValue) return 1;
-
-    // Is lFirstValue less than lSecondValue?
-    if (lFirstValue < lSecondValue) return -1;
-
-    // they must be equal
-    return 0;
-}
-
-
-int iCPUUsageArraySize = 10;
-wxString astrCPUUsageStrings[] = {
-    _("10%"),
-    _("20%"),
-    _("30%"),
-    _("40%"),
-    _("50%"),
-    _("60%"),
-    _("70%"),
-    _("80%"),
-    _("90%"),
-    _("100%")
-};
-
-// Used for sorting cpu usage values
-static int CompareCPUUsage(const wxString& strFirst, const wxString& strSecond) {
-    long lFirstValue;
-    long lSecondValue;
-
-    // Convert to numbers
-    strFirst.ToLong(&lFirstValue);
-    strSecond.ToLong(&lSecondValue);
-
-    // Is lFirstValue larger than lSecondValue?
-    if (lFirstValue > lSecondValue) return 1;
-
-    // Is lFirstValue less than lSecondValue?
-    if (lFirstValue < lSecondValue) return -1;
-
-    // they must be equal
-    return 0;
-}
-
-
-int iWorkWhenIdleArraySize = 7;
-wxString astrWorkWhenIdleStrings[] = {
-    _("1"),
-    _("3"),
-    _("5"),
-    _("10"),
-    _("15"),
-    _("30"),
-    _("60")
-};
-
-// Used for sorting work when idle values
-static int CompareWorkWhenIdle(const wxString& strFirst, const wxString& strSecond) {
-    long lFirstValue;
-    long lSecondValue;
-
-    // Convert to numbers
-    strFirst.ToLong(&lFirstValue);
-    strSecond.ToLong(&lSecondValue);
-
-    // Is lFirstValue larger than lSecondValue?
-    if (lFirstValue > lSecondValue) return 1;
-
-    // Is lFirstValue less than lSecondValue?
-    if (lFirstValue < lSecondValue) return -1;
-
-    // they must be equal
-    return 0;
-}
 
 
 /*!
@@ -206,9 +55,11 @@ IMPLEMENT_DYNAMIC_CLASS( CPanelPreferences, wxPanel )
 
 BEGIN_EVENT_TABLE( CPanelPreferences, wxPanel )
 ////@begin CPanelPreferences event table entries
+    EVT_COMMAND_RANGE(ID_SG_PREFS_START,ID_SG_PREFS_LAST,
+                        wxEVT_COMMAND_CHECKBOX_CLICKED,
+                        CPanelPreferences::OnHandleCheckboxEvent
+                    )
     EVT_ERASE_BACKGROUND( CPanelPreferences::OnEraseBackground )
-    EVT_COMBOBOX( ID_WORKBETWEENBEGIN, CPanelPreferences::OnWorkBetweenBeginSelected )
-    EVT_COMBOBOX( ID_CONNECTBETWEENBEGIN, CPanelPreferences::OnConnectBetweenBeginSelected )
     EVT_BUTTON( ID_SIMPLE_HELP, CPanelPreferences::OnButtonHelp )
 ////@end CPanelPreferences event table entries
 END_EVENT_TABLE()
@@ -229,24 +80,26 @@ CPanelPreferences::CPanelPreferences( wxWindow* parent ) :
 }
 
 
+CPanelPreferences::~CPanelPreferences( )
+{
+    if (m_backgroundBitmap) {
+        delete m_backgroundBitmap;
+        m_backgroundBitmap = NULL;
+    }
+}
+
+
 /*!
  * CPanelPreferences creator
  */
 
 bool CPanelPreferences::Create()
 {
-////@begin CPanelPreferences member initialisation
-    m_WorkBetweenBeginCtrl = NULL;
-    m_WorkBetweenEndCtrl = NULL;
-    m_ConnectBetweenBeginCtrl = NULL;
-    m_ConnectBetweenEndCtrl = NULL;
-    m_MaxDiskUsageCtrl = NULL;
-    m_MaxCPUUsageCtrl = NULL;
-    m_WorkWhileOnBatteryCtrl = NULL;
-    m_WorkWhenIdleCtrl = NULL;
-////@end CPanelPreferences member initialisation
+    m_backgroundBitmap = NULL;
 
     CreateControls();
+
+    defaultPrefs.enabled_defaults();
 
     ReadPreferenceSettings();
 
@@ -271,186 +124,236 @@ void CPanelPreferences::CreateControls()
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
+    wxSize textCtrlSize = getTextCtrlSize(wxT("999.99"));
+    wxSize timeCtrlSize = getTextCtrlSize(wxT("23:59 "));
+
     CPanelPreferences* itemDialog1 = this;
 
     wxBoxSizer* itemBoxSizer2 = new wxBoxSizer(wxVERTICAL);
     itemDialog1->SetSizer(itemBoxSizer2);
 
-    wxFlexGridSizer* itemFlexGridSizer3 = new wxFlexGridSizer(1, 1, 0, 0);
-    itemBoxSizer2->Add(itemFlexGridSizer3, 0, wxGROW|wxALL, 5);
+    bool usingLocalPrefs = doesLocalPrefsFileExist();
+    if (! web_prefs_url->IsEmpty()) {
+        wxStaticBox* topSectionStaticBox = new wxStaticBox();
+        topSectionStaticBox->SetBackgroundStyle(wxBG_STYLE_TRANSPARENT);
+        topSectionStaticBox->Create(this, -1, wxEmptyString);
 
-    CTransparentStaticText* itemStaticText4 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("This dialog controls preferences for this computer only."), wxDefaultPosition, wxDefaultSize, 0 );
-    
-//    itemStaticText4->SetFont(wxFont(MEDIUM_FONT, wxSWISS, wxNORMAL, wxBOLD, false, _T("Arial")));
-    itemFlexGridSizer3->Add(itemStaticText4, 0, wxALL, 0);
+        wxStaticBoxSizer* topSectionSizer = new wxStaticBoxSizer( topSectionStaticBox, wxVERTICAL );
 
-    CTransparentStaticText* itemStaticText5 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Click OK to set preferences."), wxDefaultPosition, wxDefaultSize, 0 );
-    
-//    itemStaticText5->SetFont(wxFont(MEDIUM_FONT, wxSWISS, wxNORMAL, wxBOLD, false, _T("Arial")));
-    itemFlexGridSizer3->Add(itemStaticText5, 0, wxALL, 0);
+        wxBoxSizer* topControlsSizer = new wxBoxSizer( wxHORIZONTAL );
+        topSectionSizer->Add(topControlsSizer);
+        
+        wxBitmap warningBmp = GetScaledBitmapFromXPMData(warning_xpm);
+        CTransparentStaticBitmap* bmpWarning = new CTransparentStaticBitmap(
+                                    topSectionStaticBox, wxID_ANY, 
+                                    warningBmp, 
+                                    wxDefaultPosition, wxDefaultSize, 0
+                                    );
+        bmpWarning->SetMinSize( warningBmp.GetSize() );
 
-    CTransparentStaticText* itemStaticText6 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Click Clear to restore web-based settings."), wxDefaultPosition, wxDefaultSize, 0 );
-    
-//    itemStaticText6->SetFont(wxFont(MEDIUM_FONT, wxSWISS, wxNORMAL, wxBOLD, false, _T("Arial")));
-    itemFlexGridSizer3->Add(itemStaticText6, 0, wxALL, 0);
+        topControlsSizer->Add( bmpWarning, 0, wxALIGN_CENTER_VERTICAL|wxALL, 0 );
 
-    itemFlexGridSizer3->AddSpacer(10);
-    
-    CTransparentStaticText* itemStaticText7 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("For additional settings, select Computing Preferences in "), wxDefaultPosition, wxDefaultSize, 0 );
-    
-//    itemStaticText7->SetFont(wxFont(MEDIUM_FONT, wxSWISS, wxNORMAL, wxBOLD, false, _T("Arial")));
-    itemFlexGridSizer3->Add(itemStaticText7, 0, wxALL, 0);
+        wxBoxSizer* legendSizer = new wxBoxSizer( wxVERTICAL );
 
-    CTransparentStaticText* itemStaticText8 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("the Advanced View."), wxDefaultPosition, wxDefaultSize, 0 );
-    
-//    itemStaticText8->SetFont(wxFont(MEDIUM_FONT, wxSWISS, wxNORMAL, wxBOLD, false, _T("Arial")));
-    itemFlexGridSizer3->Add(itemStaticText8, 0, wxALL, 0);
+        if (usingLocalPrefs) {
+            legendSizer->Add(
+                new CTransparentStaticText( topSectionStaticBox, wxID_ANY,
+                            _("Using local preferences.\n"
+                            "Click \"Use web prefs\" to use web-based preferences from"
+                            ), wxDefaultPosition, wxDefaultSize, 0 ),
+                0, wxALL, 1
+            );
+        } else {
+            legendSizer->Add(
+                new CTransparentStaticText( topSectionStaticBox, wxID_ANY,
+                            _("Using web-based preferences from"),
+                            wxDefaultPosition, wxDefaultSize, 0 ),
+                0, wxALL, 1
+            );
+        }
+        
+         legendSizer->Add(
+            new CTransparentHyperlinkCtrl(
+                topSectionStaticBox, wxID_ANY, *web_prefs_url, *web_prefs_url,
+                wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE,
+                wxHyperlinkCtrlNameStr, &m_backgroundBitmap
+            ),
+            0, wxLEFT, 5
+        );
+        
+        if (!usingLocalPrefs) {
+            legendSizer->Add(
+                new CTransparentStaticText( topSectionStaticBox, wxID_ANY,
+                     _("Set values and click OK to use local preferences instead."),
+                     wxDefaultPosition, wxDefaultSize, 0 ),
+                0, wxALL, 1
+            );
+        }
+      
+#if 1
+        topSectionSizer->AddSpacer( 10 );
 
-    CTransparentStaticLine* itemStaticLine8 = new CTransparentStaticLine( itemDialog1, wxID_ANY, wxDefaultPosition, wxSize(300, 1), wxLI_HORIZONTAL|wxNO_BORDER );
-    itemStaticLine8->SetLineColor(pSkinSimple->GetStaticLineColor());
-    itemBoxSizer2->Add(itemStaticLine8, 0, wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT, 20);
+        CTransparentStaticLine* itemStaticLine8 = new CTransparentStaticLine( topSectionStaticBox, wxID_ANY, 
+                                                                            wxDefaultPosition, 
+                                                                            wxSize(ADJUSTFORXDPI(300), 1),
+                                                                             wxLI_HORIZONTAL|wxNO_BORDER
+                                                                             );
+        itemStaticLine8->SetLineColor(pSkinSimple->GetStaticLineColor());
+        topSectionSizer->Add(itemStaticLine8, 0, wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT, ADJUSTFORXDPI(20));
 
-    wxFlexGridSizer* itemFlexGridSizer9 = new wxFlexGridSizer(1, 1, 0, 0);
-    itemFlexGridSizer9->AddGrowableCol(0);
-    itemBoxSizer2->Add(itemFlexGridSizer9, 0, wxGROW|wxALL, 5);
+        topSectionSizer->AddSpacer( 10 );
+
+        CTransparentStaticText* itemStaticText7 = new CTransparentStaticText( topSectionStaticBox, wxID_ANY, _("For additional settings, select Computing Preferences in the Advanced View."), wxDefaultPosition, wxDefaultSize, 0 );
+        
+        topSectionSizer->Add(itemStaticText7, 0, wxALL, 0);
+
+        topSectionSizer->AddSpacer( 10 );
+#endif
+
+        topControlsSizer->Add( legendSizer, 1, wxALL, 1 );
+
+        m_btnClear = new wxButton( topSectionStaticBox, ID_SGPREFERENCESCLEAR, _("Use web prefs"), wxDefaultPosition, wxDefaultSize, 0 );
+        m_btnClear->SetToolTip( _("Restore web-based preferences and close the dialog.") );
+        if (!usingLocalPrefs) {
+            m_btnClear->Hide();
+        }
+        
+        topControlsSizer->Add( m_btnClear, 0, wxALIGN_BOTTOM|wxALL, 4 );
+
+#ifdef __WXMAC__
+        itemBoxSizer2->Add( topSectionSizer, 0, wxTOP|wxLEFT|wxRIGHT|wxEXPAND, 10 );
+#else
+        itemBoxSizer2->Add( topSectionSizer, 0, wxALL|wxEXPAND, 5 );
+#endif
+    }
 
     wxBoxSizer* itemBoxSizer11 = new wxBoxSizer(wxVERTICAL);
-    itemBoxSizer2->Add(itemBoxSizer11, 0, wxALIGN_CENTER_HORIZONTAL|wxLEFT, 20);
+    itemBoxSizer2->Add(itemBoxSizer11, 0, wxLEFT, ADJUSTFORXDPI(20));
 
-    wxFlexGridSizer* itemFlexGridSizer15 = new wxFlexGridSizer(7, 2, 0, 0);
-    itemFlexGridSizer15->AddGrowableRow(0);
-    itemFlexGridSizer15->AddGrowableRow(1);
-    itemFlexGridSizer15->AddGrowableRow(2);
-    itemFlexGridSizer15->AddGrowableRow(3);
-    itemFlexGridSizer15->AddGrowableRow(4);
-    itemFlexGridSizer15->AddGrowableRow(5);
-    itemFlexGridSizer15->AddGrowableRow(6);
-    itemFlexGridSizer15->AddGrowableCol(0);
-    itemFlexGridSizer15->AddGrowableCol(1);
-    itemBoxSizer11->Add(itemFlexGridSizer15, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
+    wxString ProcOnBatteriesTT(_("Check this to suspend computing on portables when running on battery power."));
 
-    CTransparentStaticText* itemStaticText16 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Do work only between:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    itemStaticText16->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
-    itemStaticText16->Wrap(250);
-    itemFlexGridSizer15->Add(itemStaticText16, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    m_chkProcOnBatteries = new CTransparentCheckBox(
+        itemDialog1, ID_CHKPROCONBATTERIES,
+        _("Suspend when computer is on battery"), 
+        wxDefaultPosition, wxDefaultSize, 0,
+        wxDefaultValidator,  wxCheckBoxNameStr, 
+        &m_backgroundBitmap
+    );
 
-    wxBoxSizer* itemBoxSizer17 = new wxBoxSizer(wxHORIZONTAL);
-    itemFlexGridSizer15->Add(itemBoxSizer17, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 0);
+    m_chkProcOnBatteries->SetToolTip(ProcOnBatteriesTT);
+    
+    itemBoxSizer11->Add(m_chkProcOnBatteries, 0, wxALL, 5 );
 
-    wxString* m_WorkBetweenBeginCtrlStrings = NULL;
-    m_WorkBetweenBeginCtrl = new wxComboBox( itemDialog1, ID_WORKBETWEENBEGIN, _T(""), wxDefaultPosition, wxDefaultSize, 0, m_WorkBetweenBeginCtrlStrings, wxCB_READONLY );
-    m_WorkBetweenBeginCtrl->Enable(false);
-    itemBoxSizer17->Add(m_WorkBetweenBeginCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
+    wxString ProcInUseTT(_("Check this to suspend computing and file transfers when you're using the computer."));
 
-    CTransparentStaticText* itemStaticText19 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("and"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText19->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
-    itemBoxSizer17->Add(itemStaticText19, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    m_chkProcInUse = new CTransparentCheckBox(
+        itemDialog1, ID_CHKPROCINUSE,
+        _("Suspend when computer is in use"), 
+        wxDefaultPosition, wxDefaultSize, 0,
+        wxDefaultValidator,  wxCheckBoxNameStr, 
+        &m_backgroundBitmap
+    );
 
-    wxString* m_WorkBetweenEndCtrlStrings = NULL;
-    m_WorkBetweenEndCtrl = new wxComboBox( itemDialog1, ID_WORKBETWEENEND, _T(""), wxDefaultPosition, wxDefaultSize, 0, m_WorkBetweenEndCtrlStrings, wxCB_READONLY );
-    m_WorkBetweenEndCtrl->Enable(false);
-    itemBoxSizer17->Add(m_WorkBetweenEndCtrl, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM, 5);
+    m_chkProcInUse->SetToolTip(ProcInUseTT);
 
-    CTransparentStaticText* itemStaticText21 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Connect to internet only between:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    itemStaticText21->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
-    itemStaticText21->Wrap(250);
-    itemFlexGridSizer15->Add(itemStaticText21, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    itemBoxSizer11->Add(m_chkProcInUse, 0, wxALL, 5 );
 
-    wxBoxSizer* itemBoxSizer22 = new wxBoxSizer(wxHORIZONTAL);
-    itemFlexGridSizer15->Add(itemBoxSizer22, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 0);
+    // min idle time
+    wxString ProcIdleForTT(_("This determines when the computer is considered 'in use'."));
 
-    wxString* m_ConnectBetweenBeginCtrlStrings = NULL;
-    m_ConnectBetweenBeginCtrl = new wxComboBox( itemDialog1, ID_CONNECTBETWEENBEGIN, _T(""), wxDefaultPosition, wxDefaultSize, 0, m_ConnectBetweenBeginCtrlStrings, wxCB_READONLY );
-    m_ConnectBetweenBeginCtrl->Enable(false);
-    itemBoxSizer22->Add(m_ConnectBetweenBeginCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
+    CTransparentStaticText* staticText24 = new CTransparentStaticText(
+            itemDialog1, wxID_ANY,
+            _("'In use' means mouse/keyboard input in last"),
+            wxDefaultPosition, wxDefaultSize, 0
+        );
 
-    CTransparentStaticText* itemStaticText24 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("and"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText24->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
-    itemBoxSizer22->Add(itemStaticText24, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    m_txtProcIdleFor = new wxTextCtrl(
+        itemDialog1, ID_TXTPROCIDLEFOR, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT
+    );
 
-    wxString* m_ConnectBetweenEndCtrlStrings = NULL;
-    m_ConnectBetweenEndCtrl = new wxComboBox( itemDialog1, ID_CONNECTBETWEENEND, _T(""), wxDefaultPosition, wxDefaultSize, 0, m_ConnectBetweenEndCtrlStrings, wxCB_READONLY );
-    m_ConnectBetweenEndCtrl->Enable(false);
-    itemBoxSizer22->Add(m_ConnectBetweenEndCtrl, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM, 5);
+    CTransparentStaticText* staticText25 = new CTransparentStaticText(itemDialog1, wxID_ANY, _("minutes"),
+            wxDefaultPosition, wxDefaultSize, 0 );
 
-    CTransparentStaticText* itemStaticText26 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Use no more than:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    itemStaticText26->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
-    itemStaticText26->Wrap(250);
-    itemFlexGridSizer15->Add(itemStaticText26, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    addNewRowToSizer(itemBoxSizer11, ProcIdleForTT, staticText24, m_txtProcIdleFor, staticText25);
 
-    wxBoxSizer* itemBoxSizer27 = new wxBoxSizer(wxHORIZONTAL);
-    itemFlexGridSizer15->Add(itemBoxSizer27, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-    wxString* m_MaxDiskUsageCtrlStrings = NULL;
-    m_MaxDiskUsageCtrl = new wxComboBox( itemDialog1, ID_MAXDISKUSAGE, _T(""), wxDefaultPosition, wxSize(-1, -1), 0, m_MaxDiskUsageCtrlStrings, wxCB_READONLY );
-    m_MaxDiskUsageCtrl->Enable(false);
-    itemBoxSizer27->Add(m_MaxDiskUsageCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
 
-    CTransparentStaticText* itemStaticText29 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("of disk space"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText29->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
-    itemBoxSizer27->Add(itemStaticText29, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    /*xgettext:no-c-format*/
+    wxString MaxCPUTimeTT(_("Suspend/resume computing every few seconds to reduce CPU temperature and energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, and repeat."));
+    CTransparentStaticText* staticText22 = new CTransparentStaticText(
+        itemDialog1, wxID_ANY, _("Use at most"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    CTransparentStaticText* itemStaticText30 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Use no more than:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    itemStaticText30->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
-    itemStaticText30->Wrap(250);
-    itemFlexGridSizer15->Add(itemStaticText30, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    m_txtProcUseCPUTime = new wxTextCtrl( itemDialog1, ID_TXTPOCUSECPUTIME, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
 
-    wxBoxSizer* itemBoxSizer31 = new wxBoxSizer(wxHORIZONTAL);
-    itemFlexGridSizer15->Add(itemBoxSizer31, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 0);
+    /*xgettext:no-c-format*/
+    CTransparentStaticText* staticText23 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("% of CPU time"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    wxString* m_MaxCPUUsageCtrlStrings = NULL;
-    m_MaxCPUUsageCtrl = new wxComboBox( itemDialog1, ID_MAXCPUUSAGE, _T(""), wxDefaultPosition, wxDefaultSize, 0, m_MaxCPUUsageCtrlStrings, wxCB_READONLY );
-    m_MaxCPUUsageCtrl->Enable(false);
-    itemBoxSizer31->Add(m_MaxCPUUsageCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
+    addNewRowToSizer(itemBoxSizer11, MaxCPUTimeTT, staticText22, m_txtProcUseCPUTime, staticText23);
 
-    CTransparentStaticText* itemStaticText33 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("of the processor"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText33->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
-    itemBoxSizer31->Add(itemStaticText33, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    wxString andString(_("and"));
+    wxString ProcEveryDayTT(_("Compute only during a particular period each day."));
+    m_chkProcEveryDay = new CTransparentCheckBox(
+        itemDialog1, ID_CHKPROCEVERYDAY,
+        _("Compute only between"), 
+        wxDefaultPosition, wxDefaultSize, 0,
+        wxDefaultValidator,  wxCheckBoxNameStr, 
+        &m_backgroundBitmap
+    );
+    m_txtProcEveryDayStart = new wxTextCtrl(
+        itemDialog1, ID_TXTPROCEVERYDAYSTART, wxEmptyString, wxDefaultPosition, timeCtrlSize, wxTE_RIGHT
+    );
+    CTransparentStaticText* staticText26 = new CTransparentStaticText(
+        itemDialog1, wxID_ANY, andString, wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE
+    );
+    m_txtProcEveryDayStop = new wxTextCtrl(
+        itemDialog1, ID_TXTPROCEVERYDAYSTOP, wxEmptyString, wxDefaultPosition, timeCtrlSize, wxTE_RIGHT
+    );
+    addNewRowToSizer(
+        itemBoxSizer11, ProcEveryDayTT, m_chkProcEveryDay, m_txtProcEveryDayStart, staticText26, m_txtProcEveryDayStop
+    );
 
-    CTransparentStaticText* itemStaticText37 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Do work while on battery?"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    itemStaticText37->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
-    itemStaticText37->Wrap(250);
-    itemFlexGridSizer15->Add(itemStaticText37, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    wxString NetEveryDayTT(_("Transfer files only during a particular period each day."));
+    m_chkNetEveryDay = new CTransparentCheckBox(
+        itemDialog1, ID_CHKNETEVERYDAY, _("Transfer files only between"), 
+        wxDefaultPosition, wxDefaultSize, 0,
+        wxDefaultValidator,  wxCheckBoxNameStr, 
+        &m_backgroundBitmap
+    );
 
-    wxBoxSizer* itemBoxSizer38 = new wxBoxSizer(wxHORIZONTAL);
-    itemFlexGridSizer15->Add(itemBoxSizer38, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 0);
+    m_txtNetEveryDayStart = new wxTextCtrl( itemDialog1, ID_TXTNETEVERYDAYSTART, wxEmptyString, wxDefaultPosition, timeCtrlSize, 0 );
 
-    m_WorkWhileOnBatteryCtrl = new wxCheckBox( itemDialog1, ID_WORKWHILEONBATTERY, _T(""), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
-    m_WorkWhileOnBatteryCtrl->SetValue(false);
-    m_WorkWhileOnBatteryCtrl->Enable(false);
-    itemBoxSizer38->Add(m_WorkWhileOnBatteryCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
+    CTransparentStaticText* staticText37 = new CTransparentStaticText( itemDialog1, wxID_ANY, andString, wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
 
-    CTransparentStaticText* itemStaticText40 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Do work after idle for:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    itemStaticText40->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
-    itemStaticText40->Wrap(250);
-    itemFlexGridSizer15->Add(itemStaticText40, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    m_txtNetEveryDayStop = new wxTextCtrl( itemDialog1, ID_TXTNETEVERYDAYSTOP, wxEmptyString, wxDefaultPosition, timeCtrlSize, 0 );
 
-    wxBoxSizer* itemBoxSizer41 = new wxBoxSizer(wxHORIZONTAL);
-    itemFlexGridSizer15->Add(itemBoxSizer41, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 0);
+    addNewRowToSizer(itemBoxSizer11, NetEveryDayTT, m_chkNetEveryDay, m_txtNetEveryDayStart, staticText37, m_txtNetEveryDayStop);
 
-    wxString* m_WorkWhenIdleCtrlStrings = NULL;
-    m_WorkWhenIdleCtrl = new wxComboBox( itemDialog1, ID_WORKWHENIDLE, _T(""), wxDefaultPosition, wxSize(-1, -1), 0, m_WorkWhenIdleCtrlStrings, wxCB_READONLY );
-    m_WorkWhenIdleCtrl->Enable(false);
-    itemBoxSizer41->Add(m_WorkWhenIdleCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
 
-    CTransparentStaticText* itemStaticText43 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("minutes"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemStaticText43->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
-    itemBoxSizer41->Add(itemStaticText43, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    wxString DiskMaxSpaceTT = wxEmptyString;
+    DiskMaxSpaceTT.Printf(_("Limit the total amount of disk space used by %s."), pSkinAdvanced->GetApplicationShortName().c_str());
+
+    m_chkDiskMaxSpace = new CTransparentCheckBox (
+        itemDialog1, ID_CHKDISKMAXSPACE, _("Use no more than"), 
+        wxDefaultPosition, wxDefaultSize, 0,
+        wxDefaultValidator,  wxCheckBoxNameStr, 
+        &m_backgroundBitmap
+    );
+
+    m_txtDiskMaxSpace = new wxTextCtrl( itemDialog1, ID_TXTDISKMAXSPACE,wxEmptyString, wxDefaultPosition, getTextCtrlSize(wxT("9999.99")), wxTE_RIGHT );
+
+    CTransparentStaticText* staticText41 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("GB of disk space"), wxDefaultPosition, wxDefaultSize, 0 );
+
+    addNewRowToSizer(itemBoxSizer11, DiskMaxSpaceTT, m_chkDiskMaxSpace, m_txtDiskMaxSpace, staticText41);
 
     wxBoxSizer* itemBoxSizer44 = new wxBoxSizer(wxHORIZONTAL);
-    itemBoxSizer2->Add(itemBoxSizer44, 0, wxALIGN_RIGHT|wxALL, 5);
+    itemBoxSizer2->Add(itemBoxSizer44, 0, wxALIGN_RIGHT|wxALL, ADJUSTFORXDPI(5));
 
     wxButton* itemButton44 = new wxButton( itemDialog1, wxID_OK, _("OK"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    itemBoxSizer44->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemBoxSizer44->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, ADJUSTFORXDPI(5));
 
-    m_btnClear = new wxButton( this, ID_SGPREFERENCESCLEAR, _("Clear"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_btnClear->SetToolTip( _("clear all local preferences and close the dialog") );
-
-    itemBoxSizer44->Add(m_btnClear, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-    
     wxButton* itemButton45 = new wxButton( itemDialog1, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer44->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemBoxSizer44->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, ADJUSTFORXDPI(5));
     
 
 #ifndef __WXMSW__
@@ -464,37 +367,21 @@ void CPanelPreferences::CreateControls()
 #else
     wxContextHelpButton* itemButton46 = new wxContextHelpButton(this);
 #endif
-    itemBoxSizer44->Add(itemButton46, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemBoxSizer44->Add(itemButton46, 0, wxALIGN_CENTER_VERTICAL|wxALL, ADJUSTFORXDPI(5));
 #endif
 
     // Set validators
-    m_WorkBetweenBeginCtrl->SetValidator( wxGenericValidator(& m_strWorkBetweenBegin) );
-    m_WorkBetweenEndCtrl->SetValidator( wxGenericValidator(& m_strWorkBetweenEnd) );
-    m_ConnectBetweenBeginCtrl->SetValidator( wxGenericValidator(& m_strConnectBetweenBegin) );
-    m_ConnectBetweenEndCtrl->SetValidator( wxGenericValidator(& m_strConnectBetweenEnd) );
-    m_MaxDiskUsageCtrl->SetValidator( wxGenericValidator(& m_strMaxDiskUsage) );
-    m_MaxCPUUsageCtrl->SetValidator( wxGenericValidator(& m_strMaxCPUUsage) );
-    m_WorkWhileOnBatteryCtrl->SetValidator( wxGenericValidator(& m_bWorkWhileOnBattery) );
-    m_WorkWhenIdleCtrl->SetValidator( wxGenericValidator(& m_strWorkWhenIdle) );
+    m_vTimeValidator = new wxTextValidator(wxFILTER_INCLUDE_CHAR_LIST);
+    m_vTimeValidator->SetCharIncludes(wxT("0123456789:"));
+
+    m_txtProcIdleFor->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txtProcEveryDayStart->SetValidator(*m_vTimeValidator);
+    m_txtProcEveryDayStop->SetValidator(*m_vTimeValidator);
+    m_txtProcUseCPUTime->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txtNetEveryDayStart->SetValidator(*m_vTimeValidator);
+    m_txtNetEveryDayStop->SetValidator(*m_vTimeValidator);
+    m_txtDiskMaxSpace->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
 ////@end CPanelPreferences content construction
-}
-
-
-/*!
- * wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_WORKBETWEENBEGIN
- */
-
-void CPanelPreferences::OnWorkBetweenBeginSelected( wxCommandEvent& /*event*/ ) {
-    UpdateControlStates();
-}
-
-
-/*!
- * wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_CONNECTBETWEENBEGIN
- */
-
-void CPanelPreferences::OnConnectBetweenBeginSelected( wxCommandEvent& /*event*/ ) {
-    UpdateControlStates();
 }
 
 
@@ -522,11 +409,7 @@ void CPanelPreferences::OnButtonHelp( wxCommandEvent& event ) {
 }
 
 
-/*!
- * wxEVT_ERASE_BACKGROUND event handler for ID_DLGPREFERENCES
- */
-
-void CPanelPreferences::OnEraseBackground( wxEraseEvent& event ) {
+void CPanelPreferences::MakeBackgroundBitmap() {
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
     
     wxASSERT(pSkinSimple);
@@ -541,18 +424,12 @@ void CPanelPreferences::OnEraseBackground( wxEraseEvent& event ) {
     // Dialog dimensions
     wxSize sz = GetClientSize();
 
-    // Create a buffered device context to reduce flicker
-    wxBufferedDC dc(event.GetDC(), sz, wxBUFFER_CLIENT_AREA);
+    m_backgroundBitmap = new wxBitmap(sz);
+    wxMemoryDC dc(*m_backgroundBitmap);
 
     // bitmap dimensions
     w = bmp.GetWidth();
     h = bmp.GetHeight();
-
-    // Fill the dialog with a magenta color so people can detect when something
-    //   is wrong
-    dc.SetBrush(wxBrush(wxColour(255,0,255)));
-    dc.SetPen(wxPen(wxColour(255,0,255)));
-    dc.DrawRectangle(0, 0, sz.GetWidth(), sz.GetHeight());
 
     // Is the bitmap smaller than the window?
     if ( (w < sz.x) || (h < sz.y) ) {
@@ -560,23 +437,78 @@ void CPanelPreferences::OnEraseBackground( wxEraseEvent& event ) {
         wxImage img = bmp.ConvertToImage();
         img.Rescale((int) sz.x, (int) sz.y);
 
-        // Draw our cool background (centered)
+        // Draw our cool background (enlarged and centered)
         dc.DrawBitmap(wxBitmap(img), 0, 0);
     } else {
-        // Snag the center of the bitmap and use it
-        //   for the background image
-        x = wxMax(0, (w - sz.x)/2);
-        y = wxMax(0, (h - sz.y)/2);
+        switch(pSkinSimple->GetDialogBackgroundImage()->GetHorizontalAnchor()) {
+        case BKGD_ANCHOR_HORIZ_LEFT:
+        default:
+            x = 0;
+            break;
+        case BKGD_ANCHOR_HORIZ_CENTER:
+            x = (w - sz.x) / 2;
+            break;
+        case BKGD_ANCHOR_HORIZ_RIGHT:
+            x = w - sz.x;
+            break;
+        }
+
+        switch(pSkinSimple->GetDialogBackgroundImage()->GetVerticalAnchor()) {
+        case BKGD_ANCHOR_VERT_TOP:
+        default:
+            y = 0;
+            break;
+        case BKGD_ANCHOR_VERT_CENTER:
+            y = (h - sz.y) /2;
+            break;
+        case BKGD_ANCHOR_VERT_BOTTOM:
+            y = h - sz.y;
+            break;
+        }
 
         // Select the desired bitmap into the memory DC so we can take
-        //   the center chunk of it.
+        //   the desired chunk of it.
         memDC.SelectObject(bmp);
 
-        // Draw the center chunk on the window
-        dc.Blit(0, 0, w, h, &memDC, x, y, wxCOPY);
+        // Draw the desired chunk on the window
+        dc.Blit(0, 0, sz.x, sz.y, &memDC, x, y, wxCOPY);
 
         // Drop the bitmap
         memDC.SelectObject(wxNullBitmap);
+    }
+}
+
+
+/*!
+ * wxEVT_ERASE_BACKGROUND event handler for ID_DLGPREFERENCES
+ */
+
+void CPanelPreferences::OnEraseBackground( wxEraseEvent& event ) {
+    if (!m_backgroundBitmap) {
+        MakeBackgroundBitmap();
+    }
+    // Create a buffered device context to reduce flicker
+    wxSize sz = GetClientSize();
+    wxBufferedDC dc(event.GetDC(), sz, wxBUFFER_CLIENT_AREA);
+
+#if TEST_BACKGROUND_WITH_MAGENTA_FILL
+    // Fill the dialog with a magenta color so people can detect when something
+    //   is wrong
+    dc.SetBrush(wxBrush(wxColour(255,0,255)));
+    dc.SetPen(wxPen(wxColour(255,0,255)));
+    dc.DrawRectangle(0, 0, sz.GetWidth(), sz.GetHeight());
+#else
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+    
+    wxASSERT(pSkinSimple);
+    wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+
+    wxColour bgColor(*pSkinSimple->GetDialogBackgroundImage()->GetBackgroundColor());
+    SetBackgroundColour(bgColor);
+#endif
+
+    if (m_backgroundBitmap->IsOk()) {
+       dc.DrawBitmap(*m_backgroundBitmap, 0, 0);
     }
 }
 
@@ -587,43 +519,46 @@ void CPanelPreferences::OnButtonClear() {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
+#if 1
+    // Delete all local prefs (delete global_prefs_override.xml file)
+    global_preferences_override_mask.clear();
+#else
+    // Delete only those settings controlled by this dialog
     ClearPreferenceSettings();
-
+#endif
     pDoc->rpc.set_global_prefs_override_struct(global_preferences_working, global_preferences_override_mask);
     pDoc->rpc.read_global_prefs_override();
 }
 
 
-void CPanelPreferences::OnOK() {
+bool CPanelPreferences::OnOK() {
     CMainDocument*    pDoc = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    TransferDataFromWindow();
+    if(!ValidateInput()) {
+        return false;
+    }
     SavePreferenceSettings();
 
 	pDoc->rpc.set_global_prefs_override_struct(global_preferences_working, global_preferences_override_mask);
 	pDoc->rpc.read_global_prefs_override();
+    
+    return true;
 }
 
 
 bool CPanelPreferences::UpdateControlStates() {
-        m_WorkBetweenBeginCtrl->Enable();
-        m_WorkBetweenEndCtrl->Enable();
-        m_ConnectBetweenBeginCtrl->Enable();
-        m_ConnectBetweenEndCtrl->Enable();
-        m_MaxDiskUsageCtrl->Enable();
-        m_MaxCPUUsageCtrl->Enable();
-        m_WorkWhileOnBatteryCtrl->Enable();
-        m_WorkWhenIdleCtrl->Enable();
+    m_txtProcIdleFor->Enable(m_chkProcInUse->IsChecked());
 
-        if (m_WorkBetweenBeginCtrl->GetValue() == _("Anytime")) {
-            m_WorkBetweenEndCtrl->Disable();
-        }
-        if (m_ConnectBetweenBeginCtrl->GetValue() == _("Anytime")) {
-            m_ConnectBetweenEndCtrl->Disable();
-        }
+    m_txtProcEveryDayStart->Enable(m_chkProcEveryDay->IsChecked());
+    m_txtProcEveryDayStop->Enable(m_chkProcEveryDay->IsChecked());
+
+    m_txtNetEveryDayStart->Enable(m_chkNetEveryDay->IsChecked());
+    m_txtNetEveryDayStop->Enable(m_chkNetEveryDay->IsChecked());
+
+    m_txtDiskMaxSpace->Enable(m_chkDiskMaxSpace->IsChecked());
     return true;
 }
 
@@ -642,13 +577,57 @@ bool CPanelPreferences::ClearPreferenceSettings() {
 }
 
 
+// convert a Timestring HH:MM into a double
+double CPanelPreferences::TimeStringToDouble(wxString timeStr) {
+    double hour;
+    double minutes;
+    timeStr.SubString(0,timeStr.First(':')).ToDouble(&hour);
+    timeStr.SubString(timeStr.First(':')+1,timeStr.Length()).ToDouble(&minutes);
+    minutes = minutes/60.0;
+    return hour + minutes;
+}
+
+
+// convert a double into a timestring HH:MM
+wxString CPanelPreferences::DoubleToTimeString(double dt) {
+    int hour = (int)dt;
+    int minutes = (int)(60.0 * (dt - hour)+.5);
+    return wxString::Format(wxT("%02d:%02d"),hour,minutes);
+}
+
+
+// We only display 2 places past the decimal, so restrict the
+// precision of saved values to .01.  This prevents unexpected
+// behavior when, for example, a zero value means no restriction
+// and the value is displayed as 0.00 but is actually 0.001.
+double CPanelPreferences::RoundToHundredths(double td) {
+    int i = (int)((td + .005) * 100.);
+    return ((double)(i) / 100.);
+}
+
+
+void CPanelPreferences::DisplayValue(double value, wxTextCtrl* textCtrl, wxCheckBox* checkBox) {
+    wxString buffer;
+
+    wxASSERT(textCtrl);
+    
+    if (checkBox) {
+        if (! checkBox->IsChecked()) {
+            textCtrl->Clear();
+            textCtrl->Disable();
+            return;
+        }
+    }
+    buffer.Printf(wxT("%g"), value);
+    textCtrl->ChangeValue(buffer);
+    textCtrl->Enable();
+}
+
+
+/* read preferences from core client and initialize control values */
 bool CPanelPreferences::ReadPreferenceSettings() {
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    GLOBAL_PREFS   display_global_preferences;
-    double         dTempValue1 = 0.0;
-    double         dTempValue2 = 0.0;
     int            retval;
-    unsigned int   i;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -664,6 +643,12 @@ bool CPanelPreferences::ReadPreferenceSettings() {
         global_preferences_working = pDoc->state.global_prefs;
         retval = pDoc->rpc.get_global_prefs_override_struct(global_preferences_working, global_preferences_mask);
     }
+    if (retval) {
+        m_bOKToShow = false;
+        return true;
+    }
+    
+    m_bOKToShow = true;
 
 #if 0   // We might use this to tell user whether local prefs exist
     if (!retval && global_preferences_override_mask.are_simple_prefs_set()) {
@@ -672,225 +657,385 @@ bool CPanelPreferences::ReadPreferenceSettings() {
         m_bCustomizedPreferences = false;
     }
 #endif
-	
-	// Allow this structure to be modified for display purposes
-    display_global_preferences = global_preferences_working;
 
+    // on batteries
+    m_chkProcOnBatteries->SetValue(! global_preferences_working.run_on_batteries);
 
-    // Do work only between:
-    //   Start:
-    wxArrayString aWorkBetweenBegin = wxArrayString(iTimeOfDayArraySize, astrTimeOfDayStrings);
-    aWorkBetweenBegin.Insert(_("Anytime"), 0);
-
-    m_WorkBetweenBeginCtrl->Append(aWorkBetweenBegin);
-    if (display_global_preferences.cpu_times.start_hour == display_global_preferences.cpu_times.end_hour) {
-        m_strWorkBetweenBegin = _("Anytime");
+    // in use
+    m_chkProcInUse->SetValue(! global_preferences_working.run_if_user_active);
+    
+    if (m_chkProcInUse->IsChecked()) {
+        m_txtProcIdleFor->Enable();
+        DisplayValue(global_preferences_working.idle_time_to_run, m_txtProcIdleFor);
     } else {
-        m_strWorkBetweenBegin = astrTimeOfDayStrings[(int)display_global_preferences.cpu_times.start_hour];
+        m_txtProcIdleFor->Clear();
+        m_txtProcIdleFor->Disable();
     }
 
-    //   End:
-    m_WorkBetweenEndCtrl->Append(wxArrayString(iTimeOfDayArraySize, astrTimeOfDayStrings));
-    m_strWorkBetweenEnd = astrTimeOfDayStrings[(int)display_global_preferences.cpu_times.end_hour];
-
-    // Connect to internet only between:
-    //   Start:
-    wxArrayString aConnectBetweenBegin = wxArrayString(iTimeOfDayArraySize, astrTimeOfDayStrings);
-    aConnectBetweenBegin.Insert(_("Anytime"), 0);
-
-    m_ConnectBetweenBeginCtrl->Append(aConnectBetweenBegin);
-    if (display_global_preferences.net_times.start_hour == display_global_preferences.net_times.end_hour) {
-        m_strConnectBetweenBegin = _("Anytime");
-    } else {
-        m_strConnectBetweenBegin = astrTimeOfDayStrings[(int)display_global_preferences.net_times.start_hour];
+    // do work between
+    m_chkProcEveryDay->SetValue(global_preferences_working.cpu_times.start_hour != global_preferences_working.cpu_times.end_hour);
+    if (m_chkProcEveryDay->IsChecked()) {
+        m_txtProcEveryDayStart->ChangeValue(DoubleToTimeString(global_preferences_working.cpu_times.start_hour));
+        m_txtProcEveryDayStop->ChangeValue(DoubleToTimeString(global_preferences_working.cpu_times.end_hour));
     }
 
-    //   End:
-    m_ConnectBetweenEndCtrl->Append(wxArrayString(iTimeOfDayArraySize, astrTimeOfDayStrings));
-    m_strConnectBetweenEnd = astrTimeOfDayStrings[(int)display_global_preferences.net_times.end_hour];
-
-    // Use no more than %s of disk space
-    wxArrayString aDiskUsage = wxArrayString(iDiskUsageArraySize, astrDiskUsageStrings);
-    wxString strDiskUsage = wxEmptyString;
-    int iDiskUsageIndex = iDiskUsageArraySize - 1;
-
-    if (display_global_preferences.disk_max_used_gb > 0) {
-        if (display_global_preferences.disk_max_used_gb < 1) {
-            strDiskUsage.Printf(_("%d MB"), (int)(display_global_preferences.disk_max_used_gb * 1000));  
-	    } else {
-            strDiskUsage.Printf(_("%4.2f GB"), display_global_preferences.disk_max_used_gb); 
-	    }
-
-        // Null out strDiskUsage if it is a duplicate
-        for (i = 0; i < aDiskUsage.Count(); i++) {
-            strDiskUsage.ToDouble(&dTempValue1);
-            if (strDiskUsage.Find(wxT("MB")) != -1) {
-                dTempValue1 /= 1000;
-            }
-            aDiskUsage[i].ToDouble(&dTempValue2);
-            if (aDiskUsage[i].Find(wxT("MB")) != -1) {
-                dTempValue2 /= 1000;
-            }
-            if ((strDiskUsage == aDiskUsage[i]) || (dTempValue1 == dTempValue2)) {
-                strDiskUsage = wxEmptyString;
-                // Store this value so we know what to set the selection too in the
-                //   combo box.
-                iDiskUsageIndex = i;
-                break;
-            }
-        }
+    //cpu limit
+    // 0 means "no retriction" but we don't use a checkbox here
+    if (global_preferences_working.cpu_usage_limit == 0.0) global_preferences_working.cpu_usage_limit = 100.0;
+    DisplayValue(global_preferences_working.cpu_usage_limit, m_txtProcUseCPUTime);
+    
+    // use network between
+    m_chkNetEveryDay->SetValue(global_preferences_working.net_times.start_hour != global_preferences_working.net_times.end_hour);
+    if (m_chkNetEveryDay->IsChecked()) {
+        m_txtNetEveryDayStart->ChangeValue(DoubleToTimeString(global_preferences_working.net_times.start_hour));
+        m_txtNetEveryDayStop->ChangeValue(DoubleToTimeString(global_preferences_working.net_times.end_hour));
     }
 
-    if (!strDiskUsage.IsEmpty()) {
-        aDiskUsage.Add(strDiskUsage);
-        aDiskUsage.Sort(CompareDiskUsage);
-    }
-
-    m_MaxDiskUsageCtrl->Append(aDiskUsage);
-    if (!strDiskUsage.IsEmpty()) {
-        m_strMaxDiskUsage = strDiskUsage;
-    } else {
-        m_strMaxDiskUsage = astrDiskUsageStrings[iDiskUsageIndex];
-    }
-
-    // Use no more than %s of the processor
-    wxArrayString aCPUUsage = wxArrayString(iCPUUsageArraySize, astrCPUUsageStrings);
-    wxString strCPUUsage = wxEmptyString;
-    int iCPUUsageIndex = iCPUUsageArraySize - 4;
-
-    if (display_global_preferences.cpu_usage_limit > 0) {
-        strCPUUsage.Printf(_("%d%%"), (int)display_global_preferences.cpu_usage_limit); 
-
-        // Null out strCPUUsage if it is a duplicate
-        for (i=0; i < aCPUUsage.Count(); i++) {
-            strCPUUsage.ToDouble(&dTempValue1);
-            aCPUUsage[i].ToDouble(&dTempValue2);
-            if ((strCPUUsage == aCPUUsage[i]) || (dTempValue1 == dTempValue2)) {
-                strCPUUsage = wxEmptyString;
-                // Store this value so we know what to set the selection too in the
-                //   combo box.
-                iCPUUsageIndex = i;
-                break;
-            }
-        }
-    }
-
-    if (!strCPUUsage.IsEmpty()) {
-        aCPUUsage.Add(strCPUUsage);
-        aCPUUsage.Sort(CompareCPUUsage);
-    }
-
-    m_MaxCPUUsageCtrl->Append(aCPUUsage);
-    if (!strCPUUsage.IsEmpty()) {
-        m_strMaxCPUUsage = strCPUUsage;
-    } else {
-        m_strMaxCPUUsage = astrCPUUsageStrings[iCPUUsageIndex];
-    }
-
-    // Do work while computer is on battery?
-    m_bWorkWhileOnBattery = display_global_preferences.run_on_batteries;
-
-    // Do work after computer is idle for:
-    wxArrayString aWorkWhenIdle = wxArrayString(iWorkWhenIdleArraySize, astrWorkWhenIdleStrings);
-    wxString strWorkWhenIdle = wxEmptyString;
-    int iWorkWhenIdleIndex = 2;
-
-    aWorkWhenIdle.Insert(_("0 (Run Always)"), 0);
-
-	if (display_global_preferences.idle_time_to_run > 0) {
-        strWorkWhenIdle.Printf(_("%d"), (int)display_global_preferences.idle_time_to_run); 
-
-        // Null out strWorkWhenIdle if it is a duplicate
-        for (i=0; i < aWorkWhenIdle.Count(); i++) {
-            strWorkWhenIdle.ToDouble(&dTempValue1);
-            aWorkWhenIdle[i].ToDouble(&dTempValue2);
-            if ((strWorkWhenIdle == aWorkWhenIdle[i]) || (dTempValue1 == dTempValue2)) {
-                strWorkWhenIdle = wxEmptyString;
-                // Store this value so we know what to set the selection too in the
-                //   combo box.
-                iWorkWhenIdleIndex = i;
-                break;
-            }
-        }
-    }
-
-    if (!strWorkWhenIdle.IsEmpty()) {
-        aWorkWhenIdle.Add(strWorkWhenIdle);
-        aWorkWhenIdle.Sort(CompareWorkWhenIdle);
-    }
-
-    m_WorkWhenIdleCtrl->Append(aWorkWhenIdle);
-
-	if (display_global_preferences.run_if_user_active) {
-		// run_if_user_active and idle_time_to_run were merged into a single combo
-		//   box. 0 = run if active.
-		m_strWorkWhenIdle = aWorkWhenIdle[0];
-	} else {	
-		if (strWorkWhenIdle.IsEmpty()) {
-			m_strWorkWhenIdle = aWorkWhenIdle[iWorkWhenIdleIndex];
-		} else {
-			m_strWorkWhenIdle = strWorkWhenIdle;
-		}
-	}
+    //max disk space used
+    m_chkDiskMaxSpace->SetValue(global_preferences_working.disk_max_used_gb > 0.0);
+    DisplayValue(global_preferences_working.disk_max_used_gb, m_txtDiskMaxSpace, m_chkDiskMaxSpace);
 
     // Now make sure the UI is in sync with the settings
-    TransferDataToWindow();
     UpdateControlStates();
 
     return true;
 }
 
 
+/* write overridden preferences to disk (global_prefs_override.xml) */
+/* IMPORTANT: Any items added here must be checked in ValidateInput()! */
 bool CPanelPreferences::SavePreferenceSettings() {
-    // Do work only between:
-    if (_("Anytime") == m_strWorkBetweenBegin) {
-        global_preferences_working.cpu_times.start_hour = 0;
-        global_preferences_working.cpu_times.end_hour = 0;
+    double td;
+
+    // on batteries
+    global_preferences_working.run_on_batteries = ! (m_chkProcOnBatteries->GetValue());
+    global_preferences_override_mask.run_on_batteries=true;
+
+    // in use
+    global_preferences_working.run_if_user_active = (! m_chkProcInUse->GetValue());
+    global_preferences_override_mask.run_if_user_active=true;
+
+    if(m_txtProcIdleFor->IsEnabled()) {
+        m_txtProcIdleFor->GetValue().ToDouble(&td);
+        global_preferences_working.idle_time_to_run=RoundToHundredths(td);
+        global_preferences_override_mask.idle_time_to_run=true;
+    }
+    // else leave idle_time_to_run value and mask unchanged (in case run_gpu_if_user_active is false)
+
+    // do work between
+    if (m_chkProcEveryDay->IsChecked()) {
+        global_preferences_working.cpu_times.start_hour = TimeStringToDouble(m_txtProcEveryDayStart->GetValue());
+        global_preferences_working.cpu_times.end_hour = TimeStringToDouble(m_txtProcEveryDayStop->GetValue());
     } else {
-        m_strWorkBetweenBegin.ToDouble(&global_preferences_working.cpu_times.start_hour);
-        m_strWorkBetweenEnd.ToDouble(&global_preferences_working.cpu_times.end_hour);
+        global_preferences_working.cpu_times.start_hour = global_preferences_working.cpu_times.end_hour = 0.0;
     }
-    global_preferences_override_mask.start_hour = true;        
-    global_preferences_override_mask.end_hour = true;
+    global_preferences_override_mask.start_hour = global_preferences_override_mask.end_hour = true;
 
-    // Connect to internet only between:
-    if (_("Anytime") == m_strConnectBetweenBegin) {
-        global_preferences_working.net_times.start_hour = 0;
-        global_preferences_working.net_times.end_hour = 0;
+
+    //cpu limit
+    m_txtProcUseCPUTime->GetValue().ToDouble(&td);
+    global_preferences_working.cpu_usage_limit=RoundToHundredths(td);
+    global_preferences_override_mask.cpu_usage_limit=true;
+    
+    if (m_chkDiskMaxSpace->IsChecked()) {
+        m_txtDiskMaxSpace->GetValue().ToDouble(&td);
+        global_preferences_working.disk_max_used_gb=RoundToHundredths(td);
     } else {
-        m_strConnectBetweenBegin.ToDouble(&global_preferences_working.net_times.start_hour);
-        m_strConnectBetweenEnd.ToDouble(&global_preferences_working.net_times.end_hour);
+        global_preferences_working.disk_max_used_gb = 0.0;
     }
-    global_preferences_override_mask.net_start_hour = true;        
-    global_preferences_override_mask.net_end_hour = true;        
-
-    // Use no more than %s of disk space
-    m_strMaxDiskUsage.ToDouble((double*)&global_preferences_working.disk_max_used_gb);
-    if (m_strMaxDiskUsage.Find(wxT("MB")) != -1) {
-        global_preferences_working.disk_max_used_gb /= 1000;
-    }
-    global_preferences_override_mask.disk_max_used_gb = true;        
-
-    // Use no more than %s of the processor
-    m_strMaxCPUUsage.ToDouble((double*)&global_preferences_working.cpu_usage_limit);
-    global_preferences_override_mask.cpu_usage_limit = true;        
-
-    // Do work while computer is on battery?
-    global_preferences_working.run_on_batteries = m_bWorkWhileOnBattery;
-    global_preferences_override_mask.run_on_batteries = true;        
-
-    // Do work after computer is idle for:
-    m_strWorkWhenIdle.ToDouble((double*)&global_preferences_working.idle_time_to_run);
-    if (0 == global_preferences_working.idle_time_to_run) {
-        global_preferences_working.run_if_user_active = true;
-        global_preferences_override_mask.idle_time_to_run = false;
+    global_preferences_override_mask.disk_max_used_gb=true;
+    
+    // use network between
+    if (m_chkNetEveryDay->IsChecked()) {
+        global_preferences_working.net_times.start_hour = TimeStringToDouble(m_txtNetEveryDayStart->GetValue());
+        global_preferences_working.net_times.end_hour = TimeStringToDouble(m_txtNetEveryDayStop->GetValue());
     } else {
-        global_preferences_working.run_if_user_active = false;
-        global_preferences_override_mask.idle_time_to_run = true;
+        global_preferences_working.net_times.start_hour = global_preferences_working.net_times.end_hour = 0.0;
     }
-    global_preferences_override_mask.run_if_user_active = true;        
+    global_preferences_override_mask.net_start_hour = global_preferences_override_mask.net_end_hour = true;
+
+    //max disk space used
+    // BOINC uses the most restrictive of these 3 settings:
+    // disk_max_used_gb, disk_min_free_gb, disk_max_used_pct.
+    // Since the Simple Prefs dialog allows the user to set only
+    // disk_max_used_gb, we set the other two to "no restriction"
+    global_preferences_working.disk_min_free_gb = 0.0;
+    global_preferences_override_mask.disk_min_free_gb=true;
+    global_preferences_working.disk_max_used_pct = 100.0;
+    global_preferences_override_mask.disk_max_used_pct=true;
 
     return true;
+}
+
+
+/* validates the entered informations */
+bool CPanelPreferences::ValidateInput() {
+    wxString invMsgFloat = _("Invalid number");
+    wxString invMsgTime = _("Invalid time, value must be between 0:00 and 24:00, format is HH:MM");
+    wxString invMsgTimeSpan = _("Start time must be different from end time");
+    wxString invMsgLimit100 = _("Number must be between 0 and 100");
+    double startTime, endTime;
+    wxString buffer;
+
+    if(m_txtProcIdleFor->IsEnabled()) {
+        buffer = m_txtProcIdleFor->GetValue();
+        if(!IsValidFloatValue(buffer)) {
+            ShowErrorMessage(invMsgFloat,m_txtProcIdleFor);
+            return false;
+        }
+    }
+
+    if (m_chkProcEveryDay->IsChecked()) {
+        buffer = m_txtProcEveryDayStart->GetValue();
+        if(!IsValidTimeValue(buffer)) {
+            ShowErrorMessage(invMsgTime,m_txtProcEveryDayStart);
+            return false;
+        }
+        buffer = m_txtProcEveryDayStop->GetValue();
+        if(!IsValidTimeValue(buffer)) {
+            ShowErrorMessage(invMsgTime,m_txtProcEveryDayStop);
+            return false;
+        }
+        startTime = TimeStringToDouble(m_txtProcEveryDayStart->GetValue());
+        endTime = TimeStringToDouble(m_txtProcEveryDayStop->GetValue());
+        if (startTime == endTime) {
+            ShowErrorMessage(invMsgTimeSpan,m_txtProcEveryDayStop);
+            return false;
+        }
+    }
+    
+    buffer = m_txtProcUseCPUTime->GetValue();
+    if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
+        ShowErrorMessage(invMsgLimit100, m_txtProcUseCPUTime);
+        return false;
+    }
+
+    if (m_chkNetEveryDay->IsChecked()) {
+        buffer = m_txtNetEveryDayStart->GetValue();
+        if(!IsValidTimeValue(buffer)) {
+            ShowErrorMessage(invMsgTime,m_txtNetEveryDayStart);
+            return false;
+        }
+        buffer = m_txtNetEveryDayStop->GetValue();
+        if(!IsValidTimeValue(buffer)) {
+            ShowErrorMessage(invMsgTime,m_txtNetEveryDayStop);
+            return false;
+        }
+        startTime = TimeStringToDouble(m_txtNetEveryDayStart->GetValue());
+        endTime = TimeStringToDouble(m_txtNetEveryDayStop->GetValue());
+        if (startTime == endTime) {
+            ShowErrorMessage(invMsgTimeSpan,m_txtNetEveryDayStop);
+            return false;
+        }
+    }
+    
+    if (m_chkDiskMaxSpace->IsChecked()) {
+        buffer = m_txtDiskMaxSpace->GetValue();
+        if(!IsValidFloatValue(buffer)) {
+            ShowErrorMessage(invMsgFloat, m_txtDiskMaxSpace);
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+
+/* show an error message and set the focus to the control that caused the error */
+void CPanelPreferences::ShowErrorMessage(wxString& message,wxTextCtrl* errorCtrl) {
+    if(message.IsEmpty()){
+        message = _("invalid input value detected");
+    }
+    wxGetApp().SafeMessageBox(message,_("Validation Error"),wxOK | wxCENTRE | wxICON_ERROR,this);
+    errorCtrl->SetFocus();
+}
+
+
+/* checks if ch is a valid character for float values */
+bool CPanelPreferences::IsValidFloatChar(const wxChar& ch) {
+    //don't accept the e
+    return wxIsdigit(ch) || ch=='.' || ch==',' || ch=='+' || ch=='-';}
+
+/* checks if ch is a valid character for time values */
+bool CPanelPreferences::IsValidTimeChar(const wxChar& ch) {
+    return wxIsdigit(ch) || ch==':';
+}
+
+
+/* checks if the value contains a valid float */
+bool CPanelPreferences::IsValidFloatValue(const wxString& value, bool allowNegative) {
+    for(unsigned int i=0; i < value.Length();i++) {
+        if(!IsValidFloatChar(value[i])) {
+            return false;
+        }
+    }
+    //all chars are valid, now what is with the value as a whole ?
+    double td;
+    if(!value.ToDouble(&td)) {
+        return false;
+    }
+    if (!allowNegative) {
+        if (td < 0.0) return false;
+    }
+    return true;
+}
+
+
+bool CPanelPreferences::IsValidFloatValueBetween(const wxString& value, double minVal, double maxVal){
+    for(unsigned int i=0; i < value.Length();i++) {
+        if(!IsValidFloatChar(value[i])) {
+            return false;
+        }
+    }
+    //all chars are valid, now what is with the value as a whole ?
+    double td;
+    if(!value.ToDouble(&td)) {
+        return false;
+    }
+    if ((td < minVal) || (td > maxVal)) return false;
+    return true;
+}
+
+
+/* checks if the value is a valid time */
+bool CPanelPreferences::IsValidTimeValue(const wxString& value) {
+    for(unsigned int i=0; i < value.Length();i++) {
+        if(!IsValidTimeChar(value[i])) {
+            return false;
+        }
+    }
+    //all chars are valid, now what is with the value as a whole ?
+    wxDateTime dt;
+    const wxChar* stopChar = dt.ParseFormat(value,wxT("%H:%M"));
+    if(stopChar==NULL && value != wxT("24:00")) {
+        // conversion failed
+        return false;
+    }
+    return true;
+}
+
+
+void CPanelPreferences::OnHandleCheckboxEvent(wxCommandEvent& ev) {
+    ev.Skip();
+    // If user has just set the checkbox, set textedit field to default value.
+    // Note: use ChangeValue() here to avoid generating extra events.
+    // m_txtProcIdleFor depends on 2 checkboxes, set it in UpdateControlStates().
+    switch (ev.GetId()) {
+    case ID_CHKPROCINUSE:
+        DisplayValue(defaultPrefs.idle_time_to_run, m_txtProcIdleFor, m_chkProcInUse);
+        break;
+    case ID_CHKDISKMAXSPACE:
+        DisplayValue(defaultPrefs.disk_max_used_gb, m_txtDiskMaxSpace, m_chkDiskMaxSpace);
+        break;
+    case ID_CHKPROCEVERYDAY:
+        if (ev.IsChecked()) {
+            m_txtProcEveryDayStart->ChangeValue(DoubleToTimeString(defaultPrefs.cpu_times.start_hour));
+            m_txtProcEveryDayStop->ChangeValue(DoubleToTimeString(defaultPrefs.cpu_times.end_hour));
+        } else {
+            m_txtProcEveryDayStart->Clear();
+            m_txtProcEveryDayStop->Clear();
+        }
+        break;
+    case ID_CHKNETEVERYDAY:
+       if (ev.IsChecked()) {
+            m_txtNetEveryDayStart->ChangeValue(DoubleToTimeString(defaultPrefs.net_times.start_hour));
+            m_txtNetEveryDayStop->ChangeValue(DoubleToTimeString(defaultPrefs.net_times.end_hour));
+        } else {
+            m_txtNetEveryDayStart->Clear();
+            m_txtNetEveryDayStop->Clear();
+        }
+        break;
+
+
+
+    
+    default:
+        break;
+    }
+    UpdateControlStates();
+}
+
+
+void CPanelPreferences::addNewRowToSizer(
+                wxSizer* toSizer, wxString& toolTipText,
+                wxWindow* first, wxWindow* second, wxWindow* third,
+                wxWindow* fourth, wxWindow* fifth)
+{
+    wxBoxSizer* rowSizer = new wxBoxSizer( wxHORIZONTAL );
+    
+#ifdef __WXMSW__
+    // MSW adds space to the right of checkbox label
+    if (first->IsKindOf(CLASSINFO(CTransparentCheckBox))) {
+        rowSizer->Add(first, 0, wxTOP | wxBOTTOM |wxLEFT, 5 );
+    } else
+#endif
+        rowSizer->Add(first, 0, wxALL, 5 );
+    
+    first->SetToolTip(toolTipText);
+    
+    rowSizer->Add(second, 0, wxALL, 2 );
+    second->SetToolTip(toolTipText);
+
+    rowSizer->Add(third, 0, wxALL, 5 );
+    third->SetToolTip(toolTipText);
+
+    if (fourth) {
+        rowSizer->Add(fourth, 0, wxALL, 2 );
+        fourth->SetToolTip(toolTipText);
+    }
+    
+    if (fifth) {
+        rowSizer->Add(fifth, 0, wxALL, 5 );
+        fifth->SetToolTip(toolTipText);
+    }
+    
+    toSizer->Add( rowSizer, 0, 0, 1 );
+}
+
+
+wxSize CPanelPreferences::getTextCtrlSize(wxString maxText) {
+    int w, h, margin;
+    wxSize sz;
+    wxFont f = GetParent()->GetFont();
+    GetTextExtent(maxText, &w, &h, NULL, NULL, &f);
+    margin = w/3;
+    if (margin < 9) margin = 9;
+    sz.x = w + margin;
+    sz.y = wxDefaultCoord;
+    return sz;
+}
+
+
+bool CPanelPreferences::doesLocalPrefsFileExist() {
+    std::string s;
+    int retval;
+    bool local_prefs_found = false;
+    MIOFILE mf;
+    bool found_venue;
+    GLOBAL_PREFS web_prefs;
+    GLOBAL_PREFS_MASK mask;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    retval = pDoc->rpc.get_global_prefs_override(s);
+    local_prefs_found = (retval == BOINC_SUCCESS);
+    
+    s.clear();
+    web_prefs.init();
+    
+    retval = pDoc->rpc.get_global_prefs_file(s);
+    if (retval) {
+        web_prefs_url = new wxString(wxEmptyString);
+    } else {
+        mf.init_buf_read(s.c_str());
+        XML_PARSER xp(&mf);
+        web_prefs.parse(xp, "", found_venue, mask);
+        web_prefs_url = new wxString(web_prefs.source_project);
+    }
+    
+    return local_prefs_found;
 }
 
 
@@ -945,29 +1090,26 @@ bool CDlgPreferences::Create( wxWindow* parent, wxWindowID id, const wxString& c
     // Initialize Application Title
     wxString strCaption = caption;
     if (strCaption.IsEmpty()) {
-        strCaption.Printf(_("%s - Preferences"), pSkinAdvanced->GetApplicationShortName().c_str());
+        strCaption.Printf(_("%s - Computing Preferences"), pSkinAdvanced->GetApplicationShortName().c_str());
     }
     SetTitle(strCaption);
 
     // Initialize Application Icon
-    wxIconBundle icons;
-    icons.AddIcon(*pSkinAdvanced->GetApplicationIcon());
-    icons.AddIcon(*pSkinAdvanced->GetApplicationIcon32());
-    SetIcons(icons);
+    SetIcons(*pSkinAdvanced->GetApplicationIcon());
 
     Freeze();
 
     SetBackgroundStyle(wxBG_STYLE_CUSTOM);
 
     SetForegroundColour(*wxBLACK);
-#ifdef __WXDEBUG__
+#if TEST_BACKGROUND_WITH_MAGENTA_FILL
     SetBackgroundColour(wxColour(255, 0, 255));
 #endif
 
+    wxBoxSizer* dialogSizer = new wxBoxSizer( wxVERTICAL );
+    SetSizer(dialogSizer);
     m_pBackgroundPanel = new CPanelPreferences(this);
-    wxBoxSizer* itemBoxSizer = new wxBoxSizer(wxVERTICAL);
-    SetSizer(itemBoxSizer);
-    itemBoxSizer->Add(m_pBackgroundPanel, 0, wxGROW, 0);
+    dialogSizer->Add(m_pBackgroundPanel, 0, wxGROW, 0);
     
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
@@ -1021,15 +1163,16 @@ void CDlgPreferences::OnButtonClear( wxCommandEvent& WXUNUSED(event) ) {
  */
 
 void CDlgPreferences::OnOK( wxCommandEvent& WXUNUSED(event) ) {
-    m_pBackgroundPanel->OnOK();
-    EndModal(wxID_OK);
+    if (m_pBackgroundPanel->OnOK()) {
+        EndModal(wxID_OK);
+    }
 }
 
 
 bool CDlgPreferences::ConfirmClear() {
 	int res = wxGetApp().SafeMessageBox(_(
-	    "Do you really want to clear all local preferences?\n"),
-		_("Confirmation"),wxCENTER | wxICON_QUESTION | wxYES_NO | wxNO_DEFAULT,this);
+        "Discard all local preferences and use web-based preferences?"),
+		_("Confirmation"),wxCENTER | wxICON_QUESTION | wxYES_NO | wxNO_DEFAULT, this);
 	
 	return res==wxYES;
 }

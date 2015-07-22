@@ -26,7 +26,8 @@
 // freetype2 library:  http://www.freetype.org/
 
 // this should basically be a drop-in for the old boinc txf_* functions i.e.
-//  txf_load_fonts and txf_render_string, with extra options on the latter for rotating etc
+// txf_load_fonts and txf_render_string,
+// with extra options on the latter for rotating etc
 
 // originally adapted by Carl Christensen
 
@@ -41,6 +42,7 @@
 #include "filesys.h"  // from boinc for file_exists
 
 // I put in it's own namespace so call TTFont::ttf_load_fonts() etc
+//
 namespace TTFont {  
 
 // The Liberation version 2.00.0 fonts referenced below are free 
@@ -53,6 +55,7 @@ namespace TTFont {
 
 // you'll want to define a 2-d array of char as appropriate for your 
 // truetype font filenames (path is set in the call to ttf_load_fonts)
+//
 static const char *g_cstrFont[] = {
     "LiberationSans-Regular.ttf",       // 0, this is the default
     "LiberationSans-Bold.ttf",          // 1
@@ -74,14 +77,24 @@ static const char *g_cstrFont[] = {
 FTFont* g_font[NUM_FONT];
 int g_iFont = -1;
 
-// load fonts. call once.
-// pass in the font directory, and any special-scaling font name & size (e.g. if I want a huge typeface for Sans-Serif Regular then I pass in "LiberationSans-Regular.ttf", 3000)
-void ttf_load_fonts(const char* dir, const char* strScaleFont, const int& iScaleFont) {
-    static bool bInit = false; // flag so we don't call again, otherwise we'll have memory leaks each subsequent call to new FTTextureFont etc
+// Load fonts. call once.
+// Pass in the font directory (normally the project directory:
+// APP_INIT_DATA::project_dir for BOINC apps),
+// and any special-scaling font name & size
+// (e.g. if I want a huge typeface for Sans-Serif Regular
+// then I pass in "LiberationSans-Regular.ttf", 3000)
+//
+void ttf_load_fonts(
+    const char* dir, const char* strScaleFont, const int& iScaleFont
+) {
+    static bool bInit = false;
+        // flag so we don't call again, otherwise we'll have memory leaks
+        // each subsequent call to new FTTextureFont etc
     if (bInit) return; // we've already been here
     bInit = true; // we're in now!
     ttf_cleanup();
-    memset(g_font, 0x00, sizeof(FTFont*) * NUM_FONT); // initialize to null's for error checking later
+    memset(g_font, 0x00, sizeof(FTFont*) * NUM_FONT);
+        // initialize to null's for error checking later
     char vpath[MAXPATHLEN];
     g_iFont = -1;
     for (unsigned int i=0 ; i < NUM_FONT; i++){
@@ -97,8 +110,7 @@ void ttf_load_fonts(const char* dir, const char* strScaleFont, const int& iScale
 #endif
                 int iScale = 30;
                 if (strScaleFont && !strcmp(strScaleFont, g_cstrFont[i])) iScale = iScaleFont;
-                if(!g_font[i]->FaceSize(iScale))
-                {
+                if(!g_font[i]->FaceSize(iScale)) {
                     fprintf(stderr, "Failed to set size");
                 }
 
@@ -110,7 +122,7 @@ void ttf_load_fonts(const char* dir, const char* strScaleFont, const int& iScale
 
             }
 #ifdef _DEBUG
-             else {
+            else {
                 fprintf(stderr, "Failed to load '%s'...\n", vpath);
             }
 #endif
@@ -118,9 +130,9 @@ void ttf_load_fonts(const char* dir, const char* strScaleFont, const int& iScale
     }  
 }
 
-// remove our objects?
-void ttf_cleanup()
-{
+// remove our objects
+//
+void ttf_cleanup() {
     for (unsigned int i = 0; i < NUM_FONT; i++) {
         if (g_font[i]) {
             delete g_font[i];
@@ -143,8 +155,7 @@ void ttf_render_string(
     const float& fRotY,             // optional rotation vector for Y
     const float& fRotZ,             // optional rotation vector for Z
     const float& fRadius            // circular radius to draw along
-)
-{
+) {
         // http://ftgl.sourceforge.net/docs/html/
 
     // if requested font isn't available, find first one that is

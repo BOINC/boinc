@@ -37,6 +37,7 @@
 #include "MainDocument.h"
 #include "BOINCBaseFrame.h"
 #include "BOINCBaseView.h"
+#include "BOINCListCtrl.h"
 #include "BOINCTaskBar.h"
 #include "BOINCClientManager.h"
 #include "BOINCDialupManager.h"
@@ -50,16 +51,19 @@
 #include "ViewResources.h"
 #include "DlgAbout.h"
 #include "DlgOptions.h"
+#include "DlgDiagnosticLogFlags.h"
+#include "DlgHiddenColumns.h"
 #include "DlgGenericMessage.h"
 #include "DlgEventLog.h"
+#include "browser.h"
 #include "wizardex.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
 #include "DlgAdvPreferences.h"
+#include "DlgExclusiveApps.h"
 
 #include "res/connect.xpm"
 #include "res/disconnect.xpm"
-
 
 enum STATUSBARFIELDS {
     STATUS_TEXT,
@@ -157,11 +161,15 @@ void CStatusBar::OnSize(wxSizeEvent& event) {
 IMPLEMENT_DYNAMIC_CLASS(CAdvancedFrame, CBOINCBaseFrame)
 
 BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
+#ifndef __WXMSW__
+    EVT_MENU_OPEN(CAdvancedFrame::OnMenuOpening)
+#endif
     // View
     EVT_MENU_RANGE(ID_ADVNOTICESVIEW, ID_ADVRESOURCEUSAGEVIEW, CAdvancedFrame::OnChangeView)
     EVT_MENU(ID_CHANGEGUI, CAdvancedFrame::OnChangeGUI)
     // Tools
-    EVT_MENU(ID_WIZARDATTACH, CAdvancedFrame::OnWizardAttach)
+    EVT_MENU(ID_WIZARDATTACHPROJECT, CAdvancedFrame::OnWizardAttachProject)
+    EVT_MENU(ID_WIZARDATTACHACCOUNTMANAGER, CAdvancedFrame::OnWizardUpdate)
     EVT_MENU(ID_WIZARDUPDATE, CAdvancedFrame::OnWizardUpdate)
     EVT_MENU(ID_WIZARDDETACH, CAdvancedFrame::OnWizardDetach)
     // Activity
@@ -171,6 +179,9 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     // Advanced
     EVT_MENU(ID_OPTIONS, CAdvancedFrame::OnOptions)
 	EVT_MENU(ID_PREFERENCES, CAdvancedFrame::OnPreferences)
+	EVT_MENU(ID_EXCLUSIVE_APPS, CAdvancedFrame::OnExclusiveApps)
+	EVT_MENU(ID_DIAGNOSTICLOGFLAGS, CAdvancedFrame::OnDiagnosticLogFlags)
+	EVT_MENU(ID_SELECTCOLUMNS, CAdvancedFrame::OnSelectColumns)
     EVT_MENU(ID_SELECTCOMPUTER, CAdvancedFrame::OnSelectComputer)
     EVT_MENU(ID_SHUTDOWNCORECLIENT, CAdvancedFrame::OnClientShutdown)
     EVT_MENU(ID_RUNBENCHMARKS, CAdvancedFrame::OnRunBenchmarks)
@@ -194,6 +205,10 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_NOTEBOOK_PAGE_CHANGED(ID_FRAMENOTEBOOK, CAdvancedFrame::OnNotebookSelectionChanged)
     EVT_SIZE(CAdvancedFrame::OnSize)
     EVT_MOVE(CAdvancedFrame::OnMove)
+#ifdef __WXMAC__
+	EVT_MENU(wxID_PREFERENCES, CAdvancedFrame::OnPreferences)
+    EVT_CHAR_HOOK(CAdvancedFrame::OnKeyPressed)
+#endif
 END_EVENT_TABLE ()
 
 
@@ -203,7 +218,7 @@ CAdvancedFrame::CAdvancedFrame() {
 }
 
 
-CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint position, wxSize size) : 
+CAdvancedFrame::CAdvancedFrame(wxString title, wxIconBundle* icons, wxPoint position, wxSize size) : 
     CBOINCBaseFrame((wxFrame *)NULL, ID_ADVANCEDFRAME, title, position, size, wxDEFAULT_FRAME_STYLE)
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CAdvancedFrame - Function Begin"));
@@ -216,10 +231,7 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxP
     m_strBaseTitle = title;
 
     // Initialize Application
-    wxIconBundle icons;
-    icons.AddIcon(*icon);
-    icons.AddIcon(*icon32);
-    SetIcons(icons);
+    SetIcons(*icons);
 
     // Create UI elements
     wxCHECK_RET(CreateMenu(), _T("Failed to create menu bar."));
@@ -227,6 +239,10 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxP
     wxCHECK_RET(CreateStatusbar(), _T("Failed to create status bar."));
 
     RestoreState();
+
+    // For generic wxListCtrl, we must call Layout() for panel containing m_pNotebook
+    // after CBOINCListCtrl::RestoreState() has finished BOINCListCtrl initialization.
+    m_pNotebook->GetParent()->Layout();
 
     m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
     wxASSERT(m_pRefreshStateTimer);
@@ -309,13 +325,37 @@ bool CAdvancedFrame::CreateMenu() {
     // File menu
     wxMenu *menuFile = new wxMenu;
 
-    // %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
+    strMenuName.Printf(
+        _("New %s window..."), 
+        pSkinAdvanced->GetApplicationName().c_str()
+    );
+    strMenuDescription.Printf(
+        _("Open another %s window"), 
+        pSkinAdvanced->GetApplicationName().c_str()
+    );
+    menuFile->Append(
+        ID_LAUNCHNEWINSTANCE, 
+        strMenuName,
+        strMenuDescription
+    );
+
+    menuFile->Append(
+        ID_SELECTCOMPUTER, 
+        _("Select computer..."),
+        _("Connect to a BOINC client on another computer")
+    );
+    menuFile->Append(
+        ID_SHUTDOWNCORECLIENT, 
+        _("Shut down connected client..."),
+        _("Shut down the currently connected BOINC client")
+    );
+    menuFile->AppendSeparator();
+
     strMenuDescription.Printf(
         _("Close the %s window"), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
-    strMenuName = _("&Close Window");
+    strMenuName = _("&Close window");
     strMenuName += wxT("\tCtrl+W");
     menuFile->Append(
         ID_CLOSEWINDOW,
@@ -323,22 +363,16 @@ bool CAdvancedFrame::CreateMenu() {
         strMenuDescription
     );
 
-    // %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuDescription.Printf(
         _("Exit %s"), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
     if (is_boinc_started_by_manager) {
-        // %s is the application short name
-        //    i.e. 'BOINC', 'GridRepublic'
         strMenuName.Printf(
             _("Exit %s"), 
             pSkinAdvanced->GetApplicationShortName().c_str()
         );
     } else {
-        // %s is the application name
-        //    i.e. 'BOINC Manager', 'GridRepublic Manager'
         strMenuName.Printf(
             _("Exit %s"), 
             pSkinAdvanced->GetApplicationName().c_str()
@@ -350,43 +384,51 @@ bool CAdvancedFrame::CreateMenu() {
         strMenuDescription
     );
 
+#ifdef __WXMAC__
+    // wxWidgets actually puts this in the BOINCManager menu
+    menuFile->Append(
+        wxID_PREFERENCES,
+        _("Preferences...")
+    );
+#endif
+
     // View menu
     wxMenu *menuView = new wxMenu;
 
     menuView->Append(
         ID_ADVNOTICESVIEW,
         _("&Notices\tCtrl+Shift+N"),
-        _("Display notices")
+        _("Show notices")
     );
 
     menuView->Append(
         ID_ADVPROJECTSVIEW,
         _("&Projects\tCtrl+Shift+P"),
-        _("Display projects")
+        _("Show projects")
     );
 
     menuView->Append(
         ID_ADVTASKSVIEW,
         _("&Tasks\tCtrl+Shift+T"),
-        _("Display tasks")
+        _("Show tasks")
     );
 
     menuView->Append(
         ID_ADVTRANSFERSVIEW,
         _("Trans&fers\tCtrl+Shift+X"),
-        _("Display transfers")
+        _("Show file transfers")
     );
 
     menuView->Append(
         ID_ADVSTATISTICSVIEW,
         _("&Statistics\tCtrl+Shift+S"),
-        _("Display statistics")
+        _("Show statistics")
     );
 
     menuView->Append(
         ID_ADVRESOURCEUSAGEVIEW,
-        _("&Disk usage\tCtrl+Shift+D"),
-        _("Display disk usage")
+        _("&Disk\tCtrl+Shift+D"),
+        _("Show disk usage")
     );
 
     menuView->AppendSeparator();
@@ -394,7 +436,7 @@ bool CAdvancedFrame::CreateMenu() {
     menuView->Append(
         ID_CHANGEGUI,
         _("Simple &View...\tCtrl+Shift+V"),
-        _("Display the simple graphical interface.")
+        _("Switch to the Simple View")
     );
 
     // Screen too small?
@@ -407,9 +449,14 @@ bool CAdvancedFrame::CreateMenu() {
 
     if (!is_acct_mgr_detected) {
         menuTools->Append(
-            ID_WIZARDATTACH, 
-            _("&Add project or account manager..."),
-            _("Volunteer for any or all of 30+ projects in many areas of science")
+            ID_WIZARDATTACHPROJECT, 
+            _("&Add project..."),
+            _("Add a project")
+        );
+        menuTools->Append(
+            ID_WIZARDATTACHACCOUNTMANAGER, 
+            _("&Use account manager..."),
+            _("Use an account manager to control this computer.")
         );
     } else {
         strMenuName.Printf(
@@ -426,7 +473,7 @@ bool CAdvancedFrame::CreateMenu() {
             strMenuDescription
         );
         menuTools->Append(
-            ID_WIZARDATTACH, 
+            ID_WIZARDATTACHPROJECT, 
             _("&Add project..."),
             _("Add a project")
         );
@@ -440,15 +487,22 @@ bool CAdvancedFrame::CreateMenu() {
             _("Remove this computer from account manager control.")
         );
     }
+    menuTools->AppendSeparator();
     menuTools->Append(
-        ID_OPTIONS, 
-        _("&Options..."),
-        _("Configure display options and proxy settings")
+        ID_RUNBENCHMARKS, 
+        _("Run CPU &benchmarks"),
+        _("Run tests that measure CPU speed")
     );
     menuTools->Append(
-		ID_PREFERENCES, 
-        _("Computing &preferences..."),
-        _("Configure computing preferences")
+        ID_RETRYCOMMUNICATIONS, 
+        _("Retry pending transfers"),
+        _("Retry deferred file transfers and task requests")
+    );
+    menuTools->AppendSeparator();
+    menuTools->Append(
+        ID_EVENTLOG, 
+        _("Event Log...\tCtrl+Shift+E"),
+        _("Show diagnostic messages")
     );
 
     // Activity menu
@@ -527,7 +581,7 @@ bool CAdvancedFrame::CreateMenu() {
 
     menuActivity->AppendRadioItem(
         ID_ADVNETWORKRUNALWAYS,
-        _("Network activity always available"),
+        _("Network activity always"),
         _("Allow network activity regardless of preferences")
     );
     menuActivity->AppendRadioItem(
@@ -537,83 +591,61 @@ bool CAdvancedFrame::CreateMenu() {
     );
     menuActivity->AppendRadioItem(
         ID_ADVNETWORKSUSPEND,
-        _("Network activity suspended"),
-        _("Stop BOINC network activity")
+        _("Suspend network activity"),
+        _("Stop network activity")
     );
 
-    // Advanced menu
+    // Options menu
 
-    wxMenu *menuAdvanced = new wxMenu;
+    wxMenu *menuOptions = new wxMenu;
 
-    // %s is the project name
-    //    i.e. 'BOINC', 'GridRepublic'
-    strMenuDescription.Printf(
-        _("Connect to another computer running %s"), 
-        pSkinAdvanced->GetApplicationShortName().c_str()
+    menuOptions->Append(
+		ID_PREFERENCES, 
+        _("Computing &preferences..."),
+        _("Configure computing preferences")
     );
-    menuAdvanced->Append(
-        ID_SELECTCOMPUTER, 
-        _("Select computer..."),
-        strMenuDescription
+
+    menuOptions->Append(
+		ID_EXCLUSIVE_APPS,
+        _("Exclusive applications..."),
+        _("Configure exclusive applications")
     );
-    menuAdvanced->Append(
-        ID_SHUTDOWNCORECLIENT, 
-        _("Shut down connected client..."),
-        _("Shut down the currently connected client")
+    menuOptions->AppendSeparator();
+    menuOptions->Append(
+		ID_SELECTCOLUMNS,
+        _("Select columns..."),
+        _("Select which columns to display")
     );
-    menuAdvanced->Append(
-        ID_RUNBENCHMARKS, 
-        _("Run CPU &benchmarks"),
-        _("Runs BOINC CPU benchmarks")
+    menuOptions->Append(
+		ID_DIAGNOSTICLOGFLAGS,
+        _("Event Log options...\tCtrl+Shift+F"),
+        _("Enable or disable various diagnostic messages")
     );
-    menuAdvanced->Append(
-        ID_RETRYCOMMUNICATIONS, 
-        _("Do network communication"),
-        _("Do all pending network communication")
+    menuOptions->Append(
+        ID_OPTIONS, 
+        _("&Other options..."),
+        _("Configure display options and network settings")
     );
-    menuAdvanced->Append(
+    menuOptions->AppendSeparator();
+    menuOptions->Append(
         ID_READCONFIG, 
         _("Read config files"),
         _("Read configuration info from cc_config.xml and any app_config.xml files")
     );
-    menuAdvanced->Append(
+    menuOptions->Append(
         ID_READPREFERENCES, 
         _("Read local prefs file"),
         _("Read preferences from global_prefs_override.xml.")
-    );
-    // %s is the project name
-    //    i.e. 'BOINC', 'GridRepublic'
-    strMenuDescription.Printf(
-        _("Launch another instance of %s..."), 
-        pSkinAdvanced->GetApplicationName().c_str()
-    );
-    strMenuName.Printf(
-        _("Launch another %s"), 
-        pSkinAdvanced->GetApplicationName().c_str()
-    );
-    menuAdvanced->Append(
-        ID_LAUNCHNEWINSTANCE, 
-        strMenuName,
-        strMenuDescription
-    );
-    menuAdvanced->Append(
-        ID_EVENTLOG, 
-        _("Event Log...\tCtrl+Shift+E"),
-        _("Display diagnostic messages.")
     );
 
 
     // Help menu
     wxMenu *menuHelp = new wxMenu;
 
-    // %s is the project name
-    //    i.e. 'BOINC', 'GridRepublic'
     strMenuName.Printf(
         _("%s &help"), 
         pSkinAdvanced->GetApplicationShortName().c_str()
     );
-    // %s is the project name
-    //    i.e. 'BOINC', 'GridRepublic'
     strMenuDescription.Printf(
         _("Show information about %s"), 
         pSkinAdvanced->GetApplicationShortName().c_str()
@@ -624,14 +656,10 @@ bool CAdvancedFrame::CreateMenu() {
         strMenuDescription
     );
 
-    // %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuName.Printf(
         _("&%s help"), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
-    // %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuDescription.Printf(
         _("Show information about the %s"), 
         pSkinAdvanced->GetApplicationName().c_str()
@@ -641,15 +669,12 @@ bool CAdvancedFrame::CreateMenu() {
         strMenuName, 
         strMenuDescription
     );
+    menuHelp->AppendSeparator();
 
-    // %s is the project name
-    //    i.e. 'BOINC', 'GridRepublic'
     strMenuName.Printf(
-        _("%s &website"), 
+        _("%s &web site"), 
         pSkinAdvanced->GetApplicationShortName().c_str()
     );
-    // %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuDescription.Printf(
         _("Show information about BOINC and %s"),
         pSkinAdvanced->GetApplicationName().c_str()
@@ -659,9 +684,8 @@ bool CAdvancedFrame::CreateMenu() {
         strMenuName, 
         strMenuDescription
     );
+    menuHelp->AppendSeparator();
 
-    // %s is the project name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuName.Printf(
         _("&About %s..."), 
         pSkinAdvanced->GetApplicationName().c_str()
@@ -683,16 +707,16 @@ bool CAdvancedFrame::CreateMenu() {
         _("&View")
     );
     m_pMenubar->Append(
-        menuTools,
-        _("&Tools")
-    );
-    m_pMenubar->Append(
         menuActivity,
         _("&Activity")
     );
     m_pMenubar->Append(
-        menuAdvanced,
-        _("A&dvanced")
+        menuOptions,
+        _("&Options")
+    );
+    m_pMenubar->Append(
+        menuTools,
+        _("&Tools")
     );
     m_pMenubar->Append(
         menuHelp,
@@ -705,18 +729,11 @@ bool CAdvancedFrame::CreateMenu() {
     // Force a redraw of the menu under Ubuntu's new interface
     SendSizeEvent();
 #endif
-#ifdef __WXMAC__
-    m_pMenubar->MacInstallMenuBar();
-    MacLocalizeBOINCMenu();
-#endif
     if (m_pOldMenubar) {
         delete m_pOldMenubar;
     }
     
 #ifdef __WXMAC__
-    // Enable Mac OS X's standard Preferences menu item (handled in MacSysMenu.cpp)
-    EnableMenuCommand(NULL, kHICommandPreferences);
-    
     // Set HELP key as keyboard shortcut
     m_Shortcuts[0].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
     m_pAccelTable = new wxAcceleratorTable(1, m_Shortcuts);
@@ -794,16 +811,21 @@ bool CAdvancedFrame::CreateNotebookPage( CBOINCBaseView* pwndNewNotebookPage) {
 
     pImageList = m_pNotebook->GetImageList();
     if (!pImageList) {
-        pImageList = new wxImageList(16, 16, true, 0);
+        pImageList = new wxImageList(ADJUSTFORXDPI(16), ADJUSTFORYDPI(16), true, 0);
         wxASSERT(pImageList != NULL);
         m_pNotebook->SetImageList(pImageList);
     }
     
-    iImageIndex = pImageList->Add(wxBitmap(pwndNewNotebookPage->GetViewIcon()));
+    iImageIndex = pImageList->Add(GetScaledBitmapFromXPMData(pwndNewNotebookPage->GetViewIcon()));
     m_pNotebook->AddPage(pwndNewNotebookPage, pwndNewNotebookPage->GetViewDisplayName(), TRUE, iImageIndex);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateNotebookPage - Function End"));
     return true;
+}
+
+
+wxNotebook* CAdvancedFrame::GetNotebook() {
+    return m_pNotebook;
 }
 
 
@@ -880,7 +902,6 @@ bool CAdvancedFrame::SaveState() {
     int             iItemCount = 0;
 
 
-    wxASSERT(pConfig);
     wxASSERT(m_pNotebook);
 
     CBOINCBaseFrame::SaveState();
@@ -1004,6 +1025,7 @@ void CAdvancedFrame::SaveWindowDimensions() {
 
     wxString        strBaseConfigLocation = wxString(wxT("/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+    wxPoint         pos = GetPosition();
 
     wxASSERT(pConfig);
 
@@ -1015,8 +1037,8 @@ void CAdvancedFrame::SaveWindowDimensions() {
     if (!iconized) {
         pConfig->Write(wxT("Width"), GetSize().GetWidth());
         pConfig->Write(wxT("Height"), GetSize().GetHeight());
-        pConfig->Write(wxT("XPos"), GetPosition().x);
-        pConfig->Write(wxT("YPos"), GetPosition().y);
+        pConfig->Write(wxT("XPos"), pos.x);
+        pConfig->Write(wxT("YPos"), pos.y);
     }
     
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::SaveWindowDimensions - Function End"));
@@ -1052,6 +1074,45 @@ int CAdvancedFrame::_GetCurrentViewPage() {
 }
 
 
+void CAdvancedFrame::OnMenuOpening( wxMenuEvent &event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnMenuOpening - Function Begin"));
+
+    CMainDocument*     pDoc = wxGetApp().GetDocument();
+    wxMenu* menuFile = NULL;
+    wxMenu* menuHelp = NULL;
+    
+    wxASSERT(pDoc);
+    
+    bool isConnected = pDoc->IsConnected();
+    wxMenu* menu = event.GetMenu();
+    
+    menu->FindItem(ID_SELECTCOMPUTER, &menuFile);
+    menu->FindItem(ID_HELPBOINC, &menuHelp);
+    size_t numItems = menu->GetMenuItemCount();
+    for (size_t pos = 0; pos < numItems; ++pos) {
+        wxMenuItem * item = menu->FindItemByPosition(pos);
+        if ((menu == menuFile) || (menu == menuHelp)) {
+            // Always enable all items in File menu or Help menu:
+            // ID_LAUNCHNEWINSTANCE, ID_SELECTCOMPUTER, ID_SHUTDOWNCORECLIENT,
+            // ID_CLOSEWINDOW, wxID_EXIT, ID_HELPBOINC, ID_HELPBOINCMANAGER,
+            // ID_HELPBOINCWEBSITE, wxID_ABOUT
+            item->Enable(true);
+        } else {
+            // Disable other menu items if not connected to client
+            item->Enable(isConnected);
+        }
+    }
+    
+    // wxID_EXIT and wxID_PREFERENCES are not in File menu on some platforms
+    wxMenuItem* exitItem = menu->FindChildItem(wxID_EXIT, NULL);
+    if (exitItem) {
+        exitItem->Enable(true);
+    }
+    
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnMenuOpening - Function End"));
+}
+
+
 void CAdvancedFrame::OnChangeView(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnChangeView - Function Begin"));
 
@@ -1070,8 +1131,8 @@ void CAdvancedFrame::OnChangeGUI(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
-void CAdvancedFrame::OnWizardAttach( wxCommandEvent& WXUNUSED(event) ) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnWizardAttach - Function Begin"));
+void CAdvancedFrame::OnWizardAttachProject( wxCommandEvent& WXUNUSED(event) ) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnWizardAttachProject - Function Begin"));
 
     CMainDocument* pDoc     = wxGetApp().GetDocument();
 
@@ -1089,10 +1150,8 @@ void CAdvancedFrame::OnWizardAttach( wxCommandEvent& WXUNUSED(event) ) {
 
         CWizardAttach* pWizard = new CWizardAttach(this);
 
-        wxString strName = wxEmptyString;
         wxString strURL = wxEmptyString;
-        wxString strTeamName = wxEmptyString;
-        pWizard->Run( strName, strURL, strTeamName, false );
+        pWizard->Run(strURL, false);
 
         if (pWizard) {
             pWizard->Destroy();
@@ -1110,7 +1169,7 @@ void CAdvancedFrame::OnWizardAttach( wxCommandEvent& WXUNUSED(event) ) {
         ShowNotCurrentlyConnectedAlert();
     }
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnWizardAttach - Function End"));
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnWizardAttachProject - Function End"));
 }
 
 
@@ -1306,9 +1365,41 @@ void CAdvancedFrame::OnPreferences(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnPreferences - Function Begin"));
 
     CDlgAdvPreferences dlg(this);
-	dlg.ShowModal();
+    if (dlg.OKToShow()) {
+        dlg.ShowModal();
+    }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnPreferences - Function End"));
+}
+
+
+void CAdvancedFrame::OnExclusiveApps(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnExclusiveApps - Function Begin"));
+
+    CDlgExclusiveApps dlg(this);
+	dlg.ShowModal();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnExclusiveApps - Function End"));
+}
+
+
+void CAdvancedFrame::OnDiagnosticLogFlags(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnDiagnosticLogFlags - Function Begin"));
+
+    CDlgDiagnosticLogFlags dlg(this);
+	dlg.ShowModal();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnDiagnosticLogFlags - Function End"));
+}
+
+
+void CAdvancedFrame::OnSelectColumns(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSelectColumns - Function Begin"));
+
+    CDlgHiddenColumns dlg(this);
+	dlg.ShowModal();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSelectColumns - Function End"));
 }
 
 
@@ -1341,9 +1432,9 @@ void CAdvancedFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
                 hostName.erase(iPos); 
             } 
             lRetVal = pDoc->Connect(
-                hostName,
+                hostName.c_str(),
                 portNum,
-                password,
+                password.c_str(),
                 TRUE,
                 FALSE
             );
@@ -1369,7 +1460,6 @@ void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
-
 
     // Stop all timers
     StopTimers();
@@ -1416,11 +1506,9 @@ void CAdvancedFrame::OnRunBenchmarks(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRunBenchmarks - Function Begin"));
 
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    wxASSERT(m_pNotebook);
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    m_pNotebook->SetSelection(ID_ADVTASKSVIEW - ID_ADVVIEWBASE);
     pDoc->RunBenchmarks();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRunBenchmarks - Function End"));
@@ -1488,11 +1576,11 @@ void CAdvancedFrame::OnLaunchNewInstance(wxCommandEvent& WXUNUSED(event)) {
 #else
     int prog;
 #endif
-    int argc = 3;
-    char* const argv[3] = { 
+    int argc = 2;
+    char* const argv[3] = {
          const_cast<char *>("boincmgr"), 
          const_cast<char *>("--multiple"), 
-         const_cast<char *>("") 
+         NULL
     }; 
 
     wxString strExecutable = wxGetApp().GetRootDirectory() + wxGetApp().GetExecutableName();
@@ -1572,7 +1660,9 @@ void CAdvancedFrame::OnHelpAbout(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpAbout - Function Begin"));
 
     CDlgAbout dlg(this);
+    wxGetApp().SetAboutDialogIsOpen(true);
     dlg.ShowModal();
+    wxGetApp().SetAboutDialogIsOpen(false);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpAbout - Function End"));
 }
@@ -1605,8 +1695,26 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
                 strTabTitle = pView->GetViewDisplayName();
             }
 
-            m_pNotebook->SetPageText(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE, strTabTitle);
+            size_t noticesPage = ID_ADVNOTICESVIEW - ID_ADVVIEWBASE;
+            m_pNotebook->SetPageText(noticesPage, strTabTitle);
             m_pNotebook->Layout();
+#ifdef __WXMSW__
+            // Ugly hack to work around a bug in wxWidgets 3.0
+            // which fails to center the updated tab label text.
+            m_pNotebook->Freeze();
+            if (m_pNotebook->GetSelection() == (int)noticesPage) {
+                size_t projectsPage = ID_ADVPROJECTSVIEW - ID_ADVVIEWBASE;
+                wxWindow * thePage = m_pNotebook->GetPage(projectsPage);
+                strTabTitle = m_pNotebook->GetPageText(projectsPage);
+                m_pNotebook->RemovePage(projectsPage);
+                m_pNotebook->InsertPage(projectsPage, thePage, strTabTitle, false, projectsPage);
+            } else {
+                wxWindow * thePage = m_pNotebook->GetPage(noticesPage);
+                m_pNotebook->RemovePage(noticesPage);
+                m_pNotebook->InsertPage(noticesPage, thePage, strTabTitle, false, noticesPage);
+            }
+            m_pNotebook->Thaw();
+#endif
         }
 
 
@@ -1631,6 +1739,12 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxString strTeamName = wxEmptyString;
     wxString strDialogTitle = wxEmptyString;
     wxString strDialogDescription = wxEmptyString;
+    std::string strProjectName;
+    std::string strProjectURL;
+    std::string strProjectAuthenticator;
+    std::string strProjectInstitution;
+    std::string strProjectDescription;
+    std::string strProjectKnown;
     bool bCachedCredentials = false;
     ACCT_MGR_INFO ami;
     PROJECT_INIT_STATUS pis;
@@ -1639,6 +1753,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     CBOINCBaseView* pView = NULL;
     int iItemCount = 0, iIndex;
     int wasShown = 0;
+    int wasVisible = 0;
 
     wxASSERT(m_pNotebook);
     wxASSERT(pDoc);
@@ -1686,20 +1801,79 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 
     pDoc->rpc.get_project_init_status(pis);
     pDoc->rpc.acct_mgr_info(ami);
-    if (ami.acct_mgr_url.size() && !ami.have_credentials) {
-        if (IsShown()) {
-            wasShown = 1;
-        } else {
-            Show();
-        }
 
+    if (detect_simple_account_credentials(
+            strProjectName, strProjectURL, strProjectAuthenticator, strProjectInstitution, strProjectDescription, strProjectKnown
+        )
+    ){
+        if (!pDoc->project((char*)strProjectURL.c_str())) {
+            wasShown = IsShown();
+            Show();
+            wasVisible = wxGetApp().IsApplicationVisible();
+            if (!wasVisible) {
+                wxGetApp().ShowApplication(true);
+            }
+        
+            pWizard = new CWizardAttach(this);
+
+            if (pWizard->RunSimpleProjectAttach(
+                    wxURI::Unescape(strProjectName),
+                    wxURI::Unescape(strProjectURL),
+                    wxURI::Unescape(strProjectAuthenticator),
+                    wxURI::Unescape(strProjectInstitution),
+                    wxURI::Unescape(strProjectDescription),
+                    wxURI::Unescape(strProjectKnown)
+                )
+            ) {
+                // If successful, display the projects tab
+                m_pNotebook->SetSelection(ID_ADVTASKSVIEW - ID_ADVVIEWBASE);
+            } else {
+                // If failure, display the notices tab
+                m_pNotebook->SetSelection(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE);
+            }
+        }
+    } else if (ami.acct_mgr_url.size() && ami.have_credentials) {
+        // Fall through
+        //
+        // There isn't a need to bring up the attach wizard, the client will
+        // take care of attaching to projects when it completes the needed RPCs
+        //
+    } else if (ami.acct_mgr_url.size() && !ami.have_credentials) {
+        wasShown = IsShown();
+        Show();
+        wasVisible = wxGetApp().IsApplicationVisible();
+        if (!wasVisible) {
+            wxGetApp().ShowApplication(true);
+        }
+        
         pWizard = new CWizardAttach(this);
         if (pWizard->SyncToAccountManager()) {
 
-#if defined(__WXMSW__) || defined(__WXMAC__)
-            // If successful, hide the main window if we showed it
-            if (!wasShown) {
-                Hide();
+            // _GRIDREPUBLIC, _PROGRESSTHRUPROCESSORS and _CHARITYENGINE
+            // are defined for those branded builds on Windows only
+#if defined(_GRIDREPUBLIC) || defined(_PROGRESSTHRUPROCESSORS) || defined(_CHARITYENGINE) || defined(__WXMAC__)
+#ifdef __WXMAC__
+            // For GridRepublic, Charity Engine or ProgressThruProcessors, 
+            // the Mac installer put a branding file in our data directory
+            long iBrandID = 0;  // 0 is unbranded (default) BOINC
+
+            FILE *f = boinc_fopen("/Library/Application Support/BOINC Data/Branding", "r");
+            if (f) {
+                fscanf(f, "BrandId=%ld\n", &iBrandID);
+                fclose(f);
+            }
+            if ((iBrandID > 0) && (iBrandID < 4))
+#endif
+            {
+                // If successful, hide the main window if we showed it
+                if (!wasVisible) {
+                    wxGetApp().ShowApplication(false);
+                }
+#ifndef __WXMAC__   // See comment in CBOINCGUIApp::OnFinishInit()
+                if (!wasShown) {
+                    Hide();
+                }
+#endif
             }
 #endif
 
@@ -1731,17 +1905,14 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             m_pNotebook->SetSelection(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE);
         }
     } else if ((pis.url.size() || (0 >= pDoc->GetProjectCount())) && !status.disallow_attach) {
-        if (!IsShown()) {
-            Show();
-        }
-
+        Show();
+        wxGetApp().ShowApplication(true);
+        
         pWizard = new CWizardAttach(this);
-        strName = wxString(pis.name.c_str(), wxConvUTF8);
         strURL = wxString(pis.url.c_str(), wxConvUTF8);
-        strTeamName = wxString(pis.team_name.c_str(), wxConvUTF8);
         bCachedCredentials = pis.url.length() && pis.has_account_key;
 
-        if (pWizard->Run(strName, strURL, strTeamName, bCachedCredentials)) {
+        if (pWizard->Run(strURL, bCachedCredentials)) {
             // If successful, display the work tab
             m_pNotebook->SetSelection(ID_ADVTASKSVIEW - ID_ADVVIEWBASE);
         } else {
@@ -1753,9 +1924,6 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     // Update the menus
     DeleteMenu();
     CreateMenu();
-#ifdef __WXMAC__
-    wxGetApp().GetMacSystemMenu()->BuildMenu();
-#endif
 
     // Restart timers to continue normal operations.
     StartTimers();
@@ -1830,7 +1998,7 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
                     UpdateNetworkModeControls(status);
 
                     if (status.disallow_attach) {
-                        pMenuBar->Enable(ID_WIZARDATTACH, false);
+                        pMenuBar->Enable(ID_WIZARDATTACHPROJECT, false);
                     }
                 }
 
@@ -2144,3 +2312,11 @@ void CAdvancedFrame::StopTimers() {
     m_pFrameRenderTimer->Stop();
 }
 
+
+#ifdef __WXMAC__
+// Fix Keyboard navigation on Mac
+void CAdvancedFrame::OnKeyPressed(wxKeyEvent &event) {
+    CBOINCBaseView* pView = wxDynamicCast(m_pNotebook->GetPage(m_pNotebook->GetSelection()), CBOINCBaseView);
+    pView->OnKeyPressed(event);
+}
+#endif

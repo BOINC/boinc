@@ -166,7 +166,7 @@ function scale_image(
 //      of said user's profile.
 
 function get_profile_summary($profile) {
-    $user = get_user_from_id($profile->userid);
+    $user = BoincUser::lookup_id($profile->userid);
 
     if (!$user || !$profile) {
         error_page(tra("Database error"));
@@ -176,8 +176,9 @@ function get_profile_summary($profile) {
     $description = "";
 
     if (strlen($profile->response1) != 0) {
-        $temp = $profile->response1;
-        $description = "(\"" . sub_sentence(sanitize_tags($temp), ' ', MAX_DESC_LENGTH, true) . "\")";
+        $temp = output_transform($profile->response1);
+        $temp = sanitize_tags($temp);
+        $description = "(\"" . sub_sentence($temp, ' ', MAX_DESC_LENGTH, true) . "\")";
 
     }
 

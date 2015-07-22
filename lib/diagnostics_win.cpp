@@ -43,6 +43,13 @@
 #include "util.h"
 #include "version.h"
 
+#if _MSC_VER > 1600
+  //required for compiling with v110_xp to create XP compatible executables
+  #ifndef FACILITY_VISUALCPP
+    #define FACILITY_VISUALCPP  ((LONG)0x6d)  //now defined in winerror.h
+  #endif
+#endif
+
 #include "diagnostics_win.h"
 
 // NtQuerySystemInformation
@@ -52,18 +59,6 @@ typedef NTSTATUS (WINAPI *tNTQSI)(
     ULONG SystemInformationLength,
     PULONG ReturnLength
 );
-
-// IsDebuggerPresent
-typedef BOOL (WINAPI *tIDP)();
-
-// CreateToolhelp32Snapshot
-typedef HANDLE (WINAPI *tCT32S)(DWORD dwFlags, DWORD dwProcessID);
-// Thread32First
-typedef BOOL (WINAPI *tT32F)(HANDLE hSnapshot, LPTHREADENTRY32 lpte);
-// Thread32Next
-typedef BOOL (WINAPI *tT32N)(HANDLE hSnapshot, LPTHREADENTRY32 lpte);
-// OpenThread
-typedef HANDLE (WINAPI *tOT)(DWORD dwDesiredAccess, BOOL bInheritHandle, DWORD dwThreadId);
 
 
 // Look in the registry for the specified value user the BOINC diagnostics
@@ -238,83 +233,6 @@ PBOINC_THREADLISTENTRY diagnostics_find_thread_entry(DWORD dwThreadId) {
 }
 
 
-// Enumerate the running threads in the process space and add them to
-//   the list.  This is the most compatible implementation.
-int diagnostics_update_thread_list_9X() {
-    HANDLE  hThreadSnap = INVALID_HANDLE_VALUE; 
-    HANDLE  hThread = NULL;
-    HMODULE hKernel32Lib = NULL;
-    PBOINC_THREADLISTENTRY pThreadEntry = NULL;
-    tCT32S  pCT32S = NULL;
-    tT32F   pT32F = NULL;
-    tT32N   pT32N = NULL;
-    tOT     pOT = NULL;
-    THREADENTRY32 te32; 
-
-    // Which version of the data structure are we using.
-    te32.dwSize = sizeof(te32); 
-
-    // Dynamically link to the proper function pointers.
-    hKernel32Lib = GetModuleHandleA("kernel32.dll");
-
-    pCT32S = (tCT32S) GetProcAddress( hKernel32Lib, "CreateToolhelp32Snapshot" );
-    pT32F = (tT32F) GetProcAddress( hKernel32Lib, "Thread32First" );
-    pT32N = (tT32N) GetProcAddress( hKernel32Lib, "Thread32Next" );
-    pOT = (tOT) GetProcAddress( hKernel32Lib, "OpenThread" );
-
-    if (!pCT32S || !pT32F || !pT32N) {
-        return ERROR_NOT_SUPPORTED; 
-    }
-
-    // Take a snapshot of all running threads  
-    hThreadSnap = pCT32S(TH32CS_SNAPTHREAD, 0); 
-    if( hThreadSnap == INVALID_HANDLE_VALUE ) {
-        return GetLastError(); 
-    }
-
-    // Retrieve information about the first thread,
-    // and exit if unsuccessful
-    if( !pT32F( hThreadSnap, &te32 ) ) {
-        CloseHandle( hThreadSnap );
-        return GetLastError();
-    }
-
-    // Wait for the ThreadListSync mutex before writing updates
-    WaitForSingleObject(hThreadListSync, INFINITE);
-
-    // Now walk the thread list of the system,
-    // and display information about each thread
-    // associated with the specified process
-    do { 
-        if( te32.th32OwnerProcessID == GetCurrentProcessId() ) {
-            pThreadEntry = diagnostics_find_thread_entry(te32.th32ThreadID);
-            if (!pThreadEntry) {
-                pThreadEntry = new BOINC_THREADLISTENTRY;
-                diagnostics_init_thread_entry(pThreadEntry);
-                pThreadEntry->thread_id = te32.th32ThreadID;
-                if (pOT) {
-                    hThread = pOT(
-                        THREAD_ALL_ACCESS,
-                        FALSE,
-                        te32.th32ThreadID
-                    );
-                    pThreadEntry->thread_handle = hThread;
-                }
-                diagnostics_threads.push_back(pThreadEntry);
-            }
-        }
-    } 
-    while( pT32N(hThreadSnap, &te32 ) ); 
-
-    // Release the Mutex
-    ReleaseMutex(hThreadListSync);
-
-    CloseHandle(hThreadSnap);
-
-    return 0;
-}
-
-
 // Use the native NT API to get all the process and thread information
 //   about the current process.  This isn't a fully documented API but
 //   enough information exists that we can rely on it for the known
@@ -338,7 +256,7 @@ int diagnostics_get_process_information(PVOID* ppBuffer, PULONG pcbBuffer) {
         }
 
         Status = pNTQSI(
-            SystemProcessAndThreadInformation,
+            SystemProcessInformation,
             *ppBuffer,
             *pcbBuffer,
             pcbBuffer
@@ -358,101 +276,10 @@ int diagnostics_get_process_information(PVOID* ppBuffer, PULONG pcbBuffer) {
 
 
 // Enumerate the running threads in the process space and add them to
-//   the list.  This only works on NT 4.0 based machines.  This also
-//   includes additional information which can be logged during a crash
-//   event.
-int diagnostics_update_thread_list_NT() {
-    DWORD                   dwCurrentProcessId = GetCurrentProcessId();
-    HANDLE                  hThread = NULL;
-    PBOINC_THREADLISTENTRY  pThreadEntry = NULL;
-    ULONG                   cbBuffer = 32*1024;    // 32k initial buffer
-    PVOID                   pBuffer = NULL;
-    PSYSTEM_PROCESSES_NT4   pProcesses = NULL;
-    PSYSTEM_THREADS         pThread = NULL;
-    UINT                    uiSystemIndex = 0;
-    HMODULE                 hKernel32Lib;
-    tOT                     pOT = NULL;
-
-
-    // Dynamically link to the proper function pointers.
-    hKernel32Lib = GetModuleHandleA("kernel32.dll");
-    pOT = (tOT) GetProcAddress( hKernel32Lib, "OpenThread" );
-
-    // Get a snapshot of the process and thread information.
-    diagnostics_get_process_information(&pBuffer, &cbBuffer);
-
-    // Wait for the ThreadListSync mutex before writing updates
-    WaitForSingleObject(hThreadListSync, INFINITE);
-
-    // Lets start walking the structures to find the good stuff.
-    pProcesses = (PSYSTEM_PROCESSES_NT4)pBuffer;
-    do {
-        // Okay, found the current procceses entry now we just need to
-        //   update the thread data.
-        if (pProcesses->ProcessId == dwCurrentProcessId) {
-
-            // Store the process information we now know about.
-            diagnostics_process.process_id = pProcesses->ProcessId;
-            diagnostics_process.vm_counters = pProcesses->VmCounters;
-
-            // Enumerate the threads
-            for(uiSystemIndex = 0; uiSystemIndex < pProcesses->ThreadCount; uiSystemIndex++) {
-                pThread = &pProcesses->Threads[uiSystemIndex];
-                pThreadEntry = diagnostics_find_thread_entry(pThread->ClientId.UniqueThread);
-
-                if (pThreadEntry) {
-                    pThreadEntry->crash_kernel_time = (FLOAT)pThread->KernelTime.QuadPart;
-                    pThreadEntry->crash_user_time = (FLOAT)pThread->UserTime.QuadPart;
-                    pThreadEntry->crash_wait_time = (FLOAT)pThread->WaitTime;
-                    pThreadEntry->crash_priority = pThread->Priority;
-                    pThreadEntry->crash_base_priority = pThread->BasePriority;
-                    pThreadEntry->crash_state = pThread->State;
-                    pThreadEntry->crash_wait_reason = pThread->WaitReason;
-                } else {
-                    if (pOT) {
-                        hThread = pOT(
-                            THREAD_ALL_ACCESS,
-                            FALSE,
-                            pThread->ClientId.UniqueThread
-                        );
-                    }
-
-                    pThreadEntry = new BOINC_THREADLISTENTRY;
-                    diagnostics_init_thread_entry(pThreadEntry);
-                    pThreadEntry->thread_id = pThread->ClientId.UniqueThread;
-                    pThreadEntry->thread_handle = hThread;
-                    pThreadEntry->crash_kernel_time = (FLOAT)pThread->KernelTime.QuadPart;
-                    pThreadEntry->crash_user_time = (FLOAT)pThread->UserTime.QuadPart;
-                    pThreadEntry->crash_wait_time = (FLOAT)pThread->WaitTime;
-                    pThreadEntry->crash_priority = pThread->Priority;
-                    pThreadEntry->crash_base_priority = pThread->BasePriority;
-                    pThreadEntry->crash_state = pThread->State;
-                    pThreadEntry->crash_wait_reason = pThread->WaitReason;
-                    diagnostics_threads.push_back(pThreadEntry);
-                }
-            }
-        }
-
-        // Move to the next structure if one exists
-        if (!pProcesses->NextEntryDelta) {
-            break;
-        }
-        pProcesses = (PSYSTEM_PROCESSES_NT4)(((LPBYTE)pProcesses) + pProcesses->NextEntryDelta);
-    } while (pProcesses);
-
-    // Release resources
-    if (hThreadListSync) ReleaseMutex(hThreadListSync);
-    if (pBuffer) HeapFree(GetProcessHeap(), (DWORD)NULL, pBuffer);
-
-    return 0;
-}
-
-
-// Enumerate the running threads in the process space and add them to
 //   the list.  This only works on XP or better based machines.  This also
 //   includes additional information which can be logged during a crash
 //   event.
-int diagnostics_update_thread_list_XP() {
+int diagnostics_update_thread_list() {
     DWORD                   dwCurrentProcessId = GetCurrentProcessId();
     HANDLE                  hThread = NULL;
     PBOINC_THREADLISTENTRY  pThreadEntry = NULL;
@@ -461,13 +288,7 @@ int diagnostics_update_thread_list_XP() {
     PSYSTEM_PROCESSES       pProcesses = NULL;
     PSYSTEM_THREADS         pThread = NULL;
     UINT                    uiSystemIndex = 0;
-    HMODULE                 hKernel32Lib;
-    tOT                     pOT = NULL;
 
-
-    // Dynamically link to the proper function pointers.
-    hKernel32Lib = GetModuleHandleA("kernel32.dll");
-    pOT = (tOT) GetProcAddress( hKernel32Lib, "OpenThread" );
 
     // Get a snapshot of the process and thread information.
     diagnostics_get_process_information(&pBuffer, &cbBuffer);
@@ -490,7 +311,7 @@ int diagnostics_update_thread_list_XP() {
             // Enumerate the threads
             for(uiSystemIndex = 0; uiSystemIndex < pProcesses->ThreadCount; uiSystemIndex++) {
                 pThread = &pProcesses->Threads[uiSystemIndex];
-                pThreadEntry = diagnostics_find_thread_entry(pThread->ClientId.UniqueThread);
+                pThreadEntry = diagnostics_find_thread_entry((DWORD)pThread->ClientId.UniqueThread);
 
                 if (pThreadEntry) {
                     pThreadEntry->crash_kernel_time = (FLOAT)pThread->KernelTime.QuadPart;
@@ -501,17 +322,15 @@ int diagnostics_update_thread_list_XP() {
                     pThreadEntry->crash_state = pThread->State;
                     pThreadEntry->crash_wait_reason = pThread->WaitReason;
                 } else {
-                    if (pOT) {
-                        hThread = pOT(
-                            THREAD_ALL_ACCESS,
-                            FALSE,
-                            pThread->ClientId.UniqueThread
-                        );
-                    }
+                    hThread = OpenThread(
+                        THREAD_ALL_ACCESS,
+                        FALSE,
+                        (DWORD)(pThread->ClientId.UniqueThread)
+                    );
 
                     pThreadEntry = new BOINC_THREADLISTENTRY;
                     diagnostics_init_thread_entry(pThreadEntry);
-                    pThreadEntry->thread_id = pThread->ClientId.UniqueThread;
+                    pThreadEntry->thread_id = (DWORD)(pThread->ClientId.UniqueThread);
                     pThreadEntry->thread_handle = hThread;
                     pThreadEntry->crash_kernel_time = (FLOAT)pThread->KernelTime.QuadPart;
                     pThreadEntry->crash_user_time = (FLOAT)pThread->UserTime.QuadPart;
@@ -537,56 +356,6 @@ int diagnostics_update_thread_list_XP() {
     if (pBuffer) HeapFree(GetProcessHeap(), (DWORD)NULL, pBuffer);
 
     return 0;
-}
-
-
-// Determine which update thread list function to call based on OS
-//   version.
-int diagnostics_update_thread_list() {
-    int retval = 0;
-
-    // Detect platform information
-    OSVERSIONINFO osvi; 
-    osvi.dwOSVersionInfoSize = sizeof(osvi);
-    GetVersionEx(&osvi);
-
-    switch(osvi.dwPlatformId) {
-        case VER_PLATFORM_WIN32_WINDOWS:
-            // Win95, Win98, WinME
-            retval = diagnostics_update_thread_list_9X();
-            break;
-        case VER_PLATFORM_WIN32_NT:
-            switch(osvi.dwMajorVersion) {
-                case 4:
-                    // WinNT 4.0
-                    retval = diagnostics_update_thread_list_NT();
-                    break;
-                case 5:
-                    // Win2k, WinXP, Win2k3
-                    retval = diagnostics_update_thread_list_XP();
-                    break;
-                case 6:
-                    if (osvi.dwMinorVersion == 0) {
-                        // WinVista
-                        retval = diagnostics_update_thread_list_XP();
-                    } else {
-                        // In cases where we do not know if the interfaces have
-                        //   changed from the ones we know about, just default to
-                        //   the most compatible implementation.
-                        retval = diagnostics_update_thread_list_9X();
-                    }
-                    break;
-                default:
-                    // In cases where we do not know if the interfaces have
-                    //   changed from the ones we know about, just default to
-                    //   the most compatible implementation.
-                    retval = diagnostics_update_thread_list_9X();
-                    break;
-            }
-            break;
-    }
-
-    return retval;
 }
 
 
@@ -748,13 +517,13 @@ int diagnostics_set_thread_crash_message(char* message) {
 //
 char* diagnostics_format_thread_state(int thread_state) {
     switch(thread_state) {
-        case ThreadStateInitialized: return "Initialized";
-        case ThreadStateReady: return "Ready";
-        case ThreadStateRunning: return "Running";
-        case ThreadStateStandby: return "Standby";
-        case ThreadStateTerminated: return "Terminated";
-        case ThreadStateWaiting: return "Waiting";
-        case ThreadStateTransition: return "Transition";
+        case StateInitialized: return "Initialized";
+        case StateReady: return "Ready";
+        case StateRunning: return "Running";
+        case StateStandby: return "Standby";
+        case StateTerminated: return "Terminated";
+        case StateWait: return "Waiting";
+        case StateTransition: return "Transition";
         default: return "Unknown";
     }
     return "";
@@ -868,8 +637,6 @@ int diagnostics_init_message_monitor() {
     DWORD dwType;
     DWORD dwSize;
     DWORD dwCaptureMessages;
-    HMODULE hKernel32Lib;
-    tIDP pIDP = NULL;
 
     SECURITY_ATTRIBUTES sa;
     SECURITY_DESCRIPTOR sd;
@@ -897,7 +664,7 @@ int diagnostics_init_message_monitor() {
     }
     diagnostics_monitor_messages.clear();
 
-    // Check the registry to see if we are aloud to capture debugger messages.
+    // Check the registry to see if we are allowed to capture debugger messages.
     //   Apparently many audio and visual payback programs dump serious
     //   amounts of data to the debugger viewport even on a release build.
     //   When this feature is enabled it slows down the replay of DVDs and CDs
@@ -916,85 +683,78 @@ int diagnostics_init_message_monitor() {
         (LPBYTE)&dwCaptureMessages
     );
 
-
     // If a debugger is present then let it capture the debugger messages
-    hKernel32Lib = GetModuleHandleA("kernel32.dll");
-    pIDP = (tIDP) GetProcAddress(hKernel32Lib, "IsDebuggerPresent");
-
-    if (pIDP) {
-        if (!pIDP() && hMessageMonitorSync && dwCaptureMessages) {
-
-            hMessageAckEvent = CreateEventA(&sa, FALSE, FALSE, "DBWIN_BUFFER_READY");
-            if (!hMessageAckEvent) {
-                fprintf(
-                    stderr, "diagnostics_init_message_monitor(): Creating hMessageAckEvent failed, GLE %d\n", GetLastError()
-                );
-            }
-
-            hMessageReadyEvent = CreateEventA(&sa, FALSE, FALSE, "DBWIN_DATA_READY");
-            if (!hMessageReadyEvent) {
-                fprintf(
-                    stderr, "diagnostics_init_message_monitor(): Creating hMessageReadyEvent failed, GLE %d\n", GetLastError()
-                );
-            }
-
-            hMessageQuitEvent = CreateEventA(NULL, FALSE, FALSE, NULL);
-            if (!hMessageQuitEvent) {
-                fprintf(
-                    stderr, "diagnostics_init_message_monitor(): Creating hMessageQuitEvent failed, GLE %d\n", GetLastError()
-                );
-            }
-
-            hMessageQuitFinishedEvent = CreateEventA(NULL, FALSE, FALSE, NULL);
-            if (!hMessageQuitFinishedEvent) {
-                fprintf(
-                    stderr, "diagnostics_init_message_monitor(): Creating hMessageQuitFinishedEvent failed, GLE %d\n", GetLastError()
-                );
-            }
-
-            hMessageSharedMap = CreateFileMappingA(
-                INVALID_HANDLE_VALUE,    // use paging file
-                &sa,                     // default security 
-                PAGE_READWRITE,          // read/write access
-                0,                       // max. object size 
-                sizeof(DEBUGGERMESSAGE), // buffer size  
-                "DBWIN_BUFFER"           // name of mapping object
+    if (!IsDebuggerPresent() && hMessageMonitorSync && dwCaptureMessages) {
+        hMessageAckEvent = CreateEventA(&sa, FALSE, FALSE, "DBWIN_BUFFER_READY");
+        if (!hMessageAckEvent) {
+            fprintf(
+                stderr, "diagnostics_init_message_monitor(): Creating hMessageAckEvent failed, GLE %d\n", GetLastError()
             );
-            if (!hMessageSharedMap) {
-                fprintf(
-                    stderr, "diagnostics_init_message_monitor(): CreateFileMapping hMessageSharedMap failed, GLE %d\n", GetLastError()
-                );
-            }
-
-            pMessageBuffer = (PDEBUGGERMESSAGE)MapViewOfFile(
-                hMessageSharedMap,
-                FILE_MAP_READ | FILE_MAP_WRITE,
-                0,                       // file offset high
-                0,                       // file offset low
-                sizeof(DEBUGGERMESSAGE)  // # of bytes to map (entire file)
-            );
-            if (!pMessageBuffer) {
-                fprintf(
-                    stderr, "diagnostics_init_message_monitor(): MapViewOfFile pMessageBuffer failed, GLE %d\n", GetLastError()
-                );
-            }
-
-            hMessageMonitorThread = (HANDLE)_beginthreadex(
-                NULL,
-                0,
-                diagnostics_message_monitor,
-                0,
-                0,
-                &uiMessageMonitorThreadId
-            );
-            if (!hMessageMonitorThread) {
-                fprintf(
-                    stderr, "diagnostics_init_message_monitor(): _beginthreadex, errno %d\n", errno
-                );
-            }
-        } else {
-            retval = ERROR_NOT_SUPPORTED;
         }
+
+        hMessageReadyEvent = CreateEventA(&sa, FALSE, FALSE, "DBWIN_DATA_READY");
+        if (!hMessageReadyEvent) {
+            fprintf(
+                stderr, "diagnostics_init_message_monitor(): Creating hMessageReadyEvent failed, GLE %d\n", GetLastError()
+            );
+        }
+
+        hMessageQuitEvent = CreateEventA(NULL, FALSE, FALSE, NULL);
+        if (!hMessageQuitEvent) {
+            fprintf(
+                stderr, "diagnostics_init_message_monitor(): Creating hMessageQuitEvent failed, GLE %d\n", GetLastError()
+            );
+        }
+
+        hMessageQuitFinishedEvent = CreateEventA(NULL, FALSE, FALSE, NULL);
+        if (!hMessageQuitFinishedEvent) {
+            fprintf(
+                stderr, "diagnostics_init_message_monitor(): Creating hMessageQuitFinishedEvent failed, GLE %d\n", GetLastError()
+            );
+        }
+
+        hMessageSharedMap = CreateFileMappingA(
+            INVALID_HANDLE_VALUE,    // use paging file
+            &sa,                     // default security 
+            PAGE_READWRITE,          // read/write access
+            0,                       // max. object size 
+            sizeof(DEBUGGERMESSAGE), // buffer size  
+            "DBWIN_BUFFER"           // name of mapping object
+        );
+        if (!hMessageSharedMap) {
+            fprintf(
+                stderr, "diagnostics_init_message_monitor(): CreateFileMapping hMessageSharedMap failed, GLE %d\n", GetLastError()
+            );
+        }
+
+        pMessageBuffer = (PDEBUGGERMESSAGE)MapViewOfFile(
+            hMessageSharedMap,
+            FILE_MAP_READ | FILE_MAP_WRITE,
+            0,                       // file offset high
+            0,                       // file offset low
+            sizeof(DEBUGGERMESSAGE)  // # of bytes to map (entire file)
+        );
+        if (!pMessageBuffer) {
+            fprintf(
+                stderr, "diagnostics_init_message_monitor(): MapViewOfFile pMessageBuffer failed, GLE %d\n", GetLastError()
+            );
+        }
+
+        hMessageMonitorThread = (HANDLE)_beginthreadex(
+            NULL,
+            0,
+            diagnostics_message_monitor,
+            0,
+            0,
+            &uiMessageMonitorThreadId
+        );
+        if (!hMessageMonitorThread) {
+            fprintf(
+                stderr, "diagnostics_init_message_monitor(): _beginthreadex, errno %d\n", errno
+            );
+        }
+    } else {
+        retval = ERROR_NOT_SUPPORTED;
     }
 
     // Release the Mutex
@@ -1206,6 +966,38 @@ UINT WINAPI diagnostics_message_monitor(LPVOID /* lpParameter */) {
     SetEvent(hMessageQuitFinishedEvent);
     return 0;
 }
+
+
+// Dump a message to the debuggers viewport if we are allowed to.
+//
+int diagnostics_trace_to_debugger(const char* msg) {
+    DWORD dwType;
+    DWORD dwSize;
+    DWORD dwTraceToViewport;
+
+    // Check the registry to see if we are allowed to dump debugger messages.
+    //
+    // We'll turn it off by default, but keep it around just in case we need
+    //   it or want to use it.
+    //
+    dwTraceToViewport = 0;
+    dwType = REG_DWORD;
+    dwSize = sizeof(dwTraceToViewport);
+    diagnostics_get_registry_value(
+        "TraceToViewport",
+        &dwType,
+        &dwSize,
+        (LPBYTE)&dwTraceToViewport
+    );
+
+    if (dwTraceToViewport) {
+        OutputDebugStringA(msg);
+    }
+
+    return 0;
+}
+
+
 
 
 // Structured Exceptions are Windows primary mechanism for dealing with
@@ -1545,7 +1337,7 @@ int diagnostics_dump_process_information() {
 int diagnostics_dump_thread_information(PBOINC_THREADLISTENTRY pThreadEntry) {
     std::string strStatusExtra;
 
-    if (pThreadEntry->crash_state == ThreadStateWaiting) {
+    if (pThreadEntry->crash_state == StateWait) {
         strStatusExtra += "Wait Reason: ";
         strStatusExtra += diagnostics_format_thread_wait_reason(pThreadEntry->crash_wait_reason);
         strStatusExtra += ", ";
@@ -1600,12 +1392,15 @@ int diagnostics_dump_exception_record(PEXCEPTION_POINTERS pExPtrs) {
     char           message[1024];
     PVOID          exception_address = pExPtrs->ExceptionRecord->ExceptionAddress;
     DWORD          exception_code = pExPtrs->ExceptionRecord->ExceptionCode;
+#ifdef HAVE_DELAYIMP_H
     PDelayLoadInfo delay_load_info = NULL;
+#endif
 
     // Print unhandled exception banner
     fprintf(stderr, "- Unhandled Exception Record -\n");
 
     switch (exception_code) {
+#ifdef HAVE_DELAYIMP_H
         case VcppException(ERROR_SEVERITY_ERROR, ERROR_MOD_NOT_FOUND):
             delay_load_info = (PDelayLoadInfo)pExPtrs->ExceptionRecord->ExceptionInformation[0];
             fprintf(
@@ -1623,6 +1418,7 @@ int diagnostics_dump_exception_record(PEXCEPTION_POINTERS pExPtrs) {
                 delay_load_info->szDll
             );
             break;
+#endif
         case 0xC0000135:                     // STATUS_DLL_NOT_FOUND
         case 0xC0000139:                     // STATUS_ENTRYPOINT_NOT_FOUND
         case 0xC0000142:                     // STATUS_DLL_INIT_FAILED

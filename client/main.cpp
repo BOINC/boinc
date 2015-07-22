@@ -70,7 +70,6 @@
 
 #include "main.h"
 
-
 // Log informational messages to system specific places
 //
 void log_message_startup(const char* msg) {
@@ -102,11 +101,12 @@ void log_message_error(const char* msg) {
     char evt_msg[2048];
     char* time_string = time_to_string(dtime());
 #ifdef _WIN32
+    char buf[1024];
     snprintf(evt_msg, sizeof(evt_msg),
         "%s %s\n"
         "GLE: %s\n",
-        time_string, msg, 
-        windows_format_error_string(GetLastError(), evt_msg, (sizeof(evt_msg)-((int)strlen(msg)+7)))
+        time_string, msg,
+        windows_format_error_string(GetLastError(), buf, sizeof(buf))
     );
 #else
     snprintf(evt_msg, sizeof(evt_msg),
@@ -179,12 +179,12 @@ static void init_core_client(int argc, char** argv) {
     setbuf(stdout, 0);
     setbuf(stderr, 0);
 
-    config.defaults();
+    cc_config.defaults();
     gstate.parse_cmdline(argc, argv);
     gstate.now = dtime();
 
 #ifdef _WIN32
-    if (!config.allow_multiple_clients) {
+    if (!cc_config.allow_multiple_clients) {
         chdir_to_data_dir();
     }
 #endif
@@ -239,20 +239,51 @@ static void init_core_client(int argc, char** argv) {
     // Unix: install signal handlers
 #ifndef _WIN32
     // Handle quit signals gracefully
-    boinc_set_signal_handler(SIGHUP, signal_handler);
-    boinc_set_signal_handler(SIGINT, signal_handler);
-    boinc_set_signal_handler(SIGQUIT, signal_handler);
-    boinc_set_signal_handler(SIGTERM, signal_handler);
+    boinc_set_signal_handler(SIGHUP, (handler_t)signal_handler);
+    boinc_set_signal_handler(SIGINT, (handler_t)signal_handler);
+    boinc_set_signal_handler(SIGQUIT, (handler_t)signal_handler);
+    boinc_set_signal_handler(SIGTERM, (handler_t)signal_handler);
 #ifdef SIGPWR
-    boinc_set_signal_handler(SIGPWR, signal_handler);
+    boinc_set_signal_handler(SIGPWR, (handler_t)signal_handler);
 #endif
 #endif
+}
+
+// Some dual-GPU laptops (e.g., Macbook Pro) don't power down
+// the more powerful GPU until all applications which used them exit.
+// To save battery life, the client launches a second instance
+// of the client as a child process to detect and get info
+// about the GPUs.
+// The child process writes the info to a temp file which our main
+// client then reads.
+//
+static void do_gpu_detection(int argc, char** argv) {
+    vector<string> warnings;
+    
+    boinc_install_signal_handlers();
+    gstate.parse_cmdline(argc, argv);
+    gstate.now = dtime();
+
+    int flags =
+        BOINC_DIAG_DUMPCALLSTACKENABLED |
+        BOINC_DIAG_HEAPCHECKENABLED |
+        BOINC_DIAG_TRACETOSTDOUT |
+        BOINC_DIAG_REDIRECTSTDERR |
+        BOINC_DIAG_REDIRECTSTDOUT;
+
+    diagnostics_init(flags, "stdoutgpudetect", "stderrgpudetect");
+
+    read_config_file(true);
+
+    coprocs.detect_gpus(warnings);
+    coprocs.write_coproc_info_file(warnings);
+    warnings.clear();
 }
 
 static int initialize() {
     int retval;
 
-    if (!config.allow_multiple_clients) {
+    if (!cc_config.allow_multiple_clients) {
         retval = wait_client_mutex(".", 10);
         if (retval) {
             log_message_error("Another instance of BOINC is running.");
@@ -341,7 +372,7 @@ int boinc_main_loop() {
             break;
         }
         if (gstate.requested_exit) {
-            if (config.abort_jobs_on_exit) {
+            if (cc_config.abort_jobs_on_exit) {
                 if (!gstate.in_abort_sequence) {
                     msg_printf(NULL, MSG_INFO,
                         "Exit requested; starting abort sequence"
@@ -349,7 +380,7 @@ int boinc_main_loop() {
                     gstate.start_abort_sequence();
                 }
             } else {
-                msg_printf(NULL, MSG_INFO, "Exit requested by user");
+                msg_printf(NULL, MSG_INFO, "Exiting");
                 break;
             }
         }
@@ -367,18 +398,32 @@ int boinc_main_loop() {
 int main(int argc, char** argv) {
     int retval = 0;
 
+    coprocs.set_path_to_client(argv[0]);    // Used to launch a child process for --detect_gpus
+
     for (int index = 1; index < argc; index++) {
         if (strcmp(argv[index], "-daemon") == 0 || strcmp(argv[index], "--daemon") == 0) {
             gstate.executing_as_daemon = true;
             log_message_startup("BOINC is initializing...");
 #if !defined(_WIN32) && !defined(__EMX__) && !defined(__APPLE__)
             // from <unistd.h>:
-            // Detach from the controlling terminal and run in the background as system daemon.
+            // Detach from the controlling terminal and run in the background
+            // as system daemon.
             // Don't change working directory to root ("/"), but redirect
             // standard input, standard output and standard error to /dev/null.
+            //
             retval = daemon(1, 0);
             break;
 #endif
+        }
+
+        if (!strcmp(argv[index], "--detect_gpus")) {
+            do_gpu_detection(argc, argv);
+            return 0;
+        }
+
+        if (!strcmp(argv[index], "--run_test_app")) {
+            read_config_file(true);
+            run_test_app();
         }
 
 #ifdef _WIN32

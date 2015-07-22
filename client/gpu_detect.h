@@ -15,9 +15,20 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifndef _GPU_DETECT_H_
+#define _GPU_DETECT_H_
+
+#include "coproc.h"
+
+using std::vector;
+
 extern vector<COPROC_ATI> ati_gpus;
 extern vector<COPROC_NVIDIA> nvidia_gpus;
 extern vector<COPROC_INTEL> intel_gpus;
 extern vector<OPENCL_DEVICE_PROP> nvidia_opencls;
 extern vector<OPENCL_DEVICE_PROP> ati_opencls;
 extern vector<OPENCL_DEVICE_PROP> intel_gpu_opencls;
+extern vector<OPENCL_DEVICE_PROP> other_opencls;
+extern vector<OPENCL_CPU_PROP> cpu_opencls;
+
+#endif

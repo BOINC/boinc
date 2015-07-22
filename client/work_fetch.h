@@ -27,7 +27,7 @@
 #define RSC_TYPE_ANY    -1
 #define RSC_TYPE_CPU    0
 
-// reasons for not fetching work
+// reasons for not fetching work from a project
 //
 #define CANT_FETCH_WORK_NON_CPU_INTENSIVE           1
 #define CANT_FETCH_WORK_SUSPENDED_VIA_GUI           2
@@ -39,32 +39,20 @@
 #define CANT_FETCH_WORK_TOO_MANY_UPLOADS            8
 #define CANT_FETCH_WORK_NOT_HIGHEST_PRIORITY        9
 #define CANT_FETCH_WORK_DONT_NEED                   10
+#define CANT_FETCH_WORK_TOO_MANY_RUNNABLE           11
 
-inline const char* cant_fetch_work_string(int reason) {
-    switch (reason) {
-    case CANT_FETCH_WORK_NON_CPU_INTENSIVE:
-        return "non CPU intensive";
-    case CANT_FETCH_WORK_SUSPENDED_VIA_GUI:
-        return "suspended via Manager";
-    case CANT_FETCH_WORK_MASTER_URL_FETCH_PENDING:
-        return "master URL fetch pending";
-    case CANT_FETCH_WORK_MIN_RPC_TIME:
-        return "scheduler RPC backoff";
-    case CANT_FETCH_WORK_DONT_REQUEST_MORE_WORK:
-        return "\"no new tasks\" requested via Manager";
-    case CANT_FETCH_WORK_DOWNLOAD_STALLED:
-        return "some download is stalled";
-    case CANT_FETCH_WORK_RESULT_SUSPENDED:
-        return "some task is suspended via Manager";
-    case CANT_FETCH_WORK_TOO_MANY_UPLOADS:
-        return "too many uploads in progress";
-    case CANT_FETCH_WORK_NOT_HIGHEST_PRIORITY:
-        return "project is not highest priority";
-    case CANT_FETCH_WORK_DONT_NEED:
-        return "don't need";
-    }
-    return "";
-}
+// in case of DONT_NEED, per-resource reason
+//
+#define DONT_FETCH_GPUS_NOT_USABLE                  1
+#define DONT_FETCH_PREFS                            2
+#define DONT_FETCH_CONFIG                           3
+#define DONT_FETCH_NO_APPS                          4
+#define DONT_FETCH_AMS                              5
+#define DONT_FETCH_ZERO_SHARE                       7
+#define DONT_FETCH_BUFFER_FULL                      8
+#define DONT_FETCH_NOT_HIGHEST_PRIO                 9
+#define DONT_FETCH_BACKED_OFF                       10
+#define DONT_FETCH_DEFER_SCHED                      11
 
 struct PROJECT;
 struct RESULT;
@@ -72,6 +60,9 @@ struct ACTIVE_TASK;
 struct RSC_WORK_FETCH;
 struct SCHEDULER_REPLY;
 struct APP_VERSION;
+
+typedef long long COPROC_INSTANCE_BITMAP;
+    // should be at least MAX_COPROC_INSTANCES (64) bits
 
 // state per (resource, project) pair
 //
@@ -87,7 +78,7 @@ struct RSC_PROJECT_WORK_FETCH {
     }
     double queue_est;
         // an estimate of instance-secs of queued work;
-    bool anon_skip;
+    bool anonymous_platform_no_apps;
         // set if this project is anonymous platform
         // and it has no app version that uses this resource
     double fetchable_share;
@@ -100,7 +91,7 @@ struct RSC_PROJECT_WORK_FETCH {
     double nused_total;     // sum of instances over all runnable jobs
     int ncoprocs_excluded;
         // number of excluded instances
-    int non_excluded_instances;
+    COPROC_INSTANCE_BITMAP non_excluded_instances;
         // bitmap of non-excluded instances
         // (i.e. instances this project's jobs can run on)
     int deadlines_missed;
@@ -108,13 +99,17 @@ struct RSC_PROJECT_WORK_FETCH {
         // copy of the above used during schedule_cpus()
     std::deque<RESULT*> pending;
     std::deque<RESULT*>::iterator pending_iter;
+    bool has_deferred_job;
+        // This project has a coproc job of the given type for which
+        // the job is deferred because of a temporary_exit() call.
+        // Don't fetch more jobs of this type; they might have same problem
 
     RSC_PROJECT_WORK_FETCH() {
         backoff_time = 0;
         backoff_interval = 0;
         secs_this_rec_interval = 0;
         queue_est = 0;
-        anon_skip = false;
+        anonymous_platform_no_apps = false;
         fetchable_share = 0;
         n_runnable_jobs = 0;
         sim_nused = 0;
@@ -123,6 +118,7 @@ struct RSC_PROJECT_WORK_FETCH {
         non_excluded_instances = 0;
         deadlines_missed = 0;
         deadlines_missed_copy = 0;
+        has_deferred_job = false;
     }
 
     inline void reset() {
@@ -130,10 +126,10 @@ struct RSC_PROJECT_WORK_FETCH {
         backoff_interval = 0;
     }
 
-    bool may_have_work;
-    bool compute_may_have_work(PROJECT*, int rsc_type);
+    int rsc_project_reason;
+    int compute_rsc_project_reason(PROJECT*, int rsc_type);
     void resource_backoff(PROJECT*, const char*);
-    void rr_init(PROJECT*, int rsc_type);
+    void rr_init();
     void clear_backoff() {
         backoff_time = 0;
         backoff_interval = 0;
@@ -207,10 +203,10 @@ struct RSC_WORK_FETCH {
         // seconds of idle instances between now and now+work_buf_total()
     double nidle_now;
     double sim_nused;
-    int sim_used_instances;
+    COPROC_INSTANCE_BITMAP sim_used_instances;
         // bitmap of instances used in simulation,
         // taking into account GPU exclusions
-    int sim_excluded_instances;
+    COPROC_INSTANCE_BITMAP sim_excluded_instances;
         // bitmap of instances not used (i.e. starved because of exclusion)
     double total_fetchable_share;
         // total RS of projects from which we could fetch jobs for this device
@@ -220,6 +216,7 @@ struct RSC_WORK_FETCH {
     double deadline_missed_instances;
         // instance count for jobs that miss deadline
     BUSY_TIME_ESTIMATOR busy_time_estimator;
+    int dont_fetch_reason;
 #ifdef SIM
     double estimated_delay;
 #endif
@@ -252,9 +249,10 @@ struct RSC_WORK_FETCH {
     void print_state(const char*);
     void clear_request();
     void set_request(PROJECT*);
+    void copy_request(COPROC&);
     void set_request_excluded(PROJECT*);
     bool may_have_work(PROJECT*);
-    bool can_fetch(PROJECT*);
+    int cant_fetch(PROJECT*);
     bool backed_off(PROJECT*);
     bool uses_starved_excluded_instances(PROJECT*);
     RSC_WORK_FETCH() {
@@ -283,18 +281,26 @@ struct PROJECT_WORK_FETCH {
         // temporary copy used during schedule_cpus() and work fetch
     double rec_temp_save;
         // temporary used during RR simulation
-    int cant_fetch_work_reason;
-    int compute_cant_fetch_work_reason(PROJECT*);
+    int project_reason;
+    int compute_project_reason(PROJECT*);
     int n_runnable_jobs;
+    bool request_if_idle_and_uploading;
+        // Set when a job finishes.
+        // If we're uploading but a resource is idle, make a work request.
+        // If this succeeds, clear the flag.
     PROJECT_WORK_FETCH() {
         memset(this, 0, sizeof(*this));
     }
     void reset(PROJECT*);
+    void rr_init(PROJECT*);
+    void print_state(PROJECT*);
 };
 
 // global work fetch state
 //
 struct WORK_FETCH {
+    std::vector<PROJECT*> projects_sorted;
+        // projects in decreasing priority order
     void setup();
     PROJECT* choose_project();
         // Find a project to ask for work.
@@ -312,19 +318,17 @@ struct WORK_FETCH {
     void set_all_requests_hyst(PROJECT*, int rsc_type);
     void print_state();
     void init();
-    void compute_cant_fetch_work_reason();
     void rr_init();
     void clear_request();
     void compute_shares();
     void clear_backoffs(APP_VERSION&);
     void request_string(char*);
     bool requested_work();
+    void copy_requests();
 };
 
 extern RSC_WORK_FETCH rsc_work_fetch[MAX_RSC];
 extern WORK_FETCH work_fetch;
-
-extern void set_no_rsc_config();
 
 extern void project_priority_init(bool for_work_fetch);
 extern double project_priority(PROJECT*);
@@ -332,5 +336,7 @@ extern void adjust_rec_sched(RESULT*);
 extern void adjust_rec_work_fetch(RESULT*);
 
 extern double total_peak_flops();
+extern const char* project_reason_string(PROJECT* p, char* buf);
+extern const char* rsc_project_reason_string(int);
 
 #endif

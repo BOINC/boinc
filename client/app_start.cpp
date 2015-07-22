@@ -22,9 +22,11 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_util.h"
+#define unlink _unlink
 #ifdef _MSC_VER
 #define snprintf _snprintf
 #define strdup   _strdup
+#define getcwd  _getcwd
 #endif
 #else
 #include "config.h"
@@ -161,7 +163,7 @@ int ACTIVE_TASK::get_shmem_seg_name() {
     char init_data_path[MAXPATHLEN];
 #ifndef __EMX__
     // shmem_seg_name is not used with mmap() shared memory
-    if (app_version->api_major_version() >= 6) {
+    if (app_version->api_version_at_least(6, 0)) {
         shmem_seg_name = -1;
         return 0;
     }
@@ -242,6 +244,7 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
     aid.global_prefs = gstate.global_prefs;
     aid.starting_elapsed_time = checkpoint_elapsed_time;
     aid.using_sandbox = g_use_sandbox;
+    aid.vm_extensions_disabled = gstate.host_info.p_vm_extensions_disabled;
     aid.rsc_fpops_est = wup->rsc_fpops_est;
     aid.rsc_fpops_bound = wup->rsc_fpops_bound;
     aid.rsc_memory_bound = wup->rsc_memory_bound;
@@ -250,7 +253,13 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
     int rt = app_version->gpu_usage.rsc_type;
     if (rt) {
         COPROC& cp = coprocs.coprocs[rt];
-        safe_strcpy(aid.gpu_type, cp.type);
+        if (coproc_type_name_to_num(cp.type) >= 0) {
+            // Standardized vendor name ("NVIDIA", "ATI" or "intel_gpu")
+            safe_strcpy(aid.gpu_type, cp.type);
+        } else {
+            // For other vendors, use vendor name as returned by OpenCL
+            safe_strcpy(aid.gpu_type, cp.opencl_prop.vendor);
+        }
         int k = result->coproc_indices[0];
         if (k<0 || k>=cp.count) {
             msg_printf(0, MSG_INTERNAL_ERROR,
@@ -268,7 +277,7 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
         aid.gpu_usage = 0;
     }
     aid.ncpus = app_version->avg_ncpus;
-    aid.vbox_window = config.vbox_window;
+    aid.vbox_window = cc_config.vbox_window;
     aid.checkpoint_period = gstate.global_prefs.disk_interval;
     aid.fraction_done_start = 0;
     aid.fraction_done_end = 1;
@@ -287,6 +296,12 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
 int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
     FILE *f;
     char init_data_path[MAXPATHLEN];
+
+#if 0
+    msg_printf(wup->project, MSG_INFO,
+        "writing app_init.xml for %s; slot %d rt %s gpu_device_num %d", result->name, slot, aid.gpu_type, aid.gpu_device_num
+    );
+#endif
 
     sprintf(init_data_path, "%s/%s", slot_dir, INIT_DATA_FILE);
 
@@ -364,6 +379,12 @@ int ACTIVE_TASK::setup_file(
     int retval;
     PROJECT* project = result->project;
 
+    if (log_flags.slot_debug) {
+        msg_printf(wup->project, MSG_INFO,
+            "setup_file: %s (%s)", file_path, input?"input":"output"
+        );
+    }
+
     if (strlen(fref.open_name)) {
         if (is_io_file) {
             prepend_prefix(
@@ -424,9 +445,7 @@ int ACTIVE_TASK::setup_file(
     }
     if (retval) return retval;
 #endif
-#ifdef SANDBOX
-    return set_to_project_group(link_path);
-#endif
+    if (g_use_sandbox) set_to_project_group(link_path);
     return 0;
 }
 
@@ -459,21 +478,29 @@ int ACTIVE_TASK::copy_output_files() {
         );
         sprintf(slotfile, "%s/%s", slot_dir, open_name);
         get_pathname(fip, projfile, sizeof(projfile));
-#if 1
-        boinc_rename(slotfile, projfile);
-#else
         int retval = boinc_rename(slotfile, projfile);
-        // this isn't a BOINC error.
-        // it just means the app didn't create an output file
-        // that it was supposed to.
+        // the rename fails if the output file isn't there.
         //
         if (retval) {
-            msg_printf(wup->project, MSG_INTERNAL_ERROR,
-                "Can't rename output file %s to %s: %s",
-                fip->name, projfile, boincerror(retval)
-            );
+            if (retval == ERR_FILE_MISSING) {
+                if (log_flags.slot_debug) {
+                    msg_printf(wup->project, MSG_INFO,
+                        "[slot] output file %s missing, not copying", slotfile
+                    );
+                }
+            } else {
+                msg_printf(wup->project, MSG_INTERNAL_ERROR,
+                    "Can't rename output file %s to %s: %s",
+                    slotfile, projfile, boincerror(retval)
+                );
+            }
+        } else {
+            if (log_flags.slot_debug) {
+                msg_printf(wup->project, MSG_INFO,
+                    "[slot] renamed %s to %s", slotfile, projfile
+                );
+            }
         }
-#endif
     }
     return 0;
 }
@@ -491,14 +518,20 @@ int ACTIVE_TASK::copy_output_files() {
 // else
 //   ACTIVE_TASK::task_state is PROCESS_EXECUTING
 //
-int ACTIVE_TASK::start() {
+// If "test" is set, we're doing the API test; just run "test_app".
+//
+int ACTIVE_TASK::start(bool test) {
     char exec_name[256], file_path[MAXPATHLEN], buf[256], exec_path[MAXPATHLEN];
     char cmdline[80000];    // 64KB plus some extra
     unsigned int i;
     FILE_REF fref;
     FILE_INFO* fip;
-    int retval, rt;
+    int retval;
     APP_INIT_DATA aid;
+#ifdef _WIN32
+    bool success = false;
+    LPVOID environment_block=NULL;
+#endif
 
     if (async_copy) {
         if (log_flags.task_debug) {
@@ -509,9 +542,15 @@ int ACTIVE_TASK::start() {
         return 0;
     }
 
-    // if this job uses less than one CPU, run it at above idle priority
+    // run it at above idle priority if it
+    // - uses coprocs
+    // - uses less than one CPU
+    // - is a wrapper
     //
-    bool high_priority = (app_version->avg_ncpus < 1);
+    bool high_priority = false;
+    if (app_version->rsc_type()) high_priority = true;
+    if (app_version->avg_ncpus < 1) high_priority = true;
+    if (app_version->is_wrapper) high_priority = true;
 
     if (wup->project->verify_files_on_app_start) {
         fip=0;
@@ -536,8 +575,8 @@ int ACTIVE_TASK::start() {
     graphics_request_queue.init(result->name);        // reset message queues
     process_control_queue.init(result->name);
 
-    bytes_sent = 0;
-    bytes_received = 0;
+    bytes_sent_episode = 0;
+    bytes_received_episode = 0;
 
     if (!app_client_shm.shm) {
         retval = get_shmem_seg_name();
@@ -562,7 +601,12 @@ int ACTIVE_TASK::start() {
 
     // set up applications files
     //
-    strcpy(exec_name, "");
+    if (test) {
+        strcpy(exec_name, "test_app");
+        strcpy(exec_path, "test_app");
+    } else {
+        strcpy(exec_name, "");
+    }
     for (i=0; i<app_version->app_files.size(); i++) {
         fref = app_version->app_files[i];
         fip = fref.file_info;
@@ -631,7 +675,7 @@ int ACTIVE_TASK::start() {
     sprintf(file_path, "%s/%s", slot_dir, TEMPORARY_EXIT_FILE);
     delete_project_owned_file(file_path, true);
 
-    if (config.exit_before_start) {
+    if (cc_config.exit_before_start) {
         msg_printf(0, MSG_INFO, "about to start a job; exiting");
         exit(0);
     }
@@ -639,11 +683,11 @@ int ACTIVE_TASK::start() {
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
-    LPVOID environment_block = NULL;
     char slotdirpath[MAXPATHLEN];
     char error_msg[1024];
     char error_msg2[1024];
-
+    DWORD last_error = 0;
+    
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
     startup_info.cb = sizeof(startup_info);
@@ -654,7 +698,7 @@ int ACTIVE_TASK::start() {
 
     app_client_shm.reset_msgs();
 
-    if (config.run_apps_manually) {
+    if (cc_config.run_apps_manually) {
         // fill in client's PID so we won't think app has exited
         //
         pid = GetCurrentProcessId();
@@ -666,15 +710,16 @@ int ACTIVE_TASK::start() {
     sprintf(cmdline, "%s %s %s",
         exec_path, wup->command_line.c_str(), app_version->cmdline
     );
-    rt = app_version->gpu_usage.rsc_type;
-    if (rt) {
-        coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline);
+    if (!app_version->api_version_at_least(7, 5)) {
+        int rt = app_version->gpu_usage.rsc_type;
+        if (rt) {
+            coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline);
+        }
     }
 
     relative_to_absolute(slot_dir, slotdirpath);
-    bool success = false;
     int prio_mask;
-    if (config.no_priority_change) {
+    if (cc_config.no_priority_change) {
         prio_mask = 0;
     } else if (high_priority) {
         prio_mask = BELOW_NORMAL_PRIORITY_CLASS;
@@ -683,19 +728,10 @@ int ACTIVE_TASK::start() {
     }
 
     for (i=0; i<5; i++) {
+        last_error = 0;
         if (sandbox_account_service_token != NULL) {
-            // Find CreateEnvironmentBlock/DestroyEnvironmentBlock pointers
-            tCEB    pCEB = NULL;
-            tDEB    pDEB = NULL;
-            HMODULE hUserEnvLib = NULL;
 
-            hUserEnvLib = LoadLibrary("userenv.dll");
-            if (hUserEnvLib) {
-                pCEB = (tCEB) GetProcAddress(hUserEnvLib, "CreateEnvironmentBlock");
-                pDEB = (tDEB) GetProcAddress(hUserEnvLib, "DestroyEnvironmentBlock");
-            }
-
-            if (!pCEB(&environment_block, sandbox_account_service_token, FALSE)) {
+            if (!CreateEnvironmentBlock(&environment_block, sandbox_account_service_token, FALSE)) {
                 if (log_flags.task) {
                     windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
                     msg_printf(wup->project, MSG_INFO,
@@ -720,13 +756,15 @@ int ACTIVE_TASK::start() {
                 success = true;
                 break;
             } else {
-                windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
+                last_error = GetLastError();
+                windows_format_error_string(last_error, error_msg, sizeof(error_msg));
                 msg_printf(wup->project, MSG_INTERNAL_ERROR,
-                    "Process creation failed: %s", error_msg
+                    "Process creation failed: %s - error code %d (0x%x)",
+                    error_msg, last_error, last_error
                 );
             }
 
-            if (!pDEB(environment_block)) {
+            if (!DestroyEnvironmentBlock(environment_block)) {
                 if (log_flags.task) {
                     windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg2));
                     msg_printf(wup->project, MSG_INFO,
@@ -734,12 +772,6 @@ int ACTIVE_TASK::start() {
                         error_msg2
                     );
                 }
-            }
-
-            if (hUserEnvLib) {
-                pCEB = NULL;
-                pDEB = NULL;
-                FreeLibrary(hUserEnvLib);
             }
 
         } else {
@@ -758,9 +790,11 @@ int ACTIVE_TASK::start() {
                 success = true;
                 break;
             } else {
-                windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
+                last_error = GetLastError();
+                windows_format_error_string(last_error, error_msg, sizeof(error_msg));
                 msg_printf(wup->project, MSG_INTERNAL_ERROR,
-                    "Process creation failed: %s", error_msg
+                    "Process creation failed: %s - error code %d (0x%x)",
+                    error_msg, last_error, last_error
                 );
             }
         }
@@ -769,6 +803,16 @@ int ACTIVE_TASK::start() {
 
     if (!success) {
         sprintf(buf, "CreateProcess() failed - %s", error_msg);
+
+        if (last_error == ERROR_NOT_ENOUGH_MEMORY) {
+            // if CreateProcess() failed because system is low on memory,
+            // treat this like a temporary exit;
+            // retry in 10 min, and give up after 100 times
+            //
+            bool will_restart;
+            handle_temporary_exit(will_restart, 600, "not enough memory", false);
+            if (will_restart) return 0;
+        }
         retval = ERR_EXEC;
         goto error;
     }
@@ -836,7 +880,7 @@ int ACTIVE_TASK::start() {
         );
     }
 
-    if (!config.no_priority_change) {
+    if (!cc_config.no_priority_change) {
         if (setpriority(PRIO_PROCESS, pid,
             high_priority?PROCESS_MEDIUM_PRIORITY:PROCESS_IDLE_PRIORITY)
         ) {
@@ -850,15 +894,20 @@ int ACTIVE_TASK::start() {
     char* argv[100];
     char current_dir[1024];
 
-    getcwd(current_dir, sizeof(current_dir));
+    if (getcwd(current_dir, sizeof(current_dir)) == NULL) {
+        sprintf(buf, "Can't get cwd");
+        goto error;
+    }
 
     sprintf(cmdline, "%s %s",
         wup->command_line.c_str(), app_version->cmdline
     );
 
-    rt = app_version->gpu_usage.rsc_type;
-    if (rt) {
-        coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline);
+    if (!app_version->api_version_at_least(7, 5)) {
+        int rt = app_version->gpu_usage.rsc_type;
+        if (rt) {
+            coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline);
+        }
     }
 
     // Set up client/app shared memory seg if needed
@@ -867,7 +916,7 @@ int ACTIVE_TASK::start() {
 #ifdef ANDROID
         if (true) {
 #else
-        if (app_version->api_major_version() >= 6) {
+        if (app_version->api_version_at_least(6, 0)) {
 #endif
             // Use mmap() shared memory
             sprintf(buf, "%s/%s", slot_dir, MMAPPED_FILE_NAME);
@@ -876,9 +925,7 @@ int ACTIVE_TASK::start() {
                     int fd = open(buf, O_RDWR | O_CREAT, 0660);
                     if (fd >= 0) {
                         close (fd);
-#ifdef SANDBOX
-                        set_to_project_group(buf);
-#endif
+                        if (g_use_sandbox) set_to_project_group(buf);
                     }
                 }
             }
@@ -913,7 +960,7 @@ int ACTIVE_TASK::start() {
     // PowerPC apps emulated on i386 Macs crash if running graphics
     powerpc_emulated_on_i386 = ! is_native_i386_app(exec_path);
 #endif
-    if (config.run_apps_manually) {
+    if (cc_config.run_apps_manually) {
         pid = getpid();     // use the client's PID
         set_task_state(PROCESS_EXECUTING, "start");
         return 0;
@@ -997,14 +1044,28 @@ int ACTIVE_TASK::start() {
 
         // hook up stderr to a specially-named file
         //
-        freopen(STDERR_FILE, "a", stderr);
+        (void) freopen(STDERR_FILE, "a", stderr);
 
-        if (!config.no_priority_change) {
+        // lower our priority if needed
+        //
+        if (!cc_config.no_priority_change) {
 #if HAVE_SETPRIORITY
             if (setpriority(PRIO_PROCESS, 0,
                 high_priority?PROCESS_MEDIUM_PRIORITY:PROCESS_IDLE_PRIORITY)
             ) {
                 perror("setpriority");
+            }
+#endif
+#ifdef ANDROID
+            // Android has its own notion of background scheduling
+            if (!high_priority) {
+                FILE* f = fopen("/dev/cpuctl/apps/bg_non_interactive/tasks", "w");
+                if (!f) {
+                    msg_printf(NULL, MSG_INFO, "Can't open /dev/cpuctl/apps/bg_non_interactive/tasks");
+                } else {
+                    fprintf(f, "%d", getpid());
+                    fclose(f);
+                }
             }
 #endif
 #if HAVE_SCHED_SETSCHEDULER && defined(SCHED_BATCH) && defined (__linux__)
@@ -1017,7 +1078,16 @@ int ACTIVE_TASK::start() {
             }
 #endif
         }
-        sprintf(buf, "../../%s", exec_path);
+
+        // Run the application program.
+        // If using account-based sandboxing, use a helper app
+        // to do this, to set the right user ID
+        //
+        if (test) {
+            strcpy(buf, exec_path);
+        } else {
+            sprintf(buf, "../../%s", exec_path);
+        }
         if (g_use_sandbox) {
             char switcher_path[MAXPATHLEN];
             sprintf(switcher_path, "../../%s/%s",
@@ -1041,7 +1111,7 @@ int ACTIVE_TASK::start() {
             parse_command_line(cmdline, argv+1);
             retval = execv(buf, argv);
         }
-        msg_printf(wup->project, MSG_INTERNAL_ERROR,
+        fprintf(stderr,
             "Process creation (%s) failed: %s, errno=%d\n",
             buf, boincerror(retval), errno
         );
@@ -1050,11 +1120,16 @@ int ACTIVE_TASK::start() {
         _exit(errno);
     }
 
+    // parent process (client) continues here
+    //
     if (log_flags.task_debug) {
         msg_printf(wup->project, MSG_INFO,
             "[task] ACTIVE_TASK::start(): forked process: pid %d\n", pid
         );
     }
+
+#ifdef ANDROID
+#endif
 
 #endif
     set_task_state(PROCESS_EXECUTING, "start");
@@ -1063,6 +1138,9 @@ int ACTIVE_TASK::start() {
     // go here on error; "buf" contains error message, "retval" is nonzero
     //
 error:
+    if (test) {
+        return retval;
+    }
 
     // if something failed, it's possible that the executable was munged.
     // Verify it to trigger another download.
@@ -1114,14 +1192,19 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
         );
         return 0;
     }
-    if (log_flags.task) {
+    if (log_flags.task && first_time) {
+        msg_printf(result->project, MSG_INFO,
+            "Starting task %s", result->name
+        );
+    }
+    if (log_flags.cpu_sched) {
         char buf[256];
         strcpy(buf, "");
         if (strlen(app_version->plan_class)) {
             sprintf(buf, " (%s)", app_version->plan_class);
         }
         msg_printf(result->project, MSG_INFO,
-            "%s task %s using %s version %d%s in slot %d",
+            "[cpu_sched] %s task %s using %s version %d%s in slot %d",
             str,
             result->name,
             app_version->app->name,
@@ -1142,11 +1225,12 @@ union headeru {
 
 // Read the mach-o headers to determine the architectures
 // supported by executable file.
-// Returns 1 if application can run natively on i386 / x86_64 Macs, else returns 0.
+// Returns 1 if application can run natively on i386 / x86_64 Macs,
+// else returns 0.
 //
 int ACTIVE_TASK::is_native_i386_app(char* exec_path) {
     FILE *f;
-    int result = 0;
+    int retval = 0;
     
     headeru myHeader;
     fat_arch fatHeader;
@@ -1157,7 +1241,7 @@ int ACTIVE_TASK::is_native_i386_app(char* exec_path) {
     
     f = boinc_fopen(exec_path, "rb");
     if (!f) {
-        return result;          // Should never happen
+        return retval;          // Should never happen
     }
     
     myHeader.fat.magic = 0;
@@ -1175,7 +1259,7 @@ int ACTIVE_TASK::is_native_i386_app(char* exec_path) {
             theType = OSSwapInt32(theType);
         }
         if ((theType == CPU_TYPE_I386) || (theType == CPU_TYPE_X86_64)) {
-            result = 1;        // Single-architecture i386or x86_64 file
+            retval = 1;        // Single-architecture i386or x86_64 file
         }
         break;
     case FAT_MAGIC:
@@ -1195,7 +1279,7 @@ int ACTIVE_TASK::is_native_i386_app(char* exec_path) {
                 theType = OSSwapInt32(theType);
             }
             if ((theType == CPU_TYPE_I386) || (theType == CPU_TYPE_X86_64)) {
-                result = 1;
+                retval = 1;
                 break;
             }
         }
@@ -1205,6 +1289,86 @@ int ACTIVE_TASK::is_native_i386_app(char* exec_path) {
     }
 
     fclose (f);
-    return result;
+    return retval;
 }
 #endif
+
+// The following runs "test_app" and sends it various messages.
+// Used for testing the runtime system.
+//
+void run_test_app() {
+    WORKUNIT wu;
+    PROJECT project;
+    APP app;
+    APP_VERSION av;
+    ACTIVE_TASK at;
+    ACTIVE_TASK_SET ats;
+    RESULT result;
+    int retval;
+
+    char buf[256];
+    getcwd(buf, sizeof(buf));   // so we can see where we're running
+
+    gstate.run_test_app = true;
+
+    wu.project = &project;
+    wu.app = &app;
+    wu.command_line = string("--critical_section");
+
+    strcpy(app.name, "test app");
+    av.init();
+    av.avg_ncpus = 1;
+
+    strcpy(result.name, "test result");
+    result.avp = &av;
+    result.wup = &wu;
+    result.project = &project;
+    result.app = &app;
+
+    at.result = &result;
+    at.wup = &wu;
+    at.app_version = &av;
+    at.max_elapsed_time = 1e6;
+    at.max_disk_usage = 1e14;
+    at.max_mem_usage = 1e14;
+    strcpy(at.slot_dir, ".");
+
+#if 1
+    // test file copy
+    //
+    ASYNC_COPY* ac = new ASYNC_COPY;
+    FILE_INFO fi;
+    retval = ac->init(&at, &fi, "big_file", "./big_file_copy");
+    if (retval) {
+        exit(1);
+    }
+    while (1) {
+        do_async_file_ops();
+        if (at.async_copy == NULL) {
+            break;
+        }
+    }
+    fprintf(stderr, "done\n");
+    exit(0);
+#endif
+    ats.active_tasks.push_back(&at);
+
+    unlink("boinc_finish_called");
+    unlink("boinc_lockfile");
+    unlink("boinc_temporary_exit");
+    unlink("stderr.txt");
+    retval = at.start(true);
+    if (retval) {
+        fprintf(stderr, "start() failed: %s\n", boincerror(retval));
+    }
+    while (1) {
+        gstate.now = dtime();
+        at.preempt(REMOVE_NEVER);
+        ats.poll();
+        boinc_sleep(.1);
+        at.unsuspend();
+        ats.poll();
+        boinc_sleep(.2);
+        //at.request_reread_prefs();
+    }
+}

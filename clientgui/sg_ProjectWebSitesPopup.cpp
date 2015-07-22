@@ -26,7 +26,7 @@
 IMPLEMENT_DYNAMIC_CLASS(CSimpleProjectWebSitesPopupButton, CTransparentButton)
 
 BEGIN_EVENT_TABLE(CSimpleProjectWebSitesPopupButton, CTransparentButton)
-    EVT_LEFT_DOWN(CSimpleProjectWebSitesPopupButton::OnProjectWebSiteButton)
+    EVT_LEFT_DOWN(CSimpleProjectWebSitesPopupButton::OnProjectWebSitesMouseDown)
 	EVT_MENU(WEBSITE_URL_MENU_ID,CSimpleProjectWebSitesPopupButton::OnMenuLinkClicked)
 	EVT_MENU(WEBSITE_URL_MENU_ID_REMOVE_PROJECT,CSimpleProjectWebSitesPopupButton::OnMenuLinkClicked)
 END_EVENT_TABLE()
@@ -41,6 +41,11 @@ CSimpleProjectWebSitesPopupButton::CSimpleProjectWebSitesPopupButton(wxWindow* p
     {
 
     m_ProjectWebSitesPopUpMenu = new wxMenu();
+    Connect(
+        id, 
+        wxEVT_BUTTON,
+        (wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction) &CSimpleProjectWebSitesPopupButton::OnProjectWebSitesKeyboardNav
+    );
 }
         
 
@@ -88,14 +93,23 @@ void CSimpleProjectWebSitesPopupButton::RebuildMenu() {
 }
 
 
+void CSimpleProjectWebSitesPopupButton::OnProjectWebSitesMouseDown(wxMouseEvent&) {
+    ShowProjectWebSitesMenu(ScreenToClient(wxGetMousePosition()));
+}
 
-void CSimpleProjectWebSitesPopupButton::OnProjectWebSiteButton(wxMouseEvent& WXUNUSED(event)) {
+
+void CSimpleProjectWebSitesPopupButton::OnProjectWebSitesKeyboardNav(wxCommandEvent&) {
+    ShowProjectWebSitesMenu(wxPoint(GetSize().GetWidth()/2, GetSize().GetHeight()/2));
+}
+
+
+void CSimpleProjectWebSitesPopupButton::ShowProjectWebSitesMenu(wxPoint pos) {
 #ifdef __WXMAC__
     // Disable tooltips on Mac while menus are popped up because they cover menus
     wxToolTip::Enable(false);
 #endif
 
-	PopupMenu(m_ProjectWebSitesPopUpMenu);
+	PopupMenu(m_ProjectWebSitesPopUpMenu, pos.x, pos.y);
 }
 
 

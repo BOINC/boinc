@@ -16,14 +16,17 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// TODO: most of this code shouldn't exist.
+
 error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
+require_once("../inc/util_basic.inc");
 require_once("../inc/result.inc");
 
 class BoincAssignment {
-    static function enum($where_clause) {
+    static function enum($where_clause = null) {
         $db = BoincDb::get();
         return $db->enum('assignment', 'BoincAssignment', $where_clause);
     }
@@ -62,8 +65,8 @@ function mysqltime_str($x) {
 // Function prints a description of $table 
 //
 function print_describe_table_onecol($table, $which, $columns) {
-    $result=mysql_query("SELECT * from $table LIMIT 1");
-    $fields=mysql_num_fields($result);
+    $result = _mysql_query("SELECT * from $table LIMIT 1");
+    $fields = _mysql_num_fields($result);
 
     $avgnum=(int)($fields/$columns);
     if ($avgnum*$columns<$fields) {
@@ -89,9 +92,10 @@ function print_describe_table_onecol($table, $which, $columns) {
     echo "<tr><th align=\"left\">NAME</th><th align=\"left\">Type</th><th align=\"left\">Bytes</th>\n";
     for ($count=$bot; $count<$top; $count++) {
         if ($count<$fields) {
-            $name= mysql_field_name($result, $count);
-            $type= mysql_field_type($result, $count);
-            $length=mysql_field_len($result, $count);
+            $x = _mysql_field_attrs($result, $count);
+            $name = $x->name;
+            $type = $x->type;
+            $length = $x->length;
         } else {
             $name="<br/> ";
             $type="<br/>";
@@ -278,10 +282,10 @@ class SqlQueryString {
     function count() {
         $count_query = "select count(*) as cnt from $this->table $this->query";
 
-        $result = mysql_query($count_query);
+        $result = _mysql_query($count_query);
         if (!$result) return 0;
-        $res = mysql_fetch_object($result);
-        mysql_free_result($result);
+        $res = _mysql_fetch_object($result);
+        _mysql_free_result($result);
         return $res->cnt;
     }
 
@@ -441,29 +445,39 @@ SELECT COUNT(id) AS nTotal,
        SUM(case when server_state = '5' and outcome = '3' and client_state = '4' then 1 else 0 end) AS clientstate_uploading,
        SUM(case when server_state = '5' and outcome = '3' and client_state = '5' then 1 else 0 end) AS clientstate_uploaded,
        SUM(case when server_state = '5' and outcome = '3' and client_state = '6' then 1 else 0 end) AS clientstate_aborted
-FROM result WHERE 
+FROM result WHERE true
     ";
 
     if ($query_appid) {
-        $main_query .= "appid=$query_appid and ";
+        $main_query .= " and appid=$query_appid";
     }
     if ($query_wuid) {
-        $main_query .= "workunitid=$query_wuid and ";
+        $main_query .= " and workunitid=$query_wuid";
     }
     if ($query_mod_time) {
-        $main_query .= "mod_time > DATE_SUB( NOW(), INTERVAL $query_mod_time SECOND )+0 and ";
+        $start = time() - $query_mod_time;
+
+        // If file deletion is delayed by X,
+        // subtract X from mod time of  file-deleted results.
+        // Otherwise we'll show lots of irrelevant results
+        //
+        $delay = parse_config(get_config(), "<delete_delay_hours>");
+        if ($delay) {
+            $start2 = $start - $delay*3600;;
+            $main_query .= " and ((file_delete_state>1 and mod_time>FROM_UNIXTIME($start2)) or (mod_time>FROM_UNIXTIME($start)))";
+        } else {
+            $main_query .= " and mod_time > FROM_UNIXTIME($start)";
+        }
     }
 
-    $main_query .= "1=1";
-
     $urlquery = $q->urlquery;
-    $result = mysql_query($main_query);
+    $result = _mysql_query($main_query);
 
     // echo "Main query was $main_query<br/>";
 
     if ($result) {
 
-        $res = mysql_fetch_object($result);
+        $res = _mysql_fetch_object($result);
         $ntotal          = $res->nTotal;
 
         $server_state[1] = $res->serverstate_inactive;
@@ -501,7 +515,7 @@ FROM result WHERE
         $file_delete[3]  = $res->filedeletestate_error;
 
         $nfile_deleted   = $res->filedeletestate_ready + $res->filedeletestate_done + $res->filedeletestate_error;
-        mysql_free_result($result);
+        _mysql_free_result($result);
     }
 
 
@@ -578,7 +592,7 @@ function server_state_select() {
         <select name=\"server_state\">
         <option value=\"CHOOSE_ALL\" selected=\"selected\"> Any </option>
     ";
-    for($i=1; $i<6; $i++) {
+    for ($i=1; $i<6; $i++) {
         $res = new StdClass;
         $res->server_state=$i;
         echo "<option value=\"$i\"> "."[$i]&nbsp;&nbsp;".'   '.result_server_state_string($res)."</option>\n";
@@ -591,7 +605,7 @@ function outcome_select() {
         <select name=\"outcome\">
         <option value=\"CHOOSE_ALL\" selected=\"selected\"> Any </option>
     ";
-    for($i=0; $i<8; $i++) {
+    for ($i=0; $i<8; $i++) {
         $res = new StdClass;
         $res->outcome = $i;
         $res->exit_status = 0;
@@ -605,11 +619,11 @@ function validate_state_select() {
         <select name=\"validate_state\">
         <option value=\"CHOOSE_ALL\" selected=\"selected\"> Any </option>
         ";
-    for($i=0; $i<NVALIDATE_STATES; $i++) {
+    for ($vs=0; $vs<NVALIDATE_STATES; $vs++) {
         $res = new StdClass;
         $res->validate_state = $vs;
         $res->exit_status = 0;
-        echo "<option value=\"$i\"> "."[$i]&nbsp;&nbsp;".'   '.validate_state_str($res)."</option>\n";
+        echo "<option value=\"$vs\"> "."[$vs]&nbsp;&nbsp;".'   '.validate_state_str($res)."</option>\n";
     }
     echo "</select>\n";
 }
@@ -619,7 +633,7 @@ function client_state_select() {
         <select name=\"client_state\">
         <option value=\"CHOOSE_ALL\" selected=\"selected\"> Any </option>
     ";
-    for($i=0; $i<7; $i++) {
+    for ($i=0; $i<7; $i++) {
         $res = new StdClass;
         $res->client_state = $i;
         $res->exit_status = 0;
@@ -651,7 +665,8 @@ function sort_order_select() {
         <select name=\"sort_by_order\">
         <option value=\"asc\">Ascending
         <option value=\"desc\" selected>Descending
-        </select>\n";
+        </select>
+    ";
 }
 
 function table_title($table) {
@@ -700,10 +715,10 @@ function show_app_version($app_version) {
     row("Version num", $app_version->version_num);
     row("Platform", "<a href=\"db_action.php?table=platform&id=$app_version->platformid\">" . platform_name_by_id($app_version->platformid) . "</a>" );
     row("XML doc", "<pre>".htmlspecialchars($app_version->xml_doc)."</pre>");
-    row("Min_core_version", $app_version->min_core_version);
-    row("Max_core_version", $app_version->max_core_version);
-    //row("Message", $app_version->message);
-    row("Deprecated", $app_version->deprecated);
+    row("min_core_version", $app_version->min_core_version);
+    row("max_core_version", $app_version->max_core_version);
+    row("deprecated", $app_version->deprecated);
+    row("plan_class", $app_version->plan_class);
     end_table();
 }
 
@@ -750,9 +765,10 @@ function show_host_short($host) {
         <tr>
         <td><a href=\"db_action.php?table=host&id=$host->id\">$host->id</a></td>
         <td>$host->last_ip_addr</td>
-        <td>$host->domain_name</td>";
-       printf("<td>%.2f</td>", $host->expavg_credit);
-       printf("<td>%.1f</td>", $host->total_credit);
+        <td>$host->domain_name</td>
+    ";
+    printf("<td>%.2f</td>", $host->expavg_credit);
+    printf("<td>%.1f</td>", $host->total_credit);
     echo "<td>$host->p_vendor $host->p_model</td>
         <td>$host->os_name $host->os_version</td>
         </tr>
@@ -943,25 +959,25 @@ function show_workunit_short($wu) {
 }
 
 function host_user_link($hostid) {
-    if (!$hostid) return '----';
+    if (!$hostid) return '---';
 
     $h = "<a href=\"db_action.php?table=host&id=$hostid\">$hostid</a>";
-    $result = mysql_query("select userid from host where id='$hostid' limit 1");
+    $result = _mysql_query("select userid from host where id='$hostid' limit 1");
     if (!$result) return $h;
-    $host = mysql_fetch_object($result);
-    mysql_free_result($result);
+    $host = _mysql_fetch_object($result);
+    _mysql_free_result($result);
     if (!$host->userid) return $h;
-    $result = mysql_query("select id, name from user where id='$host->userid' limit 1");
+    $result = _mysql_query("select id, name from user where id='$host->userid' limit 1");
     if (!$result) return $h;
-    $user = mysql_fetch_object($result);
-    mysql_free_result($result);
+    $user = _mysql_fetch_object($result);
+    _mysql_free_result($result);
     return "$h<br><small>(<a href=\"db_action.php?table=user&id=$user->id\">$user->name</a>)</small>";
 }
 
 function validate_color($validate_state) {
     switch ($validate_state) {
-       case 1: return '33cc33'; // valid, green
-       case 2: return 'ffa500'; // invalid result, orange
+   case 1: return '33cc33'; // valid, green
+   case 2: return 'ffa500'; // invalid result, orange
     }
     return '';
 }
@@ -1000,7 +1016,7 @@ function show_result_ops($result) {
     row("Server state", result_server_state_string($result)." [$result->server_state]");
     row("Outcome", result_outcome_string($result)." [$result->outcome]");
     row("Client state", result_client_state_string($result)." [$result->client_state]");
-    row("Exit status", exit_status_string($result));
+    row("Exit status", exit_status_string($result->exit_status));
     row("Host ID", "<a href=\"db_action.php?table=host&id=$result->hostid\">" . host_name_by_id($result->hostid) . "</a> [$result->hostid]");
     row("User ID", "<a href=\"db_action.php?table=user&id=$result->userid\">" . user_name_by_id($result->userid) . "</a> [$result->userid]");
     row("CPU time", $result->cpu_time);
@@ -1011,10 +1027,15 @@ function show_result_ops($result) {
     row("Batch", $result->batch);
     row("File delete state", file_delete_state_str($result->file_delete_state)." [$result->file_delete_state]");
     row("Validate state", validate_state_str($result)." [$result->validate_state]");
-    row("claimed credit", $result->claimed_credit);
     row("Granted credit", $result->granted_credit);
     row("Application", "<a href=\"db_action.php?table=app&id=$result->appid\">".app_name_by_id($result->appid)."</a>");
-    row("App version", "<a href=\"db_action.php?table=app_version&appid=$result->appid&clauses=version_num%3D$result->app_version_num\">".$result->app_version_num."</a>");
+    if ($result->app_version_id > 0) {
+        $x1 = "<a href=\"db_action.php?table=app_version&amp;id=$result->app_version_id\">";
+        $x2 = "</a>";
+    } else {
+        $x1 = $x2 = "";
+    }
+    row("App version", $x1.app_version_string($result).$x2);
     row("App version ID", $result->app_version_id);
     row("Estimated GFLOPS", number_format($result->flops_estimate/1e9, 2));
     row("Random",$result->random);
@@ -1048,7 +1069,6 @@ function result_short_header() {
         <th>app<br>ver</th>
         <th>received <br><i>or</i> <font color=\"#ff3333\">dead</font><font color=\"#33cc33\">line</font> <br><i>or</i> <font color=\"#9900cc\">created</font></th>
         <th>CPU<br>hours</th>
-        <th>claimed<br>credit</th>
         <th>granted<br>credit</th>
         </tr>
     ";
@@ -1063,9 +1083,9 @@ function show_result_short($result) {
         $cs = result_client_state_string($result);
         $oc = "$oc ($cs)";
     }
-    if ($result->received_time)
+    if ($result->received_time) {
         $received = time_str($result->received_time);
-    else {
+    } else {
         // result has not been received yet, so show report deadline either
         // in green if in the future or in red if in the past.
         $timenow=time();
@@ -1080,16 +1100,11 @@ function show_result_short($result) {
             $received = "<font color=\"#ff3333\">". time_str($result->report_deadline) . "</font>";
         }
     }
-    $version = sprintf("%.2f", $result->app_version_num/100);
-    $av = BoincAppVersion::lookup_id($result->app_version_id);
-    if ($av) {
-        $version .= " [$av->plan_class]";
-    }
+    $version = app_version_string($result);
     $outcome_color = outcome_color($result->outcome);
     $validate_color = validate_color($result->validate_state);
     $host_user = host_user_link($result->hostid);
     $cpu_hours = sprintf("%.1f",$result->cpu_time / 3600);
-    $claimed_credit = credit_str($result->claimed_credit);
     $granted_credit = "<a href=credit.php?resultid=$result->id>".credit_str($result->granted_credit)."</a>";
     $delete_state = file_delete_state_str($result->file_delete_state);
 
@@ -1102,12 +1117,11 @@ function show_result_short($result) {
         <td>$cs2</td>
         <td bgcolor=$validate_color>$vs</td>
         <td>$delete_state</td>
-        <td>", exit_status_string($result), "</td>
+        <td>", exit_status_string($result->exit_status), "</td>
         <td>$host_user</td>
         <td>$version</td>
         <td>$received</td>
         <td>$cpu_hours</td>
-        <td>$claimed_credit</td>
         <td>$granted_credit</td>
         </tr>
     ";
@@ -1136,41 +1150,43 @@ function show_user($user) {
 function show_user_summary($maxuser) {
     $top_country = array();
     $top_language = array();
-    $stats_res = mysql_query("select max(id) as maxuser,
+    $stats_res = _mysql_query("select max(id) as maxuser,
         SUM(case when has_profile = '1' then 1 else 0 end) as profuser,
         SUM(case when teamid != '0' then 1 else 0 end) as teamuser
         from user"
     );
-    $stats = mysql_fetch_assoc($stats_res);
+    $stats = _mysql_fetch_assoc($stats_res);
     if ($maxuser > $stats['maxuser']) {
         $maxuser = $stats['maxuser'];
     }
-    $user_res = mysql_query("select * from user order by posts desc limit ".$maxuser);
-    $profile_res = mysql_query("select * from profile order by posts desc limit ".$maxuser);
+    $user_res = _mysql_query("select * from user order by posts desc limit ".$maxuser);
+    $profile_res = _mysql_query("select * from profile order by posts desc limit ".$maxuser);
     for ($i=1;$i<=$maxuser;$i++) {
-        $user = mysql_fetch_object($user_res);
+        $user = _mysql_fetch_object($user_res);
         $top10poster[$i] = $user;
         $top_country[$user->country] += 1;
     }
     for ($i=1;$i<=$maxuser;$i++) {
-        $profile = mysql_fetch_object($profile_res);    
+        $profile = _mysql_fetch_object($profile_res);    
         if ($profile->language != '') {
             $top_language[$profile->language] += 1;
         }
     }
-    mysql_free_result($user_res);
-    mysql_free_result($profile_res);
-    mysql_free_result($stats_res);
+    _mysql_free_result($user_res);
+    _mysql_free_result($profile_res);
+    _mysql_free_result($stats_res);
     echo "<table>
           <tr valign=\"top\">
             <td><h2>General</h2></td>
             <td><h2>top10 Poster</h2></td>
             <td><h2>top$maxuser Countries</h2></td>
             <td><h2>top$maxuser Languages</h2></td>
-          </tr>";
+          </tr>
+    ";
     echo "<tr valign=\"top\">";
     echo "<td><table border=\"1\">
-          <tr><th>&nbsp;</th><th>&nbsp;</th></tr>";
+          <tr><th>&nbsp;</th><th>&nbsp;</th></tr>
+    ";
     row2_plain("Users:", $stats['maxuser']);
     row2_plain("Profiles:", $stats['profuser']);
     row2_plain("Team members:", $stats['teamuser']);
@@ -1178,8 +1194,7 @@ function show_user_summary($maxuser) {
     echo "<td><table border=\"2\">\n";
     echo "<tr><th>User</th><th># posts</th></tr>\n";
     for ($p=1; $p<=10; $p++) {
-        row2_plain(user_links_ops($top10poster[$p]),
-             $top10poster[$p]->posts);
+        row2_plain(user_links_ops($top10poster[$p]), $top10poster[$p]->posts);
     }
     echo "</table></td>";
     echo "<td><table border=\"2\">\n";
@@ -1228,38 +1243,41 @@ function show_team($team) {
 }
 
 function team_name_by_id($teamid) {
-    $result = mysql_query("select * from team where id = $teamid");
-    $team = mysql_fetch_object($result);
+    $result = _mysql_query("select * from team where id = $teamid");
+    $team = _mysql_fetch_object($result);
     return $team->name;
 }
 
 function user_name_by_id($user_id) {
-    $result = mysql_query("select * from user where id = $user_id");
-    $user = mysql_fetch_object($result);
+    $result = _mysql_query("select * from user where id = $user_id");
+    $user = _mysql_fetch_object($result);
+    if (!$user) return "No user";
     return $user->name;
 }
 
 function app_name_by_id($appid) {
-    $result = mysql_query("select * from app where id = $appid");
-    $app = mysql_fetch_object($result);
+    $result = _mysql_query("select * from app where id = $appid");
+    $app = _mysql_fetch_object($result);
     return $app->name;
 }
 
 function wu_name_by_id($workunitid) {
-    $result = mysql_query("select * from workunit where id = $workunitid");
-    $wu = mysql_fetch_object($result);
+    $result = _mysql_query("select * from workunit where id = $workunitid");
+    $wu = _mysql_fetch_object($result);
+    if (!$wu) return "Missing workunit";
     return $wu->name;
 }
 
 function platform_name_by_id($platformid) {
-    $result = mysql_query("select * from platform where id = $platformid");
-    $plat = mysql_fetch_object($result);
+    $result = _mysql_query("select * from platform where id = $platformid");
+    $plat = _mysql_fetch_object($result);
     return $plat->name;
 }
 
 function host_name_by_id($hostid) {
-    $result = mysql_query("select * from host where id = $hostid");
-    $host = mysql_fetch_object($result);
+    $result = _mysql_query("select * from host where id = $hostid");
+    $host = _mysql_fetch_object($result);
+    if (!$host) return "No host";
     if (!strlen($host->domain_name) && !strlen($host->last_ip_addr)) {
         return "(blank)";
     } else {

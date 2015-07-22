@@ -70,7 +70,19 @@ int CLIENT_STATE::read_trickle_files(PROJECT* project, FILE* f) {
 
         sprintf(path, "%s/%s", project->project_dir(), fname);
         retval = read_file_malloc(path, file_contents);
-        if (retval) continue;
+        if (retval) {
+            if (log_flags.trickle_debug) {
+                msg_printf(project, MSG_INFO,
+                    "[trickle] can't read trickle file %s", path
+                );
+            }
+            continue;
+        }
+        if (log_flags.trickle_debug) {
+            msg_printf(project, MSG_INFO,
+                "[trickle] read trickle file %s", path
+            );
+        }
         fprintf(f,
             "  <msg_from_host>\n"
             "      <result_name>%s</result_name>\n"
@@ -265,7 +277,7 @@ void update_trickle_up_urls(PROJECT* p, vector<string> &urls) {
             delete t;
             iter = p->trickle_up_ops.erase(iter);
         } else {
-            iter++;
+            ++iter;
         }
     }
 }

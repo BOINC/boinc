@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,17 +15,25 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// wrapper.C
-// wrapper program - lets you use non-BOINC apps with BOINC
+// BOINC wrapper - lets you use non-BOINC apps with BOINC
+// See http://boinc.berkeley.edu/trac/wiki/WrapperApp
+//
+// cmdline options:
+// --device N       macro-substitute N for $GPU_DEVICE_NUM
+//                  in worker cmdlines and env values
+// --nthreads X     macro-substitute X for $NTHREADS
+//                  in worker cmdlines and env values
+// --trickle X      send a trickle-up message reporting runtime every X sec
+//                  of runtime (use this for credit granting
+//                  if your app does its own job management)
 //
 // Handles:
 // - suspend/resume/quit/abort
 // - reporting CPU time
-// - loss of heartbeat from core client
+// - loss of heartbeat from client
 // - checkpointing
 //      (at the level of task; or potentially within task)
 //
-// See http://boinc.berkeley.edu/trac/wiki/WrapperApp for details
 // Contributor: Andrew J. Younge (ajy4490@umiacs.umd.edu)
 
 #ifndef _WIN32
@@ -52,7 +60,9 @@
 #include <unistd.h>
 #endif
 
+#include "version.h"
 #include "boinc_api.h"
+#include "graphics2.h"
 #include "boinc_zip.h"
 #include "diagnostics.h"
 #include "error_numbers.h"
@@ -65,6 +75,9 @@
 #include "util.h"
 
 #include "regexp.h"
+
+using std::vector;
+using std::string;
 
 //#define DEBUG
 #if 1
@@ -80,15 +93,22 @@ inline void debug_msg(const char* x) {
 
 #define POLL_PERIOD 1.0
 
-using std::vector;
-using std::string;
 int nthreads = 1;
+int gpu_device_num = -1;
+double runtime = 0;
+    // run time this session
+double trickle_period = 0;
+bool enable_graphics_support = false;
+vector<string> unzip_filenames;
+string zip_filename;
+vector<regexp*> zip_patterns;
+APP_INIT_DATA aid;
 
 struct TASK {
     string application;
     string exec_dir;
         // optional execution directory;
-        // macro-substituted for $PROJECT_DIR and $NTHREADS
+        // macro-substituted
     vector<string> vsetenv;
         // vector of strings for environment variables 
         // macro-substituted
@@ -106,6 +126,8 @@ struct TASK {
     bool is_daemon;
     bool append_cmdline_args;
     bool multi_process;
+    double time_limit;
+    int priority;
 
     // dynamic stuff follows
     double current_cpu_time;
@@ -115,12 +137,10 @@ struct TASK {
     double starting_cpu;
         // how much CPU time was used by tasks before this one
     bool suspended;
-    double time_limit;
     double elapsed_time;
 #ifdef _WIN32
     HANDLE pid_handle;
     DWORD pid;
-    HANDLE thread_handle;
     struct _stat last_stat;     // mod time of checkpoint file
 #else
     int pid;
@@ -180,7 +200,7 @@ struct TASK {
         int bufsize = 0;
         int len = 0;
         for (int j = 0; j < nvars; j++) {
-             bufsize += (1 + vsetenv[j].length());
+             bufsize += (1 + (int)vsetenv[j].length());
         }
         bufsize++; // add a final byte for array null ptr
         *env_vars = new char[bufsize];
@@ -189,10 +209,10 @@ struct TASK {
         // copy each env string to a buffer for the process
         for (vector<string>::iterator it = vsetenv.begin();
             it != vsetenv.end() && len < bufsize-1;
-            it++
+            ++it
         ) {
             strncpy(p, it->c_str(), it->length());
-            len = strlen(p);
+            len = (int)strlen(p);
             p += len + 1; // move pointer ahead
         }
     }
@@ -211,10 +231,6 @@ struct TASK {
 
 vector<TASK> tasks;
 vector<TASK> daemons;
-vector<string> unzip_filenames;
-string zip_filename;
-vector<regexp*> zip_patterns;
-APP_INIT_DATA aid;
 
 // replace s1 with s2
 //
@@ -232,6 +248,7 @@ void str_replace_all(char* buf, const char* s1, const char* s2) {
 // macro-substitute strings from job.xml
 // $PROJECT_DIR -> project directory
 // $NTHREADS --> --nthreads arg if present, else 1
+// $GPU_DEVICE_NUM --> gpu_device_num from init_data.xml, or --device arg
 //
 void macro_substitute(char* buf) {
     const char* pd = strlen(aid.project_dir)?aid.project_dir:".";
@@ -239,6 +256,14 @@ void macro_substitute(char* buf) {
     char nt[256];
     sprintf(nt, "%d", nthreads);
     str_replace_all(buf, "$NTHREADS", nt);
+
+    if (aid.gpu_device_num >= 0) {
+        gpu_device_num = aid.gpu_device_num;
+    }
+    if (gpu_device_num >= 0) {
+        sprintf(nt, "%d", gpu_device_num);
+        str_replace_all(buf, "$GPU_DEVICE_NUM", nt);
+    }
 }
 
 // make a list of files in the slot directory,
@@ -358,6 +383,7 @@ int TASK::parse(XML_PARSER& xp) {
     multi_process = false;
     append_cmdline_args = false;
     time_limit = 0;
+    priority = PROCESS_PRIORITY_LOWEST;
 
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
@@ -395,6 +421,7 @@ int TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_bool("multi_process", multi_process)) continue;
         else if (xp.parse_bool("append_cmdline_args", append_cmdline_args)) continue;
         else if (xp.parse_double("time_limit", time_limit)) continue;
+        else if (xp.parse_int("priority", priority)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -494,6 +521,7 @@ int parse_job_file() {
             parse_zip_output(xp);
             continue;
         }
+        if (xp.parse_bool("enable_graphics_support", enable_graphics_support)) continue;
         fprintf(stderr,
             "%s unexpected tag in job.xml: %s\n",
             boinc_msg_prefix(buf2, sizeof(buf2)), xp.parsed_tag
@@ -620,7 +648,12 @@ int TASK::run(int argct, char** argvt) {
     slash_to_backslash(app_path);
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
-    command = string("\"") + app_path + string("\" ") + command_line;
+
+    if (ends_with((string)app_path, ".bat") || ends_with((string)app_path, ".cmd")) {
+        command = string("cmd.exe /c \"") + app_path + string("\" ") + command_line;
+    } else {
+        command = string("\"") + app_path + string("\" ") + command_line;
+    }
 
     // pass std handles to app
     //
@@ -628,71 +661,56 @@ int TASK::run(int argct, char** argvt) {
     if (stdout_filename != "") {
         boinc_resolve_filename_s(stdout_filename.c_str(), stdout_path);
         startup_info.hStdOutput = win_fopen(stdout_path.c_str(), "a");
-        if (!startup_info.hStdOutput) {
-            fprintf(stderr, "Error: startup_info.hStdOutput is NULL\n");
-        }
+    } else {
+        startup_info.hStdOutput = (HANDLE)_get_osfhandle(_fileno(stderr));
     }
     if (stdin_filename != "") {
         boinc_resolve_filename_s(stdin_filename.c_str(), stdin_path);
         startup_info.hStdInput = win_fopen(stdin_path.c_str(), "r");
-        if (!startup_info.hStdInput) {
-            fprintf(stderr, "Error: startup_info.hStdInput is NULL\n");
-        }
     }
     if (stderr_filename != "") {
         boinc_resolve_filename_s(stderr_filename.c_str(), stderr_path);
         startup_info.hStdError = win_fopen(stderr_path.c_str(), "a");
-        if (!startup_info.hStdError) {
-            fprintf(stderr, "Error: startup_info.hStdError is NULL\n");
-        }
     } else {
-        startup_info.hStdError = win_fopen(STDERR_FILE, "a");
+        startup_info.hStdError = (HANDLE)_get_osfhandle(_fileno(stderr));
+    }
+
+    if (startup_info.hStdOutput == INVALID_HANDLE_VALUE) {
+        fprintf(stderr, "Error: startup_info.hStdOutput is invalid\n");
+    }
+    if ((stdin_filename != "") && (startup_info.hStdInput == INVALID_HANDLE_VALUE)) {
+        fprintf(stderr, "Error: startup_info.hStdInput is invalid\n");
+    }
+    if (startup_info.hStdError == INVALID_HANDLE_VALUE) {
+        fprintf(stderr, "Error: startup_info.hStdError is invalid\n");
     }
 
     // setup environment vars if needed
     //
-    int nvars = vsetenv.size();
+    int nvars = (int)vsetenv.size();
     char* env_vars = NULL;
     if (nvars > 0) {
         set_up_env_vars(&env_vars, nvars);
     }
 
     BOOL success;
-    if (ends_with((string)app_path, ".bat")) {
-        char cmd[1024];
-        sprintf(cmd, "cmd.exe /c %s", command.c_str());
-        success = CreateProcess(
-            "cmd.exe",
-            (LPSTR)cmd,
-            NULL,
-            NULL,
-            TRUE,        // bInheritHandles
-            CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
-            (LPVOID) env_vars,
-            exec_dir.empty()?NULL:exec_dir.c_str(),
-            &startup_info,
-            &process_info
-        );
-    } else {
-        success = CreateProcess(
-            app_path,
-            (LPSTR)command.c_str(),
-            NULL,
-            NULL,
-            TRUE,        // bInheritHandles
-            CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
-            (LPVOID) env_vars,
-            exec_dir.empty()?NULL:exec_dir.c_str(),
-            &startup_info,
-            &process_info
-        );
-    }
+    success = CreateProcess(
+        NULL,
+        (LPSTR)command.c_str(),
+        NULL,
+        NULL,
+        TRUE,        // bInheritHandles
+        CREATE_NO_WINDOW|process_priority_value(priority),
+        (LPVOID) env_vars,
+        exec_dir.empty()?NULL:exec_dir.c_str(),
+        &startup_info,
+        &process_info
+    );
     if (!success) {
         char error_msg[1024];
         windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
         fprintf(stderr, "can't run app: %s\n", error_msg);
 
-        fprintf(stderr, "Error: app_path is '%s'\n", app_path);
         fprintf(stderr, "Error: command is '%s'\n", command.c_str());
         fprintf(stderr, "Error: exec_dir is '%s'\n", exec_dir.c_str());
 
@@ -702,8 +720,6 @@ int TASK::run(int argct, char** argvt) {
     if (env_vars) delete [] env_vars;
     pid_handle = process_info.hProcess;
     pid = process_info.dwProcessId;
-    thread_handle = process_info.hThread;
-    SetThreadPriority(thread_handle, THREAD_PRIORITY_IDLE);
 #else
     int retval;
     char* argv[256];
@@ -759,7 +775,7 @@ int TASK::run(int argct, char** argvt) {
         argv[0] = app_path;
         strlcpy(arglist, command_line.c_str(), sizeof(arglist));
         parse_command_line(arglist, argv+1);
-        setpriority(PRIO_PROCESS, 0, PROCESS_IDLE_PRIORITY);
+        setpriority(PRIO_PROCESS, 0, process_priority_value(priority));
         if (!exec_dir.empty()) {
             retval = chdir(exec_dir.c_str());
             if (!retval) {
@@ -811,12 +827,10 @@ bool TASK::poll(int& status) {
         if (exit_code != STILL_ACTIVE) {
             status = exit_code;
             final_cpu_time = current_cpu_time;
-#ifdef DEBUG
-            fprintf(stderr, "%s process exited; current CPU %f final CPU %f\n",
-                boinc_message_prefix(buf, sizeof(buf)),
-                current_cpu_time, final_cpu_time
+            fprintf(stderr, "%s %s exited; CPU time %f\n",
+                boinc_msg_prefix(buf, sizeof(buf)),
+                application.c_str(), final_cpu_time
             );
-#endif
             return true;
         }
     }
@@ -829,12 +843,10 @@ bool TASK::poll(int& status) {
         getrusage(RUSAGE_CHILDREN, &ru);
         final_cpu_time = (float)ru.ru_utime.tv_sec + ((float)ru.ru_utime.tv_usec)/1e+6;
         final_cpu_time -= start_rusage;
-#ifdef DEBUG
-        fprintf(stderr, "%s process exited; current CPU %f final CPU %f\n",
-            boinc_message_prefix(buf, sizeof(buf)),
-            current_cpu_time, final_cpu_time
+        fprintf(stderr, "%s %s exited; CPU time %f\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            application.c_str(), final_cpu_time
         );
-#endif
         if (final_cpu_time < current_cpu_time) {
             final_cpu_time = current_cpu_time;
         }
@@ -877,6 +889,10 @@ void TASK::resume() {
 // so it shouldn't be called too frequently.
 //
 double TASK::cpu_time() {
+#ifndef ANDROID
+    // the Android GUI doesn't show CPU time,
+    // and process_tree_cpu_time() crashes sometimes
+    //
     double x = process_tree_cpu_time(pid);
     // if the process has exited, the above could return zero.
     // So update carefully.
@@ -884,6 +900,7 @@ double TASK::cpu_time() {
     if (x > current_cpu_time) {
         current_cpu_time = x;
     }
+#endif
     return current_cpu_time;
 }
 
@@ -922,32 +939,56 @@ void poll_boinc_messages(TASK& task) {
     }
 }
 
+// see if it's time to send trickle-up reporting elapsed time
+//
+void check_trickle_period() {
+    char buf[256];
+    static double last_trickle_report_time = 0;
+
+    if ((runtime - last_trickle_report_time) < trickle_period) {
+        return;
+    }
+    last_trickle_report_time = runtime;
+    sprintf(buf,
+        "<cpu_time>%f</cpu_time>", last_trickle_report_time
+    );
+    boinc_send_trickle_up(
+        const_cast<char*>("cpu_time"), buf
+    );
+}
+
 // Support for multiple tasks.
 // We keep a checkpoint file that says how many tasks we've completed
-// and how much CPU time has been used so far
+// and how much CPU time and runtime has been used so far
 //
-void write_checkpoint(int ntasks_completed, double cpu) {
+void write_checkpoint(int ntasks_completed, double cpu, double rt) {
     boinc_begin_critical_section();
     FILE* f = fopen(CHECKPOINT_FILENAME, "w");
     if (!f) return;
-    fprintf(f, "%d %f\n", ntasks_completed, cpu);
+    fprintf(f, "%d %f %f\n", ntasks_completed, cpu, rt);
     fclose(f);
     boinc_checkpoint_completed();
 }
 
-int read_checkpoint(int& ntasks_completed, double& cpu) {
+// read the checkpoint file;
+// return nonzero if it's missing or bad format
+//
+int read_checkpoint(int& ntasks_completed, double& cpu, double& rt) {
     int nt;
-    double c;
+    double c, r;
 
     ntasks_completed = 0;
     cpu = 0;
+    rt = 0;
     FILE* f = fopen(CHECKPOINT_FILENAME, "r");
     if (!f) return ERR_FOPEN;
-    int n = fscanf(f, "%d %lf", &nt, &c);
+    int n = fscanf(f, "%d %lf %lf", &nt, &c, &r);
     fclose(f);
-    if (n != 2) return 0;
+    if (n != 3) return -1;
+
     ntasks_completed = nt;
     cpu = c;
+    rt = r;
     return 0;
 }
 
@@ -967,6 +1008,10 @@ int main(int argc, char** argv) {
     for (int j=1; j<argc; j++) {
         if (!strcmp(argv[j], "--nthreads")) {
             nthreads = atoi(argv[++j]);
+        } else if (!strcmp(argv[j], "--device")) {
+            gpu_device_num = atoi(argv[++j]);
+        } else if (!strcmp(argv[j], "--trickle")) {
+            trickle_period = atof(argv[++j]);
         }
     }
 
@@ -981,14 +1026,13 @@ int main(int argc, char** argv) {
 
     do_unzip_inputs();
 
-    retval = read_checkpoint(ntasks_completed, checkpoint_cpu_time);
+    retval = read_checkpoint(ntasks_completed, checkpoint_cpu_time, runtime);
     if (retval && !zip_filename.empty()) {
         // this is the first time we've run.
         // If we're going to zip output files,
-        // make a list of files present at this point
-        // so we can exclude them.
+        // make a list of files present at this point so we can exclude them.
         //
-        write_checkpoint(0, 0);
+        write_checkpoint(0, 0, 0);
         get_initial_file_list();
     }
 
@@ -1002,8 +1046,11 @@ int main(int argc, char** argv) {
 
     boinc_init_options(&options);
     fprintf(stderr,
-        "%s wrapper: starting\n",
-        boinc_msg_prefix(buf, sizeof(buf))
+        "%s wrapper (%d.%d.%d): starting\n",
+        boinc_msg_prefix(buf, sizeof(buf)),
+        BOINC_MAJOR_VERSION,
+        BOINC_MINOR_VERSION,
+        WRAPPER_RELEASE
     );
 
     boinc_get_init_data(aid);
@@ -1095,11 +1142,25 @@ int main(int argc, char** argv) {
             if (task.has_checkpointed()) {
                 cpu_time = task.cpu_time();
                 checkpoint_cpu_time = task.starting_cpu + cpu_time;
-                write_checkpoint(i, checkpoint_cpu_time);
+                write_checkpoint(i, checkpoint_cpu_time, runtime);
             }
+
+            if (trickle_period) {
+                check_trickle_period();
+            }
+
+            if (enable_graphics_support) {
+                boinc_write_graphics_status(
+                    task.starting_cpu + cpu_time,
+                    checkpoint_cpu_time + task.elapsed_time,
+                    frac_done + task.weight/total_weight
+                );
+            }
+
             boinc_sleep(POLL_PERIOD);
             if (!task.suspended) {
                 task.elapsed_time += POLL_PERIOD;
+                runtime += POLL_PERIOD;
             }
             counter++;
         }
@@ -1117,7 +1178,7 @@ int main(int argc, char** argv) {
             checkpoint_cpu_time,
             frac_done + task.weight/total_weight
         );
-        write_checkpoint(i+1, checkpoint_cpu_time);
+        write_checkpoint(i+1, checkpoint_cpu_time, runtime);
         weight_completed += task.weight;
     }
     kill_daemons();
@@ -1136,4 +1197,5 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode
     argc = parse_command_line(command_line, argv);
     return main(argc, argv);
 }
+
 #endif

@@ -26,7 +26,6 @@ import android.util.Log;
 
 public class PrefsListItemWrapperValue extends PrefsListItemWrapper {
 
-	public String description = "";
 	public String unit = "";
 	public Double status;
 	public Boolean isPct = false; // shows whether value is percentage, therefore using a SeekBar
@@ -55,6 +54,10 @@ public class PrefsListItemWrapperValue extends PrefsListItemWrapper {
 		case R.string.prefs_disk_min_free_gb_header:
 			description = ctx.getString(R.string.prefs_disk_min_free_gb_description);
 			unit = ctx.getString(R.string.prefs_unit_gb);
+			break;
+		case R.string.prefs_disk_access_interval_header:
+			description = ctx.getString(R.string.prefs_disk_access_interval_description);
+			unit = ctx.getString(R.string.prefs_unit_seconds);
 			break;
 		case R.string.prefs_network_daily_xfer_limit_mb_header:
 			description = ctx.getString(R.string.prefs_network_daily_xfer_limit_mb_description);

@@ -85,7 +85,7 @@ bool CLIENT_STATE::handle_finished_apps() {
             action = true;
             break;
         default:
-            iter++;
+            ++iter;
         }
     }
     return action;
@@ -190,6 +190,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         default:
             rp->set_state(RESULT_COMPUTE_ERROR, "CS::app_finished");
         }
+        rp->project->njobs_error++;
     } else {
 #ifdef SIM
         rp->set_state(RESULT_FILES_UPLOADED, "CS::app_finished");
@@ -200,10 +201,15 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         rp->append_log_record();
 #endif
         rp->project->update_duration_correction_factor(&at);
+        rp->project->njobs_success++;
     }
 
     double elapsed_time = now - rec_interval_start;
     work_fetch.accumulate_inst_sec(&at, elapsed_time);
+
+    rp->project->pwf.request_if_idle_and_uploading = true;
+        // set this to allow work fetch if idle instance,
+        // even before upload finishes
 
     return 0;
 }

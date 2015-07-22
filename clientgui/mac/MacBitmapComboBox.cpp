@@ -18,7 +18,7 @@
 #include "stdwx.h"
 #include "MacBitmapComboBox.h"
 
-#define POPUPBUTTONCONTROLHEIGHT 22
+#define POPUPBUTTONCONTROLHEIGHT 40
 
 // wxChoice uses CreatePopupButtonControl
 
@@ -53,32 +53,11 @@ CBOINCBitmapChoice::~CBOINCBitmapChoice() {
 }
 
 void CBOINCBitmapChoice::SetItemBitmap(unsigned int n, const wxBitmap& bitmap) {
-    MenuHandle mhandle = (MenuHandle) m_macPopUpMenuHandle;
-    unsigned int index = n + 1;
-    
-    if ( mhandle == NULL || index == 0)
-        return ;
+    wxMenuItem *item = m_popUpMenu->FindItemByPosition(n);
 
-    if ( bitmap.Ok() )
+    if ( item && bitmap.Ok() )
     {
-        CGImageRef imageRef = (CGImageRef)( bitmap.CGImageCreate() ) ;
-        SetMenuItemIconHandle( mhandle , index ,
-                    kMenuCGImageRefType , (Handle) imageRef ) ;
-
-#if 0// wxUSE_BMPBUTTON
-        ControlButtonContentInfo info ;
-        wxMacCreateBitmapButton( &info , bitmap ) ;
-        if ( info.contentType != kControlNoContent )
-        {
-            if ( info.contentType == kControlContentIconRef )
-                SetMenuItemIconHandle( mhandle , index ,
-                    kMenuIconRefType , (Handle) info.u.iconRef ) ;
-            else if ( info.contentType == kControlContentCGImageRef )
-               SetMenuItemIconHandle( mhandle , index ,
-                    kMenuCGImageRefType , (Handle) info.u.imageRef ) ;
-        }
-        wxMacReleaseBitmapButton( &info ) ;
-#endif
+        item->SetBitmap(bitmap);
     }
 }
 void CBOINCBitmapChoice::OnMouseDown(wxMouseEvent& event) {
@@ -88,13 +67,14 @@ void CBOINCBitmapChoice::OnMouseDown(wxMouseEvent& event) {
 
 
 
-
+DEFINE_EVENT_TYPE(wxEVT_DRAW_LARGEBITMAP)
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBitmapComboBox, wxPanel)
 
 BEGIN_EVENT_TABLE(CBOINCBitmapComboBox, wxPanel)
 //	EVT_ERASE_BACKGROUND(CBOINCBitmapComboBox::OnEraseBackground)
     EVT_PAINT(CBOINCBitmapComboBox::OnPaint)
+    EVT_DRAW_LARGEBITMAP(CBOINCBitmapComboBox::DrawLargeBitmap)
 //    EVT_CHOICE(CBOINCBitmapComboBox::OnSelection)
 END_EVENT_TABLE()
 
@@ -112,8 +92,10 @@ CBOINCBitmapComboBox::CBOINCBitmapComboBox(wxWindow *parent, wxWindowID id,
 {
     int i;
 
-    m_ChoiceControl = new CBOINCBitmapChoice(this, id, value, wxDefaultPosition, wxSize(size.x, POPUPBUTTONCONTROLHEIGHT), n, choices, style, validator);
     m_bHaveLargeBitmaps = (size.y > 0);
+    m_ChoiceControl = new CBOINCBitmapChoice(this, id, value, wxDefaultPosition,
+                wxSize(size.x, m_bHaveLargeBitmaps ? POPUPBUTTONCONTROLHEIGHT : size.y),
+                n, choices, style, validator);
 	wxBoxSizer* bSizer1;
 	bSizer1 = new wxBoxSizer( wxVERTICAL );
     int margin = m_bHaveLargeBitmaps ? (size.y - POPUPBUTTONCONTROLHEIGHT)/2 : 0;
@@ -252,32 +234,61 @@ void CBOINCBitmapComboBox::OnSelection(wxCommandEvent& event) {
 }
 
 
+void CBOINCBitmapComboBox::DrawLargeBitmap(CDrawLargeBitmapEvent&) {
+    int x, y;
+    wxClientDC myDC(this);
+    unsigned int i = GetSelection();
+    if (m_BitmapCache.size() <= i) {
+        return;
+    }
+
+    wxPen oldPen = myDC.GetPen();
+    wxBrush oldBrush = myDC.GetBrush();
+    int oldMode = myDC.GetBackgroundMode();
+    
+    myDC.SetPen(*wxTRANSPARENT_PEN);
+    myDC.SetBrush(*wxWHITE_BRUSH);
+    myDC.SetBackgroundMode(wxSOLID);
+
+    GetSize(&x, &y);
+    myDC.DrawRectangle(9, 1, y-2, y-2);
+    if ((m_BitmapCache.at(i)).Ok()) {
+        myDC.DrawBitmap(m_BitmapCache.at(i), 9, 1, true);
+    }
+    myDC.SetBackgroundMode(oldMode);
+    myDC.SetPen(oldPen);
+    myDC.SetBrush(oldBrush);
+}
+
+
 void CBOINCBitmapComboBox::OnPaint(wxPaintEvent& event) {
+    if (!m_bHaveLargeBitmaps) return;
+
     int x, y;
 	wxPaintDC myDC(this);
     unsigned int i = GetSelection();
     if (m_BitmapCache.size() <= i) {
         return;
     }
-    
+
     wxPen oldPen = myDC.GetPen();
     wxBrush oldBrush = myDC.GetBrush();
     int oldMode = myDC.GetBackgroundMode();
 
     myDC.SetPen(*wxMEDIUM_GREY_PEN);
-    myDC.SetBrush(*wxTRANSPARENT_BRUSH);
+    myDC.SetBrush(*wxWHITE_BRUSH);
     myDC.SetBackgroundMode(wxSOLID);
 
     GetSize(&x, &y);
-    if ((m_BitmapCache.at(i)).Ok()) {
-        myDC.DrawBitmap(m_BitmapCache.at(i), 9, 1, false);
-        myDC.DrawRectangle(8, 0, y, y);
-    }
+    myDC.DrawRectangle(7, 0, y+1, y);
     
     // Restore Mode, Pen and Brush 
     myDC.SetBackgroundMode(oldMode);
     myDC.SetPen(oldPen);
     myDC.SetBrush(oldBrush);
+
+    CDrawLargeBitmapEvent newEvent(wxEVT_DRAW_LARGEBITMAP, this);
+    AddPendingEvent(newEvent);
 }
 
 

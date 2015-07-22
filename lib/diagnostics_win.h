@@ -20,25 +20,22 @@
 
 #include "boinc_win.h"
 
-#define NT_SUCCESS(Status)                      ((NTSTATUS)(Status) >= 0)
 #define STATUS_INFO_LENGTH_MISMATCH             ((NTSTATUS)0xC0000004L)
-#define SystemProcessAndThreadInformation       5
 
 typedef LONG       NTSTATUS;
 
 typedef LONG       KPRIORITY;
 
+//MinGW-W64 defines this struct in its own header
+#ifndef HAVE_CLIENT_ID
 typedef struct _CLIENT_ID {
     DWORD          UniqueProcess;
     DWORD          UniqueThread;
 } CLIENT_ID;
+#endif
 
-typedef struct _UNICODE_STRING {
-    USHORT         Length;
-    USHORT         MaximumLength;
-    PWSTR          Buffer;
-} UNICODE_STRING;
-
+//MinGW-W64 defines this struct in its own header
+#ifndef HAVE_VM_COUNTERS
 typedef struct _VM_COUNTERS {
 #ifdef _WIN64
 // the following was inferred by painful reverse engineering
@@ -67,7 +64,10 @@ typedef struct _VM_COUNTERS {
     SIZE_T         PeakPagefileUsage;
 #endif
 } VM_COUNTERS;
+#endif
 
+//MinGW-W64 defines this struct in its own header
+#ifndef HAVE_SYSTEM_THREADS
 typedef struct _SYSTEM_THREADS {
     LARGE_INTEGER  KernelTime;
     LARGE_INTEGER  UserTime;
@@ -81,24 +81,9 @@ typedef struct _SYSTEM_THREADS {
     LONG           State;
     LONG           WaitReason;
 } SYSTEM_THREADS, * PSYSTEM_THREADS;
+#endif
 
-typedef struct _SYSTEM_PROCESSES_NT4 {
-    ULONG          NextEntryDelta;
-    ULONG          ThreadCount;
-    ULONG          Reserved1[6];
-    LARGE_INTEGER  CreateTime;
-    LARGE_INTEGER  UserTime;
-    LARGE_INTEGER  KernelTime;
-    UNICODE_STRING ProcessName;
-    KPRIORITY      BasePriority;
-    ULONG          ProcessId;
-    ULONG          InheritedFromProcessId;
-    ULONG          HandleCount;
-    ULONG          Reserved2[2];
-    VM_COUNTERS    VmCounters;
-    SYSTEM_THREADS Threads[1];
-} SYSTEM_PROCESSES_NT4, *PSYSTEM_PROCESSES_NT4;
-
+#ifndef HAVE_SYSTEM_PROCESSES
 typedef struct _SYSTEM_PROCESSES {
     ULONG          NextEntryDelta;
     ULONG          ThreadCount;
@@ -124,17 +109,22 @@ typedef struct _SYSTEM_PROCESSES {
     IO_COUNTERS    IoCounters;
     SYSTEM_THREADS Threads[1];
 } SYSTEM_PROCESSES, * PSYSTEM_PROCESSES;
+#endif
 
+//MinGW-W64 defines this struct in its own header
+#ifndef HAVE_THREAD_STATE
 typedef enum _THREAD_STATE {
-    ThreadStateInitialized,
-    ThreadStateReady,
-    ThreadStateRunning,
-    ThreadStateStandby,
-    ThreadStateTerminated,
-    ThreadStateWaiting,
-    ThreadStateTransition
+    StateInitialized,
+    StateReady,
+    StateRunning,
+    StateStandby,
+    StateTerminated,
+    StateWait,
+    StateTransition
 } THREAD_STATE, *PTHREAD_STATE;
+#endif
 
+#ifndef HAVE_THREAD_WAIT_REASON
 typedef enum _THREAD_WAIT_REASON {
     ThreadWaitReasonExecutive,
     ThreadWaitReasonFreePage,
@@ -158,49 +148,6 @@ typedef enum _THREAD_WAIT_REASON {
     ThreadWaitReasonWrPageOut,
     ThreadWaitReasonMaximumWaitReason
 } THREAD_WAIT_REASON;
-
-
-// Delay Load Error Handling stuff
-#ifndef _DELAY_IMP_VER
-
-#define FACILITY_VISUALCPP  ((LONG)0x6d)
-#define VcppException(sev,err)  ((sev) | (FACILITY_VISUALCPP<<16) | err)
-
-typedef DWORD  RVA;
-
-typedef struct ImgDelayDescr {
-    DWORD           grAttrs;        // attributes
-    RVA             rvaDLLName;     // RVA to dll name
-    RVA             rvaHmod;        // RVA of module handle
-    RVA             rvaIAT;         // RVA of the IAT
-    RVA             rvaINT;         // RVA of the INT
-    RVA             rvaBoundIAT;    // RVA of the optional bound IAT
-    RVA             rvaUnloadIAT;   // RVA of optional copy of original IAT
-    DWORD           dwTimeStamp;    // 0 if not bound,
-                                    // O.W. date/time stamp of DLL bound to (Old BIND)
-} ImgDelayDescr, *PImgDelayDescr;
-
-typedef const ImgDelayDescr *PCImgDelayDescr;
-
-typedef struct DelayLoadProc {
-    BOOL                fImportByName;
-    union {
-        LPCSTR          szProcName;
-        DWORD           dwOrdinal;
-        };
-} DelayLoadProc;
-
-typedef struct DelayLoadInfo {
-    DWORD               cb;         // size of structure
-    PCImgDelayDescr     pidd;       // raw form of data (everything is there)
-    FARPROC *           ppfn;       // points to address of function to load
-    LPCSTR              szDll;      // name of dll
-    DelayLoadProc       dlp;        // name or ordinal of procedure
-    HMODULE             hmodCur;    // the hInstance of the library we have loaded
-    FARPROC             pfnCur;     // the actual function that will be called
-    DWORD               dwLastError;// error received (if an error notification)
-} DelayLoadInfo, * PDelayLoadInfo;
-
 #endif
 
 #endif

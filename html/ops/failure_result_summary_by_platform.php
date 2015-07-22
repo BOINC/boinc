@@ -57,26 +57,27 @@ order by error_count desc
 ";
 
 $urlquery = $q->urlquery;
-$result = mysql_query($main_query);
+$result = _mysql_query($main_query);
 
 start_table();
 table_header(
     "App version", "Exit Status", "Error Count"
 );
 
-while ($res = mysql_fetch_object($result)) {
+while ($res = _mysql_fetch_object($result)) {
     $exit_status_condition = "exit_status=$res->exit_status";
-    $av = BoincAppVersion::lookup_id($res->app_version_id);
-    $p = BoincPlatform::lookup_id($av->platformid);
     table_row(
-        sprintf("%.2f", $av->version_num/100)." $p->name [$av->plan_class]",
+        app_version_desc($res->app_version_id),
         link_results(
-            exit_status_string($res), $urlquery, "$exit_status_condition", ""
+            exit_status_string($res->exit_status),
+            $urlquery,
+            "$exit_status_condition",
+            ""
         ),
         $res->error_count
     );
 }
-mysql_free_result($result);
+_mysql_free_result($result);
 
 end_table();
 

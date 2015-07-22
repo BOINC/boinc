@@ -19,6 +19,7 @@
 include_once("../inc/db.inc");
 include_once("../inc/util.inc");
 include_once("../inc/prefs.inc");
+include_once("../inc/prefs_project.inc");
 
 $user = get_logged_in_user();
 
@@ -83,7 +84,7 @@ if ($action) {
 
             if (!$venue) {
                 venue_parse_form($user);
-                venue_update($user);
+                $user->update("venue='$user->venue'");
             }
             Header("Location: prefs.php?subset=$subset&updated=1$c");
         }
@@ -92,6 +93,7 @@ if ($action) {
     $title = tra("Edit %1 preferences", subset_name($subset));
     if ($venue) $title = tra("%1 for %2", $title, $venue);
     page_head($title);
+    checkbox_clicked_js();
 
     if ($subset == "global") {
         echo PREFS_FORM_DESC1;

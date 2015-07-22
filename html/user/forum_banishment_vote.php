@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,6 +19,8 @@
 require_once('../inc/util.inc');
 require_once('../inc/forum_db.inc');
 require_once('../inc/forum_banishment_vote.inc');
+
+if (DISABLE_FORUMS) error_page("Forums are disabled");
 
 check_get_args(array("action", "userid"));
 
@@ -49,7 +51,8 @@ if (get_str('action')=="start") {
     if (!$user) {
         error_page(tra("No user with this ID found."));
     }
-    $x = $user->banished_until;
+    BoincForumPrefs::lookup($user);
+    $x = $user->prefs->banished_until;
     if ($x>time()) {
         error_page(tra("User is already banished"));
     }
@@ -71,7 +74,7 @@ row2(tra("Reason")."<br>".tra("Mailed if nonempty"),
 
 row2(
     "",
-    "<input type=\"submit\" name=\"submit\" value=\"".tra("Proceed with vote")."\">"
+    "<input class=\"btn btn-default\" type=\"submit\" name=\"submit\" value=\"".tra("Proceed with vote")."\">"
 );
 } elseif (get_str('action')=="yes") {
     vote_yes($config,$logged_in_user,$user);

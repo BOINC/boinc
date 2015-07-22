@@ -35,6 +35,112 @@
 HANDLE sandbox_account_interactive_token = NULL;
 HANDLE sandbox_account_service_token = NULL;
 
+/*++
+This function attempts to obtain a SID representing the supplied
+account on the supplied system.
+
+If the function succeeds, the return value is TRUE. A buffer is
+allocated which contains the SID representing the supplied account.
+This buffer should be freed when it is no longer needed by calling
+HeapFree(GetProcessHeap(), 0, buffer)
+
+If the function fails, the return value is FALSE. Call GetLastError()
+to obtain extended error information.
+
+Scott Field (sfield)    12-Jul-95
+--*/
+
+BOOL
+GetAccountSid(
+    LPCSTR SystemName,
+    LPCSTR AccountName,
+    PSID *Sid
+    )
+{
+    LPSTR ReferencedDomain=NULL;
+    DWORD cbSid=128;    // initial allocation attempt
+    DWORD cchReferencedDomain=16; // initial allocation size
+    SID_NAME_USE peUse;
+    BOOL bSuccess=FALSE; // assume this function will fail
+
+    try
+    {
+        //
+        // initial memory allocations
+        //
+        *Sid = (PSID)HeapAlloc(GetProcessHeap(), 0, cbSid);
+
+        if(*Sid == NULL) throw;
+
+        ReferencedDomain = (LPSTR)HeapAlloc(
+                        GetProcessHeap(),
+                        0,
+                        cchReferencedDomain * sizeof(CHAR)
+                        );
+
+        if(ReferencedDomain == NULL) throw;
+
+        //
+        // Obtain the SID of the specified account on the specified system.
+        //
+        while(!LookupAccountNameA(
+                        SystemName,         // machine to lookup account on
+                        AccountName,        // account to lookup
+                        *Sid,               // SID of interest
+                        &cbSid,             // size of SID
+                        ReferencedDomain,   // domain account was found on
+                        &cchReferencedDomain,
+                        &peUse
+                        )) {
+            if (GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
+                //
+                // reallocate memory
+                //
+                *Sid = (PSID)HeapReAlloc(
+                            GetProcessHeap(),
+                            0,
+                            *Sid,
+                            cbSid
+                            );
+                if(*Sid == NULL) throw;
+
+                ReferencedDomain = (LPSTR)HeapReAlloc(
+                            GetProcessHeap(),
+                            0,
+                            ReferencedDomain,
+                            cchReferencedDomain * sizeof(CHAR)
+                            );
+                if(ReferencedDomain == NULL) throw;
+            }
+            else throw;
+        }
+
+        //
+        // Indicate success.
+        //
+        bSuccess = TRUE;
+
+    } // try
+    catch(...)
+    {
+        //
+        // Cleanup and indicate failure, if appropriate.
+        //
+
+        HeapFree(GetProcessHeap(), 0, ReferencedDomain);
+
+        if(!bSuccess) {
+            if(*Sid != NULL) {
+                HeapFree(GetProcessHeap(), 0, *Sid);
+                *Sid = NULL;
+            }
+        }
+    } // finally
+
+    return bSuccess;
+}
+
+
 void get_sandbox_account_interactive_token() {
     FILE*       f;
     char        buf[256];
@@ -45,7 +151,6 @@ void get_sandbox_account_interactive_token() {
     std::string password_str; 
     int         retval = 0;
     static bool first = true;
-    PSID        sandbox_account_sid = NULL;
 
     if (!first) return;
     first = false;
@@ -76,9 +181,6 @@ void get_sandbox_account_interactive_token() {
             LOGON32_PROVIDER_DEFAULT, 
             &sandbox_account_interactive_token
         );
-        if (retval) {
-            GetAccountSid(domainname_str.c_str(), username_str.c_str(), &sandbox_account_sid);
-        }
     } else {
         username_str = encoded_username_str;
         retval = LogonUserA( 
@@ -89,28 +191,30 @@ void get_sandbox_account_interactive_token() {
             LOGON32_PROVIDER_DEFAULT, 
             &sandbox_account_interactive_token
         );
-        if (retval) {
-            GetAccountSid(NULL, username_str.c_str(), &sandbox_account_sid);
-        }
     }
 
     if (!retval) {
         sandbox_account_interactive_token = NULL;
-        sandbox_account_sid = NULL;
     } else {
-        // Adjust the permissions on the current desktop and window station
-        //   to allow the sandbox user account to create windows and such.
-        //
-        if (!AddAceToWindowStation(GetProcessWindowStation(), sandbox_account_sid)) {
-            fprintf(stderr, "Failed to add ACE to current WindowStation\n");
-        }
-        if (!AddAceToDesktop(GetThreadDesktop(GetCurrentThreadId()), sandbox_account_sid)) {
-            fprintf(stderr, "Failed to add ACE to current Desktop\n");
-        }
+
+
     }
 }
 
 void get_sandbox_account_service_token() {
+    ACCESS_ALLOWED_ACE   *pace1 = NULL;
+    ACCESS_ALLOWED_ACE   *pace2 = NULL;
+    ACL_SIZE_INFORMATION aclSizeInfo;
+    DWORD                dwNewAclSize;
+    PACL                 pOldAcl = NULL;
+    PACL                 pNewAcl = NULL;
+    PSID                 pBOINCProjectSID = NULL;
+    PSID                 pBOINCMasterSID = NULL;
+    PTOKEN_DEFAULT_DACL  pTokenDefaultDACL = NULL;
+    PVOID                pTempAce;
+    DWORD                dwSize = 0;
+    DWORD                dwSizeNeeded = 0;
+    LPTSTR               pszUserName = NULL;
     FILE* f;
     char buf[256];
     std::string encoded_username_str;
@@ -150,6 +254,9 @@ void get_sandbox_account_service_token() {
             LOGON32_PROVIDER_DEFAULT, 
             &sandbox_account_service_token
         );
+        if (retval) {
+            GetAccountSid(domainname_str.c_str(), username_str.c_str(), &pBOINCProjectSID);
+        }
     } else {
         username_str = encoded_username_str;
         retval = LogonUserA( 
@@ -160,10 +267,269 @@ void get_sandbox_account_service_token() {
             LOGON32_PROVIDER_DEFAULT, 
             &sandbox_account_service_token
         );
+        if (retval) {
+            GetAccountSid(NULL, username_str.c_str(), &pBOINCProjectSID);
+        }
     }
 
     if (!retval) {
         sandbox_account_service_token = NULL;
+    } else {
+
+        try
+        {
+            // Obtain the current user name.
+
+            dwSize = 0;
+            dwSizeNeeded = 0;
+            if (!GetUserNameEx(
+                    NameSamCompatible,
+                    pszUserName,
+                    &dwSize)
+            )
+            if (GetLastError() == ERROR_MORE_DATA)
+            {
+                pszUserName = (LPTSTR)HeapAlloc(
+                    GetProcessHeap(),
+                    HEAP_ZERO_MEMORY,
+                    dwSize + 1);
+
+                if (pszUserName == NULL)
+                    throw;
+
+                if (!GetUserNameEx(
+                        NameSamCompatible,
+                        pszUserName,
+                        &dwSize)
+                )
+                    throw;
+            }
+            else
+                throw;
+
+            // Obtain the SID for the current user name.
+
+            if (!GetAccountSid(
+                    NULL,
+                    pszUserName,
+                    &pBOINCMasterSID)
+            )
+                throw;
+
+            // Obtain the DACL for the service token.
+
+            dwSize = 0;
+            dwSizeNeeded = 0;
+            if (!GetTokenInformation(
+                    sandbox_account_service_token,
+                    TokenDefaultDacl,
+                    NULL,
+                    dwSize,
+                    &dwSizeNeeded)
+            )
+            if (GetLastError() == ERROR_INSUFFICIENT_BUFFER)
+            {
+                pTokenDefaultDACL = (PTOKEN_DEFAULT_DACL)HeapAlloc(
+                    GetProcessHeap(),
+                    HEAP_ZERO_MEMORY,
+                    dwSizeNeeded);
+
+                if (pTokenDefaultDACL == NULL)
+                    throw;
+
+                dwSize = dwSizeNeeded;
+
+                if (!GetTokenInformation(
+                        sandbox_account_service_token,
+                        TokenDefaultDacl,
+                        pTokenDefaultDACL,
+                        dwSize,
+                        &dwSizeNeeded)
+                )
+                    throw;
+            }
+            else
+                throw;
+
+            //
+            pOldAcl = pTokenDefaultDACL->DefaultDacl;
+
+            // Initialize the ACL.
+
+            ZeroMemory(&aclSizeInfo, sizeof(ACL_SIZE_INFORMATION));
+            aclSizeInfo.AclBytesInUse = sizeof(ACL);
+
+            // Call only if the DACL is not NULL.
+
+            if (pOldAcl != NULL)
+            {
+                // get the file ACL size info
+                if (!GetAclInformation(
+                    pOldAcl,
+                    (LPVOID)&aclSizeInfo,
+                    sizeof(ACL_SIZE_INFORMATION),
+                    AclSizeInformation)
+                )
+                   throw;
+            }
+
+            // Compute the size of the new ACL.
+
+            dwNewAclSize = aclSizeInfo.AclBytesInUse +
+                (2*sizeof(ACCESS_ALLOWED_ACE)) + 
+                (2*GetLengthSid(pBOINCProjectSID)) +
+                (2*GetLengthSid(pBOINCMasterSID));
+
+            // Allocate memory for the new ACL.
+
+            pNewAcl = (PACL)HeapAlloc(
+                GetProcessHeap(),
+                HEAP_ZERO_MEMORY,
+                dwNewAclSize);
+
+            if (pNewAcl == NULL)
+                throw;
+
+            // Initialize the new DACL.
+
+            if (!InitializeAcl(pNewAcl, dwNewAclSize, ACL_REVISION))
+                throw;
+
+            // If DACL is present, copy it to a new DACL.
+
+            if (pOldAcl)
+            {
+                // Copy the ACEs to the new ACL.
+                if (aclSizeInfo.AceCount)
+                {
+                    for (unsigned int i=0; i < aclSizeInfo.AceCount; i++)
+                    {
+                        // Get an ACE.
+                        if (!GetAce(pOldAcl, i, &pTempAce))
+                            throw;
+
+                        // Add the ACE to the new ACL.
+                        if (!AddAce(
+                                pNewAcl,
+                                ACL_REVISION,
+                                MAXDWORD,
+                                pTempAce,
+                            ((PACE_HEADER)pTempAce)->AceSize)
+                        )
+                            throw;
+                    }
+                }
+            }
+
+            // Add the first ACE to the process.
+
+            pace1 = (ACCESS_ALLOWED_ACE *)HeapAlloc(
+                GetProcessHeap(),
+                HEAP_ZERO_MEMORY,
+                sizeof(ACCESS_ALLOWED_ACE) + GetLengthSid(pBOINCProjectSID) - sizeof(DWORD)
+            );
+
+            if (pace1 == NULL)
+                throw;
+
+            pace1->Header.AceType  = ACCESS_ALLOWED_ACE_TYPE;
+            pace1->Header.AceFlags = CONTAINER_INHERIT_ACE |
+                                    INHERIT_ONLY_ACE |
+                                    OBJECT_INHERIT_ACE;
+            pace1->Header.AceSize  = (WORD)sizeof(ACCESS_ALLOWED_ACE) + 
+                                    (WORD)GetLengthSid(pBOINCProjectSID) - 
+                                    (WORD)sizeof(DWORD);
+            pace1->Mask            = PROCESS_ALL_ACCESS;
+
+            if (!CopySid(GetLengthSid(pBOINCProjectSID), &pace1->SidStart, pBOINCProjectSID))
+                throw;
+
+            // Add an ACE to the process.
+
+            if (!AddAce(
+                pNewAcl,
+                ACL_REVISION,
+                MAXDWORD,
+                (LPVOID)pace1,
+                pace1->Header.AceSize)
+            )
+                throw;
+
+            // Add the second ACE to the process.
+
+            pace2 = (ACCESS_ALLOWED_ACE *)HeapAlloc(
+                GetProcessHeap(),
+                HEAP_ZERO_MEMORY,
+                sizeof(ACCESS_ALLOWED_ACE) + GetLengthSid(pBOINCMasterSID) - sizeof(DWORD)
+            );
+
+            if (pace2 == NULL)
+                throw;
+
+            pace2->Header.AceType  = ACCESS_ALLOWED_ACE_TYPE;
+            pace2->Header.AceFlags = CONTAINER_INHERIT_ACE |
+                                    INHERIT_ONLY_ACE |
+                                    OBJECT_INHERIT_ACE;
+            pace2->Header.AceSize  = (WORD)sizeof(ACCESS_ALLOWED_ACE) + 
+                                    (WORD)GetLengthSid(pBOINCMasterSID) - 
+                                    (WORD)sizeof(DWORD);
+            pace2->Mask            = PROCESS_ALL_ACCESS;
+
+            if (!CopySid(GetLengthSid(pBOINCMasterSID), &pace2->SidStart, pBOINCMasterSID))
+                throw;
+
+            // Add an ACE to the process.
+
+            if (!AddAce(
+                pNewAcl,
+                ACL_REVISION,
+                MAXDWORD,
+                (LPVOID)pace2,
+                pace2->Header.AceSize)
+            )
+                throw;
+
+            // Set a new Default DACL for the token.
+            pTokenDefaultDACL->DefaultDacl = pNewAcl;
+
+            if (!SetTokenInformation(
+                sandbox_account_service_token,
+                TokenDefaultDacl,
+                pTokenDefaultDACL,
+                dwNewAclSize)
+            )
+                throw;
+
+            // Indicate success.
+            fprintf(stderr, "New Token ACL Success!!!\n");
+        }
+        catch(...)
+        {
+            // Free the allocated buffers.
+
+            if (pace1 != NULL)
+                HeapFree(GetProcessHeap(), 0, (LPVOID)pace1);
+
+            if (pace2 != NULL)
+                HeapFree(GetProcessHeap(), 0, (LPVOID)pace2);
+
+            if (pOldAcl != NULL)
+                HeapFree(GetProcessHeap(), 0, (LPVOID)pOldAcl);
+
+            if (pNewAcl != NULL)
+                HeapFree(GetProcessHeap(), 0, (LPVOID)pNewAcl);
+
+            if (pBOINCProjectSID != NULL)
+                HeapFree(GetProcessHeap(), 0, (LPVOID)pBOINCProjectSID);
+
+            if (pBOINCMasterSID != NULL)
+                HeapFree(GetProcessHeap(), 0, (LPVOID)pBOINCMasterSID);
+
+        }
+
+        if (pszUserName != NULL)
+            HeapFree(GetProcessHeap(), 0, (LPVOID)pszUserName);
+
     }
 }
 
@@ -171,12 +537,6 @@ void get_sandbox_account_service_token() {
 // chdir into the given directory, and run a program there.
 // argv is set up Unix-style, i.e. argv[0] is the program name
 //
-
-// CreateEnvironmentBlock
-typedef BOOL (WINAPI *tCEB)(LPVOID *lpEnvironment, HANDLE hToken, BOOL bInherit);
-// DestroyEnvironmentBlock
-typedef BOOL (WINAPI *tDEB)(LPVOID lpEnvironment);
-
 
 int run_app_windows(
     const char* dir, const char* file, int argc, char *const argv[], HANDLE& id
@@ -203,58 +563,9 @@ int run_app_windows(
     get_sandbox_account_interactive_token();
     if (sandbox_account_interactive_token != NULL) {
 
-        // Find CreateEnvironmentBlock/DestroyEnvironmentBlock pointers
-        tCEB    pCEB = NULL;
-        tDEB    pDEB = NULL;
-        HMODULE hUserEnvLib = NULL;
-
-        hUserEnvLib = LoadLibraryA("userenv.dll");
-        if (hUserEnvLib) {
-            pCEB = (tCEB) GetProcAddress(hUserEnvLib, "CreateEnvironmentBlock");
-            pDEB = (tDEB) GetProcAddress(hUserEnvLib, "DestroyEnvironmentBlock");
-        }
-
-
-        // Retrieve the current window station and desktop names
-        char szWindowStation[256];
-        memset(szWindowStation, 0, sizeof(szWindowStation));
-        char szDesktop[256];
-        memset(szDesktop, 0, sizeof(szDesktop));
-        char szDesktopName[512];
-        memset(szDesktopName, 0, sizeof(szDesktopName));
-
-        if (!GetUserObjectInformationA(
-                GetProcessWindowStation(),
-                UOI_NAME,
-                &szWindowStation,
-                sizeof(szWindowStation),
-                NULL)
-            ) {
-            windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
-            fprintf(stderr, "GetUserObjectInformation failed: %s\n", error_msg);
-        }
-        if (!GetUserObjectInformationA(
-                GetThreadDesktop(GetCurrentThreadId()),
-                UOI_NAME,
-                &szDesktop,
-                sizeof(szDesktop),
-                NULL)
-            ) {
-            windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
-            fprintf(stderr, "GetUserObjectInformation failed: %s\n", error_msg);
-        }
-
-        // Construct the destination desktop name
-        strncat(szDesktopName, szWindowStation, sizeof(szDesktopName) - strlen(szDesktopName));
-        strncat(szDesktopName, "\\", sizeof(szDesktopName) - strlen(szDesktopName));
-        strncat(szDesktopName, szDesktop, sizeof(szDesktopName) - strlen(szDesktopName));
-
-        // Tell CreateProcessAsUser which desktop to use explicitly.
-        startup_info.lpDesktop = szDesktopName;
-                 
         // Construct an environment block that contains environment variables that don't
         //   describe the current user.
-        if (!pCEB(&environment_block, sandbox_account_interactive_token, FALSE)) {
+        if (!CreateEnvironmentBlock(&environment_block, sandbox_account_interactive_token, FALSE)) {
             windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
             fprintf(stderr, "CreateEnvironmentBlock failed: %s\n", error_msg);
         }
@@ -273,16 +584,11 @@ int run_app_windows(
             &process_info 
         );
 
-        if (!pDEB(environment_block)) {
+        if (!DestroyEnvironmentBlock(environment_block)) {
             windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
             fprintf(stderr, "DestroyEnvironmentBlock failed: %s\n", error_msg);
         }
 
-        if (hUserEnvLib) {
-            pCEB = NULL;
-            pDEB = NULL;
-            FreeLibrary(hUserEnvLib);
-        }
     } else {
         retval = CreateProcessA(
             file,

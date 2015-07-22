@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE sect1 PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<sect1 id="using-for-applications">
+  <title>Using the library to build applications</title>
+
+  <sect2 id="build-unix">
+    <title>On UNIX platforms</title>
+
+    <para>
+      The DC-API library uses the <command>pkg-config</command> system to help
+      the building of applications. For every backend, two
+      <command>pkg-config</command> modules are available:
+      <literal>dcapi-<replaceable>&lt;backend&gt;</replaceable>-client</literal>
+      for building client applications and
+      <literal>dcapi-<replaceable>&lt;backend&gt;</replaceable>-master</literal>
+      for building master applications.
+    </para>
+
+    <para>
+      During compilation, the <command>pkg-config --cflags
+	<replaceable>&lt;module&gt;</replaceable></command> command gives the
+      list of compiler directives (like include file locations) that have to be
+      passed to the compiler whenever one of the DC-API headers is referenced in
+      a source file.
+    </para>
+
+    <para>
+      During linking, the <command>pkg-config --libs
+	<replaceable>&lt;module&gt;</replaceable></command> command will return
+      the list of libraries and linker options required to link the application
+      with DC-API.
+    </para>
+
+    <para>
+      If you have built DC-API from source and have installed it at a
+      non-standard location (i.e. not under <filename>/usr</filename> or
+      <filename>/usr/local</filename>), you may have to set the
+      <envar>PKG_CONFIG_PATH</envar> environment variable to point to the
+      directory where the <filename>.pc</filename> files are located in order
+      to <command>pkg-config</command> to find them.
+    </para>
+  </sect2>
+
+  <xi:include href="windows.xml" xmlns:xi="http://www.w3.org/2003/XInclude"/>
+
+</sect1>
+<!-- vim: set ai sw=2 tw=80: -->

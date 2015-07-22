@@ -11,22 +11,149 @@
 
 # Installshield build directories
 /win_build/installerv2/BOINC
+/win_build/installerv2/BOINC_vbox
 /win_build/installerv2/BOINCx64
+/win_build/installerv2/BOINCx64_vbox
 /win_build/installerv2/WCG
+/win_build/installerv2/Progress
+
+# Visual Studio Build Directories for BOINCCAS
+/win_build/installerv2/redist/Windows/src/boinccas/Debug
+/win_build/installerv2/redist/Windows/src/boinccas/Debug95
+/win_build/installerv2/redist/Windows/src/boinccas/Release
+/win_build/installerv2/redist/Windows/src/boinccas/Release95
+/win_build/installerv2/redist/Windows/src/boinccas/x64
+
+# Netbeans project files
+/html/nbproject/
 
 #
 *.pfx
 *.pvk
 *.spc
+/win_build/*.filters
+/win_build/boinc.sdf
+/win_build/boinc.opensdf
+/win_build/ipch
+/win_build/installerv2/redist/Windows/src/boinccas/*.filters
+/win_build/installerv2/redist/Windows/src/boinccas/boinccas.sdf
+
+## files created by _autosetup (autoreconf):
+*.in
+*.in~
+aclocal.m4
+autom4te.cache/
+compile
+config.guess
+config.sub
+configure
+depcomp
+install-sh
+ltmain.sh
+m4/libtool.m4
+m4/ltoptions.m4
+m4/ltsugar.m4
+m4/ltversion.m4
+m4/lt~obsolete.m4
+missing
+test-driver
+
+## files created by configure:
+Makefile
+.deps/
+boinc_path_config.py
+pkginfo
+prototype
+client/scripts/boinc-client
+config.h
+config.log
+config.status
+libtool
+py/Boinc/version.py
+py/setup.py
+stamp-h1
+test/version.inc
+
+## files created by make:
 *.o
 *.lo
 *.a
 *.la
-*.in
-/client/Makefile
 
-# drupal: ignore files with private/sensitive content in a public repo
+## Drupal
+# ignore files with private/sensitive content in a public repo
 drupal/sites/default/dbconfig.php
-
-# drupal: ignore symlink to project-specific content (tracked in separate/project repo)
+# ignore symlink to project-specific content (tracked in separate/project repo)
 drupal/sites/default/project
+
+.libs/
+svn_version.h
+
+# list of executables
+apps/1sec
+apps/concat
+apps/upper_case
+client/boinc
+client/boinc_client
+client/boinccmd
+client/switcher
+clientgui/boincmgr
+clientscr/boincscr
+doc/manpages/appmgr.8
+doc/manpages/boinc.1
+doc/manpages/boinccmd.1
+doc/manpages/boincmgr.1
+lib/crypt_prog
+lib/parse_test
+py/lib.*/
+py/build/
+samples/example_app/uc2
+samples/example_app/ucn
+samples/sleeper/sleeper
+samples/worker/worker
+samples/wrapper/wrapper
+sched/adjust_user_priority
+sched/antique_file_deleter
+sched/census
+sched/cgi
+sched/credit_test
+sched/db_dump
+sched/db_purge
+sched/delete_file
+sched/fcgi
+sched/fcgi_file_upload_handler
+sched/feeder
+sched/file_deleter
+sched/file_upload_handler
+sched/get_file
+sched/make_work
+sched/message_handler
+sched/put_file
+sched/sample_assimilator
+sched/sample_bitwise_validator
+sched/sample_dummy_assimilator
+sched/sample_substr_validator
+sched/sample_trivial_validator
+sched/sample_work_generator
+sched/sched_driver
+sched/show_shmem
+sched/single_job_assimilator
+sched/size_regulator
+sched/status
+sched/stop
+sched/transitioner
+sched/trickle_credit
+sched/trickle_deadline
+sched/trickle_echo
+sched/update_stats
+sched/wu_check
+tools/cancel_jobs
+tools/create_work
+tools/dir_hier_move
+tools/dir_hier_path
+tools/remote_submit_test
+tools/sign_executable
+vda/ssim
+vda/vda
+vda/vdad
+/win_build/*.sdf

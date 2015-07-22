@@ -290,3 +290,6 @@ void escape_project_url(char *in, char* out) {
     }
 }
 
+bool is_https(const char* url) {
+    return (strncmp(url, "https://", 8) == 0);
+}

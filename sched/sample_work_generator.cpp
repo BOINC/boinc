@@ -40,18 +40,19 @@
 #include <string>
 #include <cstring>
 
+#include "backend_lib.h"
 #include "boinc_db.h"
 #include "error_numbers.h"
-#include "backend_lib.h"
+#include "filesys.h"
 #include "parse.h"
 #include "str_replace.h"
-#include "util.h"
+#include "str_util.h"
 #include "svn_version.h"
+#include "util.h"
 
 #include "sched_config.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
-#include "str_util.h"
 
 #define CUSHION 10
     // maintain at least this many unsent results
@@ -149,10 +150,23 @@ void main_loop() {
                     exit(retval);
                 }
             }
-            // Now sleep for a few seconds to let the transitioner
-            // create instances for the jobs we just created.
-            // Otherwise we could end up creating an excess of jobs.
-            daemon_sleep(5);
+            // Wait for the transitioner to create instances
+            // of the jobs we just created.
+            // Otherwise we'll create too many jobs.
+            //
+            double now = dtime();
+            while (1) {
+                daemon_sleep(5);
+                double x;
+                retval = min_transition_time(x);
+                if (retval) {
+                    log_messages.printf(MSG_CRITICAL,
+                        "min_transition_time failed: %s\n", boincerror(retval)
+                    );
+                    exit(retval);
+                }
+                if (x > now) break;
+            }
         }
     }
 }

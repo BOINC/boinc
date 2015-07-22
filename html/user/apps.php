@@ -16,7 +16,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 
 check_get_args(array("xml"));
@@ -30,26 +29,32 @@ if ($xml) {
     echo "<app_versions>\n";
 } else {
     page_head(tra("Applications"));
-    echo tra("%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything.", PROJECT)."<br><br>
+    echo tra("%1 currently has the following applications. When you participate in %1, tasks for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything.", PROJECT)."<br><br>
     ";
     start_table();
 }
 
 $apps = BoincApp::enum("deprecated=0");
 
+$total_gf = 0;
 foreach ($apps as $app) {
     if ($xml) {
         echo "<application>\n";
         echo "    <user_friendly_name>$app->user_friendly_name</user_friendly_name>\n";
         echo "    <name>$app->name</name>\n";
         echo "    <id>$app->id</id>\n";
+        if ($app->beta) {
+            echo "        <beta/>\n";
+        }
     } else {
+        $b = $app->beta?" (beta test)":"";
         echo "
-            <tr><th colspan=4>$app->user_friendly_name</th></tr>
+            <tr><th colspan=4>$app->user_friendly_name$b</th></tr>
             <tr>
                 <th>".tra("Platform")."</th>
                 <th>".tra("Version")."</th>
-                <th>".tra("Installation time")."</th>
+                <th>".tra("Created")."</th>
+                <th>".tra("Average computing")."</th>
             </tr>
         ";
     }
@@ -65,16 +70,24 @@ foreach ($apps as $app) {
                 echo "        <plan_class>$av->plan_class</plan_class>\n";
                 echo "        <date>$create_time_f</date>\n";
                 echo "        <date_unix>$av->create_time</date_unix>\n";
+                if ($av->beta) {
+                    echo "        <beta/>\n";
+                }
                 echo "    </version>\n";
             } else {
                 $version_num_f = sprintf("%0.2f", $av->version_num/100);
                 if ($av->plan_class) {
                     $version_num_f .= " ($av->plan_class)";
                 }
+                $gf = $av->expavg_credit/200;
+                $total_gf += $gf;
+                $gf = number_format($gf, 0);
+                $b = $av->beta?" (beta test)":"";
                 echo "<tr>
                     <td>$platform->user_friendly_name</td>
-                    <td>$version_num_f</td>
+                    <td>$version_num_f$b</td>
                     <td>$create_time_f</td>
+                    <td align=right>$gf GigaFLOPS</td>
                     </tr>
                 ";
             }
@@ -89,6 +102,8 @@ if ($xml) {
     echo "</app_versions>\n";
 } else {
     end_table();
+    $x = number_format($total_gf, 0);
+    echo "<p>Total average computing: $x GigaFLOPS";
     page_tail();
 }
 ?>

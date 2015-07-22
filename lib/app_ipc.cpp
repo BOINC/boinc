@@ -32,28 +32,15 @@
 #include "str_replace.h"
 #include "str_util.h"
 #include "url.h"
+#include "util.h"
 
 #include "app_ipc.h"
 
-#ifdef _MSC_VER
+#if !defined(HAVE_STRDUP) && defined(HAVE__STRDUP)
 #define strdup _strdup
 #endif
 
 using std::string;
-
-const char* xml_graphics_modes[NGRAPHICS_MSGS] = {
-    "<mode_unsupported/>",
-    "<mode_hide_graphics/>",
-    "<mode_window/>",
-    "<mode_fullscreen/>",
-    "<mode_blankscreen/>",
-    "<reread_prefs/>",
-    "<mode_quit/>"
-};
-
-GRAPHICS_MSG::GRAPHICS_MSG() {
-    memset(this, 0, sizeof(GRAPHICS_MSG));
-}
 
 APP_INIT_DATA::APP_INIT_DATA() : project_preferences(NULL) {
 }
@@ -111,6 +98,7 @@ void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
     global_prefs                  = a.global_prefs;
     starting_elapsed_time         = a.starting_elapsed_time;
     using_sandbox                 = a.using_sandbox;
+    vm_extensions_disabled        = a.vm_extensions_disabled;
     rsc_fpops_est                 = a.rsc_fpops_est;
     rsc_fpops_bound               = a.rsc_fpops_bound;
     rsc_memory_bound              = a.rsc_memory_bound;
@@ -199,6 +187,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         "<wu_cpu_time>%f</wu_cpu_time>\n"
         "<starting_elapsed_time>%f</starting_elapsed_time>\n"
         "<using_sandbox>%d</using_sandbox>\n"
+        "<vm_extensions_disabled>%d</vm_extensions_disabled>\n"
         "<user_total_credit>%f</user_total_credit>\n"
         "<user_expavg_credit>%f</user_expavg_credit>\n"
         "<host_total_credit>%f</host_total_credit>\n"
@@ -223,6 +212,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         ai.wu_cpu_time,
         ai.starting_elapsed_time,
         ai.using_sandbox?1:0,
+        ai.vm_extensions_disabled?1:0,
         ai.user_total_credit,
         ai.user_expavg_credit,
         ai.host_total_credit,
@@ -283,6 +273,7 @@ void APP_INIT_DATA::clear() {
     global_prefs.defaults();
     starting_elapsed_time = 0;
     using_sandbox = false;
+    vm_extensions_disabled = false;
     rsc_fpops_est = 0;
     rsc_fpops_bound = 0;
     rsc_memory_bound = 0;
@@ -291,9 +282,14 @@ void APP_INIT_DATA::clear() {
     fraction_done_start = 0;
     fraction_done_end = 0;
     checkpoint_period = 0;
+    // gpu_type is an empty string for client versions before 6.13.3 without this
+    // field or (on newer clients) if BOINC did not assign an OpenCL GPU to task.
     strcpy(gpu_type, "");
+    // gpu_device_num < 0 for client versions before 6.13.3 without this field
+    // or (on newer clients) if BOINC did not assign an OpenCL GPU to task.
     gpu_device_num = -1;
-    // -1 means an older version without gpu_opencl_dev_index field
+    // gpu_opencl_dev_index < 0 for client versions before 7.0.12 without this
+    // field or (on newer clients) if BOINC did not assign any GPU to task.
     gpu_opencl_dev_index = -1;
     gpu_usage = 0;
     ncpus = 0;
@@ -311,7 +307,9 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     XML_PARSER xp(&mf);
 
     if (!xp.parse_start("app_init_data")) {
-        fprintf(stderr, "no start tag in app init data\n");
+        fprintf(stderr, "%s: no start tag in app init data\n",
+            time_to_string(dtime())
+        );
         return ERR_XML_PARSE;
     }
 
@@ -326,7 +324,8 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
             fprintf(stderr,
-                "unexpected text in init_data.xml: %s\n", xp.parsed_tag
+                "%s: unexpected text in init_data.xml: %s\n",
+                time_to_string(dtime()), xp.parsed_tag
             );
             continue;
         }
@@ -393,6 +392,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         if (xp.parse_double("wu_cpu_time", ai.wu_cpu_time)) continue;
         if (xp.parse_double("starting_elapsed_time", ai.starting_elapsed_time)) continue;
         if (xp.parse_bool("using_sandbox", ai.using_sandbox)) continue;
+        if (xp.parse_bool("vm_extensions_disabled", ai.vm_extensions_disabled)) continue;
         if (xp.parse_double("checkpoint_period", ai.checkpoint_period)) continue;
         if (xp.parse_str("gpu_type", ai.gpu_type, sizeof(ai.gpu_type))) continue;
         if (xp.parse_int("gpu_device_num", ai.gpu_device_num)) continue;
@@ -404,7 +404,9 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         if (xp.parse_bool("vbox_window", ai.vbox_window)) continue;
         xp.skip_unexpected(false, "parse_init_data_file");
     }
-    fprintf(stderr, "parse_init_data_file: no end tag\n");
+    fprintf(stderr, "%s: parse_init_data_file: no end tag\n",
+        time_to_string(dtime())
+    );
     return ERR_XML_PARSE;
 }
 
@@ -428,22 +430,6 @@ bool MSG_CHANNEL::send_msg(const char *msg) {
 void MSG_CHANNEL::send_msg_overwrite(const char* msg) {
     strlcpy(buf+1, msg, MSG_CHANNEL_SIZE-1);
     buf[0] = 1;
-}
-
-int APP_CLIENT_SHM::decode_graphics_msg(char* msg, GRAPHICS_MSG& m) {
-    int i;
-
-    parse_str(msg, "<window_station>", m.window_station, sizeof(m.window_station));
-    parse_str(msg, "<desktop>", m.desktop, sizeof(m.desktop));
-    parse_str(msg, "<display>", m.display, sizeof(m.display));
-
-    m.mode = 0;
-    for (i=0; i<NGRAPHICS_MSGS; i++) {
-        if (match_tag(msg, xml_graphics_modes[i])) {
-            m.mode = i;
-        }
-    }
-    return 0;
 }
 
 void APP_CLIENT_SHM::reset_msgs() {

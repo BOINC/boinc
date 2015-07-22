@@ -391,39 +391,6 @@ int DebuggerInitialize( LPCSTR pszBOINCLocation, LPCSTR pszSymbolStore, BOOL bPr
         DUPLICATE_SAME_ACCESS
     );
 
-    // Detect which version of Windows we are running on.
-    OSVERSIONINFO osvi;
-    ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
-    osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-    GetVersionEx((OSVERSIONINFO*)&osvi);
-
-    // For the most part the dbghelp.dll does the right stuff, but there are
-    // conditions where things go off into never never land.  Most of the
-    // time the error comes back ERROR_MOD_NOT_FOUND.  Most of the info
-    // out on the net describes conditions in which dbghelp.dll is trying
-    // to dynamically load another module such as symsrv.dll and fails to
-    // find it.  Preloading the module only seems to work on some machines.
-    // On Windows XP or better a new API has been introduced called
-    // SetDllDirectory which will inject a path into the search order
-    // that is before the System and Windows directories which is what we
-    // want.
-    if ((VER_PLATFORM_WIN32_NT == osvi.dwPlatformId) &&
-        ((6 >= osvi.dwMajorVersion) ||                                  // == Vista, Win2008, +
-         (5 == osvi.dwMajorVersion) && (0 != osvi.dwMinorVersion)))     // == Win XP, Win2003
-    {
-        HMODULE hKernel32 = LoadLibraryA("kernel32.dll");
-        if (hKernel32) {
-            pSDD = (tSDD)GetProcAddress( hKernel32, "SetDllDirectoryA" );
-            if (!pSDD(pszBOINCLocation)) {
-                fprintf(stderr, "SetDllDirectory(): GetLastError = %lu\n", gle);
-            }
-            FreeLibrary(hKernel32);
-            hKernel32 = NULL;
-            pSDD = NULL;
-        }
-    }
-
-
     if (!DebuggerLoadLibrary(&g_hDbgHelpDll, pszBOINCLocation, "dbghelp.dll")) {
         g_bInitialized = FALSE;
         return 1;
@@ -692,7 +659,7 @@ int DebuggerDisplayDiagnostics()
 // #################################################################################
 // Here the Stackwalk-Part begins.
 //   Some of the code is from an example from a book 
-//   But I couldn´t find the reference anymore... sorry...
+//   But I couldnÂ´t find the reference anymore... sorry...
 //   If someone knowns, please let me know...
 // #################################################################################
 // #################################################################################

@@ -94,6 +94,11 @@ void SCHED_TRIGGER_ITEM::clear() {
 void FILESET_SCHED_TRIGGER_ITEM::clear() {memset(this, 0, sizeof(*this));}
 void VDA_FILE::clear() {memset(this, 0, sizeof(*this));}
 void VDA_CHUNK_HOST::clear() {memset(this, 0, sizeof(*this));}
+void BADGE::clear() {memset(this, 0, sizeof(*this));}
+void BADGE_USER::clear() {memset(this, 0, sizeof(*this));}
+void BADGE_TEAM::clear() {memset(this, 0, sizeof(*this));}
+void CREDIT_USER::clear() {memset(this, 0, sizeof(*this));}
+void CREDIT_TEAM::clear() {memset(this, 0, sizeof(*this));}
 
 DB_PLATFORM::DB_PLATFORM(DB_CONN* dc) :
     DB_BASE("platform", dc?dc:&boinc_db){}
@@ -161,6 +166,16 @@ DB_VDA_FILE::DB_VDA_FILE(DB_CONN* dc) :
     DB_BASE("vda_file", dc?dc:&boinc_db){}
 DB_VDA_CHUNK_HOST::DB_VDA_CHUNK_HOST(DB_CONN* dc) :
     DB_BASE("vda_chunk_host", dc?dc:&boinc_db){}
+DB_BADGE::DB_BADGE(DB_CONN* dc) :
+    DB_BASE("badge", dc?dc:&boinc_db){}
+DB_BADGE_USER::DB_BADGE_USER(DB_CONN* dc) :
+    DB_BASE("badge_user", dc?dc:&boinc_db){}
+DB_BADGE_TEAM::DB_BADGE_TEAM(DB_CONN* dc) :
+    DB_BASE("badge_team", dc?dc:&boinc_db){}
+DB_CREDIT_USER::DB_CREDIT_USER(DB_CONN* dc) :
+    DB_BASE("credit_user", dc?dc:&boinc_db){}
+DB_CREDIT_TEAM::DB_CREDIT_TEAM(DB_CONN* dc) :
+    DB_BASE("credit_team", dc?dc:&boinc_db){}
 
 int DB_PLATFORM::get_id() {return id;}
 int DB_APP::get_id() {return id;}
@@ -214,7 +229,8 @@ void DB_APP::db_print(char* buf){
         "homogeneous_app_version=%d, "
         "non_cpu_intensive=%d, "
         "locality_scheduling=%d, "
-        "n_size_classes=%d ",
+        "n_size_classes=%d, "
+        "fraction_done_exact=%d ",
         create_time,
         name,
         min_version,
@@ -229,7 +245,8 @@ void DB_APP::db_print(char* buf){
         homogeneous_app_version?1:0,
         non_cpu_intensive?1:0,
         locality_scheduling,
-        n_size_classes
+        n_size_classes,
+        fraction_done_exact?1:0
     );
 }
 
@@ -252,6 +269,7 @@ void DB_APP::db_parse(MYSQL_ROW &r) {
     non_cpu_intensive = (atoi(r[i++]) != 0);
     locality_scheduling = atoi(r[i++]);
     n_size_classes = atoi(r[i++]);
+    fraction_done_exact = (atoi(r[i++]) != 0);
 }
 
 void DB_APP_VERSION::db_print(char* buf){
@@ -269,7 +287,8 @@ void DB_APP_VERSION::db_print(char* buf){
         "pfc_avg=%.15e, "
         "pfc_scale=%.15e, "
         "expavg_credit=%.15e, "
-        "expavg_time=%.15e ",
+        "expavg_time=%.15e, "
+        "beta=%d ",
         create_time,
         appid,
         version_num,
@@ -283,7 +302,8 @@ void DB_APP_VERSION::db_print(char* buf){
         pfc.avg,
         pfc_scale,
         expavg_credit,
-        expavg_time
+        expavg_time,
+        beta
     );
 }
 
@@ -305,6 +325,7 @@ void DB_APP_VERSION::db_parse(MYSQL_ROW &r) {
     pfc_scale = atof(r[i++]);
     expavg_credit = atof(r[i++]);
     expavg_time = atof(r[i++]);
+    beta = atoi(r[i++]);
 }
 
 void DB_USER::db_print(char* buf){
@@ -491,14 +512,16 @@ void DB_HOST::db_print(char* buf){
         "avg_turnaround=%.15e, "
         "host_cpid='%s', external_ip_addr='%s', max_results_day=%d, "
         "error_rate=%.15e, "
-        "product_name='%s' ",
+        "product_name='%s', "
+        "gpu_active_frac=%.15e ",
         create_time, userid,
         rpc_seqno, rpc_time,
         total_credit, expavg_credit, expavg_time,
         timezone, domain_name, serialnum,
         last_ip_addr, nsame_ip_addr,
-        on_frac, connected_frac, active_frac,
-        cpu_efficiency, duration_correction_factor,
+        on_frac, connected_frac,
+        active_frac, cpu_efficiency,
+        duration_correction_factor,
         p_ncpus, p_vendor, p_model,
         p_fpops, p_iops, p_membw,
         os_name, os_version,
@@ -511,7 +534,8 @@ void DB_HOST::db_print(char* buf){
         avg_turnaround,
         host_cpid, external_ip_addr, _max_results_day,
         _error_rate,
-        product_name
+        product_name,
+        gpu_active_frac
     );
     UNESCAPE(domain_name);
     UNESCAPE(serialnum);
@@ -572,6 +596,7 @@ void DB_HOST::db_parse(MYSQL_ROW &r) {
     _max_results_day = atoi(r[i++]);
     _error_rate = atof(r[i++]);
     strcpy2(product_name, r[i++]);
+    gpu_active_frac = atof(r[i++]);
 }
 
 int DB_HOST::update_diff_validator(HOST& h) {
@@ -793,6 +818,10 @@ int DB_HOST::update_diff_sched(HOST& h) {
         unescape_string(product_name, sizeof(product_name));
         strcat(updates, buf);
     }
+    if (gpu_active_frac != h.gpu_active_frac) {
+        sprintf(buf, " gpu_active_frac=%.15e,", gpu_active_frac);
+        strcat(updates, buf);
+    }
 
     int n = strlen(updates);
     if (n == 0) return 0;
@@ -814,7 +843,7 @@ int DB_HOST::fpops_percentile(double percentile, double& fpops) {
         "select p_fpops from host where expavg_credit>10 order by p_fpops limit %d,1",
         m
     );
-    return get_double(query, fpops);
+    return db->get_double(query, fpops);
 }
 
 int DB_HOST::fpops_mean(double& mean) {
@@ -822,7 +851,7 @@ int DB_HOST::fpops_mean(double& mean) {
     sprintf(query,
         "select avg(p_fpops) from host where expavg_credit>10"
     );
-    return get_double(query, mean);
+    return db->get_double(query, mean);
 }
 
 int DB_HOST::fpops_stddev(double& stddev) {
@@ -830,7 +859,7 @@ int DB_HOST::fpops_stddev(double& stddev) {
     sprintf(query,
         "select stddev(p_fpops) from host where expavg_credit>10"
     );
-    return get_double(query, stddev);
+    return db->get_double(query, stddev);
 }
 
 void DB_WORKUNIT::db_print(char* buf){
@@ -853,6 +882,49 @@ void DB_WORKUNIT::db_print(char* buf){
         "app_version_id=%d, "
         "transitioner_flags=%d, "
         "size_class=%d ",
+        create_time, appid,
+        name, xml_doc, batch,
+        rsc_fpops_est, rsc_fpops_bound, rsc_memory_bound, rsc_disk_bound,
+        need_validate,
+        canonical_resultid, canonical_credit,
+        transition_time, delay_bound,
+        error_mask, file_delete_state, assimilate_state,
+        hr_class, opaque,
+        min_quorum,
+        target_nresults,
+        max_error_results,
+        max_total_results,
+        max_success_results,
+        result_template_file,
+        priority,
+        rsc_bandwidth_bound,
+        fileset_id,
+        app_version_id,
+        transitioner_flags,
+        size_class
+    );
+}
+
+void DB_WORKUNIT::db_print_values(char* buf) {
+    sprintf(buf,
+        "(0, %d, %d, "
+        "'%s', '%s', %d, "
+        "%f, %f, "
+        "%f, %f, "
+        "%d, "
+        "%u, %f, "
+        "%d, %d, "
+        "%d, %d, %d, "
+        "%d, %f, "
+        "%d, %d, %d, "
+        "%d, %d, "
+        "'%s', "
+        "%d, NOW(), "
+        "%f, "
+        "%d, "
+        "%d, "
+        "%d, "
+        "%d)",
         create_time, appid,
         name, xml_doc, batch,
         rsc_fpops_est, rsc_fpops_bound, rsc_memory_bound, rsc_disk_bound,
@@ -942,8 +1014,11 @@ void DB_RESULT::db_print(char* buf){
         "batch=%d, file_delete_state=%d, validate_state=%d, "
         "claimed_credit=%.15e, granted_credit=%.15e, opaque=%.15e, random=%d, "
         "app_version_num=%d, appid=%d, exit_status=%d, teamid=%d, "
-        "priority=%d, mod_time=null, elapsed_time=%.15e, flops_estimate=%.15e, "
-        "app_version_id=%d, runtime_outlier=%d, size_class=%d",
+        "priority=%d, elapsed_time=%.15e, flops_estimate=%.15e, "
+        "app_version_id=%d, runtime_outlier=%d, size_class=%d, "
+        "peak_working_set_size=%.0f, "
+        "peak_swap_size=%.0f, "
+        "peak_disk_usage=%.0f ",
         create_time, workunitid,
         server_state, outcome, client_state,
         hostid, userid,
@@ -956,7 +1031,10 @@ void DB_RESULT::db_print(char* buf){
         priority, elapsed_time, flops_estimate,
         app_version_id,
         runtime_outlier?1:0,
-        size_class
+        size_class,
+        peak_working_set_size,
+        peak_swap_size,
+        peak_disk_usage
     );
     UNESCAPE(xml_doc_out);
     UNESCAPE(stderr_out);
@@ -977,7 +1055,7 @@ void DB_RESULT::db_print_values(char* buf){
         "'%s', '%s', '%s', "
         "%d, %d, %d, "
         "%.15e, %.15e, %.15e, %d, "
-        "%d, %d, %d, %d, %d, null, 0, 0, 0, 0, %d)",
+        "%d, %d, %d, %d, %d, NOW(), 0, 0, 0, 0, %d, 0, 0, 0)",
         create_time, workunitid,
         server_state, outcome, client_state,
         hostid, userid,
@@ -1055,8 +1133,43 @@ void DB_RESULT::db_parse(MYSQL_ROW &r) {
     app_version_id = atoi(r[i++]);
     runtime_outlier = (atoi(r[i++]) != 0);
     size_class = atoi(r[i++]);
+    peak_working_set_size = atof(r[i++]);
+    peak_swap_size = atof(r[i++]);
+    peak_disk_usage = atof(r[i++]);
 }
 
+// faster version.
+// return unsent count up to a max of "count_max"
+//
+int DB_RESULT::get_unsent_counts(APP& app, int* unsent_count, int count_max) {
+    char query[1024];
+    int retval;
+    MYSQL_RES *rp;
+
+    for (int i=0; i<app.n_size_classes; i++) {
+        sprintf(query,
+            "select id from result where appid=%d and server_state=%d and size_class=%d limit %d",
+            app.id, RESULT_SERVER_STATE_UNSENT, i, count_max
+        );
+        retval = db->do_query(query);
+        if (retval) return mysql_errno(db->mysql);
+        rp = mysql_store_result(db->mysql);
+        if (!rp) return mysql_errno(db->mysql);
+        int count = 0;
+        while (1) {
+            MYSQL_ROW row = mysql_fetch_row(rp);
+            if (!row) break;
+            count++;
+        }
+        mysql_free_result(rp);
+        unsent_count[i] = count;
+    }
+    return 0;
+}
+
+#if 0
+// the following is too slow if result table is large.
+//
 int DB_RESULT::get_unsent_counts(APP& app, int* unsent_count) {
     char query[1024];
     MYSQL_RES *rp;
@@ -1088,6 +1201,7 @@ int DB_RESULT::get_unsent_counts(APP& app, int* unsent_count) {
     mysql_free_result(rp);
     return retval;
 }
+#endif
 
 int DB_RESULT::make_unsent(
     APP& app, int size_class, int n, const char* order_clause, int& nchanged
@@ -1422,6 +1536,7 @@ void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {
     res_hostid = safe_atoi(r[i++]);
     res_received_time = safe_atoi(r[i++]);
     res_app_version_id = safe_atoi(r[i++]);
+    res_exit_status = safe_atoi(r[i++]);
 }
 
 int DB_TRANSITIONER_ITEM_SET::enumerate(
@@ -1432,15 +1547,25 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
     int retval;
     char query[MAX_QUERY_LEN];
     char mod_clause[256];;
+    char time_clause[256];
     MYSQL_ROW row;
     TRANSITIONER_ITEM new_item;
 
     if (!cursor.active) {
+        sprintf(time_clause, " wu.transition_time < %d ", transition_time);
         if (wu_id_modulus) {
-            sprintf(mod_clause,
-                " and wu.id %% %d = %d ",
-                wu_id_modulus, wu_id_remainder
-            );
+            // terrible kludge: if rem >= mod, treat it as a WU ID
+            // This is to support the --wu_id debugging feature
+            //
+            if (wu_id_remainder < wu_id_modulus) {
+                sprintf(mod_clause,
+                    " and wu.id %% %d = %d ",
+                    wu_id_modulus, wu_id_remainder
+                );
+            } else {
+                sprintf(mod_clause, " and wu.id = %u ", wu_id_remainder);
+                strcpy(time_clause, " true ");
+            }
         } else {
             strcpy(mod_clause, "");
         }
@@ -1479,15 +1604,16 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
             "   res.sent_time, "
             "   res.hostid, "
             "   res.received_time, "
-            "   res.app_version_id "
+            "   res.app_version_id, "
+            "   res.exit_status "
             "FROM "
             "   workunit AS wu "
             "       LEFT JOIN result AS res ON wu.id = res.workunitid "
             "WHERE "
-            "   wu.transition_time < %d %s and transitioner_flags<>%d "
+            "   %s %s and transitioner_flags<>%d "
             "LIMIT "
             "   %d ",
-            transition_time, mod_clause, TRANSITION_NONE, nresult_limit
+            time_clause, mod_clause, TRANSITION_NONE, nresult_limit
         );
 
         retval = db->do_query(query);
@@ -1652,21 +1778,40 @@ void VALIDATOR_ITEM::parse(MYSQL_ROW& r) {
 int DB_VALIDATOR_ITEM_SET::enumerate(
     int appid, int nresult_limit,
     int wu_id_modulus, int wu_id_remainder,
+    int wu_id_min, int wu_id_max,
     std::vector<VALIDATOR_ITEM>& items
 ) {
     int retval;
     char query[MAX_QUERY_LEN], mod_clause[256];
+    char main_clause[256];
     MYSQL_ROW row;
     VALIDATOR_ITEM new_item;
 
     if (!cursor.active) {
+        sprintf(main_clause,
+            " and wu.appid = %d and wu.need_validate > 0 ", appid
+        );
         if (wu_id_modulus) {
-            sprintf(mod_clause,
-                " and wu.id %% %d = %d ",
-                wu_id_modulus, wu_id_remainder
-            );
+            // terrible kludge: if rem >= mod, treat it as a WU ID
+            // This is to support the --wu_id debugging feature
+            //
+            if (wu_id_remainder < wu_id_modulus) {
+                sprintf(mod_clause,
+                    " and wu.id %% %d = %d ",
+                    wu_id_modulus, wu_id_remainder
+                );
+            } else {
+                sprintf(mod_clause, " and wu.id = %u ", wu_id_remainder);
+                strcpy(main_clause, "");
+            }
         } else {
             strcpy(mod_clause, "");
+        }
+        if (wu_id_min) {
+          sprintf(mod_clause+(strlen(mod_clause)), " and wu.id >= %d", wu_id_min);
+        }
+        if (wu_id_max) {
+          sprintf(mod_clause+(strlen(mod_clause)), " and wu.id <= %d", wu_id_max);
         }
 
         sprintf(query,
@@ -1712,10 +1857,10 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
             "   res.runtime_outlier "
             "FROM "
             "   workunit AS wu, result AS res where wu.id = res.workunitid "
-            "   and wu.appid = %d and wu.need_validate > 0 %s "
+            "   %s %s "
             "LIMIT "
             "   %d ",
-            appid, mod_clause, nresult_limit
+            main_clause, mod_clause, nresult_limit
         );
 
         retval = db->do_query(query);
@@ -2117,7 +2262,10 @@ int DB_SCHED_RESULT_ITEM_SET::update_result(SCHED_RESULT_ITEM& ri) {
         "    xml_doc_out='%s', "
         "    validate_state=%d, "
         "    teamid=%d, "
-        "    elapsed_time=%.15e "
+        "    elapsed_time=%.15e, "
+        "    peak_working_set_size=%.0f, "
+        "    peak_swap_size=%.0f, "
+        "    peak_disk_usage=%.0f "
         "WHERE "
         "    id=%u",
         ri.hostid,
@@ -2133,6 +2281,9 @@ int DB_SCHED_RESULT_ITEM_SET::update_result(SCHED_RESULT_ITEM& ri) {
         ri.validate_state,
         ri.teamid,
         ri.elapsed_time,
+        ri.peak_working_set_size,
+        ri.peak_swap_size,
+        ri.peak_disk_usage,
         ri.id
     );
     retval = db->do_query(query);
@@ -2529,6 +2680,101 @@ void DB_VDA_CHUNK_HOST::db_parse(MYSQL_ROW &r) {
     transfer_wait = (atoi(r[i++]) != 0);
     transfer_request_time = atof(r[i++]);
     transfer_send_time = atof(r[i++]);
+}
+
+void DB_BADGE::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    id = atoi(r[i++]);
+    create_time = atof(r[i++]);
+    type = atoi(r[i++]);
+    strcpy2(name, r[i++]);
+    strcpy2(title, r[i++]);
+    strcpy2(description, r[i++]);
+    strcpy2(image_url, r[i++]);
+    strcpy2(level, r[i++]);
+    strcpy2(tags, r[i++]);
+    strcpy2(sql_rule, r[i++]);
+}
+
+void DB_BADGE_USER::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    badge_id = atoi(r[i++]);
+    user_id = atoi(r[i++]);
+    create_time = atof(r[i++]);
+    reassign_time = atof(r[i++]);
+}
+
+void DB_BADGE_TEAM::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    badge_id = atoi(r[i++]);
+    team_id = atoi(r[i++]);
+    create_time = atof(r[i++]);
+    reassign_time = atof(r[i++]);
+}
+
+void DB_CREDIT_USER::db_print(char* buf) {
+    sprintf(buf,
+        "userid=%d, "
+        "appid=%d, "
+        "njobs=%d, "
+        "total=%.15e, "
+        "expavg=%.15e, "
+        "expavg_time=%.15e, "
+        "credit_type=%d ",
+        userid,
+        appid,
+        njobs,
+        total,
+        expavg,
+        expavg_time,
+        credit_type
+    );
+}
+
+void DB_CREDIT_USER::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    userid = atoi(r[i++]);
+    appid = atoi(r[i++]);
+    njobs = atoi(r[i++]);
+    total = atof(r[i++]);
+    expavg = atof(r[i++]);
+    expavg_time = atof(r[i++]);
+    credit_type = atoi(r[i++]);
+}
+
+void DB_CREDIT_TEAM::db_print(char* buf) {
+    sprintf(buf,
+        "teamid=%d, "
+        "appid=%d, "
+        "njobs=%d, "
+        "total=%.15e, "
+        "expavg=%.15e, "
+        "expavg_time=%.15e, "
+        "credit_type=%d ",
+        teamid,
+        appid,
+        njobs,
+        total,
+        expavg,
+        expavg_time,
+        credit_type
+    );
+}
+
+void DB_CREDIT_TEAM::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    teamid = atoi(r[i++]);
+    appid = atoi(r[i++]);
+    njobs = atoi(r[i++]);
+    total = atof(r[i++]);
+    expavg = atof(r[i++]);
+    expavg_time = atof(r[i++]);
+    credit_type = atoi(r[i++]);
 }
 
 const char *BOINC_RCSID_ac374386c8 = "$Id$";

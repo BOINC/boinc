@@ -22,6 +22,7 @@
 #pragma interface "BOINCBaseFrame.cpp"
 #endif
 
+
 class CFrameEvent;
 class CFrameAlertEvent;
 class CBOINCDialUpManager;
@@ -58,6 +59,7 @@ public:
     void                OnInitialized( CFrameEvent& event );
 
     virtual void        OnAlert( CFrameAlertEvent& event );
+    virtual void        OnActivate( wxActivateEvent& event );
     virtual void        OnClose( wxCloseEvent& event );
     virtual void        OnCloseWindow( wxCommandEvent& event );
     virtual void        OnExit( wxCommandEvent& event );
@@ -68,8 +70,6 @@ public:
     CBOINCDialUpManager* GetDialupManager() { return m_pDialupManager; }
     int                 GetReminderFrequency() { return m_iReminderFrequency; }
     void                SetReminderFrequency(int val) { m_iReminderFrequency = val; }
-    int                 GetSelectedLanguage() { return m_iSelectedLanguage; }
-    void                SetSelectedLanguage(int val) { m_iSelectedLanguage = val; }
 
     void                FireInitialize();
     void                FireRefreshView();
@@ -98,7 +98,7 @@ public:
                         );
 
     bool                Show( bool bShow = true );
-
+    
     virtual bool        RestoreState();
     virtual bool        SaveState();
 
@@ -110,7 +110,6 @@ protected:
     wxTimer*            m_pAlertPollTimer;
     wxTimer*            m_pPeriodicRPCTimer;
 
-    int                 m_iSelectedLanguage;
     int                 m_iReminderFrequency;
     int                 m_iFrameRefreshRate;
 
@@ -121,6 +120,8 @@ protected:
     bool                m_bShowConnectionFailedAlert;
 
     virtual int         _GetCurrentViewPage();
+
+    wxPoint             m_ptFramePos;
 
 
     DECLARE_EVENT_TABLE()

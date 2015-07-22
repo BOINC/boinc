@@ -1,4 +1,3 @@
 #! /bin/sh
 
-xgettext --keyword=_ -C -o ../locale/templates/BOINC-Manager.pot *.cpp msw/*.cpp mac/*.cpp gtk/*.cpp
- 
+xgettext --from-code=UTF-8 --keyword=_ -C -o BOINC-Manager.pot *.cpp msw/*.cpp mac/*.cpp gtk/*.cpp

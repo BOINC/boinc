@@ -11,15 +11,17 @@
 //    stderr_out1, stderr_out2: stderr output of the 2 jobs
 
 $t = time();
+$expire = $t + 86400;
 $batch_name = "batch_$t";
 $job_name_1 = "job1_$t";
 $job_name_2 = "job2_$t";
 echo "
 BOINC_SUBMIT 1 $batch_name uppercase 2 $job_name_1 0 1 in1 in $job_name_2 0 1 in2 in 1
-BOINC_QUERY_BATCHES 2 1 $batch_name
+BOINC_QUERY_BATCHES 2 0 1 $batch_name
 BOINC_ABORT_JOBS 6 $job_name_1 $job_name_2
 BOINC_FETCH_OUTPUT 3 $job_name_1 . stderr_out1 ALL 1 out out1
 BOINC_FETCH_OUTPUT 4 $job_name_2 . stderr_out2 ALL 1 out out2
 BOINC_RETIRE_BATCH 5 $batch_name
+BOINC_SET_LEASE 6 $batch_name $expire
 ";
 ?>

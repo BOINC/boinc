@@ -40,6 +40,7 @@ BEGIN_EVENT_TABLE(wxPieCtrl, wxWindow)
 	EVT_ERASE_BACKGROUND(wxPieCtrl::OnEraseBackground)
 	EVT_SIZE(wxPieCtrl::OnSize)
 	EVT_MOTION(wxPieCtrl::OnMouseMove)
+    EVT_SCROLL(wxPieCtrl::OnLegendScroll)
 END_EVENT_TABLE()
 
 /* constructor */
@@ -60,7 +61,14 @@ wxPieCtrl::wxPieCtrl(wxWindow * parent, wxWindowID id, wxPoint pos,
 	m_LabelFont = *wxSWISS_FONT;
 	m_legendHorBorder = 10;
  	m_LegendVerBorder = 10;
-	m_szTitle = _("Pie Ctrl");
+	m_szTitle = wxT("Pie Ctrl");
+
+    m_firstlabelToDraw = 0;
+    m_scrollBar = new wxScrollBar(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSB_VERTICAL);
+    int h;
+    m_scrollBar->GetSize(&m_Scrollbar_width, &h);
+    m_scrollBar->SetScrollbar(0, 1, 1, 1);
+    m_scrollBar->Hide();
 
 	SetSizer(NULL);
 	SetSize(sz);
@@ -73,7 +81,11 @@ wxPieCtrl::wxPieCtrl(wxWindow * parent, wxWindowID id, wxPoint pos,
 }
 
 wxPieCtrl::~wxPieCtrl() {
+    if (m_scrollBar) {
+        delete m_scrollBar;
+    }
 #ifdef __WXMAC__
+    m_fauxResourcesView = NULL;
     RemoveMacAccessibilitySupport();
 #endif
 }
@@ -136,6 +148,9 @@ void wxPieCtrl::OnSize(wxSizeEvent & /*event*/)
 {
 	RecreateCanvas();
 	Refresh();
+#ifdef __WXMAC__
+	ResizeMacAccessibilitySupport();
+#endif
 }
 
 void wxPieCtrl::OnEraseBackground(wxEraseEvent & /*event*/)
@@ -147,6 +162,11 @@ void wxPieCtrl::OnPaint(wxPaintEvent & /*event*/)
 {
 	wxPaintDC pdc(this);
 	Draw(pdc);
+}
+
+void wxPieCtrl::OnLegendScroll(wxScrollEvent& event) {
+    Refresh();
+    event.Skip();
 }
 
 /* internal methods */
@@ -213,19 +233,11 @@ void wxPieCtrl::DrawParts(wxRect& pieRect)
 	if(m_Series.Count() == 1)
 	{
 		m_CanvasDC.SetBrush(wxBrush(m_Series[0].GetColour()));
-#if (defined(__WXMAC__) && wxCHECK_VERSION(2,8,2))
-		DrawEllipticArc(pieRect.GetLeft(),
-											   pieRect.GetTop(),
-											   pieRect.GetRight()-pieRect.GetLeft(),
-											   pieRect.GetBottom()-pieRect.GetTop(),
-											   0,360);
-#else
 		m_CanvasDC.DrawEllipticArc(pieRect.GetLeft(),
 											   pieRect.GetTop(),
 											   pieRect.GetRight()-pieRect.GetLeft(),
 											   pieRect.GetBottom()-pieRect.GetTop(),
 											   0,360);
-#endif
 	}
 	else {
 		GetPartAngles(angles);
@@ -278,19 +290,11 @@ void wxPieCtrl::DrawParts(wxRect& pieRect)
 				t2 = intAngles[i];
 #endif 
 				if(t1 != t2) {
-#if (defined(__WXMAC__) && wxCHECK_VERSION(2,8,2))
-					DrawEllipticArc(pieRect.GetLeft(),
-											   pieRect.GetTop(),
-											   pieRect.GetRight()-pieRect.GetLeft(),
-											   pieRect.GetBottom()-pieRect.GetTop(),
-											   t1,t2);
-#else
 					m_CanvasDC.DrawEllipticArc(pieRect.GetLeft(),
 											   pieRect.GetTop(),
 											   pieRect.GetRight()-pieRect.GetLeft(),
 											   pieRect.GetBottom()-pieRect.GetTop(),
 											   t1,t2);
-#endif
 				}
 			}
 		}
@@ -300,9 +304,11 @@ void wxPieCtrl::DrawParts(wxRect& pieRect)
 
 void wxPieCtrl::DrawLegend(int left, int top)
 {
-	unsigned int i;
+	int i;
 	int dy(m_LegendVerBorder),tw,th=0,titlew,titleh;
-
+    int totalNumLabels = (int)m_Series.Count();
+    int vertSpaceForLabels,maxVisibleLabels,lastLabelToDraw,numSteps;
+    
 	// First determine the size of the legend box
 	m_CanvasDC.SetFont(m_TitleFont);
 	m_CanvasDC.GetTextExtent(m_szTitle,&titlew,&titleh);
@@ -312,7 +318,7 @@ void wxPieCtrl::DrawLegend(int left, int top)
 	m_CanvasDC.SetFont(m_LabelFont);
 
 	int maxwidth(titlew + 2*m_legendHorBorder + 15);
-	for(i = 0; i < m_Series.Count(); i++)
+	for(i = 0; i < totalNumLabels; i++)
 	{
 		m_CanvasDC.GetTextExtent(m_Series[i].GetLabel(), &tw, &th);
 		dy += (th+3);
@@ -320,7 +326,8 @@ void wxPieCtrl::DrawLegend(int left, int top)
 	}
 	dy += m_LegendVerBorder;
 
-	int right(left+maxwidth-1), bottom(top+dy-1);
+	int right = left+maxwidth-1;
+    int bottom = std::min(top+dy-1, GetSize().GetHeight()-top);
 
 	if(! IsTransparent())
 	{
@@ -328,16 +335,39 @@ void wxPieCtrl::DrawLegend(int left, int top)
 		m_CanvasDC.DrawRectangle(left, top, maxwidth, dy);
 	}
 
+    vertSpaceForLabels = GetSize().GetHeight() - (2*top) - m_LegendVerBorder - (titleh+10);
+    maxVisibleLabels = std::min((vertSpaceForLabels/(th+3)), totalNumLabels);
+    numSteps = totalNumLabels - maxVisibleLabels + 1;
+    if (numSteps < 2) {
+            m_scrollBar->Hide();
+            m_scrollBar->SetThumbPosition(0);
+            m_firstlabelToDraw = 0;
+            lastLabelToDraw = totalNumLabels - 1;
+    } else {
+        m_scrollBar->SetSize(GetSize().GetWidth() - m_Scrollbar_width, 0,
+                            m_Scrollbar_width, GetSize().GetHeight(), 0);
+        m_firstlabelToDraw = m_scrollBar->GetThumbPosition();
+        lastLabelToDraw = m_firstlabelToDraw + maxVisibleLabels - 1;
+        if (lastLabelToDraw >= totalNumLabels) {
+            lastLabelToDraw = totalNumLabels - 1;
+            m_firstlabelToDraw = totalNumLabels - maxVisibleLabels;
+        }
+        
+        m_scrollBar->SetScrollbar(m_firstlabelToDraw, 1, numSteps, 1);
+        m_scrollBar->Show((maxVisibleLabels > 0));
+    }
+    
 	// Now draw the legend title
 	dy = m_LegendVerBorder+titleh+5;
 	m_CanvasDC.SetFont(m_TitleFont);
 	m_CanvasDC.SetTextForeground(m_TitleColour);
 	m_CanvasDC.DrawText(m_szTitle,left+m_legendHorBorder+2,top+m_LegendVerBorder+2);
-
+    dy += 5;
  	// Draw the legend items
 	m_CanvasDC.SetFont(m_LabelFont);
+    
 	m_CanvasDC.SetTextForeground(m_LabelColour);
-	for(i = 0; i < m_Series.Count(); i++)
+	for(i = m_firstlabelToDraw; i <= lastLabelToDraw; i++)
 	{
 		m_CanvasDC.SetBrush(wxBrush(m_Series[i].GetColour()));
 		m_CanvasDC.DrawCircle(left+m_legendHorBorder+5, top+dy+th/2, 5);
@@ -348,11 +378,14 @@ void wxPieCtrl::DrawLegend(int left, int top)
 	// Draw the legend frame
 	wxPen savedPen = m_CanvasDC.GetPen();
 	m_CanvasDC.SetPen(*wxGREY_PEN);
-	m_CanvasDC.DrawLine(left,top,right,top);		// top
-	m_CanvasDC.DrawLine(left,bottom,left,top);		// left
+	m_CanvasDC.DrawLine(left,top,right,top);                // top
+	m_CanvasDC.DrawLine(left,bottom,left,top);              // left
 	m_CanvasDC.SetPen(*wxWHITE_PEN);
-	m_CanvasDC.DrawLine(left,bottom,right,bottom);		// bottom
-	m_CanvasDC.DrawLine(right,top,right,bottom);		// right
+	m_CanvasDC.DrawLine(left,bottom,right,bottom);          // bottom
+	m_CanvasDC.DrawLine(right,top,right,bottom);            // right
+	m_CanvasDC.SetPen(*wxBLACK_PEN);
+	m_CanvasDC.DrawLine(left+1,top+m_LegendVerBorder+titleh+7,
+                right-1,top+m_LegendVerBorder+titleh+7);		// divider
 	m_CanvasDC.SetPen(savedPen);
 }
 
@@ -374,9 +407,6 @@ void wxPieCtrl::Draw(wxPaintDC & pdc)
 		pieRect.SetBottom(pieRect.GetTop() + maxL);
 		pieRect.SetRight(pieRect.GetLeft() + maxL);
 
-#if ! wxCHECK_VERSION(2,8,0)
-		m_CanvasDC.BeginDrawing();
-#endif
 		m_CanvasDC.SetBackground(wxBrush(m_BackColour));
 		m_CanvasDC.Clear();
 		if(m_Series.Count())
@@ -387,57 +417,16 @@ void wxPieCtrl::Draw(wxPaintDC & pdc)
 		else {
 			//no data, draw an black circle
 			m_CanvasDC.SetBrush(*wxBLACK_BRUSH);
-#if (defined(__WXMAC__) && wxCHECK_VERSION(2,8,2))
-			DrawEllipticArc(pieRect.GetLeft(),
-											   pieRect.GetTop(),
-											   pieRect.GetRight()-pieRect.GetLeft(),
-											   pieRect.GetBottom()-pieRect.GetTop(),
-											   0,360);
-#else
 			m_CanvasDC.DrawEllipticArc(pieRect.GetLeft(),
 											   pieRect.GetTop(),
 											   pieRect.GetRight()-pieRect.GetLeft(),
 											   pieRect.GetBottom()-pieRect.GetTop(),
 											   0,360);
-#endif
 		}
-#if ! wxCHECK_VERSION(2,8,0)
-		m_CanvasDC.EndDrawing();		
-#endif
 		m_CanRepaint = false;
 	}
 	pdc.Blit(0,0,bgW,bgH,&m_CanvasDC,0,0);
 }
-
-#if (defined(__WXMAC__) && wxCHECK_VERSION(2,8,2))
-
-// wxGCDC::DoDrawEllipticArc() is broken on wxMac 2.8.2 and 
-// later so we have adapted the correct code (from 2.8.1) here
-static inline double DegToRad(double deg)
-{
-    return (deg * M_PI) / 180.0;
-}
-
-void wxPieCtrl::DrawEllipticArc( wxCoord x, wxCoord y, wxCoord w, wxCoord h,
-                                double sa, double ea )
-{
-    wxGraphicsContext* graphicContext = m_CanvasDC.GetGraphicsContext();
-    wxGraphicsPath path = graphicContext->CreatePath();
-    graphicContext->PushState();
-    graphicContext->Translate(x+w/2,y+h/2);
-    wxDouble factor = ((wxDouble) w) / h;
-    graphicContext->Scale( factor , 1.0);
-    if (sa!=ea)
-        path.MoveToPoint(0,0);
-    // since these angles (ea,sa) are measured counter-clockwise, we invert them to
-    // get clockwise angles
-    path.AddArc( 0, 0, h/2 , DegToRad(-sa) , DegToRad(-ea), sa > ea );
-    if (sa!=ea)
-        path.AddLineToPoint(0,0);
-    graphicContext->DrawPath( path );
-    graphicContext->PopState();
-}
-#endif
 
 void wxPieCtrl::Refresh(bool eraseBackground, const wxRect* rect)
 {

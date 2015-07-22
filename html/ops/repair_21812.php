@@ -17,9 +17,9 @@ if (!$mjd) {
 
 function do_query($query) {
     echo "Doing query:\n$query\n";
-    $result = mysql_query($query);
+    $result = _mysql_query($query);
     if (!$result) {
-        echo "Failed:\n".mysql_error()."\n";
+        echo "Failed:\n"._mysql_error()."\n";
     } else {
         echo "Success.\n";
     }

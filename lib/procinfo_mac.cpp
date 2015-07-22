@@ -23,6 +23,7 @@
 #include <ctype.h>
 #include <sys/types.h>
 #include <dirent.h>
+#include <unistd.h>
 
 #if SHOW_TIMING
 #include <Carbon/Carbon.h>
@@ -39,6 +40,7 @@ using std::vector;
 #define BOINC_BRAND_ID 0
 #define GRIDREPUBLIC_BRAND_ID 1
 #define PROGRESSTHRUPROCESSORS_BRAND_ID 2
+#define CHARITYENGINE_BRAND_ID 3
 
 
 // build table of all processes in system
@@ -50,7 +52,6 @@ int procinfo_setup(PROC_MAP& pm) {
     int c, real_mem, virtual_mem, hours;
     char* lf;
     static long iBrandID = -1;
-    int priority;
     
     if (iBrandID < 0) {
         iBrandID = BOINC_BRAND_ID;
@@ -100,8 +101,11 @@ int procinfo_setup(PROC_MAP& pm) {
 // This eliminates the need to install our own application which runs setuid 
 // root; this was perceived by some users as a security risk.
 
-
-    fd = popen("ps -axcopid,ppid,rss,vsz,pagein,pri,time,command", "r");
+// Under OS 10.8.x (only) ps writes a spurious warning to stderr if called
+// from a process that has the DYLD_LIBRARY_PATH environment variable set.
+// "env -i command" prevents the command from inheriting the caller's 
+// environment, which avoids the spurious warning.
+    fd = popen("env -i ps -axcopid,ppid,rss,vsz,pagein,time,command", "r");
     if (!fd) return ERR_FOPEN;
 
     // Skip over the header line
@@ -115,13 +119,12 @@ int procinfo_setup(PROC_MAP& pm) {
 
     while (1) {
         p.clear();
-        c = fscanf(fd, "%d%d%d%d%ld%d%d:%lf ",
+        c = fscanf(fd, "%d%d%d%d%lu%d:%lf ",
             &p.id,
             &p.parentid,
             &real_mem, 
             &virtual_mem,
             &p.page_fault_count,
-            &priority,
             &hours,
             &p.user_time
         );
@@ -133,16 +136,31 @@ int procinfo_setup(PROC_MAP& pm) {
         p.swap_size = (double)virtual_mem * 1024.;
         p.user_time += 60. * (float)hours;
         p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
-        p.is_low_priority = (priority <= 12);
+        // Ideally, we should count ScreenSaverEngine.app as a BOINC process
+        // only if BOINC is set as the screensaver.  We could set a flag in
+        // the client when the get_screensaver_tasks rpc is called, but that
+        // would not be 100% reliable for several reasons.
+        if (strcasestr(p.command, "screensaverengine")) p.is_boinc_app = true;
+
+        // We do not mark Mac processes as low priority because some processes
+        // (e.g., Finder) change priority frequently, which would cause
+        // procinfo_non_boinc() and ACTIVE_TASK_SET::get_memory_usage() to get
+        // incorrect results for the % CPU used.
+        p.is_low_priority = false;
 
         switch (iBrandID) {
         case GRIDREPUBLIC_BRAND_ID:
-            if (!strcmp(p.command, "GridRepublic Desktop")) {
+            if (!strcasestr(p.command, "GridRepublic")) {
                 p.is_boinc_app = true;
             }
             break;
         case PROGRESSTHRUPROCESSORS_BRAND_ID:
-            if (!strcmp(p.command, "Progress Thru Processors Desktop")) {
+            if (!strcasestr(p.command, "Progress Thru Processors")) {
+                p.is_boinc_app = true;
+            }
+            break;
+        case CHARITYENGINE_BRAND_ID:
+            if (!strcasestr(p.command, "Charity Engine")) {
                 p.is_boinc_app = true;
             }
             break;

@@ -114,12 +114,16 @@ First checked in.
 
 #include <TargetConditionals.h>
 
-#include <assert.h>
+//#include <assert.h>
 #include <sys/param.h>
 #include <errno.h>
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+#undef assert
+#undef __assert
+#define	assert(e)	((void)0)
 
 #include <mach-o/dyld.h>
 #include <mach-o/loader.h>
@@ -313,8 +317,8 @@ static int ImageListForTaskOldWithNames(
 	QTMAddr					listChunkAddr;
 	QTMAddr					elemSizeAddr;
 	QTMAddr					elemCountAddr;
-	uint32_t				elemCount;
-	uint32_t				elemSize;
+	uint32_t				elemCount = 0;
+	uint32_t				elemSize = 0;
 	size_t					listChunkSize;
 	enum {									// constants related to the array elements
 		kValidOffset        = 12,				// offset to "valid" field

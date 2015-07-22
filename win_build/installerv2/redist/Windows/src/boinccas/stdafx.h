@@ -38,31 +38,33 @@
 #ifndef _CRT_SECURE_NO_DEPRECATE
 #define _CRT_SECURE_NO_DEPRECATE
 #endif
+#ifndef _CRT_NON_CONFORMING_SWPRINTFS
+#define _CRT_NON_CONFORMING_SWPRINTFS
+#endif
 #endif
 
 // Modify the following defines if you have to target a platform prior to the ones specified below.
 // Refer to MSDN for the latest info on corresponding values for different platforms.
 
-#ifndef WINVER                  // Allow use of features specific to Windows 2000 or later.
-#define WINVER 0x0500           // Change this to the appropriate value to target Windows 98 and Windows 2000 or later.
+#ifndef WINVER
+#define WINVER 0x0501
 #endif
 
-#ifndef _WIN32_WINNT            // Allow use of features specific to Windows 2000 or later.
-#define _WIN32_WINNT 0x0500		// Change this to the appropriate value to target Windows 98 and Windows 2000 or later.
+#ifndef _WIN32_WINNT
+#define _WIN32_WINNT 0x0501
 #endif
 
-#ifndef _WIN32_WINDOWS          // Allow use of features specific to Windows 2000 or later.
-#define _WIN32_WINDOWS 0x0500   // Change this to the appropriate value to target Windows Me or later.
+#ifndef _WIN32_WINDOWS
+#define _WIN32_WINDOWS 0x0501
 #endif
 
-#ifndef _WIN32_IE               // Allow use of features specific to IE 5.0 or later.
-#define _WIN32_IE 0x0500        // Change this to the appropriate value to target IE 5.0 or later.
+#ifndef _WIN32_IE
+#define _WIN32_IE 0x0500
 #endif
 
-#ifndef _WIN32_MSI              // Need to specify the smallest version of Windows Installer
-#define _WIN32_MSI 200          // that supports file hashing. This is version 2.0.
+#ifndef _WIN32_MSI
+#define _WIN32_MSI 200
 #endif
-
 
 // ATL Headers Files:
 #include <atlbase.h>

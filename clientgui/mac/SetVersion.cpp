@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2013 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -31,6 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <time.h>
 #include <sys/param.h>  // for MAXPATHLEN
 #include <sys/stat.h>
 #include "version.h"
@@ -52,6 +53,13 @@ int main(int argc, char** argv) {
     printf("%s\n", myPath);       // For debugging
 #endif
 
+    if (!file_exists("./English.lproj")) {
+        retval = mkdir("./English.lproj", 0755);
+        if (retval) {
+            printf("Error %d creating directory English.lproj\n", retval);
+        }
+    }
+    
     // BOINC Manager
     err = FixInfoPlist_Strings("./English.lproj/InfoPlist.strings", "BOINC Manager");
     if (err) retval = err;
@@ -134,6 +142,11 @@ int file_exists(const char* path) {
 int FixInfoPlist_Strings(char* myPath, char* name) {
     int retval = 0;
     FILE *f;
+    time_t cur_time;
+    struct tm *time_data;
+
+    cur_time = time(NULL);
+    time_data = localtime( &cur_time );
     
     if (IsFileCurrent(myPath))
         return 0;
@@ -144,12 +157,12 @@ int FixInfoPlist_Strings(char* myPath, char* name) {
         fprintf(f, "/* Localized versions of Info.plist keys */\n\n");
         fprintf(f, "CFBundleName = \"%s\";\n", name);
         fprintf(f, "CFBundleShortVersionString = \"%s version %s\";\n", name, BOINC_VERSION_STRING);
-        fprintf(f, "CFBundleGetInfoString = \"%s version %s, Copyright 2013 University of California.\";\n", name, BOINC_VERSION_STRING);
+        fprintf(f, "CFBundleGetInfoString = \"%s version %s, Copyright %d University of California.\";\n", name, BOINC_VERSION_STRING, time_data->tm_year+1900);
         fflush(f);
         retval = fclose(f);
     }
     else {
-        puts("Error updating version number in file InfoPlist.strings\n");
+        printf("Error creating file %s\n", myPath);
         retval = -1;
     }
         
