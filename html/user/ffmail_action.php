@@ -66,15 +66,16 @@ if ($action=='Preview') {
         $n = get_str("n$i", true);
         $e = get_str("e$i", true);
         if ($n && $e) {
-            $body = replace($n, $comment, $uname, $html);
+            $html_body = replace($n, $comment, $uname, $html);
+            $text_body = replace($n, $comment, $uname, $text);
             $found = true;
             if (function_exists("make_php_mailer")) {
                 $mail = make_php_mailer();
                 $mail->AddAddress($e, $n);
                 $mail->Subject = $subject;
                 if ($html) {
-                    $mail->Body = $body;
-                    $mail->AltBody = replace($n, $comment, $uname, $text);
+                    $mail->Body = $html_body;
+                    $mail->AltBody = $text_body;
                 } else {
                     $mail->Body = replace($n, $comment, $uname, $text);
                 }
@@ -85,7 +86,7 @@ if ($action=='Preview') {
                     continue;
                 }
             } else {
-                if (!mail($e, $subject, $body, "$uname <$uemail>")) {
+                if (!mail($e, $subject, $text_body, "$uname <$uemail>")) {
                     echo "<br>".tra("failed to send email to %1", $e)."\n";
                 }
             }
