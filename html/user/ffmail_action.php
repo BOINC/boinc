@@ -66,23 +66,30 @@ if ($action=='Preview') {
         $n = get_str("n$i", true);
         $e = get_str("e$i", true);
         if ($n && $e) {
+            $body = replace($n, $comment, $uname, $html);
             $found = true;
-            $mail = make_php_mailer();
-            $mail->AddAddress($e, $n);
-            $mail->Subject = $subject;
-            if ($html) {
-                $mail->Body = replace($n, $comment, $uname, $html);
-                $mail->AltBody = replace($n, $comment, $uname, $text);
+            if (function_exists("make_php_mailer")) {
+                $mail = make_php_mailer();
+                $mail->AddAddress($e, $n);
+                $mail->Subject = $subject;
+                if ($html) {
+                    $mail->Body = $body;
+                    $mail->AltBody = replace($n, $comment, $uname, $text);
+                } else {
+                    $mail->Body = replace($n, $comment, $uname, $text);
+                }
+                $mail->From = $uemail;
+                $mail->FromName = $uname;
+                if (!$mail->Send()) {
+                    echo "<br>".tra("failed to send email to %1: %2", $e, $mail->ErrorInfo)."\n";
+                    continue;
+                }
             } else {
-                $mail->Body = replace($n, $comment, $uname, $text);
+                if (!mail($e, $subject, $body, "$uname <$uemail>")) {
+                    echo "<br>".tra("failed to send email to %1", $e)."\n";
+                }
             }
-            $mail->From = $uemail;
-            $mail->FromName = $uname;
-            if ($mail->Send()) {
-                echo "<br>".tra("email sent successfully to %1", $e)."\n";
-            } else {
-                echo "<br>".tra("failed to send email to %1: %2", $e, $mail->ErrorInfo)."\n";
-            }
+            echo "<br>".tra("email sent successfully to %1", $e)."\n";
         }
     }
     if ($found) {

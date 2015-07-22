@@ -16,9 +16,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// TODO: - find out if this is used (add some logging mechanism or so)
-//       - if used rewrite code to use display functions from util.inc
-//       - if used find a way to give the user a language choice (projects must translate messages themself)
+// TODO: - add a logging mechanism to see if people are using this.
+//       - use display functions from util.inc
+//       - give the user a language choice
 
 require_once("../inc/util.inc");
 
