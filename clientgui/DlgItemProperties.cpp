@@ -205,13 +205,14 @@ void CDlgItemProperties::show_rsc(wxString rsc_name, RSC_DESC rsc_desc) {
     double x = rsc_desc.backoff_time - dtime();
     if (x<0) x = 0;
     if (x) {
-		wxString tmp;
-
-		tmp.Format(_("%s work fetch deferred for"), rsc_name.c_str());
-        addProperty(tmp, FormatTime(x));
-
-		tmp.Format(_("%s work fetch deferral interval"), rsc_name.c_str());
-        addProperty(tmp, FormatTime(rsc_desc.backoff_interval));
+        addProperty(
+			wxString::Format(_("%s work fetch deferred for"), rsc_name.c_str()),
+			FormatTime(x)
+	    );
+        addProperty(
+			wxString::Format(_("%s work fetch deferral interval"), rsc_name.c_str()),
+			FormatTime(rsc_desc.backoff_interval)
+		);
     }
 }
 
