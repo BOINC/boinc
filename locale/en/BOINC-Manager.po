@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-23 16:54-0500\n"
-"PO-Revision-Date: 2015-07-23 20:56+0000\n"
+"POT-Creation-Date: 2015-07-23 18:52-0500\n"
+"PO-Revision-Date: 2015-07-23 22:54+0000\n"
 "Last-Translator: Rom Walton\n"
 "Language-Team: English (http://www.transifex.com/projects/p/boinc/language/en/)\n"
 "MIME-Version: 1.0\n"
@@ -1845,237 +1845,244 @@ msgstr "Project has no apps for "
 msgid "Client configuration excludes "
 msgstr "Client configuration excludes "
 
-#: clientgui/DlgItemProperties.cpp:208
-msgid " work fetch deferred for"
-msgstr " work fetch deferred for"
-
 #: clientgui/DlgItemProperties.cpp:209
-msgid " work fetch deferral interval"
-msgstr " work fetch deferral interval"
+#, c-format
+msgid "%s work fetch deferred for"
+msgstr "%s work fetch deferred for"
+
+#: clientgui/DlgItemProperties.cpp:213
+#, c-format
+msgid "%s work fetch deferral interval"
+msgstr "%s work fetch deferral interval"
 
 #. set dialog title
-#: clientgui/DlgItemProperties.cpp:241
+#: clientgui/DlgItemProperties.cpp:247
 msgid "Properties of project "
 msgstr "Properties of project "
 
 #. layout controls
-#: clientgui/DlgItemProperties.cpp:245 clientgui/DlgOptions.cpp:221
+#: clientgui/DlgItemProperties.cpp:251 clientgui/DlgOptions.cpp:221
 msgid "General"
 msgstr "General"
 
-#: clientgui/DlgItemProperties.cpp:246
+#: clientgui/DlgItemProperties.cpp:252
 msgid "URL"
 msgstr "URL"
 
-#: clientgui/DlgItemProperties.cpp:247
+#: clientgui/DlgItemProperties.cpp:253
 msgid "User name"
 msgstr "User name"
 
-#: clientgui/DlgItemProperties.cpp:248
+#: clientgui/DlgItemProperties.cpp:254
 msgid "Team name"
 msgstr "Team name"
 
-#: clientgui/DlgItemProperties.cpp:249 clientgui/ViewProjects.cpp:258
+#: clientgui/DlgItemProperties.cpp:255 clientgui/ViewProjects.cpp:258
 msgid "Resource share"
 msgstr "Resource share"
 
-#: clientgui/DlgItemProperties.cpp:251
+#: clientgui/DlgItemProperties.cpp:257
 msgid "Scheduler RPC deferred for"
 msgstr "Scheduler RPC deferred for"
 
-#: clientgui/DlgItemProperties.cpp:254
+#: clientgui/DlgItemProperties.cpp:260
 msgid "File downloads deferred for"
 msgstr "File downloads deferred for"
 
-#: clientgui/DlgItemProperties.cpp:257
+#: clientgui/DlgItemProperties.cpp:263
 msgid "File uploads deferred for"
 msgstr "File uploads deferred for"
 
-#: clientgui/DlgItemProperties.cpp:259
+#: clientgui/DlgItemProperties.cpp:265
 msgid "Disk usage"
 msgstr "Disk usage"
 
-#: clientgui/DlgItemProperties.cpp:260
+#: clientgui/DlgItemProperties.cpp:266
 msgid "Computer ID"
 msgstr "Computer ID"
 
-#: clientgui/DlgItemProperties.cpp:262
+#: clientgui/DlgItemProperties.cpp:268
 msgid "Non CPU intensive"
 msgstr "Non CPU intensive"
 
-#: clientgui/DlgItemProperties.cpp:262 clientgui/DlgItemProperties.cpp:264
-#: clientgui/DlgItemProperties.cpp:265 clientgui/DlgItemProperties.cpp:267
-#: clientgui/DlgItemProperties.cpp:270 clientgui/DlgItemProperties.cpp:279
-#: clientgui/DlgItemProperties.cpp:282 clientgui/DlgItemProperties.cpp:285
+#: clientgui/DlgItemProperties.cpp:268 clientgui/DlgItemProperties.cpp:270
+#: clientgui/DlgItemProperties.cpp:271 clientgui/DlgItemProperties.cpp:273
+#: clientgui/DlgItemProperties.cpp:276 clientgui/DlgItemProperties.cpp:285
+#: clientgui/DlgItemProperties.cpp:288 clientgui/DlgItemProperties.cpp:291
 msgid "yes"
 msgstr "yes"
 
-#: clientgui/DlgItemProperties.cpp:264
+#: clientgui/DlgItemProperties.cpp:270
 msgid "Suspended via GUI"
 msgstr "Suspended via GUI"
 
-#: clientgui/DlgItemProperties.cpp:264 clientgui/DlgItemProperties.cpp:265
+#: clientgui/DlgItemProperties.cpp:270 clientgui/DlgItemProperties.cpp:271
 msgid "no"
 msgstr "no"
 
-#: clientgui/DlgItemProperties.cpp:265
+#: clientgui/DlgItemProperties.cpp:271
 msgid "Don't request more work"
 msgstr "Don't request more work"
 
-#: clientgui/DlgItemProperties.cpp:267
+#: clientgui/DlgItemProperties.cpp:273
 msgid "Scheduler call in progress"
 msgstr "Scheduler call in progress"
 
-#: clientgui/DlgItemProperties.cpp:270
+#: clientgui/DlgItemProperties.cpp:276
 msgid "Trickle-up pending"
 msgstr "Trickle-up pending"
 
-#: clientgui/DlgItemProperties.cpp:273 clientgui/DlgItemProperties.cpp:275
+#: clientgui/DlgItemProperties.cpp:279 clientgui/DlgItemProperties.cpp:281
 msgid "Host location"
 msgstr "Host location"
 
-#: clientgui/DlgItemProperties.cpp:275
+#: clientgui/DlgItemProperties.cpp:281
 msgid "default"
 msgstr "default"
 
-#: clientgui/DlgItemProperties.cpp:279
+#: clientgui/DlgItemProperties.cpp:285
 msgid "Added via account manager"
 msgstr "Added via account manager"
 
-#: clientgui/DlgItemProperties.cpp:282
+#: clientgui/DlgItemProperties.cpp:288
 msgid "Remove when tasks done"
 msgstr "Remove when tasks done"
 
-#: clientgui/DlgItemProperties.cpp:285
+#: clientgui/DlgItemProperties.cpp:291
 msgid "Ended"
 msgstr "Ended"
 
-#: clientgui/DlgItemProperties.cpp:287
+#: clientgui/DlgItemProperties.cpp:293
 msgid "Tasks completed"
 msgstr "Tasks completed"
 
-#: clientgui/DlgItemProperties.cpp:288
+#: clientgui/DlgItemProperties.cpp:294
 msgid "Tasks failed"
 msgstr "Tasks failed"
 
-#: clientgui/DlgItemProperties.cpp:290
+#: clientgui/DlgItemProperties.cpp:296
 msgid "Credit"
 msgstr "Credit"
 
-#: clientgui/DlgItemProperties.cpp:291
+#: clientgui/DlgItemProperties.cpp:297
 msgid "User"
 msgstr "User"
 
-#: clientgui/DlgItemProperties.cpp:298
+#: clientgui/DlgItemProperties.cpp:300 clientgui/DlgItemProperties.cpp:308
+#, c-format
+msgid "%0.2f total, %0.2f average"
+msgstr "%0.2f total, %0.2f average"
+
+#: clientgui/DlgItemProperties.cpp:305
 msgid "Host"
 msgstr "Host"
 
-#: clientgui/DlgItemProperties.cpp:307
+#: clientgui/DlgItemProperties.cpp:315
 msgid "Scheduling"
 msgstr "Scheduling"
 
-#: clientgui/DlgItemProperties.cpp:308
+#: clientgui/DlgItemProperties.cpp:316
 msgid "Scheduling priority"
 msgstr "Scheduling priority"
 
-#: clientgui/DlgItemProperties.cpp:309
+#: clientgui/DlgItemProperties.cpp:317
 msgid "CPU"
 msgstr "CPU"
 
-#: clientgui/DlgItemProperties.cpp:333
+#: clientgui/DlgItemProperties.cpp:341
 msgid "Duration correction factor"
 msgstr "Duration correction factor"
 
-#: clientgui/DlgItemProperties.cpp:341
+#: clientgui/DlgItemProperties.cpp:349
 msgid "Last scheduler reply"
 msgstr "Last scheduler reply"
 
-#: clientgui/DlgItemProperties.cpp:352
+#: clientgui/DlgItemProperties.cpp:360
 msgid "Properties of task "
 msgstr "Properties of task "
 
-#: clientgui/DlgItemProperties.cpp:364 clientgui/ViewWork.cpp:266
+#: clientgui/DlgItemProperties.cpp:372 clientgui/ViewWork.cpp:266
 msgid "Application"
 msgstr "Application"
 
-#: clientgui/DlgItemProperties.cpp:365 clientgui/ViewWork.cpp:267
+#: clientgui/DlgItemProperties.cpp:373 clientgui/ViewWork.cpp:267
 msgid "Name"
 msgstr "Name"
 
-#: clientgui/DlgItemProperties.cpp:366
+#: clientgui/DlgItemProperties.cpp:374
 msgid "State"
 msgstr "State"
 
-#: clientgui/DlgItemProperties.cpp:369
+#: clientgui/DlgItemProperties.cpp:377
 msgid "Received"
 msgstr "Received"
 
-#: clientgui/DlgItemProperties.cpp:372
+#: clientgui/DlgItemProperties.cpp:380
 msgid "Report deadline"
 msgstr "Report deadline"
 
-#: clientgui/DlgItemProperties.cpp:374
+#: clientgui/DlgItemProperties.cpp:382
 msgid "Resources"
 msgstr "Resources"
 
-#: clientgui/DlgItemProperties.cpp:377
+#: clientgui/DlgItemProperties.cpp:385
 msgid "Estimated computation size"
 msgstr "Estimated computation size"
 
-#: clientgui/DlgItemProperties.cpp:380
+#: clientgui/DlgItemProperties.cpp:388
 msgid "CPU time at last checkpoint"
 msgstr "CPU time at last checkpoint"
 
-#: clientgui/DlgItemProperties.cpp:381 clientgui/DlgItemProperties.cpp:407
+#: clientgui/DlgItemProperties.cpp:389 clientgui/DlgItemProperties.cpp:415
 msgid "CPU time"
 msgstr "CPU time"
 
-#: clientgui/DlgItemProperties.cpp:383 clientgui/DlgItemProperties.cpp:408
+#: clientgui/DlgItemProperties.cpp:391 clientgui/DlgItemProperties.cpp:416
 msgid "Elapsed time"
 msgstr "Elapsed time"
 
-#: clientgui/DlgItemProperties.cpp:385
+#: clientgui/DlgItemProperties.cpp:393
 msgid "Estimated time remaining"
 msgstr "Estimated time remaining"
 
-#: clientgui/DlgItemProperties.cpp:386
+#: clientgui/DlgItemProperties.cpp:394
 msgid "Fraction done"
 msgstr "Fraction done"
 
-#: clientgui/DlgItemProperties.cpp:387
+#: clientgui/DlgItemProperties.cpp:395
 msgid "Virtual memory size"
 msgstr "Virtual memory size"
 
-#: clientgui/DlgItemProperties.cpp:388
+#: clientgui/DlgItemProperties.cpp:396
 msgid "Working set size"
 msgstr "Working set size"
 
-#: clientgui/DlgItemProperties.cpp:390
+#: clientgui/DlgItemProperties.cpp:398
 msgid "Directory"
 msgstr "Directory"
 
-#: clientgui/DlgItemProperties.cpp:393
+#: clientgui/DlgItemProperties.cpp:401
 msgid "Process ID"
 msgstr "Process ID"
 
-#: clientgui/DlgItemProperties.cpp:399 clientgui/DlgItemProperties.cpp:401
-#: clientgui/DlgItemProperties.cpp:403
+#: clientgui/DlgItemProperties.cpp:407 clientgui/DlgItemProperties.cpp:409
+#: clientgui/DlgItemProperties.cpp:411
 msgid "Progress rate"
 msgstr "Progress rate"
 
-#: clientgui/DlgItemProperties.cpp:399
+#: clientgui/DlgItemProperties.cpp:407
 msgid "per hour"
 msgstr "per hour"
 
-#: clientgui/DlgItemProperties.cpp:401
+#: clientgui/DlgItemProperties.cpp:409
 msgid "per minute"
 msgstr "per minute"
 
-#: clientgui/DlgItemProperties.cpp:403
+#: clientgui/DlgItemProperties.cpp:411
 msgid "per second"
 msgstr "per second"
 
-#: clientgui/DlgItemProperties.cpp:474 clientgui/ViewWork.cpp:1125
+#: clientgui/DlgItemProperties.cpp:482 clientgui/ViewWork.cpp:1125
 #: clientgui/sg_TaskPanel.cpp:828
 msgid "Local: "
 msgstr "Local: "
