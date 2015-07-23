@@ -295,15 +295,17 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
 
     addSection(_("Credit"));
     addProperty(_("User"),
+		// Displays the average and total user credit
         wxString::Format(
-            wxT("%0.2f total, %0.2f average"),
+            _("%0.2f total, %0.2f average"),
             project->user_total_credit,
             project->user_expavg_credit
         )
     );
     addProperty(_("Host"),
+		// Displays the average and total host credit
         wxString::Format(
-            wxT("%0.2f total, %0.2f average"),
+            _("%0.2f total, %0.2f average"),
             project->host_total_credit,
             project->host_expavg_credit
         )
