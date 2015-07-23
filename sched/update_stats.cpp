@@ -79,7 +79,7 @@ int update_users() {
         );
         retval = user.update_field(buf);
         if (retval) {
-            log_messages.printf(MSG_CRITICAL, "Can't update user %d\n", user.id);
+            log_messages.printf(MSG_CRITICAL, "Can't update user %lu\n", user.id);
             return retval;
         }
     }
@@ -112,7 +112,7 @@ int update_hosts() {
         );
         retval = host.update_field(buf);
         if (retval) {
-            log_messages.printf(MSG_CRITICAL, "Can't update host %d\n", host.id);
+            log_messages.printf(MSG_CRITICAL, "Can't update host %lu\n", host.id);
             return retval;
         }
     }
@@ -121,20 +121,20 @@ int update_hosts() {
 }
 
 int get_team_totals(TEAM& team) {
-    int nusers;
+    long nusers;
     int retval;
     DB_USER user;
     char buf[256];
 
     // count the number of users on the team
     //
-    sprintf(buf, "where teamid=%d", team.id);
+    sprintf(buf, "where teamid=%lu", team.id);
     retval = user.count(nusers, buf);
     if (retval) return retval;
 
     if (team.nusers != nusers) {
         log_messages.printf(MSG_CRITICAL,
-            "updating member count for [TEAM#%d]: database has %d users, count shows %d\n",
+            "updating member count for [TEAM#%lu]: database has %d users, count shows %ld\n",
             team.id, team.nusers, nusers
         );
     }
@@ -166,7 +166,7 @@ int update_teams() {
         retval = get_team_totals(team);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "update_teams: get_team_credit([TEAM#%d]) failed: %d\n",
+                "update_teams: get_team_credit([TEAM#%lu]) failed: %d\n",
                 team.id,
                 retval
             );
@@ -184,7 +184,7 @@ int update_teams() {
         );
         retval = team.update_field(buf);
         if (retval) {
-            log_messages.printf(MSG_CRITICAL, "Can't update team %d\n", team.id);
+            log_messages.printf(MSG_CRITICAL, "Can't update team %lu\n", team.id);
             return retval;
         }
     }

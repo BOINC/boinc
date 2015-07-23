@@ -112,7 +112,7 @@ int init_result(RESULT& result, void*&) {
             sprintf(buf, " %f", result.elapsed_time);
             strcat(cmd, buf);
         } else if (s == "result_id") {
-            sprintf(buf, " %d", result.id);
+            sprintf(buf, " %lu", result.id);
             strcat(cmd, buf);
         }
     }
@@ -165,13 +165,13 @@ int compare_results(RESULT& r1, void*, RESULT const& r2, void*, bool& match) {
             sprintf(buf, " %f", r1.elapsed_time);
             strcat(cmd, buf);
         } else if (s == "result_id") {
-            sprintf(buf, " %d", r1.id);
+            sprintf(buf, " %lu", r1.id);
             strcat(cmd, buf);
         } else if (s == "runtime2") {
             sprintf(buf, " %f", r2.elapsed_time);
             strcat(cmd, buf);
         } else if (s == "result_id2") {
-            sprintf(buf, " %d", r2.id);
+            sprintf(buf, " %lu", r2.id);
             strcat(cmd, buf);
         }
     }

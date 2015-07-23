@@ -85,24 +85,24 @@ int handle_trickle(MSG_FROM_HOST& mfh) {
         if (xp.parse_int("cpu_time", cpu_time)) break;
         if (xp.parse_str("result_name", task_name, 256)) break;
         log_messages.printf(MSG_NORMAL,
-            "[HOST#%u] unexpected tag: %s\n",
+            "[HOST#%lu] unexpected tag: %s\n",
             mfh.hostid, xp.parsed_tag
         );
     }
     if (strlen(task_name) == 0) {
         log_messages.printf(MSG_NORMAL,
-            "[HOST#%u] unexpected empty result_name attribute\n",
+            "[HOST#%lu] unexpected empty result_name attribute\n",
             mfh.hostid
         );
         return ERR_XML_PARSE;
     }
 
     DB_RESULT task;
-    sprintf(buf, " where name='%s' and hostid=%u", task_name, mfh.hostid);
+    sprintf(buf, " where name='%s' and hostid=%lu", task_name, mfh.hostid);
     int retval = task.lookup(buf);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "[HOST#%u] error while looking for result_name: %s\n",
+            "[HOST#%lu] error while looking for result_name: %s\n",
             mfh.hostid, task_name
         );
         return retval;
@@ -112,7 +112,7 @@ int handle_trickle(MSG_FROM_HOST& mfh) {
     //
     if (task.report_deadline < dtime()) {
         log_messages.printf(MSG_NORMAL,
-            "[RESULT#%u][HOST#%u] report deadline is in the past\n",
+            "[RESULT#%lu][HOST#%lu] report deadline is in the past\n",
             task.id, mfh.hostid
         );
         // don't do anything for now (could reactivate the result here)
@@ -120,7 +120,7 @@ int handle_trickle(MSG_FROM_HOST& mfh) {
     }
     if ((task.report_deadline - extension_timeframe) > dtime()) {
         log_messages.printf(MSG_DEBUG,
-            "[RESULT#%u][HOST#%u] report deadline is too far in the future\n",
+            "[RESULT#%lu][HOST#%lu] report deadline is too far in the future\n",
             task.id, mfh.hostid
         );
         // don't do anything
@@ -132,7 +132,7 @@ int handle_trickle(MSG_FROM_HOST& mfh) {
     retval = task.update();
     if (retval) return retval;
     log_messages.printf(MSG_DEBUG,
-        "[RESULT#%u][HOST#%u] report deadline extended to %d\n",
+        "[RESULT#%lu][HOST#%lu] report deadline extended to %d\n",
         task.id, mfh.hostid, task.report_deadline
     );
     return 0;

@@ -129,7 +129,7 @@ int main(int argc, char** argv) {
     if (!no_update) {
         char set_clause[256], where_clause[256];
         sprintf(set_clause, "logical_start_time=%f", x);
-        sprintf(where_clause, "user_id=%d", us.user_id);
+        sprintf(where_clause, "user_id=%lu", us.user_id);
         retval = us.update_fields_noid(set_clause, where_clause);
         if (retval) {
             fprintf(stderr, "update_fields_noid() failed: %d\n", retval);

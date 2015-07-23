@@ -109,7 +109,7 @@ void debug_sched(const char *trigger) {
     }
 
     sprintf(tmpfilename,
-        "sched_reply_%06d_%06d", g_request->hostid, g_request->rpc_seqno
+        "sched_reply_%06ld_%06d", g_request->hostid, g_request->rpc_seqno
     );
     // use _XXXXXX if you want random filenames rather than
     // deterministic mkstemp(tmpfilename);
@@ -135,7 +135,7 @@ void debug_sched(const char *trigger) {
     fclose(fp);
 
     sprintf(tmpfilename,
-        "sched_request_%06d_%06d", g_request->hostid, g_request->rpc_seqno
+        "sched_request_%06ld_%06d", g_request->hostid, g_request->rpc_seqno
     );
 #ifndef _USING_FCGI_
     fp=fopen(tmpfilename, "w");

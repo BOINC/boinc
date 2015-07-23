@@ -136,7 +136,7 @@ int handle_results() {
     retval = result_handler.enumerate();
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "[HOST#%d] Batch query failed\n",
+            "[HOST#%lu] Batch query failed\n",
             g_reply->host.id
         );
     }
@@ -155,7 +155,7 @@ int handle_results() {
         retval = result_handler.lookup_result(rp->name, &srip);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "[HOST#%d] [RESULT#? %s] reported result not in DB\n",
+                "[HOST#%lu] [RESULT#? %s] reported result not in DB\n",
                 g_reply->host.id, rp->name
             );
 
@@ -165,7 +165,7 @@ int handle_results() {
 
         if (config.debug_handle_results) {
             log_messages.printf(MSG_NORMAL,
-                "[handle] [HOST#%d] [RESULT#%u] [WU#%u] got result (DB: server_state=%d outcome=%d client_state=%d validate_state=%d delete_state=%d)\n",
+                "[handle] [HOST#%lu] [RESULT#%lu] [WU#%lu] got result (DB: server_state=%d outcome=%d client_state=%d validate_state=%d delete_state=%d)\n",
                 g_reply->host.id, srip->id, srip->workunitid, srip->server_state,
                 srip->outcome, srip->client_state, srip->validate_state,
                 srip->file_delete_state
@@ -227,7 +227,7 @@ int handle_results() {
             if (msg) {
                 if (config.debug_handle_results) {
                     log_messages.printf(MSG_NORMAL,
-                        "[handle][HOST#%d][RESULT#%u][WU#%u] result already over [outcome=%d validate_state=%d]: %s\n",
+                        "[handle][HOST#%lu][RESULT#%lu][WU#%lu] result already over [outcome=%d validate_state=%d]: %s\n",
                         g_reply->host.id, srip->id, srip->workunitid,
                         srip->outcome, srip->validate_state, msg
                     );
@@ -240,7 +240,7 @@ int handle_results() {
 
         if (srip->server_state == RESULT_SERVER_STATE_UNSENT) {
             log_messages.printf(MSG_CRITICAL,
-                "[HOST#%d] [RESULT#%u] [WU#%u] got unexpected result: server state is %d\n",
+                "[HOST#%lu] [RESULT#%lu] [WU#%lu] got unexpected result: server state is %d\n",
                 g_reply->host.id, srip->id, srip->workunitid, srip->server_state
             );
             srip->id = 0;
@@ -250,7 +250,7 @@ int handle_results() {
 
         if (srip->received_time) {
             log_messages.printf(MSG_CRITICAL,
-                "[HOST#%d] [RESULT#%u] [WU#%u] already got result, at %s \n",
+                "[HOST#%lu] [RESULT#%lu] [WU#%lu] already got result, at %s \n",
                 g_reply->host.id, srip->id, srip->workunitid,
                 time_to_string(srip->received_time)
             );
@@ -261,7 +261,7 @@ int handle_results() {
 
         if (srip->hostid != g_reply->host.id) {
             log_messages.printf(MSG_CRITICAL,
-                "[HOST#%d] [RESULT#%u] [WU#%u] got result from wrong host; expected [HOST#%d]\n",
+                "[HOST#%lu] [RESULT#%lu] [WU#%lu] got result from wrong host; expected [HOST#%lu]\n",
                 g_reply->host.id, srip->id, srip->workunitid, srip->hostid
             );
             DB_HOST result_host;
@@ -269,7 +269,7 @@ int handle_results() {
 
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "[RESULT#%u] [WU#%u] Can't lookup [HOST#%d]\n",
+                    "[RESULT#%lu] [WU#%lu] Can't lookup [HOST#%lu]\n",
                     srip->id, srip->workunitid, srip->hostid
                 );
                 srip->id = 0;
@@ -277,7 +277,7 @@ int handle_results() {
                 continue;
             } else if (result_host.userid != g_reply->host.userid) {
                 log_messages.printf(MSG_CRITICAL,
-                    "[USER#%d] [HOST#%d] [RESULT#%u] [WU#%u] Not even the same user; expected [USER#%d]\n",
+                    "[USER#%lu] [HOST#%lu] [RESULT#%lu] [WU#%lu] Not even the same user; expected [USER#%lu]\n",
                     g_reply->host.userid, g_reply->host.id, srip->id, srip->workunitid, result_host.userid
                 );
                 srip->id = 0;
@@ -285,7 +285,7 @@ int handle_results() {
                 continue;
             } else {
                 log_messages.printf(MSG_CRITICAL,
-                    "[HOST#%d] [RESULT#%u] [WU#%u] Allowing result because same USER#%d\n",
+                    "[HOST#%lu] [RESULT#%lu] [WU#%lu] Allowing result because same USER#%lu\n",
                     g_reply->host.id, srip->id, srip->workunitid, g_reply->host.userid
                 );
             }
@@ -318,7 +318,7 @@ int handle_results() {
                 APP_VERSION* avp = ssp->lookup_app_version(avid);
                 if (avp && !avp->is_multithread()) {
                     log_messages.printf(MSG_NORMAL,
-                        "[HOST#%d] [RESULT#%u] elapsed time %f < CPU %f for seq app; setting to CPU\n",
+                        "[HOST#%lu] [RESULT#%lu] elapsed time %f < CPU %f for seq app; setting to CPU\n",
                         srip->hostid, srip->id, srip->elapsed_time, srip->cpu_time
                     );
                     srip->elapsed_time = srip->cpu_time;
@@ -330,7 +330,7 @@ int handle_results() {
         //
         if (srip->elapsed_time < 0) {
             log_messages.printf(MSG_NORMAL,
-                "[HOST#%d] [RESULT#%u] [WU#%u] negative elapsed time: %f\n",
+                "[HOST#%lu] [RESULT#%lu] [WU#%lu] negative elapsed time: %f\n",
                 srip->hostid, srip->id, srip->workunitid,
                 srip->elapsed_time
             );
@@ -342,7 +342,7 @@ int handle_results() {
         if (srip->elapsed_time == 0 && srip->cpu_time > 0) {
             srip->elapsed_time = srip->cpu_time;
             log_messages.printf(MSG_NORMAL,
-                "[HOST#%d] [RESULT#%u] elapsed time is zero; setting to CPU time %f\n",
+                "[HOST#%lu] [RESULT#%lu] elapsed time is zero; setting to CPU time %f\n",
                 srip->hostid, srip->id, srip->cpu_time
             );
         }
@@ -352,13 +352,13 @@ int handle_results() {
         double turnaround_time = srip->received_time - srip->sent_time;
         if (turnaround_time < 0) {
             log_messages.printf(MSG_CRITICAL,
-                "[HOST#%d] [RESULT#%u] [WU#%u] inconsistent sent/received times\n",
+                "[HOST#%lu] [RESULT#%lu] [WU#%lu] inconsistent sent/received times\n",
                 srip->hostid, srip->id, srip->workunitid
             );
         } else {
             if (srip->elapsed_time > turnaround_time) {
                 log_messages.printf(MSG_NORMAL,
-                    "[HOST#%d] [RESULT#%u] [WU#%u] impossible elapsed time: reported %f > turnaround %f\n",
+                    "[HOST#%lu] [RESULT#%lu] [WU#%lu] impossible elapsed time: reported %f > turnaround %f\n",
                     srip->hostid, srip->id, srip->workunitid,
                     srip->elapsed_time, turnaround_time
                 );
@@ -370,7 +370,7 @@ int handle_results() {
         //
         if (srip->cpu_time > srip->elapsed_time*g_reply->host.p_ncpus) {
             log_messages.printf(MSG_NORMAL,
-                "[HOST#%d] [RESULT#%u] [WU#%u] impossible CPU time: %f > %f * %d\n",
+                "[HOST#%lu] [RESULT#%lu] [WU#%lu] impossible CPU time: %f > %f * %d\n",
                 srip->hostid, srip->id, srip->workunitid,
                 srip->cpu_time, srip->elapsed_time, g_reply->host.p_ncpus
             );
@@ -394,7 +394,7 @@ int handle_results() {
             srip->outcome = RESULT_OUTCOME_SUCCESS;
             if (config.debug_handle_results) {
                 log_messages.printf(MSG_NORMAL,
-                    "[handle] [RESULT#%u] [WU#%u]: setting outcome SUCCESS\n",
+                    "[handle] [RESULT#%lu] [WU#%lu]: setting outcome SUCCESS\n",
                     srip->id, srip->workunitid
                 );
             }
@@ -406,7 +406,7 @@ int handle_results() {
         } else {
             if (config.debug_handle_results) {
                 log_messages.printf(MSG_NORMAL,
-                    "[handle] [RESULT#%u] [WU#%u]: client_state %d exit_status %d; setting outcome ERROR\n",
+                    "[handle] [RESULT#%lu] [WU#%lu]: client_state %d exit_status %d; setting outcome ERROR\n",
                     srip->id, srip->workunitid, srip->client_state, srip->exit_status
                 );
             }
@@ -431,7 +431,7 @@ int handle_results() {
         retval = result_handler.update_result(sri);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "[HOST#%d] [RESULT#%u] [WU#%u] can't update result: %s\n",
+                "[HOST#%lu] [RESULT#%lu] [WU#%lu] can't update result: %s\n",
                 g_reply->host.id, sri.id, sri.workunitid, boinc_db.error_string()
             );
         }
@@ -445,7 +445,7 @@ int handle_results() {
     retval = result_handler.update_workunits();
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "[HOST#%d] can't update WUs: %s\n",
+            "[HOST#%lu] can't update WUs: %s\n",
             g_reply->host.id, boincerror(retval)
         );
     }

@@ -53,7 +53,7 @@ int assimilate_handler(
 
     // read and delete the job directory file
     //
-    sprintf(filename, "sj_%d", wu.id);
+    sprintf(filename, "sj_%lu", wu.id);
     dir_hier_path(
         filename, config.upload_dir, config.uldl_dir_fanout, job_dir_file
     );
@@ -87,14 +87,14 @@ int assimilate_handler(
 
     // Create a job summary file
     //
-    sprintf(filename, "%s/job_summary_%d", job_dir, wu.id);
+    sprintf(filename, "%s/job_summary_%lu", job_dir, wu.id);
     f = fopen(filename, "w");
 
     // If job was successful, copy the output files
     //
     if (wu.canonical_resultid) {
         fprintf(f,
-            "Job was completed by host %d.\n"
+            "Job was completed by host %lu.\n"
             "CPU time: %f seconds\n",
             canonical_result.hostid,
             canonical_result.cpu_time

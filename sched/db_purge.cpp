@@ -277,7 +277,7 @@ int archive_result(DB_RESULT& result) {
     int n;
     n = fprintf(re_stream,
         "<result_archive>\n"
-        "    <id>%d</id>\n",
+        "    <id>%lu</id>\n",
         result.id
     );
 
@@ -289,12 +289,12 @@ int archive_result(DB_RESULT& result) {
     if (n >= 0) n = fprintf(
         re_stream,
         "  <create_time>%d</create_time>\n"
-        "  <workunitid>%d</workunitid>\n"
+        "  <workunitid>%lu</workunitid>\n"
         "  <server_state>%d</server_state>\n"
         "  <outcome>%d</outcome>\n"
         "  <client_state>%d</client_state>\n"
-        "  <hostid>%d</hostid>\n"
-        "  <userid>%d</userid>\n"
+        "  <hostid>%lu</hostid>\n"
+        "  <userid>%lu</userid>\n"
         "  <report_deadline>%d</report_deadline>\n"
         "  <sent_time>%d</sent_time>\n"
         "  <received_time>%d</received_time>\n"
@@ -311,10 +311,10 @@ int archive_result(DB_RESULT& result) {
         "  <opaque>%f</opaque>\n"
         "  <random>%d</random>\n"
         "  <app_version_num>%d</app_version_num>\n"
-        "  <app_version_id>%d</app_version_id>\n"
-        "  <appid>%d</appid>\n"
+        "  <app_version_id>%lu</app_version_id>\n"
+        "  <appid>%lu</appid>\n"
         "  <exit_status>%d</exit_status>\n"
-        "  <teamid>%d</teamid>\n"
+        "  <teamid>%lu</teamid>\n"
         "  <priority>%d</priority>\n"
         "  <mod_time>%s</mod_time>\n",
         result.create_time,
@@ -354,7 +354,7 @@ int archive_result(DB_RESULT& result) {
 
     if (n >= 0) {
         n = fprintf(re_index_stream,
-            "%d     %d    %s\n",
+            "%lu     %d    %s\n",
             result.id, time_int, result.name
         );
     }
@@ -368,12 +368,12 @@ int archive_wu(DB_WORKUNIT& wu) {
     int n;
     n = fprintf(wu_stream,
         "<workunit_archive>\n"
-        "    <id>%d</id>\n",
+        "    <id>%lu</id>\n",
         wu.id
     );
     if (n >= 0) n = fprintf(wu_stream,
         "  <create_time>%d</create_time>\n"
-        "  <appid>%d</appid>\n"
+        "  <appid>%lu</appid>\n"
         "  <name>%s</name>\n"
         "  <xml_doc>%s</xml_doc>\n"
         "  <batch>%d</batch>\n"
@@ -382,7 +382,7 @@ int archive_wu(DB_WORKUNIT& wu) {
         "  <rsc_memory_bound>%.15e</rsc_memory_bound>\n"
         "  <rsc_disk_bound>%.15e</rsc_disk_bound>\n"
         "  <need_validate>%d</need_validate>\n"
-        "  <canonical_resultid>%u</canonical_resultid>\n"
+        "  <canonical_resultid>%lu</canonical_resultid>\n"
         "  <canonical_credit>%.15e</canonical_credit>\n"
         "  <transition_time>%d</transition_time>\n"
         "  <delay_bound>%d</delay_bound>\n"
@@ -434,7 +434,7 @@ int archive_wu(DB_WORKUNIT& wu) {
 
     if (n >= 0) {
         n = fprintf(wu_index_stream,
-            "%d     %d    %s\n",
+            "%lu     %d    %s\n",
             wu.id, time_int, wu.name
         );
     }
@@ -451,13 +451,13 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
 
     number_results=0;
 
-    sprintf(buf, "where workunitid=%d", wu.id);
+    sprintf(buf, "where workunitid=%lu", wu.id);
     while (!result.enumerate(buf)) {
         if (!no_archive) {
             retval = archive_result(result);
             if (retval) return retval;
             log_messages.printf(MSG_DEBUG,
-                "Archived result [%d] to a file\n", result.id
+                "Archived result [%lu] to a file\n", result.id
             );
         }
         if (!dont_delete) {
@@ -465,7 +465,7 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
             if (retval) return retval;
         }
         log_messages.printf(MSG_DEBUG,
-            "Purged result [%d] from database\n", result.id
+            "Purged result [%lu] from database\n", result.id
         );
         number_results++;
     }
@@ -510,7 +510,7 @@ bool do_pass() {
         strcat(buf, buf2);
     }
     if (strlen(app_name)) {
-        sprintf(buf2, " and appid=%d", app.id);
+        sprintf(buf2, " and appid=%lu", app.id);
         strcat(buf, buf2);
     }
     sprintf(buf2, " limit %d", DB_QUERY_LIMIT);
@@ -544,12 +544,12 @@ bool do_pass() {
             retval= archive_wu(wu);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "Failed to write to XML file workunit:%d\n", wu.id
+                    "Failed to write to XML file workunit:%lu\n", wu.id
                 );
                 exit(5);
             }
             log_messages.printf(MSG_DEBUG,
-                "Archived workunit [%d] to a file\n", wu.id
+                "Archived workunit [%lu] to a file\n", wu.id
             );
         }
 
@@ -559,14 +559,14 @@ bool do_pass() {
             retval= wu.delete_from_db();
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "Can't delete workunit [%d] from database:%d\n",
+                    "Can't delete workunit [%lu] from database:%d\n",
                     wu.id, retval
                 );
                 exit(6);
             }
             if (config.enable_assignment) {
                 DB_ASSIGNMENT asg;
-                sprintf(buf, "where workunitid=%d", wu.id);
+                sprintf(buf, "where workunitid=%lu", wu.id);
                 retval = asg.lookup(buf);
                 if (!retval) {
                     asg.delete_from_db();
@@ -574,12 +574,12 @@ bool do_pass() {
             }
         }
         log_messages.printf(MSG_DEBUG,
-            "Purged workunit [%d] from database\n", wu.id
+            "Purged workunit [%lu] from database\n", wu.id
         );
 
         if (config.enable_assignment) {
             DB_ASSIGNMENT asg;
-            sprintf(buf2, "workunitid=%d", wu.id);
+            sprintf(buf2, "workunitid=%lu", wu.id);
             asg.delete_from_db_multi(buf2);
         }
 
