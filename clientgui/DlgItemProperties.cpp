@@ -404,6 +404,9 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
         addProperty(_("CPU time"), FormatTime(result->final_cpu_time));
         addProperty(_("Elapsed time"), FormatTime(result->final_elapsed_time));
     }
+    if (avp) {
+        addProperty(_("Executable"), wxString(avp->exec_filename, wxConvUTF8));
+
     m_gbSizer->Layout();
     m_scrolledWindow->FitInside();
 }
