@@ -33,7 +33,7 @@ inline void dont_need_message(
     if (!config.debug_version_select) return;
     if (avp) {
         log_messages.printf(MSG_NORMAL,
-            "[version] [AV#%d] Don't need %s jobs, skipping\n",
+            "[version] [AV#%lu] Don't need %s jobs, skipping\n",
             avp->id, p
         );
     } else if (cavp) {
@@ -61,7 +61,7 @@ bool need_this_resource(
     return true;
 }
 
-static DB_HOST_APP_VERSION* lookup_host_app_version(int gavid) {
+static DB_HOST_APP_VERSION* lookup_host_app_version(DB_ID_TYPE gavid) {
     for (unsigned int i=0; i<g_wreq->host_app_versions.size(); i++) {
         DB_HOST_APP_VERSION& hav = g_wreq->host_app_versions[i];
         if (hav.app_version_id == gavid) return &hav;
@@ -69,19 +69,19 @@ static DB_HOST_APP_VERSION* lookup_host_app_version(int gavid) {
     return NULL;
 }
 
-static inline bool app_version_is_trusted(int gavid) {
+static inline bool app_version_is_trusted(DB_ID_TYPE gavid) {
     DB_HOST_APP_VERSION* havp = lookup_host_app_version(gavid);
     if (!havp) return false;
     return havp->trusted;
 }
 
-static inline bool app_version_is_reliable(int gavid) {
+static inline bool app_version_is_reliable(DB_ID_TYPE gavid) {
     DB_HOST_APP_VERSION* havp = lookup_host_app_version(gavid);
     if (!havp) return false;
     return havp->reliable;
 }
 
-inline int host_usage_to_gavid(HOST_USAGE& hu, APP& app) {
+inline DB_ID_TYPE host_usage_to_gavid(HOST_USAGE& hu, APP& app) {
     return app.id*1000000 - hu.resource_type();
 }
 
@@ -104,7 +104,7 @@ inline int scaled_max_jobs_per_day(DB_HOST_APP_VERSION& hav, HOST_USAGE& hu) {
     }
     if (config.debug_quota) {
         log_messages.printf(MSG_NORMAL,
-            "[quota] [AV#%d] scaled max jobs per day: %d\n",
+            "[quota] [AV#%lu] scaled max jobs per day: %d\n",
             hav.app_version_id,
             n
         );
@@ -112,14 +112,14 @@ inline int scaled_max_jobs_per_day(DB_HOST_APP_VERSION& hav, HOST_USAGE& hu) {
     return n;
 }
 
-inline bool daily_quota_exceeded(int gavid, HOST_USAGE& hu) {
+inline bool daily_quota_exceeded(DB_ID_TYPE gavid, HOST_USAGE& hu) {
     DB_HOST_APP_VERSION* havp = lookup_host_app_version(gavid);
     if (!havp) return false;
     int q = scaled_max_jobs_per_day(*havp, hu);
     if (havp->n_jobs_today >= q) {
         if (config.debug_quota) {
             log_messages.printf(MSG_NORMAL,
-                "[quota] [AV#%d] daily quota exceeded: %d >= %d\n",
+                "[quota] [AV#%lu] daily quota exceeded: %d >= %d\n",
                 gavid, havp->n_jobs_today, q
             );
         }
@@ -361,17 +361,17 @@ void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
         if (config.debug_version_select) {
             if (config.estimate_flops_from_hav_pfc) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] [AV#%d] (%s) setting projected flops based on host_app_version pfc: %.2fG\n",
+                    "[version] [AV#%lu] (%s) setting projected flops based on host_app_version pfc: %.2fG\n",
                     av.id, av.plan_class, hu.projected_flops/1e9
                 );
             } else {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] [AV#%d] (%s) setting projected flops based on host elapsed time avg: %.2fG\n",
+                    "[version] [AV#%lu] (%s) setting projected flops based on host elapsed time avg: %.2fG\n",
                     av.id, av.plan_class, hu.projected_flops/1e9
                 );
             }
             log_messages.printf(MSG_NORMAL,
-                "[version] [AV#%d] (%s) comparison pfc: %.2fG  et: %.2fG\n",
+                "[version] [AV#%lu] (%s) comparison pfc: %.2fG  et: %.2fG\n",
                 av.id, av.plan_class, hu.peak_flops/(havp->pfc.get_avg()+1e-18)/1e+9,
                 1e-9/havp->et.get_avg()
             );
@@ -381,7 +381,7 @@ void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
             hu.projected_flops = hu.peak_flops/av.pfc.get_avg();
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] [AV#%d] (%s) adjusting projected flops based on PFC avg: %.2fG\n",
+                    "[version] [AV#%lu] (%s) adjusting projected flops based on PFC avg: %.2fG\n",
                     av.id, av.plan_class, hu.projected_flops/1e9
                 );
             }
@@ -389,7 +389,7 @@ void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
             hu.projected_flops = g_reply->host.p_fpops * (hu.avg_ncpus + GPU_CPU_RATIO*hu.gpu_usage);
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] [AV#%d] (%s) using conservative projected flops: %.2fG\n",
+                    "[version] [AV#%lu] (%s) using conservative projected flops: %.2fG\n",
                     av.id, av.plan_class, hu.projected_flops/1e9
                 );
             }
@@ -407,7 +407,7 @@ static void app_version_desc(BEST_APP_VERSION& bav, char* buf) {
     if (bav.cavp) {
         sprintf(buf, "anonymous platform (%s)", proc_type_name(bav.host_usage.proc_type));
     } else {
-        sprintf(buf, "[AV#%d]", bav.avp->id);
+        sprintf(buf, "[AV#%lu]", bav.avp->id);
     }
 }
 
@@ -536,7 +536,7 @@ BEST_APP_VERSION* get_app_version(
 
     if (config.debug_version_select) {
         log_messages.printf(MSG_NORMAL,
-            "[version] get_app_version(): getting app version for WU#%d (%s) appid:%d\n",
+            "[version] get_app_version(): getting app version for WU#%lu (%s) appid:%lu\n",
             wu.id, wu.name, wu.appid
         );
         if (job_needs_64b) {
@@ -550,7 +550,7 @@ BEST_APP_VERSION* get_app_version(
     APP* app = ssp->lookup_app(wu.appid);
     if (!app) {
         log_messages.printf(MSG_CRITICAL,
-            "WU refers to nonexistent app: %d\n", wu.appid
+            "WU refers to nonexistent app: %lu\n", wu.appid
         );
         return NULL;
     }
@@ -697,7 +697,7 @@ BEST_APP_VERSION* get_app_version(
                 if (!app_plan(*g_request, av.plan_class, host_usage)) {
                     if (config.debug_version_select) {
                         log_messages.printf(MSG_NORMAL,
-                            "[version] [AV#%d] app_plan() returned false\n",
+                            "[version] [AV#%lu] app_plan() returned false\n",
                             av.id
                         );
                     }
@@ -707,7 +707,7 @@ BEST_APP_VERSION* get_app_version(
                     if (!host_usage.is_sequential_app()) {
                         if (config.debug_version_select) {
                             log_messages.printf(MSG_NORMAL,
-                                "[version] [AV#%d] client %d lacks plan class capability\n",
+                                "[version] [AV#%lu] client %d lacks plan class capability\n",
                                 av.id, g_request->core_client_version
                             );
                         }
@@ -724,7 +724,7 @@ BEST_APP_VERSION* get_app_version(
             if (g_wreq->dont_use_proc_type[pt]) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[version] [AV#%d] Skipping %s version - user prefs say no %s\n",
+                        "[version] [AV#%lu] Skipping %s version - user prefs say no %s\n",
                         av.id,
                         proc_type_name(pt),
                         proc_type_name(pt)
@@ -736,7 +736,7 @@ BEST_APP_VERSION* get_app_version(
             if (reliable_only && !app_version_is_reliable(av.id)) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[version] [AV#%d] not reliable\n", av.id
+                        "[version] [AV#%lu] not reliable\n", av.id
                     );
                 }
                 continue;
@@ -745,7 +745,7 @@ BEST_APP_VERSION* get_app_version(
             if (daily_quota_exceeded(av.id, host_usage)) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[version] [AV#%d] daily quota exceeded\n", av.id
+                        "[version] [AV#%lu] daily quota exceeded\n", av.id
                     );
                 }
                 continue;
@@ -756,7 +756,7 @@ BEST_APP_VERSION* get_app_version(
             if (config.max_jobs_in_progress.exceeded(app, host_usage.proc_type)) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[version] [AV#%d] jobs in progress limit exceeded\n",
+                        "[version] [AV#%lu] jobs in progress limit exceeded\n",
                         av.id
                     );
                     config.max_jobs_in_progress.print_log();
@@ -775,7 +775,7 @@ BEST_APP_VERSION* get_app_version(
             if (g_request->core_client_version < av.min_core_version) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[version] [AV#%d] client version %d < min core version %d\n",
+                        "[version] [AV#%lu] client version %d < min core version %d\n",
                         av.id, g_request->core_client_version, av.min_core_version
                     );
                 }
@@ -787,7 +787,7 @@ BEST_APP_VERSION* get_app_version(
             if (av.max_core_version && g_request->core_client_version > av.max_core_version) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                        "[version] [AV#%d] client version %d > max core version %d\n",
+                        "[version] [AV#%lu] client version %d > max core version %d\n",
                         av.id, g_request->core_client_version, av.max_core_version
                     );
                 }
@@ -828,7 +828,7 @@ BEST_APP_VERSION* get_app_version(
                         host_usage.projected_flops *= 0.01;
                         if (config.debug_version_select) {
                             log_messages.printf(MSG_NORMAL,
-                                "[version] App version AV#%d is failing on HOST#%d\n",
+                                "[version] App version AV#%lu is failing on HOST#%lu\n",
                                 havp->app_version_id, havp->host_id
                             );
                         }
@@ -843,7 +843,7 @@ BEST_APP_VERSION* get_app_version(
             }
             if (config.debug_version_select && bavp && bavp->avp) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] Comparing AV#%d (%.2f GFLOP) against AV#%d (%.2f GFLOP)\n",
+                    "[version] Comparing AV#%lu (%.2f GFLOP) against AV#%lu (%.2f GFLOP)\n",
                     av.id, host_usage.projected_flops/1e+9,
                     bavp->avp->id, bavp->host_usage.projected_flops/1e+9
                 );
@@ -851,7 +851,7 @@ BEST_APP_VERSION* get_app_version(
             if (r*host_usage.projected_flops > bavp->host_usage.projected_flops) {
                 if (config.debug_version_select && (host_usage.projected_flops <= bavp->host_usage.projected_flops)) {
                       log_messages.printf(MSG_NORMAL,
-                          "[version] [AV#%d] Random factor wins.  r=%f n=%ld\n",
+                          "[version] [AV#%lu] Random factor wins.  r=%f n=%ld\n",
                           av.id, r, n
                     );
                 }
@@ -862,14 +862,14 @@ BEST_APP_VERSION* get_app_version(
                 bavp->trusted = app_version_is_trusted(av.id);
                 if (config.debug_version_select) {
                       log_messages.printf(MSG_NORMAL,
-                          "[version] Best app version is now AV%d (%.2f GFLOP)\n",
+                          "[version] Best app version is now AV%lu (%.2f GFLOP)\n",
                           bavp->avp->id, bavp->host_usage.projected_flops/1e+9
                     );
                 }
             } else {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
-                            "[version] Not selected, AV#%d r*%.2f GFLOP <= Best AV %.2f GFLOP (r=%f, n=%ld)\n",
+                            "[version] Not selected, AV#%lu r*%.2f GFLOP <= Best AV %.2f GFLOP (r=%f, n=%ld)\n",
                             av.id, host_usage.projected_flops/1e+9,
                             bavp->host_usage.projected_flops/1e+9, r, n
                     );
@@ -886,7 +886,7 @@ BEST_APP_VERSION* get_app_version(
         estimate_flops(bavp->host_usage, *bavp->avp);
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-                "[version] Best version of app %s is [AV#%d] (%.2f GFLOPS)\n",
+                "[version] Best version of app %s is [AV#%lu] (%.2f GFLOPS)\n",
                 app->name, bavp->avp->id, bavp->host_usage.projected_flops/1e9
             );
         }

@@ -100,7 +100,7 @@ int assimilate_handler(
                     strcat(cmd, paths[j].c_str());
                 }
             } else if (s == "wu_id") {
-                sprintf(buf, " %d", wu.id);
+                sprintf(buf, " %lu", wu.id);
                 strcat(cmd, buf);
             } else if (s == "runtime") {
                 sprintf(buf, " %f", canonical_result.elapsed_time);
@@ -108,7 +108,7 @@ int assimilate_handler(
             }
         }
     } else {
-        sprintf(cmd, "../bin/%s --error %d %d",
+        sprintf(cmd, "../bin/%s --error %d %lu",
             script[0].c_str(), wu.error_mask, wu.id
         );
     }

@@ -35,12 +35,12 @@
 extern DB_CONN boinc_db;
 
 struct TRANSITIONER_ITEM {
-    int id; // WARNING: this is the WU ID
+    DB_ID_TYPE id; // WARNING: this is the WU ID
     char name[256];
-    int appid;
+    DB_ID_TYPE appid;
     int min_quorum;
     bool need_validate;
-    int canonical_resultid;
+    DB_ID_TYPE canonical_resultid;
     int transition_time;
     int delay_bound;
     int error_mask;
@@ -53,10 +53,10 @@ struct TRANSITIONER_ITEM {
     int priority;
     int hr_class;
     int batch;
-    int app_version_id;
+    DB_ID_TYPE app_version_id;
     int transitioner_flags;
     int size_class;
-    int res_id; // This is the RESULT ID
+    DB_ID_TYPE res_id; // This is the RESULT ID
     char res_name[256];
     int res_report_deadline;
     int res_server_state;
@@ -64,9 +64,9 @@ struct TRANSITIONER_ITEM {
     int res_validate_state;
     int res_file_delete_state;
     int res_sent_time;
-    int res_hostid;
+    DB_ID_TYPE res_hostid;
     int res_received_time;
-    int res_app_version_id;
+    DB_ID_TYPE res_app_version_id;
     int res_exit_status;
 
     void clear();
@@ -88,7 +88,7 @@ struct DB_USER_SUBMIT : public DB_BASE, public USER_SUBMIT {
 };
 
 struct STATE_COUNTS {
-    int appid; 
+    DB_ID_TYPE appid; 
     int last_update_time;   
     int result_server_state_2;       
     int result_server_state_4;       
@@ -262,12 +262,12 @@ public:
     int nitems_this_query;
 
     int enumerate(
-        int appid,
+        DB_ID_TYPE appid,
         int nresult_limit,
         int wu_id_modulus,
         int wu_id_remainder,
-        int wu_id_min,
-        int wu_id_max,
+        DB_ID_TYPE wu_id_min,
+        DB_ID_TYPE wu_id_max,
         std::vector<VALIDATOR_ITEM>& items
     );
     int update_result(RESULT&);
@@ -278,7 +278,7 @@ public:
 // used by the feeder and scheduler for outgoing work
 //
 struct WORK_ITEM {
-    int res_id;
+    DB_ID_TYPE res_id;
     int res_priority;
     int res_server_state;
     double res_report_deadline;
@@ -287,7 +287,7 @@ struct WORK_ITEM {
 };
 
 class DB_WORK_ITEM : public WORK_ITEM, public DB_BASE_SPECIAL {
-    int start_id;
+    DB_ID_TYPE start_id;
         // when enumerate_all is used, keeps track of which ID to start from
 public:
     DB_WORK_ITEM(DB_CONN* p=0);
@@ -322,7 +322,7 @@ struct IN_PROGRESS_RESULT {
 class DB_IN_PROGRESS_RESULT : public IN_PROGRESS_RESULT, public DB_BASE_SPECIAL {
 public:
     DB_IN_PROGRESS_RESULT(DB_CONN* p=0);
-    int enumerate(int hostid, const char* result_names);
+    int enumerate(DB_ID_TYPE hostid, const char* result_names);
 };
 
 // Used by the scheduler to handle results reported by clients
@@ -331,17 +331,17 @@ public:
 
 struct SCHED_RESULT_ITEM {
     char queried_name[256];     // name as reported by client
-    int id;
+    DB_ID_TYPE id;
     char name[256];
-    int workunitid;
-    int appid;
+    DB_ID_TYPE workunitid;
+    DB_ID_TYPE appid;
     int server_state;
     int client_state;
     int validate_state;
     int outcome;
-    int hostid;
-    int userid;
-    int teamid;
+    DB_ID_TYPE hostid;
+    DB_ID_TYPE userid;
+    DB_ID_TYPE teamid;
     int sent_time;
     int received_time;
     double cpu_time;
@@ -351,7 +351,7 @@ struct SCHED_RESULT_ITEM {
     int exit_status;
     int file_delete_state;
     double elapsed_time;
-    int app_version_id;
+    DB_ID_TYPE app_version_id;
     double peak_working_set_size;
     double peak_swap_size;
     double peak_disk_usage;
@@ -379,7 +379,7 @@ public:
 };
 
 struct FILE_ITEM {
-    int id;
+    DB_ID_TYPE id;
     char name[254];
     char md5sum[34];
     double size;
@@ -397,7 +397,7 @@ public:
 };
 
 struct FILESET_ITEM {
-    int id;
+    DB_ID_TYPE id;
     char name[254];
 
     void clear();
@@ -416,8 +416,8 @@ public:
 };
 
 struct FILESET_FILE_ITEM {
-    int fileset_id;
-    int file_id;
+    DB_ID_TYPE fileset_id;
+    DB_ID_TYPE file_id;
 
     void clear();
 };
@@ -431,8 +431,8 @@ public:
 };
 
 struct SCHED_TRIGGER_ITEM {
-    int id;
-    int fileset_id;
+    DB_ID_TYPE id;
+    DB_ID_TYPE fileset_id;
     bool need_work;
     bool work_available;
     bool no_work_available;

@@ -246,7 +246,7 @@ static bool get_job_from_db(
     char select_clause[256];
     
     if (all_apps) {
-        sprintf(select_clause, "%s and r1.appid=%d",
+        sprintf(select_clause, "%s and r1.appid=%lu",
             mod_select_clause, ssp->apps[app_index].id
         );
         enum_size = enum_sizes[app_index];
@@ -286,7 +286,7 @@ static bool get_job_from_db(
                 return false;
             }
             log_messages.printf(MSG_NORMAL,
-                "restarted enumeration for appid %d\n",
+                "restarted enumeration for appid %lu\n",
                 ssp->apps[app_index].id
             );
         } else {
@@ -314,7 +314,7 @@ static bool get_job_from_db(
                 );
                 result.update_field(buf);
                 log_messages.printf(MSG_NORMAL,
-                    "[RESULT#%u] WU had error, marking as DIDNT_NEED\n",
+                    "[RESULT#%lu] WU had error, marking as DIDNT_NEED\n",
                     wi.res_id
                 );
                 continue;
@@ -338,7 +338,7 @@ static bool get_job_from_db(
                     ncollisions++;
                     collision = true;
                     log_messages.printf(MSG_DEBUG,
-                        "result [RESULT#%u] already in array\n", wi.res_id
+                        "result [RESULT#%lu] already in array\n", wi.res_id
                     );
                     break;
                 }
@@ -352,7 +352,7 @@ static bool get_job_from_db(
             if (hrt && config.hr_allocate_slots) {
                 if (!hr_info.accept(hrt, wi.wu.hr_class)) {
                     log_messages.printf(MSG_DEBUG,
-                        "rejecting [RESULT#%u] because HR class %d/%d over quota\n",
+                        "rejecting [RESULT#%lu] because HR class %d/%d over quota\n",
                         wi.res_id, hrt, wi.wu.hr_class
                     );
                     continue;
@@ -476,7 +476,7 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
         case WR_STATE_PRESENT:
             if (purge_stale_time && wu_result.time_added_to_shared_memory < (time(0) - purge_stale_time)) {
                 log_messages.printf(MSG_NORMAL,
-                    "remove result [RESULT#%u] from slot %d because it is stale\n",
+                    "remove result [RESULT#%lu] from slot %d because it is stale\n",
                     wu_result.resultid, i
                 );
                 purge_stale(wu_result);
@@ -492,7 +492,7 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
             );
             if (found) {
                 log_messages.printf(MSG_NORMAL,
-                    "adding result [RESULT#%u] in slot %d\n",
+                    "adding result [RESULT#%lu] in slot %d\n",
                     wi.res_id, i
                 );
                 wu_result.resultid = wi.res_id;

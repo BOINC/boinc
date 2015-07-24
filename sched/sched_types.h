@@ -158,7 +158,7 @@ struct CLIENT_APP_VERSION {
 // keep track of the best app_version for each app for this host
 //
 struct BEST_APP_VERSION {
-    int appid;
+    DB_ID_TYPE appid;
     bool for_64b_jobs;
         // maintain this separately for jobs that need > 2GB RAM,
         // in which case we can't use 32-bit apps
@@ -265,7 +265,7 @@ struct SCHEDULER_REQUEST {
     std::vector<CLIENT_PLATFORM> alt_platforms;
     PLATFORM_LIST platforms;
     char cross_project_id[256];
-    int hostid;                 // zero if first RPC
+    DB_ID_TYPE hostid;                 // zero if first RPC
     int core_client_major_version;
     int core_client_minor_version;
     int core_client_release;
@@ -498,7 +498,7 @@ struct SCHEDULER_REPLY {
     DISK_LIMITS disk_limits;
     double request_delay;       // don't request again until this time elapses
     std::vector<USER_MESSAGE> messages;
-    int hostid;
+    DB_ID_TYPE hostid;
         // nonzero only if a new host record was created.
         // this tells client to reset rpc_seqno
     int lockfile_fd; // file descriptor of lockfile, or -1 if no lock.

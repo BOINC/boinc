@@ -152,15 +152,16 @@ void make_new_wu(DB_WORKUNIT& original_wu, char* starting_xml, int start_time) {
 // This keeps us from getting infinitely far ahead of the transitioner
 // (e.g. if the transitioner isn't running)
 //
-void wait_for_results(int wu_id) {
+void wait_for_results(DB_ID_TYPE wu_id) {
     DB_RESULT result;
-    int count, retval;
+    int retval;
+    long count;
     char buf[256];
 
-    sprintf(buf, "where workunitid=%d", wu_id);
+    sprintf(buf, "where workunitid=%lu", wu_id);
     while (1) {
         retval = result.count(count, buf);
-        log_messages.printf(MSG_DEBUG, "result.count for %d returned %d, error: %s\n",
+        log_messages.printf(MSG_DEBUG, "result.count for %lu returned %ld, error: %s\n",
             wu_id, count, boincerror(retval)
         );
         if (retval) {
@@ -216,7 +217,7 @@ void make_work(vector<string> &wu_names) {
 
     while (1) {
         check_stop_daemons();
-        int unsent_results;
+        long unsent_results;
 
         retval = count_unsent_results(unsent_results, wus[0].appid);
         if (retval) {
@@ -225,7 +226,7 @@ void make_work(vector<string> &wu_names) {
             );
             exit(1);
         }
-        int total_wus=0;
+        long total_wus=0;
         if (max_wus) {
             retval = count_workunits(total_wus, "");
             if (retval) {
@@ -236,7 +237,7 @@ void make_work(vector<string> &wu_names) {
             }
         }
         log_messages.printf(
-            MSG_DEBUG, "unsent: %d cushion: %d\n",
+            MSG_DEBUG, "unsent: %ld cushion: %d\n",
             unsent_results, cushion
         );
         if (unsent_results > cushion) {
@@ -246,7 +247,7 @@ void make_work(vector<string> &wu_names) {
 
         int results_needed = cushion - unsent_results;
 
-        int new_wu_id = 0;
+        DB_ID_TYPE new_wu_id = 0;
         while (1) {
             DB_WORKUNIT& wu = wus[index++];
             if (index == nwu_names) index=0;

@@ -215,13 +215,13 @@ int DB_BASE::affected_rows() {
 
 //////////// FUNCTIONS FOR TABLES THAT HAVE AN ID FIELD ///////
 
-int DB_BASE::lookup_id(int id) {
+int DB_BASE::lookup_id(DB_ID_TYPE id) {
     char query[MAX_QUERY_LEN];
     int retval;
     MYSQL_ROW row;
     MYSQL_RES* rp;
 
-    sprintf(query, "select * from %s where id=%u", table_name, id);
+    sprintf(query, "select * from %s where id=%lu", table_name, id);
 
     retval = db->do_query(query);
     if (retval) return retval;
@@ -321,10 +321,10 @@ int DB_BASE::get_field_str(const char* field, char* buf, int buflen) {
     return 0;
 }
 
-int DB_BASE::max_id(int& n, const char* clause) {
+int DB_BASE::max_id(DB_ID_TYPE& n, const char* clause) {
     char query[MAX_QUERY_LEN];
     sprintf(query, "select max(id) from %s %s", table_name, clause);
-    return get_integer(query, n);
+    return get_long(query, n);
 }
 
 /////////////// FUNCTIONS THAT DON'T REQUIRE AN ID FIELD ///////////////
@@ -407,7 +407,7 @@ int DB_BASE::end_enumerate() {
     return 0;
 }
 
-int DB_BASE::get_integer(const char* query, int& n) {
+int DB_BASE::get_long(const char* query, long& n) {
     int retval;
     MYSQL_ROW row;
     MYSQL_RES* resp;
@@ -420,7 +420,7 @@ int DB_BASE::get_integer(const char* query, int& n) {
     if (!row || !row[0]) {
         retval = ERR_DB_NOT_FOUND;
     } else {
-        n = atoi(row[0]);
+        n = atol(row[0]);
     }
     mysql_free_result(resp);
     return retval;
@@ -445,12 +445,12 @@ int DB_CONN::get_double(const char* query, double& x) {
     return retval;
 }
 
-int DB_BASE::count(int& n, const char* clause) {
+int DB_BASE::count(long& n, const char* clause) {
     char query[MAX_QUERY_LEN];
 
     sprintf(query, "select count(*) from %s %s", table_name, clause);
 
-    return get_integer(query, n);
+    return get_long(query, n);
 }
 
 int DB_BASE::sum(double& x, const char* field, const char* clause) {

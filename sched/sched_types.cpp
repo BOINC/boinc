@@ -233,7 +233,7 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_str("cross_project_id", cross_project_id, sizeof(cross_project_id))) continue;
-        if (xp.parse_int("hostid", hostid)) continue;
+        if (xp.parse_long("hostid", hostid)) continue;
         if (xp.parse_int("rpc_seqno", rpc_seqno)) continue;
         if (xp.parse_double("uptime", uptime)) continue;
         if (xp.parse_double("previous_uptime", previous_uptime)) continue;
@@ -485,7 +485,7 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
         "  <authenticator>%s</authentiicator>\n"
         "  <platform_name>%s</platform_name>\n"
         "  <cross_project_id>%s</cross_project_id>\n"
-        "  <hostid>%d</hostid>\n"
+        "  <hostid>%lu</hostid>\n"
         "  <core_client_major_version>%d</core_client_major_version>\n"
         "  <core_client_minor_version>%d</core_client_minor_version>\n"
         "  <core_client_release>%d</core_client_release>\n"
@@ -539,7 +539,7 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
   
     fprintf(fout,
         "  <host>\n"
-        "    <id>%d</id>\n"
+        "    <id>%lu</id>\n"
         "    <rpc_time>%d</rpc_time>\n"
         "    <timezone>%d</timezone>\n"
         "    <d_total>%.15f</d_total>\n"
@@ -683,7 +683,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
         fprintf(fout, "<request_delay>%f</request_delay>\n", request_delay);
     }
     log_messages.printf(MSG_NORMAL,
-        "Sending reply to [HOST#%d]: %d results, delay req %.2f\n",
+        "Sending reply to [HOST#%lu]: %d results, delay req %.2f\n",
         host.id, wreq.njobs_sent, request_delay
     );
 
@@ -765,7 +765,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     if (user.id) {
         xml_escape(user.name, buf, sizeof(buf));
         fprintf(fout,
-            "<userid>%d</userid>\n"
+            "<userid>%lu</userid>\n"
             "<user_name>%s</user_name>\n"
             "<user_total_credit>%f</user_total_credit>\n"
             "<user_expavg_credit>%f</user_expavg_credit>\n"
@@ -810,7 +810,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     }
     if (hostid) {
         fprintf(fout,
-            "<hostid>%d</hostid>\n",
+            "<hostid>%lu</hostid>\n",
             hostid
         );
     }
@@ -830,7 +830,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     if (team.id) {
         xml_escape(team.name, buf, sizeof(buf));
         fprintf(fout,
-            "<teamid>%d</teamid>\n"
+            "<teamid>%lu</teamid>\n"
             "<team_name>%s</team_name>\n",
             team.id,
             buf
@@ -1069,7 +1069,7 @@ int APP_VERSION::write(FILE* fout) {
     safe_strcpy(buf, xml_doc);
     char* p = strstr(buf, "</app_version>");
     if (!p) {
-        fprintf(stderr, "ERROR: app version %d XML has no end tag!\n", id);
+        fprintf(stderr, "ERROR: app version %lu XML has no end tag!\n", id);
         return -1;
     }
     *p = 0;
@@ -1142,7 +1142,7 @@ int SCHED_DB_RESULT::write_to_client(FILE* fout) {
     safe_strcpy(buf, xml_doc_in);
     char* p = strstr(buf, "</result>");
     if (!p) {
-        fprintf(stderr, "ERROR: result %d XML has no end tag!\n", id);
+        fprintf(stderr, "ERROR: result %lu XML has no end tag!\n", id);
         return -1;
     }
     *p = 0;
@@ -1422,10 +1422,10 @@ void GUI_URLS::get_gui_urls(USER& user, HOST& host, TEAM& team, char* buf, int l
     if (!text) return;
     strlcpy(buf, text, len);
 
-    sprintf(userid, "%d", user.id);
-    sprintf(hostid, "%d", host.id);
+    sprintf(userid, "%lu", user.id);
+    sprintf(hostid, "%lu", host.id);
     if (user.teamid) {
-        sprintf(teamid, "%d", team.id);
+        sprintf(teamid, "%lu", team.id);
     } else {
         strcpy(teamid, "0");
         while (remove_element(buf, "<ifteam>", "</ifteam>")) {
@@ -1461,21 +1461,21 @@ void get_weak_auth(USER& user, char* buf) {
     char buf2[1024], out[256];
     sprintf(buf2, "%s%s", user.authenticator, user.passwd_hash);
     md5_block((unsigned char*)buf2, strlen(buf2), out);
-    sprintf(buf, "%d_%s", user.id, out);
+    sprintf(buf, "%lu_%s", user.id, out);
 }
 
 void get_rss_auth(USER& user, char* buf) {
     char buf2[256], out[256];
     sprintf(buf2, "%s%s%s", user.authenticator, user.passwd_hash, "notify_rss");
     md5_block((unsigned char*)buf2, strlen(buf2), out);
-    sprintf(buf, "%d_%s", user.id, out);
+    sprintf(buf, "%lu_%s", user.id, out);
 }
 
 void read_host_app_versions() {
     DB_HOST_APP_VERSION hav;
     char clause[256];
 
-    sprintf(clause, "where host_id=%d", g_reply->host.id);
+    sprintf(clause, "where host_id=%lu", g_reply->host.id);
     while (!hav.enumerate(clause)) {
         g_wreq->host_app_versions.push_back(hav);
     }

@@ -58,7 +58,7 @@ extern int assign_credit_set(
 
 extern void got_error(DB_HOST_APP_VERSION&);
 
-extern int hav_lookup(DB_HOST_APP_VERSION& hav, int hostid, int avid);
+extern int hav_lookup(DB_HOST_APP_VERSION& hav, DB_ID_TYPE hostid, DB_ID_TYPE avid);
 
 extern int write_modified_app_versions(
     std::vector<DB_APP_VERSION_VAL>& app_versions

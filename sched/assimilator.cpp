@@ -100,7 +100,7 @@ bool do_pass(APP& app) {
     }
 
     sprintf(buf,
-        "where appid=%d and assimilate_state=%d %s limit %d",
+        "where appid=%lu and assimilate_state=%d %s limit %d",
         app.id, ASSIMILATE_READY, mod_clause,
         one_pass_N_WU ? one_pass_N_WU : 1000
     );
@@ -124,10 +124,10 @@ bool do_pass(APP& app) {
         }
 
         log_messages.printf(MSG_DEBUG,
-            "[%s] assimilating WU %d; state=%d\n", wu.name, wu.id, wu.assimilate_state
+            "[%s] assimilating WU %lu; state=%d\n", wu.name, wu.id, wu.assimilate_state
         );
 
-        sprintf(buf, "where workunitid=%d", wu.id);
+        sprintf(buf, "where workunitid=%lu", wu.id);
         canonical_result.clear();
         bool found = false;
         while (1) {

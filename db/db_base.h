@@ -33,6 +33,11 @@ inline int safe_atoi(const char* s) {
     return atoi(s);
 }
 
+inline long safe_atol(const char* s) {
+    if (!s) return 0;
+    return atol(s);
+}
+
 inline double safe_atof(const char* s) {
     if (!s) return 0;
     return atof(s);
@@ -63,6 +68,8 @@ enum ISOLATION_LEVEL {
     REPEATABLE_READ,
     SERIALIZABLE
 };
+
+typedef long DB_ID_TYPE;
 
 // represents a connection to a database
 //
@@ -102,14 +109,14 @@ public:
     int delete_from_db_multi(const char* where_clause);
     int get_field_ints(const char*, int, int*);
     int get_field_str(const char*, char*, int);
-    int lookup_id(int id);
+    int lookup_id(DB_ID_TYPE id);
     int lookup(const char*);
     int enumerate(const char* clause="", bool use_use_result=false);
     int end_enumerate();
-    int count(int&, const char* clause="");
-    int max_id(int&, const char* clause="");
+    int count(long&, const char* clause="");
+    int max_id(DB_ID_TYPE&, const char* clause="");
     int sum(double&, const char* field, const char* clause="");
-    int get_integer(const char* query, int&);
+    int get_long(const char* query, long&);
     int affected_rows();
 
     DB_CONN* db;

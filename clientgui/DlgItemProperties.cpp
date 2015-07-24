@@ -205,8 +205,14 @@ void CDlgItemProperties::show_rsc(wxString rsc_name, RSC_DESC rsc_desc) {
     double x = rsc_desc.backoff_time - dtime();
     if (x<0) x = 0;
     if (x) {
-        addProperty(rsc_name + _(" work fetch deferred for"), FormatTime(x));
-        addProperty(rsc_name + _(" work fetch deferral interval"), FormatTime(rsc_desc.backoff_interval));
+        addProperty(
+			wxString::Format(_("%s work fetch deferred for"), rsc_name.c_str()),
+			FormatTime(x)
+	    );
+        addProperty(
+			wxString::Format(_("%s work fetch deferral interval"), rsc_name.c_str()),
+			FormatTime(rsc_desc.backoff_interval)
+		);
     }
 }
 
@@ -289,15 +295,17 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
 
     addSection(_("Credit"));
     addProperty(_("User"),
+		// Displays the average and total user credit
         wxString::Format(
-            wxT("%0.2f total, %0.2f average"),
+            _("%0.2f total, %0.2f average"),
             project->user_total_credit,
             project->user_expavg_credit
         )
     );
     addProperty(_("Host"),
+		// Displays the average and total host credit
         wxString::Format(
-            wxT("%0.2f total, %0.2f average"),
+            _("%0.2f total, %0.2f average"),
             project->host_total_credit,
             project->host_expavg_credit
         )
@@ -406,6 +414,9 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
     } else if (result->state >= RESULT_COMPUTE_ERROR) {
         addProperty(_("CPU time"), FormatTime(result->final_cpu_time));
         addProperty(_("Elapsed time"), FormatTime(result->final_elapsed_time));
+    }
+    if (avp) {
+        addProperty(_("Executable"), wxString(avp->exec_filename, wxConvUTF8));
     }
     m_gbSizer->Layout();
     m_scrolledWindow->FitInside();

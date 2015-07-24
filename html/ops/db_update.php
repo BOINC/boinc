@@ -989,6 +989,32 @@ function update_4_15_2015() {
     ");
 }
 
+// functions to change select ID types to 64-bit
+//
+function result_big_ids() {
+    do_query("alter table result
+        change column id id bigint not null auto_increment
+    ");
+    do_query("alter table workunit
+        change column canonical_resultid canonical_resultid bigint not null
+    ");
+    do_query("alter table assignment
+        change column resultid resultid bigint not null
+    ");
+}
+
+function workunit_big_ids() {
+    do_query("alter table workunit
+        change column id id bigint not null auto_increment
+    ");
+    do_query("alter table result
+        change column workunitid workunitid bigint not null
+    ");
+    do_query("alter table assignment
+        change column workunitid workunitid bigint not null
+    ");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,

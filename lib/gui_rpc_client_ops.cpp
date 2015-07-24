@@ -68,6 +68,7 @@
 #include "diagnostics.h"
 #include "parse.h"
 #include "str_util.h"
+#include "str_replace.h"
 #include "util.h"
 #include "error_numbers.h"
 #include "miofile.h"
@@ -536,6 +537,22 @@ int APP_VERSION::parse_coproc(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
+int APP_VERSION::parse_file_ref(XML_PARSER& xp) {
+    bool is_main = false;
+    char buf[1024];
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/file_ref")) {
+            if (is_main) {
+                strlcpy(exec_filename, buf, sizeof(exec_filename));
+            }
+            return 0;
+        }
+        if (xp.parse_str("file_name", buf, sizeof(buf))) continue;
+        if (xp.parse_bool("main_program", is_main)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
 int APP_VERSION::parse(XML_PARSER& xp) {
     clear();
     while (!xp.get_tag()) {
@@ -549,6 +566,10 @@ int APP_VERSION::parse(XML_PARSER& xp) {
         if (xp.parse_double("flops", flops)) continue;
         if (xp.match_tag("coproc")) {
             parse_coproc(xp);
+            continue;
+        }
+        if (xp.match_tag("file_ref")) {
+            parse_file_ref(xp);
             continue;
         }
     }
