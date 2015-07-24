@@ -1015,6 +1015,14 @@ function workunit_big_ids() {
     ");
 }
 
+// run this is your projects uses HTTPS, to patch up the gravatar URLs
+//
+function gravatar_update() {
+    do_query("update forum_preferences
+        SET avatar = REPLACE(avatar, 'http://www.gravatar.com', '//www.gravatar.com')
+    ");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,

@@ -80,7 +80,7 @@ if ($avatar_type==0){
     }
     $avatar_url="";
 } elseif ($avatar_type == 1) {
-    $avatar_url = "http://www.gravatar.com/avatar/".md5($user->email_addr)."?s=100&amp;d=identicon";
+    $avatar_url = "//www.gravatar.com/avatar/".md5($user->email_addr)."?s=100&amp;d=identicon";
 } elseif ($avatar_type==2){
     if (($rpc && (post_str("avatar_url", true) != null)) || ($_FILES['picture']['tmp_name']!="")) {
         if ($_FILES['picture']['tmp_name']!="") {

@@ -54,7 +54,7 @@ if (!DISABLE_FORUMS) {
 
 $select_0 = $select_1 = $select_2 = "";
 if (strlen($user->prefs->avatar)){
-    if (substr($user->prefs->avatar, 0, 4) == 'http') { // Gravatar
+    if (substr($user->prefs->avatar, 0, 23) == 'http://www.gravatar.com' || substr($user->prefs->avatar, 0, 18)=="//www.gravatar.com") { // Gravatar
         $select_1 = "checked=\"true\"";
     } else {
         $select_2 = "checked=\"true\"";
