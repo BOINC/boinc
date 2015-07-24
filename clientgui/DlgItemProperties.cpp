@@ -417,7 +417,7 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
     }
     if (avp) {
         addProperty(_("Executable"), wxString(avp->exec_filename, wxConvUTF8));
-
+    }
     m_gbSizer->Layout();
     m_scrolledWindow->FitInside();
 }
