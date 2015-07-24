@@ -1,0 +1,172 @@
+/* $Id: panels-styles.css,v 1.1.2.1 2009/12/12 15:31:54 johnalbin Exp $ */
+
+/**
+ * @file
+ * Panels Styling
+ */
+
+.panel-display .panel-content {
+  width: 650px;
+}
+.panel-display .panel-sidebar-first {
+  width: 310px;
+}
+.panel-display .panel-sidebar-first .panel-sidebar-first-inner {
+  margin-left: 12px;
+}
+.panel-primary {
+  padding: 25px
+}
+.front .panel-primary {
+  padding: 30px 36px;
+}
+
+.panel-secondary {
+  padding: 15px;
+}
+.panel-region-separator {
+  margin-bottom: 16px;
+}
+.panel-pane {
+}
+.pane-title {
+  margin-top: 0;
+}
+.panel-primary .pane-title {
+  font-size: 18px;
+  text-transform: uppercase;
+  border-bottom: 1px dotted #aaa;
+  padding-bottom: 5px;
+}
+.front .panel-primary .pane-title {
+  font-size: 36px;
+  text-transform: none;
+  border: none;
+  padding-bottom: 0;
+}
+.panel-secondary h2 {
+  font-size: 12px;
+  text-transform: uppercase;
+  margin-top: 0;
+}
+
+.boinc-overview {
+  font-size: 24px;
+  line-height: 28px;
+}
+
+.boinc-overview-details {
+  height: 66px;
+  position: relative;
+}
+.boinc-overview-details .detail-container {
+  padding: 5px 0;
+  position: absolute;
+  bottom: 0;
+}
+.boinc-overview-details .detail {
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 5px;
+}
+.boinc-overview-details .user-of-the-day {
+  display: block;
+  float: left;
+}
+.boinc-overview-details a.user-of-the-day,
+.boinc-overview-details a.user-of-the-day:hover {
+  text-decoration: none;
+}
+.boinc-overview-details .user-of-the-day .text,
+.boinc-overview-details .user-of-the-day .detail {
+  margin-left: 60px;
+  max-width: 135px;
+}
+.boinc-overview-details .user-of-the-day .text {
+  color: #000;
+}
+.boinc-overview-details .user-of-the-day .picture {
+  float: left;
+  margin-top: -7px;
+  max-height: 50px;
+  overflow: hidden;
+}
+.boinc-overview-details .user-of-the-day .picture img {
+  width: 50px;
+  margin: 0;
+}
+.boinc-overview-details .volunteers {
+  float: left;
+  margin: 0 0 0 40px;
+}
+.boinc-overview-details .text {
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 17px;
+}
+.boinc-overview-details .about {
+  width: 120px;
+  margin: 0 0 0 65px;
+}
+.boinc-overview-details .platforms {
+  padding: 1px 0;
+}
+.boinc-overview-details .platform {
+  float: left;
+  padding-left: 30px;
+  padding-right: 16px;
+}
+.platform.linux {
+  background: url(../images/icon-linux.png) no-repeat top left;
+}
+.platform.mac {
+  background: url(../images/icon-mac.png) no-repeat top left;
+}
+.platform.windows {
+  background: url(../images/icon-windows.png) no-repeat top left;
+}
+
+.panel-secondary h2.pane-title,
+.panel-secondary .views-field-title {
+  margin-bottom: 1px;
+  padding: 0;
+}
+
+.pane-project-stats-overview {
+}
+.pane-project-stats-overview .overlay span {
+  color: #808080;
+  font-size: 11px;
+}
+.pane-project-stats-overview .chart img {
+  height: 80px;
+  width: 266px;
+}
+
+.panel-secondary.pane-news {
+  padding-left: 10px;
+  padding-right: 10px;
+  position: relative;
+}
+.panel-secondary.pane-news .views-field-view-node,
+.panel-secondary.pane-news .views-field-phpcode {
+  border-left: 1px solid #808080;
+  margin-left: 1em;
+  padding-left: 1em;
+  clear: none;
+}
+.panel-secondary.pane-news .more-link {
+  padding-top: 16px;
+}
+.panel-secondary.pane-news .feed {
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+}
+
+.pane-user-mail-summary h2.pane-title,
+.pane-boinc-friends h2.pane-title {
+  margin-bottom: 10px;
+}

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://boinc.berkeley.edu/drupal-psp.xsd"
+           xmlns="http://boinc.berkeley.edu/drupal-psp.xsd"
+           xmlns:psp="http://boinc.berkeley.edu/drupal-psp.xsd"
+           elementFormDefault="qualified"
+           version="0.4">
+
+    <!-- simple types -->
+
+    <xs:simpleType name="datatype">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="text" />
+            <xs:enumeration value="integer" />
+            <xs:enumeration value="float" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- elementary complex types -->
+
+    <xs:complexType name="item">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="selected" type="xs:boolean" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="app">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+                <xs:attribute name="selected" type="xs:boolean" />
+                <xs:attribute name="enabled" type="xs:boolean" />
+                <xs:attribute name="rank" type="xs:nonNegativeInteger" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <!-- collection types -->
+
+    <xs:element name="items">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="item" type="item" minOccurs="1" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+        <xs:unique name="unique-items-list-entry">
+            <xs:selector xpath="psp:item"/>
+            <xs:field xpath="."/>
+        </xs:unique>
+        <xs:unique name="only-one-item-can-be-selected">
+            <xs:selector xpath="psp:item"/>
+            <xs:field xpath="@selected"/>
+        </xs:unique>
+    </xs:element>
+
+    <xs:element name="attributes">
+        <xs:complexType>
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <xs:element name="text" type="text" />
+                <xs:element name="boolean" type="boolean" />
+                <xs:element name="radio" type="radio" />
+                <xs:element name="dropdown" type="dropdown" />
+            </xs:choice>
+        </xs:complexType>
+        <xs:unique name="unique-preference-attributes-per-tag">
+            <xs:selector xpath=".//*"/>
+            <xs:field xpath="@name"/>
+        </xs:unique>
+    </xs:element>
+
+    <!-- complex base types -->
+
+    <xs:complexType name="component">
+        <xs:sequence>
+            <xs:element name="title" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="1" />
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="required" />
+    </xs:complexType>
+
+    <!-- GUI component types (available preference settings) -->
+
+    <xs:complexType name="text">
+        <xs:complexContent>
+            <xs:extension base="component">
+                <xs:attribute name="datatype" type="datatype" use="required" />
+                <xs:attribute name="min" type="xs:decimal" />
+                <xs:attribute name="max" type="xs:decimal" />
+                <xs:attribute name="default" type="xs:string" use="required" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="boolean">
+        <xs:complexContent>
+            <xs:extension base="component">
+                <xs:attribute name="selected" type="xs:boolean" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="radio">
+        <xs:complexContent>
+            <xs:extension base="component">
+                <xs:sequence>
+                    <xs:element ref="items" minOccurs="1" maxOccurs="1" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="dropdown">
+        <xs:complexContent>
+            <xs:extension base="component">
+                <xs:sequence>
+                    <xs:element ref="items" minOccurs="1" maxOccurs="1" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="compound">
+        <xs:complexContent>
+            <xs:extension base="component">
+                <xs:sequence>
+                    <xs:element ref="attributes" minOccurs="1" maxOccurs="1" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- grouping types -->
+
+    <xs:element name="apps">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="title" type="xs:string" minOccurs="1" maxOccurs="1" />
+                <xs:element name="app" type="app" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+        <xs:unique name="unique-app-ids">
+            <xs:selector xpath="psp:app"/>
+            <xs:field xpath="@id"/>
+        </xs:unique>
+        <xs:unique name="unique-app-names">
+            <xs:selector xpath="psp:app"/>
+            <xs:field xpath="."/>
+        </xs:unique>
+    </xs:element>
+
+    <xs:complexType name="group">
+        <xs:sequence>
+            <xs:element name="title" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <xs:element name="text" type="text" />
+                <xs:element name="boolean" type="boolean" />
+                <xs:element name="radio" type="radio" />
+                <xs:element name="dropdown" type="dropdown" />
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- root element -->
+
+    <xs:element name="project_specific_preferences">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="1" maxOccurs="unbounded">
+                    <xs:element ref="apps" />
+                    <xs:element name="group" type="group" />
+                    <xs:element name="compound" type="compound" />
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+        <xs:unique name="unique-preference-tags-per-venue">
+            <xs:selector xpath=".//psp:group/*|psp:compound"/>
+            <xs:field xpath="@name"/>
+        </xs:unique>
+    </xs:element>
+
+</xs:schema>

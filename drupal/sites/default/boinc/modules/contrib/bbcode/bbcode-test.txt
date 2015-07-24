@@ -1,0 +1,298 @@
+This document uses (almost) all BBCode tags supported by Drupal's BBCode module. You can cut and paste this document into a node to test Drupal's BBCode implementation or to perform some benchmarks.
+
+[index]
+[hr]
+
+[h3]Normal text formatting[/h3]
+Test [b]bold[/b] / [strong]strong[/strong] text
+Test [i]italic[/i] / [em]emphasised[/em] text
+Test [u]underlined[/u] text
+Test [s]strikeout[/s] text
+Test subscript text - H[sub]2[/sub]O
+Test superscript text - X[sup]3[/sup]
+
+[h3]Font colors[/h3]
+Test [color=blue]blue[/color] text
+Test [color=red]red[/color] text
+Test [color=green]green[/color] text
+Test [color=#eeff00]#eeff00[/color] text
+
+[h3]Font sizes[/h3]
+Test [size=1]1px[/size] - too small, normalized to 6px
+Test [size=12]12px[/size] text
+Test [size=24]24px[/size] text
+Test [size=100]100px[/size] - too big, normalized to 48px
+[size=10] $_SERVER[PHP_SELF] "quoted" \\e\s\c\aped\" [/size] - watch out for eval
+
+[h3]Font faces[/h3]
+Test [font=arial]Arial typeface[/font] text
+Test [font=Arial Black]Arial typeface[/font] text
+Test [font=Courier]Courier typeface[/font] text
+Test [font=Courier New]Courier New typeface[/font] text
+Test [font=Impact]Impact typeface[/font] text
+Test [font=Helvetica]Helvetica typeface[/font] text
+Test [font=Times New Roman]Times New Roman typeface[/font] text
+Test [font=verdana]Verdana typeface[/font] text
+
+[h3]Text alignment[/h3]
+[left]Left hand side of the screen[/left]
+[right]Right hand side of the screen[/right]
+[center]Centered[/center]
+[justify]This paragraph is justified on both sided on the page. By default most browsers render text with a jagged right edge. If you want all text rendered like in a book with an even right edge - use the justify tag.[/justify]
+
+[h3]Images[/h3]
+
+Normal image:
+[img]http://drupal.org/themes/bluebeach/logos/drupal.org.png[/img]
+
+Align image right:
+[img align=right]http://drupal.org/themes/bluebeach/logos/drupal.org.png[/img]
+
+Image with ALT description:
+[img=The Dripal Logo]http://drupal.org/themes/bluebeach/logos/drupal.org.png[/img]
+
+Re-sized image:
+[img=100x50]http://drupal.org/themes/bluebeach/logos/drupal.org.png[/img]
+
+[h3]URL's[/h3]
+www.test-url.com
+ftp.test-url.com
+http://test-url.com/~user/,part,of,url
+ftp://test-url.com:8080/
+[url]http://test-url.com/[/url]
+[url=http://test-url.com/?q=a+b&z=c]Test URL[/url]
+
+Anchor (bookmark you can link to):
+[anchor=TEST]URL Anchor[/anchor]
+
+Some URL's within a sentence: http://url1.com; www.url2.com, (www.url3.com) and www.url4.com. And some more: ftp://url5.com/, (ftp.url6.com/) and ftp.url7.com.
+
+Google link: [google]BBCode[/google]
+Wikipedia link: [wikipedia]BBCode[/wikipedia]
+Youtube video: [youtube]0Q2aPi9ZEgs[/youtube]
+
+[h3]E-mail addresses[/h3]
+Test@Mail.com
+drupal.user@server1.drupal.org
+[email]joe@example.com[/email]
+[email=joe@smith.co.za]Joe Smith[/email]
+
+[h3]Headings[/h3]
+[h1]Level 1 Heading[/h1]
+[h2]Level 2 Heading[/h2]
+[h3]Level 3 Heading[/h3]
+[h4]Level 4 Heading[/h4]
+
+[h3]Acronyms and abbreviations[/h3]
+Abbreviations:
+[abbr=Application Programming Interface]API[/abbr]
+[abbr=Content Management System]CMS[/abbr]
+[abbr=World Wide Web]WWW[/abbr]
+[abbr=2.54cm]1 inch[/abbr]
+
+Acronyms:
+[acronym=Structured Query Language]SQL[/acronym]
+[acronym=Graphics Interchange Format]GIF[/acronym]
+[acronym=Radio Detecting and Ranging]radar[/acronym]
+
+[h3]Code blocks[/h3]
+
+Normal code block:
+[code]x := y + z;
+y := a - b;[/code]
+
+An [code]inline code[/code] block
+
+Color highlighted PHP code block:
+[php]
+<?php
+  echo "Sample PHP code";
+?>
+[/php]
+
+Test notag:
+[notag]These BBCode tags are [b]not[/b] converted to HTML![/notag]
+[notag][size=20]I'm happy[/size][/notag]
+
+[h3]Quoting[/h3]
+
+A simple quote:
+[quote]This is a quoted message[/quote]
+
+Quote with source:
+[quote=Frank]This is a quoted message[/quote]
+
+Nested quotes:
+[quote=Gabor]This is a quoted message
+   [quote=Alastair]This is a nested quote[/quote]
+[/quote]
+
+[h3]Lists[/h3]
+
+A normal list (circular bullets, same as list=c):
+[list][*]foo[*]bar[*]baz[/list]
+
+List with circular buttets (list=c):
+[list=c]
+[*]x
+[*]y
+[*]z
+[/list]
+
+List with discs (list=d):
+[list=d]
+[*]x
+[*]y
+[*]z
+[/list]
+
+List with squares (list=s):
+[list=s]
+[*]x
+[*]y
+[*]z
+[/list]
+
+Numeric list (list=1):
+[list=1]
+[*]x
+[*]y
+[*]z
+[/list]
+
+Roman lowercase list (list=i):
+[list=i]
+[*]x
+[*]y
+[*]z
+[/list]
+
+Roman uppercase list (list=I):
+[list=I]
+[*]x
+[*]y
+[*]z
+[/list]
+
+Alpha lowercase list (list=a):
+[list=a]
+[*]x
+[*]y
+[*]z
+[/list]
+
+Alpha uppercase list (list=A):
+[list=A]
+[*]x
+[*]y
+[*]z
+[/list]
+
+Simple nested lists:
+[list][*]foo[list][*]bar[/list][*]baz[/list]
+
+Complex nexted list:
+[list=1]
+  [*]list=foo
+    [list=s]
+      [*]list=s
+      [*]list=s
+    [/list]
+    [list=a]
+      [*]list=a
+        [list=I]
+          [*]list=I
+          [*]list=I
+        [/list]
+      [*]list=a
+    [/list]
+  [*]list=bar
+    [list=A]
+      [*]list=A
+      [*]list=A
+      [*]list=A
+    [/list]
+  [*]list=baz
+    [list=d]
+      [*]list=d
+      [*]list=d
+    [/list]
+[/list]
+
+List with php content (watch out for eval):
+[list][*] {$var $_SERVER[PHP_SELF] "quoted" \\e\s\c\aped\" [/list]
+
+[h3]Table tags[/h3]
+
+[table]
+[row]
+  [col]row1col1[/col]
+  [col]row1col2[/col]
+[/row]
+[row]
+  [col]row2col1[/col]
+  [col]row2col2[/col]
+[/row]
+[/table]
+ 
+[table]
+[r color=grey]
+  [h]Header1[/h]
+  [h]Header2[/h]
+[/r]
+[r color=lightyellow]
+  [c]row1col1[/c]
+  [c]row1col2[/c]
+[/r]
+[r color=yellow]
+  [c]row2col1[/col]
+  [c]row2col2[/col]
+[/r]
+[/table]
+
+[h3]Other tags[/h3]
+
+Horizontal delimiter:
+[hr]
+
+Force line break:
+--&gt;[br]&lt;--
+
+Force space:
+--&gt;[sp]&lt;--
+
+[h3]Tag nesting[/h3]
+[size=10]10px [size=20]20px [size=30]30px [/size]20px [/size]10px[/size]
+[size=20][color=blue]BLUE [color=red]RED [/color][color=green]GREEN [/color]BLUE[/color] [/size]
+[size=20][font=Arial]Arial [font=Century]Century [/font][font=Comic sans MS]Comic sans MS [/font]Arial [font=Arial Bold Italic]Arial Bold Italic [/font]Arial [/font][/size]
+
+[h3]Test multi-line tags:[/h3]
+[size=20]
+  [color=red]
+    test
+  [/color]
+[/size]
+
+[h3]Cross site scripting (XSS) vulnerabilities[/h3]
+User-entered text with embedded script tags <script>alert(document.cookie);</script> will be encoded.
+
+Some other exploits:
+[size=expression(alert(document.cookie));]Size tag[/size]
+[font=expression(alert(document.cookie));]Font tag[/font]
+[float=expression(alert(document.cookie));]Float tag[/float]
+[url=javascript:alert(document.cookie)]Click here to see cookie[/url]
+[anchor=javascript:alert(document.cookie)]Anchor[/anchor]
+[img]javascript:document.location='http://www.albinoblacksheep.com/flash/you.html'[/img]
+[img]javascript:al&#x65rt('XSS')[/img]
+http://host.com/?act=SR&f='><script>alert(document.cookie)</script>
+
+[h3]Broken tags[/h3]
+We need to ensure that bad formating will not disrupt your site's HTML.
+
+Broken [b]bold text...
+
+[list]
+[*]A broken list...
+
+[quote]A broken quote...
+

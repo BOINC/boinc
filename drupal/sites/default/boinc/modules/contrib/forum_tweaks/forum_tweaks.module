@@ -1,0 +1,30 @@
+<?php
+
+/**
+ * @file
+ * Add custom tweaks to the Forum module
+ */
+ 
+ 
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Includes that provide supporting functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+require_once('includes/mark-read.inc');
+
+
+/**
+ * Implementation of hook_menu().
+ */
+function forum_tweaks_menu() {
+  // Note that this comes straight out of the Advanced Forum module. As such,
+  // it should be removed should said module be added at a future point in time
+  $items['community/forum/%/read'] = array(
+    'access callback' => 'forum_tweaks_markasread_access',
+    'page arguments' => array(2),
+    'page callback' => 'forum_tweaks_markasread',
+    'type' => MENU_CALLBACK,
+    'file' => 'includes/mark-read.inc',
+  );
+  return $items;
+}

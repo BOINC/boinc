@@ -1,0 +1,9 @@
+
+.hp-config {}
+
+.hp-config tbody th {text-align:right; padding-right:0.5em; width:40%;}
+.hp-config thead {display:none;}
+.hp-config .namespace {background:#EDF1F3;}
+.hp-config .namespace th {text-align:center;}
+.hp-config .verbose {display:none;}
+.hp-config textarea {width:100%; max-width:30em;}

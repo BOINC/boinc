@@ -1,0 +1,8 @@
+; $Id$
+name = BOINC translate
+description = Functions for integration with BOINC translation services
+core = 6.x
+dependencies[] = i18n
+dependencies[] = locale
+dependencies[] = translation
+package = BOINC

@@ -1,0 +1,36 @@
+/**
+ * @file
+ * Zen panel layout
+ *
+ * This layout does include the standar Zen navbar, content and right sidebar
+ * layout.  Markup has been reordered for Accessibility and SEO optimizations.
+ * The markup order is: content, sidebar but the display will show sidebar,
+ * content.
+ */
+
+.zen-one-sidebar-first { 
+/*  overflow: hidden;  */
+  position: relative;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.zen-one-sidebar-first .panel-content {
+  float: left; /* LTR */
+  width: 640px;
+  margin-left: 320px; /* LTR */
+  margin-right: -960px; /* LTR */ /* Negative value of #content's width + left margin. */
+  padding: 0; /* DO NOT CHANGE. Add padding or margin to #content-inner. */
+}
+
+.zen-one-sidebar-first .panel-sidebar-first {
+  float: left; /* LTR */
+  width: 320px;
+  margin-left: 0px; /* LTR */ /* Width of #content. */
+  margin-right: -320px; /* LTR */ /* Negative value of #sidebar-first's width + left margin. */
+  padding: 0; /* DO NOT CHANGE. Add padding or margin to #sidebar-first-inner. */
+}
+
+.zen-one-sidebar-first .panel-sidebar-first .panel-sidebar-first-inner {
+  margin-right: 20px;
+}

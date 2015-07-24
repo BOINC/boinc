@@ -1,0 +1,12 @@
+/**
+ * @file
+ * RTL companion for the ie6.css file.
+ */
+
+
+/*
+ * Layout CSS
+ */
+#page {
+  text-align: right; /* 2nd part of IE5/IE6quirks centering hack */
+}

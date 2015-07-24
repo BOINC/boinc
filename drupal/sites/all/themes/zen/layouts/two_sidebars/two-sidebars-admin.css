@@ -1,0 +1,53 @@
+/**
+ * @file
+ * Page manager layout
+ *
+ * We are using percentages in the admin instead of fixed widths so that the
+ * admin can work nicely in different admin themes.
+ */
+
+#panels-dnd-main div.panels-display h2.label {
+  padding-left: 24px;
+  text-align: left;
+}
+
+#page-manager-edit .zen-two-sidebars .panel-content .inside {
+  margin-right: 10px;
+}
+
+#page-manager-edit .zen-two-sidebars .panel-content {
+  float: left; /* LTR */
+  width: 50%;
+  margin-left: 25%; /* LTR */
+  margin-right: -75%; /* LTR */ /* Negative value of #content's width + left margin. */
+  padding: 0; /* DO NOT CHANGE. Add padding or margin to #content-inner. */
+}
+
+#page-manager-edit .zen-two-sidebars .panel-header {
+  height: auto;
+  margin-bottom: 10px;
+}
+
+#page-manager-edit .zen-two-sidebars .panel-sidebar-first {
+  float: left; /* LTR */
+  width: 25%;
+  margin-left: 0px; /* LTR */ /* Width of #content. */
+  margin-right: -25%; /* LTR */ /* Negative value of #sidebar-first's width + left margin. */
+  padding: 0; /* DO NOT CHANGE. Add padding or margin to #sidebar-first-inner. */
+}
+
+#page-manager-edit .zen-two-sidebars .panel-sidebar-first-inner {
+  margin-right: 10px;
+}
+
+#page-manager-edit .zen-two-sidebars .panel-sidebar-second {
+  float: left; /* LTR */
+  width: 25%;
+  margin-left: 75%; /* LTR */ /* Width of #content. */
+  margin-right: -100%; /* LTR */ /* Negative value of #sidebar-first's width + left margin. */
+  padding: 0; /* DO NOT CHANGE. Add padding or margin to #sidebar-first-inner. */
+}
+
+#page-manager-edit .zen-two-sidebars .panel-sidebar-second-inner {
+  margin-left: 0px;
+}

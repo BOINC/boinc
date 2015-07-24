@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * Utility function to delete a set of variables set by a module.
+ *
+ * @global array $conf
+ * @param string $name
+ *   The variables' namespace for which to delete.
+ */
+function _jump_variable_del_all($name) {
+  global $conf;
+  db_query("DELETE FROM {variable} WHERE name LIKE '%s%%'", $name);
+  cache_clear_all('variables', 'cache');
+  unset($conf[$name]);
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function jump_uninstall() {
+  // normally we would delete all in one swoop like ...del_all('jump_') but I
+  // fear the possibility of deleting other modules' settings who may use the
+  // word jump at the beginning of their names.
+  _jump_variable_del_all('jump_activepageinmenu');
+  _jump_variable_del_all('jump_use_js_');
+  _jump_variable_del_all('jump_add_select_');
+  _jump_variable_del_all('jump_add_select_text_');
+}
+
+/**
+ * Implementation of hook_update_N().
+ *   Upgrade function for issue #344054 which fixes the deltas for jump menus
+ *   to make them more css friendly.
+ *
+ * @return array
+ */
+function jump_update_6012() {
+  $ret = array();
+  $result = db_query("SELECT * from {blocks} WHERE module='jump'");
+  if (!$result) {
+    $ret['#abort'] = array('success' => FALSE, 'query' => t('Could not select from the blocks table.'));
+  }
+  else {
+    while ($block = db_fetch_object($result)) {
+      $fixed_delta = preg_replace('/:/', '-', $block->delta);
+      if ($fixed_delta != $block->delta) {
+        $ret[] = update_sql("UPDATE {blocks} SET delta='$fixed_delta' WHERE bid=$block->bid");
+      }
+    }
+  }
+
+  return $ret;
+}

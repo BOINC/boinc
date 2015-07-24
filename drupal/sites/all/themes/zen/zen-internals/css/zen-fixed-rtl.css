@@ -1,0 +1,243 @@
+
+
+/* html-reset-rtl.css */
+
+/**
+ * @file
+ * RTL companion for the html-reset.css file.
+ */
+
+
+/*
+ * Lists
+ *
+ * We need to standardize the list item indentation.
+ */
+ul,
+ol {
+  padding-left: 0;
+  padding-right: 2em;
+}
+
+.block ul,
+.item-list ul /* Drupal overrides */ {
+  padding: 0 2em 0 0;
+}
+
+dd {
+  margin: 0 2em 0 0;
+}
+
+/*
+ * Tables
+ *
+ * Drupal provides table styling which is only useful for its admin section
+ * forms, so we override this default CSS. (We set it back in forms.css.)
+ */
+th,
+thead th,
+tbody th {
+  text-align: right;
+}
+
+/* layout-fixed-rtl.css */
+
+/**
+ * @file
+ * RTL companion for the layout-fixed.css file.
+ */
+
+
+/*
+ * Content
+ */
+#content,
+.no-sidebars #content {
+  float: right;
+  margin-left: -960px; /* Negative value of #content's width + right margin. */
+  margin-right: 0;
+}
+
+.sidebar-first #content {
+  margin-left: -960px; /* Negative value of #content's width + right margin. */
+  margin-right: 200px; /* The width of .region-sidebar-first. */
+}
+
+.sidebar-second #content {
+  margin-left: -760px; /* Negative value of #content's width + right margin. */
+  margin-right: 0;
+}
+
+.two-sidebars #content {
+  margin-left: -760px; /* Negative value of #content's width + right margin. */
+  margin-right: 200px; /* The width of .region-sidebar-first */
+}
+
+/*
+ * Navigation
+ */
+#navigation {
+  float: right;
+  margin-left: -100%; /* Negative value of #navigation's width + right margin. */
+  margin-right: 0;
+}
+
+#navigation ul /* Primary and secondary links */ {
+  text-align: right;
+}
+
+#navigation li /* A simple method to get navigation links to appear in one line. */ {
+  float: right;
+  padding: 0 0 0 10px;
+}
+
+/*
+ * First sidebar
+ */
+.region-sidebar-first {
+  float: right;
+  margin-left: -200px; /* Negative value of .region-sidebar-first's width + right margin. */
+  margin-right: 0;
+}
+
+.region-sidebar-first .section {
+  margin: 0 0 0 20px;
+}
+
+/*
+ * Second sidebar
+ */
+.region-sidebar-second {
+  float: right;
+  margin-left: -960px; /* Negative value of .region-sidebar-second's width + right margin. */
+  margin-right: 760px; /* Width of content + sidebar-first. */
+}
+
+.region-sidebar-second .section {
+  margin: 0 20px 0 0;
+}
+
+/* tabs-rtl.css */
+
+/**
+ * @file
+ * RTL companion for the tabs.css file.
+ */
+
+
+ul.primary {
+  padding: 0 10px 0 0;
+}
+
+ul.primary li {
+  float: right;
+}
+
+ul.secondary {
+  padding: 0 5px 0 0;
+}
+
+ul.secondary li {
+  float: right;
+  border-left: none;
+}
+
+/* messages-rtl.css */
+
+/**
+ * @file
+ * RTL companion for the messages.css file.
+ */
+
+
+div.messages,
+div.status,
+div.warning,
+div.error /* Important messages (status, warning, and error) for the user */ {
+  padding: 5px 35px 5px 5px;
+  background-position: 99.5% 5px;
+}
+
+/* pages-rtl.css */
+
+/**
+ * @file
+ * RTL companion for the pages.css file.
+ */
+
+
+/*
+ * Header
+ */
+#logo /* Wrapping link for logo */ {
+  float: right;
+}
+
+/*
+ * Content
+ */
+.more-link /* Aggregator, blog, and forum more link */ {
+  text-align: left;
+}
+
+/* block-editing-rtl.css */
+
+/**
+ * @file
+ * RTL companion for the block-editing.css file.
+ */
+
+
+div.block.with-block-editing div.edit {
+  left: 0;
+  right: auto;
+}
+
+/* forms-rtl.css */
+
+/**
+ * @file
+ * RTL companion for the forms.css file.
+ */
+
+
+/*
+ * Drupal's default login form block
+ */
+#user-login-form {
+  text-align: right;
+}
+
+
+/*
+ * OpenID
+ *
+ * The default styling for the OpenID login link seems to assume Garland's
+ * styling of list items.
+ */
+
+#user-login-form li.openid-link /* The "Log in using OpenID" link. */ {
+  margin-left: 0;
+  margin-right: -20px; /* Un-do some of the padding on the ul list. */
+}
+
+#user-login li.openid-link,
+#user-login li.user-link /* The OpenID links on the /user form. */ {
+  margin-left: 0;
+  margin-right: -2em; /* Un-do all of the padding on the ul list. */
+}
+
+
+/*
+ * Drupal admin tables
+ *
+ * We overrode these styles in html-elements.css, but restore them for the admin
+ * section of the site.
+ */
+
+form th,
+form thead th {
+  text-align: right;
+  padding-left: 1em;
+  padding-right: 0;
+}

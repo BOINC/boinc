@@ -79,6 +79,13 @@ test/version.inc
 *.lo
 *.a
 *.la
+
+## Drupal
+# ignore files with private/sensitive content in a public repo
+drupal/sites/default/dbconfig.php
+# ignore symlink to project-specific content (tracked in separate/project repo)
+drupal/sites/default/project
+
 .libs/
 svn_version.h
 

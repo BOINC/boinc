@@ -1,0 +1,19 @@
+<?php
+
+include_once('spam_controls.features.inc');
+
+
+function spam_controls_menu() {
+  $items['user/register']['page access'] = FALSE;
+  $items['user/registration'] = array(
+    'title' => 'Create new account',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('user_register'),
+    'access callback' => 'user_register_access',
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'user.pages.inc',
+    'file path' => drupal_get_path('module', 'user'),
+  );
+  
+  return $items;
+}

@@ -1,0 +1,29 @@
+.forum-access-div {
+  width: 25%;
+  margin: 0;
+  padding: 0;
+  float: left;
+  overflow: hidden;
+}
+
+#forum-access-div-container {
+  width: 75%;
+}
+
+.forum-access-clearer {
+  clear: both;
+}
+
+.forum-access-div > .form-checkboxes {
+  margin-top: -1ex;
+}
+
+div.forum-access-flowed > div.form-item {
+  display: inline;
+  margin-right: 1em;
+}
+
+.forum-access-temporary-moderator div.form-item {
+  opacity: 0.5;
+  filter:alpha(opacity=50);
+}

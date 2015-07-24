@@ -1,0 +1,21 @@
+<?php
+
+include_once('boinc_standard.features.inc');
+
+/**
+ * Make some changes to configurations after the feature has been enabled
+ */
+function boinc_standard_enable() {
+  // Ensure that the default theme is enabled. A bit ridiculous, but it is
+  // possible for this not to be the case.
+  $default_theme = variable_get('theme_default', 'boinc');
+  // If default theme is garland, this is because the boinc_standard feature
+  // has not been reverted yet. Work around this by forcing it to default to
+  // the boinc theme
+  if ($default_theme == 'garland') {
+    $default_theme = 'boinc';
+    variable_set('theme_default', $default_theme);
+  }
+  $default_theme_enabled = db_query("UPDATE {system} SET status = 1
+    WHERE type = 'theme' and name = '%s'", $default_theme);
+}

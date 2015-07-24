@@ -1,0 +1,11 @@
+; $Id$
+name = BOINC import
+description = Import BOINC users, teams, and forums into Drupal.
+core = 6.x
+dependencies[] = boincuser
+dependencies[] = boincteam
+dependencies[] = forum
+dependencies[] = user
+dependencies[] = node
+dependencies[] = taxonomy
+package = BOINC

@@ -1,0 +1,69 @@
+/**
+ * @file
+ * Theme settings styling
+ *
+ * This file is only loaded on the Theme Settings page for Zen and its
+ * subthemes: admin/build/themes/settings
+ */
+
+
+#zen-settings fieldset .form-item
+{
+  padding-left: 200px; /* LTR */
+}
+
+#zen-settings fieldset .form-checkboxes .form-item,
+#zen-settings fieldset .form-radios .form-item
+{
+  padding-left: 0; /* LTR */
+}
+
+#zen-settings fieldset .form-item label
+{
+  float: left; /* LTR */
+  width: 190px;
+  margin-left: -200px; /* LTR */
+  margin-right: 10px; /* LTR */
+  text-align: right; /* LTR */
+  _display: inline-block; /* IE6 is dumb. */
+}
+
+#zen-settings fieldset .form-item label.option
+{
+  float: none;
+  width: auto;
+  margin-left: 0;
+  margin-right: 0;
+  text-align: left; /* LTR */
+}
+
+#div-zen-registry,
+#div-zen-wireframes
+{
+  margin: 1em 0;
+}
+
+#div-zen-registry strong,
+#div-zen-wireframes strong
+{
+  float: left; /* LTR */
+  width: 190px;
+  margin-left: 0; /* LTR */
+  margin-right: 10px; /* LTR */
+  text-align: right; /* LTR */
+}
+
+#div-zen-registry fieldset .form-item,
+#div-zen-wireframes fieldset .form-item
+{
+  display: inline;
+  margin-left: 0; /* LTR */
+  padding-left: 0; /* LTR */
+}
+
+#div-zen-registry fieldset .form-item .description,
+#div-zen-wireframes fieldset .form-item .description
+{
+  display: block;
+  margin-left: 200px; /* LTR */
+}

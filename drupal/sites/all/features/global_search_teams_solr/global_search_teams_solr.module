@@ -1,0 +1,3 @@
+<?php
+
+include_once('global_search_teams_solr.features.inc');

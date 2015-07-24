@@ -1,0 +1,1248 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Provides common BOINC module functionality.
+ *
+ * In general, any custom feature or function required independently by
+ * multiple BOINC modules should be in this module.
+ */
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Includes that provide supporting functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+//require_once('includes/boinccore.forms.inc');
+//require_once('includes/boinccore.helpers.inc');
+require_once('boinccore.admin.inc');
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Hooks into core modules
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+ 
+/**
+ * Implementation of hook_menu(); determine the actions that correspond
+ * with defined URL paths
+ */
+function boinccore_menu() {
+  $items['node_control'] = array(
+    'page callback' => 'boinccore_node_control',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK
+  );
+  $items['comment_control'] = array(
+    'page callback' => 'boinccore_comment_control',
+    'access arguments' => array('administer comments'),
+    'type' => MENU_CALLBACK
+  );
+  $items['goto'] = array(
+    'page callback' => 'boinccore_url_pagination_handler',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK
+  );
+  $items['admin/boinc/community'] = array(
+    'title' => 'Community',
+    'description' => 'Global settings for community interaction.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boinccore_admin_community'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'boinccore.admin.inc'
+  );
+  $items['admin/boinc/standard-content-generator'] = array(
+    'title' => 'Standard page generator',
+    'description' => 'Regenerate standard site content (e.g. Help and About Us
+      pages).',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boinccore_admin_default_content'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'boinccore.admin.inc'
+  );
+  
+  // BOINC RPC wrappers
+  $items['lookup_account.php'] = array(
+    'title' => 'Look up account RPC',
+    'description' => 'RPC for getting the authenticator for a user account.',
+    'page callback' => 'boinccore_lookup_account',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
+  );
+  $items['am_get_info.php'] = array(
+    'title' => 'Account manager get info RPC',
+    'description' => 'RPC for getting assorted details of a user account.',
+    'page callback' => 'boinccore_am_get_info',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
+  );
+  $items['am_set_info.php'] = array(
+    'title' => 'Account manager set info RPC',
+    'description' => 'RPC for updating assorted details of a user account.',
+    'page callback' => 'boinccore_am_set_info',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
+  );
+  $items['am_set_host_info.php'] = array(
+    'title' => 'Account manager set host info RPC',
+    'description' => 'RPC for updating the venue for a given host.',
+    'page callback' => 'boinccore_am_set_host_info',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
+  );
+  $items['show_user.php'] = array(
+    'title' => 'Show user RPC',
+    'description' => 'RPC for getting assorted details of a user account.',
+    'page callback' => 'boinccore_show_user',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
+  );
+  $items['pending.php'] = array(
+    'title' => 'Pending credit RPC',
+    'description' => 'RPC for getting pending credit for a given account.',
+    'page callback' => 'boinccore_pending_credit',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
+  );
+  $items['team_email_list.php'] = array(
+    'title' => 'Get team member list RPC',
+    'description' => 'RPC for getting a list of members of a given team.',
+    'page callback' => 'boinccore_team_email_list',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
+  );
+  $items['forum_get_data.php'] = array(
+    'title' => 'Forum get data RPC',
+    'description' => 'RPC for getting recent forum activity for a given user.',
+    'page callback' => 'boinccore_forum_get_data',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
+  );
+  $items['apps.php'] = array(
+    'title' => 'Apps RPC',
+    'description' => 'RPC for getting the applications in the system.',
+    'page callback' => 'boinccore_apps',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
+  );
+  
+  return $items;
+}
+
+/**
+ * Implementation of hook_menu_alter()
+ */
+function boinccore_menu_alter(&$items) {
+  // If using Solr search and not core Drupal search, disable core search!
+  if (module_exists('global_search_solr') AND !module_exists('global_search')) {
+    // Add permission to user search.
+    $check = array(
+      'search/node/%menu_tail',
+      'search/user/%menu_tail',
+      'user/autocomplete'
+    );
+    foreach ($check as $path) {
+      if (isset($items[$path])) {
+        $items[$path]['access callback'] = FALSE;
+      }
+    }
+  }
+}
+
+/**
+ * Implementation of hook_enable()
+ */
+function boinccore_enable() {
+  // Automatically try to establish standard site content when this module is
+  // enabled (e.g. Help and About Us pages)
+  boinccore_admin_default_content_generate();
+}
+
+/**
+ * Implementation of hook_cron()
+ */
+function boinccore_cron() {
+  // Notify moderators if there is site content that requires moderator action
+  $items_in_queue = boincuser_moderation_queue_count('cron');
+  $last_notification = variable_get('boinccore_last_content_moderation_reminder', 0);
+  if ($items_in_queue AND $last_notification < time() - 24*60*60) {
+    global $base_url;
+    global $base_path;
+    $site_name = variable_get('site_name', bts('project'));
+    $site_url = $base_url . $base_path;
+    $settings = array(
+      'from' => '',
+      'subject' => "Content at {$site_name} is awaiting moderation",
+      'message' => ''
+      . "Please visit the moderation queue page to review content that "
+      . "requires moderator action: \n"
+      . "\n"
+      . "{$site_url}moderate",
+    );
+    boinccore_rules_action_mail_to_moderators($settings);
+    variable_set('boinccore_last_content_moderation_reminder', time());
+  }
+}
+
+/**
+ * Implementation of hook_rules_action_info().
+ */
+function boinccore_rules_action_info() {
+  return array(
+    'boinccore_rules_action_mail_to_moderators' => array(
+      'label' => t('Notify moderators via email'),
+      'module' => 'BOINC core',
+      'eval input' => array('subject', 'message', 'from'),
+    ),
+    'boinccore_rules_action_mark_content_for_moderation' => array(
+      'label' => t('Mark content for moderation'),
+      'arguments' => array(
+        'node' => array('type' => 'node', 'label' => t('Content')),
+      ),
+      'module' => 'BOINC core',
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_form_alter()
+ */
+function boinccore_form_alter(&$form, $form_state, $form_id) {
+  global $user;
+  $account = user_load($user->uid);
+  switch ($form_id) {
+  // Comment form
+  case 'comment_form':
+    $user_image = boincuser_get_user_profile_image($user->uid);
+    $user_info = '<div class="user">';
+    if ($user_image) {
+      $user_info .= '  <div class="picture">';
+      if (is_array($user_image) AND $user_image['image']['filepath']) {
+        $user_info .= theme('imagefield_image', $user_image['image'], $user_image['alt'], $user_image['alt'], array(), false);
+      }
+      elseif (is_string($user_image)) {
+        $user_info .= '<img src="' . $user_image . '"/>';
+      }
+      $user_info .= '  </div>';
+    }
+    $user_info .= '  <div class="name">' . theme('username', $account) . '</div>';
+    if ($account->uid) {
+      //$user_info .= '  <div class="join-date">Joined: ' . date('j M y', $account->created) . '</div>';
+      //$user_info .= '  <div class="post-count">Posts: ' . $account->post_count . '</div>';
+      //$user_info .= '  <div class="credit">Credit: ' . $account->boincuser_total_credit . '</div>';
+      //$user_info .= '  <div class="rac">RAC: ' . $account->boincuser_expavg_credit . '</div>';
+    }
+    $user_info .= '</div>';
+    array_unshift($form, array(
+      'user_info' => array(
+        '#value' => $user_info,
+      ),
+      'comment_form_prefix' => array(
+        '#value' => '<div class="form-body">',
+      ),
+    ));
+    $form['comment_form_suffix'] = array(
+      '#value' => '</div>',
+    );
+    
+    module_load_include('inc', 'bbcode', 'bbcode-help');
+    $form['bbcode_help'] = array(
+      '#title' => bts('BBcode help'),
+      '#type' => 'fieldset',
+      '#attributes' => array(
+        'class' => 'bbcode_help',
+      ),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      'content' => array(
+        '#value' => _bbcode_filter_tip(),
+      ),
+    );
+    
+    // If a specific comment is being referenced, go back to it on cancel
+    if ($comment_ref = $form['pid']['#value']) {
+      $cancel_url = "goto/comment/{$comment_ref}";
+    }
+    else {
+      $cancel_url = "node/{$form['nid']['#value']}";
+    }
+    
+    // Wrap action buttons for styling consistency
+    $form['buttons']['form control tabs prefix'] = array(
+      '#value' => '<ul class="form-control tab-list">',
+      '#weight' => 1001,
+    );
+    $form['buttons']['submit'] = $form['submit'];
+    unset($form['submit']);
+    $form['buttons']['submit']['#prefix'] = '<li class="first tab">';
+    $form['buttons']['submit']['#value'] = bts('Post comment');
+    $form['buttons']['submit']['#suffix'] = '</li>';
+    $form['buttons']['submit']['#weight'] = 1002;
+    // We want all these buttons together under the "buttons" array, but the
+    // default submit and preview buttons cannot both be unset or odd display
+    // bugs result. Somehow the comment form ends up above the preview div in
+    // this case. So... don't unset the preview button, just hide it
+    $form['buttons']['preview'] = $form['preview'];
+    //unset($form['preview']);
+    $form['preview']['#attributes']['style'] = 'display: none;';
+    $form['buttons']['preview']['#prefix'] = '<li class="tab">';
+    $form['buttons']['preview']['#suffix'] = '</li>';
+    $form['buttons']['preview']['#weight'] = 1003;
+    $form['buttons']['cancel'] = array(
+      '#value' => '<li class="tab">' . l(bts('Cancel'), $cancel_url) . '</li>',
+      '#weight' => 1004,
+    );
+    $form['buttons']['form control tabs suffix'] = array(
+      '#value' => '</ul>',
+      '#weight' => 1010,
+    );
+    
+    // Remove redundant name field
+    unset($form['_author']);
+    
+    break;
+    
+  // Forum node form
+  case 'forum_node_form':
+    $forum_id = key($form['#node']->taxonomy);
+    $form['buttons']['separator_bottom'] = array(
+      '#value' => '<div class="separator buttons"></div>',
+      '#weight' => 999,
+    );
+    
+    // Wrap action buttons for styling consistency
+    $form['buttons']['form control tabs prefix'] = array(
+      '#value' => '<ul class="form-control tab-list">',
+      '#weight' => 1001,
+    );
+    $form['buttons']['submit']['#prefix'] = '<li class="first tab">';
+    $form['buttons']['submit']['#value'] = bts('Post topic');
+    $form['buttons']['submit']['#suffix'] = '</li>';
+    $form['buttons']['submit']['#weight'] = 1002;
+    $form['buttons']['preview']['#prefix'] = '<li class="tab">';
+    $form['buttons']['preview']['#suffix'] = '</li>';
+    $form['buttons']['preview']['#weight'] = 1003;
+    $form['buttons']['preview_changes']['#prefix'] = '<li class="tab">';
+    $form['buttons']['preview_changes']['#suffix'] = '</li>';
+    $form['buttons']['preview_changes']['#weight'] = 1004;
+    $form['buttons']['cancel'] = array(
+      '#value' => '<li class="tab">' . l(bts('Cancel'), "community/forum/{$forum_id}") . '</li>',
+      '#weight' => 1005,
+    );
+    $form['buttons']['form control tabs suffix'] = array(
+      '#value' => '</ul>',
+      '#weight' => 1010,
+    );
+
+    break;
+  default:
+  }
+}
+
+function boinccore_link_alter(&$links, $node, $comment = NULL) {
+  //echo '<pre>' . print_r($links, true) . '</pre>';
+  foreach ($links as $module => $link) {
+    if (strstr($module, 'ignore_user')) {
+      // Remove the ignore user link
+      unset($links[$module]);
+    }
+  }
+}
+
+/**
+ * Implementation of hook_locale().
+ */
+function boinccore_locale($op = 'groups', $group = NULL) {
+  switch ($op) {
+    case 'groups':
+      return array('boinc' => bts('BOINC'));
+    case 'info':
+      //$info['boinc']['refresh callback'] = 'boinccore_locale_refresh';
+      $info['boinc']['format'] = FALSE;
+      return $info;
+  }
+}
+
+/*
+function boinccore_link($type, $object, $teaser = FALSE) {
+  // Add custom links with this hook
+  $links = array();
+  if ($type == 'comment') {
+    if (user_access('administer comments')) {
+      $comment_control = "comment_control/{$object->cid}";
+      if ($object->status == 0) {
+        $links['hide'] = array(
+          'title' => bts('Hide'),
+          'href' => "{$comment_control}/hide",
+          'attributes' => array(
+            'title' => bts('Hide this comment')
+          )
+        );
+      }
+    }
+  }
+  return $links;
+}
+// */
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Page callbacks from hook_menu()
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * Controller for handling simple node status configuration.
+ * Allow published, sticky, and comment status to be set on nodes by direct
+ * link rather than through the node form.
+ */
+function boinccore_node_control($nid = NULL, $action = NULL) {
+  if ((!$nid OR !$node = node_load($nid)) OR
+      ($node->type == 'forum' AND !user_access('edit any forum topic')) OR
+      ($node->type != 'forum' AND !user_access('administer nodes'))) {
+    // What are you even doing here...
+    return FALSE;
+  }
+  switch ($action) {
+  case 'unhide':
+    node_publish_action($node);
+    break;
+  case 'hide':
+    node_unpublish_action($node);
+    break;
+  case 'sticky':
+    node_make_sticky_action($node);
+    break;
+  case 'unsticky':
+    node_make_unsticky_action($node);
+    break;
+  case 'lock':
+    $node->comment = 1;
+    watchdog('action', 'Locked comments on @type %title.', array(
+      '@type' => node_get_types('name', $node), '%title' => $node->title));
+    break;
+  case 'unlock':
+    $node->comment = 2;
+    watchdog('action', 'Unlocked comments on @type %title.', array(
+      '@type' => node_get_types('name', $node), '%title' => $node->title));
+    break;
+  default:
+  }
+  node_save($node);
+  drupal_goto("node/{$nid}");
+}
+
+/**
+ * Controller for handling simple comment status configuration.
+ * Allow published status to be set on comments by direct link rather than
+ * through the comment edit form.
+ */
+function boinccore_comment_control($cid = NULL, $action = NULL) {
+  if (!$cid OR !$comment = _comment_load($cid)) {
+    // What are you even doing here...
+    return FALSE;
+  }
+  $return_path = "node/{$comment->nid}";
+  $return_anchor = "comment-{$cid}";
+  switch ($action) {
+  case 'unhide':
+    comment_publish_action($comment);
+    break;
+  case 'hide':
+    comment_unpublish_action($comment);
+    break;
+  case 'convert':
+    $node = new stdClass();
+    $node->name = $comment->subject;
+    $node->title = $node->name;
+    $node->body = $comment->comment;
+    $node->type = 'forum';
+    $node->created = $comment->timestamp;
+    $node->changed = $node->created;
+    $node->promote = 0; // Display on front page?
+    $node->sticky = 0;  // Display top of page?
+    $node->status = 1;   // Published?
+    $node->comment = 2;
+    //$node->language = 'en';
+    $node->uid = $comment->uid;
+    
+    // Preselect the parent's taxonomy ID
+    $parent_node = node_load($comment->nid);
+    $node->tid = $parent_node->tid;
+ 
+    if (filter_access($comment->format)) {
+      $node->format = $comment->format;
+    }
+    
+    // Save the new node
+    node_save($node);
+    taxonomy_node_save($node, array($node->tid));
+    
+    // Delete the comment
+    module_load_include('inc', 'comment', 'comment.admin');
+    _comment_delete_thread($comment);
+    
+    $return_path = "node/{$node->nid}";
+    $return_anchor = NULL;
+    break;
+  default:
+  }
+  drupal_goto($return_path, NULL, $return_anchor);
+}
+
+/**
+ * Page callback for the look up account RPC (lookup_account.php).
+ * Get the authenticator for a given account
+ */
+function boinccore_lookup_account() {
+  include_boinc('user/lookup_account.php');
+}
+
+/**
+ * Page callback for the account manager get info RPC (am_get_info.php).
+ * Get assorted details for a given account
+ */
+function boinccore_am_get_info() {
+  // Remove q from the GET request or BOINC will panic
+  unset($_GET['q']);
+  // Capture the XML output of the RPC so we can override things
+  ob_start();
+  include_boinc('user/am_get_info.php');
+  $xml = ob_get_clean();
+  $xml = load_configuration($xml);
+  // See if the account has an approved profile in Drupal
+  $uid = !empty($xml['am_get_info_reply']['id']) ? boincuser_lookup_uid($xml['am_get_info_reply']['id']) : 0;
+  if ($uid) {
+    $content_profile = content_profile_load('profile', $uid);
+    $profile_is_approved = ($content_profile->status AND !$content_profile->moderate);
+    $country = check_plain($content_profile->field_country[0]['value']);
+    $website = '';
+    if ($profile_is_approved) {
+      $website = check_plain($content_profile->field_url[0]['value']);
+    }
+    // Override BOINC values with Drupal values as needed
+    $xml['am_get_info_reply']['has_profile']['@value'] = ($profile_is_approved) ? 1 : 0;
+    $xml['am_get_info_reply']['country']['@value'] = $country;
+    $xml['am_get_info_reply']['url']['@value'] = $website;
+  }
+  print save_configuration($xml);
+}
+
+/**
+ * Page callback for the account manager set info RPC (am_set_info.php).
+ * Update assorted details for a given account
+ */
+function boinccore_am_set_info() {
+  // Remove q from the GET request or BOINC will panic
+  unset($_GET['q']);
+  // Capture the XML output of the RPC so we can override things
+  ob_start();
+  include_boinc('user/am_set_info.php');
+  $xml = ob_get_clean();
+  $xml = load_configuration($xml);
+  if (isset($xml['am_set_info_reply']['success'])) {
+    // Find the account in Drupal
+    $boinc_auth = !empty($_POST['account_key']) ? $_POST['account_key'] : $_GET['account_key'];
+    db_set_active('boinc');
+    $boinc_id = db_result(db_query("
+      SELECT id
+      FROM {user}
+      WHERE authenticator = '%s'",
+      $boinc_auth
+    ));
+    db_set_active('default');
+    $uid = boincuser_lookup_uid($boinc_id);
+    
+    // Apply any relevant updates to the Drupal account, also
+    $country = !empty($_POST['country']) ? $_POST['country'] : (!empty($_GET['country']) ? $_GET['country'] : NULL);
+    $url = !empty($_POST['url']) ? $_POST['url'] : (!empty($_GET['url']) ? $_GET['url'] : NULL);
+    $email_addr = !empty($_POST['email_addr']) ? $_POST['email_addr'] : (!empty($_GET['email_addr']) ? $_GET['email_addr'] : NULL);
+    
+    if ($email_addr) {
+      $account = user_load($uid);
+      user_save($account, array('mail' => $email_addr));
+    }
+    if ($country OR $url) {
+      $content_profile = content_profile_load('profile', $uid);
+      if ($country) $content_profile->field_country[0]['value'] = $country;
+      if ($url) $content_profile->field_url[0]['value'] = $url;
+      node_save($content_profile);
+    }
+  }
+  print save_configuration($xml);
+}
+
+/**
+ * Page callback for the set host info RPC (am_set_host_info.php).
+ * Update the venue for the given host
+ */
+function boinccore_am_set_host_info() {
+  // Remove q from the GET request or BOINC will panic
+  unset($_GET['q']);
+  // Capture the XML output of the RPC so we can override things
+  ob_start();
+  include_boinc('user/am_set_host_info.php');
+  $xml = ob_get_clean();
+  $xml = load_configuration($xml);
+  if (isset($xml['am_set_host_info_reply']['success'])) {
+    // Override anything that needs overriding
+  }
+  print save_configuration($xml);
+}
+
+/**
+ * Page callback for the show user RPC (show_user.php).
+ * Get assorted details for a given account
+ */
+function boinccore_show_user() {
+  // Remove q from the GET request or BOINC will panic
+  unset($_GET['q']);
+  // Capture the XML output of the RPC so we can override things
+  ob_start();
+  include_boinc('user/show_user.php');
+  $xml = ob_get_clean();
+  $xml = load_configuration($xml);
+  // See if the account has an approved profile in Drupal
+  $uid = !empty($xml['user']['id']) ? boincuser_lookup_uid($xml['user']['id']) : 0;
+  if ($uid) {
+    $content_profile = content_profile_load('profile', $uid);
+    $profile_is_approved = ($content_profile->status AND !$content_profile->moderate);
+    $country = check_plain($content_profile->field_country[0]['value']);
+    $website = '';
+    if ($profile_is_approved) {
+      $website = check_plain($content_profile->field_url[0]['value']);
+    }
+    // Override BOINC values with Drupal values as needed
+    $xml['user']['has_profile']['@value'] = ($profile_is_approved) ? 1 : 0;
+    $xml['user']['country']['@value'] = $country;
+    $xml['user']['url']['@value'] = $website;
+  }
+  print save_configuration($xml);
+}
+
+/**
+ * Page callback for the pending credit RPC (pending.php).
+ * Get pending credit information for a given account
+ */
+function boinccore_pending_credit() {
+  // Remove q from the GET request or BOINC will panic
+  unset($_GET['q']);
+  include_boinc('user/pending.php');
+}
+
+/**
+ * Page callback for the team email list RPC (team_email_list.php).
+ * Get members of a given team
+ */
+function boinccore_team_email_list() {
+  // See if the account has an approved profile in Drupal
+  $boincteam_id = !empty($_POST['teamid']) ? $_POST['teamid'] : $_GET['teamid'];
+  $account_key = !empty($_POST['account_key']) ? $_POST['account_key'] : $_GET['account_key'];
+  $show_xml = !empty($_POST['xml']) ? $_POST['xml'] : $_GET['xml'];
+  $admin_request = FALSE;
+  if ($boincteam_id) {
+    if ($account_key) {
+      // See if this is a team admin
+      db_set_active('boinc');
+      $boincuser_id = db_result(db_query("
+        SELECT 
+          u.id
+        FROM {user} u
+        WHERE u.authenticator = '%s'
+        LIMIT 1",
+        $account_key
+      ));
+      db_set_active('default');
+      require_boinc('team');
+      $boincuser = boincuser_load(boincuser_lookup_uid($boincuser_id), TRUE);
+      $boincteam = boincteam_load($boincteam_id);
+      $admin_request = is_team_admin($boincuser, $boincteam) OR is_team_founder($boincuser, $boincteam);
+    }
+    $members = array();
+    db_set_active('boinc');
+    $result = db_query("
+      SELECT 
+        u.name, u.email_addr
+      FROM {user} u
+      WHERE u.teamid = %d
+      ORDER BY u.email_addr ASC",
+      $boincteam_id
+    );
+    db_set_active('default');
+    
+    while ($member = db_fetch_object($result)) {
+      $members[] = user_load(array('mail' => $member->email_addr));
+    }
+    
+    $xml = array('users' => array());
+    foreach ($members as $member) {
+      $content_profile = content_profile_load('profile', $member->uid);
+      $team_member = array(
+        'id' => $member->boincuser_id,
+        'cpid' => $member->boincuser_cpid,
+        'create_time' => $member->created,
+        'name' => $member->boincuser_name,
+        'country' => $content_profile->field_country[0]['value'],
+        'total_credit' => $member->boincuser_total_credit,
+        'expavg_credit' => $member->boincuser_expavg_credit,
+        'expavg_time' => $member->boincuser_expavg_time,
+        'url' => $content_profile->field_url[0]['value'],
+        'has_profile' => ($content_profile->status AND !$content_profile->moderate) ? 1 : 0,
+      );
+      if ($admin_request) {
+        $team_member['email_addr'] = $member->mail;
+      }
+      $xml['users']['user'][] = $team_member;
+    }
+  }
+  else {
+    $xml = array(
+      'error' => array(
+        'error_num' => -136,
+        'error_msg' => 'Not found',
+      ),
+    );
+  }
+  print xml_to_text(array_to_xml($xml), TRUE, TRUE);
+}
+
+/**
+ * Page callback for the user forum activity RPC (forum_get_data.php).
+ * Get the last comments OR threads made by a given user
+ */
+function boinccore_forum_get_data() {
+  // Do not pass through to BOINC in this case as BOINC forums are no longer
+  // relevant -- use Drupal data only
+  
+  $xml = array();
+  $boinc_id = !empty($_POST['userid']) ? $_POST['userid'] : (!empty($_GET['userid']) ? $_GET['userid'] : NULL);
+  $uid = boincuser_lookup_uid($boinc_id);
+  
+  if ($uid) {
+    $method = !empty($_POST['method']) ? $_POST['method'] : (!empty($_GET['method']) ? $_GET['method'] : NULL);
+    $count = !empty($_POST['count']) ? $_POST['count'] : (!empty($_GET['count']) ? $_GET['count'] : NULL);
+    if (!$count) $count = 10;
+    
+    switch ($method) {
+    case 'user_posts':
+      $content_length = !empty($_POST['content_length']) ? $_POST['content_length'] : (!empty($_GET['content_length']) ? $_GET['content_length'] : NULL);
+      $posts = db_query("
+        SELECT
+          c.cid,
+          n.nid,
+          c.uid,
+          n.title,
+          c.comment,
+          c.timestamp
+        FROM comments c
+        INNER JOIN node n ON c.nid = n.nid
+        WHERE (n.status = 1) AND (c.uid = '%d')
+        ORDER BY timestamp DESC
+        LIMIT %d",
+        $uid, (int) $count
+      );
+      $xml = array(
+        'rpc_response' => array(
+          'count' => 0,
+          'posts' => array(),
+        ),
+      );
+      $post_count = 0;
+      while ($post = db_fetch_object($posts)) {
+        $xml['rpc_response']['posts']['post'][] = array(
+          'id' => $post->cid,
+          'threadid' => $post->nid,
+          'threadtitle' => $post->title,
+          'timestamp' => $post->timestamp,
+          'content' => ($content_length ? substr($post->comment, 0, $content_length) : $post->comment),
+        );
+        $post_count++;
+      }
+      $xml['rpc_response']['count'] = $post_count;
+      break;
+      
+    case 'user_threads':
+      $threads = db_query("
+        SELECT
+          n.nid,
+          n.uid,
+          n.title,
+          nc.totalcount AS views,
+          n.changed,
+          n.title,
+          tn.tid,
+          (
+            SELECT COUNT(*)
+            FROM {comments} c
+            WHERE c.nid = n.nid
+          ) AS replies
+        FROM {node} n 
+        LEFT JOIN {node_counter} nc ON nc.nid = n.nid
+        LEFT JOIN {term_node} tn ON tn.nid = n.nid
+        WHERE (n.status = 1) AND (n.uid = '%d')
+        ORDER BY changed DESC
+        LIMIT %d",
+        $uid, (int) $count
+      );
+      $xml = array(
+        'rpc_response' => array(
+          'count' => 0,
+          'threads' => array(),
+        ),
+      );
+      $thread_count = 0;
+      while ($thread = db_fetch_object($threads)) {
+        $xml['rpc_response']['threads']['thread'][] = array(
+          'id' => $thread->nid,
+          'forumid' => $thread->tid,
+          'replies' => $thread->replies,
+          'views' => $thread->views,
+          'timestamp' => $thread->changed,
+          'title' => $thread->title,
+        );
+        $thread_count++;
+      }
+      $xml['rpc_response']['count'] = $thread_count;
+      break;
+    default:
+      $xml = array(
+        'error' => array(
+          'error_num' => -1,
+          'error_msg' => 'Unknown error',
+        ),
+      );
+    }
+  }
+  else {
+    $xml = array(
+      'error' => array(
+        'error_num' => -136,
+        'error_msg' => 'Not found',
+      ),
+    );
+  }
+  print xml_to_text(array_to_xml($xml), TRUE, TRUE);
+}
+
+/**
+ * Page callback for the applications RPC (apps.php).
+ * Get information on applications in the system
+ */
+function boinccore_apps() {
+  // Remove q from the GET request or BOINC will panic
+  unset($_GET['q']);
+  include_boinc('user/apps.php');
+}
+
+/**
+ * Controller for handling direct linking to paginated content.
+ * Because pagination settings are user configurable, it is impossible to know
+ * in advance on which page a given comment will appear. Link instead to this
+ * controller function, which can compute the page based on the user's settings
+ */
+function boinccore_url_pagination_handler($type, $object_id = NULL) {
+  global $user;
+  $path = NULL;
+  $params = array();
+  switch ($type) {
+  case 'comment':
+    $object = _comment_load($object_id);
+    if ($object) {
+      $path = "node/{$object->nid}";
+      // Get the sort order
+      $gt_lt = '<';
+      $comment_order = (isset($user->sort)) ? $user->sort : variable_get('comment_default_order_forum', 2);
+      if ($comment_order == COMMENT_ORDER_NEWEST_FIRST) {
+        $gt_lt = '>';
+      }
+      // See how many comments there are before (or after) this comment...
+      $comment_offset = db_result(db_query('
+        SELECT COUNT(*) FROM {comments}
+        WHERE nid = %d AND status = 0 AND timestamp %s %d',
+        $object->nid, $gt_lt, $object->timestamp));
+      if ($comment_offset) {
+        // Get the number of comments per page
+        if ($user->comments_per_page) {
+          $comments_per_page = $user->comments_per_page;
+        }
+        else {
+          $node = node_load($object->nid);
+          $comments_per_page = variable_get(
+            "comment_default_per_page_{$node->type}", 50
+          );
+        }
+        // Determine which page to display in order to show the given comment
+        $page = floor($comment_offset / $comments_per_page);
+        if ($page) {
+          $params = array('page' => $page);
+        }
+      }
+    }
+    if ($path) {
+      drupal_goto($path, $params, "comment-{$object->cid}");
+    }
+    break;
+  case 'friend-requests':
+    // Check for a login, then redirect to the user's friend requests page
+    if ($user->uid) {
+      drupal_goto("account/{$user->uid}/friends/pending");
+    }
+    else {
+      drupal_goto('user/login', array(
+        'destination' => 'goto/friend-requests'
+      ));
+    }
+    break;
+  default:
+  }
+  drupal_not_found();
+}
+
+/*
+ * Fetch an array of all countries 
+ */
+function boinccore_get_country_list() {
+  return array(
+    'None' => 'None',
+    'International' => 'International',
+    'Afghanistan' => 'Afghanistan',
+    'Albania' => 'Albania',
+    'Algeria' => 'Algeria',
+    'American Samoa' => 'American Samoa',
+    'Andorra' => 'Andorra',
+    'Angola' => 'Angola',
+    'Anguilla' => 'Anguilla',
+    'Antarctica' => 'Antarctica',
+    'Antigua and Barbuda' => 'Antigua and Barbuda',
+    'Argentina' => 'Argentina',
+    'Armenia' => 'Armenia',
+    'Aruba' => 'Aruba',
+    'Australia' => 'Australia',
+    'Austria' => 'Austria',
+    'Azerbaijan' => 'Azerbaijan',
+    'Bahamas, The' => 'Bahamas, The',
+    'Bahrain' => 'Bahrain',
+    'Bangladesh' => 'Bangladesh',
+    'Barbados' => 'Barbados',
+    'Belarus' => 'Belarus',
+    'Belgium' => 'Belgium',
+    'Belize' => 'Belize',
+    'Benin' => 'Benin',
+    'Bermuda' => 'Bermuda',
+    'Bhutan' => 'Bhutan',
+    'Bolivia' => 'Bolivia',
+    'Bosnia and Herzegovina' => 'Bosnia and Herzegovina',
+    'Botswana' => 'Botswana',
+    'Brazil' => 'Brazil',
+    'British Virgin Islands' => 'British Virgin Islands',
+    'Brunei' => 'Brunei',
+    'Bulgaria' => 'Bulgaria',
+    'Burkina Faso' => 'Burkina Faso',
+    'Burma' => 'Burma',
+    'Burundi' => 'Burundi',
+    'Cambodia' => 'Cambodia',
+    'Cameroon' => 'Cameroon',
+    'Canada' => 'Canada',
+    'Cape Verde' => 'Cape Verde',
+    'Cayman Islands' => 'Cayman Islands',
+    'Central African Republic' => 'Central African Republic',
+    'Chad' => 'Chad',
+    'Channel Islands' => 'Channel Islands',
+    'Chile' => 'Chile',
+    'China' => 'China',
+    'Colombia' => 'Colombia',
+    'Comoros' => 'Comoros',
+    'Congo, Democratic Republic of the' => 'Congo, Democratic Republic of the',
+    'Congo, Republic of the' => 'Congo, Republic of the',
+    'Cook Islands' => 'Cook Islands',
+    'Costa Rica' => 'Costa Rica',
+    'Cote d\'Ivoire' => 'Cote d\'Ivoire',
+    'Croatia' => 'Croatia',
+    'Cuba' => 'Cuba',
+    'Cyprus' => 'Cyprus',
+    'Czech Republic' => 'Czech Republic',
+    'Denmark' => 'Denmark',
+    'Djibouti' => 'Djibouti',
+    'Dominica' => 'Dominica',
+    'Dominican Republic' => 'Dominican Republic',
+    'East Timor' => 'East Timor',
+    'Ecuador' => 'Ecuador',
+    'Egypt' => 'Egypt',
+    'El Salvador' => 'El Salvador',
+    'Equatorial Guinea' => 'Equatorial Guinea',
+    'Eritrea' => 'Eritrea',
+    'Estonia' => 'Estonia',
+    'Ethiopia' => 'Ethiopia',
+    'Falkland Islands' => 'Falkland Islands',
+    'Faroe Islands' => 'Faroe Islands',
+    'Fiji' => 'Fiji',
+    'Finland' => 'Finland',
+    'France' => 'France',
+    'French Guiana' => 'French Guiana',
+    'French Polynesia' => 'French Polynesia',
+    'Gabon' => 'Gabon',
+    'Gambia, The' => 'Gambia, The',
+    'Gaza Strip' => 'Gaza Strip',
+    'Georgia' => 'Georgia',
+    'Germany' => 'Germany',
+    'Ghana' => 'Ghana',
+    'Gibraltar' => 'Gibraltar',
+    'Greece' => 'Greece',
+    'Greenland' => 'Greenland',
+    'Grenada' => 'Grenada',
+    'Guadeloupe' => 'Guadeloupe',
+    'Guam' => 'Guam',
+    'Guatemala' => 'Guatemala',
+    'Guinea' => 'Guinea',
+    'Guinea-Bissau' => 'Guinea-Bissau',
+    'Guyana' => 'Guyana',
+    'Haiti' => 'Haiti',
+    'Holy See (Vatican City)' => 'Holy See (Vatican City)',
+    'Honduras' => 'Honduras',
+    'Hong Kong' => 'Hong Kong',
+    'Hungary' => 'Hungary',
+    'Iceland' => 'Iceland',
+    'India' => 'India',
+    'Indonesia' => 'Indonesia',
+    'Iran' => 'Iran',
+    'Iraq' => 'Iraq',
+    'Ireland' => 'Ireland',
+    'Isle of Man' => 'Isle of Man',
+    'Israel' => 'Israel',
+    'Italy' => 'Italy',
+    'Jamaica' => 'Jamaica',
+    'Japan' => 'Japan',
+    'Jordan' => 'Jordan',
+    'Kazakhstan' => 'Kazakhstan',
+    'Korea, North' => 'Korea, North',
+    'Korea, South' => 'Korea, South',
+    'Kenya' => 'Kenya',
+    'Kiribati' => 'Kiribati',
+    'Kuwait' => 'Kuwait',
+    'Kyrgyzstan' => 'Kyrgyzstan',
+    'Laos' => 'Laos',
+    'Latvia' => 'Latvia',
+    'Lebanon' => 'Lebanon',
+    'Lesotho' => 'Lesotho',
+    'Liberia' => 'Liberia',
+    'Libya' => 'Libya',
+    'Liechtenstein' => 'Liechtenstein',
+    'Lithuania' => 'Lithuania',
+    'Luxembourg' => 'Luxembourg',
+    'Macau' => 'Macau',
+    'Macedonia' => 'Macedonia',
+    'Madagascar' => 'Madagascar',
+    'Malawi' => 'Malawi',
+    'Malaysia' => 'Malaysia',
+    'Maldives' => 'Maldives',
+    'Mali' => 'Mali',
+    'Malta' => 'Malta',
+    'Marshall Islands' => 'Marshall Islands',
+    'Martinique' => 'Martinique',
+    'Mauritania' => 'Mauritania',
+    'Mauritius' => 'Mauritius',
+    'Mexico' => 'Mexico',
+    'Micronesia' => 'Micronesia',
+    'Moldova' => 'Moldova',
+    'Monaco' => 'Monaco',
+    'Mongolia' => 'Mongolia',
+    'Montenegro' => 'Montenegro',
+    'Montserrat' => 'Montserrat',
+    'Morocco' => 'Morocco',
+    'Mozambique' => 'Mozambique',
+    'Namibia' => 'Namibia',
+    'Nauru' => 'Nauru',
+    'Nepal' => 'Nepal',
+    'Netherlands' => 'Netherlands',
+    'Netherlands Antilles' => 'Netherlands Antilles',
+    'New Caledonia' => 'New Caledonia',
+    'New Zealand' => 'New Zealand',
+    'Nicaragua' => 'Nicaragua',
+    'Niger' => 'Niger',
+    'Nigeria' => 'Nigeria',
+    'Niue' => 'Niue',
+    'Northern Mariana Islands' => 'Northern Mariana Islands',
+    'Norway' => 'Norway',
+    'Oman' => 'Oman',
+    'Pakistan' => 'Pakistan',
+    'Palau' => 'Palau',
+    'Panama' => 'Panama',
+    'Papua New Guinea' => 'Papua New Guinea',
+    'Paraguay' => 'Paraguay',
+    'Peru' => 'Peru',
+    'Philippines' => 'Philippines',
+    'Pitcairn Islands' => 'Pitcairn Islands',
+    'Poland' => 'Poland',
+    'Portugal' => 'Portugal',
+    'Puerto Rico' => 'Puerto Rico',
+    'Qatar' => 'Qatar',
+    'Reunion' => 'Reunion',
+    'Romania' => 'Romania',
+    'Russia' => 'Russia',
+    'Rwanda' => 'Rwanda',
+    'Saint Kitts and Nevis' => 'Saint Kitts and Nevis',
+    'Saint Lucia' => 'Saint Lucia',
+    'Saint Pierre and Miquelon' => 'Saint Pierre and Miquelon',
+    'Saint Vincent and the Grenadines' => 'Saint Vincent and the Grenadines',
+    'Samoa' => 'Samoa',
+    'San Marino' => 'San Marino',
+    'Sao Tome and Principe' => 'Sao Tome and Principe',
+    'Saudi Arabia' => 'Saudi Arabia',
+    'Senegal' => 'Senegal',
+    'Serbia' => 'Serbia',
+    'Seychelles' => 'Seychelles',
+    'Sierra Leone' => 'Sierra Leone',
+    'Singapore' => 'Singapore',
+    'Slovakia' => 'Slovakia',
+    'Slovenia' => 'Slovenia',
+    'Solomon Islands' => 'Solomon Islands',
+    'Somalia' => 'Somalia',
+    'South Africa' => 'South Africa',
+    'Spain' => 'Spain',
+    'Sri Lanka' => 'Sri Lanka',
+    'Sudan' => 'Sudan',
+    'Suriname' => 'Suriname',
+    'Swaziland' => 'Swaziland',
+    'Sweden' => 'Sweden',
+    'Switzerland' => 'Switzerland',
+    'Syria' => 'Syria',
+    'Taiwan' => 'Taiwan',
+    'Tajikistan' => 'Tajikistan',
+    'Tanzania' => 'Tanzania',
+    'Thailand' => 'Thailand',
+    'Togo' => 'Togo',
+    'Tokelau' => 'Tokelau',
+    'Tonga' => 'Tonga',
+    'Trinidad and Tobago' => 'Trinidad and Tobago',
+    'Tunisia' => 'Tunisia',
+    'Turkey' => 'Turkey',
+    'Turkmenistan' => 'Turkmenistan',
+    'Turks and Caicos Islands' => 'Turks and Caicos Islands',
+    'Tuvalu' => 'Tuvalu',
+    'Uganda' => 'Uganda',
+    'Ukraine' => 'Ukraine',
+    'United Arab Emirates' => 'United Arab Emirates',
+    'United Kingdom' => 'United Kingdom',
+    'United States' => 'United States',
+    'Uruguay' => 'Uruguay',
+    'Uzbekistan' => 'Uzbekistan',
+    'Vanuatu' => 'Vanuatu',
+    'Venezuela' => 'Venezuela',
+    'Vietnam' => 'Vietnam',
+    'Virgin Islands' => 'Virgin Islands',
+    'Wallis and Futuna' => 'Wallis and Futuna',
+    'West Bank' => 'West Bank',
+    'Western Sahara' => 'Western Sahara',
+    'Yemen' => 'Yemen',
+    'Zambia' => 'Zambia',
+    'Zimbabwe' => 'Zimbabwe',
+  );
+}
+
+
+/**
+ * Action: Mark node for moderation
+ */
+function boinccore_rules_action_mark_content_for_moderation($node) {
+  $node->moderate = 1;
+  return array('node' => $node);
+}
+
+/**
+ * Action: Send mail to moderators.
+ */
+function boinccore_rules_action_mail_to_moderators($settings) {
+  module_load_include('inc', 'rules', 'modules/system.rules');
+  $mailing_list = variable_get('boinc_moderator_mailing_list', '');
+  $force_individual_notifications = variable_get('boinc_moderator_force_individual_notifications', 0);
+  
+  if (!$mailing_list OR $force_individual_notifications) {
+    // Send individual emails to all moderators
+    $roles = user_roles();
+    $moderator_rid = array_search('moderator', $roles);
+    if ($moderator_rid !== FALSE) {
+      $settings['recipients'] = array($moderator_rid);
+      rules_action_mail_to_users_of_role($settings);
+    }
+    else {
+      watchdog(
+        'boinccore',
+        'Unable to identify members of the moderator role to send moderator notifications!',
+        array(),
+        WATCHDOG_ERROR
+      );
+    }
+  }
+  if ($mailing_list) {
+    $settings['to'] = $mailing_list;
+    rules_action_mail($settings);
+  }
+}
+/**
+ * Action "Send mail to moderators" configuration form
+ */
+function boinccore_rules_action_mail_to_moderators_form($settings = array(), &$form) {
+  // Select only non-anonymous user roles because anonymous users won't have emails.
+  rules_action_mail_to_user_form($settings, $form);
+}
+
+/*
+ * BOINC wrapper for string translation
+ */
+function bts($string, $args = array(), $langcode = NULL, $context = 'boinc: ', $update = TRUE) {
+  if (function_exists('i18nstrings_ts')) {
+    $string = i18nstrings_ts($context, $string, $langcode, $update);
+  }
+  if (empty($args)) {
+    return $string;
+  }
+  else {
+    // Transform arguments before inserting them.
+    foreach ($args as $key => $value) {
+      switch ($key [0]) {
+        case '@':
+          // Escaped only.
+          $args [$key] = check_plain($value);
+          break;
+
+        case '%':
+        default:
+          // Escaped and placeholder.
+          $args [$key] = theme('placeholder', $value);
+          break;
+
+        case '!':
+          // Pass-through.
+      }
+    }
+    return strtr($string, $args);
+  }
+}
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Pane content for panels
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * Overview of moderation queues
+ */               
+function boinccore_moderation_overview_panel() {
+  $output = '<h2 class="pane-title">' . bts('Moderation') . '</h2>';
+  $output .= '<ul class="tab-list action-list">';
+  if (module_exists('user_profiles')) {
+    $profile_count = db_result(db_query("
+      SELECT COUNT(DISTINCT(n.nid))
+      FROM {node} n
+      WHERE n.type = 'profile' AND n.moderate = 1"
+    ));
+    $output .= '<li class="tab primary">';
+    $output .= l(bts('Unvetted profiles'), 'moderate/profiles');
+    $output .= '<div class="item-count-wrapper">';
+    $output .= '<span class="item-count">' . $profile_count . '</span>';
+    $output .= '</div>';
+    $output .= '</li>';
+  }
+  $output .= '</ul>';
+  return $output;
+}

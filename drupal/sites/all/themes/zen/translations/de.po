@@ -1,0 +1,240 @@
+# $Id$
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  theme-settings.php,v 1.7 2009/08/12 06:49:46 johnalbin
+#  zen.info,v 1.8 2009/11/08 18:28:48 johnalbin
+#  STARTERKIT.info.txt,v 1.16 2009/11/10 07:40:15 johnalbin
+#  comment-wrapper.tpl.php,v 1.3 2009/11/01 19:47:40 johnalbin
+#  comment.tpl.php,v 1.10 2009/11/02 17:42:27 johnalbin
+#  node.tpl.php,v 1.10 2009/11/02 17:42:27 johnalbin
+#  maintenance-page.tpl.php,v 1.17 2009/11/04 20:49:23 johnalbin
+#  page.tpl.php,v 1.26 2009/11/05 13:54:57 johnalbin
+#  template.block-editing.inc,v 1.2 2009/09/07 10:03:59 johnalbin
+#  template.theme-registry.inc,v 1.7 2009/11/03 18:27:44 johnalbin
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Zen 6.x-2.x\n"
+"POT-Creation-Date: 2009-11-11 15:57+0800\n"
+"PO-Revision-Date: 2009-11-08 16:37+0100\n"
+"Last-Translator: Thomas Zahreddin <tz@it-arts.org>\n"
+"Language-Team: Thomas Zahreddin <tz@it-arts.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: Germany\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: theme-settings.php:44
+msgid "Show block editing on hover"
+msgstr "Für Blöck die Möglichkeit zum Editieren anzeigen, sobald die Maus kurz darüber ruht"
+
+#: theme-settings.php:45
+msgid "When hovering over a block, privileged users will see block editing links."
+msgstr "Für Blöck die Möglichkeit zum Editieren anzeigen, sobald die Maus kurz darüber ruht und der Benutzer die erforderlichen Rechte hat."
+
+#: theme-settings.php:51
+msgid "Breadcrumb settings"
+msgstr "Pfadnavigation Einstellungen"
+
+#: theme-settings.php:56
+msgid "Display breadcrumb"
+msgstr "Pfadnavigation"
+
+#: theme-settings.php:59
+msgid "Yes"
+msgstr "Ja"
+
+#: theme-settings.php:60
+msgid "Only in admin section"
+msgstr "Nur im Admin-Bereich"
+
+#: theme-settings.php:61
+msgid "No"
+msgstr "Nein"
+
+#: theme-settings.php:66
+msgid "Breadcrumb separator"
+msgstr "Pfadnavigation Separator"
+
+#: theme-settings.php:67
+msgid "Text only. Don’t forget to include spaces."
+msgstr "Nur Text. Vergessen Sie die Leerzeichen nicht."
+
+#: theme-settings.php:75
+msgid "Show home page link in breadcrumb"
+msgstr "Link zur Startseite in der Pfadnavigation"
+
+#: theme-settings.php:80
+msgid "Append a separator to the end of the breadcrumb"
+msgstr "Fügen Sie ein Trennzeichen am Ende der Pfadnavigation hinzu"
+
+#: theme-settings.php:82
+msgid "Useful when the breadcrumb is placed just before the title."
+msgstr "Nützlich, wenn die Pfadnavigation direkt vor dem Titel steht."
+
+#: theme-settings.php:86
+msgid "Append the content title to the end of the breadcrumb"
+msgstr "Fügen Sie den Titel am Ende der Pfadnavigation hinzu"
+
+#: theme-settings.php:88
+msgid "Useful when the breadcrumb is not placed just before the title."
+msgstr "Nützlich, wenn die Pfadnavigation nicht direkt vor dem Titel steht."
+
+#: theme-settings.php:94
+msgid "Theme development settings"
+msgstr "Theme-spezifische Einstellungen"
+
+#: theme-settings.php:99
+msgid "Rebuild theme registry on every page."
+msgstr "Theme-Registry neu aufbauen auf jeder Seite"
+
+#: theme-settings.php:101
+msgid "During theme development, it can be very useful to continuously <a href=\"!link\">rebuild the theme registry</a>. WARNING: this is a huge performance penalty and must be turned off on production websites."
+msgstr "Während der Entwicklung des Themes ist es sehr nützlich, um kontinuierlich <a href=\"!link\">die Theme-Registry neu zu erstellen.</a> WARNUNG: dies ist eine enorme Performance-Einbuße und müssen für den produktiven Betrieb ausgeschaltet."
+
+#: theme-settings.php:102
+msgid "Theme registry:"
+msgstr "Theme-Registry"
+
+#: theme-settings.php:107
+msgid "Layout method"
+msgstr "Layout-Methode"
+
+#: theme-settings.php:109
+msgid "Liquid layout"
+msgstr "Flexibles Layout"
+
+#: theme-settings.php:110
+msgid "Fixed layout"
+msgstr "Starres Layout"
+
+#: theme-settings.php:116
+msgid "Display borders around main layout elements"
+msgstr "Rahmen um die wichtigsten Layout-Elemente anzeigen"
+
+#: theme-settings.php:118
+msgid "<a href=\"!link\">Wireframes</a> are useful when prototyping a website."
+msgstr "<a href=\"!link\">Wireframes</a> werden gerne für die Konzeiption von websites eingesetzt."
+
+#: theme-settings.php:119
+msgid "Wireframes:"
+msgstr "Wireframes:"
+
+#: zen.info:0
+msgid "Zen"
+msgstr "Zen"
+
+#: zen.info:0
+msgid "Zen sub-themes are the ultimate starting themes for Drupal 6. Read the <a href=\"http://drupal.org/node/226507\">online docs</a> or the included README-FIRST.txt on how to create a sub-theme."
+msgstr "Zen Sub-Themes sind die absoluten Anfänger Themes für Drupal 6. Lesen Sie die <a href=\"http://drupal.org/node/226507\">Online-Dokumentation</a> oder die mitgelieferte README-FIRST.txt, wie ein Sub-Thema erstellt wird."
+
+#: zen.info:0 STARTERKIT/STARTERKIT.info:0
+msgid "First sidebar"
+msgstr "First Seitenleiste"
+
+#: zen.info:0 STARTERKIT/STARTERKIT.info:0
+msgid "Second sidebar"
+msgstr "Second Seitenleiste"
+
+#: zen.info:0 STARTERKIT/STARTERKIT.info:0
+msgid "Navigation bar"
+msgstr "Navigationsleiste"
+
+#: zen.info:0 STARTERKIT/STARTERKIT.info:0
+msgid "Highlighted content"
+msgstr ""
+
+#: zen.info:0 STARTERKIT/STARTERKIT.info:0
+msgid "Content top"
+msgstr "Inhalt oben"
+
+#: zen.info:0 STARTERKIT/STARTERKIT.info:0
+msgid "Content bottom"
+msgstr "Inhalt unten"
+
+#: zen.info:0 STARTERKIT/STARTERKIT.info:0
+msgid "Header"
+msgstr "Kopfbereich"
+
+#: zen.info:0 STARTERKIT/STARTERKIT.info:0
+msgid "Footer"
+msgstr "Fußbereich"
+
+#: zen.info:0 STARTERKIT/STARTERKIT.info:0
+msgid "Page closure"
+msgstr ""
+
+#: STARTERKIT/STARTERKIT.info:0
+msgid "Zen Sub-theme Starter Kit"
+msgstr ""
+
+#: STARTERKIT/STARTERKIT.info:0
+msgid "Read the <a href=\"http://drupal.org/node/226507\">online docs</a> or the included README.txt on how to create a Zen sub-theme."
+msgstr "Lesen Sie die <a href=\"http://drupal.org/node/226507\">Online-Dokumentation</a> oder die mitgelieferte README.txt, wie ein Sub-Thema erstellt wird."
+
+#: templates/comment-wrapper.tpl.php:43
+msgid "Comments"
+msgstr "Kommentare"
+
+#: templates/comment.tpl.php:72 templates/node.tpl.php:84
+msgid "Unpublished"
+msgstr "Unveröffentlicht"
+
+#: templates/comment.tpl.php:77
+msgid "Submitted by !username on !datetime."
+msgstr ""
+
+#: templates/maintenance-page.tpl.php:33;33;40 templates/page.tpl.php:126;126;134;138
+msgid "Home"
+msgstr "Startseite"
+
+#: templates/node.tpl.php:92
+msgid "Submitted by !username on !datetime"
+msgstr ""
+
+#: templates/page.tpl.php:118
+msgid "Jump to Navigation"
+msgstr ""
+
+#: zen-internals/template.block-editing.inc:22
+msgid "edit block"
+msgstr "Block bearbeiten"
+
+#: zen-internals/template.block-editing.inc:25
+msgid "edit the content of this block"
+msgstr "Bearbeiten Sie den Inhalt dieses Blocks"
+
+#: zen-internals/template.block-editing.inc:35
+msgid "configure"
+msgstr "konfigurieren"
+
+#: zen-internals/template.block-editing.inc:38
+msgid "configure this block"
+msgstr "konfigurieren dieses Blocks"
+
+#: zen-internals/template.block-editing.inc:50
+msgid "edit view"
+msgstr "Ansicht bearbeiten"
+
+#: zen-internals/template.block-editing.inc:53
+msgid "edit the view that defines this block"
+msgstr "Bearbeiten der Ansicht, die diesen Block definiert"
+
+#: zen-internals/template.block-editing.inc:65;79
+msgid "edit menu"
+msgstr "Bearbeiten Menü"
+
+#: zen-internals/template.block-editing.inc:68;82
+msgid "edit the menu that defines this block"
+msgstr "Bearbeiten des Menüs, das diesen Block definiert"
+
+#: zen-internals/template.theme-registry.inc:33
+msgid "For easier theme development, the theme registry is being rebuilt on every page request. It is <em>extremely</em> important to <a href=\"!link\">turn off this feature</a> on production websites."
+msgstr "Zur einfacheren Theme Entwicklung kann die Theme Registry für jede Anfrage neu aufgebaut werden. Es <em>extrem</em> wichtig <a href=\"!link\">diese Funktion</a> für produktive Websites auszuschalten."
+

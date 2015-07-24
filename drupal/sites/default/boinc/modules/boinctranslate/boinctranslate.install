@@ -1,0 +1,53 @@
+<?php
+// $Id$
+
+/**
+ * Implementation of hook_install()
+ */
+function boinctranslate_install() {
+  // Use schema API to create database table
+  //drupal_install_schema('boinctranslate');
+  
+  // Alter the formula field in the languages table to increase length from 128
+  // to 1024 characters (longer formulas were being truncated)
+  $ret = array();
+  db_change_field(
+    $ret,
+    'languages',
+    'formula',
+    'formula',
+    array(
+      'type' => 'varchar',
+      'length' => 1024,
+      'not null' => TRUE,
+      'default' => '',
+    )
+  );
+}
+
+/**
+* Implementation of hook_uninstall().
+*/
+function boinctranslate_uninstall() {
+  // Use schema API to delete database table.
+  //drupal_uninstall_schema('boinctranslate');
+  // Delete our module's variable from the variables table.
+  //variable_del('boinctranslate_');
+}
+
+/**
+* Implementation of hook_schema().
+*/ /*
+function boinctranslate_schema() {
+  $schema['boinctranslate'] = array();
+  return $schema;
+}*/
+
+/**
+ * Implementation of hook_schema_alter().
+ */
+function boinctranslate_schema_alter(&$schema) {
+  // Notify the schema system that the length of languages.formula has been
+  // increased to 1024 (was 128)
+  $schema['languages']['fields']['formula']['length'] = 1024;
+}

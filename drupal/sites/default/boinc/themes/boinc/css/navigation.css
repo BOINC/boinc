@@ -1,0 +1,93 @@
+/* $Id: navigation.css,v 1.5 2009/11/04 19:42:41 johnalbin Exp $ */
+
+/**
+ * @file
+ * Navigation Styling
+ */
+
+
+/*
+ * The active item in a Drupal menu
+ */
+li a.active {
+  color: #000;
+}
+
+/*
+ * Navigation bar
+ */
+#navigation {
+}
+
+.region-navigation {
+}
+
+/*
+ * Primary and Secondary menu links
+ */
+#main-menu {
+}
+
+#secondary-menu,
+ul#secondary-menu {
+  height: 34px;
+  line-height: 33px;
+  margin: 0 0 0 -1px;
+  float: left;
+  clear: both;
+}
+#secondary-menu li {
+  padding: 0;
+  margin: 7px 0 0;
+  border-left: 1px solid #5a5758;
+}
+#secondary-menu li.first {
+  border: none;
+}
+#secondary-menu li.last {
+  border-right: none;
+}
+#secondary-menu li a {
+  color: gray;
+  font-size: 11px;
+  letter-spacing: 1px;
+  height: 18px;
+  line-height: 20px;
+  text-transform: uppercase;
+}
+#secondary-menu li a.active,
+#secondary-menu li a:hover {
+  color: #000;
+  text-decoration: none;
+}
+
+#footer-links {
+  line-height: 40px;
+  margin: 0 12px;
+  float: left;
+}
+#footer-links li {
+  padding: 0;
+}
+#footer-links li.first {
+}
+#footer-links a {
+}
+#footer-links li a:before {
+  content: " / ";
+}
+#footer-links li.first a:before {
+  content: none;
+}
+
+/*
+ * Menu blocks
+ */
+.block-menu {
+}
+
+/*
+ * "Menu block" blocks. See http://drupal.org/project/menu_block
+ */
+.block-menu_block {
+}

@@ -1,0 +1,122 @@
+<?php
+
+/**
+ * @file
+ * Moves the comments for a node into a block.
+ */
+
+/**
+ * Implements hook_block() for Drupal 6 compatibility
+ */
+function node_comment_block_block($op = 'list', $delta = 0, $edit = array()) {
+  switch ($op) {
+  case 'view':
+    //$block = node_comment_block_block_view($delta);
+    $block = array();
+    if ($delta == 'node_comments') {
+      if (arg(0) == 'node' && is_numeric($nid = arg(1)) && !arg(2)) {
+        $node = node_load($nid);
+        if ($node->comment !== 0) {
+          $block['subject'] = NULL; // This should be NULL otherwise there will be duplicate h2 elements.
+          $block['content'] = '';
+          if ($node->comment) {
+            $block['content'] .= comment_render($node);
+          }
+        }
+      }
+    }
+    break;
+  case 'list':
+    $blocks = node_comment_block_block_info();
+    return $blocks;
+    break;
+  default:
+  }
+  return $block;
+}
+
+/**
+ * Port Drupal 7 render() function to Drupal 6
+ */
+function render(&$element) {
+  if (is_array($element)) {
+    show($element);
+    return drupal_render($element);
+  }
+  else {
+    // Safe-guard for inappropriate use of render() on flat variables: return
+    // the variable as-is.
+    return $element;
+  }
+}
+
+
+
+/**
+ * Implements hook_block_info().
+ */
+function node_comment_block_block_info() {
+  $blocks['node_comments'] = array(
+    'info' => t('Node comments'),
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function node_comment_block_block_view($delta = '') {
+  $block = array();
+
+  if ($delta == 'node_comments') {
+    if (arg(0) == 'node' && is_numeric($nid = arg(1)) && !arg(2)) {
+      $node = node_load($nid);
+
+      if ($node->comment !== 0) {
+        $block['subject'] = NULL; // This should be NULL otherwise there will be duplicate h2 elements.
+        $block['content'] = '';
+
+        $node = node_view($node);
+
+        if ($node['comments']) {
+          $block['content'] .= render($node['comments']);
+        }
+      }
+    }
+  }
+
+  return $block;
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for nodes.
+ */
+function node_comment_block_preprocess_node(&$variables) {
+  $node = $variables['node'];
+  // Only hide standard comments for news content
+  if ($variables['type'] == 'news') {
+    $variables['node']->comment = 0;
+  }
+  
+  /* Drupal 7...
+  if ($node->comment !== 0 && $variables['view_mode'] == 'full') {
+    if (isset($variables['content']['comments'])) {
+      unset($variables['content']['comments']);
+      drupal_add_css(drupal_get_path('module', 'node_comment_block') . '/node-comment-block.css');
+    }
+  }
+  */
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for block_admin_configure.
+ */
+function node_comment_block_form_block_admin_configure_alter(&$form, &$form_state) {
+  if (isset($form['delta'])) {
+    if ($form['delta']['#value'] == 'node_comments') {
+      $form['settings']['title']['#disabled'] = TRUE;
+      $form['settings']['title']['#description'] = t('The title for this block cannot be overridden.');
+    }
+  }
+}

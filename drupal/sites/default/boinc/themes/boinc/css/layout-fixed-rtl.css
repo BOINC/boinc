@@ -1,0 +1,76 @@
+/* $Id: layout-fixed-rtl.css,v 1.6 2009/11/04 20:16:50 johnalbin Exp $ */
+
+/**
+ * @file
+ * RTL companion for the layout-fixed.css file.
+ */
+
+
+/*
+ * Content
+ */
+#content,
+.no-sidebars #content {
+  float: right;
+  margin-left: -960px;
+  margin-right: 0; /* Negative value of #content's width + left margin. */
+}
+
+.sidebar-first #content {
+  margin-left: -960px; /* The width of .region-sidebar-first. */
+  margin-right: 200px; /* Negative value of #content's width + left margin. */
+}
+
+.sidebar-second #content {
+  margin-left: -760px;
+  margin-right: 0; /* Negative value of #content's width + left margin. */
+}
+
+.two-sidebars #content {
+  margin-left: -760px; /* The width of .region-sidebar-first */
+  margin-right: 200px; /* Negative value of #content's width + left margin. */
+}
+
+/*
+ * Navigation
+ */
+#navigation {
+  float: right;
+  margin-left: -100%;
+  margin-right: 0; /* Negative value of #navigation's width + left margin. */
+}
+
+#navigation ul /* Primary and secondary links */ {
+  text-align: right;
+}
+
+#navigation li /* A simple method to get navigation links to appear in one line. */ {
+  float: right;
+  padding: 0 0 0 10px;
+}
+
+/*
+ * First sidebar
+ */
+.region-sidebar-first {
+  float: right;
+  margin-left: -200px;
+  margin-right: 0; /* Negative value of .region-sidebar-first's width + left margin. */
+}
+
+.region-sidebar-first .section {
+  margin: 0 0 0 20px;
+}
+
+/*
+ * Second sidebar
+ */
+.region-sidebar-second {
+  float: right;
+  margin-left: -960px; /* Width of content + sidebar-first. */
+  margin-right: 760px; /* Negative value of .region-sidebar-second's width + left margin. */
+}
+
+.region-sidebar-second .section {
+  margin: 0 20px 0 0;
+}

@@ -1,0 +1,4 @@
+name = Wysiwyg tweaks
+description = Add custom tweaks to Wysiwyg
+core = 6.x
+dependencies[] = wysiwyg

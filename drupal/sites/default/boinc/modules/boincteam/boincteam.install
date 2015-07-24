@@ -1,0 +1,23 @@
+<?php
+// $Id$
+function boincteam_schema() {
+  $schema['boincteam'] = array(
+    'description' => t('Maps BOINC teams to Drupal organic groups.'),
+    'fields' => array(
+         'team_id' => array('type' => 'int', 'unsigned' => TRUE, 'size' => 'small', 'not null' => TRUE, 'default' => 0, 'disp-width' => '5'),
+         'nid' => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0, 'disp-width' => '10'),
+    ),
+    'primary key' => array('team_id')
+  );
+  return $schema;
+}
+
+function boincteam_install() {
+  // Create tables.
+  drupal_install_schema('boincteam');
+}
+
+function boincteam_uninstall() {
+  // Drop tables.
+  drupal_uninstall_schema('boincteam');
+}

@@ -1,0 +1,40 @@
+6.x-2.4, released 2010-10-23
+- Fixed #839490; can't find library from install profile
+- Fixed #819728; make use of Filter.ExtractStyleBlocks.  Thanks
+  Vector- for contributing the patch.
+- Fixed #586746; Rate limit new version checks
+- Fixed #764974: Give friendly error message if running under PHP4
+- Deprecated Filter.YouTube in favor of SafeObject/FlashCompat.
+  Thanks John Morahan for contributing the patch.
+
+6.x-2.3, released 2010-06-09
+- Fixed #819914; version never updates
+
+6.x-2.2, released 2010-06-04
+- More comprehensive cache clearing.
+- Fixed #659666; clearing caches missed HTML Purifier
+- Fixed #708266; decouple location of HTML Purifier library with
+  libraries API.
+- Fixed #783066; new HTML Purifier version message too obnoxious.
+
+6.x-2.1, released 2009-12-12
+- Ukranian translation by podarok
+- Renamed dashboard to HTML Purifier Dashboard, fixes bug #368468
+- Make installation process nicer by checking if library folder is setup, fixes bug #261874
+- Remove unnecessary version checks
+
+6.x-2.0, released 2008-05-18
+# Drupal 6.x and HTML Purifier 3.1.0 are required
+! HTML Purifier now uses its native form function, so advanced configuration
+  options are available. You can also define your own custom functions
+  for configuration in the config/ directory.
+! Modified and better defaults selected for HTML Purifier.
+- HTML Purifier now maintains its own cache with a longer expiration time;
+  this helps performance greatly.
+- DefinitionCache uses Drupal's caching system
+- HTML Purifier will check for new versions of the core library and display
+  obnoxious warnings if it is out-of-date!
+- Uninstall function now obliterates HTML Purifier variables too.
+
+1.0, released 2007-07-15 (not via Drupal.org)
+- Initial release, basic functionality implemented.

@@ -1,0 +1,59 @@
+# SPANISH translation of DRUPAL bbcode.module
+# Copyright 2005 Eduin Yezid Carrillo Vega <webmaster@scoutsace.org>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: bbcode.module $Id\n"
+"POT-Creation-Date: 2005-01-08 19:20+0000\n"
+"PO-Revision-Date: 2005-07-22 10:25-0500\n"
+"Last-Translator: Eduin Yezid Carrillo Vega <webmaster@scoutsace.org>\n"
+"Language-Team: Spanish <webmaster@scoutsace.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: Spanish\n"
+"X-Poedit-Basepath: C:/projects/drupal/contributions/modules/bbcode\n"
+"X-Poedit-KeywordsList: t\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: bbcode.module:6
+msgid "Allow the use of bbcode in your posts."
+msgstr "Permite el uso de código bb en sus envíos."
+
+#: bbcode.module:16
+msgid "You can use <a href=\"%bbcode_help\">BBCode tags</a> in the text, URLs will be automatically converted to links"
+msgstr "Puede usar <a href=\"%bbcode_help\">etiquetas de código BB</a> en el texto, las URLs serán convertitas automáticamente en enlaces"
+
+#: bbcode.module:23
+msgid "BBCode"
+msgstr "BBCode"
+
+#: bbcode.module:26
+msgid "Converts BBCode to html."
+msgstr "Convierte código BB en html."
+
+#: bbcode.module:33
+msgid "BBCode filter"
+msgstr "Fïltro de Código BB"
+
+#: bbcode.module:34
+msgid "Email address encoding"
+msgstr "Codificación de Dirección de Correo"
+
+#: bbcode.module:36
+msgid "Disabled"
+msgstr "Deshabilitado"
+
+#: bbcode.module:36
+msgid "Enabled"
+msgstr "Habilitado"
+
+#: bbcode.module:37
+msgid "Whether to encode email addresses with javascript. With this method you will have clickable mailto links, but it will be a bit harder for spam robots to collect them."
+msgstr "Le permite codificar direcciones de correo electrónico con JavaScript. De esta forma, podrá tener enlaces a direcciones de correo, pero a los robots que colectan spam les será mas difícil encontrar las direcciones."
+
+#: bbcode.module:0
+msgid "bbcode"
+msgstr "bbcode"
+

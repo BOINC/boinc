@@ -1,0 +1,15 @@
+; $Id: i18nviews.info,v 1.1 2010/05/17 14:03:58 jareyero Exp $
+name = Views translation
+description = Translation of views strings and content selection for views. Requires Views 3.x
+dependencies[] = views
+dependencies[] = i18nstrings
+dependencies[] = i18ntaxonomy
+package = Multilanguage
+core = 6.x
+
+; Information added by drupal.org packaging script on 2010-06-10
+version = "6.x-2.0"
+core = "6.x"
+project = "i18nviews"
+datestamp = "1276171508"
+

@@ -1,0 +1,11 @@
+Password
+Enter the password that accompanies your username.
+Request new password
+Mark all topics read
+Mark all forums read
+CAPTCHA validation error: unknown CAPTCHA session ID. Contact the site administrator if this problem persists.
+The answer you entered for the CAPTCHA was not correct.
+Access denied. You must login to view this page.
+You are not authorized to access this page.
+Disable rich-text
+Enable rich-text

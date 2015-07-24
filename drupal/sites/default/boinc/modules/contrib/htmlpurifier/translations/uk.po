@@ -1,0 +1,81 @@
+# $Id: uk.po,v 1.1.2.2 2009/09/16 17:31:54 podarok Exp $
+#
+# Ukrainian translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  htmlpurifier.module,v 1.8 2009/07/09 23:57:44 ezyang
+#  htmlpurifier.info,v 1.6 2008/04/24 04:13:09 ezyang
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: html purufuer drupal module\n"
+"POT-Creation-Date: 2009-09-16 20:13+0300\n"
+"PO-Revision-Date: 2009-09-16 20:24+0200\n"
+"Last-Translator: podarok <podarok@ua.fm>\n"
+"Language-Team: Ukrainian <podarok@ua.fm>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+"X-Poedit-Language: Ukrainian\n"
+"X-Poedit-Country: UKRAINE\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: htmlpurifier.module:20
+#: htmlpurifier.info:0
+msgid "Filter that removes malicious HTML and ensures standards compliant output."
+msgstr "Фільтр, що видаляє шкідливий HTML і сприяє збереженню стандартів виводу"
+
+#: htmlpurifier.module:74;263
+#: htmlpurifier.info:0
+msgid "HTML Purifier"
+msgstr "HTML Чистильщик"
+
+#: htmlpurifier.module:74
+msgid "HTML Purifier (advanced)"
+msgstr "HTML Чистильщик (розширений)"
+
+#: htmlpurifier.module:91
+msgid "<em>This version has advanced configuration options, do not enable both at the same time.</em>"
+msgstr "<em>Ця версія має додаткові можливості, не вмикаєте обидві одночасно</em>"
+
+#: htmlpurifier.module:113
+msgid "HTML tags will be transformed to conform to HTML standards."
+msgstr "HTML теги будуть перетворені у відповідності до стандартів HTML "
+
+#: htmlpurifier.module:268
+msgid "Display help text"
+msgstr "Відображення тексту допомоги"
+
+#: htmlpurifier.module:270
+msgid "If enabled, a short note will be added to the filter tips explaining that HTML will be transformed to conform with HTML standards. You may want to disable this option when the HTML Purifier is used to check the output of another filter like BBCode."
+msgstr "Якщо увімкнено, короткі нотатки будуть додані до підказок фільтрів, що пояснюватимуть яким чином HTML буде трансформовано до стандартів. Ви можете  вимкнути це в випадках, якщо Чистильщик використовуватиметься для виводу інших фільтрів, наприклад BBCode."
+
+#: htmlpurifier.module:276
+msgid "<div>Configuration function <code>!function()</code> is already defined. To edit HTML Purifier's configuration, edit the corresponding configuration file, which is usually <code>htmlpurifier/config/!format.php</code>. To restore the web configuration form, delete or rename this file.</div>"
+msgstr "<div>Функція налагодження <code>!function()</code> вже зазначена. Для правки параметрів HTML Чистильщика, змінюйте вкладений файл налаштувань, що зазвичай є <code>htmlpurifier/config/!format.php</code>. Для відновлення параметрів форми налаштування, стріть або перейменуйте цей файл.</div>"
+
+#: htmlpurifier.module:281
+msgid "Configure HTML Purifier"
+msgstr "Управління модулем HTML Чистильщик"
+
+#: htmlpurifier.module:296
+msgid "Advanced configuration options"
+msgstr "Розширені налагодження"
+
+#: htmlpurifier.module:300
+msgid "Allow double caching"
+msgstr "Дозвіл на подвійне кешування"
+
+#: htmlpurifier.module:302
+msgid "If enabled, HTML Purifier will tell filter that its output is cacheable. This is not usually necessary, because HTML Purifier maintains its own cache, but may be helpful if you have later filters that need to be cached."
+msgstr "Якщо увімкнено, HTML Чистильщик буде повідомляти, що вивід кешований. Це не є необхідно, бо HTML Чистильщик володіє власним кешуванням, але може бути корисно, якщо Ви маєте подальші фільтри, що потребують кешування."
+
+#: htmlpurifier.module:310
+msgid "Please click on a directive name for more information on what it does before enabling or changing anything!"
+msgstr "Тисніть на імя для додаткової інформації для того, що це таке, переж вмиканням та змінюванням будь чого"
+
+#: htmlpurifier.module:0
+msgid "htmlpurifier"
+msgstr "html-чистильщик"
+

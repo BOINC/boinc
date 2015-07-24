@@ -1,0 +1,10 @@
+/**
+ * @file
+ * RTL companion for the block-editing.css file.
+ */
+
+
+div.block.with-block-editing div.edit {
+  left: 0;
+  right: auto;
+}
