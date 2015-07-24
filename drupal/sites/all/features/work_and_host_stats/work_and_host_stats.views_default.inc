@@ -1979,10 +1979,10 @@ function work_and_host_stats_views_default_views() {
       'hide_alter_empty' => 1,
       'value' => '<?php
   if (!is_current_boinc_user($data->host_userid)) {
-    require_boinc(\'db\');
+    require_boinc(\'boinc_db\');
     $owner = BoincUser::lookup_id($data->host_userid);
     $drupal_id = get_drupal_id($owner->id);
-    $profile_link = ($drupal_id) ? l($owner->name, "user/{$drupal_id}") : $owner->name;
+    $profile_link = ($drupal_id) ? l($owner->name, "account/{$drupal_id}") : $owner->name;
     echo ($owner->show_hosts) ? $profile_link : bts(\'Anonymous\');
   }
 ?>',
