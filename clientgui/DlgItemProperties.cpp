@@ -191,26 +191,26 @@ bool CDlgItemProperties::RestoreState() {
 
 void CDlgItemProperties::show_rsc(wxString rsc_name, RSC_DESC rsc_desc) {
     if (rsc_desc.no_rsc_pref) {
-        addProperty(_("Don't fetch tasks for ") + rsc_name, _("Project preference"));
+        addProperty(_("Don't request tasks for ") + rsc_name, _("Project preference"));
     }
     if (rsc_desc.no_rsc_ams) {
-        addProperty(_("Don't fetch tasks for ") + rsc_name, _("Account manager preference"));
+        addProperty(_("Don't request tasks for ") + rsc_name, _("Account manager preference"));
     }
     if (rsc_desc.no_rsc_apps) {
-        addProperty(_("Don't fetch tasks for ") + rsc_name, _("Project has no apps for ") + rsc_name);
+        addProperty(_("Don't request tasks for ") + rsc_name, _("Project has no apps for ") + rsc_name);
     }
     if (rsc_desc.no_rsc_config) {
-        addProperty(_("Don't fetch tasks for ") + rsc_name, _("Client configuration excludes ") + rsc_name);
+        addProperty(_("Don't request tasks for ") + rsc_name, _("Client configuration excludes ") + rsc_name);
     }
     double x = rsc_desc.backoff_time - dtime();
     if (x<0) x = 0;
     if (x) {
         addProperty(
-			wxString::Format(_("%s work fetch deferred for"), rsc_name.c_str()),
+			wxString::Format(_("%s task request deferred for"), rsc_name.c_str()),
 			FormatTime(x)
 	    );
         addProperty(
-			wxString::Format(_("%s work fetch deferral interval"), rsc_name.c_str()),
+			wxString::Format(_("%s task request deferral interval"), rsc_name.c_str()),
 			FormatTime(rsc_desc.backoff_interval)
 		);
     }
@@ -268,7 +268,7 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
         addProperty(_("Non CPU intensive"), _("yes"));
     }
     addProperty(_("Suspended via GUI"), project->suspended_via_gui ? _("yes") : _("no"));
-    addProperty(_("Don't request more work"), project->dont_request_more_work ? _("yes") : _("no"));
+    addProperty(_("Don't request tasks"), project->dont_request_more_work ? _("yes") : _("no"));
     if (project->scheduler_rpc_in_progress) {
         addProperty(_("Scheduler call in progress"), _("yes"));
     }
