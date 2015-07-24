@@ -562,6 +562,9 @@ function transfer_ok($team, $now) {
 function make_team(
     $userid, $name, $url, $type, $name_html, $description, $country
 ) {
+    if (parse_bool(get_config(), "disable_team_creation")) {
+        error_page("team creation disabled");
+    }
     $name = BoincDb::escape_string(sanitize_tags($name));
     if (strlen($name) == 0) return null;
     $name_lc = strtolower($name);

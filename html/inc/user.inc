@@ -340,8 +340,7 @@ function show_community_private($user) {
     }
 
     if (!DISABLE_TEAMS) {
-        if ($user->teamid) {
-            $team = BoincTeam::lookup_id($user->teamid);
+        if ($user->teamid && ($team = BoincTeam::lookup_id($user->teamid))) {
             $x = "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>
                 &middot; <a href=\"team_quit_form.php\">".tra("Quit team")."</a>";
             if (is_team_admin($user, $team)) {
