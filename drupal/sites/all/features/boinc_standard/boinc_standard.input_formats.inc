@@ -84,6 +84,32 @@ function boinc_standard_input_formats() {
       // Numbering suffix
       'tableofcontents_number_end_letter' => '.',
     ),
+    // Settings for: htmlpurifier module
+    'htmlpurifier' => array(
+      'htmlpurifier_clear_cac' => array(
+          '#description' => NULL,
+          '#value' => 'Clear cache (Warning: Can result in performance degradation)',
+        ),
+      // Display help text
+      'htmlpurifier_help' => 1,
+      'htmlpurifier_config' => array(
+          '#description' => NULL,
+          '#value' => array(
+            'Attr.EnableID' => '0',
+            'AutoFormat.AutoParagraph' => '1',
+            'AutoFormat.Linkify' => '0',
+            'AutoFormat.RemoveEmpty' => '0',
+            'Null_HTML.Allowed' => '1',
+            'HTML.ForbiddenAttributes' => '',
+            'HTML.ForbiddenElements' => '',
+            'HTML.SafeObject' => '1',
+            'Output.FlashCompat' => '1',
+            'URI.DisableExternalResources' => '0',
+            'URI.DisableResources' => '0',
+            'Null_URI.Munge' => '1',
+          ),
+        ),
+    ),
     // Settings for: bbcode module
     'bbcode' => array(
       // Convert addresses to links
@@ -103,48 +129,22 @@ function boinc_standard_input_formats() {
       'filter_pathologic_local_paths' => '/',
       'filter_pathologic_absolute' => 1,
     ),
-    // Settings for: htmlpurifier module
-    'htmlpurifier' => array(
-      'htmlpurifier_clear_cac' => array(
-          '#description' => NULL,
-          '#value' => 'Clear cache (Warning: Can result in performance degradation)',
-        ),
-      // Display help text
-      'htmlpurifier_help' => 1,
-      'htmlpurifier_config' => array(
-          '#description' => NULL,
-          '#value' => array(
-            'Attr.EnableID' => '0',
-            'AutoFormat.AutoParagraph' => '1',
-            'AutoFormat.Linkify' => '1',
-            'AutoFormat.RemoveEmpty' => '0',
-            'Null_HTML.Allowed' => '1',
-            'HTML.ForbiddenAttributes' => '',
-            'HTML.ForbiddenElements' => '',
-            'HTML.SafeObject' => '1',
-            'Output.FlashCompat' => '1',
-            'URI.DisableExternalResources' => '0',
-            'URI.DisableResources' => '0',
-            'Null_URI.Munge' => '1',
-          ),
-        ),
-    ),
   );
   $input_format->filters = array(
     'tableofcontents' => array(
       // Delta => Weight for: Table of contents
       '0' => '-10',
     ),
+    'htmlpurifier' => array(
+      // Delta => Weight for: HTML Purifier
+      '0' => '-9',
+    ),
     'bbcode' => array(
       // Delta => Weight for: BBCode
-      '0' => '-9',
+      '0' => '-8',
     ),
     'pathologic' => array(
       // Delta => Weight for: Pathologic
-      '0' => '-8',
-    ),
-    'htmlpurifier' => array(
-      // Delta => Weight for: HTML Purifier
       '0' => '-7',
     ),
   );

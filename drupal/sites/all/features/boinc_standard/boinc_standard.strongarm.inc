@@ -55,7 +55,7 @@ function boinc_standard_strongarm() {
   $strongarm->value = array(
     'Attr.EnableID' => '0',
     'AutoFormat.AutoParagraph' => '1',
-    'AutoFormat.Linkify' => '1',
+    'AutoFormat.Linkify' => '0',
     'AutoFormat.RemoveEmpty' => '0',
     'Null_HTML.Allowed' => '1',
     'HTML.ForbiddenAttributes' => '',
