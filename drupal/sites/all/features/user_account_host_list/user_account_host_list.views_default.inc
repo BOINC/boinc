@@ -639,7 +639,7 @@ function user_account_host_list_views_default_views() {
       'default_argument_type' => 'current_user',
       'default_argument' => '',
       'validate_type' => 'php',
-      'validate_fail' => 'not found',
+      'validate_fail' => 'empty',
       'break_phrase' => 0,
       'not' => 0,
       'id' => 'userid',
@@ -648,9 +648,13 @@ function user_account_host_list_views_default_views() {
       'validate_user_argument_type' => 'uid',
       'validate_user_roles' => array(
         2 => 0,
-        3 => 0,
-        4 => 0,
-        5 => 0,
+        3519698132 => 0,
+        1110965548 => 0,
+        2938987599 => 0,
+        1257454314 => 0,
+        268174006 => 0,
+        1271379760 => 0,
+        933038561 => 0,
       ),
       'relationship' => 'none',
       'default_options_div_prefix' => '',
@@ -659,6 +663,9 @@ function user_account_host_list_views_default_views() {
       'default_argument_php' => '',
       'validate_argument_node_type' => array(
         'page' => 0,
+        'news' => 0,
+        'team' => 0,
+        'team_forum' => 0,
         'profile' => 0,
         'forum' => 0,
         'panel' => 0,
@@ -679,9 +686,13 @@ function user_account_host_list_views_default_views() {
       'me_validate_user_argument_type' => 'uid',
       'me_validate_user_roles' => array(
         2 => 0,
-        3 => 0,
-        4 => 0,
-        5 => 0,
+        3519698132 => 0,
+        1110965548 => 0,
+        2938987599 => 0,
+        1257454314 => 0,
+        268174006 => 0,
+        1271379760 => 0,
+        933038561 => 0,
       ),
       'default_taxonomy_tid_term_page' => 0,
       'default_taxonomy_tid_node' => 0,
@@ -705,8 +716,12 @@ function user_account_host_list_views_default_views() {
   $handler->override_option('cache', array(
     'type' => 'none',
   ));
-  $handler->override_option('empty', ' ');
-  $handler->override_option('empty_format', '5');
+  $handler->override_option('empty', '<?php
+  if (!user_is_logged_in()) {
+    drupal_goto(\'user/login\', drupal_get_destination());
+  }
+?>');
+  $handler->override_option('empty_format', '3');
   $handler->override_option('items_per_page', 20);
   $handler->override_option('use_pager', '1');
   $handler->override_option('style_plugin', 'table');
