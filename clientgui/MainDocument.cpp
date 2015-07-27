@@ -579,19 +579,20 @@ int CMainDocument::OnPoll() {
             }
         }
         
-        if (IsComputerNameLocal(hostName)) {
-            pFrame->UpdateStatusText(_("Starting client"));
-            if (m_pClientManager->StartupBOINCCore()) {
+        if (wxGetApp().GetNeedRunDaemon()) {
+            if (IsComputerNameLocal(hostName)) {
+              pFrame->UpdateStatusText(_("Starting client"));
+              if (m_pClientManager->StartupBOINCCore()) {
                 Connect(wxT("localhost"), portNum, password, TRUE, TRUE);
-            } else {
+              } else {
                 m_pNetworkConnection->ForceDisconnect();
                 pFrame->ShowDaemonStartFailedAlert();
+              }
+            } else {
+              pFrame->UpdateStatusText(_("Connecting to client"));
+              Connect(hostName, portNum, password, TRUE, password.IsEmpty());
             }
-        } else {
-            pFrame->UpdateStatusText(_("Connecting to client"));
-            Connect(hostName, portNum, password, TRUE, password.IsEmpty());
         }
-
         pFrame->UpdateStatusText(wxEmptyString);
     }
 
