@@ -189,7 +189,7 @@ int SCHED_SHMEM::scan_tables() {
             vector<APP_VERSION> avs;
             char query[1024];
             sprintf(query,
-                "where appid=%d and platformid=%d and deprecated=0",
+                "where appid=%lu and platformid=%lu and deprecated=0",
                 sapp.id, splatform.id
             );
             while (!app_version.enumerate(query)) {
@@ -338,7 +338,7 @@ void SCHED_SHMEM::show(FILE* f) {
     fprintf(f, "apps:\n");
     for (int i=0; i<napps; i++) {
         APP& app = apps[i];
-        fprintf(f, "id: %d name: %s hr: %d weight: %.2f beta: %d hav: %d nci: %d\n",
+        fprintf(f, "id: %lu name: %s hr: %d weight: %.2f beta: %d hav: %d nci: %d\n",
             app.id, app.name, app.homogeneous_redundancy, app.weight,
             app.beta, app.homogeneous_app_version, app.non_cpu_intensive
         );
@@ -346,7 +346,7 @@ void SCHED_SHMEM::show(FILE* f) {
     fprintf(f, "app versions:\n");
     for (int i=0; i<napp_versions; i++) {
         APP_VERSION av = app_versions[i];
-        fprintf(f, "appid: %d platformid: %d version_num: %d plan_class: %s\n",
+        fprintf(f, "appid: %lu platformid: %lu version_num: %d plan_class: %s\n",
             av.appid, av.platformid, av.version_num, av.plan_class
         );
     }
@@ -403,7 +403,7 @@ void SCHED_SHMEM::show(FILE* f) {
             appname = app?app->name:"missing";
             delta_t = dtime() - wu_result.time_added_to_shared_memory;
             fprintf(f,
-                "%4d %12.12s %10d %10d %10d %8d %10d %7ds %9d %12s %9d\n",
+                "%4d %12.12s %10lu %10lu %10d %8d %10d %7ds %9d %12s %9d\n",
                 i,
                 appname,
                 wu_result.workunit.id,
@@ -421,7 +421,7 @@ void SCHED_SHMEM::show(FILE* f) {
             fprintf(f, "%4d: ---\n", i);
             break;
         default:
-            fprintf(f, "%4d: PID %d: result %u\n", i, wu_result.state, wu_result.resultid);
+            fprintf(f, "%4d: PID %d: result %lu\n", i, wu_result.state, wu_result.resultid);
         }
     }
 }

@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2015-07-04 18:34+0000\n"
+"POT-Creation-Date: 2015-07-09 18:59 PDT\n"
+"PO-Revision-Date: 2015-07-23 21:06+0000\n"
 "Last-Translator: Nikolay Sakharov <saharovna@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/boinc/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -104,7 +104,7 @@ msgstr "Системные требования"
 msgid "Release notes"
 msgstr "Описание последней версии"
 
-#: download.php:179 index.php:89
+#: download.php:179 index.php:93
 msgid "Help"
 msgstr "Помощь"
 
@@ -221,153 +221,103 @@ msgid "News"
 msgstr "Новости"
 
 #. "Volunteer" is used as a verb
-#: index.php:85
+#: index.php:89
 msgid "Volunteer"
 msgstr "Информация для участников"
 
-#: index.php:88
+#: index.php:92
 msgid "Download"
 msgstr "Страница загрузки"
 
-#: index.php:90 index.php:132 index.php:184
+#: index.php:94 index.php:138
 msgid "Documentation"
 msgstr "Документация"
 
-#: index.php:91
+#: index.php:95
 msgid "Add-ons"
 msgstr "Дополнения"
 
-#: index.php:92
+#: index.php:96
 msgid "Links"
 msgstr "Ссылки"
 
-#: index.php:97
+#: index.php:101
 msgid ""
 "Use the idle time on your computer (Windows, Mac, Linux, or Android) to cure"
 " diseases, study global warming, discover pulsars, and do many other types "
 "of scientific research.  It's safe, secure, and easy:"
 msgstr "Используйте время простоя на вашем компьютере (Windows, Mac, Linux или Android), чтобы лечить болезни, изучать глобальное потепление, открывать пульсары, и делать много других типов научных исследований.  Это безопасно, надёжно и просто:"
 
-#: index.php:99
+#: index.php:103
 msgid "Choose projects"
 msgstr "Выберите проекты"
 
-#: index.php:100
+#: index.php:104
 msgid "Download BOINC software"
 msgstr "Загрузите программное обеспечение BOINC"
 
-#: index.php:101
+#: index.php:105
 msgid "Enter an email address and password."
 msgstr "Введите адрес электронной почты и пароль."
 
-#: index.php:105
+#: index.php:109
 #, php-format
 msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as "
 "%sGridRepublic%s or %sBAM!%s. "
 msgstr "При желании участвовать одновременно в нескольких проектах, в качестве альтернативы можно воспользоваться сайтами %sменеджеров проектов%s, такими как %sGridRepublic%s или %sBAM!%s. "
 
-#: index.php:130
+#: index.php:136
 msgid "Compute with BOINC"
 msgstr "Используйте BOINC для организации вычислений"
 
-#: index.php:133
+#: index.php:139
 msgid "Software updates"
 msgstr "Обновления серверного ПО"
 
-#: index.php:140
+#: index.php:146
 msgid ""
-"%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving"
-" you the computing power of thousands of CPUs."
-msgstr "%1Ученые%2: используйте BOINC, чтобы создать %3проект добровольных распределённых вычислений%4, дающий Вам вычислительную мощь тысяч центральных процессоров."
+"%1Scientists%2: use BOINC to create a %3volunteer computing project%4, "
+"giving you the power of thousands of CPUs and GPUs."
+msgstr "%1Учёные%2: используйте BOINC, чтобы создать %3проект добровольных распределённых вычислений%4, дающий Вам вычислительную мощь тысяч центральных процессоров и графических ускорителей."
 
-#: index.php:144
+#: index.php:150
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
 msgstr "%1Университеты%2: используйте BOINC, чтобы создать %3Виртуальный Суперкомпьютерный Центр ВУЗа%4."
 
-#: index.php:149
+#: index.php:155
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
 msgstr "%1Компании%2: используйте BOINC для %3распределённых вычислений в локальной сети%4."
 
-#: index.php:161
-msgid "The BOINC project"
-msgstr "Разработка BOINC"
-
 #: index.php:167
+msgid "About BOINC"
+msgstr "О BOINC"
+
+#: index.php:181
 msgid "Message boards"
 msgstr "Доска сообщений"
 
-#: index.php:168
+#: index.php:182
 msgid "Email lists"
 msgstr "Рассылки"
 
-#: index.php:169
-msgid "Personnel and contributors"
-msgstr "Список разработчиков"
-
-#: index.php:170
+#: index.php:183
 msgid "Events"
 msgstr "События"
 
-#: index.php:171
-msgid "Papers and talks"
-msgstr "Статьи и доклады"
-
-#: index.php:172
-msgid "Research projects"
-msgstr "Научно-исследовательские проекты"
-
-#: index.php:173
-msgid "Logos and graphics"
-msgstr "Изображения и логотипы"
-
-#: index.php:174
-msgid "and"
-msgstr "и"
-
-#: index.php:178
+#: index.php:184
 msgid "Source code"
 msgstr "Исходный код"
 
-#: index.php:179
-msgid "Help wanted"
-msgstr "Нужна помощь"
-
-#: index.php:181
-msgid "Programming"
-msgstr "Программирование"
-
-#: index.php:182
-msgid "Translation"
-msgstr "Перевод"
-
-#: index.php:183
-msgid "Testing"
-msgstr "Тестирование"
-
-#: index.php:185
-msgid "Publicity"
-msgstr "Реклама"
-
-#: index.php:187
-msgid "Software development"
-msgstr "Разработка программного обеспечения"
-
-#: index.php:188
+#: index.php:186
 msgid "APIs for add-on software"
 msgstr "API для ПО сторонних разработчиков"
 
-#: index.php:230
-#, php-format
-msgid ""
-"Open-source software for %svolunteer computing%s and %sgrid computing%s."
-msgstr "Программное обеспечение с открытым исходным кодом для организации %sдобровольных распределённых вычислений%s и %sраспределённых вычислений в сети%s."
-
-#: index.php:243
-msgid "BOINC is based at The University of California, Berkeley"
-msgstr "BOINC находится в Университете Калифорнии, Беркли"
+#: index.php:231
+msgid "Open-source software for volunteer computing"
+msgstr "Программное обеспечение с открытым исходным кодом для организации добровольных распределённых вычислений."
 
 #: projects.inc:19
 msgid "Distributed sensing"
@@ -406,6 +356,17 @@ msgstr "Radioactive@Home создает бесплатную и постоянн
 msgid "Cognitive science and artifical intelligence"
 msgstr "Когнитивная наука и искусственный интеллект"
 
+#: projects.inc:51
+msgid "Cognitive Science"
+msgstr "Когнитивная наука"
+
+#: projects.inc:52
+msgid ""
+"MindModeling@Home uses computational cognitive process modeling to better "
+"understand the human mind, and specifically to study the mechanisms and "
+"processes that enable and moderate human performance and learning."
+msgstr "MindModeling@Home использует вычислительное моделирование познавательного процесса, чтобы лучше понять человеческий разум, и особенно для того, чтобы изучить механизмы и процессы, которые активируют и управляют человеческой деятельностью и обучением."
+
 #: projects.inc:70 projects.inc:467 projects.inc:591 projects.inc:601
 #: projects.inc:657
 msgid "Private"
@@ -426,6 +387,26 @@ msgstr "Разбор и преобразование семантических 
 #: projects.inc:82
 msgid "Biology and Medicine"
 msgstr "Биология и Медицина"
+
+#: projects.inc:88
+msgid "Medical physiology"
+msgstr "Медицинская физиология"
+
+#: projects.inc:89
+msgid ""
+"DENIS@Home does cardiac electrophysiological simulations, studying the "
+"electrical activity of the heart."
+msgstr "DENIS@Home выполняет электрофизиологическое кардио-моделирование, изучая электрическую активность сердца."
+
+#: projects.inc:98
+msgid "Molecular biology"
+msgstr "Молекулярная биология"
+
+#: projects.inc:99
+msgid ""
+"RNA World seeks to identify, analyze, structurally predict and design RNA "
+"molecules on the basis of established bioinformatics software."
+msgstr "RNA World стремится выявить, проанализировать, структурно предсказать и спроектировать молекулы РНК на основе признанного биоинформационного программного обеспечения."
 
 #: projects.inc:107
 msgid "University College Dublin"
@@ -579,7 +560,46 @@ msgid ""
 "calculations on multi-wavelength (ultraviolet, optical and near-infrared "
 "light) images of galaxies to produce an atlas that will help astronomers to "
 "better understand the distant universe."
-msgstr "TheSkyNet POGS — это астрономический проект, изучающий 16 различных свойств галактик, включая яркость, массу, количество пыли и как быстро формируются звёзды. Мы используем ваши вычислительные мощности для проведения расчётов пиксель за пикселем на многочастотных ((ультрафиолетовый, оптический и инфракрасный спектры) изображениях галактик, чтобы создать Атлас, который поможет астрономам лучше понять далёкую Вселенную."
+msgstr "TheSkyNet POGS — это астрономический проект, изучающий 16 различных свойств галактик, включая яркость, массу, количество пыли и как быстро формируются звёзды. Мы используем ваши вычислительные мощности для проведения расчётов пиксель за пикселем на многочастотных (ультрафиолетовый, оптический и инфракрасный спектры) изображениях галактик, чтобы создать Атлас, который поможет астрономам лучше понять далёкую Вселенную."
+
+#: projects.inc:280 projects.inc:366
+msgid "Astrophysics"
+msgstr "Астрофизика"
+
+#: projects.inc:281
+msgid ""
+"The aim of the project is to derive shapes and spin for a significant part "
+"of the asteroid population. As input data, we use any asteroid photometry "
+"that is available. The results are asteroid convex shape models with the "
+"direction of the spin axis and the rotation period."
+msgstr "Целью проекта является получение форм и направлений вращения для значительной части популяции астероидов. В качестве входных данных мы используем любую доступную  фотометрию астероидов. Результатами являются объёмные модели астероидов с направлением оси и периода вращения."
+
+#: projects.inc:290
+msgid "Aerospace-related science and engineering"
+msgstr "Аэрокосмическая наука и техника"
+
+#: projects.inc:291
+msgid ""
+"Constellation is a platform for aerospace-related simulations, including "
+"trajectory optimization of launchers, satellites and probes, simulation of "
+"Moon's near-surface exosphere, and analysis of dynamic systems of "
+"exploration-rovers"
+msgstr "Constellation представляет собой платформу для аэрокосмического моделирования, включая оптимизацию траекторий пусковых установок, спутников и зондов, моделирование экзосферы вблизи поверхности Луны и анализ динамических систем исследовательских аппаратов-планетоходов"
+
+#: projects.inc:294
+msgid "Perform aerospace-related simulations"
+msgstr "Выполнение аэрокосмического моделирования"
+
+#: projects.inc:329
+msgid ""
+"Universe@Home aims to create the first database of the simulated stellar "
+"content of the Universe, from the earliest stars to the most exotic black "
+"hole binaries."
+msgstr "Universe@Home направлен на создание первой базы данных смоделированного звёздного содержания Вселенной, от ранних звёзд до самых экзотических двойных чёрных дыр."
+
+#: projects.inc:332
+msgid "Do research in physics and astronomy"
+msgstr "Исследования в области физики и астрономии"
 
 #: projects.inc:337
 msgid "Rensselaer Polytechnic Institute"
@@ -591,6 +611,10 @@ msgid ""
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
 "Survey."
 msgstr "Цель Milkyway@Home состоит в том, чтобы создать очень точную трёхмерную модель галактики Млечный путь используя данные, собранные Слоановским цифровым обзором неба."
+
+#: projects.inc:342
+msgid "Study the structure of the Milky Way galaxy"
+msgstr "Изучение структуры галактики Млечный путь"
 
 #: projects.inc:347
 msgid "Leiden University, The Netherlands"
@@ -610,13 +634,13 @@ msgid ""
 "simulations through the grid."
 msgstr "Вычисления науки поверхностей используют Classical Dynamics. Leiden Classical позволяет добровольцам, студентам и другим ученым отправлять результаты своих вычислений в сеть. Каждый пользователь имеет свою собственную личную очередь заданий Classical Dynamics. Таким образом, студенты используют сеть, чтобы смоделировать жидкий аргон, или проверить обоснованность закона идеального газа, фактически производя моделирование посредством сети."
 
+#: projects.inc:352
+msgid "Help students do atomic simulations"
+msgstr "Помощь студентам в атомном моделировании"
+
 #: projects.inc:365
 msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
 msgstr "Университет Висконсина - Милуоки, Институт Макса Планка"
-
-#: projects.inc:366
-msgid "Astrophysics"
-msgstr "Астрофизика"
 
 #: projects.inc:367
 msgid ""
@@ -626,6 +650,10 @@ msgid ""
 "supported by the American Physical Society (APS) and by a number of "
 "international organizations."
 msgstr "Поиск вращающихся нейтронных звезд (также называющихся пульсарами) используя данные детекторов гравитационных волн LIGO и GEO, а также радиообсерватории Аресибо. Einstein@Home - проект Международного Года Физики 2005, поддержанный Американским Физическим Обществом (APS) и множеством международных организаций."
+
+#: projects.inc:370
+msgid "Help detect pulsars and gravitational waves"
+msgstr "Помощь в обнаружении пульсаров и гравитационных волн"
 
 #: projects.inc:383 projects.inc:393 projects.inc:403
 msgid "CERN (European Organization for Nuclear Research)"
@@ -644,12 +672,20 @@ msgid ""
 "the design of LHC and its detectors."
 msgstr "Большой Адронный Коллайдер (LHC) - ускоритель частиц в CERN, Европейской Организации Ядерных Исследований, самой большой в мире лаборатории физики элементарных частиц. Это самый мощный инструмент, когда-либо построенный, для исследования поведения элементарных частиц. LHC@home выполняет моделирование для улучшения проекта LHC и его датчиков."
 
+#: projects.inc:388
+msgid "Improve the design of the Large Hadron Collider"
+msgstr "Улучшение дизайна Большого Адронного Коллайдера"
+
 #: projects.inc:395
 msgid ""
 "This project uses CERN-developed virtual machine technology for LHC event "
 "physics simulation on volunteer computers.  Requires that you install "
 "VirtualBox on your computer"
 msgstr "Этот проект использует разработанную ЦЕРН технологию виртуализации для симуляции процессов, происходящих на Большом Адронном Коллайдере, на компьютерах волонтеров. Требует наличия установленного VirtualBox на компьютере."
+
+#: projects.inc:398
+msgid "Simulate high-energy particle collisions"
+msgstr "Симуляция столкновений частиц высоких энергий"
 
 #: projects.inc:405
 msgid ""
@@ -658,6 +694,10 @@ msgid ""
 " particles and processes using head-on collisions of protons of "
 "extraordinary high energy."
 msgstr "ATLAS@Home использует распределенные вычисления для симуляции эксперимента ATLAS - эксперимента в области физики элементарных частиц, проходящего в ЦЕРН на Большом Адронном Коллайдере. ATLAS занимается поиском новых элементарных частиц и процессов с помощью столкновений встречных пучков протонов на сверхвысоких энергиях."
+
+#: projects.inc:408
+msgid "Simulate high-energy particle collisions for CERN"
+msgstr "Симуляция столкновений частиц высоких энергий для CERN"
 
 #: projects.inc:413
 msgid "University of California, Berkeley"
@@ -676,9 +716,27 @@ msgid ""
 "detection would provide evidence of extraterrestrial technology."
 msgstr "SETI (Search for Extraterrestrial Intelligence, Поиск ВнеЗемного Разума) - это научное направление, цель которого - обнаружить разумную жизнь вне Земли. На первом этапе, известном как radio SETI (радио SETI), используются радио телескопы для слежения за узкополосными радиосигналами космоса. Естественные источники таких сигналов не известны, поэтому их обнаружение может дать подтверждение о существовании внеземной технологии."
 
+#: projects.inc:418
+msgid "Search for evidence of extra-terrestrial life"
+msgstr "Поиск свидетельств внеземной жизни"
+
 #: projects.inc:442
 msgid "Multiple applications"
 msgstr "Различные приложения"
+
+#: projects.inc:448
+msgid "Molecular biology, Computer Science"
+msgstr "Молекулярная биология, наука о компьютерах"
+
+#: projects.inc:449
+msgid ""
+"The Citizen Science Grid is dedicated to supporting a wide range of research"
+" and educational projects using volunteer computing and citizen science."
+msgstr "Citizen Science Grid посвящён поддержке широкого спектра научно-исследовательских и образовательных проектов с использованием добровольных вычислений и науки для граждан."
+
+#: projects.inc:452
+msgid "Support science from the University of North Dakota"
+msgstr "Поддержка науки из Университета Северной Дакоты"
 
 #: projects.inc:457
 msgid "Chinese Academy of Sciences"
@@ -695,6 +753,10 @@ msgid ""
 "their research."
 msgstr "Цель CAS@home состоит в том, чтобы рекомендовать и помочь ученым в Китае принять технологии добровольных вычислений и добровольных размышлений в их исследованиях."
 
+#: projects.inc:462
+msgid "Help Chinese researchers"
+msgstr "Помощь китайским исследователям"
+
 #: projects.inc:468
 msgid "Mathematics, physics, evolution"
 msgstr "Математика, физика, эволюция"
@@ -704,6 +766,10 @@ msgid ""
 "Yoyo@home is an adapter between BOINC and several existing volunteer "
 "computing projects: ECM, Muon, Evolution@home, and distributed.net"
 msgstr "Yoyo@home - адаптер между BOINC и несколькими существующими добровольными распределёнными проектами: ECM, Muon, Evolution@home, и distributed.net"
+
+#: projects.inc:472
+msgid "Do research in math, physics, and evolution"
+msgstr "Исследования в математике, физике и эволюции"
 
 #: projects.inc:477 projects.inc:677
 msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
@@ -721,6 +787,10 @@ msgid ""
 " by the project include math, physics, biology, etc."
 msgstr "Бета-проект EDGeS@Home объединяет вычисления добровольцев в европейскую сервисную сеть, позволяя сервисной сети посылать задания для обработки добровольцами этого проекта. Научные проекты, поддерживаемые данным проектом, включают в себя математику, физику, биологию и т.д."
 
+#: projects.inc:482
+msgid "Help European researchers"
+msgstr "Помощь европейским исследователям"
+
 #: projects.inc:487
 msgid "Spanish universities and research centers"
 msgstr "Испанские университеты и исследовательские центры"
@@ -732,6 +802,10 @@ msgstr "Различные испанские исследовательские
 #: projects.inc:489
 msgid "Research in physics, material science, and biomedicine"
 msgstr "Исследования в физике, материаловедении, и биомедицине"
+
+#: projects.inc:492
+msgid "Help Spanish researchers"
+msgstr "Помощь испанским исследователям"
 
 #: projects.inc:497
 msgid "IBM Corporate Citizenship"
@@ -749,13 +823,55 @@ msgid ""
 "clean water and many more."
 msgstr "Для дальнейших критических некоммерческих исследований некоторых из наиболее актуальных проблем человечества, создав крупнейшую в мире добровольную вычислительную сеть.  Исследования включают в себя ВИЧ-СПИД, рак, тропические и забытые болезни, солнечную энергию, чистую воду и многое другое."
 
+#: projects.inc:502
+msgid "Do biomedical and environmental research"
+msgstr "Биомедицинские и экологические исследования"
+
 #: projects.inc:507
 msgid "Mathematics, computing, and games"
 msgstr "Математика, информатика, и игры"
 
+#: projects.inc:533 projects.inc:602 projects.inc:658 projects.inc:668
+#: projects.inc:678
+msgid "Mathematics"
+msgstr "Математика"
+
+#: projects.inc:534
+msgid ""
+"NumberFields@home searches for fields with special properties. The primary "
+"application of this research is in the realm of algebraic number theory. "
+"Number theorists can mine the data for interesting patterns to help them "
+"formulate conjectures about number fields. Ultimately, this research will "
+"lead to a deeper understanding of the profound properties of numbers, the "
+"basic building blocks of all mathematics."
+msgstr "NumberFields@home ищет поля с особыми свойствами. Основная сфера применения этого исследования - в области алгебраической теории чисел. Теоретики могут добывать данные для интересных паттернов, чтобы помочь им формулировать гипотезы о числовых полях. В конечном счёте это исследование приведёт к более глубокому пониманию фундаментальных свойств чисел - основных строительных блоков любых разделов математики."
+
+#: projects.inc:537
+msgid "Do research in algebraic number theory"
+msgstr "Исследования в алгебраической теории чисел"
+
+#: projects.inc:553
+msgid "Computer Science"
+msgstr "Наука о компьютерах"
+
+#: projects.inc:554
+msgid ""
+"Solve hard and practically important problems (discrete functions inversion "
+"problems, discrete optimization, bioinformatics, etc.) that can be "
+"effectively reduced to Boolean satisfiability problem."
+msgstr "Решение трудных и практически важных задач (обращения дискретных функций, дискретной оптимизации, биоинформатики и т.д.), которые могут быть эффективно сведены к задаче о выполнимости булевых формул."
+
+#: projects.inc:557
+msgid "Study computational complexity"
+msgstr "Изучение вычислительной сложности"
+
 #: projects.inc:582
 msgid "Cryptography and combinatorics"
 msgstr "Криптография и комбинаторика"
+
+#: projects.inc:583 projects.inc:586
+msgid "Run applications from distributed.net"
+msgstr "Запуск приложений проекта distributed.net"
 
 #: projects.inc:592
 msgid "Cryptography"
@@ -767,13 +883,17 @@ msgid ""
 "in the North Atlantic in 1942 and are believed to be unbroken."
 msgstr "Попытка расшифровать 3 оригинальных сообщения Энигмы. Сигналы были перехвачены в Североатлантическом океане в 1942 году и считалось, что их невозможно взломать."
 
-#: projects.inc:602 projects.inc:658 projects.inc:668 projects.inc:678
-msgid "Mathematics"
-msgstr "Математика"
+#: projects.inc:596
+msgid "Decode WWII submarine messages"
+msgstr "Расшифровка сообщений подводных лодок Второй мировой войны"
 
 #: projects.inc:603
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
 msgstr "Исследование Гипотезы Коллатца, неразрешенной гипотезы в математике"
+
+#: projects.inc:606
+msgid "Study the Collatz Conjecture"
+msgstr "Изучение Гипотезы Коллатца"
 
 #: projects.inc:611
 msgid "California State University Fullerton"
@@ -793,11 +913,19 @@ msgid ""
 "hundreds of digits long."
 msgstr "NFS@Home - это исследовательский проект, который использует подключенные к Интернету компьютеры, чтобы рассчитать шаг решетки просеивания при факторизации больших целых чисел в Number Field Sieve (NFS). Школьником Вы получили ваш первый опыт в разложении целых чисел на простые, такие как 15 = 3 * 5 или 35 = 5 * 7. NFS@Home является продолжением этого опыта, только с целыми числами, состоящими из сотен цифр."
 
+#: projects.inc:616
+msgid "Study the factorization of large integers"
+msgstr "Исследование факторизации больших целых чисел"
+
 #: projects.inc:659
 msgid ""
 "Primegrid has multiple projects searching for different forms of very large "
 "prime numbers, including searching for the largest known prime number."
 msgstr "Primegrid поддерживает множество проектов, ищущих различные формы очень больших простых чисел, включая поиск крупнейшего известного простого числа."
+
+#: projects.inc:662
+msgid "Search for large prime numbers"
+msgstr "Поиск больших простых чисел"
 
 #: projects.inc:667
 msgid "Hochschule RheinMain University of Applied Sciences"
@@ -809,11 +937,26 @@ msgid ""
 "of prime numbers"
 msgstr "Поиск контрпримеров к двум теоремам, связанным с идентификацией главных чисел"
 
+#: projects.inc:672
+msgid "Study the properties of prime numbers"
+msgstr "Изучение свойств простых чисел"
+
 #: projects.inc:679
 msgid ""
 "Find all the generalized binary number systems (in which bases are matrices "
 "and digits are vectors) up to dimension 11."
 msgstr "Поиск всех систем обобщенных двоичных чисел (в которых основания являются матрицами, а цифры - векторами) до 11-го измерения."
+
+#: projects.inc:682
+msgid "Study number theory"
+msgstr "Изучение теории чисел"
+
+#: projects.inc:739
+msgid ""
+"Testing and comparison of heuristic methods for getting separations of "
+"parallel algorithms working in the CAD system for designing logic control "
+"systems"
+msgstr "Тестирование и сравнение эвристических методов для получения разделения параллельных алгоритмов, работающих в системе САПР для проектирования логики систем управления"
 
 #: ../html/inc/news.inc:40
 msgid "Comment"

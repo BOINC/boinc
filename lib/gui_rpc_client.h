@@ -209,6 +209,7 @@ struct APP_VERSION {
     double natis;
     double gpu_ram;
     double flops;
+    char exec_filename[256];
     APP* app;
     PROJECT* project;
 
@@ -216,6 +217,7 @@ struct APP_VERSION {
 
     int parse(XML_PARSER&);
     int parse_coproc(XML_PARSER&);
+    int parse_file_ref(XML_PARSER&);
     void print();
     void clear();
 };

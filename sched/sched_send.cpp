@@ -192,7 +192,7 @@ static void update_quota(DB_HOST_APP_VERSION& hav) {
             hav.max_jobs_per_day = config.daily_result_quota;
             if (config.debug_quota) {
                 log_messages.printf(MSG_NORMAL,
-                    "[quota] [HAV#%d] Initializing max_results_day to %d\n",
+                    "[quota] [HAV#%lu] Initializing max_results_day to %d\n",
                     hav.app_version_id,
                     config.daily_result_quota
                 );
@@ -203,7 +203,7 @@ static void update_quota(DB_HOST_APP_VERSION& hav) {
     if (g_request->last_rpc_dayofyear != g_request->current_rpc_dayofyear) {
         if (config.debug_quota) {
             log_messages.printf(MSG_NORMAL,
-                "[quota] [HOST#%d] [HAV#%d] Resetting n_jobs_today\n",
+                "[quota] [HOST#%lu] [HAV#%lu] Resetting n_jobs_today\n",
                 g_reply->host.id, hav.app_version_id
             );
         }
@@ -240,7 +240,7 @@ void get_reliability_version(HOST_APP_VERSION& hav, double multiplier) {
         if (hav.turnaround.get_avg() > config.reliable_max_avg_turnaround*multiplier) {
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [AV#%d] not reliable; avg turnaround: %.3f > %.3f hrs\n",
+                    "[send] [AV#%lu] not reliable; avg turnaround: %.3f > %.3f hrs\n",
                     hav.app_version_id,
                     hav.turnaround.get_avg()/3600,
                     config.reliable_max_avg_turnaround*multiplier/3600
@@ -253,7 +253,7 @@ void get_reliability_version(HOST_APP_VERSION& hav, double multiplier) {
     if (hav.consecutive_valid < CONS_VALID_RELIABLE) {
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,
-                "[send] [AV#%d] not reliable; cons valid %d < %d\n",
+                "[send] [AV#%lu] not reliable; cons valid %d < %d\n",
                 hav.app_version_id,
                 hav.consecutive_valid, CONS_VALID_RELIABLE
             );
@@ -265,7 +265,7 @@ void get_reliability_version(HOST_APP_VERSION& hav, double multiplier) {
         if (hav.max_jobs_per_day < config.daily_result_quota) {
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [AV#%d] not reliable; max_jobs_per_day %d<%d\n",
+                    "[send] [AV#%lu] not reliable; max_jobs_per_day %d<%d\n",
                     hav.app_version_id,
                     hav.max_jobs_per_day,
                     config.daily_result_quota
@@ -278,7 +278,7 @@ void get_reliability_version(HOST_APP_VERSION& hav, double multiplier) {
     hav.reliable = true;
     if (config.debug_send) {
         log_messages.printf(MSG_NORMAL,
-            "[send] [HOST#%d] app version %d is reliable\n",
+            "[send] [HOST#%lu] app version %lu is reliable\n",
             g_reply->host.id, hav.app_version_id
         );
     }
@@ -474,7 +474,7 @@ double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION& bav) {
     double ed = edu/available_frac(bav);
     if (config.debug_send_job) {
         log_messages.printf(MSG_NORMAL,
-            "[send_job] est. duration for WU %d: unscaled %.2f scaled %.2f\n",
+            "[send_job] est. duration for WU %lu: unscaled %.2f scaled %.2f\n",
             wu.id, edu, ed
         );
     }
@@ -627,7 +627,7 @@ static int add_wu_to_reply(
         g_reply->insert_app_version_unique(*avp2);
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,
-                "[send] Sending app_version %s %d %d %s; projected %.2f GFLOPS\n",
+                "[send] Sending app_version %s %lu %d %s; projected %.2f GFLOPS\n",
                 app->name,
                 avp2->platformid, avp2->version_num, avp2->plan_class,
                 bavp->host_usage.projected_flops/1e9
@@ -712,10 +712,10 @@ int update_wu_on_send(WORKUNIT wu, time_t x, APP& app, BEST_APP_VERSION& bav) {
     );
     strcpy(where_clause, "");
     if (app.homogeneous_app_version) {
-        sprintf(buf2, ", app_version_id=%d", bav.avp->id);
+        sprintf(buf2, ", app_version_id=%lu", bav.avp->id);
         strcat(buf, buf2);
         sprintf(where_clause,
-            "(app_version_id=0 or app_version_id=%d)", bav.avp->id
+            "(app_version_id=0 or app_version_id=%lu)", bav.avp->id
         );
     }
     if (app_hr_type(app)) {
@@ -956,7 +956,7 @@ int add_result_to_reply(
 
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,
-                "[send] [RESULT#%u] [HOST#%d] (resend lost work)\n",
+                "[send] [RESULT#%lu] [HOST#%lu] (resend lost work)\n",
                 result.id, g_reply->host.id
             );
         }
@@ -964,7 +964,7 @@ int add_result_to_reply(
     retval = result.mark_as_sent(old_server_state, config.report_grace_period);
     if (retval == ERR_DB_NOT_FOUND) {
         log_messages.printf(MSG_CRITICAL,
-            "[RESULT#%u] [HOST#%d]: CAN'T SEND, already sent to another host\n",
+            "[RESULT#%lu] [HOST#%lu]: CAN'T SEND, already sent to another host\n",
             result.id, g_reply->host.id
         );
     } else if (retval) {
@@ -996,7 +996,7 @@ int add_result_to_reply(
         secs_to_hmsf(est_dur, buf1);
         secs_to_hmsf(max_time, buf2);
         log_messages.printf(MSG_NORMAL,
-            "[send] [HOST#%d] sending [RESULT#%d %s] (est. dur. %.2fs (%s)) (max time %.2fs (%s))\n",
+            "[send] [HOST#%lu] sending [RESULT#%lu %s] (est. dur. %.2fs (%s)) (max time %.2fs (%s))\n",
             g_reply->host.id, result.id, result.name, est_dur, buf1, max_time, buf2
         );
     }
@@ -1075,7 +1075,7 @@ int add_result_to_reply(
         if (bavp->trusted) {
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [WU#%u] using trusted app version, not replicating\n", wu.id
+                    "[send] [WU#%lu] using trusted app version, not replicating\n", wu.id
                 );
             }
         } else {
@@ -1088,7 +1088,7 @@ int add_result_to_reply(
             dbwu.id = wu.id;
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [WU#%u] sending to untrusted host, replicating\n", wu.id
+                    "[send] [WU#%lu] sending to untrusted host, replicating\n", wu.id
                 );
             }
             retval = dbwu.update_field(buf);
@@ -1366,7 +1366,7 @@ static void send_user_messages() {
             g_reply->insert_message(buf, "low");
             if (config.debug_quota) {
                 log_messages.printf(MSG_NORMAL,
-                    "[quota] Daily quota %d exceeded for app version %d\n",
+                    "[quota] Daily quota %d exceeded for app version %lu\n",
                     havp->max_jobs_per_day, havp->app_version_id
                 );
             }
@@ -1598,7 +1598,7 @@ int update_host_app_versions(vector<SCHED_DB_RESULT>& results, int hostid) {
         } else {
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] created host_app_version record (%d, %d)\n",
+                    "[credit] created host_app_version record (%lu, %lu)\n",
                     hav.host_id, hav.app_version_id
                 );
             }
@@ -1622,7 +1622,7 @@ void send_work() {
         if (send_targeted_jobs()) {
             if (config.debug_assignment) {
                 log_messages.printf(MSG_NORMAL,
-                    "[assign] [HOST#%d] sent assigned jobs\n", g_reply->host.id
+                    "[assign] [HOST#%lu] sent assigned jobs\n", g_reply->host.id
                 );
             }
             goto done;
@@ -1633,7 +1633,7 @@ void send_work() {
         if (send_broadcast_jobs()) {
             if (config.debug_assignment) {
                 log_messages.printf(MSG_NORMAL,
-                    "[assign] [HOST#%d] sent assigned jobs\n", g_reply->host.id
+                    "[assign] [HOST#%lu] sent assigned jobs\n", g_reply->host.id
                 );
             }
             goto done;

@@ -70,7 +70,7 @@ struct WU_RESULT {
     int infeasible_count;
     bool need_reliable;        // try to send to a reliable host
     WORKUNIT workunit;
-    int resultid;
+    DB_ID_TYPE resultid;
     int time_added_to_shared_memory;
     int res_priority;
     int res_server_state;

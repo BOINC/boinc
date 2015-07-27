@@ -20,10 +20,10 @@ $sensing = array(
     array(
         array(
             "Quake Catcher Network",
-            "http://qcn.stanford.edu/sensor/",
-            tra("Stanford University"),
+            "http://qcn.caltech.edu/sensor",
+            tra("Cal Tech"),
             tra("Seismology"),
-            tra("Quake-Catcher Network is developing the world's largest seismic network using sensors attached to computers and smartphones."),
+            tra("Quake-Catcher Network uses sensors attached to computers and smartphones to detect seismic waves."),
             "",
             "",
             "Help detect earthquakes"

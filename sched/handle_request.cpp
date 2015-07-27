@@ -93,7 +93,7 @@ static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
         escape_string(pm, sizeof(pm));
 
         sprintf(buf,
-            "where userid=%d and id>%d and domain_name='%s' and last_ip_addr = '%s' and os_name = '%s' and p_model = '%s'"
+            "where userid=%lu and id>%lu and domain_name='%s' and last_ip_addr = '%s' and os_name = '%s' and p_model = '%s'"
                " and m_nbytes = %lf order by id desc", user.id, req_host.id, dn, ip, os, pm, req_host.m_nbytes
         );
         if (!host.enumerate(buf)) {
@@ -126,7 +126,7 @@ int lock_sched() {
 
     g_reply->lockfile_fd=-1;
 
-    sprintf(filename, "%s/CGI_%07d",
+    sprintf(filename, "%s/CGI_%07lu",
         config.sched_lockfile_dir, g_reply->host.id
     );
 
@@ -163,7 +163,7 @@ void unlock_sched() {
     char filename[256];
 
     if (g_reply->lockfile_fd < 0) return;
-    sprintf(filename, "%s/CGI_%07d", config.sched_lockfile_dir, g_reply->host.id);
+    sprintf(filename, "%s/CGI_%07lu", config.sched_lockfile_dir, g_reply->host.id);
     unlink(filename);
     close(g_reply->lockfile_fd);
 }
@@ -177,7 +177,7 @@ static bool find_host_by_cpid(DB_USER& user, char* host_cpid, DB_HOST& host) {
     md5_block((const unsigned char*)buf, strlen(buf), buf2);
 
     sprintf(buf,
-        "where userid=%d and host_cpid='%s' order by id desc", user.id, buf2
+        "where userid=%lu and host_cpid='%s' order by id desc", user.id, buf2
     );
     if (!host.enumerate(buf)) {
         host.end_enumerate();
@@ -197,7 +197,7 @@ static bool find_host_by_cpid(DB_USER& user, char* host_cpid, DB_HOST& host) {
 static void mark_results_over(DB_HOST& host) {
     char buf[256], buf2[256];
     DB_RESULT result;
-    sprintf(buf, "where hostid=%d and server_state=%d",
+    sprintf(buf, "where hostid=%lu and server_state=%d",
         host.id,
         RESULT_SERVER_STATE_IN_PROGRESS
     );
@@ -218,7 +218,7 @@ static void mark_results_over(DB_HOST& host) {
         wu.update_field(buf2);
 
         log_messages.printf(MSG_CRITICAL,
-            "[HOST#%d] [RESULT#%u] [WU#%u] changed CPID: marking in-progress result %s as client error!\n",
+            "[HOST#%lu] [RESULT#%lu] [WU#%lu] changed CPID: marking in-progress result %s as client error!\n",
             host.id, result.id, result.workunitid, result.name
         );
     }
@@ -255,7 +255,7 @@ int authenticate_user() {
             if (!retval) {
                 g_reply->hostid = host.id;
                 log_messages.printf(MSG_NORMAL,
-                    "[HOST#%d] forwarding to new host ID %d\n",
+                    "[HOST#%lu] forwarding to new host ID %lu\n",
                     g_request->hostid, host.id
                 );
             }
@@ -263,7 +263,7 @@ int authenticate_user() {
         if (retval) {
             g_reply->insert_message("Can't find host record", "low");
             log_messages.printf(MSG_NORMAL,
-                "[HOST#%d?] can't find host\n",
+                "[HOST#%lu?] can't find host\n",
                 g_request->hostid
             );
             g_request->hostid = 0;
@@ -276,7 +276,7 @@ int authenticate_user() {
         // and see if the authenticator matches (regular or weak)
         //
         g_request->using_weak_auth = false;
-        sprintf(buf, "where id=%d", host.userid);
+        sprintf(buf, "where id=%lu", host.userid);
         retval = user.lookup(buf);
         if (!retval && !strcmp(user.authenticator, g_request->authenticator)) {
             // req auth matches user auth - go on
@@ -288,7 +288,7 @@ int authenticate_user() {
                 if (!strcmp(buf, g_request->authenticator)) {
                     g_request->using_weak_auth = true;
                     log_messages.printf(MSG_DEBUG,
-                        "[HOST#%d] accepting weak authenticator\n",
+                        "[HOST#%lu] accepting weak authenticator\n",
                         host.id
                     );
                 }
@@ -310,7 +310,7 @@ int authenticate_user() {
                     g_reply->set_delay(DELAY_MISSING_KEY);
                     g_reply->nucleus_only = true;
                     log_messages.printf(MSG_CRITICAL,
-                        "[HOST#%d] [USER#%d] Bad authenticator '%s'\n",
+                        "[HOST#%lu] [USER#%lu] Bad authenticator '%s'\n",
                         host.id, user.id, g_request->authenticator
                     );
                     return ERR_AUTHENTICATOR;
@@ -325,7 +325,7 @@ int authenticate_user() {
             // create a new host record.
             //
             log_messages.printf(MSG_NORMAL,
-                "[HOST#%d] [USER#%d] inconsistent host ID; creating new host\n",
+                "[HOST#%lu] [USER#%lu] inconsistent host ID; creating new host\n",
                 host.id, user.id
             );
             goto make_new_host;
@@ -339,7 +339,7 @@ int authenticate_user() {
         if (!batch && g_request->rpc_seqno < g_reply->host.rpc_seqno) {
             g_request->hostid = 0;
             log_messages.printf(MSG_NORMAL,
-                "[HOST#%d] [USER#%d] RPC seqno %d less than expected %d; creating new host\n",
+                "[HOST#%lu] [USER#%lu] RPC seqno %d less than expected %d; creating new host\n",
                 g_reply->host.id, user.id, g_request->rpc_seqno, g_reply->host.rpc_seqno
             );
             goto make_new_host;
@@ -394,7 +394,7 @@ lookup_user_and_make_new_host:
         if (strlen(g_request->host.host_cpid)) {
             if (find_host_by_cpid(user, g_request->host.host_cpid, host)) {
                 log_messages.printf(MSG_NORMAL,
-                    "[HOST#%d] [USER#%d] No host ID in request, but host with matching CPID found.\n",
+                    "[HOST#%lu] [USER#%lu] No host ID in request, but host with matching CPID found.\n",
                     host.id, host.userid
                 );
                 if ((g_request->allow_multiple_clients != 1)
@@ -420,7 +420,7 @@ make_new_host:
             && find_host_by_other(user, g_request->host, host)
         ) {
             log_messages.printf(MSG_NORMAL,
-                "[HOST#%d] [USER#%d] Found similar existing host for this user - assigned.\n",
+                "[HOST#%lu] [USER#%lu] Found similar existing host for this user - assigned.\n",
                 host.id, host.userid
             );
             if (g_request->other_results.size() == 0) {
@@ -689,7 +689,7 @@ int send_result_abort() {
         if (orp.abort) {
             g_reply->result_aborts.push_back(orp.name);
             log_messages.printf(MSG_NORMAL,
-                "[HOST#%d]: Send result_abort for result %s; reason: %s\n",
+                "[HOST#%lu]: Send result_abort for result %s; reason: %s\n",
                 g_reply->host.id, orp.name, reason_str(orp.reason)
             );
             // send user message
@@ -699,7 +699,7 @@ int send_result_abort() {
         } else if (orp.abort_if_not_started) {
             g_reply->result_abort_if_not_starteds.push_back(orp.name);
             log_messages.printf(MSG_NORMAL,
-                "[HOST#%d]: Send result_abort_if_unstarted for result %s; reason %d\n",
+                "[HOST#%lu]: Send result_abort_if_unstarted for result %s; reason %d\n",
                 g_reply->host.id, orp.name, orp.reason
             );
         }
@@ -1032,7 +1032,7 @@ bool wrong_core_client_version() {
         return false;
     }
     log_messages.printf(MSG_NORMAL,
-        "[HOST#%d] Wrong client version from user: wanted %d, got %d\n",
+        "[HOST#%lu] Wrong client version from user: wanted %d, got %d\n",
         g_request->hostid,
         config.min_core_client_version, g_request->core_client_minor_version
     );
@@ -1070,7 +1070,7 @@ void handle_msgs_from_host() {
         retval = mfh.insert();
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "[HOST#%d] message insert failed: %s\n",
+                "[HOST#%lu] message insert failed: %s\n",
                 g_reply->host.id, boincerror(retval)
             );
             g_reply->send_msg_ack = false;
@@ -1085,7 +1085,7 @@ void handle_msgs_from_host() {
 void handle_msgs_to_host() {
     DB_MSG_TO_HOST mth;
     char buf[256];
-    sprintf(buf, "where hostid = %d and handled = %d", g_reply->host.id, 0);
+    sprintf(buf, "where hostid = %lu and handled = %d", g_reply->host.id, 0);
     while (!mth.enumerate(buf)) {
         g_reply->msgs_to_host.push_back(mth);
         mth.handled = true;
@@ -1095,7 +1095,7 @@ void handle_msgs_to_host() {
 
 static void log_request() {
     log_messages.printf(MSG_NORMAL,
-        "Request: [USER#%d] [HOST#%d] [IP %s] client %d.%d.%d\n",
+        "Request: [USER#%lu] [HOST#%lu] [IP %s] client %d.%d.%d\n",
         g_reply->user.id, g_reply->host.id, get_remote_addr(),
         g_request->core_client_major_version,
         g_request->core_client_minor_version,
@@ -1259,12 +1259,12 @@ void process_request(char* code_sign_key) {
         int pid_with_lock = lock_sched();
         if (pid_with_lock > 0) {
             log_messages.printf(MSG_CRITICAL,
-                "Another scheduler instance [PID=%d] is running for [HOST#%d]\n",
+                "Another scheduler instance [PID=%d] is running for [HOST#%lu]\n",
                 pid_with_lock, g_reply->host.id
             );
         } else if (pid_with_lock) {
             log_messages.printf(MSG_CRITICAL,
-                "Error acquiring lock for [HOST#%d]\n", g_reply->host.id
+                "Error acquiring lock for [HOST#%lu]\n", g_reply->host.id
             );
         }
         if (pid_with_lock) {
@@ -1322,7 +1322,7 @@ void process_request(char* code_sign_key) {
         );
         g_reply->insert_message(buf, "notice");
         log_messages.printf(MSG_CRITICAL,
-            "[HOST#%d] platform '%s' not found\n",
+            "[HOST#%lu] platform '%s' not found\n",
             g_reply->host.id, g_request->platform.name
         );
         g_reply->set_delay(DELAY_PLATFORM_UNSUPPORTED);
@@ -1449,7 +1449,7 @@ static void log_user_messages() {
     for (unsigned int i=0; i<g_reply->messages.size(); i++) {
         USER_MESSAGE um = g_reply->messages[i];
         log_messages.printf(MSG_NORMAL,
-            "[user_messages] [HOST#%d] MSG(%s) %s\n",
+            "[user_messages] [HOST#%lu] MSG(%s) %s\n",
             g_reply->host.id, um.priority.c_str(), um.message.c_str()
         );
     }

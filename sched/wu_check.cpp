@@ -66,7 +66,7 @@ int handle_result(DB_RESULT& result) {
     retval = wu.lookup_id(result.workunitid);
     if (retval) {
         printf(
-            "ERROR: can't find WU %d for result %d\n",
+            "ERROR: can't find WU %lu for result %lu\n",
             result.workunitid, result.id
         );
         return 1;
@@ -76,7 +76,7 @@ int handle_result(DB_RESULT& result) {
     if (f) {
         fclose(f);
     } else {
-        printf("no file %s for result %d\n",
+        printf("no file %s for result %lu\n",
             path, result.id
         );
         if (repair) {
@@ -90,7 +90,7 @@ int handle_result(DB_RESULT& result) {
                 retval = result.update_field(buf);
                 if (retval) {
                     printf(
-                        "ERROR: can't update result %d\n",
+                        "ERROR: can't update result %lu\n",
                         result.id
                     );
                     return 1;

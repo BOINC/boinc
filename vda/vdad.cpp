@@ -195,28 +195,28 @@ int handle_dead_host(DB_HOST& h) {
     char buf[256];
     int retval;
 
-    log_messages.printf(MSG_NORMAL, "processing dead host %d\n", h.id);
+    log_messages.printf(MSG_NORMAL, "processing dead host %lu\n", h.id);
 
-    sprintf(buf, "where host_id=%d", h.id);
+    sprintf(buf, "where host_id=%lu", h.id);
     while (1) {
         retval = ch.enumerate(buf);
         if (retval == ERR_DB_NOT_FOUND) break;
         if (retval) return retval;
         log_messages.printf(MSG_NORMAL,
-            "   updating file %d\n", ch.vda_file_id
+            "   updating file %lu\n", ch.vda_file_id
         );
         DB_VDA_FILE vf;
         retval = vf.lookup_id(ch.vda_file_id);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "   file lookup failed%d\n", ch.vda_file_id
+                "   file lookup failed %lu\n", ch.vda_file_id
             );
             return retval;
         }
         retval = vf.update_field("need_update=1");
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "   file update failed%d\n", ch.vda_file_id
+                "   file update failed %lu\n", ch.vda_file_id
             );
             return retval;
         }

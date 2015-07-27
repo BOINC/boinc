@@ -219,7 +219,7 @@ static int process_completed_upload(char* phys_filename, CHUNK_LIST& chunks) {
             retval = vf.update_field("need_update=1");
         }
     }
-    sprintf(buf, "host_id=%d and physical_file_name='%s'",
+    sprintf(buf, "host_id=%lu and physical_file_name='%s'",
         ch.host_id,
         ch.physical_file_name
     );
@@ -310,7 +310,7 @@ static void process_chunk_present_on_client(FILE_INFO& fi, CHUNK_LIST& chunks) {
             chp->transfer_wait = false;
             chp->present_on_host = true;
             sprintf(buf,
-                "host_id=%d and physical_file_name='%s'",
+                "host_id=%lu and physical_file_name='%s'",
                 chp->host_id, chp->physical_file_name
             );
             chp->update_fields_noid(
@@ -338,7 +338,7 @@ static int process_chunks_missing_on_client(CHUNK_LIST& chunks) {
             }
             char buf[256];
             sprintf(buf,
-                "host_id=%d and vda_file_id=%d and physical_file_name='%s'",
+                "host_id=%lu and vda_file_id=%lu and physical_file_name='%s'",
                 ch.host_id, ch.vda_file_id, ch.physical_file_name
             );
             int retval = ch.delete_from_db_multi(buf);
@@ -526,7 +526,7 @@ void handle_vda() {
     //
     DB_VDA_CHUNK_HOST ch;
     char buf[256];
-    sprintf(buf, "where host_id=%d", g_reply->host.id);
+    sprintf(buf, "where host_id=%lu", g_reply->host.id);
     while (1) {
         retval = ch.enumerate(buf);
         if (retval == ERR_DB_NOT_FOUND) break;
@@ -541,7 +541,7 @@ void handle_vda() {
         }
         if (config.debug_vda) {
             log_messages.printf(MSG_NORMAL,
-                "[vda] DB: has chunk %s, file %d\n",
+                "[vda] DB: has chunk %s, file %lu\n",
                 ch.physical_file_name, ch.vda_file_id
             );
         }

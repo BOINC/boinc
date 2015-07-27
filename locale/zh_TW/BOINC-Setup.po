@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# willy Wu <df910105@yahoo.com.tw>, 2015
+# yuetau <auyeungyuet09@gmail.com>, 2015
+# Willy Wu <df910105@yahoo.com.tw>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: boinc\n"
+"Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2015-02-15 16:35+0000\n"
-"Last-Translator: willy Wu <df910105@yahoo.com.tw>\n"
+"PO-Revision-Date: 2015-07-22 07:29+0000\n"
+"Last-Translator: yuetau <auyeungyuet09@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/boinc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,7 +34,7 @@ msgstr "否"
 
 #: PostInstall.cpp:133
 msgid "Should BOINC run even when no user is logged in?"
-msgstr "允許 BOINC 在無使用者登入時持續執行?"
+msgstr "應 BOINC 運行，即使沒有使用者登錄嗎?"
 
 #: PostInstall.cpp:1416
 #, c-format

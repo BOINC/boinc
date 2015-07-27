@@ -494,7 +494,7 @@ void JOB_DESC::create() {
         exit(1);
     }
     if (verbose) {
-        fprintf(stderr, "created workunit; name %s, ID %u\n", wu.name, wu.id);
+        fprintf(stderr, "created workunit; name %s, ID %lu\n", wu.name, wu.id);
     }
     if (assign_flag) {
         DB_ASSIGNMENT assignment;

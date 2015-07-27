@@ -82,7 +82,7 @@ int delete_file_from_host() {
         double maxdisk = max_allowable_disk();
 
         log_messages.printf(MSG_CRITICAL,
-            "[HOST#%d]: no disk space but no files we can delete!\n",
+            "[HOST#%lu]: no disk space but no files we can delete!\n",
             g_reply->host.id
         );
 
@@ -125,7 +125,7 @@ int delete_file_from_host() {
     g_reply->file_deletes.push_back(fi);
     if (config.debug_locality) {
         log_messages.printf(MSG_NORMAL,
-            "[locality] [HOST#%d]: delete file %s (make space)\n", g_reply->host.id, fi.name
+            "[locality] [HOST#%lu]: delete file %s (make space)\n", g_reply->host.id, fi.name
         );
     }
 
@@ -160,7 +160,7 @@ bool host_has_file(char *filename, bool skip_last_wu) {
     if (has_file) {
         if (config.debug_locality) {
             log_messages.printf(MSG_NORMAL,
-                "[locality] [HOST#%d] Already has file %s\n", g_reply->host.id, filename
+                "[locality] [HOST#%lu] Already has file %s\n", g_reply->host.id, filename
             );
         }
         return true;
@@ -192,7 +192,7 @@ bool host_has_file(char *filename, bool skip_last_wu) {
     if (has_file) {
         if (config.debug_locality) {
             log_messages.printf(MSG_NORMAL,
-                "[locality] [HOST#%d] file %s already in scheduler reply(%d)\n", g_reply->host.id, filename, i
+                "[locality] [HOST#%lu] file %s already in scheduler reply(%d)\n", g_reply->host.id, filename, i
             );
         }
         return true;
@@ -223,7 +223,7 @@ int decrement_disk_space_locality( WORKUNIT& wu) {
     //
     if (extract_filename(wu.name, filename, sizeof(filename))) {
         log_messages.printf(MSG_CRITICAL,
-            "No filename found in [WU#%u %s]\n", wu.id, wu.name
+            "No filename found in [WU#%lu %s]\n", wu.id, wu.name
         );
         return -1;
     }
@@ -258,7 +258,7 @@ int decrement_disk_space_locality( WORKUNIT& wu) {
         g_wreq->disk_available -= (wu.rsc_disk_bound-filesize);
         if (config.debug_locality) {
             log_messages.printf(MSG_NORMAL,
-                "[locality] [HOST#%d] reducing disk needed for WU by %u bytes (length of %s)\n",
+                "[locality] [HOST#%lu] reducing disk needed for WU by %u bytes (length of %s)\n",
                 g_reply->host.id, filesize, filename
             );
         }
@@ -266,7 +266,7 @@ int decrement_disk_space_locality( WORKUNIT& wu) {
     }
 
     log_messages.printf(MSG_CRITICAL,
-        "File %s size %u bytes > wu.rsc_disk_bound for WU#%u (%s)\n",
+        "File %s size %u bytes > wu.rsc_disk_bound for WU#%lu (%s)\n",
         path, filesize, wu.id, wu.name
     );
     return -1;
@@ -281,7 +281,8 @@ int decrement_disk_space_locality( WORKUNIT& wu) {
 static int possibly_send_result(SCHED_DB_RESULT& result) {
     DB_WORKUNIT wu;
     SCHED_DB_RESULT result2;
-    int retval, count;
+    int retval;
+    long count;
     char buf[256];
     BEST_APP_VERSION* bavp;
 
@@ -319,7 +320,7 @@ static int possibly_send_result(SCHED_DB_RESULT& result) {
     if (retval) return retval;
 
     if (config.one_result_per_user_per_wu) {
-        sprintf(buf, "where userid=%d and workunitid=%d", g_reply->user.id, wu.id);
+        sprintf(buf, "where userid=%lu and workunitid=%lu", g_reply->user.id, wu.id);
         retval = result2.count(count, buf);
         if (retval) return ERR_DB_NOT_FOUND;
         if (count > 0) return ERR_WU_USER_RULE;
@@ -559,7 +560,8 @@ static int send_results_for_file(
 ) {
     SCHED_DB_RESULT result, prev_result;
     char buf[256], query[1024];
-    int i, maxid, retval_max, retval_lookup, sleep_made_no_work=0;
+    int i, retval_max, retval_lookup, sleep_made_no_work=0;
+    DB_ID_TYPE maxid;
 
     nsent = 0;
 
@@ -588,11 +590,11 @@ static int send_results_for_file(
     char pattern[256], escaped_pattern[256];
     sprintf(pattern, "%s__", filename);
     escape_mysql_like_pattern(pattern, escaped_pattern);
-    sprintf(buf, "where userid=%d and name like binary '%s%%'",
+    sprintf(buf, "where userid=%lu and name like binary '%s%%'",
         g_reply->user.id, escaped_pattern
     );
 #else
-    sprintf(buf, "where userid=%d and name>binary '%s__' and name<binary '%s__~'",
+    sprintf(buf, "where userid=%lu and name>binary '%s__' and name<binary '%s__~'",
         g_reply->user.id, filename, filename
     );
 #endif
@@ -611,7 +613,7 @@ static int send_results_for_file(
 
         if (config.debug_locality) {
             log_messages.printf(MSG_NORMAL,
-                "[locality] in_send_results_for_file(%s, %d) prev_result.id=%d\n",
+                "[locality] in_send_results_for_file(%s, %d) prev_result.id=%lu\n",
                 filename, i, prev_result.id
             );
         }
@@ -629,7 +631,7 @@ static int send_results_for_file(
             );
 #else
             sprintf(query,
-                "INNER JOIN (SELECT id FROM result WHERE name>binary '%s__' and name<binary '%s__~' and id>%d and workunitid<>%d and server_state=%d order by id limit 1) AS single USING (id) ",
+                "INNER JOIN (SELECT id FROM result WHERE name>binary '%s__' and name<binary '%s__~' and id>%lu and workunitid<>%lu and server_state=%d order by id limit 1) AS single USING (id) ",
                 filename, filename, prev_result.id, prev_result.workunitid, RESULT_SERVER_STATE_UNSENT
             );
 #endif
@@ -641,7 +643,7 @@ static int send_results_for_file(
             );
 #else
             sprintf(query,
-                "INNER JOIN (SELECT id FROM result WHERE name>binary '%s__' and name<binary '%s__~' and id>%d and server_state=%d order by id limit 1) AS single USING (id) ",
+                "INNER JOIN (SELECT id FROM result WHERE name>binary '%s__' and name<binary '%s__~' and id>%lu and server_state=%d order by id limit 1) AS single USING (id) ",
                 filename, filename, prev_result.id, RESULT_SERVER_STATE_UNSENT
             );
 #endif
@@ -753,7 +755,7 @@ static int send_results_for_file(
                 sleep_made_no_work=0;
             } else if (!config.one_result_per_user_per_wu) {
                 log_messages.printf(MSG_CRITICAL,
-                    "Database inconsistency?  possibly_send_result(%d) failed for [RESULT#%u], returning %d\n",
+                    "Database inconsistency?  possibly_send_result(%d) failed for [RESULT#%lu], returning %d\n",
                     i, result.id, retval_send
                 );
             // If another scheduler instance 'snatched' the result
@@ -763,7 +765,7 @@ static int send_results_for_file(
             } else if (retval_send != ERR_DB_NOT_FOUND) {
                 if (config.debug_locality) {
                     log_messages.printf(MSG_NORMAL,
-                        "[locality] possibly_send_result [RESULT#%u]: %s\n",
+                        "[locality] possibly_send_result [RESULT#%lu]: %s\n",
                         result.id, boincerror(retval_send)
                     );
                 }
@@ -1050,7 +1052,7 @@ static int send_old_work(int t_min, int t_max, bool locality_work_only) {
             double age=(now-result.create_time)/3600.0;
             if (config.debug_locality) {
                 log_messages.printf(MSG_NORMAL,
-                    "[locality] send_old_work(%s) sent result created %.1f hours ago [RESULT#%u]\n",
+                    "[locality] send_old_work(%s) sent result created %.1f hours ago [RESULT#%lu]\n",
                     result.name, age, result.id
                 );
             }
@@ -1161,7 +1163,7 @@ void send_work_locality() {
             g_request->file_delete_candidates.push_back(eah_copy[i]);
             if (config.debug_locality) {
                 log_messages.printf(MSG_NORMAL,
-                    "[locality] [HOST#%d] removing file %s from file_infos list\n",
+                    "[locality] [HOST#%lu] removing file %s from file_infos list\n",
                     g_reply->host.id, fname
                 );
             }
@@ -1171,7 +1173,7 @@ void send_work_locality() {
             g_request->files_not_needed.push_back(eah_copy[i]);
             if (config.debug_locality) {
                 log_messages.printf(MSG_NORMAL,
-                    "[locality] [HOST#%d] adding file %s to files_not_needed list\n",
+                    "[locality] [HOST#%lu] adding file %s to files_not_needed list\n",
                     g_reply->host.id, fname
                 );
             }
@@ -1183,7 +1185,7 @@ void send_work_locality() {
     for (i=0; i<nfiles; i++)
         if (config.debug_locality) {
             log_messages.printf(MSG_NORMAL,
-                "[locality] [HOST#%d] has file %s\n",
+                "[locality] [HOST#%lu] has file %s\n",
                 g_reply->host.id, g_request->file_infos[i].name
             );
         }
@@ -1237,7 +1239,7 @@ void send_work_locality() {
             g_reply->file_deletes.push_back(fi);
             if (config.debug_locality) {
                 log_messages.printf(MSG_NORMAL,
-                    "[locality] [HOST#%d]: delete file %s (not needed)\n",
+                    "[locality] [HOST#%lu]: delete file %s (not needed)\n",
                     g_reply->host.id, fi.name
                 );
             }
@@ -1267,7 +1269,7 @@ void send_work_locality() {
                 g_reply->file_deletes.push_back(fil);
                 if (config.debug_locality) {
                     log_messages.printf(MSG_NORMAL,
-                        "[locality] [HOST#%d]: delete file %s (accompanies %s)\n",
+                        "[locality] [HOST#%lu]: delete file %s (accompanies %s)\n",
                         g_reply->host.id, fil.name, fi.name
                     );
                 }
@@ -1289,7 +1291,7 @@ void send_work_locality() {
                 g_reply->file_deletes.push_back(fih7);
                 if (config.debug_locality) {
                     log_messages.printf(MSG_NORMAL,
-                        "[locality] [HOST#%d]: delete files %s,%s,%s (accompanies %s)\n",
+                        "[locality] [HOST#%lu]: delete files %s,%s,%s (accompanies %s)\n",
                         g_reply->host.id, fil4.name,fil7.name,fih7.name, fi.name
                     );
                 }
@@ -1316,7 +1318,7 @@ void send_file_deletes() {
         g_reply->file_deletes.push_back(fi);
         if (config.debug_locality) {
             log_messages.printf(MSG_NORMAL,
-                "[locality] [HOST#%d]: delete file %s (not needed)\n",
+                "[locality] [HOST#%lu]: delete file %s (not needed)\n",
                 g_reply->host.id, fi.name
             );
         }

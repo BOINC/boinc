@@ -592,7 +592,7 @@ int cancel_job(DB_WORKUNIT& wu) {
     sprintf(set_clause, "server_state=%d, outcome=%d",
         RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_DIDNT_NEED
     );
-    sprintf(where_clause, "server_state<=%d and workunitid=%d",
+    sprintf(where_clause, "server_state<=%d and workunitid=%lu",
         RESULT_SERVER_STATE_UNSENT, wu.id
     );
     retval = result.update_fields_noid(set_clause, where_clause);
