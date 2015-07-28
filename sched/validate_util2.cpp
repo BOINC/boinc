@@ -61,7 +61,7 @@ using std::vector;
 //
 int check_set(
     vector<RESULT>& results, WORKUNIT& wu,
-    int& canonicalid, double&, bool& retry
+    DB_ID_TYPE& canonicalid, double&, bool& retry
 ) {
     vector<void*> data;
     vector<bool> had_error;

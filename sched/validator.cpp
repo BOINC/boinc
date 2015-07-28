@@ -185,7 +185,8 @@ int handle_wu(
     int canonical_result_index = -1;
     bool update_result, retry;
     TRANSITION_TIME transition_time = NO_CHANGE;
-    int retval = 0, canonicalid = 0, x;
+    int retval = 0, x;
+    DB_ID_TYPE canonicalid = 0;
     double credit = 0;
     unsigned int i;
 
@@ -602,7 +603,7 @@ int handle_wu(
                 //
                 transition_time = NEVER;
                 log_messages.printf(MSG_DEBUG,
-                    "[WU#%lu %s] Found a canonical result: id=%d\n",
+                    "[WU#%lu %s] Found a canonical result: id=%lu\n",
                     wu.id, wu.name, canonicalid
                 );
                 wu.canonical_resultid = canonicalid;
