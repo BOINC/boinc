@@ -59,7 +59,7 @@
         </td>
         <td class="topics">
           <?php if ($forum->new_topics): ?>
-            <a href="community<?php print $forum->new_url; ?>">
+            <a href="community/forum/<?php print $forum->tid; ?>">
           <?php endif; ?>
           <?php print $forum->num_topics ?>
           <?php if ($forum->new_topics): ?>
@@ -95,7 +95,7 @@
         </td>
         <td class="topics">
           <?php if ($forum->new_topics): ?>
-            <a href="<?php print $forum->new_url; ?>">
+            <a href="<?php print $forum->link; ?>">
           <?php endif; ?>
           <?php print $forum->num_topics ?>
           <?php if ($forum->new_topics): ?>
