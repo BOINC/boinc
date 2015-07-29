@@ -993,8 +993,8 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
   $established = TRUE;
   
   // Get availability of special BOINC preferences
-  require_boinc(array('prefs'));
-  global $app_array, $app_types;
+  require_boinc(array('util'));
+  $app_types = get_app_types();
   
   // Load any existing preferences from BOINC account
   $prefs = boincwork_load_prefs('project', $venue);
@@ -1287,10 +1287,11 @@ function boincwork_projectprefs_form_validate($form, &$form_state) {
   * Handle post-validation submission of project preferences form.
   */
 function boincwork_projectprefs_form_submit($form, &$form_state) {
-  require_boinc(array('prefs'));
-  
   global $user;
-  global $site_name, $app_types, $app_array;
+  global $site_name;
+  
+  require_boinc(array('util'));
+  $app_types = get_app_types();
   
   $account = user_load($user->uid);
   $edit = $form_state['values'];
