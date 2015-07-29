@@ -41,7 +41,7 @@
 #define MAX_APPS            10
 #endif
 #ifndef MAX_APP_VERSIONS
-#define MAX_APP_VERSIONS    50
+#define MAX_APP_VERSIONS    100
 #endif
 #ifndef MAX_ASSIGNMENTS
 #define MAX_ASSIGNMENTS     10
