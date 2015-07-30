@@ -264,14 +264,14 @@ PLATFORM* SCHED_SHMEM::lookup_platform(char* name) {
     return NULL;
 }
 
-PLATFORM* SCHED_SHMEM::lookup_platform_id(int id) {
+PLATFORM* SCHED_SHMEM::lookup_platform_id(DB_ID_TYPE id) {
     for (int i=0; i<nplatforms; i++) {
         if (platforms[i].id == id) return &platforms[i];
     }
     return NULL;
 }
 
-APP* SCHED_SHMEM::lookup_app(int id) {
+APP* SCHED_SHMEM::lookup_app(DB_ID_TYPE id) {
     for (int i=0; i<napps; i++) {
         if (apps[i].id == id) return &apps[i];
     }
@@ -285,7 +285,7 @@ APP* SCHED_SHMEM::lookup_app_name(char* name) {
     return NULL;
 }
 
-APP_VERSION* SCHED_SHMEM::lookup_app_version(int id) {
+APP_VERSION* SCHED_SHMEM::lookup_app_version(DB_ID_TYPE id) {
     APP_VERSION* avp;
     for (int i=0; i<napp_versions; i++) {
         avp = &app_versions[i];

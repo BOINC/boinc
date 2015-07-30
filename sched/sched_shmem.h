@@ -121,9 +121,9 @@ struct SCHED_SHMEM {
     void show(FCGI_FILE*);
 #endif
 
-    APP* lookup_app(int);
+    APP* lookup_app(DB_ID_TYPE);
     APP* lookup_app_name(char*);
-    APP_VERSION* lookup_app_version(int);
+    APP_VERSION* lookup_app_version(DB_ID_TYPE);
     APP_VERSION* lookup_app_version_platform_plan_class(
         int platform, char* plan_class
     );
@@ -134,7 +134,7 @@ struct SCHED_SHMEM {
         }
         return x;
     }
-    PLATFORM* lookup_platform_id(int);
+    PLATFORM* lookup_platform_id(DB_ID_TYPE);
     PLATFORM* lookup_platform(char*);
 };
 

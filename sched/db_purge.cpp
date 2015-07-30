@@ -311,7 +311,7 @@ int archive_result(DB_RESULT& result) {
         "  <opaque>%f</opaque>\n"
         "  <random>%d</random>\n"
         "  <app_version_num>%d</app_version_num>\n"
-        "  <app_version_id>%lu</app_version_id>\n"
+        "  <app_version_id>%ld</app_version_id>\n"
         "  <appid>%lu</appid>\n"
         "  <exit_status>%d</exit_status>\n"
         "  <teamid>%lu</teamid>\n"

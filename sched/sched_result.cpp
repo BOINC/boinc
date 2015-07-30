@@ -32,12 +32,12 @@
 // got a SUCCESS result.  Doesn't mean it's valid!
 //
 static inline void got_good_result(SCHED_RESULT_ITEM& sri) {
-    int gavid = generalized_app_version_id(sri.app_version_id, sri.appid);
+    DB_ID_TYPE gavid = generalized_app_version_id(sri.app_version_id, sri.appid);
     DB_HOST_APP_VERSION* havp = gavid_to_havp(gavid);
     if (!havp) {
         if (config.debug_handle_results) {
             log_messages.printf(MSG_NORMAL,
-                "[handle] No app version for %d\n", gavid
+                "[handle] No app version for %ld\n", gavid
             );
         }
         return;
@@ -49,7 +49,7 @@ static inline void got_good_result(SCHED_RESULT_ITEM& sri) {
         }
         if (config.debug_quota) {
             log_messages.printf(MSG_NORMAL,
-                "[quota] increasing max_jobs_per_day for %d: %d->%d\n",
+                "[quota] increasing max_jobs_per_day for %ld: %d->%d\n",
                 gavid, havp->max_jobs_per_day, n
             );
         }
@@ -63,12 +63,12 @@ static inline void got_good_result(SCHED_RESULT_ITEM& sri) {
 // - mechanism that categorizes hosts as "reliable"
 //
 static inline void got_bad_result(SCHED_RESULT_ITEM& sri) {
-    int gavid = generalized_app_version_id(sri.app_version_id, sri.appid);
+    DB_ID_TYPE gavid = generalized_app_version_id(sri.app_version_id, sri.appid);
     DB_HOST_APP_VERSION* havp = gavid_to_havp(gavid);
     if (!havp) {
         if (config.debug_handle_results) {
             log_messages.printf(MSG_NORMAL,
-                "[handle] No app version for %d\n", gavid
+                "[handle] No app version for %ld\n", gavid
             );
         }
         return;
@@ -84,7 +84,7 @@ static inline void got_bad_result(SCHED_RESULT_ITEM& sri) {
     }
     if (config.debug_quota) {
         log_messages.printf(MSG_NORMAL,
-            "[quota] decreasing max_jobs_per_day for %d: %d->%d\n",
+            "[quota] decreasing max_jobs_per_day for %ld: %d->%d\n",
             gavid, havp->max_jobs_per_day, n
         );
     }
@@ -313,7 +313,7 @@ int handle_results() {
         // if it's a single-thread app, set ET = CPU
         //
         if (srip->elapsed_time < srip->cpu_time) {
-            int avid = srip->app_version_id;
+            DB_ID_TYPE avid = srip->app_version_id;
             if (avid > 0) {
                 APP_VERSION* avp = ssp->lookup_app_version(avid);
                 if (avp && !avp->is_multithread()) {

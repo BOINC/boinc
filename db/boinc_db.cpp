@@ -880,7 +880,7 @@ void DB_WORKUNIT::db_print(char* buf){
         "priority=%d, "
         "rsc_bandwidth_bound=%.15e, "
         "fileset_id=%lu, "
-        "app_version_id=%lu, "
+        "app_version_id=%ld, "
         "transitioner_flags=%d, "
         "size_class=%d ",
         create_time, appid,
@@ -923,7 +923,7 @@ void DB_WORKUNIT::db_print_values(char* buf) {
         "%d, NOW(), "
         "%f, "
         "%lu, "
-        "%lu, "
+        "%ld, "
         "%d, "
         "%d)",
         create_time, appid,
@@ -1017,7 +1017,7 @@ void DB_RESULT::db_print(char* buf){
         "claimed_credit=%.15e, granted_credit=%.15e, opaque=%.15e, random=%d, "
         "app_version_num=%d, appid=%lu, exit_status=%d, teamid=%lu, "
         "priority=%d, elapsed_time=%.15e, flops_estimate=%.15e, "
-        "app_version_id=%lu, runtime_outlier=%d, size_class=%d, "
+        "app_version_id=%ld, runtime_outlier=%d, size_class=%d, "
         "peak_working_set_size=%.0f, "
         "peak_swap_size=%.0f, "
         "peak_disk_usage=%.0f ",
@@ -1081,7 +1081,7 @@ int DB_RESULT::mark_as_sent(int old_server_state, int report_grace_period) {
     int retval;
 
     sprintf(query,
-        "update result set server_state=%d, hostid=%lu, userid=%lu, sent_time=%d, report_deadline=%d, flops_estimate=%.15e, app_version_id=%lu  where id=%lu and server_state=%d",
+        "update result set server_state=%d, hostid=%lu, userid=%lu, sent_time=%d, report_deadline=%d, flops_estimate=%.15e, app_version_id=%ld  where id=%lu and server_state=%d",
         server_state,
         hostid,
         userid,
@@ -1322,7 +1322,10 @@ int DB_HOST_APP_VERSION::update_scheduler(DB_HOST_APP_VERSION& orig) {
         max_jobs_per_day,
         n_jobs_today
     );
-    sprintf(clause, "host_id=%lu and app_version_id=%lu", host_id, app_version_id);
+    sprintf(clause,
+        "host_id=%lu and app_version_id=%ld",
+        host_id, app_version_id
+    );
     return update_fields_noid(query, clause);
 }
 
@@ -1371,7 +1374,7 @@ int DB_HOST_APP_VERSION::update_validator(DB_HOST_APP_VERSION& orig) {
         max_jobs_per_day
     );
     sprintf(clause,
-        "host_id=%lu and app_version_id=%lu ",
+        "host_id=%lu and app_version_id=%ld ",
         host_id, app_version_id
     );
     return update_fields_noid(query, clause);
@@ -1380,7 +1383,7 @@ int DB_HOST_APP_VERSION::update_validator(DB_HOST_APP_VERSION& orig) {
 void DB_HOST_APP_VERSION::db_print(char* buf) {
     sprintf(buf,
         "host_id=%lu, "
-        "app_version_id=%lu, "
+        "app_version_id=%ld, "
         "pfc_n=%.15e, "
         "pfc_avg=%.15e, "
         "et_n=%.15e, "

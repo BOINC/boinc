@@ -15,8 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// The BOINC scheduling server.
+// The BOINC scheduler.
+// Normally runs as a CGI or fast CGI program.
+// You can also run it:
+// - manually for debugging, with a single request
+// - for simulation or performance testing, with a stream of requests
+//   (using --batch)
 
+// TODO: what does the following mean?
 // Also, You can call debug_sched() for whatever situation is of
 // interest to you.  It won't do anything unless you create
 // (touch) the file 'debug_sched' in the project root directory.

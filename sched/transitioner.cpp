@@ -88,7 +88,7 @@ static int result_timed_out(
     DB_HOST_APP_VERSION hav;
     char query[512], clause[512];
 
-    int gavid = generalized_app_version_id(
+    DB_ID_TYPE gavid = generalized_app_version_id(
         res_item.res_app_version_id, wu_item.appid
     );
     int retval = hav_lookup(hav, res_item.res_hostid, gavid);
@@ -115,7 +115,7 @@ static int result_timed_out(
     }
     if (config.debug_quota) {
         log_messages.printf(MSG_NORMAL,
-            "[quota] max_jobs_per_day for %d; %d->%d\n",
+            "[quota] max_jobs_per_day for %ld; %d->%d\n",
             gavid, hav.max_jobs_per_day, n
         );
     }
