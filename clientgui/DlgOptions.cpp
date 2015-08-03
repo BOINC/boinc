@@ -99,6 +99,7 @@ bool CDlgOptions::Create(wxWindow* parent, wxWindowID id, const wxString& captio
     m_LanguageSelectionCtrl = NULL;
     m_ReminderFrequencyCtrl = NULL;
     m_EnableBOINCManagerAutoStartCtrl = NULL;
+    m_EnableRunDaemonCtrl = NULL;
     m_EnableBOINCManagerExitMessageCtrl = NULL;
     m_DialupStaticBoxCtrl = NULL;
 #if defined(__WXMSW__)
@@ -209,8 +210,18 @@ void CDlgOptions::CreateControls() {
 #endif
 
     wxStaticText* itemStaticText11 = new wxStaticText;
-    itemStaticText11->Create( itemPanel4, wxID_STATIC, _("Enable Manager exit dialog?"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText11->Create( itemPanel4, wxID_STATIC, _("Run daemon?"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer6->Add(itemStaticText11, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    m_EnableRunDaemonCtrl = new wxCheckBox;
+    m_EnableRunDaemonCtrl->Create( itemPanel4, ID_ENABLERUNDAEMON, wxT(""), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
+    if (ShowToolTips())
+        m_EnableRunDaemonCtrl->SetToolTip(_("Run daemon when launching the Manager."));
+    itemFlexGridSizer6->Add(m_EnableRunDaemonCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    wxStaticText* itemStaticText12 = new wxStaticText;
+    itemStaticText12->Create( itemPanel4, wxID_STATIC, _("Enable Manager exit dialog?"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer6->Add(itemStaticText12, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_EnableBOINCManagerExitMessageCtrl = new wxCheckBox;
     m_EnableBOINCManagerExitMessageCtrl->Create( itemPanel4, ID_ENABLEEXITMESSAGE, wxT(""), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
@@ -631,6 +642,7 @@ bool CDlgOptions::ReadSettings() {
         m_DialupClearDefaultCtrl->Disable();
     }
 #endif
+    m_EnableRunDaemonCtrl->SetValue(wxGetApp().GetRunDaemon());
 
     // Proxy Tabs
     m_bRetrievedProxyConfiguration = (0 == pDoc->GetProxyConfiguration());
@@ -737,6 +749,7 @@ bool CDlgOptions::SaveSettings() {
     // Connection Tab
     pFrame->SetDialupConnectionName(GetDefaultDialupConnection());
 #endif
+    wxGetApp().SetRunDaemon(m_EnableRunDaemonCtrl->GetValue());
 
     // Proxy Tabs
     if (m_bRetrievedProxyConfiguration) {

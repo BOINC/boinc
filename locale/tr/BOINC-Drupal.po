@@ -1,0 +1,1518 @@
+# LANGUAGE translation of PROJECT
+# Copyright (c) YEAR NAME <EMAIL@ADDRESS>
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: BOINC\n"
+"POT-Creation-Date: 2015-05-07 12:21+0000\n"
+"PO-Revision-Date: 2015-08-01 08:24+0000\n"
+"Last-Translator: Can Demirel <aycandemirel@hotmail.com>\n"
+"Language-Team: Turkish (http://www.transifex.com/projects/p/boinc/language/tr/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: tr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid ""
+"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
+" your e-mail address, it will be used for your user picture."
+msgstr "E-posta adresinizle ilişkilendirilmiş bir <a href=\"@gravatar-check\">geçerli Gravatarınız</a> varsa, kullanıcı resminiz olarak kullanılacaktır."
+
+msgid "Your Gravatar will not be shown if you upload a user picture."
+msgstr "Bir kullanıcı resimi yüklerseniz Gravatarınız gösterilmez."
+
+msgid ""
+"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
+" your e-mail address, use it for your user picture."
+msgstr "E-posta adresinizle ilişkilendirilmiş bir <a href=\"@gravatar-check\">geçerli Gravatarınız</a> varsa, kullanıcı resminiz olarak kullanın."
+
+msgid "Gravatar will not be shown if an avatar is uploaded."
+msgstr "Bir kullanıcı resmi yüklerseniz Gravatarınız gösterilmez."
+
+msgid "This is not available until your profile is set up."
+msgstr "Bu, profiliniz ayarlanana kadar kullanılamaz."
+
+msgid "Should @project show your computers on its web site?"
+msgstr "@project, bilgisayarlarınızı kendi internet sitesi üzerinde göstersin mi?"
+
+msgid "Click here to revoke your membership with @this_team"
+msgstr "@this_team ile üyeliğinizi iptal etmek için buraya tıklayın"
+
+msgid "Minimum avg credit to post"
+msgstr "İleti gönderebilmek için sahip olunması gereken en az ortalama kredi"
+
+msgid "Founder & Team Admins have moderator privileges"
+msgstr "Kurucu ve Takım Yöneticileri moderasyon izinlerine sahip olacak"
+
+msgid "Notes about changes in foundership:"
+msgstr "Kurucu değişimleri hakkında notlar:"
+
+msgid "Foundership can be requested by team members:"
+msgstr "Kuruculuk ekip üyeleri tarafından talep edilebilir:"
+
+msgid "One request is allowed at a time"
+msgstr "Bir defada bir isteğe izin verilir"
+
+msgid "Any active request must be older than 90 days"
+msgstr "Herhangi bir etkin isteğin 90 günden daha eski olması gerekir"
+
+msgid "Current founder has 60 days to respond to a request"
+msgstr "Geçerli kurucunun bir isteğine yanıt vermek için 60 günü vardır"
+
+msgid ""
+"If a team admin quits the team, they cease to be a team admin. We recommend "
+"only selecting people you know and trust"
+msgstr "Bir takım yöneticisi takımdan çıkarsa, takım yöneticisi olmak çıkar. Sadece tanıdığınız ve güvendiğiniz kişileri seçmenizi öneririz"
+
+msgid "You may create a message board for use by @team"
+msgstr "@team tarafından kullanılması için bir mesaj panosu oluşturabilirsiniz"
+
+msgid "parent removed"
+msgstr "üst kaldırıldı"
+
+msgid "Maximum daily WU quota per CPU"
+msgstr "CPU başına maksimum günlük İB kotası"
+
+msgid "Received time"
+msgstr "Alınma zamanı"
+
+msgid "App ID"
+msgstr "Uygulama ID"
+
+msgid "Error mask"
+msgstr "Hata maskesi"
+
+msgid "Minimum quorum"
+msgstr "Asgari yeter sayı"
+
+msgid "Max error tasks"
+msgstr "Azami hatalı iş"
+
+msgid "Max success tasks"
+msgstr "Azami başarılı iş"
+
+msgid "Max total tasks"
+msgstr "Azami toplam iş"
+
+msgid "Target number of results"
+msgstr "Sonuçların hedef sayısı"
+
+msgid "Application version ID"
+msgstr "Uygulama sürüm ID"
+
+msgid "Plan class"
+msgstr "Plan sınıfı"
+
+msgid "Version number"
+msgstr "Sürüm sayısı"
+
+msgid "App version ID"
+msgstr "Uyg. sürüm ID"
+
+msgid "@count million ops/sec"
+msgstr "@count milyon işl/sn"
+
+msgid "@rate KiB/sec"
+msgstr "@rate KiB/sn"
+
+msgid "@count days"
+msgstr "@count gün"
+
+msgid "@ip_address (same the last @count times)"
+msgstr "@ip_address (son @count kez ile aynı)"
+
+msgid "commented on"
+msgstr "yorumlandı"
+
+msgid "Remove sticky status from this topic"
+msgstr "Bu konudan yapışkan durumunu kaldır"
+
+msgid ""
+"Check the computers that are the same as @name (created on @date at @time "
+"with computer ID @id)"
+msgstr "@name ile aynı bilgisayarları kontrol et (@date tarihinde @time saatinde @id bilgisayar ID'si ile yaratılanları)"
+
+msgid "Computer @old_id has been merged successfully into @id."
+msgstr "@old_id bilgisayarı @id ile başarılı şekilde birleştirildi."
+
+msgid "started discussion"
+msgstr "başlamış tartışma"
+
+msgid "posted"
+msgstr "gönderildi"
+
+msgid "Minimum value not met for @field"
+msgstr "@field için asgari değer karşılanmadı"
+
+msgid "Invalid data type for @field"
+msgstr "@field için geçersiz veri tipi"
+
+msgid ""
+"Authentication is required when changing E-mail address or setting new "
+"password."
+msgstr "E-posta adresini değiştirirken veya yeni bir parola ayarlarken doğrulama gereklidir."
+
+msgid "Request foundership"
+msgstr "Kurucu değişimi talebi"
+
+msgid ""
+"If the team founder is not active and you want to assume the role of "
+"founder, click below to request foundership of @this_team."
+msgstr "Takım kurucusu aktif değilse ve kurucu rolünü üstlenmek istiyorsanız , @this_team takımının kuruculuğunu talep etmek için aşağıdaki linke tıklayınız."
+
+msgid "Initiate request"
+msgstr "İstekte bulun"
+
+msgid "A BOINC account already exists for @email."
+msgstr "@email adresi için bir BOINC hesabı zaten var."
+
+msgid ""
+"Please be responsible in what you write and do not create posts which are "
+"offensive or insulting. Offensive posts or threads may be deleted by forum "
+"moderators without warning or discussion. Do not respond to offensive "
+"postings. Click on the \"report\" button at the bottom of the post to call "
+"it to the attention of the moderators."
+msgstr "Lütfen yazdıklarınızdan sorumlu olun ve saldırgan veya hakaret içeren mesajlar oluşturmayın. Saldırgan mesajlar veya konular, uyarı veya tartışma olmadan forum moderatörleri tarafından silinebilir. Saldırgan gönderilere cevap vermeyin. Moderatörlerin dikkatine sunmak için gönderinin altındaki \"Raporla\" butonuna tıklayın."
+
+msgid "this project"
+msgstr "bu proje"
+
+msgid ""
+"We also ask that you keep all discussion on the message boards related to "
+"@project or BOINC with the small exception of the Science message board "
+"where you are free to discuss anything relevant to the underlying science. "
+"Participants interested in broader discussions should post to unofficial "
+"forums for @project."
+msgstr "Mesaj panolarındaki tüm tartışmaları, küçük istisnalar dışında, @project veya BOINC hakkında, altında yatan bilime uygun konuların görüşüldüğü serbest bir Bilim mesaj panosu olarak sürdürmenizi rica ediyoruz. Geniş tartışmalarla ilgilenen katılımcıların @project için kurulan gayri resmi forumlara yönlendirilmesi uygun olur."
+
+msgid "These message boards now support BBCode tags only."
+msgstr "Bu mesaj panoları artık yalnızca BBCode etiketlerini destekler."
+
+msgid "Posts contributed"
+msgstr "Katkıda bulunulan gönderiler"
+
+msgid "Profile awaiting moderator approval"
+msgstr "Moderatör onayı bekleyen profil"
+
+msgid "Approve profile"
+msgstr "Profilli onayla"
+
+msgid "Approve this profile content"
+msgstr "Bu profili içeriğini onayla"
+
+msgid "Edit profile"
+msgstr "Profili düzenle"
+
+msgid "Edit the content of this profile"
+msgstr "Bu profili içeriğini düzenle"
+
+msgid "Remove profile"
+msgstr "Profili kaldır"
+
+msgid "Remove this profile content from the system"
+msgstr "Bu profilin içeriğini sistemden kaldır"
+
+msgid "The team founder has @count days to respond to your transfer request."
+msgstr "Takım kurucusu transfer isteğinize yanıt vermek için @count güne sahip."
+
+msgid "Reject profile"
+msgstr "Profili reddet"
+
+msgid "Reject this profile content"
+msgstr "Bu profilin içeriğini reddet"
+
+msgid "Reason for rejecting this profile"
+msgstr "Bu profilin reddedilme nedeni"
+
+msgid ""
+"This reason will be included in an email to the user. Please write a brief "
+"explanation of the problem and how to fix it."
+msgstr "Bu neden, kullanıcıya gönderilecek e-postanın içeriğine dahil edilecek. Problemi kısaca açıklayın ve nasıl düzeltebileceğini yazın."
+
+msgid "Submit"
+msgstr "Gönder"
+
+msgid "project"
+msgstr "proje"
+
+msgid "Email address"
+msgstr "E-posta adresi"
+
+msgid "Home"
+msgstr "Ev"
+
+msgid "Login"
+msgstr "Giriş yap"
+
+msgid "search"
+msgstr "ara"
+
+msgid "Server status"
+msgstr "Sunucu durumu"
+
+msgid "Language"
+msgstr "Dil"
+
+msgid "Enter your @s email address."
+msgstr "Lütfen @s e-posta adresinizi yazın."
+
+msgid "Join now"
+msgstr "Şimdi katıl"
+
+msgid "I'm new"
+msgstr "Yeniyim"
+
+msgid "I'm a BOINC user"
+msgstr "BOINC kullanıcısıyım"
+
+msgid "Welcome back!"
+msgstr "Tekrar hoş geldiniz!"
+
+msgid ""
+"Einstein@Home is a program that uses your computer's idle time to run a "
+"screensaver to search for gravitational waves from spinning neutron stars "
+"(also called pulsars) using data from the LIGO gravitational wave detector."
+msgstr "Einstein@Home bilgisayarınızın boşta kalan zamanını, bir ekran koruyucu çalıştırarak, çok hızlı dönen nötron yıldızlarının (pulsar olarak da adlandırılır) kütleçekim dalgalarını aramak için kullanan bir programdır. Bunu, LIGO kütleçekim dalga detektörlerinden elde edilen verileri analiz ederek yapar."
+
+msgid "Learn more"
+msgstr "Daha fazlasını öğren"
+
+msgid "View account"
+msgstr "Hesabı görüntüle"
+
+msgid "About our screensaver"
+msgstr "Ekran koruyucumuz hakkında"
+
+msgid "Over 500,000 volunteers and counting."
+msgstr "500.000'den fazla gönüllü ve artıyor."
+
+msgid "Windows"
+msgstr "Windows"
+
+msgid "Mac"
+msgstr "Mac"
+
+msgid "Linux"
+msgstr "Linux"
+
+msgid "Logout"
+msgstr "Çıkış"
+
+msgid "Name"
+msgstr "İsim"
+
+msgid "Avg credit"
+msgstr "Ort. kredi"
+
+msgid "Total credit"
+msgstr "Toplam kredi"
+
+msgid "Enter your password to save changes"
+msgstr "Değişiklikleri kaydetmek için parolanızı girin"
+
+msgid ""
+"Enter your current password if changing your email\n"
+"          address or password."
+msgstr "E-posta adresinizi ya da şifrenizi değiştiriyorsanız\n          mevcut şifrenizi girin."
+
+msgid "BOINC user ID"
+msgstr "BOINC kullanıcı no"
+
+msgid "Drupal user ID"
+msgstr "Drupal kullanıcı no"
+
+msgid "Account key"
+msgstr "Hesap anahtarı"
+
+msgid "Weak account key"
+msgstr "Zayıf hesap anahtarı"
+
+msgid "Cross-project ID"
+msgstr "Çapraz-proje NO"
+
+msgid "Save changes"
+msgstr "Değişiklikleri kaydet"
+
+msgid "Cancel"
+msgstr "Vazgeç"
+
+msgid "Change password"
+msgstr "Parolayı değiştir"
+
+msgid "What is @this_project?"
+msgstr "@this_project nedir?"
+
+msgid "no projects..."
+msgstr "proje yok..."
+
+msgid "Download the desktop software"
+msgstr "Masaüstü yazılımını indir"
+
+msgid "Run the installer"
+msgstr "Kurulumu çalıştır"
+
+msgid "When prompted enter @siteurl"
+msgstr "Sorulduğunda @siteurl girin"
+
+msgid "Password"
+msgstr "Parola"
+
+msgid "Enter the password that accompanies your username."
+msgstr "Kullanıcı adınızla eşleşen parolanızı giriniz."
+
+msgid "Request new password"
+msgstr "Yani parola talep et"
+
+msgid ""
+"If you're already running BOINC, select <i>Add\n"
+"      Project</i>."
+msgstr "Zaten BOINC çalıştırıyorsanız,  <i>Proje\n      Ekle</i>yi seçin."
+
+msgid ""
+"If you're running a command-line version of BOINC,\n"
+"        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
+"        an account at this project, then use that account to connect with the\n"
+"        command-line version."
+msgstr "Eğer BOINC'in bir komut satırı sürümünü çalıştırıyorsanız,\n        önce bu projede bir hesap oluşturmak için (gerekirse başka bir yerde)\n        BOINC Manager yazılımını kullanın, daha sonra komut satırı sürümü ile\n        bağlanmak için, oluşturduğunuz söz konusu hesabı kullanabilirsiniz."
+
+msgid ""
+"If you're running a pre-5.0 version of BOINC, please\n"
+"        upgrade to a more recent version to create an account\n"
+"        at this project."
+msgstr "Eğer 5.0 öncesi BOINC sürümünü çalıştırıyorsanız,\n        bu projede bir hesap oluşturmak için lütfen daha yeni bir\n        sürüme yükseltin."
+
+msgid ""
+"1) If you know your account&apos;s email address, and you can receive email "
+"there:"
+msgstr "1) Eğer hesabınızın e-posta adresini biliyorsanız, oradan e-posta alabilirsiniz:"
+
+msgid ""
+"Enter the email address and click OK. You will be sent email instructions "
+"for resetting your password."
+msgstr "E-posta adresini girin ve Tamam'a tıklayın. Şifrenizi sıfırlamak için e-posta talimatları gönderilir."
+
+msgid "OK"
+msgstr "Tamam"
+
+msgid "The latest news from the @site_name project"
+msgstr "@site_name projesinden gelen son haberler"
+
+msgid "Comment form"
+msgstr "Buradan yorum:"
+
+msgid "Total credits"
+msgstr "Toplam kredi"
+
+msgid "Recent avg credits"
+msgstr "Güncel ort. kredi"
+
+msgid "Country"
+msgstr "Ülke"
+
+msgid "Type"
+msgstr "Tip"
+
+msgid "Founder"
+msgstr "Kurucu"
+
+msgid "New members in last day"
+msgstr "Son günlerdeki yeni üyeler"
+
+msgid "Total members"
+msgstr "Toplam üye"
+
+msgid "Active members"
+msgstr "Aktif üye"
+
+msgid "Members with credit"
+msgstr "Kredisi bulunan üye"
+
+msgid "Description"
+msgstr "Tanıtım"
+
+msgid "Search teams"
+msgstr "Takımları ara"
+
+msgid "Send message"
+msgstr "Mesaj gönder"
+
+msgid "BOINC"
+msgstr "BOINC"
+
+msgid "Project"
+msgstr "Proje"
+
+msgid "Web site"
+msgstr "İnternet sitesi"
+
+msgid "No active computers"
+msgstr "Etkin bilgisayar yok"
+
+msgid "This user has no computers that have been active in the last 30 days."
+msgstr "Bu kullanıcının son 30 gün içinde aktif olan hiçbir bilgisayarı bulunmamakta."
+
+msgid " Default value: @default"
+msgstr "Varsayılan değer: @default"
+
+msgid "Applications"
+msgstr "Uygulamalar"
+
+msgid "yes"
+msgstr "evet"
+
+msgid "no"
+msgstr "hayır"
+
+msgid "Message @id"
+msgstr "Mesaj @id"
+
+msgid "message @id"
+msgstr "mesaj @id"
+
+msgid " in response to !parent"
+msgstr " - Şuna yanıt olarak !parent"
+
+msgid "Credits per day"
+msgstr "Gün başına kredi"
+
+msgid "Computers hidden"
+msgstr "Gizlenen bilgisayarlar"
+
+msgid "This user has chosen not to show information about their computers."
+msgstr "Bu kullanıcı, bilgisayarları hakkında bilgi gösterilmemesini tercih etti."
+
+msgid "Stderr output"
+msgstr "Stderr çıktısı"
+
+msgid "@time ago"
+msgstr "@time önce"
+
+msgid "n/a"
+msgstr "yok"
+
+msgid "Submitted by !username on !datetime"
+msgstr "!username tarafından !datetime zamanında gönderildi"
+
+msgid "Member since"
+msgstr "Üyelik tarihi"
+
+msgid "View team"
+msgstr "Takımı gör"
+
+msgid "Friends (@count)"
+msgstr "Arkadaşlar (@count)"
+
+msgid "Website"
+msgstr "Site"
+
+msgid "Locked"
+msgstr "Kilitli"
+
+msgid "Computers pending"
+msgstr "Bilgisayarlar beklemede"
+
+msgid ""
+"This user does not yet have any associated computers. Computers will be "
+"displayed when they have earned their first credits."
+msgstr "Bu kullanıcının henüz herhangi bir ilişkili bilgisayarı yok. Bilgisayarlar ilk kredi kazandıkları zaman görüntülenir."
+
+msgid "No results found..."
+msgstr "Sonuç bulunamadı..."
+
+msgid "Background"
+msgstr "Arkaplan"
+
+msgid "Teams"
+msgstr "Takımlar"
+
+msgid ""
+"@project participants may form teams. You may belong to only one team. You "
+"can join or quit a team at any time. To join a team, visit its team page and"
+" click \"Join this team\". Each team has a founder who may:"
+msgstr "@Project katılımcıları takımlar oluşturabilir. Yalnızca bir takıma ait olabilirsiniz. Herhangi bir zamanda bir takıma katılabilir veya ayrılabilirsiniz. Bir takıma katılmak için, kendi takım sayfasını ziyaret edin ve \"Bu takıma katıl\" butonuna tıklayın. Her takımın bir kurucusu olabilir:"
+
+msgid "access team members' email addresses"
+msgstr "Takım üyelerinin e-posta adreslerini görme"
+
+msgid "edit the team's name and description"
+msgstr "Takımın ismini ve tanıtımını düzenleme"
+
+msgid "add or remove team admins"
+msgstr "Takım Yöneticileri ekleme ya da çıkarma"
+
+msgid "remove members from the team"
+msgstr "Takımdan bir üyeyi çıkarma"
+
+msgid "disband a team if it has no members"
+msgstr "Üyesi yoksa takımı kaldırma."
+
+msgid "Create a new team"
+msgstr "Yeni bir takım oluştur"
+
+msgid ""
+"If you cannot find a team that is right for you, you can create a team."
+msgstr "Sizin için uygun bir takım bulamazsanız, bir takım oluşturabilirsiniz."
+
+msgid "You must earn @count more credits!"
+msgstr "@count kredi daha kazanmanız gerekir!"
+
+msgid "Threads"
+msgstr "Konu başlıkları"
+
+msgid "Posts"
+msgstr "Yanıtlar"
+
+msgid "Last post"
+msgstr "Son mesaj"
+
+msgid "Manage subscriptions"
+msgstr "Abonelikleri yönet"
+
+msgid "Featured"
+msgstr "Öne çıkan"
+
+msgid "Submitted on !datetime"
+msgstr "Gönderilme zamanı !datetime"
+
+msgid "Comments"
+msgstr "Yorumlar"
+
+msgid "Opinion"
+msgstr "Görüş"
+
+msgid "More"
+msgstr "Daha fazla"
+
+msgid "Tasks"
+msgstr "İşler"
+
+msgid "Generic"
+msgstr "Genel"
+
+msgid "Work"
+msgstr "İş"
+
+msgid "School"
+msgstr "Okul"
+
+msgid "Presets"
+msgstr "Önayarlar"
+
+msgid "Standard"
+msgstr "Standart"
+
+msgid "Maximum"
+msgstr "En yüksek"
+
+msgid "Green"
+msgstr "Yeşil"
+
+msgid "Minimum"
+msgstr "En düşük"
+
+msgid "Custom"
+msgstr "Özel"
+
+msgid "Update preset"
+msgstr "Önayarı güncelle"
+
+msgid "Advanced settings"
+msgstr "Gelişmiş ayarlar"
+
+msgid "Processor usage"
+msgstr "İşlemci kullanımı"
+
+msgid "Run while computer is on battery power?"
+msgstr "Bilgisayar pil gücünde olduğunda çalışsın mı?"
+
+msgid "Only applies to portable computers"
+msgstr "Yalnızca taşınabilir bilgisayarlar için geçerlidir"
+
+msgid "Run while computer is in use?"
+msgstr "Bilgisayar kullanımda olduğunda çalışsın mı?"
+
+msgid "Run GPU work while computer is in use?"
+msgstr "Bilgisayar kullanımdayken GPU işi çalışsın mı?"
+
+msgid "Enforced by version @number"
+msgstr "@number sürümü tarafından zorunlu"
+
+msgid "\"In use\" means mouse/keyboard activity in last"
+msgstr "'Kullanımda', en son bu kadar süre önce fare/klavye kullanıldı demektir:"
+
+msgid "minutes"
+msgstr "dakika"
+
+msgid "Suspend work if no mouse/keyboard activity in last"
+msgstr "Fare ve klavyeyi bu kadar süre kullanmadığımda duraklatılsın"
+
+msgid "Needed to enter low-power mode on some computers"
+msgstr "Bu, bazı bilgisayarların kullanılmadığı zaman düşük güç moduna girmesini sağlar."
+
+msgid "Suspend work if CPU usage is above"
+msgstr "İşlemci kullanımı bundan fazlaysa duraklat:"
+
+msgid "0 means no restriction. Enforced by version @number"
+msgstr "0 sınırlama yok anlamına gelir. @number sürümü tarafından zorunlu."
+
+msgid "Do work only between the hours of:"
+msgstr "Yalnızca bu saatler arasında işleri çalıştır:"
+
+msgid "and"
+msgstr "ve"
+
+msgid "No restriction if equal"
+msgstr "Birbirine eşitse  sınırlama yok."
+
+msgid "Leave tasks in memory while suspended?"
+msgstr "Durakladığında işler bellekte kalsın mı?"
+
+msgid "Suspended tasks will consume swap space if \"yes\""
+msgstr "\"Evet\" seçilirse, duraklatılan görevler takas alanını tüketecektir"
+
+msgid "Switch between tasks every"
+msgstr "Çalışan uygulamayı değiştirme aralığı"
+
+msgid "Recommended: @period minutes"
+msgstr "Önerilen: @period dakika"
+
+msgid "On multiprocessors, use at most"
+msgstr "Çok işlemcili sistemlerde işlemcilerin en fazla"
+
+msgid "processors"
+msgstr "adeti kullanılsın"
+
+msgid "Set to 0 for no limit"
+msgstr "Sınırlama olmaması için 0'a ayarlayın"
+
+msgid "% of the processors"
+msgstr "% kadarı kullanılsın"
+
+msgid "Use at most"
+msgstr "En çok"
+
+msgid "% of the CPU time"
+msgstr "% kadar CPU gücü kullan"
+
+msgid "Can be used to reduce CPU heat"
+msgstr "CPU ısısını azaltmak için kullanılabilir"
+
+msgid "Disk and memory usage"
+msgstr "Disk ve bellek kullanımı"
+
+msgid "Disk: use at most"
+msgstr "Disk: En fazla kullanım"
+
+msgid "Disk: leave free at least"
+msgstr "Disk: En az bu kadar alan bırak"
+
+msgid "Values smaller than @number are ignored"
+msgstr "@number değerinden küçükse görmezden gelinir"
+
+msgid "% of total"
+msgstr "% kadar "
+
+msgid "Tasks checkpoint to disk at most every"
+msgstr "İşler, kontrol noktasını diske en fazla"
+
+msgid "seconds"
+msgstr "saniyede bir kaydetsin"
+
+msgid "Swap space: use at most"
+msgstr "Sanal bellek: En fazla kullanım"
+
+msgid "Memory: when computer is in use, use at most"
+msgstr "Bellek: Bilgisayar kullanımdayken en fazla kullanım"
+
+msgid "Memory: when computer is not in use, use at most"
+msgstr "Bellek: Bilgisayar boştayken en fazla kullanım"
+
+msgid "Network usage"
+msgstr "Ağ kullanımı"
+
+msgid "Computer is connected to the Internet about every"
+msgstr "Bilgisayar İnternete bu kadar sürede bir bağlanır:"
+
+msgid "days"
+msgstr "günlük"
+
+msgid ""
+"Leave blank or 0 if always connected. @project will try to maintain at least"
+" this much work."
+msgstr "Her zaman bağlı ise boş bırakın ya d 0 yazın. @project en az bu kadar süre yetecek miktarda iş bulundurmaya çalışacak."
+
+msgid "Maintain enough work for an additional"
+msgstr "Bu kadar süre çalışmayı sürdürmeye yetecek miktarda ek iş indir:"
+
+msgid "Confirm before connecting to Internet?"
+msgstr "İnternete bağlanmadan önce onay istensin mi?"
+
+msgid "Matters only if you have a modem, ISDN, or VPN connection"
+msgstr "Bir modem, ISDN ya da VPN bağlantısına sahipseniz kullanışlı olabilir."
+
+msgid "Disconnect when done?"
+msgstr "Tamamlandığında bağlantıyı kesilsin mi?"
+
+msgid "Maximum download rate"
+msgstr "En yüksek indirme hızı:"
+
+msgid "Maximum upload rate"
+msgstr "En yüksek gönderme hızı:"
+
+msgid "Use network only between the hours of:"
+msgstr "Yalnızca bu saatler arasında ağı kullan:"
+
+msgid "Transfer at most"
+msgstr "İnternet kullanım kotası:"
+
+msgid "Skip image file verification?"
+msgstr "Görüntü dosyaları veri doğrulamasını atla?"
+
+msgid ""
+"Check this ONLY if your Internet provider modifies image files (UMTS does "
+"this, for example). Skipping verification reduces the security of BOINC."
+msgstr "İnternet servis sağlayıcınız görüntü dosyalarını değiştiriyorsa (örneğin UMTS bunu yapar) işaretleyin. Doğrulamayı atlamak, BOINC'in güvenliğini zayıflatacaktır."
+
+msgid "Show comparison view"
+msgstr "Karşılaştırma görünümü göster"
+
+msgid "Resource settings"
+msgstr "Kaynak ayarları"
+
+msgid "Resource share"
+msgstr "Kaynak paylaşımı"
+
+msgid ""
+"Determines the proportion of your computer's resources allocated to this "
+"project. Example: if you participate in two BOINC projects with resource "
+"shares of 100 and 200, the first will get 1/3 of your resources and the "
+"second will get 2/3."
+msgstr "Bilgisayarınızın, bu projeye tahsis edilecek kaynak oranını belirler. Örneğin, 100 ve 200 kaynak payları ile iki BOINC projesine katılırsanız, ilki kaynakların üçte birini, ikincisi ise üçte ikisini kullanacaktır."
+
+msgid "Use CPU"
+msgstr "CPU kullan"
+
+msgid "Use NVIDIA GPU"
+msgstr "NVIDIA GPU kullan"
+
+msgid "Use ATI GPU"
+msgstr "ATI GPU kullan"
+
+msgid "Use INTEL GPU"
+msgstr "Intel GPU kullan"
+
+msgid "Beta settings"
+msgstr "Beta ayarları"
+
+msgid "Run test applications?"
+msgstr "Test uygulamaları çalıştırılsın mı?"
+
+msgid ""
+"This helps us develop applications, but may cause jobs to fail on your "
+"computer"
+msgstr "Bu, uygulamaları geliştirme konusunda bize yardımcı olacak. Ancak, bazen iş hesaplamalarının başarısız olmasına sebep olabilir."
+
+msgid "Default set"
+msgstr "Varsayılan küme"
+
+msgid "Set used for new computers"
+msgstr "Küme yeni bilgisayarlar için kullanılacak"
+
+msgid "Merge"
+msgstr "Birleştir"
+
+msgid "Delete"
+msgstr "Sil"
+
+msgid ""
+"This will delete host @id from your account forever. Are you sure this is "
+"OK?"
+msgstr "Bu, @id bilgisayarını sonsuza kadar hesabınızdan siler. Bunu yapmak istediğinizden emin misiniz?"
+
+msgid "Mark all topics read"
+msgstr "Tüm konuları okundu olarak işaretle"
+
+msgid "Mark all forums read"
+msgstr "Tüm forumları forumları okundu olarak işaretle"
+
+msgid ""
+"CAPTCHA validation error: unknown CAPTCHA session ID. Contact the site "
+"administrator if this problem persists."
+msgstr "CAPTCHA doğrulama hatası: Bilinmeyen CAPTCHA oturum kimliği. Bu sorun devam ederse site yöneticisine başvurun."
+
+msgid "The answer you entered for the CAPTCHA was not correct."
+msgstr "CAPTCHA için verdiğiniz yanıt doğru değil."
+
+msgid "Access denied. You must login to view this page."
+msgstr "Erişim engellendi. Bu sayfayı görüntülemek için giriş yapmalısınız."
+
+msgid "You are not authorized to access this page."
+msgstr "Bu sayfaya erişmek için yetkiniz yok."
+
+msgid "Disable rich-text"
+msgstr "Zengin metni devre dışı bırak"
+
+msgid "Enable rich-text"
+msgstr "Zengin metin etkinleştir"
+
+msgid "View user profile."
+msgstr "Kullanıcı profilini gör."
+
+msgid "BBcode help"
+msgstr "BBcode yardımı"
+
+msgid "Post comment"
+msgstr "Yorum gönder"
+
+msgid "No @type tasks"
+msgstr "Hiçbir @type işi bulunamadı"
+
+msgid "There are no tasks of this type on record"
+msgstr "Kayıtlarda bu tip için herhangi bir iş bulunmuyor"
+
+msgid "Clear"
+msgstr "Temizle"
+
+msgid ""
+"This will remove all of your settings from the @name preference set. Are you"
+" sure?"
+msgstr "Bu, @name önayar kümesindeki tüm ayarlarınızı kaldıracak. Emin misiniz?"
+
+msgid "These apply to all BOINC projects in which you participate."
+msgstr "Bu tercihler, katıldığınız tüm BOINC projelerine uygulanacak."
+
+msgid ""
+"On computers attached to multiple projects, the most recently modified "
+"preferences will be used."
+msgstr "Birden fazla proje bağlı bilgisayarlarda, en son değiştirilen tercihler kullanılacaktır."
+
+msgid "Preferences last modified: @mod_time"
+msgstr "Tercihlerin son güncellenmesi: @mod_time"
+
+msgid "Combined preferences"
+msgstr "Ortak tercihler"
+
+msgid "Switch View"
+msgstr "Görünümü değiştir"
+
+msgid "every"
+msgstr "her"
+
+msgid "Edit"
+msgstr "Düzenle"
+
+msgid ""
+"This will remove all of your settings from the \"@name\" preference set. Are"
+" you sure?"
+msgstr "Bu, \"@name\" önayar kümesindeki tüm ayarlarınızı kaldıracak. Emin misiniz?"
+
+msgid "Add"
+msgstr "Ekle"
+
+msgid "General settings"
+msgstr "Genel ayarlar"
+
+msgid "Time zone"
+msgstr "Saat dilimi"
+
+msgid "Notification settings"
+msgstr "Bildirim ayarları"
+
+msgid "Receive email notification for private messages?"
+msgstr "Özel mesajlar için e-posta bildirimi alınsın mı?"
+
+msgid "Receive email notification for friend requests?"
+msgstr "Arkadaşlık istekleri için e-posta bildirimi alınsın mı?"
+
+msgid "Language settings"
+msgstr "Dil ayarları"
+
+msgid ""
+"This account's default language for e-mails and preferred language for site "
+"presentation."
+msgstr "Bu hesabın e-posta ve site kullanımı için tercih edilen varsayılan dili."
+
+msgid "Avatar settings"
+msgstr "Avatar ayarları"
+
+msgid "Create a profile"
+msgstr "Bir profil oluştur"
+
+msgid "Upload an avatar"
+msgstr "Bir avatar yükle"
+
+msgid "Forum settings"
+msgstr "Forum ayarları"
+
+msgid "In discussion topics, show at most @comments_per_page"
+msgstr "Tartışma konularında, sayfa başına en fazla @comments_per_page"
+
+msgid "comments per page"
+msgstr "yorum göster"
+
+msgid "Sort comments in discussions"
+msgstr "Tartışmalarda yorumları sırala"
+
+msgid "Newest post first"
+msgstr "Önce en yeni"
+
+msgid "Oldest post first"
+msgstr "Önce en eski"
+
+msgid "Signature"
+msgstr "İmza"
+
+msgid "Your signature will be publicly displayed at the end of your comments."
+msgstr "İmzanız yorumlarınızın sonunda herkese açık olarak görüntülenir."
+
+msgid "Hide signatures in forums"
+msgstr "Forumlarda imzaları gizle"
+
+msgid "Privacy settings"
+msgstr "Gizlilik ayarları"
+
+msgid "Is it OK for @project and your team (if any) to email you?"
+msgstr "Takımınızın (eğer varsa) ve @Project projesinin size e-posta göndermesine izin verilsin mi?"
+
+msgid "Hide"
+msgstr "Gizle"
+
+msgid "Hide this topic"
+msgstr "Bu konuyu gizle"
+
+msgid "Lock"
+msgstr "Kilitle"
+
+msgid "Lock this thread for comments"
+msgstr "Bu konuyu yorumlar için kilitle"
+
+msgid "Make sticky"
+msgstr "Üst konu yap"
+
+msgid "Make this topic sticky"
+msgstr "Bu konuyu yapışkan yap"
+
+msgid "moderation"
+msgstr "moderasyon"
+
+msgid "Post new comment"
+msgstr "Yeni yorum gönder"
+
+msgid "You must earn 1 more credit!"
+msgstr "1 kredi daha kazanmanız gerekir!"
+
+msgid "Joined"
+msgstr "Üyelik"
+
+msgid "Credit"
+msgstr "Kredi"
+
+msgid "RAC"
+msgstr "Güncel ort. kredi"
+
+msgid "Join team"
+msgstr "Takıma katıl"
+
+msgid "Click here to become a member of @this_team"
+msgstr "@this_team üyesi olmak için tıklayın"
+
+msgid "Join this team"
+msgstr "Bu takıma katıl"
+
+msgid "Manage team"
+msgstr "Takımı yönet"
+
+msgid "View member list"
+msgstr "Üye listesini görüntüle"
+
+msgid "Member names and emails"
+msgstr "Üyelerin adları ve e-postaları"
+
+msgid "View change history"
+msgstr "Değişiklik tarihçesini görüntüle"
+
+msgid "See member activity"
+msgstr "Üye aktivitesine bak"
+
+msgid "Manage team message board"
+msgstr "Takım mesaj panosu yönet"
+
+msgid "Create or manage message board"
+msgstr "Takım mesaj panosu oluştur ya da yönet."
+
+msgid "Remove members"
+msgstr "Üyeleri çıkartma"
+
+msgid "Change founder"
+msgstr "Kurucuyu değiştir"
+
+msgid "Manage team admins"
+msgstr "Takım Yöneticilerini yönet"
+
+msgid "Edit team info"
+msgstr "Takım bilgilerini düzenle"
+
+msgid "Remove team"
+msgstr "Takımı kaldır"
+
+msgid "Team forum"
+msgstr "Takım forumu"
+
+msgid "A discussion forum has been set up for team members."
+msgstr "Ekip üyeleri için bir tartışma forumu kurulmuştur."
+
+msgid "Enter forum"
+msgstr "Foruma gir"
+
+msgid "Leave team"
+msgstr "Takımdan ayrıl"
+
+msgid "Leave this team"
+msgstr "Bu takımdan ayrıl"
+
+msgid "Edit message board"
+msgstr "Mesaj panosunu düzenle"
+
+msgid "Message board title"
+msgstr "Mesaj panosu başlığı"
+
+msgid "Text only, no HTML tags"
+msgstr "Sadece metin, HTML etiketleri  yok"
+
+msgid "Minimum time between posts"
+msgstr "İki gönderi arasındaki en kısa süre"
+
+msgid "Seconds"
+msgstr "Saniye"
+
+msgid "Minimum total credit to post"
+msgstr "İleti gönderebilmek için sahip olunması gereken en az kredi"
+
+msgid "Allow public to read board?"
+msgstr "Panoyu herkes okuyabilsin mi?"
+
+msgid "Save message board"
+msgstr "Mesaj panosunu kaydet"
+
+msgid "About message boards"
+msgstr "Mesaj panoları hakkında"
+
+msgid "This is a team-only message board"
+msgstr "Bu, yalnızca takıma ait bit mesaj panosudur"
+
+msgid "Only members may post"
+msgstr "Yalnızca takım üyeleri gönderi gönderebilir."
+
+msgid "Only members may read (optional)"
+msgstr "Yalnızca üyeler gönderileri okuyabilir (tercihinize bağlı)."
+
+msgid "Changing the team founder"
+msgstr "Takım kurucusu değiştirme"
+
+msgid "Any member of the team is eligible"
+msgstr "Takımın herhangi bir üyesi uygundur"
+
+msgid "Current founder becomes a normal user"
+msgstr "Güncel kurucu normal bir kullanıcı haline gelecektir"
+
+msgid "It must be 60 days since any previous request"
+msgstr "Herhangi bir önceki istekten bu yana 60 gün geçmeli"
+
+msgid "Add team admin"
+msgstr "Takım yöneticisi ekle"
+
+msgid "Enter email address"
+msgstr "E-posta adresinizi girin"
+
+msgid "Current team admins"
+msgstr "Şu anki takımı yöneticileri"
+
+msgid "About team admins"
+msgstr "Takım Yöneticileri hakkında"
+
+msgid "Team admins can:"
+msgstr "Takım yöneticileri bunları yapabilir:"
+
+msgid "Edit team information"
+msgstr "Takım bilgisini düzenleme"
+
+msgid "View the team's join / quit history"
+msgstr "Takımın katılma/ayrılma geçmişini görüntüleme"
+
+msgid "Moderate the team forum"
+msgstr "Mevcutsa, takım forumunu yönetme"
+
+msgid "Remove members from the team"
+msgstr "Takımdan bir üyeyi çıkarma"
+
+msgid "Disband a team if it has no members"
+msgstr "Üyesi yoksa takımı kaldırma"
+
+msgid "Team admins cannot:"
+msgstr "Takım Yöneticileri şunları yapamaz:"
+
+msgid "Change the team founder"
+msgstr "Takım kurucusunu değiştirme"
+
+msgid "Add / Remove team admins"
+msgstr "Takım Yöneticileri ekle/kaldır"
+
+msgid "Choose type"
+msgstr "Tip seçin"
+
+msgid "Team name"
+msgstr "Takım adı"
+
+msgid "Team name -- HTML version (optional)"
+msgstr "Takım adı -- HTML sürümü  (isteğe bağlı)"
+
+msgid "You may use limited HTML tags"
+msgstr "Sınırlı HTML etiketleri kullanabilirsiniz"
+
+msgid "Team website (optional)"
+msgstr "Takım websitesi (isteğe bağlı)"
+
+msgid "Displayed on the team's page"
+msgstr "Takımın sayfasında görüntülenir"
+
+msgid "Type of team"
+msgstr "Takımın tipi"
+
+msgid "Accept new members?"
+msgstr "Yeni üyeler kabul edilsin mi?"
+
+msgid "Description of team"
+msgstr "Takımın tanıtımı"
+
+msgid "Create new team"
+msgstr "Yeni bir takım oluştur"
+
+msgid "Create a team"
+msgstr "Takım oluştur"
+
+msgid "Save team"
+msgstr "Takımı kaydet"
+
+msgid "Create team message board"
+msgstr "Takım mesaj panosu oluştur"
+
+msgid "Create message board"
+msgstr "Mesaj panosu oluştur"
+
+msgid ""
+"Please set the minimum average credit that a user is required to have in "
+"order to post to this message board."
+msgstr "Bir kullanıcının bu mesaj panosuna gönderebilmek için sahip olması gereken minimum ortalama krediyi ayarlayın."
+
+msgid "Post new topic"
+msgstr "Yeni konu gönder"
+
+msgid "Anonymous"
+msgstr "Anonim"
+
+msgid "Unpublished"
+msgstr "Yayınlanmamış"
+
+msgid "Sorry, unrecognized email address or password."
+msgstr "Maalesef, tanınmayan e-posta adresi veya şifre."
+
+msgid "Have you forgotten your password?"
+msgstr "Parolanızı mı unuttunuz?"
+
+msgid "Id"
+msgstr "NO"
+
+msgid "Recent average credit"
+msgstr "Güncel ortalama kredi"
+
+msgid "Members"
+msgstr "Üyeler"
+
+msgid "Total Credit"
+msgstr "Toplam kredi"
+
+msgid "User ID"
+msgstr "Kullanıcı NO"
+
+msgid "User"
+msgstr "Kullanıcı"
+
+msgid "Admin since"
+msgstr "Yöneticilik başlangıcı"
+
+msgid "Team ID"
+msgstr "Takım NO"
+
+msgid "User joined"
+msgstr "Katılma tarihi"
+
+msgid "Timestamp"
+msgstr "Zaman damgası"
+
+msgid "Account Key"
+msgstr "Hesap anahtarı"
+
+msgid "CPID"
+msgstr "CPID"
+
+msgid "Email Address"
+msgstr "E-posta Adresi"
+
+msgid "Password Hash"
+msgstr "Parola kodu"
+
+msgid "Postal Code"
+msgstr "Posta kodu"
+
+msgid "Send Email"
+msgstr "E-posta gönder"
+
+msgid "Show Hosts"
+msgstr "Bilgisayarları göster"
+
+msgid "URL"
+msgstr "Site"
+
+msgid "Computer ID"
+msgstr "Bilgisayar NO"
+
+msgid "Location"
+msgstr "Konum"
+
+msgid "While BOINC running, % of time work is allowed"
+msgstr "BOINC çalışırken, yeni işlerin kabul edildiği zaman yüzdesi"
+
+msgid "Average turnaround time"
+msgstr "Ortalama geri dönüş zamanı"
+
+msgid "Created"
+msgstr "Oluşturulma"
+
+msgid "While BOINC running, % of time host has an Internet connection"
+msgstr "BOINC çalışırken, bilgisayarın internet bağlantısına sahip olduğu zaman yüzdesi"
+
+msgid "Average CPU efficiency"
+msgstr "Ortalama CPU verimi"
+
+msgid "Free disk space"
+msgstr "Boş disk alanı"
+
+msgid "Total disk space"
+msgstr "Toplam disk alanı"
+
+msgid "Task duration correction factor"
+msgstr "İş süre düzeltme çarpanı"
+
+msgid "Avg. credit"
+msgstr "Ort. kredi"
+
+msgid "External IP address"
+msgstr "Harici IP adresi"
+
+msgid "Cross project ID"
+msgstr "Çapraz-proje NO"
+
+msgid "Last IP address"
+msgstr "Son IP adresi"
+
+msgid "Cache"
+msgstr "Önbellek"
+
+msgid "Memory"
+msgstr "Bellek"
+
+msgid "Swap space"
+msgstr "Sanal bellek"
+
+msgid "Average download rate"
+msgstr "Ortalama indirme hızı"
+
+msgid "Average upload rate"
+msgstr "Ortalama gönderme hızı"
+
+msgid "Same IP address count"
+msgstr "Aynı IP adresi sayımı"
+
+msgid "% of time BOINC client is running"
+msgstr "BOINC'in çalışır durumda olduğu zaman yüzdesi"
+
+msgid "Operating system"
+msgstr "İşletim sistemi"
+
+msgid "Operating system version"
+msgstr "İşletim sistemi sürümü"
+
+msgid "Measured floating point speed"
+msgstr "Ölçülen kayan nokta hızı"
+
+msgid "Measured integer speed"
+msgstr "Ölçülen tamsayı hızı"
+
+msgid "CPU model"
+msgstr "CPU modeli"
+
+msgid "Number of processors"
+msgstr "İşlemci adedi"
+
+msgid "CPU"
+msgstr "CPU"
+
+msgid "Number of times client has contacted server"
+msgstr "İstemcinin sunucuya bağlanma sayısı"
+
+msgid "Last contact"
+msgstr "Son bağlantı"
+
+msgid "Serial number"
+msgstr "Seri numarası"
+
+msgid "Timezone"
+msgstr "Zaman dilimi"
+
+msgid "Platform ID"
+msgstr "Platform NO"
+
+msgid "Task ID"
+msgstr "İş NO"
+
+msgid "Workunit ID"
+msgstr "İş birimi NO"
+
+msgid "Host ID"
+msgstr "Sunucu NO"
+
+msgid "Application ID"
+msgstr "Uygulama NO"
+
+msgid "Application version"
+msgstr "Uygulama sürümü"
+
+msgid "Claimed credit"
+msgstr "İstenen kredi"
+
+msgid "Client state"
+msgstr "İstemci durumu"
+
+msgid "CPU time"
+msgstr "CPU zamanı"
+
+msgid "Run time"
+msgstr "Çalışma zamanı"
+
+msgid "Exit status"
+msgstr "Çıkış kodu"
+
+msgid "Granted credit"
+msgstr "Alınan kredi"
+
+msgid "Outcome"
+msgstr "Sonuç"
+
+msgid "Report deadline"
+msgstr "Son teslim zamanı"
+
+msgid "Sent"
+msgstr "Gönderilme"
+
+msgid "Server state"
+msgstr "Sunucu durumu"
+
+msgid "Stderr out"
+msgstr "Stderr çıktısı"
+
+msgid "Validation state"
+msgstr "Doğrulama durumu"
+
+msgid "Canonical credit"
+msgstr "Kabul edilen kredi"
+
+msgid "Canonical result ID"
+msgstr "Kabul edilen sonuç NO"
+
+msgid "Created time"
+msgstr "Oluşturulma zamanı"
+
+msgid "Needs validation"
+msgstr "Doğrulama gerekiyor"
+
+msgid "Initial replication"
+msgstr "Başlangıçtaki kopya sayısı"
+
+msgid "Computer"
+msgstr "Bilgisayar"
+
+msgid "Consecutive valid tasks"
+msgstr "Ardarda gelen doğrulanmış işler"
+
+msgid "Number of tasks completed"
+msgstr "Tamamlanan iş sayısı"
+
+msgid "Max tasks per day"
+msgstr "Günlük ortalama en fazla iş"
+
+msgid "Number of tasks today"
+msgstr "Bugünkü iş sayısı"
+
+msgid "Show IP address"
+msgstr "IP adresini görüntüle"
+
+msgid "hours"
+msgstr "saat"
+
+msgid "Remove friend"
+msgstr "Arkadaşlıktan çıkar"
+
+msgid "Ban user"
+msgstr "Kullanıcıyı engelle"
+
+msgid "Add as friend"
+msgstr "Arkadaş olarak ekle"
+
+msgid "Team"
+msgstr "Takım"
+
+msgid "Reply"
+msgstr "Yanıtla"
+
+msgid "Reply to this comment"
+msgstr "Bu yorumu yanıtla"
+
+msgid "Quote"
+msgstr "Alıntı"
+
+msgid "Reply to this comment with quote"
+msgstr "Bu yorumu alıntıyla yanıtla"
+
+msgid "Edit this comment"
+msgstr "Bu yorumu düzenle"
+
+msgid "Delete this comment"
+msgstr "Bu yorumu sil"
+
+msgid "Hide this comment"
+msgstr "Bu yorumu gizle"
+
+msgid "Convert"
+msgstr "Dönüştür"
+
+msgid "Convert this comment to a new topic"
+msgstr "Bu yorumu yeni bir konuya dönüştür"
+
+msgid "Details"
+msgstr "Detaylar"
+
+msgid "Make unsticky"
+msgstr "Üst konudan kaldır"
+
+msgid ""
+"Sometimes BOINC assigns separate identities to the same computer by mistake."
+" You can correct this by merging old identities with the newest one."
+msgstr "Bazen BOINC yanlışlıkla aynı bilgisayara farklı kimlikler atar. En yenisiyle eski kimlikleri birleştirerek, bunu düzeltebilirsiniz."
+
+msgid "Remove"
+msgstr "Kaldır"
+
+msgid "hidden"
+msgstr "gizli"
