@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-07-23 18:52-0500\n"
-"PO-Revision-Date: 2015-08-04 08:04+0000\n"
+"PO-Revision-Date: 2015-08-04 08:10+0000\n"
 "Last-Translator: Atis Kozulis <boinc.at.latvia@gmail.com>\n"
 "Language-Team: Latvian (http://www.transifex.com/boinc/boinc/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -253,7 +253,7 @@ msgstr "Preferences..."
 
 #: clientgui/AdvancedFrame.cpp:400
 msgid "&Notices\tCtrl+Shift+N"
-msgstr "P&aziņojumi\t Ctrl+Shift+N"
+msgstr "P&aziņojumi\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:401
 msgid "Show notices"
@@ -261,7 +261,7 @@ msgstr "Rādīt paziņojumus"
 
 #: clientgui/AdvancedFrame.cpp:406
 msgid "&Projects\tCtrl+Shift+P"
-msgstr "&Projekti\t Ctrl+Shift+P"
+msgstr "&Projecti\tCtrl+Shift+P"
 
 #: clientgui/AdvancedFrame.cpp:407
 msgid "Show projects"
@@ -269,7 +269,7 @@ msgstr "Rādīt projektus"
 
 #: clientgui/AdvancedFrame.cpp:412
 msgid "&Tasks\tCtrl+Shift+T"
-msgstr "&Uzdevumi\t Ctrl+Shift+T"
+msgstr "&Uzdevumi\tCtrl+Shift+T"
 
 #: clientgui/AdvancedFrame.cpp:413
 msgid "Show tasks"
@@ -277,7 +277,7 @@ msgstr "Rādīt uzdevumus"
 
 #: clientgui/AdvancedFrame.cpp:418
 msgid "Trans&fers\tCtrl+Shift+X"
-msgstr "Pārsūtīša&na\t Ctrl+Shift+X"
+msgstr "Pārsūtīša&na\tCtrl+Shift+X"
 
 #: clientgui/AdvancedFrame.cpp:419
 msgid "Show file transfers"
@@ -285,7 +285,7 @@ msgstr "Rādīt failu pārsūtīšanu"
 
 #: clientgui/AdvancedFrame.cpp:424
 msgid "&Statistics\tCtrl+Shift+S"
-msgstr "&Statistika\t Ctrl+Shift+S"
+msgstr "&Statistika\tCtrl+Shift+S"
 
 #: clientgui/AdvancedFrame.cpp:425
 msgid "Show statistics"
@@ -293,7 +293,7 @@ msgstr "Rādīt statistiku"
 
 #: clientgui/AdvancedFrame.cpp:430
 msgid "&Disk\tCtrl+Shift+D"
-msgstr "&Disks⇥Ctrl+Shift+D"
+msgstr "&Disks\tCtrl+Shift+D"
 
 #: clientgui/AdvancedFrame.cpp:431
 msgid "Show disk usage"
@@ -1280,7 +1280,7 @@ msgstr "Apturēt skaitļošanu, ja dators ir aizņemts ar citām programmām."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:339
 msgid "To suspend by time of day, see the \"Daily Schedules\" section."
-msgstr "Lai atliktu dienas laikā, skat. \"Dienas grafiks\" nodaļā."
+msgstr "Lai atliktu dienas laikā, skat. \"Ikdienas plāni\" nodaļā."
 
 #. Context: heading for a group of miscellaneous preferences
 #: clientgui/DlgAdvPreferencesBase.cpp:349
@@ -1383,7 +1383,7 @@ msgstr "dienas"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:505
 msgid "To limit transfers by time of day, see the \"Daily Schedules\" section."
-msgstr "Lai ierobežotu pārsūtīšanu dienas laikā, skat. \"Dienas grafiks\" nodaļā."
+msgstr "Lai ierobežotu pārsūtīšanu dienas laikā, skat. \"Ikdienas plāni\" nodaļā."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:522
 #, c-format
