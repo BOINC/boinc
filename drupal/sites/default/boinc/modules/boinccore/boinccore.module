@@ -106,6 +106,13 @@ function boinccore_menu() {
     'access callback' => TRUE,
     'type' => MENU_CALLBACK
   );
+  $items['team_lookup.php'] = array(
+    'title' => 'Team lookup RPC',
+    'description' => 'RPC for getting info on a team or matching teams.',
+    'page callback' => 'boinccore_team_lookup',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
+  );
   $items['team_email_list.php'] = array(
     'title' => 'Get team member list RPC',
     'description' => 'RPC for getting a list of members of a given team.',
@@ -628,6 +635,16 @@ function boinccore_pending_credit() {
   // Remove q from the GET request or BOINC will panic
   unset($_GET['q']);
   include_boinc('user/pending.php');
+}
+
+/**
+ * Page callback for the team lookup RPC (team_lookup.php).
+ * Get info on a team by ID or a list of teams that match a given name
+ */
+function boinccore_team_lookup() {
+  // Remove q from the GET request or BOINC will panic
+  unset($_GET['q']);
+  include_boinc('user/team_lookup.php');
 }
 
 /**
