@@ -836,7 +836,7 @@ function create_post($content, $parent_id, $user, $forum, $thread, $signature) {
     $content = BoincDb::escape_string($content);
     $now = time();
     $sig = $signature?1:0;
-    $id = BoincPost::insert("(thread, user, timestamp, content, parent_post, signature) values ($thread->id, $user->id, $now, '$content', $parent_id, $sig)");
+    $id = BoincPost::insert("(thread, user, timestamp, content, modified, parent_post, score, votes, signature, hidden) values ($thread->id, $user->id, $now, '$content', $now, $parent_id, 0, 0, $sig, 0)");
     if (!$id) return null;
 
     notify_subscribers($thread, $user);
@@ -875,7 +875,7 @@ function create_thread($title, $content, $user, $forum, $signature, $export) {
     if (is_news_forum($forum) && !$export) {
         $status = 1;
     }
-    $id  = BoincThread::insert("(forum, owner, title, create_time, timestamp, replies, status) values ($forum->id, $user->id, '$title', $now, $now, -1, $status)");
+    $id  = BoincThread::insert("(forum, owner, status, title, timestamp, views, replies, activity, sufferers, score, votes, create_time, hidden, sticky, locked) values ($forum->id, $user->id, $status, '$title', $now, 0, -1, 0, 0, 0, 0, $now, 0, 0, 0)");
     if (!$id) return null;
     $thread = BoincThread::lookup_id($id);
     create_post($content, 0, $user, $forum, $thread, $signature);

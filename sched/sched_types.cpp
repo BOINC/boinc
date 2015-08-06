@@ -1482,7 +1482,7 @@ void read_host_app_versions() {
     g_wreq->host_app_versions_orig = g_wreq->host_app_versions;
 }
 
-DB_HOST_APP_VERSION* gavid_to_havp(int gavid) {
+DB_HOST_APP_VERSION* gavid_to_havp(DB_ID_TYPE gavid) {
     for (unsigned int i=0; i<g_wreq->host_app_versions.size(); i++) {
         DB_HOST_APP_VERSION& hav = g_wreq->host_app_versions[i];
         if (hav.app_version_id == gavid) return &hav;

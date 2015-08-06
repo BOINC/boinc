@@ -550,10 +550,10 @@ static inline void add_no_work_message(const char* m) {
 extern void get_weak_auth(USER&, char*);
 extern void get_rss_auth(USER&, char*);
 extern void read_host_app_versions();
-extern DB_HOST_APP_VERSION* get_host_app_version(int gavid);
+extern DB_HOST_APP_VERSION* get_host_app_version(DB_ID_TYPE gavid);
 extern void write_host_app_versions();
 
-extern DB_HOST_APP_VERSION* gavid_to_havp(int gavid);
+extern DB_HOST_APP_VERSION* gavid_to_havp(DB_ID_TYPE gavid);
 extern DB_HOST_APP_VERSION* quota_exceeded_version();
 
 inline bool is_64b_platform(const char* name) {

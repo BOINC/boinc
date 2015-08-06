@@ -275,6 +275,17 @@ array('http://mion.faireal.net/BES/',
 
 $linux = array(
 array(
+    'http://www.pkcarlisle.com/dietboinc',
+    'Diet BOINC',
+    '1.0',
+    'A no-graphics, lightweight XScreenSaver compatible alternative for BOINC screen saver',
+    'http://www.pkcarlisle.com/dietboinc',
+    'Linux',
+    'Explicitly avoids libraries not included with default Linux or Python. No graphics requirements beyond what XScreenSaver uses. Looks only for BOINC data, not the client which creates it. Attempts to find BOINC data without anticipating a default location. Works with shared resources/multiple @Home projects.',
+    1438068943
+),
+
+array(
     'http://kde-look.org/content/show.php?content=154630',
     'BOINC Monitor',
     '2.3',

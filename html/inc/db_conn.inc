@@ -43,7 +43,7 @@ class DbConn {
             global $mysqli;
             $mysqli = $this->db_conn;
         } else {
-            $this->db_conn = mysql_pconnect($host, $user, $passwd);
+            $this->db_conn = @mysql_pconnect($host, $user, $passwd);
         }
         if (!$this->db_conn) {
             return false;

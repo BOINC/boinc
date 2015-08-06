@@ -890,7 +890,7 @@ bool work_needed(bool locality_sched) {
 
 // return the app version ID, or -2/-3/-4 if anonymous platform
 //
-inline static int get_app_version_id(BEST_APP_VERSION* bavp) {
+inline static DB_ID_TYPE get_app_version_id(BEST_APP_VERSION* bavp) {
     if (bavp->avp) {
         return bavp->avp->id;
     } else {

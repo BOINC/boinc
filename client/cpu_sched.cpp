@@ -243,7 +243,6 @@ struct PROC_RESOURCES {
                 cp.usage[i] = 1;
                 x -= unused;
             }
-            break;
         }
         if (log_flags.cpu_sched_debug) {
             msg_printf(r.project, MSG_INFO,

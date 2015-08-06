@@ -19,7 +19,7 @@
 
 struct JOB {
     int index;          // index into shared-mem job array
-    int result_id;
+    DB_ID_TYPE result_id;
     double score;
     APP* app;
     BEST_APP_VERSION* bavp;

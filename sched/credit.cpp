@@ -391,7 +391,7 @@ int hav_lookup(
 ) {
     int retval;
     char buf[256];
-    sprintf(buf, "where host_id=%lu and app_version_id=%lu", hostid, gen_avid);
+    sprintf(buf, "where host_id=%lu and app_version_id=%ld", hostid, gen_avid);
     retval = hav.lookup(buf);
     if (retval != ERR_DB_NOT_FOUND) return retval;
 
@@ -441,9 +441,9 @@ int hav_lookup(
     if (found) {
         hav = best_hav;
         char query[256], where_clause[256];
-        sprintf(query, "app_version_id=%lu", gen_avid);
+        sprintf(query, "app_version_id=%ld", gen_avid);
         sprintf(where_clause,
-            "host_id=%lu and app_version_id=%lu",
+            "host_id=%lu and app_version_id=%ld",
             hostid, best_av.id
         );
         retval = hav.update_fields_noid(query, where_clause);
@@ -530,7 +530,7 @@ int get_pfc(
     if (r.app_version_id == 0 || r.app_version_id == 1) {
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
-                "[credit] [RESULT#%lu] missing app_version_id (%lu): returning WU default %.2f\n",
+                "[credit] [RESULT#%lu] missing app_version_id (%ld): returning WU default %.2f\n",
                 r.id, r.app_version_id, wu_estimated_credit(wu, app)
             );
         }
@@ -545,7 +545,7 @@ int get_pfc(
     if (strstr(r.stderr_out, "Device Emulation (CPU)")) {
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
-                "[credit] [RESULT#%lu][AV#%lu] CUDA app fell back to CPU; returning WU default %.2f\n",
+                "[credit] [RESULT#%lu][AV#%ld] CUDA app fell back to CPU; returning WU default %.2f\n",
                 r.id, r.app_version_id, wu.rsc_fpops_est*COBBLESTONE_SCALE
             );
         }
@@ -553,8 +553,6 @@ int get_pfc(
         pfc = wu_estimated_pfc(wu, app);
         return 0;
     }
-
-    //int gavid = generalized_app_version_id(r.app_version_id, r.appid);
 
     // transition case: there's no host_app_version record
     //
@@ -732,7 +730,7 @@ int get_pfc(
         avp = av_lookup(r.app_version_id, app_versions);
         if (!avp) {
             log_messages.printf(MSG_CRITICAL,
-                "get_pfc() [RESULT#%lu]: No AVP %lu!!\n", r.id, r.app_version_id
+                "get_pfc() [RESULT#%lu]: No AVP %ld!!\n", r.id, r.app_version_id
             );
             return ERR_NOT_FOUND;
         }

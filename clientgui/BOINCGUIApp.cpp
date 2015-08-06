@@ -154,6 +154,8 @@ bool CBOINCGUIApp::OnInit() {
     m_iDisplayExitDialog = 1;
     m_iGUISelected = BOINC_SIMPLEGUI;
     m_bSafeMessageBoxDisplayed = 0;
+    m_bRunDaemon = true;
+    m_bNeedRunDaemon = true;
 
     // Initialize local variables
     int      iErrorCode = 0;
@@ -221,8 +223,11 @@ bool CBOINCGUIApp::OnInit() {
     m_pConfig->Read(wxT("LanguageISO"), &m_strISOLanguageCode, wxT(""));
     m_pConfig->Read(wxT("GUISelection"), &m_iGUISelected, BOINC_SIMPLEGUI);
     m_pConfig->Read(wxT("EventLogOpen"), &bOpenEventLog);
+    m_pConfig->Read(wxT("RunDaemon"), &m_bRunDaemon, 1L);
 
-
+    // Detect if the daemon should be launched
+    m_bNeedRunDaemon = m_bNeedRunDaemon && m_bRunDaemon;
+    
     // Should we abort the BOINC Manager startup process?
     if (m_bBOINCMGRAutoStarted && m_iBOINCMGRDisableAutoStart) {
         return false;
@@ -646,6 +651,7 @@ void CBOINCGUIApp::SaveState() {
     m_pConfig->Write(wxT("AutomaticallyShutdownClient"), m_iShutdownCoreClient);
     m_pConfig->Write(wxT("DisplayShutdownClientDialog"), m_iDisplayExitDialog);
     m_pConfig->Write(wxT("DisableAutoStart"), m_iBOINCMGRDisableAutoStart);
+    m_pConfig->Write(wxT("RunDaemon"), m_bRunDaemon);
 }
 
 
@@ -672,6 +678,7 @@ void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser) {
 #if (defined(__WXMAC__) && defined(_DEBUG))
         { wxCMD_LINE_OPTION, "NSDocumentRevisionsDebugMode", NULL, _("Not used: workaround for bug in XCode 4.2")},
 #endif
+        { wxCMD_LINE_SWITCH, "nd", "no-daemon", _("Not run the daemon")},
         { wxCMD_LINE_NONE}  //DON'T forget this line!!
     };
     parser.SetDesc(cmdLineDesc);
@@ -748,6 +755,10 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
 
     if (hostNameSpecified && passwordSpecified) {
         m_bMultipleInstancesOK = true;
+    }
+
+    if (parser.Found(wxT("no-daemon"))) {
+        m_bNeedRunDaemon = false;
     }
     return true;
 }

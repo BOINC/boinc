@@ -39,6 +39,9 @@
 struct BEST_APP_VERSION;
 
 typedef long DB_ID_TYPE;
+    // in principle should be unsigned long,
+    // but we put negative values in app_version_id to represent
+    // anonymous platform versions
 
 // A compilation target, i.e. a architecture/OS combination.
 // Client will be sent applications only for platforms they support.

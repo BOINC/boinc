@@ -1,5 +1,6 @@
 <?php
 
+define("MYSQLI", false);
 $host = $_SERVER["SERVER_NAME"];
 if ($host == "bossa.berkeley.edu") {
     Header("Location: http://boinc.berkeley.edu/trac/wiki/BossaIntro");
