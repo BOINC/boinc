@@ -25,70 +25,33 @@ require_once("../inc/forum_db.inc");
 require_once("../inc/notify.inc");
 require_once("../inc/ldap.inc");
 
-function parse_project($f) {
-    $p = new StdClass;
-    $p->total_credit = 0.0;
-    $p->expavg_credit = 0.0;
-    while (!feof($f)) {
-        $buf = fgets($f);
-        if (strstr($buf, "</project>")) break;
-        if ($x = parse_element($buf, "<name>")) {
-            $p->name = $x;
-        }
-        if ($x = parse_element($buf, "<url>")) {
-            $p->url = $x;
-        }
-        if ($x = parse_element($buf, "<total_credit>")) {
-            $p->total_credit = $x;
-        }
-        if ($x = parse_element($buf, "<expavg_credit>")) {
-            $p->expavg_credit = $x;
-        }
-        if ($x = parse_element($buf, "<id>")) {
-            $p->id = $x;
-        }
-        if ($x = parse_element($buf, "<country>")) {
-            $p->country = $x;
-        }
-        if ($x = parse_element($buf, "<team_id>")) {
-            $p->team_id = $x;
-        }
-        if ($x = parse_element($buf, "<team_name>")) {
-            $p->team_name = $x;
-        }
-        if ($x = parse_element($buf, "<create_time>")) {
-            $p->create_time = $x;
-        }
-    }
-    return $p;
-}
-
-function parse_user($f, $user) {
-    $user->projects = array();
-    while (!feof($f)) {
-        $buf = fgets($f);
-        if (strstr($buf, "</user>")) break;
-        if (strstr($buf, "<project>")) {
-            $user->projects[] = parse_project($f);
-        }
-    }
-    return $user;
-}
-
 function get_other_projects($user) {
     $cpid = md5($user->cross_project_id . $user->email_addr);
-    
-    $timeout = 3;
-    $old_timeout = ini_set('default_socket_timeout', $timeout);
-    $url = "http://boinc.netsoft-online.com/get_user.php?cpid=$cpid";
-    $f = @fopen($url, "r");
-    ini_set('default_socket_timeout', $old_timeout);
-    if (!$f) {
-        return $user;
+    $url = "http://boinc.netsoft-online.com/get_user.php?cpid=".$cpid;
+
+    // Check the cache for that URL
+    //
+    $cacheddata = get_cached_data(REMOTE_PROJECTS_TTL, $url);
+    if ($cacheddata){
+        $remote = unserialize($cacheddata);
+    } else {
+        // Fetch the XML, then auto-cast the project list to an array of stdClass projects
+        //
+        $timeout = 3;
+        $old_timeout = ini_set('default_socket_timeout', $timeout);        
+        $remote = @json_decode(json_encode((array)simplexml_load_file($url)))->project;
+        ini_set('default_socket_timeout', $old_timeout);
+        
+        if (!$remote) {
+            return $user;
+        } else {
+            // Cache the results
+            set_cached_data(REMOTE_PROJECTS_TTL, serialize($remote), $url);
+        }
     }
-    $u = parse_user($f, $user);
-    fclose($f);
-    return $u;
+    
+    $user->projects = $remote;
+    return $user;
 }
 
 function show_project($project) {
