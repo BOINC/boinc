@@ -106,6 +106,13 @@ function boinccore_menu() {
     'access callback' => TRUE,
     'type' => MENU_CALLBACK
   );
+  $items['create_team.php'] = array(
+    'title' => 'Create team RPC',
+    'description' => 'RPC for creating a new team.',
+    'page callback' => 'boinccore_create_team',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
+  );
   $items['team_lookup.php'] = array(
     'title' => 'Team lookup RPC',
     'description' => 'RPC for getting info on a team or matching teams.',
@@ -635,6 +642,123 @@ function boinccore_pending_credit() {
   // Remove q from the GET request or BOINC will panic
   unset($_GET['q']);
   include_boinc('user/pending.php');
+}
+
+/**
+ * Page callback for the create team RPC (create_team.php).
+ * Create a team with the provided details
+ */
+function boinccore_create_team() {
+  
+  if (module_exists('boincteam')) {
+    module_load_include('module', 'boincteam', 'boincteam');
+  
+    $input_format = !empty($values['format']) ? $values['format'] : 4;
+    if (!empty($_GET['description'])) $_GET['description'] = check_markup($_GET['description'], $input_format);
+    
+    // Try to add the team to BOINC and capture the XML output of the RPC
+    ob_start();
+    include_boinc('user/create_team.php');
+    $xml = ob_get_clean();
+    $xml = load_configuration($xml);
+    
+    if (isset($xml['create_team_reply']['success'])) {
+      $boincteam_id = isset($xml['create_team_reply']['team_id']['@value']) ? $xml['create_team_reply']['team_id']['@value'] : 0;
+      
+      if ($boincteam_id) {
+        
+        $boincteam = boincteam_load($boincteam_id);
+        $team_owner_uid = boincuser_lookup_uid($boincteam->userid);
+        
+        // Create the team node in Drupal
+        
+        $values = array(
+          'name' => isset($_GET['name']) ? $_GET['name'] : '',
+          'description' => isset($_GET['description']) ? $_GET['description'] : '',
+          'type' => isset($_GET['type']) ? $_GET['type'] : '',
+        );
+        $teaser = node_teaser($values['description']);
+        $created_time = time();
+        
+        $node = array(
+          'type' => 'team',
+          'title' => $values['name'],
+          'body' => $values['description'],
+          'teaser' => $teaser,
+          'uid' => $team_owner_uid,
+          'path' => null,
+          'status' => 1,  // published or not - always publish
+          'promote' => 0,
+          'created' => $created_time,
+          'comment' => 0,  // comments disabled
+          'moderate' => 0,
+          'sticky' => 0,
+          'format' => $input_format
+        );
+        
+        // Use pathauto function, if available, to clean up the path
+        if (module_exists('pathauto')) {
+          module_load_include('inc', 'pathauto', 'pathauto');
+          $node['path'] = pathauto_cleanstring($values['name']);
+        
+          $node = (object) $node; // node_save requires an object form
+          $team_categories = taxonomy_get_term_by_name($values['type']);
+          $node->taxonomy[] = $team_categories[0];
+          
+          // Save the team node
+          node_save($node);
+          // Save the team IDs to a BOINC <--> Drupal reference table.
+          db_query('INSERT INTO {boincteam} (team_id, nid) VALUES (%d, %d)', $boincteam_id, $node->nid);
+        }
+        else {
+          $xml['create_team_reply']['warning'] = t(
+            'There was a problem integrating this team into Drupal. Please
+            contact @project administrators!', array('@project' => PROJECT)
+          );
+          watchdog(
+            'BOINC team',
+            'BOINC teams require the Pathauto module. Team cannot be created in
+              Drupal via create_team.php RPC.',
+            array(),
+            WATCHDOG_ERROR
+          );
+          // Delete from the BOINC DB if we can't sync with Drupal
+          $boincteam::delete();
+        }
+      }
+      else {
+        $xml['create_team_reply']['warning'] = t(
+          'There was a problem integrating this team into Drupal. Please
+          contact @project administrators!', array('@project' => PROJECT)
+        );
+        watchdog(
+          'BOINC team',
+          'Team cannot be created in Drupal via create_team.php RPC because no
+            BOINC team ID was returned in the XML.',
+          array(),
+          WATCHDOG_ERROR
+        );
+      }
+    }
+  }
+  else {
+    $xml = array(
+      'error' => array(
+        'error_num' => -1,
+        'error_msg' => t(
+          'Teams are not enabled for this project'
+        ),
+      ),
+    );
+    watchdog(
+      'BOINC team',
+      'Team cannot be created in Drupal via create_team.php RPC because the
+        BOINC team module is not enabled.',
+      array(),
+      WATCHDOG_ERROR
+    );
+  }
+  print save_configuration($xml);
 }
 
 /**
