@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -47,8 +47,11 @@
 
 #endif
 
-#if (defined (__APPLE__) && defined(SANDBOX) && defined(_DEBUG))
+#ifdef __APPLE__
+#include <Carbon/Carbon.h>
+#if (defined(SANDBOX) && defined(_DEBUG))
 #include "SetupSecurity.h"
+#endif
 #endif
 
 #include "diagnostics.h"
@@ -351,6 +354,15 @@ int boinc_main_loop() {
 
     retval = initialize();
     if (retval) return retval;
+
+#ifdef __APPLE__
+    // If we run too soon during system boot we can cause a kernel panic
+    if (gstate.executing_as_daemon) {
+        if (TickCount() < (120*60)) {   // If system has been up for less than 2 minutes
+            boinc_sleep(30.);
+        }
+    }
+#endif
 
     retval = gstate.init();
     if (retval) {
