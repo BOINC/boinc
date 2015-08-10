@@ -549,39 +549,71 @@ function boinccore_am_get_info() {
 function boinccore_am_set_info() {
   // Remove q from the GET request or BOINC will panic
   unset($_GET['q']);
-  // Capture the XML output of the RPC so we can override things
-  ob_start();
-  include_boinc('user/am_set_info.php');
-  $xml = ob_get_clean();
-  $xml = load_configuration($xml);
-  if (isset($xml['am_set_info_reply']['success'])) {
-    // Find the account in Drupal
-    $boinc_auth = !empty($_POST['account_key']) ? $_POST['account_key'] : $_GET['account_key'];
-    db_set_active('boinc');
-    $boinc_id = db_result(db_query("
-      SELECT id
-      FROM {user}
-      WHERE authenticator = '%s'",
-      $boinc_auth
-    ));
-    db_set_active('default');
-    $uid = boincuser_lookup_uid($boinc_id);
-    
-    // Apply any relevant updates to the Drupal account, also
-    $country = !empty($_POST['country']) ? $_POST['country'] : (!empty($_GET['country']) ? $_GET['country'] : NULL);
-    $url = !empty($_POST['url']) ? $_POST['url'] : (!empty($_GET['url']) ? $_GET['url'] : NULL);
-    $email_addr = !empty($_POST['email_addr']) ? $_POST['email_addr'] : (!empty($_GET['email_addr']) ? $_GET['email_addr'] : NULL);
-    
-    if ($email_addr) {
-      $account = user_load($uid);
-      user_save($account, array('mail' => $email_addr));
+  // Validate the XML prefs (in case BOINC does not)
+  $global_prefs = !empty($_POST['global_prefs']) ? $_POST['global_prefs'] : (!empty($_GET['global_prefs']) ? $_GET['global_prefs'] : NULL);
+  $project_prefs = !empty($_POST['project_prefs']) ? $_POST['project_prefs'] : (!empty($_GET['project_prefs']) ? $_GET['project_prefs'] : NULL);
+  libxml_use_internal_errors(true);
+  $xml = new DomDocument();
+  if ($global_prefs) {
+    $xml->loadXML($global_prefs, LIBXML_NOBLANKS);
+    if ($errors = libxml_get_errors($xml)) {
+      $lines = explode("\r", $global_prefs);
+      watchdog('am_set_info', "XML validation error in global_prefs: {$errors[0]->message} at line {$errors[0]->line}" .
+        ': <br/>' . htmlentities($lines[$errors[0]->line - 1]), array(), WATCHDOG_ERROR);
     }
-    if ($country OR $url) {
-      $content_profile = content_profile_load('profile', $uid);
-      if ($country) $content_profile->field_country[0]['value'] = $country;
-      if ($url) $content_profile->field_url[0]['value'] = $url;
-      node_save($content_profile);
+  }
+  elseif ($project_prefs) {
+    $xml->loadXML($project_prefs, LIBXML_NOBLANKS);
+    if ($errors = libxml_get_errors($xml)) {
+      $lines = explode("\r", $project_prefs);
+      watchdog('am_set_info', "XML validation error in project_prefs: {$errors[0]->message} at line {$errors[0]->line}" .
+        ': <br/>' . htmlentities($lines[$errors[0]->line - 1]), array(), WATCHDOG_ERROR);
     }
+  }
+  if (!$errors) {
+    // Capture the XML output of the RPC so we can override things
+    ob_start();
+    include_boinc('user/am_set_info.php');
+    $xml = ob_get_clean();
+    $xml = load_configuration($xml);
+    if (isset($xml['am_set_info_reply']['success'])) {
+      // Find the account in Drupal
+      $boinc_auth = !empty($_POST['account_key']) ? $_POST['account_key'] : $_GET['account_key'];
+      db_set_active('boinc');
+      $boinc_id = db_result(db_query("
+        SELECT id
+        FROM {user}
+        WHERE authenticator = '%s'",
+        $boinc_auth
+      ));
+      db_set_active('default');
+      $uid = boincuser_lookup_uid($boinc_id);
+      
+      // Apply any relevant updates to the Drupal account, also
+      $country = !empty($_POST['country']) ? $_POST['country'] : (!empty($_GET['country']) ? $_GET['country'] : NULL);
+      $url = !empty($_POST['url']) ? $_POST['url'] : (!empty($_GET['url']) ? $_GET['url'] : NULL);
+      $email_addr = !empty($_POST['email_addr']) ? $_POST['email_addr'] : (!empty($_GET['email_addr']) ? $_GET['email_addr'] : NULL);
+      
+      if ($email_addr) {
+        $account = user_load($uid);
+        user_save($account, array('mail' => $email_addr));
+      }
+      if ($country OR $url) {
+        $content_profile = content_profile_load('profile', $uid);
+        if ($country) $content_profile->field_country[0]['value'] = $country;
+        if ($url) $content_profile->field_url[0]['value'] = $url;
+        node_save($content_profile);
+      }
+    }
+  }
+  else {
+    $xml = array(
+      'error' => array(
+        'error_num' => -112,
+        'error_msg' => "{$errors[0]->message} at line {$errors[0]->line}" .
+        ': <br/>' . htmlentities($lines[$errors[0]->line - 1])
+      ),
+    );
   }
   print save_configuration($xml);
 }
