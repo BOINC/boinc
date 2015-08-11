@@ -756,3 +756,34 @@ vector<string> split(string s, char delim) {
     }
     return result;
 }
+
+char *comma_print(unsigned long n) {
+    static char comma = 0;
+    static char retbuf[30];
+    char *p = &retbuf[sizeof(retbuf)-1];
+    int i = 0;
+
+    if (!comma) {
+        struct lconv *lcp = localeconv();
+        if (lcp) {
+            if (lcp->thousands_sep != NULL && *lcp->thousands_sep) {
+                comma = *lcp->thousands_sep;
+            } else {
+                comma = ',';
+            }
+        }
+    }
+
+    *p = 0;
+
+    do {
+        if (i%3 == 0 && i != 0) {
+            *--p = comma;
+        }
+        *--p = '0' + n % 10;
+        n /= 10;
+        i++;
+    } while (n);
+
+    return p;
+}
