@@ -86,7 +86,8 @@ function show_form($all) {
             $f2="</font>";
         }
 
-        echo "<tr class=row$i><form action=manage_app_versions.php#av_$av->id method=POST>\n";
+        $all_value = $all?1:0;
+        echo "<tr class=row$i><form action=manage_app_versions.php?all=$all_value#av_$av->id method=POST>\n";
         $i = 1-$i;
         echo "<input type=hidden name=id value=$av->id>";
         echo "  <TD>$f1 <a id='av_$av->id' href=db_action.php?table=app_version&id=$av->id>$av->id</a> $f2</TD>\n";
