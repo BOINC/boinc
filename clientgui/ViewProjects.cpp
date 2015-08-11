@@ -75,7 +75,9 @@ static int DefaultShownColumns[] = { COLUMN_PROJECT, COLUMN_ACCOUNTNAME, COLUMN_
 // TODO: thousands separators
 // TODO: use these in simple view too.
 static void format_total_credit(float credit, wxString& strBuffer)  {
-    strBuffer.Printf(wxT("%.0f"), credit);
+    unsigned long x = credit;
+    char* p = comma_print(x);
+    strBuffer = wxString(p, wxConvUTF8);
 }
 static void format_avg_credit(float credit, wxString& strBuffer)  {
     strBuffer.Printf(wxT("%0.2f"), credit);
