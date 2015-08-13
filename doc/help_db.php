@@ -1,6 +1,6 @@
 <?php
 
-mysql_pconnect("localhost", "boincadm", null);
+@mysql_pconnect("localhost", "boincadm", null);
 mysql_select_db("support");
 
 function rating_insert($r) {
