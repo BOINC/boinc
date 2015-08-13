@@ -122,7 +122,7 @@ public:
     DB_CONN* db;
     const char *table_name;
     CURSOR cursor;
-    virtual int get_id();
+    virtual DB_ID_TYPE get_id();
     virtual void db_print(char*);
     virtual void db_parse(MYSQL_ROW&);
 };

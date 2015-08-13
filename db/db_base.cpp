@@ -192,7 +192,7 @@ int DB_CONN::ping() {
 DB_BASE::DB_BASE(const char *tn, DB_CONN* p) : db(p), table_name(tn) {
 }
 
-int DB_BASE::get_id() { return 0;}
+DB_ID_TYPE DB_BASE::get_id() { return 0;}
 void DB_BASE::db_print(char*) {}
 void DB_BASE::db_parse(MYSQL_ROW&) {}
 
@@ -241,7 +241,7 @@ int DB_BASE::lookup_id(DB_ID_TYPE id) {
 int DB_BASE::update() {
     char vals[MAX_QUERY_LEN], query[MAX_QUERY_LEN];
     db_print(vals);
-    sprintf(query, "update %s set %s where id=%u", table_name, vals, get_id());
+    sprintf(query, "update %s set %s where id=%lu", table_name, vals, get_id());
     int retval = db->do_query(query);
     if (retval) return retval;
     if (db->affected_rows() != 1) return ERR_DB_NOT_FOUND;
@@ -254,9 +254,13 @@ int DB_BASE::update() {
 int DB_BASE::update_field(const char* clause, const char* where_clause) {
     char query[MAX_QUERY_LEN];
     if (where_clause) {
-        sprintf(query, "update %s set %s where id=%u and %s", table_name, clause, get_id(), where_clause);
+        sprintf(query, "update %s set %s where id=%lu and %s",
+            table_name, clause, get_id(), where_clause
+        );
     } else {
-        sprintf(query, "update %s set %s where id=%u", table_name, clause, get_id());
+        sprintf(query, "update %s set %s where id=%lu",
+            table_name, clause, get_id()
+        );
     }
     return db->do_query(query);
 }
@@ -265,7 +269,7 @@ int DB_BASE::update_field(const char* clause, const char* where_clause) {
 //
 int DB_BASE::delete_from_db() {
     char query[MAX_QUERY_LEN];
-    sprintf(query, "delete from %s where id=%u", table_name, get_id());
+    sprintf(query, "delete from %s where id=%lu", table_name, get_id());
     return db->do_query(query);
 }
 
@@ -282,7 +286,7 @@ int DB_BASE::get_field_ints(const char* fields, int nfields, int* vals) {
     MYSQL_RES* rp;
 
     sprintf(query,
-        "select %s from %s where id=%u", fields, table_name, get_id()
+        "select %s from %s where id=%lu", fields, table_name, get_id()
     );
     retval = db->do_query(query);
     if (retval) return retval;
@@ -306,7 +310,7 @@ int DB_BASE::get_field_str(const char* field, char* buf, int buflen) {
     MYSQL_RES* rp;
 
     sprintf(query,
-        "select %s from %s where id=%u", field, table_name, get_id()
+        "select %s from %s where id=%lu", field, table_name, get_id()
     );
     retval = db->do_query(query);
     if (retval) return retval;

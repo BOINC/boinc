@@ -105,7 +105,7 @@ struct STATE_COUNTS {
 
 struct DB_STATE_COUNTS : public DB_BASE, public STATE_COUNTS {
     DB_STATE_COUNTS(DB_CONN* p=0);
-    int get_id();
+    DB_ID_TYPE get_id();
     void db_print(char *);
     void db_parse(MYSQL_ROW &row);
 };
@@ -121,7 +121,7 @@ struct VALIDATOR_ITEM {
 class DB_PLATFORM : public DB_BASE, public PLATFORM {
 public:
     DB_PLATFORM(DB_CONN* p=0);
-    int get_id();
+    DB_ID_TYPE get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
 };
@@ -129,7 +129,7 @@ public:
 class DB_APP : public DB_BASE, public APP {
 public:
     DB_APP(DB_CONN* p=0);
-    int get_id();
+    DB_ID_TYPE get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
 };
@@ -137,7 +137,7 @@ public:
 class DB_APP_VERSION : public DB_BASE, public APP_VERSION {
 public:
     DB_APP_VERSION(DB_CONN* p=0);
-    int get_id();
+    DB_ID_TYPE get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
     void operator=(APP_VERSION& w) {APP_VERSION::operator=(w);}
@@ -146,7 +146,7 @@ public:
 class DB_USER : public DB_BASE, public USER {
 public:
     DB_USER(DB_CONN* p=0);
-    int get_id();
+    DB_ID_TYPE get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
     void operator=(USER& r) {USER::operator=(r);}
@@ -155,7 +155,7 @@ public:
 class DB_TEAM : public DB_BASE, public TEAM {
 public:
     DB_TEAM(DB_CONN* p=0);
-    int get_id();
+    DB_ID_TYPE get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
 };
@@ -163,7 +163,7 @@ public:
 class DB_HOST : public DB_BASE, public HOST {
 public:
     DB_HOST(DB_CONN* p=0);
-    int get_id();
+    DB_ID_TYPE get_id();
     int update_diff_sched(HOST&);
     int update_diff_validator(HOST&);
     int fpops_percentile(double percentile, double& fpops);
@@ -178,7 +178,7 @@ public:
 class DB_RESULT : public DB_BASE, public RESULT {
 public:
     DB_RESULT(DB_CONN* p=0);
-    int get_id();
+    DB_ID_TYPE get_id();
     int mark_as_sent(int old_server_state, int report_grace_period);
     void db_print(char*);
     void db_print_values(char*);
@@ -193,7 +193,7 @@ public:
 class DB_WORKUNIT : public DB_BASE, public WORKUNIT {
 public:
     DB_WORKUNIT(DB_CONN* p=0);
-    int get_id();
+    DB_ID_TYPE get_id();
     void db_print(char*);
     void db_print_values(char*);
     void db_parse(MYSQL_ROW &row);
@@ -211,7 +211,7 @@ public:
 class DB_MSG_FROM_HOST : public DB_BASE, public MSG_FROM_HOST {
 public:
     DB_MSG_FROM_HOST(DB_CONN* p=0);
-    int get_id();
+    DB_ID_TYPE get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
 };
@@ -219,7 +219,7 @@ public:
 class DB_MSG_TO_HOST : public DB_BASE, public MSG_TO_HOST {
 public:
     DB_MSG_TO_HOST(DB_CONN* p=0);
-    int get_id();
+    DB_ID_TYPE get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
 };
@@ -227,7 +227,7 @@ public:
 class DB_ASSIGNMENT : public DB_BASE, public ASSIGNMENT {
 public:
     DB_ASSIGNMENT(DB_CONN* p=0);
-    int get_id();
+    DB_ID_TYPE get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW& row);
 };
@@ -390,7 +390,7 @@ struct FILE_ITEM {
 class DB_FILE : public DB_BASE, public FILE_ITEM {
 public:
     DB_FILE(DB_CONN* p=0);
-    int get_id();
+    DB_ID_TYPE get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
     void operator=(FILE_ITEM& f) {FILE_ITEM::operator=(f);}
@@ -406,7 +406,7 @@ struct FILESET_ITEM {
 class DB_FILESET : public DB_BASE, public FILESET_ITEM {
 public:
     DB_FILESET(DB_CONN* p=0);
-    int get_id();
+    DB_ID_TYPE get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
     void operator=(FILESET_ITEM& f) {FILESET_ITEM::operator=(f);}
@@ -444,7 +444,7 @@ struct SCHED_TRIGGER_ITEM {
 class DB_SCHED_TRIGGER : public DB_BASE, public SCHED_TRIGGER_ITEM {
 public:
     DB_SCHED_TRIGGER(DB_CONN* p=0);
-    int get_id();
+    DB_ID_TYPE get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
     void operator=(SCHED_TRIGGER_ITEM& t) {SCHED_TRIGGER_ITEM::operator=(t);}
@@ -501,7 +501,7 @@ public:
 
 struct DB_VDA_FILE : public DB_BASE, public VDA_FILE {
     DB_VDA_FILE(DB_CONN* p=0);
-    int get_id();
+    DB_ID_TYPE get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
 };
@@ -514,7 +514,7 @@ struct DB_VDA_CHUNK_HOST : public DB_BASE, public VDA_CHUNK_HOST {
 
 struct DB_BADGE : public DB_BASE, public BADGE {
     DB_BADGE(DB_CONN* p=0);
-    int get_id() {return id;};
+    DB_ID_TYPE get_id() {return id;};
     void db_print(char*){};
     void db_parse(MYSQL_ROW&);
 };
