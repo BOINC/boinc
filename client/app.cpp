@@ -668,11 +668,12 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
 #ifndef SIM
 
 int ACTIVE_TASK::write_gui(MIOFILE& fout) {
-    // if the app hasn't reported fraction done, and time has elapsed,
-    // estimate fraction done
+    // if the app hasn't reported fraction done or reported > 1,
+    // and time has elapsed, estimate fraction done in a
+    // way that constantly increases and approaches 1.
     //
     double fd = fraction_done;
-    if (fd == 0 && elapsed_time > 0) {
+    if (((fd==0)||(fd>1)) && elapsed_time > 0) {
         double est_time = wup->rsc_fpops_est/app_version->flops;
         double x = elapsed_time/est_time;
         fd = 1 - exp(-x);

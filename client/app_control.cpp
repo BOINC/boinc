@@ -1370,8 +1370,6 @@ bool ACTIVE_TASK::get_app_status_msg() {
     want_network = 0;
     current_cpu_time = checkpoint_cpu_time = 0.0;
     if (parse_double(msg_buf, "<fraction_done>", fd)) {
-        if (fd < 0) fd = 0;
-        if (fd > 1) fd = 1;
         // fraction_done will be reported as zero
         // until the app's first call to boinc_fraction_done().
         // So ignore zeros.
