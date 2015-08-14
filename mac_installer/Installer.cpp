@@ -304,7 +304,6 @@ static void GetPreferredLanguages() {
     char *uscore;
     FILE *f;
 
-
     getcwd(savedWD, sizeof(savedWD));
     system("rm -dfR /tmp/BOINC_payload");
     mkdir("/tmp/BOINC_payload", 0777);
@@ -376,7 +375,12 @@ static void GetPreferredLanguages() {
         for (j=0; j<CFArrayGetCount(preferredLanguages); ++j) {
             aLanguage = (CFStringRef)CFArrayGetValueAtIndex(preferredLanguages, j);
             language = (char *)CFStringGetCStringPtr(aLanguage, kCFStringEncodingMacRoman);
-            if (f) {
+            if (language == NULL) {
+                if (CFStringGetCString(aLanguage, shortLanguage, sizeof(shortLanguage), kCFStringEncodingMacRoman)) {
+                    language = shortLanguage;
+                }
+            }
+            if (f && language) {
                 fprintf(f, "%s\n", language);
             }
             
@@ -390,11 +394,13 @@ static void GetPreferredLanguages() {
 
             // Since the original strings are English, no 
             // further translation is needed for language en.
-            if (!strcmp(language, "en")) {
-                fclose(f);
-                CFRelease(preferredLanguages);
-                preferredLanguages = NULL;
-                goto cleanup;
+            if (language) {
+                if (!strcmp(language, "en")) {
+                    fclose(f);
+                    CFRelease(preferredLanguages);
+                    preferredLanguages = NULL;
+                    goto cleanup;
+                }
             }
         }
         
@@ -403,7 +409,10 @@ static void GetPreferredLanguages() {
 
     }
 
-    fclose(f);
+    if (f) {
+        fprintf(f, "en\n");
+        fclose(f);
+    }
 
 cleanup:
     CFArrayRemoveAllValues(supportedLanguages);
