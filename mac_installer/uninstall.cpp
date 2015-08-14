@@ -141,6 +141,8 @@ int main(int argc, char *argv[])
         err = DoUninstall();
         
         BOINCTranslationCleanup();
+
+        printf("Done\n");   // Signal DoPrivilegedExec() that we finished
         return err;
     }
 
@@ -936,6 +938,8 @@ static OSStatus DoPrivilegedExec(char *brandName, const char *pathToTool, char *
         if (ioPipe) {
             do {
                 p = fgets(junk, sizeof(junk), ioPipe);
+                // On some older versions of OS X, the pipe does not send EOF when our tool exits
+                if (!strcmp(p, "Done\n")) break;
             } while (p);
             
             fclose (ioPipe);
