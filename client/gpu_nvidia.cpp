@@ -337,7 +337,18 @@ void COPROC_NVIDIA::get(
         return;
     }
 
-    retval = (*__cuInit)(0);
+#ifdef __APPLE__
+    // If system is just booting, CUDA driver may not be ready yet
+    for (int retryCount=0; retryCount<45; retryCount++) {
+#endif
+        retval = (*__cuInit)(0);
+#ifdef __APPLE__
+        if (!retval) break;
+        boinc_sleep(1.);
+        continue;
+    }
+#endif
+    
     if (retval) {
         sprintf(buf, "NVIDIA drivers present but no GPUs found");
         warnings.push_back(buf);
