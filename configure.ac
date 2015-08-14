@@ -6,7 +6,7 @@ dnl not sure exactly what the minimum version is (but 2.13 wont work)
 AC_PREREQ(2.58)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
-AC_INIT(BOINC, 7.6.6)
+AC_INIT(BOINC, 7.6.7)
 AC_CONFIG_MACRO_DIR([m4])
 LIBBOINC_VERSION=`echo ${PACKAGE_VERSION} | sed 's/\./:/g'`
 AC_SUBST([LIBBOINC_VERSION])
@@ -14,7 +14,7 @@ AC_SUBST([LIBBOINC_VERSION])
 WRAPPER_RELEASE=26014
 AC_SUBST([WRAPPER_RELEASE])
 
-VBOXWRAPPER_RELEASE=26167
+VBOXWRAPPER_RELEASE=26169
 AC_SUBST([VBOXWRAPPER_RELEASE])
 
 AC_CANONICAL_TARGET
