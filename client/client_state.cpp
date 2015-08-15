@@ -279,6 +279,7 @@ const char* rsc_name_long(int i) {
     return coprocs.coprocs[i].type;             // Some other type
 }
 
+#ifndef SIM
 // alert user if any jobs need more RAM than available
 //
 static void check_too_large_jobs() {
@@ -301,6 +302,7 @@ static void check_too_large_jobs() {
         }
     }
 }
+#endif
 
 // Something has failed N times.
 // Calculate an exponential backoff between MIN and MAX
@@ -1664,7 +1666,6 @@ bool CLIENT_STATE::update_results() {
     vector<RESULT*>::iterator result_iter;
     bool action = false;
     static double last_time=0;
-    int retval;
 
     if (!clock_change && now - last_time < UPDATE_RESULTS_PERIOD) return false;
     last_time = now;
@@ -1680,8 +1681,7 @@ bool CLIENT_STATE::update_results() {
             break;
 #ifndef SIM
         case RESULT_FILES_DOWNLOADING:
-            retval = input_files_available(rp, false);
-            if (!retval) {
+            if (input_files_available(rp, false) == 0) {
                 if (rp->avp->app_files.size()==0) {
                     // if this is a file-transfer app, start the upload phase
                     //
