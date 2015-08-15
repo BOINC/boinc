@@ -878,9 +878,6 @@ int ACTIVE_TASK_SET::write(MIOFILE& fout) {
 }
 
 int ACTIVE_TASK_SET::parse(XML_PARSER& xp) {
-    ACTIVE_TASK* atp;
-    int retval;
-
     while (!xp.get_tag()) {
         if (xp.match_tag("/active_task_set")) return 0;
         else if (xp.match_tag("active_task")) {
@@ -888,8 +885,8 @@ int ACTIVE_TASK_SET::parse(XML_PARSER& xp) {
             ACTIVE_TASK at;
             at.parse(xp);
 #else
-            atp = new ACTIVE_TASK;
-            retval = atp->parse(xp);
+            ACTIVE_TASK* atp = new ACTIVE_TASK;
+            int retval = atp->parse(xp);
             if (!retval) {
                 if (slot_taken(atp->slot)) {
                     msg_printf(atp->result->project, MSG_INTERNAL_ERROR,
