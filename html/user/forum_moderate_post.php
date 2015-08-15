@@ -81,7 +81,8 @@ if (get_str('action')=="hide") {
     row1(tra("Banish user"));
     row1(tra("Are you sure you want to banish %1?<br/>This will prevent %1 from posting for chosen time period.<br/>It should be done only if %1 has consistently exhibited trollish behavior.", $user->name));
     row2(tra("Ban duration"), "<select name=\"duration\">
-            <option value=\"14400\">".tra("4 hours")."</option>
+            <option value=\"21600\">".tra("6 hours")."</option>
+            <option value=\"43200\">".tra("12 hours")."</option>
             <option value=\"86400\">".tra("1 day")."</option>
             <option value=\"604800\">".tra("1 week")."</option>
             <option value=\"1209600\" selected=\"selected\">".tra("2 weeks")."</option>
