@@ -583,6 +583,12 @@ void process_gpu_exclusions() {
                 COPROC& cp = coprocs.coprocs[k];
                 if (eg.type == cp.type) {
                     found = true;
+
+                    // skip exclusions of non-existent devices
+                    //
+                    if (eg.device_num && (cp.device_num_index(eg.device_num) < 0)) {
+                        break;
+                    }
                     rsc_work_fetch[k].has_exclusions = true;
                     break;
                 }
