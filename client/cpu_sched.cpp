@@ -178,8 +178,7 @@ struct PROC_RESOURCES {
             // for that resource type.
             // Inefficient, but necessary to avoid starvation cases.
             //
-            bool dont_reserve = rsc_work_fetch[rt].has_exclusions;
-            if (!dont_reserve) {
+            if (! rsc_work_fetch[rt].has_exclusions) {
                 reserve_coprocs(*rp);
             }
             //ncpus_used_st += rp->avp->avg_ncpus;
