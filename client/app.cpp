@@ -673,7 +673,7 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
     // way that constantly increases and approaches 1.
     //
     double fd = fraction_done;
-    if (((fd==0)||(fd>1)) && elapsed_time > 0) {
+    if (((fd<=0)||(fd>1)) && elapsed_time > 0) {
         double est_time = wup->rsc_fpops_est/app_version->flops;
         double x = elapsed_time/est_time;
         fd = 1 - exp(-x);

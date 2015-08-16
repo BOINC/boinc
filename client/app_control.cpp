@@ -1352,6 +1352,7 @@ bool ACTIVE_TASK::get_app_status_msg() {
     double fd;
     int other_pid;
     double dtemp;
+    static double last_msg_time=0;
 
     if (!app_client_shm.shm) {
         msg_printf(result->project, MSG_INFO,
@@ -1380,6 +1381,14 @@ bool ACTIVE_TASK::get_app_status_msg() {
             if (!first_fraction_done) {
                 first_fraction_done = fd;
                 first_fraction_done_elapsed_time = elapsed_time;
+            }
+            if (log_flags.task_debug && (fd<0 || fd>1)) {
+                if (gstate.now > last_msg_time + 60) {
+                    msg_printf(this->wup->project, MSG_INFO,
+                        "[task_debug] app reported bad fraction done: %f", fd
+                    );
+                    last_msg_time = gstate.now;
+                }
             }
         }
     }
