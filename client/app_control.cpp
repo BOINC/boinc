@@ -1514,7 +1514,7 @@ void ACTIVE_TASK_SET::get_msgs() {
         atp = active_tasks[i];
         if (!atp->process_exists()) continue;
         old_time = atp->checkpoint_cpu_time;
-        if (atp->scheduler_state == CPU_SCHED_SCHEDULED) {
+        if (atp->scheduler_state == CPU_SCHED_SCHEDULED && !gstate.tasks_suspended) {
             double x = atp->result->dont_throttle()?et_diff:et_diff_throttle;
             atp->elapsed_time += x;
             atp->wup->project->elapsed_time += x;
