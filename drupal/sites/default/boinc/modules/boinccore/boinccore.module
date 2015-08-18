@@ -127,6 +127,13 @@ function boinccore_menu() {
     'access callback' => TRUE,
     'type' => MENU_CALLBACK
   );
+  $items['edit_forum_preferences_action.php'] = array(
+    'title' => 'Forum preferences RPC',
+    'description' => 'RPC for setting forum preferences for a given user.',
+    'page callback' => 'boinccore_edit_forum_preferences',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
+  );
   $items['forum_get_data.php'] = array(
     'title' => 'Forum get data RPC',
     'description' => 'RPC for getting recent forum activity for a given user.',
@@ -869,6 +876,121 @@ function boinccore_team_email_list() {
     }
   }
   else {
+    $xml = array(
+      'error' => array(
+        'error_num' => -136,
+        'error_msg' => 'Not found',
+      ),
+    );
+  }
+  print xml_to_text(array_to_xml($xml), TRUE, TRUE);
+}
+
+/**
+ * Page callback for the forum prefs RPC (edit_forum_preferences_action.php).
+ * Edit the forum preferences for a given user
+ */
+function boinccore_edit_forum_preferences() {
+  // Do not pass through to BOINC in this case as BOINC forums are no longer
+  // relevant -- use Drupal data only
+  
+  $account_key = !empty($_POST['account_key']) ? $_POST['account_key'] : (!empty($_GET['account_key']) ? $_GET['account_key'] : NULL);
+  
+  require_boinc('boinc_db');
+  $boincuser = BoincUser::lookup_auth($account_key);
+  if ($boincuser) {
+    $uid = boincuser_lookup_uid($boincuser->id);
+    if ($uid AND $account = user_load($uid)) {
+      // Currently supported preferences
+      $avatar_url = isset($_POST['avatar_url']) ? $_POST['avatar_url'] : (isset($_GET['avatar_url']) ? $_GET['avatar_url'] : NULL);
+      $hide_signatures = isset($_POST['forum_hide_signatures']) ? $_POST['forum_hide_signatures'] : (isset($_GET['forum_hide_signatures']) ? $_GET['forum_hide_signatures'] : NULL);
+      $signature = isset($_POST['signature']) ? $_POST['signature'] : (isset($_GET['signature']) ? $_GET['signature'] : NULL);
+      $post_order = isset($_POST['thread_sort']) ? $_POST['thread_sort'] : (isset($_GET['thread_sort']) ? $_GET['thread_sort'] : NULL);
+      // Update preferences as needed
+      if ($avatar_url) {
+        $avatar_image = file_get_contents($avatar_url);
+        if ($avatar_image) {
+          $image_dir = 'profiles';
+          $image_path = "{$image_dir}/{$boincuser->id}_avatar.jpg";
+          $file = file_save_data($avatar_image, $image_path, FILE_EXISTS_REPLACE);
+          if ($file) {
+            $profile = new stdClass();
+            $profile->type = 'profile';
+            $profile->language = NULL;
+            if ($profile_nid = content_profile_profile_exists($profile, $account->uid)) {
+              $profile_node = node_load($profile_nid);
+              if ($profile_node) {
+                $avatar_image = get_cck_image_object(file_directory_path() . '/' . $image_path, 'field_image', 'profile', TRUE);
+                if ($avatar_image) {
+                  $profile_node->field_image[0] = $avatar_image;
+                  node_save($profile_node);
+                }
+                else {
+                  $error = 'Error saving avatar to profile';
+                }
+              }
+              else {
+                $error = 'Unable to load user profile';
+              }
+            }
+            else {
+              $error = 'User has no profile, so avatar could not be added';
+            }
+          }
+          else {
+            $error = 'Unable to save remote image';
+          }
+        }
+        else {
+          $error = 'Could not find avatar image at URL';
+        }
+      }
+      if ($hide_signatures !== NULL) {
+        user_save($account, array('hide_signatures' => ($hide_signatures ? 1 : 0)));
+      }
+      if ($signature !== NULL) {
+        $signature = check_markup($signature);
+        user_save($account, array('signature' => $signature));
+      }
+      if ($post_order) {
+        require_boinc('forum');
+        $post_order_map = array(
+          CREATE_TIME_OLD => 2,
+          CREATE_TIME_NEW => 1,
+        );
+        $drupal_post_order = isset($post_order_map[$post_order]) ? $post_order_map[$post_order] : 2;
+        user_save($account, array('sort' => $drupal_post_order));
+      }
+      if (!$error) {
+        // Success
+        $xml = array(
+          'edit_forum_preferences' => array(
+            'success' => NULL,
+          ),
+        );
+      }
+      else {
+        // Failure
+        $xml = array(
+          'error' => array(
+            'error_num' => -1,
+            'error_msg' => $error,
+          ),
+        );
+      }
+    }
+    else {
+      // Drupal user not found
+      $xml = array(
+        'error' => array(
+          'error_num' => -1,
+          'error_msg' => 'Unknown error',
+        ),
+      );
+    }
+  }
+  else {
+    // BOINC user not found
     $xml = array(
       'error' => array(
         'error_num' => -136,

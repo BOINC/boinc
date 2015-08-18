@@ -169,24 +169,46 @@ function show_other() {
         </center>
         </td></tr>
         <tr><td>
-            BOINC is a
-            <a href=\"trac/wiki/ProjectGovernance\">community-based project</a>.
-            Anyone can
-            <a href=trac/wiki/ContributePage>contribute</a>,
-            by programming, testing,
-            documenting, translating, or answering questions.
+            BOINC is a community-based project.
+            Anyone can contribute by programming, testing,
+            documenting, translating, or answering user questions.
             Those who consistently make positive contributions
             can become part of the project's decision-making process.
-            <p>
+
+            <table width=100%> <tr> <td>
             <ul>
-            <li> <a href=\"dev/\">".tra("Message boards")."</a>
-            <li> <a href=\"trac/wiki/EmailLists\">".tra("Email lists")."</a>
-            <li> <a href=\"trac/wiki/BoincEvents\">".tra("Events")."</a>
-            <li> <a href=trac/wiki/SourceCodeGit>".tra("Source code")."</a>
-            <li> <a href=https://github.com/BOINC/boinc/issues>Issue tracker on Github</a>
-            <li> <a href=\"trac/wiki/SoftwareAddon\">".tra("APIs for add-on software")."</a>
+            <li> Project
+                <ul>
+                <li> <a href=\"dev/\">".tra("Message boards")."</a>
+                <li> <a href=\"trac/wiki/EmailLists\">".tra("Email lists")."</a>
+                <li> <a href=\"trac/wiki/BoincEvents\">".tra("Events")."</a>
+                <li> <a href=\"trac/wiki/ProjectGovernance\">Governance</a>
+                </ul>
+            <p>
+            <li> Software
+                <ul>
+                <li> <a href=trac/wiki/SourceCodeGit>".tra("Source code")."</a>
+                 <li> <a href=\"trac/wiki/SoftwareDevelopment\">".tra("Software development")."</a>
+                <li> <a href=https://github.com/BOINC/boinc/issues>Github issue tracker</a>
+                <li> <a href=\"trac/wiki/SoftwareAddon\">".tra("APIs for add-on software")."</a>
+                </ul>
+            </ul>
+
+            </td><td width=50% valign=top>
+
+            <ul>
+            <li> Contribute
+                <ul>
+                <li> <a href=trac/wiki/ContributePage>Overview</a>
+                <li> <a href=\"trac/wiki/DevProjects\">".tra("Programming")."</a>
+                <li> <a href=\"trac/wiki/TranslateIntro\">".tra("Translation")."</a>
+                <li> <a href=\"trac/wiki/AlphaInstructions\">".tra("Testing")."</a>
+                <li> <a href=\"trac/wiki/WikiMeta\">".tra("Documentation")."</a>
+                <li> <a href=\"http://boinc.berkeley.edu/wiki/Publicizing_BOINC\">".tra("Publicity")."</a>
+                </ul>
             </ul>
             <br>
+            </td></tr></table>
         </td></tr>
     ";
 }

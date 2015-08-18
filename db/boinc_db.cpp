@@ -177,22 +177,22 @@ DB_CREDIT_USER::DB_CREDIT_USER(DB_CONN* dc) :
 DB_CREDIT_TEAM::DB_CREDIT_TEAM(DB_CONN* dc) :
     DB_BASE("credit_team", dc?dc:&boinc_db){}
 
-int DB_PLATFORM::get_id() {return id;}
-int DB_APP::get_id() {return id;}
-int DB_APP_VERSION::get_id() {return id;}
-int DB_USER::get_id() {return id;}
-int DB_TEAM::get_id() {return id;}
-int DB_HOST::get_id() {return id;}
-int DB_WORKUNIT::get_id() {return id;}
-int DB_RESULT::get_id() {return id;}
-int DB_MSG_FROM_HOST::get_id() {return id;}
-int DB_MSG_TO_HOST::get_id() {return id;}
-int DB_ASSIGNMENT::get_id() {return id;}
-int DB_STATE_COUNTS::get_id() {return appid;}
-int DB_FILE::get_id() {return id;}
-int DB_FILESET::get_id() {return id;}
-int DB_SCHED_TRIGGER::get_id() {return id;}
-int DB_VDA_FILE::get_id() {return id;}
+DB_ID_TYPE DB_PLATFORM::get_id() {return id;}
+DB_ID_TYPE DB_APP::get_id() {return id;}
+DB_ID_TYPE DB_APP_VERSION::get_id() {return id;}
+DB_ID_TYPE DB_USER::get_id() {return id;}
+DB_ID_TYPE DB_TEAM::get_id() {return id;}
+DB_ID_TYPE DB_HOST::get_id() {return id;}
+DB_ID_TYPE DB_WORKUNIT::get_id() {return id;}
+DB_ID_TYPE DB_RESULT::get_id() {return id;}
+DB_ID_TYPE DB_MSG_FROM_HOST::get_id() {return id;}
+DB_ID_TYPE DB_MSG_TO_HOST::get_id() {return id;}
+DB_ID_TYPE DB_ASSIGNMENT::get_id() {return id;}
+DB_ID_TYPE DB_STATE_COUNTS::get_id() {return appid;}
+DB_ID_TYPE DB_FILE::get_id() {return id;}
+DB_ID_TYPE DB_FILESET::get_id() {return id;}
+DB_ID_TYPE DB_SCHED_TRIGGER::get_id() {return id;}
+DB_ID_TYPE DB_VDA_FILE::get_id() {return id;}
 
 void DB_PLATFORM::db_print(char* buf){
     sprintf(buf,

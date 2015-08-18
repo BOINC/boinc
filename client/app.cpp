@@ -668,11 +668,12 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
 #ifndef SIM
 
 int ACTIVE_TASK::write_gui(MIOFILE& fout) {
-    // if the app hasn't reported fraction done, and time has elapsed,
-    // estimate fraction done
+    // if the app hasn't reported fraction done or reported > 1,
+    // and time has elapsed, estimate fraction done in a
+    // way that constantly increases and approaches 1.
     //
     double fd = fraction_done;
-    if (fd == 0 && elapsed_time > 0) {
+    if (((fd<=0)||(fd>1)) && elapsed_time > 0) {
         double est_time = wup->rsc_fpops_est/app_version->flops;
         double x = elapsed_time/est_time;
         fd = 1 - exp(-x);
@@ -877,9 +878,6 @@ int ACTIVE_TASK_SET::write(MIOFILE& fout) {
 }
 
 int ACTIVE_TASK_SET::parse(XML_PARSER& xp) {
-    ACTIVE_TASK* atp;
-    int retval;
-
     while (!xp.get_tag()) {
         if (xp.match_tag("/active_task_set")) return 0;
         else if (xp.match_tag("active_task")) {
@@ -887,8 +885,8 @@ int ACTIVE_TASK_SET::parse(XML_PARSER& xp) {
             ACTIVE_TASK at;
             at.parse(xp);
 #else
-            atp = new ACTIVE_TASK;
-            retval = atp->parse(xp);
+            ACTIVE_TASK* atp = new ACTIVE_TASK;
+            int retval = atp->parse(xp);
             if (!retval) {
                 if (slot_taken(atp->slot)) {
                     msg_printf(atp->result->project, MSG_INTERNAL_ERROR,

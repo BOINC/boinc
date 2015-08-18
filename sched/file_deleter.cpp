@@ -64,7 +64,8 @@
 #define DEFAULT_SLEEP_INTERVAL 5
 #define RESULTS_PER_WU 4        // an estimate of redundancy
 
-int id_modulus=0, id_remainder=0, appid=0;
+int id_modulus=0, id_remainder=0;
+DB_ID_TYPE appid=0;
 bool dont_retry_errors = false;
 bool dont_delete_batches = false;
 bool do_input_files = true;
@@ -316,7 +317,7 @@ bool do_pass(bool retry_error) {
         strcat(clause, " and batch <= 0 ");
     }
     if (appid) {
-        sprintf(buf, " and appid = %d ", appid);
+        sprintf(buf, " and appid = %lu ", appid);
         strcat(clause, buf);
     }
 
@@ -469,7 +470,7 @@ int main(int argc, char** argv) {
                 usage(argv[0]);
                 exit(1);
             }
-            appid = atoi(argv[i]);
+            appid = atol(argv[i]);
         } else if (is_arg(argv[i], "d") || is_arg(argv[i], "debug_level")) {
             if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
@@ -588,8 +589,8 @@ int main(int argc, char** argv) {
         log_messages.printf(MSG_CRITICAL, "Can't find app\n");
         exit(1);
       }
-      appid=app.id;
-      log_messages.printf(MSG_DEBUG, "Deleting files of appid %d\n",appid);
+      appid = app.id;
+      log_messages.printf(MSG_DEBUG, "Deleting files of appid %lu\n",appid);
     }
 
     install_stop_signal_handler();

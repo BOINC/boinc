@@ -68,6 +68,7 @@ CFStringRef     valueNoRestart = CFSTR("NoRestart");
 int main(int argc, char *argv[])
 {
     char                    pkgPath[MAXPATHLEN];
+    char                    postInstallAppPath[MAXPATHLEN];
     char                    temp[MAXPATHLEN];
     char                    brand[64], s[256];
     char                    *p;
@@ -91,6 +92,9 @@ int main(int argc, char *argv[])
 
     strlcat(pkgPath, "/Contents/Resources/", sizeof(pkgPath));
 
+    strlcpy(postInstallAppPath, pkgPath, sizeof(postInstallAppPath));
+    strlcat(postInstallAppPath, "PostInstall.app", sizeof(postInstallAppPath));
+
    // To allow for branding, assume name of installer package inside bundle corresponds to name of this application
     p = strrchr(temp, '/');         // Point to name of this application (e.g., "BOINC Installer.app")
     if (p == NULL)
@@ -109,9 +113,13 @@ int main(int argc, char *argv[])
     // Expand the installer package
     system("rm -dfR /tmp/BOINC.pkg");
     system("rm -dfR /tmp/expanded_BOINC.pkg");
+    system("rm -dfR /tmp/PostInstall.app");
     system("rm -f /tmp/BOINC_preferred_languages");
     system("rm -f /tmp/BOINC_restart_flag");
 
+    sprintf(temp, "cp -fpR \"%s\" /tmp/PostInstall.app", postInstallAppPath);
+    err = system(temp);
+    
     sprintf(temp, "pkgutil --expand \"%s\" /tmp/expanded_BOINC.pkg", pkgPath);
     err = system(temp);
     
@@ -296,7 +304,6 @@ static void GetPreferredLanguages() {
     char *uscore;
     FILE *f;
 
-
     getcwd(savedWD, sizeof(savedWD));
     system("rm -dfR /tmp/BOINC_payload");
     mkdir("/tmp/BOINC_payload", 0777);
@@ -368,7 +375,12 @@ static void GetPreferredLanguages() {
         for (j=0; j<CFArrayGetCount(preferredLanguages); ++j) {
             aLanguage = (CFStringRef)CFArrayGetValueAtIndex(preferredLanguages, j);
             language = (char *)CFStringGetCStringPtr(aLanguage, kCFStringEncodingMacRoman);
-            if (f) {
+            if (language == NULL) {
+                if (CFStringGetCString(aLanguage, shortLanguage, sizeof(shortLanguage), kCFStringEncodingMacRoman)) {
+                    language = shortLanguage;
+                }
+            }
+            if (f && language) {
                 fprintf(f, "%s\n", language);
             }
             
@@ -382,11 +394,13 @@ static void GetPreferredLanguages() {
 
             // Since the original strings are English, no 
             // further translation is needed for language en.
-            if (!strcmp(language, "en")) {
-                fclose(f);
-                CFRelease(preferredLanguages);
-                preferredLanguages = NULL;
-                goto cleanup;
+            if (language) {
+                if (!strcmp(language, "en")) {
+                    fclose(f);
+                    CFRelease(preferredLanguages);
+                    preferredLanguages = NULL;
+                    goto cleanup;
+                }
             }
         }
         
@@ -395,7 +409,10 @@ static void GetPreferredLanguages() {
 
     }
 
-    fclose(f);
+    if (f) {
+        fprintf(f, "en\n");
+        fclose(f);
+    }
 
 cleanup:
     CFArrayRemoveAllValues(supportedLanguages);

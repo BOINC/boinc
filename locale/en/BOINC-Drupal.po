@@ -5,237 +5,187 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
-"POT-Creation-Date: 2015-05-07 12:21+0000\n"
-"PO-Revision-Date: 2015-05-07 12:23+0000\n"
+"POT-Creation-Date: 2015-08-14 09:37+0000\n"
+"PO-Revision-Date: 2015-08-14 14:59+0000\n"
 "Last-Translator: Rom Walton\n"
-"Language-Team: English (http://www.transifex.com/projects/p/boinc/language/en/)\n"
+"Language-Team: English (http://www.transifex.com/boinc/boinc/language/en/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: en\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid ""
-"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
-" your e-mail address, it will be used for your user picture."
-msgstr "If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with your e-mail address, it will be used for your user picture."
+msgid "No account exists for @email -- select \"Create new account\" to register"
+msgstr "No account exists for @email -- select \"Create new account\" to register"
 
-msgid "Your Gravatar will not be shown if you upload a user picture."
-msgstr "Your Gravatar will not be shown if you upload a user picture."
+msgid "My team"
+msgstr "My team"
 
-msgid ""
-"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
-" your e-mail address, use it for your user picture."
-msgstr "If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with your e-mail address, use it for your user picture."
+msgid "You are a member of @team."
+msgstr "You are a member of @team."
 
-msgid "Gravatar will not be shown if an avatar is uploaded."
-msgstr "Gravatar will not be shown if an avatar is uploaded."
+msgid "View my team"
+msgstr "View my team"
 
-msgid "This is not available until your profile is set up."
-msgstr "This is not available until your profile is set up."
-
-msgid "Should @project show your computers on its web site?"
-msgstr "Should @project show your computers on its web site?"
-
-msgid "Click here to revoke your membership with @this_team"
-msgstr "Click here to revoke your membership with @this_team"
-
-msgid "Minimum avg credit to post"
-msgstr "Minimum avg credit to post"
-
-msgid "Founder & Team Admins have moderator privileges"
-msgstr "Founder & Team Admins have moderator privileges"
-
-msgid "Notes about changes in foundership:"
-msgstr "Notes about changes in foundership:"
-
-msgid "Foundership can be requested by team members:"
-msgstr "Foundership can be requested by team members:"
-
-msgid "One request is allowed at a time"
-msgstr "One request is allowed at a time"
-
-msgid "Any active request must be older than 90 days"
-msgstr "Any active request must be older than 90 days"
-
-msgid "Current founder has 60 days to respond to a request"
-msgstr "Current founder has 60 days to respond to a request"
+msgid "Invalid setting for \"%preference\""
+msgstr "Invalid setting for \"%preference\""
 
 msgid ""
-"If a team admin quits the team, they cease to be a team admin. We recommend "
-"only selecting people you know and trust"
-msgstr "If a team admin quits the team, they cease to be a team admin. We recommend only selecting people you know and trust"
+"You must earn @count more credits to be able to post comments on this site."
+msgstr "You must earn @count more credits to be able to post comments on this site."
 
-msgid "You may create a message board for use by @team"
-msgstr "You may create a message board for use by @team"
+msgid "Moderation"
+msgstr "Moderation"
 
-msgid "parent removed"
-msgstr "parent removed"
+msgid "Unvetted profiles"
+msgstr "Unvetted profiles"
 
-msgid "Maximum daily WU quota per CPU"
-msgstr "Maximum daily WU quota per CPU"
-
-msgid "Received time"
-msgstr "Received time"
-
-msgid "App ID"
-msgstr "App ID"
-
-msgid "Error mask"
-msgstr "Error mask"
-
-msgid "Minimum quorum"
-msgstr "Minimum quorum"
-
-msgid "Max error tasks"
-msgstr "Max error tasks"
-
-msgid "Max success tasks"
-msgstr "Max success tasks"
-
-msgid "Max total tasks"
-msgstr "Max total tasks"
-
-msgid "Target number of results"
-msgstr "Target number of results"
-
-msgid "Application version ID"
-msgstr "Application version ID"
-
-msgid "Plan class"
-msgstr "Plan class"
-
-msgid "Version number"
-msgstr "Version number"
-
-msgid "App version ID"
-msgstr "App version ID"
-
-msgid "@count million ops/sec"
-msgstr "@count million ops/sec"
-
-msgid "@rate KiB/sec"
-msgstr "@rate KiB/sec"
-
-msgid "@count days"
-msgstr "@count days"
-
-msgid "@ip_address (same the last @count times)"
-msgstr "@ip_address (same the last @count times)"
-
-msgid "commented on"
-msgstr "commented on"
-
-msgid "Remove sticky status from this topic"
-msgstr "Remove sticky status from this topic"
-
-msgid ""
-"Check the computers that are the same as @name (created on @date at @time "
-"with computer ID @id)"
-msgstr "Check the computers that are the same as @name (created on @date at @time with computer ID @id)"
-
-msgid "Computer @old_id has been merged successfully into @id."
-msgstr "Computer @old_id has been merged successfully into @id."
-
-msgid "started discussion"
-msgstr "started discussion"
-
-msgid "posted"
-msgstr "posted"
-
-msgid "Minimum value not met for @field"
-msgstr "Minimum value not met for @field"
-
-msgid "Invalid data type for @field"
-msgstr "Invalid data type for @field"
-
-msgid ""
-"Authentication is required when changing E-mail address or setting new "
-"password."
-msgstr "Authentication is required when changing E-mail address or setting new password."
-
-msgid "Request foundership"
-msgstr "Request foundership"
-
-msgid ""
-"If the team founder is not active and you want to assume the role of "
-"founder, click below to request foundership of @this_team."
-msgstr "If the team founder is not active and you want to assume the role of founder, click below to request foundership of @this_team."
-
-msgid "Initiate request"
-msgstr "Initiate request"
-
-msgid "A BOINC account already exists for @email."
-msgstr "A BOINC account already exists for @email."
-
-msgid ""
-"Please be responsible in what you write and do not create posts which are "
-"offensive or insulting. Offensive posts or threads may be deleted by forum "
-"moderators without warning or discussion. Do not respond to offensive "
-"postings. Click on the \"report\" button at the bottom of the post to call "
-"it to the attention of the moderators."
-msgstr "Please be responsible in what you write and do not create posts which are offensive or insulting. Offensive posts or threads may be deleted by forum moderators without warning or discussion. Do not respond to offensive postings. Click on the \"report\" button at the bottom of the post to call it to the attention of the moderators."
-
-msgid "this project"
-msgstr "this project"
-
-msgid ""
-"We also ask that you keep all discussion on the message boards related to "
-"@project or BOINC with the small exception of the Science message board "
-"where you are free to discuss anything relevant to the underlying science. "
-"Participants interested in broader discussions should post to unofficial "
-"forums for @project."
-msgstr "We also ask that you keep all discussion on the message boards related to @project or BOINC with the small exception of the Science message board where you are free to discuss anything relevant to the underlying science. Participants interested in broader discussions should post to unofficial forums for @project."
-
-msgid "These message boards now support BBCode tags only."
-msgstr "These message boards now support BBCode tags only."
-
-msgid "Posts contributed"
-msgstr "Posts contributed"
-
-msgid "Profile awaiting moderator approval"
-msgstr "Profile awaiting moderator approval"
-
-msgid "Approve profile"
-msgstr "Approve profile"
-
-msgid "Approve this profile content"
-msgstr "Approve this profile content"
-
-msgid "Edit profile"
-msgstr "Edit profile"
-
-msgid "Edit the content of this profile"
-msgstr "Edit the content of this profile"
-
-msgid "Remove profile"
-msgstr "Remove profile"
-
-msgid "Remove this profile content from the system"
-msgstr "Remove this profile content from the system"
-
-msgid "The team founder has @count days to respond to your transfer request."
-msgstr "The team founder has @count days to respond to your transfer request."
-
-msgid "Reject profile"
-msgstr "Reject profile"
-
-msgid "Reject this profile content"
-msgstr "Reject this profile content"
-
-msgid "Reason for rejecting this profile"
-msgstr "Reason for rejecting this profile"
+msgid "Reason for banning this user"
+msgstr "Reason for banning this user"
 
 msgid ""
 "This reason will be included in an email to the user. Please write a brief "
-"explanation of the problem and how to fix it."
-msgstr "This reason will be included in an email to the user. Please write a brief explanation of the problem and how to fix it."
+"explanation of why the user is being banned."
+msgstr "This reason will be included in an email to the user. Please write a brief explanation of why the user is being banned."
 
-msgid "Submit"
-msgstr "Submit"
+msgid "Duration of the ban"
+msgstr "Duration of the ban"
 
-msgid "project"
-msgstr "project"
+msgid "The number of days until the ban expires. Set to 0 to ban permanently."
+msgstr "The number of days until the ban expires. Set to 0 to ban permanently."
+
+msgid "Lift user ban"
+msgstr "Lift user ban"
+
+msgid "You are banned from community participation until @date"
+msgstr "You are banned from community participation until @date"
+
+msgid "Computers @old_ids have been merged successfully into @id."
+msgstr "Computers @old_ids have been merged successfully into @id."
+
+msgid "A team named \"@name\" already exists."
+msgstr "A team named \"@name\" already exists."
+
+msgid "Post topic"
+msgstr "Post topic"
+
+msgid "Please enter your email address"
+msgstr "Please enter your email address"
+
+msgid "Password entered is not valid. Please verify that it is correct."
+msgstr "Password entered is not valid. Please verify that it is correct."
+
+msgid "Make founder"
+msgstr "Make founder"
+
+msgid "!site: comment posted to \"!topic_name\""
+msgstr "!site: comment posted to \"!topic_name\""
+
+msgid "!author has posted a reply to \"!topic_name\"."
+msgstr "!author has posted a reply to \"!topic_name\"."
+
+msgid ""
+"To view this topic at !site, click here: \n"
+"!comment_url"
+msgstr "To view this topic at !site, click here: \n!comment_url"
+
+msgid "At least one application must be selected"
+msgstr "At least one application must be selected"
+
+msgid "Forgot password"
+msgstr "Forgot password"
+
+msgid ""
+"Enter your email address to receive instructions for resetting your "
+"password."
+msgstr "Enter your email address to receive instructions for resetting your password."
+
+msgid "Revise or post comment"
+msgstr "Revise or post comment"
+
+msgid "discuss"
+msgstr "discuss"
+
+msgid "Your community preferences have been updated."
+msgstr "Your community preferences have been updated."
+
+msgid "Unlock this thread for comments"
+msgstr "Unlock this thread for comments"
+
+msgid "Authenticator login"
+msgstr "Authenticator login"
+
+msgid "Create content"
+msgstr "Create content"
+
+msgid "authenticator-based login"
+msgstr "authenticator-based login"
+
+msgid ""
+"Enter your email address to receive instructions for resetting your password"
+" (or use the !authenticator_login)."
+msgstr "Enter your email address to receive instructions for resetting your password (or use the !authenticator_login)."
+
+msgid ""
+"If you forgot your account's email address, or you can't receive email "
+"there:"
+msgstr "If you forgot your account's email address, or you can't receive email there:"
+
+msgid ""
+"If you have run BOINC under the account, you can still access it. Here's "
+"how:"
+msgstr "If you have run BOINC under the account, you can still access it. Here's how:"
+
+msgid ""
+"Go to the BOINC data directory on your computer (on Windows this is usually "
+"%path1 or %path2."
+msgstr "Go to the BOINC data directory on your computer (on Windows this is usually %path1 or %path2."
+
+msgid ""
+"Find your account file for this project; it will have a name like %file "
+"(where the project URL is %url)."
+msgstr "Find your account file for this project; it will have a name like %file (where the project URL is %url)."
+
+msgid ""
+"Open the file in a text editor like Notepad. You'll see something like:"
+msgstr "Open the file in a text editor like Notepad. You'll see something like:"
+
+msgid ""
+"Select and Copy the string between &lt;authenticator&gt; and "
+"&lt;/authenticator&gt; (%auth in the above example)."
+msgstr "Select and Copy the string between &lt;authenticator&gt; and &lt;/authenticator&gt; (%auth in the above example)."
+
+msgid "There is no account with that authenticator."
+msgstr "There is no account with that authenticator."
+
+msgid ""
+"Go to the <a href=\"%wikiref\">BOINC data directory</a> on your computer (on"
+" Windows this is usually %path1 or %path2."
+msgstr "Go to the <a href=\"%wikiref\">BOINC data directory</a> on your computer (on Windows this is usually %path1 or %path2."
+
+msgid "BOINC documentation"
+msgstr "BOINC documentation"
+
+msgid ""
+"Go to the BOINC data directory on your computer (see !boinc_wiki for help "
+"finding this)."
+msgstr "Go to the BOINC data directory on your computer (see !boinc_wiki for help finding this)."
+
+msgid ""
+"@count days have elapsed since your request and the founder has not "
+"responded."
+msgstr "@count days have elapsed since your request and the founder has not responded."
+
+msgid ""
+"You now have @count days to assume foundership before another team member "
+"may submit a request."
+msgstr "You now have @count days to assume foundership before another team member may submit a request."
+
+msgid "Unhide this comment"
+msgstr "Unhide this comment"
+
+msgid "@email is not a well formed email address, please verify"
+msgstr "@email is not a well formed email address, please verify"
 
 msgid "Email address"
 msgstr "Email address"
@@ -934,8 +884,27 @@ msgid ""
 "presentation."
 msgstr "This account's default language for e-mails and preferred language for site presentation."
 
+msgid ""
+"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
+" your e-mail address, it will be used for your user picture."
+msgstr "If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with your e-mail address, it will be used for your user picture."
+
+msgid "Your Gravatar will not be shown if you upload a user picture."
+msgstr "Your Gravatar will not be shown if you upload a user picture."
+
+msgid ""
+"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
+" your e-mail address, use it for your user picture."
+msgstr "If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with your e-mail address, use it for your user picture."
+
+msgid "Gravatar will not be shown if an avatar is uploaded."
+msgstr "Gravatar will not be shown if an avatar is uploaded."
+
 msgid "Avatar settings"
 msgstr "Avatar settings"
+
+msgid "This is not available until your profile is set up."
+msgstr "This is not available until your profile is set up."
 
 msgid "Create a profile"
 msgstr "Create a profile"
@@ -975,6 +944,9 @@ msgstr "Privacy settings"
 
 msgid "Is it OK for @project and your team (if any) to email you?"
 msgstr "Is it OK for @project and your team (if any) to email you?"
+
+msgid "Should @project show your computers on its web site?"
+msgstr "Should @project show your computers on its web site?"
 
 msgid "Hide"
 msgstr "Hide"
@@ -1069,6 +1041,9 @@ msgstr "Enter forum"
 msgid "Leave team"
 msgstr "Leave team"
 
+msgid "Click here to revoke your membership with @this_team"
+msgstr "Click here to revoke your membership with @this_team"
+
 msgid "Leave this team"
 msgstr "Leave this team"
 
@@ -1090,6 +1065,9 @@ msgstr "Seconds"
 msgid "Minimum total credit to post"
 msgstr "Minimum total credit to post"
 
+msgid "Minimum avg credit to post"
+msgstr "Minimum avg credit to post"
+
 msgid "Allow public to read board?"
 msgstr "Allow public to read board?"
 
@@ -1108,8 +1086,14 @@ msgstr "Only members may post"
 msgid "Only members may read (optional)"
 msgstr "Only members may read (optional)"
 
+msgid "Founder & Team Admins have moderator privileges"
+msgstr "Founder & Team Admins have moderator privileges"
+
 msgid "Changing the team founder"
 msgstr "Changing the team founder"
+
+msgid "Notes about changes in foundership:"
+msgstr "Notes about changes in foundership:"
 
 msgid "Any member of the team is eligible"
 msgstr "Any member of the team is eligible"
@@ -1117,8 +1101,20 @@ msgstr "Any member of the team is eligible"
 msgid "Current founder becomes a normal user"
 msgstr "Current founder becomes a normal user"
 
+msgid "Foundership can be requested by team members:"
+msgstr "Foundership can be requested by team members:"
+
+msgid "One request is allowed at a time"
+msgstr "One request is allowed at a time"
+
 msgid "It must be 60 days since any previous request"
 msgstr "It must be 60 days since any previous request"
+
+msgid "Any active request must be older than 90 days"
+msgstr "Any active request must be older than 90 days"
+
+msgid "Current founder has 60 days to respond to a request"
+msgstr "Current founder has 60 days to respond to a request"
 
 msgid "Add team admin"
 msgstr "Add team admin"
@@ -1158,6 +1154,11 @@ msgstr "Change the team founder"
 
 msgid "Add / Remove team admins"
 msgstr "Add / Remove team admins"
+
+msgid ""
+"If a team admin quits the team, they cease to be a team admin. We recommend "
+"only selecting people you know and trust"
+msgstr "If a team admin quits the team, they cease to be a team admin. We recommend only selecting people you know and trust"
 
 msgid "Choose type"
 msgstr "Choose type"
@@ -1201,6 +1202,9 @@ msgstr "Create team message board"
 msgid "Create message board"
 msgstr "Create message board"
 
+msgid "You may create a message board for use by @team"
+msgstr "You may create a message board for use by @team"
+
 msgid ""
 "Please set the minimum average credit that a user is required to have in "
 "order to post to this message board."
@@ -1214,6 +1218,9 @@ msgstr "Anonymous"
 
 msgid "Unpublished"
 msgstr "Unpublished"
+
+msgid "parent removed"
+msgstr "parent removed"
 
 msgid "Sorry, unrecognized email address or password."
 msgstr "Sorry, unrecognized email address or password."
@@ -1326,6 +1333,9 @@ msgstr "Memory"
 msgid "Swap space"
 msgstr "Swap space"
 
+msgid "Maximum daily WU quota per CPU"
+msgstr "Maximum daily WU quota per CPU"
+
 msgid "Average download rate"
 msgstr "Average download rate"
 
@@ -1410,6 +1420,9 @@ msgstr "Granted credit"
 msgid "Outcome"
 msgstr "Outcome"
 
+msgid "Received time"
+msgstr "Received time"
+
 msgid "Report deadline"
 msgstr "Report deadline"
 
@@ -1425,6 +1438,9 @@ msgstr "Stderr out"
 msgid "Validation state"
 msgstr "Validation state"
 
+msgid "App ID"
+msgstr "App ID"
+
 msgid "Canonical credit"
 msgstr "Canonical credit"
 
@@ -1434,14 +1450,44 @@ msgstr "Canonical result ID"
 msgid "Created time"
 msgstr "Created time"
 
+msgid "Error mask"
+msgstr "Error mask"
+
+msgid "Minimum quorum"
+msgstr "Minimum quorum"
+
+msgid "Max error tasks"
+msgstr "Max error tasks"
+
+msgid "Max success tasks"
+msgstr "Max success tasks"
+
+msgid "Max total tasks"
+msgstr "Max total tasks"
+
 msgid "Needs validation"
 msgstr "Needs validation"
 
 msgid "Initial replication"
 msgstr "Initial replication"
 
+msgid "Target number of results"
+msgstr "Target number of results"
+
+msgid "Application version ID"
+msgstr "Application version ID"
+
+msgid "Plan class"
+msgstr "Plan class"
+
+msgid "Version number"
+msgstr "Version number"
+
 msgid "Computer"
 msgstr "Computer"
+
+msgid "App version ID"
+msgstr "App version ID"
 
 msgid "Consecutive valid tasks"
 msgstr "Consecutive valid tasks"
@@ -1460,6 +1506,15 @@ msgstr "Show IP address"
 
 msgid "hours"
 msgstr "hours"
+
+msgid "@count million ops/sec"
+msgstr "@count million ops/sec"
+
+msgid "@rate KiB/sec"
+msgstr "@rate KiB/sec"
+
+msgid "@count days"
+msgstr "@count days"
 
 msgid "Remove friend"
 msgstr "Remove friend"
@@ -1503,16 +1558,174 @@ msgstr "Convert this comment to a new topic"
 msgid "Details"
 msgstr "Details"
 
+msgid "@ip_address (same the last @count times)"
+msgstr "@ip_address (same the last @count times)"
+
+msgid "commented on"
+msgstr "commented on"
+
 msgid "Make unsticky"
 msgstr "Make unsticky"
+
+msgid "Remove sticky status from this topic"
+msgstr "Remove sticky status from this topic"
 
 msgid ""
 "Sometimes BOINC assigns separate identities to the same computer by mistake."
 " You can correct this by merging old identities with the newest one."
 msgstr "Sometimes BOINC assigns separate identities to the same computer by mistake. You can correct this by merging old identities with the newest one."
 
+msgid ""
+"Check the computers that are the same as @name (created on @date at @time "
+"with computer ID @id)"
+msgstr "Check the computers that are the same as @name (created on @date at @time with computer ID @id)"
+
+msgid "Computer @old_id has been merged successfully into @id."
+msgstr "Computer @old_id has been merged successfully into @id."
+
+msgid "started discussion"
+msgstr "started discussion"
+
+msgid "posted"
+msgstr "posted"
+
+msgid "Minimum value not met for @field"
+msgstr "Minimum value not met for @field"
+
 msgid "Remove"
 msgstr "Remove"
 
 msgid "hidden"
 msgstr "hidden"
+
+msgid "Invalid data type for @field"
+msgstr "Invalid data type for @field"
+
+msgid ""
+"Authentication is required when changing E-mail address or setting new "
+"password."
+msgstr "Authentication is required when changing E-mail address or setting new password."
+
+msgid "Request foundership"
+msgstr "Request foundership"
+
+msgid ""
+"If the team founder is not active and you want to assume the role of "
+"founder, click below to request foundership of @this_team."
+msgstr "If the team founder is not active and you want to assume the role of founder, click below to request foundership of @this_team."
+
+msgid "Initiate request"
+msgstr "Initiate request"
+
+msgid "A BOINC account already exists for @email."
+msgstr "A BOINC account already exists for @email."
+
+msgid ""
+"Please be responsible in what you write and do not create posts which are "
+"offensive or insulting. Offensive posts or threads may be deleted by forum "
+"moderators without warning or discussion. Do not respond to offensive "
+"postings. Click on the \"report\" button at the bottom of the post to call "
+"it to the attention of the moderators."
+msgstr "Please be responsible in what you write and do not create posts which are offensive or insulting. Offensive posts or threads may be deleted by forum moderators without warning or discussion. Do not respond to offensive postings. Click on the \"report\" button at the bottom of the post to call it to the attention of the moderators."
+
+msgid "this project"
+msgstr "this project"
+
+msgid ""
+"We also ask that you keep all discussion on the message boards related to "
+"@project or BOINC with the small exception of the Science message board "
+"where you are free to discuss anything relevant to the underlying science. "
+"Participants interested in broader discussions should post to unofficial "
+"forums for @project."
+msgstr "We also ask that you keep all discussion on the message boards related to @project or BOINC with the small exception of the Science message board where you are free to discuss anything relevant to the underlying science. Participants interested in broader discussions should post to unofficial forums for @project."
+
+msgid "These message boards now support BBCode tags only."
+msgstr "These message boards now support BBCode tags only."
+
+msgid "Posts contributed"
+msgstr "Posts contributed"
+
+msgid "Profile awaiting moderator approval"
+msgstr "Profile awaiting moderator approval"
+
+msgid "Approve profile"
+msgstr "Approve profile"
+
+msgid "Approve this profile content"
+msgstr "Approve this profile content"
+
+msgid "Edit profile"
+msgstr "Edit profile"
+
+msgid "Edit the content of this profile"
+msgstr "Edit the content of this profile"
+
+msgid "Remove profile"
+msgstr "Remove profile"
+
+msgid "Remove this profile content from the system"
+msgstr "Remove this profile content from the system"
+
+msgid "The team founder has @count days to respond to your transfer request."
+msgstr "The team founder has @count days to respond to your transfer request."
+
+msgid "Reject profile"
+msgstr "Reject profile"
+
+msgid "Reject this profile content"
+msgstr "Reject this profile content"
+
+msgid "Reason for rejecting this profile"
+msgstr "Reason for rejecting this profile"
+
+msgid ""
+"This reason will be included in an email to the user. Please write a brief "
+"explanation of the problem and how to fix it."
+msgstr "This reason will be included in an email to the user. Please write a brief explanation of the problem and how to fix it."
+
+msgid "Submit"
+msgstr "Submit"
+
+msgid "project"
+msgstr "project"
+
+msgid "Unknown"
+msgstr "Unknown"
+
+msgid "Pending"
+msgstr "Pending"
+
+msgid "User of the day"
+msgstr "User of the day"
+
+msgid "Account"
+msgstr "Account"
+
+msgid "Log in"
+msgstr "Log in"
+
+msgid "Send"
+msgstr "Send"
+
+msgid "News"
+msgstr "News"
+
+msgid "Unlock"
+msgstr "Unlock"
+
+msgid "Paste the string into the field below, and click OK."
+msgstr "Paste the string into the field below, and click OK."
+
+msgid ""
+"You will now be logged in to your account; update the email and password of "
+"your account."
+msgstr "You will now be logged in to your account; update the email and password of your account."
+
+msgid "Log in with authenticator"
+msgstr "Log in with authenticator"
+
+msgid "Assume foundership"
+msgstr "Assume foundership"
+
+msgid "Unhide"
+msgstr "Unhide"
