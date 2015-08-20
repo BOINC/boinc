@@ -202,6 +202,10 @@ struct APP_INIT_DATA {
     //
     bool vbox_window;       // whether to open a console window for VM apps
 
+    // list of files in the app version (for wrappers)
+    //
+    std::vector<std::string> app_files;
+
     // Items used by the BOINC runtime system
     //
     double checkpoint_period;     // recommended checkpoint period

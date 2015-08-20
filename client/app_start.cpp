@@ -195,26 +195,27 @@ int ACTIVE_TASK::get_shmem_seg_name() {
 }
 
 void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
+    PROJECT* project = wup->project;
     aid.major_version = BOINC_MAJOR_VERSION;
     aid.minor_version = BOINC_MINOR_VERSION;
     aid.release = BOINC_RELEASE;
     aid.app_version = app_version->version_num;
     safe_strcpy(aid.app_name, wup->app->name);
-    safe_strcpy(aid.symstore, wup->project->symstore);
+    safe_strcpy(aid.symstore, project->symstore);
     safe_strcpy(aid.acct_mgr_url, gstate.acct_mgr_info.master_url);
-    if (wup->project->project_specific_prefs.length()) {
+    if (project->project_specific_prefs.length()) {
         aid.project_preferences = strdup(
-            wup->project->project_specific_prefs.c_str()
+            project->project_specific_prefs.c_str()
         );
     }
-    aid.userid = wup->project->userid;
-    aid.teamid = wup->project->teamid;
-    aid.hostid = wup->project->hostid;
-    safe_strcpy(aid.user_name, wup->project->user_name);
-    safe_strcpy(aid.team_name, wup->project->team_name);
-    safe_strcpy(aid.project_dir, wup->project->project_dir_absolute());
+    aid.userid = project->userid;
+    aid.teamid = project->teamid;
+    aid.hostid = project->hostid;
+    safe_strcpy(aid.user_name, project->user_name);
+    safe_strcpy(aid.team_name, project->team_name);
+    safe_strcpy(aid.project_dir, project->project_dir_absolute());
     relative_to_absolute("", aid.boinc_dir);
-    safe_strcpy(aid.authenticator, wup->project->authenticator);
+    safe_strcpy(aid.authenticator, project->authenticator);
     aid.slot = slot;
 #ifdef _WIN32
     if (strstr(gstate.host_info.os_name, "Windows 2000")) {
@@ -229,13 +230,13 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
 #endif
     safe_strcpy(aid.wu_name, wup->name);
     safe_strcpy(aid.result_name, result->name);
-    aid.user_total_credit = wup->project->user_total_credit;
-    aid.user_expavg_credit = wup->project->user_expavg_credit;
-    aid.host_total_credit = wup->project->host_total_credit;
-    aid.host_expavg_credit = wup->project->host_expavg_credit;
+    aid.user_total_credit = project->user_total_credit;
+    aid.user_expavg_credit = project->user_expavg_credit;
+    aid.host_total_credit = project->host_total_credit;
+    aid.host_expavg_credit = project->host_expavg_credit;
     double rrs = gstate.runnable_resource_share(RSC_TYPE_CPU);
     if (rrs) {
-        aid.resource_share_fraction = wup->project->resource_share/rrs;
+        aid.resource_share_fraction = project->resource_share/rrs;
     } else {
         aid.resource_share_fraction = 1;
     }
@@ -287,6 +288,11 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
     aid.shmem_seg_name = shmem_seg_name;
 #endif
     aid.wu_cpu_time = checkpoint_cpu_time;
+    APP_VERSION* avp = app_version;
+    for (unsigned int i=0; i<avp->app_files.size(); i++) {
+        FILE_REF& fref = avp->app_files[i];
+        aid.app_files.push_back(string(fref.file_name));
+    }
 }
 
 // write the app init file.
