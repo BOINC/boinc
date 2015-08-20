@@ -89,14 +89,14 @@ using std::vector;
 using std::string;
 
 
-void read_fraction_done(double& frac_done, VBOX_VM& vm) {
+bool read_fraction_done(double& frac_done, VBOX_VM& vm) {
     char path[MAXPATHLEN];
     char buf[256];
     double temp, frac = 0;
 
     sprintf(path, "shared/%s", vm.fraction_done_filename.c_str());
     FILE* f = fopen(path, "r");
-    if (!f) return;
+    if (!f) return false;
 
     // read the last line of the file
     //
@@ -117,6 +117,7 @@ void read_fraction_done(double& frac_done, VBOX_VM& vm) {
     }
 
     frac_done = frac;
+	return true;
 }
 
 bool completion_file_exists(VBOX_VM& vm) {
@@ -1040,7 +1041,13 @@ int main(int argc, char** argv) {
             if (pVM->job_duration) {
                 fraction_done = elapsed_time / pVM->job_duration;
             } else if (pVM->fraction_done_filename.size() > 0) {
-                read_fraction_done(fraction_done, *pVM);
+                if (!read_fraction_done(fraction_done, *pVM)) {
+					// Report a non-zero fraction done so that BOINC will not attempt to use CPU Time and
+					// deadline as a means to calculate fraction done when a fraction done file is
+					// specified.
+					//
+					fraction_done = 0.001;
+				}
             }
             if (fraction_done > 1.0) {
                 fraction_done = 1.0;
