@@ -807,7 +807,8 @@ int TASK::run(int argct, char** argvt) {
     return 0;
 }
 
-// return true if task exited
+// return true if task exited; in that case also return its exit status
+// (zero means it completed successfully)
 //
 bool TASK::poll(int& status) {
     char buf[256];
@@ -847,6 +848,10 @@ bool TASK::poll(int& status) {
             boinc_msg_prefix(buf, sizeof(buf)),
             application.c_str(), final_cpu_time
         );
+
+        if (WIFEXITED(status)) {
+            status = WEXITSTATUS(status);
+        }
         if (final_cpu_time < current_cpu_time) {
             final_cpu_time = current_cpu_time;
         }
