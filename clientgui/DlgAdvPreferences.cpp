@@ -686,6 +686,7 @@ bool CDlgAdvPreferences::ValidateInput() {
     wxString invMsgTimeSpan = _("Start time must be different from end time");
     wxString invMsgLimit10 = _("Number must be between 0 and 10");
     wxString invMsgLimit100 = _("Number must be between 0 and 100");
+    wxString invMsgLimit1_100 = _("Number must be between 1 and 100");
     wxString buffer;
     double startTime, endTime;
 
@@ -704,7 +705,7 @@ bool CDlgAdvPreferences::ValidateInput() {
     
     if(m_txtProcIdleFor->IsEnabled()) {
         buffer = m_txtProcIdleFor->GetValue();
-        if(!IsValidFloatValue(buffer)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 10000)) {
             ShowErrorMessage(invMsgFloat,m_txtProcIdleFor);
             return false;
         }
@@ -712,8 +713,8 @@ bool CDlgAdvPreferences::ValidateInput() {
 
     if (m_chkMaxLoad->IsChecked()) {
         buffer = m_txtMaxLoad->GetValue();
-        if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
-            ShowErrorMessage(invMsgLimit100, m_txtMaxLoad);
+        if(!IsValidFloatValueBetween(buffer, 1.0, 100.0)) {
+            ShowErrorMessage(invMsgLimit1_100, m_txtMaxLoad);
             return false;
         }
     }
@@ -807,20 +808,20 @@ bool CDlgAdvPreferences::ValidateInput() {
     }
     
     buffer = m_txtMemoryMaxInUse->GetValue();
-    if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
-        ShowErrorMessage(invMsgLimit100, m_txtMemoryMaxInUse);
+    if(!IsValidFloatValueBetween(buffer, 1.0, 100.0)) {
+        ShowErrorMessage(invMsgLimit1_100, m_txtMemoryMaxInUse);
         return false;
     }
     
     buffer = m_txtMemoryMaxOnIdle->GetValue();
-    if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
-        ShowErrorMessage(invMsgLimit100, m_txtMemoryMaxOnIdle);
+    if(!IsValidFloatValueBetween(buffer, 1.0, 100.0)) {
+        ShowErrorMessage(invMsgLimit1_100, m_txtMemoryMaxOnIdle);
         return false;
     }
 
     buffer = m_txtDiskMaxSwap->GetValue();
-    if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
-        ShowErrorMessage(invMsgLimit100, m_txtDiskMaxSwap);
+    if(!IsValidFloatValueBetween(buffer, 1.0, 100.0)) {
+        ShowErrorMessage(invMsgLimit1_100, m_txtDiskMaxSwap);
         return false;
     }
     
