@@ -149,10 +149,18 @@ static void show_exclude_gpu(EXCLUDE_GPU& e) {
 // This is called during startup (after client_state.xml has been read)
 // and also from the handle_read_cc_config GUI RPC.
 //
-// TODO: show other config options
+// Keep these in alpha order
+//
+// TODO: show all config options
 //
 void CC_CONFIG::show() {
     unsigned int i;
+    if (abort_jobs_on_exit) {
+        msg_printf(NULL, MSG_INFO, "Config: abort jobs on exit");
+    }
+    if (allow_multiple_clients) {
+        msg_printf(NULL, MSG_INFO, "Config: allow multiple clients");
+    }
     if (allow_remote_gui_rpc) {
         msg_printf(NULL, MSG_INFO,
             "Config: GUI RPC allowed from any host"
@@ -201,6 +209,15 @@ void CC_CONFIG::show() {
             exclusive_gpu_apps[i].c_str()
         );
     }
+    if (exit_after_finish) {
+        msg_printf(NULL, MSG_INFO, "Config: exit after finish");
+    }
+    if (exit_before_start) {
+        msg_printf(NULL, MSG_INFO, "Config: exit before start task");
+    }
+    if (exit_when_idle) {
+        msg_printf(NULL, MSG_INFO, "Config: exit when idle");
+    }
     if (fetch_minimal_work) {
         msg_printf(NULL, MSG_INFO, "Config: fetch minimal work");
     }
@@ -236,6 +253,9 @@ void CC_CONFIG::show() {
     }
     if (report_results_immediately) {
         msg_printf(NULL, MSG_INFO, "Config: report completed tasks immediately");
+    }
+    if (unsigned_apps_ok) {
+        msg_printf(NULL, MSG_INFO, "Config: unsigned apps OK");
     }
     if (use_all_gpus) {
         msg_printf(NULL, MSG_INFO, "Config: use all coprocessors");
