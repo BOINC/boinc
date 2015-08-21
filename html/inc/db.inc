@@ -49,7 +49,7 @@ if (MYSQLI) {
         } else {
             $port = null;
         }
-        $mysqli = new mysqli($host, $user, $pass, $dbname, $port);
+        $mysqli = @new mysqli($host, $user, $pass, $dbname, $port);
         return $mysqli;
     }
     function _mysql_query($q) {
