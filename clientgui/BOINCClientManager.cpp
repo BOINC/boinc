@@ -447,10 +447,8 @@ void CBOINCClientManager::ShutdownBOINCCore(bool ShuttingDownManager) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-#ifdef __WXMAC__
     // Mac Manager shuts down client only if Manager started client
     if (!m_bBOINCStartedByManager) return;
-#endif
 
 #ifdef __WXMSW__
     if (IsBOINCConfiguredAsDaemon()) {
