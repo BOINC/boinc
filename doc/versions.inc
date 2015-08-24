@@ -91,7 +91,7 @@ $w76x64 = array(
 
 $w74x64 = array(
     "num"=>"7.4.42",
-    "status"=>"Recommended version",
+    "status"=>"Older version",
     "file"=>"boinc_7.4.42_windows_x86_64.exe",
     "vbox_file"=>"boinc_7.4.42_windows_x86_64_vbox.exe",
     "vbox_version"=>"4.3.12",
@@ -119,7 +119,7 @@ $m76 = array(
 
 $m74 = array(
 	"num"=>"7.4.42",
-	"status"=>"Recommended version (standard GUI)",
+	"status"=>"Older version (standard GUI)",
 	"file"=>"boinc_7.4.42_macOSX_x86_64.zip",
 	"date"=>"12 Mar 2015",
 	"type"=>"mac_advanced",
@@ -159,7 +159,7 @@ $m76c = array(
 
 $m74c = array(
 	"num"=>"7.4.42",
-	"status"=>"Recommended version (Unix command-line version)",
+	"status"=>"Older version (Unix command-line version)",
 	"file"=>"boinc_7.4.42_x86_64-apple-darwin.zip",
 	"date"=>"12 Mar 2015",
 	"type"=>"bare_core",
