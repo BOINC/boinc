@@ -210,6 +210,7 @@ int VBOX_VM::initialize() {
 
     boinc_get_init_data_p(&aid);
     get_install_directory(virtualbox_install_directory);
+    get_scratch_directory(virtualbox_scratch_directory);
 
     // Prep the environment so we can execute the vboxmanage application
     //
