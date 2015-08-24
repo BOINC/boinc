@@ -43,9 +43,9 @@ function linux_info() {
     instead.  ";
 }
 
-$w76dev = array(
+$w76 = array(
     "num"=>"7.6.6",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_7.6.6_windows_intelx86.exe",
     "vbox_file"=>"boinc_7.6.6_windows_intelx86_vbox.exe",
     "vbox_version"=>"4.3.12",
@@ -55,21 +55,11 @@ $w76dev = array(
 
 $w74 = array(
     "num"=>"7.4.42",
-    "status"=>"Recommended version",
+    "status"=>"Older version",
     "file"=>"boinc_7.4.42_windows_intelx86.exe",
     "vbox_file"=>"boinc_7.4.42_windows_intelx86_vbox.exe",
     "vbox_version"=>"4.3.12",
     "date"=>"10 Mar 2015",
-    "type"=>"win_new",
-);
-
-$w72 = array(
-    "num"=>"7.2.42",
-    "status"=>"Older version",
-    "file"=>"boinc_7.2.42_windows_intelx86.exe",
-    "vbox_file"=>"boinc_7.2.42_windows_intelx86_vbox.exe",
-    "vbox_version"=>"4.2.16",
-    "date"=>"28 Feb 2014",
     "type"=>"win_new",
 );
 
@@ -89,9 +79,9 @@ $w5816 = array(
     "type"=>"win_new",
 );
 
-$w76x64dev = array(
+$w76x64 = array(
     "num"=>"7.6.6",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_7.6.6_windows_x86_64.exe",
     "vbox_file"=>"boinc_7.6.6_windows_x86_64_vbox.exe",
     "vbox_version"=>"4.3.12",
@@ -119,11 +109,11 @@ $w72x64 = array(
     "type"=>"win_new",
 );
 
-$m76dev = array(
-	"num"=>"7.6.6",
-	"status"=>"Development version (standard GUI)",
-	"file"=>"boinc_7.6.6_macOSX_x86_64.zip",
-	"date"=>"16 July 2015",
+$m76 = array(
+	"num"=>"7.6.7",
+	"status"=>"Recommended version (standard GUI)",
+	"file"=>"boinc_7.6.7_macOSX_x86_64.zip",
+	"date"=>"24 Aug 2015",
 	"type"=>"mac_advanced",
 );
 
@@ -159,11 +149,11 @@ $m66 = array(
     "type"=>"mac_advanced",
 );
 
-$m76cdev = array(
-	"num"=>"7.6.6",
-	"status"=>"Development version (Unix command-line version)",
-	"file"=>"boinc_7.6.6_x86_64-apple-darwin.zip",
-	"date"=>"16 July 2015",
+$m76c = array(
+	"num"=>"7.6.7",
+	"status"=>"Recommended version (Unix command-line version)",
+	"file"=>"boinc_7.6.7_x86_64-apple-darwin.zip",
+	"date"=>"24 Aug 2015",
 	"type"=>"bare_core",
 );
 
@@ -280,9 +270,8 @@ $windows = array(
     "description"=>"XP/Vista/7/8/8.1",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-          $w76dev,
+          $w76,
           $w74,
-          $w72,
           $w66,
           $w5816,
     )
@@ -293,9 +282,8 @@ $windowsx64 = array(
     "description"=>"XP/Vista/7/8/8.1",
     "dbname" => "windows_x86_64",
     "versions"=>array(
-          $w76x64dev,
+          $w76x64,
           $w74x64,
-          $w72x64,
     )
 );
 
@@ -304,8 +292,8 @@ $mac = array(
     "description"=>"Version 10.6.0+",
     "dbname" => "x86_64-apple-darwin",
     "versions"=>array(
-          $m76dev,
-          $m76cdev,
+          $m76,
+          $m76c,
           $m74,
           $m74c,
     )
