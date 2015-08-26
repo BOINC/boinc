@@ -101,5 +101,5 @@ extern const char* batch_state_string(int state);
 extern void strip_translation(char* p);
 
 extern std::vector<std::string> split(std::string, char delim);
-extern char* comma_print(unsigned long);
+extern char* comma_print(double, int);
 #endif

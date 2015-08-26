@@ -757,8 +757,11 @@ vector<string> split(string s, char delim) {
     return result;
 }
 
-char *comma_print(unsigned long n) {
-    static char comma = 0;
+// convert number to string with thousands separators.
+// If nfrac is nonzero, following with fractional digits
+//
+char *comma_print(double x, int nfrac) {
+    static char comma = 0, decimal_point;
     static char retbuf[30];
     char *p = &retbuf[sizeof(retbuf)-1];
     int i = 0;
@@ -768,13 +771,27 @@ char *comma_print(unsigned long n) {
         if (lcp) {
             if (lcp->thousands_sep != NULL && *lcp->thousands_sep) {
                 comma = *lcp->thousands_sep;
+                decimal_point = *lcp->decimal_point;
             } else {
                 comma = ',';
+                decimal_point = '.';
             }
         }
     }
 
     *p = 0;
+
+    unsigned long n = (unsigned long) x;
+
+    // do fractional part if requested
+    //
+    if (nfrac) {
+        double frac = x - n;
+        p -= nfrac+1;
+        sprintf(p, "%.*f", nfrac, frac);
+        p++;  // skip 0
+        *p = decimal_point;
+    }
 
     do {
         if (i%3 == 0 && i != 0) {
