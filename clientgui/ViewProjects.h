@@ -35,10 +35,10 @@ public:
     wxString m_strProjectName;
     wxString m_strAccountName;
     wxString m_strTeamName;
-    float m_fTotalCredit;
-    float m_fAVGCredit;
-    float m_fResourceShare;
-    float m_fResourcePercent;
+    double m_fTotalCredit;
+    double m_fAVGCredit;
+    double m_fResourceShare;
+    double m_fResourcePercent;
     wxString m_strStatus;
     wxString m_strProjectURL;   // Used internally, not displayed
     wxString m_strTotalCredit;
