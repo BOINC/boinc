@@ -2680,3 +2680,14 @@ wxBitmap GetScaledBitmapFromXPMData(const char** XPMData) {
 #endif
     return wxBitmap(XPMData);
 }
+
+wxString FormatTime(double secs) {
+    if (secs < 0) {
+        return wxT("---");
+    }
+    wxInt32 iHour = (wxInt32)(secs / (60 * 60));
+    wxInt32 iMin  = (wxInt32)(secs / 60) % 60;
+    wxInt32 iSec  = (wxInt32)(secs) % 60;
+    wxTimeSpan ts = wxTimeSpan(iHour, iMin, iSec);
+    return ts.Format((secs>=86400)?"%Dd %H:%M:%S":"%H:%M:%S");
+}

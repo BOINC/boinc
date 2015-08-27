@@ -95,7 +95,6 @@ protected:
     void                    GetDocTotalBytes(wxInt32 item, double& fBuffer) const;
     wxInt32                 FormatSize( double fBytesSent, double fFileSize, wxString& strBuffer ) const;
     void                    GetDocTime(wxInt32 item, double& fBuffer) const;
-    wxInt32                 FormatTime( double fBuffer, wxString& strBuffer ) const;
     void                    GetDocSpeed(wxInt32 item, double& fBuffer) const;
     wxInt32                 FormatSpeed( double fBuffer, wxString& strBuffer ) const;
     void                    GetDocStatus(wxInt32 item, wxString& strBuffer) const;

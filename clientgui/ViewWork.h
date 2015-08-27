@@ -107,7 +107,6 @@ protected:
     void                    GetDocProgress(wxInt32 item, float& fBuffer) const;
     wxInt32                 FormatProgress( float fBuffer, wxString& strBuffer ) const;
     void                    GetDocTimeToCompletion(wxInt32 item, float& fBuffer) const;
-    wxInt32                 FormatTimeToCompletion( float fBuffer, wxString& strBuffer ) const;
     void                    GetDocReportDeadline(wxInt32 item, time_t& time) const;
     wxInt32                 FormatReportDeadline( time_t deadline, wxString& strBuffer ) const;
     wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
