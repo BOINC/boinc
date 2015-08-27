@@ -21,7 +21,7 @@ $sensing = array(
         array(
             "Quake Catcher Network",
             "http://qcn.caltech.edu/sensor",
-            tra("Cal Tech"),
+            tra("Caltech"),
             tra("Seismology"),
             tra("Quake-Catcher Network uses sensors attached to computers and smartphones to detect seismic waves."),
             "",

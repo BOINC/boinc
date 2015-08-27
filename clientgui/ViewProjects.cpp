@@ -73,10 +73,10 @@ static int DefaultShownColumns[] = { COLUMN_PROJECT, COLUMN_ACCOUNTNAME, COLUMN_
 #define BTN_PROPERTIES   5
 
 static void format_total_credit(double credit, wxString& strBuffer)  {
-    strBuffer = wxString(comma_print(credit, 0), wxConvUTF8);
+    strBuffer = wxString(comma_print(credit, 0).c_str(), wxConvUTF8);
 }
 static void format_avg_credit(float credit, wxString& strBuffer)  {
-    strBuffer = wxString(comma_print(credit, 2), wxConvUTF8);
+    strBuffer = wxString(comma_print(credit, 2).c_str(), wxConvUTF8);
 }
 
 CProject::CProject() {
