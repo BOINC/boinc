@@ -149,17 +149,48 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCClientManager::IsBOINCCoreRunning - Function Begin"));
     bool running = false;
 
+#ifdef __WXMSW__
+    char buf[MAX_PATH] = "";
+    
+    if (is_daemon_installed()) {
+        running = (FALSE != is_daemon_starting()) || (FALSE != is_daemon_running());
+    } else {
+        // Global mutex on Win2k and later
+        //
+        safe_strcpy(buf, "Global\\");
+        strcat( buf, RUN_MUTEX);
+
+        HANDLE h = CreateMutexA(NULL, true, buf);
+        DWORD err = GetLastError();
+        if ((h==0) || (err == ERROR_ALREADY_EXISTS)) {
+            running = true;
+        }
+        if (h) {
+            CloseHandle(h);
+        }
+    }
+#elif defined(__WXMAC__)
+    char path[1024];
+    static FILE_LOCK file_lock;
+    
+    sprintf(path, "%s/%s", (const char *)wxGetApp().GetDataDirectory().mb_str(), LOCK_FILE_NAME);
+    if (boinc_file_exists(path)) {   // If there is no lock file, core is not running
+        if (file_lock.lock(path)) {
+            running = true;
+        } else {
+            file_lock.unlock(path);
+        }
+    }
+#else
     PROC_MAP pm;
     int retval;
 
-#ifndef __WXMSW__
     if (m_lBOINCCoreProcessId) {
         // Prevent client from being a zombie
         if (waitpid(m_lBOINCCoreProcessId, 0, WNOHANG) == m_lBOINCCoreProcessId) {
             m_lBOINCCoreProcessId = 0;
         }
     }
-#endif
 
     // Look for BOINC Client in list of all running processes
     retval = procinfo_setup(pm);
@@ -168,12 +199,7 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
     PROC_MAP::iterator i;
     for (i=pm.begin(); i!=pm.end(); ++i) {
         PROCINFO& pi = i->second;
-#ifdef __WXMSW__
-        if (!strcmp(pi.command, "boinc.exe"))
-#else
-        if (!strcmp(pi.command, "boinc"))
-#endif
-        {
+        if (!strcmp(pi.command, "boinc")) {
             running = true;
             break;
         }
@@ -182,7 +208,7 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
             break;
         }
     }
-
+#endif
     wxLogTrace(wxT("Function Status"), wxT("CBOINCClientManager::IsBOINCCoreRunning - Returning '%d'"), (int)running);
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCClientManager::IsBOINCCoreRunning - Function End"));
     return running;
