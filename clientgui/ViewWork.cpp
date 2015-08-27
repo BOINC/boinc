@@ -1033,7 +1033,7 @@ bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
             GetDocTimeToCompletion(m_iSortedIndexes[iRowIndex], fDocumentFloat);
             if (fDocumentFloat != work->m_fTimeToCompletion) {
                 work->m_fTimeToCompletion = fDocumentFloat;
-                FormatTimeToCompletion(fDocumentFloat, work->m_strTimeToCompletion);
+                work->m_strTimeToCompletion = FormatTime(fDocumentFloat);
                 return true;
             }
             break;
@@ -1216,33 +1216,6 @@ void CViewWork::GetDocTimeToCompletion(wxInt32 item, float& fBuffer) const {
         fBuffer = result->estimated_cpu_time_remaining;
     }
 }
-
-
-wxInt32 CViewWork::FormatTimeToCompletion(float fBuffer, wxString& strBuffer) const {
-    double         est = fBuffer;
-    wxInt32        iHour = 0;
-    wxInt32        iMin = 0;
-    wxInt32        iSec = 0;
-    wxTimeSpan     ts;
-
-    if (est > 86400*365*10) {
-        est = 86400*365*10;
-    }
-    if (est <= 0) {
-        strBuffer = wxT("---");
-    } else {
-        iHour = (wxInt32)(est / (60 * 60));
-        iMin  = (wxInt32)(est / 60) % 60;
-        iSec  = (wxInt32)(est) % 60;
-
-        ts = wxTimeSpan(iHour, iMin, iSec);
-
-        strBuffer = ts.Format();
-    }
-
-    return 0;
-}
-
 
 void CViewWork::GetDocReportDeadline(wxInt32 item, time_t& time) const {
     RESULT*        result = wxGetApp().GetDocument()->result(item);

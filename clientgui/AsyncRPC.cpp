@@ -1107,7 +1107,7 @@ void CMainDocument::TestAsyncRPC() {
 
     req_retval = RequestRPC(request, true);
 
-    wxString s = completionTime.FormatTime();
+    wxString s = FormatTime();
     wxLogMessage(wxT("Completion time = %s"), s.c_str());
     wxLogMessage(wxT("RequestRPC returned %d\n"), req_retval);
     ::wxSafeYield(NULL, true);  // Allow processing of RPC_FINISHED event

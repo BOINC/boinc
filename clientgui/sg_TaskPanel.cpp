@@ -882,29 +882,6 @@ wxString CSimpleTaskPanel::GetStatusString(RESULT* result) {
     return str;
 }
 
-
-wxString CSimpleTaskPanel::FormatTime(float fBuffer) {
-    wxInt32        iHour = 0;
-    wxInt32        iMin = 0;
-    wxInt32        iSec = 0;
-    wxTimeSpan     ts;
-    wxString strBuffer= wxEmptyString;
-
-    if (0 >= fBuffer) {
-        strBuffer = wxT("---");
-    } else {
-        iHour = (wxInt32)(fBuffer / (60 * 60));
-        iMin  = (wxInt32)(fBuffer / 60) % 60;
-        iSec  = (wxInt32)(fBuffer) % 60;
-
-        ts = wxTimeSpan(iHour, iMin, iSec);
-
-        strBuffer = ts.Format();
-    }
-    return strBuffer;
-}
-
-
 void CSimpleTaskPanel::FindSlideShowFiles(TaskSelectionData *selData) {
     RESULT* state_result;
     char urlDirectory[1024];

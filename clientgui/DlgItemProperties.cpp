@@ -494,28 +494,6 @@ wxString CDlgItemProperties::FormatApplicationName(RESULT* result ) {
     return strBuffer;
 }
 
-// 
-wxString CDlgItemProperties::FormatTime(float fBuffer) {
-    wxInt32        iHour = 0;
-    wxInt32        iMin = 0;
-    wxInt32        iSec = 0;
-    wxTimeSpan     ts;
-    wxString strBuffer= wxEmptyString;
-
-    if (0 >= fBuffer) {
-        strBuffer = wxT("---");
-    } else {
-        iHour = (wxInt32)(fBuffer / (60 * 60));
-        iMin  = (wxInt32)(fBuffer / 60) % 60;
-        iSec  = (wxInt32)(fBuffer) % 60;
-
-        ts = wxTimeSpan(iHour, iMin, iSec);
-
-        strBuffer = ts.Format();
-    }
-
-    return strBuffer;
-}
 
 // adds a title section label to the dialog 
 void CDlgItemProperties::addSection(const wxString& title) {
