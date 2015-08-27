@@ -174,6 +174,9 @@ private:
     wxBitmap* m_backgroundBitmap;
     
     bool m_bOKToShow;
+
+    wxColour stdTextBkgdColor;
+    wxTextCtrl* lastErrorCtrl;
    
 ////@end CPanelPreferences member variables
     GLOBAL_PREFS      global_preferences_working;
