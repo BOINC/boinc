@@ -607,8 +607,7 @@ void VBOX_BASE::sanitize_output(std::string& output) {
     iter = output.begin();
     while (iter != output.end()) {
         if (*iter == '%') {
-			iter = output.insert(iter, '%');
-            ++iter;
+			iter = output.insert(iter+1, '%');
         } else {
             ++iter;
         }
