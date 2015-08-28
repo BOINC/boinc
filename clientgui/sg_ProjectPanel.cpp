@@ -267,8 +267,10 @@ void CSimpleProjectPanel::UpdateInterface() {
         m_ProjectCommandsButton->Enable();
         
         if (m_fDisplayedCredit != project->user_total_credit) {
-            m_fDisplayedCredit = project->user_total_credit;
-            str.Printf(wxT("%s: %.0f"), m_sTotalWorkDoneString.c_str(), m_fDisplayedCredit);
+            str.Printf(wxT("%s: %s"),
+                m_sTotalWorkDoneString.c_str(),
+                comma_print(project->user_total_credit, 0).c_str()
+            );
             UpdateStaticText(&m_TotalCreditValue, str);
             m_TotalCreditValue->SetName(str);   // For accessibility on Windows
         }

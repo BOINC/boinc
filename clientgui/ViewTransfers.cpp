@@ -624,7 +624,7 @@ bool CViewTransfers::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnInde
             GetDocTime(m_iSortedIndexes[iRowIndex], fDocumentDouble);
             if (fDocumentDouble != transfer->m_dTime) {
                 transfer->m_dTime = fDocumentDouble;
-                FormatTime(fDocumentDouble, transfer->m_strTime);
+                transfer->m_strTime = FormatTime(fDocumentDouble);
                 bNeedRefresh =  true;
             }
             break;
@@ -799,25 +799,6 @@ void CViewTransfers::GetDocTime(wxInt32 item, double& fBuffer) const {
     }
 }
 
-
-wxInt32 CViewTransfers::FormatTime(double fBuffer, wxString& strBuffer) const {
-    wxInt32        iHour = 0;
-    wxInt32        iMin = 0;
-    wxInt32        iSec = 0;
-    wxTimeSpan     ts;
-
-    iHour = (wxInt32)(fBuffer / (60 * 60));
-    iMin  = (wxInt32)(fBuffer / 60) % 60;
-    iSec  = (wxInt32)(fBuffer) % 60;
-
-    ts = wxTimeSpan(iHour, iMin, iSec);
-
-    strBuffer = ts.Format();
-
-    return 0;
-}
-
-
 void CViewTransfers::GetDocSpeed(wxInt32 item, double& fBuffer) const {
     FILE_TRANSFER* transfer = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -882,8 +863,7 @@ void CViewTransfers::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
         }
     }
     if (transfer->project_backoff) {
-        wxString x;
-        FormatTime(transfer->project_backoff, x);
+        wxString x = FormatTime(transfer->project_backoff);
         strBuffer += _(" (project backoff: ") + x + _(")");
     }
 }

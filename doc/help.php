@@ -4,44 +4,40 @@ require_once("spoken_languages.php");
 require_once("help_db.php");
 require_once("../html/inc/translation.inc");
 
-page_head("Live help via Skype or email");
+page_head(tra("Live help via Skype or email"));
 
 echo "
 <p>
-".sprintf(
-    tra("BOINC Online Help lets you talk one-on-one with experienced BOINC users, who can: %s answer questions about BOINC and volunteer computing; %s walk you through the process of installing and using BOINC; %s troubleshoot any problems you might have."),
-    "<ul><li>",
-    "<li>",
-    "<li>",
-    "<li>"
-)."
+".tra("BOINC Live Help lets get one-on-one help from an experienced BOINC user, who can answer questions about BOINC, help you install and use BOINC, and troubleshoot problems.")."
 </ul>
 <p>
-".sprintf(
-    tra("BOINC Online Help is based on %sSkype%s, an Internet-based telephone system. Skype is free (both the software and the calls).  If you don't already have Skype, please %sdownload and install it now%s.  When you're finished, return to this page."),
+".tra("You can communicate with a helper")."
+<ul>
+<li> ".tra("by email")."
+<li>
+".tra("
+by voice, using %1Skype%2, a free Internet-based telephone system. If you don't already have Skype, you can %3download and install it now%4.  When you're finished, return to this page.",
     "<a href=\"http://www.skype.com\">",
     "</a>",
     "<a href=\"http://www.skype.com\">",
     "</a>"
 )."
+<li> ".tra("using Skype chat")."
+</ul>
 <p>
-".tra("The best way to get help is by voice, for which you need either built-in microphone and speakers or an external headset for your computer.  You can also use Skype's text-based chat system or regular email (if you don't have Skype) to communicate with Help Volunteers."),"
-
-<p>
-".tra("Volunteers speaking several languages are available. Please select a language:"),"
+".tra("Volunteers speaking many languages are available. Please select a language (number of helpers is shown):"),"
 <p>
 ";
 
-$langs = get_languages();
-sort($langs);
-$n = 0;
-foreach ($langs as $lang) {
+$langs = get_languages2();
+$i = 0;
+foreach ($langs as $lang=>$n) {
     $lang_enc = urlencode($lang);
-    if ($n) {
+    if ($i) {
         echo " &middot; ";
     }
-    $n++;
-    echo "<a href=\"help_lang.php?lang=$lang_enc\"><b>$lang</b></a>";
+    $i++;
+    echo "<a href=\"help_lang.php?lang=$lang_enc\"><b>$lang</b></a> ($n)";
 }
 echo "
 <h2>".tra("Be a Help Volunteer")."</h2>

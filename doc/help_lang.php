@@ -98,9 +98,7 @@ function show_vol($vol) {
 }
 
 function show_vols($vols) {
-    echo "
-        You can send email to a volunteer even if they're offline.
-        To do so, click their name.
+    echo tra("You can send email to a volunteer even if they're offline.  To do so, click their name.")."
         <p>
     ";
     help_warning();
@@ -128,9 +126,9 @@ if ($lang) {
     if (!is_spoken_language($lang)) {
         boinc_error_page("Not a recognized language");
     }
-    page_head("Online Help in $lang");
+    page_head(tra("Live help in %1", $lang));
 } else {
-    page_head("Online Help in all languages");
+    page_head(tra("Live help in all languages"));
 }
 $vols = get_vols($lang);
 $vols = order_vols($vols);

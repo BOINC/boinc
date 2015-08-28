@@ -47,7 +47,7 @@ function online($status) {
 //<script type="text/javascript" src="http://download.skype.com/share/skypebuttons/js/skypeCheck.js"></script>
 //<a href="skype:rare44?call"><img src="http://mystatus.skype.com/balloon/rare44" style="border: none;" width="150" height="60" alt="My status" /></a>
 
-// NOTE: mothing above works anymore; Skype turned off their mystatus API.
+// NOTE: nothing above works anymore; Skype turned off their mystatus API.
 // Instead we now have the following
 
 function skype_script() {
@@ -133,7 +133,7 @@ function help_warning() {
         <span class=emphasize>
         <li>
         "
-        . tra("BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC or the University of California.")
+        . tra("BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC.")
         ." <li>"
         .tra(
             "%1Never%2 give email address or password information to BOINC helpers.",

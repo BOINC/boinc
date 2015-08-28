@@ -662,8 +662,8 @@ void CPaintStatistics::DrawAxis(wxDC &dc, const double max_val_y, const double m
 	wxCoord w_temp, h_temp, des_temp, lead_temp;
 	wxCoord w_temp2;
 	
-	dc.GetTextExtent(wxString::Format(wxT(" %.2f"), max_val_y_all), &w_temp, &h_temp, &des_temp, &lead_temp);
-	dc.GetTextExtent(wxString::Format(wxT(" %.2f"), min_val_y_all), &w_temp2, &h_temp, &des_temp, &lead_temp);
+	dc.GetTextExtent(wxString::Format(wxT(" %s"), comma_print(max_val_y_all, 2).c_str()), &w_temp, &h_temp, &des_temp, &lead_temp);
+	dc.GetTextExtent(wxString::Format(wxT(" %s"), comma_print(min_val_y_all, 2).c_str()), &w_temp2, &h_temp, &des_temp, &lead_temp);
 
 	if (w_temp < w_temp2) w_temp = w_temp2;
 
@@ -740,7 +740,7 @@ void CPaintStatistics::DrawAxis(wxDC &dc, const double max_val_y, const double m
 	d_oy_count = (int)floor((max_val_y - y_start_val) / d_oy_val);
 
 	for (double ny = 0; ny <= double(d_oy_count); ++ny){
-		dc.GetTextExtent(wxString::Format(wxT("%.2f"), y_start_val + ny * d_oy_val), &w_temp, &h_temp, &des_temp, &lead_temp);
+		dc.GetTextExtent(wxString::Format(wxT("%s"), comma_print(y_start_val + ny * d_oy_val, 2).c_str()), &w_temp, &h_temp, &des_temp, &lead_temp);
 		x0 = wxCoord(m_Graph_X_start + 1.0);
 		y0 = wxCoord(m_Ay_ValToCoord * (y_start_val + ny * d_oy_val) + m_By_ValToCoord);
 		x1 = wxCoord(m_Graph_X_end - 1.0);
@@ -753,7 +753,7 @@ void CPaintStatistics::DrawAxis(wxDC &dc, const double max_val_y, const double m
 			y0 = wxCoord(m_Ay_ValToCoord * (y_start_val + ny * d_oy_val) + m_By_ValToCoord - double(h_temp) / 2.0);
 			if (x0 < 0) x0 = 0;
 			if (y0 < 0) y0 = 0;
-			dc.DrawText(wxString::Format(wxT("%.2f"), y_start_val + ny * d_oy_val), x0, y0);
+			dc.DrawText(wxString::Format(wxT("%s"), comma_print(y_start_val + ny * d_oy_val, 2).c_str()), x0, y0);
 		}
 	}
 
@@ -1108,7 +1108,7 @@ void CPaintStatistics::DrawMarker(wxDC &dc) {
 			if (y0 < 0) y0 = 0;
 
 			dc.SetTextForeground (m_pen_AxisYTextColour);
-			dc.DrawText(wxString::Format(wxT("%.2f"), m_GraphMarker_Y1) , x0, y00);
+			dc.DrawText(wxString::Format(wxT("%s"), comma_print(m_GraphMarker_Y1, 2).c_str()) , x0, y00);
 			dc.SetTextForeground (m_pen_AxisXTextColour);
 			dc.DrawText(strBuffer1 ,x00, y0);
 			dc.SetBackgroundMode(wxTRANSPARENT);

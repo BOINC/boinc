@@ -72,15 +72,11 @@ static int DefaultShownColumns[] = { COLUMN_PROJECT, COLUMN_ACCOUNTNAME, COLUMN_
 #define BTN_DETACH       4
 #define BTN_PROPERTIES   5
 
-// TODO: thousands separators
-// TODO: use these in simple view too.
-static void format_total_credit(float credit, wxString& strBuffer)  {
-    unsigned long x = credit;
-    char* p = comma_print(x);
-    strBuffer = wxString(p, wxConvUTF8);
+static void format_total_credit(double credit, wxString& strBuffer)  {
+    strBuffer = wxString(comma_print(credit, 0).c_str(), wxConvUTF8);
 }
 static void format_avg_credit(float credit, wxString& strBuffer)  {
-    strBuffer.Printf(wxT("%0.2f"), credit);
+    strBuffer = wxString(comma_print(credit, 2).c_str(), wxConvUTF8);
 }
 
 CProject::CProject() {

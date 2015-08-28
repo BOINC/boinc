@@ -169,28 +169,25 @@ function show_other() {
         </center>
         </td></tr>
         <tr><td>
-            BOINC is a community-based project.
-            Anyone can contribute by programming, testing,
-            documenting, translating, or answering user questions.
-            Those who consistently make positive contributions
-            can become part of the project's decision-making process.
-
             <table width=100%> <tr> <td>
             <ul>
             <li> Project
                 <ul>
+                <li> <a href=\"trac/wiki/ProjectGovernance\">About</a>
                 <li> <a href=\"dev/\">".tra("Message boards")."</a>
                 <li> <a href=\"trac/wiki/EmailLists\">".tra("Email lists")."</a>
                 <li> <a href=\"trac/wiki/BoincEvents\">".tra("Events")."</a>
-                <li> <a href=\"trac/wiki/ProjectGovernance\">Governance</a>
                 </ul>
             <p>
             <li> Software
                 <ul>
                 <li> <a href=trac/wiki/SourceCodeGit>".tra("Source code")."</a>
-                 <li> <a href=\"trac/wiki/SoftwareDevelopment\">".tra("Software development")."</a>
-                <li> <a href=https://github.com/BOINC/boinc/issues>Github issue tracker</a>
-                <li> <a href=\"trac/wiki/SoftwareAddon\">".tra("APIs for add-on software")."</a>
+                <li> <a href=https://github.com/BOINC/boinc/issues>Report bugs</a>
+                <li> <a href=\"trac/wiki/SoftwareBuilding\">".tra("Building BOINC")."</a>
+                <li> <a href=\"trac/wiki/SoftwareDevelopment\">".tra("Design documents")."</a>
+                <li> <a href=\"trac/wiki/DevProcess\">".tra("Development process")."</a>
+                <li> <a href=\"trac/wiki/DevProjects\">".tra("Volunteer")."</a>
+                <li> <a href=\"trac/wiki/SoftwareAddon\">".tra("APIs")."</a>
                 </ul>
             </ul>
 

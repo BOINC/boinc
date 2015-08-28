@@ -96,6 +96,8 @@ CPanelPreferences::~CPanelPreferences( )
 bool CPanelPreferences::Create()
 {
     m_backgroundBitmap = NULL;
+    lastErrorCtrl = NULL;
+    stdTextBkgdColor = *wxWHITE;
 
     CreateControls();
 
@@ -846,6 +848,16 @@ void CPanelPreferences::ShowErrorMessage(wxString& message,wxTextCtrl* errorCtrl
     if(message.IsEmpty()){
         message = _("invalid input value detected");
     }
+    if (lastErrorCtrl) {
+        lastErrorCtrl->SetBackgroundColour(stdTextBkgdColor);
+        lastErrorCtrl->Refresh();
+    }
+    if (lastErrorCtrl != errorCtrl) {
+        stdTextBkgdColor = errorCtrl->GetBackgroundColour();
+    }
+    errorCtrl->SetBackgroundColour(wxColour(255, 192, 192));
+    errorCtrl->Refresh();
+    lastErrorCtrl = errorCtrl;
     wxGetApp().SafeMessageBox(message,_("Validation Error"),wxOK | wxCENTRE | wxICON_ERROR,this);
     errorCtrl->SetFocus();
 }

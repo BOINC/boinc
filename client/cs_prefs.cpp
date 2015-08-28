@@ -654,18 +654,18 @@ void CLIENT_STATE::read_global_prefs(
 
     msg_printf(NULL, MSG_INFO, "Preferences:");
     msg_printf(NULL, MSG_INFO,
-        "   max memory usage when active: %.2fMB",
-        (host_info.m_nbytes*global_prefs.ram_max_used_busy_frac)/MEGA
+        "   max memory usage when active: %sMB",
+        comma_print((host_info.m_nbytes*global_prefs.ram_max_used_busy_frac)/MEGA, 2).c_str()
     );
     msg_printf(NULL, MSG_INFO,
-        "   max memory usage when idle: %.2fMB",
-        (host_info.m_nbytes*global_prefs.ram_max_used_idle_frac)/MEGA
+        "   max memory usage when idle: %sMB",
+        comma_print((host_info.m_nbytes*global_prefs.ram_max_used_idle_frac)/MEGA, 2).c_str()
     );
 #ifndef SIM
     get_disk_usages();
     msg_printf(NULL, MSG_INFO,
-        "   max disk usage: %.2fGB",
-        allowed_disk_usage(total_disk_usage)/GIGA
+        "   max disk usage: %sGB",
+        comma_print(allowed_disk_usage(total_disk_usage)/GIGA, 2).c_str()
     );
 #endif
     // max_cpus, bandwidth limits may have changed
@@ -695,14 +695,14 @@ void CLIENT_STATE::read_global_prefs(
     }
     if (global_prefs.max_bytes_sec_down) {
         msg_printf(NULL, MSG_INFO,
-            "   max download rate: %.0f bytes/sec",
-            global_prefs.max_bytes_sec_down
+            "   max download rate: %s bytes/sec",
+            comma_print(global_prefs.max_bytes_sec_down, 0).c_str()
         );
     }
     if (global_prefs.max_bytes_sec_up) {
         msg_printf(NULL, MSG_INFO,
-            "   max upload rate: %.0f bytes/sec",
-            global_prefs.max_bytes_sec_up
+            "   max upload rate: %s bytes/sec",
+            comma_print(global_prefs.max_bytes_sec_up, 0).c_str()
         );
     }
 #ifndef SIM

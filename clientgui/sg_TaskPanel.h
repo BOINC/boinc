@@ -128,7 +128,6 @@ class CSimpleTaskPanel : public CSimplePanelBase
         wxString GetElapsedTimeString(double f);
         wxString GetTimeRemainingString(double f);
         wxString GetStatusString(RESULT* result);
-        wxString FormatTime(float fBuffer);
         void FindSlideShowFiles(TaskSelectionData *selData);
         void UpdateTaskSelectionList(bool reskin);
         bool isRunning(RESULT* result);

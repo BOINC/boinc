@@ -52,7 +52,6 @@ private:
 	//formatting methods
 	wxString FormatDiskSpace(double bytes);
 	wxString FormatApplicationName(RESULT* result );
-	wxString FormatTime(float fBuffer);
 	//generic layout methods
     bool SaveState();
     bool RestoreState();

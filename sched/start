@@ -687,7 +687,7 @@ for opt,v in opts:
         command = command_enable_start
     elif opt == '-c' or opt == '--cron':
         command = command_cron_start
-    elif opt == '--cron-task':
+    elif opt == '--cron-tasks':
         command = command_tasks_start
     elif opt == '-d' or opt == '--disable' or opt == '--stop' or opt == '-k' or opt == '--kill':
         command = command_disable_stop
