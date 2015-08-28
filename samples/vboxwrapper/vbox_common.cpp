@@ -290,6 +290,8 @@ void VBOX_BASE::dump_vmguestlog_entries() {
                 vm_log_timestamp = current_timestamp;
                 msg = line.substr(line_pos, line.size() - line_pos);
 
+				sanitize_output(msg);
+
                 vboxlog_msg(msg.c_str());
             }
         }
@@ -597,9 +599,23 @@ int VBOX_BASE::write_floppy(std::string& data) {
 }
 
 void VBOX_BASE::sanitize_output(std::string& output) {
+	string::iterator iter;
+
+    // Check for special characters used by printf and render them
+	// harmless
+	//
+    iter = output.begin();
+    while (iter != output.end()) {
+        if (*iter == '%') {
+			iter = output.insert(iter, '%');
+        } else {
+            ++iter;
+        }
+    }
+
 #ifdef _WIN32
     // Remove \r from the log spew
-    string::iterator iter = output.begin();
+    iter = output.begin();
     while (iter != output.end()) {
         if (*iter == '\r') {
             iter = output.erase(iter);
