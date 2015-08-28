@@ -607,7 +607,12 @@ void VBOX_BASE::sanitize_output(std::string& output) {
     iter = output.begin();
     while (iter != output.end()) {
         if (*iter == '%') {
+			// If we find '%', insert an additional '%' so that the we end up with
+			// "%%" in its place.  This with cause printf() type functions to print
+			// % within the formatted output.
+			//
 			iter = output.insert(iter+1, '%');
+            ++iter;
         } else {
             ++iter;
         }
