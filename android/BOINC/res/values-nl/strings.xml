@@ -14,7 +14,7 @@
   <string name="attachproject_list_manual_dialog_title">Projectspecifieke URL invoeren:</string>
   <string name="attachproject_list_manual_dialog_button">Project toevoegen</string>
   <string name="attachproject_list_manual_no_url">Projectspecifieke URL invoeren</string>
-  <string name="attachproject_list_acctmgr_button">Account manager toevoegen</string>
+  <string name="attachproject_list_acctmgr_button">Accountmanager toevoegen</string>
   <string name="attachproject_list_no_internet">Geen internetverbinding</string>
   <!--credential input-->
   <string name="attachproject_credential_input_sing_desc">Vul account informatie in</string>
