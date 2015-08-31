@@ -1,8 +1,9 @@
 #!/usr/bin/env php
+
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2014 University of California
+// Copyright (C) 2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -223,6 +224,16 @@ function delete_teams() {
     }
 }
 
+function delete_user_id($id) {
+    $user = BoincUser::lookup_id($id);
+    if ($user) {
+        echo "deleting user $id\n";
+        do_delete_user($user);
+    } else {
+        echo "no such user\n";
+    }
+}
+
 function delete_user_id_range($id1, $id2) {
     for ($i=$id1; $i <= $id2; $i++) {
         $user = BoincUser::lookup_id($i);
@@ -270,6 +281,12 @@ for ($i=1; $i<$argc; $i++) {
             die("bad args\n");
         }
         delete_user_id_range($id1, $id2);
+    } else if ($argv[$i] == "--id") {
+        $id = $argv[++$i];
+        if (!is_numeric($id)) {
+            die ("bad arg\n");
+        }
+        delete_user_id($id);
     } else if ($argv[$i] == "--team_id_range") {
         $id1 = $argv[++$i];
         $id2 = $argv[++$i];
