@@ -2250,11 +2250,10 @@ int CMainDocument::TransferAbort(const wxString& fileName, const wxString& proje
     return iRetVal;
 }
 
-
 int CMainDocument::CachedDiskUsageUpdate() {
-    bool immediate = false;
+    bool immediate = true;
 
-    if (! IsConnected()) return -1;
+    if (!IsConnected()) return -1;
 
     // don't get disk usage more than once per minute
             // unless we just connected to a client
