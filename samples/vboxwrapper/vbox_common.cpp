@@ -290,6 +290,8 @@ void VBOX_BASE::dump_vmguestlog_entries() {
                 vm_log_timestamp = current_timestamp;
                 msg = line.substr(line_pos, line.size() - line_pos);
 
+				sanitize_format(msg);
+
                 vboxlog_msg(msg.c_str());
             }
         }
@@ -594,6 +596,23 @@ int VBOX_BASE::write_floppy(std::string& data) {
         return 0;
     }
     return 1;
+}
+
+void VBOX_BASE::sanitize_format(std::string& output) {
+    // Check for special characters used by printf and render them harmless
+    string::iterator iter = output.begin();
+    while (iter != output.end()) {
+        if (*iter == '%') {
+			// If we find '%', insert an additional '%' so that the we end up with
+			// "%%" in its place.  This with cause printf() type functions to print
+			// % within the formatted output.
+			//
+			iter = output.insert(iter+1, '%');
+            ++iter;
+        } else {
+            ++iter;
+        }
+    }
 }
 
 void VBOX_BASE::sanitize_output(std::string& output) {

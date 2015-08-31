@@ -229,6 +229,7 @@ public:
     virtual void lower_vm_process_priority() = 0;
     virtual void reset_vm_process_priority() = 0;
 
+    static void sanitize_format(std::string& output);
     static void sanitize_output(std::string& output);
 
     virtual int launch_vboxsvc();
