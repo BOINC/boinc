@@ -303,7 +303,9 @@ int delete_project_owned_file(const char* path, bool retry) {
 // (but not the directory itself).
 // If an error occurs, delete as much as possible.
 //
-int client_clean_out_dir(const char* dirpath, const char* reason) {
+int client_clean_out_dir(
+    const char* dirpath, const char* reason, const char* except
+) {
     char filename[MAXPATHLEN], path[MAXPATHLEN];
     int retval, final_retval = 0;
     DIRREF dirp;
@@ -336,6 +338,9 @@ int client_clean_out_dir(const char* dirpath, const char* reason) {
                 final_retval = retval;
             }
             break;
+        }
+        if (except && !strcmp(except, filename)) {
+            continue;
         }
         sprintf(path, "%s/%s", dirpath,  filename);
         if (is_dir(path)) {
