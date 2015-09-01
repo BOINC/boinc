@@ -107,9 +107,13 @@ lib/crypt_prog
 lib/parse_test
 py/lib.*/
 py/build/
+samples/condor/boinc_gahp
 samples/example_app/uc2
 samples/example_app/ucn
+samples/multi_thread/multi_thread
 samples/sleeper/sleeper
+samples/vboxmonitor/vboxmonitor
+samples/vboxwrapper/vboxwrapper
 samples/worker/worker
 samples/wrapper/wrapper
 sched/adjust_user_priority
