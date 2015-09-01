@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-24 17:05-0500\n"
-"PO-Revision-Date: 2015-09-01 05:12+0000\n"
+"PO-Revision-Date: 2015-09-01 12:22+0000\n"
 "Last-Translator: Atis Kozulis <boinc.at.latvia@gmail.com>\n"
 "Language-Team: Latvian (http://www.transifex.com/boinc/boinc/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -418,7 +418,7 @@ msgstr "Pārstāt izpildīt GPU darbu neskatoties uz preferencēm"
 
 #: clientgui/AdvancedFrame.cpp:584
 msgid "Network activity always"
-msgstr "Tīkla aktivitāte vienmēr"
+msgstr "Tīkls pieejams vienmēr"
 
 #: clientgui/AdvancedFrame.cpp:585
 msgid "Allow network activity regardless of preferences"
