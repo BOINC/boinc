@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-24 17:05-0500\n"
-"PO-Revision-Date: 2015-09-01 12:22+0000\n"
+"PO-Revision-Date: 2015-09-01 12:28+0000\n"
 "Last-Translator: Atis Kozulis <boinc.at.latvia@gmail.com>\n"
 "Language-Team: Latvian (http://www.transifex.com/boinc/boinc/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -362,7 +362,7 @@ msgstr "Atkārtot atlikto failu pārsūtīšanu un uzdevumu pieprasījumu"
 
 #: clientgui/AdvancedFrame.cpp:504 clientgui/sg_BoincSimpleFrame.cpp:211
 msgid "Event Log...\tCtrl+Shift+E"
-msgstr "Žurnāls...\tCtrl+Shift+E"
+msgstr "Žurnāls...Ctrl+Shift+E"
 
 #: clientgui/AdvancedFrame.cpp:505
 msgid "Show diagnostic messages"
