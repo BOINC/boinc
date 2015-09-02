@@ -55,7 +55,7 @@ int ASYNC_COPY::init(
             "[async] started async copy of %s", from_path
         );
     }
-    in = fopen(from_path, "rb");
+    in = boinc_fopen(from_path, "rb");
     if (!in) return ERR_FOPEN;
     safe_strcpy(temp_path, to_path);
     char* p = strrchr(temp_path, '/');
@@ -64,7 +64,7 @@ int ASYNC_COPY::init(
 #ifdef _WIN32
     boinc_allocate_file(temp_path, fip->nbytes);
 #endif
-    out = fopen(temp_path, "wb");
+    out = boinc_fopen(temp_path, "wb");
     if (!out) {
         fclose(in);
         return ERR_FOPEN;
@@ -187,7 +187,7 @@ int ASYNC_VERIFY::init(FILE_INFO* _fip) {
             return ERR_FOPEN;
         }
     } else {
-        in = fopen(inpath, "rb");
+        in = boinc_fopen(inpath, "rb");
         if (!in) return ERR_FOPEN;
     }
     async_verifies.push_back(this);
