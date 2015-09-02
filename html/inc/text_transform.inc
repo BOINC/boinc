@@ -153,6 +153,22 @@ function replace_pre_code($text, $export) {
 
 function bb2html($text, $export=false) {
     $urlregex = "(?:\"?)(?:(http\:\/\/)?)([^\[\"<\ ]+)(?:\"?)";
+    // NOTE:
+    // This matches https:// too; I don't understand why.
+    // sample results:
+    // Array
+    // (
+    //     [0] => [img]https://a.b.c[/img]
+    //     [1] =>
+    //     [2] => https://a.b.c
+    // )
+    // Array
+    // (
+    //     [0] => [img]http://a.b.c[/img]
+    //     [1] => http://
+    //     [2] => a.b.c
+    // )
+
     $httpsregex = "(?:\"?)https\:\/\/([^\[\"<\ ]+)(?:\"?)";
     // List of allowable tags
     $bbtags = array (
@@ -203,7 +219,7 @@ function bb2html($text, $export=false) {
             "<blockquote>\\1</blockquote>",
             "<ul>\\1</ul><p>",
             "<ol>\\1</ol><p>",
-            "<img hspace=\"8\" src=\"http://\\2\"> ",
+            "<img hspace=\"8\" src=\"\\1\\2\"> ",
             "<font color=\"\\1\">\\2</font>",
             "\\1<li>\\2\n\\3",
             "<span style=\"font-size: \\1px;\">\\2</span>",
@@ -230,7 +246,7 @@ function bb2html($text, $export=false) {
             "<blockquote class='postbody'>\\1</blockquote>",
             "<ul>\\1</ul><p>",
             "<ol>\\1</ol><p>",
-            "<img hspace=\"8\" src=\"http://\\2\"> ",
+            "<img hspace=\"8\" src=\"\\1\\2\"> ",
             "<font color=\"\\1\">\\2</font>",
             "\\1<li>\\2\n\\3",
             "<span style=\"font-size: \\1px;\">\\2</span>",
