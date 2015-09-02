@@ -252,7 +252,7 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
     addProperty(_("URL"), wxString(project->master_url, wxConvUTF8));
     addProperty(_("User name"), wxString(project->user_name.c_str(), wxConvUTF8));
     addProperty(_("Team name"), wxString(project->team_name.c_str(), wxConvUTF8));
-    addProperty(_("Resource share"), wxString::Format(wxT("%s"), comma_print(project->resource_share, 0)));
+    addProperty(_("Resource share"), wxString::Format(wxT("%s"), comma_print(project->resource_share, 0).c_str()));
     if (project->min_rpc_time > dtime()) {
         addProperty(_("Scheduler RPC deferred for"), FormatTime(project->min_rpc_time - dtime()));
     }
@@ -290,24 +290,24 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
     if (project->ended) {
         addProperty(_("Ended"), _("yes"));
     }
-    addProperty(_("Tasks completed"), wxString::Format(wxT("%s"), comma_print(project->njobs_success, 0)));
-    addProperty(_("Tasks failed"), wxString::Format(wxT("%s"), comma_print(project->njobs_error, 0)));
+    addProperty(_("Tasks completed"), wxString::Format(wxT("%s"), comma_print(project->njobs_success, 0).c_str()));
+    addProperty(_("Tasks failed"), wxString::Format(wxT("%s"), comma_print(project->njobs_error, 0).c_str()));
 
     addSection(_("Credit"));
     addProperty(_("User"),
 		// Displays the average and total user credit
         wxString::Format(
             _("%s total, %s average"),
-            comma_print(project->user_total_credit, 2),
-            comma_print(project->user_expavg_credit, 2)
+            comma_print(project->user_total_credit, 2).c_str(),
+            comma_print(project->user_expavg_credit, 2).c_str()
         )
     );
     addProperty(_("Host"),
 		// Displays the average and total host credit
         wxString::Format(
             _("%s total, %s average"),
-            comma_print(project->host_total_credit, 2),
-            comma_print(project->host_expavg_credit, 2)
+            comma_print(project->host_total_credit, 2).c_str(),
+            comma_print(project->host_expavg_credit, 2).c_str()
         )
     );
     
@@ -383,7 +383,7 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
     }
     if (wup) {
         addProperty(_("Estimated computation size"),
-            wxString::Format(wxT("%s GFLOPs"), comma_print(wup->rsc_fpops_est/1e9, 0))
+            wxString::Format(wxT("%s GFLOPs"), comma_print(wup->rsc_fpops_est/1e9, 0).c_str())
         );
     }
     if (result->active_task) {

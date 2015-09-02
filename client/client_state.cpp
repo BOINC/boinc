@@ -2179,7 +2179,7 @@ void CLIENT_STATE::log_show_projects() {
         }
         msg_printf(p, MSG_INFO,
             "URL %s; Computer ID %s; resource share %s",
-            p->master_url, buf, comma_print(p->resource_share, 0)
+            p->master_url, buf, comma_print(p->resource_share, 0).c_str()
         );
         if (p->ended) {
             msg_printf(p, MSG_INFO, "Project has ended - OK to detach");

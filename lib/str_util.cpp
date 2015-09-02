@@ -760,7 +760,7 @@ vector<string> split(string s, char delim) {
 // convert number to string with thousands separators.
 // If nfrac is nonzero, following with fractional digits
 //
-char *comma_print(double x, int nfrac) {
+string comma_print(double x, int nfrac) {
     static char comma = 0, decimal_point;
     static char retbuf[30];
     char *p = &retbuf[sizeof(retbuf)-1];
@@ -802,5 +802,5 @@ char *comma_print(double x, int nfrac) {
         i++;
     } while (n);
 
-    return p;
+    return string(p);
 }
