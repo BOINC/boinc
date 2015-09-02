@@ -343,8 +343,13 @@ void CAccountManagerInfoPage::OnPageChanging( wxWizardExEvent& event ) {
 	CAcctMgrListItem* pItem = (CAcctMgrListItem*)(m_pProjectListCtrl->GetClientData(m_pProjectListCtrl->GetSelection()));
 
     // Update authoritative data in CWizardAttach
-	pWA->SetProjectURL(pItem->GetURL());
-	pWA->SetProjectName(pItem->GetName());
+	if (m_pProjectUrlCtrl->GetValue() == pItem->GetURL()) {
+		pWA->SetProjectURL(pItem->GetURL());
+		pWA->SetProjectName(pItem->GetName());
+	} else {
+		pWA->SetProjectURL(m_pProjectUrlCtrl->GetValue());
+		pWA->SetProjectName(m_pProjectUrlCtrl->GetValue());
+	}
 }
 
 /*!
