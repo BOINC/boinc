@@ -27,6 +27,13 @@ require_once('includes/boincuser.helpers.inc');
  * with defined URL paths
  */
 function boincuser_menu() {
+  $items['account/posts'] = array(
+    'title' => 'Recent posts',
+    'description' => '',
+    'page callback' => 'boincuser_goto_recent_posts',
+    'access callback' => 'user_is_logged_in',
+    'type' => MENU_CALLBACK,
+  );
   $items['account/profile'] = array(
     'title' => '',
     'description' => '',
@@ -49,6 +56,13 @@ function boincuser_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_LOCAL_TASK,
     'weight' => 5
+  );
+  $items['account/team'] = array(
+    'title' => 'User team',
+    'description' => '',
+    'page callback' => 'boincuser_goto_team',
+    'access callback' => 'user_is_logged_in',
+    'type' => MENU_CALLBACK,
   );
   $items['moderate/profile/%user/approve'] = array(
     'title' => 'Profile approval',
@@ -1084,6 +1098,23 @@ function boincuser_views_pre_execute(&$view) {
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Page callbacks from hook_menu()
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * Page callback shortcut to recent posts for the logged in user
+ */
+function boincuser_goto_recent_posts() {
+  global $user;
+  drupal_goto("account/{$user->uid}/posts");
+}
+
+/**
+ * Page callback shortcut to the team of the logged in user
+ */
+function boincuser_goto_team() {
+  global $user;
+  $account = user_load($user->uid);
+  drupal_goto("community/teams/{$account->team}");
+}
 
 /**
  * Page callback for displaying a user profile
