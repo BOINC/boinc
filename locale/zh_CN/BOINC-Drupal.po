@@ -8,237 +8,187 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
-"POT-Creation-Date: 2015-05-07 12:21+0000\n"
-"PO-Revision-Date: 2015-07-07 00:36+0000\n"
-"Last-Translator: 李泽林\n"
-"Language-Team: Chinese (China) (http://www.transifex.com/projects/p/boinc/language/zh_CN/)\n"
+"POT-Creation-Date: 2015-08-14 09:37+0000\n"
+"PO-Revision-Date: 2015-09-04 05:22+0000\n"
+"Last-Translator: 秦赫阳 <qysnn1@gmail.com>\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/boinc/boinc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-msgid ""
-"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
-" your e-mail address, it will be used for your user picture."
-msgstr "如果你有一个<a href=\"@gravatar-check\">正确的头像</a> 和你的电子邮件地址关联，它将被用作你的用户图片。"
+msgid "No account exists for @email -- select \"Create new account\" to register"
+msgstr "名为 @email 的帐户不存在 —— 选择\"创建新帐户\"来注册"
 
-msgid "Your Gravatar will not be shown if you upload a user picture."
-msgstr "如果你上传了一张用户图片，则不会显示你的 Gravatar。"
+msgid "My team"
+msgstr "我的团队"
 
-msgid ""
-"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
-" your e-mail address, use it for your user picture."
-msgstr "如果你有一个<a href=\"@gravatar-check\">正确的 Gravatar</a> 与你的电子邮件地址关联，它将被用作你的用户图片。"
+msgid "You are a member of @team."
+msgstr "你是 @team 的成员。"
 
-msgid "Gravatar will not be shown if an avatar is uploaded."
-msgstr "如果上传了头像，则不会显示 Gravatar。"
+msgid "View my team"
+msgstr "查看我的团队"
 
-msgid "This is not available until your profile is set up."
-msgstr "仅在你的档案创建后才可用。"
-
-msgid "Should @project show your computers on its web site?"
-msgstr "@project 是否应该在网站上显示你的计算机？"
-
-msgid "Click here to revoke your membership with @this_team"
-msgstr "点击这里来退出 @this_team"
-
-msgid "Minimum avg credit to post"
-msgstr "发帖要求的最低平均积分"
-
-msgid "Founder & Team Admins have moderator privileges"
-msgstr "创建人和团队管理员有仲裁的权利"
-
-msgid "Notes about changes in foundership:"
-msgstr "创建人修改的注意事项："
-
-msgid "Foundership can be requested by team members:"
-msgstr "团队成员可以主动请求成为创建人"
-
-msgid "One request is allowed at a time"
-msgstr "一次只能处理一个请求"
-
-msgid "Any active request must be older than 90 days"
-msgstr "请求的有效期至少是 90 天"
-
-msgid "Current founder has 60 days to respond to a request"
-msgstr "当前的创建人有 60 天的时间来处理一个请求"
+msgid "Invalid setting for \"%preference\""
+msgstr "\"%偏好\"设置无效"
 
 msgid ""
-"If a team admin quits the team, they cease to be a team admin. We recommend "
-"only selecting people you know and trust"
-msgstr "如果团队管理员退出团队，他将不再是团队管理员。我们建议只选择你认识并信任的人。"
+"You must earn @count more credits to be able to post comments on this site."
+msgstr "你还需要得到 @count 积分才能在这个网站上发表评论。"
 
-msgid "You may create a message board for use by @team"
-msgstr "你可以为 @team 团队创建一个留言板"
+msgid "Moderation"
+msgstr "编辑"
 
-msgid "parent removed"
-msgstr "parent 已移除"
+msgid "Unvetted profiles"
+msgstr "已验证的用户档案"
 
-msgid "Maximum daily WU quota per CPU"
-msgstr "单 CPU 每日 WU 限额"
-
-msgid "Received time"
-msgstr "接收时间"
-
-msgid "App ID"
-msgstr "应用 ID"
-
-msgid "Error mask"
-msgstr "错误掩码"
-
-msgid "Minimum quorum"
-msgstr "最小配额"
-
-msgid "Max error tasks"
-msgstr "最大的错误任务"
-
-msgid "Max success tasks"
-msgstr "最大的成功任务"
-
-msgid "Max total tasks"
-msgstr "最大的总任务"
-
-msgid "Target number of results"
-msgstr "结果的目标数量"
-
-msgid "Application version ID"
-msgstr "应用版本 ID"
-
-msgid "Plan class"
-msgstr "计划类别"
-
-msgid "Version number"
-msgstr "版本号"
-
-msgid "App version ID"
-msgstr "应用版本 ID"
-
-msgid "@count million ops/sec"
-msgstr "@count 百万操作/秒"
-
-msgid "@rate KiB/sec"
-msgstr "@rate 千字节/秒"
-
-msgid "@count days"
-msgstr "@count 天"
-
-msgid "@ip_address (same the last @count times)"
-msgstr "@ip_address（最近 @count 次）"
-
-msgid "commented on"
-msgstr "评论时间"
-
-msgid "Remove sticky status from this topic"
-msgstr "去除此主题的置顶状态"
-
-msgid ""
-"Check the computers that are the same as @name (created on @date at @time "
-"with computer ID @id)"
-msgstr "检查和 @name 同名的计算机（计算机 ID %id，创建日期及时间 @date @time）"
-
-msgid "Computer @old_id has been merged successfully into @id."
-msgstr "计算机 @old_id 已被成功合并到 @id。"
-
-msgid "started discussion"
-msgstr "已开始的讨论"
-
-msgid "posted"
-msgstr "已发表"
-
-msgid "Minimum value not met for @field"
-msgstr "@field 未达到最小值"
-
-msgid "Invalid data type for @field"
-msgstr "@field 非法数据类型"
-
-msgid ""
-"Authentication is required when changing E-mail address or setting new "
-"password."
-msgstr "更改电子邮件地址或密码时，需要验证身份。"
-
-msgid "Request foundership"
-msgstr "请求创建人资格"
-
-msgid ""
-"If the team founder is not active and you want to assume the role of "
-"founder, click below to request foundership of @this_team."
-msgstr "在团队创始人处于不活跃状态的情况下，如果您想要代替其成为创始人，请点击下面以申请成为 @this_team 的创始人。"
-
-msgid "Initiate request"
-msgstr "发起请求"
-
-msgid "A BOINC account already exists for @email."
-msgstr "@email名下已经注册了一个BOINC账户，请尝试登录。"
-
-msgid ""
-"Please be responsible in what you write and do not create posts which are "
-"offensive or insulting. Offensive posts or threads may be deleted by forum "
-"moderators without warning or discussion. Do not respond to offensive "
-"postings. Click on the \"report\" button at the bottom of the post to call "
-"it to the attention of the moderators."
-msgstr "请对你所写的内容负责，不要发表含有攻击性或侮辱性的帖子。论坛版主可以不经警告或讨论而直接删除不恰当的帖子或主题。不要在无礼的帖子上浪费时间，请直接单击底部的\"报告\"按钮向版主报告这个帖子。"
-
-msgid "this project"
-msgstr "此项目"
-
-msgid ""
-"We also ask that you keep all discussion on the message boards related to "
-"@project or BOINC with the small exception of the Science message board "
-"where you are free to discuss anything relevant to the underlying science. "
-"Participants interested in broader discussions should post to unofficial "
-"forums for @project."
-msgstr "我们也要求你保证留言板上的所有讨论均在@project 或 BOINC的范围内。除了一个小小的例外，科学留言板，你可以在那里自由讨论任何有关的基本科学问题。更广泛的讨论应该发表到 @project 的非正式论坛。"
-
-msgid "These message boards now support BBCode tags only."
-msgstr "这些留言板目前仅支持BBCode标记。"
-
-msgid "Posts contributed"
-msgstr "发表的帖子"
-
-msgid "Profile awaiting moderator approval"
-msgstr "待审核的个人资料"
-
-msgid "Approve profile"
-msgstr "批准个人资料"
-
-msgid "Approve this profile content"
-msgstr "批准此个人资料内容"
-
-msgid "Edit profile"
-msgstr "编辑个人资料"
-
-msgid "Edit the content of this profile"
-msgstr "编辑此个人资料的内容"
-
-msgid "Remove profile"
-msgstr "删除个人资料"
-
-msgid "Remove this profile content from the system"
-msgstr "从系统中删除此个人资料的内容"
-
-msgid "The team founder has @count days to respond to your transfer request."
-msgstr "团队创始人有 @count 天来回应您的转让申请。"
-
-msgid "Reject profile"
-msgstr "拒绝个人资料"
-
-msgid "Reject this profile content"
-msgstr "拒绝此个人资料内容"
-
-msgid "Reason for rejecting this profile"
-msgstr "拒绝此个人资料的原因"
+msgid "Reason for banning this user"
+msgstr "封禁此用户的理由"
 
 msgid ""
 "This reason will be included in an email to the user. Please write a brief "
-"explanation of the problem and how to fix it."
-msgstr "这个原因将附在给用户的电子邮件里。请简要说明存在的问题以及解决它的方法。"
+"explanation of why the user is being banned."
+msgstr "这个原因将列入给用户的电子邮件。请写一个简短解释为什么用户被禁止。"
 
-msgid "Submit"
-msgstr "提交"
+msgid "Duration of the ban"
+msgstr "这项禁令的持续时间"
 
-msgid "project"
-msgstr "项目"
+msgid "The number of days until the ban expires. Set to 0 to ban permanently."
+msgstr "这项禁令有效期的天数。设置为 0，永久禁止。"
+
+msgid "Lift user ban"
+msgstr "取消用户禁令"
+
+msgid "You are banned from community participation until @date"
+msgstr "你被禁止参与社区直到 @date"
+
+msgid "Computers @old_ids have been merged successfully into @id."
+msgstr "计算机 @old_id 已被成功合并到 @id。"
+
+msgid "A team named \"@name\" already exists."
+msgstr "名为\"@name\"的团队已经存在。"
+
+msgid "Post topic"
+msgstr "发表主题"
+
+msgid "Please enter your email address"
+msgstr "请输入您的电子邮箱地址"
+
+msgid "Password entered is not valid. Please verify that it is correct."
+msgstr "输入的密码是无效的。请验证它的正确性。"
+
+msgid "Make founder"
+msgstr "指定创始人"
+
+msgid "!site: comment posted to \"!topic_name\""
+msgstr "!site: 对帖子 \"!topic_name\" 发表了评论"
+
+msgid "!author has posted a reply to \"!topic_name\"."
+msgstr "!author 回复了帖子 \"!topic_name\"."
+
+msgid ""
+"To view this topic at !site, click here: \n"
+"!comment_url"
+msgstr "若要在本主题查看 !site，请单击此处:\n!comment_url"
+
+msgid "At least one application must be selected"
+msgstr "必须选择至少一个应用程序"
+
+msgid "Forgot password"
+msgstr "忘记密码"
+
+msgid ""
+"Enter your email address to receive instructions for resetting your "
+"password."
+msgstr "输入您的电子邮件地址来接收关于重置密码的指示。"
+
+msgid "Revise or post comment"
+msgstr "修改或发表评论"
+
+msgid "discuss"
+msgstr "讨论"
+
+msgid "Your community preferences have been updated."
+msgstr "已更新您的社区参数设置。"
+
+msgid "Unlock this thread for comments"
+msgstr "解锁此主题的评论"
+
+msgid "Authenticator login"
+msgstr "验证器登录"
+
+msgid "Create content"
+msgstr "创建内容"
+
+msgid "authenticator-based login"
+msgstr "基于身份验证器登录"
+
+msgid ""
+"Enter your email address to receive instructions for resetting your password"
+" (or use the !authenticator_login)."
+msgstr "输入您的电子邮件地址用于收到重置密码的指示 (或使用 !authenticator_login)。"
+
+msgid ""
+"If you forgot your account's email address, or you can't receive email "
+"there:"
+msgstr "如果你已经忘记了你账户所关联的电子邮箱地址，或者你已经不能从该地址接收电子邮件："
+
+msgid ""
+"If you have run BOINC under the account, you can still access it. Here's "
+"how:"
+msgstr "如果您已经在帐户下运行 BOINC，您仍然可以访问它。这里是方法:"
+
+msgid ""
+"Go to the BOINC data directory on your computer (on Windows this is usually "
+"%path1 or %path2."
+msgstr "打开你计算机上的 BOINC 数据路径 (在 Windows 上这通常是 %path1 或 %path2。"
+
+msgid ""
+"Find your account file for this project; it will have a name like %file "
+"(where the project URL is %url)."
+msgstr "找到本项目的账户文件;文件名像 %文件 (如项目 URL 是 %url)。"
+
+msgid ""
+"Open the file in a text editor like Notepad. You'll see something like:"
+msgstr "用记事本等文本编辑器打开该文件，你将看到类似的如下内容："
+
+msgid ""
+"Select and Copy the string between &lt;authenticator&gt; and "
+"&lt;/authenticator&gt; (%auth in the above example)."
+msgstr "选中并复制&lt; authenticator&gt; 和 &lt之间的字符串;/authenticator&gt; (上述例子中就应该是%auth )。"
+
+msgid "There is no account with that authenticator."
+msgstr "没有账户关联至ga身份验证器。"
+
+msgid ""
+"Go to the <a href=\"%wikiref\">BOINC data directory</a> on your computer (on"
+" Windows this is usually %path1 or %path2."
+msgstr "打开你计算机上的<a href=\"%wikiref\">BOINC 数据路径</a>(在 Windows 上这通常是 %path1 或 %path2。"
+
+msgid "BOINC documentation"
+msgstr "BOINC 文档"
+
+msgid ""
+"Go to the BOINC data directory on your computer (see !boinc_wiki for help "
+"finding this)."
+msgstr "打开你计算机上的 BOINC 数据文件夹(请参见!boinc_wiki来帮助您找到这个文件夹)。"
+
+msgid ""
+"@count days have elapsed since your request and the founder has not "
+"responded."
+msgstr "创始人已经有@count 天没有响应您的请求。"
+
+msgid ""
+"You now have @count days to assume foundership before another team member "
+"may submit a request."
+msgstr "你现在需要在 @count 天内确认创始人资格，否则另一个团队成员就可以申请成为创始人。"
+
+msgid "Unhide this comment"
+msgstr "取消隐藏此回复"
+
+msgid "@email is not a well formed email address, please verify"
+msgstr "@email 不是一个正确格式的电子邮件地址，请验证"
 
 msgid "Email address"
 msgstr "电子邮件地址"
@@ -937,8 +887,27 @@ msgid ""
 "presentation."
 msgstr "该账户用于电子邮件的缺省语言和站点内容呈现的首选语言"
 
+msgid ""
+"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
+" your e-mail address, it will be used for your user picture."
+msgstr "如果你有一个<a href=\"@gravatar-check\">正确的头像</a> 和你的电子邮件地址关联，它将被用作你的用户图片。"
+
+msgid "Your Gravatar will not be shown if you upload a user picture."
+msgstr "如果你上传了一张用户图片，则不会显示你的头像。"
+
+msgid ""
+"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
+" your e-mail address, use it for your user picture."
+msgstr "如果你有一个<a href=\"@gravatar-check\">正确的头像</a> 与你的电子邮件地址关联，它将被用作你的用户图片。"
+
+msgid "Gravatar will not be shown if an avatar is uploaded."
+msgstr "如果上传了头像，则不会显示。"
+
 msgid "Avatar settings"
 msgstr "头像设定"
+
+msgid "This is not available until your profile is set up."
+msgstr "仅在你的档案创建后才可用。"
 
 msgid "Create a profile"
 msgstr "创建一个用户档案"
@@ -978,6 +947,9 @@ msgstr "隐私设定"
 
 msgid "Is it OK for @project and your team (if any) to email you?"
 msgstr "是否允许 @project 和你所在的团队（如果有的话）给你发送邮件？"
+
+msgid "Should @project show your computers on its web site?"
+msgstr "@project 是否应该在网站上显示你的计算机？"
 
 msgid "Hide"
 msgstr "隐藏"
@@ -1072,6 +1044,9 @@ msgstr "进入论坛"
 msgid "Leave team"
 msgstr "离开团队"
 
+msgid "Click here to revoke your membership with @this_team"
+msgstr "点击这里来退出 @this_team"
+
 msgid "Leave this team"
 msgstr "离开该团队"
 
@@ -1093,6 +1068,9 @@ msgstr "秒"
 msgid "Minimum total credit to post"
 msgstr "发贴要求的最低总积分"
 
+msgid "Minimum avg credit to post"
+msgstr "发帖要求的最低平均积分"
+
 msgid "Allow public to read board?"
 msgstr "是否允许公众访问该留言板？"
 
@@ -1111,8 +1089,14 @@ msgstr "只有团队成员可以发贴"
 msgid "Only members may read (optional)"
 msgstr "只有团队成员可以阅读（可选）"
 
+msgid "Founder & Team Admins have moderator privileges"
+msgstr "创建人和团队管理员有仲裁的权利"
+
 msgid "Changing the team founder"
 msgstr "改变团队创建人"
+
+msgid "Notes about changes in foundership:"
+msgstr "创建人修改的注意事项："
 
 msgid "Any member of the team is eligible"
 msgstr "每个团队成员都可以成为创建人"
@@ -1120,8 +1104,20 @@ msgstr "每个团队成员都可以成为创建人"
 msgid "Current founder becomes a normal user"
 msgstr "当前创建人将变成普通用户"
 
+msgid "Foundership can be requested by team members:"
+msgstr "团队成员可以主动请求成为创建人"
+
+msgid "One request is allowed at a time"
+msgstr "一次只能处理一个请求"
+
 msgid "It must be 60 days since any previous request"
 msgstr "请求的间隔至少是 60 天"
+
+msgid "Any active request must be older than 90 days"
+msgstr "请求的有效期至少是 90 天"
+
+msgid "Current founder has 60 days to respond to a request"
+msgstr "当前的创建人有 60 天的时间来处理一个请求"
 
 msgid "Add team admin"
 msgstr "增加团队管理员"
@@ -1161,6 +1157,11 @@ msgstr "改变团队创建人"
 
 msgid "Add / Remove team admins"
 msgstr "增加或移除团队管理员"
+
+msgid ""
+"If a team admin quits the team, they cease to be a team admin. We recommend "
+"only selecting people you know and trust"
+msgstr "如果团队管理员退出团队，他将不再是团队管理员。我们建议只选择你认识并信任的人。"
 
 msgid "Choose type"
 msgstr "选择类型"
@@ -1204,6 +1205,9 @@ msgstr "创建团队留言板"
 msgid "Create message board"
 msgstr "创建留言板"
 
+msgid "You may create a message board for use by @team"
+msgstr "你可以为 @team 团队创建一个留言板"
+
 msgid ""
 "Please set the minimum average credit that a user is required to have in "
 "order to post to this message board."
@@ -1217,6 +1221,9 @@ msgstr "匿名"
 
 msgid "Unpublished"
 msgstr "未发表"
+
+msgid "parent removed"
+msgstr "parent 已移除"
 
 msgid "Sorry, unrecognized email address or password."
 msgstr "对不起，无法识别的邮件地址或登录密码。"
@@ -1329,6 +1336,9 @@ msgstr "内存（RAM）"
 msgid "Swap space"
 msgstr "交换空间"
 
+msgid "Maximum daily WU quota per CPU"
+msgstr "单 CPU 每日 WU 限额"
+
 msgid "Average download rate"
 msgstr "平均下载速度"
 
@@ -1413,6 +1423,9 @@ msgstr "授予的积分"
 msgid "Outcome"
 msgstr "结果"
 
+msgid "Received time"
+msgstr "接收时间"
+
 msgid "Report deadline"
 msgstr "上报期限"
 
@@ -1428,6 +1441,9 @@ msgstr "标准错误输出"
 msgid "Validation state"
 msgstr "验证状态"
 
+msgid "App ID"
+msgstr "应用 ID"
+
 msgid "Canonical credit"
 msgstr "规范积分"
 
@@ -1437,14 +1453,44 @@ msgstr "规范结果 ID"
 msgid "Created time"
 msgstr "创建时间"
 
+msgid "Error mask"
+msgstr "错误掩码"
+
+msgid "Minimum quorum"
+msgstr "最小配额"
+
+msgid "Max error tasks"
+msgstr "最大的错误任务"
+
+msgid "Max success tasks"
+msgstr "最大的成功任务"
+
+msgid "Max total tasks"
+msgstr "最大的总任务"
+
 msgid "Needs validation"
 msgstr "需要验证"
 
 msgid "Initial replication"
 msgstr "初始任务拷贝"
 
+msgid "Target number of results"
+msgstr "结果的目标数量"
+
+msgid "Application version ID"
+msgstr "应用版本 ID"
+
+msgid "Plan class"
+msgstr "计划类别"
+
+msgid "Version number"
+msgstr "版本号"
+
 msgid "Computer"
 msgstr "计算机"
+
+msgid "App version ID"
+msgstr "应用版本 ID"
 
 msgid "Consecutive valid tasks"
 msgstr "连续成功完成的计算任务数目"
@@ -1463,6 +1509,15 @@ msgstr "显示 IP 地址"
 
 msgid "hours"
 msgstr "时"
+
+msgid "@count million ops/sec"
+msgstr "@count 百万操作/秒"
+
+msgid "@rate KiB/sec"
+msgstr "@rate 千字节/秒"
+
+msgid "@count days"
+msgstr "@count 天"
 
 msgid "Remove friend"
 msgstr "移除朋友"
@@ -1506,16 +1561,174 @@ msgstr "将此回复转移成一个新主题"
 msgid "Details"
 msgstr "详细"
 
+msgid "@ip_address (same the last @count times)"
+msgstr "@ip_address（最近 @count 次）"
+
+msgid "commented on"
+msgstr "评论时间"
+
 msgid "Make unsticky"
 msgstr "取消置顶"
+
+msgid "Remove sticky status from this topic"
+msgstr "去除此主题的置顶状态"
 
 msgid ""
 "Sometimes BOINC assigns separate identities to the same computer by mistake."
 " You can correct this by merging old identities with the newest one."
 msgstr "有时候，BOINC 会给同一台计算机赋予多个唯一标识，你可以通过将旧标识和新标识合并以纠正该问题。"
 
+msgid ""
+"Check the computers that are the same as @name (created on @date at @time "
+"with computer ID @id)"
+msgstr "检查和 @name 同名的计算机（计算机 ID %id，创建日期及时间 @date @time）"
+
+msgid "Computer @old_id has been merged successfully into @id."
+msgstr "计算机 @old_id 已被成功合并到 @id。"
+
+msgid "started discussion"
+msgstr "已开始的讨论"
+
+msgid "posted"
+msgstr "已发表"
+
+msgid "Minimum value not met for @field"
+msgstr "@field 未达到最小值"
+
 msgid "Remove"
 msgstr "删除"
 
 msgid "hidden"
 msgstr "隐藏"
+
+msgid "Invalid data type for @field"
+msgstr "@field 非法数据类型"
+
+msgid ""
+"Authentication is required when changing E-mail address or setting new "
+"password."
+msgstr "更改电子邮件地址或密码时，需要验证身份。"
+
+msgid "Request foundership"
+msgstr "请求创建人资格"
+
+msgid ""
+"If the team founder is not active and you want to assume the role of "
+"founder, click below to request foundership of @this_team."
+msgstr "在团队创始人处于不活跃状态的情况下，如果您想要代替其成为创始人，请点击下面以申请成为 @this_team 的创始人。"
+
+msgid "Initiate request"
+msgstr "发起请求"
+
+msgid "A BOINC account already exists for @email."
+msgstr "@email名下已经注册了一个BOINC账户，请尝试登录。"
+
+msgid ""
+"Please be responsible in what you write and do not create posts which are "
+"offensive or insulting. Offensive posts or threads may be deleted by forum "
+"moderators without warning or discussion. Do not respond to offensive "
+"postings. Click on the \"report\" button at the bottom of the post to call "
+"it to the attention of the moderators."
+msgstr "请对你所写的内容负责，不要发表含有攻击性或侮辱性的帖子。论坛版主可以不经警告或讨论而直接删除不恰当的帖子或主题。不要在无礼的帖子上浪费时间，请直接单击底部的\"报告\"按钮向版主报告这个帖子。"
+
+msgid "this project"
+msgstr "此项目"
+
+msgid ""
+"We also ask that you keep all discussion on the message boards related to "
+"@project or BOINC with the small exception of the Science message board "
+"where you are free to discuss anything relevant to the underlying science. "
+"Participants interested in broader discussions should post to unofficial "
+"forums for @project."
+msgstr "我们也要求你保证留言板上的所有讨论均在@project 或 BOINC的范围内。除了一个小小的例外，科学留言板，你可以在那里自由讨论任何有关的基本科学问题。更广泛的讨论应该发表到 @project 的非正式论坛。"
+
+msgid "These message boards now support BBCode tags only."
+msgstr "这些留言板目前仅支持BBCode标记。"
+
+msgid "Posts contributed"
+msgstr "发表的帖子"
+
+msgid "Profile awaiting moderator approval"
+msgstr "待审核的个人资料"
+
+msgid "Approve profile"
+msgstr "批准个人资料"
+
+msgid "Approve this profile content"
+msgstr "批准此个人资料内容"
+
+msgid "Edit profile"
+msgstr "编辑个人资料"
+
+msgid "Edit the content of this profile"
+msgstr "编辑此个人资料的内容"
+
+msgid "Remove profile"
+msgstr "删除个人资料"
+
+msgid "Remove this profile content from the system"
+msgstr "从系统中删除此个人资料的内容"
+
+msgid "The team founder has @count days to respond to your transfer request."
+msgstr "团队创始人有 @count 天来回应您的转让申请。"
+
+msgid "Reject profile"
+msgstr "拒绝个人资料"
+
+msgid "Reject this profile content"
+msgstr "拒绝此个人资料内容"
+
+msgid "Reason for rejecting this profile"
+msgstr "拒绝此个人资料的原因"
+
+msgid ""
+"This reason will be included in an email to the user. Please write a brief "
+"explanation of the problem and how to fix it."
+msgstr "这个原因将附在给用户的电子邮件里。请简要说明存在的问题以及解决它的方法。"
+
+msgid "Submit"
+msgstr "提交"
+
+msgid "project"
+msgstr "项目"
+
+msgid "Unknown"
+msgstr "未知"
+
+msgid "Pending"
+msgstr "等待中"
+
+msgid "User of the day"
+msgstr "今日用户"
+
+msgid "Account"
+msgstr "帐户"
+
+msgid "Log in"
+msgstr "登录"
+
+msgid "Send"
+msgstr "发送"
+
+msgid "News"
+msgstr "新闻"
+
+msgid "Unlock"
+msgstr "解锁"
+
+msgid "Paste the string into the field below, and click OK."
+msgstr "将之前复制的内容粘贴到下面的表单中，并点击确定。"
+
+msgid ""
+"You will now be logged in to your account; update the email and password of "
+"your account."
+msgstr "你现在将登录进自己的账户，可以更新你的电子邮箱地址和账户口令。"
+
+msgid "Log in with authenticator"
+msgstr "用身份验证码（authenticator）来登录"
+
+msgid "Assume foundership"
+msgstr "得到创建人资格"
+
+msgid "Unhide"
+msgstr "取消隐藏"
