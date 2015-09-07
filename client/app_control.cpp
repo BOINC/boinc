@@ -614,7 +614,7 @@ bool ACTIVE_TASK::finish_file_present() {
     strcpy(buf, "");
     strcpy(buf2, "");
     sprintf(path, "%s/%s", slot_dir, BOINC_FINISH_CALLED_FILE);
-    FILE* f = fopen(path, "r");
+    FILE* f = boinc_fopen(path, "r");
     if (!f) return false;
     fgets(buf, sizeof(buf), f);
     fgets(buf, sizeof(buf), f);
@@ -634,7 +634,7 @@ bool ACTIVE_TASK::temporary_exit_file_present(
 ) {
     char path[MAXPATHLEN], buf2[256];
     sprintf(path, "%s/%s", slot_dir, TEMPORARY_EXIT_FILE);
-    FILE* f = fopen(path, "r");
+    FILE* f = boinc_fopen(path, "r");
     if (!f) return false;
     strcpy(buf, "");
     int y;
@@ -1557,7 +1557,7 @@ void ACTIVE_TASK_SET::get_msgs() {
 void ACTIVE_TASK::write_task_state_file() {
     char path[MAXPATHLEN];
     sprintf(path, "%s/%s", slot_dir, TASK_STATE_FILENAME);
-    FILE* f = fopen(path, "w");
+    FILE* f = boinc_fopen(path, "w");
     if (!f) return;
     fprintf(f,
         "<active_task>\n"
@@ -1588,7 +1588,7 @@ void ACTIVE_TASK::write_task_state_file() {
 void ACTIVE_TASK::read_task_state_file() {
     char buf[4096], path[MAXPATHLEN], s[1024];
     sprintf(path, "%s/%s", slot_dir, TASK_STATE_FILENAME);
-    FILE* f = fopen(path, "r");
+    FILE* f = boinc_fopen(path, "r");
     if (!f) return;
     buf[0] = 0;
     (void) fread(buf, 1, 4096, f);

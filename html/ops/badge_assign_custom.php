@@ -76,7 +76,8 @@ function get_badges(
     $badge_name_prefix, $badge_level_names, $badge_images, $sub_project
 ) {
     $badges = array();
-    for ($i=0; $i<count($badge_level_names); $i++) {
+    $limit = count($badge_level_names);
+    for ($i=0; $i < $limit; $i++) {
         $badges[$i] = get_badge($badge_name_prefix."_".$sub_project["short_name"]."_".$i, "$badge_level_names[$i] in ".$sub_project["name"]." credit", $sub_project["short_name"].$badge_images[$i]);
     }
     return $badges;

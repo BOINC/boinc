@@ -1,0 +1,6 @@
+filter:
+    paths:
+        - html/*.php
+        - html/*.inc
+    excluded_paths:
+        - html/bt/*
