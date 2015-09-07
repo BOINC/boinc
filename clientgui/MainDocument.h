@@ -225,7 +225,7 @@ public:
     int                         CachedProjectStatusUpdate(bool bForce = false);
     PROJECT*                    project(unsigned int);
 	PROJECT*                    project(char* url);
-    float                       m_fProjectTotalResourceShare;
+    double                       m_fProjectTotalResourceShare;
 
     int                         GetProjectCount();
 
@@ -421,8 +421,8 @@ extern wxString FormatTime(double secs);
 #ifdef __WXMSW__
 #define ADJUSTFORXDPI(x) (int)(x * GetXDPIScaling())
 #define ADJUSTFORYDPI(y) (int)(y * GetYDPIScaling())
-extern float GetXDPIScaling();
-extern float GetYDPIScaling();
+extern double GetXDPIScaling();
+extern double GetYDPIScaling();
 #else
 #define ADJUSTFORXDPI(x) x
 #define ADJUSTFORYDPI(y) y

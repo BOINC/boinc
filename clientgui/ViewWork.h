@@ -35,9 +35,9 @@ public:
     wxString m_strProjectName;
     wxString m_strApplicationName;
     wxString m_strName;
-    float m_fCPUTime;
-    float m_fProgress;
-    float m_fTimeToCompletion;
+    double m_fCPUTime;
+    double m_fProgress;
+    double m_fTimeToCompletion;
     time_t m_tReportDeadline;
     wxString m_strStatus;
     wxString m_strProjectURL;   // Used internally, not displayed
@@ -102,11 +102,11 @@ protected:
     void                    GetDocProjectName(wxInt32 item, wxString& strBuffer) const;
     void                    GetDocApplicationName(wxInt32 item, wxString& strBuffer) const;
     void                    GetDocName(wxInt32 item, wxString& strBuffer) const;
-    void                    GetDocCPUTime(wxInt32 item, float& fBuffer) const;
-    wxInt32                 FormatCPUTime( float fBuffer, wxString& strBuffer ) const;
-    void                    GetDocProgress(wxInt32 item, float& fBuffer) const;
-    wxInt32                 FormatProgress( float fBuffer, wxString& strBuffer ) const;
-    void                    GetDocTimeToCompletion(wxInt32 item, float& fBuffer) const;
+    void                    GetDocCPUTime(wxInt32 item, double& fBuffer) const;
+    wxInt32                 FormatCPUTime( double fBuffer, wxString& strBuffer ) const;
+    void                    GetDocProgress(wxInt32 item, double& fBuffer) const;
+    wxInt32                 FormatProgress( double fBuffer, wxString& strBuffer ) const;
+    void                    GetDocTimeToCompletion(wxInt32 item, double& fBuffer) const;
     void                    GetDocReportDeadline(wxInt32 item, time_t& time) const;
     wxInt32                 FormatReportDeadline( time_t deadline, wxString& strBuffer ) const;
     wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;

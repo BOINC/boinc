@@ -977,7 +977,7 @@ void CViewWork::UpdateSelection() {
 bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
     wxString    strDocumentText  = wxEmptyString;
     wxString    strDocumentText2 = wxEmptyString;
-    float       fDocumentFloat = 0.0;
+    double       x = 0.0;
     time_t      tDocumentTime = (time_t)0;
     CWork*      work;
 
@@ -1014,26 +1014,26 @@ bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
             }
             break;
         case COLUMN_CPUTIME:
-            GetDocCPUTime(m_iSortedIndexes[iRowIndex], fDocumentFloat);
-            if (fDocumentFloat != work->m_fCPUTime) {
-                work->m_fCPUTime = fDocumentFloat;
-                FormatCPUTime(fDocumentFloat, work->m_strCPUTime);
+            GetDocCPUTime(m_iSortedIndexes[iRowIndex], x);
+            if (x != work->m_fCPUTime) {
+                work->m_fCPUTime = x;
+                FormatCPUTime(x, work->m_strCPUTime);
                 return true;
             }
             break;
         case COLUMN_PROGRESS:
-            GetDocProgress(m_iSortedIndexes[iRowIndex], fDocumentFloat);
-            if (fDocumentFloat != work->m_fProgress) {
-                work->m_fProgress = fDocumentFloat;
-                FormatProgress(fDocumentFloat, work->m_strProgress);
+            GetDocProgress(m_iSortedIndexes[iRowIndex], x);
+            if (x != work->m_fProgress) {
+                work->m_fProgress = x;
+                FormatProgress(x, work->m_strProgress);
                 return true;
             }
             break;
         case COLUMN_TOCOMPLETION:
-            GetDocTimeToCompletion(m_iSortedIndexes[iRowIndex], fDocumentFloat);
-            if (fDocumentFloat != work->m_fTimeToCompletion) {
-                work->m_fTimeToCompletion = fDocumentFloat;
-                work->m_strTimeToCompletion = FormatTime(fDocumentFloat);
+            GetDocTimeToCompletion(m_iSortedIndexes[iRowIndex], x);
+            if (x != work->m_fTimeToCompletion) {
+                work->m_fTimeToCompletion = x;
+                work->m_strTimeToCompletion = FormatTime(x);
                 return true;
             }
             break;
@@ -1141,7 +1141,7 @@ void CViewWork::GetDocName(wxInt32 item, wxString& strBuffer) const {
 }
 
 
-void CViewWork::GetDocCPUTime(wxInt32 item, float& fBuffer) const {
+void CViewWork::GetDocCPUTime(wxInt32 item, double& fBuffer) const {
     RESULT*        result = wxGetApp().GetDocument()->result(item);
 
     fBuffer = 0;
@@ -1161,7 +1161,7 @@ void CViewWork::GetDocCPUTime(wxInt32 item, float& fBuffer) const {
 }
 
 
-wxInt32 CViewWork::FormatCPUTime(float fBuffer, wxString& strBuffer) const {
+wxInt32 CViewWork::FormatCPUTime(double fBuffer, wxString& strBuffer) const {
     wxInt32        iHour = 0;
     wxInt32        iMin = 0;
     wxInt32        iSec = 0;
@@ -1183,7 +1183,7 @@ wxInt32 CViewWork::FormatCPUTime(float fBuffer, wxString& strBuffer) const {
 }
 
 
-void CViewWork::GetDocProgress(wxInt32 item, float& fBuffer) const {
+void CViewWork::GetDocProgress(wxInt32 item, double& fBuffer) const {
     RESULT*        result = wxGetApp().GetDocument()->result(item);
 
     fBuffer = 0;
@@ -1201,14 +1201,14 @@ void CViewWork::GetDocProgress(wxInt32 item, float& fBuffer) const {
 }
 
 
-wxInt32 CViewWork::FormatProgress(float fBuffer, wxString& strBuffer) const {
+wxInt32 CViewWork::FormatProgress(double fBuffer, wxString& strBuffer) const {
     strBuffer.Printf(wxT("%.3f%%"), fBuffer);
 
     return 0;
 }
 
 
-void CViewWork::GetDocTimeToCompletion(wxInt32 item, float& fBuffer) const {
+void CViewWork::GetDocTimeToCompletion(wxInt32 item, double& fBuffer) const {
     RESULT*        result = wxGetApp().GetDocument()->result(item);
 
     fBuffer = 0;
@@ -1276,7 +1276,7 @@ void CViewWork::GetDocProjectURL(wxInt32 item, wxString& strBuffer) const {
 
 
 double CViewWork::GetProgressValue(long item) {
-    float          fBuffer = 0;
+    double          fBuffer = 0;
     RESULT*        result = wxGetApp().GetDocument()->result(m_iSortedIndexes[item]);
 
     if (result) {

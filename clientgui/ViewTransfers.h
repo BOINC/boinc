@@ -33,7 +33,7 @@ public:
 
 	wxString m_strProjectName;
     wxString m_strFileName;
-    float m_fProgress;
+    double m_fProgress;
     double m_fBytesXferred;
     double m_fTotalBytes;
     double m_dTime;
@@ -89,8 +89,8 @@ protected:
 
     void                    GetDocProjectName(wxInt32 item, wxString& strBuffer) const;
     void                    GetDocFileName(wxInt32 item, wxString& strBuffer) const;
-    void                    GetDocProgress(wxInt32 item, float& fBuffer) const;
-    wxInt32                 FormatProgress( float fBuffer, wxString& strBuffer ) const;
+    void                    GetDocProgress(wxInt32 item, double& fBuffer) const;
+    wxInt32                 FormatProgress( double fBuffer, wxString& strBuffer ) const;
     void                    GetDocBytesXferred(wxInt32 item, double& fBuffer) const;
     void                    GetDocTotalBytes(wxInt32 item, double& fBuffer) const;
     wxInt32                 FormatSize( double fBytesSent, double fFileSize, wxString& strBuffer ) const;
