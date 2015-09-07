@@ -712,7 +712,7 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
                     m_SlideShowArea->AdvanceSlideShow(false, true);
                     m_bStableTaskInfoChanged = false;
                 }
-                float f = result->elapsed_time;
+                double f = result->elapsed_time;
                 if (f == 0.) f = result->current_cpu_time;
 //                f = result->final_elapsed_time;
                 UpdateStaticText(&m_ElapsedTimeValue, GetElapsedTimeString(f));

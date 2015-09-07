@@ -98,11 +98,11 @@ protected:
     wxInt32                 FormatAccountName( wxInt32 item, wxString& strBuffer ) const;
     void                    GetDocTeamName(wxInt32 item, wxString& strBuffer) const;
     wxInt32                 FormatTeamName( wxInt32 item, wxString& strBuffer ) const;
-    void                    GetDocTotalCredit(wxInt32 item, float& fBuffer) const;
-    void                    GetDocAVGCredit(wxInt32 item, float& fBuffer) const;
-    void                    GetDocResourceShare(wxInt32 item, float& fBuffer) const;
-    void                    GetDocResourcePercent(wxInt32 item, float& fBuffer) const;
-    wxInt32                 FormatResourceShare( float fBuffer, float fBufferPercent, wxString& strBuffer ) const;
+    void                    GetDocTotalCredit(wxInt32 item, double& fBuffer) const;
+    void                    GetDocAVGCredit(wxInt32 item, double& fBuffer) const;
+    void                    GetDocResourceShare(wxInt32 item, double& fBuffer) const;
+    void                    GetDocResourcePercent(wxInt32 item, double& fBuffer) const;
+    wxInt32                 FormatResourceShare( double fBuffer, double fBufferPercent, wxString& strBuffer ) const;
     void                    GetDocStatus(wxInt32 item, wxString& strBuffer) const;
     wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
     void                    GetDocProjectURL(wxInt32 item, wxString& strBuffer) const;

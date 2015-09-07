@@ -2629,8 +2629,8 @@ void color_cycle(int i, int n, wxColour& color) {
 }
 
 #ifdef __WXMSW__
-static float XDPIScaleFactor = 0.0;
-static float YDPIScaleFactor = 0.0;
+static double XDPIScaleFactor = 0.0;
+static double YDPIScaleFactor = 0.0;
 
 void GetDPIScaling() {
 	XDPIScaleFactor = 1.0;
@@ -2650,14 +2650,14 @@ void GetDPIScaling() {
 	FreeLibrary(hUser32);
 }
 
-float GetXDPIScaling() {
+double GetXDPIScaling() {
 	if (XDPIScaleFactor == 0.0) {
 		GetDPIScaling();
 	}
 	return XDPIScaleFactor;
 }
 
-float GetYDPIScaling() {
+double GetYDPIScaling() {
 	if (YDPIScaleFactor == 0.0) {
 		GetDPIScaling();
 	}

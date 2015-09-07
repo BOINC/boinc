@@ -570,7 +570,7 @@ void CViewTransfers::UpdateSelection() {
 bool CViewTransfers::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
     wxString    strDocumentText  = wxEmptyString;
     wxString    strDocumentText2 = wxEmptyString;
-    float       fDocumentFloat = 0.0;
+    double       x = 0.0;
     double      fDocumentDouble = 0.0, fDocumentDouble2 = 0.0;
     CTransfer*  transfer;
     bool        bNeedRefresh = false;
@@ -601,10 +601,10 @@ bool CViewTransfers::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnInde
             }
             break;
         case COLUMN_PROGRESS:
-            GetDocProgress(m_iSortedIndexes[iRowIndex], fDocumentFloat);
-            if (fDocumentFloat != transfer->m_fProgress) {
-                transfer->m_fProgress = fDocumentFloat;
-                FormatProgress(fDocumentFloat, transfer->m_strProgress);
+            GetDocProgress(m_iSortedIndexes[iRowIndex], x);
+            if (x != transfer->m_fProgress) {
+                transfer->m_fProgress = x;
+                FormatProgress(x, transfer->m_strProgress);
                 bNeedRefresh =  true;
             }
             break;
@@ -681,9 +681,9 @@ void CViewTransfers::GetDocFileName(wxInt32 item, wxString& strBuffer) const {
 }
 
 
-void CViewTransfers::GetDocProgress(wxInt32 item, float& fBuffer) const {
-    float          fBytesSent = 0;
-    float          fFileSize = 0;
+void CViewTransfers::GetDocProgress(wxInt32 item, double& fBuffer) const {
+    double          fBytesSent = 0;
+    double          fFileSize = 0;
     FILE_TRANSFER* transfer = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
     
@@ -710,7 +710,7 @@ void CViewTransfers::GetDocProgress(wxInt32 item, float& fBuffer) const {
 }
 
 
-wxInt32 CViewTransfers::FormatProgress(float fBuffer, wxString& strBuffer) const {
+wxInt32 CViewTransfers::FormatProgress(double fBuffer, wxString& strBuffer) const {
     strBuffer.Printf(wxT("%.2f%%"), fBuffer);
     return 0;
 }

@@ -781,7 +781,7 @@ string comma_print(double x, int nfrac) {
 
     *p = 0;
 
-    unsigned long n = (unsigned long) x;
+    unsigned long long n = x;
 
     // do fractional part if requested
     //
