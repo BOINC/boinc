@@ -25,6 +25,10 @@ require_once("../inc/forum_db.inc");
 require_once("../inc/notify.inc");
 require_once("../inc/ldap.inc");
 
+if (!defined('REMOTE_PROJECTS_TTL')) {
+    define('REMOTE_PROJECTS_TTL', 86400);
+}
+
 function get_other_projects($user) {
     $cpid = md5($user->cross_project_id . $user->email_addr);
     $url = "http://boinc.netsoft-online.com/get_user.php?cpid=".$cpid;
