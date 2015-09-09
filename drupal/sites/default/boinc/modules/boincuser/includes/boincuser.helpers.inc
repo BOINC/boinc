@@ -117,6 +117,59 @@ function boincuser_get_first_unread_comment_id($nid, $uid = NULL) {
 }
 
 /**
+ * Choose and set the user of the day
+ */
+function boincuser_select_user_of_the_day() {
+  // First get a list of users with recent credit
+  db_set_active('boinc');
+  $users_with_credit = db_query("
+    SELECT
+      id
+    FROM {user} u
+    JOIN {profile} p ON p.userid = u.id
+    WHERE expavg_credit > 1
+    ORDER BY uotd_time ASC, RAND()"
+  );
+  db_set_active('default');
+  $active_users = array();
+  while ($user_with_credit = db_fetch_object($users_with_credit)) {
+    $active_users[] = $user_with_credit->id;
+  }
+  $active_users = implode(',', $active_users);
+  // Limit to users who have never been user of the day, if there are any
+  $never_been_picked = db_result(db_query("
+    SELECT COUNT(*)
+    FROM {boincuser}
+    WHERE uotd_time = 0
+    " . ($active_users ? " AND bu.boinc_id IN ({$active_users}) " : '')
+  ));
+  // Select a user of the day randomly from the pool
+  $new_uotd_uid = db_result(db_query("
+    SELECT
+      n.uid
+    FROM {node} n
+    JOIN {boincuser} bu ON bu.uid = n.uid
+    WHERE n.type = 'profile'
+    AND n.status = 1
+    AND n.moderate = 0
+    " . ($never_been_picked ? " AND bu.uotd_time = 0 " : '') . "
+    " . ($active_users ? " AND bu.boinc_id IN ({$active_users}) " : '') . "
+    ORDER BY RAND()
+    LIMIT 1"
+  ));
+  $uotd = user_load($new_uotd_uid);
+  if ($uotd->uid) {
+    db_query("
+      UPDATE {boincuser}
+      SET uotd_time = '%d'
+      WHERE uid = '%d'",
+      time(), $uotd->uid
+    );
+  }
+  return $uotd;
+}
+
+/**
  * Determine the first unique name from a given base
  */
 function find_unique_name($requested_name) {

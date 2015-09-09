@@ -50,6 +50,20 @@ function boinccore_admin_community(&$form_state) {
       emails even when a mailing list is provided.'),
   );
   
+  $form['tools'] = array(
+    '#title' => t('Tools'),
+    '#type' => 'fieldset',
+    '#description' => '',
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    '#attributes' => array('class' => '')
+  );
+  $form['tools']['reset_uotd'] = array(
+    '#type' => 'submit',
+    '#value' => t('Reset user of the day'),
+    '#submit' => array('boinccore_reset_user_of_the_day'),
+  );
+  
   return system_settings_form($form);
 }
 
