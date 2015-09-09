@@ -1140,6 +1140,13 @@ function boinccore_url_pagination_handler($type, $object_id = NULL) {
   $path = NULL;
   $params = array();
   switch ($type) {
+  case 'boinc-user':
+    // Redirect requests to a BOINC user ID to the Drupal profile
+    $uid = boincuser_lookup_uid($object_id);
+    if ($uid) {
+      drupal_goto("account/{$uid}");
+    }
+    break;
   case 'comment':
     $object = _comment_load($object_id);
     if ($object) {
