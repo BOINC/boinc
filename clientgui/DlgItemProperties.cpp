@@ -298,7 +298,7 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
 		// Displays the average and total user credit
         wxString::Format(
             _("%s total, %s average"),
-            comma_print(project->user_total_credit, 2).c_str(),
+            comma_print(project->user_total_credit, 0).c_str(),
             comma_print(project->user_expavg_credit, 2).c_str()
         )
     );
@@ -306,7 +306,7 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
 		// Displays the average and total host credit
         wxString::Format(
             _("%s total, %s average"),
-            comma_print(project->host_total_credit, 2).c_str(),
+            comma_print(project->host_total_credit, 0).c_str(),
             comma_print(project->host_expavg_credit, 2).c_str()
         )
     );
