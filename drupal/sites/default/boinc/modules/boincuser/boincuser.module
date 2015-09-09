@@ -1608,8 +1608,9 @@ function boincuser_get_projects_table($account = null) {
   $output .= '</thead>' . "\n";
   $output .= '<tbody>' . "\n";
   foreach ($projects AS $project) {
+    $url = rtrim($project->url, '/') . '/show_user.php?userid=' . $project->id;
     $output .= '  <tr>' . "\n";
-    $output .= '    <td>' . l($project->name, '', array('fragment' => ' ', 'html' => TRUE, 'external' => TRUE)) . '</td>' . "\n";
+    $output .= '    <td>' . l($project->name, $url) . '</td>' . "\n";
     $output .= '    <td class="numeric">' . boincwork_format_stats((float) $project->expavg_credit) . '</td>' . "\n"; 
     $output .= '    <td class="numeric">' . boincwork_format_stats((float) $project->total_credit) . '</td>' . "\n";
     $output .= '  </tr>' . "\n";
