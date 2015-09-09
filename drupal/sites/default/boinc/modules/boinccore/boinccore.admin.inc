@@ -60,7 +60,7 @@ function boinccore_admin_community(&$form_state) {
   );
   $form['tools']['reset_uotd'] = array(
     '#type' => 'submit',
-    '#value' => t('Reset user of the day'),
+    '#value' => t('Force new UOTD'),
     '#submit' => array('boinccore_reset_user_of_the_day'),
   );
   
