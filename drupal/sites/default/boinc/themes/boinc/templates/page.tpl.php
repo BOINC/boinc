@@ -195,8 +195,6 @@
             'class' => 'element-invisible',
           ));
         ?>
-
-        <?php print $navigation; ?>
         
         <div id="action-links">
           <ul><li class="first">
@@ -227,6 +225,8 @@
             'class' => 'element-invisible',
           ));
         ?>
+
+        <?php print $navigation; ?>
 
       </div></div> <!-- /.section, /#navigation -->
     <?php endif; ?>
