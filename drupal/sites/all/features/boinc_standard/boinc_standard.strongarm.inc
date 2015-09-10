@@ -16,6 +16,34 @@ function boinc_standard_strongarm() {
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'bbcode_debug_4';
+  $strongarm->value = '0';
+  $export['bbcode_debug_4'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'bbcode_encode_mailto_4';
+  $strongarm->value = '1';
+  $export['bbcode_encode_mailto_4'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'bbcode_filter_nofollow_4';
+  $strongarm->value = '0';
+  $export['bbcode_filter_nofollow_4'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'bbcode_make_links_4';
+  $strongarm->value = '1';
+  $export['bbcode_make_links_4'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'bbcode_paragraph_breaks_4';
   $strongarm->value = '0';
   $export['bbcode_paragraph_breaks_4'] = $strongarm;
@@ -45,7 +73,7 @@ function boinc_standard_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'format';
-  $strongarm->value = '5';
+  $strongarm->value = '4';
   $export['format'] = $strongarm;
 
   $strongarm = new stdClass;
@@ -67,6 +95,13 @@ function boinc_standard_strongarm() {
     'Null_URI.Munge' => '1',
   );
   $export['htmlpurifier_config_4'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'htmlpurifier_help_4';
+  $strongarm->value = 0;
+  $export['htmlpurifier_help_4'] = $strongarm;
 
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */

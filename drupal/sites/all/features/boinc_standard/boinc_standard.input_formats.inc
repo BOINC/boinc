@@ -91,7 +91,7 @@ function boinc_standard_input_formats() {
           '#value' => 'Clear cache (Warning: Can result in performance degradation)',
         ),
       // Display help text
-      'htmlpurifier_help' => 1,
+      'htmlpurifier_help' => 0,
       'htmlpurifier_config' => array(
           '#description' => NULL,
           '#value' => array(
@@ -176,19 +176,14 @@ function boinc_standard_input_formats() {
   $input_format->settings = array(
     // Settings for: filter module
     'filter' => array(
-      // Filter HTML tags
       'filter_html' => '2',
-      // Allowed HTML tags
       'allowed_html' => '<a> <em> <strong> <cite> <code> <ul> <ol> <li> <dl> <dt> <dd>',
-      // Display HTML help
       'filter_html_help' => 0,
-      // Spam link deterrent
       'filter_html_nofollow' => 0,
     ),
   );
   $input_format->filters = array(
     'filter' => array(
-      // Delta => Weight for: HTML filter
       '0' => '10',
     ),
   );
