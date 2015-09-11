@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2015-09-11 18:52+0000\n"
+"PO-Revision-Date: 2015-09-11 19:49+0000\n"
 "Last-Translator: Simek <gosimek@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/boinc/boinc/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -82,7 +82,7 @@ msgstr "Błąd ustawień w cc_config.xml"
 
 #: log_flags.cpp:483
 msgid "Missing end tag in cc_config.xml"
-msgstr "Brakujący znacznik końcowy w cc_config.xml"
+msgstr "Brakujący znacznik zamykający w cc_config.xml"
 
 #: ../sched/handle_request.cpp:307
 msgid "Invalid or missing account key.  To fix, remove and add this project."
@@ -118,7 +118,7 @@ msgstr "Ten projekt nie wspiera komputerów typu"
 #: ../sched/sched_send.cpp:1092
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
-msgstr "Zaktualizuj sterowniki do najnowszych, aby użyć do obliczeń GPU"
+msgstr "Zaktualizuj sterowniki do najnowszej wersji, aby móc użyć GPU do obliczeń"
 
 #: ../sched/sched_send.cpp:1099
 msgid ""
@@ -138,7 +138,7 @@ msgstr "%s GPU jest wymagane do obliczeń w tym projekcie"
 
 #: ../sched/sched_send.cpp:1262
 msgid "No tasks are available for the applications you have selected."
-msgstr "Brak dostępnych zadań dla aplikacji które wybrałeś."
+msgstr "Brak dostępnych zadań dla wybranych aplikacji."
 
 #: ../sched/sched_send.cpp:1288
 msgid "Your computer type is not supported by this project"
