@@ -85,6 +85,15 @@ function boinccore_admin_community_submit($form, &$form_state) {
 }
 
 /**
+ * Force a reset of the user of the day
+ */
+function boinccore_reset_user_of_the_day() {
+  if (boincuser_select_user_of_the_day()) {
+    drupal_set_message(t('The user of the day has been reset.'));
+  }
+}
+
+/**
   * The standard page generator form provides an interface to create standard
   * pages, such as a Help or About page.
   */
