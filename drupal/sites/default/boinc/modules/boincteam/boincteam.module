@@ -396,6 +396,34 @@ function boincteam_is_member($nid, $uid = NULL) {
 }
 
 /**
+ * Display any persistent team messages
+ */
+function boincteam_show_messages() {
+  global $user;
+  $uid = $user->uid;
+  $account = user_load($uid);
+  if ($account->team) {
+    if (boincteam_is_founder($account->team, $account->uid)) {
+      // Set a notice of any pending foundership requests
+      $boincteam_id = boincteam_lookup_id($account->team);
+      $boincteam = boincteam_load($boincteam_id);
+      if ($boincteam->ping_user > 0) {
+        $foundership_url = "community/teams/{$account->team}/edit/founder";
+        if (substr($_GET['q'], 0, strlen($foundership_url)) != $foundership_url) {
+          drupal_set_message(
+            bts(
+              'A foundership transfer request has been made for your team. Please !respond.',
+              array('!respond' => l(bts('respond to the request'), $foundership_url))
+            ),
+            'warning', FALSE
+          );
+        }
+      }
+    }
+  }
+}
+
+/**
  * Add a user to a team
  */
 function boincteam_join($team_id) {

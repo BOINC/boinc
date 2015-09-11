@@ -178,14 +178,26 @@ function boincuser_menu() {
  *
  */
 function boincuser_init() {
+  // Skip this check for charts, which are loaded separately
+  // (may get duplicate or unexpected messages otherwise)
+  if (substr($_GET['q'], 0, 7) == 'charts/') {
+    return;
+  }
+
   // If admin user, do some basic site functionality checks
   if (user_access('administer site configuration')) {
     // Ensure we have a configured BOINC environment
     boinc_get_path();
     boinc_get_scheduler_tags();
   }
+  
   // Check credits for the verified contributor role
   boincuser_check_credit_requirements();
+  
+  if (module_exists('boincteam')) {
+    // Display any persistent team messages
+    boincteam_show_messages();
+  }
 }
 
 /**
