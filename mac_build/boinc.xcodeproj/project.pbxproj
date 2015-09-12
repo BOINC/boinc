@@ -3857,8 +3857,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				GCC_ENABLE_OBJC_GC = unsupported;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				GCC_ENABLE_OBJC_GC = supported;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				OTHER_LDFLAGS = (
@@ -4029,8 +4029,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				GCC_ENABLE_OBJC_GC = unsupported;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				GCC_ENABLE_OBJC_GC = supported;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "ScreenSaver-Info.plist";
 				OTHER_LDFLAGS = (
