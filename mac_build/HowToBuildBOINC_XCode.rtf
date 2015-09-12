@@ -350,6 +350,25 @@ The options for BuildMacBOINC.sh are:\
 \f1\fs26 BOINC_dev/boinc/mac_build/build/Development/
 \f0\fs24  where they are easy to find.  Building directly in Xcode places the built products in a somewhat obscure location; you would normally need to determine this location using Xcode's Organizer window.  \
 \
+
+\b Hint:
+\b0  You can install multiple versions of Xcode on the same Mac, either by putting them in different directories or by renaming Xcode.app of different versions.  You can then specify which version the 
+\f1\fs26 BuildMacBOINC.sh
+\f0\fs24  script should use by setting the 
+\f1\fs26 DEVELOPER_DIR
+\f0\fs24  environment variable using the 
+\f1\fs26 env
+\f0\fs24  command.  For example, if you have installed Xcode 5.0.2 in the Applications directory and renamed 
+\f1\fs26 Xcode.app
+\f0\fs24  to 
+\f1\fs26 Xcode_5_0_2.app
+\f0\fs24 , you can invoke the script with:\
+\pard\pardeftab720
+
+\f1\fs26 \cf0 env DEVELOPER_DIR=/Applications/Xcode_5_0_2.app/Contents/Developer sh BuildMacBOINC.sh
+\f0\fs24 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
+\cf0 \
 The BOINC Xcode project has built-in scripts which create a text file with the path to the built products at either 
 \f1\fs26 BOINC_dev/boinc/mac_build/Build_Deployment_Dir
 \f0\fs24  or 
