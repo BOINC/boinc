@@ -53,6 +53,7 @@ int gBlankingTime;   // Delay in minutes before blanking the screen
 NSString *gPathToBundleResources = NULL;
 NSString *mBundleID = NULL; // our bundle ID
 NSImage *gBOINC_Logo = NULL;
+NSImage *gPreview_Image = NULL;
 
 int gTopWindowListIndex = -1;
 
@@ -253,12 +254,16 @@ int signof(float x) {
 
    if ([ self isPreview ]) {
 #if 1   // Currently drawRect just draws our logo in the preview window
-        NSString *fileName = [[ NSBundle bundleForClass:[ self class ]] pathForImageResource:@"boinc" ];
-        if (fileName) {
-            NSImage *myImage = [[ NSImage alloc ] initWithContentsOfFile:fileName ];
-            [ myImage setScalesWhenResized:YES ];
-            [ myImage setSize:theFrame.size ];
-            [ myImage drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 ];
+        if (gPreview_Image == NULL) {
+            NSString *fileName = [[ NSBundle bundleForClass:[ self class ]] pathForImageResource:@"boinc" ];
+            if (fileName) {
+                gPreview_Image = [[ NSImage alloc ] initWithContentsOfFile:fileName ];
+            }
+        }
+        if (gPreview_Image) {
+            [ gPreview_Image setScalesWhenResized:YES ];
+            [ gPreview_Image setSize:theFrame.size ];
+            [ gPreview_Image drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 ];
         }
         [ self setAnimationTimeInterval:1/1.0 ];
 #else   // Code for possible future use if we want to draw more in preview
