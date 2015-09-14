@@ -1061,6 +1061,7 @@ function boincteam_request_foundership_panel($team_id) {
           array('@count' => $request_age)
         );
       }
+      $output .= ' ';
       if ($days_to_respond == 1) {
         $output .= bts('You now have 1 day to assume foundership before'
           . ' another team member may submit a request.');
