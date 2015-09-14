@@ -1668,7 +1668,9 @@ return (
       'substitute' => 1,
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array(
       'css_id' => '',
       'css_class' => 'panel-secondary container shadow',
@@ -1797,21 +1799,6 @@ $team_id = $contexts[\'argument_nid_1\']->data->nid;
 return boincteam_is_founder($team_id, $uid);',
           ),
           'not' => TRUE,
-        ),
-        2 => array(
-          'name' => 'php',
-          'settings' => array(
-            'description' => 'No recent transfer request',
-            'php' => '$team_id = $contexts[\'argument_nid_1\']->data->nid;
-if (boincteam_new_foundership_transfer_request_ok($team_id)) {
-  return TRUE;
-}
-elseif (boincteam_user_requested_foundership($team_id)) {
-  return TRUE;
-}
-return FALSE;',
-          ),
-          'not' => FALSE,
         ),
       ),
     );

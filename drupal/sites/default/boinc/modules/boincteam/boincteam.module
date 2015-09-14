@@ -1092,6 +1092,14 @@ function boincteam_request_foundership_panel($team_id) {
       $output .= '</p>';
     }
   }
+  elseif (!boincteam_new_foundership_transfer_request_ok($team_id)) {
+    // Requests are not allowed right now
+    $output .= '<p>';
+    $output .= bts('A team foundership change was already requested recently.'
+      . ' Only one request is allowed within a period of 90 days.'
+    );
+    $output .= '</p>';
+  }
   else {
     $output .= '<p>' . bts('If the team founder is not active and you want to'
       . ' assume the role of founder, click below to request foundership of'
