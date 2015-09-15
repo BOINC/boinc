@@ -1041,12 +1041,12 @@ function boincteam_request_foundership_panel($team_id) {
   $boincteam_id = boincteam_lookup_id($team_id);
   $boincteam = boincteam_load($boincteam_id);
   $boincuser_id = $account->boincuser_id;
+  $deadline = boincteam_foundership_transfer_ok_time($boincteam);
+  $days_to_deadline = ceil(($deadline - time()) / (24*60*60));
   $output = '';
   $output .= '<h2 class="pane-title">' . bts('Request foundership') . '</h2>';
   
   if (boincteam_user_requested_foundership($team_id)) {
-    $deadline = boincteam_foundership_transfer_ok_time($boincteam);
-    $days_to_deadline = ceil(($deadline - time()) / (24*60*60));
     $request_age = 60 - $days_to_deadline;
     $days_to_respond = 30 + $days_to_deadline;
     if (time() > $deadline) {
@@ -1099,6 +1099,14 @@ function boincteam_request_foundership_panel($team_id) {
     $output .= bts('A team foundership change was already requested recently.'
       . ' Only one request is allowed within a period of 90 days.'
     );
+    if ($days_to_deadline == 1) {
+      $output .= ' (' . bts('1 day remaining') . ')';
+    }
+    else {
+      $output .= ' (' . bts('@count days remaining',
+        array('@count' => $days_to_deadline)
+      ) . ')';
+    }
     $output .= '</p>';
   }
   else {
