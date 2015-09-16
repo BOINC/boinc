@@ -767,6 +767,13 @@ string comma_print(double x, int nfrac) {
     int i = 0;
 
     if (!comma) {
+#ifdef _WIN32
+        char buf[256];
+        GetLocaleInfoA(NULL, LOCALE_STHOUSAND, buf, sizeof(buf));
+        comma = buf[0];
+        GetLocaleInfoA(NULL, LOCALE_SDECIMAL, buf, sizeof(buf));
+        decimal_point = buf[0];
+#else
         struct lconv *lcp = localeconv();
         if (lcp) {
             if (lcp->thousands_sep != NULL && *lcp->thousands_sep) {
@@ -777,6 +784,7 @@ string comma_print(double x, int nfrac) {
                 decimal_point = '.';
             }
         }
+#endif
     }
 
     *p = 0;
