@@ -55,9 +55,11 @@ static void show_proxy_info(PROXY_INFO& p) {
             );
         }
     }
+#if 0
     if (!p.use_http_proxy && !p.use_socks_proxy) {
         msg_printf(NULL, MSG_INFO, "Not using a proxy");
     }
+#endif
 }
 
 void select_proxy_info() {
