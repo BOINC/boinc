@@ -102,11 +102,11 @@ $biomed = array(
             "Study and design RNA molecules"
         ),
         array(
-            "FightNeglectedDiseases@Home",
+            "FiND@Home",
             "http://findah.ucd.ie/",
             tra("University College Dublin"),
             tra("Antimalarial drug discovery"),
-            tra("The parasite that causes malaria continues to evolve resistance to available medication. We therefore urgently need to discover new drugs, targeting new proteins in the parasite. The FightNeglectedDiseases@Home project is aimed at finding these new targets."),
+            tra("The parasite that causes malaria continues to evolve resistance to available medication. We therefore urgently need to discover new drugs, targeting new proteins in the parasite. The FiND@Home project is aimed at finding these new targets."),
             "",
             "",
             "Develop malaria drugs"
@@ -311,16 +311,16 @@ $astro_phys_chem = array(
 //            tra("Monitor and study the hazard posed by near-Earth asteroids"),
 //            "http://orbit.psi.edu/"
 //        ),
-//        array(
-//            "Cosmology@Home",
-//            "http://www.cosmologyathome.org/",
-//            tra("University of Illinois at Urbana-Champaign"),
-//            tra("Astronomy"),
-//            tra("The goal of Cosmology@Home is to search for the model that best describes our Universe and to find the range of models that agree with the available astronomical particle physics data."),
-//            "cosmo.jpg",
-//            "",
-//            "Study the evolution of the Universe"
-//        ),
+        array(
+            "Cosmology@Home",
+            "http://www.cosmologyathome.org/",
+            tra("University of Illinois at Urbana-Champaign"),
+            tra("Astronomy"),
+            tra("The goal of Cosmology@Home is to search for the model that best describes our Universe and to find the range of models that agree with the available astronomical particle physics data."),
+            "cosmo.jpg",
+            "",
+            "Study the evolution of the Universe"
+        ),
         array(
             "Universe@Home",
             "http://universeathome.pl/universe/",
