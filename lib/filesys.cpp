@@ -192,6 +192,7 @@ int dir_scan(char* p, DIRREF dirp, int p_len) {
     }
 #else
     while (1) {
+        errno = 0;
         dirent* dp = readdir(dirp);
         if (dp) {
             if (!strcmp(dp->d_name, ".")) continue;
