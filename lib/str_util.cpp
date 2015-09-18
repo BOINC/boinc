@@ -763,9 +763,9 @@ static void get_format_chars() {
     if (nfc.thousands_sep) return;
 #ifdef _WIN32
     char buf[256];
-    GetLocaleInfoA(NULL, LOCALE_STHOUSAND, buf, sizeof(buf));
+    GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_STHOUSAND, buf, sizeof(buf));
     nfc.thousands_sep = buf[0];
-    GetLocaleInfoA(NULL, LOCALE_SDECIMAL, buf, sizeof(buf));
+    GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_SDECIMAL, buf, sizeof(buf));
     nfc.decimal_point = buf[0];
 #else
     struct lconv *lcp = localeconv();
