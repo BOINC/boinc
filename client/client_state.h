@@ -247,6 +247,7 @@ struct CLIENT_STATE {
 // --------------- client_state.cpp:
     CLIENT_STATE();
     void show_host_info();
+    bool is_new_client();
     int init();
     bool poll_slow_events();
         // Never blocks.
