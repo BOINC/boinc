@@ -1087,6 +1087,52 @@ int main(int argc, char** argv) {
     //
     for (i=0; i<tasks.size(); i++) {
         TASK& task = tasks[i];
+        if (aid.app_files.size() == 0) {
+            // No app_files parsed from init_data.xml, look for signed apps in
+            // client_state.xml (for backwards compatibility with old clients)
+            FILE* f = fopen("client_state.xml", "r");
+            if (f) {
+                MIOFILE mf;
+                XML_PARSER xp(&mf);
+                mf.init_file(f);
+                while (!xp.get_tag()) {
+                    if (xp.match_tag("app_version")) {
+                        char app_name[256];
+                        int version_num;
+                        std::vector<std::string> app_files;
+                        // Get app name, version, and files from XML
+                        while (!xp.get_tag()) {
+                            if (xp.match_tag("/app_version")) break;
+                            if (xp.parse_str("app_name", app_name, sizeof(app_name))) continue;
+                            if (xp.parse_int("version_num", version_num)) continue;
+                            if (xp.match_tag("file_ref")) {
+                                while (!xp.get_tag()) {
+                                    char file_name[256];
+                                    if (xp.match_tag("/file_ref")) break;
+                                    if (xp.parse_str("file_name", file_name, sizeof(file_name))) {
+                                        app_files.push_back(file_name);
+                                    }
+                                }
+                            }
+                        }
+                        if ((strcmp(app_name, aid.app_name) == 0) && (version_num == aid.app_version)) {
+                            // This is the current application; populate the
+                            // app_files list
+                            aid.app_files = app_files;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if (std::find(aid.app_files.begin(), aid.app_files.end(), task.application) == aid.app_files.end()) {
+            // Don't run the application if not signed
+            fprintf(stderr,
+                "%s is not a signed application and will not be run",
+                task.application
+            );
+            continue;
+        }
         if ((int)i<ntasks_completed) {
             weight_completed += task.weight;
             continue;
