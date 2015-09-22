@@ -349,6 +349,34 @@ void CLIENT_STATE::set_now() {
     now = x;
 }
 
+// Check if version or platform has changed;
+// if so we're running a different client than before.
+//
+bool CLIENT_STATE::is_new_client() {
+    bool new_client = false;
+    if ((core_client_version.major != old_major_version)
+        || (core_client_version.minor != old_minor_version)
+        || (core_client_version.release != old_release)
+    ) {
+        msg_printf(NULL, MSG_INFO,
+            "Version change (%d.%d.%d -> %d.%d.%d)",
+            old_major_version, old_minor_version, old_release,
+            core_client_version.major,
+            core_client_version.minor,
+            core_client_version.release
+        );
+        new_client = true;
+    }
+    if (statefile_platform_name.size() && strcmp(get_primary_platform(), statefile_platform_name.c_str())) {
+        msg_printf(NULL, MSG_INFO,
+            "Platform changed from %s to %s",
+            statefile_platform_name.c_str(), get_primary_platform()
+        );
+        new_client = true;
+    }
+    return new_client;
+}
+
 int CLIENT_STATE::init() {
     int retval;
     unsigned int i;
@@ -506,6 +534,8 @@ int CLIENT_STATE::init() {
     //
     parse_state_file();
 
+    bool new_client = is_new_client();
+
     // this follows parse_state_file() since we need to have read
     // domain_name for Android
     //
@@ -590,31 +620,6 @@ int CLIENT_STATE::init() {
     }
     do_cmdline_actions();
 
-    // check if version or platform has changed.
-    // Either of these is evidence that we're running a different
-    // client than previously.
-    //
-    bool new_client = false;
-    if ((core_client_version.major != old_major_version)
-        || (core_client_version.minor != old_minor_version)
-        || (core_client_version.release != old_release)
-    ) {
-        msg_printf(NULL, MSG_INFO,
-            "Version change (%d.%d.%d -> %d.%d.%d)",
-            old_major_version, old_minor_version, old_release,
-            core_client_version.major,
-            core_client_version.minor,
-            core_client_version.release
-        );
-        new_client = true;
-    }
-    if (statefile_platform_name.size() && strcmp(get_primary_platform(), statefile_platform_name.c_str())) {
-        msg_printf(NULL, MSG_INFO,
-            "Platform changed from %s to %s",
-            statefile_platform_name.c_str(), get_primary_platform()
-        );
-        new_client = true;
-    }
     // if new version of client,
     // - run CPU benchmarks
     // - get new project list
