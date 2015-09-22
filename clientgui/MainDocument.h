@@ -429,6 +429,7 @@ extern double GetYDPIScaling();
 #endif
 
 wxBitmap GetScaledBitmapFromXPMData(const char** XPMData);
+wxString format_number(double x, int nprec);
 
 #ifdef SANDBOX
 #define BOINC_MASTER_GROUP_NAME "boinc_master"

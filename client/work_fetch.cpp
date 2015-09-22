@@ -912,7 +912,7 @@ void WORK_FETCH::handle_reply(
 void WORK_FETCH::set_initial_work_request(PROJECT* p) {
     clear_request();
     for (int i=0; i<coprocs.n_rsc; i++) {
-        if (p->resource_share > 0 and !p->dont_request_more_work) {
+        if (p->resource_share > 0 && !p->dont_request_more_work) {
             rsc_work_fetch[i].req_secs = 1;
             if (i) {
                 RSC_WORK_FETCH& rwf = rsc_work_fetch[i];

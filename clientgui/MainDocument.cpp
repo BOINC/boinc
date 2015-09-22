@@ -20,6 +20,7 @@
 #endif
 
 #include "stdwx.h"
+#include <wx/numformatter.h>
 
 #include "error_numbers.h"
 #include "util.h"
@@ -2691,4 +2692,8 @@ wxString FormatTime(double secs) {
     wxInt32 iSec  = (wxInt32)(secs) % 60;
     wxTimeSpan ts = wxTimeSpan(iHour, iMin, iSec);
     return ts.Format((secs>=86400)?"%Dd %H:%M:%S":"%H:%M:%S");
+}
+
+wxString format_number(double x, int nprec) {
+    return wxNumberFormatter::ToString(x, nprec);
 }
