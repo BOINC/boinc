@@ -305,13 +305,6 @@ bool CBOINCGUIApp::OnInit() {
 
     InitSupportedLanguages();
 
-    // get number formatting chars
-    //
-    wxString s = wxLocale::GetInfo(wxLOCALE_DECIMAL_POINT);
-    nfc.decimal_point = s[0];
-    s = wxLocale::GetInfo(wxLOCALE_THOUSANDS_SEP);
-    nfc.thousands_sep = s[0];
-
     // Note: JAWS for Windows will only speak the context-sensitive
     // help if you use this help provider:
     wxHelpProvider::Set(new wxHelpControllerHelpProvider());

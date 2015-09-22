@@ -102,11 +102,4 @@ extern void strip_translation(char* p);
 
 extern std::vector<std::string> split(std::string, char delim);
 
-struct NUM_FORMAT_CHARS {
-    char thousands_sep;
-    char decimal_point;
-};
-extern NUM_FORMAT_CHARS nfc;
-extern std::string comma_print(double, int);
-
 #endif
