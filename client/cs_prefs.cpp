@@ -702,7 +702,7 @@ void CLIENT_STATE::read_global_prefs(
     if (global_prefs.max_bytes_sec_up) {
         msg_printf(NULL, MSG_INFO,
             "   max upload rate: %.0f bytes/sec",
-            global_prefs.max_bytes_sec_up, 0
+            global_prefs.max_bytes_sec_up
         );
     }
 #ifndef SIM
