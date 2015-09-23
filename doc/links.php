@@ -88,19 +88,45 @@ $info_sites = array(
     ),
 );
 
+function show_social_media() {
+    echo "
+    <a name=misc></a>
+    <h3>Social media</h3>
+    ";
+    $misc_sites = array(
+        array("https://www.reddit.com/r/BOINC", "BOINC subreddit"),
+        //array("http://www.myboinc.com/", "BOINC Users of the Day"),
+        //array("http://groups.myspace.com/BOINConMYSPACE", "BOINC on MySpace"),
+        //array("http://www.boincuk.com/repository.php", "bunc", "(excellent newsletter produced by BOINC UK)"),
+        array("http://www.linkedin.com/groups?gid=678497", "BOINC group on LinkedIn"),
+        array("http://www.facebook.com/#!/pages/BOINC/109465765746025?ref=ts", "BOINC on Facebook"),
+    );
+    echo "<ul>";
+    foreach ($misc_sites as $m) {
+        $u = $m[0];
+        $t1 = $m[1];
+        $t2 = $m[2];
+        echo "<li> <a href=$u>$t1</a> $t2
+        ";
+    }
+    echo "
+    </ul>
+    ";
+}
+
 page_head("Web resources for BOINC participants");
 
 echo "
 <h3>Contents</h3>
 <ul>
 <li> <a href=#info>Help and Information</a>
+<li> <a href=#misc>Social media</a>
 <li> <a href=#stats>Credit statistics</a>
 <li> <a href=#sigs>Signature images</a>
 <li> <a href=#team_stats>Team statistics</a>
 ";
 //<li> <a href=#status>Project status</a>
 echo "
-<li> <a href=#misc>Miscellaneous</a>
 <li> <a href=#skins>Skins for the BOINC Manager</a>
 <li> <a href=#sites>Other BOINC-related sites</a>
 (Information, message boards, and teams)
@@ -112,6 +138,9 @@ Sites with information and documentation about BOINC.
 ";
 shuffle($info_sites);
 site_list($info_sites);
+
+show_social_media();
+
 echo "
 <a name=stats></a>
 <h3>Credit statistics</h3>
@@ -157,26 +186,6 @@ if (0) {
     ";
 }
 echo "
-<a name=misc></a>
-<h3>Miscellaneous</h3>
-";
-$misc_sites = array(
-    //array("http://www.myboinc.com/", "BOINC Users of the Day"),
-    //array("http://groups.myspace.com/BOINConMYSPACE", "BOINC on MySpace"),
-    //array("http://www.boincuk.com/repository.php", "bunc", "(excellent newsletter produced by BOINC UK)"),
-    array("http://www.linkedin.com/groups?gid=678497", "BOINC group on LinkedIn"),
-    array("http://www.facebook.com/#!/pages/BOINC/109465765746025?ref=ts", "BOINC on Facebook"),
-);
-echo "<ul>";
-foreach ($misc_sites as $m) {
-    $u = $m[0];
-    $t1 = $m[1];
-    $t2 = $m[2];
-    echo "<li> <a href=$u>$t1</a> $t2
-    ";
-}
-echo "
-</ul>
 <a name=skins></a>
 <h3>Skins for the BOINC Manager</h3>
 <ul>

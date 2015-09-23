@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,18 +17,19 @@
 
 // worker - application without BOINC runtime system;
 // used for testing wrapper.
-// What this does:
 //
-// copies one line of stdin to stdout
-// copies one line of "in" to "out"
-// uses 10 sec of CPU time
-// (or as specified by a command-line arg)
+// worker [--std_copy] [--file_copy] nsecs
+//
+// --std_copy: copy one line of stdin to stdout
+// --file_copy: copy one line of "in" to "out"
+// nsecs: use this much CPU time (default 10 sec)
 //
 // THIS PROGRAM SHOULDN'T USE ANY BOINC CODE.  That's the whole point.
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 // do a billion floating-point ops
 // (note: I needed to add an arg to this;
@@ -48,32 +49,48 @@ static double do_a_giga_flop(int foo) {
 int main(int argc, char** argv) {
     char buf[256];
     FILE* in, *out;
+    int i, nsec = 10;
+    bool std_copy = false, file_copy = false;
+
+    for (i=1; i<argc; i++) {
+        if (!strcmp(argv[i], "--std_copy")) {
+            std_copy = true;
+        }
+        if (!strcmp(argv[i], "--file_copy")) {
+            file_copy = true;
+        }
+        nsec = atoi(argv[i]);
+    }
 
     fprintf(stderr, "worker starting\n");
-    in = fopen("in", "r");
-    if (!in) {
-        fprintf(stderr, "missing input file\n");
-        exit(1);
-    } 
-    out = fopen("out", "w");
-    if (!out) {
-        fprintf(stderr, "can't open output file\n");
-        exit(1);
-    } 
-    fgets(buf, 256, in);
-    fputs(buf, out);
 
-    fgets(buf, 256, stdin);
-    fputs(buf, stdout);
+    if (file_copy) {
+        in = fopen("in", "r");
+        if (!in) {
+            fprintf(stderr, "missing input file\n");
+            exit(1);
+        } 
+        out = fopen("out", "w");
+        if (!out) {
+            fprintf(stderr, "can't open output file\n");
+            exit(1);
+        } 
+        fgets(buf, 256, in);
+        fputs(buf, out);
+    }
+
+    if (std_copy) {
+        fgets(buf, 256, stdin);
+        fputs(buf, stdout);
+    }
 
     int start = (int)time(0);
-    int nsec = 10;
-    if (argc > 1) nsec = atoi(argv[1]);
 
-    int i=0;
+    i=0;
     while (time(0) < start+nsec) {
         do_a_giga_flop(i++);
     }
+
     fputs("done!\n", stdout);
     return 0;
 }
