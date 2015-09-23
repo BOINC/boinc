@@ -3,9 +3,9 @@
   <!--app global-->
   <string name="app_name">BOINC</string>
   <!--generic. used by multiple Activities/tabs-->
-  <string name="generic_loading">Vent venligst …</string>
+  <string name="generic_loading">Indlæser! Vent venligst...</string>
   <string name="generic_button_continue">Fortsæt</string>
-  <string name="generic_button_finish">Afslut</string>
+  <string name="generic_button_finish">Færdig</string>
   <!--attach project-->
   <!--selection list-->
   <string name="attachproject_list_desc">Vælg videnskabelige projekter, du vil bidrage til:</string>
