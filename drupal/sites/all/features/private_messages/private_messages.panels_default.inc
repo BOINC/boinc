@@ -42,9 +42,9 @@ function private_messages_default_panels_mini() {
       'body' => '<?php global $base_path; ?>
 <ul class="tab-list">
   <li class="first tab"><div>
-    <a href="<?php echo $base_path; ?>messages"><?php print t(\'Inbox\'); ?></a><div class="item-count-wrapper"><span class="item-count"><?php echo privatemsg_unread_count(); ?></span></div></div>
+    <a href="<?php echo $base_path; ?>messages"><?php print bts(\'Inbox\'); ?></a><div class="item-count-wrapper"><span class="item-count"><?php echo privatemsg_unread_count(); ?></span></div></div>
   </li>
-  <li class="last tab"><a href="<?php echo $base_path; ?>messages/new"><?php print t(\'Compose new\'); ?></a></li>
+  <li class="last tab"><a href="<?php echo $base_path; ?>messages/new"><?php print bts(\'Compose new\'); ?></a></li>
 </ul>',
       'format' => '3',
       'substitute' => TRUE,
