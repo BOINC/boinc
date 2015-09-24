@@ -21,7 +21,7 @@ function global_search_solr_default_fe_block_settings() {
     'visibility' => '0',
     'pages' => 'search/team/*',
     'title' => '',
-    'cache' => '1',
+    'cache' => '-1',
   );
 
   $theme['facetapi-7ML0OK3vgYXeSgMyfPmmpnz2TBw9jZ7J'] = array(
@@ -36,7 +36,7 @@ function global_search_solr_default_fe_block_settings() {
     'visibility' => '0',
     'pages' => '',
     'title' => '',
-    'cache' => '0',
+    'cache' => '-1',
   );
 
   $theme['facetapi-GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu'] = array(
@@ -51,7 +51,7 @@ function global_search_solr_default_fe_block_settings() {
     'visibility' => '0',
     'pages' => 'search/team/*',
     'title' => '',
-    'cache' => '0',
+    'cache' => '-1',
   );
 
   $theme['facetapi-WtseAVugB1EhxGslwR3XIwoa0sVTttYt'] = array(
@@ -66,7 +66,7 @@ function global_search_solr_default_fe_block_settings() {
     'visibility' => '0',
     'pages' => 'search/team/*',
     'title' => '',
-    'cache' => '0',
+    'cache' => '-1',
   );
 
   $theme['facetapi-wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j'] = array(
@@ -81,7 +81,7 @@ function global_search_solr_default_fe_block_settings() {
     'visibility' => '0',
     'pages' => '',
     'title' => '',
-    'cache' => '0',
+    'cache' => '-1',
   );
 
   $export['boinc'] = $theme;
@@ -101,7 +101,7 @@ function global_search_solr_default_fe_block_settings() {
     'visibility' => '0',
     'pages' => 'search/team/*',
     'title' => '',
-    'cache' => '1',
+    'cache' => '-1',
   );
 
   $theme['facetapi-7ML0OK3vgYXeSgMyfPmmpnz2TBw9jZ7J'] = array(
@@ -116,7 +116,7 @@ function global_search_solr_default_fe_block_settings() {
     'visibility' => '0',
     'pages' => '',
     'title' => '',
-    'cache' => '0',
+    'cache' => '-1',
   );
 
   $theme['facetapi-GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu'] = array(
@@ -131,7 +131,7 @@ function global_search_solr_default_fe_block_settings() {
     'visibility' => '0',
     'pages' => 'search/team/*',
     'title' => '',
-    'cache' => '0',
+    'cache' => '-1',
   );
 
   $theme['facetapi-WtseAVugB1EhxGslwR3XIwoa0sVTttYt'] = array(
@@ -146,7 +146,7 @@ function global_search_solr_default_fe_block_settings() {
     'visibility' => '0',
     'pages' => 'search/team/*',
     'title' => '',
-    'cache' => '0',
+    'cache' => '-1',
   );
 
   $theme['facetapi-wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j'] = array(
@@ -161,7 +161,7 @@ function global_search_solr_default_fe_block_settings() {
     'visibility' => '0',
     'pages' => '',
     'title' => '',
-    'cache' => '0',
+    'cache' => '-1',
   );
 
   $export['einstein'] = $theme;
@@ -181,7 +181,7 @@ function global_search_solr_default_fe_block_settings() {
     'visibility' => '0',
     'pages' => 'search/team/*',
     'title' => '',
-    'cache' => '1',
+    'cache' => '-1',
   );
 
   $theme['facetapi-7ML0OK3vgYXeSgMyfPmmpnz2TBw9jZ7J'] = array(
@@ -196,7 +196,7 @@ function global_search_solr_default_fe_block_settings() {
     'visibility' => '0',
     'pages' => '',
     'title' => '',
-    'cache' => '0',
+    'cache' => '-1',
   );
 
   $theme['facetapi-GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu'] = array(
@@ -211,7 +211,7 @@ function global_search_solr_default_fe_block_settings() {
     'visibility' => '0',
     'pages' => 'search/team/*',
     'title' => '',
-    'cache' => '0',
+    'cache' => '-1',
   );
 
   $theme['facetapi-WtseAVugB1EhxGslwR3XIwoa0sVTttYt'] = array(
@@ -226,7 +226,7 @@ function global_search_solr_default_fe_block_settings() {
     'visibility' => '0',
     'pages' => 'search/team/*',
     'title' => '',
-    'cache' => '0',
+    'cache' => '-1',
   );
 
   $theme['facetapi-wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j'] = array(
@@ -241,7 +241,7 @@ function global_search_solr_default_fe_block_settings() {
     'visibility' => '0',
     'pages' => '',
     'title' => '',
-    'cache' => '0',
+    'cache' => '-1',
   );
 
   $export['garland'] = $theme;
