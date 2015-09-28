@@ -377,6 +377,16 @@ bool CLIENT_STATE::is_new_client() {
     return new_client;
 }
 
+static void set_client_priority() {
+#ifdef _WIN32
+    if (SetPriorityClass(GetCurrentProcess(), PROCESS_MODE_BACKGROUND_BEGIN)) {
+        msg_printf(NULL, MSG_INFO, "Running at background priority");
+    } else {
+        msg_printf(NULL, MSG_INFO, "Failed to set background priority");
+    }
+#endif
+}
+
 int CLIENT_STATE::init() {
     int retval;
     unsigned int i;
@@ -419,6 +429,8 @@ int CLIENT_STATE::init() {
     log_flags.show();
 
     msg_printf(NULL, MSG_INFO, "Libraries: %s", curl_version());
+
+    set_client_priority();
 
     if (executing_as_daemon) {
 #ifdef _WIN32
