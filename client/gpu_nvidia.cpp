@@ -75,6 +75,7 @@
 // Suppress obsolete warning when building for OS 10.3.9
 #define DLOPEN_NO_WARN
 #include <mach-o/dyld.h>
+#include <Carbon/Carbon.h>
 #endif
 #include "config.h"
 #include <dlfcn.h>
@@ -344,7 +345,8 @@ void COPROC_NVIDIA::get(
         retval = (*__cuInit)(0);
 #ifdef __APPLE__
         if (!retval) break;
-        boinc_sleep(1.);
+        if (TickCount() > (120*60)) break;   // Don't retry if system has been up for over 2 minutes
+            boinc_sleep(1.);
         continue;
     }
 #endif
