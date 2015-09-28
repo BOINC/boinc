@@ -346,7 +346,7 @@ void COPROC_NVIDIA::get(
 #ifdef __APPLE__
         if (!retval) break;
         if (TickCount() > (120*60)) break;   // Don't retry if system has been up for over 2 minutes
-            boinc_sleep(1.);
+        boinc_sleep(1.);
         continue;
     }
 #endif
