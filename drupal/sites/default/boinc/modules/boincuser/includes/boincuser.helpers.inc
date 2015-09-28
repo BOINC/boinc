@@ -139,24 +139,42 @@ function boincuser_select_user_of_the_day() {
   // Limit to users who have never been user of the day, if there are any
   $never_been_picked = db_result(db_query("
     SELECT COUNT(*)
-    FROM {boincuser}
-    WHERE uotd_time = 0
+    FROM {boincuser} bu
+    WHERE bu.uotd_time = 0
     " . ($active_users ? " AND bu.boinc_id IN ({$active_users}) " : '')
   ));
-  // Select a user of the day randomly from the pool
-  $new_uotd_uid = db_result(db_query("
-    SELECT
-      n.uid
-    FROM {node} n
-    JOIN {boincuser} bu ON bu.uid = n.uid
-    WHERE n.type = 'profile'
-    AND n.status = 1
-    AND n.moderate = 0
-    " . ($never_been_picked ? " AND bu.uotd_time = 0 " : '') . "
-    " . ($active_users ? " AND bu.boinc_id IN ({$active_users}) " : '') . "
-    ORDER BY RAND()
-    LIMIT 1"
-  ));
+  $new_uotd_uid = 0;
+  while (!$new_uotd_uid) {
+    // Select a user of the day randomly from the pool
+      $new_uotd_uid = db_result(db_query("
+      SELECT
+        n.uid
+      FROM {node} n
+      JOIN {boincuser} bu ON bu.uid = n.uid
+      WHERE n.type = 'profile'
+      AND n.status = 1
+      AND n.moderate = 0
+      " . ($never_been_picked ? " AND bu.uotd_time = 0 " : '') . "
+      " . ($active_users ? " AND bu.boinc_id IN ({$active_users}) " : '') . "
+      ORDER BY RAND()
+      LIMIT 1"
+    ));
+    if (!$new_uotd_uid) {
+      // Can't find a user with a profile; remove constraints on the pool
+      if ($never_been_picked) {
+        // Allow users who have been previously selected
+        $never_been_picked = FALSE;
+      }
+      elseif ($active_users) {
+        // Allow users who are not even active (getting desperate)
+        $active_users = FALSE;
+      }
+      else {
+        // Process failed...
+        return FALSE;
+      }
+    }
+  }
   $uotd = user_load($new_uotd_uid);
   if ($uotd->uid) {
     db_query("
