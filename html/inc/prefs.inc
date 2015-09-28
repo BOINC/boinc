@@ -40,6 +40,7 @@
 // and also to/from HTML form elements
 
 include_once("../inc/prefs_util.inc");
+include_once("../inc/translation.inc");
 
 global $cpu_prefs;
 global $disk_prefs;
