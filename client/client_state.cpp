@@ -390,7 +390,6 @@ static void set_client_priority() {
     } else {
         msg_printf(NULL, MSG_INFO, "Failed to set background priority");
     }
-}
 #endif
 
 int CLIENT_STATE::init() {
