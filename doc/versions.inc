@@ -113,7 +113,7 @@ $m76 = array(
 	"num"=>"7.6.12",
 	"status"=>"Recommended version (standard GUI)",
 	"file"=>"boinc_7.6.12_macOSX_x86_64.zip",
-	"date"=>"30 Sep 2015",
+	"date"=>"29 Sep 2015",
 	"type"=>"mac_advanced",
 );
 
@@ -153,7 +153,7 @@ $m76c = array(
 	"num"=>"7.6.12",
 	"status"=>"Recommended version (Unix command-line version)",
 	"file"=>"boinc_7.6.12_x86_64-apple-darwin.zip",
-	"date"=>"30 Sep 2015",
+	"date"=>"29 Sep 2015",
 	"type"=>"bare_core",
 );
 
