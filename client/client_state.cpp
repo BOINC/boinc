@@ -379,7 +379,10 @@ bool CLIENT_STATE::is_new_client() {
 
 #ifdef _WIN32
 typedef DWORD (WINAPI *SPC)(HANDLE, DWORD);
+#endif
+
 static void set_client_priority() {
+#ifdef _WIN32
     SPC spc = (SPC) GetProcAddress(GetModuleHandle(_T("kernel32.dll")), "SetPriorityClass");
     if (!spc) return;
     if (spc(GetCurrentProcess(), PROCESS_MODE_BACKGROUND_BEGIN)) {
