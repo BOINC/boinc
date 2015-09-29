@@ -727,8 +727,41 @@ int ACTIVE_TASK::start(bool test) {
     int prio_mask;
     if (cc_config.no_priority_change) {
         prio_mask = 0;
-    } else if (high_priority) {
+    } else if (high_priority && 
+        (cc_config.default_process_priority == -1 || cc_config.default_process_priority > 5)) {
         prio_mask = BELOW_NORMAL_PRIORITY_CLASS;
+    } else if (cc_config.default_process_priority != -1) {
+        switch (cc_config.default_process_priority)
+        {
+        case 0: {
+            prio_mask = REALTIME_PRIORITY_CLASS;
+            break;
+        }
+        case 1: {
+            prio_mask = HIGH_PRIORITY_CLASS;
+            break;
+        }
+        case 2: {
+            prio_mask = ABOVE_NORMAL_PRIORITY_CLASS;
+            break;
+        }
+        case 3: {
+            prio_mask = NORMAL_PRIORITY_CLASS;
+            break;
+        }
+        case 4: {
+            prio_mask = BELOW_NORMAL_PRIORITY_CLASS;
+            break;
+        }
+        case 5: {
+            prio_mask = IDLE_PRIORITY_CLASS;
+            break;
+        }
+        default: {
+            prio_mask = high_priority ? BELOW_NORMAL_PRIORITY_CLASS : IDLE_PRIORITY_CLASS;
+            break;
+        }
+        }
     } else {
         prio_mask = IDLE_PRIORITY_CLASS;
     }
@@ -887,9 +920,39 @@ int ACTIVE_TASK::start(bool test) {
     }
 
     if (!cc_config.no_priority_change) {
-        if (setpriority(PRIO_PROCESS, pid,
-            high_priority?PROCESS_MEDIUM_PRIORITY:PROCESS_IDLE_PRIORITY)
-        ) {
+        int priority = PROCESS_IDLE_PRIORITY;
+        switch (cc_config.default_process_priority)
+        {
+        case 0: {
+            priority = PROCESS_REALTIME_PRIORITY;
+            break;
+        }
+        case 1: {
+            priority = PROCESS_HIGH_PRIORITY;
+            break;
+        }
+        case 2: {
+            priority = PROCESS_ABOVE_NORMAL_PRIORITY;
+            break;
+        }
+        case 3: {
+            priority = PROCESS_NORMAL_PRIORITY;
+            break;
+        }
+        case 4: {
+            priority = PROCESS_MEDIUM_PRIORITY;
+            break;
+        }
+        case 5: {
+            priority = PROCESS_IDLE_PRIORITY;
+            break;
+        }
+        default: {
+            priority = high_priority ? PROCESS_MEDIUM_PRIORITY : PROCESS_IDLE_PRIORITY;
+            break;
+        }
+        }
+        if (setpriority(PRIO_PROCESS, pid, priority)) {
             perror("setpriority");
         }
     }
@@ -1056,9 +1119,39 @@ int ACTIVE_TASK::start(bool test) {
         //
         if (!cc_config.no_priority_change) {
 #if HAVE_SETPRIORITY
-            if (setpriority(PRIO_PROCESS, 0,
-                high_priority?PROCESS_MEDIUM_PRIORITY:PROCESS_IDLE_PRIORITY)
-            ) {
+            int priority = PROCESS_IDLE_PRIORITY;
+            switch (cc_config.default_process_priority)
+            {
+            case 0: {
+                priority = PROCESS_REALTIME_PRIORITY;
+               break;
+            }
+            case 1: {
+                priority = PROCESS_HIGH_PRIORITY;
+                break;
+            }
+            case 2: {
+                priority = PROCESS_ABOVE_NORMAL_PRIORITY;
+                break;
+            }
+            case 3: {
+                priority = PROCESS_NORMAL_PRIORITY;
+                break;
+            }
+            case 4: {
+                priority = PROCESS_MEDIUM_PRIORITY;
+                break;
+            }
+            case 5: {
+                priority = PROCESS_IDLE_PRIORITY;
+                break;
+            }
+            default: {
+                priority = high_priority ? PROCESS_MEDIUM_PRIORITY : PROCESS_IDLE_PRIORITY;
+                break;
+            }
+            }
+            if (setpriority(PRIO_PROCESS, 0, priority)) {
                 perror("setpriority");
             }
 #endif
