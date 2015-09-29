@@ -454,8 +454,9 @@ bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
 }
 #endif
 
-// called at startup to ensure that if the client
-// thinks a file is there, it actually is, and is the right size
+// for each FILE_INFO (i.e. each project file the client knows about)
+// check that the file exists and is of the right size.
+// Called at startup.
 //
 void CLIENT_STATE::check_file_existence() {
     unsigned int i;
@@ -466,7 +467,7 @@ void CLIENT_STATE::check_file_existence() {
         if (fip->status < 0 && fip->downloadable()) {
             // file had an error; reset it so that we download again
             get_pathname(fip, path, sizeof(path));
-            msg_printf(NULL, MSG_INFO, "Resetting file %s: %s", path, boincerror(fip->status));
+            msg_printf(fip->project, MSG_INFO, "Resetting file %s: %s", path, boincerror(fip->status));
             fip->reset();
             continue;
         }
@@ -478,12 +479,12 @@ void CLIENT_STATE::check_file_existence() {
             if (retval) {
                 delete_project_owned_file(path, true);
                 fip->status = FILE_NOT_PRESENT;
-                msg_printf(NULL, MSG_INFO, "File %s not found", path);
+                msg_printf(fip->project, MSG_INFO, "File %s not found", path);
             } else if (fip->nbytes && (size != fip->nbytes)) {
                 if (gstate.global_prefs.dont_verify_images && is_image_file(path)) continue;
                 delete_project_owned_file(path, true);
                 fip->status = FILE_NOT_PRESENT;
-                msg_printf(NULL, MSG_INFO,
+                msg_printf(fip->project, MSG_INFO,
                     "File %s has wrong size: expected %.0f, got %.0f",
                     path, fip->nbytes, size
                 );
