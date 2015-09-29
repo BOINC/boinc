@@ -408,7 +408,7 @@ function boinctranslate_export_translations() {
       }
     }
     
-    if (substr($result, 0, 6) != 'ERROR:') {
+    if (is_array($result) OR substr($result, 0, 6) != 'ERROR:') {
       $enabled_languages = locale_language_list();
       if ($source_exists) {
         drupal_set_message('Updated source translation strings at Transifex');
@@ -578,52 +578,52 @@ function boinctranslate_transifex_request($path, $post = NULL, $json = TRUE, $us
   if (!$username) $username = variable_get('boinc_translate_transifex_user', '');
   if (!$password) $password = variable_get('boinc_translate_transifex_pass', '');
   
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, "{$api_base_url}/{$path}");
-  $header = array(
-    "Authorization: Basic " . base64_encode($username . ":" . $password)
+  $url = "{$api_base_url}/{$path}";
+  $headers = array(
+    'Authorization' => 'Basic ' . base64_encode($username . ":" . $password),
   );
-  if ($post AND $json) {
-    $header[] = 'Content-Type: application/json';
-    $post = json_encode($post);
-  }
-  curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-  curl_setopt($ch, CURLOPT_HEADER, 1);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-  if ($post) curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-  if ($use_put) curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-  $result = curl_exec($ch);
+  $data = NULL;
   
-  list($response_header, $response_body) = explode("\r\n\r\n", $result, 2);
-  
-  if (strstr($response_header, '404 NOT FOUND')) {
-    return '404 NOT FOUND';
-  }
-  elseif (strstr($response_header, '401 UNAUTHORIZED')) {
-    return '401 UNAUTHORIZED';
-  }
-  elseif (strstr($response_header, '100 Continue')) {
-    list($response_header, $response_body) = explode("\r\n\r\n", $response_body, 2);
-    if (strstr($response_header, '400 BAD REQUEST')) {
-      if ($debug_mode) watchdog('boinctranslate', "The following response was received when trying to communicate with the Transifex system: \n{$result} \n\n ---------------- \n\n POST DATA: \n\n{$post}", array(), WATCHDOG_WARNING);
-      return "ERROR: {$response_body}";
+  if ($post) {
+    if ($json) {
+      $headers['Content-Type'] = 'application/json';
+      $data = json_encode($post);
     }
-    elseif (strstr($response_header, '405 METHOD NOT ALLOWED')) {
-      if ($debug_mode) watchdog('boinctranslate', "The following response was received when trying to communicate with the Transifex system: \n{$result}", array(), WATCHDOG_WARNING);
-      return "ERROR: User not allowed to perform this action";
+    else {
+      $data = drupal_query_string_encode($post);
     }
-    elseif (strstr($response_header, '200 OK')) {
-      return 'success';
-    }
-  }
-  elseif ($json) {
-    // Process as JSON
-    return json_decode($response_body, TRUE);
+    $method = ($use_put) ? 'PUT' : 'POST';
   }
   else {
-    return (string) $response_body;
+    $method = 'GET';
   }
+  
+  $response = drupal_http_request($url, $headers, $method, $data, 1, 10);
+  
+  switch ($response->code) {
+  case 200:
+  case 304:
+    if ($json) {
+      // Process as JSON
+      return json_decode($response->data, TRUE);
+    }
+    else {
+      return (string) $response->data;
+    }
+    break;
+  case 404:
+    return '404 NOT FOUND';
+  case 401:
+    return '401 UNAUTHORIZED';
+  case 400:
+    if ($debug_mode) watchdog('boinctranslate', "The following response was received when trying to communicate with the Transifex system: \n{$response}", array(), WATCHDOG_WARNING);
+    return "ERROR: {$response->data}";
+  case 405:
+    if ($debug_mode) watchdog('boinctranslate', "The following response was received when trying to communicate with the Transifex system: \n{$response}", array(), WATCHDOG_WARNING);
+    return "ERROR: User not allowed to perform this action";
+  }
+  
+  return NULL;
 }
 
 /**

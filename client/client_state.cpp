@@ -389,6 +389,12 @@ static void set_client_priority() {
     }
 }
 #endif
+#ifdef __linux__
+    char buf[1024];
+    sprintf(buf, "ionice -c 3 -n 7 -p %d", getpid());
+    system(buf);
+#endif
+}
 
 int CLIENT_STATE::init() {
     int retval;
@@ -433,9 +439,7 @@ int CLIENT_STATE::init() {
 
     msg_printf(NULL, MSG_INFO, "Libraries: %s", curl_version());
 
-#ifdef _WIN32
     set_client_priority();
-#endif
 
     if (executing_as_daemon) {
 #ifdef _WIN32
