@@ -512,8 +512,9 @@ int ACTIVE_TASK::copy_output_files() {
 }
 
 static int get_priority(bool is_high_priority) {
+    int p = is_high_priority?cc_config.process_priority_special:cc_config.process_priority;
 #ifdef _WIN32
-    switch (cc_config.default_process_priority) {
+    switch (p) {
     case 0: return IDLE_PRIORITY_CLASS;
     case 1: return BELOW_NORMAL_PRIORITY_CLASS;
     case 2: return NORMAL_PRIORITY_CLASS;
@@ -523,7 +524,7 @@ static int get_priority(bool is_high_priority) {
     }
     return is_high_priority ? BELOW_NORMAL_PRIORITY_CLASS : IDLE_PRIORITY_CLASS;
 #else
-    switch (cc_config.default_process_priority) {
+    switch (p) {
     case 0: return PROCESS_IDLE_PRIORITY;
     case 1: return PROCESS_MEDIUM_PRIORITY;
     case 2: return PROCESS_NORMAL_PRIORITY;
