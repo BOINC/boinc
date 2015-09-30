@@ -712,7 +712,7 @@ int VBOX_BASE::launch_vboxsvc() {
                     vboxlog_msg("Status Report: Launching vboxsvc.exe failed!.");
                     vboxlog_msg("        Error: %s", windows_format_error_string(GetLastError(), buf, sizeof(buf)));
 #ifdef _DEBUG
-                    vboxlog_msg("Vbox Version: '%s'", virtualbox_version.c_str());
+                    vboxlog_msg("Vbox Version: '%s'", virtualbox_version_raw.c_str());
                     vboxlog_msg("Vbox Install Directory: '%s'", virtualbox_install_directory.c_str());
                     vboxlog_msg("Vbox Home Directory: '%s'", virtualbox_home_directory.c_str());
 #endif
