@@ -7,237 +7,187 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
-"POT-Creation-Date: 2015-05-07 12:21+0000\n"
-"PO-Revision-Date: 2015-07-03 14:34+0000\n"
+"POT-Creation-Date: 2015-08-14 09:37+0000\n"
+"PO-Revision-Date: 2015-10-01 19:51+0000\n"
 "Last-Translator: Nikolay Sakharov <saharovna@gmail.com>\n"
-"Language-Team: Russian (http://www.transifex.com/projects/p/boinc/language/ru/)\n"
+"Language-Team: Russian (http://www.transifex.com/boinc/boinc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ru\n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-msgid ""
-"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
-" your e-mail address, it will be used for your user picture."
-msgstr "Если у Вас есть <a href=\"@gravatar-check\"> действительный Gravatar</a>, связанный с вашим адресом электронной почты, он будет использоваться в качестве фотографии пользователя."
+msgid "No account exists for @email -- select \"Create new account\" to register"
+msgstr "Учётной записи не существует для @email -- выберите \"Создать новую учётную запись\", чтобы зарегистрироваться"
 
-msgid "Your Gravatar will not be shown if you upload a user picture."
-msgstr "Ваш Gravatar не будет отображаться, если Вы загрузите пользовательскую фотографию."
+msgid "My team"
+msgstr "Моя команда"
 
-msgid ""
-"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
-" your e-mail address, use it for your user picture."
-msgstr "Если у Вас есть <a href=\"@gravatar-check\"> действительный Gravatar</a>, связанный с вашим адресом электронной почты, используйте его в качестве фотографии пользователя."
+msgid "You are a member of @team."
+msgstr "Вы участник команды @team."
 
-msgid "Gravatar will not be shown if an avatar is uploaded."
-msgstr "Gravatar не будет отображаться если загружен аватар."
+msgid "View my team"
+msgstr "Просмотр моей команды"
 
-msgid "This is not available until your profile is set up."
-msgstr "Это не доступно до тех пор, пока не настроен ваш профиль."
-
-msgid "Should @project show your computers on its web site?"
-msgstr "Должен ли @project показывать ваши компьютеры на своём веб-сайте?"
-
-msgid "Click here to revoke your membership with @this_team"
-msgstr "Нажмите здесь, чтобы отменить ваше членство в команде @this_team"
-
-msgid "Minimum avg credit to post"
-msgstr "Минимальное среднее количество очков для написания сообщений"
-
-msgid "Founder & Team Admins have moderator privileges"
-msgstr "Основатель и Администраторы команды обладают правами модератора"
-
-msgid "Notes about changes in foundership:"
-msgstr "Заметки об изменениях в возможностях основателя команды:"
-
-msgid "Foundership can be requested by team members:"
-msgstr "Права основателя могут быть запрошены членами команды:"
-
-msgid "One request is allowed at a time"
-msgstr "Единовременно разрешён только один запрос"
-
-msgid "Any active request must be older than 90 days"
-msgstr "Любой активный запрос должен быть старше 90 дней"
-
-msgid "Current founder has 60 days to respond to a request"
-msgstr "У текущего основателя есть 60 дней для ответа на запрос"
+msgid "Invalid setting for \"%preference\""
+msgstr "Недопустимый параметр для \"%preference\""
 
 msgid ""
-"If a team admin quits the team, they cease to be a team admin. We recommend "
-"only selecting people you know and trust"
-msgstr "Если администратор команды покинет команду, он перестанет быть администратором команды. Мы рекомендуем выбирать только людей, которых Вы знаете и доверяете."
+"You must earn @count more credits to be able to post comments on this site."
+msgstr "Вы должны заработать ещё @count очков, чтобы появилась возможность оставлять комментарии на этом сайте."
 
-msgid "You may create a message board for use by @team"
-msgstr "Вы можете создать доску сообщений для общения в команде @team."
+msgid "Moderation"
+msgstr "Модерация"
 
-msgid "parent removed"
-msgstr "родитель удалён"
+msgid "Unvetted profiles"
+msgstr "Профили, не прошедшие проверку"
 
-msgid "Maximum daily WU quota per CPU"
-msgstr "Максимальная ежедневная квота заданий на ЦП"
-
-msgid "Received time"
-msgstr "Время получения"
-
-msgid "App ID"
-msgstr "ID приложения"
-
-msgid "Error mask"
-msgstr "Маска ошибок"
-
-msgid "Minimum quorum"
-msgstr "Минимальный кворум"
-
-msgid "Max error tasks"
-msgstr "Макс количество ошибочных заданий"
-
-msgid "Max success tasks"
-msgstr "Макс количество успешных заданий"
-
-msgid "Max total tasks"
-msgstr "Макс общее количество заданий"
-
-msgid "Target number of results"
-msgstr "Целевое количество результатов"
-
-msgid "Application version ID"
-msgstr "ID версии приложения"
-
-msgid "Plan class"
-msgstr "План-класс"
-
-msgid "Version number"
-msgstr "Номер версии"
-
-msgid "App version ID"
-msgstr "ID версии приложения"
-
-msgid "@count million ops/sec"
-msgstr "@count млн операций/с"
-
-msgid "@rate KiB/sec"
-msgstr "@rate КБ/с"
-
-msgid "@count days"
-msgstr "@count дней"
-
-msgid "@ip_address (same the last @count times)"
-msgstr "@ip_address (такой же последние @count раз)"
-
-msgid "commented on"
-msgstr "прокомментировал"
-
-msgid "Remove sticky status from this topic"
-msgstr "Удалить признак закрепления с этой темы"
-
-msgid ""
-"Check the computers that are the same as @name (created on @date at @time "
-"with computer ID @id)"
-msgstr "Отметьте компьютеры, такие же как и @name (создан @date в @time с ID компьютера @id)"
-
-msgid "Computer @old_id has been merged successfully into @id."
-msgstr "Компьютер @old_id успешно объединён с @id."
-
-msgid "started discussion"
-msgstr "началось обсуждение"
-
-msgid "posted"
-msgstr "опубликовано"
-
-msgid "Minimum value not met for @field"
-msgstr "Минимальное значение не встретилось для @field"
-
-msgid "Invalid data type for @field"
-msgstr "Недопустимый тип данных для @field"
-
-msgid ""
-"Authentication is required when changing E-mail address or setting new "
-"password."
-msgstr "При изменении адреса электронной почты или установке нового пароля требуется проверка подлинности."
-
-msgid "Request foundership"
-msgstr "Запросить смену основателя"
-
-msgid ""
-"If the team founder is not active and you want to assume the role of "
-"founder, click below to request foundership of @this_team."
-msgstr "Если основатель команды не активен и Вы хотите взять на себя роль основателя, нажмите ниже, чтобы запросить право основателя команды @this_team."
-
-msgid "Initiate request"
-msgstr "Инициировать запрос"
-
-msgid "A BOINC account already exists for @email."
-msgstr "Для @email уже существует учётная запись BOINC."
-
-msgid ""
-"Please be responsible in what you write and do not create posts which are "
-"offensive or insulting. Offensive posts or threads may be deleted by forum "
-"moderators without warning or discussion. Do not respond to offensive "
-"postings. Click on the \"report\" button at the bottom of the post to call "
-"it to the attention of the moderators."
-msgstr "Пожалуйста, будьте ответственны в том, что Вы пишите, и не создавайте сообщения, которые являются оскорбительными или обидными. Оскорбительные сообщения или темы могут быть удалены модераторами форума без предупреждения или обсуждения. Не отвечайте на оскорбительные сообщения. Нажмите на кнопку \"отчёт\", расположенную в нижней части сообщения, чтобы обратить на него внимание модераторов."
-
-msgid "this project"
-msgstr "этот проект"
-
-msgid ""
-"We also ask that you keep all discussion on the message boards related to "
-"@project or BOINC with the small exception of the Science message board "
-"where you are free to discuss anything relevant to the underlying science. "
-"Participants interested in broader discussions should post to unofficial "
-"forums for @project."
-msgstr "Мы также просим Вас вести все обсуждения на досках сообщений, касающихся @project или BOINC, за небольшим исключением доски сообщений о Науке, где Вы можете обсуждать всё, что относится к науке, лежащей в основе проекта. Участникам, заинтересованным в более широких обсуждениях, следует общаться на неофициальных форумах @project."
-
-msgid "These message boards now support BBCode tags only."
-msgstr "Эти доски сообщений теперь поддерживают только теги BBCode."
-
-msgid "Posts contributed"
-msgstr "Сообщений размещено"
-
-msgid "Profile awaiting moderator approval"
-msgstr "Профиль ожидает одобрения модератором"
-
-msgid "Approve profile"
-msgstr "Утвердить профиль"
-
-msgid "Approve this profile content"
-msgstr "Утвердить содержимое этого профиля"
-
-msgid "Edit profile"
-msgstr "Редактировать профиль"
-
-msgid "Edit the content of this profile"
-msgstr "Изменить содержимое этого профиля"
-
-msgid "Remove profile"
-msgstr "Удалить профиль"
-
-msgid "Remove this profile content from the system"
-msgstr "Удалить содержимое этого профиля из системы"
-
-msgid "The team founder has @count days to respond to your transfer request."
-msgstr "У основателя команды есть @count дней для ответа на ваш запрос."
-
-msgid "Reject profile"
-msgstr "Отклонить профиль"
-
-msgid "Reject this profile content"
-msgstr "Отклонить содержимое этого профиля"
-
-msgid "Reason for rejecting this profile"
-msgstr "Причина для отклонения этого профиля"
+msgid "Reason for banning this user"
+msgstr "Причина для запрета этого пользователя"
 
 msgid ""
 "This reason will be included in an email to the user. Please write a brief "
-"explanation of the problem and how to fix it."
-msgstr "Эта причина будет включена в сообщение электронной почты пользователю. Пожалуйста, напишите краткое объяснение проблемы и как её исправить."
+"explanation of why the user is being banned."
+msgstr "Эта причина будет включена в электронное письмо пользователю. Пожалуйста, напишите краткое объяснение, почему этот пользователь запрещён."
 
-msgid "Submit"
-msgstr "Отправить"
+msgid "Duration of the ban"
+msgstr "Продолжительность запрета"
 
-msgid "project"
-msgstr "проект"
+msgid "The number of days until the ban expires. Set to 0 to ban permanently."
+msgstr "Количество дней до истечения срока действия запрета. Установите значение 0, чтобы запретить навсегда."
+
+msgid "Lift user ban"
+msgstr "Снять запрет с пользователя"
+
+msgid "You are banned from community participation until @date"
+msgstr "Вам запрещено участие в сообществе до @date"
+
+msgid "Computers @old_ids have been merged successfully into @id."
+msgstr "Компьютеры @old_ids успешно объединены с @id."
+
+msgid "A team named \"@name\" already exists."
+msgstr "Команда с названием \"@name\" уже существует."
+
+msgid "Post topic"
+msgstr "Опубликовать тему"
+
+msgid "Please enter your email address"
+msgstr "Укажите адрес вашей электронной почты"
+
+msgid "Password entered is not valid. Please verify that it is correct."
+msgstr "Введённый пароль не действителен. Пожалуйста, проверьте, что он правильный."
+
+msgid "Make founder"
+msgstr "Сделать основателя"
+
+msgid "!site: comment posted to \"!topic_name\""
+msgstr "!site: комментарий размещён в \"!topic_name\""
+
+msgid "!author has posted a reply to \"!topic_name\"."
+msgstr "!author ответил в \"!topic_name\"."
+
+msgid ""
+"To view this topic at !site, click here: \n"
+"!comment_url"
+msgstr "Для просмотра этой темы на сайте !site нажмите здесь: \n!comment_url"
+
+msgid "At least one application must be selected"
+msgstr "По крайней мере одно приложение должно быть выбрано"
+
+msgid "Forgot password"
+msgstr "Забыли пароль"
+
+msgid ""
+"Enter your email address to receive instructions for resetting your "
+"password."
+msgstr "Введите свой адрес электронной почты, чтобы получить инструкции по сбросу пароля."
+
+msgid "Revise or post comment"
+msgstr "Изменить или добавить комментарий"
+
+msgid "discuss"
+msgstr "обсудить"
+
+msgid "Your community preferences have been updated."
+msgstr "Ваши настройки сообщества были обновлены."
+
+msgid "Unlock this thread for comments"
+msgstr "Разблокировать это обсуждение для комментариев"
+
+msgid "Authenticator login"
+msgstr "Войти используя проверку подлинности"
+
+msgid "Create content"
+msgstr "Создать контент"
+
+msgid "authenticator-based login"
+msgstr "вход на основе проверки подлинности"
+
+msgid ""
+"Enter your email address to receive instructions for resetting your password"
+" (or use the !authenticator_login)."
+msgstr "Введите свой адрес электронной почты, чтобы получить инструкции по сбросу пароля (или используйте !authenticator_login)."
+
+msgid ""
+"If you forgot your account's email address, or you can't receive email "
+"there:"
+msgstr "Если Вы забыли адрес электронной почты вашей учётной записи, или Вы не можете получить письмо:"
+
+msgid ""
+"If you have run BOINC under the account, you can still access it. Here's "
+"how:"
+msgstr "Если BOINC запускался под этой учётной записью, Вы можете получить доступ к ней. Для этого нужно сделать следующее:"
+
+msgid ""
+"Go to the BOINC data directory on your computer (on Windows this is usually "
+"%path1 or %path2."
+msgstr "Перейдите в каталог данных BOINC на вашем компьютере (в Windows это обычно %path1 или %path2."
+
+msgid ""
+"Find your account file for this project; it will have a name like %file "
+"(where the project URL is %url)."
+msgstr "Найдите там файл учётной записи для этого проекта; он будет называться %file (где %url - URL-адрес проекта)."
+
+msgid ""
+"Open the file in a text editor like Notepad. You'll see something like:"
+msgstr "Откройте этот файл в текстовом редакторе, например в Блокноте. Вы увидите что-то вроде:"
+
+msgid ""
+"Select and Copy the string between &lt;authenticator&gt; and "
+"&lt;/authenticator&gt; (%auth in the above example)."
+msgstr "Выберите и скопируйте строку между &lt;authenticator&gt; и &lt;/authenticator&gt; (%auth в вышеприведённом примере)."
+
+msgid "There is no account with that authenticator."
+msgstr "Учётная запись с таким аутентификатором отсутствует."
+
+msgid ""
+"Go to the <a href=\"%wikiref\">BOINC data directory</a> on your computer (on"
+" Windows this is usually %path1 or %path2."
+msgstr "Перейдите в <a href=\"%wikiref\">каталог данных BOINC</a> на вашем компьютере (в Windows это обычно %path1 или %path2."
+
+msgid "BOINC documentation"
+msgstr "Документация BOINC"
+
+msgid ""
+"Go to the BOINC data directory on your computer (see !boinc_wiki for help "
+"finding this)."
+msgstr "Перейдите в каталог данных BOINC на вашем компьютере (см.  !boinc_wiki для получения помощи)."
+
+msgid ""
+"@count days have elapsed since your request and the founder has not "
+"responded."
+msgstr "@count дней прошли с момента подачи вашего запроса, а основатель так и не ответил."
+
+msgid ""
+"You now have @count days to assume foundership before another team member "
+"may submit a request."
+msgstr "Теперь у Вас есть @count дней, чтобы стать основателем, прежде чем другой участник команды сможет сделать запрос."
+
+msgid "Unhide this comment"
+msgstr "Показать этот комментарий"
+
+msgid "@email is not a well formed email address, please verify"
+msgstr "@email не является хорошо сформированным адресом электронной почты, пожалуйста, проверьте"
 
 msgid "Email address"
 msgstr "Адрес электронной почты"
@@ -936,8 +886,27 @@ msgid ""
 "presentation."
 msgstr "Язык по умолчанию в этой учётной записи для электронных писем и предпочтительный язык для внешнего вида сайта."
 
+msgid ""
+"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
+" your e-mail address, it will be used for your user picture."
+msgstr "Если у Вас есть <a href=\"@gravatar-check\"> действительный Gravatar</a>, связанный с вашим адресом электронной почты, он будет использоваться в качестве фотографии пользователя."
+
+msgid "Your Gravatar will not be shown if you upload a user picture."
+msgstr "Ваш Gravatar не будет отображаться, если Вы загрузите пользовательскую фотографию."
+
+msgid ""
+"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
+" your e-mail address, use it for your user picture."
+msgstr "Если у Вас есть <a href=\"@gravatar-check\"> действительный Gravatar</a>, связанный с вашим адресом электронной почты, используйте его в качестве фотографии пользователя."
+
+msgid "Gravatar will not be shown if an avatar is uploaded."
+msgstr "Gravatar не будет отображаться если загружен аватар."
+
 msgid "Avatar settings"
 msgstr "Настройки аватара"
+
+msgid "This is not available until your profile is set up."
+msgstr "Это не доступно до тех пор, пока не настроен ваш профиль."
 
 msgid "Create a profile"
 msgstr "Создать профиль"
@@ -977,6 +946,9 @@ msgstr "Настройки конфиденциальности"
 
 msgid "Is it OK for @project and your team (if any) to email you?"
 msgstr "Могут ли @project и ваша команда (при наличии) отправлять Вам электронные письма?"
+
+msgid "Should @project show your computers on its web site?"
+msgstr "Должен ли @project показывать ваши компьютеры на своём веб-сайте?"
 
 msgid "Hide"
 msgstr "Скрыть"
@@ -1071,6 +1043,9 @@ msgstr "Войти на форум"
 msgid "Leave team"
 msgstr "Покинуть команду"
 
+msgid "Click here to revoke your membership with @this_team"
+msgstr "Нажмите здесь, чтобы отменить ваше членство в команде @this_team"
+
 msgid "Leave this team"
 msgstr "Покинуть эту команду"
 
@@ -1092,6 +1067,9 @@ msgstr "Cекунд"
 msgid "Minimum total credit to post"
 msgstr "Минимальное общее количество очков для написания сообщений"
 
+msgid "Minimum avg credit to post"
+msgstr "Минимальное среднее количество очков для написания сообщений"
+
 msgid "Allow public to read board?"
 msgstr "Разрешить публичный доступ на чтение доски?"
 
@@ -1110,8 +1088,14 @@ msgstr "Только участники могут оставлять сообщ
 msgid "Only members may read (optional)"
 msgstr "Только участники могут читать (опционально)"
 
+msgid "Founder & Team Admins have moderator privileges"
+msgstr "Основатель и Администраторы команды обладают правами модератора"
+
 msgid "Changing the team founder"
 msgstr "Изменение основателя команды"
+
+msgid "Notes about changes in foundership:"
+msgstr "Заметки об изменениях в возможностях основателя команды:"
 
 msgid "Any member of the team is eligible"
 msgstr "Любой участник команды имеет право"
@@ -1119,8 +1103,20 @@ msgstr "Любой участник команды имеет право"
 msgid "Current founder becomes a normal user"
 msgstr "Текущий основатель становится обычным пользователем"
 
+msgid "Foundership can be requested by team members:"
+msgstr "Права основателя могут быть запрошены членами команды:"
+
+msgid "One request is allowed at a time"
+msgstr "Единовременно разрешён только один запрос"
+
 msgid "It must be 60 days since any previous request"
 msgstr "Должно пройти 60 дней с момента любого предыдущего запроса"
+
+msgid "Any active request must be older than 90 days"
+msgstr "Любой активный запрос должен быть старше 90 дней"
+
+msgid "Current founder has 60 days to respond to a request"
+msgstr "У текущего основателя есть 60 дней для ответа на запрос"
 
 msgid "Add team admin"
 msgstr "Добавить администратора команды"
@@ -1160,6 +1156,11 @@ msgstr "Поменять основателя команды"
 
 msgid "Add / Remove team admins"
 msgstr "Добавить или удалить администраторов команды"
+
+msgid ""
+"If a team admin quits the team, they cease to be a team admin. We recommend "
+"only selecting people you know and trust"
+msgstr "Если администратор команды покинет команду, он перестанет быть администратором команды. Мы рекомендуем выбирать только людей, которых Вы знаете и доверяете."
 
 msgid "Choose type"
 msgstr "Выберите тип"
@@ -1203,6 +1204,9 @@ msgstr "Создать доску сообщений команды"
 msgid "Create message board"
 msgstr "Создать доску сообщений"
 
+msgid "You may create a message board for use by @team"
+msgstr "Вы можете создать доску сообщений для общения в команде @team."
+
 msgid ""
 "Please set the minimum average credit that a user is required to have in "
 "order to post to this message board."
@@ -1216,6 +1220,9 @@ msgstr "Анонимный"
 
 msgid "Unpublished"
 msgstr "Неопубликовано"
+
+msgid "parent removed"
+msgstr "родитель удалён"
 
 msgid "Sorry, unrecognized email address or password."
 msgstr "К сожалению, адрес электронной почты или пароль не распознаны."
@@ -1328,6 +1335,9 @@ msgstr "Память"
 msgid "Swap space"
 msgstr "Файл подкачки"
 
+msgid "Maximum daily WU quota per CPU"
+msgstr "Максимальная ежедневная квота заданий на ЦП"
+
 msgid "Average download rate"
 msgstr "Средняя скорость загрузки данных"
 
@@ -1412,6 +1422,9 @@ msgstr "Предоставлено очков"
 msgid "Outcome"
 msgstr "Результат выполнения"
 
+msgid "Received time"
+msgstr "Время получения"
+
 msgid "Report deadline"
 msgstr "Крайний срок отчёта"
 
@@ -1427,6 +1440,9 @@ msgstr "Текст протокола"
 msgid "Validation state"
 msgstr "Состояние проверки"
 
+msgid "App ID"
+msgstr "ID приложения"
+
 msgid "Canonical credit"
 msgstr "Канонических очков"
 
@@ -1436,14 +1452,44 @@ msgstr "ID канонического результата"
 msgid "Created time"
 msgstr "Время создания"
 
+msgid "Error mask"
+msgstr "Маска ошибок"
+
+msgid "Minimum quorum"
+msgstr "Минимальный кворум"
+
+msgid "Max error tasks"
+msgstr "Макс количество ошибочных заданий"
+
+msgid "Max success tasks"
+msgstr "Макс количество успешных заданий"
+
+msgid "Max total tasks"
+msgstr "Макс общее количество заданий"
+
 msgid "Needs validation"
 msgstr "Необходима проверка"
 
 msgid "Initial replication"
 msgstr "Начальная репликация"
 
+msgid "Target number of results"
+msgstr "Целевое количество результатов"
+
+msgid "Application version ID"
+msgstr "ID версии приложения"
+
+msgid "Plan class"
+msgstr "План-класс"
+
+msgid "Version number"
+msgstr "Номер версии"
+
 msgid "Computer"
 msgstr "Компьютер"
+
+msgid "App version ID"
+msgstr "ID версии приложения"
 
 msgid "Consecutive valid tasks"
 msgstr "Правильные задания завершённые подряд"
@@ -1462,6 +1508,15 @@ msgstr "Показать IP-адрес"
 
 msgid "hours"
 msgstr "часов"
+
+msgid "@count million ops/sec"
+msgstr "@count млн операций/с"
+
+msgid "@rate KiB/sec"
+msgstr "@rate КБ/с"
+
+msgid "@count days"
+msgstr "@count дней"
 
 msgid "Remove friend"
 msgstr "Удалить друга"
@@ -1505,16 +1560,174 @@ msgstr "Конвертировать этот комментарий в нову
 msgid "Details"
 msgstr "Подробности"
 
+msgid "@ip_address (same the last @count times)"
+msgstr "@ip_address (такой же последние @count раз)"
+
+msgid "commented on"
+msgstr "прокомментировал"
+
 msgid "Make unsticky"
 msgstr "Открепить"
+
+msgid "Remove sticky status from this topic"
+msgstr "Удалить признак закрепления с этой темы"
 
 msgid ""
 "Sometimes BOINC assigns separate identities to the same computer by mistake."
 " You can correct this by merging old identities with the newest one."
 msgstr "Иногда BOINC по ошибке назначает различные идентификаторы одному и тому же компьютеру. Вы можете исправить это объединив старые идентификаторы с самым новым."
 
+msgid ""
+"Check the computers that are the same as @name (created on @date at @time "
+"with computer ID @id)"
+msgstr "Отметьте компьютеры, такие же как и @name (создан @date в @time с ID компьютера @id)"
+
+msgid "Computer @old_id has been merged successfully into @id."
+msgstr "Компьютер @old_id успешно объединён с @id."
+
+msgid "started discussion"
+msgstr "началось обсуждение"
+
+msgid "posted"
+msgstr "опубликовано"
+
+msgid "Minimum value not met for @field"
+msgstr "Минимальное значение не встретилось для @field"
+
 msgid "Remove"
 msgstr "Удалить"
 
 msgid "hidden"
 msgstr "скрыто"
+
+msgid "Invalid data type for @field"
+msgstr "Недопустимый тип данных для @field"
+
+msgid ""
+"Authentication is required when changing E-mail address or setting new "
+"password."
+msgstr "При изменении адреса электронной почты или установке нового пароля требуется проверка подлинности."
+
+msgid "Request foundership"
+msgstr "Запросить смену основателя"
+
+msgid ""
+"If the team founder is not active and you want to assume the role of "
+"founder, click below to request foundership of @this_team."
+msgstr "Если основатель команды не активен и Вы хотите взять на себя роль основателя, нажмите ниже, чтобы запросить право основателя команды @this_team."
+
+msgid "Initiate request"
+msgstr "Инициировать запрос"
+
+msgid "A BOINC account already exists for @email."
+msgstr "Для @email уже существует учётная запись BOINC."
+
+msgid ""
+"Please be responsible in what you write and do not create posts which are "
+"offensive or insulting. Offensive posts or threads may be deleted by forum "
+"moderators without warning or discussion. Do not respond to offensive "
+"postings. Click on the \"report\" button at the bottom of the post to call "
+"it to the attention of the moderators."
+msgstr "Пожалуйста, будьте ответственны в том, что Вы пишите, и не создавайте сообщения, которые являются оскорбительными или обидными. Оскорбительные сообщения или темы могут быть удалены модераторами форума без предупреждения или обсуждения. Не отвечайте на оскорбительные сообщения. Нажмите на кнопку \"отчёт\", расположенную в нижней части сообщения, чтобы обратить на него внимание модераторов."
+
+msgid "this project"
+msgstr "этот проект"
+
+msgid ""
+"We also ask that you keep all discussion on the message boards related to "
+"@project or BOINC with the small exception of the Science message board "
+"where you are free to discuss anything relevant to the underlying science. "
+"Participants interested in broader discussions should post to unofficial "
+"forums for @project."
+msgstr "Мы также просим Вас вести все обсуждения на досках сообщений, касающихся @project или BOINC, за небольшим исключением доски сообщений о Науке, где Вы можете обсуждать всё, что относится к науке, лежащей в основе проекта. Участникам, заинтересованным в более широких обсуждениях, следует общаться на неофициальных форумах @project."
+
+msgid "These message boards now support BBCode tags only."
+msgstr "Эти доски сообщений теперь поддерживают только теги BBCode."
+
+msgid "Posts contributed"
+msgstr "Сообщений размещено"
+
+msgid "Profile awaiting moderator approval"
+msgstr "Профиль ожидает одобрения модератором"
+
+msgid "Approve profile"
+msgstr "Утвердить профиль"
+
+msgid "Approve this profile content"
+msgstr "Утвердить содержимое этого профиля"
+
+msgid "Edit profile"
+msgstr "Редактировать профиль"
+
+msgid "Edit the content of this profile"
+msgstr "Изменить содержимое этого профиля"
+
+msgid "Remove profile"
+msgstr "Удалить профиль"
+
+msgid "Remove this profile content from the system"
+msgstr "Удалить содержимое этого профиля из системы"
+
+msgid "The team founder has @count days to respond to your transfer request."
+msgstr "У основателя команды есть @count дней для ответа на ваш запрос."
+
+msgid "Reject profile"
+msgstr "Отклонить профиль"
+
+msgid "Reject this profile content"
+msgstr "Отклонить содержимое этого профиля"
+
+msgid "Reason for rejecting this profile"
+msgstr "Причина для отклонения этого профиля"
+
+msgid ""
+"This reason will be included in an email to the user. Please write a brief "
+"explanation of the problem and how to fix it."
+msgstr "Эта причина будет включена в сообщение электронной почты пользователю. Пожалуйста, напишите краткое объяснение проблемы и как её исправить."
+
+msgid "Submit"
+msgstr "Отправить"
+
+msgid "project"
+msgstr "проект"
+
+msgid "Unknown"
+msgstr "Неизвестно"
+
+msgid "Pending"
+msgstr "Ожидание"
+
+msgid "User of the day"
+msgstr "Пользователь Дня"
+
+msgid "Account"
+msgstr "Учётная запись"
+
+msgid "Log in"
+msgstr "Войти"
+
+msgid "Send"
+msgstr "Отправить"
+
+msgid "News"
+msgstr "Новости"
+
+msgid "Unlock"
+msgstr "Разблокировать"
+
+msgid "Paste the string into the field below, and click OK."
+msgstr "Вставьте эту строку в расположенное ниже поле, и нажмите OK."
+
+msgid ""
+"You will now be logged in to your account; update the email and password of "
+"your account."
+msgstr "Теперь Вы авторизованы; обновите адрес электронной почты и пароль для вашей учётной записи."
+
+msgid "Log in with authenticator"
+msgstr "Авторизоваться с аутентификатором"
+
+msgid "Assume foundership"
+msgstr "Принять полномочия основателя"
+
+msgid "Unhide"
+msgstr "Показать"
