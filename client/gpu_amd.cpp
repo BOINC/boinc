@@ -278,7 +278,7 @@ void COPROC_ATI::get(
             gpu_name="ATI Radeon HD 5500/5600 series (Redwood)";
             break;
         case 11:
-            gpu_name="ATI Radeon HD 5400 series (Cedar)";
+            gpu_name="ATI Radeon HD 5400/R5 210 series (Cedar)";
             break;
         case 12:
             gpu_name="AMD Radeon HD 6370D/6380G/6410D/6480G (Sumo)";
@@ -302,16 +302,16 @@ void COPROC_ATI::get(
             gpu_name="AMD Radeon HD 6570/6670/7570/7670 series (Turks)";
             break;
         case 19:
-            gpu_name="AMD Radeon HD 6350/6450/7450/7470 series (Caicos)";
+            gpu_name="AMD Radeon HD 6350/6450/7450/7470/R5 230 series (Caicos)";
             break;
         case 20:
-            gpu_name="AMD Radeon HD 7870/7950/7970/R9 280X series (Tahiti)";
+            gpu_name="AMD Radeon HD 7870/7950/7970/R9 280/R9 280X series (Tahiti)";
             break;
         case 21:
             gpu_name="AMD Radeon HD 7850/7870 series (Pitcairn)";
             break;
         case 22:
-            gpu_name="AMD Radeon HD 7700 series (Capeverde)";
+            gpu_name="AMD Radeon HD 7700R7 250X/R9 255 series (Capeverde)";
             break;
         case 23:
             gpu_name="AMD Radeon HD 7500/7600/8500/8600 series (Devastator)";
@@ -320,10 +320,10 @@ void COPROC_ATI::get(
             gpu_name="AMD Radeon HD 7400/7500/8300/8400 series (Scrapper)";
             break;
         case 25:
-            gpu_name="AMD Radeon HD 8600/8790M/R7 240/R7 250 (Oland)";
+            gpu_name="AMD Radeon HD 8600/8790M/R5 330/R5 340/R7 240/R7 250/R7 340/R7 350 (Oland)";
             break;
         case 26:
-            gpu_name="AMD Radeon HD 7790/R7 260X (Bonaire)";
+            gpu_name="AMD Radeon HD 7790/R7 260/R7 260X/R9 360 (Bonaire)";
             break;
         case 27:
             gpu_name="AMD Radeon HD (Spectre)"; // Kaveri
@@ -338,13 +338,31 @@ void COPROC_ATI::get(
             gpu_name="AMD Radeon HD 8600M (Hainan)";
             break;
         case 31:
-            gpu_name="AMD Radeon R9 270X (Curacao)";
+            gpu_name="AMD Radeon R7 265/R9 270/R9 270X/R9 370 (Curacao)";
             break;
         case 32:
             gpu_name="AMD Radeon R9 290 (Hawaii)";
             break;
         case 33:
             gpu_name="AMD Radeon R2/R3 (Skunk)"; // Mullins/new FT3 APU
+            break;
+        case 34:
+            gpu_name="AMD Radeon R9 285/R9 380 (Tonga)";
+            break;
+        case 35:
+            gpu_name="AMD Radeon R9 295X2 (Vesuvius)";
+            break;
+        case 36:
+            gpu_name="AMD Radeon R7 360 (Tobago)";
+            break;
+        case 37:
+            gpu_name="AMD Radeon R7 370/R9 370X (Trinidad)";
+            break;
+        case 38:
+            gpu_name="AMD Radeon R9 390/R9 390X (Grenada)";
+            break;
+        case 39:
+            gpu_name="AMD Radeon R9 Fury/R9 Nano/R9 Fury X/R9 Fury X2 (Fiji)";
             break;
         default:
             gpu_name="AMD Radeon HD (unknown)";
