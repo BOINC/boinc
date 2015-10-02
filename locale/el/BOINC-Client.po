@@ -1,43 +1,41 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Alex Chrisakis, 2015
+# Street Photograher <jvm@opmbx.org>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2010-11-26 20:50+0200\n"
-"Last-Translator: chris g <chr1407@hotmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: el\n"
+"PO-Revision-Date: 2015-10-02 16:43+0000\n"
+"Last-Translator: Street Photograher <jvm@opmbx.org>\n"
+"Language-Team: Greek (http://www.transifex.com/boinc/boinc/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
 
 #: acct_mgr.cpp:450 acct_mgr.cpp:459
-#, fuzzy
 msgid "Message from account manager"
-msgstr "Μήνυμα απο το διακομιστή του έργου:"
+msgstr "Μήνυμα από το διαχειριστή έργου"
 
 #: client_msgs.cpp:81
-#, fuzzy
 msgid "Message from server"
-msgstr "Μήνυμα απο το διακομιστή του έργου:"
+msgstr "Μήνυμα απο το διακομιστή"
 
 #: client_state.cpp:258
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
-msgstr ""
+msgstr "Μερικές ργασίες χρειάζονται περισσότερη μνήμη από όση έχετε επιτρέψει στις ρυθμίσεις σας. Παρακαλώ ελέγξτε τις ρυθμίσεις σας."
 
 #: client_state.cpp:520
 msgid "Couldn't write state file; check directory permissions"
-msgstr ""
-"Δεν μπρόρεσε να γίνει εγγραφή του αρχείου κατάστασης, παρακαλώ ελέγξτε τα "
-"δικαιώματα καταλόγου"
+msgstr "Δεν μπρόρεσε να γίνει εγγραφή του αρχείου κατάστασης, παρακαλώ ελέγξτε τα δικαιώματα καταλόγου"
 
 #: cs_cmdline.cpp:303
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
@@ -48,9 +46,7 @@ msgstr "Η HTTP_PROXY μεταβλητή πρέπει να προσδιορίσ�
 msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
 "project, then add %s"
-msgstr ""
-"Χρησιμοποιήσατε λανθασμένη ηλεκτρονική διεύθυνση. Όταν θα ευκαιρίσετε, "
-"αφαιρέστε αυτό το έργο και μετά προσθέστε %s"
+msgstr "Χρησιμοποιήσατε λανθασμένη ηλεκτρονική διεύθυνση. Όταν θα ευκαιρίσετε, αφαιρέστε αυτό το έργο και μετά προσθέστε %s"
 
 #: cs_statefile.cpp:828 ../sched/sched_types.cpp:259
 msgid "Syntax error in app_info.xml"
@@ -66,7 +62,7 @@ msgstr "Μια νέα έκδοση του BOINC είναι διαθέσιμη."
 
 #: current_version.cpp:94 current_version.cpp:102
 msgid "Download"
-msgstr ""
+msgstr "Λήψη"
 
 #: log_flags.cpp:269 log_flags.cpp:449
 msgid "Unexpected text in cc_config.xml"
@@ -81,9 +77,8 @@ msgid "Missing start tag in cc_config.xml"
 msgstr "Η ετικέτα εκκίνησης απουσιάζει στο cc_config.xml"
 
 #: log_flags.cpp:465
-#, fuzzy
 msgid "Error in cc_config.xml options"
-msgstr "Άγνωστη ετικέτα στο cc_config.xml"
+msgstr "Λάθος στο αρχείο ρθυμίσεων cc_config.xml."
 
 #: log_flags.cpp:483
 msgid "Missing end tag in cc_config.xml"
@@ -91,23 +86,17 @@ msgstr "Η ετικέτα τέλους απουσιάζει στο cc_config.xml
 
 #: ../sched/handle_request.cpp:307
 msgid "Invalid or missing account key.  To fix, remove and add this project."
-msgstr ""
-"Ο κωδικός λογαριασμού είναι λασθασμένος ή απουσιάζει. Για διόρθωση, "
-"αποσυνδεθείτε και επανασυνδεθείτε σε αυτό το έργο."
+msgstr "Ο κωδικός λογαριασμού είναι λασθασμένος ή απουσιάζει. Για διόρθωση, αποσυνδεθείτε και επανασυνδεθείτε σε αυτό το έργο."
 
 #: ../sched/handle_request.cpp:849
 msgid "Invalid code signing key.  To fix, remove and add this project."
-msgstr ""
-"Λανθασμένος κωδικός σύνδεσης. Για διόρθωση, αποσυνδεθείτε και "
-"επανασυνδεθείτε σε αυτό το έργο"
+msgstr "Λανθασμένος κωδικός σύνδεσης. Για διόρθωση, αποσυνδεθείτε και επανασυνδεθείτε σε αυτό το έργο"
 
 #: ../sched/handle_request.cpp:859
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
-msgstr ""
-"Το έργο άλλαξε το κλειδί ασφαλείας. Παρακαλώ αφαιρέστε και προσθέστε ξανά "
-"αυτό το έργο."
+msgstr "Το έργο άλλαξε το κλειδί ασφαλείας. Παρακαλώ αφαιρέστε και προσθέστε ξανά αυτό το έργο."
 
 #: ../sched/handle_request.cpp:943
 msgid "This project doesn't support operating system"
@@ -115,56 +104,41 @@ msgstr "Αυτό το έργο δεν υποστηρίζει το λειτουρ
 
 #: ../sched/handle_request.cpp:969
 msgid "This project doesn't support CPU type"
-msgstr ""
-"Αυτό το έργο δεν υποστηρίζει τον τύπο της κεντρικής μονάδας επεξεργασίας"
+msgstr "Αυτό το έργο δεν υποστηρίζει τον τύπο της κεντρικής μονάδας επεξεργασίας"
 
 #: ../sched/handle_request.cpp:993
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
-msgstr ""
-"Η έκδοση του BOINC σας είναι πολύ παλιά. Παρακαλώ εγκαταστείστε την "
-"τελευταία έκδοση."
+msgstr "Η έκδοση του BOINC σας είναι πολύ παλιά. Παρακαλώ εγκαταστείστε την τελευταία έκδοση."
 
 #: ../sched/handle_request.cpp:1259
 msgid "This project doesn't support computers of type"
 msgstr "Αυτό το έργο δεν υποστηρίζει υπολογιστές του τύπου"
 
 #: ../sched/sched_send.cpp:1092
-msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
-msgstr ""
-"Αναβαθμίστε με τους τελευταίους οδηγούς προγράμματος για να εκτελείτε "
-"εργασίες χρησιμοποιώντας τη μονάδα επεξεργασίας γραφικών του υπολογιστή σας"
+msgid ""
+"Upgrade to the latest driver to process tasks using your computer's GPU"
+msgstr "Αναβαθμίστε με τους τελευταίους οδηγούς προγράμματος για να εκτελείτε εργασίες χρησιμοποιώντας τη μονάδα επεξεργασίας γραφικών του υπολογιστή σας"
 
 #: ../sched/sched_send.cpp:1099
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
-msgstr ""
-"Αναβαθμίστε με τους τελευταίους οδηγούς προγράμματος για να χρησιμοποιείτε "
-"όλες τις εφαρμογές αυτού του έργου"
+msgstr "Αναβαθμίστε με τους τελευταίους οδηγούς προγράμματος για να χρησιμοποιήσετε όλες τις εφαρμογές αυτού του έργου."
 
 #: ../sched/sched_send.cpp:1118
 msgid ""
-"A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
-"the current version"
-msgstr ""
-"Μια νέα έκδοση του BOINC χρειάζεται για να χρησιμοποιείσετε την μονάδα "
-"επεξεργασίας γραφικών της NVIDIA, παρακαλώ αναβαθμίστε στην τελευταία έκδοση"
+"A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
+" the current version"
+msgstr "Μια νέα έκδοση του BOINC χρειάζεται για να χρησιμοποιείσετε την μονάδα επεξεργασίας γραφικών της NVIDIA, παρακαλώ αναβαθμίστε στην τελευταία έκδοση"
 
-# 94%
 #: ../sched/sched_send.cpp:1146
 #, c-format
-#, c-format, fuzzy
 msgid "An %s GPU is required to run tasks for this project"
-msgstr ""
-"Μια μονάδα επεξεργασίας γραφικών ATI χρειάζεται για να εκτελέσετε εργασίες "
-"για αυτό το έργο"
+msgstr "Μια μονάδα επεξεργασίας γραφικών %s GPU χρειάζεται για να εκτελέσετε εργασίες για αυτό το έργο"
 
 #: ../sched/sched_send.cpp:1262
-#, fuzzy
 msgid "No tasks are available for the applications you have selected."
-msgstr ""
-"Καμία εργασία δεν είναι διαθέσιμη για τις εφαρμογές που έχετε επιλέξει. "
-"Παρακαλώ ελέγξτε τις προτιμήσεις του έργου στην ιστοσελίδα του."
+msgstr "Δεν υπάρχουν διαθέσιμες εργασίες για τις εφαρμόγες που έχετε επιλέξει."
 
 #: ../sched/sched_send.cpp:1288
 msgid "Your computer type is not supported by this project"
@@ -172,15 +146,13 @@ msgstr "Ο τύπος του υπολογιστή σας δεν υποστηρί
 
 #: ../sched/sched_send.cpp:1294
 msgid "Newer BOINC version required; please install current version"
-msgstr ""
-"Απαιτείται νεότερη έκδοση του BOINC, παρακαλώ εγκαταστείστε την τελευταία "
-"έκδοση"
+msgstr "Απαιτείται νεότερη έκδοση του BOINC, παρακαλώ εγκαταστείστε την τελευταία έκδοση"
 
 #: ../sched/sched_send.cpp:1305
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
-msgstr ""
+msgstr "Υπάρχουν εργασίες διαθέσιμες για το %s, αλλά έχετε επιλέξει στις ρυθμίσεις να μην  τις δέχεστε."
 
 #: ../sched/sched_types.cpp:254
 msgid "Unknown app name in app_info.xml"
@@ -189,65 +161,3 @@ msgstr "Άγνωστο όνομα εφαρμογής στο app_info.xml"
 #: ../sched/sched_version.cpp:214
 msgid "Your app_info.xml file doesn't have a usable version of"
 msgstr "Το app_info.xml σας δεν έχει μια χρησιμοποιήσιμη έκδοση του"
-
-#~ msgid "Download it."
-#~ msgstr "Κατεβάστε τη."
-
-#~ msgid "An NVIDIA or ATI GPU is required to run tasks for this project"
-#~ msgstr ""
-#~ "Μια μονάδα επεξεργασίας γραφικών NVIDIA ή ATI χρειάζεται για να εκτελέσετε "
-#~ "εργασίες για αυτό το έργο"
-
-#~ msgid "An NVIDIA GPU is required to run tasks for this project"
-#~ msgstr ""
-#~ "Μια μονάδα επεξεργασίας γραφικών NVIDIA χρειάζεται για να εκτελέσετε "
-#~ "εργασίες για αυτό το έργο"
-
-#~ msgid "An ATI GPU is required to run tasks for this project"
-#~ msgstr ""
-#~ "Μια μονάδα επεξεργασίας γραφικών ATI χρειάζεται για να εκτελέσετε εργασίες "
-#~ "για αυτό το έργο"
-
-#~ msgid ""
-#~ "Tasks for NVIDIA GPU are available, but your preferences are set to not "
-#~ "accept them"
-#~ msgstr ""
-#~ "Εργασίες για την μονάδα επεξεργασίας γραφικών NVIDIA είναι διαθέσιμες, αλλά "
-#~ "ρυθμίσεις σας δεν επιτρέπουν την αποδοχή τους"
-
-#~ msgid ""
-#~ "Tasks for ATI GPU are available, but your preferences are set to not accept "
-#~ "them"
-#~ msgstr ""
-#~ "Εργασίες για την μονάδα επεξεργασίας γραφικών ATI είναι διαθέσιμες, αλλά "
-#~ "ρυθμίσεις σας δεν επιτρέπουν την αποδοχή τους"
-
-#~ msgid ""
-#~ "Tasks for CPU are available, but your preferences are set to not accept them"
-#~ msgstr ""
-#~ "Εργασίες για την κεντρικη μονάδα επεξεργασίας είναι διαθέσιμες, αλλά "
-#~ "ρυθμίσεις σας δεν επιτρέπουν την αποδοχή τους"
-
-#~ msgid "error"
-#~ msgstr "σφάλμα"
-
-#~ msgid "Can't resolve hostname in remote_hosts.cfg"
-#~ msgstr ""
-#~ "Δε μπορεί να γίνει επίλυση του κεντρικού ονόματος στο remote_hosts.cfg"
-
-#, fuzzy
-#~ msgid "is not available for"
-#~ msgstr "δεν είναι διαθέσιμο για τον τύπο του υπολιγιστή σας"
-
-#~ msgid "Notice from BOINC"
-#~ msgstr "Σημείωση απο το BOINC"
-
-#~ msgid "Message from"
-#~ msgstr "Μήνυμα απο"
-
-#~ msgid ""
-#~ "You may have an outdated code signing key.  Try attaching and reattaching "
-#~ "this project."
-#~ msgstr ""
-#~ "Έχετε έναν απαρχαιωμένο κωδικό πρόσβασης. Παρακαλώ αποσυνδεθείτε και "
-#~ "επανασυνδεθείτε στο έργο."
