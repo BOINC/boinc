@@ -311,7 +311,7 @@ void COPROC_ATI::get(
             gpu_name="AMD Radeon HD 7850/7870 series (Pitcairn)";
             break;
         case 22:
-            gpu_name="AMD Radeon HD 7700R7 250X/R9 255 series (Capeverde)";
+            gpu_name="AMD Radeon HD 7700/R7 250X/R9 255 series (Capeverde)";
             break;
         case 23:
             gpu_name="AMD Radeon HD 7500/7600/8500/8600 series (Devastator)";
