@@ -13,9 +13,9 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2015-08-01 08:24+0000\n"
+"PO-Revision-Date: 2015-09-30 07:28+0000\n"
 "Last-Translator: Can Demirel <aycandemirel@hotmail.com>\n"
-"Language-Team: Turkish (http://www.transifex.com/projects/p/boinc/language/tr/)\n"
+"Language-Team: Turkish (http://www.transifex.com/boinc/boinc/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -403,7 +403,7 @@ msgstr "gizli"
 
 #: ../inc/forum.inc:632
 msgid "Posted: %1"
-msgstr "Gönderildi: %1"
+msgstr "Gönderilme: %1"
 
 #: ../inc/forum.inc:635
 msgid " - in response to "
@@ -441,7 +441,7 @@ msgstr "Oy: %1"
 
 #: ../inc/forum.inc:679
 msgid "rate: "
-msgstr "oyla:"
+msgstr "Oyla:"
 
 #: ../inc/forum.inc:682
 msgid "Click if you like this message"
@@ -1417,12 +1417,12 @@ msgstr "%1 için ayrı tercihler oluştur"
 
 #: ../inc/prefs.inc:506
 msgid "These settings apply to all computers using this account except"
-msgstr "Bu ayarlar, BOINC Manager'ı kullanarak tercihlerini yerel olarak belirlediğiniz "
+msgstr "Bu ayarlar, aşağıdakiler haricindeki, bu hesabı kullanan tüm bilgisayarlar ve cihazlar için geçerlidir"
 
 #: ../inc/prefs.inc:508
 msgid ""
 "computers where you have set preferences locally using the BOINC Manager"
-msgstr "bilgisayarlar dışındaki, bu hesabı kullanan tüm bilgisayarlar için geçerlidir"
+msgstr "BOINC Manager'ı kullanarak tercihlerini yerel olarak belirledikleriniz"
 
 #: ../inc/prefs.inc:510
 msgid "Android devices"
@@ -1967,7 +1967,7 @@ msgstr "Anahtar kelimeler"
 
 #: ../inc/team.inc:41
 msgid "Find teams with these words in their names or descriptions"
-msgstr "Takımları, isimleri ya da tanıtımlarındaki bu kelimelere göre bul"
+msgstr "Takımları, isimleri ya da açıklamalarındaki bu kelimelere göre bul"
 
 #: ../inc/team.inc:49 ../inc/team.inc:473
 msgid "Type of team"
@@ -2016,7 +2016,7 @@ msgstr "Takım bilgisi"
 
 #: ../inc/team.inc:93 ../user/team_forum.php:72 ../user/team_search.php:82
 msgid "Description"
-msgstr "Tanıtım"
+msgstr "Açıklama"
 
 #: ../inc/team.inc:106
 msgid "Web site"
@@ -2170,7 +2170,7 @@ msgstr "Belirttiğiniz URL, takımın bu sitedeki sayfasında gösterilecek."
 
 #: ../inc/team.inc:466
 msgid "Description of team"
-msgstr "Takımın tanıtımı"
+msgstr "Takımın açıklaması"
 
 #: ../inc/team.inc:482
 msgid "Accept new members?"
@@ -4565,7 +4565,7 @@ msgstr "Tamamlanan iş sayısı"
 
 #: ../user/host_app_versions.php:57
 msgid "Max tasks per day"
-msgstr "Günlük ortalama en fazla iş"
+msgstr "Günlük azami iş"
 
 #: ../user/host_app_versions.php:58
 msgid "Number of tasks today"
@@ -4832,7 +4832,7 @@ msgid ""
 "are configured for high security. To ensure the integrity of program "
 "downloads, all executable files are digitally signed on a secure computer "
 "not connected to the Internet."
-msgstr "İnternetten herhangi bir yazılım indirdiğinizde, bazı olasılıkları göze almaktasınız: Yazılımın tehlikeli hataları bulunabilir ya da indirme sunucusu hack'lenmiş olabilir. %1 bu riskleri en aza indirmeye gayret etmekte. Uygulamalarımızı dikkalice test etmekteyiz. Sunucularımız bir güvenlik duvarı arkasında bulunuyor ve yüksek güvenlik için yapılandırılıyor. İndirilen yazılımların doğruluğunu sağlamak için, tüm çalıştırılabilir dosyalar internete bağlı olmayan güvenli bir bilgisayarda dijital olarak imzalanıyor."
+msgstr "İnternetten herhangi bir yazılım indirdiğinizde, bazı olasılıkları göze almaktasınız: Yazılımın tehlikeli hataları bulunabilir ya da indirme sunucusu hacklenmiş olabilir. %1 bu riskleri en aza indirmeye gayret etmekte. Uygulamalarımızı dikkatlice test etmekteyiz. Sunucularımız bir güvenlik duvarı arkasında bulunuyor ve yüksek güvenlik için yapılandırılıyor. İndirilen yazılımların doğruluğunu sağlamak için, tüm çalıştırılabilir dosyalar internete bağlı olmayan güvenli bir bilgisayarda dijital olarak imzalanıyor."
 
 #: ../user/info.php:50
 msgid ""
@@ -4959,7 +4959,7 @@ msgid ""
 "To maximize discussion and flow of information,\n"
 "our message boards are moderated.\n"
 "Message board postings are subject to the following posting rules:\n"
-msgstr "\nBilgi tartışmasını ve akışını maksimize etmek için,\nmesaj panolarımız yönetilmektedir.\nMesaj panosu gönderimleri aşağıdaki kurallara tabidir:\n"
+msgstr "\nBilgi tartışmasını ve akışını azami hale getirmek için,\nmesaj panolarımız yönetilmektedir.\nMesaj panosu gönderimleri aşağıdaki kurallara tabidir:\n"
 
 #: ../user/moderation.php:30
 msgid ""
@@ -5363,7 +5363,7 @@ msgstr "Uygulamaya göre işler"
 
 #: ../user/server_status.php:168
 msgid "Runtime of last 100 tasks in hours: average, min, max"
-msgstr "Son 100 sonucun ortalama çalışma saati: Ortalama, en az, en çok)"
+msgstr "Son 100 sonucun ortalama çalışma saati: Ortalama, asgari, azami)"
 
 #: ../user/server_status.php:169
 msgid "Users in last 24 hours"
@@ -5443,7 +5443,7 @@ msgstr "Takım üyelerinin e-posta adreslerini görme"
 
 #: ../user/team.php:36
 msgid "edit the team's name and description"
-msgstr "Takımın ismini ve tanıtımını düzenleme"
+msgstr "Takımın ismini ve açıklamasını düzenleme"
 
 #: ../user/team.php:37
 msgid "add or remove team admins"
@@ -5496,7 +5496,7 @@ msgstr "Takımınızın üyelerini 'Takım Yöneticisi' yapabilirsiniz. Takım Y
 
 #: ../user/team_admins.php:45
 msgid "Edit team information (name, URL, description, country)"
-msgstr "Takım bilgisini düzenleme (isim, URL, tanıtım, ülke)"
+msgstr "Takım bilgisini düzenleme (isim, URL, açıklama, ülke)"
 
 #: ../user/team_admins.php:46
 msgid "View the team's join/quit history"
@@ -5761,11 +5761,11 @@ msgstr "İki gönderi arasındaki en kısa süre (saniye olarak)"
 
 #: ../user/team_forum.php:76
 msgid "Minimum total credit to post"
-msgstr "İleti gönderebilmek için sahip olunması gereken en az kredi"
+msgstr "İleti gönderebilmek için sahip olunması gereken asgari kredi"
 
 #: ../user/team_forum.php:79
 msgid "Minimum average credit to post"
-msgstr "İleti gönderebilmek için sahip olunması gereken en az ortalama kredi"
+msgstr "İleti gönderebilmek için sahip olunması gereken asgari ortalama kredi"
 
 #: ../user/team_forum.php:82
 msgid "Submit"
@@ -5995,7 +5995,7 @@ msgstr "Takım bilgilerini düzenle"
 
 #: ../user/team_manage.php:32
 msgid "Change team name, URL, description, type, or country"
-msgstr "Takım adı, URL'si, tanıtımı, tipi ya da ülkesini değiştirin."
+msgstr "Takım adı, URL'si, açıklaması, tipi ya da ülkesini değiştirin."
 
 #: ../user/team_manage.php:34
 msgid "Member list:"
@@ -6422,7 +6422,7 @@ msgstr "tamamlanma kuyruğunda beklemede"
 
 #: ../user/workunit.php:58
 msgid "minimum quorum"
-msgstr "en az yeter sayı"
+msgstr "asgari yeter sayı"
 
 #: ../user/workunit.php:59
 msgid "initial replication"
@@ -6430,7 +6430,7 @@ msgstr "başlangıçtaki kopya sayısı"
 
 #: ../user/workunit.php:60
 msgid "max # of error/total/success tasks"
-msgstr "en fazla sonuç sayısı (hatalı/toplam/başarılı)"
+msgstr "azami sonuç sayısı (hatalı/toplam/başarılı)"
 
 #: ../user/workunit.php:64
 msgid "errors"
@@ -6458,7 +6458,7 @@ msgstr "Oluşturulma"
 
 #: ../project.sample/project.inc:106
 msgid "Your personal background."
-msgstr "Kişisel geçmişiniz."
+msgstr "Kişisel geçmiş"
 
 #: ../project.sample/project.inc:110
 msgid ""
@@ -6477,7 +6477,7 @@ msgid ""
 "    <li>What are your views about the project?\n"
 "    <li>Any suggestions?\n"
 "    </ol>"
-msgstr "Lütfen bize %1 hakkındaki düşüncelerinizi anlatın<ol>\n    <li>Neden %1 çalışıtırıyorsunuz?\n    <li>Proje hakkındaki gözlemleriniz neler\n    <li>Önerilerileriniz var mı?\n    </ol>"
+msgstr "Lütfen bize %1 hakkındaki düşüncelerinizi anlatın<ol>\n    <li>Neden %1 çalıştırıyorsunuz?\n    <li>Proje hakkındaki gözlemleriniz neler\n    <li>Önerileriniz var mı?\n    </ol>"
 
 #: ../project.sample/project_specific_prefs.inc:53
 msgid "Color scheme for graphics"
