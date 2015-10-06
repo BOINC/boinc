@@ -32,6 +32,42 @@
 #include "DlgEventLogListCtrl.h"
 #include "DlgEventLog.h"
 
+#ifdef __WXGTK__
+IMPLEMENT_DYNAMIC_CLASS(MyEvtLogEvtHandler, wxEvtHandler)
+
+BEGIN_EVENT_TABLE(MyEvtLogEvtHandler, wxEvtHandler)
+    EVT_PAINT(MyEvtLogEvtHandler::OnPaint)
+END_EVENT_TABLE()
+
+MyEvtLogEvtHandler::MyEvtLogEvtHandler() {}
+
+MyEvtLogEvtHandler::MyEvtLogEvtHandler(wxGenericListCtrl *theListControl) {
+    m_listCtrl = theListControl;
+    m_view_startX = 0;
+}
+
+void MyEvtLogEvtHandler::OnPaint(wxPaintEvent & event)
+{
+    if (m_listCtrl) {
+        // Work around a wxWidgets 3.0 bug in wxGenericListCtrl (Linux
+        // only) which causes headers to be misaligned after horizontal
+        // scrolling due to wxListHeaderWindow::OnPaint() calling
+        // parent->GetViewStart() before the parent window has been
+        // scrolled to the new position.
+        int view_startX;
+        ((CDlgEventLogListCtrl*)m_listCtrl)->savedHandler->ProcessEvent(event);
+        m_listCtrl->GetViewStart( &view_startX, NULL );
+        if (view_startX != m_view_startX) {
+            m_view_startX = view_startX;
+            ((wxWindow *)m_listCtrl->m_headerWin)->Refresh();
+            ((wxWindow *)m_listCtrl->m_headerWin)->Update();
+        }
+    } else {
+        event.Skip();
+   }
+}
+#endif
+
 
 IMPLEMENT_DYNAMIC_CLASS(CDlgEventLogListCtrl, DLG_LISTCTRL_BASE)
 
@@ -40,6 +76,7 @@ BEGIN_EVENT_TABLE(CDlgEventLogListCtrl, DLG_LISTCTRL_BASE)
 #ifdef __WXMAC__
 	EVT_SIZE(CDlgEventLogListCtrl::OnSize)
 #endif
+
 END_EVENT_TABLE()
 
 
@@ -55,9 +92,7 @@ CDlgEventLogListCtrl::CDlgEventLogListCtrl(CDlgEventLog* pView, wxWindowID iList
 #ifdef __WXMAC__
     m_fauxHeaderView = NULL;
     m_fauxBodyView = NULL;
-#ifdef __WXMAC__
     SetupMacAccessibilitySupport();
-#endif
 #endif
 }
 
