@@ -22,7 +22,7 @@
 #pragma interface "DlgEventLogListCtrl.cpp"
 #endif
 
-#ifdef __WXMAC__
+#if (defined(__WXMAC__) || defined(__WXGTK__))
 #define DLG_LISTCTRL_BASE wxGenericListCtrl
 #else
 #define DLG_LISTCTRL_BASE wxListView
@@ -44,6 +44,12 @@ public:
 
 #ifdef __WXMAC__
     ~CDlgEventLogListCtrl();
+#endif
+
+#ifdef __WXGTK__
+    void                    SaveEventHandler(wxEvtHandler *stdHandler) { savedHandler = stdHandler; }
+    wxEvtHandler*           savedHandler;
+    wxScrolledWindow*       GetMainWin(void) { return (wxScrolledWindow*) m_mainWin; }
 #endif
 
 private:
@@ -69,5 +75,24 @@ private:
     void*                   m_fauxBodyView;
 #endif
 };
+
+#ifdef __WXGTK__
+// Define a custom event handler
+class MyEvtLogEvtHandler : public wxEvtHandler
+{
+    DECLARE_DYNAMIC_CLASS(MyEvtLogEvtHandler)
+
+public:
+    MyEvtLogEvtHandler();
+    MyEvtLogEvtHandler(wxGenericListCtrl *theListControl);
+    void                    OnPaint(wxPaintEvent & event);
+
+private:
+    wxGenericListCtrl *     m_listCtrl;
+    int                     m_view_startX;
+
+    DECLARE_EVENT_TABLE()
+};
+#endif
 
 #endif
