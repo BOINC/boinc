@@ -248,7 +248,7 @@ void CProjectInfoPage::CreateControls()
     // Get the project list
     m_apl = new ALL_PROJECTS_LIST;
     pDoc->rpc.get_all_projects_list(*m_apl);
-    for (int i=0; i<m_apl->projects.size(); i++) {
+    for (unsigned int i=0; i<m_apl->projects.size(); i++) {
         wxString strGeneralArea = wxGetTranslation(wxString(m_apl->projects[i]->general_area.c_str(), wxConvUTF8));
         aCategories.Add(strGeneralArea);
     }
