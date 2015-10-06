@@ -10,7 +10,6 @@ locale_dirs = \
 	bg \
 	ca \
 	cs \
-	cy \
 	da \
 	de \
 	el \
