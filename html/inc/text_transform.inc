@@ -194,12 +194,8 @@ function bb2html($text, $export=false) {
         "@\[size=([1-9]|[0-2][0-9])\](.*?)\[/size\]@is",
         "@\[mailto\](.*?)\[/mailto\]@is",
         "@\[email\](.*?)\[/email\]@is",
-        "@\[trac\](?:\#|ticket:)(\d+)\[/trac\]@is",
-        "@\[trac\]wiki:(.*?)\[/trac\]@is",
-        "@\[trac\]changeset:(\d+)\[/trac\]@is"
-        //Note:    The above list array member ensures we're within a list
-        //when doing list item transformations.
-        //TODO: Make sure we're not between two lists
+        "@\[github\](?:\#|ticket:)(\d+)\[/github\]@is",
+        "@\[github\]wiki:(.*?)\[/github\]@is",
     );
     
     // What the above tags are turned in to
@@ -227,9 +223,8 @@ function bb2html($text, $export=false) {
             "<span style=\"font-size: \\1px;\">\\2</span>",
             "<a href=\"mailto:\\1\">\\1</a>",
             "<a href=\"mailto:\\1\">\\1</a>",
-            "<a href=\"http://boinc.berkeley.edu/trac/ticket/\\1\">#\\1</a>",
-            "<a href=\"http://boinc.berkeley.edu/trac/wiki/\\1\">\\1</a>",
-            "<a href=\"http://boinc.berkeley.edu/trac/changeset/\\1\">[\\1]</a>"
+            "<a href=\"https://github.com/BOINC/boinc/issues/\\1\">#\\1</a>",
+            "<a href=\"https://github.com/BOINC/boinc-dev-doc/wiki/\\1\">\\1</a>",
         );
     } else {
         $htmltags = array (
@@ -255,9 +250,8 @@ function bb2html($text, $export=false) {
             "<span style=\"font-size: \\1px;\">\\2</span>",
             "<a href=\"mailto:\\1\">\\1</a>",
             "<a href=\"mailto:\\1\">\\1</a>",
-            "<a href=\"http://boinc.berkeley.edu/trac/ticket/\\1\">#\\1</a>",
-            "<a href=\"http://boinc.berkeley.edu/trac/wiki/\\1\">\\1</a>",
-            "<a href=\"http://boinc.berkeley.edu/trac/changeset/\\1\">[\\1]</a>"
+            "<a href=\"https://github.com/BOINC/boinc/issues/\\1\">#\\1</a>",
+            "<a href=\"https://github.com/BOINC/boinc-dev-doc/wiki/\\1\">\\1</a>",
         );
     }
     
