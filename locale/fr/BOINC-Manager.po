@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-24 17:05-0500\n"
-"PO-Revision-Date: 2015-10-07 23:28+0000\n"
+"PO-Revision-Date: 2015-10-07 23:34+0000\n"
 "Last-Translator: Frédéric Ménétrier <frederic.menetrier@me.com>\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -369,7 +369,7 @@ msgstr "Réessayer les transferts de fichiers et les taches différés "
 
 #: clientgui/AdvancedFrame.cpp:504 clientgui/sg_BoincSimpleFrame.cpp:211
 msgid "Event Log...\tCtrl+Shift+E"
-msgstr "Journal des évènements...\t Ctrl+Shift+E"
+msgstr "Journal des événements...\t Ctrl+Shift+E"
 
 #: clientgui/AdvancedFrame.cpp:505
 msgid "Show diagnostic messages"
@@ -1075,7 +1075,7 @@ msgstr "Copyright :"
 msgid ""
 "(C) 2003-2015 University of California, Berkeley.\n"
 "All Rights Reserved."
-msgstr "(C) 2003-2015 Université de Californie, Berkeley.\nTous droits réservés."
+msgstr "© 2003-2015 Université de Californie, Berkeley.\nTous droits réservés."
 
 #: clientgui/DlgAbout.cpp:196
 msgid "BOINC is distributed under the GNU Lesser General Public License v3.0."
@@ -3635,11 +3635,11 @@ msgstr "Services"
 #: clientgui/mac/Mac_GUI.cpp:36 clientgui\mac/Mac_GUI.cpp:36
 #, c-format
 msgid "Hide %s"
-msgstr "Cacher %s"
+msgstr "Masquer %s"
 
 #: clientgui/mac/Mac_GUI.cpp:37 clientgui\mac/Mac_GUI.cpp:37
 msgid "Hide Others"
-msgstr "Caches les autres"
+msgstr "Masquer les autres"
 
 #: clientgui/mac/Mac_GUI.cpp:38 clientgui\mac/Mac_GUI.cpp:38
 msgid "Show All"
@@ -3840,17 +3840,17 @@ msgstr "Non disponible"
 #: clientgui/sg_TaskPanel.cpp:852
 #, c-format
 msgid "Elapsed: %s"
-msgstr "Écoulé: %s"
+msgstr "Écoulé : %s"
 
 #: clientgui/sg_TaskPanel.cpp:866
 #, c-format
 msgid "Remaining (estimated): %s"
-msgstr "Restant (estimation): %s"
+msgstr "Restant (estimation) : %s"
 
 #: clientgui/sg_TaskPanel.cpp:881
 #, c-format
 msgid "Status: %s"
-msgstr "Statut: %s"
+msgstr "Statut : %s"
 
 #: clientgui/sg_TaskPanel.cpp:1229
 msgid "Retrieving current status."
