@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2014 University of California
+// Copyright (C) 2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -50,12 +50,8 @@ bool noinsert = false;
 int wu_id_modulus=0, wu_id_remainder=0;
 int sleep_interval = SLEEP_INTERVAL;
 int one_pass_N_WU=0;
-int g_argc;
-char** g_argv;
-char* results_prefix = NULL;
-char* transcripts_prefix = NULL;
 
-void usage(char** argv) {
+void usage(char* name) {
     fprintf(stderr,
         "This program is an 'assimilator'; it handles completed jobs.\n"
         "Normally it is run as a daemon from config.xml.\n"
@@ -74,9 +70,8 @@ void usage(char** argv) {
         "    [--noinsert]          Don't insert records in app-specific DB\n"
         "    [-h | --help]                 Show this\n"
         "    [-v | --version]      Show version information\n",
-        argv[0]
+        name
     );
-    exit(0);
 }
 
 // assimilate all WUs that need it
@@ -100,7 +95,7 @@ bool do_pass(APP& app) {
     }
 
     sprintf(buf,
-        "where appid=%lu and assimilate_state=%d %s limit %d",
+        "where appid=%ld and assimilate_state=%d %s limit %d",
         app.id, ASSIMILATE_READY, mod_clause,
         one_pass_N_WU ? one_pass_N_WU : 1000
     );
@@ -127,7 +122,7 @@ bool do_pass(APP& app) {
             "[%s] assimilating WU %lu; state=%d\n", wu.name, wu.id, wu.assimilate_state
         );
 
-        sprintf(buf, "where workunitid=%lu", wu.id);
+        sprintf(buf, "where workunitid=%ld", wu.id);
         canonical_result.clear();
         bool found = false;
         while (1) {
@@ -206,6 +201,13 @@ bool do_pass(APP& app) {
     return did_something;
 }
 
+void missing_argument(char* name, char* arg) {
+    log_messages.printf(MSG_CRITICAL,
+        "%s requires an argument\n\n", arg
+    );
+    usage(name);
+}
+
 int main(int argc, char** argv) {
     int retval;
     bool one_pass = false;
@@ -215,22 +217,38 @@ int main(int argc, char** argv) {
 
     strcpy(app.name, "");
     check_stop_daemons();
-    g_argc = argc;
-    g_argv = argv;
+
+    int j=1;
     for (i=1; i<argc; i++) {
         if (is_arg(argv[i], "one_pass_N_WU")) {
-            one_pass_N_WU = atoi(argv[++i]);
+            if (!argv[++i]) {
+                missing_argument(argv[0], argv[--i]);
+                exit(1);
+            }
+            one_pass_N_WU = atoi(argv[i]);
             one_pass = true;
         } else if (is_arg(argv[i], "sleep_interval")) {
-            sleep_interval = atoi(argv[++i]);
+            if (!argv[++i]) {
+                missing_argument(argv[0], argv[--i]);
+                exit(1);
+            }
+            sleep_interval = atoi(argv[i]);
         } else if (is_arg(argv[i], "one_pass")) {
             one_pass = true;
         } else if (is_arg(argv[i], "d") || is_arg(argv[i], "debug_level")) {
-            int dl = atoi(argv[++i]);
+            if (!argv[++i]) {
+                missing_argument(argv[0], argv[--i]);
+                exit(1);
+            }
+            int dl = atoi(argv[i]);
             log_messages.set_debug_level(dl);
             if (dl ==4) g_print_queries = true;
         } else if (is_arg(argv[i], "app")) {
-            safe_strcpy(app.name, argv[++i]);
+            if (!argv[++i]) {
+                missing_argument(argv[0], argv[--i]);
+                exit(1);
+            }
+            safe_strcpy(app.name, argv[i]);
         } else if (is_arg(argv[i], "dont_update_db")) {
             // This option is for testing your assimilator.  When set,
             // it ensures that the assimilator does not actually modify
@@ -244,25 +262,31 @@ int main(int argc, char** argv) {
             // (as opposed to the boinc) DB.
             noinsert = true;
         } else if (is_arg(argv[i], "mod")) {
-            wu_id_modulus   = atoi(argv[++i]);
-            wu_id_remainder = atoi(argv[++i]);
+            if (!argv[++i]) {
+                missing_argument(argv[0], argv[--i]);
+                exit(1);
+            }
+            wu_id_modulus   = atoi(argv[i]);
+            if (!argv[++i]) {
+                missing_argument(argv[0], argv[--i]);
+                exit(1);
+            }
+            wu_id_remainder = atoi(argv[i]);
         } else if (is_arg(argv[i], "help") || is_arg(argv[i], "h")) {
-            usage(argv);
+            usage(argv[0]);
+            exit(0);
         } else if (is_arg(argv[i], "v") || is_arg(argv[i], "version")) {
             printf("%s\n", SVN_VERSION);
             exit(0);
-        } else if (is_arg(argv[i], "results_prefix")) {
-            results_prefix=argv[++i];
-        } else if (is_arg(argv[i], "transcripts_prefix")) {
-            transcripts_prefix=argv[++i];
         } else {
-            // project-specific part might parse extra args
-            //log_messages.printf(MSG_CRITICAL, "Unrecognized arg: %s\n", argv[i]);
+            // unknown arg - pass to handler
+            argv[j++] = argv[i];
         }
     }
 
     if (!strlen(app.name)) {
-        usage(argv);
+        usage(argv[0]);
+        exit(1);
     }
 
     if (wu_id_modulus) {
@@ -280,19 +304,24 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    log_messages.printf(MSG_NORMAL, "Starting\n");
-
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
-        log_messages.printf(MSG_CRITICAL, "Can't open DB\n");
+        log_messages.printf(MSG_CRITICAL, "boinc_db.open failed: %s\n", boincerror(retval));
         exit(1);
     }
     sprintf(buf, "where name='%s'", app.name);
     retval = app.lookup(buf);
     if (retval) {
-        log_messages.printf(MSG_CRITICAL, "Can't find app\n");
+        log_messages.printf(MSG_CRITICAL, "Can't find app: %s\n", app.name);
         exit(1);
     }
+
+    argv[j] = 0;
+    retval = assimilate_handler_init(j, argv);
+    if (retval) exit(1);
+
+    log_messages.printf(MSG_NORMAL, "Starting assimilator handler\n");
+
     install_stop_signal_handler();
     do {
         if (!do_pass(app)) {
