@@ -42,10 +42,12 @@ row2_plain("[img]http://example.com/pic.jpg[/img]", tra("use to display an image
 row2_plain("[code]".tra("Code snippet here")."[/code]", tra("use to display some code"));
 row2_plain("[pre]".tra("Pre-formatted text")."[/pre]", tra("use to display pre-formatted (usually monospaced) text"));
 row2_plain("[list]<br>* ".tra("Item 1")."<br>* ".tra("Item2")."<br>[/list]", "<ul><li>".tra("Item 1")."</li><li>".tra("Item 2")."</li></ul>");
-row2_plain("[trac]#1[/trac] or [trac]ticket:1[/trac]",
-    tra("use to link to Trac ticket on BOINC website").": <a href=\"http://boinc.berkeley.edu/trac/ticket/1\">#1</a>");
-row2_plain("[trac]wiki:WebForum[/trac]",
-    tra("use to link to Trac Wiki on BOINC website").": <a href=\"http://boinc.berkeley.edu/trac/wiki/WebForum\">WebForum</a>");
+row2_plain(
+    "[github]#1392[/github] or [github]ticket:1392[/github]",
+    tra("link to an issue on the BOINC Github repository").": <a href=\"https://github.com/BOINC/boinc/issues/1392\">#1392</a>");
+row2_plain(
+    "[github]wiki:WebForum[/github]",
+    tra("link to a Wiki page on the BOINC Github repository").": <a href=\"https://github.com/BOINC/boinc-dev-doc/wiki/BoincIntro\">BoincIntro</a>");
 end_table();
 
 echo "<p>
