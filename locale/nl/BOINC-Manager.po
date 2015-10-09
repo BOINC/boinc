@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-24 17:05-0500\n"
-"PO-Revision-Date: 2015-10-09 22:21+0000\n"
+"PO-Revision-Date: 2015-10-09 22:27+0000\n"
 "Last-Translator: Jord <elst93@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/boinc/boinc/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -2905,14 +2905,14 @@ msgstr "Het project is tijdelijk niet bereikbaar.\n\nProbeer het later a.u.b. op
 
 #: clientgui/UnavailablePage.cpp:190
 msgid "Account manager temporarily unavailable"
-msgstr "Account manager tijdelijk niet bereikbaar"
+msgstr "Accountmanager tijdelijk niet bereikbaar"
 
 #: clientgui/UnavailablePage.cpp:193
 msgid ""
 "The account manager is temporarily unavailable.\n"
 "\n"
 "Please try again later."
-msgstr "Account manager tijdelijk niet bereikbaar.\n\nProbeer het later a.u.b. opnieuw."
+msgstr "Accountmanager tijdelijk niet bereikbaar.\n\nProbeer het later a.u.b. opnieuw."
 
 #: clientgui/ValidateAccountKey.cpp:68
 msgid "Please specify an account key to continue."
@@ -2924,7 +2924,7 @@ msgstr "Ongeldige Account Key; vul a.u.b een geldige in"
 
 #: clientgui/ValidateAccountKey.cpp:82 clientgui/ValidateEmailAddress.cpp:86
 msgid "Validation conflict"
-msgstr "Geldigheids conflict"
+msgstr "Geldigheidsconflict"
 
 #: clientgui/ValidateEmailAddress.cpp:72
 msgid "Please specify an email address"
@@ -3120,7 +3120,7 @@ msgstr "Bezig met hervatten..."
 
 #: clientgui/ViewProjects.cpp:438
 msgid "Suspending project..."
-msgstr "Bezig met opschorten..."
+msgstr "Bezig met pauzeren..."
 
 #: clientgui/ViewProjects.cpp:475
 msgid "Telling project to allow additional task downloads..."
@@ -3182,7 +3182,7 @@ msgstr "Op verzoek van gebruiker"
 
 #: clientgui/ViewProjects.cpp:1136
 msgid "To fetch work"
-msgstr "Om werk te gaan uitvoeren"
+msgstr "Om werk gaan vragen"
 
 #: clientgui/ViewProjects.cpp:1137
 msgid "To report completed tasks"
