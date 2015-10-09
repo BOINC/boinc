@@ -316,6 +316,11 @@ bool VBOX_BASE::is_vm_machine_configuration_available() {
     return false;
 }
 
+
+// Updates for VirtualBox errors dealing with CPU exceleration can be found here:
+// https://www.virtualbox.org/browser/vbox/trunk/src/VBox/VMM/VMMR3/HM.cpp#L599
+//
+
 bool VBOX_BASE::is_logged_failure_vm_extensions_disabled() {
     if (vm_log.find("VERR_VMX_MSR_LOCKED_OR_DISABLED") != string::npos) return true;
     if (vm_log.find("VERR_SVM_DISABLED") != string::npos) return true;
@@ -323,6 +328,11 @@ bool VBOX_BASE::is_logged_failure_vm_extensions_disabled() {
     // VirtualBox 4.3.x or better
     if (vm_log.find("VERR_VMX_MSR_VMXON_DISABLED") != string::npos) return true;
     if (vm_log.find("VERR_VMX_MSR_SMX_VMXON_DISABLED") != string::npos) return true;
+
+    // VirtualBox 5.x or better
+    if (vm_log.find("VERR_VMX_MSR_VMX_DISABLED") != string::npos) return true;
+    if (vm_log.find("VERR_VMX_MSR_ALL_VMX_DISABLED") != string::npos) return true;
+    if (vm_log.find("VERR_VMX_MSR_LOCKING_FAILED") != string::npos) return true;
 
     return false;
 }
@@ -338,6 +348,10 @@ bool VBOX_BASE::is_logged_failure_vm_extensions_not_supported() {
     if (vm_log.find("VERR_SVM_NO_SVM") != string::npos) return true;
     return false;
 }
+
+//
+//
+//
 
 bool VBOX_BASE::is_logged_failure_vm_powerup() {
     if (vm_log.find("Power up failed (vrc=VINF_SUCCESS, rc=E_FAIL (0X80004005))") != string::npos) return true;
