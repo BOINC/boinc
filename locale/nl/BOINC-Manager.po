@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-24 17:05-0500\n"
-"PO-Revision-Date: 2015-10-09 22:27+0000\n"
+"PO-Revision-Date: 2015-10-09 22:32+0000\n"
 "Last-Translator: Jord <elst93@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/boinc/boinc/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -3210,7 +3210,7 @@ msgstr "Onbekende oorzaak"
 
 #: clientgui/ViewProjects.cpp:1156
 msgid "Suspended by user"
-msgstr "Opgeschort door gebruiker"
+msgstr "Gepauzeerd door gebruiker"
 
 #: clientgui/ViewProjects.cpp:1159
 msgid "Won't get new tasks"
@@ -3234,7 +3234,7 @@ msgstr "Bijwerk verzoek wordt uitgevoerd"
 
 #: clientgui/ViewProjects.cpp:1177
 msgid "Trickle up message pending"
-msgstr "Trickle up bericht aan het afwachten"
+msgstr "Voortgangsrapport aan het afwachten"
 
 #: clientgui/ViewProjects.cpp:1183
 msgid "Communication deferred"
@@ -3477,7 +3477,7 @@ msgstr "Weet je zeker dat je de overdracht van '%s' wilt annuleren?\nEen overdra
 
 #: clientgui/ViewTransfers.cpp:431
 msgid "Abort File Transfer"
-msgstr "Annuleer Bestands Overdracht"
+msgstr "Annuleer Bestandsoverdracht"
 
 #: clientgui/ViewTransfers.cpp:864
 msgid "Upload"
@@ -3565,11 +3565,11 @@ msgstr "Werk"
 
 #: clientgui/ViewWork.cpp:444
 msgid "Resuming task..."
-msgstr "Werk word hervat..."
+msgstr "Werk wordt hervat..."
 
 #: clientgui/ViewWork.cpp:447
 msgid "Suspending task..."
-msgstr "Bezig met opschorten..."
+msgstr "Bezig met pauzeren..."
 
 #: clientgui/ViewWork.cpp:476
 msgid "Showing graphics for task..."
@@ -3740,7 +3740,7 @@ msgstr "Doe mee met één of meerdere verschillende wetenschappelijke projecten"
 
 #: clientgui/sg_ProjectPanel.cpp:77
 msgid "Synchronize projects with account manager system"
-msgstr "Projecten bijwerken met behulp van de account manager"
+msgstr "Projecten bijwerken met behulp van de accountmanager"
 
 #. TODO: Might want better wording for Project Selection Combo Box tooltip
 #: clientgui/sg_ProjectPanel.cpp:124
