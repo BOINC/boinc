@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-24 17:05-0500\n"
-"PO-Revision-Date: 2015-10-09 22:38+0000\n"
+"PO-Revision-Date: 2015-10-09 23:39+0000\n"
 "Last-Translator: Jord <elst93@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/boinc/boinc/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -236,7 +236,7 @@ msgstr "Sluit de op dit moment aangesloten BOINC cliënt"
 #: clientgui/AdvancedFrame.cpp:355 clientgui/sg_BoincSimpleFrame.cpp:120
 #, c-format
 msgid "Close the %s window"
-msgstr "Sluit het %s venster"
+msgstr "Sluit het %s dialoog-venster"
 
 #: clientgui/AdvancedFrame.cpp:358 clientgui/sg_BoincSimpleFrame.cpp:123
 msgid "&Close window"
@@ -1603,7 +1603,7 @@ msgstr "Meer informatie ..."
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:120 clientgui/DlgHiddenColumns.cpp:101
 msgid "Save all values and close the dialog"
-msgstr "Bewaar alle waardes en sluit dit dialoog"
+msgstr "Bewaar alle waardes en sluit dit dialoog-venster"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:123 clientgui/DlgHiddenColumns.cpp:104
 msgid "Defaults"
@@ -1615,7 +1615,7 @@ msgstr "Zet standaardwaardes terug"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:128 clientgui/DlgHiddenColumns.cpp:109
 msgid "Close the dialog without saving"
-msgstr "Sluit dit dialoog zonder de waardes te bewaren."
+msgstr "Sluit dit dialoog-venster zonder de waardes te bewaren."
 
 #: clientgui/DlgEventLog.cpp:227
 #, c-format
@@ -1794,7 +1794,7 @@ msgid ""
 "In most cases, it is better just to close the %s window\n"
 "rather than to exit the application; that will allow %s to run its\n"
 "tasks at the times you selected in your preferences."
-msgstr "Dit zal %s en het werk stop zetten, de voortgang zal pas worden\nhervat als de %s of de %s screensaver opnieuw gestart wordt.\n\nIn de meeste gevallen, is het aan te raden om het %s venster\nte sluiten. Op deze manier blijft %s actief en kan het werk\nworden voort gezet op basis van de opgegeven voorkeuren."
+msgstr "Dit zal %s en het werk stop zetten, de voortgang zal pas worden\nhervat als de %s of de %s screensaver opnieuw gestart wordt.\n\nIn de meeste gevallen, is het aan te raden om het %s dialoog-venster\nte sluiten. Op deze manier blijft %s actief en kan het werk\nworden voort gezet op basis van de opgegeven voorkeuren."
 
 #: clientgui/DlgExitMessage.cpp:153
 #, c-format
@@ -1941,7 +1941,7 @@ msgstr "Bijwerk verzoek wordt uitgevoerd"
 
 #: clientgui/DlgItemProperties.cpp:276
 msgid "Trickle-up pending"
-msgstr "Trickle-up in behandeling"
+msgstr "Voortgangsrapport in behandeling"
 
 #: clientgui/DlgItemProperties.cpp:279 clientgui/DlgItemProperties.cpp:281
 msgid "Host location"
@@ -3533,7 +3533,7 @@ msgstr "Laat VM Console zien"
 
 #: clientgui/ViewWork.cpp:226
 msgid "Show VM Console in a window."
-msgstr "Laat de VM Console zien in een venster."
+msgstr "Laat de VM Console zien in een dialoog-venster."
 
 #: clientgui/ViewWork.cpp:233
 msgid "Suspend work for this result."
@@ -3688,7 +3688,7 @@ msgstr "Berekeningen hervatten"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:913
 msgid "Open a window to view notices from projects or BOINC"
-msgstr "Open een venster om berichten van BOINC projecten te bekijken"
+msgstr "Open een dialoog-venster om berichten van BOINC projecten te bekijken"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:934 clientgui/sg_DlgPreferences.cpp:364
 #, c-format
