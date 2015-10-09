@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-24 17:05-0500\n"
-"PO-Revision-Date: 2015-10-09 23:39+0000\n"
+"PO-Revision-Date: 2015-10-09 23:59+0000\n"
 "Last-Translator: Jord <elst93@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/boinc/boinc/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -1225,7 +1225,7 @@ msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
 "energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, "
 "and repeat."
-msgstr "Pauzeren/hervatten van verwerking elke zoveel seconden om de CPU temperatuur en het energieverbruik te verminderen. Bijvoorbeeld: 75% betekent 3 seconden verwerken, 1 seconde pauze, enzovoort. "
+msgstr "Pauzeer/hervat verwerking elke zoveel seconden om de CPU temperatuur en het energieverbruik te verminderen. Bijvoorbeeld: 75% betekent 3 seconden verwerken, 1 seconde pauze, enzovoort. "
 
 #: clientgui/DlgAdvPreferencesBase.cpp:260 clientgui/sg_DlgPreferences.cpp:289
 #, no-c-format
@@ -1243,7 +1243,7 @@ msgstr "Pauzeer wanneer de computer op accu werkt"
 #: clientgui/DlgAdvPreferencesBase.cpp:276 clientgui/sg_DlgPreferences.cpp:233
 msgid ""
 "Check this to suspend computing on portables when running on battery power."
-msgstr "Markeer dit om verwerking op te schorten op mobiele toestellen wanneer deze op accu draaien."
+msgstr "Markeer dit om verwerking te pauzeren op mobiele toestellen wanneer deze op accu werken."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:282 clientgui/sg_DlgPreferences.cpp:251
 msgid "Suspend when computer is in use"
@@ -1253,7 +1253,7 @@ msgstr "Pauzeer waneer computer in gebruik is"
 msgid ""
 "Check this to suspend computing and file transfers when you're using the "
 "computer."
-msgstr "Markeer dit om verwerking en bestandsoverdrachten op te schorten wanneer je de computer gebruikt."
+msgstr "Markeer dit om verwerking en bestandsoverdrachten te pauzeren wanneer je de computer gebruikt."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:291
 msgid "Suspend GPU computing when computer is in use"
@@ -1261,7 +1261,7 @@ msgstr "Pauzeer GPU gebruik wanneer de computer in gebruik is"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:294
 msgid "Check this to suspend GPU computing when you're using the computer."
-msgstr "Markeer dit om GPU gebruik op te schorten wanneer je de computer gebruikt."
+msgstr "Markeer dit om GPU gebruik te pauzeren wanneer je de computer gebruikt."
 
 #. min idle time
 #: clientgui/DlgAdvPreferencesBase.cpp:299 clientgui/sg_DlgPreferences.cpp:262
@@ -1507,7 +1507,7 @@ msgid ""
 "If checked, suspended tasks stay in memory, and resume with no work lost. If"
 " unchecked, suspended tasks are removed from memory, and resume from their "
 "last checkpoint."
-msgstr "Wanneer gemarkeerd blijven gepauzeerde taken in het geheugen, en kunnen deze herstarten zonder dat werk verloren gaat. Wanneer niet gemarkeerd worden gepauzeerde taken uit het geheugen verwijderd, en herstarten deze van hun laatste controlepunt. "
+msgstr "Wanneer gemarkeert blijven gepauzeerde taken in het geheugen, en kunnen deze herstarten zonder dat werk verloren gaat. Wanneer niet gemarkeert worden gepauzeerde taken uit het geheugen verwijderd, en herstarten deze van hun laatste controlepunt. "
 
 #: clientgui/DlgAdvPreferencesBase.cpp:643
 #, c-format
