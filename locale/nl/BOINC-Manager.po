@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-24 17:05-0500\n"
-"PO-Revision-Date: 2015-10-09 22:32+0000\n"
+"PO-Revision-Date: 2015-10-09 22:38+0000\n"
 "Last-Translator: Jord <elst93@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/boinc/boinc/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -674,7 +674,7 @@ msgstr "%s - Verbindings Fout"
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "Please contact your administrator to add you to the 'boinc_users' local user group."
-msgstr "Je hebt momenteel niet de benodigde rechten om de cliënt te kunnen\nonderhouden. Neem contact op met de systeembeheerder."
+msgstr "Je hebt momenteel niet de benodigde rechten om de cliënt te kunnen\nbeheren. Neem contact op met de systeembeheerder."
 
 #: clientgui/BOINCBaseFrame.cpp:530
 msgid ""
@@ -2837,7 +2837,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr "De World Community Grid - BOINC software kon geen verbinding\nmet het internet maken. Mogelijke oorzaken zijn:\n\n1) Verbindings probleem.  Controleer de netwerk- of modemverbinding\nen klik op Vorige om opnieuw te proberen.\n\n2) Een firewall blokkeerd de World Community Grid - BOINC software.\n  Configureer je firewall om BOINC en de BOINC Manager toegang te\nverlenen tot poort 80 en poort 443, klik daarna op\nVorige om opnieuw te proberen.\n\n3) Je maakt gebruik van een proxy server.\nKlik op Volgende op om de proxy instellingen te maken."
+msgstr "De World Community Grid - BOINC software kon geen verbinding\nmet het internet maken. Mogelijke oorzaken zijn:\n\n1) Verbindingsprobleem.  Controleer de netwerk- of modemverbinding\nen klik op Vorige om opnieuw te proberen.\n\n2) Een firewall blokkeert de World Community Grid - BOINC software.\n  Configureer je firewall om BOINC en de BOINC Manager toegang te\nverlenen tot poort 80 en poort 443, klik daarna op\nVorige om opnieuw te proberen.\n\n3) Je maakt gebruik van een proxy server.\nKlik op Volgende op om de proxy instellingen te maken."
 
 #: clientgui/ProxyInfoPage.cpp:203
 msgid ""
@@ -3812,7 +3812,7 @@ msgstr "Taak specifieke instructies"
 
 #: clientgui/sg_TaskPanel.cpp:571
 msgid "Pop up a menu of commands to apply to this task"
-msgstr "Toon toepassings instructies voor deze taak in een pop-up menu"
+msgstr "Toon toepassingsinstructies voor deze taak in een pop-up menu"
 
 #: clientgui/sg_TaskPanel.cpp:706
 #, c-format
@@ -3857,27 +3857,27 @@ msgstr "Werk wordt gedownload."
 
 #: clientgui/sg_TaskPanel.cpp:1240
 msgid "Processing Suspended:  Running On Batteries."
-msgstr "Werk opgeschort:  Computer op accu."
+msgstr "Werk gepauzeerd:  computer op accu."
 
 #: clientgui/sg_TaskPanel.cpp:1242
 msgid "Processing Suspended:  User Active."
-msgstr "Werk opgeschort:  Gebruiker actief."
+msgstr "Werk gepauzeerd:  gebruiker actief."
 
 #: clientgui/sg_TaskPanel.cpp:1244
 msgid "Processing Suspended:  User paused processing."
-msgstr "Werk opgeschort:  Gepauzeerd door gebruiker."
+msgstr "Werk gepauzeerd:  gepauzeerd door gebruiker."
 
 #: clientgui/sg_TaskPanel.cpp:1246
 msgid "Processing Suspended:  Time of Day."
-msgstr "Werk opgeschort:  Tijds-instellingen."
+msgstr "Werk gepauzeerd:  tijds-instellingen."
 
 #: clientgui/sg_TaskPanel.cpp:1248
 msgid "Processing Suspended:  Benchmarks Running."
-msgstr "Werk opgeschort:  Benchmark loopt."
+msgstr "Werk gepauzeerd:  benchmark loopt."
 
 #: clientgui/sg_TaskPanel.cpp:1250
 msgid "Processing Suspended."
-msgstr "Werk opgeschort."
+msgstr "Werk gepauzeerd."
 
 #: clientgui/sg_TaskPanel.cpp:1254
 msgid "Waiting to contact project servers."
@@ -3893,7 +3893,7 @@ msgstr "Geen werk aanwezig"
 
 #: clientgui/sg_TaskPanel.cpp:1264
 msgid "Unable to connect to the core client"
-msgstr "Client verbinding niet aanwezig"
+msgstr "Cliënt verbinding niet aanwezig"
 
 #: clientgui/wizardex.cpp:377 clientgui/wizardex.cpp:553
 msgid "&Next >"
