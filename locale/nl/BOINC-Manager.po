@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-24 17:05-0500\n"
-"PO-Revision-Date: 2015-10-09 21:54+0000\n"
+"PO-Revision-Date: 2015-10-09 22:08+0000\n"
 "Last-Translator: Jord <elst93@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/boinc/boinc/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -1803,7 +1803,7 @@ msgstr "Stop de actieve taken bij het afsluiten van de %s"
 
 #: clientgui/DlgExitMessage.cpp:165
 msgid "Remember this decision and do not show this dialog."
-msgstr "Onthoud deze keuze en laat dit venster niet meer zien."
+msgstr "Onthoud deze keuze en laat dit dialoog-venster niet meer zien."
 
 #: clientgui/DlgExitMessage.cpp:178 clientgui/DlgGenericMessage.cpp:125
 #: clientgui/DlgOptions.cpp:415 clientgui/DlgSelectComputer.cpp:168
@@ -1813,7 +1813,7 @@ msgstr "&Annuleren"
 
 #: clientgui/DlgGenericMessage.cpp:112
 msgid "Don't show this dialog again."
-msgstr "Laat dit venster niet meer zien."
+msgstr "Laat dit dialoog-venster niet meer zien."
 
 #: clientgui/DlgHiddenColumns.cpp:64
 #, c-format
@@ -1854,7 +1854,7 @@ msgstr "Projectapplicaties niet beschikbaar voor "
 
 #: clientgui/DlgItemProperties.cpp:203
 msgid "Client configuration excludes "
-msgstr "Clientspecifieke configuratie omvat geen "
+msgstr "Cliëntspecifieke configuratie omvat geen "
 
 #: clientgui/DlgItemProperties.cpp:209
 #, c-format
@@ -1953,7 +1953,7 @@ msgstr "standaardwaarde"
 
 #: clientgui/DlgItemProperties.cpp:285
 msgid "Added via account manager"
-msgstr "Toegevoegd d.m.v. account manager"
+msgstr "Toegevoegd d.m.v. accountmanager"
 
 #: clientgui/DlgItemProperties.cpp:288
 msgid "Remove when tasks done"
@@ -2144,7 +2144,7 @@ msgstr "Afsluitbevestiging weergeven?"
 
 #: clientgui/DlgOptions.cpp:229
 msgid "Display the exit dialog when shutting down the Manager."
-msgstr "Laat de afsluitbevestiging zien bij het afsluiten van de manager."
+msgstr "Laat de afsluitbevestiging zien bij het afsluiten van de Manager."
 
 #: clientgui/DlgOptions.cpp:240
 msgid "Dial-up and Virtual Private Network settings"
@@ -2264,7 +2264,7 @@ msgstr "%s - Selecteer computer"
 msgid ""
 "Another instance of %s is already running \n"
 "on this computer.  Please select a client to monitor."
-msgstr "%s wordt al een keer uitgevoerd op deze \ncomputer.  Kies de client die u wilt controleren."
+msgstr "%s wordt al een keer uitgevoerd op deze \ncomputer.  Kies de cliënt die u wilt controleren."
 
 #: clientgui/DlgSelectComputer.cpp:143
 msgid "Host name:"
@@ -2525,7 +2525,7 @@ msgstr "bandbreedte netwerk overschreden"
 
 #: clientgui/MainDocument.cpp:2454
 msgid "requested by operating system"
-msgstr "op verzoek van het besturings-systeem"
+msgstr "op verzoek van het besturingssysteem"
 
 #: clientgui/MainDocument.cpp:2456
 msgid "unknown reason"
