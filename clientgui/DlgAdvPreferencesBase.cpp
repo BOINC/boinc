@@ -416,7 +416,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
 
     addNewRowToSizer(miscProcBoxSizer, ProcSwitchEveryTT, staticText18, m_txtProcSwitchEvery, staticText19);
 
-    wxString DiskWriteToDiskTT(_("This controls how often tasks save their state to disk, so that they can be restarted later."));
+    wxString DiskWriteToDiskTT(_("This controls how often tasks save their state to disk, so that they later can be continued from that point."));
     wxStaticText* staticText46 = new wxStaticText(
         miscProcStaticBox, ID_DEFAULT,
         // context: Request tasks to checkpoint at most every ___ seconds
