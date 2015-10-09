@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-24 17:05-0500\n"
-"PO-Revision-Date: 2015-10-09 21:49+0000\n"
+"PO-Revision-Date: 2015-10-09 21:54+0000\n"
 "Last-Translator: Jord <elst93@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/boinc/boinc/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -1377,7 +1377,7 @@ msgstr "Beperk de uploadsnelheid tot"
 #: clientgui/DlgAdvPreferencesBase.cpp:490
 #, c-format
 msgid "Example: %s should transfer at most 2000 MB of data every 30 days."
-msgstr "Bijvoorbeeld: %s kan maximaal 2.000 MB elke 30 dagen overschrijven."
+msgstr "Bijvoorbeeld: %s kan maximaal 2000 MB elke 30 dagen overschrijven."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:492
 msgid "Limit usage to"
@@ -1724,11 +1724,11 @@ msgstr "Voor geavanceerde opties, raadpleeg het "
 
 #: clientgui/DlgExclusiveApps.cpp:147
 msgid "save all values and close the dialog"
-msgstr "sla alle waarden op en sluit het venster"
+msgstr "sla alle waarden op en sluit het dialoog-venster"
 
 #: clientgui/DlgExclusiveApps.cpp:153
 msgid "close the dialog without saving"
-msgstr "sluit het dialoog zonder op te slaan"
+msgstr "sluit het dialoog-venster zonder op te slaan"
 
 #: clientgui/DlgExclusiveApps.cpp:158
 msgid "shows the preferences web page"
