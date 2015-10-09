@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-24 17:05-0500\n"
-"PO-Revision-Date: 2015-10-09 22:08+0000\n"
+"PO-Revision-Date: 2015-10-09 22:15+0000\n"
 "Last-Translator: Jord <elst93@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/boinc/boinc/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -2553,21 +2553,21 @@ msgstr " (opgeschort - "
 
 #: clientgui/MainDocument.cpp:2501
 msgid "Project suspended by user"
-msgstr "Project opgeschort door gebruiker"
+msgstr "Project gepauzeerd door gebruiker"
 
 #: clientgui/MainDocument.cpp:2503
 msgid "Task suspended by user"
-msgstr "Werk opgeschort door gebruiker"
+msgstr "Taak gepauzeerd door gebruiker"
 
 #. an NCI process can be running even though computation is suspended
 #. (because of <dont_suspend_nci>
 #: clientgui/MainDocument.cpp:2508
 msgid "Suspended - "
-msgstr "Opgeschort - "
+msgstr "Gepauzeerd - "
 
 #: clientgui/MainDocument.cpp:2511
 msgid "GPU suspended - "
-msgstr "GPU opgeschort - "
+msgstr "GPU gepauzeerd - "
 
 #: clientgui/MainDocument.cpp:2515
 msgid "Waiting for memory"
@@ -2587,11 +2587,11 @@ msgstr " (niet CPU intensief)"
 
 #: clientgui/MainDocument.cpp:2524
 msgid "Waiting to run"
-msgstr "Gepauzeerd"
+msgstr "Staat in de wacht"
 
 #: clientgui/MainDocument.cpp:2526 clientgui/MainDocument.cpp:2529
 msgid "Ready to start"
-msgstr "Staat in de wacht"
+msgstr "Klaar om te starten"
 
 #: clientgui/MainDocument.cpp:2533
 msgid "Postponed: "
@@ -2786,7 +2786,7 @@ msgstr "Welkom bij %s."
 
 #: clientgui/ProjectWelcomePage.cpp:254
 msgid "You have volunteered to compute for this project:"
-msgstr "Je hebt je vrijwillig opgegeven om berekeningen te maken voor dit project:"
+msgstr "Je hebt je vrijwillig opgegeven om computer berekeningen te maken voor dit project:"
 
 #: clientgui/ProjectWelcomePage.cpp:255
 msgid "Name:"
