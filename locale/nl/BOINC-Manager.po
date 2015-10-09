@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-24 17:05-0500\n"
-"PO-Revision-Date: 2015-10-08 01:15+0000\n"
+"PO-Revision-Date: 2015-10-09 21:30+0000\n"
 "Last-Translator: Jord <elst93@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/boinc/boinc/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -159,7 +159,7 @@ msgstr "Kies een accountmanager"
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
-msgstr "Klik op de naam om een accountmanager te kiezen of \nvul hieronder het URL in."
+msgstr "Klik op de naam om een accountmanager te kiezen of \nvul hieronder de URL in."
 
 #: clientgui/AccountManagerInfoPage.cpp:277
 msgid "Account manager details:"
@@ -1615,7 +1615,7 @@ msgstr "Zet standaardwaardes terug"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:128 clientgui/DlgHiddenColumns.cpp:109
 msgid "Close the dialog without saving"
-msgstr "Sluit dit dialoog zonder te bewaren"
+msgstr "Sluit dit dialoog zonder de waardes te bewaren."
 
 #: clientgui/DlgEventLog.cpp:227
 #, c-format
