@@ -177,7 +177,7 @@ _DC_get_file(char *fn)
 	if ((f= fopen(fn, "r")) != NULL)
 	{
 		int bs= 100, i;
-		char c;
+		int c;
 
 		buf= malloc(bs);
 		i= 0;
@@ -189,10 +189,10 @@ _DC_get_file(char *fn)
 				bs+= 100;
 				buf= realloc(buf, bs);
 			}
-			buf[i]= c;
+			buf[i]= (char)c;
 			i++;
-			buf[i]= '\0';
 		}
+		buf[i]= '\0';
 		fclose(f);
 	}
 	return(buf);
@@ -367,7 +367,7 @@ _DC_read_message(char *box, char *name, int del_msg)
 	if ((f= fopen(fn, "r")) != NULL)
 	{
 		int bs= 100, i;
-		char c;
+		int c;
 
 		buf= malloc(bs);
 		i= 0;
@@ -379,10 +379,10 @@ _DC_read_message(char *box, char *name, int del_msg)
 				bs+= 100;
 				buf= realloc(buf, bs);
 			}
-			buf[i]= c;
+			buf[i]= (char)c;
 			i++;
-			buf[i]= '\0';
 		}
+		buf[i]= '\0';
 		fclose(f);
 		if (del_msg)
 			unlink(fn);
