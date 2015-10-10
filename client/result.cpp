@@ -690,7 +690,7 @@ void print_old_results(MIOFILE& mf) {
             ores.completed_time,
             ores.create_time
         );
-        i++;
+        ++i;
     }
     mf.printf("</old_results>\n");
 }
