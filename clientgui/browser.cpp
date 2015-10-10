@@ -372,7 +372,7 @@ static int find_site_cookie_mozilla_v3(
 
     sscanf( argv[0], "%255s", host );
     sscanf( argv[1], "%255s", cookie_name );
-    sscanf( argv[2], "%4096s", cookie_value );
+    sscanf( argv[2], "%4095s", cookie_value );
     sscanf( argv[3],
 #ifdef _WIN32
         "%I64d",
@@ -572,7 +572,7 @@ static int find_site_cookie_chrome(
 
     sscanf( argv[0], "%255s", host );
     sscanf( argv[1], "%255s", cookie_name );
-    sscanf( argv[2], "%4096s", cookie_value );
+    sscanf( argv[2], "%4095s", cookie_value );
     sscanf( argv[3],
 #ifdef _WIN32
         "%I64d",
