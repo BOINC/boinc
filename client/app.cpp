@@ -310,7 +310,7 @@ void procinfo_show(PROC_MAP& pm) {
     PROCINFO pi;
     pi.clear();
     PROC_MAP::iterator i;
-    for (i=pm.begin(); i!=pm.end(); i++) {
+    for (i=pm.begin(); i!=pm.end(); ++i) {
         PROCINFO& p = i->second;
 
         msg_printf(NULL, MSG_INFO, "%d %s: boinc? %d low_pri %d (u%f k%f)",
