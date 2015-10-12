@@ -127,7 +127,7 @@ class content_handler_field_multiple extends content_handler_field {
     $this->field_alias = $this->aliases['vid'];
   }
 
-  function pre_render($values) {
+  function pre_render(&$values) {
     // If there are no values to render (displaying a summary, or query returned no results),
     // or if this is not a grouped field, do nothing specific.
     if (isset($this->view->build_info['summary']) || empty($values) || !$this->defer_query) {

@@ -10,7 +10,8 @@
  * no profile.
  */
 function content_profile_rules_defaults() {
-  $type = array_shift(array_keys(content_profile_get_types('names')));
+  $types = array_keys(content_profile_get_types('names'));
+  $type = array_shift($types);
   $config =
 array (
   'rules' =>
