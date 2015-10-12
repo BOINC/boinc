@@ -485,8 +485,10 @@ void CLIENT_STATE::check_suspend_network() {
 
 done:
     if (log_flags.suspend_debug) {
-        msg_printf(0, MSG_INFO, "[suspend] net_susp %d file_xfer_susp %d reason %d",
-            network_suspended, file_xfers_suspended, network_suspend_reason
+        msg_printf(0, MSG_INFO, "[suspend] net_susp: %s; file_xfer_susp: %s; reason: %s",
+            network_suspended?"yes":"no",
+            file_xfers_suspended?"yes":"no",
+            suspend_reason_string(network_suspend_reason)
         );
     }
 }
