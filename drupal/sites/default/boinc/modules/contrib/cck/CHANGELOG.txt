@@ -1,0 +1,624 @@
+//$Id$
+
+CCK 6.x-2.10
+============
+
+Security: Open Redirect - SA-CONTRIB-2015-126
+
+CCK 6.x-2.9
+===========
+
+Features
+- #932680 by Dave Reid: Token integration - allow using of Token API's new $options param
+- #1008184 by merlinofchaos, bojanz, dereine, yched: Adapt to Views 3 "semantic views" feature (backwards compatible with Views 2)
+
+Bugfixes:
+- #863226 by KarenS: make sure we have a function that will return inactive instances when other instances of the same field are still active.
+- #887742 by yched: fix notices in _content_get_formatter() in some Views
+- #736440 by yched, dhthwy: fix memory leaks on long running migration scripts (e.g. migrate.module)
+- #705512 by cha0s, roderick: 'add more' button - fix PHP 5.3 compatibility
+- #894880 by yched: fix notices in check_plain() when rendering empty 'plain text' values
+- #728472 by Darren Oh: Ensure the module's preprocess functions run first
+- #986612 by Dave Reid: Token integration - fix variable name clash (harmless in normal cases)
+- #435520 by yched, sun: Fix text fields rendered as 'n/a' in some cases
+- #739490 by foripepe: Token integration - fix notices during token generation
+
+CCK 6.x-2.8
+===========
+
+Bugfixes:
+- SA-CONTRIB-2010-088 follow up fix for nodereference_autocomplete_access() and content_access().
+
+CCK 6.x-2.7
+===========
+
+Features:
+- #692822 by Dave Reid, add authoring info and publishing options to CCK extra fields.
+- #670344 by dagmar: Make CCK compatible with both, views 2 and views 3.
+
+Bugfixes:
+- #470470 by neilnz, use iLIKE for postgres selects.
+- #769592 by vkareh, add default values to nodeapi.
+- #714762 by Robbert, make diff module integration PHP5 compliant.
+- Add db_rewrite_sql() check to nodereference formatters.
+- #625768 CCK 6.x-2.6, got fatal error on update.php while running userreference_update_6002().
+- #649106 by thekevinday: Fix content_copy_form_alter(), where $form_state argument is not passed by reference.
+- #446390 by mani.atico and fago: improve rules condition to be more robust when checking for empty values.
+
+CCK 6.x-2.6
+===========
+
+Please visit update.php apply pending updates after uploading the new files.
+
+This release:
+- The main reason to pack this release is to keep CCK in sync with recent changes in Views 2.7 that broke the advanced views feature in Node reference fields.
+
+Features:
+- #244896 by stella, canaryMason - Add incremental classes for multiple value fields in views.
+- #227129 by igor.ro - Expose "delta" column in multiple value fields to Views.
+- #531662 by neochief - i18n support. Allow external modules to translate field labels, descriptions and allowed values list as typed in the field settings form.
+- #531662 i18n support for fieldgroups.
+- #558420 Accept trimmed titles in nodereference autocomplete validation to prevent title mismatch errors when title ends with space.
+- #596428 by NancyDru - Allow external modules alter the content type list.
+
+Bugfixes:
+- #416134 Userreference, impossible to filter allowed values by blocked users. Requires update.php.
+- #545942 warning: array_filter() [function.array-filter]: The first argument should be an array in userreference_update_6002().
+- #521002 Fix validation errors when using optgroups in allowed values for select elements.
+- #550252 by GuyPaddock - content_db_index_exists produces SQL errors when creating node reference fields for MySQL 4 (related to #231453).
+- #551280 by xurizaemon - Typo fix for "this field cannot hold more that 3 values" error message.
+- #558744 by chellomere - Fix one of the swedish translation strings to be correct, and much clearer.
+- #562260 by przadka - content_db_index_exists() has wrong syntax for PostgreSQL.
+- #567168 by jcmarco - Checkbox required not defined for on/off widgets.
+- #568430 by Jody Lynn - Bad @see in content-field.tpl.php.
+- #572672 by Jan van Diepen - Remove redundant (and bad) inclusion of node/content_types.inc in content_copy_import_form_submit().
+- #585048 Setting "All users" in "User status that can be referenced" option reverts to "Blocked users".
+- #589306 warning: Invalid argument supplied for foreach() in includes/panels/content_types/content_field.inc on line 166.
+- #605152 by pokurek - Missing number formatter fr_2.
+- #604830 by mattyoung - 32 characters limit on field and group identifiers in "Manage fields" screen.
+- #464030 by eojthebrave - Typo in content_copy.module help.
+- #614292 by DeFr - Fix CCK Reference fields based on views broken by recent change in views_plugin_style Views 2.7 (#502348).
+
+CCK 6.x-2.5
+===========
+
+A few files have been added and/or removed in this package. It is recommended to replace the whole CCK directory with the new one.
+Please visit update.php apply pending updates after installing the new files.
+It also worths to mention that Panels 3 integration has been reviewed and enhanced with display options for fiels and field groups.
+IMPORTANT: All sites using Diff module with CCK for Drupal 6 are strongly encouraged to upgrade to CCK 2.5 (see #538872 below).
+
+Features:
+- #428650 Conditional cache/menu rebuild for content CRUD methods.
+- #334945 Save default values when field is hidden because of access permissions.
+- #503258 by eaton: allow 'extra fields' to provide 'configure' and 'remove' links.
+- #505278 Panels 3 and multiple node type fields.
+- #495582 Reviewed Panels 3 integration (prep work for combo / multigroups).
+  Implementation of fieldgroup_view_group() that can be used to render field groups.
+- #417122 by quicksketch: allow drupal_alter on field and widget settings.
+- #514452 Add new argument $node to content_access() to enhance the context for hook_field_access().
+- #523072 by merlinofchaos - Have nodereference relationships limit CCK field availability as well.
+- #519870 by joachim - Add a note to say offset starts from 0 in grouping options for views handler for multiple values fields.
+- #231453 Allow fields index their columns. Implemented for reference value column in node and user reference fields. Needs update.php.
+- #521002 by mh86 - Support for optgroups in allowed values for select elements.
+
+Bugfixes:
+- #499696 by DeFr - Noderefernce / Userreference: fix Views mode when the view has exposed filters.
+- #498924 #multiple FAPI attribute is used for a radios and checkboxes in content export forms.
+- #409144 Review extra elements for node edit form provided by core modules.
+- #361473 CCK fieldgroup panels doesn't respect CCK field privacy settings.
+- #515984 Multiple field delta ORDER BY incorrect.
+- #414298 by Michelle, merlinofchaos - Follow up to remove fieldgroup.panels.inc (it was moved to panels/content_types).
+- #522112 by hefox, prevent malformed condition for vid IN () in views handler for multiple values fields.
+- #505278 by Michelle, merlinofchaos - Provide backward compatibility with previous method to build Panels 3 subtype names for fields.
+- #523864 Minor coding style issues in Panels 3 relationships implementations.
+- #481568 by merlinofchaos - Empty property error when attempting to save a user reference in Panels.
+- #510396 by yched - Use field/type definition to render fields in views.
+- #393020 by auth - Fieldgroup data is lost when importing to module provided content type with group info for existing fields.
+- #538872 Diff does not respect field permissions.
+
+CCK 6.x-2.4
+===========
+
+Hotfix release for 2.3:
+- #482774 Update breaks when CCK is disabled.
+
+CCK 6.x-2.3
+===========
+
+Please visit update.php apply pending updates after uploading the new files.
+
+This release:
+- fixes a few bugs,
+- adss initial Panels 3 support (Panels 2 not supported),
+- removes the unfinished Multigroup feature (work on this will continue in an experimental branch)
+
+Features:
+- #414298 by Michelle, merlinofchaos - Add Panels 3 integration for fields and fieldgroups.
+- #419678 Views integration: expose CCK fields to 'Node revision' Views.
+- #399778 by Benjamin Melençon - Nodereference / Userreference: Add 'size' setting to autocomplete widgets.
+- #479044 by merlinofchaos - Add Panels 3 relatioships for nodereference and userreference fields.
+
+Bugfixes:
+- #407446 by quicksketch: prevent double serialization during per-field to per-type migration.
+  Followup: update function to fix potentially existing corrupted data.
+- #407344 fix html appearing in selects in Views filters.
+- #409320 by bengtan: Nodereference / Userreference - fix 'this post cannot be referenced' for views-defined referenceable nodes/users, when the view definition has a 'limit'.
+- #409398 by markus_petrux - fix handling of fieldgroup_types() (prep work for combo / multigroups)
+- #356908 Number : Correclty filter 'prefix' and 'suffix' properties.
+- #412058 by fago - Rules integration: Fixed condition 'field has value' when operating on viewed nodes.
+- #413792 Views integration: fix fields using 'multiple formatters' and not 'group multiple fields'. Thanks Crell and quicksketch for the detective work.
+- #421126 Views integration: Use value aliases in argument title replacements for text / number fields.
+- #397358 by Darren Oh, yched, markus_petrux - Views integration: Use node title / user name in argument title replacements for nodereference and userreference argument fields.
+- #428400 Views integration: Fix fatal error with Views 2.4 (views_handler_filter_float has moved). Preserved compatibility with Views 2.3.
+- #447562 by markus_petrux: fix non-XHTML markup on 'Manage fields' screen.
+- #369364 Views integration: fix non-XHTML markup when displaying fields with the 'group multiple values' option.
+- #441412 by jcnventura - Add 'Print' display context on 'Display fields' pages when book.module is enabled.
+- #458952 Let different modules defined the same build_mode information.
+- #383038 by markDrupal - Userreference: fix broken 'reverse links' with fields in per-type table.
+- #479074 by rickward: prevent minor XSS vulnerability when displaying user-submitted 'Body field' labels.
+- #479994 by quicksketch: fix "add more' button with devel.module's query logging.
+
+CCK 6.x-2.2
+===========
+
+IMPORTANT:
+This release fixes a security issue (XSS vulnerability) in nodereference and userreference modules.
+All sites are using CCK for Drupal 6 are strongly encouraged to upgrade to CCK 2.2.
+Note that the Drupal 5 versions are not affected.
+See the Security Annoucement on http://drupal.org/node/406520 for more informations.
+
+
+Features:
+- #361311 Add poll settings forms to Manage fields screen.
+- Add book form to Manage fields screen.
+- #131953 by markus_petrux - Views integration: expose additional db columns.
+- #349987 by Michelle - Panels integration for fieldgroups.
+- #362216 by markus_petrux - sort the admin/content/types/fields overview by field name.
+- #242583 by jmiccolis - Number: Push maximum 'scale' setting up to 10 for decimal fields.
+- Correct RTL display.
+- #405452 - Views integration: Update to Views 2.3 API ('link to node'), with 2.2 compatibility preserved.
+
+Bugfixes:
+- #392476 Make sure CCK textarea fields in a View don't have a span wrapped around a block-level element.
+- Fix devel_generate for decimal and float values.
+- #358700 Can't use array_slice() on assoc array in PHP4.
+- #196421 Prefixed tables weren't getting queried correctly.
+- Don't assume display_settings[$context] always exists, newly enabled modules may add new contexts that weren't there when the field was last edited.
+- #339537 by markus_petrux: fix orphan fields in {content_group_fields} table when fields are removed.
+- Views integration: use shorter titles in Views admin summaries (see http://drupal.org/node/326034).
+- #334290 by drewish - Userreference: user names not displayed in Views summaries.
+- #343138 by duellj - Fix tokens for empty noderef / userref fields.
+- #343306 Validate text 'max length' to be a positive integer
+- #344004 by markus_petrux - Diff integration : fix error on non-'core CCK' field types.
+- Diff integration: limit the number of additional queries for noderef/userref.
+- Diff integration: refactored around a new hook_content_diff_values() to save contrib field modules the
+burden of implementing hook_diff. For most field types, the default content_field_content_diff_values()
+should be enough, though.
+- #344216 by dbabbage: Fix incorrect url to Schema module in tests descriptions.
+- #336174 Move actual field access check in content.module, with content_permission.module providing one permission-based implementation.
+- #336174 (followup) Make sure content_view_field() and content_format() both respect field access rules.
+- #351929 by lyricnz - Views integration: make sure formatters get a pseudo-node with enough info.
+- #355712 by fractile81 - Fieldgroup: fix extraneous cache clears.
+- #356666 by flobruit - fix 'exclude' display setting wrongly set across shared instances of a field.
+- Fix 'undefined variable' notice when submitting field settings form with 'php code for default value.
+- #353012 User reference - fix duplicate 'reverse links' on user profile pages when the same user is referenced by several userref fields in a node. Also improves performance.
+- #342427 Views integration - fix summaries for nodereference and userreference fields.
+- #363456 by dww - Fix some cases of bogus d-n-d reordering of 'pseudo-fields'.
+- #366935 by drewish - Make the 'Views mode' feature in noderef / ueserref visible even if no usable View exists yet.
+- #371306 fix duplicate HTML when using the JS-'add more' button.
+- #370004 by dopry - Fix JS-'add more' button breaking fielfield's AHAH upload.
+- #374213 by rpanna - Fieldgroup: All field instances removed their groups when one instance is deleted from a content type.
+- #356158 by markus_petrux - Fix more (hopefully all ?) cases of bogus d-n-d reordering of 'pseudo-fields'.
+- #381876 by DamienMcKenna - Content Copy: Fix formatting glitch in exported type definitions.
+- #346202 Fieldgroup: let the 'simple' template be overridable (thks fiskit) + allow template variants.
+- #382004 by elcuco - Field name and group name fields should stay LTR for RTL languages.
+- #360712 by tombigel - CSS tweaks for RTL languages.
+- #375316 Nodereference/Userreference: Ensure allowed values always return at least an empty array.
+- #368155 Nodereference/Userreference: Fix performance issue on large sites when validating empty noderef/userref fields.
+- #319778 Optionwidgets: Fix double encoding issues for &, >, <,... chars in select lists.
+
+CCK 6.x-2.1
+===========
+
+This release fixes two critical issues:
+- #331293 by Timo.Kissing - Content copy: no fields proposed for export (#320632 followup).
+- #331033 Views integration: Fix fatal error in content_handler_field.inc in some circumstances.
+
+Other fixes:
+- #331179 Userreference: 'reverse link' checkbox stayed unchecked.
+- Uninstall forgot to remove some variables.
+- #331794 Fix false positives for "The default value is invalid" error message.
+- #331995 Fix 'invalid argument for foreach' warning on nodes with inexistent type.
+- Views integration: make sure our own render_link doesn't output empty links (see #332679).
+
+CCK 6.x-2.0
+===========
+
+IMPORTANT : this release fixes (minor) cross-site scripting (XSS) vulnerabilities
+in nodereference.module, userreference.module, content_copy.module, and CCK's Views integration
+See the Security Annoucement on http://drupal.org/node/330546 for more information.
+
+Note: Filters available for CCK fields in Views have changed slightly since the RC releases.
+If upgrading from a RC release, you might need to check your views, and if needed.
+This only applies to filters defined on Text or Number fields that specify a list of 'Allowed values'.
+Filters on other CCK fields are not affected.
+
+Main new features since RC10:
+- #300368 Add option on Display fields screen to omit fields or groups from the $content value passed to the node template.
+- #298651 by smk-ka, yched - Nodereference/Userreference: Enhance performance on large sites.
+  This also adds 'autocomplete mode' widget settings (full string / beginning of string).
+- #329447 add content_view_field() API function to display a single field, fully themed with label and multiple values, to be used by 3rd party code.
+
+Other changes:
+- Content_generate should be passing field info and updating $items.
+- Fix bug in content_generate that was adding fully formatted textarea values to textfield fields.
+- #329037 Fix small bug in content_generate function method of calling fields that handle their own multiple values.
+- #324826 Change Advanced help path and topic to use & prefix per latest change in Advanced help.
+- #324610 Add Advanced help files for basic fields and hooks so they'll show up in the CCK advanced help documentation. Intended to be used as examples by other field modules for a way to add more field documentation.
+- #321024 Add content_associate_fields() to the content_check_update() function because it can get skipped when updates are aborted or the content module is not yet updated.
+- Fix bad logic in testing content version variable to prevent warning messages before content module is updated.
+- Get rid of t() around Views field label since Views already has it marked as a translatable option.
+- #285470 by jhuckabee, store field label in the view in all cases, previously only custom labels were stored.
+- #266309 by abbasmousavi, change silent fix to error message for invalid input into number fields.
+- #318224 by brmassa, error in Content Copy handling of fieldgroups.
+- #198508 Add messages to Manage fields screen about inactive fields.
+- #320743 Revert group names uniqueness rules as per D5 behavior (group names unique only inside content types).
+- #310219 followup : numeric (core) rendering modes were not preserved in some cases.
+- Fix 'unknown index' warnings on fieldgroups settings pages.
+- #320139 by Moonshine - Noderef / Userref: Fix single-quotes encoding in 'Views' mode with option widgets.
+- #318143 by Douggreen - Panels integration: make widget label translatable.
+- #321147 Views integration: float/decimal filters round values to integers.
+- #321702 Views integration: fix rendering of multiple-values formatters.
+- #322917 Upgrade path: Missing information text on update 6000 when content.module not enabled.
+- Replaced theming instructions in theme/README.txt with advanced_help pages.
+- #323436 by hass: fix a few strings + translation bugs.
+- #323745 by robertgarrigos: Fix performance issue when submitting 'display fields' form.
+- #316292 by fractile81: Turn potentially time-consuming updates into multi-pass updates.
+- Remove unwanted 'N/A' option on noderef/userref fields using checkboxes.
+- #319131 by Moonshine - Add 'title-raw' token for noderef fields.
+- #324300 Views integration: fix sorting for multiple fields by allowing the sort to act on one specific delta.
+  Also disable tablesorting for multiple fields with 'group multiple values' option.
+- Views integration: fix broken query for fields retrieved through relationships when relation is empty.
+- #325262 Fix flawed logic in filtering out empty values.
+- #297322 Views integration: display node title / user name for argument summaries with noderef / userref fields.
+- #324301 Optionwidgets: check for maximum number of values.
+- #320632 Content Copy: Make fields/groups checked for export by default + display the list in an overview table.
+- Content Copy: Import / export weights of dnd-enabled non-CCK fields.
+- #327715 Babysit 'invalid foreach' warnings caused by invalid incoming $node objects.
+- #328763 Adjust weight of non-cck fields even if there are no CCK fields for the content type.
+- Views integration: fixed a few non-relationship safe areas.
+- Views integration: fix 'link this field to its node'+'group multiple'+relationships.
+- #323681 Panels integration: make 'field as pane' work again.
+- #311912 Views integration: The many_to_one filters for fields with 'allowed values' gain should not replace the regular 'starts with'/'greater than' filters.
+
+CCK 6.x-2.0-rc10
+================
+
+- Get rid of helper function content_is_updated(), we can do it better using the content version variable.
+- #318224 by brmassa, fix several errors in Content Copy.
+- #318387 Make sure old fieldgroup updates don't run if tables were never created.
+- #318227 Clean up update abort logic to more clearly explain what still needs to be done, add a helper function to prevent dangerous database operations until database is updated.
+- #317232 Change css file name from content.css to content-module.css to avoid namespace collisions.
+- #316656 Default weight must be zero, not NULL, or form ordering will be incorrect.
+- #107407 by dopry, optimization patch, do nothing in hook_form_alter() and hook_nodeapi() if there are no fields.
+- #317932 Fix userreference documentation typo.
+
+CCK 6.x-2.0-rc9
+===============
+
+- Change update instructions to recommend leaving CCK modules out of the modules folder until they're enabled.
+- #317036 by hass, context-sensitive translation fixes.
+- #316354 by fago, hass, fix translation issues in rules.inc files.
+- #312546 by stella, code cleanup.
+- #311146 by Brian294, dheffron, yched, and others, fix critical javascript problem in new Manage fields UI screen in some themes.
+- #317032 by hass, code cleanup.
+
+CCK 6.x-2.0-rc8
+===============
+
+Be sure to visit update.php after uploading this release.
+
+- #314986 by moshe weitzman, remove hook_devel_caches(), deprecated in favor of content_flush_caches().
+- Clean up inconsistencies in unsetting _error_element, sometimes not unsetting it, sometimes not testing before unsetting it causing undefined index errors.
+- Add more documentation of how nested nodereference and userreference items work.
+- #119102 Combo field prep, Use === in userreference and nodereference validation to be sure we get right results if parent is a zero (delta) value instead of a string name.
+- #119102, #314843 Make sure module process code doesn't override #element_validate set by other modules.
+- #119102 Combo field prep, rework fieldgroup name validation into API to be used by other modules.
+- #312546 by stella - Change some links to make translation easier.
+- Added the #delta value to the wrong place in the element, it was inaccessible to the formatter theme.
+- #119102 Combo field prep, rework the field overview form so it can hanle other kinds of groups.
+- #119102 Combo field prep, add hooks to the fieldgroup module so other modules can alter group info.
+- #119102 Combo field prep, add group_type information to the Manage fields screen.
+- #119102 Combo field prep, add group_type column to content_group table.
+- #310420 Make sure fields created by disabled modules get marked inactive in the database.
+- #119102 Combo field prep, allow way to override multiple values settings for optionwidgets.
+- #119102 Combo field prep, add prev_parent and group info to display fields overview.
+- #119102 Combo field prep, add a helper function that can determine if a field is in use and the max delta value in use.
+- #309667 Add Panels integration in. This is still experimental since Panels for D6 is still experimental.
+- #307909 Don't create Views tables for fields that don't create db columns.
+- Make incompatibility with older Views releases stand out more.
+- Fix errors when rendering fieldgroups in 'advanced' contexts (RSS, search...).
+- Do not insert field and group labels in search index.
+- Fix drag-n-drop order lost when node form is redisplayed after node preview or failed validation.
+- Fix drag-n-drop order not accounted for in node previews.
+- #306572 Number: Incorrect validation of allowed values for Float and Decimal fields.
+- #306963 by p.brouwers - Number : fix missing formatter for '9.999,99' (be_2).
+- Views integration : Add default label for userref and noderef relationships.
+- #234774 Nifty new UI to add fields and groups (requires a cache clear) + initial integration with advanced_help module.
+- #281749 by asimmonds: fix '0' not parsed as an alias for allowed values.
+- #309365 Views integration: Consider relationships when force-adding the 'Node: Type' field - thks jhuckabee.
+- #308215 by Reg - Nodereference: Do not filter on empty string when querying for referenceable nodes.
+- #308778 Fix $item['view'] element missing for tokens and contemplate.
+- #310414 Fix broken redirects when adding fields to content types with an underscore in their machine names.
+- #310484 by merlinofchaos - Views integration: Allow relationships to work nicely with multiple values.
+- Views integration: reorder elements in the field's settings to ba a little more logical.
+- #306604 Views integration: fix relationships with 'group multiple values' option. Thx merlinofchaos for the help.
+- Add a message on the 'Manage fields' screen about the benefits of advanced_help module.
+- #311883 by hass : Fix a string to give translators better context.
+- #310873 Upgrade path : abort updates if content.module and/or field modules are disabled, and fix existing sites possibly affected.
+- #310219 Let modules expose additional display modes iunder the 'Display fields' tab : hook_content_build_modes().
+
+CCK 6.x-2.0-rc7
+===============
+
+Note:
+- There has been a few files moved around since RC6, so be sure to *delete* the previous contents
+of your cck/ folder before uploading the new files, in order to avoid duplicates.
+- The admin forms (field creation, field edition...) have been renamed to comply with usual form
+naming conventions. Modules and custom code that rely on those form ids through hook_form_alter() or
+drupal_execute() will need to be updated.
+- The final 6.x-2.0 release is currently targetted for the second half of September.
+
+Main bugs fixed since RC6:
+- Content Copy: Fix multiple bugs when importing/exporting content types :
+exporting field definition can alter the actual field's settings
+'this post cannot be referenced' error when exporting nodereference fields
+no export of default values
+- #198502 D5 upgrade path: Prevent field module upgrades from running before content.module upgrades.
+- #293698 Views integration: make 'show n values starting from m' actually work.
+- #292872 Data loss issue: fields and field data deleted for content types defined by disabled modules.
+IMPORTANT: Since disabling all contrib modules is a recommended step prior to upgrading a D5 site to D6,
+it is highly advised that D5 sites using CCK are updated to CCK 5.x-1.8 (which contains the same fix)
+before starting the D6 upgrade process.
+
+Main new features since RC6:
+- Updated to latest Views 2 API. Views integration requires Views 6.x-2.x-dev newer than Sep 3, 2008.
+- #295556 by CPyle - Userreference: let referenceable users be defined by a View.
+- Userreference: Add 'Radios / checkboxes' widget.
+- #294797 New $FIELD_NAME_rendered and $GROUP_NAME_rendered variables for node.tpl.php.
+- Nodereference: Allow specific node templates for nodes displayed as values of a noderef field.
+- #301736 by nedjo - Nodereference: Multilingual support; if available, propose translations of referenced nodes when creating a new translation.
+- #196468 by Nedjo - Content copy: Provide a link to automatically import a file into Content Copy.
+
+Other changes:
+- Avoid undefined index error in Content Copy when fieldgroup is enabled but there are no groups.
+- #296077 Add delta to formatter information.
+- #128038 Alter _content_admin_form() to provide the raw widget default values as well as the default value widget so programmed forms will have those values available. You can't tell when you construct the form if it's a programmed form or not, so we will always have to create the default value widget, but we don't always have to use it. This will also get the default values into the Content Copy export in a way that Content Copy import can pick them up, and alter validation to unset the default value widget and skip the default value widget processing if it's a programmed form. Since we are now provided the actual default value (not just the default value widget) in the export, we can safely pick it up in the import.
+- #128038 Use content_field_instance_collapse() to send form values in the Content Copy export to be sure we get the original field values for checkboxes instead of the true/false values we will get otherwise.
+- #300108 Add group value back to field settings form so it will appear in the Content Copy export.
+- #283985 Force Content Copy export to use current field values to avoid storing mangled data back to field.
+- #298440 by Moonshine and KarenS: move form permission checking to content_field_form() and don't call hook_widget for users w/out permission.
+- #294726 by profix898 and yched: _content_type_info() does not reset on content type changes.
+- #293273 Nodereference: update 'referenceable types' when type name changes.
+- #295914 Fix additional problems when installing CCK in install profiles.
+- #295664 Views integration: let summaries display 'allowed values' aliases if any.
+- Views integration: prevent empty links for the 'no value' items in summaries.
+- #296748 Text: Fix PHP warning when $node->build_mode not set.
+- #297915 Fix content_copy.
+- #298674 Content copy doesn't import all type properties.
+- #293471 Remove fieldgroup selection on field settings form.
+- Userref / Noderef : Add a 'none' choice for non-required, single fields with 'Radios / checkboxes' widget.
+- #298823 Views integration: do not step into views_* namespace.
+- #299698 Userreference: autocompletion query when typed string is '0'.
+- #300236 Fix inconsistent schema for 'locked' column between install and updates.
+- Do not display 'label' settings on 'advanced' subtab of 'Display fields'.
+- #266205 by sun: add zebra classes for field items.
+- #299870 Incorrect handling of custom weight for 'Language' node form element.
+- Fieldgroups: display options were not supported for 'advanced' contexts (RSS, search index...).
+- Fieldgroups: do not display group label when building the search index.
+- Fieldgroups: Remove tinyint (127) limitation on group weights.
+- #301984 by joetsuihk - Views Integration: do not display empty divs on empty fields.
+- Views integration : prevent possible 'invalid argument for foreach' warnings with 'group multiple values'.
+- Fix tests to work with simpletest 2.x.
+- #296301 by Moonshine - Fieldgroups: fix call_user_func_array() error on add / configure / remove pages.
+- #118364 Number (decimal): fix unneeded information message when using comma as a separator ("150,00 was changed to 150.00").
+- Fieldgroup: New groups are not styled on node view until 'display fields' form is submitted.
+- #303664 Views integration: update to new Views API for handler / plugins.
+- #303475 by wrunt - Optionwidgets : unchecked 'single on/off checkbox' stores 0/'0' instead of the 'off' value.
+- #304450 Userreference - fix broken autocomplete for 'simple' mode / fix broken 'advanced - views' mode after Views API changes.
+- Fix PHP warnings on node display for hidden fields inside fieldgroups.
+- #305048 by asimmonds: fix incorrect link on 'start update' page when updates were aborted.
+- Content copy: Fix broken group export as a result of #296301.
+- #304828 Clean up function names in content.admin.inc.
+- #285557 Added 'img' to the list of allowed tags in fields descriptions.
+- Content copy: wrong page title after export code has been generated.
+- Fieldgroup: fix broken node preview.
+
+CCK 6.x-2.0-rc6
+===============
+
+Hotfix release for:
+- #295537 fix warnings in update 6004 when site has no actual cck fields.
+Those errors were harmless, no need to worry or run update.php again if you had them.
+
+Minor fix:
+- #265795 by smk-ka: formatter labels go through t() twice in Views exposed data.
+
+CCK 6.x-2.0-rc5
+===============
+
+Main bugs fixed :
+- #281388 Optionwidgets: Unselect values doesn't take.
+- #286457 Fix menu not being always rebuilt when needed.
+- #285138 by quicksketch and yched: Allow CCK to be installed in install profiles.
+
+Main new features :
+- #282183 by chx: Nodereference - 'Checkboxes/radios' widget.
+- #289138 by dopry: Add support for 'locked' fields (for module-defined fields).
+
+Other changes :
+- #273502 Add descriptions to the non-CCK form elements on the Manage fields screen.
+- Fix PHP warnings when field display is set to 'hidden' and field is in a fieldgroup.
+- Re-introduce '<none>' choice for multiselect widgets (optionwidgets, noderef/userref select).
+- #281449 Text: maxlength on textfield widget is 128 even when the field has no maximum length.
+- Add tests for optionwidgets.
+- #282175: Don't mention 'add more' button when the widget opts out of it.
+- Optionwidgets: use '- None -' for 'no selection' option (like core's taxonomy.module).
+- #286637 by poiu: clearer example for default value with php-code.
+- #93436 Add $form parameter to content_validate.
+- #277310 by fractile81: update node object by reference in content_load().
+- #285771 Views integration: use the new 'float' filter handler where applicable.
+- Fix PHP warnings when renaming a content type.
+- #280410 Number: Fix prefix / suffix displayed when field is empty.
+- #282937 Fix warnings on uninstall.
+- #287540 Add index on nid in data tables, to optimize node deletion (requires update.php)
+- #288578 Text: Fix max length to use utf8 length.
+- #222214 by aaron, deviantintegral : support tokens for nodererf / userref paths aliases.
+- #211306 by asimmonds: Fix error in D5 update with SQL strict mode.
+- #292338 by mh89: Set fieldgroup.module's weight to 9 (missing for new D6 installs).
+- #292463 Fieldgroup: missing update for fieldgroup table names (didn't actually break anything).
+- #292855 by Tgr - Fieldgroup: missing } in query on field instance deletion.
+- #292925 by greggles - Text: Fix PHP notice under some circumstances with textarea widget.
+- #292675 Support d-n-d reordering of non-cck "fields" for types that have no cck fields.
+- #289888 Nodereference: Fix 'full node' and 'teaser' formatters.
+- Display field type human names instead of machine names on 'Manage Fields' and 'Fields' overview pages.
+- #292884 Better help text for field template suggestions.
+- #293163 Use FAPI validation instead of field|widget_settings($op 'validate').
+          (the 'validate' op is still supported, though)
+- #75423 by mh89 - Text: 'size' setting for textfield widget.
+
+
+CCK 6.x-2.0-rc4
+===============
+
+This RC Mainly fixes a critical bug :
+http://www.drupal.org/node/277968 - Saving 'Display Fields' wipes widget settings.
+
+- #278325 Nodereference/Userreference - autocomplete widget does not check nodes/users are 'referenceable'.
+- #278325 followup: Unify the mechanism used to assign hook_field('validate') errors to form elements across fields and widgets.
+- Userreference - Turn the 'Reverse link' radios into a checkbox in the field settings.
+- Nodereference - Only list 'node' Views in the 'advanced mode', and differenciate default views as in D5.
+- Optionwidgets - fix PHP warning when creating a new 'on/off checkbox' and no allowed values could be set yet.
+- Optionwidgets - fix PHP warning on 'on/off checkbox' only one 'allowed value'.
+- Optionwidgets - add a 'warning' message to remind the admins they need to set allowed values.
+- #278676 by hass: fix untranslated field and widget type names.
+- Do not validate the fields settings form when the 'change label / widget' submits the form.
+- #273502 Let the 'menu settings' node-form fieldset on node forms be repositioned.
+- #273502 followup: add a description for non-CCK 'fields' on 'Manage fields' tab.
+- #278793 by hass: fix untranslated PHP code example.
+- Nodereference/Userreference - There were two 'no selection' choices on 'select list' widget for non-required fields.
+- #277486 Nodereference/Userreference - no selection with 'select list' widget stores 0 instead of NULL.
+- #278789 better wording for the 'PHP default value invalid' error message.
+- #267771 orignal patch by quicksketch: Richer label settings for views fields.
+- #279204 by eMPee584: fix edit paths inconsistency.
+- #276990 Nodereference - error message when no valid node with that title (autocomplete widget).
+- Widget (FAPI-)validation messages do not display the field 'label' when the error is on a nth value (n > 1).
+- Unify field validation error messages.
+- #269319 Reintroduce field template variants; add theme instructions text file.
+- #179419 by smk-ka: Content Copy - Import fails when language not English.
+- #278899 Nodereference - Refactor 'advanced (Views-defined referenceable nodes)' to use views rendering.
+- #279190 content_crud_instance_update wiped existing widget settings in some cases.
+  Also added a tests for a few basic properties of the CRUD API.
+
+CCK 6.x-2.0-rc3
+===============
+
+- #278116 by Damien Tournoud: Make some strings easier to translate in views intergration forms.
+- #278135 fix some translation quirks + fix french typography for ':' :-)
+- Nodereference: 'Title mismatch. Please check your selection' error should break validation (+ fix typo).
+- #277968 by jpetso: Fix fatal error when cck folder lives in the main /modules folder.
+
+CCK 6.x-2.0-rc2
+===============
+
+- #276994 Follow up, remove conditional loading for content.views.inc, Views handles it.
+
+CCK 6.x-2.0-rc1
+===============
+
+- #276994 Remove views_include_handlers() from content.views.inc, no longer needed.
+- Change 'allow_empty' to 'allow empty' so that Views filters work correctly.
+- #272871 Pass #node to formatters to be consistent with the values that were available in the D5 version.
+- #271294 Add TODO to get rid of content_write_record() once drupal_write_record() is patched.
+- #271294 Add documentation for the reason for having a custom version of drupal_write_record.
+- Avoid E_All error when prefixes and suffixes are not defined in number module.
+- Avoid E_All error, don't try to return $item[0] if there are no items.
+- #266590 Make sure a view is valid before trying to use it in the nodereference module to fix upgrade errors when the view has not been updated to Views 2.
+- #258127 Get rid of content_menu_needs_rebuild() in remaining places and only rebuild the menu when absolutely needed.
+- Alter content_types_install() to make sure it picks up all the regular field and widget values out of the database. Some of the field values were missing, which caused some of the other values to get set incorrectly during updates and when modules are enabled.
+- #235063 Fix jumbled multiple values when hitting the 'add-more' button with more than 10 values.
+          Keep 'add more' button text consistent.
+- #270014 by yang_yi_cn: form for multiple values didn't call the right hook_widget
+- fix 'Undefined index: #access' notice when content_permissions.module is disabled
+- #270315 Mention dependency on schema.module in the desciptions of the CRUD tests.
+- #227951 by pwolanin: Add a permission for PHP 'default values' and 'allowed values'
+- #271682 by pwolanin: Make simpletests easier by not duplicating field name in same form.
+- #270315 by pwolanin: Update simpletest to use DrupalWebTestCase.
+- #227951 by pwolanin: Add permission for ability to use php code for default values and allowed values.
+- #270827 by pwolanin: Validity checks for the AHAH-'add more' request.
+- #271087 Properly handle values '0' for text and number fields.
+- #258407 Fix field template name to allow for easy overridability.
+- #274038 by jpetso: Fix non-JS mode for 'add more' button.
+- #275192 by jpetso: Attach AHAH behaviors to newly inserted widgets on JS 'add more'.
+- #271710 by pwolanin: tests for UI field CRUD, and node form generation.
+- #266696 by pwolanin: Unable to change the label or widget type for a field.
+- #201329 by pwolanin and yched: Fix content_field_instance_delete() not cleaning tables.
+- #271577 by pwolanin: Fix unsanitized text (optionwidgets, number, text, field labels, field descriptions)
+- #273539 by jpetso: Fix JS-'add more' for complex widgets (e.g. filefield)
+- #227435 by pwolanin: Usability - Put fields links on content type overview page
+- #277101: Hide fieldset-based fieldgroups when all fields empty
+- #198508: Prevent data loss for disabled fields.
+
+CCK 6.2.beta
+============
+
+Content Generate (new feature)
+- #257874 and #187599 provide a way to auto-generate field content for the devel module.
+- #261633 E_All fix for content_generate.
+
+Usability
+- #227439, #227437, #227945 Rework field and widget type handling to simplify the intial screen when choosing a field and widget type by making it a two-step process where you see only the widgets that apply to the field. Move the setting of the field label to the same place where you set the field name. Change the field edit screen to keep it from showing all the different widgets again and instead just display the current widget. Then add a button to change the widget which will take you to another screen to make the change since the rest of the page will need to change when the widget changes. Keep the changes to the widget label  in that separate process, too, since that affects the menu tabs that need to be changed before redirecting back to the main page.
+
+Update processing
+- #256141 Add old updates back to fieldgroup.install for situations where the module was briefly enabled and then disabled and never used so the update process doesn't throw an error for the missing updates.
+- Fix potential E_All error in userreference after update.
+- Fix E_All error that can come up after update if text module is using format column.
+- Change the check in _content_type_info to be sure the new 'active' column exists before trying to query the table during installation and updates. Also fix E_All notice for non-existant db_columns during install and update.
+- #237585 Try to avoid foreach errors on missing content type information by creating empty arrays in content_info.
+
+Optionwidgets
+- #224391 Get default values working again for optionwidgets.
+- #251157 Make sure optionwidgets selections are not lost when previewing node.
+- #253038 Make sure empty optionwidget values are always arrays.
+
+Nodereference
+- #264345 Create a nodereference wrapper for setting and rendering a view and store the rendered view in a static variable to ensure the same view is not rendered over and over in the same session.
+- #263936 Make sure nodereference select views do not try to use paging and do not limit the items per page.
+- Clean up autocomplete handling that uses Views as a selector.
+- #262112 Add missing hook_theme definition for the plain formatter.
+- #256440 Nodereference was passing wrong object to Views for the Views node selection option. Also need to limit available views to those that have fields defined so we can add the title to the view and so there is something meaningful to display in the select list.
+
+Views Integration
+- #264479 Make sure we don't try to init() a view for fields that don't have one selected.
+- #263936 Set arguments in execute_display. Also make sure to pass $string and $exact_string to the view.
+- #257566 Move all content fields into a single group in the Views UI.
+- #242856 Make sure the node.nid is aliased when creating our grouped fields query so the parent node isn't confused with nodereference's nid column.
+- #261528 Add in missing code to create the link to the node if that option is requested.
+
+Content Copy
+- #225664 Make sure groups get imported as well as fields.
+
+Formatters
+- #264768 Make sure handling for all possible states of #single is properly set up.
+- #260253 $node->type isn't always set, and if missing the formatters that use $fields($field_name, $type_name) to retrieve the field array end up with an empty value. Add the node type to all content fields views so we can be sure it's available and alter the content_format logic to look for the node type both at $node->type and at $node->node_type, where Views will put it, to properly set the content type.
+
+General
+- #256116 Add a TODO to reconsider handling of CCK data when a content type is deleted.
+- Small fix to content_generate to get auto-generation of number values working.
+- #265334 Avoid format error messages in the unusual case where you have created CCK content and then delete the content type without deleting the node, since core does not delete the nodes in that case.
+- #227256 Add an additional check when creating a new field that the length is no more than 32 characters.
+- #260253 When content_type is set but empty, nothing is returned from content_fields(). Fix that by checking for empty() instead of isset(). This is a more general problem that should be fixed in content_fields().
+- #258127 Eliminate need to defer the rebuild of the menu, also adding TODO to see if content_menu_needs_rebuild() can be eliminated.
+- #257304 Make sure the widget description is never NULL to avoid problems when a NULL value gets wrapped with t().
+- #259704 Make sure help text always appears.
+- #255113 Make sure empty filtered text fields don't pick up unintended values from check_plain().

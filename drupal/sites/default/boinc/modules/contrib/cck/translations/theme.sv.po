@@ -1,0 +1,66 @@
+# $Id
+#
+# Swedish translation of Drupal (theme)
+# Generated from files:
+#  content-admin-field-overview-form.tpl.php,v 1.1.2.5 2008/10/16 14:40:54 yched
+#  theme.inc,v 1.1.2.12 2008/10/28 22:12:09 yched
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: CCK - Theme 6.x\n"
+"POT-Creation-Date: 2009-03-09 22:08+0100\n"
+"PO-Revision-Date: 2009-04-20 21:33+0100\n"
+"Last-Translator: Magnus Gunnarsson <seals@passagen.se>\n"
+"Language-Team: drupalsverige.se\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-Language: Swedish\n"
+"X-Poedit-Country: SWEDEN\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: theme/content-admin-field-overview-form.tpl.php:11
+msgid "Weight"
+msgstr "Vikt"
+
+#: theme/content-admin-field-overview-form.tpl.php:53
+msgid "Add"
+msgstr "Lägg till"
+
+#: theme/content-admin-field-overview-form.tpl.php:59
+msgid "New field"
+msgstr "Nytt fält"
+
+#: theme/content-admin-field-overview-form.tpl.php:72
+msgid "Existing field"
+msgstr "Existerande fält"
+
+#: theme/content-admin-field-overview-form.tpl.php:84
+msgid "New group"
+msgstr "Ny grupp"
+
+#: theme/theme.inc:11
+msgid "Add fields and groups to the content type, and arrange them on content display and input forms."
+msgstr "Lägg till fält och grupper till innehållstypen, och ändra deras disposition vid visning och inmatningsformulär."
+
+#: theme/theme.inc:13
+msgid "You can add a field to a group by dragging it below and to the right of the group."
+msgstr "Du kan lägga till fält till en grupp genom att dra det till platsen under och till höger om gruppen."
+
+#: theme/theme.inc:16
+msgid "Note: Installing the <a href=\"!adv_help\">Advanced help</a> module will let you access more and better help."
+msgstr "Observera: Genom att installera modulen <a href=\"!adv_help\">Advanced help</a> får du tillgång till bättre och mer omfattande hjälp."
+
+#: theme/theme.inc:111
+msgid "Configure how this content type's fields and field labels should be displayed when it's viewed in teaser and full-page mode."
+msgstr "Ändra inställningarna för hur den här innehållstypens fält och fältetiketter skall visas i sammanfattnings- och fullsidesläge."
+
+#: theme/theme.inc:114
+msgid "Configure how this content type's fields should be displayed when it's rendered in the following contexts."
+msgstr "Ändra inställningarna för hur den här innehållstypens fält skall visas i följande sammanhang."
+
+#: theme/theme.inc:116
+msgid "Use the 'Exclude' checkbox to exclude an item from the !content value passed to the node template."
+msgstr "Använd kryssrutan \"Uteslut\" för att utesluta ett alternativ från värdet !content som skickas till nodmallen."
+

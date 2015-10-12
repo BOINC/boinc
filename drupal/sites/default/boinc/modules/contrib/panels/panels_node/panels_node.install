@@ -1,0 +1,73 @@
+<?php
+
+/**
+ * Implementation of hook_schema().
+ */
+function panels_node_schema() {
+  // This should always point to our 'current' schema. This makes it relatively easy
+  // to keep a record of schema as we make changes to it.
+  return panels_node_schema_1();
+}
+
+/**
+ * Schema version 1 for Panels in D6.
+ */
+function panels_node_schema_1() {
+  $schema = array();
+
+  $schema['panels_node'] = array(
+    'fields' => array(
+      'nid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'css_id' => array(
+        'type' => 'varchar',
+        'length' => '255',
+      ),
+      'did' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'pipeline' => array(
+        'type' => 'varchar',
+        'length' => '255',
+      ),
+    ),
+    'primary key' => array('did'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implementation of hook_install().
+ */
+function panels_node_install() {
+  db_query("UPDATE {system} SET weight = 11 WHERE name = 'panels_node'");
+  drupal_install_schema('panels_node');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function panels_node_uninstall() {
+  // TODO: Delete all actual nodes that are panels_nodes.
+  db_query("DELETE FROM {node} WHERE type = 'panel'");
+  drupal_uninstall_schema('panels_node');
+}
+
+/**
+ * Implementation of hook_update to handle adding a pipeline
+ */
+function panels_node_update_6001() {
+  $ret = array();
+  $field = array(
+    'type' => 'varchar',
+    'length' => '255',
+  );
+
+  db_add_field($ret, 'panels_node', 'pipeline', $field);
+  return $ret;
+}

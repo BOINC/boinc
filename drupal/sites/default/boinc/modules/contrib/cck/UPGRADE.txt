@@ -1,0 +1,87 @@
+// $Id$
+
+================================================================
+UPDATING FROM VERSION 4.7 to 6.x
+================================================================
+
+THERE IS NO DIRECT UPGRADE PATH FROM 4.7 TO 6.x!! FIRST UPGRADE
+YOUR DATABASE FROM 4.7 TO THE LATEST 5.x VERSION, THEN UPGRADE
+TO 6.x.
+
+ALWAYS BACKUP YOUR DATABASE BEFORE UPGRADING!
+
+1) While 4.7 is still installed, upload the latest 4.7 version of
+   all the CCK files, go to update.php, and run all possible
+   updates for the Content module and all field modules.
+
+2) Install Drupal version 5. Once it is running, upload and install
+   the latest 5.x versions of all CCK modules, go to update.php and
+   run all possible updates.
+
+Jump to the instructions for updating from version 5.x to 6.x.
+
+================================================================
+UPDATING FROM VERSION 5.x to 6.x
+================================================================
+
+YOU MUST RUN ALL POSSIBLE UPDATES TO YOUR DATABASE IN 5.x USING
+THE LATEST 5.x CODE, BEFORE UPGRADING FROM 5.x to 6.x.
+
+ALWAYS BACKUP YOUR DATABASE BEFORE UPGRADING!
+
+1) Before upgrading to 6.x, upload the latest 5.x versions of all
+   CCK modules, go to update.php and run all possible updates.
+
+2) Disable all CCK modules and remove them from the modules folder
+   before upgrading.
+
+3) Install Drupal version 6. Leave all contributed modules out of
+   the modules folder until core modules are up and running.
+   Set your administration theme to a core theme like Garland until
+   everything has been updated to help ensure you don't encounter
+   theme-related problems accessing the administration area.
+
+4) Once core is running, upload and install the latest 6.x versions 
+   of ONLY CCK CORE FILES (the ones in the tarball on the CCK
+   project page). Enable them, then go to update.php and run all 
+   possible updates. DO NOT add any other CCK modules to the 
+   modules folder until the core CCK files are updated and working 
+   correctly.
+
+5) After updating CCK core modules, you may get messages saying that
+   some updates failed and that you need to run update.php again.
+   If you get messages like that, keep re-running update.php until
+   you get no more messages.
+
+6) Once the core CCK modules are updated and working correctly,
+   add other CCK modules to the modules folder, enable them,
+   and run update.php. For best results, do this one module at a
+   time so you can tell immediately if any of them create problems
+   without letting those problems interfere with other updates.
+
+
+Your database should now be ready to run in CCK version 6.x
+
+================================================================
+
+The 4.7 to 5.x steps are necessary because of significant changes 
+in the database structure between the 4.7 and 6.x versions. These changes
+make it extremely difficult to create an automatic upgrade path that
+will work reliably in every possible situation.
+
+The extra steps in the 5.x to 6.x upgrade are because all modules
+in the modules folder are automatically updated in Drupal 6, even if they
+are not enabled. That means that modules that rely on core CCK may try
+to run their updates even if core CCK is not enabled, and contributed
+CCK modules that have broken updates will have their broken updates
+run even if they are not enabled.
+
+A number of updates are dependent on other updates and won't work
+until previous updates are finished or specific modules are enabled,
+so you may get messages that other modules need to be enabled or that
+update.php needs to be re-run, and you need to follow those instructions
+until all the updates complete.
+
+Taking extra time during the upgrade by leaving modules out of the
+modules folder altogether until you are ready to enable and update them
+should reduce or eliminate update problems.

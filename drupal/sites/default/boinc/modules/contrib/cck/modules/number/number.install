@@ -1,0 +1,60 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Implementation of hook_install().
+ */
+function number_install() {
+  drupal_load('module', 'content');
+  content_notify('install', 'number');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function number_uninstall() {
+  drupal_load('module', 'content');
+  content_notify('uninstall', 'number');
+}
+
+/**
+ * Implementation of hook_enable().
+ *
+ * Notify content module when this module is enabled.
+ */
+function number_enable() {
+  drupal_load('module', 'content');
+  content_notify('enable', 'number');
+}
+
+/**
+ * Implementation of hook_disable().
+ *
+ * Notify content module when this module is disabled.
+ */
+function number_disable() {
+  drupal_load('module', 'content');
+  content_notify('disable', 'number');
+}
+
+function number_update_last_removed() {
+  return 5;
+}
+
+/**
+ * Rename old decimal fields, which were really floats, to float
+ */
+function number_update_6000() {
+  if ($abort = content_check_update('number')) {
+    return $abort;
+  }
+
+  $ret = array();
+
+  drupal_load('module', 'content');
+  $ret[] = update_sql("UPDATE {". content_field_tablename() ."} SET type='number_float' WHERE type = 'number_decimal'");
+
+  content_clear_type_cache();
+  return $ret;
+}

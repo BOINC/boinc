@@ -1,0 +1,114 @@
+# $Id$
+#
+# LANGUAGE translation of Drupal (modules-nodereference)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  nodereference.rules.inc,v 1.1.2.2 2008/10/06 15:02:03 karens
+#  nodereference.module,v 1.138.2.55 2009/06/02 12:24:04 yched
+#  nodereference.info,v 1.8 2008/04/23 18:02:07 dww
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-06-16 19:00+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: modules/nodereference/nodereference.rules.inc:15
+msgid "Load a referenced node"
+msgstr ""
+
+#: modules/nodereference/nodereference.rules.inc:19
+msgid "Content containing the node reference field"
+msgstr ""
+
+#: modules/nodereference/nodereference.rules.inc:25
+msgid "Referenced content"
+msgstr ""
+
+#: modules/nodereference/nodereference.rules.inc:29
+msgid "Note that if the field has multiple values, only the first content node will be loaded."
+msgstr ""
+
+#: modules/nodereference/nodereference.rules.inc:50
+msgid "There are no nodereference fields defined."
+msgstr ""
+
+#: modules/nodereference/nodereference.module:69
+msgid "Node reference"
+msgstr ""
+
+#: modules/nodereference/nodereference.module:70
+msgid "Store the ID of a related node as an integer value."
+msgstr ""
+
+#: modules/nodereference/nodereference.module:85
+msgid "Content types that can be referenced"
+msgstr ""
+
+#: modules/nodereference/nodereference.module:107
+msgid "Advanced - Nodes that can be referenced (View)"
+msgstr ""
+
+#: modules/nodereference/nodereference.module:114
+msgid "View used to select the nodes"
+msgstr ""
+
+#: modules/nodereference/nodereference.module:117
+msgid "<p>Choose the \"Views module\" view that selects the nodes that can be referenced.<br />Note:</p>"
+msgstr ""
+
+#: modules/nodereference/nodereference.module:118;131
+msgid "<ul><li>Only views that have fields will work for this purpose.</li><li>This will discard the \"Content types\" settings above. Use the view's \"filters\" section instead.</li><li>Use the view's \"fields\" section to display additional informations about candidate nodes on node creation/edition form.</li><li>Use the view's \"sort criteria\" section to determine the order in which candidate nodes will be displayed.</li></ul>"
+msgstr ""
+
+#: modules/nodereference/nodereference.module:130
+msgid "<p>The list of nodes that can be referenced can be based on a \"Views module\" view but no appropriate views were found. <br />Note:</p>"
+msgstr ""
+
+#: modules/nodereference/nodereference.module:228
+msgid "%name: this post can't be referenced."
+msgstr ""
+
+#: modules/nodereference/nodereference.module:253
+msgid "Title (link)"
+msgstr ""
+
+#: modules/nodereference/nodereference.module:258
+msgid "Title (no link)"
+msgstr ""
+
+#: modules/nodereference/nodereference.module:435
+msgid "Select the method used to collect autocomplete suggestions. Note that <em>Contains</em> can cause performance issues on sites with thousands of nodes."
+msgstr ""
+
+#: modules/nodereference/nodereference.module:691
+msgid "%name: title mismatch. Please check your selection."
+msgstr ""
+
+#: modules/nodereference/nodereference.module:698
+msgid "%name: found no valid post with that title."
+msgstr ""
+
+#: modules/nodereference/nodereference.module:15
+msgid "Nodereference autocomplete"
+msgstr ""
+
+#: modules/nodereference/nodereference.module:0
+msgid "nodereference"
+msgstr ""
+
+#: modules/nodereference/nodereference.info:0
+msgid "Node Reference"
+msgstr ""
+
+#: modules/nodereference/nodereference.info:0
+msgid "Defines a field type for referencing one node from another."
+msgstr ""
+
