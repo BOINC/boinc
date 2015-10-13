@@ -1,0 +1,277 @@
+<?php
+// $Id: content_profile_registration.module,v 1.1.2.36 2010/03/26 16:32:28 fago Exp $
+
+/**
+ * @file
+ * Allows exposure and processing of content_profile node fields at user registration
+ */
+
+/**
+ * Implementation of hook_form_alter().
+ */
+function content_profile_registration_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'user_register') {
+    require_once drupal_get_path('module', 'node') .'/node.pages.inc';
+
+    // Allow other modules to customize the used profile types, so modules
+    // can easily customize the registration form.
+    $default_types = content_profile_get_types('names', (arg(0) == 'admin' ? 'admin_user_create_use' : 'registration_use'));
+    $form += array('#content_profile_registration_use_types' => $default_types);
+
+    foreach ($form['#content_profile_registration_use_types'] as $type => $typename) {
+      content_profile_registration_add_profile_form($type, $form, $form_state);
+    }
+  }
+  elseif ($form_id == 'content_profile_admin_settings') {
+    $type = $form_state['type'];
+    // Let other modules add registration child elements before us!
+    $form += array('registration' => array());
+    $form['registration'] += array(
+      '#type' => 'fieldset',
+      '#title' => t('User Registration'),
+      '#description' => t('Customize how this content profile shows up on the user registration page.'),
+      '#collapsible' => TRUE,
+    );
+    $form['registration']['registration_use'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Use on Registration'),
+      '#description' => t('Use this content type on the user registration page'),
+      '#default_value' => content_profile_get_settings($type, 'registration_use'),
+    );
+    $form['registration']['admin_user_create_use'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Use on administrative user creation form'),
+      '#description' => t('Use this content type when an administrative user creates a new user'),
+      '#default_value' => content_profile_get_settings($type, 'admin_user_create_use'),
+    );
+    $form['registration']['registration_hide'] = array(
+      '#type' => 'checkboxes',
+      '#title' => t('Hide form fields'),
+      '#description' => t('Hide fields from the user registration form. Required fields cannot be hidden and are not shown here.'),
+      '#options' => _content_profile_registration_get_field_select($type),
+      '#default_value' => content_profile_get_settings($type, 'registration_hide'),
+    );
+    array_unshift($form['#submit'], 'content_profile_registration_admin_form_submit');
+  }
+}
+
+function content_profile_registration_admin_form_submit($form, &$form_state) {
+  $form_state['values']['registration_hide'] = array_keys(array_filter($form_state['values']['registration_hide']));
+}
+
+/**
+ * Helper function to return all available fields for a particular content type.
+ *
+ * @param string $type
+ *   The content type to return fields for.
+ * @return array
+ *   Associated fields for the given content type.
+ */
+function _content_profile_registration_get_fields($type) {
+  $typeinfo = content_types($type);
+  return $typeinfo['fields'];
+}
+
+/**
+ * Returns an array of selectable form elements that may be hidden, mostly containing CCK fields.
+ *
+ * @param string $type
+ *   A content type to get the select elements for.
+ * @return Array
+ *   An array of fields suitable for use in a select field.
+*/
+function _content_profile_registration_get_field_select($type) {
+  $fields = module_exists('content') ? _content_profile_registration_get_fields($type) : array();
+  $return = array();
+  if (!module_exists('auto_nodetitle') || auto_nodetitle_get_setting($type) != AUTO_NODETITLE_ENABLED) {
+    $return['title'] = t('Title');
+  }
+  foreach ($fields as $fieldname => $info) {
+    if (!$info['required']) {
+      $return[$fieldname] = drupal_ucfirst($info['widget']['label']);
+    }
+  }
+  $return['other'] = t('Other form elements (except for required CCK fields)');
+  
+  return $return;
+}
+
+/**
+ * Adds in the profile form of the given content type to the registration form
+ *
+ * @see content_profile_registration_alter_weights()
+ * @see content_profile_registration_user_register_validate()
+ * @see content_profile_registration_user_register_submit()
+ */
+function content_profile_registration_add_profile_form($type, &$form, &$form_state) {
+  // Initialize new node and add in its form.
+  $node = array('uid' => 0, 'name' => '', 'type' => $type);
+  // Get the original node form.
+  $node_form = drupal_retrieve_form($type .'_node_form', $form_state, $node);
+  drupal_prepare_form($type .'_node_form', $node_form, $form_state);
+
+  $node_form += array('#field_info' => array());
+  $form_add = array();
+
+  // If non-CCK form elements are hidden, only copy over the CCK stuff
+  if (in_array('other', content_profile_get_settings($type, 'registration_hide'))) {
+    foreach ($node_form['#field_info'] as $field_name => $info) {
+      if (isset($node_form[$field_name])) {
+        $form_add[$field_name] = $node_form[$field_name];
+      }
+    }
+    // Copy over any fieldgroups
+    $keys = array_keys($node_form);
+    foreach ($keys as $key) {
+      if (stristr($key, 'group_')) {
+        $form_add[$key] = $node_form[$key];
+      }
+    }
+    // Add the title
+    $form_add['title'] = $node_form['title'];
+
+    // Set this to the values of one node, as it might be need by some #ahah callbacks
+    $form_add['#node'] = $node_form['#node'];
+    $form_add['type'] = $node_form['type'];
+  }
+  else {
+    foreach (array('uid', 'name', 'author', 'buttons', 'language', '#theme', 'options') as $key) {
+      unset($node_form[$key]);
+    }
+    $form_add = $node_form;
+  }
+
+  // Hide fields as configured
+  foreach (content_profile_get_settings($type, 'registration_hide') as $field_name) {
+    if (module_exists('fieldgroup') && ($group_name = _fieldgroup_field_get_group($type, $field_name))) {
+      unset($form_add[$group_name][$field_name]);
+      if (count(element_children($form_add[$group_name])) == 0) {
+        unset($form_add[$group_name]);
+      }
+    }
+    else {
+      unset($form_add[$field_name]);
+    }
+  }
+  
+  // Add in the new form elements into $form.
+  $form += array('#field_info' => array());
+  $form['#field_info'] += $node_form['#field_info'];
+  $form += $form_add;
+  
+  // Add in further callbacks needed, if not yet done.
+  if (!isset($form['#content_profile_weights'])) {
+    $form['#submit'][] = 'content_profile_registration_user_register_submit';
+    $form['#validate'][] = 'content_profile_registration_user_register_validate';
+    $form['#pre_render'][] = 'content_profile_registration_alter_weights';
+  }
+
+  // Care for the weights: Make use of the content types weight and sort the fields in behalf
+  // The weights will be applied by the pre_render callback.
+  $form += array('#content_profile_weights' => array());
+  $weight = content_profile_get_settings($type, 'weight') + 1;
+  foreach (element_children($form_add) as $key) {
+    $form['#content_profile_weights'] += array($key => $weight);
+  }
+
+  // Set the enctype, if necessary.
+  if (isset($node_form['#attributes']['enctype'])){
+    $form['#attributes']['enctype'] = $node_form['#attributes']['enctype'];
+  }
+}
+
+/**
+ * Pre render callback that makes sure our elements are grouped together.
+ * The ordering in between the single elements is kept.
+ *
+ * @see content_profile_registration_add_profile_form().
+ */
+function content_profile_registration_alter_weights($elements) {
+  foreach ($elements['#content_profile_weights'] as $key => $weight) {
+    if (isset($elements[$key]) && is_array($elements[$key])) {
+      $elements[$key] += array('#weight' => 0);
+      $elements[$key]['#weight'] = $weight + $elements[$key]['#weight'] / 1000;
+    }
+  }
+  return $elements;
+}
+
+
+/**
+ * Validates the user registration form
+ */
+function content_profile_registration_user_register_validate($form, &$form_state) {
+  require_once drupal_get_path('module', 'node') .'/node.pages.inc';
+
+  foreach ($form['#content_profile_registration_use_types'] as $type => $typename) {
+    $node = (object)$form_state['values'];
+    $node->type = $type;
+    node_object_prepare($node);
+
+    // Make sure there is no user name so we can node_validate
+    unset($node->name);
+
+    if (!in_array('other', content_profile_get_settings($type, 'registration_hide'))) {
+      node_validate($node, $form);
+    }
+    elseif (module_exists('content')) {
+      content_validate($node);
+    }
+
+    $form_state['content_profile_registration'][$type]['node'] = $node;
+  }
+  // Remove our added values
+  foreach ($form['#content_profile_weights'] as $key => $weight) {
+    _content_profile_registration_remove_values($key, $form[$key], $form_state);
+  }
+}
+
+/**
+ * Recursivly removes all form values created by this element or its children.
+ */
+function _content_profile_registration_remove_values($key, $element, &$form_state) {
+  if ((isset($element['#input']) || !empty($element['#tree'])) && isset($form_state['values'][$key])) {
+    unset($form_state['values'][$key]);
+  }
+  elseif (empty($element['#input']) && empty($element['#tree'])) {
+    foreach (element_children($element) as $key) {
+      _content_profile_registration_remove_values($key, $element[$key], $form_state);
+    }
+  }
+}
+
+
+/**
+ * Submits the user registration form
+ */
+function content_profile_registration_user_register_submit($form, &$form_state) {
+  foreach ($form['#content_profile_registration_use_types'] as $type => $typename) {
+    if ($node = &$form_state['content_profile_registration'][$type]['node']) {
+      // Set user's information for the node.
+      if (empty($node->title) && (!module_exists('auto_nodetitle') || auto_nodetitle_get_setting($type) != AUTO_NODETITLE_OPTIONAL)) {
+        $node->title = $form_state['user']->name;
+      }
+      $node->uid = $form_state['user']->uid;
+      $node->name = $form_state['user']->name;
+
+      // Create the node.
+      $node = node_submit($node);
+      node_save($node);
+      // Give us a nice log message.
+      if ($node->nid) {
+        watchdog('content', 'Content Profile: added %user %type upon registration.', array('%user' => $node->name, '%type' => $type), WATCHDOG_NOTICE, l(t('view'), "node/$node->nid"));
+      }
+    }
+  }
+}
+
+/**
+ * Implementation of hook_content_profile_settings().
+ */
+function content_profile_registration_content_profile_settings() {
+  return array(
+    'registration_use' => FALSE,
+    'admin_user_create_use' => FALSE,
+    'registration_hide' => array(),
+  );
+}

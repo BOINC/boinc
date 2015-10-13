@@ -1,0 +1,94 @@
+<?php
+// $Id: content_profile_tokens.module,v 1.1.2.1 2009/11/03 14:20:17 fago Exp $
+
+/**
+ * @file
+ * Implementations of token module hooks for the content profile module.
+ *
+ * @ingroup token
+ */
+
+/**
+ * Implementation of hook_token_values().
+ */
+function content_profile_tokens_token_values($type, $object = NULL, $options = array()) {
+  $values = array();
+  $types = content_profile_get_types('types');
+  switch ($type) {
+    case 'user':
+      foreach($types as $type_name => $type) {
+        if (isset($object)) {
+          $profile = content_profile_load($type_name, $object->uid);
+        }
+        else {
+          global $user;
+          $profile = content_profile_load($type_name, $user->uid);
+        }
+        $fields = content_types($type_name);
+        foreach ($fields['fields'] as $field_name => $field) {
+          if (!$field['multiple'] && ($field['widget']['type'] == 'text_textfield' || $field['widget']['type'] == 'number')) {
+              $values['content-profile-'. $type_name .'-'. substr($field_name, 6)] = check_plain($profile->{$field_name}[0]['value']);
+              $values['content-profile-'. $type_name .'-'. substr($field_name, 6) .'-raw'] = $profile->{$field_name}[0]['value'];
+          }
+        }
+      }
+      break;
+
+    case 'flag_friend':
+      if(!empty($object)) {
+        foreach($types as $type_name => $type) {
+          $profile_requestor = content_profile_load($type_name, $object->friend->uid);
+          $profile_requestee = content_profile_load($type_name, $object->uid);
+          
+          $fields = content_types($type_name);
+          foreach ($fields['fields'] as $field_name => $field) {
+            if (!$field['multiple'] && ($field['widget']['type'] == 'text_textfield' || $field['widget']['type'] == 'number')) {
+              $values['requestor-'. $type_name .'-'. substr($field_name, 6)] = check_plain($profile_requestor->{$field_name}[0]['value']);
+              $values['requestor-'. $type_name .'-'. substr($field_name, 6) .'-raw'] = $profile_requestor->{$field_name}[0]['value'];
+              
+              $values['requestee-'. $type_name .'-'. substr($field_name, 6)] = check_plain($profile_requestee->{$field_name}[0]['value']);
+              $values['requestee-'. $type_name .'-'. substr($field_name, 6) .'-raw'] = $profile_requestee->{$field_name}[0]['value'];
+            }
+          }
+        }
+      }
+      break;
+  }
+  return $values;
+}
+
+/**
+ * Implementation of hook_token_list().
+ */
+function content_profile_tokens_token_list($type = 'all') {
+  $tokens = array();
+  if ($type == 'user' || $type == 'all') {
+    $types = content_profile_get_types('types');
+    foreach ($types as $type_name => $type) {
+    
+      $fields = content_types($type_name);
+      foreach ($fields['fields'] as $field_name => $field) {
+        if (!$field['multiple'] && ($field['widget']['type'] == 'text_textfield' || $field['widget']['type'] == 'number')) {
+          $tokens['user']['content-profile-'. $type_name .'-'. substr($field_name, 6)] = t($fields['description']) .'-'. t($field['widget']['label']);
+          $tokens['user']['content-profile-'. $type_name .'-'. substr($field_name, 6) .'-raw'] = t($fields['description']) .'-'. t($field['widget']['label']) .' '. t('WARNING - raw user input');
+        }
+      }
+    }
+  }
+  
+  if ($type == 'flag_friend' && module_exists('flag_friend')) {
+    foreach($types as $type_name => $type) {
+      $fields = content_types($type_name);
+      foreach ($fields['fields'] as $field_name => $field) {
+        if (!$field['multiple'] && ($field['widget']['type'] == 'text_textfield' || $field['widget']['type'] == 'number')) {
+          $tokens['content_profile_flag_friend']['requestor-'. $type_name .'-'. substr($field_name, 6)] = t('Requestor:') . t($fields['description']) .'-'. t($field['widget']['label']);
+          $tokens['content_profile_flag_friend']['requestor-'. $type_name .'-'. substr($field_name, 6) .'-raw'] = t('Requestor:') . t($fields['description']) .'-'. t($field['widget']['label']) .' '. t('WARNING - raw user input');
+
+          $tokens['content_profile_flag_friend']['requestee-'. $type_name .'-'. substr($field_name, 6)] = t('Requestee:') . t($fields['description']) .'-'. t($field['widget']['label']);
+          $tokens['content_profile_flag_friend']['requestee-'. $type_name .'-'. substr($field_name, 6) .'-raw'] = t('Requestee:') .t($fields['description']) .'-'. t($field['widget']['label']) .' '. t('WARNING - raw user input');
+        }
+      }
+    }
+  }
+  return $tokens;
+}

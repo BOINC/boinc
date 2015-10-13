@@ -1,0 +1,156 @@
+# Hungarian translation of text (all releases)
+# Copyright (c) 2008 by the Hungarian translation team
+# Generated from files:
+#  text.module,v 1.95.2.20 2008/10/01 17:04:31 karens
+#  text.info,v 1.9 2008/04/23 18:02:31 dww
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: text (all releases)\n"
+"POT-Creation-Date: 2008-10-26 11:32-0500\n"
+"PO-Revision-Date: 2008-10-26 09:41-0500\n"
+"Last-Translator: Fehér János <feher.janos _at- mindworks.hu>\n"
+"Language-Team: Drupal.hu Fordítói Csapat <forditas [at] drupal.hu>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: text.module:103,112
+msgid "Code"
+msgstr "Kód"
+
+#: text.module:202
+msgid "Default"
+msgstr "Alapértelmezett"
+
+#: text.module:66,207
+msgid "Plain text"
+msgstr "Egyszerű szöveg"
+
+#: text.info:0
+msgid "CCK"
+msgstr "CCK"
+
+#: text.module:96
+msgid "PHP code"
+msgstr "PHP kód"
+
+#: text.module:113
+msgid "&lt;none&gt;"
+msgstr "&lt;nincs&gt;"
+
+#: text.module:114
+msgid "You're not allowed to input PHP code."
+msgstr "Nem engedélyezett a PHP kód bevitele."
+
+#: text.module:82
+msgid "Allowed values"
+msgstr "Megengedett értékek"
+
+#: text.module:88
+msgid "Allowed values list"
+msgstr "Megengedett értékek"
+
+#: text.module:92
+msgid ""
+"The possible values this field can contain. Enter one value per line, "
+"in the format key|label. The key is the value that will be stored in "
+"the database, and it must match the field storage type (%type). The "
+"label is optional, and the key will be used as the label if no label "
+"is specified.<br />Allowed HTML tags: @tags"
+msgstr ""
+"A mező lehetséges értékei. Egy sorban egy értéket lehet megadni "
+"kulcs|címke formában. A kulcs értéke kerül az adatbázisba, és "
+"ennek meg kell felelnie az adatbázisban tárolt típussal (%type). A "
+"címke nem kötelező, ha nincs megadva, akkor a kulcs kerül "
+"felhasználásra, mint címke.<br />Engedélyezett HTML elemek: @tags"
+
+#: text.module:106
+msgid ""
+"Advanced usage only: PHP code that returns a keyed array of allowed "
+"values. Should not include &lt;?php ?&gt; delimiters. If this field is "
+"filled out, the array returned by this code will override the allowed "
+"values list above."
+msgstr ""
+"Csak haladóknak: PHP kód, ami visszaadja a megengedett értékek "
+"tömbjét. Nem szükséges &lt;?php ?&gt; elemek közé zárni. Ha ez "
+"a mező ki van töltve, a kód által visszaadott tömb felülír "
+"minden fentebb megadott értéket."
+
+#: text.module:114
+msgid ""
+"This PHP code was set by an administrator and will override the "
+"allowed values list above."
+msgstr ""
+"Ezt a PHP kódot egy adminisztrátor állította be, és felül fogja "
+"írni a fentebb megadott elfogadható értékek listáját."
+
+#: text.module:162
+msgid "%name: illegal value."
+msgstr "%name: érvénytelen érték."
+
+#: text.module:262
+msgid "Text field"
+msgstr "Szöveg mező"
+
+#: text.module:50
+msgid "Store text in the database."
+msgstr "Szöveget tárol az adatbázisban."
+
+#: text.module:66
+msgid "Filtered text (user selects input format)"
+msgstr "Formázott szöveg (a felhasználó választja ki a beviteli formát)"
+
+#: text.module:69
+msgid "Text processing"
+msgstr "Szövegfeldolgozás"
+
+#: text.module:75
+msgid "Maximum length"
+msgstr "Maximális hossz"
+
+#: text.module:78
+msgid ""
+"The maximum length of the field in characters. Leave blank for an "
+"unlimited size."
+msgstr ""
+"A mező karakterben mért maximális hossza. Üresen hagyva nincs "
+"korlátozva."
+
+#: text.module:165
+msgid "%name: the value may not be longer than %max characters."
+msgstr "%name: az érték nem lehet hosszabb %max karakternél."
+
+#: text.module:212
+msgid "Trimmed"
+msgstr "Levágva"
+
+#: text.module:270
+msgid "Text area (multiple rows)"
+msgstr "Szövegdoboz (többsoros)"
+
+#: text.module:322
+msgid "Size of textfield"
+msgstr "A szövegmező mérete"
+
+#: text.module:331
+msgid "Rows"
+msgstr "Sorok"
+
+#: text.module:348
+msgid "\"Rows\" must be a positive integer."
+msgstr "A „Sorok” számának pozitív egész számot lehet megadni."
+
+#: text.module:355
+msgid "\"Size\" must be a positive integer."
+msgstr "A méret csak pozitív egész szám lehet."
+
+#: text.module:0
+msgid "text"
+msgstr "szöveg"
+
+#: text.module:49; text.info:0
+msgid "Text"
+msgstr "Szöveg"
+

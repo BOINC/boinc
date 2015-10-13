@@ -1,0 +1,456 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Defines selection, check box and radio button widgets for text and numeric fields.
+ */
+
+/**
+ * Implementation of hook_form_alter.
+ */
+function optionwidgets_form_alter(&$form, $form_state, $form_id) {
+  // Provide additional help for the field settings form.
+  if ($form_id == 'content_field_edit_form' && isset($form['widget'])) {
+    $widget_type = $form['#field']['widget']['type'];
+    $field_type = $form['#field']['type'];
+    $label = $form['#field']['widget']['label'];
+
+    $output = '<p>'. t('Create a list of options as a list in <strong>Allowed values list</strong> or as an array in PHP code. These values will be the same for %field in all content types.', array('%field' => $label)) .'</p>';
+
+    if ($widget_type == 'optionwidgets_onoff') {
+      $output .= '<p>'. t("For a 'single on/off checkbox' widget, define the 'off' value first, then the 'on' value in the <strong>Allowed values</strong> section. Note that the checkbox will be labeled with the label of the 'on' value.") .'</p>';
+    }
+    elseif ($widget_type == 'optionwidgets_buttons') {
+      $output .= '<p>'. t("The 'checkboxes/radio buttons' widget will display checkboxes if the multiple values option is selected for this field, otherwise radios will be displayed.") .'</p>';
+    }
+
+    if (in_array($field_type, array('text', 'number_integer', 'number_float', 'number_decimal'))
+    && in_array($widget_type, array('optionwidgets_onoff', 'optionwidgets_buttons', 'optionwidgets_select'))) {
+      $form['field']['allowed_values_fieldset']['#collapsed'] = FALSE;
+      $form['field']['allowed_values_fieldset']['#description'] = $output;
+
+      // If no 'allowed values' were set yet, add a remainder in the messages area.
+      if (empty($form_state['post'])
+      && empty($form['field']['allowed_values_fieldset']['allowed_values']['#default_value'])
+      && empty($form['field']['allowed_values_fieldset']['advanced_options']['allowed_values_php']['#default_value'])) {
+        drupal_set_message(t("You need to specify the 'allowed values' for this field."), 'warning');
+      }
+    }
+  }
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function optionwidgets_theme() {
+  return array(
+    'optionwidgets_select' => array(
+      'arguments' => array('element' => NULL),
+    ),
+    'optionwidgets_buttons' => array(
+      'arguments' => array('element' => NULL),
+    ),
+    'optionwidgets_onoff' => array(
+      'arguments' => array('element' => NULL),
+    ),
+    'optionwidgets_none' => array(
+      'arguments' => array('widget_type' => NULL, 'field_name' => NULL, 'node_type' => NULL),
+      ),
+  );
+}
+
+/**
+ * Implementation of hook_widget_info().
+ *
+ * We need custom handling of multiple values because we need
+ * to combine them into a options list rather than display
+ * multiple elements. We will use the content module's default
+ * handling for default values.
+ *
+ * Callbacks can be omitted if default handing is used.
+ * They're included here just so this module can be used
+ * as an example for custom modules that might do things
+ * differently.
+ */
+function optionwidgets_widget_info() {
+
+  return array(
+    'optionwidgets_select' => array(
+      'label' => t('Select list'),
+      'field types' => array('text', 'number_integer', 'number_decimal', 'number_float'),
+      'multiple values' => CONTENT_HANDLE_MODULE,
+      'callbacks' => array(
+        'default value' => CONTENT_CALLBACK_DEFAULT,
+      ),
+    ),
+    'optionwidgets_buttons' => array(
+      'label' => t('Check boxes/radio buttons'),
+      'field types' => array('text', 'number_integer', 'number_decimal', 'number_float'),
+      'multiple values' => CONTENT_HANDLE_MODULE,
+      'callbacks' => array(
+        'default value' => CONTENT_CALLBACK_DEFAULT,
+      ),
+    ),
+    'optionwidgets_onoff' => array(
+      'label' => t('Single on/off checkbox'),
+      'field types' => array('text', 'number_integer', 'number_decimal', 'number_float'),
+      'multiple values' => CONTENT_HANDLE_MODULE,
+      'callbacks' => array(
+        'default value' => CONTENT_CALLBACK_DEFAULT,
+      ),
+    ),
+  );
+}
+
+/**
+ * Implementation of FAPI hook_elements().
+ *
+ * Any FAPI callbacks needed for individual widgets can be declared here,
+ * and the element will be passed to those callbacks for processing.
+ *
+ * Drupal will automatically theme the element using a theme with
+ * the same name as the hook_elements key.
+ */
+function optionwidgets_elements() {
+  return array(
+    'optionwidgets_select' => array(
+      '#input' => TRUE,
+      '#columns' => array('value'), '#delta' => 0,
+      '#process' => array('optionwidgets_select_process'),
+      ),
+    'optionwidgets_buttons' => array(
+      '#input' => TRUE,
+      '#columns' => array('value'), '#delta' => 0,
+      '#process' => array('optionwidgets_buttons_process'),
+      ),
+    'optionwidgets_onoff' => array(
+      '#input' => TRUE,
+      '#columns' => array('value'), '#delta' => 0,
+      '#process' => array('optionwidgets_onoff_process'),
+      ),
+    );
+}
+
+/**
+ * Implementation of hook_widget().
+ *
+ * Attach a single form element to the form. It will be built out and
+ * validated in the callback(s) listed in hook_elements. We build it
+ * out in the callbacks rather than here in hook_widget so it can be
+ * plugged into any module that can provide it with valid
+ * $field information.
+ *
+ * Content module will set the weight, field name and delta values
+ * for each form element. This is a change from earlier CCK versions
+ * where the widget managed its own multiple values.
+ *
+ * If there are multiple values for this field, the content module will
+ * call this function as many times as needed.
+ *
+ * @param $form
+ *   the entire form array, $form['#node'] holds node information
+ * @param $form_state
+ *   the form_state, $form_state['values'][$field['field_name']]
+ *   holds the field's form values.
+ * @param $field
+ *   the field array
+ * @param $items
+ *   an array of default values for this element
+ * @param $delta
+ *   the order of this item in the array of subelements (0, 1, 2, etc)
+ *
+ * @return
+ *   the form item for a single element for this field
+ */
+function optionwidgets_widget(&$form, &$form_state, $field, $items, $delta = NULL) {
+  $element = array(
+    '#type' => $field['widget']['type'],
+    '#default_value' => !empty($items) ? $items : array(),
+  );
+  return $element;
+}
+
+/**
+ * Process an individual element.
+ *
+ * Build the form element. When creating a form using FAPI #process,
+ * note that $element['#value'] is already set.
+ *
+ * The $fields array is in $form['#field_info'][$element['#field_name']].
+ */
+function optionwidgets_buttons_process($element, $edit, &$form_state, $form) {
+  $field_name = $element['#field_name'];
+  $field = $form['#field_info'][$field_name];
+  $field_key  = $element['#columns'][0];
+
+  // See if this element is in the database format or the transformed format,
+  // and transform it if necessary.
+  if (is_array($element['#value']) && !array_key_exists($field_key, $element['#value'])) {
+    $element['#value'] = optionwidgets_data2form($element, $element['#default_value'], $field);
+  }
+  $options = optionwidgets_options($field);
+  $element[$field_key] = array(
+    '#type' => $field['multiple'] ? 'checkboxes' : 'radios',
+    '#title' => $element['#title'],
+    '#description' => $element['#description'],
+    '#required' => isset($element['#required']) ? $element['#required'] : $field['required'],
+    '#multiple' => isset($element['#multiple']) ? $element['#multiple'] : $field['multiple'],
+    '#options' => $options,
+    '#default_value' => isset($element['#value'][$field_key]) ? $element['#value'][$field_key] : NULL,
+  );
+
+  // Set #element_validate in a way that it will not wipe out other
+  // validation functions already set by other modules.
+  if (empty($element['#element_validate'])) {
+    $element['#element_validate'] = array();
+  }
+  array_unshift($element['#element_validate'], 'optionwidgets_validate');
+
+  // Make sure field info will be available to the validator which
+  // does not get the values in $form.
+  $form_state['#field_info'][$field['field_name']] = $field;
+  return $element;
+}
+
+/**
+ * Process an individual element.
+ *
+ * Build the form element. When creating a form using FAPI #process,
+ * note that $element['#value'] is already set.
+ *
+ * The $fields array is in $form['#field_info'][$element['#field_name']].
+ */
+function optionwidgets_select_process($element, $edit, &$form_state, $form) {
+  $field_name = $element['#field_name'];
+  $field = $form['#field_info'][$field_name];
+  $field_key  = $element['#columns'][0];
+
+  // See if this element is in the database format or the transformed format,
+  // and transform it if necessary.
+  if (is_array($element['#value']) && !array_key_exists($field_key, $element['#value'])) {
+    $element['#value'] = optionwidgets_data2form($element, $element['#default_value'], $field);
+  }
+
+  $options = optionwidgets_options($field, FALSE);
+
+  // For this specific widget, HTML should be filtered out and entities left unencoded.
+  // See content_allowed_values / content_filter_xss / filter_xss.
+  content_allowed_values_filter_html($options);
+
+  $element[$field_key] = array(
+    '#type' => 'select',
+    '#title' => $element['#title'],
+    '#description' => $element['#description'],
+    '#required' => isset($element['#required']) ? $element['#required'] : $field['required'],
+    '#multiple' => isset($element['#multiple']) ? $element['#multiple'] : $field['multiple'],
+    '#options' => $options,
+    '#default_value' => isset($element['#value'][$field_key]) ? $element['#value'][$field_key] : NULL,
+  );
+
+  // Set #element_validate in a way that it will not wipe out other
+  // validation functions already set by other modules.
+  if (empty($element['#element_validate'])) {
+    $element['#element_validate'] = array();
+  }
+  array_unshift($element['#element_validate'], 'optionwidgets_validate');
+
+  // Make sure field info will be available to the validator which
+  // does not get the values in $form.
+
+  // TODO for some reason putting the $field array into $form_state['storage']
+  // causes the node's hook_form_alter to be invoked twice, garbling the
+  // results. Need to investigate why that is happening (a core bug?), but
+  // in the meantime avoid using $form_state['storage'] to store anything.
+  $form_state['#field_info'][$field['field_name']] = $field;
+  return $element;
+}
+
+/**
+ * Process an individual element.
+ *
+ * Build the form element. When creating a form using FAPI #process,
+ * note that $element['#value'] is already set.
+ *
+ * The $fields array is in $form['#field_info'][$element['#field_name']].
+ */
+function optionwidgets_onoff_process($element, $edit, &$form_state, $form) {
+  $field_name = $element['#field_name'];
+  $field = $form['#field_info'][$field_name];
+  $field_key  = $element['#columns'][0];
+
+  // See if this element is in the database format or the transformed format,
+  // and transform it if necessary.
+  if (is_array($element['#value']) && !array_key_exists($field_key, $element['#value'])) {
+    $element['#value'] = optionwidgets_data2form($element, $element['#default_value'], $field);
+  }
+  $options = optionwidgets_options($field);
+  $keys = array_keys($options);
+  $on_value = (!empty($keys) && isset($keys[1])) ? $keys[1] : NULL;
+  $element[$field_key] = array(
+    '#type' => 'checkbox',
+    '#title' => isset($options[$on_value]) ? $options[$on_value] : '',
+    '#description' => $element['#description'],
+    '#required' => isset($element['#required']) ? $element['#required'] : $field['required'],
+    '#default_value' => isset($element['#value'][$field_key][0]) ? $element['#value'][$field_key][0] == $on_value : FALSE,
+    '#return_value' => $on_value,
+  );
+
+  // Set #element_validate in a way that it will not wipe out other
+  // validation functions already set by other modules.
+  if (empty($element['#element_validate'])) {
+    $element['#element_validate'] = array();
+  }
+  array_unshift($element['#element_validate'], 'optionwidgets_validate');
+
+  // Make sure field info will be available to the validator which
+  // does not get the values in $form.
+  $form_state['#field_info'][$field['field_name']] = $field;
+  return $element;
+}
+
+/**
+ * FAPI function to validate optionwidgets element.
+ */
+function optionwidgets_validate($element, &$form_state) {
+  // Transpose selections from field => delta to delta => field,
+  // turning multiple selected options into multiple parent elements.
+  // Immediate parent is the delta, need to get back to parent's parent
+  // to create multiple elements.
+  $field = $form_state['#field_info'][$element['#field_name']];
+  $items = optionwidgets_form2data($element, $field);
+  form_set_value($element, $items, $form_state);
+
+  // Check we don't exceed the allowed number of values.
+  if ($field['multiple'] >= 2) {
+    // Filter out 'none' value (if present, will always be in key 0)
+    $field_key = $element['#columns'][0];
+    if (isset($items[0][$field_key]) && $items[0][$field_key] === '') {
+      unset($items[0]);
+    }
+    if (count($items) > $field['multiple']) {
+      $field_key  = $element['#columns'][0];
+      form_error($element[$field_key], t('%name: this field cannot hold more than @count values.', array('%name' => t($field['widget']['label']), '@count' => $field['multiple'])));
+    }
+  }
+}
+
+/**
+ * Helper function to transpose the values as stored in the database
+ * to the format the widget needs. Can be called anywhere this
+ * transformation is needed.
+ */
+function optionwidgets_data2form($element, $items, $field) {
+  $field_key  = $element['#columns'][0];
+  $options    = optionwidgets_options($field);
+
+  $items_transposed = content_transpose_array_rows_cols($items);
+  $values = (isset($items_transposed[$field_key]) && is_array($items_transposed[$field_key])) ? $items_transposed[$field_key] : array();
+  $keys = array();
+  foreach ($values as $value) {
+    $key = array_search($value, array_keys($options));
+    if (isset($key)) {
+      $keys[] = $value;
+    }
+  }
+  if ($field['multiple'] || $element['#type'] == 'optionwidgets_onoff') {
+    return array($field_key => $keys);
+  }
+  else {
+    return !empty($keys) ? array($field_key => $value) : array();
+  }
+}
+
+/**
+ * Helper function to transpose the values returned by submitting the widget
+ * to the format to be stored in the field. Can be called anywhere this
+ * transformation is needed.
+ */
+function optionwidgets_form2data($element, $field) {
+  $field_key = $element['#columns'][0];
+  $items = (array) $element[$field_key]['#value'];
+  $options = optionwidgets_options($field);
+
+  $values = array_values($items);
+
+  if ($element['#type'] == 'optionwidgets_onoff' && ($values[0] === 0)) {
+    $keys = array_keys($options);
+    $values = array(array_key_exists(0, $keys) ? $keys[0] : NULL);
+  }
+
+  if (empty($values)) {
+    $values[] = NULL;
+  }
+  $result = content_transpose_array_rows_cols(array($field_key => $values));
+  return $result;
+}
+
+/**
+ * Helper function for finding the allowed values list for a field.
+ *
+ * See if there is a module hook for the option values.
+ * Otherwise, try content_allowed_values() for an options list.
+ *
+ * @param $field
+ *   The field whose allowed values are requested.
+ * @param $flatten
+ *   Optional. Use TRUE to return a flattened array (default).
+ *   FALSE can be used to support optgroups for select widgets
+ *   when allowed values list is generated using PHP code.
+ */
+function optionwidgets_options($field, $flatten = TRUE) {
+  $function = $field['module'] .'_allowed_values';
+  $options = function_exists($function) ? $function($field) : (array) content_allowed_values($field, $flatten);
+  // Add an empty choice for :
+  // - non required radios
+  // - non required selects
+  if (!$field['required']) {
+    if ((in_array($field['widget']['type'], array('optionwidgets_buttons', 'nodereference_buttons', 'userreference_buttons')) && !$field['multiple'])
+      || (in_array($field['widget']['type'], array('optionwidgets_select', 'nodereference_select', 'userreference_select')))) {
+      $options = array('' => theme('optionwidgets_none', $field)) + $options;
+    }
+  }
+  return $options;
+}
+
+/**
+ *  Theme the label for the empty value for options that are not required.
+ *  The default theme will display N/A for a radio list and blank for a select.
+ */
+function theme_optionwidgets_none($field) {
+  switch ($field['widget']['type']) {
+    case 'optionwidgets_buttons':
+    case 'nodereference_buttons':
+    case 'userreference_buttons':
+      return t('N/A');
+    case 'optionwidgets_select':
+    case 'nodereference_select':
+    case 'userreference_select':
+      return t('- None -');
+    default :
+      return '';
+  }
+}
+
+/**
+ * FAPI themes for optionwidgets.
+ *
+ * The select, checkboxes or radios are already rendered by the
+ * select, checkboxes, or radios themes and the HTML output
+ * lives in $element['#children']. Override this theme to
+ * make custom changes to the output.
+ *
+ * $element['#field_name'] contains the field name
+ * $element['#delta]  is the position of this element in the group
+ */
+function theme_optionwidgets_select($element) {
+  return $element['#children'];
+}
+
+function theme_optionwidgets_onoff($element) {
+  return $element['#children'];
+}
+
+function theme_optionwidgets_buttons($element) {
+  return $element['#children'];
+}

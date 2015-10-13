@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-24 17:05-0500\n"
-"PO-Revision-Date: 2015-10-08 01:15+0000\n"
+"PO-Revision-Date: 2015-10-09 23:59+0000\n"
 "Last-Translator: Jord <elst93@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/boinc/boinc/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -159,7 +159,7 @@ msgstr "Kies een accountmanager"
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
-msgstr "Klik op de naam om een accountmanager te kiezen of \nvul hieronder het URL in."
+msgstr "Klik op de naam om een accountmanager te kiezen of \nvul hieronder de URL in."
 
 #: clientgui/AccountManagerInfoPage.cpp:277
 msgid "Account manager details:"
@@ -236,7 +236,7 @@ msgstr "Sluit de op dit moment aangesloten BOINC cliënt"
 #: clientgui/AdvancedFrame.cpp:355 clientgui/sg_BoincSimpleFrame.cpp:120
 #, c-format
 msgid "Close the %s window"
-msgstr "Sluit het %s venster"
+msgstr "Sluit het %s dialoog-venster"
 
 #: clientgui/AdvancedFrame.cpp:358 clientgui/sg_BoincSimpleFrame.cpp:123
 msgid "&Close window"
@@ -674,7 +674,7 @@ msgstr "%s - Verbindings Fout"
 msgid ""
 "You currently are not authorized to manage the client.\n"
 "Please contact your administrator to add you to the 'boinc_users' local user group."
-msgstr "Je hebt momenteel niet de benodigde rechten om de cliënt te kunnen\nonderhouden. Neem contact op met de systeembeheerder."
+msgstr "Je hebt momenteel niet de benodigde rechten om de cliënt te kunnen\nbeheren. Neem contact op met de systeembeheerder."
 
 #: clientgui/BOINCBaseFrame.cpp:530
 msgid ""
@@ -1151,7 +1151,7 @@ msgstr "Gebruik web voorkeur"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:116 clientgui/sg_DlgPreferences.cpp:216
 msgid "Restore web-based preferences and close the dialog."
-msgstr "Herstel website voorkeuren en sluit dit dialoog."
+msgstr "Herstel website voorkeuren en sluit dit dialoog-venster."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:140
 #: clientgui/DlgAdvPreferencesBase.cpp:684
@@ -1180,11 +1180,11 @@ msgstr "OK"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:163
 msgid "Save all values and close the dialog."
-msgstr "Bewaar alle waardes en sluit dit dialoog."
+msgstr "Bewaar alle waardes en sluit dit dialoog-venster."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:169
 msgid "Close the dialog without saving."
-msgstr "Sluit dit dialoog zonder de waardes te bewaren."
+msgstr "Sluit dit dialoog-venster zonder de waardes te bewaren."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:173 clientgui/DlgExclusiveApps.cpp:157
 #: clientgui/Localization.cpp:35 clientgui/Localization.cpp:121
@@ -1225,7 +1225,7 @@ msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
 "energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, "
 "and repeat."
-msgstr "Pauzeren/hervatten van verwerking elke zoveel seconden om de CPU temperatuur en het energieverbruik te verminderen. Bijvoorbeeld: 75% betekent 3 seconden verwerken, 1 seconde pauze, enzovoort. "
+msgstr "Pauzeer/hervat verwerking elke zoveel seconden om de CPU temperatuur en het energieverbruik te verminderen. Bijvoorbeeld: 75% betekent 3 seconden verwerken, 1 seconde pauze, enzovoort. "
 
 #: clientgui/DlgAdvPreferencesBase.cpp:260 clientgui/sg_DlgPreferences.cpp:289
 #, no-c-format
@@ -1243,7 +1243,7 @@ msgstr "Pauzeer wanneer de computer op accu werkt"
 #: clientgui/DlgAdvPreferencesBase.cpp:276 clientgui/sg_DlgPreferences.cpp:233
 msgid ""
 "Check this to suspend computing on portables when running on battery power."
-msgstr "Markeer dit om verwerking op te schorten op mobiele toestellen wanneer deze op accu draaien."
+msgstr "Markeer dit om verwerking te pauzeren op mobiele toestellen wanneer deze op accu werken."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:282 clientgui/sg_DlgPreferences.cpp:251
 msgid "Suspend when computer is in use"
@@ -1253,7 +1253,7 @@ msgstr "Pauzeer waneer computer in gebruik is"
 msgid ""
 "Check this to suspend computing and file transfers when you're using the "
 "computer."
-msgstr "Markeer dit om verwerking en bestandsoverdrachten op te schorten wanneer je de computer gebruikt."
+msgstr "Markeer dit om verwerking en bestandsoverdrachten te pauzeren wanneer je de computer gebruikt."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:291
 msgid "Suspend GPU computing when computer is in use"
@@ -1261,7 +1261,7 @@ msgstr "Pauzeer GPU gebruik wanneer de computer in gebruik is"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:294
 msgid "Check this to suspend GPU computing when you're using the computer."
-msgstr "Markeer dit om GPU gebruik op te schorten wanneer je de computer gebruikt."
+msgstr "Markeer dit om GPU gebruik te pauzeren wanneer je de computer gebruikt."
 
 #. min idle time
 #: clientgui/DlgAdvPreferencesBase.cpp:299 clientgui/sg_DlgPreferences.cpp:262
@@ -1507,7 +1507,7 @@ msgid ""
 "If checked, suspended tasks stay in memory, and resume with no work lost. If"
 " unchecked, suspended tasks are removed from memory, and resume from their "
 "last checkpoint."
-msgstr "Wanneer gemarkeerd blijven gepauzeerde taken in het geheugen, en kunnen deze herstarten zonder dat werk verloren gaat. Wanneer niet gemarkeerd worden gepauzeerde taken uit het geheugen verwijderd, en herstarten deze van hun laatste controlepunt. "
+msgstr "Wanneer gemarkeert blijven gepauzeerde taken in het geheugen, en kunnen deze herstarten zonder dat werk verloren gaat. Wanneer niet gemarkeert worden gepauzeerde taken uit het geheugen verwijderd, en herstarten deze van hun laatste controlepunt. "
 
 #: clientgui/DlgAdvPreferencesBase.cpp:643
 #, c-format
@@ -1603,7 +1603,7 @@ msgstr "Meer informatie ..."
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:120 clientgui/DlgHiddenColumns.cpp:101
 msgid "Save all values and close the dialog"
-msgstr "Bewaar alle waardes en sluit dit dialoog"
+msgstr "Bewaar alle waardes en sluit dit dialoog-venster"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:123 clientgui/DlgHiddenColumns.cpp:104
 msgid "Defaults"
@@ -1615,7 +1615,7 @@ msgstr "Zet standaardwaardes terug"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:128 clientgui/DlgHiddenColumns.cpp:109
 msgid "Close the dialog without saving"
-msgstr "Sluit dit dialoog zonder te bewaren"
+msgstr "Sluit dit dialoog-venster zonder de waardes te bewaren."
 
 #: clientgui/DlgEventLog.cpp:227
 #, c-format
@@ -1724,11 +1724,11 @@ msgstr "Voor geavanceerde opties, raadpleeg het "
 
 #: clientgui/DlgExclusiveApps.cpp:147
 msgid "save all values and close the dialog"
-msgstr "sla alle waarden op en sluit het venster"
+msgstr "sla alle waarden op en sluit het dialoog-venster"
 
 #: clientgui/DlgExclusiveApps.cpp:153
 msgid "close the dialog without saving"
-msgstr "sluit het dialoog zonder op te slaan"
+msgstr "sluit het dialoog-venster zonder op te slaan"
 
 #: clientgui/DlgExclusiveApps.cpp:158
 msgid "shows the preferences web page"
@@ -1794,7 +1794,7 @@ msgid ""
 "In most cases, it is better just to close the %s window\n"
 "rather than to exit the application; that will allow %s to run its\n"
 "tasks at the times you selected in your preferences."
-msgstr "Dit zal %s en het werk stop zetten, de voortgang zal pas worden\nhervat als de %s of de %s screensaver opnieuw gestart wordt.\n\nIn de meeste gevallen, is het aan te raden om het %s venster\nte sluiten. Op deze manier blijft %s actief en kan het werk\nworden voort gezet op basis van de opgegeven voorkeuren."
+msgstr "Dit zal %s en het werk stop zetten, de voortgang zal pas worden\nhervat als de %s of de %s screensaver opnieuw gestart wordt.\n\nIn de meeste gevallen, is het aan te raden om het %s dialoog-venster\nte sluiten. Op deze manier blijft %s actief en kan het werk\nworden voort gezet op basis van de opgegeven voorkeuren."
 
 #: clientgui/DlgExitMessage.cpp:153
 #, c-format
@@ -1803,7 +1803,7 @@ msgstr "Stop de actieve taken bij het afsluiten van de %s"
 
 #: clientgui/DlgExitMessage.cpp:165
 msgid "Remember this decision and do not show this dialog."
-msgstr "Onthoud deze keuze en laat dit venster niet meer zien."
+msgstr "Onthoud deze keuze en laat dit dialoog-venster niet meer zien."
 
 #: clientgui/DlgExitMessage.cpp:178 clientgui/DlgGenericMessage.cpp:125
 #: clientgui/DlgOptions.cpp:415 clientgui/DlgSelectComputer.cpp:168
@@ -1813,7 +1813,7 @@ msgstr "&Annuleren"
 
 #: clientgui/DlgGenericMessage.cpp:112
 msgid "Don't show this dialog again."
-msgstr "Laat dit venster niet meer zien."
+msgstr "Laat dit dialoog-venster niet meer zien."
 
 #: clientgui/DlgHiddenColumns.cpp:64
 #, c-format
@@ -1854,7 +1854,7 @@ msgstr "Projectapplicaties niet beschikbaar voor "
 
 #: clientgui/DlgItemProperties.cpp:203
 msgid "Client configuration excludes "
-msgstr "Clientspecifieke configuratie omvat geen "
+msgstr "Cliëntspecifieke configuratie omvat geen "
 
 #: clientgui/DlgItemProperties.cpp:209
 #, c-format
@@ -1941,7 +1941,7 @@ msgstr "Bijwerk verzoek wordt uitgevoerd"
 
 #: clientgui/DlgItemProperties.cpp:276
 msgid "Trickle-up pending"
-msgstr "Trickle-up in behandeling"
+msgstr "Voortgangsrapport in behandeling"
 
 #: clientgui/DlgItemProperties.cpp:279 clientgui/DlgItemProperties.cpp:281
 msgid "Host location"
@@ -1953,7 +1953,7 @@ msgstr "standaardwaarde"
 
 #: clientgui/DlgItemProperties.cpp:285
 msgid "Added via account manager"
-msgstr "Toegevoegd d.m.v. account manager"
+msgstr "Toegevoegd d.m.v. accountmanager"
 
 #: clientgui/DlgItemProperties.cpp:288
 msgid "Remove when tasks done"
@@ -2144,7 +2144,7 @@ msgstr "Afsluitbevestiging weergeven?"
 
 #: clientgui/DlgOptions.cpp:229
 msgid "Display the exit dialog when shutting down the Manager."
-msgstr "Laat de afsluitbevestiging zien bij het afsluiten van de manager."
+msgstr "Laat de afsluitbevestiging zien bij het afsluiten van de Manager."
 
 #: clientgui/DlgOptions.cpp:240
 msgid "Dial-up and Virtual Private Network settings"
@@ -2264,7 +2264,7 @@ msgstr "%s - Selecteer computer"
 msgid ""
 "Another instance of %s is already running \n"
 "on this computer.  Please select a client to monitor."
-msgstr "%s wordt al een keer uitgevoerd op deze \ncomputer.  Kies de client die u wilt controleren."
+msgstr "%s wordt al een keer uitgevoerd op deze \ncomputer.  Kies de cliënt die u wilt controleren."
 
 #: clientgui/DlgSelectComputer.cpp:143
 msgid "Host name:"
@@ -2525,7 +2525,7 @@ msgstr "bandbreedte netwerk overschreden"
 
 #: clientgui/MainDocument.cpp:2454
 msgid "requested by operating system"
-msgstr "op verzoek van het besturings-systeem"
+msgstr "op verzoek van het besturingssysteem"
 
 #: clientgui/MainDocument.cpp:2456
 msgid "unknown reason"
@@ -2553,21 +2553,21 @@ msgstr " (opgeschort - "
 
 #: clientgui/MainDocument.cpp:2501
 msgid "Project suspended by user"
-msgstr "Project opgeschort door gebruiker"
+msgstr "Project gepauzeerd door gebruiker"
 
 #: clientgui/MainDocument.cpp:2503
 msgid "Task suspended by user"
-msgstr "Werk opgeschort door gebruiker"
+msgstr "Taak gepauzeerd door gebruiker"
 
 #. an NCI process can be running even though computation is suspended
 #. (because of <dont_suspend_nci>
 #: clientgui/MainDocument.cpp:2508
 msgid "Suspended - "
-msgstr "Opgeschort - "
+msgstr "Gepauzeerd - "
 
 #: clientgui/MainDocument.cpp:2511
 msgid "GPU suspended - "
-msgstr "GPU opgeschort - "
+msgstr "GPU gepauzeerd - "
 
 #: clientgui/MainDocument.cpp:2515
 msgid "Waiting for memory"
@@ -2587,11 +2587,11 @@ msgstr " (niet CPU intensief)"
 
 #: clientgui/MainDocument.cpp:2524
 msgid "Waiting to run"
-msgstr "Gepauzeerd"
+msgstr "Staat in de wacht"
 
 #: clientgui/MainDocument.cpp:2526 clientgui/MainDocument.cpp:2529
 msgid "Ready to start"
-msgstr "Staat in de wacht"
+msgstr "Klaar om te starten"
 
 #: clientgui/MainDocument.cpp:2533
 msgid "Postponed: "
@@ -2786,7 +2786,7 @@ msgstr "Welkom bij %s."
 
 #: clientgui/ProjectWelcomePage.cpp:254
 msgid "You have volunteered to compute for this project:"
-msgstr "Je hebt je vrijwillig opgegeven om berekeningen te maken voor dit project:"
+msgstr "Je hebt je vrijwillig opgegeven om computer berekeningen te maken voor dit project:"
 
 #: clientgui/ProjectWelcomePage.cpp:255
 msgid "Name:"
@@ -2837,7 +2837,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr "De World Community Grid - BOINC software kon geen verbinding\nmet het internet maken. Mogelijke oorzaken zijn:\n\n1) Verbindings probleem.  Controleer de netwerk- of modemverbinding\nen klik op Vorige om opnieuw te proberen.\n\n2) Een firewall blokkeerd de World Community Grid - BOINC software.\n  Configureer je firewall om BOINC en de BOINC Manager toegang te\nverlenen tot poort 80 en poort 443, klik daarna op\nVorige om opnieuw te proberen.\n\n3) Je maakt gebruik van een proxy server.\nKlik op Volgende op om de proxy instellingen te maken."
+msgstr "De World Community Grid - BOINC software kon geen verbinding\nmet het internet maken. Mogelijke oorzaken zijn:\n\n1) Verbindingsprobleem.  Controleer de netwerk- of modemverbinding\nen klik op Vorige om opnieuw te proberen.\n\n2) Een firewall blokkeert de World Community Grid - BOINC software.\n  Configureer je firewall om BOINC en de BOINC Manager toegang te\nverlenen tot poort 80 en poort 443, klik daarna op\nVorige om opnieuw te proberen.\n\n3) Je maakt gebruik van een proxy server.\nKlik op Volgende op om de proxy instellingen te maken."
 
 #: clientgui/ProxyInfoPage.cpp:203
 msgid ""
@@ -2854,7 +2854,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr "De BOINC software kon geen verbinding\nmet het internet maken. Mogelijke oorzaken zijn:\n\n1) Verbindings probleem.  Controleer de netwerk- of modemverbinding\nen klik op Vorige om opnieuw te proberen.\n\n2) Een firewall blokkeerd de BOINC software.\nConfigureer je firewall om BOINC en de BOINC Manager toegang te\nverlenen tot poort 80 en poort 443, klik daarna op\nVorige om opnieuw te proberen.\n\n3) Je maakt gebruik van een proxy server.\nKlik op Volgende op om de proxy instellingen te maken."
+msgstr "De BOINC software kon geen verbinding\nmet het internet maken. Mogelijke oorzaken zijn:\n\n1) Verbindingsprobleem.  Controleer de netwerk- of modemverbinding\nen klik op Vorige om opnieuw te proberen.\n\n2) Een firewall blokkeert de BOINC software.\nConfigureer je firewall om BOINC en de BOINC Manager toegang te\nverlenen tot poort 80 en poort 443, klik daarna op\nVorige om opnieuw te proberen.\n\n3) Je maakt gebruik van een proxy server.\nKlik op Volgende op om de proxy instellingen te maken."
 
 #: clientgui/ProxyPage.cpp:331
 msgid "Proxy configuration"
@@ -2905,14 +2905,14 @@ msgstr "Het project is tijdelijk niet bereikbaar.\n\nProbeer het later a.u.b. op
 
 #: clientgui/UnavailablePage.cpp:190
 msgid "Account manager temporarily unavailable"
-msgstr "Account manager tijdelijk niet bereikbaar"
+msgstr "Accountmanager tijdelijk niet bereikbaar"
 
 #: clientgui/UnavailablePage.cpp:193
 msgid ""
 "The account manager is temporarily unavailable.\n"
 "\n"
 "Please try again later."
-msgstr "Account manager tijdelijk niet bereikbaar.\n\nProbeer het later a.u.b. opnieuw."
+msgstr "Accountmanager tijdelijk niet bereikbaar.\n\nProbeer het later a.u.b. opnieuw."
 
 #: clientgui/ValidateAccountKey.cpp:68
 msgid "Please specify an account key to continue."
@@ -2924,7 +2924,7 @@ msgstr "Ongeldige Account Key; vul a.u.b een geldige in"
 
 #: clientgui/ValidateAccountKey.cpp:82 clientgui/ValidateEmailAddress.cpp:86
 msgid "Validation conflict"
-msgstr "Geldigheids conflict"
+msgstr "Geldigheidsconflict"
 
 #: clientgui/ValidateEmailAddress.cpp:72
 msgid "Please specify an email address"
@@ -3120,7 +3120,7 @@ msgstr "Bezig met hervatten..."
 
 #: clientgui/ViewProjects.cpp:438
 msgid "Suspending project..."
-msgstr "Bezig met opschorten..."
+msgstr "Bezig met pauzeren..."
 
 #: clientgui/ViewProjects.cpp:475
 msgid "Telling project to allow additional task downloads..."
@@ -3182,7 +3182,7 @@ msgstr "Op verzoek van gebruiker"
 
 #: clientgui/ViewProjects.cpp:1136
 msgid "To fetch work"
-msgstr "Om werk te gaan uitvoeren"
+msgstr "Om werk gaan vragen"
 
 #: clientgui/ViewProjects.cpp:1137
 msgid "To report completed tasks"
@@ -3210,7 +3210,7 @@ msgstr "Onbekende oorzaak"
 
 #: clientgui/ViewProjects.cpp:1156
 msgid "Suspended by user"
-msgstr "Opgeschort door gebruiker"
+msgstr "Gepauzeerd door gebruiker"
 
 #: clientgui/ViewProjects.cpp:1159
 msgid "Won't get new tasks"
@@ -3234,7 +3234,7 @@ msgstr "Bijwerk verzoek wordt uitgevoerd"
 
 #: clientgui/ViewProjects.cpp:1177
 msgid "Trickle up message pending"
-msgstr "Trickle up bericht aan het afwachten"
+msgstr "Voortgangsrapport aan het afwachten"
 
 #: clientgui/ViewProjects.cpp:1183
 msgid "Communication deferred"
@@ -3477,7 +3477,7 @@ msgstr "Weet je zeker dat je de overdracht van '%s' wilt annuleren?\nEen overdra
 
 #: clientgui/ViewTransfers.cpp:431
 msgid "Abort File Transfer"
-msgstr "Annuleer Bestands Overdracht"
+msgstr "Annuleer Bestandsoverdracht"
 
 #: clientgui/ViewTransfers.cpp:864
 msgid "Upload"
@@ -3533,7 +3533,7 @@ msgstr "Laat VM Console zien"
 
 #: clientgui/ViewWork.cpp:226
 msgid "Show VM Console in a window."
-msgstr "Laat de VM Console zien in een venster."
+msgstr "Laat de VM Console zien in een dialoog-venster."
 
 #: clientgui/ViewWork.cpp:233
 msgid "Suspend work for this result."
@@ -3565,11 +3565,11 @@ msgstr "Werk"
 
 #: clientgui/ViewWork.cpp:444
 msgid "Resuming task..."
-msgstr "Werk word hervat..."
+msgstr "Werk wordt hervat..."
 
 #: clientgui/ViewWork.cpp:447
 msgid "Suspending task..."
-msgstr "Bezig met opschorten..."
+msgstr "Bezig met pauzeren..."
 
 #: clientgui/ViewWork.cpp:476
 msgid "Showing graphics for task..."
@@ -3688,7 +3688,7 @@ msgstr "Berekeningen hervatten"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:913
 msgid "Open a window to view notices from projects or BOINC"
-msgstr "Open een venster om berichten van BOINC projecten te bekijken"
+msgstr "Open een dialoog-venster om berichten van BOINC projecten te bekijken"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:934 clientgui/sg_DlgPreferences.cpp:364
 #, c-format
@@ -3740,7 +3740,7 @@ msgstr "Doe mee met één of meerdere verschillende wetenschappelijke projecten"
 
 #: clientgui/sg_ProjectPanel.cpp:77
 msgid "Synchronize projects with account manager system"
-msgstr "Projecten bijwerken met behulp van de account manager"
+msgstr "Projecten bijwerken met behulp van de accountmanager"
 
 #. TODO: Might want better wording for Project Selection Combo Box tooltip
 #: clientgui/sg_ProjectPanel.cpp:124
@@ -3812,7 +3812,7 @@ msgstr "Taak specifieke instructies"
 
 #: clientgui/sg_TaskPanel.cpp:571
 msgid "Pop up a menu of commands to apply to this task"
-msgstr "Toon toepassings instructies voor deze taak in een pop-up menu"
+msgstr "Toon toepassingsinstructies voor deze taak in een pop-up menu"
 
 #: clientgui/sg_TaskPanel.cpp:706
 #, c-format
@@ -3857,27 +3857,27 @@ msgstr "Werk wordt gedownload."
 
 #: clientgui/sg_TaskPanel.cpp:1240
 msgid "Processing Suspended:  Running On Batteries."
-msgstr "Werk opgeschort:  Computer op accu."
+msgstr "Werk gepauzeerd:  computer op accu."
 
 #: clientgui/sg_TaskPanel.cpp:1242
 msgid "Processing Suspended:  User Active."
-msgstr "Werk opgeschort:  Gebruiker actief."
+msgstr "Werk gepauzeerd:  gebruiker actief."
 
 #: clientgui/sg_TaskPanel.cpp:1244
 msgid "Processing Suspended:  User paused processing."
-msgstr "Werk opgeschort:  Gepauzeerd door gebruiker."
+msgstr "Werk gepauzeerd:  gepauzeerd door gebruiker."
 
 #: clientgui/sg_TaskPanel.cpp:1246
 msgid "Processing Suspended:  Time of Day."
-msgstr "Werk opgeschort:  Tijds-instellingen."
+msgstr "Werk gepauzeerd:  tijds-instellingen."
 
 #: clientgui/sg_TaskPanel.cpp:1248
 msgid "Processing Suspended:  Benchmarks Running."
-msgstr "Werk opgeschort:  Benchmark loopt."
+msgstr "Werk gepauzeerd:  benchmark loopt."
 
 #: clientgui/sg_TaskPanel.cpp:1250
 msgid "Processing Suspended."
-msgstr "Werk opgeschort."
+msgstr "Werk gepauzeerd."
 
 #: clientgui/sg_TaskPanel.cpp:1254
 msgid "Waiting to contact project servers."
@@ -3893,7 +3893,7 @@ msgstr "Geen werk aanwezig"
 
 #: clientgui/sg_TaskPanel.cpp:1264
 msgid "Unable to connect to the core client"
-msgstr "Client verbinding niet aanwezig"
+msgstr "Cliënt verbinding niet aanwezig"
 
 #: clientgui/wizardex.cpp:377 clientgui/wizardex.cpp:553
 msgid "&Next >"

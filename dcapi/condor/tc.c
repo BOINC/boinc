@@ -32,7 +32,7 @@ get_file(char *fn)
 	if ((f= fopen(fn, "r")) != NULL)
 	{
 		int bs= 100, i;
-		char c;
+		int c;
 
 		buf= malloc(bs);
 		i= 0;
@@ -44,10 +44,10 @@ get_file(char *fn)
 				bs+= 100;
 				buf= realloc(buf, bs);
 			}
-			buf[i]= c;
+			buf[i]= (char)c;
 			i++;
-			buf[i]= '\0';
 		}
+		buf[i]= '\0';
 		fclose(f);
 	}
 	return(buf);

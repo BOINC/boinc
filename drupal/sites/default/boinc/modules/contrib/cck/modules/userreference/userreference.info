@@ -1,0 +1,14 @@
+; $Id$
+name = User Reference
+description = Defines a field type for referencing a user from a node.
+dependencies[] = content
+dependencies[] = text
+dependencies[] = optionwidgets
+package = CCK
+core = 6.x
+; Information added by Drupal.org packaging script on 2015-06-17
+version = "6.x-2.10"
+core = "6.x"
+project = "cck"
+datestamp = "1434568159"
+

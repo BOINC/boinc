@@ -1,0 +1,14 @@
+<!-- $Id$ -->
+<p>Formatters are used to turn the raw data for a single field value into html.
+The <strong>Display Fields</strong> tab lets you chose which formatter you want to use
+for each of your fields.</p>
+
+<p>In CCK 2.0 for Drupal 6, all formatters now go through the theme layer.
+Therefore, overriding a formatter's theme is another way you can alter how your
+values are displayed (whereas changing <span class="code">content-field.tpl.php</span>
+lets you change the html that "wraps" the values).</p>
+
+<p>Most formatters come as theme functions, but some might use templates instead.
+Either way, you can override them using the usual Drupal 6 theme override
+practices. For more informations, see the <a href="http://drupal.org/theme-guide">Theme guide for Drupal 6</a>,
+and more specifically the <a href="http://drupal.org/node/173880">Overriding themable output</a> section.</p>

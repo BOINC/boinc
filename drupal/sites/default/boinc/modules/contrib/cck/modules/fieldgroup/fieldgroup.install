@@ -1,0 +1,316 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Implementation of hook_install().
+ */
+function fieldgroup_install() {
+  drupal_load('module', 'content');
+  db_query("UPDATE {system} SET weight = 9 WHERE name = 'fieldgroup'");
+  drupal_install_schema('fieldgroup');
+  content_notify('install', 'fieldgroup');
+  variable_set('fieldgroup_schema_version', 6000);
+}
+
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function fieldgroup_uninstall() {
+  drupal_load('module', 'content');
+  drupal_uninstall_schema('fieldgroup');
+  content_notify('uninstall', 'fieldgroup');
+}
+
+/**
+ * Implementation of hook_enable().
+ *
+ * Notify content module when this module is enabled.
+ */
+function fieldgroup_enable() {
+  drupal_load('module', 'content');
+  content_notify('enable', 'fieldgroup');
+}
+
+/**
+ * Implementation of hook_disable().
+ *
+ * Notify content module when this module is disabled.
+ */
+function fieldgroup_disable() {
+  drupal_load('module', 'content');
+  content_notify('disable', 'fieldgroup');
+}
+
+/**
+ * Implementation of hook_schema.
+ */
+function fieldgroup_schema() {
+  $schema['content_group'] = array(
+    'fields' => array(
+      'group_type' => array('type' => 'varchar', 'length' => 32, 'not null' => TRUE, 'default' => 'standard'),
+      'type_name'  => array('type' => 'varchar', 'length' => 32, 'not null' => TRUE, 'default' => ''),
+      'group_name' => array('type' => 'varchar', 'length' => 32, 'not null' => TRUE, 'default' => ''),
+      'label'      => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => ''),
+      'settings'   => array('type' => 'text', 'size' => 'medium', 'not null' => TRUE),
+      'weight'     => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
+    ),
+    'primary key' => array('type_name', 'group_name'),
+  );
+
+  $schema['content_group_fields'] = array(
+    'fields' => array(
+      'type_name'  => array('type' => 'varchar', 'length' => 32, 'not null' => TRUE, 'default' => ''),
+      'group_name' => array('type' => 'varchar', 'length' => 32, 'not null' => TRUE, 'default' => ''),
+      'field_name' => array('type' => 'varchar', 'length' => 32, 'not null' => TRUE, 'default' => ''),
+    ),
+    'primary key' => array('type_name', 'group_name', 'field_name'),
+  );
+
+  return $schema;
+}
+
+/**
+ *  rename groups form "group-*" to "group_*"
+ */
+function fieldgroup_update_1() {
+  $ret = array();
+  if (!db_table_exists('node_group')) {
+    return $ret;
+  }
+  switch ($GLOBALS['db_type']) {
+    case 'pgsql':
+      $ret[] = update_sql("UPDATE {node_group} SET group_name = 'group_'||SUBSTRING(group_name FROM 7)");
+      $ret[] = update_sql("UPDATE {node_group_fields} SET group_name = 'group_'||SUBSTRING(group_name FROM 7)");
+      break;
+
+    case 'mysql':
+    case 'mysqli':
+      $ret[] = update_sql("UPDATE {node_group} SET group_name = CONCAT('group_', SUBSTRING(group_name FROM 7))");
+      $ret[] = update_sql("UPDATE {node_group_fields} SET group_name = CONCAT('group_', SUBSTRING(group_name FROM 7))");
+      break;
+  }
+  return $ret;
+}
+
+/**
+ * add display settings for the group
+ */
+function fieldgroup_update_2() {
+  $ret = array();
+  if (!db_table_exists('node_group')) {
+    return $ret;
+  }
+
+  // set settings column to accept larger values
+  switch ($GLOBALS['db_type']) {
+    case 'mysql':
+    case 'mysqli':
+      $ret[] = update_sql('ALTER TABLE {node_group} CHANGE settings settings mediumtext NOT NULL');
+      break;
+
+    case 'pgsql':
+      db_change_column($ret, 'node_group', 'settings', 'settings', 'text', array('not null' => TRUE));
+      break;
+  }
+
+  // move description into the settings array, and add new settings
+  $result = db_query("SELECT * FROM {node_group}");
+  while ($group = db_fetch_array($result)) {
+    $settings = array();
+    $settings['form'] = unserialize($group['settings']);
+    $settings['form']['description'] = $group['description'];
+    $settings['display'] = array('collapsible' => 0, 'collapsed' => 0, 'description' => '');
+    $ret[] = update_sql("UPDATE {node_group} SET settings = '". db_escape_string(serialize($settings)) ."', description = '' WHERE group_name = '". $group['group_name'] ."'");
+  }
+
+  // drop description column
+  switch ($GLOBALS['db_type']) {
+    case 'mysql':
+    case 'mysqli':
+      $ret[] = update_sql('ALTER TABLE {node_group} DROP description');
+      break;
+
+    case 'pgsql':
+      // Postgres only supports dropping of columns since 7.4
+      break;
+  }
+
+  return $ret;
+}
+
+
+/**
+ * converts group settings collapsible/collapsed => style
+ */
+function fieldgroup_update_3() {
+  $ret = array();
+  if (!db_table_exists('node_group')) {
+    return $ret;
+  }
+  $result = db_query("SELECT * FROM {node_group}");
+  while ($group = db_fetch_array($result)) {
+    $group['settings'] = unserialize($group['settings']);
+
+    if (!isset($group['settings']['form']['style'])) {
+      foreach (array('form', 'display') as $context) {
+        if (isset($group['settings'][$context]['collapsible']) && $group['settings'][$context]['collapsible']) {
+          if (isset($group['settings'][$context]['collapsed']) && $group['settings'][$context]['collapsed']) {
+            $group['settings'][$context]['style'] = 'fieldset_collapsed';
+          }
+          else {
+            $group['settings'][$context]['style'] = 'fieldset_collapsible';
+          }
+        }
+        else {
+          $group['settings'][$context]['style'] = 'fieldset';
+        }
+      }
+
+      $ret[] = update_sql("UPDATE {node_group} SET settings = '". db_escape_string(serialize($group['settings'])) ."' WHERE group_name = '". $group['group_name'] ."'");
+    }
+  }
+
+  return $ret;
+}
+
+/*
+ * Increases module weight, so that other modules can form_alter() cck forms before the fields
+ * are moved in groups
+ */
+function fieldgroup_update_4() {
+  $ret = array();
+  $ret[] = update_sql("UPDATE {system} SET weight = 9 WHERE name = 'fieldgroup'");
+  return $ret;
+}
+
+
+/**
+ * Start D6 upgrades
+ */
+
+/**
+ * Move fieldgroup tables to the content_* namespace.
+ */
+function fieldgroup_update_6000() {
+  if ($abort = content_check_update('fieldgroup')) {
+    return $abort;
+  }
+
+  $ret = array();
+
+  db_rename_table($ret, 'node_group', 'content_group');
+  db_rename_table($ret, 'node_group_fields', 'content_group_fields');
+  variable_set('fieldgroup_schema_version', 6000);
+  return $ret;
+}
+
+/*
+ * Increases module weight, so that other modules can form_alter() cck forms before the fields
+ * are moved in groups.
+ *
+ * Sites upgraded from D5 should have this already set.
+ * New D6 installs earlier than RC5 need this, as it was missing in fieldgroup_install.
+ */
+function fieldgroup_update_6001() {
+  if ($abort = content_check_update('fieldgroup')) {
+    return $abort;
+  }
+
+  $ret = array();
+  $ret[] = update_sql("UPDATE {system} SET weight = 9 WHERE name = 'fieldgroup'");
+  return $ret;
+}
+
+/**
+ * Same as 6000 : Move fieldgroup tables to the content_* namespace.
+ * This was missing in D6 releases earlier than RC5. Ensure we don't run this twice.
+ */
+function fieldgroup_update_6002() {
+  if ($abort = content_check_update('fieldgroup')) {
+    return $abort;
+  }
+
+  $ret = array();
+  if (db_table_exists('node_group')) {
+    db_rename_table($ret, 'node_group', 'content_group');
+    db_rename_table($ret, 'node_group_fields', 'content_group_fields');
+    variable_set('fieldgroup_schema_version', 6000);
+  }
+  return $ret;
+}
+
+/**
+ * Remove tinyint (127) limitation on group weights.
+ */
+function fieldgroup_update_6003() {
+  if ($abort = content_check_update('fieldgroup')) {
+    return $abort;
+  }
+
+  $ret = array();
+  db_change_field($ret, 'content_group', 'weight', 'weight', array('type' => 'int', 'not null' => TRUE, 'default' => 0));
+  return $ret;
+}
+
+/**
+ * Add 'type' property for fieldgroups.
+ */
+function fieldgroup_update_6004() {
+  if ($abort = content_check_update('fieldgroup')) {
+    return $abort;
+  }
+
+  $ret = array();
+  db_add_field($ret, 'content_group', 'group_type', array('type' => 'varchar', 'length' => 32, 'not null' => TRUE, 'default' => 'standard'));
+  $ret[] = update_sql("DELETE FROM {cache_content} WHERE cid='fieldgroup_data'");
+  return $ret;
+}
+
+/**
+ * Add the 'exclude from $content' display setting to all existing groups.
+ */
+function fieldgroup_update_6005() {
+  $ret = array();
+  $result = db_query("SELECT *  FROM {content_group}");
+  while ($type = db_fetch_array($result)) {
+    $new_settings = array();
+    $settings = unserialize($type['settings']);
+    $new_settings = $settings;
+    $display_settings = !empty($settings['display']) ? $settings['display'] : array();
+    if (!empty($display_settings)) {
+      foreach ($display_settings as $key => $val) {
+        $new_settings['display'][$key] = $val;
+        if ($key !== 'label' && is_array($val)) {
+          $new_settings['display'][$key]['exclude'] = 0;
+        }
+      }
+    }
+    else {
+      $new_settings['display'] = array(
+        'label' => array('format' => 'above'),
+        'full' => array('format' => 'default', 'exclude' => 0),
+        'teaser' => array('format' => 'default', 'exclude' => 0),
+        );
+    }
+    db_query("UPDATE {content_group} SET settings='%s' WHERE group_name='%s' AND type_name='%s'", serialize($new_settings), $type['group_name'], $type['type_name']);
+  }
+  return $ret;
+}
+
+/**
+ * Removed a previous version of "Remove orphaned fields" (6007), broken for db prefixes.
+ */
+function fieldgroup_update_6006() {
+  return array();
+}
+
+/**
+ * Remove orphaned fields (see http://drupal.org/node/339537).
+ */
+function fieldgroup_update_6007() {
+  $ret = array();
+  $ret[] = update_sql("DELETE FROM {content_group_fields} WHERE (field_name, type_name) NOT IN (SELECT field_name, type_name FROM {content_node_field_instance})");
+  return $ret;
+}

@@ -1394,28 +1394,25 @@ int VBOX_VM::start() {
 
             // We should now own what goes on with the VM.
             //
-            rc = pMachineRO->LockMachine(m_pPrivate->m_pSession, LockType_Write);
-            if (CHECK_ERROR(rc)) goto CLEANUP;
-
-            rc = m_pPrivate->m_pSession->get_Machine(&m_pPrivate->m_pMachine);
-            if (CHECK_ERROR(rc)) goto CLEANUP;
+            pMachineRO->LockMachine(m_pPrivate->m_pSession, LockType_Write);
+            m_pPrivate->m_pSession->get_Machine(&m_pPrivate->m_pMachine);
 
             rc = m_pPrivate->m_pMachine->get_SessionPID((ULONG*)&vm_pid);
             if (CHECK_ERROR(rc)) goto CLEANUP;
 
             vm_pid_handle = OpenProcess(
-	            PROCESS_QUERY_INFORMATION | PROCESS_SET_INFORMATION,
-	            FALSE,
-	            vm_pid
+                PROCESS_QUERY_INFORMATION | PROCESS_SET_INFORMATION,
+                FALSE,
+                vm_pid
             );
 
             // Make sure we are in a running state before proceeding
             //
             timeout = dtime() + 300;
             do {
-	            poll(false);
-	            if (online) break;
-	            boinc_sleep(1.0);
+                poll(false);
+                if (online) break;
+                boinc_sleep(1.0);
             } while (timeout >= dtime());
 
             vboxlog_msg("Successfully started VM. (PID = '%d')", vm_pid);
