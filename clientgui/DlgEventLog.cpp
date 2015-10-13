@@ -111,8 +111,8 @@ CDlgEventLog::CDlgEventLog( wxWindow* parent, wxWindowID id, const wxString& cap
 CDlgEventLog::~CDlgEventLog() {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::CDlgEventLog - Destructor Function Begin"));
  
-#ifdef __WXGTK__   
-    m_pList->PopEventHandler(true);
+#ifdef __WXGTK__
+    (m_pList->GetMainWin())->PopEventHandler(true);
 #endif
 
     if (m_pMessageInfoAttr) {
