@@ -26,6 +26,7 @@
 
 # Netbeans project files
 /html/nbproject/
+*.project
 
 #
 *.pfx
@@ -140,6 +141,8 @@ sched/sample_substr_validator
 sched/sample_trivial_validator
 sched/sample_work_generator
 sched/sched_driver
+sched/script_assimilator
+sched/script_validator
 sched/show_shmem
 sched/single_job_assimilator
 sched/size_regulator
