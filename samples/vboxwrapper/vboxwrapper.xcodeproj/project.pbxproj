@@ -365,11 +365,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				HEADER_SEARCH_PATHS = (
-					../../clientgui/mac,
-					"../../**",
-					"/usr/include/c++/4.0.0/x86_64-apple-darwin8",
-				);
 				PRODUCT_NAME = vboxwrapper_x86_64;
 				USER_HEADER_SEARCH_PATHS = "../../clientgui/mac ../../**";
 			};
@@ -379,11 +374,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				HEADER_SEARCH_PATHS = (
-					../../clientgui/mac,
-					"../../**",
-					"/usr/include/c++/4.0.0/x86_64-apple-darwin8",
-				);
 				PRODUCT_NAME = vboxwrapper_x86_64;
 				USER_HEADER_SEARCH_PATHS = "../../clientgui/mac ../../**";
 			};
