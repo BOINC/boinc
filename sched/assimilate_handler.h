@@ -35,3 +35,4 @@ extern int assimilate_handler(
 );
 
 extern int assimilate_handler_init(int argc, char** argv);
+extern void assimilate_handler_usage();

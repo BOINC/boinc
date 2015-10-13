@@ -36,6 +36,14 @@ int assimilate_handler_init(int argc, char** argv) {
     return 0;
 }
 
+void assimilate_handler_usage() {
+    // describe the project specific arguments here
+    //fprintf(stderr,
+    //    "    custom options:\n"
+    //    "    [--project_option X]  a project specific option\n"
+    //);
+}
+
 int assimilate_handler(
     WORKUNIT& wu, vector<RESULT>& /*results*/, RESULT& canonical_result
 ) {

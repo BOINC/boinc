@@ -72,6 +72,7 @@ void usage(char* name) {
         "    [-v | --version]      Show version information\n",
         name
     );
+    assimilate_handler_usage();
 }
 
 // assimilate all WUs that need it
