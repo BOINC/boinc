@@ -119,6 +119,13 @@ protected:
     
     int                 m_bSafeMessageBoxDisplayed;
 
+    bool                m_bUseDifferentTaskColours;
+    // Task colours
+    wxColour            m_colourTaskCPU;
+    wxColour            m_colourTaskGPUIntel;
+    wxColour            m_colourTaskGPUAMD;
+    wxColour            m_colourTaskGPUNVIDIA;
+
 public:
 
     bool                OnInit();
@@ -215,6 +222,21 @@ public:
     
     void                SetAboutDialogIsOpen(bool set) { m_bAboutDialogIsOpen = set; }
     bool                GetAboutDialogIsOpen() { return m_bAboutDialogIsOpen; }
+
+    void                SetUseDifferentTaskColours(bool set) { m_bUseDifferentTaskColours = set; }
+    bool                GetUseDifferentTaskColours() { return m_bUseDifferentTaskColours; }
+
+    void                SetColourTaskCPU(wxColour set) { m_colourTaskCPU = set; }
+    wxColour            GetColourTaskCPU() { return m_colourTaskCPU; }
+
+    void                SetColourTaskGPUIntel(wxColour set) { m_colourTaskGPUIntel = set; }
+    wxColour            GetColourTaskGPUIntel() { return m_colourTaskGPUIntel; }
+
+    void                SetColourTaskGPUAMD(wxColour set) { m_colourTaskGPUAMD = set; }
+    wxColour            GetColourTaskGPUAMD() { return m_colourTaskGPUAMD; }
+
+    void                SetColourTaskGPUNVIDIA(wxColour set) { m_colourTaskGPUNVIDIA = set; }
+    wxColour            GetColourTaskGPUNVIDIA() { return m_colourTaskGPUNVIDIA; }
 
 #ifdef __WXMAC__
     // The following Cocoa routines are in CBOINCGUIApp.mm

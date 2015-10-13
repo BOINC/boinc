@@ -32,6 +32,8 @@
 #include "MainDocument.h"
 #include "BOINCBaseFrame.h"
 #include "BOINCDialupManager.h"
+#include "wx/colourdata.h"
+#include "wx/colordlg.h"
 
 ////@begin includes
 ////@end includes
@@ -60,6 +62,11 @@ BEGIN_EVENT_TABLE(CDlgOptions, wxDialog)
     EVT_UPDATE_UI( ID_ENABLEHTTPPROXYCTRL, CDlgOptions::OnEnableHTTPProxyCtrlUpdate )
     EVT_CHECKBOX( ID_ENABLESOCKSPROXYCTRL, CDlgOptions::OnEnableSOCKSProxyCtrlClick )
     EVT_UPDATE_UI( ID_ENABLESOCKSPROXYCTRL, CDlgOptions::OnEnableSOCKSProxyCtrlUpdate )
+    EVT_CHECKBOX( ID_USEDIFFERENTTASKCOLOURSCTRL, CDlgOptions::OnEnableUseDifferectTaskColoursCtrlClick )
+    EVT_BUTTON( ID_TASKCPUCOLOURCTRL, CDlgOptions::OnTaskCPUColourCtrlClick )
+    EVT_BUTTON( ID_TASKGPUINTELCOLOURCTRL, CDlgOptions::OnTaskGPUIntelColourCtrlClick )
+    EVT_BUTTON( ID_TASKGPUAMDCOLOURCTRL, CDlgOptions::OnTaskGPUAMDColourCtrlClick)
+    EVT_BUTTON( ID_TASKGPUNVIDIACOLOURCTRL, CDlgOptions::OnTaskGPUNVIDIAColourCtrlClick)
     EVT_BUTTON( wxID_OK, CDlgOptions::OnOK )
 ////@end CDlgOptions event table entries
 
@@ -119,8 +126,13 @@ bool CDlgOptions::Create(wxWindow* parent, wxWindowID id, const wxString& captio
     m_SOCKSPortCtrl = NULL;
     m_SOCKSUsernameCtrl = NULL;
     m_SOCKSPasswordCtrl = NULL;
-	m_HTTPNoProxiesCtrl = NULL;
-	m_SOCKSNoProxiesCtrl = NULL;
+	  m_HTTPNoProxiesCtrl = NULL;
+	  m_SOCKSNoProxiesCtrl = NULL;
+    m_UseDifferentTaskColoursCtrl = NULL;
+    m_TaskCPUColourCtrl = NULL;
+    m_TaskGPUIntelColourCtrl = NULL;
+    m_TaskGPUAMDColourCtrl = NULL;
+    m_TaskGPUNVIDIAColourCtrl = NULL;
 ////@end CDlgOptions member initialisation
     m_bRetrievedProxyConfiguration = false;
 
@@ -230,6 +242,72 @@ void CDlgOptions::CreateControls() {
     itemFlexGridSizer6->Add(m_EnableBOINCManagerExitMessageCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     itemNotebook3->AddPage(itemPanel4, _("General"));
+
+    wxPanel* itemPanel70 = new wxPanel;
+    itemPanel70->Create(itemNotebook3, ID_INTERFACE, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+    wxBoxSizer* itemBoxSizer71 = new wxBoxSizer(wxVERTICAL);
+    itemPanel70->SetSizer(itemBoxSizer71);
+
+    m_UseDifferentTaskColoursCtrl = new wxCheckBox;
+    m_UseDifferentTaskColoursCtrl->Create(itemPanel70, ID_USEDIFFERENTTASKCOLOURSCTRL, _("Use different task colours"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
+    m_UseDifferentTaskColoursCtrl->SetValue(FALSE);
+    if (ShowToolTips())
+      m_UseDifferentTaskColoursCtrl->SetToolTip(_("Use different task colours for to identify CPU or GPU (Intel, AMD, NVIDIA) tasks"));
+    itemBoxSizer71->Add(m_UseDifferentTaskColoursCtrl, 0, wxGROW | wxALL, 5);
+
+    wxStaticBox* itemStaticBox77 = new wxStaticBox(itemPanel70, wxID_ANY, _("Task colours"));
+    wxStaticBoxSizer* itemStaticBoxSizer78 = new wxStaticBoxSizer(itemStaticBox77, wxVERTICAL);
+    itemBoxSizer71->Add(itemStaticBoxSizer78, 0, wxGROW | wxALL, 5);
+    wxGridSizer* itemGridSizer79 = new wxGridSizer(2, 1, 0, 0);
+    itemStaticBoxSizer78->Add(itemGridSizer79, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 5);
+    wxFlexGridSizer* itemFlexGridSizer72 = new wxFlexGridSizer(2, 0, 0);
+    itemGridSizer79->Add(itemFlexGridSizer72, 0, wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL | wxALL, 5);
+
+    wxStaticText* itemStaticText73 = new wxStaticText;
+    itemStaticText73->Create(itemStaticBox77, wxID_ANY, _("CPU task colour"), wxDefaultPosition, wxDefaultSize, 0);
+    itemFlexGridSizer72->Add(itemStaticText73, 0, wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL | wxALL, 5);
+
+    m_TaskCPUColourCtrl = new wxButton;
+    m_TaskCPUColourCtrl->Create(itemStaticBox77, ID_TASKCPUCOLOURCTRL, _("Change"), wxDefaultPosition, wxDefaultSize, 0);
+    if (ShowToolTips())
+      m_TaskCPUColourCtrl->SetToolTip(_("Change CPU task colour"));
+    m_TaskCPUColourCtrl->Enable(m_UseDifferentTaskColoursCtrl->IsChecked());
+    itemFlexGridSizer72->Add(m_TaskCPUColourCtrl, 0, wxGROW | wxALL, 5);
+
+    wxStaticText* itemStaticText74 = new wxStaticText;
+    itemStaticText74->Create(itemStaticBox77, wxID_ANY, _("Intel GPU task colour"), wxDefaultPosition, wxDefaultSize, 0);
+    itemFlexGridSizer72->Add(itemStaticText74, 0, wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL | wxALL, 5);
+
+    m_TaskGPUIntelColourCtrl = new wxButton;
+    m_TaskGPUIntelColourCtrl->Create(itemStaticBox77, ID_TASKGPUINTELCOLOURCTRL, _("Change"), wxDefaultPosition, wxDefaultSize, 0);
+    if (ShowToolTips())
+      m_TaskGPUIntelColourCtrl->SetToolTip(_("Change Intel GPU task colour"));
+    m_TaskGPUIntelColourCtrl->Enable(m_UseDifferentTaskColoursCtrl->IsChecked());
+    itemFlexGridSizer72->Add(m_TaskGPUIntelColourCtrl, 0, wxGROW | wxALL, 5);
+
+    wxStaticText* itemStaticText75 = new wxStaticText;
+    itemStaticText75->Create(itemStaticBox77, wxID_ANY, _("AMD GPU task colour"), wxDefaultPosition, wxDefaultSize, 0);
+    itemFlexGridSizer72->Add(itemStaticText75, 0, wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL | wxALL, 5);
+
+    m_TaskGPUAMDColourCtrl = new wxButton;
+    m_TaskGPUAMDColourCtrl->Create(itemStaticBox77, ID_TASKGPUAMDCOLOURCTRL, _("Change"), wxDefaultPosition, wxDefaultSize, 0);
+    if (ShowToolTips())
+      m_TaskGPUAMDColourCtrl->SetToolTip(_("Change AMD GPU task colour"));
+    m_TaskGPUAMDColourCtrl->Enable(m_UseDifferentTaskColoursCtrl->IsChecked());
+    itemFlexGridSizer72->Add(m_TaskGPUAMDColourCtrl, 0, wxGROW | wxALL, 5);
+
+    wxStaticText* itemStaticText76 = new wxStaticText;
+    itemStaticText76->Create(itemStaticBox77, wxID_ANY, _("NVIDIA GPU task colour"), wxDefaultPosition, wxDefaultSize, 0);
+    itemFlexGridSizer72->Add(itemStaticText76, 0, wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL | wxALL, 5);
+
+    m_TaskGPUNVIDIAColourCtrl = new wxButton;
+    m_TaskGPUNVIDIAColourCtrl->Create(itemStaticBox77, ID_TASKGPUNVIDIACOLOURCTRL, _("Change"), wxDefaultPosition, wxDefaultSize, 0);
+    if (ShowToolTips())
+      m_TaskGPUNVIDIAColourCtrl->SetToolTip(_("Change NVIDIA GPU task colour"));
+    m_TaskGPUNVIDIAColourCtrl->Enable(m_UseDifferentTaskColoursCtrl->IsChecked());
+    itemFlexGridSizer72->Add(m_TaskGPUNVIDIAColourCtrl, 0, wxGROW | wxALL, 5);
+
+    itemNotebook3->AddPage(itemPanel70, _("Interface"));
 
 #if defined(__WXMSW__)
     wxPanel* itemPanel11 = new wxPanel;
@@ -531,6 +609,102 @@ void CDlgOptions::OnEnableSOCKSProxyCtrlUpdate(wxUpdateUIEvent& event) {
 
 
 /*!
+* wxEVT_COMMAND_CHECKBOX_CLICKED event handler for ID_USEDIFFERENTTASKCOLOURSCTRL
+*/
+
+void CDlgOptions::OnEnableUseDifferectTaskColoursCtrlClick(wxCommandEvent & event)
+{
+  if (event.IsChecked())
+  {
+    m_TaskCPUColourCtrl->Enable(true);
+    m_TaskGPUIntelColourCtrl->Enable(true);
+    m_TaskGPUAMDColourCtrl->Enable(true);
+    m_TaskGPUNVIDIAColourCtrl->Enable(true);
+  }
+  else
+  {
+    m_TaskCPUColourCtrl->Enable(false);
+    m_TaskGPUIntelColourCtrl->Enable(false);
+    m_TaskGPUAMDColourCtrl->Enable(false);
+    m_TaskGPUNVIDIAColourCtrl->Enable(false);
+  }
+  event.Skip();
+}
+
+
+/*!
+ * wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_TASKCPUCOLOUR
+ */
+
+void CDlgOptions::OnTaskCPUColourCtrlClick(wxCommandEvent & event)
+{
+  wxColourData data;
+  data.SetChooseFull(true);
+  data.SetColour(m_TaskCPUColourCtrl->GetBackgroundColour());
+
+  wxColourDialog dlg(this, &data);
+  if (dlg.ShowModal() == wxID_OK)
+    m_TaskCPUColourCtrl->SetBackgroundColour(dlg.GetColourData().GetColour());
+  
+  event.Skip();
+}
+
+
+/*!
+* wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_TASKGPUINTELCOLOUR
+*/
+
+void CDlgOptions::OnTaskGPUIntelColourCtrlClick(wxCommandEvent & event)
+{
+  wxColourData data;
+  data.SetChooseFull(true);
+  data.SetColour(m_TaskGPUIntelColourCtrl->GetBackgroundColour());
+
+  wxColourDialog dlg(this, &data);
+  if (dlg.ShowModal() == wxID_OK)
+    m_TaskGPUIntelColourCtrl->SetBackgroundColour(dlg.GetColourData().GetColour());
+
+  event.Skip();
+}
+
+
+/*!
+* wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_TASKGPUAMDCOLOUR
+*/
+
+void CDlgOptions::OnTaskGPUAMDColourCtrlClick(wxCommandEvent & event)
+{
+  wxColourData data;
+  data.SetChooseFull(true);
+  data.SetColour(m_TaskGPUAMDColourCtrl->GetBackgroundColour());
+
+  wxColourDialog dlg(this, &data);
+  if (dlg.ShowModal() == wxID_OK)
+    m_TaskGPUAMDColourCtrl->SetBackgroundColour(dlg.GetColourData().GetColour());
+
+  event.Skip();
+}
+
+
+/*!
+* wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_TASKGPUNVIDIACOLOUR
+*/
+
+void CDlgOptions::OnTaskGPUNVIDIAColourCtrlClick(wxCommandEvent & event)
+{
+  wxColourData data;
+  data.SetChooseFull(true);
+  data.SetColour(m_TaskGPUNVIDIAColourCtrl->GetBackgroundColour());
+
+  wxColourDialog dlg(this, &data);
+  if (dlg.ShowModal() == wxID_OK)
+    m_TaskGPUNVIDIAColourCtrl->SetBackgroundColour(dlg.GetColourData().GetColour());
+
+  event.Skip();
+}
+
+
+/*!
  * wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
  */
 
@@ -672,6 +846,26 @@ bool CDlgOptions::ReadSettings() {
     strBuffer.Printf(wxT("%d"), pDoc->proxy_info.socks_server_port);
     m_SOCKSPortCtrl->SetValue(strBuffer);
 
+    m_UseDifferentTaskColoursCtrl->SetValue(wxGetApp().GetUseDifferentTaskColours());
+    m_TaskCPUColourCtrl->SetBackgroundColour(wxGetApp().GetColourTaskCPU());
+    m_TaskGPUIntelColourCtrl->SetBackgroundColour(wxGetApp().GetColourTaskGPUIntel());
+    m_TaskGPUAMDColourCtrl->SetBackgroundColour(wxGetApp().GetColourTaskGPUAMD());
+    m_TaskGPUNVIDIAColourCtrl->SetBackgroundColour(wxGetApp().GetColourTaskGPUNVIDIA());
+    if (m_UseDifferentTaskColoursCtrl->IsChecked())
+    {
+      m_TaskCPUColourCtrl->Enable(true);
+      m_TaskGPUIntelColourCtrl->Enable(true);
+      m_TaskGPUAMDColourCtrl->Enable(true);
+      m_TaskGPUNVIDIAColourCtrl->Enable(true);
+    }
+    else
+    {
+      m_TaskCPUColourCtrl->Enable(false);
+      m_TaskGPUIntelColourCtrl->Enable(false);
+      m_TaskGPUAMDColourCtrl->Enable(false);
+      m_TaskGPUNVIDIAColourCtrl->Enable(false);
+    }
+
     return true;
 }
 
@@ -777,6 +971,12 @@ bool CDlgOptions::SaveSettings() {
 
         pDoc->SetProxyConfiguration();
     }
+
+    wxGetApp().SetUseDifferentTaskColours(m_UseDifferentTaskColoursCtrl->IsEnabled());
+    wxGetApp().SetColourTaskCPU(m_TaskCPUColourCtrl->GetBackgroundColour());
+    wxGetApp().SetColourTaskGPUIntel(m_TaskGPUIntelColourCtrl->GetBackgroundColour());
+    wxGetApp().SetColourTaskGPUAMD(m_TaskGPUAMDColourCtrl->GetBackgroundColour());
+    wxGetApp().SetColourTaskGPUNVIDIA(m_TaskGPUNVIDIAColourCtrl->GetBackgroundColour());
 
     return true;
 }

@@ -156,6 +156,11 @@ bool CBOINCGUIApp::OnInit() {
     m_bSafeMessageBoxDisplayed = 0;
     m_bRunDaemon = true;
     m_bNeedRunDaemon = true;
+    m_bUseDifferentTaskColours = false;
+    m_colourTaskCPU = *wxWHITE;
+    m_colourTaskGPUIntel = wxColor(0, 123, 195);
+    m_colourTaskGPUAMD = wxColor(220, 27, 35);
+    m_colourTaskGPUNVIDIA = wxColor(119, 183, 0);
 
     // Initialize local variables
     int      iErrorCode = 0;
@@ -224,6 +229,20 @@ bool CBOINCGUIApp::OnInit() {
     m_pConfig->Read(wxT("GUISelection"), &m_iGUISelected, BOINC_SIMPLEGUI);
     m_pConfig->Read(wxT("EventLogOpen"), &bOpenEventLog);
     m_pConfig->Read(wxT("RunDaemon"), &m_bRunDaemon, 1L);
+    m_pConfig->Read(wxT("UseDifferentTaskColours"), &m_bUseDifferentTaskColours, false);
+    wxString colour;
+    m_pConfig->Read(wxT("CPUTaskColour"), &colour);
+    if (!colour.IsEmpty())
+      m_colourTaskCPU.Set(colour);
+    m_pConfig->Read(wxT("IntelGPUTaskColour"), &colour);
+    if (!colour.IsEmpty())
+      m_colourTaskGPUIntel.Set(colour);
+    m_pConfig->Read(wxT("AMDGPUTaskColour"), &colour);
+    if (!colour.IsEmpty())
+      m_colourTaskGPUAMD.Set(colour);
+    m_pConfig->Read(wxT("NVIDIAGPUTaskColour"), &colour);
+    if (!colour.IsEmpty())
+      m_colourTaskGPUNVIDIA.Set(colour);
 
     // Detect if the daemon should be launched
     m_bNeedRunDaemon = m_bNeedRunDaemon && m_bRunDaemon;
@@ -652,6 +671,11 @@ void CBOINCGUIApp::SaveState() {
     m_pConfig->Write(wxT("DisplayShutdownClientDialog"), m_iDisplayExitDialog);
     m_pConfig->Write(wxT("DisableAutoStart"), m_iBOINCMGRDisableAutoStart);
     m_pConfig->Write(wxT("RunDaemon"), m_bRunDaemon);
+    m_pConfig->Write(wxT("UseDifferentTaskColours"), m_bUseDifferentTaskColours);
+    m_pConfig->Write(wxT("CPUTaskColour"), m_colourTaskCPU);
+    m_pConfig->Write(wxT("IntelGPUTaskColour"), m_colourTaskGPUIntel);
+    m_pConfig->Write(wxT("AMDGPUTaskColour"), m_colourTaskGPUAMD);
+    m_pConfig->Write(wxT("NVIDIAGPUTaskColour"), m_colourTaskGPUNVIDIA);    
 }
 
 

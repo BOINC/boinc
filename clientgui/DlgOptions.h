@@ -79,6 +79,12 @@
 #define ID_SOCKSPASSWORDCTRL 10016
 #define ID_HTTPNOPROXYCTRL 10017
 #define ID_SOCKSNOPROXYCTRL 10018
+#define ID_INTERFACE 10034
+#define ID_TASKCPUCOLOURCTRL 10035
+#define ID_TASKGPUINTELCOLOURCTRL 10036
+#define ID_TASKGPUAMDCOLOURCTRL 10037
+#define ID_TASKGPUNVIDIACOLOURCTRL 10038
+#define ID_USEDIFFERENTTASKCOLOURSCTRL 10039
 ////@end control identifiers
 
 /*!
@@ -135,6 +141,21 @@ public:
     /// wxEVT_UPDATE_UI event handler for ID_ENABLESOCKSPROXYCTRL
     void OnEnableSOCKSProxyCtrlUpdate( wxUpdateUIEvent& event );
 
+    /// wxEVT_COMMAND_CHECKBOX_CLICKED event handler for ID_USEDIFFERENTTASKCOLOURSCTRL
+    void OnEnableUseDifferectTaskColoursCtrlClick(wxCommandEvent& event);
+
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_TASKCPUCOLOUR
+    void OnTaskCPUColourCtrlClick(wxCommandEvent& event);
+
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_TASKGPUINTELCOLOUR
+    void OnTaskGPUIntelColourCtrlClick(wxCommandEvent& event);
+
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_TASKGPUAMDCOLOUR
+    void OnTaskGPUAMDColourCtrlClick(wxCommandEvent& event);
+
+    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_TASKGPUNVIDIACOLOUR
+    void OnTaskGPUNVIDIAColourCtrlClick(wxCommandEvent& event);
+
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
     void OnOK( wxCommandEvent& event );
 
@@ -183,8 +204,13 @@ private:
     wxTextCtrl* m_SOCKSPortCtrl;
     wxTextCtrl* m_SOCKSUsernameCtrl;
     wxTextCtrl* m_SOCKSPasswordCtrl;
-	wxTextCtrl* m_HTTPNoProxiesCtrl;
-	wxTextCtrl* m_SOCKSNoProxiesCtrl;
+	  wxTextCtrl* m_HTTPNoProxiesCtrl;
+	  wxTextCtrl* m_SOCKSNoProxiesCtrl;
+    wxCheckBox* m_UseDifferentTaskColoursCtrl;
+    wxButton* m_TaskCPUColourCtrl;
+    wxButton* m_TaskGPUIntelColourCtrl;
+    wxButton* m_TaskGPUAMDColourCtrl;
+    wxButton* m_TaskGPUNVIDIAColourCtrl;
 ////@end CDlgOptions member variables
     bool m_bRetrievedProxyConfiguration;
 };
