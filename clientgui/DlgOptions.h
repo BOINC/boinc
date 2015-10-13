@@ -204,8 +204,8 @@ private:
     wxTextCtrl* m_SOCKSPortCtrl;
     wxTextCtrl* m_SOCKSUsernameCtrl;
     wxTextCtrl* m_SOCKSPasswordCtrl;
-	  wxTextCtrl* m_HTTPNoProxiesCtrl;
-	  wxTextCtrl* m_SOCKSNoProxiesCtrl;
+    wxTextCtrl* m_HTTPNoProxiesCtrl;
+    wxTextCtrl* m_SOCKSNoProxiesCtrl;
     wxCheckBox* m_UseDifferentTaskColoursCtrl;
     wxButton* m_TaskCPUColourCtrl;
     wxButton* m_TaskGPUIntelColourCtrl;

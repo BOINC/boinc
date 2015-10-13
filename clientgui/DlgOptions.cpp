@@ -126,8 +126,8 @@ bool CDlgOptions::Create(wxWindow* parent, wxWindowID id, const wxString& captio
     m_SOCKSPortCtrl = NULL;
     m_SOCKSUsernameCtrl = NULL;
     m_SOCKSPasswordCtrl = NULL;
-	  m_HTTPNoProxiesCtrl = NULL;
-	  m_SOCKSNoProxiesCtrl = NULL;
+    m_HTTPNoProxiesCtrl = NULL;
+    m_SOCKSNoProxiesCtrl = NULL;
     m_UseDifferentTaskColoursCtrl = NULL;
     m_TaskCPUColourCtrl = NULL;
     m_TaskGPUIntelColourCtrl = NULL;
@@ -384,13 +384,13 @@ void CDlgOptions::CreateControls() {
     m_HTTPPortCtrl->Create( itemStaticBox30, ID_HTTPPORTCTRL, wxT(""), wxDefaultPosition, wxSize(50, -1), 0 );
     itemFlexGridSizer32->Add(m_HTTPPortCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	wxStaticText* itemStaticText62 = new wxStaticText;
+    wxStaticText* itemStaticText62 = new wxStaticText;
     itemStaticText62->Create( itemStaticBox30, wxID_STATIC, _("Don't use proxy for:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer32->Add(itemStaticText62, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	m_HTTPNoProxiesCtrl = new wxTextCtrl;
-	m_HTTPNoProxiesCtrl->Create(itemStaticBox30,ID_HTTPNOPROXYCTRL,wxT(""),wxDefaultPosition,wxSize(150,-1),0);
-	itemFlexGridSizer32->Add(m_HTTPNoProxiesCtrl,0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_HTTPNoProxiesCtrl = new wxTextCtrl;
+    m_HTTPNoProxiesCtrl->Create(itemStaticBox30,ID_HTTPNOPROXYCTRL,wxT(""),wxDefaultPosition,wxSize(150,-1),0);
+    itemFlexGridSizer32->Add(m_HTTPNoProxiesCtrl,0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticBox* itemStaticBox37 = new wxStaticBox(itemStaticBox30, wxID_ANY, _("Leave these blank if not needed"));
     wxStaticBoxSizer* itemStaticBoxSizer37 = new wxStaticBoxSizer(itemStaticBox37, wxVERTICAL);
@@ -448,13 +448,13 @@ void CDlgOptions::CreateControls() {
     m_SOCKSPortCtrl->Create( itemStaticBox46, ID_SOCKSPORTCTRL, wxT(""), wxDefaultPosition, wxSize(50, -1), 0 );
     itemFlexGridSizer48->Add(m_SOCKSPortCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	wxStaticText* itemStaticText63 = new wxStaticText;
+    wxStaticText* itemStaticText63 = new wxStaticText;
     itemStaticText63->Create( itemStaticBox46, wxID_STATIC, _("Don't use proxy for:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer48->Add(itemStaticText63, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	m_SOCKSNoProxiesCtrl = new wxTextCtrl;
-	m_SOCKSNoProxiesCtrl->Create(itemStaticBox46,ID_SOCKSNOPROXYCTRL,wxT(""),wxDefaultPosition,wxSize(150,-1),0);
-	itemFlexGridSizer48->Add(m_SOCKSNoProxiesCtrl,0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_SOCKSNoProxiesCtrl = new wxTextCtrl;
+    m_SOCKSNoProxiesCtrl->Create(itemStaticBox46,ID_SOCKSNOPROXYCTRL,wxT(""),wxDefaultPosition,wxSize(150,-1),0);
+    itemFlexGridSizer48->Add(m_SOCKSNoProxiesCtrl,0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticBox* itemStaticBox53 = new wxStaticBox(itemStaticBox46, wxID_ANY, _("Leave these blank if not needed"));
     wxStaticBoxSizer* itemStaticBoxSizer53 = new wxStaticBoxSizer(itemStaticBox53, wxVERTICAL);
@@ -529,13 +529,13 @@ void CDlgOptions::OnEnableHTTPProxyCtrlClick(wxCommandEvent& event) {
         m_HTTPPortCtrl->Enable(true);
         m_HTTPUsernameCtrl->Enable(true);
         m_HTTPPasswordCtrl->Enable(true);
-		m_HTTPNoProxiesCtrl->Enable(true);
+        m_HTTPNoProxiesCtrl->Enable(true);
     } else {
         m_HTTPAddressCtrl->Enable(false);
         m_HTTPPortCtrl->Enable(false);
         m_HTTPUsernameCtrl->Enable(false);
         m_HTTPPasswordCtrl->Enable(false);
-		m_HTTPNoProxiesCtrl->Enable(false);
+        m_HTTPNoProxiesCtrl->Enable(false);
     }
 
     event.Skip();
@@ -552,13 +552,13 @@ void CDlgOptions::OnEnableHTTPProxyCtrlUpdate(wxUpdateUIEvent& event) {
         m_HTTPPortCtrl->Enable(true);
         m_HTTPUsernameCtrl->Enable(true);
         m_HTTPPasswordCtrl->Enable(true);
-		m_HTTPNoProxiesCtrl->Enable(true);
+        m_HTTPNoProxiesCtrl->Enable(true);
     } else {
         m_HTTPAddressCtrl->Enable(false);
         m_HTTPPortCtrl->Enable(false);
         m_HTTPUsernameCtrl->Enable(false);
         m_HTTPPasswordCtrl->Enable(false);
-		m_HTTPNoProxiesCtrl->Enable(false);
+        m_HTTPNoProxiesCtrl->Enable(false);
     }
     event.Skip();
 }
@@ -574,13 +574,13 @@ void CDlgOptions::OnEnableSOCKSProxyCtrlClick(wxCommandEvent& event) {
         m_SOCKSPortCtrl->Enable(true);
         m_SOCKSUsernameCtrl->Enable(true);
         m_SOCKSPasswordCtrl->Enable(true);
-		m_SOCKSNoProxiesCtrl->Enable(true);
+        m_SOCKSNoProxiesCtrl->Enable(true);
     } else {
         m_SOCKSAddressCtrl->Enable(false);
         m_SOCKSPortCtrl->Enable(false);
         m_SOCKSUsernameCtrl->Enable(false);
         m_SOCKSPasswordCtrl->Enable(false);
-		m_SOCKSNoProxiesCtrl->Enable(false);
+        m_SOCKSNoProxiesCtrl->Enable(false);
     }
     event.Skip();
 }
@@ -596,13 +596,13 @@ void CDlgOptions::OnEnableSOCKSProxyCtrlUpdate(wxUpdateUIEvent& event) {
         m_SOCKSPortCtrl->Enable(true);
         m_SOCKSUsernameCtrl->Enable(true);
         m_SOCKSPasswordCtrl->Enable(true);
-		m_SOCKSNoProxiesCtrl->Enable(true);
+        m_SOCKSNoProxiesCtrl->Enable(true);
     } else {
         m_SOCKSAddressCtrl->Enable(false);
         m_SOCKSPortCtrl->Enable(false);
         m_SOCKSUsernameCtrl->Enable(false);
         m_SOCKSPasswordCtrl->Enable(false);
-		m_SOCKSNoProxiesCtrl->Enable(false);
+        m_SOCKSNoProxiesCtrl->Enable(false);
     }
     event.Skip();
 }
@@ -834,7 +834,7 @@ bool CDlgOptions::ReadSettings() {
     m_HTTPAddressCtrl->SetValue(wxString(pDoc->proxy_info.http_server_name.c_str(), wxConvUTF8));
     m_HTTPUsernameCtrl->SetValue(wxString(pDoc->proxy_info.http_user_name.c_str(), wxConvUTF8));
     m_HTTPPasswordCtrl->SetValue(wxString(pDoc->proxy_info.http_user_passwd.c_str(), wxConvUTF8));
-	m_HTTPNoProxiesCtrl->SetValue(wxString(pDoc->proxy_info.noproxy_hosts.c_str(), wxConvUTF8));
+    m_HTTPNoProxiesCtrl->SetValue(wxString(pDoc->proxy_info.noproxy_hosts.c_str(), wxConvUTF8));
     strBuffer.Printf(wxT("%d"), pDoc->proxy_info.http_server_port);
     m_HTTPPortCtrl->SetValue(strBuffer);
 
@@ -842,7 +842,7 @@ bool CDlgOptions::ReadSettings() {
     m_SOCKSAddressCtrl->SetValue(wxString(pDoc->proxy_info.socks_server_name.c_str(), wxConvUTF8));
     m_SOCKSUsernameCtrl->SetValue(wxString(pDoc->proxy_info.socks5_user_name.c_str(), wxConvUTF8));
     m_SOCKSPasswordCtrl->SetValue(wxString(pDoc->proxy_info.socks5_user_passwd.c_str(), wxConvUTF8));
-	m_SOCKSNoProxiesCtrl->SetValue(wxString(pDoc->proxy_info.noproxy_hosts.c_str(),wxConvUTF8));
+    m_SOCKSNoProxiesCtrl->SetValue(wxString(pDoc->proxy_info.noproxy_hosts.c_str(),wxConvUTF8));
     strBuffer.Printf(wxT("%d"), pDoc->proxy_info.socks_server_port);
     m_SOCKSPortCtrl->SetValue(strBuffer);
 
@@ -951,9 +951,9 @@ bool CDlgOptions::SaveSettings() {
         pDoc->proxy_info.http_server_name = (const char*)m_HTTPAddressCtrl->GetValue().mb_str();
         pDoc->proxy_info.http_user_name = (const char*)m_HTTPUsernameCtrl->GetValue().mb_str();
         pDoc->proxy_info.http_user_passwd = (const char*)m_HTTPPasswordCtrl->GetValue().mb_str();
-		if(pDoc->proxy_info.use_http_proxy) {
-			pDoc->proxy_info.noproxy_hosts = (const char*)m_HTTPNoProxiesCtrl->GetValue().mb_str();
-		}
+      if(pDoc->proxy_info.use_http_proxy) {
+          pDoc->proxy_info.noproxy_hosts = (const char*)m_HTTPNoProxiesCtrl->GetValue().mb_str();
+      }
         strBuffer = m_HTTPPortCtrl->GetValue();
         strBuffer.ToLong((long*)&lBuffer);
         pDoc->proxy_info.http_server_port = lBuffer;
@@ -962,9 +962,9 @@ bool CDlgOptions::SaveSettings() {
         pDoc->proxy_info.socks_server_name = (const char*)m_SOCKSAddressCtrl->GetValue().mb_str();
         pDoc->proxy_info.socks5_user_name = (const char*)m_SOCKSUsernameCtrl->GetValue().mb_str();
         pDoc->proxy_info.socks5_user_passwd = (const char*)m_SOCKSPasswordCtrl->GetValue().mb_str();
-		if(pDoc->proxy_info.use_socks_proxy) {
-			pDoc->proxy_info.noproxy_hosts = (const char*)m_SOCKSNoProxiesCtrl->GetValue().mb_str();
-		}
+      if(pDoc->proxy_info.use_socks_proxy) {
+          pDoc->proxy_info.noproxy_hosts = (const char*)m_SOCKSNoProxiesCtrl->GetValue().mb_str();
+      }
         strBuffer = m_SOCKSPortCtrl->GetValue();
         strBuffer.ToLong((long*)&lBuffer);
         pDoc->proxy_info.socks_server_port = lBuffer;
