@@ -20,6 +20,7 @@
 #endif
 
 #include "stdwx.h"
+#include <wx/numformatter.h>
 
 #include "error_numbers.h"
 #include "util.h"
@@ -579,19 +580,20 @@ int CMainDocument::OnPoll() {
             }
         }
         
-        if (IsComputerNameLocal(hostName)) {
-            pFrame->UpdateStatusText(_("Starting client"));
-            if (m_pClientManager->StartupBOINCCore()) {
+        if (wxGetApp().GetNeedRunDaemon()) {
+            if (IsComputerNameLocal(hostName)) {
+              pFrame->UpdateStatusText(_("Starting client"));
+              if (m_pClientManager->StartupBOINCCore()) {
                 Connect(wxT("localhost"), portNum, password, TRUE, TRUE);
-            } else {
+              } else {
                 m_pNetworkConnection->ForceDisconnect();
                 pFrame->ShowDaemonStartFailedAlert();
+              }
+            } else {
+              pFrame->UpdateStatusText(_("Connecting to client"));
+              Connect(hostName, portNum, password, TRUE, password.IsEmpty());
             }
-        } else {
-            pFrame->UpdateStatusText(_("Connecting to client"));
-            Connect(hostName, portNum, password, TRUE, password.IsEmpty());
         }
-
         pFrame->UpdateStatusText(wxEmptyString);
     }
 
@@ -2250,11 +2252,10 @@ int CMainDocument::TransferAbort(const wxString& fileName, const wxString& proje
     return iRetVal;
 }
 
-
 int CMainDocument::CachedDiskUsageUpdate() {
-    bool immediate = false;
+    bool immediate = true;
 
-    if (! IsConnected()) return -1;
+    if (!IsConnected()) return -1;
 
     // don't get disk usage more than once per minute
             // unless we just connected to a client
@@ -2500,7 +2501,10 @@ wxString result_description(RESULT* result, bool show_resources) {
             strBuffer += _("Project suspended by user");
         } else if (result->suspended_via_gui) {
             strBuffer += _("Task suspended by user");
-        } else if (status.task_suspend_reason && !throttled) {
+        } else if (status.task_suspend_reason && !throttled && result->active_task_state != PROCESS_EXECUTING) {
+            // an NCI process can be running even though computation is suspended
+            // (because of <dont_suspend_nci>
+            //
             strBuffer += _("Suspended - ");
             strBuffer += suspend_reason_wxstring(status.task_suspend_reason);
         } else if (status.gpu_suspend_reason && uses_gpu(result)) {
@@ -2563,7 +2567,7 @@ wxString result_description(RESULT* result, bool show_resources) {
             strBuffer += _("Aborted: not started by deadline");
             break;
         case EXIT_DISK_LIMIT_EXCEEDED:
-            strBuffer += _("Aborted: disk limit exceeded");
+            strBuffer += _("Aborted: task disk limit exceeded");
             break;
         case EXIT_TIME_LIMIT_EXCEEDED:
             strBuffer += _("Aborted: run time limit exceeded");
@@ -2627,8 +2631,8 @@ void color_cycle(int i, int n, wxColour& color) {
 }
 
 #ifdef __WXMSW__
-static float XDPIScaleFactor = 0.0;
-static float YDPIScaleFactor = 0.0;
+static double XDPIScaleFactor = 0.0;
+static double YDPIScaleFactor = 0.0;
 
 void GetDPIScaling() {
 	XDPIScaleFactor = 1.0;
@@ -2648,14 +2652,14 @@ void GetDPIScaling() {
 	FreeLibrary(hUser32);
 }
 
-float GetXDPIScaling() {
+double GetXDPIScaling() {
 	if (XDPIScaleFactor == 0.0) {
 		GetDPIScaling();
 	}
 	return XDPIScaleFactor;
 }
 
-float GetYDPIScaling() {
+double GetYDPIScaling() {
 	if (YDPIScaleFactor == 0.0) {
 		GetDPIScaling();
 	}
@@ -2677,4 +2681,19 @@ wxBitmap GetScaledBitmapFromXPMData(const char** XPMData) {
     }
 #endif
     return wxBitmap(XPMData);
+}
+
+wxString FormatTime(double secs) {
+    if (secs < 0) {
+        return wxT("---");
+    }
+    wxInt32 iHour = (wxInt32)(secs / (60 * 60));
+    wxInt32 iMin  = (wxInt32)(secs / 60) % 60;
+    wxInt32 iSec  = (wxInt32)(secs) % 60;
+    wxTimeSpan ts = wxTimeSpan(iHour, iMin, iSec);
+    return ts.Format((secs>=86400)?"%Dd %H:%M:%S":"%H:%M:%S");
+}
+
+wxString format_number(double x, int nprec) {
+    return wxNumberFormatter::ToString(x, nprec);
 }

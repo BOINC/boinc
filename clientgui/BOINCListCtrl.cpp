@@ -230,6 +230,10 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
 
         // If the user installed a new vesion of BOINC, new columns may have
         // been added that didn't exist in the older version. Check for this.
+        //
+        // This will also be triggered if the locale is changed, which will cause 
+        // SetListColumnOrder() to be called again so the wxListCtrl will be set 
+        // up with the correctly labeled columns. 
         bool foundNewColumns = false;
         
         if (pConfig->Read(wxT("HiddenColumns"), &strHiddenColumns)) {
@@ -273,9 +277,6 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
     
         SetDefaultColumnDisplay();
     }
-        
-
-
 
     if (m_pParentView->m_iSortColumnID != -1) {
         m_pParentView->InitSort();
@@ -344,6 +345,24 @@ void CBOINCListCtrl::SetListColumnOrder(wxArrayString& orderArray) {
         }
     }
     
+    // Prevent a crash bug if we just changed to a new locale.
+    //
+    // If a column has the same name in both the old and new locale, we guard against
+    // changing the sort column to that column.
+    //
+    // CBOINCListCtrl::OnRestoreState() may have incorrectly added the column names in
+    // the new locale as "new" columns, so check against both shownColCount and stdCount.
+    int limit = wxMin(shownColCount, stdCount);
+    if (columnIndex < limit) {
+        SetStandardColumnOrder();
+        for (columnID=0; columnID<limit; ++columnID) {
+            aOrder[columnID] = columnID;
+            pView->AppendColumn(columnID);
+            pView->m_iColumnIndexToColumnID.Add(columnID);
+            pView->m_iColumnIDToColumnIndex[columnID] = columnID;
+        }
+    }
+    
     // If sort column is now hidden, set the new first column as sort column
     if (pView->m_iSortColumnID >= 0) {
         sortColumnIndex = pView->m_iColumnIDToColumnIndex[pView->m_iSortColumnID];
@@ -358,7 +377,10 @@ void CBOINCListCtrl::SetListColumnOrder(wxArrayString& orderArray) {
     }
     
 #ifdef wxHAS_LISTCTRL_COLUMN_ORDER
-    SetColumnsOrder(aOrder);
+    colCount = GetColumnCount();
+    if ((shownColCount > 0) && (shownColCount <= stdCount) && (colCount == shownColCount)) {
+        SetColumnsOrder(aOrder);
+    }
 #endif
 }
 
@@ -385,7 +407,9 @@ void CBOINCListCtrl::SetStandardColumnOrder() {
         aOrder[i] = i;
     }
 #ifdef wxHAS_LISTCTRL_COLUMN_ORDER
-    SetColumnsOrder(aOrder);
+    if (colCount) {
+        SetColumnsOrder(aOrder);
+    }
 #endif
 }
 

@@ -27,7 +27,7 @@ public:
     int register_vm();
     int deregister_vm(bool delete_media);
     int deregister_stale_vm();
-    void poll(bool log_state = true);
+    int poll(bool log_state = true);
     int start();
     int stop();
     int poweroff();
@@ -45,7 +45,7 @@ public:
     bool is_extpack_installed();
 
     static int get_install_directory(std::string& dir);
-    static int get_version_information(std::string& version);
+    static int get_version_information(std::string& version_raw, std::string& version_display);
     int get_guest_additions(std::string& dir);
     int get_default_network_interface(std::string& iface);
     int get_vm_network_bytes_sent(double& sent);

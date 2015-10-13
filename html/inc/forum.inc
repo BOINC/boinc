@@ -98,14 +98,17 @@ define('S_TESTER', 3);
 define('S_VOLUNTEER', 4);
 define('S_VOLUNTEER_TESTER', 5);
 define('S_SCIENTIST', 6);
+define('S_HELP_DESK_EXPERT', 7);
+define('S_NFLAGS', 8);
 
-$special_user_bitfield[S_MODERATOR]="Volunteer moderator";
-$special_user_bitfield[S_ADMIN]="Project administrator";
-$special_user_bitfield[S_DEV]="Project developer";
-$special_user_bitfield[S_TESTER]="Project tester";
-$special_user_bitfield[S_VOLUNTEER]="Volunteer developer";
-$special_user_bitfield[S_VOLUNTEER_TESTER]="Volunteer tester";
-$special_user_bitfield[S_SCIENTIST]="Project scientist";
+$special_user_bitfield[S_MODERATOR] = tra("Volunteer moderator");
+$special_user_bitfield[S_ADMIN] = tra("Project administrator");
+$special_user_bitfield[S_DEV] = tra("Project developer");
+$special_user_bitfield[S_TESTER] = tra("Project tester");
+$special_user_bitfield[S_VOLUNTEER] = tra("Volunteer developer");
+$special_user_bitfield[S_VOLUNTEER_TESTER] = tra("Volunteer tester");
+$special_user_bitfield[S_SCIENTIST] = tra("Project scientist");
+$special_user_bitfield[S_HELP_DESK_EXPERT] = tra("Help desk expert");
 
 // show a banner with search form on left and PM info on right
 //
@@ -666,7 +669,7 @@ function show_post(
         $posttext = output_transform($posttext, $options);
         
         echo "<p>", $posttext, "</p>";
-        echo "</td></tr><tr><td class=\"postfooter\">ID: <i>", $post->id;
+        echo "</td></tr><tr><td class=\"postfooter\"><span>ID: <i>", $post->id;
         if ($no_forum_rating) {
             echo " &middot; <a href=\"forum_report_post.php?post=".$post->id."\">";
             show_image(REPORT_POST_IMAGE, tra("Report this post as offensive"), tra("Report as offensive"), REPORT_POST_IMAGE_HEIGHT);
@@ -686,11 +689,13 @@ function show_post(
         if (($controls == FORUM_CONTROLS) && (can_reply($thread, $forum, $logged_in_user))) {
             echo "&nbsp;&nbsp;&nbsp;&nbsp;";
             $url = "forum_reply.php?thread=" . $thread->id . "&amp;post=" . $post->id . "&amp;no_quote=1#input";
+            // "Reply" is used as a verb
             show_button($url, tra("Reply"), tra("Post a reply to this message"));
             $url = "forum_reply.php?thread=" . $thread->id . "&amp;post=" . $post->id . "#input";
+            // "Quote" is used as a verb
             show_button($url, tra("Quote"), tra("Post a reply by quoting this message"));
         }
-        echo "</td></tr>";
+        echo "</span></td></tr>";
     } else {
         echo "</td></tr><tr><td class=\"postfooter\">";
     }
@@ -777,15 +782,26 @@ function post_rules() {
     ";
 }
 
-function post_warning() {
-    return "<br><br>
+function post_warning($forum=null) {
+    $x = "<br><br>
         <table><tr><td align=left>
+    ";
+
+    // let projects add extra instructions in specific forums,
+    // e.g. Questions and Problems
+    //
+    if (function_exists('project_forum_post_info')) {
+        $x .= project_forum_post_info($forum);
+    }
+
+    $x .= "
         <font size=-2>
         ".tra("Rules:").post_rules()."
         <a href=moderation.php>".tra("More info")."</a>
         </font>
         </td></tr></table>
     ";
+    return $x;
 }
 
 function notify_subscriber($thread, $user) {
@@ -820,7 +836,7 @@ function create_post($content, $parent_id, $user, $forum, $thread, $signature) {
     $content = BoincDb::escape_string($content);
     $now = time();
     $sig = $signature?1:0;
-    $id = BoincPost::insert("(thread, user, timestamp, content, parent_post, signature) values ($thread->id, $user->id, $now, '$content', $parent_id, $sig)");
+    $id = BoincPost::insert("(thread, user, timestamp, content, modified, parent_post, score, votes, signature, hidden) values ($thread->id, $user->id, $now, '$content', $now, $parent_id, 0, 0, $sig, 0)");
     if (!$id) return null;
 
     notify_subscribers($thread, $user);
@@ -859,7 +875,7 @@ function create_thread($title, $content, $user, $forum, $signature, $export) {
     if (is_news_forum($forum) && !$export) {
         $status = 1;
     }
-    $id  = BoincThread::insert("(forum, owner, title, create_time, timestamp, replies, status) values ($forum->id, $user->id, '$title', $now, $now, -1, $status)");
+    $id  = BoincThread::insert("(forum, owner, status, title, timestamp, views, replies, activity, sufferers, score, votes, create_time, hidden, sticky, locked) values ($forum->id, $user->id, $status, '$title', $now, 0, -1, 0, 0, 0, 0, $now, 0, 0, 0)");
     if (!$id) return null;
     $thread = BoincThread::lookup_id($id);
     create_post($content, 0, $user, $forum, $thread, $signature);
@@ -870,8 +886,8 @@ function create_thread($title, $content, $user, $forum, $signature, $export) {
 function hide_post($post, $thread, $forum) {
     $ret = $post->update("hidden=1");
     if (!$ret) return $ret;
-    $thread->update("replies=replies-1");
-    $forum->update("posts=posts-1");
+    $thread->update("replies=if(replies>0, replies-1, 0)");
+    $forum->update("posts=if(posts>0, posts-1, 0)");
     update_thread_timestamp($thread);
     update_forum_timestamp($forum);
     return true;
@@ -890,13 +906,13 @@ function unhide_post($post, $thread, $forum) {
 function delete_post($post, $thread, $forum) {
     $post->delete();
     if (!$post->hidden) {
-        $thread->update("replies=replies-1");
-        $forum->update("posts=posts-1");
+        $thread->update("replies=if(replies>0, replies-1, 0)");
+        $forum->update("posts=if(posts>0, posts-1, 0)");
     }
     $count = BoincPost::count("thread=$thread->id");
     if ($count == 0) {
         if (!$thread->hidden) {
-            $forum->update("threads=threads-1");
+            $forum->update("threads=if(threads>0, threads-1, 0)");
         }
         $thread->delete();
     } else {
@@ -910,7 +926,7 @@ function delete_thread($thread, $forum) {
     $forum->update("posts=posts-$nposts");
     BoincPost::delete_aux("thread=$thread->id");
     if (!$thread->hidden) {
-        $forum->update("threads=threads-1");
+        $forum->update("threads=if(threads>0, threads-1, 0)");
     }
     $thread->delete();
 }
@@ -938,9 +954,9 @@ function forum_delete_user($user) {
 function move_post($post, $old_thread, $old_forum, $new_thread, $new_forum) {
     global $g_logged_in_user;
     $post->update("thread=$new_thread->id");
-    $old_thread->update("replies=replies-1");
+    $old_thread->update("replies=if(replies>0, replies-1, 0)");
     $new_thread->update("replies=replies+1");
-    $old_forum->update("posts=posts-1");
+    $old_forum->update("posts=if(posts>0, posts-1, 0)");
     $new_forum->update("posts=posts+1");
     update_thread_timestamp($old_thread);
     update_thread_timestamp($new_thread);
@@ -953,7 +969,7 @@ function move_post($post, $old_thread, $old_forum, $new_thread, $new_forum) {
 function hide_thread($thread, $forum) {
     $ret = $thread->update("hidden=1");
     if (!$ret) return $ret;
-    $forum->update("threads=threads-1");
+    $forum->update("threads=if(threads>0, threads-1, 0)");
     $forum->update("posts=posts-$thread->replies-1");
     update_forum_timestamp($forum);
     return true;
@@ -969,7 +985,7 @@ function unhide_thread($thread, $forum) {
 
 function move_thread($thread, $old_forum, $new_forum) {
     $now = time();
-    $old_forum->update("threads=threads-1, posts=posts-$thread->replies-1");
+    $old_forum->update("threads=if(threads>0, threads-1, 0), posts=posts-$thread->replies-1");
     $new_forum->update("threads=threads+1, posts=posts+$thread->replies+1, timestamp=$now");
     return $thread->update("forum=$new_forum->id");
 }

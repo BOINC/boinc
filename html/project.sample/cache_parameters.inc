@@ -9,6 +9,7 @@ define('USER_PROFILE_TTL', 3600);
 define('TOP_PAGES_TTL', 43200);
 define('INDEX_PAGE_TTL', 3600);
 define('STATUS_PAGE_TTL', 3600);
+define('REMOTE_PROJECTS_TTL', 86400);
 
 // max allowed cache usage
 //

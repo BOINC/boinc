@@ -177,6 +177,8 @@ struct CC_CONFIG {
     bool no_info_fetch;
     bool no_priority_change;
     bool os_random_only;
+    int process_priority;
+    int process_priority_special;
     PROXY_INFO proxy_info;
     double rec_half_life;
     bool report_results_immediately;

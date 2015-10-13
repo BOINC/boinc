@@ -195,26 +195,27 @@ int ACTIVE_TASK::get_shmem_seg_name() {
 }
 
 void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
+    PROJECT* project = wup->project;
     aid.major_version = BOINC_MAJOR_VERSION;
     aid.minor_version = BOINC_MINOR_VERSION;
     aid.release = BOINC_RELEASE;
     aid.app_version = app_version->version_num;
     safe_strcpy(aid.app_name, wup->app->name);
-    safe_strcpy(aid.symstore, wup->project->symstore);
+    safe_strcpy(aid.symstore, project->symstore);
     safe_strcpy(aid.acct_mgr_url, gstate.acct_mgr_info.master_url);
-    if (wup->project->project_specific_prefs.length()) {
+    if (project->project_specific_prefs.length()) {
         aid.project_preferences = strdup(
-            wup->project->project_specific_prefs.c_str()
+            project->project_specific_prefs.c_str()
         );
     }
-    aid.userid = wup->project->userid;
-    aid.teamid = wup->project->teamid;
-    aid.hostid = wup->project->hostid;
-    safe_strcpy(aid.user_name, wup->project->user_name);
-    safe_strcpy(aid.team_name, wup->project->team_name);
-    safe_strcpy(aid.project_dir, wup->project->project_dir_absolute());
+    aid.userid = project->userid;
+    aid.teamid = project->teamid;
+    aid.hostid = project->hostid;
+    safe_strcpy(aid.user_name, project->user_name);
+    safe_strcpy(aid.team_name, project->team_name);
+    safe_strcpy(aid.project_dir, project->project_dir_absolute());
     relative_to_absolute("", aid.boinc_dir);
-    safe_strcpy(aid.authenticator, wup->project->authenticator);
+    safe_strcpy(aid.authenticator, project->authenticator);
     aid.slot = slot;
 #ifdef _WIN32
     if (strstr(gstate.host_info.os_name, "Windows 2000")) {
@@ -229,13 +230,13 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
 #endif
     safe_strcpy(aid.wu_name, wup->name);
     safe_strcpy(aid.result_name, result->name);
-    aid.user_total_credit = wup->project->user_total_credit;
-    aid.user_expavg_credit = wup->project->user_expavg_credit;
-    aid.host_total_credit = wup->project->host_total_credit;
-    aid.host_expavg_credit = wup->project->host_expavg_credit;
+    aid.user_total_credit = project->user_total_credit;
+    aid.user_expavg_credit = project->user_expavg_credit;
+    aid.host_total_credit = project->host_total_credit;
+    aid.host_expavg_credit = project->host_expavg_credit;
     double rrs = gstate.runnable_resource_share(RSC_TYPE_CPU);
     if (rrs) {
-        aid.resource_share_fraction = wup->project->resource_share/rrs;
+        aid.resource_share_fraction = project->resource_share/rrs;
     } else {
         aid.resource_share_fraction = 1;
     }
@@ -287,6 +288,11 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
     aid.shmem_seg_name = shmem_seg_name;
 #endif
     aid.wu_cpu_time = checkpoint_cpu_time;
+    APP_VERSION* avp = app_version;
+    for (unsigned int i=0; i<avp->app_files.size(); i++) {
+        FILE_REF& fref = avp->app_files[i];
+        aid.app_files.push_back(string(fref.file_name));
+    }
 }
 
 // write the app init file.
@@ -378,6 +384,12 @@ int ACTIVE_TASK::setup_file(
     char link_path[MAXPATHLEN], rel_file_path[MAXPATHLEN], open_name[256];
     int retval;
     PROJECT* project = result->project;
+
+    if (log_flags.slot_debug) {
+        msg_printf(wup->project, MSG_INFO,
+            "setup_file: %s (%s)", file_path, input?"input":"output"
+        );
+    }
 
     if (strlen(fref.open_name)) {
         if (is_io_file) {
@@ -472,23 +484,56 @@ int ACTIVE_TASK::copy_output_files() {
         );
         sprintf(slotfile, "%s/%s", slot_dir, open_name);
         get_pathname(fip, projfile, sizeof(projfile));
-#if 1
-        boinc_rename(slotfile, projfile);
-#else
         int retval = boinc_rename(slotfile, projfile);
-        // this isn't a BOINC error.
-        // it just means the app didn't create an output file
-        // that it was supposed to.
+        // the rename fails if the output file isn't there.
         //
         if (retval) {
-            msg_printf(wup->project, MSG_INTERNAL_ERROR,
-                "Can't rename output file %s to %s: %s",
-                fip->name, projfile, boincerror(retval)
-            );
+            if (retval == ERR_FILE_MISSING) {
+                if (log_flags.slot_debug) {
+                    msg_printf(wup->project, MSG_INFO,
+                        "[slot] output file %s missing, not copying", slotfile
+                    );
+                }
+            } else {
+                msg_printf(wup->project, MSG_INTERNAL_ERROR,
+                    "Can't rename output file %s to %s: %s",
+                    slotfile, projfile, boincerror(retval)
+                );
+            }
+        } else {
+            if (log_flags.slot_debug) {
+                msg_printf(wup->project, MSG_INFO,
+                    "[slot] renamed %s to %s", slotfile, projfile
+                );
+            }
         }
-#endif
     }
     return 0;
+}
+
+static int get_priority(bool is_high_priority) {
+    int p = is_high_priority?cc_config.process_priority_special:cc_config.process_priority;
+#ifdef _WIN32
+    switch (p) {
+    case 0: return IDLE_PRIORITY_CLASS;
+    case 1: return BELOW_NORMAL_PRIORITY_CLASS;
+    case 2: return NORMAL_PRIORITY_CLASS;
+    case 3: return ABOVE_NORMAL_PRIORITY_CLASS;
+    case 4: return HIGH_PRIORITY_CLASS;
+    case 5: return REALTIME_PRIORITY_CLASS;
+    }
+    return is_high_priority ? BELOW_NORMAL_PRIORITY_CLASS : IDLE_PRIORITY_CLASS;
+#else
+    switch (p) {
+    case 0: return PROCESS_IDLE_PRIORITY;
+    case 1: return PROCESS_MEDIUM_PRIORITY;
+    case 2: return PROCESS_NORMAL_PRIORITY;
+    case 3: return PROCESS_ABOVE_NORMAL_PRIORITY;
+    case 4: return PROCESS_HIGH_PRIORITY;
+    case 5: return PROCESS_REALTIME_PRIORITY;
+    }
+    return is_high_priority ? PROCESS_MEDIUM_PRIORITY : PROCESS_IDLE_PRIORITY;
+#endif
 }
 
 // Start a task in a slot directory.
@@ -707,10 +752,8 @@ int ACTIVE_TASK::start(bool test) {
     int prio_mask;
     if (cc_config.no_priority_change) {
         prio_mask = 0;
-    } else if (high_priority) {
-        prio_mask = BELOW_NORMAL_PRIORITY_CLASS;
     } else {
-        prio_mask = IDLE_PRIORITY_CLASS;
+        prio_mask = get_priority(high_priority);
     }
 
     for (i=0; i<5; i++) {
@@ -867,9 +910,8 @@ int ACTIVE_TASK::start(bool test) {
     }
 
     if (!cc_config.no_priority_change) {
-        if (setpriority(PRIO_PROCESS, pid,
-            high_priority?PROCESS_MEDIUM_PRIORITY:PROCESS_IDLE_PRIORITY)
-        ) {
+        int priority = get_priority(high_priority);
+        if (setpriority(PRIO_PROCESS, pid, priority)) {
             perror("setpriority");
         }
     }
@@ -1036,9 +1078,8 @@ int ACTIVE_TASK::start(bool test) {
         //
         if (!cc_config.no_priority_change) {
 #if HAVE_SETPRIORITY
-            if (setpriority(PRIO_PROCESS, 0,
-                high_priority?PROCESS_MEDIUM_PRIORITY:PROCESS_IDLE_PRIORITY)
-            ) {
+            int priority = get_priority(high_priority);
+            if (setpriority(PRIO_PROCESS, 0, priority)) {
                 perror("setpriority");
             }
 #endif

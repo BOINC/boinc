@@ -130,6 +130,10 @@ function show_status_html($x) {
     if ($daemons->missing_remote_status) {
         echo "<br>Status of remote daemons is missing\n";
     }
+    if (function_exists('server_status_project_info')) {
+        echo "<br>";
+        server_status_project_info();
+    }
     echo "</td><td>\n";
     echo "<h2>".tra("Computing status")."</h2>\n";
     start_table();
@@ -237,11 +241,25 @@ function show_status_xml($x) {
 ";
 }
 
-function local_daemon_running($cmd) {
-    $cmd = explode(" ", $cmd);
-    $prog = $cmd[0];
-    $out = exec("ps -C $prog");
-    if (strstr($out, $prog)) return 1;
+function local_daemon_running($cmd, $pidname, $host) {
+    if (!$pidname) {
+        $cmd = trim($cmd);
+        $x = explode(" ", $cmd);
+        $prog = $x[0];
+        $pidname = $prog . '.pid';
+    }
+    $path = "../../pid_$host/$pidname";
+    if (is_file($path)) {
+        $pid = file_get_contents($path);
+        if ($pid) {
+            $pid = trim($pid);
+            $out = Array();
+            exec("ps -ww $pid", $out);
+            foreach ($out as $y) {
+                if (strstr($y, (string)$pid)) return 1;
+            }
+        }
+    }
     return 0;
 }
 
@@ -260,14 +278,23 @@ function get_daemon_status() {
     }
     $daemons = $c->daemons;
     $config = $c->config;
-    $main_host = (string)$config->host;
-    $master_url = (string)$config->master_url;
+    $main_host = trim((string)$config->host);
+    $master_url = trim((string)$config->master_url);
     $u = parse_url($master_url);
+    if (!array_key_exists("host", $u)) {
+        print_r($u);
+        die("can't parse URL $master_url");
+    }
     $master_host = $u["host"];
     if ($config->www_host) {
-        $web_host = (string) $config->www_host;
+        $web_host = trim((string) $config->www_host);
     } else {
         $web_host = $main_host;
+    }
+    if ($config->sched_host) {
+        $sched_host = trim((string) $config->sched_host);
+    } else {
+        $sched_host = $main_host;
     }
     $have_remote = false;
     $local_daemons = array();
@@ -275,7 +302,7 @@ function get_daemon_status() {
 
     // the upload and download servers are sort of daemons too
     //
-    $url = (string) $config->download_url;
+    $url = trim((string) $config->download_url);
     $u = parse_url($url);
     $h = $u["host"];
     if ($h == $master_host) {
@@ -287,14 +314,26 @@ function get_daemon_status() {
     } else {
         $have_remote = true;
     }
-    $url = (string) $config->upload_url;
+    $url = trim((string) $config->upload_url);
     $u = parse_url($url);
     $h = $u["host"];
     if ($h == $master_host) {
         $y = new StdClass;
         $y->cmd = "Upload server";
         $y->host = $h;
-        $y->status = 1;
+        $y->status = !file_exists("../../stop_upload");;
+        $local_daemons[] = $y;
+    } else {
+        $have_remote = true;
+    }
+
+    // Scheduler is a daemon too
+    //
+    if ($sched_host == $main_host) {
+        $y = new StdClass;
+        $y->cmd = "Scheduler";
+        $y->host = $sched_host;
+        $y->status = !file_exists("../../stop_sched");;
         $local_daemons[] = $y;
     } else {
         $have_remote = true;
@@ -317,7 +356,7 @@ function get_daemon_status() {
         }
         $x = new StdClass;
         $x->cmd = (string)$d->cmd;
-        $x->status = local_daemon_running($x->cmd);
+        $x->status = local_daemon_running($x->cmd, $d->pid_file, $web_host);
         $x->host = $web_host;
         $local_daemons[] = $x;
 

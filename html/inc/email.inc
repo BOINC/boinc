@@ -22,9 +22,6 @@
 require_once("../inc/util.inc");
 require_once("../project/project.inc");
 
-$config = get_config();
-$master_url = parse_config($config, "<master_url>");
-
 // send an email, using PHPMailer or not.
 //
 function send_email($user, $subject, $body, $body_html=null) {
@@ -67,7 +64,6 @@ function send_email($user, $subject, $body, $body_html=null) {
 // 3) the user requested account key for existing account
 //
 function send_auth_email($user) {
-    global $master_url;
     $body = "";
 
     $now = time();
@@ -77,14 +73,14 @@ function send_auth_email($user) {
     $body = "This email was sent in response to a request on the ".PROJECT." web site.
 
 To log in to your ".PROJECT." account, visit:
-".$master_url."login_action.php?id=$user->id&t=$now&h=$x
+".URL_BASE."login_action.php?id=$user->id&t=$now&h=$x
 (This link is valid for 1 day).
 After logging in, you can change your account's password or email address.
 ";
 
 $body .= "
 For further information and assistance with ".PROJECT.", visit
-$master_url
+".URL_BASE."
 ";
 
     return send_email($user, $subject, $body);

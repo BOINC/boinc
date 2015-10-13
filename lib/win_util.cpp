@@ -49,6 +49,9 @@ BOOL TerminateProcessById( DWORD dwProcessID ) {
     return bRetVal;
 }
 
+// change the current directory to the BOINC data directory
+// in the registry, if it exists
+//
 void chdir_to_data_dir() {
     LONG    lReturnValue;
     HKEY    hkSetupHive;
@@ -58,7 +61,6 @@ void chdir_to_data_dir() {
     DWORD   dwValueType = REG_EXPAND_SZ;
     DWORD   dwSize = 0;
 
-    // change the current directory to the boinc data directory if it exists
     lReturnValue = RegOpenKeyExA(
         HKEY_LOCAL_MACHINE, 
         "SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup",  

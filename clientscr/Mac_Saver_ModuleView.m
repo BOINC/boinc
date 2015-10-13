@@ -53,6 +53,7 @@ int gBlankingTime;   // Delay in minutes before blanking the screen
 NSString *gPathToBundleResources = NULL;
 NSString *mBundleID = NULL; // our bundle ID
 NSImage *gBOINC_Logo = NULL;
+NSImage *gPreview_Image = NULL;
 
 int gTopWindowListIndex = -1;
 
@@ -212,9 +213,9 @@ int signof(float x) {
  
     gTopWindowListIndex = -1;
     
-    if (gBOINC_Logo) {
-        [ gBOINC_Logo release ];
-    }
+//    if (gBOINC_Logo) {
+//        [ gBOINC_Logo release ];
+//    }
     gBOINC_Logo = NULL;
     
     // gPathToBundleResources has been released by autorelease
@@ -253,13 +254,16 @@ int signof(float x) {
 
    if ([ self isPreview ]) {
 #if 1   // Currently drawRect just draws our logo in the preview window
-        NSString *fileName = [[ NSBundle bundleForClass:[ self class ]] pathForImageResource:@"boinc" ];
-        if (fileName) {
-            NSImage *myImage = [[ NSImage alloc ] initWithContentsOfFile:fileName ];
-            [ myImage setScalesWhenResized:YES ];
-            [ myImage setSize:theFrame.size ];
-            [ myImage drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 ];
-            [ myImage release ];
+        if (gPreview_Image == NULL) {
+            NSString *fileName = [[ NSBundle bundleForClass:[ self class ]] pathForImageResource:@"boinc" ];
+            if (fileName) {
+                gPreview_Image = [[ NSImage alloc ] initWithContentsOfFile:fileName ];
+            }
+        }
+        if (gPreview_Image) {
+            [ gPreview_Image setScalesWhenResized:YES ];
+            [ gPreview_Image setSize:theFrame.size ];
+            [ gPreview_Image drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 ];
         }
         [ self setAnimationTimeInterval:1/1.0 ];
 #else   // Code for possible future use if we want to draw more in preview
@@ -539,8 +543,10 @@ int signof(float x) {
 // Called when the user clicked the SAVE button
 - (IBAction) closeSheetSave:(id) sender
 {
-    int period;
-
+    int period = 0;
+    
+    NSScanner *scanner, *scanner2;
+    
     // get the defaults
 	ScreenSaverDefaults *defaults = [ ScreenSaverDefaults defaultsForModuleWithName:mBundleID ];
 
@@ -548,24 +554,31 @@ int signof(float x) {
 	gGoToBlank = [ mGoToBlankCheckbox state ];
 	mBlankingTimeString = [ mBlankingTimeTextField stringValue ];
     gBlankingTime = [ mBlankingTimeString intValue ];
-    if ((gBlankingTime < 0) || (gBlankingTime > 999)) goto Bad;
+    scanner = [ NSScanner scannerWithString:mBlankingTimeString];
+    if (![ scanner scanInt:&period ]) goto Bad;
+    if (![ scanner isAtEnd ]) goto Bad;
+    if ((period < 0) || (period > 999)) goto Bad;
+    gBlankingTime = period;
 
 	mDefaultPeriodString = [ mDefaultPeriodTextField stringValue ];
-    period = [ mDefaultPeriodString intValue ];
-    if (!validateNumericString((CFStringRef)mDefaultPeriodString)) goto Bad;
+    scanner2 = [ scanner initWithString:mDefaultPeriodString];
+    if (![ scanner2 scanInt:&period ]) goto Bad;
+    if (![ scanner2 isAtEnd ]) goto Bad;
     if ((period < 0) || (period > 999)) goto Bad;
     setGFXDefaultPeriod((double)(period * 60));
 
 	mSciencePeriodString = [ mSciencePeriodTextField stringValue ];
-    period = [ mSciencePeriodString intValue ];
-    if (!validateNumericString((CFStringRef)mSciencePeriodString)) goto Bad;
+    scanner2 = [ scanner initWithString:mSciencePeriodString];
+    if (![ scanner2 scanInt:&period ]) goto Bad;
+    if (![ scanner2 isAtEnd ]) goto Bad;
     if ((period < 0) || (period > 999)) goto Bad;
     setGFXSciencePeriod((double)(period * 60));
 
 	mChangePeriodString = [ mChangePeriodTextField stringValue ];
-    period = [ mChangePeriodString intValue ];
-     if (!validateNumericString((CFStringRef)mChangePeriodString)) goto Bad;
-   if ((period < 0) || (period > 999)) goto Bad;
+    scanner2 = [ scanner initWithString:mChangePeriodString];
+    if (![ scanner2 scanInt:&period ]) goto Bad;
+    if (![ scanner2 isAtEnd ]) goto Bad;
+    if ((period < 0) || (period > 999)) goto Bad;
     setGGFXChangePeriod((double)(period * 60));
 	
 	// write the defaults
@@ -586,7 +599,7 @@ int signof(float x) {
     return;
 Bad:
 ;   // Empty statement is needed to prevent compiler error
-    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+    NSAlert *alert = [[NSAlert alloc] init];
     [alert addButtonWithTitle:@"OK"];
     [alert setMessageText:@"Please enter a number between 0 and 999."];
     [alert setAlertStyle:NSCriticalAlertStyle];

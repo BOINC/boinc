@@ -80,7 +80,7 @@ if ($avatar_type==0){
     }
     $avatar_url="";
 } elseif ($avatar_type == 1) {
-    $avatar_url = "http://www.gravatar.com/avatar/".md5($user->email_addr)."?s=100&amp;d=identicon";
+    $avatar_url = "//www.gravatar.com/avatar/".md5($user->email_addr)."?s=100&amp;d=identicon";
 } elseif ($avatar_type==2){
     if (($rpc && (post_str("avatar_url", true) != null)) || ($_FILES['picture']['tmp_name']!="")) {
         if ($_FILES['picture']['tmp_name']!="") {
@@ -136,7 +136,7 @@ if ($add_user_to_filter){
     if ($user_to_add!="" and $user_to_add==strval(intval($user_to_add))){
         $other_user = BoincUser::lookup_id($user_to_add);
         if (!$other_user) {
-            echo tra("No such user: %1", $other_user);
+            echo tra("No such user:")." ".$user_to_add;
         } else {
             add_ignored_user($user, $other_user);
         }
@@ -150,7 +150,7 @@ for ($i=0;$i<sizeof($ignored_users);$i++){
     if ($_POST["remove".trim($ignored_users[$i])]!=""){
         $other_user = BoincUser::lookup_id($ignored_users[$i]);
         if (!$other_user) {
-            echo tra("No such user: %1", $other_user);
+            echo tra("No such user:")." ".$ignored_users[$j];
         } else {
             remove_ignored_user($user, $other_user);
         }

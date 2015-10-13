@@ -494,6 +494,7 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
     wxBoxSizer* bSizer3;
     bSizer3 = new wxBoxSizer( wxHORIZONTAL );
     
+    // what project the task is from, e.g. "From: SETI@home"
     m_TaskProjectLabel = new CTransparentStaticText( this, wxID_ANY, _("From:"), wxDefaultPosition, wxDefaultSize, 0 );
     m_TaskProjectLabel->Wrap( -1 );
     bSizer3->Add( m_TaskProjectLabel, 0, wxRIGHT, ADJUSTFORXDPI(5) );
@@ -712,7 +713,7 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
                     m_SlideShowArea->AdvanceSlideShow(false, true);
                     m_bStableTaskInfoChanged = false;
                 }
-                float f = result->elapsed_time;
+                double f = result->elapsed_time;
                 if (f == 0.) f = result->current_cpu_time;
 //                f = result->final_elapsed_time;
                 UpdateStaticText(&m_ElapsedTimeValue, GetElapsedTimeString(f));
@@ -880,29 +881,6 @@ wxString CSimpleTaskPanel::GetStatusString(RESULT* result) {
     str.Printf(_("Status: %s"), s.c_str());
     return str;
 }
-
-
-wxString CSimpleTaskPanel::FormatTime(float fBuffer) {
-    wxInt32        iHour = 0;
-    wxInt32        iMin = 0;
-    wxInt32        iSec = 0;
-    wxTimeSpan     ts;
-    wxString strBuffer= wxEmptyString;
-
-    if (0 >= fBuffer) {
-        strBuffer = wxT("---");
-    } else {
-        iHour = (wxInt32)(fBuffer / (60 * 60));
-        iMin  = (wxInt32)(fBuffer / 60) % 60;
-        iSec  = (wxInt32)(fBuffer) % 60;
-
-        ts = wxTimeSpan(iHour, iMin, iSec);
-
-        strBuffer = ts.Format();
-    }
-    return strBuffer;
-}
-
 
 void CSimpleTaskPanel::FindSlideShowFiles(TaskSelectionData *selData) {
     RESULT* state_result;
@@ -1113,9 +1091,7 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
     for(j = 0; j < count; ++j) {
         selData = (TaskSelectionData*)m_TaskSelectionCtrl->GetClientData(j);
         ctrlResult = selData->result;
-        if (Suspended() || ctrlResult->suspended_via_gui || ctrlResult->project_suspended_via_gui) {
-            newIcon = suspendedIcon;
-        } else if (isRunning(ctrlResult)) {
+        if (isRunning(ctrlResult)) {
             newIcon = runningIcon;
         } else if (ctrlResult->scheduler_state == CPU_SCHED_PREEMPTED) {
             newIcon = waitingIcon;
@@ -1150,25 +1126,28 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
 
 
 bool CSimpleTaskPanel::isRunning(RESULT* result) {
-    bool outcome = false;
 
     // It must be scheduled to be running
-    if ( result->scheduler_state == CPU_SCHED_SCHEDULED ) {
-        // If either the project or task have been suspended, then it cannot be running
-        if ( !result->suspended_via_gui && !result->project_suspended_via_gui ) {
-            CC_STATUS status;
-            CMainDocument*      pDoc = wxGetApp().GetDocument();
-            wxASSERT(pDoc);
-            
-            pDoc->GetCoreClientStatus(status);
-            // Make sure that the core client isn't global suspended for some reason
-            if ( status.task_suspend_reason == 0 || status.task_suspend_reason == SUSPEND_REASON_CPU_THROTTLE ) {
-                outcome = true;
-            }
-        }
+    if ( result->scheduler_state != CPU_SCHED_SCHEDULED ) {
+        return false;
     }
+    // If either the project or task have been suspended, then it cannot be running
+    if (result->suspended_via_gui || result->project_suspended_via_gui ) {
+        return false;
+    }
+    CC_STATUS status;
+    CMainDocument*      pDoc = wxGetApp().GetDocument();
+    wxASSERT(pDoc);
 
-    return outcome;
+    pDoc->GetCoreClientStatus(status);
+    // Make sure that the core client isn't global suspended for some reason
+    if (status.task_suspend_reason == 0 || status.task_suspend_reason == SUSPEND_REASON_CPU_THROTTLE) {
+        return true;
+    }
+    if (result->active_task_state == PROCESS_EXECUTING) {
+        return true;
+    }
+    return false;
 }
 
 

@@ -1,0 +1,139 @@
+<?php
+// $Id: content_profile.install,v 1.1.2.7 2009/01/09 15:55:07 fago Exp $
+/**
+ * @file
+ * Content profile installation file.
+ */
+
+/**
+ * Implementation of hook_enable().
+ */
+function content_profile_enable() {
+  //enable the default content type 'profile' to be a content profile
+  $setting = variable_get('content_profile_profile', FALSE);
+  if (!$setting && $setting !== array()) {
+    variable_set('content_profile_profile', array());
+  }
+}
+
+/**
+ * Implementation of hook_install().
+ */
+function content_profile_install() {
+  // Set the module weight to -1, so content_profile_user() gets called before
+  // node_user(), so that one can't set a node's uid to 0 on user deletion
+  // before the profile nodes are deleted.
+  db_query("UPDATE {system} SET weight = -1 WHERE name = 'content_profile'");
+
+  content_profile_import();
+
+  //create a profile type, if it doesn't exist yet
+  if (!node_get_types('type', 'profile')) {
+    $info = array(
+      'type' => 'profile',
+      'name' => t('Profile'),
+      'module' => 'node',
+      'description' => t('A user profile built as content.'),
+      'locked' => FALSE,
+      'custom' => TRUE,
+    );
+    $info = _node_type_set_defaults($info);
+    node_type_save((object)$info);
+  }
+}
+
+/**
+ * Import settings from nodeprofile / bio.
+ */
+function content_profile_import() {
+  //nodeprofile
+  if ($settings = variable_get('nodeprofile_settings', array())) {
+    $cp_setting = array();
+    foreach ($settings as $setting => $data) {
+      foreach ($data as $type => $value) {
+        $cp_settings[$type][$setting] = $value;
+      }
+    }
+    foreach ($cp_settings as $type => $data) {
+      variable_set('content_profile_use_'. $type, 1);
+      $data['edit_tab'] = $data['user_edit'] ? 'sub' : 0;
+      unset($data['user_edit']);
+      variable_set('content_profile_'. $type, $data);
+    }
+    variable_del('nodeprofile_settings');
+  }
+  //bio
+  if ($type = variable_get('bio_nodetype', FALSE)) {
+    variable_set('content_profile_use_'. $type, 1);
+    variable_del('bio_nodetype');
+  }
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function content_profile_uninstall() {
+  foreach (node_get_types('names') as $typename => $visiblename) {
+    if (variable_get('content_profile_use'. $typename, 0)) {
+      variable_del('content_profile_use_'. $typename);
+      variable_del('content_profile_'. $typename);
+    }
+  }
+}
+
+/**
+ * Set module weight to -1, as explained in content_profile_install().
+ */
+function content_profile_update_6001() {
+  $ret = array();
+  $ret[] = update_sql("UPDATE {system} SET weight = -1 WHERE name = 'content_profile'");
+  return $ret;
+}
+
+
+/**
+ * Make the profile type to be "custom", so it can be deleted.
+ */
+function content_profile_update_6002() {
+  $ret = array();
+  if (($type = node_get_types('type', 'profile')) && !$type->custom) {
+    $type->custom = TRUE;
+    node_type_save($type);
+  }
+  return $ret;
+}
+
+/**
+ * Update the settings to reflect the changes of the format
+ * ('edit_link_sub' has been removed in favour of 'edit_tab')
+ */
+function content_profile_update_6003() {
+  $ret = array();
+  drupal_load('module', 'content_profile');
+  foreach (content_profile_get_types('names') as $type => $type_name) {
+    $settings = content_profile_get_settings($type);
+    if (!empty($settings['edit_link_sub'])) {
+      unset($settings['edit_link_sub']);
+      $settings['edit_tab'] = 'sub';
+      content_profile_set_settings($type, $settings);
+    }
+  }
+  return $ret;
+}
+
+/**
+ * Due to an old bug it may be that the $settings of a content type
+ * are '0'. As it should be an array this generates errors.
+ * This update fixes up those scrambled settings.
+ */
+function content_profile_update_6004() {
+  $ret = array();
+  drupal_load('module', 'content_profile');
+  foreach (node_get_types('names') as $type => $type_name) {
+    $settings = variable_get('content_profile_'. $type, array());
+    if (!is_array($settings)) {
+      content_profile_set_settings($type, array());
+    }
+  }
+  return $ret;
+}

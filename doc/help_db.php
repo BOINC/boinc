@@ -1,6 +1,6 @@
 <?php
 
-mysql_pconnect("localhost", "boincadm", null);
+@mysql_pconnect("localhost", "boincadm", null);
 mysql_select_db("support");
 
 function rating_insert($r) {
@@ -149,6 +149,31 @@ function get_languages() {
     mysql_free_result($result);
     $temp = array_unique($langs);
     $langs = array_values($temp);
+    return $langs;
+}
+
+function get_languages2() {
+    $langs = array();
+    $result = mysql_query("select lang1 from volunteer where hide=0");
+    while ($lang = mysql_fetch_object($result)) {
+        if (array_key_exists($lang->lang1, $langs)) {
+            $langs[$lang->lang1]++;
+        } else {
+            $langs[$lang->lang1] = 1;
+        }
+
+    }
+    mysql_free_result($result);
+    $result = mysql_query("select lang2 from volunteer where lang2<>'' and hide=0");
+    while ($lang = mysql_fetch_object($result)) {
+        if (array_key_exists($lang->lang2, $langs)) {
+            $langs[$lang->lang2]++;
+        } else {
+            $langs[$lang->lang2] = 1;
+        }
+    }
+    mysql_free_result($result);
+    arsort($langs);
     return $langs;
 }
 

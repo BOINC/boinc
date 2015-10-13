@@ -68,6 +68,7 @@ IMPLEMENT_DYNAMIC_CLASS(CSimpleFrame, CBOINCBaseFrame)
 
 BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_SIZE(CSimpleFrame::OnSize)
+    EVT_MENU_OPEN(CSimpleFrame::OnMenuOpening)
     EVT_MENU(ID_CHANGEGUI, CSimpleFrame::OnChangeGUI)
     EVT_MENU(ID_SGDEFAULTSKINSELECTOR, CSimpleFrame::OnSelectDefaultSkin)
     EVT_MENU_RANGE(ID_SGFIRSTSKINSELECTOR, ID_LASTSGSKINSELECTOR, CSimpleFrame::OnSelectSkin)
@@ -78,6 +79,7 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_MENU(ID_PREFERENCES, CSimpleFrame::OnPreferences)
     EVT_MENU(ID_SGOPTIONS, CSimpleFrame::OnOptions)
 	EVT_MENU(ID_SGDIAGNOSTICLOGFLAGS, CSimpleFrame::OnDiagnosticLogFlags)
+    EVT_MENU(ID_WIZARDATTACHPROJECT, CSimpleFrame::OnProjectsAttachToProject)
     EVT_MENU(ID_HELPBOINC, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCMANAGER, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCWEBSITE, CSimpleFrame::OnHelpBOINC)
@@ -114,13 +116,11 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     // File menu
     wxMenu *menuFile = new wxMenu;
 
-    // %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuDescription.Printf(
         _("Close the %s window"), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
-    strMenuName = _("&Close Window");
+    strMenuName = _("&Close window");
     strMenuName += wxT("\tCtrl+W");
     menuFile->Append(
         ID_CLOSEWINDOW,
@@ -145,9 +145,10 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     );
 
 #ifdef __WXMAC__
+    // wxWidgets actually puts this in the BOINCManager menu
     menuFile->Append(
         wxID_PREFERENCES,
-        _("Preferences…")
+        _("Preferences...")
     );
 #endif
 
@@ -162,13 +163,6 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     // View menu
     wxMenu *menuView = new wxMenu;
 
-    menuView->Append(
-        ID_CHANGEGUI,
-        _("Advanced View...\tCtrl+Shift+A"),
-        _("Display the advanced graphical interface.")
-    );
-
-    menuView->AppendSeparator();
 
     menuView->Append(
         ID_SGSKINSELECTOR,
@@ -177,37 +171,54 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
         _("Select the appearance of the user interface.")
     );
 
-    // Skins sumenu always contains the Default entry
+    // Skins submenu always contains the Default entry
     if (m_pSubmenuSkins->GetMenuItemCount() <= 1) {
         menuView->Enable(ID_SGSKINSELECTOR, false);
     }
+    menuView->AppendSeparator();
+    menuView->Append(
+        ID_CHANGEGUI,
+        _("Advanced View...\tCtrl+Shift+A"),
+        _("Display the advanced graphical interface.")
+    );
 
-    // Tools menu
-    wxMenu *menuTools = new wxMenu;
 
-    menuTools->Append(
+    // Options menu
+    wxMenu *menuOptions = new wxMenu;
+
+    menuOptions->Append(
         ID_PREFERENCES,
         _("Computing &preferences..."),
         _("Configure computing preferences")
     );
     
-    menuTools->Append(
+    menuOptions->Append(
         ID_SGOPTIONS, 
-        _("&Options..."),
+        _("&Other options..."),
         _("Configure display options and proxy settings")
+    );
+
+    // Tools menu
+    wxMenu *menuTools = new wxMenu;
+    menuTools->Append(
+        ID_WIZARDATTACHPROJECT, 
+        _("&Add project..."),
+        _("Add a project")
+    );
+    menuTools->AppendSeparator();
+    menuTools->Append(
+        ID_EVENTLOG, 
+        _("Event Log...\tCtrl+Shift+E"),
+        _("Display diagnostic messages.")
     );
 
     // Help menu
     wxMenu *menuHelp = new wxMenu;
 
-    // %s is the project name
-    //    i.e. 'BOINC Manager', 'GridRepublic'
     strMenuName.Printf(
         _("%s &help"), 
         pSkinAdvanced->GetApplicationShortName().c_str()
     );
-    // %s is the project name
-    //    i.e. 'BOINC', 'GridRepublic'
     strMenuDescription.Printf(
         _("Show information about %s"), 
         pSkinAdvanced->GetApplicationShortName().c_str()
@@ -218,14 +229,10 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
         strMenuDescription
     );
 
-    // %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuName.Printf(
         _("&%s"), 
         pSkinAdvanced->GetApplicationName().c_str()
     );
-    // %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuDescription.Printf(
         _("Show information about the %s"), 
         pSkinAdvanced->GetApplicationName().c_str()
@@ -235,15 +242,11 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
         strMenuName, 
         strMenuDescription
     );
-
-    // %s is the project name
-    //    i.e. 'BOINC', 'GridRepublic'
+    menuHelp->AppendSeparator();
     strMenuName.Printf(
         _("%s &web site"), 
         pSkinAdvanced->GetApplicationShortName().c_str()
     );
-    // %s is the application name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuDescription.Printf(
         _("Show information about BOINC and %s"),
         pSkinAdvanced->GetApplicationName().c_str()
@@ -253,9 +256,8 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
         strMenuName, 
         strMenuDescription
     );
+    menuHelp->AppendSeparator();
 
-    // %s is the project name
-    //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strMenuName.Printf(
         _("&About %s..."), 
         pSkinAdvanced->GetApplicationName().c_str()
@@ -275,6 +277,10 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     m_pMenubar->Append(
         menuView,
         _("&View")
+    );
+    m_pMenubar->Append(
+        menuOptions,
+        _("&Options")
     );
     m_pMenubar->Append(
         menuTools,
@@ -375,6 +381,44 @@ int CSimpleFrame::_GetCurrentViewPage() {
         return VW_SGUI;
     }
     return 0;       // Should never happen.
+}
+
+
+void CSimpleFrame::OnMenuOpening( wxMenuEvent &event) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnMenuOpening - Function Begin"));
+
+    CMainDocument*     pDoc = wxGetApp().GetDocument();
+    wxMenu* menuFile = NULL;
+    wxMenu* menuHelp = NULL;
+    
+    wxASSERT(pDoc);
+    
+    bool isConnected = pDoc->IsConnected();
+    wxMenu* menu = event.GetMenu();
+    
+    menu->FindItem(ID_CLOSEWINDOW, &menuFile);
+    menu->FindItem(ID_HELPBOINC, &menuHelp);
+    size_t numItems = menu->GetMenuItemCount();
+    for (size_t pos = 0; pos < numItems; ++pos) {
+        wxMenuItem * item = menu->FindItemByPosition(pos);
+        if ((menu == menuFile) || (menu == menuHelp)) {
+            // Always enable all items in File menu or Help menu:
+            // ID_CLOSEWINDOW, wxID_EXIT, ID_HELPBOINC, ID_HELPBOINCMANAGER,
+            // ID_HELPBOINCWEBSITE, wxID_ABOUT
+            item->Enable(true);
+        } else {
+            // Disable other menu items if not connected to client
+            item->Enable(isConnected);
+        }
+    }
+    
+    // wxID_EXIT and wxID_PREFERENCES are not in File menu on some platforms
+    wxMenuItem* exitItem = menu->FindChildItem(wxID_EXIT, NULL);
+    if (exitItem) {
+        exitItem->Enable(true);
+    }
+    
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnMenuOpening - Function End"));
 }
 
 
@@ -494,7 +538,9 @@ void CSimpleFrame::OnPreferences(wxCommandEvent& WXUNUSED(event)) {
 	m_pBackgroundPanel->SetDlgOpen(true);
 
 	CDlgPreferences dlg(GetParent());
-    dlg.ShowModal();
+    if (dlg.OKToShow()) {
+        dlg.ShowModal();
+    }
 
     m_pBackgroundPanel->SetDlgOpen(false);
 
@@ -639,7 +685,7 @@ void CSimpleFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
 }
 
 
-void CSimpleFrame::OnProjectsAttachToProject() {
+void CSimpleFrame::OnProjectsAttachToProject(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnProjectsAttachToProject - Function Begin"));
 
     CMainDocument* pDoc     = wxGetApp().GetDocument();
@@ -939,7 +985,6 @@ void CSimpleGUIPanel::SetBackgroundBitmap() {
 
     wxColour bgColor(*pSkinSimple->GetBackgroundImage()->GetBackgroundColor());
     SetBackgroundColour(bgColor);
-
     wxRect panelRect = GetRect();
     m_bmpBg = wxBitmap(panelRect.width, panelRect.height);
     wxMemoryDC dc(m_bmpBg);
@@ -954,7 +999,68 @@ void CSimpleGUIPanel::SetBackgroundBitmap() {
     dc.SetPen(bgPen);
     dc.DrawRectangle(panelRect);
 #endif
-    dc.DrawBitmap(*pSkinSimple->GetBackgroundImage()->GetBitmap(), 0, 0, false);
+
+    int srcX, srcY, destX, destY, h, w;
+    wxBitmap* srcBmp = pSkinSimple->GetBackgroundImage()->GetBitmap();
+    wxSize srcSize = srcBmp->GetSize();
+    switch(pSkinSimple->GetBackgroundImage()->GetHorizontalAnchor()) {
+    case BKGD_ANCHOR_HORIZ_LEFT:
+    default:
+        srcX = 0;
+        destX = 0;
+        break;
+    case BKGD_ANCHOR_HORIZ_CENTER:
+        if (panelRect.width < srcSize.GetWidth()) {
+            srcX = (srcSize.GetWidth() - panelRect.width) / 2;
+            destX = 0;
+        } else {
+            srcX = 0;
+            destX = (panelRect.width - srcSize.GetWidth()) / 2;
+        }
+        break;
+    case BKGD_ANCHOR_HORIZ_RIGHT:
+        if (panelRect.width < srcSize.GetWidth()) {
+            srcX = (srcSize.GetWidth() - panelRect.width);
+            destX = 0;
+        } else {
+            srcX = 0;
+            destX = (panelRect.width - srcSize.GetWidth());
+        }
+        break;
+    }
+    w = wxMin(panelRect.width, srcSize.GetWidth());
+
+    switch(pSkinSimple->GetBackgroundImage()->GetVerticalAnchor()) {
+    case BKGD_ANCHOR_VERT_TOP:
+    default:
+        srcY = 0;
+        destY = 0;
+        break;
+    case BKGD_ANCHOR_VERT_CENTER:
+        if (panelRect.height < srcSize.GetHeight()) {
+            srcY = (srcSize.GetHeight() - panelRect.height) / 2;
+            destY = 0;
+        } else {
+            srcY = 0;
+            destY = (panelRect.height - srcSize.GetHeight()) / 2;
+        }
+        break;
+    case BKGD_ANCHOR_VERT_BOTTOM:
+        if (panelRect.height < srcSize.GetHeight()) {
+            srcY = (srcSize.GetHeight() - panelRect.height);
+            destY = 0;
+        } else {
+            srcY = 0;
+            destY = (panelRect.height - srcSize.GetHeight());
+        }
+        break;
+    }
+    h = wxMin(panelRect.height, srcSize.GetHeight());
+
+    wxMemoryDC srcDC(*srcBmp);
+    dc.Blit(destX, destY, w, h, &srcDC, srcX, srcY, wxCOPY);
+
+//    dc.DrawBitmap(*pSkinSimple->GetBackgroundImage()->GetBitmap(), 0, 0, false);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::SetBackgroundBitmap - Function End"));
 }
@@ -977,13 +1083,13 @@ void CSimpleGUIPanel::ReskinInterface() {
 }
 
 
-void CSimpleGUIPanel::OnProjectsAttachToProject() {
+void CSimpleGUIPanel::OnProjectsAttachToProject(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::OnProjectsAttachToProject - Function Begin"));
 	
     CSimpleFrame* pFrame = wxDynamicCast(GetParent(), CSimpleFrame);
     wxASSERT(pFrame);
 
-    pFrame->OnProjectsAttachToProject();
+    pFrame->OnProjectsAttachToProject(event);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnProjectsAttachToProject - Function End"));
 }

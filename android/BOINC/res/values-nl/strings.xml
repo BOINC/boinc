@@ -14,7 +14,7 @@
   <string name="attachproject_list_manual_dialog_title">Projectspecifieke URL invoeren:</string>
   <string name="attachproject_list_manual_dialog_button">Project toevoegen</string>
   <string name="attachproject_list_manual_no_url">Projectspecifieke URL invoeren</string>
-  <string name="attachproject_list_acctmgr_button">Account manager toevoegen</string>
+  <string name="attachproject_list_acctmgr_button">Accountmanager toevoegen</string>
   <string name="attachproject_list_no_internet">Geen internetverbinding</string>
   <!--credential input-->
   <string name="attachproject_credential_input_sing_desc">Vul account informatie in</string>
@@ -27,7 +27,7 @@
   <string name="attachproject_conflict_not_unique">Account bestaat met ander wachtwoord</string>
   <string name="attachproject_conflict_bad_password">Foutief wachtwoord</string>
   <string name="attachproject_conflict_unknown_user">Account bestaat niet</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">Account bestaat niet, bezoek project website om te registreren</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">Account bestaat niet, bezoek projectwebsite om te registreren</string>
   <!--working-->
   <string name="attachproject_working_attaching">Toevoegen</string>
   <!--e.g. Attaching Einstein@Home-->

@@ -268,7 +268,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
                     sreq.host.os_version
                 );
             }
-            return false;
+            if (min_android_version>0) return false;
         }
         if (min_android_version && (host_android_version < min_android_version)) {
             if (config.debug_version_select) {

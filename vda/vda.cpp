@@ -78,7 +78,7 @@ void CHUNK::print_status(int level) {
 }
 
 void VDA_CHUNK_HOST::print_status(int level) {
-    printf("%shost %d\n", indent(level), host_id);
+    printf("%shost %lu\n", indent(level), host_id);
     level++;
     printf("%spresent on host: %s\n",
         indent(level), present_on_host?"yes":"no"
@@ -157,7 +157,7 @@ int handle_remove(const char* name) {
     // delete DB records
     //
     DB_VDA_CHUNK_HOST ch;
-    sprintf(buf, "vda_file_id=%d", vf.id);
+    sprintf(buf, "vda_file_id=%lu", vf.id);
     ch.delete_from_db_multi(buf);
     vf.delete_from_db();
 

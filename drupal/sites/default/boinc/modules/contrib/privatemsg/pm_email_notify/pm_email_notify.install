@@ -1,0 +1,46 @@
+<?php
+
+/**
+ * @file
+ * This file takes care of creating/deletig pm_email_notify table used
+ * for storing user notification preferences
+ */
+
+function pm_email_notify_schema() {
+  $schema = array();
+
+  $schema['pm_email_notify'] = array(
+    'description' => '{pm_email_notify} holds private message email notification settings for each user ',
+    'fields' => array(
+      'user_id' => array(
+        'description'   => 'ID of the user',
+        'type'          => 'int',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+      'email_notify_is_enabled' => array(
+        'description'   => 'Email Notification Status (Enabled=1, Disabled=0)',
+        'type'          => 'int',
+        'not null'      => TRUE,
+        'unsigned'      => TRUE,
+      ),
+    ),
+    'unique keys' => array(
+      'user_id' => array('user_id')
+    ),
+  );
+
+  return $schema;
+}
+
+function pm_email_notify_install() {
+  drupal_install_schema('pm_email_notify');
+}
+
+function pm_email_notify_uninstall() {
+  variable_del('pm_email_notify_body');
+  variable_del('pm_email_notify_default');
+  variable_del('pm_email_notify_subject');
+  drupal_uninstall_schema('pm_email_notify');
+}
+

@@ -1,0 +1,490 @@
+<?php
+// $Id$
+
+/**
+  * @file
+  * Enable BOINC charting features for statistics
+  */
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Includes that provide supporting functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Hooks into core modules
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+  * Implementation of hook_menu().
+  */
+function boincstats_menu() {
+  $items['admin/boinc/stats'] = array(
+    'title' => 'Environment: Statistics setup',
+    'description' => 'Configure the stats system for generating charts and 
+      providing cross project data.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boincstats_admin_stats_system'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'boincstats.admin.inc'
+  );
+  $items['charts/user'] = array(
+    'page callback' => 'boincstats_get_user_stats_chart',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK
+  );
+  $items['charts/project'] = array(
+    'page callback' => 'boincstats_get_project_stats_chart',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK
+  );
+  return $items;
+}
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Page callbacks from hook_menu()
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+ 
+/**
+  * User stats chart menu callback
+  * Called to generate the daily credit status chart for a user (dashboard)
+  */
+function boincstats_get_user_stats_chart($cpid = null, $chart_size = 'medium') {
+  
+  // pChart library inclusions
+  module_load_include('php', 'boincstats', 'includes/pchart/class/pData.class');
+  module_load_include('php', 'boincstats', 'includes/pchart/class/pDraw.class');
+  module_load_include('php', 'boincstats', 'includes/pchart/class/pImage.class');
+  module_load_include('php', 'boincstats', 'includes/pchart/class/pCache.class');
+  
+  init_theme();
+  global $theme_key;
+  $cache_name = "{$theme_key}_";
+  
+  // Determine the stats environment
+  boincstats_check_configuration();
+  $stats_server = variable_get('boinc_stats_server', '');
+  $stats_rpc = variable_get('boinc_stats_user_credit_history_rpc', '');
+  $project_id = variable_get('boinc_stats_remote_project_id', '');
+  
+  $dataset_size = 0;
+  $chart_height = 0;
+  $chart_width = 0;
+  $draw_x_lines = FALSE;
+  $label_x_axis = FALSE;
+  
+  $stats_xml = NULL;
+  $color_keys = array('R', 'G', 'B');
+  
+  // Get color configuration
+  $palette_color_hex = theme_get_setting('boinc_stats_chart_color');
+  $palette_color = array_combine($color_keys, sscanf($palette_color_hex, "#%02x%02x%02x"));
+  $backdrop_color_hex = theme_get_setting('boinc_stats_chart_bcolor');
+  $backdrop_color = array_combine($color_keys, sscanf($backdrop_color_hex, "#%02x%02x%02x"));
+  
+  switch($chart_size) {
+  case 'small':
+    $cache_name .= "{$cpid}_small";
+    $dataset_size = 30;
+    $chart_height = 80;
+    $chart_width = 266;
+    //$backdrop_color = array('R'=>238,'G'=>238,'B'=>238);
+    $draw_x_lines = FALSE;
+    $label_x_axis = FALSE;
+    break;
+  case 'medium':
+  default:
+    $cache_name .= $cpid;
+    $dataset_size = 60;
+    $chart_height = 155;
+    $chart_width = 589;
+    $draw_x_lines = TRUE;
+    $label_x_axis = TRUE;
+  }
+  
+  // Sanity check for cache directory
+  if (!boincstats_check_cache_dir()) {
+    return;
+  }
+  
+  // Initialize the cache object and flush stale images
+  $myCache = new pCache(array('CacheFolder' => realpath('.') . '/' . conf_path() . '/files/cache'));
+  $myCache->removeOlderThan(60*60*24);
+  
+  if ($myCache->isInCache($cache_name)) {
+    $myCache->strokeFromCache($cache_name);
+  }
+  else {
+    // Construct query string
+    $get = array(
+      'cpid' => $cpid,
+      'projectid' => $project_id
+    );
+    $args = array();
+    foreach ($get as $arg => $value) $args[] = "{$arg}=" . rawurlencode($value);
+    $query = '?' . implode('&', $args);
+    
+    // Load XML from RPC
+    $target_url = "http://{$stats_server}/{$stats_rpc}{$query}";
+    $result = drupal_http_request($target_url);
+    if (in_array($result->code, array(200, 304))) {
+      $stats_xml = simplexml_load_string($result->data);
+    }
+    
+    // Create and populate the pData object
+    $MyData = new pData();
+    
+    // Initialize dataset
+    $dataset = array();
+    if ($stats_xml) {
+      $credit = null;
+      for ($i = 0, $j = 31; $j <= 91; $i++, $j++) {
+        $day = "day_{$j}";
+        $credit[$i] = isset($stats_xml->total_credit_history_last_91_days->$day) ? (int) $stats_xml->total_credit_history_last_91_days->$day : 0;
+        $dataset[$i] = ($i) ? ($credit[$i] - $credit[$i-1]) : 0;
+      }
+    }
+    else {
+      for ($i = 0; $i <= $dataset_size; $i++) $dataset[] = 0;
+    }
+    
+    $MyData->addPoints($dataset, 'series1');
+    $MyData->setPalette('series1', $palette_color);
+    $MyData->setAxisPosition(0,AXIS_POSITION_RIGHT);
+    
+    // Create the pChart object
+    $myPicture = new pImage($chart_width, $chart_height, $MyData);
+
+    // Turn on Antialiasing
+    $myPicture->Antialias = true;
+
+    // Set the default font
+    //$myPicture->setFontProperties(array('FontName'=>'../fonts/pf_arma_five.ttf','FontSize'=>6));
+
+    // Define the chart area
+    $myPicture->setGraphArea(0, 3, $chart_width, $chart_height);
+    if ($backdrop_color) {
+      $myPicture->drawFilledRectangle(0, 0, $chart_width, $chart_height, $backdrop_color);
+    }
+    
+    // Draw the scale
+    $scaleSettings = array(
+      'Mode' => SCALE_MODE_START0,
+      'DrawYLines' => false,
+      'DrawXLines' => $draw_x_lines,
+      'GridTicks' => 2,
+      'LabelSkip' => 9,
+      'SkippedAxisAlpha' => 0,
+      'SkippedInnerTickWidth' => 0,
+      'SkippedOuterTickWidth' => 0,
+      'AxisAlpha' => 0,
+      'InnerTickWidth' => 0,
+      'OuterTickWidth' => 0,
+      'XMargin' => 1,
+      'YMargin' => 0,
+      'Floating' => TRUE,
+      'GridR' => 200,
+      'GridG' => 200,
+      'GridB' => 200,
+      'DrawSubTicks' => false,
+      'CycleBackground' => false
+    );
+    $myPicture->setFontProperties(array('FontSize' => 10));
+    $myPicture->drawScale($scaleSettings);
+    
+    if ($label_x_axis) {
+      for ($i = 5; $i >= 0; $i--) {
+        $label = ($i) ? -10*$i : 'Today';
+        $myPicture->drawText(589-587*($i/6)-5, 2, $label, array('Align' => TEXT_ALIGN_TOPRIGHT));
+      }
+    }
+
+    // Draw the area chart
+    $myPicture->drawAreaChart(array('ForceTransparency' => 100));
+    
+    // Write the chart to the cache
+    $myCache->writeToCache($cache_name, $myPicture);
+    
+    // Render the picture (choose the best way)
+    //$myPicture->autoOutput('pictures/example.drawAreaChart.simple.png');
+    $myPicture->stroke();
+  }
+}
+
+/**
+ * Project stats chart menu callback
+ * Called to generate the daily credit status chart for the whole project
+ */
+function boincstats_get_project_stats_chart() {
+  // pChart library inclusions
+  module_load_include('php', 'boincstats', 'includes/pchart/class/pData.class');
+  module_load_include('php', 'boincstats', 'includes/pchart/class/pDraw.class');
+  module_load_include('php', 'boincstats', 'includes/pchart/class/pImage.class');
+  module_load_include('php', 'boincstats', 'includes/pchart/class/pCache.class');
+  
+  init_theme();
+  global $theme_key;
+  $cache_name = "{$theme_key}_project_chart";
+  
+  $stats_xml = boincstats_get_project_stats();
+  $color_keys = array('R', 'G', 'B');
+  
+  // Get color configuration
+  $palette_color_hex = theme_get_setting('boinc_stats_chart_color');
+  $palette_color = array_combine($color_keys, sscanf($palette_color_hex, "#%02x%02x%02x"));
+  $backdrop_color_hex = theme_get_setting('boinc_stats_chart_bcolor');
+  $backdrop_color = array_combine($color_keys, sscanf($backdrop_color_hex, "#%02x%02x%02x"));
+   
+  // Create and populate the pData object
+  $MyData = new pData();
+  
+  // Sanity check for cache directory
+  if (!boincstats_check_cache_dir()) {
+    return;
+  }
+  
+  // Initialize the cache object and flush stale images
+  $myCache = new pCache(array('CacheFolder' => realpath('.') . '/' . conf_path(). '/files/cache'));
+  $myCache->removeOlderThan(60*60*24);
+  
+  if ($myCache->isInCache($cache_name)) {
+    $myCache->strokeFromCache($cache_name);
+  }
+  else {
+    // Initialize dataset
+    $dataset = array();
+    if ($stats_xml) {
+      $credit = null;
+      for ($i = 0, $j = 31; $j <= 91; $i++, $j++) {
+        $day = "day_{$j}";
+        $credit[$i] = isset($stats_xml->$day) ? (int) $stats_xml->$day : 0;
+        $dataset[$i] = ($i) ? ($credit[$i] - $credit[$i-1]) : 0;
+      }
+    }
+    else {
+      for ($i = 0; $i <= 30; $i++) $dataset[] = 0;
+    }
+    
+    $MyData->addPoints($dataset, 'series1');
+    $MyData->setPalette('series1', $palette_color);
+    $MyData->setAxisPosition(0,AXIS_POSITION_RIGHT);
+
+    // Create the pChart object
+    $myPicture = new pImage(266,80,$MyData);
+
+    // Turn on Antialiasing
+    $myPicture->Antialias = true;
+
+    // Set the default font
+    //$myPicture->setFontProperties(array('FontName' => '../fonts/pf_arma_five.ttf','FontSize' => 6));
+
+    // Define the chart area
+    $myPicture->setGraphArea(0,0,266,80);
+    $myPicture->drawFilledRectangle(0,0,266,80,$backdrop_color);
+
+    // Draw the scale
+    $scaleSettings = array(
+      'Mode' => SCALE_MODE_START0,
+      'DrawYLines' => false,
+      'DrawXLines' => false,
+      'GridTicks' => 2,
+      'LabelSkip' => 9,
+      'SkippedAxisAlpha' => 0,
+      'SkippedInnerTickWidth' => 0,
+      'SkippedOuterTickWidth' => 0,
+      'AxisAlpha' => 0,
+      'InnerTickWidth' => 0,
+      'OuterTickWidth' => 0,
+      'XMargin' => 1,
+      'YMargin' => 0,
+      'Floating' => TRUE,
+      'GridR' => 200,
+      'GridG' => 200,
+      'GridB' => 200,
+      'DrawSubTicks' => false,
+      'CycleBackground' => false
+    );
+    $myPicture->setFontProperties(array('FontSize' => 10));
+    $myPicture->drawScale($scaleSettings);
+    
+    /*for ($i = 5; $i >= 0; $i--) {
+      $label = ($i) ? -10*$i : 'Today';
+      $myPicture->drawText(598-596*($i/6)-5, 2, $label, array('Align' => TEXT_ALIGN_TOPRIGHT));
+    }*/
+
+    // Draw the area chart */
+    $myPicture->drawAreaChart(array('ForceTransparency' => 100));
+    
+    // Write the chart to the cache
+    $myCache->writeToCache($cache_name, $myPicture);
+
+    // Render the picture (choose the best way)
+    //$myPicture->autoOutput('pictures/example.drawAreaChart.simple.png');
+    $myPicture->stroke();
+  }
+}
+
+/*
+ *
+ */
+function boincstats_check_cache_dir($cache_path = 'files/cache') {
+  $cache_dir = realpath('.') . '/' . conf_path() . '/' . $cache_path;
+  if (!is_writeable($cache_dir)) {
+    if (!is_dir($cache_dir)) {
+      if (!is_writeable(dirname($cache_dir))) {
+        // If the parent "files" dir isn't even writeable...
+        watchdog('boincstats', '@parent_dir directory is not writeable. This
+          directory must be writeable by the web server.',
+          array('@parent_dir' => dirname($cache_dir)), WATCHDOG_ERROR);
+        return FALSE;
+      }
+      else {
+        // Create the cache dir
+        if (!mkdir($cache_dir, 0775)) {
+          watchdog('boincstats', 'Failed to create @cache_dir directory. Check
+            filesystem permissions...?',
+            array('@cache_dir' => $cache_dir), WATCHDOG_ERROR);
+          return FALSE;
+        }
+      }
+    }
+    else {
+      watchdog('boincstats', 'Cache directory at @cache_dir is not writeable.
+        Please allow webserver write access.',
+        array('@cache_dir' => $cache_dir), WATCHDOG_ERROR);
+      return FALSE;
+    }
+  }
+  return TRUE;
+}
+
+/*
+ *
+ */
+function boincstats_get_project_stats() {
+  
+  // Determine the stats environment
+  boincstats_check_configuration();
+  $stats_server = variable_get('boinc_stats_server', '');
+  $stats_rpc = variable_get('boinc_stats_project_credit_history_rpc', '');
+  $project_id = variable_get('boinc_stats_remote_project_id', '');
+  
+  // Construct query string
+  $get = array(
+    'projectid' => $project_id
+  );
+  $args = array();
+  foreach ($get as $arg => $value) $args[] = "{$arg}=" . rawurlencode($value);
+  $query = '?' . implode('&', $args);
+  
+  // Load XML from RPC
+  $stats_xml = NULL;
+  $target_url = "http://{$stats_server}/{$stats_rpc}{$query}";
+  $result = drupal_http_request($target_url);
+  if (in_array($result->code, array(200, 304))) {
+    $stats_xml = simplexml_load_string($result->data);
+  }
+  watchdog('boincstats', $target_url);
+  return $stats_xml;
+}
+
+/*
+ *
+ */
+function boincstats_get_project_total_credit() {
+  $stats_xml = boincstats_get_project_stats();
+  return isset($stats_xml->day_91) ? (int) $stats_xml->day_91 : 0;
+}
+
+/*
+ *
+ */
+function boincstats_get_project_avg_credit() {
+  $stats_xml = boincstats_get_project_stats();
+  $dataset = array();
+  if ($stats_xml) {
+    $daily_values = null;
+    $dail_totals = null;
+    for ($i = 61; $i <= 91; $i++) {
+      $day = "day_{$i}";
+      $daily_totals[$i] = isset($stats_xml->$day) ? (int) $stats_xml->$day : 0;
+      if ($i == 61) continue;
+      $daily_values[$i] = ($i) ? ($daily_totals[$i] - $daily_totals[$i-1]) : 0;
+    }
+  }
+  return (count($daily_values)) ? array_sum($daily_values) / count($daily_values) : 0;
+}
+
+/*
+ *
+ */
+function boincstats_credit_to_ghours($credit) {
+  return $credit / (100 * 365);
+}
+
+/*
+ *
+ */
+function boincstats_credit_to_flops($credit, $prefix = 0) {
+  $factor = array(
+    '0' => 0,
+    'g' => 3,
+    't' => 6,
+    'p' => 9
+  );
+  return $credit / (pow(10, (int) $factor[$prefix]) / 10);
+}
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Data access support functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+function boincstats_get_project_stats_overview($type = 'basic') {
+  global $base_path;
+  $output = '';
+  switch ($type) {
+  case 'basic':
+    $output .= '<div class="overlay"><span>(' . bts('Credits per day') . ')</span></div>' . "\n";
+    $output .= '<div class="chart"><img src="' . $base_path . 'charts/project" /></div>' . "\n";
+    break;
+  case 'detailed':
+    $output .= '<div class="stats"><label>' . bts('Total G-hours') . ': </label><span>' . number_format(boincstats_credit_to_ghours(boincstats_get_project_total_credit())) . '</span></div>' . "\n";
+    $output .= '<div class="stats"><label>' . bts('Avg TFlops') . ': </label><span>' . number_format(boincstats_credit_to_flops(boincstats_get_project_avg_credit(), 't')) . '</span></div>' . "\n";
+    //$output .= '<div class="stats"><a href="#">' . bts('Pending credits') . '</a></div>' . "\n";
+    $output .= '<div class="chart"><img src="' . $base_path . 'charts/project" /></div>' . "\n";
+    break;
+  default:
+  }
+  return $output;
+}
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Miscellaneous support functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/*
+ * Check that the stats system is configured, report if it isn't
+ */
+function boincstats_check_configuration() {
+  $project_id = variable_get('boinc_stats_remote_project_id', '');
+  if (!$project_id) {
+    watchdog('boincstats', 'The BOINC stats system is not configured. Please
+        !configure_it', array('!configure_it' => l(t('configure it now'),
+          'admin/boinc/stats')), WATCHDOG_ERROR);
+    if (user_access('administer site configuration')) {
+      drupal_set_message(t('The BOINC stats system is not configured. Please
+        !configure_it', array('!configure_it' => l(t('configure it now'),
+          'admin/boinc/stats'))), 'error', FALSE);
+    }
+    else {
+      drupal_set_message(t('There is a problem with the site. Please contact
+        the system administrator.'), 'error', FALSE);
+    }
+  }
+}

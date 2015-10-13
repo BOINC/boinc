@@ -121,6 +121,7 @@ function show_nav() {
     }
     echo "
         <li><a href=\"user_search.php\">User search</a>
+        <li><a href=ffmail_form.php>Share</a>
     ";
     if (!DISABLE_FORUMS) {
         echo "

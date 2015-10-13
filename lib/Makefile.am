@@ -29,6 +29,7 @@ libfcgi_sources = \
     msg_log.cpp \
     opencl_boinc.cpp \
     parse.cpp \
+	sched_msgs.cpp \
     shmem.cpp \
     str_util.cpp \
     synch.cpp \
@@ -61,6 +62,7 @@ generic_sources = \
     procinfo.cpp \
     proc_control.cpp \
     proxy_info.cpp \
+	sched_msgs.cpp \
     shmem.cpp \
     str_util.cpp \
     url.cpp \
@@ -150,6 +152,7 @@ pkginclude_HEADERS = \
     prefs.h \
     procinfo.h \
     proxy_info.h \
+	sched_msgs.h \
     stackwalker_imports.h \
     str_util.h \
     url.h \

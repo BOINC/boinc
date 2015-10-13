@@ -59,7 +59,7 @@ function validate() {
     page_tail();
 }
 
-if ($_GET['validate']) {
+if (get_str('validate', true)) {
     validate();
 } else {
     send_validate_email();

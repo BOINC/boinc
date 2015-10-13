@@ -129,7 +129,7 @@ int handle_trickle(MSG_FROM_HOST& msg) {
     double credit = cpu_time_to_credit(runtime, flops_sec);
     grant_credit(host, dtime()-86400, credit);
     log_messages.printf(MSG_DEBUG,
-        "granting %f credit to host %d\n", credit, host.id
+        "granting %f credit to host %lu\n", credit, host.id
     );
 
     // update the host's credit fields

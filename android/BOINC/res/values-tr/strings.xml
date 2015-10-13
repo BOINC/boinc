@@ -63,7 +63,7 @@
   <string name="attachproject_login_category_creation">Bu projede yeni misiniz:</string>
   <string name="attachproject_login_header_creation_enabled">Katılmak için bir hesap oluşturun:</string>
   <string name="attachproject_login_header_creation_client_disabled">Hesap oluşturmak için proje sitesini ziyaret edin:</string>
-  <string name="attachproject_login_header_creation_disabled">Proje şu anda yeni hesap oluşturulmasına müsaade etmiyor!</string>
+  <string name="attachproject_login_header_creation_disabled">Bu proje şu anda yeni hesapları kabul etmiyor.</string>
   <string name="attachproject_login_button_registration">Kayıt ol</string>
   <string name="attachproject_login_button_login">Giriş yap</string>
   <string name="attachproject_login_button_forgotpw">Parolamı unuttum</string>
@@ -306,7 +306,7 @@
   <string name="suspend_network_quota">BOINC, internet kullanım kotasına ulaştı.</string>
   <string name="suspend_os">Android tarafından durduruldu.</string>
   <string name="suspend_wifi">WiFi\'a bağlı değil.</string>
-  <string name="suspend_battery_charging">Hesaplamaya devam etmeden önce pilin şarj olması lazım.</string>
+  <string name="suspend_battery_charging">Pilin şarj olması bekleniyor.</string>
   <string name="suspend_battery_charging_long">Hesaplama, pil seviyesi şuna ulaştğında başlayacak:</string>
   <string name="suspend_battery_charging_long2"></string>
   <string name="suspend_battery_charging_current">şu anda</string>

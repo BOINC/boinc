@@ -23,6 +23,7 @@
 # by Charlie Fenton 2/15/10
 # Updated 11/16/11 for XCode 4.1 and OS 10.7 
 # Updated 7/12/12 for Xcode 4.3 and later which are not at a fixed address
+# Updated 4/14/15 for compatibility with Xcode 6
 #
 ## This script requires OS 10.6 or later
 #
@@ -68,10 +69,7 @@ TOOLSPATH2=${ARPATH%/ar}
 
 export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":/usr/local/bin:$PATH
 
-## There is an apparent bug in MacOSX10.8.sdk which causes our 
-## floppyio compilation to fail, so use MacOSX10.7.sdk for now
-##SDKPATH=`xcodebuild -version -sdk macosx Path`
-SDKPATH=`xcodebuild -version -sdk macosx10.7 Path`
+SDKPATH=`xcodebuild -version -sdk macosx Path`
 
 rm -fR i386 x86_64
 

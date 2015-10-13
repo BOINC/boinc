@@ -534,14 +534,15 @@ const char* boincerror(int which_error) {
         case ERR_PROC_PARSE: return "a /proc entry was not parsed correctly";
         case ERR_PIPE: return "pipe() failed";
         case ERR_NEED_HTTPS: return "HTTPS needed";
-        case 404: return "HTTP file not found";
-        case 407: return "HTTP proxy authentication failure";
-        case 416: return "HTTP range request error";
-        case 500: return "HTTP internal server error";
-        case 501: return "HTTP not implemented";
-        case 502: return "HTTP bad gateway";
-        case 503: return "HTTP service unavailable";
-        case 504: return "HTTP gateway timeout";
+        case HTTP_STATUS_NOT_FOUND: return "HTTP file not found";
+        case HTTP_STATUS_PROXY_AUTH_REQ: return "HTTP proxy authentication failure";
+        case HTTP_STATUS_RANGE_REQUEST_ERROR: return "HTTP range request error";
+        case HTTP_STATUS_EXPECTATION_FAILED: return "HTTP expectation failed";
+        case HTTP_STATUS_INTERNAL_SERVER_ERROR: return "HTTP internal server error";
+        case HTTP_STATUS_NOT_IMPLEMENTED: return "HTTP not implemented";
+        case HTTP_STATUS_BAD_GATEWAY: return "HTTP bad gateway";
+        case HTTP_STATUS_SERVICE_UNAVAILABLE: return "HTTP service unavailable";
+        case HTTP_STATUS_GATEWAY_TIMEOUT: return "HTTP gateway timeout";
     }
     static char buf[128];
     sprintf(buf, "Error %d", which_error);

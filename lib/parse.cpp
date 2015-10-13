@@ -661,6 +661,41 @@ bool XML_PARSER::parse_int(const char* start_tag, int& i) {
     return true;
 }
 
+// Same, for long
+//
+bool XML_PARSER::parse_long(const char* start_tag, long& i) {
+    char buf[256], *end;
+    bool eof;
+    char end_tag[TAG_BUF_LEN], tag[TAG_BUF_LEN];
+
+    if (strcmp(parsed_tag, start_tag)) return false;
+
+    end_tag[0] = '/';
+    strcpy(end_tag+1, start_tag);
+
+    eof = get(buf, sizeof(buf), is_tag);
+    if (eof) return false;
+    if (is_tag) {
+        if (!strcmp(buf, end_tag)) {
+            i = 0;      // treat <foo></foo> as <foo>0</foo>
+            return true;
+        } else {
+            return false;
+        }
+    }
+    errno = 0;
+    long val = strtol(buf, &end, 0);
+    if (errno) return false;
+    if (end != buf+strlen(buf)) return false;
+
+    eof = get(tag, sizeof(tag), is_tag);
+    if (eof) return false;
+    if (!is_tag) return false;
+    if (strcmp(tag, end_tag)) return false;
+    i = val;
+    return true;
+}
+
 // Same, for doubles
 //
 bool XML_PARSER::parse_double(const char* start_tag, double& x) {

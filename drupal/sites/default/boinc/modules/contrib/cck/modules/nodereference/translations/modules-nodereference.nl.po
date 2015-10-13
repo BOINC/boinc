@@ -1,0 +1,193 @@
+# $Id$
+#
+# Dutch translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  nodereference.rules.inc,v 1.1.2.2 2008/10/06 15:02:03 karens
+#  nodereference.module,v 1.138.2.50 2009/03/18 21:00:58 yched
+#  nodereference.info,v 1.8 2008/04/23 18:02:07 dww
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-06-03 14:25+0200\n"
+"PO-Revision-Date: 2009-06-03 14:25+0200\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Dutch <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: nodereference.rules.inc:15
+msgid "Load a referenced node"
+msgstr "Laad een gerefereerde node"
+
+#: nodereference.rules.inc:19
+msgid "Content containing the node reference field"
+msgstr "Inhoud met het nodereferentieveld"
+
+#: nodereference.rules.inc:25
+msgid "Referenced content"
+msgstr "Gerefereerde inhoud"
+
+#: nodereference.rules.inc:29
+msgid "Note that if the field has multiple values, only the first content node will be loaded."
+msgstr ""
+"Merk op dat als het veld meerdere waardes heeft, alleen de eerste "
+"inhoudnode zal worden geladen."
+
+#: nodereference.rules.inc:45
+msgid "Field"
+msgstr "Veld"
+
+#: nodereference.rules.inc:50
+msgid "There are no nodereference fields defined."
+msgstr "Er zijn geen nodereferentie velden."
+
+#: nodereference.module:60
+msgid "Node reference"
+msgstr "Nodereferentie"
+
+#: nodereference.module:61
+msgid "Store the ID of a related node as an integer value."
+msgstr "Bewaar de ID van een gerelateerde node als een integer-waarde."
+
+#: nodereference.module:75
+msgid "Content types that can be referenced"
+msgstr "Inhoudstypes waarnaar een referentie geplaatst kan worden"
+
+#: nodereference.module:87
+msgid "Default Views"
+msgstr "Standaard views"
+
+#: nodereference.module:90
+msgid "Existing Views"
+msgstr "Bestaande Views"
+
+#: nodereference.module:97
+msgid "Advanced - Nodes that can be referenced (View)"
+msgstr "Geavanceerd - Nodes die kunnen worden gerefereerd (View)"
+
+#: nodereference.module:104
+msgid "View used to select the nodes"
+msgstr "View die gebruikt wordt voor het selecteren van nodes"
+
+#: nodereference.module:107
+msgid "<p>Choose the \"Views module\" view that selects the nodes that can be referenced.<br />Note:</p>"
+msgstr ""
+"<p>Kies de \"Views module\"-view die selecteert welke nodes kunnen "
+"worden gerefereerd.<br />Merk op:</p>"
+
+#: nodereference.module:108;121
+msgid "<ul><li>Only views that have fields will work for this purpose.</li><li>This will discard the \"Content types\" settings above. Use the view's \"filters\" section instead.</li><li>Use the view's \"fields\" section to display additional informations about candidate nodes on node creation/edition form.</li><li>Use the view's \"sort criteria\" section to determine the order in which candidate nodes will be displayed.</li></ul>"
+msgstr ""
+"<ul><li>Alleen Views met velden zullen werken voor dit "
+"doel.</li><li>Dit zal de  \"Inhoudstypes-\"-instellingen boven "
+"negeren. Gebruik anders de view z'n \"filters\" "
+"sectie.</li><li>Gebruik de view z'n \"velden\"-sectie om extra "
+"informatie over gebruikers op het bewerkformulier weer te "
+"geven.</li><li>Gebruik de view z'n \"sorteercriteria\"-sectie om de "
+"volgorde te bepalen waarin gebruikers worden weergegeven.</li></ul>"
+
+#: nodereference.module:112
+msgid "View arguments"
+msgstr "Bekijk argumenten"
+
+#: nodereference.module:115
+msgid "Provide a comma separated list of arguments to pass to the view."
+msgstr ""
+"Geef een door komma's gescheiden lijst met argumenten op om naar de "
+"view te sturen."
+
+#: nodereference.module:120
+msgid "<p>The list of nodes that can be referenced can be based on a \"Views module\" view but no appropriate views were found. <br />Note:</p>"
+msgstr ""
+"<p>De lijst met nodes die kunnen worden gerefereerd, gebaseerd op een  "
+"\"Views module\"-view, maar geen passende views gevonden. <br />Merk "
+"op:</p>"
+
+#: nodereference.module:205
+msgid "%name: invalid input."
+msgstr "%name: geen toegestane waarde."
+
+#: nodereference.module:217
+msgid "%name: this post can't be referenced."
+msgstr "%name: dit bericht kan niet worden gerefereerd."
+
+#: nodereference.module:242
+msgid "Title (link)"
+msgstr "Titel (link)"
+
+#: nodereference.module:247
+msgid "Title (no link)"
+msgstr "Titel (geen link)"
+
+#: nodereference.module:252
+msgid "Full node"
+msgstr "Volledige node"
+
+#: nodereference.module:257
+msgid "Teaser"
+msgstr "Voorbeeldweergave"
+
+#: nodereference.module:347
+msgid "Select list"
+msgstr "Selectielijst"
+
+#: nodereference.module:355
+msgid "Check boxes/radio buttons"
+msgstr "Vinkje/radio buttons"
+
+#: nodereference.module:363
+msgid "Autocomplete text field"
+msgstr "Automatisch aanvullend tekstveld"
+
+#: nodereference.module:417
+msgid "Autocomplete matching"
+msgstr "Automatisch aanvullende overeenkomst"
+
+#: nodereference.module:420
+msgid "Starts with"
+msgstr "Begint met"
+
+#: nodereference.module:421
+msgid "Contains"
+msgstr "Bevat"
+
+#: nodereference.module:423
+msgid "Select the method used to collect autocomplete suggestions. Note that <em>Contains</em> can cause performance issues on sites with thousands of nodes."
+msgstr ""
+"Selecteer de methode die wordt gebruikt om automatisch aangevulde "
+"suggesties te geven. Merk op <em>Bevat</em> prestatieproblemen kan "
+"veroorzaken op sites met vele duizenden gebruikers."
+
+#: nodereference.module:671
+msgid "%name: title mismatch. Please check your selection."
+msgstr "%name: titel niet gevonden. Controleer je selectie."
+
+#: nodereference.module:678
+msgid "%name: found no valid post with that title."
+msgstr "%name: geen bericht gevonden met die titel."
+
+#: nodereference.module:15
+msgid "Nodereference autocomplete"
+msgstr "Nodereferentie automatisch aanvullen"
+
+#: nodereference.module:0
+msgid "nodereference"
+msgstr "nodereferentie"
+
+#: nodereference.info:0
+msgid "Node Reference"
+msgstr "Nodereferentie"
+
+#: nodereference.info:0
+msgid "Defines a field type for referencing one node from another."
+msgstr "Levert een veldtype for het refereren van een node naar een ander."
+
+#: nodereference.info:0
+msgid "CCK"
+msgstr "CCK"
+

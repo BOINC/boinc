@@ -18,6 +18,7 @@
 
 // the following sites generate stats for a given CPID
 //
+global $cpid_stats_sites;
 $cpid_stats_sites = array(
     array("Free-DC",
         "http://stats.free-dc.org/stats.php?page=userbycpid&amp;cpid=%s"
@@ -35,7 +36,7 @@ $cpid_stats_sites = array(
         "http://boinc.netsoft-online.com/e107_plugins/boinc/get_user.php?cpid=%s&amp;html=1"
     ),
     array("The Knights Who Say 'Ni!'",
-        "http://stats.kwsn.net/user.php?proj=all&amp;cpid=%s"
+        "http://stats.kwsn.info/user.php?proj=all&amp;cpid=%s"
     ),
 );
 
@@ -81,7 +82,7 @@ $stats_sites = array(
         "SETI@Netherlands stats page",
         ""
     ),
-    array("http://stats.kwsn.net/",
+    array("http://stats.kwsn.info/",
         "The Knights Who Say 'Ni' stats",
         ""
     ),
@@ -168,6 +169,7 @@ $team_name_sites = array(
     ),
 );
 
+global $host_sites;
 $host_sites = array(
     array(
         "http://boincstats.com/en/stats/-1/host/detail/",

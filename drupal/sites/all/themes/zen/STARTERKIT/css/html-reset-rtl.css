@@ -1,0 +1,37 @@
+/**
+ * @file
+ * RTL companion for the html-reset.css file.
+ */
+
+
+/*
+ * Lists
+ *
+ * We need to standardize the list item indentation.
+ */
+ul,
+ol {
+  padding-left: 0;
+  padding-right: 2em;
+}
+
+.block ul,
+.item-list ul /* Drupal overrides */ {
+  padding: 0 2em 0 0;
+}
+
+dd {
+  margin: 0 2em 0 0;
+}
+
+/*
+ * Tables
+ *
+ * Drupal provides table styling which is only useful for its admin section
+ * forms, so we override this default CSS. (We set it back in forms.css.)
+ */
+th,
+thead th,
+tbody th {
+  text-align: right;
+}

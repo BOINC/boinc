@@ -1,0 +1,1746 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Enables BOINC user functionality.
+ *
+ * Integrates user data and features of the existing
+ * BOINC platorm with the Drupal concept of a user.
+ */
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Includes that provide supporting functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+require_once('includes/boincuser.forms.inc');
+require_once('includes/boincuser.helpers.inc');
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Hooks into core modules
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+ 
+/**
+ * Implementation of hook_menu(); determine the actions that correspond
+ * with defined URL paths
+ */
+function boincuser_menu() {
+  $items['account/posts'] = array(
+    'title' => 'Recent posts',
+    'description' => '',
+    'page callback' => 'boincuser_goto_recent_posts',
+    'access callback' => 'user_is_logged_in',
+    'type' => MENU_CALLBACK,
+  );
+  $items['account/profile'] = array(
+    'title' => '',
+    'description' => '',
+    'page callback' => 'boincuser_view_profile',
+    'access arguments' => array('access content'),
+    'type' => MENU_NORMAL_ITEM
+  );
+  $items['account/profile/view'] = array(
+    'title' => 'View',
+    'description' => 'Show a user profile',
+    'page callback' => 'boincuser_view_profile',
+    'access arguments' => array('access content'),
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => 0
+  );
+  $items['account/profile/edit'] = array(
+    'title' => 'Edit',
+    'description' => 'Edit a user profile',
+    'page callback' => 'boincuser_edit_profile',
+    'access arguments' => array('access content'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 5
+  );
+  $items['account/team'] = array(
+    'title' => 'User team',
+    'description' => '',
+    'page callback' => 'boincuser_goto_team',
+    'access callback' => 'user_is_logged_in',
+    'type' => MENU_CALLBACK,
+  );
+  $items['moderate/profile/%user/approve'] = array(
+    'title' => 'Profile approval',
+    'description' => 'Approve profile content',
+    'page callback' => 'boincuser_moderate_profile_approve',
+    'page arguments' => array(2),
+    'access arguments' => array('edit any profile content'),
+    'type' => MENU_CALLBACK,
+    'weight' => 5
+  );
+  $items['moderate/profile/%user/edit'] = array(
+    'title' => 'Profile editor',
+    'description' => 'Edit a user profile',
+    'page callback' => 'boincuser_edit_profile',
+    'page arguments' => array(2),
+    'access arguments' => array('edit any profile content'),
+    'type' => MENU_CALLBACK,
+    'weight' => 5
+  );
+  $items['moderate/profile/%/reject'] = array(
+    'title' => bts('Reject profile'),
+    'description' => 'Reject profile content',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boincuser_moderate_profile_reject_form', 2),
+    'access arguments' => array('edit any profile content'),
+    'type' => MENU_CALLBACK,
+    'weight' => 5
+  );
+  $items['moderate/user/%/ban'] = array(
+    'title' => bts('Ban user'),
+    'description' => 'Ban a user from using community features',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boincuser_moderate_user_ban_form', 2),
+    'access callback' => 'boincuser_moderate_community_access',
+    'type' => MENU_CALLBACK,
+  );
+  $items['join'] = array(
+    'title' => '',
+    'description' => '',
+    'page callback' => 'join_page',
+    'access arguments' => array('access content'),
+    'type' => MENU_NORMAL_ITEM
+  );
+  $items['join/new'] = array(
+    'title' => bts("I'm new"),
+    'page callback' => 'join_page',
+    'page arguments' => array(1),
+    'access arguments' => array('access content'),
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => 0
+  );
+  $items['join/boinc'] = array(
+    'title' => bts("I'm a BOINC user"),
+    'page callback' => 'join_page',
+    'page arguments' => array(1),
+    'access arguments' => array('access content'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 5
+  );
+  $items['user/login/auth'] = array(
+    'title' => bts('Authenticator login'),
+    'description' => 'Log in using a user authenticator',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boincuser_authloginform'),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['user_control'] = array(
+    'page callback' => 'boincuser_control',
+    'access arguments' => array('access user profiles'),
+    'type' => MENU_CALLBACK
+  );
+  $items['admin/boinc'] = array(
+    'title' => 'BOINC configuration',
+    'position' => 'right',
+    'weight' => -8,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer site configuration'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+  $items['admin/boinc/environment'] = array(
+    'title' => 'Environment: General',
+    'description' => 'Set paths to BOINC functions and any other necessary
+      variables that establish a BOINC environment.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boincuser_admin_environment'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'boincuser.admin.inc'
+  );
+  $items['admin/boinc/scheduler'] = array(
+    'title' => 'Environment: Scheduling server URLs',
+    'description' => 'Set BOINC scheduler options.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boincuser_admin_scheduler'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'boincuser.admin.inc'
+  );
+  
+  $items['create_account.php'] = array(
+    'title' => 'Create Account RPC',
+    'description' => 'RPC for creating user accounts.',
+    'page callback' => 'boincuser_create_account',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
+  );
+  return $items;
+}
+
+/**
+ *
+ */
+function boincuser_init() {
+  // Skip this check for charts, which are loaded separately
+  // (may get duplicate or unexpected messages otherwise)
+  if (substr($_GET['q'], 0, 7) == 'charts/') {
+    return;
+  }
+
+  // If admin user, do some basic site functionality checks
+  if (user_access('administer site configuration')) {
+    // Ensure we have a configured BOINC environment
+    boinc_get_path();
+    boinc_get_scheduler_tags();
+  }
+  
+  // Check credits for the verified contributor role
+  boincuser_check_credit_requirements();
+  
+  if (module_exists('boincteam')) {
+    // Display any persistent team messages
+    boincteam_show_messages();
+  }
+}
+
+/**
+ * Implementation of hook_user(); add custom actions to standard
+ * Drupal user operations
+ */
+function boincuser_user($op, &$edit, &$account, $category = NULL) {
+  switch($op) {
+  case 'load':
+    // User loading; insert BOINC data into the user object
+    $drupal_user = db_fetch_object(db_query("
+      SELECT boinc_id, penalty_expiration
+      FROM {boincuser} WHERE uid = %d",
+      $account->uid
+    ));
+    $account->boincuser_id = $drupal_user->boinc_id;
+    $account->boincuser_penalty_expiration = $drupal_user->penalty_expiration;
+    db_set_active('boinc');
+    $boinc_user = db_fetch_object(db_query("
+      SELECT
+        name,
+        authenticator,
+        passwd_hash,
+        total_credit, 
+        expavg_credit,
+        expavg_time,
+        cross_project_id,
+        teamid,
+        venue
+      FROM {user}
+      WHERE id = %d",
+      $account->boincuser_id
+    ));
+    $account->boincuser_name = $boinc_user->name;
+    $account->boincuser_account_key = $boinc_user->authenticator;
+    $account->boincuser_weak_auth = md5($boinc_user->authenticator . $boinc_user->passwd_hash);
+    $account->boincuser_total_credit = round($boinc_user->total_credit);
+    $account->boincuser_expavg_credit = round($boinc_user->expavg_credit);
+    $account->boincuser_expavg_time = round($boinc_user->expavg_time);
+    $account->boincuser_cpid = md5($boinc_user->cross_project_id . $account->mail);
+    $account->boincuser_default_pref_set = $boinc_user->venue;
+    $account->boincteam_id = $boinc_user->teamid;
+    db_set_active('default');
+    // Set Drupal team ID
+    $account->team = NULL;
+    if ($account->boincteam_id) {
+      $account->team = db_result(db_query("
+        SELECT nid FROM {boincteam} WHERE team_id = %d",
+        $account->boincteam_id
+      ));
+    }
+    // Set post count
+    $account->post_count = db_result(db_query("
+      SELECT COUNT(*) +
+      (
+        SELECT COUNT(*) FROM {node}
+        WHERE uid = '%d'
+        AND type IN('page','story','forum','news')
+        AND status = 1
+      ) AS total_posts
+      FROM {comments}
+      INNER JOIN node ON comments.nid = node.nid
+      WHERE comments.uid = '%d'
+      AND node.status = 1",
+      $account->uid, $account->uid
+    ));
+    break;
+    
+  case 'view':
+    // SAMPLE: Add BOINC data to the user profile
+    /*$account->content['summary']['boinc_id'] = array(
+      '#type' => 'user_profile_item',
+      '#title' => bts('BIONC ID'),
+      '#value' => $account->boincuser_id,
+      '#attributes' => array('class' => 'boinc-data'),
+      '#weight' => 10
+    );
+    $account->content['summary']['total_credit'] = array(
+      '#type' => 'user_profile_item',
+      '#title' => bts('Total Credit'),
+      '#value' => $account->boincuser_total_credit,
+      '#attributes' => array('class' => 'boinc-data'),
+      '#weight' => 10
+    );*/
+    break;
+    
+  case 'validate':
+    if (isset($edit['validation_source'])) {
+      switch ($edit['validation_source']) {
+      case 'user_register':
+        // Information being checked before adding a user
+        if (!boincuser_register_validate($edit)) {
+          // BOINC user validation failed for registration; set an error accordingly
+          form_set_error('mail', bts('An account already exists for @email. Log in or request password assistance to access your @project account.', array('@email' => $edit['mail'], '@project' => PROJECT)));
+        }
+        else {
+          // Save profile information for use during Insert
+          $_SESSION['profileInfo'] = array(
+            'country' => $edit['field_country'][0]['value'],
+            'zip' => $edit['field_zip'][0]['value'],                  
+            'url' => $edit['field_url'][0]['value'],
+            'background' => $edit['field_background'][0]['value'],
+            'opinions' => $edit['field_opinions'][0]['value']
+          );
+          // With BOINC validation passed, make sure name is unique
+          $edit['name'] = find_unique_name($edit['boincuser_name']);
+        }
+        break;
+        
+      case 'user_account':
+        // Validate data before updating user account info
+        boincuser_account_validate($edit, $account);
+        break;
+      
+      default:
+        
+      }
+      // We don't want to save validation source, so remove it
+      $edit['validation_source'] = null;
+    }
+    break;
+    
+  case 'insert':
+    // New user being added to the system
+    $profile_info = $_SESSION['profileInfo'];
+    $imported = $_SESSION['importedUser'];
+    unset($_SESSION['profileInfo']);
+    unset($_SESSION['importedUser']);
+    
+    if ($profile_info and !$imported) {
+      // Create a BOINC account unless importing from BOINC
+      $user_params = array(
+        'email_addr' => $edit['mail'],
+        'name' => $edit['boincuser_name'],
+        'passwd_hash' => md5($edit['pass'].$edit['mail']),
+        'country' => $profile_info['country'],
+        'postal_code' => $profile_info['zip']
+      );
+      $boinc_user = boincuser_register_make_user($user_params);
+      if (!$boinc_user) {
+        // Account exists with this email addr
+        form_set_error('email', bts('Error creating BOINC account.'));
+        return;
+      }
+      // Add user to community role by default (not banned)
+      $unrestricted_role = array_search('community member', user_roles(true)); 
+      $edit['roles'] = array(
+        $unrestricted_role => ''
+      );
+      // Set profile data in BOINC db
+      db_set_active('boinc');
+      // TODO: add language, image support; error handling
+      $reference = db_query("INSERT INTO {profile} SET userid='%d', response1='%s', response2='%s', verification=0", $boinc_user->id, $profile_info['background'], $profile_info['opinions']);
+      if (!$reference) {
+        drupal_set_message(t('Error creating BOINC profile.'), 'error');
+      }
+      $reference = db_query("UPDATE {user} SET url='%s' WHERE id='%d'", $profile_info['url'], $boinc_user->id);
+      if (!$reference) {
+        drupal_set_message(t('Error updating BOINC account.'), 'error');
+      }
+      db_set_active('default');
+      // Cross reference Drupal account with BOINC
+      $reference = db_query("INSERT INTO {boincuser} SET uid='%d', boinc_id='%d'", $account->uid, $boinc_user->id);
+      if (!$reference) {
+        drupal_set_message(t('Error connecting BOINC account.'), 'error');
+        return;
+      }
+      // Don't save custom fields to the Drupal user object
+      $edit['boincuser_name'] = null;
+    }
+    break;
+    
+  case 'update':
+    if (isset($edit['update_source'])) {
+      require_boinc('boinc_db');
+      $boinc_user = BoincUser::lookup_id($account->boincuser_id);
+      switch ($edit['update_source']) {
+      case 'user_account':
+        // Ensure that BOINC data is altered
+        $boinc_user = BoincUser::lookup_id($account->boincuser_id);
+        $changing_email = ($edit['mail'] AND $edit['mail'] != $boinc_user->email_addr) ? true : false;
+        $changing_pass = ($edit['pass']) ? true : false;
+        if ($changing_email OR $changing_pass) {
+          // Set password hash appropriately
+          $passwd = ($edit['pass']) ? $edit['pass'] : $edit['current_pass'];
+          $passwd_hash = md5($passwd.$edit['mail']);
+          $email_addr = $edit['mail'];
+          // Update user account information
+          $result = $boinc_user->update(
+              "email_addr='{$email_addr}', passwd_hash='{$passwd_hash}'"
+          );
+        }
+        break;
+      case 'user_profile':
+        if ($edit['boincuser_name'] != $boinc_user->name) {
+          $boincuser_name = $edit['boincuser_name'];
+          $result = $boinc_user->update(
+              "name='{$boincuser_name}'"
+          );
+        }
+        break;
+      default:
+      }
+      // We don't want to save update source or duplicate custom fields, so
+      // remove them before continuing to core Drupal routines
+      $edit['update_source'] = null;
+      $edit['boincuser_name'] = null;
+    }
+    break;
+    
+  default:
+    
+  }
+}
+
+/**
+ * Implementation of hook_nodeapi(); add custom actions to node operations
+ * Obsolete in Drupal 7...
+ */
+function boincuser_nodeapi(&$node, $op, $a3 = null, $a4 = null) {
+  // In Drupal 7, these operation cases will all exist as their own hooks,
+  // so let's approximate that here so that this function can simply be removed
+  // upon migration to 7
+  switch($op) {
+  case 'update':
+    boincuser_node_update($node);
+  }
+}
+
+/**
+ * Implementation of hook_node_update(); add custom actions when a node
+ * is updated (forward compatible to Drupal 7)
+ */
+function boincuser_node_update($node) {
+  switch($node->type) {
+  case 'profile':
+    // Update the BOINC database directly
+    $account = user_load($node->uid);
+    // Save user account data
+    $country = $node->field_country[0]['value'];
+    $postal_code = $node->field_zip[0]['value'];
+    $url = $node->field_url[0]['value'];
+    db_set_active('boinc');
+    $account_updated = db_query("
+      UPDATE user
+      SET country = '%s', postal_code = '%s', url = '%s', has_profile = 1
+      WHERE id = %d",
+      $country, $postal_code, $url, $account->boincuser_id
+    );
+    db_set_active('default');
+    if (!$account_updated) {
+      drupal_set_message(t('Error saving BOINC account info.'), 'error');
+    }
+    // Save profile data
+    $response1 = $node->field_background[0]['value'];
+    $response2 = $node->field_opinions[0]['value'];
+    db_set_active('boinc');
+    $profile_updated = db_query("
+      INSERT INTO profile
+      SET userid = %d, response1 = '%s', response2 = '%s'
+      ON DUPLICATE KEY UPDATE
+        response1 = '%s', response2 = '%s'",
+      $account->boincuser_id, $response1, $response2,
+      $response1, $response2
+    );
+    db_set_active('default');
+    if (!$profile_updated) {
+      drupal_set_message(t('Error saving BOINC profile.'), 'error');
+    }
+    break;
+    
+  default:
+    
+  }
+}
+
+/**
+* Implementation of hook_views_api()
+*/
+function boincuser_views_api() {
+  return array(
+    'api' => 2.0,
+    'path' => drupal_get_path('module', 'boincuser')
+  );
+}
+
+/**
+* Implementation of hook_form_alter()
+*/
+function boincuser_form_alter(&$form, $form_state, $form_id) {
+  global $user;
+  switch ($form_id) {
+  case 'flag_confirm':
+    // The URL seems to be the only way to put any kind of context to this
+    // request!
+    $action = arg(2);
+    $flag_type = arg(3);
+    $cancel_dest = isset($_REQUEST['destination']) ? $_REQUEST['destination'] : '';
+    
+    // Wrap action buttons for styling consistency
+    $form['form control tabs prefix'] = array(
+      '#value' => '<ul class="form-control tab-list">',
+      '#weight' => 1001,
+    );
+    
+    switch ($flag_type) {
+    case 'friend':
+      $friend_id = $form['content_id']['#value'];
+      $flag = flag_get_flag('friend');
+      $friend_status = flag_friend_determine_friend_status($flag, $friend_id, $user->uid);
+      
+      // General friend form overrides
+      $form['flag_friend_submit']['#prefix'] = '<li class="first tab">';
+      $form['flag_friend_submit']['#value'] = bts('Send request');
+      $form['flag_friend_submit']['#type'] = 'submit';
+      $form['flag_friend_submit']['#suffix'] = '</li>';
+      $form['flag_friend_submit']['#weight'] = 1002;
+      
+      switch ($friend_status) {
+      case FLAG_FRIEND_BOTH:
+      case FLAG_FRIEND_FLAGGED:
+        unset($form['actions']);
+        $form['flag_friend_submit']['#value'] = bts('Remove friend');
+        // Add in our hack handler to fix the flag_friend module
+        $final_handler = array_pop($form['#submit']);
+        $form['#submit'][] = 'boincuser_fix_unfriend_form_submit';
+        $form['#submit'][] = $final_handler;
+        break;
+      case FLAG_FRIEND_PENDING:
+        unset($form['actions']);
+        $form['flag_friend_submit']['#value'] = bts('Remove request');
+        break;
+      case FLAG_FRIEND_APPROVAL:
+        if ($action == 'flag') {
+          $form['flag_friend_submit']['#value'] = bts('Approve request');
+        }
+        elseif ($action == 'unflag') {
+          unset($form['actions']);
+          $form['flag_friend_submit']['#value'] = bts('Deny request');
+        }
+        break;
+      case FLAG_FRIEND_UNFLAGGED:
+      default:
+        $user_links[] = array(
+          'title' => bts('Add as friend'),
+          'href' => "flag/confirm/flag/friend/{$account->uid}"
+        );
+      }
+      break;
+      
+    default:
+    }
+    
+    $form['cancel'] = array(
+      '#value' => '<li class="tab">' . l(bts('Cancel'), $cancel_dest) . '</li>',
+      '#weight' => 1004,
+    );
+    $form['form control tabs suffix'] = array(
+      '#value' => '</ul>',
+      '#weight' => 1010,
+    );
+    
+    break;
+    
+  // General node edit form
+  case 'news_node_form':
+    $form['separator_bottom'] = array(
+      '#value' => '<div class="separator buttons"></div>',
+      '#weight' => 999,
+    );
+    
+    // Wrap action buttons for styling consistency
+    $form['buttons']['form control tabs prefix'] = array(
+      '#value' => '<ul class="form-control tab-list">',
+      '#weight' => 1001,
+    );
+    $form['buttons']['submit']['#prefix'] = '<li class="first tab">';
+    $form['buttons']['submit']['#value'] = bts('Save changes');
+    $form['buttons']['submit']['#suffix'] = '</li>';
+    $form['buttons']['submit']['#weight'] = 1002;
+    $form['buttons']['preview']['#prefix'] = '<li class="tab">';
+    $form['buttons']['preview']['#suffix'] = '</li>';
+    $form['buttons']['preview']['#weight'] = 1003;
+    $form['buttons']['preview_changes']['#prefix'] = '<li class="tab">';
+    $form['buttons']['preview_changes']['#suffix'] = '</li>';
+    $form['buttons']['preview_changes']['#weight'] = 1004;
+    $form['buttons']['cancel'] = array(
+      '#value' => '<li class="tab">' . l(bts('Cancel'), "node/{$form['nid']['#value']}") . '</li>',
+      '#weight' => 1005,
+    );
+    $form['buttons']['delete']['#prefix'] = '<li class="tab">';
+    $form['buttons']['delete']['#suffix'] = '</li>';
+    $form['buttons']['delete']['#weight'] = 1006;
+    $form['buttons']['form control tabs suffix'] = array(
+      '#value' => '</ul>',
+      '#weight' => 1010,
+    );
+    
+    // Preview is ugly, unset until it works
+    unset($form['buttons']['preview']);
+
+    break;
+  
+  case 'node_delete_confirm':
+    $form['separator_bottom'] = array(
+      '#value' => '<div class="separator buttons"></div>',
+      '#weight' => 999,
+    );
+    
+    // Wrap action buttons for styling consistency
+    $form['actions']['form control tabs prefix'] = array(
+      '#value' => '<ul class="form-control tab-list">',
+      '#weight' => 1001,
+    );
+    $form['actions']['submit']['#prefix'] = '<li class="first tab">';
+    $form['actions']['submit']['#value'] = bts('Delete');
+    $form['actions']['submit']['#suffix'] = '</li>';
+    $form['actions']['submit']['#weight'] = 1002;
+    $form['actions']['cancel'] = array(
+      '#value' => '<li class="tab">' . l(bts('Cancel'), "node/{$form['nid']['#value']}") . '</li>',
+      '#weight' => 1005,
+    );
+    $form['actions']['form control tabs suffix'] = array(
+      '#value' => '</ul>',
+      '#weight' => 1010,
+    );
+    $form['#redirect'] = 'account/profile';
+    break;
+    
+  case 'privatemsg_new':
+    
+    $form['privatemsg']['body']['#title'] = '';
+    
+    // Wrap action buttons for styling consistency
+    $form['privatemsg']['form control tabs prefix'] = array(
+      '#value' => '<ul class="form-control tab-list">',
+      '#weight' => 1001,
+    );
+    $form['privatemsg']['submit']['#prefix'] = '<li class="first tab">';
+    $form['privatemsg']['submit']['#value'] = bts('Send message');
+    $form['privatemsg']['submit']['#suffix'] = '</li>';
+    $form['privatemsg']['submit']['#weight'] = 1002;
+    $form['privatemsg']['preview']['#prefix'] = '<li class="tab">';
+    $form['privatemsg']['preview']['#suffix'] = '</li>';
+    $form['privatemsg']['preview']['#weight'] = 1003;
+    $form['privatemsg']['cancel'] = array(
+      '#value' => '<li class="tab">' . l(bts('Cancel'), $_GET['q']) . '</li>',
+      '#weight' => 1004,
+    );
+    $form['privatemsg']['form control tabs suffix'] = array(
+      '#value' => '</ul>',
+      '#weight' => 1010,
+    );
+    
+    unset($form['privatemsg']['recipient_display']);
+    
+    break;
+    
+  // Login form
+  case 'user_login':
+  case 'user_login_block':
+    drupal_set_title(bts('Login'));
+    // Replace name with email in login form
+    unset($form['name']);
+    array_unshift($form, array(
+      'email' => array(
+        '#type' => 'textfield',
+        '#title' => bts('Email address'),
+        '#size' => ($form_id == 'user_login_block') ? 15 : 60,
+        '#maxlength' => EMAIL_MAX_LENGTH,
+        '#required' => TRUE,
+        '#attributes' => array('tabindex' => '1'),
+        '#description' => bts('Enter your @s email address.', array('@s' => variable_get('site_name', 'BOINC')))
+      ),
+      'validation_source' => array(
+        '#type' => 'hidden',
+        '#value' => 'user_login'
+      )
+    ));
+    $form['#redirect'] = 'home';
+    
+    // Wrap action buttons for styling consistency
+    $form['buttons']['form control tabs prefix'] = array(
+      '#value' => '<ul class="form-control tab-list">',
+      '#weight' => 1001,
+    );
+    $form['buttons']['submit'] = $form['submit'];
+    $form['buttons']['submit']['#prefix'] = '<li class="first tab">';
+    $form['buttons']['submit']['#value'] = bts('Log in');
+    $form['buttons']['submit']['#suffix'] = '</li>';
+    $form['buttons']['submit']['#weight'] = 1002;
+    $form['buttons']['form control tabs suffix'] = array(
+      '#value' => '</ul>',
+      '#weight' => 1010,
+    );
+    unset($form['submit']);
+    
+    // Set the tab indices to follow a logical procession...
+    isset($form['pass']['#attributes']) ? array_push($form['pass']['#attributes'], array('tabindex' => '2')) : $form['pass']['#attributes'] = array('tabindex' => '2');
+    isset($form['buttons']['submit']['#attributes']) ? array_push($form['buttons']['submit']['#attributes'], array('tabindex' => '3')) : $form['buttons']['submit']['#attributes'] = array('tabindex' => '3');
+    // If the user login form is being submitted, use BOINC validation handler.
+    if (isset($form_state['post']['email']) and isset($form_state['post']['pass'])) {
+      // Find the local validation function's entry so we can replace it.
+      $array_key = array_search('user_login_authenticate_validate', $form['#validate']);
+      if ($array_key === FALSE) {
+        // Could not find it. Some other module must have run form_alter().
+        // We will simply add our validation just before the final validator.
+        $final_validator = array_pop($form['#validate']);
+        $form['#validate'][] = 'boincuser_login_validate';
+        $form['#validate'][] = $final_validator;
+      } else {
+        // Replace the local validation function with BOINC validation
+        $form['#validate'][$array_key] = 'boincuser_login_validate';
+      }
+    }
+    break;
+    
+  // User credentials form
+  case 'user_profile_form':
+    
+    // Use the displaly name as the title, not the username
+    $account = user_load($form['#uid']);
+    drupal_set_title($account->boincuser_name);
+    
+    // A bit hackish... but don't require the user to enter his password if
+    // coming from the password reset function
+    $reset_pass = (strpos($_SERVER['HTTP_REFERER'], "/user/reset/{$form['#uid']}") === FALSE) ? 0 : 1;
+    if ($reset_pass) {
+      $_SESSION['reset_pass'] = 1;
+    }
+    
+    $form['account']['name']['#size'] = 40;
+    $form['account']['mail']['#size'] = 40;
+    $form['account']['pass']['#size'] = 17;
+    
+    if (!$reset_pass AND ($user->uid == $account->uid OR !user_access('administer users'))) {
+      // Add a password authenticator, required to change email or pw
+      $form['account']['current_pass'] = array(
+        '#type' => 'password',
+        '#title' => bts('Enter your password to save changes'),
+        '#description' => bts('Enter your current password if changing your email
+          address or password.'),
+        '#size' => 17
+      );
+    }
+    
+    // Add account keys, CPID, etc
+    $form['account']['boincuser_id'] = array(
+      '#value' => '
+        <div class="form-item">
+          <label>' . bts('BOINC user ID') . '</label>
+          <span>' . $account->boincuser_id . '</span>
+        </div>',
+    );
+    $form['account']['user_id'] = array(
+      '#value' => '
+        <div class="form-item">
+          <label>' . bts('Drupal user ID') . '</label>
+          <span>' . $account->uid . '</span>
+        </div>',
+    );
+    $form['account']['account_key'] = array(
+      '#value' => '
+        <div class="form-item">
+          <label>' . bts('Account key') . '</label>
+          <span>' . $account->boincuser_account_key . '</span>
+        </div>',
+    );
+    $form['account']['weak_account_key'] = array(
+      '#value' => '
+        <div class="form-item">
+          <label>' . bts('Weak account key') . '</label>
+          <span>' . $account->boincuser_weak_auth . '</span>
+        </div>',
+    );
+    $form['account']['cpid'] = array(
+      '#value' => '
+        <div class="form-item">
+          <label>' . bts('Cross-project ID') . '</label>
+          <span>' . $account->boincuser_cpid . '</span>
+        </div>',
+    );
+    
+    $form['account']['separator_bottom'] = array(
+      '#value' => '<div class="separator buttons"></div>'
+    );
+    
+    // Wrap action buttons for styling consistency
+    $form['form control tabs prefix'] = array(
+      '#value' => '<ul class="form-control tab-list">',
+      '#weight' => 1001,
+    );
+    $form['submit']['#prefix'] = '<li class="first tab">';
+    $form['submit']['#value'] = bts('Save changes');
+    $form['submit']['#suffix'] = '</li>';
+    $form['submit']['#weight'] = 1002;
+    if (isset($form['delete']) AND is_array($form['delete'])) {
+      $form['delete']['#prefix'] = '<li class="tab">';
+      $form['delete']['#suffix'] = '</li>';
+      $form['delete']['#weight'] = 1003;
+    }
+    $form['cancel'] = array(
+      '#value' => '<li class="tab">' . l(bts('Cancel'), $_GET['q']) . '</li>',
+      '#weight' => 1004,
+    );
+    $form['form control tabs suffix'] = array(
+      '#value' => '</ul>',
+      '#weight' => 1010,
+    );
+    
+    // Rearrange form elements
+    $form['account']['mail']['#weight'] = 5;
+    $form['account']['pass']['#weight'] = 15;
+    $form['account']['boincuser_id']['#weight'] = 45;
+    $form['account']['user_id']['#weight'] = 50;
+    $form['account']['account_key']['#weight'] = 55;
+    $form['account']['weak_account_key']['#weight'] = 60;
+    $form['account']['cpid']['#weight'] = 65;
+    $form['account']['separator_bottom']['#weight'] = 1000;
+    $form['account']['current_pass']['#weight'] = 1001;
+    
+    // Remove redundant / unnecessary form elements
+    unset($form['theme_select']);
+    unset($form['delete']);
+    
+    // These are on the Community preferences form (boincwork module)
+    unset($form['enable_pm_mail']);
+    unset($form['friend_notification']);
+    unset($form['locale']);
+    unset($form['signature_settings']);
+    unset($form['timezone']);
+    unset($form['wysiwyg']);
+    
+    // Built-in picture support is not used
+    unset($form['picture']);
+    
+    // Internal fields to indicate where these user changes are taking place
+    array_unshift($form, array(
+      'validation_source' => array(
+        '#type' => 'hidden',
+        '#value' => 'user_account'
+      ),
+      'update_source' => array(
+        '#type' => 'hidden',
+        '#value' => 'user_account'
+      )
+    ));
+    
+    break;
+    
+  case 'profile_node_form':
+    
+    // Use the display name as the title, not the username
+    $account = user_load($form['uid']['#value']);
+    drupal_set_title($account->boincuser_name);
+    
+    $form['separator_bottom'] = array(
+      '#value' => '<div class="separator buttons"></div>',
+      '#weight' => 999,
+    );
+    
+    if (module_exists('captcha')) {
+      // Add an optional captcha
+      $form['profile_captcha'] = array(
+        '#type' => 'captcha',
+        '#weight' => 1000,
+      );
+    }
+    
+    // Wrap action buttons for styling consistency
+    $form['buttons']['form control tabs prefix'] = array(
+      '#value' => '<ul class="form-control tab-list">',
+      '#weight' => 1001,
+    );
+    $form['buttons']['submit']['#prefix'] = '<li class="first tab">';
+    $form['buttons']['submit']['#value'] = bts('Save changes');
+    $form['buttons']['submit']['#suffix'] = '</li>';
+    $form['buttons']['submit']['#weight'] = 1002;
+    $form['buttons']['preview']['#prefix'] = '<li class="tab">';
+    $form['buttons']['preview']['#suffix'] = '</li>';
+    $form['buttons']['preview']['#weight'] = 1003;
+    $form['buttons']['preview_changes']['#prefix'] = '<li class="tab">';
+    $form['buttons']['preview_changes']['#suffix'] = '</li>';
+    $form['buttons']['preview_changes']['#weight'] = 1004;
+    $form['buttons']['cancel'] = array(
+      '#value' => '<li class="tab">' . l(bts('Cancel'), $_GET['q']) . '</li>',
+      '#weight' => 1005,
+    );
+    $form['buttons']['delete']['#prefix'] = '<li class="tab">';
+    $form['buttons']['delete']['#suffix'] = '</li>';
+    $form['buttons']['delete']['#weight'] = 1006;
+    $form['buttons']['form control tabs suffix'] = array(
+      '#value' => '</ul>',
+      '#weight' => 1010,
+    );
+    
+    // Move these to community prefs form
+    $form_state['storage']['avatar'] = $form['field_image'];
+    unset($form['field_image']);
+    
+    // Preview is ugly, unset until it works
+    unset($form['buttons']['preview']);
+    
+    // Delete doesn't work, be rid of it
+    unset($form['buttons']['delete']);
+    
+    unset($form['title']);
+    unset($form['body_field']);
+    $form['#redirect'] = 'account/profile';
+    
+    // Internal fields to indicate where these user changes are taking place
+    array_unshift($form, array(
+      'validation_source' => array(
+        '#type' => 'hidden',
+        '#value' => 'user_profile'
+      ),
+      'update_source' => array(
+        '#type' => 'hidden',
+        '#value' => 'user_profile'
+      )
+    ));
+    break;
+  
+  // Registration form
+  case 'user_register':
+    array_unshift($form, array(
+      'boincuser_name' => array(
+        '#type' => 'textfield', 
+        '#title' => bts('Name'), 
+        '#default_value' => $edit['boincuser_name'], 
+        '#maxlength' => USERNAME_MAX_LENGTH, 
+        '#description' => bts('Spaces are allowed; punctuation is not allowed except for periods, hyphens, and underscores.'), 
+        '#required' => TRUE
+      ),
+      'validation_source' => array(
+        '#type' => 'hidden',
+        '#value' => 'user_register'
+      )
+    ));
+    // Set name temporarily to dummy value to beat validation
+    $form['name'] = array(
+      '#type' => 'hidden',
+      '#value' => rand() . '.' . time()
+    );
+    
+    if (module_exists('captcha')) {
+      // Add an optional captcha
+      $form['register_captcha'] = array(
+        '#type' => 'captcha',
+        '#weight' => 1000,
+      );
+    }
+    
+    $form['submit']['#weight'] = 1001;
+    break;
+    
+  // Request new password form
+  case 'user_pass':
+    drupal_set_title(bts('Forgot password'));
+    // Replace name/email text box with email only; retain "name" label
+    // for compatibility with standard Drupal submit function
+    unset($form['name']);
+    array_unshift($form, array(
+      'name' => array(
+        '#type' => 'textfield',
+        '#title' => bts('Email address'),
+        '#size' => 60,
+        '#maxlength' => EMAIL_MAX_LENGTH,
+        '#required' => TRUE,
+        '#description' => bts(
+          'Enter your email address to receive instructions for resetting your password (or use the !authenticator_login).',
+          array(
+            '!authenticator_login' => l(
+              bts('authenticator-based login'),
+              'user/login/auth'
+            )
+          )
+        ),
+      ),
+    ));
+    
+    // Wrap action buttons for styling consistency
+    $form['buttons']['form control tabs prefix'] = array(
+      '#value' => '<ul class="form-control tab-list">',
+      '#weight' => 1001,
+    );
+    $form['buttons']['submit'] = $form['submit'];
+    $form['buttons']['submit']['#prefix'] = '<li class="first tab">';
+    $form['buttons']['submit']['#value'] = bts('Send');
+    $form['buttons']['submit']['#suffix'] = '</li>';
+    $form['buttons']['submit']['#weight'] = 1002;
+    $form['buttons']['cancel'] = array(
+      '#value' => '<li class="tab">' . l(bts('Cancel'), 'user/login') . '</li>',
+      '#weight' => 1005,
+    );
+    $form['buttons']['form control tabs suffix'] = array(
+      '#value' => '</ul>',
+      '#weight' => 1010,
+    );
+    unset($form['submit']);
+    
+    // If the form is being submitted, use BOINC validation handler.
+    if (isset($form_state['post']['name'])) {
+      // Prepend the BOINC validation function to local validation
+      array_unshift($form['#validate'], 'boincuser_request_pass_validate');
+    }
+    break;
+    
+  case 'views_exposed_form':
+    $form['submit']['#value'] = bts('Search');
+    break;
+  }
+}
+
+/**
+ * Implementation of hook_elements()
+ * @see http://api.drupal.org/api/drupal/developer--hooks--core.php/function/hook_elements/6
+ */
+function boincuser_elements() {
+  $type['password_confirm']['#process'][] = 'boincuser_process_password_confirm';
+  return $type;
+}
+
+/**
+ * This madness is required to change the password field label on the user
+ * profile form
+ */
+function boincuser_process_password_confirm($element) {
+  // Check if parent element is "account".
+  if ($element['#array_parents'][0] == 'account') {
+    $element['pass1']['#title'] = bts('Change password');
+  }
+  return $element;
+}
+
+/**
+ * Implementation of hook_theme()
+ * Register theme functions for use in this module.
+ */
+function boincuser_theme($existing, $type, $theme, $path) {
+  return array(
+    'boincuser_user_pass' => array(
+      'arguments' => array()
+    )
+  );
+}
+
+/**
+ * Implementation of hook_token_values
+ */
+function boincuser_token_values($type, $object = NULL, $options = array()) {
+  if ($type == 'user') {
+    $account = user_load($object->uid);
+    $tokens['display-name'] = $account->boincuser_name;
+    return $tokens;
+  }
+}
+
+/**
+ * Implementation of hook_token_list
+ */
+function boincuser_token_list($type = 'all') {
+  if ($type == 'user' || $type == 'all') {
+    $tokens['user']['display-name']      = t("The user's name that should be displayed");
+    return $tokens;
+  }
+}
+
+/**
+ * Implementation of hook_views_pre_execute()
+ */
+function boincuser_views_pre_execute(&$view) {
+  $account_id = $view->args[0];
+  if ($view->name=="user_activity") {
+    // Run the following custom query for the user_activity view
+    $view->build_info['query']= "
+      SELECT node_revisions.vid AS vid,
+        node.nid AS node_nid,
+        node.uid AS users_node_uid,
+        node.type AS node_type,
+        node.title AS node_title,
+        node_revisions.body AS node_revisions_body,
+        node_revisions.timestamp AS node_revisions_timestamp
+      FROM node_revisions node_revisions 
+      LEFT JOIN node node ON node_revisions.nid = node.nid
+      INNER JOIN users users ON node.uid = users.uid
+      WHERE (node.type in ('forum', 'news', 'page', 'story')) AND (node.status = 1) AND (node.uid = {$account_id} )
+      
+      UNION
+      
+      SELECT comments.cid AS cid,
+        node_comments.nid AS node_comments_nid,
+        users_comments.uid AS users_comments_uid,
+        'comment' AS node_comments_type,
+        node_comments.title AS node_comments_title,
+        comments.comment AS comments_comment,
+        comments.timestamp AS comments_timestamp
+      FROM comments comments
+      INNER JOIN node node_comments ON comments.nid = node_comments.nid
+      INNER JOIN users users_comments ON comments.uid = users_comments.uid
+      WHERE (node_comments.status = 1) AND (users_comments.uid = {$account_id} )
+      ORDER BY node_revisions_timestamp DESC";
+    
+    // count_query determines the pager.  Do this so the right item count is returned.
+    $view->build_info['count_query'] = $view->build_info['query'];
+  }
+}
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Page callbacks from hook_menu()
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * Page callback shortcut to recent posts for the logged in user
+ */
+function boincuser_goto_recent_posts() {
+  global $user;
+  drupal_goto("account/{$user->uid}/posts");
+}
+
+/**
+ * Page callback shortcut to the team of the logged in user
+ */
+function boincuser_goto_team() {
+  global $user;
+  $account = user_load($user->uid);
+  drupal_goto("community/teams/{$account->team}");
+}
+
+/**
+ * Page callback for displaying a user profile
+ * For some reason, menu context cannot be configured as expected for
+ * user profile pages, so use a wrapper for display
+ */
+function boincuser_view_profile($account = null) {
+  // Create the user profile page
+  if (!$account) {
+    global $user;
+    $account = $user;
+  }
+  // For now, just call the user module profile view function
+  user_build_content($account);
+  return theme('user_profile', $account);
+}
+
+/**
+ * Page callback for editing a user profile
+ */
+function boincuser_edit_profile($account = null) {
+  // Create the user profile form
+  if (!$account) {
+    global $user;
+    $account = $user;
+  }
+  // Render the form
+  module_load_include('pages.inc', 'node', 'node');
+  return content_profile_page_edit('profile', $account);
+}
+
+/**
+  * Join page menu callback.
+  * Display instructions on joining for new or existing BOINC users
+  */
+function join_page($type = null) {
+  global $base_url;
+  $registration_enabled = variable_get('user_register', 0);
+  $output = '<div class="join">';
+  switch ($type) {
+  case 'boinc':
+    $output .= '<p>' . bts("If you're already running BOINC, select <i>Add
+      Project</i>.") . '</p>';
+    if ($registration_enabled) {
+      $output .= '<p>' . bts("If you're running a command-line or pre-5.0 version
+        of BOINC, !create_an_account first.", array('!create_an_account' => 
+          l(bts('create an account'), 'user/registration'))) . '</p>';
+    }
+    else {
+      $output .= '<p>' . bts("If you're running a command-line version of BOINC,
+        first use the BOINC Manager software (elsewhere if necessary) to create an
+        an account at this project, then use that account to connect with the
+        command-line version.") . '</p>';
+      $output .= '<p>' . bts("If you're running a pre-5.0 version of BOINC, please
+        upgrade to a more recent version to create an account
+        at this project.") . '</p>';
+    }
+    break;
+  case 'new':
+  default:
+    $output .= '<ol>';
+    $output .= '  <li>' . bts('Download the desktop software');
+    $output .= '    <p>';
+    $output .= '      <a class="button" href="http://boinc.berkeley.edu/download.php">Download</a>';
+    $output .= '    </p>';
+    //$output .= '    <p class="platforms">';
+    //$output .= '      <a href="files/boinc_windows_intelx86.exe" class="platform windows">Windows</a>';
+    //$output .= '      <a href="files/boinc_macOSX_universal.zip" class="platform mac">Mac</a>';
+    //$output .= '      <a href="files/boinc_i686-pc-linux-gnu.sh" class="platform linux">Linux</a>';
+    //$output .= '    </p>';
+    $output .= '  </li>';
+    $output .= '  <li>' . bts('Run the installer') . '</li>';
+    $output .= '  <li>' . bts('When prompted enter @siteurl', array(
+      '@siteurl' => $base_url)) . '</li>';
+    $output .=  '</ol>';
+  }
+  $output .= '</div>';
+  return $output;
+}
+
+/**
+  * Home page content for embedding in Panels page
+  */
+function boincuser_home_page() {
+  global $user;
+  $site_name = variable_get('site_name', '');
+  // Determine the user of the day
+  $current_uotd = db_fetch_object(db_query("
+    SELECT
+      uid,
+      uotd_time
+    FROM {boincuser}
+    ORDER BY uotd_time DESC
+    LIMIT 1"
+  ));
+  if ($current_uotd->uotd_time < strtotime('today midnight')) {
+    $uotd = boincuser_select_user_of_the_day();
+  }
+  else {
+    $uotd = user_load($current_uotd->uid);
+  }
+  $uotd_image = boincuser_get_user_profile_image($uotd->uid, FALSE);
+  $output = '<h2 class="pane-title">';
+  $output .= ($user->uid) ? bts('Welcome back!') : ($site_name ? bts('What is @this_project?', array('@this_project' => $site_name)) : bts('Welcome!'));
+  $output .= '</h2>';
+  $output .= '<div class="boinc-overview balance-height-front">';
+  $output .= '  <div>' . bts("Einstein@Home is a program that uses your computer's idle time to run a screensaver to search for gravitational waves from spinning neutron stars (also called pulsars) using data from the LIGO gravitational wave detector.") . ' ' . l(bts('Learn more'), 'about') . '</div>';
+  if ($user->uid) {
+    $output .= '  <div>' . l(bts('View account'), 'dashboard', array('attributes' => array('class' => 'join button'))) . '</div>';
+  }
+  else {
+    $output .= '  <div>' . l(bts('Join now'), 'join', array('attributes' => array('class' => 'join button'))) . '</div>';
+  }
+  $output .= '</div>';
+  $output .= '<div class="boinc-overview-details">';
+  $output .= '  <div class="detail-container">';
+  $output .= '    <a class="user-of-the-day" href="account/' . $uotd->uid . '">';
+  $output .= '      <div class="picture">';
+  $output .= theme('imagefield_image', $uotd_image['image'], $uotd_image['alt'],
+    $uotd_image['alt'], array(), FALSE);
+  $output .= '      </div>';
+  $output .= '      <div class="text">' . bts('User of the day') . '</div>';
+  $output .= '      <div class="detail">' . $uotd->boincuser_name . '</div>';
+  $output .= '    </a>';
+  $output .= '    <div class="volunteers">';
+  $output .= '      <div class="text">' . bts('Over 500,000 volunteers and counting.') . '</div>';
+  $output .= '      <div class="platforms">';
+  $output .= '        <div class="detail platform windows">' . bts('Windows') . '</div>';
+  $output .= '        <div class="detail platform mac">' .  bts('Mac') . '</div>';
+  $output .= '        <div class="detail platform linux">' . bts('Linux') . '</div>';
+  $output .= '      </div>';
+  $output .= '    </div>';
+  $output .= '  </div>';
+  $output .= '</div>';
+  return $output;
+}
+
+/**
+ * Page callback for the create account RPC (create_account.php).
+ * Create a new user account based on supplied parameters.
+ */
+function boincuser_create_account() {
+  require_boinc('boinc_db');
+  require_boinc('user');
+  require_boinc('xml');
+  $params = array(
+    'email_addr' => isset($_GET['email_addr']) ? $_GET['email_addr'] : '',
+    'user_name' => isset($_GET['user_name']) ? $_GET['user_name'] : '',
+    'passwd_hash' => isset($_GET['passwd_hash']) ? $_GET['passwd_hash'] : ''
+  );
+  
+  // Begin output
+  xml_header();
+  
+  // Account creation disabled
+  
+  // Invalid invite code
+  
+  // Validate input
+  if (user_validate_mail($params['email_addr']) or !is_valid_email_addr($params['email_addr'])) {
+    xml_error(-205);
+  }
+  if ($error = user_validate_name($params['user_name'])) {
+    xml_error(-205, $error);
+  }
+  if (strlen($params['passwd_hash']) != 32) {
+    xml_error(-1, 'password hash length not 32');
+  }
+  
+  // Process input
+  $boinc_user = BoincUser::lookup_email_addr($params['email_addr']);
+  if ($boinc_user) {
+    // Return authenticator for existing users
+    if ($params['passwd_hash'] == $boinc_user->passwd_hash) {
+      $output = array('authenticator' => $boinc_user->authenticator);
+    } else {
+      xml_error(-137);
+    }
+  } else {
+    // Verify that there isn't somehow a Drupal user already (not possible with proper function)
+    if ($existing_user = user_load(array('mail' => $params['email_addr']))) {
+      xml_error(-137, 'account error');
+    }
+    // Create new account
+    $newUser = array(
+      'name' => $params['user_name'],
+      'pass' => null, // $params['passwd_hash'], // note: passing a hash here requires ALL passwords to be hashed via hook prior to interacting with the hash stored in the db
+      'mail' => $params['email_addr'],
+      'status' => 1,
+      'init' => $params['email_addr']
+    );
+    $user = user_save(null, $newUser);
+    $boinc_user = make_user($params['email_addr'], $params['user_name'], $params['passwd_hash'], 'International');
+    if (!$boinc_user) {
+      xml_error(-137);
+    }
+    // Cross reference Drupal account with BOINC
+    $reference = db_query("INSERT INTO {boincuser} SET uid=%d, boinc_id=%d", $user->uid, $boinc_user->id);
+    if (!$reference) {
+      xml_error(-1, 'error connecting BOINC account to Drupal');
+    }
+  }
+  echo " <account_out>\n";
+  echo "   <authenticator>{$boinc_user->authenticator}</authenticator>\n";
+  echo "</account_out>\n";
+}
+
+/**
+ * Determine if the user has permission to control community access
+ */
+function boincuser_moderate_community_access() {
+  if (user_access('assign community member role')
+  OR user_access('assign all roles')) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
+/**
+ * Get the count of items in the moderation queue
+ */
+function boincuser_moderation_queue_count($caller = 'user') {
+  $allowed = FALSE;
+  switch ($caller) {
+  case 'cron':
+    $allowed = TRUE;
+    break;
+  case 'user':
+  default:
+    $allowed = user_access('edit any profile content');
+  }
+  if ($allowed) {
+    return db_result(db_query("
+      SELECT COUNT(*)
+      FROM {node}
+      WHERE type = 'profile'
+      AND moderate = 1"
+    ));
+  }
+  return NULL;
+}
+
+/**
+ * Controller for handling simple user account status configuration.
+ * Allow community membership status to be set for users by direct link rather
+ * than through the user account info form.
+ */
+function boincuser_control($uid = NULL, $action = NULL) {
+  if (!$uid OR !$account = user_load($uid)) {
+    // What are you even doing here...
+    return FALSE;
+  }
+  switch ($action) {
+  case 'ban':
+    if (boincuser_moderate_community_access()) {
+      $penalty_period = variable_get('boinc_penalty_period', 7*24*60*60);
+      $boincuser_record = array(
+        'uid' => $uid,
+        'penalty_expiration' => time() + $penalty_period,
+      );
+      drupal_write_record('boincuser', $boincuser_record, 'uid');
+      $community_role = array_search('community member', user_roles(true));
+      if (isset($account->roles[$community_role])) {
+        unset($account->roles[$community_role]);
+        user_save($account, array('roles' => $account->roles));
+      }
+    }
+    break;
+  case 'lift-ban':
+    if (boincuser_moderate_community_access()) {
+      $boincuser_record = array(
+        'uid' => $uid,
+        'penalty_expiration' => 0,
+      );
+      drupal_write_record('boincuser', $boincuser_record, 'uid');
+      $community_role = array_search('community member', user_roles(true));
+      if (!isset($account->roles[$community_role])) {
+        $account->roles[$community_role] = 'community member';
+        user_save($account, array('roles' => $account->roles));
+      }
+    }
+    break;
+  default:
+  }
+  drupal_goto("account/{$account->uid}");
+}
+
+/**
+ * Mark a user profile as approved by publishing it and turning off the
+ * moderation flag.
+ */
+function boincuser_moderate_profile_approve($account) {
+  $node = new stdClass;
+  $node->type = 'profile';
+  $node->language = '';
+  $nid = content_profile_profile_exists($node, $account->uid);
+  $profile = node_load($nid);
+  $profile->moderate = 0;
+  $profile->status = 1;
+  node_save($profile);
+  drupal_set_message('This profile has been marked as approved.');
+  drupal_goto();
+}
+
+/**
+ * Mark a user profile as rejected and notify the user of the reason.
+ */
+function boincuser_moderate_profile_reject($uid, $reason = '') {
+  $account = user_load($uid);
+  $node = new stdClass;
+  $node->type = 'profile';
+  $node->language = '';
+  $nid = content_profile_profile_exists($node, $uid);
+  $profile = node_load($nid);
+  if ($profile->nid) {
+    global $user;
+    global $base_url;
+    global $base_path;
+    $site_name = variable_get('site_name', bts('project'));
+    $site_url = $base_url . $base_path;
+    $moderator = user_load($user->uid);
+    $profile->moderate = 0;
+    $profile->status = 0;
+    node_save($profile);
+    $settings = array(
+      'from' => '',
+      'subject' => "Profile moderation at {$site_name}",
+      'message' => ''
+      . "{$account->boincuser_name},\n"
+      . "\n"
+      . "{$moderator->boincuser_name} has rejected your profile at"
+      . " {$site_name} for the following reason: \n"
+      . "\n"
+      . "{$reason}\n"
+      . "\n"
+      . "\n"
+      . "Since it has not been approved, your profile is not visible to other"
+      . " {$site_name} users. Please make the needed changes here:\n"
+      . "\n"
+      . "{$site_url}account/profile \n"
+      . "\n"
+      . "Thanks, \n"
+      . "\n"
+      . "{$site_name} support team",
+    );
+    rules_action_mail_to_user($account, $settings);
+    drupal_set_message('This profile has been marked as rejected.');
+  }
+  drupal_goto();
+}
+
+/**
+ * Ban a user and send a notification of the reason.
+ */
+function boincuser_moderate_user_ban($uid, $reason = '', $duration = '') {
+  if (user_access('assign community member role')
+  OR user_access('assign all roles')) {
+    $account = user_load($uid);
+    if ($account->uid) {
+      module_load_include('inc', 'rules', 'modules/system.rules');
+      if ($duration === '') {
+        $duration = variable_get('boinc_penalty_period', 7*24*60*60);
+      }
+      $penalty_expiration = ($duration > 0) ? time() + $duration : 4294967295;
+      $boincuser_record = array(
+        'uid' => $uid,
+        'penalty_expiration' => $penalty_expiration,
+      );
+      drupal_write_record('boincuser', $boincuser_record, 'uid');
+      
+      $community_role = array_search('community member', user_roles(true));
+      if (isset($account->roles[$community_role])) {
+        unset($account->roles[$community_role]);
+        user_save($account, array('roles' => $account->roles));
+      }
+      
+      global $user;
+      global $base_url;
+      global $base_path;
+      $site_name = variable_get('site_name', bts('project'));
+      $site_url = $base_url . $base_path;
+      $moderator = user_load($user->uid);
+      $settings = array(
+        'from' => '',
+        'subject' => "User moderation at {$site_name}",
+        'message' => ''
+        . "{$account->boincuser_name},\n"
+        . "\n"
+        . "You have been banned from using community features at"
+        . " {$site_name} for the following reason: \n"
+        . "\n"
+        . "{$reason}\n"
+        . "\n"
+        . "The duration of this ban can be found on your account page: \n"
+        . "\n"
+        . "{$site_url}account \n"
+        . "\n"
+        . "If you feel that this decision was made in error, please send a"
+        . " private message to {$moderator->boincuser_name}. \n"
+        . "\n"
+        . "Thanks, \n"
+        . "\n"
+        . "{$site_name} support team",
+      );
+      rules_action_mail_to_user($account, $settings);
+      drupal_set_message('This user has been banned.');
+    }
+  }
+  drupal_goto();
+}
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * User data access support functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ *
+ */
+function boincuser_get_weak_auth($boinc_id = null) {
+  if (!$boinc_id) {
+    global $user;
+    $account = user_load($user->uid);
+    $boinc_id = $account->boincuser_id;
+  }
+  
+  $boinc_user = boincuser_load($account->boincuser_id);
+  
+  return weak_auth($boinc_user);
+}
+
+/**
+ * Retrieve the profile image for a user account
+ * User profile image is managed by the content_profile module rather than core
+ * Drupal User so must be inserted into comments, etc. (not so by default)
+ */
+function boincuser_get_user_profile_image($uid, $avatar = TRUE) {
+  // Though the function name implies otherwise, get the avatar by default
+  $image_field = ($avatar) ? 'field_image_fid' : 'field_profile_image_fid';
+  $image_fid = db_result(db_query("
+    SELECT ctp.%s
+    FROM {content_type_profile} ctp
+    INNER JOIN {node} n ON ctp.nid = n.nid
+    WHERE n.uid = %d AND n.type = '%s'",
+    $image_field, $uid, 'profile'));
+  $user_image['image'] = field_file_load($image_fid);
+  if (!$user_image['image']['filepath']) {
+    // Load the default image if one does not exist
+    $account = user_load($uid);
+    if ($avatar AND module_exists('gravatar') AND user_access('use gravatar', $account) AND $account->gravatar) {
+      // Use a Gravatar rather than the system default image
+      $options = array(
+        'size' => 100,
+        'rating' => 'G',
+      );
+      // Get the Gravatar URL and see if the image exists
+      $url = gravatar_get_gravatar($account->mail, $options);
+      $headers = @get_headers($url);
+      if (preg_match("|200|", $headers[0])) {
+        return $url;
+      }
+    }
+    // Get default image if nothing else works
+    $content_node_widget_settings = db_result(db_query("SELECT widget_settings FROM {content_node_field_instance} WHERE field_name = '%s'", ($avatar ? 'field_image' : 'field_profile_image')));
+    $content_node_widget_settings = unserialize($content_node_widget_settings);
+    $user_image['image'] = $content_node_widget_settings['default_image'];
+  }
+  $user = user_load($uid);
+  $user_image['alt'] = $user->name;
+  return $user_image;
+}
+
+/**
+ * Generate a table of a user's projects
+ */
+function boincuser_get_projects_table($account = null) {
+  if ($account AND is_numeric($account)) {
+    $account = user_load($account);
+  }
+  $projects = boincuser_get_projects($account);
+  if (!$projects) return bts('no projects...');
+  
+  $output = '';
+  $output .= '<table class="user-projects">' . "\n";
+  $output .= '<thead>' . "\n";
+  $output .= '  <tr>' . "\n";
+  $output .= '    <th>' . bts('Name') . '</th>' . "\n";
+  $output .= '    <th class="numeric">' . bts('Avg credit') . '</th>' . "\n";
+  $output .= '    <th class="numeric">' . bts('Total credit') . '</th>' . "\n";
+  $output .= '  </tr>' . "\n";
+  $output .= '</thead>' . "\n";
+  $output .= '<tbody>' . "\n";
+  foreach ($projects AS $project) {
+    $url = rtrim($project->url, '/') . '/show_user.php?userid=' . $project->id;
+    $output .= '  <tr>' . "\n";
+    $output .= '    <td>' . l($project->name, $url) . '</td>' . "\n";
+    $output .= '    <td class="numeric">' . boincwork_format_stats((float) $project->expavg_credit) . '</td>' . "\n"; 
+    $output .= '    <td class="numeric">' . boincwork_format_stats((float) $project->total_credit) . '</td>' . "\n";
+    $output .= '  </tr>' . "\n";
+  }
+  $output .= '</tbody>' . "\n";
+  $output .= '</table>' . "\n";
+  $more_link = ($account) ? "user/{$account->uid}/stats" : 'account/stats';
+  //$output .= "<div class=\"more-link\"><a href=\"{$more_link}\">More stats</a></div>" . "\n";
+  return $output;
+}
+
+/**
+ * Make an RPC call to the stats server and retreive user data
+ */
+function boincuser_get_stats_user_data($cpid = null) {
+  
+  // [TODO] Set this stuff in site config!
+  $stats_server = 'stats.gridrepublic.org';
+  $stats_rpc = 'rpc/get_user.php';
+  
+  // Construct query string
+  $get = array(
+    'cpid' => $cpid
+  );
+  $args = array();
+  foreach ($get as $arg => $value) $args[] = "{$arg}=" . rawurlencode($value);
+  $query = '?' . implode('&', $args);
+  
+  // Load XML from RPC
+  $target_url = "http://{$stats_server}/{$stats_rpc}{$query}";
+  $result = drupal_http_request($target_url);
+  if (in_array($result->code, array(200, 304))) {
+    return simplexml_load_string($result->data);
+  }
+  return NULL;
+}
+
+/**
+ * Get the list of all BOINC projects of a user
+ */
+function boincuser_get_projects($account = null) {
+  
+  // Use the current user by default
+  if (!$account) {
+    global $user;
+    $account = user_load($user->uid);
+  }
+  
+  $account_stats = boincuser_get_stats_user_data($account->boincuser_cpid);
+  
+  return ($account_stats AND isset($account_stats->project)) ? $account_stats->project : null;
+}
+
+
+/**
+ * Get the links to display under the user profile
+ */
+function boincuser_get_profile_links($uid) {
+  global $user;
+  $account = user_load($uid);
+  $profile = content_profile_load('profile', $account->uid);
+  $output = '';
+  if ($profile) {
+    $profile_is_approved = ($profile->status AND !$profile->moderate);
+    $user_is_moderator = user_access('edit any profile content');
+    $is_own_profile = ($user->uid == $account->uid);
+    $profile_moderation_path = "moderate/profile/{$account->uid}";
+    $links = array();
+    
+    if ($profile->moderate AND $user_is_moderator) {
+      $links['approve_profile'] = array(
+        'title' => bts('Approve profile'),
+        'href' => "{$profile_moderation_path}/approve",
+        'attributes' => array(
+          'title' => bts('Approve this profile content'),
+          'class' => 'first primary tab',
+        )
+      );
+      /*$links['edit_profile'] = array(
+        'title' => bts('Edit profile'),
+        'href' => "{$profile_moderation_path}/edit",
+        'attributes' => array(
+          'title' => bts('Edit the content of this profile'),
+          'class' => 'tab',
+        )
+      );*/
+      $links['reject_profile'] = array(
+        'title' => bts('Reject profile'),
+        'href' => "{$profile_moderation_path}/reject",
+        'attributes' => array(
+          'title' => bts('Reject this profile content'),
+          'class' => 'tab',
+        )
+      );
+    }
+    $output .= '<ul class="tab-list">';
+    $count = 0;
+    foreach ($links as $key => $link) {
+      $output .= '<li class="' . (($count == 0) ? 'first primary ' : '') . 'tab">';
+      $output .= l($link['title'], $link['href'], array('query' => drupal_get_destination()));
+      $output .= '</li>';
+      $count++;
+    }
+    $output .= '<li class="' . (($count) ? '' : 'first ') . 'last tab">' . flag_create_link('abuse_user', $account->uid) . '</li>';
+    $output .= '</ul>';
+  }
+  return $output;
+/*
+<ul class="tab-list">
+  <li class="primary first tab">
+    <?php print l(bts('Approve profile'), 'moderate/profile/%user:uid/approve'); ?>
+  </li>
+  <li class="tab">
+    <?php print l(bts('Remove profile'), 'moderate/profile/%user:uid/remove'); ?>
+  </li>
+  <li class="last tab">
+    <?php print flag_create_link('abuse_user', %user:uid); ?>
+  </li>
+</ul>
+*/
+}

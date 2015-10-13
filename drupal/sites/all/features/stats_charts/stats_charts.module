@@ -1,0 +1,3 @@
+<?php
+
+include_once('stats_charts.features.inc');

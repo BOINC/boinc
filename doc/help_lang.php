@@ -91,7 +91,6 @@ function show_vol($vol) {
     $image = button_image($status);
     list_item_array(array(
         vol_info($vol),
-        status_string($status),
         vol_modes($vol),
         info($vol),
         rating_info($vol)
@@ -99,9 +98,7 @@ function show_vol($vol) {
 }
 
 function show_vols($vols) {
-    echo "
-        You can send email to a volunteer even if they're offline.
-        To do so, click their name.
+    echo tra("You can send email to a volunteer even if they're offline.  To do so, click their name.")."
         <p>
     ";
     help_warning();
@@ -115,7 +112,6 @@ function show_vols($vols) {
     list_start("border=0");
     list_heading_array(array(
         "Volunteer name<br><font size=2>click to contact</font>",
-        "Status",
         "Voice/Text",
         "Info",
         "Feedback <br><font size=-2>Click to see comments</font>",
@@ -130,9 +126,9 @@ if ($lang) {
     if (!is_spoken_language($lang)) {
         boinc_error_page("Not a recognized language");
     }
-    page_head("Online Help in $lang");
+    page_head(tra("Live help in %1", $lang));
 } else {
-    page_head("Online Help in all languages");
+    page_head(tra("Live help in all languages"));
 }
 $vols = get_vols($lang);
 $vols = order_vols($vols);

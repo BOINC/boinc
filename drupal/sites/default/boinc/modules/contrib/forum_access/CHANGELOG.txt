@@ -1,0 +1,161 @@
+
+CHANGELOG for Forum Access for Drupal 6
+
+
+forum_access 6.x-1.x-dev:
+
+
+forum_access 6.x-1.8 (2012-05-05):
+  Enhancements:
+    - #762270: Add (commented out) code to disable clean URLs, in case we need it.
+  Bugs fixed:
+    - #1478822: Use user_roles() to allow translation of built-in roles and because it's the right way.
+    - #1356390 by smokris, salvis: Restore the core ability to edit your own comments as long as they haven't been replied to.
+
+
+forum_access 6.x-1.7 (2011-11-08):
+  Enhancements:
+    - #762270 by daffie, salvis: Add extensive Simpletests.
+  Bugs fixed:
+    - #762270 by salvis: Fix a number of minor bugs (edge cases) uncovered by the tests.
+
+forum_access 6.x-1.6 (2011-11-08):
+  Bugs fixed:
+    - #762270: Fix a notice on the forums page.
+    - Fix minor coding style issues (no functional changes).
+    - #1001968: Don't assume that there is a role with the 'administer nodes' permission.
+    - #978572: Remove moderator role on uninstall.
+    - #980894: Fix a notice.
+  Enhancements:
+    - #1022652: Guard against people trying to run updates in disabled state.
+    - #936682, #968382: Move the TID into the {acl.number} column to speed up hook_db_rewrite_sql() joins.
+    - Implement the D6.17 hook_link_alter() for comments.
+    - Update the link in forum_access_update_6105() to point directly to the release notes.
+
+forum_access 6.x-1.5 (2010-10-09):
+  Bugs fixed:
+    - #745002: Fix missing 'delete comment' link for users with the 'administer comments' permission.
+    - #906430: Add a missing preg_match() call.
+    - #904206: Fix misplaced labels on the container form under the Garland theme.
+    - #810422: Fix public forums not being visible to Anonymous on the overview page, due to missing default records in the {node_access} table.
+    - Always display the 'Update even if unchanged' checkbox, except for new forums/containers.
+    - Fix inability to save Create and View access for roles with the 'administer nodes' permission.
+
+forum_access 6.x-1.4 (2010-08-15):
+  Enhancements:
+    - Add hook_acl_explain().
+    - Synchronization with sister module Image Gallery Access (no functional change).
+    - #745002: Add an 'Update even if unchanged' option to the administrative interface.
+    - Fix Coder warnings (no functional change).
+    - Add support for nodecomment comment nodes.
+  Bugs fixed:
+    - Fix the access denied functionality on the admin/content/forum/edit/*/TID page.
+    - Fix batch updating of node_access records.
+    - #745002: Implement proper behavior for roles with the 'administer nodes' permission.
+    - #666908: Fix initialization of {forum_access} table and remove bogus rows.
+    - #723398: Avoid removing legitimate links from comments.
+    - #692106: Fix moderator cannot edit comments again.
+    - #692106: Fix moderator cannot edit comments.
+
+forum_access 6.x-1.3 (2010-02-17):
+  Bugs fixed:
+    - #699918: Give forum moderators access to the File attachments fieldset.
+    - Another 'administer nodes' fix.
+    - Clarify hook_db_rewrite_sql() code.
+    - #695690: Fix handling of 'administer nodes' permission.
+    - #689572: Fix user_access() call without $account parameter.
+    - #662306: Fix possible uninitialized variable.
+    - #652226: Fix possible interference with the Image Gallery Access module.
+
+forum_access 6.x-1.2 (2009-12-04):
+  Bugs fixed:
+    - #649854: Moderator role gets deleted from {permission} during the submission of admin/user/permissions.
+
+forum_access 6.x-1.1 (2009-12-02):
+  Enhancements:
+    - Provide db_rewrite_sql() support to hide the forum moderator role.
+    - Reset the permissions of the forum moderator role (in case they were changed by the admin).
+    - Hide the 'Forums' menu item for users that can't see any forum.
+    - Keep the admin from changing the permissions of the internal-use-only forum moderator role and make it even more difficult to assign the role to a user.
+    - Keep the admin from assigning the internal-use-only forum moderator role to a user.
+    - #552636: Implement 'Drupal 5 legacy mode,' where posting comments and replies is always allowed, for backward compatibility.
+  Bugs fixed:
+    - Deny direct access to forum administration without 'View' access.
+    - Avoid duplicate warning when submitting the Permissions page.
+    - #639196: Fix error on secondary user profile pages.
+    - #597616, #560238: Allow editing own unreplied-to comments even without permission, as core does.
+    - Distinguish between grants as moderator or as normal user.
+    - Fix some trailing spaces (no functional change).
+    - #493044: Fix missing initialization of the {forum_access} table during installation.
+    - #578554: Fix a possible foreach() error message.
+    - Avoid Coder warning and improve installation information.
+
+forum_access 6.x-1.0 (2009-08-03):
+  Enhancements:
+    - Improve information on how to avoid conflicts with Content Access.
+    - Improve wording of trouble-shooting text (string-only change).
+  Bugs fixed:
+    - Cast to VARCHAR rather than to CHAR for pgsql.
+
+forum_access 6.x-1.x-RC1 (2009-06-03):
+  Bugs fixed:
+    - #472494: check_plain() the role names.
+
+forum_access 6.x-1.x-BETA4 (2009-05-22):
+  Enhancements:
+    - #243076: Major update of Swedish translation.
+  Bugs fixed:
+    - Fix minor structural bug.
+    - #410930: Work around a core bug that puts wrong values into $node->tid.
+    - Tune the behavior of the administrative interface.
+    - #413708: Make forums visible to users with 'administer nodes' permission.
+    - #408560: Grants still not saved under some circumstances.
+    - #426498: Potential conflict with pre-existing 'Forum Moderator' role.
+    - #407080: Remove the 'reply' links if the user does not have the 'Post' grant.
+    - #408560: Grants not saved for newly created forums.
+
+forum_access 6.x-1.x-BETA3 (2009-03-18):
+  Enhancements:
+    - #310254, #163964: Implement comment moderation as well as advanced node moderation.
+    - Remove 'post' links from forum page if the user doesn't have the 'create' permission.
+    - Disable checkboxes for roles that have no or full access anyway.
+    - #213957: Implement the ability to use the settings of an existing forum as a template.
+    - Provide a choice of how/when to update the {node_access} table and only do it if necessary.
+    - Tune presentation of configuration information.
+    - Add extensive configuration information and trouble-shooting tips.
+    - Use View grant to control access to the forum's admin page (with the access settings!), too.
+    - Make forum_access_db_rewrite_sql() more resistant against name conflicts.
+    - Keep the checkboxes aligned even when the column titles wrap; improve the titles for containers.
+
+forum_access 6.x-1.x-BETA2 (2009-01-29):
+  Enhancements:
+    - Collapse Moderators fieldset if empty.
+    - Factor out form and batch code into .inc files.
+    - Implement batch mode to support correct updating (using node_access_acquire_grants() rather than node_access_write_grants()).
+    - Implement grant priority.
+    - Provide help for getting along with Content Access.
+    - #109924: Add optional forum_access_preprocess_forum_list(&$variables) function to provide moderators in the $forums template variable.
+    - #109924: Add new forum_access_get_moderator_uids($tid) function (requires new ACL version!).
+
+forum_access 6.x-1.x-BETA1 (2008-10-14):
+  Bugs fixed:
+    - #344711: Fix forum_access_access() to use $account consistently.
+    - #328341: Make pgsql CAST() conditional on the database engine.
+    - #309113: Fix warning messages in bootstrap.inc (caused by bad drupal_set_message() call).
+    - #302774: Remove cruft from _forum_access_get_roles().
+    - Use node_access_needs_rebuild() rather than node_access_rebuild() when enabling/disabling module.
+    - Fix cosmetic coder issues (no functional change).
+    - #246959: Fix a bad t() call.
+    - #219778: Remove grants when roles are deleted, purge orphaned grants.
+    - #230123: Newest pgsql refuses to do automatic type conversions.
+    - Provide a message for uninitialized forums when newly installed, rather than the incorrect 'default' setting of grant_all for 1 & 2.
+    - #222477: forum_access_node_access_records() didn't return its result.
+  Porting to D6:
+    - #128846: Accommodate PostgreSQL 8.3's requirement for explicit casts.
+    - Publish .pot file.
+    - Port precautionary warning on Content Access page (will need to test and activate full diagnostics when CA is ported).
+    - #231611: Add support for non-forum content types; update moderator(s) when changing forum.
+    - Avoid E_NOTICEs — ready for beta.
+    - First-shot port to D6.
+    - Copied 5.x-1.9.
+

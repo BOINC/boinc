@@ -231,7 +231,7 @@ function do_send($logged_in_user) {
             if (!is_moderator($logged_in_user, null)) {
                 check_pm_count($logged_in_user->id);
             }
-            pm_send($logged_in_user, $user, $subject, $content, true);
+            pm_send_msg($logged_in_user, $user, $subject, $content, true);
         }
 
         Header("Location: pm.php?action=inbox&sent=1");

@@ -322,6 +322,30 @@ int read_file_malloc(const char* path, char*& buf, size_t max_len, bool tail) {
     int retval;
     double size;
 
+    // Win: if another process has this file open for writing,
+    // wait for up to 5 seconds.
+    // This is because when a job exits, the write to stderr.txt
+    // sometimes (inexplicably) doesn't appear immediately
+
+#ifdef _WIN32
+    for (int i=0; i<5; i++) {
+        HANDLE h = CreateFileA(
+            path,
+            GENERIC_WRITE,
+            0,
+            NULL,
+            OPEN_EXISTING,
+            FILE_ATTRIBUTE_NORMAL,
+            NULL
+        );
+        if (h != INVALID_HANDLE_VALUE) {
+            CloseHandle(h);
+            break;
+        }
+        boinc_sleep(1);
+    }
+#endif
+
     retval = file_size(path, size);
     if (retval) return retval;
 
@@ -468,7 +492,9 @@ int kill_program(int pid, int exit_code) {
     int retval;
 
     HANDLE h = OpenProcess(PROCESS_TERMINATE, false, pid);
-    if (h == NULL) return ERR_NOT_FOUND;
+    if (h == NULL) return 0;
+        // process isn't there, so no error
+
     if (TerminateProcess(h, exit_code)) {
         retval = 0;
     } else {
@@ -486,6 +512,7 @@ int kill_program(HANDLE pid) {
 #else
 int kill_program(int pid) {
     if (kill(pid, SIGKILL)) {
+        if (errno == ESRCH) return 0;
         return ERR_KILL;
     }
     return 0;

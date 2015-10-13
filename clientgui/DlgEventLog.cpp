@@ -99,13 +99,22 @@ CDlgEventLog::CDlgEventLog( wxWindow* parent, wxWindowID id, const wxString& cap
 
     Create(parent, id, caption, pos, size, style);
 
+#ifdef __WXGTK__
+    m_pList->SaveEventHandler((m_pList->GetMainWin())->GetEventHandler());
+    (m_pList->GetMainWin())->PushEventHandler(new MyEvtLogEvtHandler(m_pList));
+#endif
+
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::CDlgEventLog - Constructor Function End"));
 }
 
 
 CDlgEventLog::~CDlgEventLog() {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::CDlgEventLog - Destructor Function Begin"));
-    
+ 
+#ifdef __WXGTK__
+    (m_pList->GetMainWin())->PopEventHandler(true);
+#endif
+
     if (m_pMessageInfoAttr) {
         delete m_pMessageInfoAttr;
         m_pMessageInfoAttr = NULL;
@@ -281,11 +290,6 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
 
 void CDlgEventLog::CreateControls()
 {
-    CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
-
-    wxASSERT(pSkinAdvanced);
-    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
-
     wxFlexGridSizer* itemFlexGridSizer2 = new wxFlexGridSizer(2, 1, 0, 0);
     itemFlexGridSizer2->AddGrowableRow(0);
     itemFlexGridSizer2->AddGrowableCol(0);
@@ -335,20 +339,6 @@ void CDlgEventLog::CreateControls()
 
     wxButton* itemButton44 = new wxButton(this, wxID_OK, _("&Close"),  wxDefaultPosition, wxDefaultSize);
     itemBoxSizer4->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-#ifndef __WXMAC__
-    wxContextHelpButton* itemButton45 = new wxContextHelpButton(this);
-    itemBoxSizer4->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-#else
-	wxButton* itemButton45 = new wxButton(this, ID_SIMPLE_HELP, _("&Help"), wxDefaultPosition, wxDefaultSize);
-    wxString helpTip;
-    helpTip.Printf(_("Get help with %s"), pSkinAdvanced->GetApplicationShortName().c_str());
-    itemButton45->SetHelpText(helpTip);
-#ifdef wxUSE_TOOLTIPS
-	itemButton45->SetToolTip(helpTip);
-#endif
-    itemBoxSizer4->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
-#endif
 
     SetFilterButtonText(); 
 }

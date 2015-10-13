@@ -1,0 +1,62 @@
+/**
+ * @file
+ * Zen panel layout
+ *
+ * This layout does include the standar Zen navbar, content and right sidebar
+ * layout.  Markup has been reordered for Accessibility and SEO optimizations.
+ */
+.zen-two-sidebars-second { 
+/*  overflow: hidden;  */
+  position: relative;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.zen-two-sidebars-second .panel-content {
+  float: left; /* LTR */
+  width: 460px;
+  margin-left: 0; /* LTR */
+  margin-right: -460px; /* LTR */ /* Negative value of #content's width + left margin. */
+  padding: 0; /* DO NOT CHANGE. Add padding or margin to #content-inner. */
+}
+
+.zen-two-sidebars-second .panel-header {
+  float: left; /* LTR */
+  width: 100%;
+  margin-left: 0; /* LTR */
+  margin-right: -100%; /* LTR */ /* Negative value of #navigation's width + left margin. */
+  padding: 0; /* DO NOT CHANGE. Add padding or margin to #navigation .section. */
+  height: 3.3em; /* The navigation can have any arbritrary height. We picked one
+                    that is the line-height plus 1em: 1.3 + 1 = 2.3
+                    Set this to the same value as the margin-top below. */
+}
+
+.zen-two-sidebars-second .with-panel-header .panel-content,
+.zen-two-sidebars-second .with-panel-header .panel-sidebar-first,
+.zen-two-sidebars-second .with-panel-header .panel-sidebar-second {
+  margin-top: 3.3em; /* Set this to the same value as the navigation height above. */
+}
+
+.zen-two-sidebars-second .panel-sidebar-first {
+  float: left; /* LTR */
+  width: 250px;
+  margin-left: 460px; /* LTR */ /* Width of #content. */
+  margin-right: -710px; /* LTR */ /* Negative value of #sidebar-first's width + left margin. */
+  padding: 0; /* DO NOT CHANGE. Add padding or margin to #sidebar-first-inner. */
+}
+
+.zen-two-sidebars-second .panel-sidebar-first .panel-sidebar-first-inner {
+  margin-left: 20px;
+}
+
+.zen-two-sidebars-second .panel-sidebar-second {
+  float: left; /* LTR */
+  width: 250px;
+  margin-left: 710px; /* LTR */ /* Width of #content. */
+  margin-right: -960px; /* LTR */ /* Negative value of #sidebar-first's width + left margin. */
+  padding: 0; /* DO NOT CHANGE. Add padding or margin to #sidebar-first-inner. */
+}
+
+.zen-two-sidebars-second .panel-sidebar-second .panel-sidebar-second-inner {
+  margin-left: 20px;
+}

@@ -74,7 +74,7 @@ static int possibly_give_result_new_deadline(
     if (estimate_duration(wu, bav) > result_report_deadline-now) {
         if (config.debug_resend) {
             log_messages.printf(MSG_NORMAL,
-                "[resend] [RESULT#%u] [HOST#%d] not resending lost result: can't complete in time\n",
+                "[resend] [RESULT#%lu] [HOST#%lu] not resending lost result: can't complete in time\n",
                 result.id, g_reply->host.id
             );
         }
@@ -85,7 +85,7 @@ static int possibly_give_result_new_deadline(
     //
     if (config.debug_resend) {
         log_messages.printf(MSG_NORMAL,
-            "[resend] [RESULT#%u] [HOST#%d] %s report_deadline (resend lost work)\n",
+            "[resend] [RESULT#%lu] [HOST#%lu] %s report_deadline (resend lost work)\n",
             result.id, g_reply->host.id,
             result_report_deadline==result.report_deadline?"NO update to":"Updated"
         );
@@ -114,7 +114,7 @@ bool resend_lost_work() {
     APP* app = NULL;
     int retval;
 
-    sprintf(buf, " where hostid=%d and server_state=%d ",
+    sprintf(buf, " where hostid=%lu and server_state=%d ",
         g_reply->host.id, RESULT_SERVER_STATE_IN_PROGRESS
     );
     while (!result.enumerate(buf)) {
@@ -136,7 +136,7 @@ bool resend_lost_work() {
         num_eligible_to_resend++;
         if (config.debug_resend) {
             log_messages.printf(MSG_NORMAL,
-                "[resend] [HOST#%d] found lost [RESULT#%u]: %s\n",
+                "[resend] [HOST#%lu] found lost [RESULT#%lu]: %s\n",
                 g_reply->host.id, result.id, result.name
             );
         }
@@ -146,7 +146,7 @@ bool resend_lost_work() {
         retval = wu.lookup_id(result.workunitid);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "[HOST#%d] can't resend - WU not found for [RESULT#%u]\n",
+                "[HOST#%lu] can't resend - WU not found for [RESULT#%lu]\n",
                 g_reply->host.id, result.id
             );
             can_resend = false;
@@ -155,20 +155,20 @@ bool resend_lost_work() {
             app = ssp->lookup_app(wu.appid);
             if (!app) {
                 log_messages.printf(MSG_CRITICAL,
-                    "can't resend - app not found for [RESULT#%u]\n", result.id
+                    "can't resend - app not found for [RESULT#%lu]\n", result.id
                 );
                 can_resend = false;
             }
         }
         if (can_resend && app->deprecated) {
             log_messages.printf(MSG_NORMAL,
-                "[RESULT#%u] can't resend - app is deprecated \n", result.id
+                "[RESULT#%lu] can't resend - app is deprecated \n", result.id
             );
             can_resend = false;
         }
         if (can_resend && app_not_selected(app->id)) {
             log_messages.printf(MSG_NORMAL,
-                "[RESULT#%u] can't resend - app is not selected\n", result.id
+                "[RESULT#%lu] can't resend - app is not selected\n", result.id
             );
             can_resend = false;
         }
@@ -177,7 +177,7 @@ bool resend_lost_work() {
             if (!bavp) {
                 if (config.debug_resend) {
                     log_messages.printf(MSG_NORMAL,
-                        "[HOST#%d] can't resend [RESULT#%u]: no app version for %s\n",
+                        "[HOST#%lu] can't resend [RESULT#%lu]: no app version for %s\n",
                         g_reply->host.id, result.id, app->name
                     );
                 }
@@ -187,7 +187,7 @@ bool resend_lost_work() {
         if (can_resend && wu.error_mask) {
             if (config.debug_resend) {
                 log_messages.printf(MSG_NORMAL,
-                    "[resend] skipping [RESULT#%u]: WU error mask %d\n",
+                    "[resend] skipping [RESULT#%lu]: WU error mask %d\n",
                     result.id, wu.error_mask
                 );
             }
@@ -196,7 +196,7 @@ bool resend_lost_work() {
         if (can_resend && wu.canonical_resultid) {
             if (config.debug_resend) {
                 log_messages.printf(MSG_NORMAL,
-                    "[resend] skipping [RESULT#%u]: already have canonical result\n",
+                    "[resend] skipping [RESULT#%lu]: already have canonical result\n",
                     result.id
                 );
             }
@@ -208,7 +208,7 @@ bool resend_lost_work() {
         )) {
             if (config.debug_resend) {
                 log_messages.printf(MSG_NORMAL,
-                    "[resend] skipping [RESULT#%u]: feasibility check failed\n",
+                    "[resend] skipping [RESULT#%lu]: feasibility check failed\n",
                     result.id
                 );
             }
@@ -217,7 +217,7 @@ bool resend_lost_work() {
         if (can_resend && possibly_give_result_new_deadline(result, wu, *bavp)) {
             if (config.debug_resend) {
                 log_messages.printf(MSG_NORMAL,
-                    "[resend] skipping [RESULT#%u]: deadline assignment failed\n",
+                    "[resend] skipping [RESULT#%lu]: deadline assignment failed\n",
                     result.id
                 );
             }
@@ -257,7 +257,7 @@ bool resend_lost_work() {
             retval = add_result_to_reply(result, wu, bavp, false);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "[HOST#%d] failed to send [RESULT#%u]\n",
+                    "[HOST#%lu] failed to send [RESULT#%lu]\n",
                     g_reply->host.id, result.id
                 );
                 continue;
@@ -276,7 +276,7 @@ bool resend_lost_work() {
 
     if (num_eligible_to_resend && config.debug_resend) {
         log_messages.printf(MSG_NORMAL,
-            "[resend] [HOST#%d] %d lost results, resent %d\n",
+            "[resend] [HOST#%lu] %d lost results, resent %d\n",
             g_reply->host.id, num_eligible_to_resend, num_resent 
         );
     }

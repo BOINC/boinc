@@ -9,11 +9,11 @@
 # Faruk SARI <faruksari@hotmail.com>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: boinc\n"
+"Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2015-02-10 14:33+0000\n"
-"Last-Translator: Faruk SARI <faruksari@hotmail.com>\n"
+"POT-Creation-Date: 2015-07-09 18:59 PDT\n"
+"PO-Revision-Date: 2015-08-03 08:59+0000\n"
+"Last-Translator: Can Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/boinc/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,89 +35,90 @@ msgstr "BOINC ana sayfasına dön"
 msgid "This page is %stranslatable%s."
 msgstr "Bu safya %sçevrilebilir%s."
 
-#: download.php:39
+#: download.php:42
 msgid ""
 "We recommend that you also install VirtualBox, so your computer can work on "
 "science projects that require it."
 msgstr "Ayrıca VirtualBox'ı da kurmanızı öneririz, böylece bilgisayarınız onu gerektiren bilimsel projeleri de çalıştırabilir."
 
-#: download.php:41
+#: download.php:44
 msgid "Learn more about VirtualBox."
 msgstr "VirtualBox hakkında daha fazla bilgi edinin."
 
-#: download.php:51
+#: download.php:52
 msgid "Download BOINC + VirtualBox"
 msgstr "BOINC + VirtualBox'ı indir"
 
-#: download.php:54 download.php:69
+#. "for %s" identifies the operating system, e.g. "for Windows"
+#: download.php:56 download.php:71
 #, php-format
 msgid "for %s"
 msgstr "%s için"
 
-#: download.php:57 download.php:72
+#: download.php:59 download.php:74
 #, php-format
-msgid "BOINC version %s"
-msgstr "BOINC sürümü %s"
+msgid "BOINC %s"
+msgstr "BOINC %s"
 
-#: download.php:59
+#: download.php:61
 #, php-format
-msgid "VirtualBox version %s"
-msgstr "VirtualBox sürümü %s"
+msgid "VirtualBox %s"
+msgstr "VirtualBox %s"
 
-#: download.php:67
+#: download.php:69
 msgid "Download BOINC"
 msgstr "BOINC'i indir"
 
-#: download.php:123
+#: download.php:133
 msgid ""
 "BOINC is a program that lets you donate your idle computer time to science "
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
 "Community Grid, and many others."
 msgstr "BOINC, bilgisayarınız boş zamanını SETI@home, Climateprediction.net, Rosetta@home, World Community Grid ve daha pek çoğu gibi bilimsel projelere bağışlamanızı sağlayan bir yazılımdır."
 
-#: download.php:125
+#: download.php:135
 msgid ""
 "After installing BOINC on your computer, you can connect it to as many of "
 "these projects as you like."
 msgstr "BOINC'i bilgisayarınıza kurduktan sonra, onu bunlar gibi istediğiniz pek çok projeye bağlayabilirsiniz."
 
-#: download.php:127
+#: download.php:137
 msgid ""
 "You may run this software on a computer only if you own the computer or have"
 " the permission of its owner."
 msgstr "Bu yazılımı, yalnızca kendi bilgisayarınızda ya da sahibinin izin verdiği bilgisayarlarda çalıştırabilirsiniz."
 
-#: download.php:132
+#: download.php:142
 msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
 msgstr "BOINC'i, Google Play Store ya da Amazon Appstore'dan indirmenizi öneririz, buradan değil."
 
-#: download.php:167
+#: download.php:177
 msgid "System requirements"
 msgstr "Sistem gereksinimleri"
 
-#: download.php:168
+#: download.php:178
 msgid "Release notes"
 msgstr "Sürüm notları"
 
-#: download.php:169 index.php:86
+#: download.php:179 index.php:93
 msgid "Help"
 msgstr "Yardım"
 
-#: download.php:170
+#: download.php:180
 msgid "All versions"
 msgstr "Diğer sürümler"
 
-#: download.php:171
+#: download.php:181
 msgid "Version history"
 msgstr "Sürüm tarihçesi"
 
-#: download.php:172
+#: download.php:182
 msgid "GPU computing"
 msgstr "GPU ile hesaplama"
 
-#: download.php:190
+#: download.php:200
 msgid "BOINC: compute for science"
 msgstr "BOINC: bilim için hesapla"
 
@@ -171,13 +172,13 @@ msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
 msgstr "Zaten bir Yardım Günüllüsüyseniz: Ayarlarınızı düzenlemek için, %sburaya tıklayın%s."
 
-#: help_funcs.php:107
+#: help_funcs.php:136
 msgid ""
 "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
 "or the University of California."
 msgstr "BOINC yardımcıları ücretsiz çalışan gönüllülerdir.  Yaptıkları tavsiyeler, BOINC ya da California Üniversitesi'ni bağlamaz."
 
-#: help_funcs.php:110
+#: help_funcs.php:139
 msgid "%1Never%2 give email address or password information to BOINC helpers."
 msgstr "%1Asla%2 e-posta ya da parola bilginizi BOINC yardımcılarına vermeyin."
 
@@ -217,204 +218,163 @@ msgstr "PetaFLOP."
 msgid "News"
 msgstr "Haberler"
 
-#: index.php:83
+#. "Volunteer" is used as a verb
+#: index.php:89
 msgid "Volunteer"
 msgstr "Gönüllü Olun"
 
-#: index.php:85
+#: index.php:92
 msgid "Download"
 msgstr "İndir"
 
-#: index.php:87 index.php:120 index.php:171
+#: index.php:94 index.php:138
 msgid "Documentation"
 msgstr "Belgeler"
 
-#: index.php:88
+#: index.php:95
 msgid "Add-ons"
 msgstr "Eklentiler"
 
-#: index.php:89
+#: index.php:96
 msgid "Links"
 msgstr "Bağlantılar"
 
-#: index.php:94
+#: index.php:101
 msgid ""
 "Use the idle time on your computer (Windows, Mac, Linux, or Android) to cure"
 " diseases, study global warming, discover pulsars, and do many other types "
 "of scientific research.  It's safe, secure, and easy:"
 msgstr "Bilgisayarınızın boş zamanını (Windows, Mac, Linux ya da Android) hastalıkların tedavisini ya da küresel ısınmayı araştırmak, elektromanyetik yıldızları keşfetmek ve diğer birçok türde bilimsel araştırma için kullanın.  Bu güvenli ve basittir:"
 
-#: index.php:96
+#: index.php:103
 msgid "Choose projects"
 msgstr "Projeleri seçin"
 
-#: index.php:97
+#: index.php:104
 msgid "Download BOINC software"
 msgstr "BOINC yazılımını indirin"
 
-#: index.php:98
+#: index.php:105
 msgid "Enter an email address and password."
 msgstr "Bir e-posta adresi ve parola girin."
 
-#: index.php:102
+#: index.php:109
 #, php-format
 msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as "
 "%sGridRepublic%s or %sBAM!%s. "
 msgstr "Ya da çeşitli projeler çalıştırıyorsanız, bir %shesap yöneticisi%s deneyin. Örneğin %sGridRepublic%s ya da %sBAM!%s gibi. "
 
-#: index.php:118
+#: index.php:136
 msgid "Compute with BOINC"
 msgstr "BOINC ile Hesaplatın"
 
-#: index.php:121
+#: index.php:139
 msgid "Software updates"
 msgstr "Yazılım güncellemeleri"
 
-#: index.php:128
+#: index.php:146
 msgid ""
-"%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving"
-" you the computing power of thousands of CPUs."
-msgstr "%1Bilim insanları%2: BOINC'i bağışlanan binlerce CPU'nun gücünden yararlanmak için bir %3gönüllü hesaplama projesi%4 yaratmak için kullanın."
+"%1Scientists%2: use BOINC to create a %3volunteer computing project%4, "
+"giving you the power of thousands of CPUs and GPUs."
+msgstr "%1Bilim insanları%2: BOINC'i bağışlanan binlerce CPU ve GPU'nun gücünden yararlanmak için bir %3gönüllü hesaplama projesi%4 yaratmak için kullanın."
 
-#: index.php:132
+#: index.php:150
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
 msgstr "%1Üniversiteler%2: BOINC'i bir %3Sanal Yerleşke Süperbilgisayar Merkezi%4 yaratmak için kullanın."
 
-#: index.php:137
+#: index.php:155
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
 msgstr "%1Şirketler%2: BOINC'i %3masaüstü dağıtık hesaplama%4 için kullanın."
 
-#: index.php:149
-msgid "The BOINC project"
-msgstr "BOINC Projesi"
+#: index.php:167
+msgid "About BOINC"
+msgstr "BOINC Hakkında"
 
-#: index.php:155
+#: index.php:181
 msgid "Message boards"
 msgstr "Mesaj panoları"
 
-#: index.php:156
+#: index.php:182
 msgid "Email lists"
 msgstr "E-posta listeleri"
 
-#: index.php:157
-msgid "Personnel and contributors"
-msgstr "Çalışanlar ve katkıda bulunanlar"
-
-#: index.php:158
+#: index.php:183
 msgid "Events"
 msgstr "Etkinlikler"
 
-#: index.php:159
-msgid "Papers and talks"
-msgstr "Belgeler ve konuşmalar"
+#: index.php:184
+msgid "Source code"
+msgstr "Kaynak kodu"
 
-#: index.php:160
-msgid "Research projects"
-msgstr "Araştırma projeleri"
-
-#: index.php:161
-msgid "Logos and graphics"
-msgstr "Logo ve grafikler"
-
-#: index.php:162
-msgid "and"
-msgstr "ve"
-
-#: index.php:166
-msgid "Help wanted"
-msgstr "Yardım aranıyor"
-
-#: index.php:168
-msgid "Programming"
-msgstr "Programlama"
-
-#: index.php:169
-msgid "Translation"
-msgstr "Çeviri"
-
-#: index.php:170
-msgid "Testing"
-msgstr "Test etme"
-
-#: index.php:172
-msgid "Publicity"
-msgstr "Tanıtım, reklam"
-
-#: index.php:174
-msgid "Software development"
-msgstr "Yazılım geliştirme"
-
-#: index.php:175
+#: index.php:186
 msgid "APIs for add-on software"
 msgstr "API'ler ve eklenti yazılımları"
 
-#: index.php:217
-#, php-format
-msgid ""
-"Open-source software for %svolunteer computing%s and %sgrid computing%s."
-msgstr "Açık kaynaklı %sgönüllü hesaplama%s ve %sdağıtık (grid) hesaplama%s yazılımı."
+#: index.php:231
+msgid "Open-source software for volunteer computing"
+msgstr "Gönüllü hesaplama için açık kaynaklı yazılım"
 
-#: index.php:230
-msgid "BOINC is based at The University of California, Berkeley"
-msgstr "BOINC, Kalifornia Üniversitesi, Berkeley merkezlidir."
-
-#: projects.inc:14
+#: projects.inc:19
 msgid "Distributed sensing"
 msgstr "Dağıtılmış algılama"
 
-#: projects.inc:19
+#: projects.inc:24
 msgid "Stanford University"
 msgstr "Stanford Üniversitesi"
 
-#: projects.inc:20
+#: projects.inc:25
 msgid "Seismology"
 msgstr "Deprem bilimi"
 
-#: projects.inc:21
+#: projects.inc:26
 msgid ""
-"The Quake-Catcher Network is developing the world's largest seismic network "
-"using sensors attached to Internet-connected computers.  You must buy a "
-"sensor to participate."
-msgstr "Quake-Catcher Network, internet bağlantısı olan bilgisayarlara takılı sensörleri kullanarak dünyanın en büyük sismik ağını geliştirmektedir. Katılmak için bir sensör satın almalısınız."
+"Quake-Catcher Network is developing the world's largest seismic network "
+"using sensors attached to computers and smartphones."
+msgstr "Quake-Catcher Network, bilgisayarlara ve akıllı telefonlara takılı sensörleri kullanarak dünyanın en büyük sismik ağını geliştirmektedir."
 
-#: projects.inc:27
+#: projects.inc:34
 msgid "BOINC Poland Foundation"
 msgstr "BOINC Polonya Vakfı"
 
-#: projects.inc:28
+#: projects.inc:35
 msgid "Environmental research"
 msgstr "Çevresel araştırma"
 
-#: projects.inc:29
+#: projects.inc:36
 msgid ""
-"This project is creating a free and continuously updated map of radiation "
-"levels by using sensors connected to volunteers' computers.  You must buy a "
-"sensor to participate."
-msgstr "Bu proje, gönüllülerin bilgisayarlarına bağlı sensörleri kullanarak, radyasyon seviyelerinin ücretsiz ve sürekli olarak güncellenen haritasını oluşturmaktadır. Katılmak için bir sensör satın almalısınız."
+"Radioactive@Home is creating a free and continuously updated map of "
+"radiation levels using sensors connected to volunteers' computers.  You must"
+" buy a sensor to participate."
+msgstr "Radioactive@Home, gönüllülerin bilgisayarlarına bağlı sensörleri kullanarak, radyasyon seviyelerinin ücretsiz ve sürekli güncellenen bir haritasını oluşturmaktadır. Katılmak için bir sensör satın almalısınız."
 
-#: projects.inc:33
-msgid ""
-"To participate in these projects you must buy a sensor and attach it to your"
-" computer."
-msgstr "Bu projelere katılmak için bir sensör satın alıp bilgisayarınıza takmanız gerekir."
-
-#: projects.inc:37
+#: projects.inc:45
 msgid "Cognitive science and artifical intelligence"
 msgstr "Bilişsel bilim ve yapay zeka"
 
-#: projects.inc:60 projects.inc:364 projects.inc:408 projects.inc:457
-#: projects.inc:464 projects.inc:511
+#: projects.inc:51
+msgid "Cognitive Science"
+msgstr "Bilişsel Bilim"
+
+#: projects.inc:52
+msgid ""
+"MindModeling@Home uses computational cognitive process modeling to better "
+"understand the human mind, and specifically to study the mechanisms and "
+"processes that enable and moderate human performance and learning."
+msgstr "MindModeling@Home, ortalama bir insan performansını elde etmek ve yönetmek amacıyla, insan aklını, özellikle öğrenme mekanizmaları ve süreçlerini daha iyi anlamak için \"hesaplamalı bilişsel süreç modellemesi\"ni kullanır."
+
+#: projects.inc:70 projects.inc:467 projects.inc:591 projects.inc:601
+#: projects.inc:657
 msgid "Private"
 msgstr "Özel"
 
-#: projects.inc:61
+#: projects.inc:71
 msgid "Artificial intelligence"
 msgstr "Yapay zeka"
 
-#: projects.inc:62
+#: projects.inc:72
 msgid ""
 "Parse and convert semantic nets for use in FreeHAL, an artificial "
 "intelligence that uses semantic networks, stemmers, part of speech "
@@ -422,36 +382,55 @@ msgid ""
 "conversations."
 msgstr "Konuşmalardaki insan davranışını taklit etmek için, anlamsal ağları FreeHAL'de çözümleyin ve dönüştürün. FreeHAL yapay bir zekadır ve anlamsal ağları, sözcük köklerini, sözcük veri tabanlarının parçalarını ve sözcük etiketlerinin parçalarını kullanır."
 
-#: projects.inc:69
+#: projects.inc:82
 msgid "Biology and Medicine"
 msgstr "Biyoloji ve Tıp"
 
-#: projects.inc:82
+#: projects.inc:88
+msgid "Medical physiology"
+msgstr "Tıbbi fizyoloji"
+
+#: projects.inc:89
+msgid ""
+"DENIS@Home does cardiac electrophysiological simulations, studying the "
+"electrical activity of the heart."
+msgstr "DENIS@Home kalbin elektriksel aktivitesini okuyan, kardiyak elektrofizyolojik simülasyonlarını yapar."
+
+#: projects.inc:98
+msgid "Molecular biology"
+msgstr "Moleküler biyoloji"
+
+#: projects.inc:99
+msgid ""
+"RNA World seeks to identify, analyze, structurally predict and design RNA "
+"molecules on the basis of established bioinformatics software."
+msgstr "RNA World, kurulan biyoinformatik yazılım temelinde, RNA moleküllerini tanımlamayı, analiz etmeyi, yapı olarak öngörmeyi ve tasarlamayı amaçlamaktadır."
+
+#: projects.inc:107
 msgid "University College Dublin"
 msgstr "University College Dublin (İrlanda)"
 
-#: projects.inc:83
+#: projects.inc:108
 msgid "Antimalarial drug discovery"
 msgstr "Sıtma ilacı keşfi"
 
-#: projects.inc:84
+#: projects.inc:109
 msgid ""
 "The parasite that causes malaria continues to evolve resistance to available"
-" medication. We therefore urgently need to discover new drugs to replace "
-"existing drugs. Importantly, these new drugs need to target NEW proteins in "
-"the parasite. The FightMalaria@Home project is aimed at finding these new "
-"targets."
-msgstr "Sıtmaya neden olan parazit, mevcut ilaçlara direnç geliştirmeye devam ediyor. Bu sebeple acilen mevcut ilaçların yerine yeni ilaçlar keşfetmek gerekmekte. En önemlisi, bu yeni ilaçların parazitteki YENİ proteinleri hedeflemesi gerekli. FightMalaria@Home projesi, bu yeni hedefleri bulmayı amaçlıyor."
+" medication. We therefore urgently need to discover new drugs, targeting new"
+" proteins in the parasite. The FightNeglectedDiseases@Home project is aimed "
+"at finding these new targets."
+msgstr "Sıtmaya neden olan parazit, mevcut ilaçlara direnç geliştirmeye devam ediyor. Bu sebeple acilen, parazitteki yeni proteinleri hedefleyen yeni ilaçlar keşfetmek gerekmekte. FightMalaria@Home projesi, bu yeni hedefleri bulmayı amaçlıyor."
 
-#: projects.inc:90
+#: projects.inc:117
 msgid "University of Karlsruhe (Germany)"
 msgstr "Karlsruhe Üniversitesi (Almanya)"
 
-#: projects.inc:91
+#: projects.inc:118
 msgid "Protein structure prediction"
 msgstr "Protein yapısı tahmini"
 
-#: projects.inc:92
+#: projects.inc:119
 msgid ""
 "POEM@HOME uses a computational approach to predict the biologically active "
 "structure of proteins, to understand the signal-processing mechanisms when "
@@ -460,31 +439,15 @@ msgid ""
 " the three-dimensions structure of biologically important proteins."
 msgstr "POEM@HOME, biyolojik olarak aktif protein yapılarını tahmin etmek, proteinler birbirleriyle etkileşirken oluşan sinyalleşme mekanizmasını anlamak, protein bozuklukları ve birikmesine ilişkin hastalıkları anlamak, biyolojik olarak önemli proteinlerin 3 boyutlu yapılarını temel alarak yeni ilaçlar geliştirmek için bilgisayarlı bir yöntem kullanır."
 
-#: projects.inc:98
-msgid "University of Delaware"
-msgstr "Delaware Üniversitesi"
-
-#: projects.inc:99
-msgid "Study of protein - ligand interactions"
-msgstr "Protein - ligand etkileşimleri araştırması"
-
-#: projects.inc:100
-msgid ""
-"Docking@Home has both bioscience and computer science goals. The project "
-"aims to further knowledge of the atomic details of protein-ligand "
-"interactions and, by doing so, will search for insights into the discovery "
-"of novel pharmaceuticals."
-msgstr "Docking@Home projesinin hem biyoloji hem de bilgisayar bilimiyle ilgili hedefleri var. Proje protein-ligand (bağ) etkileşimlerinin atomik detayları hakkında daha fazla bilgi edinmeyi amaçlıyor ve bunu yaparak yeni ilaç keşifleri için öncül bilgiler edinmeyi hedefliyor."
-
-#: projects.inc:114
+#: projects.inc:147
 msgid "Barcelona Biomedical Research Park (PRBB)"
 msgstr "Barselona Biyomedikal Araştırma Parkı (PRBB)"
 
-#: projects.inc:115
+#: projects.inc:148
 msgid "Molecular simulations of proteins"
 msgstr "Proteinlerin moleküler simülasyonları"
 
-#: projects.inc:116
+#: projects.inc:149
 msgid ""
 "GPUGrid.net opens novel computational scenarios by the first full-atom "
 "molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. "
@@ -492,47 +455,31 @@ msgid ""
 "computational biology for biomedical research."
 msgstr "GPUGrid.net, özellikle NVIDIA grafik işlem ünitelerinde (GPU) çalışması için optimize edilmiş ilk 'tam-atom molekül dinamikleri kodu' (CellMD) sayesinde, yeni bilgisayarlı senaryolara imkan sağlıyor. Yeni biyomedikal uygulamalar, biyomedikal araştırmalar için bilgisayarlı biyolojiye hızlıca yeni bir rol veriyor."
 
-#: projects.inc:122
-msgid "Technion, Israel"
-msgstr "Technion, İsrail"
-
-#: projects.inc:123
-msgid "Genetic linkage analysis"
-msgstr "Genetik bağlantı analizi"
-
-#: projects.inc:124
-msgid ""
-"Superlink@Technion helps geneticists all over the world find disease-"
-"provoking genes causing some types of diabetes, hypertension (high blood "
-"pressure), cancer, schizophrenia and many others."
-msgstr "Superlink@Technion, dünyanın dört bir yanındaki genetik bilimcilere, bazı diyabet türleri, hipertansiyon (yüksek kan basıncı), kanser, şizofreni ve diğer bir çok hastalığa neden olan genleri bulmaları konusunda yardım eder."
-
-#: projects.inc:138
+#: projects.inc:175
 msgid ""
 "University of Maryland Center for Bioinformatics and Computational Biology"
 msgstr "Maryland Üniversitesi Biyoenformatik ve Bilgisayarlı Biyoloji Merkezi"
 
-#: projects.inc:139
+#: projects.inc:176
 msgid "Life science research"
 msgstr "Canlı bilimleri araştırması"
 
-#: projects.inc:140
+#: projects.inc:177
 msgid ""
-"The Lattice Project supplies computing power to scientists at the University"
-" of Maryland studying evolutionary relationships based on DNA sequence data;"
-" bacterial, plasmid, and virus protein sequences; and biological diversity "
-"in nature reserves. "
-msgstr "Lattice Projesi, DNA dizileri verisi, bakteri, plazmit ve virüs proteini dizileri ile doğanın barındırdığı biyolojik farklılıklara dayalı evrimsel bağlantılar üzerinde çalışan Maryland Üniversitesi'ndeki bilim insanlarına hesaplama gücü sağlar."
+"The Lattice Project, developed and administered at the University of "
+"Maryland, supplies computing power to researchers worldwide who are studying"
+" evolutionary relationships using DNA and protein sequence data."
+msgstr "Maryland Üniversitesi'nde geliştirilen ve uygulanan Lattice Project, DNA ve protein dizisi verileri kullanarak evrimsel ilişkileri araştıran dünya çapındaki araştırmacılara işlem gücü sağlar."
 
-#: projects.inc:146
+#: projects.inc:185
 msgid "The Swiss Tropical Institute"
 msgstr "İsviçre Tropikal Enstitüsü"
 
-#: projects.inc:147
+#: projects.inc:186
 msgid "Epidemiology"
 msgstr "Epidemiyoloji (Salgın hastalıklar bilimi)"
 
-#: projects.inc:148
+#: projects.inc:187
 msgid ""
 "Simulation models of the transmission dynamics and health effects of malaria"
 " are an important tool for malaria control. They can be used to determine "
@@ -543,48 +490,37 @@ msgid ""
 "social factors that influence the distribution of the disease. "
 msgstr "Sıtmanın yayılma dinamiği ve sağlık etkileriyle ilgili simülasyon modelleri, sıtma kontrolü için önemli birer araçtır. Modellerden, sivrisinek ağlarının, kemoterapinin ya da geliştirme ve test aşamasında olan yeni aşıların dağıtımında kullanılacak en uygun stratejileri belirleme konusunda yararlanılabilir. Bu modelleme son derece bilgisayar yoğundur, hastalığın dağılımını etkileyen biyolojik ve sosyal faktörlerle ilgili bir dizi parametrenin ve büyük insan popülasyonlarının simülasyonunu gerektirir."
 
-#: projects.inc:170
+#: projects.inc:211
 msgid "University of Washington"
 msgstr "Washington Üniversitesi"
 
-#: projects.inc:171 projects.inc:179
+#: projects.inc:212
 msgid "Biology"
 msgstr "Biyoloji"
 
-#: projects.inc:172
+#: projects.inc:213
 msgid ""
 "Determine the 3-dimensional shapes of proteins in research that may "
 "ultimately lead to finding cures for some major human diseases. By running "
 "Rosetta@home you will help us speed up and extend our research in ways we "
 "couldn't possibly attempt without your help. You will also be helping our "
-"efforts at designing new proteins to fight diseases such as HIV, Malaria, "
-"Cancer, and Alzheimer's"
-msgstr "Bazı önemli hastalıklara tedavi bulmayı sağlayabilecek araştırmalar için, proteinlerin 3 boyutlu şekillerini saptayın. Rosetta@home çalıştırarak, yardımınız olmadan hızlandıramayacağımız ve genişletemeyeceğimiz araştırmalarımız konusunda bize katkıda bulunacaksınız. Ayrıca, HIV (AIDS), sıtma, kanser ve Alzheimer gibi hastalıklarla mücadele için yeni proteinler tasarlama çabalarımıza yardımcı olacaksınız."
+"efforts at designing new proteins to fight diseases such as HIV, malaria, "
+"cancer, and Alzheimer's"
+msgstr "Bazı önemli insan hastalıklarına tedavi bulmayı sağlayabilecek tıbbi araştırmalar için, proteinlerin 3 boyutlu şekillerini saptayın. Rosetta@home çalıştırarak, yardımınız olmadan hızlandıramayacağımız ve genişletemeyeceğimiz araştırmalarımız konusunda bize katkıda bulunacaksınız. Ayrıca, HIV (AIDS), sıtma, kanser ve Alzheimer gibi hastalıklarla mücadele için yeni proteinler tasarlama çabalarımıza yardımcı olacaksınız."
 
-#: projects.inc:178
-msgid "University of Vienna"
-msgstr "Viyana Üniversitesi"
-
-#: projects.inc:180
-msgid ""
-"Calculate similarities between proteins. SIMAP provides a public database of"
-" the resulting data, which plays a key role in many bioinformatics research "
-"projects."
-msgstr "Proteinler arasındaki benzerlikleri hesaplayın. SIMAP, sonuçta elde edilen verilerle, bir çok biyoenformatik araştırma projesinde anahtar rol oynayan bir halka açık veritabanı sağlar."
-
-#: projects.inc:186
+#: projects.inc:231
 msgid "Earth Sciences"
 msgstr "Yer Bilimleri"
 
-#: projects.inc:198
+#: projects.inc:243
 msgid "Oxford University"
 msgstr "Oxford Üniversitesi"
 
-#: projects.inc:199
+#: projects.inc:244
 msgid "Climate study"
 msgstr "İklim araştırması"
 
-#: projects.inc:200
+#: projects.inc:245
 msgid ""
 "Investigate the approximations that have to be made in state-of-the-art "
 "climate models. By running the model thousands of times we hope to find out "
@@ -594,85 +530,99 @@ msgid ""
 "changes and also to things like changes in carbon dioxide and the sulphur "
 "cycle. This will allow us to explore how climate may change in the next "
 "century under a wide range of different scenarios."
-msgstr "Son teknoloji ürünü iklim modellerinde yapılması gereken tahminleri araştırın. Modeli binlerce kez çalıştırarak, modelin küçük ayarlamalara nasıl yanıt verdiğini bulmayı umuyoruz ve tahminleri gerçeğe daha uygun hale getirmeyi bekliyoruz. Bu bize, modellerimizin küçük değişikliklere karşı ne kadar hassas olduğunu anlamamızı ve aynı zamanda karbondioksit değişiklikleri ve kükürt döngüsü gibi şeyler için anlayışımızı geliştirmemizi sağlayacak. Ayrıca, önümüzdeki yüzyılda iklimin geniş bir yelpazedeki farklı senaryolar altında nasıl değişebileceğini keşfetmemizi de sağlayacak. "
+msgstr "Son teknoloji ürünü iklim modellerinde yapılması gereken tahminleri araştırın. Modeli binlerce kez çalıştırarak, modelin küçük ayarlamalara nasıl yanıt verdiğini bulmayı umuyoruz ve tahminleri gerçeğe daha uygun hale getirmeyi bekliyoruz. Bu, modellerimizin küçük değişikliklere karşı ne kadar hassas olduğunu anlamamızı ve aynı zamanda karbondioksit değişiklikleri ve kükürt döngüsü gibi şeyler için anlayışımızı geliştirmemizi sağlayacak. Ayrıca, önümüzdeki yüzyılda iklimin geniş bir yelpazedeki farklı senaryolar altında nasıl değişebileceğini keşfetmemizi de sağlayacak. "
 
-#: projects.inc:207
+#: projects.inc:253
 msgid "Physical Science"
 msgstr "Fizik Bilimi"
 
-#: projects.inc:213
+#: projects.inc:259
 msgid "Mechanical engineering"
 msgstr "Makine mühendisliği"
 
-#: projects.inc:214
+#: projects.inc:260
 msgid ""
 "Currently we are calculating the optimum design of a structure call the 52 "
 "bar truss"
 msgstr "Şu anda, 52 bar kafese (kirişe) sahip bir yapının optimum tasarımını araştırıyoruz."
 
-#: projects.inc:224 projects.inc:263 projects.inc:271
+#: projects.inc:269 projects.inc:328 projects.inc:338
 msgid "Astronomy"
 msgstr "Astronomi"
 
-#: projects.inc:225
-msgid ""
-"We will combine the spectral coverage of GALEX, Pan-STARRS1, and WISE to "
-"generate a multi-wavelength UV-optical-NIR galaxy atlas for the nearby "
-"Universe. We will measure physical parameters (such as stellar mass surface "
-"density, star formation rate surface density, attenuation, and first-order "
-"star formation history) on a resolved pixel-by-pixel basis using spectral "
-"energy distribution (SED) fitting techniques in a distributed computing "
-"mode."
-msgstr "GALEX, Pan-STARRS1 ve WISE'ın tayfsal kapsama alanını, yakın evren için bir 'çok dalga boylu UV-optik-NIR galaksi atlası' oluşturmak amacıyla birleştireceğiz. Bir dağıtık bilgisayar moduyla, piksel-piksele esasına göre tayfsal enerji dağılımı teknikleri kullanılarak çözülmüş fiziksel parametreleri ölçeceğiz (örneğin yıldız kütlesi yüzey yoğunluğu, yıldız oluşumu oranı yüzey yoğunluğu, zayıflama ve birinci dereceden yıldız oluşumu öyküsü gibi)."
-
-#: projects.inc:247
-msgid "University of Texas at Austin"
-msgstr "Austin'deki Texas Üniversitesi"
-
-#: projects.inc:248 projects.inc:279
-msgid "Chemistry"
-msgstr "Kimya"
-
-#: projects.inc:249
-msgid ""
-"A common problem in theoretical chemistry, condensed matter physics and "
-"materials science is the calculation of the time evolution of an atomic "
-"scale system where, for example, chemical reactions and/or diffusion occur. "
-"Generally the events of interest are quite rare (many orders of magnitude "
-"slower than the vibrational movements of the atoms), and therefore direct "
-"simulations, tracking every movement of the atoms, would take thousands of "
-"years of computer calculations on the fastest present day computer before a "
-"single event of interest can be expected to occur.  Our research group is "
-"interested in calculating the long time dynamics of systems."
-msgstr "Teorik kimyanın, yoğun madde fiziğinin ve malzeme biliminin yaygın bir sorunu, atom ölçekli bir sistemin zaman evrimini hesaplamaktır. Örneğin, kimyasal reaksiyonlar ve/veya difüzyonun meydana gelişi gibi. Genellikle ilgili olaylar oldukça nadirdir (birçoğunun büyüklüğü, atomların titreşim hareketlerinden daha yavaştır). Bu nedenle, meydana gelecek tek bir olayı incelemek, doğrudan simülasyonlar ve atomların her hareketini izlemek, bugünün en hızlı bilgisayarlarıyla bile yüzlerce yıl alabilir.  Araştırma grubumuz, söz konusu sistemlerin uzun zaman dinamiklerinin hesaplanmasıyla ilgileniyor."
-
-#: projects.inc:262
-msgid "University of Illinois at Urbana-Champaign"
-msgstr "Urbana-Chamapign'deki Illinois Üniversitesi"
-
-#: projects.inc:264
-msgid ""
-"The goal of Cosmology@Home is to search for the model that best describes "
-"our Universe and to find the range of models that agree with the available "
-"astronomical particle physics data."
-msgstr "Cosmology@Home'un temel hedefi, evrenimizi en iyi betimleyen modeli araştırmak ve eldeki astronomik parçacık fiziği verileriyle uyumlu model aralıklarını bulmak."
-
 #: projects.inc:270
+msgid ""
+"TheSkyNet POGS is an astronomy project studying 16 different properties of "
+"galaxies, including brightness, mass, amount of dust and how fast stars are "
+"forming. We are using your processing power to conduct pixel-by-pixel "
+"calculations on multi-wavelength (ultraviolet, optical and near-infrared "
+"light) images of galaxies to produce an atlas that will help astronomers to "
+"better understand the distant universe."
+msgstr "theSkyNet POGS, galaksilerin parlaklık, kütle, toz miktarı ve ne kadar hızlı oluştukları dahil, 16 farklı özelliğini inceleyen bir astronomi projesidir. Biz, astronomların uzak evreni anlamalarına yardımcı olacak bir atlas üretmek amacıyla, çok dalga boylu (ultraviyole, optik ve yakın kızılötesi ışık) galaksi görüntülerinin piksel-piksel hesaplamalarını yapmak için sizin işlemci gücünüzü kullanıyoruz."
+
+#: projects.inc:280 projects.inc:366
+msgid "Astrophysics"
+msgstr "Astrofizik"
+
+#: projects.inc:281
+msgid ""
+"The aim of the project is to derive shapes and spin for a significant part "
+"of the asteroid population. As input data, we use any asteroid photometry "
+"that is available. The results are asteroid convex shape models with the "
+"direction of the spin axis and the rotation period."
+msgstr "Projenin amacı, asteroit nüfusunun önemli bir bölümü için şekillerin ve dönüşlerin türetilmesidir. Veri girişi olarak, mevcut herhangi bir asteroid fotometrisini kullanıyoruz. Sonuçlar, asteroit dönme ekseni yönü ve dönme süresi ile dışbükey şekil modelleridir."
+
+#: projects.inc:290
+msgid "Aerospace-related science and engineering"
+msgstr "Havacılık ve uzayla ilgili bilim ve mühendislik"
+
+#: projects.inc:291
+msgid ""
+"Constellation is a platform for aerospace-related simulations, including "
+"trajectory optimization of launchers, satellites and probes, simulation of "
+"Moon's near-surface exosphere, and analysis of dynamic systems of "
+"exploration-rovers"
+msgstr "Constellation, füze rampaları yörüngesi optimizasyonu, uydular ve sondalar, Ay'ın yüzeye yakın eksosfer simülasyonu, keşif-gezginlerinin dinamik sistemlerinin analizi de dahil olmak üzere, havacılık ve uzayla ilgili simülasyonlar için bir platformdur."
+
+#: projects.inc:294
+msgid "Perform aerospace-related simulations"
+msgstr "Havacılık ve uzayla ilgili simülasyonlar gerçekleştirme"
+
+#: projects.inc:329
+msgid ""
+"Universe@Home aims to create the first database of the simulated stellar "
+"content of the Universe, from the earliest stars to the most exotic black "
+"hole binaries."
+msgstr "Universe@Home, en erken yıldızlardan en egzotik karadelik ikililerine kadar evrenin simüle yıldız içeriğinin ilk veri tabanını oluşturmayı amaçlıyor."
+
+#: projects.inc:332
+msgid "Do research in physics and astronomy"
+msgstr "Fizik ve astronomi araştırmaları"
+
+#: projects.inc:337
 msgid "Rensselaer Polytechnic Institute"
 msgstr "Rensselaer Politeknik Enstitüsü"
 
-#: projects.inc:272
+#: projects.inc:339
 msgid ""
 "The goal of Milkyway@Home is to create a highly accurate three dimensional "
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
 "Survey."
 msgstr "Milkyway@Home projesinin amacı, Sloan Sayısal Gökyüzü Araştırması tarafından toplanan verileri kullanarak Samanyolu Galaksisi'nin son derece doğru, üç boyutlu modelini oluşturmaktır."
 
-#: projects.inc:278
+#: projects.inc:342
+msgid "Study the structure of the Milky Way galaxy"
+msgstr "Samanyolu galaksisinin yapısını inceleme"
+
+#: projects.inc:347
 msgid "Leiden University, The Netherlands"
 msgstr "Leiden Üniversitesi, Hollanda"
 
-#: projects.inc:280
+#: projects.inc:348
+msgid "Chemistry"
+msgstr "Kimya"
+
+#: projects.inc:349
 msgid ""
 "Surface science calculations using Classical Dynamics.  Leiden Classical "
 "allows volunteers, students and other scientist to submit their personal "
@@ -682,15 +632,15 @@ msgid ""
 "simulations through the grid."
 msgstr "Yüzey bilimi, Klasik Dinamikleri kullanılarak hesaplamalar yapar. Leiden Classic, şebekeye kendi kişisel hesaplamalarını göndermeleri için gönüllüler, öğrenciler ve diğer bilim adamlarına izin verir. Her kullanıcının Klasik Dinamik işleri için kendi kişisel sırası vardır. Bu yolla öğrenciler sıvı argonu simüle etmek için veya şebeke vasıtasıyla simülasyonlar yaparak, ideal gaz yasasının geçerliliğini test etmek için dağıtık hesaplamayı kullanır."
 
-#: projects.inc:294
+#: projects.inc:352
+msgid "Help students do atomic simulations"
+msgstr "Atom simülasyonları yapmaları için öğrencilere yardım"
+
+#: projects.inc:365
 msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
 msgstr "Wisconsin Üniversitesi - Milwaukee, Max Planck Enstitüsü"
 
-#: projects.inc:295
-msgid "Astrophysics"
-msgstr "Astrofizik"
-
-#: projects.inc:296
+#: projects.inc:367
 msgid ""
 "Search for spinning neutron stars (also called pulsars) using data from the "
 "LIGO and GEO gravitational wave detectors, and from the Arecibo radio "
@@ -699,15 +649,19 @@ msgid ""
 "international organizations."
 msgstr "Çok hızlı dönen nötron yıldızlarını (pulsar olarak da adlandırılır) aramakta kullanılan veriler, LIGO ve GEO kütleçekim dalga detektörleri ile, Arecibo Radyo Gözlemevi'nden gelmektedir. Einstein@Home, bir 2005 Dünya Fizik Yılı projesidir ve Amerikan Fizik Derneği (American Physical Society-APS) ile bir dizi uluslararası kuruluş tarafından desteklenmektedir."
 
-#: projects.inc:310 projects.inc:318
+#: projects.inc:370
+msgid "Help detect pulsars and gravitational waves"
+msgstr "Pulsar ve yerçekimi dalgalarının algılamasına yardım"
+
+#: projects.inc:383 projects.inc:393 projects.inc:403
 msgid "CERN (European Organization for Nuclear Research)"
 msgstr "CERN (Avrupa Nükleer Araştırma Merkezi)"
 
-#: projects.inc:311 projects.inc:319
+#: projects.inc:384 projects.inc:394 projects.inc:404
 msgid "Physics"
 msgstr "Fizik"
 
-#: projects.inc:312
+#: projects.inc:385
 msgid ""
 "The Large Hadron Collider (LHC) is a particle accelerator at CERN, the "
 "European Organization for Nuclear Research, the world's largest particle "
@@ -716,22 +670,42 @@ msgid ""
 "the design of LHC and its detectors."
 msgstr "Büyük Hadron Çarpıştırıcısı (LHC), Avrupa Nükleer Araştırma Merkezi CERN'deki dünyanın en büyük  parçacık hızlandırıcısıdır. Bu, şimdiye kadar parçacık davranışlarını araştırmak için yapılmış en güçlü araçtır. LHC@home, LHC'nin tasarımını ve detektörlerini geliştirmek amacıyla simülasyonlar yürütür."
 
-#: projects.inc:320
-msgid ""
-"This project uses CERN-developed virtual machine technology for full-fledged"
-" LHC event physics simulation on volunteer computers.  Requires that you "
-"install VirtualBox on your computer"
-msgstr "Bu proje gönüllü bilgisayarlarda, tam teşekküllü Büyük Hadron Çarpıştırıcısı (LHC) olay fizik simülasyonunu gerçekleştirir. Bunun için, Avrupa Nükleer Araştırma Merkezi (CERN) ile geliştirilen sanal makine teknolojisini kullanır.  Bilgisayarınıza VirtualBox yüklemenizi gerektirir."
+#: projects.inc:388
+msgid "Improve the design of the Large Hadron Collider"
+msgstr "Büyük Hadron Çarpıştırıcısı'nın tasarımını geliştirme"
 
-#: projects.inc:326
+#: projects.inc:395
+msgid ""
+"This project uses CERN-developed virtual machine technology for LHC event "
+"physics simulation on volunteer computers.  Requires that you install "
+"VirtualBox on your computer"
+msgstr "Bu proje, gönüllü bilgisayarlarda Büyük Hadron Çarpıştırıcısı (LHC) olay fizik simülasyonunu gerçekleştirmek için, Avrupa Nükleer Araştırma Merkezi (CERN) tarafından geliştirilen sanal makine teknolojisini kullanır. Bilgisayarınıza VirtualBox yüklemenizi gerektirir."
+
+#: projects.inc:398
+msgid "Simulate high-energy particle collisions"
+msgstr "Yüksek enerjili parçacık çarpışmalarını simüle etme"
+
+#: projects.inc:405
+msgid ""
+"ATLAS@Home uses volunteer computing to run simulations for ATLAS, a particle"
+" physics experiment at CERN's Large Hadron Collider.  ATLAS searches for new"
+" particles and processes using head-on collisions of protons of "
+"extraordinary high energy."
+msgstr "ATLAS@Home, Avrupa Nükleer Araştırma Merkezi'nin (CERN) Büyük Hadron Çarpıştırıcısındaki (LHC) bir parçacık fiziği deneyi olan ATLAS için sümulasyonlar çalıştırmak amacıyla, gönüllü hesaplamacılığı kullanıyor. ATLAS, yeni parçacıklar ve süreçler aramak için, kafa kafaya proton çarpışmalarının olağanüstü yüksek enerjisini kullanıyor."
+
+#: projects.inc:408
+msgid "Simulate high-energy particle collisions for CERN"
+msgstr "CERN için yüksek enerjili parçacık çarpışmalarını simüle etme"
+
+#: projects.inc:413
 msgid "University of California, Berkeley"
 msgstr "Kaliforniya Üniversitesi, Berkeley"
 
-#: projects.inc:327
+#: projects.inc:414
 msgid "Astrophysics, astrobiology"
 msgstr "Astrofizik, astrobiyoloji"
 
-#: projects.inc:328
+#: projects.inc:415
 msgid ""
 "SETI (Search for Extraterrestrial Intelligence) is a scientific area whose "
 "goal is to detect intelligent life outside Earth. One approach, known as "
@@ -740,60 +714,70 @@ msgid ""
 "detection would provide evidence of extraterrestrial technology."
 msgstr "SETI (Dünya Dışı Zeka Arayışı), amacı dünyanın dışında akıllı yaşamı algılamak olan bilimsel bir alandır. Yaklaşımlardan birisi, radyo SETI olarak bilinen, uzaydan gelen dar-bant radyo sinyallerini dinlemek için radyo teleskopları kullanmaktır. Böyle sinyallerin doğal olarak oluşmadığı bilinmektedir, bu tür bir sinyalin algılanması, uzayda dünya dışı bir teknolojinin kanıtı olabilir."
 
-#: projects.inc:342
-msgid "Bielefeld University of Applied Sciences"
-msgstr "Bielefeld Üniversitesi Uygulamalı Bilimleri"
+#: projects.inc:418
+msgid "Search for evidence of extra-terrestrial life"
+msgstr "Dünya dışı yaşam için kanıt arayışı"
 
-#: projects.inc:343
-msgid "Chemical engineering and nanotechnology"
-msgstr "Kimya mühendisliği ve nanoteknoloji"
-
-#: projects.inc:344
-msgid ""
-"The study of molecular magnets and controlled nanoscale magnetism.  These "
-"magnetic molecules may be used to develop tiny magnetic switches, with "
-"applications in medicine (such as local tumor chemotherapy) and "
-"biotechnology."
-msgstr "Moleküler mıknatıslar ve kontrollü nano manyetizma çalışması.  Bu manyetik moleküllerle, tıp uygulamaları (örneğin bölgesel tümör kemoterapisi) ve biyoteknolojide kullanılacak küçük manyetik anahtarlar geliştirilebilir."
-
-#: projects.inc:351
+#: projects.inc:442
 msgid "Multiple applications"
 msgstr "Çoklu uygulamalar"
 
-#: projects.inc:356
+#: projects.inc:448
+msgid "Molecular biology, Computer Science"
+msgstr "Moleküler biyoloji, Bilgisayar bilimleri"
+
+#: projects.inc:449
+msgid ""
+"The Citizen Science Grid is dedicated to supporting a wide range of research"
+" and educational projects using volunteer computing and citizen science."
+msgstr "The Citizen Science Grid, gönüllü hesaplama ve vatandaş bilimini kullanan geniş bir yelpazedeki araştırma ve eğitim projelerine desteğe adanmıştır."
+
+#: projects.inc:452
+msgid "Support science from the University of North Dakota"
+msgstr "Kuzey Dakota Üniversitesi'nden bilime destek"
+
+#: projects.inc:457
 msgid "Chinese Academy of Sciences"
 msgstr "Çin Bilimler Akademisi"
 
-#: projects.inc:357
+#: projects.inc:458
 msgid "Physics, biochemistry, and others"
 msgstr "Fizik, biyokimya ve diğerleri"
 
-#: projects.inc:358
+#: projects.inc:459
 msgid ""
 "The objective of CAS@home is to encourage and assist scientists in China to "
 "adopt the technologies of volunteer computing and volunteer thinking for "
 "their research."
 msgstr "CAS@home'un amacı, Çin'deki bilim insanlarını gönüllü bilgisayar teknolojilerini benimsemeleri ve kendi araştırmaları için gönüllülerin yardımını düşünmeleri için teşvik etmek ve yardımcı olmaktır."
 
-#: projects.inc:365
+#: projects.inc:462
+msgid "Help Chinese researchers"
+msgstr "Çinli araştırmacılara yardım"
+
+#: projects.inc:468
 msgid "Mathematics, physics, evolution"
 msgstr "Matematik, fizik ve evrim"
 
-#: projects.inc:366
+#: projects.inc:469
 msgid ""
 "Yoyo@home is an adapter between BOINC and several existing volunteer "
 "computing projects: ECM, Muon, Evolution@home, and distributed.net"
 msgstr "Yoyo@home, BOINC ve mevcut birkaç gönüllü hesaplama projesi arasında bir köprüdür: ECM, Muon, Evolution@home ve distributed.net"
 
-#: projects.inc:371 projects.inc:527
+#: projects.inc:472
+msgid "Do research in math, physics, and evolution"
+msgstr "Matematik, fizik ve evrimle ilgili araştırmalar"
+
+#: projects.inc:477 projects.inc:677
 msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
 msgstr "MTA-SZTAKI Paralel ve Dağıtık Sistemler Laboratuvarı (Macaristan)"
 
-#: projects.inc:372
+#: projects.inc:478
 msgid "European research projects"
 msgstr "Avrupa araştırma projeleri"
 
-#: projects.inc:373
+#: projects.inc:479
 msgid ""
 "The EDGeS@Home Beta project integrates volunteer computing into the service "
 "grid network of Europe by allowing service grids to send workunits to be "
@@ -801,27 +785,35 @@ msgid ""
 " by the project include math, physics, biology, etc."
 msgstr "EDGeS@Home Beta projesi, gönüllü hesaplamacılığı, Avrupa hizmet dağıtık ağına entegre eder. Bunu, Avrupa hizmet dağıtık ağlarının, bu projenin gönüllülerine işlenmeleri için iş birimleri göndermesini sağlayarak gerçekleştirir. EDGeS@Home Beta'nın kapsadığı bilimsel projeler, matematik, fizik, biyoloji ve benzerleri alanlardadır."
 
-#: projects.inc:379
+#: projects.inc:482
+msgid "Help European researchers"
+msgstr "Avrupalı araştırmacılara yardım"
+
+#: projects.inc:487
 msgid "Spanish universities and research centers"
 msgstr "İspanyol üniversiteleri ve araştırma merkezleri"
 
-#: projects.inc:380
+#: projects.inc:488
 msgid "Various Spanish research projects"
 msgstr "Çeşitli İspanyol araştırma projeleri"
 
-#: projects.inc:381
+#: projects.inc:489
 msgid "Research in physics, material science, and biomedicine"
 msgstr "Fizik, malzeme bilimi ve biyomedikal araştırmaları"
 
-#: projects.inc:387
+#: projects.inc:492
+msgid "Help Spanish researchers"
+msgstr "İspanyol araştırmacılara yardım"
+
+#: projects.inc:497
 msgid "IBM Corporate Citizenship"
 msgstr "IBM Kurumsal Sosyal Sorumluluk"
 
-#: projects.inc:388
+#: projects.inc:498
 msgid "Medical, environmental and other humanitarian research"
 msgstr "Tıbbi, çevresel ve diğer insani araştırmalar"
 
-#: projects.inc:389
+#: projects.inc:499
 msgid ""
 "To further critical non-profit research on some of humanity's most pressing "
 "problems by creating the world's largest volunteer computing grid.  Research"
@@ -829,50 +821,87 @@ msgid ""
 "clean water and many more."
 msgstr "Dünyanın en büyük gönüllü bilgisayar şebekesini oluşturarak, insanlığın en acil sorunlardan bazıları hakkında, kar amacı gütmeyen daha çok kritik araştırma yapmayı hedefler. Araştırma, HIV-AIDS, kanser, tropikal ve ihmal edilen hastalıklar, güneş enerjisi, temiz su ve daha birçoğunu içerir."
 
-#: projects.inc:395
+#: projects.inc:502
+msgid "Do biomedical and environmental research"
+msgstr "Biyomedikal ve çevre araştırmaları"
+
+#: projects.inc:507
 msgid "Mathematics, computing, and games"
 msgstr "Matematik, hesaplama ve oyunlar"
 
-#: projects.inc:401
+#: projects.inc:533 projects.inc:602 projects.inc:658 projects.inc:668
+#: projects.inc:678
+msgid "Mathematics"
+msgstr "Matematik"
+
+#: projects.inc:534
+msgid ""
+"NumberFields@home searches for fields with special properties. The primary "
+"application of this research is in the realm of algebraic number theory. "
+"Number theorists can mine the data for interesting patterns to help them "
+"formulate conjectures about number fields. Ultimately, this research will "
+"lead to a deeper understanding of the profound properties of numbers, the "
+"basic building blocks of all mathematics."
+msgstr "NumberFields@home, özel özelliklere sahip alanları araştırır. Bu araştırmanın temel uygulaması, cebirsel sayılar teorisi alanında yer almaktadır. Sayı teorisyenleri, sayı alanları hakkındaki varsayımlarını formüle etmeye yardımcı olması için, veri  madenleri içindeki ilginç desenleri aralar. Sonuçta bu araştırma, tüm matematiğin temel yapı taşları olan sayıların engin özellikleri hakkında daha derin bir anlayışa imkan sağlayacaktır."
+
+#: projects.inc:537
+msgid "Do research in algebraic number theory"
+msgstr "Cebirsel Sayılar Teorisi üzerinde araştırmalar"
+
+#: projects.inc:553
 msgid "Computer Science"
 msgstr "Bilgisayar Bilimi"
 
-#: projects.inc:409
-msgid "Mathematics, Physics, Artificial Intelligence"
-msgstr "Matematik, fizik, yapay zeka"
+#: projects.inc:554
+msgid ""
+"Solve hard and practically important problems (discrete functions inversion "
+"problems, discrete optimization, bioinformatics, etc.) that can be "
+"effectively reduced to Boolean satisfiability problem."
+msgstr "Boolean Satisfiability Problemi'ni etkin bir şekilde azaltılabilecek zor ve pratik olarak önemli meseleler için çözüm arayışı (ayrık fonksiyonları ters çevirme sorunları, ayrık optimizasyon, biyoinformatik, vb). "
 
-#: projects.inc:410
-msgid "Simulation of quantum computing; Goldbach's conjecture."
-msgstr "Kuantum bilgisayar simülasyonu; Goldbach Hipotezi (Varsayımı)."
+#: projects.inc:557
+msgid "Study computational complexity"
+msgstr "Hesaplama karmaşıklığı çalışması"
 
-#: projects.inc:450 projects.inc:458
+#: projects.inc:582
+msgid "Cryptography and combinatorics"
+msgstr "Kriptografi ve kombinatorik"
+
+#: projects.inc:583 projects.inc:586
+msgid "Run applications from distributed.net"
+msgstr "distributed.net'ten uygulamalar çalıştırma"
+
+#: projects.inc:592
 msgid "Cryptography"
 msgstr "Kriptografi"
 
-#: projects.inc:459
+#: projects.inc:593
 msgid ""
 "Attempt to decode 3 original Enigma messages. The signals were intercepted "
 "in the North Atlantic in 1942 and are believed to be unbroken."
 msgstr "Enigma, İkinci Dünya Savaşı sırasında Almanlar tarafından kullanılan şifreleme cihazıdır. Proje, üç orijinal Enigma mesajını çözmek için bir denemedir. Sinyaller 1942 yılında Kuzey Atlantik'te yakalanmıştı ve kırılamamış olduğuna inanılmaktadır."
 
-#: projects.inc:465 projects.inc:504 projects.inc:512 projects.inc:520
-#: projects.inc:528 projects.inc:568
-msgid "Mathematics"
-msgstr "Matematik"
+#: projects.inc:596
+msgid "Decode WWII submarine messages"
+msgstr "İkinci Dünya Savaşı denizaltı mesajlarını deşifre etme"
 
-#: projects.inc:466
+#: projects.inc:603
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
 msgstr "Collatz Hipotezi (Varsayımı) çalışması, matematikte çözülememiş bir hipotez."
 
-#: projects.inc:471
+#: projects.inc:606
+msgid "Study the Collatz Conjecture"
+msgstr "Collatz Hipotezi çalışması"
+
+#: projects.inc:611
 msgid "California State University Fullerton"
 msgstr "Kaliforniya Eyalet Üniversitesi, Fullerton"
 
-#: projects.inc:472
+#: projects.inc:612
 msgid "Factorization of large integers"
 msgstr "Büyük tamsayıların çarpanlarına ayrılması"
 
-#: projects.inc:473
+#: projects.inc:613
 msgid ""
 "NFS@Home is a research project that uses Internet-connected computers to do "
 "the lattice sieving step in the Number Field Sieve factorization of large "
@@ -880,62 +909,52 @@ msgid ""
 "breaking an integer into prime factors, such as 15 = 3 * 5 or 35 = 5 * 7. "
 "NFS@Home is a continuation of that experience, only with integers that are "
 "hundreds of digits long."
-msgstr "Sayı Alanı Elemesi (Number Field Sieve-NFS), büyük tamsayıları çarpanlarına ayırmada kullanılan bir yöntemdir. NFS@Home, bu yöntemdeki  dağıtık eleme işlemi adımının, internet bağlantılı bilgisayarlar kullanarak yapıldığı bir araştırma projesidir. Bir genç okul öğrencisiyken, bir tamsayıyı asal çarpanlarına ayırmayı ilk kez deneyimlemiş olmalısınız. Mesela 15 = 3 * 5 ya da 35 = 5 * 7. NFS@Home bu deneyimin bir devamıdır, ancak yüzlerce basamak uzunluğundaki tamsayılar söz konusudur."
+msgstr "Sayı Alanı Elemesi (Number Field Sieve-NFS), büyük tamsayıları çarpanlarına ayırmada kullanılan bir yöntemdir. NFS@Home, bu yöntemdeki 'dağıtık eleme işlemi' adımının, internet bağlantılı bilgisayarlar kullanarak yapıldığı bir araştırma projesidir. Bir genç okul öğrencisiyken, bir tamsayıyı asal çarpanlarına ayırmayı ilk kez deneyimlemiş olmalısınız. Mesela 15 = 3 * 5 ya da 35 = 5 * 7. NFS@Home bu deneyimin bir devamıdır, ancak yüzlerce basamak uzunluğundaki tamsayılar söz konusudur."
 
-#: projects.inc:479
-msgid ""
-"Vilnius Gediminas Technical University and Kaunas University of Technology "
-"(Lithuania)"
-msgstr "Vilnius Gediminas Teknik Üniversitesi ve Kaunas Teknoloji Üniversitesi (Litvanya)"
+#: projects.inc:616
+msgid "Study the factorization of large integers"
+msgstr "Büyük tamsayıların çarpanlarına ayrılması araştırması"
 
-#: projects.inc:480
-msgid "Software testing"
-msgstr "Yazılım test etme"
-
-#: projects.inc:481
-msgid ""
-"The aim of this project is to provide a powerful distributed computing "
-"platform for scientists of Vilnius Gediminas Technical University (VGTU) as "
-"well as others Lithuanian academic institutions.  Current applications "
-"involve the study of Monte-Carlo based software testing."
-msgstr "Bu projenin amacı, Vilnius Gediminas Teknik Üniversitesi (VGTU) bilim insanlarının yanı sıra başka Litvanyalı akademik kurumlar için güçlü bir dağıtık bilgi işlem platformu sağlamaktır. Güncel uygulamalar, Monte-Carlo tabanlı yazılım test çalışmalarını da içermektedir."
-
-#: projects.inc:503
-msgid "Mathematical Institute of Leiden University / Kennislink"
-msgstr "Leiden Üniversitesi Matematik Enstitüsü / Kennislink"
-
-#: projects.inc:505
-msgid ""
-"Search for 'abc-triples': positive integers a,b,c such that a+b=c, a &lt; b "
-"&lt; c, a,b,c have no common divisors and c > rad(abc), where rad(n) is the "
-"product of the distinct prime factors of n. The ABC conjecture says that "
-"there are only finitely many a,b,c such that log(c)/log(rad(abc)) > h for "
-"any real h > 1. The ABC conjecture is currently one of the greatest open "
-"problems in mathematics. If it is proven to be true, a lot of other open "
-"problems can be answered directly from it."
-msgstr "'Abc-üçlüsü' arayışı: ABC varsayımı, halen matematikteki büyük süren sorunlardan biridir. Gerçek olduğu kanıtlanırsa, diğer süren bir çok sorun onun sayesinde doğrudan yanıtlanabilir."
-
-#: projects.inc:513
+#: projects.inc:659
 msgid ""
 "Primegrid has multiple projects searching for different forms of very large "
 "prime numbers, including searching for the largest known prime number."
 msgstr "Primegrid, çok büyük asal sayıların farklı formlarını arayan birden fazla projeye sahiptir. Bunlar arasında, bilinen en büyük asal sayıyı bulma projesi de mevcuttur."
 
-#: projects.inc:519
+#: projects.inc:662
+msgid "Search for large prime numbers"
+msgstr "Büyük asal sayılar arayışı"
+
+#: projects.inc:667
 msgid "Hochschule RheinMain University of Applied Sciences"
 msgstr "Hochschule RheinMain Uygulamalı Bilimler Üniversitesi"
 
-#: projects.inc:521
+#: projects.inc:669
 msgid ""
 "Search for counterexamples to two conjectures related to the identification "
 "of prime numbers"
 msgstr "Asal sayıların tanımlanmasına ilişkin iki varsayım için karşı örnekler arayışı."
 
-#: projects.inc:529
+#: projects.inc:672
+msgid "Study the properties of prime numbers"
+msgstr "Büyük asal sayıların özellikleri araştırması"
+
+#: projects.inc:679
 msgid ""
 "Find all the generalized binary number systems (in which bases are matrices "
 "and digits are vectors) up to dimension 11."
-msgstr "11 ölçüsüne kadar tüm genelleştirilmiş ikili sayı sistemlerini bul (Hangi bazlar matrisler ve rakam vektörler)."
+msgstr "11. boyutluya kadarki tüm genelleştirilmiş ikili sayı sistemlerini (ki tabanları matris ve basamaklı vektörlerdir) bulun "
+
+#: projects.inc:682
+msgid "Study number theory"
+msgstr "Sayı Teorisi araştıması"
+
+#: projects.inc:739
+msgid ""
+"Testing and comparison of heuristic methods for getting separations of "
+"parallel algorithms working in the CAD system for designing logic control "
+"systems"
+msgstr "Mantık kontrol sistemleri tasarımı için, CAD sisteminde çalışan paralel algoritmaların ayrımlarını elde etmek amacıyla, sezgisel yöntemlerin test ve karşılaştırması."
 
 #: ../html/inc/news.inc:40
 msgid "Comment"

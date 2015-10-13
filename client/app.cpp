@@ -108,6 +108,8 @@ ACTIVE_TASK::ACTIVE_TASK() {
 
     fraction_done = 0;
     fraction_done_elapsed_time = 0;
+    first_fraction_done = 0;
+    first_fraction_done_elapsed_time = 0;
     scheduler_state = CPU_SCHED_UNINITIALIZED;
     signal = 0;
     run_interval_start_wall_time = gstate.now;
@@ -308,7 +310,7 @@ void procinfo_show(PROC_MAP& pm) {
     PROCINFO pi;
     pi.clear();
     PROC_MAP::iterator i;
-    for (i=pm.begin(); i!=pm.end(); i++) {
+    for (i=pm.begin(); i!=pm.end(); ++i) {
         PROCINFO& p = i->second;
 
         msg_printf(NULL, MSG_INFO, "%d %s: boinc? %d low_pri %d (u%f k%f)",
@@ -553,26 +555,40 @@ bool ACTIVE_TASK_SET::is_slot_dir_in_use(char* dir) {
     return false;
 }
 
-// Get a free slot,
-// and make a slot dir if needed
+// Get a free slot:
+// either find an unused an empty slot dir,
+// or create a new slot dir if needed
 //
 int ACTIVE_TASK::get_free_slot(RESULT* rp) {
 #ifndef SIM
     int j, retval;
     char path[MAXPATHLEN];
 
+    // scan slot numbers: slots/0, slots/1, etc.
+    //
     for (j=0; ; j++) {
+        // skip slots that are in use by existing jobs
+        //
         if (gstate.active_tasks.is_slot_in_use(j)) continue;
 
-        // make sure we can make an empty directory for this slot
-        //
         get_slot_dir(j, path, sizeof(path));
         if (boinc_file_exists(path)) {
             if (is_dir(path)) {
+                // If the directory exists, try to clean it out.
+                // If this succeeds, use it.
+                //
                 retval = client_clean_out_dir(path, "get_free_slot()");
                 if (!retval) break;
+                if (log_flags.slot_debug) {
+                    msg_printf(rp->project, MSG_INFO,
+                        "[slot] failed to clean out dir: %s",
+                        boincerror(retval)
+                    );
+                }
             }
         } else {
+            // directory doesn't exist - create one
+            //
             retval = make_slot_dir(j);
             if (!retval) break;
         }
@@ -588,7 +604,9 @@ int ACTIVE_TASK::get_free_slot(RESULT* rp) {
     }
     slot = j;
     if (log_flags.slot_debug) {
-        msg_printf(rp->project, MSG_INFO, "[slot] assigning slot %d to %s", j, rp->name);
+        msg_printf(rp->project, MSG_INFO,
+            "[slot] assigning slot %d to %s", j, rp->name
+        );
     }
 #endif
     return 0;
@@ -650,11 +668,12 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
 #ifndef SIM
 
 int ACTIVE_TASK::write_gui(MIOFILE& fout) {
-    // if the app hasn't reported fraction done, and time has elapsed,
-    // estimate fraction done
+    // if the app hasn't reported fraction done or reported > 1,
+    // and a minute has elapsed, estimate fraction done in a
+    // way that constantly increases and approaches 1.
     //
     double fd = fraction_done;
-    if (fd == 0 && elapsed_time > 0) {
+    if (((fd<=0)||(fd>1)) && elapsed_time > 60) {
         double est_time = wup->rsc_fpops_est/app_version->flops;
         double x = elapsed_time/est_time;
         fd = 1 - exp(-x);
@@ -696,6 +715,12 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         too_large?"   <too_large/>\n":"",
         needs_shmem?"   <needs_shmem/>\n":""
     );
+    if (elapsed_time > first_fraction_done_elapsed_time) {
+        fout.printf(
+            "   <progress_rate>%f</progress_rate>\n",
+            (fd - first_fraction_done)/(elapsed_time - first_fraction_done_elapsed_time)
+        );
+    }
     if (strlen(app_version->graphics_exec_path)) {
         fout.printf(
             "   <graphics_exec_path>%s</graphics_exec_path>\n"
@@ -853,9 +878,6 @@ int ACTIVE_TASK_SET::write(MIOFILE& fout) {
 }
 
 int ACTIVE_TASK_SET::parse(XML_PARSER& xp) {
-    ACTIVE_TASK* atp;
-    int retval;
-
     while (!xp.get_tag()) {
         if (xp.match_tag("/active_task_set")) return 0;
         else if (xp.match_tag("active_task")) {
@@ -863,8 +885,8 @@ int ACTIVE_TASK_SET::parse(XML_PARSER& xp) {
             ACTIVE_TASK at;
             at.parse(xp);
 #else
-            atp = new ACTIVE_TASK;
-            retval = atp->parse(xp);
+            ACTIVE_TASK* atp = new ACTIVE_TASK;
+            int retval = atp->parse(xp);
             if (!retval) {
                 if (slot_taken(atp->slot)) {
                     msg_printf(atp->result->project, MSG_INTERNAL_ERROR,
@@ -1112,8 +1134,12 @@ void* throttler(void*) {
 
     while (1) {
         client_mutex.lock();
-        if (gstate.tasks_suspended || gstate.global_prefs.cpu_usage_limit > 99) {
+        if (gstate.tasks_suspended
+            || gstate.global_prefs.cpu_usage_limit > 99
+            || gstate.global_prefs.cpu_usage_limit < 0.005
+            ) {
             client_mutex.unlock();
+//            ::Sleep((int)(1000*10));  // for Win debugging
             boinc_sleep(10);
             continue;
         }

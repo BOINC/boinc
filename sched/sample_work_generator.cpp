@@ -126,7 +126,7 @@ void main_loop() {
 
     while (1) {
         check_stop_daemons();
-        int n;
+        long n;
         retval = count_unsent_results(n, app.id);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,

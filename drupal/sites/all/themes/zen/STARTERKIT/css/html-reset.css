@@ -1,0 +1,291 @@
+/**
+ * @file
+ * HTML Element Styling
+ *
+ * Ok, I admit it. I fooled you. This isn't a "reset" stylesheet. Instead this
+ * is the place where you should set (not reset) the default styling for all
+ * HTML elements.
+ *
+ * @see http://meiert.com/en/blog/20080419/reset-style-sheets-are-bad/
+ * @see http://snook.ca/archives/html_and_css/no_css_reset/
+ */
+
+
+/*
+ * Fonts
+ *
+ * Our font size and line height declarations are based on the following ALA
+ * article:
+ *   http://www.alistapart.com/articles/howtosizetextincss
+ *
+ * All modern browsrs use a 16px default font size. Specifying the font-size
+ * and line-height in ems (relative to the 16px default font) allows the user
+ * to resize the font in the browser and produces the most consistent results
+ * across different browsers.
+ */
+body {
+  font-size: 100%; /* Fixes exaggerated text resizing in IE6 and IE7 */
+}
+
+#skip-link,
+#page {
+  /*
+   * To use a 12px font size on the page, delete the 14px declarations.
+   * to use a 14px font size on the page, delete the 12px declarations.
+   */
+
+  /* Use a 12px base font size with a 16px line height */
+  font-size: 0.75em; /* 16px x .75 = 12px */
+  line-height: 1.333em; /* 12px x 1.333 = 16px */
+
+  /* Use a 14px base font size with a 18px line height */
+  font-size: 0.875em; /* 16px x .875 = 14px */
+  line-height: 1.286em; /* 14px x 1.286 = 18px */
+}
+
+body,
+caption,
+th,
+td,
+input,
+textarea,
+select,
+option,
+legend,
+fieldset {
+  /* The following font family declarations are based on the Microsoft core web
+   * fonts which are common fonts available on most computer systems. The DejaVu
+   * fonts are commonly available on Linux systems where the MS fonts are less
+   * common. Tahoma and Helvetica are also widely available.
+   *
+   * A user's web browser will look at the comma-separated list and will
+   * attempt to use each font in turn until it finds one that is available
+   * on the user's computer. The final "generic" font (sans-serif or serif)
+   * hints at what type of font to use if the web browser doesn't find any
+   * of the fonts in the list.
+
+  font-family: "Times New Roman", Times, Georgia, "DejaVu Serif", serif;
+  font-family: Times, "Times New Roman", Georgia, "DejaVu Serif", serif;
+  font-family: Georgia, "Times New Roman", "DejaVu Serif", serif;
+
+  font-family: Verdana, Tahoma, "DejaVu Sans", sans-serif;
+  font-family: Tahoma, Verdana, "DejaVu Sans", sans-serif;
+  font-family: Helvetica, Arial, "Nimbus Sans L", sans-serif;
+  font-family: Arial, Helvetica, "Nimbus Sans L", sans-serif;
+
+  font-family: "Courier New", "DejaVu Sans Mono", monospace;
+
+   */
+
+  font-family: Verdana, Tahoma, "DejaVu Sans", sans-serif;
+}
+
+pre,
+code {
+  font-size: 1.1em; /* Monospace fonts can be hard to read */
+  font-family: "Courier New", "DejaVu Sans Mono", monospace;
+}
+
+/*
+ * Headings
+ */
+h1 {
+  font-size: 2em;
+  line-height: 1.3em;
+  margin-top: 0;
+  margin-bottom: 0.5em; /* 0.5em is equavalent to 1em in the page's base font.
+                           Remember, a margin specified in ems is relative to
+                           the element's font-size, not to the pages' base
+                           font size. So, for example, if we want a 1em margin
+                           (relative to the base font), we have to divide that
+                           length by the element's font-size:
+                           1em / 2em = 0.5em */
+}
+
+h2 {
+  font-size: 1.5em;
+  line-height: 1.3em;
+  margin-top: 0.667em; /* Equivalent to 1em in the page's base font: 1 / 1.5 = 0.667em */
+  margin-bottom: 0.667em;
+}
+
+h3 {
+  font-size: 1.3em;
+  line-height: 1.3em;
+  margin-top: 0.769em; /* Equivalent to 1em in the page's base font: 1 / 1.3 = 0.769 */
+  margin-bottom: 0.769em;
+}
+
+h4,
+h5,
+h6 {
+  font-size: 1.1em;
+  line-height: 1.3em;
+  margin-top: 0.909em; /* Equivalent to 1em in the page's base font: 1 / 1.1 = 0.909 */
+  margin-bottom: 0.909em;
+}
+
+/*
+ * Block-level elements
+ */
+p,
+ul,
+ol,
+dl,
+pre,
+table,
+fieldset {
+  margin: 1em 0;
+}
+
+blockquote {
+  margin: 1em 2em;
+}
+
+/*
+ * Lists
+ *
+ * We need to standardize the list item indentation.
+ */
+ul,
+ol {
+  margin-left: 0;
+  padding-left: 2em; /* LTR */
+}
+
+.block ul,
+.item-list ul /* Drupal overrides */ {
+  margin: 1em 0;
+  padding: 0 0 0 2em; /* LTR */
+}
+
+ul ul, ul ol,
+ol ol, ol ul,
+.block ul ul, .block ul ol,
+.block ol ol, .block ol ul,
+.item-list ul ul, .item-list ul ol,
+.item-list ol ol, .item-list ol ul {
+  margin: 0;
+}
+
+li {
+  margin: 0;
+  padding: 0;
+}
+
+.item-list ul li /* Drupal override */ {
+  margin: 0;
+  padding: 0;
+  list-style: inherit;
+}
+
+ul.menu li,
+li.expanded,
+li.collapsed,
+li.leaf /* Drupal override */ {
+  margin: 0;
+  padding: 0;
+}
+
+ul          { list-style-type: disc; }
+ul ul       { list-style-type: circle; }
+ul ul ul    { list-style-type: square; }
+ul ul ul ul { list-style-type: circle; }
+ol          { list-style-type: decimal; }
+ol ol       { list-style-type: lower-alpha; }
+ol ol ol    { list-style-type: decimal; }
+
+dt {
+  margin: 0;
+  padding: 0;
+}
+
+dd {
+  margin: 0 0 0 2em;
+  padding: 0;
+}
+
+/*
+ * Links
+ *
+ * The order of link states are based on Eric Meyer's article:
+ * http://meyerweb.com/eric/thoughts/2007/06/11/who-ordered-the-link-states
+ */
+a:link {
+}
+
+a:visited {
+}
+
+a:hover,
+a:focus {
+}
+
+a:active {
+}
+
+/*
+ * Tables
+ *
+ * Drupal provides table styling which is only useful for its admin section
+ * forms, so we override this default CSS. (We set it back in forms.css.)
+ */
+table {
+  border-collapse: collapse;
+  /* width: 100%; */ /* Prevent cramped-looking tables */
+}
+
+th,
+thead th,
+tbody th {
+  text-align: left; /* LTR */
+  padding: 0;
+  border-bottom: none;
+}
+
+tbody {
+  border-top: none;
+}
+
+/*
+ * Abbreviations
+ */
+abbr {
+  border-bottom: 1px dotted #666;
+  cursor: help;
+  white-space: nowrap;
+}
+
+abbr.created /* Date-based "abbreviations" show computer-friendly timestamps which are not human-friendly. */ {
+  border: none;
+  cursor: auto;
+  white-space: normal;
+}
+
+/*
+ * Images
+ */
+img {
+  border: 0;
+}
+
+/*
+ * Horizontal rules
+ */
+hr {
+  height: 1px;
+  border: 1px solid #666;
+}
+
+/*
+ * Forms
+ */
+form {
+  margin: 0;
+  padding: 0;
+}
+
+fieldset {
+  margin: 1em 0;
+  padding: 0.5em;
+}

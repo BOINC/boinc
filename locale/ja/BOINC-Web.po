@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2015-03-01 23:35+0000\n"
+"PO-Revision-Date: 2015-03-09 12:08+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -594,11 +594,11 @@ msgid ""
 "changes and also to things like changes in carbon dioxide and the sulphur "
 "cycle. This will allow us to explore how climate may change in the next "
 "century under a wide range of different scenarios."
-msgstr "最先端の気候モデルにおいて必須の近似技術を研究します。 モデルを何千回も実行することによって、近似方法を微調整したときに、 モデルがどのように反応するかを探り出そうとしています。  ここで微調整といっているのは、 近似が現実から離れてしまわないような小さなものです。 このような手法によって、 我々が使っているモデルが小さな変化にどのように敏感であるかという 知識を豊かにします。また、二酸化炭素や硫黄循環での変化についても同様です。 このようにして、次の世紀がどのような気候変化をするか、 いくつものシナリオを広く探求できるようになります。 "
+msgstr "最先端の気候モデルにおいて必須の近似技術を研究します。 モデルを何千回も実行することによって、近似技術を微調整したときに、モデルがどのように反応するかを探り出そうとしています。ここで微調整といっているのは、近似が現実から離れてしまわないような小さなものです。このような手法によって、我々が使っているモデルが小さな変化にどのように敏感であるかという知識を豊かにします。また、二酸化炭素や硫黄循環での変化についても同様です。このようにして、次の世紀がどのような気候変化をするか、いくつものシナリオを広く探求できるようになります。 "
 
 #: projects.inc:207
 msgid "Physical Science"
-msgstr "物理学"
+msgstr "自然科学"
 
 #: projects.inc:213
 msgid "Mechanical engineering"
@@ -623,7 +623,7 @@ msgid ""
 "star formation history) on a resolved pixel-by-pixel basis using spectral "
 "energy distribution (SED) fitting techniques in a distributed computing "
 "mode."
-msgstr "私達は、近くの宇宙における多波長の、光学的には紫外線から近赤外線の銀河アトラスを生成するためにGALEX, Pan-STARRS1, そしてWISEのスペクトル範囲を結合しようとしています。私達は分散コンピューティング方式で、分光エネルギー分布(SED)適合技術を用いて分解された画素単位の基準で物理的パラメータ(星の質量面密度、星形成率の面密度、減衰、そして一次星形成史といったもの)を測定しようとしています。"
+msgstr "私達は、近くの宇宙における多波長の、光学的には紫外線から近赤外線の銀河アトラスを生成するためにGALEX, Pan-STARRS1, そしてWISEのスペクトル範囲を結合しようとしています。私達は分散コンピューティング方式で、分光エネルギー分布(Spectral Energy Distribution, SED)適合技術を用いて分解された画素単位の基準で物理的パラメータ(星の質量面密度、星形成率の面密度、減衰、そして一次星形成史といったもの)を測定しようとしています。"
 
 #: projects.inc:247
 msgid "University of Texas at Austin"
@@ -644,7 +644,7 @@ msgid ""
 "years of computer calculations on the fastest present day computer before a "
 "single event of interest can be expected to occur.  Our research group is "
 "interested in calculating the long time dynamics of systems."
-msgstr "理論化学、圧縮物質の物理学および材料科学の分野での共通問題は、原子スケールの系での時間経過を計算することです。そこでは、たとえば化学反応と拡散が起きています。一般に興味の対象となる事象はとてもまれにしか起きません(原子の振動という動きに比べ大幅に遅いオーダーでしか発生しません）。このため、原子の動きをそのまま追跡するような直接のシミュレーションをすると、興味ある動きがシミュレーションの中で起きるまでに、現状で最速のコンピュータによる計算でも何千年もの時間が掛かってしまうでしょう。われわれの研究グループは系の長期にわたる振る舞いを計算することに興味があります。"
+msgstr "理論化学、凝縮系物理学(物性物理学)および物質科学の分野での共通問題は、原子スケールの体系での時間経過を計算することです。そこでは、たとえば化学反応と拡散が起きています。一般に興味の対象となる事象は非常にまれにしか起きません(原子の振動という動きに比べ大幅に遅いオーダーでしか発生しません)。このため、原子の動きをそのまま追跡するような直接のシミュレーションをすると、興味ある動きがシミュレーションの中で起きるまでに、現状で最速のコンピュータによる計算でも何千年もの時間が掛かってしまうでしょう。われわれの研究グループは体系の長期にわたる原動力を計算することに興味があります。"
 
 #: projects.inc:262
 msgid "University of Illinois at Urbana-Champaign"
@@ -655,18 +655,18 @@ msgid ""
 "The goal of Cosmology@Home is to search for the model that best describes "
 "our Universe and to find the range of models that agree with the available "
 "astronomical particle physics data."
-msgstr "Cosmology@Home の目標は、われわれの宇宙を記述する最も良いモデルを探すこと、および、天文学的な粒子物理の入手可能なデータと整合性のあるモデルがどの範囲であるのかを調べることです。"
+msgstr "Cosmology@Home の目標は、われわれの宇宙の状況を説明する最良のモデルを探すこと、および、天文学的素粒子物理学の入手可能なデータと一致するモデルの範囲を調べることです。"
 
 #: projects.inc:270
 msgid "Rensselaer Polytechnic Institute"
-msgstr "Rensselaer Polytechnic Institute"
+msgstr "レンセラー工科大学"
 
 #: projects.inc:272
 msgid ""
 "The goal of Milkyway@Home is to create a highly accurate three dimensional "
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
 "Survey."
-msgstr "Milkyway@Home の目標は、天の川銀河の高精度な三次元モデルを Sloan Digital Survey で収集したデータを使って作成することです。"
+msgstr "Milkyway@Home の目標は、スローン・デジタル・スカイサーベイ(SDSS)で収集したデータを使って、天の川銀河の高精度な三次元モデルを作成することです。"
 
 #: projects.inc:278
 msgid "Leiden University, The Netherlands"
@@ -680,7 +680,7 @@ msgid ""
 " Dynamics jobs. In this way students have used the grid to simulate liquid "
 "argon, or to test the validity of the ideal gas law by actually doing the "
 "simulations through the grid."
-msgstr "Classical Dynamics を使い表面科学の計算をすること。 Leiden Classical はボランティアの方、学生の方、そして他の科学者が彼ら個人の計算をこのグリッドで実行することを許します。各利用者は、Classical Dynamics のジョブキューをおのおの持っています。このようにして、学生たちはこのグリッドを使い、実際にシミュレーションをすることにより、液体アルゴンを模擬してみたり、理想気体の法則の有効性をテストしたりしてきました。"
+msgstr "古典力学を使って表面科学の計算をすることです。Leiden Classical はボランティアの方、学生の方、そして他の科学者が彼ら個人の計算をこのグリッドで実行することを可能にします。各参加者は、古典力学のジョブキューをおのおの持っています。このようにして、学生たちはこのグリッドを使い、実際にシミュレーションをすることにより、液体アルゴンの模擬実験をしてみたり、理想気体の状態方程式の有効性をテストしたりしてきました。"
 
 #: projects.inc:294
 msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
@@ -688,7 +688,7 @@ msgstr "ウィスコンシン大学 - ミルウォーキー、マックスプラ
 
 #: projects.inc:295
 msgid "Astrophysics"
-msgstr "宇宙物理学"
+msgstr "天体物理学"
 
 #: projects.inc:296
 msgid ""
@@ -697,7 +697,7 @@ msgid ""
 "observatory.  Einstein@Home is a World Year of Physics 2005 project "
 "supported by the American Physical Society (APS) and by a number of "
 "international organizations."
-msgstr "自転する中性子星(パルサーとも呼ばれます）を探索するプログラムです。 この計算には、LIGO と GEO という重力波検出器が出力するデータと、Arecibo 電波観測所からのデータを使います。 Einstein@Home は、世界物理年 2005 プロジェクトの一つで、 米国物理学会(APS)を始めとする多くの国際組織によって支援されています。"
+msgstr "回転する中性子星(パルサーとも呼ばれます)を探索します。この計算には、LIGO(ハンフォード天文台)とGEO600(ドイツ)という重力波検出器が出力するデータと、アレシボ天文台からのデータを使います。Einstein@Home は、世界物理年(2005年)プロジェクトの一つで、アメリカ物理学会(APS)を始めとする多くの国際組織によって支援されています。"
 
 #: projects.inc:310 projects.inc:318
 msgid "CERN (European Organization for Nuclear Research)"
@@ -714,14 +714,14 @@ msgid ""
 "physics laboratory.  It is the most powerful instrument ever built to "
 "investigate on particles proprieties. LHC@home runs simulations to improve "
 "the design of LHC and its detectors."
-msgstr "LHC(Large Hadron Collider) は、CERN で建設中の素粒子加速器です。 CERN は原子核物理研究のためのヨーロッパの組織で、世界最大の素粒子科学の研究所です。 LHC は素粒子の性質を研究する装置として今までで最強のものです。 LHC@home は LHC とその検出器の設計を改良するためのシミュレーションを実行します。 "
+msgstr "大型ハドロン衝突型加速器(The Large Hadron Collider, LHC)は、CERN の加速器です。CERN は原子核研究のためのヨーロッパの組織で、世界最大の素粒子物理学の研究所です。LHC は素粒子の性質を研究する装置として今までで最も強力なものです。LHC@home では LHC とその検出器の設計を改良するためのシミュレーションを実行します。 "
 
 #: projects.inc:320
 msgid ""
 "This project uses CERN-developed virtual machine technology for full-fledged"
 " LHC event physics simulation on volunteer computers.  Requires that you "
 "install VirtualBox on your computer"
-msgstr "このプロジェクトは、CERNが開発したボランティアのコンピュータで本格的な大型ハドロン衝突型加速器（LHC）における事象の物理学シミュレーションのための仮想マシン技術を利用します。\nコンピュータへのVirtualBoxのインストールが必要とされます。"
+msgstr "このプロジェクトは、CERNが開発した、ボランティアのコンピュータで大型ハドロン衝突型加速器(LHC)における本格的な事象の物理学シミュレーションのための仮想マシン技術を利用します。コンピュータへのVirtualBoxのインストールが必要とされます。"
 
 #: projects.inc:326
 msgid "University of California, Berkeley"
@@ -729,7 +729,7 @@ msgstr "カリフォルニア大学バークレー校"
 
 #: projects.inc:327
 msgid "Astrophysics, astrobiology"
-msgstr "宇宙物理、宇宙生物学"
+msgstr "天体物理学、天体生物学"
 
 #: projects.inc:328
 msgid ""
@@ -738,7 +738,7 @@ msgid ""
 "radio SETI, uses radio telescopes to listen for narrow-bandwidth radio "
 "signals from space. Such signals are not known to occur naturally, so a "
 "detection would provide evidence of extraterrestrial technology."
-msgstr "SETI (Search for Extraterrestrial Intelligence) とは、地球外の知的生命を検出することを目的とする科学研究領域です。 Radio SETI として知られているその1つのアプローチでは、 電波望遠鏡を使って宇宙からの狭帯域の電波信号に耳を傾けます。 探している信号は自然に発生すると知られている種類のものではありません。 したがって、そのような信号を検出すれば、地球外生命が持つ技術の証拠となります。"
+msgstr "地球外知的生命体探査(Search for Extraterrestrial Intelligence, SETI)とは、地球外の知的生命を検出することを目的とする科学分野です。 Radio SETI として知られているその1つのアプローチでは、電波望遠鏡を使って宇宙からの狭帯域の電波信号に耳を傾けます。探している信号は自然に発生すると知られている種類のものではありません。したがって、そのような信号を検出すれば、地球外生物が持つ技術の証拠となります。"
 
 #: projects.inc:342
 msgid "Bielefeld University of Applied Sciences"
@@ -746,7 +746,7 @@ msgstr "Bielefeld University of Applied Sciences"
 
 #: projects.inc:343
 msgid "Chemical engineering and nanotechnology"
-msgstr "化学工業とナノテクノロジー"
+msgstr "化学工学とナノテクノロジー"
 
 #: projects.inc:344
 msgid ""
@@ -754,7 +754,7 @@ msgid ""
 "magnetic molecules may be used to develop tiny magnetic switches, with "
 "applications in medicine (such as local tumor chemotherapy) and "
 "biotechnology."
-msgstr "分子磁石とナノスケール磁化の制御の研究。これらの磁化した分子は、小さい磁気スイッチを開発したり、医学応用(たとえば局所腫瘍化学療法）とバイオテクノロジーへの応用に使えるかもしれません。"
+msgstr "分子磁石とナノスケール磁化の制御の研究です。これらの磁化した分子は、医療(たとえば局所腫瘍化学療法)やバイオテクノロジーに応用できるごく小さい磁気スイッチを開発するために使用することができるかもしれません。"
 
 #: projects.inc:351
 msgid "Multiple applications"
@@ -766,24 +766,24 @@ msgstr "中国科学院(Chinese Academy of Sciences)"
 
 #: projects.inc:357
 msgid "Physics, biochemistry, and others"
-msgstr "物理学、生命化学、ほか"
+msgstr "物理学、生化学、およびその他"
 
 #: projects.inc:358
 msgid ""
 "The objective of CAS@home is to encourage and assist scientists in China to "
 "adopt the technologies of volunteer computing and volunteer thinking for "
 "their research."
-msgstr "CAS@home の目的は、中国の科学者たちが自分らの研究に関するボランティアコンピューティングとボランティア考察活動へ向けて、鼓舞・支援されることです。"
+msgstr "CAS@home の目的は、中国の科学者たちが自分らの研究のためにボランティア・コンピューティングの技術やボランティアの意見を採用することを促進・援助することです。"
 
 #: projects.inc:365
 msgid "Mathematics, physics, evolution"
-msgstr "数学、物理学、進化学"
+msgstr "数学、物理学、進化生物学"
 
 #: projects.inc:366
 msgid ""
 "Yoyo@home is an adapter between BOINC and several existing volunteer "
 "computing projects: ECM, Muon, Evolution@home, and distributed.net"
-msgstr "Yoyo@home は BOINC と数種の既存ボランティアプロジェクトの間に入るアダプタです。その既存プロジェクトとは、ECM、Muon、Evolution@home、および distributed.net です。"
+msgstr "Yoyo@home は BOINC と数種の既存ボランティアプロジェクトである ECM、Muon、Evolution@home、および distributed.net の間に入るアダプタです。"
 
 #: projects.inc:371 projects.inc:527
 msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
@@ -791,7 +791,7 @@ msgstr "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (ハンガリ�
 
 #: projects.inc:372
 msgid "European research projects"
-msgstr "European research projects"
+msgstr "ヨーロッパの研究プロジェクト"
 
 #: projects.inc:373
 msgid ""
@@ -799,7 +799,7 @@ msgid ""
 "grid network of Europe by allowing service grids to send workunits to be "
 "processed by the volunteers of this project. The scientific projects covered"
 " by the project include math, physics, biology, etc."
-msgstr "ヨーロッパ・サービス・グリッドがそのワークユニットをこの EDGeS@Home ベータ・プロジェクトへ送ることができるようにしました。このプロジェクトは、ボランティアの方々へそれらのワークユニットを中継して計算してもらうことにより、ボランティア・コンピューティングをサービスグリッドのネットワークに統合しています。当プロジェクトが対応している科学プロジェクトは、数学、物理学、生物学などの分野のものがあります。"
+msgstr "EDGeS@Home ベータ・プロジェクトは、サービスグリッドがこのプロジェクトのボランティアによって処理されるワークユニットを送信できるようにすることで、ヨーロッパ・サービス・グリッド・ネットワークへのボランティア・コンピューティングへ統合しています。当プロジェクトが対象とする科学プロジェクトは、数学、物理学、生物学などの分野を含みます。"
 
 #: projects.inc:379
 msgid "Spanish universities and research centers"
@@ -807,11 +807,11 @@ msgstr "スペインの大学と研究所群"
 
 #: projects.inc:380
 msgid "Various Spanish research projects"
-msgstr "スペインにおける種々の研究プロジェクト"
+msgstr "スペインにおける様々な研究プロジェクト"
 
 #: projects.inc:381
 msgid "Research in physics, material science, and biomedicine"
-msgstr "物理学、材料科学および生物医学における研究"
+msgstr "物理学、物質科学および生体臨床医学における研究"
 
 #: projects.inc:387
 msgid "IBM Corporate Citizenship"
@@ -819,7 +819,7 @@ msgstr "IBMによる企業市民活動"
 
 #: projects.inc:388
 msgid "Medical, environmental and other humanitarian research"
-msgstr "医療、環境そのほか人類に影響するものの研究"
+msgstr "医療、環境保護そのほか人類に影響するものの研究"
 
 #: projects.inc:389
 msgid ""
@@ -827,11 +827,11 @@ msgid ""
 "problems by creating the world's largest volunteer computing grid.  Research"
 " includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, "
 "clean water and many more."
-msgstr "世界最大のボランティア・コンピューティング・グリッドを作ることにより人類の最も差し迫った問題のいくつかの重要な非営利研究を助成します。研究は HIV・エイズ、ガン、熱帯性の顧みられない疾病、太陽エネルギー、きれいな水その他より多くを含みます。"
+msgstr "世界最大のボランティア・コンピューティング・グリッドを作り出すことによって、人類の最も差し迫った問題のいくつかの重要な非営利研究を助成します。研究は HIV・エイズ、ガン、熱帯性の顧みられない疾病、太陽エネルギー、きれいな水その他多くを含みます。"
 
 #: projects.inc:395
 msgid "Mathematics, computing, and games"
-msgstr "Mathematics, computing, and games"
+msgstr "数学、コンピューティング、およびゲーム"
 
 #: projects.inc:401
 msgid "Computer Science"
@@ -843,17 +843,17 @@ msgstr "数学、物理学、人工知能"
 
 #: projects.inc:410
 msgid "Simulation of quantum computing; Goldbach's conjecture."
-msgstr "量子コンピューティングのシミュレーション、ゴールドバッハの予想"
+msgstr "量子コンピューティングのシミュレーション、ゴールドバッハの予想です。"
 
 #: projects.inc:450 projects.inc:458
 msgid "Cryptography"
-msgstr "暗号学"
+msgstr "暗号理論"
 
 #: projects.inc:459
 msgid ""
 "Attempt to decode 3 original Enigma messages. The signals were intercepted "
 "in the North Atlantic in 1942 and are believed to be unbroken."
-msgstr "本物のEnigmaメッセージ3つの解読を試みます。これらの信号文は1942年に北大西洋で傍受されましたが、まだ解読されていないと信じられています。"
+msgstr "3つの本物のエニグマ(Enigma)メッセージの解読を試みます。これらの信号文は1942年に北大西洋で傍受されましたが、まだ解読されていないと信じられています。"
 
 #: projects.inc:465 projects.inc:504 projects.inc:512 projects.inc:520
 #: projects.inc:528 projects.inc:568
@@ -862,7 +862,7 @@ msgstr "数学"
 
 #: projects.inc:466
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
-msgstr "数学で未解決の予想として有名は、コラッツの予想の研究"
+msgstr "数学上の未解決予想である、コラッツの予想を研究します"
 
 #: projects.inc:471
 msgid "California State University Fullerton"
@@ -880,13 +880,13 @@ msgid ""
 "breaking an integer into prime factors, such as 15 = 3 * 5 or 35 = 5 * 7. "
 "NFS@Home is a continuation of that experience, only with integers that are "
 "hundreds of digits long."
-msgstr "NFS＠Homeは、巨大整数を数体篩法(Number Field Sieve)で因数分解する処理のうち、格子篩（lattice sieving）の部分を計算するところにインターネットで相互接続されたコンピューターを使うという研究プロジェクトです。若い学生のころには、あなたもある整数値を素因数に分解したことがあるでしょう。たとえば、15 = 3 * 5 あるいは、35 = 5 * 7 のように。NFS@Home はその経験の延長上にあるものです。ただし、問題となる整数値は何百桁もの長さの整数ですが。"
+msgstr "NFS＠Home は、大きな整数を数体ふるい法(Number Field Sieve)で因数分解する処理のうち、格子ふるい(lattice sieving)の部分を計算する段階にインターネットに接続されたコンピュータを使うという研究プロジェクトです。若い学生のころには、あなたもある整数を素因数に分解したことがあるでしょう。たとえば、15 = 3 * 5 あるいは、35 = 5 * 7 のように。NFS@Home はその経験の延長上にあるものです。ただその整数が何百桁もの長さの整数であるというだけです。"
 
 #: projects.inc:479
 msgid ""
 "Vilnius Gediminas Technical University and Kaunas University of Technology "
 "(Lithuania)"
-msgstr "Vilnius Gediminas Technical University and Kaunas University of Technology (リトアニア; Lithuania)"
+msgstr "Vilnius Gediminas Technical University and Kaunas University of Technology (リトアニア)"
 
 #: projects.inc:480
 msgid "Software testing"
@@ -898,7 +898,7 @@ msgid ""
 "platform for scientists of Vilnius Gediminas Technical University (VGTU) as "
 "well as others Lithuanian academic institutions.  Current applications "
 "involve the study of Monte-Carlo based software testing."
-msgstr "このプロジェクトの目的は、 Vilnius Gediminas Technical University (VGTU)及びその他リトアニアの学術組織へ、パワフルな分散コンピューティング・プラットフォームを提供することです。現在の応用分野には、モンテカルロ法によるソフトウェア試験の研究があります。"
+msgstr "このプロジェクトの目的は、ヴィリニュス・ゲディミナス工科大学(VGTU)およびその他リトアニアの学術機関へ、強力な分散コンピューティング・プラットフォームを提供することです。現在の応用分野には、モンテカルロ法によるソフトウェア検査の研究が含まれます。"
 
 #: projects.inc:503
 msgid "Mathematical Institute of Leiden University / Kennislink"
@@ -913,13 +913,13 @@ msgid ""
 "any real h > 1. The ABC conjecture is currently one of the greatest open "
 "problems in mathematics. If it is proven to be true, a lot of other open "
 "problems can be answered directly from it."
-msgstr "’abc-triples’ を探します。’abc-triples’ とは 3つの正整数 a b c で、a + b = c  かつ、a &lt; b かつ、b &lt; c  かつ、a b c が互いに素であり、c >  rad(abc) であるようなものです。ただしここで rad( n ) とは、n の互いに異なる個々の素因数の積です。ABC 予想とは、h > 1 のどのような実数 h についても、log( c ) / log( rad( abc ) ) > h  となるような a, b, c の組はたかだか有限個しかないという予想です。 これが正しいと証明されると、まだ解決をみていない多くの数学の問題に答えをここから直接に与えることができます。"
+msgstr "「abc-triples」を探します。「abc-triples」とは、3つの正の整数を a, b, c とするとき、a + b = c  かつ、a &lt; b &lt; c  かつ、a, b, c が互いに素であり、c > rad(abc) であるようなものです。ただしここで rad( n) とは、n の互いに異なる個々の素因数の積です。ABC予想とは、h > 1 のどのような実数 h についても、log(c) / log(rad(abc)) > h となるような a, b, c の組はたかだか有限個しかないという予想です。ABC予想は現在多数ある数学の未解決問題のうちのひとつです。これが正しいと証明されると、まだ未解決の多くの数学の問題に答えをここから直接与えることができます。"
 
 #: projects.inc:513
 msgid ""
 "Primegrid has multiple projects searching for different forms of very large "
 "prime numbers, including searching for the largest known prime number."
-msgstr "Primegridは違う形でとても大きな素数の探索をしている多様なプロジェクトの集合を有しています。既知の最大の素数を探すことも含まれています。"
+msgstr "Primegrid は違う形でとても大きな素数(既知の最大の素数を探すことも含まれます)の探索をしている複数のプロジェクトを有します。"
 
 #: projects.inc:519
 msgid "Hochschule RheinMain University of Applied Sciences"
@@ -935,7 +935,7 @@ msgstr "素数判定法に関する2つの予想について反例を探しま�
 msgid ""
 "Find all the generalized binary number systems (in which bases are matrices "
 "and digits are vectors) up to dimension 11."
-msgstr "このプロジェクトは、一般化された 2進数系を11次元まですべて探すことを目的にしています。 "
+msgstr "一般化された2進数系(この場合、ベースが配列で、桁がベクトル)を11次元まですべて探り出します。"
 
 #: ../html/inc/news.inc:40
 msgid "Comment"

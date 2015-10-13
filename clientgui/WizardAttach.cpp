@@ -35,7 +35,6 @@
 #include "BOINCBaseWizard.h"
 #include "BOINCBaseFrame.h"
 #include "WizardAttach.h"
-#include "WelcomePage.h"
 #include "ProjectInfoPage.h"
 #include "ProjectPropertiesPage.h"
 #include "ProjectProcessingPage.h"
@@ -93,7 +92,6 @@ bool CWizardAttach::Create( wxWindow* parent, wxWindowID id, const wxString& /* 
 {
 
 ////@begin CWizardAttach member initialisation
-    m_WelcomePage = NULL;
     m_ProjectInfoPage = NULL;
     m_ProjectPropertiesPage = NULL;
     m_ProjectProcessingPage = NULL;
@@ -178,10 +176,6 @@ void CWizardAttach::CreateControls()
  
 ////@begin CWizardAttach content construction
     CWizardAttach* itemWizard1 = this;
-
-    m_WelcomePage = new CWelcomePage;
-    m_WelcomePage->Create( itemWizard1 );
-    GetPageAreaSizer()->Add(m_WelcomePage);
 
     m_AccountManagerInfoPage = new CAccountManagerInfoPage;
     m_AccountManagerInfoPage->Create( itemWizard1 );
@@ -286,10 +280,14 @@ bool CWizardAttach::Run(
         }
     }
 
-    if (strProjectURL.Length() && m_ProjectPropertiesPage) {
-        return RunWizard(m_ProjectPropertiesPage);
-    } else if (m_WelcomePage) {
-        return RunWizard(m_WelcomePage);
+    if (m_ProjectPropertiesPage || m_ProjectInfoPage) {
+        IsAttachToProjectWizard = true;
+        IsAccountManagerWizard = false;
+        if (strProjectURL.Length()) {
+            return RunWizard(m_ProjectPropertiesPage);
+        } else {
+            return RunWizard(m_ProjectInfoPage);
+        }
     }
 
     return FALSE;
@@ -308,6 +306,8 @@ bool CWizardAttach::RunSimpleProjectAttach(
     }
     SetProjectKnown(strKnown.length() > 0);
 
+    IsAttachToProjectWizard = true;
+    IsAccountManagerWizard = false;
     return RunWizard(m_ProjectWelcomePage);
 }
 
@@ -360,8 +360,14 @@ bool CWizardAttach::SyncToAccountManager() {
         }
     }
 
-    if (m_AccountManagerPropertiesPage) {
-        return RunWizard(m_AccountManagerPropertiesPage);
+    if (m_AccountManagerInfoPage || m_AccountManagerPropertiesPage) {
+        IsAttachToProjectWizard = false;
+        IsAccountManagerWizard = true;
+        if (!ami.acct_mgr_url.size()) {
+            return RunWizard(m_AccountManagerInfoPage);
+        } else {
+            return RunWizard(m_AccountManagerPropertiesPage);
+        }
     }
 
     return FALSE;
@@ -426,7 +432,15 @@ bool CWizardAttach::HasNextPage( wxWizardPageEx* page )
  
 bool CWizardAttach::HasPrevPage( wxWizardPageEx* page )
 {
-    if ((page == m_WelcomePage) || (page == m_ProjectWelcomePage) || (page == m_CompletionPage) || (page == m_CompletionErrorPage))
+    bool bNoPrevPageDetected = false;
+
+    bNoPrevPageDetected |= (page == m_ProjectWelcomePage);
+    bNoPrevPageDetected |= (page == m_ProjectInfoPage);
+    bNoPrevPageDetected |= (page == m_AccountManagerInfoPage);
+    bNoPrevPageDetected |= (page == m_CompletionPage);
+    bNoPrevPageDetected |= (page == m_CompletionErrorPage);
+
+    if (bNoPrevPageDetected)
         return false;
     return true;
 }
@@ -477,9 +491,6 @@ wxWizardPageEx* CWizardAttach::_PushPageTransition( wxWizardPageEx* pCurrentPage
     if (GetCurrentPage()) {
         wxWizardPageEx* pPage = NULL;
 
-        if (ID_WELCOMEPAGE == ulPageID)
-            pPage = m_WelcomePage;
- 
         if (ID_PROJECTINFOPAGE == ulPageID)
             pPage = m_ProjectInfoPage;
  
@@ -575,7 +586,6 @@ void CWizardAttach::_ProcessCancelEvent( wxWizardExEvent& event ) {
     if (IsAttachToProjectWizard) {
         bCancelWithoutNextPage |= (page == m_ErrAlreadyExistsPage);
     } else {
-        bCancelWithoutNextPage |= (page == m_WelcomePage);
         bCancelWithoutNextPage |= (page == m_ProjectWelcomePage);
    }
 

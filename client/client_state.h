@@ -247,6 +247,7 @@ struct CLIENT_STATE {
 // --------------- client_state.cpp:
     CLIENT_STATE();
     void show_host_info();
+    bool is_new_client();
     int init();
     bool poll_slow_events();
         // Never blocks.
@@ -457,7 +458,7 @@ struct CLIENT_STATE {
     int write_file_transfers_gui(MIOFILE&);
     int write_tasks_gui(MIOFILE&, bool);
     void sort_results();
-    void sort_projects();
+    void sort_projects_by_name();
 
 // --------------- cs_trickle.cpp:
     int read_trickle_files(PROJECT*, FILE*);

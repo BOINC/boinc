@@ -56,7 +56,6 @@ int VBOX_CHECKPOINT::parse() {
 
     FILE* f = boinc_fopen(CHECKPOINT_FILENAME, "r");
     if (!f) {
-        vboxlog_msg("VBOX_JOB::parse(): can't open checkpoint file %s", CHECKPOINT_FILENAME);
         return ERR_FOPEN;
     }
     mf.init_file(f);

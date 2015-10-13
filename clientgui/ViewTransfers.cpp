@@ -214,11 +214,11 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
     m_aStdColNameOrder->Insert(_("Speed"), COLUMN_SPEED);
     m_aStdColNameOrder->Insert(_("Status"), COLUMN_STATUS);
 
-    // m_aStdColNameOrder is an array of the width for each column.
+    // m_iStdColWidthOrder is an array of the width for each column.
     // Entries must be in order of ascending Column ID.  We initalize
     // it here to the default column widths.  It is updated by
     // CBOINCListCtrl::OnRestoreState() and also when a user resizes
-    // a column bby dragging the divider between two columns.
+    // a column by dragging the divider between two columns.
     //
     m_iStdColWidthOrder.Clear();
     m_iStdColWidthOrder.Insert(125, COLUMN_PROJECT);
@@ -570,7 +570,7 @@ void CViewTransfers::UpdateSelection() {
 bool CViewTransfers::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
     wxString    strDocumentText  = wxEmptyString;
     wxString    strDocumentText2 = wxEmptyString;
-    float       fDocumentFloat = 0.0;
+    double       x = 0.0;
     double      fDocumentDouble = 0.0, fDocumentDouble2 = 0.0;
     CTransfer*  transfer;
     bool        bNeedRefresh = false;
@@ -601,10 +601,10 @@ bool CViewTransfers::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnInde
             }
             break;
         case COLUMN_PROGRESS:
-            GetDocProgress(m_iSortedIndexes[iRowIndex], fDocumentFloat);
-            if (fDocumentFloat != transfer->m_fProgress) {
-                transfer->m_fProgress = fDocumentFloat;
-                FormatProgress(fDocumentFloat, transfer->m_strProgress);
+            GetDocProgress(m_iSortedIndexes[iRowIndex], x);
+            if (x != transfer->m_fProgress) {
+                transfer->m_fProgress = x;
+                FormatProgress(x, transfer->m_strProgress);
                 bNeedRefresh =  true;
             }
             break;
@@ -624,7 +624,7 @@ bool CViewTransfers::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnInde
             GetDocTime(m_iSortedIndexes[iRowIndex], fDocumentDouble);
             if (fDocumentDouble != transfer->m_dTime) {
                 transfer->m_dTime = fDocumentDouble;
-                FormatTime(fDocumentDouble, transfer->m_strTime);
+                transfer->m_strTime = FormatTime(fDocumentDouble);
                 bNeedRefresh =  true;
             }
             break;
@@ -681,9 +681,9 @@ void CViewTransfers::GetDocFileName(wxInt32 item, wxString& strBuffer) const {
 }
 
 
-void CViewTransfers::GetDocProgress(wxInt32 item, float& fBuffer) const {
-    float          fBytesSent = 0;
-    float          fFileSize = 0;
+void CViewTransfers::GetDocProgress(wxInt32 item, double& fBuffer) const {
+    double          fBytesSent = 0;
+    double          fFileSize = 0;
     FILE_TRANSFER* transfer = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
     
@@ -710,7 +710,7 @@ void CViewTransfers::GetDocProgress(wxInt32 item, float& fBuffer) const {
 }
 
 
-wxInt32 CViewTransfers::FormatProgress(float fBuffer, wxString& strBuffer) const {
+wxInt32 CViewTransfers::FormatProgress(double fBuffer, wxString& strBuffer) const {
     strBuffer.Printf(wxT("%.2f%%"), fBuffer);
     return 0;
 }
@@ -799,25 +799,6 @@ void CViewTransfers::GetDocTime(wxInt32 item, double& fBuffer) const {
     }
 }
 
-
-wxInt32 CViewTransfers::FormatTime(double fBuffer, wxString& strBuffer) const {
-    wxInt32        iHour = 0;
-    wxInt32        iMin = 0;
-    wxInt32        iSec = 0;
-    wxTimeSpan     ts;
-
-    iHour = (wxInt32)(fBuffer / (60 * 60));
-    iMin  = (wxInt32)(fBuffer / 60) % 60;
-    iSec  = (wxInt32)(fBuffer) % 60;
-
-    ts = wxTimeSpan(iHour, iMin, iSec);
-
-    strBuffer = ts.Format();
-
-    return 0;
-}
-
-
 void CViewTransfers::GetDocSpeed(wxInt32 item, double& fBuffer) const {
     FILE_TRANSFER* transfer = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
@@ -882,8 +863,7 @@ void CViewTransfers::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
         }
     }
     if (transfer->project_backoff) {
-        wxString x;
-        FormatTime(transfer->project_backoff, x);
+        wxString x = FormatTime(transfer->project_backoff);
         strBuffer += _(" (project backoff: ") + x + _(")");
     }
 }

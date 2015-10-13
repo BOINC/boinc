@@ -1,4 +1,7 @@
-# This should work on Mac OS 10.6 with XCode 3.2.  Modify as needed for other platforms.
+# makefile for BOINC wrapper application on Macintosh.
+# This is invoked from BuildMacWrapper.sh shell script.
+# It should not be used by itself without the script.
+# Updated 4/14/15 for compatibility with Xcode 6
 
 # Change the following to match your installation
 BOINC_DIR = ../..

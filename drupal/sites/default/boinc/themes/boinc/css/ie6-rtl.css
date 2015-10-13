@@ -1,0 +1,14 @@
+/* $Id: ie6-rtl.css,v 1.2 2009/08/12 08:03:52 johnalbin Exp $ */
+
+/**
+ * @file
+ * RTL companion for the ie6.css file.
+ */
+
+
+/*
+ * Layout CSS
+ */
+#page {
+  text-align: right; /* 2nd part of IE5/IE6quirks centering hack */
+}

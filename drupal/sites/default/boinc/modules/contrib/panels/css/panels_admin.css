@@ -1,0 +1,162 @@
+
+.layout-link {
+  float: left;
+  padding: 1em;
+  width: 125px;
+  height: 160px;
+}
+
+.layout-link img {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* general style for the layout-icon */
+.layout-icon .caption {
+  width: 90px;
+  margin-bottom: 1em;
+}
+
+/* styles for the basic panel-%implementation% edit page */
+.layout-container,
+.right-container {
+  float: right;
+  padding: 0 0 0 .5em;
+  margin: 0;
+  width: 48.5%;
+}
+
+.info-container,
+.left-container {
+  padding-right: .5em;
+  width: 48.5%;
+}
+
+.right-container fieldset,
+.left-container fieldset,
+.layout-container fieldset {
+  margin-top: 0;
+}
+
+.layout-container .form-item {
+  margin: 0;
+}
+
+.layout-container .form-submit {
+  margin-top: 1em;
+}
+
+.layout-container .layout-icon,
+.left-container .layout-icon {
+  float: right;
+  margin-left: .5em;
+}
+
+.content-list ol {
+  padding-left: 0;
+  list-style-position: inside;
+}
+
+.content-list dt {
+  font-weight: bold;
+}
+
+.content-list dd {
+  margin-left: 2em;
+}
+
+/* styles for the choose layout page */
+.panels-layouts-checkboxes .form-checkboxes .form-item,
+#panels-choose-layout .form-radios .form-item {
+  float: left;
+  margin-right: .5em;
+  width: 90px;
+}
+
+.panels-layouts-checkboxes .form-checkboxes .form-item .layout-icon,
+#panels-choose-layout .form-radios .form-item .layout-icon {
+  float: none;
+  height: 11em;
+  width: 90px;
+}
+.panels-layouts-checkboxes .form-checkboxes .option,
+#panels-choose-layout .form-radios .form-item .option {
+  width: 50px;
+  display: block;
+  text-align: center;
+}
+
+.panels-layouts-checkboxes .form-submit,
+#panels-choose-layout .form-submit {
+  clear: left;
+}
+
+.panels-layouts-checkboxes .panels-layout-list label,
+#panels-choose-layout .panels-layout-list label {
+  width: 300px;
+  float: left;
+  clear: left;
+  background: url(../images/go-right.png) right no-repeat;
+  margin-right: 20px;
+}
+
+.panels-layouts-checkboxes .panels-layouts-category {
+  font-weight: bold;
+  width: 100%;
+  float: left;
+}
+
+.panels-layouts-checkboxes .description {
+  clear: left;
+}
+
+.change-layout-display .layout-icon {
+  float: left;
+}
+
+.change-layout-display > img {
+  padding: 25px 25px 25px 0;
+  float: left;
+}
+
+table .operation {
+  text-align: right;
+  padding-right: 6px;
+}
+
+table .argument-operation input {
+  padding: 0;
+  margin: 0;
+  position: relative;
+  top: 3px;
+}
+
+.panels-admin-view {
+  padding: 1em;
+  border: 1px dotted black;
+  margin-bottom: 1em;
+}
+
+tr.changed td {
+  background-color: #FFFFDD !important;
+}
+
+tr.changed td span.star {
+  font-weight: bold;
+  color: #E09010;
+}
+
+td select {
+  margin: 0;
+  padding: 0;
+}
+
+.panels-style-settings,
+.panels-style-settings-box,
+#panels-style-setting {
+  float: left;
+}
+
+.panels-style-settings-box .form-item {
+  margin: 0 1em 0 0;
+}

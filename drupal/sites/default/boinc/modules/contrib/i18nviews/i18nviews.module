@@ -1,0 +1,216 @@
+<?php
+// $Id: i18nviews.module,v 1.1.2.1 2010/05/17 14:22:17 jareyero Exp $
+
+/**
+ * @file
+ * Views support for Internationalization (i18n) package
+ *
+ * This module translates some views strings on the fly using i18n string system
+ *
+ * @author Jose A. Reyero, 2007
+ */
+
+/**
+ * Implementation of hook_help().
+ */
+function i18nviews_help($path, $arg) {
+  switch ($path) {
+    case 'admin/modules#description' :
+      $output = '<p>'. t('Supports translation for views strings: title, header, footer...') .'</p>';
+      $output .= '<p>'. t('To search and translate strings, use the <a href="@translate-interface">translation interface</a> pages.', array('@translate-interface' => url('admin/build/translate'))) .'</p>';
+      return $output;
+  }
+}
+
+/**
+ * Implementation of hook_locale().
+ */
+function i18nviews_locale($op = 'groups') {
+  switch ($op) {
+    case 'groups':
+      return array('views' => t('Views'));
+    case 'info':
+      $info['views']['refresh callback'] = 'i18nviews_locale_refresh';
+      $info['views']['format'] = TRUE;
+      return $info;
+  }
+}
+
+/**
+ * Refresh views locales, 2.x version
+ */
+function i18nviews_locale_refresh() {
+  $views = views_get_all_views();
+  foreach ($views as $view) {
+    if (!$view->disabled) {
+      $fields = _i18nviews_display_fields();
+      if (!empty($view->display) && is_array($view->display)) {
+        foreach (array_keys($view->display) as $display_id) {
+          _i18nviews_localize_array($view->name, $display_id, $view->display[$display_id]->display_options, $fields, TRUE);
+        }
+      }
+    }
+  }
+  return TRUE; // Completed successfully
+}
+
+/**
+ * Field handler for taxonomy term fields.
+ *
+ * Remake of views_handler_field_allterms with term name translation.
+ */
+function i18nviews_views_handler_field_allterms($fieldinfo, $fielddata, $value, $data) {
+  if ($fieldinfo['vocabulary']) {
+    $terms = taxonomy_node_get_terms_by_vocabulary($data->nid, $fieldinfo['vocabulary']);
+  }
+  else {
+    $terms = taxonomy_node_get_terms($data->nid);
+  }
+  // Translate all these terms.
+  _i18ntaxonomy_translate_terms($terms);
+
+  if ($fielddata['options'] == 'nolink') {
+    foreach ($terms as $term) {
+      $links[] = check_plain($term->name);
+    }
+    $links = !empty($links) ? implode(' | ', $links) : '';
+  }
+  else {
+    $node = new stdClass();
+    $node->taxonomy = $terms;
+    $links = theme('links', taxonomy_link('taxonomy terms', $node));
+  }
+  return $links;
+}
+
+/**
+ * Implementation of hook_views_api().
+ */
+function i18nviews_views_api() {
+  return array(
+    'api' => '2.0',
+    'path' => drupal_get_path('module', 'i18nviews') . '/includes',
+  );
+}
+
+/**
+ * Views 2.x compatibility
+ */
+
+/**
+ * Implementation of hook_views_pre_view().
+ *
+ * Views are identified by $view->name.
+ * 
+ * This is just for views 2.x, next version (3.x) will use a different one
+ */
+function i18nviews_views_pre_view(&$view, &$display_id, &$args) {
+  global $language;
+  if (views_api_version() == '2.0' && $language->language != language_default('language')) {
+    // Also checking weird values for $display_id, see 277711
+    if (!empty($view->display) && is_array($view->display) && is_string($display_id)) {
+      $fields = _i18nviews_display_fields();
+      if(!empty($view->display[$display_id])) {
+        $fields = _i18nviews_localize_array($view->name, $display_id, $view->display[$display_id]->handler->options, $fields);
+      }
+      if($fields && !empty($view->display['default'])) {
+        _i18nviews_localize_array($view->name, 'default', $view->display['default']->handler->options, $fields);
+      }      
+    }
+    // Translate taxonomy fields.
+    // @todo I don think this works at all.
+    if (module_exists('i18ntaxonomy') && isset($view->field) && is_array($view->field)) {
+      $translate = variable_get('i18ntaxonomy_vocabularies', array());
+      foreach ($view->field as $index => $data) {
+        $matches = array();
+        if ($data['id'] == 'term_node.name') {
+          // That's a full taxonomy box.
+          $view->field[$index]['handler'] = 'i18ntaxonomy_views_handler_field_allterms';
+        }
+        elseif (preg_match("/term_node_(\d+)\.name/", $data['id'], $matches)) {
+          $vid = $matches[1];
+          if ($translate[$vid]) {
+            // Set new handler for this field.
+            $view->field[$index]['handler'] = 'i18ntaxonomy_views_handler_field_allterms';
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Return the Views fields that should be translated.
+ *
+ * @return
+ *   Array of field names.
+ */
+function _i18nviews_display_fields() {
+  return array('title', 'header', 'footer', 'empty');
+}
+
+/**
+ * Translate a group of fields.
+ *
+ * We get the translated fields out of the array so they are not translated again.
+ */
+function _i18nviews_localize_array($name, $group, &$data, $field_names, $update = FALSE) {
+  $translated = array();
+  foreach ($field_names as $field) {
+    if (!empty($data[$field])) {
+      if ($update) {
+        $format = isset($data[$field . '_format']) ? $data[$field . '_format'] : NULL;
+        i18nstrings_update("views:$name:$group:$field", $data[$field], $format);
+      }
+      else {
+        $data[$field] = i18nstrings("views:$name:$group:$field", $data[$field]);
+        $translated[] = $field;
+      }
+    }
+  }
+  // Return remaining field names
+  return array_diff($field_names, $translated);
+}
+
+/**
+ * Translate a group of fields for an object.
+ *
+ * We cannot play with object 2 array conversion because some are real typed objects.
+ */
+function _i18nviews_localize_object($name, $group, &$data, &$field_names, $trim = FALSE) {
+  $translated = array();
+  foreach ($field_names as $field) {
+    if (!empty($data->$field)) {
+      $data->$field = i18nstrings("views:$name:$group:$field", $data->$field);
+    }
+  }
+  if ($trim && $translated) {
+    $field_names = array_diff($field_names, $translated);
+  }
+}
+
+/**
+ * Implementation of hook_form_id_alter().
+ *
+ * Add a submit handler to the submit button on views_ui_edit_display_form.
+ */
+function i18nviews_form_views_ui_edit_display_form_alter(&$form, $form_state) {
+  $form['buttons']['submit']['#submit'][] = 'i18nviews_views_ui_edit_display_submit';
+}
+
+/**
+ * Submit handler for views_ui_edit_display_form.
+ *
+ * Creates or updates translation source records for specified Views fields.
+ */
+function i18nviews_views_ui_edit_display_submit($form, &$form_state) {
+  $fields = _i18nviews_display_fields();
+  foreach ($fields as $field) {
+    if (isset($form_state['values'][$field])) {
+      $name = $form_state['view']->name;
+      $group = $form_state['display_id'];
+      $format = isset($form_state['values'][$field . '_format']) ? $form_state['values'][$field . '_format'] : NULL;
+      i18nstrings_update("views:$name:$group:$field", $form_state['values'][$field], $format);
+    }
+  }
+}

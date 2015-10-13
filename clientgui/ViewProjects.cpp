@@ -72,6 +72,12 @@ static int DefaultShownColumns[] = { COLUMN_PROJECT, COLUMN_ACCOUNTNAME, COLUMN_
 #define BTN_DETACH       4
 #define BTN_PROPERTIES   5
 
+static void format_total_credit(double credit, wxString& strBuffer)  {
+    strBuffer = format_number(credit, 0);
+}
+static void format_avg_credit(double credit, wxString& strBuffer)  {
+    strBuffer = format_number(credit, 2);
+}
 
 CProject::CProject() {
     m_fTotalCredit = -1.0;
@@ -250,11 +256,11 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     m_aStdColNameOrder->Insert(_("Resource share"), COLUMN_RESOURCESHARE);
     m_aStdColNameOrder->Insert(_("Status"), COLUMN_STATUS);
 
-    // m_aStdColNameOrder is an array of the width for each column.
+    // m_iStdColWidthOrder is an array of the width for each column.
     // Entries must be in order of ascending Column ID.  We initalize
     // it here to the default column widths.  It is updated by
     // CBOINCListCtrl::OnRestoreState() and also when a user resizes
-    // a column bby dragging the divider between two columns.
+    // a column by dragging the divider between two columns.
     //
     m_iStdColWidthOrder.Clear();
     m_iStdColWidthOrder.Insert(150, COLUMN_PROJECT);
@@ -863,8 +869,8 @@ void CViewProjects::UpdateSelection() {
 bool CViewProjects::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
     wxString    strDocumentText  = wxEmptyString;
     wxString    strDocumentText2 = wxEmptyString;
-    float       fDocumentFloat = 0.0;
-    float       fDocumentPercent = 0.0;
+    double       x = 0.0;
+    double       fDocumentPercent = 0.0;
     CProject*   project;
     bool        dirty = false;
  
@@ -901,25 +907,25 @@ bool CViewProjects::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex
             }
             break;
         case COLUMN_TOTALCREDIT:
-            GetDocTotalCredit(m_iSortedIndexes[iRowIndex], fDocumentFloat);
-            if (fDocumentFloat != project->m_fTotalCredit) {
-                project->m_fTotalCredit = fDocumentFloat;
-                FormatTotalCredit(fDocumentFloat, project->m_strTotalCredit);
+            GetDocTotalCredit(m_iSortedIndexes[iRowIndex], x);
+            if (x != project->m_fTotalCredit) {
+                project->m_fTotalCredit = x;
+                format_total_credit(x, project->m_strTotalCredit);
                 return true;
             }
             break;
         case COLUMN_AVGCREDIT:
-            GetDocAVGCredit(m_iSortedIndexes[iRowIndex], fDocumentFloat);
-            if (fDocumentFloat != project->m_fAVGCredit) {
-                project->m_fAVGCredit = fDocumentFloat;
-                FormatAVGCredit(fDocumentFloat, project->m_strAVGCredit);
+            GetDocAVGCredit(m_iSortedIndexes[iRowIndex], x);
+            if (x != project->m_fAVGCredit) {
+                project->m_fAVGCredit = x;
+                format_avg_credit(x, project->m_strAVGCredit);
                 return true;
             }
             break;
         case COLUMN_RESOURCESHARE:
-            GetDocResourceShare(m_iSortedIndexes[iRowIndex], fDocumentFloat);
-            if (fDocumentFloat != project->m_fResourceShare) {
-                project->m_fResourceShare = fDocumentFloat;
+            GetDocResourceShare(m_iSortedIndexes[iRowIndex], x);
+            if (x != project->m_fResourceShare) {
+                project->m_fResourceShare = x;
                 dirty = true;
             }
             GetDocResourcePercent(m_iSortedIndexes[iRowIndex], fDocumentPercent);
@@ -928,7 +934,7 @@ bool CViewProjects::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex
                 dirty = true;
             }
             if (dirty) {
-                FormatResourceShare(fDocumentFloat, fDocumentPercent, project->m_strResourceShare);
+                FormatResourceShare(x, fDocumentPercent, project->m_strResourceShare);
                 return true;
             }
             break;
@@ -1051,7 +1057,7 @@ wxInt32 CViewProjects::FormatTeamName(wxInt32 item, wxString& strBuffer) const {
 }
 
 
-void CViewProjects::GetDocTotalCredit(wxInt32 item, float& fBuffer) const {
+void CViewProjects::GetDocTotalCredit(wxInt32 item, double& fBuffer) const {
     PROJECT* project = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
     
@@ -1067,14 +1073,7 @@ void CViewProjects::GetDocTotalCredit(wxInt32 item, float& fBuffer) const {
 }
 
 
-wxInt32 CViewProjects::FormatTotalCredit(float fBuffer, wxString& strBuffer) const {
-    strBuffer.Printf(wxT("%0.2f"), fBuffer);
-
-    return 0;
-}
-
-
-void CViewProjects::GetDocAVGCredit(wxInt32 item, float& fBuffer) const {
+void CViewProjects::GetDocAVGCredit(wxInt32 item, double& fBuffer) const {
     PROJECT* project = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
     
@@ -1089,15 +1088,7 @@ void CViewProjects::GetDocAVGCredit(wxInt32 item, float& fBuffer) const {
     }
 }
 
-
-wxInt32 CViewProjects::FormatAVGCredit(float fBuffer, wxString& strBuffer) const {
-    strBuffer.Printf(wxT("%0.2f"), fBuffer);
-
-    return 0;
-}
-
-
-void CViewProjects::GetDocResourceShare(wxInt32 item, float& fBuffer) const {
+void CViewProjects::GetDocResourceShare(wxInt32 item, double& fBuffer) const {
     PROJECT* project = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
     
@@ -1113,7 +1104,7 @@ void CViewProjects::GetDocResourceShare(wxInt32 item, float& fBuffer) const {
 }
 
 
-void CViewProjects::GetDocResourcePercent(wxInt32 item, float& fBuffer) const {
+void CViewProjects::GetDocResourcePercent(wxInt32 item, double& fBuffer) const {
     PROJECT* project = NULL;
     CMainDocument* pDoc = wxGetApp().GetDocument();
     
@@ -1129,7 +1120,7 @@ void CViewProjects::GetDocResourcePercent(wxInt32 item, float& fBuffer) const {
 }
 
 
-wxInt32 CViewProjects::FormatResourceShare(float fBuffer, float fBufferPercent, wxString& strBuffer) const {
+wxInt32 CViewProjects::FormatResourceShare(double fBuffer, double fBufferPercent, wxString& strBuffer) const {
     strBuffer.Printf(wxT("%0.0f (%0.2f%%)"), fBuffer, fBufferPercent);
         
     return 0;
@@ -1185,7 +1176,7 @@ void CViewProjects::GetDocStatus(wxInt32 item, wxString& strBuffer) const {
         wxDateTime dtNow(wxDateTime::Now());
         if (dtNextRPC > dtNow) {
             wxTimeSpan tsNextRPC(dtNextRPC - dtNow);
-            append_to_status(strBuffer, _("Communication deferred ") + tsNextRPC.Format());
+            append_to_status(strBuffer, _("Communication deferred") + wxString(" ") + tsNextRPC.Format());
         }
     }
 }

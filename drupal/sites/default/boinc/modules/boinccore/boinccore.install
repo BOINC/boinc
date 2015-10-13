@@ -1,0 +1,28 @@
+<?php
+// $Id$
+
+/**
+ * Implementation of hook_install()
+ */
+function boinccore_install() {
+  // Use schema API to create database table
+  //drupal_install_schema('boinccore');
+}
+
+/**
+* Implementation of hook_uninstall().
+*/
+function boinccore_uninstall() {
+  // Use schema API to delete database table.
+  //drupal_uninstall_schema('boinccore');
+  // Delete our module's variable from the variables table.
+  //variable_del('boinccore_');
+}
+
+/**
+* Implementation of hook_schema().
+*/ /*
+function boinccore_schema() {
+  $schema['boinccore'] = array();
+  return $schema;
+}*/

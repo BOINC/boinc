@@ -69,7 +69,7 @@ bool need_targeted_instance(WORKUNIT& wu, int hostid) {
     char buf[256];
     DB_RESULT result;
     int nunsent=0, ninprogress=0, nsuccess=0;
-    sprintf(buf, "where workunitid=%d", wu.id);
+    sprintf(buf, "where workunitid=%lu", wu.id);
     while (!result.enumerate(buf)) {
         // send at most 1 instance to a given host
         //
@@ -124,7 +124,7 @@ static int send_assigned_job(ASSIGNMENT& asg) {
     retval = wu.lookup_id(asg.workunitid);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "assigned WU %d not found\n", asg.workunitid
+            "assigned WU %lu not found\n", asg.workunitid
         );
         return retval;
     }
@@ -151,18 +151,18 @@ static int send_assigned_job(ASSIGNMENT& asg) {
     );
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "[WU#%u %s] create_result(): %s\n", wu.id, wu.name, boincerror(retval)
+            "[WU#%lu %s] create_result(): %s\n", wu.id, wu.name, boincerror(retval)
         );
         return retval;
     }
-    int result_id = boinc_db.insert_id();
+    DB_ID_TYPE result_id = boinc_db.insert_id();
     SCHED_DB_RESULT result;
     retval = result.lookup_id(result_id);
     add_result_to_reply(result, wu, bavp, false);
 
     if (config.debug_assignment) {
         log_messages.printf(MSG_NORMAL,
-            "[assign] [WU#%u] [RESULT#%u] [HOST#%d] send assignment %d\n",
+            "[assign] [WU#%lu] [RESULT#%lu] [HOST#%lu] send assignment %lu\n",
             wu.id, result_id, g_reply->host.id, asg.id
         );
     }
@@ -191,7 +191,7 @@ bool send_broadcast_jobs() {
         //
         switch (asg.target_type) {
         case ASSIGN_NONE:
-            sprintf(buf, "where hostid=%d and workunitid=%d",
+            sprintf(buf, "where hostid=%lu and workunitid=%lu",
                 g_reply->host.id, asg.workunitid
             );
             retval = result.lookup(buf);
@@ -202,7 +202,7 @@ bool send_broadcast_jobs() {
             break;
         case ASSIGN_USER:
             if (g_reply->user.id != asg.target_id) continue;
-            sprintf(buf, "where workunitid=%d and hostid=%d",
+            sprintf(buf, "where workunitid=%lu and hostid=%lu",
                 asg.workunitid, g_reply->host.id
             );
             retval = result.lookup(buf);
@@ -213,7 +213,9 @@ bool send_broadcast_jobs() {
             break;
         case ASSIGN_TEAM:
             if (g_reply->team.id != asg.target_id) continue;
-            sprintf(buf, "where workunitid=%d and hostid=%d", asg.workunitid, g_reply->host.id);
+            sprintf(buf, "where workunitid=%lu and hostid=%lu",
+                asg.workunitid, g_reply->host.id
+            );
             retval = result.lookup(buf);
             if (retval == ERR_DB_NOT_FOUND) {
                 retval = send_assigned_job(asg);
@@ -239,24 +241,27 @@ bool send_jobs(int assign_type) {
 
     switch (assign_type) {
     case ASSIGN_USER:
-        sprintf(query, "where target_type=%d and target_id=%d and multi=0",
+        sprintf(query, "where target_type=%d and target_id=%lu and multi=0",
             ASSIGN_USER, g_reply->user.id
         );
         break;
     case ASSIGN_HOST:
-        sprintf(query, "where target_type=%d and target_id=%d and multi=0",
+        sprintf(query, "where target_type=%d and target_id=%lu and multi=0",
             ASSIGN_HOST, g_reply->host.id
         );
         break;
     case ASSIGN_TEAM:
-        sprintf(query, "where target_type=%d and target_id=%d and multi=0",
+        sprintf(query, "where target_type=%d and target_id=%lu and multi=0",
             ASSIGN_TEAM, g_reply->team.id
         );
         break;
     }
 
     while (!asg.enumerate(query)) {
-        if (!work_needed(false)) continue; 
+        if (!work_needed(false)) {
+            asg.end_enumerate();
+            break;
+        }
 
         // if the WU doesn't exist, delete the assignment record.
         //

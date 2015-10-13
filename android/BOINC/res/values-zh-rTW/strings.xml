@@ -42,7 +42,7 @@
   <string name="attachproject_hint_projectwebsite_science">更深入了解科學</string>
   <string name="attachproject_hint_projectwebsite_stats">查看貢獻統計</string>
   <string name="attachproject_hint_projectwebsite_community">與其他參與者互動</string>
-  <string name="attachproject_hint_platforms_header">BOINC也支援電腦及筆電，造訪boinc.berkeley.edu了解更多資訊。</string>
+  <string name="attachproject_hint_platforms_header">BOINC 也支援電腦及筆電，造訪 boinc.berkeley.edu 了解更多資訊。</string>
   <!--project login-->
   <string name="attachproject_login_loading">正連線到專案伺服器...</string>
   <string name="attachproject_login_image_description">專案標誌。</string>
@@ -287,25 +287,25 @@
   <!--eventlog tab strings-->
   <string name="eventlog_loading">載入紀錄訊息中...</string>
   <string name="eventlog_client_header">用戶端訊息</string>
-  <string name="eventlog_gui_header">GUI訊息</string>
+  <string name="eventlog_gui_header">GUI 訊息</string>
   <string name="eventlog_copy_toast">紀錄已複製到剪貼簿。</string>
-  <string name="eventlog_email_subject">Android的BOINC事件紀錄:</string>
+  <string name="eventlog_email_subject">Android 的 BOINC 事件紀錄:</string>
   <!--suspend reasons-->
   <string name="suspend_unknown">已暫停運算。</string>
   <string name="suspend_batteries">裝置連接到充電器時繼續運算。</string>
   <string name="suspend_screen_on">關閉螢幕繼續運算。</string>
   <string name="suspend_useractive">使用者處於活躍狀態。</string>
   <string name="suspend_tod">超出運算期限。</string>
-  <string name="suspend_bm">BOINC正在測試您的裝置效能...</string>
+  <string name="suspend_bm">BOINC 正在測試您的裝置效能...</string>
   <string name="suspend_disksize">儲存空間不足。</string>
-  <string name="suspend_cputhrottle">安排CPU的使用。</string>
+  <string name="suspend_cputhrottle">安排 CPU 的使用。</string>
   <string name="suspend_noinput">最近沒有使用者活動。</string>
   <string name="suspend_delay">初始化延遲。</string>
-  <string name="suspend_exclusiveapp">有衝突的程式正在執行。</string>
+  <string name="suspend_exclusiveapp">有互斥的程式正在執行。</string>
   <string name="suspend_cpu">您的裝置忙於其他程式。</string>
-  <string name="suspend_network_quota">BOINC已達到網路傳輸限制量。</string>
-  <string name="suspend_os">被Android系統停止。</string>
-  <string name="suspend_wifi">沒有連線到WiFi。</string>
+  <string name="suspend_network_quota">BOINC 已達到網路傳輸上限。</string>
+  <string name="suspend_os">被 Android 系統停止。</string>
+  <string name="suspend_wifi">沒有連線到 WiFi。</string>
   <string name="suspend_battery_charging">等待電池充電。</string>
   <string name="suspend_battery_charging_long">充電時將會繼續運算</string>
   <string name="suspend_battery_charging_long2"></string>
@@ -327,7 +327,7 @@
   <string name="menu_emailto">用電子郵件傳送</string>
   <string name="menu_copy">複製到剪貼簿</string>
   <string name="menu_eventlog">事件記錄檔</string>
-  <string name="menu_exit">退出BOINC</string>
+  <string name="menu_exit">退出 BOINC</string>
   <string name="menu_run_mode_disable">暫停</string>
   <string name="menu_run_mode_enable">繼續</string>
   <string name="menu_about">關於</string>
@@ -337,24 +337,24 @@
   <string name="about_title">關於</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">版本</string>
-  <string name="about_name_long">柏克萊開放式網絡運算平台</string>
-  <string name="about_copyright">\u00A9 2003–2014 美國加州大學柏克萊分校</string>
-  <string name="about_copyright_reserved">保留所有權力。</string>
-  <string name="about_credits">特別感謝Max Planck Institute for Gravitational Physics,IBM Corporation和HTC Corporation的技術支援及貢獻。</string>
+  <string name="about_name_long">柏克萊開放式網路運算平台</string>
+  <string name="about_copyright">\u00A9 2003–2014 University of California, Berkeley.</string>
+  <string name="about_copyright_reserved">All Rights Reserved.</string>
+  <string name="about_credits">特別感謝 Max Planck Institute for Gravitational Physics, IBM Corporation 和 HTC Corporation 的技術支援。</string>
   <!--notice notification-->
   <string name="notice_notification_single_header">新訊息來自</string>
   <!--e.g. New notice from SETI@HOME-->
   <string name="notice_notification_multiple_header">新訊息</string>
   <!--e.g. 3 new notices-->
   <!--multi BOINC compitability-->
-  <string name="nonexcl_dialog_header">偵測到志願運算APP</string>
-  <string name="nonexcl_dialog_text">有其他志願運算APP正在此裝置執行。只容許一個版本執行。</string>
+  <string name="nonexcl_dialog_header">偵測到志願運算 APP</string>
+  <string name="nonexcl_dialog_text">有其它志願運算 APP 正在此裝置執行。只容許一個版本執行。</string>
   <string name="nonexcl_dialog_exit">退出</string>
   <!--social integration-->
   <string name="social_invite_button">邀請好友</string>
   <string name="social_invite_intent_title">您想如何分享?</string>
   <string name="social_invite_content_title">我正在用智慧型手機研究科學!</string>
-  <string name="social_invite_content_body">我的%1$s正在為科學運算。希望您加入!APP下載:%2$s</string>
+  <string name="social_invite_content_body">我的 %1$s 正在為科學運算。希望您加入! APP 下載: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
 </resources>

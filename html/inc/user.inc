@@ -25,70 +25,37 @@ require_once("../inc/forum_db.inc");
 require_once("../inc/notify.inc");
 require_once("../inc/ldap.inc");
 
-function parse_project($f) {
-    $p = new StdClass;
-    $p->total_credit = 0.0;
-    $p->expavg_credit = 0.0;
-    while (!feof($f)) {
-        $buf = fgets($f);
-        if (strstr($buf, "</project>")) break;
-        if ($x = parse_element($buf, "<name>")) {
-            $p->name = $x;
-        }
-        if ($x = parse_element($buf, "<url>")) {
-            $p->url = $x;
-        }
-        if ($x = parse_element($buf, "<total_credit>")) {
-            $p->total_credit = $x;
-        }
-        if ($x = parse_element($buf, "<expavg_credit>")) {
-            $p->expavg_credit = $x;
-        }
-        if ($x = parse_element($buf, "<id>")) {
-            $p->id = $x;
-        }
-        if ($x = parse_element($buf, "<country>")) {
-            $p->country = $x;
-        }
-        if ($x = parse_element($buf, "<team_id>")) {
-            $p->team_id = $x;
-        }
-        if ($x = parse_element($buf, "<team_name>")) {
-            $p->team_name = $x;
-        }
-        if ($x = parse_element($buf, "<create_time>")) {
-            $p->create_time = $x;
-        }
-    }
-    return $p;
-}
-
-function parse_user($f, $user) {
-    $user->projects = array();
-    while (!feof($f)) {
-        $buf = fgets($f);
-        if (strstr($buf, "</user>")) break;
-        if (strstr($buf, "<project>")) {
-            $user->projects[] = parse_project($f);
-        }
-    }
-    return $user;
+if (!defined('REMOTE_PROJECTS_TTL')) {
+    define('REMOTE_PROJECTS_TTL', 86400);
 }
 
 function get_other_projects($user) {
     $cpid = md5($user->cross_project_id . $user->email_addr);
-    
-    $timeout = 3;
-    $old_timeout = ini_set('default_socket_timeout', $timeout);
-    $url = "http://boinc.netsoft-online.com/get_user.php?cpid=$cpid";
-    $f = @fopen($url, "r");
-    ini_set('default_socket_timeout', $old_timeout);
-    if (!$f) {
-        return $user;
+    $url = "http://boinc.netsoft-online.com/get_user.php?cpid=".$cpid;
+
+    // Check the cache for that URL
+    //
+    $cacheddata = get_cached_data(REMOTE_PROJECTS_TTL, $url);
+    if ($cacheddata){
+        $remote = unserialize($cacheddata);
+    } else {
+        // Fetch the XML, then auto-cast the project list to an array of stdClass projects
+        //
+        $timeout = 3;
+        $old_timeout = ini_set('default_socket_timeout', $timeout);        
+        $remote = @json_decode(json_encode((array)simplexml_load_file($url)))->project;
+        ini_set('default_socket_timeout', $old_timeout);
+        
+        if (!$remote) {
+            return $user;
+        } else {
+            // Cache the results
+            set_cached_data(REMOTE_PROJECTS_TTL, serialize($remote), $url);
+        }
     }
-    $u = parse_user($f, $user);
-    fclose($f);
-    return $u;
+    
+    $user->projects = $remote;
+    return $user;
 }
 
 function show_project($project) {
@@ -340,8 +307,7 @@ function show_community_private($user) {
     }
 
     if (!DISABLE_TEAMS) {
-        if ($user->teamid) {
-            $team = BoincTeam::lookup_id($user->teamid);
+        if ($user->teamid && ($team = BoincTeam::lookup_id($user->teamid))) {
             $x = "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>
                 &middot; <a href=\"team_quit_form.php\">".tra("Quit team")."</a>";
             if (is_team_admin($user, $team)) {
@@ -559,13 +525,18 @@ function make_user(
     $country = BoincDb::escape_string($country);
     $postal_code = sanitize_tags(BoincDb::escape_string($postal_code));
 
-    $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, 1, 1, '$cross_project_id', '$passwd_hash')");
+    $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  venue, send_email, show_hosts, posts, seti_id, seti_nresults, seti_last_result_time, seti_total_cpu, has_profile, cross_project_id, passwd_hash, email_validated, donated) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, '', 1, 1, 0, 0, 0, 0, 0, 0, '$cross_project_id', '$passwd_hash', 0, 0)");
 
-    if ($uid) {
-        return BoincUser::lookup_id($uid);
-    } else {
+    if (!$uid) {
         return null;
     }
+    $user = BoincUser::lookup_id($uid);
+    if (defined('RECORD_USER_IP')) {
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $ip = BoincDb::escape_string($ip);
+        $user->update("venue='$ip'");
+    }
+    return $user;
 }
 
 function make_user_ldap($email_addr, $name) {

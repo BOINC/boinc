@@ -1,0 +1,25 @@
+/**
+ * @file
+ * Zen's rollover edit links for blocks.
+ */
+
+
+div.block.with-block-editing {
+  position: relative;
+}
+
+div.block.with-block-editing div.edit {
+  display: none;
+  position: absolute;
+  right: 0; /* LTR */
+  top: 0;
+  z-index: 40;
+  border: 1px solid #eee;
+  padding: 0 2px;
+  font-size: 0.75em;
+  background-color: #fff;
+}
+
+div.block.with-block-editing:hover div.edit {
+  display: block;
+}

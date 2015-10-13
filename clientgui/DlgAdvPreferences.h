@@ -58,14 +58,13 @@ public:
 	void OnHelp(wxCommandEvent& event);
 	void OnClear(wxCommandEvent& event);
     void DisplayValue(double value, wxTextCtrl* textCtrl, wxCheckBox* checkBox=NULL);
+    bool OKToShow() { return m_bOKToShow; }
 private:
     GLOBAL_PREFS      prefs;
     GLOBAL_PREFS_MASK mask;
     GLOBAL_PREFS      defaultPrefs;
     LOG_FLAGS log_flags;
     CC_CONFIG config;
-	bool m_bPrefsDataChanged;
-	bool m_bInInit;
 	wxArrayInt m_arrTabPageIds;
     wxTextValidator* m_vTimeValidator;
     wxCheckBox* procDayChks[7];
@@ -74,6 +73,9 @@ private:
     wxCheckBox* netDayChks[7];
     wxTextCtrl* netDayStartTxts[7];
     wxTextCtrl* netDayStopTxts[7];
+    bool m_bOKToShow;
+    wxColour stdTextBkgdColor;
+    wxTextCtrl* lastErrorCtrl;
 };
 
 #endif // _DLGADVPREFERENCES_H_

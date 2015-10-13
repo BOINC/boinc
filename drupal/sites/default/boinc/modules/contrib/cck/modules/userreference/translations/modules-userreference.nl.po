@@ -1,0 +1,209 @@
+# $Id$
+#
+# Dutch translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  userreference.rules.inc,v 1.1.2.2 2008/10/06 15:02:03 karens
+#  userreference.module,v 1.106.2.36 2009/03/18 21:00:58 yched
+#  userreference.info,v 1.8 2008/04/23 18:02:38 dww
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-06-03 14:26+0200\n"
+"PO-Revision-Date: 2009-06-03 14:26+0200\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Dutch <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: userreference.rules.inc:15
+msgid "Load a referenced user"
+msgstr "Laad een gerefereerde gebruiker"
+
+#: userreference.rules.inc:19
+msgid "Content containing the user reference field"
+msgstr "Inhoud dat het gebruikersreferentieveld bevat"
+
+#: userreference.rules.inc:25
+msgid "Referenced user"
+msgstr "Gerefereerde gebruiker"
+
+#: userreference.rules.inc:29
+msgid "Note that if the field has multiple values, only the first user will be loaded."
+msgstr ""
+"Merk op dat als het veld meerdere waardes heeft, alleen de eerste "
+"gebruiker zal worden geladen."
+
+#: userreference.rules.inc:47
+msgid "Field"
+msgstr "Veld"
+
+#: userreference.rules.inc:52
+msgid "There are no userreference fields defined."
+msgstr "Er zijn geen gebruikersreferentievelden ingesteld."
+
+#: userreference.module:52
+msgid "User reference"
+msgstr "Gebruikersreferentie"
+
+#: userreference.module:53
+msgid "Store the ID of a related user as an integer value."
+msgstr "Bewaar de ID van een gerelateerde gebruiker als een integer-waarde"
+
+#: userreference.module:67
+msgid "User roles that can be referenced"
+msgstr "Gebruikersrollen die kunnen worden gerefereerd"
+
+#: userreference.module:73
+msgid "User status that can be referenced"
+msgstr "Gebruikersstatus die kan worden gerefereerd"
+
+#: userreference.module:75
+msgid "Active"
+msgstr "Actief"
+
+#: userreference.module:75
+msgid "Blocked"
+msgstr "Geblokkeerd"
+
+#: userreference.module:84
+msgid "Default Views"
+msgstr "Standaard views"
+
+#: userreference.module:87
+msgid "Existing Views"
+msgstr "Bestaande Views"
+
+#: userreference.module:94
+msgid "Advanced - Users that can be referenced (View)"
+msgstr "Geavanceerd - Gebruikers die kunnen worden gerefereerd (View)"
+
+#: userreference.module:101
+msgid "View used to select the users"
+msgstr "View die gebruikt wordt om gebruikers te selecteren"
+
+#: userreference.module:104
+msgid "<p>Choose the \"Views module\" view that selects the users that can be referenced.<br />Note:</p>"
+msgstr ""
+"<p>Kies de \"Views module\"-view die de gebruikers selecteert die "
+"kunnen worden gerefereerd.<br />Merk op:</p>"
+
+#: userreference.module:105;118
+msgid "<ul><li>Only views that have fields will work for this purpose.</li><li>This will discard the \"Referenceable Roles\" and \"Referenceable Status\" settings above. Use the view's \"filters\" section instead.</li><li>Use the view's \"fields\" section to display additional informations about candidate users on user creation/edition form.</li><li>Use the view's \"sort criteria\" section to determine the order in which candidate users will be displayed.</li></ul>"
+msgstr ""
+"<ul><li>Alleen Views met velden zullen werken voor dit "
+"doel.</li><li>Dit zal de  \"Refereerbare Rollen-\" en \"Refereerbare "
+"Status\"-instellingen boven negeren. Gebruik anders de view z'n "
+"\"filters\" sectie.</li><li>Gebruik de view z'n \"velden\"-sectie om "
+"extra informatie over gebruikers op het bewerkformulier weer te "
+"geven.</li><li>Gebruik de view z'n \"sorteercriteria\"-sectie om de "
+"volgorde te bepalen waarin gebruikers worden weergegeven.</li></ul>"
+
+#: userreference.module:109
+msgid "View arguments"
+msgstr "Bekijk argumenten"
+
+#: userreference.module:112
+msgid "Provide a comma separated list of arguments to pass to the view."
+msgstr ""
+"Geef een door komma's gescheiden lijst met argumenten op om naar de "
+"view te sturen."
+
+#: userreference.module:117
+msgid "<p>The list of user that can be referenced can be based on a \"Views module\" view but no appropriate views were found. <br />Note:</p>"
+msgstr ""
+"<p>De lijst met gebruikers die kunnen worden gerefereerd op basis van "
+"een \"Views module\"-view, maar geen passende views gevonden. <br "
+"/>Merk op:</p>"
+
+#: userreference.module:184
+msgid "%name: invalid input."
+msgstr "%name: geen toegestane waarde."
+
+#: userreference.module:196
+msgid "%name: invalid user."
+msgstr "%name: geen toegestane gebruiker."
+
+#: userreference.module:221
+msgid "Default"
+msgstr "Standaard"
+
+#: userreference.module:226
+msgid "Plain text"
+msgstr "Platte tekst"
+
+#: userreference.module:273
+msgid "Select list"
+msgstr "Selectielijst"
+
+#: userreference.module:281
+msgid "Check boxes/radio buttons"
+msgstr "Vinkje/radio buttons"
+
+#: userreference.module:289
+msgid "Autocomplete text field"
+msgstr "Automatisch aanvullend tekstveld"
+
+#: userreference.module:343
+msgid "Autocomplete matching"
+msgstr "Automatisch aanvullende overeenkomst"
+
+#: userreference.module:346
+msgid "Starts with"
+msgstr "Begint met"
+
+#: userreference.module:347
+msgid "Contains"
+msgstr "Bevat"
+
+#: userreference.module:349
+msgid "Select the method used to collect autocomplete suggestions. Note that <em>Contains</em> can cause performance issues on sites with thousands of users."
+msgstr ""
+"Selecteer de methode die wordt gebruikt om automatisch aangevulde "
+"suggesties te geven. Merk op <em>Bevat</em> prestatieproblemen kan "
+"veroorzaken op sites met vele duizenden gebruikers."
+
+#: userreference.module:357
+msgid "Reverse link"
+msgstr "Link terug"
+
+#: userreference.module:359
+msgid "If selected, a reverse link back to the referencing node will displayed on the referenced user record."
+msgstr ""
+"Als geselecteerd zal een links terug worden geplaatst naar de "
+"gerefereerde node in de gerefereerde gebruiker."
+
+#: userreference.module:594
+msgid "%name: found no valid user with that name."
+msgstr "%name: geen toegestane gebruiker gevonden met die naam."
+
+#: userreference.module:887
+msgid "Related content"
+msgstr "Gerelateerde inhoud"
+
+#: userreference.module:15
+msgid "Userreference autocomplete"
+msgstr "Gebruikersreferentie automatische aanvulling"
+
+#: userreference.module:0
+msgid "userreference"
+msgstr "gebruikersreferentie"
+
+#: userreference.info:0
+msgid "User Reference"
+msgstr "Gebruikersreferentie"
+
+#: userreference.info:0
+msgid "Defines a field type for referencing a user from a node."
+msgstr ""
+"Levert een veldtype for het refereren van een gebruiker vanuit een "
+"node."
+
+#: userreference.info:0
+msgid "CCK"
+msgstr "CCK"
+

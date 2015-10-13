@@ -1,0 +1,30 @@
+# $Id: i18nviews-includes.de.po,v 1.1 2010/05/17 14:03:58 jareyero Exp $
+#
+# LANGUAGE translation of Drupal (i18nviews)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  i18nviews.module,v 1.4.2.3 2008/08/09 16:11:40 jareyero
+#  i18nviews/i18nviews.info: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: German translation for i18nviews\n"
+"POT-Creation-Date: 2009-06-26 00:43+0200\n"
+"PO-Revision-Date: 2009-06-26 01:06+0100\n"
+"Last-Translator: Alexander Haß\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
+
+#: i18nviews/includes/i18nviews.views.inc:6
+msgid "Content negotiation"
+msgstr ""
+
+#: i18nviews/includes/i18nviews.views.inc:7
+msgid "Removes the nodes that are not valid according to the content selection mode"
+msgstr ""
+

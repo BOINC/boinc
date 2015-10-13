@@ -41,16 +41,17 @@ struct PERF_INFO {
 // make a "pseudo ID" that combines the app ID and the resource type
 // else just used the app_version ID
 //
-inline int generalized_app_version_id(int avid, int appid) {
+inline DB_ID_TYPE generalized_app_version_id(DB_ID_TYPE avid, DB_ID_TYPE appid) {
     if (avid < 0) {
         return appid*1000000 - avid;
     }
     return avid;
 }
 
-extern int count_workunits(int&, const char* query);
-extern int count_unsent_results(int&, int appid, int size_class=-1);
-extern int restrict_wu_to_user(WORKUNIT& wu, int userid);
+extern int count_workunits(long&, const char* query);
+extern int count_unsent_results(long&, DB_ID_TYPE appid, int size_class=-1);
+extern int restrict_wu_to_user(WORKUNIT& wu, DB_ID_TYPE userid);
+extern int restrict_wu_to_host(WORKUNIT& wu, DB_ID_TYPE hostid);
 extern int min_transition_time(double&);
 
 #endif

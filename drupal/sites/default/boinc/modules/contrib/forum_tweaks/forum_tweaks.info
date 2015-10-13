@@ -1,0 +1,4 @@
+name = Forum tweaks
+description = Add custom tweaks to Forum
+core = 6.x
+dependencies[] = forum

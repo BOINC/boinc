@@ -1,0 +1,176 @@
+# LANGUAGE translation of PROJECT
+# Copyright (c) YEAR NAME <EMAIL@ADDRESS>
+# 
+# Translators:
+# Masahiro Tagashira, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: BOINC\n"
+"POT-Creation-Date: 2015-04-20 12:14+0000\n"
+"PO-Revision-Date: 2015-04-20 15:55+0000\n"
+"Last-Translator: Masahiro Tagashira\n"
+"Language-Team: Japanese (http://www.transifex.com/projects/p/boinc/language/ja/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ja\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "What is @this_project?"
+msgstr "@this_project とは何ですか？"
+
+msgid "no projects..."
+msgstr "プロジェクトがありません…"
+
+msgid "Download the desktop software"
+msgstr "デスクトップ・ソフトウェアをダウンロード"
+
+msgid "Run the installer"
+msgstr "インストーラーを実行"
+
+msgid "When prompted enter @siteurl"
+msgstr "@siteurl を入力するよう促されたら"
+
+msgid "Enter the password that accompanies your username."
+msgstr "ユーザー名に付随するパスワードを入力してください。"
+
+msgid "Request new password"
+msgstr "新しいパスワードを要求"
+
+msgid ""
+"If you're already running BOINC, select <i>Add\n"
+"      Project</i>."
+msgstr "すでに BOINC を実行しているならば、<i>プロジェクトを追加</i>を選択してください。"
+
+msgid ""
+"If you're running a command-line version of BOINC,\n"
+"        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
+"        an account at this project, then use that account to connect with the\n"
+"        command-line version."
+msgstr "もし コマンドラインバージョンの BOINC を実行しているならば、\nまずこのプロジェクトでのアカウントを作成するために BOINC マネージャ・ソフトウェア(他の場所で必要な場合)を使用し、その上でコマンドラインバージョンに接続するためにそのアカウントを使用します。"
+
+msgid ""
+"If you're running a pre-5.0 version of BOINC, please\n"
+"        upgrade to a more recent version to create an account\n"
+"        at this project."
+msgstr "BOINC の5.0より前のバージョンを実行している場合、このプロジェクトでのアカウントを作成するために、より新しいバージョンにアップグレードしてください。"
+
+msgid ""
+"1) If you know your account&apos;s email address, and you can receive email "
+"there:"
+msgstr "1) アカウントに登録したあなたのEメールアドレスを覚えているならば、こちらからEメールを受け取ることができます:"
+
+msgid ""
+"Enter the email address and click OK. You will be sent email instructions "
+"for resetting your password."
+msgstr "そのEメールアドレスを入力し OK を押してください。パスワードをリセットするための手順を書いたEメールがあなたに送信されます。"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Email address"
+msgstr "Eメールアドレス"
+
+msgid "Home"
+msgstr "自宅"
+
+msgid "Login"
+msgstr "ログイン"
+
+msgid "search"
+msgstr "検索"
+
+msgid "Server status"
+msgstr "サーバー側の状態"
+
+msgid "Language"
+msgstr "言語"
+
+msgid "Enter your @s email address."
+msgstr "あなたのEメールアドレスを入力してください。"
+
+msgid "Join now"
+msgstr "今すぐ参加"
+
+msgid "I'm new"
+msgstr "私は新規ユーザーです"
+
+msgid "I'm a BOINC user"
+msgstr "私は BOINC ユーザーです"
+
+msgid "Welcome back!"
+msgstr "おかえりなさい！"
+
+msgid ""
+"Einstein@Home is a program that uses your computer's idle time to run a "
+"screensaver to search for gravitational waves from spinning neutron stars "
+"(also called pulsars) using data from the LIGO gravitational wave detector."
+msgstr "Einstein@Home は LIGO 重力波検出器からのデータを使用して、自転している中性子星(パルサーとも呼ばれます)からの重力波を探すためのスクリーンセーバーを実行するために、あなたのコンピュータのアイドル時間を使用するプログラムです。"
+
+msgid "Learn more"
+msgstr "もっと詳しく知る"
+
+msgid "View account"
+msgstr "アカウントを見る"
+
+msgid "About our screensaver"
+msgstr "私たちのスクリーンセーバーについて"
+
+msgid "Over 500,000 volunteers and counting."
+msgstr "500,000を超えるボランティアがおり、なおも増えています。"
+
+msgid "Windows"
+msgstr "Windows"
+
+msgid "Mac"
+msgstr "Mac"
+
+msgid "Linux"
+msgstr "Linux"
+
+msgid "Logout"
+msgstr "ログアウト"
+
+msgid "Name"
+msgstr "名前"
+
+msgid "Avg credit"
+msgstr "平均功績値"
+
+msgid "Total credit"
+msgstr "総功績"
+
+msgid "Enter your password to save changes"
+msgstr "変更を保存するにはパスワードを入力してください"
+
+msgid ""
+"Enter your current password if changing your email\n"
+"          address or password."
+msgstr "Eメールアドレスもしくはパスワードを変更するなら、現在のパスワードを入力してください。"
+
+msgid "BOINC user ID"
+msgstr "BOINC のユーザーID"
+
+msgid "Drupal user ID"
+msgstr "Drupal のユーザーID"
+
+msgid "Account key"
+msgstr "アカウント・キー"
+
+msgid "Weak account key"
+msgstr "弱いアカウント・キー"
+
+msgid "Cross-project ID"
+msgstr "プロジェクト横断 ID"
+
+msgid "Save changes"
+msgstr "変更を保存する"
+
+msgid "Cancel"
+msgstr "キャンセル"
+
+msgid "Change password"
+msgstr "パスワードの変更"
+
+msgid "Password"
+msgstr "パスワード:"

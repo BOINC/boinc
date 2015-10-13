@@ -16,9 +16,17 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// web interface for canceling WUs according to a SQL where clause
+// web interface for canceling WUs according to either
+// - ID range
+// - ID list
+// - SQL where clause
 
-// TODO: use get_int() etc.
+// This page shows the form, and a "confirm" page.
+// The actual cancellation is done cancel_workunits_action.php
+
+// TODO:
+// - use get_int() etc. rather than $_REQUEST
+// - use DB interfaces classes, not mysql_query() etc.
 
 require_once("../inc/util_ops.inc");
 

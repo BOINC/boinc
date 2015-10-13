@@ -906,19 +906,21 @@ void WORK_FETCH::handle_reply(
 }
 
 // set up for initial RPC.
-// arrange to always get one job, even if we don't need it or can't handle it.
-// (this is probably what user wants)
+// Ask for just 1 job per instance,
+// since we don't have good runtime estimates yet
 //
 void WORK_FETCH::set_initial_work_request(PROJECT* p) {
+    clear_request();
     for (int i=0; i<coprocs.n_rsc; i++) {
-        rsc_work_fetch[i].req_secs = 1;
-        if (i) {
-            RSC_WORK_FETCH& rwf = rsc_work_fetch[i];
-            if (rwf.ninstances ==  p->rsc_pwf[i].ncoprocs_excluded) {
-                rsc_work_fetch[i].req_secs = 0;
+        if (p->resource_share > 0 && !p->dont_request_more_work) {
+            rsc_work_fetch[i].req_secs = 1;
+            if (i) {
+                RSC_WORK_FETCH& rwf = rsc_work_fetch[i];
+                if (rwf.ninstances ==  p->rsc_pwf[i].ncoprocs_excluded) {
+                    rsc_work_fetch[i].req_secs = 0;
+                }
             }
         }
-        rsc_work_fetch[i].req_instances = 0;
         rsc_work_fetch[i].busy_time_estimator.reset();
     }
 }

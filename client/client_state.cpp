@@ -279,6 +279,7 @@ const char* rsc_name_long(int i) {
     return coprocs.coprocs[i].type;             // Some other type
 }
 
+#ifndef SIM
 // alert user if any jobs need more RAM than available
 //
 static void check_too_large_jobs() {
@@ -301,6 +302,7 @@ static void check_too_large_jobs() {
         }
     }
 }
+#endif
 
 // Something has failed N times.
 // Calculate an exponential backoff between MIN and MAX
@@ -347,6 +349,55 @@ void CLIENT_STATE::set_now() {
     now = x;
 }
 
+// Check if version or platform has changed;
+// if so we're running a different client than before.
+//
+bool CLIENT_STATE::is_new_client() {
+    bool new_client = false;
+    if ((core_client_version.major != old_major_version)
+        || (core_client_version.minor != old_minor_version)
+        || (core_client_version.release != old_release)
+    ) {
+        msg_printf(NULL, MSG_INFO,
+            "Version change (%d.%d.%d -> %d.%d.%d)",
+            old_major_version, old_minor_version, old_release,
+            core_client_version.major,
+            core_client_version.minor,
+            core_client_version.release
+        );
+        new_client = true;
+    }
+    if (statefile_platform_name.size() && strcmp(get_primary_platform(), statefile_platform_name.c_str())) {
+        msg_printf(NULL, MSG_INFO,
+            "Platform changed from %s to %s",
+            statefile_platform_name.c_str(), get_primary_platform()
+        );
+        new_client = true;
+    }
+    return new_client;
+}
+
+#ifdef _WIN32
+typedef DWORD (WINAPI *SPC)(HANDLE, DWORD);
+#endif
+
+static void set_client_priority() {
+#ifdef _WIN32
+    SPC spc = (SPC) GetProcAddress(GetModuleHandle(_T("kernel32.dll")), "SetPriorityClass");
+    if (!spc) return;
+    if (spc(GetCurrentProcess(), PROCESS_MODE_BACKGROUND_BEGIN)) {
+        msg_printf(NULL, MSG_INFO, "Running at background priority");
+    } else {
+        msg_printf(NULL, MSG_INFO, "Failed to set background priority");
+    }
+#endif
+#ifdef __linux__
+    char buf[1024];
+    sprintf(buf, "ionice -c 3 -n 7 -p %d", getpid());
+    system(buf);
+#endif
+}
+
 int CLIENT_STATE::init() {
     int retval;
     unsigned int i;
@@ -390,8 +441,14 @@ int CLIENT_STATE::init() {
 
     msg_printf(NULL, MSG_INFO, "Libraries: %s", curl_version());
 
+    set_client_priority();
+
     if (executing_as_daemon) {
+#ifdef _WIN32
+        msg_printf(NULL, MSG_INFO, "Running as a daemon (GPU computing disabled)");
+#else
         msg_printf(NULL, MSG_INFO, "Running as a daemon");
+#endif
     }
 
     relative_to_absolute("", buf);
@@ -500,12 +557,18 @@ int CLIENT_STATE::init() {
     //
     parse_state_file();
 
+    bool new_client = is_new_client();
+
     // this follows parse_state_file() since we need to have read
     // domain_name for Android
     //
     host_info.get_host_info(true);
     set_ncpus();
     show_host_info();
+
+    // this follows parse_state_file() because that's where we read project names
+    //
+    sort_projects_by_name();
 
     // check for app_config.xml files in project dirs
     //
@@ -580,31 +643,6 @@ int CLIENT_STATE::init() {
     }
     do_cmdline_actions();
 
-    // check if version or platform has changed.
-    // Either of these is evidence that we're running a different
-    // client than previously.
-    //
-    bool new_client = false;
-    if ((core_client_version.major != old_major_version)
-        || (core_client_version.minor != old_minor_version)
-        || (core_client_version.release != old_release)
-    ) {
-        msg_printf(NULL, MSG_INFO,
-            "Version change (%d.%d.%d -> %d.%d.%d)",
-            old_major_version, old_minor_version, old_release,
-            core_client_version.major,
-            core_client_version.minor,
-            core_client_version.release
-        );
-        new_client = true;
-    }
-    if (statefile_platform_name.size() && strcmp(get_primary_platform(), statefile_platform_name.c_str())) {
-        msg_printf(NULL, MSG_INFO,
-            "Platform changed from %s to %s",
-            statefile_platform_name.c_str(), get_primary_platform()
-        );
-        new_client = true;
-    }
     // if new version of client,
     // - run CPU benchmarks
     // - get new project list
@@ -1656,7 +1694,6 @@ bool CLIENT_STATE::update_results() {
     vector<RESULT*>::iterator result_iter;
     bool action = false;
     static double last_time=0;
-    int retval;
 
     if (!clock_change && now - last_time < UPDATE_RESULTS_PERIOD) return false;
     last_time = now;
@@ -1672,8 +1709,7 @@ bool CLIENT_STATE::update_results() {
             break;
 #ifndef SIM
         case RESULT_FILES_DOWNLOADING:
-            retval = input_files_available(rp, false);
-            if (!retval) {
+            if (input_files_available(rp, false) == 0) {
                 if (rp->avp->app_files.size()==0) {
                     // if this is a file-transfer app, start the upload phase
                     //
@@ -1952,15 +1988,17 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
         }
         garbage_collect_always();
     }
-#ifdef ANDROID
-    // space is likely to be an issue on Android, so clean out project dir
-    // If we did this on other platforms we'd need to avoid deleting
-    // app_config.xml, but this isn't likely to exist on Android.
+
+    // if not anonymous platform, clean out the project dir
+    // except for app_config.xml
     //
     if (!project->anonymous_platform) {
-        client_clean_out_dir(project->project_dir(), "reset project");
+        client_clean_out_dir(
+            project->project_dir(),
+            "reset project",
+            "app_config.xml"
+        );
     }
-#endif
 
     // force refresh of scheduler URLs
     //

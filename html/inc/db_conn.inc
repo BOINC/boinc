@@ -36,14 +36,14 @@ class DbConn {
             }
             //if (version_compare(PHP_VERSION, '5.3.0') < 0) {
             if (1) {        // don't use persistent connections for now
-                $this->db_conn = new mysqli($host, $user, $passwd, $name, $port);
+                $this->db_conn = @new mysqli($host, $user, $passwd, $name, $port);
             } else {
-                $this->db_conn = new mysqli("p:".$host, $user, $passwd, $name, $port);
+                $this->db_conn = @new mysqli("p:".$host, $user, $passwd, $name, $port);
             }
             global $mysqli;
             $mysqli = $this->db_conn;
         } else {
-            $this->db_conn = mysql_pconnect($host, $user, $passwd);
+            $this->db_conn = @mysql_pconnect($host, $user, $passwd);
         }
         if (!$this->db_conn) {
             return false;
@@ -239,13 +239,8 @@ class DbConn {
     function table_exists($table_name) {
         $result = $this->do_query("show tables from DBNAME like '$table_name'");
         if (!$result) error_page("database error on query $query");
-        if (MYSQLI) {
-            $t = $result->fetch_array();
-            $result->free();
-        } else {
-            $t = mysql_fetch_array($result);
-            mysql_free_result($result);
-        }
+        $t = _mysql_fetch_array($result);
+        _mysql_free_result($result);
         if ($t[0] == "$table_name") return true;
         return false;
     }

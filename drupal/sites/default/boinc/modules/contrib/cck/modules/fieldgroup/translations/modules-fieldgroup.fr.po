@@ -1,0 +1,110 @@
+# translation of SB-cck-6.x-2.x-dev.po to
+# translation of cck-6.x-2.x-dev.po to
+msgid ""
+msgstr ""
+"Project-Id-Version: SB-cck-6.x-2.x-dev\n"
+"POT-Creation-Date: 2008-07-03 07:41+0200\n"
+"PO-Revision-Date: 2008-07-03 19:20+0100\n"
+"Last-Translator: Damien Tournoud <damz@prealable.org>\n"
+"Language-Team:  <fr@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: France\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: modules/fieldgroup/fieldgroup.module:103
+msgid "Add"
+msgstr "Ajouter"
+
+#: modules/fieldgroup/fieldgroup.module:128
+msgid "Form settings"
+msgstr "Paramètres du formulaire"
+
+#: modules/fieldgroup/fieldgroup.module:129
+msgid "These settings apply to the group in the node editing form."
+msgstr "Ces paramètres s'appliquent au groupe dans le formulaire d'édition de nœud."
+
+#: modules/fieldgroup/fieldgroup.module:133
+msgid "Style"
+msgstr "Style"
+
+#: modules/fieldgroup/fieldgroup.module:136
+msgid "always open"
+msgstr "toujours déplié"
+
+#: modules/fieldgroup/fieldgroup.module:137
+msgid "collapsible"
+msgstr "repliable"
+
+#: modules/fieldgroup/fieldgroup.module:138
+msgid "collapsed"
+msgstr "replié"
+
+#: modules/fieldgroup/fieldgroup.module:146
+msgid "Instructions to present to the user on the editing form."
+msgstr "Instructions à présenter à l'utilisateur dans le formulaire d'édition."
+
+#: modules/fieldgroup/fieldgroup.module:151
+msgid "Display settings"
+msgstr "Paramètres d'affichage"
+
+#: modules/fieldgroup/fieldgroup.module:152
+msgid "These settings apply to the group on node display."
+msgstr "Ces paramètres s'appliquent au groupe à l'affichage du nœud."
+
+#: modules/fieldgroup/fieldgroup.module:159
+msgid "A description of the group."
+msgstr "Description du groupe."
+
+#: modules/fieldgroup/fieldgroup.module:194
+msgid "The group name %name already exists."
+msgstr "Le nom de groupe '%name' existe déjà."
+
+#: modules/fieldgroup/fieldgroup.module:198
+msgid "The group name %name is invalid."
+msgstr "Le nom de groupe '%name' est invalide."
+
+#: modules/fieldgroup/fieldgroup.module:233
+msgid "Are you sure you want to remove the group %label?"
+msgstr "Êtes-vous sûr(e) de vouloir supprimer le groupe '%label' ?"
+
+#: modules/fieldgroup/fieldgroup.module:235
+msgid "This action cannot be undone."
+msgstr "Cette action est irréversible."
+
+#: modules/fieldgroup/fieldgroup.module:244
+msgid "The group %group_name has been removed."
+msgstr "Le groupe '%group_name' a été supprimé."
+
+#: modules/fieldgroup/fieldgroup.module:347
+msgid "Display in group"
+msgstr "Afficher dans le groupe"
+
+#: modules/fieldgroup/fieldgroup.module:350
+msgid "Select a group, in which the field will be displayed on the editing form."
+msgstr "Choisissez un groupe dans lequel apparaîtra le champ dans le formulaire d'édition."
+
+#: modules/fieldgroup/fieldgroup.module:29
+msgid "Add group"
+msgstr "Ajouter un groupe"
+
+#: modules/fieldgroup/fieldgroup.module:37;44
+msgid "Edit group"
+msgstr "Éditer le groupe"
+
+#: modules/fieldgroup/fieldgroup.module:0
+msgid "fieldgroup"
+msgstr "fieldgroup"
+
+#: modules/fieldgroup/fieldgroup.info:0
+msgid "Fieldgroup"
+msgstr "Fieldgroup"
+
+#: modules/fieldgroup/fieldgroup.info:0
+msgid "Create field groups for CCK fields."
+msgstr "Créer des groupes de champs pour des champs CCK."
+

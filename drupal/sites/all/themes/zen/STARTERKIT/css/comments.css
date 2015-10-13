@@ -1,0 +1,79 @@
+/**
+ * @file
+ * Comment Styling
+ */
+
+
+#comments /* Wrapper for the list of comments and its title */ {
+  margin: 1em 0;
+}
+
+#comments h2.title /* Heading for the list of comments */ {
+}
+
+.comment /* Wrapper for a single comment */ {
+}
+
+.comment-preview /* Preview of the comment before submitting new or updated comment */ {
+}
+
+.comment.new /* A new comment since the user last viewed the page. */ {
+}
+
+.comment.first /* The first comment in the list of comments */ {
+}
+
+.comment.last /* The last comment in the list of comments */ {
+}
+
+.comment.odd /* An odd-numbered comment in the list of comments */ {
+}
+
+.comment.even /* An even-numbered comment in the list of comments */ {
+}
+
+.comment-unpublished /* Unpublished comments */ {
+  /* background-color: #fff4f4; */ /* Drupal core uses a #fff4f4 background */
+}
+
+.comment-unpublished div.unpublished /* The word "Unpublished" displayed underneath the content. See also the div.unpublished declaration in the nodes.css. */ {
+}
+
+.comment-by-anonymous /* A comment created by an anonymous user */ {
+}
+
+.comment-by-node-author /* A comment created by the node's author */ {
+}
+
+.comment-by-viewer /* A comment created by the current user */ {
+}
+
+.comment h3.title /* Comment title */ {
+}
+
+.new /* "New" marker for comments that are new for the current user */ {
+  color: #c00;
+}
+
+.comment .picture /* The picture of the comment author */ {
+}
+
+.comment .submitted /* The "posted by" information */ {
+}
+
+.comment .content /* Comment's content wrapper */ {
+}
+
+.comment .user-signature /* The user's signature */ {
+}
+
+.comment ul.links /* Comment links. See also the ul.links declaration in the pages.css. */ {
+}
+
+.indented /* Nested comments are indented */ {
+  /* margin-left: 25px; */ /* Drupal core uses a 25px left margin */
+}
+
+.preview .comment /* Preview of the comment before submitting new or updated comment */ {
+  /* background-color: #ffffea; */ /* Drupal core uses a #ffffea background */
+}

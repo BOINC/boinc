@@ -1,0 +1,135 @@
+# $Id$
+#
+# Swedish translation of Drupal (text)
+# Generated from files:
+#  text.module,v 1.95.2.29 2009/04/29 20:51:53 karens
+#  text.info,v 1.9 2008/04/23 18:02:31 dww
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: CCK - Text 6.x\n"
+"POT-Creation-Date: 2009-05-27 13:47+0200\n"
+"PO-Revision-Date: 2009-05-27 14:27+0100\n"
+"Last-Translator: Magnus Gunnarsson <seals@passagen.se>\n"
+"Language-Team: drupalsverige.se\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-Language: Swedish\n"
+"X-Poedit-Country: SWEDEN\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: text.module:41
+#: text.info:0
+msgid "Text"
+msgstr "Text"
+
+#: text.module:42
+msgid "Store text in the database."
+msgstr "Lagra text i databasen."
+
+#: text.module:55;202
+msgid "Plain text"
+msgstr "Ren text"
+
+#: text.module:55
+msgid "Filtered text (user selects input format)"
+msgstr "Filtrerade text (användare väljer inmatningsformat)"
+
+#: text.module:58
+msgid "Text processing"
+msgstr "Bearbetning av text"
+
+#: text.module:64
+msgid "Maximum length"
+msgstr "Maximal längd"
+
+#: text.module:68
+msgid "The maximum length of the field in characters. Leave blank for an unlimited size."
+msgstr "Maximalt antal tecken för fältet. Lämna blankt för oändlig storlek."
+
+#: text.module:72
+msgid "Allowed values"
+msgstr "Tillåtna värden"
+
+#: text.module:78
+msgid "Allowed values list"
+msgstr "Tillåtna listvärden"
+
+#: text.module:82
+msgid "The possible values this field can contain. Enter one value per line, in the format key|label. The key is the value that will be stored in the database, and it must match the field storage type (%type). The label is optional, and the key will be used as the label if no label is specified.<br />Allowed HTML tags: @tags"
+msgstr "De möjliga värdena detta fält kan innehålla. Ange ett värde per rad i formatet nyckel/etikett. Denna nyckel är värdet som kommer att lagras i databasen och måste överensstämma typen för fältlagring (%type). Etikett är valfritt, och nyckeln som kommer att användas är etiketten om ingen etikett är specificerad.<br />Tillåtna HTML-taggar: @tags"
+
+#: text.module:86
+msgid "PHP code"
+msgstr "PHP-kod"
+
+#: text.module:93;102
+msgid "Code"
+msgstr "Kod"
+
+#: text.module:96
+msgid "Advanced usage only: PHP code that returns a keyed array of allowed values. Should not include &lt;?php ?&gt; delimiters. If this field is filled out, the array returned by this code will override the allowed values list above."
+msgstr "Enbart avancerat användande: PHP-kod som skall returnera en spärrad lista av tillåtna värden. Skall inte inkludera avgränsarna &lt;?php ?&gt;. Om detta fält är ifyllt kommer listan som returneras av denna kod att åsidosätta det tillåtna värdet i listan ovan."
+
+#: text.module:103
+msgid "&lt;none&gt;"
+msgstr "&lt;ingen&gt;"
+
+#: text.module:104
+msgid "You're not allowed to input PHP code."
+msgstr "Du har inte tillåtelse att mata in PHP-kod."
+
+#: text.module:104
+msgid "This PHP code was set by an administrator and will override the allowed values list above."
+msgstr "Denna PHP-kod angavs av en administratör och kommer att åsidosätta det tillåtna värdet ovan."
+
+#: text.module:133
+msgid "@label (!name) - Allowed values"
+msgstr "@label (!name) - Tillåtna värden"
+
+#: text.module:157
+msgid "%name: illegal value."
+msgstr "%name: otillåtet värde."
+
+#: text.module:160
+msgid "%name: the value may not be longer than %max characters."
+msgstr "%name: värdet får inte vara längre än %max tecken."
+
+#: text.module:197
+msgid "Default"
+msgstr "Standard"
+
+#: text.module:207
+msgid "Trimmed"
+msgstr "Avkortad"
+
+#: text.module:257
+msgid "Text field"
+msgstr "Textfält"
+
+#: text.module:265
+msgid "Text area (multiple rows)"
+msgstr "Textområde (flera rader)"
+
+#: text.module:317
+msgid "Size of textfield"
+msgstr "Storlek på textfält"
+
+#: text.module:326
+msgid "Rows"
+msgstr "Rader"
+
+#: text.module:0
+msgid "text"
+msgstr "text"
+
+#: text.info:0
+msgid "Defines simple text field types."
+msgstr "Definierar enkla typer av textfält."
+
+#: text.info:0
+msgid "CCK"
+msgstr "CCK"
+

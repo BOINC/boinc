@@ -89,6 +89,9 @@ public:
     // whether to use shared directory infrastructure
     bool enable_shared_directory;
 
+    // whether to use scratch directory infrastructure
+    bool enable_scratch_directory;
+
     // whether to use floppy io infrastructure
     bool enable_floppyio;
 
@@ -101,6 +104,12 @@ public:
     // whether to enable graphics support by way of
     // http://boinc.berkeley.edu/trac/wiki/GraphicsApi#File
     bool enable_graphics_support;
+
+    // whether to use savestate instead of poweroff on exit
+    bool enable_vm_savestate_usage;
+
+    // whether to disable automatic checkpoint support
+    bool disable_automatic_checkpoints;
 
     // maximum amount of wall-clock time this VM is allowed to run before
     // considering itself done.

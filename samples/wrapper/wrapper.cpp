@@ -36,12 +36,19 @@
 //
 // Contributor: Andrew J. Younge (ajy4490@umiacs.umd.edu)
 
+// comment out the following to disable checking that
+// executables are signed.
+// Doing so introduces a security vulnerability.
+//
+#define CHECK_EXECUTABLES
+
 #ifndef _WIN32
 #include "config.h"
 #endif
 #include <stdio.h>
 #include <vector>
 #include <string>
+#include <algorithm>
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_util.h"
@@ -62,6 +69,7 @@
 
 #include "version.h"
 #include "boinc_api.h"
+#include "app_ipc.h"
 #include "graphics2.h"
 #include "boinc_zip.h"
 #include "diagnostics.h"
@@ -807,7 +815,8 @@ int TASK::run(int argct, char** argvt) {
     return 0;
 }
 
-// return true if task exited
+// return true if task exited; in that case also return its exit status
+// (zero means it completed successfully)
 //
 bool TASK::poll(int& status) {
     char buf[256];
@@ -847,6 +856,10 @@ bool TASK::poll(int& status) {
             boinc_msg_prefix(buf, sizeof(buf)),
             application.c_str(), final_cpu_time
         );
+
+        if (WIFEXITED(status)) {
+            status = WEXITSTATUS(status);
+        }
         if (final_cpu_time < current_cpu_time) {
             final_cpu_time = current_cpu_time;
         }
@@ -970,21 +983,60 @@ void write_checkpoint(int ntasks_completed, double cpu, double rt) {
     boinc_checkpoint_completed();
 }
 
+// read the checkpoint file;
+// return nonzero if it's missing or bad format
+//
 int read_checkpoint(int& ntasks_completed, double& cpu, double& rt) {
     int nt;
     double c, r;
 
     ntasks_completed = 0;
     cpu = 0;
+    rt = 0;
     FILE* f = fopen(CHECKPOINT_FILENAME, "r");
     if (!f) return ERR_FOPEN;
     int n = fscanf(f, "%d %lf %lf", &nt, &c, &r);
     fclose(f);
-    if (n != 2) return 0;
+    if (n != 3) return -1;
+
     ntasks_completed = nt;
     cpu = c;
     rt = r;
     return 0;
+}
+
+// Check whether executable files (tasks and daemons) are code-signed.
+// The client supplies a list of app version files, which are code-signed.
+// For each executable file:
+// - check that it's a soft link
+// - check that it's of the form ../../project_url/x
+// - check that "x" is in the list of app version files
+//
+void check_execs(vector<TASK> &t) {
+    for (unsigned int i=0; i<t.size(); i++) {
+        TASK &task = t[i];
+        string phys_name = resolve_soft_link(
+            aid.project_dir, task.application.c_str()
+        );
+        if (phys_name.empty()) {
+            fprintf(stderr, "task executable %s is not a link\n",
+                phys_name.c_str()
+            );
+            boinc_finish(1);
+        }
+        if (std::find(aid.app_files.begin(), aid.app_files.end(), phys_name) == aid.app_files.end()) {
+            fprintf(stderr, "task executable %s is not in app version\n",
+                task.application.c_str()
+            );
+            boinc_finish(1);
+        }
+    }
+}
+
+void check_executables() {
+    if (aid.app_files.size() == 0) return;
+    check_execs(tasks);
+    check_execs(daemons);
 }
 
 int main(int argc, char** argv) {
@@ -1025,8 +1077,7 @@ int main(int argc, char** argv) {
     if (retval && !zip_filename.empty()) {
         // this is the first time we've run.
         // If we're going to zip output files,
-        // make a list of files present at this point
-        // so we can exclude them.
+        // make a list of files present at this point so we can exclude them.
         //
         write_checkpoint(0, 0, 0);
         get_initial_file_list();
@@ -1050,6 +1101,10 @@ int main(int argc, char** argv) {
     );
 
     boinc_get_init_data(aid);
+
+#ifdef CHECK_EXECUTABLES
+    check_executables();
+#endif
 
     if (ntasks_completed > (int)tasks.size()) {
         fprintf(stderr,

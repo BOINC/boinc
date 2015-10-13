@@ -70,7 +70,7 @@ function show_auth_form() {
     echo "<form action=login_action.php method=post>\n";
     row2(tra("Log in with authenticator"), "<input type=\"text\" name=authenticator size=40>");
     row2(tra("Stay logged in on this computer"),
-        "<input type=checkbox name=send_cookie checked>"
+        "<input type=checkbox name=\"stay_logged_in\" checked>"
     );
     row2("", "<input class=\"btn btn-default\" type=submit value=\"".tra("OK")."\">");
     echo "</form>";

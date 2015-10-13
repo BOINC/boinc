@@ -40,19 +40,29 @@
 // and also to/from HTML form elements
 
 include_once("../inc/prefs_util.inc");
+include_once("../inc/translation.inc");
+
+global $cpu_prefs;
+global $disk_prefs;
+global $mem_prefs;
+global $net_prefs;
 
 $cpu_prefs = array(
     tra("Usage limits"),
     new PREF_NUM(
         tra("Use at most"),
+        // xgettext:no-php-format
         tra("Keep some CPUs free for other applications. Example: 75% means use 6 cores on an 8-core CPU."),
         "max_ncpus_pct",
+        // xgettext:no-php-format
         new NUM_SPEC(tra("% of the CPUs"), 1, 100, 100)
     ),
     new PREF_NUM(
         tra("Use at most"),
+        // xgettext:no-php-format
         tra("Suspend/resume computing every few seconds to reduce CPU temperature and energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, and repeat."),
         "cpu_usage_limit",
+        // xgettext:no-php-format
         new NUM_SPEC(tra("% of CPU time"), 1, 100, 100)
     ),
     tra("When to suspend"),
@@ -95,7 +105,7 @@ $cpu_prefs = array(
     ),
     new PREF_HOUR_RANGE(
         tra("Compute only between"),
-        tra("Compute only during a particular range of hours each day."),
+        tra("Compute only during a particular period each day."),
         "start_hour", "end_hour"
     ),
     tra("Other"),
@@ -119,7 +129,7 @@ $cpu_prefs = array(
     ),
     new PREF_NUM(
         tra("Request tasks to checkpoint at most every"),
-        tra("This controls how often tasks save their state to disk, so that they can be restarted later."),
+        tra("This controls how often tasks save their state to disk, so that later they can be continued from that point."),
         "disk_interval",
         new NUM_SPEC(tra("seconds"), 0, 9999999, 60)
     ),
@@ -144,6 +154,7 @@ $disk_prefs = array(
         tra("Use no more than"),
         tra("Limit the percentage of disk space used by BOINC on the volume where it stores data."),
         "disk_max_used_pct",
+        // xgettext:no-php-format
         new NUM_SPEC(tra("% of total"), 0, 100, $dp->disk_max_used_pct)
     ),
 );
@@ -153,12 +164,14 @@ $mem_prefs = array(
         tra("When computer is in use, use at most"),
         tra("Limit the memory used by BOINC when you're using the computer."),
         "ram_max_used_busy_pct",
+        // xgettext:no-php-format
         new NUM_SPEC(tra("%"), 1, 100, 50)
     ),
     new PREF_NUM(
         tra("When computer is not in use, use at most"),
         tra("Limit the memory used by BOINC when you're not using the computer."),
         "ram_max_used_idle_pct",
+        // xgettext:no-php-format
         new NUM_SPEC(tra("%"), 1, 100, 90)
     ),
     new PREF_BOOL(
@@ -171,6 +184,7 @@ $mem_prefs = array(
         tra("Page/swap file: use at most"),
         tra("Limit the swap space (page file) used by BOINC."),
         "vm_max_used_pct",
+        // xgettext:no-php-format
         new NUM_SPEC(tra("%"), 1, 100, 75)
     ),
 );
@@ -200,7 +214,7 @@ $net_prefs = array(
     tra("When to suspend"),
     new PREF_HOUR_RANGE(
         tra("Transfer files only between"),
-        tra("Transfer files only during a particular range of hours each day."),
+        tra("Transfer files only during a particular period each day."),
         "net_start_hour", "net_end_hour"
     ),
     tra("Other"),
@@ -461,7 +475,7 @@ function prefs_show_global($prefs) {
 }
 
 function subset_name($subset) {
-    if ($subset == "global") return tra("Computing");
+    if ($subset == "global") return tra("computing");
     return PROJECT;
 }
 

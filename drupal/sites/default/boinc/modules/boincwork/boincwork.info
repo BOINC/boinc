@@ -1,0 +1,8 @@
+; $Id$
+name = BOINC work
+description = Enable BOINC features related to processing work and credit.
+core = 6.x
+dependencies[] = boincuser
+dependencies[] = elements
+dependencies[] = jump
+package = BOINC

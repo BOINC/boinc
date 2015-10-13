@@ -1,8 +1,9 @@
 #!/usr/bin/env php
+
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2014 University of California
+// Copyright (C) 2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -223,6 +224,40 @@ function delete_teams() {
     }
 }
 
+function delete_user_id($id) {
+    $user = BoincUser::lookup_id($id);
+    if ($user) {
+        echo "deleting user $id\n";
+        do_delete_user($user);
+    } else {
+        echo "no such user\n";
+    }
+}
+
+function delete_user_id_range($id1, $id2) {
+    for ($i=$id1; $i <= $id2; $i++) {
+        $user = BoincUser::lookup_id($i);
+        if ($user) {
+            echo "deleting user $i\n";
+            do_delete_user($user);
+        }
+    }
+}
+
+// this is for cleaning up BOINC-wide teams
+//
+function delete_team_id_range($id1, $id2) {
+    for ($i=$id1; $i <= $id2; $i++) {
+        echo "deleting team $i\n";
+        $team = BoincTeam::lookup_id($i);
+        if ($team) {
+            $team->delete();
+            $user = BoincUser::lookup_id($team->userid);
+            if ($user) $user->delete();
+        }
+    }
+}
+
 echo "Starting: ".strftime('%Y-%m-%d %H:%M %Z')."\n";
 
 for ($i=1; $i<$argc; $i++) {
@@ -245,13 +280,23 @@ for ($i=1; $i<$argc; $i++) {
         if ($id2 < $id1) {
             die("bad args\n");
         }
-        for ($i=$id1; $i <= $id2; $i++) {
-            $user = BoincUser::lookup_id($i);
-            if ($user) {
-                echo "deleting user $i\n";
-                do_delete_user($user);
-            }
+        delete_user_id_range($id1, $id2);
+    } else if ($argv[$i] == "--id") {
+        $id = $argv[++$i];
+        if (!is_numeric($id)) {
+            die ("bad arg\n");
         }
+        delete_user_id($id);
+    } else if ($argv[$i] == "--team_id_range") {
+        $id1 = $argv[++$i];
+        $id2 = $argv[++$i];
+        if (!is_numeric($id1) || !is_numeric($id2)) {
+            die ("bad args\n");
+        }
+        if ($id2 < $id1) {
+            die("bad args\n");
+        }
+        delete_team_id_range($id1, $id2);
     } else if ($argv[$i] == "--banished") {
         delete_banished();
     } else if ($argv[$i] == "--teams") {

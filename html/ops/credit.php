@@ -85,10 +85,10 @@ function handle_result($resultid) {
 }
 
 function show_host_av($host_id, $av_id) {
-    $hav = BoincHostAppVersion::lookup("host_id=$host_id and $app_version_id=$av_id");
+    $hav = BoincHostAppVersion::lookup("host_id=$host_id and app_version_id=$av_id");
     page_head("Host $host_id / app_version $av_id credit");
     echo "Results";
-    $rs = BoincResult::enum("hostid=$hostid and app_version_id=$avid and validate_state=1 order by id desc limit 100");
+    $rs = BoincResult::enum("hostid=$host_id and app_version_id=$av_id and validate_state=1 order by id desc limit 100");
     start_table();
     table_header("Workunit", "Elapsed", "Proj FLOPS", "Raw credit", "granted");
     $n = 0;

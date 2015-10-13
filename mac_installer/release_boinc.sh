@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2014 University of California
+# Copyright (C) 2015 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -42,6 +42,8 @@
 ## updated 12/16/14 by Charlie Fenton to name folders "x86_64" not "i686"
 ## updated 12/16/14 by Charlie Fenton to also code sign the installer package
 ## updated 12/17/14 by Charlie Fenton to fix typo in build of BOINC+VBox installer
+## updated 4/7/15 by Charlie Fenton to comment on problem with BOINC+VBox installer
+## updated 7/1/15 by Charlie Fenton for compatibility with OS 10.11
 ##
 ## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -62,6 +64,19 @@
 ## * Copy VirtualBox_Uninstall.tool from the VirtualBox installer disk
 ##   image (.dmg) into this "VirtualBox Installer" directory.
 ##
+## NOTE: As of 5/7/15, I recommend against releasing the combined Macintosh
+## BOINC+VirtualBox installer because each version of VirtualBox comes with
+## its own uninsall script included as a separate command-line utility.
+## Using the uninstall script from a previous version of VirtualBox may not
+## work correctly, so we can't just add the current script to our "Uninstall
+## BOINC" utility because the user may later upgrade to a newer version of
+## VirtualBox.  We should not install VirtualBox as part of the BOINC install
+## unless our BOINC uninstaller will uninstall it.  We can't expect BOINC users
+## to be comfortable finding and running a command-line utility.
+##
+## We have asked Oracle to include their uninstall script inside the VirtualBox
+## bundle, or some other standard place where our BOINC uninstaller can find
+## the current version, but they have not yet done so.
 
 ## Usage:
 ##
@@ -180,7 +195,6 @@ mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/locale
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins
-mkdir -p ../BOINC_Installer/Pkg_Root/tmp
 
 # We must create virtualbox directory so installer will set up its
 # ownership and permissions correctly, because vboxwrapper won't 
@@ -209,8 +223,6 @@ cp -fpRL $BUILDPATH/boincscr ../BOINC_Installer/Pkg_Root/Library/Application\ Su
 cp -fpRL $BUILDPATH/BOINCManager.app ../BOINC_Installer/Pkg_Root/Applications/
 
 cp -fpRL $BUILDPATH/BOINCSaver.saver ../BOINC_Installer/Pkg_Root/Library/Screen\ Savers/
-
-cp -fpRL $BUILDPATH/PostInstall.app ../BOINC_Installer/Pkg_Root/tmp/
 
 ## Copy the localization files into the installer tree
 ## Old way copies CVS and *.po files which are not needed
@@ -295,6 +307,8 @@ sudo chmod -R u+r-w,g+r-w,o+r-w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1
 
 # Copy the installer wrapper application "BOINC Installer.app"
 cp -fpRL $BUILDPATH/BOINC\ Installer.app ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/
+
+cp -fpR $BUILDPATH/PostInstall.app "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources"
 
 # Prepare to build the BOINC+VirtualBox installer if VirtualBox.pkg exists
 VirtualBoxPackageName="VirtualBox.pkg"

@@ -2,10 +2,10 @@
 # Updated 7/11/12 for OS 10.7 and XCode 4.3
 # Updated 8/3/12 for TrueType fonts
 # Updated 11/8/12 to add slide_show
+# Updated 4/14/15 for compatibility with Xcode 6
 #
 ## First, build the BOINC libraries using boinc/mac_build/BuildMacBOINC.sh 
-## and boinc/zip/boinc_zip.xcodeproj
-## This file assumes the locations of the needed libraries are those 
+## This file assumes the locations of the needed libraries are those
 ## resulting from following the instructions found in the file:
 ##     boinc/mac_build/HowToBuildBOINC_XCode.rtf
 ## In Terminal, CD to the example_app directory:
@@ -26,6 +26,7 @@ FRAMEWORKS_DIR = /System/Library/Frameworks
 
 CXXFLAGS_ALL = \
     -g \
+    -stdlib=libstdc++ \
     -DAPP_GRAPHICS \
     -I$(BOINC_CONFIG_DIR) \
     -I$(BOINC_DIR) \

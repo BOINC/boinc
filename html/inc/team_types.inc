@@ -16,20 +16,21 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+global $team_types;
 $team_types = array(
     "",
-    "None",
-    "Company",
-    "Primary school",
-    "Secondary school",
-    "Junior college",
-    "University or department",
-    "Government agency",
-    "Non-profit organization",
-    "National",
-    "Local/regional",
-    "Computer type",
-    "Social/political/religious"
+    tra("None"),
+    tra("Company"),
+    tra("Primary school"),
+    tra("Secondary school"),
+    tra("Junior college"),
+    tra("University or department"),
+    tra("Government agency"),
+    tra("Non-profit organization"),
+    tra("National"),
+    tra("Local/regional"),
+    tra("Computer type"),
+    tra("Social/political/religious")
 );
 
 function team_type_name($num) {

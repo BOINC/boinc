@@ -1,0 +1,31 @@
+# $Id$
+#
+# LANGUAGE translation of Drupal (modules-nodereference-panels-relationships)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from file: node_from_noderef.inc,v 1.1.2.1 2009/06/02 12:24:03 yched
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-06-16 19:00+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: modules/nodereference/panels/relationships/node_from_noderef.inc:14
+msgid "Node from reference"
+msgstr ""
+
+#: modules/nodereference/panels/relationships/node_from_noderef.inc:16
+msgid "Adds a node from a node reference in a node context; if multiple nodes are referenced, this will get the first referenced node only."
+msgstr ""
+
+#: modules/nodereference/panels/relationships/node_from_noderef.inc:50
+msgid "Node reference field"
+msgstr ""
+

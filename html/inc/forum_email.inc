@@ -60,7 +60,7 @@ function mail_report_list($forum, $subject, $body, $must_send=false) {
 //////////////////// post hidden/unhidden ///////////
 //
 function send_moderation_email($forum, $post, $thread, $explanation, $action) {
-    global $master_url;
+    $master_url = parse_config(get_config(), "<master_url>");
     $moderator=get_logged_in_user();
     $body = "";
     $user = BoincUser::lookup_id($post->user);
@@ -78,7 +78,7 @@ $post->content
 For assistance with ".PROJECT." go to ".$master_url;
 
     $success = send_email($user, $subject, $body);
-    pm_send($user, $user, $subject, $body, false);
+    pm_send_msg($user, $user, $subject, $body, false);
 
     $body = "Because of moderation by $moderator->name (ID $moderator->id),
 The following email was sent to $user->name (ID $user->id)
@@ -98,7 +98,7 @@ $body
 function send_thread_moderation_email(
     $forum, $thread, $message, $action_name, $explanation
 ) {
-    global $master_url;
+    $master_url = parse_config(get_config(), "<master_url>");
     $moderator = get_logged_in_user();
     $user = BoincUser::lookup_id($thread->owner);
     $body = "";
@@ -114,7 +114,7 @@ For assistance with ".PROJECT." go to ".$master_url;
     $subject = "THREAD $action REPORT: $thread->title";
     $success = mail_report_list($forum, $subject, $body);
     $success &= send_email($user, $subject, $body);
-    pm_send($user, $user, $subject, $body, false);
+    pm_send_msg($user, $user, $subject, $body, false);
     return $success;
 }
 
@@ -139,7 +139,7 @@ Do not reply to this message.
 //////////////////// a user clicks the red "x" to report a post ///////////
 //
 function send_report_post_email($user, $forum, $thread,  $post, $message) {
-    global $master_url;
+	$master_url = parse_config(get_config(), "<master_url>");
     $body = "";
     $owner = BoincUser::lookup_id($post->user);
 
@@ -187,14 +187,14 @@ because your postings have not followed our guidelines.
     }
     $success = mail_report_list($forum, "$user->name (ID $user->id) has been banished.", $body);
     $success &= send_email($user, $subject, $body);
-    pm_send($user, $user, $subject, $body, false);
+    pm_send_msg($user, $user, $subject, $body, false);
     return $success;
 }
 
 //////////////////// a banishment vote has been started  ///////////
 //
 function send_banish_vote_email($user, $duration, $reason, $end_time) {
-    global $master_url;
+	$master_url = parse_config(get_config(), "<master_url>");
     $now=time();
     $subject = PROJECT." banishment vote underway";
     $vote_url = $master_url."forum_banishment_vote.php";
@@ -213,7 +213,7 @@ able to resume posting at that time.
         $body .= $reason;
     }
     $success = send_email($user, $subject, $body);
-    pm_send($user, $user, $subject, $body, false);
+    pm_send_msg($user, $user, $subject, $body, false);
 
     $body .= "\n\n<a href=".$vote_url."?action=yes&userid="
              .$user->id

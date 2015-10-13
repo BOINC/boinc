@@ -86,9 +86,11 @@ static bool is_timestamp_newer(VBOX_TIMESTAMP& t1, VBOX_TIMESTAMP& t2) {
 VBOX_BASE::VBOX_BASE() : VBOX_JOB() {
     VBOX_JOB::clear();
     virtualbox_home_directory.clear();
+    virtualbox_scratch_directory.clear();
     virtualbox_install_directory.clear();
     virtualbox_guest_additions.clear();
-    virtualbox_version.clear();
+    virtualbox_version_raw.clear();
+    virtualbox_version_display.clear();
     pFloppy = NULL;
     vm_log.clear();
     vm_log_timestamp.hours = 0;
@@ -110,6 +112,7 @@ VBOX_BASE::VBOX_BASE() : VBOX_JOB() {
     saving = false;
     restoring = false;
     crashed = false;
+    started_successfully = false;
     register_only = false;
     rd_host_port = 0;
     headless = true;
@@ -216,12 +219,14 @@ void VBOX_BASE::cleanup() {
 void VBOX_BASE::dump_hypervisor_logs(bool include_error_logs) {
     string local_system_log;
     string local_vm_log;
+    string local_startup_log;
     string local_trace_log;
     unsigned long vm_exit_code = 0;
 
     get_system_log(local_system_log);
     get_vm_log(local_vm_log);
     get_trace_log(local_trace_log);
+    get_startup_log(local_startup_log);
     get_vm_exit_code(vm_exit_code);
 
     if (include_error_logs) {
@@ -232,10 +237,13 @@ void VBOX_BASE::dump_hypervisor_logs(bool include_error_logs) {
             "%s\n"
             "    VM Execution Log:\n\n"
             "%s\n"
+            "    VM Startup Log:\n\n"
+            "%s\n"
             "    VM Trace Log:\n\n"
             "%s",
             local_system_log.c_str(),
             local_vm_log.c_str(),
+            local_startup_log.c_str(),
             local_trace_log.c_str()
         );
     }
@@ -282,6 +290,8 @@ void VBOX_BASE::dump_vmguestlog_entries() {
                 vm_log_timestamp = current_timestamp;
                 msg = line.substr(line_pos, line.size() - line_pos);
 
+				sanitize_format(msg);
+
                 vboxlog_msg(msg.c_str());
             }
         }
@@ -306,6 +316,11 @@ bool VBOX_BASE::is_vm_machine_configuration_available() {
     return false;
 }
 
+
+// Updates for VirtualBox errors dealing with CPU exceleration can be found here:
+// https://www.virtualbox.org/browser/vbox/trunk/src/VBox/VMM/VMMR3/HM.cpp#L599
+//
+
 bool VBOX_BASE::is_logged_failure_vm_extensions_disabled() {
     if (vm_log.find("VERR_VMX_MSR_LOCKED_OR_DISABLED") != string::npos) return true;
     if (vm_log.find("VERR_SVM_DISABLED") != string::npos) return true;
@@ -313,6 +328,11 @@ bool VBOX_BASE::is_logged_failure_vm_extensions_disabled() {
     // VirtualBox 4.3.x or better
     if (vm_log.find("VERR_VMX_MSR_VMXON_DISABLED") != string::npos) return true;
     if (vm_log.find("VERR_VMX_MSR_SMX_VMXON_DISABLED") != string::npos) return true;
+
+    // VirtualBox 5.x or better
+    if (vm_log.find("VERR_VMX_MSR_VMX_DISABLED") != string::npos) return true;
+    if (vm_log.find("VERR_VMX_MSR_ALL_VMX_DISABLED") != string::npos) return true;
+    if (vm_log.find("VERR_VMX_MSR_LOCKING_FAILED") != string::npos) return true;
 
     return false;
 }
@@ -328,6 +348,10 @@ bool VBOX_BASE::is_logged_failure_vm_extensions_not_supported() {
     if (vm_log.find("VERR_SVM_NO_SVM") != string::npos) return true;
     return false;
 }
+
+//
+//
+//
 
 bool VBOX_BASE::is_logged_failure_vm_powerup() {
     if (vm_log.find("Power up failed (vrc=VINF_SUCCESS, rc=E_FAIL (0X80004005))") != string::npos) return true;
@@ -347,7 +371,7 @@ bool VBOX_BASE::is_logged_failure_guest_job_out_of_memory() {
 
 bool VBOX_BASE::is_virtualbox_version_newer(int maj, int min, int rel) {
     int vbox_major = 0, vbox_minor = 0, vbox_release = 0;
-    if (3 == sscanf(virtualbox_version.c_str(), "%d.%d.%d", &vbox_major, &vbox_minor, &vbox_release)) {
+    if (3 == sscanf(virtualbox_version_raw.c_str(), "%d.%d.%d", &vbox_major, &vbox_minor, &vbox_release)) {
         if (maj < vbox_major) return true;
         if (maj > vbox_major) return false;
         if (min < vbox_minor) return true;
@@ -355,6 +379,18 @@ bool VBOX_BASE::is_virtualbox_version_newer(int maj, int min, int rel) {
         if (rel < vbox_release) return true;
     }
     return false;
+}
+
+int VBOX_BASE::get_scratch_directory(string& dir) {
+    APP_INIT_DATA aid;
+    boinc_get_init_data_p(&aid);
+
+    dir = aid.project_dir + std::string("/scratch");
+
+    if (!dir.empty()) {
+        return 1;
+    }
+    return 0;
 }
 
 // Returns the current directory in which the executable resides.
@@ -372,31 +408,19 @@ int VBOX_BASE::get_slot_directory(string& dir) {
 }
 
 int VBOX_BASE::get_system_log(string& log, bool tail_only, unsigned int buffer_size) {
-    string slot_directory;
-    string virtualbox_system_log_src;
-    string virtualbox_system_log_dst;
+    string virtualbox_system_log;
     string::iterator iter;
     int retval = BOINC_SUCCESS;
 
-    // Where should we copy temp files to?
-    get_slot_directory(slot_directory);
-
     // Locate and read log file
-    virtualbox_system_log_src = virtualbox_home_directory + "/VBoxSVC.log";
-    virtualbox_system_log_dst = slot_directory + "/VBoxSVC.log";
+    virtualbox_system_log = virtualbox_home_directory + "/VBoxSVC.log";
 
-    if (boinc_file_exists(virtualbox_system_log_src.c_str())) {
-        // Skip having to deal with various forms of file locks by just making a temp
-        // copy of the log file.
-        boinc_copy(virtualbox_system_log_src.c_str(), virtualbox_system_log_dst.c_str());
-    }
-
-    if (boinc_file_exists(virtualbox_system_log_dst.c_str())) {
+    if (boinc_file_exists(virtualbox_system_log.c_str())) {
         if (tail_only) {
             // Keep only the last 8k if it is larger than that.
-            read_file_string(virtualbox_system_log_dst.c_str(), log, buffer_size, true);
+            read_file_string(virtualbox_system_log.c_str(), log, buffer_size, true);
         } else {
-            read_file_string(virtualbox_system_log_dst.c_str(), log);
+            read_file_string(virtualbox_system_log.c_str(), log);
         }
 
         sanitize_output(log);
@@ -420,31 +444,19 @@ int VBOX_BASE::get_system_log(string& log, bool tail_only, unsigned int buffer_s
 }
 
 int VBOX_BASE::get_vm_log(string& log, bool tail_only, unsigned int buffer_size) {
-    string slot_directory;
-    string virtualbox_vm_log_src;
-    string virtualbox_vm_log_dst;
+    string virtualbox_vm_log;
     string::iterator iter;
     int retval = BOINC_SUCCESS;
 
-    // Where should we copy temp files to?
-    get_slot_directory(slot_directory);
-
     // Locate and read log file
-    virtualbox_vm_log_src = vm_master_name + "/Logs/VBox.log";
-    virtualbox_vm_log_dst = slot_directory + "/VBox.log";
+    virtualbox_vm_log = vm_master_name + "/Logs/VBox.log";
 
-    if (boinc_file_exists(virtualbox_vm_log_src.c_str())) {
-        // Skip having to deal with various forms of file locks by just making a temp
-        // copy of the log file.
-        boinc_copy(virtualbox_vm_log_src.c_str(), virtualbox_vm_log_dst.c_str());
-    }
-
-    if (boinc_file_exists(virtualbox_vm_log_dst.c_str())) {
+    if (boinc_file_exists(virtualbox_vm_log.c_str())) {
         if (tail_only) {
             // Keep only the last 8k if it is larger than that.
-            read_file_string(virtualbox_vm_log_dst.c_str(), log, buffer_size, true);
+            read_file_string(virtualbox_vm_log.c_str(), log, buffer_size, true);
         } else {
-            read_file_string(virtualbox_vm_log_dst.c_str(), log);
+            read_file_string(virtualbox_vm_log.c_str(), log);
         }
 
         sanitize_output(log);
@@ -469,16 +481,12 @@ int VBOX_BASE::get_vm_log(string& log, bool tail_only, unsigned int buffer_size)
 }
 
 int VBOX_BASE::get_trace_log(string& log, bool tail_only, unsigned int buffer_size) {
-    string slot_directory;
     string vm_trace_log;
     string::iterator iter;
     int retval = BOINC_SUCCESS;
 
-    // Where should we copy temp files to?
-    get_slot_directory(slot_directory);
-
     // Locate and read log file
-    vm_trace_log = slot_directory + "/" + TRACELOG_FILENAME;
+    vm_trace_log = TRACELOG_FILENAME;
 
     if (boinc_file_exists(vm_trace_log.c_str())) {
         if (tail_only) {
@@ -511,6 +519,43 @@ int VBOX_BASE::get_trace_log(string& log, bool tail_only, unsigned int buffer_si
     return retval;
 }
 
+int VBOX_BASE::get_startup_log(string& log, bool tail_only, unsigned int buffer_size) {
+    string virtualbox_startup_log;
+    string::iterator iter;
+    int retval = BOINC_SUCCESS;
+
+    // Locate and read log file
+    virtualbox_startup_log = vm_master_name + "/Logs/VBoxStartup.log";
+
+    if (boinc_file_exists(virtualbox_startup_log.c_str())) {
+        if (tail_only) {
+            // Keep only the last 8k if it is larger than that.
+            read_file_string(virtualbox_startup_log.c_str(), log, buffer_size, true);
+        } else {
+            read_file_string(virtualbox_startup_log.c_str(), log);
+        }
+
+        sanitize_output(log);
+
+        if (tail_only) {
+            if (log.size() >= (buffer_size - 115)) {
+                // Look for the next whole line of text.
+                iter = log.begin();
+                while (iter != log.end()) {
+                    if (*iter == '\n') {
+                        log.erase(iter);
+                        break;
+                    }
+                    iter = log.erase(iter);
+                }
+            }
+        }
+
+    }
+
+    return retval;
+}
+
 int VBOX_BASE::read_floppy(std::string& data) {
     if (enable_floppyio && pFloppy) {
         data = pFloppy->receive();
@@ -525,6 +570,23 @@ int VBOX_BASE::write_floppy(std::string& data) {
         return 0;
     }
     return 1;
+}
+
+void VBOX_BASE::sanitize_format(std::string& output) {
+    // Check for special characters used by printf and render them harmless
+    string::iterator iter = output.begin();
+    while (iter != output.end()) {
+        if (*iter == '%') {
+			// If we find '%', insert an additional '%' so that the we end up with
+			// "%%" in its place.  This with cause printf() type functions to print
+			// % within the formatted output.
+			//
+			iter = output.insert(iter+1, '%');
+            ++iter;
+        } else {
+            ++iter;
+        }
+    }
 }
 
 void VBOX_BASE::sanitize_output(std::string& output) {
@@ -624,7 +686,7 @@ int VBOX_BASE::launch_vboxsvc() {
                     vboxlog_msg("Status Report: Launching vboxsvc.exe failed!.");
                     vboxlog_msg("        Error: %s", windows_format_error_string(GetLastError(), buf, sizeof(buf)));
 #ifdef _DEBUG
-                    vboxlog_msg("Vbox Version: '%s'", virtualbox_version.c_str());
+                    vboxlog_msg("Vbox Version: '%s'", virtualbox_version_raw.c_str());
                     vboxlog_msg("Vbox Install Directory: '%s'", virtualbox_install_directory.c_str());
                     vboxlog_msg("Vbox Home Directory: '%s'", virtualbox_home_directory.c_str());
 #endif

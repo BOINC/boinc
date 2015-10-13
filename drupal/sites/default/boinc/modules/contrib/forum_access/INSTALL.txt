@@ -1,0 +1,8 @@
+To install this module, simply put the entire forum_access directory into
+your modules directory or sites/all/modules directory and activate it.
+
+This module requires the ACL module API and will not activate without it.
+
+After you've installed Forum Access, go to admin/content/forum, click on an
+'edit forum' link and set Access Control for the selected forum.
+Repeat this for every other forum.

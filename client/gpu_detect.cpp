@@ -670,7 +670,7 @@ void COPROCS::bound_counts() {
     for (int j=1; j<n_rsc; j++) {
         msg_printf(NULL, MSG_INFO, "Coprocessor specified in cc_config.xml. Type %s (%s); count %d",
             coprocs[j].type,
-            coprocs[j].non_gpu?" non-GPU":"GPU",
+            coprocs[j].non_gpu?"non-GPU":"GPU",
             coprocs[j].count
         );
         if (coprocs[j].count > MAX_COPROC_INSTANCES) {

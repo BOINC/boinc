@@ -134,6 +134,45 @@ public:
 };
 
 
+class CTransparentHyperlinkCtrl : public wxHyperlinkCtrl
+{
+    DECLARE_DYNAMIC_CLASS (CTransparentHyperlinkCtrl)
+
+public:
+    CTransparentHyperlinkCtrl();
+    CTransparentHyperlinkCtrl(wxWindow *parent,
+                    wxWindowID id,
+                    const wxString& label, const wxString& url,
+                    const wxPoint& pos = wxDefaultPosition,
+                    const wxSize& size = wxDefaultSize,
+                    long style = wxHL_DEFAULT_STYLE,
+                    const wxString& name = wxHyperlinkCtrlNameStr,
+                    wxBitmap** parentsBgBmp = NULL
+                    );
+
+    // Creation function (for two-step construction).
+    bool Create(wxWindow *parent,
+                wxWindowID id,
+                const wxString& label, const wxString& url,
+                const wxPoint& pos = wxDefaultPosition,
+                const wxSize& size = wxDefaultSize,
+                long style = wxHL_DEFAULT_STYLE,
+                const wxString& name = wxHyperlinkCtrlNameStr,
+                wxBitmap** parentsBgBmp = NULL
+                );
+
+private:
+    wxBitmap** m_pParentsBgBmp;
+
+#ifndef __WXMAC__
+    public:
+    virtual void OnEraseBackground(wxEraseEvent& event);
+
+    DECLARE_EVENT_TABLE()
+#endif
+};
+
+
 class CTransparentStaticTextAssociate : public wxPanel
 { 
     DECLARE_DYNAMIC_CLASS (CTransparentStaticTextAssociate)
@@ -173,6 +212,81 @@ public:
 private:
     wxWindow*   m_pWnd;
 }; 
+
+
+#ifndef __WXMSW__
+#define CTransparentStaticBitmap wxStaticBitmap
+#else
+class CTransparentStaticBitmap : public wxPanel
+{ 
+    DECLARE_DYNAMIC_CLASS (CTransparentStaticBitmap)
+
+public:
+    CTransparentStaticBitmap();
+    CTransparentStaticBitmap(
+        wxWindow* parent, 
+        wxWindowID id, 
+        const wxBitmap& bitmap,
+        const wxPoint& pos = wxDefaultPosition, 
+        const wxSize& size = wxDefaultSize,
+        long style = 0, 
+        const wxString& name= wxStaticBitmapNameStr
+    );
+
+    bool Create(
+        wxWindow* parent, 
+        wxWindowID id, 
+        const wxBitmap& bitmap,
+        const wxPoint& pos = wxDefaultPosition, 
+        const wxSize& size = wxDefaultSize,
+        long style = 0, 
+        const wxString& name= wxStaticBitmapNameStr
+    );
+
+    virtual bool HasTransparentBackground() { return true; };
+
+    virtual void OnEraseBackground(wxEraseEvent& /*event*/) {};
+    virtual void OnPaint(wxPaintEvent& event);
+
+    DECLARE_EVENT_TABLE()
+private:
+    wxBitmap   m_bitMap;
+};
+#endif
+
+
+class CTransparentCheckBox : public wxCheckBox
+{ 
+    DECLARE_DYNAMIC_CLASS (CTransparentCheckBox)
+
+public:
+    CTransparentCheckBox();
+    CTransparentCheckBox(wxWindow *parent, wxWindowID id, const wxString& label,
+            const wxPoint& pos = wxDefaultPosition,
+            const wxSize& size = wxDefaultSize, long style = 0,
+            const wxValidator& validator = wxDefaultValidator,
+            const wxString& name = wxCheckBoxNameStr,
+            wxBitmap** parentsBgBmp = NULL
+            );
+
+    bool Create(wxWindow *parent, wxWindowID id, const wxString& label,
+            const wxPoint& pos = wxDefaultPosition,
+            const wxSize& size = wxDefaultSize, long style = 0,
+            const wxValidator& validator = wxDefaultValidator,
+            const wxString& name = wxCheckBoxNameStr,
+            wxBitmap** parentsBgBmp = NULL
+            );
+
+private:
+    wxBitmap** m_pParentsBgBmp;
+
+#ifndef __WXMAC__
+public:
+    virtual void OnEraseBackground(wxEraseEvent& event);
+
+    DECLARE_EVENT_TABLE()
+#endif
+};
 
 
 class CLinkButton : public wxBitmapButton

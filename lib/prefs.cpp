@@ -185,6 +185,7 @@ bool TIME_PREFS::suspended(double now) {
 
 void WEEK_PREFS::set(int day, double start, double end) {
     if (day < 0 || day > 6) return;
+    if (start == end) return;
     days[day].present = true;
     days[day].start_hour = start;
     days[day].end_hour = end;
@@ -193,6 +194,7 @@ void WEEK_PREFS::set(int day, double start, double end) {
 
 void WEEK_PREFS::set(int day, TIME_SPAN* time) {
     if (day < 0 || day > 6) return;
+    if (time->start_hour == time->end_hour) return;
     days[day].present = true;
     days[day].start_hour = time->start_hour;
     days[day].end_hour = time->end_hour;
@@ -278,6 +280,10 @@ void GLOBAL_PREFS::enabled_defaults() {
     daily_xfer_period_days = 30;
     max_bytes_sec_down = 100*KILO;
     max_bytes_sec_up = 100*KILO;
+    cpu_times.start_hour = 0;
+    cpu_times.end_hour = 23.983;    // 23:59
+    net_times.start_hour = 0;
+    net_times.end_hour = 23.983;    // 23:59
 }
 
 // call before parsing
@@ -384,6 +390,12 @@ int GLOBAL_PREFS::parse_override(
         if (!xp.is_tag) continue;
         if (xp.match_tag("global_preferences")) continue;
         if (xp.match_tag("/global_preferences")) {
+            if (cpu_times.start_hour == cpu_times.end_hour) {
+                mask.start_hour = mask.end_hour = false;
+            }
+            if (net_times.start_hour == net_times.end_hour) {
+                mask.net_start_hour = mask.net_end_hour = false;
+            }
             return 0;
         }
         if (in_venue) {
@@ -562,10 +574,11 @@ int GLOBAL_PREFS::parse_override(
             mask.max_bytes_sec_down = true;
             continue;
         }
-        if (xp.parse_double("cpu_usage_limit", cpu_usage_limit)) {
-            if (cpu_usage_limit < 0) cpu_usage_limit = 0;
-            if (cpu_usage_limit > 100) cpu_usage_limit = 100;
-            mask.cpu_usage_limit = true;
+        if (xp.parse_double("cpu_usage_limit", dtemp)) {
+            if (dtemp > 0 && dtemp <= 100) {
+                cpu_usage_limit = dtemp;
+                mask.cpu_usage_limit = true;
+            }
             continue;
         }
         if (xp.parse_double("daily_xfer_limit_mb", dtemp)) {

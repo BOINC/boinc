@@ -48,6 +48,14 @@ class BoincBatch {
         $db = BoincDb::get();
         return $db->update_aux('batch', $clause);
     }
+    function get_cpu_time() {
+        $db = BoincDb::get();
+        $x = $db->get_double(
+            "select sum(result.cpu_time) as total_cpu_time from workunit join result on workunit.id = result.workunitid where workunit.batch=$this->id",
+            "total_cpu_time"
+        );
+        return $x;
+    }
 }
 
 class BoincUserSubmit {

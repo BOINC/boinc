@@ -42,8 +42,9 @@
     // restore permanent mode - used only in set_X_mode() GUI RPC
 
 // values of ACTIVE_TASK::scheduler_state and ACTIVE_TASK::next_scheduler_state
-// "SCHEDULED" is synonymous with "executing" except when CPU throttling
-// is in use.
+// "SCHEDULED" doesn't mean the task is actually running;
+// e.g. it won't be running if tasks are suspended or CPU throttling is in use
+//
 #define CPU_SCHED_UNINITIALIZED   0
 #define CPU_SCHED_PREEMPTED       1
 #define CPU_SCHED_SCHEDULED       2
@@ -59,8 +60,12 @@
 #define HTTP_STATUS_NOT_FOUND               404
 #define HTTP_STATUS_PROXY_AUTH_REQ          407
 #define HTTP_STATUS_RANGE_REQUEST_ERROR     416
+#define HTTP_STATUS_EXPECTATION_FAILED      417
 #define HTTP_STATUS_INTERNAL_SERVER_ERROR   500
+#define HTTP_STATUS_NOT_IMPLEMENTED         501
+#define HTTP_STATUS_BAD_GATEWAY             502
 #define HTTP_STATUS_SERVICE_UNAVAILABLE     503
+#define HTTP_STATUS_GATEWAY_TIMEOUT         504
 
 // graphics messages
 //

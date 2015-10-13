@@ -153,6 +153,22 @@ function replace_pre_code($text, $export) {
 
 function bb2html($text, $export=false) {
     $urlregex = "(?:\"?)(?:(http\:\/\/)?)([^\[\"<\ ]+)(?:\"?)";
+    // NOTE:
+    // This matches https:// too; I don't understand why.
+    // sample results:
+    // Array
+    // (
+    //     [0] => [img]https://a.b.c[/img]
+    //     [1] =>
+    //     [2] => https://a.b.c
+    // )
+    // Array
+    // (
+    //     [0] => [img]http://a.b.c[/img]
+    //     [1] => http://
+    //     [2] => a.b.c
+    // )
+
     $httpsregex = "(?:\"?)https\:\/\/([^\[\"<\ ]+)(?:\"?)";
     // List of allowable tags
     $bbtags = array (
@@ -172,17 +188,14 @@ function bb2html($text, $export=false) {
         "@\[list\](.*?)\[/list\]@is",
         "@\[list=1\](.*?)\[/list\]@is",  
         "@\[img\]$urlregex\[/img\]@is",
+        "@\[sm_img\]$urlregex\[/sm_img\]@is",
         "@\[color=(?:\"?)(.{3,8})(?:\"?)\](.*?)\[/color\]@is",
         "@((?:<ol>|<ul>).*?)\n\*([^\n]+)\n(.*?(</ol>|</ul>))@is",
         "@\[size=([1-9]|[0-2][0-9])\](.*?)\[/size\]@is",
         "@\[mailto\](.*?)\[/mailto\]@is",
         "@\[email\](.*?)\[/email\]@is",
-        "@\[trac\](?:\#|ticket:)(\d+)\[/trac\]@is",
-        "@\[trac\]wiki:(.*?)\[/trac\]@is",
-        "@\[trac\]changeset:(\d+)\[/trac\]@is"
-        //Note:    The above list array member ensures we're within a list
-        //when doing list item transformations.
-        //TODO: Make sure we're not between two lists
+        "@\[github\](?:\#|ticket:)(\d+)\[/github\]@is",
+        "@\[github\]wiki:(.*?)\[/github\]@is",
     );
     
     // What the above tags are turned in to
@@ -203,15 +216,15 @@ function bb2html($text, $export=false) {
             "<blockquote>\\1</blockquote>",
             "<ul>\\1</ul><p>",
             "<ol>\\1</ol><p>",
-            "<img hspace=\"8\" src=\"http://\\2\"> ",
+            "<img hspace=\"8\" src=\"\\1\\2\"> ",
+            "<img hspace=\"8\" width=400 src=\"\\1\\2\"> ",
             "<font color=\"\\1\">\\2</font>",
             "\\1<li>\\2\n\\3",
             "<span style=\"font-size: \\1px;\">\\2</span>",
             "<a href=\"mailto:\\1\">\\1</a>",
             "<a href=\"mailto:\\1\">\\1</a>",
-            "<a href=\"http://boinc.berkeley.edu/trac/ticket/\\1\">#\\1</a>",
-            "<a href=\"http://boinc.berkeley.edu/trac/wiki/\\1\">\\1</a>",
-            "<a href=\"http://boinc.berkeley.edu/trac/changeset/\\1\">[\\1]</a>"
+            "<a href=\"https://github.com/BOINC/boinc/issues/\\1\">#\\1</a>",
+            "<a href=\"https://github.com/BOINC/boinc-dev-doc/wiki/\\1\">\\1</a>",
         );
     } else {
         $htmltags = array (
@@ -230,15 +243,15 @@ function bb2html($text, $export=false) {
             "<blockquote class='postbody'>\\1</blockquote>",
             "<ul>\\1</ul><p>",
             "<ol>\\1</ol><p>",
-            "<img hspace=\"8\" src=\"http://\\2\"> ",
+            "<img hspace=\"8\" src=\"\\1\\2\"> ",
+            "<img hspace=\"8\" width=400 src=\"\\1\\2\"> ",
             "<font color=\"\\1\">\\2</font>",
             "\\1<li>\\2\n\\3",
             "<span style=\"font-size: \\1px;\">\\2</span>",
             "<a href=\"mailto:\\1\">\\1</a>",
             "<a href=\"mailto:\\1\">\\1</a>",
-            "<a href=\"http://boinc.berkeley.edu/trac/ticket/\\1\">#\\1</a>",
-            "<a href=\"http://boinc.berkeley.edu/trac/wiki/\\1\">\\1</a>",
-            "<a href=\"http://boinc.berkeley.edu/trac/changeset/\\1\">[\\1]</a>"
+            "<a href=\"https://github.com/BOINC/boinc/issues/\\1\">#\\1</a>",
+            "<a href=\"https://github.com/BOINC/boinc-dev-doc/wiki/\\1\">\\1</a>",
         );
     }
     

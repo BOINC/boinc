@@ -64,7 +64,8 @@
 #define DEFAULT_SLEEP_INTERVAL 5
 #define RESULTS_PER_WU 4        // an estimate of redundancy
 
-int id_modulus=0, id_remainder=0, appid=0;
+int id_modulus=0, id_remainder=0;
+DB_ID_TYPE appid=0;
 bool dont_retry_errors = false;
 bool dont_delete_batches = false;
 bool do_input_files = true;
@@ -161,23 +162,23 @@ int wu_delete_files(WORKUNIT& wu) {
                 );
                 if (retval == ERR_OPENDIR) {
                     log_messages.printf(MSG_CRITICAL,
-                        "[WU#%u] missing dir for %s\n",
+                        "[WU#%lu] missing dir for %s\n",
                         wu.id, filename
                     );
                     mthd_retval = ERR_UNLINK;
                 } else if (retval) {
                     log_messages.printf(MSG_CRITICAL,
-                        "[WU#%u] get_file_path: %s: %s\n",
+                        "[WU#%lu] get_file_path: %s: %s\n",
                         wu.id, filename, boincerror(retval)
                     );
                 } else {
                     log_messages.printf(MSG_NORMAL,
-                        "[WU#%u] deleting %s\n", wu.id, filename
+                        "[WU#%lu] deleting %s\n", wu.id, filename
                     );
                     retval = unlink(path);
                     if (retval) {
                         log_messages.printf(MSG_CRITICAL,
-                            "[WU#%u] unlink %s failed: %s\n",
+                            "[WU#%lu] unlink %s failed: %s\n",
                             wu.id, filename, boincerror(retval)
                         );
                         mthd_retval = ERR_UNLINK;
@@ -191,7 +192,7 @@ int wu_delete_files(WORKUNIT& wu) {
                     retval = unlink(path_gz);
                     if (!retval) {
                         log_messages.printf(MSG_NORMAL,
-                            "[WU#%u] deleted %s.gz\n", wu.id, filename
+                            "[WU#%lu] deleted %s.gz\n", wu.id, filename
                         );
                     }
 
@@ -200,12 +201,12 @@ int wu_delete_files(WORKUNIT& wu) {
                     if (config.cache_md5_info) {
                         sprintf(path_md5, "%s.md5", path);
                         log_messages.printf(MSG_NORMAL,
-                            "[WU#%u] deleting %s.md5\n", wu.id, filename
+                            "[WU#%lu] deleting %s.md5\n", wu.id, filename
                         );
                         retval = unlink(path_md5);
                         if (retval) {
                             log_messages.printf(MSG_CRITICAL,
-                                "[WU#%u] unlink %s.md5 failed: %s\n",
+                                "[WU#%lu] unlink %s.md5 failed: %s\n",
                                 wu.id, filename, boincerror(retval)
                             );
                         }
@@ -216,7 +217,7 @@ int wu_delete_files(WORKUNIT& wu) {
         p = strtok(0, "\n");
     }
     log_messages.printf(MSG_DEBUG,
-        "[WU#%u] deleted %d file(s)\n", wu.id, count_deleted
+        "[WU#%lu] deleted %d file(s)\n", wu.id, count_deleted
     );
     return mthd_retval;
 }
@@ -245,7 +246,7 @@ int result_delete_files(RESULT& result) {
                 if (retval == ERR_OPENDIR) {
                     mthd_retval = ERR_OPENDIR;
                     log_messages.printf(MSG_CRITICAL,
-                        "[RESULT#%u] missing dir for %s\n",
+                        "[RESULT#%lu] missing dir for %s\n",
                         result.id, pathname
                     );
                 } else if (retval) {
@@ -261,7 +262,7 @@ int result_delete_files(RESULT& result) {
                         debug_or_crit=MSG_DEBUG;
                     }
                     log_messages.printf(debug_or_crit,
-                        "[RESULT#%u] outcome=%d client_state=%d No file %s to delete\n",
+                        "[RESULT#%lu] outcome=%d client_state=%d No file %s to delete\n",
                         result.id, result.outcome, result.client_state, filename
                     );
                 } else {
@@ -269,14 +270,14 @@ int result_delete_files(RESULT& result) {
                     if (retval) {
                         mthd_retval = ERR_UNLINK;
                         log_messages.printf(MSG_CRITICAL,
-                            "[RESULT#%u] unlink %s error: %s %s\n",
+                            "[RESULT#%lu] unlink %s error: %s %s\n",
                             result.id, pathname, boincerror(retval),
                             (retval && errno)?strerror(errno):""
                         );
                     } else {
                         count_deleted++;
                         log_messages.printf(MSG_NORMAL,
-                            "[RESULT#%u] unlinked %s\n", result.id, pathname
+                            "[RESULT#%lu] unlinked %s\n", result.id, pathname
                         );
                     }
                 }
@@ -286,7 +287,7 @@ int result_delete_files(RESULT& result) {
     }
 
     log_messages.printf(MSG_DEBUG,
-        "[RESULT#%u] deleted %d file(s)\n", result.id, count_deleted
+        "[RESULT#%lu] deleted %d file(s)\n", result.id, count_deleted
     );
     return mthd_retval;
 }
@@ -316,7 +317,7 @@ bool do_pass(bool retry_error) {
         strcat(clause, " and batch <= 0 ");
     }
     if (appid) {
-        sprintf(buf, " and appid = %d ", appid);
+        sprintf(buf, " and appid = %lu ", appid);
         strcat(clause, buf);
     }
 
@@ -344,7 +345,7 @@ bool do_pass(bool retry_error) {
         if (retval) {
             new_state = FILE_DELETE_ERROR;
             log_messages.printf(MSG_CRITICAL,
-                "[RESULT#%u] file deletion failed: %s\n", result.id, boincerror(retval)
+                "[RESULT#%lu] file deletion failed: %s\n", result.id, boincerror(retval)
             );
         } else {
             new_state = FILE_DELETE_DONE;
@@ -358,11 +359,11 @@ bool do_pass(bool retry_error) {
             }
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "[RESULT#%u] update failed: %s\n", result.id, boincerror(retval)
+                    "[RESULT#%lu] update failed: %s\n", result.id, boincerror(retval)
                 );
             } else {
                 log_messages.printf(MSG_DEBUG,
-                    "[RESULT#%u] file_delete_state updated\n", result.id
+                    "[RESULT#%lu] file_delete_state updated\n", result.id
                 );
                 did_something = true;
             }
@@ -398,7 +399,7 @@ bool do_pass(bool retry_error) {
         if (retval) {
             new_state = FILE_DELETE_ERROR;
             log_messages.printf(MSG_CRITICAL,
-                "[WU#%u] file deletion failed: %s\n", wu.id, boincerror(retval)
+                "[WU#%lu] file deletion failed: %s\n", wu.id, boincerror(retval)
             );
         } else {
             new_state = FILE_DELETE_DONE;
@@ -412,11 +413,11 @@ bool do_pass(bool retry_error) {
             }
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "[WU#%u] update failed: %s\n", wu.id, boincerror(retval)
+                    "[WU#%lu] update failed: %s\n", wu.id, boincerror(retval)
                 );
             } else {
                 log_messages.printf(MSG_DEBUG,
-                    "[WU#%u] file_delete_state updated\n", wu.id
+                    "[WU#%lu] file_delete_state updated\n", wu.id
                 );
                 did_something = true;
             }
@@ -469,7 +470,7 @@ int main(int argc, char** argv) {
                 usage(argv[0]);
                 exit(1);
             }
-            appid = atoi(argv[i]);
+            appid = atol(argv[i]);
         } else if (is_arg(argv[i], "d") || is_arg(argv[i], "debug_level")) {
             if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
@@ -588,8 +589,8 @@ int main(int argc, char** argv) {
         log_messages.printf(MSG_CRITICAL, "Can't find app\n");
         exit(1);
       }
-      appid=app.id;
-      log_messages.printf(MSG_DEBUG, "Deleting files of appid %d\n",appid);
+      appid = app.id;
+      log_messages.printf(MSG_DEBUG, "Deleting files of appid %lu\n",appid);
     }
 
     install_stop_signal_handler();

@@ -80,6 +80,7 @@
 #ifdef _WIN32
 #include "vbox_mscom42.h"
 #include "vbox_mscom43.h"
+#include "vbox_mscom50.h"
 #endif
 #include "vbox_vboxmanage.h"
 
@@ -88,14 +89,14 @@ using std::vector;
 using std::string;
 
 
-void read_fraction_done(double& frac_done, VBOX_VM& vm) {
+bool read_fraction_done(double& frac_done, VBOX_VM& vm) {
     char path[MAXPATHLEN];
     char buf[256];
     double temp, frac = 0;
 
     sprintf(path, "shared/%s", vm.fraction_done_filename.c_str());
     FILE* f = fopen(path, "r");
-    if (!f) return;
+    if (!f) return false;
 
     // read the last line of the file
     //
@@ -116,12 +117,13 @@ void read_fraction_done(double& frac_done, VBOX_VM& vm) {
     }
 
     frac_done = frac;
+	return true;
 }
 
 bool completion_file_exists(VBOX_VM& vm) {
     char path[MAXPATHLEN];
     sprintf(path, "shared/%s", vm.completion_trigger_file.c_str());
-    if (boinc_file_exists(path)) return true;
+    if (vm.completion_trigger_file.size() && boinc_file_exists(path)) return true;
     return false;
 }
 
@@ -151,7 +153,7 @@ void read_completion_file_info(unsigned long& exit_code, bool& is_notice, string
 bool temporary_exit_file_exists(VBOX_VM& vm) {
     char path[MAXPATHLEN];
     sprintf(path, "shared/%s", vm.temporary_exit_trigger_file.c_str());
-    if (boinc_file_exists(path)) return true;
+    if (vm.temporary_exit_trigger_file.size() && boinc_file_exists(path)) return true;
     return false;
 }
 
@@ -368,6 +370,7 @@ int main(int argc, char** argv) {
     APP_INIT_DATA aid;
     VBOX_VM* pVM = NULL;
     VBOX_CHECKPOINT checkpoint;
+    double desired_checkpoint_interval = 0;
     double random_checkpoint_factor = 0;
     double elapsed_time = 0;
     double fraction_done = 0;
@@ -393,8 +396,8 @@ int main(int argc, char** argv) {
     bool is_notice = false;
     int temp_delay = 86400;
     string message;
+    string scratch_dir;
     char buf[256];
-
 
     // Initialize diagnostics system
     //
@@ -440,26 +443,60 @@ int main(int argc, char** argv) {
     //       on the machine because it will attempt to launch the 'vboxsvc' process
     //       without out environment variable changes and muck everything up.
     //
-    string vbox_version;
+    string vbox_version_raw;
+    string vbox_version_display;
     int vbox_major = 0, vbox_minor = 0;
 
-    if (BOINC_SUCCESS != vbox42::VBOX_VM::get_version_information(vbox_version)) {
-        vbox43::VBOX_VM::get_version_information(vbox_version);
+    if (BOINC_SUCCESS != vbox42::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display)) {
+        if (BOINC_SUCCESS != vbox43::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display)) {
+            vbox50::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display);
+        }
     }
-    if (!vbox_version.empty()) {
-        sscanf(vbox_version.c_str(), "%d.%d", &vbox_major, &vbox_minor);
+    if (!vbox_version_raw.empty()) {
+        sscanf(vbox_version_raw.c_str(), "%d.%d", &vbox_major, &vbox_minor);
         if ((4 == vbox_major) && (2 == vbox_minor)) {
             pVM = (VBOX_VM*) new vbox42::VBOX_VM();
+            retval = pVM->initialize();
+            if (retval) {
+                delete pVM;
+                pVM = NULL;
+            }
         }
         if ((4 == vbox_major) && (3 == vbox_minor)) {
             pVM = (VBOX_VM*) new vbox43::VBOX_VM();
+            retval = pVM->initialize();
+            if (retval) {
+                delete pVM;
+                pVM = NULL;
+            }
+        }
+        if ((5 == vbox_major) && (0 <= vbox_minor)) {
+            pVM = (VBOX_VM*) new vbox50::VBOX_VM();
+            retval = pVM->initialize();
+            if (retval) {
+                delete pVM;
+                pVM = NULL;
+            }
         }
     }
     if (!pVM) {
         pVM = (VBOX_VM*) new vboxmanage::VBOX_VM();
+        retval = pVM->initialize();
+        if (retval) {
+            vboxlog_msg("Could not detect VM Hypervisor. Rescheduling execution for a later date.");
+            boinc_temporary_exit(86400, "Detection of VM Hypervisor failed.");
+        }
     }
 #else
     pVM = (VBOX_VM*) new vboxmanage::VBOX_VM();
+
+    // Initialize VM Hypervisor
+    //
+    retval = pVM->initialize();
+    if (retval) {
+        vboxlog_msg("Could not detect VM Hypervisor. Rescheduling execution for a later date.");
+        boinc_temporary_exit(86400, "Detection of VM Hypervisor failed.");
+    }
 #endif
 
     // Parse command line parameters
@@ -468,7 +505,7 @@ int main(int argc, char** argv) {
         if (!strcmp(argv[i], "--trickle")) {
             trickle_period = atof(argv[++i]);
         }
-        if (!strcmp(argv[i], "--ncpus")) {
+        if (!strcmp(argv[i], "--nthreads")) {
             ncpus = atof(argv[++i]);
         }
         if (!strcmp(argv[i], "--memory_size_mb")) {
@@ -491,6 +528,7 @@ int main(int argc, char** argv) {
         srand((int)(vm_image_stat.st_mtime * time(NULL)));
     }
     random_checkpoint_factor = (double)(((int)(drand() * 100000.0)) % 600);
+
     vboxlog_msg("Feature: Checkpoint interval offset (%d seconds)", (int)random_checkpoint_factor);
 
     // Display trickle value if specified
@@ -508,18 +546,10 @@ int main(int argc, char** argv) {
     }
 #endif
 
-    // Initialize VM Hypervisor
-    //
-    retval = pVM->initialize();
-    if (retval) {
-        vboxlog_msg("Could not detect VM Hypervisor. Rescheduling execution for a later date.");
-        boinc_temporary_exit(86400, "Detection of VM Hypervisor failed.");
-    }
-
     // Record what version of VirtualBox was used.
     // 
-    if (!pVM->virtualbox_version.empty()) {
-        vboxlog_msg("Detected: %s", pVM->virtualbox_version.c_str());
+    if (!pVM->virtualbox_version_display.empty()) {
+        vboxlog_msg("Detected: %s", pVM->virtualbox_version_display.c_str());
     }
 
     // Record if anonymous platform was used.
@@ -553,9 +583,9 @@ int main(int argc, char** argv) {
     // VirtualBox 4.2.6 crashes during snapshot operations
     // and 4.2.18 fails to restore from snapshots properly.
     //
-    if ((pVM->virtualbox_version.find("4.2.6") != std::string::npos) || 
-        (pVM->virtualbox_version.find("4.2.18") != std::string::npos) || 
-        (pVM->virtualbox_version.find("4.3.0") != std::string::npos) ) {
+    if ((pVM->virtualbox_version_raw.find("4.2.6") != std::string::npos) || 
+        (pVM->virtualbox_version_raw.find("4.2.18") != std::string::npos) || 
+        (pVM->virtualbox_version_raw.find("4.3.0") != std::string::npos) ) {
         vboxlog_msg("Incompatible version of VirtualBox detected. Please upgrade to a later version.");
         boinc_temporary_exit(86400,
             "Incompatible version of VirtualBox detected; please upgrade.",
@@ -587,6 +617,7 @@ int main(int argc, char** argv) {
     // Validate whatever configuration options we can
     //
     if (pVM->enable_shared_directory) {
+        pVM->get_scratch_directory(scratch_dir);
         if (boinc_file_exists("shared")) {
             if (!is_dir("shared")) {
                 vboxlog_msg("ERROR: 'shared' exists but is not a directory.");
@@ -594,7 +625,17 @@ int main(int argc, char** argv) {
         } else {
             retval = boinc_mkdir("shared");
             if (retval) {
-                vboxlog_msg("ERROR: couldn't created shared directory: %s.", boincerror(retval));
+                vboxlog_msg("ERROR: couldn't create shared directory: %s.", boincerror(retval));
+            }
+        }
+        if (boinc_file_exists(scratch_dir.c_str())) {
+            if (!is_dir(scratch_dir.c_str())) {
+                vboxlog_msg("ERROR: 'scratch' exists but is not a directory.");
+            }
+        } else {
+            retval = boinc_mkdir(scratch_dir.c_str());
+            if (retval) {
+                vboxlog_msg("ERROR: couldn't create scratch directory: %s.", boincerror(retval));
             }
         }
     }
@@ -689,7 +730,7 @@ int main(int argc, char** argv) {
         return EXIT_TIME_LIMIT_EXCEEDED;
     }
 
-    retval = pVM->run((current_cpu_time > 0));
+    retval = pVM->run(current_cpu_time > 0);
     if (retval) {
         // All 'failure to start' errors are unrecoverable by default
         bool   unrecoverable_error = true;
@@ -845,6 +886,7 @@ int main(int argc, char** argv) {
         vboxlog_msg("  This might be a temporary problem and so this job will be rescheduled for another time.");
         pVM->reset_vm_process_priority();
         pVM->poweroff();
+        pVM->dump_hypervisor_logs(true);
         boinc_temporary_exit(86400,
             "VM Hypervisor failed to enter an online state in a timely fashion."
         );
@@ -866,7 +908,13 @@ int main(int argc, char** argv) {
         loop_iteration += 1;
 
         // Discover the VM's current state
-        pVM->poll();
+        retval = pVM->poll();
+        if (retval) {
+            vboxlog_msg("ERROR: Vboxwrapper lost communication with VirtualBox, rescheduling task for a later time.");
+            pVM->reset_vm_process_priority();
+            pVM->poweroff();
+            boinc_temporary_exit(86400, "VM job unmanageable, restarting later.");
+        }
 
         // Write updates for the graphics application's use
         if (pVM->enable_graphics_support) {
@@ -875,7 +923,16 @@ int main(int argc, char** argv) {
 
         if (boinc_status.no_heartbeat || boinc_status.quit_request) {
             pVM->reset_vm_process_priority();
-            pVM->poweroff();
+            if (pVM->enable_vm_savestate_usage) {
+                retval = pVM->create_snapshot(elapsed_time);
+                if (!retval) {
+                    checkpoint.update(elapsed_time, current_cpu_time);
+                    boinc_checkpoint_completed();
+                }
+                pVM->stop();
+            } else {
+                pVM->poweroff();
+            }
             boinc_temporary_exit(86400);
         }
         if (boinc_status.abort_request) {
@@ -906,7 +963,12 @@ int main(int argc, char** argv) {
             }
             delete_temporary_exit_trigger_file(*pVM);
             pVM->reset_vm_process_priority();
-            pVM->stop();
+            retval = pVM->create_snapshot(elapsed_time);
+            if (!retval) {
+                checkpoint.update(elapsed_time, current_cpu_time);
+                boinc_checkpoint_completed();
+            }
+            pVM->poweroff();
             if (is_notice) {
                 boinc_temporary_exit(temp_delay, message.c_str(), is_notice);
             } else {
@@ -979,7 +1041,13 @@ int main(int argc, char** argv) {
             if (pVM->job_duration) {
                 fraction_done = elapsed_time / pVM->job_duration;
             } else if (pVM->fraction_done_filename.size() > 0) {
-                read_fraction_done(fraction_done, *pVM);
+                if (!read_fraction_done(fraction_done, *pVM)) {
+					// Report a non-zero fraction done so that BOINC will not attempt to use CPU Time and
+					// deadline as a means to calculate fraction done when a fraction done file is
+					// specified.
+					//
+					fraction_done = 0.001;
+				}
             }
             if (fraction_done > 1.0) {
                 fraction_done = 1.0;
@@ -1009,10 +1077,17 @@ int main(int argc, char** argv) {
                 pVM->dump_hypervisor_status_reports();
             }
 
+            // Real VM checkpoints (snapshots) are expensive, don't do them very often.
+            // 
+            // If the project has disabled automatic checkpoints, just report that we have
+            // successfully completed the checkpoint as soon as the API reports that we should
+            // checkpoint.
+            //
             if (boinc_time_to_checkpoint()) {
-                // Only peform a VM checkpoint every ten minutes or so.
-                //
-                if (elapsed_time >= last_checkpoint_elapsed_time + pVM->minimum_checkpoint_interval + random_checkpoint_factor) {
+                if (
+                    (elapsed_time >= last_checkpoint_elapsed_time + desired_checkpoint_interval + random_checkpoint_factor) ||
+                    pVM->disable_automatic_checkpoints
+                ) {
                     // Basic interleave factor is only needed once.
                     if (random_checkpoint_factor > 0) {
                         random_checkpoint_factor = 0.0;
@@ -1038,12 +1113,14 @@ int main(int argc, char** argv) {
                 }
             }
 
-            // send elapsed-time trickle message if needed
+            // Send elapsed-time trickle message if needed
             //
             if (trickle_period) {
                 check_trickle_period(elapsed_time, trickle_period);
             }
 
+            // Changes detected, re-read preferences
+            //
             if (boinc_status.reread_init_data_file) {
                 boinc_status.reread_init_data_file = false;
 
@@ -1053,7 +1130,17 @@ int main(int argc, char** argv) {
                 boinc_get_init_data_p(&aid);
                 set_throttles(aid, *pVM);
 
-                vboxlog_msg("Checkpoint Interval is now %d seconds.", (int)aid.checkpoint_period);
+                desired_checkpoint_interval = aid.checkpoint_period;
+                if (pVM->minimum_checkpoint_interval > aid.checkpoint_period) {
+                    desired_checkpoint_interval = pVM->minimum_checkpoint_interval;
+                }
+
+                vboxlog_msg(
+                    "Setting checkpoint interval to %d seconds. (Higher value of (Preference: %d seconds) or (Vbox_job.xml: %d seconds))",
+                    (int)desired_checkpoint_interval,
+                    (int)aid.checkpoint_period,
+                    (int)pVM->minimum_checkpoint_interval
+                );
             }
 
             // if the VM has a maximum amount of time it is allowed to run,

@@ -221,21 +221,6 @@ double getDTime() {
 }
 
 
-bool validateNumericString(CFStringRef s) {
-    CFIndex i;
-    CFRange range, result;
-    CFIndex len = CFStringGetLength(s);
-    CFCharacterSetRef theSet = CFCharacterSetGetPredefined(kCFCharacterSetDecimalDigit);
-    
-    for (i=0; i<len; i++) {
-        range = CFRangeMake(i, 1);
-        if (!CFStringFindCharacterFromSet(s, theSet, range, kCFCompareAnchored, &result))
-            return false;
-    }
-    return true;
-}
-
-
 CScreensaver::CScreensaver() {
     struct ss_periods periods;
     
@@ -385,22 +370,26 @@ OSStatus CScreensaver::initBOINCApp() {
     if (++retryCount > 3)   // Limit to 3 relaunches to prevent thrashing
         return -1;
 
-#ifdef _DEBUG
-    err = -1;
-#else
-    err = GetpathToBOINCManagerApp(boincPath, sizeof(boincPath));
-#endif
-   if (err) 
-    {   // If we couldn't find BOINCManager.app, try default path
-        strcpy(boincPath, "/Applications/");
-        if (brandId)
-            strcat(boincPath, m_BrandText);
-        else
-            strcat(boincPath, "BOINCManager");
-            strcat(boincPath, ".app");
+    // Find boinc client within BOINCManager.app
+    // First, try default path
+    strcpy(boincPath, "/Applications/");
+    if (brandId) {
+        strcat(boincPath, m_BrandText);
+    } else {
+        strcat(boincPath, "BOINCManager");
     }
-    
-    strcat(boincPath, "/Contents/Resources/boinc");
+    strcat(boincPath, ".app/Contents/Resources/boinc");
+
+    // If not at default path, search for it by creator code and bundle identifier
+    if (!boinc_file_exists(boincPath)) {
+        err = GetpathToBOINCManagerApp(boincPath, sizeof(boincPath));
+        if (err) {
+            saverState = SaverState_CantLaunchCoreClient;
+            return err;
+        } else {
+            strcat(boincPath, "/Contents/Resources/boinc");
+        }
+    }
 
     if ( (myPid = fork()) < 0)
         return -1;
@@ -468,7 +457,7 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
                 m_bConnected = true;
                 if (IsDualGPUMacbook) {
                     ccstate.clear();
-                    ccstate.global_prefs.clear_bools();
+                    ccstate.global_prefs.init_bools();
                     int result = rpc->get_state(ccstate);
                     if (!result) {
                         OKToRunOnBatteries = ccstate.global_prefs.run_on_batteries;

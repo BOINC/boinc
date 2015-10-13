@@ -191,21 +191,29 @@ bool CDlgItemProperties::RestoreState() {
 
 void CDlgItemProperties::show_rsc(wxString rsc_name, RSC_DESC rsc_desc) {
     if (rsc_desc.no_rsc_pref) {
-        addProperty(_("Don't fetch tasks for ") + rsc_name, _("Project preference"));
+        addProperty(_("Don't request tasks for ") + rsc_name, _("Project preference"));
     }
     if (rsc_desc.no_rsc_ams) {
-        addProperty(_("Don't fetch tasks for ") + rsc_name, _("Account manager preference"));
+        addProperty(_("Don't request tasks for ") + rsc_name, _("Account manager preference"));
     }
     if (rsc_desc.no_rsc_apps) {
-        addProperty(_("Don't fetch tasks for ") + rsc_name, _("Project has no apps for ") + rsc_name);
+        addProperty(_("Don't request tasks for ") + rsc_name, _("Project has no apps for ") + rsc_name);
     }
     if (rsc_desc.no_rsc_config) {
-        addProperty(_("Don't fetch tasks for ") + rsc_name, _("Client configuration excludes ") + rsc_name);
+        addProperty(_("Don't request tasks for ") + rsc_name, _("Client configuration excludes ") + rsc_name);
     }
     double x = rsc_desc.backoff_time - dtime();
     if (x<0) x = 0;
-    addProperty(rsc_name + _(" work fetch deferred for"), FormatTime(x));
-    addProperty(rsc_name + _(" work fetch deferral interval"), FormatTime(rsc_desc.backoff_interval));
+    if (x) {
+        addProperty(
+			wxString::Format(_("%s task request deferred for"), rsc_name.c_str()),
+			FormatTime(x)
+	    );
+        addProperty(
+			wxString::Format(_("%s task request deferral interval"), rsc_name.c_str()),
+			FormatTime(rsc_desc.backoff_interval)
+		);
+    }
 }
 
 // show project properties
@@ -241,10 +249,10 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
     SetTitle(wxTitle);
     //layout controls
     addSection(_("General"));
-    addProperty(_("Master URL"), wxString(project->master_url, wxConvUTF8));
+    addProperty(_("URL"), wxString(project->master_url, wxConvUTF8));
     addProperty(_("User name"), wxString(project->user_name.c_str(), wxConvUTF8));
     addProperty(_("Team name"), wxString(project->team_name.c_str(), wxConvUTF8));
-    addProperty(_("Resource share"), wxString::Format(wxT("%0.0f"), project->resource_share));
+    addProperty(_("Resource share"), wxString::Format(wxT("%s"), format_number(project->resource_share, 0)));
     if (project->min_rpc_time > dtime()) {
         addProperty(_("Scheduler RPC deferred for"), FormatTime(project->min_rpc_time - dtime()));
     }
@@ -260,7 +268,7 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
         addProperty(_("Non CPU intensive"), _("yes"));
     }
     addProperty(_("Suspended via GUI"), project->suspended_via_gui ? _("yes") : _("no"));
-    addProperty(_("Don't request more work"), project->dont_request_more_work ? _("yes") : _("no"));
+    addProperty(_("Don't request tasks"), project->dont_request_more_work ? _("yes") : _("no"));
     if (project->scheduler_rpc_in_progress) {
         addProperty(_("Scheduler call in progress"), _("yes"));
     }
@@ -282,22 +290,24 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
     if (project->ended) {
         addProperty(_("Ended"), _("yes"));
     }
-    addProperty(_("Tasks completed"), wxString::Format(wxT("%d"), project->njobs_success));
-    addProperty(_("Tasks failed"), wxString::Format(wxT("%d"), project->njobs_error));
+    addProperty(_("Tasks completed"), wxString::Format(wxT("%s"), format_number(project->njobs_success, 0)));
+    addProperty(_("Tasks failed"), wxString::Format(wxT("%s"), format_number(project->njobs_error, 0)));
 
     addSection(_("Credit"));
     addProperty(_("User"),
+		// Displays the average and total user credit
         wxString::Format(
-            wxT("%0.2f total, %0.2f average"),
-            project->user_total_credit,
-            project->user_expavg_credit
+            _("%s total, %s average"),
+            format_number(project->user_total_credit, 0).c_str(),
+            format_number(project->user_expavg_credit, 2).c_str()
         )
     );
     addProperty(_("Host"),
+		// Displays the average and total host credit
         wxString::Format(
-            wxT("%0.2f total, %0.2f average"),
-            project->host_total_credit,
-            project->host_expavg_credit
+            _("%s total, %s average"),
+            format_number(project->host_total_credit, 0).c_str(),
+            format_number(project->host_expavg_credit, 2).c_str()
         )
     );
     
@@ -333,6 +343,11 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
             );
         }
     }
+    if (project->last_rpc_time) {
+        wxDateTime dt;
+        dt.Set((time_t)project->last_rpc_time);
+        addProperty(_("Last scheduler reply"), dt.Format());
+    }
     m_gbSizer->Layout();
     m_scrolledWindow->FitInside();
 }
@@ -367,7 +382,9 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
         addProperty(_("Resources"), wxString(result->resources, wxConvUTF8));
     }
     if (wup) {
-        addProperty(_("Estimated computation size"), wxString::Format(wxT("%.0f GFLOPs"), wup->rsc_fpops_est/1e9));
+        addProperty(_("Estimated computation size"),
+            wxString::Format(wxT("%s GFLOPs"), format_number(wup->rsc_fpops_est/1e9, 0))
+        );
     }
     if (result->active_task) {
         addProperty(_("CPU time at last checkpoint"), FormatTime(result->checkpoint_cpu_time));
@@ -385,9 +402,23 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
         if (result->pid) {
             addProperty(_("Process ID"), wxString::Format(wxT("%d"), result->pid));
         }
+        if (result->progress_rate) {
+            // express rate in the largest time unit (hr/min/sec) for which rate < 100%
+            //
+            if (result->progress_rate*3600 < 1) {
+                addProperty(_("Progress rate"), wxString::Format(wxT("%f %% %s"), 100*3600*result->progress_rate, _("per hour")));
+            } else if (result->progress_rate*60 < 1) {
+                addProperty(_("Progress rate"), wxString::Format(wxT("%f %% %s"), 100*60*result->progress_rate, _("per minute")));
+            } else {
+                addProperty(_("Progress rate"), wxString::Format(wxT("%f %% %s"), 100*result->progress_rate, _("per second")));
+            }
+        }
     } else if (result->state >= RESULT_COMPUTE_ERROR) {
         addProperty(_("CPU time"), FormatTime(result->final_cpu_time));
         addProperty(_("Elapsed time"), FormatTime(result->final_elapsed_time));
+    }
+    if (avp) {
+        addProperty(_("Executable"), wxString(avp->exec_filename, wxConvUTF8));
     }
     m_gbSizer->Layout();
     m_scrolledWindow->FitInside();
@@ -463,28 +494,6 @@ wxString CDlgItemProperties::FormatApplicationName(RESULT* result ) {
     return strBuffer;
 }
 
-// 
-wxString CDlgItemProperties::FormatTime(float fBuffer) {
-    wxInt32        iHour = 0;
-    wxInt32        iMin = 0;
-    wxInt32        iSec = 0;
-    wxTimeSpan     ts;
-    wxString strBuffer= wxEmptyString;
-
-    if (0 >= fBuffer) {
-        strBuffer = wxT("---");
-    } else {
-        iHour = (wxInt32)(fBuffer / (60 * 60));
-        iMin  = (wxInt32)(fBuffer / 60) % 60;
-        iSec  = (wxInt32)(fBuffer) % 60;
-
-        ts = wxTimeSpan(iHour, iMin, iSec);
-
-        strBuffer = ts.Format();
-    }
-
-    return strBuffer;
-}
 
 // adds a title section label to the dialog 
 void CDlgItemProperties::addSection(const wxString& title) {

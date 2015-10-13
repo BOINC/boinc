@@ -43,23 +43,23 @@ function linux_info() {
     instead.  ";
 }
 
-$w74 = array(
-    "num"=>"7.4.36",
+$w76 = array(
+    "num"=>"7.6.9",
     "status"=>"Recommended version",
-    "file"=>"boinc_7.4.36_windows_intelx86.exe",
-    "vbox_file"=>"boinc_7.4.36_windows_intelx86_vbox.exe",
+    "file"=>"boinc_7.6.9_windows_intelx86.exe",
+    "vbox_file"=>"boinc_7.6.9_windows_intelx86_vbox.exe",
     "vbox_version"=>"4.3.12",
-    "date"=>"12 Dec 2014",
+    "date"=>"31 Aug 2015",
     "type"=>"win_new",
 );
 
-$w72 = array(
-    "num"=>"7.2.42",
+$w74 = array(
+    "num"=>"7.4.42",
     "status"=>"Older version",
-    "file"=>"boinc_7.2.42_windows_intelx86.exe",
-    "vbox_file"=>"boinc_7.2.42_windows_intelx86_vbox.exe",
-    "vbox_version"=>"4.2.16",
-    "date"=>"28 Feb 2014",
+    "file"=>"boinc_7.4.42_windows_intelx86.exe",
+    "vbox_file"=>"boinc_7.4.42_windows_intelx86_vbox.exe",
+    "vbox_version"=>"4.3.12",
+    "date"=>"10 Mar 2015",
     "type"=>"win_new",
 );
 
@@ -79,13 +79,23 @@ $w5816 = array(
     "type"=>"win_new",
 );
 
-$w74x64 = array(
-    "num"=>"7.4.36",
+$w76x64 = array(
+    "num"=>"7.6.9",
     "status"=>"Recommended version",
-    "file"=>"boinc_7.4.36_windows_x86_64.exe",
-    "vbox_file"=>"boinc_7.4.36_windows_x86_64_vbox.exe",
+    "file"=>"boinc_7.6.9_windows_x86_64.exe",
+    "vbox_file"=>"boinc_7.6.9_windows_x86_64_vbox.exe",
     "vbox_version"=>"4.3.12",
-    "date"=>"12 Dec 2014",
+    "date"=>"31 Aug 2015",
+    "type"=>"win_new",
+);
+
+$w74x64 = array(
+    "num"=>"7.4.42",
+    "status"=>"Older version",
+    "file"=>"boinc_7.4.42_windows_x86_64.exe",
+    "vbox_file"=>"boinc_7.4.42_windows_x86_64_vbox.exe",
+    "vbox_version"=>"4.3.12",
+    "date"=>"10 Mar 2015",
     "type"=>"win_new",
 );
 
@@ -99,11 +109,19 @@ $w72x64 = array(
     "type"=>"win_new",
 );
 
-$m74 = array(
-	"num"=>"7.4.36",
+$m76 = array(
+	"num"=>"7.6.12",
 	"status"=>"Recommended version (standard GUI)",
-	"file"=>"boinc_7.4.36_macOSX_i686.zip",
-	"date"=>"12 Dec 2014",
+	"file"=>"boinc_7.6.12_macOSX_x86_64.zip",
+	"date"=>"29 Sep 2015",
+	"type"=>"mac_advanced",
+);
+
+$m74 = array(
+	"num"=>"7.4.42",
+	"status"=>"Older version (standard GUI)",
+	"file"=>"boinc_7.4.42_macOSX_x86_64.zip",
+	"date"=>"12 Mar 2015",
 	"type"=>"mac_advanced",
 );
 
@@ -131,11 +149,19 @@ $m66 = array(
     "type"=>"mac_advanced",
 );
 
-$m74c = array(
-	"num"=>"7.4.36",
+$m76c = array(
+	"num"=>"7.6.12",
 	"status"=>"Recommended version (Unix command-line version)",
-	"file"=>"boinc_7.4.36_i686-apple-darwin.zip",
-	"date"=>"12 Dec 2014",
+	"file"=>"boinc_7.6.12_x86_64-apple-darwin.zip",
+	"date"=>"29 Sep 2015",
+	"type"=>"bare_core",
+);
+
+$m74c = array(
+	"num"=>"7.4.42",
+	"status"=>"Older version (Unix command-line version)",
+	"file"=>"boinc_7.4.42_x86_64-apple-darwin.zip",
+	"date"=>"12 Mar 2015",
 	"type"=>"bare_core",
 );
 
@@ -244,8 +270,8 @@ $windows = array(
     "description"=>"XP/Vista/7/8/8.1",
     "dbname" => "windows_intelx86",
     "versions"=>array(
+          $w76,
           $w74,
-          $w72,
           $w66,
           $w5816,
     )
@@ -256,16 +282,18 @@ $windowsx64 = array(
     "description"=>"XP/Vista/7/8/8.1",
     "dbname" => "windows_x86_64",
     "versions"=>array(
+          $w76x64,
           $w74x64,
-          $w72x64,
     )
 );
 
 $mac = array(
     "name"=>"Mac OS X (64-bit Intel)",
-    "description"=>"Version 10.5.0+",
+    "description"=>"Version 10.6.0+",
     "dbname" => "x86_64-apple-darwin",
     "versions"=>array(
+          $m76,
+          $m76c,
           $m74,
           $m74c,
     )

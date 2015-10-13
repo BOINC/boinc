@@ -149,63 +149,17 @@ static void show_exclude_gpu(EXCLUDE_GPU& e) {
 // This is called during startup (after client_state.xml has been read)
 // and also from the handle_read_cc_config GUI RPC.
 //
-// TODO: show other config options
+// Keep these in alpha order
+//
+// TODO: show all config options
 //
 void CC_CONFIG::show() {
     unsigned int i;
-    if (ncpus>0) {
-        msg_printf(NULL, MSG_INFO, "Config: simulate %d CPUs", cc_config.ncpus);
+    if (abort_jobs_on_exit) {
+        msg_printf(NULL, MSG_INFO, "Config: abort jobs on exit");
     }
-    if (no_gpus) {
-        msg_printf(NULL, MSG_INFO, "Config: don't use coprocessors");
-    }
-    if (dont_use_vbox) {
-        msg_printf(NULL, MSG_INFO, "Config: don't use VirtualBox");
-    }
-    if (no_info_fetch) {
-        msg_printf(NULL, MSG_INFO, "Config: don't fetch project list or client version info");
-    }
-    if (no_priority_change) {
-        msg_printf(NULL, MSG_INFO, "Config: run apps at regular priority");
-    }
-    if (report_results_immediately) {
-        msg_printf(NULL, MSG_INFO, "Config: report completed tasks immediately");
-    }
-    if (use_all_gpus) {
-        msg_printf(NULL, MSG_INFO, "Config: use all coprocessors");
-    }
-    if (fetch_minimal_work) {
-        msg_printf(NULL, MSG_INFO, "Config: fetch minimal work");
-    }
-    if (max_event_log_lines != DEFAULT_MAX_EVENT_LOG_LINES) {
-        if (max_event_log_lines) {
-            msg_printf(NULL, MSG_INFO,
-                "Config: event log limit %d lines", max_event_log_lines
-            );
-        } else {
-            msg_printf(NULL, MSG_INFO, "Config: event log limit disabled");
-        }
-    }
-    if (fetch_on_update) {
-        msg_printf(NULL, MSG_INFO, "Config: fetch on update");
-    }
-    for (int j=1; j<NPROC_TYPES; j++) {
-        show_gpu_ignore(ignore_gpu_instance[j], j);
-    }
-    for (i=0; i<exclude_gpus.size(); i++) {
-        show_exclude_gpu(exclude_gpus[i]);
-    }
-    for (i=0; i<exclusive_apps.size(); i++) {
-        msg_printf(NULL, MSG_INFO,
-            "Config: don't compute while %s is running",
-            exclusive_apps[i].c_str()
-        );
-    }
-    for (i=0; i<exclusive_gpu_apps.size(); i++) {
-        msg_printf(NULL, MSG_INFO,
-            "Config: don't use GPUs while %s is running",
-            exclusive_gpu_apps[i].c_str()
-        );
+    if (allow_multiple_clients) {
+        msg_printf(NULL, MSG_INFO, "Config: allow multiple clients");
     }
     if (allow_remote_gui_rpc) {
         msg_printf(NULL, MSG_INFO,
@@ -227,6 +181,84 @@ void CC_CONFIG::show() {
             }
         }
         fclose(f);
+    }
+    if (disallow_attach) {
+        msg_printf(NULL, MSG_INFO, "Config: disallow project attach");
+    }
+    if (dont_check_file_sizes) {
+        msg_printf(NULL, MSG_INFO, "Config: don't check file sizes");
+    }
+    if (dont_suspend_nci) {
+        msg_printf(NULL, MSG_INFO, "Config: don't suspend NCI tasks");
+    }
+    if (dont_use_vbox) {
+        msg_printf(NULL, MSG_INFO, "Config: don't use VirtualBox");
+    }
+    for (i=0; i<exclude_gpus.size(); i++) {
+        show_exclude_gpu(exclude_gpus[i]);
+    }
+    for (i=0; i<exclusive_apps.size(); i++) {
+        msg_printf(NULL, MSG_INFO,
+            "Config: don't compute while %s is running",
+            exclusive_apps[i].c_str()
+        );
+    }
+    for (i=0; i<exclusive_gpu_apps.size(); i++) {
+        msg_printf(NULL, MSG_INFO,
+            "Config: don't use GPUs while %s is running",
+            exclusive_gpu_apps[i].c_str()
+        );
+    }
+    if (exit_after_finish) {
+        msg_printf(NULL, MSG_INFO, "Config: exit after finish");
+    }
+    if (exit_before_start) {
+        msg_printf(NULL, MSG_INFO, "Config: exit before start task");
+    }
+    if (exit_when_idle) {
+        msg_printf(NULL, MSG_INFO, "Config: exit when idle");
+    }
+    if (fetch_minimal_work) {
+        msg_printf(NULL, MSG_INFO, "Config: fetch minimal work");
+    }
+    if (fetch_on_update) {
+        msg_printf(NULL, MSG_INFO, "Config: fetch on update");
+    }
+    if (http_1_0) {
+        msg_printf(NULL, MSG_INFO, "Config: use HTTP 1.0");
+    }
+    for (int j=1; j<NPROC_TYPES; j++) {
+        show_gpu_ignore(ignore_gpu_instance[j], j);
+    }
+    if (max_event_log_lines != DEFAULT_MAX_EVENT_LOG_LINES) {
+        if (max_event_log_lines) {
+            msg_printf(NULL, MSG_INFO,
+                "Config: event log limit %d lines", max_event_log_lines
+            );
+        } else {
+            msg_printf(NULL, MSG_INFO, "Config: event log limit disabled");
+        }
+    }
+    if (ncpus>0) {
+        msg_printf(NULL, MSG_INFO, "Config: simulate %d CPUs", cc_config.ncpus);
+    }
+    if (no_gpus) {
+        msg_printf(NULL, MSG_INFO, "Config: don't use coprocessors");
+    }
+    if (no_info_fetch) {
+        msg_printf(NULL, MSG_INFO, "Config: don't fetch project list or client version info");
+    }
+    if (no_priority_change) {
+        msg_printf(NULL, MSG_INFO, "Config: run apps at regular priority");
+    }
+    if (report_results_immediately) {
+        msg_printf(NULL, MSG_INFO, "Config: report completed tasks immediately");
+    }
+    if (unsigned_apps_ok) {
+        msg_printf(NULL, MSG_INFO, "Config: unsigned apps OK");
+    }
+    if (use_all_gpus) {
+        msg_printf(NULL, MSG_INFO, "Config: use all coprocessors");
     }
     if (vbox_window) {
         msg_printf(NULL, MSG_INFO,
@@ -385,6 +417,8 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_bool("no_info_fetch", no_info_fetch)) continue;
         if (xp.parse_bool("no_priority_change", no_priority_change)) continue;
         if (xp.parse_bool("os_random_only", os_random_only)) continue;
+        if (xp.parse_int("process_priority", process_priority)) continue;
+        if (xp.parse_int("process_priority_special", process_priority_special)) continue;
 #ifndef SIM
         if (xp.match_tag("proxy_info")) {
             retval = proxy_info.parse_config(xp);
@@ -571,6 +605,12 @@ void process_gpu_exclusions() {
                 COPROC& cp = coprocs.coprocs[k];
                 if (eg.type == cp.type) {
                     found = true;
+
+                    // skip exclusions of non-existent devices
+                    //
+                    if (eg.device_num && (cp.device_num_index(eg.device_num) < 0)) {
+                        break;
+                    }
                     rsc_work_fetch[k].has_exclusions = true;
                     break;
                 }

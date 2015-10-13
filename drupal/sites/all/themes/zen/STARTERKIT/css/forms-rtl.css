@@ -1,0 +1,46 @@
+/**
+ * @file
+ * RTL companion for the forms.css file.
+ */
+
+
+/*
+ * Drupal's default login form block
+ */
+#user-login-form {
+  text-align: right;
+}
+
+
+/*
+ * OpenID
+ *
+ * The default styling for the OpenID login link seems to assume Garland's
+ * styling of list items.
+ */
+
+#user-login-form li.openid-link /* The "Log in using OpenID" link. */ {
+  margin-left: 0;
+  margin-right: -20px; /* Un-do some of the padding on the ul list. */
+}
+
+#user-login li.openid-link,
+#user-login li.user-link /* The OpenID links on the /user form. */ {
+  margin-left: 0;
+  margin-right: -2em; /* Un-do all of the padding on the ul list. */
+}
+
+
+/*
+ * Drupal admin tables
+ *
+ * We overrode these styles in html-elements.css, but restore them for the admin
+ * section of the site.
+ */
+
+form th,
+form thead th {
+  text-align: right;
+  padding-left: 1em;
+  padding-right: 0;
+}

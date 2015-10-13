@@ -24,11 +24,14 @@
 //
 // Usage (from project dir):
 //
-// bin/stage_file [--gzip] [--copy] file
+// bin/stage_file [--gzip] [--copy] path
 //
 // --gzip       Make a gzipped version of the file.
 //              Use this if you specify <gzip> in the <file_info>
 // --copy       Copy the file (default is to move it)
+//
+// path         The file to be staged.
+//              If it's a directory, stage all the files in that dir
 
 function error_exit($msg) {
     echo $msg;
@@ -45,17 +48,100 @@ require_once("html/inc/dir_hier.inc");
 require_once("html/inc/util_basic.inc");
 
 function usage() {
-    error_exit("usage: stage_file [--gzip] [--copy] file
+    error_exit("usage: stage_file [--gzip] [--copy] path
     --gzip      make a gzipped version of file for compressed download
                 (use with <gzip/> in the input template)
     --copy      copy the file (default is to move it)
+    --verbose   verbose output
+    path        The file to stage; if directory, stage all files in that dir
 ");
 }
 
+function stage_file($path) {
+    global $download_dir, $fanout, $copy, $gzip, $verbose;
+
+    if (!file_exists($path)) error_exit("no such file: $path\n");
+    $file = basename($path);
+    $dl_path = dir_hier_path($file, $download_dir, $fanout);
+    $dl_md5_path = "$dl_path.md5";
+
+    if ($verbose) {
+        echo "staging $file to $dl_path\n";
+    }
+
+    // compute the file's MD5
+    //
+    $md5 = md5_file($path);
+    $file_size = filesize($path);
+
+    // if file is already in download dir, make sure it's the same file
+    //
+    if (file_exists($dl_path)) {
+        if (file_exists($dl_md5_path)) {
+            $x = file_get_contents($dl_md5_path);
+            $x = explode(" ", $x);
+            $dl_md5 = $x[0];
+        } else {
+            $dl_md5 = md5_file($dl_path);
+        }
+        if ($md5 != $dl_md5) {
+            error_exit("
+There is already a file in your project's download directory with that name,
+but with different contents.
+This is not allowed by BOINC, which requires that files be immutable.
+Please use a different file name.
+");
+        }
+        if ($verbose) {
+            echo "    file already exists as $dl_path\n";
+        }
+    } else {
+        // move or copy the file
+        //
+        if ($copy) {
+            $ret = copy($path, $dl_path);
+            if (!$ret) error_exit("    copy failed\n");
+            if ($verbose) echo "    copied file\n";
+        } else {
+            $ret = rename($path, $dl_path);
+            if (!$ret) error_exit("    copy failed\n");
+            if ($verbose) echo "    moved file\n";
+        }
+        @unlink($dl_md5_path);
+    }
+
+    // make MD5 file if needed
+    //
+    if (!file_exists($dl_md5_path)) {
+        $x = $md5." ".$file_size."\n";
+        $ret = file_put_contents($dl_md5_path, $x);
+        if (!$ret) error_exit("failed to create MD5 file $dl_md5_path\n");
+        if ($verbose) echo "    created MD5 file $dl_md5_path\n";
+    }
+
+    // make gzipped version if needed
+    //
+    if ($gzip) {
+        $dl_gzip_path = "$dl_path.gz";
+        if (!file_exists($dl_gzip_path)) {
+            $output = system("gzip -c $dl_path > $dl_gzip_path", $retval);
+            if ($retval) {
+                error_exit("failed to gzip file: $output\n");
+            }
+            if ($verbose) echo "    created .gzip file $dl_gzip_path\n";
+        }
+    }
+}
+
+$fanout = parse_config(get_config(), "<uldl_dir_fanout>");
+if (!$fanout) error_exit("can't find <uldl_dir_fanout> in config.xml");
+$download_dir = parse_config(get_config(), "<download_dir>");
+if (!$download_dir) error_exit("can't find <download_dir> in config.xml");
 if ($argc < 2) usage();
 
 $gzip = false;
 $copy = false;
+$verbose = false;
 
 for ($i=1; $i<$argc-1; $i++) {
     switch($argv[$i]) {
@@ -65,73 +151,24 @@ for ($i=1; $i<$argc-1; $i++) {
     case "--copy":
         $copy = true;
         break;
+    case "--verbose":
+        $verbose = true;
+        break;
     default:
         usage();
     }
 }
 
 $path = $argv[$argc-1];
-if (!file_exists($path)) error_exit("no such file: $path\n");
-$file = basename($path);
-
-$fanout = parse_config(get_config(), "<uldl_dir_fanout>");
-if (!$fanout) error_exit("can't find <uldl_dir_fanout> in config.xml");
-$download_dir = parse_config(get_config(), "<download_dir>");
-if (!$download_dir) error_exit("can't find <download_dir> in config.xml");
-
-$dl_path = dir_hier_path($file, $download_dir, $fanout);
-$dl_md5_path = "$dl_path.md5";
-
-// compute the file's MD5
-//
-$md5 = md5_file($path);
-$file_size = filesize($path);
-
-// if file is already in download dir, make sure it's the same
-//
-if (file_exists($dl_path)) {
-    if (file_exists($dl_md5_path)) {
-        $x = file_get_contents($dl_md5_path);
-        $x = explode(" ", $x);
-        $dl_md5 = $x[0];
-    } else {
-        $dl_md5 = md5_file($dl_path);
-    }
-    if ($md5 != $dl_md5) {
-        error_exit("There is already a file in your project's download directory
-with that name, but different contents.
-This is not allowed by BOINC, which requires that files are 'immutable'.
-Please use a different file name.
-");
+if (is_dir($path)) {
+    $d = opendir($path);
+    while ($f = readdir($d)) {
+        $p = "$path/$f";
+        if (!is_file($p)) continue;
+        stage_file($p);
     }
 } else {
-    // move or copy the file
-    //
-    if ($copy) {
-        copy($path, $dl_path);
-    } else {
-        rename($path, $dl_path);
-    }
-    @unlink($dl_md5_path);
-}
-
-// make MD5 file if needed
-//
-if (!file_exists($dl_md5_path)) {
-    $x = $md5." ".$file_size."\n";
-    file_put_contents($dl_md5_path, $x);
-}
-
-// make gzipped version if needed
-//
-if ($gzip) {
-    $dl_gzip_path = "$dl_path.gz";
-    if (!file_exists($dl_gzip_path)) {
-        $output = system("gzip -c $dl_path > $dl_gzip_path", $retval);
-        if ($retval) {
-            error_exit("failed to gzip file: $output\n");
-        }
-    }
+    stage_file($path);
 }
 
 ?>

@@ -1,0 +1,19 @@
+/**
+ * @file
+ * RTL companion for the pages.css file.
+ */
+
+
+/*
+ * Header
+ */
+#logo /* Wrapping link for logo */ {
+  float: right;
+}
+
+/*
+ * Content
+ */
+.more-link /* Aggregator, blog, and forum more link */ {
+  text-align: left;
+}

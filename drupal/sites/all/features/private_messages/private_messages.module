@@ -1,0 +1,3 @@
+<?php
+
+include_once('private_messages.features.inc');

@@ -1,27 +1,65 @@
-#!/usr/bin/env python
+#!/usr/bin/env php
+<?php
+// This file is part of BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2015 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-# $Id$
+// parse project.xml; add apps and platforms to the DB
 
-'''
-Add platform and application records to the BOINC database.
-Reads info from "project.xml", e.g.:
+chdir("html/inc");
+require_once("boinc_db.inc");
+chdir("../..");
 
-<boinc>
-    <platform>
-        <name>i686-pc-linux-gnu</name>
-        <user_friendly_name>Linux/x86</user_friendly_name>
-    </platform>
-    <app>
-        <name>astropulse</name>
-        <user_friendly_name>AstroPulse</user_friendly_name>
-    </app>
-</boinc>
+$x = simplexml_load_file("project.xml");
 
-See http://boinc.berkeley.edu/tool_xadd.php
-'''
+foreach ($x->platform as $platform) {
+    $n = (string)$platform->name;
+    $ufn = (string)$platform->user_friendly_name;
+    $p = BoincPlatform::lookup("name='$n'");
+    if ($p) {
+        if ($p->user_friendly_name != $ufn) {
+            $p->update("user_friendly_name='$ufn'");
+            echo "updated user friendly name of platform $n\n";
+        } else {
+            echo "platform $n already in DB\n";
+        }
+    } else {
+        $now = time();
+        $q = "(create_time, name, user_friendly_name) values ($now, '$n', '$ufn')";
+        BoincPlatform::insert($q);
+        echo "added platform: $q\n";
+    }
+}
 
-import boinc_path_config
-from Boinc import database, db_mid, projectxml
-
-database.connect()
-projectxml.default_project().commit_all()
+foreach ($x->app as $app) {
+    $n = (string)$app->name;
+    $ufn = (string)$app->user_friendly_name;
+    $a = BoincApp::lookup("name='$n'");
+    if ($a) {
+        if ($a->user_friendly_name != $ufn) {
+            $a->update("user_friendly_name='$ufn'");
+            echo "updated user friendly name of app $n\n";
+        } else {
+            echo "app $n already in DB\n";
+        }
+    } else {
+        $now = time();
+        $q = "(create_time, name, user_friendly_name) values ($now, '$n', '$ufn')";
+        BoincApp::insert($q);
+        echo "added app: $q\n";
+    }
+}
+?>

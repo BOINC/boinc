@@ -101,51 +101,55 @@ public:
     virtual ~VBOX_BASE();
 
     std::string virtualbox_home_directory;
+    std::string virtualbox_scratch_directory;
     std::string virtualbox_install_directory;
     std::string virtualbox_guest_additions;
-    std::string virtualbox_version;
+    std::string virtualbox_version_raw;
+    std::string virtualbox_version_display;
 
     FloppyIONS::FloppyIO* pFloppy;
 
+    // last polled copy of the log file
     std::string vm_log;
-        // last polled copy of the log file
+    // last VM guest log entry detected
     VBOX_TIMESTAMP vm_log_timestamp;
-        // last VM guest log entry detected
+    // unique name for the VM
     std::string vm_master_name;
-        // unique name for the VM
+    // unique description for the VM
     std::string vm_master_description;
-        // unique description for the VM
+    // unique name for the VM or UUID of a stale VM if deregistering it
     std::string vm_name;
-        // unique name for the VM or UUID of a stale VM if deregistering it
+    // required CPU core count
     std::string vm_cpu_count;
-        // required CPU core count
+    // name of the virtual machine disk image file
     std::string image_filename;
-        // name of the virtual machine disk image file
+    // name of the virtual machine iso9660 disk image file
     std::string iso_image_filename;
-        // name of the virtual machine iso9660 disk image file
+    // name of the virtual machine cache disk image file
     std::string cache_disk_filename;
-        // name of the virtual machine cache disk image file
+    // name of the virtual machine floppy disk image file
     std::string floppy_image_filename;
-        // name of the virtual machine floppy disk image file
+    // amount of CPU time consumed by the VM (note: use get_vm_cpu_time())
     double current_cpu_time;
-        // amount of CPU time consumed by the VM (note: use get_vm_cpu_time())
+    // is the VM suspended?
     bool suspended;
-        // is the VM suspended?
+    // is network access temporarily suspended?
     bool network_suspended;
-        // is network access temporarily suspended?
+    // is VM even online?
     bool online;
-        // is VM even online?
+    // Is VM saving from checkpoint?
     bool saving;
-        // Is VM saving from checkpoint?
+    // Is VM restoring from checkpoint?
     bool restoring;
-        // Is VM restoring from checkpoint?
+    // Has the VM crashed?
     bool crashed;
-        // Has the VM crashed?
+    // Has the VM been successfully started?
+    bool started_successfully;
+    // whether we were instructed to only register the VM.
+    // useful for debugging VMs.
     bool register_only;
-        // whether we were instructed to only register the VM.
-        // useful for debugging VMs.
+    // for optional remote desktop; dynamically assigned
     int rd_host_port;
-        // for optional remote desktop; dynamically assigned
     bool headless;
 
     int vm_pid;
@@ -168,7 +172,7 @@ public:
     virtual int register_vm() = 0;
     virtual int deregister_vm(bool delete_media) = 0;
     virtual int deregister_stale_vm() = 0;
-    virtual void poll(bool log_state = true) = 0;
+    virtual int poll(bool log_state = true) = 0;
     virtual int start() = 0;
     virtual int stop() = 0;
     virtual int poweroff() = 0;
@@ -199,7 +203,8 @@ public:
     virtual bool is_virtualbox_version_newer(int maj, int min, int rel);
 
     static int get_install_directory(std::string& dir);
-    static int get_version_information(std::string& version);
+    static int get_scratch_directory(std::string& dir);
+    static int get_version_information(std::string& version_raw, std::string& version_display);
     virtual int get_guest_additions(std::string& dir) = 0;
     virtual int get_slot_directory(std::string& dir);
     virtual int get_default_network_interface(std::string& iface) = 0;
@@ -212,6 +217,7 @@ public:
     virtual int get_system_log(std::string& log, bool tail_only = true, unsigned int buffer_size = 8192);
     virtual int get_vm_log(std::string& log, bool tail_only = true, unsigned int buffer_size = 8192);
     virtual int get_trace_log(std::string& log, bool tail_only = true, unsigned int buffer_size = 8192);
+    virtual int get_startup_log(std::string& log, bool tail_only = true, unsigned int buffer_size = 8192);
 
     virtual int set_network_access(bool enabled) = 0;
     virtual int set_cpu_usage(int percentage) = 0;
@@ -223,6 +229,7 @@ public:
     virtual void lower_vm_process_priority() = 0;
     virtual void reset_vm_process_priority() = 0;
 
+    static void sanitize_format(std::string& output);
     static void sanitize_output(std::string& output);
 
     virtual int launch_vboxsvc();
@@ -239,6 +246,7 @@ public:
 };
 
 class VBOX_VM : public VBOX_BASE {
+public:
     VBOX_VM();
     ~VBOX_VM();
 };

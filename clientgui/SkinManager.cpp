@@ -94,6 +94,9 @@ void CSkinImage::Clear() {
     m_strDesiredBackgroundColor.Clear();
     m_bmpBitmap = wxNullBitmap;
     m_colBackgroundColor = wxNullColour;
+    m_iAnchorHorizontal = -1;
+    m_iAnchorVertical = -1;
+    
 }
 
 
@@ -116,6 +119,18 @@ int CSkinImage::Parse(MIOFILE& in) {
                 m_strDesiredBackgroundColor = wxString(strBuffer.c_str(), wxConvUTF8);
             }
             continue;
+        } else if (match_tag(buf, "<anchor_horizontal_left>")) {
+            m_iAnchorHorizontal = BKGD_ANCHOR_HORIZ_LEFT;
+        } else if (match_tag(buf, "<anchor_horizontal_center>")) {
+            m_iAnchorHorizontal = BKGD_ANCHOR_HORIZ_CENTER;
+        } else if (match_tag(buf, "<anchor_horizontal_right>")) {
+            m_iAnchorHorizontal = BKGD_ANCHOR_HORIZ_RIGHT;
+        } else if (match_tag(buf, "<anchor_vertical_top>")) {
+            m_iAnchorVertical = BKGD_ANCHOR_VERT_TOP;;
+        } else if (match_tag(buf, "<anchor_vertical_center>")) {
+            m_iAnchorVertical = BKGD_ANCHOR_VERT_CENTER;;
+        } else if (match_tag(buf, "<anchor_vertical_bottom>")) {
+            m_iAnchorVertical = BKGD_ANCHOR_VERT_BOTTOM;;
         }
     }
 
@@ -142,10 +157,21 @@ bool CSkinImage::SetDefaults(wxString strComponentName, const char** ppDefaultBi
 }
 
 
-bool CSkinImage::SetDefaults(wxString strComponentName, const char** ppDefaultBitmap, wxString strBackgroundColor) {
+bool CSkinImage::SetDefaults(wxString strComponentName,
+                                const char** ppDefaultBitmap,
+                                wxString strBackgroundColor,
+                                int horizontalAnchor,
+                                int verticalAnchor
+                            ) {
     m_strComponentName = strComponentName;
     m_ppDefaultBitmap = ppDefaultBitmap;
     m_strDefaultBackgroundColor = strBackgroundColor;
+    if (m_iAnchorHorizontal < 0) {
+        m_iAnchorHorizontal = horizontalAnchor;
+    }
+    if (m_iAnchorVertical < 0) {
+        m_iAnchorVertical = verticalAnchor;
+    }
     return true;
 }
 
@@ -407,10 +433,12 @@ int CSkinSimple::Parse(MIOFILE& in) {
 
 bool CSkinSimple::InitializeDelayedValidation() {
     m_BackgroundImage.SetDefaults(
-        wxT("background"), (const char**)background_image_xpm, wxT("211:211:211")
+        wxT("background"), (const char**)background_image_xpm,
+        wxT("211:211:211"), BKGD_ANCHOR_HORIZ_LEFT, BKGD_ANCHOR_VERT_TOP
     );
     m_DialogBackgroundImage.SetDefaults(
-        wxT("dialog background"), (const char**)dialog_background_image_xpm, wxT("211:211:211")
+        wxT("dialog background"), (const char**)dialog_background_image_xpm,
+        wxT("255:255:255"), BKGD_ANCHOR_HORIZ_CENTER, BKGD_ANCHOR_VERT_CENTER
     );
     m_ProjectImage.SetDefaults(
         wxT("project"), (const char**)project_image_xpm

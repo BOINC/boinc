@@ -323,10 +323,12 @@ void NOTICES::unkeep(const char* url) {
 #endif
 }
 
+#if 0
 static inline bool same_guid(NOTICE& n1, NOTICE& n2) {
     if (!strlen(n1.guid)) return false;
     return !strcmp(n1.guid, n2.guid);
 }
+#endif
 
 // we're considering adding a notice n.
 // If there's already an identical message n2

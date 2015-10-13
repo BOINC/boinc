@@ -1,0 +1,128 @@
+/**
+ * @file
+ * Tabs Styling
+ *
+ * Adds styles for the primary and secondary tabs.
+ *
+ * Compare this with default CSS found in the system module's stylesheet (a copy
+ * of which is in drupal6-reference.css, line 510.)
+ */
+
+
+div.tabs {
+  margin: 0 0 5px 0;
+}
+
+ul.primary {
+  margin: 0;
+  padding: 0 0 0 10px; /* LTR */
+  border-width: 0;
+  list-style: none;
+  white-space: nowrap;
+  line-height: normal;
+  background: url(../images/tab-bar.png) repeat-x left bottom;
+}
+
+ul.primary li {
+  float: left; /* LTR */
+  margin: 0;
+  padding: 0;
+}
+
+ul.primary li a {
+  display: block;
+  height: 24px;
+  margin: 0;
+  padding: 0 0 0 5px; /* width of tab-left.png */
+  border-width: 0;
+  font-weight: bold;
+  text-decoration: none;
+  color: #777;
+  background-color: transparent;
+  background: url(../images/tab-left.png) no-repeat left -38px;
+}
+
+ul.primary li a .tab {
+  display: block;
+  height: 20px; /* 24px (parent) - 4px (padding) */
+  margin: 0;
+  padding: 4px 13px 0 6px;
+  border-width: 0;
+  line-height: 20px;
+  background: url(../images/tab-right.png) no-repeat right -38px;
+}
+
+ul.primary li a:hover,
+ul.primary li a:focus {
+  border-width: 0;
+  background-color: transparent;
+  background: url(../images/tab-left.png) no-repeat left -76px;
+}
+
+ul.primary li a:hover .tab,
+ul.primary li a:focus .tab {
+  background: url(../images/tab-right.png) no-repeat right -76px;
+}
+
+ul.primary li.active a,
+ul.primary li.active a:hover,
+ul.primary li.active a:focus {
+  border-width: 0;
+  color: #000;
+  background-color: transparent;
+  background: url(../images/tab-left.png) no-repeat left 0;
+}
+
+ul.primary li.active a .tab,
+ul.primary li.active a:hover .tab,
+ul.primary li.active a:focus .tab {
+  background: url(../images/tab-right.png) no-repeat right 0;
+}
+
+ul.secondary {
+  margin: 0;
+  padding: 0 0 0 5px; /* LTR */
+  border-bottom: 1px solid #c0c0c0;
+  list-style: none;
+  white-space: nowrap;
+  background: url(../images/tab-secondary-bg.png) repeat-x left bottom;
+}
+
+ul.secondary li {
+  float: left; /* LTR */
+  margin: 0 5px 0 0;
+  padding: 5px 0;
+  border-right: none; /* LTR */
+}
+
+ul.secondary a {
+  display: block;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #c0c0c0;
+  text-decoration: none;
+  color: #777;
+  background: url(../images/tab-secondary.png) repeat-x left -56px;
+}
+
+ul.secondary a .tab {
+  display: block;
+  height: 18px; /* 24px (parent) - 6px (padding) */
+  margin: 0;
+  padding: 3px 8px;
+  line-height: 18px;
+}
+
+ul.secondary a:hover,
+ul.secondary a:focus {
+  background: url(../images/tab-secondary.png) repeat-x left bottom;
+}
+
+ul.secondary a.active,
+ul.secondary a.active:hover,
+ul.secondary a.active:focus {
+  border: 1px solid #c0c0c0;
+  color: #000;
+  background: url(../images/tab-secondary.png) repeat-x left top;
+}

@@ -443,18 +443,18 @@ create table forum (
     orderID                 integer         not null,
     title                   varchar(254)    not null,
     description             varchar(254)    not null,
-    timestamp               integer         not null,
+    timestamp               integer         not null default 0,
         -- time of last new or modified thread or post
-    threads                 integer         not null,
+    threads                 integer         not null default 0,
         -- number of non-hidden threads in forum
-    posts                   integer         not null,
-    rate_min_expavg_credit  integer         not null,
-    rate_min_total_credit   integer         not null,
-    post_min_interval       integer         not null,
-    post_min_expavg_credit  integer         not null,
-    post_min_total_credit   integer         not null,
+    posts                   integer         not null default 0,
+    rate_min_expavg_credit  integer         not null default 0,
+    rate_min_total_credit   integer         not null default 0,
+    post_min_interval       integer         not null default 0,
+    post_min_expavg_credit  integer         not null default 0,
+    post_min_total_credit   integer         not null default 0,
     is_dev_blog             tinyint         not null default 0,
-    parent_type             integer         not null,
+    parent_type             integer         not null default 0,
         -- entity type to which this forum is attached:
         -- 0 == category (public)
         -- 1 == team

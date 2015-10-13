@@ -1,0 +1,231 @@
+/* $Id: views-styles.css,v 1.1 2009/08/12 04:25:15 johnalbin Exp $ */
+
+/**
+ * @file
+ * Views Styling
+ */
+
+.view-empty h2 {
+  margin-top: 0;
+}
+.view-content div {
+  padding: 0 0 5px;
+  clear: left;
+}
+.view-content label {
+  width: 200px;
+  display: block;
+  float: left;
+  margin: 0 10px 0 0;
+}
+.view-content table {
+  width: 100%;
+  margin: 0;
+  clear: both;
+}
+.view-content table th.sort-asc a {
+  padding-right: 16px;
+  background: url(../images/arrow-asc.png) no-repeat right -3px;
+}
+.view-content table th.sort-desc a {
+  padding-right: 16px;
+  background: url(../images/arrow-desc.png) no-repeat right -3px;
+}
+.view-content span.field-content {
+  
+}
+
+/**
+ * News
+ */
+.view-news .views-row {
+  border-bottom: 1px dotted #aaa;
+  padding: 15px 0 0 5px;
+}
+.view-news .views-row-first {
+  padding-top: 0;
+}
+.view-news .views-field-title {
+  margin-bottom: 1px;
+  padding: 0;
+}
+.view-news .views-field-title h2 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.view-news .views-field-created, .view-news .views-field-name {
+  font-size: 11px;
+}
+.view-news .views-field-created {
+  float: left;
+  margin-right: 5px;
+  color: #808080;
+  padding-bottom: 8px;
+}
+.view-news .views-field-name {
+  clear: none;
+}
+.view-news .views-field-teaser,
+.view-news .views-field-teaser .field-content {
+  padding-bottom: 0;
+}
+.view-news .views-field-view-node,
+.view-news .views-field-view-node-1,
+.view-news .views-field-phpcode {
+  float: left;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 18px;
+  padding-bottom: 0;
+}
+.view-news .views-field-comment-count {
+  clear: none;
+  float: left;
+  margin-left: 10px;
+  padding-bottom: 3px;
+  background: url(../images/speech-bubble-tail.png) no-repeat bottom center
+}
+.view-news .views-field-comment-count .field-content {
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 3px 5px 1px;
+  background: #747477;
+}
+.view-news .views-field-nothing {
+  padding: 0 0 8px;
+  margin: 0;
+  height: 0;
+}
+.view-news .views-row-last .views-field-nothing {
+}
+
+/**
+ * Account stats
+ */
+.view-boinc-account-stats {
+}
+.view-boinc-account-stats .view-content {
+}
+.view-boinc-account-stats .view-content div {
+  padding: 0;
+}
+.view-boinc-account-stats .view-content label {
+  width: auto;
+  display: inline;
+  float: none;
+  margin: 0;
+}
+.view-boinc-account-stats.view-display-id-panel_pane_1 {
+  padding-bottom: 5px;
+  margin-bottom: 35px;
+  border-bottom: 1px dotted #aaa;
+}
+.view-boinc-account-stats.view-display-id-panel_pane_1 .view-content {
+  padding-bottom: 20px;
+  border-bottom: 1px dotted #aaa;
+}
+.view-boinc-account-stats ul.stats {
+  padding: 16px 0 30px;
+}
+.view-boinc-account-stats ul.stats li {
+  display: inline-block;
+}
+.view-boinc-account-stats ul.stats li label {
+  display: inline;
+  float: none;
+  margin: 0;
+}
+
+.view-boinc-account-computers {
+
+}
+
+/**
+ * Computer and task lists
+ */
+.views-table .views-field-expavg-credit,
+.views-table .views-field-total-credit,
+.views-table .views-field-elapsed-time,
+.views-table .views-field-cpu-time,
+.views-table .views-field-claimed-credit-1,
+.views-table .views-field-granted-credit {
+  text-align: right;
+}
+.views-table .views-field .task-name {
+  word-break: break-all;
+}
+
+/**
+ * Friends block
+ */
+.view-friends .imagefield,
+.view-boinc-friends .imagefield {
+  width: 50px;
+  height: 50px;
+  margin: 0 1px;
+}
+.view-friends .views-row,
+.view-boinc-friends .views-row {
+  float: left;
+  clear: none;
+  padding: 0;
+}
+.view-friends .more-link,
+.view-boinc-friends .more-link {
+  clear: both;
+}
+
+/**
+ * Search pages
+ */
+.views-exposed-form {
+	border-bottom: 2px dotted #aaa;
+	margin-bottom: 40px;
+}
+.views-exposed-widgets {
+	border-bottom: 2px dotted #aaa;
+}
+.views-exposed-form .views-exposed-widget {
+	float: none;
+	clear: both;
+}
+.views-exposed-form label{
+	float: left;
+	clear: left;
+	line-height: 24px;
+	width: 100px;
+	margin-right: 40px;
+}
+.views-exposed-form .views-widget {
+	float: left;
+}
+.views-exposed-form .views-exposed-widget .form-submit{
+	margin: 2.4em 0 1.6em;
+}
+
+.view-user-list .imagefield {
+	width: 25px;
+	height: 25px;
+}
+
+/**
+ * Subscriptions
+ */
+.view-subscriptions .views-field-ops {
+  text-align: right;
+}
+
+/**
+ * Hosts
+ */
+.view-boinc-host .jump-quickly div {
+  display: inline-block;
+}
+.view-boinc-host .jump-quickly .container-inline,
+.view-boinc-host .jump-quickly #edit-jump-goto-wrapper {
+  margin: 0;
+  padding: 0;
+}

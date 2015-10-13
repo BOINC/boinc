@@ -1,0 +1,178 @@
+/* $Id: tabs.css,v 1.2 2009/08/12 08:03:53 johnalbin Exp $ */
+
+/**
+ * @file
+ * Tabs Styling
+ *
+ * Adds styles for the primary and secondary tabs.
+ *
+ * Compare this with default CSS found in the system module's stylesheet (a copy
+ * of which is in drupal6-reference.css, line 510.)
+ */
+
+
+div.tabs {
+  margin: 0 0 10px 0;
+}
+div.tabs .tab {
+  font-size: 11px;
+}
+div.tabs h1 {
+  float: left;
+  line-height: 56px;
+  margin: 0 20px 0 25px;
+  padding: 0;
+  border: none;
+}
+
+.tab {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-left: 1px solid #5a5758;
+  padding-left: 14px;
+  padding-right: 14px;
+}
+.first.tab,
+ul.tabs li.first span.tab {
+  border: none;
+  padding-left: 0;
+}
+.last .tab, .last.tab {
+  padding-right: 0;
+}
+.tab a {
+  font-weight: bold;
+}
+li.tab {
+  display: inline-block;
+}
+
+ul.tab-list {
+  margin: 0;
+  padding: 0;
+}
+ul.tab-list a {
+  display: inline-block;
+}
+
+ul.primary, ul.secondary {
+  width: 980px;
+  margin: 0 auto;
+  padding: 0 0 0 12px; /* LTR */
+  border-width: 0;
+  list-style: none;
+  white-space: nowrap;
+  line-height: normal;
+  /*background: url(../images/tab-bar.png) repeat-x left bottom;*/
+}
+
+ul.primary li, ul.secondary li {
+  float: left; /* LTR */
+  margin: 0;
+  padding: 0;
+}
+
+ul.primary li a, ul.secondary li a {
+  display: block;
+  height: 33px;
+  margin: 0;
+  padding: 0; /* width of tab-left.png */
+  border-width: 0;
+  font-weight: bold;
+  text-decoration: none;
+  color: #808080;
+  background-color: transparent;
+  /*background: url(../images/tab-left.png) no-repeat left -38px;*/
+}
+
+ul.primary li a .tab, ul.secondary li a .tab {
+  display: block;
+  line-height: 24px;
+  margin: 16px 0;
+  padding: 0 12px;
+  /*background: url(../images/tab-right.png) no-repeat right -38px;*/
+}
+ul.primary li.first a .tab, ul.secondary li.first a .tab {
+  padding-left: 5px;
+}
+
+ul.primary li a:hover {
+  border-width: 0;
+  background-color: transparent;
+  text-decoration: none;
+  color: #000;
+  /*background: url(../images/tab-left.png) no-repeat left -76px;*/
+}
+
+ul.primary li a:hover .tab {
+  /*background: url(../images/tab-right.png) no-repeat right -76px;*/
+}
+
+ul.primary li.active a,
+ul.primary li.active a:hover,
+ul.secondary li.active a,
+ul.secondary li.active a:hover {
+  border-width: 0;
+  color: #000;
+  background-color: transparent;
+  /*background: url(../images/tab-left.png) no-repeat left 0;*/
+}
+
+ul.primary li.active a .tab,
+ul.primary li.active a:hover .tab {
+  /*background: url(../images/tab-right.png) no-repeat right 0;*/
+}
+
+ul.secondary {
+}
+
+ul.secondary li {
+  border-right: none;
+}
+
+ul.secondary a {
+}
+
+ul.secondary a .tab {
+}
+ul.secondary .last .tab, ul.secondary .last.tab {
+  border-right: none;
+}
+
+ul.secondary a:hover {
+  color: #000;
+  text-decoration: none;
+}
+
+ul.secondary a.active,
+ul.secondary a.active:hover {
+  border-bottom: none;
+}
+
+
+
+ul.content-sub-menu {
+  padding: 1em 0 5px;
+  margin: 0 0 30px;
+  border-bottom: 1px dotted #aaa;
+}
+ul.content-sub-menu li {
+  color: gray;
+  font-size: 9px;
+  font-weight: bold;
+  border: none;
+}
+ul.content-sub-menu li.active {
+  color: #000;
+}
+
+ul.content-footer-menu {
+  position: absolute;
+  bottom: -40px;
+  right: 0;
+  
+}
+ul.content-footer-menu li {
+  font-size: 9px;
+}

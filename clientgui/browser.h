@@ -49,7 +49,6 @@ bool detect_cookie_safari(std::string& project_url, std::string& name, std::stri
 
 // Cross-platform browsers
 //
-bool detect_cookie_firefox_2(std::string& project_url, std::string& name, std::string& value);
 bool detect_cookie_firefox_3(std::string& project_url, std::string& name, std::string& value);
 bool detect_cookie_chrome(std::string& project_url, std::string& name, std::string& value);
 

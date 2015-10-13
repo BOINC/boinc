@@ -1,0 +1,117 @@
+<?php
+// $Id$
+
+/**
+ * Implementation of hook_install()
+ */
+function boincuser_install() {
+  // Use schema API to create database table
+  drupal_install_schema('boincuser');
+  // Add aliases for account pages 
+  if (module_exists('path')) {
+    path_set_alias('dashboard', 'account');
+    path_set_alias('dashboard', 'account/dashboard');
+    path_set_alias('user/me/edit', 'account/info/edit');
+    path_set_alias('user/me/edit/profile', 'account/info/edit/profile');
+  }
+}
+
+/**
+* Implementation of hook_uninstall().
+*/
+function boincuser_uninstall() {
+  // Use schema API to delete database table.
+  drupal_uninstall_schema('boincuser');
+  // Delete our module's variable from the variables table.
+  variable_del('boincuser_integration');
+  // Remove relevant aliases
+  if (module_exists('path')) {
+    path_set_alias(NULL, 'account');
+    path_set_alias(NULL, 'account/dashboard');
+    path_set_alias(NULL, 'account/info/edit');
+    path_set_alias(NULL, 'account/info/edit/profile');
+  }
+}
+
+/**
+* Implementation of hook_schema().
+*/
+function boincuser_schema() {
+  $schema['boincuser'] = array(
+    'description' => t('Cross references user accounts in Drupal with BOINC user accounts.'),
+    'fields' => array(
+      'uid' => array(               
+        'description' => t('The {user}.uid of the Drupal user.'),
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'boinc_id' => array(
+        'description' => t('The uid of the user in the BOINC database.'),
+        'type' => 'int',      
+        'unsigned' => TRUE,
+        'not null' => TRUE,       
+        'default' => 0,
+      ),
+      'penalty_expiration' => array(
+        'description' => t('A timestamp at which point any penalty period will
+          expire (i.e. restrictions on posting or community participation)'),
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'uotd_time' => array(
+        'description' => t('A timestamp of the last time this user was deemed
+          user of the day'),
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array(
+      'uid', 'boinc_id'
+    ),
+    'unique keys' => array(
+      'uid' => array('uid'),
+      'boinc_id' => array('boinc_id')
+    )
+  );
+  return $schema;
+}
+
+/**
+ * Add penalty_expiration field to boincuser table
+ */
+function boincuser_update_6100() {
+  $result = array();
+  $spec = array(
+    'description' => 'A timestamp at which point any penalty period will
+          expire (i.e. restrictions on posting or community participation)',
+    'type' => 'int',
+    'unsigned' => TRUE,
+    'not null' => TRUE,
+    'default' => 0,
+  );
+  db_add_field($result, 'boincuser', 'penalty_expiration', $spec);
+  return $result;
+}
+
+/**
+ * Add uotd_time field to boincuser table
+ */
+function boincuser_update_6101() {
+  $result = array();
+  $spec = array(
+    'description' => 'A timestamp of the last time this user was deemed
+          user of the day',
+    'type' => 'int',
+    'unsigned' => TRUE,
+    'not null' => TRUE,
+    'default' => 0,
+  );
+  db_add_field($result, 'boincuser', 'uotd_time', $spec);
+  return $result;
+}

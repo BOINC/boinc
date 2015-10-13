@@ -76,23 +76,49 @@ const char *MachineStateToName(MachineState State)
     retval = virtualbox_check_error(rc, __FUNCTION__, __FILE__, __LINE__)
 
 int virtualbox_check_error(HRESULT rc, char* szFunction, char* szFile, int iLine) {
-    HRESULT local_rc;
+    HRESULT hr;
     CComPtr<IErrorInfo> pErrorInfo;
+    CComBSTR strSource;
     CComBSTR strDescription;
 
     if (FAILED(rc)) {
-        local_rc = GetErrorInfo(0, &pErrorInfo);
-        if (SUCCEEDED(local_rc)) {
-            vboxlog_msg("Error in %s (%s:%d)", szFunction, szFile, iLine);
-            rc = pErrorInfo->GetDescription(&strDescription);
-            if (SUCCEEDED(rc) && strDescription) {
-                vboxlog_msg("Error description: %S", strDescription);
+        vboxlog_msg("Error 0x%x in %s (%s:%d)", rc, szFunction, szFile, iLine);
+        hr = ::GetErrorInfo(0, &pErrorInfo);
+        if (SUCCEEDED(hr) && pErrorInfo) {
+            hr = pErrorInfo->GetSource(&strSource);
+            if (SUCCEEDED(hr) && strSource) {
+                vboxlog_msg("Error Source     : %S", strSource);
+            }
+            hr = pErrorInfo->GetDescription(&strDescription);
+            if (SUCCEEDED(hr) && strDescription) {
+                vboxlog_msg("Error Description: %S", strDescription);
             }
         } else {
-            vboxlog_msg("Error: getting error info! rc = 0x%x", rc);
+            vboxlog_msg("Error: Getting Error Info! hr = 0x%x", hr);
         }
     }
     return rc;
+}
+
+void __stdcall virtualbox_com_raise_error(HRESULT rc, IErrorInfo* perrinfo) {
+    HRESULT hr;
+    CComPtr<IErrorInfo> pErrorInfo;
+    CComBSTR strSource;
+    CComBSTR strDescription;
+
+    pErrorInfo.Attach(perrinfo);
+
+    vboxlog_msg("COM Error 0x%x", rc);
+    hr = pErrorInfo->GetSource(&strSource);
+    if (SUCCEEDED(hr) && strSource) {
+        vboxlog_msg("Error Source     : %S", strSource);
+    }
+    hr = pErrorInfo->GetDescription(&strDescription);
+    if (SUCCEEDED(hr) && strDescription) {
+        vboxlog_msg("Error Description: %S", strDescription);
+    }
+
+    DebugBreak();
 }
 
 
@@ -161,6 +187,10 @@ void TraverseMediums(std::vector<CComPtr<IMedium>>& mediums, IMedium* pMedium) {
 
 
 VBOX_VM::VBOX_VM() {
+    // Initialize COM Exception Trap
+    //
+    _set_com_error_handler(virtualbox_com_raise_error);
+
     m_pPrivate = new VBOX_PRIV();
 }
 
@@ -175,12 +205,12 @@ int VBOX_VM::initialize() {
     int rc = BOINC_SUCCESS;
     string old_path;
     string new_path;
-    string version;
     APP_INIT_DATA aid;
     bool force_sandbox = false;
 
     boinc_get_init_data_p(&aid);
     get_install_directory(virtualbox_install_directory);
+    get_scratch_directory(virtualbox_scratch_directory);
 
     // Prep the environment so we can execute the vboxmanage application
     //
@@ -242,11 +272,8 @@ int VBOX_VM::initialize() {
         return rc;
     }
 
-    rc = get_version_information(version);
+    rc = get_version_information(virtualbox_version_raw, virtualbox_version_display);
     if (rc) return rc;
-
-    // Fix-up version string
-    virtualbox_version = "VirtualBox COM Interface (Version: " + version + ")";
 
     // Get the guest addition information
     get_guest_additions(virtualbox_guest_additions);
@@ -423,16 +450,15 @@ int VBOX_VM::create_vm() {
     // Tweak the VM's USB Configuration
     //
     vboxlog_msg("Disabling USB Support for VM.");
-#ifdef _VIRTUALBOX43_
-    rc = pMachine->GetUSBControllerCountByType(USBControllerType_OHCI, &lOHCICtrls);
-    if (SUCCEEDED(rc) && lOHCICtrls) {
-        pMachine->RemoveUSBController(CComBSTR("OHCI"));
-    }
-#endif
 #ifdef _VIRTUALBOX42_
     rc = pMachine->get_USBController(&pUSBContoller);
     if (SUCCEEDED(rc)) {
         pUSBContoller->put_Enabled(FALSE);
+    }
+#else
+    rc = pMachine->GetUSBControllerCountByType(USBControllerType_OHCI, &lOHCICtrls);
+    if (SUCCEEDED(rc) && lOHCICtrls) {
+        pMachine->RemoveUSBController(CComBSTR("OHCI"));
     }
 #endif
 
@@ -473,7 +499,11 @@ int VBOX_VM::create_vm() {
     // Tweak the VM's Drag & Drop Support
     //
     vboxlog_msg("Disabling Drag and Drop Support for VM.");
+#if defined(_VIRTUALBOX42_) || defined (_VIRTUALBOX43_)
     pMachine->put_DragAndDropMode(DragAndDropMode_Disabled);
+#else
+    pMachine->put_DnDMode(DnDMode_Disabled);
+#endif
 
     // Check to see if the processor supports hardware acceleration for virtualization
     // If it doesn't, disable the use of it in VirtualBox. Multi-core jobs require hardware
@@ -597,25 +627,27 @@ int VBOX_VM::create_vm() {
 
         // Add guest additions to the VM
         //
-        vboxlog_msg("Adding VirtualBox Guest Additions to VM.");
-        CComPtr<IMedium> pGuestAdditionsImage;
-        rc = m_pPrivate->m_pVirtualBox->OpenMedium(
-            CComBSTR(virtualbox_guest_additions.c_str()),
-            DeviceType_DVD,
-            AccessMode_ReadOnly,
-            FALSE,
-            &pGuestAdditionsImage
-        );
-        if (CHECK_ERROR(rc)) goto CLEANUP;
+        if (virtualbox_guest_additions.size()) {
+            vboxlog_msg("Adding VirtualBox Guest Additions to VM.");
+            CComPtr<IMedium> pGuestAdditionsImage;
+            rc = m_pPrivate->m_pVirtualBox->OpenMedium(
+                CComBSTR(virtualbox_guest_additions.c_str()),
+                DeviceType_DVD,
+                AccessMode_ReadOnly,
+                FALSE,
+                &pGuestAdditionsImage
+            );
+            if (CHECK_ERROR(rc)) goto CLEANUP;
 
-        rc = pMachine->AttachDevice(
-            CComBSTR("Hard Disk Controller"),
-            2,
-            0,
-            DeviceType_DVD,
-            pGuestAdditionsImage
-        );
-        if (CHECK_ERROR(rc)) goto CLEANUP;
+            rc = pMachine->AttachDevice(
+                CComBSTR("Hard Disk Controller"),
+                2,
+                0,
+                DeviceType_DVD,
+                pGuestAdditionsImage
+            );
+            if (CHECK_ERROR(rc)) goto CLEANUP;
+        }
 
         // Add a virtual cache disk drive to VM
         //
@@ -665,25 +697,27 @@ int VBOX_VM::create_vm() {
 
         // Add guest additions to the VM
         //
-        vboxlog_msg("Adding VirtualBox Guest Additions to VM.");
-        CComPtr<IMedium> pGuestAdditionsImage;
-        rc = m_pPrivate->m_pVirtualBox->OpenMedium(
-            CComBSTR(virtualbox_guest_additions.c_str()),
-            DeviceType_DVD,
-            AccessMode_ReadOnly,
-            FALSE,
-            &pGuestAdditionsImage
-        );
-        if (CHECK_ERROR(rc)) goto CLEANUP;
+        if (virtualbox_guest_additions.size()) {
+            vboxlog_msg("Adding VirtualBox Guest Additions to VM.");
+            CComPtr<IMedium> pGuestAdditionsImage;
+            rc = m_pPrivate->m_pVirtualBox->OpenMedium(
+                CComBSTR(virtualbox_guest_additions.c_str()),
+                DeviceType_DVD,
+                AccessMode_ReadOnly,
+                FALSE,
+                &pGuestAdditionsImage
+            );
+            if (CHECK_ERROR(rc)) goto CLEANUP;
 
-        rc = pMachine->AttachDevice(
-            CComBSTR("Hard Disk Controller"),
-            1,
-            0,
-            DeviceType_DVD,
-            pGuestAdditionsImage
-        );
-        if (CHECK_ERROR(rc)) goto CLEANUP;
+            rc = pMachine->AttachDevice(
+                CComBSTR("Hard Disk Controller"),
+                1,
+                0,
+                DeviceType_DVD,
+                pGuestAdditionsImage
+            );
+            if (CHECK_ERROR(rc)) goto CLEANUP;
+        }
     }
 
     // Adding virtual floppy disk drive to VM
@@ -785,7 +819,7 @@ int VBOX_VM::create_vm() {
         }
     }
 
-    // Enable the shared folder if a shared folder is specified.
+    // Enable the shared folders if a shared folder is specified.
     //
     if (enable_shared_directory) {
         vboxlog_msg("Enabling shared directory for VM.");
@@ -797,6 +831,20 @@ int VBOX_VM::create_vm() {
         );
         if (CHECK_ERROR(rc)) goto CLEANUP;
     }
+
+    // Enable the scratch folder if a scratch folder is specified.
+    //
+    if (enable_scratch_directory) {
+        vboxlog_msg("Enabling scratch shared directory for VM.");
+        rc = pMachine->CreateSharedFolder(
+            CComBSTR("scratch"),
+            CComBSTR(virtualbox_scratch_directory.c_str()),
+            TRUE,
+            TRUE
+        );
+        if (CHECK_ERROR(rc)) goto CLEANUP;
+    }
+
 
 CLEANUP:
     if (pMachine) {
@@ -876,16 +924,16 @@ int VBOX_VM::deregister_vm(bool delete_media) {
     if (SUCCEEDED(rc)) {
         if (delete_media) {
             rc = pSession.CoCreateInstance(CLSID_Session);
-            CHECK_ERROR(rc);
+            if (CHECK_ERROR(rc)) goto CLEANUP;
 
             rc = pMachineRO->LockMachine(pSession, LockType_Write);
-            CHECK_ERROR(rc);
+            if (CHECK_ERROR(rc)) goto CLEANUP;
 
             rc = pSession->get_Console(&pConsole);
-            CHECK_ERROR(rc);
+            if (CHECK_ERROR(rc)) goto CLEANUP;
 
             rc = pSession->get_Machine(&pMachine);
-            CHECK_ERROR(rc);
+            if (CHECK_ERROR(rc)) goto CLEANUP;
 
 
             // Delete snapshots
@@ -897,7 +945,11 @@ int VBOX_VM::deregister_vm(bool delete_media) {
             if (snapshots.size()) {
                 for (size_t i = 0; i < snapshots.size(); i++) {
                     CComPtr<IProgress> pProgress;
+#ifdef _VIRTUALBOX50_
+                    rc = pMachine->DeleteSnapshot(CComBSTR(snapshots[i].c_str()), &pProgress);
+#else
                     rc = pConsole->DeleteSnapshot(CComBSTR(snapshots[i].c_str()), &pProgress);
+#endif
                     if (SUCCEEDED(rc)) {
                         pProgress->WaitForCompletion(-1);
                     } else {
@@ -998,16 +1050,15 @@ int VBOX_VM::deregister_vm(bool delete_media) {
                 pMedium->Close();
             }
 
-#ifdef _VIRTUALBOX43_
-            pMachineRO->DeleteConfig(pEmptyHardDisks, &pProgress);
+#ifdef _VIRTUALBOX42_
+            pMachineRO->Delete(pEmptyHardDisks, &pProgress);
             if (SUCCEEDED(rc)) {
                 pProgress->WaitForCompletion(-1);
             } else {
                 CHECK_ERROR(rc);
             }
-#endif
-#ifdef _VIRTUALBOX42_
-            pMachineRO->Delete(pEmptyHardDisks, &pProgress);
+#else
+            pMachineRO->DeleteConfig(pEmptyHardDisks, &pProgress);
             if (SUCCEEDED(rc)) {
                 pProgress->WaitForCompletion(-1);
             } else {
@@ -1020,6 +1071,7 @@ int VBOX_VM::deregister_vm(bool delete_media) {
         }
     }
 
+CLEANUP:
     return 0;
 }
 
@@ -1149,7 +1201,8 @@ int VBOX_VM::deregister_stale_vm() {
     return 0;
 }
 
-void VBOX_VM::poll(bool log_state) {
+int VBOX_VM::poll(bool log_state) {
+    int retval = ERR_EXEC;
     APP_INIT_DATA aid;
     HRESULT rc;
     CComPtr<IMachine> pMachine;
@@ -1164,7 +1217,7 @@ void VBOX_VM::poll(bool log_state) {
     if (aid.using_sandbox && vboxsvc_pid_handle && !process_exists(vboxsvc_pid_handle)) {
         vboxlog_msg("Status Report: vboxsvc.exe is no longer running.");
     }
-    if (vm_pid_handle && !process_exists(vm_pid_handle)) {
+    if (started_successfully && vm_pid_handle && !process_exists(vm_pid_handle)) {
         vboxlog_msg("Status Report: virtualbox.exe/vboxheadless.exe is no longer running.");
     }
 
@@ -1175,7 +1228,6 @@ void VBOX_VM::poll(bool log_state) {
     if (SUCCEEDED(rc) && pMachine) {
         rc = pMachine->get_State(&vmstate);
         if (SUCCEEDED(rc)) {
-
             // VirtualBox Documentation suggests that that a VM is running when its
             // machine state is between MachineState_FirstOnline and MachineState_LastOnline
             // which as of this writing is 5 and 17.
@@ -1283,6 +1335,8 @@ void VBOX_VM::poll(bool log_state) {
                 );
                 vmstate_old = vmstate;
             }
+
+            retval = BOINC_SUCCESS;
         }
     }
 
@@ -1298,6 +1352,8 @@ void VBOX_VM::poll(bool log_state) {
     // Dump any new VM Guest Log entries
     //
     dump_vmguestlog_entries();
+
+    return retval;
 }
 
 int VBOX_VM::start() {
@@ -1360,6 +1416,7 @@ int VBOX_VM::start() {
             } while (timeout >= dtime());
 
             vboxlog_msg("Successfully started VM. (PID = '%d')", vm_pid);
+            started_successfully = true;
             retval = BOINC_SUCCESS;
         } else {
             vboxlog_msg("VM failed to start.");
@@ -1374,12 +1431,17 @@ int VBOX_VM::stop() {
     int retval = ERR_EXEC;
     HRESULT rc;
     double timeout;
-    CComPtr<IConsole> pConsole;
     CComPtr<IProgress> pProgress;
 
 
     vboxlog_msg("Stopping VM.");
     if (online) {
+
+#ifdef _VIRTUALBOX50_
+        rc = m_pPrivate->m_pMachine->SaveState(&pProgress);
+        if (CHECK_ERROR(rc)) goto CLEANUP;
+#else
+        CComPtr<IConsole> pConsole;
         // Get console object. 
         rc = m_pPrivate->m_pSession->get_Console(&pConsole);
         if (CHECK_ERROR(rc)) goto CLEANUP;
@@ -1387,10 +1449,12 @@ int VBOX_VM::stop() {
         // Save the state of the machine.
         rc = pConsole->SaveState(&pProgress);
         if (CHECK_ERROR(rc)) goto CLEANUP;
+#endif
 
         // Wait until VM is powered down.
         rc = pProgress->WaitForCompletion(-1);
         if (CHECK_ERROR(rc)) goto CLEANUP;
+
 
         // Wait for up to 5 minutes for the VM to switch states.  A system
         // under load can take a while.  Since the poll function can wait for up
@@ -1500,10 +1564,12 @@ int VBOX_VM::pause() {
     if (CHECK_ERROR(rc)) goto CLEANUP;
 
     // Pause the machine.
-    rc = pConsole->Pause();
-    if (CHECK_ERROR(rc)) goto CLEANUP;
+    if (pConsole) {
+        rc = pConsole->Pause();
+        if (CHECK_ERROR(rc)) goto CLEANUP;
 
-    retval = BOINC_SUCCESS;
+        retval = BOINC_SUCCESS;
+    }
 
 CLEANUP:
     return retval;
@@ -1527,10 +1593,12 @@ int VBOX_VM::resume() {
     if (CHECK_ERROR(rc)) goto CLEANUP;
 
     // Resume the machine.
-    rc = pConsole->Resume();
-    if (CHECK_ERROR(rc)) goto CLEANUP;
+    if (pConsole) {
+        rc = pConsole->Resume();
+        if (CHECK_ERROR(rc)) goto CLEANUP;
 
-    retval = BOINC_SUCCESS;
+        retval = BOINC_SUCCESS;
+    }
 
 CLEANUP:
     return retval;
@@ -1543,6 +1611,8 @@ int VBOX_VM::create_snapshot(double elapsed_time) {
     CComPtr<IConsole> pConsole;
     CComPtr<IProgress> pProgress;
 
+    if (disable_automatic_checkpoints) return BOINC_SUCCESS;
+
     vboxlog_msg("Creating new snapshot for VM.");
 
     // Pause VM - Try and avoid the live snapshot and trigger an online
@@ -1550,10 +1620,20 @@ int VBOX_VM::create_snapshot(double elapsed_time) {
     pause();
 
     // Create new snapshot
+    sprintf(buf, "%d", (int)elapsed_time);
+#ifdef _VIRTUALBOX50_
+    CComBSTR strUUID;
+    rc = m_pPrivate->m_pMachine->TakeSnapshot(CComBSTR(string(string("boinc_") + buf).c_str()), CComBSTR(""), true, &strUUID, &pProgress);
+    if (CHECK_ERROR(rc)) {
+    } else {
+        rc = pProgress->WaitForCompletion(-1);
+        if (CHECK_ERROR(rc)) {
+        }
+    }
+#else
     rc = m_pPrivate->m_pSession->get_Console(&pConsole);
     if (CHECK_ERROR(rc)) {
     } else {
-        sprintf(buf, "%d", (int)elapsed_time);
         rc = pConsole->TakeSnapshot(CComBSTR(string(string("boinc_") + buf).c_str()), CComBSTR(""), &pProgress);
         if (CHECK_ERROR(rc)) {
         } else {
@@ -1562,6 +1642,7 @@ int VBOX_VM::create_snapshot(double elapsed_time) {
             }
         }
     }
+#endif
 
     // Resume VM
     resume();
@@ -1620,7 +1701,11 @@ int VBOX_VM::cleanup_snapshots(bool delete_active) {
 
             vboxlog_msg("Deleting stale snapshot.");
 
+#ifdef _VIRTUALBOX50_
+            rc = m_pPrivate->m_pMachine->DeleteSnapshot(CComBSTR(snapshots[i].c_str()), &pProgress);
+#else
             rc = pConsole->DeleteSnapshot(CComBSTR(snapshots[i].c_str()), &pProgress);
+#endif
             if (SUCCEEDED(rc)) {
                 pProgress->WaitForCompletion(-1);
             } else {
@@ -1645,6 +1730,8 @@ int VBOX_VM::restore_snapshot() {
     CComPtr<ISnapshot> pSnapshot;
     CComPtr<IProgress> pProgress;
 
+    if (disable_automatic_checkpoints) return BOINC_SUCCESS;
+
     rc = m_pPrivate->m_pVirtualBox->FindMachine(CComBSTR(vm_name.c_str()), &pMachineRO);
     if (SUCCEEDED(rc)) {
         rc = pSession.CoCreateInstance(CLSID_Session);
@@ -1662,7 +1749,11 @@ int VBOX_VM::restore_snapshot() {
         rc = pMachine->get_CurrentSnapshot(&pSnapshot);
         if (SUCCEEDED(rc)) {
             vboxlog_msg("Restore from previously saved snapshot.");
+#ifdef _VIRTUALBOX50_
+            rc = pMachine->RestoreSnapshot(pSnapshot, &pProgress);
+#else
             rc = pConsole->RestoreSnapshot(pSnapshot, &pProgress);
+#endif
             if (CHECK_ERROR(rc)) goto CLEANUP;
 
             rc = pProgress->WaitForCompletion(-1);
@@ -1867,25 +1958,26 @@ int VBOX_VM::get_install_directory(string& install_directory ) {
     return BOINC_SUCCESS;
 }
 
-int VBOX_VM::get_version_information(string& version) {
+int VBOX_VM::get_version_information(string& version_raw, string& version_display) {
     LONG    lReturnValue;
     HKEY    hkSetupHive;
-    LPTSTR  lpszRegistryValue = NULL;
+    LPSTR   lpszRegistryValue = NULL;
     DWORD   dwSize = 0;
+    char    buf[256];
 
     // change the current directory to the boinc data directory if it exists
-    lReturnValue = RegOpenKeyEx(
+    lReturnValue = RegOpenKeyExA(
         HKEY_LOCAL_MACHINE, 
-        _T("SOFTWARE\\Oracle\\VirtualBox"),  
+        "SOFTWARE\\Oracle\\VirtualBox",  
         0, 
         KEY_READ,
         &hkSetupHive
     );
     if (lReturnValue == ERROR_SUCCESS) {
         // How large does our buffer need to be?
-        lReturnValue = RegQueryValueEx(
+        lReturnValue = RegQueryValueExA(
             hkSetupHive,
-            _T("VersionExt"),
+            "VersionExt",
             NULL,
             NULL,
             NULL,
@@ -1897,29 +1989,36 @@ int VBOX_VM::get_version_information(string& version) {
             (*lpszRegistryValue) = NULL;
 
             // Now get the data
-            lReturnValue = RegQueryValueEx( 
+            lReturnValue = RegQueryValueExA( 
                 hkSetupHive,
-                _T("VersionExt"),
+                "VersionExt",
                 NULL,
                 NULL,
                 (LPBYTE)lpszRegistryValue,
                 &dwSize
             );
+            version_raw = lpszRegistryValue;
 
-            version = lpszRegistryValue;
+			snprintf(
+                buf, sizeof(buf),
+                "VirtualBox COM Interface (Version: %s)",
+                lpszRegistryValue
+            );
+            version_display = buf;
         }
     }
 
     if (hkSetupHive) RegCloseKey(hkSetupHive);
     if (lpszRegistryValue) free(lpszRegistryValue);
-    if (version.empty()) {
-        return ERR_FREAD;
+    if (version_raw.empty()) {
+		version_raw = "Unknown";
+        version_display = "VirtualBox COM Interface (Version: Unknown)";
     }
     return BOINC_SUCCESS;
 }
 
 int VBOX_VM::get_guest_additions(string& guest_additions) {
-    int retval = ERR_EXEC;
+    int retval = ERR_NOT_FOUND;
     HRESULT rc;
     CComPtr<ISystemProperties> properties;
     CComBSTR tmp;
@@ -1929,7 +2028,11 @@ int VBOX_VM::get_guest_additions(string& guest_additions) {
         rc = properties->get_DefaultAdditionsISO(&tmp);
         if (SUCCEEDED(rc)) {
             guest_additions = CW2A(tmp);
-            retval = BOINC_SUCCESS;
+            if (!boinc_file_exists(guest_additions.c_str())) {
+                guest_additions.clear();
+            } else {
+                retval = BOINC_SUCCESS;
+            }
         }
     }
 
@@ -2233,7 +2336,28 @@ int VBOX_VM::launch_vboxsvc() {
 
                 command = "\"VBoxSVC.exe\" --logrotate 1";
 
-                CreateProcess(NULL, (LPTSTR)command.c_str(), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
+                // Execute command
+                if (!CreateProcess(
+                    NULL,
+                    (LPTSTR)command.c_str(),
+                    NULL,
+                    NULL,
+                    TRUE,
+                    CREATE_NO_WINDOW,
+                    NULL,
+                    virtualbox_home_directory.c_str(),
+                    &si,
+                    &pi
+                )) {
+                    vboxlog_msg(
+                        "Status Report: Launching vboxsvc.exe failed!."
+                    );
+                    vboxlog_msg(
+                        "        Error: %s (%d)",
+                        windows_format_error_string(GetLastError(), buf, sizeof(buf)),
+                        GetLastError()
+                    );
+                }
 
                 if (pi.hThread) CloseHandle(pi.hThread);
                 if (pi.hProcess) {
@@ -2241,9 +2365,6 @@ int VBOX_VM::launch_vboxsvc() {
                     vboxsvc_pid = pi.dwProcessId;
                     vboxsvc_pid_handle = pi.hProcess;
                     retval = BOINC_SUCCESS;
-                } else {
-                    vboxlog_msg("Status Report: Launching vboxsvc.exe failed!.");
-                    vboxlog_msg("        Error: %s", windows_format_error_string(GetLastError(), buf, sizeof(buf)));
                 }
             }
         }

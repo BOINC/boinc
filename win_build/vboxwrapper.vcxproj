@@ -94,9 +94,9 @@
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">vboxwrapper_26151_windows_x86_64</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vboxwrapper_26155_windows_x86_64</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vboxwrapper_26175_windows_x86_64</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">vboxwrapper_26151_windows_intelx86</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vboxwrapper_26155_windows_intelx86</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vboxwrapper_26175_windows_intelx86</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Midl>
@@ -301,12 +301,12 @@
     <ClCompile Include="..\samples\vboxwrapper\floppyio.cpp" />
     <ClCompile Include="..\samples\vboxwrapper\vboxcheckpoint.cpp" />
     <ClCompile Include="..\samples\vboxwrapper\vboxjob.cpp" />
-    <ClCompile Include="..\samples\vboxwrapper\vboxlog.cpp" />
     <ClCompile Include="..\samples\vboxwrapper\vboxlogging.cpp" />
     <ClCompile Include="..\samples\vboxwrapper\vboxwrapper.cpp" />
     <ClCompile Include="..\samples\vboxwrapper\vbox_common.cpp" />
     <ClCompile Include="..\samples\vboxwrapper\vbox_mscom42.cpp" />
     <ClCompile Include="..\samples\vboxwrapper\vbox_mscom43.cpp" />
+    <ClCompile Include="..\samples\vboxwrapper\vbox_mscom50.cpp" />
     <ClCompile Include="..\samples\vboxwrapper\vbox_mscom_impl.cpp" />
     <ClCompile Include="..\samples\vboxwrapper\vbox_vboxmanage.cpp" />
   </ItemGroup>
@@ -314,13 +314,13 @@
     <ClInclude Include="..\samples\vboxwrapper\floppyio.h" />
     <ClInclude Include="..\samples\vboxwrapper\vboxcheckpoint.h" />
     <ClInclude Include="..\samples\vboxwrapper\vboxjob.h" />
-    <ClInclude Include="..\samples\vboxwrapper\vboxlog.h" />
     <ClInclude Include="..\samples\vboxwrapper\vboxlogging.h" />
     <ClInclude Include="..\samples\vboxwrapper\vboxwrapper.h" />
     <ClInclude Include="..\samples\vboxwrapper\vboxwrapper_win.h" />
     <ClInclude Include="..\samples\vboxwrapper\vbox_common.h" />
     <ClInclude Include="..\samples\vboxwrapper\vbox_mscom42.h" />
     <ClInclude Include="..\samples\vboxwrapper\vbox_mscom43.h" />
+    <ClInclude Include="..\samples\vboxwrapper\vbox_mscom50.h" />
     <ClInclude Include="..\samples\vboxwrapper\vbox_mscom_impl.h" />
     <ClInclude Include="..\samples\vboxwrapper\vbox_vboxmanage.h" />
   </ItemGroup>

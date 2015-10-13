@@ -1,0 +1,214 @@
+# $Id$
+#
+# Dutch translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  number.module,v 1.91.2.33 2009/03/16 22:04:07 yched
+#  number.info,v 1.7 2008/04/23 18:02:16 dww
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-06-03 14:26+0200\n"
+"PO-Revision-Date: 2009-06-03 14:26+0200\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Dutch <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: number.module:34
+msgid "Integer"
+msgstr "Integer"
+
+#: number.module:35
+msgid "Store a number in the database as an integer."
+msgstr "Sla een waarde in de database op als integer."
+
+#: number.module:38
+msgid "Decimal"
+msgstr "Decimaal"
+
+#: number.module:39
+msgid "Store a number in the database in a fixed decimal format."
+msgstr "Sla een waarde in de database op in een decimaal formaat."
+
+#: number.module:42
+msgid "Float"
+msgstr "Float"
+
+#: number.module:43
+msgid "Store a number in the database in a floating point format."
+msgstr "Sla een waarde in de database op als floating point getal."
+
+#: number.module:57
+msgid "Minimum"
+msgstr "Minimum"
+
+#: number.module:63
+msgid "Maximum"
+msgstr "Maximum"
+
+#: number.module:71
+msgid "Precision"
+msgstr "Precisie"
+
+#: number.module:72
+msgid "The total number of digits to store in the database, including those to the right of the decimal."
+msgstr ""
+"Het totale aantal cijfers om op te slaan in de database, inclusief de "
+"waardes achter de komma."
+
+#: number.module:78
+msgid "Scale"
+msgstr "Schaal"
+
+#: number.module:79
+msgid "The number of digits to the right of the decimal."
+msgstr "Het aantal waardes achter de komma."
+
+#: number.module:85
+msgid "Decimal marker"
+msgstr "Decimaal scheidingsteken"
+
+#: number.module:86
+msgid "The character users will input to mark the decimal point in forms."
+msgstr ""
+"Het karakter dat gebruikers zullen gebruiken om de waardes achter de "
+"komma aan te geven in formulieren."
+
+#: number.module:92
+msgid "Prefix"
+msgstr "Voorvoegsel"
+
+#: number.module:95
+msgid "Define a string that should be prefixed to the value, like $ or €. Leave blank for none. Separate singular and plural values with a pipe (pound|pounds)."
+msgstr ""
+"Geef op wat als voorvoegsel moet worden gebruikt zoals: $ of €. Laat "
+"leeg als er geen voorvoegsel moet worden gebruikt. Maak onderscheid "
+"tussen enkelvoud en meervoud met een pipe, bijvoorbeeld: euro|euro's."
+
+#: number.module:99
+msgid "Suffix"
+msgstr "Achtervoegsel"
+
+#: number.module:102
+msgid "Define a string that should suffixed to the value, like m², m/s², kb/s. Leave blank for none. Separate singular and plural values with a pipe (pound|pounds)."
+msgstr ""
+"Geef op wat als achtervoegsel moet worden gebruikt zoals: m², m/s², "
+"kb/s. Laat leeg als er geen achtervoegsel moet worden gebruikt. Maak "
+"onderscheid tussen enkelvoud en meervoud met een pipe, bijvoorbeeld: "
+"kilo|kilo's."
+
+#: number.module:106
+msgid "Allowed values"
+msgstr "Toegestane waardes"
+
+#: number.module:112
+msgid "Allowed values list"
+msgstr "Lijst met toegestane waardes"
+
+#: number.module:116
+msgid "The possible values this field can contain. Enter one value per line, in the format key|label. The key is the value that will be stored in the database, and it must match the field storage type (%type). The label is optional, and the key will be used as the label if no label is specified.<br />Allowed HTML tags: @tags"
+msgstr ""
+"De mogelijke waardes die in dit veld kunnen staan. Voer één waarde "
+"per regel in, in het formaat sleutel|label. De sleutel wordt in de "
+"database opgeslagen en moet overeen komen met het veldopslagtype "
+"(%type). Het label is optioneel. Als geen label wordt ingevoerd zal de "
+"sleutel ook worden gebruikt als label. <br />Toegestane HTML-tags: "
+"@tags"
+
+#: number.module:120
+msgid "PHP code"
+msgstr "PHP code"
+
+#: number.module:127;136
+msgid "Code"
+msgstr "Code"
+
+#: number.module:130
+msgid "Advanced usage only: PHP code that returns a keyed array of allowed values. Should not include &lt;?php ?&gt; delimiters. If this field is filled out, the array returned by this code will override the allowed values list above."
+msgstr ""
+"Alleen voor geavanceerd gebruik: PHP-code die een array met sleutels "
+"geeft van de toegestane waardes. Moet niet beginnen en eindigen met "
+"&lt;?php ?&gt;. Als dit veld in ingevuld zullen de bovenstaande "
+"toegestane waardes worden genegeerd."
+
+#: number.module:137
+msgid "&lt;none&gt;"
+msgstr "&lt;geen&gt;"
+
+#: number.module:138
+msgid "You're not allowed to input PHP code."
+msgstr "Je mag geen PHP-code gebruiken."
+
+#: number.module:138
+msgid "This PHP code was set by an administrator and will override the allowed values list above."
+msgstr ""
+"Deze PHP-code is door een beheerder ingesteld en zal worden uitgevoerd "
+"in plaats van de toegestane waardeslijst hierboven."
+
+#: number.module:178
+msgid "@label (!name) - Allowed values"
+msgstr "@label (!name) - Toegestane waardes"
+
+#: number.module:195
+msgid "\"Minimum\" must be a number."
+msgstr "\"Minimum\" moet een nummer zijn."
+
+#: number.module:202
+msgid "\"Maximum\" must be a number."
+msgstr "\"Maximum\" moet een nummer zijn."
+
+#: number.module:219
+msgid "%name: the value may be no smaller than %min."
+msgstr "%name: de waarde mag niet kleiner zijn dan %min."
+
+#: number.module:222
+msgid "%name: the value may be no larger than %max."
+msgstr "%name: de waarde mag niet groter zijn dan %max."
+
+#: number.module:235
+msgid "%name: illegal value."
+msgstr "%name: niet toegestane waarde."
+
+#: number.module:270
+msgid "unformatted"
+msgstr "ongeformatteerd"
+
+#: number.module:353
+msgid "Text field"
+msgstr "Tekstveld"
+
+#: number.module:512
+msgid "Only numbers and decimals are allowed in %field."
+msgstr "Alleen nummers en decimalen zijn toegestaan in %field."
+
+#: number.module:535
+msgid "Only numbers are allowed in %field."
+msgstr "Alleen nummers zijn toegestaan in %field."
+
+#: number.module:559
+msgid "Only numbers and the decimal character (%decimal) are allowed in %field."
+msgstr ""
+"Alleen nummers en het decimalenkarakter (%decimal) zijn toegestaan in "
+"%field."
+
+#: number.module:0
+msgid "number"
+msgstr "getal"
+
+#: number.info:0
+msgid "Number"
+msgstr "Nummer"
+
+#: number.info:0
+msgid "Defines numeric field types."
+msgstr "Levert numerieke veldtypes."
+
+#: number.info:0
+msgid "CCK"
+msgstr "CCK"
+

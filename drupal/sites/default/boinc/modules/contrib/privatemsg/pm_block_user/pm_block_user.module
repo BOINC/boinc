@@ -1,0 +1,584 @@
+<?php
+
+/**
+ * @file
+ * Allows users to block other users from sending them any messages
+ */
+
+/**
+ * Disallow blocking private messages from a user.
+ */
+define('PM_BLOCK_USER_DISALLOW_BLOCKING', 0);
+
+/**
+ * Disallow sending private messages to a user.
+ */
+define('PM_BLOCK_USER_DISALLOW_SENDING', 1);
+
+/**
+ * Implements hook_help().
+ */
+function pm_block_user_help($path) {
+  switch ($path) {
+    case 'admin/settings/messages/block':
+      return '<p>' . t('This area is used to define user blocking rules for the Privatemsg module. Rules allow control of who may block messages from whom. By default all users are allowed to block messages from anyone else. However, a site may have groups of users that need to contact or get information to others, for example: the site may have administrative staff or be a forum with moderators. Groups of users are defined by roles, which can be managed on the <a href="@roles">roles configuration page</a>.', array('@roles' => url('admin/user/roles'))) . '</p>';
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function pm_block_user_menu() {
+  $items['messages/block/%user'] = array(
+    'title'            => 'Block user messages',
+    'page callback'    => 'drupal_get_form',
+    'page arguments'   => array('pm_block_user_form', 2),
+    'access callback'  => '_pm_block_user_access',
+    'access arguments' => array(2),
+    'type'             => MENU_CALLBACK,
+    'weight'           => -10,
+  );
+
+  $items['admin/settings/messages/block'] = array(
+    'title'            => 'User blocking rules',
+    'description'      => 'Configure rules for which users may block each other.',
+    'page callback'    => 'drupal_get_form',
+    'page arguments'   => array('pm_block_user_settings'),
+    'access arguments' => array('administer privatemsg settings'),
+    'type'             => MENU_LOCAL_TASK,
+  );
+
+  $items['messages/block/js'] = array(
+    'title' => 'Javascript block actions form',
+    'page callback' => 'pm_block_user_js',
+    'access arguments' => array('administer privatemsg settings'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Menu callback for blocked user settings.
+ */
+function pm_block_user_settings(&$form_state) {
+  drupal_add_css(drupal_get_path('module', 'pm_block_user') .'/pm_block_user.css');
+  // Need to cache form for AHAH, so it can be rebuilt from cache later.
+  $form = array(
+    '#cache' => TRUE,
+  );
+
+  // Container for just the actions, used for AHAH.
+  $form['block_actions'] = array(
+    '#tree' => TRUE,
+    '#prefix' => '<div id="block-actions">',
+    '#suffix' => '</div>',
+    '#theme' => 'pm_block_user_actions',
+  );
+
+  // Should we populate the form with data from $form_state or the database?
+  if (!isset($form_state['pm_block_user']['block_actions'])) {
+    $block_actions = variable_get('pm_block_user_actions', array());
+  }
+  else {
+    $block_actions = $form_state['pm_block_user']['block_actions'];
+  }
+  // Work through each rule, adding it as a new element in
+  // $form['block_actions'] ready to be themed later.
+  foreach ($block_actions as $delta => $details) {
+    $details['delta'] = $delta;
+    $form['block_actions'][$delta] = _pm_block_user_actions_form($details);
+  }
+
+  // The magic AHAH callback button that adds more rows.
+  $form['pm_block_actions_more'] = array(
+    '#type' => 'submit',
+    '#value' => t('More'),
+    '#weight' => 1,
+    '#prefix' => '<div id="add-rule-button">',
+    '#suffix' => '<label for="edit-pm-block-actions-more">' . t('Add new rule') . '</label></div>',
+    '#submit' => array('pm_block_user_more_submit'),
+    '#ahah' => array(
+      'path' => 'messages/block/js',
+      'wrapper' => 'block-actions',
+      'method' => 'replace',
+      'effect' => 'fade',
+    ),
+  );
+
+  $form['submit_form'] = array(
+    '#type' => 'submit',
+    '#weight' => 10,
+    '#value' => t('Save configuration'),
+  );
+
+  return $form;
+}
+
+/**
+ * Builds row of sending, receiving roles and actions that go with them.
+ *
+ * @param $details
+ *   Details of the row: default values and the unique row number (delta).
+ * @param $blacklist
+ *   When the functionality has been added, this will allow building actions
+ *   based on a whitelist or blacklist. The current code only covers the use
+ *   case of a blacklist, where blocking everyone is allowed by default and
+ *   rules are exceptions to that. Conversely, a whitelist will disallow
+ *   blocking by default and rules will configure roles that are allowed to
+ *   block.
+ *
+ * @return
+ *   Part of a form with controls for sending, receiving and actions.
+ */
+function _pm_block_user_actions_form($details, $blacklist = TRUE) {
+  $form = array(
+    '#tree' => TRUE,
+  );
+  $delta = $details['delta'];
+  // FALSE by default, or if the user has checked the 'Enabled' check box for
+  // this row.
+  $row_disabled = (isset($details['enabled']) ? !$details['enabled'] : FALSE);
+
+  $form['author'] = array(
+    '#type' => 'select',
+    '#options' => user_roles(TRUE),
+    '#default_value' => (isset($details['author']) ? $details['author'] : DRUPAL_AUTHENTICATED_RID),
+    '#disabled' => $row_disabled,
+  );
+  $form['recipient'] = array(
+    '#type' => 'select',
+    '#options' => user_roles(TRUE),
+    '#default_value' => (isset($details['recipient']) ? $details['recipient'] : DRUPAL_AUTHENTICATED_RID),
+    '#disabled' => $row_disabled,
+  );
+
+  // Provide different action radios if we're using a whitelist or a blacklist.
+  if ($blacklist) {
+    $options = array(
+      PM_BLOCK_USER_DISALLOW_BLOCKING => t('Disallow blocking author'),
+      PM_BLOCK_USER_DISALLOW_SENDING => t('Disallow sending message'),
+    );
+    $default_value = (isset($details['action']) ? $details['action'] : PM_BLOCK_USER_DISALLOW_BLOCKING);
+  }
+  else {
+    // @todo: add whitelist options/default_value here.
+  }
+  $form['action']  = array(
+    '#type' => 'radios',
+    '#options' => $options,
+    '#disabled' => $row_disabled,
+    '#default_value' => $default_value,
+  );
+
+  $form['enabled'] = array(
+    '#type' => 'checkbox',
+    '#default_value' => (isset($details['enabled']) ? $details['enabled'] : TRUE),
+  );
+  $form['remove'] = array(
+    '#type' => 'submit',
+    '#submit' => array('pm_block_user_remove_submit'),
+    '#value' => t('Remove'),
+    '#attributes' => array('class' => 'remove-action'),
+    '#prefix' => '<div id="remove-rule-button">',
+    '#suffix' => '<label for="edit-remove">' . t('Remove rule') . '</label></div>',
+    '#ahah' => array(
+      'path' => 'messages/block/js',
+      'wrapper' => 'block-actions',
+      'method' => 'replace',
+      'effect' => 'fade',
+    ),
+  );
+
+  return $form;
+}
+
+/**
+ * Submit handler for 'More' button, adds a new action.
+ *
+ * @see pm_block_user_remove_submit()
+ */
+function pm_block_user_more_submit($form, &$form_state) {
+  unset($form_state['submit_handlers']);
+  form_execute_handlers('submit', $form, $form_state);
+  // Get the submitted actions, then put them into a special area of
+  // the $form_state.
+  $submitted_values = $form_state['values'];
+  // Add an empty action.
+  $submitted_values['block_actions'][] = array();
+  $form_state['pm_block_user'] = $submitted_values;
+  // Rebuild the form by passing our $form_state through the
+  // pm_block_user_settings() builder function.
+  $form_state['rebuild'] = TRUE;
+}
+
+/**
+ * Submit handler for 'Remove' button, removes an action.
+ *
+ * @see pm_block_user_more_submit()
+ */
+function pm_block_user_remove_submit($form, &$form_state) {
+  unset($form_state['submit_handlers']);
+  form_execute_handlers('submit', $form, $form_state);
+  $submitted_values = $form_state['values'];
+  // Remove the requested action.
+  $delta = $form_state['clicked_button']['#parents'][1];
+  unset($submitted_values['block_actions'][$delta]);
+  $form_state['pm_block_user'] = $submitted_values;
+  $form_state['rebuild'] = TRUE;
+}
+
+/**
+ * Submit handler for admin form.
+ */
+function pm_block_user_settings_submit($form, &$form_state) {
+  // We don't want it to submit when we're adding/removing actions.
+  if ($form_state['clicked_button']['#id'] == 'edit-submit-form') {
+    // If the form's 'block_actions' aren't set, the user has deleted all the
+    // rows in the table, so we save an empty array to stop errors in the form
+    // builder.
+    if (isset($form_state['values']['block_actions'])) {
+      variable_set('pm_block_user_actions', _pm_block_user_settings_filter($form_state['values']['block_actions']));
+    }
+    else {
+      variable_set('pm_block_user_actions', array());
+    }
+    drupal_set_message(t('The configuration options have been saved.'));
+  }
+}
+
+/**
+ * Takes an array of settings and filters out anything that's un-needed.
+ *
+ * Leaving only settings to be saved.
+ *
+ * @param $settings
+ *   The array of settings to filter.
+ * @return
+ *   Array of settings, ready to be stored in the database.
+ * @see pm_block_user_settings_submit()
+ */
+function _pm_block_user_settings_filter($settings) {
+  // Add-in the names of any settings to be saved into the array below.
+  $save_keys = array('author', 'recipient', 'action', 'enabled');
+  $matching = array();
+  // Run through each of the keys we want to save, creating a new array.
+  // It's not possible to simply check for unwanted values and unset() them as
+  // the array is multi-dimensional.
+  foreach ($save_keys as $save_key) {
+    if (isset($settings[$save_key])) {
+      $matching[$save_key] = $settings[$save_key];
+    }
+  }
+  if (count($matching) > 0) {
+    return $matching;
+  }
+  else {
+    return array_map('_pm_block_user_settings_filter', $settings);
+  }
+}
+
+/**
+ * Menu callback for AHAH handling.
+ */
+function pm_block_user_js() {
+  // See: http://drupal.org/node/331941 for the philosophy of Drupal AHAH.
+  $form_state = array('storage' => NULL, 'submitted' => FALSE);
+  $form_build_id = $_POST['form_build_id'];
+  $form = form_get_cache($form_build_id, $form_state);
+  $args = $form['#parameters'];
+  $form_id = array_shift($args);
+  $form['#post'] = $_POST;
+  $form['#redirect'] = FALSE;
+  $form['#programmed'] = FALSE;
+  $form_state['post'] = $_POST;
+  drupal_process_form($form_id, $form, $form_state);
+  $form = drupal_rebuild_form($form_id, $form_state, $args, $form_build_id);
+  $output_form = $form['block_actions'];
+  unset($output_form['#prefix'], $output_form['#suffix']); // Prevent duplicate wrappers.
+  $output = theme('status_messages') . drupal_render($output_form);
+
+  // Hack to make behaviours attach to new HTML controls (delete buttons in
+  // this case).
+  $javascript = drupal_add_js(NULL, NULL, 'header');
+  drupal_json(array('status' => TRUE, 'data' => $output));
+}
+
+/**
+ * Implements hook_theme().
+ */
+function pm_block_user_theme() {
+  return array(
+    'pm_block_user_actions' => array(
+      'arguments' => array('form' => NULL),
+    ),
+  );
+}
+
+/**
+ * Theme the user actions form.
+ *
+ * @ingroup themeable
+ */
+function theme_pm_block_user_actions($form) {
+  $rows = array();
+  $headers = array(
+    t('If the author has the role'),
+    t('And the recipient has the role'),
+    t('Action'),
+    t('Enabled'),
+    '',
+  );
+  $form_data = element_children($form);
+
+  foreach ($form_data as $key) {
+    // Build the table row.
+    $row = array(
+      'data' => array(
+        array('data' => drupal_render($form[$key]['author'])),
+        array('data' => drupal_render($form[$key]['recipient'])),
+        array('data' => drupal_render($form[$key]['action'])),
+        array('data' => drupal_render($form[$key]['enabled'])),
+        array('data' => drupal_render($form[$key]['remove'])),
+      ),
+    );
+
+    // Add additional attributes to the row, such as a class for this row.
+    if (isset($form[$key]['#attributes'])) {
+      $row = array_merge($row, $form[$key]['#attributes']);
+    }
+    $rows[] = $row;
+  }
+
+  // If there are no rows, output some instructions for the user.
+  if (empty($form_data)) {
+    $rows[] = array(
+      array(
+        'data' => t("No rules have been added. All users may block private messages from each other. To limit which users may be blocked, click 'Add new rule'."),
+        'colspan' => '5',
+      ),
+    );
+  }
+
+  $output = theme('table', $headers, $rows);
+  $output .= drupal_render($form);
+
+  return $output;
+}
+
+/**
+ * Provides access argument for blocking user menu item.
+ *
+ * @param $account
+ *   User object representing the account the menu item will block private
+ *   messages from.
+ *
+ * @return
+ *   TRUE if the user is allowed to block $account, or FALSE if not.
+ */
+function _pm_block_user_access($account) {
+  global $user;
+  if (!privatemsg_user_access('read privatemsg', $user)) {
+    return FALSE;
+  }
+  if (_pm_block_user_rule_exists($account, $user, PM_BLOCK_USER_DISALLOW_BLOCKING)) {
+    return FALSE;
+  }
+  return TRUE;
+}
+
+/**
+ * Checks whether a rule exists for a given author, recipient and action.
+ *
+ * For example: if this is passed User A (who has the admin role), User B (who
+ * has the authenticated user role) and PM_BLOCK_USER_DISALLOW_BLOCKING
+ * parameters, and a rule is configured that disallows authenticated users
+ * blocking admins then this function will return TRUE.
+ *
+ * @param $author
+ *   Author user object to check.
+ * @param $recipient
+ *   Receiver user object to check.
+ * @param $action
+ *   The action to be taken, defaults to PM_BLOCK_USER_DISALLOW_BLOCKING.
+ *
+ * @return
+ *   TRUE if a rule exists for the combination of author recipient and action.
+ */
+function _pm_block_user_rule_exists($author, $recipient, $action = PM_BLOCK_USER_DISALLOW_BLOCKING) {
+  $block_actions = variable_get('pm_block_user_actions', array());
+  foreach ($block_actions as $delta => $details) {
+    // If this rule doesn't relate to $action, or it's disabled
+    // ignore it and go to next loop iteration.
+    if ($details['action'] != $action || !$details['enabled']) {
+      continue;
+    }
+    // There are no rules governing user one, but user one may have roles that
+    // affect other users, so these exceptions are narrow in scope.
+    // Disallow sending affects private message authors.
+    if ($author->uid == 1 && $action == PM_BLOCK_USER_DISALLOW_SENDING) {
+      continue;
+    }
+    // Disallow blocking affects private message recipients.
+    if ($recipient->uid == 1 && $action == PM_BLOCK_USER_DISALLOW_BLOCKING) {
+      continue;
+    }
+    // The author has a role matching the rule and so does the recipient.
+    if (isset($author->roles[$details['author']]) && isset($recipient->roles[$details['recipient']])) {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
+
+function pm_block_user_form($form_state, $author) {
+  global $user;
+
+  $form['author'] = array(
+    '#type' => 'value',
+    '#value' => $author->uid,
+  );
+    $form['recipient'] = array(
+    '#type' => 'value',
+    '#value' => $user->uid,
+  );
+  $form['author_name'] = array(
+    '#type' => 'value',
+    '#value' => $author->name,
+  );
+  $form['destination'] = array(
+    '#type' => 'value',
+    '#value' => isset($_GET['destination']) ? $_GET['destination'] : 'messages/',
+  );
+
+  if (db_result(db_query('SELECT COUNT(recipient) FROM {pm_block_user} WHERE author = %d AND recipient = %d', $author->uid, $user->uid))) {
+    $form['block_action'] = array(
+      '#type' => 'value',
+      '#value' => 'unblock_user',
+    );
+    return confirm_form($form,
+      t('You have previously blocked "@author" from sending you any more messages. Are you sure you want to unblock this user?', array('@author' => $author->name)),
+      isset($_GET['destination']) ? $_GET['destination'] : 'messages/',
+      t('This action cannot be undone.'),
+      t('Unblock @author', array('@author' => $author->name)),
+      t('Cancel')
+    );
+  }
+  else {
+    $form['block_action'] = array(
+      '#type' => 'value',
+      '#value' => 'block_user',
+    );
+    return confirm_form($form,
+      t('Are you sure you want to block "@author" from sending you any more messages?', array('@author' => $author->name)),
+      isset($_GET['destination']) ? $_GET['destination'] : 'messages/',
+      '',
+      t('Block @author', array('@author' => $author->name)),
+      t('Cancel')
+    );
+  }
+}
+
+/**
+ * Implements hook_form_submit().
+ */
+function pm_block_user_form_submit($form, &$form_state) {
+  if ($form_state['values']['confirm']) {
+    switch ($form_state['values']['block_action']) {
+      case 'block_user':
+        db_query('INSERT INTO {pm_block_user} (author, recipient) VALUES (%d, %d)', $form_state['values']['author'], $form_state['values']['recipient']);
+        drupal_set_message(t('@author has been blocked from sending you any further messages.', array('@author' => $form_state['values']['author_name'])));
+      break;
+      case 'unblock_user':
+        db_query('DELETE FROM {pm_block_user} WHERE author = %d AND recipient = %d', $form_state['values']['author'], $form_state['values']['recipient']);
+        drupal_set_message(t('@author is now allowed to send you new messages.', array('@author' => $form_state['values']['author_name'])));
+      break;
+    }
+  }
+  $form_state['redirect'] = $form_state['values']['destination'];
+}
+
+/**
+ * Implements hook_privatemsg_block_message().
+ */
+function pm_block_user_privatemsg_block_message($author, $recipients) {
+  $blocked = array();
+  // Loop through each recipient and ensure there is no rule blocking this
+  // author from sending them private messages. Use a reference, so when
+  // user_load() is needed here the array is updated, negating the need for
+  // further calls to user_load() later in the code.
+  foreach (array_keys($recipients) as $uid) {
+
+    // Ensure we have a recipient user object which includes roles.
+    if (!isset($recipients[$uid]->roles)) {
+      $recipients[$uid] = user_load($uid);
+    }
+    // Note: this is checks whether the author may send the message (see third
+    // parameter). Further below is a check whether the recipient may block it.
+    if (_pm_block_user_rule_exists($author, $recipients[$uid], PM_BLOCK_USER_DISALLOW_SENDING)) {
+      $blocked[] = array(
+        'uid' => $uid,
+        'message' => t('Sorry, private messaging rules forbid sending messages to !name.', array('!name' => $recipients[$uid]->name)),
+      );
+    }
+  }
+
+  $args = array_merge(array($author->uid), array_keys($recipients));
+  $result = db_query('SELECT recipient FROM {pm_block_user} WHERE author = %d AND recipient IN ('. db_placeholders($recipients) .') GROUP BY recipient', $args);
+  while ($row = db_fetch_array($result)) {
+    $recipient = $recipients[$row['recipient']];
+    // If there's a rule disallowing blocking of this message, send it anyway.
+    if (_pm_block_user_rule_exists($author, $recipient, PM_BLOCK_USER_DISALLOW_BLOCKING)) {
+      continue;
+    }
+    $blocked[] = array(
+      'uid' => $row['recipient'],
+      'message' => t('%name has chosen to not recieve any more messages from you.', array('%name' => $recipients[$row['recipient']]->name))
+    );
+  }
+  return $blocked;
+}
+
+function pm_block_user_privatemsg_sql_load_alter(&$fragments, $pmid, $uid) {
+  $fragments['select'][] = 'pmbu.recipient AS is_blocked';
+
+  $fragments['inner_join'][] = 'LEFT JOIN {pm_block_user} pmbu ON (pm.author = pmbu.author AND pmi.uid = pmbu.recipient)';
+}
+
+/**
+ * Implements hook_privatemsg_message_view_alter().
+ */
+function pm_block_user_privatemsg_message_view_alter(&$vars) {
+  global $user;
+
+  $author = $vars['message']['author'];
+  if (_pm_block_user_rule_exists($author, $user, PM_BLOCK_USER_DISALLOW_BLOCKING)) {
+    return;
+  }
+  if (!isset($vars['message']['thread_id'])) {
+    // No thread id, this is probably only a preview
+    return;
+  }
+  $thread_id = $vars['message']['thread_id'];
+
+  if ($user->uid <> $author->uid) {
+    if ($vars['message']['is_blocked']) {
+      $vars['message_actions']['unblock_author'] = array('title' => t('Unblock author'), 'href' => 'messages/block/'. $author->uid, 'query' => 'destination=messages/view/' . $thread_id);
+    }
+    else {
+      $vars['message_actions']['block_author'] = array('title' => t('Block author'), 'href' => 'messages/block/'. $author->uid, 'query' => 'destination=messages/view/' . $thread_id);
+    }
+  }
+}
+
+/**
+ * Implement hook_user().
+ */
+function pm_block_user_user($op, &$edit, &$account, $category = NULL) {
+  switch ($op) {
+      case 'delete':
+      // Delete blocking rules which involve this user.
+      db_query("DELETE FROM {pm_block_user} WHERE author = %d OR recipient = %d", $account->uid, $account->uid);
+      break;
+  }
+}

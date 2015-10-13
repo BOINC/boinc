@@ -1,0 +1,116 @@
+<?php
+
+/**
+ * @file
+ * Privatemsg API tests
+ */
+
+class PrivatemsgAPITestCase extends DrupalWebTestCase {
+  /**
+   * Implements getInfo().
+   */
+  function getInfo() {
+    return array(
+      // 'name' should start with what is being tested (menu item) followed by what about it
+      // is being tested (creation/deletion).
+      'name' => t('Privatemsg API functionality.'),
+      // 'description' should be one or more complete sentences that provide more details on what
+      // exactly is being tested.
+      'description' => t('Test sending, receiving, listing, deleting messages and other features via API.'),
+      // 'group' should be a logical grouping of test cases, like a category.  In most cases, that
+      // is the module the test case is for.
+      'group' => t('Privatemsg'),
+    );
+  }
+
+  /**
+   * Implements setUp().
+   */
+  function setUp() {
+    parent::setUp('privatemsg');
+  }
+
+  function testPrivatemsgApiNewThread() {
+    $author     = $this->drupalCreateUser(array('write privatemsg', 'read privatemsg'));
+    $recipient1  = $this->drupalCreateUser(array('read privatemsg'));
+    $recipient2  = $this->drupalCreateUser(array('read privatemsg'));
+    $recipient3  = $this->drupalCreateUser(array('read privatemsg'));
+
+    // Reset user_access cache
+    user_access('', $author, TRUE);
+
+    $resultok1 = privatemsg_new_thread(array($recipient1, $recipient2, $recipient3), 'normal message', 'Body text', array('author' => $author));
+    $this->assertTrue($resultok1['success'], 'Private message could be sent successfully');
+
+    $message = $this->getMessageFromSubject('normal message');
+    $this->assertFalse(empty($message), 'Message was saved in database');
+    $this->assertEqual($message['author'], $author->uid, 'Message was sent by author');
+
+    $resultok2 = privatemsg_new_thread(array($recipient1, $recipient2, $recipient3), 'empty body', '', array('author' => $author));
+    $this->assertTrue($resultok2['success'], 'API allowed to send message without body');
+
+    $resultf1 = privatemsg_new_thread(array($recipient1, $recipient2, $recipient3), '', 'No subject', array('author' => $author));
+    $this->assertEqual('Disallowed to send a message without subject', $resultf1['messages']['error'][0], 'API denied to send message without subject');
+
+    $resultf2 = privatemsg_new_thread(array(), 'no recipients', 'Body text', array('author' => $author));
+    $this->assertEqual('Disallowed to send a message without at least one valid recipient', $resultf2['messages']['error'][0], 'API denied to send message without recipients');
+    $message = $this->getMessageFromSubject('no recipients');
+    $this->assertTrue(empty($message), 'Message was not saved in database');
+
+    $resultf3 = privatemsg_new_thread(array($recipient1, $recipient2, $recipient3), 'not allowed', 'Body text', array('author' => $recipient1));
+    $errormessage = 'User '. $recipient1->name .' is not allowed to write messages';
+    $this->assertEqual($errormessage, $resultf3['messages']['error'][0], 'API denied to send message from user without permission');
+    $message = $this->getMessageFromSubject('not allowed');
+    $this->assertTrue(empty($message), 'Message was not saved in database');
+
+    // Test with an input format that the author is not allowed to use.
+    $resultf4 = privatemsg_new_thread(array($recipient1, $recipient2, $recipient3), 'input filter not allowed', 'Body text', array('author' => $author, 'format' => 2));
+    $errormessage = t('User @user is not allowed to use the specified input format.', array('@user' => $author->name));
+    $this->assertEqual($errormessage, $resultf4['messages']['error'][0], t('User is not allowed to use the specified input format.'));
+    $message = $this->getMessageFromSubject('input filter not allowed');
+    $this->assertTrue(empty($message), 'Message was not saved in database');
+
+    // Send a message through the api to the same user and check if it marked
+    // as new.
+    privatemsg_new_thread(array($author), $subject = $this->randomName(10), $this->randomString(20), array('author' => $author));
+    $this->drupalLogin($author);
+    $this->drupalGet('messages');
+    $this->clickLink($subject);
+    $this->assertText(t('New'), t('Message is marked as new'));
+  }
+
+  function getMessageFromSubject($subject) {
+    $result = db_query("SELECT * FROM {pm_message} WHERE subject = '%s'", $subject);
+    return db_fetch_array($result);
+  }
+
+  function testPrivatemsgApiReply() {
+    $author     = $this->drupalCreateUser(array('write privatemsg'));
+    $recipient1  = $this->drupalCreateUser(array('read privatemsg', 'write privatemsg'));
+    $recipient2  = $this->drupalCreateUser(array('read privatemsg', 'write privatemsg'));
+    $recipient3  = $this->drupalCreateUser(array('read privatemsg'));
+
+    // Reset user_access cache
+    user_access('', $author, TRUE);
+
+    $resultok = privatemsg_new_thread( array($recipient2, $recipient1, $recipient3), 'test reply', 'body text', array('author' => $author));
+    $this->assertTrue($resultok['success'], 'Private message could be sent successfully');
+
+    $thread_row = $this->getMessageFromSubject('test reply');
+
+    $resultok = privatemsg_reply($thread_row['mid'], 'Test Body', array('author' => $author));
+    $this->assertTrue($resultok['success'], 'Reply could be sent successfully');
+
+    $resultok = privatemsg_reply($thread_row['mid'], 'Test Body', array('author' => $recipient1));
+    $this->assertTrue($resultok['success'], 'Reply could be sent successfully');
+
+    $resultf1 = privatemsg_reply($thread_row['mid'], '', array('author' => $recipient2));
+    $this->assertFalse($resultf1['success'], 'API denied to send message without body.');
+    $this->assertEqual($resultf1['messages']['error'][0], t('Disallowed to send reply without a message.'), 'Correct error returned when replying with an empty body.');
+
+    $resultf2 = privatemsg_reply($thread_row['mid'], 'Test Body', array('author' => $recipient3));
+    $errormessage = 'User '. $recipient3->name .' is not allowed to write messages';
+    $this->assertEqual($errormessage, $resultf2['messages']['error'][0], 'API denied to send message from user without permission');
+
+  }
+}

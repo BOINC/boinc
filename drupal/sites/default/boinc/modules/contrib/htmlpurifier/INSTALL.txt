@@ -1,0 +1,55 @@
+PREREQUISITES: Make sure you check HTML Purifier and make sure that you
+have fulfilled all of its requirements before running this.  Specifically,
+you'll need the PHP extension ctype (in almost all PHP distributions),
+and it's nice to have dom and iconv.
+
+* Place the htmlpurifier folder in your drupal modules directory.
+
+* Download HTML Purifier from http://htmlpurifier.org/ You will need
+  4.0.0 or later.
+
+* There are two possible ways to install the HTML Purifier library. 
+
+  1. Module directory installation. This means installing the library
+     folder under the module directory. This way has the advantage of
+     not depending on other modules. The issue is that when you
+     upgrade the htmlpurifier module the HTML Purifier library gets
+     removed and you have to re-extract the archive in the newly
+     installed module directory.
+
+  2. The preferred way is making use of the libraries API,
+     http://drupal.org/project/libraries. This makes the library
+     available to all sites or to a specific site in a multisite
+     Drupal setup. You'll need to download the libraries API module
+     and enable it before enabling the htmlpurifier module so that in
+     the install phase it can find the library.
+
+     Extract the library folder to sites/all/libraries or to
+     sites/<site>/libraries for a specific site in a multisite Drupal
+     setup.
+
+     The final setup should be, when making the library and module
+     available to all sites:
+
+     sites/all/libraries/htmlpurifier/
+         HTMLPurifier
+         HTMLPurifier.autoload.php
+         HTMLPurifier.auto.php
+         HTMLPurifier.func.php
+         HTMLPurifier.includes.php
+         HTMLPurifier.kses.php
+         HTMLPurifier.path.php
+         HTMLPurifier.php
+         HTMLPurifier.safe-includes.php
+
+     Now you can safely upgrade your htmlpurifier module without
+     having to re-deploy the HTML Purifier library.
+         
+* Go to Administer > Site building > Modules and enable this module
+
+* You can now create a new input format or add the HTML Purifier to an 
+  existing input format. It is recommended that you place HTML Purifier as 
+  the last filter in the input format. Reorder the filters if necessary.
+
+WARNING: Due to HTML Purifier's caching mechanism, dynamic filters MUST NOT
+be placed before HTML Purifier.

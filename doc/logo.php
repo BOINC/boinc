@@ -72,6 +72,7 @@ Monochrome/black:
 
 <p>
 
+<a name=wallpaper>
 Wallpaper:
 <p>
 ";
@@ -85,6 +86,13 @@ $wallpaper = array(
     array(
         "Jacob Klein",
         "<a href=images/boinc_logo_1920x1080.png><img width=180 src=images/boinc_logo_1920x1080.png></a>"
+    ),
+    array(
+        "Francois Normandin",
+        "<a href=images/BOINC_wallpaper.jpg><img width=180 src=images/BOINC_wallpaper.jpg></a>
+        <a href=images/boinc_together-1.jpg><img width=180 src=images/boinc_together-1.jpg></a>
+        <a href=images/boinc_together_DARK-1.jpg><img width=180 src=images/boinc_together_DARK-1.jpg></a>
+        "
     ),
 );
 art_list_head();

@@ -93,7 +93,6 @@ boincmgr_SOURCES = \
     ViewStatistics.cpp \
     ViewTransfers.cpp \
     ViewWork.cpp \
-    WelcomePage.cpp \
     WizardAttach.cpp \
     wizardex.cpp
 
@@ -103,7 +102,7 @@ EXTRA_DIST = *.h \
     ../lib/error_numbers.h \
     locale
 
-boincmgr_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(SQLITE3_CPPFLAGS) $(LIBNOTIFY_CFLAGS) $(CLIENTGUIFLAGS) $(GTK_CLFAGS)
+boincmgr_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(SQLITE3_CPPFLAGS) $(LIBNOTIFY_CFLAGS) $(CLIENTGUIFLAGS) $(GTK_CFLAGS)
 boincmgr_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(SQLITE3_CPPFLAGS) $(LIBNOTIFY_CFLAGS) $(CLIENTGUIFLAGS) $(GTK_CFLAGS)
 boincmgr_LDADD = $(LIBBOINC) $(SQLITE3_LIBS) $(LIBNOTIFY_LIBS) $(CLIENTGUILIBS) $(BOINC_EXTRA_LIBS) $(CLIENTLIBS) $(GTK_LIBS)
 

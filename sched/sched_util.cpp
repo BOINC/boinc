@@ -31,7 +31,8 @@ void compute_avg_turnaround(HOST& host, double turnaround) {
 }
 
 int PERF_INFO::get_from_db() {
-    int retval, n;
+    int retval;
+    long n;
     DB_HOST host;
 
     host_fpops_mean = 2.2e9;
@@ -49,21 +50,21 @@ int PERF_INFO::get_from_db() {
     return 0;
 }
 
-int count_results(char* query, int& n) {
+int count_results(char* query, long& n) {
     DB_RESULT result;
     return result.count(n, query);
 }
 
-int count_workunits(int& n, const char* query) {
+int count_workunits(long& n, const char* query) {
     DB_WORKUNIT workunit;
     return workunit.count(n, query);
 }
 
-int count_unsent_results(int& n, int appid, int size_class) {
+int count_unsent_results(long& n, DB_ID_TYPE appid, int size_class) {
     char query[1024], buf[256];
     sprintf(query, "where server_state<=%d", RESULT_SERVER_STATE_UNSENT);
     if (appid) {
-        sprintf(buf, " and appid=%d", appid);
+        sprintf(buf, " and appid=%lu", appid);
         strcat(query, buf);
     }
     if (size_class >= 0) {
@@ -74,11 +75,11 @@ int count_unsent_results(int& n, int appid, int size_class) {
 }
 
 // Arrange that further results for this workunit
-// will be sent only to hosts with the given user ID.
+// will be sent only to the specific host(s).
 // This could be used, for example, so that late workunits
 // are sent only to cloud or cluster resources
 //
-int restrict_wu_to_user(WORKUNIT& _wu, int userid) {
+static int restrict_wu(WORKUNIT& _wu, DB_ID_TYPE id, int assign_type) {
     DB_RESULT result;
     DB_ASSIGNMENT asg;
     DB_WORKUNIT wu;
@@ -88,7 +89,7 @@ int restrict_wu_to_user(WORKUNIT& _wu, int userid) {
 
     // mark unsent results as DIDNT_NEED
     //
-    sprintf(buf, "where workunitid=%d and server_state=%d",
+    sprintf(buf, "where workunitid=%lu and server_state=%d",
         wu.id, RESULT_SERVER_STATE_UNSENT
     );
     while (!result.enumerate(buf)) {
@@ -110,12 +111,20 @@ int restrict_wu_to_user(WORKUNIT& _wu, int userid) {
     //
     asg.clear();
     asg.create_time = time(0);
-    asg.target_id = userid;
-    asg.target_type = ASSIGN_USER;
+    asg.target_id = id;
+    asg.target_type = assign_type;
     asg.multi = 0;
     asg.workunitid = wu.id;
     retval = asg.insert();
     return retval;
+}
+
+int restrict_wu_to_user(WORKUNIT& wu, DB_ID_TYPE userid) {
+    return restrict_wu(wu, userid, ASSIGN_USER);
+}
+
+int restrict_wu_to_host(WORKUNIT& wu, DB_ID_TYPE hostid) {
+    return restrict_wu(wu, hostid, ASSIGN_HOST);
 }
 
 // return the min transition time.

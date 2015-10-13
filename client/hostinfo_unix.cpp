@@ -513,7 +513,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 #elif __powerpc__ || __sparc__
             strstr(buf, "cpu\t\t: ")
 #elif __arm__
-            strstr(buf, "Processor\t: ")
+            strstr(buf, "Processor\t: ") || strstr(buf, "model name")
 #else
             strstr(buf, "model name\t: ") || strstr(buf, "cpu model\t\t: ")
 #endif
@@ -542,7 +542,8 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
                 }
 #endif
                 model_found = true;
-                strlcpy(buf2, strchr(buf, ':') + 2, sizeof(host.p_model) - strlen(host.p_model) - 1);
+                strlcpy(buf2, strchr(buf, ':') + 1, sizeof(host.p_model) - strlen(host.p_model) - 1);
+                strip_whitespace(buf2);
                 strcat(host.p_model, buf2);
             }
         }
@@ -1223,33 +1224,47 @@ bool isDualGPUMacBook() {
 
 // see if Virtualbox is installed
 //
+static const struct dir_vbox_locations {
+    const char *dir;
+} vbox_locations[] = {
+    { "/usr/bin/VboxManage" },
+    { "/usr/local/bin/VboxManage" },
+    // add other ifdefs here as necessary.
+    { NULL },
+};
+
 int HOST_INFO::get_virtualbox_version() {
     char path[MAXPATHLEN];
     char cmd [MAXPATHLEN+35];
     char buf[256];
+	int i = 0;
     FILE* fd;
 
-    safe_strcpy(path, "/usr/bin/VBoxManage");
+    do {
+		safe_strcpy(path, vbox_locations[i].dir);
 
-    if (boinc_file_exists(path)) {
-        if (access(path, X_OK)) {
-            return 0;
-        }
-        safe_strcpy(cmd, path);
-        safe_strcat(cmd, " --version");
-        fd = popen(cmd, "r");
-        if (fd) {
-            if (fgets(buf, sizeof(buf), fd)) {
-                strip_whitespace(buf);
-                int n, a,b,c;
-                n = sscanf(buf, "%d.%d.%d", &a, &b, &c);
-                if (n == 3) {
-                    strcpy(virtualbox_version, buf);
-                }
-            }
-            pclose(fd);
-        }
-    }
+		if (boinc_file_exists(path)) {
+			if (access(path, X_OK)) {
+				return 0;
+			}
+			safe_strcpy(cmd, path);
+			safe_strcat(cmd, " --version");
+			fd = popen(cmd, "r");
+			if (fd) {
+				if (fgets(buf, sizeof(buf), fd)) {
+					strip_whitespace(buf);
+					int n, a,b,c;
+					n = sscanf(buf, "%d.%d.%d", &a, &b, &c);
+					if (n == 3) {
+						strcpy(virtualbox_version, buf);
+					}
+				}
+				pclose(fd);
+			}
+		}
+
+		++i;
+    } while (vbox_locations[i].dir != NULL);
 
     return 0;
 }

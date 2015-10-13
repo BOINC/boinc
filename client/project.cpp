@@ -217,7 +217,7 @@ int PROJECT::parse_state(XML_PARSER& xp) {
         }
         if (xp.parse_int("nrpc_failures", nrpc_failures)) continue;
         if (xp.parse_int("master_fetch_failures", master_fetch_failures)) continue;
-        if (xp.parse_double("min_rpc_time", min_rpc_time)) continue;
+        if (xp.parse_double("min_rpc_time", x)) continue;
         if (xp.parse_bool("master_url_fetch_pending", master_url_fetch_pending)) continue;
         if (xp.parse_int("sched_rpc_pending", sched_rpc_pending)) continue;
         if (xp.parse_double("next_rpc_time", next_rpc_time)) continue;
@@ -318,6 +318,7 @@ int PROJECT::parse_state(XML_PARSER& xp) {
         if (xp.parse_int("njobs_success", njobs_success)) continue;
         if (xp.parse_int("njobs_error", njobs_error)) continue;
         if (xp.parse_double("elapsed_time", elapsed_time)) continue;
+        if (xp.parse_double("last_rpc_time", last_rpc_time)) continue;
 #ifdef SIM
         if (xp.match_tag("available")) {
             available.parse(xp, "/available");
@@ -383,6 +384,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <njobs_success>%d</njobs_success>\n"
         "    <njobs_error>%d</njobs_error>\n"
         "    <elapsed_time>%f</elapsed_time>\n"
+        "    <last_rpc_time>%f</last_rpc_time>\n"
         "%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
@@ -419,6 +421,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         njobs_success,
         njobs_error,
         elapsed_time,
+        last_rpc_time,
         anonymous_platform?"    <anonymous_platform/>\n":"",
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
         trickle_up_pending?"    <trickle_up_pending/>\n":"",
@@ -469,11 +472,9 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         out.printf(
             "%s"
             "    <sched_priority>%f</sched_priority>\n"
-            "    <last_rpc_time>%f</last_rpc_time>\n"
             "    <project_files_downloaded_time>%f</project_files_downloaded_time>\n",
             gui_urls.c_str(),
             sched_priority,
-            last_rpc_time,
             project_files_downloaded_time
         );
         if (download_backoff.next_xfer_time > gstate.now) {
@@ -577,6 +578,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     njobs_success = p.njobs_success;
     njobs_error = p.njobs_error;
     elapsed_time = p.elapsed_time;
+    last_rpc_time = p.last_rpc_time;
 }
 
 // Write project statistic to GUI RPC reply

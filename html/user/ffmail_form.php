@@ -16,51 +16,44 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// TODO: - find out if this is used (add some logging mechanism or so)
-//       - if used rewrite code to use display functions from util.inc
-//       - if used find a way to give the user a language choice (projects must translate messages themself)
+// TODO: - add a logging mechanism to see if people are using this.
+//       - use display functions from util.inc
+//       - give the user a language choice
 
 require_once("../inc/util.inc");
 
-check_get_args(array());
+$master_url = parse_config(get_config(), "<master_url>");
 
 $user = get_logged_in_user();
 
-if (!@file_get_contents('../ops/ffmail/subject')) {
-    error_page(tra("This project hasn't created an email message - please notify its administrators"));
-}
-
 page_head(tra("Tell your friends about %1", PROJECT));
 
-echo "
-<table width=600><tr><td>
-".tra("Help us by telling your friends, family and coworkers about %1", PROJECT)."
-<p>
-".tra("Fill in this form with the names and email addresses of people you think might be interested in %1. We'll send them an email in your name, and you can add your own message if you like.", PROJECT)."
-<form method=get action=ffmail_action.php>
-<table cellpadding=4>
-<tr><th>".tra("Your name:")."</th><th>".tra("Your email address:")."</th></tr>
-<tr><td><b>$user->name</b></td><td><b>$user->email_addr</b></td></tr>
+$text = @file_get_contents('../ops/ffmail/text');
+if (!$text) {
+    $text = "I'm using my computer to crunch numbers for a science project called ".PROJECT.".  The more computers participate, the more science gets done.  Would you like to join me?
 
-<input type=hidden name=uname value=\"$user->name\">
-<input type=hidden name=uemail value=\"$user->email_addr\">
-
-<tr><th>".tra("Friend's name:")."</th><th>".tra("Friend's email address:")."</th></tr>
+To learn how, visit $master_url
 ";
-for ($i=0; $i<5; $i++) {
-    echo "
-        <tr><td><input size=30 name=n$i></td><td><input size=30 name=e$i></tr>
-    ";
 }
-echo "
-<tr><th colspan=2>".tra("Additional message (optional)")."</th></tr>
-<tr><td colspan=2><textarea name=comment rows=8 cols=50></textarea></td></tr>
-<tr><td align=center><input class=\"btn btn-default\" type=submit name=action value=".tra("Preview")."></td>
-    <td align=center><input class=\"btn btn-primary\" type=submit name=action value=".tra("Send")."></td>
-</tr>
-</table>
-</form>
-</td></tr></table>
-";
+$text .= "\n$user->name";
+
+$subject = @file_get_contents('../ops/ffmail/subject');
+if (!$subject) {
+    $subject = "Join me at ".PROJECT;
+}
+
+echo tra("Use this form to send email messages to people you think might be interested in %1.", PROJECT);
+echo "<p><form method=get action=ffmail_action.php>\n";
+
+start_table();
+row2("From:", "$user->name &lt;$user->email_addr>");
+for ($i=0; $i<6; $i++) {
+    row2(tra("To:"), "<input size=30 name=e$i>");
+}
+row2(tra("Subject"), "<input size=80 name=subject value=\"$subject\">");
+row2(tra("Message"), "<textarea name=text rows=8 cols=50>$text</textarea>");
+row2("", "<input class=\"btn btn-primary\" type=submit name=action value=".tra("Send").">");
+end_table();
+echo "</form>\n";
 page_tail();
 ?>

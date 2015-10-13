@@ -69,7 +69,7 @@ bool JOB::get_score(WU_RESULT& wu_result) {
         } else {
             if (config.debug_send_job) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send_job] can't send job %d for beta app to non-beta user\n",
+                    "[send_job] can't send job %lu for beta app to non-beta user\n",
                     wu_result.workunit.id
                 );
             }
@@ -83,7 +83,7 @@ bool JOB::get_score(WU_RESULT& wu_result) {
         } else {
             if (config.debug_send_job) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send_job] app not selected for job %d\n",
+                    "[send_job] app not selected for job %lu\n",
                     wu_result.workunit.id
                 );
             }
@@ -129,7 +129,7 @@ bool JOB::get_score(WU_RESULT& wu_result) {
     }
     if (config.debug_send_job) {
         log_messages.printf(MSG_NORMAL,
-            "[send_job]: score %f for result %d\n", score, wu_result.resultid
+            "[send_job]: score %f for result %lu\n", score, wu_result.resultid
         );
     }
 
@@ -193,7 +193,7 @@ void send_work_score_type(int rt) {
         if (job.app->non_cpu_intensive) {
             if (config.debug_send_job) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send_job] [RESULT#%u] app is non compute intensive\n",
+                    "[send_job] [RESULT#%lu] app is non compute intensive\n",
                     wu_result.resultid
                 );
             }
@@ -203,7 +203,7 @@ void send_work_score_type(int rt) {
         if (!job.bavp) {
             if (config.debug_send_job) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send_job] [RESULT#%u] no app version available\n",
+                    "[send_job] [RESULT#%lu] no app version available\n",
                     wu_result.resultid
                 );
             }
@@ -215,7 +215,7 @@ void send_work_score_type(int rt) {
         if (!job.get_score(wu_result)) {
             if (config.debug_send_job) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send_job] [RESULT#%u] get_score() returned false\n",
+                    "[send_job] [RESULT#%lu] get_score() returned false\n",
                     wu_result.resultid
                 );
             }
@@ -223,7 +223,7 @@ void send_work_score_type(int rt) {
         }
         if (config.debug_send_job) {
             log_messages.printf(MSG_NORMAL,
-                "[send_job] [RESULT#%u] score: %f\n",
+                "[send_job] [RESULT#%lu] score: %f\n",
                 wu_result.resultid, job.score
             );
         }

@@ -26,6 +26,7 @@
 
 # Netbeans project files
 /html/nbproject/
+*.project
 
 #
 *.pfx
@@ -79,6 +80,13 @@ test/version.inc
 *.lo
 *.a
 *.la
+
+## Drupal
+# ignore files with private/sensitive content in a public repo
+drupal/sites/default/dbconfig.php
+# ignore symlink to project-specific content (tracked in separate/project repo)
+drupal/sites/default/project
+
 .libs/
 svn_version.h
 
@@ -100,9 +108,13 @@ lib/crypt_prog
 lib/parse_test
 py/lib.*/
 py/build/
+samples/condor/boinc_gahp
 samples/example_app/uc2
 samples/example_app/ucn
+samples/multi_thread/multi_thread
 samples/sleeper/sleeper
+samples/vboxmonitor/vboxmonitor
+samples/vboxwrapper/vboxwrapper
 samples/worker/worker
 samples/wrapper/wrapper
 sched/adjust_user_priority
@@ -129,6 +141,8 @@ sched/sample_substr_validator
 sched/sample_trivial_validator
 sched/sample_work_generator
 sched/sched_driver
+sched/script_assimilator
+sched/script_validator
 sched/show_shmem
 sched/single_job_assimilator
 sched/size_regulator
@@ -149,3 +163,4 @@ tools/sign_executable
 vda/ssim
 vda/vda
 vda/vdad
+/win_build/*.sdf

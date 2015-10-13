@@ -1,0 +1,5 @@
+name = Node Comment Block
+description = Moves the comments for a node into a block.
+core = 6.x
+dependencies[] = block
+dependencies[] = comment

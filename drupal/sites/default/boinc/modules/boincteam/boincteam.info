@@ -1,0 +1,9 @@
+; $Id$
+name = BOINC team
+description = Enable users to create and join teams.
+core = 6.x
+dependencies[] = boincuser
+dependencies[] = user
+dependencies[] = node
+dependencies[] = taxonomy
+package = BOINC

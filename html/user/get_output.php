@@ -72,7 +72,7 @@ function get_batch_output_files($auth_str) {
     $x = md5($user->authenticator.$batch->id);
     if ($x != $auth_str) die("bad auth str");
 
-    $zip_basename = tempnam("/tmp", "boinc_batch_");
+    $zip_basename = tempnam("../cache", "boinc_batch_");
     $zip_filename = $zip_basename.".zip";
     $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
     $upload_dir = parse_config(get_config(), "<upload_dir>");

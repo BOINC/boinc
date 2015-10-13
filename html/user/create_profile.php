@@ -249,10 +249,10 @@ function process_create_profile($user, $profile) {
         $profile->verification = 0;
     }
 
-    $profile ? $hasPicture = $profile->has_picture: $hasPicture = false;
+    $profile ? $has_picture = $profile->has_picture: $has_picture = false;
 
     if (is_uploaded_file($_FILES['picture']['tmp_name'])) {
-        $hasPicture = true;
+        $has_picture = true;
         if ($profile) $profile->verification = 0;
 
         // echo "<br>Name: " . $_FILES['picture']['name'];
@@ -269,24 +269,30 @@ function process_create_profile($user, $profile) {
     }
     $response1 = sanitize_html($response1);
     $response2 = sanitize_html($response2);
+
+    $has_picture = $has_picture?1:0;
     if ($profile) {
         $query = " response1 = '".BoincDb::escape_string($response1)."',"
             ." response2 = '".BoincDb::escape_string($response2)."',"
             ." language = '".BoincDb::escape_string($language)."',"
-            ." has_picture = '$hasPicture',"
-            ." verification = '$profile->verification'"
-            ." WHERE userid = '$user->id'";
+            ." has_picture = $has_picture,"
+            ." verification = $profile->verification"
+            ." WHERE userid = $user->id";
         $result = BoincProfile::update_aux($query);
         if (!$result) {
             error_page(tra("Could not update the profile: database error"));
         }
     } else {
         $query = 'SET '
-            ." userid = '$user->id',"
+            ." userid=$user->id,"
             ." language = '".BoincDb::escape_string($language)."',"
             ." response1 = '".BoincDb::escape_string($response1)."',"
             ." response2 = '".BoincDb::escape_string($response2)."',"
-            ." has_picture = '$hasPicture',"
+            ." has_picture = $has_picture,"
+            ." recommend=0, "
+            ." reject=0, "
+            ." posts=0, "
+            ." uotd_time=0, "
             ." verification=0";
         $result = BoincProfile::insert($query);
         if (!$result) {
@@ -299,7 +305,9 @@ function process_create_profile($user, $profile) {
 
     echo tra("Congratulations! Your profile was successfully entered into our database.")
         ."<br><br>"
-        .tra("%1View your profile%2", "<a href=\"view_profile.php?userid=".$user->id."\">", "</a><br>")
+        ."<a href=\"view_profile.php?userid=".$user->id."\">"
+        .tra("View your profile")
+        ."</a><br>"
     ;
     page_tail();
 }

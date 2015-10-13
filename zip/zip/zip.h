@@ -811,7 +811,7 @@ int  namecmp       OF((ZCONST char *string1, ZCONST char *string2));
 
 zvoid far **search OF((ZCONST zvoid *, ZCONST zvoid far **, extent,
                        int (*)(ZCONST zvoid *, ZCONST zvoid far *)));
-void envargs       OF((int *, char ***, char *, char *));
+int envargs       OF((int *, char ***, char *, char *));
 void expand_args   OF((int *, char ***));
 
 int  is_text_buf   OF((ZCONST char *buf_ptr, unsigned buf_size));

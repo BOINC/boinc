@@ -262,11 +262,11 @@ int main(int argc, char *argv[])
     
     LoadPreferredLanguages();
 
-    if (compareOSVersionTo(10, 5) < 0) {
+    if (compareOSVersionTo(10, 6) < 0) {
         ::SetFrontProcess(&ourProcess);
         // Remove everything we've installed
-        // "\pSorry, this version of GridRepublic requires system 10.5 or higher."
-        s[0] = sprintf(s+1, "Sorry, this version of %s requires system 10.5 or higher.", brandName[brandID]);
+        // "\pSorry, this version of GridRepublic requires system 10.6 or higher."
+        s[0] = sprintf(s+1, "Sorry, this version of %s requires system 10.6 or higher.", brandName[brandID]);
         StandardAlert (kAlertStopAlert, (StringPtr)s, NULL, NULL, &itemHit);
 
         // "rm -rf /Applications/GridRepublic\\ Desktop.app"

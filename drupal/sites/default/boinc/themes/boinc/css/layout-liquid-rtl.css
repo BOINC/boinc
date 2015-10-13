@@ -1,0 +1,70 @@
+/* $Id: layout-liquid-rtl.css,v 1.7 2009/11/04 20:16:50 johnalbin Exp $ */
+
+/**
+ * @file
+ * RTL companion for the layout-liquid.css file.
+ */
+
+
+/*
+ * Content
+ */
+#content {
+  float: right;
+  margin-left: -100%;
+  margin-right: 0; /* Negative value of #content's width + left margin. */
+}
+
+.sidebar-first #content .section {
+  padding-left: 0; /* The width + left margin of .region-sidebar-first. */
+  padding-right: 200px;
+}
+
+.sidebar-second #content .section {
+  padding-left: 200px;
+  padding-right: 0; /* The width + right margin of .region-sidebar-second. */
+}
+
+/*
+ * Navigation
+ */
+#navigation {
+  float: right;
+  margin-left: -100%;
+  margin-right: 0; /* Negative value of #navigation's width + left margin. */
+}
+
+#navigation ul /* Primary and secondary links */ {
+  text-align: right;
+}
+
+#navigation li /* A simple method to get navigation links to appear in one line. */ {
+  float: right;
+  padding: 0 0 0 10px;
+}
+
+/*
+ * First sidebar
+ */
+.region-sidebar-first {
+  float: right;
+  margin-left: -200px;
+  margin-right: 0; /* Negative value of .region-sidebar-first's width + left margin. */
+}
+
+.region-sidebar-first .section {
+  margin: 0 0 0 20px;
+}
+
+/*
+ * Second sidebar
+ */
+.region-sidebar-second {
+  float: left;
+  margin-left: 0; /* Negative value of .region-sidebar-second's width + right margin. */
+  margin-right: -200px;
+}
+
+.region-sidebar-second .section {
+  margin: 0 20px 0 0;
+}

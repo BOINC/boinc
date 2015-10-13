@@ -177,12 +177,12 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	//get data for BOINC projects disk usage
     pDoc->CachedDiskUsageUpdate();
     pDoc->CachedStateUpdate();
-	bool refreshBOINC=false;
+	bool refreshBOINC = false;
 	if (pDoc->disk_usage.projects.size()>0) {
 		m_BOINCwasEmpty=false;
 		//check for changes worth a refresh
-		if(pDoc->disk_usage.projects.size() != m_pieCtrlBOINC->m_Series.size()) {
-			refreshBOINC=true;
+		if (pDoc->disk_usage.projects.size() != m_pieCtrlBOINC->m_Series.size()) {
+			refreshBOINC = true;
 		} else {
 			for (i=0; i<pDoc->disk_usage.projects.size(); i++) {
 				wxString oldValue;
@@ -190,13 +190,13 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 				FormatDiskSpace(pDoc->DiskUsageProject(i)->disk_usage, newValue);
 				FormatDiskSpace(m_pieCtrlBOINC->m_Series.Item(i).GetValue(), oldValue);
 				if(newValue.Cmp(oldValue)!=0) {
-					refreshBOINC=true;
+					refreshBOINC = true;
 					break;
 				}
 			}
 		}
-		//only refresh when worthy changes
-		if(refreshBOINC) {
+		// only refresh when worthy changes
+		if (refreshBOINC) {
 			m_pieCtrlBOINC->m_Series.Clear();
             project_total = 0;
 			for (i=0; i<pDoc->disk_usage.projects.size(); i++) {
@@ -232,16 +232,13 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
         }
 	}
 
-    //pDoc->disk_usage.d_allowed = 0;
-	//data for pie chart 2 (total disk usage)
-	//
-	// good source of color palettes:
-	// http://www.siteprocentral.com/cgi-bin/feed/feed.cgi
+    // pDoc->disk_usage.d_allowed = 0;
+	// data for pie chart 2 (total disk usage)
 	//
 	bool refreshTotal=false;
 	double free = pDoc->disk_usage.d_free;
 	double total = pDoc->disk_usage.d_total;
-	if(m_pieCtrlTotal->m_Series.size()>0) {
+	if (m_pieCtrlTotal->m_Series.size()>0) {
 		wxString oldFree;
 		wxString newFree;
 		FormatDiskSpace(free, newFree);
@@ -252,7 +249,7 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 	} else {
 		refreshTotal=true;
 	}
-	if(refreshBOINC || refreshTotal) {
+	if (refreshBOINC || refreshTotal) {
 		m_pieCtrlTotal->m_Series.Clear();
 		wxPiePart part;
 
@@ -294,7 +291,6 @@ void CViewResources::OnListRender( wxTimerEvent& WXUNUSED(event) ) {
 		    part.SetColour(wxColour(238,238,238));
 		    m_pieCtrlTotal->m_Series.Add(part);
         }
-
 
 		// used by others
         double used_by_others = total-boinc_total-free;

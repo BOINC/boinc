@@ -1,0 +1,42 @@
+<?php
+// $Id$
+function boincimport_schema() {
+  $schema['boincimport_temp_forum'] = array(
+    'description' => t('Maps BOINC categories and forums to Drupal taxonomy tid.'),
+    'fields' => array(
+         'forum_id' => array('type' => 'int', 'unsigned' => TRUE, 'size' => 'small', 'not null' => TRUE, 'default' => 0, 'disp-width' => '5'),
+         'tid' => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0, 'disp-width' => '10')
+    ),
+    'primary key' => array('forum_id')
+  );
+
+  $schema['boincimport_temp_post'] = array(
+    'description' => t('Maps BOINC posts to Drupal comments.'),
+    'fields' => array(
+         'post_id' => array('type' => 'int', 'unsigned' => TRUE, 'size' => 'medium', 'not null' => TRUE, 'default' => 0, 'disp-width' => '8'),
+         'cid' => array('type' => 'int', 'not null' => TRUE, 'default' => 0, 'disp-width' => '10')
+    ),
+    'primary key' => array('post_id')
+  );
+
+  $schema['boincimport_temp_topic'] = array(
+    'description' => t('Maps BOINC threads and polls to Drupal Nodes.'),
+    'fields' => array(
+         'topic_id' => array('type' => 'int', 'unsigned' => TRUE, 'size' => 'medium', 'not null' => TRUE, 'default' => 0, 'disp-width' => '8'),
+         'post_id' => array('type' => 'int', 'unsigned' => TRUE, 'size' => 'medium', 'not null' => TRUE, 'default' => 0, 'disp-width' => '8'),
+         'nid' => array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0, 'disp-width' => '10')
+    ),
+    'primary key' => array('topic_id')
+  );
+  return $schema;
+}
+
+function boincimport_install() {
+  // Create tables.
+  drupal_install_schema('boincimport');
+}
+
+function boincimport_uninstall() {
+  // Drop tables.
+  drupal_uninstall_schema('boincimport');
+}

@@ -1,26 +1,25 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Attila Fenyvesi <fenya25@gmail.com>, 2015
+# fischer braun <fischer.braun@gmx.net>, 2015
+# Gabor Cseh <csega@mailbox.hu>, 2015
+# misibacsi, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2014-01-19 08:29+0000\n"
-"Last-Translator: Gabor <csega@mailbox.hu>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: hu\n"
+"PO-Revision-Date: 2015-07-03 11:45+0000\n"
+"Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
+"Language-Team: Hungarian (http://www.transifex.com/projects/p/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n !=1);\n"
-"X-Generator: Pootle 2.5.0\n"
-"X-Poedit-SearchPath-0: mac_installer\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
-"X-POOTLE-MTIME: 1390120193.0\n"
-"X-Poedit-KeywordsList: _\n"
+"Language: hu\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: Installer.cpp:124
 #, c-format
@@ -42,17 +41,15 @@ msgstr "Akkor is fusson a BOINC, ha mindenki kijelentkezett?"
 #: PostInstall.cpp:1416
 #, c-format
 msgid ""
-"Users who are permitted to administer this computer will automatically be "
-"allowed to run and control %s.\n"
+"Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
 "\n"
-"Do you also want non-administrative users to be able to run and control %s "
-"on this Mac?"
-msgstr ""
+"Do you also want non-administrative users to be able to run and control %s on this Mac?"
+msgstr "A felhasználók, akik ezen számítógépen adminisztrátori jogosultsággal rendelkeznek automatikusan engedélyt kapnak a %s futtatására és vezérlésére.\n\nSzeretné, hogy a nem adminisztrátori jogú felhasználók is futtathassák és vezéreljék %s-t ezen a Mac-en?"
 
 #: PostInstall.cpp:1444
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
-msgstr ""
+msgstr "Akarja beállítani %s-t képernyővédőnek minden %s felhasználó számára ezen a Mac-en?"
 
 #: uninstall.cpp:82
 msgid "OK"
@@ -60,13 +57,13 @@ msgstr "OK"
 
 #: uninstall.cpp:136
 msgid "Permission error after relaunch"
-msgstr ""
+msgstr "Hozzáférési hiba újraindítás után"
 
 #: uninstall.cpp:141
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
-msgstr ""
+msgstr "Az eltávolítás több percet is igénybe vehet.\nKérjük, légy türelmes."
 
 #: uninstall.cpp:156
 #, c-format
@@ -74,27 +71,27 @@ msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
 "\n"
 "This will remove the executables but will not touch %s data files."
-msgstr ""
+msgstr "Biztosan eltávolítod:  %s -t erről a számítógépről?\n\nEz letörli a végrehajtható állományokat, de meghagyja %s adatfájljait."
 
 #: uninstall.cpp:163
 #, c-format
 msgid "Canceled: %s has not been touched."
-msgstr ""
+msgstr "Visszavonva: %s nem változott."
 
 #: uninstall.cpp:174
 #, c-format
 msgid "An error occurred: error code %d"
-msgstr ""
+msgstr "Hiba történt: hibakód: %d"
 
 #: uninstall.cpp:230
 msgid "name  of user"
-msgstr ""
+msgstr "a felhasználó neve"
 
 #: uninstall.cpp:272
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
-msgstr ""
+msgstr "El akarod távolítani a VirtualBox-ot is a számítógépről?\n(a VirtualBox a BOINC-cal együtt lett felrakva)"
 
 #: uninstall.cpp:312
 #, c-format
@@ -106,25 +103,19 @@ msgid ""
 "\n"
 "for each user, the file\n"
 "\"%s\"."
-msgstr ""
+msgstr "Eltávolítás befejezve.\n\nEltávolíthatod a következő fennmaradó elemeket a Kereső használatával:\n a \"%s\" könyvár \n\nminden felhasználóhoz, a \"%s\" fájl."
 
 #: uninstall.cpp:840
 #, c-format
 msgid ""
-"Enter your administrator password to completely remove %s from you "
-"computer.\n"
+"Enter your administrator password to completely remove %s from you computer.\n"
 "\n"
-msgstr ""
+msgstr "Add meg az adminisztrátori jelszót %s teljes eltávolításához erről a számítógépről.\n"
 
 #: uninstall.cpp:1616
 msgid "Cancel"
-msgstr "Mégse"
+msgstr "Mégsem"
 
 #: uninstall.cpp:1617
 msgid "Continue..."
-msgstr ""
-
-#, c-format
-#, c-format, c-format
-#~ msgid "Sorry, this version of %s requires system 10.4 or higher."
-#~ msgstr "Sajnos a(z) %s ezen verziója 10.4 vagy nagyobb rendszerverziót igényel."
+msgstr "Folytatás..."

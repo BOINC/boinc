@@ -179,6 +179,15 @@ bool ACTIVE_TASK::kill_all_children() {
 #endif
 #endif
 
+static void print_descendants(int pid, vector<int>desc, const char* where) {
+    msg_printf(0, MSG_INFO, "%s: PID %d has %d descendants",
+        where, pid, (int)desc.size()
+    );
+    for (unsigned int i=0; i<desc.size(); i++) {
+        msg_printf(0, MSG_INFO, "   PID %d", desc[i]);
+    }
+}
+
 // Send a quit message, start timer, get descendants
 //
 int ACTIVE_TASK::request_exit() {
@@ -191,6 +200,9 @@ int ACTIVE_TASK::request_exit() {
     set_task_state(PROCESS_QUIT_PENDING, "request_exit()");
     quit_time = gstate.now;
     get_descendants(pid, descendants);
+    if (log_flags.task_debug) {
+        print_descendants(pid, descendants, "request_exit()");
+    }
     return 0;
 }
 
@@ -206,37 +218,41 @@ int ACTIVE_TASK::request_abort() {
     set_task_state(PROCESS_ABORT_PENDING, "request_abort");
     abort_time = gstate.now;
     get_descendants(pid, descendants);
+    if (log_flags.task_debug) {
+        print_descendants(pid, descendants, "request_abort()");
+    }
     return 0;
 }
 
 #ifdef _WIN32
-static void kill_app_process(int pid, bool will_restart, bool show_errors) {
+static void kill_app_process(int pid, bool will_restart) {
     int retval = 0;
     retval = kill_program(pid, will_restart?0:EXIT_ABORTED_BY_CLIENT);
-    if (retval && log_flags.task_debug && show_errors) {
+    if (retval && log_flags.task_debug) {
         msg_printf(0, MSG_INFO,
-            "[task] kill_app_process() failed: %s",
-            strerror(retval)
+            "[task] kill_program(%d) failed: %s",
+            pid, boincerror(retval)
         );
     }
 }
 #else
-static void kill_app_process(int pid, bool, bool show_errors) {
+static void kill_app_process(int pid, bool) {
     int retval = 0;
     if (g_use_sandbox) {
         retval = kill_via_switcher(pid);
-        if (retval && log_flags.task_debug && show_errors) {
+        if (retval && log_flags.task_debug) {
             msg_printf(0, MSG_INFO,
-                "[task] kill_via_switcher() failed: %s (%d)",
+                "[task] kill_via_switcher(%d) failed: %s (%d)",
+                pid,
                 (retval>=0) ? strerror(errno) : boincerror(retval), retval
             );
         }
     } else {
-        retval = kill(pid, SIGKILL);
-        if (retval && log_flags.task_debug && show_errors) {
+        retval = kill_program(pid);
+        if (retval && log_flags.task_debug) {
             msg_printf(0, MSG_INFO,
-                "[task] kill() failed: %s",
-                strerror(errno)
+                "[task] kill_program(%d) failed: %s",
+                pid, strerror(errno)
             );
         }
     }
@@ -248,7 +264,7 @@ static void kill_app_process(int pid, bool, bool show_errors) {
 // will be cleaned up after it exits, by cleanup_task();
 //
 int ACTIVE_TASK::kill_running_task(bool will_restart) {
-    kill_app_process(pid, will_restart, true);
+    kill_app_process(pid, will_restart);
     return 0;
 }
 
@@ -262,10 +278,10 @@ int ACTIVE_TASK::kill_running_task(bool will_restart) {
 int ACTIVE_TASK::kill_subsidiary_processes() {
     unsigned int i;
     for (i=0; i<other_pids.size(); i++) {
-        kill_app_process(other_pids[i], false, false);
+        kill_app_process(other_pids[i], false);
     }
     for (i=0; i<descendants.size(); i++) {
-        kill_app_process(descendants[i], false, false);
+        kill_app_process(descendants[i], false);
     }
     return 0;
 }
@@ -598,7 +614,7 @@ bool ACTIVE_TASK::finish_file_present() {
     strcpy(buf, "");
     strcpy(buf2, "");
     sprintf(path, "%s/%s", slot_dir, BOINC_FINISH_CALLED_FILE);
-    FILE* f = fopen(path, "r");
+    FILE* f = boinc_fopen(path, "r");
     if (!f) return false;
     fgets(buf, sizeof(buf), f);
     fgets(buf, sizeof(buf), f);
@@ -618,7 +634,7 @@ bool ACTIVE_TASK::temporary_exit_file_present(
 ) {
     char path[MAXPATHLEN], buf2[256];
     sprintf(path, "%s/%s", slot_dir, TEMPORARY_EXIT_FILE);
-    FILE* f = fopen(path, "r");
+    FILE* f = boinc_fopen(path, "r");
     if (!f) return false;
     strcpy(buf, "");
     int y;
@@ -805,7 +821,7 @@ bool ACTIVE_TASK::check_max_disk_exceeded() {
                 "Aborting task %s: exceeded disk limit: %.2fMB > %.2fMB\n",
                 result->name, disk_usage/MEGA, max_disk_usage/MEGA
             );
-            abort_task(EXIT_DISK_LIMIT_EXCEEDED, "Maximum disk usage exceeded");
+            abort_task(EXIT_DISK_LIMIT_EXCEEDED, "Disk usage limit exceeded");
             return true;
         }
     }
@@ -1336,6 +1352,7 @@ bool ACTIVE_TASK::get_app_status_msg() {
     double fd;
     int other_pid;
     double dtemp;
+    static double last_msg_time=0;
 
     if (!app_client_shm.shm) {
         msg_printf(result->project, MSG_INFO,
@@ -1361,6 +1378,18 @@ bool ACTIVE_TASK::get_app_status_msg() {
         if (fd) {
             fraction_done = fd;
             fraction_done_elapsed_time = elapsed_time;
+            if (!first_fraction_done) {
+                first_fraction_done = fd;
+                first_fraction_done_elapsed_time = elapsed_time;
+            }
+            if (log_flags.task_debug && (fd<0 || fd>1)) {
+                if (gstate.now > last_msg_time + 60) {
+                    msg_printf(this->wup->project, MSG_INFO,
+                        "[task_debug] app reported bad fraction done: %f", fd
+                    );
+                    last_msg_time = gstate.now;
+                }
+            }
         }
     }
     parse_double(msg_buf, "<current_cpu_time>", current_cpu_time);
@@ -1478,23 +1507,14 @@ void ACTIVE_TASK_SET::get_msgs() {
     }
     last_time = gstate.now;
 
-    double et_diff, et_diff_throttle;
-    switch (gstate.suspend_reason) {
-    case 0:
-    case SUSPEND_REASON_CPU_THROTTLE:
-        et_diff = delta_t;
-        et_diff_throttle = delta_t * gstate.global_prefs.cpu_usage_limit/100;
-        break;
-    default:
-        et_diff = et_diff_throttle = 0;
-        break;
-    }
+    double et_diff = delta_t;
+    double et_diff_throttle = delta_t * gstate.global_prefs.cpu_usage_limit/100;
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (!atp->process_exists()) continue;
         old_time = atp->checkpoint_cpu_time;
-        if (atp->scheduler_state == CPU_SCHED_SCHEDULED) {
+        if (atp->scheduler_state == CPU_SCHED_SCHEDULED && !gstate.tasks_suspended) {
             double x = atp->result->dont_throttle()?et_diff:et_diff_throttle;
             atp->elapsed_time += x;
             atp->wup->project->elapsed_time += x;
@@ -1537,7 +1557,7 @@ void ACTIVE_TASK_SET::get_msgs() {
 void ACTIVE_TASK::write_task_state_file() {
     char path[MAXPATHLEN];
     sprintf(path, "%s/%s", slot_dir, TASK_STATE_FILENAME);
-    FILE* f = fopen(path, "w");
+    FILE* f = boinc_fopen(path, "w");
     if (!f) return;
     fprintf(f,
         "<active_task>\n"
@@ -1568,7 +1588,7 @@ void ACTIVE_TASK::write_task_state_file() {
 void ACTIVE_TASK::read_task_state_file() {
     char buf[4096], path[MAXPATHLEN], s[1024];
     sprintf(path, "%s/%s", slot_dir, TASK_STATE_FILENAME);
-    FILE* f = fopen(path, "r");
+    FILE* f = boinc_fopen(path, "r");
     if (!f) return;
     buf[0] = 0;
     (void) fread(buf, 1, 4096, f);

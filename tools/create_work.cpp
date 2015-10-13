@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2014 University of California
+// Copyright (C) 2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -41,6 +41,9 @@
 
 using std::string;
 
+bool verbose = false;
+bool continue_on_error = false;
+
 void usage() {
     fprintf(stderr,
         "usage: create_work [options] infile1 infile2 ...\n"
@@ -73,6 +76,7 @@ void usage() {
         "   [ --target_nresults n ]\n"
         "   [ --target_team ID ]\n"
         "   [ --target_user ID ]\n"
+        "   [ --verbose ]\n"
         "   [ --wu_id ID ]   ID of existing workunit record (used by boinc_submit)\n"
         "   [ --wu_name name ]              default: generate a name based on app name\n"
         "   [ --wu_template filename ]      default: appname_in\n"
@@ -291,6 +295,10 @@ int main(int argc, char** argv) {
             id.nbytes = atof(argv[++i]);
             strcpy(id.md5, argv[++i]);
             jd.infiles.push_back(id);
+        } else if (arg(argv, i, "verbose")) {
+            verbose = true;
+        } else if (arg(argv, i, "continue_on_error")) {
+            continue_on_error = true;
         } else {
             if (!strncmp("-", argv[i], 1)) {
                 fprintf(stderr, "create_work: bad argument '%s'\n", argv[i]);
@@ -415,7 +423,11 @@ int main(int argc, char** argv) {
                 );
                 if (retval) {
                     fprintf(stderr, "create_work() failed: %d\n", retval);
-                    exit(1);
+                    if (continue_on_error) {
+                        continue;
+                    } else {
+                        exit(1);
+                    }
                 }
                 if (values.size()) {
                     values += ",";
@@ -430,7 +442,11 @@ int main(int argc, char** argv) {
                     retval = wu.insert_batch(values);
                     if (retval) {
                         fprintf(stderr,
-                            "wu.insert_batch() failed: %d\n", retval
+                            "wu.insert_batch() failed: %d; size %d\n",
+                            retval, (int)values.size()
+                        );
+                        fprintf(stderr,
+                            "MySQL error: %s\n", boinc_db.error_string()
                         );
                         exit(1);
                     }
@@ -442,6 +458,9 @@ int main(int argc, char** argv) {
                 if (retval) {
                     fprintf(stderr,
                         "wu.insert_batch() failed: %d\n", retval
+                    );
+                    fprintf(stderr,
+                        "MySQL error: %s\n", boinc_db.error_string()
                     );
                     exit(1);
                 }
@@ -473,6 +492,9 @@ void JOB_DESC::create() {
     if (retval) {
         fprintf(stderr, "create_work: %s\n", boincerror(retval));
         exit(1);
+    }
+    if (verbose) {
+        fprintf(stderr, "created workunit; name %s, ID %lu\n", wu.name, wu.id);
     }
     if (assign_flag) {
         DB_ASSIGNMENT assignment;

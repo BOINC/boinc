@@ -975,6 +975,54 @@ function update_10_8_2014() {
     do_query("alter table user_submit_app add primary key(user_id, app_id)");
 }
 
+function update_4_15_2015() {
+    do_query("alter table forum
+        alter timestamp set default 0,
+        alter threads set default 0,
+        alter posts set default 0,
+        alter rate_min_expavg_credit set default 0,
+        alter rate_min_total_credit set default 0,
+        alter post_min_interval set default 0,
+        alter post_min_expavg_credit set default 0,
+        alter post_min_total_credit set default 0,
+        alter parent_type set default 0
+    ");
+}
+
+// functions to change select ID types to 64-bit
+//
+function result_big_ids() {
+    do_query("alter table result
+        change column id id bigint not null auto_increment
+    ");
+    do_query("alter table workunit
+        change column canonical_resultid canonical_resultid bigint not null
+    ");
+    do_query("alter table assignment
+        change column resultid resultid bigint not null
+    ");
+}
+
+function workunit_big_ids() {
+    do_query("alter table workunit
+        change column id id bigint not null auto_increment
+    ");
+    do_query("alter table result
+        change column workunitid workunitid bigint not null
+    ");
+    do_query("alter table assignment
+        change column workunitid workunitid bigint not null
+    ");
+}
+
+// run this is your projects uses HTTPS, to patch up the gravatar URLs
+//
+function gravatar_update() {
+    do_query("update forum_preferences
+        SET avatar = REPLACE(avatar, 'http://www.gravatar.com', '//www.gravatar.com')
+    ");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -1019,6 +1067,7 @@ $db_updates = array (
     array(27010, "update_6_5_2014"),
     array(27011, "update_8_15_2014"),
     array(27012, "update_10_8_2014"),
+    array(27013, "update_4_15_2015"),
 );
 
 ?>

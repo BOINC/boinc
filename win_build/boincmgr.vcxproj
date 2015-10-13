@@ -359,7 +359,6 @@
     <ClCompile Include="..\clientgui\ProxyPage.cpp" />
     <ClCompile Include="..\clientgui\TermsOfUsePage.cpp" />
     <ClCompile Include="..\clientgui\UnavailablePage.cpp" />
-    <ClCompile Include="..\clientgui\WelcomePage.cpp" />
     <ClCompile Include="..\clientgui\WizardAttach.cpp" />
     <ClCompile Include="..\clientgui\BOINCBaseWizard.cpp" />
     <ClCompile Include="..\clientgui\wizardex.cpp" />
@@ -468,7 +467,6 @@
     <ClInclude Include="..\clientgui\ProxyPage.h" />
     <ClInclude Include="..\clientgui\TermsOfUsePage.h" />
     <ClInclude Include="..\clientgui\UnavailablePage.h" />
-    <ClInclude Include="..\clientgui\WelcomePage.h" />
     <ClInclude Include="..\clientgui\WizardAttach.h" />
     <ClInclude Include="..\clientgui\BOINCBaseWizard.h" />
     <ClInclude Include="..\clientgui\wizardex.h" />

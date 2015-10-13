@@ -49,7 +49,7 @@ if (MYSQLI) {
         } else {
             $port = null;
         }
-        $mysqli = new mysqli($host, $user, $pass, $dbname, $port);
+        $mysqli = @new mysqli($host, $user, $pass, $dbname, $port);
         return $mysqli;
     }
     function _mysql_query($q) {
@@ -105,9 +105,12 @@ if (MYSQLI) {
         global $mysqli;
         return mysqli_error($mysqli);
     }
+    function _mysql_fetch_array($r) {
+        return mysqli_fetch_array($r);
+    }
 } else {
     function _mysql_connect($host, $user, $pass, $db_name) {
-        $link = mysql_pconnect($host, $user, $pass);
+        $link = @mysql_pconnect($host, $user, $pass);
         if (!$link) return null;
         if (!mysql_select_db($db_name, $link)) {
             return null;
@@ -153,6 +156,9 @@ if (MYSQLI) {
     }
     function _mysql_error() {
         return mysql_error();
+    }
+    function _mysql_fetch_array($r) {
+        return mysql_fetch_array($r);
     }
 }
 

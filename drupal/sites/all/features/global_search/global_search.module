@@ -1,0 +1,3 @@
+<?php
+
+include_once('global_search.features.inc');

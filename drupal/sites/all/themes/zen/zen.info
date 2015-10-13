@@ -1,0 +1,49 @@
+name        = Zen
+description = Zen sub-themes are the ultimate starting themes for Drupal 6. Read the <a href="http://drupal.org/node/873778">online docs</a> or the included README-FIRST.txt on how to create a theme with Zen.
+
+screenshot = zen-internals/screenshot.png
+
+core   = 6.x
+engine = phptemplate
+
+regions[sidebar_first]  = First sidebar
+regions[sidebar_second] = Second sidebar
+regions[navigation]     = Navigation bar
+regions[highlight]      = Highlighted content
+regions[content_top]    = Content top
+regions[content_bottom] = Content bottom
+regions[header]         = Header
+regions[footer]         = Footer
+regions[page_closure]   = Page closure
+
+features[] = logo
+features[] = name
+features[] = slogan
+features[] = mission
+features[] = node_user_picture
+features[] = comment_user_picture
+features[] = search
+features[] = favicon
+features[] = primary_links
+features[] = secondary_links
+
+  ; Set the default settings to be used in theme-settings.php
+settings[zen_block_editing]        = 1
+settings[zen_breadcrumb]           = yes
+settings[zen_breadcrumb_separator] = ' › '
+settings[zen_breadcrumb_home]      = 1
+settings[zen_breadcrumb_trailing]  = 1
+settings[zen_breadcrumb_title]     = 0
+settings[zen_layout]               = zen-columns-liquid
+settings[zen_rebuild_registry]     = 0
+settings[zen_wireframes]           = 0
+
+  ; Panels 3 layouts
+plugins[panels][layouts] = layouts
+
+; Information added by drupal.org packaging script on 2011-04-05
+version = "6.x-2.1"
+core = "6.x"
+project = "zen"
+datestamp = "1302017816"
+

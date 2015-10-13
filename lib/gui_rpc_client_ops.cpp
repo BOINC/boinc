@@ -68,6 +68,7 @@
 #include "diagnostics.h"
 #include "parse.h"
 #include "str_util.h"
+#include "str_replace.h"
 #include "util.h"
 #include "error_numbers.h"
 #include "miofile.h"
@@ -160,10 +161,6 @@ PROJECT_LIST_ENTRY::PROJECT_LIST_ENTRY() {
     clear();
 }
 
-PROJECT_LIST_ENTRY::~PROJECT_LIST_ENTRY() {
-    clear();
-}
-
 int PROJECT_LIST_ENTRY::parse(XML_PARSER& xp) {
     string platform;
 
@@ -208,10 +205,6 @@ AM_LIST_ENTRY::AM_LIST_ENTRY() {
     clear();
 }
 
-AM_LIST_ENTRY::~AM_LIST_ENTRY() {
-    clear();
-}
-
 int AM_LIST_ENTRY::parse(XML_PARSER& xp) {
     while (!xp.get_tag()) {
         if (xp.match_tag("/account_manager")) return 0;
@@ -231,10 +224,6 @@ void AM_LIST_ENTRY::clear() {
 }
 
 ALL_PROJECTS_LIST::ALL_PROJECTS_LIST() {
-}
-
-ALL_PROJECTS_LIST::~ALL_PROJECTS_LIST() {
-    clear();
 }
 
 bool compare_project_list_entry(
@@ -273,10 +262,6 @@ void ALL_PROJECTS_LIST::clear() {
 }
 
 PROJECT::PROJECT() {
-    clear();
-}
-
-PROJECT::~PROJECT() {
     clear();
 }
 
@@ -522,10 +507,6 @@ APP::APP() {
     clear();
 }
 
-APP::~APP() {
-    clear();
-}
-
 int APP::parse(XML_PARSER& xp) {
     while (!xp.get_tag()) {
         if (xp.match_tag("/app")) return 0;
@@ -545,10 +526,6 @@ APP_VERSION::APP_VERSION() {
     clear();
 }
 
-APP_VERSION::~APP_VERSION() {
-    clear();
-}
-
 int APP_VERSION::parse_coproc(XML_PARSER& xp) {
     while (!xp.get_tag()) {
         if (xp.match_tag("/coproc")) {
@@ -556,6 +533,22 @@ int APP_VERSION::parse_coproc(XML_PARSER& xp) {
         }
         if (xp.parse_int("gpu_type", gpu_type)) continue;
         if (xp.parse_double("gpu_usage", gpu_usage)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
+int APP_VERSION::parse_file_ref(XML_PARSER& xp) {
+    bool is_main = false;
+    char buf[1024];
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/file_ref")) {
+            if (is_main) {
+                strlcpy(exec_filename, buf, sizeof(exec_filename));
+            }
+            return 0;
+        }
+        if (xp.parse_str("file_name", buf, sizeof(buf))) continue;
+        if (xp.parse_bool("main_program", is_main)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -575,6 +568,10 @@ int APP_VERSION::parse(XML_PARSER& xp) {
             parse_coproc(xp);
             continue;
         }
+        if (xp.match_tag("file_ref")) {
+            parse_file_ref(xp);
+            continue;
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -584,10 +581,6 @@ void APP_VERSION::clear() {
 }
 
 WORKUNIT::WORKUNIT() {
-    clear();
-}
-
-WORKUNIT::~WORKUNIT() {
     clear();
 }
 
@@ -618,10 +611,6 @@ void WORKUNIT::clear() {
 }
 
 RESULT::RESULT() {
-    clear();
-}
-
-RESULT::~RESULT() {
     clear();
 }
 
@@ -681,6 +670,7 @@ int RESULT::parse(XML_PARSER& xp) {
         if (xp.parse_double("checkpoint_cpu_time", checkpoint_cpu_time)) continue;
         if (xp.parse_double("current_cpu_time", current_cpu_time)) continue;
         if (xp.parse_double("elapsed_time", elapsed_time)) continue;
+        if (xp.parse_double("progress_rate", progress_rate)) continue;
         if (xp.parse_double("swap_size", swap_size)) continue;
         if (xp.parse_double("working_set_size_smoothed", working_set_size_smoothed)) continue;
         if (xp.parse_double("fraction_done", fraction_done)) continue;
@@ -737,6 +727,7 @@ void RESULT::clear() {
     current_cpu_time = 0;
     fraction_done = 0;
     elapsed_time = 0;
+    progress_rate = 0;
     swap_size = 0;
     working_set_size_smoothed = 0;
     estimated_cpu_time_remaining = 0;
@@ -753,10 +744,6 @@ void RESULT::clear() {
 }
 
 FILE_TRANSFER::FILE_TRANSFER() {
-    clear();
-}
-
-FILE_TRANSFER::~FILE_TRANSFER() {
     clear();
 }
 
@@ -822,10 +809,6 @@ MESSAGE::MESSAGE() {
     clear();
 }
 
-MESSAGE::~MESSAGE() {
-    clear();
-}
-
 int MESSAGE::parse(XML_PARSER& xp) {
     char buf[1024];
     while (!xp.get_tag()) {
@@ -851,10 +834,6 @@ void MESSAGE::clear() {
 }
 
 GR_PROXY_INFO::GR_PROXY_INFO() {
-    clear();
-}
-
-GR_PROXY_INFO::~GR_PROXY_INFO() {
     clear();
 }
 
@@ -897,10 +876,6 @@ void GR_PROXY_INFO::clear() {
 }
 
 CC_STATE::CC_STATE() {
-    clear();
-}
-
-CC_STATE::~CC_STATE() {
     clear();
 }
 
@@ -1128,20 +1103,12 @@ RESULT* CC_STATE::lookup_result(const char* url, const char* name) {
     return 0;
 }
 
-PROJECTS::~PROJECTS() {
-    clear();
-}
-
 void PROJECTS::clear() {
     unsigned int i;
     for (i=0; i<projects.size(); i++) {
         delete projects[i];
     }
     projects.clear();
-}
-
-DISK_USAGE::~DISK_USAGE() {
-    clear();
 }
 
 void DISK_USAGE::clear() {
@@ -1156,10 +1123,6 @@ void DISK_USAGE::clear() {
     d_allowed = 0;
 }
 
-RESULTS::~RESULTS() {
-    clear();
-}
-
 void RESULTS::clear() {
     unsigned int i;
     for (i=0; i<results.size(); i++) {
@@ -1169,10 +1132,6 @@ void RESULTS::clear() {
 }
 
 FILE_TRANSFERS::FILE_TRANSFERS() {
-    clear();
-}
-
-FILE_TRANSFERS::~FILE_TRANSFERS() {
     clear();
 }
 
@@ -1188,10 +1147,6 @@ MESSAGES::MESSAGES() {
     clear();
 }
 
-MESSAGES::~MESSAGES() {
-    clear();
-}
-
 void MESSAGES::clear() {
     unsigned int i;
     for (i=0; i<messages.size(); i++) {
@@ -1201,10 +1156,6 @@ void MESSAGES::clear() {
 }
 
 NOTICES::NOTICES() {
-    clear();
-}
-
-NOTICES::~NOTICES() {
     clear();
 }
 
@@ -1313,10 +1264,6 @@ PROJECT_CONFIG::PROJECT_CONFIG() {
     clear();
 }
 
-PROJECT_CONFIG::~PROJECT_CONFIG() {
-    clear();
-}
-
 int PROJECT_CONFIG::parse(XML_PARSER& xp) {
     std::string msg;
     clear();
@@ -1374,10 +1321,6 @@ ACCOUNT_IN::ACCOUNT_IN() {
     clear();
 }
 
-ACCOUNT_IN::~ACCOUNT_IN() {
-    clear();
-}
-
 void ACCOUNT_IN::clear() {
     url.clear();
     email_addr.clear();
@@ -1387,10 +1330,6 @@ void ACCOUNT_IN::clear() {
 }
 
 ACCOUNT_OUT::ACCOUNT_OUT() {
-    clear();
-}
-
-ACCOUNT_OUT::~ACCOUNT_OUT() {
     clear();
 }
 
@@ -1411,10 +1350,6 @@ void ACCOUNT_OUT::clear() {
 }
 
 CC_STATUS::CC_STATUS() {
-    clear();
-}
-
-CC_STATUS::~CC_STATUS() {
     clear();
 }
 
