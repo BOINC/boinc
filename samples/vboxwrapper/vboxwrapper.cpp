@@ -484,6 +484,7 @@ int main(int argc, char** argv) {
         retval = pVM->initialize();
         if (retval) {
             vboxlog_msg("Could not detect VM Hypervisor. Rescheduling execution for a later date.");
+            pVM->dump_hypervisor_logs(true);
             boinc_temporary_exit(86400, "Detection of VM Hypervisor failed.");
         }
     }
@@ -495,6 +496,7 @@ int main(int argc, char** argv) {
     retval = pVM->initialize();
     if (retval) {
         vboxlog_msg("Could not detect VM Hypervisor. Rescheduling execution for a later date.");
+        pVM->dump_hypervisor_logs(true);
         boinc_temporary_exit(86400, "Detection of VM Hypervisor failed.");
     }
 #endif
