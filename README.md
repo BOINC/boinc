@@ -1,3 +1,9 @@
+# Current Status
+
+[![Build Status](https://travis-ci.org/BOINC/boinc.svg?branch=master)](https://travis-ci.org/BOINC/boinc)
+
+[![Coverity Scan Build Status](https://scan.coverity.com/projects/4226/badge.svg)](https://scan.coverity.com/projects/boinc-boinc)
+
 # BOINC
 
 Project Website: http://boinc.berkeley.edu
@@ -7,11 +13,6 @@ See: http://boinc.berkeley.edu/trac/wiki
 
 Want to contribute?
 See: http://boinc.berkeley.edu/trac/wiki/SoftwareDevelopment
-
-## Current Status
-master:
-[![Build Status](https://travis-ci.org/BOINC/boinc.svg?branch=master)](https://travis-ci.org/BOINC/boinc)
-[![Coverity Scan Build Status](https://scan.coverity.com/projects/4226/badge.svg)](https://scan.coverity.com/projects/boinc-boinc)
 
 # License
 Copyright (C) 2011 University of California
