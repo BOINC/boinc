@@ -141,7 +141,7 @@ CDlgHiddenColumns::~CDlgHiddenColumns() {
 
 
 void CDlgHiddenColumns::CreateCheckboxes() {
-    int i, stdCount, actualCount;
+    int i, j, stdCount, actualCount;
     bool val;
     CAdvancedFrame* pFrame = (CAdvancedFrame*)GetParent();
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
@@ -182,16 +182,48 @@ void CDlgHiddenColumns::CreateCheckboxes() {
         wxStaticBoxSizer* tabStaticBoxSizer = new wxStaticBoxSizer( tabStaticBox, wxVERTICAL );
         wxGridSizer* checkboxSizer = new wxGridSizer(2, wxSize(0,3));
 
+        CBOINCListCtrl* listCtrl = pView->GetListCtrl();
+        wxInt32 iShownColumnCount = listCtrl->GetColumnCount();
+        wxString strHiddenColumns;
+        wxArrayInt aOrder(iShownColumnCount);
+
+#ifdef wxHAS_LISTCTRL_COLUMN_ORDER
+        aOrder = listCtrl->GetColumnsOrder();
+#else
+        for (i = 0; i < iShownColumnCount; ++i) {
+            aOrder[i] = i;
+        }
+#endif
+
+        // Create checkboxes for shown columns in current column order
         stdCount = pView->m_aStdColNameOrder->GetCount();
-        for (i=0; i<stdCount; ++i) {
-            wxString columnLabel = pView->m_aStdColNameOrder->Item(i);
+        for (i=0; i<iShownColumnCount; ++i) {
+            wxString columnLabel = pView->m_aStdColNameOrder->Item(pView->m_iColumnIndexToColumnID[aOrder[i]]);
             wxCheckBox* ckbox = new wxCheckBox(tabStaticBox, wxID_ANY, columnLabel);
             checkboxSizer->Add(ckbox, 0, wxLEFT, 25);
             val = false;
-            if (pView->m_iColumnIDToColumnIndex[i] >= 0) val = true;
-            ckbox->SetValue(val);
+            ckbox->SetValue(true);
             checkbox_list->push_back(ckbox);
         }
+
+        // Create checkboxes for hidden columns
+        for (i=0; i<stdCount; ++i) {
+            bool found = false;
+            for (j = 0; j < iShownColumnCount; ++j) {
+                if (pView->m_iColumnIndexToColumnID[aOrder[j]] == i) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found) continue;
+
+            wxString columnLabel = pView->m_aStdColNameOrder->Item(i);
+            wxCheckBox* ckbox = new wxCheckBox(tabStaticBox, wxID_ANY, columnLabel);
+            checkboxSizer->Add(ckbox, 0, wxLEFT, 25);
+            ckbox->SetValue(false);
+            checkbox_list->push_back(ckbox);
+        }
+
         m_checkbox_list.push_back(checkbox_list);
         
         tabStaticBoxSizer->Add(checkboxSizer, 0, wxEXPAND, 1 );
