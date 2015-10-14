@@ -15,7 +15,7 @@ Want to contribute?
 See: http://boinc.berkeley.edu/trac/wiki/SoftwareDevelopment
 
 # License
-Copyright (C) 2011 University of California
+Copyright (C) 2015 University of California
 
 BOINC is free software; you can redistribute it and/or modify it
 under the terms of the GNU Lesser General Public License
