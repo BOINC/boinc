@@ -1002,7 +1002,7 @@ function recaptcha_get_head_extra() {
     }
 }
 
-function recaptcha_get_html($publickey) {
+function boinc_recaptcha_get_html($publickey) {
     if ($publickey) {
         return '<div class="g-recaptcha" data-sitekey="' . $publickey . '"></div>';
     } else {

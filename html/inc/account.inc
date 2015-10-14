@@ -78,7 +78,7 @@ function create_account_form($teamid, $next_url) {
     if ($publickey) {
         row2(
             "",
-            recaptcha_get_html($publickey)
+            boinc_recaptcha_get_html($publickey)
         );
     }
 
