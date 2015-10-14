@@ -514,7 +514,7 @@ void CSimpleProjectPanel::UpdateProjectList() {
             selData = (ProjectSelectionData*)m_ProjectSelectionCtrl->GetClientData(j);
             ctrl_url = selData->project_url;
             project = pDoc->state.lookup_project(ctrl_url);
-            if ( project->project_files_downloaded_time > selData->project_files_downloaded_time ) {
+            if ( (project != NULL) && (project->project_files_downloaded_time > selData->project_files_downloaded_time) ) {
                 wxBitmap* projectBM = GetProjectSpecificBitmap(ctrl_url);
                 selData->project_files_downloaded_time = project->project_files_downloaded_time;
                 m_ProjectSelectionCtrl->SetItemBitmap(j, *projectBM);
