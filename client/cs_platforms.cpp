@@ -115,9 +115,12 @@ void CLIENT_STATE::detect_platforms() {
     cmdline[0]=0;
 
     // find the 'uname' executable
-    do {
+    //
+    while (1) {
         if (boinc_file_exists(uname[eno])) break;
-    } while (uname[++eno] != 0);
+        eno++;
+        if (uname[eno] == 0) break;
+    }
 
     // run it and check the kernel machine architecture.
     if ( uname[eno] != 0 ) {
@@ -151,10 +154,13 @@ void CLIENT_STATE::detect_platforms() {
             const int nlibdirs=sizeof(libdir)/sizeof(char *);
 
             // find 'file'
+            //
             eno=0;
-            do {
+            while (1) {
                 if (boinc_file_exists(file[eno])) break;
-            } while (file[++eno] != 0);
+                eno++;
+                if (file[eno] == 0) break;
+            }
 
             // now try to find a 32-bit C library.
             if (file[eno] != 0) {
