@@ -142,7 +142,7 @@ void CStatusBar::OnSize(wxSizeEvent& event) {
         }
 
         if (m_pbmpDisconnect) {
-            size = m_pbmpConnected->GetSize();
+            size = m_pbmpDisconnect->GetSize();
             m_pbmpDisconnect->Move(rect.x + 1,
                                    rect.y + (rect.height - size.y) / 2);
         }
