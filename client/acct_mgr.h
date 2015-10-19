@@ -110,7 +110,16 @@ struct AM_ACCOUNT {
 
     void handle_no_rsc(const char*, bool);
     int parse(XML_PARSER&);
-    AM_ACCOUNT() {}
+    AM_ACCOUNT() {
+      strcpy(url_signature, "");
+      detach = false;
+      update = false;
+      dont_request_more_work.init();
+      detach_when_done.init();
+      resource_share.init();
+      suspend.init();
+      abort_not_started.init();
+    }
     ~AM_ACCOUNT() {}
 };
 
@@ -137,8 +146,12 @@ struct ACCT_MGR_OP: public GUI_HTTP_OP {
 
     ACCT_MGR_OP(GUI_HTTP* p) {
         gui_http = p;
-        global_prefs_xml = 0;
+        via_gui = false;
         error_num = BOINC_SUCCESS;
+        repeat_sec = 60.0;
+        global_prefs_xml = 0;
+        strcpy(host_venue, "");
+        got_rss_feeds = false;
     }
     virtual ~ACCT_MGR_OP(){}
 };
