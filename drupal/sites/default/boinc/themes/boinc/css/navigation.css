@@ -31,11 +31,12 @@ li a.active {
 #secondary-menu,
 ul#secondary-menu,
 #navigation .block .menu {
-  height: 34px;
+  height: auto;
   line-height: 33px;
   margin: 0 0 0 -1px;
   float: left;
   clear: both;
+  padding: 7px 0;
 }
 #navigation .block .menu {
   border-top: 1px dashed #ccc;
@@ -44,7 +45,6 @@ ul#secondary-menu,
 #secondary-menu li,
 #navigation .block .menu li {
   padding: 0;
-  margin: 7px 0 0;
   border-left: 1px solid #5a5758;
 }
 #secondary-menu li.first,
