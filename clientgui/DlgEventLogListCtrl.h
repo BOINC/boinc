@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -42,12 +42,9 @@ public:
     CDlgEventLogListCtrl();
     CDlgEventLogListCtrl(CDlgEventLog* pView, wxWindowID iListWindowID, int iListWindowFlags);
 
-#ifdef __WXMAC__
     ~CDlgEventLogListCtrl();
-#endif
 
 #ifdef __WXGTK__
-    void                    SaveEventHandler(wxEvtHandler *stdHandler) { savedHandler = stdHandler; }
     wxEvtHandler*           savedHandler;
     wxScrolledWindow*       GetMainWin(void) { return (wxScrolledWindow*) m_mainWin; }
 #endif
