@@ -334,6 +334,7 @@ int COPROCS::add_other_coproc_types() {
         c.opencl_device_indexes[0] = c.opencl_prop.opencl_device_index;
         c.opencl_device_ids[0] = c.opencl_prop.device_id;
         c.instance_has_opencl[0] = true;
+        c.clear_usage();
         safe_strcpy(c.type, other_opencls[i].name);
 
         // Don't call COPROCS::add() because duplicate type is legal here
