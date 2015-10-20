@@ -236,6 +236,7 @@ void HTTP_OP::init(PROJECT* p) {
 
 void HTTP_OP::reset() {
     req1 = NULL;
+    req1_len = 0;
     strcpy(infile, "");
     strcpy(outfile, "");
     strcpy(error_msg, "");
@@ -246,7 +247,10 @@ void HTTP_OP::reset() {
     fileIn = NULL;
     fileOut = NULL;
     connect_error = 0;
+    response = 0;
+    start_time = 0;
     bytes_xferred = 0;
+    start_bytes_xferred = 0;
     bSentHeader = false;
     project = 0;
     close_socket();
@@ -256,6 +260,7 @@ void HTTP_OP::reset() {
 HTTP_OP::HTTP_OP() {
     strcpy(m_url, "");
     strcpy(m_curl_ca_bundle_location, "");
+    strcpy(m_curl_user_credentials, "");
     content_length = 0;
     file_offset = 0;
     strcpy(request_header, "");
