@@ -191,6 +191,7 @@ FILE_INFO::FILE_INFO() {
     sticky_lifetime = 0;
     sticky_expire_time = 0;
     gzip_when_done = false;
+    ref_cnt = 0;
     download_gzipped = false;
     signature_required = false;
     is_user_file = false;
@@ -758,26 +759,32 @@ int FILE_INFO::gunzip(char* md5_buf) {
 
 void APP_VERSION::init() {
     strcpy(app_name, "");
-    strcpy(api_version, "");
     version_num = 0;
     strcpy(platform, "");
     strcpy(plan_class, "");
-    strcpy(cmdline, "");
-    strcpy(file_prefix, "");
+    strcpy(api_version, "");
     avg_ncpus = 1;
     max_ncpus = 1;
     gpu_usage.rsc_type = 0;
     gpu_usage.usage = 0;
     gpu_ram = 0;
+    flops = gstate.host_info.p_fpops;
+    strcpy(cmdline, "");
+    strcpy(file_prefix, "");
+    needs_network = false;
     app = NULL;
     project = NULL;
-    flops = gstate.host_info.p_fpops;
+    ref_cnt = 0;
+    strcpy(graphics_exec_path,"");
+    strcpy(graphics_exec_file, "");
+    max_working_set_size = 0;
     missing_coproc = false;
+    missing_coproc_usage = 0.0;
     strcpy(missing_coproc_name, "");
     dont_throttle = false;
-    is_wrapper = false;
-    needs_network = false;
     is_vm_app = false;
+    is_wrapper = false;
+    index = 0;
 }
 
 int APP_VERSION::parse(XML_PARSER& xp) {
