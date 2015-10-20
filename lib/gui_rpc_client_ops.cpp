@@ -1332,6 +1332,7 @@ void ACCOUNT_IN::clear() {
     user_name.clear();
     passwd.clear();
     team_name.clear();
+    ldap_auth = false;
 }
 
 ACCOUNT_OUT::ACCOUNT_OUT() {
