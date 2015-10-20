@@ -111,7 +111,7 @@ int main(int /*argc*/, char** argv) {
 #endif
         char* p = getenv("LD_LIBRARY_PATH");
         if (p) {
-            sprintf(libpath, "%s:%s", newlibs, p);
+            snprintf(libpath, sizeof(libpath), "%s:%s", newlibs, p);
         } else {
             safe_strcpy(libpath, newlibs);
         }
