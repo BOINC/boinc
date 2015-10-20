@@ -552,7 +552,7 @@ static int get_priority(bool is_high_priority) {
 // If "test" is set, we're doing the API test; just run "test_app".
 //
 int ACTIVE_TASK::start(bool test) {
-    char exec_name[256], file_path[MAXPATHLEN], buf[256], exec_path[MAXPATHLEN];
+    char exec_name[256], file_path[MAXPATHLEN], buf[MAXPATHLEN], exec_path[MAXPATHLEN];
     char cmdline[80000];    // 64KB plus some extra
     unsigned int i;
     FILE_REF fref;
