@@ -546,14 +546,23 @@ int CLIENT_STATE::add_project(
     project->attached_via_acct_mgr = attached_via_acct_mgr;
 
     retval = project->write_account_file();
-    if (retval) return retval;
+    if (retval) {
+        delete project;
+        return retval;
+    }
 
     get_account_filename(canonical_master_url, path);
     f = boinc_fopen(path, "r");
-    if (!f) return ERR_FOPEN;
+    if (!f) {
+        delete project;
+        return ERR_FOPEN;
+    }
     retval = project->parse_account(f);
     fclose(f);
-    if (retval) return retval;
+    if (retval) {
+        delete project;
+        return retval;
+    }
 
     // remove any old files
     // (unless PROJECT/app_info.xml is found, so that
@@ -572,7 +581,10 @@ int CLIENT_STATE::add_project(
     }
 
     retval = make_project_dir(*project);
-    if (retval) return retval;
+    if (retval) {
+        delete project;
+        return retval;
+    }
     projects.push_back(project);
     sort_projects_by_name();
     project->sched_rpc_pending = RPC_REASON_INIT;
