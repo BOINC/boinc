@@ -145,6 +145,7 @@ int COPROC::parse(XML_PARSER& xp) {
         if (!xp.is_tag) continue;
         if (xp.match_tag("/coproc")) {
             if (!strlen(type)) return ERR_XML_PARSE;
+            clear_usage();
             return 0;
         }
         if (xp.parse_str("type", type, sizeof(type))) continue;
