@@ -1026,7 +1026,7 @@ int ACTIVE_TASK::start(bool test) {
 #endif
         char* p = getenv("LD_LIBRARY_PATH");
         if (p) {
-            sprintf(libpath, "%s:%s", newlibs, p);
+            snprintf(libpath, sizeof(libpath), "%s:%s", newlibs, p);
         } else {
             safe_strcpy(libpath, newlibs);
         }
@@ -1037,7 +1037,7 @@ int ACTIVE_TASK::start(bool test) {
 #ifdef __APPLE__
         p = getenv("DYLD_LIBRARY_PATH");
         if (p) {
-            sprintf(libpath, "%s:%s", newlibs, p);
+            snprintf(libpath, sizeof(libpath), "%s:%s", newlibs, p);
         } else {
             safe_strcpy(libpath, newlibs);
         }
