@@ -72,12 +72,22 @@ void RESULT::clear() {
     suspended_via_gui = false;
     coproc_missing = false;
     report_immediately = false;
-    rr_sim_misses_deadline = false;
+    not_started = false;
+    name_md5 = "";
+    index = 0;
     app = NULL;
     wup = NULL;
     project = NULL;
+    rrsim_flops_left = 0;
+    rrsim_finish_delay = 0;
+    rrsim_flops = 0;
+    rrsim_done = false;
+    already_selected = false;
+    rr_sim_misses_deadline = false;
+    unfinished_time_slice = false;
+    seqno = 0;
+    edf_scheduled = false;
     strcpy(resources, "");
-    report_immediately = false;
     schedule_backoff = 0;
     strcpy(schedule_backoff_reason, "");
 }
