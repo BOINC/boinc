@@ -762,6 +762,7 @@ void RSS_FEED::delete_files() {
 
 RSS_FEED_OP::RSS_FEED_OP() {
     error_num = BOINC_SUCCESS;
+    rfp = NULL;
     gui_http = &gstate.gui_http;
 }
 
