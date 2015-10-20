@@ -94,7 +94,9 @@ struct RESULT {
     WORKUNIT* wup;
     PROJECT* project;
 
-    RESULT(){}
+    RESULT(){
+        clear();
+    }
     ~RESULT(){}
     void clear();
     int parse_server(XML_PARSER&);
