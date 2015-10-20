@@ -838,7 +838,7 @@ function create_post($content, $parent_id, $user, $forum, $thread, $signature) {
     $content = BoincDb::escape_string($content);
     $now = time();
     $sig = $signature?1:0;
-    $id = BoincPost::insert("(thread, user, timestamp, content, modified, parent_post, score, votes, signature, hidden) values ($thread->id, $user->id, $now, '$content', $now, $parent_id, 0, 0, $sig, 0)");
+    $id = BoincPost::insert("(thread, user, timestamp, content, modified, parent_post, score, votes, signature, hidden) values ($thread->id, $user->id, $now, '$content', 0, $parent_id, 0, 0, $sig, 0)");
     if (!$id) return null;
 
     notify_subscribers($thread, $user);
