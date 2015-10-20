@@ -188,6 +188,13 @@ CLIENT_STATE::CLIENT_STATE()
 #endif
 }
 
+CLIENT_STATE::~CLIENT_STATE() {
+    delete pers_file_xfers;
+#ifndef SIM
+    delete scheduler_op;
+#endif
+}
+
 void CLIENT_STATE::show_host_info() {
     char buf[256], buf2[256];
 
