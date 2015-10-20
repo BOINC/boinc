@@ -73,6 +73,9 @@ struct ASYNC_VERIFY {
       in = NULL;
       out = NULL;
       gzin = NULL;
+      strcpy(inpath, "");
+      strcpy(temp_path, "");
+      strcpy(outpath, "");
     };
     ~ASYNC_VERIFY(){};
 
