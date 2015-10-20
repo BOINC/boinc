@@ -43,6 +43,8 @@ FILE_XFER::FILE_XFER() {
     strcpy(pathname, "");
     strcpy(header, "");
     file_size_query = false;
+    is_upload = false;
+    starting_size = 0.0;
 }
 
 FILE_XFER::~FILE_XFER() {
