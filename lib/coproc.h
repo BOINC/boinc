@@ -435,6 +435,7 @@ struct COPROCS {
         intel_gpu.clear();
         COPROC c;
         strcpy(c.type, "CPU");
+        c.clear_usage();
         add(c);
     }
     inline void clear_usage() {
@@ -498,6 +499,7 @@ struct COPROCS {
         intel_gpu.count = 0;
         COPROC c;
         strcpy(c.type, "CPU");
+        c.clear_usage();
         add(c);
     }
 };
