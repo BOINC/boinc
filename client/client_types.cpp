@@ -785,6 +785,9 @@ void APP_VERSION::init() {
     is_vm_app = false;
     is_wrapper = false;
     index = 0;
+#ifdef SIM
+    dont_use = false;
+#endif
 }
 
 int APP_VERSION::parse(XML_PARSER& xp) {
