@@ -731,7 +731,7 @@ int main(int argc, char** argv) {
             id_modulus   = atoi(argv[++i]);
             id_remainder = atoi(argv[++i]);
         } else if (is_arg(argv[i], "app")) {
-            strcpy(app_name, argv[++i]);
+            safe_strcpy(app_name, argv[++i]);
         } else {
             log_messages.printf(MSG_CRITICAL,
                 "unknown command line argument: %s\n\n", argv[i]
