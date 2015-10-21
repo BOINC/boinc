@@ -223,7 +223,7 @@ int handle_status(const char* name) {
 int handle_update(const char* name) {
     DB_VDA_FILE dvf;
     char buf[1024];
-    sprintf(buf, "where file_name='%s'", name);
+    snprintf(buf, sizeof(buf), "where file_name='%s'", name);
     int retval = dvf.lookup(buf);
     if (retval) return retval;
     return dvf.update_field("need_update=1");
