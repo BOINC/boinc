@@ -80,7 +80,7 @@ int main(int argc, char** argv) {
     }
 
     DB_APP app;
-    sprintf(buf, "where name='%s'", app_name);
+    snprintf(buf, sizeof(buf), "where name='%s'", app_name);
     retval = app.lookup(buf);
     if (retval) {
         fprintf(stderr, "no such app %s\n", argv[3]);
