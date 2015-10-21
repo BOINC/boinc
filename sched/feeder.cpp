@@ -774,7 +774,7 @@ int main(int argc, char** argv) {
                 exit(1);
             }
             strcat(mod_select_clause, " and workunit.appid in (");
-            strcat(mod_select_clause, argv[i]);
+            strncat(mod_select_clause, argv[i], sizeof(mod_select_clause)-25);
             strcat(mod_select_clause, ")");
         } else if (is_arg(argv[i], "mod")) {
             if (!argv[i+1] || !argv[i+2]) {
