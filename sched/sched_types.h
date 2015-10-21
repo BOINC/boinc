@@ -182,6 +182,7 @@ struct BEST_APP_VERSION {
         // get the HOST_APP_VERSION, if any
 
     BEST_APP_VERSION() {
+        appid = 0;
         present = false;
         cavp = NULL;
         avp = NULL;
