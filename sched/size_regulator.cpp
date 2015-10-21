@@ -83,6 +83,8 @@ int main(int argc, char** argv) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "--sleep_time")) {
             sleep_time = atoi(argv[++i]);
+            if (sleep_time < 0) sleep_time = 0;
+            if (sleep_time > 1000000) sleep_time = 1000000;
         } else if (!strcmp(argv[i], "--random_order")) {
             order_clause = " order by random ";
         } else if (!strcmp(argv[i], "--priority_asc")) {
@@ -119,7 +121,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    sprintf(buf, "where name='%s'", app_name);
+    snprintf(buf, sizeof(buf), "where name='%s'", app_name);
     if (app.lookup(buf)) {
         log_messages.printf(MSG_CRITICAL, "no such app: %s\n", app_name);
         exit(1);
