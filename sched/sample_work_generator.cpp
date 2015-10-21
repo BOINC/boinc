@@ -242,13 +242,13 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    sprintf(buf, "where name='%s'", app_name);
+    snprintf(buf, sizeof(buf), "where name='%s'", app_name);
     if (app.lookup(buf)) {
         log_messages.printf(MSG_CRITICAL, "can't find app %s\n", app_name);
         exit(1);
     }
 
-    sprintf(buf, "templates/%s", in_template_file);
+    snprintf(buf, sizeof(buf), "templates/%s", in_template_file);
     if (read_file_malloc(config.project_path(buf), in_template)) {
         log_messages.printf(MSG_CRITICAL, "can't read input template %s\n", buf);
         exit(1);
