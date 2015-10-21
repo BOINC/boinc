@@ -98,10 +98,10 @@ int VBOX_VM::initialize() {
     }
 #else
     old_path = getenv("PATH");
-    if(boinc_file_exists("/usr/local/bin/VboxManage")) {
+    if(boinc_file_exists("/usr/local/bin/VBoxManage")) {
         new_path = "/usr/local/bin/:" + old_path;
     }
-    if(boinc_file_exists("/usr/bin/VboxManage")) {
+    if(boinc_file_exists("/usr/bin/VBoxManage")) {
         new_path = "/usr/bin/:" + old_path;
     }
     // putenv does not copy its input buffer, so we must use setenv
@@ -984,9 +984,7 @@ int VBOX_VM::poll(bool log_state) {
     // Grab a snapshot of the latest log file.  Avoids multiple queries across several
     // functions.
     //
-    if (online) {
-        get_vm_log(vm_log);
-    }
+    get_vm_log(vm_log);
 
     //
     // Dump any new VM Guest Log entries

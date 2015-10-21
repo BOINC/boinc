@@ -197,8 +197,15 @@ function find_unique_name($requested_name) {
   }
   $same_name_tally = 1;
   $cleaned_name = preg_replace('/[^a-zA-Z0-9_ \.-]/s', '_', $requested_name);
+  $name_length = strlen($cleaned_name);
+  if ($name_length > 56) {
+    // Name is limited to 60 characters, but we want to leave space to add a
+    // tally if needed (for users with duplicate names); Limit to 56 chars and
+    // replace the middle of the string with "..." if too long
+    $cleaned_name = substr_replace($cleaned_name, '...', 28, ($name_length-56)+3);
+  }
   $unique_name = $cleaned_name;
-  while (db_result(db_query("SELECT uid FROM users WHERE name = '{$unique_name}' LIMIT 1"))) {
+  while (db_result(db_query("SELECT uid FROM {users} WHERE name = '{$unique_name}' LIMIT 1"))) {
     $same_name_tally++;
     $unique_name = "{$cleaned_name}_{$same_name_tally}";
   }

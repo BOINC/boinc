@@ -24,8 +24,9 @@ require_once("../inc/db.inc");
 class DbConn {
     var $db_conn;
     var $db_name;
+    var $readonly;
 
-    function init_conn($user, $passwd, $host, $name) {
+    function init_conn($user, $passwd, $host, $name, $readonly) {
         if (MYSQLI) {
             $x = explode(":", $host);
             if (sizeof($x)>1) {
@@ -49,6 +50,7 @@ class DbConn {
             return false;
         }
         $this->db_name = $name;
+        $this->readonly = $readonly;
         return true;
     }
 

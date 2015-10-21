@@ -224,6 +224,7 @@ function boincuser_create_drupal_profile($account, $boinc_user) {
   $profile_opinions = null;
   $profile_image = null;
   $avatar_image = null;
+  $profile_approved = NULL;
   
   // Load the BOINC profile, if available
   if ($boinc_user->has_profile) {
@@ -243,6 +244,7 @@ function boincuser_create_drupal_profile($account, $boinc_user) {
       $image_path = "{$image_dir}/{$boinc_user->id}_avatar.jpg";
       $avatar_image = get_cck_image_object($image_path, 'field_image', 'profile', TRUE);
     }
+    $profile_approved = $boinc_profile->verification ? TRUE : FALSE;
   }
   $default_input_format = db_result(db_query("
     SELECT format FROM {filter_formats} WHERE name = '%s'", 'Rich text'));
@@ -273,6 +275,12 @@ function boincuser_create_drupal_profile($account, $boinc_user) {
   // This will automatically set the author uid if node->name has been set
   $profile_node = node_submit($profile_node);
   node_save($profile_node);
+  
+  // Mark profile as approved if it has already been vetted somehow
+  if ($profile_approved) {
+    $profile_node->moderate = 0;
+    node_save($profile_node);
+  }
   
   return;
 }

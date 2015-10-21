@@ -159,6 +159,13 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
                 S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH
             );
             if (fd<0) {
+                if (errno == EACCES) {
+                    // this is this case when the file was already uploaded
+                    // and made read-only;
+                    // return success to the client won't keep trying
+                    //
+                    return return_success(0);
+                }
                 return return_error(ERR_TRANSIENT,
                     "can't open file %s: %s\n", path, strerror(errno)
                 );
@@ -253,6 +260,9 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
 
         bytes_left -= n;
     }
+    // upload complete; make the file read-only so we won't try to upload it again.
+    //
+    fchmod(fd, S_IRUSR|S_IRGRP|S_IROTH);
     close(fd);
     return return_success(0);
 }
