@@ -115,6 +115,8 @@ void COPROC_ATI::get(
     CALuint numDevices, cal_major, cal_minor, cal_imp;
     char buf[256];
     int retval;
+    COPROC_ATI cc, cc2;
+    string s, gpu_name;
 
     attribs.struct_size = sizeof(CALdeviceattribs);
     numDevices =0;
@@ -156,7 +158,7 @@ void COPROC_ATI::get(
 
 #else
 
-    void* callib;
+    void* callib = NULL;
 
     callib = dlopen("libaticalrt.so", RTLD_NOW);
     if (!callib) {
@@ -180,63 +182,61 @@ void COPROC_ATI::get(
 
     if (!__calInit) {
         warnings.push_back("calInit() missing from CAL library");
-        return;
+        goto leave;
     }
     if (!__calGetVersion) {
         warnings.push_back("calGetVersion() missing from CAL library");
-        return;
+        goto leave;
     }
     if (!__calDeviceGetCount) {
         warnings.push_back("calDeviceGetCount() missing from CAL library");
-        return;
+        goto leave;
     }
     if (!__calDeviceGetAttribs) {
         warnings.push_back("calDeviceGetAttribs() missing from CAL library");
-        return;
+        goto leave;
     }
     if (!__calDeviceGetInfo) {
         warnings.push_back("calDeviceGetInfo() missing from CAL library");
-        return;
+        goto leave;
     }
 
     retval = (*__calInit)();
     if (retval != CAL_RESULT_OK) {
         sprintf(buf, "calInit() returned %d", retval);
         warnings.push_back(buf);
-        return;
+        goto leave;
     }
     retval = (*__calDeviceGetCount)(&numDevices);
     if (retval != CAL_RESULT_OK) {
         sprintf(buf, "calDeviceGetCount() returned %d", retval);
         warnings.push_back(buf);
-        return;
+        goto leave;
     }
     retval = (*__calGetVersion)(&cal_major, &cal_minor, &cal_imp);
     if (retval != CAL_RESULT_OK) {
         sprintf(buf, "calGetVersion() returned %d", retval);
         warnings.push_back(buf);
-        return;
+        goto leave;
     }
 
     if (!numDevices) {
         warnings.push_back("No usable CAL devices found");
-        return;
+        goto leave;
     }
 
-    COPROC_ATI cc, cc2;
-    string s, gpu_name;
     for (CALuint i=0; i<numDevices; i++) {
         retval = (*__calDeviceGetInfo)(&info, i);
         if (retval != CAL_RESULT_OK) {
             sprintf(buf, "calDeviceGetInfo() returned %d", retval);
             warnings.push_back(buf);
-            return;
+            goto leave;
         }
         retval = (*__calDeviceGetAttribs)(&attribs, i);
         if (retval != CAL_RESULT_OK) {
             sprintf(buf, "calDeviceGetAttribs() returned %d", retval);
             warnings.push_back(buf);
-            return;
+            goto leave;
         }
         switch ((int)attribs.target) {
         case CAL_TARGET_600:
@@ -389,8 +389,9 @@ void COPROC_ATI::get(
     if (!ati_gpus.size()) {
         warnings.push_back("No ATI GPUs found");
     }
+leave:
+    if (callib) dlclose(callib);
 }
-
 
 void COPROC_ATI::correlate(
     bool use_all,

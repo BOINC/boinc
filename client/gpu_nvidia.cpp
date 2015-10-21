@@ -299,6 +299,7 @@ void COPROC_NVIDIA::get(
     __cuMemAlloc = (int(*)(unsigned int*, size_t)) dlsym( cudalib, "cuMemAlloc" );
     __cuMemFree = (int(*)(unsigned int)) dlsym( cudalib, "cuMemFree" );
     __cuMemGetInfo = (int(*)(size_t*, size_t*)) dlsym( cudalib, "cuMemGetInfo" );
+    dlclose(cudalib);
 #endif
 
     if (!__cuDriverGetVersion) {
