@@ -485,11 +485,11 @@ void write_user(USER& user, FILE* f, bool /*detail*/) {
 void write_badge_user(char* output_dir) {
     DB_BADGE_USER bu;
     char path[MAXPATHLEN];
-    ZFILE* f = new ZFILE("badge_users", COMPRESSION_GZIP);
+    ZFILE zf("badge_users", COMPRESSION_GZIP);
     sprintf(path, "%s/badge_user", output_dir);
-    f->open(path);
+    zf.open(path);
     while (!bu.enumerate("")) {
-        fprintf(f->f,
+        fprintf(zf.f,
             " <badge_user>\n"
             "    <user_id>%d</user_id>\n"
             "    <badge_id>%d</badge_id>\n"
@@ -500,17 +500,17 @@ void write_badge_user(char* output_dir) {
             bu.create_time
         );
     }
-    f->close();
+    zf.close();
 }
 
 void write_badge_team(char* output_dir) {
     DB_BADGE_TEAM bt;
     char path[MAXPATHLEN];
-    ZFILE* f = new ZFILE("badge_teams", COMPRESSION_GZIP);
+    ZFILE zf("badge_teams", COMPRESSION_GZIP);
     sprintf(path, "%s/badge_team", output_dir);
-    f->open(path);
+    zf.open(path);
     while (!bt.enumerate("")) {
-        fprintf(f->f,
+        fprintf(zf.f,
             " <badge_team>\n"
             "    <team_id>%d</team_id>\n"
             "    <badge_id>%d</badge_id>\n"
@@ -521,7 +521,7 @@ void write_badge_team(char* output_dir) {
             bt.create_time
         );
     }
-    f->close();
+    zf.close();
 }
 
 void write_team(TEAM& team, FILE* f, bool detail) {
@@ -681,23 +681,23 @@ void print_badges(FILE* f) {
 int tables_file(char* dir) {
     char buf[256];
 
-    ZFILE f("tables", false);
+    ZFILE zf("tables", false);
     sprintf(buf, "%s/tables.xml", dir);
-    f.open(buf);
-    fprintf(f.f,
+    zf.open(buf);
+    fprintf(zf.f,
         "    <update_time>%d</update_time>\n",
         (int)time(0)
     );
     if (config.credit_by_app) {
-        fprintf(f.f, "    <credit_by_app/>\n");
+        fprintf(zf.f, "    <credit_by_app/>\n");
     }
-    if (nusers) fprintf(f.f, "    <nusers_total>%d</nusers_total>\n", nusers);
-    if (nteams) fprintf(f.f, "    <nteams_total>%d</nteams_total>\n", nteams);
-    if (nhosts) fprintf(f.f, "    <nhosts_total>%d</nhosts_total>\n", nhosts);
-    if (total_credit) fprintf(f.f, "    <total_credit>%lf</total_credit>\n", total_credit);
-    print_apps(f.f);
-    print_badges(f.f);
-    f.close();
+    if (nusers) fprintf(zf.f, "    <nusers_total>%d</nusers_total>\n", nusers);
+    if (nteams) fprintf(zf.f, "    <nteams_total>%d</nteams_total>\n", nteams);
+    if (nhosts) fprintf(zf.f, "    <nhosts_total>%d</nhosts_total>\n", nhosts);
+    if (total_credit) fprintf(zf.f, "    <total_credit>%lf</total_credit>\n", total_credit);
+    print_apps(zf.f);
+    print_badges(zf.f);
+    zf.close();
     return 0;
 }
 
@@ -818,8 +818,14 @@ int ENUMERATION::make_it_happen(char* output_dir) {
     }
     for (i=0; i<outputs.size(); i++) {
         OUTPUT& out = outputs[i];
-        if (out.zfile) out.zfile->close();
-        if (out.nzfile) out.nzfile->close();
+        if (out.zfile) {
+          out.zfile->close();
+          delete out.zfile;
+        }
+        if (out.nzfile) {
+          out.nzfile->close();
+          delete out.nzfile;
+        }
     }
     return 0;
 }
