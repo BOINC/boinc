@@ -306,7 +306,7 @@ int main(int argc, char** argv) {
             }
             INFILE_DESC id;
             id.is_remote = false;
-            strcpy(id.name, argv[i]);
+            safe_strcpy(id.name, argv[i]);
             jd.infiles.push_back(id);
         }
         i++;
