@@ -176,13 +176,13 @@ int dir_hier_path(
     int retval;
 
     if (fanout==0) {
-        sprintf(path, "%s/%s", root, filename);
+        snprintf(path, MAXPATHLEN, "%s/%s", root, filename);
         return 0;
     }
 
     filename_hash(filename, fanout, dir);
 
-    sprintf(dirpath, "%s/%s", root, dir);
+    snprintf(dirpath, MAXPATHLEN, "%s/%s", root, dir);
     if (create) {
         retval = boinc_mkdir(dirpath);
         if (retval && (errno != EEXIST)) {
@@ -192,7 +192,7 @@ int dir_hier_path(
             return ERR_MKDIR;
         }
     }
-    sprintf(path, "%s/%s", dirpath, filename);
+    snprintf(path, MAXPATHLEN, "%s/%s", dirpath, filename);
     return 0;
 }
 
