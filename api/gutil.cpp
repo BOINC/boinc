@@ -457,6 +457,8 @@ STARFIELD::STARFIELD() {
     stars = NULL;
     zmax = 8;
     zmaxinv = 1/zmax;
+    speed = 0;
+    nstars = 0;
 }
 
 //

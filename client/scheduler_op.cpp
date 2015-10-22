@@ -47,10 +47,15 @@
 using std::vector;
 
 SCHEDULER_OP::SCHEDULER_OP(HTTP_OP_SET* h) {
-    cur_proj = NULL;
-    state = SCHEDULER_OP_STATE_IDLE;
+    scheduler_op_retval = 0;
     http_op.http_op_state = HTTP_STATE_IDLE;
     http_ops = h;
+    strcpy(scheduler_url,"");
+    url_index = 0;
+    cur_proj = NULL;
+    state = SCHEDULER_OP_STATE_IDLE;
+    reason = 0;
+    url_random = 0.0;
 }
 
 // See if there's a pending master file fetch.

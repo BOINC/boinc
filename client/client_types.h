@@ -72,7 +72,9 @@ struct URL_LIST {
     int start_index;
     int current_index;
 
-    URL_LIST(){};
+    URL_LIST() {
+        clear();
+    }
 
     void clear() {
         urls.clear();
@@ -326,7 +328,9 @@ struct APP_VERSION {
     bool dont_use;
 #endif
 
-    APP_VERSION(){}
+    APP_VERSION() {
+        init();
+    }
     ~APP_VERSION(){}
     void init();
     int parse(XML_PARSER&);
@@ -362,7 +366,20 @@ struct WORKUNIT {
     double rsc_memory_bound;
     double rsc_disk_bound;
 
-    WORKUNIT(){}
+    WORKUNIT(){
+      strcpy(name, "");
+      strcpy(app_name, "");
+      version_num = 0;
+      command_line = "";
+      input_files.clear();
+      project = NULL;
+      app = NULL;
+      ref_cnt = 0;
+      rsc_fpops_est = 0.0;
+      rsc_fpops_bound = 0.0;
+      rsc_memory_bound = 0.0;
+      rsc_disk_bound = 0.0;
+      }
     ~WORKUNIT(){}
     int parse(XML_PARSER&);
     int write(MIOFILE&);
