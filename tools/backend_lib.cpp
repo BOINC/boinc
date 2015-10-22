@@ -237,7 +237,7 @@ int create_work(
     vector<INFILE_DESC> infile_specs(ninfiles);
     for (int i=0; i<ninfiles; i++) {
         infile_specs[i].is_remote = false;
-        strcpy(infile_specs[i].name, infiles[i]);
+        safe_strcpy(infile_specs[i].name, infiles[i]);
     }
     return create_work2(
         wu,
