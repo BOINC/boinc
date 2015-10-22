@@ -225,6 +225,7 @@ public:
             log_messages.printf(MSG_CRITICAL,
                 "Couldn't open %s for output\n", filename
             );
+            exit(ERR_FOPEN);
         }
         fprintf(f,
             "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<%s>\n", tag.c_str()
