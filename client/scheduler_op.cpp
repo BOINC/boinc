@@ -536,20 +536,21 @@ void SCHEDULER_REPLY::clear() {
     hostid = 0;
     request_delay = 0;
     next_rpc_delay = 0;
+    messages.clear();
     global_prefs_xml = 0;
     project_prefs_xml = 0;
-    code_sign_key = 0;
-    code_sign_key_signature = 0;
     strcpy(master_url, "");
+    strcpy(host_venue, "");
+    user_create_time = 0;
     code_sign_key = 0;
     code_sign_key_signature = 0;
     message_ack = false;
     project_is_down = false;
+    send_file_list = false;
     send_full_workload = false;
     dont_use_dcf = false;
     send_time_stats_log = 0;
     send_job_log = 0;
-    messages.clear();
     scheduler_version = 0;
     got_rss_feeds = false;
 }
