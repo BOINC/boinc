@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -107,13 +107,6 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxWindowID iTaskWindowID, 
 
     UpdateSelection();
 
-#if USE_NATIVE_LISTCONTROL
-    m_pListPane->PushEventHandler(new MyEvtHandler(m_pListPane));
-#else
-    m_pListPane->SaveEventHandler((m_pListPane->GetMainWin())->GetEventHandler());
-    (m_pListPane->GetMainWin())->PushEventHandler(new MyEvtHandler(m_pListPane));
-#endif
-
     m_iProgressColumn = -1;
     m_iSortColumnID = -1;
     m_bReverseSort = false;
@@ -130,13 +123,6 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxWindowID iTaskWindowID, 
 
 
 CBOINCBaseView::~CBOINCBaseView() {
-    if (m_pListPane) {
-#if USE_NATIVE_LISTCONTROL
-        m_pListPane->PopEventHandler(true);
-#else
-        (m_pListPane->GetMainWin())->PopEventHandler(true);
-#endif
-    }
     if (m_SortArrows) {
         delete m_SortArrows;
     }
