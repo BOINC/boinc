@@ -414,8 +414,12 @@ static void update_job_stats() {
         sum += e;
         sum_sqr += e*e;
     }
-    double mean = sum/n;
-    double stdev = sqrt((sum_sqr - sum*mean)/n);
+    double mean = 0;
+    double stdev = 1;
+    if (n != 0) {
+        mean = sum/n;
+        stdev = sqrt((sum_sqr - sum*mean)/n);
+    }
     for (i=0; i<ssp->max_wu_results; i++) {
         WU_RESULT& wu_result = ssp->wu_results[i];
         if (wu_result.state != WR_STATE_PRESENT) continue;
