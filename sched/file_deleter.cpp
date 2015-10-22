@@ -372,7 +372,7 @@ bool do_pass(bool retry_error) {
 
     if (xml_doc_like) {
         strcat(clause, " and xml_doc like '");
-        strcat(clause, xml_doc_like);
+        safe_strcat(clause, xml_doc_like);
         strcat(clause, "'");
     }
     sprintf(buf,
