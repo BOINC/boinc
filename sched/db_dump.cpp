@@ -877,6 +877,8 @@ int main(int argc, char** argv) {
                 exit(1);
             }
             retry_period = atoi(argv[i]);
+            if (retry_period < 0) retry_period = 0;
+            if (retry_period > 1000000) retry_period = 1000000;
         } else if (is_arg(argv[i], "d") || is_arg(argv[i], "debug_level")) {
             if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
