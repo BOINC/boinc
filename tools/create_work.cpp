@@ -151,13 +151,13 @@ void JOB_DESC::parse_cmdline(int argc, char** argv) {
         if (arg(argv, i, (char*)"command_line")) {
             command_line = argv[++i];
         } else if (arg(argv, i, (char*)"wu_name")) {
-            strcpy(wu.name, argv[++i]);
+            safe_strcpy(wu.name, argv[++i]);
         } else if (arg(argv, i, (char*)"remote_file")) {
             INFILE_DESC id;
             id.is_remote = true;
-            strcpy(id.url, argv[++i]);
+            safe_strcpy(id.url, argv[++i]);
             id.nbytes = atof(argv[++i]);
-            strcpy(id.md5, argv[++i]);
+            safe_strcpy(id.md5, argv[++i]);
             infiles.push_back(id);
         } else if (arg(argv, i, "target_host")) {
             assign_flag = true;
@@ -176,7 +176,7 @@ void JOB_DESC::parse_cmdline(int argc, char** argv) {
             }
             INFILE_DESC id;
             id.is_remote = false;
-            strcpy(id.name, argv[i]);
+            safe_strcpy(id.name, argv[i]);
             infiles.push_back(id);
         }
     }
@@ -249,7 +249,7 @@ int main(int argc, char** argv) {
         } else if (arg(argv, i, "command_line")) {
             jd.command_line= argv[++i];
         } else if (arg(argv, i, "additional_xml")) {
-            strcpy(jd.additional_xml, argv[++i]);
+            safe_strcpy(jd.additional_xml, argv[++i]);
         } else if (arg(argv, i, "wu_id")) {
             jd.wu.id = atoi(argv[++i]);
         } else if (arg(argv, i, "broadcast")) {
@@ -291,9 +291,9 @@ int main(int argc, char** argv) {
         } else if (arg(argv, i, (char*)"remote_file")) {
             INFILE_DESC id;
             id.is_remote = true;
-            strcpy(id.url, argv[++i]);
+            safe_strcpy(id.url, argv[++i]);
             id.nbytes = atof(argv[++i]);
-            strcpy(id.md5, argv[++i]);
+            safe_strcpy(id.md5, argv[++i]);
             jd.infiles.push_back(id);
         } else if (arg(argv, i, "verbose")) {
             verbose = true;
