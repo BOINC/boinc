@@ -164,7 +164,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
                     // and made read-only;
                     // return success to the client won't keep trying
                     //
-                    log_messages.printf(MSG_CRITICAL,
+                    log_messages.printf(MSG_WARNING,
                       "client tried to reupload the read-only file %s\n",
                       path
                     );
