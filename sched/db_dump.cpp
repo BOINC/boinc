@@ -997,7 +997,7 @@ int main(int argc, char** argv) {
         write_badge_team(spec.output_dir);
     }
 
-    sprintf(buf, "cp %s %s/db_dump.xml", spec_filename, spec.output_dir);
+    snprintf(buf, sizeof(buf), "cp %s %s/db_dump.xml", spec_filename, spec.output_dir);
     retval = system(buf);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
