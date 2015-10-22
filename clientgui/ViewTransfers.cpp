@@ -314,6 +314,15 @@ wxString CViewTransfers::GetKeyValue1(int iRowIndex) {
         return wxEmptyString;
     }
 
+    if (m_iColumnIDToColumnIndex[COLUMN_FILE] < 0) {
+        // Column is hidden, so SynchronizeCacheItem() did not set its value
+        wxString    strDocumentText  = wxEmptyString;
+        GetDocFileName(m_iSortedIndexes[iRowIndex], strDocumentText);
+        if (!strDocumentText.IsSameAs(transfer->m_strFileName)) {
+            transfer->m_strFileName = strDocumentText;
+        }
+    }
+
     return transfer->m_strFileName;
 }
 
@@ -325,6 +334,15 @@ wxString CViewTransfers::GetKeyValue2(int iRowIndex) {
         return wxEmptyString;
     }
     
+    if (m_iColumnIDToColumnIndex[COLUMN_PROJECT] < 0) {
+        // Column is hidden, so SynchronizeCacheItem() did not set its value
+        wxString    strDocumentText  = wxEmptyString;
+        GetDocProjectURL(m_iSortedIndexes[iRowIndex], strDocumentText);
+        if (!strDocumentText.IsSameAs(transfer->m_strProjectURL)) {
+            transfer->m_strProjectURL = strDocumentText;
+        }
+    }
+
     return transfer->m_strProjectURL;
 }
 

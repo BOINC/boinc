@@ -370,6 +370,15 @@ wxString CViewWork::GetKeyValue1(int iRowIndex) {
         return wxEmptyString;
     }
 
+    if (m_iColumnIDToColumnIndex[COLUMN_NAME] < 0) {
+        // Column is hidden, so SynchronizeCacheItem() did not set its value
+        wxString    strDocumentText  = wxEmptyString;
+        GetDocName(m_iSortedIndexes[iRowIndex], strDocumentText);
+        if (!strDocumentText.IsSameAs(work->m_strName)) {
+            work->m_strName = strDocumentText;
+        }
+    }
+
     return work->m_strName;
 }
 
@@ -381,6 +390,15 @@ wxString CViewWork::GetKeyValue2(int iRowIndex) {
         return wxEmptyString;
     }
 
+    if (m_iColumnIDToColumnIndex[COLUMN_PROJECT] < 0) {
+        // Column is hidden, so SynchronizeCacheItem() did not set its value
+        wxString    strDocumentText  = wxEmptyString;
+        GetDocProjectURL(m_iSortedIndexes[iRowIndex], strDocumentText);
+        if (!strDocumentText.IsSameAs(work->m_strProjectURL)) {
+            work->m_strProjectURL = strDocumentText;
+        }
+    }
+    
     return work->m_strProjectURL;
 }
 

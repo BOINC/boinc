@@ -355,6 +355,15 @@ wxString CViewProjects::GetKeyValue1(int iRowIndex) {
         return wxEmptyString;
     }
 
+    if (m_iColumnIDToColumnIndex[COLUMN_PROJECT] < 0) {
+        // Column is hidden, so SynchronizeCacheItem() did not set its value
+        wxString    strDocumentText  = wxEmptyString;
+        GetDocProjectURL(m_iSortedIndexes[iRowIndex], strDocumentText);
+        if (!strDocumentText.IsSameAs(project->m_strProjectURL)) {
+            project->m_strProjectURL = strDocumentText;
+        }
+    }
+
     return project->m_strProjectURL;
 }
 
