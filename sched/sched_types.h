@@ -183,9 +183,12 @@ struct BEST_APP_VERSION {
 
     BEST_APP_VERSION() {
         appid = 0;
+        for_64b_jobs = false;
         present = false;
         cavp = NULL;
         avp = NULL;
+        reliable = false;
+        trusted = false;
     }
 };
 
