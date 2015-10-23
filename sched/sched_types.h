@@ -339,8 +339,9 @@ struct SCHEDULER_REQUEST {
     int current_rpc_dayofyear;
     std::string client_opaque;
 
-    SCHEDULER_REQUEST(){};
+    SCHEDULER_REQUEST();
     ~SCHEDULER_REQUEST(){};
+    void clear();
     const char* parse(XML_PARSER&);
     int write(FILE*); // write request info to file: not complete
 };
