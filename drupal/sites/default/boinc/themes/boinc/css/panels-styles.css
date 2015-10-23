@@ -74,6 +74,7 @@
 .boinc-overview-details .user-of-the-day {
   display: block;
   float: left;
+  max-width: 195px;
 }
 .boinc-overview-details a.user-of-the-day,
 .boinc-overview-details a.user-of-the-day:hover {
@@ -100,6 +101,7 @@
 .boinc-overview-details .volunteers {
   float: left;
   margin: 0 0 0 40px;
+  max-width: 342px;
 }
 .boinc-overview-details .text {
   font-size: 15px;
@@ -164,6 +166,12 @@
   position: absolute;
   bottom: 8px;
   right: 10px;
+}
+
+/* Account panes */
+.pane-user-project-list table th.numeric,
+.view-boinc-account-computers table th.numeric {
+  max-width: 64px;
 }
 
 .pane-user-mail-summary h2.pane-title,
