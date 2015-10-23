@@ -573,6 +573,7 @@ static int insert_after(char* buffer, const char* after, const char* text) {
         return ERR_XML_PARSE;
     }
     p += strlen(after);
+    // coverity[fixed_size_dest]
     strcpy(temp, p);
     strcpy(p, text);
     strcat(p, temp);
