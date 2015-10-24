@@ -8,7 +8,7 @@
   <string name="generic_button_finish">Finalizar</string>
   <!--attach project-->
   <!--selection list-->
-  <string name="attachproject_list_desc">Seleccione los proyectos científicos a los que quieres contribuir:</string>
+  <string name="attachproject_list_desc">Selecciona los proyectos científicos a los que quieres contribuir:</string>
   <string name="attachproject_list_header">Elegir un proyecto</string>
   <string name="attachproject_list_manual_button">Añadir un proyecto por URL</string>
   <string name="attachproject_list_manual_dialog_title">URL del proyecto:</string>
