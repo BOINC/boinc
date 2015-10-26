@@ -127,6 +127,9 @@ bool JOB::get_score(WU_RESULT& wu_result) {
             score -= 1;
         }
     }
+
+    score += wu_result.res_priority;
+
     if (config.debug_send_job) {
         log_messages.printf(MSG_NORMAL,
             "[send_job]: score %f for result %lu\n", score, wu_result.resultid
