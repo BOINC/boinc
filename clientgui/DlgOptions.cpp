@@ -252,7 +252,7 @@ void CDlgOptions::CreateControls() {
     m_UseDifferentTaskColoursCtrl->Create(itemPanel70, ID_USEDIFFERENTTASKCOLOURSCTRL, _("Use different task colours"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
     m_UseDifferentTaskColoursCtrl->SetValue(FALSE);
     if (ShowToolTips())
-      m_UseDifferentTaskColoursCtrl->SetToolTip(_("Use different task colours for to identify CPU or GPU (Intel, AMD, NVIDIA) tasks"));
+      m_UseDifferentTaskColoursCtrl->SetToolTip(_("Use different task colours for to identify CPU or GPU (Intel, AMD/ATI, NVIDIA) tasks"));
     itemBoxSizer71->Add(m_UseDifferentTaskColoursCtrl, 0, wxGROW | wxALL, 5);
 
     wxStaticBox* itemStaticBox77 = new wxStaticBox(itemPanel70, wxID_ANY, _("Task colours"));
@@ -286,13 +286,13 @@ void CDlgOptions::CreateControls() {
     itemFlexGridSizer72->Add(m_TaskGPUIntelColourCtrl, 0, wxGROW | wxALL, 5);
 
     wxStaticText* itemStaticText75 = new wxStaticText;
-    itemStaticText75->Create(itemStaticBox77, wxID_ANY, _("AMD GPU task colour"), wxDefaultPosition, wxDefaultSize, 0);
+    itemStaticText75->Create(itemStaticBox77, wxID_ANY, _("AMD/ATI GPU task colour"), wxDefaultPosition, wxDefaultSize, 0);
     itemFlexGridSizer72->Add(itemStaticText75, 0, wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL | wxALL, 5);
 
     m_TaskGPUAMDColourCtrl = new wxButton;
     m_TaskGPUAMDColourCtrl->Create(itemStaticBox77, ID_TASKGPUAMDCOLOURCTRL, _("Change"), wxDefaultPosition, wxDefaultSize, 0);
     if (ShowToolTips())
-      m_TaskGPUAMDColourCtrl->SetToolTip(_("Change AMD GPU task colour"));
+      m_TaskGPUAMDColourCtrl->SetToolTip(_("Change AMD/ATI GPU task colour"));
     m_TaskGPUAMDColourCtrl->Enable(m_UseDifferentTaskColoursCtrl->IsChecked());
     itemFlexGridSizer72->Add(m_TaskGPUAMDColourCtrl, 0, wxGROW | wxALL, 5);
 
