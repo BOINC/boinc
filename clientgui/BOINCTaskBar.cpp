@@ -483,8 +483,6 @@ void CTaskBarIcon::MacCancelUserAttentionRequest()
 
 
 void CTaskBarIcon::DisplayContextMenu() {
-    ResetTaskBar();
-
     wxMenu* pMenu = BuildContextMenu();
     PopupMenu(pMenu);
     delete pMenu;
