@@ -437,7 +437,7 @@ void send_work_old() {
                 "[send_scan] scanning for jobs from non-preferred applications\n"
             );
         }
-        scan_work_array();
+        if (scan_work_array()) return;
     }
 }
 
