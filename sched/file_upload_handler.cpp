@@ -532,7 +532,6 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
     char buf[256];
     char file_name[256];
     int major, minor, release, retval=0;
-    bool got_version = true;
     bool did_something = false;
     double start_time = dtime();
 
@@ -548,23 +547,14 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
         } else if (parse_int(buf, "<core_client_release>", release)) {
             continue;
         } else if (match_tag(buf, "<file_upload>")) {
-
-            if (!got_version) {
-                retval = return_error(ERR_PERMANENT, "Missing version");
-            } else {
-                retval = handle_file_upload(in, key);
-            }
+            retval = handle_file_upload(in, key);
             did_something = true;
             break;
         } else if (parse_str(buf, "<get_file_size>", file_name, sizeof(file_name))) {
             if (strstr(file_name, "..")) {
                 return return_error(ERR_PERMANENT, "Bad filename");
             }
-            if (!got_version) {
-                retval = return_error(ERR_PERMANENT, "Missing version");
-            } else {
-                retval = handle_get_file_size(file_name);
-            }
+            retval = handle_get_file_size(file_name);
             did_something = true;
             break;
         } else if (match_tag(buf, "<data_server_request>")) {
