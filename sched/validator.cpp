@@ -583,6 +583,12 @@ int handle_wu(
                     }
                     if (update_host) {
                         retval = host.update_diff_validator(host_initial);
+                        if (retval) {
+                            log_messages.printf(MSG_CRITICAL,
+                                "[HOST#%lu] host.update_diff_validator() failed: %s\n",
+                                host.id, boincerror(retval)
+                            );
+                        }
                     }
                     if (update_result) {
                         retval = validator.update_result(result);
