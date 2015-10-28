@@ -30,6 +30,7 @@
 #include "filesys.h"
 #include "md5_file.h"
 #include "util.h"
+#include "str_replace.h"
 
 #include "sched_config.h"
 #include "sched_msgs.h"
@@ -241,7 +242,7 @@ int mylockf(int fd) {
 bool is_arg(const char* x, const char* y) {
     char buf[256];
     strcpy(buf, "--");
-    strcat(buf, y);
+    safe_strcat(buf, y);
     if (!strcmp(buf, x)) return true;
     if (!strcmp(buf+1, x)) return true;
     return false;
