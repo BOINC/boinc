@@ -677,7 +677,9 @@ int main(int argc, char *argv[]) {
 
     installer();
 
-    get_log_path(log_path, "file_upload_handler.log");
+    if (get_log_path(log_path, "file_upload_handler.log") == ERR_MKDIR) {
+        fprintf(stderr, "Can't create log directory '%s'  (errno: %d)\n", log_path, errno);
+    }
 #ifndef _USING_FCGI_
     if (!freopen(log_path, "a", stderr)) {
         fprintf(stderr, "Can't open log file '%s' (errno: %d)\n",

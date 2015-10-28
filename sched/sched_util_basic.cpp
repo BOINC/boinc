@@ -143,7 +143,7 @@ int try_fopen(const char* path, FCGI_FILE*& f, const char *mode) {
     return 0;
 }
 
-void get_log_path(char* p, const char* filename) {
+int get_log_path(char* p, const char* filename) {
     char host[256];
     const char *dir;
 
@@ -153,10 +153,13 @@ void get_log_path(char* p, const char* filename) {
     dir = config.project_path("log_%s", host);
     sprintf(p, "%s/%s", dir, filename);
     mode_t old_mask = umask(0);
-    mkdir(dir, 01770);
-        // make log_x directory sticky and group-rwx
-        // so that whatever apache puts there will be owned by us
+    // make log_x directory sticky and group-rwx
+    // so that whatever apache puts there will be owned by us
+    int retval = mkdir(dir, 01770);
     umask(old_mask);
+    if (retval && errno != EEXIST) return ERR_MKDIR;
+
+    return 0;
 }
 
 static void filename_hash(const char* filename, int fanout, char* dir) {
