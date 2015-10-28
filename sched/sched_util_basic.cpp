@@ -232,6 +232,7 @@ int mylockf(int fd) {
 
     // if lock failed, find out why
     errno=0;
+    // coverity[check_return]
     fcntl(fd, F_GETLK, &fl);
     if (fl.l_pid>0) return fl.l_pid;
     return -1;
