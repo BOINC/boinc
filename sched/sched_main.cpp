@@ -423,7 +423,9 @@ int main(int argc, char** argv) {
         }
     } else {
         char *stderr_buffer;
-        get_log_path(path, "scheduler.log");
+        if (get_log_path(path, "scheduler.log") == ERR_MKDIR) {
+            fprintf(stderr, "Can't create log directory '%s'  (errno: %d)\n", path, errno);
+        }
 #ifndef _USING_FCGI_
         char buf[256];
         if (!freopen(path, "a", stderr)) {
