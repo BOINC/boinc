@@ -368,8 +368,12 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
             continue;
         }
         if (xp.match_tag("time_stats_log")) {
-            handle_time_stats_log(xp.f->f);
-            have_time_stats_log = true;
+            if (handle_time_stats_log(xp.f->f)) {
+                log_messages.printf(MSG_NORMAL,
+                    "SCHEDULER_REQUEST::parse(): Couldn't parse contents of <time_stats_log>. Ignoring it.");
+            } else {
+                have_time_stats_log = true;
+            }
             continue;
         }
         if (xp.match_tag("net_stats")) {

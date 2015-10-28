@@ -17,6 +17,6 @@
 
 #include <cstdio>
 
-extern void handle_time_stats_log(FILE* fin);
+extern int handle_time_stats_log(FILE* fin);
 extern void write_time_stats_log();
 extern bool have_time_stats_log();
