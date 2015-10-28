@@ -198,7 +198,18 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
                     path, (int)sbuf.st_size, offset
                 );
             }
-            if (offset) lseek(fd, offset, SEEK_SET);
+            if (offset) {
+                if (-1 == lseek(fd, offset, SEEK_SET)) {
+                    log_messages.printf(MSG_CRITICAL,
+                        "lseek(%s, %.0f) failed: %s (%d).\n",
+                        this_filename, offset, strerror(errno), errno
+                    );
+                    close(fd);
+                    return return_error(ERR_TRANSIENT,
+                        "can't resume partial file %s: %s\n", path, strerror(errno)
+                );
+                }
+            }
             if (sbuf.st_size > offset) {
                 log_messages.printf(MSG_CRITICAL,
                     "file %s length on disk %d bytes; host upload starting at %.0f bytes.\n",
