@@ -164,6 +164,8 @@ int main(int argc, char** argv) {
                 exit(1);
             }
             nrequests = atoi(argv[i]);
+            if (nrequests < 0) nrequests = 0;
+            if (nrequests > 10000000) nrequests = 10000000;
         }
         else if (!strcmp(argv[i], "--reqs_per_second")) {
             if (!argv[++i]) {
