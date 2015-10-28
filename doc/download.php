@@ -47,8 +47,8 @@ function download_link($pname, $button=false) {
             echo "<table><tr valign=top><td>\n";
 
             echo "
-                <table cellpadding=10><tr valign=top><td class=button>
-                <a href=\"$vbox_url\"><font size=4><u>"
+                <table cellpadding=10><tr valign=top><td class=button_green>
+                <a href=\"$vbox_url\"><font size=5em><u>"
                 .tra("Download BOINC + VirtualBox")
                 ."</u></font></a>
                 <br>"
