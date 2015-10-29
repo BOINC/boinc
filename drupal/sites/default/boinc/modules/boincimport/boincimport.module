@@ -1637,7 +1637,7 @@ function boincimport_forum_categories_op($category, $forum_vid, $pre, $create_hi
   if (!$category AND $create_hidden) {
     // Create the special "hidden" container
     $category = new stdClass();
-    $category->name = t('Hidden');
+    $category->name = 'Hidden';
     $category->id = 0;
     $hidden = TRUE;
   }
@@ -1682,8 +1682,13 @@ function boincimport_forum_categories_op($category, $forum_vid, $pre, $create_hi
   $message = '';
   if ($success) {
     // Store some result for post-processing in the finished callback.
-    $context['results']['categories']['success'][] = $category->id;
-    $message = "Successfully imported container {$category->id}";
+    if (!$category AND $create_hidden) {
+      $message = "Created special hidden container";
+    }
+    else {
+      $context['results']['categories']['success'][] = $category->id;
+      $message = "Successfully imported container {$category->id}";
+    }
   }
   else {
     $context['results']['categories']['failure'][] = $category->id;
