@@ -39,7 +39,7 @@ int assimilate_handler_init(int argc, char** argv) {
 void assimilate_handler_usage() {
     // describe the project specific arguments here
     //fprintf(stderr,
-    //    "    custom options:\n"
+    //    "    Custom options:\n"
     //    "    [--project_option X]  a project specific option\n"
     //);
 }

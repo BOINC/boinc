@@ -69,7 +69,8 @@ void usage(char* name) {
         "    [--dont_update_db]    Don't update DB (for testing)\n"
         "    [--noinsert]          Don't insert records in app-specific DB\n"
         "    [-h | --help]                 Show this\n"
-        "    [-v | --version]      Show version information\n",
+        "    [-v | --version]      Show version information\n"
+        "\n",
         name
     );
     assimilate_handler_usage();

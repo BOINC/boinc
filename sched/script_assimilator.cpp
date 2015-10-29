@@ -80,7 +80,7 @@ int assimilate_handler_init(int argc, char** argv) {
 void assimilate_handler_usage() {
     // describe the project specific arguments here
     fprintf(stderr,
-        "    custom options:\n"
+        "    Custom options:\n"
         "    --script \"X\"  call script to assimilate job\n"
         "                    see comment in script_assimilator.cpp for details\n"
     );
