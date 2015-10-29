@@ -262,7 +262,9 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
         return "xp.get_tag() failed";
     }
     if (xp.match_tag("?xml")) {
-        xp.get_tag();
+        if (xp.get_tag()) {
+            return "xp.get_tag() failed";
+        }
     }
     if (!xp.match_tag("scheduler_request")) return "no start tag";
     while (!xp.get_tag()) {
