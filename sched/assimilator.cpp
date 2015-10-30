@@ -46,7 +46,6 @@ using std::vector;
 #define SLEEP_INTERVAL 10
 
 bool update_db = true;
-bool noinsert = false;
 int wu_id_modulus=0, wu_id_remainder=0;
 int sleep_interval = SLEEP_INTERVAL;
 int one_pass_N_WU=0;
@@ -66,8 +65,7 @@ void usage(char* name) {
         "    [--one_pass]          Do one DB enumeration, then exit\n"
         "    [--one_pass_N_WU N]   Process at most N jobs\n"
         "    [-d | --debug_level N]       Set verbosity level (1 to 4)\n"
-        "    [--dont_update_db]    Don't update DB (for testing)\n"
-        "    [--noinsert]          Don't insert records in app-specific DB\n"
+        "    [--dont_update_db]    Don't update BOINC DB (for testing)\n"
         "    [-h | --help]                 Show this\n"
         "    [-v | --version]      Show version information\n"
         "\n",
@@ -258,11 +256,6 @@ int main(int argc, char** argv) {
             // your assimilator over and over again without affecting
             // your project.
             update_db = false;
-        } else if (is_arg(argv[i], "noinsert")) {
-            // This option is also for testing and is used to
-            // prevent the inserting of results into the *backend*
-            // (as opposed to the boinc) DB.
-            noinsert = true;
         } else if (is_arg(argv[i], "mod")) {
             if (!argv[++i]) {
                 missing_argument(argv[0], argv[--i]);
