@@ -35,6 +35,7 @@ pkginclude_HEADERS = \
 	sched_config.h \
 	sched_limit.h \
 	sched_util.h \
+	sched_util_basic.h \
 	../tools/backend_lib.h \
 	validate_util.h
 endif

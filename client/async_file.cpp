@@ -78,6 +78,8 @@ ASYNC_COPY::ASYNC_COPY() {
     in = out = NULL;
     atp = NULL;
     fip = NULL;
+    strcpy(to_path, "");
+    strcpy(temp_path, "");
 }
 
 ASYNC_COPY::~ASYNC_COPY() {

@@ -1,0 +1,131 @@
+<!-- $Id$ -->
+<h3>Template files</h3>
+
+<p>All themes usually come with a default <span class="code">node.tpl.php</span>
+template. Drupal core lets you use the following variant (suggestion):</p>
+
+<dl>
+  <dt>node-&lt;CONTENT_TYPE_NAME&gt;.tpl.php</dt>
+  <dd>
+    ex: <span class="code">node-story.tpl.php</span> - If present, will be used
+    to theme a 'story' node.
+  </dd>
+</dl>
+
+<p><strong>Important:</strong> whenever you add new template files in your theme, you
+need to rebuild the theme registry, or the theme engine won't see them.<br/>
+You can do that by :<br/>
+- visiting the <a href="&base_url&admin/build/modules">Administer modules</a> page<br/>
+- or using <a href="http://www.drupal.org/project/devel">Devel module</a>'s
+'clear cache' link.</p>
+
+<h3>Template variables</h3>
+
+<p>CCK makes the following variables available in your theme's node templates:</p>
+
+<dl>
+  <dt>$&lt;FIELD_NAME&gt;_rendered</dt>
+  <dd>
+    Contains the rendered html for the field, including the label and all the
+    field's values, with the settings defined on the <strong>Display fields</strong> tab.
+  </dd>
+
+  <dt>$&lt;GROUP_NAME&gt;_rendered</dt>
+  <dd>
+    Contains the rendered html for the fieldgroup (if any), including the label
+    and all the group's fields, with the settings defined on the <strong>Display
+    fields</strong> tab.<br/>
+    This variable therefore includes the html contained in all the
+    <span class="code">$&lt;FIELD_NAME&gt;_rendered</span> variables for the
+    group's fields.
+  </dd>
+
+  <dt>$FIELD_NAME</dt>
+  <dd>
+    Contains the raw values of the fields, in the usual array-format used
+    internally by CCK. What you find in there depends on the field type.<br/>
+    Each value also contains a <span class="code">'view'</span> element, that
+    holds the ready-to-display value as rendered by the formatter. For instance:
+    <pre>
+array(
+  0 => array(
+    'nid' => 5,
+    'view' => '&lt;a href="node/5"&gt;Title of node 5&lt;/a&gt;',
+  ),
+);</pre>
+    <strong>Raw data are not sanitized for output, it is therefore not
+    advised to use them directly</strong>. Use the <span class="code">'view'</span>
+    value, or run the values through <span class="code">content_format()</span>.
+  </dd>
+</dl>
+
+<h3>Excluding fields from the $content variable</h3>
+
+<p>By default, the <span class="code">$content</span> variable used in node
+templates contains the rendered html for the whole node : CCK fields and
+fieldgroups, but also body, file attachments, fivestar widgets, ...</p>
+
+<p>If for some fields you want to use the more fine-grained variables described
+above, you might want to use the <strong>Exclude</strong> checkboxes on the <strong>Display
+fields</strong> screen, so that the output of those fields is excluded from the
+<span class="code">$content</span> variable.</p>
+
+<p>You can then customize the display and layout of some CCK fields or groups
+using the <span class="code">$&lt;FIELD_NAME&gt;_rendered</span> /
+<span class="code">$&lt;GROUP_NAME&gt;_rendered</span> variables, and trust
+<span class="code">$content</span> to display 'the rest' without getting
+duplicate information.</p>
+
+<h5>Advanced trick</h5>
+<p>The <strong>Exclude</strong> checkboxes affect all active themes. On sites with multiple
+themes, however, the list of fields to exclude from <span class="code">$content</span>
+might need to be different across the themes, depending on how their respective
+node templates are structured.</p>
+
+<p>A theme can bypass those settings by overriding the <span class="code">theme_content_exclude()</span>
+function to specify the list of fields to exclude for this theme (see the
+PHPDoc of the function for more information).</p>
+
+
+<h3>Special case : nodes in nodereference fields</h3>
+
+<p>In addition to the above, the following suggestions will be looked for
+in priority for nodes that are displayed as values of a nodereference field using
+the 'teaser' or 'full node' formatters:</p>
+
+<dl>
+  <dt>node-nodereference-&lt;REFERRING_FIELD_NAME&gt;-&lt;TYPE_NAME&gt;.tpl.php</dt>
+  <dd>
+    ex: <span class="code">node-nodereference-field_noderef-story.tpl.php</span> -
+    If present, will be used to theme a 'story' node when refererenced in the
+    'field_noderef' field.
+  </dd>
+
+  <dt>node-nodereference-&lt;TYPE_NAME&gt;.tpl.php</dt>
+  <dd>
+    ex: <span class="code">node-nodereference-story.tpl.php</span> - If present,
+    will be used to theme a 'story' node when refererenced in any nodereference
+    field.
+  </dd>
+
+  <dt>node-nodereference-&lt;REFERRING_FIELD_NAME&gt;.tpl.php</dt>
+  <dd>
+    ex: <span class="code">node-nodereference-field_noderef.tpl.php</span> - If
+    present, will be used to a node refererenced in the 'field_noderef' field.
+  </dd>
+
+  <dt>node-nodereference.tpl.php</dt>
+  <dd>
+    If present, will be used to theme nodes referenced in nodereference fields.
+  </dd>
+</dl>
+
+<p>The following additional variables are available in templates for referenced nodes:</p>
+
+<dl>
+  <dt>$referring_field</dt>
+  <dd>The nodereference field that references the current node.</dd>
+
+  <dt>$referring_node</dt>
+  <dd>The node referencing the current node.</dd>
+</dl>

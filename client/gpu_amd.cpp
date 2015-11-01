@@ -115,6 +115,8 @@ void COPROC_ATI::get(
     CALuint numDevices, cal_major, cal_minor, cal_imp;
     char buf[256];
     int retval;
+    COPROC_ATI cc, cc2;
+    string s, gpu_name;
 
     attribs.struct_size = sizeof(CALdeviceattribs);
     numDevices =0;
@@ -156,7 +158,7 @@ void COPROC_ATI::get(
 
 #else
 
-    void* callib;
+    void* callib = NULL;
 
     callib = dlopen("libaticalrt.so", RTLD_NOW);
     if (!callib) {
@@ -180,63 +182,61 @@ void COPROC_ATI::get(
 
     if (!__calInit) {
         warnings.push_back("calInit() missing from CAL library");
-        return;
+        goto leave;
     }
     if (!__calGetVersion) {
         warnings.push_back("calGetVersion() missing from CAL library");
-        return;
+        goto leave;
     }
     if (!__calDeviceGetCount) {
         warnings.push_back("calDeviceGetCount() missing from CAL library");
-        return;
+        goto leave;
     }
     if (!__calDeviceGetAttribs) {
         warnings.push_back("calDeviceGetAttribs() missing from CAL library");
-        return;
+        goto leave;
     }
     if (!__calDeviceGetInfo) {
         warnings.push_back("calDeviceGetInfo() missing from CAL library");
-        return;
+        goto leave;
     }
 
     retval = (*__calInit)();
     if (retval != CAL_RESULT_OK) {
         sprintf(buf, "calInit() returned %d", retval);
         warnings.push_back(buf);
-        return;
+        goto leave;
     }
     retval = (*__calDeviceGetCount)(&numDevices);
     if (retval != CAL_RESULT_OK) {
         sprintf(buf, "calDeviceGetCount() returned %d", retval);
         warnings.push_back(buf);
-        return;
+        goto leave;
     }
     retval = (*__calGetVersion)(&cal_major, &cal_minor, &cal_imp);
     if (retval != CAL_RESULT_OK) {
         sprintf(buf, "calGetVersion() returned %d", retval);
         warnings.push_back(buf);
-        return;
+        goto leave;
     }
 
     if (!numDevices) {
         warnings.push_back("No usable CAL devices found");
-        return;
+        goto leave;
     }
 
-    COPROC_ATI cc, cc2;
-    string s, gpu_name;
     for (CALuint i=0; i<numDevices; i++) {
         retval = (*__calDeviceGetInfo)(&info, i);
         if (retval != CAL_RESULT_OK) {
             sprintf(buf, "calDeviceGetInfo() returned %d", retval);
             warnings.push_back(buf);
-            return;
+            goto leave;
         }
         retval = (*__calDeviceGetAttribs)(&attribs, i);
         if (retval != CAL_RESULT_OK) {
             sprintf(buf, "calDeviceGetAttribs() returned %d", retval);
             warnings.push_back(buf);
-            return;
+            goto leave;
         }
         switch ((int)attribs.target) {
         case CAL_TARGET_600:
@@ -278,7 +278,7 @@ void COPROC_ATI::get(
             gpu_name="ATI Radeon HD 5500/5600 series (Redwood)";
             break;
         case 11:
-            gpu_name="ATI Radeon HD 5400 series (Cedar)";
+            gpu_name="ATI Radeon HD 5400/R5 210 series (Cedar)";
             break;
         case 12:
             gpu_name="AMD Radeon HD 6370D/6380G/6410D/6480G (Sumo)";
@@ -302,16 +302,16 @@ void COPROC_ATI::get(
             gpu_name="AMD Radeon HD 6570/6670/7570/7670 series (Turks)";
             break;
         case 19:
-            gpu_name="AMD Radeon HD 6350/6450/7450/7470 series (Caicos)";
+            gpu_name="AMD Radeon HD 6350/6450/7450/7470/R5 230 series (Caicos)";
             break;
         case 20:
-            gpu_name="AMD Radeon HD 7870/7950/7970/R9 280X series (Tahiti)";
+            gpu_name="AMD Radeon HD 7870/7950/7970/R9 280/R9 280X series (Tahiti)";
             break;
         case 21:
             gpu_name="AMD Radeon HD 7850/7870 series (Pitcairn)";
             break;
         case 22:
-            gpu_name="AMD Radeon HD 7700 series (Capeverde)";
+            gpu_name="AMD Radeon HD 7700/R7 250X/R9 255 series (Capeverde)";
             break;
         case 23:
             gpu_name="AMD Radeon HD 7500/7600/8500/8600 series (Devastator)";
@@ -320,10 +320,10 @@ void COPROC_ATI::get(
             gpu_name="AMD Radeon HD 7400/7500/8300/8400 series (Scrapper)";
             break;
         case 25:
-            gpu_name="AMD Radeon HD 8600/8790M/R7 240/R7 250 (Oland)";
+            gpu_name="AMD Radeon HD 8600/8790M/R5 330/R5 340/R7 240/R7 250/R7 340/R7 350 (Oland)";
             break;
         case 26:
-            gpu_name="AMD Radeon HD 7790/R7 260X (Bonaire)";
+            gpu_name="AMD Radeon HD 7790/R7 260/R7 260X/R9 360 (Bonaire)";
             break;
         case 27:
             gpu_name="AMD Radeon HD (Spectre)"; // Kaveri
@@ -338,13 +338,31 @@ void COPROC_ATI::get(
             gpu_name="AMD Radeon HD 8600M (Hainan)";
             break;
         case 31:
-            gpu_name="AMD Radeon R9 270X (Curacao)";
+            gpu_name="AMD Radeon R7 265/R9 270/R9 270X/R9 370 (Curacao)";
             break;
         case 32:
             gpu_name="AMD Radeon R9 290 (Hawaii)";
             break;
         case 33:
             gpu_name="AMD Radeon R2/R3 (Skunk)"; // Mullins/new FT3 APU
+            break;
+        case 34:
+            gpu_name="AMD Radeon R9 285/R9 380 (Tonga)";
+            break;
+        case 35:
+            gpu_name="AMD Radeon R9 295X2 (Vesuvius)";
+            break;
+        case 36:
+            gpu_name="AMD Radeon R7 360 (Tobago)";
+            break;
+        case 37:
+            gpu_name="AMD Radeon R7 370/R9 370X (Trinidad)";
+            break;
+        case 38:
+            gpu_name="AMD Radeon R9 390/R9 390X (Grenada)";
+            break;
+        case 39:
+            gpu_name="AMD Radeon R9 Fury/R9 Nano/R9 Fury X/R9 Fury X2 (Fiji)";
             break;
         default:
             gpu_name="AMD Radeon HD (unknown)";
@@ -371,8 +389,13 @@ void COPROC_ATI::get(
     if (!ati_gpus.size()) {
         warnings.push_back("No ATI GPUs found");
     }
+leave:
+#ifdef _WIN32
+    if (callib) FreeLibrary(callib);
+#else
+    if (callib) dlclose(callib);
+#endif
 }
-
 
 void COPROC_ATI::correlate(
     bool use_all,

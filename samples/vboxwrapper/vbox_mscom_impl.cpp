@@ -1344,9 +1344,7 @@ int VBOX_VM::poll(bool log_state) {
     // Grab a snapshot of the latest log file.  Avoids multiple queries across several
     // functions.
     //
-    if (online) {
-        get_vm_log(vm_log);
-    }
+    get_vm_log(vm_log);
 
     //
     // Dump any new VM Guest Log entries

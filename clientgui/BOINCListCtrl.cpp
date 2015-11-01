@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -87,7 +87,10 @@ CBOINCListCtrl::CBOINCListCtrl(
 
 #if USE_NATIVE_LISTCONTROL
     m_bProgressBarEventPending = false;
+    PushEventHandler(new MyEvtHandler(this));
 #else
+    savedHandler = GetMainWin()->GetEventHandler();
+    GetMainWin()->PushEventHandler(new MyEvtHandler(this));
 #ifdef __WXMAC__
     SetupMacAccessibilitySupport();
 #endif
@@ -97,12 +100,16 @@ CBOINCListCtrl::CBOINCListCtrl(
 
 CBOINCListCtrl::~CBOINCListCtrl()
 {
-    m_iRowsNeedingProgressBars.Clear();
+#if USE_NATIVE_LISTCONTROL
+    PopEventHandler(true);
+#else
+    GetMainWin()->PopEventHandler(true);
 #ifdef __WXMAC__
-#if !USE_NATIVE_LISTCONTROL
     RemoveMacAccessibilitySupport();
 #endif
 #endif
+
+    m_iRowsNeedingProgressBars.Clear();
 }
 
 

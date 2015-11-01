@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,7 +22,7 @@
 #pragma interface "DlgEventLogListCtrl.cpp"
 #endif
 
-#ifdef __WXMAC__
+#if (defined(__WXMAC__) || defined(__WXGTK__))
 #define DLG_LISTCTRL_BASE wxGenericListCtrl
 #else
 #define DLG_LISTCTRL_BASE wxListView
@@ -42,8 +42,11 @@ public:
     CDlgEventLogListCtrl();
     CDlgEventLogListCtrl(CDlgEventLog* pView, wxWindowID iListWindowID, int iListWindowFlags);
 
-#ifdef __WXMAC__
     ~CDlgEventLogListCtrl();
+
+#ifdef __WXGTK__
+    wxEvtHandler*           savedHandler;
+    wxScrolledWindow*       GetMainWin(void) { return (wxScrolledWindow*) m_mainWin; }
 #endif
 
 private:
@@ -69,5 +72,24 @@ private:
     void*                   m_fauxBodyView;
 #endif
 };
+
+#ifdef __WXGTK__
+// Define a custom event handler
+class MyEvtLogEvtHandler : public wxEvtHandler
+{
+    DECLARE_DYNAMIC_CLASS(MyEvtLogEvtHandler)
+
+public:
+    MyEvtLogEvtHandler();
+    MyEvtLogEvtHandler(wxGenericListCtrl *theListControl);
+    void                    OnPaint(wxPaintEvent & event);
+
+private:
+    wxGenericListCtrl *     m_listCtrl;
+    int                     m_view_startX;
+
+    DECLARE_EVENT_TABLE()
+};
+#endif
 
 #endif

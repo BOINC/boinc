@@ -1,0 +1,31 @@
+# $Id$
+#
+# LANGUAGE translation of Drupal (modules-fieldgroup-panels-content_types)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from file: content_fieldgroup.inc,v 1.1.2.1 2009/04/29 18:34:46 karens
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-06-16 19:00+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: modules/fieldgroup/panels/content_types/content_fieldgroup.inc:39
+msgid "@type: (fieldgroup) @fieldgroup"
+msgstr ""
+
+#: modules/fieldgroup/panels/content_types/content_fieldgroup.inc:42
+msgid "All fields from this fieldgroup on the referenced node."
+msgstr ""
+
+#: modules/fieldgroup/panels/content_types/content_fieldgroup.inc:119
+msgid "\"@s\" fieldgroup (@name)"
+msgstr ""
+

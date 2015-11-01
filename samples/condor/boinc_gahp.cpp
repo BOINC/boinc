@@ -41,6 +41,8 @@ using std::set;
 using std::string;
 using std::vector;
 
+extern size_t strlcpy(char*, const char*, size_t);
+
 char project_url[256];
 char authenticator[256];
 char response_prefix[256];
@@ -220,12 +222,12 @@ int process_input_files(SUBMIT_REQ& req, string& error_msg) {
 // parse the text coming from Condor
 //
 int COMMAND::parse_submit(char* p) {
-    strcpy(submit_req.batch_name, strtok_r(NULL, " ", &p));
-    strcpy(submit_req.app_name, strtok_r(NULL, " ", &p));
+    strlcpy(submit_req.batch_name, strtok_r(NULL, " ", &p), sizeof(submit_req.batch_name));
+    strlcpy(submit_req.app_name, strtok_r(NULL, " ", &p), sizeof(submit_req.app_name));
     int njobs = atoi(strtok_r(NULL, " ", &p));
     for (int i=0; i<njobs; i++) {
         JOB job;
-        strcpy(job.job_name, strtok_r(NULL, " ", &p));
+        strlcpy(job.job_name, strtok_r(NULL, " ", &p), sizeof(job.job_name));
         int nargs = atoi(strtok_r(NULL, " ", &p));
         for (int j=0; j<nargs; j++) {
             string arg = strtok_r(NULL, " ", &p);
@@ -234,8 +236,8 @@ int COMMAND::parse_submit(char* p) {
         int ninfiles = atoi(strtok_r(NULL, " ", &p));
         for (int j=0; j<ninfiles; j++) {
             INFILE infile;
-            strcpy(infile.src_path, strtok_r(NULL, " ", &p));
-            strcpy(infile.logical_name, strtok_r(NULL, " ", &p));
+            strlcpy(infile.src_path, strtok_r(NULL, " ", &p), sizeof(infile.src_path));
+            strlcpy(infile.logical_name, strtok_r(NULL, " ", &p), sizeof(infile.logical_name));
             job.infiles.push_back(infile);
         }
         submit_req.jobs.push_back(job);
@@ -344,11 +346,11 @@ void handle_query_batches(COMMAND& c) {
 int COMMAND::parse_fetch_output(char* p) {
     char* q = strtok_r(NULL, " ", &p);
     if (!q) return -1;
-    strcpy(fetch_output_req.job_name, q);
+    strlcpy(fetch_output_req.job_name, q, sizeof(fetch_output_req.job_name));
 
     q = strtok_r(NULL, " ", &p);
     if (!q) return -1;
-    strcpy(fetch_output_req.dir, q);
+    strlcpy(fetch_output_req.dir, q, sizeof(fetch_output_req.dir));
 
     q = strtok_r(NULL, " ", &p);
     if (!q) return -1;
@@ -367,8 +369,8 @@ int COMMAND::parse_fetch_output(char* p) {
     int nfiles = atoi(strtok_r(NULL, " ", &p));
     for (int i=0; i<nfiles; i++) {
         OUTFILE of;
-        strcpy(of.src, strtok_r(NULL, " ", &p));
-        strcpy(of.dest, strtok_r(NULL, " ", &p));
+        strlcpy(of.src, strtok_r(NULL, " ", &p), sizeof(of.src));
+        strlcpy(of.dest, strtok_r(NULL, " ", &p), sizeof(of.dest));
         fetch_output_req.file_descs.push_back(of);
     }
     return 0;
@@ -505,7 +507,7 @@ void handle_fetch_output(COMMAND& c) {
         OUTFILE& of = req.file_descs[i];
         if (!strcmp(of.src, of.dest)) continue;
         if (of.dest[0] == '/') {
-            strcpy(dst_path, of.dest);
+            strlcpy(dst_path, of.dest, sizeof(dst_path));
         } else {
             sprintf(dst_path, "%s/%s", req.dir, of.dest);
         }
@@ -545,7 +547,7 @@ void handle_abort_jobs(COMMAND& c) {
 }
 
 int COMMAND::parse_retire_batch(char* p) {
-    strcpy(batch_name, strtok_r(NULL, " ", &p));
+    strlcpy(batch_name, strtok_r(NULL, " ", &p), sizeof(batch_name));
     return 0;
 }
 
@@ -566,7 +568,7 @@ void handle_retire_batch(COMMAND& c) {
 }
 
 int COMMAND::parse_set_lease(char* p) {
-    strcpy(batch_name, strtok_r(NULL, " ", &p));
+    strlcpy(batch_name, strtok_r(NULL, " ", &p), sizeof(batch_name));
     lease_end_time = atof(strtok_r(NULL, " ", &p));
     return 0;
 }
@@ -691,7 +693,7 @@ int handle_command(char* p) {
     } else if (!strcasecmp(cmd, "RESPONSE_PREFIX")) {
         flockfile(stdout);
         BPRINTF("S\n");
-        strcpy(response_prefix, p+strlen("RESPONSE_PREFIX "));
+        strlcpy(response_prefix, p+strlen("RESPONSE_PREFIX "), sizeof(response_prefix));
         funlockfile(stdout);
     } else if (!strcasecmp(cmd, "ASYNC_MODE_ON")) {
         flockfile(stdout);

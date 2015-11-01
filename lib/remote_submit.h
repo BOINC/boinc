@@ -95,7 +95,6 @@ struct COMPLETED_JOB_DESC {
     double cpu_time;
     string stderr_out;
 
-    COMPLETED_JOB_DESC(){}
     int parse(XML_PARSER&);
 };
 

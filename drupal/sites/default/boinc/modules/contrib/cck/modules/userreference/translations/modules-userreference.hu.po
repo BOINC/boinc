@@ -1,0 +1,137 @@
+# Hungarian translation of cck (6.x-2.0-rc10)
+# Copyright (c) 2008 by the Hungarian translation team
+# Generated from files:
+#  userreference.module,v 1.106.2.21 2008/10/07 10:17:51 karens
+#  userreference.rules.inc,v 1.1.2.2 2008/10/06 15:02:03 karens
+#  userreference.info,v 1.8 2008/04/23 18:02:38 dww
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: cck (6.x-2.0-rc10)\n"
+"POT-Creation-Date: 2008-10-31 12:16-0500\n"
+"PO-Revision-Date: 2008-10-26 16:42-0500\n"
+"Last-Translator: Balogh Zoltán\n"
+"Language-Team: Drupal.hu Fordítói Csapat <forditas [at] drupal.hu>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: modules/userreference/userreference.module:97
+msgid "Active"
+msgstr "Aktív"
+
+#: modules/userreference/userreference.module:97
+msgid "Blocked"
+msgstr "Blokkolt"
+
+#: modules/userreference/userreference.rules.inc:15
+msgid "Load a referenced user"
+msgstr "Egy hivatkozott felhasználó betöltése"
+
+#: modules/userreference/userreference.rules.inc:19
+msgid "Content containing the user reference field"
+msgstr "A felhasználóhivatkozás mező tartalma"
+
+#: modules/userreference/userreference.rules.inc:25
+msgid "Referenced user"
+msgstr "Hivatkozott felhasználó"
+
+#: modules/userreference/userreference.rules.inc:29
+msgid ""
+"Note that if the field has multiple values, only the first user will "
+"be loaded."
+msgstr ""
+"Megjegyzés: Ha a mezőnek több értéke is lehet, akkor csak az "
+"első felhasználó lesz betöltve."
+
+#: modules/userreference/userreference.rules.inc:52
+msgid "There are no userreference fields defined."
+msgstr "Nincsenek felhasználóhivatkozás mezők meghatározva."
+
+#: modules/userreference/userreference.module:70
+msgid "User reference"
+msgstr "Hivatkozás felhasználóra"
+
+#: modules/userreference/userreference.module:71
+msgid "Store the ID of a related user as an integer value."
+msgstr ""
+"A hivatkozott felhasználó azonosítójának tárolása egész "
+"számként."
+
+#: modules/userreference/userreference.module:89
+msgid "User roles that can be referenced"
+msgstr "Felhasználói csoport, amelyre hivatkozni lehet"
+
+#: modules/userreference/userreference.module:95
+msgid "User status that can be referenced"
+msgstr "Felhasználói állapot, amelyre hivatkozni lehet"
+
+#: modules/userreference/userreference.module:117
+msgid "Advanced - Users that can be referenced (View)"
+msgstr "Haladó - Felhasználók, akikre hivatkozni lehet (Nézet)"
+
+#: modules/userreference/userreference.module:123
+msgid "View used to select the users"
+msgstr "A felhasználók kiválasztásához használt nézet"
+
+#: modules/userreference/userreference.module:126
+msgid ""
+"Choose the \"Views module\" view that selects the users that can be "
+"referenced.<br />Note:<ul><li>Only views that have fields will work "
+"for this purpose.</li><li>This will discard the \"Referenceable "
+"Roles\" and \"Referenceable Status\" settings above. Use the view's "
+"\"filters\" section instead.</li><li>Use the view's \"fields\" section "
+"to display additional informations about candidate users on user "
+"creation/edition form.</li><li>Use the view's \"sort criteria\" "
+"section to determine the order in which candidate users will be "
+"displayed.</li></ul>"
+msgstr ""
+"A „Nézet modul” egyik nézetének kiválasztása, mely azokat a "
+"felhasználókat mutatja, akikre hivatkozni "
+"lehet.<br>Megjegyzés:<ul><li>Itt csak olyan nézet működik, melynek "
+"vannak mezői.</li><li>Ez felülírja a fenti „Hivatkozható "
+"csoportok” és „Hivatkozható állapotok” beállításokat. A "
+"nézet „szűrő” feltétele használható e helyett.</li><li>A "
+"nézet „mezők” része használható arra, hogy bővebb "
+"információkat jelenítsen meg a lehetséges felhasználókról a "
+"szerkesztő űrlapon.</li><li>A nézet „sorrend” része "
+"befolyásolja a lehetséges felhasználók megjelenítési "
+"sorrendjét.</li></ul>"
+
+#: modules/userreference/userreference.module:185
+msgid "%name: invalid user."
+msgstr "%name: érvénytelen felhasználó."
+
+#: modules/userreference/userreference.module:329
+msgid "Reverse link"
+msgstr "Visszamutató hivatkozás"
+
+#: modules/userreference/userreference.module:331
+msgid ""
+"If selected, a reverse link back to the referencing node will "
+"displayed on the referenced user record."
+msgstr ""
+"Ha be van jelölve, akkor a felhasználó adatlapján egy hivatkozás "
+"visszamutat a hivatkozó tartalomra."
+
+#: modules/userreference/userreference.module:830
+msgid "Related content"
+msgstr "Kapcsolódó tartalom"
+
+#: modules/userreference/userreference.module:15
+msgid "Userreference autocomplete"
+msgstr "Felhasználóhivatkozás automatikus kiegészítéssel"
+
+#: modules/userreference/userreference.module:0
+msgid "userreference"
+msgstr "felhasználóhivatkozás"
+
+#: modules/userreference/userreference.info:0
+msgid "User Reference"
+msgstr "Felhasználói hivatkozás"
+
+#: modules/userreference/userreference.info:0
+msgid "Defines a field type for referencing a user from a node."
+msgstr "Olyan mezőtípus, amely a tartalomban egy felhasználóra hivatkozik."
+

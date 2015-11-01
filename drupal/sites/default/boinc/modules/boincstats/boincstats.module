@@ -130,8 +130,9 @@ function boincstats_get_user_stats_chart($cpid = null, $chart_size = 'medium') {
     
     // Load XML from RPC
     $target_url = "http://{$stats_server}/{$stats_rpc}{$query}";
-    if (url_exists($target_url)) {
-      $stats_xml = simplexml_load_file($target_url);
+    $result = drupal_http_request($target_url);
+    if (in_array($result->code, array(200, 304))) {
+      $stats_xml = simplexml_load_string($result->data);
     }
     
     // Create and populate the pData object
@@ -383,8 +384,9 @@ function boincstats_get_project_stats() {
   // Load XML from RPC
   $stats_xml = NULL;
   $target_url = "http://{$stats_server}/{$stats_rpc}{$query}";
-  if (url_exists($target_url)) {
-    $stats_xml = simplexml_load_file($target_url);
+  $result = drupal_http_request($target_url);
+  if (in_array($result->code, array(200, 304))) {
+    $stats_xml = simplexml_load_string($result->data);
   }
   watchdog('boincstats', $target_url);
   return $stats_xml;
@@ -484,18 +486,5 @@ function boincstats_check_configuration() {
       drupal_set_message(t('There is a problem with the site. Please contact
         the system administrator.'), 'error', FALSE);
     }
-  }
-}
-
-/*
- * If no function exists to check a URL for validity, define it here
- */
-if (!function_exists('url_exists')) {
-  function url_exists($url) {
-    $url_headers = @get_headers($url);
-    if (!$url_headers OR (stripos($url_headers[0], '404 not found') !== FALSE)) {
-      return FALSE;
-    }
-    return TRUE;
   }
 }

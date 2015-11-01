@@ -150,6 +150,10 @@ class BoincForumPrefs {
         } else {
             $prefs = self::lookup_userid($user->id);
             if (!$prefs) {
+                $db = BoincDb::get();
+                if ($db->readonly) {
+                    return;
+                }
                 self::insert("(userid, last_post, forum_sorting, thread_sorting, rated_posts, ignorelist, pm_notification) values ($user->id, 0, 0, 8, '', '', 0)");
                 $prefs = self::lookup_userid($user->id);
                 $prefs->userid = $user->id;

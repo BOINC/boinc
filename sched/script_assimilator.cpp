@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2014 University of California
+// Copyright (C) 2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -47,6 +47,7 @@
 #include "boinc_db.h"
 #include "error_numbers.h"
 #include "sched_msgs.h"
+#include "sched_util.h"
 #include "validate_util.h"
 #include "validator.h"
 #include "sched_config.h"
@@ -54,13 +55,13 @@
 using std::vector;
 using std::string;
 
-bool first = true;
 vector<string> script;
 
-void parse_cmdline() {
-    for (int i=1; i<g_argc; i++) {
-        if (!strcmp(g_argv[i], "--script")) {
-            script = split(g_argv[++i], ' ');
+int assimilate_handler_init(int argc, char** argv) {
+    // handle project specific arguments here
+    for (int i=1; i<argc; i++) {
+        if (is_arg(argv[i], "script")) {
+            script = split(argv[++i], ' ');
             if (script.size() == 1) {
                 script.push_back("wu_id");
                 script.push_back("files");
@@ -71,8 +72,18 @@ void parse_cmdline() {
         log_messages.printf(MSG_CRITICAL,
             "script name missing from command line\n"
         );
-        exit(1);
+        return 1;
     }
+    return 0;
+}
+
+void assimilate_handler_usage() {
+    // describe the project specific arguments here
+    fprintf(stderr,
+        "    Custom options:\n"
+        "    --script \"X\"  call script to assimilate job\n"
+        "                    see comment in script_assimilator.cpp for details\n"
+    );
 }
 
 int assimilate_handler(
@@ -81,11 +92,6 @@ int assimilate_handler(
     int retval;
     char cmd[4096], buf[256];
     unsigned int i, j;
-
-    if (first) {
-        parse_cmdline();
-        first = false;
-    }
 
     if (wu.canonical_resultid) {
         sprintf(cmd, "../bin/%s", script[0].c_str());

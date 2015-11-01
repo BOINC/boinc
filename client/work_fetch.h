@@ -73,9 +73,7 @@ struct RSC_PROJECT_WORK_FETCH {
 
     // the following used by REC accounting
     double secs_this_rec_interval;
-    inline void reset_rec_accounting() {
-        secs_this_rec_interval = 0;
-    }
+
     double queue_est;
         // an estimate of instance-secs of queued work;
     bool anonymous_platform_no_apps;
@@ -103,6 +101,7 @@ struct RSC_PROJECT_WORK_FETCH {
         // This project has a coproc job of the given type for which
         // the job is deferred because of a temporary_exit() call.
         // Don't fetch more jobs of this type; they might have same problem
+    int rsc_project_reason;
 
     RSC_PROJECT_WORK_FETCH() {
         backoff_time = 0;
@@ -118,7 +117,9 @@ struct RSC_PROJECT_WORK_FETCH {
         non_excluded_instances = 0;
         deadlines_missed = 0;
         deadlines_missed_copy = 0;
+        pending.clear();
         has_deferred_job = false;
+        rsc_project_reason = 0;
     }
 
     inline void reset() {
@@ -126,7 +127,9 @@ struct RSC_PROJECT_WORK_FETCH {
         backoff_interval = 0;
     }
 
-    int rsc_project_reason;
+    inline void reset_rec_accounting() {
+        secs_this_rec_interval = 0;
+    }
     int compute_rsc_project_reason(PROJECT*, int rsc_type);
     void resource_backoff(PROJECT*, const char*);
     void rr_init();
@@ -220,6 +223,14 @@ struct RSC_WORK_FETCH {
 #ifdef SIM
     double estimated_delay;
 #endif
+    // the following specify the work request for this resource
+    //
+    double req_secs;
+    double req_instances;
+    // REC accounting
+    double secs_this_rec_interval;
+    // temp in choose_project()
+    PROJECT* found_project;     // a project able to ask for this work
 
     void init(int t, int n, double sp) {
         rsc_type = t;
@@ -227,20 +238,6 @@ struct RSC_WORK_FETCH {
         relative_speed = sp;
         busy_time_estimator.init(n);
     }
-    // the following specify the work request for this resource
-    //
-    double req_secs;
-    double req_instances;
-
-    // REC accounting
-    double secs_this_rec_interval;
-    inline void reset_rec_accounting() {
-        this->secs_this_rec_interval = 0;
-    }
-
-    // temp in choose_project()
-    PROJECT* found_project;     // a project able to ask for this work
-
     void rr_init();
     void update_stats(double sim_now, double dt, double buf_end);
     void update_busy_time(double dur, double nused);
@@ -255,17 +252,31 @@ struct RSC_WORK_FETCH {
     int cant_fetch(PROJECT*);
     bool backed_off(PROJECT*);
     bool uses_starved_excluded_instances(PROJECT*);
+    inline void reset_rec_accounting() {
+        this->secs_this_rec_interval = 0;
+    }
     RSC_WORK_FETCH() {
         rsc_type = 0;
         ninstances = 0;
         relative_speed = 0;
+        has_exclusions = false;
         shortfall = 0;
         nidle_now = 0;
         sim_nused = 0;
+        sim_used_instances = 0;
+        sim_excluded_instances = 0;
         total_fetchable_share = 0;
         saturated_time = 0;
         deadline_missed_instances = 0;
-        has_exclusions = false;
+        busy_time_estimator.init(0);
+        dont_fetch_reason = 0;
+#ifdef SIM
+        estimated_delay = 0.0;
+#endif
+        req_secs = 0.0;
+        req_instances = 0.0;
+        secs_this_rec_interval = 0.0;
+        found_project = NULL;
     }
 };
 

@@ -27,7 +27,7 @@
   <string name="attachproject_conflict_not_unique">Account bestaat met ander wachtwoord</string>
   <string name="attachproject_conflict_bad_password">Foutief wachtwoord</string>
   <string name="attachproject_conflict_unknown_user">Account bestaat niet</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">Account bestaat niet, bezoek project website om te registreren</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">Account bestaat niet, bezoek projectwebsite om te registreren</string>
   <!--working-->
   <string name="attachproject_working_attaching">Toevoegen</string>
   <!--e.g. Attaching Einstein@Home-->

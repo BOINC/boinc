@@ -1150,7 +1150,15 @@ function boincimport_quarrels_op($boinc_user, &$context) {
   $ignored_users = explode('|', trim($boinc_user->ignorelist, '|'));
   foreach ($ignored_users as $ignored_user) {
     $ignored_user_uid = boincuser_lookup_uid($ignored_user);
-    if (!$ignored_user_uid) continue;
+    if (!$ignored_user_uid) {
+      $context['results']['warning'][] = "{$uid}:{$ignored_user_uid}";
+      watchdog('boincimport',
+        'Error adding to ignore list of user @uid: No Drupal ID found for BOINC user @boinc_id',
+        array('@boinc_id' => $ignored_user, '@uid' => $uid),
+        WATCHDOG_WARNING
+      );
+      continue;
+    }
     $user_ignored = db_query("
       INSERT IGNORE INTO {ignore_user}
       SET uid = '%d', iuid = '%d'",
@@ -1160,7 +1168,12 @@ function boincimport_quarrels_op($boinc_user, &$context) {
       $success = TRUE;
     }
     else {
-      $context['results']['warning'][$uid] = $ignored_user_uid;
+      $context['results']['warning'][] = "{$uid}:{$ignored_user_uid}";
+      watchdog('boincimport',
+        'Could not add user @ignored_uid to the ignore list of user @uid',
+        array('@ignored_uid' => $ignored_user_uid, '@uid' => $uid),
+        WATCHDOG_WARNING
+      );
     }
   }
   
@@ -1210,16 +1223,6 @@ function boincimport_preferences_finished($success, $results, $operations) {
       array('@count' => $total_imported, '@warn' => $total_warnings),
       WATCHDOG_INFO
     );
-    // Record any warnings
-    if ($total_warnings) {
-      foreach ($results['warning'] as $uid => $ignored_user_uid) {
-        watchdog('boincimport',
-          'Could not add user @ignored_uid to the ignore list of user @uid',
-          array('@ignored_uid' => $ignored_user_uid, '@uid' => $uid),
-          WATCHDOG_WARNING
-        );
-      }
-    }
     // Set the preference import successful flag in the variable table
     variable_set('boincimport_import_preferences_successful', '1');
     $_SESSION['boincimport_stage_selected'] = 'private messages';
@@ -1634,7 +1637,7 @@ function boincimport_forum_categories_op($category, $forum_vid, $pre, $create_hi
   if (!$category AND $create_hidden) {
     // Create the special "hidden" container
     $category = new stdClass();
-    $category->name = t('Hidden');
+    $category->name = 'Hidden';
     $category->id = 0;
     $hidden = TRUE;
   }
@@ -1679,8 +1682,13 @@ function boincimport_forum_categories_op($category, $forum_vid, $pre, $create_hi
   $message = '';
   if ($success) {
     // Store some result for post-processing in the finished callback.
-    $context['results']['categories']['success'][] = $category->id;
-    $message = "Successfully imported container {$category->id}";
+    if (!$category AND $create_hidden) {
+      $message = "Created special hidden container";
+    }
+    else {
+      $context['results']['categories']['success'][] = $category->id;
+      $message = "Successfully imported container {$category->id}";
+    }
   }
   else {
     $context['results']['categories']['failure'][] = $category->id;

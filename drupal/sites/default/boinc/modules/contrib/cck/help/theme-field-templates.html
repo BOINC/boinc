@@ -1,0 +1,76 @@
+<!-- $Id$ -->
+<p>Field-level theming determines how the values of a given field are
+displayed. The resulting output ends up in the <span class="code">$content</span>
+and <span class="code">$&lt;FIELD_NAME&gt;_rendered</span> variables in the node
+templates.</p>
+
+<h3>Template files</h3>
+
+<p>In order to customize field themeing:</p>
+
+<ul>
+  <li>
+    Copy the <span class="code">content-field.tpl.php</span> template file into
+    your theme's root folder (please keep the contents of the
+    <span class="code">cck/theme</span> folder untouched. For the same reason,
+     need to copy the file instead of just moving it).
+  </li>
+  <li>
+    Edit that copy to your liking. See the comments in
+    <span class="code">cck/theme/content/content-field.tpl.php</span> for a list
+    of all variables available in this template.
+  </li>
+</ul>
+
+<h3>Template suggestions</h3>
+
+<p>In addition, the theme layer will also look for field-specific variants
+(suggestions), in the following order of precedence:</p>
+
+<dl>
+  <dt>content-field-&lt;FIELD_NAME&gt;-&lt;CONTENT_TYPE_NAME&gt;.tpl.php</dt>
+  <dd>
+    ex: <span class="code">content-field-field_myfield-story.tpl.php</span> -
+    If present, will be used to theme the 'field_myfield' field when displaying
+    a 'story' node.
+  </dd>
+
+  <dt>content-field-&lt;CONTENT_TYPE_NAME&gt;.tpl.php</dt>
+  <dd>
+    ex: <span class="code">content-field-story.tpl.php</span> - If present,
+    will be used to theme all fields of 'story' nodes.
+  </dd>
+
+  <dt>content-field-&lt;FIELD_NAME&gt;.tpl.php</dt>
+  <dd>
+    ex: <span class="code">content-field-field_myfield.tpl.php</span> -
+    If present, will be used to theme all 'field_myfield' field in all the
+    content types it appears in.
+  </dd>
+
+  <dt>content-field.tpl.php</dt>
+  <dd>
+    If none of the above is present, the base template will be used.
+  </dd>
+</dl>
+
+<strong>Important:</strong>
+<ul>
+  <li>
+    Suggestions work only if the theme also has the base template file.
+    If your theme has <span class="code">content-field-*.tpl.php</span> files,
+    it must also have a <span class="code">content-field.tpl.php</span> file.
+  </li>
+  <li>
+    Whenever you add new template files in your theme, you need to
+    rebuild the theme registry, or the theme engine won't see them.<br/>
+    You can do that by :<br/>
+    - visiting the <a href="&base_url&admin/build/modules">Administer modules</a> page<br/>
+    - or using <a href="http://www.drupal.org/project/devel">Devel module</a>'s
+    'clear cache' link.
+  </li>
+</ul>
+
+<p>See the <a href="http://drupal.org/node/223440">Working with template suggestions</a>
+section of the <a href="http://drupal.org/theme-guide">Theme guide for Drupal 6</a>
+for more informations about templates and template suggestions.</p>

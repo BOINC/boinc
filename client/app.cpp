@@ -89,6 +89,11 @@ ACTIVE_TASK::~ACTIVE_TASK() {
 }
 
 ACTIVE_TASK::ACTIVE_TASK() {
+#ifdef _WIN32
+    strcpy(shmem_seg_name, "");
+#else
+    shmem_seg_name = 0;
+#endif
     result = NULL;
     wup = NULL;
     app_version = NULL;
@@ -111,6 +116,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     first_fraction_done = 0;
     first_fraction_done_elapsed_time = 0;
     scheduler_state = CPU_SCHED_UNINITIALIZED;
+    next_scheduler_state = CPU_SCHED_UNINITIALIZED;
     signal = 0;
     run_interval_start_wall_time = gstate.now;
     checkpoint_wall_time = 0;
@@ -120,11 +126,16 @@ ACTIVE_TASK::ACTIVE_TASK() {
     bytes_sent = 0;
     bytes_received = 0;
     strcpy(slot_dir, "");
+    strcpy(slot_path, "");
+    max_elapsed_time = 0;
+    max_disk_usage = 0;
+    max_mem_usage = 0;
     have_trickle_down = false;
     send_upload_file_status = false;
     too_large = false;
     needs_shmem = false;
     want_network = 0;
+    abort_time = 0;
     premature_exit_count = 0;
     quit_time = 0;
     procinfo.clear();
@@ -310,7 +321,7 @@ void procinfo_show(PROC_MAP& pm) {
     PROCINFO pi;
     pi.clear();
     PROC_MAP::iterator i;
-    for (i=pm.begin(); i!=pm.end(); i++) {
+    for (i=pm.begin(); i!=pm.end(); ++i) {
         PROCINFO& p = i->second;
 
         msg_printf(NULL, MSG_INFO, "%d %s: boinc? %d low_pri %d (u%f k%f)",

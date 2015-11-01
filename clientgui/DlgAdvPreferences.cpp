@@ -102,6 +102,9 @@ CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBas
     //read in settings and initialize controls
     ReadPreferenceSettings();
 
+    lastErrorCtrl = NULL;
+    stdTextBkgdColor = *wxWHITE;
+
     if (! m_bOKToShow) return;
 
     // Get default preference values
@@ -127,9 +130,6 @@ CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBas
         m_Notebook->SetMinSize(sz);
     }
 #endif
-    lastErrorCtrl = NULL;
-    stdTextBkgdColor = *wxWHITE;
-
     Layout();
     Fit();
     Centre();

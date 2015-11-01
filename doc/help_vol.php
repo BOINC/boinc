@@ -10,7 +10,7 @@ $volid = get_int('volid');
 $vol = vol_lookup($volid);
 
 function show_info($vol) {
-    $x = "<span class=note> Country: $vol->country\n";
+    $x = "Country: $vol->country\n";
     if ($vol->availability) {
         $x .= "<br>Usual hours: $vol->availability";
     }
@@ -24,14 +24,13 @@ function show_info($vol) {
         $x .= "<br>Primary language: $vol->lang1";
         $x .= "<br>Secondary language: $vol->lang2";
     }
-    $x .= "</span><p>";
+    $x .= "<p>";
     return $x;
 }
 
 function live_contact($vol) {
     $skypeid = $vol->skypeid;
     echo "
-    <font size=+2><b>Contact $vol->name on Skype</b></font>
     <script>
         if (navigator.userAgent.indexOf('MSIE') != -1) {
             document.write(
@@ -92,7 +91,7 @@ function email_contact($vol) {
             
         Please include a detailed description of the problem
         you're experiencing.
-        If possible, include the contents of BOINC's message log.
+        If possible, include the contents of BOINC's event log.
         </span>",
         textarea("message", "")
     );
@@ -200,6 +199,7 @@ if (false) {
         live_contact($vol);
     }
 }
+    echo "<h2>Contact $vol->name by Skype</h2>\n";
     skype_call_button($vol);
     email_contact($vol);
     echo "</td></tr></table><p>\n";

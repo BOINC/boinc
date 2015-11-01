@@ -1,0 +1,11 @@
+name = Mini panels
+description = Create mini panels that can be used as blocks by Drupal and panes by other panel modules.
+package = "Panels"
+dependencies[] = panels
+core = 6.x
+; Information added by drupal.org packaging script on 2012-01-18
+version = "6.x-3.10"
+core = "6.x"
+project = "panels"
+datestamp = "1326917148"
+

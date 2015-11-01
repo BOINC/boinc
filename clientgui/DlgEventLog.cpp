@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -105,7 +105,7 @@ CDlgEventLog::CDlgEventLog( wxWindow* parent, wxWindowID id, const wxString& cap
 
 CDlgEventLog::~CDlgEventLog() {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::CDlgEventLog - Destructor Function Begin"));
-    
+ 
     if (m_pMessageInfoAttr) {
         delete m_pMessageInfoAttr;
         m_pMessageInfoAttr = NULL;

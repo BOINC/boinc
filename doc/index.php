@@ -177,6 +177,7 @@ function show_other() {
                 <li> <a href=\"dev/\">".tra("Message boards")."</a>
                 <li> <a href=\"trac/wiki/EmailLists\">".tra("Email lists")."</a>
                 <li> <a href=\"trac/wiki/BoincEvents\">".tra("Events")."</a>
+                <li> <a href=logo.php>Logos and graphics</a>
                 </ul>
             <p>
             <li> Software

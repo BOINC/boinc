@@ -1,0 +1,6 @@
+// $Id$
+
+DEVELOPER DOCUMENTATION
+UPDATING FROM 5.x TO 6.x
+
+See http://drupal.org/node/191796 for a guide to updating field modules.

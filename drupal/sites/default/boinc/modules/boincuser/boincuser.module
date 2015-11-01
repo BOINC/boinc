@@ -1652,8 +1652,12 @@ function boincuser_get_stats_user_data($cpid = null) {
   $query = '?' . implode('&', $args);
   
   // Load XML from RPC
-  return simplexml_load_file("http://{$stats_server}/{$stats_rpc}{$query}");
-  
+  $target_url = "http://{$stats_server}/{$stats_rpc}{$query}";
+  $result = drupal_http_request($target_url);
+  if (in_array($result->code, array(200, 304))) {
+    return simplexml_load_string($result->data);
+  }
+  return NULL;
 }
 
 /**

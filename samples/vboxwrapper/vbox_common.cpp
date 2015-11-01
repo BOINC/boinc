@@ -316,6 +316,11 @@ bool VBOX_BASE::is_vm_machine_configuration_available() {
     return false;
 }
 
+
+// Updates for VirtualBox errors dealing with CPU exceleration can be found here:
+// https://www.virtualbox.org/browser/vbox/trunk/src/VBox/VMM/VMMR3/HM.cpp#L599
+//
+
 bool VBOX_BASE::is_logged_failure_vm_extensions_disabled() {
     if (vm_log.find("VERR_VMX_MSR_LOCKED_OR_DISABLED") != string::npos) return true;
     if (vm_log.find("VERR_SVM_DISABLED") != string::npos) return true;
@@ -323,6 +328,11 @@ bool VBOX_BASE::is_logged_failure_vm_extensions_disabled() {
     // VirtualBox 4.3.x or better
     if (vm_log.find("VERR_VMX_MSR_VMXON_DISABLED") != string::npos) return true;
     if (vm_log.find("VERR_VMX_MSR_SMX_VMXON_DISABLED") != string::npos) return true;
+
+    // VirtualBox 5.x or better
+    if (vm_log.find("VERR_VMX_MSR_VMX_DISABLED") != string::npos) return true;
+    if (vm_log.find("VERR_VMX_MSR_ALL_VMX_DISABLED") != string::npos) return true;
+    if (vm_log.find("VERR_VMX_MSR_LOCKING_FAILED") != string::npos) return true;
 
     return false;
 }
@@ -338,6 +348,10 @@ bool VBOX_BASE::is_logged_failure_vm_extensions_not_supported() {
     if (vm_log.find("VERR_SVM_NO_SVM") != string::npos) return true;
     return false;
 }
+
+//
+//
+//
 
 bool VBOX_BASE::is_logged_failure_vm_powerup() {
     if (vm_log.find("Power up failed (vrc=VINF_SUCCESS, rc=E_FAIL (0X80004005))") != string::npos) return true;
@@ -394,31 +408,19 @@ int VBOX_BASE::get_slot_directory(string& dir) {
 }
 
 int VBOX_BASE::get_system_log(string& log, bool tail_only, unsigned int buffer_size) {
-    string slot_directory;
-    string virtualbox_system_log_src;
-    string virtualbox_system_log_dst;
+    string virtualbox_system_log;
     string::iterator iter;
     int retval = BOINC_SUCCESS;
 
-    // Where should we copy temp files to?
-    get_slot_directory(slot_directory);
-
     // Locate and read log file
-    virtualbox_system_log_src = virtualbox_home_directory + "/VBoxSVC.log";
-    virtualbox_system_log_dst = slot_directory + "/VBoxSVC.log";
+    virtualbox_system_log = virtualbox_home_directory + "/VBoxSVC.log";
 
-    if (boinc_file_exists(virtualbox_system_log_src.c_str())) {
-        // Skip having to deal with various forms of file locks by just making a temp
-        // copy of the log file.
-        boinc_copy(virtualbox_system_log_src.c_str(), virtualbox_system_log_dst.c_str());
-    }
-
-    if (boinc_file_exists(virtualbox_system_log_dst.c_str())) {
+    if (boinc_file_exists(virtualbox_system_log.c_str())) {
         if (tail_only) {
             // Keep only the last 8k if it is larger than that.
-            read_file_string(virtualbox_system_log_dst.c_str(), log, buffer_size, true);
+            read_file_string(virtualbox_system_log.c_str(), log, buffer_size, true);
         } else {
-            read_file_string(virtualbox_system_log_dst.c_str(), log);
+            read_file_string(virtualbox_system_log.c_str(), log);
         }
 
         sanitize_output(log);
@@ -442,31 +444,19 @@ int VBOX_BASE::get_system_log(string& log, bool tail_only, unsigned int buffer_s
 }
 
 int VBOX_BASE::get_vm_log(string& log, bool tail_only, unsigned int buffer_size) {
-    string slot_directory;
-    string virtualbox_vm_log_src;
-    string virtualbox_vm_log_dst;
+    string virtualbox_vm_log;
     string::iterator iter;
     int retval = BOINC_SUCCESS;
 
-    // Where should we copy temp files to?
-    get_slot_directory(slot_directory);
-
     // Locate and read log file
-    virtualbox_vm_log_src = vm_master_name + "/Logs/VBox.log";
-    virtualbox_vm_log_dst = slot_directory + "/VBox.log";
+    virtualbox_vm_log = vm_master_name + "/Logs/VBox.log";
 
-    if (boinc_file_exists(virtualbox_vm_log_src.c_str())) {
-        // Skip having to deal with various forms of file locks by just making a temp
-        // copy of the log file.
-        boinc_copy(virtualbox_vm_log_src.c_str(), virtualbox_vm_log_dst.c_str());
-    }
-
-    if (boinc_file_exists(virtualbox_vm_log_dst.c_str())) {
+    if (boinc_file_exists(virtualbox_vm_log.c_str())) {
         if (tail_only) {
             // Keep only the last 8k if it is larger than that.
-            read_file_string(virtualbox_vm_log_dst.c_str(), log, buffer_size, true);
+            read_file_string(virtualbox_vm_log.c_str(), log, buffer_size, true);
         } else {
-            read_file_string(virtualbox_vm_log_dst.c_str(), log);
+            read_file_string(virtualbox_vm_log.c_str(), log);
         }
 
         sanitize_output(log);
@@ -491,16 +481,12 @@ int VBOX_BASE::get_vm_log(string& log, bool tail_only, unsigned int buffer_size)
 }
 
 int VBOX_BASE::get_trace_log(string& log, bool tail_only, unsigned int buffer_size) {
-    string slot_directory;
     string vm_trace_log;
     string::iterator iter;
     int retval = BOINC_SUCCESS;
 
-    // Where should we copy temp files to?
-    get_slot_directory(slot_directory);
-
     // Locate and read log file
-    vm_trace_log = slot_directory + "/" + TRACELOG_FILENAME;
+    vm_trace_log = TRACELOG_FILENAME;
 
     if (boinc_file_exists(vm_trace_log.c_str())) {
         if (tail_only) {
@@ -534,31 +520,19 @@ int VBOX_BASE::get_trace_log(string& log, bool tail_only, unsigned int buffer_si
 }
 
 int VBOX_BASE::get_startup_log(string& log, bool tail_only, unsigned int buffer_size) {
-    string slot_directory;
-    string virtualbox_startup_log_src;
-    string virtualbox_startup_log_dst;
+    string virtualbox_startup_log;
     string::iterator iter;
     int retval = BOINC_SUCCESS;
 
-    // Where should we copy temp files to?
-    get_slot_directory(slot_directory);
-
     // Locate and read log file
-    virtualbox_startup_log_src = vm_master_name + "/Logs/VBoxStartup.log";
-    virtualbox_startup_log_dst = slot_directory + "/VBoxStartup.log";
+    virtualbox_startup_log = vm_master_name + "/Logs/VBoxStartup.log";
 
-    if (boinc_file_exists(virtualbox_startup_log_src.c_str())) {
-        // Skip having to deal with various forms of file locks by just making a temp
-        // copy of the log file.
-        boinc_copy(virtualbox_startup_log_src.c_str(), virtualbox_startup_log_dst.c_str());
-    }
-
-    if (boinc_file_exists(virtualbox_startup_log_dst.c_str())) {
+    if (boinc_file_exists(virtualbox_startup_log.c_str())) {
         if (tail_only) {
             // Keep only the last 8k if it is larger than that.
-            read_file_string(virtualbox_startup_log_dst.c_str(), log, buffer_size, true);
+            read_file_string(virtualbox_startup_log.c_str(), log, buffer_size, true);
         } else {
-            read_file_string(virtualbox_startup_log_dst.c_str(), log);
+            read_file_string(virtualbox_startup_log.c_str(), log);
         }
 
         sanitize_output(log);
@@ -712,7 +686,7 @@ int VBOX_BASE::launch_vboxsvc() {
                     vboxlog_msg("Status Report: Launching vboxsvc.exe failed!.");
                     vboxlog_msg("        Error: %s", windows_format_error_string(GetLastError(), buf, sizeof(buf)));
 #ifdef _DEBUG
-                    vboxlog_msg("Vbox Version: '%s'", virtualbox_version.c_str());
+                    vboxlog_msg("Vbox Version: '%s'", virtualbox_version_raw.c_str());
                     vboxlog_msg("Vbox Install Directory: '%s'", virtualbox_install_directory.c_str());
                     vboxlog_msg("Vbox Home Directory: '%s'", virtualbox_home_directory.c_str());
 #endif

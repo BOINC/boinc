@@ -78,14 +78,19 @@ GUI_RPC_CONN::GUI_RPC_CONN(int s) :
 {
     sock = s;
     mfout.init_mfile(&mout);
+    strcpy(request_msg,"");
+    request_nbytes = 0;
+    strcpy(nonce,"");
     auth_needed = false;
-    au_ss_state = AU_SS_INIT;
-    au_mgr_state = AU_MGR_INIT;
     got_auth1 = false;
     got_auth2 = false;
     sent_unauthorized = false;
+    is_local = false;
+    quit_flag = false;
+    au_ss_state = AU_SS_INIT;
+    au_mgr_state = AU_MGR_INIT;
+
     notice_refresh = false;
-    request_nbytes = 0;
 }
 
 GUI_RPC_CONN::~GUI_RPC_CONN() {
@@ -93,8 +98,10 @@ GUI_RPC_CONN::~GUI_RPC_CONN() {
 }
 
 GUI_RPC_CONN_SET::GUI_RPC_CONN_SET() {
+    remote_hosts_file_exists = false;
     lsock = -1;
     time_of_last_rpc_needing_network = 0;
+    strcpy(password,"");
 }
 
 bool GUI_RPC_CONN_SET::poll() {

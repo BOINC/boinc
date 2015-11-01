@@ -86,8 +86,6 @@ int VBOX_VM::initialize() {
 
     // Prep the environment so we can execute the vboxmanage application
     //
-    // TODO: Fix for non-Windows environments if we ever find another platform
-    // where vboxmanage is not already in the search path
 #ifdef _WIN32
     if (!virtualbox_install_directory.empty())
     {
@@ -97,6 +95,18 @@ int VBOX_VM::initialize() {
         if (!SetEnvironmentVariable("PATH", const_cast<char*>(new_path.c_str()))) {
             vboxlog_msg("Failed to modify the search path.");
         }
+    }
+#else
+    old_path = getenv("PATH");
+    if(boinc_file_exists("/usr/local/bin/VBoxManage")) {
+        new_path = "/usr/local/bin/:" + old_path;
+    }
+    if(boinc_file_exists("/usr/bin/VBoxManage")) {
+        new_path = "/usr/bin/:" + old_path;
+    }
+    // putenv does not copy its input buffer, so we must use setenv
+    if (setenv("PATH", const_cast<char*>(new_path.c_str()), 1)) {
+        vboxlog_msg("Failed to modify the search path.");
     }
 #endif
 
@@ -974,9 +984,7 @@ int VBOX_VM::poll(bool log_state) {
     // Grab a snapshot of the latest log file.  Avoids multiple queries across several
     // functions.
     //
-    if (online) {
-        get_vm_log(vm_log);
-    }
+    get_vm_log(vm_log);
 
     //
     // Dump any new VM Guest Log entries

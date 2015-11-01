@@ -29,7 +29,8 @@ int THREAD::run(void*(*func)(void*), void* _arg) {
     pthread_t id;
     pthread_attr_t thread_attrs;
     pthread_attr_init(&thread_attrs);
-    pthread_create(&id, &thread_attrs, func, this);
+    int retval = pthread_create(&id, &thread_attrs, func, this);
+    if (retval) return retval;
 #endif
     arg = _arg;
     return 0;

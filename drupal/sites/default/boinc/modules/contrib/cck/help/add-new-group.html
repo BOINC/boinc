@@ -1,0 +1,40 @@
+<!-- $Id$ -->
+<p>Field groups are used to visually gather several fields that are associated
+by some sort of logic, for instance several text fields that hold the different
+parts of an 'Address'. On input forms and displayed content, the corresponding
+fields are enclosed inside an HTML fieldset.</p>
+
+<img style="vertical-align:top" src="&path&group-node-edit-form.png">
+<img style="vertical-align:top" src="&path&group-node-display.png">
+
+<p>At the bottom of the <strong>Manage fields</strong> page for a content type,
+you'll find this:</p>
+
+<img src="&path&add-new-group.png">
+
+<p>In order to add a new group to a content type, you need to provide the
+following information:</p>
+<dl>
+  <dt><strong>Label:</strong></dt>
+  <dd>
+    A human-readable name for the group. It will be used in input forms and
+    on displayed content.<br/>
+    All characters are allowed, including spaces, accentuated or non-european
+    characters.<br/>
+  </dd>
+
+  <dt>Group name:</dt>
+  <dd>
+    A machine-readable name for the group. It is used internally to identify
+    the group. When doing custom theming, it is this identifier that you'll use
+    to refer to that group.<br/>
+    <strong>Important:</strong> The group name cannot be changed once the group has been
+    created.<br/>
+    Allowed characters: a-z (unaccentuated), 0-9 and the underscore (_).<br/>
+    The length of the group name cannot exceed 32 characters (including the
+    'group_' prefix that gets added automatically - that is, 26 free characters)<br/>
+  </dd>
+</dl>
+
+<p>Once a group has been created, you can define what fields it will enclose by
+<a href="topic:content/rearrange">rearranging fields and groups</a>.</p>

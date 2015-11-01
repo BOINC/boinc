@@ -6,14 +6,15 @@
 # FileID  : $Id$
 # 
 # Translators:
+# Xavier Mor-Mur <xavi.mormur@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2015-04-22 12:56+0000\n"
-"Last-Translator: Rom Walton\n"
-"Language-Team: Catalan (http://www.transifex.com/projects/p/boinc/language/ca/)\n"
+"POT-Creation-Date: 2015-07-09 18:59 PDT\n"
+"PO-Revision-Date: 2015-10-10 23:18+0000\n"
+"Last-Translator: Xavier Mor-Mur <xavi.mormur@gmail.com>\n"
+"Language-Team: Catalan (http://www.transifex.com/boinc/boinc/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -34,89 +35,90 @@ msgstr "Tornar a la pàgina principal de BOINC"
 msgid "This page is %stranslatable%s."
 msgstr "Aquesta pàgina és %straduïble%s."
 
-#: download.php:39
+#: download.php:42
 msgid ""
 "We recommend that you also install VirtualBox, so your computer can work on "
 "science projects that require it."
 msgstr "Et recomanem d'instal·lar també VirtualBox, de manera que l'equip pot treballar en projectes de ciència que ho requereixin."
 
-#: download.php:41
+#: download.php:44
 msgid "Learn more about VirtualBox."
 msgstr "Apren més sobre VirtualBox."
 
-#: download.php:51
+#: download.php:52
 msgid "Download BOINC + VirtualBox"
 msgstr "Baixa BOINC + Virtualbox"
 
-#: download.php:54 download.php:69
+#. "for %s" identifies the operating system, e.g. "for Windows"
+#: download.php:56 download.php:71
 #, php-format
 msgid "for %s"
 msgstr "per %s"
 
-#: download.php:57 download.php:72
+#: download.php:59 download.php:74
 #, php-format
-msgid "BOINC version %s"
-msgstr "versió BOINC %s"
+msgid "BOINC %s"
+msgstr "BOINC %s"
 
-#: download.php:59
+#: download.php:61
 #, php-format
-msgid "VirtualBox version %s"
-msgstr "versió VirtualBox %s"
+msgid "VirtualBox %s"
+msgstr "VirtualBox %s"
 
-#: download.php:67
+#: download.php:69
 msgid "Download BOINC"
 msgstr "Descarregar BOINC"
 
-#: download.php:123
+#: download.php:133
 msgid ""
 "BOINC is a program that lets you donate your idle computer time to science "
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
 "Community Grid, and many others."
 msgstr "BOINC és un programa que et permet donar el temps d'inactivitat de l'ordinador per a projectes científics com SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, i molts d'altres."
 
-#: download.php:125
+#: download.php:135
 msgid ""
 "After installing BOINC on your computer, you can connect it to as many of "
 "these projects as you like."
 msgstr "Després d'instal·lar BOINC a l'ordinador, pots connectar-lo a tants projectes com vulguis."
 
-#: download.php:127
+#: download.php:137
 msgid ""
 "You may run this software on a computer only if you own the computer or have"
 " the permission of its owner."
 msgstr "Podeu executar aquest programari en un equip només si vostè és propietari de l'ordinador o té permís del seu propietari."
 
-#: download.php:132
+#: download.php:142
 msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
 msgstr "Et recomanem que descarreguis BOINC des de Google Play Store o Amazon Appstore, no des de aquí."
 
-#: download.php:167
+#: download.php:177
 msgid "System requirements"
 msgstr "Requisits del sistema"
 
-#: download.php:168
+#: download.php:178
 msgid "Release notes"
 msgstr "Notes de l'actualització"
 
-#: download.php:169 index.php:86
+#: download.php:179 index.php:93
 msgid "Help"
 msgstr "Ajuda"
 
-#: download.php:170
+#: download.php:180
 msgid "All versions"
 msgstr "Totes les versions"
 
-#: download.php:171
+#: download.php:181
 msgid "Version history"
 msgstr "Historial de versions"
 
-#: download.php:172
+#: download.php:182
 msgid "GPU computing"
 msgstr "Computació amb la GPU"
 
-#: download.php:190
+#: download.php:200
 msgid "BOINC: compute for science"
 msgstr "BOINC: computació per a la ciència"
 
@@ -170,13 +172,13 @@ msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
 msgstr "Si ja és un Voluntari: per editar la seva configuració, %spremi aquí%s."
 
-#: help_funcs.php:107
+#: help_funcs.php:136
 msgid ""
 "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
 "or the University of California."
 msgstr "Els voluntaris BOINC són ajudants no remunerats.  El seu consell no està avalat per BOINC o la Universitat de Califòrnia."
 
-#: help_funcs.php:110
+#: help_funcs.php:139
 msgid "%1Never%2 give email address or password information to BOINC helpers."
 msgstr "%1Mai%2 suministreu l'adreça de correu electrònic o la contrasenya als voluntaris de BOINC."
 
@@ -216,204 +218,163 @@ msgstr "PetaFLOPS."
 msgid "News"
 msgstr "Notícies"
 
-#: index.php:83
+#. "Volunteer" is used as a verb
+#: index.php:89
 msgid "Volunteer"
 msgstr "Voluntari"
 
-#: index.php:85
+#: index.php:92
 msgid "Download"
 msgstr "Descarregar"
 
-#: index.php:87 index.php:120 index.php:171
+#: index.php:94 index.php:138
 msgid "Documentation"
 msgstr "Documentació"
 
-#: index.php:88
+#: index.php:95
 msgid "Add-ons"
 msgstr "Complements"
 
-#: index.php:89
+#: index.php:96
 msgid "Links"
 msgstr "Enllaços"
 
-#: index.php:94
+#: index.php:101
 msgid ""
 "Use the idle time on your computer (Windows, Mac, Linux, or Android) to cure"
 " diseases, study global warming, discover pulsars, and do many other types "
 "of scientific research.  It's safe, secure, and easy:"
 msgstr "Utilitza el temps d'inactivitat de l'ordinador (Windows, Mac, Linux o Android) per curar malalties, estudiar l'escalfament global, descobrir púlsars, i molts altres tipus de recerca científica.  És segur, garantit i fàcil:"
 
-#: index.php:96
+#: index.php:103
 msgid "Choose projects"
 msgstr "Escull projectes"
 
-#: index.php:97
+#: index.php:104
 msgid "Download BOINC software"
 msgstr "Baixar el programari BOINC"
 
-#: index.php:98
+#: index.php:105
 msgid "Enter an email address and password."
 msgstr "Entra un correu electrònic i una contrasenya."
 
-#: index.php:102
+#: index.php:109
 #, php-format
 msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as "
 "%sGridRepublic%s or %sBAM!%s. "
 msgstr "O, si executa mes d'un projecte, provi un %sgestor de comptes%s tal com %sGridRepublic%s o %sBAM!%s. "
 
-#: index.php:118
+#: index.php:136
 msgid "Compute with BOINC"
 msgstr "Calculeu amb BOINC"
 
-#: index.php:121
+#: index.php:139
 msgid "Software updates"
 msgstr "Actualitzacions del proramari"
 
-#: index.php:128
+#: index.php:146
 msgid ""
-"%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving"
-" you the computing power of thousands of CPUs."
-msgstr "%1Els científics%2: utilitzan BOINC per crear un %3projectes de computació voluntària%4 proporcionant-li la potència de càlcul de milers de CPU."
+"%1Scientists%2: use BOINC to create a %3volunteer computing project%4, "
+"giving you the power of thousands of CPUs and GPUs."
+msgstr "%1Científics%2: utilitzar BOINC per crear un %3projecte informàtic voluntari%4, donant-li el poder de milers de CPUs i GPUs."
 
-#: index.php:132
+#: index.php:150
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
 msgstr "%1Les Universitats%2: utilitzan BOINC per crear un %3Centre de Supercomputació Virtual%4."
 
-#: index.php:137
+#: index.php:155
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
 msgstr "%1Les empreses%2: utilitzan BOINC per una %3Graella de computació d'oficina%4."
 
-#: index.php:149
-msgid "The BOINC project"
-msgstr "El projecte BOINC"
+#: index.php:167
+msgid "About BOINC"
+msgstr "Sobre BOINC"
 
-#: index.php:155
+#: index.php:181
 msgid "Message boards"
 msgstr "Plafons de missatges"
 
-#: index.php:156
+#: index.php:182
 msgid "Email lists"
 msgstr "Llista de correus"
 
-#: index.php:157
-msgid "Personnel and contributors"
-msgstr "Plantilla i col·laboradors"
-
-#: index.php:158
+#: index.php:183
 msgid "Events"
 msgstr "Esdeveniments"
 
-#: index.php:159
-msgid "Papers and talks"
-msgstr "Publicacions i converses"
+#: index.php:184
+msgid "Source code"
+msgstr "Codi font"
 
-#: index.php:160
-msgid "Research projects"
-msgstr "Projectes de recerca"
-
-#: index.php:161
-msgid "Logos and graphics"
-msgstr "Logotips i grafics"
-
-#: index.php:162
-msgid "and"
-msgstr "i"
-
-#: index.php:166
-msgid "Help wanted"
-msgstr "Cercar ajuda"
-
-#: index.php:168
-msgid "Programming"
-msgstr "Programació"
-
-#: index.php:169
-msgid "Translation"
-msgstr "Traducció"
-
-#: index.php:170
-msgid "Testing"
-msgstr "Provant"
-
-#: index.php:172
-msgid "Publicity"
-msgstr "Publicitat"
-
-#: index.php:174
-msgid "Software development"
-msgstr "Desenvolupament de programari"
-
-#: index.php:175
+#: index.php:186
 msgid "APIs for add-on software"
 msgstr "API's per a complements de programari"
 
-#: index.php:217
-#, php-format
-msgid ""
-"Open-source software for %svolunteer computing%s and %sgrid computing%s."
-msgstr "Programari lliure per la %scomputació distribuïda%s i la %scomputació en xarxa%s."
+#: index.php:231
+msgid "Open-source software for volunteer computing"
+msgstr "Programari de codi obert per a la computació voluntària"
 
-#: index.php:230
-msgid "BOINC is based at The University of California, Berkeley"
-msgstr "BOINC és troba a la Universitat de Califòrnia, Berkeley"
-
-#: projects.inc:14
+#: projects.inc:19
 msgid "Distributed sensing"
 msgstr "Detecció distribuïda"
 
-#: projects.inc:19
+#: projects.inc:24
 msgid "Stanford University"
 msgstr "Universitat d'Stanford"
 
-#: projects.inc:20
+#: projects.inc:25
 msgid "Seismology"
 msgstr "Sismologia"
 
-#: projects.inc:21
+#: projects.inc:26
 msgid ""
-"The Quake-Catcher Network is developing the world's largest seismic network "
-"using sensors attached to Internet-connected computers.  You must buy a "
-"sensor to participate."
-msgstr "Quake-Catcher Network està desenvolupant la xarxa de sísmica més gran del món a través de sensors connectats a ordinadors connectats a Internet.  Has ha de comprar un sensor per participar-hi."
+"Quake-Catcher Network is developing the world's largest seismic network "
+"using sensors attached to computers and smartphones."
+msgstr "La Quake-Catcher Network està desenvolupant la xarxa sísmica més gran del món usant sensors connectats a ordinadors i telèfons intel·ligents."
 
-#: projects.inc:27
+#: projects.inc:34
 msgid "BOINC Poland Foundation"
 msgstr "Fundació BOINC de Polònia"
 
-#: projects.inc:28
+#: projects.inc:35
 msgid "Environmental research"
 msgstr "Recerca ambiental"
 
-#: projects.inc:29
+#: projects.inc:36
 msgid ""
-"This project is creating a free and continuously updated map of radiation "
-"levels by using sensors connected to volunteers' computers.  You must buy a "
-"sensor to participate."
-msgstr "Aquest projecte crea un mapa lliure i en constant actualització dels nivells de radiació mitjançant l'ús de sensors connectats als ordinadors dels voluntaris.  Has ha de comprar un sensor per participar-hi."
+"Radioactive@Home is creating a free and continuously updated map of "
+"radiation levels using sensors connected to volunteers' computers.  You must"
+" buy a sensor to participate."
+msgstr "Radioactive@home està creant un mapa lliure i en constant actualització dels nivells de radiació utilitzant sensors connectats a ordinadors de voluntaris. Cal comprar un sensor per participar-hi."
 
-#: projects.inc:33
-msgid ""
-"To participate in these projects you must buy a sensor and attach it to your"
-" computer."
-msgstr "Per participar en aquests projectes has de comprar un sensor i connectar-lo al teu ordinador."
-
-#: projects.inc:37
+#: projects.inc:45
 msgid "Cognitive science and artifical intelligence"
 msgstr "La ciència cognitiva i la intel ligència artificial"
 
-#: projects.inc:60 projects.inc:364 projects.inc:408 projects.inc:457
-#: projects.inc:464 projects.inc:511
+#: projects.inc:51
+msgid "Cognitive Science"
+msgstr "Ciència cognitiva"
+
+#: projects.inc:52
+msgid ""
+"MindModeling@Home uses computational cognitive process modeling to better "
+"understand the human mind, and specifically to study the mechanisms and "
+"processes that enable and moderate human performance and learning."
+msgstr "MindModeling@Home utilitza la computació cognitiva de processos organitzatius per entendre millor la ment humana, i específicament per estudiar els mecanismes i processos que permeten activar i moderar el rendiment humà i l'aprenentatge."
+
+#: projects.inc:70 projects.inc:467 projects.inc:591 projects.inc:601
+#: projects.inc:657
 msgid "Private"
 msgstr "Privat"
 
-#: projects.inc:61
+#: projects.inc:71
 msgid "Artificial intelligence"
 msgstr "Intel.ligència artificial"
 
-#: projects.inc:62
+#: projects.inc:72
 msgid ""
 "Parse and convert semantic nets for use in FreeHAL, an artificial "
 "intelligence that uses semantic networks, stemmers, part of speech "
@@ -421,36 +382,55 @@ msgid ""
 "conversations."
 msgstr "Analitzar i convertir les xarxes semàntiques per a l'ús en FreeHAL, una intel ligència artificial que utilitza xarxes semàntiques, lematitzadors, part de bases de dades de parla, i part de referències en la parla per tal d'imitar el comportament humà en les converses."
 
-#: projects.inc:69
+#: projects.inc:82
 msgid "Biology and Medicine"
 msgstr "Biologia i Medicina"
 
-#: projects.inc:82
+#: projects.inc:88
+msgid "Medical physiology"
+msgstr "Fisiologia mèdica"
+
+#: projects.inc:89
+msgid ""
+"DENIS@Home does cardiac electrophysiological simulations, studying the "
+"electrical activity of the heart."
+msgstr "DENIS@home fa simulacions electrofisiològiques cardíaques, estudiant l'activitat elèctrica del cor."
+
+#: projects.inc:98
+msgid "Molecular biology"
+msgstr "Biologia molecular"
+
+#: projects.inc:99
+msgid ""
+"RNA World seeks to identify, analyze, structurally predict and design RNA "
+"molecules on the basis of established bioinformatics software."
+msgstr "RNA World pretén identificar, analitzar, estructuralment preveure i dissenyar molècules de RNA en base a  un software Bioinformàtic."
+
+#: projects.inc:107
 msgid "University College Dublin"
 msgstr "Col·legi Universitari de Dublin"
 
-#: projects.inc:83
+#: projects.inc:108
 msgid "Antimalarial drug discovery"
 msgstr "Descobriment de fàrmacs contra la malària"
 
-#: projects.inc:84
+#: projects.inc:109
 msgid ""
 "The parasite that causes malaria continues to evolve resistance to available"
-" medication. We therefore urgently need to discover new drugs to replace "
-"existing drugs. Importantly, these new drugs need to target NEW proteins in "
-"the parasite. The FightMalaria@Home project is aimed at finding these new "
-"targets."
-msgstr "El paràsit que causa la malària segueix fent-se resistent als medicaments disponibles. Per tant, necessitem urgentment descobrir nous medicaments per reemplaçar els ja existents. És important destacar que aquests nous medicaments han d'apuntar a NOVES proteïnes en el paràsit. El projecte FightMalaria@Home està dirigit a la recerca d'aquests nous objectius."
+" medication. We therefore urgently need to discover new drugs, targeting new"
+" proteins in the parasite. The FightNeglectedDiseases@Home project is aimed "
+"at finding these new targets."
+msgstr "El paràsit que causa la malària segueix fent-se resistent als medicaments disponibles. Per tant necessiten amb urgència descobrir nous medicaments, identificar noves proteïnes en el paràsit. El projecte FightNeglectedDiseases@Home està pensat a trobar aquestes noves fites."
 
-#: projects.inc:90
+#: projects.inc:117
 msgid "University of Karlsruhe (Germany)"
 msgstr "Universitat de Karlsruhe (Alemanya)"
 
-#: projects.inc:91
+#: projects.inc:118
 msgid "Protein structure prediction"
 msgstr "Predicció d'estructura de proteïnes"
 
-#: projects.inc:92
+#: projects.inc:119
 msgid ""
 "POEM@HOME uses a computational approach to predict the biologically active "
 "structure of proteins, to understand the signal-processing mechanisms when "
@@ -459,31 +439,15 @@ msgid ""
 " the three-dimensions structure of biologically important proteins."
 msgstr "POEM@HOME utilitza un enfocament computacional per predir l'estructura de les proteïnes biològicament actives, per comprendre els mecanismes de processament de senyals, quan les proteïnes interactuen entre si, per entendre les malalties relacionades amb un mal funcionament de la proteïna o l'agregació, i desenvolupar nous fàrmacs sobre la base de l'estructura tridimensional de les proteïnes biològicament importants."
 
-#: projects.inc:98
-msgid "University of Delaware"
-msgstr "Universitat de Delaware"
-
-#: projects.inc:99
-msgid "Study of protein - ligand interactions"
-msgstr "Estudi d'interaccions proteïna - lligams"
-
-#: projects.inc:100
-msgid ""
-"Docking@Home has both bioscience and computer science goals. The project "
-"aims to further knowledge of the atomic details of protein-ligand "
-"interactions and, by doing so, will search for insights into the discovery "
-"of novel pharmaceuticals."
-msgstr "Docking@Home té els objectius de la biociència i de la informàtica. El projecte té com a objectiu aprofundir en el coneixement dels detalls atòmics de les interaccions dels lligams de les proteïnes i, en fer-ho, cercarà per a descubrir nous productes farmacèutics."
-
-#: projects.inc:114
+#: projects.inc:147
 msgid "Barcelona Biomedical Research Park (PRBB)"
 msgstr "Parc de Recerca Biomèdica de Barcelona (PRBB)"
 
-#: projects.inc:115
+#: projects.inc:148
 msgid "Molecular simulations of proteins"
 msgstr "Simulacions moleculars de les proteïnes"
 
-#: projects.inc:116
+#: projects.inc:149
 msgid ""
 "GPUGrid.net opens novel computational scenarios by the first full-atom "
 "molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. "
@@ -491,47 +455,31 @@ msgid ""
 "computational biology for biomedical research."
 msgstr "GPUGrid.net obre nous escenaris de càlcul pel primer codi de dinàmica molecular a nivell d'àtom (CellMD) especialment optimitzat per funcionar en les GPU de NVIDIA. Les noves aplicacions biomèdiques podran donar un nou paper a la biologia computacional per a la recerca biomèdica."
 
-#: projects.inc:122
-msgid "Technion, Israel"
-msgstr "Technion, Israel"
-
-#: projects.inc:123
-msgid "Genetic linkage analysis"
-msgstr "Anàlisi de lligament genètic"
-
-#: projects.inc:124
-msgid ""
-"Superlink@Technion helps geneticists all over the world find disease-"
-"provoking genes causing some types of diabetes, hypertension (high blood "
-"pressure), cancer, schizophrenia and many others."
-msgstr "Superlink@Technion ajuda als genetistes de tot el món a trobar els gens que causen alguns tipus de diabetis, hipertensió (pressió arterial alta), el càncer, l'esquizofrènia i molts altres."
-
-#: projects.inc:138
+#: projects.inc:175
 msgid ""
 "University of Maryland Center for Bioinformatics and Computational Biology"
 msgstr "Universitat de Maryland Center de Bioinformàtica i Biologia Computacional"
 
-#: projects.inc:139
+#: projects.inc:176
 msgid "Life science research"
 msgstr "Recerca en ciència de la vida"
 
-#: projects.inc:140
+#: projects.inc:177
 msgid ""
-"The Lattice Project supplies computing power to scientists at the University"
-" of Maryland studying evolutionary relationships based on DNA sequence data;"
-" bacterial, plasmid, and virus protein sequences; and biological diversity "
-"in nature reserves. "
-msgstr "The Lattice Project subministra potència de càlcul als científics de la Universitat de Maryland que estudien les relacions evolutives sobre la base de dades de seqüències d'ADN, les seqüències de proteïnes bacterianes, plasmidis i virus, i la diversitat biològica en les reserves naturals. "
+"The Lattice Project, developed and administered at the University of "
+"Maryland, supplies computing power to researchers worldwide who are studying"
+" evolutionary relationships using DNA and protein sequence data."
+msgstr "La projecte Lattice, desenvolupat i administrat a la Universitat de Maryland, subministra potència de càlcul a investigadors d'arreu del món que estudien les relacions evolutives utilitzant l'ADN i dades de seqüència de proteïnes."
 
-#: projects.inc:146
+#: projects.inc:185
 msgid "The Swiss Tropical Institute"
 msgstr "L'Institut Tropical Suís"
 
-#: projects.inc:147
+#: projects.inc:186
 msgid "Epidemiology"
 msgstr "Epidemiologia"
 
-#: projects.inc:148
+#: projects.inc:187
 msgid ""
 "Simulation models of the transmission dynamics and health effects of malaria"
 " are an important tool for malaria control. They can be used to determine "
@@ -542,48 +490,37 @@ msgid ""
 "social factors that influence the distribution of the disease. "
 msgstr "Els models de simulació de la dinàmica de transmissió i efectes en la salut de la malària són una eina important per al control de la malària. Poden ser utilitzats per determinar les estratègies òptimes per al lliurament de mosquiteres, la quimioteràpia, o noves vacunes que estan actualment en fase de desenvolupament i proves.  Aquest model fa un ús molt intensiu de l'equip, simulacions que requereixen de grans poblacions humanes amb una gran diversitat de paràmetres relacionats amb factors biològics i socials que influeixen en la distribució de la malaltia. "
 
-#: projects.inc:170
+#: projects.inc:211
 msgid "University of Washington"
 msgstr "Universitat de Washington"
 
-#: projects.inc:171 projects.inc:179
+#: projects.inc:212
 msgid "Biology"
 msgstr "Biologia"
 
-#: projects.inc:172
+#: projects.inc:213
 msgid ""
 "Determine the 3-dimensional shapes of proteins in research that may "
 "ultimately lead to finding cures for some major human diseases. By running "
 "Rosetta@home you will help us speed up and extend our research in ways we "
 "couldn't possibly attempt without your help. You will also be helping our "
-"efforts at designing new proteins to fight diseases such as HIV, Malaria, "
-"Cancer, and Alzheimer's"
-msgstr "Determinar les formes de 3 dimensions de les proteïnes en la investigació que en última instància pot conduir a trobar la cura d'algunes malalties humanes importants. Mitjançant l'execució de Rosetta@home ens ajudarà a accelerar i estendre la nostra investigació en formes que no podrien tractar sense la seva ajuda. També estarà ajudant als nostres esforços en el disseny de noves proteïnes per lluitar contra malalties com el VIH, la malària, el càncer i l'Alzheimer"
+"efforts at designing new proteins to fight diseases such as HIV, malaria, "
+"cancer, and Alzheimer's"
+msgstr "Determinar la forma 3-dimensional de les proteïnes que en la investigació pot en última instància, conduir a trobar la cura d'algunes de les més importants malalties humanes. Executant Rosetta@Home ens ajudareu a accelerar i ampliar la nostra recerca de maneres que no podríem possiblement sense el vostre ajut. També estaràs ajudant a els nostres esforços en dissenyar noves proteïnes per combatre malalties com el VIH, la malària, el càncer i Alzheimer"
 
-#: projects.inc:178
-msgid "University of Vienna"
-msgstr "Universitat de Viena"
-
-#: projects.inc:180
-msgid ""
-"Calculate similarities between proteins. SIMAP provides a public database of"
-" the resulting data, which plays a key role in many bioinformatics research "
-"projects."
-msgstr "Calcular les semblances entre les proteïnes. SIMAP proporciona una base de dades pública de les dades resultants, que exerceix un paper clau en molts projectes de recerca en bioinformàtica."
-
-#: projects.inc:186
+#: projects.inc:231
 msgid "Earth Sciences"
 msgstr "Ciències de la Terra"
 
-#: projects.inc:198
+#: projects.inc:243
 msgid "Oxford University"
 msgstr "Universitat d'Oxford"
 
-#: projects.inc:199
+#: projects.inc:244
 msgid "Climate study"
 msgstr "Estudi del clima"
 
-#: projects.inc:200
+#: projects.inc:245
 msgid ""
 "Investigate the approximations that have to be made in state-of-the-art "
 "climate models. By running the model thousands of times we hope to find out "
@@ -595,83 +532,97 @@ msgid ""
 "century under a wide range of different scenarios."
 msgstr "Investigar les aproximacions que han de ser realitzats en l'estat dels models climàtics d'última generació. A l'executar el model milers de vegades esperem a veure com respon el model als lleus ajustos a aquestes aproximacions - prou lleugeres com per no fer les aproximacions menys realistes. Això ens permetrà millorar la nostra comprensió de la sensibilitat dels nostres models als petits canvis i també per a coses com canvis en el diòxid de carboni i el cicle del sofre. Això ens permetrà estudiar com pot canviar el clima en el pròxim segle amb una àmplia gamma d'escenaris diferents."
 
-#: projects.inc:207
+#: projects.inc:253
 msgid "Physical Science"
 msgstr "Ciències Físiques"
 
-#: projects.inc:213
+#: projects.inc:259
 msgid "Mechanical engineering"
 msgstr "Enginyeria mecànica"
 
-#: projects.inc:214
+#: projects.inc:260
 msgid ""
 "Currently we are calculating the optimum design of a structure call the 52 "
 "bar truss"
 msgstr "Actualment estem calculant el disseny òptim d'una estructura anomenada armadura de 52 barres"
 
-#: projects.inc:224 projects.inc:263 projects.inc:271
+#: projects.inc:269 projects.inc:328 projects.inc:338
 msgid "Astronomy"
 msgstr "Astronomia"
 
-#: projects.inc:225
-msgid ""
-"We will combine the spectral coverage of GALEX, Pan-STARRS1, and WISE to "
-"generate a multi-wavelength UV-optical-NIR galaxy atlas for the nearby "
-"Universe. We will measure physical parameters (such as stellar mass surface "
-"density, star formation rate surface density, attenuation, and first-order "
-"star formation history) on a resolved pixel-by-pixel basis using spectral "
-"energy distribution (SED) fitting techniques in a distributed computing "
-"mode."
-msgstr "Combinarem la cobertura espectral de GALEX, Pan-STARRS1 i WISE per generar un atles multi-longitud d'ona UV-òptic-NIR de les galàxies a l'univers proper. Mesurarem els paràmetres físics (com la densitat de massa superficial estel.lar, taxa de densitat superficial en la formació estel.lar, atenuació, i història dels estadis inicials de la formació estel.lar) resolt sobre una base píxel-a-píxel mitjançant tècniques d'ajust d'una distribució espectral d'energia (SED) en un entorn de computació distribuïda."
-
-#: projects.inc:247
-msgid "University of Texas at Austin"
-msgstr "Universitat de Texas a Austin"
-
-#: projects.inc:248 projects.inc:279
-msgid "Chemistry"
-msgstr "Química"
-
-#: projects.inc:249
-msgid ""
-"A common problem in theoretical chemistry, condensed matter physics and "
-"materials science is the calculation of the time evolution of an atomic "
-"scale system where, for example, chemical reactions and/or diffusion occur. "
-"Generally the events of interest are quite rare (many orders of magnitude "
-"slower than the vibrational movements of the atoms), and therefore direct "
-"simulations, tracking every movement of the atoms, would take thousands of "
-"years of computer calculations on the fastest present day computer before a "
-"single event of interest can be expected to occur.  Our research group is "
-"interested in calculating the long time dynamics of systems."
-msgstr "Un problema comú en la química teòrica, la física de matèria condensada i ciència dels materials és el càlcul de l'evolució temporal d'un sistema a escala atòmica, on, per exemple, succeeixen reaccions químiques i/o difusió. En general, els esdeveniments d'interès són molt rars (molts ordres de magnitud més lents que els moviments de vibració dels àtoms), i per tant simulacions directes, amb el seguiment de cada moviment dels àtoms, prendria milers d'anys de càlculs a l'ordinador més ràpid avui en dia abans de  que un sol esdeveniment d'interès desitjat es produeixi. El nostre grup de recerca està interessat en el càlcul de la dinàmica dels sistemes en períodes llargs de temps."
-
-#: projects.inc:262
-msgid "University of Illinois at Urbana-Champaign"
-msgstr "Universitat d'Illinois at Urbana-Champaign"
-
-#: projects.inc:264
-msgid ""
-"The goal of Cosmology@Home is to search for the model that best describes "
-"our Universe and to find the range of models that agree with the available "
-"astronomical particle physics data."
-msgstr "La meta de Cosmology@Home és buscar el model que millor descriu el nostre univers i trobar la els models que concorden amb les dades disponibles de física de partícules astronòmica."
-
 #: projects.inc:270
+msgid ""
+"TheSkyNet POGS is an astronomy project studying 16 different properties of "
+"galaxies, including brightness, mass, amount of dust and how fast stars are "
+"forming. We are using your processing power to conduct pixel-by-pixel "
+"calculations on multi-wavelength (ultraviolet, optical and near-infrared "
+"light) images of galaxies to produce an atlas that will help astronomers to "
+"better understand the distant universe."
+msgstr "TheSkyNet POGS és un projecte d'astronomia que estudia 16 propietats diferents de les galàxies, incloent la brillantor, massa, quantitat de pols i la rapidesa en la formació d'estrelles. Estem utilitzant el teu poder de processament per dur a terme càlculs píxel a píxel de imatges multi-longitud d'ona (llum ultraviolada, òptica i infraroig proper) de galàxies per produir un Atles que ajudarà els astrònoms per entendre millor l'univers llunyà."
+
+#: projects.inc:280 projects.inc:366
+msgid "Astrophysics"
+msgstr "Astrofísica"
+
+#: projects.inc:281
+msgid ""
+"The aim of the project is to derive shapes and spin for a significant part "
+"of the asteroid population. As input data, we use any asteroid photometry "
+"that is available. The results are asteroid convex shape models with the "
+"direction of the spin axis and the rotation period."
+msgstr "L'objectiu del projecte és obtenir la forma i gir d'una part significativa de la població d'asteroides. Com a dades d'entrada, utilitzem qualsevol fotometria d'asteroides que està disponible. Els resultats són models de forma convexa d'asteroides amb la direcció del eix de gir i el període de rotació."
+
+#: projects.inc:290
+msgid "Aerospace-related science and engineering"
+msgstr "Ciència i enginyeria relacionades amb el sector aeroespacial"
+
+#: projects.inc:291
+msgid ""
+"Constellation is a platform for aerospace-related simulations, including "
+"trajectory optimization of launchers, satellites and probes, simulation of "
+"Moon's near-surface exosphere, and analysis of dynamic systems of "
+"exploration-rovers"
+msgstr "Constel·lació és una plataforma per a simulacions relacionades amb la indústria aeroespacial, incloent-hi l'optimització de la trajectòria de llançadors, satèl·lits i sondes, simulació de la exosfera a prop de la superfície de la lluna i l'anàlisi de sistemes dinàmics dels vehicles d'exploració"
+
+#: projects.inc:294
+msgid "Perform aerospace-related simulations"
+msgstr "Realitzar simulacions relacionades amb el sector aeroespacial"
+
+#: projects.inc:329
+msgid ""
+"Universe@Home aims to create the first database of the simulated stellar "
+"content of the Universe, from the earliest stars to the most exotic black "
+"hole binaries."
+msgstr "Universe@home pretén crear la primera base de dades de simulació del contingut estel·lar de l'univers, des de les primeres estrelles fins els més exòtics forats negres binaris."
+
+#: projects.inc:332
+msgid "Do research in physics and astronomy"
+msgstr "Fer investigació en física i astronomia"
+
+#: projects.inc:337
 msgid "Rensselaer Polytechnic Institute"
 msgstr "Institut Politècnic Rensselaer"
 
-#: projects.inc:272
+#: projects.inc:339
 msgid ""
 "The goal of Milkyway@Home is to create a highly accurate three dimensional "
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
 "Survey."
 msgstr "L'objectiu de Milkyway@Home és crear un model de gran precisió tridimensional de la Via Làctia utilitzant dades recollides pel Sloan Digital Sky Survey."
 
-#: projects.inc:278
+#: projects.inc:342
+msgid "Study the structure of the Milky Way galaxy"
+msgstr "Estudiar l'estructura de la Via Làctia"
+
+#: projects.inc:347
 msgid "Leiden University, The Netherlands"
 msgstr "Universitat de Leiden, Països Baixos"
 
-#: projects.inc:280
+#: projects.inc:348
+msgid "Chemistry"
+msgstr "Química"
+
+#: projects.inc:349
 msgid ""
 "Surface science calculations using Classical Dynamics.  Leiden Classical "
 "allows volunteers, students and other scientist to submit their personal "
@@ -681,15 +632,15 @@ msgid ""
 "simulations through the grid."
 msgstr "Càlculs de ciència de superfície utilitzant la Dinàmica Clàssica.  Leiden Classical permet als voluntaris, estudiants i altres científics presentin els seus càlculs personals a la xarxa. Cada usuari té la seva pròpia cua personal per els treballs de Dinàmica Clàssica. D'aquesta manera els estudiants han utilitzat la xarxa per simular argó líquid, o per provar la validesa de la llei del gas ideal fent les simulacions a través de la xarxa."
 
-#: projects.inc:294
+#: projects.inc:352
+msgid "Help students do atomic simulations"
+msgstr "Ajudar els estudiants a fer simulacions atòmiques"
+
+#: projects.inc:365
 msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
 msgstr "Univ. de Wisconsin - Milwaukee, Institut Max Planck"
 
-#: projects.inc:295
-msgid "Astrophysics"
-msgstr "Astrofísica"
-
-#: projects.inc:296
+#: projects.inc:367
 msgid ""
 "Search for spinning neutron stars (also called pulsars) using data from the "
 "LIGO and GEO gravitational wave detectors, and from the Arecibo radio "
@@ -698,15 +649,19 @@ msgid ""
 "international organizations."
 msgstr "Cerca d'estrelles de neutrons en rotació (també anomenades púlsars) usant dades dels detectors d'ones gravitacionals LIGO i GEO, i des del radio observatori d'Arecibo.  Einstein@Home és un projecte de l'Any Mundial de la Física 2005 recolzat per l'American Physical Society (APS) i per una sèrie d'organitzacions internacionals."
 
-#: projects.inc:310 projects.inc:318
+#: projects.inc:370
+msgid "Help detect pulsars and gravitational waves"
+msgstr "Ajudar a detectar els púlsars i les ones gravitatòries"
+
+#: projects.inc:383 projects.inc:393 projects.inc:403
 msgid "CERN (European Organization for Nuclear Research)"
 msgstr "CERN (Organització Europea per a la Recerca Nuclear)"
 
-#: projects.inc:311 projects.inc:319
+#: projects.inc:384 projects.inc:394 projects.inc:404
 msgid "Physics"
 msgstr "Física"
 
-#: projects.inc:312
+#: projects.inc:385
 msgid ""
 "The Large Hadron Collider (LHC) is a particle accelerator at CERN, the "
 "European Organization for Nuclear Research, the world's largest particle "
@@ -715,22 +670,42 @@ msgid ""
 "the design of LHC and its detectors."
 msgstr "El Gran Col·lisionador d'Hadrons (LHC) és un accelerador de partícules al CERN, l'Organització Europea de Recerca Nuclear, el major laboratori de física de partícules.  És l'instrument més poderós mai construït per investigar les propietats de les partícules. LHC@home executa simulacions per millorar el disseny de l'LHC i els seus detectors."
 
-#: projects.inc:320
-msgid ""
-"This project uses CERN-developed virtual machine technology for full-fledged"
-" LHC event physics simulation on volunteer computers.  Requires that you "
-"install VirtualBox on your computer"
-msgstr "Aquest projecte utilitza la màquina virtual desenvolupada al CERN per la simulació física de l'LHC en els equips de voluntaris.  Requereix la instal·lació de VirtualBox en el teu ordinador"
+#: projects.inc:388
+msgid "Improve the design of the Large Hadron Collider"
+msgstr "Millorar el disseny del Large Hadron Collider"
 
-#: projects.inc:326
+#: projects.inc:395
+msgid ""
+"This project uses CERN-developed virtual machine technology for LHC event "
+"physics simulation on volunteer computers.  Requires that you install "
+"VirtualBox on your computer"
+msgstr "Aquest projecte utilitza la tecnologia de màquina virtual desenvolupada per el CERN per la simulació d'esdeveniments físics a LHC en els ordinadors de voluntaris. Requereix la instal·lació de VirtualBox a l'ordinador"
+
+#: projects.inc:398
+msgid "Simulate high-energy particle collisions"
+msgstr "Simular les col·lisions de partícules d'alta energia"
+
+#: projects.inc:405
+msgid ""
+"ATLAS@Home uses volunteer computing to run simulations for ATLAS, a particle"
+" physics experiment at CERN's Large Hadron Collider.  ATLAS searches for new"
+" particles and processes using head-on collisions of protons of "
+"extraordinary high energy."
+msgstr "Atlas@home utilitza la computació voluntària  per executar simulacions per a l'ATLAS, un experiment de física de partícules en el CERN Large Hadron Collider. ATLAS busca noves partícules i processos utilitzant col·lisions de protons d'extraordinària alta energia."
+
+#: projects.inc:408
+msgid "Simulate high-energy particle collisions for CERN"
+msgstr "Simular les col·lisions de partícules d'alta energia per al CERN"
+
+#: projects.inc:413
 msgid "University of California, Berkeley"
 msgstr "Universitat de Califòrnia, Berkeley"
 
-#: projects.inc:327
+#: projects.inc:414
 msgid "Astrophysics, astrobiology"
 msgstr "Astrofísica, astrobiologia"
 
-#: projects.inc:328
+#: projects.inc:415
 msgid ""
 "SETI (Search for Extraterrestrial Intelligence) is a scientific area whose "
 "goal is to detect intelligent life outside Earth. One approach, known as "
@@ -739,60 +714,70 @@ msgid ""
 "detection would provide evidence of extraterrestrial technology."
 msgstr "SETI (Search for Extraterrestrial Intelligence) és una àrea científica que el seu objectiu és detectar vida intel·ligent fora de la Terra. Un enfocament, conegut com ràdio SETI, usa radiotelescopis per escoltar senyals de ràdio de banda estreta des de l'espai. Aquestes senyals se sap que succeeixen de forma natural, pel que la seva detecció pot proporcionar evidències de la tecnologia extraterrestre."
 
-#: projects.inc:342
-msgid "Bielefeld University of Applied Sciences"
-msgstr "Universitat de Bielefeld de Ciències Aplicades"
+#: projects.inc:418
+msgid "Search for evidence of extra-terrestrial life"
+msgstr "Recerca de proves de vida extra-terrestre"
 
-#: projects.inc:343
-msgid "Chemical engineering and nanotechnology"
-msgstr "Enginyeria química i nanotecnologia"
-
-#: projects.inc:344
-msgid ""
-"The study of molecular magnets and controlled nanoscale magnetism.  These "
-"magnetic molecules may be used to develop tiny magnetic switches, with "
-"applications in medicine (such as local tumor chemotherapy) and "
-"biotechnology."
-msgstr "L'estudi dels imants moleculars i el control del magnetisme a nanoescala. Aquestes molècules magnètiques poden ser utilitzades per a desenvolupar petits interruptors magnètics, amb aplicacions en medicina com la quimioteràpia localitzada de tumor) i la biotecnologia."
-
-#: projects.inc:351
+#: projects.inc:442
 msgid "Multiple applications"
 msgstr "Múltiples aplicacions"
 
-#: projects.inc:356
+#: projects.inc:448
+msgid "Molecular biology, Computer Science"
+msgstr "Biologia molecular, Ciència informàtica"
+
+#: projects.inc:449
+msgid ""
+"The Citizen Science Grid is dedicated to supporting a wide range of research"
+" and educational projects using volunteer computing and citizen science."
+msgstr "La Citizen Science Grid està dedicada a donar suport a una àmplia gamma de recerca i projectes educatius mitjançant la computació voluntaria i ciència ciutadana."
+
+#: projects.inc:452
+msgid "Support science from the University of North Dakota"
+msgstr "Suport científic de la Universitat de Dakota del Nord"
+
+#: projects.inc:457
 msgid "Chinese Academy of Sciences"
 msgstr "Acadèmia Xinesa de Ciències"
 
-#: projects.inc:357
+#: projects.inc:458
 msgid "Physics, biochemistry, and others"
 msgstr "Física, bioquímica, i altres"
 
-#: projects.inc:358
+#: projects.inc:459
 msgid ""
 "The objective of CAS@home is to encourage and assist scientists in China to "
 "adopt the technologies of volunteer computing and volunteer thinking for "
 "their research."
 msgstr "L'objectiu del CAS@home és fomentar i ajudar els científics a la Xina per adoptar les tecnologies de la informàtica de voluntaris i voluntàris que pensin en la seva investigació."
 
-#: projects.inc:365
+#: projects.inc:462
+msgid "Help Chinese researchers"
+msgstr "Ajudar als investigadors xinesos"
+
+#: projects.inc:468
 msgid "Mathematics, physics, evolution"
 msgstr "Matemàtiques, física, evolució"
 
-#: projects.inc:366
+#: projects.inc:469
 msgid ""
 "Yoyo@home is an adapter between BOINC and several existing volunteer "
 "computing projects: ECM, Muon, Evolution@home, and distributed.net"
 msgstr "Yoyo@home és un adaptador entre BOINC i diversos projectes en curs de computació voluntària: ECM, Muon, Evolution@home, i distributed.net"
 
-#: projects.inc:371 projects.inc:527
+#: projects.inc:472
+msgid "Do research in math, physics, and evolution"
+msgstr "Fer recerca en matemàtiques, física i evolució"
+
+#: projects.inc:477 projects.inc:677
 msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
 msgstr "Laboratori MTA-SZTAKI de sistemes paral.lels i distribuïts (Hongria)"
 
-#: projects.inc:372
+#: projects.inc:478
 msgid "European research projects"
 msgstr "Projectes de recerca europeus"
 
-#: projects.inc:373
+#: projects.inc:479
 msgid ""
 "The EDGeS@Home Beta project integrates volunteer computing into the service "
 "grid network of Europe by allowing service grids to send workunits to be "
@@ -800,27 +785,35 @@ msgid ""
 " by the project include math, physics, biology, etc."
 msgstr "El projecte EDGeS@Home Beta integra computació voluntària en la xarxa de serveis d'Europa, en permetre les xarxes de serveis enviar workunits per a ser processades pels voluntaris d'aquest projecte. Els projectes de caràcter científic coberts pel projecte inclouen matemàtiques, física, biologia, etc"
 
-#: projects.inc:379
+#: projects.inc:482
+msgid "Help European researchers"
+msgstr "Ajudar els investigadors Europeus"
+
+#: projects.inc:487
 msgid "Spanish universities and research centers"
 msgstr "Universitats espanyoles i centres de recerca"
 
-#: projects.inc:380
+#: projects.inc:488
 msgid "Various Spanish research projects"
 msgstr "Diversos projectes de recerca espanyols"
 
-#: projects.inc:381
+#: projects.inc:489
 msgid "Research in physics, material science, and biomedicine"
 msgstr "Investigació en física, ciència dels materials i biomedicina"
 
-#: projects.inc:387
+#: projects.inc:492
+msgid "Help Spanish researchers"
+msgstr "Ajudar els investigadors Espanyols"
+
+#: projects.inc:497
 msgid "IBM Corporate Citizenship"
 msgstr "IBM Corporate Citizenship"
 
-#: projects.inc:388
+#: projects.inc:498
 msgid "Medical, environmental and other humanitarian research"
 msgstr "Recerca mèdica, ambiental i d'altres tipus de recerca humanitària"
 
-#: projects.inc:389
+#: projects.inc:499
 msgid ""
 "To further critical non-profit research on some of humanity's most pressing "
 "problems by creating the world's largest volunteer computing grid.  Research"
@@ -828,50 +821,87 @@ msgid ""
 "clean water and many more."
 msgstr "Per a la investigació sense fins de lucre aprofundir més sobre alguns dels problemes més urgents de la humanitat mitjançant la creació de la xarxa de computació de voluntaris més gran del món. La investigació inclou el VIH-SIDA, el càncer, les malalties tropicals i oblidades, l'energia solar, l'aigua potable i moltes més."
 
-#: projects.inc:395
+#: projects.inc:502
+msgid "Do biomedical and environmental research"
+msgstr "Fer Investigació Biomèdica i mediambiental"
+
+#: projects.inc:507
 msgid "Mathematics, computing, and games"
 msgstr "Matemàtiques, computació i jocs"
 
-#: projects.inc:401
+#: projects.inc:533 projects.inc:602 projects.inc:658 projects.inc:668
+#: projects.inc:678
+msgid "Mathematics"
+msgstr "Matemàtiques"
+
+#: projects.inc:534
+msgid ""
+"NumberFields@home searches for fields with special properties. The primary "
+"application of this research is in the realm of algebraic number theory. "
+"Number theorists can mine the data for interesting patterns to help them "
+"formulate conjectures about number fields. Ultimately, this research will "
+"lead to a deeper understanding of the profound properties of numbers, the "
+"basic building blocks of all mathematics."
+msgstr "NumberFields@home busca camps amb propietats especials. La principal aplicació d'aquesta recerca és en l'àmbit de la teoria algebraica de nombres. El teòrics dels nombres poden cercar en les dades per trobar patrons interessants i ajudar-los a formular conjectures sobre camps de números. En definitiva, aquesta investigació donarà lloc a una comprensió més profunda de les propietats dels nombres, els blocs bàsics de construcció de tots els matemàtics."
+
+#: projects.inc:537
+msgid "Do research in algebraic number theory"
+msgstr "Fer investigació en teoria algebraica de nombres"
+
+#: projects.inc:553
 msgid "Computer Science"
 msgstr "Ciències de la Computació"
 
-#: projects.inc:409
-msgid "Mathematics, Physics, Artificial Intelligence"
-msgstr "Matemàtiques, Física, Intel·ligència Artificial"
+#: projects.inc:554
+msgid ""
+"Solve hard and practically important problems (discrete functions inversion "
+"problems, discrete optimization, bioinformatics, etc.) that can be "
+"effectively reduced to Boolean satisfiability problem."
+msgstr "Resoldre durs i a la pràctica problemes importants (problemes d'inversió de funcions discretes, optimització discreta, Bioinformàtica, etc.) que es pot reduir eficaçment al problema de la Boolean satisfiability."
 
-#: projects.inc:410
-msgid "Simulation of quantum computing; Goldbach's conjecture."
-msgstr "Simulació de la computació quàntica, conjectura de Goldbach."
+#: projects.inc:557
+msgid "Study computational complexity"
+msgstr "Estudiar la complexitat computacional"
 
-#: projects.inc:450 projects.inc:458
+#: projects.inc:582
+msgid "Cryptography and combinatorics"
+msgstr "Criptografia i combinatòria"
+
+#: projects.inc:583 projects.inc:586
+msgid "Run applications from distributed.net"
+msgstr "Executar aplicacions de distributed.net"
+
+#: projects.inc:592
 msgid "Cryptography"
 msgstr "Criptografia"
 
-#: projects.inc:459
+#: projects.inc:593
 msgid ""
 "Attempt to decode 3 original Enigma messages. The signals were intercepted "
 "in the North Atlantic in 1942 and are believed to be unbroken."
 msgstr "Intent de desxifrar 3 missatges origunals Enigma. Els senyals van ser interceptats a l'Atlàntic Nord el 1942 i es creu que no han estat desxifrats."
 
-#: projects.inc:465 projects.inc:504 projects.inc:512 projects.inc:520
-#: projects.inc:528 projects.inc:568
-msgid "Mathematics"
-msgstr "Matemàtiques"
+#: projects.inc:596
+msgid "Decode WWII submarine messages"
+msgstr "Descodificar missatges submarins WWII"
 
-#: projects.inc:466
+#: projects.inc:603
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
 msgstr "Estudiar la Conjectura Collatz, una conjectura sense resoldre en matemàtiques"
 
-#: projects.inc:471
+#: projects.inc:606
+msgid "Study the Collatz Conjecture"
+msgstr "Estudiar la conjectura de Collatz"
+
+#: projects.inc:611
 msgid "California State University Fullerton"
 msgstr "Califòrnia State University Fullerton"
 
-#: projects.inc:472
+#: projects.inc:612
 msgid "Factorization of large integers"
 msgstr "Factorització de nombres grans"
 
-#: projects.inc:473
+#: projects.inc:613
 msgid ""
 "NFS@Home is a research project that uses Internet-connected computers to do "
 "the lattice sieving step in the Number Field Sieve factorization of large "
@@ -881,60 +911,50 @@ msgid ""
 "hundreds of digits long."
 msgstr "NFS@Home és un projecte de recerca que utilitza ordinadors connectats a Internet per crear xarxa de filtratge en el Camp de Números Sieve per a la factorització dels nombres enters grans. Com un jove estudiant, que va guanyar la seva primera experiència en descomposat un nombre enter en factors primers, com 15 = 3 * 5 o 35 = 5 * 7. NFS@Home és una continuació d'aquesta experiència, només amb nombres enters que tenen centenars de dígits."
 
-#: projects.inc:479
-msgid ""
-"Vilnius Gediminas Technical University and Kaunas University of Technology "
-"(Lithuania)"
-msgstr "Universitat Tecnica Vilnius Gediminas i Universitat Tecnològica de Kaunas (Lituània)"
+#: projects.inc:616
+msgid "Study the factorization of large integers"
+msgstr "Estudiar la factorització de grans enters"
 
-#: projects.inc:480
-msgid "Software testing"
-msgstr "Proves de programari"
-
-#: projects.inc:481
-msgid ""
-"The aim of this project is to provide a powerful distributed computing "
-"platform for scientists of Vilnius Gediminas Technical University (VGTU) as "
-"well as others Lithuanian academic institutions.  Current applications "
-"involve the study of Monte-Carlo based software testing."
-msgstr "L'objectiu d'aquest projecte és proporcionar una potent plataforma de computació distribuïda per als científics a Vilnius Gediminas Technical University (VGTU), així com altres institucions acadèmiques de Lituània.  Les aplicacions actuals impliquen l'estudi de les proves de Monte-Carlo basats en programari de testatge."
-
-#: projects.inc:503
-msgid "Mathematical Institute of Leiden University / Kennislink"
-msgstr "Institut de Matemàtiques de la Universitat de Leiden / Kennislink"
-
-#: projects.inc:505
-msgid ""
-"Search for 'abc-triples': positive integers a,b,c such that a+b=c, a &lt; b "
-"&lt; c, a,b,c have no common divisors and c > rad(abc), where rad(n) is the "
-"product of the distinct prime factors of n. The ABC conjecture says that "
-"there are only finitely many a,b,c such that log(c)/log(rad(abc)) > h for "
-"any real h > 1. The ABC conjecture is currently one of the greatest open "
-"problems in mathematics. If it is proven to be true, a lot of other open "
-"problems can be answered directly from it."
-msgstr "Cerca per 'abc-triples': nombres enters positius a, b, c tals que a+b = c, on &lt; b &lt; c, a, b, c no tenen divisors comuns i c > rad(abc), en la que rad(n) és el producte dels diferents factors primers de n. La conjectura ABC diu que només hi ha un nombre finit de a, b, c tal que log(c)/log(rad(abc)) > h per a qualsevol h real > 1. La conjectura ABC és actualment un dels majors problemes oberts en matemàtiques. Si es demostra que és veritat, un munt d'altres problemes oberts poden ser respostes directament d'ella."
-
-#: projects.inc:513
+#: projects.inc:659
 msgid ""
 "Primegrid has multiple projects searching for different forms of very large "
 "prime numbers, including searching for the largest known prime number."
 msgstr "PrimeGrid té diversos projectes que busquen nombres primers molt grans de diferents formes, incloent la recerca del nombre primer més gran conegut."
 
-#: projects.inc:519
+#: projects.inc:662
+msgid "Search for large prime numbers"
+msgstr "Cerca de grans nombres primers"
+
+#: projects.inc:667
 msgid "Hochschule RheinMain University of Applied Sciences"
 msgstr "Universitat de Ciències Aplicades Hochschule RheinMain"
 
-#: projects.inc:521
+#: projects.inc:669
 msgid ""
 "Search for counterexamples to two conjectures related to the identification "
 "of prime numbers"
 msgstr "Cerca de contraexemples a dues conjectures relacionades amb la identificació dels nombres primers"
 
-#: projects.inc:529
+#: projects.inc:672
+msgid "Study the properties of prime numbers"
+msgstr "Estudi de les propietats dels nombres primers"
+
+#: projects.inc:679
 msgid ""
 "Find all the generalized binary number systems (in which bases are matrices "
 "and digits are vectors) up to dimension 11."
 msgstr "Trobar tots els sistemes generalitzats de números binaris (en el qual les bases són les matrius i els dígits són vectors) fins la dimensió 11."
+
+#: projects.inc:682
+msgid "Study number theory"
+msgstr "Estudiar la teoria de nombres"
+
+#: projects.inc:739
+msgid ""
+"Testing and comparison of heuristic methods for getting separations of "
+"parallel algorithms working in the CAD system for designing logic control "
+"systems"
+msgstr "Verificació i comparació de mètodes heurístics per aconseguir la separació d'algoritmes paral·lels treballant en el sistema CAD per al disseny de sistemes lògics de control"
 
 #: ../html/inc/news.inc:40
 msgid "Comment"

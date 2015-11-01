@@ -145,6 +145,7 @@ int COPROC::parse(XML_PARSER& xp) {
         if (!xp.is_tag) continue;
         if (xp.match_tag("/coproc")) {
             if (!strlen(type)) return ERR_XML_PARSE;
+            clear_usage();
             return 0;
         }
         if (xp.parse_str("type", type, sizeof(type))) continue;
@@ -525,9 +526,9 @@ void COPROC_NVIDIA::set_peak_flops() {
         x = (1000.*prop.clockRate) * prop.multiProcessorCount * cores_per_proc * flops_per_clock;
     } else if (opencl_prop.max_compute_units) {
         // OpenCL doesn't give us compute capability.
-        // assume cores_per_proc is 8 and flops_per_clock is 2
+        // assume CC 2: cores_per_proc is 48 and flops_per_clock is 2
         //
-        x = opencl_prop.max_compute_units * 8 * 2 * opencl_prop.max_clock_frequency * 1e6;
+        x = opencl_prop.max_compute_units * 48 * 2 * opencl_prop.max_clock_frequency * 1e6;
     }
     peak_flops =  (x>0)?x:5e10;
 }

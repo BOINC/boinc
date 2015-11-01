@@ -511,6 +511,31 @@ int ACTIVE_TASK::copy_output_files() {
     return 0;
 }
 
+static int get_priority(bool is_high_priority) {
+    int p = is_high_priority?cc_config.process_priority_special:cc_config.process_priority;
+#ifdef _WIN32
+    switch (p) {
+    case 0: return IDLE_PRIORITY_CLASS;
+    case 1: return BELOW_NORMAL_PRIORITY_CLASS;
+    case 2: return NORMAL_PRIORITY_CLASS;
+    case 3: return ABOVE_NORMAL_PRIORITY_CLASS;
+    case 4: return HIGH_PRIORITY_CLASS;
+    case 5: return REALTIME_PRIORITY_CLASS;
+    }
+    return is_high_priority ? BELOW_NORMAL_PRIORITY_CLASS : IDLE_PRIORITY_CLASS;
+#else
+    switch (p) {
+    case 0: return PROCESS_IDLE_PRIORITY;
+    case 1: return PROCESS_MEDIUM_PRIORITY;
+    case 2: return PROCESS_NORMAL_PRIORITY;
+    case 3: return PROCESS_ABOVE_NORMAL_PRIORITY;
+    case 4: return PROCESS_HIGH_PRIORITY;
+    case 5: return PROCESS_REALTIME_PRIORITY;
+    }
+    return is_high_priority ? PROCESS_MEDIUM_PRIORITY : PROCESS_IDLE_PRIORITY;
+#endif
+}
+
 // Start a task in a slot directory.
 // This includes setting up soft links,
 // passing preferences, and starting the process
@@ -527,7 +552,7 @@ int ACTIVE_TASK::copy_output_files() {
 // If "test" is set, we're doing the API test; just run "test_app".
 //
 int ACTIVE_TASK::start(bool test) {
-    char exec_name[256], file_path[MAXPATHLEN], buf[256], exec_path[MAXPATHLEN];
+    char exec_name[256], file_path[MAXPATHLEN], buf[MAXPATHLEN], exec_path[MAXPATHLEN];
     char cmdline[80000];    // 64KB plus some extra
     unsigned int i;
     FILE_REF fref;
@@ -727,43 +752,8 @@ int ACTIVE_TASK::start(bool test) {
     int prio_mask;
     if (cc_config.no_priority_change) {
         prio_mask = 0;
-    } else if (high_priority && 
-        (cc_config.default_process_priority == -1 || cc_config.default_process_priority > 5)) {
-        prio_mask = BELOW_NORMAL_PRIORITY_CLASS;
-    } else if (cc_config.default_process_priority != -1) {
-        switch (cc_config.default_process_priority)
-        {
-        case 0: {
-            prio_mask = REALTIME_PRIORITY_CLASS;
-            break;
-        }
-        case 1: {
-            prio_mask = HIGH_PRIORITY_CLASS;
-            break;
-        }
-        case 2: {
-            prio_mask = ABOVE_NORMAL_PRIORITY_CLASS;
-            break;
-        }
-        case 3: {
-            prio_mask = NORMAL_PRIORITY_CLASS;
-            break;
-        }
-        case 4: {
-            prio_mask = BELOW_NORMAL_PRIORITY_CLASS;
-            break;
-        }
-        case 5: {
-            prio_mask = IDLE_PRIORITY_CLASS;
-            break;
-        }
-        default: {
-            prio_mask = high_priority ? BELOW_NORMAL_PRIORITY_CLASS : IDLE_PRIORITY_CLASS;
-            break;
-        }
-        }
     } else {
-        prio_mask = IDLE_PRIORITY_CLASS;
+        prio_mask = get_priority(high_priority);
     }
 
     for (i=0; i<5; i++) {
@@ -920,38 +910,7 @@ int ACTIVE_TASK::start(bool test) {
     }
 
     if (!cc_config.no_priority_change) {
-        int priority = PROCESS_IDLE_PRIORITY;
-        switch (cc_config.default_process_priority)
-        {
-        case 0: {
-            priority = PROCESS_REALTIME_PRIORITY;
-            break;
-        }
-        case 1: {
-            priority = PROCESS_HIGH_PRIORITY;
-            break;
-        }
-        case 2: {
-            priority = PROCESS_ABOVE_NORMAL_PRIORITY;
-            break;
-        }
-        case 3: {
-            priority = PROCESS_NORMAL_PRIORITY;
-            break;
-        }
-        case 4: {
-            priority = PROCESS_MEDIUM_PRIORITY;
-            break;
-        }
-        case 5: {
-            priority = PROCESS_IDLE_PRIORITY;
-            break;
-        }
-        default: {
-            priority = high_priority ? PROCESS_MEDIUM_PRIORITY : PROCESS_IDLE_PRIORITY;
-            break;
-        }
-        }
+        int priority = get_priority(high_priority);
         if (setpriority(PRIO_PROCESS, pid, priority)) {
             perror("setpriority");
         }
@@ -1067,7 +1026,7 @@ int ACTIVE_TASK::start(bool test) {
 #endif
         char* p = getenv("LD_LIBRARY_PATH");
         if (p) {
-            sprintf(libpath, "%s:%s", newlibs, p);
+            snprintf(libpath, sizeof(libpath), "%s:%s", newlibs, p);
         } else {
             safe_strcpy(libpath, newlibs);
         }
@@ -1078,7 +1037,7 @@ int ACTIVE_TASK::start(bool test) {
 #ifdef __APPLE__
         p = getenv("DYLD_LIBRARY_PATH");
         if (p) {
-            sprintf(libpath, "%s:%s", newlibs, p);
+            snprintf(libpath, sizeof(libpath), "%s:%s", newlibs, p);
         } else {
             safe_strcpy(libpath, newlibs);
         }
@@ -1119,38 +1078,7 @@ int ACTIVE_TASK::start(bool test) {
         //
         if (!cc_config.no_priority_change) {
 #if HAVE_SETPRIORITY
-            int priority = PROCESS_IDLE_PRIORITY;
-            switch (cc_config.default_process_priority)
-            {
-            case 0: {
-                priority = PROCESS_REALTIME_PRIORITY;
-               break;
-            }
-            case 1: {
-                priority = PROCESS_HIGH_PRIORITY;
-                break;
-            }
-            case 2: {
-                priority = PROCESS_ABOVE_NORMAL_PRIORITY;
-                break;
-            }
-            case 3: {
-                priority = PROCESS_NORMAL_PRIORITY;
-                break;
-            }
-            case 4: {
-                priority = PROCESS_MEDIUM_PRIORITY;
-                break;
-            }
-            case 5: {
-                priority = PROCESS_IDLE_PRIORITY;
-                break;
-            }
-            default: {
-                priority = high_priority ? PROCESS_MEDIUM_PRIORITY : PROCESS_IDLE_PRIORITY;
-                break;
-            }
-            }
+            int priority = get_priority(high_priority);
             if (setpriority(PRIO_PROCESS, 0, priority)) {
                 perror("setpriority");
             }

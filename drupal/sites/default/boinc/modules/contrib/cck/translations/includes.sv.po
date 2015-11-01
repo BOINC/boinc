@@ -1,0 +1,590 @@
+# $Id$
+#
+# Swedish translation of Drupal (includes)
+# Generated from files:
+#  content.admin.inc,v 1.181.2.64 2009/03/01 13:48:44 yched
+#  content.panels.inc,v 1.1.2.6 2008/11/03 14:12:41 yched
+#  content.rules.inc,v 1.1.2.4 2008/10/24 11:11:48 fago
+#  content.crud.inc,v 1.76.2.14 2008/11/07 15:02:02 yched
+#  content.node_form.inc,v 1.7.2.18 2009/02/10 22:53:04 yched
+#  content.token.inc,v 1.5.2.8 2008/12/05 14:59:22 yched
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: CCK - Includes 6.x\n"
+"POT-Creation-Date: 2009-03-09 22:08+0100\n"
+"PO-Revision-Date: 2009-04-20 22:52+0100\n"
+"Last-Translator: Magnus Gunnarsson <seals@passagen.se>\n"
+"Language-Team: drupalsverige.se\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-Language: Swedish\n"
+"X-Poedit-Country: SWEDEN\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: includes/content.admin.inc:30
+msgid "edit"
+msgstr "redigera"
+
+#: includes/content.admin.inc:33
+msgid "manage fields"
+msgstr "hantera fält"
+
+#: includes/content.admin.inc:36
+msgid "delete"
+msgstr "radera"
+
+#: includes/content.admin.inc:47
+msgid "No content types available."
+msgstr "Inga innehållstyper tillgängliga."
+
+#: includes/content.admin.inc:54
+msgid "» Add a new content type"
+msgstr "» Lägg till en ny innehållstyp"
+
+#: includes/content.admin.inc:67;789;984
+msgid "Field name"
+msgstr "Fältnamn"
+
+#: includes/content.admin.inc:67;804;990
+msgid "Field type"
+msgstr "Fälttyp"
+
+#: includes/content.admin.inc:67
+msgid "Used in"
+msgstr "Används i"
+
+#: includes/content.admin.inc:71
+msgid "@field_name (Locked)"
+msgstr "@field_name (Låst)"
+
+#: includes/content.admin.inc:90
+msgid "No fields have been defined for any content type yet."
+msgstr "Inga fält har definierat för någon innehållstyp ännu."
+
+#: includes/content.admin.inc:106
+msgid "This content type has inactive fields. Inactive fields are not included in lists of available fields until their modules are enabled."
+msgstr "Denna innehållstyp har inaktiva fält. Inaktiva fält inkluderas ej i listan av tillgängliga fält förrän deras moduler aktiverats."
+
+#: includes/content.admin.inc:108
+msgid "!field (!field_name) is an inactive !field_type field that uses a !widget_type widget."
+msgstr "!field (!field_name) är ett inaktivt !field_type fält som använder en !widget_type gränssnittskomponent."
+
+#: includes/content.admin.inc:170;196
+msgid "Configure"
+msgstr "Konfigurera"
+
+#: includes/content.admin.inc:181
+msgid "Locked"
+msgstr "Låst"
+
+#: includes/content.admin.inc:237
+msgid "- Select a field type -"
+msgstr "- Välj en fälttyp -"
+
+#: includes/content.admin.inc:238
+msgid "- Select a widget -"
+msgstr "- Välj en gränssnittskomponent -"
+
+#: includes/content.admin.inc:253
+msgid "Field name (a-z, 0-9, _)"
+msgstr "Fältnamn (a-z, 0-9, _)"
+
+#: includes/content.admin.inc:258
+msgid "Type of data to store."
+msgstr "Typ av data att lagra."
+
+#: includes/content.admin.inc:263;295
+msgid "Form element to edit the data."
+msgstr "Formulärbeståndsdel för att redigera datan."
+
+#: includes/content.admin.inc:279
+msgid "- Select an existing field -"
+msgstr "- Välj ett befintligt fält -"
+
+#: includes/content.admin.inc:290
+msgid "Field to share"
+msgstr "Fält att dela"
+
+#: includes/content.admin.inc:324
+msgid "Group name (a-z, 0-9, _)"
+msgstr "Gruppnamn (a-z, 0-9, _)"
+
+#: includes/content.admin.inc:365
+msgid "Add new field: you need to provide a label."
+msgstr "Lägg till nytt fält: du måste ange en etikett."
+
+#: includes/content.admin.inc:370
+msgid "Add new field: you need to provide a field name."
+msgstr "Lägg till nytt fält: du måste ange ett fältnamn."
+
+#: includes/content.admin.inc:384
+msgid "Add new field: the field name %field_name is invalid. The name must include only lowercase unaccentuated letters, numbers, and underscores."
+msgstr "Lägg till nytt fält: fältnamnet %field_name är ogiltigt. Namnet kan bara innehålla gemena tecken som inte är accentuerade, nummer och understreck."
+
+#: includes/content.admin.inc:387
+msgid "Add new field: the field name %field_name is too long. The name is limited to 32 characters, including the 'field_' prefix."
+msgstr "Lägg till nytt fält: fältnamnet %field_name är för långt. Namnet är begränsat till 32 tecken, inkluderat prefixet 'field_'."
+
+#: includes/content.admin.inc:391
+msgid "Add new field: the name 'field_instance' is a reserved name."
+msgstr "Lägg till nytt fält: namnet 'field_instance' är ett reserverat namn."
+
+#: includes/content.admin.inc:403
+msgid "Add new field: the field name %field_name already exists."
+msgstr "Lägg till nytt fält: fältnamnet %field_name existerar redan."
+
+#: includes/content.admin.inc:409
+msgid "Add new field: you need to select a field type."
+msgstr "Lägg till nytt fält: du måste välja en fälttyp."
+
+#: includes/content.admin.inc:414
+msgid "Add new field: you need to select a widget."
+msgstr "Lägg till nytt fält: du måste välja en gränssnittskomponent."
+
+#: includes/content.admin.inc:420
+msgid "Add new field: invalid widget."
+msgstr "Lägg till nytt fält: ogiltig gränssnittskomponent."
+
+#: includes/content.admin.inc:441
+msgid "Add existing field: you need to provide a label."
+msgstr "Lägg till existerande fält: du måste ange en etikett."
+
+#: includes/content.admin.inc:446
+msgid "Add existing field: you need to select a field."
+msgstr "Lägg till existerande fält: du måste välja ett fält."
+
+#: includes/content.admin.inc:451
+msgid "Add existing field: you need to select a widget."
+msgstr "Lägg till existerande fält: du måste välja en gränssnittskomponent."
+
+#: includes/content.admin.inc:457
+msgid "Add existing field: invalid widget."
+msgstr "Lägg till existerande fält: ogiltig gränssnittskomponent."
+
+#: includes/content.admin.inc:506
+msgid "There was a problem creating field %label."
+msgstr "Det uppstod ett problem med att skapa fältet %label."
+
+#: includes/content.admin.inc:518
+msgid "The field %label cannot be added to a content type because it is locked."
+msgstr "Fältet %label kan inte läggas till en innehållstyp därför att det är låst."
+
+#: includes/content.admin.inc:528
+msgid "There was a problem adding field %label."
+msgstr "Det uppstod ett problem med att lägga till fältet %label."
+
+#: includes/content.admin.inc:571
+msgid "There are no fields configured for this content type. You can add new fields on the <a href=\"@link\">Manage fields</a> page."
+msgstr "Det finns inga fält konfigurerade för denna innehållstyp. Du kan lägga till nya fält på sidan <a href=\"@link\">Hantera fält</a>."
+
+#: includes/content.admin.inc:579
+#: includes/content.panels.inc:54
+msgid "Inline"
+msgstr "Löpande"
+
+#: includes/content.admin.inc:618;661
+msgid "Include"
+msgstr "Inkludera"
+
+#: includes/content.admin.inc:630
+msgid "no styling"
+msgstr "ingen stil"
+
+#: includes/content.admin.inc:631
+msgid "simple"
+msgstr "enkel"
+
+#: includes/content.admin.inc:632
+msgid "fieldset"
+msgstr "fältgrupp"
+
+#: includes/content.admin.inc:633
+msgid "fieldset - collapsible"
+msgstr "fältgrupp - hopfällbar"
+
+#: includes/content.admin.inc:634
+msgid "fieldset - collapsed"
+msgstr "fältgrupp - hopfälld"
+
+#: includes/content.admin.inc:690
+msgid "Your settings have been saved."
+msgstr "Dina inställningar har sparats."
+
+#: includes/content.admin.inc:760
+msgid "@type: @field (@label)"
+msgstr "@type: @field (@label)"
+
+#: includes/content.admin.inc:786
+msgid "Edit basic information"
+msgstr "Redigera grundläggande information."
+
+#: includes/content.admin.inc:792
+msgid "The machine-readable name of the field. This name cannot be changed."
+msgstr "Det maskinläsbara namnet på fältet. Detta namn kan inte ändras."
+
+#: includes/content.admin.inc:800
+msgid "A human-readable name to be used as the label for this field in the %type content type."
+msgstr "Det synliga namnet som skall användas som etikett för detta fält i innehållstypen %type."
+
+#: includes/content.admin.inc:807
+msgid "The type of data you would like to store in the database with this field. This option cannot be changed."
+msgstr "Den typ av data som du vill lagra i databasen med detta fält. Detta val kan inte ändras."
+
+#: includes/content.admin.inc:812;996
+msgid "Widget type"
+msgstr "Typ av gränssnittskomponent"
+
+#: includes/content.admin.inc:816
+msgid "The type of form element you would like to present to the user when creating this field in the %type content type."
+msgstr "Typ av formulärbeståndsdel som du vill presentera för användaren när detta fält skapas i innehållstypen %type."
+
+#: includes/content.admin.inc:826
+#: includes/content.rules.inc:66
+msgid "Continue"
+msgstr "Fortsätt"
+
+#: includes/content.admin.inc:854
+msgid "Updated basic settings for field %label."
+msgstr "Uppdaterade grundläggande inställningar för fältet %label."
+
+#: includes/content.admin.inc:858
+msgid "There was a problem updating the basic settings for field %label."
+msgstr "Det uppstod ett problem vid uppdateringen av de grundläggande inställningarna för fältet %label."
+
+#: includes/content.admin.inc:885
+msgid "Are you sure you want to remove the field %field?"
+msgstr "Är du säker på att du vill ta bort fältet %field?"
+
+#: includes/content.admin.inc:887
+msgid "If you have any content left in this field, it will be lost. This action cannot be undone."
+msgstr "Om du har något innehåll kvar i detta fält kommer det att förloras. Denna åtgärd kan ångras."
+
+#: includes/content.admin.inc:894
+msgid "This field is <strong>locked</strong> and cannot be removed."
+msgstr "Det här fältet är <strong>låst</strong> och kan inte tas bort."
+
+#: includes/content.admin.inc:915
+msgid "Removed field %field from %type."
+msgstr "Tog bort fältet %field från %type."
+
+#: includes/content.admin.inc:920
+msgid "There was a problem deleting %field from %type."
+msgstr "Det uppstod ett problem vid borttagningen av %field från %type."
+
+#: includes/content.admin.inc:939
+msgid "The field %field is locked and cannot be edited."
+msgstr "Fältet %field är låst och kan inte redigeras."
+
+#: includes/content.admin.inc:973
+msgid "%type basic information"
+msgstr "Grundläggande information för %type"
+
+#: includes/content.admin.inc:1003;1182
+msgid "Change basic information"
+msgstr "Ändra grundläggande information"
+
+#: includes/content.admin.inc:1009
+msgid "%type settings"
+msgstr "Inställningar för %type"
+
+#: includes/content.admin.inc:1010
+msgid "These settings apply only to the %field field as it appears in the %type content type."
+msgstr "Dessa inställningar gäller enbart för fältet %field så som det visas i innehållstypen %type."
+
+#: includes/content.admin.inc:1027
+msgid "Instructions to present to the user below this field on the editing form.<br />Allowed HTML tags: @tags"
+msgstr "Instruktioner att visa för användaren nedanför detta fält för redigeringsformuläret.<br />Tillåtna HTML-taggar: @tags"
+
+#: includes/content.admin.inc:1053
+msgid "Default value"
+msgstr "Förvalt värde"
+
+#: includes/content.admin.inc:1083;1238
+#: includes/content.rules.inc:93
+msgid "'@column' => value for @column"
+msgstr "'@column' => värde för @column"
+
+#: includes/content.admin.inc:1085;1240
+#: includes/content.rules.inc:95
+msgid ""
+"return array(\n"
+"  0 => array(@columns),\n"
+"  // You'll usually want to stop here. Provide more values\n"
+"  // if you want your 'default value' to be multi-valued:\n"
+"  1 => array(@columns),\n"
+"  2 => ...\n"
+");"
+msgstr ""
+"return array(\n"
+"  0 => array(@columns),\n"
+"  // Vanligtvis vill du avsluta här. Tillhandahåll fler värden\n"
+"  // om du vill att ditt 'förvalda värde' skall innehålla flera värden:\n"
+"  1 => array(@columns),\n"
+"  2 => ...\n"
+");"
+
+#: includes/content.admin.inc:1093
+msgid "Advanced usage only: PHP code that returns a default value. Should not include &lt;?php ?&gt; delimiters. If this field is filled out, the value returned by this code will override any value specified above. Expected format: <pre>!sample</pre>To figure out the expected format, you can use the <em>devel load</em> tab provided by <a href=\"@link_devel\">devel module</a> on a %type content page."
+msgstr "Enbart avancerat användande: PHP-kod som returnerar ett förvalt värde. Skall inte inkludera avgränsarna &lt;?php ?&gt;. Om detta fält är ifyllt, kommer värdet som returneras av denna kod att åsidosätta värden specificerade ovan. Förväntat format: <pre>!sample</pre>För att komma underfund med det förväntade formatet kan du använda fliken <em>devel load</em> tillhandahållen av <a href=\"@link_devel\">modulen Devel</a> på en innehållssida av typen %type."
+
+#: includes/content.admin.inc:1104
+msgid "This PHP code was set by an administrator and will override any value specified above."
+msgstr "Denna PHP-kod angavs av en administratör och kommer att åsidosätta värden specificerade ovan."
+
+#: includes/content.admin.inc:1111
+msgid "Global settings"
+msgstr "Globala inställningar"
+
+#: includes/content.admin.inc:1112
+msgid "These settings apply to the %field field in every content type in which it appears."
+msgstr "Dessa inställningar gäller för fältet %field på varje innehållstyp som det förekommer i."
+
+#: includes/content.admin.inc:1116
+msgid "Required"
+msgstr "Krävd"
+
+#: includes/content.admin.inc:1119
+msgid "Maximum number of values users can enter for this field."
+msgstr "Maximalt antal av värden som användare kan ange för detta fält."
+
+#: includes/content.admin.inc:1121
+msgid "'Unlimited' will provide an 'Add more' button so the users can add as many values as they like."
+msgstr "\"Obegränsad\" kommer att tillhandahålla en knapp \"Lägg till fler\" så att användaren kan lägga till så många värden de vill."
+
+#: includes/content.admin.inc:1123
+msgid "Warning! Changing this setting after data has been created could result in the loss of data!"
+msgstr "Varning! Ändras denna inställning efter att data har skapats kan resultera i förlust av data!"
+
+#: includes/content.admin.inc:1126
+msgid "Number of values"
+msgstr "Antal värden"
+
+#: includes/content.admin.inc:1242
+msgid "The default value PHP code returned an incorrect value.<br/>Expected format: <pre>!sample</pre> Returned value: @value"
+msgstr "PHP-kodens förvalda värde returnerade ett otillåtet värde.<br />Förväntat format: <pre>!sample</pre> Returnerat värde: @value"
+
+#: includes/content.admin.inc:1281
+msgid "The PHP code for 'default value' returned @value, which is invalid."
+msgstr "PHP-kod för \"förvalt värde\" returnerade @value, som inte är giltigt."
+
+#: includes/content.admin.inc:1285
+msgid "The default value is invalid."
+msgstr "Det förvalta värdet är inte giltigt."
+
+#: includes/content.admin.inc:1309
+msgid "Added field %label."
+msgstr "Lade till fält %label."
+
+#: includes/content.admin.inc:1313
+msgid "Saved field %label."
+msgstr "Sparade fält %label."
+
+#: includes/content.admin.inc:1662
+msgid "Processing"
+msgstr "Bearbetar"
+
+#: includes/content.admin.inc:1663
+msgid "The update has encountered an error."
+msgstr "Uppdateringen stötte på ett fel."
+
+#: includes/content.admin.inc:1677
+msgid "The database has been altered and data has been migrated or deleted."
+msgstr "Databasen har ändrats och data har flyttats eller raderats."
+
+#: includes/content.admin.inc:1680
+msgid "An error occurred and database alteration did not complete."
+msgstr "Ett fel inträffade och ändringen av databasen slutfördes inte."
+
+#: includes/content.admin.inc:1783
+msgid "Processing %title"
+msgstr "Bearbetar %title"
+
+#: includes/content.admin.inc:1849
+msgid "%name must be an integer."
+msgstr "%name måste vara ett heltal."
+
+#: includes/content.admin.inc:1859
+msgid "%name must be a positive integer."
+msgstr "%name måste vara ett positivt heltal."
+
+#: includes/content.admin.inc:1869
+msgid "%name must be a number."
+msgstr "%name måste vara ett nummer."
+
+#: includes/content.admin.inc:1681
+msgid "1 item successfully processed:"
+msgid_plural "@count items successfully processed:"
+msgstr[0] "1 alternativ bearbetades utan problem:"
+msgstr[1] "@count alternativ bearbetades utan problem:"
+
+#: includes/content.crud.inc:589
+msgid "Content fields table %old_name has been renamed to %new_name and field instances have been updated."
+msgstr "Tabellen för innehållets fält %old_name har döpts om till %new_name och förekomsten av fälten har uppdaterats."
+
+#: includes/content.crud.inc:633
+msgid "The content fields table %name has been deleted."
+msgstr "Tabellen för innehållets fält %name har raderats."
+
+#: includes/content.node_form.inc:223
+msgid "Add another item"
+msgstr "Lägg till ytterligare alternativ"
+
+#: includes/content.panels.inc:21;35
+msgid "Content field"
+msgstr "Fält för innehåll"
+
+#: includes/content.panels.inc:38
+msgid "A content field from the referenced node."
+msgstr "Ett fält för innehåll från den refererande noden."
+
+#: includes/content.panels.inc:52
+msgid "Block title"
+msgstr "Titel på block"
+
+#: includes/content.panels.inc:55
+msgid "Hidden"
+msgstr "Gömd"
+
+#: includes/content.panels.inc:57
+msgid "Configure how the label is going to be displayed."
+msgstr "Konfigurera hur etiketten skall visas."
+
+#: includes/content.panels.inc:73
+msgid "Field / Formatter"
+msgstr "Fält / Formaterare"
+
+#: includes/content.panels.inc:76
+msgid "Select a field and formatter."
+msgstr "Välj ett fält och formaterare"
+
+#: includes/content.panels.inc:92
+msgid "\"@s\" field @name"
+msgstr "fältet \"@s\" för @name"
+
+#: includes/content.rules.inc:15
+msgid "Populate a field"
+msgstr "Befolka ett fält"
+
+#: includes/content.rules.inc:23;212
+msgid "You should make sure that the used field exists in the given content type."
+msgstr "Du måste säkerställa att det använda fältet existerar i den givna innehållstypen."
+
+#: includes/content.rules.inc:56
+msgid "Select the machine-name of the field."
+msgstr "Vält maskinnamnet för fältet."
+
+#: includes/content.rules.inc:84
+msgid "Advanced: Specify the fields value with PHP code"
+msgstr "Avancerat: Specificera fältets värde med PHP-kod"
+
+#: includes/content.rules.inc:102
+msgid "Advanced usage only: PHP code that returns the value to set. Should not include &lt;?php ?&gt; delimiters. If this field is filled out, the value returned by this code will override any value specified above. Expected format: <pre>!sample</pre>Using <a href=\"@link_devel\">devel.module's</a> 'devel load' tab on a content page might help you figure out the expected format."
+msgstr "Enbart avancerat användande: PHP-kod som returnerar värdet som skall anges. Skall inte inkludera avgränsarna &lt;?php ?&gt;. Om detta fält är ifyllt, kommer värdet som returneras av denna kod att åsidosätta värden specificerade ovan. Förväntat format: <pre>!sample</pre>För att komma underfund med det förväntade formatet kan du använda fliken <em>devel load</em> tillhandahållen av <a href=\"@link_devel\">modulen Devel</a>."
+
+#: includes/content.rules.inc:130
+msgid "You have to return the default value in the expected format."
+msgstr "Du måste returnera det förvalda värdet i det förväntade formatet."
+
+#: includes/content.rules.inc:181
+msgid "Populate @node's field '@field'"
+msgstr "Befolka fältet \"@field\" för @node"
+
+#: includes/content.rules.inc:198
+msgid "Field has value"
+msgstr "Fält har värde"
+
+#: includes/content.rules.inc:203
+msgid "You should make sure that the used field exists in the given content type. The condition returns TRUE, if the selected field has the given value."
+msgstr "Du måste säkerställa att det använda fältet existerar i den givna innehållstypen. Villkoret returnerar SANT, om det valda fältet har det givna värdet."
+
+#: includes/content.rules.inc:207
+msgid "Field has changed"
+msgstr "Fält har ändrats"
+
+#: includes/content.rules.inc:209
+msgid "Content containing changes"
+msgstr "Innehåll innehåller ändringar"
+
+#: includes/content.rules.inc:210
+msgid "Content not containing changes"
+msgstr "Innehåll innehåller inte ändringar"
+
+#: includes/content.rules.inc:249
+msgid "@node's field '@field' has value"
+msgstr "Fältet \"@field\" för @node har värde"
+
+#: includes/content.rules.inc:269
+msgid "Select the machine-name of the field to look at."
+msgstr "Välj maskinnamnet för fältet att titta på."
+
+#: includes/content.rules.inc:275
+msgid "@node's field '@field' has been changed"
+msgstr "Fältet \"@field\" för @node har ändrats"
+
+#: includes/content.token.inc:12;15
+msgid "Token"
+msgstr "Tecken"
+
+#: includes/content.token.inc:81
+msgid "Referenced node ID"
+msgstr "ID för hänvisad nod"
+
+#: includes/content.token.inc:82
+msgid "Referenced node title"
+msgstr "Titel för hänvisad nod"
+
+#: includes/content.token.inc:83
+msgid "Referenced node unfiltered title. WARNING - raw user input."
+msgstr "Ofiltrerad titel för hänvisad nod. VARNING - obearbetad användarinmatning."
+
+#: includes/content.token.inc:84
+msgid "Formatted html link to the referenced node."
+msgstr "Formatterad HTML-länk till den hänvisade noden."
+
+#: includes/content.token.inc:85
+msgid "Relative path alias to the referenced node."
+msgstr "Relativ sökvägsalias till den hänvisade noden."
+
+#: includes/content.token.inc:86
+msgid "Absolute path alias to the referenced node."
+msgstr "Absolut sökvägsalias till den hänvisade noden."
+
+#: includes/content.token.inc:114
+msgid "Raw number value"
+msgstr "Obearbetat numervärde"
+
+#: includes/content.token.inc:115
+msgid "Formatted number value"
+msgstr "Formaterat nummervärde"
+
+#: includes/content.token.inc:138
+msgid "Raw, unfiltered text"
+msgstr "Obearbetat, ofiltrerad text"
+
+#: includes/content.token.inc:139
+msgid "Formatted and filtered text"
+msgstr "Formatterad och filtrerad text"
+
+#: includes/content.token.inc:161
+msgid "Referenced user ID"
+msgstr "ID för hänvisad användare"
+
+#: includes/content.token.inc:162
+msgid "Referenced user name"
+msgstr "Namn för hänvisad användare"
+
+#: includes/content.token.inc:163
+msgid "Formatted HTML link to referenced user"
+msgstr "Formatterad HTML-klnk till hänvisad användare"
+
+#: includes/content.token.inc:164
+msgid "Relative path alias to the referenced user."
+msgstr "Relativt sökvägsalias till den hänvisade användaren."
+
+#: includes/content.token.inc:165
+msgid "Absolute path alias to the referenced user."
+msgstr "Absolut sökvägsalias till den hänvisade användaren."
+

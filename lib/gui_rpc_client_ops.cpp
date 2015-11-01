@@ -463,9 +463,11 @@ void PROJECT::clear() {
     strcpy(master_url, "");
     resource_share = 0;
     project_name.clear();
-    project_dir.clear();
     user_name.clear();
     team_name.clear();
+    hostid = 0;
+    gui_urls.clear();
+    project_dir.clear();
     user_total_credit = 0;
     user_expavg_credit = 0;
     host_total_credit = 0;
@@ -480,27 +482,30 @@ void PROJECT::clear() {
     rsc_desc_nvidia.clear();
     rsc_desc_ati.clear();
     rsc_desc_intel_gpu.clear();
+    sched_priority = 0;
     duration_correction_factor = 0;
     anonymous_platform = false;
     master_url_fetch_pending = false;
     sched_rpc_pending = 0;
-    ended = false;
     non_cpu_intensive = false;
     suspended_via_gui = false;
     dont_request_more_work = false;
     scheduler_rpc_in_progress = false;
     attached_via_acct_mgr = false;
     detach_when_done = false;
+    ended = false;
     trickle_up_pending = false;
     project_files_downloaded_time = 0;
     last_rpc_time = 0;
-    gui_urls.clear();
+    
     statistics.clear();
     strcpy(venue, "");
     njobs_success = 0;
     njobs_error = 0;
     elapsed_time = 0;
     strcpy(external_cpid, "");
+    
+    flag_for_delete = false;
 }
 
 APP::APP() {
@@ -1327,6 +1332,7 @@ void ACCOUNT_IN::clear() {
     user_name.clear();
     passwd.clear();
     team_name.clear();
+    ldap_auth = false;
 }
 
 ACCOUNT_OUT::ACCOUNT_OUT() {

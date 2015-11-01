@@ -1,0 +1,147 @@
+# $Id$
+#
+# Dutch translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  text.module,v 1.95.2.28 2008/12/30 00:00:54 yched
+#  text.info,v 1.9 2008/04/23 18:02:31 dww
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-06-03 14:26+0200\n"
+"PO-Revision-Date: 2009-06-03 14:26+0200\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Dutch <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: text.module:41 text.info:0
+msgid "Text"
+msgstr "Tekst"
+
+#: text.module:42
+msgid "Store text in the database."
+msgstr "Bewaar tekst in de database."
+
+#: text.module:54;201
+msgid "Plain text"
+msgstr "Platte tekst"
+
+#: text.module:54
+msgid "Filtered text (user selects input format)"
+msgstr "Gefilterede tekst (gebruiker geeft invoerformaat op)"
+
+#: text.module:57
+msgid "Text processing"
+msgstr "Tekstverwerking"
+
+#: text.module:63
+msgid "Maximum length"
+msgstr "Maximum lengte"
+
+#: text.module:67
+msgid "The maximum length of the field in characters. Leave blank for an unlimited size."
+msgstr ""
+"De maximum lengte van het veld in karakters. Laat leeg voor "
+"ongelimiteerde grootte."
+
+#: text.module:71
+msgid "Allowed values"
+msgstr "Toegestane waardes"
+
+#: text.module:77
+msgid "Allowed values list"
+msgstr "Lijst met toegestane waardes"
+
+#: text.module:81
+msgid "The possible values this field can contain. Enter one value per line, in the format key|label. The key is the value that will be stored in the database, and it must match the field storage type (%type). The label is optional, and the key will be used as the label if no label is specified.<br />Allowed HTML tags: @tags"
+msgstr ""
+"De mogelijke waardes die in dit veld kunnen staan. Voer één waarde "
+"per regel in, in het formaat sleutel|label. De sleutel wordt in de "
+"database opgeslagen en moet overeen komen met het veldopslagtype "
+"(%type). Het label is optioneel. Als geen label wordt ingevoerd zal de "
+"sleutel ook worden gebruikt als label. <br />Toegestane HTML-tags: "
+"@tags"
+
+#: text.module:85
+msgid "PHP code"
+msgstr "PHP code"
+
+#: text.module:92;101
+msgid "Code"
+msgstr "Code"
+
+#: text.module:95
+msgid "Advanced usage only: PHP code that returns a keyed array of allowed values. Should not include &lt;?php ?&gt; delimiters. If this field is filled out, the array returned by this code will override the allowed values list above."
+msgstr ""
+"Alleen voor geavanceerd gebruik: PHP-code die een array met sleutels "
+"geeft van de toegestane waardes. Moet niet beginnen en eindigen met "
+"&lt;?php ?&gt;. Als dit veld in ingevuld zullen de bovenstaande "
+"toegestane waardes worden genegeerd."
+
+#: text.module:102
+msgid "&lt;none&gt;"
+msgstr "&lt;geen&gt;"
+
+#: text.module:103
+msgid "You're not allowed to input PHP code."
+msgstr "Je mag geen PHP-code gebruiken."
+
+#: text.module:103
+msgid "This PHP code was set by an administrator and will override the allowed values list above."
+msgstr ""
+"Deze PHP-code is door een beheerder ingesteld en zal worden uitgevoerd "
+"in plaats van de toegestane waardeslijst hierboven."
+
+#: text.module:132
+msgid "@label (!name) - Allowed values"
+msgstr "@label (!name) - Toegestane waardes"
+
+#: text.module:156
+msgid "%name: illegal value."
+msgstr "%name: niet toegestane waarde."
+
+#: text.module:159
+msgid "%name: the value may not be longer than %max characters."
+msgstr "%name: de waarde mag niet langer zijn dan %max karakters."
+
+#: text.module:196
+msgid "Default"
+msgstr "Standaard"
+
+#: text.module:206
+msgid "Trimmed"
+msgstr "Ingekort"
+
+#: text.module:256
+msgid "Text field"
+msgstr "Tekstveld"
+
+#: text.module:264
+msgid "Text area (multiple rows)"
+msgstr "Tekstveld (meerdere rijen)"
+
+#: text.module:316
+msgid "Size of textfield"
+msgstr "Maat van het tekstveld"
+
+#: text.module:325
+msgid "Rows"
+msgstr "Rijen"
+
+#: text.module:0
+msgid "text"
+msgstr "tekst"
+
+#: text.info:0
+msgid "Defines simple text field types."
+msgstr "Levert simpele tekstveldtypes."
+
+#: text.info:0
+msgid "CCK"
+msgstr "CCK"
+

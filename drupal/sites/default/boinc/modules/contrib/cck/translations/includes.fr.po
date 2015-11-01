@@ -1,0 +1,420 @@
+# translation of SB-cck-6.x-2.x-dev.po to
+# translation of cck-6.x-2.x-dev.po to
+msgid ""
+msgstr ""
+"Project-Id-Version: SB-cck-6.x-2.x-dev\n"
+"POT-Creation-Date: 2008-07-03 07:41+0200\n"
+"PO-Revision-Date: 2008-07-03 18:04+0100\n"
+"Last-Translator: Damien Tournoud <damz@prealable.org>\n"
+"Language-Team:  <fr@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: France\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: includes/content.admin.inc:16;212
+msgid "Name"
+msgstr "Nom"
+
+#: includes/content.admin.inc:16;212
+msgid "Type"
+msgstr "Type"
+
+#: includes/content.admin.inc:16;212
+msgid "Operations"
+msgstr "Opérations"
+
+#: includes/content.admin.inc:30
+msgid "edit"
+msgstr "éditer"
+
+#: includes/content.admin.inc:33
+msgid "add field"
+msgstr "ajouter un champ"
+
+#: includes/content.admin.inc:34
+msgid "manage fields"
+msgstr "gérer les champs"
+
+#: includes/content.admin.inc:37
+msgid "delete"
+msgstr "supprimer"
+
+#: includes/content.admin.inc:48
+msgid "No content types available."
+msgstr "Aucun type de contenu disponible."
+
+#: includes/content.admin.inc:55
+msgid "» Add a new content type"
+msgstr "» Ajouter un nouveau type de contenu"
+
+#: includes/content.admin.inc:64;602;856
+msgid "Field name"
+msgstr "Nom du champ"
+
+#: includes/content.admin.inc:64;632;643;862
+msgid "Field type"
+msgstr "Type de champ"
+
+#: includes/content.admin.inc:64
+msgid "Used in"
+msgstr "Utilisé dans"
+
+#: includes/content.admin.inc:87
+msgid "No fields have been defined for any content type yet."
+msgstr "Aucun champ n'est pour l'instant défini sur l'ensemble des types de contenu."
+
+#: includes/content.admin.inc:112;291
+msgid "There are no fields configured for this content type. You can !link."
+msgstr "Il n'y a aucun champ configuré pour ce type de contenu. Vous pouvez néanmoins dès maintenant !link."
+
+#: includes/content.admin.inc:113;292
+msgid "Add a new field"
+msgstr "ajouter un nouveau champ"
+
+#: includes/content.admin.inc:137
+msgid "To change the order of a field, grab a drag-and-drop handle under the Label column and drag the field to a new location in the list. (Grab a handle by clicking and holding the mouse while hovering over a handle icon.) Remember that your changes will not be saved until you click the Save button at the bottom of the page."
+msgstr "Pour changer l'ordre d'un champ, utilisez la poignée qui figure sous la colonne Étiquette et faites glisser le champ jusqu'à l'emplacement désiré. Pour manipuler la poignée (l'icône en forme de croix), cliquez sur l'icône et maintenez enfoncé le bouton de la souris. N'oubliez pas que vos modifications ne seront prises en compte que lorsque vous aurez cliqué sur le bouton <em>Enregistrer</em> qui figure en base de page."
+
+#: includes/content.admin.inc:147;163
+msgid "Configure"
+msgstr "Configurer"
+
+#: includes/content.admin.inc:212
+msgid "Weight"
+msgstr "Poids"
+
+#: includes/content.admin.inc:319;360
+msgid "Above"
+msgstr "Au dessus"
+
+#: includes/content.admin.inc:320
+msgid "Inline"
+msgstr "Sur la même ligne"
+
+#: includes/content.admin.inc:321;346;361;369
+msgid "<Hidden>"
+msgstr "<Caché>"
+
+#: includes/content.admin.inc:364
+msgid "no styling"
+msgstr "aucune mise en forme"
+
+#: includes/content.admin.inc:365
+msgid "simple"
+msgstr "simple"
+
+#: includes/content.admin.inc:366
+msgid "fieldset"
+msgstr "groupe de champs"
+
+#: includes/content.admin.inc:367
+msgid "fieldset - collapsible"
+msgstr "groupe de champs - repliable"
+
+#: includes/content.admin.inc:368
+msgid "fieldset - collapsed"
+msgstr "groupe de champs - replié"
+
+#: includes/content.admin.inc:413
+msgid "Field"
+msgstr "Champ"
+
+#: includes/content.admin.inc:460
+msgid "Your settings have been saved."
+msgstr "Vos paramètres ont été enregistrés."
+
+#: includes/content.admin.inc:477
+msgid "No field modules are enabled. You need to <a href=\"!modules_url\">enable one</a>, such as text.module, before you can add new fields."
+msgstr "Aucun module de champs n'est activé. Vous devez en <a href=\"!modules_url\">activer un</a>, par exemple le module Text, avant de pouvoir ajouter des champs."
+
+#: includes/content.admin.inc:519
+msgid "Add existing field"
+msgstr "Ajouter un champ existant"
+
+#: includes/content.admin.inc:547
+msgid "Added field %label."
+msgstr "Le champ '%label' a été ajouté."
+
+#: includes/content.admin.inc:550
+msgid "There was a problem adding field %label."
+msgstr "Un problème est survenu lors de l'ajout du champ '%label'."
+
+#: includes/content.admin.inc:590
+msgid "Create new field"
+msgstr "Créer un nouveau champ"
+
+#: includes/content.admin.inc:597
+msgid "Edit basic information"
+msgstr "Éditer les informations de base"
+
+#: includes/content.admin.inc:606
+msgid "The machine-readable name of the field."
+msgstr "Nom du champ, lisible par une machine."
+
+#: includes/content.admin.inc:610
+msgid "This name cannot be changed."
+msgstr " Ce nom ne peut être modifié."
+
+#: includes/content.admin.inc:618
+msgid "This name cannot be changed later! The name will be prefixed with 'field_' and can include lowercase unaccented letters, numbers, and underscores. The length of the name, including the prefix, is limited to no more than 32 letters."
+msgstr " Ce nom ne pourra pas être modifié par la suite ! Le nom sera préfixé par 'field_' et peut inclure des lettres minuscules non accentués, des nombres et des caractères \"espace souligné\". La longueur du nom, y compris le préfixe, est limitée à un total de 32 caractères."
+
+#: includes/content.admin.inc:626
+msgid "A human-readable name to be used as the label for this field in the %type content type."
+msgstr "Nom lisible par une personne, destiné à servir d'étiquette pour ce champ au sein du type de contenu '%type'."
+
+#: includes/content.admin.inc:636
+msgid "The type of data you would like to store in the database with this field."
+msgstr "Type de données que vous souhaitez enregistrer, par le biais de ce champ, dans la base de données."
+
+#: includes/content.admin.inc:646
+msgid "The type of data you would like to store in the database with this field. This option cannot be changed."
+msgstr "Type de données que vous souhaitez enregistrer, par le biais de ce champ, dans la base de données. Cette option ne peut être modifiée."
+
+#: includes/content.admin.inc:651;869
+msgid "Widget type"
+msgstr "Type de widget"
+
+#: includes/content.admin.inc:655
+msgid "The type of form element you would like to present to the user when creating this field in the %type content type."
+msgstr "Type d'élément de formulaire que vous souhaitez présenter à l'utilisateur lorsqu'il renseigne ce champ dans le type de contenu '%type'."
+
+#: includes/content.admin.inc:669
+msgid "Continue"
+msgstr "Continuer"
+
+#: includes/content.admin.inc:692
+msgid "The field name %field_name is invalid. The name must include only lowercase unaccentuated letters, numbers, and underscores."
+msgstr "Le nom de champ '%field_name' est invalide. Le nom ne doit comporter que des lettres minuscules non accentuées, des nombres ou des espaces soulignés."
+
+#: includes/content.admin.inc:695
+msgid "The field name %field_name is too long. The name is limited to 32 characters, including the 'field_' prefix."
+msgstr "Le nom de champ '%field_name' est trop long. La longueur du nom est limitée à 32 caractères, y compris le préfixe 'field_'."
+
+#: includes/content.admin.inc:706
+msgid "The field name %field_name already exists."
+msgstr "Le nom de champ '%field_name' existe déjà."
+
+#: includes/content.admin.inc:709
+msgid "The name 'field_instance' is a reserved name."
+msgstr "Le nom 'field_instance' est un nom réservé."
+
+#: includes/content.admin.inc:741
+msgid "Created field %label."
+msgstr "Le champ '%label' a été créé."
+
+#: includes/content.admin.inc:745
+msgid "There was a problem creating field %label."
+msgstr "Un problème est survenu à la création du champ '%label'."
+
+#: includes/content.admin.inc:754
+msgid "Update field %label."
+msgstr "Mettre à jour le champ '%label'."
+
+#: includes/content.admin.inc:758
+msgid "There was a problem updating field %label."
+msgstr "Un problème est survenu à la mise à jour du champ '%label'."
+
+#: includes/content.admin.inc:786
+msgid "Are you sure you want to remove the field %field?"
+msgstr "Êtes-vous certain de vouloir enlever le champ '%field' ?"
+
+#: includes/content.admin.inc:789
+msgid "If you have any content left in this field, it will be lost. This action cannot be undone."
+msgstr "Si vous avez encore du contenu dans ce champ, il sera perdu. Cette action est irréversible."
+
+#: includes/content.admin.inc:808
+msgid "Removed field %field from %type."
+msgstr "Le champ '%field' de '%type' a été enlevé."
+
+#: includes/content.admin.inc:813
+msgid "There was a problem deleting %field from %type."
+msgstr "Un problème est survenu à la suppression du champ '%field' du type '%type'."
+
+#: includes/content.admin.inc:846
+msgid "%type basic information"
+msgstr "Informations de base pour '%type'"
+
+#: includes/content.admin.inc:876
+msgid "Change basic information"
+msgstr "Modifier les informations de base"
+
+#: includes/content.admin.inc:882
+msgid "%type settings"
+msgstr "Paramètres de '%type'"
+
+#: includes/content.admin.inc:883
+msgid "These settings apply only to the %field field as it appears in the %type content type."
+msgstr "Ces paramètres ne s'applique qu'au champ '%field' tel qu'il apparaît dans le type contenu '%type'."
+
+#: includes/content.admin.inc:900
+msgid "Instructions to present to the user below this field on the editing form.<br />Allowed HTML tags: @tags"
+msgstr "Instructions à présenter à l'utilisateur sous ce champ, dans le formulaire d'édition.<br />Balises HTML autorisées : @tags"
+
+#: includes/content.admin.inc:908
+msgid "Default value"
+msgstr "Valeur par défaut"
+
+#: includes/content.admin.inc:955
+msgid "Advanced usage only: PHP code that returns a default value. Should not include &lt;?php ?&gt; delimiters. If this field is filled out, the value returned by this code will override any value specified above. Expected format: <pre>!sample</pre>Using !link_devel's 'devel load' tab on a %type content page might help you figure out the expected format."
+msgstr "Réservé à une utilisation avancée : code PHP renvoyant la valeur par défaut du champ. Ne doit pas inclure les délimiteurs &lt;?php ?&gt;. Si ce champ est renseigné, la valeur renvoyée par le code supplante toute valeur indiquée ci-desus. Format attendu : <pre>!sample</pre> Vous pouvez utiliser l'onglet 'devel load' du module !link_devel sur un nœud de type '%type' pour mieux comprendre le format attendu."
+
+#: includes/content.admin.inc:966
+msgid "This PHP code was set by an administrator and will override any value specified above."
+msgstr "Ce code PHP a été inséré par un administrateur et supplantera toute valeur spécifiée ci-dessus."
+
+#: includes/content.admin.inc:973
+msgid "Global settings"
+msgstr "Paramètres globaux"
+
+#: includes/content.admin.inc:974
+msgid "These settings apply to the %field field in every content type in which it appears."
+msgstr "Ces paramètres s'appliquent au champ '%field' dans tous les types de contenu où il apparaît."
+
+#: includes/content.admin.inc:978
+msgid "Required"
+msgstr "Obligatoire"
+
+#: includes/content.admin.inc:983
+msgid "Number of values"
+msgstr "Nombre de valeurs"
+
+#: includes/content.admin.inc:984
+msgid "Unlimited"
+msgstr "Illimité"
+
+#: includes/content.admin.inc:986
+msgid "Select a specific number of values for this field, or 'Unlimited' to provide an 'Add more' button so the users can add as many values as they like."
+msgstr "Choisissez un nombre de valeurs pour ce champ, ou 'Illimité' pour proposer un bouton 'Ajouter' aux utilisateurs, de sorte qu'ils peuvent insérer autant de valeurs qu'ils le souhaitent."
+
+#: includes/content.admin.inc:986
+msgid "Warning! Changing this setting after data has been created could result in the loss of data!"
+msgstr "Attention ! Changer ce paramètre alors que des données ont déjà été créées peut conduire à perdre des données !"
+
+#: includes/content.admin.inc:1001
+msgid "Save field settings"
+msgstr "Enregistrer les paramètres du champ"
+
+#: includes/content.admin.inc:1094
+msgid "The default value PHP code returned an incorrect value.<br/>Expected format: <pre>!sample</pre> Returned value: @value"
+msgstr "Le code PHP de valeur par défaut a renvoyé une valeur incorrecte.<br/>Format attendu : <pre>!sample</pre> Valeur renvoyée : @value"
+
+#: includes/content.admin.inc:1131
+msgid "The default value PHP code created @value which is invalid."
+msgstr "Le code PHP de valeur par défaut a créé @value, qui est invalide."
+
+#: includes/content.admin.inc:1135
+msgid "The default value is invalid."
+msgstr "La valeur par défaut est invalide."
+
+#: includes/content.admin.inc:1158
+msgid "Saved field %label."
+msgstr "Champ '%label' enregistré."
+
+#: includes/content.admin.inc:1463
+msgid "Processing"
+msgstr "Exécution"
+
+#: includes/content.admin.inc:1464
+msgid "The update has encountered an error."
+msgstr "La mise à jour a échoué."
+
+#: includes/content.admin.inc:1478
+msgid "The database has been altered and data has been migrated or deleted."
+msgstr "La base de données a été modifiée et des données ont été déplacées ou supprimées."
+
+#: includes/content.admin.inc:1481
+msgid "An error occurred and database alteration did not complete."
+msgstr "Une erreur est survenue et a interrompu la modification de la base de données."
+
+#: includes/content.admin.inc:1584
+msgid "Processing %title"
+msgstr "'%title' en cours de traitement"
+
+#: includes/content.admin.inc:1482
+msgid "1 item successfully processed:"
+msgid_plural "@count items successfully processed:"
+msgstr[0] "1 élément traité avec succès&nbsp:"
+msgstr[1] "@count éléments traités avec succès&nbsp:"
+
+#: includes/content.crud.inc:591
+msgid "Content fields table %old_name has been renamed to %new_name and field instances have been updated."
+msgstr "La table de champs a été renommée de '%old_name' à '%new_name' et les instances des champs ont été mises à jour."
+
+#: includes/content.crud.inc:629
+msgid "The content fields table %name has been deleted."
+msgstr "La table de champs '%name' a été supprimée."
+
+#: includes/content.node_form.inc:206
+msgid "Add another item"
+msgstr "Ajouter un autre élément"
+
+#: includes/content.token.inc:60
+msgid "Referenced node ID"
+msgstr "Identifiant du nœud référencé"
+
+#: includes/content.token.inc:61
+msgid "Referenced node title"
+msgstr "Titre du nœud référencé"
+
+#: includes/content.token.inc:62
+msgid "Formatted HTML link to the node"
+msgstr "Lien HTML mis en forme vers le nœud"
+
+#: includes/content.token.inc:86
+msgid "Raw number value"
+msgstr "Valeur numérique brute"
+
+#: includes/content.token.inc:87
+msgid "Formatted number value"
+msgstr "Valeur numérique mise en forme"
+
+#: includes/content.token.inc:110
+msgid "Raw, unfiltered text"
+msgstr "Texte brut, non filtré"
+
+#: includes/content.token.inc:111
+msgid "Formatted and filtered text"
+msgstr "Texte filtré et mis en forme"
+
+#: includes/content.token.inc:133
+msgid "Referenced user ID"
+msgstr "Identifiant de l'utilisateur référencé"
+
+#: includes/content.token.inc:134
+msgid "Referenced user name"
+msgstr "Nom de l'utilisateur référencé"
+
+#: includes/content.token.inc:135
+msgid "Formatted HTML link to referenced user"
+msgstr "Lien HTML mis en forme vers l'utilisateur référencé"
+
+#: includes/content.views.inc:93
+msgid "Appears in: @types"
+msgstr "Apparaît dans : @types"
+
+#: includes/content.views.inc:291
+msgid "Format"
+msgstr "Format"
+
+#: includes/content.views.inc:372
+msgid "Group multiple values"
+msgstr "Grouper plusieurs valeurs"
+
+#: includes/content.views.inc:378
+msgid "Show @count value(s)"
+msgstr "Afficher @count valeur(s)"
+
+#: includes/content.views.inc:387
+msgid "starting from @count"
+msgstr "en commençant à @count"
+
+#: includes/content.views.inc:396
+msgid "Reversed (start from last values)"
+msgstr "Inversé (commencer à partir des dernières valeurs)"
+

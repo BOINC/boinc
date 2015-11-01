@@ -159,6 +159,17 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
                 S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH
             );
             if (fd<0) {
+                if (errno == EACCES) {
+                    // this is this case when the file was already uploaded
+                    // and made read-only;
+                    // return success to the client won't keep trying
+                    //
+                    log_messages.printf(MSG_WARNING,
+                      "client tried to reupload the read-only file %s\n",
+                      path
+                    );
+                    return return_success(0);
+                }
                 return return_error(ERR_TRANSIENT,
                     "can't open file %s: %s\n", path, strerror(errno)
                 );
@@ -252,6 +263,11 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
         }
 
         bytes_left -= n;
+    }
+    // upload complete; make the file read-only so we won't try to upload it again.
+    //
+    if (fchmod(fd, S_IRUSR|S_IRGRP|S_IROTH)) {
+        log_messages.printf(MSG_CRITICAL, "can't make file %s read only: %s\n", path, strerror(errno));
     }
     close(fd);
     return return_success(0);
@@ -716,6 +732,12 @@ int main(int argc, char *argv[]) {
             return_error(ERR_TRANSIENT, "can't read key file");
             exit(1);
         }
+    }
+
+    if (access(config.upload_dir, W_OK)) {
+        log_messages.printf(MSG_CRITICAL, "can't write to upload_dir\n");
+        return_error(ERR_TRANSIENT, "can't write to upload_dir");
+        exit(1);
     }
 
 #ifdef _USING_FCGI_

@@ -1,0 +1,12 @@
+; $Id$
+name = Number
+description = Defines numeric field types.
+dependencies[] = content
+package = CCK
+core = 6.x
+; Information added by Drupal.org packaging script on 2015-06-17
+version = "6.x-2.10"
+core = "6.x"
+project = "cck"
+datestamp = "1434568159"
+

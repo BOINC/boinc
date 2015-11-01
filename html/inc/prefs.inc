@@ -40,6 +40,7 @@
 // and also to/from HTML form elements
 
 include_once("../inc/prefs_util.inc");
+include_once("../inc/translation.inc");
 
 global $cpu_prefs;
 global $disk_prefs;
@@ -128,7 +129,7 @@ $cpu_prefs = array(
     ),
     new PREF_NUM(
         tra("Request tasks to checkpoint at most every"),
-        tra("This controls how often tasks save their state to disk, so that they can be restarted later."),
+        tra("This controls how often tasks save their state to disk, so that later they can be continued from that point."),
         "disk_interval",
         new NUM_SPEC(tra("seconds"), 0, 9999999, 60)
     ),

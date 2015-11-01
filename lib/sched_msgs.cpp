@@ -24,6 +24,7 @@ SCHED_MSG_LOG log_messages;
 const char* SCHED_MSG_LOG::v_format_kind(int kind) const {
     switch(kind) {
     case MSG_CRITICAL: return "[CRITICAL]";
+    case MSG_WARNING:  return "[warning]";
     case MSG_NORMAL:   return "";
     case MSG_DEBUG:    return "[debug]";
     default:       return "*** internal error: invalid MessageKind ***";
