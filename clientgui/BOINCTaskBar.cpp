@@ -655,11 +655,16 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
             break;
         }
         if (status.task_mode == RUN_MODE_NEVER) {
-            m_SnoozeGPUMenuItem->Check(true);
-            m_SnoozeGPUMenuItem->Enable(false);
+            if (status.task_mode_perm == RUN_MODE_NEVER) {
+                m_SnoozeGPUMenuItem->Check(false);
+                m_SnoozeGPUMenuItem->Enable(true);
+            }
+            else {
+                m_SnoozeGPUMenuItem->Check(true);
+                m_SnoozeGPUMenuItem->Enable(false);
+            }
         }
-        else
-        {
+        else {
            m_SnoozeGPUMenuItem->Enable(enableSnoozeItems);
         }
     }
