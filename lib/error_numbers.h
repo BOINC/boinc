@@ -43,7 +43,8 @@
 // Function return values.
 // NOTE:  add new errors to the end of the list and don't change
 // old error numbers to avoid confusion between versions.
-// Add a text description of your error to boincerror() in util.C.
+// Add a text description of your error to the text description
+// function boincerror() in str_util.cpp.
 //
 #define BOINC_SUCCESS       0
 #define ERR_SELECT          -100
