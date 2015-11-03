@@ -330,7 +330,7 @@ def contains_shell_characters(command):
             return True
     return False
 
-# if a line ends with a \ it escapes the newline witch then
+# if a line ends with a \ it escapes the newline which then
 # is in front of the first argument of the next line where it needs to be cleaned
 # this enables the use of multiline shell commands within <cmd>
 def strip_leading_escapes(string):
