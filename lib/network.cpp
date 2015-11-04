@@ -225,7 +225,9 @@ int boinc_socket(int& fd, int protocol) {
         return ERR_SOCKET;
     }
 #ifndef _WIN32
-    fcntl(fd, F_SETFD, FD_CLOEXEC);
+    if (-1 == fcntl(fd, F_SETFD, FD_CLOEXEC)) {
+        return ERR_FCNTL;
+    }
 #endif
     return 0;
 }
