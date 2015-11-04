@@ -63,6 +63,7 @@ using std::string;
 // See sched/sched_msg_log.C and client/client_msg_log.C for those classes.
 
 MSG_LOG::MSG_LOG(FILE* output_) {
+    debug_level = 0;
     output = output_;
     indent_level = 0;
     spaces[0] = 0;
