@@ -1316,6 +1316,7 @@ void PROJECT_CONFIG::clear() {
     web_rpc_url_base.clear();
     error_msg.clear();
     terms_of_use.clear();
+    local_revision = 0;
     min_passwd_length = 6;
     account_manager = false;
     uses_username = false;
