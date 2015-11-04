@@ -212,6 +212,7 @@ int dup_element(FILE* in, const char* tag_name, char** pp) {
         retval = strcatdup(p, buf);
         if (retval) return retval;
     }
+    free(p);
     return ERR_XML_PARSE;
 }
 
