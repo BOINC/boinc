@@ -108,7 +108,9 @@ unsigned int random_int() {
     if (!f) {
         die("can't open /dev/random\n");
     }
-    fread(&n, sizeof(n), 1, f);
+    if (1 != fread(&n, sizeof(n), 1, f)) {
+        die("couldn't read from /dev/random\n");
+    }
     fclose(f);
 #endif
     return n;
