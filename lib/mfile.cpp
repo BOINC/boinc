@@ -38,6 +38,7 @@
 MFILE::MFILE() {
     buf = (char*)malloc(64*1024);
     len = 0;
+    f = NULL;
 }
 
 MFILE::~MFILE() {
