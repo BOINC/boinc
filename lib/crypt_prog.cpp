@@ -325,8 +325,9 @@ int main(int argc, char** argv) {
                 if (!fpriv) {
                     die("fopen");
                 }
-                scan_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
+                retval = scan_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
                 fclose(fpriv);
+                if (retval) die("scan_key_hex\n");
                 private_to_openssl(private_key, &rsa_key);
 
                 //i = PEM_write_bio_RSAPrivateKey(bio_out, &rsa_key,
@@ -348,8 +349,9 @@ int main(int argc, char** argv) {
                 if (!fpub) {
                     die("fopen");
                 }
-                scan_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
+                retval = scan_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
                 fclose(fpub);
+                if (retval) die("scan_key_hex\n");
                 fpub = fopen(argv[5], "w+");
                 if (!fpub) {
                     die("fopen");
