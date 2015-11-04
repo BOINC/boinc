@@ -60,6 +60,10 @@ using std::vector;
 
 RPC_CLIENT::RPC_CLIENT() {
     sock = -1;
+    start_time = 0;
+    timeout = 0;
+    retry = 0;
+    memset(&addr, 0, sizeof(addr));
 }
 
 RPC_CLIENT::~RPC_CLIENT() {
