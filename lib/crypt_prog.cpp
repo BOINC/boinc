@@ -187,6 +187,7 @@ int main(int argc, char** argv) {
         retval = scan_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
         if (retval) die("read_public_key");
         f = fopen(argv[3], "r");
+        if (!f) die("fopen");
         signature.data = signature_buf;
         signature.len = 256;
         retval = scan_hex_data(f, signature);
@@ -233,6 +234,7 @@ int main(int argc, char** argv) {
             die("usage: crypt_prog -cert_verify file signature_file certificate_dir ca_dir \n");
 
         f = fopen(argv[3], "r");
+        if (!f) die("fopen");
         signature.data = signature_buf;
         signature.len = 256;
         retval = scan_hex_data(f, signature);
@@ -261,20 +263,24 @@ int main(int argc, char** argv) {
         }
         if (b2o) {
             f = fopen(argv[3], "r");
+            if (!f) die("fopen");
             signature.data = signature_buf;
             signature.len = 256;
             retval = scan_hex_data(f, signature);
             fclose(f);
             f = fopen(argv[4], "w+");
+            if (!f) die("fopen");
             print_raw_data(f, signature);
             fclose(f);
         } else {
             f = fopen(argv[3], "r");
+            if (!f) die("fopen");
             signature.data = signature_buf;
             signature.len = 256;
             retval = scan_raw_data(f, signature);
             fclose(f);
             f = fopen(argv[4], "w+");
+            if (!f) die("fopen");
             print_hex_data(f, signature);
             fclose(f);
         }
@@ -330,6 +336,7 @@ int main(int argc, char** argv) {
                 //i = PEM_write_bio_RSAPrivateKey(bio_out, &rsa_key,
         		//				NULL, NULL, 0, pass_cb, NULL);
                 fpriv = fopen(argv[5], "w+");
+                if (!fpriv) die("fopen");
                 PEM_write_RSAPrivateKey(fpriv, &rsa_key, NULL, NULL, 0, 0, NULL);
                 fclose(fpriv);
     		    //if (i == 0) {
@@ -363,6 +370,7 @@ int main(int argc, char** argv) {
             }
             if (kpriv) {
                 fpriv = fopen (argv[4], "r");
+                if (!fpriv) die("fopen");
                 rsa_key_ = PEM_read_RSAPrivateKey(fpriv, NULL, NULL, NULL);
                 fclose(fpriv);
                 if (rsa_key_ == NULL) {
@@ -377,6 +385,7 @@ int main(int argc, char** argv) {
                 print_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
             } else {
                 fpub = fopen (argv[4], "r");
+                if (!fpub) die("fopen");
                 rsa_key_ = PEM_read_RSA_PUBKEY(fpub, NULL, NULL, NULL);
                 fclose(fpub);
                 if (rsa_key_ == NULL) {
