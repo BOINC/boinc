@@ -2150,16 +2150,23 @@ int CLIENT_STATE::quit_activities() {
     //
     adjust_rec();
 
+    daily_xfer_history.write_file();
+    write_state_file();
+    gui_rpcs.close();
+    abort_cpu_benchmarks();
+    time_stats.quit();
+
+    // stop jobs.
+    // Do this last because it could take a long time,
+    // and the OS might kill us in the middle
+    //
     int retval = active_tasks.exit_tasks();
     if (retval) {
         msg_printf(NULL, MSG_INTERNAL_ERROR,
             "Couldn't exit tasks: %s", boincerror(retval)
         );
     }
-    write_state_file();
-    gui_rpcs.close();
-    abort_cpu_benchmarks();
-    time_stats.quit();
+
     return 0;
 }
 
