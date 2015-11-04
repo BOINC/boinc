@@ -148,10 +148,13 @@ int MFILE::puts(const char* p) {
     return n;
 }
 
+// This is closing the file even if it couldn't flush it.
+// The caller needs to check the return value and open the file again before the next retry.
+//
 int MFILE::close() {
     int retval = 0;
     if (f) {
-        flush();
+        retval = flush();
         fclose(f);
         f = NULL;
     }
