@@ -97,6 +97,7 @@ bool parse_str(const char* buf, const char* tag, char* dest, int destlen) {
     p = strstr(buf, tag);
     if (!p) return false;
     p = strchr(p, '>');
+    if (!p) return false;
     p++;
     const char* q = strchr(p, '<');
     if (!q) return false;
