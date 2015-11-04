@@ -2559,6 +2559,7 @@ static int parse_notices(XML_PARSER& xp, NOTICES& notices) {
                 if (np->seqno == -1) {
                     notices.notices.clear();
                     notices.complete = true;
+                    delete np;
                 } else {
                     notices.notices.insert(notices.notices.begin(), np);
                 }
