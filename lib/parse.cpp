@@ -501,6 +501,8 @@ int skip_unrecognized(char* buf, MIOFILE& fin) {
 }
 
 XML_PARSER::XML_PARSER(MIOFILE* _f) {
+    strcpy(parsed_tag, "");
+    is_tag = false;
     f = _f;
 }
 
