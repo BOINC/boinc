@@ -796,6 +796,9 @@ void FILE_TRANSFER::clear() {
     project_url.clear();
     project_name.clear();
     nbytes = 0;
+    uploaded = false;
+    is_upload = false;
+    generated_locally = false;
     sticky = false;
     pers_xfer_active = false;
     xfer_active = false;
@@ -836,6 +839,7 @@ int MESSAGE::parse(XML_PARSER& xp) {
 void MESSAGE::clear() {
     project.clear();
     priority = 0;
+    seqno = 0;
     timestamp = 0;
     body.clear();
 }
@@ -1404,6 +1408,7 @@ void CC_STATUS::clear() {
 	gpu_mode_delay = 0;
     disallow_attach = false;
     simple_gui_only = false;
+    max_event_log_lines = 0;
 }
 
 /////////// END OF PARSING FUNCTIONS.  RPCS START HERE ////////////////
