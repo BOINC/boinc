@@ -504,7 +504,9 @@ FILE* boinc_fopen(const char* path, const char* mode) {
         }
     }
     if (f) {
-        fcntl(fileno(f), F_SETFD, FD_CLOEXEC);
+        if (-1 == fcntl(fileno(f), F_SETFD, FD_CLOEXEC)) {
+            return 0;
+        }
     }
 #endif
     return f;
