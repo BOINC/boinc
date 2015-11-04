@@ -600,9 +600,15 @@ int boinc_copy(const char* orig, const char* newf) {
     fclose(src);
     fclose(dst);
     // Copy file's ownership, permissions to the extent we are allowed
-    lstat(orig, &sbuf);             // Get source file's info
-    chown(newf, sbuf.st_uid, sbuf.st_gid);
-    chmod(newf, sbuf.st_mode);
+    if (lstat(orig, &sbuf)) { // Get source file's info
+        return ERR_STAT;
+    }
+    if (chown(newf, sbuf.st_uid, sbuf.st_gid)) {
+        return ERR_CHOWN;
+    }
+    if (chmod(newf, sbuf.st_mode)) {
+        return ERR_CHMOD;
+    }
     return retval;
 #endif
 }
