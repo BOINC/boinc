@@ -1052,11 +1052,16 @@ void ACTIVE_TASK_SET::request_reread_app_info() {
 
 
 // send quit message to all tasks in the project
-// (or all tasks, if proj==0).
-// If they don't exit in 5 seconds,
+// (or all tasks, if proj is NULL).
+// If they don't exit in MAX_EXIT_TIME seconds,
 // send them a kill signal and wait up to 5 more seconds to exit.
 // This is called when the client exits,
 // or when a project is detached or reset
+//
+// MAX_EXIT_TIME should be large enough that apps
+// can finalize (e.g. write checkpoint file) in that time.
+// In Nov 2015 we increased it from 15 to 60
+// because CERN's VBox apps take a long time to save state.
 //
 int ACTIVE_TASK_SET::exit_tasks(PROJECT* proj) {
     if (log_flags.task_debug) {
@@ -1064,7 +1069,7 @@ int ACTIVE_TASK_SET::exit_tasks(PROJECT* proj) {
     }
     request_tasks_exit(proj);
 
-    // Wait 15 seconds for them to exit normally; if they don't then kill them
+    // Wait for tasks to exit normally; if they don't then kill them
     //
     if (wait_for_exit(MAX_EXIT_TIME, proj)) {
         if (log_flags.task_debug) {
