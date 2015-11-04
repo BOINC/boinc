@@ -277,6 +277,8 @@ int PROJECT::parse(XML_PARSER& xp) {
     int retval;
     char buf[256];
 
+    strcpy(buf, "");
+
     while (!xp.get_tag()) {
         if (xp.match_tag("/project")) {
             return 0;
