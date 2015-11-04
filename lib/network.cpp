@@ -334,7 +334,11 @@ int boinc_get_port(bool is_remote, int& port) {
         return ERR_BIND;
     }
 
-    getsockname(sock, (sockaddr*)&addr, &addrsize);
+    retval = getsockname(sock, (sockaddr*)&addr, &addrsize);
+    if (retval) {
+        boinc_close_socket(sock);
+        return errno;
+    }
     port = ntohs(addr.sin_port);
 
     boinc_close_socket(sock);
