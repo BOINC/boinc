@@ -285,7 +285,9 @@ int get_socket_error(int fd) {
     n = getpeername(fd, (struct sockaddr *)&sin, &sinsz);
 #else
     socklen_t intsize = sizeof(int);
-    getsockopt(fd, SOL_SOCKET, SO_ERROR, (void*)&n, (socklen_t*)&intsize);
+    if (getsockopt(fd, SOL_SOCKET, SO_ERROR, (void*)&n, (socklen_t*)&intsize)) {
+        return errno;
+    }
 #endif
     return n;
 }
