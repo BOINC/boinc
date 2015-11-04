@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -38,6 +38,19 @@
 
 using std::vector;
 using std::string;
+
+int assimilate_handler_init(int argc, char** argv) {
+    // handle project specific arguments here
+    return 0;
+}
+
+void assimilate_handler_usage() {
+    // describe the project specific arguments here
+    //fprintf(stderr,
+    //    "    Custom options:\n"
+    //    "    [--project_option X]  a project specific option\n"
+    //);
+}
 
 int assimilate_handler(
     WORKUNIT& wu, vector<RESULT>& /*results*/, RESULT& canonical_result

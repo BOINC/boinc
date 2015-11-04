@@ -483,8 +483,6 @@ void CTaskBarIcon::MacCancelUserAttentionRequest()
 
 
 void CTaskBarIcon::DisplayContextMenu() {
-    ResetTaskBar();
-
     wxMenu* pMenu = BuildContextMenu();
     PopupMenu(pMenu);
     delete pMenu;
@@ -657,10 +655,16 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
             break;
         }
         if (status.task_mode == RUN_MODE_NEVER) {
-            m_SnoozeGPUMenuItem->Check(false);
+            bool check_gpu_snooze = false;
+            if (status.task_mode_perm != RUN_MODE_NEVER) check_gpu_snooze = true;
+            if ((status.gpu_mode == RUN_MODE_NEVER) && (status.gpu_mode_perm != RUN_MODE_NEVER)) {
+                check_gpu_snooze = true;
+            }
+            m_SnoozeGPUMenuItem->Check(check_gpu_snooze);
             m_SnoozeGPUMenuItem->Enable(false);
+        } else {
+           m_SnoozeGPUMenuItem->Enable(enableSnoozeItems);
         }
-        m_SnoozeGPUMenuItem->Enable(enableSnoozeItems);
     }
 }
 

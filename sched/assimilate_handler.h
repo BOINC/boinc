@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -34,7 +34,5 @@ extern int assimilate_handler(
     RESULT&                 // the canonical instance
 );
 
-extern int g_argc;
-extern char** g_argv;
-extern char* results_prefix;
-extern char* transcripts_prefix;
+extern int assimilate_handler_init(int argc, char** argv);
+extern void assimilate_handler_usage();

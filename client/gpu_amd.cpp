@@ -390,7 +390,11 @@ void COPROC_ATI::get(
         warnings.push_back("No ATI GPUs found");
     }
 leave:
+#ifdef _WIN32
+    if (callib) FreeLibrary(callib);
+#else
     if (callib) dlclose(callib);
+#endif
 }
 
 void COPROC_ATI::correlate(
