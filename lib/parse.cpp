@@ -814,7 +814,7 @@ bool XML_PARSER::parse_bool(const char* start_tag, bool& b) {
 
     // handle the archaic form <tag/>, which means true
     //
-    strcpy(tag, start_tag);
+    safe_strcpy(tag, start_tag);
     strcat(tag, "/");
     if (!strcmp(parsed_tag, tag)) {
         b = true;
