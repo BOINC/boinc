@@ -2290,7 +2290,6 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
   }
   
   $input_format = variable_get('boincimport_input_format', 0);
-  $posts_imported = 0;
   
  // Get the topics with posts to import
   db_set_active('boinc');
@@ -2315,6 +2314,7 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
     
     $first_post = true;
     $success = FALSE;
+    $posts_imported = 0;
     $empty_posts = 0;
     $error_posts = 0;
     $duplicate_posts = 0;
