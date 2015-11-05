@@ -403,6 +403,7 @@ void COPROC_NVIDIA::clear() {
     prop.textureAlignment = 0;
     prop.deviceOverlap = 0;
     prop.multiProcessorCount = 0;
+    is_used = COPROC_UNUSED;
 }
 
 int COPROC_NVIDIA::parse(XML_PARSER& xp) {
@@ -655,6 +656,7 @@ void COPROC_ATI::clear() {
     memset(&attribs, 0, sizeof(attribs));
     memset(&info, 0, sizeof(info));
     version_num = 0;
+    is_used = COPROC_UNUSED;
 }
 
 int COPROC_ATI::parse(XML_PARSER& xp) {
@@ -842,6 +844,8 @@ void COPROC_INTEL::clear() {
     estimated_delay = -1;
     strcpy(name, "");
     strcpy(version, "");
+    global_mem_size = 0;
+    is_used = COPROC_UNUSED;
 }
 
 int COPROC_INTEL::parse(XML_PARSER& xp) {
