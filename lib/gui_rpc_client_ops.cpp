@@ -2346,8 +2346,12 @@ int RPC_CLIENT::get_newer_version(std::string& version, std::string& version_dow
     retval = rpc.do_rpc("<get_newer_version/>\n");
     if (!retval) {
         while (rpc.fin.fgets(buf, 256)) {
-            parse_str(buf, "<newer_version>", version);
-            parse_str(buf, "<download_url>", version_download_url);
+            if (parse_str(buf, "<newer_version>", version)) {
+                return ERR_XML_PARSE;
+            }
+            if (parse_str(buf, "<download_url>", version_download_url)) {
+                return ERR_XML_PARSE;
+            }
         }
     }
     return retval;
