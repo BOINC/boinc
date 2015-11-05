@@ -1293,8 +1293,9 @@ int PROJECT_CONFIG::parse(XML_PARSER& xp) {
         if (xp.parse_string("error_msg", error_msg)) continue;
         if (xp.match_tag("terms_of_use")) {
             char buf[65536];
-            xp.element_contents("</terms_of_use>", buf, sizeof(buf));
-            terms_of_use = buf;
+            if (!xp.element_contents("</terms_of_use>", buf, sizeof(buf))) {
+                terms_of_use = buf;
+            }
             continue;
         }
         if (xp.parse_int("min_client_version", min_client_version)) continue;
