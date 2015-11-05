@@ -42,7 +42,8 @@
 
 using std::string;
 
-APP_INIT_DATA::APP_INIT_DATA() : project_preferences(NULL) {
+APP_INIT_DATA::APP_INIT_DATA() {
+    clear();
 }
 
 APP_INIT_DATA::~APP_INIT_DATA() {
