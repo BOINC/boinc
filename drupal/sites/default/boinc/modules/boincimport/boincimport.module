@@ -3972,11 +3972,18 @@ class BoincImportUrlTransformer {
   function BoincImportUrlTransformer() {
     global $base_url;
     global $base_path;
-    $base_url_boinc = variable_get('boincimport_base_url_boinc', '');
-    $base_url_drupal = variable_get('boincimport_base_url_drupal', $base_url);
+    $boinc_base_urls = variable_get('boincimport_base_url_boinc', '');
+    $drupal_base_url = variable_get('boincimport_base_url_drupal', $base_url);
     $this->basePath = $base_path;
-    $this->boincDomain = parse_url($base_url_boinc, PHP_URL_HOST);
-    $this->drupalDomain = parse_url($base_url_drupal, PHP_URL_HOST);
+    $this->drupalDomain = parse_url($drupal_base_url, PHP_URL_HOST);
+    $this->boincDomains = array();
+    $boinc_base_urls = explode("\n", $boinc_base_urls);
+    foreach ($boinc_base_urls as $url) {
+      $domain = parse_url($url, PHP_URL_HOST);
+      if ($domain) {
+        $this->boincDomains[$domain] = TRUE;
+      }
+    }
   }
   
   /**
@@ -3986,12 +3993,12 @@ class BoincImportUrlTransformer {
     $http = $matches[1];
     $domain = trim($matches[2], '/');
     if ($http) {
-      if ($domain == $this->boincDomain) {
-        // This is a URL for this domain
+      if (isset($this->boincDomains[$domain])) {
+        // This is a URL configured to be transformed
         return "{$http}://{$this->drupalDomain}{$this->basePath}";
       }
       else {
-        // This is a URL for another domain!
+        // This URL should not be transformed
         return NULL;
       }
     }
