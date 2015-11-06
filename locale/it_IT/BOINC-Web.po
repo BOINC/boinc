@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2015-11-06 09:22+0000\n"
+"PO-Revision-Date: 2015-11-06 09:29+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,7 @@ msgstr "Questa pagina %spuò essere tradotta%s."
 msgid ""
 "We recommend that you also install VirtualBox, so your computer can work on "
 "science projects that require it."
-msgstr "Raccomandiamo l'installazione di VirtualBox, cosicché il tuo computer possa elaborare su progetti scientifici che lo richiedono"
+msgstr "Raccomandiamo l'installazione di VirtualBox perchè alcuni progetti scientifici lo richiedono (ogni progetto che ne ha bisogno lo specifica)."
 
 #: download.php:44
 msgid "Learn more about VirtualBox."
@@ -93,7 +93,7 @@ msgstr "Puoi eseguire questo software su un computer solo se possiedi il compute
 msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
-msgstr "Raccomandiamo che tu scarichi BOINC dal Google Play Store oppure dall'Amazon Appstore, non da qui."
+msgstr "Ti consigliamo di scaricare BOINC da Google Play Store oppure da Amazon Appstore, non da qui. Utilizza questo collegamento solo se ti è difficile usare gli strumenti consigliati."
 
 #: download.php:177
 msgid "System requirements"
@@ -238,7 +238,7 @@ msgstr "Add-ons"
 
 #: index.php:96
 msgid "Links"
-msgstr "Links"
+msgstr "Link"
 
 #: index.php:101
 msgid ""
