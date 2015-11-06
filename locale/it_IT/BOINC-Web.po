@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2015-11-06 09:29+0000\n"
+"PO-Revision-Date: 2015-11-06 09:35+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -81,7 +81,7 @@ msgstr "BOINC è un programma che ti permette di donare il tempo inutilizzato de
 msgid ""
 "After installing BOINC on your computer, you can connect it to as many of "
 "these projects as you like."
-msgstr "Dopo l'installazione di BOINC sul tuo computer, puoi connetterti a tutti i progetti che preferisci."
+msgstr "Dopo l'installazione di BOINC su un computer potrai connetterti a tutti i progetti che preferisci."
 
 #: download.php:137
 msgid ""
@@ -278,17 +278,17 @@ msgstr "Aggiornamenti del software"
 msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4, "
 "giving you the power of thousands of CPUs and GPUs."
-msgstr "%1Scienziati%2: usare BOINC per creare un %3progetto di calcolo volontario%4, dandovi la potenza di migliaia di CPU e GPU."
+msgstr "%1Scienziati%2: usa BOINC per creare un %3progetto di calcolo%4 che abbia la potenza di elaborazione di migliaia di CPU e GPU."
 
 #: index.php:150
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
-msgstr "%1Università%2: usa il BOINC per creare un %3Centro di supercomputer virtuale del campus%4."
+msgstr "%1Università%2: usa BOINC per creare un %3mainframe virtuale%4, disponibile per tutti i bisogni dell'università."
 
 #: index.php:155
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
-msgstr "%1Aziende%2: usa il BOINC per %3Calcolo desktop Grid%4."
+msgstr "%1Aziende%2: usa BOINC per il %3grid computing%4."
 
 #: index.php:167
 msgid "About BOINC"
