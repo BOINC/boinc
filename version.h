@@ -10,7 +10,7 @@
 #define BOINC_MINOR_VERSION 6
 
 /* Release part of BOINC version number */
-#define BOINC_RELEASE 12
+#define BOINC_RELEASE 13
 
 /* Release part of wrapper version number */
 #define WRAPPER_RELEASE 26014
