@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2015-11-06 09:35+0000\n"
+"PO-Revision-Date: 2015-11-06 09:41+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -300,7 +300,7 @@ msgstr "Forum"
 
 #: index.php:182
 msgid "Email lists"
-msgstr "Email list"
+msgstr "Mailing list"
 
 #: index.php:183
 msgid "Events"
@@ -338,7 +338,7 @@ msgstr "Il Quake-Catcher Network sta sviluppando la rete sismica più grande del
 
 #: projects.inc:34
 msgid "BOINC Poland Foundation"
-msgstr "Fondazione BOINC Polacca"
+msgstr "Fondazione BOINC Polonia"
 
 #: projects.inc:35
 msgid "Environmental research"
@@ -364,7 +364,7 @@ msgid ""
 "MindModeling@Home uses computational cognitive process modeling to better "
 "understand the human mind, and specifically to study the mechanisms and "
 "processes that enable and moderate human performance and learning."
-msgstr "MindModeling@Home utilizza la modellazione computazionale del processo cognitivo per capire meglio la mente umana e in particolare per studiare i meccanismi e processi che consentono e moderano le prestazioni umane e l'apprendimento."
+msgstr "MindModeling@Home utilizza la modellazione computazionale del processo cognitivo per capire meglio la mente umana e in particolare per studiare i meccanismi ed i processi che consentono e moderano le prestazioni umane e l'apprendimento."
 
 #: projects.inc:70 projects.inc:467 projects.inc:591 projects.inc:601
 #: projects.inc:657
@@ -405,7 +405,7 @@ msgstr "Biologia molecolare"
 msgid ""
 "RNA World seeks to identify, analyze, structurally predict and design RNA "
 "molecules on the basis of established bioinformatics software."
-msgstr "Mondo del RNA mira a identificare, analizzare, strutturalmente prevedere e progettare molecole di RNA sulla base di software bioinformatico testato."
+msgstr "RNA World mira ad identificare, analizzare, prevedere la struttura e progettare molecole di RNA usando software bioinformatici già testati."
 
 #: projects.inc:107
 msgid "University College Dublin"
