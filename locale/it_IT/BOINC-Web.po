@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2015-11-06 09:00+0000\n"
+"PO-Revision-Date: 2015-11-06 09:06+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -87,7 +87,7 @@ msgstr "Dopo l'installazione di BOINC sul tuo computer, puoi connetterti a tutti
 msgid ""
 "You may run this software on a computer only if you own the computer or have"
 " the permission of its owner."
-msgstr "Puoi eseguire questo software su un computer solo se possiedi il computer o se hai il permesso del suo padrone."
+msgstr "Puoi eseguire questo software su un computer solo se possiedi il computer o se hai il permesso del suo proprietario."
 
 #: download.php:142
 msgid ""
@@ -117,7 +117,7 @@ msgstr "Storia delle versioni"
 
 #: download.php:182
 msgid "GPU computing"
-msgstr "elaborazione GPU"
+msgstr "Elaborazione con GPU"
 
 #: download.php:200
 msgid "BOINC: compute for science"
@@ -130,7 +130,7 @@ msgid ""
 " can: %s answer questions about BOINC and volunteer computing; %s walk you "
 "through the process of installing and using BOINC; %s troubleshoot any "
 "problems you might have."
-msgstr "L'Aiuto Online di BOINC ti permette di parlare a tu per tu con utenti esperti di BOINC che possono: %s rispondere a domande su BOINC e sul calcolo distribuito volontario; %s assisterti nel processo di installazione e utilizzo di BOINC; %s risolvere eventuali problemi che tu possa avere."
+msgstr "L'assistenza online di BOINC ti permette di contattare utenti esperti di BOINC che possono: %s rispondere a domande su BOINC e sul calcolo distribuito volontario; %s assisterti nel processo di installazione ed utilizzo di BOINC; %s risolvere eventuali problemi che tu possa avere."
 
 #: help.php:21
 #, php-format
@@ -139,7 +139,7 @@ msgid ""
 " Skype is free (both the software and the calls).  If you don't already have"
 " Skype, please %sdownload and install it now%s.  When you're finished, "
 "return to this page."
-msgstr "L'Aiuto Online BOINC si appoggia a %sSkype%s, un sistema di telefonia tramite Internet. Skype è gratis (sia il software che le chiamate).  Se non hai ancora Skype, %sscaricalo ed installalo ora%s.  Quando hai finito, ritorna su questa pagina."
+msgstr "L'assistenza online BOINC si appoggia a %sSkype%s, un sistema di telefonia tramite Internet. Skype è gratis (sia il software che le chiamate).  Se non hai ancora Skype, %sscaricalo ed installalo ora%s.  Quando hai finito ritorna su questa pagina."
 
 #: help.php:28
 msgid ""
@@ -147,7 +147,7 @@ msgid ""
 "microphone and speakers or an external headset for your computer.  You can "
 "also use Skype's text-based chat system or regular email (if you don't have "
 "Skype) to communicate with Help Volunteers."
-msgstr "Il modo migliore di ricevere aiuto è via voce, e per ottenerlo è necessario che tu abbia collegati al tuo computer un microfono e delle casse, oppure delle cuffie.  Per comunicare con i Volontari dell'Aiuto Online puoi anche utilizzare la chat testuale di Skype o le email (se non hai Skype)."
+msgstr "Il modo migliore di ricevere aiuto è parlando: per ottenerlo è necessario che tu abbia collegati al tuo computer un microfono e delle casse, oppure delle cuffie.  Per comunicare con i volontari dell' assistenza online puoi anche utilizzare la chat testuale di Skype o le email (se non hai Skype)."
 
 #: help.php:31
 msgid ""
