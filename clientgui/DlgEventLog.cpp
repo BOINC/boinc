@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// Copyright (C) 2008 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -99,6 +99,11 @@ CDlgEventLog::CDlgEventLog( wxWindow* parent, wxWindowID id, const wxString& cap
 
     Create(parent, id, caption, pos, size, style);
 
+#ifdef __WXGTK__
+    m_pList->SaveEventHandler((m_pList->GetMainWin())->GetEventHandler());
+    (m_pList->GetMainWin())->PushEventHandler(new MyEvtLogEvtHandler(m_pList));
+#endif
+
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::CDlgEventLog - Constructor Function End"));
 }
 
@@ -106,6 +111,10 @@ CDlgEventLog::CDlgEventLog( wxWindow* parent, wxWindowID id, const wxString& cap
 CDlgEventLog::~CDlgEventLog() {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::CDlgEventLog - Destructor Function Begin"));
  
+#ifdef __WXGTK__
+    (m_pList->GetMainWin())->PopEventHandler(true);
+#endif
+
     if (m_pMessageInfoAttr) {
         delete m_pMessageInfoAttr;
         m_pMessageInfoAttr = NULL;
