@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2015-11-06 10:00+0000\n"
+"PO-Revision-Date: 2015-11-06 10:07+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -820,7 +820,7 @@ msgid ""
 "problems by creating the world's largest volunteer computing grid.  Research"
 " includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, "
 "clean water and many more."
-msgstr "Per ulteriori ricerche critiche non profit su alcuni dei problemi importanti dell'umanità creando la più grande rete mondiale di calcolo distribuito.  Le ricerche includono HIV-AIDS, cancro, malattie tropicali e dimenticate, energia solare, acqua pulita e molte altre."
+msgstr "Ricerche critiche non profit su alcuni dei problemi importanti dell'umanità e si prefigge di creare la più grande rete di calcolo distribuito.  Le ricerche includono HIV-AIDS, cancro, malattie tropicali, malattie poco studiate, energia solare, acqua pulita ed altri campi."
 
 #: projects.inc:502
 msgid "Do biomedical and environmental research"
@@ -828,7 +828,7 @@ msgstr "Fare la ricerca biomedica e dell'ambiente"
 
 #: projects.inc:507
 msgid "Mathematics, computing, and games"
-msgstr "Matematica, calcolo computazionale, e giochi"
+msgstr "Matematica, calcolo computazionale e teoria dei giochi"
 
 #: projects.inc:533 projects.inc:602 projects.inc:658 projects.inc:668
 #: projects.inc:678
@@ -884,7 +884,7 @@ msgstr "Tentare di decodificare tre messaggi codificati con la macchina Enigma d
 
 #: projects.inc:596
 msgid "Decode WWII submarine messages"
-msgstr "Decodificare i messaggi dei sommergibili della Seconda Guerra Mondiale"
+msgstr "Decodificare i messaggi dei sommergibili della Seconda guerra mondiale"
 
 #: projects.inc:603
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
@@ -955,7 +955,7 @@ msgid ""
 "Testing and comparison of heuristic methods for getting separations of "
 "parallel algorithms working in the CAD system for designing logic control "
 "systems"
-msgstr "Test e confronto di metodi euristici per ottenere separazioni di algoritmi paralleli lavorando nel sistema CAD per la progettazione logica di sistemi di controllo"
+msgstr "Test e confronto di metodi euristici per ottenere separazioni di algoritmi paralleli che funzionino in ambienti CAD orientati alla progettazione di sistemi di controllo"
 
 #: ../html/inc/news.inc:40
 msgid "Comment"
