@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2015-11-06 09:54+0000\n"
+"PO-Revision-Date: 2015-11-06 10:00+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -652,7 +652,7 @@ msgstr "Cercare stelle di neutroni rotanti (dette anche pulsar) usando i dati da
 
 #: projects.inc:370
 msgid "Help detect pulsars and gravitational waves"
-msgstr "Aiuto nel rilevamento di Pulsar e onde gravitazionali"
+msgstr "Aiuto nel rilevamento di pulsar ed onde gravitazionali"
 
 #: projects.inc:383 projects.inc:393 projects.inc:403
 msgid "CERN (European Organization for Nuclear Research)"
@@ -692,7 +692,7 @@ msgid ""
 " physics experiment at CERN's Large Hadron Collider.  ATLAS searches for new"
 " particles and processes using head-on collisions of protons of "
 "extraordinary high energy."
-msgstr "Atlas@Home utilizza il calcolo volontario per eseguire simulazioni per ATLAS, un esperimento di fisica delle particelle al Large Hadron Collider del CERN.  ATLAS Cerca nuove particelle e processi tramite collisioni di protoni ad alta energia."
+msgstr "Atlas@Home esegue simulazioni per ATLAS, un esperimento di fisica delle particelle al Large Hadron Collider del CERN.  ATLAS cerca nuove particelle e processi tramite collisioni di protoni ad alta energia."
 
 #: projects.inc:408
 msgid "Simulate high-energy particle collisions for CERN"
@@ -739,7 +739,7 @@ msgstr "Sostenere la scienza dalle University del North Dakota"
 
 #: projects.inc:457
 msgid "Chinese Academy of Sciences"
-msgstr "Chinese Academy of Sciences"
+msgstr "Accademia cinese delle scienze"
 
 #: projects.inc:458
 msgid "Physics, biochemistry, and others"
@@ -754,7 +754,7 @@ msgstr "L'obiettivo di CAS@home è di incoraggiare ed assistere gli scienziati c
 
 #: projects.inc:462
 msgid "Help Chinese researchers"
-msgstr "Aiutare i ricercatori Cinesi"
+msgstr "Aiutare i ricercatori cinesi"
 
 #: projects.inc:468
 msgid "Mathematics, physics, evolution"
@@ -772,7 +772,7 @@ msgstr "Fare ricerca in matematica, fisica ed evoluzione"
 
 #: projects.inc:477 projects.inc:677
 msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
-msgstr "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
+msgstr "MTA-SZTAKI, Laboratorio di sistemi paralleli e distribuiti, Ungheria"
 
 #: projects.inc:478
 msgid "European research projects"
@@ -812,7 +812,7 @@ msgstr "Cittadinanza IBM Corporate"
 
 #: projects.inc:498
 msgid "Medical, environmental and other humanitarian research"
-msgstr "Medica, dell'ambiente e altre ricerche umanitarie"
+msgstr "Medicina, ambiente ed altre ricerche benefiche"
 
 #: projects.inc:499
 msgid ""
