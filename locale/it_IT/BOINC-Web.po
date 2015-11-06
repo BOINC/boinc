@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2015-11-06 09:11+0000\n"
+"PO-Revision-Date: 2015-11-06 09:16+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -245,7 +245,7 @@ msgid ""
 "Use the idle time on your computer (Windows, Mac, Linux, or Android) to cure"
 " diseases, study global warming, discover pulsars, and do many other types "
 "of scientific research.  It's safe, secure, and easy:"
-msgstr "Usa il tempo libero del tuo computer( Windows, Mac, Linux, o Android) per curare malattie, studiare il riscaldamento globale, scoprire pulsar, e per molti altri tipi di ricerca scientifica.  È innocuo, sicuro, e facile:"
+msgstr "Usa il tempo libero del tuo computer (Windows, Mac, Linux, o Android) per curare malattie, studiare il riscaldamento globale, scoprire pulsar, e per molti altri tipi di ricerca scientifica.  È innocuo, sicuro e facile:"
 
 #: index.php:103
 msgid "Choose projects"
@@ -257,7 +257,7 @@ msgstr "Scarica il software BOINC"
 
 #: index.php:105
 msgid "Enter an email address and password."
-msgstr "Inserisci un indirizzo email e una password."
+msgstr "Inserisci un indirizzo email ed una password."
 
 #: index.php:109
 #, php-format
@@ -292,7 +292,7 @@ msgstr "%1Aziende%2: usa il BOINC per %3Calcolo desktop Grid%4."
 
 #: index.php:167
 msgid "About BOINC"
-msgstr "Riguardo BOINC"
+msgstr "Informazioni su BOINC"
 
 #: index.php:181
 msgid "Message boards"
@@ -334,7 +334,7 @@ msgstr "Sismologia"
 msgid ""
 "Quake-Catcher Network is developing the world's largest seismic network "
 "using sensors attached to computers and smartphones."
-msgstr "Quake-Catcher Network sta sviluppando la rete sismica più grande del mondo, utilizzando sensori collegati al computer e smartphone."
+msgstr "Il Quake-Catcher Network sta sviluppando la rete sismica più grande del mondo utilizzando sensori collegati a computer e smartphone."
 
 #: projects.inc:34
 msgid "BOINC Poland Foundation"
@@ -349,7 +349,7 @@ msgid ""
 "Radioactive@Home is creating a free and continuously updated map of "
 "radiation levels using sensors connected to volunteers' computers.  You must"
 " buy a sensor to participate."
-msgstr "Radioactive@Home è la creazione di una mappa libera e continuamente aggiornata dei livelli di radiazione usando sensori collegati ai computer dei volontari.  È necessario acquistare un sensore per partecipare."
+msgstr "Radioactive@Home ha come scopo la creazione di una mappa liberamente disponibile a tutti e continuamente aggiornata dei livelli di radiazioni, usando sensori collegati ai computer dei volontari.  È necessario acquistare un sensore per partecipare."
 
 #: projects.inc:45
 msgid "Cognitive science and artifical intelligence"
