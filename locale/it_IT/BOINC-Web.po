@@ -7,14 +7,15 @@
 # 
 # Translators:
 # Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015
+# Sebastiano Pistore <olatusrooc@virgilio.it>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2015-07-18 10:44+0000\n"
-"Last-Translator: Gianfranco Costamagna <costamagnagianfranco@yahoo.it>\n"
-"Language-Team: Italian (Italy) (http://www.transifex.com/p/boinc/language/it_IT/)\n"
+"PO-Revision-Date: 2015-11-06 09:00+0000\n"
+"Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
+"Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -28,7 +29,7 @@ msgstr "Cerca"
 
 #: docutil.php:103
 msgid "Return to BOINC main page"
-msgstr "Torna alla pagina principale del BOINC"
+msgstr "Torna alla pagina principale di BOINC"
 
 #: docutil.php:114
 #, php-format
