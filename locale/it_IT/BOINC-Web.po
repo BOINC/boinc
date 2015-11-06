@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2015-11-06 09:49+0000\n"
+"PO-Revision-Date: 2015-11-06 09:54+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -575,7 +575,7 @@ msgstr "L'obiettivo del progetto è quello di derivare forme e spin per una part
 
 #: projects.inc:290
 msgid "Aerospace-related science and engineering"
-msgstr "Ingegneria e scienze legate all'aerospaziale"
+msgstr "Ingegneria aerospaziale e scienze collegate"
 
 #: projects.inc:291
 msgid ""
@@ -583,7 +583,7 @@ msgid ""
 "trajectory optimization of launchers, satellites and probes, simulation of "
 "Moon's near-surface exosphere, and analysis of dynamic systems of "
 "exploration-rovers"
-msgstr "Constellation è una piattaforma per le simulazioni legate all'aerospaziale, tra cui l'ottimizzazione della traiettoria di lanciatori, satelliti e sonde, simulazione dell'esosfera vicina alla superficie della Luna e analisi dei sistemi dinamici di esplorazione dei rovere"
+msgstr "Constellation è una piattaforma per le simulazioni aerospaziali: ottimizzazione della traiettoria di lanciatori, satelliti e sonde, simulazione dell'esosfera vicina alla superficie della Luna e analisi dei sistemi dinamici di esplorazione dei rover"
 
 #: projects.inc:294
 msgid "Perform aerospace-related simulations"
@@ -609,11 +609,11 @@ msgid ""
 "The goal of Milkyway@Home is to create a highly accurate three dimensional "
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
 "Survey."
-msgstr "L'obiettivo di Milkyway@Home è di creare un modello tridimensionale più accurato possibile della Via Lattea usando i dati raccolti dal Sloan Digital Sky Survey."
+msgstr "L'obiettivo di Milkyway@Home è di creare un modello tridimensionale più accurato possibile della Via Lattea usando i dati raccolti dallo Sloan Digital Sky Survey."
 
 #: projects.inc:342
 msgid "Study the structure of the Milky Way galaxy"
-msgstr "Studio della struttura della galassia Via Lattea"
+msgstr "Studio della struttura della Via Lattea"
 
 #: projects.inc:347
 msgid "Leiden University, The Netherlands"
@@ -631,7 +631,7 @@ msgid ""
 " Dynamics jobs. In this way students have used the grid to simulate liquid "
 "argon, or to test the validity of the ideal gas law by actually doing the "
 "simulations through the grid."
-msgstr "Calcoli relativi alla scienza delle superfici utilizzando la Dinamica Classica. Leiden Classical permette a volontari, studenti e altri scienziati di inserire le proprie elaborazioni nella grid. Ogni utente ha la sua coda personale per le attività di Dinamica Classica. In questo modo gli studenti hanno utilizzato la grid per simulare l'argon liquido, o per testare la validità della legge dei gas ideali (equazione di stato dei gas perfetti) effettuando le simulazioni tramite la grid."
+msgstr "Calcoli relativi alla scienza delle superfici utilizzando la dinamica classica. Leiden Classical permette a volontari, studenti e altri scienziati di inserire le proprie elaborazioni nella grid. Ogni utente ha la sua coda personale per le attività di dinamica classica. In questo modo gli studenti hanno utilizzato la grid per simulare l'argon liquido, o per testare la validità della legge dei gas ideali (equazione di stato dei gas perfetti) effettuando le simulazioni tramite la grid."
 
 #: projects.inc:352
 msgid "Help students do atomic simulations"
