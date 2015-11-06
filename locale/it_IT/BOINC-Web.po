@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2015-11-06 09:16+0000\n"
+"PO-Revision-Date: 2015-11-06 09:22+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -209,7 +209,7 @@ msgstr "computer.\n"
 
 #: index.php:56
 msgid "24-hour average:"
-msgstr "Media su 24 ore:"
+msgstr "Media delle ultime 24 ore:"
 
 #: index.php:56
 msgid "PetaFLOPS."
@@ -617,7 +617,7 @@ msgstr "Studio della struttura della galassia Via Lattea"
 
 #: projects.inc:347
 msgid "Leiden University, The Netherlands"
-msgstr "Università di Leiden, Paesi Bassi"
+msgstr "Università di Leida, Paesi Bassi"
 
 #: projects.inc:348
 msgid "Chemistry"
@@ -639,7 +639,7 @@ msgstr "Aiutare gli studenti a fare simulazioni atomiche"
 
 #: projects.inc:365
 msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
-msgstr "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
+msgstr "Università del Wisconsin a Milwaukee ed Istituto Max Planck"
 
 #: projects.inc:367
 msgid ""
@@ -788,7 +788,7 @@ msgstr "Il progetto EDGeS@Home Beta integra il calcolo volontario nella network 
 
 #: projects.inc:482
 msgid "Help European researchers"
-msgstr "Aiutare i ricercatori Europei"
+msgstr "Aiutare i ricercatori europei"
 
 #: projects.inc:487
 msgid "Spanish universities and research centers"
@@ -804,7 +804,7 @@ msgstr "Ricerca in fisica, scienza dei materiali e biomedicina"
 
 #: projects.inc:492
 msgid "Help Spanish researchers"
-msgstr "Aiutare i ricercatori Spagnoli"
+msgstr "Aiutare i ricercatori spagnoli"
 
 #: projects.inc:497
 msgid "IBM Corporate Citizenship"
@@ -880,7 +880,7 @@ msgstr "Crittografia"
 msgid ""
 "Attempt to decode 3 original Enigma messages. The signals were intercepted "
 "in the North Atlantic in 1942 and are believed to be unbroken."
-msgstr "Tentare di decodificare 3 messaggi Enigma originali. I segnali vennero intercettati nell'Atlantico del nord nel 1942 e si crede siano intatti."
+msgstr "Tentare di decodificare tre messaggi codificati con la macchina Enigma dalla Germania nazista. I segnali vennero intercettati nell'Atlantico del nord nel 1942 e si crede siano intatti, anche se il loro contenuto è ancora sconosciuto."
 
 #: projects.inc:596
 msgid "Decode WWII submarine messages"
