@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2015-11-06 09:41+0000\n"
+"PO-Revision-Date: 2015-11-06 09:49+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -409,11 +409,11 @@ msgstr "RNA World mira ad identificare, analizzare, prevedere la struttura e pro
 
 #: projects.inc:107
 msgid "University College Dublin"
-msgstr "College Universitario di Dublino"
+msgstr "University College di Dublino"
 
 #: projects.inc:108
 msgid "Antimalarial drug discovery"
-msgstr "Scoperta di cure contro la malaria"
+msgstr "Scoperta di cure per la malaria"
 
 #: projects.inc:109
 msgid ""
@@ -425,7 +425,7 @@ msgstr "Il parassita che causa la malaria continua a evolvere resistenza ai farm
 
 #: projects.inc:117
 msgid "University of Karlsruhe (Germany)"
-msgstr "Università di Karlsruhe (Germania)"
+msgstr "Università di Karlsruhe, Germania"
 
 #: projects.inc:118
 msgid "Protein structure prediction"
@@ -519,7 +519,7 @@ msgstr "Università di Oxford"
 
 #: projects.inc:244
 msgid "Climate study"
-msgstr "Studi climatici"
+msgstr "Climatologia"
 
 #: projects.inc:245
 msgid ""
@@ -545,7 +545,7 @@ msgstr "Ingegneria meccanica"
 msgid ""
 "Currently we are calculating the optimum design of a structure call the 52 "
 "bar truss"
-msgstr "Al momento stiamo calcolando il design migliore per una struttura con 52 barre di traliccio"
+msgstr "Al momento stiamo calcolando il design migliore per una complicata struttura detta \"52 bar truss\"."
 
 #: projects.inc:269 projects.inc:328 projects.inc:338
 msgid "Astronomy"
