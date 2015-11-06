@@ -448,7 +448,6 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_bool("use_certs", use_certs)) continue;
         if (xp.parse_bool("use_certs_only", use_certs_only)) continue;
         if (xp.parse_bool("vbox_window", vbox_window)) continue;
-        if (xp.parse_int("default_process_priority", default_process_priority)) continue;
 
         msg_printf_notice(NULL, false,
             "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",

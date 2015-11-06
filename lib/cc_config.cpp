@@ -259,7 +259,6 @@ void CC_CONFIG::defaults() {
     use_certs = false;
     use_certs_only = false;
     vbox_window = false;
-    default_process_priority = -1;
 }
 
 int EXCLUDE_GPU::parse(XML_PARSER& xp) {
@@ -434,7 +433,6 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool("use_certs", use_certs)) continue;
         if (xp.parse_bool("use_certs_only", use_certs_only)) continue;
         if (xp.parse_bool("vbox_window", vbox_window)) continue;
-        if (xp.parse_int("default_process_priority", default_process_priority)) continue;
 
         xp.skip_unexpected(true, "CC_CONFIG::parse_options");
     }
@@ -667,8 +665,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <use_all_gpus>%d</use_all_gpus>\n"
         "        <use_certs>%d</use_certs>\n"
         "        <use_certs_only>%d</use_certs_only>\n"
-        "        <vbox_window>%d</vbox_window>\n"
-        "        <default_process_priority>%d</default_process_priority>\n",
+        "        <vbox_window>%d</vbox_window>\n",
         rec_half_life/86400,
         report_results_immediately,
         run_apps_manually,
@@ -682,8 +679,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         use_all_gpus,
         use_certs,
         use_certs_only,
-        vbox_window,
-        default_process_priority
+        vbox_window
     );
 
     out.printf("    </options>\n</cc_config>\n");

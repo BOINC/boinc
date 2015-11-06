@@ -195,7 +195,6 @@ struct CC_CONFIG {
     bool use_certs_only;
         // overrides use_certs
     bool vbox_window;
-    int default_process_priority;
 
     CC_CONFIG();
     void defaults();
