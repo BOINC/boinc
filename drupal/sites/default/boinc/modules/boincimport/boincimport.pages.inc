@@ -7,6 +7,7 @@
 function boincimport_admin_settings() {
   global $conf ;
   global $db_url;
+  global $base_url;
   $stage = variable_get('boincimport_config_stage', 0); 
   
   // Start with a quick sanity check on the BOINC environment
@@ -277,6 +278,38 @@ function boincimport_admin_settings() {
     messages and the users\' signature.') .'</em></p>';
     
   $form['bbcode']['result'] = array('#value' => $output);
+  
+  // URL transform settings
+  $form['url_transforms'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('URL transforms'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  if (!variable_get('boincimport_base_url_boinc', 0)) {
+    $form['url_transforms']['#collapsed']= FALSE;
+    $output = '<span class="marker">';
+    $ready_for_migration = 0;
+  }
+
+  // List of BOINC domains possible in URLs to transform
+  $form['url_transforms']['boincimport_base_url_boinc'] = array(
+    '#type' => 'textarea',
+    '#title' => t('BOINC base URLs to transform'),
+    '#default_value' => variable_get('boincimport_base_url_boinc', ''),
+    '#description' => t('List URL bases that should be transformed from
+      BOINC format to Drupal format (enter one domain per line, including http://).'),
+  );
+
+  // The Drupal domain to use in URL transform results
+  $form['url_transforms']['boincimport_base_url_drupal'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Target Drupal base URL'),
+    '#default_value' => variable_get('boincimport_base_url_drupal', ''),
+    '#description' => t('Specify the URL base to use in transform results. If
+      left blank, the base_url configured in this Drupal environment will be
+      used (currently: %url)', array('%url' =>$base_url)),
+  );
   
   // Are we ready for migration?
   $form['migration'] = array(

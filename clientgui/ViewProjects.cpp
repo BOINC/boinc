@@ -1125,8 +1125,8 @@ void CViewProjects::GetDocResourcePercent(wxInt32 item, double& fBuffer) const {
 }
 
 
-wxInt32 CViewProjects::FormatResourceShare(double fBuffer, double fBufferPercent, wxString& strBuffer) const {
-    strBuffer.Printf(wxT("%0.0f (%0.2f%%)"), fBuffer, fBufferPercent);
+wxInt32 CViewProjects::FormatResourceShare(double share, double share_pct, wxString& strBuffer) const {
+    strBuffer.Printf(wxT("%s (%s%%)"), format_number(share, 0), format_number(share_pct, 2));
         
     return 0;
 }
