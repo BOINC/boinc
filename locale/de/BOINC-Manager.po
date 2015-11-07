@@ -915,7 +915,7 @@ msgstr "Öffne %s..."
 #: clientgui/BOINCTaskBar.cpp:533 clientgui/BOINCTaskBar.cpp:631
 #: clientgui/BOINCTaskBar.cpp:636
 msgid "Snooze"
-msgstr "BOINC anhalten"
+msgstr "BOINC pausieren"
 
 #: clientgui/BOINCTaskBar.cpp:535 clientgui/BOINCTaskBar.cpp:650
 #: clientgui/BOINCTaskBar.cpp:655
