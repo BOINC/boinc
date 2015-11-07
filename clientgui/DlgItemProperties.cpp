@@ -313,7 +313,7 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
     
     if (!project->non_cpu_intensive) {
         addSection(_("Scheduling"));
-        addProperty(_("Scheduling priority"), wxString::Format(wxT("%0.2f"), project->sched_priority));
+        addProperty(_("Scheduling priority"), format_number(project->sched_priority, 2));
         show_rsc(_("CPU"), project->rsc_desc_cpu);
         if (pDoc->state.host_info.coprocs.have_nvidia()) {
             show_rsc(
