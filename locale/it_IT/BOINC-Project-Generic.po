@@ -6,16 +6,16 @@
 # FileID  : $Id$
 # 
 # Translators:
-# Daniele NAsuti <daniele.nasuti@gmail.com>, 2015
+# Daniele Nasuti <daniele.nasuti@gmail.com>, 2015
 # Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2015-06-26 20:24+0000\n"
+"PO-Revision-Date: 2015-11-07 20:07+0000\n"
 "Last-Translator: Gianfranco Costamagna <costamagnagianfranco@yahoo.it>\n"
-"Language-Team: Italian (Italy) (http://www.transifex.com/projects/p/boinc/language/it_IT/)\n"
+"Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
