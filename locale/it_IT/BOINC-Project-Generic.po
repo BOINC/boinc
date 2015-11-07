@@ -8,12 +8,13 @@
 # Translators:
 # Daniele Nasuti <daniele.nasuti@gmail.com>, 2015
 # Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015
+# Sebastiano Pistore <olatusrooc@virgilio.it>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2015-11-07 20:25+0000\n"
+"PO-Revision-Date: 2015-11-07 20:30+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -77,7 +78,7 @@ msgstr "Conferma la password"
 #: ../user/top_users.php:63 ../user/user_search.php:53
 #: ../user/user_search.php:125
 msgid "Country"
-msgstr "Nazionalità"
+msgstr "Stato"
 
 #: ../inc/account.inc:63 ../user/account_finish.php:45
 msgid "Select the country you want to represent, if any."
