@@ -102,6 +102,8 @@ struct RSC_PROJECT_WORK_FETCH {
         // the job is deferred because of a temporary_exit() call.
         // Don't fetch more jobs of this type; they might have same problem
     int rsc_project_reason;
+        // If zero, it's OK to ask this project for this type of work.
+        // If nonzero, the reason why it's not OK
 
     RSC_PROJECT_WORK_FETCH() {
         backoff_time = 0;
