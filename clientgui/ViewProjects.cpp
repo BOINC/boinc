@@ -967,7 +967,7 @@ void CViewProjects::GetDocProjectName(wxInt32 item, wxString& strBuffer) const {
 
     if (project) {
         project->get_name(project_name);
-        strBuffer = strBuffer = HtmlEntityDecode(wxString(project_name.c_str(), wxConvUTF8));
+        strBuffer = HtmlEntityDecode(wxString(project_name.c_str(), wxConvUTF8));
     } else {
         strBuffer = wxEmptyString;
     }
