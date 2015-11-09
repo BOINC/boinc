@@ -596,7 +596,7 @@ extern THREAD throttle_thread;
 #define DEADLINE_CUSHION    0
     // try to finish jobs this much in advance of their deadline
 
-#define MAX_EXIT_TIME   15
+#define MAX_EXIT_TIME   60
     // if an app takes this long to exit, kill it
 
 #define MAX_STARTUP_TIME    10

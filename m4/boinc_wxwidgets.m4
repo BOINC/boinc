@@ -8,11 +8,11 @@ AC_DEFUN([BOINC_OPTIONS_WXWIDGETS],[
      [enable_unicode="$enableval"],
      [])
 
-   AC_ARG_ENABLE(debug, 
-     AS_HELP_STRING([--enable-debug/--disable-debug],
-                   [enable/disable building the manager with debug support]),
-     [enable_debug="$enableval"],
-     [])
+   AC_ARG_ENABLE(wx-debug,
+     AS_HELP_STRING([--disable-wx-debug],
+                   [disable wxWidgets debug support]),
+     [enable_wx_debug="$enableval"],
+     [enable_wx_debug=yes])
 
    AM_OPTIONS_WXCONFIG
      AM_PATH_WXCONFIG($1, [_ac_cv_have_wxwidgets=yes], [_ac_cv_have_wxwidgets=no])
@@ -55,31 +55,7 @@ dnl Find the default wxWidgets options.
            AC_MSG_WARN([
 ===============================================================================
 WARNING: No ${uprf} libraries for wxWidgets are installed.
-         ==> building with nprf libraries.  
-	 
-  You requested a ${uprf} build, but configure is unable to find ${uprf} 
-  wxWidgets libraries.  We will build with the default ${nprf} libraries.
-===============================================================================
-])
-           ac_cv_wxwidgets_options="${ac_cv_wxwidgets_options}"
-         fi
-       fi
-       wx_default_config="`$WX_CONFIG ${ac_cv_wxwidgets_options} --selected-config`"
-       if test "x${enable_wx_debug}" != x ; then
-         if $WX_CONFIG ${ac_cv_wxwidgets_options} --debug=${enable_debug} --selected-config 2>&1 >/dev/null ; then
-           ac_cv_wxwidgets_options="${ac_cv_wxwidgets_options} --debug=${enable_debug}"
-         else
-           if test "x${enable_debug}" = xno ; then
-             uprf="non-debug"
-             nprf="debug"
-           else
-             uprf="debug"
-             nprf="non-debug"
-           fi  
-           AC_MSG_WARN([
-===============================================================================
-WARNING: No ${uprf} libraries for wxWidgets are installed.
-         ==> building with nprf libraries.  
+         ==> building with ${nprf} libraries.
 	 
   You requested a ${uprf} build, but configure is unable to find ${uprf} 
   wxWidgets libraries.  We will build with the default ${nprf} libraries.

@@ -109,6 +109,12 @@ td.button{
     border-radius: 10px;
 }
 
+td.button_green{
+    background-color: rgb(200, 255, 230);
+    border: 1px solid lightgreen;
+    border-radius: 10px;
+}
+
 td.heading{
     background-color: rgb(223, 240, 255);
     border: 1px solid lightblue;

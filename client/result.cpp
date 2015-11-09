@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <math.h>
+
 #include "parse.h"
 
 #include "client_msgs.h"
@@ -407,9 +409,20 @@ int RESULT::write_gui(MIOFILE& out) {
             if (avp->gpu_usage.rsc_type) {
                 COPROC& cp = coprocs.coprocs[avp->gpu_usage.rsc_type];
                 if (cp.count > 1) {
-                    sprintf(buf, " (device %d)",
-                        cp.device_nums[coproc_indices[0]]
-                    );
+                    // if there are multiple GPUs of this type,
+                    // show the user which one(s) are being used
+                    //
+                    int n = (int)ceil(avp->gpu_usage.usage);
+                    strcpy(buf, " (device ");
+                    for (int i=0; i<n; i++) {
+                        char buf2[256];
+                        sprintf(buf2, "%d", cp.device_nums[coproc_indices[i]]);
+                        if (i > 0) {
+                            strcat(buf, "/");
+                        }
+                        strcat(buf, buf2);
+                    }
+                    strcat(buf, ")");
                 }
             }
         }

@@ -1223,17 +1223,14 @@ AC_SUBST(CLIENTLIBS)
 ## --------------------
 ## some more tweaking to turn non-standard libs into statically linked ones
 
-if test "${enable_debug}" = yes; then
+if test "${enable_debug}" = "yes" ; then
     CLIENTGUIFLAGS="${CLIENTGUIFLAGS} -D_DEBUG -DDEBUG"
 fi
 
-AC_ARG_ENABLE(wx-debug,
-  AS_HELP_STRING([--enable-wx-debug],
-                 [ use wxWidgets debug libraries ]),
-  [enable_wx_debug="yes"
-   AC_DEFINE(USE_WX_DEBUG,[1],[Define to 1 to use the wxWidgets debug libraries])
-   ],
-  [enable_wx_debug="no"])
+# disable wxWidgets debug support which is by default enabled since 2.9.1
+if test "${enable_wx_debug}" = "no" ; then
+    CLIENTGUIFLAGS="${CLIENTGUIFLAGS} -DNDEBUG"
+fi
 
 CLIENTGUILIBS="${WX_LIBS} ${SQLITE3_LIBS}"
 

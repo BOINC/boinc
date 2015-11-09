@@ -1140,12 +1140,78 @@ function boinccore_url_pagination_handler($type, $object_id = NULL) {
   $path = NULL;
   $params = array();
   switch ($type) {
+  case 'boinc-forum':
+    // Redirect requests to a BOINC forum to the Drupal forum
+    $forum_id = db_result(db_query('
+      SELECT tid
+      FROM {boincimport_temp_forum}
+      WHERE forum_id = %d',
+      $object_id
+    ));
+    if ($forum_id) {
+      drupal_goto("community/forum/{$forum_id}");
+    }
+    break;
+  case 'boinc-forum-index':
+    // Redirect requests to the top level BOINC forum to Drupal forums
+    drupal_goto("community/forum");
+    break;
+  case 'boinc-forum-post':
+    // Redirect requests to a BOINC forum post to the Drupal comment
+    $cid = db_result(db_query('
+      SELECT cid
+      FROM {boincimport_temp_post}
+      WHERE post_id = %d',
+      $object_id
+    ));
+    if ($cid) {
+      drupal_goto("goto/comment/{$cid}");
+    }
+    break;
+  case 'boinc-forum-topic':
+    // Redirect requests to a BOINC forum topic to the Drupal node
+    $nid = db_result(db_query('
+      SELECT nid
+      FROM {boincimport_temp_topic}
+      WHERE topic_id = %d',
+      $object_id
+    ));
+    if ($nid) {
+      drupal_goto("node/{$nid}");
+    }
+    break;
+  case 'boinc-host':
+    // Redirect requests to BOINC host details to the host page in Drupal
+    drupal_goto("host/{$object_id}");
+    break;
+  case 'boinc-hosts-user':
+    // Redirect requests to a BOINC user host list to the host list in Drupal
+    $uid = boincuser_lookup_uid($object_id);
+    if ($uid) {
+      drupal_goto("account/{$uid}/computers");
+    }
+    break;
+  case 'boinc-result':
+    // Redirect requests to BOINC task details to the task page in Drupal
+    drupal_goto("task/{$object_id}");
+  case 'boinc-results-host':
+    // Redirect requests to BOINC tasks by host to the host task page in Drupal
+    drupal_goto("host/{$object_id}/tasks");
+    break;
+  case 'boinc-results-user':
+    // Redirect requests to a BOINC user's tasks to the Drupal account tasks
+    drupal_goto("account/tasks");
+    break;
   case 'boinc-user':
     // Redirect requests to a BOINC user ID to the Drupal profile
     $uid = boincuser_lookup_uid($object_id);
     if ($uid) {
       drupal_goto("account/{$uid}");
     }
+    break;
+  case 'boinc-workunit':
+    // Redirect requests to BOINC workunits to the workunit page in Drupal
+    drupal_goto("workunit/{$object_id}");
     break;
   case 'comment':
     $object = _comment_load($object_id);

@@ -1150,7 +1150,15 @@ function boincimport_quarrels_op($boinc_user, &$context) {
   $ignored_users = explode('|', trim($boinc_user->ignorelist, '|'));
   foreach ($ignored_users as $ignored_user) {
     $ignored_user_uid = boincuser_lookup_uid($ignored_user);
-    if (!$ignored_user_uid) continue;
+    if (!$ignored_user_uid) {
+      $context['results']['warning'][] = "{$uid}:{$ignored_user_uid}";
+      watchdog('boincimport',
+        'Error adding to ignore list of user @uid: No Drupal ID found for BOINC user @boinc_id',
+        array('@boinc_id' => $ignored_user, '@uid' => $uid),
+        WATCHDOG_WARNING
+      );
+      continue;
+    }
     $user_ignored = db_query("
       INSERT IGNORE INTO {ignore_user}
       SET uid = '%d', iuid = '%d'",
@@ -1160,7 +1168,12 @@ function boincimport_quarrels_op($boinc_user, &$context) {
       $success = TRUE;
     }
     else {
-      $context['results']['warning'][$uid] = $ignored_user_uid;
+      $context['results']['warning'][] = "{$uid}:{$ignored_user_uid}";
+      watchdog('boincimport',
+        'Could not add user @ignored_uid to the ignore list of user @uid',
+        array('@ignored_uid' => $ignored_user_uid, '@uid' => $uid),
+        WATCHDOG_WARNING
+      );
     }
   }
   
@@ -1210,16 +1223,6 @@ function boincimport_preferences_finished($success, $results, $operations) {
       array('@count' => $total_imported, '@warn' => $total_warnings),
       WATCHDOG_INFO
     );
-    // Record any warnings
-    if ($total_warnings) {
-      foreach ($results['warning'] as $uid => $ignored_user_uid) {
-        watchdog('boincimport',
-          'Could not add user @ignored_uid to the ignore list of user @uid',
-          array('@ignored_uid' => $ignored_user_uid, '@uid' => $uid),
-          WATCHDOG_WARNING
-        );
-      }
-    }
     // Set the preference import successful flag in the variable table
     variable_set('boincimport_import_preferences_successful', '1');
     $_SESSION['boincimport_stage_selected'] = 'private messages';
@@ -1634,7 +1637,7 @@ function boincimport_forum_categories_op($category, $forum_vid, $pre, $create_hi
   if (!$category AND $create_hidden) {
     // Create the special "hidden" container
     $category = new stdClass();
-    $category->name = t('Hidden');
+    $category->name = 'Hidden';
     $category->id = 0;
     $hidden = TRUE;
   }
@@ -1679,8 +1682,13 @@ function boincimport_forum_categories_op($category, $forum_vid, $pre, $create_hi
   $message = '';
   if ($success) {
     // Store some result for post-processing in the finished callback.
-    $context['results']['categories']['success'][] = $category->id;
-    $message = "Successfully imported container {$category->id}";
+    if (!$category AND $create_hidden) {
+      $message = "Created special hidden container";
+    }
+    else {
+      $context['results']['categories']['success'][] = $category->id;
+      $message = "Successfully imported container {$category->id}";
+    }
   }
   else {
     $context['results']['categories']['failure'][] = $category->id;
@@ -2282,7 +2290,6 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
   }
   
   $input_format = variable_get('boincimport_input_format', 0);
-  $posts_imported = 0;
   
  // Get the topics with posts to import
   db_set_active('boinc');
@@ -2307,6 +2314,7 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
     
     $first_post = true;
     $success = FALSE;
+    $posts_imported = 0;
     $empty_posts = 0;
     $error_posts = 0;
     $duplicate_posts = 0;
@@ -3935,13 +3943,15 @@ function _boincimport_replace_links($html) {
   
   // Update links to posts, threads, and forums
   $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?forum_thread\.php\?id=(\d+)(&\w+=\w*)*?(#(\d+)?)}i', array($transformer, 'transformPostLinks'), $html);
-  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?forum_thread\.php\?id=(\d+)}i', array($transformer, 'transformTopicLinks'), $html);
-  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?forum_forum\.php\?id=(\d+)}i', array($transformer, 'transformForumLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?forum_thread\.php\?id=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformTopicLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?forum_forum\.php\?id=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformForumLinks'), $html);
   $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?show_user\.php\?userid=(\d+)((&\w+=\w*)+)?}i', array($transformer, 'transformUserLinks'), $html); 
-  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?workunit\.php\?wuid=(\d+)}i', array($transformer, 'transformWorkUnitLinks'), $html);
-  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?result\.php\?resultid=(\d+)}i', array($transformer, 'transformResultLinks'), $html);
-  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?results\.php\?hostid=(\d+)}i', array($transformer, 'TransformHostResultsLinks'), $html);
-  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?show_host_detail\.php\?hostid=(\d+)}i', array($transformer, 'transformHostLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?workunit\.php\?wuid=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformWorkUnitLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?result\.php\?resultid=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformResultLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?results\.php\?userid=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformUserResultsLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?results\.php\?hostid=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformHostResultsLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?show_host_detail\.php\?hostid=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformHostLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?hosts_user\.php\?userid=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformUserHostsLinks'), $html);
   
   // Update any links to the top level index
   $html = preg_replace('{forum_index.php}i', "{$transformer->basePath}community/forum", $html);
@@ -3964,11 +3974,22 @@ class BoincImportUrlTransformer {
   function BoincImportUrlTransformer() {
     global $base_url;
     global $base_path;
-    $base_url_boinc = variable_get('boincimport_base_url_boinc', '');
-    $base_url_drupal = variable_get('boincimport_base_url_drupal', $base_url);
+    $boinc_base_urls = variable_get('boincimport_base_url_boinc', '');
+    $drupal_base_url = variable_get('boincimport_base_url_drupal', $base_url);
     $this->basePath = $base_path;
-    $this->boincDomain = parse_url($base_url_boinc, PHP_URL_HOST);
-    $this->drupalDomain = parse_url($base_url_drupal, PHP_URL_HOST);
+    $this->drupalDomain = parse_url($drupal_base_url, PHP_URL_HOST);
+    $this->boincDomains = array();
+    $boinc_base_urls = explode("\n", $boinc_base_urls);
+    foreach ($boinc_base_urls as $url) {
+      $domain = parse_url($url, PHP_URL_HOST);
+      if ($domain) {
+        $this->boincDomains[$domain] = TRUE;
+      }
+    }
+    if (!$this->boincDomains) {
+      watchdog('boincimport', 'No valid BOINC base URLs found to transform!',
+        array(), WATCHDOG_WARNING); 
+    }
   }
   
   /**
@@ -3978,12 +3999,12 @@ class BoincImportUrlTransformer {
     $http = $matches[1];
     $domain = trim($matches[2], '/');
     if ($http) {
-      if ($domain == $this->boincDomain) {
-        // This is a URL for this domain
+      if (isset($this->boincDomains[$domain])) {
+        // This is a URL configured to be transformed
         return "{$http}://{$this->drupalDomain}{$this->basePath}";
       }
       else {
-        // This is a URL for another domain!
+        // This URL should not be transformed
         return NULL;
       }
     }
@@ -4094,12 +4115,33 @@ class BoincImportUrlTransformer {
     return $link;
   }
   
+  function transformUserResultsLinks($matches) {
+    $link = $matches[0];
+    $newBaseUrl = $this->getNewBaseUrl($matches);
+    if ($newBaseUrl !== NULL) {
+      $link = "{$newBaseUrl}account/tasks";
+    }
+    return $link;
+  }
+  
   function transformHostLinks($matches) {
     $link = $matches[0];
     $newBaseUrl = $this->getNewBaseUrl($matches);
     if ($newBaseUrl !== NULL) {
       $id = $matches[3];
       $link = "{$newBaseUrl}host/{$id}";
+    }
+    return $link;
+  }
+  
+  function transformUserHostsLinks($matches) {
+    $link = $matches[0];
+    $newBaseUrl = $this->getNewBaseUrl($matches);
+    if ($newBaseUrl !== NULL) {
+      $uid = boincuser_lookup_uid($matches[3]);
+      if ($uid) {
+        $link = "{$newBaseUrl}account/{$uid}/computers";
+      }
     }
     return $link;
   }

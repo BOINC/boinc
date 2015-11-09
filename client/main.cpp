@@ -322,7 +322,6 @@ static int finalize() {
     if (finalized) return 0;
     finalized = true;
     gstate.quit_activities();
-    daily_xfer_history.write_file();
 
 #ifdef _WIN32
     shutdown_idle_monitor();

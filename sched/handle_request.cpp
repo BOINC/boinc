@@ -498,6 +498,17 @@ got_host:
     return 0;
 }
 
+inline static const char* get_remote_addr() {
+    // Server is behind a load balancer or proxy
+    const char* p = getenv("HTTP_X_FORWARDED_FOR");
+    if (p) {
+        return p;
+    }
+
+    const char * r = getenv("REMOTE_ADDR");
+    return r ? r : "?.?.?.?";
+}
+
 // modify host struct based on request.
 // Copy all fields that are determined by the client.
 //
@@ -585,7 +596,7 @@ static int update_host_record(HOST& initial_host, HOST& xhost, USER& user) {
         md5_block((const unsigned char*)buf, strlen(buf), host.host_cpid);
     }
 
-    char* p = getenv("REMOTE_ADDR");
+    const char* p = get_remote_addr();
     if (p) {
         strlcpy(host.external_ip_addr, p, sizeof(host.external_ip_addr));
     }
@@ -1042,11 +1053,6 @@ bool wrong_core_client_version() {
     );
     g_reply->set_delay(DELAY_BAD_CLIENT_VERSION);
     return true;
-}
-
-inline static const char* get_remote_addr() {
-    const char * r = getenv("REMOTE_ADDR");
-    return r ? r : "?.?.?.?";
 }
 
 void handle_msgs_from_host() {
