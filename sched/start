@@ -160,6 +160,13 @@ def get_task_output_name(task):
     return os.path.join(log_dir,
         task.__dict__.get('output') or get_task_command_basename(task) + '.out')
 
+def get_task_use_shell(task):
+    use_shell = task.__dict__.get('use_shell')
+    if use_shell and use_shell != "0":
+        return 1
+    else:
+        return 0
+
 def get_daemon_output_name(task):
     return os.path.join(log_dir,
         task.__dict__.get('output') or get_task_command_basename(task) + '.log')
@@ -342,11 +349,11 @@ def command_string_to_list(command):
     l = shlex.split(command)
     return map(strip_leading_escapes, l)
 
-def exec_command_string(command):
+def exec_command_string(command, use_shell):
     args = command_string_to_list(command)
     os.chdir(tmp_dir)
     try:
-        if contains_shell_characters(command):
+        if use_shell:
             # sends a TERM signal to the child processes
             # if either of INT, QUIT, HUP or TERM is received by the parent
             command = "trap \"kill 0\" INT QUIT HUP TERM; "+command+"& wait"
@@ -422,10 +429,13 @@ def run_task(task):
         if verbose:
             print >>sys.stderr, "    Task currently running! (%s)"%task.cmd
         sys.exit(0)
-    if contains_shell_characters(task.cmd):
+    if get_task_use_shell(task):
         print >>sys.stderr, "    Using shell encapsulation for: ",task.cmd
+    elif contains_shell_characters(task.cmd):
+        print >>sys.stderr, "    Couldn't start: ",task.cmd, " <use_shell> is required but was not specified"
+        sys.exit(1)
     redirect(get_task_output_name(task))
-    exec_command_string(task.cmd)
+    exec_command_string(task.cmd, get_task_use_shell(task))
 
 def run_daemon(task):
     '''Double-fork and exec command with stdout/err redirection and pid writing'''
@@ -437,13 +447,16 @@ def run_daemon(task):
     if verbose or ( verbose_daemon_run and not get_daemon_silent_start(task) ):
         print "  Starting daemon:", task.cmd
         sys.stdout.flush()
-    if contains_shell_characters(task.cmd):
+    if get_task_use_shell(task):
         print >>sys.stderr, "  Using shell encapsulation for: ",task.cmd
+    elif contains_shell_characters(task.cmd):
+        print >>sys.stderr, "  Couldn't start: ",task.cmd, " <use_shell> is required but was not specified"
+        sys.exit(1)
     redirect(get_daemon_output_name(task))
     write_pid_file(get_daemon_pid_name(task))
     print "[%s] Executing command:"%timestamp(), task.cmd
     sys.stdout.flush()
-    exec_command_string(task.cmd)
+    exec_command_string(task.cmd, get_task_use_shell(task))
 
 def run_daemons():
     found_any = False
