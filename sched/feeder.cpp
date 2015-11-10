@@ -560,11 +560,7 @@ void feeder_loop() {
     
     // may need one enumeration per app; create vector
     //
-    for (int i=0; i<napps; i++) {
-        DB_WORK_ITEM* wi = new DB_WORK_ITEM();
-        work_items.push_back(*wi);
-        delete wi;
-    }
+    work_items.resize(napps);
 
     while (1) {
         bool action;
