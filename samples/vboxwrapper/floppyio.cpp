@@ -197,7 +197,10 @@ int FloppyIO::send(string strData) {
     memset(dataToSend, 0, this->szOutput);
     
     // Check for ready state
-    if (!this->ready()) return this->setError(-4, "Stream is not ready!");
+    if (!this->ready()) {
+        delete[] dataToSend;
+        return this->setError(-4, "Stream is not ready!");
+    }
 
     // Initialize variables
     int szData = (int)strData.length();
@@ -214,14 +217,20 @@ int FloppyIO::send(string strData) {
     }
     
     // Check for stream status
-    if (!this->fIO->good()) return this->setError(-1, "I/O Stream reported no-good state while sending!");
+    if (!this->fIO->good()) {
+        delete[] dataToSend;
+        return this->setError(-1, "I/O Stream reported no-good state while sending!");
+    }
     
     // Write the data to file
     this->fIO->seekp(this->ofsOutput);
     this->fIO->write(dataToSend, this->szOutput);
     
     // Check if something went wrong after writing
-    if (!this->fIO->good()) return this->setError(-1, "I/O Stream reported no-good state while sending!");
+    if (!this->fIO->good()) {
+        delete[] dataToSend;
+        return this->setError(-1, "I/O Stream reported no-good state while sending!");
+    }
     
     // Notify the client that we placed data (Client should clear this on read)
     this->fIO->seekp(this->ofsCtrlByteOut);
@@ -232,8 +241,13 @@ int FloppyIO::send(string strData) {
     if (this->synchronized) {
         // Wait for input control byte to become 1
         int iState = this->waitForSync(this->ofsCtrlByteOut, 0, this->syncTimeout);
-        if (iState<0) return iState;
+        if (iState<0) {
+            delete[] dataToSend;
+            return iState;
+        }
     }
+
+    delete[] dataToSend;
 
     // Return number of bytes sent
     return bytesSent;
