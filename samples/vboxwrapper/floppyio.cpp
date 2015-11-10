@@ -275,17 +275,26 @@ int FloppyIO::receive(string * ansBuffer) {
     char * dataToReceive = new char[this->szInput];
 
     // Check for ready state
-    if (!this->ready()) return this->setError(-4, "Stream is not ready!");
+    if (!this->ready()) {
+        delete[] dataToReceive;
+        return this->setError(-4, "Stream is not ready!");
+    }
 
     // If synchronized, wait for input data
     if (this->synchronized) {
         // Wait for input control byte to become 1
         int iState = this->waitForSync(this->ofsCtrlByteIn, 1, this->syncTimeout);
-        if (iState<0) return iState;
+        if (iState<0) {
+            delete[] dataToReceive;
+            return iState;
+        }
     }
     
     // Check for stream status
-    if (!this->fIO->good()) return this->setError(-1, "I/O Stream reported no-good state while receiving!");
+    if (!this->fIO->good()) {
+        delete[] dataToReceive;
+        return this->setError(-1, "I/O Stream reported no-good state while receiving!");
+    }
     
     // Read the input bytes from FD
     this->fIO->seekg(this->ofsInput, ios_base::beg);
@@ -298,6 +307,7 @@ int FloppyIO::receive(string * ansBuffer) {
     
     // Copy input data to string object
     *ansBuffer = dataToReceive;
+    dataToReceive = NULL;
     return (int)ansBuffer->length();
     
 }
