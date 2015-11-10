@@ -34,15 +34,21 @@ function av_desc($gavid) {
     if ($gavid >= 1000000) {
         $appid = (int)($gavid/1000000);
         $app = BoincApp::lookup_id($appid);
-        if (!$app) return tra("Anonymous platform, missing app");
+        if (!$app || $app->deprecated) {
+            return null;
+        }
         $rsc_type = $gavid % 1000000;
         $r = rsc_name($rsc_type);
         return "$app->user_friendly_name (".tra("anonymous platform").", $r)";
     } else {
         $av = BoincAppVersion::lookup_id($gavid);
-        if (!$av) return tra("Missing app version");
+        if (!$av || $av->deprecated) {
+            return null;
+        }
         $app = BoincApp::lookup_id($av->appid);
-        if (!$app) return tra("Missing app");
+        if (!$app || $app->deprecated) {
+            return null;
+        }
         $platform = BoincPlatform::lookup_id($av->platformid);
         if (!$platform) return tra("Missing platform");
         $pc = (strlen($av->plan_class))?"($av->plan_class)":"";
@@ -52,7 +58,9 @@ function av_desc($gavid) {
 }
 
 function show_hav($hav) {
-    row1(av_desc($hav->app_version_id));
+    $desc = av_desc($hav->app_version_id);
+    if (!$desc) return;
+    row1($desc);
     row2(tra("Number of tasks completed"), $hav->et_n);
     row2(tra("Max tasks per day"), $hav->max_jobs_per_day);
     row2(tra("Number of tasks today"), $hav->n_jobs_today);
