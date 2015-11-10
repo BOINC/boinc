@@ -355,6 +355,7 @@ void get_zip_inputs(ZipFileList &files) {
             }
         }
     }
+    dir_close(d);
 }
 
 // if the zipped output file is not present,
