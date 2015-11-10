@@ -251,6 +251,7 @@ void CSimpleProjectPanel::UpdateInterface() {
         if (strcmp(m_CurrentSelectedProjectURL, ctrl_url)) {
             b_needMenuRebuild = true;
             strncpy(m_CurrentSelectedProjectURL, ctrl_url, sizeof(m_CurrentSelectedProjectURL));
+            m_CurrentSelectedProjectURL[sizeof(m_CurrentSelectedProjectURL)-1] = '\0';
         }
         
         PROJECT* project = pDoc->state.lookup_project(ctrl_url);
@@ -459,6 +460,7 @@ void CSimpleProjectPanel::UpdateProjectList() {
 #endif
                 selData = new ProjectSelectionData;
                 strncpy(selData->project_url, project->master_url, sizeof(selData->project_url));
+                selData->project_url[sizeof(selData->project_url)-1] = '\0';
                 selData->project_files_downloaded_time = project->project_files_downloaded_time;
                 wxBitmap* projectBM = GetProjectSpecificBitmap(selData->project_url);
 #if SORTPROJECTLIST
