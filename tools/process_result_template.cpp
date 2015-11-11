@@ -25,6 +25,7 @@
 #include "error_numbers.h"
 #include "parse.h"
 #include "sched_config.h"
+#include "str_replace.h"
 #include "crypt.h"
 
 #ifdef _USING_FCGI_
@@ -74,7 +75,7 @@ int add_signatures(char* xml, R_RSA_PRIVATE_KEY& key) {
             "<xml_signature>\n%s</xml_signature>\n", signature_hex
         );
         if (retval) return retval;
-        strcpy(buf2, q2);
+        safe_strcpy(buf2, q2);
         strcpy(q1, buf);
         strcat(q1, signature_xml);
         strcat(q1, buf2);
@@ -155,7 +156,7 @@ int process_result_template(
     //
     p = strstr(result_template, "<output_template>");
     if (p) {
-        strcpy(temp, result_template+strlen("<output_template>"));
+        safe_strcpy(temp, result_template+strlen("<output_template>"));
         q = strstr(temp, "</output_template>");
         if (q) *q = 0;
         strcpy(result_template, temp);

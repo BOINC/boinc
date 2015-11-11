@@ -47,7 +47,7 @@ int main(int argc, char** argv) {
     if (!strcmp(argv[1], "--name")) {
         DB_WORKUNIT wu;
         char buf[256];
-        sprintf(buf, "where name='%s'", argv[2]);
+        snprintf(buf, sizeof(buf), "where name='%s'", argv[2]);
         retval = wu.lookup(buf);
         if (retval) {
             fprintf(stderr, "No workunit named '%s'\n", argv[2]);

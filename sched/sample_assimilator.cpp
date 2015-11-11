@@ -91,6 +91,7 @@ int assimilate_handler(
                 "sample_results/%s_%s", wu.name, "no_output_files"
             );
             FILE* f = fopen(copy_path, "w");
+            if (!f) return ERR_FOPEN;
             fclose(f);
         }
     } else {

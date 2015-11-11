@@ -154,6 +154,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
             // Advisory file locking is not guaranteed reliable when
             // used with stream buffered IO.
             //
+            // coverity[toctou]
             fd = open(path,
                 O_WRONLY|O_CREAT,
                 S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH
@@ -209,7 +210,18 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
                     path, (int)sbuf.st_size, offset
                 );
             }
-            if (offset) lseek(fd, offset, SEEK_SET);
+            if (offset) {
+                if (-1 == lseek(fd, offset, SEEK_SET)) {
+                    log_messages.printf(MSG_CRITICAL,
+                        "lseek(%s, %.0f) failed: %s (%d).\n",
+                        this_filename, offset, strerror(errno), errno
+                    );
+                    close(fd);
+                    return return_error(ERR_TRANSIENT,
+                        "can't resume partial file %s: %s\n", path, strerror(errno)
+                );
+                }
+            }
             if (sbuf.st_size > offset) {
                 log_messages.printf(MSG_CRITICAL,
                     "file %s length on disk %d bytes; host upload starting at %.0f bytes.\n",
@@ -538,7 +550,6 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
     char buf[256];
     char file_name[256];
     int major, minor, release, retval=0;
-    bool got_version = true;
     bool did_something = false;
     double start_time = dtime();
 
@@ -554,23 +565,14 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
         } else if (parse_int(buf, "<core_client_release>", release)) {
             continue;
         } else if (match_tag(buf, "<file_upload>")) {
-
-            if (!got_version) {
-                retval = return_error(ERR_PERMANENT, "Missing version");
-            } else {
-                retval = handle_file_upload(in, key);
-            }
+            retval = handle_file_upload(in, key);
             did_something = true;
             break;
         } else if (parse_str(buf, "<get_file_size>", file_name, sizeof(file_name))) {
             if (strstr(file_name, "..")) {
                 return return_error(ERR_PERMANENT, "Bad filename");
             }
-            if (!got_version) {
-                retval = return_error(ERR_PERMANENT, "Missing version");
-            } else {
-                retval = handle_get_file_size(file_name);
-            }
+            retval = handle_get_file_size(file_name);
             did_something = true;
             break;
         } else if (match_tag(buf, "<data_server_request>")) {
@@ -683,7 +685,9 @@ int main(int argc, char *argv[]) {
 
     installer();
 
-    get_log_path(log_path, "file_upload_handler.log");
+    if (get_log_path(log_path, "file_upload_handler.log") == ERR_MKDIR) {
+        fprintf(stderr, "Can't create log directory '%s'  (errno: %d)\n", log_path, errno);
+    }
 #ifndef _USING_FCGI_
     if (!freopen(log_path, "a", stderr)) {
         fprintf(stderr, "Can't open log file '%s' (errno: %d)\n",

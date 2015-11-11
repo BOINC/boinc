@@ -116,6 +116,7 @@ int main_loop(bool one_pass) {
         exit(1);
     }
 */
+    // coverity[loop_top] - infinite loop is intended
     while (1) {
         check_stop_daemons();
         did_something = do_message_scan();

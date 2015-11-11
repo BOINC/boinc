@@ -74,14 +74,14 @@ void read_hosts() {
         HOST_DESC hd;
         safe_strcpy(buf2, buf);
         char* p1 = strtok(buf2, "\t\n");
-        safe_strcpy(hd.os_name, p1);
         char* p2 = strtok(0, "\t\n");
-        safe_strcpy(hd.p_vendor, p2);
         char* p3 = strtok(0, "\t\n");
-        if (!p3) {
+        if (!p1 || !p2 || !p3) {
             fprintf(stderr, "bad line: %s\n", buf);
             exit(1);
         }
+        safe_strcpy(hd.os_name, p1);
+        safe_strcpy(hd.p_vendor, p2);
         safe_strcpy(hd.p_model, p3);
         host_descs.push_back(hd);
     }
@@ -164,6 +164,8 @@ int main(int argc, char** argv) {
                 exit(1);
             }
             nrequests = atoi(argv[i]);
+            if (nrequests < 0) nrequests = 0;
+            if (nrequests > 10000000) nrequests = 10000000;
         }
         else if (!strcmp(argv[i], "--reqs_per_second")) {
             if (!argv[++i]) {

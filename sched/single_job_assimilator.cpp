@@ -102,6 +102,10 @@ int assimilate_handler(
     //
     sprintf(filename, "%s/job_summary_%lu", job_dir, wu.id);
     f = fopen(filename, "w");
+    if (!f) {
+        log_messages.printf(MSG_CRITICAL, "Can't open job summary file %s\n", filename);
+        return ERR_FOPEN;
+    }
 
     // If job was successful, copy the output files
     //

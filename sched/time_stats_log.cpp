@@ -34,8 +34,8 @@ static char* stats_buf = 0;
 // don't write them to disk yet, since we haven't authenticated the host
 //
 
-void handle_time_stats_log(FILE* fin) {
-    dup_element_contents(fin, "</time_stats_log>", &stats_buf);
+int handle_time_stats_log(FILE* fin) {
+    return dup_element_contents(fin, "</time_stats_log>", &stats_buf);
 }
 
 // The host has been authenticated, so write the stats.
