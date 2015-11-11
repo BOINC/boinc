@@ -460,7 +460,9 @@ int CLIENT_STATE::init() {
 
     msg_printf(NULL, MSG_INFO, "Libraries: %s", curl_version());
 
-    set_client_priority();
+    if (!cc_config.dont_lower_client_priority) {
+        set_client_priority();
+    }
 
     if (executing_as_daemon) {
 #ifdef _WIN32
