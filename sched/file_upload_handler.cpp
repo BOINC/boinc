@@ -212,13 +212,14 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
             }
             if (offset) {
                 if (-1 == lseek(fd, offset, SEEK_SET)) {
+                    int err = errno; // make a copy to report the lseek() error and not printf() or close() errors.
                     log_messages.printf(MSG_CRITICAL,
                         "lseek(%s, %.0f) failed: %s (%d).\n",
-                        this_filename, offset, strerror(errno), errno
+                        this_filename, offset, strerror(err), err
                     );
                     close(fd);
                     return return_error(ERR_TRANSIENT,
-                        "can't resume partial file %s: %s\n", path, strerror(errno)
+                        "can't resume partial file %s: %s\n", path, strerror(err)
                 );
                 }
             }
