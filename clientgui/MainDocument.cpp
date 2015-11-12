@@ -2683,7 +2683,7 @@ wxBitmap GetScaledBitmapFromXPMData(const char** XPMData) {
 }
 
 wxString FormatTime(double secs) {
-    if (secs < 0) {
+    if (secs <= 0) {
         return wxT("---");
     }
     wxInt32 iHour = (wxInt32)(secs / (60 * 60));
