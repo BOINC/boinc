@@ -397,14 +397,14 @@ bool CLIENT_STATE::is_new_client() {
 }
 
 #ifdef _WIN32
-typedef DWORD (WINAPI *SPC)(HANDLE, DWORD);
+typedef DWORD (WINAPI *STP)(HANDLE, DWORD);
 #endif
 
 static void set_client_priority() {
 #ifdef _WIN32
-    SPC spc = (SPC) GetProcAddress(GetModuleHandle(_T("kernel32.dll")), "SetPriorityClass");
-    if (!spc) return;
-    if (spc(GetCurrentProcess(), PROCESS_MODE_BACKGROUND_BEGIN)) {
+    STP stp = (STP) GetProcAddress(GetModuleHandle(_T("kernel32.dll")), "SetThreadPriority");
+    if (!stp) return;
+    if (stp(GetCurrentThread(), THREAD_MODE_BACKGROUND_BEGIN)) {
         msg_printf(NULL, MSG_INFO, "Running at background priority");
     } else {
         msg_printf(NULL, MSG_INFO, "Failed to set background priority");
