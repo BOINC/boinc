@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2015-11-10 11:34+0000\n"
+"PO-Revision-Date: 2015-11-13 09:00+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -116,27 +116,27 @@ msgstr "Il progetto non supporta i computer"
 #: ../sched/sched_send.cpp:1092
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
-msgstr "Aggiorna i driver della scheda video all'ultima versione per poter completare le workunit che utilizzano la GPU del computer"
+msgstr "Aggiorna i driver della scheda video all'ultima versione per \npoter processare le workunit che utilizzano la GPU del computer"
 
 #: ../sched/sched_send.cpp:1099
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
-msgstr "Aggiorna i driver della scheda video per poter eseguire le applicazioni di questo progetto che utilizzano la GPU"
+msgstr "Aggiorna i driver della scheda video per poter eseguire le tutte le applicazioni GPU di questo progetto"
 
 #: ../sched/sched_send.cpp:1118
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
-msgstr "La versione di BOINC installata non permette l'uso della GPU Nvidia del computer. Per risolvere il problema scarica l'ultima versione di BOINC."
+msgstr "La versione di BOINC installata non permette l'uso della GPU Nvidia. Per risolvere il problema scarica l'ultima versione di BOINC."
 
 #: ../sched/sched_send.cpp:1146
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
-msgstr "È necessaria una GPU %s per eseguire le workunit di questo progetto"
+msgstr "È necessaria una GPU %s per eseguire le applicazioni di questo progetto"
 
 #: ../sched/sched_send.cpp:1262
 msgid "No tasks are available for the applications you have selected."
-msgstr "Non ci sono workunit disponibili per le applicazioni selezionate."
+msgstr "Nessuna workunit è disponibile per le applicazioni selezionate."
 
 #: ../sched/sched_send.cpp:1288
 msgid "Your computer type is not supported by this project"
