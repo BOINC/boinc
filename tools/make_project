@@ -334,7 +334,17 @@ print >>open(httpd_conf_template_filename,'w'), '''
     Alias /%(project_shortname)s_ops %(proot)s/html/ops
     ScriptAlias /%(project_shortname)s_cgi %(proot)s/cgi-bin
 
-    # Note: projects/*/keys/ should NOT be readable!
+	#
+	# NOTE: Turn off access to certain default directories
+	#
+    <Directory "%(proot)s/keys">
+        Order deny,allow
+        Deny from all
+    </Directory>
+    <Directory "%(proot)s/upload">
+        Order deny,allow
+        Deny from all
+    </Directory>
 
     # in the following, the "Order" and "Allow" lines are for Apache 2.2;
     # for Apache 2.4, replace them with the single line
@@ -353,6 +363,7 @@ print >>open(httpd_conf_template_filename,'w'), '''
         Order allow,deny
         Allow from all
     </Directory>
+
 ''' %locals()
 
 htaccess_filename = options.project_root+'/html/ops/.htaccess'
