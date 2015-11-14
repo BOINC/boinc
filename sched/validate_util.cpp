@@ -65,7 +65,7 @@ int get_output_file_info(RESULT const& result, OUTPUT_FILE_INFO& fi) {
     char path[MAXPATHLEN];
     string name;
     string file_num;
-    int pos = 0;
+    size_t pos = 0;
     MIOFILE mf;
 
     mf.init_buf_read(result.xml_doc_in);
@@ -79,7 +79,7 @@ int get_output_file_info(RESULT const& result, OUTPUT_FILE_INFO& fi) {
             // Prevent spoofing of the result name
             //
             pos = fi.name.rfind('_');
-            if ((pos == string::npos) || (pos < (size_t)strlen(result.name))) return ERR_XML_PARSE;
+            if ((pos == string::npos) || (pos < strlen(result.name))) return ERR_XML_PARSE;
 
             // Formulate new name based off of the result name
             file_num = fi.name.substr(pos);
@@ -107,7 +107,7 @@ int get_output_file_infos(RESULT const& result, vector<OUTPUT_FILE_INFO>& fis) {
     char path[MAXPATHLEN];
     string name;
     string file_num;
-    int pos = 0;
+    size_t pos = 0;
     MIOFILE mf;
 
     mf.init_buf_read(result.xml_doc_in);
@@ -123,7 +123,7 @@ int get_output_file_infos(RESULT const& result, vector<OUTPUT_FILE_INFO>& fis) {
             // Prevent spoofing of the result name
             //
             pos = fi.name.rfind('_');
-            if ((pos == string::npos) || (pos < (size_t)strlen(result.name))) return ERR_XML_PARSE;
+            if ((pos == string::npos) || (pos < strlen(result.name))) return ERR_XML_PARSE;
 
             // Formulate new name based off of the result name
             file_num = fi.name.substr(pos);
