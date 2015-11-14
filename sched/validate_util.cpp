@@ -64,7 +64,10 @@ int OUTPUT_FILE_INFO::parse(XML_PARSER& xp) {
 int get_output_file_info(RESULT const& result, OUTPUT_FILE_INFO& fi) {
     char path[MAXPATHLEN];
     string name;
+    string file_num;
+    int pos = 0;
     MIOFILE mf;
+
     mf.init_buf_read(result.xml_doc_in);
     XML_PARSER xp(&mf);
     while (!xp.get_tag()) {
@@ -72,6 +75,18 @@ int get_output_file_info(RESULT const& result, OUTPUT_FILE_INFO& fi) {
         if (xp.match_tag("file_ref")) {
             int retval = fi.parse(xp);
             if (retval) return retval;
+
+            // Prevent spoofing of the result name
+            //
+            pos = fi.name.rfind('_');
+            if ((pos == string::npos) || (pos < strlen(result.name))) return ERR_XML_PARSE;
+
+            // Formulate new name based off of the result name
+            file_num = fi.name.substr(pos);
+            fi.name  = result.name;
+            fi.name += string("_");
+            fi.name += file_num;
+
             if (standalone) {
                 safe_strcpy(path, fi.name.c_str());
             } else {
@@ -84,13 +99,17 @@ int get_output_file_info(RESULT const& result, OUTPUT_FILE_INFO& fi) {
             return 0;
         }
     }
+
     return ERR_XML_PARSE;
 }
 
 int get_output_file_infos(RESULT const& result, vector<OUTPUT_FILE_INFO>& fis) {
     char path[MAXPATHLEN];
-    MIOFILE mf;
     string name;
+    string file_num;
+    int pos = 0;
+    MIOFILE mf;
+
     mf.init_buf_read(result.xml_doc_in);
     XML_PARSER xp(&mf);
     fis.clear();
@@ -100,6 +119,18 @@ int get_output_file_infos(RESULT const& result, vector<OUTPUT_FILE_INFO>& fis) {
             OUTPUT_FILE_INFO fi;
             int retval =  fi.parse(xp);
             if (retval) return retval;
+
+            // Prevent spoofing of the result name
+            //
+            pos = fi.name.rfind('_');
+            if ((pos == string::npos) || (pos < strlen(result.name))) return ERR_XML_PARSE;
+
+            // Formulate new name based off of the result name
+            file_num = fi.name.substr(pos);
+            fi.name  = result.name;
+            fi.name += string("_");
+            fi.name += file_num;
+
             if (standalone) {
                 safe_strcpy(path, fi.name.c_str());
             } else {
@@ -108,10 +139,11 @@ int get_output_file_infos(RESULT const& result, vector<OUTPUT_FILE_INFO>& fis) {
                     config.uldl_dir_fanout, path
                 );
             }
-            fi.path = path;
+			fi.path = path;
             fis.push_back(fi);
         }
     }
+
     return 0;
 }
 
