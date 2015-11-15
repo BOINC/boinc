@@ -84,7 +84,7 @@ int get_output_file_info(RESULT const& result, OUTPUT_FILE_INFO& fi) {
             // Formulate new name based off of the result name
             file_num = fi.name.substr(pos);
             fi.name  = result.name;
-            fi.name += string("_");
+            fi.name += "_";
             fi.name += file_num;
 
             if (standalone) {
@@ -128,7 +128,7 @@ int get_output_file_infos(RESULT const& result, vector<OUTPUT_FILE_INFO>& fis) {
             // Formulate new name based off of the result name
             file_num = fi.name.substr(pos);
             fi.name  = result.name;
-            fi.name += string("_");
+            fi.name += "_";
             fi.name += file_num;
 
             if (standalone) {
