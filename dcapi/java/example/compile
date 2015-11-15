@@ -1,5 +1,0 @@
-#!/bin/sh
-
-javac uppercase.java
-
-jar cmf manifest Uppercase.jar Uppercase.class hu
