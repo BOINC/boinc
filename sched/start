@@ -328,7 +328,7 @@ def is_lock_file_locked(filename):
 # if a command contains a pipe or a redirection, exec won't work
 # this detects those cases and a shell encapsulation can be used
 def contains_shell_characters(command):
-    for item in shlex.split(command):
+    for item in shlex.split(command.encode('ascii')):
         if item == "|":
             return True
         if item == ">" or item == ">>" or item == "<":
@@ -346,7 +346,7 @@ def strip_leading_escapes(string):
     return string
 
 def command_string_to_list(command):
-    l = shlex.split(command)
+    l = shlex.split(command.encode('ascii'))
     return map(strip_leading_escapes, l)
 
 def exec_command_string(command, use_shell):
