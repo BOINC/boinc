@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2015-11-07 20:30+0000\n"
+"PO-Revision-Date: 2015-11-17 11:11+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -169,7 +169,7 @@ msgstr "Colore del carattere"
 #: ../inc/bbcode_html.inc:46
 msgid ""
 "Font color: [color=red]text[/color]  Tip: you can also use color=#FF0000"
-msgstr "Colore del carattere: [color=red]testo[/color] Suggerimento: puoi anche usare color=#FF0000"
+msgstr "Colore del carattere: [color=red]testo[/color] Suggerimento: puoi anche definire un colore personalizzato nella forma color=#FF0000"
 
 #: ../inc/bbcode_html.inc:47 ../inc/bbcode_html.inc:62
 #: ../inc/prefs_util.inc:546
@@ -178,7 +178,7 @@ msgstr "Predefinito"
 
 #: ../inc/bbcode_html.inc:48
 msgid "Dark Red"
-msgstr "Rosso Scuro"
+msgstr "Rosso scuro"
 
 #: ../inc/bbcode_html.inc:49
 msgid "Red"
@@ -690,7 +690,7 @@ msgstr "Ora locale"
 
 #: ../inc/host.inc:101
 msgid "UTC %1 hours"
-msgstr "UTC %1 ore"
+msgstr "ore UTC %1"
 
 #: ../inc/host.inc:105 ../inc/host.inc:107 ../inc/host.inc:222
 msgid "Owner"
@@ -918,7 +918,7 @@ msgstr "Sistema operativo"
 
 #: ../inc/host.inc:320
 msgid "(%1 processors)"
-msgstr "(%1 dei processori)"
+msgstr "(%1 processori)"
 
 #: ../inc/host.inc:340
 msgid "Details"
@@ -1357,7 +1357,7 @@ msgstr "Salta la verifica dei dati per le immagini"
 msgid ""
 "Check this only if your Internet provider modifies image files. Skipping "
 "verification reduces the security of BOINC."
-msgstr "Spunta questa voce solo se il tuo provider Internet modifica i files immagine. Saltare la verifica riduce la sicurezza di BOINC."
+msgstr "Spunta questa voce solo se il tuo provider Internet modifica i file immagine. Saltare la verifica riduce la sicurezza di BOINC."
 
 #: ../inc/prefs.inc:222
 msgid "Confirm before connecting to Internet"
@@ -1393,7 +1393,7 @@ msgstr "Queste preferenze si applicano a tutti i progetti BOINC ai quali parteci
 msgid ""
 "%1Unable to update preferences.%2 The values marked in red below were out of"
 " range or not numeric."
-msgstr "%1Impossibile aggiornare le preferenze.%2 I valori segnati in rosso erano fuori dall'intervallo consentito o non erano numerici."
+msgstr "%1Impossibile aggiornare le preferenze.%2 I valori segnati in rosso sono fuori dall'intervallo consentito o non sono numerici."
 
 #: ../inc/prefs.inc:472
 msgid "computing"
@@ -2440,7 +2440,7 @@ msgstr "Stato del server"
 msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
-msgstr "Si è verificato un errore del database mentre si gestiva la tua richiesta; per favore riprova più tardi."
+msgstr "Si è verificato un errore del database durante l'elaborazione della richiesta; per favore riprova più tardi."
 
 #: ../inc/util.inc:286
 msgid "Unable to handle request"
@@ -2781,7 +2781,7 @@ msgstr "Il profilo è stato salvato"
 #: ../user/create_profile.php:306
 msgid ""
 "Congratulations! Your profile was successfully entered into our database."
-msgstr "Congratulazioni! Il tuo profilo è stato inserito con successo nel nostro database."
+msgstr "Congratulazioni! Il tuo profilo è stato inserito con successo nel database."
 
 #: ../user/create_profile.php:309
 msgid "View your profile"
@@ -2878,7 +2878,7 @@ msgid ""
 "Deleted profiles are gone forever and cannot be recovered --\n"
 "you will have to start from scratch\n"
 "if you want another profile in the future."
-msgstr "I profili cancellati sono perduti per sempre e non possono essere ripristinati --\ndovrai ricominciare dall'inizio\nse vorrai un altro profilo in futuro."
+msgstr "I profili cancellati sono perduti per sempre e non possono essere ripristinati:\ndovrai ricominciare dall'inizio\nse vorrai un altro profilo in futuro."
 
 #: ../user/delete_profile.php:50
 msgid ""
@@ -3148,7 +3148,7 @@ msgid ""
 "Check out %1various free services%2\n"
 "<br> providing dynamic 'signature images'\n"
 "<br> showing your latest credit info, project news, etc."
-msgstr "Controlla %1 servizi gratuiti%2\n<br> che forniscono 'immagini da firma' dinamiche\n<br> che mostrano informazioni sui tuoi crediti recenti, notizie del progetto, etc."
+msgstr "Dai un'occhiati ai %1 servizi gratuiti%2\n<br> che forniscono 'immagini per le firme dinamiche' da usare nei forum, social, ecc...\n<br> e che mostrano informazioni sui tuoi crediti recenti, notizie dei progetto ed altro."
 
 #: ../user/edit_forum_preferences_form.php:93
 msgid "Attach signature by default"
@@ -3924,7 +3924,7 @@ msgstr "Questa funziona è disabilitata dal progetto"
 
 #: ../user/forum_rate.php:60
 msgid "You need more average or total credit to rate a post."
-msgstr "Ti serve un credito medio o totale maggiore per votare un post."
+msgstr "Ti serve un credito medio o totale maggiore per poter votare un post."
 
 #: ../user/forum_rate.php:64
 msgid "You have already rated this post."
@@ -3990,7 +3990,7 @@ msgstr "Ti serve più credito medio o totale per segnalare un post."
 
 #: ../user/forum_report_post.php:68
 msgid "Report Registered"
-msgstr "Segnalazione Registrata"
+msgstr "Segnalazione registrata"
 
 #: ../user/forum_report_post.php:69
 msgid "Your report has been recorded. Thanks for your input."
@@ -4207,7 +4207,7 @@ msgstr "Questo thread è stato nascosto dai moderatori."
 
 #: ../user/forum_thread.php:129
 msgid "My question was answered"
-msgstr "E' stata data risposta alla mia domanda"
+msgstr "È stata data risposta alla mia domanda"
 
 #: ../user/forum_thread.php:130
 msgid "Click here if your question has been adequately answered"
@@ -6293,7 +6293,7 @@ msgstr "Credito totale Team:"
 
 #: ../user/userw.php:49
 msgid "Team AvgCred:"
-msgstr "Credito medio Team:"
+msgstr "Credito medio del Team:"
 
 #: ../user/userw.php:51
 msgid "Team: None"
