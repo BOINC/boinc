@@ -331,8 +331,8 @@ print >>open(httpd_conf_template_filename,'w'), '''
     ## Settings for BOINC project %(project_longname)s
 
     Alias /%(project_shortname)s/download %(proot)s/download
-    Alias /%(project_shortname)s/stats %(proot)s/stats
-    Alias /%(project_shortname)s/user_profile %(proot)s/user_profile
+    Alias /%(project_shortname)s/stats %(proot)s/html/stats
+    Alias /%(project_shortname)s/user_profile %(proot)s/html/user_profile
     Alias /%(project_shortname)s %(proot)s/html/user
 
     Alias /%(project_shortname)s_ops %(proot)s/html/ops
@@ -360,12 +360,12 @@ print >>open(httpd_conf_template_filename,'w'), '''
         Order allow,deny
         Allow from all
     </Directory>
-    <Directory "%(proot)s/stats">
+    <Directory "%(proot)s/html/stats">
         RemoveType .php .phtml
         Order allow,deny
         Allow from all
     </Directory>
-    <Directory "%(proot)s/user_profile">
+    <Directory "%(proot)s/html/user_profile">
         RemoveType .php .phtml
         Order allow,deny
         Allow from all
