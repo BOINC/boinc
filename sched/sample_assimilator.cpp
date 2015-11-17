@@ -45,8 +45,7 @@ int write_error(char* p) {
     return 0;
 }
 
-int assimilate_handler_init(int argc, char** argv) {
-    // handle project specific arguments here
+int assimilate_handler_init(int, char**) {
     return 0;
 }
 
