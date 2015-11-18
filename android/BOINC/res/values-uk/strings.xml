@@ -50,10 +50,10 @@
   <string name="attachproject_login_header_specific_area">Спеціальна область:</string>
   <string name="attachproject_login_header_description">Опис:</string>
   <string name="attachproject_login_header_home">Домівка:</string>
-  <string name="attachproject_login_header_url">Веб-сайт:</string>
+  <string name="attachproject_login_header_url">Веб-сторінка:</string>
   <string name="attachproject_login_header_platform">Android:</string>
-  <string name="attachproject_login_platform_supported">Цей проект підтримує пристрої, на базі Android</string>
-  <string name="attachproject_login_platform_not_supported">Цей проект не підтримує пристрої, на базі Android</string>
+  <string name="attachproject_login_platform_supported">Цей проект підтримує пристрої на базі Android</string>
+  <string name="attachproject_login_platform_not_supported">Цей проект не підтримує пристрої на базі Android</string>
   <string name="attachproject_login_category_terms_of_use">Умови використання для</string>
   <string name="attachproject_login_accept_terms_of_use">Створюючи обліковий запис у цьому проекті, Ви приймаєте умови використання, що викладені вище.</string>
   <string name="attachproject_login_category_login">Увійти з існуючим обліковим записом</string>
