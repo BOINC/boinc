@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Vitalii Koshura <lestat.de.lionkur@gmail.com>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: boinc\n"
+"Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2015-02-09 01:28+0000\n"
-"Last-Translator: Rom Walton <romw@romwnet.org>\n"
-"Language-Team: Ukrainian (http://www.transifex.com/projects/p/boinc/language/uk/)\n"
+"PO-Revision-Date: 2015-11-18 12:36+0000\n"
+"Last-Translator: Vitalii Koshura <lestat.de.lionkur@gmail.com>\n"
+"Language-Team: Ukrainian (http://www.transifex.com/boinc/boinc/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 #: acct_mgr.cpp:450 acct_mgr.cpp:459
 msgid "Message from account manager"
-msgstr "Повідомлення менеджера проектів"
+msgstr "Повідомлення від менеджера проектів"
 
 #: client_msgs.cpp:81
 msgid "Message from server"
