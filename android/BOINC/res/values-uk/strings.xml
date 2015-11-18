@@ -92,13 +92,13 @@
   <string name="attachproject_error_no_internet">Невдала спроба зв’язку</string>
   <string name="attachproject_error_pwd_no_match">Паролі не збігаються</string>
   <string name="attachproject_error_pwd_no_retype">Будь ласка, введіть пароль ще раз</string>
-  <string name="attachproject_error_no_url">Будь-ласка, введіть адресу (URL)</string>
+  <string name="attachproject_error_no_url">Будь ласка, введіть адресу (URL)</string>
   <string name="attachproject_error_no_email">Будь ласка, вкажіть адресу електронної пошти</string>
-  <string name="attachproject_error_no_pwd">Будь-ласка, введіть пароль</string>
-  <string name="attachproject_error_no_name">Будь-ласка, введіть ім\'я користувача</string>
+  <string name="attachproject_error_no_pwd">Будь ласка, введіть пароль</string>
+  <string name="attachproject_error_no_name">Будь ласка, введіть ім\'я користувача</string>
   <string name="attachproject_error_unknown">невдало</string>
   <string name="attachproject_error_bad_username">Ім\'я користувача відхилене</string>
-  <string name="attachproject_error_email_in_use">Електронна адреса вже використовується</string>
+  <string name="attachproject_error_email_in_use">Адреса електронної пошти вже використовується</string>
   <string name="attachproject_error_project_down">Проект поза мережею</string>
   <string name="attachproject_error_email_bad_syntax">Адресу електронної пошти відхилено</string>
   <string name="attachproject_error_bad_pwd">Пароль відхилено</string>
