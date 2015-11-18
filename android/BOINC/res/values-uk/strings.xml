@@ -3,7 +3,7 @@
   <!--app global-->
   <string name="app_name">BOINC</string>
   <!--generic. used by multiple Activities/tabs-->
-  <string name="generic_loading">Завантаження! Зачекайте, будь-ласка...</string>
+  <string name="generic_loading">Завантаження! Зачекайте, будь ласка...</string>
   <string name="generic_button_continue">Продовжити</string>
   <string name="generic_button_finish">Готово</string>
   <!--attach project-->
@@ -13,7 +13,7 @@
   <string name="attachproject_list_manual_button">Додати проект за адресою (URL)</string>
   <string name="attachproject_list_manual_dialog_title">Введіть адресу (URL) проекту:</string>
   <string name="attachproject_list_manual_dialog_button">Додати проект</string>
-  <string name="attachproject_list_manual_no_url">Додати менеджер проектів</string>
+  <string name="attachproject_list_manual_no_url">Будь ласка, введіть адресу (URL) проекту:</string>
   <string name="attachproject_list_acctmgr_button">Додати менеджер проектів</string>
   <string name="attachproject_list_no_internet">Відсутнє з’єднання з Інтернетом</string>
   <!--credential input-->
