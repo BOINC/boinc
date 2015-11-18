@@ -134,6 +134,25 @@ int get_output_file_paths(RESULT const& result, vector<string>& paths) {
     return 0;
 }
 
+// remove the random part of an output filename:
+// given a name of the form xxx_r123123_3_4,
+// return xxx_3_4
+//
+void remove_random_from_filename(const char* in, char* out) {
+    strcpy(out, in);
+    const char* p_in = strrchr(in, 'r');
+    if (!p_in) return;
+    if (p_in == in) return;
+    if (*(--p_in) != '_') return;
+    char* p_out = out + (p_in - in);
+    const char *q = strchr(p_in+1, '_');
+    if (q) {
+        strcpy(p_out, q);
+    } else {
+        strcpy(p_out, "");
+    }
+}
+
 struct FILE_REF {
     char file_name[256];
     char open_name[256];
