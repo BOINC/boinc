@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2015-11-18 11:29+0000\n"
+"PO-Revision-Date: 2015-11-18 13:06+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -38,7 +38,7 @@ msgstr "Identifica il tuo account su %s"
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
-msgstr "Inserisci i dati del tuo account\n(per creare un account, visita il sito web del progetto)"
+msgstr "Inserisci i dati del tuo account\n(per creare un nuovo account visita il sito web del progetto)"
 
 #: clientgui/AccountInfoPage.cpp:371
 msgid ""
@@ -163,7 +163,7 @@ msgstr "Per selezionare un account manager, clicca sul suo nome o \ndigita il su
 
 #: clientgui/AccountManagerInfoPage.cpp:277
 msgid "Account manager details:"
-msgstr "Sito web dell'account manager:"
+msgstr "Dettagli dell'account manager:"
 
 #: clientgui/AccountManagerInfoPage.cpp:281
 msgid "Account manager &URL:"
@@ -626,7 +626,7 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr "Un account con il nome utente specificato esiste già e ha una\npassword diversa da quella appena inserita.\n\nVisita il sito web del progetto e segui le istruzioni riportate."
+msgstr "Un account con il nome utente specificato esiste già ed ha una\npassword diversa da quella appena inserita.\n\nVisita il sito web del progetto e segui le istruzioni riportate."
 
 #: clientgui/AlreadyExistsPage.cpp:191
 msgid "Email address already in use"
@@ -638,7 +638,7 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr "Un account con l'indirizzo e-mail specificato esiste già e ha una\npassword diversa da quella appena inserita.\n\nVisita il sito web del progetto e segui le istruzioni riportate."
+msgstr "Un account con l'indirizzo e-mail specificato esiste già ed ha una\npassword diversa da quella appena inserita.\n\nVisita il sito web del progetto e segui le istruzioni riportate."
 
 #: clientgui/AsyncRPC.cpp:1031
 msgid "Communicating with BOINC client.  Please wait ..."
@@ -1195,7 +1195,7 @@ msgstr "Aiuto"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:174
 msgid "Shows the preferences web page."
-msgstr "Mostra la pagina web sulle preferenze"
+msgstr "Mostra la pagina web delle preferenze."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:236
 #: clientgui/DlgAdvPreferencesBase.cpp:463
@@ -1732,7 +1732,7 @@ msgstr "chiudi la finestra senza salvare"
 
 #: clientgui/DlgExclusiveApps.cpp:158
 msgid "shows the preferences web page"
-msgstr "mostra la pagina web di aiuto sulle preferenze"
+msgstr "mostra la pagina web di settaggio delle preferenze"
 
 #. TODO: fill in the default directory for MSW
 #. TODO: fill in the default directory for Linux
@@ -3720,7 +3720,7 @@ msgstr "%s - Preferenze di Elaborazione"
 
 #: clientgui/sg_DlgPreferences.cpp:1186
 msgid "Discard all local preferences and use web-based preferences?"
-msgstr "Scartare tutte le preferenze locali e utilizzare le preferenze web?"
+msgstr "Cancellare tutte le preferenze locali e utilizzare le preferenze web?"
 
 #: clientgui/sg_ProjectPanel.cpp:72
 msgid "Add Project"
