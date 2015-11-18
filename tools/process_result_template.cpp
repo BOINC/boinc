@@ -20,6 +20,8 @@
 #include <string>
 #include <cstdlib>
 #include <cassert>
+#include <unistd.h>
+#include <sys/types.h>
 
 #include "boinc_db.h"
 #include "error_numbers.h"
