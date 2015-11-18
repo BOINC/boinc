@@ -138,7 +138,7 @@
   <string name="status_idle">Нема роботи</string>
   <string name="status_idle_long">Очікування завдань…</string>
   <string name="status_computing_disabled">Призупинено</string>
-  <string name="status_computing_disabled_long">Натисніть кнопку Грати для відновлення мережі і обчислень.</string>
+  <string name="status_computing_disabled_long">Натисніть кнопку Грати для відновлення обчислень та зв’язку з мережею.</string>
   <string name="status_launching">Запуск…</string>
   <string name="status_noproject">Оберіть проект для прийняття участі в ньому.</string>
   <string name="status_closing">Закриття...</string>
