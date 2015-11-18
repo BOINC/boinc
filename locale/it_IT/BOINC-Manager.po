@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2015-11-18 08:53+0000\n"
+"PO-Revision-Date: 2015-11-18 09:16+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -944,11 +944,11 @@ msgstr "L'elaborazione è sospesa -"
 
 #: clientgui/BOINCTaskBar.cpp:726
 msgid "GPU computing is enabled"
-msgstr "L'elaborazione della GPU è abilitata"
+msgstr "L'elaborazione con la GPU è abilitata"
 
 #: clientgui/BOINCTaskBar.cpp:729
 msgid "GPU computing is suspended - "
-msgstr "L'elaborazione della GPU è sospesa -."
+msgstr "L'elaborazione con la GPU è sospesa -."
 
 #: clientgui/BOINCTaskBar.cpp:738
 msgid "Network is enabled"
