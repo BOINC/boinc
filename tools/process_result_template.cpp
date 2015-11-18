@@ -20,8 +20,6 @@
 #include <string>
 #include <cstdlib>
 #include <cassert>
-#include <unistd.h>
-#include <sys/types.h>
 
 #include "boinc_db.h"
 #include "error_numbers.h"
@@ -34,17 +32,8 @@
 #include "fcgi_stdio.h"
 #endif
 
-#define OUTFILE_MACRO         "<OUTFILE_"
-#define RANDFILE_MACRO        "<RANDFILE_"
+#define OUTFILE_MACRO   "<OUTFILE_"
 #define UPLOAD_URL_MACRO      "<UPLOAD_URL/>"
-
-// the random part of output filenames needs to be hard to guess
-//
-static struct random_init {
-    random_init() {
-        srand48(getpid() + time(0));
-    }
-} random_init;
 
 // Add a signature at the end of every <file_info> element,
 //
@@ -118,8 +107,6 @@ int remove_signatures(char* xml) {
 
 // macro-substitute a result template:
 // - replace OUTFILE_x with base_filename_x, etc.
-// - replace RANDFILE_x with base_filename_r_x, etc., where r is a
-//   large random number
 // - add signatures for file uploads
 // - strip enclosing <output_template> tags
 //
@@ -133,7 +120,7 @@ int process_result_template(
     SCHED_CONFIG& config_loc
 ) {
     char* p,*q;
-    char temp[BLOB_SIZE], buf[256], buf2[256];
+    char temp[BLOB_SIZE], buf[256];
     int retval;
 
     while (1) {
@@ -147,22 +134,6 @@ int process_result_template(
             strcpy(buf, q);
             strcpy(temp, endptr+2);
             strcpy(p, base_filename);
-            strcat(p, buf);
-            strcat(p, temp);
-            continue;
-        }
-        p = strstr(result_template, RANDFILE_MACRO);
-        if (p) {
-            q = p+strlen(RANDFILE_MACRO);
-            char* endptr = strstr(q, "/>");
-            if (!endptr) return ERR_XML_PARSE;
-            if (strchr(q, '>') != endptr+1) return ERR_XML_PARSE;
-            *endptr = 0;
-            strcpy(buf, q);
-            sprintf(buf2, "%ld_", lrand48());
-            strcpy(temp, endptr+2);
-            strcpy(p, base_filename);
-            strcpy(p, buf2);
             strcat(p, buf);
             strcat(p, temp);
             continue;
