@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2015-11-18 12:54+0000\n"
+"PO-Revision-Date: 2015-11-18 13:55+0000\n"
 "Last-Translator: Vitalii Koshura <lestat.de.lionkur@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/boinc/boinc/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -88,7 +88,7 @@ msgstr "ім’я  користувача"
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
-msgstr "Ви також хочете видалити VirtualBox з комп'ютера?\n(VirtualBox був встановлений разом з BOINC.)"
+msgstr "Чи бажаєте Ви також видалити VirtualBox з комп'ютера?\n(VirtualBox був встановлений разом із BOINC.)"
 
 #: uninstall.cpp:312
 #, c-format
