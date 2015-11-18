@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2015-11-14 22:40+0000\n"
+"PO-Revision-Date: 2015-11-18 08:53+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -749,7 +749,7 @@ msgstr "%s - Disconnessione Inaspettata "
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
-msgstr "Il client %s si è disconnesso in modo imprevisto 3 volte negli ultimi %d minuti.\nVuoi ricollegarti?"
+msgstr "Il client %s si è disconnesso in modo imprevisto tre volte negli ultimi %d minuti.\nVuoi ricollegarti?"
 
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
@@ -828,7 +828,7 @@ msgstr ")"
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
-msgstr "Per un corretto funzionamento di BOINC è necessario riavviare il sistema.\nRiavvia e prova nuovamente."
+msgstr "Per un corretto funzionamento di BOINC è necessario riavviare il sistema.\nPer favore riavvia e prova nuovamente."
 
 #: clientgui/BOINCGUIApp.cpp:402 clientgui/DlgAbout.cpp:153
 msgid "BOINC Manager"
@@ -836,7 +836,7 @@ msgstr "BOINC Manager"
 
 #: clientgui/BOINCGUIApp.cpp:664
 msgid "BOINC Manager was started by the operating system automatically"
-msgstr "BOINC Manager è stato avviato dal sistema operativo in modo automatico"
+msgstr "BOINC Manager è stato avviato automaticamente dal sistema operativo"
 
 #: clientgui/BOINCGUIApp.cpp:666
 msgid "Startup BOINC so only the system tray icon is visible"
@@ -852,7 +852,7 @@ msgstr "Cartella dei dati di BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:671
 msgid "Host name or IP address"
-msgstr "Nome del host o indirizzo IP"
+msgstr "Nome dell'host o indirizzo IP"
 
 #: clientgui/BOINCGUIApp.cpp:672
 msgid "GUI RPC port number"
@@ -860,7 +860,7 @@ msgstr "Numero della porta GUI RPC"
 
 #: clientgui/BOINCGUIApp.cpp:673
 msgid "Password"
-msgstr "Chiave d'accesso"
+msgstr "Password"
 
 #: clientgui/BOINCGUIApp.cpp:674
 msgid "Startup BOINC with these optional arguments"
@@ -876,7 +876,7 @@ msgstr "imposta la modalità di debug per la visualizzazione per abilitarne i me
 
 #: clientgui/BOINCGUIApp.cpp:677
 msgid "multiple instances of BOINC Manager allowed"
-msgstr "Sono consentite istanze multiple del BOINC Manager"
+msgstr "Permetti istanze multiple di BOINC Manager"
 
 #: clientgui/BOINCGUIApp.cpp:679
 msgid "Not used: workaround for bug in XCode 4.2"
@@ -889,7 +889,7 @@ msgstr "Non eseguire il demone"
 #. These are just special tags so deal with them in a special way
 #: clientgui/BOINCGUIApp.cpp:931
 msgid "(Automatic Detection)"
-msgstr "(Rilevazione automatica)"
+msgstr "(Rilevamento automatico)"
 
 #: clientgui/BOINCGUIApp.cpp:932
 msgid "(Unknown)"
@@ -897,7 +897,7 @@ msgstr "(Sconosciuto)"
 
 #: clientgui/BOINCGUIApp.cpp:933
 msgid "(User Defined)"
-msgstr "(Stabilito dall'utente)"
+msgstr "(Definito dall'utente)"
 
 #: clientgui/BOINCTaskBar.cpp:519
 #, c-format
@@ -973,11 +973,11 @@ msgstr "Avvisi di %s"
 
 #: clientgui/BOINCTaskBar.cpp:810
 msgid "There are new notices - click to view."
-msgstr "Ci sono nuovi avvisi - clicca per vederli."
+msgstr "Ci sono nuovi avvisi, clicca per vederli."
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to add project"
-msgstr "Impossibile aggiungere il progetto"
+msgstr "Impossibile connettere il progetto"
 
 #: clientgui/CompletionErrorPage.cpp:204
 msgid "Failed to update account manager"
@@ -1033,7 +1033,7 @@ msgstr "Aggiornamento completato."
 #. Attach Completed
 #: clientgui/CompletionPage.cpp:247
 msgid "Now using account manager"
-msgstr "Ora, stai utilizzando l'account manager"
+msgstr "Ora stai utilizzando l'account manager"
 
 #: clientgui/CompletionPage.cpp:252
 #, c-format
@@ -1078,7 +1078,7 @@ msgstr "BOINC è distribuito sotto licenza GNU Lesser General Public License v3.
 
 #: clientgui/DlgAbout.cpp:203
 msgid "For more information, visit "
-msgstr "Per ulteriori informazioni, visita"
+msgstr "Per ulteriori informazioni visita"
 
 #: clientgui/DlgAbout.cpp:215 clientgui/DlgExitMessage.cpp:173
 #: clientgui/DlgGenericMessage.cpp:120 clientgui/DlgOptions.cpp:410
@@ -1092,7 +1092,7 @@ msgstr "Numero non valido"
 
 #: clientgui/DlgAdvPreferences.cpp:685 clientgui/sg_DlgPreferences.cpp:776
 msgid "Invalid time, value must be between 0:00 and 24:00, format is HH:MM"
-msgstr "Tempo non valido, il valore deve essere compreso tra 0:00 e 24:00, il formato è HH:MM"
+msgstr "Tempo non valido, il valore deve essere compreso tra 00:00 e 24:00. Il formato è HH:MM"
 
 #: clientgui/DlgAdvPreferences.cpp:686 clientgui/sg_DlgPreferences.cpp:777
 msgid "Start time must be different from end time"
@@ -1156,7 +1156,7 @@ msgstr "Ripristina le preferenze web e chiudi la finestra."
 #: clientgui/DlgAdvPreferencesBase.cpp:140
 #: clientgui/DlgAdvPreferencesBase.cpp:684
 msgid "Computing"
-msgstr "Computazione"
+msgstr "Elaborazione"
 
 #. Network schedule
 #: clientgui/DlgAdvPreferencesBase.cpp:143
@@ -1271,7 +1271,7 @@ msgstr "Questo determina quando il computer è considerato 'in uso'."
 #. context: 'In use' means mouse/keyboard input in last ___ minutes
 #: clientgui/DlgAdvPreferencesBase.cpp:304 clientgui/sg_DlgPreferences.cpp:268
 msgid "'In use' means mouse/keyboard input in last"
-msgstr "'In uso' significa attività di mouse e tastiera"
+msgstr "'In uso' significa che c'è attività di mouse o tastiera"
 
 #. context: 'In use' means mouse/keyboard input in last ___ minutes
 #. context: Switch between tasks every ___ minutes
@@ -1324,7 +1324,7 @@ msgstr "Archivia elaborazioni addizionali sopra la soglia minima. Determina quan
 #. context: Store up to an additional ___ days of work
 #: clientgui/DlgAdvPreferencesBase.cpp:380
 msgid "Store up to an additional"
-msgstr "Memorizza fino ad ulteriori"
+msgstr "Scarica fino ad ulteriori"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:399
 #, c-format
@@ -1404,7 +1404,7 @@ msgstr "Spunta questa voce solo se il tuo provider Internet modifica i file imma
 
 #: clientgui/DlgAdvPreferencesBase.cpp:524
 msgid "Skip data verification for image files"
-msgstr "Salta la verifica dati per i file immagine"
+msgstr "Salta la verifica dati dei file immagine"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:528
 msgid "Confirm before connecting to Internet"
@@ -1447,7 +1447,7 @@ msgstr "GB"
 msgid ""
 "Limit disk usage to leave this much free space on the volume where %s stores"
 " data."
-msgstr "Limita l'utilizzo disco per lasciare questo spazio libero nel luogo dove %s salva i dati."
+msgstr "Limita l'utilizzo disco per lasciare questo spazio libero nel disco dove %s salva i dati."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:585
 msgid "Leave at least"
@@ -1590,12 +1590,12 @@ msgstr "Trasferisci files solo tra"
 #: clientgui/DlgDiagnosticLogFlags.cpp:65
 #, c-format
 msgid "%s Diagnostic Log Flags"
-msgstr "%s Flag di Log Diagnostici"
+msgstr "%s Flag dei log di diagnostica"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:83
 msgid ""
 "These flags enable various types of diagnostic messages in the Event Log."
-msgstr "Questi flag abilitano vari tipi di messaggi di diagnostica nel Log Eventi."
+msgstr "Questi flag abilitano vari tipi di messaggi di diagnostica nel Log degli eventi."
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:99
 msgid "More info ..."
@@ -1607,7 +1607,7 @@ msgstr "Salva tutti i valori e chiudi la finestra"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:123 clientgui/DlgHiddenColumns.cpp:104
 msgid "Defaults"
-msgstr "Predefiniti"
+msgstr "Predefinito"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:124 clientgui/DlgHiddenColumns.cpp:105
 msgid "Restore default settings"
@@ -1620,7 +1620,7 @@ msgstr "Chiudi la finestra senza salvare"
 #: clientgui/DlgEventLog.cpp:236
 #, c-format
 msgid "%s - Event Log"
-msgstr "%s - Log Eventi"
+msgstr "%s - Log eventi"
 
 #. Create List Pane Items
 #: clientgui/DlgEventLog.cpp:246 clientgui/ViewMessages.cpp:117
@@ -1690,7 +1690,7 @@ msgstr "Mostra solamente i messaggi del progetto selezionato"
 #: clientgui/DlgExclusiveApps.cpp:60
 #, c-format
 msgid "%s - Exclusive Applications"
-msgstr "%s - Applicazioni Esclusive"
+msgstr "%s - Applicazioni esclusive"
 
 #: clientgui/DlgExclusiveApps.cpp:72
 msgid ""
@@ -1716,7 +1716,7 @@ msgstr "Rimuovi applicazione dalla lista"
 
 #: clientgui/DlgExclusiveApps.cpp:96
 msgid "Suspend GPU usage when these applications are running:"
-msgstr "Sospendi l'utilizzo GPU quando queste applicazioni sono in funzione:"
+msgstr "Sospendi l'utilizzo GPU quando queste applicazioni sono in esecuzione:"
 
 #: clientgui/DlgExclusiveApps.cpp:122
 msgid "For advanced options, refer to "
@@ -1910,7 +1910,7 @@ msgstr "Uso del disco"
 
 #: clientgui/DlgItemProperties.cpp:266
 msgid "Computer ID"
-msgstr "Computer ID"
+msgstr "ID del computer"
 
 #: clientgui/DlgItemProperties.cpp:268
 msgid "Non CPU intensive"
@@ -2038,7 +2038,7 @@ msgstr "Risorse in uso"
 
 #: clientgui/DlgItemProperties.cpp:385
 msgid "Estimated computation size"
-msgstr "Durata stimata lavoro"
+msgstr "Durata stimata dell'elaborazione"
 
 #: clientgui/DlgItemProperties.cpp:390
 msgid "CPU time at last checkpoint"
@@ -3218,7 +3218,7 @@ msgstr "Non richiedere nuovo lavoro"
 
 #: clientgui/ViewProjects.cpp:1158
 msgid "Project ended - OK to remove"
-msgstr "Progetto concluso. E' possibile rimuoverlo senza conseguenze."
+msgstr "Progetto concluso. È possibile rimuoverlo senza conseguenze."
 
 #: clientgui/ViewProjects.cpp:1161
 msgid "Will remove when tasks done"
@@ -3680,11 +3680,11 @@ msgstr "Predefinito"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:895
 msgid "Suspend Computing"
-msgstr "Sospendi Lavoro"
+msgstr "Sospendi l'elaborazione"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:896
 msgid "Resume Computing"
-msgstr "Riprendi Lavoro"
+msgstr "Riprendi l'elaborazione"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:913
 msgid "Open a window to view notices from projects or BOINC"
