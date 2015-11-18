@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2015-11-18 09:16+0000\n"
+"PO-Revision-Date: 2015-11-18 11:29+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -175,7 +175,7 @@ msgstr "Apri la pagina web"
 
 #: clientgui/AccountManagerInfoPage.cpp:288
 msgid "Visit this account manager's web site"
-msgstr "Visita il sito web del gestore account"
+msgstr "Visita il sito web del tuo account manager"
 
 #. %s is the project name
 #. i.e. 'BOINC', 'GridRepublic'
@@ -522,7 +522,7 @@ msgstr "Mostra le informazioni sul %s"
 #: clientgui/AdvancedFrame.cpp:675 clientgui/sg_BoincSimpleFrame.cpp:247
 #, c-format
 msgid "%s &web site"
-msgstr "sito &web di %s"
+msgstr "Sito &web di %s"
 
 #: clientgui/AdvancedFrame.cpp:679 clientgui/sg_BoincSimpleFrame.cpp:251
 #, c-format
@@ -1620,7 +1620,7 @@ msgstr "Chiudi la finestra senza salvare"
 #: clientgui/DlgEventLog.cpp:236
 #, c-format
 msgid "%s - Event Log"
-msgstr "%s - Log eventi"
+msgstr "%s - Log degli eventi"
 
 #. Create List Pane Items
 #: clientgui/DlgEventLog.cpp:246 clientgui/ViewMessages.cpp:117
@@ -1644,7 +1644,7 @@ msgstr "Mostra &solo questo progetto"
 
 #: clientgui/DlgEventLog.cpp:309
 msgid "Copy &All"
-msgstr "Copi&a Tutto"
+msgstr "Copi&a tutto"
 
 #: clientgui/DlgEventLog.cpp:311 clientgui/DlgEventLog.cpp:315
 #: clientgui/ViewMessages.cpp:89
@@ -1653,7 +1653,7 @@ msgstr "Copia tutti i messaggi negli appunti."
 
 #: clientgui/DlgEventLog.cpp:320
 msgid "Copy &Selected"
-msgstr "Copia &Selezionati"
+msgstr "Copia i &selezionati"
 
 #: clientgui/DlgEventLog.cpp:323 clientgui/DlgEventLog.cpp:331
 #: clientgui/ViewMessages.cpp:97
@@ -1933,7 +1933,7 @@ msgstr "no"
 
 #: clientgui/DlgItemProperties.cpp:271
 msgid "Don't request tasks"
-msgstr "Non richiedere elaborazioni"
+msgstr "Non richiedere workunit"
 
 #: clientgui/DlgItemProperties.cpp:273
 msgid "Scheduler call in progress"
@@ -3758,7 +3758,7 @@ msgstr "Comandi del Progetto"
 #: clientgui/sg_ProjectPanel.cpp:278
 #, c-format
 msgid "Pop up a menu of web sites for project %s"
-msgstr "Apri una finestra con i siti web per il progetto %s"
+msgstr "Apri una finestra con i siti web del progetto %s"
 
 #: clientgui/sg_ProjectPanel.cpp:280
 #, c-format
