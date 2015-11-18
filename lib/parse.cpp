@@ -418,9 +418,6 @@ void xml_escape(const char* in, char* out, int len) {
 
 // Note: XML unescaping never increases string length
 //
-// Note: See referenced site for valid ASCII conversions.
-// See: http://www.w3schools.com/charsets/ref_html_ascii.asp
-//
 void xml_unescape(string& in) {
     int n = (int)in.size()+1+16;      // +16 avoids valgrind warnings
     char* buf = (char*)malloc(n);
@@ -455,9 +452,7 @@ void xml_unescape(char* buf) {
         } else if (!strncmp(in, "&#", 2)) {
             in += 2;
             char c = atoi(in);
-            if ((c >= 32) && (c != 127)) {
-                *out++ = c;
-            }
+            *out++ = c;
             p = strchr(in, ';');
             if (p) {
                 in = p+1; 
