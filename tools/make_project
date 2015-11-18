@@ -330,13 +330,21 @@ print >>open(httpd_conf_template_filename,'w'), '''
 
     ## Settings for BOINC project %(project_longname)s
 
+    Alias /%(project_shortname)s/download %(proot)s/download
+    Alias /%(project_shortname)s/stats %(proot)s/html/stats
+    Alias /%(project_shortname)s/user_profile %(proot)s/html/user_profile
     Alias /%(project_shortname)s %(proot)s/html/user
+
     Alias /%(project_shortname)s_ops %(proot)s/html/ops
     ScriptAlias /%(project_shortname)s_cgi %(proot)s/cgi-bin
 
-	#
-	# NOTE: Turn off access to certain default directories
-	#
+    # in the following, the "Order" and "Allow" lines are for Apache 2.2;
+    # for Apache 2.4, replace them with the single line
+    # Require all granted
+    #        or
+    # Require all denied
+
+    # NOTE: Turn off access to certain default directories
     <Directory "%(proot)s/keys">
         Order deny,allow
         Deny from all
@@ -346,17 +354,32 @@ print >>open(httpd_conf_template_filename,'w'), '''
         Deny from all
     </Directory>
 
-    # in the following, the "Order" and "Allow" lines are for Apache 2.2;
-    # for Apache 2.4, replace them with the single line
-    # Require all granted
+    # NOTE: Allow access but disable PHP script execution
+    <Directory "%(proot)s/download">
+        RemoveType .php .phtml
+        Order allow,deny
+        Allow from all
+    </Directory>
+    <Directory "%(proot)s/html/stats">
+        RemoveType .php .phtml
+        Order allow,deny
+        Allow from all
+    </Directory>
+    <Directory "%(proot)s/html/user_profile">
+        RemoveType .php .phtml
+        Order allow,deny
+        Allow from all
+    </Directory>
 
+    # NOTE: Allow access and allow PHP script execution
     <Directory "%(proot)s/html">
-        Options Indexes FollowSymlinks MultiViews
+        Options Indexes MultiViews
         AllowOverride AuthConfig
         Order allow,deny
         Allow from all
     </Directory>
 
+    # NOTE: Allow access and allow CGI execution
     <Directory "%(proot)s/cgi-bin">
         Options ExecCGI
         AllowOverride AuthConfig

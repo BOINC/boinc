@@ -51,6 +51,8 @@
 
 using std::string;
 
+// the random part of output filenames needs to be hard to guess
+//
 static struct random_init {
     random_init() {
         srand48(getpid() + time(0));
@@ -153,14 +155,16 @@ int create_result(
     int priority_increase
 ) {
     DB_RESULT result;
-    char base_outfile_name[256];
+    char base_outfile_name[MAXPATHLEN];
     char result_template[BLOB_SIZE];
     int retval;
 
     initialize_result(result, wu);
+    result.random = lrand48();
+
     result.priority += priority_increase;
     sprintf(result.name, "%s_%s", wu.name, result_name_suffix);
-    sprintf(base_outfile_name, "%s_", result.name);
+    sprintf(base_outfile_name, "%s_%ld", result.name, lrand48());
     retval = read_filename(
         result_template_filename, result_template, sizeof(result_template)
     );
@@ -188,8 +192,6 @@ int create_result(
         return ERR_BUFFER_OVERFLOW;
     }
     strlcpy(result.xml_doc_in, result_template, sizeof(result.xml_doc_in));
-
-    result.random = lrand48();
 
     if (query_string) {
         result.db_print_values(query_string);

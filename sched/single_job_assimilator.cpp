@@ -39,8 +39,7 @@
 using std::vector;
 using std::string;
 
-int assimilate_handler_init(int argc, char** argv) {
-    // handle project specific arguments here
+int assimilate_handler_init(int, char**) {
     return 0;
 }
 

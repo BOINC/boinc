@@ -305,12 +305,6 @@ def install_boinc_files(dest_dir, install_web_files, install_server_files):
 
     create_project_dirs(dest_dir);
 
-    # make a symbolic link from html/user/user_profile to html/user_profile
-    try:
-        my_symlink(dir('html/user_profile'), dir('html/user/user_profile'));
-    except:
-        pass
-
     # copy html/ops files in all cases.
     # The critical one is db_update.php,
     # which is needed even for a server_only upgrade
@@ -571,9 +565,6 @@ class Project:
         if not self.production:
             install(srcdir('test/uc_result'), self.dir('templates/uc_result'))
             install(srcdir('test/uc_wu_nodelete'), self.dir('templates/uc_wu'))
-
-        my_symlink(self.config.config.download_dir, self.dir('html', 'user', 'download'))
-        my_symlink('../stats', self.dir('html/user/stats'))
 
         f = open(self.dir('html/user', 'schedulers.txt'), 'w')
         print >>f, "<!-- <scheduler>" + self.scheduler_url.strip() + "</scheduler> -->"
