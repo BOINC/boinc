@@ -184,11 +184,11 @@
   <string name="prefs_show_notification_suspended_header">Сповіщати навіть коли призупинено</string>
   <string name="prefs_cpu_number_cpus_header">Використано ядер ЦП</string>
   <string name="prefs_cpu_number_cpus_description">Обмежує кількість ядер ЦП, які BOINC використовує для обчислень.</string>
-  <string name="prefs_cpu_other_load_suspension_header">Використання ЦП призупинене</string>
-  <string name="prefs_cpu_other_load_suspension_description">Визначає, коли BOINC призупиняє обчислення через використання процессора іншими додатками</string>
+  <string name="prefs_cpu_other_load_suspension_header">Призупиняти, коли використання ЦП вище, ніж</string>
+  <string name="prefs_cpu_other_load_suspension_description">Визначає, коли BOINC призупиняє обчислення через використання процессора іншими додатками.</string>
   <string name="prefs_cpu_time_max_header">Обмеження ЦП</string>
   <string name="prefs_cpu_time_max_description">Обмежує процесорний час роботи, який BOINC використовує для обчислень.</string>
-  <string name="prefs_memory_max_idle_header">обмеження RAM</string>
+  <string name="prefs_memory_max_idle_header">Обмеження RAM</string>
   <string name="prefs_memory_max_idle_description">Обмеження кількості RAM, доступної для використання.</string>
   <string name="prefs_client_log_flags_header">Прапорці журналу клієнта BOINC</string>
   <string name="prefs_gui_log_level_header">Рівень журналу GUI</string>
