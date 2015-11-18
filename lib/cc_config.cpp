@@ -550,7 +550,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <disallow_attach>%d</disallow_attach>\n"
         "        <dont_check_file_sizes>%d</dont_check_file_sizes>\n"
         "        <dont_contact_ref_site>%d</dont_contact_ref_site>\n"
-        "        <dont_lower_client_priority>%d</lower_client_priority>\n"
+        "        <dont_lower_client_priority>%d</dont_lower_client_priority>\n"
         "        <dont_suspend_nci>%d</dont_suspend_nci>\n"
         "        <dont_use_vbox>%d</dont_use_vbox>\n",
         disallow_attach,
