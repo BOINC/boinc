@@ -197,18 +197,18 @@
   <string name="prefs_unit_gb">Гб</string>
   <string name="prefs_unit_pct">%</string>
   <string name="prefs_unit_celcius">°C</string>
-  <string name="prefs_unit_seconds">секунд</string>
+  <string name="prefs_unit_seconds">сек.</string>
   <!--projects tab strings-->
   <string name="projects_loading">Читання проектів...</string>
   <string name="projects_add">Додати проект</string>
-  <string name="projects_icon">Значок проекту</string>
+  <string name="projects_icon">Іконка проекту</string>
   <string name="projects_credits_header">Бали:</string>
   <string name="projects_credits_host_header">(на цьому пристрої)</string>
   <string name="projects_credits_user_header">(загалом)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Призупинено користувачем</string>
-  <string name="projects_status_dontrequestmorework">Не приймає нові завдання</string>
-  <string name="projects_status_ended">Проект завершений - Гаразд для видалення</string>
+  <string name="projects_status_dontrequestmorework">Не приймати нові завдання</string>
+  <string name="projects_status_ended">Проект завершено - можна видаляти</string>
   <string name="projects_status_detachwhendone">Буде видалено після завершення завдань</string>
   <string name="projects_status_schedrpcpending">Запит інформації у планувальника</string>
   <string name="projects_status_schedrpcinprogress">Відбувається запит інформації у планувальника</string>
@@ -216,10 +216,10 @@
   <string name="projects_status_backoff">Зв’язок за розкладом:</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Команди проекту:</string>
-  <string name="projects_control_visit_website">Відвідати веб-сайт</string>
+  <string name="projects_control_visit_website">Відвідати веб-сторінку</string>
   <string name="projects_control_update">Оновити</string>
   <string name="projects_control_remove">Видалити</string>
-  <string name="projects_control_suspend">Призупинено</string>
+  <string name="projects_control_suspend">Призупинити</string>
   <string name="projects_control_resume">Відновити</string>
   <string name="projects_control_nonewtasks">Не завантажувати нові завдання</string>
   <string name="projects_control_allownewtasks">Отримувати нові завдання</string>
@@ -235,7 +235,7 @@
   <string name="projects_confirm_reset_title">Перезапустити проект</string>
   <string name="projects_confirm_reset_message">Ви справді хочете перезапустити</string>
   <string name="projects_confirm_reset_message2">\?</string>
-  <string name="projects_confirm_reset_confirm">Скинути</string>
+  <string name="projects_confirm_reset_confirm">Перезапустити</string>
   <string name="projects_confirm_remove_acctmgr_title">Відключити менеджер проектів</string>
   <string name="projects_confirm_remove_acctmgr_message">Ви впевнені, що бажаєте припинити використання</string>
   <string name="projects_confirm_remove_acctmgr_message2">\?</string>
