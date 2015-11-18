@@ -51,6 +51,12 @@
 
 using std::string;
 
+static struct random_init {
+    random_init() {
+        srand48(getpid() + time(0));
+    }
+} random_init;
+
 int read_file(FILE* f, char* buf, int len) {
     int n = fread(buf, 1, len, f);
     buf[n] = 0;
@@ -152,8 +158,6 @@ int create_result(
     int retval;
 
     initialize_result(result, wu);
-    result.random = lrand48();
-
     result.priority += priority_increase;
     sprintf(result.name, "%s_%s", wu.name, result_name_suffix);
     sprintf(base_outfile_name, "%s_", result.name);
