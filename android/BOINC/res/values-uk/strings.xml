@@ -330,15 +330,15 @@
   <string name="menu_exit">Вийти з BOINC</string>
   <string name="menu_run_mode_disable">Призупинити</string>
   <string name="menu_run_mode_enable">Відновити</string>
-  <string name="menu_about">Про</string>
+  <string name="menu_about">Про додаток</string>
   <string name="menu_help">Довідка</string>
   <!--about dialog-->
   <string name="about_button">Повернутися</string>
-  <string name="about_title">Про</string>
+  <string name="about_title">Про додаток</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Версія</string>
   <string name="about_name_long">Відкрита інфраструктура для розподілених обчислень університету Берклі</string>
-  <string name="about_copyright">© 2003-2013 Університет Каліфорнії, Берклі.\nВсі права захищено.</string>
+  <string name="about_copyright">© 2003-2014 Університет Каліфорнії, Берклі.\nВсі права захищено.</string>
   <string name="about_copyright_reserved">Всі права захищені.</string>
   <string name="about_credits">Дякуємо Max Planck Institute for Gravitational Physics, IBM Corporation та HTC Corporation за їх підтримку.</string>
   <!--notice notification-->
@@ -348,7 +348,7 @@
   <!--e.g. 3 new notices-->
   <!--multi BOINC compitability-->
   <string name="nonexcl_dialog_header">Знайдено додаток добровільних обчислень</string>
-  <string name="nonexcl_dialog_text">Інший додаток добровільних обчислень вже працює на цїому пристрої. Тільки один додаток може працювати одночасно.</string>
+  <string name="nonexcl_dialog_text">Інший додаток добровільних обчислень вже працює на цьому пристрої. Тільки один додаток може працювати одночасно.</string>
   <string name="nonexcl_dialog_exit">Вийти</string>
   <!--social integration-->
   <string name="social_invite_button">Запросити друзів</string>
