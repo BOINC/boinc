@@ -292,7 +292,7 @@
   <string name="eventlog_email_subject">Журнал подій для BOINC на Android:</string>
   <!--suspend reasons-->
   <string name="suspend_unknown">Обчислення призупинене.</string>
-  <string name="suspend_batteries">Підключіть свій пристрій до зарядного для продовження розрахунків.</string>
+  <string name="suspend_batteries">Підключіть свій пристрій до зарядного пристрою для продовження обчислення.</string>
   <string name="suspend_screen_on">Вимкніть екран для продовження обчислення.</string>
   <string name="suspend_useractive">Працює користувач.</string>
   <string name="suspend_tod">Закінчився час, виділений для обчислень.</string>
@@ -306,12 +306,12 @@
   <string name="suspend_network_quota">BOINC досяг межі передачі даних мережею.</string>
   <string name="suspend_os">Зупинено Android-ом.</string>
   <string name="suspend_wifi">Відсутнє підключення до WiFi.</string>
-  <string name="suspend_battery_charging">Очікування більшого рівня заряду акумулятора</string>
-  <string name="suspend_battery_charging_long">Розрахунки продовжаться, коли заряд батареї досягне</string>
+  <string name="suspend_battery_charging">Очікування більшого рівня заряду акумулятора.</string>
+  <string name="suspend_battery_charging_long">Обчислення продовжаться, коли заряд батареї досягне</string>
   <string name="suspend_battery_charging_long2"></string>
   <string name="suspend_battery_charging_current">зараз</string>
-  <string name="suspend_battery_overheating">Очікування охолодження батареї</string>
-  <string name="suspend_user_req">Поновлення розрахунків...</string>
+  <string name="suspend_battery_overheating">Очікування охолодження акумулятора</string>
+  <string name="suspend_user_req">Поновлення обчислень...</string>
   <string name="suspend_network_user_req">вручну.</string>
   <!--rpc reasons-->
   <string name="rpcreason_userreq">На вимогу користувача</string>
