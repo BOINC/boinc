@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2015-11-18 12:41+0000\n"
+"PO-Revision-Date: 2015-11-18 13:54+0000\n"
 "Last-Translator: Vitalii Koshura <lestat.de.lionkur@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/boinc/boinc/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -108,7 +108,7 @@ msgstr "Цей проект не підтримує тип CPU"
 #: ../sched/handle_request.cpp:993
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
-msgstr "У Вас занадто стара версія BOINC-клієнта.  Будь-ласка, встановіть поточну версію."
+msgstr "У Вас занадто стара версія BOINC-клієнта.  Будь ласка, встановіть поточну версію."
 
 #: ../sched/handle_request.cpp:1259
 msgid "This project doesn't support computers of type"
@@ -128,7 +128,7 @@ msgstr "Для використання усіх додатків цього п�
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
-msgstr "Потрібна новіша версія BOINC для використання вашого графічного процесора NVIDIA; будь-ласка, оновіть програму до поточної версії"
+msgstr "Потрібна новіша версія BOINC для використання вашого графічного процесора NVIDIA; будь ласка, оновіть програму до поточної версії"
 
 #: ../sched/sched_send.cpp:1146
 #, c-format
