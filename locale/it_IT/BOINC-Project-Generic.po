@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2015-11-17 11:11+0000\n"
+"PO-Revision-Date: 2015-11-18 13:06+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -4211,7 +4211,7 @@ msgstr "È stata data risposta alla mia domanda"
 
 #: ../user/forum_thread.php:130
 msgid "Click here if your question has been adequately answered"
-msgstr "Se è stata data una adeguata risposta alla tua domanda, sei pregato di premere qui."
+msgstr "Se è stata data un'adeguata risposta alla tua domanda, sei pregato di premere qui."
 
 #: ../user/forum_thread.php:138
 msgid "I've also got this question"
@@ -4660,7 +4660,7 @@ msgstr "Aggiornamento crediti del computer"
 
 #: ../user/host_update_credit.php:37
 msgid "Host credit updated"
-msgstr "Crediti Host aggiornati"
+msgstr "Crediti degli host aggiornati"
 
 #: ../user/host_venue_action.php:41
 msgid "Host venue updated"
@@ -5762,11 +5762,11 @@ msgstr "Tempo minimo tra i messaggi (secondi)"
 
 #: ../user/team_forum.php:76
 msgid "Minimum total credit to post"
-msgstr "Credito totale minimo per scrivere"
+msgstr "Credito totale minimo necessario per scrivere"
 
 #: ../user/team_forum.php:79
 msgid "Minimum average credit to post"
-msgstr "Credito medio minimo per scrivere"
+msgstr "Credito medio minimo necessario per scrivere"
 
 #: ../user/team_forum.php:82
 msgid "Submit"
@@ -5958,7 +5958,7 @@ msgstr "Entrare in un team da al fondatore accesso al tuo indirizzo e-mail."
 
 #: ../user/team_join_form.php:38
 msgid "Joining a team does not affect your account's credit."
-msgstr "Entrare in un team non influisce sui crediti del tuo account."
+msgstr "Entrare in un team non influisce sui crediti del proprio account."
 
 #: ../user/team_join_form.php:45
 msgid "Join team"
@@ -6253,11 +6253,11 @@ msgstr "Decremento tempo di sign-up"
 
 #: ../user/user_search.php:68
 msgid "Decreasing average credit"
-msgstr "Decrescita del credito medio"
+msgstr "Diminuzione del credito medio"
 
 #: ../user/user_search.php:69
 msgid "Decreasing total credit"
-msgstr "Decrescita del credito totale"
+msgstr "Diminuzione del credito totale"
 
 #: ../user/user_search.php:84
 msgid "search string must be at least 3 characters"
@@ -6289,7 +6289,7 @@ msgstr "Team:"
 
 #: ../user/userw.php:48
 msgid "Team TotCred:"
-msgstr "Credito totale Team:"
+msgstr "Credito totale del Team:"
 
 #: ../user/userw.php:49
 msgid "Team AvgCred:"
