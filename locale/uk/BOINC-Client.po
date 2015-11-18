@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2015-11-18 12:36+0000\n"
+"PO-Revision-Date: 2015-11-18 12:41+0000\n"
 "Last-Translator: Vitalii Koshura <lestat.de.lionkur@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/boinc/boinc/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgstr "Повідомлення від сервера"
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
-msgstr "Деякі завдання вимагають більше пам'яті, аніж дозволено Вашими налаштуваннями.  Будь-ласка, перевірте налаштування."
+msgstr "Деякі завдання вимагають більше пам'яті, аніж дозволено Вашими налаштуваннями.  Будь ласка, перевірте налаштування."
 
 #: client_state.cpp:520
 msgid "Couldn't write state file; check directory permissions"
@@ -53,7 +53,7 @@ msgstr "Синтаксична помилка в app_info.xml"
 
 #: cs_statefile.cpp:868
 msgid "File referenced in app_info.xml does not exist: "
-msgstr "Файлу, на який посилається app_info.xml, не існує: "
+msgstr "Файл, на який посилається app_info.xml, не існує: "
 
 #: current_version.cpp:91
 msgid "A new version of BOINC is available."
@@ -85,7 +85,7 @@ msgstr "Відсутній завершальний тег в cc_config.xml"
 
 #: ../sched/handle_request.cpp:307
 msgid "Invalid or missing account key.  To fix, remove and add this project."
-msgstr "Невірний або відсутній ключ облікового запису.  Щоб виправити його, видаліть і додайте цей проект."
+msgstr "Невірний або відсутній ключ облікового запису.  Щоб виправити його, видаліть і знову додайте цей проект."
 
 #: ../sched/handle_request.cpp:849
 msgid "Invalid code signing key.  To fix, remove and add this project."
