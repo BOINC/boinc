@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Vitalii Koshura <lestat.de.lionkur@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2015-11-18 12:48+0000\n"
+"PO-Revision-Date: 2015-11-18 12:54+0000\n"
 "Last-Translator: Vitalii Koshura <lestat.de.lionkur@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/boinc/boinc/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +41,7 @@ msgid ""
 "Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
 "\n"
 "Do you also want non-administrative users to be able to run and control %s on this Mac?"
-msgstr "Користувачі з правами адміністратора цього комп’ютера автоматично зможуть запускати і керувати %s.\n\nБажаєте щоб прості користувачі без адміністраторських прав також могли запускати і керувати %s на цьому комп’ютері Mac?"
+msgstr "Користувачі з правами адміністратора цього комп’ютера автоматично зможуть запускати і керувати %s.\n\nБажаєте, щоб прості користувачі без адміністраторських прав також могли запускати і керувати %s на цьому комп’ютері Mac?"
 
 #: PostInstall.cpp:1444
 #, c-format
@@ -59,7 +60,7 @@ msgstr "Помилка доступу після перезапуску"
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
-msgstr "Видалення може зайняти декілька хвилин.\nБудь-ласка, зачекайте."
+msgstr "Видалення може зайняти декілька хвилин.\nБудь ласка, зачекайте."
 
 #: uninstall.cpp:156
 #, c-format
@@ -67,7 +68,7 @@ msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
 "\n"
 "This will remove the executables but will not touch %s data files."
-msgstr "Ви впевнені, що хочете повністю видалити %s зі свого комп’ютера?\n\nБудуть видалені виконавчі файли, а файли даних %s залишаться."
+msgstr "Ви впевнені, що бажаєте повністю видалити %s зі свого комп’ютера?\n\nБудуть видалені виконавчі файли, але файли даних %s залишаться."
 
 #: uninstall.cpp:163
 #, c-format
