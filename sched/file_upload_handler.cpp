@@ -392,9 +392,9 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
 
     // make sure filename is legit
     //
-    if (strstr(name, "..")) {
+    if (!is_valid_filename(name)) {
         return return_error(ERR_PERMANENT,
-            "file_upload_handler: .. found in filename: %s",
+            "file_upload_handler: invalid filename: %s",
             name
         );
     }

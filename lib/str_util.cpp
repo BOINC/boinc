@@ -756,3 +756,24 @@ vector<string> split(string s, char delim) {
     }
     return result;
 }
+
+// check whether filename is legit
+// - can't start with /
+// - can't have control chars
+// - can't have ..
+//
+bool is_valid_filename(const char* name) {
+    int n = strlen(name);
+    for (int i=0; i<n; i++) {
+        if (iscntrl(name[i])) {
+            return false;
+        }
+    }
+    if (strstr(name, "..")) {
+        return false;
+    }
+    if (name[0] == '/') {
+        return false;
+    }
+    return true;
+}
