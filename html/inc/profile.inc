@@ -24,7 +24,6 @@ require_once("../inc/user.inc");
 require_once("../inc/translation.inc");
 require_once("../inc/text_transform.inc");
 require_once("../inc/forum.inc");
-require_once("../inc/recaptchalib.php");
 
 define('SMALL_IMG_WIDTH', 64);
 define('SMALL_IMG_HEIGHT', 64);

@@ -40,9 +40,7 @@ if (parse_bool($config, "disable_account_creation")
 
 $privatekey = parse_config($config, "<recaptcha_private_key>");
 if ($privatekey) {
-    $recaptcha = new ReCaptcha($privatekey);
-    $resp = $recaptcha->verifyResponse($_SERVER["REMOTE_ADDR"], $_POST["g-recaptcha-response"]);
-    if (!$resp->success) {
+    if (!boinc_recaptcha_isValidated($privatekey)) {
         show_error(tra("Your reCAPTCHA response was not correct. Please try again."));
     }
 }
