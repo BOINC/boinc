@@ -318,6 +318,7 @@ int main(int argc, char** argv) {
     log_messages.printf(MSG_NORMAL, "Starting assimilator handler\n");
 
     install_stop_signal_handler();
+    // coverity[loop_top] - infinite loop is intended
     do {
         if (!do_pass(app)) {
             if (!one_pass) {

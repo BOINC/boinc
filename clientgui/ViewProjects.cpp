@@ -967,7 +967,7 @@ void CViewProjects::GetDocProjectName(wxInt32 item, wxString& strBuffer) const {
 
     if (project) {
         project->get_name(project_name);
-        strBuffer = strBuffer = HtmlEntityDecode(wxString(project_name.c_str(), wxConvUTF8));
+        strBuffer = HtmlEntityDecode(wxString(project_name.c_str(), wxConvUTF8));
     } else {
         strBuffer = wxEmptyString;
     }
@@ -1125,8 +1125,8 @@ void CViewProjects::GetDocResourcePercent(wxInt32 item, double& fBuffer) const {
 }
 
 
-wxInt32 CViewProjects::FormatResourceShare(double fBuffer, double fBufferPercent, wxString& strBuffer) const {
-    strBuffer.Printf(wxT("%0.0f (%0.2f%%)"), fBuffer, fBufferPercent);
+wxInt32 CViewProjects::FormatResourceShare(double share, double share_pct, wxString& strBuffer) const {
+    strBuffer.Printf(wxT("%s (%s%%)"), format_number(share, 0), format_number(share_pct, 2));
         
     return 0;
 }

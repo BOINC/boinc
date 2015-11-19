@@ -1,5 +1,0 @@
-debian/tmp/usr/lib/libdcapi-client-local.a
-debian/tmp/usr/lib/libdcapi-local.a
-debian/tmp/usr/lib/libdcapi-local.so
-debian/tmp/usr/lib/pkgconfig/dcapi-local-client.pc
-debian/tmp/usr/lib/pkgconfig/dcapi-local-master.pc

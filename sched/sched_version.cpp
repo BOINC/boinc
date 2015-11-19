@@ -401,7 +401,7 @@ void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
 //
 static void app_version_desc(BEST_APP_VERSION& bav, char* buf) {
     if (!bav.present) {
-        safe_strcpy(buf, "none");
+        strcpy(buf, "none");
         return;
     }
     if (bav.cavp) {

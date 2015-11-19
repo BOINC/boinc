@@ -188,13 +188,6 @@ CLIENT_STATE::CLIENT_STATE()
 #endif
 }
 
-CLIENT_STATE::~CLIENT_STATE() {
-    delete pers_file_xfers;
-#ifndef SIM
-    delete scheduler_op;
-#endif
-}
-
 void CLIENT_STATE::show_host_info() {
     char buf[256], buf2[256];
 
@@ -404,14 +397,14 @@ bool CLIENT_STATE::is_new_client() {
 }
 
 #ifdef _WIN32
-typedef DWORD (WINAPI *SPC)(HANDLE, DWORD);
+typedef DWORD (WINAPI *STP)(HANDLE, DWORD);
 #endif
 
 static void set_client_priority() {
 #ifdef _WIN32
-    SPC spc = (SPC) GetProcAddress(GetModuleHandle(_T("kernel32.dll")), "SetPriorityClass");
-    if (!spc) return;
-    if (spc(GetCurrentProcess(), PROCESS_MODE_BACKGROUND_BEGIN)) {
+    STP stp = (STP) GetProcAddress(GetModuleHandle(_T("kernel32.dll")), "SetThreadPriority");
+    if (!stp) return;
+    if (stp(GetCurrentThread(), THREAD_MODE_BACKGROUND_BEGIN)) {
         msg_printf(NULL, MSG_INFO, "Running at background priority");
     } else {
         msg_printf(NULL, MSG_INFO, "Failed to set background priority");
@@ -467,7 +460,9 @@ int CLIENT_STATE::init() {
 
     msg_printf(NULL, MSG_INFO, "Libraries: %s", curl_version());
 
-    set_client_priority();
+    if (!cc_config.dont_lower_client_priority) {
+        set_client_priority();
+    }
 
     if (executing_as_daemon) {
 #ifdef _WIN32
@@ -2148,16 +2143,23 @@ int CLIENT_STATE::quit_activities() {
     //
     adjust_rec();
 
+    daily_xfer_history.write_file();
+    write_state_file();
+    gui_rpcs.close();
+    abort_cpu_benchmarks();
+    time_stats.quit();
+
+    // stop jobs.
+    // Do this last because it could take a long time,
+    // and the OS might kill us in the middle
+    //
     int retval = active_tasks.exit_tasks();
     if (retval) {
         msg_printf(NULL, MSG_INTERNAL_ERROR,
             "Couldn't exit tasks: %s", boincerror(retval)
         );
     }
-    write_state_file();
-    gui_rpcs.close();
-    abort_cpu_benchmarks();
-    time_stats.quit();
+
     return 0;
 }
 

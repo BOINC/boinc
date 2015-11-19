@@ -138,15 +138,15 @@ void open_archive(const char* filename_prefix, FILE*& f){
         );
     }
     // append appropriate suffix for file type
-    strcat(path, suffix[compression_type]);
+    safe_strcat(path, suffix[compression_type]);
 
     // and construct appropriate command if needed
     if (compression_type == COMPRESSION_GZIP) {
-        sprintf(command, "gzip - > %s", path);
+        snprintf(command, sizeof(command), "gzip - > %s", path);
     }
 
     if (compression_type == COMPRESSION_ZIP) {
-        sprintf(command, "zip - - > %s", path);
+        snprintf(command, sizeof(command), "zip - - > %s", path);
     }
 
     log_messages.printf(MSG_NORMAL,
@@ -213,7 +213,7 @@ void close_archive(const char *filename, FILE*& fp){
         );
     }
     // append appropriate file type
-    strcat(path, suffix[compression_type]);
+    safe_strcat(path, suffix[compression_type]);
 
     log_messages.printf(MSG_NORMAL,
         "Closed archive file %s containing records of %d workunits\n",
@@ -731,7 +731,7 @@ int main(int argc, char** argv) {
             id_modulus   = atoi(argv[++i]);
             id_remainder = atoi(argv[++i]);
         } else if (is_arg(argv[i], "app")) {
-            strcpy(app_name, argv[++i]);
+            safe_strcpy(app_name, argv[++i]);
         } else {
             log_messages.printf(MSG_CRITICAL,
                 "unknown command line argument: %s\n\n", argv[i]

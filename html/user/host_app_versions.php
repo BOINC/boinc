@@ -18,8 +18,6 @@
 
 require_once("../inc/util.inc");
 
-check_get_args(array("hostid"));
-
 function rsc_name($t) {
     switch ($t) {
     case 2: return tra("CPU");
@@ -30,19 +28,36 @@ function rsc_name($t) {
     return tra("Unknown");
 }
 
-function av_desc($gavid) {
+function av_desc($gavid, $show_dep) {
     if ($gavid >= 1000000) {
+        // anonymous platform
+        //
         $appid = (int)($gavid/1000000);
         $app = BoincApp::lookup_id($appid);
-        if (!$app) return tra("Anonymous platform, missing app");
+        if (!$app) {
+            return null;
+        }
+        if (!$show_dep && $app->deprecated) {
+            return null;
+        }
         $rsc_type = $gavid % 1000000;
         $r = rsc_name($rsc_type);
         return "$app->user_friendly_name (".tra("anonymous platform").", $r)";
     } else {
         $av = BoincAppVersion::lookup_id($gavid);
-        if (!$av) return tra("Missing app version");
+        if (!$av) {
+            return null;
+        }
+        if (!$show_dep && $av->deprecated) {
+            return null;
+        }
         $app = BoincApp::lookup_id($av->appid);
-        if (!$app) return tra("Missing app");
+        if (!$app) {
+            return null;
+        }
+        if (!$show_dep && $app->deprecated) {
+            return null;
+        }
         $platform = BoincPlatform::lookup_id($av->platformid);
         if (!$platform) return tra("Missing platform");
         $pc = (strlen($av->plan_class))?"($av->plan_class)":"";
@@ -51,8 +66,10 @@ function av_desc($gavid) {
     }
 }
 
-function show_hav($hav) {
-    row1(av_desc($hav->app_version_id));
+function show_hav($hav, $show_dep) {
+    $desc = av_desc($hav->app_version_id, $show_dep);
+    if (!$desc) return;
+    row1($desc);
     row2(tra("Number of tasks completed"), $hav->et_n);
     row2(tra("Max tasks per day"), $hav->max_jobs_per_day);
     row2(tra("Number of tasks today"), $hav->n_jobs_today);
@@ -66,6 +83,7 @@ function show_hav($hav) {
 }
 
 $hostid = get_int('hostid');
+$show_dep = get_int('show_dep', true);
 
 $havs = BoincHostAppVersion::enum("host_id=$hostid");
 
@@ -73,9 +91,14 @@ page_head(tra("Application details for host %1", $hostid));
 start_table();
 foreach ($havs as $hav) {
     //if (!$hav->pfc_n) continue;
-    show_hav($hav);
+    show_hav($hav, $show_dep);
 }
 end_table();
+if ($show_dep) {
+    show_button("host_app_versions.php?hostid=$hostid", "Show active versions");
+} else {
+    show_button("host_app_versions.php?hostid=$hostid&show_dep=1", "Show all versions");
+}
 
 page_tail();
 ?>

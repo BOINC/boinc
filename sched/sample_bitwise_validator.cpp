@@ -81,6 +81,7 @@ int init_result(RESULT& result, void*& data) {
             "[RESULT#%lu %s] check_set: can't get output filenames\n",
             result.id, result.name
         );
+        delete fcl;
         return retval;
     }
 

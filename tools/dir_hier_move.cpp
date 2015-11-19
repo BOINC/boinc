@@ -61,7 +61,7 @@ int main(int argc, char** argv) {
             fprintf(stderr, "dir_hier_path: %s\n", boincerror(retval));
             exit(1);
         }
-        sprintf(src_path, "%s/%s", src_dir, filename.c_str());
+        snprintf(src_path, sizeof(src_path), "%s/%s", src_dir, filename.c_str());
         retval = rename(src_path, dst_path);
         if (retval) {
             perror("rename");

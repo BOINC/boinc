@@ -57,6 +57,7 @@ static bool got_md5_info(
   
     // get mod time for md5 cache file
     //
+    // coverity[toctou]
     if (stat(md5name, &md5stat)) {
         return false;
     }
@@ -107,6 +108,7 @@ static void write_md5_info(
     
     // if file already exists with this name, don't touch it.
     //
+    // coverity[toctou]
     sprintf(md5name, "%s.md5", path);
     if (!stat(md5name, &statbuf)) {
         return;

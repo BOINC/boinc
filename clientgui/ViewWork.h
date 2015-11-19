@@ -103,7 +103,6 @@ protected:
     void                    GetDocApplicationName(wxInt32 item, wxString& strBuffer) const;
     void                    GetDocName(wxInt32 item, wxString& strBuffer) const;
     void                    GetDocCPUTime(wxInt32 item, double& fBuffer) const;
-    wxInt32                 FormatCPUTime( double fBuffer, wxString& strBuffer ) const;
     void                    GetDocProgress(wxInt32 item, double& fBuffer) const;
     wxInt32                 FormatProgress( double fBuffer, wxString& strBuffer ) const;
     void                    GetDocTimeToCompletion(wxInt32 item, double& fBuffer) const;

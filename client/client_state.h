@@ -246,7 +246,6 @@ struct CLIENT_STATE {
 
 // --------------- client_state.cpp:
     CLIENT_STATE();
-    ~CLIENT_STATE();
     void show_host_info();
     bool is_new_client();
     int init();
@@ -596,8 +595,19 @@ extern THREAD throttle_thread;
 #define DEADLINE_CUSHION    0
     // try to finish jobs this much in advance of their deadline
 
-#define MAX_EXIT_TIME   15
-    // if an app takes this long to exit, kill it
+/////// JOB CONTROL
+
+#define ABORT_TIMEOUT   60
+    // if we send app <abort> request, wait this long before killing it.
+    // This gives it time to download symbol files (which can be several MB)
+    // and write stack trace to stderr
+
+#define QUIT_TIMEOUT    60
+    // Same, for <quit>.
+    // Should be large enough that apps can finalize
+    // (e.g. write checkpoint file) in that time.
+    // In Nov 2015 we increased it from 15 to 60
+    // because CERN's VBox apps take a long time to save state.
 
 #define MAX_STARTUP_TIME    10
     // if app startup takes longer than this, quit loop

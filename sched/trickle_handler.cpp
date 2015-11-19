@@ -79,6 +79,7 @@ bool do_trickle_scan() {
 }
 
 int main_loop(bool one_pass) {
+    // coverity[loop_top] - infinite loop is intended
     while (1) {
         check_stop_daemons();
         bool did_something = do_trickle_scan();

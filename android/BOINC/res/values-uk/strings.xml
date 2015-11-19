@@ -3,7 +3,7 @@
   <!--app global-->
   <string name="app_name">BOINC</string>
   <!--generic. used by multiple Activities/tabs-->
-  <string name="generic_loading">Завантаження! Зачекайте, будь-ласка...</string>
+  <string name="generic_loading">Завантаження! Зачекайте, будь ласка...</string>
   <string name="generic_button_continue">Продовжити</string>
   <string name="generic_button_finish">Готово</string>
   <!--attach project-->
@@ -13,7 +13,7 @@
   <string name="attachproject_list_manual_button">Додати проект за адресою (URL)</string>
   <string name="attachproject_list_manual_dialog_title">Введіть адресу (URL) проекту:</string>
   <string name="attachproject_list_manual_dialog_button">Додати проект</string>
-  <string name="attachproject_list_manual_no_url">Додати менеджер проектів</string>
+  <string name="attachproject_list_manual_no_url">Будь ласка, введіть адресу (URL) проекту:</string>
   <string name="attachproject_list_acctmgr_button">Додати менеджер проектів</string>
   <string name="attachproject_list_no_internet">Відсутнє з’єднання з Інтернетом</string>
   <!--credential input-->
@@ -35,8 +35,8 @@
   <string name="attachproject_hints_header">Порада</string>
   <!--e.g. Hint 1/2-->
   <string name="attachproject_hint_contribtion_header">Як прийняти участь:</string>
-  <string name="attachproject_hint_contribtion_wifi">1. Підключитися до WiFi</string>
-  <string name="attachproject_hint_contribtion_charger">2. Підключити до джерела живлення</string>
+  <string name="attachproject_hint_contribtion_wifi">1. Підключити пристрій до WiFi</string>
+  <string name="attachproject_hint_contribtion_charger">2. Підключити пристрій до джерела живлення</string>
   <string name="attachproject_hint_contribtion_screen">3. Вимкнути екран</string>
   <string name="attachproject_hint_projectwebsite_header">Відвідати інтернет сторінку проекту:</string>
   <string name="attachproject_hint_projectwebsite_science">Дізнатися більше про науковий аспект</string>
@@ -50,10 +50,10 @@
   <string name="attachproject_login_header_specific_area">Спеціальна область:</string>
   <string name="attachproject_login_header_description">Опис:</string>
   <string name="attachproject_login_header_home">Домівка:</string>
-  <string name="attachproject_login_header_url">Веб-сайт:</string>
+  <string name="attachproject_login_header_url">Веб-сторінка:</string>
   <string name="attachproject_login_header_platform">Android:</string>
-  <string name="attachproject_login_platform_supported">Цей проект підтримує пристрої, на базі Android</string>
-  <string name="attachproject_login_platform_not_supported">Цей проект не підтримує пристрої, на базі Android</string>
+  <string name="attachproject_login_platform_supported">Цей проект підтримує пристрої на базі Android</string>
+  <string name="attachproject_login_platform_not_supported">Цей проект не підтримує пристрої на базі Android</string>
   <string name="attachproject_login_category_terms_of_use">Умови використання для</string>
   <string name="attachproject_login_accept_terms_of_use">Створюючи обліковий запис у цьому проекті, Ви приймаєте умови використання, що викладені вище.</string>
   <string name="attachproject_login_category_login">Увійти з існуючим обліковим записом</string>
@@ -92,13 +92,13 @@
   <string name="attachproject_error_no_internet">Невдала спроба зв’язку</string>
   <string name="attachproject_error_pwd_no_match">Паролі не збігаються</string>
   <string name="attachproject_error_pwd_no_retype">Будь ласка, введіть пароль ще раз</string>
-  <string name="attachproject_error_no_url">Будь-ласка, введіть адресу (URL)</string>
+  <string name="attachproject_error_no_url">Будь ласка, введіть адресу (URL)</string>
   <string name="attachproject_error_no_email">Будь ласка, вкажіть адресу електронної пошти</string>
-  <string name="attachproject_error_no_pwd">Будь-ласка, введіть пароль</string>
-  <string name="attachproject_error_no_name">Будь-ласка, введіть ім\'я користувача</string>
+  <string name="attachproject_error_no_pwd">Будь ласка, введіть пароль</string>
+  <string name="attachproject_error_no_name">Будь ласка, введіть ім\'я користувача</string>
   <string name="attachproject_error_unknown">невдало</string>
   <string name="attachproject_error_bad_username">Ім\'я користувача відхилене</string>
-  <string name="attachproject_error_email_in_use">Електронна адреса вже використовується</string>
+  <string name="attachproject_error_email_in_use">Адреса електронної пошти вже використовується</string>
   <string name="attachproject_error_project_down">Проект поза мережею</string>
   <string name="attachproject_error_email_bad_syntax">Адресу електронної пошти відхилено</string>
   <string name="attachproject_error_bad_pwd">Пароль відхилено</string>
@@ -138,7 +138,7 @@
   <string name="status_idle">Нема роботи</string>
   <string name="status_idle_long">Очікування завдань…</string>
   <string name="status_computing_disabled">Призупинено</string>
-  <string name="status_computing_disabled_long">Натисніть кнопку Грати для відновлення мережі і обчислень.</string>
+  <string name="status_computing_disabled_long">Натисніть кнопку Грати для відновлення обчислень та зв’язку з мережею.</string>
   <string name="status_launching">Запуск…</string>
   <string name="status_noproject">Оберіть проект для прийняття участі в ньому.</string>
   <string name="status_closing">Закриття...</string>
@@ -156,21 +156,21 @@
   <string name="prefs_category_storage">Диск</string>
   <string name="prefs_category_memory">Пам`ять</string>
   <string name="prefs_category_debug">Діагностика</string>
-  <string name="prefs_show_advanced_header">Показати додаткові налаштування і елементи керування...</string>
+  <string name="prefs_show_advanced_header">Показати додаткові налаштування та елементи керування...</string>
   <string name="prefs_suspend_when_screen_on">Призупиняти обчислення, коли екран увімкнуто</string>
   <string name="prefs_stationary_device_mode_header">Стаціонарний режим роботи пристрою</string>
-  <string name="prefs_stationary_device_mode_description">Дозволяє робити обчислення не дивлячись на налаштування Живлення. Вмикати, тільки якщо пристрой на має акумулятора</string>
+  <string name="prefs_stationary_device_mode_description">Дозволяє робити обчислення не дивлячись на налаштування Живлення. Вмикати, тільки якщо пристрой не має акумулятора.</string>
   <string name="prefs_power_source_header">Джерела живлення для обчислювання</string>
   <string name="prefs_power_source_description">Оберіть джерела живлення, які BOINC може використовувати для обчислення.</string>
   <string name="prefs_power_source_ac">Розетка</string>
   <string name="prefs_power_source_usb">Підключення по USB</string>
   <string name="prefs_power_source_wireless">Бездротовий зарядний пристрій</string>
   <string name="prefs_power_source_battery">Акумулятор</string>
-  <string name="battery_charge_min_pct_header">Низький заряд батареї</string>
+  <string name="battery_charge_min_pct_header">Мін. заряд батареї</string>
   <string name="battery_charge_min_pct_description">BOINC призупиняє обчислення нижче визначеного рівня заряду акумулятора.</string>
   <string name="battery_temperature_max_header">Макс. температура батареї</string>
   <string name="battery_temperature_max_description">BOINC призупинить розрахунки, коли температура батареї перевищить вказаний рівень. Не рекомендовано змінювати це значення.</string>
-  <string name="prefs_disk_max_pct_header">Макс. використаний об’єм диска</string>
+  <string name="prefs_disk_max_pct_header">Макс. об’єм диска для використання</string>
   <string name="prefs_disk_max_pct_description">Скільки відсотків дискового простору може використовувати BOINC?</string>
   <string name="prefs_disk_min_free_gb_header">Мін. запас дискового простору</string>
   <string name="prefs_disk_min_free_gb_description">Скільки вашого дискового простору повинно залишитися вільним?</string>
@@ -184,11 +184,11 @@
   <string name="prefs_show_notification_suspended_header">Сповіщати навіть коли призупинено</string>
   <string name="prefs_cpu_number_cpus_header">Використано ядер ЦП</string>
   <string name="prefs_cpu_number_cpus_description">Обмежує кількість ядер ЦП, які BOINC використовує для обчислень.</string>
-  <string name="prefs_cpu_other_load_suspension_header">Використання ЦП призупинене</string>
-  <string name="prefs_cpu_other_load_suspension_description">Визначає, коли BOINC призупиняє обчислення через використання процессора іншими додатками</string>
+  <string name="prefs_cpu_other_load_suspension_header">Призупиняти, коли використання ЦП вище, ніж</string>
+  <string name="prefs_cpu_other_load_suspension_description">Визначає, коли BOINC призупиняє обчислення через використання процессора іншими додатками.</string>
   <string name="prefs_cpu_time_max_header">Обмеження ЦП</string>
   <string name="prefs_cpu_time_max_description">Обмежує процесорний час роботи, який BOINC використовує для обчислень.</string>
-  <string name="prefs_memory_max_idle_header">обмеження RAM</string>
+  <string name="prefs_memory_max_idle_header">Обмеження RAM</string>
   <string name="prefs_memory_max_idle_description">Обмеження кількості RAM, доступної для використання.</string>
   <string name="prefs_client_log_flags_header">Прапорці журналу клієнта BOINC</string>
   <string name="prefs_gui_log_level_header">Рівень журналу GUI</string>
@@ -197,18 +197,18 @@
   <string name="prefs_unit_gb">Гб</string>
   <string name="prefs_unit_pct">%</string>
   <string name="prefs_unit_celcius">°C</string>
-  <string name="prefs_unit_seconds">секунд</string>
+  <string name="prefs_unit_seconds">сек.</string>
   <!--projects tab strings-->
   <string name="projects_loading">Читання проектів...</string>
   <string name="projects_add">Додати проект</string>
-  <string name="projects_icon">Значок проекту</string>
+  <string name="projects_icon">Іконка проекту</string>
   <string name="projects_credits_header">Бали:</string>
   <string name="projects_credits_host_header">(на цьому пристрої)</string>
   <string name="projects_credits_user_header">(загалом)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Призупинено користувачем</string>
-  <string name="projects_status_dontrequestmorework">Не приймає нові завдання</string>
-  <string name="projects_status_ended">Проект завершений - Гаразд для видалення</string>
+  <string name="projects_status_dontrequestmorework">Не приймати нові завдання</string>
+  <string name="projects_status_ended">Проект завершено - можна видаляти</string>
   <string name="projects_status_detachwhendone">Буде видалено після завершення завдань</string>
   <string name="projects_status_schedrpcpending">Запит інформації у планувальника</string>
   <string name="projects_status_schedrpcinprogress">Відбувається запит інформації у планувальника</string>
@@ -216,10 +216,10 @@
   <string name="projects_status_backoff">Зв’язок за розкладом:</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Команди проекту:</string>
-  <string name="projects_control_visit_website">Відвідати веб-сайт</string>
+  <string name="projects_control_visit_website">Відвідати веб-сторінку</string>
   <string name="projects_control_update">Оновити</string>
   <string name="projects_control_remove">Видалити</string>
-  <string name="projects_control_suspend">Призупинено</string>
+  <string name="projects_control_suspend">Призупинити</string>
   <string name="projects_control_resume">Відновити</string>
   <string name="projects_control_nonewtasks">Не завантажувати нові завдання</string>
   <string name="projects_control_allownewtasks">Отримувати нові завдання</string>
@@ -235,7 +235,7 @@
   <string name="projects_confirm_reset_title">Перезапустити проект</string>
   <string name="projects_confirm_reset_message">Ви справді хочете перезапустити</string>
   <string name="projects_confirm_reset_message2">\?</string>
-  <string name="projects_confirm_reset_confirm">Скинути</string>
+  <string name="projects_confirm_reset_confirm">Перезапустити</string>
   <string name="projects_confirm_remove_acctmgr_title">Відключити менеджер проектів</string>
   <string name="projects_confirm_remove_acctmgr_message">Ви впевнені, що бажаєте припинити використання</string>
   <string name="projects_confirm_remove_acctmgr_message2">\?</string>
@@ -245,11 +245,11 @@
   <string name="tasks_header_elapsed_time">Витрачено часу:</string>
   <string name="tasks_header_project_paused">(призупинено)</string>
   <string name="tasks_header_deadline">Кінцевий термін:</string>
-  <string name="tasks_result_new">новий</string>
+  <string name="tasks_result_new">нове</string>
   <string name="tasks_result_files_downloading">очікування завантаження</string>
   <string name="tasks_result_files_downloaded">звантаження завершене</string>
   <string name="tasks_result_compute_error">помилка обчислень</string>
-  <string name="tasks_result_files_uploading">Відправлення</string>
+  <string name="tasks_result_files_uploading">відправлення</string>
   <string name="tasks_result_files_uploaded">відправлення завершене</string>
   <string name="tasks_result_aborted">перервано</string>
   <string name="tasks_result_upload_failed">невдала спроба відправлення</string>
@@ -271,7 +271,7 @@
   <string name="trans_loading">Читання передач...</string>
   <string name="trans_upload">Відправлення</string>
   <string name="trans_download">Завантаження</string>
-  <string name="trans_retryin">повтор через</string>
+  <string name="trans_retryin">повторна спроба через</string>
   <string name="trans_failed">невдало</string>
   <string name="trans_suspended">призупинено</string>
   <string name="trans_active">активна</string>
@@ -283,7 +283,7 @@
   <string name="confirm_abort_trans_message">Перервати файл:</string>
   <string name="confirm_abort_trans_confirm">Перервати</string>
   <!--notices tab strings-->
-  <string name="notices_loading">Читальні примітки...</string>
+  <string name="notices_loading">Читання приміток...</string>
   <!--eventlog tab strings-->
   <string name="eventlog_loading">Завантаження повідомлень журналу...</string>
   <string name="eventlog_client_header">Повідомлення клієнта</string>
@@ -292,7 +292,7 @@
   <string name="eventlog_email_subject">Журнал подій для BOINC на Android:</string>
   <!--suspend reasons-->
   <string name="suspend_unknown">Обчислення призупинене.</string>
-  <string name="suspend_batteries">Підключіть свій пристрій до зарядного для продовження розрахунків.</string>
+  <string name="suspend_batteries">Підключіть свій пристрій до зарядного пристрою для продовження обчислення.</string>
   <string name="suspend_screen_on">Вимкніть екран для продовження обчислення.</string>
   <string name="suspend_useractive">Працює користувач.</string>
   <string name="suspend_tod">Закінчився час, виділений для обчислень.</string>
@@ -306,12 +306,12 @@
   <string name="suspend_network_quota">BOINC досяг межі передачі даних мережею.</string>
   <string name="suspend_os">Зупинено Android-ом.</string>
   <string name="suspend_wifi">Відсутнє підключення до WiFi.</string>
-  <string name="suspend_battery_charging">Очікування більшого рівня заряду акумулятора</string>
-  <string name="suspend_battery_charging_long">Розрахунки продовжаться, коли заряд батареї досягне</string>
+  <string name="suspend_battery_charging">Очікування більшого рівня заряду акумулятора.</string>
+  <string name="suspend_battery_charging_long">Обчислення продовжаться, коли заряд батареї досягне</string>
   <string name="suspend_battery_charging_long2"></string>
   <string name="suspend_battery_charging_current">зараз</string>
-  <string name="suspend_battery_overheating">Очікування охолодження батареї</string>
-  <string name="suspend_user_req">Поновлення розрахунків...</string>
+  <string name="suspend_battery_overheating">Очікування охолодження акумулятора</string>
+  <string name="suspend_user_req">Поновлення обчислень...</string>
   <string name="suspend_network_user_req">вручну.</string>
   <!--rpc reasons-->
   <string name="rpcreason_userreq">На вимогу користувача</string>
@@ -330,15 +330,15 @@
   <string name="menu_exit">Вийти з BOINC</string>
   <string name="menu_run_mode_disable">Призупинити</string>
   <string name="menu_run_mode_enable">Відновити</string>
-  <string name="menu_about">Про</string>
+  <string name="menu_about">Про додаток</string>
   <string name="menu_help">Довідка</string>
   <!--about dialog-->
   <string name="about_button">Повернутися</string>
-  <string name="about_title">Про</string>
+  <string name="about_title">Про додаток</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Версія</string>
   <string name="about_name_long">Відкрита інфраструктура для розподілених обчислень університету Берклі</string>
-  <string name="about_copyright">© 2003-2013 Університет Каліфорнії, Берклі.\nВсі права захищено.</string>
+  <string name="about_copyright">© 2003-2014 Університет Каліфорнії, Берклі.\nВсі права захищено.</string>
   <string name="about_copyright_reserved">Всі права захищені.</string>
   <string name="about_credits">Дякуємо Max Planck Institute for Gravitational Physics, IBM Corporation та HTC Corporation за їх підтримку.</string>
   <!--notice notification-->
@@ -348,7 +348,7 @@
   <!--e.g. 3 new notices-->
   <!--multi BOINC compitability-->
   <string name="nonexcl_dialog_header">Знайдено додаток добровільних обчислень</string>
-  <string name="nonexcl_dialog_text">Інший додаток добровільних обчислень вже працює на цїому пристрої. Тільки один додаток може працювати одночасно.</string>
+  <string name="nonexcl_dialog_text">Інший додаток добровільних обчислень вже працює на цьому пристрої. Тільки один додаток може працювати одночасно.</string>
   <string name="nonexcl_dialog_exit">Вийти</string>
   <!--social integration-->
   <string name="social_invite_button">Запросити друзів</string>

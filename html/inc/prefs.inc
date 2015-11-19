@@ -122,7 +122,7 @@ $cpu_prefs = array(
         new NUM_SPEC(tra("days of work"), 0, 10, .5)
     ),
     new PREF_NUM(
-        tra("Switch between tasks about every"),
+        tra("Switch between tasks every"),
         tra("If you run several projects, BOINC may switch between them this often."),
         "cpu_scheduling_period_minutes",
         new NUM_SPEC(tra("minutes"), 1, 9999, 60)

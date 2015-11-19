@@ -205,7 +205,7 @@ function state_string($result) {
             case RESULT_FILES_DOWNLOADED:
             case RESULT_COMPUTE_ERROR: return tra("Error while computing");
             case RESULT_FILES_UPLOADING: return tra("Error while uploading");
-            case RESULT_ABORTED: return tra("Aborted by user");
+            case RESULT_ABORTED: return tra("Aborted");
             case RESULT_UPLOAD_FAILED: return tra("Upload failed");
             }
             return tra("Error");

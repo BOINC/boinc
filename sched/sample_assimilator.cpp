@@ -45,8 +45,7 @@ int write_error(char* p) {
     return 0;
 }
 
-int assimilate_handler_init(int argc, char** argv) {
-    // handle project specific arguments here
+int assimilate_handler_init(int, char**) {
     return 0;
 }
 
@@ -91,6 +90,7 @@ int assimilate_handler(
                 "sample_results/%s_%s", wu.name, "no_output_files"
             );
             FILE* f = fopen(copy_path, "w");
+            if (!f) return ERR_FOPEN;
             fclose(f);
         }
     } else {

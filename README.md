@@ -1,22 +1,29 @@
-# Current Status
+# Status
 
-[![Build Status](https://travis-ci.org/BOINC/boinc.svg?branch=master)](https://travis-ci.org/BOINC/boinc)
-
-[![Coverity Scan Build Status](https://scan.coverity.com/projects/4226/badge.svg)](https://scan.coverity.com/projects/boinc-boinc)
+[![Build Status](https://travis-ci.org/BOINC/boinc.svg?branch=master)](https://travis-ci.org/BOINC/boinc) [![Coverity Scan Build Status](https://scan.coverity.com/projects/4226/badge.svg)](https://scan.coverity.com/projects/boinc-boinc)
 
 # BOINC
 
 Project Website: http://boinc.berkeley.edu
 
-Want to create a project?
+## Want to create a project
 See: http://boinc.berkeley.edu/trac/wiki
 
-Want to contribute?
+## Want to help translate
+See: http://boinc.berkeley.edu/trac/wiki/TranslateIntro
+
+## Want to contribute
 See: http://boinc.berkeley.edu/trac/wiki/SoftwareDevelopment
 
-# License
-Copyright (C) 2015 University of California
+### Note
 
+The University of California holds the copyright on all BOINC source code. By 
+submitting contributions to the BOINC code, you irrevocably assign all right, 
+title, and interest, including copyright and all copyright rights, in such 
+contributions to The Regents of the University of California, who may then 
+use the code for any purpose that it desires. 
+
+# License
 BOINC is free software; you can redistribute it and/or modify it
 under the terms of the GNU Lesser General Public License
 as published by the Free Software Foundation,

@@ -372,7 +372,7 @@ bool do_pass(bool retry_error) {
 
     if (xml_doc_like) {
         strcat(clause, " and xml_doc like '");
-        strcat(clause, xml_doc_like);
+        safe_strcat(clause, xml_doc_like);
         strcat(clause, "'");
     }
     sprintf(buf,
@@ -597,6 +597,7 @@ int main(int argc, char** argv) {
 
     bool retry_errors_now = !dont_retry_errors;
     double next_error_time=0;
+    // coverity[loop_top] - infinite loop is intended
     while (1) {
         bool got_any = do_pass(false);
         if (retry_errors_now) {

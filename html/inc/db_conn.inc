@@ -41,6 +41,10 @@ class DbConn {
             } else {
                 $this->db_conn = @new mysqli("p:".$host, $user, $passwd, $name, $port);
             }
+            // mysqli returns an object even if the connection is not established
+            if (mysqli_connect_error()) {
+                return false;
+            }
             global $mysqli;
             $mysqli = $this->db_conn;
         } else {
