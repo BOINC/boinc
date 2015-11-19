@@ -36,14 +36,23 @@ struct IP_RESULT {
     bool misses_deadline;
     double estimated_completion_time;
 
-    IP_RESULT() {}
+    void init() {
+        strcpy(name, "");
+        computation_deadline = 0;
+        report_deadline = 0;
+        cpu_time_remaining = 0;
+        misses_deadline = false;
+        estimated_completion_time = 0;
+    }
+    IP_RESULT() {
+        init();
+    }
     IP_RESULT(const char* n, double d, double c) {
+        init();
         safe_strcpy(name, n);
         report_deadline = d;
         computation_deadline = d;
         cpu_time_remaining = c;
-        misses_deadline = false;
-        estimated_completion_time = 0;
     }
 };
 

@@ -79,7 +79,7 @@ Both:
 
 import boinc_path_config
 from Boinc import boinc_project_path, configxml
-import sys, os, getopt, time, glob, fcntl, signal, socket, getpass
+import sys, os, getopt, time, glob, fcntl, signal, socket, getpass, shlex
 
 right_now = int(time.time())
 verbose = os.isatty(sys.stdout.fileno())
@@ -159,6 +159,13 @@ def get_task_command_basename(task):
 def get_task_output_name(task):
     return os.path.join(log_dir,
         task.__dict__.get('output') or get_task_command_basename(task) + '.out')
+
+def get_task_use_shell(task):
+    use_shell = task.__dict__.get('use_shell')
+    if use_shell and use_shell != "0":
+        return 1
+    else:
+        return 0
 
 def get_daemon_output_name(task):
     return os.path.join(log_dir,
@@ -318,17 +325,39 @@ def is_lock_file_locked(filename):
     else:
         os.unlink(filename)
 
+# if a command contains a pipe or a redirection, exec won't work
+# this detects those cases and a shell encapsulation can be used
 def contains_shell_characters(command):
-    return ('"' in command or "'" in command or
-            '\\' in command or '|' in command or
-            '>' in command)
+    for item in shlex.split(command.encode('ascii')):
+        if item == "|":
+            return True
+        if item == ">" or item == ">>" or item == "<":
+            return True
+        if item.startswith("1>") or item.startswith("2>") or item.startswith("&>"):
+            return True
+    return False
 
-def exec_command_string(command):
-    args = command.strip().split()
+# if a line ends with a \ it escapes the newline which then
+# is in front of the first argument of the next line where it needs to be cleaned
+# this enables the use of multiline shell commands within <cmd>
+def strip_leading_escapes(string):
+    if string.startswith("\n"):
+        return string[1:]
+    return string
+
+def command_string_to_list(command):
+    l = shlex.split(command.encode('ascii'))
+    return map(strip_leading_escapes, l)
+
+def exec_command_string(command, use_shell):
+    args = command_string_to_list(command)
     os.chdir(tmp_dir)
     try:
-        if contains_shell_characters(command):
-            os.execl('/bin/sh', 'sh', '-c', ' '.join(args))
+        if use_shell:
+            # sends a TERM signal to the child processes
+            # if either of INT, QUIT, HUP or TERM is received by the parent
+            command = "trap \"kill 0\" INT QUIT HUP TERM; "+command+"& wait"
+            os.execl('/bin/sh', 'sh', '-c', command)
         else:
             os.execvp( args[0], args )
         # on success we don't reach here
@@ -400,24 +429,34 @@ def run_task(task):
         if verbose:
             print >>sys.stderr, "    Task currently running! (%s)"%task.cmd
         sys.exit(0)
+    if get_task_use_shell(task):
+        print >>sys.stderr, "    Using shell encapsulation for: ",task.cmd
+    elif contains_shell_characters(task.cmd):
+        print >>sys.stderr, "    Couldn't start: ",task.cmd, " <use_shell> is required but was not specified"
+        sys.exit(1)
     redirect(get_task_output_name(task))
-    exec_command_string(task.cmd)
+    exec_command_string(task.cmd, get_task_use_shell(task))
 
 def run_daemon(task):
     '''Double-fork and exec command with stdout/err redirection and pid writing'''
     if double_fork() > 0: return
     if lock_file(get_task_lock_name(task)):
         if verbose:
-            print >>sys.stderr, "  Daemon already running:",task.cmd
+            print >>sys.stderr, "  Daemon already running: ",task.cmd
         sys.exit(0)
     if verbose or ( verbose_daemon_run and not get_daemon_silent_start(task) ):
         print "  Starting daemon:", task.cmd
         sys.stdout.flush()
+    if get_task_use_shell(task):
+        print >>sys.stderr, "  Using shell encapsulation for: ",task.cmd
+    elif contains_shell_characters(task.cmd):
+        print >>sys.stderr, "  Couldn't start: ",task.cmd, " <use_shell> is required but was not specified"
+        sys.exit(1)
     redirect(get_daemon_output_name(task))
     write_pid_file(get_daemon_pid_name(task))
     print "[%s] Executing command:"%timestamp(), task.cmd
     sys.stdout.flush()
-    exec_command_string(task.cmd)
+    exec_command_string(task.cmd, get_task_use_shell(task))
 
 def run_daemons():
     found_any = False

@@ -125,12 +125,12 @@ int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal){
     case _CRT_ERROR:
 
         if (flags & BOINC_DIAG_TRACETOSTDERR) {
-            n = fprintf(stderr, szMsg);
+            n = fprintf(stderr, "%s", szMsg);
             if (n > 0) stderr_file_size += n;
         }
 
         if (flags & BOINC_DIAG_TRACETOSTDOUT) {
-            n = fprintf(stdout, szMsg);
+            n = fprintf(stdout, "%s", szMsg);
             if (n > 0) stdout_file_size += n;
         }
 

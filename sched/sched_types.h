@@ -182,9 +182,13 @@ struct BEST_APP_VERSION {
         // get the HOST_APP_VERSION, if any
 
     BEST_APP_VERSION() {
+        appid = 0;
+        for_64b_jobs = false;
         present = false;
         cavp = NULL;
         avp = NULL;
+        reliable = false;
+        trusted = false;
     }
 };
 
@@ -338,8 +342,9 @@ struct SCHEDULER_REQUEST {
     int current_rpc_dayofyear;
     std::string client_opaque;
 
-    SCHEDULER_REQUEST(){};
+    SCHEDULER_REQUEST();
     ~SCHEDULER_REQUEST(){};
+    void clear();
     const char* parse(XML_PARSER&);
     int write(FILE*); // write request info to file: not complete
 };

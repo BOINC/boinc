@@ -30,6 +30,7 @@
 #include "filesys.h"
 #include "md5_file.h"
 #include "util.h"
+#include "str_replace.h"
 
 #include "sched_config.h"
 #include "sched_msgs.h"
@@ -143,7 +144,7 @@ int try_fopen(const char* path, FCGI_FILE*& f, const char *mode) {
     return 0;
 }
 
-void get_log_path(char* p, const char* filename) {
+int get_log_path(char* p, const char* filename) {
     char host[256];
     const char *dir;
 
@@ -153,10 +154,13 @@ void get_log_path(char* p, const char* filename) {
     dir = config.project_path("log_%s", host);
     sprintf(p, "%s/%s", dir, filename);
     mode_t old_mask = umask(0);
-    mkdir(dir, 01770);
-        // make log_x directory sticky and group-rwx
-        // so that whatever apache puts there will be owned by us
+    // make log_x directory sticky and group-rwx
+    // so that whatever apache puts there will be owned by us
+    int retval = mkdir(dir, 01770);
     umask(old_mask);
+    if (retval && errno != EEXIST) return ERR_MKDIR;
+
+    return 0;
 }
 
 static void filename_hash(const char* filename, int fanout, char* dir) {
@@ -176,13 +180,13 @@ int dir_hier_path(
     int retval;
 
     if (fanout==0) {
-        sprintf(path, "%s/%s", root, filename);
+        snprintf(path, MAXPATHLEN, "%s/%s", root, filename);
         return 0;
     }
 
     filename_hash(filename, fanout, dir);
 
-    sprintf(dirpath, "%s/%s", root, dir);
+    snprintf(dirpath, MAXPATHLEN, "%s/%s", root, dir);
     if (create) {
         retval = boinc_mkdir(dirpath);
         if (retval && (errno != EEXIST)) {
@@ -192,7 +196,7 @@ int dir_hier_path(
             return ERR_MKDIR;
         }
     }
-    sprintf(path, "%s/%s", dirpath, filename);
+    snprintf(path, MAXPATHLEN, "%s/%s", dirpath, filename);
     return 0;
 }
 
@@ -229,6 +233,7 @@ int mylockf(int fd) {
 
     // if lock failed, find out why
     errno=0;
+    // coverity[check_return]
     fcntl(fd, F_GETLK, &fl);
     if (fl.l_pid>0) return fl.l_pid;
     return -1;
@@ -237,7 +242,7 @@ int mylockf(int fd) {
 bool is_arg(const char* x, const char* y) {
     char buf[256];
     strcpy(buf, "--");
-    strcat(buf, y);
+    safe_strcat(buf, y);
     if (!strcmp(buf, x)) return true;
     if (!strcmp(buf+1, x)) return true;
     return false;

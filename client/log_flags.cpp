@@ -188,6 +188,9 @@ void CC_CONFIG::show() {
     if (dont_check_file_sizes) {
         msg_printf(NULL, MSG_INFO, "Config: don't check file sizes");
     }
+    if (dont_lower_client_priority) {
+        msg_printf(NULL, MSG_INFO, "Config: don't lower client priority");
+    }
     if (dont_suspend_nci) {
         msg_printf(NULL, MSG_INFO, "Config: don't suspend NCI tasks");
     }
@@ -346,6 +349,7 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_bool("disallow_attach", disallow_attach)) continue;
         if (xp.parse_bool("dont_check_file_sizes", dont_check_file_sizes)) continue;
         if (xp.parse_bool("dont_contact_ref_site", dont_contact_ref_site)) continue;
+        if (xp.parse_bool("dont_lower_client_priority", dont_lower_client_priority)) continue;
         if (xp.parse_bool("dont_suspend_nci", dont_suspend_nci)) continue;
         if (xp.parse_bool("dont_use_vbox", dont_use_vbox)) continue;
         if (xp.match_tag("exclude_gpu")) {

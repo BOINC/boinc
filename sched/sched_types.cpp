@@ -177,6 +177,48 @@ void WORK_REQ::add_no_work_message(const char* message) {
     no_work_messages.push_back(USER_MESSAGE(message, "notice"));
 }
 
+SCHEDULER_REQUEST::SCHEDULER_REQUEST() {
+    clear();
+}
+
+void SCHEDULER_REQUEST::clear() {
+    strcpy(authenticator, "");
+    strcpy(cross_project_id, "");
+    hostid = 0;
+    core_client_major_version = 0;
+    core_client_minor_version = 0;
+    core_client_release = 0;
+    core_client_version = 0;
+    rpc_seqno = 0;
+    work_req_seconds = 0;
+    cpu_req_secs = 0;
+    cpu_req_instances = 0;
+    resource_share_fraction = 0;
+    rrs_fraction = 0;
+    prrs_fraction = 0;
+    cpu_estimated_delay = 0;
+    duration_correction_factor = 0;
+    uptime = 0;
+    previous_uptime = 0;
+    strcpy(global_prefs_xml, "");
+    strcpy(working_global_prefs_xml, "");
+    strcpy(code_sign_key, "");
+    dont_send_work = false;
+    strcpy(client_brand, "");
+    global_prefs.defaults();
+    strcpy(global_prefs_source_email_hash, "");
+    results_truncated = false;
+    have_other_results_list = false;
+    have_ip_results_list = false;
+    have_time_stats_log = false;
+    client_cap_plan_class = false;
+    sandbox = -1;
+    allow_multiple_clients = -1;
+    using_weak_auth = false;
+    last_rpc_dayofyear = 0;
+    current_rpc_dayofyear = 0;
+}
+
 // return an error message or NULL
 //
 const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
@@ -220,7 +262,9 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
         return "xp.get_tag() failed";
     }
     if (xp.match_tag("?xml")) {
-        xp.get_tag();
+        if (xp.get_tag()) {
+            return "xp.get_tag() failed";
+        }
     }
     if (!xp.match_tag("scheduler_request")) return "no start tag";
     while (!xp.get_tag()) {
@@ -326,8 +370,12 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
             continue;
         }
         if (xp.match_tag("time_stats_log")) {
-            handle_time_stats_log(xp.f->f);
-            have_time_stats_log = true;
+            if (handle_time_stats_log(xp.f->f)) {
+                log_messages.printf(MSG_NORMAL,
+                    "SCHEDULER_REQUEST::parse(): Couldn't parse contents of <time_stats_log>. Ignoring it.");
+            } else {
+                have_time_stats_log = true;
+            }
             continue;
         }
         if (xp.match_tag("net_stats")) {

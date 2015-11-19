@@ -52,3 +52,5 @@ extern bool standalone;
     // not the upload hierarchy.
     // used by validator_test.
 #endif
+
+extern void remove_random_from_filename(const char* in, char* out);
