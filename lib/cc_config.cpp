@@ -192,6 +192,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
 }
 
 CC_CONFIG::CC_CONFIG() {
+    defaults();
 }
 
 // this is called first thing by client

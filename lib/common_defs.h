@@ -286,6 +286,22 @@ struct TIME_STATS {
     void write(MIOFILE&);
     int parse(XML_PARSER&);
     void print();
+    TIME_STATS() {
+        now = 0;
+        on_frac = 1;
+        connected_frac = 1;
+        cpu_and_network_available_frac = 1;
+        active_frac = 1;
+        gpu_active_frac = 1;
+        client_start_time = 0;
+        previous_uptime = 0;
+        session_active_duration = 0;
+        session_gpu_active_duration = 0;
+        total_start_time = 0;
+        total_duration = 0;
+        total_active_duration = 0;
+        total_gpu_active_duration = 0;
+    }
 };
 
 struct VERSION_INFO {
@@ -296,6 +312,12 @@ struct VERSION_INFO {
     int parse(MIOFILE&); 
     void write(MIOFILE&); 
     bool greater_than(VERSION_INFO&);
+    VERSION_INFO() {
+        major = 0;
+        minor = 0;
+        release = 0;
+        prerelease = true;
+    }
 };
 
 // used for Android
