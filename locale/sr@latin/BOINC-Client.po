@@ -3,159 +3,161 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Sebastiano Pistore <olatusrooc@virgilio.it>, 2015
+# zoran kajis <zkajis@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2015-11-13 09:00+0000\n"
+"PO-Revision-Date: 2015-11-18 13:55+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
-"Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
+"Language-Team: Serbian (Latin) (http://www.transifex.com/boinc/boinc/language/sr@latin/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: it_IT\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: sr@latin\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: acct_mgr.cpp:450 acct_mgr.cpp:459
 msgid "Message from account manager"
-msgstr "Messaggio dall'account manager"
+msgstr "Poruka od menadžera naloga"
 
 #: client_msgs.cpp:81
 msgid "Message from server"
-msgstr "Messaggio dal server"
+msgstr "Poruka sa servera"
 
 #: client_state.cpp:258
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
-msgstr "Alcune workunit richiedono più memoria RAM di quanta ne sia permessa dalle tue preferenze. Se vuoi eseguirle devi aumentare il limite massimo."
+msgstr "Neki zadatci traže više memorije nego što ste omogućili vašim podešavanjima. Proverite podešavanja."
 
 #: client_state.cpp:520
 msgid "Couldn't write state file; check directory permissions"
-msgstr "Impossibile scrivere il file di stato; controllare i permessi della cartella"
+msgstr "Nije moguće zapisati status fajla; proverite dozvole direktorijuma"
 
 #: cs_cmdline.cpp:303
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
-msgstr "La variabile d'ambiente HTTP_PROXY deve specificare un proxy HTTP"
+msgstr "HTTP_PROXY promenljive moraju ukazivati na HTTP proxy"
 
 #: cs_scheduler.cpp:613
 #, c-format
 msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
 "project, then add %s"
-msgstr "Stai usando l'URL sbagliato per questo progetto. Quando possibile rimuovi questo progetto, poi connettiti a %s"
+msgstr "Koristite pogrešan URL za ovaj projekat. Kad bude pogodno, uklonite ovaj projekat, zatim dodajte %s"
 
 #: cs_statefile.cpp:828 ../sched/sched_types.cpp:259
 msgid "Syntax error in app_info.xml"
-msgstr "Errore di sintassi nel file app_info.xml"
+msgstr "Sintaksa greška u app_info.xml"
 
 #: cs_statefile.cpp:868
 msgid "File referenced in app_info.xml does not exist: "
-msgstr "ll file referenziato in app_info.xml non esiste: "
+msgstr "Fajl navedeni u app_info.kml ne postoji :"
 
 #: current_version.cpp:91
 msgid "A new version of BOINC is available."
-msgstr "Una nuova versione di BOINC è disponibile."
+msgstr "Nova verzija BOINC je dostupna."
 
 #: current_version.cpp:94 current_version.cpp:102
 msgid "Download"
-msgstr "Scarica"
+msgstr "Preuzimanje"
 
 #: log_flags.cpp:269 log_flags.cpp:449
 msgid "Unexpected text in cc_config.xml"
-msgstr "Testo non leggibile presente nel file cc_config.xml"
+msgstr "Neočekivani tekst u cc_config.kml"
 
 #: log_flags.cpp:423 log_flags.cpp:475
 msgid "Unrecognized tag in cc_config.xml"
-msgstr "Tag non riconosciuto nel file cc_config.xml"
+msgstr "Unrecognized tag u cc_config.kml"
 
 #: log_flags.cpp:440
 msgid "Missing start tag in cc_config.xml"
-msgstr "Tag di apertura mancante nel file cc_config.xml"
+msgstr "Nedostaje početna oznaka u cc_config.kml"
 
 #: log_flags.cpp:465
 msgid "Error in cc_config.xml options"
-msgstr "Errore nel file cc_config.xml"
+msgstr "Greška u opcijama cc_config.kml"
 
 #: log_flags.cpp:483
 msgid "Missing end tag in cc_config.xml"
-msgstr "Tag di chiusura mancante nel file cc_config.xml"
+msgstr "Nedostaje završna oznaka u cc_config.kml"
 
 #: ../sched/handle_request.cpp:307
 msgid "Invalid or missing account key.  To fix, remove and add this project."
-msgstr "Account key sbagliata o mancante. Per risolvere il problema rimuovi il progetto e poi riconnettilo."
+msgstr "Neispravan ili nedostaje ključ račun . Da biste rešili , uklonite i dodajte ovaj projekat ."
 
 #: ../sched/handle_request.cpp:849
 msgid "Invalid code signing key.  To fix, remove and add this project."
-msgstr "Account key invalida. Per risolvere rimuovi il progetto e poi riconnettilo."
+msgstr "Neispravan ključ kod potpisivanje . Da biste rešili , uklonite i dodajte ovaj projekat ."
 
 #: ../sched/handle_request.cpp:859
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
-msgstr "Il progetto ha modificato la sua chiave di sicurezza. Per risolvere il problema rimuovi il progetto e poi riconnettilo."
+msgstr "Projekat je promenio svoj bezbednosni ključ . Molimo Vas da uklonite i dodajte ovaj projekat ."
 
 #: ../sched/handle_request.cpp:943
 msgid "This project doesn't support operating system"
-msgstr "Il progetto non supporta il sistema operativo"
+msgstr "Ovaj projekat ne podržava operativni sistem"
 
 #: ../sched/handle_request.cpp:969
 msgid "This project doesn't support CPU type"
-msgstr "Il progetto non supporta le CPU"
+msgstr "Ovaj projekat ne podržava tip procesora"
 
 #: ../sched/handle_request.cpp:993
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
-msgstr "È disponibile una nuova versione del client BOINC. Se favore installala."
+msgstr "Vaš BOINC klijent softver je previše star. Molimo vas da instalirate aktuelnu verziju ."
 
 #: ../sched/handle_request.cpp:1259
 msgid "This project doesn't support computers of type"
-msgstr "Il progetto non supporta i computer"
+msgstr "Ovaj projekat ne podržava računare tipa"
 
 #: ../sched/sched_send.cpp:1092
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
-msgstr "Aggiorna i driver della scheda video all'ultima versione per \npoter processare le workunit che utilizzano la GPU del computer"
+msgstr "Upgrade to the latest vozača da obradi zadataka korišćenjem GPU računara"
 
 #: ../sched/sched_send.cpp:1099
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
-msgstr "Aggiorna i driver della scheda video per poter eseguire le tutte le applicazioni GPU di questo progetto"
+msgstr "Upgrade to the latest vozača da koristi sve GPU aplikacija ovog projekta"
 
 #: ../sched/sched_send.cpp:1118
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
-msgstr "La versione di BOINC installata non permette l'uso della GPU Nvidia. Per risolvere il problema scarica l'ultima versione di BOINC."
+msgstr "Novija verzija BOINC je potrebno da koristite NVIDIA GPU ; nadogradite na trenutnu verziju"
 
 #: ../sched/sched_send.cpp:1146
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
-msgstr "È necessaria una GPU %s per eseguire le applicazioni di questo progetto"
+msgstr "An % s GPU potrebna za pokretanje zadataka za ovaj projekat"
 
 #: ../sched/sched_send.cpp:1262
 msgid "No tasks are available for the applications you have selected."
-msgstr "Nessuna workunit è disponibile per le applicazioni selezionate."
+msgstr "No zadaci su dostupni za aplikacije koje ste izabrali ."
 
 #: ../sched/sched_send.cpp:1288
 msgid "Your computer type is not supported by this project"
-msgstr "Il tuo tipo di computer non è supportato da questo progetto"
+msgstr "Vaš tip računar ne podržava ovaj projekat"
 
 #: ../sched/sched_send.cpp:1294
 msgid "Newer BOINC version required; please install current version"
-msgstr "È richiesta una versione di BOINC più recente; per favore installa l'ultima versione"
+msgstr "Novije BOINC verzija potrebno ; instalirajte aktuelnu verziju"
 
 #: ../sched/sched_send.cpp:1305
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
-msgstr "Sono disponibili delle workunit per %s, ma le tue preferenze sono impostate per non accettarle"
+msgstr "Zadaci za % s su dostupni , ali podešavanjima su postavljeni da ih ne prihvataju"
 
 #: ../sched/sched_types.cpp:254
 msgid "Unknown app name in app_info.xml"
-msgstr "App name sconosciuto nel file app_info.xml"
+msgstr "Nepoznato ime aplikacija u app_info.kml"
 
 #: ../sched/sched_version.cpp:214
 msgid "Your app_info.xml file doesn't have a usable version of"
-msgstr "Il file app_info.xml non ha una versione utilizzabile di"
+msgstr "Vaš app_info.kml fajl nema korisne verziju"

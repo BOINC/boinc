@@ -277,7 +277,7 @@ function boincuser_create_drupal_profile($account, $boinc_user) {
   node_save($profile_node);
   
   // Mark profile as approved if it has already been vetted somehow
-  if ($profile_approved) {
+  if ($profile_approved OR !$boinc_user->has_profile) {
     $profile_node->moderate = 0;
     node_save($profile_node);
   }

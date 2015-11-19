@@ -247,18 +247,6 @@ int main(int argc, char** argv) {
     boinc_finish(0);
 }
 
-#ifdef _WIN32
-int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode) {
-    LPSTR command_line;
-    char* argv[100];
-    int argc;
-	
-    command_line = GetCommandLine();
-    argc = parse_command_line( command_line, argv );
-    return main(argc, argv);
-}
-#endif
-
 /*** BOINC FUNCTION DEFINITIONS ***/
 
 /* Do a billion floating-point ops */

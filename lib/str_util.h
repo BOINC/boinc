@@ -102,4 +102,6 @@ extern void strip_translation(char* p);
 
 extern std::vector<std::string> split(std::string, char delim);
 
+extern bool is_valid_filename(const char*);
+
 #endif

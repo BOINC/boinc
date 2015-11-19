@@ -60,6 +60,10 @@ using std::vector;
 
 RPC_CLIENT::RPC_CLIENT() {
     sock = -1;
+    start_time = 0;
+    timeout = 0;
+    retry = 0;
+    memset(&addr, 0, sizeof(addr));
 }
 
 RPC_CLIENT::~RPC_CLIENT() {
@@ -200,7 +204,10 @@ int RPC_CLIENT::init_poll() {
     BOINCTRACE("init_poll(): sock = %d\n", sock);
 
     tv.tv_sec = tv.tv_usec = 0;
-    select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &tv);
+    if (-1 == select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &tv)) {
+        BOINCTRACE("init_poll(): select(): %s (%d)\n", strerror(errno), errno);
+        return ERR_SELECT;
+    }
     retval = 0;
     if (FD_ISSET(sock, &error_fds)) {
         retval =  ERR_CONNECT;

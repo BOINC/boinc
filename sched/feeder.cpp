@@ -414,8 +414,12 @@ static void update_job_stats() {
         sum += e;
         sum_sqr += e*e;
     }
-    double mean = sum/n;
-    double stdev = sqrt((sum_sqr - sum*mean)/n);
+    double mean = 0;
+    double stdev = 1;
+    if (n != 0) {
+        mean = sum/n;
+        stdev = sqrt((sum_sqr - sum*mean)/n);
+    }
     for (i=0; i<ssp->max_wu_results; i++) {
         WU_RESULT& wu_result = ssp->wu_results[i];
         if (wu_result.state != WR_STATE_PRESENT) continue;
@@ -556,10 +560,7 @@ void feeder_loop() {
     
     // may need one enumeration per app; create vector
     //
-    for (int i=0; i<napps; i++) {
-        DB_WORK_ITEM* wi = new DB_WORK_ITEM();
-        work_items.push_back(*wi);
-    }
+    work_items.resize(napps);
 
     while (1) {
         bool action;
@@ -774,7 +775,7 @@ int main(int argc, char** argv) {
                 exit(1);
             }
             strcat(mod_select_clause, " and workunit.appid in (");
-            strcat(mod_select_clause, argv[i]);
+            safe_strcat(mod_select_clause, argv[i]);
             strcat(mod_select_clause, ")");
         } else if (is_arg(argv[i], "mod")) {
             if (!argv[i+1] || !argv[i+2]) {

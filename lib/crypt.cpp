@@ -196,7 +196,8 @@ int scan_key_hex(FILE* f, KEY* key, int size) {
     char *p, buf[256];
     int j = 0, b;
     fgets(buf, 256, f);
-    sscanf(buf, "%d", &num_bits);
+    int fs = sscanf(buf, "%d", &num_bits);
+    if (fs != 1) return ERR_NULL;
     key->bits = num_bits;
     len = size - sizeof(key->bits);
     while (1) {
@@ -205,6 +206,7 @@ int scan_key_hex(FILE* f, KEY* key, int size) {
         n = (strlen(p)-1)/2;
         if (n == 0) break;
         for (i=0; i<n; i++) {
+            // coverity[check_return]
             sscanf(buf+i*2, "%2x", &b);
             if (j == len) break;
             key->data[j++] = b;
@@ -217,6 +219,7 @@ int scan_key_hex(FILE* f, KEY* key, int size) {
     key->bits = num_bits;
     len = size - sizeof(key->bits);
     for (i=0; i<len; i++) {
+        // coverity[check_return]
         fscanf(f, "%2x", &n);
         key->data[i] = n;
     }

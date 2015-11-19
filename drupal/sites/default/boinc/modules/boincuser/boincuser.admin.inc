@@ -92,7 +92,6 @@ function boincuser_admin_environment(&$form_state) {
     '#title' => t('BOINC config.xml directory'),
     '#default_value' => $default['boinc_config_xml_dir'],
     '#description' => t('The filesystem path that contains config.xml'),
-    '#disabled' => is_readable("{$default['boinc_config_xml_dir']}/config.xml")
   );
   $form['overrides']['boinc_html_inc_dir'] = array(
     '#type' => 'textfield',
@@ -100,7 +99,6 @@ function boincuser_admin_environment(&$form_state) {
     '#default_value' => $default['boinc_html_inc_dir'],
     '#description' => t('The filesystem path to the html/inc/ directory that
       contains util.inc'),
-    '#disabled' => is_readable("{$default['boinc_html_inc_dir']}/util.inc")
   );
   $form['overrides']['boinc_project_config_dir'] = array(
     '#type' => 'textfield',
@@ -108,14 +106,12 @@ function boincuser_admin_environment(&$form_state) {
     '#default_value' => $default['boinc_project_config_dir'],
     '#description' => t('The filesystem path to the project/ directory that
       contains project.inc'),
-    '#disabled' => is_readable("{$default['boinc_project_config_dir']}/project.inc")
   );
   $form['overrides']['boinc_user_image_dir'] = array(
     '#type' => 'textfield',
     '#title' => t('BOINC user profile image directory'),
     '#default_value' => $default['boinc_user_image_dir'],
     '#description' => t('The filesystem directory that contains user images'),
-    '#disabled' => is_dir($default['boinc_user_image_dir'])
   );
   $form['boinc_server_status_url'] = array(
     '#type' => 'textfield',
