@@ -170,7 +170,8 @@ namespace FloppyIONS {
         virtual const char* what() const throw() {
             static std::ostringstream oss (std::ostringstream::out);
             oss << this->message << ". Error code = " << this->code;
-            return oss.str().c_str();
+            std::string tmp = oss.str();
+            return tmp.c_str();
         }
 
         // Change the message and return my instance

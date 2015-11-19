@@ -1013,7 +1013,9 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
             selData = new TaskSelectionData;
             selData->result = result;
             strncpy(selData->result_name, result->name, sizeof(selData->result_name));
+            selData->result_name[sizeof(selData->result_name)-1] = '\0';
             strncpy(selData->project_url, result->project_url, sizeof(selData->project_url));
+            selData->project_url[sizeof(selData->project_url)-1] = '\0';
             selData->dotColor = -1;
             FindSlideShowFiles(selData);
             project = pDoc->state.lookup_project(result->project_url);

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -39,7 +39,9 @@ BEGIN_EVENT_TABLE(MyEvtLogEvtHandler, wxEvtHandler)
     EVT_PAINT(MyEvtLogEvtHandler::OnPaint)
 END_EVENT_TABLE()
 
-MyEvtLogEvtHandler::MyEvtLogEvtHandler() {}
+MyEvtLogEvtHandler::MyEvtLogEvtHandler() {
+    m_view_startX = 0;
+}
 
 MyEvtLogEvtHandler::MyEvtLogEvtHandler(wxGenericListCtrl *theListControl) {
     m_listCtrl = theListControl;
@@ -89,6 +91,11 @@ CDlgEventLogListCtrl::CDlgEventLogListCtrl(CDlgEventLog* pView, wxWindowID iList
 
     m_bIsSingleSelection = (iListWindowFlags & wxLC_SINGLE_SEL) ? true : false ;
     
+#ifdef __WXGTK__
+    savedHandler = GetMainWin()->GetEventHandler();
+    GetMainWin()->PushEventHandler(new MyEvtLogEvtHandler(this));
+#endif
+
 #ifdef __WXMAC__
     m_fauxHeaderView = NULL;
     m_fauxBodyView = NULL;
@@ -97,12 +104,16 @@ CDlgEventLogListCtrl::CDlgEventLogListCtrl(CDlgEventLog* pView, wxWindowID iList
 }
 
 
-#ifdef __WXMAC__
 CDlgEventLogListCtrl::~CDlgEventLogListCtrl()
 {
-    RemoveMacAccessibilitySupport();
-}
+#ifdef __WXGTK__
+    GetMainWin()->PopEventHandler(true);
 #endif
+
+#ifdef __WXMAC__
+    RemoveMacAccessibilitySupport();
+#endif
+}
 
 
 wxString CDlgEventLogListCtrl::OnGetItemText(long item, long column) const {

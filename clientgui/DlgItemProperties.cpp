@@ -313,7 +313,7 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
     
     if (!project->non_cpu_intensive) {
         addSection(_("Scheduling"));
-        addProperty(_("Scheduling priority"), wxString::Format(wxT("%0.2f"), project->sched_priority));
+        addProperty(_("Scheduling priority"), format_number(project->sched_priority, 2));
         show_rsc(_("CPU"), project->rsc_desc_cpu);
         if (pDoc->state.host_info.coprocs.have_nvidia()) {
             show_rsc(
@@ -393,7 +393,7 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
             addProperty(_("Elapsed time"), FormatTime(result->elapsed_time));
         }
         addProperty(_("Estimated time remaining"), FormatTime(result->estimated_cpu_time_remaining));
-        addProperty(_("Fraction done"), wxString::Format(wxT("%.3f %%"), result->fraction_done*100));
+        addProperty(_("Fraction done"), wxString::Format(wxT("%.3f%%"), result->fraction_done*100));
         addProperty(_("Virtual memory size"), FormatDiskSpace(result->swap_size));
         addProperty(_("Working set size"), FormatDiskSpace(result->working_set_size_smoothed));
         if (result->slot >= 0) {
@@ -406,11 +406,11 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
             // express rate in the largest time unit (hr/min/sec) for which rate < 100%
             //
             if (result->progress_rate*3600 < 1) {
-                addProperty(_("Progress rate"), wxString::Format(wxT("%f %% %s"), 100*3600*result->progress_rate, _("per hour")));
+                addProperty(_("Progress rate"), wxString::Format(wxT("%.3f%% %s"), 100*3600*result->progress_rate, _("per hour")));
             } else if (result->progress_rate*60 < 1) {
-                addProperty(_("Progress rate"), wxString::Format(wxT("%f %% %s"), 100*60*result->progress_rate, _("per minute")));
+                addProperty(_("Progress rate"), wxString::Format(wxT("%.3f%% %s"), 100*60*result->progress_rate, _("per minute")));
             } else {
-                addProperty(_("Progress rate"), wxString::Format(wxT("%f %% %s"), 100*result->progress_rate, _("per second")));
+                addProperty(_("Progress rate"), wxString::Format(wxT("%.3f%% %s"), 100*result->progress_rate, _("per second")));
             }
         }
     } else if (result->state >= RESULT_COMPUTE_ERROR) {

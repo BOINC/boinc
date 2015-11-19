@@ -25,16 +25,18 @@ require_once("../inc/text_transform.inc");
 
 define('THREADS_PER_PAGE', 50);
 
-// sorting styles
+// sorting styles (for both threads and posts)
+//
 define('MODIFIED_NEW', 1);
-define('MODIFIED_OLD',2);
-define('VIEWS_MOST',3);
-define('REPLIES_MOST',4);
-define('CREATE_TIME_NEW',5);
-define('CREATE_TIME_OLD',6);
-define('POST_SCORE',7);
+define('MODIFIED_OLD', 2);
+define('VIEWS_MOST', 3);
+define('REPLIES_MOST', 4);
+define('CREATE_TIME_NEW', 5);
+define('CREATE_TIME_OLD', 6);
+define('POST_SCORE', 7);
 
 // names for the above
+//
 $thread_sort_styles[CREATE_TIME_OLD] = tra("Oldest first");
 $thread_sort_styles[CREATE_TIME_NEW] = tra("Newest first");
 $thread_sort_styles[POST_SCORE] = tra("Highest rated posts first");
@@ -836,7 +838,7 @@ function create_post($content, $parent_id, $user, $forum, $thread, $signature) {
     $content = BoincDb::escape_string($content);
     $now = time();
     $sig = $signature?1:0;
-    $id = BoincPost::insert("(thread, user, timestamp, content, modified, parent_post, score, votes, signature, hidden) values ($thread->id, $user->id, $now, '$content', $now, $parent_id, 0, 0, $sig, 0)");
+    $id = BoincPost::insert("(thread, user, timestamp, content, modified, parent_post, score, votes, signature, hidden) values ($thread->id, $user->id, $now, '$content', 0, $parent_id, 0, 0, $sig, 0)");
     if (!$id) return null;
 
     notify_subscribers($thread, $user);

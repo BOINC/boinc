@@ -42,7 +42,8 @@
 
 using std::string;
 
-APP_INIT_DATA::APP_INIT_DATA() : project_preferences(NULL) {
+APP_INIT_DATA::APP_INIT_DATA() {
+    clear();
 }
 
 APP_INIT_DATA::~APP_INIT_DATA() {
@@ -477,6 +478,7 @@ int boinc_resolve_filename(
     // If it's the <soft_link> XML tag, return its value,
     // otherwise, return the original file name
     //
+    // coverity[check_return]
     if (p) parse_str(buf, "<soft_link>", physical_name, len);
     return 0;
 }
@@ -498,6 +500,7 @@ int boinc_resolve_filename_s(const char *virtual_name, string& physical_name) {
     buf[0] = 0;
     p = fgets(buf, 512, fp);
     fclose(fp);
+    // coverity[check_return]
     if (p) parse_str(buf, "<soft_link>", physical_name);
     return 0;
 }

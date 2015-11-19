@@ -94,9 +94,9 @@
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">vboxwrapper_26151_windows_x86_64</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vboxwrapper_26175_windows_x86_64</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vboxwrapper_26178_windows_x86_64</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">vboxwrapper_26151_windows_intelx86</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vboxwrapper_26175_windows_intelx86</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vboxwrapper_26178_windows_intelx86</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Midl>
@@ -144,7 +144,7 @@
       <DelayLoadDLLs>%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalLibraryDirectories>$(TargetDir)</AdditionalLibraryDirectories>
     </Link>
@@ -196,7 +196,7 @@
       <DelayLoadDLLs>%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
       <AdditionalLibraryDirectories>$(TargetDir)</AdditionalLibraryDirectories>
     </Link>
@@ -244,7 +244,7 @@
       <DelayLoadDLLs>%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalLibraryDirectories>$(TargetDir)</AdditionalLibraryDirectories>
     </Link>
@@ -292,7 +292,7 @@
       <DelayLoadDLLs>%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
       <AdditionalLibraryDirectories>$(TargetDir)</AdditionalLibraryDirectories>
     </Link>

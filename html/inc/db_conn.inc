@@ -24,8 +24,9 @@ require_once("../inc/db.inc");
 class DbConn {
     var $db_conn;
     var $db_name;
+    var $readonly;
 
-    function init_conn($user, $passwd, $host, $name) {
+    function init_conn($user, $passwd, $host, $name, $readonly) {
         if (MYSQLI) {
             $x = explode(":", $host);
             if (sizeof($x)>1) {
@@ -40,6 +41,10 @@ class DbConn {
             } else {
                 $this->db_conn = @new mysqli("p:".$host, $user, $passwd, $name, $port);
             }
+            // mysqli returns an object even if the connection is not established
+            if (mysqli_connect_error()) {
+                return false;
+            }
             global $mysqli;
             $mysqli = $this->db_conn;
         } else {
@@ -49,6 +54,7 @@ class DbConn {
             return false;
         }
         $this->db_name = $name;
+        $this->readonly = $readonly;
         return true;
     }
 

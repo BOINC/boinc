@@ -7,14 +7,15 @@
 # 
 # Translators:
 # Dan <mutari.dirk@gmail.com>, 2015
+# Malyanov Evgeniy <flange465@gmail.com>, 2015
 # Nikolay Sakharov <saharovna@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2015-09-30 07:28+0000\n"
-"Last-Translator: Nikolay Sakharov <saharovna@gmail.com>\n"
+"PO-Revision-Date: 2015-11-08 22:54+0000\n"
+"Last-Translator: Malyanov Evgeniy <flange465@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/boinc/boinc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -665,7 +666,7 @@ msgstr "IP-адрес"
 
 #: ../inc/host.inc:88
 msgid "(same the last %1 times)"
-msgstr "(такой же последние %1 раз)"
+msgstr "(такие же в последние %1 время)"
 
 #: ../inc/host.inc:90
 msgid "External IP address"

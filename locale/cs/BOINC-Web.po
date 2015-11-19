@@ -6,16 +6,17 @@
 # FileID  : $Id$
 # 
 # Translators:
+# Martin Suchan <martin.suchan@outlook.com>, 2015
 # Pavel <xxxq@seznam.cz>, 2015
-# petnek <petr.nekvinda@gmail.com>, 2015
+# Petr Nekvinda <petr.nekvinda@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2015-02-25 15:40+0000\n"
-"Last-Translator: petnek <petr.nekvinda@gmail.com>\n"
-"Language-Team: Czech (http://www.transifex.com/projects/p/boinc/language/cs/)\n"
+"POT-Creation-Date: 2015-07-09 18:59 PDT\n"
+"PO-Revision-Date: 2015-10-13 16:56+0000\n"
+"Last-Translator: Martin Suchan <martin.suchan@outlook.com>\n"
+"Language-Team: Czech (http://www.transifex.com/boinc/boinc/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -36,89 +37,90 @@ msgstr "Vrátit se na hlavní stránku BOINC"
 msgid "This page is %stranslatable%s."
 msgstr "Tato stránka je %spřeložitelná%s."
 
-#: download.php:39
+#: download.php:42
 msgid ""
 "We recommend that you also install VirtualBox, so your computer can work on "
 "science projects that require it."
 msgstr "Doporučujeme nainstalovat současně i VirtualBox, aby mohl Váš počítač pracovat na projektech, které jej vyžadují."
 
-#: download.php:41
+#: download.php:44
 msgid "Learn more about VirtualBox."
 msgstr "Chci se dozvědět více o VirtualBoxu."
 
-#: download.php:51
+#: download.php:52
 msgid "Download BOINC + VirtualBox"
 msgstr "Stáhnout BOINC + VirtualBox"
 
-#: download.php:54 download.php:69
+#. "for %s" identifies the operating system, e.g. "for Windows"
+#: download.php:56 download.php:71
 #, php-format
 msgid "for %s"
 msgstr "pro %s"
 
-#: download.php:57 download.php:72
+#: download.php:59 download.php:74
 #, php-format
-msgid "BOINC version %s"
-msgstr "BOINC verze %s"
+msgid "BOINC %s"
+msgstr "BOINC %s"
 
-#: download.php:59
+#: download.php:61
 #, php-format
-msgid "VirtualBox version %s"
-msgstr "VirtualBox verze %s"
+msgid "VirtualBox %s"
+msgstr "VirtualBox %s"
 
-#: download.php:67
+#: download.php:69
 msgid "Download BOINC"
 msgstr "Stáhnout BOINC"
 
-#: download.php:123
+#: download.php:133
 msgid ""
 "BOINC is a program that lets you donate your idle computer time to science "
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
 "Community Grid, and many others."
 msgstr "BOINC je program, který Vám umožní věnovat volný výpočetní čas Vašeho počítače vědeckým projektům jako SETI@home, Climateprediction.net, Rosetta@home, World Community Grid a mnoha dalším."
 
-#: download.php:125
+#: download.php:135
 msgid ""
 "After installing BOINC on your computer, you can connect it to as many of "
 "these projects as you like."
 msgstr "Po instalaci BOINCu do Vašeho počítače se můžete zapojit do tolika projektů, kolik budete chtít."
 
-#: download.php:127
+#: download.php:137
 msgid ""
 "You may run this software on a computer only if you own the computer or have"
 " the permission of its owner."
 msgstr "Používejte prosím tento software pouze na počítačích, jejichž jste vlastníkem, nebo máte-li svolení jejich majitele."
 
-#: download.php:132
+#: download.php:142
 msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
 msgstr "Doporučujeme Vám stáhnout BOINC z Google Play Store nebo Amazon Appstore, ne odsud."
 
-#: download.php:167
+#: download.php:177
 msgid "System requirements"
 msgstr "Systémové požadavky"
 
-#: download.php:168
+#: download.php:178
 msgid "Release notes"
 msgstr "Poznámky k vydání"
 
-#: download.php:169 index.php:86
+#: download.php:179 index.php:93
 msgid "Help"
 msgstr "Nápověda"
 
-#: download.php:170
+#: download.php:180
 msgid "All versions"
 msgstr "Všechny verze"
 
-#: download.php:171
+#: download.php:181
 msgid "Version history"
 msgstr "Historie verzí"
 
-#: download.php:172
+#: download.php:182
 msgid "GPU computing"
 msgstr "GPU výpočty"
 
-#: download.php:190
+#: download.php:200
 msgid "BOINC: compute for science"
 msgstr "BOINC: počítejte pro vědu"
 
@@ -172,13 +174,13 @@ msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
 msgstr "Pokud jste již dobrovolným pomocníkem: k úpravě svého nastavení %sklikněte zde%s."
 
-#: help_funcs.php:107
+#: help_funcs.php:136
 msgid ""
 "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
 "or the University of California."
 msgstr "BOINC pomocníci jsou neplacení dobrovolníci, jejichž činnost není zastřešována Kalifornskou univerzitou v Berkeley."
 
-#: help_funcs.php:110
+#: help_funcs.php:139
 msgid "%1Never%2 give email address or password information to BOINC helpers."
 msgstr "BOINC pomocníkům %1nikdy%2 nedávejte svojí emailovou adresu či heslo."
 
@@ -196,7 +198,7 @@ msgstr "Statistiky"
 
 #: index.php:55
 msgid "Active:"
-msgstr "Aktivní:"
+msgstr "Aktivních:"
 
 #: index.php:55
 msgid "volunteers,"
@@ -218,204 +220,163 @@ msgstr "PetaFLOPů."
 msgid "News"
 msgstr "Novinky"
 
-#: index.php:83
+#. "Volunteer" is used as a verb
+#: index.php:89
 msgid "Volunteer"
 msgstr "Staňte se dobrovolníkem"
 
-#: index.php:85
+#: index.php:92
 msgid "Download"
 msgstr "Ke stažení"
 
-#: index.php:87 index.php:120 index.php:171
+#: index.php:94 index.php:138
 msgid "Documentation"
 msgstr "Dokumentace"
 
-#: index.php:88
+#: index.php:95
 msgid "Add-ons"
 msgstr "Doplňky"
 
-#: index.php:89
+#: index.php:96
 msgid "Links"
 msgstr "Odkazy"
 
-#: index.php:94
+#: index.php:101
 msgid ""
 "Use the idle time on your computer (Windows, Mac, Linux, or Android) to cure"
 " diseases, study global warming, discover pulsars, and do many other types "
 "of scientific research.  It's safe, secure, and easy:"
 msgstr "Využijte volný čas Vašeho počítače (Windows, Mac, Linux nebo Android) k léčbě nemocí, studiu globálního oteplování, objevování pulsarů a mnoha dalším typům vědeckého výzkumu. Je to bezpečné a snadné:"
 
-#: index.php:96
+#: index.php:103
 msgid "Choose projects"
 msgstr "Vyberte si projekty"
 
-#: index.php:97
+#: index.php:104
 msgid "Download BOINC software"
 msgstr "Stáhněte si BOINC"
 
-#: index.php:98
+#: index.php:105
 msgid "Enter an email address and password."
 msgstr "Zadejte emailovou adresu a heslo."
 
-#: index.php:102
+#: index.php:109
 #, php-format
 msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as "
 "%sGridRepublic%s or %sBAM!%s. "
 msgstr "Případně, pokud jste zapojeni do více projektů současně, vyzkoušejte některého ze %ssprávce účtů%s, jako jsou %sGridRepublic%s nebo %sBAM!%s."
 
-#: index.php:118
+#: index.php:136
 msgid "Compute with BOINC"
 msgstr "Počítejte s programem BOINC"
 
-#: index.php:121
+#: index.php:139
 msgid "Software updates"
 msgstr "Aktualizace softwaru"
 
-#: index.php:128
+#: index.php:146
 msgid ""
-"%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving"
-" you the computing power of thousands of CPUs."
-msgstr "%1Vědci%2: využijte BOINC k vytvoření %3dobrovolnického výpočetního projektu%4, který vám umožní využít výpočetní sílu tísíce procesorů."
+"%1Scientists%2: use BOINC to create a %3volunteer computing project%4, "
+"giving you the power of thousands of CPUs and GPUs."
+msgstr "%1Vědci%2: využijte BOINC k vytvoření %3dobrovolnického výpočetního projektu%4, který vám umožní využít výpočetní sílu tísíců procesorů a GPU."
 
-#: index.php:132
+#: index.php:150
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
 msgstr "%1Univerzity%2: využijte BOINC k vytvoření %3virtuálního univerzitního superpočítače%4."
 
-#: index.php:137
+#: index.php:155
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
 msgstr "%1Společnosti%2: využijte BOINC pro %3desktopový Grid computing%4."
 
-#: index.php:149
-msgid "The BOINC project"
-msgstr "Projekt BOINC"
+#: index.php:167
+msgid "About BOINC"
+msgstr "O projektu BOINC"
 
-#: index.php:155
+#: index.php:181
 msgid "Message boards"
 msgstr "Diskuzní fóra"
 
-#: index.php:156
+#: index.php:182
 msgid "Email lists"
 msgstr "Emailové konference"
 
-#: index.php:157
-msgid "Personnel and contributors"
-msgstr "Pracovníci a přispěvatelé"
-
-#: index.php:158
+#: index.php:183
 msgid "Events"
 msgstr "Události"
 
-#: index.php:159
-msgid "Papers and talks"
-msgstr "Dokumenty a přednášky"
+#: index.php:184
+msgid "Source code"
+msgstr "Zdrojový kód"
 
-#: index.php:160
-msgid "Research projects"
-msgstr "Výzkumné projekty"
-
-#: index.php:161
-msgid "Logos and graphics"
-msgstr "Loga a grafika"
-
-#: index.php:162
-msgid "and"
-msgstr "a"
-
-#: index.php:166
-msgid "Help wanted"
-msgstr "Uvítáme pomoc"
-
-#: index.php:168
-msgid "Programming"
-msgstr "Programování"
-
-#: index.php:169
-msgid "Translation"
-msgstr "Překlad"
-
-#: index.php:170
-msgid "Testing"
-msgstr "Testování"
-
-#: index.php:172
-msgid "Publicity"
-msgstr "Propagace"
-
-#: index.php:174
-msgid "Software development"
-msgstr "Vývoj softwaru"
-
-#: index.php:175
+#: index.php:186
 msgid "APIs for add-on software"
 msgstr "API pro doplňkový software"
 
-#: index.php:217
-#, php-format
-msgid ""
-"Open-source software for %svolunteer computing%s and %sgrid computing%s."
-msgstr "Open-source software pro %sdobrovolnické počítání%s a %sgrid computing%s."
+#: index.php:231
+msgid "Open-source software for volunteer computing"
+msgstr "Open-source software pro dobrovolnické počítání"
 
-#: index.php:230
-msgid "BOINC is based at The University of California, Berkeley"
-msgstr "BOINC má sídlo v The University of California, Berkeley"
-
-#: projects.inc:14
+#: projects.inc:19
 msgid "Distributed sensing"
 msgstr "Distribuovaný průzkum"
 
-#: projects.inc:19
+#: projects.inc:24
 msgid "Stanford University"
 msgstr "Stanfordská univerzita"
 
-#: projects.inc:20
+#: projects.inc:25
 msgid "Seismology"
 msgstr "Seismologie"
 
-#: projects.inc:21
+#: projects.inc:26
 msgid ""
-"The Quake-Catcher Network is developing the world's largest seismic network "
-"using sensors attached to Internet-connected computers.  You must buy a "
-"sensor to participate."
-msgstr "\"The Quake-Catcher Network\" vyvíjí světově nejrozsáhlejší seismickou síť za pomocí senzorů připojených k počítačům na Internetu. Pro připojení do tohoto projektu je třeba vlastnit senzor."
+"Quake-Catcher Network is developing the world's largest seismic network "
+"using sensors attached to computers and smartphones."
+msgstr "\"Quake-Catcher Network\" vyvíjí světově nejrozsáhlejší seismickou síť za pomocí senzorů připojených k počítačům a smartphonům."
 
-#: projects.inc:27
+#: projects.inc:34
 msgid "BOINC Poland Foundation"
 msgstr "Polská nadace BOINC"
 
-#: projects.inc:28
+#: projects.inc:35
 msgid "Environmental research"
 msgstr "Výzkum životního prostředí"
 
-#: projects.inc:29
+#: projects.inc:36
 msgid ""
-"This project is creating a free and continuously updated map of radiation "
-"levels by using sensors connected to volunteers' computers.  You must buy a "
-"sensor to participate."
-msgstr "Tento projekt vytváří volně přístupnou a pravidelně aktualizovanou mapu radiace pomocí sensorů připojených k počítačům na Internetu. Pro připojení k projektu je nutné vlastnit senzor."
+"Radioactive@Home is creating a free and continuously updated map of "
+"radiation levels using sensors connected to volunteers' computers.  You must"
+" buy a sensor to participate."
+msgstr "Radioactive@Home vytváří volně přístupnou a pravidelně aktualizovanou mapu radiace pomocí sensorů připojených k počítačům na Internetu. Pro připojení k projektu je nutné vlastnit senzor."
 
-#: projects.inc:33
-msgid ""
-"To participate in these projects you must buy a sensor and attach it to your"
-" computer."
-msgstr "Pro připojení k těmto projektům je třeba vlastnit senzor a mít ho připojený k počítači."
-
-#: projects.inc:37
+#: projects.inc:45
 msgid "Cognitive science and artifical intelligence"
 msgstr "Kognitivní vědy a umělá inteligence"
 
-#: projects.inc:60 projects.inc:364 projects.inc:408 projects.inc:457
-#: projects.inc:464 projects.inc:511
+#: projects.inc:51
+msgid "Cognitive Science"
+msgstr "Kognitivní věda"
+
+#: projects.inc:52
+msgid ""
+"MindModeling@Home uses computational cognitive process modeling to better "
+"understand the human mind, and specifically to study the mechanisms and "
+"processes that enable and moderate human performance and learning."
+msgstr "MindModeling@Home využívá výpočetní modelování kognitivních procesů pro lepší pochopení lidské mysli, specificky ke studiu mechanismů a procesů, které umožňují a ovládají lidské projevy a učení."
+
+#: projects.inc:70 projects.inc:467 projects.inc:591 projects.inc:601
+#: projects.inc:657
 msgid "Private"
 msgstr "Soukromý"
 
-#: projects.inc:61
+#: projects.inc:71
 msgid "Artificial intelligence"
 msgstr "Umělá inteligence"
 
-#: projects.inc:62
+#: projects.inc:72
 msgid ""
 "Parse and convert semantic nets for use in FreeHAL, an artificial "
 "intelligence that uses semantic networks, stemmers, part of speech "
@@ -423,36 +384,55 @@ msgid ""
 "conversations."
 msgstr "Parsování a konverze sémantických sítí pro využití ve FreeHAL, umělé inteligenci využívající sémantické sítě, čističe, části hlasových databází a hlasových označovačů s cílem napodobit lidské chování při konverzaci."
 
-#: projects.inc:69
+#: projects.inc:82
 msgid "Biology and Medicine"
 msgstr "Biologie a medicína"
 
-#: projects.inc:82
+#: projects.inc:88
+msgid "Medical physiology"
+msgstr "Lékařská fyziologie"
+
+#: projects.inc:89
+msgid ""
+"DENIS@Home does cardiac electrophysiological simulations, studying the "
+"electrical activity of the heart."
+msgstr "DENIS@Home provádí srdeční elektrofyziologické simulace, které studují elektrickou aktivitu v srdci."
+
+#: projects.inc:98
+msgid "Molecular biology"
+msgstr "Molekulární biologie"
+
+#: projects.inc:99
+msgid ""
+"RNA World seeks to identify, analyze, structurally predict and design RNA "
+"molecules on the basis of established bioinformatics software."
+msgstr "RNA World se pokouší identifikovat, analyzovat a strukturálně předvídat a navrhovat RNA molekuly pomocí bioinformatického software."
+
+#: projects.inc:107
 msgid "University College Dublin"
 msgstr "Univerzita v Dublinu"
 
-#: projects.inc:83
+#: projects.inc:108
 msgid "Antimalarial drug discovery"
 msgstr "Výzkum léků proti malárii"
 
-#: projects.inc:84
+#: projects.inc:109
 msgid ""
 "The parasite that causes malaria continues to evolve resistance to available"
-" medication. We therefore urgently need to discover new drugs to replace "
-"existing drugs. Importantly, these new drugs need to target NEW proteins in "
-"the parasite. The FightMalaria@Home project is aimed at finding these new "
-"targets."
-msgstr "Paraziti, kteří způsobují malárii, se stávají stále odolnějsí proti dostupným lékům. Je proto třeba stále hledat nové léky, kterými bude možné nahradit ty stávající. Je také důležité, aby tyto nové léky byly zaměřeny zejména na nové proteiny v těle parazita. Projekt FightMalaria@Home si dává za cíl najít tyto nové léky proti malárii."
+" medication. We therefore urgently need to discover new drugs, targeting new"
+" proteins in the parasite. The FightNeglectedDiseases@Home project is aimed "
+"at finding these new targets."
+msgstr "Paraziti, kteří způsobují malárii, se stávají stále odolnějsí proti dostupným lékům. Je proto třeba stále hledat nové léky, které budou zaměřené zejména na nové proteiny v těle parazita. Projekt FightNeglectedDiseases@Home si dává za cíl najít tyto nové léky proti malárii."
 
-#: projects.inc:90
+#: projects.inc:117
 msgid "University of Karlsruhe (Germany)"
 msgstr "Univerzita v Karlsruhe (Německo)"
 
-#: projects.inc:91
+#: projects.inc:118
 msgid "Protein structure prediction"
 msgstr "Predikce struktury proteinů"
 
-#: projects.inc:92
+#: projects.inc:119
 msgid ""
 "POEM@HOME uses a computational approach to predict the biologically active "
 "structure of proteins, to understand the signal-processing mechanisms when "
@@ -461,31 +441,15 @@ msgid ""
 " the three-dimensions structure of biologically important proteins."
 msgstr "POEM@HOME využívá výpočetní přístup k předvídání biologicky aktivních proteinových struktur, k porozumnění mechanizmů zpracovávajících signály při vzájemné inerakci mezi proteiny, k porozumnění chorob vztahujících se k poruchám proteinů, nebo jejich agregaci a k vývoji nových léků na bázi třírozměrných struktur biologicky významných proteinů."
 
-#: projects.inc:98
-msgid "University of Delaware"
-msgstr "Univerzita v Delaware"
-
-#: projects.inc:99
-msgid "Study of protein - ligand interactions"
-msgstr "Studie proteinů - interakce ligandů"
-
-#: projects.inc:100
-msgid ""
-"Docking@Home has both bioscience and computer science goals. The project "
-"aims to further knowledge of the atomic details of protein-ligand "
-"interactions and, by doing so, will search for insights into the discovery "
-"of novel pharmaceuticals."
-msgstr "Docking@Home si klade cíle v oblasti jak biotechnologie, tak i informatiky. Cílem projektu je lepší porozumnění, jak fungují vztahy atomů u proteinových ligandů, čímž může tento projekt pomoci k objevení nových druhů léků."
-
-#: projects.inc:114
+#: projects.inc:147
 msgid "Barcelona Biomedical Research Park (PRBB)"
 msgstr "Biomedicínský výzkumný park v Barceloně (PRBB)"
 
-#: projects.inc:115
+#: projects.inc:148
 msgid "Molecular simulations of proteins"
 msgstr "Molekulární simulace proteinů"
 
-#: projects.inc:116
+#: projects.inc:149
 msgid ""
 "GPUGrid.net opens novel computational scenarios by the first full-atom "
 "molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. "
@@ -493,47 +457,31 @@ msgid ""
 "computational biology for biomedical research."
 msgstr "GPUGrid.net otevírá nové výpočetní možnosti díky prvnímu kódu pro simulaci molekulární dynamiky na úrovni atomů (CellMD), speciálně optimalizovanému pro provoz na NVIDIA GPU. Tímto se otevírají nové možnosti v oblasti biomedicíny a výpočetní biologie pro výzkum biomedicíny."
 
-#: projects.inc:122
-msgid "Technion, Israel"
-msgstr "Technion - Izraelský technologický institut"
-
-#: projects.inc:123
-msgid "Genetic linkage analysis"
-msgstr "Analýza genetických vazeb"
-
-#: projects.inc:124
-msgid ""
-"Superlink@Technion helps geneticists all over the world find disease-"
-"provoking genes causing some types of diabetes, hypertension (high blood "
-"pressure), cancer, schizophrenia and many others."
-msgstr "Superlink@Technion pomáhá genetikům na celém světě nalézt geny vyvolávající cukrovku, vysoký krevní tlak, rakovinu, schizofrenii a mnoho dalších."
-
-#: projects.inc:138
+#: projects.inc:175
 msgid ""
 "University of Maryland Center for Bioinformatics and Computational Biology"
 msgstr "Univerzita v Marylandu, centrum bioinformatiky a výpočetní biologie"
 
-#: projects.inc:139
+#: projects.inc:176
 msgid "Life science research"
 msgstr "Výzkum životních věd"
 
-#: projects.inc:140
+#: projects.inc:177
 msgid ""
-"The Lattice Project supplies computing power to scientists at the University"
-" of Maryland studying evolutionary relationships based on DNA sequence data;"
-" bacterial, plasmid, and virus protein sequences; and biological diversity "
-"in nature reserves. "
-msgstr "\"The Lattice Project\" poskytuje výpočetní výkon vědcům na Univerzitě v Marylandu, kteří studují evoluční vztahy pomocí sekvencování dat DNA u bakterií, plasmidů a virů, a biologickou rozmanitost v národních rezervacích."
+"The Lattice Project, developed and administered at the University of "
+"Maryland, supplies computing power to researchers worldwide who are studying"
+" evolutionary relationships using DNA and protein sequence data."
+msgstr "The Lattice Project, vyvinutý a spravovaný Univerzitou v Marylandu, poskytuje výpočetní výkon vědcům z celého světa, kteří studují evoluční vztahy pomocí DNA a proteinových sekvenčních dat."
 
-#: projects.inc:146
+#: projects.inc:185
 msgid "The Swiss Tropical Institute"
 msgstr "Švýcarský institut tropů"
 
-#: projects.inc:147
+#: projects.inc:186
 msgid "Epidemiology"
 msgstr "Epidemiologie"
 
-#: projects.inc:148
+#: projects.inc:187
 msgid ""
 "Simulation models of the transmission dynamics and health effects of malaria"
 " are an important tool for malaria control. They can be used to determine "
@@ -544,48 +492,37 @@ msgid ""
 "social factors that influence the distribution of the disease. "
 msgstr "Simulační modely přenosové dynamiky a zdravotních následků malárie jsou důležitým nástrojem pro výzkum a kontrolu šíření této nemoci. Mohou být použity pro stanovení optimálních strategií pro poskytování sítí proti komárům, chemoterapie, nebo nových očkovacích látek, které jsou v současné době ve fázi vývoje a testování. Takové modelování je extrémně náročné na výpočetní výkon - simulace velkých lidských populací s rozmanitým souborem parametrů, které souvisí s biologickými a sociálními faktory ovlivňujícími rozložení nemoci."
 
-#: projects.inc:170
+#: projects.inc:211
 msgid "University of Washington"
 msgstr "Washingtonská univerzita"
 
-#: projects.inc:171 projects.inc:179
+#: projects.inc:212
 msgid "Biology"
 msgstr "Biologie"
 
-#: projects.inc:172
+#: projects.inc:213
 msgid ""
 "Determine the 3-dimensional shapes of proteins in research that may "
 "ultimately lead to finding cures for some major human diseases. By running "
 "Rosetta@home you will help us speed up and extend our research in ways we "
 "couldn't possibly attempt without your help. You will also be helping our "
-"efforts at designing new proteins to fight diseases such as HIV, Malaria, "
-"Cancer, and Alzheimer's"
-msgstr "Zjišťujte trojrozměrné tvary proteinů, jejichž výzkum může v důsledku vést až k nalezení léku na některé ze závažných lidských nemocí. Zapojením se v projektu Rosetta@home pomůžete urychlit a prohloubit náš výzkum způsobem, který bychom si bez vaší pomoci nemohli dovolit. Pomůžete nám také v našem úsilí navrhnout nové proteiny pro boj s nemocemi jako HIV, malarie, rakovina nebo Alzheimerova choroba."
+"efforts at designing new proteins to fight diseases such as HIV, malaria, "
+"cancer, and Alzheimer's"
+msgstr "Zjišťujte 3-rozměrné tvary proteinů, jejichž výzkum může v důsledku vést až k nalezení léku na některé ze závažných lidských nemocí. Zapojením se v projektu Rosetta@home pomůžete urychlit a prohloubit náš výzkum způsobem, který bychom si bez vaší pomoci nemohli dovolit. Pomůžete nám také v našem úsilí navrhnout nové proteiny pro boj s nemocemi jako HIV, malarie, rakovina nebo Alzheimerova choroba."
 
-#: projects.inc:178
-msgid "University of Vienna"
-msgstr "Vídeňská univerzita"
-
-#: projects.inc:180
-msgid ""
-"Calculate similarities between proteins. SIMAP provides a public database of"
-" the resulting data, which plays a key role in many bioinformatics research "
-"projects."
-msgstr "Počítá podobností mezi protejny. SIMAP poskytuje veřejnou databázi výsledných dat, které hrají klíčovou roli v mnoha bioinformatikckých výzkumných projektech."
-
-#: projects.inc:186
+#: projects.inc:231
 msgid "Earth Sciences"
 msgstr "Vědy o Zemi"
 
-#: projects.inc:198
+#: projects.inc:243
 msgid "Oxford University"
 msgstr "Oxfordská univerzita"
 
-#: projects.inc:199
+#: projects.inc:244
 msgid "Climate study"
 msgstr "Studie klimatu"
 
-#: projects.inc:200
+#: projects.inc:245
 msgid ""
 "Investigate the approximations that have to be made in state-of-the-art "
 "climate models. By running the model thousands of times we hope to find out "
@@ -597,83 +534,97 @@ msgid ""
 "century under a wide range of different scenarios."
 msgstr "Zkoumejte aproximace u nejmodernějších klimatických modelů. Spuštěním modelu řádově tisíckrát se zjišťuje, jak model reaguje na drobné změny těchto aproximací - změny natolik malé, že nenaruší věrohodnost těchto aproximací. Toto nám umožní zlepšit naše chápání toho, jak citlivé jsou naše modely vůči k malým změnám a také k vlivům jako změny v podílu oxidu uhličitého a siřičitého cyklu, a také jak se klima může změnit v příštím století v širokém spektru různých scénářů."
 
-#: projects.inc:207
+#: projects.inc:253
 msgid "Physical Science"
 msgstr "Fyzikální vědy"
 
-#: projects.inc:213
+#: projects.inc:259
 msgid "Mechanical engineering"
 msgstr "Strojní inženýrství"
 
-#: projects.inc:214
+#: projects.inc:260
 msgid ""
 "Currently we are calculating the optimum design of a structure call the 52 "
 "bar truss"
 msgstr "V současné době počítáme optimální design struktury s 52 pruty"
 
-#: projects.inc:224 projects.inc:263 projects.inc:271
+#: projects.inc:269 projects.inc:328 projects.inc:338
 msgid "Astronomy"
 msgstr "Astronomie"
 
-#: projects.inc:225
-msgid ""
-"We will combine the spectral coverage of GALEX, Pan-STARRS1, and WISE to "
-"generate a multi-wavelength UV-optical-NIR galaxy atlas for the nearby "
-"Universe. We will measure physical parameters (such as stellar mass surface "
-"density, star formation rate surface density, attenuation, and first-order "
-"star formation history) on a resolved pixel-by-pixel basis using spectral "
-"energy distribution (SED) fitting techniques in a distributed computing "
-"mode."
-msgstr "V tomto projektu kombinujeme spektrální pokrytí z GALEX, Pan-STARRS1 a WISE pro vytvoření atlasu galaxie blízkého vesmíru ve více vlnových délkách - UV-optical-NIR. Měříme pomocí fyzikálních parametrů (jako je povrchová hustota hvězdné masy, povrchová hustota rychlosti formování hvězd, útlum a historie prvního řádu formování hvězd) na podkladech v řádu pixelů pomocí technik \"speciální distribuce energie - SED\" a pomocí distribuovaných výpočtů."
-
-#: projects.inc:247
-msgid "University of Texas at Austin"
-msgstr "Texaská univerzita v Austinu"
-
-#: projects.inc:248 projects.inc:279
-msgid "Chemistry"
-msgstr "Chemie"
-
-#: projects.inc:249
-msgid ""
-"A common problem in theoretical chemistry, condensed matter physics and "
-"materials science is the calculation of the time evolution of an atomic "
-"scale system where, for example, chemical reactions and/or diffusion occur. "
-"Generally the events of interest are quite rare (many orders of magnitude "
-"slower than the vibrational movements of the atoms), and therefore direct "
-"simulations, tracking every movement of the atoms, would take thousands of "
-"years of computer calculations on the fastest present day computer before a "
-"single event of interest can be expected to occur.  Our research group is "
-"interested in calculating the long time dynamics of systems."
-msgstr "Častým problémem v teoretické chemii, fyzice kondenzovaných látek a vědy o materiálech, je výpočet časového vývoje systému na atomové úrovni, kde se odehrává například chemická reakce nebo difúze látky. Události, které nás v těchto měřítkách zajímají, jsou celkem vzácné (řádově pomalejší, než třeba vibrační pohyb atomů), a proto přímé simulace sledující pohyb každého z atomů by trvaly tisíce let i na nejrychlejších počítačích, než by nastala jediná z očekávaných událostí, které nás zajímají. Naše výzkumná skupina se věnuje výpočtu dlouhodobé dynamiky systémů."
-
-#: projects.inc:262
-msgid "University of Illinois at Urbana-Champaign"
-msgstr "Illinoiská univerzita v Urbana-Champaign"
-
-#: projects.inc:264
-msgid ""
-"The goal of Cosmology@Home is to search for the model that best describes "
-"our Universe and to find the range of models that agree with the available "
-"astronomical particle physics data."
-msgstr "Cílem Cosmology@Home jer hledání modelu, který nejlépe popisuje Vesmír, a hledání modelů, které odpovídají dostupným astroniomicým částicovým fyzikálním datům."
-
 #: projects.inc:270
+msgid ""
+"TheSkyNet POGS is an astronomy project studying 16 different properties of "
+"galaxies, including brightness, mass, amount of dust and how fast stars are "
+"forming. We are using your processing power to conduct pixel-by-pixel "
+"calculations on multi-wavelength (ultraviolet, optical and near-infrared "
+"light) images of galaxies to produce an atlas that will help astronomers to "
+"better understand the distant universe."
+msgstr "TheSkyNet POGS je astronomický projekt, který studuje 16 různých vlastností galaxií, včetně jasu, hmotnosti, množství prachových částic či jak rychle se formují hvězdy. Využíváme váš výpočetní výkon pro výpočty na úrovni pixelů na snímcích galaxií, které byly pořízené v různé vlnové délce (UV, viditelné pásmo, v blízké infračervené oblasti), za účelem vytvoření katalogu, který pomůže astronomům lépe porozumnět vzdálenému vesmíru."
+
+#: projects.inc:280 projects.inc:366
+msgid "Astrophysics"
+msgstr "Astrofyzika"
+
+#: projects.inc:281
+msgid ""
+"The aim of the project is to derive shapes and spin for a significant part "
+"of the asteroid population. As input data, we use any asteroid photometry "
+"that is available. The results are asteroid convex shape models with the "
+"direction of the spin axis and the rotation period."
+msgstr "Cílem tohoto projektu je určení tvaru a osy rotace větší části z rodiny asteroidů. Jako vstupní data zde slouží fotometrie asteroidů, pokud je dostupná. Výsledkem jsou konvexní tvarové modely asteroidů se směrem a dobou rotace."
+
+#: projects.inc:290
+msgid "Aerospace-related science and engineering"
+msgstr "Věda a strojírenství pro letecký průmysl"
+
+#: projects.inc:291
+msgid ""
+"Constellation is a platform for aerospace-related simulations, including "
+"trajectory optimization of launchers, satellites and probes, simulation of "
+"Moon's near-surface exosphere, and analysis of dynamic systems of "
+"exploration-rovers"
+msgstr "Constellation je platforma pro provádění simulací v leteckém průmyslu, včetně optimalizací trajektorií nosičů, satelitů a sond, simulace exosféry  Měsíce či analyzování dynamických systémů u průzkumných vozítek-roverů."
+
+#: projects.inc:294
+msgid "Perform aerospace-related simulations"
+msgstr "Provádějte simulace pro letecký průmysl"
+
+#: projects.inc:329
+msgid ""
+"Universe@Home aims to create the first database of the simulated stellar "
+"content of the Universe, from the earliest stars to the most exotic black "
+"hole binaries."
+msgstr "Universe@Home si dává za cíl vytvořit první databázi simulovaného hvězdného obsahu vezmíru, od prvotních hvězd až po exotické binární černé díry."
+
+#: projects.inc:332
+msgid "Do research in physics and astronomy"
+msgstr "Provádějte fyzikální a astronomický výzkum"
+
+#: projects.inc:337
 msgid "Rensselaer Polytechnic Institute"
 msgstr "Polytechnický institut Rensselaer"
 
-#: projects.inc:272
+#: projects.inc:339
 msgid ""
 "The goal of Milkyway@Home is to create a highly accurate three dimensional "
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
 "Survey."
 msgstr "Cílem projektu Milkyway@Home je vytvoření vysoce podrobného třídimenzionálního modelu Mléčné dráhy pomocí dat získanch projektem Sloan Digital Sky Survey."
 
-#: projects.inc:278
+#: projects.inc:342
+msgid "Study the structure of the Milky Way galaxy"
+msgstr "Studujte strukturu galaxie Mléčná dráha"
+
+#: projects.inc:347
 msgid "Leiden University, The Netherlands"
 msgstr "Univerzita Leiden, Nizozemí"
 
-#: projects.inc:280
+#: projects.inc:348
+msgid "Chemistry"
+msgstr "Chemie"
+
+#: projects.inc:349
 msgid ""
 "Surface science calculations using Classical Dynamics.  Leiden Classical "
 "allows volunteers, students and other scientist to submit their personal "
@@ -683,15 +634,15 @@ msgid ""
 "simulations through the grid."
 msgstr "Výpočty v povrchové vědě prováděné pomocí klasické dynamiky. Leiden Classical umožňuje dobrovolníkům, studentům a  vědcům zadávat své osobní výpočty, které jsou počítány pomocí gridu. Každý uživatel má svojí osobní frontu pro úlohy klasické dynamiky. Tímto způsobem již studenti využily grid pro simulaci kapalného argonu, nebo k testování platnosti zákonu o ideálním plynu pomocí simulací na gridu."
 
-#: projects.inc:294
+#: projects.inc:352
+msgid "Help students do atomic simulations"
+msgstr "Pomoc studentům se simulacemi atomů"
+
+#: projects.inc:365
 msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
 msgstr "Univerzita ve Wisconsinu - Milwaukee, Institut Maxe Plancka"
 
-#: projects.inc:295
-msgid "Astrophysics"
-msgstr "Astrofyzika"
-
-#: projects.inc:296
+#: projects.inc:367
 msgid ""
 "Search for spinning neutron stars (also called pulsars) using data from the "
 "LIGO and GEO gravitational wave detectors, and from the Arecibo radio "
@@ -700,15 +651,19 @@ msgid ""
 "international organizations."
 msgstr "Hledání rotujících neutronových hvězd (taktéž známých pod názvem pulsar) za pomoci dat získaných z detektorů gravitačních vln LIGO a GEO a z observatoře Arecibo. Einstein@Home je projektem Světového roku fyziky 2005, který podporuje Americká fyzikální společnost (APS) a řada mezinárodních organizací."
 
-#: projects.inc:310 projects.inc:318
+#: projects.inc:370
+msgid "Help detect pulsars and gravitational waves"
+msgstr "Pomožte hledat pulsary a gravitační vlny"
+
+#: projects.inc:383 projects.inc:393 projects.inc:403
 msgid "CERN (European Organization for Nuclear Research)"
 msgstr "CERN (Evropská organizace pro jaderný výzkum)"
 
-#: projects.inc:311 projects.inc:319
+#: projects.inc:384 projects.inc:394 projects.inc:404
 msgid "Physics"
 msgstr "Fyzika"
 
-#: projects.inc:312
+#: projects.inc:385
 msgid ""
 "The Large Hadron Collider (LHC) is a particle accelerator at CERN, the "
 "European Organization for Nuclear Research, the world's largest particle "
@@ -717,22 +672,42 @@ msgid ""
 "the design of LHC and its detectors."
 msgstr "Velký hadronový urychlovač (The Large Hadron Collider - LHC) je urychlovač částic v CERNu, Evropské organizaci pro jaderný výzkum, světově největší laboratoři částicové fyziky. Je to světově nejvýkonnější postavený nástroj pro zkoumání vlastností částic. LHC@home provádí simulace pro zlepšení návrhu LHC a jeho detektorů."
 
-#: projects.inc:320
-msgid ""
-"This project uses CERN-developed virtual machine technology for full-fledged"
-" LHC event physics simulation on volunteer computers.  Requires that you "
-"install VirtualBox on your computer"
-msgstr "Tento projekt využívá virtuálních strojů vyvinutých v CERNu pro plnohodnotné simulace událostí v LHC na počítačích dobrovolníků. Tento projekt vyžaduje instalaci VirtualBoxu na vašem počítači."
+#: projects.inc:388
+msgid "Improve the design of the Large Hadron Collider"
+msgstr "Zlepšování designu Velkého hadronového urychlovače LHC"
 
-#: projects.inc:326
+#: projects.inc:395
+msgid ""
+"This project uses CERN-developed virtual machine technology for LHC event "
+"physics simulation on volunteer computers.  Requires that you install "
+"VirtualBox on your computer"
+msgstr "Tento projekt vyvinutý v CERNu využívá technologii virtuálních strojů pro simulace fyzikálních událostí v LHC na počítačích zapojených dobrovolníků. Tento projekt vyžaduje instalaci VirtualBoxu na vašem počítači."
+
+#: projects.inc:398
+msgid "Simulate high-energy particle collisions"
+msgstr "Simulování srážek vysokoenergetických částic"
+
+#: projects.inc:405
+msgid ""
+"ATLAS@Home uses volunteer computing to run simulations for ATLAS, a particle"
+" physics experiment at CERN's Large Hadron Collider.  ATLAS searches for new"
+" particles and processes using head-on collisions of protons of "
+"extraordinary high energy."
+msgstr "ATLAS@Home využívá výpočetní čas zapojených dobrovolníků pro simulace na detektoru ATLAS, částicovém fyzikálním experimentu v LHC - hadronovém urychlovači částic v CERNu. ATLAS hledá nové částice a jevy pomocí srážek protonů s velmi vysokou energií."
+
+#: projects.inc:408
+msgid "Simulate high-energy particle collisions for CERN"
+msgstr "Simulování srážek vysokoenergetických částic pro CERN"
+
+#: projects.inc:413
 msgid "University of California, Berkeley"
 msgstr "Kalifornská univerzita v Berkeley"
 
-#: projects.inc:327
+#: projects.inc:414
 msgid "Astrophysics, astrobiology"
 msgstr "Astrofyzika, astrobiologie"
 
-#: projects.inc:328
+#: projects.inc:415
 msgid ""
 "SETI (Search for Extraterrestrial Intelligence) is a scientific area whose "
 "goal is to detect intelligent life outside Earth. One approach, known as "
@@ -741,60 +716,70 @@ msgid ""
 "detection would provide evidence of extraterrestrial technology."
 msgstr "SETI (Search for Extraterrestrial Intelligence - Hledání Mimozemské Inteligence) je vědecká oblast, jejímž cílem je hledání inteligentního života mimo Zemi. Jeden ze způsobů, známý jako radio SETI, používá radioteleskopy k zachytávání radiových signálů s úzkou šířkou pásma z vesmíru. Je známo, že tyto signály nevznikají přírodní cestou, jejich zachycení by tedy dokazovalo existenci mimozemské technologie."
 
-#: projects.inc:342
-msgid "Bielefeld University of Applied Sciences"
-msgstr "Univerzita aplikovaných věd Bielefeld"
+#: projects.inc:418
+msgid "Search for evidence of extra-terrestrial life"
+msgstr "Hledání důkazů mimozemského života"
 
-#: projects.inc:343
-msgid "Chemical engineering and nanotechnology"
-msgstr "Chemické inženýrství a nanotechnologie"
-
-#: projects.inc:344
-msgid ""
-"The study of molecular magnets and controlled nanoscale magnetism.  These "
-"magnetic molecules may be used to develop tiny magnetic switches, with "
-"applications in medicine (such as local tumor chemotherapy) and "
-"biotechnology."
-msgstr "Studie molekulárních magnetů a kontrolovaného magnetismu v měřítku nanometrů. Molekulární magnety by mohly být využity pro vývoj miniaturních magnetických spínačů, které by šlo použít v medicíně, např. pro lokální chemoterapii nádorů, či v oblasti biotechnologie."
-
-#: projects.inc:351
+#: projects.inc:442
 msgid "Multiple applications"
 msgstr "Více různých aplikací"
 
-#: projects.inc:356
+#: projects.inc:448
+msgid "Molecular biology, Computer Science"
+msgstr "Molekulární biologie, Počítačová věda"
+
+#: projects.inc:449
+msgid ""
+"The Citizen Science Grid is dedicated to supporting a wide range of research"
+" and educational projects using volunteer computing and citizen science."
+msgstr "Citizen Science Grid využívá výpočetní sílu zapojených dobrovolníků pro podporu širokého množství výzkumných a vzdělávacích projektů."
+
+#: projects.inc:452
+msgid "Support science from the University of North Dakota"
+msgstr "Pomožte vědnímu výzkumu na Univerzitě Severní Dakota "
+
+#: projects.inc:457
 msgid "Chinese Academy of Sciences"
 msgstr "Čínská akademie věd"
 
-#: projects.inc:357
+#: projects.inc:458
 msgid "Physics, biochemistry, and others"
 msgstr "Fyzika, biochemie a jiné"
 
-#: projects.inc:358
+#: projects.inc:459
 msgid ""
 "The objective of CAS@home is to encourage and assist scientists in China to "
 "adopt the technologies of volunteer computing and volunteer thinking for "
 "their research."
 msgstr "Cílem projektu CAS@home je podpora a pomoc vědcům v Číně při adopci technologií pro dobrovolné výpočty a skupinové přemýšlení u jejich výzkumu."
 
-#: projects.inc:365
+#: projects.inc:462
+msgid "Help Chinese researchers"
+msgstr "Pomáhejte vědcům z Číny"
+
+#: projects.inc:468
 msgid "Mathematics, physics, evolution"
 msgstr "Matematika, fyzika, evoluce"
 
-#: projects.inc:366
+#: projects.inc:469
 msgid ""
 "Yoyo@home is an adapter between BOINC and several existing volunteer "
 "computing projects: ECM, Muon, Evolution@home, and distributed.net"
 msgstr "Yoyo@home je prostředníkem mezi platformou BOINC a dalšími dobrovolnými výpočetními projekty: ECM, Muon, Evolution@home a distributed.net"
 
-#: projects.inc:371 projects.inc:527
+#: projects.inc:472
+msgid "Do research in math, physics, and evolution"
+msgstr "Provádějte výzkum v matematice, fyzice a evoluci"
+
+#: projects.inc:477 projects.inc:677
 msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
 msgstr "MTA-SZTAKI - laboratoř paralelních a distribuovaných výpočtů, Maďarsko"
 
-#: projects.inc:372
+#: projects.inc:478
 msgid "European research projects"
 msgstr "Výzkumné projekty z Evropy"
 
-#: projects.inc:373
+#: projects.inc:479
 msgid ""
 "The EDGeS@Home Beta project integrates volunteer computing into the service "
 "grid network of Europe by allowing service grids to send workunits to be "
@@ -802,27 +787,35 @@ msgid ""
 " by the project include math, physics, biology, etc."
 msgstr "Projekt EDGeS@Home Beta spojuje jednotlivé dobrovolníky poskytující výkon pro výpočty do ucelené evropské sítě, čímž umožňuje zasílání úloh ke zpracování dobrovolníky tohoto projektu. Zahrnuté vědecké projekty se zabývají problémy v matematice, fyzice, biologii a dalších odvětvích."
 
-#: projects.inc:379
+#: projects.inc:482
+msgid "Help European researchers"
+msgstr "Pomáhejte vědcům ze Evropy"
+
+#: projects.inc:487
 msgid "Spanish universities and research centers"
 msgstr "Univerzity a výkumná centra ve Španělsku"
 
-#: projects.inc:380
+#: projects.inc:488
 msgid "Various Spanish research projects"
 msgstr "Výzkumné projekty ze Španělska"
 
-#: projects.inc:381
+#: projects.inc:489
 msgid "Research in physics, material science, and biomedicine"
 msgstr "Fyzikální výzkum, materiálové vědy a biomedicína"
 
-#: projects.inc:387
+#: projects.inc:492
+msgid "Help Spanish researchers"
+msgstr "Pomáhejte vědcům ze Španělska"
+
+#: projects.inc:497
 msgid "IBM Corporate Citizenship"
 msgstr "IBM Corporate Citizenship"
 
-#: projects.inc:388
+#: projects.inc:498
 msgid "Medical, environmental and other humanitarian research"
 msgstr "Medicína, životní prostředí a jiný humanitární výzkum"
 
-#: projects.inc:389
+#: projects.inc:499
 msgid ""
 "To further critical non-profit research on some of humanity's most pressing "
 "problems by creating the world's largest volunteer computing grid.  Research"
@@ -830,50 +823,87 @@ msgid ""
 "clean water and many more."
 msgstr "Neziskový výzkum v mnoha kritických oblastech lidských problémů pomocí světově největší dobrovolnické výpočetní sítě. Výzkum zahrnuje HIV-AIDS, rakovinu. tropické a zanedbané nemoci, solární energii, čistou voda a mnohé další."
 
-#: projects.inc:395
+#: projects.inc:502
+msgid "Do biomedical and environmental research"
+msgstr "Provádějte výzkum biomedicíny a životního prostředí"
+
+#: projects.inc:507
 msgid "Mathematics, computing, and games"
 msgstr "Matematika, výpočty a hry"
 
-#: projects.inc:401
+#: projects.inc:533 projects.inc:602 projects.inc:658 projects.inc:668
+#: projects.inc:678
+msgid "Mathematics"
+msgstr "Matematika"
+
+#: projects.inc:534
+msgid ""
+"NumberFields@home searches for fields with special properties. The primary "
+"application of this research is in the realm of algebraic number theory. "
+"Number theorists can mine the data for interesting patterns to help them "
+"formulate conjectures about number fields. Ultimately, this research will "
+"lead to a deeper understanding of the profound properties of numbers, the "
+"basic building blocks of all mathematics."
+msgstr "NumberFields@home hledá tělesa se specifickými vlastnostmi. Primárním cílem tohoto výzkumu je oblast algebraické teorie čísel. Vědci v této oblasti budou moci ve výsledcích vyhledávat zajímavé vzory, které jim umožní formulovat konjektury nad číselnými tělesy. Tento výzkum ve výsledku pomůže k hlubšímu porozumnění vlastností čísel, základních stavebních kamenů matematiky."
+
+#: projects.inc:537
+msgid "Do research in algebraic number theory"
+msgstr "Provádějte výzkum v algebraické teorii čísel"
+
+#: projects.inc:553
 msgid "Computer Science"
 msgstr "Počítačová věda"
 
-#: projects.inc:409
-msgid "Mathematics, Physics, Artificial Intelligence"
-msgstr "Matematika, fyzika a umělá inteligence"
+#: projects.inc:554
+msgid ""
+"Solve hard and practically important problems (discrete functions inversion "
+"problems, discrete optimization, bioinformatics, etc.) that can be "
+"effectively reduced to Boolean satisfiability problem."
+msgstr "Řešte složité a prakticky důležité problémy (diskrétní funkce, inverzní problémy, diskrétní optimalizace, bioinformatika, atd.), které lze redukovat na problém splnitelnosti booleovské formule."
 
-#: projects.inc:410
-msgid "Simulation of quantum computing; Goldbach's conjecture."
-msgstr "Simulace kvantových výpočtů, Goldbachovy hypotézy."
+#: projects.inc:557
+msgid "Study computational complexity"
+msgstr "Studujte výpočetní složitost"
 
-#: projects.inc:450 projects.inc:458
+#: projects.inc:582
+msgid "Cryptography and combinatorics"
+msgstr "Kryptografie a kombinatorika"
+
+#: projects.inc:583 projects.inc:586
+msgid "Run applications from distributed.net"
+msgstr "Využívejte aplikace z distributed.net"
+
+#: projects.inc:592
 msgid "Cryptography"
 msgstr "Kryptografie"
 
-#: projects.inc:459
+#: projects.inc:593
 msgid ""
 "Attempt to decode 3 original Enigma messages. The signals were intercepted "
 "in the North Atlantic in 1942 and are believed to be unbroken."
 msgstr "Pokus o dešifrování tří originálních zpráv Enigma. Signály byly zachyceny v severním Atlantiku v roce 1942 a jsou považovány za nerozluštěné."
 
-#: projects.inc:465 projects.inc:504 projects.inc:512 projects.inc:520
-#: projects.inc:528 projects.inc:568
-msgid "Mathematics"
-msgstr "Matematika"
+#: projects.inc:596
+msgid "Decode WWII submarine messages"
+msgstr "Dekódujte zprávy z ponorek z WWII"
 
-#: projects.inc:466
+#: projects.inc:603
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
 msgstr "Studium Collatzovy domněnky, nevyřešeného problému v matematice"
 
-#: projects.inc:471
+#: projects.inc:606
+msgid "Study the Collatz Conjecture"
+msgstr "Studujte Collatz Conjecture"
+
+#: projects.inc:611
 msgid "California State University Fullerton"
 msgstr "Kalifornská státní univerzita Fullerton"
 
-#: projects.inc:472
+#: projects.inc:612
 msgid "Factorization of large integers"
 msgstr "Faktorizace velkých čísel"
 
-#: projects.inc:473
+#: projects.inc:613
 msgid ""
 "NFS@Home is a research project that uses Internet-connected computers to do "
 "the lattice sieving step in the Number Field Sieve factorization of large "
@@ -883,60 +913,50 @@ msgid ""
 "hundreds of digits long."
 msgstr "NFS@Home je výzkumný projekt, který využívá počítačů připojených k internetu k vykonání prosévací fáze při tzv. metodě prosévání sloužící k faktorizaci velkých čísel. Již jako malí studenti jste získali první zkušenosti s rozkladem celých čísel na prvočísla ve škole, kdy např. 15 = 3 * 5 nebo 35 = 5 * 7. Projekt NFS@Home je pokračováním této zkušnosti; akorát s tím rozdílem, že pracuje s čísly, které mají i stovky číslic."
 
-#: projects.inc:479
-msgid ""
-"Vilnius Gediminas Technical University and Kaunas University of Technology "
-"(Lithuania)"
-msgstr "Vilnius Gediminas Technical University a University of Technology v Kaunasu (Litva)"
+#: projects.inc:616
+msgid "Study the factorization of large integers"
+msgstr "Studujte faktorizaci velkých čísel"
 
-#: projects.inc:480
-msgid "Software testing"
-msgstr "Testování softwaru"
-
-#: projects.inc:481
-msgid ""
-"The aim of this project is to provide a powerful distributed computing "
-"platform for scientists of Vilnius Gediminas Technical University (VGTU) as "
-"well as others Lithuanian academic institutions.  Current applications "
-"involve the study of Monte-Carlo based software testing."
-msgstr "Cílem tohoto projektu je poskytnout výkonnou výpočetní platformu pro vědce z Vilnius Gediminas Technical University (VGTU) a další litevské akademické instituce. Aktuálně se tato platforma používa pro testování aplikací na principu Monte-Carlo."
-
-#: projects.inc:503
-msgid "Mathematical Institute of Leiden University / Kennislink"
-msgstr "Matematický institut univerzity Leiden / Kennislink"
-
-#: projects.inc:505
-msgid ""
-"Search for 'abc-triples': positive integers a,b,c such that a+b=c, a &lt; b "
-"&lt; c, a,b,c have no common divisors and c > rad(abc), where rad(n) is the "
-"product of the distinct prime factors of n. The ABC conjecture says that "
-"there are only finitely many a,b,c such that log(c)/log(rad(abc)) > h for "
-"any real h > 1. The ABC conjecture is currently one of the greatest open "
-"problems in mathematics. If it is proven to be true, a lot of other open "
-"problems can be answered directly from it."
-msgstr "Hledání \"abc-trojic\": kladných celých čísel a,b​​,c takových, že a+b=c, a<b<c, a,b​​,c nemají společného dělitele a c>rad(abc), kde rad(n) je produkt různých prvočíselných dělitelů n. Domněnka ABC tvrdí, že existuje jen konečně mnoho a,b,c tak, že log(c)/log(rad(abc))> h pro jakékoliv reálné h>1. Domněnka ABC je v současné době jedním z největších otevřených problémů v matematice. Prokáže-li se, že je pravdivá, bude díky ní možné snadno zodpovědět mnoho dalších otevřených problému."
-
-#: projects.inc:513
+#: projects.inc:659
 msgid ""
 "Primegrid has multiple projects searching for different forms of very large "
 "prime numbers, including searching for the largest known prime number."
 msgstr "Primegrid zkoumá v několika projektech různé fruhy velmi velkých prvočísel, včetně hledání nových největších známých prvočísel."
 
-#: projects.inc:519
+#: projects.inc:662
+msgid "Search for large prime numbers"
+msgstr "Hledejte velká prvočísla"
+
+#: projects.inc:667
 msgid "Hochschule RheinMain University of Applied Sciences"
 msgstr "Univerzita aplikovaných věd RheinMein"
 
-#: projects.inc:521
+#: projects.inc:669
 msgid ""
 "Search for counterexamples to two conjectures related to the identification "
 "of prime numbers"
 msgstr "Hledání protipříkladů ke dvěma domněnkám souvisejícími s hledáním prvočísel"
 
-#: projects.inc:529
+#: projects.inc:672
+msgid "Study the properties of prime numbers"
+msgstr "Studujte vlastnosti prvočísel"
+
+#: projects.inc:679
 msgid ""
 "Find all the generalized binary number systems (in which bases are matrices "
 "and digits are vectors) up to dimension 11."
 msgstr "Nalezení všech zobecněných binárních číselných systémů (kde jsou kořeny maticemi a čísla vektory) až do dimenze 11."
+
+#: projects.inc:682
+msgid "Study number theory"
+msgstr "Studujte teorii čísel"
+
+#: projects.inc:739
+msgid ""
+"Testing and comparison of heuristic methods for getting separations of "
+"parallel algorithms working in the CAD system for designing logic control "
+"systems"
+msgstr "Testování a porovnávání heuristických metod pro nalezení separací v paralelních algoritmech, které pracují v CAD systémech pro navrhování logických ovládacích systémů"
 
 #: ../html/inc/news.inc:40
 msgid "Comment"

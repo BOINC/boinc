@@ -60,7 +60,7 @@ struct GUI_HTTP {
     struct GUI_HTTP_OP* gui_http_op;
     HTTP_OP http_op;
 
-    GUI_HTTP(): gui_http_state(GUI_HTTP_STATE_IDLE) {}
+    GUI_HTTP(): gui_http_state(GUI_HTTP_STATE_IDLE), gui_http_op(NULL) {}
     int do_rpc(
         GUI_HTTP_OP*, const char* url, const char* output_file,
         bool is_background
@@ -85,7 +85,7 @@ struct GUI_HTTP {
 struct GUI_HTTP_OP {
     GUI_HTTP* gui_http;
     virtual void handle_reply(int) {}
-    GUI_HTTP_OP(){}
+    GUI_HTTP_OP(): gui_http(NULL) {}
     virtual ~GUI_HTTP_OP(){}
 };
 

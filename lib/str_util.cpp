@@ -493,6 +493,7 @@ const char* boincerror(int which_error) {
         case ERR_RESULT_START: return "result start failed";
         case ERR_RESULT_DOWNLOAD: return "result download failed";
         case ERR_RESULT_UPLOAD: return "result upload failed";
+        case ERR_BAD_USER_NAME: return "bad username";
         case ERR_INVALID_URL: return "invalid URL";
         case ERR_MAJOR_VERSION: return "bad major version";
         case ERR_NO_OPTION: return "no option";
@@ -511,15 +512,20 @@ const char* boincerror(int which_error) {
         case ERR_SHMEM_NAME: return "can't get shared mem segment name";
         case ERR_NO_NETWORK_CONNECTION: return "no available network connection";
         case ERR_IN_PROGRESS: return "operation in progress";
+        case ERR_NONUNIQUE_EMAIL: return "email already registered";
         case ERR_ACCT_CREATION_DISABLED: return "account creation disabled";
         case ERR_ATTACH_FAIL_INIT: return "Couldn't start master page download";
         case ERR_ATTACH_FAIL_DOWNLOAD: return "Couldn't download master page";
         case ERR_ATTACH_FAIL_PARSE: return "Couldn't parse master page";
         case ERR_ATTACH_FAIL_BAD_KEY: return "Invalid account key";
         case ERR_ATTACH_FAIL_FILE_WRITE: return "Couldn't write account file";
+        case ERR_ATTACH_FAIL_SERVER_ERROR: return "Couldn't attach because of server error";
+        case ERR_SIGNING_KEY: return "signing key failure";
         case ERR_FFLUSH: return "fflush() failed";
         case ERR_FSYNC: return "fsync() failed";
         case ERR_TRUNCATE: return "truncate() failed";
+        case ERR_WRONG_URL: return "wrong URL";
+        case ERR_DUP_NAME: return "coprocs with duplicate names detected";
         case ERR_GETGRNAM: return "getgrnam() failed";
         case ERR_CHOWN: return "chown() failed";
         case ERR_HTTP_PERMANENT: return "permanent HTTP error";
@@ -532,6 +538,7 @@ const char* boincerror(int which_error) {
         case ERR_CRYPTO: return "encryption error";
         case ERR_ABORTED_ON_EXIT: return "job was aborted on client exit";
         case ERR_PROC_PARSE: return "a /proc entry was not parsed correctly";
+        case ERR_STATFS: return "statfs() failed";
         case ERR_PIPE: return "pipe() failed";
         case ERR_NEED_HTTPS: return "HTTPS needed";
         case HTTP_STATUS_NOT_FOUND: return "HTTP file not found";
@@ -755,4 +762,25 @@ vector<string> split(string s, char delim) {
         result.push_back(item);
     }
     return result;
+}
+
+// check whether filename is legit
+// - can't start with /
+// - can't have control chars
+// - can't have ..
+//
+bool is_valid_filename(const char* name) {
+    int n = strlen(name);
+    for (int i=0; i<n; i++) {
+        if (iscntrl(name[i])) {
+            return false;
+        }
+    }
+    if (strstr(name, "..")) {
+        return false;
+    }
+    if (name[0] == '/') {
+        return false;
+    }
+    return true;
 }

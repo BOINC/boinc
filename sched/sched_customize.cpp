@@ -935,7 +935,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
             have_plan_class_spec = false;
         } else if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "Error parsing plan class spec file '%s'\n", buf
+                "Error parsing plan class spec file '%s': %s\n",
+                buf, boincerror(retval)
             );
             bad_plan_class_spec = true;
         } else {

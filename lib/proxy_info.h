@@ -67,6 +67,9 @@ struct PROXY_INFO {
     bool have_autodetect_proxy_settings;
         // whether above fields are defined
 
+    PROXY_INFO() {
+      clear();
+    }
     int parse(XML_PARSER&);
     int parse_config(XML_PARSER&);
     int write(MIOFILE&);

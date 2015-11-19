@@ -566,12 +566,14 @@ int main(int argc, char** argv) {
     //
 #if 0
     policy.replication = 2;
+    policy.max_ft = 1;
     policy.coding_levels = 1;
     policy.codings[0].n = 4;
     policy.codings[0].k = 2;
     policy.codings[0].m = 6;
 #else
     policy.replication = 1;
+    policy.max_ft = 0;
     policy.coding_levels = 2;
     policy.codings[0].n = 4;
     policy.codings[0].k = 2;

@@ -205,211 +205,214 @@ function boincuser_init() {
  * Drupal user operations
  */
 function boincuser_user($op, &$edit, &$account, $category = NULL) {
-  switch($op) {
-  case 'load':
-    // User loading; insert BOINC data into the user object
-    $drupal_user = db_fetch_object(db_query("
-      SELECT boinc_id, penalty_expiration
-      FROM {boincuser} WHERE uid = %d",
-      $account->uid
-    ));
-    $account->boincuser_id = $drupal_user->boinc_id;
-    $account->boincuser_penalty_expiration = $drupal_user->penalty_expiration;
-    db_set_active('boinc');
-    $boinc_user = db_fetch_object(db_query("
-      SELECT
-        name,
-        authenticator,
-        passwd_hash,
-        total_credit, 
-        expavg_credit,
-        expavg_time,
-        cross_project_id,
-        teamid,
-        venue
-      FROM {user}
-      WHERE id = %d",
-      $account->boincuser_id
-    ));
-    $account->boincuser_name = $boinc_user->name;
-    $account->boincuser_account_key = $boinc_user->authenticator;
-    $account->boincuser_weak_auth = md5($boinc_user->authenticator . $boinc_user->passwd_hash);
-    $account->boincuser_total_credit = round($boinc_user->total_credit);
-    $account->boincuser_expavg_credit = round($boinc_user->expavg_credit);
-    $account->boincuser_expavg_time = round($boinc_user->expavg_time);
-    $account->boincuser_cpid = md5($boinc_user->cross_project_id . $account->mail);
-    $account->boincuser_default_pref_set = $boinc_user->venue;
-    $account->boincteam_id = $boinc_user->teamid;
-    db_set_active('default');
-    // Set Drupal team ID
-    $account->team = NULL;
-    if ($account->boincteam_id) {
-      $account->team = db_result(db_query("
-        SELECT nid FROM {boincteam} WHERE team_id = %d",
-        $account->boincteam_id
+  // Handle BOINC integration for users with UID > 1 (skip anonymous and admin)
+  if ($account->uid > 1) {
+    switch($op) {
+    case 'load':
+      // User loading; insert BOINC data into the user object
+      $drupal_user = db_fetch_object(db_query("
+        SELECT boinc_id, penalty_expiration
+        FROM {boincuser} WHERE uid = %d",
+        $account->uid
       ));
-    }
-    // Set post count
-    $account->post_count = db_result(db_query("
-      SELECT COUNT(*) +
-      (
-        SELECT COUNT(*) FROM {node}
-        WHERE uid = '%d'
-        AND type IN('page','story','forum','news')
-        AND status = 1
-      ) AS total_posts
-      FROM {comments}
-      INNER JOIN node ON comments.nid = node.nid
-      WHERE comments.uid = '%d'
-      AND node.status = 1",
-      $account->uid, $account->uid
-    ));
-    break;
-    
-  case 'view':
-    // SAMPLE: Add BOINC data to the user profile
-    /*$account->content['summary']['boinc_id'] = array(
-      '#type' => 'user_profile_item',
-      '#title' => bts('BIONC ID'),
-      '#value' => $account->boincuser_id,
-      '#attributes' => array('class' => 'boinc-data'),
-      '#weight' => 10
-    );
-    $account->content['summary']['total_credit'] = array(
-      '#type' => 'user_profile_item',
-      '#title' => bts('Total Credit'),
-      '#value' => $account->boincuser_total_credit,
-      '#attributes' => array('class' => 'boinc-data'),
-      '#weight' => 10
-    );*/
-    break;
-    
-  case 'validate':
-    if (isset($edit['validation_source'])) {
-      switch ($edit['validation_source']) {
-      case 'user_register':
-        // Information being checked before adding a user
-        if (!boincuser_register_validate($edit)) {
-          // BOINC user validation failed for registration; set an error accordingly
-          form_set_error('mail', bts('An account already exists for @email. Log in or request password assistance to access your @project account.', array('@email' => $edit['mail'], '@project' => PROJECT)));
-        }
-        else {
-          // Save profile information for use during Insert
-          $_SESSION['profileInfo'] = array(
-            'country' => $edit['field_country'][0]['value'],
-            'zip' => $edit['field_zip'][0]['value'],                  
-            'url' => $edit['field_url'][0]['value'],
-            'background' => $edit['field_background'][0]['value'],
-            'opinions' => $edit['field_opinions'][0]['value']
-          );
-          // With BOINC validation passed, make sure name is unique
-          $edit['name'] = find_unique_name($edit['boincuser_name']);
-        }
-        break;
-        
-      case 'user_account':
-        // Validate data before updating user account info
-        boincuser_account_validate($edit, $account);
-        break;
-      
-      default:
-        
-      }
-      // We don't want to save validation source, so remove it
-      $edit['validation_source'] = null;
-    }
-    break;
-    
-  case 'insert':
-    // New user being added to the system
-    $profile_info = $_SESSION['profileInfo'];
-    $imported = $_SESSION['importedUser'];
-    unset($_SESSION['profileInfo']);
-    unset($_SESSION['importedUser']);
-    
-    if ($profile_info and !$imported) {
-      // Create a BOINC account unless importing from BOINC
-      $user_params = array(
-        'email_addr' => $edit['mail'],
-        'name' => $edit['boincuser_name'],
-        'passwd_hash' => md5($edit['pass'].$edit['mail']),
-        'country' => $profile_info['country'],
-        'postal_code' => $profile_info['zip']
-      );
-      $boinc_user = boincuser_register_make_user($user_params);
-      if (!$boinc_user) {
-        // Account exists with this email addr
-        form_set_error('email', bts('Error creating BOINC account.'));
-        return;
-      }
-      // Add user to community role by default (not banned)
-      $unrestricted_role = array_search('community member', user_roles(true)); 
-      $edit['roles'] = array(
-        $unrestricted_role => ''
-      );
-      // Set profile data in BOINC db
+      $account->boincuser_id = $drupal_user->boinc_id;
+      $account->boincuser_penalty_expiration = $drupal_user->penalty_expiration;
       db_set_active('boinc');
-      // TODO: add language, image support; error handling
-      $reference = db_query("INSERT INTO {profile} SET userid='%d', response1='%s', response2='%s', verification=0", $boinc_user->id, $profile_info['background'], $profile_info['opinions']);
-      if (!$reference) {
-        drupal_set_message(t('Error creating BOINC profile.'), 'error');
-      }
-      $reference = db_query("UPDATE {user} SET url='%s' WHERE id='%d'", $profile_info['url'], $boinc_user->id);
-      if (!$reference) {
-        drupal_set_message(t('Error updating BOINC account.'), 'error');
-      }
+      $boinc_user = db_fetch_object(db_query("
+        SELECT
+          name,
+          authenticator,
+          passwd_hash,
+          total_credit, 
+          expavg_credit,
+          expavg_time,
+          cross_project_id,
+          teamid,
+          venue
+        FROM {user}
+        WHERE id = %d",
+        $account->boincuser_id
+      ));
+      $account->boincuser_name = $boinc_user->name;
+      $account->boincuser_account_key = $boinc_user->authenticator;
+      $account->boincuser_weak_auth = md5($boinc_user->authenticator . $boinc_user->passwd_hash);
+      $account->boincuser_total_credit = round($boinc_user->total_credit);
+      $account->boincuser_expavg_credit = round($boinc_user->expavg_credit);
+      $account->boincuser_expavg_time = round($boinc_user->expavg_time);
+      $account->boincuser_cpid = md5($boinc_user->cross_project_id . $account->mail);
+      $account->boincuser_default_pref_set = $boinc_user->venue;
+      $account->boincteam_id = $boinc_user->teamid;
       db_set_active('default');
-      // Cross reference Drupal account with BOINC
-      $reference = db_query("INSERT INTO {boincuser} SET uid='%d', boinc_id='%d'", $account->uid, $boinc_user->id);
-      if (!$reference) {
-        drupal_set_message(t('Error connecting BOINC account.'), 'error');
-        return;
+      // Set Drupal team ID
+      $account->team = NULL;
+      if ($account->boincteam_id) {
+        $account->team = db_result(db_query("
+          SELECT nid FROM {boincteam} WHERE team_id = %d",
+          $account->boincteam_id
+        ));
       }
-      // Don't save custom fields to the Drupal user object
-      $edit['boincuser_name'] = null;
-    }
-    break;
-    
-  case 'update':
-    if (isset($edit['update_source'])) {
-      require_boinc('boinc_db');
-      $boinc_user = BoincUser::lookup_id($account->boincuser_id);
-      switch ($edit['update_source']) {
-      case 'user_account':
-        // Ensure that BOINC data is altered
+      // Set post count
+      $account->post_count = db_result(db_query("
+        SELECT COUNT(*) +
+        (
+          SELECT COUNT(*) FROM {node}
+          WHERE uid = '%d'
+          AND type IN('page','story','forum','news')
+          AND status = 1
+        ) AS total_posts
+        FROM {comments}
+        INNER JOIN node ON comments.nid = node.nid
+        WHERE comments.uid = '%d'
+        AND node.status = 1",
+        $account->uid, $account->uid
+      ));
+      break;
+      
+    case 'view':
+      // SAMPLE: Add BOINC data to the user profile
+      /*$account->content['summary']['boinc_id'] = array(
+        '#type' => 'user_profile_item',
+        '#title' => bts('BIONC ID'),
+        '#value' => $account->boincuser_id,
+        '#attributes' => array('class' => 'boinc-data'),
+        '#weight' => 10
+      );
+      $account->content['summary']['total_credit'] = array(
+        '#type' => 'user_profile_item',
+        '#title' => bts('Total Credit'),
+        '#value' => $account->boincuser_total_credit,
+        '#attributes' => array('class' => 'boinc-data'),
+        '#weight' => 10
+      );*/
+      break;
+      
+    case 'validate':
+      if (isset($edit['validation_source'])) {
+        switch ($edit['validation_source']) {
+        case 'user_register':
+          // Information being checked before adding a user
+          if (!boincuser_register_validate($edit)) {
+            // BOINC user validation failed for registration; set an error accordingly
+            form_set_error('mail', bts('An account already exists for @email. Log in or request password assistance to access your @project account.', array('@email' => $edit['mail'], '@project' => PROJECT)));
+          }
+          else {
+            // Save profile information for use during Insert
+            $_SESSION['profileInfo'] = array(
+              'country' => $edit['field_country'][0]['value'],
+              'zip' => $edit['field_zip'][0]['value'],                  
+              'url' => $edit['field_url'][0]['value'],
+              'background' => $edit['field_background'][0]['value'],
+              'opinions' => $edit['field_opinions'][0]['value']
+            );
+            // With BOINC validation passed, make sure name is unique
+            $edit['name'] = find_unique_name($edit['boincuser_name']);
+          }
+          break;
+          
+        case 'user_account':
+          // Validate data before updating user account info
+          boincuser_account_validate($edit, $account);
+          break;
+        
+        default:
+          
+        }
+        // We don't want to save validation source, so remove it
+        $edit['validation_source'] = null;
+      }
+      break;
+      
+    case 'insert':
+      // New user being added to the system
+      $profile_info = $_SESSION['profileInfo'];
+      $imported = $_SESSION['importedUser'];
+      unset($_SESSION['profileInfo']);
+      unset($_SESSION['importedUser']);
+      
+      if ($profile_info and !$imported) {
+        // Create a BOINC account unless importing from BOINC
+        $user_params = array(
+          'email_addr' => $edit['mail'],
+          'name' => $edit['boincuser_name'],
+          'passwd_hash' => md5($edit['pass'].$edit['mail']),
+          'country' => $profile_info['country'],
+          'postal_code' => $profile_info['zip']
+        );
+        $boinc_user = boincuser_register_make_user($user_params);
+        if (!$boinc_user) {
+          // Account exists with this email addr
+          form_set_error('email', bts('Error creating BOINC account.'));
+          return;
+        }
+        // Add user to community role by default (not banned)
+        $unrestricted_role = array_search('community member', user_roles(true)); 
+        $edit['roles'] = array(
+          $unrestricted_role => ''
+        );
+        // Set profile data in BOINC db
+        db_set_active('boinc');
+        // TODO: add language, image support; error handling
+        $reference = db_query("INSERT INTO {profile} SET userid='%d', response1='%s', response2='%s', verification=0", $boinc_user->id, $profile_info['background'], $profile_info['opinions']);
+        if (!$reference) {
+          drupal_set_message(t('Error creating BOINC profile.'), 'error');
+        }
+        $reference = db_query("UPDATE {user} SET url='%s' WHERE id='%d'", $profile_info['url'], $boinc_user->id);
+        if (!$reference) {
+          drupal_set_message(t('Error updating BOINC account.'), 'error');
+        }
+        db_set_active('default');
+        // Cross reference Drupal account with BOINC
+        $reference = db_query("INSERT INTO {boincuser} SET uid='%d', boinc_id='%d'", $account->uid, $boinc_user->id);
+        if (!$reference) {
+          drupal_set_message(t('Error connecting BOINC account.'), 'error');
+          return;
+        }
+        // Don't save custom fields to the Drupal user object
+        $edit['boincuser_name'] = null;
+      }
+      break;
+      
+    case 'update':
+      if (isset($edit['update_source'])) {
+        require_boinc('boinc_db');
         $boinc_user = BoincUser::lookup_id($account->boincuser_id);
-        $changing_email = ($edit['mail'] AND $edit['mail'] != $boinc_user->email_addr) ? true : false;
-        $changing_pass = ($edit['pass']) ? true : false;
-        if ($changing_email OR $changing_pass) {
-          // Set password hash appropriately
-          $passwd = ($edit['pass']) ? $edit['pass'] : $edit['current_pass'];
-          $passwd_hash = md5($passwd.$edit['mail']);
-          $email_addr = $edit['mail'];
-          // Update user account information
-          $result = $boinc_user->update(
-              "email_addr='{$email_addr}', passwd_hash='{$passwd_hash}'"
-          );
+        switch ($edit['update_source']) {
+        case 'user_account':
+          // Ensure that BOINC data is altered
+          $boinc_user = BoincUser::lookup_id($account->boincuser_id);
+          $changing_email = ($edit['mail'] AND $edit['mail'] != $boinc_user->email_addr) ? true : false;
+          $changing_pass = ($edit['pass']) ? true : false;
+          if ($changing_email OR $changing_pass) {
+            // Set password hash appropriately
+            $passwd = ($edit['pass']) ? $edit['pass'] : $edit['current_pass'];
+            $passwd_hash = md5($passwd.$edit['mail']);
+            $email_addr = $edit['mail'];
+            // Update user account information
+            $result = $boinc_user->update(
+                "email_addr='{$email_addr}', passwd_hash='{$passwd_hash}'"
+            );
+          }
+          break;
+        case 'user_profile':
+          if ($edit['boincuser_name'] != $boinc_user->name) {
+            $boincuser_name = $edit['boincuser_name'];
+            $result = $boinc_user->update(
+                "name='{$boincuser_name}'"
+            );
+          }
+          break;
+        default:
         }
-        break;
-      case 'user_profile':
-        if ($edit['boincuser_name'] != $boinc_user->name) {
-          $boincuser_name = $edit['boincuser_name'];
-          $result = $boinc_user->update(
-              "name='{$boincuser_name}'"
-          );
-        }
-        break;
-      default:
+        // We don't want to save update source or duplicate custom fields, so
+        // remove them before continuing to core Drupal routines
+        $edit['update_source'] = null;
+        $edit['boincuser_name'] = null;
       }
-      // We don't want to save update source or duplicate custom fields, so
-      // remove them before continuing to core Drupal routines
-      $edit['update_source'] = null;
-      $edit['boincuser_name'] = null;
+      break;
+      
+    default:
+      
     }
-    break;
-    
-  default:
-    
   }
 }
 

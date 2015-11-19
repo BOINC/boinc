@@ -68,7 +68,15 @@ struct ASYNC_VERIFY {
     gzFile gzin;
     char inpath[MAXPATHLEN], temp_path[MAXPATHLEN], outpath[MAXPATHLEN];
 
-    ASYNC_VERIFY(){};
+    ASYNC_VERIFY(){
+      fip = NULL;
+      in = NULL;
+      out = NULL;
+      gzin = NULL;
+      strcpy(inpath, "");
+      strcpy(temp_path, "");
+      strcpy(outpath, "");
+    };
     ~ASYNC_VERIFY(){};
 
     int init(FILE_INFO*);

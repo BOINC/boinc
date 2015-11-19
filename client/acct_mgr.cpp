@@ -759,11 +759,13 @@ void ACCT_MGR_INFO::clear() {
     strcpy(signing_key, "");
     strcpy(previous_host_cpid, "");
     strcpy(opaque, "");
+    strcpy(cookie_failure_url, "");
     next_rpc_time = 0;
     nfailures = 0;
     send_gui_rpc_info = false;
     password_error = false;
     no_project_notices = false;
+    cookie_required = false;
 }
 
 ACCT_MGR_INFO::ACCT_MGR_INFO() {

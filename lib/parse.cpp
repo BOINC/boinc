@@ -97,6 +97,7 @@ bool parse_str(const char* buf, const char* tag, char* dest, int destlen) {
     p = strstr(buf, tag);
     if (!p) return false;
     p = strchr(p, '>');
+    if (!p) return false;
     p++;
     const char* q = strchr(p, '<');
     if (!q) return false;
@@ -212,6 +213,7 @@ int dup_element(FILE* in, const char* tag_name, char** pp) {
         retval = strcatdup(p, buf);
         if (retval) return retval;
     }
+    free(p);
     return ERR_XML_PARSE;
 }
 
@@ -499,6 +501,8 @@ int skip_unrecognized(char* buf, MIOFILE& fin) {
 }
 
 XML_PARSER::XML_PARSER(MIOFILE* _f) {
+    strcpy(parsed_tag, "");
+    is_tag = false;
     f = _f;
 }
 
@@ -810,7 +814,7 @@ bool XML_PARSER::parse_bool(const char* start_tag, bool& b) {
 
     // handle the archaic form <tag/>, which means true
     //
-    strcpy(tag, start_tag);
+    safe_strcpy(tag, start_tag);
     strcat(tag, "/");
     if (!strcmp(parsed_tag, tag)) {
         b = true;

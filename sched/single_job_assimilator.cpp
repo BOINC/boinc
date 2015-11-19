@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -38,6 +38,18 @@
 
 using std::vector;
 using std::string;
+
+int assimilate_handler_init(int, char**) {
+    return 0;
+}
+
+void assimilate_handler_usage() {
+    // describe the project specific arguments here
+    //fprintf(stderr,
+    //    "    Custom options:\n"
+    //    "    [--project_option X]  a project specific option\n"
+    //);
+}
 
 int assimilate_handler(
     WORKUNIT& wu, vector<RESULT>& /*results*/, RESULT& canonical_result
@@ -89,6 +101,10 @@ int assimilate_handler(
     //
     sprintf(filename, "%s/job_summary_%lu", job_dir, wu.id);
     f = fopen(filename, "w");
+    if (!f) {
+        log_messages.printf(MSG_CRITICAL, "Can't open job summary file %s\n", filename);
+        return ERR_FOPEN;
+    }
 
     // If job was successful, copy the output files
     //

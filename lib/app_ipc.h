@@ -24,6 +24,7 @@
 #include <string>
 #include <cstdio>
 
+#include "filesys.h"
 #include "hostinfo.h"
 #include "proxy_info.h"
 #include "prefs.h"
@@ -154,7 +155,7 @@ struct APP_INIT_DATA {
     char user_name[256];
     char team_name[256];
     char project_dir[256];      // where project files are stored on host
-    char boinc_dir[256];        // BOINC data directory
+    char boinc_dir[MAXPATHLEN];        // BOINC data directory
     char wu_name[256];          // workunit name
     char result_name[256];
     char authenticator[256];    // user's authenticator

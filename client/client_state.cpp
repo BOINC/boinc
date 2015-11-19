@@ -93,9 +93,14 @@ CLIENT_STATE::CLIENT_STATE()
 #ifndef SIM
     scheduler_op = new SCHEDULER_OP(http_ops);
 #endif
+    time_stats.init();
     client_state_dirty = false;
+    old_major_version = 0;
+    old_minor_version = 0;
+    old_release = 0;
     clock_change = false;
     check_all_logins = false;
+    user_active = false;
     cmdline_gui_rpc_port = 0;
     run_cpu_benchmarks = false;
     file_xfer_giveup_period = PERS_GIVEUP;
@@ -103,6 +108,7 @@ CLIENT_STATE::CLIENT_STATE()
     tasks_suspended = false;
     tasks_throttled = false;
     network_suspended = false;
+    file_xfers_suspended = false;
     suspend_reason = 0;
     network_suspend_reason = 0;
     core_client_version.major = BOINC_MAJOR_VERSION;
@@ -119,8 +125,13 @@ CLIENT_STATE::CLIENT_STATE()
     app_started = 0;
     exit_before_upload = false;
     run_test_app = false;
+#ifndef _WIN32
+    boinc_project_gid = 0;
+#endif
     show_projects = false;
     strcpy(detach_project_url, "");
+    strcpy(reset_project_url, "");
+    strcpy(update_prefs_url, "");
     strcpy(main_host_venue, "");
     strcpy(attach_project_url, "");
     strcpy(attach_project_auth, "");
@@ -146,12 +157,18 @@ CLIENT_STATE::CLIENT_STATE()
     redirect_io = false;
     disable_graphics = false;
     cant_write_state_file = false;
+    ncpus = 1;
     benchmarks_running = false;
+    client_disk_usage = 0.0;
+    total_disk_usage = 0.0;
     device_status_time = 0;
 
     rec_interval_start = 0;
-    retry_shmem_time = 0;
+    total_cpu_time_this_rec_interval = 0.0;
+    must_enforce_cpu_schedule = false;
     must_schedule_cpus = true;
+    must_check_work_fetch = true;
+    retry_shmem_time = 0;
     no_gui_rpc = false;
     gui_rpc_unix_domain = false;
     new_version_check_time = 0;
@@ -161,6 +178,8 @@ CLIENT_STATE::CLIENT_STATE()
     g_use_sandbox = true; // User can override with -insecure command-line arg
 #endif
     launched_by_manager = false;
+    run_by_updater = false;
+    now = 0.0;
     initialized = false;
     last_wakeup_time = dtime();
     device_status_time = 0;
@@ -378,14 +397,14 @@ bool CLIENT_STATE::is_new_client() {
 }
 
 #ifdef _WIN32
-typedef DWORD (WINAPI *SPC)(HANDLE, DWORD);
+typedef DWORD (WINAPI *STP)(HANDLE, DWORD);
 #endif
 
 static void set_client_priority() {
 #ifdef _WIN32
-    SPC spc = (SPC) GetProcAddress(GetModuleHandle(_T("kernel32.dll")), "SetPriorityClass");
-    if (!spc) return;
-    if (spc(GetCurrentProcess(), PROCESS_MODE_BACKGROUND_BEGIN)) {
+    STP stp = (STP) GetProcAddress(GetModuleHandle(_T("kernel32.dll")), "SetThreadPriority");
+    if (!stp) return;
+    if (stp(GetCurrentThread(), THREAD_MODE_BACKGROUND_BEGIN)) {
         msg_printf(NULL, MSG_INFO, "Running at background priority");
     } else {
         msg_printf(NULL, MSG_INFO, "Failed to set background priority");
@@ -441,7 +460,9 @@ int CLIENT_STATE::init() {
 
     msg_printf(NULL, MSG_INFO, "Libraries: %s", curl_version());
 
-    set_client_priority();
+    if (!cc_config.dont_lower_client_priority) {
+        set_client_priority();
+    }
 
     if (executing_as_daemon) {
 #ifdef _WIN32
@@ -2122,16 +2143,23 @@ int CLIENT_STATE::quit_activities() {
     //
     adjust_rec();
 
+    daily_xfer_history.write_file();
+    write_state_file();
+    gui_rpcs.close();
+    abort_cpu_benchmarks();
+    time_stats.quit();
+
+    // stop jobs.
+    // Do this last because it could take a long time,
+    // and the OS might kill us in the middle
+    //
     int retval = active_tasks.exit_tasks();
     if (retval) {
         msg_printf(NULL, MSG_INTERNAL_ERROR,
             "Couldn't exit tasks: %s", boincerror(retval)
         );
     }
-    write_state_file();
-    gui_rpcs.close();
-    abort_cpu_benchmarks();
-    time_stats.quit();
+
     return 0;
 }
 

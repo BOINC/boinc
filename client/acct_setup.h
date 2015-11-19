@@ -102,6 +102,10 @@ struct GET_PROJECT_LIST_OP: public GUI_HTTP_OP {
 struct PROJECT_ATTACH {
     int error_num;
     std::vector<std::string> messages;
+    PROJECT_ATTACH() {
+        error_num = 0;
+        messages.clear();
+    }
 };
 
 #endif

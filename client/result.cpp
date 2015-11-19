@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <math.h>
+
 #include "parse.h"
 
 #include "client_msgs.h"
@@ -72,12 +74,22 @@ void RESULT::clear() {
     suspended_via_gui = false;
     coproc_missing = false;
     report_immediately = false;
-    rr_sim_misses_deadline = false;
+    not_started = false;
+    name_md5 = "";
+    index = 0;
     app = NULL;
     wup = NULL;
     project = NULL;
+    rrsim_flops_left = 0;
+    rrsim_finish_delay = 0;
+    rrsim_flops = 0;
+    rrsim_done = false;
+    already_selected = false;
+    rr_sim_misses_deadline = false;
+    unfinished_time_slice = false;
+    seqno = 0;
+    edf_scheduled = false;
     strcpy(resources, "");
-    report_immediately = false;
     schedule_backoff = 0;
     strcpy(schedule_backoff_reason, "");
 }
@@ -312,6 +324,10 @@ int RESULT::write(MIOFILE& out, bool to_server) {
 
 #ifndef SIM
 
+static const char* cpu_string(double ncpus) {
+    return (ncpus==1)?"CPU":"CPUs";
+}
+
 int RESULT::write_gui(MIOFILE& out) {
     out.printf(
         "<result>\n"
@@ -368,24 +384,31 @@ int RESULT::write_gui(MIOFILE& out) {
         if (avp->gpu_usage.rsc_type) {
             if (avp->gpu_usage.usage == 1) {
                 sprintf(resources,
-                    "%.3g CPUs + 1 %s",
+                    "%.3g %s + 1 %s",
                     avp->avg_ncpus,
+                    cpu_string(avp->avg_ncpus),
                     rsc_name_long(avp->gpu_usage.rsc_type)
                 );
             } else {
                 sprintf(resources,
-                    "%.3g CPUs + %.3g %ss",
+                    "%.3g %s + %.3g %ss",
                     avp->avg_ncpus,
+                    cpu_string(avp->avg_ncpus),
                     avp->gpu_usage.usage,
                     rsc_name_long(avp->gpu_usage.rsc_type)
                 );
             }
         } else if (avp->missing_coproc) {
-            sprintf(resources, "%.3g CPUs + %s GPU (missing)",
-                avp->avg_ncpus, avp->missing_coproc_name
+            sprintf(resources, "%.3g %s + %s GPU (missing)",
+                avp->avg_ncpus,
+                cpu_string(avp->avg_ncpus),
+                avp->missing_coproc_name
             );
         } else if (!project->non_cpu_intensive && (avp->avg_ncpus != 1)) {
-            sprintf(resources, "%.3g CPUs", avp->avg_ncpus);
+            sprintf(resources, "%.3g %s",
+                avp->avg_ncpus,
+                cpu_string(avp->avg_ncpus)
+            );
         } else {
             strcpy(resources, " ");
         }
@@ -397,9 +420,20 @@ int RESULT::write_gui(MIOFILE& out) {
             if (avp->gpu_usage.rsc_type) {
                 COPROC& cp = coprocs.coprocs[avp->gpu_usage.rsc_type];
                 if (cp.count > 1) {
-                    sprintf(buf, " (device %d)",
-                        cp.device_nums[coproc_indices[0]]
-                    );
+                    // if there are multiple GPUs of this type,
+                    // show the user which one(s) are being used
+                    //
+                    int n = (int)ceil(avp->gpu_usage.usage);
+                    strcpy(buf, n>1?" (devices ":" (device ");
+                    for (int i=0; i<n; i++) {
+                        char buf2[256];
+                        sprintf(buf2, "%d", cp.device_nums[coproc_indices[i]]);
+                        if (i > 0) {
+                            strcat(buf, ", ");
+                        }
+                        strcat(buf, buf2);
+                    }
+                    strcat(buf, ")");
                 }
             }
         }

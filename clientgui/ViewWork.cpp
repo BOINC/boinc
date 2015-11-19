@@ -370,6 +370,11 @@ wxString CViewWork::GetKeyValue1(int iRowIndex) {
         return wxEmptyString;
     }
 
+    if (m_iColumnIDToColumnIndex[COLUMN_NAME] < 0) {
+        // Column is hidden, so SynchronizeCacheItem() did not set its value
+        GetDocName(m_iSortedIndexes[iRowIndex], work->m_strName);
+    }
+
     return work->m_strName;
 }
 
@@ -381,6 +386,11 @@ wxString CViewWork::GetKeyValue2(int iRowIndex) {
         return wxEmptyString;
     }
 
+    if (m_iColumnIDToColumnIndex[COLUMN_PROJECT] < 0) {
+        // Column is hidden, so SynchronizeCacheItem() did not set its value
+        GetDocProjectURL(m_iSortedIndexes[iRowIndex], work->m_strProjectURL);
+    }
+    
     return work->m_strProjectURL;
 }
 
@@ -1017,7 +1027,7 @@ bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
             GetDocCPUTime(m_iSortedIndexes[iRowIndex], x);
             if (x != work->m_fCPUTime) {
                 work->m_fCPUTime = x;
-                FormatCPUTime(x, work->m_strCPUTime);
+                work->m_strCPUTime = FormatTime(x);
                 return true;
             }
             break;
@@ -1159,29 +1169,6 @@ void CViewWork::GetDocCPUTime(wxInt32 item, double& fBuffer) const {
         }
     }
 }
-
-
-wxInt32 CViewWork::FormatCPUTime(double fBuffer, wxString& strBuffer) const {
-    wxInt32        iHour = 0;
-    wxInt32        iMin = 0;
-    wxInt32        iSec = 0;
-    wxTimeSpan     ts;
-    
-    if (0 == fBuffer) {
-        strBuffer = wxT("---");
-    } else {
-        iHour = (wxInt32)(fBuffer / (60 * 60));
-        iMin  = (wxInt32)(fBuffer / 60) % 60;
-        iSec  = (wxInt32)(fBuffer) % 60;
-
-        ts = wxTimeSpan(iHour, iMin, iSec);
-
-        strBuffer = ts.Format();
-    }
-
-    return 0;
-}
-
 
 void CViewWork::GetDocProgress(wxInt32 item, double& fBuffer) const {
     RESULT*        result = wxGetApp().GetDocument()->result(item);

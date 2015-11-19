@@ -8,7 +8,7 @@
   <string name="generic_button_finish">Finalizar</string>
   <!--attach project-->
   <!--selection list-->
-  <string name="attachproject_list_desc">Seleccione los proyectos científicos a los que queires contribuir:</string>
+  <string name="attachproject_list_desc">Selecciona los proyectos científicos a los que quieres contribuir:</string>
   <string name="attachproject_list_header">Elegir un proyecto</string>
   <string name="attachproject_list_manual_button">Añadir un proyecto por URL</string>
   <string name="attachproject_list_manual_dialog_title">URL del proyecto:</string>
@@ -276,8 +276,7 @@
   <string name="trans_suspended">suspendido</string>
   <string name="trans_active">activo</string>
   <string name="trans_pending">pendiente</string>
-  <string name="trans_projectbackoff">proyecto lárgate
-</string>
+  <string name="trans_projectbackoff">proyecto lárgate</string>
   <string name="trans_header_name">Archivo:</string>
   <string name="trans_control_retry">reintentar transferencias</string>
   <string name="confirm_abort_trans_title">¿Cancelar transferencias?</string>

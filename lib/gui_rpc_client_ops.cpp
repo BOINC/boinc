@@ -277,6 +277,8 @@ int PROJECT::parse(XML_PARSER& xp) {
     int retval;
     char buf[256];
 
+    strcpy(buf, "");
+
     while (!xp.get_tag()) {
         if (xp.match_tag("/project")) {
             return 0;
@@ -463,9 +465,11 @@ void PROJECT::clear() {
     strcpy(master_url, "");
     resource_share = 0;
     project_name.clear();
-    project_dir.clear();
     user_name.clear();
     team_name.clear();
+    hostid = 0;
+    gui_urls.clear();
+    project_dir.clear();
     user_total_credit = 0;
     user_expavg_credit = 0;
     host_total_credit = 0;
@@ -480,27 +484,30 @@ void PROJECT::clear() {
     rsc_desc_nvidia.clear();
     rsc_desc_ati.clear();
     rsc_desc_intel_gpu.clear();
+    sched_priority = 0;
     duration_correction_factor = 0;
     anonymous_platform = false;
     master_url_fetch_pending = false;
     sched_rpc_pending = 0;
-    ended = false;
     non_cpu_intensive = false;
     suspended_via_gui = false;
     dont_request_more_work = false;
     scheduler_rpc_in_progress = false;
     attached_via_acct_mgr = false;
     detach_when_done = false;
+    ended = false;
     trickle_up_pending = false;
     project_files_downloaded_time = 0;
     last_rpc_time = 0;
-    gui_urls.clear();
+    
     statistics.clear();
     strcpy(venue, "");
     njobs_success = 0;
     njobs_error = 0;
     elapsed_time = 0;
     strcpy(external_cpid, "");
+    
+    flag_for_delete = false;
 }
 
 APP::APP() {
@@ -789,6 +796,9 @@ void FILE_TRANSFER::clear() {
     project_url.clear();
     project_name.clear();
     nbytes = 0;
+    uploaded = false;
+    is_upload = false;
+    generated_locally = false;
     sticky = false;
     pers_xfer_active = false;
     xfer_active = false;
@@ -829,6 +839,7 @@ int MESSAGE::parse(XML_PARSER& xp) {
 void MESSAGE::clear() {
     project.clear();
     priority = 0;
+    seqno = 0;
     timestamp = 0;
     body.clear();
 }
@@ -1282,8 +1293,9 @@ int PROJECT_CONFIG::parse(XML_PARSER& xp) {
         if (xp.parse_string("error_msg", error_msg)) continue;
         if (xp.match_tag("terms_of_use")) {
             char buf[65536];
-            xp.element_contents("</terms_of_use>", buf, sizeof(buf));
-            terms_of_use = buf;
+            if (!xp.element_contents("</terms_of_use>", buf, sizeof(buf))) {
+                terms_of_use = buf;
+            }
             continue;
         }
         if (xp.parse_int("min_client_version", min_client_version)) continue;
@@ -1305,6 +1317,7 @@ void PROJECT_CONFIG::clear() {
     web_rpc_url_base.clear();
     error_msg.clear();
     terms_of_use.clear();
+    local_revision = 0;
     min_passwd_length = 6;
     account_manager = false;
     uses_username = false;
@@ -1327,6 +1340,7 @@ void ACCOUNT_IN::clear() {
     user_name.clear();
     passwd.clear();
     team_name.clear();
+    ldap_auth = false;
 }
 
 ACCOUNT_OUT::ACCOUNT_OUT() {
@@ -1396,6 +1410,7 @@ void CC_STATUS::clear() {
 	gpu_mode_delay = 0;
     disallow_attach = false;
     simple_gui_only = false;
+    max_event_log_lines = 0;
 }
 
 /////////// END OF PARSING FUNCTIONS.  RPCS START HERE ////////////////
@@ -2332,8 +2347,12 @@ int RPC_CLIENT::get_newer_version(std::string& version, std::string& version_dow
     retval = rpc.do_rpc("<get_newer_version/>\n");
     if (!retval) {
         while (rpc.fin.fgets(buf, 256)) {
-            parse_str(buf, "<newer_version>", version);
-            parse_str(buf, "<download_url>", version_download_url);
+            if (parse_str(buf, "<newer_version>", version)) {
+                return ERR_XML_PARSE;
+            }
+            if (parse_str(buf, "<download_url>", version_download_url)) {
+                return ERR_XML_PARSE;
+            }
         }
     }
     return retval;
@@ -2551,6 +2570,7 @@ static int parse_notices(XML_PARSER& xp, NOTICES& notices) {
                 if (np->seqno == -1) {
                     notices.notices.clear();
                     notices.complete = true;
+                    delete np;
                 } else {
                     notices.notices.insert(notices.notices.begin(), np);
                 }

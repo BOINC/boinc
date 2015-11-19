@@ -107,7 +107,7 @@ function show_submit() {
     $config = get_config();
     $publickey = parse_config($config, "<recaptcha_public_key>");
     if ($publickey) {
-        table_row(recaptcha_get_html($publickey));
+        table_row(boinc_recaptcha_get_html($publickey));
     }
     table_row("<p><input class=\"btn btn-primary\" type=\"submit\" value=\"".tra("Create/edit profile") ."\" name=\"submit\">");
 }

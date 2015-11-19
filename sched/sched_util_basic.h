@@ -38,7 +38,7 @@ extern void daemon_sleep(int);
 extern bool check_stop_sched();
 extern void install_stop_signal_handler();
 extern int try_fopen(const char* path, FILE*& f, const char* mode);
-extern void get_log_path(char*, const char*);
+extern int get_log_path(char*, const char*);
 
 // convert filename to path in a hierarchical directory system
 //
