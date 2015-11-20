@@ -51,6 +51,7 @@ extern bool standalone;
     // if set, look for output files in the current directory,
     // not the upload hierarchy.
     // used by validator_test.
+extern void remove_random_from_filename(const char* in, char* out);
+
 #endif
 
-extern void remove_random_from_filename(const char* in, char* out);
