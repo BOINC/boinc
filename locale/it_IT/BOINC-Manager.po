@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2015-11-18 13:51+0000\n"
+"PO-Revision-Date: 2015-11-20 09:10+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -2359,7 +2359,7 @@ msgstr "Riporta i problemi"
 
 #: clientgui/Localization.cpp:79
 msgid "A link to the Einstein@Home problems and bug reports message board"
-msgstr "Collegamento al forum per i problemi ed i bug di Einstein@Home"
+msgstr "Riepilogo dei problemi di Einstein@Home e segnalazione bug"
 
 #: clientgui/Localization.cpp:83
 msgid "View and modify your Einstein@Home account profile and preferences"
@@ -2695,15 +2695,15 @@ msgstr "Autenticazione fallita."
 
 #: clientgui/NotFoundPage.cpp:185
 msgid "Check the username and password, and try again."
-msgstr "Controlla nome utente e password poi riprova."
+msgstr "Controlla nome utente e password, poi riprova."
 
 #: clientgui/NotFoundPage.cpp:189
 msgid "Check the email address and password, and try again."
-msgstr "Controlla l'indirizzo e-mail e la password poi riprova"
+msgstr "Controlla l'indirizzo e-mail e la password, poi riprova."
 
 #: clientgui/NoticeListCtrl.cpp:229
 msgid "more..."
-msgstr "ancora..."
+msgstr "Vuoi saperne di più?"
 
 #: clientgui/ProjectInfoPage.cpp:221
 msgid "Choose a project"
@@ -2723,7 +2723,7 @@ msgstr "Progetti:"
 
 #: clientgui/ProjectInfoPage.cpp:274
 msgid "Project details"
-msgstr "Dettagli progetto"
+msgstr "Dettagli sul progetto"
 
 #: clientgui/ProjectInfoPage.cpp:284
 msgid "Research area:"
