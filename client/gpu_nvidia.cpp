@@ -365,6 +365,8 @@ void COPROC_NVIDIA::get(
         return;
     }
 
+    have_cuda = true;
+
     retval = (*__cuDeviceGetCount)(&cuda_ndevs);
     if (retval) {
         sprintf(buf, "cuDeviceGetCount() returned %d", retval);
@@ -453,13 +455,15 @@ void COPROC_NVIDIA::correlate(
     //
     bool first = true;
     for (i=0; i<nvidia_gpus.size(); i++) {
+        nvidia_gpus[i].is_used = COPROC_IGNORED;
         if (in_vector(nvidia_gpus[i].device_num, ignore_devs)) continue;
 #ifdef __APPLE__
         if ((nvidia_gpus[i].cuda_version >= 6050) && nvidia_gpus[i].prop.major < 2) {
+            // Can't use GPUs with compute capability < 2 with CUDA drivers >= 6.5.x
+            nvidia_gpus[i].is_used = COPROC_UNUSED;
             continue;
         }
 #endif
-        have_cuda = true;
         if (first) {
             *this = nvidia_gpus[i];
             first = false;
@@ -480,9 +484,8 @@ void COPROC_NVIDIA::correlate(
         } else if (this->have_cuda && !nvidia_gpus[i].have_cuda) {
             nvidia_gpus[i].is_used = COPROC_UNUSED;
 #ifdef __APPLE__
-        } else if ((nvidia_gpus[i].cuda_version >= 6050) && nvidia_gpus[i].prop.major < 2) {
+        } else if (nvidia_gpus[i].is_used == COPROC_UNUSED) {
             // Can't use GPUs with compute capability < 2 with CUDA drivers >= 6.5.x
-            nvidia_gpus[i].is_used = COPROC_UNUSED;
             continue;
 #endif
         } else if (use_all || !nvidia_compare(nvidia_gpus[i], *this, true)) {
