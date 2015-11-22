@@ -455,6 +455,7 @@ void COPROC_NVIDIA::correlate(
     //
     bool first = true;
     for (i=0; i<nvidia_gpus.size(); i++) {
+        nvidia_gpus[i].is_used = COPROC_IGNORED;
         if (in_vector(nvidia_gpus[i].device_num, ignore_devs)) continue;
 #ifdef __APPLE__
         if ((nvidia_gpus[i].cuda_version >= 6050) && nvidia_gpus[i].prop.major < 2) {

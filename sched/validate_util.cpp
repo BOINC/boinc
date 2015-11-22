@@ -135,8 +135,8 @@ int get_output_file_paths(RESULT const& result, vector<string>& paths) {
 }
 
 // remove the random part of an output filename:
-// given a name of the form xxx_r123123_3_4,
-// return xxx_3_4
+// given a name of the form "xxx_resultnum_r123123_filenum",
+// return "xxx_resultnum_filenum"
 //
 void remove_random_from_filename(const char* in, char* out) {
     strcpy(out, in);
