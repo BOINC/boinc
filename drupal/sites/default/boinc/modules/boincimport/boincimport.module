@@ -2304,7 +2304,6 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
   db_set_active('default');
   
   while ($boinc_topic = db_fetch_object($boinc_topic_ids)) {
-    
     // Get the posts in this topic
     db_set_active('boinc');
     $boinc_posts = db_query('
@@ -2314,10 +2313,15 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
     
     $first_post = true;
     $success = FALSE;
+    $invalid = FALSE;
     $posts_imported = 0;
     $empty_posts = 0;
     $error_posts = 0;
     $duplicate_posts = 0;
+    
+    if (!mysql_num_rows($boinc_posts)) {
+      $invalid = TRUE;
+    }
 
     while ($post = db_fetch_object($boinc_posts)) {
       
@@ -2334,7 +2338,7 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
       ));
       if ($is_duplicate) {
         // This post has already been imported
-        $context['results']['duplicate'][] = $post->id;
+        $context['results']['posts']['duplicate'][] = $post->id;
         $duplicate_posts++;
         continue;
       }
@@ -2435,6 +2439,13 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
       $context['results']['success'][] = $boinc_topic->id;
       $message = "Imported {$posts_imported} post(s) for topic {$boinc_topic->id}";
     }
+    elseif ($invalid) {
+      $context['results']['invalid'][] = $boinc_topic->id;
+      $message = "Topic {$boinc_topic->id} has no content at all, so is invalid";
+      watchdog('boincimport', $message, 
+        array(), WATCHDOG_WARNING
+      ); 
+    }
     else {
       $context['results']['failure'][] = $boinc_topic->id;
       $message = "Imported {$posts_imported} post(s) for topic {$boinc_topic->id} (excluded {$error_posts} errors, {$duplicate_posts} duplicates, and {$empty_posts} empty)";
@@ -2472,28 +2483,30 @@ function boincimport_posts_finished($success, $results, $operations) {
     // Let's count our successes
     $posts_imported = count($results['posts']['success']);
     $topic_count = count($results['success']);
-    $duplicates = count($results['duplicate']);
+    $topics_skipped = count($results['failure']);
+    $topics_invalid = count($results['invalid']);
+    $duplicates = count($results['posts']['duplicate']);
     $empty_posts = count($results['posts']['empty']);
     $failed_posts = count($results['posts']['failure']);
     $message = t(
-      'Successfully imported @post_count posts in @topic_count topics (skipped @duplicates posts already imported, @empty_posts with no content, and @error_posts with errors during import)',
+      'Successfully imported @post_count posts in @topic_count topics ' .
+      '(@skipped topics either had no replies or all replies were already imported, @invalid_topics had no content at all and were invalid; ' .
+      '@duplicates posts were skipped as already imported, ' .
+      '@empty_posts had no content, ' .
+      'and @error_posts encountered errors during import)',
       array(
         '@post_count' => $posts_imported,
         '@topic_count' => $topic_count,
+        '@skipped' => $topics_skipped,
+        '@invalid_topics' => $topics_invalid,
         '@duplicates' => $duplicates,
         '@empty_posts' => $empty_posts,
         '@error_posts' => $failed_posts,
       )
     );
     watchdog('boincimport',
-      'Successfully imported @post_count posts in @topic_count topics (skipped @duplicates posts already imported, @empty_posts with no content, and @error_posts with errors during import).',
-      array(
-        '@post_count' => $posts_imported,
-        '@topic_count' => $topic_count,
-        '@duplicates' => $duplicates,
-        '@empty_posts' => $empty_posts,
-        '@error_posts' => $failed_posts,
-      ), WATCHDOG_INFO
+      $message,
+      array(), WATCHDOG_INFO
     ); 
     // Set the post import successful flag in the variable table
     variable_set('boincimport_import_post_successful', '1');
