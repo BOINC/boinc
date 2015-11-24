@@ -412,7 +412,7 @@ static void set_client_priority() {
 #endif
 #ifdef __linux__
     char buf[1024];
-    sprintf(buf, "ionice -c 3 -n 7 -p %d", getpid());
+    sprintf(buf, "ionice -c 3 -p %d", getpid());
     system(buf);
 #endif
 }
