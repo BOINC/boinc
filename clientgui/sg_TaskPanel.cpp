@@ -25,6 +25,7 @@
 #include "sg_TaskPanel.h"
 #include "boinc_api.h"
 #include "filesys.h"
+#include "str_replace.h"
 
 
 #define SORTTASKLIST 1  /* TRUE to sort task selection control alphabetically */
@@ -1012,10 +1013,8 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
             
             selData = new TaskSelectionData;
             selData->result = result;
-            strncpy(selData->result_name, result->name, sizeof(selData->result_name));
-            selData->result_name[sizeof(selData->result_name)-1] = '\0';
-            strncpy(selData->project_url, result->project_url, sizeof(selData->project_url));
-            selData->project_url[sizeof(selData->project_url)-1] = '\0';
+            strlcpy(selData->result_name, result->name, sizeof(selData->result_name));
+            strlcpy(selData->project_url, result->project_url, sizeof(selData->project_url));
             selData->dotColor = -1;
             FindSlideShowFiles(selData);
             project = pDoc->state.lookup_project(result->project_url);

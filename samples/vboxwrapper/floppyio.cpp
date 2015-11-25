@@ -307,7 +307,7 @@ int FloppyIO::receive(string * ansBuffer) {
     
     // Copy input data to string object
     *ansBuffer = dataToReceive;
-    dataToReceive = NULL;
+    delete[] dataToReceive;
     return (int)ansBuffer->length();
     
 }
