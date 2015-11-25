@@ -149,7 +149,6 @@ struct CC_CONFIG {
     bool disallow_attach;
     bool dont_check_file_sizes;
     bool dont_contact_ref_site;
-    bool dont_lower_client_priority;
     bool dont_suspend_nci;
     bool dont_use_vbox;
     std::vector<EXCLUDE_GPU> exclude_gpus;
@@ -165,6 +164,7 @@ struct CC_CONFIG {
     int http_transfer_timeout_bps;
     int http_transfer_timeout;
     std::vector<int> ignore_gpu_instance[NPROC_TYPES];
+    bool lower_client_priority;
     int max_event_log_lines;
     int max_file_xfers;
     int max_file_xfers_per_project;
