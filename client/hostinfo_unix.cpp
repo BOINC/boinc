@@ -1224,47 +1224,41 @@ bool isDualGPUMacBook() {
 
 // see if Virtualbox is installed
 //
-static const struct dir_vbox_locations {
-    const char *dir;
-} vbox_locations[] = {
-    { "/usr/bin/VboxManage" },
-    { "/usr/local/bin/VboxManage" },
+const char* vbox_locations[] = {
+    "/usr/bin/VBoxManage",
+    "/usr/local/bin/VBoxManage",
     // add other ifdefs here as necessary.
-    { NULL },
+    NULL
 };
 
 int HOST_INFO::get_virtualbox_version() {
-    char path[MAXPATHLEN];
+    const char** paths;
     char cmd [MAXPATHLEN+35];
     char buf[256];
-	int i = 0;
     FILE* fd;
 
-    do {
-		safe_strcpy(path, vbox_locations[i].dir);
-
-		if (boinc_file_exists(path)) {
-			if (access(path, X_OK)) {
-				return 0;
-			}
-			safe_strcpy(cmd, path);
-			safe_strcat(cmd, " --version");
-			fd = popen(cmd, "r");
-			if (fd) {
-				if (fgets(buf, sizeof(buf), fd)) {
-					strip_whitespace(buf);
-					int n, a,b,c;
-					n = sscanf(buf, "%d.%d.%d", &a, &b, &c);
-					if (n == 3) {
-						strcpy(virtualbox_version, buf);
-					}
-				}
-				pclose(fd);
-			}
-		}
-
-		++i;
-    } while (vbox_locations[i].dir != NULL);
+    for (paths = vbox_locations; *paths != NULL; ++paths) {
+        const char* path = *paths;
+        if (access(path, X_OK)) {
+            continue;
+        }
+        safe_strcpy(cmd, path);
+        safe_strcat(cmd, " --version");
+        fd = popen(cmd, "r");
+        if (fd) {
+            if (fgets(buf, sizeof(buf), fd)) {
+                strip_whitespace(buf);
+                int n, a,b,c;
+                n = sscanf(buf, "%d.%d.%d", &a, &b, &c);
+                if (n == 3) {
+                    safe_strcpy(virtualbox_version, buf);
+                    pclose(fd);
+                    break;
+                }
+            }
+            pclose(fd);
+        }
+    }
 
     return 0;
 }
