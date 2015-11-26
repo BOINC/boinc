@@ -1178,14 +1178,14 @@ function check_post_access($user, $forum) {
     // no need to make it easy for them to break the system.
     //
     if ($user->total_credit<$forum->post_min_total_credit || $user->expavg_credit<$forum->post_min_expavg_credit) {
-        error_page(tra("In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system.", $forum->title));
+        error_page(tra("To create a new thread in %1 you must have a certain level of average credit. This is to protect against abuse of the system.", $forum->title));
     }
 
     // If the user is posting faster than forum regulations allow
     // Tell the user to wait a while before creating any more posts
     //
     if (time()-$user->prefs->last_post <$forum->post_min_interval) {
-        error_page(tra("You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."));
+        error_page(tra("You cannot create threads right now. Please wait before trying again. This is to protect against abuse of the system."));
     }
 }
 
