@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2015-11-20 09:10+0000\n"
+"PO-Revision-Date: 2015-11-27 10:50+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -303,11 +303,11 @@ msgstr "Visualizza utilizzo disco"
 
 #: clientgui/AdvancedFrame.cpp:438
 msgid "Simple &View...\tCtrl+Shift+V"
-msgstr "&Visualizzazione Semplice...\tCtrl+Shift+V"
+msgstr "&Visualizzazione semplice...\tCtrl+Shift+V"
 
 #: clientgui/AdvancedFrame.cpp:439
 msgid "Switch to the Simple View"
-msgstr "Passa alla Vista Semplice"
+msgstr "Passa alla Visualizzazione semplice"
 
 #: clientgui/AdvancedFrame.cpp:453 clientgui/AdvancedFrame.cpp:477
 #: clientgui/sg_BoincSimpleFrame.cpp:205
@@ -348,11 +348,11 @@ msgstr "Rimuovi questo computer dal controllo dell'account manager."
 
 #: clientgui/AdvancedFrame.cpp:493
 msgid "Run CPU &benchmarks"
-msgstr "Esegui i &benchmark per la CPU"
+msgstr "Esegui il &benchmark della CPU"
 
 #: clientgui/AdvancedFrame.cpp:494
 msgid "Run tests that measure CPU speed"
-msgstr "Avvia i test di misurazione della velocità CPU"
+msgstr "Avvia dei test che misurazione la velocità di calcolo della CPU e della GPU"
 
 #: clientgui/AdvancedFrame.cpp:498
 msgid "Retry pending transfers"
@@ -512,7 +512,7 @@ msgstr "Mostra le informazioni su %s"
 #: clientgui/AdvancedFrame.cpp:660
 #, c-format
 msgid "&%s help"
-msgstr "Aiuto sul &%s"
+msgstr "Aiuto su &%s"
 
 #: clientgui/AdvancedFrame.cpp:664 clientgui/sg_BoincSimpleFrame.cpp:237
 #, c-format
@@ -2189,7 +2189,7 @@ msgstr "Non utilizzare il proxy per:"
 
 #: clientgui/DlgOptions.cpp:317 clientgui/DlgOptions.cpp:381
 msgid "Leave these blank if not needed"
-msgstr "Lascia questi spazi vuoti se non necessari"
+msgstr "Lascia questi spazi vuoti se non sono necessari"
 
 #: clientgui/DlgOptions.cpp:323 clientgui/DlgOptions.cpp:387
 #: clientgui/ProxyPage.cpp:343 clientgui/ProxyPage.cpp:363
@@ -2330,7 +2330,7 @@ msgstr "Domande frequenti"
 
 #: clientgui/Localization.cpp:63
 msgid "Read the Einstein@Home Frequently Asked Question list"
-msgstr "Leggi la lista delle domande frequenti di Einstein@Home"
+msgstr "Leggi la lista delle domande frequenti su Einstein@Home"
 
 #: clientgui/Localization.cpp:65
 msgid "Screensaver info"
@@ -2338,7 +2338,7 @@ msgstr "Informazioni sullo screensaver"
 
 #: clientgui/Localization.cpp:67
 msgid "Read a detailed description of the Einstein@Home screensaver"
-msgstr "Leggi una descrizione dettagliata dello sreensaver di Einstein@Home"
+msgstr "Una descrizione dettagliata dello screensaver di Einstein@Home"
 
 #: clientgui/Localization.cpp:71
 msgid ""
@@ -2355,7 +2355,7 @@ msgstr "Stato attuale del server di Einstein@Home"
 
 #: clientgui/Localization.cpp:77
 msgid "Report problems"
-msgstr "Riporta i problemi"
+msgstr "Segnala i problemi"
 
 #: clientgui/Localization.cpp:79
 msgid "A link to the Einstein@Home problems and bug reports message board"
@@ -2403,7 +2403,7 @@ msgstr "Informazioni sul tuo Team"
 
 #: clientgui/Localization.cpp:123
 msgid "Get help for climateprediction.net"
-msgstr "Ricevi aiuto per climateprediction.net"
+msgstr "Assistenza su climateprediction.net"
 
 #: clientgui/Localization.cpp:125
 msgid "News"
@@ -2415,7 +2415,7 @@ msgstr "Notizie su climateprediction.net"
 
 #: clientgui/Localization.cpp:131
 msgid "View your account information, credits, and trickles"
-msgstr "Visualizza le informazioni sul tuo account, i crediti ed il lavoro effettuato"
+msgstr "Visualizza le informazioni sul tuo account, i crediti e le elaborazioni effettuate"
 
 #: clientgui/Localization.cpp:135
 msgid "Info about your team"
@@ -2439,7 +2439,7 @@ msgstr "My Grid"
 
 #: clientgui/Localization.cpp:149
 msgid "Your statistics and settings"
-msgstr "Le tue statistiche e le tue impostazioni"
+msgstr "Le tue statistiche ed impostazioni"
 
 #: clientgui/Localization.cpp:151
 msgid "Device Profiles"
@@ -2497,11 +2497,11 @@ msgstr "limiti di orario"
 
 #: clientgui/MainDocument.cpp:2447
 msgid "CPU benchmarks in progress"
-msgstr "benchmark della CPU in corso"
+msgstr "Benchmark della CPU in corso"
 
 #: clientgui/MainDocument.cpp:2448
 msgid "need disk space - check preferences"
-msgstr "E' necessario spazio su disco - controlla le preferenze"
+msgstr "È necessario più spazio su disco, controlla le preferenze"
 
 #: clientgui/MainDocument.cpp:2449
 msgid "computer is not in use"
@@ -2549,7 +2549,7 @@ msgstr "Scaricamento in corso"
 
 #: clientgui/MainDocument.cpp:2493 clientgui/MainDocument.cpp:2552
 msgid " (suspended - "
-msgstr "(sospesa-"
+msgstr "(sospesa - "
 
 #: clientgui/MainDocument.cpp:2501
 msgid "Project suspended by user"
@@ -2563,7 +2563,7 @@ msgstr "Elaborazione sospesa dall'utente"
 #. (because of <dont_suspend_nci>
 #: clientgui/MainDocument.cpp:2508
 msgid "Suspended - "
-msgstr "Sospesa -"
+msgstr "Sospesa - "
 
 #: clientgui/MainDocument.cpp:2511
 msgid "GPU suspended - "
@@ -2571,7 +2571,7 @@ msgstr "GPU sospesa - "
 
 #: clientgui/MainDocument.cpp:2515
 msgid "Waiting for memory"
-msgstr "In attesa di memoria"
+msgstr "In attesa di più memoria libera"
 
 #: clientgui/MainDocument.cpp:2517
 msgid "Waiting for shared memory"
