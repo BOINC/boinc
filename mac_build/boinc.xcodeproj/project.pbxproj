@@ -192,7 +192,6 @@
 		DD69FF0C084171CF00C01361 /* network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.cpp */; };
 		DD6A829C181103990037172D /* thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6A829A181103990037172D /* thread.cpp */; };
 		DD6ABCD10BD4C5CA009AA7A1 /* browser_safari.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD6ABCD00BD4C5CA009AA7A1 /* browser_safari.mm */; };
-		DD6B61351BA0390B003B4FBF /* sched_msgs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6B61331BA0390B003B4FBF /* sched_msgs.cpp */; };
 		DD6D0A8707E9A61E007F882B /* network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.cpp */; };
 		DD728D45175DD3B900A1CE23 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
 		DD728D47175DD41B00A1CE23 /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
@@ -907,8 +906,6 @@
 		DD6A829A181103990037172D /* thread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = thread.cpp; sourceTree = "<group>"; };
 		DD6A829B181103990037172D /* thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = thread.h; sourceTree = "<group>"; };
 		DD6ABCD00BD4C5CA009AA7A1 /* browser_safari.mm */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.objcpp; name = browser_safari.mm; path = ../clientgui/mac/browser_safari.mm; sourceTree = SOURCE_ROOT; };
-		DD6B61331BA0390B003B4FBF /* sched_msgs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sched_msgs.cpp; sourceTree = "<group>"; };
-		DD6B61341BA0390B003B4FBF /* sched_msgs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sched_msgs.h; sourceTree = "<group>"; };
 		DD6D0A8507E9A61B007F882B /* network.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = network.cpp; sourceTree = "<group>"; };
 		DD6D0A8607E9A61B007F882B /* network.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = network.h; path = ../lib/network.h; sourceTree = SOURCE_ROOT; };
 		DD6D82DA08131AB1008F7200 /* macglutfix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = macglutfix.m; sourceTree = "<group>"; };
@@ -1848,8 +1845,6 @@
 				DD2B6C7F13149177005D6F3E /* procinfo.h */,
 				DD344BEF07C5B1770043025C /* proxy_info.cpp */,
 				DD344BEE07C5B1770043025C /* proxy_info.h */,
-				DD6B61331BA0390B003B4FBF /* sched_msgs.cpp */,
-				DD6B61341BA0390B003B4FBF /* sched_msgs.h */,
 				AAA31C97042157A800A80164 /* shmem.cpp */,
 				AAA31C98042157A800A80164 /* shmem.h */,
 				DD407ADC07D2FDF700163EF5 /* std_fixes.h */,
@@ -2949,7 +2944,6 @@
 				DD407ABB07D2FC7D00163EF5 /* mem_usage.cpp in Sources */,
 				DD407A5F07D2FBAE00163EF5 /* mfile.cpp in Sources */,
 				DD407A6207D2FBB300163EF5 /* miofile.cpp in Sources */,
-				DD6B61351BA0390B003B4FBF /* sched_msgs.cpp in Sources */,
 				DD407A6307D2FBB600163EF5 /* msg_log.cpp in Sources */,
 				DD52C81408B5D484008D9AA4 /* network.cpp in Sources */,
 				DDE1372F10DC5E8D00161D6B /* notice.cpp in Sources */,
