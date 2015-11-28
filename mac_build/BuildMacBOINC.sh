@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2014 University of California
+# Copyright (C) 2015 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -26,6 +26,7 @@
 # Updated for OS 10.7 Lion and XCode 4.2 on 10/19/11
 # Updated 7/9/12 for Xcode 4.3 and later which are not at a fixed address
 # Updated 2/7/14 to also build libboinc_zip.a
+# Updated 11/28/15 to build ScreenSaver with ARC under Xcode 6 or later
 #
 ## This script requires OS 10.8 or later
 #
@@ -71,6 +72,14 @@ buildall=0
 buildlibs=0
 buildclient=0
 style="Deployment"
+isXcode6orLater=0
+
+xcodeversion=`xcodebuild -version`
+xcodeMajorVersion=`echo $xcodeversion | cut -d ' ' -f 2 | cut -d '.' -f 1`
+
+if [ "$xcodeMajorVersion" -gt "5" ]; then
+isXcode6orLater=1
+fi
 
 while [ $# -gt 0 ]; do
   case "$1" in 
@@ -97,7 +106,13 @@ fi
 
 ## "-all" overrides "-lib" and "-client" since it includes those targets
 if [ "${buildall}" = "1" ] || [ "${targets}" = "" ]; then
-    targets="-target Build_All"
+    if [ $isXcode6orLater = 0 ]; then
+        ## We can build the screensaver using our standard settings (with Garbage Collection)
+        targets="-target Build_All"
+    else
+        ## We must modify the build settings for the screensaver only, to build it with ARC
+        targets="-target SetVersion -target libboinc -target gfx2libboinc -target api_libboinc -target boinc_opencl -target jpeg -target MakeAppIcon_h -target BOINC_Client -target switcher -target setprojectgrp -target cmd_boinc -target mgr_boinc -target Install_BOINC -target PostInstall -target Uninstaller -target SetUpSecurity -target AddRemoveUser -target WaitPermissions -target ss_app -target gfx_switcher"
+    fi
 fi
 
 version=`uname -r`;
@@ -133,7 +148,23 @@ echo ""
 
 SDKPATH=`xcodebuild -version -sdk macosx Path`
 
-xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk "${SDKPATH}" ${doclean} build
+if [ $isXcode6orLater = 0 ]; then
+    ## echo "Xcode version < 6"
+    ## Build the screensaver using our standard settings (with Garbage Collection)
+    xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk "${SDKPATH}" ${doclean} build
+else
+    ## echo "Xcode version > 5"
+    ## We must modify the build settings for the screensaver only, to build it with ARC
+    xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk "${SDKPATH}" ${doclean}  build
+
+    result=$?
+
+    if [ $result -eq 0 ]; then
+        xcodebuild -project boinc.xcodeproj -target ScreenSaver -configuration ${style} -sdk "${SDKPATH}" ${doclean} build ARCHS=x86_64 GCC_ENABLE_OBJC_GC=unsupported
+    fi
+fi
+
+
 
 result=$?
 
