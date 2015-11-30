@@ -36,7 +36,7 @@ function notices_rss_start() {
         <rss version=\"2.0\">
         <channel>
         <title>".PROJECT." notices</title>
-        <link>".URL_BASE."</link>
+        <link>".secure_url_base()."</link>
         <description>Notices</description>
         <lastBuildDate>$t</lastBuildDate>
     ";

@@ -106,10 +106,10 @@ $content
 
 --------------------------
 To delete or respond to this message, visit:
-".URL_BASE."pm.php
+".secure_url_base()."pm.php
 
 To change email preferences, visit:
-".URL_BASE."edit_forum_preferences_form.php
+".secure_url_base()."edit_forum_preferences_form.php
 Do not reply to this message.
 " ;
     send_email($to_user, "[".PROJECT."] - private message", $message);
@@ -202,8 +202,8 @@ function pm_rss($notify, &$title, &$msg, &$url) {
         return;
     }
     $title = tra("Private message");
-    $msg = "You have received a <a href=".URL_BASE."pm.php>private message</a>.";
-    $url = URL_BASE."pm.php";
+    $msg = "You have received a <a href=".secure_url_base()."pm.php>private message</a>.";
+    $url = secure_url_base()."pm.php";
 }
 
 function pm_delete_user($user) {

@@ -27,7 +27,7 @@ if (!defined('UOTD_THRESHOLD')) {
 
 function uotd_thumbnail($profile, $user) {
     if ($profile->has_picture) {
-        return "<a href=\"".URL_BASE."view_profile.php?userid=$user->id\"><img border=0 vspace=4 hspace=8 align=left src=\"".profile_thumb_url($user->id)."\" alt=\"".tra("User profile")."\"></a>";
+        return "<a href=\"".url_base()."view_profile.php?userid=$user->id\"><img border=0 vspace=4 hspace=8 align=left src=\"".profile_thumb_url($user->id)."\" alt=\"".tra("User profile")."\"></a>";
     } else {
         return "";
     }

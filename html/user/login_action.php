@@ -54,7 +54,7 @@ function login_with_email($email_addr, $passwd, $next_url, $perm) {
         exit;
     }
     $authenticator = $user->authenticator;
-    Header("Location: ".URL_BASE."$next_url");
+    Header("Location: ".url_base()."$next_url");
     send_cookie('auth', $authenticator, $perm);
 }
 
@@ -119,7 +119,7 @@ function login_with_ldap($uid, $passwd, $next_url, $perm) {
     if (!$user) {
         error_page("Couldn't create user");
     }
-    Header("Location: ".URL_BASE."$next_url");
+    Header("Location: ".url_base()."$next_url");
     send_cookie('auth', $user->authenticator, $perm);
     return;
 }

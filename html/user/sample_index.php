@@ -139,7 +139,7 @@ function show_nav() {
 
 $stopped = web_stopped();
 $rssname = PROJECT . " RSS 2.0" ;
-$rsslink = URL_BASE . "rss_main.php";
+$rsslink = url_base() . "rss_main.php";
 
 header("Content-type: text/html; charset=utf-8");
 
