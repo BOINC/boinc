@@ -61,11 +61,11 @@ function profile_thumb_path($userid) {
 }
 
 function profile_image_url($userid) {
-    return URL_BASE.IMAGE_URL.$userid.'.jpg';
+    return url_base().IMAGE_URL.$userid.'.jpg';
 }
 
 function profile_thumb_url($userid) {
-    return URL_BASE.IMAGE_URL.$userid.'_sm.jpg';
+    return url_base().IMAGE_URL.$userid.'_sm.jpg';
 }
 
 function profile_user_thumb_url($user) {
@@ -182,7 +182,7 @@ function get_profile_summary($profile) {
 
     }
 
-    $summary = "<a href=\"".URL_BASE."view_profile.php?userid=".$profile->userid."\">".$user->name."</a> ".$description;
+    $summary = "<a href=\"".url_base()."view_profile.php?userid=".$profile->userid."\">".$user->name."</a> ".$description;
     return $summary;
 }
 

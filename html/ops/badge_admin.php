@@ -52,7 +52,7 @@ function show_form() {
             if (strstr($badge->image_url, "http") == $badge->image_url) {
                 $y = $badge->image_url;
             } else {
-                $y = URL_BASE.$badge->image_url;
+                $y = url_base().$badge->image_url;
             }
             $x = " <img align=right height=64 src=\"$y\">";
         }

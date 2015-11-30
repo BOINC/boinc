@@ -43,7 +43,7 @@ $payment_id = _mysql_insert_id();
 
 $URL = "www.paypal.com/cgi-bin/webscr";
 
-$fields = ("cmd=_xclick&lc=US&business=".PAYPAL_ADDRESS."&quantity=1&item_name=Donation&item_number=".$payment_id."_".$order_time."&amount=".$amount."&no_shipping=1&return=".URL_BASE."donated.php?st=Completed&rm=2&cancel_return=".URL_BASE."/donated.php&no_note=1&currency_code=".$currency."&bn=PP-BuyNowBF");
+$fields = ("cmd=_xclick&lc=US&business=".PAYPAL_ADDRESS."&quantity=1&item_name=Donation&item_number=".$payment_id."_".$order_time."&amount=".$amount."&no_shipping=1&return=".url_base()."donated.php?st=Completed&rm=2&cancel_return=".url_base()."/donated.php&no_note=1&currency_code=".$currency."&bn=PP-BuyNowBF");
 
 header("Location: https://$URL?$fields");
 

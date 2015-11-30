@@ -41,7 +41,7 @@ if ($result) {
         No further emails will be sent to $user->email_addr.
         <p>
         To resume getting emails,
-        <a href=".URL_BASE."prefs_edit.php?subset=project>edit your project preferences</a>.
+        <a href=".url_base()."prefs_edit.php?subset=project>edit your project preferences</a>.
     ";
     page_tail();
 }

@@ -1300,7 +1300,7 @@ function subscribe_rss($notify, &$title, &$msg, &$url) {
     $thread = BoincThread::lookup_id($notify->opaque);
     $title = tra("New posts in subscribed thread");
     $msg = tra("There are new posts in the thread '%1'",$thread->title);
-    $url = URL_BASE."forum_thread.php?id=$thread->id";
+    $url = secure_url_base()."forum_thread.php?id=$thread->id";
 }
 
 function show_mark_as_read_button($user) {

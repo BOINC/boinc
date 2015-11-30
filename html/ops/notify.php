@@ -44,12 +44,12 @@ function send_notify_email($userid, $message) {
     $subject = "Daily notification summary from ".PROJECT;
     $body = "The following events occurred in the past day at ".PROJECT.".
 For details, visit your Account page at
-".URL_BASE."home.php
+".secure_url_base()."home.php
 
 $message
 ---------------
 To change your email preferences for ".PROJECT.", visit:
-".URL_BASE."edit_forum_preferences_form.php
+".secure_url_base()."edit_forum_preferences_form.php
 
 Do not reply to this email.
 ";

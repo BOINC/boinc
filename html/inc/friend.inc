@@ -61,11 +61,11 @@ $src_user->name says: $msg
 
     $message .= "
 Please accept or decline by visiting
-".URL_BASE."home.php
+".secure_url_base()."home.php
 
 --------------------------
 To change email preferences, visit:
-".URL_BASE."edit_forum_preferences_form.php
+".secure_url_base()."edit_forum_preferences_form.php
 Do not reply to this message.
 " ;
     send_email($dest_user, "[".PROJECT."] friend request", $message);
@@ -83,11 +83,11 @@ $dest_user->name says: $msg
 
     $message .= "
 Visit your Account page at
-".URL_BASE."home.php
+".secure_url_base()."home.php
 
 --------------------------
 To change email preferences, visit:
-".URL_BASE."edit_forum_preferences_form.php
+".secure_url_base()."edit_forum_preferences_form.php
 Do not reply to this message.
 " ;
     send_email($src_user, "[".PROJECT."] friend confirmed", $message);
@@ -101,7 +101,7 @@ function friend_req_rss($notify, &$title, &$msg, &$url) {
     }
     $title = "Friend request";
     $msg = "$src_user->name has requested friendship with you. Please accept or decline.";
-    $url = URL_BASE."friend.php?action=query&target_userid=$notify->userid&userid=$notify->opaque";
+    $url = secure_url_base()."friend.php?action=query&target_userid=$notify->userid&userid=$notify->opaque";
 }
 
 function friend_accept_rss($notify, &$title, &$msg, &$url) {
@@ -112,7 +112,7 @@ function friend_accept_rss($notify, &$title, &$msg, &$url) {
     }
     $title = "Friendship confirmation";
     $msg = "$src_user->name has confirmed you as a friend";
-    $url = URL_BASE."home.php";
+    $url = secure_url_base()."home.php";
 }
 
 ?>

@@ -219,7 +219,7 @@ if (!count($threads) && !count($posts)){
     echo "<p>".tra("Sorry, couldn't find anything matching your search query. You can try to broaden your search by using less words (or less specific words).")."</p>
     <p>"
     .tra("You can also %1try the same search on Google.%2",
-         "<a href=\"http://www.google.com/search?domains=".URL_BASE."&sitesearch=".URL_BASE."forum_thread.php&q=".htmlentities($search_keywords)."\">",
+         "<a href=\"http://www.google.com/search?domains=".url_base()."&sitesearch=".url_base()."forum_thread.php&q=".htmlentities($search_keywords)."\">",
          "</a>")
     ."</p>";
 }

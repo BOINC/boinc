@@ -46,14 +46,14 @@ header("Last-Modified: ".$create_date);
 header("Content-Type: application/xml");
 
 $description = "Community notifications";
-$channel_image = URL_BASE."rss_image.gif";
+$channel_image = secure_url_base()."rss_image.gif";
 $language = "en-us";
 echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
     <rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">
     <channel>
     <title>".PROJECT."</title>
-    <link>".URL_BASE."</link>
-    <atom:link href=\"".URL_BASE."notify_rss.php\" rel=\"self\" type=\"application/rss+xml\" />
+    <link>".secure_url_base()."</link>
+    <atom:link href=\"".secure_url_base()."notify_rss.php\" rel=\"self\" type=\"application/rss+xml\" />
     <description>".$description."</description>
     <copyright>".COPYRIGHT_HOLDER."</copyright>
     <lastBuildDate>".$create_date."</lastBuildDate>
@@ -61,7 +61,7 @@ echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
     <image>
         <url>".$channel_image."</url>
         <title>".PROJECT."</title>
-        <link>".URL_BASE."</link>
+        <link>".secure_url_base()."</link>
     </image>
 ";
 
