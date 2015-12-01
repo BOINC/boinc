@@ -326,7 +326,6 @@
 		DDA12AAE0A369C5800FBDD12 /* SecurityUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */; };
 		DDA165E513B49B0D00CB4DD5 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DDA1F1EE126D105B005EFFEB /* current_version.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA1F1EC126D105B005EFFEB /* current_version.cpp */; };
-		DDA2EC1618AA592D002664B6 /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA2EC1518AA592D002664B6 /* libsqlite3.a */; };
 		DDA45500140F7DE200D97676 /* synch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD407AED07D2FE7200163EF5 /* synch.cpp */; };
 		DDA45501140F7E7900D97676 /* reduce_main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD40825807D3076400163EF5 /* reduce_main.cpp */; };
 		DDA6BD120BD4551F008F7921 /* mac_backtrace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD040BD4551F008F7921 /* mac_backtrace.cpp */; };
@@ -1059,7 +1058,6 @@
 		DDA1F1EC126D105B005EFFEB /* current_version.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = current_version.cpp; path = ../client/current_version.cpp; sourceTree = SOURCE_ROOT; };
 		DDA1F1ED126D105B005EFFEB /* current_version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = current_version.h; path = ../client/current_version.h; sourceTree = SOURCE_ROOT; };
 		DDA290360CB5D80E00512BD8 /* Mac_Saver_Module.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Mac_Saver_Module.h; path = ../clientscr/Mac_Saver_Module.h; sourceTree = SOURCE_ROOT; };
-		DDA2EC1518AA592D002664B6 /* libsqlite3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlite3.a; path = "../../sqlite-autoconf-3080300/.libs/libsqlite3.a"; sourceTree = "<group>"; };
 		DDA45502140F85DD00D97676 /* str_replace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = str_replace.h; sourceTree = "<group>"; };
 		DDA6BD030BD4551F008F7921 /* dyld_gdb.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = dyld_gdb.h; path = ../lib/mac/dyld_gdb.h; sourceTree = SOURCE_ROOT; };
 		DDA6BD040BD4551F008F7921 /* mac_backtrace.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mac_backtrace.cpp; path = ../lib/mac/mac_backtrace.cpp; sourceTree = SOURCE_ROOT; };
@@ -1261,7 +1259,6 @@
 				DD21B49D0D750FC600AFFEE5 /* AppKit.framework in Frameworks */,
 				DD9E560F182D0D40002AF0F8 /* WebKit.framework in Frameworks */,
 				DD7811631851AC8D0050CF7B /* OpenGL.framework in Frameworks */,
-				DDA2EC1618AA592D002664B6 /* libsqlite3.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1477,7 +1474,6 @@
 		20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				DDA2EC1518AA592D002664B6 /* libsqlite3.a */,
 				DDFE854A0B60CFD0009B43D9 /* AppKit.framework */,
 				DDE2552B07C62F3E008E7D6E /* IOKit.framework */,
 				20286C33FDCF999611CA2CEA /* Carbon.framework */,
@@ -3557,16 +3553,16 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxWidgets-3.0.0/include",
-					"../../wxWidgets-3.0.0/build/osx/setup/cocoa/include",
+					"../mac3rdParty/wxWidgets-3.0.0/include",
+					"../mac3rdParty/wxWidgets-3.0.0/build/osx/setup/cocoa/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
-					"../../wxWidgets-3.0.0/build/osx/build/Debug",
-					"\"$(SRCROOT)/../../wxWidgets-3.0.0/build/osx/build/Debug\"",
-					"../../sqlite-autoconf-3080300/.libs/",
-					"\"$(SRCROOT)/../../sqlite-autoconf-3080300/.libs\"",
+					"../mac3rdParty/wxWidgets-3.0.0/build/osx/build/Debug",
+					"\"$(SRCROOT)/../mac3rdParty/wxWidgets-3.0.0/build/osx/build/Debug\"",
+					"../mac3rdParty/sqlite-autoconf-3080300/.libs/",
+					"\"$(SRCROOT)/../mac3rdParty/sqlite-autoconf-3080300/.libs\"",
 				);
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
@@ -3584,6 +3580,7 @@
 					"-bind_at_load",
 					"-D_THREAD_SAFE",
 					"-lwx_osx_cocoa_static",
+					"../mac3rdParty/sqlite-autoconf-3080300/.libs/libsqlite3.a",
 					"-lz",
 					"-lpthread",
 					"-lm",
@@ -3612,16 +3609,16 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxWidgets-3.0.0/include",
-					"../../wxWidgets-3.0.0/build/osx/setup/cocoa/include",
+					"../mac3rdParty/wxWidgets-3.0.0/include",
+					"../mac3rdParty/wxWidgets-3.0.0/build/osx/setup/cocoa/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
-					"../../wxWidgets-3.0.0/build/osx/build/Release",
-					"\"$(SRCROOT)/../../wxWidgets-3.0.0/build/osx/build/Release\"",
-					"../../sqlite-autoconf-3080300/.libs/",
-					"\"$(SRCROOT)/../../sqlite-autoconf-3080300/.libs\"",
+					"../mac3rdParty/wxWidgets-3.0.0/build/osx/build/Release",
+					"\"$(SRCROOT)/../mac3rdParty/wxWidgets-3.0.0/build/osx/build/Release\"",
+					"../mac3rdParty/sqlite-autoconf-3080300/.libs/",
+					"\"$(SRCROOT)/../mac3rdParty/sqlite-autoconf-3080300/.libs\"",
 				);
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
@@ -3641,6 +3638,7 @@
 					"-bind_at_load",
 					"-D_THREAD_SAFE",
 					"-lwx_osx_cocoa_static",
+					"../mac3rdParty/sqlite-autoconf-3080300/.libs/libsqlite3.a",
 					"-lz",
 					"-lpthread",
 					"-lm",
@@ -3746,8 +3744,8 @@
 				HEADER_SEARCH_PATHS = (
 					../api/,
 					../samples/jpeglib/,
-					"../../freetype-2.4.10/include",
-					"../../ftgl-2.1.3~rc5/src",
+					"../mac3rdParty/freetype-2.4.10/include",
+					"../mac3rdParty/ftgl-2.1.3~rc5/src",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3756,8 +3754,8 @@
 				OTHER_LDFLAGS = (
 					"-lresolv",
 					"-ljpeg",
-					"../../freetype-2.4.10/objs/.libs/libfreetype.a",
-					"../../ftgl-2.1.3~rc5/src/.libs/libftgl.a",
+					"../mac3rdParty/freetype-2.4.10/objs/.libs/libfreetype.a",
+					"../mac3rdParty/ftgl-2.1.3~rc5/src/.libs/libftgl.a",
 					"-lz",
 					"-lbz2",
 				);
@@ -3771,8 +3769,8 @@
 				HEADER_SEARCH_PATHS = (
 					../api/,
 					../samples/jpeglib/,
-					"../../freetype-2.4.10/include",
-					"../../ftgl-2.1.3~rc5/src",
+					"../mac3rdParty/freetype-2.4.10/include",
+					"../mac3rdParty/ftgl-2.1.3~rc5/src",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3781,8 +3779,8 @@
 				OTHER_LDFLAGS = (
 					"-lresolv",
 					"-ljpeg",
-					"../../freetype-2.4.10/objs/.libs/libfreetype.a",
-					"../../ftgl-2.1.3~rc5/src/.libs/libftgl.a",
+					"../mac3rdParty/freetype-2.4.10/objs/.libs/libfreetype.a",
+					"../mac3rdParty/ftgl-2.1.3~rc5/src/.libs/libftgl.a",
 					"-lz",
 					"-lbz2",
 				);
@@ -3862,7 +3860,7 @@
 		DD9843DD09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = NO;
 				GCC_ENABLE_OBJC_GC = supported;
 				HEADER_SEARCH_PATHS = "";
@@ -3886,7 +3884,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.39.0/include";
+				HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.39.0/include";
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				LIBRARY_SEARCH_PATHS = "";
 				"OTHER_CFLAGS[arch=x86_64]" = (
@@ -3898,16 +3896,16 @@
 				);
 				OTHER_LDFLAGS = (
 					"-L.",
-					"../../curl-7.39.0/lib/.libs/libcurl.a",
-					"../../c-ares-1.10.0/.libs/libcares.a",
-					"../../openssl-1.0.1j/libcrypto.a",
-					"../../openssl-1.0.1j/libssl.a",
+					"../mac3rdParty/curl-7.39.0/lib/.libs/libcurl.a",
+					"../mac3rdParty/c-ares-1.10.0/.libs/libcares.a",
+					"../mac3rdParty/openssl-1.0.1j/libcrypto.a",
+					"../mac3rdParty/openssl-1.0.1j/libssl.a",
 					"-lldap",
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "../../curl-7.39.0/include";
+				USER_HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.39.0/include";
 			};
 			name = Deployment;
 		};
@@ -4034,7 +4032,7 @@
 		DD9E2362091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = NO;
 				GCC_ENABLE_OBJC_GC = supported;
 				HEADER_SEARCH_PATHS = "";
@@ -4058,7 +4056,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.39.0/include";
+				HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.39.0/include";
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = (
@@ -4069,16 +4067,16 @@
 				);
 				OTHER_LDFLAGS = (
 					"-L.",
-					"../../curl-7.39.0/lib/.libs/libcurl.a",
-					"../../c-ares-1.10.0/.libs/libcares.a",
-					"../../openssl-1.0.1j/libcrypto.a",
-					"../../openssl-1.0.1j/libssl.a",
+					"../mac3rdParty/curl-7.39.0/lib/.libs/libcurl.a",
+					"../mac3rdParty/c-ares-1.10.0/.libs/libcares.a",
+					"../mac3rdParty/openssl-1.0.1j/libcrypto.a",
+					"../mac3rdParty/openssl-1.0.1j/libssl.a",
 					"-lldap",
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "../../curl-7.39.0/include";
+				USER_HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.39.0/include";
 			};
 			name = Development;
 		};

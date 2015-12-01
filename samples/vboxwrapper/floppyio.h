@@ -161,25 +161,34 @@ namespace FloppyIONS {
 
         int         code;
         std::string message;
+        std::string full_message;
 
         // Default constructor/destructor
-        FloppyIOException() { this->code=0; this->message=""; };
+        FloppyIOException() {
+            init(0, "");
+        };
         virtual ~FloppyIOException() throw() { };
 
         // Get description
         virtual const char* what() const throw() {
-            static std::ostringstream oss (std::ostringstream::out);
-            oss << this->message << ". Error code = " << this->code;
-            std::string tmp = oss.str();
-            return tmp.c_str();
+            return full_message.c_str();
         }
 
         // Change the message and return my instance
         // (Used for singleton format)
         FloppyIOException * set(int _code, std::string _message) {
-            this->code = _code;
-            this->message = _message;
+            init(_code, _message);
             return this;
+        }
+
+    private:
+
+        void init(int _code, std::string _message) {
+            code = _code;
+            message = _message;
+            std::stringstream ss;
+            ss << _message << ". Error code = " << _code;
+            full_message = ss.str();
         }
     
     };

@@ -209,7 +209,7 @@ void CC_CONFIG::defaults() {
     disallow_attach = false;
     dont_check_file_sizes = false;
     dont_contact_ref_site = false;
-    dont_lower_client_priority = false;
+    lower_client_priority = false;
     dont_suspend_nci = false;
     dont_use_vbox = false;
     exclude_gpus.clear();
@@ -343,7 +343,7 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool("disallow_attach", disallow_attach)) continue;
         if (xp.parse_bool("dont_check_file_sizes", dont_check_file_sizes)) continue;
         if (xp.parse_bool("dont_contact_ref_site", dont_contact_ref_site)) continue;
-        if (xp.parse_bool("dont_lower_client_priority", dont_lower_client_priority)) continue;
+        if (xp.parse_bool("lower_client_priority", lower_client_priority)) continue;
         if (xp.parse_bool("dont_suspend_nci", dont_suspend_nci)) continue;
         if (xp.parse_bool("dont_use_vbox", dont_use_vbox)) continue;
         if (xp.match_tag("exclude_gpu")) {
@@ -550,13 +550,13 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <disallow_attach>%d</disallow_attach>\n"
         "        <dont_check_file_sizes>%d</dont_check_file_sizes>\n"
         "        <dont_contact_ref_site>%d</dont_contact_ref_site>\n"
-        "        <dont_lower_client_priority>%d</dont_lower_client_priority>\n"
+        "        <lower_client_priority>%d</lower_client_priority>\n"
         "        <dont_suspend_nci>%d</dont_suspend_nci>\n"
         "        <dont_use_vbox>%d</dont_use_vbox>\n",
         disallow_attach,
         dont_check_file_sizes,
         dont_contact_ref_site,
-        dont_lower_client_priority,
+        lower_client_priority,
         dont_suspend_nci,
         dont_use_vbox
     );

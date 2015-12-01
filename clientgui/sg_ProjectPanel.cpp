@@ -29,6 +29,7 @@
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
 #include "sg_ProjectPanel.h"
+#include "str_replace.h"
 #if TESTBIGICONPOPUP
 #include "test/sah_40.xpm"
 #include "test/einstein_icon.xpm"
@@ -250,8 +251,7 @@ void CSimpleProjectPanel::UpdateInterface() {
         char* ctrl_url = ((ProjectSelectionData*)m_ProjectSelectionCtrl->GetClientData(n))->project_url;
         if (strcmp(m_CurrentSelectedProjectURL, ctrl_url)) {
             b_needMenuRebuild = true;
-            strncpy(m_CurrentSelectedProjectURL, ctrl_url, sizeof(m_CurrentSelectedProjectURL));
-            m_CurrentSelectedProjectURL[sizeof(m_CurrentSelectedProjectURL)-1] = '\0';
+            strlcpy(m_CurrentSelectedProjectURL, ctrl_url, sizeof(m_CurrentSelectedProjectURL));
         }
         
         PROJECT* project = pDoc->state.lookup_project(ctrl_url);
@@ -459,8 +459,7 @@ void CSimpleProjectPanel::UpdateProjectList() {
                 }
 #endif
                 selData = new ProjectSelectionData;
-                strncpy(selData->project_url, project->master_url, sizeof(selData->project_url));
-                selData->project_url[sizeof(selData->project_url)-1] = '\0';
+                strlcpy(selData->project_url, project->master_url, sizeof(selData->project_url));
                 selData->project_files_downloaded_time = project->project_files_downloaded_time;
                 wxBitmap* projectBM = GetProjectSpecificBitmap(selData->project_url);
 #if SORTPROJECTLIST
