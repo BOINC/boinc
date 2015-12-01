@@ -193,6 +193,8 @@ int RESULT::parse_state(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
+// write result descriptor to state file, GUI RPC reply, or sched request
+//
 int RESULT::write(MIOFILE& out, bool to_server) {
     unsigned int i;
     FILE_INFO* fip;
@@ -333,6 +335,7 @@ int RESULT::write_gui(MIOFILE& out) {
         "<result>\n"
         "    <name>%s</name>\n"
         "    <wu_name>%s</wu_name>\n"
+        "    <platform>%s</platform>\n"
         "    <version_num>%d</version_num>\n"
         "    <plan_class>%s</plan_class>\n"
         "    <project_url>%s</project_url>\n"
@@ -345,6 +348,7 @@ int RESULT::write_gui(MIOFILE& out) {
         "    <estimated_cpu_time_remaining>%f</estimated_cpu_time_remaining>\n",
         name,
         wu_name,
+        platform,
         version_num,
         plan_class,
         project->master_url,

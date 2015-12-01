@@ -639,6 +639,7 @@ int RESULT::parse(XML_PARSER& xp) {
         }
         if (xp.parse_str("name", name, sizeof(name))) continue;
         if (xp.parse_str("wu_name", wu_name, sizeof(wu_name))) continue;
+        if (xp.parse_str("platform", platform, sizeof(platform))) continue;
         if (xp.parse_int("version_num", version_num)) continue;
         if (xp.parse_str("plan_class", plan_class, sizeof(plan_class))) continue;
         if (xp.parse_str("project_url", project_url, sizeof(project_url))) continue;
@@ -974,8 +975,8 @@ int CC_STATE::parse(XML_PARSER& xp) {
             APP_VERSION* avp;
             if (result->version_num) {
                 avp = lookup_app_version(
-                    project, result->app, result->version_num,
-                    result->plan_class
+                    project, result->app,
+                    result->platform, result->version_num, result->plan_class
                 );
             } else {
                 avp = lookup_app_version_old(
@@ -1061,12 +1062,14 @@ APP* CC_STATE::lookup_app(PROJECT* project, const char* name) {
 }
 
 APP_VERSION* CC_STATE::lookup_app_version(
-    PROJECT* project, APP* app, int version_num, char* plan_class
+    PROJECT* project, APP* app,
+    char* platform, int version_num, char* plan_class
 ) {
     unsigned int i;
     for (i=0; i<app_versions.size(); i++) {
         if (app_versions[i]->project != project) continue;
         if (app_versions[i]->app != app) continue;
+        if (strcmp(app_versions[i]->platform, platform)) continue;
         if (app_versions[i]->version_num != version_num) continue;
         if (strcmp(app_versions[i]->plan_class, plan_class)) continue;
         return app_versions[i];
