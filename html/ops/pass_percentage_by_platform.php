@@ -138,6 +138,8 @@ while ($res = $result->fetch_object()) {
         default: $ver_name .= " (unknown processor type)";
         }
     }
+    echo "<tr>";
+
     echo "<td align=\"left\" valign=\"top\">$ver_name</td>";
 
     echo "<td align=\"right\" valign=\"top\">";
