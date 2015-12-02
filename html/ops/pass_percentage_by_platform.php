@@ -18,7 +18,6 @@
 
 require_once("../inc/util_ops.inc");
 
-db_init();
 admin_page_head("Result summary per app version");
 
 //   modified by Bernd Machenschalk 2007
