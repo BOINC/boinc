@@ -432,7 +432,7 @@ class BoincProfile {
         $db = BoincDb::get();
         return $db->enum_fields('profile', 'BoincProfile', $fields, $where_clause, $order_clause);
     }
-    function delete_aux($clause) {
+    static function delete_aux($clause) {
         $db = BoincDb::get();
         return $db->delete_aux('profile', $clause);
     }

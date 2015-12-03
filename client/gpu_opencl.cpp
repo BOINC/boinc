@@ -162,6 +162,7 @@ void COPROCS::get_opencl(
     int num_CAL_devices = (int)ati_gpus.size();
     vector<int>devnums_pci_slot_sort;
     vector<OPENCL_DEVICE_PROP>::iterator it;
+    int max_other_coprocs = MAX_RSC-1;  // coprocs[0] is reserved for CPU
 
 #ifdef _WIN32
     opencl_lib = LoadLibrary("OpenCL.dll");
@@ -192,25 +193,25 @@ void COPROCS::get_opencl(
 
     if (!__clGetPlatformIDs) {
         warnings.push_back("clGetPlatformIDs() missing from OpenCL library");
-        return;
+        goto leave;
     }
     if (!__clGetPlatformInfo) {
         warnings.push_back("clGetPlatformInfo() missing from OpenCL library");
-        return;
+        goto leave;
     }
     if (!__clGetDeviceIDs) {
         warnings.push_back("clGetDeviceIDs() missing from OpenCL library");
-        return;
+        goto leave;
     }
     if (!__clGetDeviceInfo) {
         warnings.push_back("clGetDeviceInfo() missing from OpenCL library");
-        return;
+        goto leave;
     }
 
     ciErrNum = (*__clGetPlatformIDs)(MAX_OPENCL_PLATFORMS, platforms, &num_platforms);
     if ((ciErrNum != CL_SUCCESS) || (num_platforms == 0)) {
         warnings.push_back("clGetPlatformIDs() failed to return any OpenCL platforms");
-        return;
+        goto leave;
     }
 
     if (nvidia_gpus.size()) {
@@ -412,7 +413,7 @@ void COPROCS::get_opencl(
                                 break;
                             } else {
                                 // Older CUDA drivers should report all NVIDIA GPUs reported by OpenCL
-                                return; // Should never happen
+                                goto leave; // Should never happen
                             }
                         }
                         if (!strcmp(prop.name,
@@ -474,7 +475,7 @@ void COPROCS::get_opencl(
                                 device_index
                             );
                             warnings.push_back(buf);
-                            return; // Should never happen
+                            goto leave; // Should never happen
                         }
                         if ((int)ati_gpus[current_CAL_index].attribs.target >= min_CAL_target) {
                             break;  // We have a match
@@ -539,10 +540,8 @@ void COPROCS::get_opencl(
                 // a native device.
                 //
                 intel_gpus.push_back(c);
-            }
-
-            //////////// OTHER GPU OR ACCELERTOR //////////////
-            else {
+            } else {
+                //////////// OTHER GPU OR ACCELERATOR //////////////
                 // Put each coprocessor instance into a separate other_opencls element
 
                 // opencl_device_index is passed to project apps via init_data.xml
@@ -572,9 +571,9 @@ void COPROCS::get_opencl(
         }
     }
     
-    int max_other_coprocs = MAX_RSC-1;  // coprocs[0] is reserved for CPU
     // Neither nvidia.count, ati.count nor intel_gpu.count have been set yet, 
     // so we can't test have_nvidia(), have_ati() or have_intel_gpu() here.
+    //
     if ((nvidia_opencls.size() > 0) || nvidia.have_cuda) max_other_coprocs--;
     if ((ati_opencls.size() > 0) || ati.have_cal) max_other_coprocs--;
     if (intel_gpu_opencls.size() > 0) max_other_coprocs--;
@@ -604,6 +603,12 @@ void COPROCS::get_opencl(
             "OpenCL library present but no OpenCL-capable devices found"
         );
     }
+leave:
+#ifdef _WIN32
+    if (opencl_lib) FreeLibrary(opencl_lib);
+#else
+    if (opencl_lib) dlclose(opencl_lib);
+#endif
 }
 
 void COPROCS::correlate_opencl(
@@ -643,7 +648,7 @@ void COPROCS::correlate_opencl(
         intel_gpu.available_ram = intel_gpu.opencl_prop.global_mem_size;
         safe_strcpy(intel_gpu.name, intel_gpu.opencl_prop.name);
     }
- }
+}
 
 cl_int COPROCS::get_opencl_info(
     OPENCL_DEVICE_PROP& prop,
