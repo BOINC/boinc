@@ -209,7 +209,6 @@ CUDA_MA __cuMemAlloc = NULL;
 CUDA_MF __cuMemFree = NULL;
 CUDA_MGI __cuMemGetInfo = NULL;
 #else
-void* cudalib;
 int (*__cuInit)(unsigned int);
 int (*__cuDeviceGetCount)(int*);
 int (*__cuDriverGetVersion)(int*);
@@ -233,6 +232,9 @@ void COPROC_NVIDIA::get(
 ) {
     int cuda_ndevs, retval;
     char buf[256];
+    int j, itemp;
+    size_t global_mem = 0;
+    COPROC_NVIDIA cc;
 
 #ifdef _WIN32
     HMODULE cudalib = LoadLibrary("nvcuda.dll");
@@ -277,6 +279,8 @@ void COPROC_NVIDIA::get(
 #endif
 #else
 
+void* cudalib = NULL;
+
 #ifdef __APPLE__
     cudalib = dlopen("/usr/local/cuda/lib/libcuda.dylib", RTLD_NOW);
 #else
@@ -299,44 +303,43 @@ void COPROC_NVIDIA::get(
     __cuMemAlloc = (int(*)(unsigned int*, size_t)) dlsym( cudalib, "cuMemAlloc" );
     __cuMemFree = (int(*)(unsigned int)) dlsym( cudalib, "cuMemFree" );
     __cuMemGetInfo = (int(*)(size_t*, size_t*)) dlsym( cudalib, "cuMemGetInfo" );
-    dlclose(cudalib);
 #endif
 
     if (!__cuDriverGetVersion) {
         warnings.push_back("cuDriverGetVersion() missing from NVIDIA library");
-        return;
+        goto leave;
     }
     if (!__cuInit) {
         warnings.push_back("cuInit() missing from NVIDIA library");
-        return;
+        goto leave;
     }
     if (!__cuDeviceGetCount) {
         warnings.push_back("cuDeviceGetCount() missing from NVIDIA library");
-        return;
+        goto leave;
     }
     if (!__cuDeviceGet) {
         warnings.push_back("cuDeviceGet() missing from NVIDIA library");
-        return;
+        goto leave;
     }
     if (!__cuDeviceGetAttribute) {
         warnings.push_back("cuDeviceGetAttribute() missing from NVIDIA library");
-        return;
+        goto leave;
     }
     if (!__cuDeviceTotalMem) {
         warnings.push_back("cuDeviceTotalMem() missing from NVIDIA library");
-        return;
+        goto leave;
     }
     if (!__cuDeviceComputeCapability) {
         warnings.push_back("cuDeviceComputeCapability() missing from NVIDIA library");
-        return;
+        goto leave;
     }
     if (!__cuMemAlloc) {
         warnings.push_back("cuMemAlloc() missing from NVIDIA library");
-        return;
+        goto leave;
     }
     if (!__cuMemFree) {
         warnings.push_back("cuMemFree() missing from NVIDIA library");
-        return;
+        goto leave;
     }
 
 #ifdef __APPLE__
@@ -355,14 +358,14 @@ void COPROC_NVIDIA::get(
     if (retval) {
         sprintf(buf, "NVIDIA drivers present but no GPUs found");
         warnings.push_back(buf);
-        return;
+        goto leave;
     }
 
     retval = (*__cuDriverGetVersion)(&cuda_version);
     if (retval) {
         sprintf(buf, "cuDriverGetVersion() returned %d", retval);
         warnings.push_back(buf);
-        return;
+        goto leave;
     }
 
     have_cuda = true;
@@ -371,15 +374,11 @@ void COPROC_NVIDIA::get(
     if (retval) {
         sprintf(buf, "cuDeviceGetCount() returned %d", retval);
         warnings.push_back(buf);
-        return;
+        goto leave;
     }
     sprintf(buf, "NVIDIA library reports %d GPU%s", cuda_ndevs, (cuda_ndevs==1)?"":"s");
     warnings.push_back(buf);
 
-    int j, itemp;
-    size_t global_mem = 0;
-    COPROC_NVIDIA cc;
-    string s;
     for (j=0; j<cuda_ndevs; j++) {
         memset(&cc.prop, 0, sizeof(cc.prop));
         CUdevice device;
@@ -387,13 +386,13 @@ void COPROC_NVIDIA::get(
         if (retval) {
             sprintf(buf, "cuDeviceGet(%d) returned %d", j, retval);
             warnings.push_back(buf);
-            return;
+            goto leave;
         }
         (*__cuDeviceGetName)(cc.prop.name, 256, device);
         if (retval) {
             sprintf(buf, "cuDeviceGetName(%d) returned %d", j, retval);
             warnings.push_back(buf);
-            return;
+            goto leave;
         }
         (*__cuDeviceComputeCapability)(&cc.prop.major, &cc.prop.minor, device);
         (*__cuDeviceTotalMem)(&global_mem, device);
@@ -440,6 +439,13 @@ void COPROC_NVIDIA::get(
     if (!nvidia_gpus.size()) {
         warnings.push_back("No CUDA-capable NVIDIA GPUs found");
     }
+    
+leave:
+#ifdef _WIN32
+    if (cudalib) FreeLibrary(cudalib);
+#else
+    if (cudalib) dlclose(cudalib);
+#endif
 }
 
 
