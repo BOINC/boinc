@@ -158,9 +158,7 @@ void COPROC_ATI::get(
 
 #else
 
-    void* callib = NULL;
-
-    callib = dlopen("libaticalrt.so", RTLD_NOW);
+    void* callib = dlopen("libaticalrt.so", RTLD_NOW);
     if (!callib) {
         warnings.push_back("No ATI library found");
         return;
