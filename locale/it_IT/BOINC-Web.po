@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2015-12-04 11:12+0000\n"
+"PO-Revision-Date: 2015-12-04 11:17+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -598,7 +598,7 @@ msgstr "Universe@Home mira a creare il primo database del contenuto simulato ste
 
 #: projects.inc:332
 msgid "Do research in physics and astronomy"
-msgstr "Fare ricerca in fisica e astronomia"
+msgstr "Fare ricerca in fisica ed astronomia"
 
 #: projects.inc:337
 msgid "Rensselaer Polytechnic Institute"
@@ -673,7 +673,7 @@ msgstr "Il Large Hadron Collider (LHC) è un acceleratore di particelle sito al 
 
 #: projects.inc:388
 msgid "Improve the design of the Large Hadron Collider"
-msgstr "Migliorare il design del Large Hadron Collider"
+msgstr "Migliorare il progetto di LHC (Large Hadron Collider)"
 
 #: projects.inc:395
 msgid ""
