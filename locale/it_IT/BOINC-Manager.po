@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2015-12-04 10:36+0000\n"
+"PO-Revision-Date: 2015-12-04 11:06+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -299,7 +299,7 @@ msgstr "&Disco\tCtrl+Shift+D"
 
 #: clientgui/AdvancedFrame.cpp:431
 msgid "Show disk usage"
-msgstr "Visualizza utilizzo disco"
+msgstr "Visualizza l'utilizzo del disco"
 
 #: clientgui/AdvancedFrame.cpp:438
 msgid "Simple &View...\tCtrl+Shift+V"
@@ -512,7 +512,7 @@ msgstr "Fornisce assistenza per risolvere i problemi legati a %s"
 #: clientgui/AdvancedFrame.cpp:660
 #, c-format
 msgid "&%s help"
-msgstr "Aiuto su &%s"
+msgstr "Assistenza di &%s"
 
 #: clientgui/AdvancedFrame.cpp:664 clientgui/sg_BoincSimpleFrame.cpp:237
 #, c-format
@@ -527,7 +527,7 @@ msgstr "Sito &web di %s"
 #: clientgui/AdvancedFrame.cpp:679 clientgui/sg_BoincSimpleFrame.cpp:251
 #, c-format
 msgid "Show information about BOINC and %s"
-msgstr "Mostra le informazioni su BOINC e su %s"
+msgstr "Mostra informazioni su BOINC e su %s"
 
 #: clientgui/AdvancedFrame.cpp:690 clientgui/BOINCTaskBar.cpp:541
 #: clientgui/sg_BoincSimpleFrame.cpp:262
@@ -3655,11 +3655,11 @@ msgstr "Seleziona la grafica dell'interfaccia utente."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:181
 msgid "Advanced View...\tCtrl+Shift+A"
-msgstr "Visualizzazione Avanzata...\tCtrl+Shift+A"
+msgstr "Visualizzazione avanzata...\tCtrl+Shift+A"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:182
 msgid "Display the advanced graphical interface."
-msgstr "Visualizza l'interfaccia grafica avanzata di BOINC"
+msgstr "Visualizza l'interfaccia grafica avanzata di BOINC."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:198
 msgid "Configure display options and proxy settings"
@@ -3688,7 +3688,7 @@ msgstr "Riprendi l'elaborazione"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:913
 msgid "Open a window to view notices from projects or BOINC"
-msgstr "Apri una finestra per visualizzare gli avvisi dai progetti o dal BOINC"
+msgstr "Apri una finestra per visualizzare gli avvisi dei progetti e del sistema BOINC"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:934 clientgui/sg_DlgPreferences.cpp:366
 #, c-format
@@ -3707,7 +3707,7 @@ msgstr "Avvisi di %s"
 #: clientgui/sg_DlgPreferences.cpp:208
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
-msgstr "Per impostazioni aggiuntive, seleziona Preferenze di elaborazione nella Vista Avanzata."
+msgstr "Per impostazioni aggiuntive, seleziona Preferenze di elaborazione nella Vista avanzata."
 
 #: clientgui/sg_DlgPreferences.cpp:346
 msgid "GB of disk space"
