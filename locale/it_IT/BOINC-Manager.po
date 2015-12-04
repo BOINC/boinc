@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2015-11-27 10:50+0000\n"
+"PO-Revision-Date: 2015-12-04 10:36+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -456,11 +456,11 @@ msgstr "Applicazioni esclusive..."
 
 #: clientgui/AdvancedFrame.cpp:611
 msgid "Configure exclusive applications"
-msgstr "Configura applicazioni esclusive"
+msgstr "Configura le applicazioni esclusive"
 
 #: clientgui/AdvancedFrame.cpp:616
 msgid "Select columns..."
-msgstr "Seleziona colonne..."
+msgstr "Impostazione colonne del menu"
 
 #: clientgui/AdvancedFrame.cpp:617
 msgid "Select which columns to display"
@@ -502,12 +502,12 @@ msgstr "Leggi le preferenze dal file global_prefs_override.xml"
 #: clientgui/AdvancedFrame.cpp:646 clientgui/sg_BoincSimpleFrame.cpp:219
 #, c-format
 msgid "%s &help"
-msgstr "&Aiuto su %s"
+msgstr "&Assistenza di %s"
 
 #: clientgui/AdvancedFrame.cpp:650 clientgui/sg_BoincSimpleFrame.cpp:223
 #, c-format
 msgid "Show information about %s"
-msgstr "Mostra le informazioni su %s"
+msgstr "Fornisce assistenza per risolvere i problemi legati a %s"
 
 #: clientgui/AdvancedFrame.cpp:660
 #, c-format
@@ -517,7 +517,7 @@ msgstr "Aiuto su &%s"
 #: clientgui/AdvancedFrame.cpp:664 clientgui/sg_BoincSimpleFrame.cpp:237
 #, c-format
 msgid "Show information about the %s"
-msgstr "Mostra le informazioni sul %s"
+msgstr "Mostra le informazioni su %s"
 
 #: clientgui/AdvancedFrame.cpp:675 clientgui/sg_BoincSimpleFrame.cpp:247
 #, c-format
@@ -527,17 +527,17 @@ msgstr "Sito &web di %s"
 #: clientgui/AdvancedFrame.cpp:679 clientgui/sg_BoincSimpleFrame.cpp:251
 #, c-format
 msgid "Show information about BOINC and %s"
-msgstr "Mostra le informazioni su BOINC e sul %s"
+msgstr "Mostra le informazioni su BOINC e su %s"
 
 #: clientgui/AdvancedFrame.cpp:690 clientgui/BOINCTaskBar.cpp:541
 #: clientgui/sg_BoincSimpleFrame.cpp:262
 #, c-format
 msgid "&About %s..."
-msgstr "&Informazioni sul %s..."
+msgstr "&Informazioni su %s..."
 
 #: clientgui/AdvancedFrame.cpp:696 clientgui/sg_BoincSimpleFrame.cpp:268
 msgid "Licensing and copyright information."
-msgstr "Mostra le informazioni sulla licenza e sul copyright"
+msgstr "Mostra le informazioni sulla licenza ed il copyright"
 
 #: clientgui/AdvancedFrame.cpp:703 clientgui/sg_BoincSimpleFrame.cpp:275
 msgid "&File"
@@ -1092,7 +1092,7 @@ msgstr "Numero non valido"
 
 #: clientgui/DlgAdvPreferences.cpp:685 clientgui/sg_DlgPreferences.cpp:776
 msgid "Invalid time, value must be between 0:00 and 24:00, format is HH:MM"
-msgstr "Tempo non valido, il valore deve essere compreso tra 00:00 e 24:00. Il formato è HH:MM"
+msgstr "Orario non valido, il valore deve essere compreso tra 00:00 e 24:00. Il formato è HH:MM"
 
 #: clientgui/DlgAdvPreferences.cpp:686 clientgui/sg_DlgPreferences.cpp:777
 msgid "Start time must be different from end time"
@@ -1207,7 +1207,7 @@ msgstr "Limite di utilizzo"
 msgid ""
 "Keep some CPUs free for other applications. Example: 75% means use 6 cores "
 "on an 8-core CPU."
-msgstr "Mantieni alcune CPU libere per altre applicazioni. Esempio: 75% significa usa 6 core in una CPU a 8 core."
+msgstr "Mantieni alcune CPU libere per altre applicazioni. Esempio: 75% significa usa 6 core in una CPU ad 8 core."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:243
 #: clientgui/DlgAdvPreferencesBase.cpp:255 clientgui/sg_DlgPreferences.cpp:286
@@ -1716,11 +1716,11 @@ msgstr "Rimuovi applicazione dalla lista"
 
 #: clientgui/DlgExclusiveApps.cpp:96
 msgid "Suspend GPU usage when these applications are running:"
-msgstr "Sospendi l'utilizzo GPU quando queste applicazioni sono in esecuzione:"
+msgstr "Sospendi l'utilizzo della GPU quando queste applicazioni sono in esecuzione:"
 
 #: clientgui/DlgExclusiveApps.cpp:122
 msgid "For advanced options, refer to "
-msgstr "Per le opzioni avanzate, vai su"
+msgstr "Per le opzioni avanzate vai su"
 
 #: clientgui/DlgExclusiveApps.cpp:147
 msgid "save all values and close the dialog"
@@ -1744,12 +1744,12 @@ msgstr "Applicazioni da aggiungere"
 #: clientgui/DlgExclusiveApps.cpp:332
 #, c-format
 msgid "'%s' is not an executable application."
-msgstr "%s non è un'applicazione eseguibile"
+msgstr "'%s' non è un'applicazione eseguibile"
 
 #: clientgui/DlgExclusiveApps.cpp:333 clientgui/DlgExclusiveApps.cpp:380
 #: clientgui/DlgExclusiveApps.cpp:404
 msgid "Add Exclusive App"
-msgstr "Aggiungi Applicazione Esclusiva"
+msgstr "Aggiungi applicazione esclusiva"
 
 #: clientgui/DlgExclusiveApps.cpp:345
 msgid "Name of application to add?"
@@ -1842,7 +1842,7 @@ msgstr "Non richiedere elaborazioni per "
 
 #: clientgui/DlgItemProperties.cpp:194
 msgid "Project preference"
-msgstr "Preferenze per il progetto"
+msgstr "Preferenze del progetto"
 
 #: clientgui/DlgItemProperties.cpp:197
 msgid "Account manager preference"
