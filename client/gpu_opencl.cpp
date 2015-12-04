@@ -180,6 +180,9 @@ void COPROCS::get_opencl(
     opencl_lib = dlopen("/System/Library/Frameworks/OpenCL.framework/Versions/Current/OpenCL", RTLD_NOW);
 #else
     opencl_lib = dlopen("libOpenCL.so", RTLD_NOW);
+    if (!opencl_lib) {
+        opencl_lib = dlopen("libOpenCL.so.1", RTLD_NOW);
+    }
 #endif
     if (!opencl_lib) {
         warnings.push_back("No OpenCL library found");
