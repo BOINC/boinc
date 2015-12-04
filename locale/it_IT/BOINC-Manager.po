@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2015-12-04 11:06+0000\n"
+"PO-Revision-Date: 2015-12-04 11:26+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -545,7 +545,7 @@ msgstr "&File"
 
 #: clientgui/AdvancedFrame.cpp:707 clientgui/sg_BoincSimpleFrame.cpp:279
 msgid "&View"
-msgstr "&Visualizza"
+msgstr "&Visuali"
 
 #: clientgui/AdvancedFrame.cpp:711
 msgid "&Activity"
@@ -577,12 +577,12 @@ msgid ""
 "but you'll have to manage projects manually.\n"
 "\n"
 "Do you want to stop using %s?"
-msgstr "Se tu finisci di usare %s,\nmanterrai tutti i tuoi progetti correnti,\nma dovrai gestirli manualmente.\n\nVuoi finire di usare %s?"
+msgstr "Se smetti di utilizzare %s,\nmanterrai tutti i tuoi progetti correnti,\nma dovrai gestirli manualmente.\n\nVuoi smettere di usare %s?"
 
 #: clientgui/AdvancedFrame.cpp:1471
 #, c-format
 msgid "%s - Shut down the current client..."
-msgstr "%s - Chiudi il client corrente..."
+msgstr "%s - Chiusura del client..."
 
 #: clientgui/AdvancedFrame.cpp:1480
 #, c-format
@@ -609,7 +609,7 @@ msgstr "%s - (%s)"
 #: clientgui/AdvancedFrame.cpp:2032
 #, c-format
 msgid "Connecting to %s"
-msgstr "Connessione a %s in corso"
+msgstr "Connessione in corso con %s"
 
 #: clientgui/AdvancedFrame.cpp:2035
 #, c-format
@@ -737,12 +737,12 @@ msgstr "%s al momento non è connesso al client %s.\nUsa l'opzione del menù 'Av
 #. Create the web sites task group
 #: clientgui/BOINCBaseView.cpp:790
 msgid "Project web pages"
-msgstr "Siti web del progetto"
+msgstr "Pagine web del progetto"
 
 #: clientgui/BOINCClientManager.cpp:547
 #, c-format
 msgid "%s - Unexpected Exit"
-msgstr "%s - Disconnessione Inaspettata "
+msgstr "%s - disconnessione imprevista"
 
 #: clientgui/BOINCClientManager.cpp:557
 #, c-format
@@ -948,7 +948,7 @@ msgstr "L'elaborazione con la GPU è abilitata"
 
 #: clientgui/BOINCTaskBar.cpp:729
 msgid "GPU computing is suspended - "
-msgstr "L'elaborazione con la GPU è sospesa -."
+msgstr "L'elaborazione con la GPU è sospesa -"
 
 #: clientgui/BOINCTaskBar.cpp:738
 msgid "Network is enabled"
@@ -1282,7 +1282,7 @@ msgstr "minuti"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:323
 msgid "Suspend when non-BOINC CPU usage is above"
-msgstr "Sospendi quando l'utilizzo CPU da parte di applicazioni non-BOINC è superiore a"
+msgstr "Sospendi quando l'uso della CPU da parte di applicazioni non-BOINC è superiore al"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:325
 msgid "Suspend computing when your computer is busy running other programs."
@@ -1818,7 +1818,7 @@ msgstr "Non visualizzare piu questo messaggio."
 #: clientgui/DlgHiddenColumns.cpp:64
 #, c-format
 msgid "%s Column Selection"
-msgstr "%s Selezione Colonna"
+msgstr "Selezione colonna di %s"
 
 #: clientgui/DlgHiddenColumns.cpp:77
 #, c-format
@@ -1854,7 +1854,7 @@ msgstr "Il progetto non ha applicazioni per"
 
 #: clientgui/DlgItemProperties.cpp:203
 msgid "Client configuration excludes "
-msgstr "La configurazione client esclude"
+msgstr "La configurazione del client esclude"
 
 #: clientgui/DlgItemProperties.cpp:209
 #, c-format
@@ -1990,7 +1990,7 @@ msgstr "Computer"
 
 #: clientgui/DlgItemProperties.cpp:315
 msgid "Scheduling"
-msgstr "Programmazione del lavoro"
+msgstr "Scheduling"
 
 #: clientgui/DlgItemProperties.cpp:316
 msgid "Scheduling priority"
@@ -2038,11 +2038,11 @@ msgstr "Risorse in uso"
 
 #: clientgui/DlgItemProperties.cpp:385
 msgid "Estimated computation size"
-msgstr "Durata stimata dell'elaborazione"
+msgstr "Durata stimata del calcolo"
 
 #: clientgui/DlgItemProperties.cpp:390
 msgid "CPU time at last checkpoint"
-msgstr "Tempo CPU all'ultimo checkpoint"
+msgstr "Tempo dall'ultimo checkpoint"
 
 #: clientgui/DlgItemProperties.cpp:391 clientgui/DlgItemProperties.cpp:417
 msgid "CPU time"
@@ -2054,11 +2054,11 @@ msgstr "Tempo trascorso"
 
 #: clientgui/DlgItemProperties.cpp:395
 msgid "Estimated time remaining"
-msgstr "Stima del tempo rimanente"
+msgstr "Tempo stimato al completamento"
 
 #: clientgui/DlgItemProperties.cpp:396
 msgid "Fraction done"
-msgstr "Frazione già eseguita"
+msgstr "Parte già eseguita"
 
 #: clientgui/DlgItemProperties.cpp:397
 msgid "Virtual memory size"
@@ -2116,11 +2116,11 @@ msgstr "Quale lingua desideri che BOINC utilizzI?"
 
 #: clientgui/DlgOptions.cpp:190
 msgid "Notice reminder interval:"
-msgstr "Intervallo di notifica avviso:"
+msgstr "Intervallo di notifica degli avvisi:"
 
 #: clientgui/DlgOptions.cpp:197
 msgid "How often should BOINC remind you of new notices?"
-msgstr "Quanto spesso vuoi che il Manager ti ricordi di nuovi avvisi?"
+msgstr "Quanto spesso vuoi che il Manager ti ricordi dei nuovi avvisi?"
 
 #: clientgui/DlgOptions.cpp:202
 msgid "Run Manager at login?"
@@ -2549,7 +2549,7 @@ msgstr "Scaricamento in corso"
 
 #: clientgui/MainDocument.cpp:2493 clientgui/MainDocument.cpp:2552
 msgid " (suspended - "
-msgstr "(sospesa - "
+msgstr "(sospesa -"
 
 #: clientgui/MainDocument.cpp:2501
 msgid "Project suspended by user"
@@ -2563,11 +2563,11 @@ msgstr "Elaborazione sospesa dall'utente"
 #. (because of <dont_suspend_nci>
 #: clientgui/MainDocument.cpp:2508
 msgid "Suspended - "
-msgstr "Sospesa - "
+msgstr "Sospesa -"
 
 #: clientgui/MainDocument.cpp:2511
 msgid "GPU suspended - "
-msgstr "GPU sospesa - "
+msgstr "GPU sospesa -"
 
 #: clientgui/MainDocument.cpp:2515
 msgid "Waiting for memory"
@@ -2812,7 +2812,7 @@ msgstr "Utente:"
 msgid ""
 "WARNING: This project is not registered with BOINC.  Make sure you trust it "
 "before continuing."
-msgstr "ATTENZIONE: Questo progetto non è registrato su BOINC. Assicurati che sia fidato prima di continuare."
+msgstr "ATTENZIONE: Questo progetto non è registrato su BOINC. Assicurati che sia affidabile prima di continuare."
 
 #: clientgui/ProjectWelcomePage.cpp:277
 msgid "To continue, click Next."
@@ -2870,7 +2870,7 @@ msgstr "Server:"
 
 #: clientgui/ProxyPage.cpp:350
 msgid "Autodetect"
-msgstr "Rilevazione automatica"
+msgstr "Rilevamento automatico"
 
 #: clientgui/ProxyPage.cpp:354
 msgid "SOCKS proxy"
@@ -3234,7 +3234,7 @@ msgstr "Richiesta allo scheduler in corso"
 
 #: clientgui/ViewProjects.cpp:1173
 msgid "Trickle up message pending"
-msgstr "attesa su messaggio trickle"
+msgstr "Attesa su messaggio trickle"
 
 #: clientgui/ViewProjects.cpp:1179
 msgid "Communication deferred"
@@ -3736,7 +3736,7 @@ msgstr "Lavoro svolto per questo progetto"
 
 #: clientgui/sg_ProjectPanel.cpp:76
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
-msgstr "Diventa un volontario di uno o di tutti gli oltre 30 progetti nelle varie aree scientifiche"
+msgstr "Diventa volontario in uno dei oltre 30 progetti delle varie aree scientifiche"
 
 #: clientgui/sg_ProjectPanel.cpp:77
 msgid "Synchronize projects with account manager system"
@@ -3753,7 +3753,7 @@ msgstr "Siti web del progetto"
 
 #: clientgui/sg_ProjectPanel.cpp:149
 msgid "Project Commands"
-msgstr "Comandi del Progetto"
+msgstr "Comandi del progetto"
 
 #: clientgui/sg_ProjectPanel.cpp:278
 #, c-format
