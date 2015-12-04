@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2015-12-04 11:17+0000\n"
+"PO-Revision-Date: 2015-12-04 11:23+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -669,18 +669,18 @@ msgid ""
 "physics laboratory.  It is the most powerful instrument ever built to "
 "investigate on particles proprieties. LHC@home runs simulations to improve "
 "the design of LHC and its detectors."
-msgstr "Il Large Hadron Collider (LHC) è un acceleratore di particelle sito al CERN, l'Organizzazione Europea per la Ricerca Nucleare, il più grande laboratorio di fisica delle particelle del mondo. Esso è il più potente strumento mai costruito per investigare le proprietà delle particelle. LHC@home elabora simulazioni per migliorare la progettazione di LHC e dei suoi rivelatori."
+msgstr "Il Large Hadron Collider (LHC) è un acceleratore di particelle sito al CERN, l'Organizzazione Europea per la Ricerca Nucleare, il più grande laboratorio di fisica delle particelle del mondo. Oggi è il più potente strumento del mondo per lo studio delle proprietà delle particelle. LHC@home esegue simulazioni per migliorare il progetto di LHC e dei suoi rivelatori."
 
 #: projects.inc:388
 msgid "Improve the design of the Large Hadron Collider"
-msgstr "Migliorare il progetto di LHC (Large Hadron Collider)"
+msgstr "Migliorare il progetto di LHC"
 
 #: projects.inc:395
 msgid ""
 "This project uses CERN-developed virtual machine technology for LHC event "
 "physics simulation on volunteer computers.  Requires that you install "
 "VirtualBox on your computer"
-msgstr "Questo progetto utilizza la macchina virtuale sviluppata al CERN per la simulazione fisica degli eventi dell'LHC sui computer dei volontari.  È necessario installare VirtualBox sul tuo computer"
+msgstr "Questo progetto utilizza la macchina virtuale sviluppata al CERN per la simulazione fisica degli eventi dell'LHC sui computer dei volontari.  È necessario installare VirtualBox su questi computer per eseguirla."
 
 #: projects.inc:398
 msgid "Simulate high-energy particle collisions"
