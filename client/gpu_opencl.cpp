@@ -185,7 +185,8 @@ void COPROCS::get_opencl(
     }
 #endif
     if (!opencl_lib) {
-        warnings.push_back("No OpenCL library found");
+        sprintf(buf, "OpenCL: %s", dlerror());
+        warnings.push_back(buf);
         return;
     }
     __clGetPlatformIDs = (cl_int(*)(cl_uint, cl_platform_id*, cl_uint*)) dlsym( opencl_lib, "clGetPlatformIDs" );

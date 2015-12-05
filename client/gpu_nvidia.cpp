@@ -287,7 +287,8 @@ void* cudalib = NULL;
     cudalib = dlopen("libcuda.so", RTLD_NOW);
 #endif
     if (!cudalib) {
-        warnings.push_back("No NVIDIA library found");
+        sprintf(buf, "NVIDIA: %s", dlerror());
+        warnings.push_back(buf);
         return;
     }
     __cuDeviceGetCount = (int(*)(int*)) dlsym(cudalib, "cuDeviceGetCount");
