@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -56,10 +56,10 @@ function get_current_uotd() {
 
 // Select a (possibly new) UOTD
 //
-function select_uotd() {
+function select_uotd($force_new = false) {
     echo gmdate("F d Y", time())." UTC: Starting\n";
     $current_uotd = get_current_uotd();
-    if ($current_uotd) {
+    if ($current_uotd && !$force_new) {
         $assigned = getdate($current_uotd->uotd_time);
         $now = getdate(time());
         if ($assigned['mday'] == $now['mday']) {
@@ -69,60 +69,81 @@ function select_uotd() {
             exit();
         }
     }
+    if ($force_new) {
+        echo "Forcing new UOTD\n";
+    }
 
     // get a list of profiles that have been 'approved' for UOTD,
     // using a project-specific query if supplied in project.inc
     //
     if (function_exists('uotd_candidates_query')) {
         $query = uotd_candidates_query();
+        echo "using project supplied candidates_query\n";
     } else {
         $query = default_uotd_candidates_query();
+        echo "using default candidates_query\n";
     }
-    $result = _mysql_query($query);
+    $db = BoincDb::get();
+    $result = $db->do_query($query);
 
     // If the number of approved profiles dips below a threshold,
     // email the sys admin every time we pick a new one.
     //
     if (defined('UOTD_ADMIN_EMAIL')
         && $result
-        && _mysql_num_rows($result) < UOTD_THRESHOLD
+        && $result->num_rows < UOTD_THRESHOLD
     ) {
+        echo "approved candidates for UOTD under UOTD_THRESHOLD\n";
         $u = new BoincUser;
         $u->email_addr = UOTD_ADMIN_EMAIL;
         $u->name = "UOTD admin";
         send_email($u,
             PROJECT . ": User of the Day pool is running low!",
             "The pool of approved candidates for User of the Day has".
-            " reached your assigned threshold: there are now only " . _mysql_num_rows($result) . " approved users.\n\n".
+            " reached your assigned threshold: there are now only " . $result->num_rows . " approved users.\n\n".
             "To approve more candidates for User of the Day,".
             " go to the " . PROJECT . " administration page and click \"Screen user profiles\""
         );
     }
 
-    if ($result && _mysql_num_rows($result) == 0) {
+    if ($result && $result->num_rows == 0) {
+        echo "no new verified profile found, selecting old UOTD that was shown least recently\n";
+        $result->free();
         // If all verified profiles have been selected as UOTD,
         // reshow the one that was shown least recently.
         //
-        $result = _mysql_query("SELECT * FROM profile,user WHERE profile.userid=user.id AND verification=1 ORDER BY uotd_time ASC LIMIT 1");
+        $result = $db->do_query("SELECT * FROM profile,user WHERE profile.userid=user.id AND verification=1 ORDER BY uotd_time ASC LIMIT 1");
     }
 
-    if (!$result || _mysql_num_rows($result) == 0) {
+    if (!$result || $result->num_rows == 0) {
         // No valid users of the day - do something.
         echo "No screened users found\n";
         exit();
     }
-    $profile = _mysql_fetch_object($result);
-    $user = BoincUser::lookup_id($profile->userid);
+    $candidate = $result->fetch_object();
+    $result->free();
 
-    // if profile is "orphaned", delete it and try again
+    // depending on the candidates query the profile must not exist
     //
-    if (!$user) {
-        $profile->delete_aux("userid=$profile->userid");
-        select_uotd();
+    $profile = BoincProfile::lookup_userid($candidate->userid);
+    if (!$profile) {
+        echo "Could not find profile returned from candidates query.\n";
+        exit();
     }
 
-    $sql = "UPDATE profile SET uotd_time = ".time()." WHERE userid=$user->id";
-    _mysql_query($sql);
+    // "orphaned" profiles can only be detected if the candidate query doesn't join profile and user table
+    // if this happens, delete the profile and try again
+    //
+    $user = BoincUser::lookup_id($candidate->userid);
+    if (!$user) {
+        echo "Profile for user $candidate->userid is orphaned and will be deleted\n";
+        $profile->delete_aux("userid=$profile->userid");
+        select_uotd($force_new);
+        exit();
+    }
+
+    $profile->uotd_time = time();
+    $profile->update("uotd_time = ".time());
 
     send_email($user,
         "You're the " . PROJECT . " user of the day!",
@@ -131,7 +152,7 @@ function select_uotd() {
         Your profile will be featured on the " . PROJECT . " website for the next 24 hours."
     );
     echo "Chose user $user->id as UOTD\n";
-    $profile->uotd_time = time();
+
     generate_uotd_gadget($profile, $user);
 }
 
@@ -159,11 +180,12 @@ function count_uotd_candidates(){
         $query = default_uotd_candidates_query();
     }
     
-    $result = _mysql_query($query);
+    $db = BoincDb::get();
+    $result = $db->do_query($query);
     if($result) {
-        $n = _mysql_num_rows($result);
+        $n = $result->num_rows;
     }
-    _mysql_free_result($result);
+    $result->free();
     
     return $n;
 }
