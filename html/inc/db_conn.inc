@@ -242,6 +242,13 @@ class DbConn {
             return mysql_error($this->db_conn);
         }
     }
+    function base_errno() {
+        if (MYSQLI) {
+            return $this->db_conn->errno;
+        } else {
+            return mysql_errno($this->db_conn);
+        }
+    }
     function table_exists($table_name) {
         $result = $this->do_query("show tables from DBNAME like '$table_name'");
         if (!$result) error_page("database error on query $query");
