@@ -47,7 +47,7 @@ function show_uotd($profile) {
 // return the last UOTD profile, or null
 //
 function get_current_uotd() {
-    $profiles = BoincProfile::enum(null, "ORDER BY uotd_time DESC LIMIT 1");
+    $profiles = BoincProfile::enum("uotd_time is not NULL", "ORDER BY uotd_time DESC LIMIT 1");
     if (sizeof($profiles)) {
         return $profiles[0];
     }
