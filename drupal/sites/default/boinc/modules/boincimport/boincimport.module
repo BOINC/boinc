@@ -2269,9 +2269,13 @@ function boincimport_forum_posts() {
     'finished' => 'boincimport_posts_finished',
     'title' => t('Importing posts'),
     'init_message' => t('Beginning post import...'),
-    'progress_message' => t('Processed posts in @current out of @total batches (@size topics per batch).', array(
-      '@size' => $batch_size,
-    )),
+    'progress_message' => t(
+      'Processed posts in @current out of @total batches (@size topics per batch).',
+      array(
+        '@size' => $batch_size,
+        // @current and @total are managed by the batch API
+      )
+    ),
     'error_message' => t('Post import has encountered an error.'),
   );
   
@@ -2294,12 +2298,13 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
  // Get the topics with posts to import
   db_set_active('boinc');
   $boinc_topic_ids = db_query('
-    SELECT t.id FROM %sthread t
+    SELECT DISTINCT t.id FROM %sthread t
     JOIN %sforum f ON f.id = t.forum
+    JOIN %spost p ON p.thread = t.id
     WHERE f.parent_type = 0
     ORDER BY t.id
     LIMIT %d,%d', 
-    $pre, $pre, $offset, $batch_size
+    $pre, $pre, $pre, $offset, $batch_size
   );
   db_set_active('default');
   
@@ -2308,20 +2313,15 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
     db_set_active('boinc');
     $boinc_posts = db_query('
       SELECT id, user, thread, timestamp, content, parent_post, hidden
-      FROM %spost WHERE thread = %d ORDER BY timestamp ASC', $pre, $boinc_topic->id);
+      FROM %spost WHERE thread = %d ORDER BY id ASC', $pre, $boinc_topic->id);
     db_set_active('default');
     
     $first_post = true;
     $success = FALSE;
-    $invalid = FALSE;
     $posts_imported = 0;
     $empty_posts = 0;
     $error_posts = 0;
     $duplicate_posts = 0;
-    
-    if (!mysql_num_rows($boinc_posts)) {
-      $invalid = TRUE;
-    }
 
     while ($post = db_fetch_object($boinc_posts)) {
       
@@ -2439,13 +2439,6 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
       $context['results']['success'][] = $boinc_topic->id;
       $message = "Imported {$posts_imported} post(s) for topic {$boinc_topic->id}";
     }
-    elseif ($invalid) {
-      $context['results']['invalid'][] = $boinc_topic->id;
-      $message = "Topic {$boinc_topic->id} has no content at all, so is invalid";
-      watchdog('boincimport', $message, 
-        array(), WATCHDOG_WARNING
-      ); 
-    }
     else {
       $context['results']['failure'][] = $boinc_topic->id;
       $message = "Imported {$posts_imported} post(s) for topic {$boinc_topic->id} (excluded {$error_posts} errors, {$duplicate_posts} duplicates, and {$empty_posts} empty)";
@@ -2484,13 +2477,12 @@ function boincimport_posts_finished($success, $results, $operations) {
     $posts_imported = count($results['posts']['success']);
     $topic_count = count($results['success']);
     $topics_skipped = count($results['failure']);
-    $topics_invalid = count($results['invalid']);
     $duplicates = count($results['posts']['duplicate']);
     $empty_posts = count($results['posts']['empty']);
     $failed_posts = count($results['posts']['failure']);
     $message = t(
       'Successfully imported @post_count posts in @topic_count topics ' .
-      '(@skipped topics either had no replies or all replies were already imported, @invalid_topics had no content at all and were invalid; ' .
+      '(@skipped topics either had no replies or all replies were already imported, ' .
       '@duplicates posts were skipped as already imported, ' .
       '@empty_posts had no content, ' .
       'and @error_posts encountered errors during import)',
@@ -2498,7 +2490,6 @@ function boincimport_posts_finished($success, $results, $operations) {
         '@post_count' => $posts_imported,
         '@topic_count' => $topic_count,
         '@skipped' => $topics_skipped,
-        '@invalid_topics' => $topics_invalid,
         '@duplicates' => $duplicates,
         '@empty_posts' => $empty_posts,
         '@error_posts' => $failed_posts,
