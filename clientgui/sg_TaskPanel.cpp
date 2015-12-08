@@ -1093,10 +1093,10 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
         ctrlResult = selData->result;
         if (isRunning(ctrlResult)) {
             newIcon = runningIcon;
-        } else if (ctrlResult->scheduler_state == CPU_SCHED_PREEMPTED) {
-            newIcon = waitingIcon;
-        } else {
+        } else if (Suspended() || ctrlResult->suspended_via_gui || ctrlResult->project_suspended_via_gui) {
             newIcon = suspendedIcon;
+        } else {
+            newIcon = waitingIcon;
         }
 
         if (reskin || (newIcon != selData->dotColor)) {
