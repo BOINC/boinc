@@ -939,9 +939,11 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
     std::vector<bool>is_alive;
     bool needRefresh = false;
     wxString resname;
+    CC_STATUS status;
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
-
+    wxASSERT(pDoc);
+    
     static bool bAlreadyRunning = false;
 
     wxASSERT(pDoc);
@@ -1088,13 +1090,20 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
         }
     }
 
+    pDoc->GetCoreClientStatus(status);
+
     count = m_TaskSelectionCtrl->GetCount();
     for(j = 0; j < count; ++j) {
         selData = (TaskSelectionData*)m_TaskSelectionCtrl->GetClientData(j);
         ctrlResult = selData->result;
         if (isRunning(ctrlResult)) {
             newIcon = runningIcon;
-        } else if (Suspended() || ctrlResult->suspended_via_gui || ctrlResult->project_suspended_via_gui) {
+        } else if (Suspended() ||
+                    ctrlResult->suspended_via_gui ||
+                    ctrlResult->project_suspended_via_gui ||
+                    // kludge.  But ctrlResult->avp isn't populated.
+                    (status.gpu_suspend_reason && (strstr(ctrlResult->resources, "GPU") != NULL)))
+        {
             newIcon = suspendedIcon;
         } else {
             newIcon = waitingIcon;
@@ -1176,7 +1185,7 @@ bool CSimpleTaskPanel::Suspended() {
     
     bool result = false;
     pDoc->GetCoreClientStatus(status);
-    if ( pDoc->IsConnected() && status.task_suspend_reason > 0 && status.task_suspend_reason != SUSPEND_REASON_DISK_SIZE &&  status.task_suspend_reason != SUSPEND_REASON_CPU_THROTTLE ) {
+    if ( pDoc->IsConnected() && status.task_suspend_reason > 0 && status.task_suspend_reason != SUSPEND_REASON_CPU_THROTTLE ) {
         result = true;
     }
     return result;
@@ -1224,6 +1233,8 @@ void CSimpleTaskPanel::DisplayIdleState() {
             UpdateStaticText(&m_StatusValueText, _("Processing Suspended:  Time of Day."));
         } else if ( status.task_suspend_reason & SUSPEND_REASON_BENCHMARKS ) {
             UpdateStaticText(&m_StatusValueText, _("Processing Suspended:  Benchmarks Running."));
+        } else if ( status.task_suspend_reason & SUSPEND_REASON_DISK_SIZE ) {
+            UpdateStaticText(&m_StatusValueText, _("Processing Suspended:  need disk space."));
         } else {
             UpdateStaticText(&m_StatusValueText, _("Processing Suspended."));
         }
