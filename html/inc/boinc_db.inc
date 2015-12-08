@@ -29,38 +29,84 @@ class BoincDb extends DbConn {
     // BoincDb::get(true);
     // at the top of it.
     //
-    static function get_aux($readonly) {
+    // Specify a $fallback_mode that is used when $readonly is true:
+    // 0: default, use db_user if no replica_db_user is specified,
+    //    first try replica_db_host (if specified) then db_host
+    // 1: only use replica_db_user, first try replica_db_host then db_host
+    // 2: only use replica_db_user, only try replica_db_host
+    // can be set projectwide using <replica_fallback_mode>
+    //
+    static function get_aux($readonly, $fallback_mode = 0) {
         $config = get_config();
         $user = parse_config($config, '<db_user>');
         $passwd = parse_config($config, '<db_passwd>');
         $host = parse_config($config, '<db_host>');
         $replica_host = parse_config($config, '<replica_db_host>');
         $name = parse_config($config, '<db_name>');
+        $fm = parse_config($config, '<replica_fallback_mode>');
+        if ($fm) {
+            // override parameter with config.xml setting
+            $fallback_mode = $fm;
+        }
         if ($host == null) {
             $host = "localhost";
         }
         $instance = new DbConn();
-        if ($readonly && $replica_host) {
-            $x = parse_config($config, '<replica_db_user>');
-            if ($x) $user = $x;
-            $x = parse_config($config, '<replica_db_passwd>');
-            if ($x) $passwd = $x;
-            $x = parse_config($config, '<replica_db_name>');
-            if ($x) $name = $x;
-            $retval = $instance->init_conn(
-                $user, $passwd, $replica_host, $name, true
-            );
-            if ($retval) {
+        if ($readonly) {
+            if (($fallback_mode > 0) && (!$replica_host)) {
+                error_log("BoincDb::get_aux(): <replica_db_host> required for \$fallback_mode > 0 (giving up)");
+                $instance = null;
                 self::$instance = $instance;
                 return $instance;
+            }
+            $u = parse_config($config, '<replica_db_user>');
+            $p = parse_config($config, '<replica_db_passwd>');
+            $n = parse_config($config, '<replica_db_name>');
+            if (($fallback_mode > 0) && (!$u || !$p || !$n)) {
+                error_log("BoincDb::get_aux(): <replica_db_*> required for \$fallback_mode > 0 (giving up)");
+                $instance = null;
+                self::$instance = $instance;
+                return $instance;
+            } else {
+                // use replica user if given or use normal user for $fallback_mode == 0
+                if ($u) $user = $u;
+                if ($p) $passwd = $p;
+                if ($n) $name = $n;
+            }
+            // skip this block if no $replica_host is specified for $fallback_mode == 0
+            if ($replica_host) {
+                $retval = $instance->init_conn(
+                    $user, $passwd, $replica_host, $name, true
+                );
+                if ($retval) {
+                    // needed for places where we do direct queries
+                    if (!$instance->do_query("use $name")) {
+                        error_log("BoincDb::get_aux(): Couldn't select database $name on $replica_host (giving up)");
+                        $instance = null;
+                    }
+                    self::$instance = $instance;
+                    return $instance;
+                } elseif ($fallback_mode == 2) {
+                    // no fallback to master in this case
+                    error_log("BoincDb::get_aux(): Couldn't connect to $user@$replica_host (giving up)");
+                    $instance = null;
+                    self::$instance = $instance;
+                    return $instance;
+                } else {
+                    error_log("BoincDb::get_aux(): Couldn't connect to $user@$replica_host (trying $user@$host next)");
+                }
             }
         }
         $retval = $instance->init_conn($user, $passwd, $host, $name, false);
         if (!$retval) {
             $instance = null;
+            error_log("BoincDb::get_aux(): Couldn't connect to $user@$host (giving up)");
         } else {
-            $instance->do_query("use $name");
-                // needed for places where we do direct queries
+            // needed for places where we do direct queries
+            if (!$instance->do_query("use $name")) {
+                error_log("BoincDb::get_aux(): Couldn't select database $name on $host (giving up)");
+                $instance = null;
+            }
         }
         self::$instance = $instance;
         return $instance;
@@ -70,7 +116,7 @@ class BoincDb extends DbConn {
     // 1) check for a cached connection
     // 2) check whether the "stop_web" trigger file is present
     //
-    static function get($readonly = false) {
+    static function get($readonly = false, $fallback_mode = 0) {
         global $generating_xml;
         if (!isset(self::$instance)) {
             if (web_stopped()) {
@@ -83,7 +129,7 @@ class BoincDb extends DbConn {
                     exit;
                 }
             }
-            self::get_aux($readonly);
+            self::get_aux($readonly, $fallback_mode);
             if (!self::$instance) {
                 if ($generating_xml) {
                     xml_error(-138, "the project's database server is down");
