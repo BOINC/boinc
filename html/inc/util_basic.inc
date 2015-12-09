@@ -146,4 +146,17 @@ function is_gpu($plan_class) {
     return false;
 }
 
+// the same as file_get_contents() but uses curl
+//
+function url_get_contents($url) {
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_HEADER, false);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
+    $content = curl_exec($ch);
+    curl_close($ch);
+    return $content;
+}
+
 ?>
