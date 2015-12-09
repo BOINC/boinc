@@ -442,9 +442,9 @@ class BoincProfile {
         $db = BoincDb::get();
         return $db->enum_fields('profile', 'BoincProfile', $fields, $where_clause, $order_clause);
     }
-    function delete($userid) {
+    function delete() {
         $db = BoincDb::get();
-        return $db->delete_aux("userid=$userid");
+        return $db->delete_aux("userid=".$this->userid);
     }
     static function delete_aux($clause) {
         $db = BoincDb::get();
