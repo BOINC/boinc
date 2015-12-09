@@ -444,7 +444,7 @@ class BoincProfile {
     }
     function delete() {
         $db = BoincDb::get();
-        return $db->delete_aux("userid=".$this->userid);
+        return $db->delete_aux('profile', 'userid='.$this->userid);
     }
     static function delete_aux($clause) {
         $db = BoincDb::get();

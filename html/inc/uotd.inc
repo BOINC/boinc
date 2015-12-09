@@ -137,7 +137,7 @@ function select_uotd($force_new = false) {
     $user = BoincUser::lookup_id($candidate->userid);
     if (!$user) {
         echo "Profile for user $candidate->userid is orphaned and will be deleted\n";
-        $profile->delete_aux("userid=$profile->userid");
+        $profile->delete();
         select_uotd($force_new);
         exit();
     }
