@@ -37,6 +37,10 @@
 // app_plan_uses_gpu():
 //      Which plan classes use GPUs
 //
+// JOB::get_score():
+//      Determine the value of sending a particular job to host;
+//      (used only by "matchmaker" scheduling)
+//
 // WARNING: if you modify this file, you must prevent it from
 // being overwritten the next time you update BOINC source code.
 // You can either:
@@ -96,7 +100,7 @@ GPU_REQUIREMENTS gpu_requirements[NPROC_TYPES];
 
 bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
 #if 0
-    // example 1: if WU name contains "_v1", don't use GPU apps.
+    // example: if WU name contains "_v1", don't use GPU apps.
     // Note: this is slightly suboptimal.
     // If the host is able to accept both GPU and CPU jobs,
     // we'll skip this job rather than send it for the CPU.
@@ -107,7 +111,7 @@ bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
     }
 #endif
 #if 0
-    // example 2: for NVIDIA GPU app,
+    // example: for NVIDIA GPU app,
     // wu.batch is the minimum number of GPU processors.
     // Don't send if #procs is less than this.
     //
@@ -118,12 +122,76 @@ bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
         }
     }
 #endif
-#if 0
-    // example 3: require that wu.opaque = user.donated
+#if defined(SETIATHOME)
+    bool infeasible=false;
+    static bool send_vlar_to_gpu=false;
+    static bool sah_config_checked=false;
+    char buff[256];
+
+    // check the projects app config whether to send vlar wus to gpus 
+    if (!sah_config_checked) {
+        MIOFILE mf;
+        XML_PARSER xp(&mf);
+#ifndef _USING_FCGI_
+        FILE *f=fopen(config.project_path("sah_config.xml"),"r");
+#else
+        FCGI_FILE *f=FCGI::fopen(config.project_path("sah_config.xml"),"r");
+#endif
+        if (f) {
+            mf.init_file(f);
+            if (xp.parse_start("sah") && xp.parse_start("config")) {
+                while (!xp.get_tag()) {
+                   if (!xp.is_tag) continue;
+                   if (xp.parse_bool("send_vlar_to_gpu",send_vlar_to_gpu)) continue;
+                   if (xp.match_tag("/config")) break;
+                   xp.skip_unexpected(false, "wu_is_infeasible_custom");
+                }
+            }
+            fclose(f);
+        }
+        sah_config_checked=true;
+    } 
+    // example: if CUDA app and WU name contains ".vlar", don't send
+    // to NVIDIA, INTEL or older ATI cards
     //
-    if (wu.opaque && wu.opaque != g_reply->user.donated) {
-        return true;
+    if (bav.host_usage.uses_gpu() && strstr(wu.name, ".vlar")) {
+        if (send_vlar_to_gpu) {
+            if (bav.host_usage.proc_type == PROC_TYPE_AMD_GPU) {
+                // ATI GPUs older than HD7870
+                COPROC_ATI &cp = g_request->coprocs.ati;
+                if (cp.count && cp.attribs.target && (cp.attribs.target < 15)) {
+                  log_messages.printf(MSG_NORMAL,
+                         "[version] VLAR Infeasible on GPU (CAL target %d < 15)\n",
+                         cp.attribs.target
+                  );
+                  infeasible=true;
+                }
+            } else if (bav.host_usage.proc_type == PROC_TYPE_NVIDIA_GPU)  {
+                COPROC_NVIDIA &cp = g_request->coprocs.nvidia;
+                if (cp.count) {
+                    int v = (cp.prop.major)*100 + cp.prop.minor;
+                    if (v < 300) {
+                        log_messages.printf(MSG_NORMAL,
+                             "[version] VLAR Infeasible on GPU (Compute Capability %.2f < 3.00)\n",
+                             ((double)v)*0.01
+                        );
+                        infeasible=true;
+                    }
+                }
+            } else {   
+              // all other GPUS
+              infeasible=true;
+            }
+        } else {
+            infeasible=true;
+        }
     }
+    if (infeasible && config.debug_version_select) {
+        log_messages.printf(MSG_NORMAL,
+            "[version] [setiathome] VLAR workunit is infeasible on this GPU\n"
+        );
+    }
+    return infeasible;
 #endif
     return false;
 }
@@ -816,7 +884,7 @@ static inline bool app_plan_opencl(
     }
 }
 
-// handles vbox[32|64][_[mt]|[hwaccel]]
+// handles vbox_[32|64][_mt]
 // "mt" is tailored to the needs of CERN:
 // use 1 or 2 CPUs
 
@@ -859,6 +927,7 @@ static inline bool app_plan_vbox(
         }
     }
 
+
     // host must have VM acceleration in order to run multi-core jobs
     //
     if (strstr(plan_class, "mt")) {
@@ -868,6 +937,7 @@ static inline bool app_plan_vbox(
             can_use_multicore = false;
         }
     }
+
 
     // only send the version for host's primary platform.
     // A Win64 host can't run a 32-bit VM app:
@@ -932,6 +1002,11 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         safe_strcat(buf, "/plan_class_spec.xml");
         int retval = plan_class_specs.parse_file(buf);
         if (retval == ERR_FOPEN) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] Couldn't open plan class spec file '%s'\n", buf
+                );
+            }
             have_plan_class_spec = false;
         } else if (retval) {
             log_messages.printf(MSG_CRITICAL,
