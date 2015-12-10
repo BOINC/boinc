@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2015-12-10 09:10+0000\n"
+"PO-Revision-Date: 2015-12-10 09:15+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -144,7 +144,7 @@ msgstr "Inserire il proprio indirizzo email."
 #: clientgui/AccountInfoPage.cpp:579
 #, c-format
 msgid "Please enter a password of at least %d characters."
-msgstr "Per favore inserisci una password di almeno %d caratteri."
+msgstr "Per favore inserire una password di almeno %d caratteri."
 
 #: clientgui/AccountInfoPage.cpp:589
 msgid ""
@@ -1170,7 +1170,7 @@ msgstr "Disco e memoria"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:149
 msgid "Daily schedules"
-msgstr "Programmazioni giornaliere"
+msgstr "Operazioni pianificate"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:162
 #: clientgui/DlgDiagnosticLogFlags.cpp:119 clientgui/DlgExclusiveApps.cpp:146
@@ -1184,7 +1184,7 @@ msgstr "Salva tutti i valori e chiude la finestra."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:169
 msgid "Close the dialog without saving."
-msgstr "Chiudi la finestra senza salvare."
+msgstr "Chiude la finestra senza salvare."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:173 clientgui/DlgExclusiveApps.cpp:157
 #: clientgui/Localization.cpp:35 clientgui/Localization.cpp:121
@@ -1225,7 +1225,7 @@ msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
 "energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, "
 "and repeat."
-msgstr "Sospendi/riprendi l'elaborazione ogni qualche secondo per ridurre la temperatura CPU e l'utilizzo di energia. Esempio: 75% significa elabora per 3 secondi, aspetta per 1 secondo, e ripeti."
+msgstr "Sospendi/riprendi l'elaborazione ogni qualche secondo per ridurre la temperatura della CPU e l'utilizzo di elettricità. Esempio: 75% significa elabora per 3 secondi, aspetta per 1 secondo, e poi ripeti."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:260 clientgui/sg_DlgPreferences.cpp:291
 #, no-c-format
@@ -1257,7 +1257,7 @@ msgstr "Spunta questa voce per sospendere l'elaborazione e i trasferimenti di fi
 
 #: clientgui/DlgAdvPreferencesBase.cpp:291
 msgid "Suspend GPU computing when computer is in use"
-msgstr "Sospendo l'elaborazione GPU quando il computer è in uso"
+msgstr "Sospendi l'elaborazione GPU quando il computer è in uso"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:294
 msgid "Check this to suspend GPU computing when you're using the computer."
@@ -1290,7 +1290,7 @@ msgstr "Sospendi l'elaborazione quando il tuo computer è impegnato nell'esecuzi
 
 #: clientgui/DlgAdvPreferencesBase.cpp:339
 msgid "To suspend by time of day, see the \"Daily Schedules\" section."
-msgstr "Per sospendere in base all'ora del giorno, vedere la sezione \"Programmazioni giornaliere\"."
+msgstr "Per sospendere in base all'ora del giorno, vedere la sezione \"Operazioni pianificate\"."
 
 #. Context: heading for a group of miscellaneous preferences
 #: clientgui/DlgAdvPreferencesBase.cpp:349
@@ -1319,7 +1319,7 @@ msgstr "giorni di lavoro"
 msgid ""
 "Store additional tasks above the minimum level.  Determines how much work is"
 " requested when contacting a project."
-msgstr "Archivia elaborazioni addizionali sopra la soglia minima. Determina quanto lavoro è richiesto quando si contatta un progetto."
+msgstr "Archivia elaborazioni addizionali oltre la soglia minima. Determina quante workunit vengono richieste quando si contatta un progetto."
 
 #. context: Store up to an additional ___ days of work
 #: clientgui/DlgAdvPreferencesBase.cpp:380
@@ -1340,7 +1340,7 @@ msgstr "Cambia applicazione ogni"
 msgid ""
 "This controls how often tasks save their state to disk, so that they later "
 "can be continued from that point."
-msgstr "Questo controlla quanto spesso le elaborazioni salvano lo stato sul disco in modo che possano essere ripresi in futuro."
+msgstr "Determina quanto spesso le applicazioni salvano i risultati su disco in modo che i calcoli possano essere ripresi in futuro nel caso l'applicazione venga chiusa bruscamente."
 
 #. context: Request tasks to checkpoint at most every ___ seconds
 #: clientgui/DlgAdvPreferencesBase.cpp:423
@@ -1393,7 +1393,7 @@ msgstr "giorni"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:505
 msgid "To limit transfers by time of day, see the \"Daily Schedules\" section."
-msgstr "Per limitare i trasferimenti in base all'ora del giorno, vedere la sezione \"Programmazioni giornaliere\"."
+msgstr "Per limitare i trasferimenti in base all'ora del giorno, vedere la sezione \"Attività pianificate\"."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:522
 #, c-format
@@ -1507,7 +1507,7 @@ msgid ""
 "If checked, suspended tasks stay in memory, and resume with no work lost. If"
 " unchecked, suspended tasks are removed from memory, and resume from their "
 "last checkpoint."
-msgstr "Se selezionato, le elaborazioni sospese rimangono in memoria, e riprendono senza lavoro perso. Se deselezionato, le elaborazioni sospese sono rimosse dalla memoria, e la ripresa parte dall'ultimo checkpoint."
+msgstr "Se selezionato, le elaborazioni sospese rimangono nella RAM (senza occupare la CPU) e riprendono senza rischiare di perdere i risultati dei calcoli. Se deselezionato, le elaborazioni sospese sono rimosse dalla memoria, quando vengono chiamate ripartono dal disco fisso ed i calcoli ripartono dall'ultimo checkpoint."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:643
 #, c-format
@@ -1542,7 +1542,7 @@ msgstr "Sovrascrivi giorno della settimana"
 #: clientgui/DlgAdvPreferencesBase.cpp:727
 #: clientgui/DlgAdvPreferencesBase.cpp:906
 msgid "Override the times above on the selected days:"
-msgstr "Sovrascrivi il tempo sopra sui giorni selezionati:"
+msgstr "Sovrascrivi i giorni selezionati:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:750
 #: clientgui/DlgAdvPreferencesBase.cpp:923
@@ -1921,7 +1921,7 @@ msgstr "Non intensivo per la CPU"
 #: clientgui/DlgItemProperties.cpp:276 clientgui/DlgItemProperties.cpp:285
 #: clientgui/DlgItemProperties.cpp:288 clientgui/DlgItemProperties.cpp:291
 msgid "yes"
-msgstr "si"
+msgstr "sì"
 
 #: clientgui/DlgItemProperties.cpp:270
 msgid "Suspended via GUI"
@@ -2513,7 +2513,7 @@ msgstr "Avvio del client"
 
 #: clientgui/MainDocument.cpp:2451
 msgid "an exclusive app is running"
-msgstr "l'applicazione è in modalità esclusiva"
+msgstr "un'applicazione è in esecuzione in modalità esclusiva"
 
 #: clientgui/MainDocument.cpp:2452
 msgid "CPU is busy"
@@ -2627,7 +2627,7 @@ msgstr "Annullato dal progetto"
 
 #: clientgui/MainDocument.cpp:2567
 msgid "Aborted: not started by deadline"
-msgstr "Annullato: non è partito a causa della scadenza"
+msgstr "Annullato: a causa della scadenza della workunit"
 
 #: clientgui/MainDocument.cpp:2570
 msgid "Aborted: task disk limit exceeded"
@@ -3355,7 +3355,7 @@ msgstr "Tipo di visualizzazione"
 
 #: clientgui/ViewStatistics.cpp:2010
 msgid "One project"
-msgstr "Un progetto"
+msgstr "Un progetto alla volta"
 
 #: clientgui/ViewStatistics.cpp:2011
 msgid "Show one chart with selected project"
@@ -3363,11 +3363,11 @@ msgstr "Mostra il grafico del progetto selezionato"
 
 #: clientgui/ViewStatistics.cpp:2017
 msgid "All projects (separate)"
-msgstr "Tutti i progetti (separati)"
+msgstr "Tutti i progetti (separatamente)"
 
 #: clientgui/ViewStatistics.cpp:2018
 msgid "Show all projects, one chart per project"
-msgstr "Mostra tutti i progetti, un grafico per progetto"
+msgstr "Mostra tutti i progetti; un grafico per ogni progetto"
 
 #: clientgui/ViewStatistics.cpp:2024
 msgid "All projects (together)"
@@ -3379,11 +3379,11 @@ msgstr "Mostra tutti i progetti in un unico grafico"
 
 #: clientgui/ViewStatistics.cpp:2031
 msgid "All projects (sum)"
-msgstr "Tutti i progetti (somma)"
+msgstr "Tutti i progetti (sommati)"
 
 #: clientgui/ViewStatistics.cpp:2032
 msgid "Show one chart with sum of projects"
-msgstr "Mostrala somma dei progetti in un unico grafico"
+msgstr "Mostra la somma dei progetti in un unico grafico"
 
 #: clientgui/ViewStatistics.cpp:2053
 msgid "Statistics"
