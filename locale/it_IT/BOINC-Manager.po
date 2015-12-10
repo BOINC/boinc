@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2015-12-09 12:39+0000\n"
+"PO-Revision-Date: 2015-12-10 09:10+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -408,7 +408,7 @@ msgstr "Ela&borazione GPU secondo le preferenze"
 
 #: clientgui/AdvancedFrame.cpp:555
 msgid "Allow GPU work according to preferences"
-msgstr "consenti l'invio di lavoro per la GPU secondo le preferenze"
+msgstr "Consenti l'uso della GPU secondo le preferenze"
 
 #: clientgui/AdvancedFrame.cpp:559
 msgid "Suspend GPU"
@@ -599,7 +599,7 @@ msgstr "%s"
 #: clientgui/AdvancedFrame.cpp:1892
 #, c-format
 msgid "%s has successfully added %s"
-msgstr "%s ha aggiunto con successo %s"
+msgstr "%s è stato aggiunto correttamente %s"
 
 #: clientgui/AdvancedFrame.cpp:2028
 #, c-format
@@ -742,7 +742,7 @@ msgstr "Pagine web del progetto"
 #: clientgui/BOINCClientManager.cpp:547
 #, c-format
 msgid "%s - Unexpected Exit"
-msgstr "%s - disconnessione imprevista"
+msgstr "%s - Disconnessione imprevista"
 
 #: clientgui/BOINCClientManager.cpp:557
 #, c-format
@@ -813,7 +813,7 @@ msgstr "Non sei autorizzato a gestire il client.\n\nPer avviare %s come utente s
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
-msgstr "La proprietà o i permessi di %s non sono impostati correttamente; per risolvere il problema installa nuovamente %s.\n(Codice errore %d)"
+msgstr "La proprietà o i permessi di %s non sono impostati correttamente; per risolvere il problema reinstalla %s.\n(Codice errore %d)"
 
 #: clientgui/BOINCGUIApp.cpp:368
 msgid " at "
