@@ -2335,6 +2335,7 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
     db_set_active('default');
     
     $first_post = true;
+    $topic_has_responses = FALSE;
     $success = FALSE;
     $posts_imported = 0;
     $empty_posts = 0;
@@ -2348,6 +2349,9 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
         $first_post = false;
         continue;
       }
+      
+      // Making it this far confirms that there are posts to import
+      $topic_has_responses = TRUE;
       
       $is_duplicate = db_result(db_query('
         SELECT COUNT(*) FROM {boincimport_temp_post}
@@ -2452,7 +2456,7 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
     }
     
     $message = '';
-    if ($success) {
+    if ($success OR !$topic_has_responses) {
       // Store some result for post-processing in the finished callback.
       $context['results']['success'][] = $boinc_topic->id;
       $message = "Imported {$posts_imported} post(s) for topic {$boinc_topic->id}";
