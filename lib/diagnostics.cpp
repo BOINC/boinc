@@ -111,7 +111,47 @@ static double      max_stdout_file_size = 2048*1024;
 static void *libhandle;
 #endif
 
-#if defined(_WIN32) && defined(_DEBUG)
+#ifdef _WIN32
+
+// Starting with Visual Studio 2005 the C Runtime Library has really started to
+//   enforce parameter validation. Problem is that the parameter validation code
+//   uses its own structured exception handler and terminates without writing
+//   any useful output to stderr. Microsoft has created a hook an application
+//   developer can use to get more debugging information which is the purpose
+//   of this function. When an invalid parameter is passed to the C Runtime
+//   library this function will write whatever trace information it can and
+//   then throw a breakpoint exception to dump all the rest of the useful
+//   information.
+void boinc_catch_signal_invalid_parameter(
+    const wchar_t* expression, const wchar_t* function, const wchar_t* file, unsigned int line, uintptr_t /* pReserved */
+) {
+	fprintf(
+		stderr,
+        "ERROR: Invalid parameter detected in function %s. File: %s Line: %d\n",
+		function,
+		file,
+		line
+	);
+	fprintf(
+		stderr,
+		"ERROR: Expression: %s\n",
+		expression
+	);
+
+	// Cause a Debug Breakpoint.
+	DebugBreak();
+}
+
+// Override default terminate and abort functions, call DebugBreak instead.
+//
+void boinc_term_func() {
+
+    // Cause a Debug Breakpoint.
+    DebugBreak();
+
+}
+
+#ifdef _DEBUG
 
 // Trap ASSERTs and TRACEs from the CRT and spew them to stderr.
 //
@@ -148,7 +188,8 @@ int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal){
     return(TRUE);
 }
 
-#endif // _WIN32 && _DEBUG
+#endif //  _DEBUG
+#endif // _WIN32
 
 
 // initialize the app diagnostic environment.
@@ -326,6 +367,10 @@ int diagnostics_init(
 
 
 #if defined(_WIN32)
+
+    //_set_abort_behavior(NULL, _WRITE_ABORT_MSG);
+    set_terminate(boinc_term_func);
+    set_unexpected(boinc_term_func);
 
 #if defined(_DEBUG)
 

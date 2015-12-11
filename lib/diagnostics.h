@@ -122,7 +122,6 @@ extern int diagnostics_finish_unhandled_exception_monitor();
 #ifdef _WIN32
 extern UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID lpParameter);
 extern LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
-extern void boinc_catch_signal_invalid_parameter(const wchar_t* expression, const wchar_t* function, const wchar_t* file, unsigned int line, uintptr_t pReserved);
 #else
 #ifdef HAVE_SIGACTION
 typedef void (*handler_t)(int, struct siginfo *, void *);
