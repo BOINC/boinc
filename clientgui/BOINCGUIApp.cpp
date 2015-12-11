@@ -167,11 +167,6 @@ bool CBOINCGUIApp::OnInit() {
     bool     success = false;
 
 
-#ifndef __WXMAC__
-    // call this to tell the library to call our OnFatalException()
-    wxHandleFatalExceptions();
-#endif
-
     // Configure wxWidgets platform specific code
 #ifdef __WXMSW__
     wxSystemOptions::SetOption(wxT("msw.staticbox.optimized-paint"), 0);
@@ -614,29 +609,6 @@ void CBOINCGUIApp::OnEndSession(wxCloseEvent& ) {
     // so we must call OnExit directly
     pFrame->OnExit(evt);
     OnExit();
-}
-
-
-void CBOINCGUIApp::OnFatalException() {
-#ifdef wxUSE_DEBUGREPORT 
-    wxDebugReportCompress* report = new wxDebugReportCompress;
-
-    if (report->IsOk()) {
-        report->AddAll(wxDebugReport::Context_Exception);
-
-        if (report->Process())
-        {
-            fprintf(
-                stderr,
-                "ASSERT: Report generated in \"%s\".\n",
-                (const char*)report->GetCompressedFileName().mb_str()
-            );
-            report->Reset();
-        }
-    }
-
-    delete report;
-#endif
 }
 #endif
 
