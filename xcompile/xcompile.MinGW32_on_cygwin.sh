@@ -154,7 +154,7 @@ if test $build_client != no ; then
   cd $thisdir
   rm -rf NVIDIA
   # grrr. NVIDIA is using Microsoft's buffer overflow library
-  if ! test -f ${XCOMPILE_ROOT}/lib/libruntmchk.a ; then
+  if ! test -f ${XCOMPILE_ROOT}/lib/libruntmchk.lib ; then
     VS10DIR=/cygdrive/c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio\ 10.0
     if test -d "${VS10DIR}" ; then
       case $target_host in 
@@ -164,7 +164,7 @@ if test $build_client != no ; then
 	            ;;
       esac
       if test -f "${VCLIB}" ; then
-        ar r ${XCOMPILE_ROOT}/lib/libruntmchk.a "${VCLIB}"
+        cp "${VCLIB}" ${XCOMPILE_ROOT}/lib/libruntmchk.lib
       fi
     else
       echo "-------------------------------------------------------------------------"
