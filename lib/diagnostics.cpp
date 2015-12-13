@@ -368,9 +368,13 @@ int diagnostics_init(
 
 #if defined(_WIN32)
 
+// On MinGW compilers, it seems this would require shipping BOINC apps
+// with libstdc++6.dll.  So lets avoid that for now.
+#ifndef __MINGW32__
     //_set_abort_behavior(NULL, _WRITE_ABORT_MSG);
     set_terminate(boinc_term_func);
     set_unexpected(boinc_term_func);
+#endif
 
 #if defined(_DEBUG)
 

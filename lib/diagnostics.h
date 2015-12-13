@@ -30,6 +30,10 @@
 #endif
 #endif
 
+#ifdef HAVE_EH_H
+#include <eh.h>
+#endif
+
 #ifdef HAVE_DLFCN_H
 #include <dlfcn.h>
 #endif
