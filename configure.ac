@@ -922,6 +922,7 @@ AH_TEMPLATE([HAVE_STD_MAX],[Define to 1 if max is in namespace std::])
 AH_TEMPLATE([HAVE_STD_LOCALE],[Define to 1 if locale is in namespace std::])
 AH_TEMPLATE([HAVE_STD_TRANSFORM],[Define to 1 if transform is in namespace std:: ])
 SAH_FUNCS_IN_NAMESPACE([['min(0,0)'] ['max(0,0)'] ['transform((char *)0,(char *) 0,(char *)0,(int(*)(int))malloc)'] ['locale("")']],std)
+AC_CHECK_HEADERS(eh.h)
 AC_LANG_POP
 
 dnl Checks for library functions.
@@ -1111,13 +1112,13 @@ if test x${ac_cv_cxx_compiler_gnu} != xno ; then
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 fi
 fi
-SAH_CHECK_LIB([nvapi],[fopen],[
-    AC_DEFINE([HAVE_LIBNVAPI],[1],[Define to 1 if you have the NVIDIA API library])
-    CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
-   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 if test ${isWIN32} = "yes" ; then
   SAH_CHECK_LIB([gdi32],[fopen],[
       AC_DEFINE([HAVE_LIBWGDI32],[1],[Define to 1 if you have the gdi32 library])
+      CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+     echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+  SAH_CHECK_LIB([runtmchk],[fopen],[
+      AC_DEFINE([HAVE_LIBRUNTMCHK],[1],[Define to 1 if you have the RunTmChk library])
       CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
      echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
      found_msvcrt=no
@@ -1151,6 +1152,10 @@ if test ${isWIN32} = "yes" ; then
         CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
     echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
   fi
+SAH_CHECK_LIB([nvapi],[fopen],[
+    AC_DEFINE([HAVE_LIBNVAPI],[1],[Define to 1 if you have the NVIDIA API library])
+    CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
   SAH_CHECK_LIB([wininet],[fopen],[
       AC_DEFINE([HAVE_LIBWININET],[1],[Define to 1 if you have the wininet library])
       CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
@@ -1181,6 +1186,11 @@ if test ${isWIN32} = "yes" ; then
      echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
   SAH_CHECK_LIB([secur32],[fopen],[
       AC_DEFINE([HAVE_LIBSECUR32],[1],[Define to 1 if you have the secur32 library])
+      CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+     echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+else
+  SAH_CHECK_LIB([nvapi],[fopen],[
+      AC_DEFINE([HAVE_LIBNVAPI],[1],[Define to 1 if you have the NVIDIA API library])
       CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
      echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 fi
