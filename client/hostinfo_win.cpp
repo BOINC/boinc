@@ -205,6 +205,178 @@
 #define PROCESSOR_ARCHITECTURE_ARM64            12
 #endif
 
+/* And some more that other compilers might not know about */
+/* Commented ones aren't used (yet)                        */
+#ifndef PRODUCT_ULTIMATE
+#define PRODUCT_ULTIMATE                            0x00000001
+#endif
+#ifndef PRODUCT_HOME_BASIC
+#define PRODUCT_HOME_BASIC                          0x00000002
+#endif
+#ifndef PRODUCT_HOME_PREMIUM
+#define PRODUCT_HOME_PREMIUM                        0x00000003
+#endif
+#ifndef PRODUCT_ENTERPRISE
+#define PRODUCT_ENTERPRISE                          0x00000004
+#endif
+#ifndef PRODUCT_HOME_BASIC_N
+#define PRODUCT_HOME_BASIC_N                        0x00000005
+#endif
+#ifndef PRODUCT_BUSINESS
+#define PRODUCT_BUSINESS                            0x00000006
+#endif
+#ifndef PRODUCT_STANDARD_SERVER
+#define PRODUCT_STANDARD_SERVER                     0x00000007
+#endif
+#ifndef PRODUCT_DATACENTER_SERVER
+#define PRODUCT_DATACENTER_SERVER                   0x00000008
+#endif
+#ifndef PRODUCT_SMALLBUSINESS_SERVER
+#define PRODUCT_SMALLBUSINESS_SERVER                0x00000009
+#endif
+#ifndef PRODUCT_ENTERPRISE_SERVER
+#define PRODUCT_ENTERPRISE_SERVER                   0x0000000a
+#endif
+#ifndef PRODUCT_STARTER
+#define PRODUCT_STARTER                             0x0000000b
+#endif
+#ifndef PRODUCT_DATACENTER_SERVER_CORE
+#define PRODUCT_DATACENTER_SERVER_CORE              0x0000000c
+#endif
+#ifndef PRODUCT_STANDARD_SERVER_CORE
+#define PRODUCT_STANDARD_SERVER_CORE                0x0000000d
+#endif
+#ifndef PRODUCT_ENTERPRISE_SERVER_CORE
+#define PRODUCT_ENTERPRISE_SERVER_CORE              0x0000000e
+#endif
+#ifndef PRODUCT_ENTERPRISE_SERVER_IA64
+#define PRODUCT_ENTERPRISE_SERVER_IA64              0x0000000f
+#endif
+#ifndef PRODUCT_BUSINESS_N
+#define PRODUCT_BUSINESS_N                          0x00000010
+#endif
+#ifndef PRODUCT_WEB_SERVER
+#define PRODUCT_WEB_SERVER                          0x00000011
+#endif
+#ifndef PRODUCT_CLUSTER_SERVER
+#define PRODUCT_CLUSTER_SERVER                      0x00000012
+#endif
+#ifndef PRODUCT_HOME_SERVER
+#define PRODUCT_HOME_SERVER                         0x00000013
+#endif
+#ifndef PRODUCT_STORAGE_EXPRESS_SERVER
+#define PRODUCT_STORAGE_EXPRESS_SERVER              0x00000014
+#endif
+#ifndef PRODUCT_STORAGE_STANDARD_SERVER
+#define PRODUCT_STORAGE_STANDARD_SERVER             0x00000015
+#endif
+#ifndef PRODUCT_STORAGE_WORKGROUP_SERVER
+#define PRODUCT_STORAGE_WORKGROUP_SERVER            0x00000016
+#endif
+#ifndef PRODUCT_STORAGE_ENTERPRISE_SERVER
+#define PRODUCT_STORAGE_ENTERPRISE_SERVER           0x00000017
+#endif
+#ifndef PRODUCT_SERVER_FOR_SMALLBUSINESS
+#define PRODUCT_SERVER_FOR_SMALLBUSINESS            0x00000018
+#endif
+#ifndef PRODUCT_SMALLBUSINESS_SERVER_PREMIUM
+#define PRODUCT_SMALLBUSINESS_SERVER_PREMIUM        0x00000019
+#endif
+#ifndef PRODUCT_HOME_PREMIUM_N
+#define PRODUCT_HOME_PREMIUM_N                      0x0000001a
+#endif
+#ifndef PRODUCT_ENTERPRISE_N
+#define PRODUCT_ENTERPRISE_N                        0x0000001b
+#endif
+#ifndef PRODUCT_ULTIMATE_N
+#define PRODUCT_ULTIMATE_N                          0x0000001c
+#endif
+#ifndef PRODUCT_WEB_SERVER_CORE
+#define PRODUCT_WEB_SERVER_CORE                     0x0000001d
+#endif
+//#define PRODUCT_MEDIUMBUSINESS_SERVER_MANAGEMENT    0x0000001e
+//#define PRODUCT_MEDIUMBUSINESS_SERVER_SECURITY      0x0000001f
+//#define PRODUCT_MEDIUMBUSINESS_SERVER_MESSAGING     0x00000020
+//#define PRODUCT_SERVER_FOUNDATION                   0x00000021
+#ifndef PRODUCT_HOME_PREMIUM_SERVER
+#define PRODUCT_HOME_PREMIUM_SERVER                 0x00000022
+#endif
+//#define PRODUCT_SERVER_FOR_SMALLBUSINESS_V          0x00000023
+//#define PRODUCT_STANDARD_SERVER_V                   0x00000024
+//#define PRODUCT_DATACENTER_SERVER_V                 0x00000025
+//#define PRODUCT_ENTERPRISE_SERVER_V                 0x00000026
+//#define PRODUCT_DATACENTER_SERVER_CORE_V            0x00000027
+//#define PRODUCT_STANDARD_SERVER_CORE_V              0x00000028
+//#define PRODUCT_ENTERPRISE_SERVER_CORE_V            0x00000029
+#ifndef PRODUCT_HYPERV
+#define PRODUCT_HYPERV                              0x0000002a
+#endif
+//#define PRODUCT_STORAGE_EXPRESS_SERVER_CORE         0x0000002b
+//#define PRODUCT_STORAGE_STANDARD_SERVER_CORE        0x0000002c
+//#define PRODUCT_STORAGE_WORKGROUP_SERVER_CORE       0x0000002d
+//#define PRODUCT_STORAGE_ENTERPRISE_SERVER_CORE      0x0000002e
+//#define PRODUCT_STARTER_N                           0x0000002f
+#ifndef PRODUCT_PROFESSIONAL
+#define PRODUCT_PROFESSIONAL                        0x00000030
+#endif
+#ifndef PRODUCT_PROFESSIONAL_N
+#define PRODUCT_PROFESSIONAL_N                      0x00000031
+#endif
+//#define PRODUCT_SB_SOLUTION_SERVER                  0x00000032
+//#define PRODUCT_SERVER_FOR_SB_SOLUTIONS             0x00000033
+//#define PRODUCT_STANDARD_SERVER_SOLUTIONS           0x00000034
+//#define PRODUCT_STANDARD_SERVER_SOLUTIONS_CORE      0x00000035
+//#define PRODUCT_SB_SOLUTION_SERVER_EM               0x00000036
+//#define PRODUCT_SERVER_FOR_SB_SOLUTIONS_EM          0x00000037
+//#define PRODUCT_SOLUTION_EMBEDDEDSERVER             0x00000038
+//#define PRODUCT_SOLUTION_EMBEDDEDSERVER_CORE        0x00000039
+//#define PRODUCT_ESSENTIALBUSINESS_SERVER_MGMT       0x0000003B
+//#define PRODUCT_ESSENTIALBUSINESS_SERVER_ADDL       0x0000003C
+//#define PRODUCT_ESSENTIALBUSINESS_SERVER_MGMTSVC    0x0000003D
+//#define PRODUCT_ESSENTIALBUSINESS_SERVER_ADDLSVC    0x0000003E
+//#define PRODUCT_SMALLBUSINESS_SERVER_PREMIUM_CORE   0x0000003f
+//#define PRODUCT_CLUSTER_SERVER_V                    0x00000040
+#ifndef PRODUCT_EMBEDDED
+#define PRODUCT_EMBEDDED                            0x00000041
+#endif
+//#define PRODUCT_STARTER_E                           0x00000042
+#ifndef PRODUCT_HOME_BASIC_E
+#define PRODUCT_HOME_BASIC_E                        0x00000043
+#endif
+#ifndef PRODUCT_HOME_PREMIUM_E
+#define PRODUCT_HOME_PREMIUM_E                      0x00000044
+#endif
+#ifndef PRODUCT_PROFESSIONAL_E
+#define PRODUCT_PROFESSIONAL_E                      0x00000045
+#endif
+#ifndef PRODUCT_ENTERPRISE_E
+#define PRODUCT_ENTERPRISE_E                        0x00000046
+#endif
+#ifndef PRODUCT_ULTIMATE_E
+#define PRODUCT_ULTIMATE_E                          0x00000047
+#endif
+
+//#define VER_SUITE_SMALLBUSINESS             0x00000001
+//#define VER_SUITE_ENTERPRISE                0x00000002
+//#define VER_SUITE_BACKOFFICE                0x00000004
+//#define VER_SUITE_COMMUNICATIONS            0x00000008
+//#define VER_SUITE_TERMINAL                  0x00000010
+//#define VER_SUITE_SMALLBUSINESS_RESTRICTED  0x00000020
+//#define VER_SUITE_EMBEDDEDNT                0x00000040
+//#define VER_SUITE_DATACENTER                0x00000080
+//#define VER_SUITE_SINGLEUSERTS              0x00000100
+//#define VER_SUITE_PERSONAL                  0x00000200
+//#define VER_SUITE_BLADE                     0x00000400
+//#define VER_SUITE_EMBEDDED_RESTRICTED       0x00000800
+//#define VER_SUITE_SECURITY_APPLIANCE        0x00001000
+//#define VER_SUITE_STORAGE_SERVER            0x00002000
+//#define VER_SUITE_COMPUTE_SERVER            0x00004000
+#ifndef VER_SUITE_WH_SERVER
+#define VER_SUITE_WH_SERVER                 0x00008000
+#endif
+
+
+
 
 /* HAVE_DECL__XGETBV should be set by autoconf or in boinc_win.h */
 #if !defined(HAVE_DECL__XGETBV) || !HAVE_DECL__XGETBV
@@ -250,7 +422,7 @@ static unsigned long long _xgetbv(unsigned int index){
 #elif HAVE_DECL__CPUID
 #define __cpuid(x,y) _cpuid(x,y)
 #else
-static void __cpuid(unsigned int cpuinfo[4], unsigned int type)  {
+static void __cpuid(int cpuinfo[4], unsigned int type)  {
 #ifdef __GNUC__
   #ifdef ASM_SUPPORTS_CPUID  
       __asm__ __volatile__("cpuid" 
@@ -564,6 +736,9 @@ int get_os_information(
                             case PRODUCT_PROFESSIONAL_S_N:
                                 strcat(szSKU, "Professional SN "); //??
                                 break;
+                            case PRODUCT_THINPC:    
+                                strcat(szSKU, "ThinPC ");
+                                break;
                             case PRODUCT_PROFESSIONAL_WMC:
                                 strcat(szSKU, "Professional with Media Center ");
                                 break;
@@ -576,9 +751,6 @@ int get_os_information(
                             case PRODUCT_STARTER_N:
                                 strcat(szSKU, "Starter N ");
                                 break;
-                            case PRODUCT_THINPC:
-                                strcat(szSKU, "ThinPC ");
-                                break;
                             case PRODUCT_ULTIMATE:
                                 strcat(szSKU, "Ultimate ");
                                 break;
@@ -589,7 +761,6 @@ int get_os_information(
                                 strcat(szSKU, "Ultimate N ");
                                 break;
                         }
-
                     } else if( (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2) ) {
 
                         if( osvi.wSuiteMask & VER_SUITE_PERSONAL ) {
@@ -623,7 +794,7 @@ int get_os_information(
                     }
                 }
 
-				// Test for the server type.
+                // Test for the server type.
                 else if ( (osvi.wProductType == VER_NT_SERVER) || (osvi.wProductType == VER_NT_DOMAIN_CONTROLLER) ) {
 
                     // all NT6 or higher (Server 2008,2008r2,2012,2012r2,2015...)
@@ -791,7 +962,6 @@ int get_os_information(
                             case PRODUCT_WEB_SERVER_CORE:
                                 strcat(szSKU, "Web Server (core installation) ");
                                 break;
-
                         }
 
                     } else if( (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2) ) {
@@ -818,7 +988,7 @@ int get_os_information(
                             strcat( szSKU, "Standard Server " );
                         }
 
-                    } else { // Windows NT 4.0
+					} else { // Windows NT 4.0
                         if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE ) {
                             strcat( szSKU, "Enterprise Server " );
                         } else {
@@ -862,8 +1032,8 @@ int get_os_information(
                 }
 
                 strcat(szSKU, "Edition");
-
-            } else { // Test for specific product on Windows NT 4.0 SP5 and earlier
+            
+	    } else { // Test for specific product on Windows NT 4.0 SP5 and earlier
 
                 HKEY hKey;
                 char szProductType[80];
@@ -1128,7 +1298,7 @@ bool is_avx_supported() {
 int get_processor_features(char* vendor, char* features, int features_size) {
     unsigned int std_eax = 0, std_ebx = 0, std_ecx = 0, std_edx = 0;
     unsigned int ext_eax = 0, ext_ebx = 0, ext_ecx = 0, ext_edx = 0;
-	unsigned int struc_eax = 0, struc_ebx = 0, struc_ecx = 0, struc_edx = 0;
+    unsigned int struc_eax = 0, struc_ebx = 0, struc_ecx = 0, struc_edx = 0;
     unsigned int std_supported = 0, ext_supported = 0, struc_ext_supported = 0, intel_supported = 0, amd_supported = 0;
 
     if (!vendor) return ERR_INVALID_PARAM;
@@ -1156,11 +1326,11 @@ int get_processor_features(char* vendor, char* features, int features_size) {
         get_cpuid(0x80000001, ext_eax, ext_ebx, ext_ecx, ext_edx);
     }
 
-	get_cpuid(0x00000000, struc_eax, struc_ebx, struc_ecx, struc_edx);
-	if (struc_eax >= 0x00000007) {
-		struc_ext_supported = 1;
-		get_cpuid(0x00000007, struc_eax, struc_ebx, struc_ecx, struc_edx);
-	}
+    get_cpuid(0x00000000, struc_eax, struc_ebx, struc_ecx, struc_edx);
+    if (struc_eax >= 0x00000007) {
+        struc_ext_supported = 1;
+        get_cpuid(0x00000007, struc_eax, struc_ebx, struc_ecx, struc_edx);
+    }
     
     FEATURE_TEST(std_supported, (std_edx & (1 << 0)), "fpu ");
     FEATURE_TEST(std_supported, (std_edx & (1 << 1)), "vme ");
@@ -1193,15 +1363,15 @@ int get_processor_features(char* vendor, char* features, int features_size) {
 
     FEATURE_TEST(std_supported, (std_ecx & (1 << 0)), "pni ");
     FEATURE_TEST(std_supported, (std_ecx & (1 << 9)), "ssse3 ");
-	FEATURE_TEST(std_supported, (std_ecx & (1 << 12)), "fma ");
-	FEATURE_TEST(std_supported, (std_ecx & (1 << 13)), "cx16 ");
+    FEATURE_TEST(std_supported, (std_ecx & (1 << 12)), "fma ");
+    FEATURE_TEST(std_supported, (std_ecx & (1 << 13)), "cx16 ");
     FEATURE_TEST(std_supported, (std_ecx & (1 << 19)), "sse4_1 ");
     FEATURE_TEST(std_supported, (std_ecx & (1 << 20)), "sse4_2 ");
     FEATURE_TEST(std_supported, (std_ecx & (1 << 22)), "movebe ");
     FEATURE_TEST(std_supported, (std_ecx & (1 << 23)), "popcnt ");
     FEATURE_TEST(std_supported, (std_ecx & (1 << 25)), "aes ");
-	FEATURE_TEST(std_supported, (std_ecx & (1 << 29)), "f16c ");
-	FEATURE_TEST(std_supported, (std_ecx & (1 << 30)), "rdrand");
+    FEATURE_TEST(std_supported, (std_ecx & (1 << 29)), "f16c ");
+    FEATURE_TEST(std_supported, (std_ecx & (1 << 30)), "rdrand");
 
     FEATURE_TEST(ext_supported, (ext_edx & (1 << 11)), "syscall ");
     FEATURE_TEST(ext_supported, (ext_edx & (1 << 20)), "nx ");
@@ -1212,7 +1382,7 @@ int get_processor_features(char* vendor, char* features, int features_size) {
     }
 
     if (is_avx_supported() && struc_ext_supported) {
-		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 5)), "avx2 ");
+        FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 5)), "avx2 ");
     }
 
     if (intel_supported) {
@@ -1236,10 +1406,10 @@ int get_processor_features(char* vendor, char* features, int features_size) {
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 13)), "wdt ");
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 15)), "lwp ");
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 16)), "fma4 ");
-		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 17)), "tce ");
-		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 18)), "cvt16 ");
-		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 21)), "tbm ");
-		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 22)), "topx ");
+        FEATURE_TEST(ext_supported, (ext_ecx & (1 << 17)), "tce ");
+        FEATURE_TEST(ext_supported, (ext_ecx & (1 << 18)), "cvt16 ");
+        FEATURE_TEST(ext_supported, (ext_ecx & (1 << 21)), "tbm ");
+        FEATURE_TEST(ext_supported, (ext_ecx & (1 << 22)), "topx ");
 
         FEATURE_TEST(ext_supported, (ext_edx & (1 << 26)), "page1gb ");
         FEATURE_TEST(ext_supported, (ext_edx & (1 << 27)), "rdtscp ");
@@ -1247,15 +1417,15 @@ int get_processor_features(char* vendor, char* features, int features_size) {
         FEATURE_TEST(ext_supported, (ext_edx & (1 << 31)), "3dnow ");
     }
 
-	if (struc_ext_supported) {
-		// Structured Ext. Feature Flags
-		// used by newer Intel and newer AMD CPUs
-		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 0)), "fsgsbase ");
-		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 3)), "bmi1 ");
-		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 4)), "hle ");
-		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 7)), "smep ");
-		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 8)), "bmi2 ");
-	}
+    if (struc_ext_supported) {
+        // Structured Ext. Feature Flags
+        // used by newer Intel and newer AMD CPUs
+        FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 0)), "fsgsbase ");
+        FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 3)), "bmi1 ");
+        FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 4)), "hle ");
+        FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 7)), "smep ");
+        FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 8)), "bmi2 ");
+    }
 
     strip_whitespace(features);
     return 0;
