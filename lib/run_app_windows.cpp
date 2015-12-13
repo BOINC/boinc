@@ -174,9 +174,9 @@ void get_sandbox_account_interactive_token() {
             encoded_username_str.length() - encoded_username_str.rfind(_T('\\')) - 1
         );
         retval = LogonUserA( 
-            username_str.c_str(),
-            domainname_str.c_str(), 
-            password_str.c_str(), 
+            (CHAR *)username_str.c_str(),
+            (CHAR *)domainname_str.c_str(), 
+            (CHAR *)password_str.c_str(), 
             LOGON32_LOGON_INTERACTIVE, 
             LOGON32_PROVIDER_DEFAULT, 
             &sandbox_account_interactive_token
@@ -184,9 +184,9 @@ void get_sandbox_account_interactive_token() {
     } else {
         username_str = encoded_username_str;
         retval = LogonUserA( 
-            username_str.c_str(),
-            NULL, 
-            password_str.c_str(), 
+            (CHAR *)username_str.c_str(),
+            (CHAR *)NULL, 
+            (CHAR *)password_str.c_str(), 
             LOGON32_LOGON_INTERACTIVE, 
             LOGON32_PROVIDER_DEFAULT, 
             &sandbox_account_interactive_token
@@ -247,9 +247,9 @@ void get_sandbox_account_service_token() {
             encoded_username_str.length() - encoded_username_str.rfind(_T('\\')) - 1
         );
         retval = LogonUserA( 
-            username_str.c_str(),
-            domainname_str.c_str(), 
-            password_str.c_str(), 
+            (CHAR *)username_str.c_str(),
+            (CHAR *)domainname_str.c_str(), 
+            (CHAR *)password_str.c_str(), 
             LOGON32_LOGON_SERVICE, 
             LOGON32_PROVIDER_DEFAULT, 
             &sandbox_account_service_token
@@ -260,9 +260,9 @@ void get_sandbox_account_service_token() {
     } else {
         username_str = encoded_username_str;
         retval = LogonUserA( 
-            username_str.c_str(),
-            NULL, 
-            password_str.c_str(), 
+            (CHAR *)username_str.c_str(),
+            (CHAR *)NULL, 
+            (CHAR *)password_str.c_str(), 
             LOGON32_LOGON_SERVICE, 
             LOGON32_PROVIDER_DEFAULT, 
             &sandbox_account_service_token
