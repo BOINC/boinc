@@ -776,9 +776,10 @@ function post_rules() {
             gambling, or intolerance of others.
         <li> No messages intended to annoy or antagonize other people,
             or to hijack a thread.
-        <li> No messages that are deliberately hostile or insulting.
+        <li> No messages that are deliberately hostile, threatening, or insulting.
         <li> No abusive comments involving race, religion,
             nationality, gender, class or sexuality.
+        <li> The posting privileges of violators may be suspended or revoked.
         ").$project_rules."
         </ul>
     ";
