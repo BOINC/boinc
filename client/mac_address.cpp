@@ -22,7 +22,7 @@
 
 #if defined(_WIN32)
 #include <boinc_win.h>
-#include <Iphlpapi.h>
+#include <iphlpapi.h>
 #elif defined(__APPLE__)
 #include <cstdio>
 #include <unistd.h>
