@@ -37,6 +37,10 @@
 #include "stackwalker_win.h"
 #endif
 
+#ifdef HAVE_FLOAT_H
+#include <float.h>
+#endif
+
 #include "diagnostics.h"
 #include "error_numbers.h"
 #include "str_util.h"

@@ -57,19 +57,37 @@
  * need something more complicated if CURL and wxWidgets decide to go in
  * opposite directions.
  */
+#ifdef __MINGW32__
+#define MINGW32_PREREQ(major,minor) \
+    (__MINGW32_MAJOR_VERSION > (major) || \
+     (__MINGW32_MAJOR_VERSION == (major) && __MINGW_MINOR_VERSION >= (minor)))
+#else
+#define MINGW32_PREREQ(major,minor) 0
+#endif
 #define USE_WINSOCK 1
 #undef HAVE_WINSOCK2_H
 #define HAVE_WINSOCK_H 1
 #define HAVE_WINDOWS_H 1
 #define HAVE_WS2TCPIP_H 1
-#define HAVE_WINHTTP_H 1
-#define HAVE_WINTERNL_H 1
-#define HAVE_DELAYIMP_H 1
+
+#if defined(_MSC_VER) || MINGW32_PREREQ(3,11)
+  #define HAVE_WINHTTP_H 1
+  #define HAVE_WINTERNL_H 1
+  #define HAVE_DELAYIMP_H 1
+  #define HAVE_CRTDBG_H 1
+  #define HAVE_DECL_FPRESET 1
+  #define HAVE_DECL__FPRESET 1
+#else
+  #define HAVE_DECL_FPRESET 0
+  #define HAVE_DECL__FPRESET 0
+#endif
+#define HAVE_SUBAUTH_H 1
+#if defined(_MSC_VER)
 #define HAVE_INTRIN_H 1
+#endif
 #define HAVE_FCNTL_H 1
-#define HAVE_CRTDBG_H 1
-#define HAVE_DECL_FPRESET 1
-#define HAVE_DECL__FPRESET 1
+#define HAVE_SAL_H 1
+#define HAVE_FLOAT_H 1
 #define HAVE_DECL___CPUID 1
 #define HAVE_MSVCRT 1
 #undef HAVE_STRDUP 
@@ -77,7 +95,7 @@
 #undef NO_PER_THREAD_LOCALE
 #define HAVE_DECL__CONFIGTHREADLOCALE 1
 #define HAVE__CONFIGTHREADLOCALE 1
-#define HAVE_DECL___CPUID 1
+
 
 #if ( _MSC_FULL_VER >= 160040219 )
 #define HAVE_DECL__XGETBV 1
@@ -168,6 +186,9 @@ typedef size_t socklen_t;
 #endif
 
 #include <windows.h>
+#ifdef HAVE_SUBAUTH_H
+#include <subauth.h>
+#endif
 #ifdef HAVE_WINTERNL_H
 #include <winternl.h>
 #endif
