@@ -97,7 +97,7 @@ fi
 
 if test $build_client != no -o $build_manager != no -o $build_libs != no ; then
   if ! test -f ${XCOMPILE_ROOT}/lib/libssl.a ; then
-    opensslver=1.0.1g
+    opensslver=1.0.2e
     wget http://www.openssl.org/source/openssl-${opensslver}.tar.gz
     tar zxf openssl-${opensslver}.tar.gz
     /bin/rm openssl-${opensslver}.tar.gz
@@ -112,7 +112,7 @@ fi
 
 if test $build_client != no -o $build_manager != no ; then
   if ! test -f ${XCOMPILE_ROOT}/lib/libcurl.a ; then
-    curlver=7.36.0
+    curlver=7.46.0
     wget http://curl.haxx.se/download/curl-${curlver}.tar.bz2
     tar jxf curl-${curlver}.tar.bz2
     /bin/rm curl-${curlver}.tar.bz2
@@ -153,6 +153,26 @@ if test $build_client != no ; then
   fi
   cd $thisdir
   rm -rf NVIDIA
+  # grrr. NVIDIA is using Microsoft's buffer overflow library
+  if ! test -f ${XCOMPILE_ROOT}/lib/libruntmchk.a ; then
+    VS10DIR=/cygdrive/c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio\ 10.0
+    if test -d "${VS10DIR}" ; then
+      case $target_host in 
+    	i[56]86-*)  VCLIB="${VS10DIR}/VC/lib/RunTmChk.lib"
+	            ;;
+        x86*|x64*)  VCLIB="${VS10DIR}/VC/lib/amd64/RunTmChk.lib"
+	            ;;
+      esac
+      if test -f "${VCLIB}" ; then
+        ar r ${XCOMPILE_ROOT}/lib/libruntmchk.a "${VCLIB}"
+      fi
+    else
+      echo "-------------------------------------------------------------------------"
+      echo "-   Unaable to find Visual Studio RumTmChk.lib which is necessary for   -"
+      echo "-   the Nvidia API library                                              -"
+      echo "-------------------------------------------------------------------------"
+    fi
+  fi
 fi
 
 if test $build_manager != no ; then
