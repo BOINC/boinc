@@ -21,7 +21,9 @@
 #include "boinc_win.h"
 /* get annotation macros from sal.h */
 /* define the ones that don't exist */
+#ifdef HAVE_SAL_H
 #include "sal.h"
+#endif
 /* These are just an annotations.  They don't do anything */
 #ifndef __success
 #define __success(x)  
