@@ -47,7 +47,7 @@ function show_uotd($profile) {
 // return the last UOTD profile, or null
 //
 function get_current_uotd() {
-    $profiles = BoincProfile::enum("uotd_time is not NULL", "ORDER BY uotd_time DESC LIMIT 1");
+    $profiles = BoincProfile::enum("uotd_time is not NULL and uotd_time>0", "ORDER BY uotd_time DESC LIMIT 1");
     if (sizeof($profiles)) {
         return $profiles[0];
     }
@@ -112,7 +112,7 @@ function select_uotd($force_new = false) {
         // If all verified profiles have been selected as UOTD,
         // reshow the one that was shown least recently.
         //
-        $result = $db->do_query("SELECT * FROM profile,user WHERE profile.userid=user.id AND verification=1 ORDER BY uotd_time ASC LIMIT 1");
+        $result = $db->do_query("SELECT * FROM profile,user WHERE profile.userid=user.id AND verification=1 AND uotd_time>0 ORDER BY uotd_time ASC LIMIT 1");
     }
 
     if (!$result || $result->num_rows == 0) {
@@ -164,7 +164,7 @@ function default_uotd_candidates_query(){
     $query = "SELECT * FROM profile,user WHERE profile.userid=user.id ";
     $query .= " AND verification=1 ";
     $query .= " AND expavg_credit>1 ";
-    $query .= " AND uotd_time IS NULL ";
+    $query .= " AND (uotd_time IS NULL or uotd_time=0) ";
     $query .= "ORDER BY RAND()";
     return $query;
 }

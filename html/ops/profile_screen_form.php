@@ -46,7 +46,7 @@ if (function_exists('profile_screen_query')) {
     $query = "select * from profile, user where profile.userid=user.id "
         ." and has_picture>0 "
         ." and verification=0 "
-        ." and uotd_time is null "
+        ." and (uotd_time is null or uotd_time=0) "
         ." and expavg_credit>1 "
         ." and (response1 <> '' or response2 <> '') "
         ." order by recommend desc limit 20"
