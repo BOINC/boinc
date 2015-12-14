@@ -110,9 +110,10 @@ function select_uotd($force_new = false) {
         echo "no new verified profile found, selecting old UOTD that was shown least recently\n";
         $result->free();
         // If all verified profiles have been selected as UOTD,
-        // reshow the one that was shown least recently.
+        // reshow a random one of the 100 least recently shown profiles.
         //
-        $result = $db->do_query("SELECT * FROM profile,user WHERE profile.userid=user.id AND verification=1 AND uotd_time>0 ORDER BY uotd_time ASC LIMIT 1");
+        $inner = "SELECT profile.userid FROM profile,user WHERE profile.userid=user.id AND verification=1 AND uotd_time>0 ORDER BY uotd_time ASC LIMIT 100";
+        $result = $db->do_query("SELECT * from ($inner) ORDER BY RAND() LIMIT 1");
     }
 
     if (!$result || $result->num_rows == 0) {
