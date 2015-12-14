@@ -714,6 +714,7 @@ function show_app_version($app_version) {
     row("Application", "<a href=\"db_action.php?table=app&id=$app_version->appid\">" . app_name_by_id($app_version->appid) . "</a>");
     row("Version num", $app_version->version_num);
     row("Platform", "<a href=\"db_action.php?table=platform&id=$app_version->platformid\">" . platform_name_by_id($app_version->platformid) . "</a>" );
+    row("Plan Class", $app_version->plan_class);
     row("XML doc", "<pre>".htmlspecialchars($app_version->xml_doc)."</pre>");
     row("min_core_version", $app_version->min_core_version);
     row("max_core_version", $app_version->max_core_version);
@@ -729,6 +730,7 @@ function app_version_short_header() {
         <th>Application</th>
         <th>Version</th>
         <th>Platform</th>
+        <th>Plan Class</th>
         </tr>
     ";
 }
@@ -742,6 +744,7 @@ function show_app_version_short($app_version) {
         <td><a href=\"db_action.php?table=app&id=$app_version->appid\">$x</a></td>
         <td>$app_version->version_num</td>
         <td><a href=\"db_action.php?table=platform&id=$app_version->platformid\">$y</a></td>
+        <td>$app_version->plan_class</td>
         </tr>
     ";
 }
@@ -1100,7 +1103,7 @@ function show_result_short($result) {
             $received = "<font color=\"#ff3333\">". time_str($result->report_deadline) . "</font>";
         }
     }
-    $version = app_version_string($result);
+    $version = app_version_string($result)." (<a href=\"db_action.php?table=app_version&id=$result->app_version_id\">$result->app_version_id</a>)";
     $outcome_color = outcome_color($result->outcome);
     $validate_color = validate_color($result->validate_state);
     $host_user = host_user_link($result->hostid);
@@ -1134,6 +1137,7 @@ function show_user($user) {
     row("Name", $user->name);
     row("Authenticator", $user->authenticator);
     row("Email address", $user->email_addr);
+    row("OK to send Email?", $user->send_email);
     row("Country", $user->country);
     row("Postal code", $user->postal_code);
     row("Total credit", $user->total_credit);

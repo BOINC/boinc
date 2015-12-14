@@ -5,11 +5,12 @@
 # Alessandro Caiulo <alessandro.caiulo@gmail.com>, 2015
 # Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015
 # Pietro <bongiovanni.pietro.vc@gmail.com>, 2015
+# Sebastiano Pistore <olatusrooc@virgilio.it>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2015-08-14 09:37+0000\n"
-"PO-Revision-Date: 2015-11-17 11:11+0000\n"
+"PO-Revision-Date: 2015-12-09 12:39+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -64,10 +65,10 @@ msgid "You are banned from community participation until @date"
 msgstr "Sei stato bannato dalla community fino al @date"
 
 msgid "Computers @old_ids have been merged successfully into @id."
-msgstr "I computer @old_ids sono stati fusi con successo in @id."
+msgstr "I @old_ids dei computer sono stati uniti con successo in @id."
 
 msgid "A team named \"@name\" already exists."
-msgstr "Un'altra squadra denominata \"@name\" già esiste."
+msgstr "Un team di nome \"@name\" esiste già."
 
 msgid "Post topic"
 msgstr "Argomento del post"
@@ -82,10 +83,10 @@ msgid "Make founder"
 msgstr "Rendi fondatore"
 
 msgid "!site: comment posted to \"!topic_name\""
-msgstr "!site: commento inserito su \"!topic_name\""
+msgstr "!site: commento postato in \"!topic_name\""
 
 msgid "!author has posted a reply to \"!topic_name\"."
-msgstr "!author ha postato una risposta su \"!topic_name\"."
+msgstr "!author ha postato una risposta in \"!topic_name\"."
 
 msgid ""
 "To view this topic at !site, click here: \n"
@@ -593,7 +594,7 @@ msgid "Enforced by version @number"
 msgstr "Disponibile dalla versione @number"
 
 msgid "\"In use\" means mouse/keyboard activity in last"
-msgstr "\"In uso\" significa attività mouse/tastiera negli ultimi"
+msgstr "\"In uso\" significa che c'è stata attività del mouse/tastiera negli ultimi"
 
 msgid "minutes"
 msgstr "minuti"
