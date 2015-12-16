@@ -66,6 +66,7 @@ int convert_file(char* in, char* out) {
             "%s Couldn't find output file, resolved name %s.\n",
             boinc_msg_prefix(buf, sizeof(buf)), output_path
         );
+        fclose(infile);
         return -1;
     }
 

@@ -79,7 +79,7 @@ function show_user_table($members, $offset, $numToDisplay, $cols) {
                     $show_picture = false;
                 }
                 if ($show_picture) {
-                    echo "<a href=\"".URL_BASE."view_profile.php?userid={$members[$count]}\"><img src=\"".URL_BASE.IMAGE_URL."{$members[$count]}_sm.jpg\"></a>";
+                    echo "<a href=\"".secure_url_base()."view_profile.php?userid={$members[$count]}\"><img src=\"".secure_url_base().IMAGE_URL."{$members[$count]}_sm.jpg\"></a>";
                 } else {
                     echo "&nbsp;";
                 }
@@ -203,7 +203,7 @@ function build_picture_pages($width, $height) {
             for ($col = 0; $col < $width; $col++) {
 	            if ($count < $numIds) {
                     echo "<td class=\"bordered\" align=\"center\">
-                        <a href=\"".URL_BASE."view_profile.php?userid=".$userIds[$count]."\"><img src=\"".URL_BASE.IMAGE_URL.$userIds[$count]."_sm.jpg\"></a>
+                        <a href=\"".secure_url_base()."view_profile.php?userid=".$userIds[$count]."\"><img src=\"".secure_url_base().IMAGE_URL.$userIds[$count]."_sm.jpg\"></a>
                     </td>";
                     $count++;
                 }
@@ -397,7 +397,7 @@ function build_alpha_summary_page($characters_used) {
 
     foreach ($alphabet as $character) {
         if (isset($characters_used[$character])) {
-            echo "<a href=\"".URL_BASE.PROFILE_URL."profile_{$character}_1.html\">$character</a>&nbsp;";
+            echo "<a href=\"".secure_url_base().PROFILE_URL."profile_{$character}_1.html\">$character</a>&nbsp;";
             unset($characters_used[$character]);
         } else {
             echo "$character ";
@@ -406,7 +406,7 @@ function build_alpha_summary_page($characters_used) {
 
     // Link to the 'Other' page if necessary.
     if (!empty($characters_used)) {
-        echo "<a href=\"".URL_BASE.PROFILE_URL."profile_other_1.html\">Other</a>&nbsp;";
+        echo "<a href=\"".secure_url_base().PROFILE_URL."profile_other_1.html\">Other</a>&nbsp;";
     }
     close_output_buffer($filename);
 }

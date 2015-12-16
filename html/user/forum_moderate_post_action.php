@@ -111,9 +111,9 @@ if ($action=="hide"){
     }
     $result = move_post($post, $thread, $forum, $new_thread, $new_forum);
     $explanation = "Old thread: $thread->title
-".URL_BASE."forum_thread.php?id=$thread->id
+".secure_url_base()."forum_thread.php?id=$thread->id
 New thread: $new_thread->title
-".URL_BASE."forum_thread.php?id=$new_thread->id&postid=$post->id
+".secure_url_base()."forum_thread.php?id=$new_thread->id&postid=$post->id
 ";
     $explanation .= mod_comment();
     $action_name = "moved to another thread";

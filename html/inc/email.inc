@@ -73,14 +73,14 @@ function send_auth_email($user) {
     $body = "This email was sent in response to a request on the ".PROJECT." web site.
 
 To log in to your ".PROJECT." account, visit:
-".URL_BASE."login_action.php?id=$user->id&t=$now&h=$x
+".secure_url_base()."login_action.php?id=$user->id&t=$now&h=$x
 (This link is valid for 1 day).
 After logging in, you can change your account's password or email address.
 ";
 
 $body .= "
 For further information and assistance with ".PROJECT.", visit
-".URL_BASE."
+".secure_url_base()."
 ";
 
     return send_email($user, $subject, $body);
@@ -109,6 +109,6 @@ function salted_key($key) {
 }
 
 function opt_out_url($user) {
-    return URL_BASE."opt_out.php?code=".salted_key($user->authenticator)."&userid=$user->id";
+    return secure_url_base()."opt_out.php?code=".salted_key($user->authenticator)."&userid=$user->id";
 }
 ?>

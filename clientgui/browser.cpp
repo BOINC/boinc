@@ -346,6 +346,8 @@ int MOZILLA_PROFILES::parse(MIOFILE& in) {
             p = new MOZILLA_PROFILE;
             if (!p->parse( in )) {
                 profiles.push_back( p );
+            } else {
+                delete p;
             }
         }
     }

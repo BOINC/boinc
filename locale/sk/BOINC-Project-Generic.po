@@ -13,9 +13,9 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2015-07-11 20:26+0000\n"
+"PO-Revision-Date: 2015-11-30 23:30+0000\n"
 "Last-Translator: aceman\n"
-"Language-Team: Slovak (http://www.transifex.com/p/boinc/language/sk/)\n"
+"Language-Team: Slovak (http://www.transifex.com/boinc/boinc/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -278,7 +278,7 @@ msgstr "Zobraziť s najväčším počtom správ ako prvé"
 
 #: ../inc/forum.inc:104
 msgid "Volunteer moderator"
-msgstr "Prihlásiť sa ako moderátor"
+msgstr "Dobrovoľný moderátor"
 
 #: ../inc/forum.inc:105
 msgid "Project administrator"
@@ -290,19 +290,19 @@ msgstr "Vývojár projektu"
 
 #: ../inc/forum.inc:107
 msgid "Project tester"
-msgstr "Tester"
+msgstr "Tester projektu"
 
 #: ../inc/forum.inc:108
 msgid "Volunteer developer"
-msgstr "Prihlásiť sa ako vývojár"
+msgstr "Dobrovoľný vývojár"
 
 #: ../inc/forum.inc:109
 msgid "Volunteer tester"
-msgstr "Prihlásiť sa ako tester"
+msgstr "Dobrovoľný tester"
 
 #: ../inc/forum.inc:110
 msgid "Project scientist"
-msgstr "Vedec"
+msgstr "Vedec projektu"
 
 #: ../inc/forum.inc:111
 msgid "Help desk expert"

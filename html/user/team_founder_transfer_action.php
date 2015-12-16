@@ -45,7 +45,7 @@ function send_founder_transfer_email($team, $user, $founder) {
     $subject = "Team founder transfer request";
     $body = "Team member ".$user->name." has asked that you
 transfer foundership of $team->name.
-Please go [url=".URL_BASE."team_change_founder_form.php?teamid=$team->id]here[/url] to grant or decline the request.
+Please go [url=".secure_url_base()."team_change_founder_form.php?teamid=$team->id]here[/url] to grant or decline the request.
     
 If you do not respond within 60 days, ".$user->name." will
 be allowed to become the team founder.
@@ -57,7 +57,7 @@ be allowed to become the team founder.
     $body = "Team member ".$user->name." has asked that you
 transfer foundership of $team->name in ".PROJECT.".
 Please visit
-".URL_BASE."team_change_founder_form.php?teamid=".$team->id."
+".secure_url_base()."team_change_founder_form.php?teamid=".$team->id."
 to grant or decline the request.
     
 If you do not respond within 60 days, ".$user->name." will
@@ -118,7 +118,7 @@ case "finalize_transfer":
     if ($user->id == $team->ping_user && transfer_ok($team, $now)) {
         page_head(tra("Assumed foundership of %1", $team->name));
         $team->update("userid=$user->id, ping_user=0, ping_time=0");
-        echo tra("Congratulations, you are now the founder of team %1. Go to %2Your Account page%3 to find the Team Admin options.", $team->name, "<a href=\"".URL_BASE."home.php\">", "</a>");
+        echo tra("Congratulations, you are now the founder of team %1. Go to %2Your Account page%3 to find the Team Admin options.", $team->name, "<a href=\"".secure_url_base()."home.php\">", "</a>");
     } else {
         error_page(tra("Foundership request not allowed now"));
     }

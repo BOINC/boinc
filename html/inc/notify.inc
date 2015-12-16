@@ -23,7 +23,7 @@ function notify_rss_auth($user) {
 }
 
 function notify_rss_url($user) {
-    return URL_BASE."notify_rss.php?userid=$user->id&auth=".notify_rss_auth($user);
+    return secure_url_base()."notify_rss.php?userid=$user->id&auth=".notify_rss_auth($user);
 }
 
 function show_notify_rss_item($notify) {

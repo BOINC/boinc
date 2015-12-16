@@ -26,7 +26,7 @@
 #include <fcntl.h>
 #endif
 
-#ifdef _MSC_VER
+#if  defined(_MSC_VER) || defined(__MINGW32__)
 #define getcwd  _getcwd
 #endif
 
@@ -504,7 +504,10 @@ FILE* boinc_fopen(const char* path, const char* mode) {
         }
     }
     if (f) {
-        fcntl(fileno(f), F_SETFD, FD_CLOEXEC);
+        if (-1 == fcntl(fileno(f), F_SETFD, FD_CLOEXEC)) {
+            fclose(f);
+            return 0;
+        }
     }
 #endif
     return f;
@@ -598,16 +601,23 @@ int boinc_copy(const char* orig, const char* newf) {
     fclose(src);
     fclose(dst);
     // Copy file's ownership, permissions to the extent we are allowed
-    lstat(orig, &sbuf);             // Get source file's info
-    chown(newf, sbuf.st_uid, sbuf.st_gid);
-    chmod(newf, sbuf.st_mode);
+    if (lstat(orig, &sbuf)) { // Get source file's info
+        return ERR_STAT;
+    }
+    if (chown(newf, sbuf.st_uid, sbuf.st_gid)) {
+        return ERR_CHOWN;
+    }
+    if (chmod(newf, sbuf.st_mode)) {
+        return ERR_CHMOD;
+    }
     return retval;
 #endif
 }
 
 static int boinc_rename_aux(const char* old, const char* newf) {
 #ifdef _WIN32
-    if (MoveFileExA(old, newf, MOVEFILE_REPLACE_EXISTING|MOVEFILE_WRITE_THROUGH)) return 0;
+    // MOVEFILE_COPY_ALLOWED is needed if destination is on another volume (move is simulated by copy&delete)
+    if (MoveFileExA(old, newf, MOVEFILE_COPY_ALLOWED | MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH)) return 0;
     return GetLastError();
 #else
     // rename() doesn't work between filesystems.

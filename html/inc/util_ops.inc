@@ -76,7 +76,7 @@ function c_row2($color, $x, $y) {
 function show_profile_link_ops($user) {
     if ($user->has_profile) { 
         row2("Profile",
-            "<a href=\"".URL_BASE."view_profile.php?userid=$user->id\">View</a>"
+            "<a href=\"".url_base()."view_profile.php?userid=$user->id\">View</a>"
         );
     }
 }

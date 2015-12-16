@@ -129,11 +129,11 @@ echo "
     </td> 
     <td><b>User management</b>
     <ul>
-        <li><a href=".URL_BASE."/forum_index.php>Post news item</a></li>
+        <li><a href=".url_base()."/forum_index.php>Post news item</a></li>
         <li><a href=\"profile_screen_form.php\">Screen user profiles </a></li>
         <li><a href=\"badge_admin.php\">Badges</a></li>
         <li><a href=\"manage_special_users.php\">User privileges</a></li>
-        <li><a href=".URL_BASE."/manage_project.php>User job submission privileges</a></li>
+        <li><a href=".url_base()."/manage_project.php>User job submission privileges</a></li>
         <li><a href=\"mass_email.php\">Send mass email to a selected set of users</a></li>
         <li><form action=\"manage_user.php\">
             <input class=\"btn btn-default\" type=\"submit\" value=\"Manage user\">

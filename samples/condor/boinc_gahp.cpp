@@ -780,6 +780,7 @@ char* get_cmd() {
     while (1) {
         char c = fgetc(stdin);
         if (c == EOF) {
+            free(p);
             return NULL;
         }
         if (c == '\n') {

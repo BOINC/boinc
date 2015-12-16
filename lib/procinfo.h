@@ -39,7 +39,10 @@ struct PROCINFO {
     double page_fault_rate;        // derived by higher-level code
     std::vector<int> children;
 
-    PROCINFO(){}
+    PROCINFO() {
+      clear();
+      working_set_size_smoothed = 0;
+    }
     void clear() {
         id = 0;
         parentid = 0;

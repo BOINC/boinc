@@ -111,5 +111,6 @@ void NOTICE::clear() {
     strcpy(project_name, "");
     strcpy(guid, "");
     strcpy(feed_url, "");
+    keep = false;
 }
 

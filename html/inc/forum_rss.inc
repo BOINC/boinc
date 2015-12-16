@@ -30,7 +30,7 @@ function contains_image_or_video($x) {
 }
 
 function show_forum_rss_item($thread, $userid, $threads_only, $no_images) {
-    $unique_url=URL_BASE."forum_thread.php?id=".$thread->id;
+    $unique_url=secure_url_base()."forum_thread.php?id=".$thread->id;
 
     $clause2 = " and hidden=0 ";
     if ($userid) $clause2 .= "and user=$userid";
@@ -102,20 +102,20 @@ function forum_rss($forumid, $userid, $threads_only, $ndays) {
     if ($userid) {
         $description .= " (posts by $user->name)";
     }
-    $channel_image = URL_BASE . "rss_image.gif";
+    $channel_image = secure_url_base() . "rss_image.gif";
     $language = "en-us";
     echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>
         <rss version=\"2.0\">
         <channel>
         <title>".$description."</title>
-        <link>".URL_BASE."</link>
+        <link>".secure_url_base()."</link>
         <copyright>".COPYRIGHT_HOLDER."</copyright>
         <lastBuildDate>".$create_date."</lastBuildDate>
         <language>".$language."</language>
         <image>
             <url>".$channel_image."</url>
             <title>".PROJECT."</title>
-            <link>".URL_BASE."</link>
+            <link>".secure_url_base()."</link>
         </image>
     ";
 

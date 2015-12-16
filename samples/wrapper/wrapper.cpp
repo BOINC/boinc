@@ -355,6 +355,7 @@ void get_zip_inputs(ZipFileList &files) {
             }
         }
     }
+    dir_close(d);
 }
 
 // if the zipped output file is not present,
@@ -1048,6 +1049,13 @@ int main(int argc, char** argv) {
         // total CPU time at last checkpoint
     char buf[256];
 
+    // Log banner
+    //
+    fprintf(stderr, "%s wrapper (%d.%d.%d): starting\n",
+        boinc_msg_prefix(buf, sizeof(buf)),
+        BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, WRAPPER_RELEASE
+    );
+
 #ifdef _WIN32
     SetPriorityClass(GetCurrentProcess(), NORMAL_PRIORITY_CLASS);
 #endif
@@ -1237,16 +1245,3 @@ int main(int argc, char** argv) {
     boinc_finish(0);
 }
 
-#ifdef _WIN32
-
-int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode) {
-    LPSTR command_line;
-    char* argv[100];
-    int argc;
-
-    command_line = GetCommandLine();
-    argc = parse_command_line(command_line, argv);
-    return main(argc, argv);
-}
-
-#endif

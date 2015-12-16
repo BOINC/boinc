@@ -60,7 +60,7 @@ foreach ($error_codes as $code => $x) {
     $j = 0;
     foreach ($results as $r) {
         if ($j++ >= $nresults_per_code) break;
-        echo "&nbsp;<a href=".URL_BASE."result.php?resultid=$r->id>$r->id</a><br>\n";
+        echo "&nbsp;<a href=".url_base()."result.php?resultid=$r->id>$r->id</a><br>\n";
     }
 }
 page_tail();

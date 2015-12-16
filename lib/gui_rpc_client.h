@@ -244,6 +244,7 @@ struct RESULT {
     char name[256];
     char wu_name[256];
     char project_url[256];
+    char platform[256];
     int version_num;
     char plan_class[64];
     double report_deadline;
@@ -396,7 +397,9 @@ struct CC_STATE {
 
     PROJECT* lookup_project(const char* url);
     APP* lookup_app(PROJECT*, const char* name);
-    APP_VERSION* lookup_app_version(PROJECT*, APP*, int, char* plan_class);
+    APP_VERSION* lookup_app_version(PROJECT*, APP*,
+        char* platform, int vnum, char* plan_class
+    );
     APP_VERSION* lookup_app_version_old(PROJECT*, APP*, int);
     WORKUNIT* lookup_wu(PROJECT*, const char* name);
     RESULT* lookup_result(PROJECT*, const char* name);

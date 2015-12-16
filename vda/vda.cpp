@@ -150,7 +150,7 @@ int handle_add(const char* path) {
 int handle_remove(const char* name) {
     DB_VDA_FILE vf;
     char buf[1024];
-    sprintf(buf, "where file_name='%s'", name);
+    snprintf(buf, sizeof(buf), "where file_name='%s'", name);
     int retval = vf.lookup(buf);
     if (retval) return retval;
 
@@ -178,7 +178,7 @@ int handle_remove(const char* name) {
 int handle_retrieve(const char* name) {
     DB_VDA_FILE vf;
     char buf[1024];
-    sprintf(buf, "where file_name='%s'", name);
+    snprintf(buf, sizeof(buf), "where file_name='%s'", name);
     int retval = vf.lookup(buf);
     if (retval) return retval;
     retval = vf.update_field("retrieving=1, need_update=1");
@@ -188,7 +188,7 @@ int handle_retrieve(const char* name) {
 int handle_status(const char* name) {
     DB_VDA_FILE dvf;
     char buf[1024];
-    sprintf(buf, "where file_name='%s'", name);
+    snprintf(buf, sizeof(buf), "where file_name='%s'", name);
     int retval = dvf.lookup(buf);
     if (retval) return retval;
 

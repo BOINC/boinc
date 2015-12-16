@@ -86,7 +86,7 @@ if ($receiver > 0) {
     while ($user = _mysql_fetch_object($result)) {
     	// TODO: might want to also replace TOTAL_CREDIT, RAC, and similar.
         $body_to_send = str_replace("USERNAME", $user->name, $body);
-        $body_to_send .= "\n\nTo opt out of future emails from ".PROJECT.", please edit your project preferences at ".URL_BASE."prefs.php?subset=project\n";
+        $body_to_send .= "\n\nTo opt out of future emails from ".PROJECT.", please edit your project preferences at ".secure_url_base()."prefs.php?subset=project\n";
         $retval = send_email($user, $subject, $body_to_send);
         if ($retval) {
             // send_email returns TRUE on success

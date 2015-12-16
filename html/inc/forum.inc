@@ -776,9 +776,10 @@ function post_rules() {
             gambling, or intolerance of others.
         <li> No messages intended to annoy or antagonize other people,
             or to hijack a thread.
-        <li> No messages that are deliberately hostile or insulting.
+        <li> No messages that are deliberately hostile, threatening, or insulting.
         <li> No abusive comments involving race, religion,
             nationality, gender, class or sexuality.
+        <li> The posting privileges of violators may be suspended or revoked.
         ").$project_rules."
         </ul>
     ";
@@ -1178,14 +1179,14 @@ function check_post_access($user, $forum) {
     // no need to make it easy for them to break the system.
     //
     if ($user->total_credit<$forum->post_min_total_credit || $user->expavg_credit<$forum->post_min_expavg_credit) {
-        error_page(tra("In order to create a new thread in %1 you must have a certain amount of credit. This is to prevent and protect against abuse of the system.", $forum->title));
+        error_page(tra("To create a new thread in %1 you must have a certain level of average credit. This is to protect against abuse of the system.", $forum->title));
     }
 
     // If the user is posting faster than forum regulations allow
     // Tell the user to wait a while before creating any more posts
     //
     if (time()-$user->prefs->last_post <$forum->post_min_interval) {
-        error_page(tra("You cannot create any more threads right now. Please wait a while before trying again. This delay has been enforced to protect against abuse of the system."));
+        error_page(tra("You cannot create threads right now. Please wait before trying again. This is to protect against abuse of the system."));
     }
 }
 
@@ -1300,7 +1301,7 @@ function subscribe_rss($notify, &$title, &$msg, &$url) {
     $thread = BoincThread::lookup_id($notify->opaque);
     $title = tra("New posts in subscribed thread");
     $msg = tra("There are new posts in the thread '%1'",$thread->title);
-    $url = URL_BASE."forum_thread.php?id=$thread->id";
+    $url = secure_url_base()."forum_thread.php?id=$thread->id";
 }
 
 function show_mark_as_read_button($user) {

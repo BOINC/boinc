@@ -19,7 +19,7 @@
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 
-$url = parse_config(get_config(), "<master_url>");
+$master_url = parse_config(get_config(), "<master_url>");
 
 $user = get_logged_in_user();
 page_head(tra("Account keys"));
@@ -30,9 +30,11 @@ $weak_auth = weak_auth($user);
 
 // strip http://
 //
-$idx = strpos($url, '://');
+$idx = strpos($master_url, '://');
 if ($idx) {
-    $url = substr($url, $idx+strlen('://'));
+    $url = substr($master_url, $idx+strlen('://'));
+} else {
+    $url = $master_url;
 }
 
 // convert invalid characters into underscores
@@ -65,7 +67,7 @@ echo "<table><tr><td>",
     <pre>",
     htmlspecialchars(
 "<account>
-    <master_url>".URL_BASE."</master_url>
+    <master_url>".$master_url."</master_url>
     <authenticator>".$weak_auth."</authenticator>
 </account>"),
     "</pre>

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2015-11-18 13:55+0000\n"
+"PO-Revision-Date: 2015-11-20 11:57+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Serbian (Latin) (http://www.transifex.com/boinc/boinc/language/sr@latin/)\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,7 @@ msgstr "Sintaksa greška u app_info.xml"
 
 #: cs_statefile.cpp:868
 msgid "File referenced in app_info.xml does not exist: "
-msgstr "Fajl navedeni u app_info.kml ne postoji :"
+msgstr "Fajl navedeni u app_info.xml ne postoji:"
 
 #: current_version.cpp:91
 msgid "A new version of BOINC is available."
@@ -86,11 +86,11 @@ msgstr "Nedostaje završna oznaka u cc_config.kml"
 
 #: ../sched/handle_request.cpp:307
 msgid "Invalid or missing account key.  To fix, remove and add this project."
-msgstr "Neispravan ili nedostaje ključ račun . Da biste rešili , uklonite i dodajte ovaj projekat ."
+msgstr "Neispravan ili nedostaje ključ račun. Da biste rešili, uklonite i dodajte ovaj projekat."
 
 #: ../sched/handle_request.cpp:849
 msgid "Invalid code signing key.  To fix, remove and add this project."
-msgstr "Neispravan ključ kod potpisivanje . Da biste rešili , uklonite i dodajte ovaj projekat ."
+msgstr "Neispravan ključ kod potpisivanje. Da biste rešili, uklonite i dodajte ovaj projekat."
 
 #: ../sched/handle_request.cpp:859
 msgid ""

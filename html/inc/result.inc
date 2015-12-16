@@ -22,18 +22,36 @@ require_once("../inc/common_defs.inc");
 
 // used by app_version_string(), see below
 //
-global $apps;
-global $app_versions;
 $apps = array();
 $app_versions = array();
+$platforms = array();
+
+function get_app($id) {
+    global $apps;
+    if (!array_key_exists($id, $apps)) {
+        $apps[$id] = BoincApp::lookup_id($id);
+    }
+    return $apps[$id];
+}
+
+function get_app_version($id) {
+    global $app_versions;
+    if (!array_key_exists($id, $app_versions)) {
+        $app_versions[$id] = BoincAppVersion::lookup_id($id);
+    }
+    return $app_versions[$id];
+}
+
+function get_platform($id) {
+    global $platforms;
+    if (!array_key_exists($id, $platforms)) {
+        $platforms[$id] = BoincPlatform::lookup_id($id);
+    }
+    return $platforms[$id];
+}
 
 function anon_platform_string($result, $rsc_name=null) {
-    global $apps;
-    if (!array_key_exists($result->appid, $apps)) {
-        $app = BoincApp::lookup_id($result->appid);
-        $apps[$result->appid] = $app;
-    }
-    $app = $apps[$result->appid];
+    $app = get_app($result->appid);
     $n = $app->user_friendly_name."<br>".  tra("Anonymous platform");
     if ($rsc_name) {
         $n .= " ($rsc_name)";
@@ -58,18 +76,9 @@ function app_version_string($result) {
     case ANON_PLATFORM_INTEL:
         return anon_platform_string($result, tra("Intel GPU"));
     }
-    if (array_key_exists($id, $app_versions)) {
-        $av = $app_versions[$id];
-        $app = $apps[$av->appid];
-    } else {
-        $av = BoincAppVersion::lookup_id($id);
-        if (!$av) {
-            return tra("Not in DB");
-        }
-        $app_versions[$id] = $av;
-        $app = BoincApp::lookup_id($av->appid);
-        $apps[$av->appid] = $app;
-    }
+    $av = get_app_version($id);
+    $app = get_app($av->appid);
+    $platform = get_platform($av->platformid);
     $n = $app->user_friendly_name;
     $v = sprintf("%d.%02d", $av->version_num/100, $av->version_num%100);
     if ($av->plan_class) {
@@ -77,7 +86,7 @@ function app_version_string($result) {
     } else {
         $c = "";
     }
-    return "$n v$v $c";
+    return "$n v$v $c<br>$platform->name";
 }
 
 function result_granted_credit_string($result, $string_to_show) {

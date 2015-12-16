@@ -225,7 +225,9 @@ int boinc_socket(int& fd, int protocol) {
         return ERR_SOCKET;
     }
 #ifndef _WIN32
-    fcntl(fd, F_SETFD, FD_CLOEXEC);
+    if (-1 == fcntl(fd, F_SETFD, FD_CLOEXEC)) {
+        return ERR_FCNTL;
+    }
 #endif
     return 0;
 }
@@ -283,7 +285,9 @@ int get_socket_error(int fd) {
     n = getpeername(fd, (struct sockaddr *)&sin, &sinsz);
 #else
     socklen_t intsize = sizeof(int);
-    getsockopt(fd, SOL_SOCKET, SO_ERROR, (void*)&n, (socklen_t*)&intsize);
+    if (getsockopt(fd, SOL_SOCKET, SO_ERROR, (void*)&n, (socklen_t*)&intsize)) {
+        return errno;
+    }
 #endif
     return n;
 }
@@ -334,7 +338,11 @@ int boinc_get_port(bool is_remote, int& port) {
         return ERR_BIND;
     }
 
-    getsockname(sock, (sockaddr*)&addr, &addrsize);
+    retval = getsockname(sock, (sockaddr*)&addr, &addrsize);
+    if (retval) {
+        boinc_close_socket(sock);
+        return errno;
+    }
     port = ntohs(addr.sin_port);
 
     boinc_close_socket(sock);

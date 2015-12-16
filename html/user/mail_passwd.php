@@ -27,7 +27,7 @@ function email_sent_message($email_addr) {
     if (defined('EMAIL_FROM')) {
         $email_from = EMAIL_FROM;
     } else {
-        $email_from = URL_BASE;
+        $email_from = secure_url_base();
     }
 
     page_head("Email sent");

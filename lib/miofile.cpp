@@ -34,6 +34,8 @@ using std::string;
 
 MIOFILE::MIOFILE() {
     mf = 0;
+    wbuf = 0;
+    len = 0;
     f = 0;
     buf = 0;
 }

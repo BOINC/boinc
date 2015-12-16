@@ -146,12 +146,11 @@ void REDUCED_ARRAY_RENDER::draw_row_rect_x(int row)  {
 			glColor4f(color.r, color.g, color.b, alpha);
 
 			//front
-
 			glVertex3f(x0, y0, z0);
 			glVertex3f(x1, y0, z0);
 			glVertex3f(x1, y1, z0);
 			glVertex3f(x0, y1, z0);
-	/*
+	
 			//back
 			glVertex3f(x0, y0, z1);
 			glVertex3f(x1, y0, z1);
@@ -175,12 +174,12 @@ void REDUCED_ARRAY_RENDER::draw_row_rect_x(int row)  {
 			glVertex3f(x0, y1, z1);
 			glVertex3f(x1, y1, z1);
 			glVertex3f(x1, y1, z0);
-	*/
+
 		}
 		glEnd();
 
 
-#if 0
+
 		//draw lines
 		mode_unshaded();
 		glLineWidth(.5f);
@@ -192,7 +191,7 @@ void REDUCED_ARRAY_RENDER::draw_row_rect_x(int row)  {
 			float h = (row0[i]-rdata_min)/(rdata_max-rdata_min);
 
 			y1 = draw_pos[1] + draw_size[1]*h;
-
+#ifdef DRAW_ROW_WITH_LINES
 	//front
 
 			glVertex3f(x0, y0, z0);
@@ -242,8 +241,9 @@ void REDUCED_ARRAY_RENDER::draw_row_rect_x(int row)  {
 
 			glVertex3f(x1, y0, z1);
 			glVertex3f(x1, y0, z0);
-		}
 #endif
+		}
+
 		glEnd();
 	    break;
 	case GRAPH_STYLE_SURFACE:

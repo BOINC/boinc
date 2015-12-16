@@ -259,6 +259,8 @@ void GLOBAL_PREFS::defaults() {
     vm_max_used_frac = 0.75;
     work_buf_additional_days = 0.5;
     work_buf_min_days = 0.1;
+    
+    override_file_present = false;
 
     // don't initialize source_project, source_scheduler,
     // mod_time, host_specific here

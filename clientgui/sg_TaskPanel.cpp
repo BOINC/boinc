@@ -25,6 +25,7 @@
 #include "sg_TaskPanel.h"
 #include "boinc_api.h"
 #include "filesys.h"
+#include "str_replace.h"
 
 
 #define SORTTASKLIST 1  /* TRUE to sort task selection control alphabetically */
@@ -938,9 +939,11 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
     std::vector<bool>is_alive;
     bool needRefresh = false;
     wxString resname;
+    CC_STATUS status;
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
-
+    wxASSERT(pDoc);
+    
     static bool bAlreadyRunning = false;
 
     wxASSERT(pDoc);
@@ -1012,8 +1015,8 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
             
             selData = new TaskSelectionData;
             selData->result = result;
-            strncpy(selData->result_name, result->name, sizeof(selData->result_name));
-            strncpy(selData->project_url, result->project_url, sizeof(selData->project_url));
+            strlcpy(selData->result_name, result->name, sizeof(selData->result_name));
+            strlcpy(selData->project_url, result->project_url, sizeof(selData->project_url));
             selData->dotColor = -1;
             FindSlideShowFiles(selData);
             project = pDoc->state.lookup_project(result->project_url);
@@ -1087,16 +1090,23 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
         }
     }
 
+    pDoc->GetCoreClientStatus(status);
+
     count = m_TaskSelectionCtrl->GetCount();
     for(j = 0; j < count; ++j) {
         selData = (TaskSelectionData*)m_TaskSelectionCtrl->GetClientData(j);
         ctrlResult = selData->result;
         if (isRunning(ctrlResult)) {
             newIcon = runningIcon;
-        } else if (ctrlResult->scheduler_state == CPU_SCHED_PREEMPTED) {
-            newIcon = waitingIcon;
-        } else {
+        } else if (Suspended() ||
+                    ctrlResult->suspended_via_gui ||
+                    ctrlResult->project_suspended_via_gui ||
+                    // kludge.  But ctrlResult->avp isn't populated.
+                    (status.gpu_suspend_reason && (strstr(ctrlResult->resources, "GPU") != NULL)))
+        {
             newIcon = suspendedIcon;
+        } else {
+            newIcon = waitingIcon;
         }
 
         if (reskin || (newIcon != selData->dotColor)) {
@@ -1175,7 +1185,7 @@ bool CSimpleTaskPanel::Suspended() {
     
     bool result = false;
     pDoc->GetCoreClientStatus(status);
-    if ( pDoc->IsConnected() && status.task_suspend_reason > 0 && status.task_suspend_reason != SUSPEND_REASON_DISK_SIZE &&  status.task_suspend_reason != SUSPEND_REASON_CPU_THROTTLE ) {
+    if ( pDoc->IsConnected() && status.task_suspend_reason > 0 && status.task_suspend_reason != SUSPEND_REASON_CPU_THROTTLE ) {
         result = true;
     }
     return result;
@@ -1223,6 +1233,8 @@ void CSimpleTaskPanel::DisplayIdleState() {
             UpdateStaticText(&m_StatusValueText, _("Processing Suspended:  Time of Day."));
         } else if ( status.task_suspend_reason & SUSPEND_REASON_BENCHMARKS ) {
             UpdateStaticText(&m_StatusValueText, _("Processing Suspended:  Benchmarks Running."));
+        } else if ( status.task_suspend_reason & SUSPEND_REASON_DISK_SIZE ) {
+            UpdateStaticText(&m_StatusValueText, _("Processing Suspended:  need disk space."));
         } else {
             UpdateStaticText(&m_StatusValueText, _("Processing Suspended."));
         }

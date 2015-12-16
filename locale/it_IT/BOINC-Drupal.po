@@ -5,11 +5,12 @@
 # Alessandro Caiulo <alessandro.caiulo@gmail.com>, 2015
 # Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015
 # Pietro <bongiovanni.pietro.vc@gmail.com>, 2015
+# Sebastiano Pistore <olatusrooc@virgilio.it>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2015-08-14 09:37+0000\n"
-"PO-Revision-Date: 2015-11-17 11:11+0000\n"
+"PO-Revision-Date: 2015-12-15 11:30+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -64,10 +65,10 @@ msgid "You are banned from community participation until @date"
 msgstr "Sei stato bannato dalla community fino al @date"
 
 msgid "Computers @old_ids have been merged successfully into @id."
-msgstr "I computer @old_ids sono stati fusi con successo in @id."
+msgstr "I @old_ids dei computer sono stati uniti con successo in @id."
 
 msgid "A team named \"@name\" already exists."
-msgstr "Un'altra squadra denominata \"@name\" già esiste."
+msgstr "Un team di nome \"@name\" esiste già."
 
 msgid "Post topic"
 msgstr "Argomento del post"
@@ -82,10 +83,10 @@ msgid "Make founder"
 msgstr "Rendi fondatore"
 
 msgid "!site: comment posted to \"!topic_name\""
-msgstr "!site: commento inserito su \"!topic_name\""
+msgstr "!site: commento postato in \"!topic_name\""
 
 msgid "!author has posted a reply to \"!topic_name\"."
-msgstr "!author ha postato una risposta su \"!topic_name\"."
+msgstr "!author ha postato una risposta in \"!topic_name\"."
 
 msgid ""
 "To view this topic at !site, click here: \n"
@@ -104,10 +105,10 @@ msgid ""
 msgstr "Inserisci il tuo indirizzo email per ricevere le istruzioni su come reimpostare la password."
 
 msgid "Revise or post comment"
-msgstr "Rivedi o posta commento"
+msgstr "Modifica o posta commento"
 
 msgid "discuss"
-msgstr "discussione"
+msgstr "discuti"
 
 msgid "Your community preferences have been updated."
 msgstr "Sono state aggiornate le preferenze della comunità."
@@ -119,7 +120,7 @@ msgid "Authenticator login"
 msgstr "Login autenticatore"
 
 msgid "Create content"
-msgstr "Creare contenuti"
+msgstr "Crea contenuti"
 
 msgid "authenticator-based login"
 msgstr "Login basato sull'autenticatore"
@@ -188,13 +189,13 @@ msgid "Unhide this comment"
 msgstr "Mostra questo commento"
 
 msgid "@email is not a well formed email address, please verify"
-msgstr "@email non è un indirizzo email valido, si prega di verificare"
+msgstr "@email non è un indirizzo email valido, si prega di controllarlo"
 
 msgid "Email address"
 msgstr "E-mail"
 
 msgid "Home"
-msgstr "Casa"
+msgstr "Homepage"
 
 msgid "Login"
 msgstr "Login"
@@ -212,13 +213,13 @@ msgid "Enter your @s email address."
 msgstr "Inserisci il tuo @s indirizzo email."
 
 msgid "Join now"
-msgstr "Entra ora"
+msgstr "Aderisci adesso"
 
 msgid "I'm new"
-msgstr "Sono nuovo"
+msgstr "Sono uno nuovo"
 
 msgid "I'm a BOINC user"
-msgstr "Sono un utente BOINC"
+msgstr "Sono già un utente BOINC"
 
 msgid "Welcome back!"
 msgstr "Bentornato!"
@@ -230,7 +231,7 @@ msgid ""
 msgstr "Einstein@Home è un programma che utilizza il tempo di inattività del computer per eseguire uno screensaver per la ricerca di onde gravitazionali da stelle di neutroni (anche chiamata Pulsar) utilizzando i dati del rivelatore di onde gravitazionali LIGO."
 
 msgid "Learn more"
-msgstr "Ulteriori informazioni"
+msgstr "Vuoi saperne di più?"
 
 msgid "View account"
 msgstr "Visualizza account"
@@ -257,10 +258,10 @@ msgid "Name"
 msgstr "Nome"
 
 msgid "Avg credit"
-msgstr "Crediti medi"
+msgstr "Media dei crediti"
 
 msgid "Total credit"
-msgstr "Crediti totali"
+msgstr "Totale dei crediti"
 
 msgid "Enter your password to save changes"
 msgstr "Inserisci la tua password per salvare i cambiamenti\t"
@@ -283,7 +284,7 @@ msgid "Weak account key"
 msgstr "Chiave di accesso debole"
 
 msgid "Cross-project ID"
-msgstr "ID su tutti i progetti (CPID)"
+msgstr "CPID"
 
 msgid "Save changes"
 msgstr "Salva"
@@ -295,7 +296,7 @@ msgid "Change password"
 msgstr "Cambia password"
 
 msgid "What is @this_project?"
-msgstr "Che cosa è @this_project?"
+msgstr "Che cos'è @this_project?"
 
 msgid "no projects..."
 msgstr "nessun progetto..."
@@ -310,10 +311,10 @@ msgid "When prompted enter @siteurl"
 msgstr "Quando richiesto inserire @siteurl"
 
 msgid "Password"
-msgstr "Chiave d'accesso"
+msgstr "Password"
 
 msgid "Enter the password that accompanies your username."
-msgstr "Inserisci la password che accompagna il tuo username."
+msgstr "Inserisci la password associata al tuo username."
 
 msgid "Request new password"
 msgstr "Richiedi una nuova password"
@@ -339,7 +340,7 @@ msgstr "Se utilizzi una versione pre-5.0 di BOINC, per\npiacere aggiorna a una v
 msgid ""
 "1) If you know your account&apos;s email address, and you can receive email "
 "there:"
-msgstr "1) se si conosce l'indirizzo email del tuo account, ed è possibile ricevere e-mail qui:"
+msgstr "1) se ricordi l'indirizzo email del tuo account e puoi leggerne le mail, fai così:"
 
 msgid ""
 "Enter the email address and click OK. You will be sent email instructions "
@@ -362,7 +363,7 @@ msgid "Recent avg credits"
 msgstr "Media crediti recenti"
 
 msgid "Country"
-msgstr "Nazionalità"
+msgstr "Stato"
 
 msgid "Type"
 msgstr "Tipo"
@@ -371,7 +372,7 @@ msgid "Founder"
 msgstr "Fondatore"
 
 msgid "New members in last day"
-msgstr "Nuovi membri nell'ultimo giorno"
+msgstr "Nuovi membri nelle ultime 24 ore"
 
 msgid "Total members"
 msgstr "Totale dei membri"
@@ -380,7 +381,7 @@ msgid "Active members"
 msgstr "Membri attivi"
 
 msgid "Members with credit"
-msgstr "Membri con credito"
+msgstr "Membri con crediti"
 
 msgid "Description"
 msgstr "Descrizione"
@@ -404,7 +405,7 @@ msgid "No active computers"
 msgstr "Nessun computer attivo"
 
 msgid "This user has no computers that have been active in the last 30 days."
-msgstr "Questo utente non ha nessun computer che sia stato attivo negli ultimi 30 giorni."
+msgstr "Questo utente non ha avuto alcun computer attivo negli ultimi 30 giorni."
 
 msgid " Default value: @default"
 msgstr " Valore di default: @default"
@@ -425,13 +426,13 @@ msgid "message @id"
 msgstr "@id messaggio"
 
 msgid " in response to !parent"
-msgstr "in risposta di !parent"
+msgstr "in risposta a !parent"
 
 msgid "Credits per day"
 msgstr "Crediti giornalieri"
 
 msgid "Computers hidden"
-msgstr "Computer nascosto"
+msgstr "Computer nascosti"
 
 msgid "This user has chosen not to show information about their computers."
 msgstr "Questo utente ha scelto di non mostrare informazioni sui suoi computer."
@@ -440,10 +441,10 @@ msgid "Stderr output"
 msgstr "Output su Stderr"
 
 msgid "@time ago"
-msgstr "@time ago"
+msgstr "@time fa"
 
 msgid "n/a"
-msgstr "n/a"
+msgstr "n/d"
 
 msgid "Submitted by !username on !datetime"
 msgstr "Inviato da !username il !datetime"
@@ -452,7 +453,7 @@ msgid "Member since"
 msgstr "Membro dal"
 
 msgid "View team"
-msgstr "Visualizza team"
+msgstr "Vedi team"
 
 msgid "Friends (@count)"
 msgstr "Amici (@count)"
@@ -469,7 +470,7 @@ msgstr "Computer in attesa"
 msgid ""
 "This user does not yet have any associated computers. Computers will be "
 "displayed when they have earned their first credits."
-msgstr "Questo utente non dispone ancora di computer associati. I Computer verranno visualizzati quando avranno guadagnato i loro primi crediti."
+msgstr "Questo utente non dispone ancora di computer associati. I computer verranno visualizzati quando avranno guadagnato i loro primi crediti."
 
 msgid "No results found..."
 msgstr "Nessun risultato trovato..."
@@ -484,7 +485,7 @@ msgid ""
 "@project participants may form teams. You may belong to only one team. You "
 "can join or quit a team at any time. To join a team, visit its team page and"
 " click \"Join this team\". Each team has a founder who may:"
-msgstr "I partecipanti a @project possono formare dei team. Si può appartenere ad un solo team. È possibile unirsi o lasciare un team in qualsiasi momento. Per entrare in un team, visita la sua pagina di team e fare clic su \"Entra nel team\". Ogni squadra ha un fondatore che può:"
+msgstr "I partecipanti a @project possono formare dei team. Si può appartenere ad un solo team alla volta. È possibile unirsi o lasciare un team in qualsiasi momento. Per entrare in un team, visita la sua pagina e fai clic su \"Entra nel team\". Ogni team ha un fondatore che può:"
 
 msgid "access team members' email addresses"
 msgstr "accedere alle informazioni sugli indirizzi email dei membri"
@@ -493,13 +494,13 @@ msgid "edit the team's name and description"
 msgstr "modificare il nome e la descrizione del team"
 
 msgid "add or remove team admins"
-msgstr "aggiungi o rimuovi admin del team"
+msgstr "aggiungere o rimuovere gli amministratori del team"
 
 msgid "remove members from the team"
 msgstr "rimuovere i membri dal team"
 
 msgid "disband a team if it has no members"
-msgstr "sciogliere il team, solo se non ha più membri"
+msgstr "sciogliere il team, nel momento in cui lo stesso abbia un solo membro"
 
 msgid "Create a new team"
 msgstr "Crea un nuovo team"
@@ -584,16 +585,16 @@ msgid "Only applies to portable computers"
 msgstr "Si applica solo ai computer portatili"
 
 msgid "Run while computer is in use?"
-msgstr "Anche quando il computer è in uso?"
+msgstr "Elabora quando il computer è in uso?"
 
 msgid "Run GPU work while computer is in use?"
-msgstr "Eseguire il lavoro GPU mentre il computer è in uso?"
+msgstr "Elaborare con la GPU mentre il computer è in uso?"
 
 msgid "Enforced by version @number"
 msgstr "Disponibile dalla versione @number"
 
 msgid "\"In use\" means mouse/keyboard activity in last"
-msgstr "\"In uso\" significa attività mouse/tastiera negli ultimi"
+msgstr "\"In uso\" significa che c'è stata attività del mouse/tastiera negli ultimi"
 
 msgid "minutes"
 msgstr "minuti"
