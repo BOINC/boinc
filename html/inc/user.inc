@@ -39,12 +39,29 @@ function get_other_projects($user) {
     if ($cacheddata){
         $remote = unserialize($cacheddata);
     } else {
-        // Fetch the XML, then auto-cast the project list to an array of stdClass projects
+        $xml_object = null;
+        $remote = false;
+        // Fetch the XML, use curl if fopen() is disallowed
         //
-        $timeout = 3;
-        $old_timeout = ini_set('default_socket_timeout', $timeout);        
-        $remote = @json_decode(json_encode((array)simplexml_load_file($url)))->project;
-        ini_set('default_socket_timeout', $old_timeout);
+        if (ini_get('allow_url_fopen')) {
+            $timeout = 3;
+            $old_timeout = ini_set('default_socket_timeout', $timeout);
+            $xml_object = simplexml_load_file($url);
+            ini_set('default_socket_timeout', $old_timeout);
+        } else {
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_HEADER, false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_MAXREDIRS, 3);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 3);
+            $rawxml = curl_exec($ch);
+            $xml_object = simplexml_load_string($rawxml);
+            curl_close($ch);
+        }
+        // auto-cast the project list to an array of stdClass projects
+        //
+        $remote = @json_decode(json_encode((array)$xml_object))->project;
         
         if (!$remote) {
             return $user;
