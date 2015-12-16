@@ -464,6 +464,14 @@ class BoincProfile {
         $db = BoincDb::get();
         return $db->lookup('profile', 'BoincProfile', $clause);
     }
+    static function lookup_userid($userid) {
+        $db = BoincDb::get();
+        return $db->lookup('profile', 'BoincProfile', 'userid='.$userid);
+    }
+    function update($clause) {
+        $db = BoincDb::get();
+        return $db->update_aux('profile', $clause.' where userid='.$this->userid);
+    }
     static function update_aux($clause) {
         $db = BoincDb::get();
         return $db->update_aux('profile', $clause);
@@ -479,6 +487,10 @@ class BoincProfile {
     static function enum_fields($fields, $where_clause=null, $order_clause=null) {
         $db = BoincDb::get();
         return $db->enum_fields('profile', 'BoincProfile', $fields, $where_clause, $order_clause);
+    }
+    function delete() {
+        $db = BoincDb::get();
+        return $db->delete_aux('profile', 'userid='.$this->userid);
     }
     static function delete_aux($clause) {
         $db = BoincDb::get();
