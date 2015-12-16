@@ -89,7 +89,11 @@ struct TIME_SPAN {
     double end_hour;
 
     enum TimeMode {
-        Always = 7000,
+        // "Always" is defined by X.h, which itself is (indirectly) included
+        // from client/hostinfo_unix.cpp when including the XSS API
+        // (<X11/extensions/scrnsaver.h>). Hence, renaming here (and in
+        // prefs.cpp).
+        Always2 = 7000,
         Never,
         Between
     };

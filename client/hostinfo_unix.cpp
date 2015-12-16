@@ -41,6 +41,10 @@
 #include <cstring>
 #endif
 
+#if HAVE_XSS
+#include <X11/extensions/scrnsaver.h> //X-based idle detection
+#endif
+
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -1947,6 +1951,62 @@ bool interrupts_idle(time_t t) {
     }
     return last_irq < t;
 }
+
+#if HAVE_XSS
+// Ask the X server for user idle time (using XScreenSaver API)
+// Return true if the idle time exceeds idle_threshold.
+//
+bool xss_idle(long idle_threshold) {
+    static XScreenSaverInfo* xssInfo = NULL;
+    static Display* disp = NULL;
+    static bool error = false;
+        // some X call failed - always return not idle
+    
+    if (error) return false;
+
+    long idle_time = 0;
+    
+    if (disp == NULL) {
+        disp = XOpenDisplay(NULL);
+        // XOpenDisplay may return NULL if there is no running X
+        // or DISPLAY points to wrong/invalid display
+        //
+        if (disp == NULL) {
+            error = true;
+            //msg_printf(NULL, MSG_INFO, "XDisplay not found.");
+            return false;
+        }
+        int event_base_return, error_base_return;
+        xssInfo = XScreenSaverAllocInfo();
+        if (!XScreenSaverQueryExtension(
+            disp, &event_base_return, &error_base_return
+        )){
+            error = true;
+            //msg_printf(NULL, MSG_INFO, "XScreenSaverQueryExtension() failed.");
+            return false;
+        }
+    }
+
+    XScreenSaverQueryInfo(disp, DefaultRootWindow(disp), xssInfo);
+    idle_time = xssInfo->idle;
+
+    // convert from milliseconds to seconds
+    //
+    idle_time = idle_time / 1000;
+
+    //msg_printf(NULL, MSG_INFO, "XSS idle detection succeeded.");
+    //msg_printf(NULL, MSG_INFO, "idle threshold: %ld", idle_threshold);
+    //msg_printf(NULL, MSG_INFO, "idle_time: %ld", idle_time);
+
+    if ( idle_threshold < idle_time ) {
+        //msg_printf(NULL, MSG_INFO, "System is idle according to X.");
+    } else {
+        //msg_printf(NULL, MSG_INFO, "System is active according to X.");
+    }
+    return idle_threshold < idle_time;
+}
+#endif // HAVE_XSS
+
 #endif // LINUX_LIKE_SYSTEM
 
 bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
@@ -1972,6 +2032,12 @@ bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
         return false;
     }
 
+#if HAVE_XSS
+    if (!xss_idle((long)(idle_time_to_run * 60))) {
+        return false;
+    }
+#endif // HAVE_XSS
+
     // Lets at least check the dev entries which should be correct for
     // USB keyboards and mice.  If the linux kernel doc is correct it should
     // also work for bluetooth input devices as well.
@@ -1990,7 +2056,7 @@ bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
     if (!device_idle(idle_time, "/dev/input/mice")) return false;
     if (!device_idle(idle_time, "/dev/kbd")) return false;
         // solaris
-#endif
+#endif // LINUX_LIKE_SYSTEM
     return true;
 }
 

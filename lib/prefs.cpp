@@ -149,7 +149,7 @@ bool TIME_SPAN::suspended(double hour) const {
 
 TIME_SPAN::TimeMode TIME_SPAN::mode() const {
     if (end_hour == start_hour || (start_hour == 0 && end_hour == 24)) {
-        return Always;
+        return Always2;
     } else if (start_hour == 24 && end_hour == 0) {
         return Never;
     }
