@@ -44,12 +44,12 @@ function linux_info() {
 }
 
 $w76dev = array(
-    "num"=>"7.6.21",
+    "num"=>"7.6.22",
     "status"=>"Development version",
-    "file"=>"boinc_7.6.21_windows_intelx86.exe",
-    "vbox_file"=>"boinc_7.6.21_windows_intelx86_vbox.exe",
+    "file"=>"boinc_7.6.22_windows_intelx86.exe",
+    "vbox_file"=>"boinc_7.6.22_windows_intelx86_vbox.exe",
     "vbox_version"=>"5.0.10",
-    "date"=>"14 Dec 2015",
+    "date"=>"17 Dec 2015",
     "type"=>"win_new",
 );
 
@@ -90,12 +90,12 @@ $w5816 = array(
 );
 
 $w76x64dev = array(
-    "num"=>"7.6.21",
+    "num"=>"7.6.22",
     "status"=>"Development version",
-    "file"=>"boinc_7.6.21_windows_x86_64.exe",
-    "vbox_file"=>"boinc_7.6.21_windows_x86_64_vbox.exe",
+    "file"=>"boinc_7.6.22_windows_x86_64.exe",
+    "vbox_file"=>"boinc_7.6.22_windows_x86_64_vbox.exe",
     "vbox_version"=>"5.0.10",
-    "date"=>"14 Dec 2015",
+    "date"=>"17 Dec 2015",
     "type"=>"win_new",
 );
 
