@@ -43,6 +43,9 @@
 
 #if HAVE_XSS
 #include <X11/extensions/scrnsaver.h> //X-based idle detection
+// prevents naming collision between X.h define of Always and boinc's
+// lib/prefs.h definition in an enum.
+#undef Always
 #endif
 
 #include <cstdio>
@@ -1959,10 +1962,12 @@ bool interrupts_idle(time_t t) {
 bool xss_idle(long idle_threshold) {
     static XScreenSaverInfo* xssInfo = NULL;
     static Display* disp = NULL;
+    // if an X-related error occurs, set this to true and always
+    // report that we are idle (have xss_idle return true). Will report the
+    // failure in Event Log for user visibility.
     static bool error = false;
-        // some X call failed - always return not idle
     
-    if (error) return false;
+    if (error) return true;
 
     long idle_time = 0;
     
@@ -1973,8 +1978,8 @@ bool xss_idle(long idle_threshold) {
         //
         if (disp == NULL) {
             error = true;
-            //msg_printf(NULL, MSG_INFO, "XDisplay not found.");
-            return false;
+            msg_printf(NULL, MSG_INFO, "XDisplay not found. X-based idle detection disabled.");
+            return true;
         }
         int event_base_return, error_base_return;
         xssInfo = XScreenSaverAllocInfo();
@@ -1982,8 +1987,8 @@ bool xss_idle(long idle_threshold) {
             disp, &event_base_return, &error_base_return
         )){
             error = true;
-            //msg_printf(NULL, MSG_INFO, "XScreenSaverQueryExtension() failed.");
-            return false;
+            msg_printf(NULL, MSG_INFO, "XScreenSaverQueryExtension() failed. X-based idle detection disabled.");
+            return true;
         }
     }
 
