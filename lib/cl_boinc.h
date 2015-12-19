@@ -193,6 +193,15 @@ typedef cl_bitfield         cl_command_queue_properties;
 #define CL_DEVICE_NATIVE_VECTOR_WIDTH_HALF          0x103C
 #define CL_DEVICE_OPENCL_C_VERSION                  0x103D
 
+// Nvidia Specific Extensions
+
+
+// AMD Specific Extensions
+#ifndef CL_DEVICE_BOARD_NAME_AMD
+#define CL_DEVICE_BOARD_NAME_AMD                    0x4038
+#endif
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif
