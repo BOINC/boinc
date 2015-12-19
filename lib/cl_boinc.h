@@ -194,12 +194,25 @@ typedef cl_bitfield         cl_command_queue_properties;
 #define CL_DEVICE_OPENCL_C_VERSION                  0x103D
 
 // Nvidia Specific Extensions
+//
+//
+
+// cl_nv_device_attribute_query
+#define CL_DEVICE_COMPUTE_CAPABILITY_MAJOR_NV       0x4000
+#define CL_DEVICE_COMPUTE_CAPABILITY_MINOR_NV       0x4001
+#define CL_DEVICE_REGISTERS_PER_BLOCK_NV            0x4002
+#define CL_DEVICE_WARP_SIZE_NV                      0x4003
+#define CL_DEVICE_GPU_OVERLAP_NV                    0x4004
+#define CL_DEVICE_KERNEL_EXEC_TIMEOUT_NV            0x4005
+#define CL_DEVICE_INTEGRATED_MEMORY_NV              0x4006
 
 
 // AMD Specific Extensions
-#ifndef CL_DEVICE_BOARD_NAME_AMD
+//
+//
+
+// cl_amd_device_attribute_query
 #define CL_DEVICE_BOARD_NAME_AMD                    0x4038
-#endif
 
 
 #ifdef __cplusplus
