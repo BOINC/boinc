@@ -3967,7 +3967,8 @@ function _boincimport_replace_links($html) {
   $transformer = new BoincImportUrlTransformer();
   
   // Update links to posts, threads, and forums
-  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?forum_thread\.php\?id=(\d+)(&\w+=\w*)*?(#(\d+)?)}i', array($transformer, 'transformPostLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?forum_thread\.php\?id=(\d+)&postid=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformPostLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?forum_thread\.php\?id=(\d+)(&\w+=\w*)*?(#(\d+)?)}i', array($transformer, 'transformOldPostLinks'), $html);
   $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?forum_thread\.php\?id=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformTopicLinks'), $html);
   $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?forum_forum\.php\?id=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformForumLinks'), $html);
   $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?show_user\.php\?userid=(\d+)((&\w+=\w*)+)?}i', array($transformer, 'transformUserLinks'), $html); 
@@ -4040,10 +4041,35 @@ class BoincImportUrlTransformer {
   }
   
   /**
+   * Replace links to specific posts. If the given post is the first in the
+   * thread, it is a topic node in Drupal, not a comment.
+   */
+  function transformPostLinks($matches) {
+    $link = $matches[0];
+    $newBaseUrl = $this->getNewBaseUrl($matches);
+    if ($newBaseUrl !== NULL) {
+      $id = db_result(db_query('
+        SELECT p.cid
+        FROM {boincimport_temp_post} p
+        WHERE p.post_id = %d',
+        $matches[4]
+      ));
+      if ($id) {
+        $link = "{$newBaseUrl}goto/comment/{$id}";
+      }
+      else {
+        // This post is not in the post import table, so it's probably a topic
+        $link = $this->transformTopicLinks($matches);
+      }
+    }
+    return $link;
+  }
+  
+  /**
    * Replace links that include anchors to specific posts. If the given post is
    * the first in the thread, it is a topic node in Drupal, not a comment.
    */
-  function transformPostLinks($matches) {
+  function transformOldPostLinks($matches) {
     $link = $matches[0];
     $newBaseUrl = $this->getNewBaseUrl($matches);
     if ($newBaseUrl !== NULL) {

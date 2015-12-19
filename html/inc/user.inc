@@ -46,7 +46,7 @@ function get_other_projects($user) {
         if (ini_get('allow_url_fopen')) {
             $timeout = 3;
             $old_timeout = ini_set('default_socket_timeout', $timeout);
-            $xml_object = simplexml_load_file($url);
+            $xml_object = simplexml_load_string(file_get_contents($url));
             ini_set('default_socket_timeout', $old_timeout);
         } else {
             $ch = curl_init($url);
