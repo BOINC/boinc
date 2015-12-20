@@ -39,7 +39,7 @@
 #endif
 #endif
 
-#ifdef _MSC_VER
+#if !defined(HAVE_STRDUP) && defined(HAVE__STRDUP)
 #define strdup _strdup
 #endif
 

@@ -1905,7 +1905,7 @@ bool HOST_INFO::users_idle(
         }   // End (gEventHandle == NULL)
     }           // End NXIdleTime API does not exist
     
- bail:   
+bail:
     if (actual_idle_time) {
         *actual_idle_time = idleTime;
     }

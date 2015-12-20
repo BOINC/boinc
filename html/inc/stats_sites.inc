@@ -23,9 +23,11 @@ $cpid_stats_sites = array(
     array("Free-DC",
         "http://stats.free-dc.org/stats.php?page=userbycpid&amp;cpid=%s"
     ),
+/* is not importing fresh data from projects since November 2015
     array("BOINC all Project Stats",
         "http://www.allprojectstats.com/showuser.php?id=%s"
     ),
+*/
     array("BOINCstats",
         "http://www.boincstats.com/en/stats/-1/user/detail/%s"
     ),
@@ -34,9 +36,6 @@ $cpid_stats_sites = array(
     ),
     array("BOINC Combined Statistics",
         "http://boinc.netsoft-online.com/e107_plugins/boinc/get_user.php?cpid=%s&amp;html=1"
-    ),
-    array("The Knights Who Say 'Ni!'",
-        "http://stats.kwsn.info/user.php?proj=all&amp;cpid=%s"
     ),
 );
 
@@ -47,21 +46,26 @@ $stats_sites = array(
         "(Team ranking based on position within projects,
         as in Formula 1 racing, rather than total points)"
     ),
+/* is not importing fresh data from projects since November 2015
     array(
         "http://www.allprojectstats.com/",
         "BOINC All Project Stats",
         ""
     ),
+*/
     array(
         "http://stats.free-dc.org",
         "Free-DC",
         "(Includes non-BOINC projects and completed projects.)"
     ),
+/* page shows: Could not connect to the data server. Unable to proceed.
+ * not mentioning statistics on the webpage, seems retired
     array(
         "http://www.boincuk.com/globalprojectstats.php",
         "BOINC UK",
         ""
     ),
+*/
     array("http://www.boincsynergy.com/stats/index.php",
         "BOINC Statistics for the WORLD!",
         "developed by Zain Upton (email: zain.upton at boincsynergy.com)"
@@ -82,10 +86,6 @@ $stats_sites = array(
         "SETI@Netherlands stats page",
         ""
     ),
-    array("http://stats.kwsn.info/",
-        "The Knights Who Say 'Ni' stats",
-        ""
-    ),
     array("http://www.teamocuk.co.uk/",
         "Team OcUK stats",
         ""
@@ -100,15 +100,15 @@ $team_stats_sites = array(
     array("http://stats.czechnationalteam.cz/", "Czech National Team", "(in Czech)"),
     array("http://www.boincitaly.org/", "BOINC.Italy"),
     //array("http://www.spacepage.be/component/option,com_boinc/", "Spacepage"),
-    array("http://boinc.radax.net/de_boinc.htm", "BOINC@Austria"),
+    //array("http://boinc.radax.net/de_boinc.htm", "BOINC@Austria"),
     //array("http://www.myboinc.com/scores/", "L'Alliance Francophone"),
-    array("http://boincdenmark.dk/", "BOINC@Denmark", "(Danish)"),
-    array("http://boincdenmark.dk/default_en.html", "BOINC@Denmark", "(English)"),
+    //array("http://boincdenmark.dk/", "BOINC@Denmark", "(Danish)"),
+    //array("http://boincdenmark.dk/default_en.html", "BOINC@Denmark", "(English)"),
     //array("http://www.bigbee.be/comp/boinc/index.php",
     //    "Boinc.be team stats",
     //    ""
     //),
-    array("http://www.seti-teamartbell.com/", "Team Art Bell", ""),
+    //array("http://www.seti-teamartbell.com/", "Team Art Bell", ""),
     array("http://www.crunchers-freiburg.de/", "crunchers@freiburg", "(German)"),
 );
 

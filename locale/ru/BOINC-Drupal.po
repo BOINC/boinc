@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
-"POT-Creation-Date: 2015-08-14 09:37+0000\n"
-"PO-Revision-Date: 2015-10-01 19:51+0000\n"
+"POT-Creation-Date: 2015-12-15 12:43+0000\n"
+"PO-Revision-Date: 2015-12-15 17:32+0000\n"
 "Last-Translator: Nikolay Sakharov <saharovna@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/boinc/boinc/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -17,177 +17,91 @@ msgstr ""
 "Language: ru\n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-msgid "No account exists for @email -- select \"Create new account\" to register"
-msgstr "Учётной записи не существует для @email -- выберите \"Создать новую учётную запись\", чтобы зарегистрироваться"
-
-msgid "My team"
-msgstr "Моя команда"
-
-msgid "You are a member of @team."
-msgstr "Вы участник команды @team."
-
-msgid "View my team"
-msgstr "Просмотр моей команды"
-
-msgid "Invalid setting for \"%preference\""
-msgstr "Недопустимый параметр для \"%preference\""
+msgid "Please select a team type."
+msgstr "Пожалуйста, выберите тип команды."
 
 msgid ""
-"You must earn @count more credits to be able to post comments on this site."
-msgstr "Вы должны заработать ещё @count очков, чтобы появилась возможность оставлять комментарии на этом сайте."
+"A team foundership change was already requested recently. Only one request "
+"is allowed within a period of 90 days."
+msgstr "Недавно уже была запрошена смена основателя команды. Разрешён только один запрос в течение 90 дней."
 
-msgid "Moderation"
-msgstr "Модерация"
+msgid "@count days remaining"
+msgstr "осталось @count дней"
 
-msgid "Unvetted profiles"
-msgstr "Профили, не прошедшие проверку"
+msgid "Inbox"
+msgstr "Входящие"
 
-msgid "Reason for banning this user"
-msgstr "Причина для запрета этого пользователя"
+msgid "Compose new"
+msgstr "Создать новый"
 
-msgid ""
-"This reason will be included in an email to the user. Please write a brief "
-"explanation of why the user is being banned."
-msgstr "Эта причина будет включена в электронное письмо пользователю. Пожалуйста, напишите краткое объяснение, почему этот пользователь запрещён."
-
-msgid "Duration of the ban"
-msgstr "Продолжительность запрета"
-
-msgid "The number of days until the ban expires. Set to 0 to ban permanently."
-msgstr "Количество дней до истечения срока действия запрета. Установите значение 0, чтобы запретить навсегда."
-
-msgid "Lift user ban"
-msgstr "Снять запрет с пользователя"
-
-msgid "You are banned from community participation until @date"
-msgstr "Вам запрещено участие в сообществе до @date"
-
-msgid "Computers @old_ids have been merged successfully into @id."
-msgstr "Компьютеры @old_ids успешно объединены с @id."
-
-msgid "A team named \"@name\" already exists."
-msgstr "Команда с названием \"@name\" уже существует."
-
-msgid "Post topic"
-msgstr "Опубликовать тему"
-
-msgid "Please enter your email address"
-msgstr "Укажите адрес вашей электронной почты"
-
-msgid "Password entered is not valid. Please verify that it is correct."
-msgstr "Введённый пароль не действителен. Пожалуйста, проверьте, что он правильный."
-
-msgid "Make founder"
-msgstr "Сделать основателя"
-
-msgid "!site: comment posted to \"!topic_name\""
-msgstr "!site: комментарий размещён в \"!topic_name\""
-
-msgid "!author has posted a reply to \"!topic_name\"."
-msgstr "!author ответил в \"!topic_name\"."
+msgid "respond to the request"
+msgstr "ответьте на запрос"
 
 msgid ""
-"To view this topic at !site, click here: \n"
-"!comment_url"
-msgstr "Для просмотра этой темы на сайте !site нажмите здесь: \n!comment_url"
+"A foundership transfer request has been made for your team. Please !respond."
+msgstr "Для вашей команды был сделан запрос на передачу полномочий основателя. Пожалуйста, !respond."
 
-msgid "At least one application must be selected"
-msgstr "По крайней мере одно приложение должно быть выбрано"
-
-msgid "Forgot password"
-msgstr "Забыли пароль"
+msgid "Respond to transfer request"
+msgstr "Ответить на запрос передачи"
 
 msgid ""
-"Enter your email address to receive instructions for resetting your "
-"password."
-msgstr "Введите свой адрес электронной почты, чтобы получить инструкции по сбросу пароля."
-
-msgid "Revise or post comment"
-msgstr "Изменить или добавить комментарий"
-
-msgid "discuss"
-msgstr "обсудить"
-
-msgid "Your community preferences have been updated."
-msgstr "Ваши настройки сообщества были обновлены."
-
-msgid "Unlock this thread for comments"
-msgstr "Разблокировать это обсуждение для комментариев"
-
-msgid "Authenticator login"
-msgstr "Войти используя проверку подлинности"
-
-msgid "Create content"
-msgstr "Создать контент"
-
-msgid "authenticator-based login"
-msgstr "вход на основе проверки подлинности"
+"Team member @name has requested team foundership. This may be because you "
+"left the team or have not had contact with the team for a long time."
+msgstr "Участник команды @name запросил полномочия основателя команды. Это, возможно, произошло из-за того, что Вы покинули команду или не контактировали с командой в течение долгого времени."
 
 msgid ""
-"Enter your email address to receive instructions for resetting your password"
-" (or use the !authenticator_login)."
-msgstr "Введите свой адрес электронной почты, чтобы получить инструкции по сбросу пароля (или используйте !authenticator_login)."
+"If you don't decline the request by @date, @name will have the option of "
+"assuming team foundership. (note: To accept the request, assign foundership "
+"to @name using the form below)"
+msgstr "Если Вы не отмените запрос до @date, у участника @name будет возможность принять полномочия основателя команды. (примечание: Чтобы принять запрос, назначьте полномочия основателя участнику @name, используя форму ниже)"
+
+msgid "Deny request"
+msgstr "Отклонить запрос"
+
+msgid "Send request"
+msgstr "Отправить запрос"
+
+msgid "Friend request from !name [!site]"
+msgstr "Запрос дружбы от !name [!site]"
+
+msgid "Message"
+msgstr "Сообщение"
 
 msgid ""
-"If you forgot your account's email address, or you can't receive email "
-"there:"
-msgstr "Если Вы забыли адрес электронной почты вашей учётной записи, или Вы не можете получить письмо:"
+"!name added you as a friend on !site. You can approve or deny this request. Denying a request will not send a notification, but will remove the request from both of your accounts.\n"
+"\n"
+"Follow the link below to view this request:\n"
+"!link\n"
+"\n"
+"!message\n"
+"\n"
+"Thanks,\n"
+"The !site team"
+msgstr "!name добавил Вас в качестве друга в проекте !site. Вы можете утвердить или отклонить этот запрос. Отклонение запроса не отправляет уведомление, но при этом запрос будет удалён из обоих ваших учётных записей.\n\nЧтобы просмотреть этот запрос, пройдите по ссылке ниже:\n!link\n\n!message\n\nСпасибо,\nКоманда !site"
+
+msgid "Cancel friend request"
+msgstr "Отменить запрос дружбы"
+
+msgid "Remove request"
+msgstr "Удалить запрос"
+
+msgid "Approve request"
+msgstr "Утвердить запрос"
+
+msgid "!name accepted your friend request [!site]"
+msgstr "!name принял ваш запрос дружбы [!site]"
 
 msgid ""
-"If you have run BOINC under the account, you can still access it. Here's "
-"how:"
-msgstr "Если BOINC запускался под этой учётной записью, Вы можете получить доступ к ней. Для этого нужно сделать следующее:"
-
-msgid ""
-"Go to the BOINC data directory on your computer (on Windows this is usually "
-"%path1 or %path2."
-msgstr "Перейдите в каталог данных BOINC на вашем компьютере (в Windows это обычно %path1 или %path2."
-
-msgid ""
-"Find your account file for this project; it will have a name like %file "
-"(where the project URL is %url)."
-msgstr "Найдите там файл учётной записи для этого проекта; он будет называться %file (где %url - URL-адрес проекта)."
-
-msgid ""
-"Open the file in a text editor like Notepad. You'll see something like:"
-msgstr "Откройте этот файл в текстовом редакторе, например в Блокноте. Вы увидите что-то вроде:"
-
-msgid ""
-"Select and Copy the string between &lt;authenticator&gt; and "
-"&lt;/authenticator&gt; (%auth in the above example)."
-msgstr "Выберите и скопируйте строку между &lt;authenticator&gt; и &lt;/authenticator&gt; (%auth в вышеприведённом примере)."
-
-msgid "There is no account with that authenticator."
-msgstr "Учётная запись с таким аутентификатором отсутствует."
-
-msgid ""
-"Go to the <a href=\"%wikiref\">BOINC data directory</a> on your computer (on"
-" Windows this is usually %path1 or %path2."
-msgstr "Перейдите в <a href=\"%wikiref\">каталог данных BOINC</a> на вашем компьютере (в Windows это обычно %path1 или %path2."
-
-msgid "BOINC documentation"
-msgstr "Документация BOINC"
-
-msgid ""
-"Go to the BOINC data directory on your computer (see !boinc_wiki for help "
-"finding this)."
-msgstr "Перейдите в каталог данных BOINC на вашем компьютере (см.  !boinc_wiki для получения помощи)."
-
-msgid ""
-"@count days have elapsed since your request and the founder has not "
-"responded."
-msgstr "@count дней прошли с момента подачи вашего запроса, а основатель так и не ответил."
-
-msgid ""
-"You now have @count days to assume foundership before another team member "
-"may submit a request."
-msgstr "Теперь у Вас есть @count дней, чтобы стать основателем, прежде чем другой участник команды сможет сделать запрос."
-
-msgid "Unhide this comment"
-msgstr "Показать этот комментарий"
-
-msgid "@email is not a well formed email address, please verify"
-msgstr "@email не является хорошо сформированным адресом электронной почты, пожалуйста, проверьте"
+"!name confirmed you as a friend on !site.\n"
+"\n"
+"Follow this link to view his or her profile:\n"
+"!link\n"
+"\n"
+"!message\n"
+"\n"
+"Thanks,\n"
+"The !site team"
+msgstr "!name подтвердил дружбу с вами в проекте !site.\n\nСледуйте по этой ссылке, чтобы просмотреть его или её профиль:\n!link\n\n!message\n\nСпасибо,\nКоманда !site"
 
 msgid "Email address"
 msgstr "Адрес электронной почты"
@@ -1691,14 +1605,91 @@ msgstr "Отправить"
 msgid "project"
 msgstr "проект"
 
+msgid "No account exists for @email -- select \"Create new account\" to register"
+msgstr "Учётной записи не существует для @email -- выберите \"Создать новую учётную запись\", чтобы зарегистрироваться"
+
 msgid "Unknown"
 msgstr "Неизвестно"
+
+msgid "My team"
+msgstr "Моя команда"
+
+msgid "You are a member of @team."
+msgstr "Вы участник команды @team."
+
+msgid "View my team"
+msgstr "Просмотр моей команды"
+
+msgid "Invalid setting for \"%preference\""
+msgstr "Недопустимый параметр для \"%preference\""
 
 msgid "Pending"
 msgstr "Ожидание"
 
+msgid ""
+"You must earn @count more credits to be able to post comments on this site."
+msgstr "Вы должны заработать ещё @count очков, чтобы появилась возможность оставлять комментарии на этом сайте."
+
+msgid "Moderation"
+msgstr "Модерация"
+
+msgid "Unvetted profiles"
+msgstr "Профили, не прошедшие проверку"
+
+msgid "Reason for banning this user"
+msgstr "Причина для запрета этого пользователя"
+
+msgid ""
+"This reason will be included in an email to the user. Please write a brief "
+"explanation of why the user is being banned."
+msgstr "Эта причина будет включена в электронное письмо пользователю. Пожалуйста, напишите краткое объяснение, почему этот пользователь запрещён."
+
+msgid "Duration of the ban"
+msgstr "Продолжительность запрета"
+
+msgid "The number of days until the ban expires. Set to 0 to ban permanently."
+msgstr "Количество дней до истечения срока действия запрета. Установите значение 0, чтобы запретить навсегда."
+
+msgid "Lift user ban"
+msgstr "Снять запрет с пользователя"
+
+msgid "You are banned from community participation until @date"
+msgstr "Вам запрещено участие в сообществе до @date"
+
+msgid "Computers @old_ids have been merged successfully into @id."
+msgstr "Компьютеры @old_ids успешно объединены с @id."
+
+msgid "A team named \"@name\" already exists."
+msgstr "Команда с названием \"@name\" уже существует."
+
+msgid "Post topic"
+msgstr "Опубликовать тему"
+
+msgid "Please enter your email address"
+msgstr "Укажите адрес вашей электронной почты"
+
+msgid "Password entered is not valid. Please verify that it is correct."
+msgstr "Введённый пароль не действителен. Пожалуйста, проверьте, что он правильный."
+
+msgid "Make founder"
+msgstr "Сделать основателя"
+
 msgid "User of the day"
 msgstr "Пользователь Дня"
+
+msgid "!site: comment posted to \"!topic_name\""
+msgstr "!site: комментарий размещён в \"!topic_name\""
+
+msgid "!author has posted a reply to \"!topic_name\"."
+msgstr "!author ответил в \"!topic_name\"."
+
+msgid ""
+"To view this topic at !site, click here: \n"
+"!comment_url"
+msgstr "Для просмотра этой темы на сайте !site нажмите здесь: \n!comment_url"
+
+msgid "At least one application must be selected"
+msgstr "По крайней мере одно приложение должно быть выбрано"
 
 msgid "Account"
 msgstr "Учётная запись"
@@ -1706,14 +1697,77 @@ msgstr "Учётная запись"
 msgid "Log in"
 msgstr "Войти"
 
+msgid "Forgot password"
+msgstr "Забыли пароль"
+
+msgid ""
+"Enter your email address to receive instructions for resetting your "
+"password."
+msgstr "Введите свой адрес электронной почты, чтобы получить инструкции по сбросу пароля."
+
 msgid "Send"
 msgstr "Отправить"
+
+msgid "Revise or post comment"
+msgstr "Изменить или добавить комментарий"
+
+msgid "discuss"
+msgstr "обсудить"
 
 msgid "News"
 msgstr "Новости"
 
+msgid "Your community preferences have been updated."
+msgstr "Ваши настройки сообщества были обновлены."
+
 msgid "Unlock"
 msgstr "Разблокировать"
+
+msgid "Unlock this thread for comments"
+msgstr "Разблокировать это обсуждение для комментариев"
+
+msgid "Authenticator login"
+msgstr "Войти используя проверку подлинности"
+
+msgid "Create content"
+msgstr "Создать контент"
+
+msgid "authenticator-based login"
+msgstr "вход на основе проверки подлинности"
+
+msgid ""
+"Enter your email address to receive instructions for resetting your password"
+" (or use the !authenticator_login)."
+msgstr "Введите свой адрес электронной почты, чтобы получить инструкции по сбросу пароля (или используйте !authenticator_login)."
+
+msgid ""
+"If you forgot your account's email address, or you can't receive email "
+"there:"
+msgstr "Если Вы забыли адрес электронной почты вашей учётной записи, или Вы не можете получить письмо:"
+
+msgid ""
+"If you have run BOINC under the account, you can still access it. Here's "
+"how:"
+msgstr "Если BOINC запускался под этой учётной записью, Вы можете получить доступ к ней. Для этого нужно сделать следующее:"
+
+msgid ""
+"Go to the BOINC data directory on your computer (on Windows this is usually "
+"%path1 or %path2."
+msgstr "Перейдите в каталог данных BOINC на вашем компьютере (в Windows это обычно %path1 или %path2."
+
+msgid ""
+"Find your account file for this project; it will have a name like %file "
+"(where the project URL is %url)."
+msgstr "Найдите там файл учётной записи для этого проекта; он будет называться %file (где %url - URL-адрес проекта)."
+
+msgid ""
+"Open the file in a text editor like Notepad. You'll see something like:"
+msgstr "Откройте этот файл в текстовом редакторе, например в Блокноте. Вы увидите что-то вроде:"
+
+msgid ""
+"Select and Copy the string between &lt;authenticator&gt; and "
+"&lt;/authenticator&gt; (%auth in the above example)."
+msgstr "Выберите и скопируйте строку между &lt;authenticator&gt; и &lt;/authenticator&gt; (%auth в вышеприведённом примере)."
 
 msgid "Paste the string into the field below, and click OK."
 msgstr "Вставьте эту строку в расположенное ниже поле, и нажмите OK."
@@ -1726,8 +1780,40 @@ msgstr "Теперь Вы авторизованы; обновите адрес 
 msgid "Log in with authenticator"
 msgstr "Авторизоваться с аутентификатором"
 
+msgid "There is no account with that authenticator."
+msgstr "Учётная запись с таким аутентификатором отсутствует."
+
+msgid ""
+"Go to the <a href=\"%wikiref\">BOINC data directory</a> on your computer (on"
+" Windows this is usually %path1 or %path2."
+msgstr "Перейдите в <a href=\"%wikiref\">каталог данных BOINC</a> на вашем компьютере (в Windows это обычно %path1 или %path2."
+
+msgid "BOINC documentation"
+msgstr "Документация BOINC"
+
+msgid ""
+"Go to the BOINC data directory on your computer (see !boinc_wiki for help "
+"finding this)."
+msgstr "Перейдите в каталог данных BOINC на вашем компьютере (см.  !boinc_wiki для получения помощи)."
+
+msgid ""
+"@count days have elapsed since your request and the founder has not "
+"responded."
+msgstr "@count дней прошли с момента подачи вашего запроса, а основатель так и не ответил."
+
+msgid ""
+"You now have @count days to assume foundership before another team member "
+"may submit a request."
+msgstr "Теперь у Вас есть @count дней, чтобы стать основателем, прежде чем другой участник команды сможет сделать запрос."
+
 msgid "Assume foundership"
 msgstr "Принять полномочия основателя"
 
 msgid "Unhide"
 msgstr "Показать"
+
+msgid "Unhide this comment"
+msgstr "Показать этот комментарий"
+
+msgid "@email is not a well formed email address, please verify"
+msgstr "@email не является хорошо сформированным адресом электронной почты, пожалуйста, проверьте"

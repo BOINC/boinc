@@ -18,7 +18,6 @@
 
 require_once("../inc/util_ops.inc");
 
-db_init();
 admin_page_head("Result summary per app version");
 
 //   modified by Bernd Machenschalk 2007
@@ -113,7 +112,8 @@ ORDER BY
        $query_order
 ";
 
-$result = _mysql_query($main_query);
+$db = BoincDb::get();
+$result = $db->do_query($main_query);
 
 start_table();
 table_header(
@@ -122,7 +122,7 @@ table_header(
     "Failed<br>Uploading", "Failed<br>Uploaded", "Aborted"
 );
 
-while ($res = _mysql_fetch_object($result)) {
+while ($res = $result->fetch_object()) {
     $av = BoincAppVersion::lookup_id($res->app_version_id);
     if ($av) {
         $p = BoincPlatform::lookup_id($av->platformid);
@@ -137,6 +137,8 @@ while ($res = _mysql_fetch_object($result)) {
         default: $ver_name .= " (unknown processor type)";
         }
     }
+    echo "<tr>";
+
     echo "<td align=\"left\" valign=\"top\">$ver_name</td>";
 
     echo "<td align=\"right\" valign=\"top\">";
@@ -175,11 +177,10 @@ while ($res = _mysql_fetch_object($result)) {
     echo $res->fail_rate6;
     echo "%&nbsp;&nbsp;</td>";
 
-
     echo "</tr>\n";
 
 }
-_mysql_free_result($result);
+$result->free();
 
 echo "</table>\n";
 
