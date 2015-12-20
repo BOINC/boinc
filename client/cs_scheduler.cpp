@@ -1210,6 +1210,8 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
             honor_suspend = false;
             break;
         case RPC_REASON_INIT:
+            // always do the initial RPC so we can get project name etc.
+            honor_suspend = false;
             break;
         case RPC_REASON_PROJECT_REQ:
             break;
