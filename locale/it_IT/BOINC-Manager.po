@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2015-12-21 11:21+0000\n"
+"PO-Revision-Date: 2015-12-21 11:26+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -135,7 +135,7 @@ msgstr "Usa l'account manager"
 
 #: clientgui/AccountInfoPage.cpp:567
 msgid "Please enter a user name."
-msgstr "Si prega di inserire il nome utente."
+msgstr "Si prega di inserire un nome utente."
 
 #: clientgui/AccountInfoPage.cpp:569
 msgid "Please enter an email address."
@@ -149,7 +149,7 @@ msgstr "Per favore inserire una password di almeno %d caratteri."
 #: clientgui/AccountInfoPage.cpp:589
 msgid ""
 "The password and confirmation password do not match. Please type them again."
-msgstr "La password e la password di conferma non corrispondono. Prova a scriverle di nuovo."
+msgstr "La password inserita e la password di conferma non corrispondono. Prova a scriverle di nuovo."
 
 #: clientgui/AccountManagerInfoPage.cpp:270
 msgid "Choose an account manager"
@@ -159,7 +159,7 @@ msgstr "Scegli un account manager"
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
-msgstr "Per selezionare un account manager, clicca sul suo nome o \ndigita il suo indirizzo (URL) in basso."
+msgstr "Per scegliere un account manager clicca sul suo nome o \ndigita il suo indirizzo (URL) in basso."
 
 #: clientgui/AccountManagerInfoPage.cpp:277
 msgid "Account manager details:"
@@ -352,7 +352,7 @@ msgstr "Esegui il &benchmark della CPU"
 
 #: clientgui/AdvancedFrame.cpp:494
 msgid "Run tests that measure CPU speed"
-msgstr "Avvia dei test che misurazione la velocità di calcolo della CPU e della GPU"
+msgstr "Avvia dei test che misurano la velocità di calcolo della CPU e della GPU"
 
 #: clientgui/AdvancedFrame.cpp:498
 msgid "Retry pending transfers"
@@ -1104,7 +1104,7 @@ msgstr "Il numero deve essere compreso tra 0 e 10"
 
 #: clientgui/DlgAdvPreferences.cpp:688 clientgui/sg_DlgPreferences.cpp:778
 msgid "Number must be between 0 and 100"
-msgstr "I numeri devono essere compresi tra 0 e 100"
+msgstr "Il numero deve essere compreso tra 0 e 100"
 
 #: clientgui/DlgAdvPreferences.cpp:689
 msgid "Number must be between 1 and 100"
@@ -1112,7 +1112,7 @@ msgstr "Il numero deve essere compreso tra 1 e 100"
 
 #: clientgui/DlgAdvPreferences.cpp:947 clientgui/sg_DlgPreferences.cpp:849
 msgid "invalid input value detected"
-msgstr "trovato un valore inserito non valido"
+msgstr "rilevato valore inserito non valido"
 
 #: clientgui/DlgAdvPreferences.cpp:959 clientgui/sg_DlgPreferences.cpp:861
 msgid "Validation Error"
@@ -1599,7 +1599,7 @@ msgstr "Questi flag abilitano vari tipi di messaggi di diagnostica nel Log degli
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:99
 msgid "More info ..."
-msgstr "Maggiori informazioni ..."
+msgstr "Maggiori informazioni..."
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:120 clientgui/DlgHiddenColumns.cpp:101
 msgid "Save all values and close the dialog"
@@ -2660,7 +2660,7 @@ msgstr "Errore: stato non valido '%d'"
 
 #: clientgui/NoInternetConnectionPage.cpp:179
 msgid "No Internet connection"
-msgstr "Connessione Internet assente"
+msgstr "Nessuna connessione Internet"
 
 #: clientgui/NoInternetConnectionPage.cpp:182
 msgid "Please connect to the Internet and try again."
