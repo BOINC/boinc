@@ -20,12 +20,8 @@ int main() {
     // replace with the path/file wildcard of your choice
     string home = string("C:/Documents and Settings/All Users/Documents");
     string result_dir = home + string("/testresult");
-    CreateDirectoryA(result_dir.c_str(), NULL);
-    string zipfile = result_dir + string("/test.zip");
-    string source_dir = home + string("/Testfiles");
-    if (boinc_filelist(source_dir.c_str(), ".txt", &zf) && zf.size()) {
-        retval = boinc_zip(ZIP_IT, zipfile, &zf);
-        retval = boinc_zip(UNZIP_IT, zipfile, result_dir.c_str());
+    if (!CreateDirectoryA(result_dir.c_str(), NULL)) {
+        perror("CreateDirectory");
     }
 #else
     string home = string(getenv("HOME"));
@@ -33,13 +29,14 @@ int main() {
     if (mkdir(result_dir.c_str(), 0777) < 0) {
         perror("mkdir");
     }
+#endif
+   
     string zipfile = result_dir + string("/test.zip");
     string source_dir = home + string("/Testfiles");
     if (boinc_filelist(source_dir, string(".txt"), &zf) && zf.size()) {
         retval = boinc_zip(ZIP_IT, zipfile, &zf);
         retval = boinc_zip(UNZIP_IT, zipfile, result_dir.c_str());
     }
-#endif
 
-   return retval;
+    return retval;
 }
