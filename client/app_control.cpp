@@ -616,10 +616,10 @@ bool ACTIVE_TASK::finish_file_present() {
     sprintf(path, "%s/%s", slot_dir, BOINC_FINISH_CALLED_FILE);
     FILE* f = boinc_fopen(path, "r");
     if (!f) return false;
-    fgets(buf, sizeof(buf), f);
-    fgets(buf, sizeof(buf), f);
-    fgets(buf2, sizeof(buf2), f);
-    if (strlen(buf)) {
+    fgets(buf, sizeof(buf), f);     // read (and discard) exit status
+    char* p = fgets(buf, sizeof(buf), f);
+    if (p && strlen(buf)) {
+        fgets(buf2, sizeof(buf2), f);
         msg_printf(result->project,
             strstr(buf2, "notice")?MSG_USER_ALERT:MSG_INFO,
             "Message from task: %s", buf
