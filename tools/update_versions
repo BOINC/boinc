@@ -372,7 +372,7 @@ function confirm($fds, $v) {
 function get_bool($xml_element, $name) {
     foreach($xml_element->xpath($name) as $x) {
         $s = trim((string) $x);
-        if ($s == "" || int($s)>0) return true;
+        if ($s == "" || (int)$s>0) return true;
     }
     return false;
 }
