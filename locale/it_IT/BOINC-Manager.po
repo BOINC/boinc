@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2015-12-21 11:26+0000\n"
+"PO-Revision-Date: 2015-12-27 19:52+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -512,12 +512,12 @@ msgstr "Fornisce assistenza per risolvere i problemi legati a %s"
 #: clientgui/AdvancedFrame.cpp:660
 #, c-format
 msgid "&%s help"
-msgstr "Assistenza di &%s"
+msgstr "Guida di &%s"
 
 #: clientgui/AdvancedFrame.cpp:664 clientgui/sg_BoincSimpleFrame.cpp:237
 #, c-format
 msgid "Show information about the %s"
-msgstr "Mostra le informazioni su %s"
+msgstr "Una breve guida di %s"
 
 #: clientgui/AdvancedFrame.cpp:675 clientgui/sg_BoincSimpleFrame.cpp:247
 #, c-format
@@ -537,7 +537,7 @@ msgstr "&Informazioni su %s..."
 
 #: clientgui/AdvancedFrame.cpp:696 clientgui/sg_BoincSimpleFrame.cpp:268
 msgid "Licensing and copyright information."
-msgstr "Mostra le informazioni sulla licenza ed il copyright"
+msgstr "Mostra le informazioni sulla licenza ed il copyright del software."
 
 #: clientgui/AdvancedFrame.cpp:703 clientgui/sg_BoincSimpleFrame.cpp:275
 msgid "&File"
