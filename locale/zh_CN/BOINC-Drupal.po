@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
-"POT-Creation-Date: 2015-08-14 09:37+0000\n"
-"PO-Revision-Date: 2015-12-15 11:31+0000\n"
+"POT-Creation-Date: 2015-12-15 12:43+0000\n"
+"PO-Revision-Date: 2015-12-27 16:38+0000\n"
 "Last-Translator: 秦赫阳 <qysnn1@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/boinc/boinc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -18,177 +18,91 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-msgid "No account exists for @email -- select \"Create new account\" to register"
-msgstr "名为 @email 的帐户不存在 —— 选择\"创建新帐户\"来注册"
-
-msgid "My team"
-msgstr "我的团队"
-
-msgid "You are a member of @team."
-msgstr "你是 @team 的成员。"
-
-msgid "View my team"
-msgstr "查看我的团队"
-
-msgid "Invalid setting for \"%preference\""
-msgstr "\"%偏好\"设置无效"
+msgid "Please select a team type."
+msgstr "请选择一个团队类型"
 
 msgid ""
-"You must earn @count more credits to be able to post comments on this site."
-msgstr "你还需要得到 @count 积分才能在这个网站上发表评论。"
+"A team foundership change was already requested recently. Only one request "
+"is allowed within a period of 90 days."
+msgstr "最近已经提交了一个团队创始人资格更改的申请。在 90 天内只允许有一个申请。"
 
-msgid "Moderation"
-msgstr "编辑"
+msgid "@count days remaining"
+msgstr "@count天剩余"
 
-msgid "Unvetted profiles"
-msgstr "已验证的用户档案"
+msgid "Inbox"
+msgstr "收件箱"
 
-msgid "Reason for banning this user"
-msgstr "封禁此用户的理由"
+msgid "Compose new"
+msgstr "组建新的"
 
-msgid ""
-"This reason will be included in an email to the user. Please write a brief "
-"explanation of why the user is being banned."
-msgstr "这个原因将列入给用户的电子邮件。请写一个简短解释为什么用户被禁止。"
-
-msgid "Duration of the ban"
-msgstr "这项禁令的持续时间"
-
-msgid "The number of days until the ban expires. Set to 0 to ban permanently."
-msgstr "这项禁令有效期的天数。设置为 0，永久禁止。"
-
-msgid "Lift user ban"
-msgstr "取消用户禁令"
-
-msgid "You are banned from community participation until @date"
-msgstr "你被禁止参与社区直到 @date"
-
-msgid "Computers @old_ids have been merged successfully into @id."
-msgstr "计算机 @old_id 已被成功合并到 @id。"
-
-msgid "A team named \"@name\" already exists."
-msgstr "名为\"@name\"的团队已经存在。"
-
-msgid "Post topic"
-msgstr "发表主题"
-
-msgid "Please enter your email address"
-msgstr "请输入您的电子邮箱地址"
-
-msgid "Password entered is not valid. Please verify that it is correct."
-msgstr "输入的密码是无效的。请验证它的正确性。"
-
-msgid "Make founder"
-msgstr "指定创始人"
-
-msgid "!site: comment posted to \"!topic_name\""
-msgstr "!site: 对帖子 \"!topic_name\" 发表了评论"
-
-msgid "!author has posted a reply to \"!topic_name\"."
-msgstr "!author 回复了帖子 \"!topic_name\"."
+msgid "respond to the request"
+msgstr "对申请的回应"
 
 msgid ""
-"To view this topic at !site, click here: \n"
-"!comment_url"
-msgstr "若要在本主题查看 !site，请单击此处:\n!comment_url"
+"A foundership transfer request has been made for your team. Please !respond."
+msgstr "您的团队收到了一个创始人更改申请。请!respond。"
 
-msgid "At least one application must be selected"
-msgstr "必须选择至少一个应用程序"
-
-msgid "Forgot password"
-msgstr "忘记密码"
+msgid "Respond to transfer request"
+msgstr "对更改申请的回应"
 
 msgid ""
-"Enter your email address to receive instructions for resetting your "
-"password."
-msgstr "输入您的电子邮件地址来接收关于重置密码的指示。"
-
-msgid "Revise or post comment"
-msgstr "修改或发表评论"
-
-msgid "discuss"
-msgstr "讨论"
-
-msgid "Your community preferences have been updated."
-msgstr "已更新您的社区参数设置。"
-
-msgid "Unlock this thread for comments"
-msgstr "解锁此主题的评论"
-
-msgid "Authenticator login"
-msgstr "验证器登录"
-
-msgid "Create content"
-msgstr "创建内容"
-
-msgid "authenticator-based login"
-msgstr "基于身份验证器登录"
+"Team member @name has requested team foundership. This may be because you "
+"left the team or have not had contact with the team for a long time."
+msgstr "团队成员 @name请求取得这个团队的创建人资格，这可能是因为你离开了团队或者已经较长时间没有和团队联系。"
 
 msgid ""
-"Enter your email address to receive instructions for resetting your password"
-" (or use the !authenticator_login)."
-msgstr "输入您的电子邮件地址用于收到重置密码的指示 (或使用 !authenticator_login)。"
+"If you don't decline the request by @date, @name will have the option of "
+"assuming team foundership. (note: To accept the request, assign foundership "
+"to @name using the form below)"
+msgstr "如果你在@date之前没有拒绝@name的申请，@name将可以得到团队创建人的资格。（提示：如果你同意将创建人资格授予@name，请在下面的表单里将创始人身份分配给他。）"
+
+msgid "Deny request"
+msgstr "拒绝此请求"
+
+msgid "Send request"
+msgstr "发送请求"
+
+msgid "Friend request from !name [!site]"
+msgstr "!name 申请添加您为好友[!site]"
+
+msgid "Message"
+msgstr "消息"
 
 msgid ""
-"If you forgot your account's email address, or you can't receive email "
-"there:"
-msgstr "如果你已经忘记了你账户所关联的电子邮箱地址，或者你已经不能从该地址接收电子邮件："
+"!name added you as a friend on !site. You can approve or deny this request. Denying a request will not send a notification, but will remove the request from both of your accounts.\n"
+"\n"
+"Follow the link below to view this request:\n"
+"!link\n"
+"\n"
+"!message\n"
+"\n"
+"Thanks,\n"
+"The !site team"
+msgstr "!name在!site上申请添加你为好友。你可以同意或者拒绝这一申请。如果你拒绝申请，系统不会通知对方，但是系统将从你们各自的账户里删除这一申请。\n\n点击下面的链接查看这个申请：\n!link\n\n!message\n\n谢谢，\n!site团队"
+
+msgid "Cancel friend request"
+msgstr "取消好友申请"
+
+msgid "Remove request"
+msgstr "删除申请"
+
+msgid "Approve request"
+msgstr "同意这个申请"
+
+msgid "!name accepted your friend request [!site]"
+msgstr "!name同意了你的好友申请 [!site]"
 
 msgid ""
-"If you have run BOINC under the account, you can still access it. Here's "
-"how:"
-msgstr "如果您已经在帐户下运行 BOINC，您仍然可以访问它。这里是方法:"
-
-msgid ""
-"Go to the BOINC data directory on your computer (on Windows this is usually "
-"%path1 or %path2."
-msgstr "打开你计算机上的 BOINC 数据路径 (在 Windows 上这通常是 %path1 或 %path2。"
-
-msgid ""
-"Find your account file for this project; it will have a name like %file "
-"(where the project URL is %url)."
-msgstr "找到本项目的账户文件;文件名像 %文件 (如项目 URL 是 %url)。"
-
-msgid ""
-"Open the file in a text editor like Notepad. You'll see something like:"
-msgstr "用记事本等文本编辑器打开该文件，你将看到类似的如下内容："
-
-msgid ""
-"Select and Copy the string between &lt;authenticator&gt; and "
-"&lt;/authenticator&gt; (%auth in the above example)."
-msgstr "选中并复制&lt; authenticator&gt; 和 &lt之间的字符串;/authenticator&gt; (上述例子中就应该是%auth )。"
-
-msgid "There is no account with that authenticator."
-msgstr "没有账户关联至ga身份验证器。"
-
-msgid ""
-"Go to the <a href=\"%wikiref\">BOINC data directory</a> on your computer (on"
-" Windows this is usually %path1 or %path2."
-msgstr "打开你计算机上的<a href=\"%wikiref\">BOINC 数据路径</a>(在 Windows 上这通常是 %path1 或 %path2。"
-
-msgid "BOINC documentation"
-msgstr "BOINC 文档"
-
-msgid ""
-"Go to the BOINC data directory on your computer (see !boinc_wiki for help "
-"finding this)."
-msgstr "打开你计算机上的 BOINC 数据文件夹(请参见!boinc_wiki来帮助您找到这个文件夹)。"
-
-msgid ""
-"@count days have elapsed since your request and the founder has not "
-"responded."
-msgstr "创始人已经有@count 天没有响应您的请求。"
-
-msgid ""
-"You now have @count days to assume foundership before another team member "
-"may submit a request."
-msgstr "你现在需要在 @count 天内确认创始人资格，否则另一个团队成员就可以申请成为创始人。"
-
-msgid "Unhide this comment"
-msgstr "取消隐藏此回复"
-
-msgid "@email is not a well formed email address, please verify"
-msgstr "@email 不是一个正确格式的电子邮件地址，请验证"
+"!name confirmed you as a friend on !site.\n"
+"\n"
+"Follow this link to view his or her profile:\n"
+"!link\n"
+"\n"
+"!message\n"
+"\n"
+"Thanks,\n"
+"The !site team"
+msgstr "!name同意了你在!site上的好友申请\n\n点击下面的链接查看他/她的个人资料\n!link\n\n!message\n\n谢谢，\n!site团队"
 
 msgid "Email address"
 msgstr "电子邮件地址"
@@ -1692,14 +1606,91 @@ msgstr "提交"
 msgid "project"
 msgstr "项目"
 
+msgid "No account exists for @email -- select \"Create new account\" to register"
+msgstr "名为 @email 的帐户不存在 —— 选择\"创建新帐户\"来注册"
+
 msgid "Unknown"
 msgstr "未知"
+
+msgid "My team"
+msgstr "我的团队"
+
+msgid "You are a member of @team."
+msgstr "你是 @team 的成员。"
+
+msgid "View my team"
+msgstr "查看我的团队"
+
+msgid "Invalid setting for \"%preference\""
+msgstr "\"%偏好\"设置无效"
 
 msgid "Pending"
 msgstr "等待中"
 
+msgid ""
+"You must earn @count more credits to be able to post comments on this site."
+msgstr "你还需要得到 @count 积分才能在这个网站上发表评论。"
+
+msgid "Moderation"
+msgstr "编辑"
+
+msgid "Unvetted profiles"
+msgstr "已验证的用户档案"
+
+msgid "Reason for banning this user"
+msgstr "封禁此用户的理由"
+
+msgid ""
+"This reason will be included in an email to the user. Please write a brief "
+"explanation of why the user is being banned."
+msgstr "这个原因将列入给用户的电子邮件。请写一个简短解释为什么用户被禁止。"
+
+msgid "Duration of the ban"
+msgstr "这项禁令的持续时间"
+
+msgid "The number of days until the ban expires. Set to 0 to ban permanently."
+msgstr "这项禁令有效期的天数。设置为 0，永久禁止。"
+
+msgid "Lift user ban"
+msgstr "取消用户禁令"
+
+msgid "You are banned from community participation until @date"
+msgstr "你被禁止参与社区直到 @date"
+
+msgid "Computers @old_ids have been merged successfully into @id."
+msgstr "计算机 @old_id 已被成功合并到 @id。"
+
+msgid "A team named \"@name\" already exists."
+msgstr "名为\"@name\"的团队已经存在。"
+
+msgid "Post topic"
+msgstr "发表主题"
+
+msgid "Please enter your email address"
+msgstr "请输入您的电子邮箱地址"
+
+msgid "Password entered is not valid. Please verify that it is correct."
+msgstr "输入的密码是无效的。请验证它的正确性。"
+
+msgid "Make founder"
+msgstr "指定创始人"
+
 msgid "User of the day"
 msgstr "今日用户"
+
+msgid "!site: comment posted to \"!topic_name\""
+msgstr "!site: 对帖子 \"!topic_name\" 发表了评论"
+
+msgid "!author has posted a reply to \"!topic_name\"."
+msgstr "!author 回复了帖子 \"!topic_name\"."
+
+msgid ""
+"To view this topic at !site, click here: \n"
+"!comment_url"
+msgstr "若要在本主题查看 !site，请单击此处:\n!comment_url"
+
+msgid "At least one application must be selected"
+msgstr "必须选择至少一个应用程序"
 
 msgid "Account"
 msgstr "帐户"
@@ -1707,14 +1698,77 @@ msgstr "帐户"
 msgid "Log in"
 msgstr "登录"
 
+msgid "Forgot password"
+msgstr "忘记密码"
+
+msgid ""
+"Enter your email address to receive instructions for resetting your "
+"password."
+msgstr "输入您的电子邮件地址来接收关于重置密码的指示。"
+
 msgid "Send"
 msgstr "发送"
+
+msgid "Revise or post comment"
+msgstr "修改或发表评论"
+
+msgid "discuss"
+msgstr "讨论"
 
 msgid "News"
 msgstr "新闻"
 
+msgid "Your community preferences have been updated."
+msgstr "已更新您的社区参数设置。"
+
 msgid "Unlock"
 msgstr "解锁"
+
+msgid "Unlock this thread for comments"
+msgstr "解锁此主题的评论"
+
+msgid "Authenticator login"
+msgstr "验证器登录"
+
+msgid "Create content"
+msgstr "创建内容"
+
+msgid "authenticator-based login"
+msgstr "基于身份验证器登录"
+
+msgid ""
+"Enter your email address to receive instructions for resetting your password"
+" (or use the !authenticator_login)."
+msgstr "输入您的电子邮件地址用于收到重置密码的指示 (或使用 !authenticator_login)。"
+
+msgid ""
+"If you forgot your account's email address, or you can't receive email "
+"there:"
+msgstr "如果你已经忘记了你账户所关联的电子邮箱地址，或者你已经不能从该地址接收电子邮件："
+
+msgid ""
+"If you have run BOINC under the account, you can still access it. Here's "
+"how:"
+msgstr "如果您已经在帐户下运行 BOINC，您仍然可以访问它。这里是方法:"
+
+msgid ""
+"Go to the BOINC data directory on your computer (on Windows this is usually "
+"%path1 or %path2."
+msgstr "打开你计算机上的 BOINC 数据路径 (在 Windows 上这通常是 %path1 或 %path2。"
+
+msgid ""
+"Find your account file for this project; it will have a name like %file "
+"(where the project URL is %url)."
+msgstr "找到本项目的账户文件;文件名像 %文件 (如项目 URL 是 %url)。"
+
+msgid ""
+"Open the file in a text editor like Notepad. You'll see something like:"
+msgstr "用记事本等文本编辑器打开该文件，你将看到类似的如下内容："
+
+msgid ""
+"Select and Copy the string between &lt;authenticator&gt; and "
+"&lt;/authenticator&gt; (%auth in the above example)."
+msgstr "选中并复制&lt; authenticator&gt; 和 &lt之间的字符串;/authenticator&gt; (上述例子中就应该是%auth )。"
 
 msgid "Paste the string into the field below, and click OK."
 msgstr "将之前复制的内容粘贴到下面的表单中，并点击确定。"
@@ -1727,8 +1781,40 @@ msgstr "你现在将登录进自己的账户，可以更新你的电子邮箱地
 msgid "Log in with authenticator"
 msgstr "用身份验证码（authenticator）来登录"
 
+msgid "There is no account with that authenticator."
+msgstr "没有账户关联至ga身份验证器。"
+
+msgid ""
+"Go to the <a href=\"%wikiref\">BOINC data directory</a> on your computer (on"
+" Windows this is usually %path1 or %path2."
+msgstr "打开你计算机上的<a href=\"%wikiref\">BOINC 数据路径</a>(在 Windows 上这通常是 %path1 或 %path2。"
+
+msgid "BOINC documentation"
+msgstr "BOINC 文档"
+
+msgid ""
+"Go to the BOINC data directory on your computer (see !boinc_wiki for help "
+"finding this)."
+msgstr "打开你计算机上的 BOINC 数据文件夹(请参见!boinc_wiki来帮助您找到这个文件夹)。"
+
+msgid ""
+"@count days have elapsed since your request and the founder has not "
+"responded."
+msgstr "创始人已经有@count 天没有响应您的请求。"
+
+msgid ""
+"You now have @count days to assume foundership before another team member "
+"may submit a request."
+msgstr "你现在需要在 @count 天内确认创始人资格，否则另一个团队成员就可以申请成为创始人。"
+
 msgid "Assume foundership"
 msgstr "得到创建人资格"
 
 msgid "Unhide"
 msgstr "取消隐藏"
+
+msgid "Unhide this comment"
+msgstr "取消隐藏此回复"
+
+msgid "@email is not a well formed email address, please verify"
+msgstr "@email 不是一个正确格式的电子邮件地址，请验证"
