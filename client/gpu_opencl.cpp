@@ -865,8 +865,10 @@ cl_int COPROCS::get_opencl_info(
     // AMD Specific Extensions
     if (strstr(prop.extensions, "cl_amd_device_attribute_query") != NULL) {
 
-        ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_BOARD_NAME_AMD, sizeof(prop.name), prop.name, NULL);
-        if (ciErrNum != CL_SUCCESS) {
+        ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_BOARD_NAME_AMD, sizeof(buf), buf, NULL);
+        if (strlen(buf) && ciErrNum == CL_SUCCESS) {
+            strncpy(prop.name, buf, sizeof(prop.name));
+        } else {
             snprintf(buf, sizeof(buf),
                 "clGetDeviceInfo failed to get AMD Board Name for device %d",
                 (int)device_index
@@ -876,7 +878,6 @@ cl_int COPROCS::get_opencl_info(
         }
     
     }
-
 
     return CL_SUCCESS;
 }
