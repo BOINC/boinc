@@ -157,14 +157,6 @@ $m76c = array(
 	"type"=>"bare_core",
 );
 
-$m76c = array(
-	"num"=>"7.6.12",
-	"status"=>"Recommended version (Unix command-line version)",
-	"file"=>"boinc_7.6.12_x86_64-apple-darwin.zip",
-	"date"=>"29 Sep 2015",
-	"type"=>"bare_core",
-);
-
 $m74c = array(
 	"num"=>"7.4.42",
 	"status"=>"Older version (Unix command-line version)",
