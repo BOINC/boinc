@@ -83,6 +83,8 @@ struct LOG_FLAGS {
     bool heartbeat_debug;
     bool http_debug;
     bool http_xfer_debug;
+    bool idle_detection_debug;
+        // show details leading to idle/not-idle determinations.
     bool mem_usage_debug;
         // memory usage
     bool network_status_debug;
