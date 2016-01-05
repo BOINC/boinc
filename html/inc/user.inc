@@ -47,7 +47,6 @@ function get_other_projects($user) {
             $timeout = 3;
             $old_timeout = ini_set('default_socket_timeout', $timeout);
             $xml_object = null;
-            echo $url;
             $f = @file_get_contents($url);
             if ($f) {
                 $xml_object = @simplexml_load_string($f);
