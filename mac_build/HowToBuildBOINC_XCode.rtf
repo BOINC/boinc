@@ -14,10 +14,10 @@
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 9/11/15\
+Last updated 1/5/16\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0 \
-This document applies to BOINC version 7.5.0 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
+This document applies to BOINC version 7.6.23 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
@@ -101,7 +101,7 @@ You get these tools, including the GCC compilers and system library header files
 Note: building BOINC Manager 7.3.0 and later requires the OS 10.8 SDK or later.\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
-\cf0 BOINC depends on seven third-party libraries: wxWidgets-3.0.0, c-ares-1.10.0, curl-7.39.0, openssl-1.0.1j,  freetype-2.4.10, ftgl-2.1.3~rc5 and sqlite-3.8.3.  You can obtain the source files from the following URLs.  Clicking on the first URL of each pair will download the tar file.  The second URL will open the third party\'92s home web page.  On Mac OS X the tar file will usually be downloaded into the Downloads folder.  You will need to expand the tar files by double-clicking on them, which will create a folder and place the appropriate files into that folder. You will need to move these folders later.\
+\cf0 BOINC depends on seven third-party libraries: wxWidgets-3.0.0, c-ares-1.10.0, curl-7.46.0, openssl-1.0.2e, freetype-2.6.2, ftgl-2.1.3~rc5 and sqlite-3.9.2.  You can obtain the source files from the following URLs.  Clicking on the first URL of each pair will download the tar file.  The second URL will open the third party\'92s home web page.  On Mac OS X the tar file will usually be downloaded into the Downloads folder.  You will need to expand the tar files by double-clicking on them, which will create a folder and place the appropriate files into that folder. You will need to move these folders later.\
 \
 wxWidgets-3.0.0 (needed  only if you are building the BOINC Manager):\
 	{\field{\*\fldinst{HYPERLINK "http://sourceforge.net/projects/wxwindows/files/3.0.0/wxWidgets-3.0.0.tar.bz2/"}}{\fldrslt 
@@ -113,23 +113,23 @@ wxWidgets-3.0.0 (needed  only if you are building the BOINC Manager):\
 \f1\fs26 \
 
 \f0\fs24 \
-sqlite-3.8.3 (needed  only if you are building the BOINC Manager):\
+sqlite-3.9.2 (needed  only if you are building the BOINC Manager):\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\f1 \cf0 	{\field{\*\fldinst{HYPERLINK "http://www.sqlite.org/2014/sqlite-autoconf-3080300.tar.gz"}}{\fldrslt 
-\fs26 http://www.sqlite.org/2014/sqlite-autoconf-3080300.tar.gz}}
-\fs26 \
+\f1 \cf0 	{\field{\*\fldinst{HYPERLINK "http://www.sqlite.org/2015/sqlite-autoconf-3090200.tar.gz"}}{\fldrslt 
+\fs26 http://www.sqlite.org/2015/sqlite-autoconf-3090200.tar.gz}}
+\f0 \
 
-\fs24 	{\field{\*\fldinst{HYPERLINK "http://www.sqlite.org/"}}{\fldrslt 
+\f1 	{\field{\*\fldinst{HYPERLINK "http://www.sqlite.org/"}}{\fldrslt 
 \fs26 http://www.sqlite.org/}}
 \fs26 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
 \f0\fs24 \cf0 \
-curl-7.39.0:\
+curl-7.46.0:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://curl.haxx.se/download/curl-7.39.0.tar.gz"}}{\fldrslt http://curl.haxx.se/download/curl-7.39.0.tar.gz}}\
+\f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://curl.haxx.se/download/curl-7.46.0.tar.gz"}}{\fldrslt http://curl.haxx.se/download/curl-7.46.0.tar.gz}}\
 	{\field{\*\fldinst{HYPERLINK "http://curl.haxx.se"}}{\fldrslt http://curl.haxx.se}}\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
@@ -142,22 +142,21 @@ curl-7.39.0:\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\f0\fs24 \cf0 openssl-1.0.1j:\
+\f0\fs24 \cf0 openssl-1.0.2e\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://www.openssl.org/source/openssl-1.0.1j.tar.gz"}}{\fldrslt http://www.openssl.org/source/openssl-1.0.1j.tar.gz}}\
+\f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://www.openssl.org/source/openssl-1.0.2e.tar.gz"}}{\fldrslt http://www.openssl.org/source/openssl-1.0.2e.tar.gz}}\
 	{\field{\*\fldinst{HYPERLINK "http://www.openssl.org/"}}{\fldrslt http://www.openssl.org/}}\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\f0\fs24 \cf0 freetype-2.4.10 (needed  only if you are building the BOINC default screensaver or a project screensaver):\
+\f0\fs24 \cf0 freetype-2.6.2 (needed  only if you are building the BOINC default screensaver or a project screensaver):\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\f3\fs22 \cf3 \CocoaLigature0 	{\field{\*\fldinst{HYPERLINK "http://sourceforge.net/projects/freetype/files/freetype2/2.4.10/freetype-2.4.10.tar.bz2"}}{\fldrslt http://sourceforge.net/projects/freetype/files/freetype2/2.4.10/freetype-2.4.10.tar.bz2}}
-\f0\fs24 \cf0 \CocoaLigature1 \
+\f3\fs22 \cf3 \CocoaLigature0 	{\field{\*\fldinst{HYPERLINK "http://sourceforge.net/projects/freetype/files/freetype2/2.6.2/freetype-2.6.2.tar.bz2"}}{\fldrslt http://sourceforge.net/projects/freetype/files/freetype2/2.6.2/freetype-2.6.2.tar.bz2}}\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://www.freetype.org/"}}{\fldrslt 
+\f1\fs26 \cf0 \CocoaLigature1 	{\field{\*\fldinst{HYPERLINK "http://www.freetype.org/"}}{\fldrslt 
 \f3\fs22 \cf3 \CocoaLigature0 http://www.freetype.org/}}
 \f3\fs22 \cf3 \CocoaLigature0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
@@ -182,7 +181,7 @@ MAC_OS_X_VERSION_MIN_REQUIRED=1060\
 
 \f0\fs24 \cf0 \
 \pard\pardeftab720\sa260
-\cf0 These are not done automatically by either the Xcode projects which come with wxWidgets-3.0.0, nor  the AutoMake scripts supplied with wxWidgets-3.0.0, c-ares-1.10.0, curl-7.39.0, openssl-1.0.1j, freetype-2.4.10, ftgl-2.1.3~rc5 and sqlite-3.8.3.  So be sure to use our special scripts to build these packages.\
+\cf0 These are not done automatically by either the Xcode projects which come with wxWidgets-3.0.0, nor  the AutoMake scripts supplied with wxWidgets-3.0.0, c-ares-1.10.0, curl-7.46.0, openssl-1.0.2e, freetype-2.6.2, ftgl-2.1.3~rc5 and sqlite-3.9.2.  So be sure to use our special scripts to build these packages.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0 [1] Make sure you are logged into the Mac using an account with administrator privileges.  Create a parent directory within which to work.  In this description; we will call it BOINC_dev, but you can name it anything you wish.\
 \
@@ -192,15 +191,15 @@ MAC_OS_X_VERSION_MIN_REQUIRED=1060\
 \f1\fs26 \cf0     c-ares-
 \fs24 1.10.0
 \fs26 \
-    curl-7.39.0\
+    curl-7.46.0\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 \cf0     openssl-1.0.1j\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0     wxWidgets-3.0.0\
-    freetype-2.4.10\
+    freetype-2.6.2\
     ftgl-2.1.3~rc5\
     
-\fs24 sqlite-3.8.3
+\fs24 sqlite-3.9.2
 \fs26 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
@@ -267,7 +266,7 @@ If you don't wish to force a full rebuild of everything, omit the -clean argumen
 \f0\fs24  command to run them.\
 
 \b Note 2:
-\b0  This script tries to build all seven third-party libraries: wxWidgets-3.0.0, c-ares-1.10.0, curl-7.39.0, openssl-1.0.1j,  freetype-2.4.10, ftgl-2.1.3~rc5 and sqlite-3.8.3.  When the script finishes, it will display a warning about any libraries it was unable to build (for example, if you have not downloaded them.)  To make it easier to find the error messages, clear the Terminal display and run the script again without 
+\b0  This script tries to build all seven third-party libraries: wxWidgets-3.0.0, c-ares-1.10.0, curl-7.46.0, openssl-1.0.2e,  freetype-2.6.2, ftgl-2.1.3~rc5 and sqlite-3.9.2.  When the script finishes, it will display a warning about any libraries it was unable to build (for example, if you have not downloaded them.)  To make it easier to find the error messages, clear the Terminal display and run the script again without 
 \f1 -clean
 \f0 .\
 
