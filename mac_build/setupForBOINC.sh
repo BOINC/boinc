@@ -36,6 +36,7 @@
 # Updated 4/8/15 for curl 7.39.0, openssl 1.0.1j
 # Updated 11/30/15 to allow putting third party packages in ../mac3rdParty/
 # Updated 11/30/15 to return error code indicating which builds failed
+# Updated 1/6/16 for curl 7.46.0, openssl 1.0.2e, sqlite 3.9.2, FreeType-2.6.2
 #
 # Download these seven packages and place them in a common parent directory
 # with the BOINC source tree. For compatibility with Travis CI builds, they
@@ -107,13 +108,13 @@ cd "${SCRIPT_DIR}"
 
 echo ""
 echo "----------------------------------"
-echo "------- BUILD CURL-7.39.0 --------"
+echo "------- BUILD CURL-7.46.0 --------"
 echo "----------------------------------"
 echo ""
 
-make_symlink_if_needed curl-7.39.0
+make_symlink_if_needed curl-7.46.0
 
-cd ../mac3rdParty/curl-7.39.0/
+cd ../mac3rdParty/curl-7.46.0/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildcurl.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -125,13 +126,13 @@ cd "${SCRIPT_DIR}"
 
 echo ""
 echo "----------------------------------"
-echo "----- BUILD OPENSSL-1.0.1j -------"
+echo "----- BUILD OPENSSL-1.0.2e -------"
 echo "----------------------------------"
 echo ""
 
-make_symlink_if_needed openssl-1.0.1j
+make_symlink_if_needed openssl-1.0.2e
 
-cd ../mac3rdParty/openssl-1.0.1j/
+cd ../mac3rdParty/openssl-1.0.2e/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildopenssl.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -161,13 +162,13 @@ cd "${SCRIPT_DIR}"
 
 echo ""
 echo "----------------------------------"
-echo "------- BUILD sqlite-3.8.3 -------"
+echo "------- BUILD sqlite-3.9.2 -------"
 echo "----------------------------------"
 echo ""
 
-make_symlink_if_needed sqlite-autoconf-3080300
+make_symlink_if_needed sqlite-autoconf-3090200
 
-cd ../mac3rdParty/sqlite-autoconf-3080300/
+cd ../mac3rdParty/sqlite-autoconf-3090200/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildsqlite3.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -179,13 +180,13 @@ cd "${SCRIPT_DIR}"
 
 echo ""
 echo "----------------------------------"
-echo "----- BUILD FreeType-2.4.10 ------"
+echo "----- BUILD FreeType-2.6.2 ------"
 echo "----------------------------------"
 echo ""
 
-make_symlink_if_needed freetype-2.4.10
+make_symlink_if_needed freetype-2.6.2
 
-cd ../mac3rdParty/freetype-2.4.10/
+cd ../mac3rdParty/freetype-2.6.2/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildfreetype.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -230,7 +231,7 @@ if [ "${curlOK}" = "NO" ]; then
     echo "-----------------------------------"
     echo "------------ WARNING --------------"
     echo "------------         --------------"
-    echo "--- COULD NOT BUILD CURL-7.39.0 ---"
+    echo "--- COULD NOT BUILD CURL-7.46.0 ---"
     echo "-----------------------------------"
     echo ""
 
@@ -242,7 +243,7 @@ if [ "${opensslOK}" = "NO" ]; then
     echo "----------------------------------"
     echo "------------ WARNING -------------"
     echo "------------         -------------"
-    echo "- COULD NOT BUILD OPENSSL-1.0.1j -"
+    echo "- COULD NOT BUILD OPENSSL-1.0.2e -"
     echo "----------------------------------"
     echo ""
     
@@ -266,7 +267,7 @@ if [ "${sqlite3OK}" = "NO" ]; then
     echo "----------------------------------"
     echo "------------ WARNING -------------"
     echo "------------         -------------"
-    echo "-- COULD NOT BUILD sqlite-3.8.3 --"
+    echo "-- COULD NOT BUILD sqlite-3.9.2 --"
     echo "----------------------------------"
     echo ""
     
@@ -278,7 +279,7 @@ if [ "${freetypeOK}" = "NO" ]; then
     echo "-----------------------------------"
     echo "------------ WARNING --------------"
     echo "------------         --------------"
-    echo "- COULD NOT BUILD FreeType-2.4.10 -"
+    echo "- COULD NOT BUILD FreeType-2.6.2 -"
     echo "-----------------------------------"
     echo ""
     
