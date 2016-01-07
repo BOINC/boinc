@@ -60,6 +60,10 @@ void OPENCL_DEVICE_PROP::write_xml(MIOFILE& f, const char* tag, bool temp_file) 
         "      <local_mem_size>%llu</local_mem_size>\n"
         "      <max_clock_frequency>%lu</max_clock_frequency>\n"
         "      <max_compute_units>%lu</max_compute_units>\n"
+        "      <amd_simd_per_compute_unit>%lu</amd_simd_per_compute_unit>\n"
+        "      <amd_simd_width>%lu</amd_simd_width>\n"
+        "      <amd_simd_instruction_width>%lu</amd_simd_instruction_width>\n"
+        "      <amd_wavefront_width>%lu</amd_wavefront_width>\n"
         "      <opencl_platform_version>%s</opencl_platform_version>\n"
         "      <opencl_device_version>%s</opencl_device_version>\n"
         "      <opencl_driver_version>%s</opencl_driver_version>\n",
@@ -78,6 +82,10 @@ void OPENCL_DEVICE_PROP::write_xml(MIOFILE& f, const char* tag, bool temp_file) 
         local_mem_size,
         (unsigned long)max_clock_frequency,
         (unsigned long)max_compute_units,
+        (unsigned long)amd_simd_per_compute_unit,
+        (unsigned long)amd_simd_width,
+        (unsigned long)amd_simd_instruction_width,
+        (unsigned long)amd_wavefront_width,
         opencl_platform_version,
         opencl_device_version,
         opencl_driver_version
@@ -159,6 +167,22 @@ int OPENCL_DEVICE_PROP::parse(XML_PARSER& xp, const char* end_tag) {
         }
         if (xp.parse_int("max_compute_units", n)) {
             max_compute_units = n;
+            continue;
+        }
+        if (xp.parse_int("amd_simd_per_compute_unit", n)) {
+            amd_simd_per_compute_unit = n;
+            continue;
+        }
+        if (xp.parse_int("amd_simd_width", n)) {
+            amd_simd_width = n;
+            continue;
+        }
+        if (xp.parse_int("amd_simd_instruction_width", n)) {
+            amd_simd_instruction_width = n;
+            continue;
+        }
+        if (xp.parse_int("amd_wavefront_width", n)) {
+            amd_wavefront_width = n;
             continue;
         }
         if (xp.parse_str("opencl_platform_version", 
