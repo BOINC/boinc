@@ -773,6 +773,14 @@ void COPROC_ATI::set_peak_flops() {
     if (attribs.numberOfSIMD) {
         x = attribs.numberOfSIMD * attribs.wavefrontSize * 5 * attribs.engineClock * 1.e6;
         // clock is in MHz
+    } else if (opencl_prop.amd_simd_per_compute_unit) {
+        // OpenCL w/ cl_amd_device_attribute_query extension
+        // Per: https://en.wikipedia.org/wiki/List_of_AMD_graphics_processing_units
+        //
+        // Single precision performance is calculated as two times the number of shaders multiplied by the base core clock speed.
+        //
+        // clock is in MHz
+        x = opencl_prop.max_compute_units * opencl_prop.amd_simd_per_compute_unit * opencl_prop.amd_simd_width * 2 * (opencl_prop.max_clock_frequency * 1.e6);
     } else if (opencl_prop.max_compute_units) {
         // OpenCL gives us only:
         // - max_compute_units
