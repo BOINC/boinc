@@ -861,6 +861,29 @@ cl_int COPROCS::get_opencl_info(
     }
 
     // Nvidia Specific Extensions
+    if (strstr(prop.extensions, "cl_nv_device_attribute_query") != NULL) {
+
+        ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_COMPUTE_CAPABILITY_MAJOR_NV, sizeof(prop.nv_compute_capability_major), &prop.nv_compute_capability_major, NULL);
+        if (ciErrNum != CL_SUCCESS) {
+            snprintf(buf, sizeof(buf),
+                "clGetDeviceInfo failed to get CL_DEVICE_COMPUTE_CAPABILITY_MAJOR_NV for device %d",
+                (int)device_index
+            );
+            warnings.push_back(buf);
+            return ciErrNum;
+        }
+
+        ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_COMPUTE_CAPABILITY_MINOR_NV, sizeof(prop.nv_compute_capability_minor), &prop.nv_compute_capability_minor, NULL);
+        if (ciErrNum != CL_SUCCESS) {
+            snprintf(buf, sizeof(buf),
+                "clGetDeviceInfo failed to get CL_DEVICE_COMPUTE_CAPABILITY_MINOR_NV for device %d",
+                (int)device_index
+            );
+            warnings.push_back(buf);
+            return ciErrNum;
+        }
+
+    }
 
     // AMD Specific Extensions
     if (strstr(prop.extensions, "cl_amd_device_attribute_query") != NULL) {
