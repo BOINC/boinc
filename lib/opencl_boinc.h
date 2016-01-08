@@ -54,6 +54,8 @@ struct OPENCL_DEVICE_PROP {
     //
     // cl_nv_device_attribute_query
     //
+    cl_uint nv_compute_capability_major;
+    cl_uint nv_compute_capability_minor;
 
     //
     // cl_amd_device_attribute_query
