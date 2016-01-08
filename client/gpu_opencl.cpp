@@ -907,16 +907,6 @@ cl_int COPROCS::get_opencl_info(
             return ciErrNum;
         }
 
-        ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_WAVEFRONT_WIDTH_AMD, sizeof(prop.amd_wavefront_width), &prop.amd_wavefront_width, NULL);
-        if (ciErrNum != CL_SUCCESS) {
-            snprintf(buf, sizeof(buf),
-                "clGetDeviceInfo failed to get CL_DEVICE_WAVEFRONT_WIDTH_AMD for device %d",
-                (int)device_index
-            );
-            warnings.push_back(buf);
-            return ciErrNum;
-        }
-
     }
 
     return CL_SUCCESS;
