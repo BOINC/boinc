@@ -61,7 +61,6 @@ struct OPENCL_DEVICE_PROP {
     cl_uint amd_simd_per_compute_unit;
     cl_uint amd_simd_width;
     cl_uint amd_simd_instruction_width;
-    cl_uint amd_wavefront_width;
 
     char opencl_platform_version[64];   // Version of OpenCL supported
                                         // the device's platform
