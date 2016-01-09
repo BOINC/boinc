@@ -7,8 +7,8 @@
 #define SETIATHOME 1
 // scheduler defines
 //    Shared Memory parameters
-#define MAX_APP_VERSIONS 100
-#define MAX_WU_RESULTS 250
+#define MAX_APP_VERSIONS 250
+#define MAX_WU_RESULTS 300
 //    Plan Class defines
 #define ATI_MIN_RAM 222*MEGA
 #define OPENCL_ATI_MIN_RAM ATI_MIN_RAM
