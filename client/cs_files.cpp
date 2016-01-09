@@ -49,6 +49,7 @@
 using std::vector;
 
 // Decide whether to consider starting a new file transfer
+// for the given persistent file transfer
 //
 bool CLIENT_STATE::start_new_file_xfer(PERS_FILE_XFER& pfx) {
     unsigned int i;
@@ -63,6 +64,15 @@ bool CLIENT_STATE::start_new_file_xfer(PERS_FILE_XFER& pfx) {
     //
     for (i=0; i<file_xfers->file_xfers.size(); i++) {
         FILE_XFER* fxp = file_xfers->file_xfers[i];
+
+        // don't count user or project files
+        //
+        FILE_INFO* fip = fxp->fip;
+        if (fip->is_user_file) continue;
+        if (fip->is_project_file) continue;
+
+        // count transfers in the same direction as this
+        //
         if (pfx.is_upload == fxp->is_upload) {
             ntotal++;
             if (pfx.fip->project == fxp->fip->project) {

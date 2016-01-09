@@ -3,7 +3,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -21,7 +21,16 @@
 require_once("../inc/util_ops.inc");
 require_once("../inc/uotd.inc");
 
-db_init();
+$force_new = false;
+if ($argc > 1) {
+    if ($argv[1] == "-f" || $argv[1] == "--force") {
+        $force_new = true;
+    } else {
+        echo "Usage: ".$argv[0]." [-f|--force]\n";
+        echo "     -f | --force  Will select a new User of the day regardless if there already is one for the current day\n";
+        exit(1);
+    }
+}
 
-select_uotd();
+select_uotd($force_new);
 ?>

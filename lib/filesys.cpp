@@ -616,7 +616,8 @@ int boinc_copy(const char* orig, const char* newf) {
 
 static int boinc_rename_aux(const char* old, const char* newf) {
 #ifdef _WIN32
-    if (MoveFileExA(old, newf, MOVEFILE_REPLACE_EXISTING|MOVEFILE_WRITE_THROUGH)) return 0;
+    // MOVEFILE_COPY_ALLOWED is needed if destination is on another volume (move is simulated by copy&delete)
+    if (MoveFileExA(old, newf, MOVEFILE_COPY_ALLOWED | MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH)) return 0;
     return GetLastError();
 #else
     // rename() doesn't work between filesystems.

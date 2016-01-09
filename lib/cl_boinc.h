@@ -193,6 +193,48 @@ typedef cl_bitfield         cl_command_queue_properties;
 #define CL_DEVICE_NATIVE_VECTOR_WIDTH_HALF          0x103C
 #define CL_DEVICE_OPENCL_C_VERSION                  0x103D
 
+// Nvidia Specific Extensions
+//
+//
+
+// cl_nv_device_attribute_query
+// See: https://www.khronos.org/registry/cl/extensions/nv/cl_nv_device_attribute_query.txt
+//
+#define CL_DEVICE_COMPUTE_CAPABILITY_MAJOR_NV           0x4000
+#define CL_DEVICE_COMPUTE_CAPABILITY_MINOR_NV           0x4001
+#define CL_DEVICE_REGISTERS_PER_BLOCK_NV                0x4002
+#define CL_DEVICE_WARP_SIZE_NV                          0x4003
+#define CL_DEVICE_GPU_OVERLAP_NV                        0x4004
+#define CL_DEVICE_KERNEL_EXEC_TIMEOUT_NV                0x4005
+#define CL_DEVICE_INTEGRATED_MEMORY_NV                  0x4006
+
+
+// AMD Specific Extensions
+//
+//
+
+// cl_amd_device_attribute_query
+// See: https://www.khronos.org/registry/cl/extensions/amd/cl_amd_device_attribute_query.txt
+//
+#define CL_DEVICE_PROFILING_TIMER_OFFSET_AMD            0x4036
+#define CL_DEVICE_TOPOLOGY_AMD                          0x4037
+#define CL_DEVICE_BOARD_NAME_AMD                        0x4038
+#define CL_DEVICE_GLOBAL_FREE_MEMORY_AMD                0x4039
+#define CL_DEVICE_SIMD_PER_COMPUTE_UNIT_AMD             0x4040
+#define CL_DEVICE_SIMD_WIDTH_AMD                        0x4041
+#define CL_DEVICE_SIMD_INSTRUCTION_WIDTH_AMD            0x4042
+#define CL_DEVICE_WAVEFRONT_WIDTH_AMD                   0x4043
+#define CL_DEVICE_GLOBAL_MEM_CHANNELS_AMD               0x4044
+#define CL_DEVICE_GLOBAL_MEM_CHANNEL_BANKS_AMD          0x4045
+#define CL_DEVICE_GLOBAL_MEM_CHANNEL_BANK_WIDTH_AMD     0x4046
+#define CL_DEVICE_LOCAL_MEM_SIZE_PER_COMPUTE_UNIT_AMD   0x4047
+#define CL_DEVICE_LOCAL_MEM_BANKS_AMD                   0x4048
+#define CL_DEVICE_THREAD_TRACE_SUPPORTED_AMD            0x4049
+#define CL_DEVICE_GFXIP_MAJOR_AMD                       0x404A
+#define CL_DEVICE_GFXIP_MINOR_AMD                       0x404B
+#define CL_DEVICE_AVAILABLE_ASYNC_QUEUES_AMD            0x404C
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif

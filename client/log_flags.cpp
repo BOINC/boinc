@@ -87,6 +87,7 @@ void LOG_FLAGS::show() {
     show_flag(buf, heartbeat_debug, "heartbeat_debug");
     show_flag(buf, http_debug, "http_debug");
     show_flag(buf, http_xfer_debug, "http_xfer_debug");
+    show_flag(buf, idle_detection_debug, "idle_detection_debug");
     show_flag(buf, mem_usage_debug, "mem_usage_debug");
     show_flag(buf, network_status_debug, "network_status_debug");
     show_flag(buf, notice_debug, "notice_debug");

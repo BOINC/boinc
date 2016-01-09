@@ -642,6 +642,9 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                         if (acct.dont_request_more_work.present) {
                             pp->dont_request_more_work = acct.dont_request_more_work.value;
                         }
+                        if (acct.suspend.present && acct.suspend.value) {
+                            pp->suspend();
+                        }
                     } else {
                         msg_printf(NULL, MSG_INTERNAL_ERROR,
                             "Failed to add project: %s",

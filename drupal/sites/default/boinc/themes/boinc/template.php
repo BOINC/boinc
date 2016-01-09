@@ -90,6 +90,9 @@ function boinc_links__system_main_menu($links, $menu, $element) {
     if ($i == 1) $classes[] = 'first';
     if ($i == $item_count) $classes[] = 'last';
     $html .= '<li class="' . implode(' ', $classes) .'">';
+    if ($link['title'] == 'Home') {
+      $link['title'] = bts('Home');
+    }
     if (module_exists('privatemsg')) {
       // Put a new mail notification next to the Account menu item
       if ($link['href'] == 'dashboard') {

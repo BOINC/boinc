@@ -1892,34 +1892,3 @@ LONG CALLBACK boinc_catch_signal(PEXCEPTION_POINTERS pExPtrs) {
     // We won't make it to this point, but make the compiler happy anyway.
     return EXCEPTION_CONTINUE_SEARCH;
 }
-
-
-// Starting with Visual Studio 2005 the C Runtime Library has really started to
-//   enforce parameter validation. Problem is that the parameter validation code
-//   uses its own structured exception handler and terminates without writing
-//   any useful output to stderr. Microsoft has created a hook an application
-//   developer can use to get more debugging information which is the purpose
-//   of this function. When an invalid parameter is passed to the C Runtime
-//   library this function will write whatever trace information it can and
-//   then throw a breakpoint exception to dump all the rest of the useful
-//   information.
-void boinc_catch_signal_invalid_parameter(
-    const wchar_t* expression, const wchar_t* function, const wchar_t* file, unsigned int line, uintptr_t /* pReserved */
-) {
-	fprintf(
-		stderr,
-        "ERROR: Invalid parameter detected in function %s. File: %s Line: %d\n",
-		function,
-		file,
-		line
-	);
-	fprintf(
-		stderr,
-		"ERROR: Expression: %s\n",
-		expression
-	);
-
-	// Cause a Debug Breakpoint.
-	DebugBreak();
-}
-

@@ -50,6 +50,20 @@ struct OPENCL_DEVICE_PROP {
     cl_ulong local_mem_size;
     cl_uint max_clock_frequency;        // in MHz
     cl_uint max_compute_units;
+
+    //
+    // cl_nv_device_attribute_query
+    //
+    cl_uint nv_compute_capability_major;
+    cl_uint nv_compute_capability_minor;
+
+    //
+    // cl_amd_device_attribute_query
+    //
+    cl_uint amd_simd_per_compute_unit;
+    cl_uint amd_simd_width;
+    cl_uint amd_simd_instruction_width;
+
     char opencl_platform_version[64];   // Version of OpenCL supported
                                         // the device's platform
     char opencl_device_version[64];     // OpenCL version supported by device;
