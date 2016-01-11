@@ -488,6 +488,12 @@ function is_ignoring($user, $other_user) {
     return in_array($other_user->id, $list);
 }
 
+// if avatar is from gravatar, make it HTTPS
+//
+function avatar_url($url) {
+    return str_replace('http:', 'https:', $url);
+}
+
 // Display an individual post
 //
 function show_post(
@@ -579,7 +585,7 @@ function show_post(
     echo "<span class=\"authorinfo\">";
     if (!$filter || !$ignore_poster){
         if ($user->prefs && $user->prefs->avatar!="" && (!$logged_in_user || ($logged_in_user->prefs->hide_avatars==false))) {
-            echo "<img class=authorinfo width=\"".AVATAR_WIDTH."\" height=\"".AVATAR_HEIGHT."\" src=\"".$user->prefs->avatar."\" alt=\"Avatar\"><br>";
+            echo "<img class=authorinfo width=\"".AVATAR_WIDTH."\" height=\"".AVATAR_HEIGHT."\" src=\"".avatar_url($user->prefs->avatar)."\" alt=\"Avatar\"><br>";
         }
     }
     
@@ -776,9 +782,10 @@ function post_rules() {
             gambling, or intolerance of others.
         <li> No messages intended to annoy or antagonize other people,
             or to hijack a thread.
-        <li> No messages that are deliberately hostile or insulting.
+        <li> No messages that are deliberately hostile, threatening, or insulting.
         <li> No abusive comments involving race, religion,
             nationality, gender, class or sexuality.
+        <li> The posting privileges of violators may be suspended or revoked.
         ").$project_rules."
         </ul>
     ";

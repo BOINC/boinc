@@ -44,12 +44,12 @@ function linux_info() {
 }
 
 $w76 = array(
-    "num"=>"7.6.9",
+    "num"=>"7.6.22",
     "status"=>"Recommended version",
-    "file"=>"boinc_7.6.9_windows_intelx86.exe",
-    "vbox_file"=>"boinc_7.6.9_windows_intelx86_vbox.exe",
-    "vbox_version"=>"4.3.12",
-    "date"=>"31 Aug 2015",
+    "file"=>"boinc_7.6.22_windows_intelx86.exe",
+    "vbox_file"=>"boinc_7.6.22_windows_intelx86_vbox.exe",
+    "vbox_version"=>"5.0.10",
+    "date"=>"17 Dec 2015",
     "type"=>"win_new",
 );
 
@@ -80,12 +80,12 @@ $w5816 = array(
 );
 
 $w76x64 = array(
-    "num"=>"7.6.9",
+    "num"=>"7.6.22",
     "status"=>"Recommended version",
-    "file"=>"boinc_7.6.9_windows_x86_64.exe",
-    "vbox_file"=>"boinc_7.6.9_windows_x86_64_vbox.exe",
-    "vbox_version"=>"4.3.12",
-    "date"=>"31 Aug 2015",
+    "file"=>"boinc_7.6.22_windows_x86_64.exe",
+    "vbox_file"=>"boinc_7.6.22_windows_x86_64_vbox.exe",
+    "vbox_version"=>"5.0.10",
+    "date"=>"17 Dec 2015",
     "type"=>"win_new",
 );
 
@@ -110,10 +110,10 @@ $w72x64 = array(
 );
 
 $m76 = array(
-	"num"=>"7.6.12",
+	"num"=>"7.6.22",
 	"status"=>"Recommended version (standard GUI)",
-	"file"=>"boinc_7.6.12_macOSX_x86_64.zip",
-	"date"=>"29 Sep 2015",
+	"file"=>"boinc_7.6.22_macOSX_x86_64.zip",
+	"date"=>"17 Dec 2015",
 	"type"=>"mac_advanced",
 );
 
@@ -150,10 +150,10 @@ $m66 = array(
 );
 
 $m76c = array(
-	"num"=>"7.6.12",
+	"num"=>"7.6.22",
 	"status"=>"Recommended version (Unix command-line version)",
-	"file"=>"boinc_7.6.12_x86_64-apple-darwin.zip",
-	"date"=>"29 Sep 2015",
+	"file"=>"boinc_7.6.22_x86_64-apple-darwin.zip",
+	"date"=>"17 Dec 2015",
 	"type"=>"bare_core",
 );
 
@@ -267,7 +267,7 @@ $a74 = array(
 
 $windows = array(
     "name"=>"Windows 32-bit",
-    "description"=>"XP/Vista/7/8/8.1",
+    "description"=>"XP/Vista/7/8/8.1/10",
     "dbname" => "windows_intelx86",
     "versions"=>array(
           $w76,
@@ -279,7 +279,7 @@ $windows = array(
 
 $windowsx64 = array(
     "name"=>"Windows 64-bit",
-    "description"=>"XP/Vista/7/8/8.1",
+    "description"=>"XP/Vista/7/8/8.1/10",
     "dbname" => "windows_x86_64",
     "versions"=>array(
           $w76x64,

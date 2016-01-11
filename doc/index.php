@@ -169,18 +169,19 @@ function show_other() {
         </center>
         </td></tr>
         <tr><td>
-            <table width=100%> <tr> <td>
-            <ul>
-            <li> Project
+            <table width=100%>
+            <tr valign=top> <td>
+            <center><font size=+1>Project</font></center>
                 <ul>
-                <li> <a href=\"trac/wiki/ProjectGovernance\">About</a>
                 <li> <a href=\"dev/\">".tra("Message boards")."</a>
                 <li> <a href=\"trac/wiki/EmailLists\">".tra("Email lists")."</a>
                 <li> <a href=\"trac/wiki/BoincEvents\">".tra("Events")."</a>
                 <li> <a href=logo.php>Logos and graphics</a>
+                <li> <a href=\"trac/wiki/ProjectGovernance\">Governance</a>
+                <li> <a href=\"trac/wiki/ProjectPeople\">Contact</a>
                 </ul>
-            <p>
-            <li> Software
+            </td><td>
+            <center><font size=+1>Software</font></center>
                 <ul>
                 <li> <a href=trac/wiki/SourceCodeGit>".tra("Source code")."</a>
                 <li> <a href=https://github.com/BOINC/boinc/issues>Report bugs</a>
@@ -190,12 +191,9 @@ function show_other() {
                 <li> <a href=\"trac/wiki/DevProjects\">".tra("Volunteer")."</a>
                 <li> <a href=\"trac/wiki/SoftwareAddon\">".tra("APIs")."</a>
                 </ul>
-            </ul>
+            </td><td valign=top>
 
-            </td><td width=50% valign=top>
-
-            <ul>
-            <li> Contribute
+            <center><font size=+1>Contribute</font></center>
                 <ul>
                 <li> <a href=trac/wiki/ContributePage>Overview</a>
                 <li> <a href=\"trac/wiki/DevProjects\">".tra("Programming")."</a>
@@ -204,8 +202,6 @@ function show_other() {
                 <li> <a href=\"trac/wiki/WikiMeta\">".tra("Documentation")."</a>
                 <li> <a href=\"http://boinc.berkeley.edu/wiki/Publicizing_BOINC\">".tra("Publicity")."</a>
                 </ul>
-            </ul>
-            <br>
             </td></tr></table>
         </td></tr>
     ";

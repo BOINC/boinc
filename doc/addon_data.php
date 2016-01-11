@@ -58,16 +58,16 @@ array(
     The SETIspirit sky map shows the position where the workunit is recorded and much more details (report deadline, recorded on/at, wu type, slot, cpu time, time left) as well as the current results of the workunit analysis (spikes, gaussians, pulses and triplets found). The sky map shows all known 88 constellations with constellations shapes and deep sky photographies. The database (db) offers some interesting facts about the constellations.',
     1371112500
 ),
-//array(
-//    'http://www.myfavoritegadgets.info/monitors/BOINCMonitor/BOINCMonitor.html',
-//    'BOINC Monitor',
-//    '',
-//    'A desktop gadget that shows the status of running tasks',
-//    'http://www.myfavoritegadgets.info/',
-//    'Windows Vista/7',
-//    'BOINC Monitor shows BOINC tasks progress. Resizable! Save settings to file.  Color changeable for all gadget\'s elements, include background. You can add new BOINC projects in XML list file.',
-//    '1305409902'
-//),
+array(
+    'http://www.myfavoritegadgets.info/monitors/BOINCMonitor/BOINCMonitor.html',
+    'BOINC Monitor',
+    '',
+    'A desktop gadget that shows the status of running tasks',
+    'http://www.myfavoritegadgets.info/',
+    'Windows Vista/7',
+    'BOINC Monitor shows BOINC tasks progress. Resizable! Save settings to file.  Color changeable for all gadget\'s elements, include background. You can add new BOINC projects in XML list file.',
+    '1305409902'
+),
 //array(
 //    'http://boincdotnet.tnmshouse.com/',
 //    'Boinc.NET',

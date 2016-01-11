@@ -133,6 +133,7 @@ if ($id && $t && $h) {
 }
 
 $next_url = post_str("next_url", true);
+$next_url = urldecode($next_url);
 $next_url = sanitize_local_url($next_url);
 if (strlen($next_url) == 0) $next_url = "home.php";
 

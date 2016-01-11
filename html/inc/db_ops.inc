@@ -714,6 +714,7 @@ function show_app_version($app_version) {
     row("Application", "<a href=\"db_action.php?table=app&id=$app_version->appid\">" . app_name_by_id($app_version->appid) . "</a>");
     row("Version num", $app_version->version_num);
     row("Platform", "<a href=\"db_action.php?table=platform&id=$app_version->platformid\">" . platform_name_by_id($app_version->platformid) . "</a>" );
+    row("Plan Class", $app_version->plan_class);
     row("XML doc", "<pre>".htmlspecialchars($app_version->xml_doc)."</pre>");
     row("min_core_version", $app_version->min_core_version);
     row("max_core_version", $app_version->max_core_version);
@@ -729,6 +730,7 @@ function app_version_short_header() {
         <th>Application</th>
         <th>Version</th>
         <th>Platform</th>
+        <th>Plan Class</th>
         </tr>
     ";
 }
@@ -742,6 +744,7 @@ function show_app_version_short($app_version) {
         <td><a href=\"db_action.php?table=app&id=$app_version->appid\">$x</a></td>
         <td>$app_version->version_num</td>
         <td><a href=\"db_action.php?table=platform&id=$app_version->platformid\">$y</a></td>
+        <td>$app_version->plan_class</td>
         </tr>
     ";
 }
@@ -851,25 +854,29 @@ function show_host($host) {
     row("CPU", "$host->p_vendor $host->p_model");
     row("GFLOPS", number_format($host->p_fpops/1e9, 2));
     row("GIOPS", number_format($host->p_iops/1e9, 2));
-    row("memory bandwidth", $host->p_membw);
+    $x = $host->p_membw/(1024*1024);
+    $y = number_format($x, 2);
+    row("Memory bandwidth", "$y MB/sec");
     row("Operating System", "$host->os_name $host->os_version");
     $x = $host->m_nbytes/(1024*1024);
-    $y = round($x, 2);
+    $y = number_format($x, 2);
     row("Memory", "$y MB");
     $x = $host->m_cache/1024;
-    $y = round($x, 2);
+    $y = number_format($x, 2);
     row("Cache", "$y KB");
     $x = $host->m_swap/(1024*1024);
-    $y = round($x, 2);
+    $y = number_format($x, 2);
     row("Swap Space", "$y MB");
     $x = $host->d_total/(1024*1024*1024);
-    $y = round($x, 2);
+    $y = number_format($x, 2);
     row("Total Disk Space", "$y GB");
     $x = $host->d_free/(1024*1024*1024);
-    $y = round($x, 2);
+    $y = number_format($x, 2);
     row("Free Disk Space", "$y GB");
-    row("Avg network bandwidth (upstream)", "$host->n_bwup bytes/sec");
-    row("Avg network bandwidth (downstream)", "$host->n_bwdown bytes/sec");
+    $x = number_format($host->n_bwup/1024);
+    row("Avg network bandwidth (upstream)", "$x kB/sec");
+    $x = number_format($host->n_bwdown/1024);
+    row("Avg network bandwidth (downstream)", "$x kB/sec");
     row("Average turnaround", days_string($host->avg_turnaround));
     row("Number of RPCs", $host->rpc_seqno);
     row("Last RPC", time_str($host->rpc_time));
@@ -894,10 +901,16 @@ function show_workunit($wu) {
     row("XML doc", "<pre>".htmlspecialchars($wu->xml_doc)."</pre>");
     row("Application", "<a href=\"db_action.php?table=app&id=$wu->appid\">" . app_name_by_id($wu->appid) . " [".$wu->appid."]</a>");
     row("Batch", $wu->batch);
-    row("Estimated FP Operations", $wu->rsc_fpops_est);
-    row("Max FP Operations", $wu->rsc_fpops_bound);
-    row("Max Memory Usage", $wu->rsc_memory_bound);
-    row("Max Disk Usage", $wu->rsc_disk_bound);
+    $x = number_format($wu->rsc_fpops_est/1e9, 2);
+    row("Estimated FP Operations", "$x GFLOPS");
+    $x = number_format($wu->rsc_fpops_bound/1e9, 2);
+    row("Max FP Operations", "$x GFLOPS");
+    $x = $wu->rsc_memory_bound/(1024*1024);
+    $y = number_format($x, 2);
+    row("Max Memory Usage", "$y MB");
+    $x = $wu->rsc_disk_bound/(1024*1024);
+    $y = number_format($x, 2);
+    row("Max Disk Usage", "$y MB");
     row("Need validate?", ($wu->need_validate?"yes [":"no [").$wu->need_validate."]");
     row("Canonical resultid",
             "<a href=\"db_action.php?table=result&id=$wu->canonical_resultid\">".$wu->canonical_resultid."</a>");
@@ -1100,7 +1113,7 @@ function show_result_short($result) {
             $received = "<font color=\"#ff3333\">". time_str($result->report_deadline) . "</font>";
         }
     }
-    $version = app_version_string($result);
+    $version = app_version_string($result)." (<a href=\"db_action.php?table=app_version&id=$result->app_version_id\">$result->app_version_id</a>)";
     $outcome_color = outcome_color($result->outcome);
     $validate_color = validate_color($result->validate_state);
     $host_user = host_user_link($result->hostid);
@@ -1134,6 +1147,7 @@ function show_user($user) {
     row("Name", $user->name);
     row("Authenticator", $user->authenticator);
     row("Email address", $user->email_addr);
+    row("OK to send Email?", $user->send_email);
     row("Country", $user->country);
     row("Postal code", $user->postal_code);
     row("Total credit", $user->total_credit);

@@ -110,7 +110,7 @@ msgstr "&Διεύθυνση ηλεκτρονικού ταχυδρομείου (E
 #: AccountInfoPage.cpp:515
 #, c-format
 msgid "minimum length %d"
-msgstr "ελάχιστο μήκος %"
+msgstr "ελάχιστο μήκος %d"
 
 #: AccountInfoPage.cpp:522
 msgid "Forgot your password?"

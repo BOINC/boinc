@@ -589,9 +589,8 @@ int main(int argc, char** argv) {
         CC_STATUS cs;
         retval = rpc.get_cc_status(cs);
         if (!retval) {
-            retval = cs.network_status;
+            cs.print();
         }
-        cs.print();
     } else if (!strcmp(cmd, "--quit")) {
         retval = rpc.quit();
     } else {

@@ -512,7 +512,7 @@ int CLIENT_STATE::init() {
         }
         if (log_flags.coproc_debug) {
             for (i=0; i<warnings.size(); i++) {
-                msg_printf(NULL, MSG_INFO, "%s", warnings[i].c_str());
+                msg_printf(NULL, MSG_INFO, "[coproc] %s", warnings[i].c_str());
             }
         }
 #if 0

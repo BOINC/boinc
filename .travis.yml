@@ -39,7 +39,7 @@ addons:
     #- python-mysqldb
     - libfcgi-dev
     #- libcurl4-openssl-dev
-    #- libxss-dev
+    - libxss-dev
     - libnotify-dev
     - libxcb-util0-dev
     - libsqlite3-dev
