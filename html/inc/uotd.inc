@@ -113,7 +113,7 @@ function select_uotd($force_new = false) {
         // reshow a random one of the 100 least recently shown profiles.
         //
         $inner = "SELECT profile.userid FROM profile,user WHERE profile.userid=user.id AND verification=1 AND uotd_time>0 ORDER BY uotd_time ASC LIMIT 100";
-        $result = $db->do_query("SELECT * from ($inner) ORDER BY RAND() LIMIT 1");
+        $result = $db->do_query("SELECT * from ($inner) as t ORDER BY RAND() LIMIT 1");
     }
 
     if (!$result || $result->num_rows == 0) {
