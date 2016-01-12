@@ -565,7 +565,7 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     get_sched_reply_filename(*project, filename, sizeof(filename));
 
-    f = fopen(filename, "r");
+    f = fopen(filename, "rb");
     if (!f) return ERR_FOPEN;
     retval = sr.parse(f, project);
     fclose(f);
