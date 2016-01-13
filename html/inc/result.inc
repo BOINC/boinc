@@ -24,6 +24,7 @@ require_once("../inc/common_defs.inc");
 //
 global $apps;
 global $app_versions;
+global $platforms;
 $apps = array();
 $app_versions = array();
 $platforms = array();
