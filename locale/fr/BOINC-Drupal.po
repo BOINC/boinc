@@ -2,7 +2,8 @@
 # Copyright (c) YEAR NAME <EMAIL@ADDRESS>
 # 
 # Translators:
-# Axelle Andy <andex@voila.fr>, 2015
+# Axel Coutemanche <brulavoineaxel@gmail.com>, 2016
+# Axelle Andy, 2015
 # Clément Jonglez <clement.jonglez@isae.fr>, 2015
 # lentrad <lentrad@gmail.com>, 2015
 # Lucas Mascaro <mascaro.lucas@yahoo.fr>, 2015
@@ -11,9 +12,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
-"POT-Creation-Date: 2015-08-14 09:37+0000\n"
-"PO-Revision-Date: 2015-09-30 07:28+0000\n"
-"Last-Translator: lentrad <lentrad@gmail.com>\n"
+"POT-Creation-Date: 2015-12-15 12:43+0000\n"
+"PO-Revision-Date: 2016-01-13 15:06+0000\n"
+"Last-Translator: Axel Coutemanche <brulavoineaxel@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,177 +22,91 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-msgid "No account exists for @email -- select \"Create new account\" to register"
-msgstr "Il n'existe pas de compte pour @email -- sélectionnez \"Créer un nouveau compte\" pour vous enregistrer"
-
-msgid "My team"
-msgstr "Mon équipe"
-
-msgid "You are a member of @team."
-msgstr "Vous êtes membre de l'équipe @team"
-
-msgid "View my team"
-msgstr "Voir mon équipe"
-
-msgid "Invalid setting for \"%preference\""
-msgstr "Réglage invalide pour \"%preference\""
+msgid "Please select a team type."
+msgstr "Veuillez sélectionner un type d'équipe."
 
 msgid ""
-"You must earn @count more credits to be able to post comments on this site."
-msgstr "Vous devez gagner @count crédits supplémentaires pour pouvoir écrire des commentaires sur ce site"
+"A team foundership change was already requested recently. Only one request "
+"is allowed within a period of 90 days."
+msgstr "Une réclamation de la fondation de l'équipe a déjà été donnée récemment. Une seule requête est autorisé par période de 90 jours."
 
-msgid "Moderation"
-msgstr "Moderation"
+msgid "@count days remaining"
+msgstr "Jours restants du compte @name."
 
-msgid "Unvetted profiles"
-msgstr "Profils non vérifiés"
+msgid "Inbox"
+msgstr "Courrier entrant"
 
-msgid "Reason for banning this user"
-msgstr "Raison pour bannir cet utilisateur"
+msgid "Compose new"
+msgstr "Composer un nouveau contenu."
 
-msgid ""
-"This reason will be included in an email to the user. Please write a brief "
-"explanation of why the user is being banned."
-msgstr "Cette raison sera incluse dans un email envoyé a l'utilisateur. Veuillez écrire une brève explication sur la cause du bannissement. "
-
-msgid "Duration of the ban"
-msgstr "Durée du bannissement "
-
-msgid "The number of days until the ban expires. Set to 0 to ban permanently."
-msgstr "Nombre de jour avant que le bannissement expire. Choisissez 0 pour bannir de manière permanente. "
-
-msgid "Lift user ban"
-msgstr "Lever le bannissement de l'utilisateur"
-
-msgid "You are banned from community participation until @date"
-msgstr "Vous êtes bannis de cette communauté jusqu'au @date"
-
-msgid "Computers @old_ids have been merged successfully into @id."
-msgstr "Les ordinateurs @old_ids ont bien été changés en @id."
-
-msgid "A team named \"@name\" already exists."
-msgstr "Une équipe appelée \"@name\" existe déjà."
-
-msgid "Post topic"
-msgstr "Poster le sujet"
-
-msgid "Please enter your email address"
-msgstr "Veuillez entrer votre adresse email"
-
-msgid "Password entered is not valid. Please verify that it is correct."
-msgstr "Le mot de passe entré n'est pas valide. Veuillez en vérifier l'exactitude"
-
-msgid "Make founder"
-msgstr "Le rendre fondateur"
-
-msgid "!site: comment posted to \"!topic_name\""
-msgstr "!site : commentaire posté sur le sujet \"!topic_name\""
-
-msgid "!author has posted a reply to \"!topic_name\"."
-msgstr "L'!auteur a posté une réponse sur le sujet \"!topic_name\"."
+msgid "respond to the request"
+msgstr "Répondre à la requête."
 
 msgid ""
-"To view this topic at !site, click here: \n"
-"!comment_url"
-msgstr "Pour voir ce sujet sur le site !site, cliquez ici :\n!comment_url"
+"A foundership transfer request has been made for your team. Please !respond."
+msgstr "Une requête de transfert de fondateur a été faite pour votre équipe. Veuillez répondre."
 
-msgid "At least one application must be selected"
-msgstr "Veuillez sélectionner au moins une application"
-
-msgid "Forgot password"
-msgstr "Mot de passe oublié"
+msgid "Respond to transfer request"
+msgstr "Répondre à la requête de transfert."
 
 msgid ""
-"Enter your email address to receive instructions for resetting your "
-"password."
-msgstr "Saisissez votre adresse email pour recevoir les instructions qui vous permettront de réinitialiser votre mot de passe."
-
-msgid "Revise or post comment"
-msgstr "Réviser ou poster le commentaire"
-
-msgid "discuss"
-msgstr "discuter"
-
-msgid "Your community preferences have been updated."
-msgstr "Vos préférences de communauté ont été mises à jour."
-
-msgid "Unlock this thread for comments"
-msgstr "Déverrouiller ce fil de commentaires"
-
-msgid "Authenticator login"
-msgstr "Identifiant de l'authentificateur"
-
-msgid "Create content"
-msgstr "Créer un contenu"
-
-msgid "authenticator-based login"
-msgstr "Connexion à l'aide d'un authentificateur"
+"Team member @name has requested team foundership. This may be because you "
+"left the team or have not had contact with the team for a long time."
+msgstr "Le membre d'équipe @name a réclamé la fondation de l'équipe. C'est  peut être parce que vous avez quitté l'équipe ou que vous n'avez pas eu de contact avec l'équipe depuis longtemps."
 
 msgid ""
-"Enter your email address to receive instructions for resetting your password"
-" (or use the !authenticator_login)."
-msgstr "Saisissez votre adresse email pour recevoir les instructions qui vous permettront de réinitialiser votre mot de passe (ou utilisez le !authenticator_login)."
+"If you don't decline the request by @date, @name will have the option of "
+"assuming team foundership. (note: To accept the request, assign foundership "
+"to @name using the form below)"
+msgstr "Si vous ne répondez pas à la requête avant le @date, @name pourra devenir le fondateur de l'équipe. (remarque : Pour accepter la requête, assignez @name au rôle de fondateur comme décrit ci-dessous)."
+
+msgid "Deny request"
+msgstr "Refuser la requête."
+
+msgid "Send request"
+msgstr "Envoyer la requête."
+
+msgid "Friend request from !name [!site]"
+msgstr "Demande d'ami de !name [!site]."
+
+msgid "Message"
+msgstr "Message"
 
 msgid ""
-"If you forgot your account's email address, or you can't receive email "
-"there:"
-msgstr "Si vous avez oublié l'adresse email de votre compte, ou si vous ne pouvez pas recevoir d'email ici :"
+"!name added you as a friend on !site. You can approve or deny this request. Denying a request will not send a notification, but will remove the request from both of your accounts.\n"
+"\n"
+"Follow the link below to view this request:\n"
+"!link\n"
+"\n"
+"!message\n"
+"\n"
+"Thanks,\n"
+"The !site team"
+msgstr "! name vous a ajouté comme ami sur !site. Vous pouvez accepter ou refuser cette demande. Rejeter une demande n'enverra pas une notification, mais supprime la demande vos deux comptes.\n\nSuivez le lien ci-dessous pour voir cette demande:\n\n!lien\n\n!message\n\nMerci, l'équipe du !site."
+
+msgid "Cancel friend request"
+msgstr "Annuler la demande d'ami."
+
+msgid "Remove request"
+msgstr "Enlever la demande."
+
+msgid "Approve request"
+msgstr "Accepter la demande."
+
+msgid "!name accepted your friend request [!site]"
+msgstr "!name a accepté votre demande d'ami [!site]."
 
 msgid ""
-"If you have run BOINC under the account, you can still access it. Here's "
-"how:"
-msgstr "Si vous avez exécuté BOINC avec ce compte, vous pouvez toujours y avoir accès. Voici comment : "
-
-msgid ""
-"Go to the BOINC data directory on your computer (on Windows this is usually "
-"%path1 or %path2."
-msgstr "Aller dans le répertoire de données de BOINC de votre ordinateur (sous Windows c'est généralement %path_1 ou %path_2."
-
-msgid ""
-"Find your account file for this project; it will have a name like %file "
-"(where the project URL is %url)."
-msgstr "Trouvez votre fichier de compte pour ce projet, il sera nommé %file (tandis que l'URL du projet est %url)."
-
-msgid ""
-"Open the file in a text editor like Notepad. You'll see something like:"
-msgstr "Ouvrez ce fichier dans un éditeur de texte tel que Notepad. Vous verrez quelque chose ressemblant à :"
-
-msgid ""
-"Select and Copy the string between &lt;authenticator&gt; and "
-"&lt;/authenticator&gt; (%auth in the above example)."
-msgstr "Sélectionnez et copiez la chaîne de caractères entre &lt;authenticator&gt; et &lt;/authenticator&gt;  (%auth dans l'exemple du dessus)."
-
-msgid "There is no account with that authenticator."
-msgstr "Il n'y a pas de compte avec cet authentificateur."
-
-msgid ""
-"Go to the <a href=\"%wikiref\">BOINC data directory</a> on your computer (on"
-" Windows this is usually %path1 or %path2."
-msgstr "Aller dans le répertoire de données <a href=\"%wikiref\"> de BOINC de votre ordinateur (sous Windows c'est généralement %path1 ou %path2."
-
-msgid "BOINC documentation"
-msgstr "Documentation de BOINC"
-
-msgid ""
-"Go to the BOINC data directory on your computer (see !boinc_wiki for help "
-"finding this)."
-msgstr "Aller dans le répertoire de données de BOINC de votre ordinateur (voir !boinc_wiki pour obtenir de l'aide pour le trouver).                "
-
-msgid ""
-"@count days have elapsed since your request and the founder has not "
-"responded."
-msgstr "@count jours se sont écoulés depuis votre requête et le fondateur n'a pas répondu."
-
-msgid ""
-"You now have @count days to assume foundership before another team member "
-"may submit a request."
-msgstr "Vous avez maintenant @count jours pour endosser la fondation avant qu'un autre membre de l'équipe puisse soumettre une demande."
-
-msgid "Unhide this comment"
-msgstr "Démasquer ce commentaire"
-
-msgid "@email is not a well formed email address, please verify"
-msgstr "@email n'est pas une adresse email correcte, veuillez la vérifier"
+"!name confirmed you as a friend on !site.\n"
+"\n"
+"Follow this link to view his or her profile:\n"
+"!link\n"
+"\n"
+"!message\n"
+"\n"
+"Thanks,\n"
+"The !site team"
+msgstr "!name a confirmé que vous étiez son ami sur !site.\n\nSuivez ce lien pour afficher son profil: \n!lien\n\n!message\n\nMerci, l'équipe du !site."
 
 msgid "Email address"
 msgstr "Adresse email"
@@ -1695,14 +1610,91 @@ msgstr "Soumettre"
 msgid "project"
 msgstr "Projet"
 
+msgid "No account exists for @email -- select \"Create new account\" to register"
+msgstr "Il n'existe pas de compte pour @email -- sélectionnez \"Créer un nouveau compte\" pour vous enregistrer"
+
 msgid "Unknown"
 msgstr "Inconnu"
+
+msgid "My team"
+msgstr "Mon équipe"
+
+msgid "You are a member of @team."
+msgstr "Vous êtes membre de l'équipe @team"
+
+msgid "View my team"
+msgstr "Voir mon équipe"
+
+msgid "Invalid setting for \"%preference\""
+msgstr "Réglage invalide pour \"%preference\""
 
 msgid "Pending"
 msgstr "En attente"
 
+msgid ""
+"You must earn @count more credits to be able to post comments on this site."
+msgstr "Vous devez gagner @count crédits supplémentaires pour pouvoir écrire des commentaires sur ce site"
+
+msgid "Moderation"
+msgstr "Moderation"
+
+msgid "Unvetted profiles"
+msgstr "Profils non vérifiés"
+
+msgid "Reason for banning this user"
+msgstr "Raison pour bannir cet utilisateur"
+
+msgid ""
+"This reason will be included in an email to the user. Please write a brief "
+"explanation of why the user is being banned."
+msgstr "Cette raison sera incluse dans un email envoyé a l'utilisateur. Veuillez écrire une brève explication sur la cause du bannissement. "
+
+msgid "Duration of the ban"
+msgstr "Durée du bannissement "
+
+msgid "The number of days until the ban expires. Set to 0 to ban permanently."
+msgstr "Nombre de jour avant que le bannissement expire. Choisissez 0 pour bannir de manière permanente. "
+
+msgid "Lift user ban"
+msgstr "Lever le bannissement de l'utilisateur"
+
+msgid "You are banned from community participation until @date"
+msgstr "Vous êtes bannis de cette communauté jusqu'au @date"
+
+msgid "Computers @old_ids have been merged successfully into @id."
+msgstr "Les ordinateurs @old_ids ont bien été changés en @id."
+
+msgid "A team named \"@name\" already exists."
+msgstr "Une équipe appelée \"@name\" existe déjà."
+
+msgid "Post topic"
+msgstr "Poster le sujet"
+
+msgid "Please enter your email address"
+msgstr "Veuillez entrer votre adresse email"
+
+msgid "Password entered is not valid. Please verify that it is correct."
+msgstr "Le mot de passe entré n'est pas valide. Veuillez en vérifier l'exactitude"
+
+msgid "Make founder"
+msgstr "Le rendre fondateur"
+
 msgid "User of the day"
 msgstr "Utilisateur du jour"
+
+msgid "!site: comment posted to \"!topic_name\""
+msgstr "!site : commentaire posté sur le sujet \"!topic_name\""
+
+msgid "!author has posted a reply to \"!topic_name\"."
+msgstr "L'!auteur a posté une réponse sur le sujet \"!topic_name\"."
+
+msgid ""
+"To view this topic at !site, click here: \n"
+"!comment_url"
+msgstr "Pour voir ce sujet sur le site !site, cliquez ici :\n!comment_url"
+
+msgid "At least one application must be selected"
+msgstr "Veuillez sélectionner au moins une application"
 
 msgid "Account"
 msgstr "Compte"
@@ -1710,14 +1702,77 @@ msgstr "Compte"
 msgid "Log in"
 msgstr "Connexion"
 
+msgid "Forgot password"
+msgstr "Mot de passe oublié"
+
+msgid ""
+"Enter your email address to receive instructions for resetting your "
+"password."
+msgstr "Saisissez votre adresse email pour recevoir les instructions qui vous permettront de réinitialiser votre mot de passe."
+
 msgid "Send"
 msgstr "Envoyer"
+
+msgid "Revise or post comment"
+msgstr "Réviser ou poster le commentaire"
+
+msgid "discuss"
+msgstr "discuter"
 
 msgid "News"
 msgstr "Nouvelles"
 
+msgid "Your community preferences have been updated."
+msgstr "Vos préférences de communauté ont été mises à jour."
+
 msgid "Unlock"
 msgstr "Déverrouiller"
+
+msgid "Unlock this thread for comments"
+msgstr "Déverrouiller ce fil de commentaires"
+
+msgid "Authenticator login"
+msgstr "Identifiant de l'authentificateur"
+
+msgid "Create content"
+msgstr "Créer un contenu"
+
+msgid "authenticator-based login"
+msgstr "Connexion à l'aide d'un authentificateur"
+
+msgid ""
+"Enter your email address to receive instructions for resetting your password"
+" (or use the !authenticator_login)."
+msgstr "Saisissez votre adresse email pour recevoir les instructions qui vous permettront de réinitialiser votre mot de passe (ou utilisez le !authenticator_login)."
+
+msgid ""
+"If you forgot your account's email address, or you can't receive email "
+"there:"
+msgstr "Si vous avez oublié l'adresse email de votre compte, ou si vous ne pouvez pas recevoir d'email ici :"
+
+msgid ""
+"If you have run BOINC under the account, you can still access it. Here's "
+"how:"
+msgstr "Si vous avez exécuté BOINC avec ce compte, vous pouvez toujours y avoir accès. Voici comment : "
+
+msgid ""
+"Go to the BOINC data directory on your computer (on Windows this is usually "
+"%path1 or %path2."
+msgstr "Aller dans le répertoire de données de BOINC de votre ordinateur (sous Windows c'est généralement %path_1 ou %path_2."
+
+msgid ""
+"Find your account file for this project; it will have a name like %file "
+"(where the project URL is %url)."
+msgstr "Trouvez votre fichier de compte pour ce projet, il sera nommé %file (tandis que l'URL du projet est %url)."
+
+msgid ""
+"Open the file in a text editor like Notepad. You'll see something like:"
+msgstr "Ouvrez ce fichier dans un éditeur de texte tel que Notepad. Vous verrez quelque chose ressemblant à :"
+
+msgid ""
+"Select and Copy the string between &lt;authenticator&gt; and "
+"&lt;/authenticator&gt; (%auth in the above example)."
+msgstr "Sélectionnez et copiez la chaîne de caractères entre &lt;authenticator&gt; et &lt;/authenticator&gt;  (%auth dans l'exemple du dessus)."
 
 msgid "Paste the string into the field below, and click OK."
 msgstr "Collez la chaîne dans le champ ci-dessous et cliquez OK"
@@ -1730,8 +1785,40 @@ msgstr "Vous serez alors connecté à votre compte, mettez à jour votre email e
 msgid "Log in with authenticator"
 msgstr "Connectez vous avec l'authentificateur"
 
+msgid "There is no account with that authenticator."
+msgstr "Il n'y a pas de compte avec cet authentificateur."
+
+msgid ""
+"Go to the <a href=\"%wikiref\">BOINC data directory</a> on your computer (on"
+" Windows this is usually %path1 or %path2."
+msgstr "Aller dans le répertoire de données <a href=\"%wikiref\"> de BOINC de votre ordinateur (sous Windows c'est généralement %path1 ou %path2."
+
+msgid "BOINC documentation"
+msgstr "Documentation de BOINC"
+
+msgid ""
+"Go to the BOINC data directory on your computer (see !boinc_wiki for help "
+"finding this)."
+msgstr "Aller dans le répertoire de données de BOINC de votre ordinateur (voir !boinc_wiki pour obtenir de l'aide pour le trouver).                "
+
+msgid ""
+"@count days have elapsed since your request and the founder has not "
+"responded."
+msgstr "@count jours se sont écoulés depuis votre requête et le fondateur n'a pas répondu."
+
+msgid ""
+"You now have @count days to assume foundership before another team member "
+"may submit a request."
+msgstr "Vous avez maintenant @count jours pour endosser la fondation avant qu'un autre membre de l'équipe puisse soumettre une demande."
+
 msgid "Assume foundership"
 msgstr "Prendre le titre de fondateur"
 
 msgid "Unhide"
 msgstr "Démasquer"
+
+msgid "Unhide this comment"
+msgstr "Démasquer ce commentaire"
+
+msgid "@email is not a well formed email address, please verify"
+msgstr "@email n'est pas une adresse email correcte, veuillez la vérifier"
