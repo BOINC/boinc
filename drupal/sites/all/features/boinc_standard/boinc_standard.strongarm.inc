@@ -178,6 +178,47 @@ function boinc_standard_strongarm() {
         ),
       ),
     ),
+    '3' => array(
+      'name' => 'Editor',
+      'usertab' => 1,
+      'filesize' => '1',
+      'quota' => '2',
+      'tuquota' => '0',
+      'extensions' => 'gif png jpg jpeg',
+      'dimensions' => '800x600',
+      'filenum' => '1',
+      'directories' => array(
+        '0' => array(
+          'name' => 'u%uid',
+          'subnav' => 0,
+          'browse' => 1,
+          'upload' => 1,
+          'thumb' => 1,
+          'delete' => 0,
+          'resize' => 0,
+        ),
+      ),
+      'thumbnails' => array(
+        '0' => array(
+          'name' => 'Small',
+          'dimensions' => '90x90',
+          'prefix' => 'small_',
+          'suffix' => '',
+        ),
+        '1' => array(
+          'name' => 'Medium',
+          'dimensions' => '120x120',
+          'prefix' => 'medium_',
+          'suffix' => '',
+        ),
+        '2' => array(
+          'name' => 'Large',
+          'dimensions' => '180x180',
+          'prefix' => 'large_',
+          'suffix' => '',
+        ),
+      ),
+    ),
   );
   $export['imce_profiles'] = $strongarm;
 
@@ -185,7 +226,44 @@ function boinc_standard_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'imce_roles_profiles';
-  $strongarm->value = array();
+  $strongarm->value = array(
+    '3519698132' => array(
+      'weight' => '0',
+      'pid' => '0',
+    ),
+    '1110965548' => array(
+      'weight' => '0',
+      'pid' => '0',
+    ),
+    '268174006' => array(
+      'weight' => '0',
+      'pid' => '0',
+    ),
+    '2938987599' => array(
+      'weight' => '0',
+      'pid' => '3',
+    ),
+    '1257454314' => array(
+      'weight' => '0',
+      'pid' => '0',
+    ),
+    '1271379760' => array(
+      'weight' => '0',
+      'pid' => '0',
+    ),
+    '933038561' => array(
+      'weight' => '0',
+      'pid' => '0',
+    ),
+    '2' => array(
+      'weight' => 11,
+      'pid' => '0',
+    ),
+    '1' => array(
+      'weight' => 12,
+      'pid' => '0',
+    ),
+  );
   $export['imce_roles_profiles'] = $strongarm;
 
   $strongarm = new stdClass;
