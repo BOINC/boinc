@@ -64,6 +64,16 @@
 #include "sched_customize.h"
 #include "time_stats_log.h"
 
+// are the 2 hosts obviously different computers?
+//
+static bool obviously_different(HOST& h1, HOST& h2) {
+    if (h1.p_ncpus != h2.p_ncpus) return true;
+    if (strcmp(h1.p_vendor, h2.p_vendor)) return true;
+    if (strcmp(h1.p_model, h2.p_model)) return true;
+    if (strcmp(h1.os_name, h2.os_name)) return true;
+    if (strcmp(h1.os_version, h2.os_version)) return true;
+    return false;
+}
 
 // find the user's most recently-created host with given various characteristics
 //
@@ -397,12 +407,19 @@ lookup_user_and_make_new_host:
                     "[HOST#%lu] [USER#%lu] No host ID in request, but host with matching CPID found.\n",
                     host.id, host.userid
                 );
-                if ((g_request->allow_multiple_clients != 1)
-                    && (g_request->other_results.size() == 0)
-                ) {
-                    mark_results_over(host);
+                if (obviously_different(host, g_request->host)) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[HOST#%lu] [USER#%lu] But that host doesn't match request.\n",
+                        host.id, host.userid
+                    );
+                } else {
+                    if ((g_request->allow_multiple_clients != 1)
+                        && (g_request->other_results.size() == 0)
+                    ) {
+                        mark_results_over(host);
+                    }
+                    goto got_host;
                 }
-                goto got_host;
             }
         }
 
