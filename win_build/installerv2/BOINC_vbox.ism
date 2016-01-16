@@ -2719,7 +2719,7 @@
 		<col def="I2">Order</col>
 		<col def="I2">ISSetupLocation</col>
 		<col def="S255">ISReleaseFlags</col>
-		<row><td>_45A555A8_1EBA_40C0_BC3D_19B12706E925_</td><td>Oracle VM VirtualBox 5.0.10 (x86).prq</td><td/><td/><td/></row>
+		<row><td>_2443D952_778D_4AD0_B38F_C8214101A4DC_</td><td>Oracle VM VirtualBox 5.0.12 (x86).prq</td><td/><td/><td/></row>
 	</table>
 
 	<table name="ISSetupType">
@@ -4553,7 +4553,7 @@ VwBlAGIAAQBXAEUAQgB4ADgANgA=
 		<row><td>PROGMSG_IIS_ROLLBACKAPPPOOLS</td><td>##IDS_PROGMSG_IIS_ROLLBACKAPPPOOLS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
 		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[#boincmgr.exe]</td><td/></row>
-		<row><td>ProductCode</td><td>{DC6D5728-77CD-486F-A958-4229354913AC}</td><td/></row>
+		<row><td>ProductCode</td><td>{3926B298-5242-41EF-9506-AC2EC84F0F8E}</td><td/></row>
 		<row><td>ProductID</td><td>none</td><td/></row>
 		<row><td>ProductLanguage</td><td>1033</td><td/></row>
 		<row><td>ProductName</td><td>BOINC</td><td/></row>
