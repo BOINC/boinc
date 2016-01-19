@@ -307,7 +307,7 @@
   <string name="suspend_os">Fermato da Android.</string>
   <string name="suspend_wifi">Non connesso al WiFi</string>
   <string name="suspend_battery_charging">In attesa che la batteria si ricarichi.</string>
-  <string name="suspend_battery_charging_long">L\'elaborazione riprenderà quando il livello di carica della batteria raggiunge</string>
+  <string name="suspend_battery_charging_long">L\'elaborazione riprenderà quando il livello di carica della batteria sarà almeno</string>
   <string name="suspend_battery_charging_long2"></string>
   <string name="suspend_battery_charging_current">attualmente</string>
   <string name="suspend_battery_overheating">In attesa che la batteria si raffreddi</string>
@@ -334,7 +334,7 @@
   <string name="menu_help">Help</string>
   <!--about dialog-->
   <string name="about_button">Return</string>
-  <string name="about_title">About</string>
+  <string name="about_title">Informazioni</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Versione</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
