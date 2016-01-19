@@ -7,6 +7,7 @@
 # 
 # Translators:
 # Daniele Nasuti <daniele.nasuti@gmail.com>, 2015
+# Daniele Nasuti <daniele.nasuti@gmail.com>, 2015
 # Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015
 # Sebastiano Pistore <olatusrooc@virgilio.it>, 2015
 msgid ""
@@ -14,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2015-12-18 10:41+0000\n"
+"PO-Revision-Date: 2016-01-19 10:43+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -640,7 +641,7 @@ msgstr "Non disponibile"
 
 #: ../inc/host.inc:56 ../inc/prefs.inc:665 ../inc/prefs_util.inc:547
 msgid "Home"
-msgstr "Casa"
+msgstr "Homepage"
 
 #: ../inc/host.inc:57 ../inc/prefs.inc:666 ../inc/prefs_util.inc:549
 #: ../user/server_status.php:142
@@ -5397,7 +5398,7 @@ msgstr "I migliori computer"
 
 #: ../user/stats.php:48
 msgid "GPU models"
-msgstr "Modelli GPU"
+msgstr "Modelli di GPU"
 
 #: ../user/stats.php:49
 msgid "CPU models"
@@ -5407,19 +5408,19 @@ msgstr "Modelli di CPU"
 msgid ""
 "More detailed statistics for %1 and other BOINC-based projects are available"
 " at several web sites:"
-msgstr "Altre dettagliate statistiche per %1 e per altri progetti basati su BOINC sono disponibili su diversi siti web:"
+msgstr "Altre dettagliate statistiche su %1 e altri progetti basati su BOINC sono disponibili su diversi siti web:"
 
 #: ../user/stats.php:56
 msgid ""
 "You can also get your current statistics in the form of a \"signature "
 "image\":"
-msgstr "Puoi anche ottenere le tue attuali statistiche in forma di immagine (\"firma\"):"
+msgstr "Puoi anche ottenere le tue statistiche in forma di immagine (\"firma\"):"
 
 #: ../user/stats.php:59
 msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1home page%2."
-msgstr "Inoltre puoi vedere le tue statistiche individuali per tutti i progetti BOINC su diversi siti; guarda la %1pagina del tuo account%2."
+msgstr "Inoltre puoi vedere le tue statistiche individuali di tutti i progetti BOINC su diversi siti; guarda la %1pagina del tuo account%2."
 
 #: ../user/team.php:27
 msgid "Teams"
@@ -5523,7 +5524,7 @@ msgstr "Rimuovi membri"
 
 #: ../user/team_admins.php:55
 msgid "If a Team Admin quits the team, they cease to be a Team Admin."
-msgstr "Se un Amministratore del Team chiude il team, loro smettono di essere Amministratori del Team."
+msgstr "Se un Amministratore del Team esce dal team, smette di essere Amministratore."
 
 #: ../user/team_admins.php:56
 msgid ""
@@ -5537,7 +5538,7 @@ msgstr "Non ci sono attualmente Amministratori del Team"
 
 #: ../user/team_admins.php:63
 msgid "Current Team Admins"
-msgstr "Admin del team correnti"
+msgstr "Attuali amministratori del team"
 
 #: ../user/team_admins.php:64
 msgid "Became Team Admin on"
@@ -6503,7 +6504,7 @@ msgstr "Ottieni elaborazioni solo per alcune applicazioni. Utile per focalizzars
 msgid ""
 "If no work for selected applications is available, accept work from other "
 "applications?"
-msgstr "Se non è disponibile lavoro per le applicazioni selezionate, accettarne dalle altre applicazioni?"
+msgstr "Se non è disponibile lavoro per le applicazioni selezionate accettarne dalle altre applicazioni?"
 
 #: ../project.sample/project_specific_prefs.inc:59
 msgid "Use faster non-graphical applications if available?"
