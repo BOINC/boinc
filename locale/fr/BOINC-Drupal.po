@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2015-12-15 12:43+0000\n"
-"PO-Revision-Date: 2016-01-20 21:10+0000\n"
+"PO-Revision-Date: 2016-01-20 21:15+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1289,7 +1289,7 @@ msgid "Number of processors"
 msgstr "Nombre de processeurs"
 
 msgid "CPU"
-msgstr "CPU"
+msgstr "Processeur"
 
 msgid "Number of times client has contacted server"
 msgstr "Nombre de fois où le client BOINC a contacté le serveur"
@@ -1304,19 +1304,19 @@ msgid "Timezone"
 msgstr "Fuseau horaire"
 
 msgid "Platform ID"
-msgstr "ID de Plateforme"
+msgstr "ID de plateforme"
 
 msgid "Task ID"
-msgstr "ID de tache"
+msgstr "ID de tâche"
 
 msgid "Workunit ID"
 msgstr "ID d'unité de travail (WU)"
 
 msgid "Host ID"
-msgstr "ID Hôte"
+msgstr "ID d’hôte"
 
 msgid "Application ID"
-msgstr "Id d'application "
+msgstr "ID d'application "
 
 msgid "Application version"
 msgstr "Version de l'application"
@@ -1328,7 +1328,7 @@ msgid "Client state"
 msgstr "État du client"
 
 msgid "CPU time"
-msgstr "Temps de CPU"
+msgstr "Temps processeur"
 
 msgid "Run time"
 msgstr "Temps de fonctionnement"
@@ -1343,7 +1343,7 @@ msgid "Outcome"
 msgstr "Résultats"
 
 msgid "Received time"
-msgstr "Temps de récpetion"
+msgstr "Temps de réception"
 
 msgid "Report deadline"
 msgstr "Date limite de rapport"
@@ -1361,7 +1361,7 @@ msgid "Validation state"
 msgstr "État de validation "
 
 msgid "App ID"
-msgstr "ID d'Application"
+msgstr "ID d'application"
 
 msgid "Canonical credit"
 msgstr "Crédit canonique"
@@ -1382,7 +1382,7 @@ msgid "Max error tasks"
 msgstr "Nombres de tâches érronés"
 
 msgid "Max success tasks"
-msgstr "Nombres de tâches réussites"
+msgstr "Nombres de tâches réussies maximum"
 
 msgid "Max total tasks"
 msgstr "Nombres totales de tâches"
