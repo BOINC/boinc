@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2015-12-15 12:43+0000\n"
-"PO-Revision-Date: 2016-01-20 21:27+0000\n"
+"PO-Revision-Date: 2016-01-20 21:33+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1379,7 +1379,7 @@ msgid "Minimum quorum"
 msgstr "Quorum minimum"
 
 msgid "Max error tasks"
-msgstr "Nombres de tâches erronés maximum"
+msgstr "Nombre de tâches erronées maximum"
 
 msgid "Max success tasks"
 msgstr "Nombre de tâches réussies maximum"
@@ -1433,7 +1433,7 @@ msgid "@count million ops/sec"
 msgstr "@count MIPS"
 
 msgid "@rate KiB/sec"
-msgstr "@rate Ko/sec"
+msgstr "@rate Ko/s"
 
 msgid "@count days"
 msgstr "@count jours"
@@ -1571,13 +1571,13 @@ msgid "Profile awaiting moderator approval"
 msgstr "Profil en attente de validation par un modérateur"
 
 msgid "Approve profile"
-msgstr "Profil vérifié"
+msgstr "Approuver le profil"
 
 msgid "Approve this profile content"
-msgstr "Vérifier le contenu de ce profil"
+msgstr "Approuver le contenu de ce profil"
 
 msgid "Edit profile"
-msgstr "Editer son profil"
+msgstr "Éditer le profil"
 
 msgid "Edit the content of this profile"
 msgstr "Editer le contenu de ce profil"
@@ -1586,7 +1586,7 @@ msgid "Remove profile"
 msgstr "Supprimer le profil"
 
 msgid "Remove this profile content from the system"
-msgstr "Supprimer le contenu de ce profil du système"
+msgstr "Supprimer du système le contenu de ce profil"
 
 msgid "The team founder has @count days to respond to your transfer request."
 msgstr "Le fondateur de l'équipe a @count jours pour répondre à votre demande de transfert."
@@ -1634,10 +1634,10 @@ msgstr "En attente"
 
 msgid ""
 "You must earn @count more credits to be able to post comments on this site."
-msgstr "Vous devez gagner @count crédits supplémentaires pour pouvoir écrire des commentaires sur ce site"
+msgstr "Vous devez gagner @count crédits supplémentaires pour pouvoir écrire des commentaires sur ce site."
 
 msgid "Moderation"
-msgstr "Moderation"
+msgstr "Modération"
 
 msgid "Unvetted profiles"
 msgstr "Profils non vérifiés"
@@ -1654,13 +1654,13 @@ msgid "Duration of the ban"
 msgstr "Durée du bannissement "
 
 msgid "The number of days until the ban expires. Set to 0 to ban permanently."
-msgstr "Nombre de jour avant que le bannissement expire. Choisissez 0 pour bannir de manière permanente. "
+msgstr "Nombre de jour avant que le bannissement expire. Choisissez 0 pour bannir de manière définitive. "
 
 msgid "Lift user ban"
 msgstr "Lever le bannissement de l'utilisateur"
 
 msgid "You are banned from community participation until @date"
-msgstr "Vous êtes bannis de cette communauté jusqu'au @date"
+msgstr "Vous êtes banni de cette communauté jusqu'au @date"
 
 msgid "Computers @old_ids have been merged successfully into @id."
 msgstr "Les ordinateurs @old_ids ont bien été changés en @id."
@@ -1675,7 +1675,7 @@ msgid "Please enter your email address"
 msgstr "Veuillez entrer votre adresse email"
 
 msgid "Password entered is not valid. Please verify that it is correct."
-msgstr "Le mot de passe entré n'est pas valide. Veuillez en vérifier l'exactitude"
+msgstr "Le mot de passe entré n'est pas valide. Veuillez en vérifier l’exactitude."
 
 msgid "Make founder"
 msgstr "Le rendre fondateur"
