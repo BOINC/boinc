@@ -345,12 +345,12 @@ void* cudalib = NULL;
 
 #ifdef __APPLE__
     // If system is just booting, CUDA driver may not be ready yet
-    for (int retryCount=0; retryCount<45; retryCount++) {
+    for (int retryCount=0; retryCount<120; retryCount++) {
 #endif
         retval = (*__cuInit)(0);
 #ifdef __APPLE__
         if (!retval) break;
-        if (TickCount() > (120*60)) break;   // Don't retry if system has been up for over 2 minutes
+        if (TickCount() > (300*60)) break;   // Don't retry if system has been up for over 5 minutes
         boinc_sleep(1.);
         continue;
     }
