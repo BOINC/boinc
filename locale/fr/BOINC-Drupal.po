@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2015-12-15 12:43+0000\n"
-"PO-Revision-Date: 2016-01-20 20:20+0000\n"
+"PO-Revision-Date: 2016-01-20 20:30+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -832,10 +832,10 @@ msgid "Create a profile"
 msgstr "Créer un profil"
 
 msgid "Upload an avatar"
-msgstr "Transférer un avatar"
+msgstr "Télécharger un avatar"
 
 msgid "Forum settings"
-msgstr "Paramètres du Forum"
+msgstr "Paramètres du forum"
 
 msgid "In discussion topics, show at most @comments_per_page"
 msgstr "Dans les sujets de discussion, afficher au plus @comments_per_page"
@@ -847,7 +847,7 @@ msgid "Sort comments in discussions"
 msgstr "Trier les commentaires des discussions"
 
 msgid "Newest post first"
-msgstr "Les messages les plus récents en premier"
+msgstr "Les messages les plus récents d'abord"
 
 msgid "Oldest post first"
 msgstr "Plus ancien en premier"
@@ -865,10 +865,10 @@ msgid "Privacy settings"
 msgstr "Paramètres de confidentialité"
 
 msgid "Is it OK for @project and your team (if any) to email you?"
-msgstr "Acceptez-vous que @project et votre équipe (si vous en avez une) puisse vous envoyer des e-mails ?"
+msgstr "Acceptez-vous que @project et votre équipe (si vous en avez une) puissent vous envoyer des e-mails ?"
 
 msgid "Should @project show your computers on its web site?"
-msgstr "Est ce que @project doit montrer votre ordinateur sur son site web?"
+msgstr "Est ce que @project peut afficher vos ordinateurs sur son site web ?"
 
 msgid "Hide"
 msgstr "Masquer"
