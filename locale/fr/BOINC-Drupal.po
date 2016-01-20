@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2015-12-15 12:43+0000\n"
-"PO-Revision-Date: 2016-01-20 20:46+0000\n"
+"PO-Revision-Date: 2016-01-20 20:51+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1220,16 +1220,16 @@ msgid "Created"
 msgstr "Créé"
 
 msgid "While BOINC running, % of time host has an Internet connection"
-msgstr "Lorsque BOINC est en fonctionnement, % du temps où l'hôte a une connexion internet."
+msgstr "Lorsque BOINC fonctionne, % du temps où l'hôte a une connexion Internet"
 
 msgid "Average CPU efficiency"
-msgstr "Efficacité moyenne du CPU"
+msgstr "Performance moyenne du processeur"
 
 msgid "Free disk space"
 msgstr "Espace disque libre"
 
 msgid "Total disk space"
-msgstr "Taille totale de disque"
+msgstr "Taille totale du disque"
 
 msgid "Task duration correction factor"
 msgstr "Facteur de correction de durée de tâche"
@@ -1256,13 +1256,13 @@ msgid "Swap space"
 msgstr "Espace d'échange (swap)"
 
 msgid "Maximum daily WU quota per CPU"
-msgstr "Quota maximum journalier WU par CPU"
+msgstr "Quota maximum journalier WU par processeur"
 
 msgid "Average download rate"
 msgstr "Débit moyen de téléchargement"
 
 msgid "Average upload rate"
-msgstr "Débit moyen en téléchargement ascendant"
+msgstr "Débit moyen en téléversement (upload)"
 
 msgid "Same IP address count"
 msgstr "Compte même adresse IP"
