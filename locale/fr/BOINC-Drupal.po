@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2015-12-15 12:43+0000\n"
-"PO-Revision-Date: 2016-01-20 21:15+0000\n"
+"PO-Revision-Date: 2016-01-20 21:21+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1379,13 +1379,13 @@ msgid "Minimum quorum"
 msgstr "Quorum minimum"
 
 msgid "Max error tasks"
-msgstr "Nombres de tâches érronés"
+msgstr "Nombres de tâches erronés maximum"
 
 msgid "Max success tasks"
-msgstr "Nombres de tâches réussies maximum"
+msgstr "Nombre de tâches réussies maximum"
 
 msgid "Max total tasks"
-msgstr "Nombres totales de tâches"
+msgstr "Nombre total de tâches maximum"
 
 msgid "Needs validation"
 msgstr "Validation requise"
@@ -1394,7 +1394,7 @@ msgid "Initial replication"
 msgstr "Réplication initiale"
 
 msgid "Target number of results"
-msgstr "Objectif de nombre de résultats"
+msgstr "Objectif de résultat"
 
 msgid "Application version ID"
 msgstr "ID de version de l'application"
@@ -1430,7 +1430,7 @@ msgid "hours"
 msgstr "heures"
 
 msgid "@count million ops/sec"
-msgstr "@count million opérations/sec"
+msgstr "@count MIPS"
 
 msgid "@rate KiB/sec"
 msgstr "@rate Ko/sec"
