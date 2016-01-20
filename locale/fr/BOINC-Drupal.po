@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2015-12-15 12:43+0000\n"
-"PO-Revision-Date: 2016-01-20 20:10+0000\n"
+"PO-Revision-Date: 2016-01-20 20:15+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -664,7 +664,7 @@ msgid ""
 msgstr "Détermine la proportion des ressources de votre ordinateur allouée à ce projet. Par exemple : si vous participez à deux projets BOINC avec un partage de ressources de 100 et 200, le premier aura 1/3 des vos ressources et le second 2/3."
 
 msgid "Use CPU"
-msgstr "Utiliser le CPU"
+msgstr "Utiliser le processeur"
 
 msgid "Use NVIDIA GPU"
 msgstr "Utiliser la carte graphique NVIDIA"
@@ -684,13 +684,13 @@ msgstr "Exécuter les applications de test ? "
 msgid ""
 "This helps us develop applications, but may cause jobs to fail on your "
 "computer"
-msgstr "Ceci nous aide à développer les applications, mais peut générer des erreurs de calculs sur votre ordinateur"
+msgstr "Ceci nous aide à développer les applications, mais peut générer des erreurs de calcul sur votre ordinateur"
 
 msgid "Default set"
-msgstr "Défini par défaut"
+msgstr "Valeur par défaut"
 
 msgid "Set used for new computers"
-msgstr "Ensemble utilisé pour de nouveaux ordianteurs"
+msgstr "Valeur utilisée pour les nouveaux ordinateurs"
 
 msgid "Merge"
 msgstr "Fusionner"
@@ -715,19 +715,19 @@ msgid ""
 msgstr "Error de validation du CAPTCHA : ID de session CAPTCHA inconnu. Contactez l'administrateur du site si le problème persiste."
 
 msgid "The answer you entered for the CAPTCHA was not correct."
-msgstr "La réponse que vous avez entré pour le CAPTCHA n'était pas correcte."
+msgstr "Votre réponse au CAPTCHA est incorrecte."
 
 msgid "Access denied. You must login to view this page."
 msgstr "Accès refusé. Vous devez vous connecter pour voir cette page."
 
 msgid "You are not authorized to access this page."
-msgstr "Vous n'êtes pas autorisé pour accéder à cette page."
+msgstr "Vous n'êtes pas autorisé à accéder à cette page."
 
 msgid "Disable rich-text"
-msgstr "Désactiver RTF"
+msgstr "Désactiver le RTF"
 
 msgid "Enable rich-text"
-msgstr "Activer RTF"
+msgstr "Activer le RTF"
 
 msgid "View user profile."
 msgstr "Voir le profil de l'utilisateur."
@@ -753,7 +753,7 @@ msgid ""
 msgstr "Ceci supprimera tous vos paramètres de réglage de préférence @name. En êtes-vous sûr ?"
 
 msgid "These apply to all BOINC projects in which you participate."
-msgstr "Ceux-ci s'appliquent sur tous les projets BOINC auxquels vous participez."
+msgstr "Ceux-ci s'appliquent à tous les projets BOINC auxquels vous participez."
 
 msgid ""
 "On computers attached to multiple projects, the most recently modified "
