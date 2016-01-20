@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2015-12-15 12:43+0000\n"
-"PO-Revision-Date: 2016-01-20 20:15+0000\n"
+"PO-Revision-Date: 2016-01-20 20:20+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -758,7 +758,7 @@ msgstr "Ceux-ci s'appliquent à tous les projets BOINC auxquels vous participez.
 msgid ""
 "On computers attached to multiple projects, the most recently modified "
 "preferences will be used."
-msgstr "Sur les ordinateurs participants à plusieurs projets, les préférences mises à jours le plus récemment seront utilisées."
+msgstr "Sur les ordinateurs participants à plusieurs projets, les préférences le plus récemment modifiées seront utilisées."
 
 msgid "Preferences last modified: @mod_time"
 msgstr "Dernière modification des préférences : @mod_time"
@@ -773,7 +773,7 @@ msgid "every"
 msgstr "chaque"
 
 msgid "Edit"
-msgstr "Editer"
+msgstr "Éditer"
 
 msgid ""
 "This will remove all of your settings from the \"@name\" preference set. Are"
@@ -793,10 +793,10 @@ msgid "Notification settings"
 msgstr "Paramètres de notification"
 
 msgid "Receive email notification for private messages?"
-msgstr "Voulez vous recevoir un mail de notification pour les messages privés ?"
+msgstr "Voulez-vous recevoir un email de notification pour les messages privés ?"
 
 msgid "Receive email notification for friend requests?"
-msgstr "Voulez vous recevoir un mail de notification pour les messages d'amis ?"
+msgstr "Voulez-vous recevoir un mail de notification pour les messages d'amis ?"
 
 msgid "Language settings"
 msgstr "Paramètres de langue"
@@ -809,10 +809,10 @@ msgstr "La langue par défaut de ce compte pour les e-mails et la langue préfé
 msgid ""
 "If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
 " your e-mail address, it will be used for your user picture."
-msgstr "Si vous avez un avatar <a href=\"@gravatar-check\"> Gravatar <a> associé à votre adresse email, il sera utilisé comme image de profil"
+msgstr "Si vous avez un avatar <a href=\"@gravatar-check\"> Gravatar <a> associé à votre adresse email, il sera utilisé comme image de profil."
 
 msgid "Your Gravatar will not be shown if you upload a user picture."
-msgstr "Votre image Gravatar ne sera pas affiché si vous envoyez une image personnalisé "
+msgstr "Votre image Gravatar ne sera pas affichée si vous téléchargez une image personnalisée."
 
 msgid ""
 "If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
