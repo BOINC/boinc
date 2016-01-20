@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2015-12-15 12:43+0000\n"
-"PO-Revision-Date: 2016-01-20 19:39+0000\n"
+"PO-Revision-Date: 2016-01-20 19:45+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -290,16 +290,16 @@ msgid "Founder"
 msgstr "Fondateur"
 
 msgid "New members in last day"
-msgstr "Nouveaux membres de la veille"
+msgstr "Nouveaux membres du jour"
 
 msgid "Total members"
-msgstr "Membres totaux"
+msgstr "Total des membres"
 
 msgid "Active members"
 msgstr "Membres actifs"
 
 msgid "Members with credit"
-msgstr "Membres avec du crédit"
+msgstr "Membres crédités"
 
 msgid "Description"
 msgstr "Description"
@@ -308,7 +308,7 @@ msgid "Search teams"
 msgstr "Rechercher une équipe"
 
 msgid "Send message"
-msgstr "Envoyer message"
+msgstr "Envoyer un message"
 
 msgid "BOINC"
 msgstr "BOINC"
@@ -353,7 +353,7 @@ msgid "Computers hidden"
 msgstr "Ordinateurs masqués"
 
 msgid "This user has chosen not to show information about their computers."
-msgstr "Cet utilisateur a choisi de ne pas montrer d'information au sujet de ses ordinateurs."
+msgstr "Cet utilisateur a choisi de ne pas montrer d'informations sur ses ordinateurs."
 
 msgid "Stderr output"
 msgstr "Stderr output"
@@ -362,7 +362,7 @@ msgid "@time ago"
 msgstr "Il y a @time"
 
 msgid "n/a"
-msgstr "n/a"
+msgstr "non disponible"
 
 msgid "Submitted by !username on !datetime"
 msgstr "Soumit par !username le !datetime"
