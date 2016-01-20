@@ -7,6 +7,7 @@
 # 
 # Translators:
 # Died <doomdied@gmail.com>, 2015
+# Mingye Wang <arthur200126@gmail.com>, 2015
 # Po-Chun Huang <aphroteus@gmail.com>, 2015
 # Willy Wu <df910105@yahoo.com.tw>, 2015
 # Willy Wu <df910105@yahoo.com.tw>, 2015
@@ -15,7 +16,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2015-11-26 20:42+0000\n"
+"PO-Revision-Date: 2016-01-20 05:56+0000\n"
 "Last-Translator: Mingye Wang <arthur200126@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/boinc/boinc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -2615,15 +2616,15 @@ msgstr "用於顯示預設文字(一般是等寬字體)"
 
 #: ../user/bbcode.php:44
 msgid "Item 1"
-msgstr "專案1"
+msgstr "項目 1"
 
 #: ../user/bbcode.php:44
 msgid "Item2"
-msgstr "專案2"
+msgstr "項目2"
 
 #: ../user/bbcode.php:44
 msgid "Item 2"
-msgstr "專案2"
+msgstr "項目 2"
 
 #: ../user/bbcode.php:46
 msgid "use to link to Trac ticket on BOINC website"
@@ -3909,11 +3910,11 @@ msgstr "記得寫上標題"
 
 #: ../user/forum_post.php:131
 msgid "Show this item as a Notice in the BOINC Manager"
-msgstr "將該專案顯示為 BOINC 客戶端的通知"
+msgstr "將該項顯示為 BOINC 客戶端的通知"
 
 #: ../user/forum_post.php:131
 msgid "Do so only for items likely to be of interest to all volunteers."
-msgstr "僅在所有參與者都可能對該專案感興趣的時候使用"
+msgstr "僅在所有參與者都可能對該項感興趣的時候使用"
 
 #: ../user/forum_rate.php:28
 msgid "Rating offline"
@@ -4304,7 +4305,7 @@ msgstr "不要匯出"
 
 #: ../user/forum_thread.php:261
 msgid "Don't export this news item as a Notice"
-msgstr "不要將新聞專案匯出通知"
+msgstr "不要將新聞項匯出通知"
 
 #: ../user/forum_thread.php:270 ../user/forum_thread.php:272
 msgid "Sort"
@@ -6192,7 +6193,7 @@ msgstr "我現在對加入團隊%1沒興趣%2。"
 #: ../user/top_hosts.php:67 ../user/top_teams.php:102
 #: ../user/top_users.php:113
 msgid "Limit exceeded - Sorry, first %1 items only"
-msgstr "超出限制 - 對不起，僅顯示前 %1 個專案"
+msgstr "超出限制 - 對不起，僅顯示前 %1 項"
 
 #. Now display what we've got (either gotten from cache or from DB)
 #: ../user/top_hosts.php:82
