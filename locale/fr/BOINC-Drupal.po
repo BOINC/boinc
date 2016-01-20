@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2015-12-15 12:43+0000\n"
-"PO-Revision-Date: 2016-01-20 19:27+0000\n"
+"PO-Revision-Date: 2016-01-20 19:34+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -92,10 +92,10 @@ msgid "Remove request"
 msgstr "Supprimer la demande"
 
 msgid "Approve request"
-msgstr "Accepter la demande."
+msgstr "Accepter la demande"
 
 msgid "!name accepted your friend request [!site]"
-msgstr "!name a accepté votre demande d'ami [!site]."
+msgstr "!name a accepté votre demande d'ami [!site]"
 
 msgid ""
 "!name confirmed you as a friend on !site.\n"
@@ -107,13 +107,13 @@ msgid ""
 "\n"
 "Thanks,\n"
 "The !site team"
-msgstr "!name a confirmé que vous étiez son ami sur !site.\n\nSuivez ce lien pour afficher son profil: \n!lien\n\n!message\n\nMerci, l'équipe du !site."
+msgstr "!name a confirmé que vous étiez son ami sur !site.\n\nSuivez ce lien pour afficher son profil :\n!link\n\n!message\n\nMerci,\nl'équipe !site."
 
 msgid "Email address"
 msgstr "Adresse email"
 
 msgid "Home"
-msgstr "Maison"
+msgstr "Accueil"
 
 msgid "Login"
 msgstr "Nom d'utilisateur"
@@ -137,10 +137,10 @@ msgid "I'm new"
 msgstr "Je suis nouveau"
 
 msgid "I'm a BOINC user"
-msgstr "Je suis un utilisateur BOINC"
+msgstr "Je suis un utilisateur de BOINC"
 
 msgid "Welcome back!"
-msgstr "Bienvenue"
+msgstr "Bienvenue !"
 
 msgid ""
 "Einstein@Home is a program that uses your computer's idle time to run a "
@@ -155,10 +155,10 @@ msgid "View account"
 msgstr "Voir le compte"
 
 msgid "About our screensaver"
-msgstr "A propos de notre économiseur d'écran"
+msgstr "À propos de notre économiseur d'écran"
 
 msgid "Over 500,000 volunteers and counting."
-msgstr "Plus de 500 000 volontaires."
+msgstr "Plus de 500 000 bénévoles et calculateurs."
 
 msgid "Windows"
 msgstr "Windows"
