@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2015-12-15 12:43+0000\n"
-"PO-Revision-Date: 2016-01-20 20:35+0000\n"
+"PO-Revision-Date: 2016-01-20 20:40+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1036,34 +1036,34 @@ msgid "Any active request must be older than 90 days"
 msgstr "Une requête active doit dater de plus de 90 jours"
 
 msgid "Current founder has 60 days to respond to a request"
-msgstr "Le fondateur actuel a 60 jours pour répondre à une requete "
+msgstr "Le fondateur actuel a 60 jours pour répondre à une requête "
 
 msgid "Add team admin"
-msgstr "Ajouter l'administrateur de l'équipe"
+msgstr "Ajouter un administrateur à l'équipe"
 
 msgid "Enter email address"
 msgstr "Entrez l'adresse e-mail"
 
 msgid "Current team admins"
-msgstr "Administrateurs de l'équipe actuels"
+msgstr "Administrateurs actuels de l'équipe"
 
 msgid "About team admins"
-msgstr "A propos de l'équipe d'administrateur"
+msgstr "À propos de l'équipe d'administrateurs"
 
 msgid "Team admins can:"
-msgstr "Les équipes Admins peuvent :"
+msgstr "Les administrateurs de l’équipe peuvent :"
 
 msgid "Edit team information"
-msgstr "Editer les informations d'équipe"
+msgstr "Éditer les informations de l'équipe"
 
 msgid "View the team's join / quit history"
-msgstr "Voir l'historique des entrées/départs de l'équipe"
+msgstr "Voir l'historique des venues et des départs dans l'équipe"
 
 msgid "Moderate the team forum"
-msgstr "Modérer le forum d'équipe"
+msgstr "Modérer le forum de l'équipe"
 
 msgid "Remove members from the team"
-msgstr "Retirer un membres de l'équipe"
+msgstr "Supprimer des membres de l'équipe"
 
 msgid "Disband a team if it has no members"
 msgstr "Supprimer l'équipe si elle n'a aucun membre"
@@ -1075,18 +1075,18 @@ msgid "Change the team founder"
 msgstr "Modifier le nom du fondateur de l'équipe"
 
 msgid "Add / Remove team admins"
-msgstr "Ajouter / Retirer un administrateur de l'équipe"
+msgstr "Ajouter / Supprimer un administrateur de l'équipe"
 
 msgid ""
 "If a team admin quits the team, they cease to be a team admin. We recommend "
 "only selecting people you know and trust"
-msgstr "Si un administrateur de l'équipe quitte l'équipe, ils cessent d'être un administrateur d'équipe. Nous vous recommandons de sélectionner uniquement des personnes que vous connaissez et à qui vous faites confiance"
+msgstr "Si un administrateur quitte l'équipe, il cesse d'être un administrateur de l'équipe. Nous vous recommandons de sélectionner uniquement des personnes que vous connaissez et à qui vous faites confiance"
 
 msgid "Choose type"
 msgstr "Choisissez le type"
 
 msgid "Team name"
-msgstr "Nom d'équipe"
+msgstr "Nom de l'équipe"
 
 msgid "Team name -- HTML version (optional)"
 msgstr "Nom de l'équipe -- Version HTML (optionnelle)"
@@ -1095,7 +1095,7 @@ msgid "You may use limited HTML tags"
 msgstr "Vous pouvez utiliser certaines balises HTML"
 
 msgid "Team website (optional)"
-msgstr "Site internet de l'équipe (optionnelle)"
+msgstr "Site internet de l'équipe (optionnel)"
 
 msgid "Displayed on the team's page"
 msgstr "Affiché sur la page de l'équipe"
@@ -1104,7 +1104,7 @@ msgid "Type of team"
 msgstr "Type d'équipe"
 
 msgid "Accept new members?"
-msgstr "Accepte des nouveaux membres ?"
+msgstr "Accepter de nouveaux membres ?"
 
 msgid "Description of team"
 msgstr "Description de l'équipe"
