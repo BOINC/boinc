@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2016-01-20 19:04+0000\n"
+"PO-Revision-Date: 2016-01-20 19:17+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +35,7 @@ msgstr "Certaines tâches nécessitent davantage de mémoire que celle permise d
 
 #: client_state.cpp:520
 msgid "Couldn't write state file; check directory permissions"
-msgstr "Impossible d'écrire dans le fichier d'état ; Vérifiez les autorisations de répertoire"
+msgstr "Impossible d'écrire dans le fichier d'état ; vérifiez les droits d'accès aux répertoires"
 
 #: cs_cmdline.cpp:303
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
@@ -129,7 +129,7 @@ msgstr "Veuillez mettre à jour votre système avec les derniers drivers pour po
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
-msgstr "Une version plus récente de BOINC est requise pour utiliser votre GPU NVIDIA; merci de mettre à jour avec la dernière version"
+msgstr "Une version plus récente de BOINC est requise pour utiliser votre GPU NVIDIA ; merci de mettre à jour avec la dernière version"
 
 #: ../sched/sched_send.cpp:1146
 #, c-format
@@ -146,13 +146,13 @@ msgstr "Votre ordinateur n'est pas supporté par ce projet"
 
 #: ../sched/sched_send.cpp:1294
 msgid "Newer BOINC version required; please install current version"
-msgstr "La nouvelle version de BOINC est nécessaire; merci d'installer la dernière version"
+msgstr "La nouvelle version de BOINC est nécessaire ; merci d'installer la dernière version"
 
 #: ../sched/sched_send.cpp:1305
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
-msgstr "Les tâches pour %s sont disponibles, mais on charge que vos préférences pas les acceptent"
+msgstr "Des tâches pour %s sont disponibles, mais vos préférences commandent de ne pas les accepter"
 
 #: ../sched/sched_types.cpp:254
 msgid "Unknown app name in app_info.xml"
