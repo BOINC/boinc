@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2015-12-15 12:43+0000\n"
-"PO-Revision-Date: 2016-01-20 20:51+0000\n"
+"PO-Revision-Date: 2016-01-20 21:10+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1259,13 +1259,13 @@ msgid "Maximum daily WU quota per CPU"
 msgstr "Quota maximum journalier WU par processeur"
 
 msgid "Average download rate"
-msgstr "Débit moyen de téléchargement"
+msgstr "Débit moyen de téléchargement (download)"
 
 msgid "Average upload rate"
 msgstr "Débit moyen en téléversement (upload)"
 
 msgid "Same IP address count"
-msgstr "Compte même adresse IP"
+msgstr "Compte de même adresse IP"
 
 msgid "% of time BOINC client is running"
 msgstr "% de temps de fonctionnement de BOINC"
@@ -1283,7 +1283,7 @@ msgid "Measured integer speed"
 msgstr "Vitesse mesurée pour les calculs en nombres entiers"
 
 msgid "CPU model"
-msgstr "Modèle de CPU"
+msgstr "Type de processeur"
 
 msgid "Number of processors"
 msgstr "Nombre de processeurs"
