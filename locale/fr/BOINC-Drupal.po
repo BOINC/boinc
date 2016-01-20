@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2015-12-15 12:43+0000\n"
-"PO-Revision-Date: 2016-01-20 19:34+0000\n"
+"PO-Revision-Date: 2016-01-20 19:39+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -214,10 +214,10 @@ msgid "Change password"
 msgstr "Modifier le mot de passe"
 
 msgid "What is @this_project?"
-msgstr "Qu'est ce que @this_project?"
+msgstr "Qu'est ce que @this_project ?"
 
 msgid "no projects..."
-msgstr "aucuns projets..."
+msgstr "aucun projet..."
 
 msgid "Download the desktop software"
 msgstr "Télécharger l'application"
@@ -232,7 +232,7 @@ msgid "Password"
 msgstr "Mot de passe"
 
 msgid "Enter the password that accompanies your username."
-msgstr "Entrez le mot de passe qui va avec votre nom d'utilisateur."
+msgstr "Entrez le mot de passe correspondant à votre nom d'utilisateur."
 
 msgid "Request new password"
 msgstr "Demander un nouveau mot de passe"
@@ -263,7 +263,7 @@ msgstr "1) Si vous connaissez l'adresse email de votre compte, vous pouvez recev
 msgid ""
 "Enter the email address and click OK. You will be sent email instructions "
 "for resetting your password."
-msgstr "Entrez l'adresse email et cliquez OK. Vous allez recevoir un email avec les instructions pour réinitialiser votre mot de passe."
+msgstr "Entrez l'adresse email et cliquez sur OK. Vous allez recevoir un email avec les instructions pour réinitialiser votre mot de passe."
 
 msgid "OK"
 msgstr "OK"
@@ -275,7 +275,7 @@ msgid "Comment form"
 msgstr "Formulaire de commentaire"
 
 msgid "Total credits"
-msgstr "Crédits total"
+msgstr "Total des crédits"
 
 msgid "Recent avg credits"
 msgstr "Crédit moyen récent"
