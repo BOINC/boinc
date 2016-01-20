@@ -5,7 +5,7 @@
 # Translators:
 # Amaury Van Espen, 2015
 # Arnaud <bidibulle25_at_yahoo.fr>, 2007
-# Axelle Andy <andex@voila.fr>, 2015
+# Axelle Andy, 2015
 # BUNS Nicolas, 2015
 # Christian Beer <christian.beer@posteo.de>, 2015
 # Clément Jonglez <clement.jonglez@isae.fr>, 2015
@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2015-10-24 11:02+0000\n"
+"PO-Revision-Date: 2016-01-20 20:05+0000\n"
 "Last-Translator: Amaury Van Espen\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1346,7 +1346,7 @@ msgstr "Permuter entre les tâches toutes les"
 msgid ""
 "This controls how often tasks save their state to disk, so that they later "
 "can be continued from that point."
-msgstr "Ceci contrôle la fréquence à laquelle les tâches sauvegarde leur état sur le disque, de sorte que plus tard elles peuvent être poursuivies à partir de ce point."
+msgstr "Ce paramètre règle la fréquence à laquelle les tâches enregistrent leur état sur le disque, de sorte que plus tard elles puissent être poursuivies à partir de ce point."
 
 #. context: Request tasks to checkpoint at most every ___ seconds
 #: clientgui/DlgAdvPreferencesBase.cpp:423
