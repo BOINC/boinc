@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2015-12-15 12:43+0000\n"
-"PO-Revision-Date: 2016-01-20 19:53+0000\n"
+"PO-Revision-Date: 2016-01-20 19:59+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -500,13 +500,13 @@ msgid "Run while computer is on battery power?"
 msgstr "Calculer quand votre ordinateur portable est sur batterie ?"
 
 msgid "Only applies to portable computers"
-msgstr "Applicable uniquement sur les ordinateurs portables"
+msgstr "Applicable uniquement aux ordinateurs portables"
 
 msgid "Run while computer is in use?"
-msgstr "Fonctionnelle pendant l'utilisation de votre ordinateur ?"
+msgstr "Calculer pendant l'utilisation de votre ordinateur ?"
 
 msgid "Run GPU work while computer is in use?"
-msgstr "Fonctionnelle pendant l'utilisation de votre Carte Graphique ?"
+msgstr "Calculer avec la carte graphique pendant l'utilisation de votre ordinateur ?"
 
 msgid "Enforced by version @number"
 msgstr "Imposé par la version @number"
@@ -518,13 +518,13 @@ msgid "minutes"
 msgstr "minutes"
 
 msgid "Suspend work if no mouse/keyboard activity in last"
-msgstr "Suspendre le travail si pas d'utilisation souris / clavier durant "
+msgstr "Suspendre le travail sans utilisation de la souris et du clavier dans les dernières"
 
 msgid "Needed to enter low-power mode on some computers"
 msgstr "Requis pour pouvoir basculer en mode basse consommation sur certains ordinateurs"
 
 msgid "Suspend work if CPU usage is above"
-msgstr "Suspendre le calcul si l'usage CPU est au dessus de"
+msgstr "Suspendre le calcul si l’utilisation du processeur dépasse"
 
 msgid "0 means no restriction. Enforced by version @number"
 msgstr "0 signifie pas de restrictions. Imposé par la version @number"
