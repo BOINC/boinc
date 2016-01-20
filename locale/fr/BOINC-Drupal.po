@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2015-12-15 12:43+0000\n"
-"PO-Revision-Date: 2016-01-20 20:30+0000\n"
+"PO-Revision-Date: 2016-01-20 20:35+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -850,7 +850,7 @@ msgid "Newest post first"
 msgstr "Les messages les plus récents d'abord"
 
 msgid "Oldest post first"
-msgstr "Plus ancien en premier"
+msgstr "Les messages les plus anciens d'abord"
 
 msgid "Signature"
 msgstr "Signature"
@@ -868,7 +868,7 @@ msgid "Is it OK for @project and your team (if any) to email you?"
 msgstr "Acceptez-vous que @project et votre équipe (si vous en avez une) puissent vous envoyer des e-mails ?"
 
 msgid "Should @project show your computers on its web site?"
-msgstr "Est ce que @project peut afficher vos ordinateurs sur son site web ?"
+msgstr "Acceptez-vous que @project affiche vos ordinateurs sur son site web ?"
 
 msgid "Hide"
 msgstr "Masquer"
@@ -883,10 +883,10 @@ msgid "Lock this thread for comments"
 msgstr "Verrouiller ce fil de commentaires"
 
 msgid "Make sticky"
-msgstr "Epingler"
+msgstr "Épingler"
 
 msgid "Make this topic sticky"
-msgstr "Epingler ce sujet"
+msgstr "Épingler ce sujet"
 
 msgid "moderation"
 msgstr "modération"
@@ -922,7 +922,7 @@ msgid "View member list"
 msgstr "Voir la liste des membres"
 
 msgid "Member names and emails"
-msgstr "E-mails et noms de membre"
+msgstr "E-mails et noms des membres"
 
 msgid "View change history"
 msgstr "Afficher l'historique des changements"
@@ -931,7 +931,7 @@ msgid "See member activity"
 msgstr "Voir l'activité des membres"
 
 msgid "Manage team message board"
-msgstr "Gérer le forum d'équipe"
+msgstr "Gérer le forum de l'équipe"
 
 msgid "Create or manage message board"
 msgstr "Créer ou gérer un forum"
@@ -940,25 +940,25 @@ msgid "Remove members"
 msgstr "Supprimer des membres"
 
 msgid "Change founder"
-msgstr "Changer de fondateur"
+msgstr "Changer de chef d'équipe"
 
 msgid "Manage team admins"
 msgstr "Gérer les administrateurs de l'équipe"
 
 msgid "Edit team info"
-msgstr "Éditer les informations d'équipe"
+msgstr "Éditer les informations de l'équipe"
 
 msgid "Remove team"
 msgstr "Supprimer l'équipe"
 
 msgid "Team forum"
-msgstr "L'équipe du forum"
+msgstr "Le forum de l'équipe"
 
 msgid "A discussion forum has been set up for team members."
 msgstr "Un forum de discussion a été mis en place pour les membres de l'équipe."
 
 msgid "Enter forum"
-msgstr "Visitez le Forum"
+msgstr "Entrer dans le forum"
 
 msgid "Leave team"
 msgstr "Quitter l'équipe "
@@ -970,10 +970,10 @@ msgid "Leave this team"
 msgstr "Quitter cette équipe"
 
 msgid "Edit message board"
-msgstr "Editer ce message "
+msgstr "Éditer ce message "
 
 msgid "Message board title"
-msgstr "Titre du Message"
+msgstr "Titre du message"
 
 msgid "Text only, no HTML tags"
 msgstr "Texte uniquement, pas de balises HTML"
@@ -997,7 +997,7 @@ msgid "Save message board"
 msgstr "Enregistrer ce message"
 
 msgid "About message boards"
-msgstr "A propos de ce message"
+msgstr "À propos de ce message"
 
 msgid "This is a team-only message board"
 msgstr "Ceci est un forum réservé à l'équipe"
@@ -1006,16 +1006,16 @@ msgid "Only members may post"
 msgstr "Seuls les membres peuvent poster"
 
 msgid "Only members may read (optional)"
-msgstr "Seul les membres peuvent lire ce message (optionnelle) "
+msgstr "Seul les membres peuvent lire (optionnel) "
 
 msgid "Founder & Team Admins have moderator privileges"
-msgstr "Le fondateur et l'équipe d'administration ont les privilèges de modérateur"
+msgstr "Le fondateur et les administrateurs de l'équipe ont les privilèges de modérateur."
 
 msgid "Changing the team founder"
-msgstr "Changer le fondateur de l'équipe"
+msgstr "Changer le chef d'équipe"
 
 msgid "Notes about changes in foundership:"
-msgstr "Notes à propos des changements dans la fondation :"
+msgstr "Notes à propos des changements de chef :"
 
 msgid "Any member of the team is eligible"
 msgstr "Tout membre de l'équipe est éligible"
@@ -1024,16 +1024,16 @@ msgid "Current founder becomes a normal user"
 msgstr "Le fondateur actuel devient un utilisateur normal"
 
 msgid "Foundership can be requested by team members:"
-msgstr "La place de fondateur peut être demandée par les membres de l'équipe:"
+msgstr "La place de fondateur peut être demandée par les membres de l’équipe :"
 
 msgid "One request is allowed at a time"
-msgstr "Une seule requête est autorisé a la fois"
+msgstr "Une seule requête est autorisée à la fois"
 
 msgid "It must be 60 days since any previous request"
 msgstr "Il faut attendre 60 jours depuis la précédente requête"
 
 msgid "Any active request must be older than 90 days"
-msgstr "Une requete active doit dater de plus de 90 jours "
+msgstr "Une requête active doit dater de plus de 90 jours"
 
 msgid "Current founder has 60 days to respond to a request"
 msgstr "Le fondateur actuel a 60 jours pour répondre à une requete "
