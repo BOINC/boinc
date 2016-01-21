@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 16:40+0000\n"
+"PO-Revision-Date: 2016-01-21 16:48+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1347,12 +1347,12 @@ msgstr "Permuter d’une tâche à l’autre toutes les"
 msgid ""
 "This controls how often tasks save their state to disk, so that they later "
 "can be continued from that point."
-msgstr "Ce paramètre règle la fréquence à laquelle les tâches enregistrent leur état sur le disque, de sorte qu'elles pourront être poursuivies à partir de cet état."
+msgstr "Ce paramètre règle la fréquence à laquelle les tâches enregistrent leur état sur le disque, de sorte qu'elles pourront être poursuivies ultérieurement à partir de cet état."
 
 #. context: Request tasks to checkpoint at most every ___ seconds
 #: clientgui/DlgAdvPreferencesBase.cpp:423
 msgid "Request tasks to checkpoint at most every"
-msgstr "Demander des tâches au point de contrôle au plus chaque"
+msgstr "Effectuer au minimum un point de contrôle des tâches toutes les"
 
 #. context: Request tasks to checkpoint at most every ___ seconds
 #: clientgui/DlgAdvPreferencesBase.cpp:432
@@ -1362,7 +1362,7 @@ msgstr "secondes"
 #. upload/download rates
 #: clientgui/DlgAdvPreferencesBase.cpp:469
 msgid "Limit the download rate of file transfers."
-msgstr "Limiter le taux de transfert de fichiers descendant (download)."
+msgstr "Limiter la vitesse de téléchargement des fichiers (download)."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:470
 msgid "Limit download rate to"
@@ -1371,7 +1371,7 @@ msgstr "Taux limite de téléchargement descendant"
 #: clientgui/DlgAdvPreferencesBase.cpp:474
 #: clientgui/DlgAdvPreferencesBase.cpp:483
 msgid "KB/second"
-msgstr "KB/seconde"
+msgstr "Ko/s"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:478
 msgid "Limit the upload rate of file transfers."
