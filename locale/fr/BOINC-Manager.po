@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 18:20+0000\n"
+"PO-Revision-Date: 2016-01-21 18:32+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -2675,14 +2675,14 @@ msgstr "Veuillez vous connecter à Internet et réessayez."
 
 #: clientgui/NotDetectedPage.cpp:181
 msgid "Project not found"
-msgstr "Projet non trouvé"
+msgstr "Projet introuvable"
 
 #: clientgui/NotDetectedPage.cpp:184
 msgid ""
 "The URL you supplied is not that of a BOINC-based project.\n"
 "\n"
 "Please check the URL and try again."
-msgstr "L'URL que vous avez entrée n'est pas celle d'un projet basé sur BOINC.\n\nVeuillez vérifier l'URL et réessayer, svp."
+msgstr "L'URL que vous avez entrée n'est pas celle d'un projet basé sur BOINC.\n\nVeuillez vérifier l'adresse et réessayer."
 
 #: clientgui/NotDetectedPage.cpp:188
 msgid "Account manager not found"
@@ -2694,7 +2694,7 @@ msgid ""
 "manager.\n"
 "\n"
 "Please check the URL and try again."
-msgstr "L'URL que vous avez entrée n'est pas celle d'un\ngestionnaire de compte basé sur BOINC.\n\nVeuillez vérifier l'URL et réessayer, svp."
+msgstr "L'URL que vous avez entrée n'est pas celle d'un\ngestionnaire de compte basé sur BOINC.\n\nVeuillez vérifier l'adresse et réessayer."
 
 #: clientgui/NotFoundPage.cpp:181
 msgid "Login Failed."
@@ -2702,11 +2702,11 @@ msgstr "L'identification a échoué."
 
 #: clientgui/NotFoundPage.cpp:185
 msgid "Check the username and password, and try again."
-msgstr "Vérifiez le nom d'utilisateur et le mot de passe, et essayez à nouveau."
+msgstr "Vérifiez le nom d'utilisateur et le mot de passe et réessayez."
 
 #: clientgui/NotFoundPage.cpp:189
 msgid "Check the email address and password, and try again."
-msgstr "Vérifiez l'adresse email et le mot de passe, et essayez à nouveau."
+msgstr "Vérifiez l'adresse email et le mot de passe et réessayez."
 
 #: clientgui/NoticeListCtrl.cpp:229
 msgid "more..."
@@ -2718,15 +2718,15 @@ msgstr "Choisissez un projet"
 
 #: clientgui/ProjectInfoPage.cpp:226
 msgid "To choose a project, click its name or type its URL below."
-msgstr "Pour choisir un projet, cliquez sur son nom ou tapez son URL ci-dessous."
+msgstr "Pour choisir un projet, cliquez sur son nom ou tapez son adresse ci-dessous."
 
 #: clientgui/ProjectInfoPage.cpp:242
 msgid "Categories:"
-msgstr "Catégories:"
+msgstr "Catégories :"
 
 #: clientgui/ProjectInfoPage.cpp:262 clientgui/sg_ProjectPanel.cpp:89
 msgid "Projects:"
-msgstr "Projets:"
+msgstr "Projets :"
 
 #: clientgui/ProjectInfoPage.cpp:274
 msgid "Project details"
@@ -2734,23 +2734,23 @@ msgstr "Détails du projet"
 
 #: clientgui/ProjectInfoPage.cpp:284
 msgid "Research area:"
-msgstr "Domaine de recherche:"
+msgstr "Domaine de recherche :"
 
 #: clientgui/ProjectInfoPage.cpp:294
 msgid "Organization:"
-msgstr "Organisation:"
+msgstr "Organisation :"
 
 #: clientgui/ProjectInfoPage.cpp:304
 msgid "Web site:"
-msgstr "Site Web:"
+msgstr "Site web :"
 
 #: clientgui/ProjectInfoPage.cpp:315
 msgid "Supported systems:"
-msgstr "Systèmes compatibles:"
+msgstr "Systèmes compatibles :"
 
 #: clientgui/ProjectInfoPage.cpp:352
 msgid "Project URL:"
-msgstr "URL du projet:"
+msgstr "Adresse du projet :"
 
 #: clientgui/ProjectInfoPage.cpp:486 clientgui/ProjectInfoPage.cpp:686
 #: clientgui/ProjectInfoPage.cpp:690
@@ -2761,11 +2761,11 @@ msgstr "Tous"
 msgid ""
 "This project may not have work for your type of computer.  Do you want to "
 "add it anyway?"
-msgstr "Il se peut que ce projet n'ait pas d'unité de travail pour votre système d'exploitation. Êtes vous sur de vouloir l'ajouter?"
+msgstr "Il se peut que ce projet n'ait pas d'unité de travail pour votre système d'exploitation. Êtes vous sûr de vouloir l’ajouter ?"
 
 #: clientgui/ProjectInfoPage.cpp:767
 msgid "You already added this project. Please choose a different project."
-msgstr "Vous avez déjà ajouté ce projet. Merci de choisir un projet différent."
+msgstr "Vous avez déjà ajouté ce projet. Vous pouvez choisir un autre projet."
 
 #: clientgui/ProjectProcessingPage.cpp:321
 msgid "Communicating with project."
@@ -2773,7 +2773,7 @@ msgstr "Communication avec le projet en cours."
 
 #: clientgui/ProjectProcessingPage.cpp:509
 msgid "Required files not found on the server."
-msgstr "Fichiers requis non trouvés sur le serveur."
+msgstr "Fichiers requis introuvables sur le serveur."
 
 #: clientgui/ProjectProcessingPage.cpp:512
 #: clientgui/ProjectProcessingPage.cpp:585
@@ -2797,23 +2797,23 @@ msgstr "Vous avez fait du bénévolat pour calculer ce projet :"
 
 #: clientgui/ProjectWelcomePage.cpp:255
 msgid "Name:"
-msgstr "Nom:"
+msgstr "Nom :"
 
 #: clientgui/ProjectWelcomePage.cpp:258
 msgid "Home:"
-msgstr "Accueil:"
+msgstr "Accueil :"
 
 #: clientgui/ProjectWelcomePage.cpp:262
 msgid "Description:"
-msgstr "Description:"
+msgstr "Description :"
 
 #: clientgui/ProjectWelcomePage.cpp:265
 msgid "URL:"
-msgstr "URL :"
+msgstr "Adresse web :"
 
 #: clientgui/ProjectWelcomePage.cpp:268
 msgid "User:"
-msgstr "Utilisateur:"
+msgstr "Utilisateur :"
 
 #: clientgui/ProjectWelcomePage.cpp:273
 msgid ""
@@ -2827,7 +2827,7 @@ msgstr "Pour continuer, cliquez sur Suivant."
 
 #: clientgui/ProxyInfoPage.cpp:195
 msgid "Network communication failure"
-msgstr "Echec de la communication réseau"
+msgstr "Échec de la communication réseau"
 
 #: clientgui/ProxyInfoPage.cpp:199
 msgid ""
@@ -2844,7 +2844,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr "Le logiciel  World Community Grid - BOINC n'a pas réussi à communiquer avec l'Internet.\nLes raisons les plus probables sont :\n\n1) Un problème de connexion. Veuillez vérifier votre connexion au réseau ou à votre modem\net pressez le bouton Retour pour essayer de nouveau.\n\n2) Un pare-feu personnel bloque le logiciel  World Community Grid - BOINC. Vous devez configurer\nvotre pare-feu personnel afin de laisser BOINC et BOINC Manager communiquer\npar le port 80 et le port 443. Une fois cela réglé, cliquez sur Retour pour\nessayer à nouveau.\n\n3) Vous utilisez un serveur proxy.\nCliquez sur Suivant pour configurer les paramètres proxy de BOINC."
+msgstr "Le logiciel World Community Grid - BOINC n'a pas réussi à communiquer avec Internet.\nLes raisons les plus probables sont :\n\n1) Un problème de connexion. Veuillez vérifier votre connexion au réseau \nou à votre modem et pressez le bouton Retour pour réessayer.\n\n2) Un pare-feu personnel bloque le logiciel  World Community Grid - BOINC. \nVous devez configurer votre pare-feu afin de laisser BOINC et BOINC Manager \ncommuniquent par le port 80 et le port 443.  Une fois cela réglé, \ncliquez sur Retour pour réessayer.\n\n3) Vous utilisez un serveur proxy.\nCliquez sur Suivant pour configurer les paramètres proxy de BOINC."
 
 #: clientgui/ProxyInfoPage.cpp:203
 msgid ""
@@ -2861,7 +2861,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr "BOINC n'a pas réussi à communiquer avec Internet.\nLes raisons les plus probables sont:\n\n1) Un problème de connexion. Veuillez vérifier votre connexion au réseau ou à votre modem\net cliquez sur Retour pour essayer à nouveau.\n\n2) Un pare-feu personnel bloque BOINC.\nVous devez configurer votre pare-feu personnel afin de laisser BOINC et\nle BOINC Manager communiquer par le port 80.\nUne fois cela réglé, cliquez sur Retour pour essayer à nouveau.\n\n3) Vous utilisez un serveur proxy.\nCliquez sur Suivant pour configurer les paramètres proxy de BOINC."
+msgstr "BOINC n'a pas réussi à communiquer avec Internet.\nLes raisons les plus probables sont :\n\n1) Un problème de connexion. Veuillez vérifier votre connexion au réseau ou à votre modem\net cliquez sur Retour pour réessayer.\n\n2) Un pare-feu personnel bloque BOINC.\nVous devez configurer votre pare-feu afin de laisser BOINC et BOINC Manager \ncommuniquer par le port 80. Une fois cela réglé, \ncliquez sur Retour pour réessayer.\n\n3) Vous utilisez un serveur proxy.\nCliquez sur Suivant pour configurer les paramètres proxy de BOINC."
 
 #: clientgui/ProxyPage.cpp:331
 msgid "Proxy configuration"
