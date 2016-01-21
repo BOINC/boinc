@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 16:16+0000\n"
+"PO-Revision-Date: 2016-01-21 16:22+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1085,7 +1085,7 @@ msgstr "BOINC est distribué sous Licence publique générale limitée GNU v 3.0
 
 #: clientgui/DlgAbout.cpp:203
 msgid "For more information, visit "
-msgstr "Pour plus d'informations, visitez "
+msgstr "Pour plus d'informations, consultez "
 
 #: clientgui/DlgAbout.cpp:215 clientgui/DlgExitMessage.cpp:173
 #: clientgui/DlgGenericMessage.cpp:120 clientgui/DlgOptions.cpp:410
@@ -1115,7 +1115,7 @@ msgstr "Le nombre doit être compris entre 0 et 100"
 
 #: clientgui/DlgAdvPreferences.cpp:689
 msgid "Number must be between 1 and 100"
-msgstr "Le nombre doit être compris entre 0 et 100"
+msgstr "Le nombre doit être compris entre 1 et 100"
 
 #: clientgui/DlgAdvPreferences.cpp:947 clientgui/sg_DlgPreferences.cpp:849
 msgid "invalid input value detected"
@@ -1123,7 +1123,7 @@ msgstr "valeur invalide détectée"
 
 #: clientgui/DlgAdvPreferences.cpp:959 clientgui/sg_DlgPreferences.cpp:861
 msgid "Validation Error"
-msgstr "Erreur de Validation"
+msgstr "Erreur de validation"
 
 #: clientgui/DlgAdvPreferences.cpp:1171
 msgid "Discard local preferences and use web-based preferences?"
@@ -1136,7 +1136,7 @@ msgstr "Confirmation"
 #: clientgui/DlgAdvPreferencesBase.cpp:54
 #, c-format
 msgid "%s - Computing preferences"
-msgstr "%s - Préférence de calcul"
+msgstr "%s - Préférences de calcul"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:82 clientgui/sg_DlgPreferences.cpp:163
 msgid ""
@@ -1173,7 +1173,7 @@ msgstr "Utilisation du réseau"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:146
 msgid "Disk and memory"
-msgstr "Disque et mémoire"
+msgstr "Stockage et mémoire"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:149
 msgid "Daily schedules"
@@ -1191,7 +1191,7 @@ msgstr "Enregistrer toutes les préférences et fermer la fenêtre."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:169
 msgid "Close the dialog without saving."
-msgstr "Fermer la fenêtre sans enregistrer les changements."
+msgstr "Fermer la fenêtre sans enregistrer les modifications."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:173 clientgui/DlgExclusiveApps.cpp:157
 #: clientgui/Localization.cpp:35 clientgui/Localization.cpp:121
@@ -1214,17 +1214,17 @@ msgstr "Les limites d'utilisation"
 msgid ""
 "Keep some CPUs free for other applications. Example: 75% means use 6 cores "
 "on an 8-core CPU."
-msgstr "Garder certains processeurs libres pour d'autres applications. Exemple : 75 % signifie utiliser 6 cœurs sur un processeur 8-core."
+msgstr "Garder certains processeurs libres pour d'autres applications. Exemple : 75 % signifie utiliser 6 cœurs sur un processeur 8 cœurs."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:243
 #: clientgui/DlgAdvPreferencesBase.cpp:255 clientgui/sg_DlgPreferences.cpp:286
 msgid "Use at most"
-msgstr "Utiliser au plus"
+msgstr "Utiliser au maximum"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:248
 #, no-c-format
 msgid "% of the CPUs"
-msgstr "% des CPU"
+msgstr "% des processeurs"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:253 clientgui/sg_DlgPreferences.cpp:284
 #, no-c-format
@@ -1232,7 +1232,7 @@ msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
 "energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, "
 "and repeat."
-msgstr "Suspend puis reprend les calculs toutes les quelques secondes afin de réduire la température du processeur et la consommation d'énergie. Exemple : 75 % signifie calculer pendant 3 secondes, attendre 1 seconde et répéter."
+msgstr "Suspend puis reprend les calculs toutes les quelques secondes afin de réduire la température du processeur et la consommation d'énergie. Exemple : 75 % signifie calculer pendant 3 secondes, attendre 1 seconde et recommencer."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:260 clientgui/sg_DlgPreferences.cpp:291
 #, no-c-format
