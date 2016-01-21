@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 15:43+0000\n"
+"PO-Revision-Date: 2016-01-21 15:48+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -367,7 +367,7 @@ msgstr "Réessayer les transferts en attente"
 
 #: clientgui/AdvancedFrame.cpp:499
 msgid "Retry deferred file transfers and task requests"
-msgstr "Réessayer les transferts de fichiers et les taches différés "
+msgstr "Réessayer les transferts de fichiers et les tâches différées "
 
 #: clientgui/AdvancedFrame.cpp:504 clientgui/sg_BoincSimpleFrame.cpp:211
 msgid "Event Log...\tCtrl+Shift+E"
@@ -383,7 +383,7 @@ msgstr "&Calculer en permanence"
 
 #: clientgui/AdvancedFrame.cpp:514
 msgid "Allow work regardless of preferences"
-msgstr "Autorise le travail sans tenir compte des préférences"
+msgstr "Autoriser le travail sans tenir compte des préférences"
 
 #: clientgui/AdvancedFrame.cpp:518
 msgid "Run based on &preferences"
@@ -391,7 +391,7 @@ msgstr "Calculer selon les &préférences"
 
 #: clientgui/AdvancedFrame.cpp:519
 msgid "Allow work according to preferences"
-msgstr "Autorise le travail selon les préférences"
+msgstr "Autoriser le travail selon les préférences"
 
 #: clientgui/AdvancedFrame.cpp:523
 msgid "&Suspend"
@@ -403,27 +403,27 @@ msgstr "Arrêter les calculs sans tenir compte des préférences"
 
 #: clientgui/AdvancedFrame.cpp:549
 msgid "Use GPU always"
-msgstr "Toujours utiliser le GPU"
+msgstr "Toujours utiliser le processeur graphique"
 
 #: clientgui/AdvancedFrame.cpp:550
 msgid "Allow GPU work regardless of preferences"
-msgstr "Autorise le calcul GPU sans tenir compte des préférences"
+msgstr "Autoriser le calcul du processeur graphique sans tenir compte des préférences"
 
 #: clientgui/AdvancedFrame.cpp:554
 msgid "Use GPU based on preferences"
-msgstr "Utiliser le GPU selon les préférences"
+msgstr "Utiliser le processeur graphique selon les préférences"
 
 #: clientgui/AdvancedFrame.cpp:555
 msgid "Allow GPU work according to preferences"
-msgstr "Autoriser le calcul GPU selon les préférences"
+msgstr "Autoriser le calcul du processeur graphique selon les préférences"
 
 #: clientgui/AdvancedFrame.cpp:559
 msgid "Suspend GPU"
-msgstr "Suspendre le GPU"
+msgstr "Suspendre le processeur graphique"
 
 #: clientgui/AdvancedFrame.cpp:560
 msgid "Stop GPU work regardless of preferences"
-msgstr "Arrête les calculs du GPU sans tenir compte des préférences"
+msgstr "Arrête les calculs du processeur graphique sans tenir compte des préférences"
 
 #: clientgui/AdvancedFrame.cpp:584
 msgid "Network activity always"
