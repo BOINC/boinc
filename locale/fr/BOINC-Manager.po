@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 15:36+0000\n"
+"PO-Revision-Date: 2016-01-21 15:43+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -85,11 +85,11 @@ msgstr "&Mot de passe :"
 
 #: clientgui/AccountInfoPage.cpp:417 clientgui/AccountInfoPage.cpp:656
 msgid "Choose a &password:"
-msgstr "Choisissez un &mot de passe:"
+msgstr "Choisissez un &mot de passe :"
 
 #: clientgui/AccountInfoPage.cpp:420
 msgid "C&onfirm password:"
-msgstr "C&onfirmez le mot de passe:"
+msgstr "C&onfirmez le mot de passe :"
 
 #: clientgui/AccountInfoPage.cpp:427
 #, c-format
@@ -98,15 +98,15 @@ msgstr "Participez-vous déjà à %s ?"
 
 #: clientgui/AccountInfoPage.cpp:456
 msgid "&Username:"
-msgstr "&Nom d'utilisateur:"
+msgstr "&Nom d’utilisateur :"
 
 #: clientgui/AccountInfoPage.cpp:485
 msgid "&Email address or LDAP ID:"
-msgstr "&adresse E-mail ou LDAP ID:"
+msgstr "&adresse e-mail ou ID LDAP :"
 
 #: clientgui/AccountInfoPage.cpp:489
 msgid "&Email address:"
-msgstr "&Adresse de courriel:"
+msgstr "&Adresse de courriel :"
 
 #: clientgui/AccountInfoPage.cpp:497
 #, c-format
@@ -115,14 +115,14 @@ msgstr "longueur minimum %d"
 
 #: clientgui/AccountInfoPage.cpp:504
 msgid "Forgot your password?"
-msgstr "Mot de passe oublié?"
+msgstr "Mot de passe oublié ?"
 
 #: clientgui/AccountInfoPage.cpp:511
 msgid ""
 "If you have not yet registered with this account manager,\n"
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
-msgstr "Si vous ne vous êtres pas encore inscrit à ce gestionnaire de compte, \nmerci de la faire avant de continuer. Cliquez sur le lien ci-dessous pour \nvous enregistrer ou pour récupérer un mot de passe oublié."
+msgstr "Si vous ne vous êtes pas encore inscrit à ce gestionnaire de compte, \nmerci de le faire avant de continuer. Cliquez sur le lien ci-dessous pour \nvous enregistrer ou pour récupérer un mot de passe oublié."
 
 #: clientgui/AccountInfoPage.cpp:514
 msgid "Account manager web site"
@@ -156,7 +156,7 @@ msgstr "Veuillez entrer un mot de passe d'au moins %d caractères."
 #: clientgui/AccountInfoPage.cpp:589
 msgid ""
 "The password and confirmation password do not match. Please type them again."
-msgstr "Le mot de passe et la confirmation du mot de passe sont différents. Entrez-les à nouveau, svp."
+msgstr "Le mot de passe et la confirmation du mot de passe sont différents. Veuillez les entrer à nouveau."
 
 #: clientgui/AccountManagerInfoPage.cpp:270
 msgid "Choose an account manager"
@@ -170,11 +170,11 @@ msgstr "Pour choisir un gestionnaire de compte, cliquez sur son nom\nou tapez so
 
 #: clientgui/AccountManagerInfoPage.cpp:277
 msgid "Account manager details:"
-msgstr "Détails sur le gestionnaire de compte:"
+msgstr "Détails sur le gestionnaire de compte :"
 
 #: clientgui/AccountManagerInfoPage.cpp:281
 msgid "Account manager &URL:"
-msgstr "URL du gestionnaire de compte:"
+msgstr "URL du gestionnaire de compte :"
 
 #: clientgui/AccountManagerInfoPage.cpp:285
 msgid "Open web page"
@@ -217,12 +217,12 @@ msgstr "Déconnecté"
 #: clientgui/AdvancedFrame.cpp:329
 #, c-format
 msgid "New %s window..."
-msgstr "Nouveauté %s fenêtre..."
+msgstr "Nouvelle fenêtre %s..."
 
 #: clientgui/AdvancedFrame.cpp:333
 #, c-format
 msgid "Open another %s window"
-msgstr "Ouvrir une autre %s fenêtre"
+msgstr "Ouvrir une autre fenêtre %s"
 
 #: clientgui/AdvancedFrame.cpp:344
 msgid "Select computer..."
@@ -355,7 +355,7 @@ msgstr "Enlever cet ordinateur du contrôle du gestionnaire de compte."
 
 #: clientgui/AdvancedFrame.cpp:493
 msgid "Run CPU &benchmarks"
-msgstr "Effectuer les &tests de puissance de votre CPU"
+msgstr "Effectuer les &tests de puissance de votre processeur"
 
 #: clientgui/AdvancedFrame.cpp:494
 msgid "Run tests that measure CPU speed"
