@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 15:59+0000\n"
+"PO-Revision-Date: 2016-01-21 16:04+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -707,7 +707,7 @@ msgstr "%s - La connexion a échoué"
 msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
-msgstr "%s n'a pas réussi à se connecter à un client %s.\nVoulez-vous tenter d'établir la connexion à nouveau?"
+msgstr "%s n'a pas réussi à se connecter à un client %s.\nVoulez-vous réessayer d'établir la connexion ?"
 
 #: clientgui/BOINCBaseFrame.cpp:629
 #, c-format
@@ -731,7 +731,7 @@ msgstr "%s ne peut pas démarrer un client %s\nMerci de démarrer le service et 
 #: clientgui/BOINCBaseFrame.cpp:696
 #, c-format
 msgid "%s - Connection Status"
-msgstr "%s - État de la Connexion"
+msgstr "%s - État de la connexion"
 
 #: clientgui/BOINCBaseFrame.cpp:707
 #, c-format
@@ -744,7 +744,7 @@ msgstr "%s n'est actuellement pas connecté à un client %s.\nVeuillez utiliser 
 #. Create the web sites task group
 #: clientgui/BOINCBaseView.cpp:790
 msgid "Project web pages"
-msgstr "Pages Web du projet"
+msgstr "Pages web du projet"
 
 #: clientgui/BOINCClientManager.cpp:547
 #, c-format
@@ -756,7 +756,7 @@ msgstr "%s - Fermeture inattendue"
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
-msgstr "Le client %s s'est terminé de façon inattendue 3 fois durant les dernières %d minutes.\nVoulez-vous le relancer ?"
+msgstr "Le client %s s'est fermé inopinément 3 fois durant les %d dernières minutes.\nVoulez-vous le relancer ?"
 
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
@@ -768,7 +768,7 @@ msgstr "%s - État du réseau"
 msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
-msgstr "%s a besoin de se connecter à l'Internet.\nPeut-il le faire maintenant?"
+msgstr "%s a besoin de se connecter à Internet.\nPeut-il le faire maintenant ?"
 
 #: clientgui/BOINCDialupManager.cpp:254
 #, c-format
@@ -790,7 +790,7 @@ msgstr "%s n'a pas réussi à se connecter à Internet."
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
-msgstr "%s a détecté qu'il est maintenant connecté à Internet.\nMise à jour de tous les projets et essais de transfert en cours."
+msgstr "%s a détecté qu'il est maintenant connecté à Internet.\nMise à jour de tous les projets et essai de transfert en cours."
 
 #: clientgui/BOINCDialupManager.cpp:417
 #, c-format
@@ -813,7 +813,7 @@ msgid ""
 " or\n"
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
-msgstr "Vous n'êtes pas autorisé actuellement à gérer le client.\n\nPour exécuter %s à l'aide de ce compte, merci de :\n- réinstaller %s en répondant \"Oui\" à la question sur\nles utilisateurs non-administrateurs\nou\n- contacter votre administrateur pour qu'il ajoute ce compte au\ngroupe utilisateur \"boinc_master\"."
+msgstr "Vous n'êtes pas autorisé actuellement à gérer le client.\n\nPour exécuter %s à l'aide de ce compte, merci de :\n- réinstaller %s en répondant \"Oui\" à la question sur\nles utilisateurs non-administrateurs\nou\n- contacter votre administrateur pour qu'il ajoute ce compte au\ngroupe utilisateurs \"boinc_master\"."
 
 #: clientgui/BOINCGUIApp.cpp:362
 #, c-format
@@ -843,7 +843,7 @@ msgstr "Manager BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:664
 msgid "BOINC Manager was started by the operating system automatically"
-msgstr "BOINC Manager a été démarré automatiquement par le système d'exploitation."
+msgstr "BOINC Manager a été démarré automatiquement par le système d'exploitation"
 
 #: clientgui/BOINCGUIApp.cpp:666
 msgid "Startup BOINC so only the system tray icon is visible"
