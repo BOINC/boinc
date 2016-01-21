@@ -152,7 +152,7 @@ bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
         sah_config_checked=true;
     } 
     // example: if CUDA app and WU name contains ".vlar", don't send
-    // to NVIDIA, INTEL or older ATI cards
+    // to NVIDIA CUDA, INTEL or older ATI cards
     //
     if (bav.host_usage.uses_gpu() && strstr(wu.name, ".vlar")) {
         if (send_vlar_to_gpu) {
@@ -166,24 +166,40 @@ bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
                   );
                   infeasible=true;
                 }
-            } else if (bav.host_usage.proc_type == PROC_TYPE_NVIDIA_GPU)  {
+
+           } else if (bav.host_usage.proc_type == PROC_TYPE_NVIDIA_GPU)  {
                 COPROC_NVIDIA &cp = g_request->coprocs.nvidia;
                 if (cp.count) {
                     int v = (cp.prop.major)*100 + cp.prop.minor;
-                    if (v < 300) {
+                    // send vlar to opencl and non-vlar to cuda
+                    if (bav.avp && strstr(bav.avp->plan_class,"cuda")) {
                         log_messages.printf(MSG_NORMAL,
-                             "[version] VLAR Infeasible on GPU (Compute Capability %.2f < 3.00)\n",
-                             ((double)v)*0.01
+                             "[version] VLAR Infeasible on CUDA GPU\n"
                         );
                         infeasible=true;
                     }
                 }
+
             } else {   
               // all other GPUS
               infeasible=true;
             }
         } else {
             infeasible=true;
+        }
+    } else if (bav.host_usage.uses_gpu() && !strstr(wu.name, ".vlar")) {
+      // not vlar
+        if (bav.host_usage.proc_type == PROC_TYPE_NVIDIA_GPU)  {
+            COPROC_NVIDIA &cp = g_request->coprocs.nvidia;
+            if (cp.count) {
+                // send vlar to opencl and non-vlar to cuda
+                if (bav.avp && strstr(bav.avp->plan_class,"opencl")) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] non-VLAR Infeasible on NVIDIA OPENCL GPU\n"
+                    );
+                    infeasible=true;
+                }
+            }
         }
     }
     if (infeasible && config.debug_version_select) {
