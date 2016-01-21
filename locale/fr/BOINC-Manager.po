@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 15:48+0000\n"
+"PO-Revision-Date: 2016-01-21 15:53+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -459,23 +459,23 @@ msgstr "Configurer les préférences de calcul"
 
 #: clientgui/AdvancedFrame.cpp:610
 msgid "Exclusive applications..."
-msgstr "Applications exclusive..."
+msgstr "Applications prioritaires..."
 
 #: clientgui/AdvancedFrame.cpp:611
 msgid "Configure exclusive applications"
-msgstr "Configurer les applications exclusives"
+msgstr "Configurer les applications prioritaires"
 
 #: clientgui/AdvancedFrame.cpp:616
 msgid "Select columns..."
-msgstr "Sélectionnez les colonnes"
+msgstr "Sélection des colonnes..."
 
 #: clientgui/AdvancedFrame.cpp:617
 msgid "Select which columns to display"
-msgstr "Sélectionnez les colonnes à montrer"
+msgstr "Sélectionner les colonnes à afficher"
 
 #: clientgui/AdvancedFrame.cpp:621
 msgid "Event Log options...\tCtrl+Shift+F"
-msgstr "Options du Journal des événements... Ctrl+Shift+F"
+msgstr "Options du Journal des événements...⇥Ctrl+Shift+F"
 
 #: clientgui/AdvancedFrame.cpp:622
 msgid "Enable or disable various diagnostic messages"
@@ -496,7 +496,7 @@ msgstr "Lire les fichiers de configuration"
 #: clientgui/AdvancedFrame.cpp:633
 msgid ""
 "Read configuration info from cc_config.xml and any app_config.xml files"
-msgstr "Lire les informations de configuration du fichier cc_config.xml et de tout fichier app_config.xml"
+msgstr "Lire les informations de configuration du fichier cc_config.xml et des fichiers app_config.xml"
 
 #: clientgui/AdvancedFrame.cpp:637
 msgid "Read local prefs file"
