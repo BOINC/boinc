@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 16:30+0000\n"
+"PO-Revision-Date: 2016-01-21 16:35+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1303,12 +1303,12 @@ msgstr "Pour suspendre le calcul en fonction des heures de la journée, voir la 
 #: clientgui/DlgAdvPreferencesBase.cpp:349
 #: clientgui/DlgAdvPreferencesBase.cpp:516
 msgid "Other"
-msgstr "Autre"
+msgstr "Divers"
 
 #. buffer sizes
 #: clientgui/DlgAdvPreferencesBase.cpp:355
 msgid "Store at least enough tasks to keep the computer busy for this long."
-msgstr "Stocker au moins assez de tâches pour occuper l'ordinateur pendant cette durée."
+msgstr "Stocker au minimum assez de tâches pour occuper l'ordinateur pendant cette durée."
 
 #. context: Store at least ___ days of work
 #: clientgui/DlgAdvPreferencesBase.cpp:359
@@ -1320,13 +1320,13 @@ msgstr "Stocker au moins"
 #: clientgui/DlgAdvPreferencesBase.cpp:370
 #: clientgui/DlgAdvPreferencesBase.cpp:392
 msgid "days of work"
-msgstr "jours de travail"
+msgstr "jours de calcul"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:376
 msgid ""
 "Store additional tasks above the minimum level.  Determines how much work is"
 " requested when contacting a project."
-msgstr "Stocker des tâches supplémentaires au-dessus du niveau minimum.  Détermine la quantité de travail demandée lorsque vous communiquez avec un projet."
+msgstr "Stocker des tâches supplémentaires au-delà du niveau minimum.  Cela détermine la quantité de travail demandée lorsque vous communiquez avec un projet."
 
 #. context: Store up to an additional ___ days of work
 #: clientgui/DlgAdvPreferencesBase.cpp:380
