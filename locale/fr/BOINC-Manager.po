@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 19:15+0000\n"
+"PO-Revision-Date: 2016-01-21 19:31+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -3868,27 +3868,27 @@ msgstr "Calcul suspendu : fonctionne sur batterie."
 
 #: clientgui/sg_TaskPanel.cpp:1219
 msgid "Processing Suspended:  User Active."
-msgstr "Calcul suspendu : utilisateur actif"
+msgstr "Calcul suspendu : utilisateur actif."
 
 #: clientgui/sg_TaskPanel.cpp:1221
 msgid "Processing Suspended:  User paused processing."
-msgstr "Traitement Suspendu: L'utilisateur a mis en pause le traitement."
+msgstr "Calcul suspendu : l'utilisateur a mis en pause le calcul."
 
 #: clientgui/sg_TaskPanel.cpp:1223
 msgid "Processing Suspended:  Time of Day."
-msgstr "Traitement Suspendu: Moment de la Journée."
+msgstr "Calcul suspendu : restriction sur les jours de la semaine."
 
 #: clientgui/sg_TaskPanel.cpp:1225
 msgid "Processing Suspended:  Benchmarks Running."
-msgstr "Traitement Suspendu: Tests de puissance de l'ordinateur."
+msgstr "Calcul suspendu : tests de puissance de l'ordinateur."
 
 #: clientgui/sg_TaskPanel.cpp:1227
 msgid "Processing Suspended."
-msgstr "Traitement Suspendu."
+msgstr "Calcul suspendu."
 
 #: clientgui/sg_TaskPanel.cpp:1231
 msgid "Waiting to contact project servers."
-msgstr "En attente du contact des serveurs des projets."
+msgstr "En attente du contact des serveurs de projets."
 
 #: clientgui/sg_TaskPanel.cpp:1235 clientgui/sg_TaskPanel.cpp:1244
 msgid "Retrieving current status"
@@ -3896,11 +3896,11 @@ msgstr "Recherche de l'état actuel"
 
 #: clientgui/sg_TaskPanel.cpp:1239
 msgid "No work available to process"
-msgstr "Aucun travail disponible à traiter"
+msgstr "Aucune tâche disponible à traiter"
 
 #: clientgui/sg_TaskPanel.cpp:1241
 msgid "Unable to connect to the core client"
-msgstr "Incapable de se connecter au client BOINC"
+msgstr "Impossible de se connecter au client BOINC"
 
 #: clientgui/wizardex.cpp:377 clientgui/wizardex.cpp:553
 msgid "&Next >"
