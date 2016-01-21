@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 17:59+0000\n"
+"PO-Revision-Date: 2016-01-21 18:04+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -2123,7 +2123,7 @@ msgstr "Quelle langue BOINC doit-il utiliser ?"
 
 #: clientgui/DlgOptions.cpp:190
 msgid "Notice reminder interval:"
-msgstr "Intervalle de notifications"
+msgstr "Intervalle de notifications :"
 
 #: clientgui/DlgOptions.cpp:197
 msgid "How often should BOINC remind you of new notices?"
@@ -2147,7 +2147,7 @@ msgstr "Lancer le démon au démarrage du Manager."
 
 #: clientgui/DlgOptions.cpp:223
 msgid "Enable Manager exit dialog?"
-msgstr "Activer le dialogue de fermeture du Manager"
+msgstr "Activer le dialogue de fermeture du Manager ?"
 
 #: clientgui/DlgOptions.cpp:229
 msgid "Display the exit dialog when shutting down the Manager."
@@ -2196,7 +2196,7 @@ msgstr "Ne pas utiliser de proxy pour :"
 
 #: clientgui/DlgOptions.cpp:317 clientgui/DlgOptions.cpp:381
 msgid "Leave these blank if not needed"
-msgstr "Laisser vide si non nécessaire"
+msgstr "Optionnel"
 
 #: clientgui/DlgOptions.cpp:323 clientgui/DlgOptions.cpp:387
 #: clientgui/ProxyPage.cpp:343 clientgui/ProxyPage.cpp:363
@@ -2252,14 +2252,14 @@ msgstr "jamais"
 #: clientgui/DlgOptions.cpp:703
 #, c-format
 msgid "%s - Language Selection"
-msgstr "%s - Choix de la Langue"
+msgstr "%s - Choix de la langue"
 
 #: clientgui/DlgOptions.cpp:710
 #, c-format
 msgid ""
 "The %s's language has been changed.  In order for this change to take "
 "effect, you must restart the %s."
-msgstr "La langue par défaut du %s a été modifiée. Pour que le changement prenne effet, vous devez redémarrer le %s."
+msgstr "La langue par défaut du %s a été modifiée. Pour que le changement prenne effet, vous devez le redémarrer."
 
 #: clientgui/DlgSelectComputer.cpp:91
 #, c-format
@@ -2271,11 +2271,11 @@ msgstr "%s - Sélectionner un ordinateur"
 msgid ""
 "Another instance of %s is already running \n"
 "on this computer.  Please select a client to monitor."
-msgstr "Une autre instance de %s est en cours d'exécution \nsur cet ordinateur. Veuillez sélectionnez un client à superviser."
+msgstr "Une autre instance de %s est en cours d'exécution \nsur cet ordinateur. Veuillez sélectionner un client à superviser."
 
 #: clientgui/DlgSelectComputer.cpp:143
 msgid "Host name:"
-msgstr "Nom d'hôte:"
+msgstr "Nom d’hôte :"
 
 #: clientgui/Localization.cpp:31 clientgui/Localization.cpp:69
 msgid "Message boards"
