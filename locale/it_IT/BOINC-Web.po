@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-01-19 10:23+0000\n"
+"PO-Revision-Date: 2016-01-21 09:32+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -278,17 +278,17 @@ msgstr "Aggiornamenti del software"
 msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4, "
 "giving you the power of thousands of CPUs and GPUs."
-msgstr "%1Scienziati%2: usa BOINC per creare un %3progetto di calcolo%4 che abbia la potenza di elaborazione di migliaia di CPU e GPU."
+msgstr "%1Scienziati%2: potete usare BOINC per realizzare un %3progetto di calcolo volontario%4 che abbia la potenza di elaborazione di migliaia di CPU e GPU."
 
 #: index.php:150
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
-msgstr "%1Università%2: usa BOINC per creare un %3mainframe virtuale%4, disponibile per tutti i bisogni dell'università."
+msgstr "%1Università%2: potete usare BOINC per creare un %3mainframe virtuale%4 disponibile per tutti i bisogni dell'università."
 
 #: index.php:155
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
-msgstr "%1Aziende%2: usa BOINC per il %3grid computing%4."
+msgstr "%1Aziende%2: potete usare BOINC per il %3grid computing%4."
 
 #: index.php:167
 msgid "About BOINC"
@@ -454,7 +454,7 @@ msgid ""
 "molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. "
 "New biomedical applications suddenly become possible giving a new role to "
 "computational biology for biomedical research."
-msgstr "GPUGrid.net apre nuovi scenari computazionali grazie al primo codice di dinamica molecolare esteso a tutti gli atomi (CellMD) appositamente ottimizzato per girare sulle GPU NVIDIA. Di colpo diventano possibili nuove applicazioni biomediche le quali conferiscono un nuovo ruolo alla biologia computazionale per la ricerca biomedica."
+msgstr "GPUGrid.net apre nuovi scenari computazionali grazie al primo codice di dinamica molecolare esteso a tutti gli atomi (CellMD) appositamente ottimizzato per girare sulle GPU NVIDIA. Di colpo diventano possibili nuove applicazioni biomediche che conferiscono un nuovo ruolo alla biologia computazionale nella ricerca biomedica."
 
 #: projects.inc:175
 msgid ""
@@ -631,7 +631,7 @@ msgid ""
 " Dynamics jobs. In this way students have used the grid to simulate liquid "
 "argon, or to test the validity of the ideal gas law by actually doing the "
 "simulations through the grid."
-msgstr "Calcoli relativi alla scienza delle superfici utilizzando la dinamica classica. Leiden Classical permette a volontari, studenti e altri scienziati di inserire le proprie elaborazioni nella grid. Ogni utente ha la sua coda personale per le attività di dinamica classica. In questo modo gli studenti hanno utilizzato la grid per simulare l'argon liquido, o per testare la validità della legge dei gas ideali (equazione di stato dei gas perfetti) effettuando le simulazioni tramite la grid."
+msgstr "Calcoli relativi alla scienza delle superfici utilizzando la dinamica classica. Leiden Classical permette a volontari, studenti e altri scienziati di accodare le proprie richieste di elaborazione nella rete. Ogni utente ha la sua coda personale per le simulazioni di dinamica classica. In questo modo degli studenti hanno già usato la rete per simulare l'argon liquido, o per testare la validità della legge dei gas ideali (equazione di stato dei gas perfetti)."
 
 #: projects.inc:352
 msgid "Help students do atomic simulations"
@@ -784,7 +784,7 @@ msgid ""
 "grid network of Europe by allowing service grids to send workunits to be "
 "processed by the volunteers of this project. The scientific projects covered"
 " by the project include math, physics, biology, etc."
-msgstr "Il progetto EDGeS@Home Beta integra il calcolo volontario nella network service grid europea permettendo ad essa di inviare unità di lavoro da far elaborare ai volontari di questo progetto. I progetti scientifici coperti dal progetto includono matematica, fisica, biologia, ecc."
+msgstr "Il progetto EDGeS@Home Beta integra il calcolo volontario nella Network Service Grid europea permettendole di inviare workunit da far elaborare ai volontari. I progetti scientifici coperti dal progetto includono matematica, fisica, biologia, ecc."
 
 #: projects.inc:482
 msgid "Help European researchers"
