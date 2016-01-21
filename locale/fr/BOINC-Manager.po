@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 17:22+0000\n"
+"PO-Revision-Date: 2016-01-21 17:28+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1647,7 +1647,7 @@ msgstr "Message"
 
 #: clientgui/DlgEventLog.cpp:305 clientgui/DlgEventLog.cpp:355
 msgid "&Show only this project"
-msgstr "Ne montrer que ce projet"
+msgstr "Ne &montrer que ce projet"
 
 #: clientgui/DlgEventLog.cpp:309
 msgid "Copy &All"
@@ -1656,11 +1656,11 @@ msgstr "&Tout copier"
 #: clientgui/DlgEventLog.cpp:311 clientgui/DlgEventLog.cpp:315
 #: clientgui/ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
-msgstr "Copie tous les messages dans le presse-papiers"
+msgstr "Copier tous les messages dans le presse-papier."
 
 #: clientgui/DlgEventLog.cpp:320
 msgid "Copy &Selected"
-msgstr "Copier la sélection"
+msgstr "Copier la &sélection"
 
 #: clientgui/DlgEventLog.cpp:323 clientgui/DlgEventLog.cpp:331
 #: clientgui/ViewMessages.cpp:97
@@ -1668,7 +1668,7 @@ msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on "
 "messages."
-msgstr "Copie les messages sélectionnés dans le presse-papiers. Vous pouvez sélectionner plusieurs messages en maintenant appuyée la touche Shift ou Ctrl lorsque vous cliquez sur les messages."
+msgstr "Copie les messages sélectionnés dans le presse-papier. Vous pouvez sélectionner plusieurs messages en maintenant appuyée la touche Shift ou Cmd lorsque vous cliquez sur les messages."
 
 #: clientgui/DlgEventLog.cpp:325 clientgui/DlgEventLog.cpp:333
 #: clientgui/ViewMessages.cpp:99
@@ -1684,7 +1684,7 @@ msgstr "&Fermer"
 
 #: clientgui/DlgEventLog.cpp:349
 msgid "Show all &messages"
-msgstr "Montrer tous les messages"
+msgstr "Montrer tous les &messages"
 
 #: clientgui/DlgEventLog.cpp:350 clientgui/DlgEventLog.cpp:352
 msgid "Show messages for all projects"
@@ -1697,12 +1697,12 @@ msgstr "Ne montrer que les messages du projet sélectionné."
 #: clientgui/DlgExclusiveApps.cpp:60
 #, c-format
 msgid "%s - Exclusive Applications"
-msgstr "%s - Applications exclusives"
+msgstr "%s - Applications prioritaires"
 
 #: clientgui/DlgExclusiveApps.cpp:72
 msgid ""
 "Suspend processor and network usage when these applications are running:"
-msgstr "Suspendre l'utilisation du processeur et l'activité réseau quand ces applications sont en cours:"
+msgstr "Suspendre l'utilisation du processeur et l'activité réseau quand ces applications sont ouvertes :"
 
 #: clientgui/DlgExclusiveApps.cpp:80 clientgui/DlgExclusiveApps.cpp:104
 msgid "Add..."
@@ -1715,15 +1715,15 @@ msgstr "Ajouter une application à cette liste"
 #: clientgui/DlgExclusiveApps.cpp:86 clientgui/DlgExclusiveApps.cpp:110
 #: clientgui/ViewProjects.cpp:230 clientgui/sg_ProjectCommandPopup.cpp:90
 msgid "Remove"
-msgstr "Retirer"
+msgstr "Supprimer"
 
 #: clientgui/DlgExclusiveApps.cpp:87 clientgui/DlgExclusiveApps.cpp:111
 msgid "Remove an application from this list"
-msgstr "Retirer une application de cette liste"
+msgstr "Supprimer une application de cette liste"
 
 #: clientgui/DlgExclusiveApps.cpp:96
 msgid "Suspend GPU usage when these applications are running:"
-msgstr "Interrompre l'utilisation GPU lorsque ces applications sont exécutées :"
+msgstr "Interrompre l'utilisation du processeur graphique lorsque ces applications sont ouvertes :"
 
 #: clientgui/DlgExclusiveApps.cpp:122
 msgid "For advanced options, refer to "
@@ -1756,7 +1756,7 @@ msgstr "'%s' n'est pas une application exécutable."
 #: clientgui/DlgExclusiveApps.cpp:333 clientgui/DlgExclusiveApps.cpp:380
 #: clientgui/DlgExclusiveApps.cpp:404
 msgid "Add Exclusive App"
-msgstr "Ajouter une application exclusive"
+msgstr "Ajouter une application prioritaire"
 
 #: clientgui/DlgExclusiveApps.cpp:345
 msgid "Name of application to add?"
