@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 18:54+0000\n"
+"PO-Revision-Date: 2016-01-21 18:59+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -3338,7 +3338,7 @@ msgstr "< &Projet précédent"
 
 #: clientgui/ViewStatistics.cpp:1988
 msgid "Show chart for previous project"
-msgstr "Montre le graphique du projet précédent"
+msgstr "Montrer le graphique du projet précédent"
 
 #: clientgui/ViewStatistics.cpp:1993
 msgid "&Next project >"
@@ -3354,7 +3354,7 @@ msgstr "Masquer la liste de projets"
 
 #: clientgui/ViewStatistics.cpp:2001 clientgui/ViewStatistics.cpp:2390
 msgid "Use entire area for graphs"
-msgstr "Utilisez toute la zone pour les graphiques"
+msgstr "Utiliser toute la place pour les graphiques"
 
 #: clientgui/ViewStatistics.cpp:2006
 msgid "Mode view"
@@ -3378,7 +3378,7 @@ msgstr "Montre tous les projets, un graphique par projet"
 
 #: clientgui/ViewStatistics.cpp:2024
 msgid "All projects (together)"
-msgstr "Tous les projets (ensembles)"
+msgstr "Tous les projets (ensemble)"
 
 #: clientgui/ViewStatistics.cpp:2025
 msgid "Show one chart with all projects"
@@ -3402,7 +3402,7 @@ msgstr "Statistiques"
 #: clientgui/ViewStatistics.cpp:2204 clientgui/ViewStatistics.cpp:2225
 #: clientgui/ViewStatistics.cpp:2246 clientgui/ViewStatistics.cpp:2270
 msgid "Updating charts..."
-msgstr "Mise à jour des diagrammes en cours..."
+msgstr "Mise à jour des graphiques en cours..."
 
 #: clientgui/ViewStatistics.cpp:2394
 msgid "Show project list"
@@ -3410,7 +3410,7 @@ msgstr "Montrer la liste des projets"
 
 #: clientgui/ViewStatistics.cpp:2394
 msgid "Uses smaller area for graphs"
-msgstr "Utilisez une zone plus petite pour les graphiques"
+msgstr "Utilise une place plus petite pour les graphiques"
 
 #: clientgui/ViewTransfers.cpp:187
 msgid "Retry Now"
@@ -3418,7 +3418,7 @@ msgstr "Réessayer maintenant"
 
 #: clientgui/ViewTransfers.cpp:188
 msgid "Retry the file transfer now"
-msgstr "Réassayez de transférer ce fichier maintenant."
+msgstr "Réessayer de transférer ce fichier maintenant."
 
 #: clientgui/ViewTransfers.cpp:194
 msgid "Abort Transfer"
@@ -3426,7 +3426,7 @@ msgstr "Annuler le transfert"
 
 #: clientgui/ViewTransfers.cpp:195
 msgid "Abort this file transfer.  You won't get credit for the task."
-msgstr "Abandonner ce transfert de fichier. Vous ne recevrez pas de crédit pour cette tâche."
+msgstr "Abandonner cet envoi de fichier. Vous ne recevrez pas de crédit pour cette tâche."
 
 #: clientgui/ViewTransfers.cpp:210
 msgid "File"
@@ -3442,7 +3442,7 @@ msgstr "Taille"
 
 #: clientgui/ViewTransfers.cpp:213 clientgui/ViewWork.cpp:263
 msgid "Elapsed"
-msgstr "Ecoulé"
+msgstr "Écoulé"
 
 #: clientgui/ViewTransfers.cpp:214
 msgid "Speed"
