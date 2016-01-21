@@ -7,13 +7,13 @@
 # 
 # Translators:
 # Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015
-# Sebastiano Pistore <olatusrooc@virgilio.it>, 2015
+# Sebastiano Pistore <olatusrooc@virgilio.it>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-01-21 09:32+0000\n"
+"PO-Revision-Date: 2016-01-21 09:37+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -268,7 +268,7 @@ msgstr "O, se supporti numerosi progetti, prova ad usare un %saccount manager%s 
 
 #: index.php:136
 msgid "Compute with BOINC"
-msgstr "Elaborare con BOINC"
+msgstr "Fare calcoli usando BOINC"
 
 #: index.php:139
 msgid "Software updates"
