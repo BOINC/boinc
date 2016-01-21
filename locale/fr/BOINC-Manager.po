@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 16:53+0000\n"
+"PO-Revision-Date: 2016-01-21 17:01+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1420,15 +1420,15 @@ msgstr "Confirmer avant de se connecter à Internet"
 #: clientgui/DlgAdvPreferencesBase.cpp:529
 #: clientgui/DlgAdvPreferencesBase.cpp:533
 msgid "Useful only if you have a modem, ISDN or VPN connection."
-msgstr "Utile uniquement si vous avez un modem, la connexion VPN ou RNIS."
+msgstr "Utile uniquement si vous avez un modem, une connexion VPN ou RNIS."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:532
 msgid "Disconnect when done"
-msgstr "Se déconnecter dès que terminé"
+msgstr "Se déconnecter en terminant"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:559 clientgui/ViewResources.cpp:116
 msgid "Disk"
-msgstr "Disque"
+msgstr "Stockage"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:564
 #, c-format
@@ -1438,12 +1438,12 @@ msgstr "%s utilisera le plus restrictif de ces paramètres :"
 #: clientgui/DlgAdvPreferencesBase.cpp:570 clientgui/sg_DlgPreferences.cpp:335
 #, c-format
 msgid "Limit the total amount of disk space used by %s."
-msgstr "Limiter la quantité totale d'espace disque utilisée par %s."
+msgstr "Limiter la quantité totale d'espace de stockage utilisé par %s."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:573
 #: clientgui/DlgAdvPreferencesBase.cpp:597 clientgui/sg_DlgPreferences.cpp:338
 msgid "Use no more than"
-msgstr "Ne pas utiliser plus de:"
+msgstr "Ne pas occuper plus de"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:577
 msgid "GB"
@@ -1454,7 +1454,7 @@ msgstr "Go"
 msgid ""
 "Limit disk usage to leave this much free space on the volume where %s stores"
 " data."
-msgstr "Limiter l'utilisation du disque dur afin de laisser suffisamment d'espace libre sur le volume où %s stocke les données."
+msgstr "Limiter le stockage afin de laisser suffisamment d'espace libre sur le volume où %s stocke ses données."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:585
 msgid "Leave at least"
