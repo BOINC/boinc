@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 17:40+0000\n"
+"PO-Revision-Date: 2016-01-21 17:49+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -2123,15 +2123,15 @@ msgstr "Quelle langue BOINC doit-il utiliser ?"
 
 #: clientgui/DlgOptions.cpp:190
 msgid "Notice reminder interval:"
-msgstr "Intervalle de notifications"
+msgstr "Intervalle de notifications :"
 
 #: clientgui/DlgOptions.cpp:197
 msgid "How often should BOINC remind you of new notices?"
-msgstr "A quelle fréquence BOINC doit-il vous rappeler la présence de nouvelles notifications?"
+msgstr "À quelle fréquence BOINC doit-il vous rappeler la présence de nouvelles notifications ?"
 
 #: clientgui/DlgOptions.cpp:202
 msgid "Run Manager at login?"
-msgstr "Démarrer le Manager à l'ouverture de session?"
+msgstr "Démarrer le Manager à l'ouverture de session ?"
 
 #: clientgui/DlgOptions.cpp:208
 msgid "Run the BOINC Manager when you log on."
@@ -2139,7 +2139,7 @@ msgstr "Démarre le BOINC Manager lorsque vous ouvrez une session."
 
 #: clientgui/DlgOptions.cpp:213
 msgid "Run daemon?"
-msgstr "Lancer le démon?"
+msgstr "Lancer le démon ?"
 
 #: clientgui/DlgOptions.cpp:219
 msgid "Run daemon when launching the Manager."
@@ -2167,7 +2167,7 @@ msgstr "&Effacer le choix par défaut"
 
 #: clientgui/DlgOptions.cpp:266
 msgid "Default Connection:"
-msgstr "Connexion par défaut:"
+msgstr "Connexion par défaut :"
 
 #: clientgui/DlgOptions.cpp:273
 msgid "Connections"
