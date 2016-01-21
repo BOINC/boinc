@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 18:43+0000\n"
+"PO-Revision-Date: 2016-01-21 18:48+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -3058,13 +3058,13 @@ msgstr "Suspendre"
 #: clientgui/sg_ProjectCommandPopup.cpp:73
 #: clientgui/sg_ProjectCommandPopup.cpp:129
 msgid "Suspend tasks for this project."
-msgstr "Suspend le travail de ce projet."
+msgstr "Suspend les tâches de ce projet."
 
 #: clientgui/ViewProjects.cpp:216 clientgui/ViewProjects.cpp:827
 #: clientgui/sg_ProjectCommandPopup.cpp:78
 #: clientgui/sg_ProjectCommandPopup.cpp:136
 msgid "No new tasks"
-msgstr "Pas de nouveau travail"
+msgstr "Pas de nouvelle tâche"
 
 #: clientgui/ViewProjects.cpp:217 clientgui/sg_ProjectCommandPopup.cpp:79
 msgid "Don't get new tasks for this project."
@@ -3078,13 +3078,13 @@ msgstr "Recommencer le projet"
 msgid ""
 "Delete all files and tasks associated with this project, and get new tasks."
 "  You can update the project first to report any completed tasks."
-msgstr "Supprime tous les fichiers et tout le travail associé à ce projet et charge à nouveau les fichiers nécessaires. Vous pouvez d'abord mettre à jour le projet pour transmettre tout le travail effectué."
+msgstr "Supprime tous les fichiers et toutes les tâches associés à ce projet et recharge les fichiers nécessaires. Vous pouvez d'abord mettre à jour le projet pour transmettre tout le travail effectué."
 
 #: clientgui/ViewProjects.cpp:231 clientgui/sg_ProjectCommandPopup.cpp:91
 msgid ""
 "Remove this project.  Tasks in progress will be lost (use 'Update' first to "
 "report any completed tasks)."
-msgstr "Retirer ce projet. Le travail en cours sera perdu. (Cliquez d'abord sur 'Mettre à jour' pour envoyer le travail terminé)."
+msgstr "Supprimer ce projet. Le travail en cours sera perdu. (Cliquez d'abord sur 'Mettre à jour' pour envoyer les calculs terminés)."
 
 #: clientgui/ViewProjects.cpp:237 clientgui/ViewWork.cpp:246
 #: clientgui/sg_ProjectCommandPopup.cpp:96
@@ -3106,12 +3106,12 @@ msgstr "Travail effectué"
 
 #: clientgui/ViewProjects.cpp:255
 msgid "Avg. work done"
-msgstr "Travail moyen"
+msgstr "Travail effectué moyen"
 
 #: clientgui/ViewProjects.cpp:257 clientgui/ViewTransfers.cpp:215
 #: clientgui/ViewWork.cpp:262
 msgid "Status"
-msgstr "Etat"
+msgstr "État"
 
 #: clientgui/ViewProjects.cpp:336
 msgid "Projects"
@@ -3127,7 +3127,7 @@ msgstr "Reprise du projet en cours..."
 
 #: clientgui/ViewProjects.cpp:434
 msgid "Suspending project..."
-msgstr "Suspension du projet en cours..."
+msgstr "Mise en pause du projet en cours..."
 
 #: clientgui/ViewProjects.cpp:471
 msgid "Telling project to allow additional task downloads..."
@@ -3144,7 +3144,7 @@ msgstr "Réinitialisation du projet en cours..."
 #: clientgui/ViewProjects.cpp:524 clientgui/sg_ProjectCommandPopup.cpp:229
 #, c-format
 msgid "Are you sure you want to reset project '%s'?"
-msgstr "Êtes-vous sûr de vouloir recommencer le projet '%s'?"
+msgstr "Êtes-vous sûr de vouloir recommencer le projet '%s’ ?"
 
 #: clientgui/ViewProjects.cpp:530 clientgui/sg_ProjectCommandPopup.cpp:235
 msgid "Reset Project"
@@ -3152,12 +3152,12 @@ msgstr "Recommencer le projet"
 
 #: clientgui/ViewProjects.cpp:569
 msgid "Removing project..."
-msgstr "En train de retirer le projet..."
+msgstr "Suppression du projet en cours..."
 
 #: clientgui/ViewProjects.cpp:582 clientgui/sg_ProjectCommandPopup.cpp:266
 #, c-format
 msgid "Are you sure you want to remove project '%s'?"
-msgstr "Êtes-vous sûr de vouloir supprimer le projet '%s'?"
+msgstr "Êtes-vous sûr de vouloir supprimer le projet '%s’ ?"
 
 #: clientgui/ViewProjects.cpp:588 clientgui/sg_ProjectCommandPopup.cpp:272
 msgid "Remove Project"
@@ -3165,7 +3165,7 @@ msgstr "Supprimer le projet"
 
 #: clientgui/ViewProjects.cpp:629 clientgui/ViewWork.cpp:686
 msgid "Launching browser..."
-msgstr "Lancement du navigateur en cours..."
+msgstr "Démarrage du navigateur en cours..."
 
 #: clientgui/ViewProjects.cpp:804 clientgui/sg_ProjectCommandPopup.cpp:126
 msgid "Resume tasks for this project."
