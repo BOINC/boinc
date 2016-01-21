@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 19:10+0000\n"
+"PO-Revision-Date: 2016-01-21 19:15+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -3793,11 +3793,11 @@ msgstr "Vous n'avez aucun projet. Veuillez ajouter un projet."
 
 #: clientgui/sg_TaskPanel.cpp:469
 msgid "Not available"
-msgstr "Non disponible"
+msgstr "Indisponible"
 
 #: clientgui/sg_TaskPanel.cpp:480
 msgid "Tasks:"
-msgstr "Tâches:"
+msgstr "Tâches :"
 
 #. TODO: Might want better wording for Task Selection Combo Box tooltip
 #: clientgui/sg_TaskPanel.cpp:486
@@ -3807,7 +3807,7 @@ msgstr "Choisir une tâche"
 #. what project the task is from, e.g. "From: SETI@home"
 #: clientgui/sg_TaskPanel.cpp:498
 msgid "From:"
-msgstr "De:"
+msgstr "De :"
 
 #: clientgui/sg_TaskPanel.cpp:552
 msgid "This task's progress"
@@ -3824,7 +3824,7 @@ msgstr "Afficher une liste des commandes applicables à cette tâche"
 #: clientgui/sg_TaskPanel.cpp:706
 #, c-format
 msgid "Application: %s"
-msgstr "Application: %s"
+msgstr "Application : %s"
 
 #: clientgui/sg_TaskPanel.cpp:729
 #, c-format
@@ -3833,11 +3833,11 @@ msgstr "%.3f%%"
 
 #: clientgui/sg_TaskPanel.cpp:737
 msgid "Application: Not available"
-msgstr "Application: Non disponible"
+msgstr "Application : indisponible"
 
 #: clientgui/sg_TaskPanel.cpp:837
 msgid "Not Available"
-msgstr "Non disponible"
+msgstr "Indisponible"
 
 #: clientgui/sg_TaskPanel.cpp:852
 #, c-format
@@ -3856,19 +3856,19 @@ msgstr "Statut : %s"
 
 #: clientgui/sg_TaskPanel.cpp:1206
 msgid "Retrieving current status."
-msgstr "Recherche de l'état actuel"
+msgstr "Recherche de l'état actuel."
 
 #: clientgui/sg_TaskPanel.cpp:1212
 msgid "Downloading work from the server."
-msgstr "Téléchargement du travail depuis le serveur en cours"
+msgstr "Téléchargement des tâches depuis le serveur en cours."
 
 #: clientgui/sg_TaskPanel.cpp:1217
 msgid "Processing Suspended:  Running On Batteries."
-msgstr "Traitement Suspendu: Fonctionne sur Batteries."
+msgstr "Calcul suspendu : fonctionne sur batterie."
 
 #: clientgui/sg_TaskPanel.cpp:1219
 msgid "Processing Suspended:  User Active."
-msgstr "Traitement Suspendu: Utilisateur Actif"
+msgstr "Calcul suspendu : utilisateur actif"
 
 #: clientgui/sg_TaskPanel.cpp:1221
 msgid "Processing Suspended:  User paused processing."
