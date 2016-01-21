@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 19:04+0000\n"
+"PO-Revision-Date: 2016-01-21 19:10+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -3662,7 +3662,7 @@ msgstr "Choisissez l'apparence de l'interface utilisateur."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:181
 msgid "Advanced View...\tCtrl+Shift+A"
-msgstr "Vue Avancée\tCTRL+SHIFT+A"
+msgstr "Vue Avancée...⇥CTRL+SHIFT+A"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:182
 msgid "Display the advanced graphical interface."
@@ -3674,7 +3674,7 @@ msgstr "Configuration des options d'affichage et des paramètres de proxy"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:212
 msgid "Display diagnostic messages."
-msgstr "Afficher les messages de diagnostique."
+msgstr "Afficher les messages de diagnostic."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:233
 #, c-format
@@ -3695,7 +3695,7 @@ msgstr "Reprendre le calcul"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:913
 msgid "Open a window to view notices from projects or BOINC"
-msgstr "Ouvrir une fenêtre pour voir les messages des projets ou de BOINC"
+msgstr "Ouvrir une fenêtre pour voir les annonces des projets ou de BOINC"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:934 clientgui/sg_DlgPreferences.cpp:366
 #, c-format
@@ -3714,11 +3714,11 @@ msgstr "Notifications de %s"
 #: clientgui/sg_DlgPreferences.cpp:208
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
-msgstr "Pour des réglages supplémentaires, choisissez Préférences de Calcul dans la vue Avancée."
+msgstr "Pour des réglages supplémentaires, choisissez Préférences de calcul dans la Vue avancée."
 
 #: clientgui/sg_DlgPreferences.cpp:346
 msgid "GB of disk space"
-msgstr "Go d'espace disque"
+msgstr "Go d'espace de stockage"
 
 #: clientgui/sg_DlgPreferences.cpp:1105
 #, c-format
@@ -3756,7 +3756,7 @@ msgstr "Choisir un projet à accéder avec les contrôles ci-dessous"
 
 #: clientgui/sg_ProjectPanel.cpp:145
 msgid "Project Web Pages"
-msgstr "Sites Web du projet"
+msgstr "Pages web du projet"
 
 #: clientgui/sg_ProjectPanel.cpp:149
 msgid "Project Commands"
@@ -3778,18 +3778,18 @@ msgstr "Suspendre cette tâche."
 
 #: clientgui/sg_TaskCommandPopup.cpp:79
 msgid "Abandon this task. You will get no credit for it."
-msgstr "Abandonner cette tâche. Vous ne recevrez pas de point(crédit) pour cette tâche."
+msgstr "Abandonner cette tâche. Vous ne recevrez pas de crédit pour cette tâche."
 
 #: clientgui/sg_TaskCommandPopup.cpp:267
 #, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %.1lf%%, Status: %s)"
-msgstr "Êtes-vous sûr de vouloir abandonner cette tâche '%s'?\n(Avancement: %.1lf%%, État: %s)"
+msgstr "Êtes-vous sûr de vouloir abandonner cette tâche '%s'?\n(Avancement : %.1lf%%, État : %s)"
 
 #: clientgui/sg_TaskPanel.cpp:468
 msgid "You don't have any projects.  Please Add a Project."
-msgstr "Vous n'avez aucun projet. Veuillez Ajouter un projet."
+msgstr "Vous n'avez aucun projet. Veuillez ajouter un projet."
 
 #: clientgui/sg_TaskPanel.cpp:469
 msgid "Not available"
