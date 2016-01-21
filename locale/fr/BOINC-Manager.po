@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 18:09+0000\n"
+"PO-Revision-Date: 2016-01-21 18:14+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -2434,7 +2434,7 @@ msgstr "Trouver de l'aide dans notre système d'aide"
 
 #: clientgui/Localization.cpp:143
 msgid "Global Statistics"
-msgstr "Statistiques Globales"
+msgstr "Statistiques globales"
 
 #: clientgui/Localization.cpp:145
 msgid "Summary statistics for World Community Grid"
@@ -2466,7 +2466,7 @@ msgstr "S'informer sur les projets hébergés par World Community Grid"
 
 #: clientgui/MainDocument.cpp:585
 msgid "Starting client"
-msgstr "Client en court de démarrage"
+msgstr "Client en cours de démarrage"
 
 #: clientgui/MainDocument.cpp:593
 msgid "Connecting to client"
@@ -2474,7 +2474,7 @@ msgstr "Connexion au client en cours"
 
 #: clientgui/MainDocument.cpp:1207
 msgid "Retrieving system state; please wait..."
-msgstr "Recherche de l'état du système; veuillez patienter..."
+msgstr "Recherche de l'état du système ; veuillez patienter..."
 
 #: clientgui/MainDocument.cpp:1828
 msgid "Missing application"
@@ -2488,7 +2488,7 @@ msgstr "Merci d'installer l'application CorD à partir de http://cord.sourceforg
 
 #: clientgui/MainDocument.cpp:2443
 msgid "on batteries"
-msgstr " - sur batteries"
+msgstr "sur batterie"
 
 #: clientgui/MainDocument.cpp:2444
 msgid "computer is in use"
@@ -2520,11 +2520,11 @@ msgstr "en cours de démarrage"
 
 #: clientgui/MainDocument.cpp:2451
 msgid "an exclusive app is running"
-msgstr " une application exclusive est en cours d'exécution"
+msgstr " une application prioritaire est en cours d'exécution"
 
 #: clientgui/MainDocument.cpp:2452
 msgid "CPU is busy"
-msgstr "Le CPU est occupé"
+msgstr "Le processeur est occupé"
 
 #: clientgui/MainDocument.cpp:2453
 msgid "network bandwidth limit exceeded"
@@ -2540,7 +2540,7 @@ msgstr "raison inconnue"
 
 #: clientgui/MainDocument.cpp:2478
 msgid "GPU missing, "
-msgstr "GPU absent, "
+msgstr "pas de processeur graphique, "
 
 #: clientgui/MainDocument.cpp:2485
 msgid "New"
@@ -2548,7 +2548,7 @@ msgstr "Nouveau"
 
 #: clientgui/MainDocument.cpp:2489
 msgid "Download failed"
-msgstr "Echec du téléchargement"
+msgstr "Échec du téléchargement"
 
 #: clientgui/MainDocument.cpp:2491
 msgid "Downloading"
@@ -2574,7 +2574,7 @@ msgstr "Suspendu - "
 
 #: clientgui/MainDocument.cpp:2511
 msgid "GPU suspended - "
-msgstr "Activité du GPU suspendue"
+msgstr "Activité du processeur graphique suspendue"
 
 #: clientgui/MainDocument.cpp:2515
 msgid "Waiting for memory"
@@ -2590,7 +2590,7 @@ msgstr "Calculs en cours"
 
 #: clientgui/MainDocument.cpp:2521
 msgid " (non-CPU-intensive)"
-msgstr " (CPU-non-intensif)"
+msgstr " (sollicite peu le processeur)"
 
 #: clientgui/MainDocument.cpp:2524
 msgid "Waiting to run"
