@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 17:17+0000\n"
+"PO-Revision-Date: 2016-01-21 17:22+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1535,21 +1535,21 @@ msgstr "à"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:691 clientgui/sg_DlgPreferences.cpp:296
 msgid "Compute only during a particular period each day."
-msgstr "Autoriser les calculs seulement durant  une certaine période chaque jour."
+msgstr "Calculer uniquement durant une certaine période chaque jour."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:694 clientgui/sg_DlgPreferences.cpp:299
 msgid "Compute only between"
-msgstr "Réaliser des calculs seulement entre"
+msgstr "Calculer uniquement entre"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:718
 #: clientgui/DlgAdvPreferencesBase.cpp:902
 msgid "Day-of-week override"
-msgstr "Restreindre sur les jours de la semaine:"
+msgstr "Restrictions selon les jours de la semaine"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:727
 #: clientgui/DlgAdvPreferencesBase.cpp:906
 msgid "Override the times above on the selected days:"
-msgstr "Appliquer la restriction d'horaire sur les jours sélectionnés :"
+msgstr "Appliquer une restriction d'horaire sur les jours sélectionnés :"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:750
 #: clientgui/DlgAdvPreferencesBase.cpp:923
@@ -1588,7 +1588,7 @@ msgstr "Jeudi"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:890 clientgui/sg_DlgPreferences.cpp:317
 msgid "Transfer files only during a particular period each day."
-msgstr "Transférer des fichiers uniquement pendant une période donnée chaque jour."
+msgstr "Transférer les fichiers uniquement pendant une période donnée chaque jour."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:892 clientgui/sg_DlgPreferences.cpp:319
 msgid "Transfer files only between"
@@ -1602,11 +1602,11 @@ msgstr "Drapeaux de journal de diagnostic de %s"
 #: clientgui/DlgDiagnosticLogFlags.cpp:83
 msgid ""
 "These flags enable various types of diagnostic messages in the Event Log."
-msgstr "Ces indicateurs permettent différents types de messages de diagnostic dans le journal des événements."
+msgstr "Ces indicateurs permettent différents types de messages de diagnostic dans le Journal des événements."
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:99
 msgid "More info ..."
-msgstr "Plus d'informations ..."
+msgstr "Plus d'informations..."
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:120 clientgui/DlgHiddenColumns.cpp:101
 msgid "Save all values and close the dialog"
@@ -1651,7 +1651,7 @@ msgstr "Ne montrer que ce projet"
 
 #: clientgui/DlgEventLog.cpp:309
 msgid "Copy &All"
-msgstr "Tout copier"
+msgstr "&Tout copier"
 
 #: clientgui/DlgEventLog.cpp:311 clientgui/DlgEventLog.cpp:315
 #: clientgui/ViewMessages.cpp:89
