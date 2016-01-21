@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 18:38+0000\n"
+"PO-Revision-Date: 2016-01-21 18:43+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -2354,7 +2354,7 @@ msgstr "Discuter avec les administrateurs et les autres utilisateurs sur les for
 
 #: clientgui/Localization.cpp:73
 msgid "Einstein status"
-msgstr "Etat d'Einstein"
+msgstr "État d'Einstein"
 
 #: clientgui/Localization.cpp:75
 msgid "Current status of the Einstein@Home server"
@@ -2923,7 +2923,7 @@ msgstr "Le gestionnaire de compte est momentanément indisponible.\n\nVeuillez r
 
 #: clientgui/ValidateAccountKey.cpp:68
 msgid "Please specify an account key to continue."
-msgstr "Entrez une clé d'identification pour continuer, svp."
+msgstr "Veuillez entrer une clé d'identification pour continuer."
 
 #: clientgui/ValidateAccountKey.cpp:71
 msgid "Invalid Account Key; please enter a valid Account Key"
@@ -3025,11 +3025,11 @@ msgstr "Montrer les messages pour tous les projets."
 
 #: clientgui/ViewNotices.cpp:58 clientgui/sg_DlgMessages.cpp:124
 msgid "Fetching notices; please wait..."
-msgstr "Recherche d'avis; patientez s'il-vous-plaît..."
+msgstr "Recherche des annonces ; veuillez patienter..."
 
 #: clientgui/ViewNotices.cpp:65 clientgui/sg_DlgMessages.cpp:132
 msgid "There are no notices at this time."
-msgstr "Il n'y a pas de nouveaux messages."
+msgstr "Il n'y a pas de nouvelles annonces."
 
 #: clientgui/ViewNotices.cpp:99 clientgui/sg_BoincSimpleFrame.cpp:912
 msgid "Notices"
@@ -3043,7 +3043,7 @@ msgstr "Mettre à jour"
 msgid ""
 "Report all completed tasks, get latest credit, get latest preferences, and "
 "possibly get more tasks."
-msgstr "Envoie le travail terminé, obtient les crédits les plus récents, met à jour les préférences, et si possible télécharge du travail."
+msgstr "Envoie les calculs terminés, met à jour les crédits, met à jour les préférences et peut télécharger de nouvelles tâches à calculer."
 
 #: clientgui/ViewProjects.cpp:209 clientgui/ViewProjects.cpp:808
 #: clientgui/ViewWork.cpp:232 clientgui/ViewWork.cpp:888
