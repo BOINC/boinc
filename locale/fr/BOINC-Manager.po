@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 18:59+0000\n"
+"PO-Revision-Date: 2016-01-21 19:04+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -3480,7 +3480,7 @@ msgid ""
 "Are you sure you want to abort this file transfer '%s'?\n"
 "NOTE: Aborting a transfer will invalidate a task and you\n"
 "will not receive credit for it."
-msgstr "Etes-vous sûr de vouloir abandonner le transfert de ce fichier '%s' ?\nNOTE: L'abandon d'un transfert invalidera la tâche et\nvous ne recevrez pas de crédits pour cette tâche."
+msgstr "Êtes-vous sûr de vouloir abandonner le transfert de ce fichier '%s' ?\nNOTE : L'abandon d'un transfert invalidera la tâche\net vous ne recevrez pas de crédits pour cette tâche."
 
 #: clientgui/ViewTransfers.cpp:431
 msgid "Abort File Transfer"
@@ -3516,7 +3516,7 @@ msgstr "en attente"
 
 #: clientgui/ViewTransfers.cpp:867
 msgid " (project backoff: "
-msgstr " (retrait de projet: "
+msgstr " (retrait de projet :"
 
 #: clientgui/ViewWork.cpp:211 clientgui/ViewWork.cpp:864
 msgid "Show active tasks"
@@ -3540,11 +3540,11 @@ msgstr "Montrer la console VM"
 
 #: clientgui/ViewWork.cpp:226
 msgid "Show VM Console in a window."
-msgstr "Montrer la console VM dans une fenêtre."
+msgstr "Montre la console VM dans une fenêtre."
 
 #: clientgui/ViewWork.cpp:233
 msgid "Suspend work for this result."
-msgstr "Suspendre le calcul de cette unité."
+msgstr "Suspend le calcul de cette unité."
 
 #: clientgui/ViewWork.cpp:239 clientgui/sg_TaskCommandPopup.cpp:78
 msgid "Abort"
@@ -3552,7 +3552,7 @@ msgstr "Abandonner"
 
 #: clientgui/ViewWork.cpp:240
 msgid "Abandon work on the result. You will get no credit for it."
-msgstr "Abandonner le calcul de cette unité. Vous n'obtiendrez pas de crédit pour cette unité."
+msgstr "Abandonne le calcul de cette unité. Vous n'obtiendrez pas de crédit pour cette unité."
 
 #: clientgui/ViewWork.cpp:247 clientgui/sg_TaskCommandPopup.cpp:85
 msgid "Show task details."
@@ -3591,12 +3591,12 @@ msgstr "Montrer la console VM pour la tâche..."
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
-msgstr "Etes-vous sûr de vouloir abandonner cette tâche '%s' ?\n(Avancement: %s, Etat: %s)"
+msgstr "Êtes-vous sûr de vouloir abandonner cette tâche '%s' ?\n(Avancement: %s, État: %s)"
 
 #: clientgui/ViewWork.cpp:572
 #, c-format
 msgid "Are you sure you want to abort these %d tasks?"
-msgstr "Etes-vous sûr de vouloir annuler ces %d tâches ?"
+msgstr "Êtes-vous sûr de vouloir annuler ces %d tâches ?"
 
 #: clientgui/ViewWork.cpp:577 clientgui/sg_TaskCommandPopup.cpp:272
 msgid "Abort task"
@@ -3616,11 +3616,11 @@ msgstr "Montre toutes les tâches."
 
 #: clientgui/ViewWork.cpp:883 clientgui/sg_TaskCommandPopup.cpp:119
 msgid "Resume work for this task."
-msgstr "Reprendre le calcul de cette unité."
+msgstr "Reprendre le calcul de cette tâche."
 
 #: clientgui/ViewWork.cpp:889 clientgui/sg_TaskCommandPopup.cpp:123
 msgid "Suspend work for this task."
-msgstr "Suspendre le calcul de cette unité."
+msgstr "Suspendre le calcul de cette tâche."
 
 #: clientgui/WizardAttach.cpp:571
 msgid "Do you really want to cancel?"
