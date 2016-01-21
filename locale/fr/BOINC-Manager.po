@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 17:12+0000\n"
+"PO-Revision-Date: 2016-01-21 17:17+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1514,16 +1514,16 @@ msgid ""
 "If checked, suspended tasks stay in memory, and resume with no work lost. If"
 " unchecked, suspended tasks are removed from memory, and resume from their "
 "last checkpoint."
-msgstr "Si coché, les tâches seront gardées en mémoire pour pouvoir reprendre le travail sans perte. Si non coché, les tâches suspendues seront supprimées de la mémoire, et la reprise s'effectuera depuis leur dernier point de contrôle."
+msgstr "En cochant, les tâches seront gardées en mémoire pour pouvoir reprendre le calcul sans perte. Sinon, les tâches suspendues seront supprimées de la mémoire, et la reprise s'effectuera depuis leur dernier point de contrôle."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:643
 #, c-format
 msgid "Limit the swap space (page file) used by %s."
-msgstr "Limiter l'espace d'échange utilisé par %s (pagefile.sys ou swap)."
+msgstr "Limiter l’espace de pagination (swap) utilisé par %s."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:645
 msgid "Page/swap file: use at most"
-msgstr "Espace d'échange (swap) : utiliser au plus"
+msgstr "Pour l’espace de pagination, utiliser la mémoire au maximum à"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:670 clientgui/sg_DlgPreferences.cpp:295
 msgid "and"
