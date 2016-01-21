@@ -11,14 +11,15 @@
 # Clément Jonglez <clement.jonglez@isae.fr>, 2015
 # Frédéric Ménétrier, 2015
 # Jerome Cadet <jerome.cadet@pobox.com>, 2015
+# Philippe Janocha, 2016
 # PINSET Romaric <inactive+RomaricP@transifex.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-20 21:22+0000\n"
-"Last-Translator: Amaury Van Espen\n"
+"PO-Revision-Date: 2016-01-21 15:36+0000\n"
+"Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -80,7 +81,7 @@ msgstr "Trouvez les informations de connexion"
 
 #: clientgui/AccountInfoPage.cpp:410 clientgui/AccountInfoPage.cpp:632
 msgid "&Password:"
-msgstr "&Mot de passe:"
+msgstr "&Mot de passe :"
 
 #: clientgui/AccountInfoPage.cpp:417 clientgui/AccountInfoPage.cpp:656
 msgid "Choose a &password:"
