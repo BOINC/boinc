@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 15:53+0000\n"
+"PO-Revision-Date: 2016-01-21 15:59+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -534,7 +534,7 @@ msgstr "Site web de %s"
 #: clientgui/AdvancedFrame.cpp:679 clientgui/sg_BoincSimpleFrame.cpp:251
 #, c-format
 msgid "Show information about BOINC and %s"
-msgstr "Affiche les informations à propos de BOINC et %s"
+msgstr "Afficher les informations à propos de BOINC et %s"
 
 #: clientgui/AdvancedFrame.cpp:690 clientgui/BOINCTaskBar.cpp:541
 #: clientgui/sg_BoincSimpleFrame.cpp:262
@@ -560,7 +560,7 @@ msgstr "&Activité"
 
 #: clientgui/AdvancedFrame.cpp:715 clientgui/sg_BoincSimpleFrame.cpp:283
 msgid "&Options"
-msgstr "&Options..."
+msgstr "&Options"
 
 #: clientgui/AdvancedFrame.cpp:719 clientgui/sg_BoincSimpleFrame.cpp:287
 msgid "&Tools"
@@ -584,7 +584,7 @@ msgid ""
 "but you'll have to manage projects manually.\n"
 "\n"
 "Do you want to stop using %s?"
-msgstr "Si vous cessez d'utiliser %s, \nvous conserverez tous vos projets \nmais vous devrez les gérer manuellement.\nVoulez-vous cesser d'utiliser %s ?"
+msgstr "Si vous cessez d'utiliser %s, \nvous conserverez tous vos projets \nmais vous devrez les gérer manuellement.\n\nVoulez-vous cesser d'utiliser %s ?"
 
 #: clientgui/AdvancedFrame.cpp:1471
 #, c-format
@@ -633,7 +633,7 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr "Un compte avec ce nom d'utilisateur existe déjà et a\nun mot de passe différent de celui que vous avez entré.\n\nVisitez le site web du projet et suivez ses instructions, svp."
+msgstr "Un compte avec ce nom d'utilisateur existe déjà et a\nun mot de passe différent de celui que vous avez entré.\n\nConsultez le site web du projet et suivez les instructions."
 
 #: clientgui/AlreadyExistsPage.cpp:191
 msgid "Email address already in use"
@@ -645,11 +645,11 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr "Un compte avec cette adresse de courriel existe déjà et a\nun mot de passe différent de celui que vous avez entré.\n\nVisitez le site web du projet et suivez ses instructions, svp"
+msgstr "Un compte avec cette adresse de courriel existe déjà et a\nun mot de passe différent de celui que vous avez entré.\n\nConsultez le site web du projet et suivez les instructions."
 
 #: clientgui/AsyncRPC.cpp:1031
 msgid "Communicating with BOINC client.  Please wait ..."
-msgstr "Communication avec le client BOINC en cours. Veuillez patienter ..."
+msgstr "Communication avec le client BOINC en cours. Veuillez patienter..."
 
 #: clientgui/AsyncRPC.cpp:1034
 #, c-format
@@ -695,7 +695,7 @@ msgstr "Autorisation de se connecter au client en cours d'exécution refusée."
 
 #: clientgui/BOINCBaseFrame.cpp:540
 msgid "The password you have provided is incorrect, please try again."
-msgstr "Le mot de passe que vous avez fourni est incorrect, merci d'essayer à nouveau."
+msgstr "Le mot de passe que vous avez fourni est incorrect, merci de réessayer."
 
 #: clientgui/BOINCBaseFrame.cpp:584
 #, c-format
