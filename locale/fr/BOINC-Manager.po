@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 16:04+0000\n"
+"PO-Revision-Date: 2016-01-21 16:10+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -887,7 +887,7 @@ msgstr "instances multiples du gestionnaire BOINC autorisées"
 
 #: clientgui/BOINCGUIApp.cpp:679
 msgid "Not used: workaround for bug in XCode 4.2"
-msgstr "Non utilisé: contournement du bogue dans XCode 4.2"
+msgstr "Non utilisé : contournement du bogue dans XCode 4.2"
 
 #: clientgui/BOINCGUIApp.cpp:681
 msgid "Not run the daemon"
@@ -924,7 +924,7 @@ msgstr "Mettre en veille"
 #: clientgui/BOINCTaskBar.cpp:535 clientgui/BOINCTaskBar.cpp:650
 #: clientgui/BOINCTaskBar.cpp:655
 msgid "Snooze GPU"
-msgstr "Mettre en veille le GPU"
+msgstr "Mettre en veille le processeur graphique"
 
 #: clientgui/BOINCTaskBar.cpp:553
 msgid "E&xit"
@@ -939,7 +939,7 @@ msgstr "Reprendre"
 
 #: clientgui/BOINCTaskBar.cpp:646
 msgid "Resume GPU"
-msgstr "Reprendre l'activité GPU"
+msgstr "Reprendre l'activité du processeur graphique"
 
 #: clientgui/BOINCTaskBar.cpp:712
 msgid "Computing is enabled"
@@ -951,11 +951,11 @@ msgstr "Le calcul est suspendu - "
 
 #: clientgui/BOINCTaskBar.cpp:726
 msgid "GPU computing is enabled"
-msgstr "Le calcul sur GPU est autorisé"
+msgstr "Le calcul du processeur graphique est autorisé"
 
 #: clientgui/BOINCTaskBar.cpp:729
 msgid "GPU computing is suspended - "
-msgstr "Le calcul sur GPU est suspendu - "
+msgstr "Le calcul du processeur graphique est suspendu - "
 
 #: clientgui/BOINCTaskBar.cpp:738
 msgid "Network is enabled"
@@ -967,7 +967,7 @@ msgstr "Activité réseau suspendue - "
 
 #: clientgui/BOINCTaskBar.cpp:749
 msgid "Reconnecting to client."
-msgstr "En cours de reconnexion au client."
+msgstr " Reconnexion au client en cours."
 
 #: clientgui/BOINCTaskBar.cpp:751
 msgid "Not connected to a client."
@@ -992,7 +992,7 @@ msgstr "La mise à jour du gestionnaire de compte a échoué"
 
 #: clientgui/CompletionErrorPage.cpp:208
 msgid "Failed to remove account manager"
-msgstr "Echec de la suppression du gestionnaire de compte"
+msgstr "Échec de la suppression du gestionnaire de compte"
 
 #: clientgui/CompletionErrorPage.cpp:212
 msgid "Failed to add account manager"
