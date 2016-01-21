@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 16:22+0000\n"
+"PO-Revision-Date: 2016-01-21 16:30+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1237,7 +1237,7 @@ msgstr "Suspend puis reprend les calculs toutes les quelques secondes afin de r�
 #: clientgui/DlgAdvPreferencesBase.cpp:260 clientgui/sg_DlgPreferences.cpp:291
 #, no-c-format
 msgid "% of CPU time"
-msgstr "% du temps CPU"
+msgstr "% du temps processeur"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:267
 msgid "When to suspend"
@@ -1245,12 +1245,12 @@ msgstr "Quand suspendre les calculs"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:273 clientgui/sg_DlgPreferences.cpp:239
 msgid "Suspend when computer is on battery"
-msgstr "Suspension quand l'ordinateur est sur batterie"
+msgstr "Suspendre le calcul quand l'ordinateur est sur batterie"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:276 clientgui/sg_DlgPreferences.cpp:235
 msgid ""
 "Check this to suspend computing on portables when running on battery power."
-msgstr "Cochez cette case pour suspendre les calculs sur votre portable quand il fonctionne sur batterie."
+msgstr "Cochez cette case pour suspendre les calculs de votre ordinateur portable quand il fonctionne sur batterie."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:282 clientgui/sg_DlgPreferences.cpp:253
 msgid "Suspend when computer is in use"
@@ -1264,21 +1264,21 @@ msgstr "Cochez cette case pour suspendre le calcul et les transferts de fichiers
 
 #: clientgui/DlgAdvPreferencesBase.cpp:291
 msgid "Suspend GPU computing when computer is in use"
-msgstr "Suspendre le calcul par la carte graphique lorsque l'ordinateur est utilisé"
+msgstr "Suspendre le calcul du processeur graphique lorsque l'ordinateur est utilisé"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:294
 msgid "Check this to suspend GPU computing when you're using the computer."
-msgstr "Cochez cette case pour suspendre le calcul par la carte graphique lorsque vous utilisez l'ordinateur."
+msgstr "Cochez cette case pour suspendre le calcul du processeur graphique lorsque vous utilisez l'ordinateur."
 
 #. min idle time
 #: clientgui/DlgAdvPreferencesBase.cpp:299 clientgui/sg_DlgPreferences.cpp:264
 msgid "This determines when the computer is considered 'in use'."
-msgstr "Ceci permet de déterminer quand l'ordinateur est considéré comme \"en usage\"."
+msgstr "Ceci permet de déterminer quand l'ordinateur est considéré \"en utilisation\"."
 
 #. context: 'In use' means mouse/keyboard input in last ___ minutes
 #: clientgui/DlgAdvPreferencesBase.cpp:304 clientgui/sg_DlgPreferences.cpp:268
 msgid "'In use' means mouse/keyboard input in last"
-msgstr "'Est utilisé' signifie qu'il y a eu une activité de la souris ou du clavier dans les dernières"
+msgstr "‘En utilisation' signifie qu'il y a eu une activité de la souris ou du clavier dans les dernières"
 
 #. context: 'In use' means mouse/keyboard input in last ___ minutes
 #. context: Switch between tasks every ___ minutes
@@ -1289,7 +1289,7 @@ msgstr "minutes"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:323
 msgid "Suspend when non-BOINC CPU usage is above"
-msgstr "Suspendre lorsque l'utilisation du processeur est au-dessus de"
+msgstr "Suspendre le calcul lorsque l'utilisation du processeur dépasse"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:325
 msgid "Suspend computing when your computer is busy running other programs."
@@ -1297,7 +1297,7 @@ msgstr "Suspendre le calcul lorsque votre ordinateur est occupé à exécuter d'
 
 #: clientgui/DlgAdvPreferencesBase.cpp:339
 msgid "To suspend by time of day, see the \"Daily Schedules\" section."
-msgstr "Pour suspendre en fonction des heures de la journée, voir la section \"Contraintes sur jours de la semaine\"."
+msgstr "Pour suspendre le calcul en fonction des heures de la journée, voir la section \"Planifications journalières\"."
 
 #. Context: heading for a group of miscellaneous preferences
 #: clientgui/DlgAdvPreferencesBase.cpp:349
