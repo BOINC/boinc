@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 17:54+0000\n"
+"PO-Revision-Date: 2016-01-21 17:59+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -2123,7 +2123,7 @@ msgstr "Quelle langue BOINC doit-il utiliser ?"
 
 #: clientgui/DlgOptions.cpp:190
 msgid "Notice reminder interval:"
-msgstr "Intervalle de notifications :"
+msgstr "Intervalle de notifications"
 
 #: clientgui/DlgOptions.cpp:197
 msgid "How often should BOINC remind you of new notices?"
@@ -2147,7 +2147,7 @@ msgstr "Lancer le démon au démarrage du Manager."
 
 #: clientgui/DlgOptions.cpp:223
 msgid "Enable Manager exit dialog?"
-msgstr "Activer le dialogue de fermeture du Manager ?"
+msgstr "Activer le dialogue de fermeture du Manager"
 
 #: clientgui/DlgOptions.cpp:229
 msgid "Display the exit dialog when shutting down the Manager."
@@ -2201,13 +2201,13 @@ msgstr "Laisser vide si non nécessaire"
 #: clientgui/DlgOptions.cpp:323 clientgui/DlgOptions.cpp:387
 #: clientgui/ProxyPage.cpp:343 clientgui/ProxyPage.cpp:363
 msgid "User Name:"
-msgstr "Nom d'utilisateur:"
+msgstr "Nom d’utilisateur :"
 
 #: clientgui/DlgOptions.cpp:331 clientgui/DlgOptions.cpp:395
 #: clientgui/DlgSelectComputer.cpp:152 clientgui/ProxyPage.cpp:346
 #: clientgui/ProxyPage.cpp:366
 msgid "Password:"
-msgstr "Mot de passe:"
+msgstr "Mot de passe :"
 
 #: clientgui/DlgOptions.cpp:338
 msgid "HTTP Proxy"
@@ -2219,7 +2219,7 @@ msgstr "Se connecter via un serveur proxy SOCKS"
 
 #: clientgui/DlgOptions.cpp:350
 msgid "SOCKS Proxy Server Configuration"
-msgstr "Configuration d'un serveur proxy SOCKS"
+msgstr "Configuration du serveur proxy SOCKS"
 
 #: clientgui/DlgOptions.cpp:402
 msgid "SOCKS Proxy"
