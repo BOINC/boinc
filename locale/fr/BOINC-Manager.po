@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 17:06+0000\n"
+"PO-Revision-Date: 2016-01-21 17:12+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1487,7 +1487,7 @@ msgstr "Limiter la mémoire utilisée par %s lorsque vous utilisez l'ordinateur.
 
 #: clientgui/DlgAdvPreferencesBase.cpp:616
 msgid "When computer is in use, use at most"
-msgstr "Lorsque l'ordinateur est utilisé, utilisez au maximum"
+msgstr "Lorsque l'ordinateur est utilisé, utiliser la mémoire au maximum à"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:622
 #: clientgui/DlgAdvPreferencesBase.cpp:634
@@ -1503,11 +1503,11 @@ msgstr "Limiter la mémoire utilisée par %s lorsque vous n'utilisez pas l'ordin
 
 #: clientgui/DlgAdvPreferencesBase.cpp:629
 msgid "When computer is not in use, use at most"
-msgstr "Lorsque l'ordinateur n'est pas en utilisation, utiliser au maximum"
+msgstr "Lorsque l'ordinateur n'est pas utilisé, utiliser la mémoire au maximum à"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:638
 msgid "Leave non-GPU tasks in memory while suspended"
-msgstr "Laisser les tâches non-GPU en mémoire lorsqu'elles sont suspendues"
+msgstr "Laisser les tâches processeurs non graphiques en mémoire lorsqu'elles sont suspendues"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:639
 msgid ""
