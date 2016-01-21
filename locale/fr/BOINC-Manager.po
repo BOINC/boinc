@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 18:48+0000\n"
+"PO-Revision-Date: 2016-01-21 18:54+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -3169,19 +3169,19 @@ msgstr "Démarrage du navigateur en cours..."
 
 #: clientgui/ViewProjects.cpp:804 clientgui/sg_ProjectCommandPopup.cpp:126
 msgid "Resume tasks for this project."
-msgstr "Reprend le travail pour ce projet."
+msgstr "Reprend le calcul pour ce projet."
 
 #: clientgui/ViewProjects.cpp:823 clientgui/sg_ProjectCommandPopup.cpp:133
 msgid "Allow new tasks"
-msgstr "Autoriser du nouveau travail"
+msgstr "Autoriser de nouvelles tâches"
 
 #: clientgui/ViewProjects.cpp:823 clientgui/sg_ProjectCommandPopup.cpp:134
 msgid "Allow fetching new tasks for this project."
-msgstr "Autorise le téléchargement de nouveau travail pour ce projet."
+msgstr "Autorise le téléchargement de nouvelles tâches pour ce projet."
 
 #: clientgui/ViewProjects.cpp:827 clientgui/sg_ProjectCommandPopup.cpp:137
 msgid "Don't fetch new tasks for this project."
-msgstr "Ne récupère pas de nouveau travail pour ce projet."
+msgstr "Ne récupère pas de nouvelles tâches pour ce projet."
 
 #: clientgui/ViewProjects.cpp:1131
 msgid "Requested by user"
@@ -3225,11 +3225,11 @@ msgstr "Pas de nouveau travail"
 
 #: clientgui/ViewProjects.cpp:1158
 msgid "Project ended - OK to remove"
-msgstr "Projet terminé - OK pour le retirer."
+msgstr "Projet terminé - OK pour le supprimer"
 
 #: clientgui/ViewProjects.cpp:1161
 msgid "Will remove when tasks done"
-msgstr "Le projet sera retiré lorsque les tâches seront terminées"
+msgstr "Le projet sera supprimé lorsque les tâches seront terminées"
 
 #: clientgui/ViewProjects.cpp:1164
 msgid "Scheduler request pending"
@@ -3249,35 +3249,35 @@ msgstr "Communication différée "
 
 #: clientgui/ViewResources.cpp:62
 msgid "Total disk usage"
-msgstr "Occupation totale du disque"
+msgstr "Occupation totale de la mémoire de stockage"
 
 #: clientgui/ViewResources.cpp:83
 msgid "Disk usage by BOINC projects"
-msgstr "Occupation du disque par les projets BOINC"
+msgstr "Occupation de la mémoire de stockage par les projets BOINC"
 
 #: clientgui/ViewResources.cpp:225
 msgid "no projects: 0 bytes used"
-msgstr "Aucun projet: 0 octet utilisé"
+msgstr "Aucun projet : 0 octet utilisé"
 
 #: clientgui/ViewResources.cpp:259
 msgid "used by BOINC: "
-msgstr "utilisé par BOINC: "
+msgstr "utilisé par BOINC :"
 
 #: clientgui/ViewResources.cpp:269
 msgid "free, available to BOINC: "
-msgstr "libre, disponible pour BOINC: "
+msgstr "libre, disponible pour BOINC :"
 
 #: clientgui/ViewResources.cpp:279
 msgid "free, not available to BOINC: "
-msgstr "libre, non disponible pour BOINC: "
+msgstr "libre, indisponible pour BOINC :"
 
 #: clientgui/ViewResources.cpp:289
 msgid "free: "
-msgstr "libre: "
+msgstr "libre :"
 
 #: clientgui/ViewResources.cpp:298
 msgid "used by other programs: "
-msgstr "utilisé par d'autres programmes: "
+msgstr "utilisé par d'autres programmes :"
 
 #: clientgui/ViewStatistics.cpp:1181
 msgid "User Total"
@@ -3298,7 +3298,7 @@ msgstr "Moyenne de l'hôte"
 #: clientgui/ViewStatistics.cpp:1331
 #, c-format
 msgid "Last update: %.0f days ago"
-msgstr "Dernière mise à jour: il y a %.0f jours"
+msgstr "Dernière mise à jour : il y a %.0f jour(s)"
 
 #: clientgui/ViewStatistics.cpp:1956
 msgid "Show user total"
@@ -3346,7 +3346,7 @@ msgstr "&Projet suivant >"
 
 #: clientgui/ViewStatistics.cpp:1994
 msgid "Show chart for next project"
-msgstr "Montre le graphique du projet suivant"
+msgstr "Montrer le graphique du projet suivant"
 
 #: clientgui/ViewStatistics.cpp:2000 clientgui/ViewStatistics.cpp:2390
 msgid "Hide project list"
