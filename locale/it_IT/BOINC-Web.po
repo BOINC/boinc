@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2015-12-04 11:23+0000\n"
+"PO-Revision-Date: 2016-01-14 10:59+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -75,13 +75,13 @@ msgid ""
 "BOINC is a program that lets you donate your idle computer time to science "
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
 "Community Grid, and many others."
-msgstr "BOINC è un programma che ti permette di donare il tempo inutilizzato del tuo computer per progetti come SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, e molti altri."
+msgstr "BOINC è un programma che ti permette di donare il tempo inutilizzato del processore del tuo computer per aiutare progetti come SETI@home, Climateprediction.net, Rosetta@home, World Community Grid e molti altri."
 
 #: download.php:135
 msgid ""
 "After installing BOINC on your computer, you can connect it to as many of "
 "these projects as you like."
-msgstr "Dopo l'installazione di BOINC su un computer potrai connetterti a tutti i progetti che preferisci."
+msgstr "Dopo l'installazione di BOINC sul tuo computer potrai scegliere di aiutare tutti i progetti che vorrai."
 
 #: download.php:137
 msgid ""
@@ -93,7 +93,7 @@ msgstr "Puoi eseguire questo software su un computer solo se possiedi il compute
 msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
-msgstr "Ti consigliamo di scaricare BOINC da Google Play Store oppure da Amazon Appstore, non da qui. Utilizza questo collegamento solo se ti è difficile usare gli strumenti consigliati."
+msgstr "Ti consigliamo di scaricare BOINC da Google Play Store oppure da Amazon Appstore, non da qui. Utilizza questo collegamento solo se hai delle difficoltà con gli strumenti consigliati."
 
 #: download.php:177
 msgid "System requirements"
@@ -189,7 +189,7 @@ msgstr "Potenza di calcolo"
 
 #: index.php:26
 msgid "Top 100 volunteers"
-msgstr "I migliori 100 volontari"
+msgstr "I primi 100 volontari"
 
 #: index.php:27
 msgid "Statistics"
@@ -463,7 +463,7 @@ msgstr "Centro per la bioinformatica e la biologia computazionale dell'Universit
 
 #: projects.inc:176
 msgid "Life science research"
-msgstr "Scienze naturali"
+msgstr "Studi nel campo delle scienze della vita"
 
 #: projects.inc:177
 msgid ""
@@ -648,7 +648,7 @@ msgid ""
 "observatory.  Einstein@Home is a World Year of Physics 2005 project "
 "supported by the American Physical Society (APS) and by a number of "
 "international organizations."
-msgstr "Cercare stelle di neutroni rotanti (dette anche pulsar) usando i dati dai rivelatori di onde gravitazionali LIGO e GEO, e dal radiotelescopio di Arecibo. Einstein@Home è un progetto dell'Anno Mondiale della Fisica 2005, supportato dall'American Physical Society (APS) e da un certo numero di organizzazioni internazionali."
+msgstr "Cercare stelle di neutroni rotanti (dette anche pulsar) usando i dati dai rivelatori di onde gravitazionali LIGO e GEO, e dal radiotelescopio di Arecibo. Einstein@Home è un progetto dell'Anno internazionale della Fisica 2005, supportato dall'American Physical Society (APS) e da un certo numero di organizzazioni internazionali."
 
 #: projects.inc:370
 msgid "Help detect pulsars and gravitational waves"
@@ -717,7 +717,7 @@ msgstr "SETI (Search for Extraterrestrial Intelligence, ricerca di intelligenza 
 
 #: projects.inc:418
 msgid "Search for evidence of extra-terrestrial life"
-msgstr "Ricerca di prove sulla vita extraterrestre"
+msgstr "Ricerca di prove di vita extraterrestre"
 
 #: projects.inc:442
 msgid "Multiple applications"
@@ -743,7 +743,7 @@ msgstr "Accademia cinese delle scienze"
 
 #: projects.inc:458
 msgid "Physics, biochemistry, and others"
-msgstr "Fisica, biochimica, ed altre"
+msgstr "Fisica, biochimica, ed altro"
 
 #: projects.inc:459
 msgid ""
@@ -764,7 +764,7 @@ msgstr "Matematica, fisica, evoluzione"
 msgid ""
 "Yoyo@home is an adapter between BOINC and several existing volunteer "
 "computing projects: ECM, Muon, Evolution@home, and distributed.net"
-msgstr "Yoyo@home è un adattatore tra BOINC e vari altri progetti di calcolo volontario esistenti: ECM, Muon, Evolution@home, e distributed.net"
+msgstr "Yoyo@home è un wrapper tra BOINC e vari altri progetti di calcolo volontario esistenti: ECM, Muon, Evolution@home, e distributed.net"
 
 #: projects.inc:472
 msgid "Do research in math, physics, and evolution"
@@ -964,4 +964,4 @@ msgstr "Commenta"
 #: ../html/inc/news.inc:111
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr "Le news sono disponibili come %sRSS feed%s"
+msgstr "Le news sono disponibili come %sfeed RSS%s"
