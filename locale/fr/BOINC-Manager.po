@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 18:14+0000\n"
+"PO-Revision-Date: 2016-01-21 18:20+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -2594,7 +2594,7 @@ msgstr " (sollicite peu le processeur)"
 
 #: clientgui/MainDocument.cpp:2524
 msgid "Waiting to run"
-msgstr "Calculs en attente"
+msgstr "Calcul en pause"
 
 #: clientgui/MainDocument.cpp:2526 clientgui/MainDocument.cpp:2529
 msgid "Ready to start"
@@ -2618,7 +2618,7 @@ msgstr "Erreur de calcul"
 
 #: clientgui/MainDocument.cpp:2548
 msgid "Upload failed"
-msgstr "Echec de l'envoi"
+msgstr "Échec de l'envoi"
 
 #: clientgui/MainDocument.cpp:2550
 msgid "Uploading"
@@ -2626,7 +2626,7 @@ msgstr "Envoi en cours"
 
 #: clientgui/MainDocument.cpp:2561
 msgid "Aborted by user"
-msgstr "Abandonné par l'utilisateur"
+msgstr "Annulé par l'utilisateur"
 
 #: clientgui/MainDocument.cpp:2564
 msgid "Aborted by project"
@@ -2638,15 +2638,15 @@ msgstr "Avorté : non démarré dans le délai imparti"
 
 #: clientgui/MainDocument.cpp:2570
 msgid "Aborted: task disk limit exceeded"
-msgstr "Abandon: limite du disque excédée"
+msgstr "Annulé : limite du disque atteinte"
 
 #: clientgui/MainDocument.cpp:2573
 msgid "Aborted: run time limit exceeded"
-msgstr "Abandon: limite du temps d'exécution excédée"
+msgstr "Annulé : limite du temps d'exécution atteinte"
 
 #: clientgui/MainDocument.cpp:2576
 msgid "Aborted: memory limit exceeded"
-msgstr "Abandon: limite de la mémoire excédée"
+msgstr "Annulé : limite de la mémoire atteinte"
 
 #: clientgui/MainDocument.cpp:2579
 msgid "Aborted"
@@ -2663,7 +2663,7 @@ msgstr "Prêt à valider"
 #: clientgui/MainDocument.cpp:2588
 #, c-format
 msgid "Error: invalid state '%d'"
-msgstr "Erreur: état invalide '%d'"
+msgstr "Erreur : état invalide '%d'"
 
 #: clientgui/NoInternetConnectionPage.cpp:179
 msgid "No Internet connection"
@@ -2671,7 +2671,7 @@ msgstr "Pas de connexion Internet"
 
 #: clientgui/NoInternetConnectionPage.cpp:182
 msgid "Please connect to the Internet and try again."
-msgstr "Connectez-vous à l'Internet et essayez à nouveau, svp."
+msgstr "Veuillez vous connecter à Internet et réessayez."
 
 #: clientgui/NotDetectedPage.cpp:181
 msgid "Project not found"
