@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 17:01+0000\n"
+"PO-Revision-Date: 2016-01-21 17:06+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1458,23 +1458,23 @@ msgstr "Limiter le stockage afin de laisser suffisamment d'espace libre sur le v
 
 #: clientgui/DlgAdvPreferencesBase.cpp:585
 msgid "Leave at least"
-msgstr "Laisser au moins"
+msgstr "Laisser libre au minimum"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:589
 msgid "GB free"
-msgstr "GB libre"
+msgstr "Go"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:594
 #, c-format
 msgid ""
 "Limit the percentage of disk space used by %s on the volume where it stores "
 "data."
-msgstr "Limiter le pourcentage d'espace disque utilisée par %s sur le volume où il stocke les données."
+msgstr "Limiter en pourcentage le stockage utilisé par %s sur le volume où il stocke ses données."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:602
 #, no-c-format
 msgid "% of total"
-msgstr "% du total"
+msgstr "% de l’espace de stockage total"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:609
 msgid "Memory"
