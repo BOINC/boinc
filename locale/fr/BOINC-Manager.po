@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 16:10+0000\n"
+"PO-Revision-Date: 2016-01-21 16:16+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1003,7 +1003,7 @@ msgid ""
 "Please try again later.\n"
 "\n"
 "Click Finish to close."
-msgstr "Veuillez réessayer ultérieurement.\n\nCliquer sur Terminer pour fermer."
+msgstr "Veuillez réessayer ultérieurement.\n\nCliquez sur Terminer pour fermer."
 
 #: clientgui/CompletionErrorPage.cpp:225 clientgui/CompletionPage.cpp:222
 #: clientgui/CompletionPage.cpp:242 clientgui/CompletionPage.cpp:273
@@ -1012,7 +1012,7 @@ msgstr "Cliquez sur Fin pour fermer."
 
 #: clientgui/CompletionErrorPage.cpp:234
 msgid "Messages from server:"
-msgstr "Messages du serveur:"
+msgstr "Messages du serveur :"
 
 #: clientgui/CompletionPage.cpp:207
 msgid "Project added"
@@ -1026,12 +1026,12 @@ msgstr "Ce projet a été ajouté avec succès."
 msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
-msgstr "Quand vous cliquerez sur Fin, votre navigateur se rendra sur une page web\nvous pourrez régler vos préférences et votre nom de compte."
+msgstr "En cliquant sur Fin, votre navigateur se rendra sur une page web\noù vous pourrez régler vos préférences et votre nom de compte."
 
 #: clientgui/CompletionPage.cpp:232
 #, c-format
 msgid "Update from %s completed."
-msgstr "Mise à jour de %s terminée"
+msgstr "Mise à jour de %s effectuée."
 
 #: clientgui/CompletionPage.cpp:236
 msgid "Update completed."
@@ -1050,16 +1050,16 @@ msgstr "Bienvenue à %s !"
 #: clientgui/CompletionPage.cpp:263
 #, c-format
 msgid "You are now using %s to manage accounts."
-msgstr "Vous utilisez actuellement %s pour gérer les comptes"
+msgstr "Vous utilisez actuellement %s pour gérer les comptes."
 
 #: clientgui/CompletionPage.cpp:267
 msgid "You are now using this account manager."
-msgstr "Vous utilisez maintenant ce gestionnaire de compte"
+msgstr "Vous utilisez maintenant ce gestionnaire de compte."
 
 #: clientgui/DlgAbout.cpp:113
 #, c-format
 msgid "About %s"
-msgstr "A propos de %s"
+msgstr "À propos de %s"
 
 #: clientgui/DlgAbout.cpp:172
 msgid "Version:"
@@ -1071,17 +1071,17 @@ msgstr "Version de wxWidgets :"
 
 #: clientgui/DlgAbout.cpp:188
 msgid "Copyright:"
-msgstr "Copyright :"
+msgstr "Droit d'auteur :"
 
 #: clientgui/DlgAbout.cpp:192
 msgid ""
 "(C) 2003-2015 University of California, Berkeley.\n"
 "All Rights Reserved."
-msgstr "© 2003-2015 Université de Californie, Berkeley.\nTous droits réservés."
+msgstr "© 2003-2016 Université de Californie, Berkeley.\nTous droits réservés."
 
 #: clientgui/DlgAbout.cpp:196
 msgid "BOINC is distributed under the GNU Lesser General Public License v3.0."
-msgstr "BOINC est distribué sous la GNU Lesser General Public License v3.0."
+msgstr "BOINC est distribué sous Licence publique générale limitée GNU v 3.0."
 
 #: clientgui/DlgAbout.cpp:203
 msgid "For more information, visit "
