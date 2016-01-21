@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 18:04+0000\n"
+"PO-Revision-Date: 2016-01-21 18:09+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -2297,7 +2297,7 @@ msgstr "Votre compte"
 #: clientgui/Localization.cpp:41 clientgui/Localization.cpp:87
 #: clientgui/Localization.cpp:113
 msgid "View your account information and credit totals"
-msgstr "Voir les infos de votre compte et les crédits totaux"
+msgstr "Voir les infos de votre compte et le total des crédits"
 
 #: clientgui/Localization.cpp:43
 msgid "Your preferences"
@@ -2313,7 +2313,7 @@ msgstr "Vos résultats"
 
 #: clientgui/Localization.cpp:49 clientgui/Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
-msgstr "Voir la dernière semaine (ou plus) de travail et de résultats"
+msgstr "Voir la dernière semaine (ou plus) de calcul et de résultats"
 
 #: clientgui/Localization.cpp:51 clientgui/Localization.cpp:93
 msgid "Your computers"
@@ -2337,7 +2337,7 @@ msgstr "Questions fréquentes"
 
 #: clientgui/Localization.cpp:63
 msgid "Read the Einstein@Home Frequently Asked Question list"
-msgstr "Lire la liste de questions fréquemment posées de Einstein@Home"
+msgstr "Lire la liste des questions fréquemment posées de Einstein@Home"
 
 #: clientgui/Localization.cpp:65
 msgid "Screensaver info"
@@ -2358,7 +2358,7 @@ msgstr "Etat d'Einstein"
 
 #: clientgui/Localization.cpp:75
 msgid "Current status of the Einstein@Home server"
-msgstr "Etat actuel des serveurs d'Einstein@Home"
+msgstr "État actuel des serveurs d'Einstein@Home"
 
 #: clientgui/Localization.cpp:77
 msgid "Report problems"
@@ -2366,7 +2366,7 @@ msgstr "Signaler des problèmes"
 
 #: clientgui/Localization.cpp:79
 msgid "A link to the Einstein@Home problems and bug reports message board"
-msgstr "Un lien vers le forum des problèmes et des bugs d'Einstein@Home"
+msgstr "Un lien vers le forum traitant des problèmes et des bogues d'Einstein@Home"
 
 #: clientgui/Localization.cpp:83
 msgid "View and modify your Einstein@Home account profile and preferences"
@@ -2402,11 +2402,11 @@ msgstr "La page d'accueil du projet GEO-600"
 #: clientgui/Localization.cpp:115 clientgui/Localization.cpp:133
 #: clientgui/ViewProjects.cpp:253 clientgui/ViewStatistics.cpp:441
 msgid "Team"
-msgstr "Equipe"
+msgstr "Équipe"
 
 #: clientgui/Localization.cpp:117
 msgid "Info about your Team"
-msgstr "Infos sur votre Equipe"
+msgstr "Infos sur votre équipe"
 
 #: clientgui/Localization.cpp:123
 msgid "Get help for climateprediction.net"
@@ -2426,7 +2426,7 @@ msgstr "Voir les infos de votre compte, vos crédits et vos trickles"
 
 #: clientgui/Localization.cpp:135
 msgid "Info about your team"
-msgstr "Infos de votre équipe"
+msgstr "Infos sur votre équipe"
 
 #: clientgui/Localization.cpp:141
 msgid "Search for help in our help system"
