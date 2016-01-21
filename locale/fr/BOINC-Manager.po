@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 17:28+0000\n"
+"PO-Revision-Date: 2016-01-21 17:35+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1760,11 +1760,11 @@ msgstr "Ajouter une application prioritaire"
 
 #: clientgui/DlgExclusiveApps.cpp:345
 msgid "Name of application to add?"
-msgstr "Nom de l'application à ajouter?"
+msgstr "Nom de l'application à ajouter ?"
 
 #: clientgui/DlgExclusiveApps.cpp:345
 msgid "Add exclusive app"
-msgstr "Ajouter une application exclusive"
+msgstr "Ajouter une application prioritaire"
 
 #: clientgui/DlgExclusiveApps.cpp:379
 #, c-format
@@ -1790,7 +1790,7 @@ msgid ""
 "\n"
 "If you also want to stop running the tasks,\n"
 "choose from the following options:"
-msgstr "Vous avez demandé à fermer le %s,\nqui vous permet de voir et gérer\nles tâches s'exécutant sur votre ordinateur.\n\nSi vous voulez également arrêter les applications en cours,\nchoisissez parmi les options suivantes:"
+msgstr "Vous avez demandé à fermer %s,\nqui vous permet de voir et gérer\nles tâches s'exécutant sur votre ordinateur.\n\nSi vous voulez également arrêter les applications en cours,\nchoisissez parmi les options suivantes :"
 
 #: clientgui/DlgExitMessage.cpp:135
 #, c-format
@@ -1801,16 +1801,16 @@ msgid ""
 "In most cases, it is better just to close the %s window\n"
 "rather than to exit the application; that will allow %s to run its\n"
 "tasks at the times you selected in your preferences."
-msgstr "Cela va entièrement arrêter %s et ses tâches jusqu'à ce que\nl'application %s ou l'écran de veille de %s soit redémarré.\n\nDans la plupart des cas, mieux vaut simplement fermer la fenêtre du %s \nplutôt que de quitter l'application; cela permettra à %s de\ntraiter les tâches aux moments que vous avez choisis dans les préférences."
+msgstr "Cela va entièrement arrêter %s et ses tâches jusqu'à ce que\nl'application %s ou l'écran de veille de %s soit redémarré.\n\nDans la plupart des cas, mieux vaut simplement fermer la fenêtre du %s \nplutôt que de quitter l’application ; cela permettra à %s de traiter\nles tâches aux moments que vous avez choisis dans les préférences."
 
 #: clientgui/DlgExitMessage.cpp:153
 #, c-format
 msgid "Stop running tasks when exiting the %s"
-msgstr "Arrêter les tâches en cours en quittant le %s"
+msgstr "Arrêter les tâches en cours en quittant %s"
 
 #: clientgui/DlgExitMessage.cpp:165
 msgid "Remember this decision and do not show this dialog."
-msgstr "Se rappeler de cette décision et ne plus afficher cette fenêtre."
+msgstr "Se rappeler de ce choix et ne plus afficher cette fenêtre."
 
 #: clientgui/DlgExitMessage.cpp:178 clientgui/DlgGenericMessage.cpp:125
 #: clientgui/DlgOptions.cpp:415 clientgui/DlgSelectComputer.cpp:168
@@ -1830,7 +1830,7 @@ msgstr "Sélection de colonnes %s"
 #: clientgui/DlgHiddenColumns.cpp:77
 #, c-format
 msgid "Select which columns %s should show."
-msgstr "Sélectionnez les colonnes que %s devrait montrer."
+msgstr "Sélectionnez les colonnes que %s doit montrer."
 
 #: clientgui/DlgHiddenColumns.cpp:358
 msgid ""
@@ -1853,7 +1853,7 @@ msgstr "Préférences du projet"
 
 #: clientgui/DlgItemProperties.cpp:197
 msgid "Account manager preference"
-msgstr "Préférence du gestionnaire de compte"
+msgstr "Préférences du gestionnaire de compte"
 
 #: clientgui/DlgItemProperties.cpp:200
 msgid "Project has no apps for "
@@ -1861,7 +1861,7 @@ msgstr "Le projet n'a pas d'application pour "
 
 #: clientgui/DlgItemProperties.cpp:203
 msgid "Client configuration excludes "
-msgstr "La configuration du client exclue "
+msgstr "La configuration du client exclut"
 
 #: clientgui/DlgItemProperties.cpp:209
 #, c-format
@@ -1901,7 +1901,7 @@ msgstr "Partage des ressources"
 
 #: clientgui/DlgItemProperties.cpp:257
 msgid "Scheduler RPC deferred for"
-msgstr "Programmateur RPC différé pour"
+msgstr "Planificateur RPC différé pour"
 
 #: clientgui/DlgItemProperties.cpp:260
 msgid "File downloads deferred for"
@@ -1917,11 +1917,11 @@ msgstr "Utilisation du disque"
 
 #: clientgui/DlgItemProperties.cpp:266
 msgid "Computer ID"
-msgstr "ID Ordinateur"
+msgstr "ID de l’ordinateur"
 
 #: clientgui/DlgItemProperties.cpp:268
 msgid "Non CPU intensive"
-msgstr "Sollicite peu le CPU"
+msgstr "Sollicite peu le processeur"
 
 #: clientgui/DlgItemProperties.cpp:268 clientgui/DlgItemProperties.cpp:270
 #: clientgui/DlgItemProperties.cpp:271 clientgui/DlgItemProperties.cpp:273
@@ -1964,7 +1964,7 @@ msgstr "Ajouté via le gestionnaire de compte"
 
 #: clientgui/DlgItemProperties.cpp:288
 msgid "Remove when tasks done"
-msgstr "Se détacher une fois les tâches terminées"
+msgstr "Supprimer une fois les tâches terminées"
 
 #: clientgui/DlgItemProperties.cpp:291
 msgid "Ended"
