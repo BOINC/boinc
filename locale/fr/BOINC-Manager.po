@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 17:35+0000\n"
+"PO-Revision-Date: 2016-01-21 17:40+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -2005,7 +2005,7 @@ msgstr "Priorité de planification"
 
 #: clientgui/DlgItemProperties.cpp:317
 msgid "CPU"
-msgstr "CPU"
+msgstr "Processeur"
 
 #: clientgui/DlgItemProperties.cpp:341
 msgid "Duration correction factor"
@@ -2013,7 +2013,7 @@ msgstr "Facteur de correction de durée"
 
 #: clientgui/DlgItemProperties.cpp:349
 msgid "Last scheduler reply"
-msgstr "Dernière réponse de l'ordonnanceur"
+msgstr "Dernière réponse du planificateur"
 
 #: clientgui/DlgItemProperties.cpp:360
 msgid "Properties of task "
@@ -2029,7 +2029,7 @@ msgstr "Nom"
 
 #: clientgui/DlgItemProperties.cpp:374
 msgid "State"
-msgstr "Etat"
+msgstr "État"
 
 #: clientgui/DlgItemProperties.cpp:377
 msgid "Received"
@@ -2107,7 +2107,7 @@ msgstr "Exécutable"
 #: clientgui/DlgItemProperties.cpp:487 clientgui/ViewWork.cpp:1125
 #: clientgui/sg_TaskPanel.cpp:828
 msgid "Local: "
-msgstr "Local:"
+msgstr "Local :"
 
 #: clientgui/DlgOptions.cpp:130 clientgui/DlgOptions.cpp:136
 msgid "Options"
