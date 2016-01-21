@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-21 16:35+0000\n"
+"PO-Revision-Date: 2016-01-21 16:40+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -1331,23 +1331,23 @@ msgstr "Stocker des tâches supplémentaires au-delà du niveau minimum.  Cela d
 #. context: Store up to an additional ___ days of work
 #: clientgui/DlgAdvPreferencesBase.cpp:380
 msgid "Store up to an additional"
-msgstr "Stocker jusqu'à un additionnel"
+msgstr "Stocker un supplément de"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:399
 #, c-format
 msgid "If you run several projects, %s may switch between them this often."
-msgstr "Si vous exécutez plusieurs projets, %s peut basculer entre eux souvent."
+msgstr "Si vous exécutez plusieurs projets, %s basculera aussi souvent de l’un à l'autre."
 
 #. context: Switch between tasks every ___ minutes
 #: clientgui/DlgAdvPreferencesBase.cpp:404
 msgid "Switch between tasks every"
-msgstr "Permuter entre les tâches toutes les"
+msgstr "Permuter d’une tâche à l’autre toutes les"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:419
 msgid ""
 "This controls how often tasks save their state to disk, so that they later "
 "can be continued from that point."
-msgstr "Ce paramètre règle la fréquence à laquelle les tâches enregistrent leur état sur le disque, de sorte que plus tard elles puissent être poursuivies à partir de ce point."
+msgstr "Ce paramètre règle la fréquence à laquelle les tâches enregistrent leur état sur le disque, de sorte qu'elles pourront être poursuivies à partir de cet état."
 
 #. context: Request tasks to checkpoint at most every ___ seconds
 #: clientgui/DlgAdvPreferencesBase.cpp:423
