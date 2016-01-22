@@ -366,3 +366,12 @@ Total current reports of this user: [account:flag-abuse-user-count]',
     ),
   );
 }
+
+/**
+ * Implementation of hook_views_api().
+ */
+function boinc_standard_views_api() {
+  return array(
+    'api' => '2',
+  );
+}
