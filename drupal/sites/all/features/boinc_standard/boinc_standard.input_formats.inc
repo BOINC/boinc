@@ -147,6 +147,9 @@ function boinc_standard_input_formats() {
       // Delta => Weight for: Pathologic
       '0' => '-7',
     ),
+    'image_caption_filter' => array(
+      '0' => '10',
+    ),
   );
   $input_format->machine = 'rich_text';
   $input_formats['rich_text'] = $input_format;

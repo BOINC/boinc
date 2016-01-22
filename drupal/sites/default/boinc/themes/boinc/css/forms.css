@@ -564,6 +564,21 @@ html.js fieldset.collapsible legend a,
   content: ") ";
 }
 
+.standalone-image {
+}
+.image-left {
+  float: left;
+}
+.image-right {
+  float: right;
+}
+.caption {
+  font-size: .9em;
+  font-style: italic;
+  padding-bottom: 7px;
+  text-align: center;
+}
+
 /* Hide useless buttons */
 .mce_convert_linebreaks {
   visibility: hidden;
