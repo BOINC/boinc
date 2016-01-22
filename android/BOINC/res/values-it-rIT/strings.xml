@@ -330,8 +330,8 @@
   <string name="menu_exit">Chiudi BOINC</string>
   <string name="menu_run_mode_disable">Sospendi</string>
   <string name="menu_run_mode_enable">Riprendi</string>
-  <string name="menu_about">About</string>
-  <string name="menu_help">Help</string>
+  <string name="menu_about">Informazioni</string>
+  <string name="menu_help">Assistenza</string>
   <!--about dialog-->
   <string name="about_button">Return</string>
   <string name="about_title">Informazioni</string>
