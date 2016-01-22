@@ -87,28 +87,28 @@ function boinc_standard_input_formats() {
     // Settings for: htmlpurifier module
     'htmlpurifier' => array(
       'htmlpurifier_clear_cac' => array(
-          '#description' => NULL,
-          '#value' => 'Clear cache (Warning: Can result in performance degradation)',
-        ),
+        '#description' => NULL,
+        '#value' => 'Clear cache (Warning: Can result in performance degradation)',
+      ),
       // Display help text
       'htmlpurifier_help' => 0,
       'htmlpurifier_config' => array(
-          '#description' => NULL,
-          '#value' => array(
-            'Attr.EnableID' => '0',
-            'AutoFormat.AutoParagraph' => '1',
-            'AutoFormat.Linkify' => '0',
-            'AutoFormat.RemoveEmpty' => '0',
-            'Null_HTML.Allowed' => '1',
-            'HTML.ForbiddenAttributes' => '',
-            'HTML.ForbiddenElements' => '',
-            'HTML.SafeObject' => '1',
-            'Output.FlashCompat' => '1',
-            'URI.DisableExternalResources' => '0',
-            'URI.DisableResources' => '0',
-            'Null_URI.Munge' => '1',
-          ),
+        '#description' => NULL,
+        '#value' => array(
+          'Attr.EnableID' => '0',
+          'AutoFormat.AutoParagraph' => '1',
+          'AutoFormat.Linkify' => '0',
+          'AutoFormat.RemoveEmpty' => '0',
+          'Null_HTML.Allowed' => '1',
+          'HTML.ForbiddenAttributes' => '',
+          'HTML.ForbiddenElements' => '',
+          'HTML.SafeObject' => '1',
+          'Output.FlashCompat' => '1',
+          'URI.DisableExternalResources' => '0',
+          'URI.DisableResources' => '0',
+          'Null_URI.Munge' => '1',
         ),
+      ),
     ),
     // Settings for: bbcode module
     'bbcode' => array(
