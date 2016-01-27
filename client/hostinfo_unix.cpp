@@ -2090,6 +2090,7 @@ bool xss_idle(long idle_threshold) {
 	  "[idle_detection] XScreenSaver extension not available for DISPLAY '%s'.",
 	  it->c_str());
       }
+      XCloseDisplay(disp);
       continue;
     }
 
@@ -2097,6 +2098,9 @@ bool xss_idle(long idle_threshold) {
     no_available_x_display = false;
     XScreenSaverQueryInfo(disp, DefaultRootWindow(disp), xssInfo);
     idle_time = xssInfo->idle;
+
+    // Close the connection to the XServer
+    XCloseDisplay(disp);
 
     // convert from milliseconds to seconds
     idle_time = idle_time / 1000;
