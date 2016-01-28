@@ -237,7 +237,7 @@ void CC_CONFIG::defaults() {
     max_stdout_file_size = 0;
     max_tasks_reported = 0;
     ncpus = -1;
-    network_test_url = "http://www.google.com/";
+    network_test_url = "https://www.google.com/";
     no_alt_platform = false;
     no_gpus = false;
     no_info_fetch = false;
