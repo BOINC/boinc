@@ -559,6 +559,7 @@ extern THREAD throttle_thread;
 #define GUI_HTTP_POLL_PERIOD    1.0
 
 #define MEMORY_USAGE_PERIOD     10
+    // computer memory usage and check for exclusive apps this often
 
 //////// WORK FETCH
 
@@ -623,7 +624,7 @@ extern THREAD throttle_thread;
 
 //////// MISC
 
-#define EXCLUSIVE_APP_WAIT   30
+#define EXCLUSIVE_APP_WAIT   5
     // if "exclusive app" feature used,
     // wait this long after app exits before restarting jobs
 
