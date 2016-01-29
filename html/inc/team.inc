@@ -271,7 +271,7 @@ function display_team_members($team, $offset, $sort_by) {
         }
         echo "<tr class=row1>
             <td align=left>$j) $x
-        ";
+        </td>";
         if (!no_computing()) {
             echo "
                 <td align=right>$user_total_credit</td>
