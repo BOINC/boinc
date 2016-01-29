@@ -454,12 +454,22 @@ void ACTIVE_TASK_SET::get_memory_usage() {
 
     for (i=0; i<cc_config.exclusive_apps.size(); i++) {
         if (app_running(pm, cc_config.exclusive_apps[i].c_str())) {
+            if (log_flags.mem_usage_debug) {
+                msg_printf(NULL, MSG_INFO,
+                    "[mem_usage] exclusive app %s is running", cc_config.exclusive_apps[i].c_str()
+                );
+            }
             exclusive_app_running = gstate.now;
             break;
         }
     }
     for (i=0; i<cc_config.exclusive_gpu_apps.size(); i++) {
         if (app_running(pm, cc_config.exclusive_gpu_apps[i].c_str())) {
+            if (log_flags.mem_usage_debug) {
+                msg_printf(NULL, MSG_INFO,
+                    "[mem_usage] exclusive GPU app %s is running", cc_config.exclusive_gpu_apps[i].c_str()
+                );
+            }
             exclusive_gpu_app_running = gstate.now;
             break;
         }
