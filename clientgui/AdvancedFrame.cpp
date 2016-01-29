@@ -341,7 +341,7 @@ bool CAdvancedFrame::CreateMenu() {
 
     menuFile->Append(
         ID_SELECTCOMPUTER, 
-        _("Select computer..."),
+        _("Select computer...\tCtrl+Shift+I"),
         _("Connect to a BOINC client on another computer")
     );
     menuFile->Append(
@@ -736,9 +736,15 @@ bool CAdvancedFrame::CreateMenu() {
 #ifdef __WXMAC__
     // Set HELP key as keyboard shortcut
     m_Shortcuts[0].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
+    m_Shortcuts[1].Set(wxACCEL_CTRL|wxACCEL_SHIFT, (int)'I', ID_SELECTCOMPUTER);
+    m_pAccelTable = new wxAcceleratorTable(2, m_Shortcuts);
+    SetAcceleratorTable(*m_pAccelTable);
+#else
+    //only set the connect-to-computer shortcut
+    m_Shortcuts[0].Set(wxACCEL_CTRL|wxACCEL_SHIFT, (int)'I', ID_SELECTCOMPUTER);
     m_pAccelTable = new wxAcceleratorTable(1, m_Shortcuts);
     SetAcceleratorTable(*m_pAccelTable);
- #endif
+#endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateMenu - Function End"));
     return true;
