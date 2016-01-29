@@ -736,12 +736,6 @@ bool CAdvancedFrame::CreateMenu() {
 #ifdef __WXMAC__
     // Set HELP key as keyboard shortcut
     m_Shortcuts[0].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
-    m_Shortcuts[1].Set(wxACCEL_CTRL|wxACCEL_SHIFT, (int)'I', ID_SELECTCOMPUTER);
-    m_pAccelTable = new wxAcceleratorTable(2, m_Shortcuts);
-    SetAcceleratorTable(*m_pAccelTable);
-#else
-    //only set the connect-to-computer shortcut
-    m_Shortcuts[0].Set(wxACCEL_CTRL|wxACCEL_SHIFT, (int)'I', ID_SELECTCOMPUTER);
     m_pAccelTable = new wxAcceleratorTable(1, m_Shortcuts);
     SetAcceleratorTable(*m_pAccelTable);
 #endif
