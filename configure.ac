@@ -1245,10 +1245,8 @@ AC_SUBST(CLIENTLIBS)
 
 if test "${enable_debug}" = "yes" ; then
     CLIENTGUIFLAGS="${CLIENTGUIFLAGS} -D_DEBUG -DDEBUG"
-fi
-
-# disable wxWidgets debug support which is by default enabled since 2.9.1
-if test "${enable_wx_debug}" = "no" ; then
+else
+    # disable wxWidgets debug support which is by default enabled since 2.9.1
     CLIENTGUIFLAGS="${CLIENTGUIFLAGS} -DNDEBUG"
 fi
 

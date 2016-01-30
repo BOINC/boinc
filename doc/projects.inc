@@ -456,7 +456,7 @@ $mixed = array(
             "http://casathome.ihep.ac.cn/",
             tra("Chinese Academy of Sciences"),
             tra("Physics, biochemistry, and others"),
-            tra("The objective of CAS@home is to encourage and assist scientists in China to adopt the technologies of volunteer computing and volunteer thinking for their research."),
+            tra("CAS@home is hosted by the Computing Centre of the Institute of High Energy Physics (IHEP), Chinese Academy of Sciences, for Chinese scientists with projects studying protein structure, nanotechnology, cancer genomics, and high energy physics."),
             "cas_at_home.jpg",
             "",
             tra("Help Chinese researchers")
@@ -471,16 +471,16 @@ $mixed = array(
             "",
             tra("Do research in math, physics, and evolution")
         ),
-        array(
-            "EDGeS@Home",
-            "http://home.edges-grid.eu/home/",
-            tra("MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"),
-            tra("European research projects"),
-            tra("The EDGeS@Home Beta project integrates volunteer computing into the service grid network of Europe by allowing service grids to send workunits to be processed by the volunteers of this project. The scientific projects covered by the project include math, physics, biology, etc."),
-            "logo_edges.png",
-            "",
-            tra("Help European researchers")
-        ),
+//        array(
+//            "EDGeS@Home",
+//            "http://home.edges-grid.eu/home/",
+//            tra("MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"),
+//            tra("European research projects"),
+//            tra("The EDGeS@Home Beta project integrates volunteer computing into the service grid network of Europe by allowing service grids to send workunits to be processed by the volunteers of this project. The scientific projects covered by the project include math, physics, biology, etc."),
+//            "logo_edges.png",
+//            "",
+//            tra("Help European researchers")
+//        ),
         array(
             "Ibercivis",
             "http://registro.ibercivis.es/",

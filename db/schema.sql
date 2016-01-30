@@ -132,6 +132,7 @@ create table team (
     ping_user               integer         not null default 0,
     ping_time               integer unsigned not null default 0,
     joinable                tinyint         not null default 1,
+    mod_time                timestamp default current_timestamp on update current_timestamp,
     primary key (id)
 ) engine=MyISAM;  
 
