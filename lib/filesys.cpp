@@ -580,7 +580,6 @@ int boinc_copy(const char* orig, const char* newf) {
     FILE *src, *dst;
     int m, n;
     int retval = 0;
-    struct stat sbuf;
     unsigned char buf[65536];
     src = boinc_fopen(orig, "r");
     if (!src) return ERR_FOPEN;
@@ -600,19 +599,30 @@ int boinc_copy(const char* orig, const char* newf) {
     }
     fclose(src);
     fclose(dst);
-    // Copy file's ownership, permissions to the extent we are allowed
-    if (lstat(orig, &sbuf)) { // Get source file's info
+    return retval;
+#endif
+}
+
+#ifndef _WIN32
+// Copy file's ownership and permissions to the extent we are allowed
+//
+int boinc_copy_attributes(const char* orig, const char* newf) {
+    struct stat sbuf;
+
+    // Get source file's info
+    //
+    if (lstat(orig, &sbuf)) {
         return ERR_STAT;
-    }
-    if (chown(newf, sbuf.st_uid, sbuf.st_gid)) {
-        return ERR_CHOWN;
     }
     if (chmod(newf, sbuf.st_mode)) {
         return ERR_CHMOD;
     }
-    return retval;
-#endif
+    if (chown(newf, sbuf.st_uid, sbuf.st_gid)) {
+        return ERR_CHOWN;
+    }
+    return 0;
 }
+#endif
 
 static int boinc_rename_aux(const char* old, const char* newf) {
 #ifdef _WIN32
