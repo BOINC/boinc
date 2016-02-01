@@ -787,11 +787,12 @@ int TASK::run(int argct, char** argvt) {
         setpriority(PRIO_PROCESS, 0, process_priority_value(priority));
         if (!exec_dir.empty()) {
             retval = chdir(exec_dir.c_str());
-            if (!retval) {
+            if (retval) {
                 fprintf(stderr,
-                    "%s chdir() to %s failed\n",
+                    "%s chdir() to %s failed with %d\n",
                     boinc_msg_prefix(buf, sizeof(buf)),
-                    exec_dir.c_str()
+                    exec_dir.c_str(),
+                    retval
                 );
                 exit(1);
             }
