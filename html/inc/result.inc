@@ -22,6 +22,9 @@ require_once("../inc/common_defs.inc");
 
 // used by app_version_string(), see below
 //
+global $apps;
+global $app_versions;
+global $platforms;
 $apps = array();
 $app_versions = array();
 $platforms = array();

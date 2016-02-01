@@ -112,7 +112,7 @@ function show_participate() {
             "</a>",
             "<a href=\"http://www.gridrepublic.org\">",
             "</a>",
-            "<a href=\"http://bam.boincstats.com/\">",
+            "<a href=\"https://bam.boincstats.com/\">",
             "</a>"
         )."
         <p>

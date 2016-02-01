@@ -815,6 +815,10 @@ int main(int argc, char** argv) {
                 vboxlog_msg("\n%s", error_reason.c_str());
             }
 
+            if (do_dump_hypervisor_logs) {
+                pVM->dump_hypervisor_logs(true);
+            }
+
             // Exit and let BOINC clean up the rest.
             //
             boinc_temporary_exit(temp_delay, temp_reason);
@@ -940,6 +944,10 @@ int main(int argc, char** argv) {
 
             if (error_reason.size()) {
                 vboxlog_msg("\n%s", error_reason.c_str());
+            }
+
+            if (do_dump_hypervisor_logs) {
+                pVM->dump_hypervisor_logs(true);
             }
 
             // Exit and let BOINC clean up the rest.

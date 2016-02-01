@@ -41,6 +41,9 @@ function boinc_standard_default_wysiwyg() {
         'removeformat' => 1,
         'charmap' => 1,
       ),
+      'advimage' => array(
+        'advimage' => 1,
+      ),
       'emotions' => array(
         'emotions' => 1,
       ),
@@ -70,7 +73,9 @@ function boinc_standard_default_wysiwyg() {
     'block_formats' => 'p,code,pre,h2,h3,h4,h5,h6,div,address',
     'css_setting' => 'theme',
     'css_path' => '',
-    'css_classes' => '',
+    'css_classes' => 'Image with caption=standalone-image
+Float left with caption=image-left
+Float right with caption=image-right',
   );
   $wysiwyg->machine = 'rich_text';
   $export['rich_text'] = $wysiwyg;

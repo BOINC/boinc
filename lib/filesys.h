@@ -55,6 +55,7 @@ extern "C" {
 #ifdef _WIN32
   extern int boinc_allocate_file(const char*, double size);
 #else
+  extern int boinc_copy_attributes(const char* orig, const char* newf);
   extern int boinc_chown(const char*, gid_t);
 #endif
   extern int boinc_rmdir(const char*);

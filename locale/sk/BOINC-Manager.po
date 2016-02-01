@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# aceman, 2015
+# aceman, 2015-2016
 # Michal, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2015-11-30 23:20+0000\n"
+"PO-Revision-Date: 2016-01-25 02:52+0000\n"
 "Last-Translator: aceman\n"
 "Language-Team: Slovak (http://www.transifex.com/boinc/boinc/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -467,7 +467,7 @@ msgstr "Vybrať stĺpce na zobrazenie"
 
 #: clientgui/AdvancedFrame.cpp:621
 msgid "Event Log options...\tCtrl+Shift+F"
-msgstr "Nastavenia záznamu udalostí...⇥Ctrl+Shift+F"
+msgstr "Nastavenia záznamu udalostí...\tCtrl+Shift+F"
 
 #: clientgui/AdvancedFrame.cpp:622
 msgid "Enable or disable various diagnostic messages"
