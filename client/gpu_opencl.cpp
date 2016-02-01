@@ -890,7 +890,7 @@ cl_int COPROCS::get_opencl_info(
 
         ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_BOARD_NAME_AMD, sizeof(buf), buf, NULL);
         if (strlen(buf) && ciErrNum == CL_SUCCESS) {
-            strncpy(prop.name, buf, sizeof(prop.name));
+            safe_strcpy(prop.name, buf);
         } else if (ciErrNum != CL_SUCCESS) {
             snprintf(buf, sizeof(buf),
                 "clGetDeviceInfo failed to get AMD Board Name for device %d",
