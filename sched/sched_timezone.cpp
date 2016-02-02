@@ -227,7 +227,7 @@ int add_download_servers(char *old_xml, char *new_xml, int tz) {
 
         // copy everything from p to q to new_xml
         //
-        strncpy(new_xml, p, len);
+        strlcpy(new_xml, p, len);
         new_xml += len;
 
         // locate next instance of </url>
@@ -248,7 +248,7 @@ int add_download_servers(char *old_xml, char *new_xml, int tz) {
         //
         if (!(s = strstr(path,config.replace_download_url_by_timezone))) {
             // if it doesn't, just copy the whole tag as it is
-            strncpy(new_xml, q, r-q);
+            strlcpy(new_xml, q, r-q);
             new_xml += r-q;
             p=r;
         } else {
@@ -265,7 +265,7 @@ int add_download_servers(char *old_xml, char *new_xml, int tz) {
                 // if the replacement would exceed the maximum XML length,
                 // just keep the original URL
                 len = r-q;
-                strncpy(new_xml, q, len);
+                strlcpy(new_xml, q, len);
             } else if (len < 0) {
                 return 1;
             }

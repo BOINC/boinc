@@ -183,31 +183,28 @@ curlioerr libcurl_ioctl(CURL*, curliocmd cmd, HTTP_OP* phop) {
 }
 
 void libcurl_logdebug(
-    HTTP_OP* phop, const char* desc, char *data, size_t size
+    HTTP_OP* phop, const char* desc, char *data
 ) {
+    if (!log_flags.http_debug) return;
+
     char hdr[256];
     char buf[2048], *p = buf;
-    size_t copy_size;
 
     sprintf(hdr, "[ID#%d] %s", phop->trace_id, desc);
 
-    copy_size = min(size, sizeof(buf)-1);
-    strncpy(buf, data, copy_size);
-    buf[copy_size]='\0';
+    strlcpy(buf, data, sizeof(buf));
 
     p = strtok(buf, "\n");
     while(p) {
-        if (log_flags.http_debug) {
-            msg_printf(phop->project, MSG_INFO,
-                "[http] %s %s\n", hdr, p
-            );
-        }
+        msg_printf(phop->project, MSG_INFO,
+            "[http] %s %s\n", hdr, p
+        );
         p = strtok(NULL, "\n");
     }
 }
 
 int libcurl_debugfunction(
-    CURL*, curl_infotype type, char *data, size_t size, HTTP_OP* phop
+    CURL*, curl_infotype type, char *data, size_t /*size*/, HTTP_OP* phop
 ) {
     const char* desc = NULL;
     switch (type) {
@@ -223,7 +220,7 @@ int libcurl_debugfunction(
     default: /* in case a new one is introduced to shock us */
        return 0;
     }
-    libcurl_logdebug(phop, desc, data, size);
+    libcurl_logdebug(phop, desc, data);
     return 0;
 }
 
@@ -500,15 +497,15 @@ int HTTP_OP::libcurl_exec(
         if (pszProg) {
             szPath[pszProg - szPath + 1] = 0;
 
-            strncat(
+            strlcat(
                 m_curl_ca_bundle_location,
                 szPath,
-                sizeof(m_curl_ca_bundle_location)-strlen(m_curl_ca_bundle_location)
+                sizeof(m_curl_ca_bundle_location)
             );
-            strncat(
+            strlcat(
                 m_curl_ca_bundle_location,
                 CA_BUNDLE_FILENAME,
-                sizeof(m_curl_ca_bundle_location)-strlen(m_curl_ca_bundle_location)
+                sizeof(m_curl_ca_bundle_location)
             );
 
             if (log_flags.http_debug) {

@@ -29,6 +29,9 @@
 #include <ctype.h>
 #endif
 
+// strlcpy and strlcat guarantee NULL-terminated result
+// (unlike strncpy and strncat)
+//
 #if !HAVE_STRLCPY
 extern size_t strlcpy(char*, const char*, size_t);
 #endif
