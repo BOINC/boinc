@@ -289,7 +289,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
     double max_nbytes=-1;
     char xml_signature[1024];
     int retval;
-    double offset=0, nbytes = -1;
+    double offset=0, nbytes = -1, size;
     bool is_valid, btemp;
 
     strcpy(name, "");
@@ -402,6 +402,17 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             name, boincerror(retval)
         );
     }
+
+    // if file already exists and is full size, don't upload again.
+    //
+    if (!file_size(path, size) && (size == nbytes)) {
+        log_messages.printf(MSG_NORMAL,
+            "file %s exists and is right size - skipping\n", name
+        );
+        copy_socket_to_null(in);
+        return return_success(0);
+    }
+
     log_messages.printf(MSG_NORMAL,
         "Starting upload of %s from %s [offset=%.0f, nbytes=%.0f]\n",
         name,
