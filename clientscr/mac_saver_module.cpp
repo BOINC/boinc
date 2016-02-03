@@ -42,6 +42,7 @@ extern "C" {
 #include <limits.h>
 #include <sys/stat.h>
 #include <sys/param.h>  // for MAXPATHLEN
+#include <pthread.h>
 
 #include "gui_rpc_client.h"
 #include "common_defs.h"
