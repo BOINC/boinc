@@ -6,15 +6,15 @@ dnl not sure exactly what the minimum version is (but 2.13 wont work)
 AC_PREREQ(2.58)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
-AC_INIT(BOINC, 7.6.22)
+AC_INIT(BOINC, 7.7.0)
 AC_CONFIG_MACRO_DIR([m4])
 LIBBOINC_VERSION=`echo ${PACKAGE_VERSION} | sed 's/\./:/g'`
 AC_SUBST([LIBBOINC_VERSION])
 
-WRAPPER_RELEASE=26014
+WRAPPER_RELEASE=26016
 AC_SUBST([WRAPPER_RELEASE])
 
-VBOXWRAPPER_RELEASE=26169
+VBOXWRAPPER_RELEASE=26179
 AC_SUBST([VBOXWRAPPER_RELEASE])
 
 AC_CANONICAL_TARGET
@@ -1243,17 +1243,12 @@ AC_SUBST(CLIENTLIBS)
 ## --------------------
 ## some more tweaking to turn non-standard libs into statically linked ones
 
-if test "${enable_debug}" = yes; then
+if test "${enable_debug}" = "yes" ; then
     CLIENTGUIFLAGS="${CLIENTGUIFLAGS} -D_DEBUG -DDEBUG"
+else
+    # disable wxWidgets debug support which is by default enabled since 2.9.1
+    CLIENTGUIFLAGS="${CLIENTGUIFLAGS} -DNDEBUG"
 fi
-
-AC_ARG_ENABLE(wx-debug,
-  AS_HELP_STRING([--enable-wx-debug],
-                 [ use wxWidgets debug libraries ]),
-  [enable_wx_debug="yes"
-   AC_DEFINE(USE_WX_DEBUG,[1],[Define to 1 to use the wxWidgets debug libraries])
-   ],
-  [enable_wx_debug="no"])
 
 CLIENTGUILIBS="${WX_LIBS} ${SQLITE3_LIBS}"
 
