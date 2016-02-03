@@ -836,7 +836,7 @@ int main(int argc, char** argv) {
     if (config.shmem_work_items) {
         num_work_items = config.shmem_work_items;
     }
-    strncpy(path, config.project_dir, sizeof(path));
+    strlcpy(path, config.project_dir, sizeof(path));
     get_key(path, 'a', sema_key);
     destroy_semaphore(sema_key);
     create_semaphore(sema_key);

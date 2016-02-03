@@ -32,8 +32,9 @@ A list of scientific publications of BOINC projects</a>.
 
 The following projects are known to us at BOINC,
 and we believe that their descriptions are accurate.
-See also
-<a href=wiki/Project_list>a complete list of projects</a>.
+";
+//See also <a href=wiki/Project_list>a complete list of projects</a>.
+echo "
 
 <p>
 Projects have different requirements such as memory size;

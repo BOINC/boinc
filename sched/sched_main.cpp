@@ -288,7 +288,7 @@ void set_core_dump_size_limit() {
 
 void attach_to_feeder_shmem() {
     char path[MAXPATHLEN];
-    strncpy(path, config.project_dir, sizeof(path));
+    strlcpy(path, config.project_dir, sizeof(path));
     get_key(path, 'a', sema_key);
     int i, retval;
     void* p;
