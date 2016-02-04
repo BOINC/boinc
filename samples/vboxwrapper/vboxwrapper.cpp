@@ -138,7 +138,7 @@ void read_completion_file_info(unsigned long& exit_code, bool& is_notice, string
     FILE* f = fopen(path, "r");
     if (f) {
         if (fgets(buf, 1024, f) != NULL) {
-            exit_code = atoi(buf) != 0;
+            exit_code = atoi(buf);
         }
         if (fgets(buf, 1024, f) != NULL) {
             is_notice = atoi(buf) != 0;
