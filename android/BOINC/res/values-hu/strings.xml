@@ -276,7 +276,7 @@
   <string name="trans_suspended">felfüggesztve</string>
   <string name="trans_active">aktív</string>
   <string name="trans_pending">függőben</string>
-  <string name="trans_projectbackoff">projekt vissza</string>
+  <string name="trans_projectbackoff">projekt visszatartás</string>
   <string name="trans_header_name">Fájl:</string>
   <string name="trans_control_retry">Átvitelek újraindítása</string>
   <string name="confirm_abort_trans_title">Átvitel megszakítása?</string>
@@ -295,12 +295,12 @@
   <string name="suspend_batteries">Csatlakoztasd az eszközt a töltőre a számítás folytatásához.</string>
   <string name="suspend_screen_on">Kapcsold ki a képernyőt a számítás folytatásához.</string>
   <string name="suspend_useractive">Felhasználó aktív</string>
-  <string name="suspend_tod">Számítás kikapcsolása.</string>
+  <string name="suspend_tod">Elfogyott a számítási időkeret.</string>
   <string name="suspend_bm">A BOINC sebességmérést végez az eszközön...</string>
   <string name="suspend_disksize">Nincs üres lemezterület.</string>
   <string name="suspend_cputhrottle">CPU használat módja.</string>
   <string name="suspend_noinput">Nem volt felhasználói aktivitás.</string>
-  <string name="suspend_delay">Beállítás késleltetése.</string>
+  <string name="suspend_delay">Előkészítés késleltetése.</string>
   <string name="suspend_exclusiveapp">Egy alkalmazás kizárólagosan fut.</string>
   <string name="suspend_cpu">Az eszköz más alkalmazásokat futtat.</string>
   <string name="suspend_network_quota">A BOINC elérte a hálózati forgalom beállított határát.</string>
@@ -323,11 +323,11 @@
   <string name="rpcreason_projectreq">Projekt kezdeményezte</string>
   <string name="rpcreason_unknown">Ismeretlen ok</string>
   <!--menu-->
-  <string name="menu_refresh">Frissít</string>
-  <string name="menu_emailto">Küld mint email</string>
-  <string name="menu_copy">Másolja a vágólapra</string>
-  <string name="menu_eventlog">Esemény napló</string>
-  <string name="menu_exit">BOINC elhagyása</string>
+  <string name="menu_refresh">Frissítés</string>
+  <string name="menu_emailto">Küldés emailben</string>
+  <string name="menu_copy">Másold a vágólapra</string>
+  <string name="menu_eventlog">Eseménynapló</string>
+  <string name="menu_exit">Kilépés a BOINC-ból</string>
   <string name="menu_run_mode_disable">Felfüggesztés</string>
   <string name="menu_run_mode_enable">Folytatás</string>
   <string name="menu_about">Névjegy</string>
@@ -337,7 +337,7 @@
   <string name="about_title">Névjegy</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Verzió</string>
-  <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
+  <string name="about_name_long">Berkeley Open Infrastructure for Network Computing (Berkeley Nyílt Infrastruktúra a Hálózati Számításért)</string>
   <string name="about_copyright">\u00A9 2003–2014 University of California, Berkeley.</string>
   <string name="about_copyright_reserved">Minden jog fenntartva.</string>
   <string name="about_credits">Köszönet a Max Planck intézet gravitációs fizika osztályának, az IBM Corporation-nek és a HTC Corporation-nek a támogatásért.</string>
