@@ -8,7 +8,7 @@
   <string name="generic_button_finish">Befejezés</string>
   <!--attach project-->
   <!--selection list-->
-  <string name="attachproject_list_desc">Tudományos projektek, amelyekhez szeretnél hozzájárulni:</string>
+  <string name="attachproject_list_desc">Válaszd ki azokat a tudományos projekteket, amelyekhez szeretnél hozzájárulni:</string>
   <string name="attachproject_list_header">Válassz projektet</string>
   <string name="attachproject_list_manual_button">Projekt hozzáadása URL szerint</string>
   <string name="attachproject_list_manual_dialog_title">Add meg a projekt URL-jét:</string>
@@ -27,7 +27,7 @@
   <string name="attachproject_conflict_not_unique">A fiók létezik, eltérő jelszóval </string>
   <string name="attachproject_conflict_bad_password">Helytelen jelszó</string>
   <string name="attachproject_conflict_unknown_user">A fiók nem létezik</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">Fiók nem létezik, nézd meg a projekt weboldalát, hogy registrálj</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">A fiók nem létezik, nézd meg a projekt weboldalát a regisztráláshoz</string>
   <!--working-->
   <string name="attachproject_working_attaching">Csatolás</string>
   <!--e.g. Attaching Einstein@Home-->
@@ -39,12 +39,12 @@
   <string name="attachproject_hint_contribtion_charger">2. Töltő csatlakoztatása</string>
   <string name="attachproject_hint_contribtion_screen">3. Képernyő kikapcsolása</string>
   <string name="attachproject_hint_projectwebsite_header">Nézd a projekt weboldalakat is:</string>
-  <string name="attachproject_hint_projectwebsite_science">Ismerj meg többet a tudományról</string>
+  <string name="attachproject_hint_projectwebsite_science">Tudj meg többet a tudományról</string>
   <string name="attachproject_hint_projectwebsite_stats">Közreműködők statisztikája</string>
   <string name="attachproject_hint_projectwebsite_community">Üzenet más önkénteseknek</string>
   <string name="attachproject_hint_platforms_header">A BOINC asztali számítógépre és laptopra is elérhető, lásd itt: boinc.berkeley.edu</string>
   <!--project login-->
-  <string name="attachproject_login_loading">Csatlakozás a projekt szerverre...</string>
+  <string name="attachproject_login_loading">Csatlakozás a projekt szerverhez...</string>
   <string name="attachproject_login_image_description">Projekt logó.</string>
   <string name="attachproject_login_header_general_area">Fő terület:</string>
   <string name="attachproject_login_header_specific_area">Különleges terület:</string>
@@ -61,13 +61,13 @@
   <string name="attachproject_login_header_id_name">Név:</string>
   <string name="attachproject_login_header_pwd">Jelszó:</string>
   <string name="attachproject_login_category_creation">Új is:</string>
-  <string name="attachproject_login_header_creation_enabled">Hozzon létre felhasználói fiókot a részvételhez:</string>
+  <string name="attachproject_login_header_creation_enabled">Hozz létre egy felhasználói fiókot a részvételhez:</string>
   <string name="attachproject_login_header_creation_client_disabled">Nézd meg a projekt weboldalát a regisztrációhoz:</string>
   <string name="attachproject_login_header_creation_disabled">Ebben a projektben jelenleg nem készíthetők új fiókok.</string>
   <string name="attachproject_login_button_registration">Regisztráció</string>
   <string name="attachproject_login_button_login">Bejelentkezés</string>
   <string name="attachproject_login_button_forgotpw">Elfelejtett jelszó</string>
-  <string name="attachproject_login_error_toast">Projekt csatlakozása sikertelen!</string>
+  <string name="attachproject_login_error_toast">Projekt csatlakoztatása sikertelen!</string>
   <string name="attachproject_login_attached">Csatolva</string>
   <!--project registration-->
   <string name="attachproject_registration_header">Fiók létrehozása</string>
