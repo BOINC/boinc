@@ -118,6 +118,12 @@ public:
     // name of file where app will write its fraction done
     std::string fraction_done_filename;
 
+    // name of the file to check for a heartbeat (i.e. check mod time with stat)
+    std::string heartbeat_filename;
+
+    // check heartbeat interval
+    double minimum_heartbeat_interval; 
+
     // if nonzero, do port forwarding for Web GUI
     int pf_guest_port;      
     int pf_host_port;

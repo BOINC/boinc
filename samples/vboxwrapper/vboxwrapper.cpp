@@ -88,6 +88,18 @@
 using std::vector;
 using std::string;
 
+bool shared_file_exists(std::string& filename) {
+    char path[MAXPATHLEN];
+    sprintf(path, "shared/%s", filename.c_str());
+    if (filename.size() && boinc_file_exists(path)) return true;
+    return false;
+}
+
+void shared_delete_file(std::string& filename) {
+    char path[MAXPATHLEN];
+    sprintf(path, "shared/%s", filename.c_str());
+    boinc_delete_file(path);
+}
 
 bool read_fraction_done(double& frac_done, VBOX_VM& vm) {
     char path[MAXPATHLEN];
@@ -120,13 +132,6 @@ bool read_fraction_done(double& frac_done, VBOX_VM& vm) {
 	return true;
 }
 
-bool completion_file_exists(VBOX_VM& vm) {
-    char path[MAXPATHLEN];
-    sprintf(path, "shared/%s", vm.completion_trigger_file.c_str());
-    if (vm.completion_trigger_file.size() && boinc_file_exists(path)) return true;
-    return false;
-}
-
 void read_completion_file_info(unsigned long& exit_code, bool& is_notice, string& message, VBOX_VM& vm) {
     char path[MAXPATHLEN];
     char buf[1024];
@@ -150,13 +155,6 @@ void read_completion_file_info(unsigned long& exit_code, bool& is_notice, string
     }
 }
 
-bool temporary_exit_file_exists(VBOX_VM& vm) {
-    char path[MAXPATHLEN];
-    sprintf(path, "shared/%s", vm.temporary_exit_trigger_file.c_str());
-    if (vm.temporary_exit_trigger_file.size() && boinc_file_exists(path)) return true;
-    return false;
-}
-
 void read_temporary_exit_file_info(int& temp_delay, bool& is_notice, string& message, VBOX_VM& vm) {
     char path[MAXPATHLEN];
     char buf[1024];
@@ -178,12 +176,6 @@ void read_temporary_exit_file_info(int& temp_delay, bool& is_notice, string& mes
         }
         fclose(f);
     }
-}
-
-void delete_temporary_exit_trigger_file(VBOX_VM& vm) {
-    char path[MAXPATHLEN];
-    sprintf(path, "shared/%s", vm.temporary_exit_trigger_file.c_str());
-    boinc_delete_file(path);
 }
 
 // set CPU and network throttling if needed
@@ -368,8 +360,8 @@ int main(int argc, char** argv) {
     int loop_iteration = 0;
     BOINC_OPTIONS boinc_options;
     APP_INIT_DATA aid;
-    VBOX_VM* pVM = NULL;
     VBOX_CHECKPOINT checkpoint;
+    VBOX_VM* pVM = NULL;
     double desired_checkpoint_interval = 0;
     double random_checkpoint_factor = 0;
     double elapsed_time = 0;
@@ -377,6 +369,7 @@ int main(int argc, char** argv) {
     double trickle_period = 0;
     double current_cpu_time = 0;
     double starting_cpu_time = 0;
+    double last_heartbeat_elapsed_time = 0;
     double last_checkpoint_cpu_time = 0;
     double last_checkpoint_elapsed_time = 0;
     double last_status_report_time = 0;
@@ -390,11 +383,13 @@ int main(int argc, char** argv) {
     double memory_size_mb = 0;
     double timeout = 0.0;
     bool report_net_usage = false;
+    bool initial_heartbeat_check = true;
     double net_usage_timer = 600;
 	int vm_image = 0;
     unsigned long vm_exit_code = 0;
     bool is_notice = false;
     int temp_delay = 86400;
+    time_t last_heartbeat_mod_time = 0;
     string message;
     string scratch_dir;
     char buf[256];
@@ -524,7 +519,8 @@ int main(int argc, char** argv) {
     // Choose a random interleave value for checkpoint intervals to stagger disk I/O.
     // 
     struct stat vm_image_stat;
-    if (-1 == stat(IMAGE_FILENAME_COMPLETE, &vm_image_stat)) {
+    if (stat(IMAGE_FILENAME_COMPLETE, &vm_image_stat)) {
+        // Error
         srand((int)time(NULL));
     } else {
         srand((int)(vm_image_stat.st_mtime * time(NULL)));
@@ -718,13 +714,14 @@ int main(int argc, char** argv) {
     // Restore from checkpoint
     //
     checkpoint.parse();
-    elapsed_time = checkpoint.elapsed_time;
-    current_cpu_time = checkpoint.cpu_time;
     pVM->pf_host_port = checkpoint.webapi_port;
     pVM->rd_host_port = checkpoint.remote_desktop_port;
+    elapsed_time = checkpoint.elapsed_time;
+    starting_cpu_time = checkpoint.cpu_time;
+    current_cpu_time = starting_cpu_time;
     last_checkpoint_elapsed_time = elapsed_time;
-    starting_cpu_time = current_cpu_time;
-    last_checkpoint_cpu_time = current_cpu_time;
+    last_heartbeat_elapsed_time = elapsed_time;
+    last_checkpoint_cpu_time = starting_cpu_time;
 
     // Should we even try to start things up?
     //
@@ -1005,7 +1002,49 @@ int main(int argc, char** argv) {
             pVM->dump_hypervisor_logs(true);
             boinc_finish(EXIT_ABORTED_BY_CLIENT);
         }
-        if (completion_file_exists(*pVM)) {
+        if (pVM->heartbeat_filename.size()) {
+            if (
+                (initial_heartbeat_check && (elapsed_time >= (last_heartbeat_elapsed_time + 600.0))) ||
+                (!initial_heartbeat_check && (elapsed_time >= (last_heartbeat_elapsed_time + pVM->minimum_heartbeat_interval)))
+            ){
+                bool should_exit = false;
+                struct stat heartbeat_stat;
+
+                if (!shared_file_exists(pVM->heartbeat_filename)) {
+                    vboxlog_msg("VM Heartbeat file specified, but missing.");
+                    should_exit = true;
+                }
+
+                if (stat(pVM->heartbeat_filename.c_str(), &heartbeat_stat)) {
+                    // Error
+                    vboxlog_msg("VM Heartbeat file specified, but missing file system status. (errno = '%d')", errno);
+                    should_exit = true;
+                }
+
+                if (initial_heartbeat_check) {
+                    // Force the next check to be successful
+                    last_heartbeat_mod_time = heartbeat_stat.st_mtime - 1;
+                }
+
+                if (heartbeat_stat.st_mtime > last_heartbeat_mod_time) {
+                    // Heartbeat successful
+                    last_heartbeat_mod_time = heartbeat_stat.st_mtime;
+                    last_heartbeat_elapsed_time = elapsed_time;
+                } else {
+                    vboxlog_msg("VM Heartbeat file specified, but missing heartbeat.");
+                    should_exit = true;
+                }
+
+                if (should_exit) {
+                    pVM->reset_vm_process_priority();
+                    pVM->cleanup();
+                    boinc_finish(EXIT_ABORTED_BY_CLIENT);
+                }
+
+                initial_heartbeat_check = false;
+            }
+        }
+        if (shared_file_exists(pVM->completion_trigger_file)) {
             vboxlog_msg("VM Completion File Detected.");
             read_completion_file_info(vm_exit_code, is_notice, message, *pVM);
             if (message.size()) {
@@ -1019,13 +1058,13 @@ int main(int argc, char** argv) {
                 boinc_finish(vm_exit_code);
             }
         }
-        if (temporary_exit_file_exists(*pVM)) {
+        if (shared_file_exists(pVM->temporary_exit_trigger_file)) {
             vboxlog_msg("VM Temporary Exit File Detected.");
             read_temporary_exit_file_info(temp_delay, is_notice, message, *pVM);
             if (message.size()) {
                 vboxlog_msg("VM Temporary Exit Message: %s.", message.c_str());
             }
-            delete_temporary_exit_trigger_file(*pVM);
+            shared_delete_file(pVM->temporary_exit_trigger_file);
             pVM->reset_vm_process_priority();
             retval = pVM->create_snapshot(elapsed_time);
             if (!retval) {
