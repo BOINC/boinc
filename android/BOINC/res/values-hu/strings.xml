@@ -159,9 +159,9 @@
   <string name="prefs_show_advanced_header">Haladó beállítások és vezérlőelemek mutatása...</string>
   <string name="prefs_suspend_when_screen_on">Számítás szüneteltetése, ha a képernyő be van kapcsolva</string>
   <string name="prefs_stationary_device_mode_header">Állandó készülék mód</string>
-  <string name="prefs_stationary_device_mode_description">Az energiabeállítástól függetlenül lehetővé teszi a számítást. Csak akkor engedélyezze, ha a készülék nem akkuról működik.</string>
+  <string name="prefs_stationary_device_mode_description">Az energiabeállítástól függetlenül lehetővé teszi a számítást. Csak akkor engedélyezd, ha a készülék nem akkuról működik.</string>
   <string name="prefs_power_source_header">A számításhoz használt energiaforrások</string>
-  <string name="prefs_power_source_description">Válassza ki azokat az energiaforrásokat, amik használatával a BOINC futtatása engedélyezve lesz.</string>
+  <string name="prefs_power_source_description">Válaszd ki azokat az energiaforrásokat, amiknél a BOINC-ot engedélyezed.</string>
   <string name="prefs_power_source_ac">Fali csatlakozó</string>
   <string name="prefs_power_source_usb">USB kapcsolat</string>
   <string name="prefs_power_source_wireless">Vezeték nélküli töltő</string>
@@ -181,7 +181,7 @@
   <string name="prefs_network_wifi_only_header">Feladatok továbbítása csak WiFin keresztül</string>
   <string name="prefs_autostart_header">Autóindítás</string>
   <string name="prefs_show_notification_notices_header">Új üzenetek megjelenítése</string>
-  <string name="prefs_show_notification_suspended_header">Üzenet, ha fel van függesztve</string>
+  <string name="prefs_show_notification_suspended_header">Üzenetek megjelenítése, ha fel van függesztve</string>
   <string name="prefs_cpu_number_cpus_header">Használt CPU magok</string>
   <string name="prefs_cpu_number_cpus_description">CPU magok használatának korlátozása a BOINC számára.</string>
   <string name="prefs_cpu_other_load_suspension_header">Felfüggesztés, ha  a CPU használat e fölötti</string>
