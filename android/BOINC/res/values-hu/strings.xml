@@ -189,10 +189,10 @@
   <string name="prefs_cpu_time_max_header">CPU korlátozás</string>
   <string name="prefs_cpu_time_max_description">CPU idő használatának korlátozása a BOINC számára.</string>
   <string name="prefs_memory_max_idle_header">Memória korlátozás</string>
-  <string name="prefs_memory_max_idle_description">Memória korlátozása, amit a feladatok használhatnak. </string>
-  <string name="prefs_client_log_flags_header">BOINC kliens naplózás beállítása</string>
+  <string name="prefs_memory_max_idle_description">A feladatok által használható memória korlátozása.</string>
+  <string name="prefs_client_log_flags_header">BOINC kliens naplózás címkék</string>
   <string name="prefs_gui_log_level_header">GUI naplózási szint</string>
-  <string name="prefs_gui_log_level_description">Mennyire legyen bőbeszédű a naplófájl.</string>
+  <string name="prefs_gui_log_level_description">Mennyire legyenek bőbeszédűek a GUI naplóüzenetek.</string>
   <string name="prefs_unit_mb">MB</string>
   <string name="prefs_unit_gb">GB</string>
   <string name="prefs_unit_pct">%</string>
