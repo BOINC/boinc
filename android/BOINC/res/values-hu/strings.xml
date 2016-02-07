@@ -24,7 +24,7 @@
   <!--conflicts-->
   <string name="attachproject_conflicts_desc">Problémák voltak a tudományos projektek hozzáadásával:</string>
   <string name="attachproject_conflict_undefined">Nem sikerült csatlakozni</string>
-  <string name="attachproject_conflict_not_unique">A fiók létezik eltérő jelszóval </string>
+  <string name="attachproject_conflict_not_unique">A fiók létezik, eltérő jelszóval </string>
   <string name="attachproject_conflict_bad_password">Helytelen jelszó</string>
   <string name="attachproject_conflict_unknown_user">A fiók nem létezik</string>
   <string name="attachproject_conflict_unknown_user_creation_disabled">Fiók nem létezik, nézd meg a projekt weboldalát, hogy registrálj</string>
