@@ -208,7 +208,7 @@
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Felhasználó által felfüggesztve</string>
   <string name="projects_status_dontrequestmorework">Nem tölt le új feladatot</string>
-  <string name="projects_status_ended">A projekt befejeződött - nyomjon OK-t az eltávolításához</string>
+  <string name="projects_status_ended">A projekt befejeződött - nyomj OK-t az eltávolításához</string>
   <string name="projects_status_detachwhendone">Eltávolítás a feladatok befejezésekor</string>
   <string name="projects_status_schedrpcpending">Függő kérés az ütemezőhöz</string>
   <string name="projects_status_schedrpcinprogress">Ütemező által indított kérés folyamatban</string>
@@ -216,7 +216,7 @@
   <string name="projects_status_backoff">Kommunikáció időzítve:</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Projekt parancsok:</string>
-  <string name="projects_control_visit_website">Nézd a weboldalt</string>
+  <string name="projects_control_visit_website">Nézd meg a weboldalt</string>
   <string name="projects_control_update">Frissítés</string>
   <string name="projects_control_remove">Eltávolítás</string>
   <string name="projects_control_suspend">Felfüggesztés</string>
@@ -230,7 +230,7 @@
   <!--project confirm dialog-->
   <string name="projects_confirm_detach_title">Törlöd a projektet?</string>
   <string name="projects_confirm_detach_message">Biztosan le akarod törölni</string>
-  <string name="projects_confirm_detach_message2">BOINC-tól?</string>
+  <string name="projects_confirm_detach_message2">BOINC-ról?</string>
   <string name="projects_confirm_detach_confirm">Eltávolítás</string>
   <string name="projects_confirm_reset_title">Projekt nullázása</string>
   <string name="projects_confirm_reset_message">Biztosan újrakezded</string>
