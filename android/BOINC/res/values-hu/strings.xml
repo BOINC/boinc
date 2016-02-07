@@ -46,8 +46,8 @@
   <!--project login-->
   <string name="attachproject_login_loading">Csatlakozás a projekt szerverhez...</string>
   <string name="attachproject_login_image_description">Projekt logó.</string>
-  <string name="attachproject_login_header_general_area">Fő terület:</string>
-  <string name="attachproject_login_header_specific_area">Különleges terület:</string>
+  <string name="attachproject_login_header_general_area">Fő tudományterület:</string>
+  <string name="attachproject_login_header_specific_area">Speciális tudományterület:</string>
   <string name="attachproject_login_header_description">Leírás:</string>
   <string name="attachproject_login_header_home">Honlap:</string>
   <string name="attachproject_login_header_url">Weboldal:</string>
@@ -60,7 +60,7 @@
   <string name="attachproject_login_header_id_email">eMail:</string>
   <string name="attachproject_login_header_id_name">Név:</string>
   <string name="attachproject_login_header_pwd">Jelszó:</string>
-  <string name="attachproject_login_category_creation">Új is:</string>
+  <string name="attachproject_login_category_creation">Új:</string>
   <string name="attachproject_login_header_creation_enabled">Hozz létre egy felhasználói fiókot a részvételhez:</string>
   <string name="attachproject_login_header_creation_client_disabled">Nézd meg a projekt weboldalát a regisztrációhoz:</string>
   <string name="attachproject_login_header_creation_disabled">Ebben a projektben jelenleg nem készíthetők új fiókok.</string>
@@ -190,7 +190,7 @@
   <string name="prefs_cpu_time_max_description">CPU idő használatának korlátozása a BOINC számára.</string>
   <string name="prefs_memory_max_idle_header">Memória korlátozás</string>
   <string name="prefs_memory_max_idle_description">A feladatok által használható memória korlátozása.</string>
-  <string name="prefs_client_log_flags_header">BOINC kliens naplózás címkék</string>
+  <string name="prefs_client_log_flags_header">BOINC kliens naplózási címkék</string>
   <string name="prefs_gui_log_level_header">GUI naplózási szint</string>
   <string name="prefs_gui_log_level_description">Mennyire legyenek bőbeszédűek a GUI naplóüzenetek.</string>
   <string name="prefs_unit_mb">MB</string>
@@ -292,11 +292,11 @@
   <string name="eventlog_email_subject">BOINC Android eseménynapló: </string>
   <!--suspend reasons-->
   <string name="suspend_unknown">Számítás felfüggesztve.</string>
-  <string name="suspend_batteries">Csatlakoztassa az eszközt töltésre a számítás folytatásához.</string>
+  <string name="suspend_batteries">Csatlakoztasd az eszközt a töltőre a számítás folytatásához.</string>
   <string name="suspend_screen_on">Kapcsold ki a képernyőt a számítás folytatásához.</string>
   <string name="suspend_useractive">Felhasználó aktív</string>
   <string name="suspend_tod">Számítás kikapcsolása.</string>
-  <string name="suspend_bm">A BOINC tesztfuttatást végez az eszközön...</string>
+  <string name="suspend_bm">A BOINC sebességmérést végez az eszközön...</string>
   <string name="suspend_disksize">Nincs üres lemezterület.</string>
   <string name="suspend_cputhrottle">CPU használat módja.</string>
   <string name="suspend_noinput">Nem volt felhasználói aktivitás.</string>
