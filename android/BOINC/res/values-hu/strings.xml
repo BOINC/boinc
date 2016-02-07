@@ -298,7 +298,7 @@
   <string name="suspend_tod">Elfogyott a számítási időkeret.</string>
   <string name="suspend_bm">A BOINC sebességmérést végez az eszközön...</string>
   <string name="suspend_disksize">Nincs üres lemezterület.</string>
-  <string name="suspend_cputhrottle">CPU használat módja.</string>
+  <string name="suspend_cputhrottle">Ütemezett CPU lassítás.</string>
   <string name="suspend_noinput">Nem volt felhasználói aktivitás.</string>
   <string name="suspend_delay">Előkészítés késleltetése.</string>
   <string name="suspend_exclusiveapp">Egy alkalmazás kizárólagosan fut.</string>
@@ -337,24 +337,24 @@
   <string name="about_title">Névjegy</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Verzió</string>
-  <string name="about_name_long">Berkeley Open Infrastructure for Network Computing (Berkeley Nyílt Infrastruktúra a Hálózati Számításért)</string>
-  <string name="about_copyright">\u00A9 2003–2014 University of California, Berkeley.</string>
+  <string name="about_name_long">Berkeley Open Infrastructure for Network Computing\n(Berkeley Nyílt Infrastruktúra a Hálózati Számításért)</string>
+  <string name="about_copyright">\u00A9 2003–2014 Kaliforniai Egyetem, Berkeley.</string>
   <string name="about_copyright_reserved">Minden jog fenntartva.</string>
-  <string name="about_credits">Köszönet a Max Planck intézet gravitációs fizika osztályának, az IBM Corporation-nek és a HTC Corporation-nek a támogatásért.</string>
+  <string name="about_credits">Köszönet a Max Planck Gravitációs Fizikai Intézetnek, az IBM Corporation-nek és a HTC Corporation-nek a támogatásért.</string>
   <!--notice notification-->
   <string name="notice_notification_single_header">Új értesítés</string>
   <!--e.g. New notice from SETI@HOME-->
   <string name="notice_notification_multiple_header">új értesítések</string>
   <!--e.g. 3 new notices-->
   <!--multi BOINC compitability-->
-  <string name="nonexcl_dialog_header">Önkéntes számítási alkalmazás észlelése</string>
+  <string name="nonexcl_dialog_header">Önkéntes számítási alkalmazás észlelve</string>
   <string name="nonexcl_dialog_text">Már fut egy másik önkéntes számítási alkalmazás. Egy időben csak egy futhat.</string>
   <string name="nonexcl_dialog_exit">Bezárás</string>
   <!--social integration-->
   <string name="social_invite_button">Barátok meghívása</string>
   <string name="social_invite_intent_title">Hogyan szeretnéd megosztani?</string>
   <string name="social_invite_content_title">Tudományos munkát végzek az okostelefonomon!</string>
-  <string name="social_invite_content_body">Alkalmazom %1$s eszközömet egy tudományos számítás céljára. Ezt te is megteheted, töltsd le és futtasd az alkalmazást innen:  %2$s</string>
+  <string name="social_invite_content_body">%1$s eszközömet egy tudományos számításra használom. Ezt te is megteheted, töltsd le és futtasd az alkalmazást innen:  %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
 </resources>
