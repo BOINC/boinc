@@ -55,7 +55,7 @@
   <string name="attachproject_login_platform_supported">Ez a projekt támogatja ezt az eszközt</string>
   <string name="attachproject_login_platform_not_supported">Ez a projekt nem támogatja ezt az eszközt</string>
   <string name="attachproject_login_category_terms_of_use">Felhasználási feltételek ehhez</string>
-  <string name="attachproject_login_accept_terms_of_use">Fiók létrehozásával elfogadja a projekt felhasználási feltételeit, ahogy fentebb írva van.</string>
+  <string name="attachproject_login_accept_terms_of_use">Fiók létrehozásával elfogadod a projekt felhasználási feltételeit, ahogy az fentebb írva van.</string>
   <string name="attachproject_login_category_login">Bejelentkezés létező fiókkal</string>
   <string name="attachproject_login_header_id_email">eMail:</string>
   <string name="attachproject_login_header_id_name">Név:</string>
@@ -79,10 +79,10 @@
   <string name="attachproject_registration_header_pwd_confirm">... Írd be ismét:</string>
   <string name="attachproject_registration_button">Létrehoz</string>
   <!--account manager-->
-  <string name="attachproject_acctmgr_list_desc">Használd a BOINC fiókkezelőt új projekt hozzáadásához vagy meglévő projekt kezeléséhez</string>
+  <string name="attachproject_acctmgr_list_desc">Használd a BOINC fiókkezelőt új projekt hozzáadásához vagy a meglévő projektek kezeléséhez</string>
   <string name="attachproject_acctmgr_header">Fiókkezelő hozzáadása</string>
   <string name="attachproject_acctmgr_header_url">Webcím</string>
-  <string name="attachproject_acctmgr_header_name">Felhasználó</string>
+  <string name="attachproject_acctmgr_header_name">Felhasználó:</string>
   <string name="attachproject_acctmgr_header_pwd">Jelszó:</string>
   <string name="attachproject_acctmgr_header_pwd_confirm">... Írd be ismét:</string>
   <string name="attachproject_acctmgr_button">Hozzáad</string>
@@ -93,14 +93,14 @@
   <string name="attachproject_error_pwd_no_match">A jelszavak nem egyeznek</string>
   <string name="attachproject_error_pwd_no_retype">Kérjük, írd be újra a jelszavadat</string>
   <string name="attachproject_error_no_url">Kérjük, add meg az URL-t</string>
-  <string name="attachproject_error_no_email">Kérjük, adja meg email címét</string>
+  <string name="attachproject_error_no_email">Kérjük, add meg az email címed</string>
   <string name="attachproject_error_no_pwd">Kérjük, adj meg egy jelszót</string>
   <string name="attachproject_error_no_name">Kérjük, add meg a felhasználóneved</string>
   <string name="attachproject_error_unknown">nem sikerült</string>
   <string name="attachproject_error_bad_username">Felhasználónév visszautasítva</string>
-  <string name="attachproject_error_email_in_use">az eMail már használatban van</string>
+  <string name="attachproject_error_email_in_use">Az email már használatban van</string>
   <string name="attachproject_error_project_down">Projekt offline</string>
-  <string name="attachproject_error_email_bad_syntax">eMail visszautasítva</string>
+  <string name="attachproject_error_email_bad_syntax">Email visszautasítva</string>
   <string name="attachproject_error_bad_pwd">Jelszó visszautasítva</string>
   <string name="attachproject_error_creation_disabled">A fiókok létrehozása le van tiltva ennél a projektnél</string>
   <string name="attachproject_error_invalid_url">Érvénytelen URL</string>
@@ -108,7 +108,7 @@
   <string name="attachproject_working_back_button">Vissza</string>
   <string name="attachproject_working_finish_button">Befejezés</string>
   <string name="attachproject_working_check_desc">Sikeres</string>
-  <string name="attachproject_working_failed_desc">nem sikerült</string>
+  <string name="attachproject_working_failed_desc">Nem sikerült</string>
   <string name="attachproject_working_ongoing">...</string>
   <string name="attachproject_working_finished">.</string>
   <string name="attachproject_working_description">:</string>
@@ -127,7 +127,7 @@
   <string name="tab_status">Állapot</string>
   <string name="tab_projects">Projektek</string>
   <string name="tab_tasks">Feladatok</string>
-  <string name="tab_transfers">Adatforgalmak</string>
+  <string name="tab_transfers">Adatforgalom</string>
   <string name="tab_preferences">Beállítások</string>
   <string name="tab_notices">Értesítések</string>
   <string name="tab_desc">Navigáció</string>
