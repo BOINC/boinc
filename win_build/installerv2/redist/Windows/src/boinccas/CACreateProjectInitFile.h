@@ -26,6 +26,8 @@ class CACreateProjectInitFile : public BOINCCABase
 {
 public:
 
+    tstring ParseParameter(tstring& strSetupExeName, tstring& strParameter);
+
     CACreateProjectInitFile(MSIHANDLE hMSIHandle);
     ~CACreateProjectInitFile();
     virtual UINT OnExecution();

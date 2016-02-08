@@ -733,11 +733,13 @@ static void handle_get_project_init_status(GUI_RPC_CONN& grc) {
         "    <name>%s</name>\n"
         "    <team_name>%s</team_name>\n"
         "    %s\n"
+        "    %s\n"
         "</get_project_init_status>\n",
         gstate.project_init.url,
         gstate.project_init.name,
         gstate.project_init.team_name,
-        strlen(gstate.project_init.account_key)?"<has_account_key/>":""
+        strlen(gstate.project_init.account_key)?"<has_account_key/>":"",
+        gstate.project_init.embedded?"<embedded/>":""
     );
 }
 

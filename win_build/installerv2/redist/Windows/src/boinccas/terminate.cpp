@@ -19,6 +19,7 @@
 //
 
 #include "stdafx.h"
+#include "win_util.h"
 #include "terminate.h"
 
 
@@ -119,22 +120,6 @@ tstring downcase_string(tstring& orig) {
         retval[i] = tolower(retval[i]);
     }
     return retval;
-}
-
-
-BOOL TerminateProcessById( DWORD dwProcessID ) {
-    HANDLE hProcess;
-    BOOL bRetVal = FALSE;
-
-    hProcess = OpenProcess( PROCESS_TERMINATE, FALSE, dwProcessID );
-
-    if (hProcess) {
-        bRetVal = TerminateProcess(hProcess, 1);
-    }
-
-    CloseHandle( hProcess );
-
-    return bRetVal;
 }
 
 
