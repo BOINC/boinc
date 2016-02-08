@@ -36,53 +36,15 @@
 
 #include "acct_setup.h"
 
-void PROJECT_INIT::clear() {
-    strcpy(url, "");
-    strcpy(name, "");
-    strcpy(account_key, "");
-    strcpy(team_name, "");
-}
-
-PROJECT_INIT::PROJECT_INIT() {
-    clear();
-}
-
-int PROJECT_INIT::init() {
-    clear();
-    FILE* f = fopen(PROJECT_INIT_FILENAME, "r");
-    if (!f) return 0;
-
-    MIOFILE mf;
-    mf.init_file(f);
-    XML_PARSER xp(&mf);
-    while (!xp.get_tag()) {
-        if (xp.match_tag("/project_init")) break;
-        else if (xp.parse_str("name", name, sizeof(name))) continue;
-        else if (xp.parse_str("team_name", team_name, sizeof(team_name))) continue;
-        else if (xp.parse_str("url", url, sizeof(url))) {
-            canonicalize_master_url(url, sizeof(url));
-            continue;
-        } else if (xp.parse_str("account_key", account_key, sizeof(account_key))) {
-            continue;
-        }
-    }
-    fclose(f);
-    msg_printf(0, MSG_INFO, "Found project_init.xml for %s", url);
-    return 0;
-}
-
-int PROJECT_INIT::remove() {
-    clear();
-    return boinc_delete_file(PROJECT_INIT_FILENAME);
-}
-
 void ACCOUNT_IN::parse(XML_PARSER& xp) {
     url = "";
     email_addr = "";
     passwd_hash = "";
     user_name = "";
     team_name = "";
+    server_hash = "";
     ldap_auth = false;
+    server_assigned_hash = false;
 
     while (!xp.get_tag()) {
         if (xp.parse_string("url", url)) continue;
@@ -90,7 +52,9 @@ void ACCOUNT_IN::parse(XML_PARSER& xp) {
         if (xp.parse_string("passwd_hash", passwd_hash)) continue;
         if (xp.parse_string("user_name", user_name)) continue;
         if (xp.parse_string("team_name", team_name)) continue;
+        if (xp.parse_string("server_hash", server_hash)) continue;
         if (xp.parse_bool("ldap_auth", ldap_auth)) continue;
+        if (xp.parse_bool("server_assigned_hash", server_assigned_hash)) continue;
     }
     canonicalize_master_url(url);
 }
@@ -147,6 +111,13 @@ int LOOKUP_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
 
         url += "&passwd=";
         parameter = ai.passwd_hash;
+        escape_url(parameter);
+        url += parameter;
+    } else if (ai.server_assigned_hash) {
+        // Project assigned cookie
+        //
+        url += "?server_assigned_hash=1&hash=";
+        parameter = ai.server_hash;
         escape_url(parameter);
         url += parameter;
     } else {

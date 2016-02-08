@@ -134,6 +134,7 @@ bool CWizardAttach::Create( wxWindow* parent, wxWindowID id, const wxString& /* 
     m_strProjectName.Empty();
     m_strProjectUrl.Empty();
     m_strProjectAuthenticator.Empty();
+    m_strProjectSetupCookie.Empty();
     m_strReturnURL.Empty();
     m_bCredentialsCached = false;
     m_bCredentialsDetected = false;
@@ -258,32 +259,42 @@ void CWizardAttach::CreateControls()
  * Runs the wizard.
  */
 bool CWizardAttach::Run(
-    wxString strProjectURL, bool bCredentialsCached
-) {
-    if (strProjectURL.Length()) {
+        wxString strProjectName,
+        wxString strProjectURL,
+        wxString strProjectAuthenticator, 
+        wxString strProjectInstitution,
+        wxString strProjectDescription,
+        wxString strProjectKnown,
+        wxString strProjectSetupCookie,
+        bool     bAccountKeyDetected,
+        bool     bEmbedded
+){
+    SetProjectName(strProjectName);
+    if (strProjectURL.size()) {
         SetProjectURL(strProjectURL);
-        SetCredentialsCached(bCredentialsCached);
+        SetCredentialsCached(bAccountKeyDetected);
+    }
+    SetProjectInstitution(strProjectInstitution);
+    SetProjectDescription(strProjectDescription);
+    if (strProjectAuthenticator.size()) {
+        SetProjectAuthenticator(strProjectAuthenticator);
+    }
+    if (strProjectSetupCookie.size()) {
+        SetProjectSetupCookie(strProjectSetupCookie);
+    }
+    SetProjectKnown(strProjectKnown.length() > 0);
+
+    if (strProjectURL.size() && strProjectAuthenticator.size() && !bAccountKeyDetected) {
+        SetCredentialsDetected(true);
+        SetCloseWhenCompleted(true);
     }
 
-    // If credentials are not cached, then we should try one last place to look up the
-    //   authenticator.  Some projects will set a "Setup" cookie off of their URL with a
-    //   pretty short timeout.  Lets take a crack at detecting it.
-    //
-    if (!strProjectURL.IsEmpty() && !bCredentialsCached) {
-        std::string url = std::string(strProjectURL.mb_str());
-        std::string authenticator;
-
-        if (detect_setup_authenticator(url, authenticator)) {
-            SetCredentialsDetected(true);
-            SetCloseWhenCompleted(true);
-            SetProjectAuthenticator(wxString(authenticator.c_str(), wxConvUTF8));
-        }
-    }
-
-    if (m_ProjectPropertiesPage || m_ProjectInfoPage) {
+    if (m_ProjectPropertiesPage && m_ProjectInfoPage && m_ProjectWelcomePage) {
         IsAttachToProjectWizard = true;
         IsAccountManagerWizard = false;
-        if (strProjectURL.Length()) {
+        if (strProjectName.size() && strProjectURL.size() && (strProjectSetupCookie.size() == 0)) {
+            return RunWizard(m_ProjectWelcomePage);
+        } else if (strProjectURL.size() && (IsCredentialsCached() || IsCredentialsDetected() || strProjectSetupCookie.size())) {
             return RunWizard(m_ProjectPropertiesPage);
         } else {
             return RunWizard(m_ProjectInfoPage);
@@ -291,24 +302,6 @@ bool CWizardAttach::Run(
     }
 
     return FALSE;
-}
-
-
-bool CWizardAttach::RunSimpleProjectAttach(
-    wxString strName, wxString strURL, wxString strAuthenticator, wxString strInstitution, wxString strDescription, wxString strKnown
-) {
-    SetProjectName(strName);
-    SetProjectURL(strURL);
-    SetProjectInstitution(strInstitution);
-    SetProjectDescription(strDescription);
-    if (strAuthenticator.size()) {
-        SetProjectAuthenticator(strAuthenticator);
-    }
-    SetProjectKnown(strKnown.length() > 0);
-
-    IsAttachToProjectWizard = true;
-    IsAccountManagerWizard = false;
-    return RunWizard(m_ProjectWelcomePage);
 }
 
 

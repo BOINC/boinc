@@ -153,6 +153,9 @@ class CAccountManagerInfoPage;
 class CAccountManagerPropertiesPage;
 class CAccountManagerProcessingPage;
 
+// Forward declare PROJECT_INIT_STATUS
+struct PROJECT_INIT_STATUS;
+
 
 // Wizard Detection
 //
@@ -220,18 +223,15 @@ public:
 
     /// Runs the wizard.
     bool Run(
-        wxString strProjectURL,
-        bool bCredentialsCached = true
-    );
-    
-    /// Runs the wizard.
-    bool RunSimpleProjectAttach(
         wxString strProjectName,
         wxString strProjectURL,
-        wxString strAuthenticator, 
+        wxString strProjectAuthenticator, 
         wxString strProjectInstitution,
         wxString strProjectDescription,
-        wxString strKnown
+        wxString strProjectKnown,
+        wxString strProjectSetupCookie,
+        bool     bAccountKeyDetected,
+        bool     bEmbedded
     );
     
     /// Synchronize to Account Manager
@@ -280,6 +280,9 @@ public:
 
     wxString GetProjectDescription() const { return m_strProjectDescription ; }
     void SetProjectDescription(wxString value) { m_strProjectDescription = value ; }
+
+    wxString GetProjectSetupCookie() const { return m_strProjectSetupCookie ; }
+    void SetProjectSetupCookie(wxString value) { m_strProjectSetupCookie = value ; }
 
     bool IsProjectKnown() const { return m_bProjectKnown ; }
     void SetProjectKnown(bool value) { m_bProjectKnown = value ; }
@@ -362,6 +365,7 @@ public:
     wxString            m_strProjectAuthenticator;
     wxString            m_strProjectInstitution;
     wxString            m_strProjectDescription;
+    wxString            m_strProjectSetupCookie;
     wxString            m_strProjectUserName;
     bool                m_bProjectKnown;
     wxString            m_strAccountEmailAddress;

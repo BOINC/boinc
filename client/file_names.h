@@ -78,7 +78,6 @@ extern void send_log_after(const char* filename, double t, MIOFILE& mf);
 #define LOOKUP_WEBSITE_FILENAME     "lookup_website.html"
 #define MASTER_BASE                 "master_"
 #define NOTICES_DIR                 "notices"
-#define PROJECT_INIT_FILENAME       "project_init.xml"
 #define PROJECTS_DIR                "projects"
 #define REMOTEHOST_FILE_NAME        "remote_hosts.cfg"
 #define SCHED_OP_REPLY_BASE         "sched_reply_"

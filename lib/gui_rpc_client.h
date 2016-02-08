@@ -515,6 +515,7 @@ struct PROJECT_INIT_STATUS {
     std::string name;
     std::string team_name;
     bool has_account_key;
+    bool embedded;
 
     PROJECT_INIT_STATUS();
 
@@ -562,7 +563,9 @@ struct ACCOUNT_IN {
     std::string user_name;
     std::string passwd;
     std::string team_name;
+    std::string server_hash;
     bool ldap_auth;
+    bool server_assigned_hash;
 
     ACCOUNT_IN();
 
