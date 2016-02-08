@@ -2695,8 +2695,5 @@ wxString FormatTime(double secs) {
 
 wxString format_number(double x, int nprec) {
     return wxNumberFormatter::ToString(x, nprec);
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> romw/wcg_streamlined_client
