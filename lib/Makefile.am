@@ -61,6 +61,7 @@ generic_sources = \
     prefs.cpp \
     procinfo.cpp \
     proc_control.cpp \
+    project_init.cpp \
     proxy_info.cpp \
 	sched_msgs.cpp \
     shmem.cpp \
