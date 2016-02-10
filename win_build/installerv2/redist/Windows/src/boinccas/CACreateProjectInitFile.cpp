@@ -114,7 +114,7 @@ tstring CACreateProjectInitFile::ParseParameter(tstring& strSetupExeName, tstrin
         // WCG didn't want to have to encode their setup cookie value.  So all parameters but the setup cookie
         // are base64 encoded.
         //
-        if (strParameterName == _T("asc")) {
+        if (strParameterName == _T("asc_")) {
 
             strParameterValue = strEncodedValue;
 
