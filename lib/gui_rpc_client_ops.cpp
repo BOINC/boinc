@@ -1263,7 +1263,9 @@ int PROJECT_INIT_STATUS::parse(XML_PARSER& xp) {
         if (xp.parse_string("url", url)) continue;
         if (xp.parse_string("name", name)) continue;
         if (xp.parse_string("team_name", team_name)) continue;
+        if (xp.parse_string("setup_cookie", setup_cookie)) continue;
         if (xp.parse_bool("has_account_key", has_account_key)) continue;
+        if (xp.parse_bool("embedded", embedded)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -1271,7 +1273,10 @@ int PROJECT_INIT_STATUS::parse(XML_PARSER& xp) {
 void PROJECT_INIT_STATUS::clear() {
     url.clear();
     name.clear();
+    team_name.clear();
+    setup_cookie.clear();
     has_account_key = false;
+    embedded = false;
 }
 
 PROJECT_CONFIG::PROJECT_CONFIG() {

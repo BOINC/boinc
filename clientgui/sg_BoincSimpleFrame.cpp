@@ -813,8 +813,9 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     } else if ((0 >= pDoc->GetProjectCount()) && !status.disallow_attach) {
         if (pis.url.size() > 0) {
 
-            strProjectName = pis.name;
-            strProjectURL = pis.url;
+            strProjectName = pis.name.c_str();
+            strProjectURL = pis.url.c_str();
+            strProjectSetupCookie = pis.setup_cookie.c_str();
             bAccountKeyDetected = pis.has_account_key;
             bEmbedded = pis.embedded;
 
