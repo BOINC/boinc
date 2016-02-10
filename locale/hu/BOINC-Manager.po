@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-02-10 14:57+0000\n"
+"PO-Revision-Date: 2016-02-10 15:57+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -689,7 +689,7 @@ msgstr "Az engedélyezés sikertelen a futó klienshez való csatlakozáskor."
 
 #: clientgui/BOINCBaseFrame.cpp:540
 msgid "The password you have provided is incorrect, please try again."
-msgstr "A megadott jelszó hibás, kérem próbálja újra."
+msgstr "A megadott jelszó hibás, kérlek próbáld újra."
 
 #: clientgui/BOINCBaseFrame.cpp:584
 #, c-format
@@ -701,7 +701,7 @@ msgstr "%s - A kapcsolódás sikertelen"
 msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
-msgstr "%s nem tud kapcsolódni egy %s klienshez.\nMegpróbál újra kapcsolódni?"
+msgstr "%s nem tud kapcsolódni egy %s klienshez.\nMegpróbálsz újra kapcsolódni?"
 
 #: clientgui/BOINCBaseFrame.cpp:629
 #, c-format
@@ -713,14 +713,14 @@ msgstr "%s - A kiszolgáló indítása sikertelen"
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
-msgstr "%s nem tud egy %s klienst elindítani.\nKérjük, navigáljon a Vezérlőpult->Felügyeleti eszközök->Szolgáltatások helyre és indítsa el a  BOINC szolgáltatást."
+msgstr "%s nem tud egy %s klienst elindítani.\nKérjük, menj a Vezérlőpult->Felügyeleti eszközök->Szolgáltatások helyre és indítsd el a  BOINC szolgáltatást."
 
 #: clientgui/BOINCBaseFrame.cpp:645
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please start the daemon and try again."
-msgstr "%s nem tud elindítani egy %s klienst.\nKérjük, indítsa el a kiszolgálót és próbálja újra."
+msgstr "%s nem tud elindítani egy %s klienst.\nKérjük, indítsd el a kiszolgálót és próbáld újra."
 
 #: clientgui/BOINCBaseFrame.cpp:696
 #, c-format
@@ -733,7 +733,7 @@ msgid ""
 "%s is not currently connected to a %s client.\n"
 "Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
-msgstr "%s jelenleg nem kapcsolódik egy %s klienshez sem.Kérjük, használja a 'Haladó\\Számítógép kiválasztása...' menüpontot egy %s klienshez való csatlakozáshoz.A helyi számítógép csatlakoztatásához a számítógépnév megadásánál használja a 'localhost' kifejezést."
+msgstr "%s jelenleg nem kapcsolódsz egy %s klienshez sem.\nKérjük, használd a 'Haladó\\Számítógép kiválasztása...' menüpontot egy %s klienshez való csatlakozáshoz.\nA helyi számítógép csatlakoztatásához a számítógépnév megadásánál használd a 'localhost' kifejezést."
 
 #. Create the web sites task group
 #: clientgui/BOINCBaseView.cpp:790
@@ -750,7 +750,7 @@ msgstr "%s - Váratlan kilépés"
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
-msgstr "A %s kliens 3 alkalommal is váratlanul kilépett az utóbbi %d percben.\nSzeretné megint újraindítani?"
+msgstr "A(z) %s kliens 3 alkalommal is váratlanul kilépett az utóbbi %d percben.\nSzeretnéd megint újraindítani?"
 
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
@@ -762,7 +762,7 @@ msgstr "%s - Hálózati állapot"
 msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
-msgstr "A következőnek internetkapcsolatra van szüksége: %s.\nCsatlakozzon most?"
+msgstr "A következőnek internetkapcsolatra van szüksége: %s.\nCsatlakoztassuk most?"
 
 #: clientgui/BOINCDialupManager.cpp:254
 #, c-format
