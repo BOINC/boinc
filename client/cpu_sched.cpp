@@ -31,7 +31,7 @@
 //              in case we can't run the multi-thread jobs)
 //      NOTE: RAM usage is not taken into consideration
 //          in the process of building this list.
-//          It's possible that include a bunch of jobs that can't run
+//          It's possible that we include a bunch of jobs that can't run
 //          because of memory limits,
 //          even though there are other jobs that could run.
 //      - add running jobs to the list

@@ -22,6 +22,10 @@ require_once("../inc/team.inc");
 
 if (DISABLE_TEAMS) error_page("Teams are disabled");
 
+if (parse_bool(get_config(), "disable_team_creation")) {
+    error_page("team creation disabled");
+}
+
 check_get_args(array());
 
 $user = get_logged_in_user();
