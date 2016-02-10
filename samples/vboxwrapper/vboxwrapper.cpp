@@ -618,6 +618,12 @@ int main(int argc, char** argv) {
     //
     vboxlog_msg("Detected: Minimum checkpoint interval (%f seconds)", pVM->minimum_checkpoint_interval);
 
+    // Record what the minimum heartbeat interval is.
+    //
+    if (pVM->heartbeat_filename.size()) {
+        vboxlog_msg("Detected: Heatbeat check (file: '$s' every %f seconds)", pVM->heartbeat_filename.c_str(), pVM->minimum_heartbeat_interval);
+    }
+
     // Validate whatever configuration options we can
     //
     if (pVM->enable_shared_directory) {
