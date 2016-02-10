@@ -104,7 +104,9 @@ void VBOX_JOB::clear() {
     memory_size_mb = 0.0;
     job_duration = 0.0;
     minimum_checkpoint_interval = 600.0;
+    minimum_heartbeat_interval = 600.0;
     fraction_done_filename.clear();
+    heartbeat_filename.clear();
     completion_trigger_file.clear();
     temporary_exit_trigger_file.clear();
     enable_cern_dataformat = false;
@@ -160,7 +162,11 @@ int VBOX_JOB::parse() {
         else if (xp.parse_double("memory_size_mb", memory_size_mb)) continue;
         else if (xp.parse_double("job_duration", job_duration)) continue;
         else if (xp.parse_double("minimum_checkpoint_interval", minimum_checkpoint_interval)) continue;
+        else if (xp.parse_double("minimum_heartbeat_interval", minimum_heartbeat_interval)) continue;
         else if (xp.parse_string("fraction_done_filename", fraction_done_filename)) continue;
+        else if (xp.parse_string("heartbeat_filename", heartbeat_filename)) continue;
+        else if (xp.parse_string("completion_trigger_file", completion_trigger_file)) continue;
+        else if (xp.parse_string("temporary_exit_trigger_file", temporary_exit_trigger_file)) continue;
         else if (xp.parse_bool("enable_cern_dataformat", enable_cern_dataformat)) continue;
         else if (xp.parse_bool("enable_network", enable_network)) continue;
         else if (xp.parse_bool("network_bridged_mode", network_bridged_mode)) continue;
@@ -182,14 +188,6 @@ int VBOX_JOB::parse() {
         }
         else if (xp.parse_string("trickle_trigger_file", str)) {
             trickle_trigger_files.push_back(str);
-            continue;
-        }
-        else if (xp.parse_string("completion_trigger_file", str)) {
-            completion_trigger_file = str;
-            continue;
-        }
-        else if (xp.parse_string("temporary_exit_trigger_file", str)) {
-            temporary_exit_trigger_file = str;
             continue;
         }
         else if (xp.parse_string("intermediate_upload_file", str)) {
