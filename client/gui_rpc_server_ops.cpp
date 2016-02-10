@@ -732,12 +732,14 @@ static void handle_get_project_init_status(GUI_RPC_CONN& grc) {
         "    <url>%s</url>\n"
         "    <name>%s</name>\n"
         "    <team_name>%s</team_name>\n"
+        "    <setup_cookie>%s</setup_cookie>\n"
         "    %s\n"
         "    %s\n"
         "</get_project_init_status>\n",
         gstate.project_init.url,
         gstate.project_init.name,
         gstate.project_init.team_name,
+        gstate.project_init.setup_cookie,
         strlen(gstate.project_init.account_key)?"<has_account_key/>":"",
         gstate.project_init.embedded?"<embedded/>":""
     );
@@ -777,7 +779,7 @@ void handle_lookup_account(GUI_RPC_CONN& grc) {
     MIOFILE in;
 
     ai.parse(grc.xp);
-    if (!ai.url.size() || !ai.email_addr.size() || !ai.passwd_hash.size()) {
+	if ((!ai.url.size() || !ai.email_addr.size() || !ai.passwd_hash.size()) && !ai.server_assigned_hash) {
         grc.mfout.printf("<error>missing URL, email address, or password</error>\n");
         return;
     }

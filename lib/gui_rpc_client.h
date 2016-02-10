@@ -514,6 +514,7 @@ struct PROJECT_INIT_STATUS {
     std::string url;
     std::string name;
     std::string team_name;
+    std::string setup_cookie;
     bool has_account_key;
     bool embedded;
 

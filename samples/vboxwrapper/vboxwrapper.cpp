@@ -101,6 +101,12 @@ void shared_delete_file(std::string& filename) {
     boinc_delete_file(path);
 }
 
+int shared_stat(std::string& filename, struct stat* stat_file) {
+    char path[MAXPATHLEN];
+    sprintf(path, "shared/%s", filename.c_str());
+    return stat(path, stat_file);
+}
+
 bool read_fraction_done(double& frac_done, VBOX_VM& vm) {
     char path[MAXPATHLEN];
     char buf[256];
@@ -612,6 +618,12 @@ int main(int argc, char** argv) {
     //
     vboxlog_msg("Detected: Minimum checkpoint interval (%f seconds)", pVM->minimum_checkpoint_interval);
 
+    // Record what the minimum heartbeat interval is.
+    //
+    if (pVM->heartbeat_filename.size()) {
+        vboxlog_msg("Detected: Heartbeat check (file: '%s' every %f seconds)", pVM->heartbeat_filename.c_str(), pVM->minimum_heartbeat_interval);
+    }
+
     // Validate whatever configuration options we can
     //
     if (pVM->enable_shared_directory) {
@@ -1015,7 +1027,7 @@ int main(int argc, char** argv) {
                     should_exit = true;
                 }
 
-                if (stat(pVM->heartbeat_filename.c_str(), &heartbeat_stat)) {
+                if (shared_stat(pVM->heartbeat_filename, &heartbeat_stat)) {
                     // Error
                     vboxlog_msg("VM Heartbeat file specified, but missing file system status. (errno = '%d')", errno);
                     should_exit = true;

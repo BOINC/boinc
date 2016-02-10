@@ -1263,7 +1263,9 @@ int PROJECT_INIT_STATUS::parse(XML_PARSER& xp) {
         if (xp.parse_string("url", url)) continue;
         if (xp.parse_string("name", name)) continue;
         if (xp.parse_string("team_name", team_name)) continue;
+        if (xp.parse_string("setup_cookie", setup_cookie)) continue;
         if (xp.parse_bool("has_account_key", has_account_key)) continue;
+        if (xp.parse_bool("embedded", embedded)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -1271,7 +1273,10 @@ int PROJECT_INIT_STATUS::parse(XML_PARSER& xp) {
 void PROJECT_INIT_STATUS::clear() {
     url.clear();
     name.clear();
+    team_name.clear();
+    setup_cookie.clear();
     has_account_key = false;
+    embedded = false;
 }
 
 PROJECT_CONFIG::PROJECT_CONFIG() {
@@ -2274,11 +2279,15 @@ int RPC_CLIENT::lookup_account(ACCOUNT_IN& ai) {
         "   <email_addr>%s</email_addr>\n"
         "   <passwd_hash>%s</passwd_hash>\n"
         "   <ldap_auth>%d</ldap_auth>\n"
+		"   <server_assigned_hash>%d</server_assigned_hash>\n"
+		"   <server_hash>%s</server_hash>\n"
         "</lookup_account>\n",
         ai.url.c_str(),
         ai.email_addr.c_str(),
         passwd_hash.c_str(),
-        ai.ldap_auth?1:0
+        ai.ldap_auth?1:0,
+		ai.server_assigned_hash?1:0,
+	    ai.server_hash.c_str()
     );
     buf[sizeof(buf)-1] = 0;
 

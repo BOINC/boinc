@@ -1888,8 +1888,9 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     } else if ((0 >= pDoc->GetProjectCount()) && !status.disallow_attach) {
         if (pis.url.size() > 0) {
 
-            strProjectName = pis.name;
-            strProjectURL = pis.url;
+            strProjectName = pis.name.c_str();
+            strProjectURL = pis.url.c_str();
+            strProjectSetupCookie = pis.setup_cookie.c_str();
             bAccountKeyDetected = pis.has_account_key;
             bEmbedded = pis.embedded;
 
@@ -1911,27 +1912,22 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         wxGetApp().ShowApplication(true);
         pWizard = new CWizardAttach(this);
 
-        if ( strProjectURL.size() && 
-            (strProjectAuthenticator.size() || strProjectSetupCookie.size()) &&
-            !pDoc->project((char*)strProjectURL.c_str()) 
+        if (pWizard->Run(
+                wxURI::Unescape(strProjectName),
+                wxURI::Unescape(strProjectURL),
+                wxURI::Unescape(strProjectAuthenticator),
+                wxURI::Unescape(strProjectInstitution),
+                wxURI::Unescape(strProjectDescription),
+                wxURI::Unescape(strProjectKnown),
+                wxURI::Unescape(strProjectSetupCookie),
+                bAccountKeyDetected,
+                bEmbedded)
         ){
-            if (pWizard->Run(
-                    wxURI::Unescape(strProjectName),
-                    wxURI::Unescape(strProjectURL),
-                    wxURI::Unescape(strProjectAuthenticator),
-                    wxURI::Unescape(strProjectInstitution),
-                    wxURI::Unescape(strProjectDescription),
-                    wxURI::Unescape(strProjectKnown),
-                    wxURI::Unescape(strProjectSetupCookie),
-                    bAccountKeyDetected,
-                    bEmbedded)
-            ){
-                // If successful, display the work tab
-                m_pNotebook->SetSelection(ID_ADVTASKSVIEW - ID_ADVVIEWBASE);
-            } else {
-                // If failure, display the notices tab
-                m_pNotebook->SetSelection(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE);
-            }
+            // If successful, display the work tab
+            m_pNotebook->SetSelection(ID_ADVTASKSVIEW - ID_ADVVIEWBASE);
+        } else {
+            // If failure, display the notices tab
+            m_pNotebook->SetSelection(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE);
         }
     }
 
