@@ -837,22 +837,17 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         wxGetApp().ShowApplication(true);
         pWizard = new CWizardAttach(this);
 
-        if ( strProjectURL.size() && 
-            (strProjectAuthenticator.size() || strProjectSetupCookie.size()) &&
-            !pDoc->project((char*)strProjectURL.c_str()) 
-        ){
-            pWizard->Run(
-                wxURI::Unescape(strProjectName),
-                wxURI::Unescape(strProjectURL),
-                wxURI::Unescape(strProjectAuthenticator),
-                wxURI::Unescape(strProjectInstitution),
-                wxURI::Unescape(strProjectDescription),
-                wxURI::Unescape(strProjectKnown),
-                wxURI::Unescape(strProjectSetupCookie),
-                bAccountKeyDetected,
-                bEmbedded
-            );
-        }
+        pWizard->Run(
+            wxURI::Unescape(strProjectName),
+            wxURI::Unescape(strProjectURL),
+            wxURI::Unescape(strProjectAuthenticator),
+            wxURI::Unescape(strProjectInstitution),
+            wxURI::Unescape(strProjectDescription),
+            wxURI::Unescape(strProjectKnown),
+            wxURI::Unescape(strProjectSetupCookie),
+            bAccountKeyDetected,
+            bEmbedded
+        );
     }
 
  	if (pWizard) {
