@@ -1057,7 +1057,14 @@ function show_result_ops($result) {
     row("Priority",$result->priority);
     row("XML doc in", "<pre>".htmlspecialchars($result->xml_doc_in)."</pre>");
     row("XML doc out", "<pre>".htmlspecialchars($result->xml_doc_out)."</pre>");
-    row("stderr out", "<pre>".htmlspecialchars($result->stderr_out)."</pre>");
+    row("stderr out", "<pre>"
+        .htmlspecialchars(
+            $result->stderr_out,
+            ENT_QUOTES | (defined('ENT_SUBSTITUTE')?ENT_SUBSTITUTE:0),
+            'utf-8'
+        )
+        ."</pre>"
+    );
     end_table();
     echo "
         <center>
