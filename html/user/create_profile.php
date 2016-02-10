@@ -20,6 +20,7 @@
 
 require_once("../inc/profile.inc");
 require_once("../inc/akismet.inc");
+require_once("../inc/recaptchalib.php");
 
 if (DISABLE_PROFILES) error_page("Profiles are disabled");
 
@@ -200,9 +201,7 @@ function process_create_profile($user, $profile) {
 
     $privatekey = parse_config($config, "<recaptcha_private_key>");
     if ($privatekey) {
-        $recaptcha = new ReCaptcha($privatekey);
-        $resp = $recaptcha->verifyResponse($_SERVER["REMOTE_ADDR"], $_POST["g-recaptcha-response"]);
-        if (!$resp->success) {
+        if (!boinc_recaptcha_isValidated($privatekey)) {
             $profile->response1 = $response1;
             $profile->response2 = $response2;
             show_profile_form($profile,
@@ -314,9 +313,9 @@ function process_create_profile($user, $profile) {
 
 function show_profile_form($profile, $warning=null) {
     if ($profile) {
-        page_head(tra("Edit your profile"), null, null, null, recaptcha_get_head_extra());
+        page_head(tra("Edit your profile"), null, null, null, boinc_recaptcha_get_head_extra());
     } else {
-        page_head(tra("Create a profile"), null, null, null, recaptcha_get_head_extra());
+        page_head(tra("Create a profile"), null, null, null, boinc_recaptcha_get_head_extra());
     }
 
     if ($warning) {
