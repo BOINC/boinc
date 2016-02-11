@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-02-11 17:27+0000\n"
+"PO-Revision-Date: 2016-02-11 17:32+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -851,14 +851,14 @@ msgstr "Faire de la recherche en théorie algébrique des nombres"
 
 #: projects.inc:553
 msgid "Computer Science"
-msgstr "Sciences Informatiques"
+msgstr "Sciences informatiques"
 
 #: projects.inc:554
 msgid ""
 "Solve hard and practically important problems (discrete functions inversion "
 "problems, discrete optimization, bioinformatics, etc.) that can be "
 "effectively reduced to Boolean satisfiability problem."
-msgstr "Résoudre des problèmes difficiles et pratiquement importantes (problèmes d'inversion de fonctions discrètes, optimisation discrète, bio-informatique, etc.) qui peuvent être efficacement réduit à problème de satis-fiabilité booléenne."
+msgstr "Résoudre des problèmes difficiles et pratiques importants (problèmes d'inversion de fonctions discrètes, optimisation discrète, bio-informatique, etc) qui peuvent être efficacement réduits à un problème de satisfaisabilité booléenne."
 
 #: projects.inc:557
 msgid "Study computational complexity"
@@ -880,11 +880,11 @@ msgstr "Chiffrement"
 msgid ""
 "Attempt to decode 3 original Enigma messages. The signals were intercepted "
 "in the North Atlantic in 1942 and are believed to be unbroken."
-msgstr "Tente de décoder 3 messages originaux d'Enigma. Les signaux ont été interceptés dans l'Atlantique nord en 1942 et sont réputés ne pas avoir été décodés."
+msgstr "Tenter de décoder des messages des machines Enigma. Ces signaux ont été interceptés dans l'Atlantique nord en 1942 et sont réputés indéchiffrables."
 
 #: projects.inc:596
 msgid "Decode WWII submarine messages"
-msgstr "Décoder les messages des sous-marins allemands de la 2ème guerre mondiale"
+msgstr "Décoder les messages des sous-marins allemands de la Deuxième Guerre mondiale"
 
 #: projects.inc:603
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
