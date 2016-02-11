@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-02-11 16:48+0000\n"
+"PO-Revision-Date: 2016-02-11 16:55+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -292,11 +292,11 @@ msgstr "%1Sociétés%2 : utilisez BOINC pour du %3calcul distribué%4."
 
 #: index.php:167
 msgid "About BOINC"
-msgstr "A propos de BOINC"
+msgstr "À propos de BOINC"
 
 #: index.php:181
 msgid "Message boards"
-msgstr "Forum de discussion"
+msgstr "Forums de discussion"
 
 #: index.php:182
 msgid "Email lists"
@@ -304,7 +304,7 @@ msgstr "Listes email"
 
 #: index.php:183
 msgid "Events"
-msgstr "Evènements"
+msgstr "Évènements"
 
 #: index.php:184
 msgid "Source code"
@@ -316,7 +316,7 @@ msgstr "API pour extensions logicielles"
 
 #: index.php:231
 msgid "Open-source software for volunteer computing"
-msgstr "Logiciel open-source pour le calcul bénévole et distribué."
+msgstr "Logiciel open-source pour le calcul distribué bénévole."
 
 #: projects.inc:19
 msgid "Distributed sensing"
@@ -334,7 +334,7 @@ msgstr "Sismologie"
 msgid ""
 "Quake-Catcher Network is developing the world's largest seismic network "
 "using sensors attached to computers and smartphones."
-msgstr "Le Réseau de Capteurs Sismiques QCN développe le plus grand réseau sismologique au monde en utilisant des capteurs reliés à des ordinateurs et à des smartphones connectés sur Internet."
+msgstr "Le Réseau de Capteurs Sismiques QCN développe le plus grand réseau sismologique au monde en utilisant les capteurs liés aux ordinateurs et aux smartphones connectés à Internet."
 
 #: projects.inc:34
 msgid "BOINC Poland Foundation"
@@ -349,7 +349,7 @@ msgid ""
 "Radioactive@Home is creating a free and continuously updated map of "
 "radiation levels using sensors connected to volunteers' computers.  You must"
 " buy a sensor to participate."
-msgstr "Ce projet créé une cartographie gratuite continuellement à jour des niveaux de radiation en utilisant des capteurs reliés aux ordinateurs des volontaires. Vous devez acheter un capteur pour y participer."
+msgstr "Ce projet crée une cartographie gratuite continuellement mise à jour des niveaux de radiation en utilisant les capteurs reliés aux ordinateurs des participants. Vous devez acheter un capteur pour y participer."
 
 #: projects.inc:45
 msgid "Cognitive science and artifical intelligence"
@@ -405,7 +405,7 @@ msgstr "Biologie moléculaire"
 msgid ""
 "RNA World seeks to identify, analyze, structurally predict and design RNA "
 "molecules on the basis of established bioinformatics software."
-msgstr "RNA World cherche à identifier, analyser, prévoir structurellement et concevoir de  l'ADN de molécules à l'aide de logiciels de bio-informatique reconnus."
+msgstr "RNA World cherche à identifier, analyser, prévoir structurellement et concevoir des molécules d’ARN à l'aide de logiciels de bio-informatique reconnus."
 
 #: projects.inc:107
 msgid "University College Dublin"
