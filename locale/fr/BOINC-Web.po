@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-02-11 17:02+0000\n"
+"PO-Revision-Date: 2016-02-11 17:09+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -531,7 +531,7 @@ msgid ""
 "changes and also to things like changes in carbon dioxide and the sulphur "
 "cycle. This will allow us to explore how climate may change in the next "
 "century under a wide range of different scenarios."
-msgstr "Étudier les approximations qui doivent être faites à L'État-de-L'Art des modèles climatiques. En relançant le modèle des centaines de fois, nous espérons trouver comment le modèle réagit aux petits ajustements de ces approximations - suffisamment petites pour ne pas rendre ces approximations irréalistes. Cela nous permettra de mieux comprendre à quel point nos modèles sont sensibles à ces petits changements et aussi à des choses comme des changements dans le dioxyde de carbone et le cycle du soufre. Cela nous permettras de voir comment pourrait évoluer le climat au cours du prochain siècle à travers un grand nombre de scénarios différents."
+msgstr "Étudier les approximations des modèles climatiques les plus pointus. En relançant le modèle des centaines de fois, nous espérons trouver comment le modèle réagit aux petits ajustements de ces approximations - suffisamment petites pour ne pas rendre ces approximations irréalistes. Cela nous permettra de mieux comprendre à quel point nos modèles sont sensibles à ces petits changements et aussi à des choses comme des changements dans le dioxyde de carbone et le cycle du soufre. Cela nous permettra de voir comment pourrait évoluer le climat au cours du prochain siècle à travers un grand nombre de scénarios différents."
 
 #: projects.inc:253
 msgid "Physical Science"
@@ -545,7 +545,7 @@ msgstr "Ingénierie Mécanique"
 msgid ""
 "Currently we are calculating the optimum design of a structure call the 52 "
 "bar truss"
-msgstr "Nous sommes en train de calculer le design optimum d'une structure appelée le \"52 bar truss\""
+msgstr "Nous sommes en train de calculer le design optimum d'une structure appelée le \"52-bar truss\""
 
 #: projects.inc:269 projects.inc:328 projects.inc:338
 msgid "Astronomy"
@@ -575,7 +575,7 @@ msgstr "Le but du projet est de déduire des formes et des orbites pour une part
 
 #: projects.inc:290
 msgid "Aerospace-related science and engineering"
-msgstr "Science et ingénierie lié à l'aérospatiale"
+msgstr "Science et ingénierie liées à l'aérospatiale"
 
 #: projects.inc:291
 msgid ""
