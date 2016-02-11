@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-02-11 17:15+0000\n"
+"PO-Revision-Date: 2016-02-11 17:21+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -680,7 +680,7 @@ msgid ""
 "This project uses CERN-developed virtual machine technology for LHC event "
 "physics simulation on volunteer computers.  Requires that you install "
 "VirtualBox on your computer"
-msgstr "Ce projet utilise la technologie de machines virtuelles développées par le CERN pour simuler sur les ordinateurs des volontaires, des évènements physiques propres au LHC. Cela requiert l'installation de VirtualBox sur votre ordinateur"
+msgstr "Ce projet utilise la technologie de machines virtuelles développées par le CERN pour simuler sur les ordinateurs des participants des évènements physiques propres au LHC. Cela requiert l'installation de VirtualBox sur votre ordinateur"
 
 #: projects.inc:398
 msgid "Simulate high-energy particle collisions"
@@ -713,11 +713,11 @@ msgid ""
 "radio SETI, uses radio telescopes to listen for narrow-bandwidth radio "
 "signals from space. Such signals are not known to occur naturally, so a "
 "detection would provide evidence of extraterrestrial technology."
-msgstr "SETI (Search for Extraterrestrial Intelligence) est un domaine scientifique dont l'objectif est de détecter la vie intelligente en dehors de la Terre. Une approche, connue sous le nom de radio SETI, utilise des radiotélescopes pour écouter les signaux radio à bande passante étroite de l'espace. Ces signaux ne sont pas connus pour se produire naturellement, en détecter serait une preuve de la technologie extraterrestre."
+msgstr "SETI (Search for Extraterrestrial Intelligence) est un champ scientifique dont l'objectif est de détecter la vie intelligente en dehors de la Terre. Une approche, connue sous le nom de radio SETI, utilise des radiotélescopes pour écouter les signaux radio à bande passante étroite de l'espace. Ces signaux ne sont pas connus pour se produire naturellement, en détecter serait une preuve de la technologie extraterrestre."
 
 #: projects.inc:418
 msgid "Search for evidence of extra-terrestrial life"
-msgstr "Rechercher des preuves de vie extra-terrestre"
+msgstr "Rechercher des preuves de vie extraterrestre"
 
 #: projects.inc:442
 msgid "Multiple applications"
@@ -735,7 +735,7 @@ msgstr "Le Citizen Science Grid est dédié à soutenir un large éventail de pr
 
 #: projects.inc:452
 msgid "Support science from the University of North Dakota"
-msgstr "Soutenir la science pour l'Université du Dakota du Nord"
+msgstr "Soutenir la science avec l'Université du Dakota du Nord"
 
 #: projects.inc:457
 msgid "Chinese Academy of Sciences"
@@ -743,14 +743,14 @@ msgstr "Académie Chinoise des Sciences"
 
 #: projects.inc:458
 msgid "Physics, biochemistry, and others"
-msgstr "Physique, biochimie, et autres"
+msgstr "Physique, biochimie et autres"
 
 #: projects.inc:459
 msgid ""
 "The objective of CAS@home is to encourage and assist scientists in China to "
 "adopt the technologies of volunteer computing and volunteer thinking for "
 "their research."
-msgstr "L'objectif de CAS@home est d'encourager et d'assister les scientifiques en Chine à adopter les technologies de calcul volontaire partagé et la réflexion des volontaires pour leur recherche."
+msgstr "L'objectif de CAS@home est d'encourager et d'assister les scientifiques en Chine à adopter les technologies de calcul bénévole distribué pour leur recherche."
 
 #: projects.inc:462
 msgid "Help Chinese researchers"
