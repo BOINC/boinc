@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-02-11 16:55+0000\n"
+"PO-Revision-Date: 2016-02-11 17:02+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -421,7 +421,7 @@ msgid ""
 " medication. We therefore urgently need to discover new drugs, targeting new"
 " proteins in the parasite. The FightNeglectedDiseases@Home project is aimed "
 "at finding these new targets."
-msgstr "Le parasite causant la malaria continue de développer une résistance aux médicaments disponibles. C'est pourquoi, il est urgent de découvrir de nouveaux médicaments pour cibler de nouvelles protéines du parasite. Le projet Find@Home a pour but de trouver ces nouvelles cibles."
+msgstr "Le parasite causant la malaria continue de développer une résistance aux médicaments disponibles. C'est pourquoi il est urgent de découvrir de nouveaux médicaments pour cibler de nouvelles protéines du parasite. Le projet Find@Home a pour but de trouver ces nouvelles cibles."
 
 #: projects.inc:117
 msgid "University of Karlsruhe (Germany)"
@@ -438,7 +438,7 @@ msgid ""
 "the proteins interact with one another, to understand diseases related to "
 "protein malfunction or aggregation, and to develop new drugs on the basis of"
 " the three-dimensions structure of biologically important proteins."
-msgstr "POEM @ HOME utilise une approche informatique pour prédire la structure des protéines biologiquement actives, pour comprendre les mécanismes de traitement du signal lorsque les protéines interagissent les unes avec les autres, pour comprendre les maladies liées à un dysfonctionnement des protéines ou l'agrégation, et à développer de nouveaux médicaments sur la base de structures tridimensionnelle des protéines biologiquement importantes."
+msgstr "POEM@HOME utilise une approche informatique pour prédire la structure des protéines biologiquement actives, pour comprendre les mécanismes de traitement du signal lorsque les protéines interagissent les unes avec les autres, pour comprendre les maladies liées à un dysfonctionnement des protéines ou l'agrégation, et à développer de nouveaux médicaments sur la base de structures tridimensionnelles des protéines biologiquement importantes."
 
 #: projects.inc:147
 msgid "Barcelona Biomedical Research Park (PRBB)"
@@ -454,7 +454,7 @@ msgid ""
 "molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. "
 "New biomedical applications suddenly become possible giving a new role to "
 "computational biology for biomedical research."
-msgstr "GPUGrid.net ouvre des nouveaux scénarios informatiques par l'emploi du premier code dynamique moléculaire atomique (CeIIMD) spécialement optimisé pour fonctionner sur des chipsets graphiques NVIDIA. De nouvelles applications biomédicales deviennent soudainement possibles donnant un nouveau rôle à la biologie informatique pour la recherche biomédicale."
+msgstr "GPUGrid.net ouvre des nouveaux scénarios informatiques par l'emploi du premier code dynamique moléculaire atomique (CeIIMD) spécialement optimisé pour fonctionner sur les processeurs graphiques NVIDIA. De nouvelles applications biomédicales deviennent alors possibles donnant un nouveau rôle à la biologie informatique pour la recherche biomédicale."
 
 #: projects.inc:175
 msgid ""
@@ -489,7 +489,7 @@ msgid ""
 "is extremely computer intensive, requiring simulations of large human "
 "populations with a diverse set of parameters related to biological and "
 "social factors that influence the distribution of the disease. "
-msgstr "Les modèles de simulation dynamique de transmission et d'effets sur la santé de la malaria sont un outil important pour le contrôle de la malaria. Ils peuvent être utilisés pour déterminer les stratégies optimales pour livrer des moustiquaires, la chimiothérapie, ou de nouveaux vaccins qui sont actuellement en cours de développement et de test. Une telle modélisation est extrêmement gourmande en puissance de calcul, exigeant des simulations sur de larges populations humaines avec un ensemble de paramètres divers liés aux facteurs biologiques et sociaux qui influencent la diffusion de la maladie."
+msgstr "Les modèles de simulation dynamique de transmission et d'effets sur la santé de la malaria sont un outil important pour le contrôle de la malaria. Ils peuvent être utilisés pour déterminer les stratégies optimales pour livrer des moustiquaires, la chimiothérapie ou de nouveaux vaccins qui sont actuellement en cours de développement et de test. Une telle modélisation est extrêmement gourmande en puissance de calcul, exigeant des simulations sur de larges populations humaines avec un ensemble de paramètres divers liés aux facteurs biologiques et sociaux qui influencent la diffusion de la maladie."
 
 #: projects.inc:211
 msgid "University of Washington"
@@ -507,7 +507,7 @@ msgid ""
 "couldn't possibly attempt without your help. You will also be helping our "
 "efforts at designing new proteins to fight diseases such as HIV, malaria, "
 "cancer, and Alzheimer's"
-msgstr "Déterminer les structures tridimensionnelles de protéines dans la recherche qui peut en fin de compte mener à la découverte de remèdes pour quelques maladies humaines majeures. En calculant pour Rosetta@home vous nous aiderez à accélérer et prolonger notre recherche bien plus que nous ne pourrions le faire sans votre aide. Vous nous aiderez également dans nos efforts à concevoir de nouvelles protéines pour combattre les maladies telles que HIV, la malaria, le Cancer, et l'Alzheimer"
+msgstr "Déterminer les structures tridimensionnelles de protéines dans la recherche qui peut mener à la découverte de remèdes pour quelques maladies humaines majeures. En calculant pour Rosetta@home, vous nous aiderez à accélérer et prolonger notre recherche bien plus que nous ne pourrions le faire sans votre aide. Vous nous aiderez également dans nos efforts à concevoir de nouvelles protéines pour combattre les maladies telles que VIH, la malaria, le cancer et la maladie d’Alzheimer."
 
 #: projects.inc:231
 msgid "Earth Sciences"
