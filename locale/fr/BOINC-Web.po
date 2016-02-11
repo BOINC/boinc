@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-02-11 16:40+0000\n"
+"PO-Revision-Date: 2016-02-11 16:48+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -209,7 +209,7 @@ msgstr "ordinateurs.\n"
 
 #: index.php:56
 msgid "24-hour average:"
-msgstr "moyenne sur 24 heures:"
+msgstr "moyenne sur 24 heures :"
 
 #: index.php:56
 msgid "PetaFLOPS."
@@ -245,7 +245,7 @@ msgid ""
 "Use the idle time on your computer (Windows, Mac, Linux, or Android) to cure"
 " diseases, study global warming, discover pulsars, and do many other types "
 "of scientific research.  It's safe, secure, and easy:"
-msgstr "Utilise les ressources inexploitées de votre ordinateur (Windows, Mac, Linux ou Android) pour guérir des maladies, étudier le réchauffement planétaire, découvrir des pulsars et faire beaucoup d'autres types de recherches scientifiques. C'est sans danger, sécurisé et facile:"
+msgstr "Utilise les ressources inexploitées de votre ordinateur (Windows, Mac, Linux ou Android) pour guérir des maladies, étudier le réchauffement planétaire, découvrir des pulsars et participer à beaucoup d'autres types de recherche scientifique. C'est sans danger, sécurisé et facile :"
 
 #: index.php:103
 msgid "Choose projects"
@@ -278,17 +278,17 @@ msgstr "Mises à jour logicielles"
 msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4, "
 "giving you the power of thousands of CPUs and GPUs."
-msgstr "%1Scientifiques%2 : utilisez BOINC pour créer un %3projet de calcul bénévole%4 vous procurant ainsi la puissance de calcul de milliers de CPUs."
+msgstr "%1Scientifiques%2 : utilisez BOINC pour créer un %3projet de calcul bénévole%4 vous procurant ainsi la puissance de calcul de milliers de processeurs."
 
 #: index.php:150
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
-msgstr "%1Universités%2 : utilisez BOINC pour créer un %3centre de calcul d'un campus virtuel%4."
+msgstr "%1Universités%2 : utilisez BOINC pour créer un %3centre de calculs universitaire virtuel%4."
 
 #: index.php:155
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
-msgstr "%1Sociétés%2 : utilisez BOINC pour du %3desktop grid computing%4."
+msgstr "%1Sociétés%2 : utilisez BOINC pour du %3calcul distribué%4."
 
 #: index.php:167
 msgid "About BOINC"
