@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-02-11 16:29+0000\n"
+"PO-Revision-Date: 2016-02-11 16:35+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -75,13 +75,13 @@ msgid ""
 "BOINC is a program that lets you donate your idle computer time to science "
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
 "Community Grid, and many others."
-msgstr "BOINC est un programme qui vous permet d'offrir le temps de calcul inutilisé de votre ordinateur  à des projets scientifiques comme SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, et beaucoup d'autres."
+msgstr "BOINC est un programme qui vous permet d'offrir le temps de calcul inutilisé de votre ordinateur  à des projets scientifiques comme SETI@home, Climateprediction.net, Rosetta@home, World Community Grid et beaucoup d'autres."
 
 #: download.php:135
 msgid ""
 "After installing BOINC on your computer, you can connect it to as many of "
 "these projects as you like."
-msgstr "Après avoir installé BOINC sur votre ordinateur, vous pouvez le connecter à autant de ces projets que vous le désirez."
+msgstr "Après avoir installé BOINC sur votre ordinateur, vous pouvez le connecter à autant de projets que vous le désirez."
 
 #: download.php:137
 msgid ""
@@ -117,7 +117,7 @@ msgstr "Historique des versions"
 
 #: download.php:182
 msgid "GPU computing"
-msgstr "calcul sur GPU"
+msgstr "calcul du processeur graphique"
 
 #: download.php:200
 msgid "BOINC: compute for science"
@@ -147,7 +147,7 @@ msgid ""
 "microphone and speakers or an external headset for your computer.  You can "
 "also use Skype's text-based chat system or regular email (if you don't have "
 "Skype) to communicate with Help Volunteers."
-msgstr "La meilleure façon de demander de l'aide est de la faire de vive voix. Pour cela vous devez disposer d'un microphone et d'enceintes ou d'un casque de communication. Vous pouvez également utiliser le système de tchat textuel de Skype ou plus classiquemeent le courriel (si vous ne disposez pas de Skype) pour communiquer avec les volontaires."
+msgstr "La meilleure façon de demander de l'aide est de le faire de vive voix. Pour cela vous devez disposer d'un microphone et d'enceintes ou d'un casque. Vous pouvez également utiliser le système de tchat textuel de Skype ou plus classiquemeent le courriel (si vous ne disposez pas de Skype) pour communiquer avec les volontaires."
 
 #: help.php:31
 msgid ""
