@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-02-11 16:35+0000\n"
+"PO-Revision-Date: 2016-02-11 16:40+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -130,7 +130,7 @@ msgid ""
 " can: %s answer questions about BOINC and volunteer computing; %s walk you "
 "through the process of installing and using BOINC; %s troubleshoot any "
 "problems you might have."
-msgstr "L'aide en ligne BOINC vous permet de converser de vive voix avec des utilisateurs expérimentés, qui peuvent : %s répondre aux questions concernant BOINC et le calcul distribué bénévole; %s vous guider dans l'installation et l'utilisation de BOINC; %s solutionner les problèmes que vous pourriez rencontrer."
+msgstr "L'aide en ligne de BOINC vous permet de converser de vive voix avec des utilisateurs expérimentés, qui peuvent : %s répondre aux questions concernant BOINC et le calcul distribué bénévole ; %s vous guider dans l'installation et l'utilisation de BOINC ; %s solutionner les problèmes que vous pourriez rencontrer."
 
 #: help.php:21
 #, php-format
@@ -147,17 +147,17 @@ msgid ""
 "microphone and speakers or an external headset for your computer.  You can "
 "also use Skype's text-based chat system or regular email (if you don't have "
 "Skype) to communicate with Help Volunteers."
-msgstr "La meilleure façon de demander de l'aide est de le faire de vive voix. Pour cela vous devez disposer d'un microphone et d'enceintes ou d'un casque. Vous pouvez également utiliser le système de tchat textuel de Skype ou plus classiquemeent le courriel (si vous ne disposez pas de Skype) pour communiquer avec les volontaires."
+msgstr "La meilleure façon de demander de l'aide est de le faire de vive voix. Pour cela vous devez disposer d'un microphone et d'enceintes ou d'un casque. Vous pouvez également utiliser le système de tchat textuel de Skype ou plus classiquemeent le courriel (si vous ne disposez pas de Skype) pour communiquer avec les bénévoles."
 
 #: help.php:31
 msgid ""
 "Volunteers speaking several languages are available. Please select a "
 "language:"
-msgstr "Des volontaires parlant plusieurs langues sont disponibles. Veuillez sélectionner une langue : "
+msgstr "Des bénévoles parlant plusieurs langues sont disponibles. Veuillez sélectionner une langue : "
 
 #: help.php:47
 msgid "Be a Help Volunteer"
-msgstr "Devenez un volontaire de support"
+msgstr "Devenez bénévole de support"
 
 #: help.php:50
 #, php-format
@@ -171,17 +171,17 @@ msgstr "Si vous êtes un utilisateur expérimenté de BOINC, nous vous encourage
 #, php-format
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
-msgstr "Si vous êtes un volontaire de support : pour éditer vos paramètres, %scliquez ici%s."
+msgstr "Si vous êtes un bénévole de support : pour éditer vos paramètres, %scliquez ici%s."
 
 #: help_funcs.php:136
 msgid ""
 "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
 "or the University of California."
-msgstr "Les volontaires de support BOINC sont bénévoles. Leurs conseils ne sont pas sous la responsabilité de BOINC ou l'Université de Californie."
+msgstr "Les volontaires de support BOINC sont des bénévoles. Leurs conseils ne sont pas sous la responsabilité de BOINC ou de l'Université de Californie."
 
 #: help_funcs.php:139
 msgid "%1Never%2 give email address or password information to BOINC helpers."
-msgstr "%1Ne jamais%2 donner votre adresse mail ou votre mot de passe aux volontaires de support BOINC."
+msgstr "%1Ne jamais%2 donner votre adresse email ou votre mot de passe aux bénévoles de support BOINC."
 
 #: index.php:24
 msgid "Computing power"
@@ -197,7 +197,7 @@ msgstr "Statistiques"
 
 #: index.php:55
 msgid "Active:"
-msgstr "Actif:"
+msgstr "Actif :"
 
 #: index.php:55
 msgid "volunteers,"
