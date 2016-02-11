@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-02-11 17:21+0000\n"
+"PO-Revision-Date: 2016-02-11 17:27+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -764,7 +764,7 @@ msgstr "Mathématique, physique, évolution"
 msgid ""
 "Yoyo@home is an adapter between BOINC and several existing volunteer "
 "computing projects: ECM, Muon, Evolution@home, and distributed.net"
-msgstr "Yoyo@home est un adaptateur entre BOINC et plusieurs projets existants de calcul partagé: ECM, Muon, Evolution@home, et distributed.net"
+msgstr "Yoyo@home est un adaptateur entre BOINC et plusieurs projets existants de calcul partagé : ECM, Muon, Evolution@home et distributed.net"
 
 #: projects.inc:472
 msgid "Do research in math, physics, and evolution"
@@ -784,7 +784,7 @@ msgid ""
 "grid network of Europe by allowing service grids to send workunits to be "
 "processed by the volunteers of this project. The scientific projects covered"
 " by the project include math, physics, biology, etc."
-msgstr "Le projet EGDeS@Home Beta intègre le calcul bénévole dans le réseau de grille de service de l'Europe en permettant aux grilles existantes d'envoyer des unités de travail pour être traitées par des bénévoles. Les projets scientifiques couverts par le projet comprennent les mathématiques, la physique, la biologie, etc"
+msgstr "Le projet EGDeS@Home Beta intègre le calcul bénévole dans le réseau de grille de service de l'Europe en permettant aux grilles existantes d'envoyer des unités de travail pour être traitées par des bénévoles. Les projets scientifiques couverts par le projet comprennent les mathématiques, la physique, la biologie, etc."
 
 #: projects.inc:482
 msgid "Help European researchers"
@@ -800,7 +800,7 @@ msgstr "Plusieurs projets de recherche espagnols"
 
 #: projects.inc:489
 msgid "Research in physics, material science, and biomedicine"
-msgstr "Recherche en physique, science des matériaux, et biomédecine"
+msgstr "Recherche en physique, science des matériaux et biomédecine"
 
 #: projects.inc:492
 msgid "Help Spanish researchers"
@@ -812,7 +812,7 @@ msgstr "IBM Corporate Citizenship"
 
 #: projects.inc:498
 msgid "Medical, environmental and other humanitarian research"
-msgstr "Recherches médicale, environnementale et autre recherche humanitaire"
+msgstr "Recherches médicales, environnementales et autres recherches humanitaires"
 
 #: projects.inc:499
 msgid ""
@@ -820,7 +820,7 @@ msgid ""
 "problems by creating the world's largest volunteer computing grid.  Research"
 " includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, "
 "clean water and many more."
-msgstr "Pour aider des recherches à but non lucratif critiques sur les problèmes les plus urgents de l'humanité en créant le plus grand réseau de calcul partagé volontaire. La recherche inclue le SIDA, le cancer, les maladies tropicales et orphelines, l'énergie solaire, l'eau propre, et bien d'autres."
+msgstr "Pour aider des recherches cruciales à but non lucratives sur les problèmes les plus urgents de l'humanité en créant le plus grand réseau de calcul partagé bénévole. La recherche inclut le SIDA, le cancer, les maladies tropicales et orphelines, l'énergie solaire, l'eau propre et bien d’autres encore."
 
 #: projects.inc:502
 msgid "Do biomedical and environmental research"
@@ -843,7 +843,7 @@ msgid ""
 "formulate conjectures about number fields. Ultimately, this research will "
 "lead to a deeper understanding of the profound properties of numbers, the "
 "basic building blocks of all mathematics."
-msgstr "NumberFields@home recherche des champs numériques ayant des propriétés particulières. L'application principale de cette recherche est du domaine de la théorie algébrique des nombres. Les théoriciens des nombres peuvent exploiter les données ayant des propriétés intéressantes pour les aider à formuler des conjectures sur les champs numériques. En fin de compte, cette recherche mènera à une meilleure compréhension des propriétés profondes des nombres, qui sont les blocs de construction de base de toutes les mathématiques."
+msgstr "NumberFields@home recherche des champs numériques ayant des propriétés particulières. L'application principale de cette recherche est du domaine de la théorie algébrique des nombres. Les théoriciens des nombres peuvent exploiter les données ayant des propriétés intéressantes pour les aider à formuler des conjectures sur les champs numériques. Cette recherche mènera à une meilleure compréhension des propriétés profondes des nombres, qui sont les briques de base de toutes les mathématiques."
 
 #: projects.inc:537
 msgid "Do research in algebraic number theory"
