@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-02-11 17:09+0000\n"
+"PO-Revision-Date: 2016-02-11 17:15+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -583,18 +583,18 @@ msgid ""
 "trajectory optimization of launchers, satellites and probes, simulation of "
 "Moon's near-surface exosphere, and analysis of dynamic systems of "
 "exploration-rovers"
-msgstr "Constellation est une plate-forme pour les simulations liés à l'aérospatiale, notamment l'optimisation de la trajectoire de lanceurs, satellites et sondes, la simulation l'exosphère proche de la surface de la Lune, et l'analyse des systèmes dynamiques des rovers d'exploration"
+msgstr "Constellation est une plate-forme pour les simulations liées à l'aérospatiale, notamment l'optimisation de la trajectoire de lanceurs, satellites et sondes, la simulation de l'exosphère proche de la surface de la Lune et l'analyse des systèmes dynamiques des rovers d'exploration"
 
 #: projects.inc:294
 msgid "Perform aerospace-related simulations"
-msgstr "Effectuer des simulations liés à l'aérospatiale"
+msgstr "Effectuer des simulations liées à l'aérospatiale"
 
 #: projects.inc:329
 msgid ""
 "Universe@Home aims to create the first database of the simulated stellar "
 "content of the Universe, from the earliest stars to the most exotic black "
 "hole binaries."
-msgstr "Univers@Home a pour but de créer la première base de données du contenu stellaire simulée de l'Univers, depuis les premières étoiles jusqu'aux trous noirs binaires les plus exotiques."
+msgstr "Univers@Home a pour but de créer la première base de données du contenu stellaire simulé de l'Univers, depuis les premières étoiles jusqu'aux trous noirs binaires les plus exotiques."
 
 #: projects.inc:332
 msgid "Do research in physics and astronomy"
@@ -609,7 +609,7 @@ msgid ""
 "The goal of Milkyway@Home is to create a highly accurate three dimensional "
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
 "Survey."
-msgstr "Le but de Milkyway@Home est de créer un modèle tridimensionnel de haute précision de la Galaxie Voie Lactée en utilisant les données recueillies par The Sloan Digital Sky Survey (SDSS)."
+msgstr "Le but de Milkyway@Home est de créer un modèle tridimensionnel de haute précision de la Voie Lactée en utilisant les données recueillies par The Sloan Digital Sky Survey (SDSS)."
 
 #: projects.inc:342
 msgid "Study the structure of the Milky Way galaxy"
@@ -631,7 +631,7 @@ msgid ""
 " Dynamics jobs. In this way students have used the grid to simulate liquid "
 "argon, or to test the validity of the ideal gas law by actually doing the "
 "simulations through the grid."
-msgstr "Calculs scientifiques de surface en utilisant la dynamique classique. Leiden Classical permet à des bénévoles, des étudiants et des scientifiques à soumettre leurs calculs personnels à la grille. Chaque utilisateur a sa file d'attente personnelle pour des tâches de dynamique classique. Ainsi, des étudiants ont utilisé la grille pour simuler l'argon liquide, ou pour tester la validité de la loi des gaz parfaits en faisant des simulations à travers la grille de calcul."
+msgstr "Calculs scientifiques de surface en utilisant la dynamique classique. Leiden Classical permet à des bénévoles, des étudiants et des scientifiques de soumettre leurs calculs personnels à la grille. Chaque utilisateur a sa file d'attente personnelle pour des tâches de dynamique classique. Ainsi, des étudiants ont utilisé la grille pour simuler l'argon liquide ou pour tester la validité de la loi des gaz parfaits en faisant des simulations à travers la grille de calcul."
 
 #: projects.inc:352
 msgid "Help students do atomic simulations"
@@ -648,7 +648,7 @@ msgid ""
 "observatory.  Einstein@Home is a World Year of Physics 2005 project "
 "supported by the American Physical Society (APS) and by a number of "
 "international organizations."
-msgstr "Recherche d'étoiles à neutrons en rotation (également appelés pulsars) en utilisant les données des détecteurs d'ondes gravitationnelles LIGO et GEO, et de l'observatoire radio d'Arecibo. Einstein@Home est un projet de l'Année Mondiale de la Physique 2005 soutenu par l'American Physical Society (APS) et par un certain nombre d'organisations internationales."
+msgstr "Recherche d'étoiles à neutrons en rotation (également appelées pulsars) en utilisant les données des détecteurs d'ondes gravitationnelles LIGO et GEO, et de l'observatoire radio d'Arecibo. Einstein@Home est un projet de l'Année Mondiale de la Physique 2005 soutenu par l'American Physical Society (APS) et par un certain nombre d'organisations internationales."
 
 #: projects.inc:370
 msgid "Help detect pulsars and gravitational waves"
