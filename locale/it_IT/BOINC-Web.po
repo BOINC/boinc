@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-02-12 09:45+0000\n"
+"PO-Revision-Date: 2016-02-12 09:50+0000\n"
 "Last-Translator: Daniele Masini <d.masini.it@gmail.com>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -154,11 +154,11 @@ msgstr "Il modo migliore per ricevere aiuto è a voce: per farlo è necessario a
 msgid ""
 "Volunteers speaking several languages are available. Please select a "
 "language:"
-msgstr "Sono disponibili volontari che parlano diverse lingue. Seleziona la lingua in cui vuoi ricevere l'aiuto:"
+msgstr "Sono disponibili volontari che parlano varie lingue. Seleziona la lingua nella quale vuoi ricevere l'aiuto:"
 
 #: help.php:47
 msgid "Be a Help Volunteer"
-msgstr "Diventa un volontario dell'assistenza tecnica"
+msgstr "Diventa un volontario dell'assistenza online"
 
 #: help.php:50
 #, php-format
@@ -178,11 +178,11 @@ msgstr "Se sei già un volontario dell'assistenza online per modificare le tue o
 msgid ""
 "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
 "or the University of California."
-msgstr "Gli aiutanti di BOINC sono volontari non pagati. La loro consulenza non è approvata dal BOINC o dall'Università della California."
+msgstr "Gli aiutanti di BOINC sono volontari a titolo gratuito. La loro consulenza non è sostenuta da BOINC o dall'Università della California."
 
 #: help_funcs.php:139
 msgid "%1Never%2 give email address or password information to BOINC helpers."
-msgstr "Non devi %1MAI%2 fornire l'indirizzo e-mail o la chiave d'accesso ai volontari di BOINC."
+msgstr "Non devi %1MAI%2 fornire il tuo indirizzo e-mail o la tua password ai volontari di BOINC."
 
 #: index.php:24
 msgid "Computing power"
