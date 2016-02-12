@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-02-12 09:50+0000\n"
+"PO-Revision-Date: 2016-02-12 09:57+0000\n"
 "Last-Translator: Daniele Masini <d.masini.it@gmail.com>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -148,7 +148,7 @@ msgid ""
 "microphone and speakers or an external headset for your computer.  You can "
 "also use Skype's text-based chat system or regular email (if you don't have "
 "Skype) to communicate with Help Volunteers."
-msgstr "Il modo migliore per ricevere aiuto è a voce: per farlo è necessario aver collegato al proprio computer un microfono e delle casse audio, oppure delle cuffie.  Per comunicare con i volontari dell' assistenza online puoi anche utilizzare la chat testuale di Skype o le email (se non hai Skype)."
+msgstr "Il modo migliore per ricevere aiuto è a voce: per farlo è necessario aver collegato al proprio computer un microfono e delle casse audio, oppure delle cuffie.  Per comunicare con i volontari dell' assistenza online puoi anche utilizzare la chat testuale di Skype o le e-mail (se non hai Skype)."
 
 #: help.php:31
 msgid ""
@@ -190,7 +190,7 @@ msgstr "Potenza di calcolo"
 
 #: index.php:26
 msgid "Top 100 volunteers"
-msgstr "I primi 100 volontari"
+msgstr "I migliori 100 volontari"
 
 #: index.php:27
 msgid "Statistics"
