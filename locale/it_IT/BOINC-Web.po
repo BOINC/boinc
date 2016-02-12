@@ -6,6 +6,7 @@
 # FileID  : $Id$
 # 
 # Translators:
+# Daniele Masini <d.masini.it@gmail.com>, 2016
 # Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015
 # Sebastiano Pistore <olatusrooc@virgilio.it>, 2015-2016
 msgid ""
@@ -13,7 +14,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-02-12 09:33+0000\n"
+"PO-Revision-Date: 2016-02-12 09:39+0000\n"
 "Last-Translator: Daniele Masini <d.masini.it@gmail.com>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -87,7 +88,7 @@ msgstr "Dopo l'installazione di BOINC sul tuo computer potrai scegliere di aiuta
 msgid ""
 "You may run this software on a computer only if you own the computer or have"
 " the permission of its owner."
-msgstr "Puoi eseguire questo software su un computer solo se possiedi il computer o se hai il permesso del suo proprietario."
+msgstr "Puoi eseguire questo software su un computer solo se se il proprietario del computer o se hai il permesso del suo proprietario."
 
 #: download.php:142
 msgid ""
@@ -139,7 +140,7 @@ msgid ""
 " Skype is free (both the software and the calls).  If you don't already have"
 " Skype, please %sdownload and install it now%s.  When you're finished, "
 "return to this page."
-msgstr "L'assistenza online BOINC si appoggia a %sSkype%s, un sistema di telefonia tramite Internet. Skype è gratis (sia il software che le chiamate).  Se non hai ancora Skype, %sscaricalo ed installalo ora%s.  Quando hai finito ritorna su questa pagina."
+msgstr "L'assistenza online BOINC si appoggia a %sSkype%s, un sistema di telefonia tramite Internet. Skype è gratuito (sia il software che le chiamate).  Se non hai ancora Skype, %sscaricalo ed installalo ora%s.  Quando hai finito ritorna su questa pagina."
 
 #: help.php:28
 msgid ""
