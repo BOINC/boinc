@@ -384,7 +384,7 @@ void COPROC_NVIDIA::clear() {
     cuda_version = 0;
     display_driver_version = 0;
     strcpy(prop.name, "");
-    prop.totalGlobalMem = 0;
+    prop.totalGlobalMem = 0.0;
     prop.sharedMemPerBlock = 0;
     prop.regsPerBlock = 0;
     prop.warpSize = 0;
@@ -415,7 +415,7 @@ int COPROC_NVIDIA::parse(XML_PARSER& xp) {
     while (!xp.get_tag()) {
         if (xp.match_tag("/coproc_cuda")) {
             if (!peak_flops) {
-				set_peak_flops();
+                set_peak_flops();
             }
             if (!available_ram) {
                 available_ram = prop.totalGlobalMem;
