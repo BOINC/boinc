@@ -24,6 +24,7 @@
 #include "cpp.h"
 #include "config.h"
 
+
 #if !defined(_WIN32) || defined(__CYGWIN32__)
 
 // Access to binary files in /proc filesystem doesn't work in the 64bit
@@ -55,6 +56,10 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+
+
+#include "fcntl.h"
+
 
 #include <sys/param.h>
 
@@ -1686,58 +1691,31 @@ static const struct dir_input_dev {
 #ifdef unix
     { "/dev/input","event" },
     { "/dev/input","mouse" },
-    { "/dev/input/mice","" },
+    { "/dev/input","mice" },
 #endif
     // add other ifdefs here as necessary.
     { NULL, NULL },
 };
 
-vector<string> get_input_list() {
-    // Create a list of all terminal devices on the system.
-    char devname[1024];
-    char fullname[1024];
-    int done,i=0;
-    vector<string> input_list;
-    
-    do {
-        DIRREF dev=dir_open(input_patterns[i].dir);
-        if (dev) {
-            do {
-                // get next file
-                done=dir_scan(devname,dev,1024);
-                // does it match our tty pattern? If so, add it to the tty list.
-                if (!done && (strstr(devname,input_patterns[i].dev) == devname)) {
-                    // don't add anything starting with .
-                    if (devname[0] != '.') {
-                        sprintf(fullname,"%s/%s",input_patterns[i].dir,devname);
-                        input_list.push_back(fullname);
-                    }
-                }
-            } while (!done);
-            dir_close(dev);
-        }
-        i++;
-    } while (input_patterns[i].dir != NULL);
-    return input_list;
-}
 
 inline bool all_input_idle(time_t t) {
-    static vector<string> input_list;
-    struct stat sbuf;
-    unsigned int i;
-
-    if (input_list.size()==0) input_list=get_input_list();
-    for (i=0; i<input_list.size(); i++) {
-        // ignore errors
-        if (!stat(input_list[i].c_str(), &sbuf)) {
-            // printf("input: %s %d %d\n",input_list[i].c_str(),sbuf.st_atime,t);
-            if (sbuf.st_atime >= t) {
-                return false;
-            }
-        }
-    }
-    return true;
+	static time_t last_time = t + 1;
+	static int fp = -1;
+	if (fp < 0) fp = open("/dev/input/mice", O_RDONLY | O_NONBLOCK);
+    if(fp < 0) {
+		printf("Open /dev/input/mice failed\n");
+		return true;
+	}
+	char buf[10];
+	int count = read(fp, buf, 10);
+//	printf("/dev/input/mice count: %d %d %d\n", count, last_time, t);
+	if (count >= 0) {
+		last_time = time(NULL);
+	}
+	if (last_time >= t) return false;
+	return true;
 }
+	
 
 #if HAVE_UTMP_H
 inline bool user_idle(time_t t, struct utmp* u) {
