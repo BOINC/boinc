@@ -17,6 +17,7 @@
 
 #include "error_numbers.h"
 #include "parse.h"
+#include "str_replace.h"
 
 #include "proxy_info.h"
 
@@ -109,16 +110,16 @@ void PROXY_INFO::clear() {
     use_socks_proxy = false;
     use_http_auth = false;
     autodetect_proxy_supported = false;
-    strcpy(socks_server_name, "");
-    strcpy(http_server_name, "");
+    safe_strcpy(socks_server_name, "");
+    safe_strcpy(http_server_name, "");
     socks_server_port = 80;
     http_server_port = 80;
-    strcpy(socks5_user_name, "");
-    strcpy(socks5_user_passwd, "");
-    strcpy(http_user_name, "");
-    strcpy(http_user_passwd, "");
-    strcpy(noproxy_hosts, "");
-    strcpy(autodetect_server_name, "");
+    safe_strcpy(socks5_user_name, "");
+    safe_strcpy(socks5_user_passwd, "");
+    safe_strcpy(http_user_name, "");
+    safe_strcpy(http_user_passwd, "");
+    safe_strcpy(noproxy_hosts, "");
+    safe_strcpy(autodetect_server_name, "");
     autodetect_proxy_supported = false;
     need_autodetect_proxy_settings = false;
     have_autodetect_proxy_settings = false;

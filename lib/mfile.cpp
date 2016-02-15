@@ -88,7 +88,7 @@ int MFILE::vprintf(const char* format, va_list ap) {
         );
         exit(1);
     }
-    strncpy(buf+len, buf2, n);
+    strlcpy(buf+len, buf2, n);
     len += n;
     buf[len] = 0;
     return k;
@@ -142,7 +142,7 @@ int MFILE::puts(const char* p) {
         );
         exit(1);
     }
-    strncpy(buf+len, p, n);
+    strlcpy(buf+len, p, n);
     len += n;
     buf[len] = 0;
     return n;

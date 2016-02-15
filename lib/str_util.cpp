@@ -143,7 +143,7 @@ int ndays_to_string (double x, int smallest_timescale, char *buf) {
     } else if (years > 1 && smallest_timescale < 4) {
         sprintf( year_buf, "%d yr ", (int)years );
     } else {
-        strcpy( year_buf, "" );
+        safe_strcpy( year_buf, "" );
     }
 
     if (smallest_timescale==3) {
@@ -151,7 +151,7 @@ int ndays_to_string (double x, int smallest_timescale, char *buf) {
     } else if (days > 1 && smallest_timescale < 3) {
         sprintf( day_buf, "%d day%s ", (int)days, (days>1?"s":"") );
     } else {
-        strcpy( day_buf, "" );
+        safe_strcpy( day_buf, "" );
     }
 
     if (smallest_timescale==2) {
@@ -159,7 +159,7 @@ int ndays_to_string (double x, int smallest_timescale, char *buf) {
     } else if (hours > 1 && smallest_timescale < 2) {
         sprintf( hour_buf, "%d hr ", (int)hours );
     } else {
-        strcpy( hour_buf, "" );
+        safe_strcpy( hour_buf, "" );
     }
 
     if (smallest_timescale==1) {
@@ -167,7 +167,7 @@ int ndays_to_string (double x, int smallest_timescale, char *buf) {
     } else if (minutes > 1 && smallest_timescale < 1) {
         sprintf( min_buf, "%d min ", (int)minutes );
     } else {
-        strcpy( min_buf, "" );
+        safe_strcpy( min_buf, "" );
     }
 
     if (smallest_timescale==0) {
@@ -175,7 +175,7 @@ int ndays_to_string (double x, int smallest_timescale, char *buf) {
     } else if (seconds > 1 && smallest_timescale < 0) {
         sprintf( sec_buf, "%d sec ", (int)seconds );
     } else {
-        strcpy( sec_buf, "" );
+        safe_strcpy( sec_buf, "" );
     }
     // the "-0.05" below is to prevent it from printing 60.0 sec
     // when the real value is e.g. 59.91
@@ -335,7 +335,7 @@ void strip_whitespace(string& str) {
 char* time_to_string(double t) {
     static char buf[100];
     if (!t) {
-        strcpy(buf, "---");
+        safe_strcpy(buf, "---");
     } else {
         time_t x = (time_t)t;
         struct tm* tm = localtime(&x);
@@ -359,7 +359,7 @@ char* precision_time_to_string(double t) {
 
     strftime(buf, sizeof(buf)-1, "%Y-%m-%d %H:%M:%S", tm);
     sprintf(finer, ".%04d", hundreds_of_microseconds);
-    strcat(buf, finer);
+    safe_strcat(buf, finer);
     return buf;
 }
 
@@ -695,7 +695,7 @@ int string_substitute(
             break;
         }
         if (!strncmp(&haystack[i], needle, needle_len)){
-            strcpy(out+j, target);
+            strlcpy(out+j, target, out_len-((out+j)-out));
             i += needle_len;
             j += target_len;
         } else {

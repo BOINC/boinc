@@ -20,6 +20,7 @@
 
 #include "miofile.h"
 #include "parse.h"
+#include "str_replace.h"
 
 // #defines or enums that are shared by more than one BOINC component
 // (e.g. client, server, Manager, etc.)
@@ -344,7 +345,7 @@ struct DEVICE_STATUS {
         battery_temperature_celsius = 0;
         wifi_online = false;
         user_active = false;
-        strcpy(device_name, "");
+        safe_strcpy(device_name, "");
     }
 };
 
