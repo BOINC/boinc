@@ -65,8 +65,8 @@ void parse_url(const char* url, PARSED_URL& purl) {
 
     // parse user name and password
     //
-    strcpy(purl.user, "");
-    strcpy(purl.passwd, "");
+    safe_strcpy(purl.user, "");
+    safe_strcpy(purl.passwd, "");
     p = strchr(buf, '@');
     if (p) {
         *p = 0;
@@ -174,7 +174,7 @@ void escape_url(const char *in, char*out, int out_size) {
             char buf[256];
             sprintf(buf, "%d", (char)in[x]);
             c2x(buf);
-            strcat(out, buf);
+            strlcat(out, buf, out_size);
             y += 2;
         }
     }
@@ -238,7 +238,7 @@ void canonicalize_master_url(char* url, int len) {
     }
     n = strlen(buf);
     if (buf[n-1] != '/' && (n<sizeof(buf)-2)) {
-        strcat(buf, "/");
+        safe_strcat(buf, "/");
     }
     snprintf(url, len, "http%s://%s", (bSSL ? "s" : ""), buf);
     url[len-1] = 0;

@@ -29,6 +29,7 @@
 #include "util.h"
 #include "filesys.h"
 #include "win_util.h"
+#include "str_replace.h"
 
 
 /**
@@ -111,7 +112,7 @@ void chdir_to_data_dir() {
         }
     } else {
         if (SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_COMMON_APPDATA|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szPath))) {
-            strncat(szPath, "\\boinc", (sizeof(szPath) - strlen(szPath)));
+            safe_strcat(szPath, "\\boinc");
             if (boinc_file_exists(szPath)) {
                 SetCurrentDirectoryA(szPath);
             }
@@ -166,7 +167,7 @@ char* windows_format_error_string(
             LocalFree((HLOCAL)lpszTemp);
         }
     } else {
-        strcpy(pszBuf, "(unknown error)");
+        strlcpy(pszBuf, "(unknown error)", iSize);
     }
 
     return pszBuf;

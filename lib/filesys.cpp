@@ -142,7 +142,7 @@ DIRREF dir_open(const char* p) {
     }
     dirp->first = true;
     safe_strcpy(dirp->path, p);
-    strcat(dirp->path, "\\*");
+    safe_strcat(dirp->path, "\\*");
     dirp->handle = INVALID_HANDLE_VALUE;
 #else
     dirp = opendir(p);
@@ -385,7 +385,7 @@ int clean_out_dir(const char* dirpath) {
     dirp = dir_open(dirpath);
     if (!dirp) return 0;    // if dir doesn't exist, it's empty
     while (1) {
-        strcpy(filename, "");
+        safe_strcpy(filename, "");
         retval = dir_scan(filename, dirp, sizeof(filename));
         if (retval) break;
         sprintf(path, "%s/%s", dirpath,  filename);

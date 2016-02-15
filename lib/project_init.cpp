@@ -32,15 +32,16 @@
 #include "filesys.h"
 #include "url.h"
 #include "parse.h"
+#include "str_replace.h"
 
 #include "project_init.h"
 
 void PROJECT_INIT::clear() {
-    strcpy(url, "");
-    strcpy(name, "");
-    strcpy(account_key, "");
-    strcpy(team_name, "");
-    strcpy(setup_cookie, "");
+    safe_strcpy(url, "");
+    safe_strcpy(name, "");
+    safe_strcpy(account_key, "");
+    safe_strcpy(team_name, "");
+    safe_strcpy(setup_cookie, "");
     embedded = false;
 }
 
