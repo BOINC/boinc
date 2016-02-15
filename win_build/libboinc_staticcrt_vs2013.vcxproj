@@ -250,6 +250,7 @@
     <ClCompile Include="..\lib\proc_control.cpp" />
     <ClCompile Include="..\lib\procinfo.cpp" />
     <ClCompile Include="..\lib\procinfo_win.cpp" />
+    <ClCompile Include="..\lib\project_init.cpp" />
     <ClCompile Include="..\lib\proxy_info.cpp" />
     <ClCompile Include="..\lib\shmem.cpp">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
@@ -288,6 +289,7 @@
     <ClInclude Include="..\lib\parse.h" />
     <ClInclude Include="..\lib\prefs.h" />
     <ClInclude Include="..\lib\proc_control.h" />
+    <ClInclude Include="..\lib\project_init.h" />
     <ClInclude Include="..\lib\proxy_info.h" />
     <ClInclude Include="..\lib\result_state.h" />
     <ClInclude Include="..\lib\stackwalker_imports.h" />
