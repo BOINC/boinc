@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-02-10 15:57+0000\n"
+"PO-Revision-Date: 2016-02-15 20:15+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -777,24 +777,24 @@ msgstr "%s sikeresen kapcsolódott az internetre."
 #: clientgui/BOINCDialupManager.cpp:331
 #, c-format
 msgid "%s failed to connect to the Internet."
-msgstr "%s nem tudott az internetre kapcsolódni."
+msgstr "A(z) %s nem tudott az internetre kapcsolódni."
 
 #: clientgui/BOINCDialupManager.cpp:372
 #, c-format
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
-msgstr "%s érzékelte, hogy kapcsolódott az internetre.\nMinden projekt frissítése, és az átvitelek újrapróbálása."
+msgstr "A(z) %s érzékelte, hogy kapcsolódott az internetre.\nMinden projekt frissítése, és az átvitelek újrapróbálása."
 
 #: clientgui/BOINCDialupManager.cpp:417
 #, c-format
 msgid "%s has successfully disconnected from the Internet."
-msgstr "%s sikeresen lekapcsolódott az internetről."
+msgstr "A(z) %s sikeresen lekapcsolódott az internetről."
 
 #: clientgui/BOINCDialupManager.cpp:433
 #, c-format
 msgid "%s failed to disconnected from the Internet."
-msgstr "%s nem tudott lekapcsolódni az internetről."
+msgstr "A(z) %s nem tudott lekapcsolódni az internetről."
 
 #: clientgui/BOINCGUIApp.cpp:356
 #, c-format
@@ -807,14 +807,14 @@ msgid ""
 " or\n"
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
-msgstr "Jelenleg nem jogosult a kliens kezelésére.\n\n%s használata ezzel a felhasználóval:\n- telepítse újra %s-t és válaszoljon \"Igen\"-nel a\nnem adminisztratív felhasználóra vonatkozó kérdésre\nvagy\n- lépjen kapcsolatba a rendszergazdával és kérje meg, hogy adja hozzá önt a\n'boinc_master' felhasználói csoporthoz."
+msgstr "Jelenleg nem vagy jogosult a kliens kezelésére.\n\n%s használata ezzel a felhasználóval:\n- telepítsd újra %s-t és válaszolj \"Igen\"-nel a\nnem adminisztratív felhasználókra vonatkozó kérdésre\nvagy\n- lépj kapcsolatba a rendszergazdával és kérd meg, hogy adjon hozzá a\n'boinc_master'\nfelhasználói csoporthoz."
 
 #: clientgui/BOINCGUIApp.cpp:362
 #, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
-msgstr "A(z) %s tulajdonosi és hozzáférési jogai nincsenek megfelelően beállítva; kérjük, telepítse újra a(z) %s-t.\n(Hibakód %d"
+msgstr "A(z) %s tulajdonosi és hozzáférési jogai nincsenek megfelelően beállítva; kérjük, telepítsd újra a(z) %s-t.\n(Hibakód %d"
 
 #: clientgui/BOINCGUIApp.cpp:368
 msgid " at "
@@ -829,7 +829,7 @@ msgstr ")"
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
-msgstr "A BOINC megfelelő futásához újraindítás szükséges.\nKérjük, indítsa újra a számítógépét, majd próbálja újra."
+msgstr "A BOINC megfelelő futásához újraindítás szükséges.\nKérjük, indítsd újra a számítógépet, majd próbáld újra."
 
 #: clientgui/BOINCGUIApp.cpp:402 clientgui/DlgAbout.cpp:153
 msgid "BOINC Manager"
