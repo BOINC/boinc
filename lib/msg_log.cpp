@@ -28,6 +28,7 @@
 #endif
 
 #include "str_util.h"
+#include "str_replace.h"
 #include "util.h"
 
 #include "msg_log.h"
@@ -68,7 +69,7 @@ MSG_LOG::MSG_LOG(FILE* output_) {
     indent_level = 0;
     spaces[0] = 0;
     pid = 0;
-    strcpy(spaces+1, "                                                                              ");
+    safe_strcpy(spaces+1, "                                                                              ");
 }
 
 void MSG_LOG::enter_level(int diff) {
