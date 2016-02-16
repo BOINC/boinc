@@ -107,7 +107,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2005/openssl/include;../../boinc_depends_win_vs2005/curl/include;../../boinc_depends_win_vs2005/zlib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2010/openssl/include;../../boinc_depends_win_vs2010/curl/include;../../boinc_depends_win_vs2010/zlib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;SIM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -161,7 +161,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2005/openssl/include;../../boinc_depends_win_vs2005/curl/include;../../boinc_depends_win_vs2005/zlib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2010/openssl/include;../../boinc_depends_win_vs2010/curl/include;../../boinc_depends_win_vs2010/zlib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;SIM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -216,7 +216,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2005/openssl/include;../../boinc_depends_win_vs2005/curl/include;../../boinc_depends_win_vs2005/zlib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2010/openssl/include;../../boinc_depends_win_vs2010/curl/include;../../boinc_depends_win_vs2010/zlib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;SIM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -271,7 +271,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2005/openssl/include;../../boinc_depends_win_vs2005/curl/include;../../boinc_depends_win_vs2005/zlib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../lib;../api;../client/win;../client;..;../../boinc_depends_win_vs2010/openssl/include;../../boinc_depends_win_vs2010/curl/include;../../boinc_depends_win_vs2010/zlib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_MT;_DLL;_WINDOWS;_CONSOLE;SIM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>Sync</ExceptionHandling>
