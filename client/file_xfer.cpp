@@ -24,6 +24,7 @@
 #endif
 
 #include "error_numbers.h"
+#include "str_replace.h"
 #include "file_names.h"
 #include "filesys.h"
 #include "parse.h"
@@ -40,8 +41,8 @@ FILE_XFER::FILE_XFER() {
     file_xfer_done = false;
     file_xfer_retval = 0;
     fip = NULL;
-    strcpy(pathname, "");
-    strcpy(header, "");
+    safe_strcpy(pathname, "");
+    safe_strcpy(header, "");
     file_size_query = false;
     is_upload = false;
     starting_size = 0.0;
@@ -58,7 +59,7 @@ int FILE_XFER::init_download(FILE_INFO& file_info) {
     fip = &file_info;
     get_pathname(fip, pathname, sizeof(pathname));
     if (fip->download_gzipped) {
-        strcat(pathname, ".gzt");
+        safe_strcat(pathname, ".gzt");
     }
 
     // if file is already as large or larger than it's supposed to be,

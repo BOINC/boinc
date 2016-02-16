@@ -119,8 +119,8 @@ CLIENT_STATE::CLIENT_STATE()
 #else
     core_client_version.prerelease = false;
 #endif
-    strcpy(language, "");
-    strcpy(client_brand, "");
+    safe_strcpy(language, "");
+    safe_strcpy(client_brand, "");
     exit_after_app_start_secs = 0;
     app_started = 0;
     exit_before_upload = false;
@@ -129,12 +129,12 @@ CLIENT_STATE::CLIENT_STATE()
     boinc_project_gid = 0;
 #endif
     show_projects = false;
-    strcpy(detach_project_url, "");
-    strcpy(reset_project_url, "");
-    strcpy(update_prefs_url, "");
-    strcpy(main_host_venue, "");
-    strcpy(attach_project_url, "");
-    strcpy(attach_project_auth, "");
+    safe_strcpy(detach_project_url, "");
+    safe_strcpy(reset_project_url, "");
+    safe_strcpy(update_prefs_url, "");
+    safe_strcpy(main_host_venue, "");
+    safe_strcpy(attach_project_url, "");
+    safe_strcpy(attach_project_auth, "");
     cpu_run_mode.set(RUN_MODE_AUTO, 0);
     gpu_run_mode.set(RUN_MODE_AUTO, 0);
     network_run_mode.set(RUN_MODE_AUTO, 0);
@@ -1234,8 +1234,8 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
 
 #ifndef SIM
 
-    strcpy(avp->graphics_exec_path, "");
-    strcpy(avp->graphics_exec_file, "");
+    safe_strcpy(avp->graphics_exec_path, "");
+    safe_strcpy(avp->graphics_exec_file, "");
 
     for (unsigned int i=0; i<avp->app_files.size(); i++) {
         FILE_REF& file_ref = avp->app_files[i];
@@ -1252,8 +1252,8 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
             char relpath[MAXPATHLEN], path[MAXPATHLEN];
             get_pathname(fip, relpath, sizeof(relpath));
             relative_to_absolute(relpath, path);
-            strlcpy(avp->graphics_exec_path, path, sizeof(avp->graphics_exec_path));
-            strcpy(avp->graphics_exec_file, fip->name);
+            safe_strcpy(avp->graphics_exec_path, path);
+            safe_strcpy(avp->graphics_exec_file, fip->name);
         }
 
         // any file associated with an app version must be signed
@@ -2231,7 +2231,7 @@ void CLIENT_STATE::log_show_projects() {
         if (p->hostid) {
             sprintf(buf, "%d", p->hostid);
         } else {
-            strcpy(buf, "not assigned yet");
+            safe_strcpy(buf, "not assigned yet");
         }
         msg_printf(p, MSG_INFO,
             "URL %s; Computer ID %s; resource share %.0f",

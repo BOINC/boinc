@@ -633,7 +633,7 @@ int RSS_FEED::read_archive_file() {
 // parse a feed descriptor (in scheduler reply or feed list file)
 //
 int RSS_FEED::parse_desc(XML_PARSER& xp) {
-    strcpy(url, "");
+    safe_strcpy(url, "");
     poll_interval = 0;
     next_poll_time = 0;
     while (!xp.get_tag()) {
@@ -785,7 +785,7 @@ bool RSS_FEED_OP::poll() {
                 );
             }
             char url[1024];
-            strcpy(url, rf.url);
+            safe_strcpy(url, rf.url);
             gstate.gui_http.do_rpc(this, url, filename, true);
             break;
         }

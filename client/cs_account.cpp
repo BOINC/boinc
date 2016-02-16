@@ -109,8 +109,8 @@ int PROJECT::parse_account(FILE* in) {
     XML_PARSER xp(&mf);
     mf.init_file(in);
 
-    strcpy(master_url, "");
-    strcpy(authenticator, "");
+    safe_strcpy(master_url, "");
+    safe_strcpy(authenticator, "");
     while (!xp.get_tag()) {
         if (xp.match_tag("account")) continue;
         if (xp.match_tag("project_preferences")) {

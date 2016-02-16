@@ -549,7 +549,7 @@ static void handle_result_op(GUI_RPC_CONN& grc, const char* op) {
     ACTIVE_TASK* atp;
     string project_url;
 
-    strcpy(result_name, "");
+    safe_strcpy(result_name, "");
     while (!grc.xp.get_tag()) {
         if (grc.xp.parse_str("name", result_name, sizeof(result_name))) continue;
         if (grc.xp.parse_string("project_url", project_url)) continue;
@@ -1224,7 +1224,7 @@ static void handle_report_device_status(GUI_RPC_CONN& grc) {
                 //
                 if (strlen(d.device_name)) {
                     if (strcmp(d.device_name, gstate.host_info.domain_name)) {
-                        strcpy(gstate.host_info.domain_name, d.device_name);
+                        safe_strcpy(gstate.host_info.domain_name, d.device_name);
                         gstate.set_client_state_dirty("Device name changed");
                     }
                 }
@@ -1280,7 +1280,7 @@ struct GUI_RPC {
     GUI_RPC(const char* req, GUI_RPC_HANDLER h, bool ar, bool en, bool ro) {
         req_tag = req;
         safe_strcpy(alt_req_tag, req);
-        strcat(alt_req_tag, "/");
+        safe_strcat(alt_req_tag, "/");
         handler = h;
         auth_required = ar;
         enable_network = en;
