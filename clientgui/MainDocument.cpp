@@ -23,6 +23,7 @@
 #include <wx/numformatter.h>
 
 #include "error_numbers.h"
+#include "str_replace.h"
 #include "util.h"
 #ifdef _WIN32
 #include "proc_control.h"
@@ -119,7 +120,7 @@ CNetworkConnection::~CNetworkConnection() {
 
 int CNetworkConnection::GetLocalPassword(wxString& strPassword){
     char buf[256];
-    strcpy(buf, "");
+    safe_strcpy(buf, "");
 
     FILE* f = fopen("gui_rpc_auth.cfg", "r");
     if (!f) return errno;
@@ -396,7 +397,7 @@ CMainDocument::CMainDocument() : rpc(this) {
     }
 #endif
 
-    strcpy(m_szLanguage, "");
+    safe_strcpy(m_szLanguage, "");
 
     m_bClientStartCheckCompleted = false;
 
@@ -937,7 +938,7 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
 	static bool first = true;
 	if (first) {
 		first = false;
-        strcpy(m_szLanguage, wxGetApp().GetISOLanguageCode().mb_str());
+        safe_strcpy(m_szLanguage, wxGetApp().GetISOLanguageCode().mb_str());
 		request.clear();
 		request.which_rpc = RPC_SET_LANGUAGE;
 		request.arg1 = (void*)(const char*)&m_szLanguage;
