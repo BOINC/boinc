@@ -1123,7 +1123,7 @@ bool is_avx_supported() {
 // see: http://www.intel.com/Assets/PDF/appnote/241618.pdf
 // see: http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
 #define FEATURE_TEST(feature_set_supported, test, feature_name) \
-    if (feature_set_supported && test) strlcat(features, feature_name, features_size - strlen(features))
+    if (feature_set_supported && test) strlcat(features, feature_name, features_size)
 
 int get_processor_features(char* vendor, char* features, int features_size) {
     unsigned int std_eax = 0, std_ebx = 0, std_ecx = 0, std_edx = 0;
