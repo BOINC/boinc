@@ -277,7 +277,7 @@ int PROJECT::parse(XML_PARSER& xp) {
     int retval;
     char buf[256];
 
-    strcpy(buf, "");
+    safe_strcpy(buf, "");
 
     while (!xp.get_tag()) {
         if (xp.match_tag("/project")) {
@@ -462,7 +462,7 @@ void RSC_DESC::clear() {
 }
 
 void PROJECT::clear() {
-    strcpy(master_url, "");
+    safe_strcpy(master_url, "");
     resource_share = 0;
     project_name.clear();
     user_name.clear();
@@ -501,11 +501,11 @@ void PROJECT::clear() {
     last_rpc_time = 0;
     
     statistics.clear();
-    strcpy(venue, "");
+    safe_strcpy(venue, "");
     njobs_success = 0;
     njobs_error = 0;
     elapsed_time = 0;
-    strcpy(external_cpid, "");
+    safe_strcpy(external_cpid, "");
     
     flag_for_delete = false;
 }
@@ -524,8 +524,8 @@ int APP::parse(XML_PARSER& xp) {
 }
 
 void APP::clear() {
-    strcpy(name, "");
-    strcpy(user_friendly_name, "");
+    safe_strcpy(name, "");
+    safe_strcpy(user_friendly_name, "");
     project = NULL;
 }
 
@@ -606,8 +606,8 @@ int WORKUNIT::parse(XML_PARSER& xp) {
 }
 
 void WORKUNIT::clear() {
-    strcpy(name, "");
-    strcpy(app_name, "");
+    safe_strcpy(name, "");
+    safe_strcpy(app_name, "");
     version_num = 0;
     rsc_fpops_est = 0;
     rsc_fpops_bound = 0;
@@ -698,16 +698,16 @@ int RESULT::parse(XML_PARSER& xp) {
 }
 
 void RESULT::clear() {
-    strcpy(name, "");
-    strcpy(wu_name, "");
+    safe_strcpy(name, "");
+    safe_strcpy(wu_name, "");
     version_num = 0;
-    strcpy(plan_class, "");
-    strcpy(project_url, "");
-    strcpy(graphics_exec_path, "");
-    strcpy(web_graphics_url, "");
-    strcpy(remote_desktop_addr, "");
-    strcpy(slot_path, "");
-    strcpy(resources, "");
+    safe_strcpy(plan_class, "");
+    safe_strcpy(project_url, "");
+    safe_strcpy(graphics_exec_path, "");
+    safe_strcpy(web_graphics_url, "");
+    safe_strcpy(remote_desktop_addr, "");
+    safe_strcpy(slot_path, "");
+    safe_strcpy(resources, "");
     report_deadline = 0;
     received_time = 0;
     ready_to_report = false;
@@ -723,7 +723,7 @@ void RESULT::clear() {
     project_suspended_via_gui = false;
     coproc_missing = false;
     scheduler_wait = false;
-    strcpy(scheduler_wait_reason, "");
+    safe_strcpy(scheduler_wait_reason, "");
     network_wait = false;
 
     active_task = false;
