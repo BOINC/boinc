@@ -61,7 +61,7 @@
 // Android: if domain_name is empty, set it to android_xxxxxxxx
 //
 int HOST_INFO::get_local_network_info() {
-    strcpy(ip_addr, "");
+    safe_strcpy(ip_addr, "");
 
 #ifdef ANDROID
     if (strlen(domain_name) && strcmp(domain_name, "localhost")) return 0;
@@ -74,7 +74,7 @@ int HOST_INFO::get_local_network_info() {
 
     struct sockaddr_storage s;
     
-    strcpy(domain_name, "");
+    safe_strcpy(domain_name, "");
 
     // it seems like we should use getdomainname() instead of gethostname(),
     // but on FC6 it returns "(none)".
@@ -142,6 +142,6 @@ void HOST_INFO::generate_host_cpid() {
     // the instances will get different CPIDs
     //
     boinc_getcwd(dir);
-    strcat(buf, dir);
+    safe_strcat(buf, dir);
     md5_block((const unsigned char*) buf, (int)strlen(buf), host_cpid);
 }

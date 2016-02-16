@@ -36,10 +36,10 @@ PROJECT::PROJECT() {
 }
 
 void PROJECT::init() {
-    strcpy(master_url, "");
-    strcpy(authenticator, "");
-    strcpy(_project_dir, "");
-    strcpy(_project_dir_absolute, "");
+    safe_strcpy(master_url, "");
+    safe_strcpy(authenticator, "");
+    safe_strcpy(_project_dir, "");
+    safe_strcpy(_project_dir_absolute, "");
     project_specific_prefs = "";
     gui_urls = "";
     resource_share = 100;
@@ -50,16 +50,16 @@ void PROJECT::init() {
         no_rsc_apps[i] = false;
         no_rsc_ams[i] = false;
     }
-    strcpy(host_venue, "");
+    safe_strcpy(host_venue, "");
     using_venue_specific_prefs = false;
     scheduler_urls.clear();
-    strcpy(project_name, "");
-    strcpy(symstore, "");
-    strcpy(user_name, "");
-    strcpy(team_name, "");
-    strcpy(email_hash, "");
-    strcpy(cross_project_id, "");
-    strcpy(external_cpid, "");
+    safe_strcpy(project_name, "");
+    safe_strcpy(symstore, "");
+    safe_strcpy(user_name, "");
+    safe_strcpy(team_name, "");
+    safe_strcpy(email_hash, "");
+    safe_strcpy(cross_project_id, "");
+    safe_strcpy(external_cpid, "");
     cpid_time = 0;
     user_total_credit = 0;
     user_expavg_credit = 0;
@@ -94,7 +94,7 @@ void PROJECT::init() {
     detach_when_done = false;
     attached_via_acct_mgr = false;
     ended = false;
-    strcpy(code_sign_key, "");
+    safe_strcpy(code_sign_key, "");
     user_files.clear();
     project_files.clear();
     next_runnable_result = NULL;

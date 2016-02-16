@@ -21,6 +21,7 @@
 #include <string>
 #include <vector>
 
+#include "str_replace.h"
 #include "miofile.h"
 #include "parse.h"
 #include "gui_http.h"
@@ -111,7 +112,7 @@ struct AM_ACCOUNT {
     void handle_no_rsc(const char*, bool);
     int parse(XML_PARSER&);
     AM_ACCOUNT() {
-      strcpy(url_signature, "");
+      safe_strcpy(url_signature, "");
       detach = false;
       update = false;
       dont_request_more_work.init();
@@ -150,7 +151,7 @@ struct ACCT_MGR_OP: public GUI_HTTP_OP {
         error_num = BOINC_SUCCESS;
         repeat_sec = 60.0;
         global_prefs_xml = 0;
-        strcpy(host_venue, "");
+        safe_strcpy(host_venue, "");
         got_rss_feeds = false;
     }
     virtual ~ACCT_MGR_OP(){}

@@ -26,6 +26,7 @@
 #endif
 
 #include "util.h"
+#include "str_replace.h"
 
 #include "client_msgs.h"
 #include "client_state.h"
@@ -302,7 +303,7 @@ void RSC_WORK_FETCH::print_state(const char* name) {
                 bt, rpwf.backoff_interval
             );
         } else {
-            strcpy(buf, "");
+            safe_strcpy(buf, "");
         }
         msg_printf(p, MSG_INFO,
             "[work_fetch] share %.3f %s %s",
@@ -352,11 +353,11 @@ void PROJECT_WORK_FETCH::print_state(PROJECT* p) {
     if (project_reason) {
         sprintf(buf, "can't request work: %s", project_reason_string(p, buf2));
     } else {
-        strcpy(buf, "can request work");
+        safe_strcpy(buf, "can request work");
     }
     if (p->min_rpc_time > gstate.now) {
         sprintf(buf2, " (%.2f sec)", p->min_rpc_time - gstate.now);
-        strcat(buf, buf2);
+        safe_strcat(buf, buf2);
     }
     msg_printf(p, MSG_INFO, "[work_fetch] REC %.3f prio %.3f %s",
         rec,
