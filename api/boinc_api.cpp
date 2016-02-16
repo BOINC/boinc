@@ -668,12 +668,12 @@ int boinc_get_status(BOINC_STATUS *s) {
 static void send_trickle_up_msg() {
     char buf[MSG_CHANNEL_SIZE];
     if (standalone) return;
-    strcpy(buf, "");
+    safe_strcpy(buf, "");
     if (have_new_trickle_up) {
-        strcat(buf, "<have_new_trickle_up/>\n");
+        safe_strcat(buf, "<have_new_trickle_up/>\n");
     }
     if (have_new_upload_file) {
-        strcat(buf, "<have_new_upload_file/>\n");
+        safe_strcat(buf, "<have_new_upload_file/>\n");
     }
     if (strlen(buf)) {
         BOINCINFO("Sending Trickle Up Message");
@@ -891,15 +891,15 @@ int boinc_report_app_status_aux(
     );
     if (other_pid) {
         sprintf(buf, "<other_pid>%d</other_pid>\n", other_pid);
-        strcat(msg_buf, buf);
+        safe_strcat(msg_buf, buf);
     }
     if (_bytes_sent) {
         sprintf(buf, "<bytes_sent>%f</bytes_sent>\n", _bytes_sent);
-        strcat(msg_buf, buf);
+        safe_strcat(msg_buf, buf);
     }
     if (_bytes_received) {
         sprintf(buf, "<bytes_received>%f</bytes_received>\n", _bytes_received);
-        strcat(msg_buf, buf);
+        safe_strcat(msg_buf, buf);
     }
     if (app_client_shm->shm->app_status.send_msg(msg_buf)) {
         return 0;
