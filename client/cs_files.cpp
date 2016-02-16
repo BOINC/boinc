@@ -32,6 +32,7 @@
 
 #include "md5_file.h"
 #include "crypt.h"
+#include "str_replace.h"
 #include "str_util.h"
 #include "filesys.h"
 #include "cert_sig.h"
@@ -181,7 +182,7 @@ int FILE_INFO::verify_file(
 
     get_pathname(this, pathname, sizeof(pathname));
 
-    strcpy(cksum, "");
+    safe_strcpy(cksum, "");
 
     // see if we need to unzip it
     //
@@ -202,7 +203,7 @@ int FILE_INFO::verify_file(
             retval = gunzip(cksum);
             if (retval) return retval;
         } else {
-            strcat(gzpath, "t");
+            safe_strcat(gzpath, "t");
             if (!boinc_file_exists(gzpath)) {
                 status = FILE_NOT_PRESENT;
             }

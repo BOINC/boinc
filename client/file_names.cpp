@@ -82,7 +82,7 @@ void get_pathname(FILE_INFO* fip, char* path, int len) {
             strcpy(buf, p->project_dir());
         }
 #else
-        strcpy(buf, p->project_dir());
+        safe_strcpy(buf, p->project_dir());
 #endif
         snprintf(path, len, "%s/%s", buf, fip->name);
     } else {
@@ -227,7 +227,7 @@ void delete_old_slot_dirs() {
     dirp = dir_open(SLOTS_DIR);
     if (!dirp) return;
     while (1) {
-        strcpy(filename, "");
+        safe_strcpy(filename, "");
         retval = dir_scan(filename, dirp, sizeof(filename));
         if (retval) break;
         snprintf(path, sizeof(path), "%s/%s", SLOTS_DIR, filename);

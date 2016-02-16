@@ -330,7 +330,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
             rp = results[i];
             double x = rp->estimated_runtime_remaining();
             if (x == 0) continue;
-            strcpy(buf, "");
+            safe_strcpy(buf, "");
             int rt = rp->avp->gpu_usage.rsc_type;
             if (rt) {
                 if (rt == rsc_index(GPU_TYPE_NVIDIA)) {
@@ -575,7 +575,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         if (work_fetch.requested_work()) {
             sprintf(buf, ": got %d new tasks", (int)sr.results.size());
         } else {
-            strcpy(buf, "");
+            safe_strcpy(buf, "");
         }
         msg_printf(project, MSG_INFO, "Scheduler request completed%s", buf);
     }
