@@ -110,7 +110,7 @@ static double      stdout_file_size = 0;
 static double      max_stdout_file_size = 2048*1024;
 
 #ifdef ANDROID
-static void *libhandle;
+static void*       libhandle;
 #endif
 
 #ifdef _WIN32
