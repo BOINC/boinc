@@ -883,7 +883,7 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
                 safe_strcpy(buf,
                     _("File referenced in app_info.xml does not exist: ")
                 );
-                strcat(buf, fip->name);
+                safe_strcat(buf, fip->name);
                 msg_printf(p, MSG_USER_ALERT, "%s", buf);
                 delete fip;
                 continue;

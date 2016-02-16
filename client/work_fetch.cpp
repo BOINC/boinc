@@ -351,7 +351,7 @@ void PROJECT_WORK_FETCH::rr_init(PROJECT* p) {
 void PROJECT_WORK_FETCH::print_state(PROJECT* p) {
     char buf[1024], buf2[1024];
     if (project_reason) {
-        sprintf(buf, "can't request work: %s", project_reason_string(p, buf2));
+        sprintf(buf, "can't request work: %s", project_reason_string(p, buf2, sizeof(buf2)));
     } else {
         safe_strcpy(buf, "can request work");
     }
@@ -814,7 +814,7 @@ void WORK_FETCH::compute_shares() {
     }
 }
 
-void WORK_FETCH::request_string(char* buf) {
+void WORK_FETCH::request_string(char* buf, int len) {
     char buf2[256];
     sprintf(buf,
         "[work_fetch] request: CPU (%.2f sec, %.2f inst)",
@@ -824,7 +824,7 @@ void WORK_FETCH::request_string(char* buf) {
         sprintf(buf2, " %s (%.2f sec, %.2f inst)",
             rsc_name_long(i), rsc_work_fetch[i].req_secs, rsc_work_fetch[i].req_instances
         );
-        strcat(buf, buf2);
+        strlcat(buf, buf2, len);
     }
 }
 
@@ -857,7 +857,7 @@ void WORK_FETCH::write_request(FILE* f, PROJECT* p) {
     );
     if (log_flags.work_fetch_debug) {
         char buf[256];
-        request_string(buf);
+        request_string(buf, sizeof(buf));
         msg_printf(p, MSG_INFO, "%s", buf);
     }
 }
@@ -1111,7 +1111,7 @@ const char* rsc_project_reason_string(int reason) {
     return "unknown project reason";
 }
 
-const char* project_reason_string(PROJECT* p, char* buf) {
+const char* project_reason_string(PROJECT* p, char* buf, int len) {
     switch (p->pwf.project_reason) {
     case 0: return "";
     case CANT_FETCH_WORK_NON_CPU_INTENSIVE:
@@ -1154,7 +1154,7 @@ const char* project_reason_string(PROJECT* p, char* buf) {
                 }
             }
             x += ")";
-            strcpy(buf, x.c_str());
+            strlcpy(buf, x.c_str(), len);
         }
         return buf;
     }

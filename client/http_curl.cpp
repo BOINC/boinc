@@ -1071,7 +1071,7 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
                 outfile
             );
         } else {
-            strcpy(req1, "");
+            strlcpy(req1, "", req1_len);
             if (dSize >= (size_t)req1_len) {
                 dSize = req1_len-1;
             }

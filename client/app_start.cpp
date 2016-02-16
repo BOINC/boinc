@@ -22,11 +22,11 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_util.h"
-#define unlink _unlink
+#define unlink   _unlink
 #ifdef _MSC_VER
 #define snprintf _snprintf
 #define strdup   _strdup
-#define getcwd  _getcwd
+#define getcwd   _getcwd
 #endif
 #else
 #include "config.h"
@@ -121,7 +121,7 @@ static void debug_print_argv(char** argv) {
 // NOTE: this is deprecated.  Use app_init_data instead.
 //
 static void coproc_cmdline(
-    int rsc_type, RESULT* rp, double ninstances, char* cmdline
+    int rsc_type, RESULT* rp, double ninstances, char* cmdline, int cmdline_len
 ) {
     char buf[256];
     COPROC* coproc = &coprocs.coprocs[rsc_type];
@@ -136,7 +136,7 @@ static void coproc_cmdline(
             k = 0;
         }
         sprintf(buf, " --device %d", coproc->device_nums[k]);
-        strcat(cmdline, buf);
+        strlcat(cmdline, buf, cmdline_len);
     }
 }
 
@@ -272,7 +272,7 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
         aid.gpu_opencl_dev_index = cp.opencl_device_indexes[k];
         aid.gpu_usage = app_version->gpu_usage.usage;
     } else {
-        strcpy(aid.gpu_type, "");
+        safe_strcpy(aid.gpu_type, "");
         aid.gpu_device_num = -1;
         aid.gpu_opencl_dev_index = -1;
         aid.gpu_usage = 0;
@@ -346,8 +346,8 @@ static int create_dirs_for_logical_name(
         char* q = strstr(p, "/");
         if (!q) break;
         *q = 0;
-        strcat(dir_path, "/");
-        strcat(dir_path, p);
+        safe_strcat(dir_path, "/");
+        safe_strcat(dir_path, p);
         retval = boinc_mkdir(dir_path);
         if (retval) return retval;
         p = q+1;
@@ -633,10 +633,10 @@ int ACTIVE_TASK::start(bool test) {
     // set up applications files
     //
     if (test) {
-        strcpy(exec_name, "test_app");
-        strcpy(exec_path, "test_app");
+        safe_strcpy(exec_name, "test_app");
+        safe_strcpy(exec_path, "test_app");
     } else {
-        strcpy(exec_name, "");
+        safe_strcpy(exec_name, "");
     }
     for (i=0; i<app_version->app_files.size(); i++) {
         fref = app_version->app_files[i];
@@ -744,7 +744,7 @@ int ACTIVE_TASK::start(bool test) {
     if (!app_version->api_version_at_least(7, 5)) {
         int rt = app_version->gpu_usage.rsc_type;
         if (rt) {
-            coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline);
+            coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline, sizeof(cmdline));
         }
     }
 
@@ -934,7 +934,7 @@ int ACTIVE_TASK::start(bool test) {
     if (!app_version->api_version_at_least(7, 5)) {
         int rt = app_version->gpu_usage.rsc_type;
         if (rt) {
-            coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline);
+            coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline, sizeof(cmdline));
         }
     }
 
@@ -1226,7 +1226,7 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
     }
     if (log_flags.cpu_sched) {
         char buf[256];
-        strcpy(buf, "");
+        safe_strcpy(buf, "");
         if (strlen(app_version->plan_class)) {
             sprintf(buf, " (%s)", app_version->plan_class);
         }
@@ -1342,11 +1342,11 @@ void run_test_app() {
     wu.app = &app;
     wu.command_line = string("--critical_section");
 
-    strcpy(app.name, "test app");
+    safe_strcpy(app.name, "test app");
     av.init();
     av.avg_ncpus = 1;
 
-    strcpy(result.name, "test result");
+    safe_strcpy(result.name, "test result");
     result.avp = &av;
     result.wup = &wu;
     result.project = &project;
@@ -1358,7 +1358,7 @@ void run_test_app() {
     at.max_elapsed_time = 1e6;
     at.max_disk_usage = 1e14;
     at.max_mem_usage = 1e14;
-    strcpy(at.slot_dir, ".");
+    safe_strcpy(at.slot_dir, ".");
 
 #if 1
     // test file copy
