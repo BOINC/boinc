@@ -77,7 +77,7 @@ static void get_user_agent_string() {
     if (strlen(gstate.client_brand)) {
         char buf[256];
         sprintf(buf, " (%s)", gstate.client_brand);
-        strcat(g_user_agent_string, buf);
+        safe_strcat(g_user_agent_string, buf);
     }
 }
 
@@ -234,9 +234,9 @@ void HTTP_OP::init(PROJECT* p) {
 void HTTP_OP::reset() {
     req1 = NULL;
     req1_len = 0;
-    strcpy(infile, "");
-    strcpy(outfile, "");
-    strcpy(error_msg, "");
+    safe_strcpy(infile, "");
+    safe_strcpy(outfile, "");
+    safe_strcpy(error_msg, "");
     CurlResult = CURLE_OK;
     bTempOutfile = true;
     want_download = false;
@@ -255,12 +255,12 @@ void HTTP_OP::reset() {
 
 
 HTTP_OP::HTTP_OP() {
-    strcpy(m_url, "");
-    strcpy(m_curl_ca_bundle_location, "");
-    strcpy(m_curl_user_credentials, "");
+    safe_strcpy(m_url, "");
+    safe_strcpy(m_curl_ca_bundle_location, "");
+    safe_strcpy(m_curl_user_credentials, "");
     content_length = 0;
     file_offset = 0;
-    strcpy(request_header, "");
+    safe_strcpy(request_header, "");
     http_op_state = HTTP_STATE_IDLE;
     http_op_type = HTTP_OP_NONE;
     http_op_retval = 0;
@@ -819,7 +819,7 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
     // outside of this method (libcurl relies on it later when it makes
     // the proxy connection), so it has been placed as a member data for HTTP_OP
     //
-    strcpy(m_curl_user_credentials, "");
+    safe_strcpy(m_curl_user_credentials, "");
 
     if (no_proxy) {
         curl_easy_setopt(curlEasy, CURLOPT_PROXY, "");

@@ -50,7 +50,7 @@ SCHEDULER_OP::SCHEDULER_OP(HTTP_OP_SET* h) {
     scheduler_op_retval = 0;
     http_op.http_op_state = HTTP_STATE_IDLE;
     http_ops = h;
-    strcpy(scheduler_url,"");
+    safe_strcpy(scheduler_url,"");
     url_index = 0;
     cur_proj = NULL;
     state = SCHEDULER_OP_STATE_IDLE;
@@ -539,8 +539,8 @@ void SCHEDULER_REPLY::clear() {
     messages.clear();
     global_prefs_xml = 0;
     project_prefs_xml = 0;
-    strcpy(master_url, "");
-    strcpy(host_venue, "");
+    safe_strcpy(master_url, "");
+    safe_strcpy(host_venue, "");
     user_create_time = 0;
     code_sign_key = 0;
     code_sign_key_signature = 0;

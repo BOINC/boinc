@@ -67,7 +67,7 @@ char* sim_time_string(int t) {
             sprintf(buf2, "%d days ", n);
         }
     } else {
-        strcpy(buf2, "");
+        safe_strcpy(buf2, "");
     }
     int hours = t / 3600;
     t %= 3600;
@@ -82,7 +82,7 @@ void show_message(PROJ_AM *p, char* msg, int priority, bool, const char*) {
     char message[1024];
 
     if (priority == MSG_INTERNAL_ERROR) {
-        strcpy(message, "[error] ");
+        strlcpy(message, "[error] ", sizeof(message));
         strlcpy(message+8, msg, sizeof(message)-8);
     } else {
         strlcpy(message, msg, sizeof(message));

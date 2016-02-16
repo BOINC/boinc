@@ -325,7 +325,7 @@ int client_clean_out_dir(
     }
 
     while (1) {
-        strcpy(filename, "");
+        safe_strcpy(filename, "");
         retval = dir_scan(filename, dirp, sizeof(filename));
         if (retval) {
             if (retval != ERR_NOT_FOUND) {
