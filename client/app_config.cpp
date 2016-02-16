@@ -240,7 +240,7 @@ int APP_CONFIGS::config_app_versions(PROJECT* p, bool show_warnings) {
             if (strcmp(avp->plan_class, avc.plan_class)) continue;
             found = true;
             if (strlen(avc.cmdline)) {
-                strcpy(avp->cmdline, avc.cmdline);
+                safe_strcpy(avp->cmdline, avc.cmdline);
             }
             if (avc.avg_ncpus) {
                 avp->avg_ncpus = avc.avg_ncpus;
