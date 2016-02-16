@@ -133,7 +133,7 @@ int main(int argc, char** argv) {
 #ifdef _WIN32
     chdir_to_data_dir();
 #endif
-    strcpy(passwd_buf, "");
+    safe_strcpy(passwd_buf, "");
     read_gui_rpc_password(passwd_buf);
 
 #if defined(_WIN32) && defined(USE_WINSOCK)
