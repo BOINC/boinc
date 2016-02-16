@@ -90,7 +90,7 @@ ACTIVE_TASK::~ACTIVE_TASK() {
 
 ACTIVE_TASK::ACTIVE_TASK() {
 #ifdef _WIN32
-    strcpy(shmem_seg_name, "");
+    safe_strcpy(shmem_seg_name, "");
 #else
     shmem_seg_name = 0;
 #endif
@@ -125,8 +125,8 @@ ACTIVE_TASK::ACTIVE_TASK() {
     bytes_received_episode = 0;
     bytes_sent = 0;
     bytes_received = 0;
-    strcpy(slot_dir, "");
-    strcpy(slot_path, "");
+    safe_strcpy(slot_dir, "");
+    safe_strcpy(slot_path, "");
     max_elapsed_time = 0;
     max_disk_usage = 0;
     max_mem_usage = 0;
@@ -147,8 +147,8 @@ ACTIVE_TASK::ACTIVE_TASK() {
     premature_exit_count = 0;
     overdue_checkpoint = false;
     last_deadline_miss_time = 0;
-    strcpy(web_graphics_url, "");
-    strcpy(remote_desktop_addr, "");
+    safe_strcpy(web_graphics_url, "");
+    safe_strcpy(remote_desktop_addr, "");
     async_copy = NULL;
     finish_file_time = 0;
 }
@@ -775,8 +775,8 @@ int ACTIVE_TASK::parse(XML_PARSER& xp) {
     PROJECT* project=0;
     double x;
 
-    strcpy(result_name, "");
-    strcpy(project_master_url, "");
+    safe_strcpy(result_name, "");
+    safe_strcpy(project_master_url, "");
 
     while (!xp.get_tag()) {
         if (xp.match_tag("/active_task")) {

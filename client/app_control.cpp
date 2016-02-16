@@ -466,7 +466,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             double x;
             bool is_notice;
             char buf[256];
-            strcpy(buf, "");
+            safe_strcpy(buf, "");
             if (temporary_exit_file_present(x, buf, is_notice)) {
                 handle_temporary_exit(will_restart, x, buf, is_notice);
             } else {
@@ -611,8 +611,8 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
 //
 bool ACTIVE_TASK::finish_file_present() {
     char path[MAXPATHLEN], buf[1024], buf2[256];
-    strcpy(buf, "");
-    strcpy(buf2, "");
+    safe_strcpy(buf, "");
+    safe_strcpy(buf2, "");
     sprintf(path, "%s/%s", slot_dir, BOINC_FINISH_CALLED_FILE);
     FILE* f = boinc_fopen(path, "r");
     if (!f) return false;
@@ -693,7 +693,7 @@ void ACTIVE_TASK_SET::send_heartbeats() {
             atp->procinfo.working_set_size, ar
         );
         if (gstate.network_suspended) {
-            strcat(buf, "<network_suspended/>");
+            safe_strcat(buf, "<network_suspended/>");
         }
         bool sent = atp->app_client_shm.shm->heartbeat.send_msg(buf);
         if (log_flags.heartbeat_debug) {

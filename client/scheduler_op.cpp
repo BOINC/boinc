@@ -215,13 +215,13 @@ void SCHEDULER_OP::rpc_failed(const char* msg) {
     cur_proj = 0;
 }
 
-static void request_string(char* buf) {
+static void request_string(char* buf, int len) {
     bool first = true;
-    strcpy(buf, "");
+    strlcpy(buf, "", len);
     for (int i=0; i<coprocs.n_rsc; i++) {
         if (rsc_work_fetch[i].req_secs) {
-            if (!first) strcat(buf, " and ");
-            strcat(buf, rsc_name_long(i));
+            if (!first) strlcat(buf, " and ", len);
+            strlcat(buf, rsc_name_long(i), len);
             first = false;
         }
     }
@@ -248,13 +248,13 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
                 "Reporting %d completed tasks", p->nresults_returned
             );
         }
-        request_string(buf);
+        request_string(buf, sizeof(buf));
         if (strlen(buf)) {
             msg_printf(p, MSG_INFO, "Requesting new tasks for %s", buf);
         } else {
             if (p->pwf.project_reason) {
                 msg_printf(p, MSG_INFO,
-                    "Not requesting tasks: %s", project_reason_string(p, buf)
+                    "Not requesting tasks: %s", project_reason_string(p, buf, sizeof(buf))
                 );
             } else {
                 msg_printf(p, MSG_INFO, "Not requesting tasks");
