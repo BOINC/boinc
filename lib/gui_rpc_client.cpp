@@ -294,7 +294,7 @@ int RPC_CLIENT::authorize(const char* passwd) {
     n = snprintf(buf, sizeof(buf), "%s%s", nonce, passwd);
     if (n >= (int)sizeof(buf)) return ERR_AUTHENTICATOR;
     md5_block((const unsigned char*)buf, (int)strlen(buf), nonce_hash);
-    sprintf(buf, "<auth2>\n<nonce_hash>%s</nonce_hash>\n</auth2>\n", nonce_hash);
+    snprintf(buf, sizeof(buf), "<auth2>\n<nonce_hash>%s</nonce_hash>\n</auth2>\n", nonce_hash);
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
     while (!xp.get_tag()) {
@@ -309,7 +309,9 @@ int RPC_CLIENT::authorize(const char* passwd) {
 
 int RPC_CLIENT::send_request(const char* p) {
     char buf[100000];
-    sprintf(buf,
+    snprintf(
+        buf,
+        sizeof(buf),
         "<boinc_gui_rpc_request>\n"
         "%s"
         "</boinc_gui_rpc_request>\n\003",
