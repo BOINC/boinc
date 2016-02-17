@@ -881,11 +881,10 @@ int ACTIVE_TASK::start(bool test) {
     //freopen(STDERR_FILE, "a", stderr);
 
     argv[0] = exec_name;
-    char cmdline[8192];
     safe_strcpy(cmdline, wup->command_line.c_str());
     if (strlen(result->cmdline)) {
-        strcat(cmdline, " ");
-        strcat(cmdline, result->cmdline);
+        safe_strcat(cmdline, " ");
+        safe_strcat(cmdline, result->cmdline);
     }
     parse_command_line(cmdline, argv+1);
     if (log_flags.task_debug) {
@@ -1154,9 +1153,6 @@ int ACTIVE_TASK::start(bool test) {
             "[task] ACTIVE_TASK::start(): forked process: pid %d\n", pid
         );
     }
-
-#ifdef ANDROID
-#endif
 
 #endif
     set_task_state(PROCESS_EXECUTING, "start");
