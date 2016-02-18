@@ -1017,7 +1017,7 @@ int ACTIVE_TASK::start(bool test) {
         char newlibs[256];
         snprintf(newlibs, sizeof(newlibs), "../../%s:.:../..", wup->project->project_dir());
 #ifdef __APPLE__
-        strlcat(newlibs, sizeof(newlibs), ":/usr/local/cuda/lib/");
+        safe_strcat(newlibs, ":/usr/local/cuda/lib/");
 #endif
         char* p = getenv("LD_LIBRARY_PATH");
         if (p) {
