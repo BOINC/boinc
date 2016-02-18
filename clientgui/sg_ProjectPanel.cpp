@@ -526,12 +526,12 @@ void CSimpleProjectPanel::UpdateProjectList() {
 
 
 std::string CSimpleProjectPanel::GetProjectIconLoc(char* project_url) {
-    char urlDirectory[256];
+    char proj_dir[256];
     CMainDocument* pDoc = wxGetApp().GetDocument();
     PROJECT* project = pDoc->state.lookup_project(project_url);
     if (!project) return (std::string)"";
-    url_to_project_dir(project->master_url, urlDirectory);
-    return (std::string)urlDirectory + "/stat_icon";
+    url_to_project_dir(project->master_url, proj_dir, sizeof(proj_dir));
+    return (std::string)proj_dir + "/stat_icon";
 }
 
 

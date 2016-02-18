@@ -120,7 +120,7 @@ struct PROJECT_IMAGES {
 vector<PROJECT_IMAGES> project_images;
 void icon_path(PROJECT* p, char* buf) {
     char dir[256];
-    url_to_project_dir((char*)p->master_url.c_str(), dir);
+    url_to_project_dir((char*)p->master_url.c_str(), dir, sizeof(dir));
     sprintf(buf, "%s/stat_icon", dir);
 }
 
@@ -128,7 +128,7 @@ void slideshow(PROJECT* p) {
     char dir[256], buf[256];
     int i;
 
-    url_to_project_dir((char*)p->master_url.c_str(), dir);
+    url_to_project_dir((char*)p->master_url.c_str(), dir, sizeof(dir));
     for (i=0; i<99; i++) {
         sprintf(buf, "%s/slideshow_%02d", dir, i);
     }
@@ -144,7 +144,7 @@ PROJECT_IMAGES* get_project_images(PROJECT* p) {
     }
     PROJECT_IMAGES pim;
     pim.url = p->master_url;
-    url_to_project_dir((char*)p->master_url.c_str(), dir);
+    url_to_project_dir((char*)p->master_url.c_str(), dir, sizeof(dir));
     sprintf(path, "%s/stat_icon", dir);
     boinc_resolve_filename(path, filename, 256);
     pim.icon.load_image_file(filename);

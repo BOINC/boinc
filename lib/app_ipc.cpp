@@ -523,16 +523,16 @@ string resolve_soft_link(const char* project_dir, const char* file) {
     if (!parse_str(buf, "<soft_link>", physical_name, sizeof(physical_name))) {
         return string("");
     }
-    sprintf(buf, "../../%s/", project_dir);
+    snprintf(buf, sizeof(buf), "../../%s/", project_dir);
     if (strstr(physical_name, buf) != physical_name) {
         return string("");
     }
     return string(physical_name + strlen(buf));
 }
 
-void url_to_project_dir(char* url, char* dir) {
+void url_to_project_dir(char* url, char* dir, int dirsize) {
     char buf[256];
     escape_project_url(url, buf);
-    sprintf(dir, "%s/%s", PROJECT_DIR, buf);
+    snprintf(dir, dirsize, "%s/%s", PROJECT_DIR, buf);
 }
 
