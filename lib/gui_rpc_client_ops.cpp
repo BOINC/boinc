@@ -1893,7 +1893,7 @@ int RPC_CLIENT::set_network_mode(int mode, double duration) {
     char buf[256];
     RPC rpc(this);
 
-    snprintf(buf, sizof(buf),
+    snprintf(buf, sizeof(buf),
         "<set_network_mode>\n"
         "%s\n"
         "  <duration>%f</duration>\n"
