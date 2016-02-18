@@ -1616,7 +1616,7 @@ void CAdvancedFrame::OnLaunchNewInstance(wxCommandEvent& WXUNUSED(event)) {
     err = GetProcessInformation(&myPSN, &pInfo);
     if (!err) {
         procName[procName[0]+1] = '\0'; // Convert pascal string to C string
-        sprintf(s, "open -n \"/Applications/%s.app\" --args --multiple", procName+1);
+        snprintf(s, sizeof(s), "open -n \"/Applications/%s.app\" --args --multiple", procName+1);
         system(s);
     }
 #endif
