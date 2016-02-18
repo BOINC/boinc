@@ -37,10 +37,10 @@ extern int make_project_dir(PROJECT&);
 extern int remove_project_dir(PROJECT&);
 extern int make_slot_dir(int);
 extern void delete_old_slot_dirs();
-extern void get_account_filename(char* master_url, char* path);
+extern void get_account_filename(char* master_url, char* path, int len);
 extern bool is_account_file(const char*);
 extern bool is_statistics_file(const char*);
-extern void get_statistics_filename(char* master_url, char* path);
+extern void get_statistics_filename(char* master_url, char* path, int len);
 extern bool is_image_file(const char*);
 
 extern void get_sched_request_filename(PROJECT&, char*, int len);

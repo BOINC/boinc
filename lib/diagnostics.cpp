@@ -62,6 +62,8 @@
 #include "util.h"
 #include "str_replace.h"
 #include "parse.h"
+#include "str_replace.h"
+
 
 #include "diagnostics.h"
 
@@ -108,7 +110,7 @@ static double      stdout_file_size = 0;
 static double      max_stdout_file_size = 2048*1024;
 
 #ifdef ANDROID
-static void *libhandle;
+static void*       libhandle;
 #endif
 
 #ifdef _WIN32
@@ -256,15 +258,15 @@ int diagnostics_init(
     // Setup initial values
     //
     flags = _flags;
-    strcpy(stdout_log, "");
-    strcpy(stdout_archive, "");
-    strcpy(stderr_log, "");
-    strcpy(stderr_archive, "");
-    strcpy(boinc_dir, "");
-    strcpy(boinc_install_dir, "");
+    safe_strcpy(stdout_log, "");
+    safe_strcpy(stdout_archive, "");
+    safe_strcpy(stderr_log, "");
+    safe_strcpy(stderr_archive, "");
+    safe_strcpy(boinc_dir, "");
+    safe_strcpy(boinc_install_dir, "");
     boinc_proxy_enabled = 0;
-    strcpy(boinc_proxy, "");
-    strcpy(symstore, "");
+    safe_strcpy(boinc_proxy, "");
+    safe_strcpy(symstore, "");
 
     
     // Check for invalid parameter combinations
@@ -285,13 +287,13 @@ int diagnostics_init(
 
 #if   defined(_WIN32)
         snprintf(user_dir, sizeof(user_dir), "%s", getenv("APPDATA"));
-        strncat(user_dir, "/BOINC", sizeof(user_dir) - strlen(user_dir)-1);
+        safe_strcat(user_dir, "/BOINC");
 #elif defined(__APPLE__)
         snprintf(user_dir, sizeof(user_dir), "%s", getenv("HOME"));
-        strncat(user_dir, "/Library/Application Support/BOINC", sizeof(user_dir) - strlen(user_dir)-1);
+        safe_strcat(user_dir, "/Library/Application Support/BOINC");
 #else
         snprintf(user_dir, sizeof(user_dir), "%s", getenv("HOME"));
-        strncat(user_dir, "/.BOINC", sizeof(user_dir) - strlen(user_dir)-1);
+        safe_strcat(user_dir, "/.BOINC");
 #endif
 
         // Check to see if the directory exists
@@ -449,8 +451,8 @@ int diagnostics_init(
         DWORD   dwSize = 0;
 #endif
 
-        strcpy(buf, "");
-        strcpy(proxy_address, "");
+        safe_strcpy(buf, "");
+        safe_strcpy(proxy_address, "");
         proxy_port = 0;
 
 #ifndef _USING_FCGI_

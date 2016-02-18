@@ -27,7 +27,7 @@
 # Updated 7/9/12 for Xcode 4.3 and later which are not at a fixed address
 # Updated 2/7/14 to also build libboinc_zip.a
 # Updated 11/28/15 to build ScreenSaver with ARC under Xcode 6 or later
-# Updated 2/3/16 to allow optional use of libc++ and C++11 dialect
+# Updated 2/15/16 to allow optional use of libc++ and C++11 dialect
 #
 ## This script requires OS 10.8 or later
 #
@@ -41,10 +41,10 @@
 ##     cd [path]/boinc/mac_build
 ##
 ## then invoke this script as follows:
-##      source BuildMacBOINC.sh [-dev] [-noclean] [-all] [-lib] [-client] [-help]
+##      source BuildMacBOINC.sh [-dev] [-noclean] [-libc++] [-c++11] [-all] [-lib] [-client] [-help]
 ## or
 ##      chmod +x BuildMacBOINC.sh
-##      ./BuildMacBOINC.sh [-dev] [-noclean] [-all] [-lib] [-client] [-help]
+##      ./BuildMacBOINC.sh [-dev] [-noclean] [-libc++] [-c++11] [-all] [-lib] [-client] [-help]
 ##
 ## optional arguments
 ## -dev         build the development (debug) version. 

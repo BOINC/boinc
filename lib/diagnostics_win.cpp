@@ -40,6 +40,7 @@
 #include "diagnostics.h"
 #include "error_numbers.h"
 #include "str_util.h"
+#include "str_replace.h"
 #include "util.h"
 #include "version.h"
 
@@ -153,7 +154,7 @@ int diagnostics_init_thread_entry(PBOINC_THREADLISTENTRY entry) {
     entry->crash_state = 0;
     entry->crash_wait_reason = 0;
     entry->crash_exception_record = NULL;
-    strncpy(entry->crash_message, "", sizeof(entry->crash_message));
+    strlcpy(entry->crash_message, "", sizeof(entry->crash_message));
     return 0;
 }
 
@@ -1197,8 +1198,8 @@ int diagnostics_capture_foreground_window(PBOINC_WINDOWCAPTURE window_info) {
 
 
     // Initialize structure variables.
-	strcpy(window_info->window_name, "");
-	strcpy(window_info->window_class, "");
+	safe_strcpy(window_info->window_name, "");
+	safe_strcpy(window_info->window_class, "");
     window_info->hwnd = 0;
     window_info->window_process_id = 0;
     window_info->window_thread_id = 0;
@@ -1429,18 +1430,18 @@ int diagnostics_dump_exception_record(PEXCEPTION_POINTERS pExPtrs) {
             diagnostics_dump_generic_exception("Out Of Memory (C++ Exception)", exception_code, exception_address);
             break;
         case EXCEPTION_ACCESS_VIOLATION:
-            strcpy(status, "Access Violation");
-            strcpy(substatus, "");
+            safe_strcpy(status, "Access Violation");
+            safe_strcpy(substatus, "");
             if (pExPtrs->ExceptionRecord->NumberParameters == 2) {
                 switch(pExPtrs->ExceptionRecord->ExceptionInformation[0]) {
                 case 0: // read attempt
-                    sprintf(substatus,
+                    snprintf(substatus, sizeof(substatus),
                         "read attempt to address 0x%8.8X",
                         pExPtrs->ExceptionRecord->ExceptionInformation[1]
                     );
                     break;
                 case 1: // write attempt
-                    sprintf(substatus,
+                    snprintf(substatus, sizeof(substatus),
                         "write attempt to address 0x%8.8X",
                         pExPtrs->ExceptionRecord->ExceptionInformation[1]
                     );

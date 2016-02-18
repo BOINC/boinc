@@ -82,7 +82,7 @@ void get_pathname(FILE_INFO* fip, char* path, int len) {
             strcpy(buf, p->project_dir());
         }
 #else
-        strcpy(buf, p->project_dir());
+        safe_strcpy(buf, p->project_dir());
 #endif
         snprintf(path, len, "%s/%s", buf, fip->name);
     } else {
@@ -227,7 +227,7 @@ void delete_old_slot_dirs() {
     dirp = dir_open(SLOTS_DIR);
     if (!dirp) return;
     while (1) {
-        strcpy(filename, "");
+        safe_strcpy(filename, "");
         retval = dir_scan(filename, dirp, sizeof(filename));
         if (retval) break;
         snprintf(path, sizeof(path), "%s/%s", SLOTS_DIR, filename);
@@ -261,10 +261,10 @@ void delete_old_slot_dirs() {
     dir_close(dirp);
 }
 
-void get_account_filename(char* master_url, char* path) {
+void get_account_filename(char* master_url, char* path, int len) {
     char buf[1024];
     escape_project_url(master_url, buf);
-    sprintf(path, "account_%s.xml", buf);
+    snprintf(path, len, "account_%s.xml", buf);
 }
 
 static bool bad_account_filename(const char* filename) {
@@ -315,10 +315,10 @@ bool is_statistics_file(const char* filename) {
     return true;
 }
 
-void get_statistics_filename(char* master_url, char* path) {
+void get_statistics_filename(char* master_url, char* path, int len) {
     char buf[256];
     escape_project_url(master_url, buf);
-    sprintf(path, "statistics_%s.xml", buf);
+    snprintf(path, len, "statistics_%s.xml", buf);
 }
 
 bool is_image_file(const char* filename) {

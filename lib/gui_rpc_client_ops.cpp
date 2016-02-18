@@ -277,7 +277,7 @@ int PROJECT::parse(XML_PARSER& xp) {
     int retval;
     char buf[256];
 
-    strcpy(buf, "");
+    safe_strcpy(buf, "");
 
     while (!xp.get_tag()) {
         if (xp.match_tag("/project")) {
@@ -462,7 +462,7 @@ void RSC_DESC::clear() {
 }
 
 void PROJECT::clear() {
-    strcpy(master_url, "");
+    safe_strcpy(master_url, "");
     resource_share = 0;
     project_name.clear();
     user_name.clear();
@@ -501,11 +501,11 @@ void PROJECT::clear() {
     last_rpc_time = 0;
     
     statistics.clear();
-    strcpy(venue, "");
+    safe_strcpy(venue, "");
     njobs_success = 0;
     njobs_error = 0;
     elapsed_time = 0;
-    strcpy(external_cpid, "");
+    safe_strcpy(external_cpid, "");
     
     flag_for_delete = false;
 }
@@ -524,8 +524,8 @@ int APP::parse(XML_PARSER& xp) {
 }
 
 void APP::clear() {
-    strcpy(name, "");
-    strcpy(user_friendly_name, "");
+    safe_strcpy(name, "");
+    safe_strcpy(user_friendly_name, "");
     project = NULL;
 }
 
@@ -606,8 +606,8 @@ int WORKUNIT::parse(XML_PARSER& xp) {
 }
 
 void WORKUNIT::clear() {
-    strcpy(name, "");
-    strcpy(app_name, "");
+    safe_strcpy(name, "");
+    safe_strcpy(app_name, "");
     version_num = 0;
     rsc_fpops_est = 0;
     rsc_fpops_bound = 0;
@@ -698,16 +698,16 @@ int RESULT::parse(XML_PARSER& xp) {
 }
 
 void RESULT::clear() {
-    strcpy(name, "");
-    strcpy(wu_name, "");
+    safe_strcpy(name, "");
+    safe_strcpy(wu_name, "");
     version_num = 0;
-    strcpy(plan_class, "");
-    strcpy(project_url, "");
-    strcpy(graphics_exec_path, "");
-    strcpy(web_graphics_url, "");
-    strcpy(remote_desktop_addr, "");
-    strcpy(slot_path, "");
-    strcpy(resources, "");
+    safe_strcpy(plan_class, "");
+    safe_strcpy(project_url, "");
+    safe_strcpy(graphics_exec_path, "");
+    safe_strcpy(web_graphics_url, "");
+    safe_strcpy(remote_desktop_addr, "");
+    safe_strcpy(slot_path, "");
+    safe_strcpy(resources, "");
     report_deadline = 0;
     received_time = 0;
     ready_to_report = false;
@@ -723,7 +723,7 @@ void RESULT::clear() {
     project_suspended_via_gui = false;
     coproc_missing = false;
     scheduler_wait = false;
-    strcpy(scheduler_wait_reason, "");
+    safe_strcpy(scheduler_wait_reason, "");
     network_wait = false;
 
     active_task = false;
@@ -1767,6 +1767,7 @@ int RPC_CLIENT::project_op(PROJECT& project, const char* op) {
     } else {
         return -1;
     }
+
     snprintf(buf, sizeof(buf),
         "<%s>\n"
         "  <project_url>%s</project_url>\n"
@@ -1776,6 +1777,7 @@ int RPC_CLIENT::project_op(PROJECT& project, const char* op) {
         tag
     );
     buf[sizeof(buf)-1] = 0;
+
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
     return rpc.parse_reply();
@@ -1787,11 +1789,13 @@ int RPC_CLIENT::project_attach_from_file() {
     char buf[768];
     RPC rpc(this);
 
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<project_attach>\n"
         "  <use_config_file/>\n"
         "</project_attach>\n"
     );
+    buf[sizeof(buf)-1] = 0;
+
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
     return rpc.parse_reply();
@@ -1849,13 +1853,14 @@ int RPC_CLIENT::set_run_mode(int mode, double duration) {
     char buf[256];
     RPC rpc(this);
 
-    sprintf(buf, 
+    snprintf(buf, sizeof(buf), 
         "<set_run_mode>\n"
         "%s\n"
         "  <duration>%f</duration>\n"
         "</set_run_mode>\n",
         mode_name(mode), duration
     );
+    buf[sizeof(buf)-1] = 0;
 
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
@@ -1868,13 +1873,14 @@ int RPC_CLIENT::set_gpu_mode(int mode, double duration) {
     char buf[256];
     RPC rpc(this);
 
-    sprintf(buf, 
+    snprintf(buf, sizeof(buf),
         "<set_gpu_mode>\n"
         "%s\n"
         "  <duration>%f</duration>\n"
         "</set_gpu_mode>\n",
         mode_name(mode), duration
     );
+    buf[sizeof(buf)-1] = 0;
 
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
@@ -1887,13 +1893,15 @@ int RPC_CLIENT::set_network_mode(int mode, double duration) {
     char buf[256];
     RPC rpc(this);
 
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<set_network_mode>\n"
         "%s\n"
         "  <duration>%f</duration>\n"
         "</set_network_mode>\n",
         mode_name(mode), duration
     );
+    buf[sizeof(buf)-1] = 0;
+
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
     return rpc.parse_reply();
@@ -1968,6 +1976,7 @@ int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& procinfo) {
 		procinfo.noproxy_hosts.c_str()
     );
     buf[sizeof(buf)-1] = 0;
+
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
     return rpc.parse_reply();
@@ -1991,10 +2000,7 @@ int RPC_CLIENT::get_message_count(int& seqno) {
     char buf[256];
     RPC rpc(this);
 
-    sprintf(buf,
-        "<get_message_count/>\n"
-    );
-    retval = rpc.do_rpc(buf);
+    retval = rpc.do_rpc("<get_message_count/>");
     if (retval) return retval;
     while (rpc.fin.fgets(buf, 256)) {
         if (parse_int(buf, "<seqno>", seqno)) {
@@ -2010,7 +2016,7 @@ int RPC_CLIENT::get_messages(int seqno, MESSAGES& msgs, bool translatable) {
     char buf[256];
     RPC rpc(this);
 
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<get_messages>\n"
         "  <seqno>%d</seqno>\n"
         "%s"
@@ -2018,6 +2024,7 @@ int RPC_CLIENT::get_messages(int seqno, MESSAGES& msgs, bool translatable) {
         seqno,
         translatable?"  <translatable/>\n":""
     );
+    buf[sizeof(buf)-1] = 0;
 
     retval = rpc.do_rpc(buf);
     if (!retval) {
@@ -2053,6 +2060,7 @@ int RPC_CLIENT::file_transfer_op(FILE_TRANSFER& ft, const char* op) {
     } else {
         return -1;
     }
+
     snprintf(buf, sizeof(buf),
         "<%s>\n"
         "   <project_url>%s</project_url>\n"
@@ -2064,6 +2072,7 @@ int RPC_CLIENT::file_transfer_op(FILE_TRANSFER& ft, const char* op) {
         tag
     );
     buf[sizeof(buf)-1] = 0;
+
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
     return rpc.parse_reply();
@@ -2099,6 +2108,7 @@ int RPC_CLIENT::result_op(RESULT& result, const char* op) {
         tag
     );
     buf[sizeof(buf)-1] = 0;
+
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
     return rpc.parse_reply();
@@ -2141,6 +2151,7 @@ int RPC_CLIENT::set_host_info(HOST_INFO& h) {
         h.product_name
     );
     buf[sizeof(buf)-1] = 0;
+
     int retval = rpc.do_rpc(buf);
     if (retval) return retval;
     return rpc.parse_reply();
@@ -2165,11 +2176,12 @@ int RPC_CLIENT::acct_mgr_rpc(
     RPC rpc(this);
 
     if (use_config_file) {
-        sprintf(buf,
+        snprintf(buf, sizeof(buf),
             "<acct_mgr_rpc>\n"
             "  <use_config_file/>\n"
             "</acct_mgr_rpc>\n"
         );
+        buf[sizeof(buf)-1] = 0;
     } else {
         snprintf(buf, sizeof(buf),
             "<acct_mgr_rpc>\n"
@@ -2181,6 +2193,7 @@ int RPC_CLIENT::acct_mgr_rpc(
         );
         buf[sizeof(buf)-1] = 0;
     }
+
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
     return rpc.parse_reply();
@@ -2273,6 +2286,7 @@ int RPC_CLIENT::lookup_account(ACCOUNT_IN& ai) {
         downcase_string(ai.email_addr);
         passwd_hash = get_passwd_hash(ai.passwd, ai.email_addr);
     }
+
     snprintf(buf, sizeof(buf),
         "<lookup_account>\n"
         "   <url>%s</url>\n"
@@ -2316,6 +2330,7 @@ int RPC_CLIENT::create_account(ACCOUNT_IN& ai) {
 
     downcase_string(ai.email_addr);
     string passwd_hash = get_passwd_hash(ai.passwd, ai.email_addr);
+
     snprintf(buf, sizeof(buf),
         "<create_account>\n"
         "   <url>%s</url>\n"
@@ -2600,12 +2615,15 @@ int RPC_CLIENT::get_notices(int seqno, NOTICES& notices) {
     RPC rpc(this);
     int retval;
 
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<get_notices>\n"
         "   <seqno>%d</seqno>\n"
         "</get_notices>\n",
         seqno
     );
+    buf[sizeof(buf)-1] = 0;
+
+
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
     notices.received = true;
@@ -2618,12 +2636,14 @@ int RPC_CLIENT::get_notices_public(int seqno, NOTICES& notices) {
     RPC rpc(this);
     int retval;
 
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<get_notices_public>\n"
         "   <seqno>%d</seqno>\n"
         "</get_notices_public>\n",
         seqno
     );
+    buf[sizeof(buf)-1] = 0;
+
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
     notices.received = true;
@@ -2646,8 +2666,15 @@ int RPC_CLIENT::set_language(const char* language) {
 	int retval;
 	char buf[256];
 
-	sprintf(buf, "<set_language>\n   <language>%s</language>\n</set_language>\n", language);
-	retval = rpc.do_rpc(buf);
+	snprintf(buf, sizeof(buf),
+        "<set_language>\n"
+        "    <language>%s</language>\n"
+        "</set_language>\n",
+        language
+    );
+    buf[sizeof(buf)-1] = 0;
+
+    retval = rpc.do_rpc(buf);
 	if (retval) return retval;
 	return rpc.parse_reply();
 }

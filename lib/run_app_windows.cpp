@@ -27,6 +27,7 @@
 #include "win_util.h"
 #include "filesys.h"
 #include "error_numbers.h"
+#include "str_replace.h"
 #include "common_defs.h"
 #include "util.h"
 #include "parse.h"
@@ -552,11 +553,11 @@ int run_app_windows(
     memset(&startup_info, 0, sizeof(startup_info));
     startup_info.cb = sizeof(startup_info);
 
-    strcpy(cmdline, "");
+    safe_strcpy(cmdline, "");
     for (int i=0; i<argc; i++) {
-        strcat(cmdline, argv[i]);
+        safe_strcat(cmdline, argv[i]);
         if (i<argc-1) {
-            strcat(cmdline, " ");
+            safe_strcat(cmdline, " ");
         }
     }
 

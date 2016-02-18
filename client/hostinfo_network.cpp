@@ -41,6 +41,10 @@
 #endif
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #ifdef __APPLE__
 #include <Carbon/Carbon.h>
 #endif
@@ -61,20 +65,20 @@
 // Android: if domain_name is empty, set it to android_xxxxxxxx
 //
 int HOST_INFO::get_local_network_info() {
-    strcpy(ip_addr, "");
+    safe_strcpy(ip_addr, "");
 
 #ifdef ANDROID
     if (strlen(domain_name) && strcmp(domain_name, "localhost")) return 0;
     char buf[256];
     make_random_string("", buf);
     buf[8] = 0;
-    sprintf(domain_name, "android_%s", buf);
+    snprintf(domain_name, sizeof(domain_name), "android_%s", buf);
     return 0;
 #endif
 
     struct sockaddr_storage s;
     
-    strcpy(domain_name, "");
+    safe_strcpy(domain_name, "");
 
     // it seems like we should use getdomainname() instead of gethostname(),
     // but on FC6 it returns "(none)".
@@ -107,11 +111,13 @@ void HOST_INFO::make_random_string(const char* salt, char* out) {
     char buf[1024];
 
 #ifdef ANDROID
-    sprintf(buf, "%f%s%s%f%s",
+    snprintf(buf, sizeof(buf),
+        "%f%s%s%f%s",
         dtime(), domain_name, ip_addr, d_free, salt
     );
 #else
-    sprintf(buf, "%d%.15e%s%s%f%s",
+    snprintf(buf, sizeof(buf),
+        "%d%.15e%s%s%f%s",
         getpid(), dtime(), domain_name, ip_addr, d_free, salt
     );
 #endif
@@ -142,6 +148,6 @@ void HOST_INFO::generate_host_cpid() {
     // the instances will get different CPIDs
     //
     boinc_getcwd(dir);
-    strcat(buf, dir);
+    safe_strcat(buf, dir);
     md5_block((const unsigned char*) buf, (int)strlen(buf), host_cpid);
 }

@@ -17,6 +17,10 @@
 
 #include "boinc_win.h"
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #include "diagnostics.h"
 #include "error_numbers.h"
 #include "filesys.h"
@@ -306,7 +310,7 @@ static void windows_detect_autoproxy_settings() {
     );
 
     char msg[1024], buf[1024];
-    strcpy(msg, "[proxy] ");
+    safe_strcpy(msg, "[proxy] ");
 
     if (WinHttpGetProxyForUrl(hWinHttp, network_test_url.c_str(), &autoproxy_options, &proxy_info)) {
 
@@ -320,8 +324,8 @@ static void windows_detect_autoproxy_settings() {
             std::string new_proxy;
 
             if (log_flags.proxy_debug) {
-                strcat(msg, "proxy list: ");
-                strcat(msg, proxy.c_str());
+                safe_strcat(msg, "proxy list: ");
+                safe_strcat(msg, proxy.c_str());
             }
 
             if (!proxy.empty()) {
@@ -357,8 +361,8 @@ static void windows_detect_autoproxy_settings() {
                 }
 
                 if (log_flags.proxy_debug) {
-                    sprintf(buf, "proxy detected %s:%d", purl.host, purl.port);
-                    strcat(msg, buf);
+                    snprintf(buf, sizeof(buf), "proxy detected %s:%d", purl.host, purl.port);
+                    safe_strcat(msg, buf);
                 }
             }
         }
@@ -370,10 +374,10 @@ static void windows_detect_autoproxy_settings() {
         // We can get here if the user is switching from a network that
         // requires a proxy to one that does not require a proxy.
         working_proxy_info.autodetect_protocol = 0;
-        strcpy(working_proxy_info.autodetect_server_name, "");
+        safe_strcpy(working_proxy_info.autodetect_server_name, "");
         working_proxy_info.autodetect_port = 0;
         if (log_flags.proxy_debug) {
-            strcat(msg, "no automatic proxy detected");
+            safe_strcat(msg, "no automatic proxy detected");
         }
     }
     if (hWinHttp) WinHttpCloseHandle(hWinHttp);
@@ -687,7 +691,7 @@ VOID LogEventErrorMessage(LPTSTR lpszMsg) {
     //
     hEventSource = RegisterEventSource(NULL, TEXT(SZSERVICENAME));
 
-    _stprintf(szMsg, TEXT("%s error: %d"), TEXT(SZSERVICENAME), dwErr);
+    _stprintf_s(szMsg, TEXT("%s error: %d"), TEXT(SZSERVICENAME), dwErr);
     lpszStrings[0] = szMsg;
     lpszStrings[1] = lpszMsg;
 

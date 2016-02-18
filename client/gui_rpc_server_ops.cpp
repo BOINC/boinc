@@ -50,6 +50,10 @@
 #endif
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #include "error_numbers.h"
 #include "filesys.h"
 #include "network.h"
@@ -86,7 +90,7 @@ int GUI_RPC_CONN::handle_auth2(char* buf, MIOFILE& fout) {
         auth_failure(fout);
         return ERR_AUTHENTICATOR;
     }
-    sprintf(buf2, "%s%s", nonce, gstate.gui_rpcs.password);
+    snprintf(buf2, sizeof(buf2), "%s%s", nonce, gstate.gui_rpcs.password);
     md5_block((const unsigned char*)buf2, (int)strlen(buf2), nonce_hash_correct);
     if (strcmp(nonce_hash, nonce_hash_correct)) {
         auth_failure(fout);
@@ -549,7 +553,7 @@ static void handle_result_op(GUI_RPC_CONN& grc, const char* op) {
     ACTIVE_TASK* atp;
     string project_url;
 
-    strcpy(result_name, "");
+    safe_strcpy(result_name, "");
     while (!grc.xp.get_tag()) {
         if (grc.xp.parse_str("name", result_name, sizeof(result_name))) continue;
         if (grc.xp.parse_string("project_url", project_url)) continue;
@@ -1224,7 +1228,7 @@ static void handle_report_device_status(GUI_RPC_CONN& grc) {
                 //
                 if (strlen(d.device_name)) {
                     if (strcmp(d.device_name, gstate.host_info.domain_name)) {
-                        strcpy(gstate.host_info.domain_name, d.device_name);
+                        safe_strcpy(gstate.host_info.domain_name, d.device_name);
                         gstate.set_client_state_dirty("Device name changed");
                     }
                 }
@@ -1280,7 +1284,7 @@ struct GUI_RPC {
     GUI_RPC(const char* req, GUI_RPC_HANDLER h, bool ar, bool en, bool ro) {
         req_tag = req;
         safe_strcpy(alt_req_tag, req);
-        strcat(alt_req_tag, "/");
+        safe_strcat(alt_req_tag, "/");
         handler = h;
         auth_required = ar;
         enable_network = en;
@@ -1429,7 +1433,8 @@ int GUI_RPC_CONN::handle_rpc() {
     request_msg[request_nbytes] = 0;
     if (!strncmp(request_msg, "OPTIONS", 7)) {
         char buf[1024];
-        sprintf(buf, "HTTP/1.1 200 OK\n"
+        snprintf(buf, sizeof(buf),
+            "HTTP/1.1 200 OK\n"
             "Server: BOINC client\n"
             "Access-Control-Allow-Origin: *\n"
             "Access-Control-Allow-Methods: POST, GET, OPTIONS\n"
@@ -1505,7 +1510,7 @@ int GUI_RPC_CONN::handle_rpc() {
     mout.get_buf(p, n);
     if (http_request) {
         char buf[1024];
-        sprintf(buf,
+        snprintf(buf, sizeof(buf),
             "HTTP/1.1 200 OK\n"
             "Date: Fri, 31 Dec 1999 23:59:59 GMT\n"
             "Server: BOINC client\n"

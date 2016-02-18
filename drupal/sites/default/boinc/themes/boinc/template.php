@@ -169,6 +169,19 @@ function boinc_preprocess(&$vars, $hook) {
  */
 ///* -- Delete this line if you want to use this function
 function boinc_preprocess_page(&$vars, $hook) {
+  
+    // Determine locale region code so the correct flag is displayed in footer
+    global $language;
+    global $theme_path;
+    $locality = $language->language;
+    if (strpos($language->language, '-')) {
+      $flag_icon = "{$theme_path}/images/flags/{$language->language}.png";
+      if (!file_exists($flag_icon)) {
+        $lang_code = explode('-', $language->language);
+        $locality = $lang_code[0];
+      }
+    }
+    $vars['flag_path'] = base_path() . path_to_theme() . "/images/flags/{$locality}.png";
     
     $server_status_url = variable_get('boinc_server_status_url', '');
     if (!$server_status_url) {

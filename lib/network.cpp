@@ -18,7 +18,6 @@
 #if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
 #include <fcntl.h>
-
 #elif defined(_WIN32) && defined(__STDWX_H__)
 #include "stdwx.h"
 #else
@@ -36,6 +35,10 @@
 #include <netdb.h>
 #include <fcntl.h>
 #include <errno.h>
+#endif
+
+#ifdef _MSC_VER
+#define snprintf _snprintf
 #endif
 
 #include "error_numbers.h"
@@ -73,7 +76,7 @@ const char* socket_error_str() {
     case WSAENOTSOCK:
         return "not a socket";
     }
-    sprintf(buf, "error %d", e);
+    snprintf(buf, sizeof(buf), "error %d", e);
     return buf;
 #else
     switch (h_errno) {
@@ -87,11 +90,11 @@ const char* socket_error_str() {
         return "host not found or server failure";
 #ifdef NETDB_INTERNAL
     case NETDB_INTERNAL:
-        sprintf(buf,"network internal error %d",errno);
+        snprintf(buf, sizeof(buf), "network internal error %d", errno);
         return buf;
 #endif
     }
-    sprintf(buf, "error %d", h_errno);
+    snprintf(buf, sizeof(buf), "error %d", h_errno);
     return buf;
 #endif
 }
@@ -166,7 +169,7 @@ int resolve_hostname(const char* hostname, sockaddr_storage &ip_addr) {
     int retval = getaddrinfo(hostname, NULL, &hints, &res);
     if (retval) {
         char buf[256];
-        sprintf(buf, "%s: getaddrinfo", time_to_string(dtime()));
+        snprintf(buf, sizeof(buf), "%s: getaddrinfo", time_to_string(dtime()));
         perror(buf);
         return ERR_GETADDRINFO;
     }
@@ -220,8 +223,8 @@ int boinc_socket(int& fd, int protocol) {
     fd = (int)socket(protocol, SOCK_STREAM, 0);
     if (fd < 0) {
         char buf[256];
-        sprintf(buf, "%s: socket", time_to_string(dtime()));
-        perror("buf");
+        snprintf(buf, sizeof(buf), "%s: socket", time_to_string(dtime()));
+        perror(buf);
         return ERR_SOCKET;
     }
 #ifndef _WIN32

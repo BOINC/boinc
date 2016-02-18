@@ -94,9 +94,9 @@ void show_message(
     case MSG_SCHEDULER_ALERT:
         char buf[1024];
         if (is_html) {
-            strcpy(buf, message);
+            safe_strcpy(buf, message);
         } else {
-            xml_escape(message, buf, 1024);
+            xml_escape(message, buf, sizeof(message));
         }
         NOTICE n;
         n.description = buf;
@@ -173,7 +173,7 @@ void MESSAGE_DESCS::insert(PROJ_AM* p, int priority, int now, char* message) {
             mdp->project_name, p->get_project_name(), sizeof(mdp->project_name)
         );
     } else {
-        strcpy(mdp->project_name, "");
+        safe_strcpy(mdp->project_name, "");
     }
     mdp->priority = (priority==MSG_SCHEDULER_ALERT)?MSG_USER_ALERT:priority;
     mdp->timestamp = now;

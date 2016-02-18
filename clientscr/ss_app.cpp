@@ -31,6 +31,10 @@
 #include <sys/socket.h>
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #include "boinc_gl.h"
 
 #include "diagnostics.h"
@@ -199,14 +203,14 @@ void show_result(RESULT* r, float x, float& y, float alpha) {
     float prog_ci[] = {.1, .8, .2, alpha};
     progress.init(prog_pos, .4, -.01, -0.008, prog_c, prog_ci);
     progress.draw(r->fraction_done);
-    sprintf(buf, "%.2f%% ", r->fraction_done*100);
+    snprintf(buf, sizeof(buf), "%.2f%% ", r->fraction_done*100);
     ttf_render_string(x+.41, y, 0, TASK_INFO_SIZE, white, buf);
     y -= .03;
     x += .05;
-    sprintf(buf, "Elapsed: %.0f sec  Remaining: %.0f sec", r->elapsed_time, r->estimated_cpu_time_remaining);
+    snprintf(buf, sizeof(buf), "Elapsed: %.0f sec  Remaining: %.0f sec", r->elapsed_time, r->estimated_cpu_time_remaining);
     ttf_render_string(x, y, 0, TASK_INFO_SIZE, white, buf);
     y -= .03;
-    sprintf(buf, "App: %s  Task: %s", r->app->user_friendly_name, r->wup->name);
+    snprintf(buf, sizeof(buf), "App: %s  Task: %s", r->app->user_friendly_name, r->wup->name);
     ttf_render_string(x, y, 0, TASK_INFO_SIZE, white, buf);
     y -= .03;
 }
@@ -238,15 +242,15 @@ void show_project(unsigned int index, float alpha) {
     y -= .07;
     ttf_render_string(x, y, 0, PROJ_INFO_SIZE, white, p->master_url);
     y -= .05;
-    sprintf(buf, "User: %s", p->user_name.c_str());
+    snprintf(buf, sizeof(buf), "User: %s", p->user_name.c_str());
     ttf_render_string(x, y, 0, PROJ_INFO_SIZE, white, buf);
     y -= .05;
     if (p->team_name.size()) {
-        sprintf(buf, "Team: %s",  p->team_name.c_str());
+        snprintf(buf, sizeof(buf), "Team: %s",  p->team_name.c_str());
         ttf_render_string(x, y, 0, PROJ_INFO_SIZE, white, buf);
         y -= .05;
     }
-    sprintf(buf, "Total credit: %.0f   Average credit: %.0f", p->user_total_credit, p->user_expavg_credit);
+    snprintf(buf, sizeof(buf), "Total credit: %.0f   Average credit: %.0f", p->user_total_credit, p->user_expavg_credit);
     ttf_render_string(x, y, 0, PROJ_INFO_SIZE, white, buf);
     y -= .05;
     if (p->suspended_via_gui) {
@@ -257,17 +261,17 @@ void show_project(unsigned int index, float alpha) {
 void show_disconnected() {
     float x=.3, y=.3;
     char buf[256];
-    sprintf(buf, "%s is not running.", brand_name);
+    snprintf(buf, sizeof(buf), "%s is not running.", brand_name);
     ttf_render_string(x, y, 0, ALERT_SIZE, white, buf);
 }
 
 void show_no_projects() {
     float x=.2, y=.3;
     char buf[256];
-    sprintf(buf, "%s is not attached to any projects.", brand_name);
+    snprintf(buf, sizeof(buf), "%s is not attached to any projects.", brand_name);
     ttf_render_string(x, y, 0, ALERT_SIZE, white, buf);
     y = .25;
-    sprintf(buf, "Attach to projects using %s.", brand_name);
+    snprintf(buf, sizeof(buf), "Attach to projects using %s.", brand_name);
     ttf_render_string(x, y, 0, ALERT_SIZE, white, buf);
 }
 
@@ -318,7 +322,7 @@ void show_jobs(unsigned int index, double alpha) {
         case SUSPEND_REASON_NO_RECENT_INPUT:
             p = "Computing suspended while computer not in use"; break;
         case SUSPEND_REASON_INITIAL_DELAY:
-            sprintf(buf,
+            snprintf(buf, sizeof(buf),
                 "Computing suspended while %s is starting up", brand_name
             );
             p = buf;

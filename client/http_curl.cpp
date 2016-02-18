@@ -20,8 +20,9 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #ifdef _MSC_VER
-#define unlink _unlink
-#define chdir _chdir
+#define unlink   _unlink
+#define chdir    _chdir
+#define snprintf _snprintf
 #endif
 #else
 #include "config.h"
@@ -70,14 +71,15 @@ static bool got_expectation_failed = false;
 
 static void get_user_agent_string() {
     if (g_user_agent_string[0]) return;
-    sprintf(g_user_agent_string, "BOINC client (%s %d.%d.%d)",
+    snprintf(g_user_agent_string, sizeof(g_user_agent_string),
+        "BOINC client (%s %d.%d.%d)",
         gstate.get_primary_platform(),
         BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, BOINC_RELEASE
     );
     if (strlen(gstate.client_brand)) {
         char buf[256];
-        sprintf(buf, " (%s)", gstate.client_brand);
-        strcat(g_user_agent_string, buf);
+        snprintf(buf, sizeof(buf), " (%s)", gstate.client_brand);
+        safe_strcat(g_user_agent_string, buf);
     }
 }
 
@@ -234,9 +236,9 @@ void HTTP_OP::init(PROJECT* p) {
 void HTTP_OP::reset() {
     req1 = NULL;
     req1_len = 0;
-    strcpy(infile, "");
-    strcpy(outfile, "");
-    strcpy(error_msg, "");
+    safe_strcpy(infile, "");
+    safe_strcpy(outfile, "");
+    safe_strcpy(error_msg, "");
     CurlResult = CURLE_OK;
     bTempOutfile = true;
     want_download = false;
@@ -255,12 +257,12 @@ void HTTP_OP::reset() {
 
 
 HTTP_OP::HTTP_OP() {
-    strcpy(m_url, "");
-    strcpy(m_curl_ca_bundle_location, "");
-    strcpy(m_curl_user_credentials, "");
+    safe_strcpy(m_url, "");
+    safe_strcpy(m_curl_ca_bundle_location, "");
+    safe_strcpy(m_curl_user_credentials, "");
     content_length = 0;
     file_offset = 0;
-    strcpy(request_header, "");
+    safe_strcpy(request_header, "");
     http_op_state = HTTP_STATE_IDLE;
     http_op_type = HTTP_OP_NONE;
     http_op_retval = 0;
@@ -357,7 +359,9 @@ int HTTP_OP::init_post2(
         file_offset = offset;
         retval = file_size(infile, size);
         if (retval) {
-            printf("HTTP::init_post2: couldn't get file size\n");
+            if (log_flags.http_debug) {
+                msg_printf(project, MSG_INFO, "[http] HTTP::init_post2: couldn't get file size");
+            }
             return retval; // this will be 0 or ERR_NOT_FOUND
         }
         content_length = (int)size - (int)offset;
@@ -437,7 +441,7 @@ int HTTP_OP::libcurl_exec(
     } else {
         // always want an outfile for the server response, delete when op done
         bTempOutfile = true;
-        sprintf(outfile, "http_temp_%d", outfile_seqno++);
+        snprintf(outfile, sizeof(outfile), "http_temp_%d", outfile_seqno++);
     }
 
     curlEasy = curl_easy_init(); // get a curl_easy handle to use
@@ -603,7 +607,7 @@ int HTTP_OP::libcurl_exec(
     pcurlList = curl_slist_append(pcurlList, g_content_type);
 
     if (strlen(gstate.language)) {
-        sprintf(buf, "Accept-Language: %s", gstate.language);
+        snprintf(buf, sizeof(buf), "Accept-Language: %s", gstate.language);
         pcurlList = curl_slist_append(pcurlList, buf);
     }
 
@@ -611,7 +615,7 @@ int HTTP_OP::libcurl_exec(
     //
     if (!is_post && offset>0.0f) {
         file_offset = offset;
-        sprintf(buf, "Range: bytes=%.0f-", offset);
+        snprintf(buf, sizeof(buf), "Range: bytes=%.0f-", offset);
         pcurlList = curl_slist_append(pcurlList, buf);
     }
 
@@ -819,7 +823,7 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
     // outside of this method (libcurl relies on it later when it makes
     // the proxy connection), so it has been placed as a member data for HTTP_OP
     //
-    strcpy(m_curl_user_credentials, "");
+    safe_strcpy(m_curl_user_credentials, "");
 
     if (no_proxy) {
         curl_easy_setopt(curlEasy, CURLOPT_PROXY, "");
@@ -852,7 +856,10 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
             } else {
                 curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY);
             }
-            sprintf(m_curl_user_credentials, "%s:%s", pi.http_user_name, pi.http_user_passwd);
+            snprintf(m_curl_user_credentials, sizeof(m_curl_user_credentials), 
+                "%s:%s",
+                pi.http_user_name, pi.http_user_passwd
+            );
             curl_easy_setopt(curlEasy, CURLOPT_PROXYUSERPWD, m_curl_user_credentials);
         }
 
@@ -868,7 +875,10 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
         if (
             strlen(pi.socks5_user_passwd) || strlen(pi.socks5_user_name)
         ) {
-            sprintf(m_curl_user_credentials, "%s:%s", pi.socks5_user_name, pi.socks5_user_passwd);
+            snprintf(m_curl_user_credentials, sizeof(m_curl_user_credentials), 
+                "%s:%s",
+                pi.socks5_user_name, pi.socks5_user_passwd
+            );
             curl_easy_setopt(curlEasy, CURLOPT_PROXYUSERPWD, m_curl_user_credentials);
             curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY & ~CURLAUTH_NTLM);
         }
@@ -1071,7 +1081,7 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
                 outfile
             );
         } else {
-            strcpy(req1, "");
+            strlcpy(req1, "", req1_len);
             if (dSize >= (size_t)req1_len) {
                 dSize = req1_len-1;
             }

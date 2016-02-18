@@ -37,6 +37,10 @@
 #include <cstring>
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #include "error_numbers.h"
 #include "filesys.h"
 #include "log_flags.h"
@@ -120,8 +124,8 @@ int parse_project_files(XML_PARSER& xp, vector<FILE_REF>& project_files) {
 }
 
 int APP::parse(XML_PARSER& xp) {
-    strcpy(name, "");
-    strcpy(user_friendly_name, "");
+    safe_strcpy(name, "");
+    safe_strcpy(user_friendly_name, "");
     project = NULL;
     non_cpu_intensive = false;
     while (!xp.get_tag()) {
@@ -178,8 +182,8 @@ int APP::write(MIOFILE& out) {
 }
 
 FILE_INFO::FILE_INFO() {
-    strcpy(name, "");
-    strcpy(md5_cksum, "");
+    safe_strcpy(name, "");
+    safe_strcpy(md5_cksum, "");
     max_nbytes = 0;
     nbytes = 0;
     gzipped_nbytes = 0;
@@ -203,8 +207,8 @@ FILE_INFO::FILE_INFO() {
     project = NULL;
     download_urls.clear();
     upload_urls.clear();
-    strcpy(xml_signature, "");
-    strcpy(file_signature, "");
+    safe_strcpy(xml_signature, "");
+    safe_strcpy(file_signature, "");
     cert_sigs = 0;
     async_verify = NULL;
 }
@@ -538,9 +542,9 @@ int FILE_INFO::delete_file() {
     // files with download_gzipped set may exist
     // in temporary or compressed form
     //
-    strcat(path, ".gz");
+    safe_strcat(path, ".gz");
     delete_project_owned_file(path, true);
-    strcat(path, "t");
+    safe_strcat(path, "t");
     delete_project_owned_file(path, true);
 
     if (retval && status != FILE_NOT_PRESENT) {
@@ -598,7 +602,7 @@ int FILE_INFO::merge_info(FILE_INFO& new_info) {
 
     if (max_nbytes <= 0 && new_info.max_nbytes) {
         max_nbytes = new_info.max_nbytes;
-        sprintf(buf, "    <max_nbytes>%.0f</max_nbytes>\n", new_info.max_nbytes);
+        snprintf(buf, sizeof(buf), "    <max_nbytes>%.0f</max_nbytes>\n", new_info.max_nbytes);
     }
 
     // replace existing URLs with new ones
@@ -668,7 +672,7 @@ bool FILE_INFO::had_failure(int& failnum) {
 
 void FILE_INFO::failure_message(string& s) {
     char buf[1024];
-    sprintf(buf,
+    snprintf(buf, sizeof(buf), 
         "<file_xfer_error>\n"
         "  <file_name>%s</file_name>\n"
         "  <error_code>%d (%s)</error_code>\n",
@@ -677,7 +681,7 @@ void FILE_INFO::failure_message(string& s) {
     );
     s = buf;
     if (error_msg.size()) {
-        sprintf(buf,
+        snprintf(buf, sizeof(buf),
             "  <error_message>%s</error_message>\n",
             error_msg.c_str()
             );
@@ -758,29 +762,29 @@ int FILE_INFO::gunzip(char* md5_buf) {
 }
 
 void APP_VERSION::init() {
-    strcpy(app_name, "");
+    safe_strcpy(app_name, "");
     version_num = 0;
-    strcpy(platform, "");
-    strcpy(plan_class, "");
-    strcpy(api_version, "");
+    safe_strcpy(platform, "");
+    safe_strcpy(plan_class, "");
+    safe_strcpy(api_version, "");
     avg_ncpus = 1;
     max_ncpus = 1;
     gpu_usage.rsc_type = 0;
     gpu_usage.usage = 0;
     gpu_ram = 0;
     flops = gstate.host_info.p_fpops;
-    strcpy(cmdline, "");
-    strcpy(file_prefix, "");
+    safe_strcpy(cmdline, "");
+    safe_strcpy(file_prefix, "");
     needs_network = false;
     app = NULL;
     project = NULL;
     ref_cnt = 0;
-    strcpy(graphics_exec_path,"");
-    strcpy(graphics_exec_file, "");
+    safe_strcpy(graphics_exec_path,"");
+    safe_strcpy(graphics_exec_file, "");
     max_working_set_size = 0;
     missing_coproc = false;
     missing_coproc_usage = 0.0;
-    strcpy(missing_coproc_name, "");
+    safe_strcpy(missing_coproc_name, "");
     dont_throttle = false;
     is_vm_app = false;
     is_wrapper = false;
@@ -1035,8 +1039,8 @@ bool APP_VERSION::api_version_at_least(int major, int minor) {
 int FILE_REF::parse(XML_PARSER& xp) {
     bool temp;
 
-    strcpy(file_name, "");
-    strcpy(open_name, "");
+    safe_strcpy(file_name, "");
+    safe_strcpy(open_name, "");
     main_program = false;
     copy_file = false;
     optional = false;
@@ -1086,8 +1090,8 @@ int WORKUNIT::parse(XML_PARSER& xp) {
     FILE_REF file_ref;
     double dtemp;
 
-    strcpy(name, "");
-    strcpy(app_name, "");
+    safe_strcpy(name, "");
+    safe_strcpy(app_name, "");
     version_num = 0;
     command_line = "";
     //strcpy(env_vars, "");

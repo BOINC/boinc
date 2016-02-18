@@ -18,6 +18,10 @@
 #include <boinc_win.h>
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #include <string.h>
 
 #include "str_replace.h"
@@ -36,10 +40,10 @@ PROJECT::PROJECT() {
 }
 
 void PROJECT::init() {
-    strcpy(master_url, "");
-    strcpy(authenticator, "");
-    strcpy(_project_dir, "");
-    strcpy(_project_dir_absolute, "");
+    safe_strcpy(master_url, "");
+    safe_strcpy(authenticator, "");
+    safe_strcpy(_project_dir, "");
+    safe_strcpy(_project_dir_absolute, "");
     project_specific_prefs = "";
     gui_urls = "";
     resource_share = 100;
@@ -50,16 +54,16 @@ void PROJECT::init() {
         no_rsc_apps[i] = false;
         no_rsc_ams[i] = false;
     }
-    strcpy(host_venue, "");
+    safe_strcpy(host_venue, "");
     using_venue_specific_prefs = false;
     scheduler_urls.clear();
-    strcpy(project_name, "");
-    strcpy(symstore, "");
-    strcpy(user_name, "");
-    strcpy(team_name, "");
-    strcpy(email_hash, "");
-    strcpy(cross_project_id, "");
-    strcpy(external_cpid, "");
+    safe_strcpy(project_name, "");
+    safe_strcpy(symstore, "");
+    safe_strcpy(user_name, "");
+    safe_strcpy(team_name, "");
+    safe_strcpy(email_hash, "");
+    safe_strcpy(cross_project_id, "");
+    safe_strcpy(external_cpid, "");
     cpid_time = 0;
     user_total_credit = 0;
     user_expavg_credit = 0;
@@ -94,7 +98,7 @@ void PROJECT::init() {
     detach_when_done = false;
     attached_via_acct_mgr = false;
     ended = false;
-    strcpy(code_sign_key, "");
+    safe_strcpy(code_sign_key, "");
     user_files.clear();
     project_files.clear();
     next_runnable_result = NULL;
@@ -670,7 +674,7 @@ void PROJECT::delete_project_file_symlinks() {
 
     for (i=0; i<project_files.size(); i++) {
         FILE_REF& fref = project_files[i];
-        sprintf(path, "%s/%s", project_dir(), fref.open_name);
+        snprintf(path, sizeof(path), "%s/%s", project_dir(), fref.open_name);
         delete_project_owned_file(path, false);
     }
 }
@@ -730,8 +734,8 @@ int PROJECT::write_symlink_for_project_file(FILE_INFO* fip) {
     for (i=0; i<project_files.size(); i++) {
         FILE_REF& fref = project_files[i];
         if (fref.file_info != fip) continue;
-        sprintf(link_path, "%s/%s", project_dir(), fref.open_name);
-        sprintf(file_path, "%s/%s", project_dir(), fip->name);
+        snprintf(link_path, sizeof(link_path), "%s/%s", project_dir(), fref.open_name);
+        snprintf(file_path, sizeof(file_path), "%s/%s", project_dir(), fip->name);
         make_soft_link(this, link_path, file_path);
     }
     return 0;
@@ -888,7 +892,7 @@ const char* PROJECT::project_dir() {
     if (_project_dir[0] == 0) {
         char buf[1024];
         escape_project_url(master_url, buf);
-        sprintf(_project_dir, "%s/%s", PROJECTS_DIR, buf);
+        snprintf(_project_dir, sizeof(_project_dir), "%s/%s", PROJECTS_DIR, buf);
     }
     return _project_dir;
 }
