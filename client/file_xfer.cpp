@@ -23,6 +23,10 @@
 #include "config.h"
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #include "error_numbers.h"
 #include "str_replace.h"
 #include "file_names.h"
@@ -106,7 +110,7 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
     }
     if (file_info.upload_offset < 0) {
         bytes_xferred = 0;
-        sprintf(header,
+        snprintf(header, sizeof(header), 
             "<data_server_request>\n"
             "    <core_client_major_version>%d</core_client_major_version>\n"
             "    <core_client_minor_version>%d</core_client_minor_version>\n"
@@ -124,7 +128,7 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
         );
     } else {
         bytes_xferred = file_info.upload_offset;
-        sprintf(header,
+        snprintf(header, sizeof(header), 
             "<data_server_request>\n"
             "    <core_client_major_version>%d</core_client_major_version>\n"
             "    <core_client_minor_version>%d</core_client_minor_version>\n"

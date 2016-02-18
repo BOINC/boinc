@@ -114,8 +114,8 @@ struct RSS_FEED {
     void write(MIOFILE&);
     int parse_desc(XML_PARSER&);
     int parse_items(XML_PARSER&, int&);
-    void feed_file_name(char*);
-    void archive_file_name(char*);
+    void feed_file_name(char*, int);
+    void archive_file_name(char*, int);
     int read_archive_file();
     void delete_files();
 };

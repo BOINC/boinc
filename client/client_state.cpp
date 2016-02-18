@@ -36,6 +36,10 @@
 #endif
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #ifdef __EMX__
 #define INCL_DOS
 #include <os2.h>
@@ -412,7 +416,7 @@ static void set_client_priority() {
 #endif
 #ifdef __linux__
     char buf[1024];
-    sprintf(buf, "ionice -c 3 -p %d", getpid());
+    snprintf(buf, sizeof(buf), "ionice -c 3 -p %d", getpid());
     system(buf);
 #endif
 }
@@ -1003,14 +1007,14 @@ bool CLIENT_STATE::poll_slow_events() {
         if (!old_network_suspend_reason) {
             char buf[256];
             if (network_suspended) {
-                sprintf(buf,
+                snprintf(buf, sizeof(buf),
                     "Suspending network activity - %s",
                     suspend_reason_string(network_suspend_reason)
                 );
                 request_schedule_cpus("network suspended");
                     // in case any "needs_network" jobs are running
             } else {
-                sprintf(buf,
+                snprintf(buf, sizeof(buf),
                     "Suspending file transfers - %s",
                     suspend_reason_string(network_suspend_reason)
                 );
@@ -2080,7 +2084,7 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
 
     // delete statistics file
     //
-    get_statistics_filename(project->master_url, path);
+    get_statistics_filename(project->master_url, path, sizeof(path));
     retval = boinc_delete_file(path);
     if (retval) {
         msg_printf(project, MSG_INTERNAL_ERROR,
@@ -2090,7 +2094,7 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
 
     // delete account file
     //
-    get_account_filename(project->master_url, path);
+    get_account_filename(project->master_url, path, sizeof(path));
     retval = boinc_delete_file(path);
     if (retval) {
         msg_printf(project, MSG_INTERNAL_ERROR,

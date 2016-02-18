@@ -50,6 +50,10 @@
 #endif
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #include "error_numbers.h"
 #include "filesys.h"
 #include "network.h"
@@ -86,7 +90,7 @@ int GUI_RPC_CONN::handle_auth2(char* buf, MIOFILE& fout) {
         auth_failure(fout);
         return ERR_AUTHENTICATOR;
     }
-    sprintf(buf2, "%s%s", nonce, gstate.gui_rpcs.password);
+    snprintf(buf2, sizeof(buf2), "%s%s", nonce, gstate.gui_rpcs.password);
     md5_block((const unsigned char*)buf2, (int)strlen(buf2), nonce_hash_correct);
     if (strcmp(nonce_hash, nonce_hash_correct)) {
         auth_failure(fout);
@@ -1429,7 +1433,8 @@ int GUI_RPC_CONN::handle_rpc() {
     request_msg[request_nbytes] = 0;
     if (!strncmp(request_msg, "OPTIONS", 7)) {
         char buf[1024];
-        sprintf(buf, "HTTP/1.1 200 OK\n"
+        snprintf(buf, sizeof(buf),
+            "HTTP/1.1 200 OK\n"
             "Server: BOINC client\n"
             "Access-Control-Allow-Origin: *\n"
             "Access-Control-Allow-Methods: POST, GET, OPTIONS\n"
@@ -1505,7 +1510,7 @@ int GUI_RPC_CONN::handle_rpc() {
     mout.get_buf(p, n);
     if (http_request) {
         char buf[1024];
-        sprintf(buf,
+        snprintf(buf, sizeof(buf),
             "HTTP/1.1 200 OK\n"
             "Date: Fri, 31 Dec 1999 23:59:59 GMT\n"
             "Server: BOINC client\n"

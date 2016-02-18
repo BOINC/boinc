@@ -261,10 +261,10 @@ void delete_old_slot_dirs() {
     dir_close(dirp);
 }
 
-void get_account_filename(char* master_url, char* path) {
+void get_account_filename(char* master_url, char* path, int len) {
     char buf[1024];
     escape_project_url(master_url, buf);
-    sprintf(path, "account_%s.xml", buf);
+    snprintf(path, len, "account_%s.xml", buf);
 }
 
 static bool bad_account_filename(const char* filename) {
@@ -315,10 +315,10 @@ bool is_statistics_file(const char* filename) {
     return true;
 }
 
-void get_statistics_filename(char* master_url, char* path) {
+void get_statistics_filename(char* master_url, char* path, int len) {
     char buf[256];
     escape_project_url(master_url, buf);
-    sprintf(path, "statistics_%s.xml", buf);
+    snprintf(path, len, "statistics_%s.xml", buf);
 }
 
 bool is_image_file(const char* filename) {

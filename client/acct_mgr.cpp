@@ -24,6 +24,10 @@
 #include <cstring>
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #include "crypt.h"
 #include "error_numbers.h"
 #include "parse.h"
@@ -201,7 +205,7 @@ int ACCT_MGR_OP::do_rpc(
     gstate.net_stats.write(mf);
     fprintf(f, "</acct_mgr_request>\n");
     fclose(f);
-    sprintf(buf, "%srpc.php", url);
+    snprintf(buf, sizeof(buf), "%srpc.php", url);
     retval = gui_http->do_rpc_post(
         this, buf, ACCT_MGR_REQUEST_FILENAME, ACCT_MGR_REPLY_FILENAME, true
     );

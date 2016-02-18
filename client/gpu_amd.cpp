@@ -160,7 +160,7 @@ void COPROC_ATI::get(
 
     void* callib = dlopen("libaticalrt.so", RTLD_NOW);
     if (!callib) {
-        sprintf(buf, "ATI: %s", dlerror());
+        snprintf(buf, sizeof(buf), "ATI: %s", dlerror());
         warnings.push_back(buf);
         return;
     }
@@ -202,19 +202,19 @@ void COPROC_ATI::get(
 
     retval = (*__calInit)();
     if (retval != CAL_RESULT_OK) {
-        sprintf(buf, "calInit() returned %d", retval);
+        snprintf(buf, sizeof(buf), "calInit() returned %d", retval);
         warnings.push_back(buf);
         goto leave;
     }
     retval = (*__calDeviceGetCount)(&numDevices);
     if (retval != CAL_RESULT_OK) {
-        sprintf(buf, "calDeviceGetCount() returned %d", retval);
+        snprintf(buf, sizeof(buf), "calDeviceGetCount() returned %d", retval);
         warnings.push_back(buf);
         goto leave;
     }
     retval = (*__calGetVersion)(&cal_major, &cal_minor, &cal_imp);
     if (retval != CAL_RESULT_OK) {
-        sprintf(buf, "calGetVersion() returned %d", retval);
+        snprintf(buf, sizeof(buf), "calGetVersion() returned %d", retval);
         warnings.push_back(buf);
         goto leave;
     }
@@ -227,13 +227,13 @@ void COPROC_ATI::get(
     for (CALuint i=0; i<numDevices; i++) {
         retval = (*__calDeviceGetInfo)(&info, i);
         if (retval != CAL_RESULT_OK) {
-            sprintf(buf, "calDeviceGetInfo() returned %d", retval);
+            snprintf(buf, sizeof(buf), "calDeviceGetInfo() returned %d", retval);
             warnings.push_back(buf);
             goto leave;
         }
         retval = (*__calDeviceGetAttribs)(&attribs, i);
         if (retval != CAL_RESULT_OK) {
-            sprintf(buf, "calDeviceGetAttribs() returned %d", retval);
+            snprintf(buf, sizeof(buf), "calDeviceGetAttribs() returned %d", retval);
             warnings.push_back(buf);
             goto leave;
         }
@@ -372,7 +372,7 @@ void COPROC_ATI::get(
         cc.attribs = attribs;
         cc.info = info;
         safe_strcpy(cc.name, gpu_name.c_str());
-        sprintf(cc.version, "%d.%d.%d", cal_major, cal_minor, cal_imp);
+        snprintf(cc.version, sizeof(cc.version), "%d.%d.%d", cal_major, cal_minor, cal_imp);
         cc.amdrt_detected = amdrt_detected;
         cc.atirt_detected = atirt_detected;
         cc.device_num = i;

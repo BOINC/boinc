@@ -18,6 +18,10 @@
 #include <boinc_win.h>
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #include <string.h>
 
 #include "str_replace.h"
@@ -670,7 +674,7 @@ void PROJECT::delete_project_file_symlinks() {
 
     for (i=0; i<project_files.size(); i++) {
         FILE_REF& fref = project_files[i];
-        sprintf(path, "%s/%s", project_dir(), fref.open_name);
+        snprintf(path, sizeof(path), "%s/%s", project_dir(), fref.open_name);
         delete_project_owned_file(path, false);
     }
 }
@@ -730,8 +734,8 @@ int PROJECT::write_symlink_for_project_file(FILE_INFO* fip) {
     for (i=0; i<project_files.size(); i++) {
         FILE_REF& fref = project_files[i];
         if (fref.file_info != fip) continue;
-        sprintf(link_path, "%s/%s", project_dir(), fref.open_name);
-        sprintf(file_path, "%s/%s", project_dir(), fip->name);
+        snprintf(link_path, sizeof(link_path), "%s/%s", project_dir(), fref.open_name);
+        snprintf(file_path, sizeof(file_path), "%s/%s", project_dir(), fip->name);
         make_soft_link(this, link_path, file_path);
     }
     return 0;
@@ -888,7 +892,7 @@ const char* PROJECT::project_dir() {
     if (_project_dir[0] == 0) {
         char buf[1024];
         escape_project_url(master_url, buf);
-        sprintf(_project_dir, "%s/%s", PROJECTS_DIR, buf);
+        snprintf(_project_dir, sizeof(_project_dir), "%s/%s", PROJECTS_DIR, buf);
     }
     return _project_dir;
 }

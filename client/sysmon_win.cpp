@@ -17,6 +17,10 @@
 
 #include "boinc_win.h"
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #include "diagnostics.h"
 #include "error_numbers.h"
 #include "filesys.h"
@@ -357,7 +361,7 @@ static void windows_detect_autoproxy_settings() {
                 }
 
                 if (log_flags.proxy_debug) {
-                    sprintf_s(buf, "proxy detected %s:%d", purl.host, purl.port);
+                    snprintf(buf, sizeof(buf), "proxy detected %s:%d", purl.host, purl.port);
                     safe_strcat(msg, buf);
                 }
             }

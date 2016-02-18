@@ -59,7 +59,7 @@ int PROJECT::write_account_file() {
     FILE* f;
     int retval;
 
-    get_account_filename(master_url, path);
+    get_account_filename(master_url, path, sizeof(path));
     f = boinc_fopen(TEMP_ACCT_FILE_NAME, "w");
     if (!f) return ERR_FOPEN;
 
@@ -202,7 +202,7 @@ int PROJECT::parse_account_file_venue() {
     bool in_right_venue = false, btemp;
     double dtemp;
 
-    get_account_filename(master_url, path);
+    get_account_filename(master_url, path, sizeof(path));
     FILE* in = boinc_fopen(path, "r");
     if (!in) return ERR_FOPEN;
 
@@ -291,7 +291,7 @@ int PROJECT::parse_account_file() {
     int retval;
     FILE* f;
 
-    get_account_filename(master_url, path);
+    get_account_filename(master_url, path, sizeof(path));
     f = boinc_fopen(path, "r");
     if (!f) return ERR_FOPEN;
     retval = parse_account(f);
@@ -464,7 +464,7 @@ int PROJECT::write_statistics_file() {
     FILE* f;
     int retval;
 
-    get_statistics_filename(master_url, path);
+    get_statistics_filename(master_url, path, sizeof(path));
     f = boinc_fopen(TEMP_STATS_FILE_NAME, "w");
     if (!f) return ERR_FOPEN;
     fprintf(f, 
@@ -551,7 +551,7 @@ int CLIENT_STATE::add_project(
         return retval;
     }
 
-    get_account_filename(canonical_master_url, path);
+    get_account_filename(canonical_master_url, path, sizeof(path));
     f = boinc_fopen(path, "r");
     if (!f) {
         delete project;

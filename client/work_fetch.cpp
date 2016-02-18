@@ -15,14 +15,17 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cmath>
-
 #include "cpp.h"
 
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
 #include "config.h"
+#include <cmath>
+#endif
+
+#ifdef _MSC_VER
+#define snprintf _snprintf
 #endif
 
 #include "util.h"
@@ -299,7 +302,8 @@ void RSC_WORK_FETCH::print_state(const char* name) {
         RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
         double bt = rpwf.backoff_time>gstate.now?rpwf.backoff_time-gstate.now:0;
         if (bt) {
-            sprintf(buf, " (resource backoff: %.2f, inc %.2f)",
+            snprintf(buf, sizeof(buf),
+                " (resource backoff: %.2f, inc %.2f)",
                 bt, rpwf.backoff_interval
             );
         } else {
@@ -351,15 +355,22 @@ void PROJECT_WORK_FETCH::rr_init(PROJECT* p) {
 void PROJECT_WORK_FETCH::print_state(PROJECT* p) {
     char buf[1024], buf2[1024];
     if (project_reason) {
-        sprintf(buf, "can't request work: %s", project_reason_string(p, buf2, sizeof(buf2)));
+        snprintf(buf, sizeof(buf),
+            "can't request work: %s",
+            project_reason_string(p, buf2, sizeof(buf2))
+        );
     } else {
         safe_strcpy(buf, "can request work");
     }
     if (p->min_rpc_time > gstate.now) {
-        sprintf(buf2, " (%.2f sec)", p->min_rpc_time - gstate.now);
+        snprintf(buf2, sizeof(buf2),
+            " (%.2f sec)",
+            p->min_rpc_time - gstate.now
+        );
         safe_strcat(buf, buf2);
     }
-    msg_printf(p, MSG_INFO, "[work_fetch] REC %.3f prio %.3f %s",
+    msg_printf(p, MSG_INFO,
+        "[work_fetch] REC %.3f prio %.3f %s",
         rec,
         p->sched_priority,
         buf
@@ -816,12 +827,13 @@ void WORK_FETCH::compute_shares() {
 
 void WORK_FETCH::request_string(char* buf, int len) {
     char buf2[256];
-    sprintf(buf,
+    snprintf(buf, len,
         "[work_fetch] request: CPU (%.2f sec, %.2f inst)",
         rsc_work_fetch[0].req_secs, rsc_work_fetch[0].req_instances
     );
     for (int i=1; i<coprocs.n_rsc; i++) {
-        sprintf(buf2, " %s (%.2f sec, %.2f inst)",
+        snprintf(buf2, sizeof(buf2),
+            " %s (%.2f sec, %.2f inst)",
             rsc_name_long(i), rsc_work_fetch[i].req_secs, rsc_work_fetch[i].req_instances
         );
         strlcat(buf, buf2, len);
@@ -1136,7 +1148,8 @@ const char* project_reason_string(PROJECT* p, char* buf, int len) {
         return "too many runnable tasks";
     case CANT_FETCH_WORK_DONT_NEED:
         if (coprocs.n_rsc == 1) {
-            sprintf(buf, "don't need (%s)",
+            snprintf(buf, len,
+                "don't need (%s)",
                 rsc_project_reason_string(rsc_work_fetch[0].dont_fetch_reason)
             );
         } else {
@@ -1144,7 +1157,8 @@ const char* project_reason_string(PROJECT* p, char* buf, int len) {
             x = "don't need (";
             for (int i=0; i<coprocs.n_rsc; i++) {
                 char buf2[256];
-                sprintf(buf2, "%s: %s",
+                snprintf(buf2, sizeof(buf2),
+                    "%s: %s",
                     rsc_name_long(i),
                     rsc_project_reason_string(rsc_work_fetch[i].dont_fetch_reason)
                 );

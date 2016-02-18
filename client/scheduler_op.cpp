@@ -27,6 +27,10 @@
 #include <ctime>
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #include "error_numbers.h"
 #include "filesys.h"
 #include "parse.h"
@@ -102,7 +106,7 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
     if (p->scheduler_urls.size() == 0) {
         retval = init_master_fetch(p);
         if (retval) {
-            sprintf(err_msg,
+            snprintf(err_msg, sizeof(err_msg),
                 "Scheduler list fetch initialization failed: %d\n", retval
             );
             project_rpc_backoff(p, err_msg);
@@ -123,7 +127,7 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
         retval = start_rpc(p);
     }
     if (retval) {
-        sprintf(err_msg,
+        snprintf(err_msg, sizeof(err_msg),
             "scheduler request to %s failed: %s\n",
             p->get_scheduler_url(url_index, url_random), boincerror(retval)
         );
@@ -161,7 +165,7 @@ void SCHEDULER_OP::project_rpc_backoff(PROJECT* p, const char *reason_msg) {
     }
 
     if (p->master_fetch_failures >= gstate.master_fetch_retry_cap) {
-        sprintf(buf,
+        snprintf(buf, sizeof(buf),
             "%d consecutive failures fetching scheduler list",
             p->master_fetch_failures
         );
@@ -459,7 +463,7 @@ bool SCHEDULER_OP::poll() {
                 // master file fetch failed.
                 //
                 char buf[256];
-                sprintf(buf, "Scheduler list fetch failed: %s",
+                snprintf(buf, sizeof(buf), "Scheduler list fetch failed: %s",
                     boincerror(http_op.http_op_retval)
                 );
                 cur_proj->master_fetch_failures++;
