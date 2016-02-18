@@ -5,7 +5,7 @@ core = 6.x
 dependencies[] = privatemsg
 
 ; Information added by drupal.org packaging script on 2011-06-19
-version = "6.x-1.5-dev-boinc-1"
+version = "6.x-1.5-boinc-1-dev"
 core = "6.x"
 project = "privatemsg"
 datestamp = "1393530079"
