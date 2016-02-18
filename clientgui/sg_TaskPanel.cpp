@@ -818,10 +818,11 @@ void CSimpleTaskPanel::GetApplicationAndProjectNames(RESULT* result, wxString* a
             strAppBuffer = wxString(state_result->avp->app_name, wxConvUTF8);
         }
         
-        char buf[256];
         if (avp->gpu_type) {
-            sprintf(buf, " (%s)", proc_type_name(avp->gpu_type));
-            strGPUBuffer = wxString(buf, wxConvUTF8);
+            strGPUBuffer.Printf(
+                wxT(" (%s)"),
+                wxString(proc_type_name(avp->gpu_type), wxConvUTF8).c_str()
+            );
         }
 
         appName->Printf(
@@ -902,7 +903,7 @@ void CSimpleTaskPanel::FindSlideShowFiles(TaskSelectionData *selData) {
     if (state_result) {
         url_to_project_dir(state_result->project->master_url, urlDirectory);
         for(j=0; j<99; ++j) {
-            sprintf(fileName, "%s/slideshow_%s_%02d", urlDirectory, state_result->app->name, j);
+            snprintf(fileName, sizeof(fileName), "%s/slideshow_%s_%02d", urlDirectory, state_result->app->name, j);
             if(boinc_resolve_filename(fileName, resolvedFileName, sizeof(resolvedFileName)) == 0) {
                 if (boinc_file_exists(resolvedFileName)) {
                     selData->slideShowFileNames.Add(wxString(resolvedFileName,wxConvUTF8));
@@ -914,7 +915,7 @@ void CSimpleTaskPanel::FindSlideShowFiles(TaskSelectionData *selData) {
 
         if ( selData->slideShowFileNames.size() == 0 ) {
             for(j=0; j<99; ++j) {
-                sprintf(fileName, "%s/slideshow_%02d", urlDirectory, j);
+                snprintf(fileName, sizeof(fileName), "%s/slideshow_%02d", urlDirectory, j);
                 if(boinc_resolve_filename(fileName, resolvedFileName, sizeof(resolvedFileName)) == 0) {
                     if (boinc_file_exists(resolvedFileName)) {
                         selData->slideShowFileNames.Add(wxString(resolvedFileName,wxConvUTF8));
