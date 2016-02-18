@@ -20,7 +20,8 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #ifdef _MSC_VER
-#define chdir _chdir
+#define chdir    _chdir
+#define snprintf _snprintf
 #endif
 #else
 #include "config.h"
@@ -138,7 +139,7 @@ static void show_exclude_gpu(EXCLUDE_GPU& e) {
     if (e.device_num < 0) {
         safe_strcpy(dev, "all");
     } else {
-        sprintf(dev, "%d", e.device_num);
+        snprintf(dev, sizeof(dev), "%d", e.device_num);
     }
     msg_printf(p, MSG_INFO,
         "Config: excluded GPU.  Type: %s.  App: %s.  Device: %s",

@@ -37,6 +37,10 @@
 #include <cstring>
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #include "error_numbers.h"
 #include "filesys.h"
 #include "log_flags.h"
@@ -598,7 +602,7 @@ int FILE_INFO::merge_info(FILE_INFO& new_info) {
 
     if (max_nbytes <= 0 && new_info.max_nbytes) {
         max_nbytes = new_info.max_nbytes;
-        sprintf(buf, "    <max_nbytes>%.0f</max_nbytes>\n", new_info.max_nbytes);
+        snprintf(buf, sizeof(buf), "    <max_nbytes>%.0f</max_nbytes>\n", new_info.max_nbytes);
     }
 
     // replace existing URLs with new ones
@@ -668,7 +672,7 @@ bool FILE_INFO::had_failure(int& failnum) {
 
 void FILE_INFO::failure_message(string& s) {
     char buf[1024];
-    sprintf(buf,
+    snprintf(buf, sizeof(buf), 
         "<file_xfer_error>\n"
         "  <file_name>%s</file_name>\n"
         "  <error_code>%d (%s)</error_code>\n",
@@ -677,7 +681,7 @@ void FILE_INFO::failure_message(string& s) {
     );
     s = buf;
     if (error_msg.size()) {
-        sprintf(buf,
+        snprintf(buf, sizeof(buf),
             "  <error_message>%s</error_message>\n",
             error_msg.c_str()
             );

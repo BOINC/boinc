@@ -52,6 +52,9 @@
 #include <cstdlib>
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
 
 #include "error_numbers.h"
 #include "filesys.h"
@@ -517,8 +520,11 @@ int ACTIVE_TASK::move_trickle_file() {
     char new_path[MAXPATHLEN], old_path[MAXPATHLEN];
     int retval;
 
-    sprintf(old_path, "%s/trickle_up.xml", slot_dir);
-    sprintf(new_path,
+    snprintf(old_path, sizeof(old_path),
+        "%s/trickle_up.xml",
+        slot_dir
+    );
+    snprintf(new_path, sizeof(new_path),
         "%s/trickle_up_%s_%d.xml",
         result->project->project_dir(), result->name, (int)time(0)
     );
@@ -1060,7 +1066,7 @@ int ACTIVE_TASK::handle_upload_files() {
                     "Can't find uploadable file %s", p
                 );
             }
-            sprintf(path, "%s/%s", slot_dir, buf);
+            snprintf(path, sizeof(path), "%s/%s", slot_dir, buf);
             delete_project_owned_file(path, true);  // delete the link file
         }
     }
@@ -1095,7 +1101,10 @@ void ACTIVE_TASK_SET::network_available() {
 
 void ACTIVE_TASK::upload_notify_app(const FILE_INFO* fip, const FILE_REF* frp) {
     char path[MAXPATHLEN];
-    sprintf(path, "%s/%s%s", slot_dir, UPLOAD_FILE_STATUS_PREFIX, frp->open_name);
+    snprintf(path, sizeof(path), 
+        "%s/%s%s",
+        slot_dir, UPLOAD_FILE_STATUS_PREFIX, frp->open_name
+    );
     FILE* f = boinc_fopen(path, "w");
     if (!f) return;
     fprintf(f, "<status>%d</status>\n", fip->status);

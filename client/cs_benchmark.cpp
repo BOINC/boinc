@@ -54,6 +54,10 @@
 #include <ctime>
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #include "error_numbers.h"
 #include "file_names.h"
 #include "filesys.h"
@@ -190,7 +194,7 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
 #endif
     if (retval) {
         bdp->error = true;
-        sprintf(bdp->error_str, "FP benchmark ran only %f sec; ignoring", fp_time);
+        snprintf(bdp->error_str, sizeof(bdp->error_str), "FP benchmark ran only %f sec; ignoring", fp_time);
         return 0;
     }
 #ifdef _WIN32
@@ -204,7 +208,7 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
     retval = dhrystone(vax_mips, int_loops, int_time, MIN_CPU_TIME);
     if (retval) {
         bdp->error = true;
-        sprintf(bdp->error_str, "Integer benchmark ran only %f sec; ignoring", int_time);
+        snprintf(bdp->error_str, sizeof(bdp->error_str), "Integer benchmark ran only %f sec; ignoring", int_time);
         return 0;
     }
     host_info.p_iops = vax_mips*1e6;

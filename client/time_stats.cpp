@@ -30,6 +30,10 @@
 #endif
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #include "error_numbers.h"
 #include "filesys.h"
 #include "parse.h"
@@ -221,10 +225,14 @@ void CLIENT_TIME_STATS::update(int suspend_reason, int _gpu_suspend_reason) {
             log_append("power_off", last_update);
             char buf[256];
 #ifndef SIM
-            sprintf(buf, "platform %s", gstate.get_primary_platform());
+            snprintf(buf, sizeof(buf),
+                "platform %s",
+                gstate.get_primary_platform()
+            );
             log_append(buf, gstate.now);
 #endif
-            sprintf(buf, "version %d.%d.%d",
+            snprintf(buf, sizeof(buf),
+                "version %d.%d.%d",
                 BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, BOINC_RELEASE
             );
             log_append(buf, gstate.now);

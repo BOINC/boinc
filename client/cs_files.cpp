@@ -30,6 +30,10 @@
 #include <sys/types.h>
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #include "md5_file.h"
 #include "crypt.h"
 #include "str_replace.h"
@@ -188,7 +192,7 @@ int FILE_INFO::verify_file(
     //
     if (download_gzipped && !boinc_file_exists(pathname)) {
         char gzpath[MAXPATHLEN];
-        sprintf(gzpath, "%s.gz", pathname);
+        snprintf(gzpath, sizeof(gzpath), "%s.gz", pathname);
         if (boinc_file_exists(gzpath) ) {
             if (allow_async && nbytes > ASYNC_FILE_THRESHOLD) {
                 ASYNC_VERIFY* avp = new ASYNC_VERIFY;
@@ -414,8 +418,8 @@ bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
                 if (fip->download_gzipped) {
                     char path[MAXPATHLEN], from_path[MAXPATHLEN], to_path[MAXPATHLEN];
                     get_pathname(fip, path, sizeof(path));
-                    sprintf(from_path, "%s.gzt", path);
-                    sprintf(to_path, "%s.gz", path);
+                    snprintf(from_path, sizeof(from_path), "%s.gzt", path);
+                    snprintf(to_path, sizeof(to_path), "%s.gz", path);
                     boinc_rename(from_path, to_path);
                 }
 

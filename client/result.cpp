@@ -15,7 +15,16 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifdef _WIN32
+#include "boinc_win.h"
+#else
+#include "config.h"
 #include <math.h>
+#endif
+
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
 
 #include "str_replace.h"
 #include "parse.h"
@@ -388,14 +397,14 @@ int RESULT::write_gui(MIOFILE& out) {
         //
         if (avp->gpu_usage.rsc_type) {
             if (avp->gpu_usage.usage == 1) {
-                sprintf(resources,
+                snprintf(resources, sizeof(resources),
                     "%.3g %s + 1 %s",
                     avp->avg_ncpus,
                     cpu_string(avp->avg_ncpus),
                     rsc_name_long(avp->gpu_usage.rsc_type)
                 );
             } else {
-                sprintf(resources,
+                snprintf(resources, sizeof(resources),
                     "%.3g %s + %.3g %ss",
                     avp->avg_ncpus,
                     cpu_string(avp->avg_ncpus),
@@ -404,13 +413,15 @@ int RESULT::write_gui(MIOFILE& out) {
                 );
             }
         } else if (avp->missing_coproc) {
-            sprintf(resources, "%.3g %s + %s GPU (missing)",
+            snprintf(resources, sizeof(resources),
+                "%.3g %s + %s GPU (missing)",
                 avp->avg_ncpus,
                 cpu_string(avp->avg_ncpus),
                 avp->missing_coproc_name
             );
         } else if (!project->non_cpu_intensive && (avp->avg_ncpus != 1)) {
-            sprintf(resources, "%.3g %s",
+            snprintf(resources, sizeof(resources),
+                "%.3g %s",
                 avp->avg_ncpus,
                 cpu_string(avp->avg_ncpus)
             );
