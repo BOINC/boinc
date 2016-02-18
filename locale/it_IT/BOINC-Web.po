@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-02-12 10:10+0000\n"
+"PO-Revision-Date: 2016-02-18 13:16+0000\n"
 "Last-Translator: Daniele Masini <d.masini.it@gmail.com>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -889,7 +889,7 @@ msgstr "Decodificare i messaggi dei sommergibili della Seconda guerra mondiale"
 
 #: projects.inc:603
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
-msgstr "Studiare la Congettura di Collatz, una congettura matematica irrisolta"
+msgstr "Studiare la congettura di Collatz, una congettura matematica irrisolta"
 
 #: projects.inc:606
 msgid "Study the Collatz Conjecture"
@@ -901,7 +901,7 @@ msgstr "California State University Fullerton"
 
 #: projects.inc:612
 msgid "Factorization of large integers"
-msgstr "Fattorizzazione di grandi numeri interi"
+msgstr "Fattorizzazione di numeri interi grandi"
 
 #: projects.inc:613
 msgid ""
