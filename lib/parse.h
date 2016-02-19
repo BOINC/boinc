@@ -252,6 +252,7 @@ struct XML_PARSER {
     bool parse_str(const char*, char*, int);
     bool parse_string(const char*, std::string&);
     bool parse_int(const char*, int&);
+    bool parse_long(const char*, long&);
     bool parse_double(const char*, double&);
     bool parse_ulong(const char*, unsigned long&);
     bool parse_ulonglong(const char*, unsigned long long&);
