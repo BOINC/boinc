@@ -783,7 +783,7 @@ void handle_lookup_account(GUI_RPC_CONN& grc) {
     MIOFILE in;
 
     ai.parse(grc.xp);
-	if ((!ai.url.size() || !ai.email_addr.size() || !ai.passwd_hash.size()) && !ai.server_assigned_hash) {
+	if ((!ai.url.size() || !ai.email_addr.size() || !ai.passwd_hash.size()) && !ai.server_assigned_cookie) {
         grc.mfout.printf("<error>missing URL, email address, or password</error>\n");
         return;
     }

@@ -564,9 +564,9 @@ struct ACCOUNT_IN {
     std::string user_name;
     std::string passwd;
     std::string team_name;
-    std::string server_hash;
+    std::string server_cookie;
     bool ldap_auth;
-    bool server_assigned_hash;
+    bool server_assigned_cookie;
 
     ACCOUNT_IN();
 
