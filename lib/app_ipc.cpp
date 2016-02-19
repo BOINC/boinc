@@ -252,20 +252,20 @@ void APP_INIT_DATA::clear() {
     minor_version = 0;
     release = 0;
     app_version = 0;
-    safe_strcpy(app_name, "");
-    safe_strcpy(symstore, "");
-    safe_strcpy(acct_mgr_url, "");
+    strcpy(app_name, "");
+    strcpy(symstore, "");
+    strcpy(acct_mgr_url, "");
     project_preferences = NULL;
     userid = 0;
     teamid = 0;
     hostid = 0;
-    safe_strcpy(user_name, "");
-    safe_strcpy(team_name, "");
-    safe_strcpy(project_dir, "");
-    safe_strcpy(boinc_dir, "");
-    safe_strcpy(wu_name, "");
-    safe_strcpy(result_name, "");
-    safe_strcpy(authenticator, "");
+    strcpy(user_name, "");
+    strcpy(team_name, "");
+    strcpy(project_dir, "");
+    strcpy(boinc_dir, "");
+    strcpy(wu_name, "");
+    strcpy(result_name, "");
+    strcpy(authenticator, "");
     slot = 0;
     client_pid = 0;
     user_total_credit = 0;
@@ -289,7 +289,7 @@ void APP_INIT_DATA::clear() {
     checkpoint_period = 0;
     // gpu_type is an empty string for client versions before 6.13.3 without this
     // field or (on newer clients) if BOINC did not assign an OpenCL GPU to task.
-    safe_strcpy(gpu_type, "");
+    strcpy(gpu_type, "");
     // gpu_device_num < 0 for client versions before 6.13.3 without this field
     // or (on newer clients) if BOINC did not assign an OpenCL GPU to task.
     gpu_device_num = -1;
@@ -472,7 +472,7 @@ int boinc_resolve_filename(
     // must initialize buf since fgets() on an empty file won't do anything
     //
     buf[0] = 0;
-    p =fgets(buf, sizeof(buf), fp);
+    p = fgets(buf, sizeof(buf), fp);
     fclose(fp);
 
     // If it's the <soft_link> XML tag, return its value,
@@ -505,9 +505,34 @@ int boinc_resolve_filename_s(const char *virtual_name, string& physical_name) {
     return 0;
 }
 
-void url_to_project_dir(char* url, char* dir) {
+// if the given file is a soft link of the form ../../project_dir/x,
+// return x, else return empty string
+//
+string resolve_soft_link(const char* project_dir, const char* file) {
+    char buf[1024], physical_name[1024];
+    FILE* fp = boinc_fopen(file, "r");
+    if (!fp) {
+        return string("");
+    }
+    buf[0] = 0;
+    char* p = fgets(buf, sizeof(buf), fp);
+    fclose(fp);
+    if (!p) {
+        return string("");
+    }
+    if (!parse_str(buf, "<soft_link>", physical_name, sizeof(physical_name))) {
+        return string("");
+    }
+    snprintf(buf, sizeof(buf), "../../%s/", project_dir);
+    if (strstr(physical_name, buf) != physical_name) {
+        return string("");
+    }
+    return string(physical_name + strlen(buf));
+}
+
+void url_to_project_dir(char* url, char* dir, int dirsize) {
     char buf[256];
     escape_project_url(url, buf);
-    sprintf(dir, "%s/%s", PROJECT_DIR, buf);
+    snprintf(dir, dirsize, "%s/%s", PROJECT_DIR, buf);
 }
 
