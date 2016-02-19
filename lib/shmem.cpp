@@ -23,6 +23,10 @@
 #include "stdwx.h"
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #ifdef __EMX__
 #define INCL_DOS
 #define INCL_DOSERRORS
@@ -138,9 +142,7 @@ HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool try_global) {
         } 
      
         if (!InitializeSecurityDescriptor(pSD, SECURITY_DESCRIPTOR_REVISION)) {
-            fprintf(stderr, "InitializeSecurityDescriptor Error %u\n",
-                GetLastError()
-            );
+            fprintf(stderr, "InitializeSecurityDescriptor Error %u\n", GetLastError());
             goto Cleanup; 
         } 
      
@@ -170,7 +172,7 @@ HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool try_global) {
         // terminal server session boundaries.
         //
         if (try_global) {
-            sprintf(global_seg_name, "Global\\%s", seg_name);
+            snprintf(global_seg_name, sizeof(global_seg_name), "Global\\%s", seg_name);
             hMap = CreateFileMapping(
                 INVALID_HANDLE_VALUE, &sa, PAGE_READWRITE, 0,
                 size, global_seg_name
@@ -220,7 +222,7 @@ HANDLE attach_shmem(LPCTSTR seg_name, void** pp) {
     // name if the shared memory segment is going to cross
     // terminal server session boundries.
     //
-    sprintf(global_seg_name, "Global\\%s", seg_name);
+    snprintf(global_seg_name, sizeof(global_seg_name), "Global\\%s", seg_name);
 
     // Try using 'Global' so that it can cross terminal server sessions
     //
@@ -251,7 +253,7 @@ int create_shmem(key_t key, int size, void** pp) {
     APIRET rc;
     char   buf[256];
 
-    sprintf(buf, "\\SHAREMEM\\BOINC\\%d", key);
+    snprintf(buf, sizeof(buf), "\\SHAREMEM\\BOINC\\%d", key);
     //debug_printf( "create_shmem %s, %d, %p\n", buf, size, pp);
     rc = DosAllocSharedMem(pp, (PSZ)buf, size, PAG_READ | PAG_WRITE | PAG_EXECUTE | PAG_COMMIT | OBJ_ANY);
     if (rc == ERROR_ALREADY_EXISTS)
@@ -287,7 +289,7 @@ int attach_shmem(key_t key, void** pp){
     APIRET rc;
     char   buf[256];
 
-    sprintf(buf, "\\SHAREMEM\\BOINC\\%d", key);
+    snprintf(buf, sizeof(buf), "\\SHAREMEM\\BOINC\\%d", key);
     //debug_printf( "attach_shmem %s, %p\n", buf, pp);
     rc = DosGetNamedSharedMem(pp, (PSZ) buf, PAG_READ | PAG_WRITE);
     if (rc) {

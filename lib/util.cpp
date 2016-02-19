@@ -25,7 +25,8 @@
 #endif
 
 #if defined(_MSC_VER) || defined(__MINGW32__)
-#define finite _finite
+#define finite   _finite
+#define snprintf _snprintf
 #endif
 
 #ifndef M_LN2
@@ -297,7 +298,7 @@ double linux_cpu_time(int pid) {
     unsigned long utime = 0, stime = 0;
     int n;
 
-    sprintf(file_name,"/proc/%d/stat",pid);
+    snprintf(file_name, sizeof(file_name), "/proc/%d/stat", pid);
     if ((file = fopen(file_name,"r")) != NULL) {
         n = fscanf(file,"%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%lu%lu",&utime,&stime);
         fclose(file);
@@ -564,7 +565,9 @@ static int get_client_mutex(const char* dir) {
     char path[MAXPATHLEN];
     static FILE_LOCK file_lock;
 
-    sprintf(path, "%s/%s", dir, LOCK_FILE_NAME);
+    snprintf(path, sizeof(path), "%s/%s", dir, LOCK_FILE_NAME);
+    path[sizeof(path)-1] = 0;
+
     int retval = file_lock.lock(path);
     if (retval == ERR_FCNTL) {
         return ERR_ALREADY_RUNNING;

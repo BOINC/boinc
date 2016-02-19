@@ -1435,13 +1435,13 @@ int diagnostics_dump_exception_record(PEXCEPTION_POINTERS pExPtrs) {
             if (pExPtrs->ExceptionRecord->NumberParameters == 2) {
                 switch(pExPtrs->ExceptionRecord->ExceptionInformation[0]) {
                 case 0: // read attempt
-                    sprintf(substatus,
+                    snprintf(substatus, sizeof(substatus),
                         "read attempt to address 0x%8.8X",
                         pExPtrs->ExceptionRecord->ExceptionInformation[1]
                     );
                     break;
                 case 1: // write attempt
-                    sprintf(substatus,
+                    snprintf(substatus, sizeof(substatus),
                         "write attempt to address 0x%8.8X",
                         pExPtrs->ExceptionRecord->ExceptionInformation[1]
                     );

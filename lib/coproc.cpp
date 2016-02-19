@@ -283,11 +283,11 @@ void COPROC_NVIDIA::description(char* buf, int buflen) {
      	int maj = display_driver_version >> 16;
     	int min = (display_driver_version >> 8) & 0xff;
     	int rev = display_driver_version & 0xff;
-        sprintf(vers, "%d.%d.%d", maj, min, rev);
+        snprintf(vers, sizeof(vers), "%d.%d.%d", maj, min, rev);
 #else
         int maj = display_driver_version/100;
         int min = display_driver_version%100;
-        sprintf(vers, "%d.%02d", maj, min);
+        snprintf(vers, sizeof(vers), "%d.%02d", maj, min);
 #endif
     } else {
         safe_strcpy(vers, "unknown");
@@ -295,7 +295,7 @@ void COPROC_NVIDIA::description(char* buf, int buflen) {
     if (cuda_version) {
         int maj = cuda_version/1000;
         int min = (cuda_version%1000)/10;
-        sprintf(cuda_vers, "%d.%d", maj, min);
+        snprintf(cuda_vers, sizeof(cuda_vers), "%d.%d", maj, min);
     } else {
         safe_strcpy(cuda_vers, "unknown");
     }
