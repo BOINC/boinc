@@ -416,8 +416,8 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                 ai->ldap_auth = pWA->project_config.ldap_auth;
 
                 // Configure for project assigned hash lookup
-                ai->server_assigned_hash = pWA->GetProjectSetupCookie().size() ? 1 : 0;
-                ai->server_hash = (const char*)pWA->GetProjectSetupCookie().mb_str();
+                ai->server_assigned_cookie = pWA->GetProjectSetupCookie().size() ? 1 : 0;
+                ai->server_cookie = (const char*)pWA->GetProjectSetupCookie().mb_str();
 
                 if (pWA->m_AccountInfoPage->m_pAccountCreateCtrl->GetValue() && !pWA->GetProjectSetupCookie().size()) {
 					creating_account = true;
