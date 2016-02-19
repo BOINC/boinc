@@ -501,6 +501,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                         (ERR_BAD_EMAIL_ADDR == ao->error_num) ||
                         (ERR_BAD_PASSWD == ao->error_num)
                     ) {
+                        pWA->SetProjectSetupCookie(wxEmptyString);
                         SetProjectAccountNotFound(true);
                     } else {
                         SetProjectAccountNotFound(false);
