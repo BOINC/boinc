@@ -292,9 +292,9 @@ bool CWizardAttach::Run(
     if (m_ProjectPropertiesPage && m_ProjectInfoPage && m_ProjectWelcomePage) {
         IsAttachToProjectWizard = true;
         IsAccountManagerWizard = false;
-        if (strProjectName.size() && strProjectURL.size() && (strProjectSetupCookie.size() == 0)) {
+        if (strProjectName.size() && strProjectURL.size() && ((strProjectSetupCookie.IsEmpty()) || !bEmbedded)) {
             return RunWizard(m_ProjectWelcomePage);
-        } else if (strProjectURL.size() && (IsCredentialsCached() || IsCredentialsDetected() || strProjectSetupCookie.size())) {
+        } else if (strProjectURL.size() && (IsCredentialsCached() || IsCredentialsDetected() || (strProjectSetupCookie.size() && bEmbedded))) {
             return RunWizard(m_ProjectPropertiesPage);
         } else {
             return RunWizard(m_ProjectInfoPage);
