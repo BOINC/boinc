@@ -700,8 +700,17 @@ void CSimpleFrame::OnProjectsAttachToProject(wxCommandEvent& WXUNUSED(event)) {
 
         CWizardAttach* pWizard = new CWizardAttach(this);
 
-        wxString strURL = wxEmptyString;
-        pWizard->Run(strURL, false);
+        pWizard->Run(
+            wxEmptyString,
+            wxEmptyString,
+            wxEmptyString,
+            wxEmptyString,
+            wxEmptyString,
+            wxEmptyString,
+            wxEmptyString,
+            false,
+            false
+        );
 
         if (pWizard)
             pWizard->Destroy();
@@ -729,7 +738,9 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     std::string strProjectInstitution;
     std::string strProjectDescription;
     std::string strProjectKnown;
-    bool bCachedCredentials = false;
+    std::string strProjectSetupCookie;
+    bool        bAccountKeyDetected = false;
+    bool        bEmbedded = false;
     ACCT_MGR_INFO ami;
     PROJECT_INIT_STATUS pis;
 	CC_STATUS     status;
@@ -754,30 +765,7 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     pDoc->rpc.get_project_init_status(pis);
     pDoc->rpc.acct_mgr_info(ami);
 
-    if (detect_simple_account_credentials(
-            strProjectName, strProjectURL, strProjectAuthenticator, strProjectInstitution, strProjectDescription, strProjectKnown
-        )
-    ){
-        if (!pDoc->project((char*)strProjectURL.c_str())) {
-            wasShown = IsShown();
-            Show();
-            wasVisible = wxGetApp().IsApplicationVisible();
-            if (!wasVisible) {
-                wxGetApp().ShowApplication(true);
-            }
-        
-            pWizard = new CWizardAttach(this);
-
-            pWizard->RunSimpleProjectAttach(
-                wxURI::Unescape(strProjectName),
-                wxURI::Unescape(strProjectURL),
-                wxURI::Unescape(strProjectAuthenticator),
-                wxURI::Unescape(strProjectInstitution),
-                wxURI::Unescape(strProjectDescription),
-                wxURI::Unescape(strProjectKnown)
-            );
-        }
-    } else if (ami.acct_mgr_url.size() && ami.have_credentials) {
+    if (ami.acct_mgr_url.size() && ami.have_credentials) {
         // Fall through
         //
         // There isn't a need to bring up the attach wizard, the account manager will
@@ -822,15 +810,44 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             }
 #endif
         }
-    } else if ((pis.url.size() || (0 >= pDoc->GetSimpleProjectCount())) && !status.disallow_attach) {
+    } else if ((0 >= pDoc->GetProjectCount()) && !status.disallow_attach) {
+        if (pis.url.size() > 0) {
+
+            strProjectName = pis.name.c_str();
+            strProjectURL = pis.url.c_str();
+            strProjectSetupCookie = pis.setup_cookie.c_str();
+            bAccountKeyDetected = pis.has_account_key;
+            bEmbedded = pis.embedded;
+
+            // If credentials are not cached, then we should try one last place to look up the
+            //   authenticator.  Some projects will set a "Setup" cookie off of their URL with a
+            //   pretty short timeout.  Lets take a crack at detecting it.
+            //
+            if (pis.url.length() && !pis.has_account_key) {
+                detect_setup_authenticator(pis.url, strProjectAuthenticator);
+            }
+
+        } else {
+            detect_simple_account_credentials(
+                strProjectName, strProjectURL, strProjectAuthenticator, strProjectInstitution, strProjectDescription, strProjectKnown
+            );
+        }
+        
         Show();
         wxGetApp().ShowApplication(true);
-
-        strURL = wxString(pis.url.c_str(), wxConvUTF8);
-        bCachedCredentials = pis.url.length() && pis.has_account_key;
-
         pWizard = new CWizardAttach(this);
-        pWizard->Run(strURL, bCachedCredentials);
+
+        pWizard->Run(
+            wxURI::Unescape(strProjectName),
+            wxURI::Unescape(strProjectURL),
+            wxURI::Unescape(strProjectAuthenticator),
+            wxURI::Unescape(strProjectInstitution),
+            wxURI::Unescape(strProjectDescription),
+            wxURI::Unescape(strProjectKnown),
+            wxURI::Unescape(strProjectSetupCookie),
+            bAccountKeyDetected,
+            bEmbedded
+        );
     }
 
  	if (pWizard) {

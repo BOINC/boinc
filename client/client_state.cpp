@@ -36,6 +36,10 @@
 #endif
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #ifdef __EMX__
 #define INCL_DOS
 #include <os2.h>
@@ -119,8 +123,8 @@ CLIENT_STATE::CLIENT_STATE()
 #else
     core_client_version.prerelease = false;
 #endif
-    strcpy(language, "");
-    strcpy(client_brand, "");
+    safe_strcpy(language, "");
+    safe_strcpy(client_brand, "");
     exit_after_app_start_secs = 0;
     app_started = 0;
     exit_before_upload = false;
@@ -129,12 +133,12 @@ CLIENT_STATE::CLIENT_STATE()
     boinc_project_gid = 0;
 #endif
     show_projects = false;
-    strcpy(detach_project_url, "");
-    strcpy(reset_project_url, "");
-    strcpy(update_prefs_url, "");
-    strcpy(main_host_venue, "");
-    strcpy(attach_project_url, "");
-    strcpy(attach_project_auth, "");
+    safe_strcpy(detach_project_url, "");
+    safe_strcpy(reset_project_url, "");
+    safe_strcpy(update_prefs_url, "");
+    safe_strcpy(main_host_venue, "");
+    safe_strcpy(attach_project_url, "");
+    safe_strcpy(attach_project_auth, "");
     cpu_run_mode.set(RUN_MODE_AUTO, 0);
     gpu_run_mode.set(RUN_MODE_AUTO, 0);
     network_run_mode.set(RUN_MODE_AUTO, 0);
@@ -412,7 +416,7 @@ static void set_client_priority() {
 #endif
 #ifdef __linux__
     char buf[1024];
-    sprintf(buf, "ionice -c 3 -p %d", getpid());
+    snprintf(buf, sizeof(buf), "ionice -c 3 -p %d", getpid());
     system(buf);
 #endif
 }
@@ -1003,14 +1007,14 @@ bool CLIENT_STATE::poll_slow_events() {
         if (!old_network_suspend_reason) {
             char buf[256];
             if (network_suspended) {
-                sprintf(buf,
+                snprintf(buf, sizeof(buf),
                     "Suspending network activity - %s",
                     suspend_reason_string(network_suspend_reason)
                 );
                 request_schedule_cpus("network suspended");
                     // in case any "needs_network" jobs are running
             } else {
-                sprintf(buf,
+                snprintf(buf, sizeof(buf),
                     "Suspending file transfers - %s",
                     suspend_reason_string(network_suspend_reason)
                 );
@@ -1234,8 +1238,8 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
 
 #ifndef SIM
 
-    strcpy(avp->graphics_exec_path, "");
-    strcpy(avp->graphics_exec_file, "");
+    safe_strcpy(avp->graphics_exec_path, "");
+    safe_strcpy(avp->graphics_exec_file, "");
 
     for (unsigned int i=0; i<avp->app_files.size(); i++) {
         FILE_REF& file_ref = avp->app_files[i];
@@ -1252,8 +1256,8 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
             char relpath[MAXPATHLEN], path[MAXPATHLEN];
             get_pathname(fip, relpath, sizeof(relpath));
             relative_to_absolute(relpath, path);
-            strlcpy(avp->graphics_exec_path, path, sizeof(avp->graphics_exec_path));
-            strcpy(avp->graphics_exec_file, fip->name);
+            safe_strcpy(avp->graphics_exec_path, path);
+            safe_strcpy(avp->graphics_exec_file, fip->name);
         }
 
         // any file associated with an app version must be signed
@@ -2080,7 +2084,7 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
 
     // delete statistics file
     //
-    get_statistics_filename(project->master_url, path);
+    get_statistics_filename(project->master_url, path, sizeof(path));
     retval = boinc_delete_file(path);
     if (retval) {
         msg_printf(project, MSG_INTERNAL_ERROR,
@@ -2090,7 +2094,7 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
 
     // delete account file
     //
-    get_account_filename(project->master_url, path);
+    get_account_filename(project->master_url, path, sizeof(path));
     retval = boinc_delete_file(path);
     if (retval) {
         msg_printf(project, MSG_INTERNAL_ERROR,
@@ -2231,7 +2235,7 @@ void CLIENT_STATE::log_show_projects() {
         if (p->hostid) {
             sprintf(buf, "%d", p->hostid);
         } else {
-            strcpy(buf, "not assigned yet");
+            safe_strcpy(buf, "not assigned yet");
         }
         msg_printf(p, MSG_INFO,
             "URL %s; Computer ID %s; resource share %.0f",

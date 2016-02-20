@@ -101,15 +101,12 @@
 // platforms we are going to disable the deprecation warnings if we are compiling
 // on Visual Studio 2005
 #if _MSC_VER >= 1400
-
 #ifndef _CRT_SECURE_NO_DEPRECATE
 #define _CRT_SECURE_NO_DEPRECATE
 #endif
-
 #ifndef _CRT_SECURE_NO_WARNINGS
 #define _CRT_SECURE_NO_WARNINGS
 #endif
-
 #endif
 
 // Target Windows XP or better with Internet Explorer 5.01 or better

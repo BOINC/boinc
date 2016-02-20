@@ -78,9 +78,9 @@ GUI_RPC_CONN::GUI_RPC_CONN(int s) :
 {
     sock = s;
     mfout.init_mfile(&mout);
-    strcpy(request_msg,"");
+    safe_strcpy(request_msg,"");
     request_nbytes = 0;
-    strcpy(nonce,"");
+    safe_strcpy(nonce,"");
     auth_needed = false;
     got_auth1 = false;
     got_auth2 = false;
@@ -101,7 +101,7 @@ GUI_RPC_CONN_SET::GUI_RPC_CONN_SET() {
     remote_hosts_file_exists = false;
     lsock = -1;
     time_of_last_rpc_needing_network = 0;
-    strcpy(password,"");
+    safe_strcpy(password,"");
 }
 
 bool GUI_RPC_CONN_SET::poll() {
@@ -125,7 +125,7 @@ bool GUI_RPC_CONN_SET::recent_rpc_needs_network(double interval) {
 void GUI_RPC_CONN_SET::get_password() {
     int retval;
 
-    strcpy(password, "");
+    safe_strcpy(password, "");
     FILE* f = fopen(GUI_RPC_PASSWD_FILE, "r");
     if (f) {
         if (fgets(password, 256, f)) {

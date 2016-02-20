@@ -121,11 +121,11 @@ int main(int argc, char** argv) {
     std::string msg_body;
     std::string msg_tmp;
 
-    strcpy(buf, "");
-    strcpy(datadir, "");
-    strcpy(hostname_buf, "");
-    strcpy(passwd_buf, "");
-    strcpy(g_log_filename, "");
+    strlcpy(buf, "", sizeof(buf));
+    strlcpy(datadir, "", sizeof(datadir));
+    strlcpy(hostname_buf, "", sizeof(hostname_buf));
+    strlcpy(passwd_buf, "", sizeof(passwd_buf));
+    strlcpy(g_log_filename, "", sizeof(g_log_filename));
     g_message_sequence = 0;
 
 #if defined(_WIN32) && defined(USE_WINSOCK)

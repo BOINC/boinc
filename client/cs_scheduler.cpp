@@ -34,6 +34,10 @@
 #include <set>
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #include "crypt.h"
 #include "error_numbers.h"
 #include "file_names.h"
@@ -330,21 +334,21 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
             rp = results[i];
             double x = rp->estimated_runtime_remaining();
             if (x == 0) continue;
-            strcpy(buf, "");
+            safe_strcpy(buf, "");
             int rt = rp->avp->gpu_usage.rsc_type;
             if (rt) {
                 if (rt == rsc_index(GPU_TYPE_NVIDIA)) {
-                    sprintf(buf,
+                    snprintf(buf, sizeof(buf),
                         "        <ncudas>%f</ncudas>\n",
                         rp->avp->gpu_usage.usage
                     );
                 } else if (rt == rsc_index(GPU_TYPE_ATI)) {
-                    sprintf(buf,
+                    snprintf(buf, sizeof(buf),
                         "        <natis>%f</natis>\n",
                         rp->avp->gpu_usage.usage
                     );
                 } else if (rt == rsc_index(GPU_TYPE_INTEL)) {
-                    sprintf(buf,
+                    snprintf(buf, sizeof(buf),
                         "        <nintel_gpus>%f</nintel_gpus>\n",
                         rp->avp->gpu_usage.usage
                     );
@@ -573,9 +577,9 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     if (log_flags.sched_ops) {
         if (work_fetch.requested_work()) {
-            sprintf(buf, ": got %d new tasks", (int)sr.results.size());
+            snprintf(buf, sizeof(buf), ": got %d new tasks", (int)sr.results.size());
         } else {
-            strcpy(buf, "");
+            safe_strcpy(buf, "");
         }
         msg_printf(project, MSG_INFO, "Scheduler request completed%s", buf);
     }
@@ -1151,7 +1155,7 @@ void CLIENT_STATE::check_project_timeout() {
         if (p->possibly_backed_off && now > p->min_rpc_time) {
             p->possibly_backed_off = false;
             char buf[256];
-            sprintf(buf, "Backoff ended for %s", p->get_project_name());
+            snprintf(buf, sizeof(buf), "Backoff ended for %s", p->get_project_name());
             request_work_fetch(buf);
         }
     }

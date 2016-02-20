@@ -24,6 +24,10 @@
 #include <string>
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #include "parse.h"
 #include "url.h"
 #include "filesys.h"
@@ -52,10 +56,10 @@ static bool cmp(NOTICE n1, NOTICE n2) {
     return (strcmp(n1.guid, n2.guid) > 0);
 }
 
-static void project_feed_list_file_name(PROJ_AM* p, char* buf) {
+static void project_feed_list_file_name(PROJ_AM* p, char* buf, int len) {
     char url[256];
     escape_project_url(p->master_url, url);
-    sprintf(buf, "notices/feeds_%s.xml", url);
+    snprintf(buf, len, "notices/feeds_%s.xml", url);
 }
 
 // parse feed descs from scheduler reply or feed list file
@@ -95,7 +99,7 @@ static void write_rss_feed_descs(MIOFILE& fout, vector<RSS_FEED>& feeds) {
 
 static void write_project_feed_list(PROJ_AM* p) {
     char buf[256];
-    project_feed_list_file_name(p, buf);
+    project_feed_list_file_name(p, buf, sizeof(buf));
     FILE* f = fopen(buf, "w");
     if (!f) return;
     MIOFILE fout;
@@ -496,7 +500,7 @@ void NOTICES::write_archive(RSS_FEED* rfp) {
     char path[MAXPATHLEN];
 
     if (rfp) {
-        rfp->archive_file_name(path);
+        rfp->archive_file_name(path, sizeof(path));
     } else {
         safe_strcpy(path, NOTICES_DIR"/archive.xml");
     }
@@ -609,16 +613,16 @@ void NOTICES::write(int seqno, GUI_RPC_CONN& grc, bool public_only) {
 
 ///////////// RSS_FEED ////////////////
 
-void RSS_FEED::feed_file_name(char* path) {
+void RSS_FEED::feed_file_name(char* path, int len) {
     char buf[256];
     escape_project_url(url_base, buf);
-    sprintf(path, NOTICES_DIR"/%s.xml", buf);
+    snprintf(path, len, NOTICES_DIR"/%s.xml", buf);
 }
 
-void RSS_FEED::archive_file_name(char* path) {
+void RSS_FEED::archive_file_name(char* path, int len) {
     char buf[256];
     escape_project_url(url_base, buf);
-    sprintf(path, NOTICES_DIR"/archive_%s.xml", buf);
+    snprintf(path, len, NOTICES_DIR"/archive_%s.xml", buf);
 }
 
 // read and parse the contents of the archive file;
@@ -626,14 +630,14 @@ void RSS_FEED::archive_file_name(char* path) {
 //
 int RSS_FEED::read_archive_file() {
     char path[MAXPATHLEN];
-    archive_file_name(path);
+    archive_file_name(path, sizeof(path));
     return notices.read_archive_file(path, this);
 }
 
 // parse a feed descriptor (in scheduler reply or feed list file)
 //
 int RSS_FEED::parse_desc(XML_PARSER& xp) {
-    strcpy(url, "");
+    safe_strcpy(url, "");
     poll_interval = 0;
     next_poll_time = 0;
     while (!xp.get_tag()) {
@@ -752,9 +756,9 @@ int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
 
 void RSS_FEED::delete_files() {
     char path[MAXPATHLEN];
-    feed_file_name(path);
+    feed_file_name(path, sizeof(path));
     boinc_delete_file(path);
-    archive_file_name(path);
+    archive_file_name(path, sizeof(path));
     boinc_delete_file(path);
 }
 
@@ -770,14 +774,14 @@ RSS_FEED_OP::RSS_FEED_OP() {
 //
 bool RSS_FEED_OP::poll() {
     unsigned int i;
+    char file_name[256];
     if (gstate.gui_http.is_busy()) return false;
     if (gstate.network_suspended) return false;
     for (i=0; i<rss_feeds.feeds.size(); i++) {
         RSS_FEED& rf = rss_feeds.feeds[i];
         if (gstate.now > rf.next_poll_time) {
             rf.next_poll_time = gstate.now + rf.poll_interval;
-            char filename[256];
-            rf.feed_file_name(filename);
+            rf.feed_file_name(file_name, sizeof(file_name));
             rfp = &rf;
             if (log_flags.notice_debug) {
                 msg_printf(0, MSG_INFO,
@@ -785,8 +789,8 @@ bool RSS_FEED_OP::poll() {
                 );
             }
             char url[1024];
-            strcpy(url, rf.url);
-            gstate.gui_http.do_rpc(this, url, filename, true);
+            safe_strcpy(url, rf.url);
+            gstate.gui_http.do_rpc(this, url, file_name, true);
             break;
         }
     }
@@ -796,7 +800,7 @@ bool RSS_FEED_OP::poll() {
 // handle a completed RSS feed fetch
 //
 void RSS_FEED_OP::handle_reply(int http_op_retval) {
-    char filename[256];
+    char file_name[256];
     int nitems;
 
     if (!rfp) return;   // op was canceled
@@ -816,11 +820,11 @@ void RSS_FEED_OP::handle_reply(int http_op_retval) {
         );
     }
 
-    rfp->feed_file_name(filename);
-    FILE* f = fopen(filename, "r");
+    rfp->feed_file_name(file_name, sizeof(file_name));
+    FILE* f = fopen(file_name, "r");
     if (!f) {
         msg_printf(0, MSG_INTERNAL_ERROR,
-            "RSS feed file '%s' not found", filename
+            "RSS feed file '%s' not found", file_name
         );
         return;
     }
@@ -847,7 +851,7 @@ static void init_proj_am(PROJ_AM* p) {
     MIOFILE fin;
     char path[MAXPATHLEN];
 
-    project_feed_list_file_name(p, path);
+    project_feed_list_file_name(p, path, sizeof(path));
     f = fopen(path, "r");
     if (f) {
         fin.init_file(f);
@@ -987,6 +991,6 @@ void RSS_FEEDS::write_feed_list() {
 
 void delete_project_notice_files(PROJECT* p) {
     char path[MAXPATHLEN];
-    project_feed_list_file_name(p, path);
+    project_feed_list_file_name(p, path, sizeof(path));
     boinc_delete_file(path);
 }

@@ -153,6 +153,9 @@ class CAccountManagerInfoPage;
 class CAccountManagerPropertiesPage;
 class CAccountManagerProcessingPage;
 
+// Forward declare PROJECT_INIT_STATUS
+struct PROJECT_INIT_STATUS;
+
 
 // Wizard Detection
 //
@@ -172,16 +175,16 @@ class CAccountManagerProcessingPage;
 // Commonly defined macros
 //
 #define PAGE_TRANSITION_NEXT(id) \
-    ((CBOINCBaseWizard*)GetParent())->PushPageTransition((wxWizardPageEx*)this, id)
+    ((CWizardAttach*)GetParent())->PushPageTransition((wxWizardPageEx*)this, id)
  
 #define PAGE_TRANSITION_BACK \
-    ((CBOINCBaseWizard*)GetParent())->PopPageTransition()
+    ((CWizardAttach*)GetParent())->PopPageTransition()
  
 #define PROCESS_CANCELEVENT(event) \
-    ((CBOINCBaseWizard*)GetParent())->ProcessCancelEvent(event)
+    ((CWizardAttach*)GetParent())->ProcessCancelEvent(event)
 
 #define CHECK_CLOSINGINPROGRESS() \
-    ((CBOINCBaseWizard*)GetParent())->IsCancelInProgress()
+    ((CWizardAttach*)GetParent())->IsCancelInProgress()
 
 
 /*!
@@ -220,18 +223,15 @@ public:
 
     /// Runs the wizard.
     bool Run(
-        wxString strProjectURL,
-        bool bCredentialsCached = true
-    );
-    
-    /// Runs the wizard.
-    bool RunSimpleProjectAttach(
         wxString strProjectName,
         wxString strProjectURL,
-        wxString strAuthenticator, 
+        wxString strProjectAuthenticator, 
         wxString strProjectInstitution,
         wxString strProjectDescription,
-        wxString strKnown
+        wxString strProjectKnown,
+        wxString strProjectSetupCookie,
+        bool     bAccountKeyDetected,
+        bool     bEmbedded
     );
     
     /// Synchronize to Account Manager
@@ -250,8 +250,10 @@ public:
     virtual bool HasPrevPage( wxWizardPageEx* page );
 
     /// Track page transitions
-    wxWizardPageEx* _PopPageTransition();
-    wxWizardPageEx* _PushPageTransition( wxWizardPageEx* pCurrentPage, unsigned long ulPageID );
+    wxWizardPageEx* TranslatePage(unsigned long ulPageID);
+    wxWizardPageEx* PopPageTransition();
+    wxWizardPageEx* PushPage( unsigned long ulPageID );
+    wxWizardPageEx* PushPageTransition( wxWizardPageEx* pCurrentPage, unsigned long ulPageID );
 
     /// Cancel Event Infrastructure
     void _ProcessCancelEvent( wxWizardExEvent& event );
@@ -280,6 +282,9 @@ public:
 
     wxString GetProjectDescription() const { return m_strProjectDescription ; }
     void SetProjectDescription(wxString value) { m_strProjectDescription = value ; }
+
+    wxString GetProjectSetupCookie() const { return m_strProjectSetupCookie ; }
+    void SetProjectSetupCookie(wxString value) { m_strProjectSetupCookie = value ; }
 
     bool IsProjectKnown() const { return m_bProjectKnown ; }
     void SetProjectKnown(bool value) { m_bProjectKnown = value ; }
@@ -362,6 +367,7 @@ public:
     wxString            m_strProjectAuthenticator;
     wxString            m_strProjectInstitution;
     wxString            m_strProjectDescription;
+    wxString            m_strProjectSetupCookie;
     wxString            m_strProjectUserName;
     bool                m_bProjectKnown;
     wxString            m_strAccountEmailAddress;

@@ -21,6 +21,7 @@
 
 #ifdef _MSC_VER
 #define snprintf _snprintf
+#define snprintf_s _snprintf_s
 #endif
 
 #ifdef HAVE_INTRIN_H
@@ -364,80 +365,80 @@ int get_os_information(
 
             if ( osvi.dwMajorVersion == 10 && osvi.dwMinorVersion == 0 ) {
                 if( osvi.wProductType == VER_NT_WORKSTATION ) {
-                    strcat(os_name, "Windows 10");
+                    strlcat(os_name, "Windows 10", os_name_size);
                 } else {
-                    strcat(os_name, "Windows Server 2016");
+                    strlcat(os_name, "Windows Server 2016", os_name_size);
                 }
                 pGPI( 10, 0, 0, 0, &dwType);
             }
 
             if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 4 ) {
                 if( osvi.wProductType == VER_NT_WORKSTATION ) {
-                    strcat(os_name, "Windows 10 Beta");
+                    strlcat(os_name, "Windows 10 Beta", os_name_size);
                 } else {
-                    strcat(os_name, "Windows 10 Server Beta");
+                    strlcat(os_name, "Windows 10 Server Beta", os_name_size);
                 }
                 pGPI( 6, 4, 0, 0, &dwType);
             }
 
             if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 3 ) {
                 if( osvi.wProductType == VER_NT_WORKSTATION ) {
-                    strcat(os_name, "Windows 8.1");
+                    strlcat(os_name, "Windows 8.1", os_name_size);
                 } else {
-                    strcat(os_name, "Windows Server 2012 R2");
+                    strlcat(os_name, "Windows Server 2012 R2", os_name_size);
                 }
                 pGPI( 6, 3, 0, 0, &dwType);
             }
 
             if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 2 ) {
                 if( osvi.wProductType == VER_NT_WORKSTATION ) {
-                    strcat(os_name, "Windows 8");
+                    strlcat(os_name, "Windows 8", os_name_size);
                 } else {
-                    strcat(os_name, "Windows Server 2012");
+                    strlcat(os_name, "Windows Server 2012", os_name_size);
                 }
                 pGPI( 6, 2, 0, 0, &dwType);
             }
 
             if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 1 ) {
                 if( osvi.wProductType == VER_NT_WORKSTATION ) {
-                    strcat(os_name, "Windows 7");
+                    strlcat(os_name, "Windows 7", os_name_size);
                 } else {
-                    strcat(os_name, "Windows Server 2008 \"R2\"");
+                    strlcat(os_name, "Windows Server 2008 \"R2\"", os_name_size);
                 }
                 pGPI( 6, 1, 0, 0, &dwType);
             }
 
             if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 0 ) {
                 if( osvi.wProductType == VER_NT_WORKSTATION ) {
-                    strcat(os_name, "Windows Vista");
+                    strlcat(os_name, "Windows Vista", os_name_size);
                 } else {
-                    strcat(os_name, "Windows Server 2008");
+                    strlcat(os_name, "Windows Server 2008", os_name_size);
                 }
                 pGPI( 6, 0, 0, 0, &dwType);
             }
 
             if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2 ) {
                 if( osvi.wProductType == VER_NT_WORKSTATION) {
-                    strcat(os_name, "Windows XP");
+                    strlcat(os_name, "Windows XP", os_name_size);
                 } else {
                     if( GetSystemMetrics(SM_SERVERR2) ) {
-                        strcat(os_name, "Windows Server 2003 \"R2\"");
+                        strlcat(os_name, "Windows Server 2003 \"R2\"", os_name_size);
                     } else {
-                        strcat(os_name, "Windows Server 2003");
+                        strlcat(os_name, "Windows Server 2003", os_name_size);
                     }
                 }
             }
 
             if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 1 ) {
-                strcat(os_name, "Windows XP");
+                strlcat(os_name, "Windows XP", os_name_size);
             }
 
             if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 0 ) {
-                strcat(os_name, "Windows 2000");
+                strlcat(os_name, "Windows 2000", os_name_size);
             }
 
             if ( osvi.dwMajorVersion <= 4 ) {
-                strcat(os_name, "Windows NT");
+                strlcat(os_name, "Windows NT", os_name_size);
             }
 
             break;
@@ -445,27 +446,27 @@ int get_os_information(
         case VER_PLATFORM_WIN32_WINDOWS:
 
             if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 0) {
-                strcat(os_name, "Windows 95");
+                strlcat(os_name, "Windows 95", os_name_size);
             }
 
             if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 10) {
-                strcat( os_name, "Windows 98");
+                strlcat( os_name, "Windows 98", os_name_size);
             }
 
             if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 90) {
-                strcat( os_name, "Windows Millennium");
+                strlcat( os_name, "Windows Millennium", os_name_size);
             }
 
             break;
 
         case VER_PLATFORM_WIN32s:
 
-            strcat( os_name, "Win32s");
+            strlcat( os_name, "Win32s", os_name_size);
             break;
     }
 
 
-    snprintf( szVersion, sizeof(szVersion), ", (%.2u.%.2u.%.4u.%.2u)",
+    snprintf_s( szVersion, sizeof(szVersion), ", (%.2u.%.2u.%.4u.%.2u)",
         osvi.dwMajorVersion, osvi.dwMinorVersion, (osvi.dwBuildNumber & 0xFFFF), 0
     );
 
@@ -484,141 +485,141 @@ int get_os_information(
                     if( (osvi.dwMajorVersion >= 6) ) {
                         switch(dwType) {
                             case PRODUCT_BUSINESS:
-                                strcat(szSKU, "Business ");
+                                safe_strcat(szSKU, "Business ");
                                 break;
                             case PRODUCT_BUSINESS_N:
-                                strcat(szSKU, "Business N ");
+                                safe_strcat(szSKU, "Business N ");
                                 break;
                             case PRODUCT_CORE:
-                                strcat(szSKU, "Core ");
+                                safe_strcat(szSKU, "Core ");
                                 break;
                             case PRODUCT_CORE_ARM:
-                                strcat(szSKU, "Core ");
+                                safe_strcat(szSKU, "Core ");
                                 break;
                             case PRODUCT_CORE_COUNTRYSPECIFIC:
-                                strcat(szSKU, "Core ");  // specific W8 for China
+                                safe_strcat(szSKU, "Core ");  // specific W8 for China
                                 break;
                             case PRODUCT_CORE_N:
-                                strcat(szSKU, "Core N ");
+                                safe_strcat(szSKU, "Core N ");
                                 break;
                             case PRODUCT_EDUCATION:
-                                strcat(szSKU, "Education ");
+                                safe_strcat(szSKU, "Education ");
                                 break;
                             case PRODUCT_EDUCATION_N:
-                                strcat(szSKU, "Education N ");
+                                safe_strcat(szSKU, "Education N ");
                                 break;
                             case PRODUCT_EMBEDDED:
-                                strcat(szSKU, "Embedded Standard ");
+                                safe_strcat(szSKU, "Embedded Standard ");
                                 break;
                             case PRODUCT_ENTERPRISE:
-                                strcat(szSKU, "Enterprise ");
+                                safe_strcat(szSKU, "Enterprise ");
                                 break;
                             case PRODUCT_ENTERPRISE_E:
-                                strcat(szSKU, "Enterprise E ");
+                                safe_strcat(szSKU, "Enterprise E ");
                                 break;
                             case PRODUCT_ENTERPRISE_N:
-                                strcat(szSKU, "Enterprise N ");
+                                safe_strcat(szSKU, "Enterprise N ");
                                 break;
                             case PRODUCT_ENTERPRISE_N_EVALUATION:
-                                strcat(szSKU, "Enterprise N (Evaluation) ");
+                                safe_strcat(szSKU, "Enterprise N (Evaluation) ");
                                 break;
                             case PRODUCT_HOME_BASIC:
-                                strcat(szSKU, "Home Basic ");
+                                safe_strcat(szSKU, "Home Basic ");
                                 break;
                             case PRODUCT_HOME_BASIC_E:
-                                strcat(szSKU, "Home Basic E ");
+                                safe_strcat(szSKU, "Home Basic E ");
                                 break;
                             case PRODUCT_HOME_BASIC_N:
-                                strcat(szSKU, "Home Basic N ");
+                                safe_strcat(szSKU, "Home Basic N ");
                                 break;
                             case PRODUCT_HOME_PREMIUM:
-                                strcat(szSKU, "Home Premium ");
+                                safe_strcat(szSKU, "Home Premium ");
                                 break;
                             case PRODUCT_HOME_PREMIUM_E:
-                                strcat(szSKU, "Home Premium E ");
+                                safe_strcat(szSKU, "Home Premium E ");
                                 break;
                             case PRODUCT_HOME_PREMIUM_N:
-                                strcat(szSKU, "Home Premium N ");
+                                safe_strcat(szSKU, "Home Premium N ");
                                 break;
                             case PRODUCT_IOTUAP:
-                                strcat(szSKU, "Internet of Things ");
+                                safe_strcat(szSKU, "Internet of Things ");
                                 break;
                             case PRODUCT_PRERELEASE:
-                                strcat(szSKU, "Developer Preview ");
+                                safe_strcat(szSKU, "Developer Preview ");
                                 break;
                             case PRODUCT_PRERELEASE_N:
-                                strcat(szSKU, "Developer Preview N ");
+                                safe_strcat(szSKU, "Developer Preview N ");
                                 break;
                             case PRODUCT_PROFESSIONAL:
-                                strcat(szSKU, "Professional ");
+                                safe_strcat(szSKU, "Professional ");
                                 break;
                             case PRODUCT_PROFESSIONAL_E:
-                                strcat(szSKU, "Professional E ");
+                                safe_strcat(szSKU, "Professional E ");
                                 break;
                             case PRODUCT_PROFESSIONAL_N:
-                                strcat(szSKU, "Professional N ");
+                                safe_strcat(szSKU, "Professional N ");
                                 break;
                             case PRODUCT_PROFESSIONAL_S:
-                                strcat(szSKU, "Professional S ");
+                                safe_strcat(szSKU, "Professional S ");
                                 break;
                             case PRODUCT_PROFESSIONAL_S_N:
-                                strcat(szSKU, "Professional SN "); //??
+                                safe_strcat(szSKU, "Professional SN "); //??
                                 break;
                             case PRODUCT_PROFESSIONAL_WMC:
-                                strcat(szSKU, "Professional with Media Center ");
+                                safe_strcat(szSKU, "Professional with Media Center ");
                                 break;
                             case PRODUCT_STARTER:
-                                strcat(szSKU, "Starter ");
+                                safe_strcat(szSKU, "Starter ");
                                 break;
                             case PRODUCT_STARTER_E:
-                                strcat(szSKU, "Starter E ");
+                                safe_strcat(szSKU, "Starter E ");
                                 break;
                             case PRODUCT_STARTER_N:
-                                strcat(szSKU, "Starter N ");
+                                safe_strcat(szSKU, "Starter N ");
                                 break;
                             case PRODUCT_THINPC:
-                                strcat(szSKU, "ThinPC ");
+                                safe_strcat(szSKU, "ThinPC ");
                                 break;
                             case PRODUCT_ULTIMATE:
-                                strcat(szSKU, "Ultimate ");
+                                safe_strcat(szSKU, "Ultimate ");
                                 break;
                             case PRODUCT_ULTIMATE_E:
-                                strcat(szSKU, "Ultimate E ");
+                                safe_strcat(szSKU, "Ultimate E ");
                                 break;
                             case PRODUCT_ULTIMATE_N:
-                                strcat(szSKU, "Ultimate N ");
+                                safe_strcat(szSKU, "Ultimate N ");
                                 break;
                         }
 
                     } else if( (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2) ) {
 
                         if( osvi.wSuiteMask & VER_SUITE_PERSONAL ) {
-                            strcat(szSKU, "Home ");
+                            safe_strcat(szSKU, "Home ");
                         } else {
-                            strcat(szSKU, "Professional ");
+                            safe_strcat(szSKU, "Professional ");
                         }
 
                     } else if( (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 1) ) {
 
                         if( osvi.wSuiteMask & VER_SUITE_PERSONAL ) {
-                            strcat(szSKU, "Home ");
+                            safe_strcat(szSKU, "Home ");
                         } else if( GetSystemMetrics(SM_TABLETPC) ) {
-                            strcat(szSKU, "Tablet PC ");
+                            safe_strcat(szSKU, "Tablet PC ");
                         } else if( GetSystemMetrics(SM_MEDIACENTER) ) {
-                            strcat(szSKU, "Media Center ");
+                            safe_strcat(szSKU, "Media Center ");
                         } else if( GetSystemMetrics(SM_STARTER) ) {
-                            strcat(szSKU, "Starter ");
+                            safe_strcat(szSKU, "Starter ");
                         } else {
-                            strcat(szSKU, "Professional ");
+                            safe_strcat(szSKU, "Professional ");
                         }
 
                     } else if( (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 0) ) {
 
-                        strcat(szSKU, "Professional ");
+                        safe_strcat(szSKU, "Professional ");
 
                     } else if(  (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 0) ) {
 
-                        strcat(szSKU, "Workstation ");
+                        safe_strcat(szSKU, "Workstation ");
 
                     }
                 }
@@ -630,238 +631,237 @@ int get_os_information(
                     if( (osvi.dwMajorVersion >= 6) ) {
                         switch(dwType) {
                             case PRODUCT_ARM64_SERVER:
-                                strcat(szSKU, "ARM64 Server ");
+                                safe_strcat(szSKU, "ARM64 Server ");
                                 break;
                             case PRODUCT_CLOUD_HOST_INFRASTRUCTURE_SERVER:
-                                strcat(szSKU, "Cloud Host Infrastructure Server ");
+                                safe_strcat(szSKU, "Cloud Host Infrastructure Server ");
                                 break;
                             case PRODUCT_CLOUD_STORAGE_SERVER:
-                                strcat(szSKU, "Cloud Storage Server ");
+                                safe_strcat(szSKU, "Cloud Storage Server ");
                                 break;
                             case PRODUCT_CLUSTER_SERVER:
-                                strcat(szSKU, "Cluster Server ");
+                                safe_strcat(szSKU, "Cluster Server ");
                                 break;
                             case PRODUCT_CLUSTER_SERVER_V:
-                                strcat(szSKU, "Cluster Server (without Hyper-V) ");
+                                safe_strcat(szSKU, "Cluster Server (without Hyper-V) ");
                                 break;
                             case PRODUCT_DATACENTER_EVALUATION_SERVER:
-                                strcat(szSKU, "Datacenter (Evaluation) ");
+                                safe_strcat(szSKU, "Datacenter (Evaluation) ");
                                 break;
                             case PRODUCT_DATACENTER_SERVER:
-                                strcat(szSKU, "Datacenter ");
+                                safe_strcat(szSKU, "Datacenter ");
                                 break;
                             case PRODUCT_DATACENTER_SERVER_CORE:
-                                strcat(szSKU, "Datacenter (core installation) ");
+                                safe_strcat(szSKU, "Datacenter (core installation) ");
                                 break;
                             case PRODUCT_DATACENTER_SERVER_CORE_V:
-                                strcat(szSKU, "Datacenter (core installation without Hyper-V) ");
+                                safe_strcat(szSKU, "Datacenter (core installation without Hyper-V) ");
                                 break;
                             case PRODUCT_DATACENTER_SERVER_V:
-                                strcat(szSKU, "Datacenter (without Hyper-V) ");
+                                safe_strcat(szSKU, "Datacenter (without Hyper-V) ");
                                 break;
                             case PRODUCT_ENTERPRISE_EVALUATION:
-                                strcat(szSKU, "Enterprise (Evaluation) ");
+                                safe_strcat(szSKU, "Enterprise (Evaluation) ");
                                 break;
                             case PRODUCT_ENTERPRISE_SERVER:
-                                strcat(szSKU, "Enterprise ");
+                                safe_strcat(szSKU, "Enterprise ");
                                 break;
                             case PRODUCT_ENTERPRISE_SERVER_CORE:
-                                strcat(szSKU, "Enterprise (core installation) ");
+                                safe_strcat(szSKU, "Enterprise (core installation) ");
                                 break;
                             case PRODUCT_ENTERPRISE_SERVER_CORE_V:
-                                strcat(szSKU, "Enterprise (core installation without Hyper-V) ");
+                                safe_strcat(szSKU, "Enterprise (core installation without Hyper-V) ");
                                 break;
                             case PRODUCT_ENTERPRISE_SERVER_IA64:
-                                strcat(szSKU, "Enterprise ");
+                                safe_strcat(szSKU, "Enterprise ");
                                 break;
                             case PRODUCT_ENTERPRISE_SERVER_V:
-                                strcat(szSKU, "Enterprise (without Hyper-V) ");
+                                safe_strcat(szSKU, "Enterprise (without Hyper-V) ");
                                 break;
                             case PRODUCT_ESSENTIALBUSINESS_SERVER_ADDL:
-                                strcat(szSKU, "Essential Server Solution Additional ");
+                                safe_strcat(szSKU, "Essential Server Solution Additional ");
                                 break;
                             case PRODUCT_ESSENTIALBUSINESS_SERVER_ADDLSVC:
-                                strcat(szSKU, "Essential Server Solution Additional SVC ");
+                                safe_strcat(szSKU, "Essential Server Solution Additional SVC ");
                                 break;
                             case PRODUCT_ESSENTIALBUSINESS_SERVER_MGMT:
-                                strcat(szSKU, "Essential Server Solution Management ");
+                                safe_strcat(szSKU, "Essential Server Solution Management ");
                                 break;
                             case PRODUCT_ESSENTIALBUSINESS_SERVER_MGMTSVC:
-                                strcat(szSKU, "Essential Server Solution Management SVC ");
+                                safe_strcat(szSKU, "Essential Server Solution Management SVC ");
                                 break;
                             case PRODUCT_HOME_PREMIUM_SERVER:
-                                strcat(szSKU, "Home Server 2011");
+                                safe_strcat(szSKU, "Home Server 2011");
                                 break;
                             case PRODUCT_HOME_SERVER:
-                                strcat(szSKU, "Storage Server Essentials ");
+                                safe_strcat(szSKU, "Storage Server Essentials ");
                                 break;
                             case PRODUCT_HYPERV:
-                                strcat(szSKU, "Hyper-V ");
+                                safe_strcat(szSKU, "Hyper-V ");
                                 break;
                             case PRODUCT_MEDIUMBUSINESS_SERVER_MANAGEMENT:
-                                strcat(szSKU, "Essential Business Server Management Server ");
+                                safe_strcat(szSKU, "Essential Business Server Management Server ");
                                 break;
                             case PRODUCT_MEDIUMBUSINESS_SERVER_MESSAGING:
-                                strcat(szSKU, "Essential Business Server Messaging Server ");
+                                safe_strcat(szSKU, "Essential Business Server Messaging Server ");
                                 break;
                             case PRODUCT_MEDIUMBUSINESS_SERVER_SECURITY:
-                                strcat(szSKU, "Essential Business Server Security Server ");
+                                safe_strcat(szSKU, "Essential Business Server Security Server ");
                                 break;
                             case PRODUCT_MULTIPOINT_PREMIUM_SERVER:
-                               strcat( szSKU, "MultiPoint Server Premium ");
-                               break;
+                                safe_strcat( szSKU, "MultiPoint Server Premium ");
+                                break;
                             case PRODUCT_MULTIPOINT_STANDARD_SERVER:
-                               strcat( szSKU, "MultiPoint Server Standard ");
-                               break;
+                                safe_strcat( szSKU, "MultiPoint Server Standard ");
+                                break;
                             case PRODUCT_NANO_SERVER:
-                                strcat(szSKU, "Nano Server ");
+                                safe_strcat(szSKU, "Nano Server ");
                                 break;
                             case PRODUCT_SERVER_FOR_SMALLBUSINESS:
-                               strcat( szSKU, "Essential Server Solutions ");
-                               break;
+                                safe_strcat( szSKU, "Essential Server Solutions ");
+                                break;
                             case PRODUCT_SERVER_FOR_SMALLBUSINESS_V:
-                               strcat( szSKU, "Essential Server Solutions (without Hyper-V) ");
-                               break;
+                                safe_strcat( szSKU, "Essential Server Solutions (without Hyper-V) ");
+                                break;
                             case PRODUCT_SERVER_FOUNDATION:
-                               strcat( szSKU, "Foundation ");
-                               break;
+                                safe_strcat( szSKU, "Foundation ");
+                                break;
                             case PRODUCT_SMALLBUSINESS_SERVER:
-                               strcat( szSKU, "Small Business Server");
-                               break;
+                                safe_strcat( szSKU, "Small Business Server");
+                                break;
                             case PRODUCT_SMALLBUSINESS_SERVER_PREMIUM:
-                               strcat( szSKU, "Small Business Server Premium ");
-                               break;
+                                safe_strcat( szSKU, "Small Business Server Premium ");
+                                break;
                             case PRODUCT_SMALLBUSINESS_SERVER_PREMIUM_CORE:
-                               strcat( szSKU, "Small Business Server Premium (core installation) ");
-                               break;
+                                safe_strcat( szSKU, "Small Business Server Premium (core installation) ");
+                                break;
                             case PRODUCT_SOLUTION_EMBEDDEDSERVER:
-                               strcat( szSKU, "MultiPoint Server ");
-                               break;
+                                safe_strcat( szSKU, "MultiPoint Server ");
+                                break;
                             case PRODUCT_SOLUTION_EMBEDDEDSERVER_CORE:
-                               strcat( szSKU, "MultiPoint Server (core installation) ");
-                               break;
+                                safe_strcat( szSKU, "MultiPoint Server (core installation) ");
+                                break;
                             case PRODUCT_STANDARD_EVALUATION_SERVER:
-                                strcat(szSKU, "Standard (Evaluation) ");
+                                safe_strcat(szSKU, "Standard (Evaluation) ");
                                 break;
                             case PRODUCT_STANDARD_SERVER:
-                                strcat(szSKU, "Standard ");
+                                safe_strcat(szSKU, "Standard ");
                                 break;
                             case PRODUCT_STANDARD_SERVER_CORE:
-                                strcat(szSKU, "Standard (core installation) ");
+                                safe_strcat(szSKU, "Standard (core installation) ");
                                 break;
                             case PRODUCT_STANDARD_SERVER_CORE_V:
-                                strcat(szSKU, "Standard (core installation without Hyper-V) ");
+                                safe_strcat(szSKU, "Standard (core installation without Hyper-V) ");
                                 break;
                             case PRODUCT_STANDARD_SERVER_V:
-                                strcat(szSKU, "Standard (without Hyper-V) ");
+                                safe_strcat(szSKU, "Standard (without Hyper-V) ");
                                 break;
                             case PRODUCT_STORAGE_ENTERPRISE_SERVER:
-                               strcat( szSKU, "Storage Server Enterprise ");
-                               break;
+                                safe_strcat( szSKU, "Storage Server Enterprise ");
+                                break;
                             case PRODUCT_STORAGE_ENTERPRISE_SERVER_CORE:
-                               strcat( szSKU, "Storage Server Enterprise (core installation) ");
-                               break;
+                                safe_strcat( szSKU, "Storage Server Enterprise (core installation) ");
+                                break;
                             case PRODUCT_STORAGE_EXPRESS_SERVER:
-                               strcat( szSKU, "Storage Server Express ");
-                               break;
+                                safe_strcat( szSKU, "Storage Server Express ");
+                                break;
                             case PRODUCT_STORAGE_EXPRESS_SERVER_CORE:
-                               strcat( szSKU, "Storage Server Express (core installation) ");
-                               break;
+                                safe_strcat( szSKU, "Storage Server Express (core installation) ");
+                                break;
                             case PRODUCT_STORAGE_STANDARD_EVALUATION_SERVER:
-                               strcat( szSKU, "Storage Server Standard (Evaluation) ");
-                               break;
+                                safe_strcat( szSKU, "Storage Server Standard (Evaluation) ");
+                                break;
                             case PRODUCT_STORAGE_STANDARD_SERVER:
-                               strcat( szSKU, "Storage Server Standard ");
-                               break;
+                                safe_strcat( szSKU, "Storage Server Standard ");
+                                break;
                             case PRODUCT_STORAGE_STANDARD_SERVER_CORE:
-                               strcat( szSKU, "Storage Server Standard (core installation) ");
-                               break;
+                                safe_strcat( szSKU, "Storage Server Standard (core installation) ");
+                                break;
                             case PRODUCT_STORAGE_WORKGROUP_EVALUATION_SERVER:
-                               strcat( szSKU, "Storage Server Workgroup (Evaluation) ");
-                               break;
+                                safe_strcat( szSKU, "Storage Server Workgroup (Evaluation) ");
+                                break;
                             case PRODUCT_STORAGE_WORKGROUP_SERVER:
-                               strcat( szSKU, "Storage Server Workgroup ");
-                               break;
+                                safe_strcat( szSKU, "Storage Server Workgroup ");
+                                break;
                             case PRODUCT_STORAGE_WORKGROUP_SERVER_CORE:
-                               strcat( szSKU, "Storage Server Workgroup (core installation) ");
-                               break;
+                                safe_strcat( szSKU, "Storage Server Workgroup (core installation) ");
+                                break;
                             case PRODUCT_WEB_SERVER:
-                                strcat(szSKU, "Web Server ");
+                                safe_strcat(szSKU, "Web Server ");
                                 break;
                             case PRODUCT_WEB_SERVER_CORE:
-                                strcat(szSKU, "Web Server (core installation) ");
+                                safe_strcat(szSKU, "Web Server (core installation) ");
                                 break;
-
                         }
 
                     } else if( (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2) ) {
 
                         if( osvi.wSuiteMask & VER_SUITE_DATACENTER ) {
-                            strcat( szSKU, "Datacenter Server " );
+                            safe_strcat( szSKU, "Datacenter Server " );
                         } else if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE ) {
-                            strcat( szSKU, "Enterprise Server " );
+                            safe_strcat( szSKU, "Enterprise Server " );
                         } else if ( osvi.wSuiteMask & VER_SUITE_BLADE ) {
-                            strcat( szSKU, "Web Server " );
+                            safe_strcat( szSKU, "Web Server " );
                         } else if ( osvi.wSuiteMask & VER_SUITE_WH_SERVER ) {
-                            strcat( szSKU, "Home Server " );
+                            safe_strcat( szSKU, "Home Server " );
                         } else {
-                            strcat( szSKU, "Standard Server " );
+                            safe_strcat( szSKU, "Standard Server " );
                         }
 
                     } else if( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 0 ) {
 
                         if( osvi.wSuiteMask & VER_SUITE_DATACENTER ) {
-                            strcat( szSKU, "Datacenter Server " );
+                            safe_strcat( szSKU, "Datacenter Server " );
                         } else if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE ) {
-                            strcat( szSKU, "Advanced Server " );
+                            safe_strcat( szSKU, "Advanced Server " );
                         } else {
-                            strcat( szSKU, "Standard Server " );
+                            safe_strcat( szSKU, "Standard Server " );
                         }
 
                     } else { // Windows NT 4.0
                         if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE ) {
-                            strcat( szSKU, "Enterprise Server " );
+                            safe_strcat( szSKU, "Enterprise Server " );
                         } else {
-                            strcat( szSKU, "Server " );
+                            safe_strcat( szSKU, "Server " );
                         }
                     }
                 }
 
                 switch (si.wProcessorArchitecture) {
                     case PROCESSOR_ARCHITECTURE_INTEL:
-                        strcat(szSKU, "x86 ");
+                        safe_strcat(szSKU, "x86 ");
                         break;
                     case PROCESSOR_ARCHITECTURE_MIPS:
-                        strcat(szSKU, "MIPS ");
+                        safe_strcat(szSKU, "MIPS ");
                         break;
                     case PROCESSOR_ARCHITECTURE_ALPHA:
-                        strcat(szSKU, "Alpha ");
+                        safe_strcat(szSKU, "Alpha ");
                         break;
                     case PROCESSOR_ARCHITECTURE_PPC:
-                        strcat(szSKU, "PowerPC ");
+                        safe_strcat(szSKU, "PowerPC ");
                         break;
                     case PROCESSOR_ARCHITECTURE_IA64:
-                        strcat(szSKU, "Itanium ");
+                        safe_strcat(szSKU, "Itanium ");
                         break;
                     case PROCESSOR_ARCHITECTURE_ALPHA64:
-                        strcat(szSKU, "Alpha 64-bit ");
+                        safe_strcat(szSKU, "Alpha 64-bit ");
                         break;
                     case PROCESSOR_ARCHITECTURE_AMD64:
-                        strcat(szSKU, "x64 ");
+                        safe_strcat(szSKU, "x64 ");
                         break;
                     // could be needed for Windows RT Boinc ?
                     case PROCESSOR_ARCHITECTURE_ARM:
-                        strcat(szSKU, "ARM ");
+                        safe_strcat(szSKU, "ARM ");
                         break;
                     case PROCESSOR_ARCHITECTURE_ARM64:
-                        strcat(szSKU, "ARM64 ");
+                        safe_strcat(szSKU, "ARM64 ");
                         break;
                     case PROCESSOR_ARCHITECTURE_UNKNOWN:
-                        strcat(szSKU, "Unknown ");
+                        safe_strcat(szSKU, "Unknown ");
                         break;
                 }
 
-                strcat(szSKU, "Edition");
+                safe_strcat(szSKU, "Edition");
 
             } else { // Test for specific product on Windows NT 4.0 SP5 and earlier
 
@@ -884,11 +884,11 @@ int get_os_information(
                 RegCloseKey( hKey );
 
                 if ( lstrcmpi( "WINNT", szProductType) == 0 ) {
-                    strcpy( szSKU, "Workstation Edition" );
+                    safe_strcpy( szSKU, "Workstation Edition" );
                 } if ( lstrcmpi( "LANMANNT", szProductType) == 0 ) {
-                    strcpy( szSKU, "Server Edition" );
+                    safe_strcpy( szSKU, "Server Edition" );
                 } if ( lstrcmpi( "SERVERNT", szProductType) == 0 ) {
-                    strcpy( szSKU, "Advanced Server Edition" );
+                    safe_strcpy( szSKU, "Advanced Server Edition" );
                 }
 
             }
@@ -905,12 +905,12 @@ int get_os_information(
                     0, KEY_QUERY_VALUE, &hKey );
 
                 if( lRet == ERROR_SUCCESS ) {
-                    strcpy( szServicePack, ", " );
-                    strcat( szServicePack, "Service Pack 6a" );
+                    safe_strcpy( szServicePack, ", " );
+                    safe_strcat( szServicePack, "Service Pack 6a" );
                 } else {// Windows NT 4.0 prior to SP6a
                     if ( strlen(osvi.szCSDVersion) > 0 ) {
-                        strcpy( szServicePack, ", " );
-                        strcat( szServicePack, osvi.szCSDVersion );
+                        safe_strcpy( szServicePack, ", " );
+                        safe_strcat( szServicePack, osvi.szCSDVersion );
                     }
                 }
 
@@ -918,8 +918,8 @@ int get_os_information(
 
             } else { // Windows NT 3.51 and earlier or Windows 2000 and later
                 if ( strlen(osvi.szCSDVersion) > 0 ) {
-                    strcpy( szServicePack, ", " );
-                    strcat( szServicePack, osvi.szCSDVersion );
+                    safe_strcpy( szServicePack, ", " );
+                    safe_strcat( szServicePack, osvi.szCSDVersion );
                 }
             }
 
@@ -930,12 +930,12 @@ int get_os_information(
 
             if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 0) {
                 if ( osvi.szCSDVersion[1] == 'C' || osvi.szCSDVersion[1] == 'B' )
-                    strcpy( szServicePack, "OSR2" );
+                    safe_strcpy( szServicePack, "OSR2" );
             }
 
             if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 10) {
                 if ( osvi.szCSDVersion[1] == 'A' )
-                    strcpy( szServicePack, "SE" );
+                    safe_strcpy( szServicePack, "SE" );
             }
 
             break;
@@ -1123,7 +1123,7 @@ bool is_avx_supported() {
 // see: http://www.intel.com/Assets/PDF/appnote/241618.pdf
 // see: http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
 #define FEATURE_TEST(feature_set_supported, test, feature_name) \
-    if (feature_set_supported && test) strncat(features, feature_name, features_size - strlen(features))
+    if (feature_set_supported && test) strlcat(features, feature_name, features_size)
 
 int get_processor_features(char* vendor, char* features, int features_size) {
     unsigned int std_eax = 0, std_ebx = 0, std_ecx = 0, std_edx = 0;
@@ -1377,7 +1377,7 @@ int HOST_INFO::get_virtualbox_version() {
     DWORD dwVersion = sizeof(szVersion);
     LONG lRet;
 
-    strcpy(virtualbox_version, "");
+    safe_strcpy(virtualbox_version, "");
 
     lRet = RegOpenKeyEx( HKEY_LOCAL_MACHINE,
         "SOFTWARE\\Oracle\\VirtualBox",
@@ -1403,7 +1403,7 @@ int HOST_INFO::get_virtualbox_version() {
             }
         }
 
-        strncat(szInstallDir, "\\virtualbox.exe", sizeof(szInstallDir) - strlen(szInstallDir));
+        safe_strcat(szInstallDir, "\\virtualbox.exe");
 
         if (boinc_file_exists(szInstallDir)) {
             safe_strcpy(virtualbox_version, szVersion);

@@ -8,12 +8,12 @@ branches:
     - master
     - coverity_scan
 
-notifications:
-  email:
-    recipients:
-      - boinc_cvs@ssl.berkeley.edu
-    on_success: always
-    on_failure: always
+#notifications:
+#  email:
+#    recipients:
+#      - boinc_cvs@ssl.berkeley.edu
+#    on_success: always
+#    on_failure: always
 
 # This switches to the container-based infrastructure and allows caching
 sudo: false

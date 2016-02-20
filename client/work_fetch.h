@@ -335,7 +335,7 @@ struct WORK_FETCH {
     void clear_request();
     void compute_shares();
     void clear_backoffs(APP_VERSION&);
-    void request_string(char*);
+    void request_string(char*, int);
     bool requested_work();
     void copy_requests();
 };
@@ -349,7 +349,7 @@ extern void adjust_rec_sched(RESULT*);
 extern void adjust_rec_work_fetch(RESULT*);
 
 extern double total_peak_flops();
-extern const char* project_reason_string(PROJECT* p, char* buf);
+extern const char* project_reason_string(PROJECT* p, char* buf, int len);
 extern const char* rsc_project_reason_string(int);
 
 #endif

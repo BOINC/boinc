@@ -100,17 +100,17 @@ void NOTICE::write(MIOFILE& f, bool for_gui) {
 
 void NOTICE::clear() {
     seqno = 0;
-    strcpy(title, "");
+    safe_strcpy(title, "");
     description = "";
     create_time = 0;
     arrival_time = 0;
     is_private = false;
     is_youtube_video = false;
-    strcpy(category, "");
-    strcpy(link, "");
-    strcpy(project_name, "");
-    strcpy(guid, "");
-    strcpy(feed_url, "");
+    safe_strcpy(category, "");
+    safe_strcpy(link, "");
+    safe_strcpy(project_name, "");
+    safe_strcpy(guid, "");
+    safe_strcpy(feed_url, "");
     keep = false;
 }
 

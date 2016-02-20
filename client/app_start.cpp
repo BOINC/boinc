@@ -22,11 +22,11 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_util.h"
-#define unlink _unlink
+#define unlink   _unlink
 #ifdef _MSC_VER
 #define snprintf _snprintf
 #define strdup   _strdup
-#define getcwd  _getcwd
+#define getcwd   _getcwd
 #endif
 #else
 #include "config.h"
@@ -121,7 +121,7 @@ static void debug_print_argv(char** argv) {
 // NOTE: this is deprecated.  Use app_init_data instead.
 //
 static void coproc_cmdline(
-    int rsc_type, RESULT* rp, double ninstances, char* cmdline
+    int rsc_type, RESULT* rp, double ninstances, char* cmdline, int cmdline_len
 ) {
     char buf[256];
     COPROC* coproc = &coprocs.coprocs[rsc_type];
@@ -136,7 +136,7 @@ static void coproc_cmdline(
             k = 0;
         }
         sprintf(buf, " --device %d", coproc->device_nums[k]);
-        strcat(cmdline, buf);
+        strlcat(cmdline, buf, cmdline_len);
     }
 }
 
@@ -218,13 +218,7 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
     safe_strcpy(aid.authenticator, project->authenticator);
     aid.slot = slot;
 #ifdef _WIN32
-    if (strstr(gstate.host_info.os_name, "Windows 2000")) {
-        // Win2K immediately reuses PIDs, so can't use this mechanism
-        //
-        aid.client_pid = 0;
-    } else {
-        aid.client_pid = GetCurrentProcessId();
-    }
+    aid.client_pid = GetCurrentProcessId();
 #else
     aid.client_pid = getpid();
 #endif
@@ -272,7 +266,7 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
         aid.gpu_opencl_dev_index = cp.opencl_device_indexes[k];
         aid.gpu_usage = app_version->gpu_usage.usage;
     } else {
-        strcpy(aid.gpu_type, "");
+        safe_strcpy(aid.gpu_type, "");
         aid.gpu_device_num = -1;
         aid.gpu_opencl_dev_index = -1;
         aid.gpu_usage = 0;
@@ -346,8 +340,8 @@ static int create_dirs_for_logical_name(
         char* q = strstr(p, "/");
         if (!q) break;
         *q = 0;
-        strcat(dir_path, "/");
-        strcat(dir_path, p);
+        safe_strcat(dir_path, "/");
+        safe_strcat(dir_path, p);
         retval = boinc_mkdir(dir_path);
         if (retval) return retval;
         p = q+1;
@@ -357,7 +351,7 @@ static int create_dirs_for_logical_name(
 
 static void prepend_prefix(APP_VERSION* avp, char* in, char* out, int len) {
     if (strlen(avp->file_prefix)) {
-        sprintf(out, "%s/%s", avp->file_prefix, in);
+        snprintf(out, len, "%s/%s", avp->file_prefix, in);
     } else {
         strlcpy(out, in, len);
     }
@@ -401,12 +395,12 @@ int ACTIVE_TASK::setup_file(
         }
         retval = create_dirs_for_logical_name(open_name, slot_dir);
         if (retval) return retval;
-        sprintf(link_path, "%s/%s", slot_dir, open_name);
+        snprintf(link_path, sizeof(link_path), "%s/%s", slot_dir, open_name);
     } else {
-        sprintf(link_path, "%s/%s", slot_dir, fip->name);
+        snprintf(link_path, sizeof(link_path), "%s/%s", slot_dir, fip->name);
     }
 
-    sprintf(rel_file_path, "../../%s", file_path );
+    snprintf(rel_file_path, sizeof(rel_file_path), "../../%s", file_path );
 
     if (boinc_file_exists(link_path)) {
         return 0;
@@ -482,7 +476,7 @@ int ACTIVE_TASK::copy_output_files() {
         prepend_prefix(
             app_version, fref.open_name, open_name, sizeof(open_name)
         );
-        sprintf(slotfile, "%s/%s", slot_dir, open_name);
+        snprintf(slotfile, sizeof(slotfile), "%s/%s", slot_dir, open_name);
         get_pathname(fip, projfile, sizeof(projfile));
         int retval = boinc_rename(slotfile, projfile);
         // the rename fails if the output file isn't there.
@@ -612,7 +606,7 @@ int ACTIVE_TASK::start(bool test) {
     if (!app_client_shm.shm) {
         retval = get_shmem_seg_name();
         if (retval) {
-            sprintf(buf,
+            snprintf(buf, sizeof(buf),
                 "Can't get shared memory segment name: %s",
                 boincerror(retval)
             );
@@ -626,17 +620,17 @@ int ACTIVE_TASK::start(bool test) {
     init_app_init_data(aid);
     retval = write_app_init_file(aid);
     if (retval) {
-        sprintf(buf, "Can't write init file: %s", boincerror(retval));
+        snprintf(buf, sizeof(buf), "Can't write init file: %s", boincerror(retval));
         goto error;
     }
 
     // set up applications files
     //
     if (test) {
-        strcpy(exec_name, "test_app");
-        strcpy(exec_path, "test_app");
+        safe_strcpy(exec_name, "test_app");
+        safe_strcpy(exec_path, "test_app");
     } else {
-        strcpy(exec_name, "");
+        safe_strcpy(exec_name, "");
     }
     for (i=0; i<app_version->app_files.size(); i++) {
         fref = app_version->app_files[i];
@@ -644,12 +638,12 @@ int ACTIVE_TASK::start(bool test) {
         get_pathname(fip, file_path, sizeof(file_path));
         if (fref.main_program) {
             if (is_image_file(fip->name)) {
-                sprintf(buf, "Main program %s is an image file", fip->name);
+                snprintf(buf, sizeof(buf), "Main program %s is an image file", fip->name);
                 retval = ERR_NO_SIGNATURE;
                 goto error;
             }
             if (!fip->executable && !wup->project->anonymous_platform) {
-                sprintf(buf, "Main program %s is not executable", fip->name);
+                snprintf(buf, sizeof(buf), "Main program %s is not executable", fip->name);
                 retval = ERR_NO_SIGNATURE;
                 goto error;
             }
@@ -703,7 +697,7 @@ int ACTIVE_TASK::start(bool test) {
 
     // remove temporary exit file from last run
     //
-    sprintf(file_path, "%s/%s", slot_dir, TEMPORARY_EXIT_FILE);
+    snprintf(file_path, sizeof(file_path), "%s/%s", slot_dir, TEMPORARY_EXIT_FILE);
     delete_project_owned_file(file_path, true);
 
     if (cc_config.exit_before_start) {
@@ -738,13 +732,14 @@ int ACTIVE_TASK::start(bool test) {
         return 0;
     }
 
-    sprintf(cmdline, "%s %s %s",
+    snprintf(cmdline, sizeof(cmdline),
+        "%s %s %s",
         exec_path, wup->command_line.c_str(), app_version->cmdline
     );
     if (!app_version->api_version_at_least(7, 5)) {
         int rt = app_version->gpu_usage.rsc_type;
         if (rt) {
-            coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline);
+            coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline, sizeof(cmdline));
         }
     }
 
@@ -831,7 +826,7 @@ int ACTIVE_TASK::start(bool test) {
     }
 
     if (!success) {
-        sprintf(buf, "CreateProcess() failed - %s", error_msg);
+        snprintf(buf, sizeof(buf), "CreateProcess() failed - %s", error_msg);
 
         if (last_error == ERROR_NOT_ENOUGH_MEMORY) {
             // if CreateProcess() failed because system is low on memory,
@@ -881,20 +876,19 @@ int ACTIVE_TASK::start(bool test) {
     //freopen(STDERR_FILE, "a", stderr);
 
     argv[0] = exec_name;
-    char cmdline[8192];
     safe_strcpy(cmdline, wup->command_line.c_str());
     if (strlen(result->cmdline)) {
-        strcat(cmdline, " ");
-        strcat(cmdline, result->cmdline);
+        safe_strcat(cmdline, " ");
+        safe_strcat(cmdline, result->cmdline);
     }
     parse_command_line(cmdline, argv+1);
     if (log_flags.task_debug) {
         debug_print_argv(argv);
     }
-    sprintf(buf, "../../%s", exec_path );
+    snprintf(buf, sizeof(buf), "../../%s", exec_path );
     pid = spawnv(P_NOWAIT, buf, argv);
     if (pid == -1) {
-        sprintf(buf, "Process creation failed: %s\n", boincerror(retval));
+        snprintf(buf, sizeof(buf), "Process creation failed: %s\n", boincerror(retval));
         chdir(current_dir);
         retval = ERR_EXEC;
         goto error;
@@ -923,18 +917,19 @@ int ACTIVE_TASK::start(bool test) {
     char current_dir[1024];
 
     if (getcwd(current_dir, sizeof(current_dir)) == NULL) {
-        sprintf(buf, "Can't get cwd");
+        snprintf(buf, sizeof(buf), "Can't get cwd");
         goto error;
     }
 
-    sprintf(cmdline, "%s %s",
+    snprintf(cmdline, sizeof(cmdline),
+        "%s %s",
         wup->command_line.c_str(), app_version->cmdline
     );
 
     if (!app_version->api_version_at_least(7, 5)) {
         int rt = app_version->gpu_usage.rsc_type;
         if (rt) {
-            coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline);
+            coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline, sizeof(cmdline));
         }
     }
 
@@ -947,7 +942,7 @@ int ACTIVE_TASK::start(bool test) {
         if (app_version->api_version_at_least(6, 0)) {
 #endif
             // Use mmap() shared memory
-            sprintf(buf, "%s/%s", slot_dir, MMAPPED_FILE_NAME);
+            snprintf(buf, sizeof(buf), "%s/%s", slot_dir, MMAPPED_FILE_NAME);
             if (g_use_sandbox) {
                 if (!boinc_file_exists(buf)) {
                     int fd = open(buf, O_RDWR | O_CREAT, 0660);
@@ -995,7 +990,7 @@ int ACTIVE_TASK::start(bool test) {
     }
     pid = fork();
     if (pid == -1) {
-        sprintf(buf, "fork() failed: %s", strerror(errno));
+        snprintf(buf, sizeof(buf), "fork() failed: %s", strerror(errno));
         retval = ERR_FORK;
         goto error;
     }
@@ -1020,9 +1015,9 @@ int ACTIVE_TASK::start(bool test) {
         //
         char libpath[8192];
         char newlibs[256];
-        sprintf(newlibs, "../../%s:.:../..", wup->project->project_dir());
+        snprintf(newlibs, sizeof(newlibs), "../../%s:.:../..", wup->project->project_dir());
 #ifdef __APPLE__
-        strcat(newlibs, ":/usr/local/cuda/lib/");
+        safe_strcat(newlibs, ":/usr/local/cuda/lib/");
 #endif
         char* p = getenv("LD_LIBRARY_PATH");
         if (p) {
@@ -1113,11 +1108,12 @@ int ACTIVE_TASK::start(bool test) {
         if (test) {
             strcpy(buf, exec_path);
         } else {
-            sprintf(buf, "../../%s", exec_path);
+            snprintf(buf, sizeof(buf), "../../%s", exec_path);
         }
         if (g_use_sandbox) {
             char switcher_path[MAXPATHLEN];
-            sprintf(switcher_path, "../../%s/%s",
+            snprintf(switcher_path, sizeof(switcher_path), 
+                "../../%s/%s",
                 SWITCHER_DIR, SWITCHER_FILE_NAME
             );
             argv[0] = const_cast<char*>(SWITCHER_FILE_NAME);
@@ -1154,9 +1150,6 @@ int ACTIVE_TASK::start(bool test) {
             "[task] ACTIVE_TASK::start(): forked process: pid %d\n", pid
         );
     }
-
-#ifdef ANDROID
-#endif
 
 #endif
     set_task_state(PROCESS_EXECUTING, "start");
@@ -1226,9 +1219,9 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
     }
     if (log_flags.cpu_sched) {
         char buf[256];
-        strcpy(buf, "");
+        safe_strcpy(buf, "");
         if (strlen(app_version->plan_class)) {
-            sprintf(buf, " (%s)", app_version->plan_class);
+            snprintf(buf, sizeof(buf), " (%s)", app_version->plan_class);
         }
         msg_printf(result->project, MSG_INFO,
             "[cpu_sched] %s task %s using %s version %d%s in slot %d",
@@ -1342,11 +1335,11 @@ void run_test_app() {
     wu.app = &app;
     wu.command_line = string("--critical_section");
 
-    strcpy(app.name, "test app");
+    safe_strcpy(app.name, "test app");
     av.init();
     av.avg_ncpus = 1;
 
-    strcpy(result.name, "test result");
+    safe_strcpy(result.name, "test result");
     result.avp = &av;
     result.wup = &wu;
     result.project = &project;
@@ -1358,7 +1351,7 @@ void run_test_app() {
     at.max_elapsed_time = 1e6;
     at.max_disk_usage = 1e14;
     at.max_mem_usage = 1e14;
-    strcpy(at.slot_dir, ".");
+    safe_strcpy(at.slot_dir, ".");
 
 #if 1
     // test file copy

@@ -14,7 +14,7 @@ AC_SUBST([LIBBOINC_VERSION])
 WRAPPER_RELEASE=26016
 AC_SUBST([WRAPPER_RELEASE])
 
-VBOXWRAPPER_RELEASE=26180
+VBOXWRAPPER_RELEASE=26184
 AC_SUBST([VBOXWRAPPER_RELEASE])
 
 AC_CANONICAL_TARGET
@@ -440,17 +440,14 @@ BOINC_CHECK_FCGI
 fi
 
 dnl ---------- libcurl (m4/libcurl.m4) ------------------------------
+dnl curl is needed for libraries and those are needed by everything else
 
-if test "${enable_client}" = yes; then
-   LIBCURL_CHECK_CONFIG([yes], [7.17.1], [haveCurl=yes], [haveCurl=no])
+LIBCURL_CHECK_CONFIG([yes], [7.17.1], [haveCurl=yes], [haveCurl=no])
 
-   if test "${haveCurl}" != yes; then
-      AC_MSG_ERROR([
+if test "${haveCurl}" != yes; then
+   AC_MSG_ERROR([
 ================================================================================
 ERROR: could not find (recent enough) development-libs for libcurl.
-
-  This library is required to build the boinc-client.
-  (If you don't want to build the client, use --disable-client with configure.
 
   If libcurl-dev is installed on your system, make sure that the script
   'curl-config' is found in your PATH, and that
@@ -459,23 +456,20 @@ ERROR: could not find (recent enough) development-libs for libcurl.
   You can download libcurl from: http://curl.haxx.se/
 
 ================================================================================
-	])
-   else
-      ## add libcurl et al. to the list of statically linked libs
-      STATIC_LIB_LIST="${STATIC_LIB_LIST} curl idn ssh2 crypto ssl krb5 k5crypto gssapi_krb5 com_err resolv lber ldap socket nsl z rt gcrypt gpg-error"
-      CPPFLAGS="${CPPFLAGS} ${LIBCURL_CPPFLAGS}"
-      CURL_LIB_PATHS=`echo $LIBCURL | sed 's/[^[a-zA-Z]]*-l[^ ]*//g'`
+   ])
+else
+   ## add libcurl et al. to the list of statically linked libs
+   STATIC_LIB_LIST="${STATIC_LIB_LIST} curl idn ssh2 crypto ssl krb5 k5crypto gssapi_krb5 com_err resolv lber ldap socket nsl z rt gcrypt gpg-error"
+   CPPFLAGS="${CPPFLAGS} ${LIBCURL_CPPFLAGS}"
+   CURL_LIB_PATHS=`echo $LIBCURL | sed 's/[^[a-zA-Z]]*-l[^ ]*//g'`
 
-      if test "${enable_debug}" = yes; then
-         echo "LIBCURL = ${LIBCURL}"
-	 echo "LIBCURL_CPPFLAGS = ${LIBCURL_CPPFLAGS}"
-	 echo "CURL_LIB_PATHS = ${CURL_LIB_PATHS}"
-	 echo "LDFLAGS = ${LDFLAGS}"
-      fi
-      BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${LIBCURL}"
-
+   if test "${enable_debug}" = yes; then
+      echo "LIBCURL = ${LIBCURL}"
+      echo "LIBCURL_CPPFLAGS = ${LIBCURL_CPPFLAGS}"
+      echo "CURL_LIB_PATHS = ${CURL_LIB_PATHS}"
+      echo "LDFLAGS = ${LDFLAGS}"
    fi
-
+      BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${LIBCURL}"
 fi
 
 dnl ---------- SSL (m4/check_ssl.m4)

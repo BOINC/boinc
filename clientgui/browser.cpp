@@ -44,6 +44,7 @@ BOOL WINAPI InternetGetCookieA( LPCSTR lpszUrl, LPCSTR lpszCookieName, LPSTR lps
 
 #include <sqlite3.h>
 #include "error_numbers.h"
+#include "str_replace.h"
 #include "mfile.h"
 #include "miofile.h"
 #include "str_util.h"
@@ -367,9 +368,9 @@ static int find_site_cookie_mozilla_v3(
     long long expires;
 
 
-    strcpy(host, "");
-    strcpy(cookie_name, "");
-    strcpy(cookie_value, "");
+    safe_strcpy(host, "");
+    safe_strcpy(cookie_name, "");
+    safe_strcpy(cookie_value, "");
     expires = 0;
 
     sscanf( argv[0], "%255s", host );
@@ -567,9 +568,9 @@ static int find_site_cookie_chrome(
     long long expires;
     long httponly;
 
-    strcpy(host, "");
-    strcpy(cookie_name, "");
-    strcpy(cookie_value, "");
+    safe_strcpy(host, "");
+    safe_strcpy(cookie_name, "");
+    safe_strcpy(cookie_value, "");
     expires = 0;
 
     sscanf( argv[0], "%255s", host );

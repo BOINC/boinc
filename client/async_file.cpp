@@ -21,6 +21,10 @@
 #include <string.h>
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #include "crypt.h"
 #include "error_numbers.h"
 #include "filesys.h"
@@ -78,8 +82,8 @@ ASYNC_COPY::ASYNC_COPY() {
     in = out = NULL;
     atp = NULL;
     fip = NULL;
-    strcpy(to_path, "");
-    strcpy(temp_path, "");
+    safe_strcpy(to_path, "");
+    safe_strcpy(temp_path, "");
 }
 
 ASYNC_COPY::~ASYNC_COPY() {
@@ -182,7 +186,7 @@ int ASYNC_VERIFY::init(FILE_INFO* _fip) {
 #endif
         out = boinc_fopen(temp_path, "wb");
         if (!out) return ERR_FOPEN;
-        strcat(inpath, ".gz");
+        safe_strcat(inpath, ".gz");
         gzin = gzopen(inpath, "rb");
         if (gzin == Z_NULL) {
             fclose(out);

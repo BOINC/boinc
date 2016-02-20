@@ -46,6 +46,7 @@ using std::vector;
 #include "file_names.h"
 #include "gui_rpc_server.h"
 #include "gui_http.h"
+#include "project_init.h"
 #include "hostinfo.h"
 #include "miofile.h"
 #include "net_stats.h"

@@ -29,6 +29,10 @@
 #include <grp.h>
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #include "error_numbers.h"
 #include "file_names.h"
 #include "util.h"
@@ -61,7 +65,7 @@ int switcher_exec(const char *util_filename, const char* cmdline) {
     int retval;
     std::string output_out, output_err;
 
-    sprintf(util_path, "%s/%s", SWITCHER_DIR, util_filename);
+    snprintf(util_path, sizeof(util_path), "%s/%s", SWITCHER_DIR, util_filename);
     argv[0] = const_cast<char*>(util_filename);
     // Make a copy of cmdline because parse_command_line modifies it
     safe_strcpy(command, cmdline);
@@ -171,7 +175,7 @@ int kill_via_switcher(int pid) {
     // client is running as user boinc_master,
     // we cannot send a signal directly, so use switcher.
     //
-    sprintf(cmd, "/bin/kill kill -s KILL %d", pid);
+    snprintf(cmd, sizeof(cmd), "/bin/kill kill -s KILL %d", pid);
     return switcher_exec(SWITCHER_FILE_NAME, cmd);
 }
 
@@ -188,7 +192,7 @@ int remove_project_owned_file_or_dir(const char* path) {
     char cmd[1024];
 
     if (g_use_sandbox) {
-        sprintf(cmd, "/bin/rm rm -fR \"%s\"", path);
+        snprintf(cmd, sizeof(cmd), "/bin/rm rm -fR \"%s\"", path);
         if (switcher_exec(SWITCHER_FILE_NAME, cmd)) {
             return ERR_UNLINK;
         } else {
@@ -325,7 +329,7 @@ int client_clean_out_dir(
     }
 
     while (1) {
-        strcpy(filename, "");
+        safe_strcpy(filename, "");
         retval = dir_scan(filename, dirp, sizeof(filename));
         if (retval) {
             if (retval != ERR_NOT_FOUND) {
@@ -342,7 +346,7 @@ int client_clean_out_dir(
         if (except && !strcmp(except, filename)) {
             continue;
         }
-        sprintf(path, "%s/%s", dirpath,  filename);
+        snprintf(path, sizeof(path), "%s/%s", dirpath,  filename);
         if (is_dir(path)) {
             retval = client_clean_out_dir(path, NULL);
             if (retval) final_retval = retval;

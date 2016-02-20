@@ -20,7 +20,7 @@
   <string name="attachproject_credential_input_sing_desc">輸入帳號資訊</string>
   <string name="attachproject_credential_input_desc">輸入專案的帳號資訊:</string>
   <string name="attachproject_credential_input_show_pwd">顯示密碼</string>
-  <string name="attachproject_individual_credential_input">單獨加入專案</string>
+  <string name="attachproject_individual_credential_input">個別加入專案</string>
   <!--conflicts-->
   <string name="attachproject_conflicts_desc">加入研究專案時發生問題:</string>
   <string name="attachproject_conflict_undefined">無法連線</string>
@@ -161,7 +161,7 @@
   <string name="prefs_stationary_device_mode_header">固定裝置模式</string>
   <string name="prefs_stationary_device_mode_description">忽略電源設定執行運算。僅能於裝置沒有電池時使用。</string>
   <string name="prefs_power_source_header">運算電源選項</string>
-  <string name="prefs_power_source_description">選擇可讓BOINC使用的電力來源</string>
+  <string name="prefs_power_source_description">選擇允許 BOINC 執行的電力來源</string>
   <string name="prefs_power_source_ac">充電器</string>
   <string name="prefs_power_source_usb">USB連線</string>
   <string name="prefs_power_source_wireless">無線充電</string>
