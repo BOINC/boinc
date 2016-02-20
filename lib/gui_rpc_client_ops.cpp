@@ -2295,8 +2295,8 @@ int RPC_CLIENT::lookup_account(ACCOUNT_IN& ai) {
         "   <email_addr>%s</email_addr>\n"
         "   <passwd_hash>%s</passwd_hash>\n"
         "   <ldap_auth>%d</ldap_auth>\n"
-		"   <server_assigned_hash>%d</server_assigned_cookie>\n"
-		"   <server_hash>%s</server_cookie>\n"
+		"   <server_assigned_cookie>%d</server_assigned_cookie>\n"
+		"   <server_cookie>%s</server_cookie>\n"
         "</lookup_account>\n",
         ai.url.c_str(),
         ai.email_addr.c_str(),
