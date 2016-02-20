@@ -199,7 +199,7 @@ wxWizardPageEx* CProjectWelcomePage::GetNext() const
     } else if (pWA->GetProjectAuthenticator().IsEmpty() && pWA->GetProjectSetupCookie().IsEmpty()) {
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
     } else {
-        return PAGE_TRANSITION_NEXT(ID_PROJECTPROCESSINGPAGE);
+        return PAGE_TRANSITION_NEXT(ID_PROJECTPROPERTIESPAGE);
     }
     return NULL;
 }
