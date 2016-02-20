@@ -40,10 +40,6 @@ public:
              long style = wxDEFAULT_DIALOG_STYLE);
 
     /// Track page transitions
-    wxWizardPageEx* PopPageTransition();
-    virtual wxWizardPageEx* _PopPageTransition();
-    wxWizardPageEx* PushPageTransition( wxWizardPageEx* pCurrentPage, unsigned long ulPageID );
-    virtual wxWizardPageEx* _PushPageTransition( wxWizardPageEx* pCurrentPage, unsigned long ulPageID );
     std::stack<wxWizardPageEx*> m_PageTransition;
 
     /// Cancel Event Infrastructure

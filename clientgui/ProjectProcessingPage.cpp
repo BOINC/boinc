@@ -508,7 +508,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                             if (!pWA->GetProjectSetupCookie().IsEmpty()) {
                                 pWA->SetProjectSetupCookie(wxEmptyString);
                             }
-                            pWA->PushPageTransition(this, ID_ACCOUNTINFOPAGE);
+                            pWA->PushPage(ID_ACCOUNTINFOPAGE);
                         }
                         SetProjectAccountNotFound(true);
                     } else {
