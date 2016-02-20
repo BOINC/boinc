@@ -318,7 +318,7 @@ void CProjectProcessingPage::OnPageChanged( wxWizardExEvent& event ) {
     wxASSERT(m_pProgressIndicator);
 
     m_pTitleStaticCtrl->SetLabel(
-        _("Communicating with project.")
+        _("Communicating with project\nPlease wait...")
     );
 
     SetProjectCommunicationsSucceeded(false);
