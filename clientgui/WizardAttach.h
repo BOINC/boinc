@@ -175,16 +175,16 @@ struct PROJECT_INIT_STATUS;
 // Commonly defined macros
 //
 #define PAGE_TRANSITION_NEXT(id) \
-    ((CBOINCBaseWizard*)GetParent())->PushPageTransition((wxWizardPageEx*)this, id)
+    ((CWizardAttach*)GetParent())->PushPageTransition((wxWizardPageEx*)this, id)
  
 #define PAGE_TRANSITION_BACK \
-    ((CBOINCBaseWizard*)GetParent())->PopPageTransition()
+    ((CWizardAttach*)GetParent())->PopPageTransition()
  
 #define PROCESS_CANCELEVENT(event) \
-    ((CBOINCBaseWizard*)GetParent())->ProcessCancelEvent(event)
+    ((CWizardAttach*)GetParent())->ProcessCancelEvent(event)
 
 #define CHECK_CLOSINGINPROGRESS() \
-    ((CBOINCBaseWizard*)GetParent())->IsCancelInProgress()
+    ((CWizardAttach*)GetParent())->IsCancelInProgress()
 
 
 /*!
@@ -250,8 +250,10 @@ public:
     virtual bool HasPrevPage( wxWizardPageEx* page );
 
     /// Track page transitions
-    wxWizardPageEx* _PopPageTransition();
-    wxWizardPageEx* _PushPageTransition( wxWizardPageEx* pCurrentPage, unsigned long ulPageID );
+    wxWizardPageEx* TranslatePage(unsigned long ulPageID);
+    wxWizardPageEx* PopPageTransition();
+    wxWizardPageEx* PushPage( unsigned long ulPageID );
+    wxWizardPageEx* PushPageTransition( wxWizardPageEx* pCurrentPage, unsigned long ulPageID );
 
     /// Cancel Event Infrastructure
     void _ProcessCancelEvent( wxWizardExEvent& event );
