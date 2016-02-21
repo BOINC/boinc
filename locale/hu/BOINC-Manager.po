@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-02-21 09:14+0000\n"
+"PO-Revision-Date: 2016-02-21 09:19+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -881,7 +881,7 @@ msgstr "a BOINC Kezelő több példányának futása engedélyezve"
 
 #: clientgui/BOINCGUIApp.cpp:679
 msgid "Not used: workaround for bug in XCode 4.2"
-msgstr "Nincs használva az XCode 4.2-ben található megoldás a hibára"
+msgstr "Nincs használatban az XCode 4.2-ben található hibához készített megoldás "
 
 #: clientgui/BOINCGUIApp.cpp:681
 msgid "Not run the daemon"
@@ -974,7 +974,7 @@ msgstr "%s Megjegyzések"
 
 #: clientgui/BOINCTaskBar.cpp:810
 msgid "There are new notices - click to view."
-msgstr "Új üzenetek érkeztek - kattintson a megtekintésükhöz."
+msgstr "Új üzenetek érkeztek - kattints a megtekintésükhöz."
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to add project"
@@ -1020,7 +1020,7 @@ msgstr "A projektet sikeresen hozzáadtuk."
 msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
-msgstr "Ha a Befejez gombra kattint, akkor a böngészőjében megnyílik az az oldal,\nahol megadhatja a fiókjának nevét és beállításait."
+msgstr "Ha a Befejez gombra kattintasz, akkor a böngésződben megnyílik az az oldal,\nahol megadhatod a fiókod nevét és beállításait."
 
 #: clientgui/CompletionPage.cpp:232
 #, c-format
@@ -1034,26 +1034,26 @@ msgstr "Frissítés kész."
 #. Attach Completed
 #: clientgui/CompletionPage.cpp:247
 msgid "Now using account manager"
-msgstr "Most már fiókkezelőt használ"
+msgstr "Most már fiókkezelőt használsz"
 
 #: clientgui/CompletionPage.cpp:252
 #, c-format
 msgid "Welcome to %s!"
-msgstr "Üdvözöljük a(z) %s projektben!"
+msgstr "Üdvözlünk a(z) %s projektben!"
 
 #: clientgui/CompletionPage.cpp:263
 #, c-format
 msgid "You are now using %s to manage accounts."
-msgstr "Jelenleg a(z) %s-t használja fiókjai kezelésére."
+msgstr "Jelenleg a(z) %s-t használod fiókjaid kezelésére."
 
 #: clientgui/CompletionPage.cpp:267
 msgid "You are now using this account manager."
-msgstr "Jelenleg ezt a fiókkezelőt használja."
+msgstr "Jelenleg ezt a fiókkezelőt használod."
 
 #: clientgui/DlgAbout.cpp:113
 #, c-format
 msgid "About %s"
-msgstr "%s névjegy"
+msgstr "%s névjegye"
 
 #: clientgui/DlgAbout.cpp:172
 msgid "Version:"
@@ -1079,7 +1079,7 @@ msgstr "BOINC is distributed under the GNU Lesser General Public License v3.0."
 
 #: clientgui/DlgAbout.cpp:203
 msgid "For more information, visit "
-msgstr "További információkért nézze meg"
+msgstr "További információkért keresd fel"
 
 #: clientgui/DlgAbout.cpp:215 clientgui/DlgExitMessage.cpp:173
 #: clientgui/DlgGenericMessage.cpp:120 clientgui/DlgOptions.cpp:410
@@ -1093,7 +1093,7 @@ msgstr "Érvénytelen szám"
 
 #: clientgui/DlgAdvPreferences.cpp:685 clientgui/sg_DlgPreferences.cpp:776
 msgid "Invalid time, value must be between 0:00 and 24:00, format is HH:MM"
-msgstr "Érvénytelen idő, az értéknek 0:00 és 24:00 közt kell lennie, formátum HH:MM"
+msgstr "Érvénytelen idő, az értéknek 0:00 és 24:00 közt kell lennie, a formátum: ÓÓ:PP"
 
 #: clientgui/DlgAdvPreferences.cpp:686 clientgui/sg_DlgPreferences.cpp:777
 msgid "Start time must be different from end time"
