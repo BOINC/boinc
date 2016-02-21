@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-02-21 09:24+0000\n"
+"PO-Revision-Date: 2016-02-21 09:29+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -1144,11 +1144,11 @@ msgstr "Webalapú beállítások használata"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:107 clientgui/sg_DlgPreferences.cpp:189
 msgid "Set values and click OK to use local preferences instead."
-msgstr "Állítsa be az értékeket és kattintson OK-ra a helyi beállítások használatához a webalapú helyett."
+msgstr "Állítsd be az értékeket és kattints az OK-ra a helyi beállítások használatához a webalapú helyett."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:115 clientgui/sg_DlgPreferences.cpp:217
 msgid "Use web prefs"
-msgstr "Web beállítások használata"
+msgstr "Webes beállítások használata"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:116 clientgui/sg_DlgPreferences.cpp:218
 msgid "Restore web-based preferences and close the dialog."
@@ -1196,7 +1196,7 @@ msgstr "Súgó"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:174
 msgid "Shows the preferences web page."
-msgstr "A beállítások weboldalt mutatja meg."
+msgstr "A beállítások weboldalát mutatja meg."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:236
 #: clientgui/DlgAdvPreferencesBase.cpp:463
@@ -1208,7 +1208,7 @@ msgstr "A használat korlátozásai"
 msgid ""
 "Keep some CPUs free for other applications. Example: 75% means use 6 cores "
 "on an 8-core CPU."
-msgstr "Tartson némi CPU-t szabadon más alkalmazások számára. Például 75% azt jelenti, hogy 6 magot használ egy 8 magos processzoron."
+msgstr "Tartson némi CPU-t szabadon más alkalmazások számára. Például a 75% azt jelenti, hogy 6 magot használ egy 8 magos processzoron."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:243
 #: clientgui/DlgAdvPreferencesBase.cpp:255 clientgui/sg_DlgPreferences.cpp:286
@@ -1218,7 +1218,7 @@ msgstr "Legfeljebb"
 #: clientgui/DlgAdvPreferencesBase.cpp:248
 #, no-c-format
 msgid "% of the CPUs"
-msgstr "A CPU-k %-a"
+msgstr "%-át használja a CPU-knak"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:253 clientgui/sg_DlgPreferences.cpp:284
 #, no-c-format
@@ -1226,7 +1226,7 @@ msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
 "energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, "
 "and repeat."
-msgstr "Felfüggesztés/folytatás: a számítás a CPU hőterhelésének csökkentése érdekében a megadott százalékban folyik, majd szünet áll be. Például a 75% azt jelenti, hogy a CPU 3 másodpercig dolgozik, majd 1 másodpercig pihen."
+msgstr "A számítás felfüggesztése/folytatása néhány másodpercenként a CPU hőterhelésének és energiafogyasztásának csökkentése érdekében. Például a 75% azt jelenti, hogy a CPU 3 másodpercig dolgozik, majd 1 másodpercig pihen."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:260 clientgui/sg_DlgPreferences.cpp:291
 #, no-c-format
