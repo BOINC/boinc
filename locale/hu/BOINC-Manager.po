@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-02-21 09:19+0000\n"
+"PO-Revision-Date: 2016-02-21 09:24+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -1075,7 +1075,7 @@ msgstr "(C) 2003-2015 Kaliforniai Egyetem, Berkeley.\nMinden jog fenntartva."
 
 #: clientgui/DlgAbout.cpp:196
 msgid "BOINC is distributed under the GNU Lesser General Public License v3.0."
-msgstr "BOINC is distributed under the GNU Lesser General Public License v3.0."
+msgstr "A BOINC a GNU Lesser General Public License 3.0-ás verziója alapján került kiadásra."
 
 #: clientgui/DlgAbout.cpp:203
 msgid "For more information, visit "
@@ -1121,7 +1121,7 @@ msgstr "Érvényesítési hiba"
 
 #: clientgui/DlgAdvPreferences.cpp:1171
 msgid "Discard local preferences and use web-based preferences?"
-msgstr "Eldobja a helyi beállításokat és a webalapú beállításokat használja?"
+msgstr "Eldobod a helyi beállításokat és a webalapú beállításokat használod?"
 
 #: clientgui/DlgAdvPreferences.cpp:1172 clientgui/sg_DlgPreferences.cpp:1187
 msgid "Confirmation"
@@ -1136,7 +1136,7 @@ msgstr "%s - Számítási beállítások"
 msgid ""
 "Using local preferences.\n"
 "Click \"Use web prefs\" to use web-based preferences from"
-msgstr "Helyi beállítások használata,\nKattintson \"Web beállítások használata\" a webalapú beállítások használatához"
+msgstr "Helyi beállítások használata.\nKattints a \"Web beállítások használata\" gombra a webalapú beállítások használatához"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:90 clientgui/sg_DlgPreferences.cpp:171
 msgid "Using web-based preferences from"
