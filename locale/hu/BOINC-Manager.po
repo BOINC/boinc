@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-02-21 09:29+0000\n"
+"PO-Revision-Date: 2016-02-22 13:35+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -1171,7 +1171,7 @@ msgstr "Lemez és memória"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:149
 msgid "Daily schedules"
-msgstr "Napi ütemterv"
+msgstr "Napi menetrend"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:162
 #: clientgui/DlgDiagnosticLogFlags.cpp:119 clientgui/DlgExclusiveApps.cpp:146
@@ -1262,7 +1262,7 @@ msgstr "Felfüggeszti a GPU használatát, ha a számítógép használatban van
 
 #: clientgui/DlgAdvPreferencesBase.cpp:294
 msgid "Check this to suspend GPU computing when you're using the computer."
-msgstr "jelölje be, ha azt szeretné, hogy a GPU ne dolgozzon, ha Ön a számítógépet használja"
+msgstr "Jelöld be, ha azt szeretnéd, hogy a GPU ne dolgozzon, amikor a számítógépet használod."
 
 #. min idle time
 #: clientgui/DlgAdvPreferencesBase.cpp:299 clientgui/sg_DlgPreferences.cpp:264
@@ -1291,7 +1291,7 @@ msgstr "Számítás felfüggesztése, ha a gépet más programok használják."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:339
 msgid "To suspend by time of day, see the \"Daily Schedules\" section."
-msgstr "Az időben korlátozott engedélyezés beállításához nézze meg a \"Napi menetrend\"-et. (''Daily Schedules'')"
+msgstr "Az időben korlátozott engedélyezés beállításához nézd meg a \"Napi menetrend\"-et."
 
 #. Context: heading for a group of miscellaneous preferences
 #: clientgui/DlgAdvPreferencesBase.cpp:349
@@ -1302,12 +1302,12 @@ msgstr "Egyéb"
 #. buffer sizes
 #: clientgui/DlgAdvPreferencesBase.cpp:355
 msgid "Store at least enough tasks to keep the computer busy for this long."
-msgstr "Tároljon ennyi ideig elegendő feladatot."
+msgstr "Tárolj annyi feladatot, ami a számítógépet legalább ennyi időre lefoglalja."
 
 #. context: Store at least ___ days of work
 #: clientgui/DlgAdvPreferencesBase.cpp:359
 msgid "Store at least"
-msgstr "Tároljon legalább"
+msgstr "Tárolj legalább"
 
 #. context: Store at least ___ days of work
 #. context: Store up to an additional ___ days of work
@@ -1320,7 +1320,7 @@ msgstr "napra elegendő munkát"
 msgid ""
 "Store additional tasks above the minimum level.  Determines how much work is"
 " requested when contacting a project."
-msgstr "További feladatok tárolása a minimum szint felett. Meghatározza mennyi munkát kér, amikor kapcsolatba lép a projekttel."
+msgstr "További feladatok tárolása a minimum szint felett. Meghatározza, hogy mennyi munkát kérjen, amikor kapcsolatba lép a projekttel."
 
 #. context: Store up to an additional ___ days of work
 #: clientgui/DlgAdvPreferencesBase.cpp:380
@@ -1394,7 +1394,7 @@ msgstr "nap"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:505
 msgid "To limit transfers by time of day, see the \"Daily Schedules\" section."
-msgstr "Az adatátvitel korlátozás beállításához nézze meg a \"Napi menetrend\"-et. (''Daily Schedules'')"
+msgstr "Az adatátvitel korlátozás beállításához nézd meg a \"Napi menetrend\"-et."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:522
 #, c-format
