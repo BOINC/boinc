@@ -1164,6 +1164,8 @@ function user_can_create_thread($user, $forum) {
 }
 
 function check_post_access($user, $forum) {
+    if (is_admin($user)) return;
+
     switch ($forum->parent_type) {
     case 0:
         if ($user->prefs->privilege(S_MODERATOR)) return;
