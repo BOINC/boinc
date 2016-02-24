@@ -32,7 +32,7 @@ function compare($a, $b) {
 }
 
 function get_data() {
-    $db = BoincDb::get();
+    $db = BoincDb::get(true);
 
     // get CPU model status in a special query;
     // enumerating hosts was too slow on SETI@home.
@@ -43,7 +43,7 @@ function get_data() {
     //
     $x = $db->enum_fields('host', 'StdClass', 
         'p_model, count(*) as nhosts, avg(p_ncpus) as ncores, avg(p_fpops) as fpops',
-        'p_fpops>1e6 and p_fpops<1e11 and p_fpops <> 1e9 and expavg_credit>".MIND_CREDIT." group by p_model',
+        'p_fpops>1e6 and p_fpops<1e11 and p_fpops <> 1e9 and expavg_credit>'.MIN_CREDIT.' group by p_model',
         null
     );
     $m2 = array();
