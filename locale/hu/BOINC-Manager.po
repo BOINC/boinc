@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-02-22 13:35+0000\n"
+"PO-Revision-Date: 2016-02-25 19:31+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -1330,7 +1330,7 @@ msgstr "Tároljon további"
 #: clientgui/DlgAdvPreferencesBase.cpp:399
 #, c-format
 msgid "If you run several projects, %s may switch between them this often."
-msgstr "Ha több projektet futtat, a %s ilyen gyakorisággal válthat köztük."
+msgstr "Ha több projektet futtatsz, a(z) %s ilyen gyakorisággal válthat köztük."
 
 #. context: Switch between tasks every ___ minutes
 #: clientgui/DlgAdvPreferencesBase.cpp:404
@@ -1346,7 +1346,7 @@ msgstr "Ez szabályozza, hogy a feladatok milyen gyakorisággal mentsék az áll
 #. context: Request tasks to checkpoint at most every ___ seconds
 #: clientgui/DlgAdvPreferencesBase.cpp:423
 msgid "Request tasks to checkpoint at most every"
-msgstr "A feladat kérése állapotának lemezre írására legalább minden"
+msgstr "Kérd a feladat állapotának lemezre írását legalább minden"
 
 #. context: Request tasks to checkpoint at most every ___ seconds
 #: clientgui/DlgAdvPreferencesBase.cpp:432
@@ -1356,7 +1356,7 @@ msgstr "másodpercben"
 #. upload/download rates
 #: clientgui/DlgAdvPreferencesBase.cpp:469
 msgid "Limit the download rate of file transfers."
-msgstr "Letöltési sebesség korlátozása."
+msgstr "A fájlátvitelek letöltési sebességének korlátozása."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:470
 msgid "Limit download rate to"
@@ -1369,7 +1369,7 @@ msgstr "KB/s"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:478
 msgid "Limit the upload rate of file transfers."
-msgstr "Feltöltési sebesség korlátozása."
+msgstr "A fájlátvitelek feltöltési sebességének korlátozása."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:479
 msgid "Limit upload rate to"
@@ -1401,15 +1401,15 @@ msgstr "Az adatátvitel korlátozás beállításához nézd meg a \"Napi menetr
 msgid ""
 "Check this only if your Internet provider modifies image files. Skipping "
 "verification reduces the security of %s."
-msgstr "Jelölje be, ha az internetszolgáltatója módosítja a képfájlokat. Az ellenőrzés kihagyása csökkenti a %s biztonságát."
+msgstr "Jelöld be, ha az internetszolgáltatód módosítja a képfájlokat. Az ellenőrzés kihagyása csökkenti a(z) %s biztonságát."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:524
 msgid "Skip data verification for image files"
-msgstr "Adatellenőrzés kihagyása"
+msgstr "Képfájlok adatellenőrzésének kihagyása"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:528
 msgid "Confirm before connecting to Internet"
-msgstr "Jóváhagyás internetre csatlakozás előtt"
+msgstr "Megerősítés internetre csatlakozás előtt"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:529
 #: clientgui/DlgAdvPreferencesBase.cpp:533
@@ -1418,7 +1418,7 @@ msgstr "Modem, ISDN vagy VPN kapcsolat esetén érdemes használni."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:532
 msgid "Disconnect when done"
-msgstr "Lecsatlakozik ha kész"
+msgstr "Lecsatlakozás, ha kész"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:559 clientgui/ViewResources.cpp:116
 msgid "Disk"
