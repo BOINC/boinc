@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-02-25 19:31+0000\n"
+"PO-Revision-Date: 2016-02-25 19:44+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -1463,7 +1463,7 @@ msgstr "GB szabad"
 msgid ""
 "Limit the percentage of disk space used by %s on the volume where it stores "
 "data."
-msgstr "Korlátozza a lemez foglalását százalékban %s által azon a meghajtón, ahol az adatai tárolódnak."
+msgstr "Korlátozza a(z) %s lemezfoglalását százalékosan azon a meghajtón, ahol az adatai tárolódnak."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:602
 #, no-c-format
