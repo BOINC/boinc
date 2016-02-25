@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-02-25 19:44+0000\n"
+"PO-Revision-Date: 2016-02-25 20:16+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -1463,7 +1463,7 @@ msgstr "GB szabad"
 msgid ""
 "Limit the percentage of disk space used by %s on the volume where it stores "
 "data."
-msgstr "Korlátozza a(z) %s lemezfoglalását százalékosan azon a meghajtón, ahol az adatai tárolódnak."
+msgstr "%s lemezfoglalását korlátozza százalékban azon a meghajtón, ahol az adatait tárolja."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:602
 #, no-c-format
@@ -1477,7 +1477,7 @@ msgstr "Memória"
 #: clientgui/DlgAdvPreferencesBase.cpp:614
 #, c-format
 msgid "Limit the memory used by %s when you're using the computer."
-msgstr "Memóriahasználat korlátozása %s-ra, ha ön használja a számítógépet"
+msgstr "%s memóriahasználatának korlátozása, ha használod a számítógépet."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:616
 msgid "When computer is in use, use at most"
@@ -1493,7 +1493,7 @@ msgstr "%"
 #: clientgui/DlgAdvPreferencesBase.cpp:627
 #, c-format
 msgid "Limit the memory used by %s when you're not using the computer."
-msgstr "Memóriahasználat korlátozása %s-ra, ha ön nem használja a számítógépet"
+msgstr "%s memóriahasználatának korlátozása, ha nem használod a számítógépet."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:629
 msgid "When computer is not in use, use at most"
@@ -1501,7 +1501,7 @@ msgstr "Ha a számítógép nincs használatban, legfeljebb ennyit használjon:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:638
 msgid "Leave non-GPU tasks in memory while suspended"
-msgstr "Hagyja a nem-GPU alkalmazásokat a memóriában a felfüggesztés alatt"
+msgstr "Hagyd a nem-GPU alkalmazásokat a memóriában a felfüggesztés alatt"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:639
 msgid ""
