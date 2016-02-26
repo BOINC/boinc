@@ -73,6 +73,10 @@ int main(int /*argc*/, char** argv) {
 
 #endif
 
+    // Satisfy an error / warning from rpmlint: ensure that
+    // we drop any supplementary groups associated with root
+    setgroups(0, NULL);
+
     // We are running setuid root, so setgid() sets real group ID,
     // effective group ID and saved set_group-ID for this process
     grp = getgrnam(group_name);
