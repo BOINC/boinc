@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
-
 ## $Id$
 
 ## ---------- some portability checks/adjustments [stolen from configure] ----------
 ## 'echo -n' is not portable..
 case `echo "testing\c"; echo 1,2,3`,`echo -n testing; echo 1,2,3` in
   *c*,-n*) ECHO_N= ECHO_C='
-' ECHO_T='	' ;;
+' ECHO_T='      ' ;;
   *c*,*  ) ECHO_N=-n ECHO_C= ECHO_T= ;;
   *)       ECHO_N= ECHO_C='\c' ECHO_T= ;;
 esac
@@ -25,30 +24,35 @@ check_version()
     desired=`echo $2 | awk -F. '{print $1*100+$2}'`
     echo $ECHO_N "Checking version of '$1' >= $desired... $ECHO_C"
     name=$1
+    app_var_name=`echo $name | tr '[:lower:]-' '[:upper:]_'`
+    if [ ! -z ${!app_var_name+x} ]; then
+        name=${!app_var_name}
+    fi
+
     fullpath=`type $name | awk '{ print $(NF) }'`;
     if [ -x "$fullpath" ]; then
-	foundit=yes;
+        foundit=yes;
     fi
 
     if [ "$foundit" != yes ]; then
-	echo "Didn't find application";
-	version=0
-	success=no
+        echo "Didn't find application";
+        version=0
+        success=no
     else
-	cmdline="$fullpath --version";
-	if version=`($cmdline 2>/dev/null)` 2>/dev/null; then
-	    echo >/dev/null
-	else
-	    version="0";
-	fi
-	if [ -n "${version}" ]; then
-	    version=`echo $version | awk '{ for (i=1;i<=NF;i++) { split($i,j,"."); m=j[1]*100+j[2] ; if ((m*1)>0) { print m ; break; } } }'`
-	    if [ -z "$version" ]; then version=0; fi
-	    success=`echo "$version" "$desired" | awk '{ if ($1 >= $2) { print "yes";} else {print "no";}} '`
-	else
-	    version=0
-	    success=no
-	fi
+        cmdline="$fullpath --version";
+        if version=`($cmdline 2>/dev/null)` 2>/dev/null; then
+            echo >/dev/null
+        else
+            version="0";
+        fi
+        if [ -n "${version}" ]; then
+            version=`echo $version | awk '{ for (i=1;i<=NF;i++) { split($i,j,"."); m=j[1]*100+j[2] ; if ((m*1)>0) { print m ; break; } } }'`
+            if [ -z "$version" ]; then version=0; fi
+            success=`echo "$version" "$desired" | awk '{ if ($1 >= $2) { print "yes";} else {print "no";}} '`
+        else
+            version=0
+            success=no
+        fi
     fi
     cd $dir
 
@@ -75,11 +79,11 @@ check_version()
       echo >/dev/null
   else
       if check_version gmake 3.79; then
-	  have_gmake=yes;
+          have_gmake=yes;
       else
-	echo "Couldn't find a new-enough version of GNU 'make', please install one!";
-    echo "If you have a newer version, set the environment variable 'MAKE' to its path";
-	exit 1;
+        echo "Couldn't find a new-enough version of GNU 'make', please install one!";
+        echo "If you have a newer version, set the environment variable 'MAKE' to its path";
+        exit 1;
       fi
   fi
 

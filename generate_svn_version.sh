@@ -13,7 +13,10 @@ elif [ -d .git ]; then
     GIT_LOG=`git log -n1 --pretty="format:%H"`
     HOST=`hostname`
     BRANCH=`git branch | sed -n 's/^\* *//p'`
-    remote=`git config --get branch.$BRANCH.remote`
+    remote=`git config --get branch.$BRANCH.remote 2>/dev/null`
+    if [ "$?" != "0" ]; then
+        remote="origin"
+    fi
     URL=`git config --get remote.$remote.url`
     DATE=`git log -n1 --pretty="format:%ct"`
 elif [ -d .svn ]; then
@@ -32,7 +35,7 @@ if [ "x$GIT_LOG" != "x" ]; then
                  y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/;
                  s/^/#define REPOSITORY_/;s/$/ 1/' >> $TMPFILE
 elif [ "x$CMD" != "x" ]; then
-    LANG=C 
+    LANG=C
     URL=`$CMD | awk '
                 /^URL/ { url = $2; };
                 /^Rev/ { rev = $2; };
@@ -41,7 +44,7 @@ elif [ "x$CMD" != "x" ]; then
                       print "#define SVN_REPOSITORY \"" url "\"" >> "'"$TMPFILE"'";
                       print "#define SVN_REVISION " rev >> "'"$TMPFILE"'";
                       print url };'`
-    echo $URL | 
+    echo $URL |
         sed 's%.*://%%;s/[^/]*@//;s/[^a-zA-Z0-9]/_/g;s/__*/_/g;
              y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/;
              s/^/#define REPOSITORY_/;s/$/ 1/' >> $TMPFILE
