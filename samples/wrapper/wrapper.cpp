@@ -645,6 +645,32 @@ int TASK::run(int argct, char** argvt) {
         }
     }
 
+    // resolve "boinc_resolve(...)" phrases in command-line
+    while (1) {
+        char lbuf[16384];
+        char fname[1024];
+        char *from, *to;
+
+        strncpy (lbuf, command_line.c_str(), sizeof(lbuf));
+        lbuf[sizeof(lbuf)-1] = '\0';
+        from = strstr(lbuf, "boinc_resolve(");
+        if (!from) {
+            break;
+        }
+        to = strchr(from, ')');
+        if (!to) {
+            fprintf(stderr, "missing ')' after 'boinc_resolve('\n");
+            exit(1);
+        }
+        *to = 0;
+        boinc_resolve_filename(from + strlen("boinc_resolve("), fname, sizeof(fname));
+#ifdef _WIN32
+        slash_to_backslash(fname);
+#endif
+        *from = 0;
+        command_line = string(lbuf) + string(fname) + string(to+1);
+    }
+
     fprintf(stderr, "%s wrapper: running %s (%s)\n",
         boinc_msg_prefix(buf, sizeof(buf)), app_path, command_line.c_str()
     );
