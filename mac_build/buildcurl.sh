@@ -114,9 +114,10 @@ if [  $? -ne 0 ]; then return 1; fi
 echo ""
 
 ## Work around a conflict with OpenSSL-1.0.2g
-# Patch build/osx/setup/cocoa/include/wx/setup.h
-if [ ! -f lib/curl_config.h.orig ]; then
-    cat >> /tmp/scurl_config_h_diff << ENDOFFILE
+# Patch lib/curl_config.h
+rm -f lib/curl_config.h.orig ]
+
+cat >> /tmp/scurl_config_h_diff << ENDOFFILE
 --- lib/curl_config.h
 +++ lib/curl_config_patched.h
 @@ -602,2 +602,2 @@
@@ -124,11 +125,9 @@ if [ ! -f lib/curl_config.h.orig ]; then
 +/* #undef HAVE_SSLV2_CLIENT_METHOD 1 */
  
 ENDOFFILE
-    patch -bfi /tmp/scurl_config_h_diff lib/curl_config.h
-    rm -f /tmp/scurl_config_h_diff
-else
-    echo "lib/curl_config.h already patched"
-fi
+
+patch -bfi /tmp/scurl_config_h_diff lib/curl_config.h
+rm -f /tmp/scurl_config_h_diff
 
 echo ""
 
