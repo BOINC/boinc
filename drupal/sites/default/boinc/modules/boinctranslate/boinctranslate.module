@@ -811,6 +811,13 @@ function boinctranslate_refresh_translations() {
 function boinctranslate_refresh_translations_op($project, $resource, $langcode, $language, $textgroups, &$context) {
   require_once(getcwd() . '/includes/locale.inc');
   
+  watchdog(
+    'boinctranslate',
+    'Checking for @language updates in @project:@resource',
+    array('@language' => $language, '@project' => $project, '@resource' => $resource),
+    WATCHDOG_INFO
+  );
+  
   if ($project) {
     // Import the configured resources
     $success = FALSE;
@@ -878,7 +885,13 @@ function boinctranslate_refresh_translations_op($project, $resource, $langcode, 
   if ($success) {
     // Store some result for post-processing in the finished callback.
     $context['results']['success'][] = "{$langcode}:{$textgroup}";
-    $message = "Imported translations for {$language} from {$project}:{$resource} ({$results['new']} added, {$results['updated']} refreshed, {$results['deleted']} removed)";
+    $message = "Imported {$language} translations in {$project}:{$resource} ({$results['new']} added, {$results['updated']} refreshed, {$results['deleted']} removed)";
+    watchdog(
+      'boinctranslate',
+      $message,
+      array(),
+      WATCHDOG_INFO
+    );
   }
   else {
     $context['results']['failure'][] = "{$langcode}:{$textgroup}";
@@ -986,6 +999,12 @@ function _boinctranslate_locale_import_read_po($op, $file, $mode = NULL, $lang =
 
   $fd = fopen($file->filepath, "rb"); // File will get closed by PHP on return
   if (!$fd) {
+    watchdog(
+      'boinctranslate',
+      'The translation import for %lang failed, because %filename could not be read.',
+      array('%lang' => $lang, '%filename' => $file->filename),
+      WATCHDOG_WARNING
+    );
     _locale_import_message('The translation import failed, because the file %filename could not be read.', $file);
     return FALSE;
   }
@@ -1015,18 +1034,36 @@ function _boinctranslate_locale_import_read_po($op, $file, $mode = NULL, $lang =
         $context = "COMMENT";
       }
       else { // Parse error
+        watchdog(
+          'boinctranslate',
+          'The translation file %filename for %lang contains an error: "msgstr" was expected but not found on line %line.',
+          array('%filename' => $file->filename, '%lang' => $lang, '%line' => $lineno),
+          WATCHDOG_WARNING
+        );
         _locale_import_message('The translation file %filename contains an error: "msgstr" was expected but not found on line %line.', $file, $lineno);
         return FALSE;
       }
     }
     elseif (!strncmp("msgid_plural", $line, 12)) {
       if ($context != "MSGID") { // Must be plural form for current entry
+        watchdog(
+          'boinctranslate',
+          'The translation file %filename for %lang contains an error: "msgid_plural" was expected but not found on line %line.',
+          array('%filename' => $file->filename, '%lang' => $lang, '%line' => $lineno),
+          WATCHDOG_WARNING
+        );
         _locale_import_message('The translation file %filename contains an error: "msgid_plural" was expected but not found on line %line.', $file, $lineno);
         return FALSE;
       }
       $line = trim(substr($line, 12));
       $quoted = _locale_import_parse_quoted($line);
       if ($quoted === FALSE) {
+        watchdog(
+          'boinctranslate',
+          'The translation file %filename for language %lang contains a syntax error on line %line.',
+          array('%filename' => $file->filename, '%lang' => $lang, '%line' => $lineno),
+          WATCHDOG_WARNING
+        );
         _locale_import_message('The translation file %filename contains a syntax error on line %line.', $file, $lineno);
         return FALSE;
       }
@@ -1039,12 +1076,24 @@ function _boinctranslate_locale_import_read_po($op, $file, $mode = NULL, $lang =
         $current = array();
       }
       elseif ($context == "MSGID") { // Already in this context? Parse error
+        watchdog(
+          'boinctranslate',
+          'The translation file %filename for %lang contains an error: "msgid" is unexpected on line %line.',
+          array('%filename' => $file->filename, '%lang' => $lang, '%line' => $lineno),
+          WATCHDOG_WARNING
+        );
         _locale_import_message('The translation file %filename contains an error: "msgid" is unexpected on line %line.', $file, $lineno);
         return FALSE;
       }
       $line = trim(substr($line, 5));
       $quoted = _locale_import_parse_quoted($line);
       if ($quoted === FALSE) {
+        watchdog(
+          'boinctranslate',
+          'The translation file %filename for language %lang contains a syntax error on line %line.',
+          array('%filename' => $file->filename, '%lang' => $lang, '%line' => $lineno),
+          WATCHDOG_WARNING
+        );
         _locale_import_message('The translation file %filename contains a syntax error on line %line.', $file, $lineno);
         return FALSE;
       }
@@ -1053,10 +1102,22 @@ function _boinctranslate_locale_import_read_po($op, $file, $mode = NULL, $lang =
     }
     elseif (!strncmp("msgstr[", $line, 7)) {
       if (($context != "MSGID") && ($context != "MSGID_PLURAL") && ($context != "MSGSTR_ARR")) { // Must come after msgid, msgid_plural, or msgstr[]
+        watchdog(
+          'boinctranslate',
+          'The translation file %filename for %lang contains an error: "msgstr[]" is unexpected on line %line.',
+          array('%filename' => $file->filename, '%lang' => $lang, '%line' => $lineno),
+          WATCHDOG_WARNING
+        );
         _locale_import_message('The translation file %filename contains an error: "msgstr[]" is unexpected on line %line.', $file, $lineno);
         return FALSE;
       }
       if (strpos($line, "]") === FALSE) {
+        watchdog(
+          'boinctranslate',
+          'The translation file %filename for language %lang contains a syntax error on line %line.',
+          array('%filename' => $file->filename, '%lang' => $lang, '%line' => $lineno),
+          WATCHDOG_WARNING
+        );
         _locale_import_message('The translation file %filename contains a syntax error on line %line.', $file, $lineno);
         return FALSE;
       }
@@ -1065,6 +1126,12 @@ function _boinctranslate_locale_import_read_po($op, $file, $mode = NULL, $lang =
       $line = trim(strstr($line, " "));
       $quoted = _locale_import_parse_quoted($line);
       if ($quoted === FALSE) {
+        watchdog(
+          'boinctranslate',
+          'The translation file %filename for language %lang contains a syntax error on line %line.',
+          array('%filename' => $file->filename, '%lang' => $lang, '%line' => $lineno),
+          WATCHDOG_WARNING
+        );
         _locale_import_message('The translation file %filename contains a syntax error on line %line.', $file, $lineno);
         return FALSE;
       }
@@ -1073,12 +1140,24 @@ function _boinctranslate_locale_import_read_po($op, $file, $mode = NULL, $lang =
     }
     elseif (!strncmp("msgstr", $line, 6)) {
       if ($context != "MSGID") { // Should come just after a msgid block
+        watchdog(
+          'boinctranslate',
+          'The translation file %filename for %lang contains an error: "msgstr" is unexpected on line %line.',
+          array('%filename' => $file->filename, '%lang' => $lang, '%line' => $lineno),
+          WATCHDOG_WARNING
+        );
         _locale_import_message('The translation file %filename contains an error: "msgstr" is unexpected on line %line.', $file, $lineno);
         return FALSE;
       }
       $line = trim(substr($line, 6));
       $quoted = _locale_import_parse_quoted($line);
       if ($quoted === FALSE) {
+        watchdog(
+          'boinctranslate',
+          'The translation file %filename for language %lang contains a syntax error on line %line.',
+          array('%filename' => $file->filename, '%lang' => $lang, '%line' => $lineno),
+          WATCHDOG_WARNING
+        );
         _locale_import_message('The translation file %filename contains a syntax error on line %line.', $file, $lineno);
         return FALSE;
       }
@@ -1088,6 +1167,12 @@ function _boinctranslate_locale_import_read_po($op, $file, $mode = NULL, $lang =
     elseif ($line != "") {
       $quoted = _locale_import_parse_quoted($line);
       if ($quoted === FALSE) {
+        watchdog(
+          'boinctranslate',
+          'The translation file %filename for language %lang contains a syntax error on line %line.',
+          array('%filename' => $file->filename, '%lang' => $lang, '%line' => $lineno),
+          WATCHDOG_WARNING
+        );
         _locale_import_message('The translation file %filename contains a syntax error on line %line.', $file, $lineno);
         return FALSE;
       }
@@ -1101,6 +1186,12 @@ function _boinctranslate_locale_import_read_po($op, $file, $mode = NULL, $lang =
         $current["msgstr"][$plural] .= $quoted;
       }
       else {
+        watchdog(
+          'boinctranslate',
+          'The translation file %filename for %lang contains an error: there is an unexpected string on line %line.',
+          array('%filename' => $file->filename, '%lang' => $lang, '%line' => $lineno),
+          WATCHDOG_WARNING
+        );
         _locale_import_message('The translation file %filename contains an error: there is an unexpected string on line %line.', $file, $lineno);
         return FALSE;
       }
@@ -1112,6 +1203,12 @@ function _boinctranslate_locale_import_read_po($op, $file, $mode = NULL, $lang =
     _boinctranslate_locale_import_one_string($op, $current, $mode, $lang, $file, $group);
   }
   elseif ($context != "COMMENT") {
+    watchdog(
+      'boinctranslate',
+      'The translation file %filename for %lang ended unexpectedly at line %line.',
+      array('%filename' => $file->filename, '%lang' => $lang, '%line' => $lineno),
+      WATCHDOG_WARNING
+    );
     _locale_import_message('The translation file %filename ended unexpectedly at line %line.', $file, $lineno);
     return FALSE;
   }
