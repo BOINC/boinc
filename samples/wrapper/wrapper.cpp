@@ -363,7 +363,9 @@ void get_zip_inputs(ZipFileList &files) {
 //
 void do_zip_outputs() {
     if (zip_filename.empty()) return;
-    if (boinc_file_exists(zip_filename.c_str())) return;
+    string path;
+    boinc_resolve_filename_s(zip_filename.c_str(), path);
+    if (boinc_file_exists(path.c_str())) return;
     ZipFileList infiles;
     get_zip_inputs(infiles);
     int retval = boinc_zip(ZIP_IT, string("temp.zip"), &infiles);
@@ -371,8 +373,6 @@ void do_zip_outputs() {
         fprintf(stderr, "boinc_zip() failed: %d\n", retval);
         exit(1);
     }
-    string path;
-    boinc_resolve_filename_s(zip_filename.c_str(), path);
     retval = boinc_rename("temp.zip", path.c_str());
     if (retval) {
         fprintf(stderr, "failed to rename temp.zip: %d\n", retval);
