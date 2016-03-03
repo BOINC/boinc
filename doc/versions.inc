@@ -129,6 +129,14 @@ $w72x64 = array(
     "type"=>"win_new",
 );
 
+$m76dev = array(
+    "num"=>"7.6.31",
+    "status"=>"Development version",
+	"file"=>"boinc_7.6.31_macOSX_x86_64.zip",
+    "date"=>"3 Mar 2016",
+	"type"=>"mac_advanced",
+);
+
 $m76 = array(
 	"num"=>"7.6.22",
 	"status"=>"Recommended version (standard GUI)",
@@ -167,6 +175,14 @@ $m66 = array(
     "file"=>"boinc_6.6.36_macOSX_universal.zip",
     "date"=>"10 June 2009",
     "type"=>"mac_advanced",
+);
+
+$m76cdev = array(
+    "num"=>"7.6.31",
+    "status"=>"Development version",
+	"file"=>"boinc_7.6.31_x86_64-apple-darwin.zip",
+    "date"=>"3 Mar 2016",
+	"type"=>"bare_core",
 );
 
 $m76c = array(
@@ -314,7 +330,9 @@ $mac = array(
     "description"=>"Version 10.6.0+",
     "dbname" => "x86_64-apple-darwin",
     "versions"=>array(
+          $m76c,
           $m76,
+          $m76cdev,
           $m76c,
           $m74,
           $m74c,
