@@ -108,6 +108,7 @@ double runtime = 0;
 double trickle_period = 0;
 bool enable_graphics_support = false;
 vector<string> unzip_filenames;
+vector<string> rename_output_filenames;
 string zip_filename;
 vector<regexp*> zip_patterns;
 APP_INIT_DATA aid;
@@ -380,6 +381,23 @@ void do_zip_outputs() {
     }
 }
 
+// if any zipped input files are present, unzip and remove them
+//
+void do_rename_outputs() {
+    for (unsigned int i=0; i<rename_output_filenames.size(); i++) {
+        string path;
+        boinc_resolve_filename_s((rename_output_filenames[i] + string(".link")).c_str(), path);
+        if (boinc_file_exists(path.c_str())) return;
+        int retval = boinc_rename(rename_output_filenames[i].c_str(), path.c_str());
+        if (retval) {
+            fprintf(stderr, "failed to rename '%s': %d\n",
+                rename_output_filenames[i].c_str(), retval
+            );
+            exit(1);
+        }
+    }
+}
+
 int TASK::parse(XML_PARSER& xp) {
     char buf[8192];
 
@@ -444,6 +462,25 @@ int parse_unzip_input(XML_PARSER& xp) {
         }
         if (xp.parse_string("zipfilename", s)) {
             unzip_filenames.push_back(s);
+            continue;
+        }
+        fprintf(stderr,
+            "%s unexpected tag in job.xml: %s\n",
+            boinc_msg_prefix(buf2, sizeof(buf2)), xp.parsed_tag
+        );
+    }
+    return ERR_XML_PARSE;
+}
+
+int parse_rename_output(XML_PARSER& xp) {
+    char buf2[256];
+    string s;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/rename_output")) {
+            return 0;
+        }
+        if (xp.parse_string("filename", s)) {
+            rename_output_filenames.push_back(s);
             continue;
         }
         fprintf(stderr,
@@ -524,6 +561,10 @@ int parse_job_file() {
         }
         if (xp.match_tag("unzip_input")) {
             parse_unzip_input(xp);
+            continue;
+        }
+        if (xp.match_tag("rename_output")) {
+            parse_rename_output(xp);
             continue;
         }
         if (xp.match_tag("zip_output")) {
@@ -1269,6 +1310,6 @@ int main(int argc, char** argv) {
     }
     kill_daemons();
     do_zip_outputs();
+    do_rename_outputs();
     boinc_finish(0);
 }
-
