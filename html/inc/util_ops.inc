@@ -359,8 +359,8 @@ if (!isset($skip_auth_ops) && array_key_exists("SERVER_PORT", $_SERVER)) {
 //
 function cancel_wus_where($clause) {
     $q1 = "CREATE TEMPORARY TABLE tmp SELECT id FROM workunit WHERE $clause;";
-    $q2 = "UPDATE result SET server_state=5, outcome=5 WHERE server_state=2 AND workunitid in (SELECT id FROM tmp);";
-    $q3 = "UPDATE workunit SET error_mask=error_mask|16, transition_time=0 WHERE id in (SELECT id FROM tmp);";
+    $q2 = "UPDATE result r INNER JOIN tmp t on r.workunitid=t.id SET server_state=5, outcome=5 WHERE server_state=2;";
+    $q3 = "UPDATE workunit w INNER JOIN tmp t on w.id=t.id SET error_mask=error_mask|16, transition_time=0;";
     $q4 = "DROP TABLE tmp;";
 
     if (!_mysql_query($q1)) {
