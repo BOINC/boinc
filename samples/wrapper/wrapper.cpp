@@ -262,6 +262,7 @@ void str_replace_all(char* buf, const char* s1, const char* s2) {
 void macro_substitute(char* buf) {
     const char* pd = strlen(aid.project_dir)?aid.project_dir:".";
     str_replace_all(buf, "$PROJECT_DIR", pd);
+
     char nt[256];
     sprintf(nt, "%d", nthreads);
     str_replace_all(buf, "$NTHREADS", nt);
@@ -273,6 +274,13 @@ void macro_substitute(char* buf) {
         sprintf(nt, "%d", gpu_device_num);
         str_replace_all(buf, "$GPU_DEVICE_NUM", nt);
     }
+
+#ifdef _WIN32
+    GetCurrentDirectory(sizeof(nt),nt);
+    str_replace_all(buf, "$PWD", nt);
+#else
+    str_replace_all(buf, "$PWD", getenv("PWD"));
+#endif
 }
 
 // make a list of files in the slot directory,
