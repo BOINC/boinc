@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-03-08 16:34+0000\n"
+"PO-Revision-Date: 2016-03-08 16:39+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -453,11 +453,11 @@ msgstr "Számítási beállítások konfigurálása"
 
 #: clientgui/AdvancedFrame.cpp:610
 msgid "Exclusive applications..."
-msgstr "Kizárólagos alkalmazások"
+msgstr "Exkluzív alkalmazások"
 
 #: clientgui/AdvancedFrame.cpp:611
 msgid "Configure exclusive applications"
-msgstr "Kizárólagos alkalmazások beállítása"
+msgstr "Exkluzív alkalmazások beállítása"
 
 #: clientgui/AdvancedFrame.cpp:616
 msgid "Select columns..."
@@ -1691,7 +1691,7 @@ msgstr "Csak a kiválasztott projekt üzeneteinek mutatása"
 #: clientgui/DlgExclusiveApps.cpp:60
 #, c-format
 msgid "%s - Exclusive Applications"
-msgstr "%s - kizárólagos alkalmazások"
+msgstr "%s - exkluzív alkalmazások"
 
 #: clientgui/DlgExclusiveApps.cpp:72
 msgid ""
@@ -1717,7 +1717,7 @@ msgstr "Alkalmazás eltávolítása ebből a listából"
 
 #: clientgui/DlgExclusiveApps.cpp:96
 msgid "Suspend GPU usage when these applications are running:"
-msgstr "Függessze fel a GPU használatot, amikor a következő alkalmazások futnak:"
+msgstr "Függeszd fel a GPU használatot, amikor a következő alkalmazások futnak:"
 
 #: clientgui/DlgExclusiveApps.cpp:122
 msgid "For advanced options, refer to "
@@ -1725,11 +1725,11 @@ msgstr "Haladó beállításokhoz lásd"
 
 #: clientgui/DlgExclusiveApps.cpp:147
 msgid "save all values and close the dialog"
-msgstr "mentse az összes értéket majd zárja be a párbeszédablakot"
+msgstr "mentsd az összes értéket majd zárd be a párbeszédablakot"
 
 #: clientgui/DlgExclusiveApps.cpp:153
 msgid "close the dialog without saving"
-msgstr "zárja be a párbeszédablakot mentés nélkül"
+msgstr "zárd be a párbeszédablakot mentés nélkül"
 
 #: clientgui/DlgExclusiveApps.cpp:158
 msgid "shows the preferences web page"
@@ -1810,7 +1810,7 @@ msgstr "Emlékezzen a döntésemre és ne mutassa többé ezt az ablakot."
 #: clientgui/DlgOptions.cpp:415 clientgui/DlgSelectComputer.cpp:168
 #: clientgui/wizardex.cpp:378
 msgid "&Cancel"
-msgstr "Mégsem"
+msgstr "&Mégsem"
 
 #: clientgui/DlgGenericMessage.cpp:112
 msgid "Don't show this dialog again."
@@ -2514,7 +2514,7 @@ msgstr "elindulás"
 
 #: clientgui/MainDocument.cpp:2451
 msgid "an exclusive app is running"
-msgstr "egy kizárólagos alkalmázás fut"
+msgstr "egy exkluzív alkalmazás fut"
 
 #: clientgui/MainDocument.cpp:2452
 msgid "CPU is busy"
