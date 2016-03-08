@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-03-08 16:22+0000\n"
+"PO-Revision-Date: 2016-03-08 16:29+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -1513,11 +1513,11 @@ msgstr "Ha be van jelölve, akkor a felfüggesztett feladatok a memóriában mar
 #: clientgui/DlgAdvPreferencesBase.cpp:643
 #, c-format
 msgid "Limit the swap space (page file) used by %s."
-msgstr "Korlátozza a cserehely (lapozó fájl) használatát %s számára. "
+msgstr "Korlátozza a mentési terület (lapozó fájl) használatát %s számára. "
 
 #: clientgui/DlgAdvPreferencesBase.cpp:645
 msgid "Page/swap file: use at most"
-msgstr "Swap terület használata legfeljebb"
+msgstr "Lapozó/mentési fájl használata legfeljebb"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:670 clientgui/sg_DlgPreferences.cpp:295
 msgid "and"
@@ -1529,7 +1529,7 @@ msgstr "-"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:691 clientgui/sg_DlgPreferences.cpp:296
 msgid "Compute only during a particular period each day."
-msgstr "Használat csak a nap bizonyos szakában"
+msgstr "Használat csak a nap bizonyos szakában."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:694 clientgui/sg_DlgPreferences.cpp:299
 msgid "Compute only between"
@@ -1582,7 +1582,7 @@ msgstr "Csütörtök"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:890 clientgui/sg_DlgPreferences.cpp:317
 msgid "Transfer files only during a particular period each day."
-msgstr "Fájlok továbbítása csak a napnak meghatározott időszakában."
+msgstr "Fájlok továbbítása csak a nap egy meghatározott időszakában."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:892 clientgui/sg_DlgPreferences.cpp:319
 msgid "Transfer files only between"
@@ -1591,7 +1591,7 @@ msgstr "Csak ettől eddig továbbítson fájlokat:"
 #: clientgui/DlgDiagnosticLogFlags.cpp:65
 #, c-format
 msgid "%s Diagnostic Log Flags"
-msgstr "%s diagnosztikai naplózás"
+msgstr "%s diagnosztikai naplózás flagek"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:83
 msgid ""
