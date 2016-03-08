@@ -6,10 +6,10 @@
 function boinc_standard_menu_default_menu_links() {
   $menu_links = array();
 
-  // Exported menu link: menu-footer-links:http://boinc.berkeley.edu/
-  $menu_links['menu-footer-links:http://boinc.berkeley.edu/'] = array(
+  // Exported menu link: menu-footer-links:https://boinc.berkeley.edu/
+  $menu_links['menu-footer-links:https://boinc.berkeley.edu/'] = array(
     'menu_name' => 'menu-footer-links',
-    'link_path' => 'http://boinc.berkeley.edu/',
+    'link_path' => 'https://boinc.berkeley.edu/',
     'router_path' => '',
     'link_title' => 'BOINC',
     'options' => array(

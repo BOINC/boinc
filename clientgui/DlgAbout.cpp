@@ -204,7 +204,7 @@ void CDlgAbout::CreateControls() {
     itemBoxSizer3->Add(itemStaticText15, 0, wxALIGN_CENTER|wxALL, 5);
 
     m_AboutBOINCURLCtrl = new wxHyperlinkCtrl;
-    m_AboutBOINCURLCtrl->Create( itemDialog1, ID_ABOUTBOINCLINK, wxT("http://boinc.berkeley.edu/"), wxT("http://boinc.berkeley.edu/"), wxDefaultPosition, wxDefaultSize, wxNO_BORDER | wxHL_ALIGN_CENTRE | wxHL_CONTEXTMENU );
+    m_AboutBOINCURLCtrl->Create( itemDialog1, ID_ABOUTBOINCLINK, wxT("https://boinc.berkeley.edu/"), wxT("https://boinc.berkeley.edu/"), wxDefaultPosition, wxDefaultSize, wxNO_BORDER | wxHL_ALIGN_CENTRE | wxHL_CONTEXTMENU );
     itemBoxSizer3->Add(m_AboutBOINCURLCtrl, 0, wxALIGN_CENTER|wxALL, 0);
 
     wxStaticLine* itemStaticLine15 = new wxStaticLine;

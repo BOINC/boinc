@@ -239,8 +239,8 @@
 				</image>
 			</application_snooze_icon> 
 			<organization_name>World Community Grid</organization_name> 
-			<organization_website>http://www.worldcommunitygrid.org</organization_website> 
-			<organization_help_url>http://www.worldcommunitygrid.org/boinc.do</organization_help_url> 
+			<organization_website>https://www.worldcommunitygrid.org</organization_website> 
+			<organization_help_url>https://www.worldcommunitygrid.org/boinc.do</organization_help_url> 
 			<application_short_name>World Community Grid</application_short_name>
 			<!-- this setting makes the BOINC manager automatically open to a particular tab on the -->
 			<!-- advanced view, overriding a users last displayed view.  0 means use users last open tab -->

@@ -3,12 +3,12 @@
 define("MYSQLI", false);
 $host = $_SERVER["SERVER_NAME"];
 if ($host == "bossa.berkeley.edu") {
-    Header("Location: http://boinc.berkeley.edu/trac/wiki/BossaIntro");
+    Header("Location: https://boinc.berkeley.edu/trac/wiki/BossaIntro");
     exit();
 
 }
 if ($host == "bolt.berkeley.edu") {
-    Header("Location: http://boinc.berkeley.edu/trac/wiki/BoltIntro");
+    Header("Location: https://boinc.berkeley.edu/trac/wiki/BoltIntro");
     exit();
 }
 
@@ -39,7 +39,7 @@ function show_totals() {
     $fn = "boinc_state.xml";
     if (!file_exists($fn) || filemtime($fn) < time()-86400) {
         $uid = time();
-        $x = file_get_contents("http://boincstats.com/en/xml/boincState?uid=$uid");
+        $x = file_get_contents("https://boincstats.com/en/xml/boincState?uid=$uid");
         if ($x) {
             $f = fopen($fn, "w");
             fwrite($f, $x);
@@ -82,8 +82,8 @@ function show_news_items() {
 function show_participate() {
     echo "
         <tr><td class=heading_left>
-    <a href=http://www.facebook.com/pages/BOINC/32672338584><img width=36 src=images/facebook_logo.jpg align=left title='BOINC on Facebook'></a>
-    <a href=https://plus.google.com/117150698502685192946/posts><img width=36 src=images/google_plus_logo.jpg align=left title='BOINC on Google+'></a>
+    <a href=https://www.facebook.com/BOINC-32672338584/><img width=36 src=images/facebook_logo.jpg align=left title='BOINC on Facebook'></a>
+    <a href=https://plus.google.com/+boinc><img width=36 src=images/google_plus_logo.jpg align=left title='BOINC on Google+'></a>
         <center>
         <span class=section_title>"
         // "Volunteer" is used as a verb
@@ -110,7 +110,7 @@ function show_participate() {
             tra("Or, if you run several projects, try an %saccount manager%s such as %sGridRepublic%s or %sBAM!%s. "),
             "<a href=\"wiki/Account_managers\">",
             "</a>",
-            "<a href=\"http://www.gridrepublic.org\">",
+            "<a href=\"https://www.gridrepublic.org\">",
             "</a>",
             "<a href=\"https://bam.boincstats.com/\">",
             "</a>"

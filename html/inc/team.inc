@@ -439,7 +439,7 @@ function team_edit_form($team, $label, $url) {
     if ($team) {
         echo "<input type=hidden name=teamid value=$team->id>\n";
         if ($team->seti_id) {
-            echo "<p class=\"text-danger\">".tra("WARNING: this is a BOINC-wide team. If you make changes here, they will soon be overwritten. Edit the %1BOINC-wide team%2 instead.", "<a href=http://boinc.berkeley.edu/teams/>", "</a>")
+            echo "<p class=\"text-danger\">".tra("WARNING: this is a BOINC-wide team. If you make changes here, they will soon be overwritten. Edit the %1BOINC-wide team%2 instead.", "<a href=https://boinc.berkeley.edu/teams/>", "</a>")
             ."</p>";
         }
     }

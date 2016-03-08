@@ -23,7 +23,7 @@ If you are new to BOINC,
 then you need to create accounts for projects
 in which you would like to participate.
 Please visit the main BOINC site
-(<a href=http://boinc.berkeley.edu/>http://boinc.berkeley.edu/</a>)
+(<a href=https://boinc.berkeley.edu/>https://boinc.berkeley.edu/</a>)
 for a list of popular projects.
 <p>
 When you create an account, you will be sent an email containing a URL

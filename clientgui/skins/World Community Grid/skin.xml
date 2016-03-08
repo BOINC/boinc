@@ -30,8 +30,8 @@
       <application_name>World Community Grid - BOINC Manager</application_name>
       <application_short_name>World Community Grid</application_short_name>
       <organization_name>World Community Grid</organization_name>
-      <organization_website>http://www.worldcommunitygrid.org</organization_website>
-      <organization_help_url>http://www.worldcommunitygrid.org/boinc.do</organization_help_url> 
+      <organization_website>https://www.worldcommunitygrid.org</organization_website>
+      <organization_help_url>https://www.worldcommunitygrid.org/boinc.do</organization_help_url> 
     </advanced>
   </en>
 </skin>

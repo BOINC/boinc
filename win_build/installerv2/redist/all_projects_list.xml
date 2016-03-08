@@ -15,7 +15,7 @@
         <name>x86_64-pc-linux-gnu[mt]</name>
         <name>x86_64-apple-darwin[mt]</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/mmlogo.gif</image>
+      <image>https://boinc.berkeley.edu/images/mmlogo.gif</image>
       <summary>Model the human brain</summary>
     </project>
     <project>
@@ -76,7 +76,7 @@
         <name>i686-pc-linux-gnu</name>
         <name>windows_intelx86</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/logo_primaboinca.gif</image>
+      <image>https://boinc.berkeley.edu/images/logo_primaboinca.gif</image>
       <summary>Study the properties of prime numbers</summary>
     </project>
     <project>
@@ -149,7 +149,7 @@
         <name>x86_64-apple-darwin</name>
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/szdg1_small.jpg</image>
+      <image>https://boinc.berkeley.edu/images/szdg1_small.jpg</image>
       <summary>Study number theory</summary>
     </project>
     <project>
@@ -165,7 +165,7 @@
         <name>x86_64-apple-darwin</name>
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/nf_banner_10.jpg</image>
+      <image>https://boinc.berkeley.edu/images/nf_banner_10.jpg</image>
       <summary>Do research in algebraic number theory</summary>
     </project>
     <project>
@@ -181,7 +181,7 @@
         <name>windows_x86_64</name>
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/sat_logo.png</image>
+      <image>https://boinc.berkeley.edu/images/sat_logo.png</image>
       <summary>Study computational complexity</summary>
     </project>
     <project>
@@ -241,7 +241,7 @@
         <name>x86_64-pc-linux-gnu[OCLcudaGFN]</name>
         <name>x86_64-pc-linux-gnu[OCLcudaGFNWR]</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/primegrid_logo.png</image>
+      <image>https://boinc.berkeley.edu/images/primegrid_logo.png</image>
       <summary>Search for large prime numbers</summary>
     </project>
     <project>
@@ -266,7 +266,7 @@
         <name>x86_64-pc-freebsd</name>
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/oproject_logo.png</image>
+      <image>https://boinc.berkeley.edu/images/oproject_logo.png</image>
       <summary>Do research in math, physics, and Artificial Intelligence</summary>
     </project>
     <project>
@@ -286,7 +286,7 @@
         <name>x86_64-pc-freebsd</name>
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/NFS_Logo.jpg</image>
+      <image>https://boinc.berkeley.edu/images/NFS_Logo.jpg</image>
       <summary>Study the factorization of large integers</summary>
     </project>
     <project>
@@ -300,7 +300,7 @@
         <name>windows_intelx86</name>
         <name>windows_x86_64</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/gerasim.gif</image>
+      <image>https://boinc.berkeley.edu/images/gerasim.gif</image>
     </project>
     <project>
         <name>FightNeglectedDiseases@Home</name>
@@ -336,7 +336,7 @@
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[vbox64]</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/rna4.png</image>
+      <image>https://boinc.berkeley.edu/images/rna4.png</image>
       <summary>Study and design RNA molecules</summary>
     </project>
     <project>
@@ -356,7 +356,7 @@
         <name>x86_64-pc-linux-gnu[mt]</name>
         <name>x86_64-pc-linux-gnu[vbox64]</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/gpugrid.png</image>
+      <image>https://boinc.berkeley.edu/images/gpugrid.png</image>
       <summary>Help biomedical research</summary>
     </project>
     <project>
@@ -374,7 +374,7 @@
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-unknown-linux-gnu</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/africaathome.gif</image>
+      <image>https://boinc.berkeley.edu/images/africaathome.gif</image>
       <summary>Study the spread of malaria</summary>
     </project>
     <project>
@@ -395,7 +395,7 @@
         <name>x86_64-pc-linux-gnu[opencl_ati_101]</name>
         <name>x86_64-pc-linux-gnu[opencl_nvidia_101]</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/poem.jpg</image>
+      <image>https://boinc.berkeley.edu/images/poem.jpg</image>
       <summary>Study protein structure and interaction</summary>
     </project>
     <project>
@@ -430,7 +430,7 @@
         <name>x86_64-apple-darwin</name>
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/rosetta_at_home_logo.jpg</image>
+      <image>https://boinc.berkeley.edu/images/rosetta_at_home_logo.jpg</image>
       <summary>Study diseases such as HIV, malaria, cancer, and Alzheimer's</summary>
     </project>
     <project>
@@ -447,7 +447,7 @@
         <name>x86_64-apple-darwin</name>
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/lattice.gif</image>
+      <image>https://boinc.berkeley.edu/images/lattice.gif</image>
       <summary>Study evolution using genetics</summary>
     </project>
     <project>
@@ -464,7 +464,7 @@
         <name>x86_64-unknown-linux-gnu</name>
         <name>i686-apple-darwin</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/leiden_classical.png</image>
+      <image>https://boinc.berkeley.edu/images/leiden_classical.png</image>
       <summary>Help students do atomic simulations</summary>
     </project>
     <project>
@@ -479,7 +479,7 @@
         <name>x86_64-apple-darwin[vbox_64]</name>
         <name>x86_64-pc-linux-gnu[vbox_64]</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/atlas_at_home.jpg</image>
+      <image>https://boinc.berkeley.edu/images/atlas_at_home.jpg</image>
       <summary>Simulate high-energy particle collisions for CERN</summary>
     </project>
     <project>
@@ -517,7 +517,7 @@
         <name>x86_64-pc-linux-gnu[sse2]</name>
         <name>x86_64-pc-linux-gnu[sse3]</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/asteroids_logo.jpg</image>
+      <image>https://boinc.berkeley.edu/images/asteroids_logo.jpg</image>
       <summary>Study the properties of asteroids</summary>
     </project>
     <project>
@@ -546,7 +546,7 @@
         <name>x86_64-pc-linux-gnu[sse2]</name>
         <name>x86_64-pc-linux-gnu[sse3]</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/lhc.jpg</image>
+      <image>https://boinc.berkeley.edu/images/lhc.jpg</image>
       <summary>Improve the design of the Large Hadron Collider</summary>
     </project>
     <project>
@@ -558,7 +558,7 @@
         <home>University of Warsaw</home>
     <platforms>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/universe_at_home.png</image>
+      <image>https://boinc.berkeley.edu/images/universe_at_home.png</image>
       <summary>Do research in physics and astronomy</summary>
     </project>
     <project>
@@ -576,7 +576,7 @@
         <name>x86_64-apple-darwin[vbox64]</name>
         <name>x86_64-pc-linux-gnu[vbox64]</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/t4t.png</image>
+      <image>https://boinc.berkeley.edu/images/t4t.png</image>
       <summary>Simulate high-energy particle collisions</summary>
     </project>
     <project>
@@ -590,7 +590,7 @@
         <name>i686-pc-linux-gnu</name>
         <name>windows_intelx86</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/convector.jpg</image>
+      <image>https://boinc.berkeley.edu/images/convector.jpg</image>
       <summary>Study mechanical engineering</summary>
     </project>
     <project>
@@ -605,7 +605,7 @@
         <name>windows_intelx86</name>
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/cosmo.jpg</image>
+      <image>https://boinc.berkeley.edu/images/cosmo.jpg</image>
       <summary>Study the evolution of the Universe</summary>
     </project>
     <project>
@@ -640,7 +640,7 @@
         <name>x86_64-apple-darwin</name>
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/constellation2.png</image>
+      <image>https://boinc.berkeley.edu/images/constellation2.png</image>
       <summary>Perform aerospace-related simulations</summary>
     </project>
     <project>
@@ -686,7 +686,7 @@
         <name>x86_64-pc-linux-gnu[opencl_nvidia]</name>
         <name>x86_64-pc-linux-gnu[opencl_nvidia_101]</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/mw.png</image>
+      <image>https://boinc.berkeley.edu/images/mw.png</image>
       <summary>Study the structure of the Milky Way galaxy</summary>
     </project>
     <project>
@@ -748,7 +748,7 @@
         <name>x86_64-pc-linux-gnu[opencl_nvidia_cc1]</name>
         <name>x86_64-pc-linux-gnu[sse2]</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/seti_logo.png</image>
+      <image>https://boinc.berkeley.edu/images/seti_logo.png</image>
       <summary>Search for evidence of extra-terrestrial life</summary>
     </project>
     <project>
@@ -864,7 +864,7 @@
         <name>x86_64-pc-linux-gnu[X64]</name>
         <name>x86_64-pc-linux-gnu[X8664]</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/einstein.jpg</image>
+      <image>https://boinc.berkeley.edu/images/einstein.jpg</image>
       <summary>Help detect pulsars and gravitational waves</summary>
     </project>
     <project>
@@ -879,7 +879,7 @@
         <name>i686-pc-linux-gnu</name>
         <name>windows_intelx86</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/cpn_logo_world_1.jpg</image>
+      <image>https://boinc.berkeley.edu/images/cpn_logo_world_1.jpg</image>
       <summary>Study long-term climate change</summary>
     </project>
     <project>
@@ -898,7 +898,7 @@
         <name>mipsel-unknown-linux-gnu</name>
         <name>armv7l-unknown-linux-gnueabihf</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/radioactive.jpg</image>
+      <image>https://boinc.berkeley.edu/images/radioactive.jpg</image>
       <summary>Monitor radiation levels</summary>
     </project>
     <project>
@@ -957,7 +957,7 @@
         <name>windows_intelx86</name>
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/cas_at_home.jpg</image>
+      <image>https://boinc.berkeley.edu/images/cas_at_home.jpg</image>
       <summary>Help Chinese researchers</summary>
     </project>
     <project>
@@ -979,7 +979,7 @@
         <name>x86_64-pc-linux-gnu</name>
         <name>arm-android-linux-gnu</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/wcg.jpg</image>
+      <image>https://boinc.berkeley.edu/images/wcg.jpg</image>
       <summary>Do biomedical and environmental research</summary>
     </project>
     <project>
@@ -998,7 +998,7 @@
         <name>x86_64-apple-darwin</name>
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/cabecera2.jpg</image>
+      <image>https://boinc.berkeley.edu/images/cabecera2.jpg</image>
       <summary>Help Spanish researchers</summary>
     </project>
     <project>
@@ -1016,7 +1016,7 @@
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[vbox64]</name>
     </platforms>
-      <image>http://boinc.berkeley.edu/images/logo_edges.png</image>
+      <image>https://boinc.berkeley.edu/images/logo_edges.png</image>
       <summary>Help European researchers</summary>
     </project>
     <project>
@@ -1042,12 +1042,12 @@
         <name>BAM!</name>
         <url>http://bam.boincstats.com/</url>
         <description>BAM assists you in creating and managing your BOINC project accounts and helps you with setting preferences, joining or creating teams, connecting your computers to projects, and much more.  Whether you're a new or an existing BOINC user, BAM will help you get the most out of BOINC.</description>
-        <image>http://boinc.berkeley.edu/images/BAM.png</image>
+        <image>https://boinc.berkeley.edu/images/BAM.png</image>
     </account_manager>
    <account_manager>
         <name>GridRepublic</name>
         <url>http://www.gridrepublic.org/</url>
         <description>GridRepublic members run a screensaver that allows their computers to work on public-interest research projects when the machines are not otherwise in use. This screensaver does not affect performance of the host computer any more than an ordinary screensaver does.</description>
-        <image>http://boinc.berkeley.edu/images/logo_gridrepublic_vc.gif</image>
+        <image>https://boinc.berkeley.edu/images/logo_gridrepublic_vc.gif</image>
     </account_manager>
 </projects>

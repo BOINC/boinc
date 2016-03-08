@@ -171,7 +171,7 @@ echo "
 <p>
 If you run a BOINC-based project
 and would like it to be included on this list,
-please <a href=http://boinc.berkeley.edu/trac/wiki/ProjectPeople>contact us</a>.
+please <a href=trac/wiki/ProjectPeople>contact us</a>.
 <script language=\"JavaScript\" type=\"text/javascript\" src=\"wz_tooltip.js\"></script>
 ";
 page_tail();
