@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-03-08 16:29+0000\n"
+"PO-Revision-Date: 2016-03-08 16:34+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -1591,12 +1591,12 @@ msgstr "Csak ettől eddig továbbítson fájlokat:"
 #: clientgui/DlgDiagnosticLogFlags.cpp:65
 #, c-format
 msgid "%s Diagnostic Log Flags"
-msgstr "%s diagnosztikai naplózás flagek"
+msgstr "%s diagnosztikai naplózás jelzők"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:83
 msgid ""
 "These flags enable various types of diagnostic messages in the Event Log."
-msgstr "Ezek a beállítások különböző hibakeresési üzenetet engedélyeznek, amik a hibanaplóba kerülnek."
+msgstr "Ezek a jelzők különböző hibakeresési üzenetet engedélyeznek, amik a hibanaplóba kerülnek."
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:99
 msgid "More info ..."
@@ -1616,7 +1616,7 @@ msgstr "Visszaállítás alapértelmezettre "
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:128 clientgui/DlgHiddenColumns.cpp:109
 msgid "Close the dialog without saving"
-msgstr "Párbeszédablak bezárása mentés nélkül."
+msgstr "Párbeszédablak bezárása mentés nélkül"
 
 #: clientgui/DlgEventLog.cpp:236
 #, c-format
@@ -1662,7 +1662,7 @@ msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on "
 "messages."
-msgstr "A kiválasztott üzenetek másolása a vágólapra. Több üzenetet is kiválaszthat, ha az üzenetkre történő kattintás közben nyomva tartja a Shift, vagy a parancsbillentyűt."
+msgstr "A kiválasztott üzenetek másolása a vágólapra. Több üzenetet is kiválaszthatsz, ha az üzenetkre történő kattintás közben nyomva tartod a Shift, vagy a parancsbillentyűt."
 
 #: clientgui/DlgEventLog.cpp:325 clientgui/DlgEventLog.cpp:333
 #: clientgui/ViewMessages.cpp:99
@@ -1670,7 +1670,7 @@ msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on "
 "messages."
-msgstr "A kiválasztott üzenetek másolása a vágólapra. Több üzenetek is kiváaszthat a SHIFT vagy CTRL gombok lenyomásával, miközben az üzenetekre kattint."
+msgstr "A kiválasztott üzenetek másolása a vágólapra. Több üzenetet is kiválaszthatsz, ha az üzenetkre történő kattintás közben nyomva tartod a Shift, vagy a CTRL billentyűt."
 
 #: clientgui/DlgEventLog.cpp:340 clientgui/DlgItemProperties.cpp:67
 msgid "&Close"
@@ -1686,17 +1686,17 @@ msgstr "Az összes projekt üzeneteinek mutatása."
 
 #: clientgui/DlgEventLog.cpp:356 clientgui/DlgEventLog.cpp:358
 msgid "Show only the messages for the selected project"
-msgstr "Csak a kiválasztott projekt üzeneteit mutassa"
+msgstr "Csak a kiválasztott projekt üzeneteinek mutatása"
 
 #: clientgui/DlgExclusiveApps.cpp:60
 #, c-format
 msgid "%s - Exclusive Applications"
-msgstr "%s - exkluzív alkalmazások"
+msgstr "%s - kizárólagos alkalmazások"
 
 #: clientgui/DlgExclusiveApps.cpp:72
 msgid ""
 "Suspend processor and network usage when these applications are running:"
-msgstr "Függessze fel a processzor- és hálózathasználatot, amikor a következő alkalmazások futnak:"
+msgstr "Függeszd fel a processzor- és hálózathasználatot, amikor a következő alkalmazások futnak:"
 
 #: clientgui/DlgExclusiveApps.cpp:80 clientgui/DlgExclusiveApps.cpp:104
 msgid "Add..."
