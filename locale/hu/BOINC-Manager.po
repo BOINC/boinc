@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-03-07 09:40+0000\n"
+"PO-Revision-Date: 2016-03-08 16:22+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -1508,7 +1508,7 @@ msgid ""
 "If checked, suspended tasks stay in memory, and resume with no work lost. If"
 " unchecked, suspended tasks are removed from memory, and resume from their "
 "last checkpoint."
-msgstr "Bejelölve a felfüggesztett feladatok a memóriában maradnak és a munka veszteség nélkül folytatható. Kihagyva a felfüggesztett feladatok törlődnek a memóriából és a feladat az utolsó ellenőrzési ponttól folytatódik."
+msgstr "Ha be van jelölve, akkor a felfüggesztett feladatok a memóriában maradnak és a munka veszteség nélkül folytatható. Ha nincs bejelölve, akkor a felfüggesztett feladatok törlődnek a memóriából és a feladat az utolsó ellenőrzési ponttól folytatódik."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:643
 #, c-format
