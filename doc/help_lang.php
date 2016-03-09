@@ -106,7 +106,7 @@ function show_vols($vols) {
         <p>
         If you're setting up a BOINC project, this is not the place to get help.
         Instead, try the
-        <a href=http://boinc.berkeley.edu/email_lists.php>boinc_projects</a>
+        <a href=https://boinc.berkeley.edu/email_lists.php>boinc_projects</a>
         email list.
     ";
     list_start("border=0");

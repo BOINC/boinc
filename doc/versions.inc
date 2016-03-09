@@ -38,7 +38,7 @@ function type_text($type) {
 function linux_info() {
     return "Tested on the current Ubuntu distribution; may work on others.
     <br>If available, we recommend that you install a
-    <a href=http://boinc.berkeley.edu/wiki/Installing_BOINC#Linux>
+    <a href=https://boinc.berkeley.edu/wiki/Installing_BOINC#Linux>
     distribution-specific package</a>
     instead.  ";
 }
@@ -432,7 +432,7 @@ function latest_version($p) {
 // note: rand() is inclusive
 //switch(rand(0,3)) {
 switch(0) {
-    case 0: $url_base = "http://boinc.berkeley.edu/dl/"; break;
+    case 0: $url_base = "https://boinc.berkeley.edu/dl/"; break;
     //case 0: $url_base = "http://boincdl3.ssl.berkeley.edu/mirror/"; break;
     //case 1: $url_base = "http://einstein.ligo.caltech.edu/download/boinc/dl/"; break;
     //case 2: $url_base = "http://einstein.aei.mpg.de/download/boinc/dl/"; break;

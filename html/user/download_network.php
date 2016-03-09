@@ -33,15 +33,15 @@ echo "
     tra("We do not provide instructions for installing these applications.
 However, the author may have provided some help on installing or uninstalling the application. 
 If this is not enough you should contact the author.").
-    tra("Instructions for installing and running BOINC are %1here%2.", "<a href=http://boinc.berkeley.edu/participate.php>", "</a>")
+    tra("Instructions for installing and running BOINC are %1here%2.", "<a href=https://boinc.berkeley.edu/download.php>", "</a>")
     . "<li>" . 
-    tra("This list is managed centrally at %1the BOINC website%2.", "<a href=\"http://boinc.berkeley.edu/addons.php\">", "</a>") ."
+    tra("This list is managed centrally at %1the BOINC website%2.", "<a href=\"https://boinc.berkeley.edu/addons.php\">", "</a>") ."
     </ul>
 ";
 
 $httpFile = unserialize(get_cached_data(3600));
 if (!$httpFile) {
-    $httpFile = @file_get_contents("http://boinc.berkeley.edu/addons.php?strip_header=true");
+    $httpFile = @file_get_contents("https://boinc.berkeley.edu/addons.php?strip_header=true");
     if ($httpFile) {
         set_cached_data(3600, serialize($httpFile));
     }

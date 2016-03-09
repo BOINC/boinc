@@ -55,7 +55,7 @@ function show_proj($p) {
 echo "
     <table width=900 height=650 border=$border cellpadding=20><tr><td>
     <center>
-    <table width=700 border=0><tr><td style=\"background-position:center; background-repeat:no-repeat\" background=http://boinc.berkeley.edu/logo/boinc_fade_600.png>
+    <table width=700 border=0><tr><td style=\"background-position:center; background-repeat:no-repeat\" background=https://boinc.berkeley.edu/logo/boinc_fade_600.png>
     <center>
     <font style=\"font-size: 52\" face=$title_font>Certificate of Computation
 
