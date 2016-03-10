@@ -714,6 +714,7 @@ function boinctranslate_refresh_translations() {
   $languages = locale_language_list();
   $translation_resources = array();
   $operations = array();
+  $debug_mode = variable_get('boinc_debug_mode', 0);
   
   $boinc_name = variable_get(
     'boinc_translate_transifex_standard_name', ''
@@ -786,7 +787,7 @@ function boinctranslate_refresh_translations() {
         $operations[] = array(
           'boinctranslate_refresh_translations_op',
           array(
-            $project, $resource, $langcode, $language, $translation['textgroups']
+            $project, $resource, $langcode, $language, $translation['textgroups'], $debug_mode
           ),
         );
       }
@@ -796,7 +797,7 @@ function boinctranslate_refresh_translations() {
         $operations[] = array(
           'boinctranslate_refresh_translations_op',
           array(
-            NULL, $op[1][0], $langcode, $language, array('default')
+            NULL, $op[1][0], $langcode, $language, array('default'), $debug_mode
           ),
         );
       }
@@ -820,15 +821,17 @@ function boinctranslate_refresh_translations() {
 /**
  * Batch operation for importing translations
  */
-function boinctranslate_refresh_translations_op($project, $resource, $langcode, $language, $textgroups, &$context) {
+function boinctranslate_refresh_translations_op($project, $resource, $langcode, $language, $textgroups, $debug_mode, &$context) {
   require_once(getcwd() . '/includes/locale.inc');
   
-  watchdog(
-    'boinctranslate',
-    'Checking for @language updates in @project:@resource',
-    array('@language' => $language, '@project' => $project, '@resource' => $resource),
-    WATCHDOG_INFO
-  );
+  if ($debug_mode) {
+    watchdog(
+      'boinctranslate',
+      'Checking for @language updates in @project:@resource',
+      array('@language' => $language, '@project' => $project, '@resource' => $resource),
+      WATCHDOG_INFO
+    );
+  }
   
   if ($project) {
     // Import the configured resources
@@ -898,12 +901,15 @@ function boinctranslate_refresh_translations_op($project, $resource, $langcode, 
     // Store some result for post-processing in the finished callback.
     $context['results']['success'][] = "{$langcode}:{$textgroup}";
     $message = "Imported {$language} translations in {$project}:{$resource} ({$results['new']} added, {$results['updated']} refreshed, {$results['deleted']} removed)";
-    watchdog(
-      'boinctranslate',
-      $message,
-      array(),
-      WATCHDOG_INFO
-    );
+    
+    if ($debug_mode) {
+      watchdog(
+        'boinctranslate',
+        $message,
+        array(),
+        WATCHDOG_INFO
+      );
+    }
   }
   else {
     $context['results']['failure'][] = "{$langcode}:{$textgroup}";
