@@ -159,6 +159,7 @@ struct TASK {
     bool stat_first;
 
     int parse(XML_PARSER&);
+    void substitute_macros();
     bool poll(int& status);
     int run(int argc, char** argv);
     void kill();
@@ -254,32 +255,44 @@ void str_replace_all(char* buf, const char* s1, const char* s2) {
     }
 }
 
+// replace s1 with s2
+// http://stackoverflow.com/questions/2896600/how-to-replace-all-occurrences-of-a-character-in-string
+//
+void str_replace_all(string &str, const string& s1, const string& s2) {
+    size_t start_pos = 0;
+    while((start_pos = str.find(s1, start_pos)) != string::npos) {
+        str.replace(start_pos, s1.length(), s2);
+        start_pos += s2.length(); // Handles case where 's1' is a substring of 's2'
+    }
+}
+
 // macro-substitute strings from job.xml
 // $PROJECT_DIR -> project directory
 // $NTHREADS --> --nthreads arg if present, else 1
 // $GPU_DEVICE_NUM --> gpu_device_num from init_data.xml, or --device arg
+// $PWD --> current directory
 //
-void macro_substitute(char* buf) {
+void macro_substitute(string &str) {
     const char* pd = strlen(aid.project_dir)?aid.project_dir:".";
-    str_replace_all(buf, "$PROJECT_DIR", pd);
+    str_replace_all(str, "$PROJECT_DIR", pd);
 
     char nt[256];
     sprintf(nt, "%d", nthreads);
-    str_replace_all(buf, "$NTHREADS", nt);
+    str_replace_all(str, "$NTHREADS", nt);
 
     if (aid.gpu_device_num >= 0) {
         gpu_device_num = aid.gpu_device_num;
     }
     if (gpu_device_num >= 0) {
         sprintf(nt, "%d", gpu_device_num);
-        str_replace_all(buf, "$GPU_DEVICE_NUM", nt);
+        str_replace_all(str, "$GPU_DEVICE_NUM", nt);
     }
 
 #ifdef _WIN32
     GetCurrentDirectory(sizeof(nt),nt);
-    str_replace_all(buf, "$PWD", nt);
+    str_replace_all(str, "$PWD", nt);
 #else
-    str_replace_all(buf, "$PWD", getenv("PWD"));
+    str_replace_all(str, "$PWD", getenv("PWD"));
 #endif
 }
 
@@ -432,12 +445,10 @@ int TASK::parse(XML_PARSER& xp) {
         }
         else if (xp.parse_string("application", application)) continue;
         else if (xp.parse_str("exec_dir", buf, sizeof(buf))) {
-            macro_substitute(buf);
             exec_dir = buf;
             continue;  
         }
         else if (xp.parse_str("setenv", buf, sizeof(buf))) {
-            macro_substitute(buf);
             vsetenv.push_back(buf);
             continue;
         }
@@ -445,7 +456,6 @@ int TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_string("stdout_filename", stdout_filename)) continue;
         else if (xp.parse_string("stderr_filename", stderr_filename)) continue;
         else if (xp.parse_str("command_line", buf, sizeof(buf))) {
-            macro_substitute(buf);
             command_line = buf;
             continue;
         }
@@ -459,6 +469,18 @@ int TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_int("priority", priority)) continue;
     }
     return ERR_XML_PARSE;
+}
+
+void TASK::substitute_macros() {
+    if (!exec_dir.empty()) {
+        macro_substitute(exec_dir);
+    }
+    for (int i = 0; i < vsetenv.size(); i++) {
+        macro_substitute(vsetenv[i]);
+    }
+    if (!command_line.empty()) {
+        macro_substitute(command_line);
+    }
 }
 
 int parse_unzip_input(XML_PARSER& xp) {
@@ -1200,6 +1222,8 @@ int main(int argc, char** argv) {
     }
     for (i=0; i<tasks.size(); i++) {
         total_weight += tasks[i].weight;
+        // need to substitute macros after boinc_init_options() and boinc_get_init_data()
+        tasks[i].substitute_macros();
     }
 
     retval = start_daemons(argc, argv);
