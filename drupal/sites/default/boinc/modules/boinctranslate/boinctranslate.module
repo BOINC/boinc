@@ -229,12 +229,14 @@ function boinctranslate_initialize_languages() {
         $installed_languages = language_list();
         $available_languages = _locale_get_predefined_list();
         $transifex_languages = array();
+        $disabled_languages = array();
         $process_batches = FALSE;
         
         // Set up Transifex languages in Drupal
         foreach ($response as $language) {
           $posix_code = $language['language_code'];
           $rfc_code = strtolower(str_replace('_', '-', $posix_code));
+          $transifex_languages[$rfc_code] = $language;
           if (!isset($installed_languages[$rfc_code])) {
             // See if this language can be installed from a predefined list
             if (isset($available_languages[$rfc_code])) {
@@ -250,6 +252,7 @@ function boinctranslate_initialize_languages() {
               drupal_set_message(
                 'Added predefined language: '.$available_languages[$rfc_code][0]
               );
+              db_query("UPDATE {languages} SET enabled = 1 WHERE language = '%s'", $rfc_code);
             }
             else {
               // Retrieve language details from Transifex
@@ -267,7 +270,7 @@ function boinctranslate_initialize_languages() {
               }
               elseif ($response) {
                 if (!empty($response['name'])) {
-                  // Add a custom language to Drupal (and set to disabled)
+                  // Add a custom language to Drupal and enable
                   locale_add_language(
                     $rfc_code,
                     $response['name'],
@@ -275,7 +278,7 @@ function boinctranslate_initialize_languages() {
                     $response['rtl'],
                     NULL,
                     NULL,
-                    FALSE
+                    TRUE
                   );
                   drupal_set_message(
                     'Added new language: '.$response['name']
@@ -321,11 +324,20 @@ function boinctranslate_initialize_languages() {
           }
         }
         drupal_set_message('Finished installing official BOINC languages.');
+        // Disable languages that are not in Transifex
+        foreach ($installed_languages as $langcode => $language) {
+          if (!isset($transifex_languages[$langcode])) {
+            $disabled_languages[$langcode] = $langcode;
+            db_query("UPDATE {languages} SET enabled = 0 WHERE language = '%s'", $langcode);
+          }
+        }
+        if ($disabled_languages) {
+          drupal_set_message('The following languages were not found in Transifex and were disabled: ' . implode(' ', $disabled_languages));
+        }
         if ($process_batches) {
           $batch = array(
             'operations' => $operations,
           );
-          drupal_set_message('Updating translations...<pre>' . print_r($batch,1) . '</pre>');
           batch_set($batch);
           batch_process('admin/boinc/translation');
         }
