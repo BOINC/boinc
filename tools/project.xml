@@ -51,8 +51,4 @@
         <name>anonymous</name>
         <user_friendly_name>anonymous</user_friendly_name>
     </platform>
-    <app>
-        <name>example_app</name>
-        <user_friendly_name>Example Application</user_friendly_name>
-    </app>
 </boinc>
