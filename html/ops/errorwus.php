@@ -30,6 +30,7 @@ $cache_sec = 1800;
 $notification_level = 1;
 
 $hide_canceled = get_str("hide_canceled", true);
+$refresh_cache = get_int("refresh_cache", true);
 
 admin_page_head("All-error Workunits");
 
@@ -37,6 +38,7 @@ function print_wu($row) {
     echo "<tr>\n";
 
     echo "<td align=\"left\" valign=\"top\">";
+    echo "<input type=\"checkbox\" name=\"WU[]\" value=\"".$row['id']."\">\n";
     echo "<a href=db_action.php?table=workunit&detail=high&id=";
     echo $row['id'];
     echo ">";
@@ -132,7 +134,7 @@ $last_update = 0;
 $row_array = null;
 
 $cache_data = get_cached_data($cache_sec);
-if ($cache_data) {
+if ($cache_data && !$refresh_cache) {
     $cache_data = unserialize($cache_data);
     $last_update = $cache_data['last_update'];
     $row_array = $cache_data['row_array'];
@@ -149,7 +151,9 @@ print_checkbox("Hide canceled WUs", "hide_canceled", $hide_canceled);
 echo "<input class=\"btn btn-default\" type=\"submit\" value=\"OK\">\n";
 echo "</form>\n";
 echo "Page last updated ".time_str($last_update);
+echo "<form action=\"cancel_workunits_action.php\" method=\"post\">\n";
 echo "<br/><table border=\"1\">\n";
+echo "<input type=\"hidden\" name=\"back\" value=\"errorwus\"/>";
 echo "<tr><th>WU ID</th><th>WU name</th><th>Quorum</th><th>Error mask</th><th>Client Errors</th><th>Validate Errors</th></tr>\n";
 
 $hidden=0;
@@ -162,6 +166,12 @@ foreach($row_array as $row) {
 }
 
 echo "</table>\n<br>";
+echo "<input type=\"hidden\" name=\"cancel\" value=\"1\"/>";
+if ($hide_canceled == 'on') {
+    echo "<input type=\"hidden\" name=\"hide_canceled\" value=\"on\"/>";
+}
+echo "<input class=\"btn btn-default\" type=\"submit\" value=\"Cancel checked WUs\">";
+echo "</form>\n";
 echo count($row_array)." entries (".$hidden." hidden)\n";
 
 admin_page_tail();

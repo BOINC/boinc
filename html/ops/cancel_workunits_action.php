@@ -45,7 +45,11 @@ if($WUs != "") {
 
 if (array_key_exists('back',$_REQUEST)) {
     if ($_REQUEST['back'] == "errorwus") {
-        echo "<p><a href=\"errorwus.php\">Return to All-error Workunits page</a></p>";
+        $args = "?refresh_cache=1";
+        if (array_key_exists('hide_canceled',$_REQUEST)) {
+            $args .= "&hide_canceled=on";
+        }
+        echo "<p><a href=\"errorwus.php$args\">Return to All-error Workunits page</a></p>";
     } else if ($_REQUEST['back'] == "cancelwus") {
         if (array_key_exists('clause', $_REQUEST)) {
             $limit = 20;
