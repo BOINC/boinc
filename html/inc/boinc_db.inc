@@ -326,6 +326,12 @@ class BoincHost {
         $db = BoincDb::get();
         return $db->enum('host', 'BoincHost', $clause, $clause2);
     }
+    static function enum_fields($fields, $where_clause, $order_clause=null) {
+        $db = BoincDb::get();
+        return $db->enum_fields(
+            'host', 'BoincHost', $fields, $where_clause, $order_clause
+        );
+    }
     static function count($clause) {
         $db = BoincDb::get();
         return $db->count('host', $clause);
