@@ -489,7 +489,7 @@ void TASK::substitute_macros() {
     if (!exec_dir.empty()) {
         macro_substitute(exec_dir);
     }
-    for (int i = 0; i < vsetenv.size(); i++) {
+    for (unsigned int i = 0; i < vsetenv.size(); i++) {
         macro_substitute(vsetenv[i]);
     }
     if (!command_line.empty()) {
