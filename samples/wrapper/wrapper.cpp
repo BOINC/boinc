@@ -87,13 +87,12 @@
 using std::vector;
 using std::string;
 
-//#define DEBUG
-#if 1
-#define debug_msg(x)
-#else
+#ifdef DEBUG
 inline void debug_msg(const char* x) {
-    fprintf(stderr, "%s\n", x);
+    fprintf(stderr, "[DEBUG] %s\n", x);
 }
+#else
+#define debug_msg(x)
 #endif
 
 #define JOB_FILENAME "job.xml"
@@ -275,10 +274,16 @@ void str_replace_all(string &str, const string& s1, const string& s2) {
 void macro_substitute(string &str) {
     const char* pd = strlen(aid.project_dir)?aid.project_dir:".";
     str_replace_all(str, "$PROJECT_DIR", pd);
+#ifdef DEBUG
+    fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$PROJECT_DIR", pd);
+#endif
 
     char nt[256];
     sprintf(nt, "%d", nthreads);
     str_replace_all(str, "$NTHREADS", nt);
+#ifdef DEBUG
+    fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$NTHREADS", nt);
+#endif
 
     if (aid.gpu_device_num >= 0) {
         gpu_device_num = aid.gpu_device_num;
@@ -286,13 +291,22 @@ void macro_substitute(string &str) {
     if (gpu_device_num >= 0) {
         sprintf(nt, "%d", gpu_device_num);
         str_replace_all(str, "$GPU_DEVICE_NUM", nt);
+#ifdef DEBUG
+	fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$GPU_DEVICE_NUM", nt);
+#endif
     }
 
 #ifdef _WIN32
     GetCurrentDirectory(sizeof(nt),nt);
     str_replace_all(str, "$PWD", nt);
+#ifdef DEBUG
+    fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$PWD", nt);
+#endif
 #else
     str_replace_all(str, "$PWD", getenv("PWD"));
+#ifdef DEBUG
+    fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$PWD", getenv("PWD"));
+#endif
 #endif
 }
 
