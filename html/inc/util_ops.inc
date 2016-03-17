@@ -355,30 +355,29 @@ if (!isset($skip_auth_ops) && array_key_exists("SERVER_PORT", $_SERVER)) {
     auth_ops();
 }
 
-// TODO: use DB interface layer
-//
 function cancel_wus_where($clause) {
     $q1 = "CREATE TEMPORARY TABLE tmp SELECT id FROM workunit WHERE $clause;";
     $q2 = "UPDATE result r INNER JOIN tmp t on r.workunitid=t.id SET server_state=5, outcome=5 WHERE server_state=2;";
     $q3 = "UPDATE workunit w INNER JOIN tmp t on w.id=t.id SET error_mask=error_mask|16, transition_time=0;";
     $q4 = "DROP TABLE tmp;";
 
-    if (!_mysql_query($q1)) {
+    $db = BoincDb::get();
+
+    if (!$db->do_query($q1)) {
         echo "MySQL command '$q1' failed:<br/>unable to create temporary WU id table.<br>\n";
         return 1;
-    } else if (!_mysql_query($q2)) {
+    } else if (!$db->do_query($q2)) {
         echo "MySQL command '$q2' failed:<br/>unable to cancel unsent results.<br>\n";
-        _mysql_query($q4);
+        $db->do_query($q4);
         return 2;
-    } else if (!_mysql_query($q3)) {
+    } else if (!$db->do_query($q3)) {
       echo "MySQL command '$q3' failed:<br/>unable to cancel workunits and trigger transitioner.<br>\n";
-        _mysql_query($q4);
+        $db->do_query($q4);
         return 3;
     }
-    _mysql_query($q4);
+    $db->do_query($q4);
     echo "Successfully canceled WUs WHERE '$clause'<br>\n";
     return 0;
 }
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>
