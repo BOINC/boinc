@@ -19,6 +19,9 @@
 require_once("../inc/util_ops.inc");
 
 $cancel = post_int('cancel', true);
+$hide_canceled = post_str('hide_canceled', true);
+$hide_dlerr = post_str('hide_dlerr', true);
+$appid = post_int('appid', true);
 $WU = post_arr('WU', true);
 $back = post_str('back', true);
 $clause = post_str('clause', true);
@@ -47,18 +50,24 @@ if ($cancel && ($cancel == 1)) {
 //
 if($WUs != "") {
     echo "<!--- WUs to cancel: $WUs --->\n";
-//    if (!in_rops()) {
+    if (!in_rops()) {
         cancel_wus_where("id IN (" . $WUs . ")");
-//    }
+    }
 }
 
 if ($back) {
     if ($back == "errorwus") {
         $args = "?refresh_cache=1";
-        if (array_key_exists('hide_canceled',$_REQUEST)) {
+        if ($hide_canceled && $hide_canceled=="on") {
             $args .= "&hide_canceled=on";
         }
-        echo "<p><a href=\"errorwus.php$args\">Return to All-error Workunits page</a></p>";
+        if ($hide_dlerr && $hide_dlerr=="on") {
+            $args .= "&hide_dlerr=on";
+        }
+        if ($appid) {
+            $args .= "&appid=$appid";
+        }
+        echo "<p><a href=\"errorwus.php$args\">Return to All-error Workunits page</a> (refreshes the cache)</p>";
     } else if ($back == "cancelwus") {
         if ($clause) {
             $clause=urlencode($clause);

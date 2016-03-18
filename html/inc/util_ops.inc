@@ -355,6 +355,13 @@ if (!isset($skip_auth_ops) && array_key_exists("SERVER_PORT", $_SERVER)) {
     auth_ops();
 }
 
+// returns true when this is a readonly ops section
+// currently a dummy because this needs to be ported from Einstein@home
+//
+function in_rops() {
+    return false;
+}
+
 function cancel_wus_where($clause) {
     $q1 = "CREATE TEMPORARY TABLE tmp SELECT id FROM workunit WHERE $clause;";
     $q2 = "UPDATE result r INNER JOIN tmp t on r.workunitid=t.id SET server_state=5, outcome=5 WHERE server_state=2;";
