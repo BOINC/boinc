@@ -9,13 +9,13 @@
 # Daniele Nasuti <daniele.nasuti@gmail.com>, 2015
 # Daniele Nasuti <daniele.nasuti@gmail.com>, 2015
 # Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015
-# Sebastiano Pistore <olatusrooc@virgilio.it>, 2015
+# Sebastiano Pistore <olatusrooc@virgilio.it>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2016-03-21 10:40+0000\n"
+"PO-Revision-Date: 2016-03-21 10:45+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -1824,7 +1824,7 @@ msgstr "Troppi risultati totali"
 
 #: ../inc/result.inc:318
 msgid "WU cancelled"
-msgstr "Lavoro cancellato"
+msgstr "Workunit cancellata"
 
 #: ../inc/result.inc:322
 msgid "Canonical result is missing"
@@ -1836,7 +1836,7 @@ msgstr "Errore non riconosciuto: %1"
 
 #: ../inc/result.inc:353
 msgid "Task name"
-msgstr "Nome del lavoro"
+msgstr "Nome della workunit"
 
 #: ../inc/result.inc:353 ../inc/result.inc:358 ../inc/result.inc:361
 #: ../inc/result.inc:364
@@ -1857,7 +1857,7 @@ msgstr "Attività"
 
 #: ../inc/result.inc:364
 msgid "Work unit"
-msgstr "Unità di lavoro"
+msgstr "Work unit"
 
 #: ../inc/result.inc:373
 msgid "Computer"
