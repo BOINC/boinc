@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-03-21 10:27+0000\n"
+"PO-Revision-Date: 2016-03-21 10:33+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -94,7 +94,7 @@ msgstr "Puoi eseguire questo software su un computer solo se se il proprietario 
 msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
-msgstr "Ti consigliamo di scaricare BOINC da Google Play Store oppure da Amazon Appstore, non da qui. Utilizza questo collegamento solo se hai delle difficoltà con gli strumenti consigliati."
+msgstr "Ti consigliamo di scaricare BOINC da Google Play Store oppure da Amazon Appstore, non da qui. Utilizza questo collegamento solo se hai delle difficoltà con gli store ufficiali."
 
 #: download.php:177
 msgid "System requirements"
@@ -414,7 +414,7 @@ msgstr "University College di Dublino"
 
 #: projects.inc:108
 msgid "Antimalarial drug discovery"
-msgstr "Scoperta di cure per la malaria"
+msgstr "Ricerca di farmaci antimalarici"
 
 #: projects.inc:109
 msgid ""
