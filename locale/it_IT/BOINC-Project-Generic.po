@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2016-01-19 10:43+0000\n"
+"PO-Revision-Date: 2016-03-21 10:34+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -1126,7 +1126,7 @@ msgstr "Spunta questa voce per sospendere l'elaborazione su portatili quando si 
 
 #: ../inc/prefs.inc:70
 msgid "Suspend when computer is in use"
-msgstr "Sospendere quando il computer è in uso"
+msgstr "Sospendere quando il computer è 'in uso'"
 
 #: ../inc/prefs.inc:71
 msgid ""
@@ -1136,7 +1136,7 @@ msgstr "Spunta questa voce se vuoi sospendere l'elaborazione e il trasferimento 
 
 #: ../inc/prefs.inc:76
 msgid "Suspend GPU computing when computer is in use"
-msgstr "Sospendi l'elaborazione GPU quando il computer è in uso"
+msgstr "Sospendi l'elaborazione GPU quando il computer è 'in uso'"
 
 #: ../inc/prefs.inc:77
 msgid "Check this to suspend GPU computing when you're using the computer."
@@ -1144,7 +1144,7 @@ msgstr "Spunta questa voce per sospendere l'elaborazione GPU quando stai usando 
 
 #: ../inc/prefs.inc:82
 msgid "'In use' means mouse/keyboard input in last"
-msgstr "'In uso' significa attività di mouse/tastiera in corso"
+msgstr "\"In uso\" significa che il mouse o la tastiera sono stati usati negli ultimi"
 
 #: ../inc/prefs.inc:83
 msgid "This determines when the computer is considered 'in use'."
@@ -1160,7 +1160,7 @@ msgstr "Sospendi quando non c'è attività mouse/tastiera in corso"
 
 #: ../inc/prefs.inc:90
 msgid "This allows some computers to enter low-power mode when not in use."
-msgstr "Questo permette ad alcuni computers di entrare in modalità low-power quando non in uso."
+msgstr "Permette ad alcuni computer di entrare in modalità risparmio energetico quando non sono 'in uso'."
 
 #: ../inc/prefs.inc:95
 msgid "Suspend when non-BOINC CPU usage is above"
@@ -1268,7 +1268,7 @@ msgstr "% di spazio totale su disco"
 
 #: ../inc/prefs.inc:158
 msgid "When computer is in use, use at most"
-msgstr "Quando il computer è in uso, utilizza al massimo"
+msgstr "Quando il computer è 'in uso', utilizza al massimo"
 
 #: ../inc/prefs.inc:159
 msgid "Limit the memory used by BOINC when you're using the computer."
@@ -1281,7 +1281,7 @@ msgstr "%"
 
 #: ../inc/prefs.inc:165
 msgid "When computer is not in use, use at most"
-msgstr "Quando il computer non è in uso, utilizza al massimo"
+msgstr "Quando il computer non è 'in uso', utilizza al massimo"
 
 #: ../inc/prefs.inc:166
 msgid "Limit the memory used by BOINC when you're not using the computer."
