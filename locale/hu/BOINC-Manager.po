@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-03-25 12:38+0000\n"
+"PO-Revision-Date: 2016-03-25 12:47+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -1824,13 +1824,13 @@ msgstr "%s - oszlop kiválasztása"
 #: clientgui/DlgHiddenColumns.cpp:77
 #, c-format
 msgid "Select which columns %s should show."
-msgstr "Válassza ki, mely %s oszlopok legyenek megjelenítve"
+msgstr "Válaszd ki, mely %s oszlopok legyenek megjelenítve."
 
 #: clientgui/DlgHiddenColumns.cpp:358
 msgid ""
 "Are you sure you want to reset all list columns to the default "
 "configurations?"
-msgstr "Biztosan alapértékre állítja az oszlopokat?"
+msgstr "Biztosan alapértékre állítod az oszlopokat?"
 
 #: clientgui/DlgHiddenColumns.cpp:359
 msgid "Confirm defaults"
@@ -1839,7 +1839,7 @@ msgstr "Visszaállítás megerősítése"
 #: clientgui/DlgItemProperties.cpp:194 clientgui/DlgItemProperties.cpp:197
 #: clientgui/DlgItemProperties.cpp:200 clientgui/DlgItemProperties.cpp:203
 msgid "Don't request tasks for "
-msgstr "Ne kérjen új feladatokat ehhez:"
+msgstr "Ne kérj új feladatokat ehhez:"
 
 #: clientgui/DlgItemProperties.cpp:194
 msgid "Project preference"
@@ -1934,7 +1934,7 @@ msgstr "nem"
 
 #: clientgui/DlgItemProperties.cpp:271
 msgid "Don't request tasks"
-msgstr "Ne kérjen feladatokat"
+msgstr "Ne kérj feladatokat"
 
 #: clientgui/DlgItemProperties.cpp:273
 msgid "Scheduler call in progress"
@@ -2121,7 +2121,7 @@ msgstr "Értesítések emlékeztetési intervelluma:"
 
 #: clientgui/DlgOptions.cpp:197
 msgid "How often should BOINC remind you of new notices?"
-msgstr "Milyen gyakran emlékeztesse a BOINC az új értesítésekre?"
+msgstr "Milyen gyakran emlékeztessen a BOINC az új értesítésekre?"
 
 #: clientgui/DlgOptions.cpp:202
 msgid "Run Manager at login?"
@@ -2129,7 +2129,7 @@ msgstr "Bejelentkezéskor elinduljon a Kezelő?"
 
 #: clientgui/DlgOptions.cpp:208
 msgid "Run the BOINC Manager when you log on."
-msgstr "A BOINC Kezelő elindítása, amikor Ön bejelentkezik."
+msgstr "A BOINC Kezelő elindítása, amikor bejelentkezel."
 
 #: clientgui/DlgOptions.cpp:213
 msgid "Run daemon?"
