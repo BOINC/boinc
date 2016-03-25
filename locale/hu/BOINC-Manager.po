@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-03-25 12:47+0000\n"
+"PO-Revision-Date: 2016-03-25 12:52+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -2141,7 +2141,7 @@ msgstr "Kiszolgáló futtatása a kezelő indításakor."
 
 #: clientgui/DlgOptions.cpp:223
 msgid "Enable Manager exit dialog?"
-msgstr "Engedélyezi a Kezelő kilépési párbeszédpanelét?"
+msgstr "Engedélyezed a Kezelő kilépési párbeszédpanelét?"
 
 #: clientgui/DlgOptions.cpp:229
 msgid "Display the exit dialog when shutting down the Manager."
@@ -2149,15 +2149,15 @@ msgstr "A kilépési bárbeszédpanel megjelenítése a Kezelő bezárásakor."
 
 #: clientgui/DlgOptions.cpp:240
 msgid "Dial-up and Virtual Private Network settings"
-msgstr "Betárcsázós és Virtuális Magán Hálózat (VPN) beállítások"
+msgstr "Betárcsázós és Virtuális Magánhálózat beállítások"
 
 #: clientgui/DlgOptions.cpp:254
 msgid "&Set Default"
-msgstr "Alapértelmezettnek beállít"
+msgstr "Alapértelmezettnek &beállít"
 
 #: clientgui/DlgOptions.cpp:259
 msgid "&Clear Default"
-msgstr "Alapértelmezett törlése"
+msgstr "Alapértelmezett &törlése"
 
 #: clientgui/DlgOptions.cpp:266
 msgid "Default Connection:"
@@ -2186,11 +2186,11 @@ msgstr "Port:"
 
 #: clientgui/DlgOptions.cpp:310 clientgui/DlgOptions.cpp:374
 msgid "Don't use proxy for:"
-msgstr "Ne használja a proxyt az alábbi(ak)hoz:"
+msgstr "Ne használj proxyt az alábbi(ak)hoz:"
 
 #: clientgui/DlgOptions.cpp:317 clientgui/DlgOptions.cpp:381
 msgid "Leave these blank if not needed"
-msgstr "Csak szükség esetén töltse ki"
+msgstr "Csak szükség esetén töltsd ki"
 
 #: clientgui/DlgOptions.cpp:323 clientgui/DlgOptions.cpp:387
 #: clientgui/ProxyPage.cpp:343 clientgui/ProxyPage.cpp:363
@@ -2253,7 +2253,7 @@ msgstr "%s - Nyelv kiválasztása"
 msgid ""
 "The %s's language has been changed.  In order for this change to take "
 "effect, you must restart the %s."
-msgstr "A(z) %s alapértelmezett nyelve megváltozott, a változás érvénybe lépéséhez újra kell indítani %s-t."
+msgstr "A(z) %s alapértelmezett nyelve megváltozott. A változás érvénybe lépéséhez újra kell indítani a(z) %s-t."
 
 #: clientgui/DlgSelectComputer.cpp:91
 #, c-format
@@ -2265,7 +2265,7 @@ msgstr "%s - Számítógép kiválasztása"
 msgid ""
 "Another instance of %s is already running \n"
 "on this computer.  Please select a client to monitor."
-msgstr "Jelenleg %s egy másik példánya is fut a számítógépen.\n Kérem válasszon egy klienst a megfigyeléshez."
+msgstr "Jelenleg a(z) %s egy másik példánya is fut\na számítógépen. Kérlek, válassz egy klienst a megfigyeléshez."
 
 #: clientgui/DlgSelectComputer.cpp:143
 msgid "Host name:"
@@ -2277,11 +2277,11 @@ msgstr "Üzenőtáblák"
 
 #: clientgui/Localization.cpp:33
 msgid "Correspond with other users on the SETI@home message boards"
-msgstr "A többi felhasználóval levelezhet  a SETI@home fórumain"
+msgstr "Levelezz a többi felhasználóval a SETI@home fórumain"
 
 #: clientgui/Localization.cpp:37
 msgid "Ask questions and report problems"
-msgstr "Tegye fel kérdéseit és jelentse a problémákat"
+msgstr "Tedd fel kérdéseid és jelentsd a problémákat"
 
 #: clientgui/Localization.cpp:39 clientgui/Localization.cpp:81
 #: clientgui/Localization.cpp:111 clientgui/Localization.cpp:129
