@@ -582,7 +582,6 @@ int CMainDocument::OnPoll() {
         }
         
         if (IsComputerNameLocal(hostName)) {
-            pFrame->UpdateStatusText(_("Starting client"));
             if (m_pClientManager->StartupBOINCCore()) {
                 Connect(wxT("localhost"), portNum, password, TRUE, TRUE);
             } else {
@@ -590,11 +589,8 @@ int CMainDocument::OnPoll() {
                 pFrame->ShowDaemonStartFailedAlert();
             }
         } else {
-            pFrame->UpdateStatusText(_("Connecting to client"));
             Connect(hostName, portNum, password, TRUE, password.IsEmpty());
         }
-
-        pFrame->UpdateStatusText(wxEmptyString);
     }
 
     // Check connection state, connect if needed.
@@ -1204,7 +1200,6 @@ int CMainDocument::ForceCacheUpdate(bool immediate) {
 
     if (IsConnected()) {
         wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-        pFrame->UpdateStatusText(_("Retrieving system state; please wait..."));
 
         m_dtCachedStateTimestamp = wxDateTime::Now();
         m_iGet_state_rpc_result = rpc.get_state(state);
@@ -1214,7 +1209,6 @@ int CMainDocument::ForceCacheUpdate(bool immediate) {
             m_pNetworkConnection->SetStateDisconnected();
         }
 
-        pFrame->UpdateStatusText(wxEmptyString);
     } else {
         retval = -1;
     }
