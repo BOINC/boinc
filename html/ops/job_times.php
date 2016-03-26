@@ -126,7 +126,7 @@ function show_as_table() {
         $f = $i*$quantum;
         echo "<tr><td><font size=-2>";
         printf("%e ", $f);
-        echo "</font></td><td><img vspace=0 src=http://boinc.berkeley.edu/colors/000000.gif height=10 width=$w></td></tr>\n";
+        echo "</font></td><td><img vspace=0 src=https://boinc.berkeley.edu/colors/000000.gif height=10 width=$w></td></tr>\n";
     }
     echo "</table>";
 }

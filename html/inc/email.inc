@@ -94,7 +94,7 @@ For further information and assistance with ".PROJECT.", visit
 function is_valid_email_addr($addr) {
     if (defined("USE_STOPFORUMSPAM") && USE_STOPFORUMSPAM) {
         $ip_addr = $_SERVER['REMOTE_ADDR'];
-        $x = @file_get_contents("http://www.stopforumspam.com/api?ip=".$ip_addr."&email=".$addr);
+        $x = @file_get_contents("https://www.stopforumspam.com/api?ip=".$ip_addr."&email=".$addr);
         if (substr_count($x, '<appears>yes</appears>')) {
             return false;
         }

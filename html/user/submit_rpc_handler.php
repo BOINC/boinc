@@ -17,7 +17,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Handler for remote job submission.
-// See http://boinc.berkeley.edu/trac/wiki/RemoteJobs
+// See https://boinc.berkeley.edu/trac/wiki/RemoteJobs
 
 require_once("../inc/boinc_db.inc");
 require_once("../inc/submit_db.inc");
@@ -688,7 +688,7 @@ $r = simplexml_load_string("
         <command_line>--t 19</command_line>
         <input_file>
             <mode>remote</mode>
-            <source>http://google.com/</source>
+            <source>https://google.com/</source>
         </input_file>
     </job>
     </batch>

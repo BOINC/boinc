@@ -1,7 +1,7 @@
 <?php
 
 // if you change anything here,
-// look at http://boinc.berkeley.edu/project_list.php in a browser to make sure
+// look at https://boinc.berkeley.edu/project_list.php in a browser to make sure
 // you didn't mess up the XML
 
 require_once("../inc/translation.inc");

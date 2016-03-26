@@ -81,13 +81,13 @@ function show_nav() {
             echo "<li>";
             show_button("register.php", "Join", null, "btn btn-green");
         } else {
-            echo "<li> <a href=http://boinc.berkeley.edu/download.php>Download</a> and run BOINC.
+            echo "<li> <a href=https://boinc.berkeley.edu/download.php>Download</a> and run BOINC.
                 <li> Choose Add Project
             ";
         }
         echo "
             <li> If you have any problems,
-                <a target=\"_new\" href=\"http://boinc.berkeley.edu/wiki/BOINC_Help\">get help here</a>.
+                <a target=\"_new\" href=\"https://boinc.berkeley.edu/wiki/BOINC_Help\">get help here</a>.
         ";
     }
     echo "
@@ -182,7 +182,7 @@ if ($stopped) {
 
 echo "
     <p>
-    <a href=\"http://boinc.berkeley.edu/\"><img align=\"middle\" border=\"0\" src=\"img/pb_boinc.gif\" alt=\"Powered by BOINC\"></a>
+    <a href=\"https://boinc.berkeley.edu/\"><img align=\"middle\" border=\"0\" src=\"img/pb_boinc.gif\" alt=\"Powered by BOINC\"></a>
     </p>
     </td>
 ";

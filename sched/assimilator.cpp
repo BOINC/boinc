@@ -17,7 +17,7 @@
 
 // Main program for an assimilator.
 // Link this with an application-specific function assimilate_handler()
-// See http://boinc.berkeley.edu/trac/wiki/AssimilateIntro
+// See https://boinc.berkeley.edu/trac/wiki/AssimilateIntro
 
 #include "config.h"
 #include <cstring>
@@ -59,7 +59,7 @@ void usage(char** argv) {
     fprintf(stderr,
         "This program is an 'assimilator'; it handles completed jobs.\n"
         "Normally it is run as a daemon from config.xml.\n"
-        "See: http://boinc.berkeley.edu/trac/wiki/BackendPrograms\n\n"
+        "See: https://boinc.berkeley.edu/trac/wiki/BackendPrograms\n\n"
     );
 
     fprintf(stderr, "usage: %s [options]\n"

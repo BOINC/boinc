@@ -72,7 +72,7 @@ Enter the URL of a BOINC-based project: _____________ (text field)
 
 For more information, and to see a list
 of some BOINC-based projects, go to
-http://boinc.berkeley.edu [link]
+https://boinc.berkeley.edu [link]
 
 OK [button]
 Cancel [button]

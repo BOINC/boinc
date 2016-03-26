@@ -4,7 +4,7 @@
 // Modify it to suit your project.
 // Put your version in html/project/project.inc
 // add tra() around visible strings to make them translatable
-// see inc/translation.inc and http://boinc.berkeley.edu/trac/wiki/TranslateProject for Details
+// see inc/translation.inc and https://boinc.berkeley.edu/trac/wiki/TranslateProject for Details
 
 require_once("../inc/util.inc");
 
