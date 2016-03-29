@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-03-29 12:33+0000\n"
+"PO-Revision-Date: 2016-03-29 12:38+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -2080,7 +2080,7 @@ msgstr "Folyamat azonosító"
 #: clientgui/DlgItemProperties.cpp:409 clientgui/DlgItemProperties.cpp:411
 #: clientgui/DlgItemProperties.cpp:413
 msgid "Progress rate"
-msgstr "Feldolgozottsági arány/sebesség "
+msgstr "Feldolgozottsági ráta"
 
 #: clientgui/DlgItemProperties.cpp:409
 msgid "per hour"
@@ -2291,47 +2291,47 @@ msgstr "A fiókod"
 #: clientgui/Localization.cpp:41 clientgui/Localization.cpp:87
 #: clientgui/Localization.cpp:113
 msgid "View your account information and credit totals"
-msgstr "Megnézheti fiókjának adatait és a kredit összesítéseket"
+msgstr "Megnézheted a fiókod adatait és a kreditösszesítéseket"
 
 #: clientgui/Localization.cpp:43
 msgid "Your preferences"
-msgstr "Az Ön beállításai"
+msgstr "Beállításaid"
 
 #: clientgui/Localization.cpp:45
 msgid "View and modify your SETI@home account profile and preferences"
-msgstr "Megnézheti és megváltoztathatja a SETI@home fiók profilját és beállításait"
+msgstr "Megnézheted és megváltoztathatod a SETI@home fiók profilját és beállításait"
 
 #: clientgui/Localization.cpp:47 clientgui/Localization.cpp:89
 msgid "Your results"
-msgstr "Az Ön eredményei"
+msgstr "Eredményeid"
 
 #: clientgui/Localization.cpp:49 clientgui/Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
-msgstr "Megnézheti a múlt (esetleg több) hét számítási eredményeit és munkáit"
+msgstr "Megnézheted a múlt (esetleg több) hét számítási eredményeit és munkáit"
 
 #: clientgui/Localization.cpp:51 clientgui/Localization.cpp:93
 msgid "Your computers"
-msgstr "Az Ön számítógépei"
+msgstr "Számítógépeid"
 
 #: clientgui/Localization.cpp:53
 msgid "View a listing of all the computers on which you are running SETI@Home"
-msgstr "Megnézheti azon számítógépeinek listáját, amelyekkel Ön a SETI@home-hoz csatlakozott"
+msgstr "Megnézheted azon számítógépeid listáját, amelyekkel a SETI@home-hoz csatlakoztál"
 
 #: clientgui/Localization.cpp:55 clientgui/Localization.cpp:97
 msgid "Your team"
-msgstr "Az Ön csapata"
+msgstr "Csapatod"
 
 #: clientgui/Localization.cpp:57 clientgui/Localization.cpp:99
 msgid "View information about your team"
-msgstr "Megnézheti a csapatának adatait"
+msgstr "Megnézheted a csapatod adatait"
 
 #: clientgui/Localization.cpp:61
 msgid "Common questions"
-msgstr "Általános kérdések"
+msgstr "Gyakori kérdések"
 
 #: clientgui/Localization.cpp:63
 msgid "Read the Einstein@Home Frequently Asked Question list"
-msgstr "Olvassa el az Einstein@Home gyakori kérdések listáját"
+msgstr "Olvasd el az Einstein@Home gyakori kérdések listáját"
 
 #: clientgui/Localization.cpp:65
 msgid "Screensaver info"
@@ -2339,12 +2339,12 @@ msgstr "Képernyővédő infó"
 
 #: clientgui/Localization.cpp:67
 msgid "Read a detailed description of the Einstein@Home screensaver"
-msgstr "Olvassa el az Einstein@Home képernyővédő részletes leírását"
+msgstr "Olvasd el az Einstein@Home képernyővédő részletes leírását"
 
 #: clientgui/Localization.cpp:71
 msgid ""
 "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr "Társalogjon az Einstein@Home üzenőfalán az adminisztrátorokkal és más felhasználókkal"
+msgstr "Levelezz az Einstein@Home üzenőfalán az adminisztrátorokkal és más felhasználókkal"
 
 #: clientgui/Localization.cpp:73
 msgid "Einstein status"
