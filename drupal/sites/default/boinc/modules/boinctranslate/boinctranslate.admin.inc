@@ -111,7 +111,11 @@ function boinctranslate_admin_settings(&$form_state) {
       for translating strings on this site (one resource string per line).
       Resources will be imported in the order they are given, so
       translations from the resources at the top of the list will be overridden
-      by any matching translations found in resources further down the list.'),
+      by any matching translations found in resources further down the list.
+      <br/>
+      NOTE: The first resource listed here is considered the primary resource
+      for project-specific translations and will be updated by the "Update
+      project-specific resources" button below!'),
   );
   $form['transifex']['buttons']['submit'] = array(
     '#type' => 'submit',
@@ -207,6 +211,11 @@ function boinctranslate_admin_settings_validate($form, &$form_state) {
   if (!$values['boinc_translate_transifex_standard_resources']) {
     form_set_error('boinc_translate_transifex_standard_resources',
       t('At least one BOINC Transifex project resource is required.')
+    );
+  }
+  if (!$values['boinc_translate_transifex_project_resources']) {
+    form_set_error('boinc_translate_transifex_project_resources',
+      t('At least one project-specific Transifex resource is required.')
     );
   }
   
