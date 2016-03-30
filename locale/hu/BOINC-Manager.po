@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-03-29 12:38+0000\n"
+"PO-Revision-Date: 2016-03-30 13:22+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -2364,7 +2364,7 @@ msgstr "Link az Einstein@Home probléma- és hibajelentések üzenőfalára"
 
 #: clientgui/Localization.cpp:83
 msgid "View and modify your Einstein@Home account profile and preferences"
-msgstr "Megnézheti és megváltoztathatja az Einstein@Home fiók profilját és beállításait"
+msgstr "Megnézheted és megváltoztathatod az Einstein@Home fiók profilját és beállításait"
 
 #: clientgui/Localization.cpp:85
 msgid "Account summary"
@@ -2373,7 +2373,7 @@ msgstr "Felhasználói fiók összegzése"
 #: clientgui/Localization.cpp:95
 msgid ""
 "View a listing of all the computers on which you are running Einstein@Home"
-msgstr "Megnézheti azon számítógépeinek listáját, amelyekkel Ön az Einstein@Home-hoz csatlakozott"
+msgstr "Megnézheted azon számítógépeid listáját, amelyekkel az Einstein@Home-hoz csatlakoztál"
 
 #: clientgui/Localization.cpp:101
 msgid "LIGO project"
@@ -2383,7 +2383,7 @@ msgstr "LIGO projekt"
 msgid ""
 "The home page of the Laser Interferometer Gravitational-wave Observatory "
 "(LIGO) project"
-msgstr "A Lézer-interferometrikus Gravitációs-hullám Obszervatórium (LIGO) projekt honlapja"
+msgstr "A Lézerinterferometrikus Gravitációs Hullám Obszervatórium (LIGO) projekt honlapja"
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
@@ -2400,7 +2400,7 @@ msgstr "Csapat"
 
 #: clientgui/Localization.cpp:117
 msgid "Info about your Team"
-msgstr "Információk a csapatáról"
+msgstr "Infók a csapatodról"
 
 #: clientgui/Localization.cpp:123
 msgid "Get help for climateprediction.net"
@@ -2416,11 +2416,11 @@ msgstr "climateprediction.net hírek"
 
 #: clientgui/Localization.cpp:131
 msgid "View your account information, credits, and trickles"
-msgstr "Megnézheti a felhasználói fiókja információit, kreditjeit és fejleményeit"
+msgstr "Megnézheted a felhasználói fiókod információit, kreditjeit és fejleményeit"
 
 #: clientgui/Localization.cpp:135
 msgid "Info about your team"
-msgstr "Információ a csapatáról"
+msgstr "Információ a csapatodról"
 
 #: clientgui/Localization.cpp:141
 msgid "Search for help in our help system"
@@ -2436,11 +2436,11 @@ msgstr "A World Community Grid összegző statisztikái"
 
 #: clientgui/Localization.cpp:147
 msgid "My Grid"
-msgstr "Gridem"
+msgstr "Az én gridem"
 
 #: clientgui/Localization.cpp:149
 msgid "Your statistics and settings"
-msgstr "Az Ön statisztikái és beállításai"
+msgstr "Statisztikáid és beállításaid"
 
 #: clientgui/Localization.cpp:151
 msgid "Device Profiles"
@@ -2448,7 +2448,7 @@ msgstr "Eszközprofilok"
 
 #: clientgui/Localization.cpp:153
 msgid "Update your device settings"
-msgstr "Frissítse eszközbeállításait"
+msgstr "Frissítsd eszközbeállításaid"
 
 #: clientgui/Localization.cpp:155
 msgid "Research"
@@ -2456,7 +2456,7 @@ msgstr "Kutatás"
 
 #: clientgui/Localization.cpp:157
 msgid "Learn about the projects hosted at World Community Grid"
-msgstr "Tudjon meg többet a World Community Gridnél futó projektekről"
+msgstr "Tudj meg többet a World Community Grid-nél futó projektekről"
 
 #: clientgui/MainDocument.cpp:585
 msgid "Starting client"
