@@ -160,6 +160,20 @@ function boinctranslate_admin_settings(&$form_state) {
       '#disabled' => !$import_enabled,
     );
   }
+  $form['tools']['download_boinc_pot'] = array(
+    '#type' => 'button',
+    '#value' => t('Download official BOINC .pot'),
+    '#executes_submit_callback' => TRUE,
+    '#submit' => array('boinctranslate_admin_settings_download_boinc_pot'),
+    '#disabled' => !$import_enabled,
+  );
+  $form['tools']['download_project_pot'] = array(
+    '#type' => 'button',
+    '#value' => t('Download project-specific .pot'),
+    '#executes_submit_callback' => TRUE,
+    '#submit' => array('boinctranslate_admin_settings_download_project_pot'),
+    '#disabled' => !$import_enabled,
+  );
   
   $form['#submit'][] = 'system_settings_form_submit';
   $form['#theme'] = 'system_settings_form'; 
@@ -181,6 +195,14 @@ function boinctranslate_admin_settings_initialize_languages() {
 
 function boinctranslate_admin_settings_update_official_boinc() {
   drupal_goto('admin/boinc/translation/update-official-boinc');
+}
+
+function boinctranslate_admin_settings_download_boinc_pot() {
+  drupal_goto('admin/boinc/translation/download-pot/boinc');
+}
+
+function boinctranslate_admin_settings_download_project_pot() {
+  drupal_goto('admin/boinc/translation/download-pot/project');
 }
 
 
