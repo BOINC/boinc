@@ -964,7 +964,7 @@ function boinctranslate_refresh_translations_op($project, $resource, $langcode, 
     }
     else {
       $message = "Translation data not found in response for {$language}"
-        . " translation import of {$project}:{$resource}. DEBUG: $response";
+        . " translation import of {$project}:{$resource}.";
     }
   }
   else {
