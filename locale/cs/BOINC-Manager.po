@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-03-23 10:04+0000\n"
+"PO-Revision-Date: 2016-03-31 07:08+0000\n"
 "Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: Czech (http://www.transifex.com/boinc/boinc/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -469,7 +469,7 @@ msgstr "Vyberte sloupce, které chcete zobrazit"
 
 #: clientgui/AdvancedFrame.cpp:621
 msgid "Event Log options...\tCtrl+Shift+F"
-msgstr "Možnosti záznamu událostí...⇥Ctrl+Shift+F"
+msgstr "Možnosti záznamu událostí...\tCtrl+Shift+F"
 
 #: clientgui/AdvancedFrame.cpp:622
 msgid "Enable or disable various diagnostic messages"
