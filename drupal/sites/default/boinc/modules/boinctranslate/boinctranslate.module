@@ -756,6 +756,7 @@ function boinctranslate_export_po_generate($language = NULL, $strings = array(),
     if (!isset($string['child'])) {
       if ($string['comment']) {
         $output .= '#: ' . $string['comment'] . "\n";
+        $output .= '#, php-format' . "\n";
       }
       if ($string['context']) {
         $output .= 'msgctxt "' . $string['context'] . "\"\n";
