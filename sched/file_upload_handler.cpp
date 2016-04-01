@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2016 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // The BOINC file upload handler.
-// See doc/upload.php for protocol spec.
+// See http://boinc.berkeley.edu/trac/wiki/FileUpload for protocol spec.
 //
 
 #include "config.h"
@@ -236,7 +236,7 @@ int copy_socket_to_file(FILE* in, char* name, char* path, double offset, double 
                 }
             }
             if (sbuf.st_size > offset) {
-                log_messages.printf(MSG_CRITICAL,
+                log_messages.printf(MSG_NORMAL,
                     "file %s length on disk %d bytes; host upload starting at %.0f bytes.\n",
                      this_filename, (int)sbuf.st_size, offset
                 );
@@ -313,9 +313,10 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
     strcpy(xml_signature, "");
     bool found_data = false;
     while (fgets(buf, 256, in)) {
-#if 1
-        log_messages.printf(MSG_NORMAL, "got:%s\n", buf);
-#endif
+        // intentionally set higher than debug as it may produce lots of output
+        if (config.fuh_debug_level > MSG_DEBUG) {
+            log_messages.printf(MSG_DEBUG, "got:%s\n", buf);
+        }
         if (match_tag(buf, "<file_info>")) continue;
         if (match_tag(buf, "</file_info>")) continue;
         if (match_tag(buf, "<signed_xml>")) continue;
@@ -341,7 +342,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             found_data = true;
             break;
         }
-        log_messages.printf(MSG_NORMAL, "unrecognized: %s", buf);
+        log_messages.printf(MSG_WARNING, "unrecognized: %s", buf);
     }
     if (strlen(name) == 0) {
         return return_error(ERR_PERMANENT, "Missing name");
@@ -585,7 +586,7 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
         }
     }
     if (!did_something) {
-        log_messages.printf(MSG_CRITICAL, "handle_request: no command\n");
+        log_messages.printf(MSG_WARNING, "handle_request: no command\n");
         return return_error(ERR_TRANSIENT, "no command");
     }
 
