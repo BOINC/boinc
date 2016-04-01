@@ -124,6 +124,17 @@ int accept_empty_file(char* name, char* path) {
     return return_success(0);
 }
 
+// read from socket, discard data
+//
+void copy_socket_to_null(FILE* in) {
+    unsigned char buf[BLOCK_SIZE];
+
+    while (1) {
+        int n = fread(buf, 1, BLOCK_SIZE, in);
+        if (n <= 0) return;
+    }
+}
+
 // read from socket, write to file
 // ALWAYS returns an HTML reply
 //
@@ -160,6 +171,18 @@ int copy_socket_to_file(FILE* in, char* name, char* path, double offset, double 
                 S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH
             );
             if (fd<0) {
+                if (errno == EACCES) {
+                    // this is this case when the file was already uploaded
+                    // and made read-only;
+                    // return success to the client won't keep trying
+                    //
+                    log_messages.printf(MSG_WARNING,
+                      "client tried to reupload the read-only file %s\n",
+                      path
+                    );
+                    copy_socket_to_null(in);
+                    return return_success(0);
+                }
                 return return_error(ERR_TRANSIENT,
                     "can't open file %s: %s\n", name, strerror(errno)
                 );
@@ -266,19 +289,13 @@ int copy_socket_to_file(FILE* in, char* name, char* path, double offset, double 
 
         bytes_left -= n;
     }
+    // upload complete; make the file read-only so it does not get overwriten by a subsequent upload.
+    //
+    if (fchmod(fd, S_IRUSR|S_IRGRP|S_IROTH)) {
+        log_messages.printf(MSG_CRITICAL, "can't make file %s read only: %s\n", path, strerror(errno));
+    }
     close(fd);
     return return_success(0);
-}
-
-// read from socket, discard data
-//
-void copy_socket_to_null(FILE* in) {
-    unsigned char buf[BLOCK_SIZE];
-
-    while (1) {
-        int n = fread(buf, 1, BLOCK_SIZE, in);
-        if (n <= 0) return;
-    }
 }
 
 // ALWAYS generates an HTML reply
