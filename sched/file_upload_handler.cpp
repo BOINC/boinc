@@ -475,7 +475,7 @@ int handle_get_file_size(char* file_name) {
         return return_error(ERR_TRANSIENT, "Server is out of disk space");
     }
 
-    fd = open(path, O_WRONLY|O_APPEND);
+    fd = open(path, O_RDONLY);
 
     if (fd<0 && ENOENT==errno) {
         // file does not exist: return zero length
@@ -495,8 +495,8 @@ int handle_get_file_size(char* file_name) {
         );
         return return_error(ERR_TRANSIENT, "can't open file");
     }
-
-    if ((pid = mylockf(fd))) {
+#ifdef LOCK_FILES
+    if ((pid = checklockf(fd))) {
         // file locked by another file_upload_handler: try again later
         //
         close(fd);
@@ -507,7 +507,8 @@ int handle_get_file_size(char* file_name) {
             "[%s] locked by file_upload_handler PID=%d", file_name, pid
         );
     }
-    // file exists, writable, not locked by anyone else, so return length.
+#endif
+    // file exists, readable, not locked by anyone else, so return length.
     //
     retval = stat(path, &sbuf);
     close(fd);

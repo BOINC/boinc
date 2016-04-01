@@ -60,6 +60,12 @@ extern int dir_hier_url(
 //
 extern int mylockf(int fd);
 
+// returns zero if there is no write lock on file with file descriptor fd.
+// returns < 0 if error
+// returns PID > 0 of the process that has the lock
+//
+extern int checklockf(int fd);
+
 // return true if x is -y or --y (for argv processing)
 //
 extern bool is_arg(const char*, const char*);
