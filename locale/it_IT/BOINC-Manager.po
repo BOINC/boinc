@@ -4,15 +4,15 @@
 # 
 # Translators:
 # Alessandro Dalla Rosa <exit96dalla@gmail.com>, 2015
-# Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015
+# Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015-2016
 # Sebastiano Pistore <olatusrooc@virgilio.it>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-03-30 11:01+0000\n"
-"Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
+"PO-Revision-Date: 2016-04-01 20:10+0000\n"
+"Last-Translator: Gianfranco Costamagna <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3853,7 +3853,7 @@ msgstr "Ricezione dello stato corrente in corso."
 
 #: clientgui/sg_TaskPanel.cpp:1212
 msgid "Downloading work from the server."
-msgstr "Scaricamento delle worlunit dal server in corso."
+msgstr "Scaricamento delle workunit dal server in corso."
 
 #: clientgui/sg_TaskPanel.cpp:1217
 msgid "Processing Suspended:  Running On Batteries."
