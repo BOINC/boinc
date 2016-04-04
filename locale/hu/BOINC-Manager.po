@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-03-30 13:22+0000\n"
+"PO-Revision-Date: 2016-04-04 13:40+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -2468,7 +2468,7 @@ msgstr "Csatlakozás a klienshez"
 
 #: clientgui/MainDocument.cpp:1207
 msgid "Retrieving system state; please wait..."
-msgstr "Rendszerállapot lekérdezése, kérem várjon..."
+msgstr "Rendszerállapot lekérdezése; kérlek várj..."
 
 #: clientgui/MainDocument.cpp:1828
 msgid "Missing application"
@@ -2478,7 +2478,7 @@ msgstr "Hiányzó alkalmazás"
 msgid ""
 "Please download and install the CoRD application from "
 "http://cord.sourceforge.net"
-msgstr "Kérjük, töltse le és telepítse a CoRD alkalmazást a http://cord.sourceforge.net oldalról"
+msgstr "Kérjük, töltsd le és telepítsd a CoRD alkalmazást a http://cord.sourceforge.net oldalról"
 
 #: clientgui/MainDocument.cpp:2443
 msgid "on batteries"
@@ -2502,7 +2502,7 @@ msgstr "CPU sebességmérés fut"
 
 #: clientgui/MainDocument.cpp:2448
 msgid "need disk space - check preferences"
-msgstr "több lemezterület szükséges - ellenőrizze a beállításokat"
+msgstr "több lemezterület szükséges - ellenőrizd a beállításokat"
 
 #: clientgui/MainDocument.cpp:2449
 msgid "computer is not in use"
@@ -2546,7 +2546,7 @@ msgstr "Sikertelen letöltés"
 
 #: clientgui/MainDocument.cpp:2491
 msgid "Downloading"
-msgstr "Letöltés..."
+msgstr "Letöltés"
 
 #: clientgui/MainDocument.cpp:2493 clientgui/MainDocument.cpp:2552
 msgid " (suspended - "
@@ -2572,11 +2572,11 @@ msgstr "GPU felfüggesztve - "
 
 #: clientgui/MainDocument.cpp:2515
 msgid "Waiting for memory"
-msgstr "Várakozás memóriára"
+msgstr "Várakozás a memóriára"
 
 #: clientgui/MainDocument.cpp:2517
 msgid "Waiting for shared memory"
-msgstr "Várakozás megosztott memóriára"
+msgstr "Várakozás a megosztott memóriára"
 
 #: clientgui/MainDocument.cpp:2519
 msgid "Running"
@@ -2604,7 +2604,7 @@ msgstr "Elhalasztva"
 
 #: clientgui/MainDocument.cpp:2540
 msgid "Waiting for network access"
-msgstr "Várakozás hálózati hozzáférésre"
+msgstr "Várakozás a hálózati hozzáférésre"
 
 #: clientgui/MainDocument.cpp:2544
 msgid "Computation error"
@@ -2616,7 +2616,7 @@ msgstr "Sikertelen feltöltés"
 
 #: clientgui/MainDocument.cpp:2550
 msgid "Uploading"
-msgstr "Feltöltés..."
+msgstr "Feltöltés"
 
 #: clientgui/MainDocument.cpp:2561
 msgid "Aborted by user"
@@ -2636,11 +2636,11 @@ msgstr "Megszakítva: a feladat meghaladta a  tárhelykorlátot"
 
 #: clientgui/MainDocument.cpp:2573
 msgid "Aborted: run time limit exceeded"
-msgstr "Megszakítva: futási idő korlát túllépve"
+msgstr "Megszakítva: futási időkorlát túllépve"
 
 #: clientgui/MainDocument.cpp:2576
 msgid "Aborted: memory limit exceeded"
-msgstr "Megszakítva: memória korlát túllépve"
+msgstr "Megszakítva: memóriakorlát túllépve"
 
 #: clientgui/MainDocument.cpp:2579
 msgid "Aborted"
@@ -2657,7 +2657,7 @@ msgstr "Jelentésre kész"
 #: clientgui/MainDocument.cpp:2588
 #, c-format
 msgid "Error: invalid state '%d'"
-msgstr "Hiba: érvénytelen állapot \"%d\""
+msgstr "Hiba: érvénytelen állapot '%d'"
 
 #: clientgui/NoInternetConnectionPage.cpp:179
 msgid "No Internet connection"
@@ -2665,22 +2665,22 @@ msgstr "Nincs internetkapcsolat"
 
 #: clientgui/NoInternetConnectionPage.cpp:182
 msgid "Please connect to the Internet and try again."
-msgstr "Kérem, kapcsolódjon az internetre, és próbálja úrja."
+msgstr "Kérlek, kapcsolódj az internetre, és próbáld újra."
 
 #: clientgui/NotDetectedPage.cpp:181
 msgid "Project not found"
-msgstr "Projekt nem található"
+msgstr "A projekt nem található"
 
 #: clientgui/NotDetectedPage.cpp:184
 msgid ""
 "The URL you supplied is not that of a BOINC-based project.\n"
 "\n"
 "Please check the URL and try again."
-msgstr "Az Ön által megadott URL nem egy BOINC-alapú projektre mutat.\n\nKérjük, ellenőrizze az URL-t és próbálja újra."
+msgstr "Az általad megadott URL nem egy BOINC-alapú projektre mutat.\n\nKérjük, ellenőrizd az URL-t és próbáld újra."
 
 #: clientgui/NotDetectedPage.cpp:188
 msgid "Account manager not found"
-msgstr "Fiókkezelő nem található"
+msgstr "A fiókkezelő nem található"
 
 #: clientgui/NotDetectedPage.cpp:191
 msgid ""
@@ -2688,7 +2688,7 @@ msgid ""
 "manager.\n"
 "\n"
 "Please check the URL and try again."
-msgstr "Az Ön által megadott URL nem egy BOINC-alapú fiókkezelőre\nmutat.\n\nKérjük, ellenőrizze az URL-t és próbálja újra."
+msgstr "Az általad megadott URL nem egy BOINC-alapú fiókkezelőre\nmutat.\n\nKérjük, ellenőrizd az URL-t és próbáld újra."
 
 #: clientgui/NotFoundPage.cpp:181
 msgid "Login Failed."
@@ -2696,11 +2696,11 @@ msgstr "A bejelentkezés sikertelen."
 
 #: clientgui/NotFoundPage.cpp:185
 msgid "Check the username and password, and try again."
-msgstr "Ellenőrizze a felhasználónevet és a jelszót, majd próbálja újra."
+msgstr "Ellenőrizd a felhasználónevet és a jelszót, majd próbáld újra."
 
 #: clientgui/NotFoundPage.cpp:189
 msgid "Check the email address and password, and try again."
-msgstr "Ellenőrizze az emailcímet és a jelszót, majd próbálja újra."
+msgstr "Ellenőrizd az e-mail címet és a jelszót, majd próbáld újra."
 
 #: clientgui/NoticeListCtrl.cpp:229
 msgid "more..."
@@ -2708,11 +2708,11 @@ msgstr "tovább..."
 
 #: clientgui/ProjectInfoPage.cpp:221
 msgid "Choose a project"
-msgstr "Válasszon egy projektet"
+msgstr "Válassz egy projektet"
 
 #: clientgui/ProjectInfoPage.cpp:226
 msgid "To choose a project, click its name or type its URL below."
-msgstr "Projekt kiválasztásához kattintson annak nevére vagy gépelje be alább az URL-jét."
+msgstr "Projekt kiválasztásához kattints a projekt nevére vagy gépeld be alább az URL-jét."
 
 #: clientgui/ProjectInfoPage.cpp:242
 msgid "Categories:"
@@ -2755,11 +2755,11 @@ msgstr "Mind"
 msgid ""
 "This project may not have work for your type of computer.  Do you want to "
 "add it anyway?"
-msgstr "Elképzelhető, hogy ez a projekt nem tud az Ön számítógépének megfelelő munkát biztosítani. Mégis hozzá szeretné adni?"
+msgstr "Elképzelhető, hogy ez a projekt nem tud a számítógépednek megfelelő munkát biztosítani. Mégis hozzá szeretnéd adni?"
 
 #: clientgui/ProjectInfoPage.cpp:767
 msgid "You already added this project. Please choose a different project."
-msgstr "Már hozzáadta ezt a projektet. Kérjük, válasszon másikat."
+msgstr "Már hozzáadtad ezt a projektet. Kérjük, válassz másikat."
 
 #: clientgui/ProjectProcessingPage.cpp:321
 msgid "Communicating with project."
