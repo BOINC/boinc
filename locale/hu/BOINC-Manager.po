@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-04-04 13:40+0000\n"
+"PO-Revision-Date: 2016-04-04 13:46+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -2778,16 +2778,16 @@ msgstr "Belső szerverhiba történt."
 msgid ""
 "Communicating with project\n"
 "Please wait..."
-msgstr "Kommunikáció a projekttel.\nKérem, várjon..."
+msgstr "Kommunikáció a projekttel.\nKérlek, várj..."
 
 #: clientgui/ProjectWelcomePage.cpp:251
 #, c-format
 msgid "Welcome to %s."
-msgstr "Üdvözöljük a(z) %s projektben!"
+msgstr "Üdvözlünk a(z) %s projektben!"
 
 #: clientgui/ProjectWelcomePage.cpp:254
 msgid "You have volunteered to compute for this project:"
-msgstr "Ön önkéntesnek jelentkezett erre a projektre:"
+msgstr "Önkéntesnek jelentkeztél erre a projektre:"
 
 #: clientgui/ProjectWelcomePage.cpp:255
 msgid "Name:"
@@ -2803,21 +2803,21 @@ msgstr "Leírás:"
 
 #: clientgui/ProjectWelcomePage.cpp:265
 msgid "URL:"
-msgstr "Webcím"
+msgstr "Webcím:"
 
 #: clientgui/ProjectWelcomePage.cpp:268
 msgid "User:"
-msgstr "Felhasználó"
+msgstr "Felhasználó:"
 
 #: clientgui/ProjectWelcomePage.cpp:273
 msgid ""
 "WARNING: This project is not registered with BOINC.  Make sure you trust it "
 "before continuing."
-msgstr "Figyelem: ez a projekt nincs regisztrálva a BOINC-nél. Csak akkor folytassa, ha megbízik benne."
+msgstr "FIGYELEM: ez a projekt nincs regisztrálva a BOINC-nál. Csak akkor folytasd, ha megbízol benne."
 
 #: clientgui/ProjectWelcomePage.cpp:277
 msgid "To continue, click Next."
-msgstr "A folytatáshoz kattintson a Tovább gomba"
+msgstr "A folytatáshoz kattints a Tovább gomba"
 
 #: clientgui/ProxyInfoPage.cpp:195
 msgid "Network communication failure"
@@ -2838,7 +2838,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr "A World Community Grid - BOINC szoftver nem tudott kommunikálni\naz interneten keresztül. A legvalószínűbb okok:\n\n1) Összeköttetési probléma. Ellenőrizze a hálózati- vagy\nmodemcsatlakozását, majd kattintson a Vissza gombra az\nújrapróbáláshoz.\n\n2) Személyes tűzfalprogram blokkolja a World Community Grid -\nBOINC szoftvert. Állítsa be tűzfalát úgy, hogy az engedje a BOINC-ot\nés a BOINC Managert a 80-as és a 443-as portokon kommunikálni,\nmajd kattintson a Vissza gombra az újrapróbáláshoz.\n\n3) Proxy szervert használ.\nKattintson a Tovább gombra a BOINC proxybeállításainak megadásához."
+msgstr "A World Community Grid - BOINC szoftver nem tudott kommunikálni\naz interneten keresztül. A legvalószínűbb okok:\n\n1) Összeköttetési probléma. Ellenőrizd a hálózati- vagy\nmodemcsatlakozásodat, majd kattints a Vissza gombra az\nújrapróbáláshoz.\n\n2) Személyes tűzfalprogram blokkolja a World Community Grid -\nBOINC szoftvert. Állítsd be a tűzfalad úgy, hogy az engedje a BOINC-ot\nés a BOINC Managert a 80-as és a 443-as portokon kommunikálni,\nmajd kattintson a Vissza gombra az újrapróbáláshoz.\n\n3) Proxy szervert használsz.\nKattints a Tovább gombra a BOINC proxybeállításainak megadásához."
 
 #: clientgui/ProxyInfoPage.cpp:203
 msgid ""
@@ -2855,7 +2855,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr "A BOINC nem tudott kommunikálni az interneten keresztül.\nA legvalószínűbb okok:\n\n1) Összeköttetési probléma. Ellenőrizze a hálózati- vagy\nmodemcsatlakozását, majd kattintson a Vissza gombra az\nújrapróbáláshoz.\n\n2) Személyes tűzfalprogram blokkolja a BOINC-ot. Állítsa be\ntűzfalát úgy, hogy az engedje a BOINC-ot és a\nBOINC Managert a 80-as porton kommunikálni,\nmajd kattintson a Vissza gombra az újrapróbáláshoz.\n\n3) Proxy szervert használ.\nKattintson a Tovább gombra a BOINC proxybeállításainak megadásához."
+msgstr "A BOINC nem tudott kommunikálni az interneten keresztül.\nA legvalószínűbb okok:\n\n1) Összeköttetési probléma. Ellenőrizd a hálózati- vagy\nmodemcsatlakozásodat, majd kattints a Vissza gombra az\nújrapróbáláshoz.\n\n2) Személyes tűzfalprogram blokkolja a BOINC-ot. Állítsd be\ntűzfalad úgy, hogy az engedje a BOINC-ot és a\nBOINC Managert a 80-as porton kommunikálni,\nmajd kattints a Vissza gombra az újrapróbáláshoz.\n\n3) Proxy szervert használsz.\nKattints a Tovább gombra a BOINC proxybeállításaid megadásához."
 
 #: clientgui/ProxyPage.cpp:331
 msgid "Proxy configuration"
