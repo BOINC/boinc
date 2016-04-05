@@ -111,7 +111,11 @@ function boinctranslate_admin_settings(&$form_state) {
       for translating strings on this site (one resource string per line).
       Resources will be imported in the order they are given, so
       translations from the resources at the top of the list will be overridden
-      by any matching translations found in resources further down the list.'),
+      by any matching translations found in resources further down the list.
+      <br/>
+      NOTE: The first resource listed here is considered the primary resource
+      for project-specific translations and will be updated by the "Update
+      project-specific resources" button below!'),
   );
   $form['transifex']['buttons']['submit'] = array(
     '#type' => 'submit',
@@ -156,6 +160,20 @@ function boinctranslate_admin_settings(&$form_state) {
       '#disabled' => !$import_enabled,
     );
   }
+  $form['tools']['download_boinc_pot'] = array(
+    '#type' => 'button',
+    '#value' => t('Download official BOINC .pot'),
+    '#executes_submit_callback' => TRUE,
+    '#submit' => array('boinctranslate_admin_settings_download_boinc_pot'),
+    '#disabled' => !$import_enabled,
+  );
+  $form['tools']['download_project_pot'] = array(
+    '#type' => 'button',
+    '#value' => t('Download project-specific .pot'),
+    '#executes_submit_callback' => TRUE,
+    '#submit' => array('boinctranslate_admin_settings_download_project_pot'),
+    '#disabled' => !$import_enabled,
+  );
   
   $form['#submit'][] = 'system_settings_form_submit';
   $form['#theme'] = 'system_settings_form'; 
@@ -177,6 +195,14 @@ function boinctranslate_admin_settings_initialize_languages() {
 
 function boinctranslate_admin_settings_update_official_boinc() {
   drupal_goto('admin/boinc/translation/update-official-boinc');
+}
+
+function boinctranslate_admin_settings_download_boinc_pot() {
+  drupal_goto('admin/boinc/translation/download-pot/boinc');
+}
+
+function boinctranslate_admin_settings_download_project_pot() {
+  drupal_goto('admin/boinc/translation/download-pot/project');
 }
 
 
@@ -207,6 +233,11 @@ function boinctranslate_admin_settings_validate($form, &$form_state) {
   if (!$values['boinc_translate_transifex_standard_resources']) {
     form_set_error('boinc_translate_transifex_standard_resources',
       t('At least one BOINC Transifex project resource is required.')
+    );
+  }
+  if (!$values['boinc_translate_transifex_project_resources']) {
+    form_set_error('boinc_translate_transifex_project_resources',
+      t('At least one project-specific Transifex resource is required.')
     );
   }
   

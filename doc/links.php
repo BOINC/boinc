@@ -44,7 +44,7 @@ $info_sites = array(
         "(survey of volunteer computing, including non-BOINC projects)"
     ),
     array(
-        "http://www.rechenkraft.net/wiki/",
+        "https://www.rechenkraft.net/wiki/",
         "Rechenkraft.net wiki",
         "(German, English, Portuguese)"
     ),
@@ -98,8 +98,8 @@ function show_social_media() {
         //array("http://www.myboinc.com/", "BOINC Users of the Day"),
         //array("http://groups.myspace.com/BOINConMYSPACE", "BOINC on MySpace"),
         //array("http://www.boincuk.com/repository.php", "bunc", "(excellent newsletter produced by BOINC UK)"),
-        array("http://www.linkedin.com/groups?gid=678497", "BOINC group on LinkedIn"),
-        array("http://www.facebook.com/#!/pages/BOINC/109465765746025?ref=ts", "BOINC on Facebook"),
+        array("https://www.linkedin.com/groups/678497/profile", "BOINC group on LinkedIn"),
+        array("https://www.facebook.com/pages/Berkeley-Open-Infrastructure-for-Network-Computing/111781192172429", "BOINC on Facebook"),
     );
     echo "<ul>";
     foreach ($misc_sites as $m) {
@@ -148,7 +148,7 @@ echo "
 The following web sites show statistics for one or more BOINC projects.
 These sites use XML-format data exported by BOINC projects,
 as described
-<a href=http://boinc.berkeley.edu/trac/wiki/CreditStats>here</a>.
+<a href=trac/wiki/CreditStats>here</a>.
 If you're interested in running your own site or
 participating in the development efforts,
 please contact the people listed below.
@@ -191,7 +191,7 @@ echo "
 <ul>
 <li> <a href=http://www.crunching-family.at/download-center/>Crunching Family Skin Download</a>
 <li> <a href=http://www.czechnationalteam.cz/view.php?cisloclanku=2007040003>Czech National Team skin</a> (in Czech)
-<li> <a href=http://www.grid-france.fr/tutos/boinc-personnaliser-aux-couleurs-equipe >Skin for Equipe France (WCG)</a>
+<li> <a href=http://www.grid-france.fr/tutos/boinc-personnaliser-aux-couleurs-equipe>Skin for Equipe France (WCG)</a>
 ";
 //<li> <a href=http://wcg.userfriendly.org/resources.jspx>Skin for team UserFriendly.org</a>
 echo "
@@ -377,8 +377,8 @@ If you'd like to add a web site to this list, please
 <h2>BOINC-related videos</h2>
 
 <ul>
-<li> <a href=http://www.youtube.com/watch?v=8iSRLIK-x6A>David Anderson talks about BOINC</a> (2006)
-<li> <a href=http://www.youtube.com/watch?v=GzATbET3g54>David Baker talks about Rosetta@home</a>
+<li> <a href=https://www.youtube.com/watch?v=8iSRLIK-x6A>David Anderson talks about BOINC</a> (2006)
+<li> <a href=https://www.youtube.com/watch?v=GzATbET3g54>David Baker talks about Rosetta@home</a>
 </ul>
 ";
 page_tail();

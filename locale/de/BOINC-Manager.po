@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-02-04 16:19+0000\n"
+"PO-Revision-Date: 2016-03-21 17:08+0000\n"
 "Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: German (http://www.transifex.com/boinc/boinc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -921,7 +921,7 @@ msgstr "1h pausieren"
 #: clientgui/BOINCTaskBar.cpp:535 clientgui/BOINCTaskBar.cpp:650
 #: clientgui/BOINCTaskBar.cpp:655
 msgid "Snooze GPU"
-msgstr "GPU pausieren"
+msgstr "GPU 1h pausieren"
 
 #: clientgui/BOINCTaskBar.cpp:553
 msgid "E&xit"
@@ -2517,7 +2517,7 @@ msgstr "starte"
 
 #: clientgui/MainDocument.cpp:2451
 msgid "an exclusive app is running"
-msgstr "eine Anwendung läuft exklusiv"
+msgstr "eine exklusive Anwendung läuft gerade"
 
 #: clientgui/MainDocument.cpp:2452
 msgid "CPU is busy"

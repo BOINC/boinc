@@ -884,7 +884,7 @@ int main(int argc, char** argv) {
                 "    Please enable this feature in your computer's BIOS.\n"
                 "    Intel calls it 'VT-x'\n"
                 "    AMD calls it 'AMD-V'\n"
-                "    More information can be found here: http://en.wikipedia.org/wiki/X86_virtualization\n"
+                "    More information can be found here: https://en.wikipedia.org/wiki/X86_virtualization\n"
                 "    Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n";
             retval = ERR_EXEC;
         } else if (pVM->is_logged_failure_vm_extensions_not_supported()) {

@@ -199,7 +199,6 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     // Custom Events & Timers
     EVT_FRAME_CONNECT(CAdvancedFrame::OnConnect)
     EVT_FRAME_NOTIFICATION(CAdvancedFrame::OnNotification)
-    EVT_FRAME_UPDATESTATUS(CAdvancedFrame::OnUpdateStatus)
     EVT_TIMER(ID_REFRESHSTATETIMER, CAdvancedFrame::OnRefreshState)
     EVT_TIMER(ID_FRAMERENDERTIMER, CAdvancedFrame::OnFrameRender)
     EVT_NOTEBOOK_PAGE_CHANGED(ID_FRAMENOTEBOOK, CAdvancedFrame::OnNotebookSelectionChanged)
@@ -1958,16 +1957,6 @@ void CAdvancedFrame::OnNotification(CFrameEvent& WXUNUSED(event)) {
     m_pNotebook->SetSelection(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNotification - Function End"));
-}
-
-
-void CAdvancedFrame::OnUpdateStatus(CFrameEvent& event) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnUpdateStatus - Function Begin"));
-
-    m_pStatusbar->SetStatusText(event.m_message);
-    ::wxSleep(0);
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnUpdateStatus - Function End"));
 }
 
 

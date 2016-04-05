@@ -211,7 +211,7 @@ function handle_create_form() {
     start_table();
     row2("Batch name", "<input name=batch_name value=\"enter name\">");
 //    row2("Application", app_select($apps));
-    row2("Input file URL", "<input name=input_url size=60 value=\"http://google.com/\">");
+    row2("Input file URL", "<input name=input_url size=60 value=\"https://google.com/\">");
     row2("Parameter low value (0..60)", "<input name=param_lo value=10>");
     row2("Parameter high value (0..60)", "<input name=param_hi value=20>");
     row2("Parameter increment (>= 1)", "<input name=param_inc value=1>");

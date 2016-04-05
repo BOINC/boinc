@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Atis Kozulis <boinc.at.latvia@gmail.com>, 2015
+# Atis Kozulis <boinc.at.latvia@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2015-12-27 16:35+0000\n"
+"PO-Revision-Date: 2016-03-24 10:22+0000\n"
 "Last-Translator: Atis Kozulis <boinc.at.latvia@gmail.com>\n"
 "Language-Team: Latvian (http://www.transifex.com/boinc/boinc/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -3539,7 +3539,7 @@ msgstr "Atlikt šī uzdevuma izpildi"
 
 #: clientgui/ViewWork.cpp:239 clientgui/sg_TaskCommandPopup.cpp:78
 msgid "Abort"
-msgstr "Pārtraukt"
+msgstr "Atteikties"
 
 #: clientgui/ViewWork.cpp:240
 msgid "Abandon work on the result. You will get no credit for it."
