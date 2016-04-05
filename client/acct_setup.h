@@ -30,9 +30,9 @@ struct ACCOUNT_IN {
         // the suggested friendly name for the user during account creation.
     std::string team_name;
     std::string passwd_hash;
-    std::string server_hash;
+    std::string server_cookie;
     bool ldap_auth;
-    bool server_assigned_hash;
+    bool server_assigned_cookie;
 
     void parse(XML_PARSER&);
 };

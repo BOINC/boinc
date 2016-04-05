@@ -196,10 +196,10 @@ wxWizardPageEx* CProjectWelcomePage::GetNext() const
     if (CHECK_CLOSINGINPROGRESS()) {
         // Cancel Event Detected
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
-    } else if (pWA->GetProjectAuthenticator().IsEmpty()) {
+    } else if (pWA->GetProjectAuthenticator().IsEmpty() && pWA->GetProjectSetupCookie().IsEmpty()) {
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
     } else {
-        return PAGE_TRANSITION_NEXT(ID_PROJECTPROCESSINGPAGE);
+        return PAGE_TRANSITION_NEXT(ID_PROJECTPROPERTIESPAGE);
     }
     return NULL;
 }

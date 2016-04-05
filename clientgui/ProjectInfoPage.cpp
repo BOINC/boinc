@@ -304,7 +304,7 @@ void CProjectInfoPage::CreateControls()
     m_pProjectDetailsURLStaticCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC, _("Web site:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer20->Add(m_pProjectDetailsURLStaticCtrl, 0, wxALIGN_LEFT|wxRIGHT|wxBOTTOM, 2);
 
-    m_pProjectDetailsURLCtrl = new wxHyperlinkCtrl( itemWizardPage23, wxID_STATIC, wxT("BOINC"), wxT("http://boinc.berkeley.edu/"), wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxHL_CONTEXTMENU|wxHL_ALIGN_LEFT);
+    m_pProjectDetailsURLCtrl = new wxHyperlinkCtrl( itemWizardPage23, wxID_STATIC, wxT("BOINC"), wxT("https://boinc.berkeley.edu/"), wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxHL_CONTEXTMENU|wxHL_ALIGN_LEFT);
     itemFlexGridSizer20->Add(m_pProjectDetailsURLCtrl, 0, wxALIGN_LEFT|wxLEFT|wxRIGHT|wxBOTTOM, 5);
 
     wxFlexGridSizer* itemFlexGridSizer24 = new wxFlexGridSizer(2, 1, 0, 0);

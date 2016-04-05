@@ -42,9 +42,9 @@ void ACCOUNT_IN::parse(XML_PARSER& xp) {
     passwd_hash = "";
     user_name = "";
     team_name = "";
-    server_hash = "";
+    server_cookie = "";
     ldap_auth = false;
-    server_assigned_hash = false;
+    server_assigned_cookie = false;
 
     while (!xp.get_tag()) {
         if (xp.parse_string("url", url)) continue;
@@ -52,9 +52,9 @@ void ACCOUNT_IN::parse(XML_PARSER& xp) {
         if (xp.parse_string("passwd_hash", passwd_hash)) continue;
         if (xp.parse_string("user_name", user_name)) continue;
         if (xp.parse_string("team_name", team_name)) continue;
-        if (xp.parse_string("server_hash", server_hash)) continue;
+        if (xp.parse_string("server_cookie", server_cookie)) continue;
         if (xp.parse_bool("ldap_auth", ldap_auth)) continue;
-        if (xp.parse_bool("server_assigned_hash", server_assigned_hash)) continue;
+        if (xp.parse_bool("server_assigned_cookie", server_assigned_cookie)) continue;
     }
     canonicalize_master_url(url);
 }
@@ -113,11 +113,11 @@ int LOOKUP_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
         parameter = ai.passwd_hash;
         escape_url(parameter);
         url += parameter;
-    } else if (ai.server_assigned_hash) {
+    } else if (ai.server_assigned_cookie) {
         // Project assigned cookie
         //
-        url += "?server_assigned_hash=1&hash=";
-        parameter = ai.server_hash;
+        url += "?server_assigned_cookie=1&server_cookie=";
+        parameter = ai.server_cookie;
         escape_url(parameter);
         url += parameter;
     } else {

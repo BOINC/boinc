@@ -3562,7 +3562,7 @@
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
 					"../mac3rdParty/wxWidgets-3.0.0/build/osx/build/Debug",
-					"../mac3rdParty/sqlite-autoconf-3090200/.libs/",
+					"../mac3rdParty/sqlite-autoconf-3110000/.libs/",
 				);
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
@@ -3580,7 +3580,7 @@
 					"-bind_at_load",
 					"-D_THREAD_SAFE",
 					"-lwx_osx_cocoa_static",
-					"../mac3rdParty/sqlite-autoconf-3090200/.libs/libsqlite3.a",
+					"../mac3rdParty/sqlite-autoconf-3110000/.libs/libsqlite3.a",
 					"-lz",
 					"-lpthread",
 					"-lm",
@@ -3616,7 +3616,7 @@
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
 					"../mac3rdParty/wxWidgets-3.0.0/build/osx/build/Release",
-					"../mac3rdParty/sqlite-autoconf-3090200/.libs/",
+					"../mac3rdParty/sqlite-autoconf-3110000/.libs/",
 				);
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
@@ -3636,7 +3636,7 @@
 					"-bind_at_load",
 					"-D_THREAD_SAFE",
 					"-lwx_osx_cocoa_static",
-					"../mac3rdParty/sqlite-autoconf-3090200/.libs/libsqlite3.a",
+					"../mac3rdParty/sqlite-autoconf-3110000/.libs/libsqlite3.a",
 					"-lz",
 					"-lpthread",
 					"-lm",
@@ -3882,7 +3882,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.46.0/include";
+				HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.47.1/include";
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				LIBRARY_SEARCH_PATHS = "";
 				"OTHER_CFLAGS[arch=x86_64]" = (
@@ -3894,16 +3894,16 @@
 				);
 				OTHER_LDFLAGS = (
 					"-L.",
-					"../mac3rdParty/curl-7.46.0/lib/.libs/libcurl.a",
+					"../mac3rdParty/curl-7.47.1/lib/.libs/libcurl.a",
 					"../mac3rdParty/c-ares-1.10.0/.libs/libcares.a",
-					"../mac3rdParty/openssl-1.0.2e/libcrypto.a",
-					"../mac3rdParty/openssl-1.0.2e/libssl.a",
+					"../mac3rdParty/openssl-1.0.2g/libcrypto.a",
+					"../mac3rdParty/openssl-1.0.2g/libssl.a",
 					"-lldap",
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.46.0/include";
+				USER_HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.47.1/include";
 			};
 			name = Deployment;
 		};
@@ -4054,7 +4054,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.46.0/include";
+				HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.47.1/include";
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = (
@@ -4065,16 +4065,16 @@
 				);
 				OTHER_LDFLAGS = (
 					"-L.",
-					"../mac3rdParty/curl-7.46.0/lib/.libs/libcurl.a",
+					"../mac3rdParty/curl-7.47.1/lib/.libs/libcurl.a",
 					"../mac3rdParty/c-ares-1.10.0/.libs/libcares.a",
-					"../mac3rdParty/openssl-1.0.2e/libcrypto.a",
-					"../mac3rdParty/openssl-1.0.2e/libssl.a",
+					"../mac3rdParty/openssl-1.0.2g/libcrypto.a",
+					"../mac3rdParty/openssl-1.0.2g/libssl.a",
 					"-lldap",
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.46.0/include";
+				USER_HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.47.1/include";
 			};
 			name = Development;
 		};

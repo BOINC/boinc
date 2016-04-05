@@ -68,7 +68,7 @@ $stats_sites = array(
 */
     array("http://www.boincsynergy.com/stats/index.php",
         "BOINC Statistics for the WORLD!",
-        "developed by Zain Upton (email: zain.upton at boincsynergy.com)"
+        "developed by Zain Upton"
     ),
     array("http://boinc.netsoft-online.com/",
         "BOINC Combined Statistics",
@@ -99,6 +99,7 @@ $stats_sites = array(
 $team_stats_sites = array(
     array("http://stats.czechnationalteam.cz/", "Czech National Team", "(in Czech)"),
     array("http://www.boincitaly.org/", "BOINC.Italy"),
+    array("https://www.crunchersansfrontieres.org/", "CRUNCHERS SANS FRONTIERES", "(French"),
     //array("http://www.spacepage.be/component/option,com_boinc/", "Spacepage"),
     //array("http://boinc.radax.net/de_boinc.htm", "BOINC@Austria"),
     //array("http://www.myboinc.com/scores/", "L'Alliance Francophone"),

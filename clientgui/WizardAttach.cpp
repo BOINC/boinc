@@ -292,9 +292,9 @@ bool CWizardAttach::Run(
     if (m_ProjectPropertiesPage && m_ProjectInfoPage && m_ProjectWelcomePage) {
         IsAttachToProjectWizard = true;
         IsAccountManagerWizard = false;
-        if (strProjectName.size() && strProjectURL.size() && (strProjectSetupCookie.size() == 0)) {
+        if (strProjectName.size() && strProjectURL.size() && ((strProjectSetupCookie.IsEmpty()) || !bEmbedded)) {
             return RunWizard(m_ProjectWelcomePage);
-        } else if (strProjectURL.size() && (IsCredentialsCached() || IsCredentialsDetected() || strProjectSetupCookie.size())) {
+        } else if (strProjectURL.size() && (IsCredentialsCached() || IsCredentialsDetected() || (strProjectSetupCookie.size() && bEmbedded))) {
             return RunWizard(m_ProjectPropertiesPage);
         } else {
             return RunWizard(m_ProjectInfoPage);
@@ -437,17 +437,81 @@ bool CWizardAttach::HasPrevPage( wxWizardPageEx* page )
         return false;
     return true;
 }
+
+/*!
+ * Translate a Page ID into the wxWizardPageEx instance pointer.
+ */
+
+wxWizardPageEx* CWizardAttach::TranslatePage(unsigned long ulPageID) {
+    wxWizardPageEx* pPage = NULL;
+
+    if (ID_PROJECTINFOPAGE == ulPageID)
+        pPage = m_ProjectInfoPage;
  
+    if (ID_PROJECTPROPERTIESPAGE == ulPageID)
+        pPage = m_ProjectPropertiesPage;
+ 
+    if (ID_PROJECTPROCESSINGPAGE == ulPageID)
+        pPage = m_ProjectProcessingPage;
+ 
+    if (ID_PROJECTWELCOMEPAGE == ulPageID)
+        pPage = m_ProjectWelcomePage;
+ 
+    if (ID_ACCOUNTMANAGERINFOPAGE == ulPageID)
+        pPage = m_AccountManagerInfoPage;
+ 
+    if (ID_ACCOUNTMANAGERPROPERTIESPAGE == ulPageID)
+        pPage = m_AccountManagerPropertiesPage;
+ 
+    if (ID_ACCOUNTMANAGERPROCESSINGPAGE == ulPageID)
+        pPage = m_AccountManagerProcessingPage;
+ 
+    if (ID_TERMSOFUSEPAGE == ulPageID)
+        pPage = m_TermsOfUsePage;
+ 
+    if (ID_ACCOUNTINFOPAGE == ulPageID)
+        pPage = m_AccountInfoPage;
+ 
+    if (ID_COMPLETIONPAGE == ulPageID)
+        pPage = m_CompletionPage;
+ 
+    if (ID_COMPLETIONERRORPAGE == ulPageID)
+        pPage = m_CompletionErrorPage;
+ 
+    if (ID_ERRNOTDETECTEDPAGE == ulPageID)
+        pPage = m_ErrNotDetectedPage;
+ 
+    if (ID_ERRUNAVAILABLEPAGE == ulPageID)
+        pPage = m_ErrUnavailablePage;
+ 
+    if (ID_ERRNOINTERNETCONNECTIONPAGE == ulPageID)
+        pPage = m_ErrNoInternetConnectionPage;
+ 
+    if (ID_ERRNOTFOUNDPAGE == ulPageID)
+        pPage = m_ErrNotFoundPage;
+ 
+    if (ID_ERRALREADYEXISTSPAGE == ulPageID)
+        pPage = m_ErrAlreadyExistsPage;
+ 
+    if (ID_ERRPROXYINFOPAGE == ulPageID)
+        pPage = m_ErrProxyInfoPage;
+ 
+    if (ID_ERRPROXYPAGE == ulPageID)
+        pPage = m_ErrProxyPage;
+
+    return pPage;
+}
+
 /*!
  * Remove the page transition from the stack.
  */
-wxWizardPageEx* CWizardAttach::_PopPageTransition() {
+wxWizardPageEx* CWizardAttach::PopPageTransition() {
     wxWizardPageEx* pPage = NULL;
     if (GetCurrentPage()) {
         if (!m_PageTransition.empty()) {
             pPage = m_PageTransition.top();
 
-            wxLogTrace(wxT("Function Status"), wxT("CWizardAttach::_PopPageTransition -     Popping Page: '%p'"), pPage);
+            wxLogTrace(wxT("Function Status"), wxT("CWizardAttach::PopPageTransition - Popping Page: '%p'"), pPage);
             m_PageTransition.pop();
 
             // TODO: Figure out the best way to handle the situation where the wizard has been launched with a
@@ -466,7 +530,7 @@ wxWizardPageEx* CWizardAttach::_PopPageTransition() {
                 //   with any server.
                 pPage = m_PageTransition.top();
 
-                wxLogTrace(wxT("Function Status"), wxT("CWizardAttach::_PopPageTransition -     Popping Page: '%p'"), pPage);
+                wxLogTrace(wxT("Function Status"), wxT("CWizardAttach::PopPageTransition - Popping Page: '%p'"), pPage);
                 m_PageTransition.pop();
 
             }
@@ -476,75 +540,38 @@ wxWizardPageEx* CWizardAttach::_PopPageTransition() {
     }
     return NULL;
 }
- 
+
+
+/*!
+ * Push a page onto the stack.
+ */
+
+wxWizardPageEx* CWizardAttach::PushPage( unsigned long ulPageID ) {
+    if (GetCurrentPage()) {
+        wxWizardPageEx* pPage = TranslatePage(ulPageID);
+        if (pPage) {
+            wxLogTrace(wxT("Function Status"), wxT("CWizardAttach::PushPage - Pushing Page: '%p'"), pPage);
+            m_PageTransition.push(pPage);
+            return pPage;
+        }
+    }
+    return NULL;
+}
+
+
 /*!
  * Add the page transition to the stack.
  */
-wxWizardPageEx* CWizardAttach::_PushPageTransition( wxWizardPageEx* pCurrentPage, unsigned long ulPageID ) {
+wxWizardPageEx* CWizardAttach::PushPageTransition( wxWizardPageEx* pCurrentPage, unsigned long ulPageID ) {
     if (GetCurrentPage()) {
-        wxWizardPageEx* pPage = NULL;
-
-        if (ID_PROJECTINFOPAGE == ulPageID)
-            pPage = m_ProjectInfoPage;
- 
-        if (ID_PROJECTPROPERTIESPAGE == ulPageID)
-            pPage = m_ProjectPropertiesPage;
- 
-        if (ID_PROJECTPROCESSINGPAGE == ulPageID)
-            pPage = m_ProjectProcessingPage;
- 
-        if (ID_PROJECTWELCOMEPAGE == ulPageID)
-            pPage = m_ProjectWelcomePage;
- 
-        if (ID_ACCOUNTMANAGERINFOPAGE == ulPageID)
-            pPage = m_AccountManagerInfoPage;
- 
-        if (ID_ACCOUNTMANAGERPROPERTIESPAGE == ulPageID)
-            pPage = m_AccountManagerPropertiesPage;
- 
-        if (ID_ACCOUNTMANAGERPROCESSINGPAGE == ulPageID)
-            pPage = m_AccountManagerProcessingPage;
- 
-        if (ID_TERMSOFUSEPAGE == ulPageID)
-            pPage = m_TermsOfUsePage;
- 
-        if (ID_ACCOUNTINFOPAGE == ulPageID)
-            pPage = m_AccountInfoPage;
- 
-        if (ID_COMPLETIONPAGE == ulPageID)
-            pPage = m_CompletionPage;
- 
-        if (ID_COMPLETIONERRORPAGE == ulPageID)
-            pPage = m_CompletionErrorPage;
- 
-        if (ID_ERRNOTDETECTEDPAGE == ulPageID)
-            pPage = m_ErrNotDetectedPage;
- 
-        if (ID_ERRUNAVAILABLEPAGE == ulPageID)
-            pPage = m_ErrUnavailablePage;
- 
-        if (ID_ERRNOINTERNETCONNECTIONPAGE == ulPageID)
-            pPage = m_ErrNoInternetConnectionPage;
- 
-        if (ID_ERRNOTFOUNDPAGE == ulPageID)
-            pPage = m_ErrNotFoundPage;
- 
-        if (ID_ERRALREADYEXISTSPAGE == ulPageID)
-            pPage = m_ErrAlreadyExistsPage;
- 
-        if (ID_ERRPROXYINFOPAGE == ulPageID)
-            pPage = m_ErrProxyInfoPage;
- 
-        if (ID_ERRPROXYPAGE == ulPageID)
-            pPage = m_ErrProxyPage;
- 
+        wxWizardPageEx* pPage = TranslatePage(ulPageID);
         if (pPage) {
             if (m_PageTransition.empty()) {
-                wxLogTrace(wxT("Function Status"), wxT("CWizardAttach::_PushPageTransition -     Pushing Page: '%p'"), pPage);
+                wxLogTrace(wxT("Function Status"), wxT("CWizardAttach::PushPageTransition - Pushing Page: '%p'"), pPage);
                 m_PageTransition.push(NULL);
             }
             if (m_PageTransition.top() != pCurrentPage) {
-                wxLogTrace(wxT("Function Status"), wxT("CWizardAttach::_PushPageTransition -     Pushing Page: '%p'"), pPage);
+                wxLogTrace(wxT("Function Status"), wxT("CWizardAttach::PushPageTransition - Pushing Page: '%p'"), pPage);
                 m_PageTransition.push(pCurrentPage);
             }
             return pPage;

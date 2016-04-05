@@ -1348,7 +1348,9 @@ void ACCOUNT_IN::clear() {
     user_name.clear();
     passwd.clear();
     team_name.clear();
+    server_cookie.clear();
     ldap_auth = false;
+    server_assigned_cookie = false;
 }
 
 ACCOUNT_OUT::ACCOUNT_OUT() {
@@ -2293,15 +2295,15 @@ int RPC_CLIENT::lookup_account(ACCOUNT_IN& ai) {
         "   <email_addr>%s</email_addr>\n"
         "   <passwd_hash>%s</passwd_hash>\n"
         "   <ldap_auth>%d</ldap_auth>\n"
-		"   <server_assigned_hash>%d</server_assigned_hash>\n"
-		"   <server_hash>%s</server_hash>\n"
+		"   <server_assigned_cookie>%d</server_assigned_cookie>\n"
+		"   <server_cookie>%s</server_cookie>\n"
         "</lookup_account>\n",
         ai.url.c_str(),
         ai.email_addr.c_str(),
         passwd_hash.c_str(),
         ai.ldap_auth?1:0,
-		ai.server_assigned_hash?1:0,
-	    ai.server_hash.c_str()
+		ai.server_assigned_cookie?1:0,
+	    ai.server_cookie.c_str()
     );
     buf[sizeof(buf)-1] = 0;
 

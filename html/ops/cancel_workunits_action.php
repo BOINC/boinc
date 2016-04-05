@@ -18,16 +18,29 @@
 
 require_once("../inc/util_ops.inc");
 
+$cancel = post_int('cancel', true);
+$hide_canceled = post_str('hide_canceled', true);
+$hide_dlerr = post_str('hide_dlerr', true);
+$appid = post_int('appid', true);
+$WU = post_arr('WU', true);
+$back = post_str('back', true);
+$clause = post_str('clause', true);
+$limit = post_int('limit', true);
+if (!$limit || $limit == 0) {
+    $limit = 20;
+}
+
 admin_page_head("Cancel Workunits");
 
 // check for WUs to cancel
 //
 $WUs = "";
-if (array_key_exists('cancel', $_REQUEST) && ($_REQUEST['cancel'] == 1)) {
-    if (is_array($_REQUEST['WU'])) {
-        foreach ($_REQUEST['WU'] as $key => $value) {
-            if($WUs != "")
+if ($cancel && ($cancel == 1)) {
+    if ($WU) {
+        foreach ($WU as $key => $value) {
+            if($WUs != "") {
                 $WUs = $WUs . ",";
+            }
             $WUs = $WUs . $value;
         }
     }
@@ -37,21 +50,27 @@ if (array_key_exists('cancel', $_REQUEST) && ($_REQUEST['cancel'] == 1)) {
 //
 if($WUs != "") {
     echo "<!--- WUs to cancel: $WUs --->\n";
-//    if (!in_rops()) {
-        db_init();
+    if (!in_rops()) {
         cancel_wus_where("id IN (" . $WUs . ")");
-//    }
+    }
 }
 
-if (array_key_exists('back',$_REQUEST)) {
-    if ($_REQUEST['back'] == "errorwus") {
-        echo "<p><a href=\"errorwus.php\">Return to All-error Workunits page</a></p>";
-    } else if ($_REQUEST['back'] == "cancelwus") {
-        if (array_key_exists('clause', $_REQUEST)) {
-            $limit = 20;
-            if (array_key_exists('limit', $_REQUEST))
-                $limit=$_REQUEST['limit'];
-            $clause=urlencode($_REQUEST['clause']);
+if ($back) {
+    if ($back == "errorwus") {
+        $args = "?refresh_cache=1";
+        if ($hide_canceled && $hide_canceled=="on") {
+            $args .= "&hide_canceled=on";
+        }
+        if ($hide_dlerr && $hide_dlerr=="on") {
+            $args .= "&hide_dlerr=on";
+        }
+        if ($appid) {
+            $args .= "&appid=$appid";
+        }
+        echo "<p><a href=\"errorwus.php$args\">Return to All-error Workunits page</a> (refreshes the cache)</p>";
+    } else if ($back == "cancelwus") {
+        if ($clause) {
+            $clause=urlencode($clause);
             echo "<p><a href=\"cancel_workunits.php?limit=$limit&uclause=$clause\">";
             echo "Cancel next (max $limit) Workunits</a></p>";
         }
@@ -65,6 +84,4 @@ echo time_str(time());
 echo "</p>\n";
 
 admin_page_tail();
-
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

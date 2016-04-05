@@ -17,7 +17,7 @@
 
 
 // configurable app plan functions.
-// see http://boinc.berkeley.edu/trac/wiki/AppPlanConfig
+// see https://boinc.berkeley.edu/trac/wiki/AppPlanConfig
 
 #include <string>
 #include <vector>

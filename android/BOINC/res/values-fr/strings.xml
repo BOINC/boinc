@@ -11,18 +11,18 @@
   <string name="attachproject_list_desc">Choisir un projet scientifique auquel vous voulez collaborer :</string>
   <string name="attachproject_list_header">Choisissez un projet</string>
   <string name="attachproject_list_manual_button">Ajouter un projet via son URL</string>
-  <string name="attachproject_list_manual_dialog_title">URL du projet:</string>
+  <string name="attachproject_list_manual_dialog_title">URL du projet :</string>
   <string name="attachproject_list_manual_dialog_button">Ajouter un projet</string>
   <string name="attachproject_list_manual_no_url">Veuillez saisir l\'URL du projet</string>
   <string name="attachproject_list_acctmgr_button">Choisir un gestionnaire de compte</string>
   <string name="attachproject_list_no_internet">Pas de connexion Internet</string>
   <!--credential input-->
   <string name="attachproject_credential_input_sing_desc">Éditer les informations de compte</string>
-  <string name="attachproject_credential_input_desc">Editer les information de compte pour les projets sélectionnés:</string>
+  <string name="attachproject_credential_input_desc">Éditer les informations de compte pour les projets sélectionnés :</string>
   <string name="attachproject_credential_input_show_pwd">Montrer le mot de passe</string>
   <string name="attachproject_individual_credential_input">Ajouter des projets individuellement</string>
   <!--conflicts-->
-  <string name="attachproject_conflicts_desc">Il y a des problèmes pour ajouter les projets suivants:</string>
+  <string name="attachproject_conflicts_desc">Il y a des problèmes pour ajouter les projets suivants :</string>
   <string name="attachproject_conflict_undefined">Connexion impossible</string>
   <string name="attachproject_conflict_not_unique">Un compte existe avec un mot de passe différent</string>
   <string name="attachproject_conflict_bad_password">Mot de passe incorrect</string>

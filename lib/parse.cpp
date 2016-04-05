@@ -39,6 +39,10 @@
 #endif
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #if !defined(HAVE_STRDUP) && defined(HAVE__STRDUP)
 #define strdup _strdup
 #endif
@@ -874,7 +878,7 @@ void XML_PARSER::skip_unexpected(
 
     if (verbose) {
         fprintf(stderr,
-            "%s: Unrecognized XML tag '<%s>' in %s; skipping\n",
+            "%s: Unrecognized XML tag '<%s/>' in %s; skipping\n",
             time_to_string(dtime()), start_tag, where
         );
     }

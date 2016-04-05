@@ -667,14 +667,14 @@ bool CSkinAdvanced::InitializeDelayedValidation() {
         if (show_error_msgs) {
             fprintf(stderr, "Skin Manager: Organization web site was not defined. Using default.\n");
         }
-        m_strOrganizationWebsite = wxT("http://boinc.berkeley.edu");
+        m_strOrganizationWebsite = wxT("https://boinc.berkeley.edu");
         wxASSERT(!m_strOrganizationWebsite.IsEmpty());
     }
     if (m_strOrganizationHelpUrl.IsEmpty()) {
         if (show_error_msgs) {
             fprintf(stderr, "Skin Manager: Organization help url was not defined. Using default.\n");
         }
-        m_strOrganizationHelpUrl = wxT("http://boinc.berkeley.edu/manager_links.php");
+        m_strOrganizationHelpUrl = wxT("https://boinc.berkeley.edu/manager_links.php");
         wxASSERT(!m_strOrganizationHelpUrl.IsEmpty());
     }
     if (!m_bDefaultTabSpecified) {

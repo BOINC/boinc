@@ -7,7 +7,7 @@
 # Arnaud <bidibulle25_at_yahoo.fr>, 2007
 # Axelle Andy, 2015
 # BUNS Nicolas, 2015
-# Christian Beer <christian.beer@posteo.de>, 2015
+# Christian Beer <christian.beer@posteo.de>, 2015-2016
 # Clément Jonglez <clement.jonglez@isae.fr>, 2015
 # Frédéric Ménétrier, 2015
 # Jerome Cadet <jerome.cadet@pobox.com>, 2015
@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-02-11 16:49+0000\n"
+"PO-Revision-Date: 2016-03-26 14:54+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -475,7 +475,7 @@ msgstr "Sélectionner les colonnes à afficher"
 
 #: clientgui/AdvancedFrame.cpp:621
 msgid "Event Log options...\tCtrl+Shift+F"
-msgstr "Options du Journal des événements...⇥Ctrl+Shift+F"
+msgstr "Options du Journal des événements...\tCtrl+Shift+F"
 
 #: clientgui/AdvancedFrame.cpp:622
 msgid "Enable or disable various diagnostic messages"
@@ -3025,11 +3025,11 @@ msgstr "Montrer les messages pour tous les projets."
 
 #: clientgui/ViewNotices.cpp:58 clientgui/sg_DlgMessages.cpp:124
 msgid "Fetching notices; please wait..."
-msgstr "Recherche des annonces ; veuillez patienter..."
+msgstr "Recherche de notifications ; veuillez patienter..."
 
 #: clientgui/ViewNotices.cpp:65 clientgui/sg_DlgMessages.cpp:132
 msgid "There are no notices at this time."
-msgstr "Il n'y a pas de nouvelles annonces."
+msgstr "Aucune notification en cours."
 
 #: clientgui/ViewNotices.cpp:99 clientgui/sg_BoincSimpleFrame.cpp:912
 msgid "Notices"
@@ -3662,7 +3662,7 @@ msgstr "Choisissez l'apparence de l'interface utilisateur."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:181
 msgid "Advanced View...\tCtrl+Shift+A"
-msgstr "Vue Avancée...⇥CTRL+SHIFT+A"
+msgstr "Vue Avancée...\tCtrl+Shift+A"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:182
 msgid "Display the advanced graphical interface."
@@ -3695,7 +3695,7 @@ msgstr "Reprendre le calcul"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:913
 msgid "Open a window to view notices from projects or BOINC"
-msgstr "Ouvrir une fenêtre pour voir les annonces des projets ou de BOINC"
+msgstr "Ouvrir une fenêtre pour voir les notifications des projets ou de BOINC"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:934 clientgui/sg_DlgPreferences.cpp:366
 #, c-format

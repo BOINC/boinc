@@ -30,6 +30,10 @@
 //   - have no hosts
 //   - have no message-board posts
 //
+// --profiles_strict
+//  delete accounts that have a profile and no message-board posts.
+//  For the BOINC message boards.
+//
 // --forums
 //   delete accounts that
 //   - have no hosts
@@ -166,6 +170,24 @@ function delete_profiles() {
     }
 }
 
+function delete_profiles_strict() {
+    global $test;
+    $profiles = BoincProfile::enum("");
+    foreach ($profiles as $p) {
+        $user = BoincUser::lookup_id($p->userid);
+        if (!$user) {
+            echo "profile has missing user: $p->userid\n";
+            continue;
+        }
+        $n = BoincPost::count("user=$p->userid");
+        if ($n) continue;
+        do_delete_user($user);
+        if ($test) {
+            echo "\n$p->userid\n$p->response1\n$p->response2\n";
+        }
+    }
+}
+
 function delete_user_url() {
     global $test, $days;
     $users = BoincUser::enum("url <> ''");
@@ -269,6 +291,8 @@ for ($i=1; $i<$argc; $i++) {
         delete_list($argv[++$i]);
     } else if ($argv[$i] == "--profiles") {
         delete_profiles();
+    } else if ($argv[$i] == "--profiles_strict") {
+        delete_profiles_strict();
     } else if ($argv[$i] == "--forums") {
         delete_forums();
     } else if ($argv[$i] == "--id_range") {
@@ -304,7 +328,7 @@ for ($i=1; $i<$argc; $i++) {
     } else if ($argv[$i] == "--user_url") {
         delete_user_url();
     } else {
-        echo "usage: delete_spammers.php [--days N] [--test] [--list filename] [--profiles] [--forums] [--id_range N M] [--teams] [--user_url]\n";
+        echo "usage: delete_spammers.php [--days N] [--test] [--list filename] [--profiles] [--profiles_strict] [--forums] [--id_range N M] [--teams] [--user_url]\n";
         exit;
     }
 }

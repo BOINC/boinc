@@ -88,7 +88,7 @@ row2(
     ."<br><br>"
     .tra("Check out %1various free services%2
 <br> providing dynamic 'signature images'
-<br> showing your latest credit info, project news, etc.", "<a href=http://boinc.berkeley.edu/links.php#sigs>", "</a>"),
+<br> showing your latest credit info, project news, etc.", "<a href=https://boinc.berkeley.edu/links.php#sigs>", "</a>"),
     textarea_with_counter("signature", 250, $signature)
     ."<br><input type=\"checkbox\" name=\"signature_by_default\" ".$signature_by_default."> ".tra("Attach signature by default")
 );

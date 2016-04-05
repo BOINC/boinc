@@ -642,6 +642,18 @@ function post_str($name, $optional=false) {
     return undo_magic_quotes($x);
 }
 
+function post_arr($name, $optional=false) {
+    if (isset($_POST[$name]) && is_array($_POST[$name])) {
+        $x = $_POST[$name];
+    } else {
+        if (!$optional) {
+            error_page("missing or bad parameter: $name");
+        }
+        $x = null;
+    }
+    return $x;
+}
+
 function is_ascii($str) {
     // the mb_* functions are not included by default
     // return (mb_detect_encoding($passwd) -= 'ASCII');

@@ -70,9 +70,9 @@ function show_admin_page($user, $team) {
 
         <p>
         <li>
-            ".tra("To have this team created on all BOINC projects (current and future) you can make it into a %1BOINC-wide team%2.", "<a href=http://boinc.berkeley.edu/teams/>", "</a>")."
+            ".tra("To have this team created on all BOINC projects (current and future) you can make it into a %1BOINC-wide team%2.", "<a href=https://boinc.berkeley.edu/teams/>", "</a>")."
         <li>
-            ".tra("Team admins are encouraged to join and participate in the Google %1boinc-team-founders%2 group.", "<a href=http://groups.google.com/group/boinc-team-founders>", "</a>")."
+            ".tra("Team admins are encouraged to join and participate in the Google %1boinc-team-founders%2 group.", "<a href=https://groups.google.com/forum/#!forum/boinc-team-founders>", "</a>")."
     </ul>
     ";
 

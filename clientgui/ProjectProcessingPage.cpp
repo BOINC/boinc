@@ -318,7 +318,7 @@ void CProjectProcessingPage::OnPageChanged( wxWizardExEvent& event ) {
     wxASSERT(m_pProgressIndicator);
 
     m_pTitleStaticCtrl->SetLabel(
-        _("Communicating with project.")
+        _("Communicating with project\nPlease wait...")
     );
 
     SetProjectCommunicationsSucceeded(false);
@@ -416,8 +416,8 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                 ai->ldap_auth = pWA->project_config.ldap_auth;
 
                 // Configure for project assigned hash lookup
-                ai->server_assigned_hash = pWA->GetProjectSetupCookie().size() ? 1 : 0;
-                ai->server_hash = (const char*)pWA->GetProjectSetupCookie().mb_str();
+                ai->server_assigned_cookie = pWA->GetProjectSetupCookie().size() ? 1 : 0;
+                ai->server_cookie = (const char*)pWA->GetProjectSetupCookie().mb_str();
 
                 if (pWA->m_AccountInfoPage->m_pAccountCreateCtrl->GetValue() && !pWA->GetProjectSetupCookie().size()) {
 					creating_account = true;
@@ -501,6 +501,15 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                         (ERR_BAD_EMAIL_ADDR == ao->error_num) ||
                         (ERR_BAD_PASSWD == ao->error_num)
                     ) {
+                        if (!pWA->GetProjectAuthenticator().IsEmpty() || !pWA->GetProjectSetupCookie().IsEmpty()) {
+                            if (!pWA->GetProjectAuthenticator().IsEmpty()) {
+                                pWA->SetProjectAuthenticator(wxEmptyString);
+                            }
+                            if (!pWA->GetProjectSetupCookie().IsEmpty()) {
+                                pWA->SetProjectSetupCookie(wxEmptyString);
+                            }
+                            pWA->PushPage(ID_ACCOUNTINFOPAGE);
+                        }
                         SetProjectAccountNotFound(true);
                     } else {
                         SetProjectAccountNotFound(false);

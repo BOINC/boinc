@@ -20,7 +20,7 @@ Note:
 These email lists do not provide tech support
 for SETI@home or other BOINC projects.
 Help for SETI@home is available on the
-<a href=http://setiathome.berkeley.edu/forum_help_desk.php>SETI@home message boards</a>
+<a href=https://setiathome.berkeley.edu/forum_help_desk.php>SETI@home message boards</a>
 and help for BOINC is available <a href=help.php>here</a>.
 
 </font></b>
@@ -60,7 +60,7 @@ list_item("<a href=http://lists.ssl.berkeley.edu/mailman/listinfo/boinc_helpers>
     "For BOINC <a href=help.php>Help Volunteers</a>,
     to discuss policies and user problems."
 );
-list_item("<a href=http://groups.google.com/group/boinc-team-founders>BOINC team founders</a> (Google group)",
+list_item("<a href=https://groups.google.com/forum/#!forum/boinc-team-founders>BOINC team founders</a> (Google group)",
     "Discussion of team-related issues."
 );
 list_end();

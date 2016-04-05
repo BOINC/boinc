@@ -6,14 +6,14 @@
 # Jakub Meisner <tangornsvk@gmail.com>, 2015
 # Jan Schladetzky <keiken@keiken.eu>, 2015
 # Jonas <jesus_007@posteo.de>, 2015
-# my name, 2015
+# Velociraptor, 2015
 # Sebastian <sebbl.schuler@gmail.com>, 2015
 # Wolf Dieter Dallinger <wolf.dieter@dallinger.de>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2015-12-15 12:43+0000\n"
-"PO-Revision-Date: 2015-12-16 16:06+0000\n"
+"PO-Revision-Date: 2016-03-31 06:55+0000\n"
 "Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: German (http://www.transifex.com/boinc/boinc/language/de/)\n"
 "MIME-Version: 1.0\n"
