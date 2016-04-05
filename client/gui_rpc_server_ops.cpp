@@ -774,7 +774,10 @@ void handle_get_project_config_poll(GUI_RPC_CONN& grc) {
             grc.get_project_config_op.error_num
         );
     } else {
-        grc.mfout.printf("%s", grc.get_project_config_op.reply.c_str());
+        const char *p = grc.get_project_config_op.reply.c_str();
+        const char *q = strstr(p, "<project_config");
+        if (!q) q = "<project_config/>\n";
+        grc.mfout.printf("%s", q);
     }
 }
 

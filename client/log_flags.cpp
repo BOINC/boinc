@@ -457,7 +457,7 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
 
         msg_printf_notice(NULL, false,
             "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
-            "%s: <%s/>",
+            "%s: <%s>",
             _("Unrecognized tag in cc_config.xml"),
             xp.parsed_tag
         );
@@ -512,7 +512,7 @@ int CC_CONFIG::parse_client(FILE* f) {
         if (xp.match_tag("log_flags/")) continue;
         msg_printf_notice(NULL, false,
             "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
-            "%s: <%s/>",
+            "%s: <%s>",
             _("Unrecognized tag in cc_config.xml"),
             xp.parsed_tag
         );
