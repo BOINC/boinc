@@ -878,7 +878,7 @@ void XML_PARSER::skip_unexpected(
 
     if (verbose) {
         fprintf(stderr,
-            "%s: Unrecognized XML tag '<%s/>' in %s; skipping\n",
+            "%s: Unrecognized XML tag '<%s>' in %s; skipping\n",
             time_to_string(dtime()), start_tag, where
         );
     }
