@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-04-08 09:48+0000\n"
+"PO-Revision-Date: 2016-04-08 09:53+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -2929,11 +2929,11 @@ msgstr "Érvényesítési ütközés"
 
 #: clientgui/ValidateEmailAddress.cpp:72
 msgid "Please specify an email address"
-msgstr "Kérjük, adja meg email címét"
+msgstr "Kérjük, add meg email címed"
 
 #: clientgui/ValidateEmailAddress.cpp:75
 msgid "Invalid email address; please enter a valid email address"
-msgstr "Érvénytelen email cím; kérjük, érvényes emailcímet adjon meg"
+msgstr "Érvénytelen email cím; kérjük, érvényes emailcímet adj meg"
 
 #: clientgui/ValidateURL.cpp:69
 msgid "Missing URL"
@@ -2944,7 +2944,7 @@ msgid ""
 "Please specify a URL.\n"
 "For example:\n"
 "http://www.example.com/"
-msgstr "Kérjük adjon meg egy URL-t.\nPéldául:\nhttp://www.pelda.hu/"
+msgstr "Kérjük, adj meg egy URL-t.\nPéldául:\nhttp://www.pelda.hu/"
 
 #: clientgui/ValidateURL.cpp:83 clientgui/ValidateURL.cpp:87
 #: clientgui/ValidateURL.cpp:91 clientgui/ValidateURL.cpp:103
@@ -2958,17 +2958,17 @@ msgid ""
 "Please specify a valid URL.\n"
 "For example:\n"
 "http://boincproject.example.com"
-msgstr "Kérjük, adjon meg egy érvényes URL-t.\nPéldául:\nhttp://boincprojekt.pelda.hu"
+msgstr "Kérjük, adj meg egy érvényes URL-t.\nPéldául:\nhttp://boincprojekt.pelda.hu"
 
 #: clientgui/ValidateURL.cpp:104 clientgui/ValidateURL.cpp:108
 #, c-format
 msgid "'%s' does not contain a valid host name."
-msgstr "\"%s\" nem tartalmaz érvényes gépnevet."
+msgstr "'%s' nem tartalmaz érvényes gépnevet."
 
 #: clientgui/ValidateURL.cpp:111
 #, c-format
 msgid "'%s' does not contain a valid path."
-msgstr "\"%s\" nem tartalmaz érvényes útvonalat."
+msgstr "'%s' nem tartalmaz érvényes útvonalat."
 
 #. Setup View
 #: clientgui/ViewMessages.cpp:84 clientgui/ViewProjects.cpp:198
@@ -2987,11 +2987,11 @@ msgstr "Kijelölt üzenetek másolása"
 
 #: clientgui/ViewMessages.cpp:106 clientgui/ViewMessages.cpp:502
 msgid "Show only this project"
-msgstr "Csak ezt a projektet mutassa"
+msgstr "Csak ezt a projektet mutasd"
 
 #: clientgui/ViewMessages.cpp:107 clientgui/ViewMessages.cpp:503
 msgid "Show only the messages for the selected project."
-msgstr "Csak a kiválasztott projekt üzeneteit mutassa."
+msgstr "Csak a kiválasztott projekt üzeneteit mutasd."
 
 #: clientgui/ViewMessages.cpp:164
 msgid "Messages"
@@ -3019,11 +3019,11 @@ msgstr "Az összes projekt üzeneteinek mutatása."
 
 #: clientgui/ViewNotices.cpp:58 clientgui/sg_DlgMessages.cpp:124
 msgid "Fetching notices; please wait..."
-msgstr "Megjegyzések betöltése; kérjük, várj..."
+msgstr "Értesítések betöltése; kérjük, várj..."
 
 #: clientgui/ViewNotices.cpp:65 clientgui/sg_DlgMessages.cpp:132
 msgid "There are no notices at this time."
-msgstr "Jelenleg nincsenek megjegyzések."
+msgstr "Jelenleg nincsenek értesítések."
 
 #: clientgui/ViewNotices.cpp:99 clientgui/sg_BoincSimpleFrame.cpp:912
 msgid "Notices"
@@ -3072,13 +3072,13 @@ msgstr "Projekt nullázása"
 msgid ""
 "Delete all files and tasks associated with this project, and get new tasks."
 "  You can update the project first to report any completed tasks."
-msgstr "A projekthez kapcsolódó összes fájl és feladat törlése, és új feladatok kérése. Először frissítse a projektet, hogy ezzel az összes elkészült feladatot jelentse."
+msgstr "A projekthez kapcsolódó összes fájl és feladat törlése, és új feladatok kérése. Először frissítsd a projektet, hogy ezzel az összes elkészült feladatot jelentsd."
 
 #: clientgui/ViewProjects.cpp:231 clientgui/sg_ProjectCommandPopup.cpp:91
 msgid ""
 "Remove this project.  Tasks in progress will be lost (use 'Update' first to "
 "report any completed tasks)."
-msgstr "A számítógép leválasztása a projektről. Folyamatban lévő munka elvész (először használja a 'Frissítés'-t, hogy az összes elkészült munkát jelentse)."
+msgstr "A számítógép leválasztása a projektről. Folyamatban lévő munka elvész (először használd a 'Frissítés'-t, hogy az összes elkészült munkát jelentsd)."
 
 #: clientgui/ViewProjects.cpp:237 clientgui/ViewWork.cpp:246
 #: clientgui/sg_ProjectCommandPopup.cpp:96
@@ -3138,7 +3138,7 @@ msgstr "Projekt nullázása..."
 #: clientgui/ViewProjects.cpp:524 clientgui/sg_ProjectCommandPopup.cpp:229
 #, c-format
 msgid "Are you sure you want to reset project '%s'?"
-msgstr "Biztos benne, hogy a(z) \"%s\" projektet nullázza?"
+msgstr "Biztos vagy benne, hogy a(z) '%s' projektet nullázod?"
 
 #: clientgui/ViewProjects.cpp:530 clientgui/sg_ProjectCommandPopup.cpp:235
 msgid "Reset Project"
