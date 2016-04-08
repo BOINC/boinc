@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-04-04 13:46+0000\n"
+"PO-Revision-Date: 2016-04-08 09:48+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -2883,7 +2883,7 @@ msgstr "Felhasználási feltételek"
 
 #: clientgui/TermsOfUsePage.cpp:222
 msgid "Please read the following terms of use:"
-msgstr "Kérjük, olvassa el a következő felhasználási feltételeket:"
+msgstr "Kérjük, olvasd el a következő felhasználási feltételeket:"
 
 #: clientgui/TermsOfUsePage.cpp:231
 msgid "I agree to the terms of use."
@@ -2902,26 +2902,26 @@ msgid ""
 "The project is temporarily unavailable.\n"
 "\n"
 "Please try again later."
-msgstr "A projekt ideiglenesen nem elérhető.\n\nKérem, próbálja úrja. "
+msgstr "A projekt ideiglenesen nem elérhető.\n\nKérlek, próbáld újra. "
 
 #: clientgui/UnavailablePage.cpp:190
 msgid "Account manager temporarily unavailable"
-msgstr "Fiókkezelő ideiglenesen nem elérhető"
+msgstr "A fiókkezelő ideiglenesen nem elérhető"
 
 #: clientgui/UnavailablePage.cpp:193
 msgid ""
 "The account manager is temporarily unavailable.\n"
 "\n"
 "Please try again later."
-msgstr "A fiókkezelő ideiglenesen nem elérhető.\n\nKérem, próbálja úrja. "
+msgstr "A fiókkezelő ideiglenesen nem elérhető.\n\nKérlek, próbáld újra."
 
 #: clientgui/ValidateAccountKey.cpp:68
 msgid "Please specify an account key to continue."
-msgstr "Kérjük adjon meg egy fiókkulcsot a folytatáshoz"
+msgstr "Kérjük, adj meg egy fiókkulcsot a folytatáshoz."
 
 #: clientgui/ValidateAccountKey.cpp:71
 msgid "Invalid Account Key; please enter a valid Account Key"
-msgstr "Érvénytelen fiókkulcs, kérjük adjon meg érvényes fiókkulcsot"
+msgstr "Érvénytelen fiókkulcs, kérjük adj meg érvényes fiókkulcsot"
 
 #: clientgui/ValidateAccountKey.cpp:82 clientgui/ValidateEmailAddress.cpp:86
 msgid "Validation conflict"
