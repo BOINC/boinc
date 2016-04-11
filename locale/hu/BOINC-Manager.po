@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-04-08 09:53+0000\n"
+"PO-Revision-Date: 2016-04-11 12:37+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -3151,7 +3151,7 @@ msgstr "Projekt eltávolítása..."
 #: clientgui/ViewProjects.cpp:582 clientgui/sg_ProjectCommandPopup.cpp:266
 #, c-format
 msgid "Are you sure you want to remove project '%s'?"
-msgstr "Biztos benne, hogy eltávolítja a(z) \"%s\" projektet?"
+msgstr "Biztos vagy benne, hogy eltávolítod a(z) '%s' projektet?"
 
 #: clientgui/ViewProjects.cpp:588 clientgui/sg_ProjectCommandPopup.cpp:272
 msgid "Remove Project"
@@ -3203,7 +3203,7 @@ msgstr "Projekt előkészítése"
 
 #: clientgui/ViewProjects.cpp:1137
 msgid "Requested by project"
-msgstr "A Projekt kérésére"
+msgstr "Projekt kezdeményezte"
 
 #: clientgui/ViewProjects.cpp:1138
 msgid "Unknown reason"
@@ -3219,7 +3219,7 @@ msgstr "Nem tölt le új feladatot"
 
 #: clientgui/ViewProjects.cpp:1158
 msgid "Project ended - OK to remove"
-msgstr "A projekt befejeződött - nyomjon OK-t az eltávolításához"
+msgstr "A projekt befejeződött - nyomj OK-t az eltávolításához"
 
 #: clientgui/ViewProjects.cpp:1161
 msgid "Will remove when tasks done"
@@ -3454,7 +3454,7 @@ msgstr "Hálózati aktivitás felfüggesztve - "
 msgid ""
 ".\n"
 "You can enable it using the Activity menu."
-msgstr ".\nAz aktivitás menüben tudja engedélyezni."
+msgstr ".\nAz aktivitás menüben tudod engedélyezni."
 
 #: clientgui/ViewTransfers.cpp:367
 msgid "BOINC"
@@ -3474,11 +3474,11 @@ msgid ""
 "Are you sure you want to abort this file transfer '%s'?\n"
 "NOTE: Aborting a transfer will invalidate a task and you\n"
 "will not receive credit for it."
-msgstr "Biztos, hogy megszakítja ezt a fájlátvitelt: '%s'?\nFIGYELEM: Az átvitel megszakítása érvényteleníti a feladatot,\nés így nem fog érte kreditet kapni."
+msgstr "Biztos, hogy megszakítod ezt a fájlátvitelt: '%s'?\nFIGYELEM: Az átvitel megszakítása érvényteleníti a feladatot,\nés így nem fogsz érte kreditet kapni."
 
 #: clientgui/ViewTransfers.cpp:431
 msgid "Abort File Transfer"
-msgstr "Adatátvitel megszakítása"
+msgstr "Fájlátvitel megszakítása"
 
 #: clientgui/ViewTransfers.cpp:845
 msgid "Upload"
@@ -3490,7 +3490,7 @@ msgstr "Letöltés"
 
 #: clientgui/ViewTransfers.cpp:849
 msgid "retry in "
-msgstr "Újrapróbálás ennyi idő múlva: "
+msgstr "újrapróbálás ennyi idő múlva: "
 
 #: clientgui/ViewTransfers.cpp:851
 msgid "failed"
@@ -3538,7 +3538,7 @@ msgstr "Virtuális gép konzol megjelenítése új ablakban."
 
 #: clientgui/ViewWork.cpp:233
 msgid "Suspend work for this result."
-msgstr "Munka felfüggesztése a jelen csomagon."
+msgstr "Munka felfüggesztése ezen a csomagon."
 
 #: clientgui/ViewWork.cpp:239 clientgui/sg_TaskCommandPopup.cpp:78
 msgid "Abort"
@@ -3585,12 +3585,12 @@ msgstr "Virtuális gép konzol mutatása a feladathoz..."
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
-msgstr "Biztosan eldobja ezt a csomagot: '%s'?\n(Elkészült: %s, állapot: %s)"
+msgstr "Biztosan eldobod ezt a csomagot: '%s'?\n(Elkészült: %s, állapot: %s)"
 
 #: clientgui/ViewWork.cpp:572
 #, c-format
 msgid "Are you sure you want to abort these %d tasks?"
-msgstr "Biztosan eldobja ezeket a(z) %d feladatokat?"
+msgstr "Biztosan eldobod ezeket a(z) %d feladatokat?"
 
 #: clientgui/ViewWork.cpp:577 clientgui/sg_TaskCommandPopup.cpp:272
 msgid "Abort task"
@@ -3618,7 +3618,7 @@ msgstr "Munka felfüggesztése e feladaton."
 
 #: clientgui/WizardAttach.cpp:571
 msgid "Do you really want to cancel?"
-msgstr "Tényleg meg akarja szakítani?"
+msgstr "Tényleg meg akarod szakítani?"
 
 #: clientgui/WizardAttach.cpp:572
 msgid "Question"
@@ -3652,11 +3652,11 @@ msgstr "Kinézet"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:171
 msgid "Select the appearance of the user interface."
-msgstr "Válassza ki a felhasználói felület kinézetét."
+msgstr "Válaszd ki a felhasználói felület kinézetét."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:181
 msgid "Advanced View...\tCtrl+Shift+A"
-msgstr "Haladó nézet...\t Ctrl+Shift+A"
+msgstr "Haladó nézet...\tCtrl+Shift+A"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:182
 msgid "Display the advanced graphical interface."
@@ -3689,7 +3689,7 @@ msgstr "Számítás folytatása"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:913
 msgid "Open a window to view notices from projects or BOINC"
-msgstr "Ablak nyitása a BOINC-tól vagy a projektektől érkező üzenetek megtekintéséhez"
+msgstr "Ablak nyitása a BOINC-tól, vagy a projektektől érkező üzenetek megtekintéséhez"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:934 clientgui/sg_DlgPreferences.cpp:366
 #, c-format
@@ -3721,7 +3721,7 @@ msgstr "%s - Számítási beállítások"
 
 #: clientgui/sg_DlgPreferences.cpp:1186
 msgid "Discard all local preferences and use web-based preferences?"
-msgstr "Eldobja a helyi beállításokat és a webalapú beállításokat használja?"
+msgstr "Eldobod a helyi beállításokat és a webalapú beállításokat használod?"
 
 #: clientgui/sg_ProjectPanel.cpp:72
 msgid "Add Project"
@@ -3729,7 +3729,7 @@ msgstr "Projekt hozzáadása"
 
 #: clientgui/sg_ProjectPanel.cpp:73
 msgid "Synchronize"
-msgstr "Szinkronizáció"
+msgstr "Szinkronizálás"
 
 #: clientgui/sg_ProjectPanel.cpp:74
 msgid "Work done for this project"
@@ -3737,7 +3737,7 @@ msgstr "A projektben elvégzett munka"
 
 #: clientgui/sg_ProjectPanel.cpp:76
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
-msgstr "Vegyen részt bármelyikben a több mint 30 tudományos projektből"
+msgstr "Vegyél részt bármelyikben a több mint 30 tudományos projektből"
 
 #: clientgui/sg_ProjectPanel.cpp:77
 msgid "Synchronize projects with account manager system"
@@ -3746,7 +3746,7 @@ msgstr "Projektek szinkronizálása a fiókkezelő rendszerrel"
 #. TODO: Might want better wording for Project Selection Combo Box tooltip
 #: clientgui/sg_ProjectPanel.cpp:124
 msgid "Select a project to access with the controls below"
-msgstr "Válasszon ki egy projektet, amelyhez a lenti beállítások szerint kíván hozzáférni"
+msgstr "Válassz ki egy projektet, amelyhez a lenti beállítások szerint szeretnél hozzáférni"
 
 #: clientgui/sg_ProjectPanel.cpp:145
 msgid "Project Web Pages"
@@ -3759,31 +3759,31 @@ msgstr "Projekt parancsok"
 #: clientgui/sg_ProjectPanel.cpp:278
 #, c-format
 msgid "Pop up a menu of web sites for project %s"
-msgstr "Jelenjen meg egy menü a(z) %s projekt weboldalairól"
+msgstr "Felugró menü a(z) %s projekt weboldalairól"
 
 #: clientgui/sg_ProjectPanel.cpp:280
 #, c-format
 msgid "Pop up a menu of commands to apply to project %s"
-msgstr "Jelenjen meg egy menü a(z) %s projektre alkalmazható parancsokról"
+msgstr "Felugró menü a(z) %s projektre alkalmazható parancsokról"
 
 #: clientgui/sg_TaskCommandPopup.cpp:73
 msgid "Suspend this task."
-msgstr "Feladat felfüggesztése."
+msgstr "Ezen feladat felfüggesztése."
 
 #: clientgui/sg_TaskCommandPopup.cpp:79
 msgid "Abandon this task. You will get no credit for it."
-msgstr "Feladat eldobása. Nem fogsz kreditet kapni érte."
+msgstr "Ezen feladat eldobása. Nem fogsz kreditet kapni érte."
 
 #: clientgui/sg_TaskCommandPopup.cpp:267
 #, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %.1lf%%, Status: %s)"
-msgstr "Biztosan eldobja ezt a csomagot: '%s'?\n(Elkészült: %.1lf%%, Státusz: %s)"
+msgstr "Biztosan eldobod ezt a csomagot: '%s'?\n(Elkészült: %.1lf%%, Állapot: %s)"
 
 #: clientgui/sg_TaskPanel.cpp:468
 msgid "You don't have any projects.  Please Add a Project."
-msgstr "Nincs egy projektje sem. Kérjük, adjon hozzá egyet."
+msgstr "Nincs egy projekted sem. Kérjük, adj hozzá egyet."
 
 #: clientgui/sg_TaskPanel.cpp:469
 msgid "Not available"
@@ -3796,7 +3796,7 @@ msgstr "Feladatok:"
 #. TODO: Might want better wording for Task Selection Combo Box tooltip
 #: clientgui/sg_TaskPanel.cpp:486
 msgid "Select a task to access"
-msgstr "Válasszon ki egy feladatot, amelyhez hozzá kíván férni"
+msgstr "Válassz ki egy feladatot, amelyhez hozzá szeretnél férni"
 
 #. what project the task is from, e.g. "From: SETI@home"
 #: clientgui/sg_TaskPanel.cpp:498
@@ -3813,7 +3813,7 @@ msgstr "Feladatparancsok"
 
 #: clientgui/sg_TaskPanel.cpp:571
 msgid "Pop up a menu of commands to apply to this task"
-msgstr "Jelenjen meg egy menü az ezen feladatra alkalmazható parancsokról"
+msgstr "Felugró menü az ezen feladatra alkalmazható parancsokról"
 
 #: clientgui/sg_TaskPanel.cpp:706
 #, c-format
@@ -3898,21 +3898,21 @@ msgstr "Nem lehet csatlakozni a magklienshez"
 
 #: clientgui/wizardex.cpp:377 clientgui/wizardex.cpp:553
 msgid "&Next >"
-msgstr "Előre >"
+msgstr "&Előre >"
 
 #: clientgui/wizardex.cpp:383
 msgid "< &Back"
-msgstr "< Vissza"
+msgstr "< &Vissza"
 
 #: clientgui/wizardex.cpp:553
 msgid "&Finish"
-msgstr "Befejez"
+msgstr "&Befejez"
 
 #. /////////////////////////////////////////////////////////////////////////
 #: clientgui/DlgAdvPreferencesBase.h:45
 msgid "On this day of the week, compute only during these hours."
-msgstr "A hétnek ezen a napján ezekben az órákban fusson."
+msgstr "A hétnek ezen a napján csak ezekben az órákban fusson."
 
 #: clientgui/DlgAdvPreferencesBase.h:46
 msgid "On this day of the week, transfer files only during these hours."
-msgstr "A hétnek ezen a napján ezekben az órákban továbbítson fájlokat."
+msgstr "A hétnek ezen a napján csak ezekben az órákban továbbítson fájlokat."
