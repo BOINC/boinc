@@ -703,6 +703,10 @@ int main(int argc, char** argv) {
         pVM->iso_image_filename = ISO_IMAGE_FILENAME;
     }
     if (aid.ncpus > 1.0 || ncpus > 1.0) {
+		if (ncpus > 32.0) {
+            vboxlog_msg("WARNING: Virtualbox only allows up to 32 processors to be allocated to a VM, resetting to 32.  (%f allocated)", ncpus);
+			ncpus = 32.0;
+		}
         if (ncpus) {
             sprintf(buf, "%d", (int)ceil(ncpus));
         } else {
