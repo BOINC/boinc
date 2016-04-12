@@ -154,10 +154,11 @@ int copy_stream(FILE* in, FILE* out) {
 // append to a malloc'd string
 //
 int strcatdup(char*& p, char* buf) {
-    p = (char*)realloc(p, strlen(p) + strlen(buf)+1);
-    if (!p) {
+    char* new_p = (char*)realloc(p, strlen(p) + strlen(buf)+1);
+    if (!new_p) {
         return ERR_MALLOC;
     }
+    p = new_p;
     strcat(p, buf);
     return 0;
 }
@@ -210,12 +211,18 @@ int dup_element(FILE* in, const char* tag_name, char** pp) {
         if (strstr(buf, end_tag)) {
             snprintf(buf, sizeof(buf), "</%s>\n", tag_name);
             retval = strcatdup(p, buf);
-            if (retval) return retval;
+            if (retval) {
+                free(p);
+                return retval;
+            }
             *pp = p;
             return 0;
         }
         retval = strcatdup(p, buf);
-        if (retval) return retval;
+        if (retval) {
+            free(p);
+            return retval;
+        }
     }
     free(p);
     return ERR_XML_PARSE;
