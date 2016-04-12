@@ -274,7 +274,7 @@ bool CNetworkConnection::IsComputerNameLocal(const wxString& strMachine) {
 
 
 int CNetworkConnection::SetComputer(
-    const wxChar* szComputer, const int iPort, const wxChar* szPassword,
+    const wxString& szComputer, const int iPort, const wxString& szPassword,
     const bool bUseDefaultPassword
 ) {
     m_strNewComputerName.Empty();
@@ -642,7 +642,7 @@ int CMainDocument::ResetState() {
 }
 
 
-int CMainDocument::Connect(const wxChar* szComputer, int iPort, const wxChar* szComputerPassword, const bool bDisconnect, const bool bUseDefaultPassword) {
+int CMainDocument::Connect(const wxString& szComputer, int iPort, const wxString& szComputerPassword, const bool bDisconnect, const bool bUseDefaultPassword) {
     if (IsComputerNameLocal(szComputer)) {
         // Restart client if not already running
         m_pClientManager->AutoRestart();
@@ -688,7 +688,7 @@ int CMainDocument::GetConnectingComputerName(wxString& strMachine) {
 }
 
 
-bool CMainDocument::IsComputerNameLocal(const wxString strMachine) {
+bool CMainDocument::IsComputerNameLocal(const wxString& strMachine) {
     return m_pNetworkConnection->IsComputerNameLocal(strMachine);
 }
 
