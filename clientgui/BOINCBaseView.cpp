@@ -913,11 +913,11 @@ void CBOINCBaseView::AppendColumn(int){
 }
 
 
-void CBOINCBaseView::append_to_status(wxString& existing, const wxChar* additional) {
+void CBOINCBaseView::append_to_status(wxString& existing, const wxString& additional) {
     if (existing.size() == 0) {
         existing = additional;
     } else {
-        existing = existing + wxT(", ") + additional;
+        existing += wxT(", ") + additional;
     }
 }
 
