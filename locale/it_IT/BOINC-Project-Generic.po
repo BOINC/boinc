@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2016-03-30 11:15+0000\n"
+"PO-Revision-Date: 2016-04-13 09:16+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -6077,7 +6077,7 @@ msgstr "Gli amministratori dei team sono pregati di unirsi e partecipare sul gru
 
 #: ../user/team_manage.php:91
 msgid "Can't delete non-empty team"
-msgstr "Non posso cancellare i team non vuoti\""
+msgstr "Non posso cancellare i team non vuoti"
 
 #: ../user/team_manage.php:95
 msgid "Team %1 deleted"
