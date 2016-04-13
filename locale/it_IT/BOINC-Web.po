@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-04-13 09:07+0000\n"
+"PO-Revision-Date: 2016-04-13 09:14+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -114,7 +114,7 @@ msgstr "Tutte le versioni"
 
 #: download.php:181
 msgid "Version history"
-msgstr "Storia delle versioni"
+msgstr "Storico delle versioni"
 
 #: download.php:182
 msgid "GPU computing"
@@ -714,7 +714,7 @@ msgid ""
 "radio SETI, uses radio telescopes to listen for narrow-bandwidth radio "
 "signals from space. Such signals are not known to occur naturally, so a "
 "detection would provide evidence of extraterrestrial technology."
-msgstr "SETI (Search for Extraterrestrial Intelligence, ricerca di intelligenza extraterrestre) è un'area scientifica il cui obiettivo è rilevare vita intelligente al di fuori della Terra. Uno degli approcci, noto come SETI radio, utilizza radiotelescopi per ascoltare segnali radio a banda stretta provenienti dallo spazio. È noto che tali segnali non sono di origine naturale, quindi la loro rilevazione fornirebbe prova di tecnologia extraterrestre."
+msgstr "SETI (Search for Extraterrestrial Intelligence, Ricerca di intelligenza extraterrestre) è un'area scientifica il cui obiettivo è rilevare vita intelligente al di fuori della Terra. Uno degli approcci che adotta, noto come SETI radio, utilizza radiotelescopi per ascoltare segnali radio a banda stretta provenienti dallo spazio. È noto che tali segnali non sono di origine naturale, quindi la loro rilevazione costituirebbe una prova dell'esistenza di tecnologia extraterrestre."
 
 #: projects.inc:418
 msgid "Search for evidence of extra-terrestrial life"
