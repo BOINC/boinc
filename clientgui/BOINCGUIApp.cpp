@@ -636,18 +636,18 @@ void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser) {
 #if defined(__WXMSW__) || defined(__WXMAC__)
     parser.AddSwitch("s", "systray", _("Startup BOINC so only the system tray icon is visible"));
 #else
-    parser.AddSwitch("e", "clientdir", _("Directory containing the BOINC Client executable"));
-    parser.AddSwitch("d", "datadir", _("BOINC data directory"));
+    parser.AddOption("e", "clientdir", _("Directory containing the BOINC Client executable"));
+    parser.AddOption("d", "datadir", _("BOINC data directory"));
 #endif
-    parser.AddSwitch("n", "namehost", _("Host name or IP address"));
-    parser.AddSwitch("g", "gui_rpc_port", _("GUI RPC port number"));
-    parser.AddSwitch("p", "password", _("Password"));
-    parser.AddSwitch("b", "boincargs", _("Startup BOINC with these optional arguments"));
+    parser.AddOption("n", "namehost", _("Host name or IP address"));
+    parser.AddOption("g", "gui_rpc_port", _("GUI RPC port number"));
+    parser.AddOption("p", "password", _("Password"));
+    parser.AddOption("b", "boincargs", _("Startup BOINC with these optional arguments"));
     parser.AddSwitch("i","insecure", _("disable BOINC security users and permissions"));
     parser.AddSwitch("c", "checkskins", _("set skin debugging mode to enable skin manager error messages"));
     parser.AddSwitch("m", "multiple", _("multiple instances of BOINC Manager allowed"));
 #if (defined(__WXMAC__) && defined(_DEBUG))
-    parser.AddLongSwitch("NSDocumentRevisionsDebugMode", _("Not used: workaround for bug in XCode 4.2"));
+    parser.AddLongOption("NSDocumentRevisionsDebugMode", _("Not used: workaround for bug in XCode 4.2"));
 #endif
     parser.AddSwitch("nd", "no-daemon", _("Not run the daemon"));
 }
