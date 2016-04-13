@@ -1195,12 +1195,9 @@ int CMainDocument::ForceCacheUpdate(bool immediate) {
         return m_iGet_state_rpc_result;
     }
     
-    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     int     retval = 0;
 
     if (IsConnected()) {
-        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-
         m_dtCachedStateTimestamp = wxDateTime::Now();
         m_iGet_state_rpc_result = rpc.get_state(state);
         if (m_iGet_state_rpc_result) {
