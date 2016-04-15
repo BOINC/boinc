@@ -289,6 +289,14 @@ $a74dev = array(
     "type"=>"apk",
 );
 
+$a74dev = array(
+    "num"=>"7.4.43",
+    "status"=>"Development Version",
+    "file"=>"boinc_7.4.43.apk",
+    "date"=>"15 Apr 2016",
+    "type"=>"apk",
+);
+
 $a74 = array(
     "num"=>"7.4.41",
     "status"=>"Recommended Version",
@@ -397,6 +405,7 @@ $android = array(
     "description"=>"Android version 4.1 and later for ARM, MIPS, or x86<br>We recommend that, rather than downloading BOINC from here,</br>you get it from the Google Play Store or the Amazon app store (for Kindle Fire)",
     "dbname" => "arm-android-linux-gnu",
     "versions"=>array(
+        $a74dev,
         $a74,
     )
 );
