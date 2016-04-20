@@ -190,7 +190,7 @@
   <string name="prefs_cpu_time_max_description">ზღუდავს ცპ-ს დროს, რომელსაც იყენებს BOINC-ი გამოთვლებისთვის</string>
   <string name="prefs_memory_max_idle_header">ოპერატიული მეხსიერების შეზღუდვა</string>
   <string name="prefs_memory_max_idle_description">ზღუდავს ოპერატიული მეხსიერების რაოდენობას, რომლის გამოყენების უფლება აქვს BOINC-ს</string>
-  <string name="prefs_client_log_flags_header">BOINC-ის კლიენტის ლოგის დროშები</string>
+  <string name="prefs_client_log_flags_header">BOINC-ის კლიენტის ჟურნალის დროშები</string>
   <string name="prefs_gui_log_level_header">გმი-ს ლოგის დონე</string>
   <string name="prefs_gui_log_level_description">აყენებს გმი-ს ლოგის შეტყობინებების ინფორმატიულობას</string>
   <string name="prefs_unit_mb">მბ</string>
