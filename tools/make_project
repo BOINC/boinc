@@ -166,6 +166,8 @@ def defopt(name, v, isdir=True):
 
 defopt('project_host'  , NODENAME, isdir=False)
 defopt('url_base'      , 'http://%s/'%options.project_host)
+# strip project_host to get short hostname
+options.project_host=options.project_host.split('.')[0]
 
 if not isurl(options.url_base):
     syntax_error('url_base needs to be an URL')
