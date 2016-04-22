@@ -170,6 +170,14 @@ function boinc_preprocess(&$vars, $hook) {
 ///* -- Delete this line if you want to use this function
 function boinc_preprocess_page(&$vars, $hook) {
   
+  // Expose comments to template files; this is needed so that comments can be
+  // rendered in locations other than directly below the node content
+  $vars['comments'] = $vars['comment_form'] = '';
+  if (module_exists('comment') && isset($vars['node'])) {
+    $vars['comments'] = comment_render($vars['node']);
+    $vars['comment_form'] = drupal_get_form('comment_form', array('nid' => $vars['node']->nid));
+  }
+  
     // Determine locale region code so the correct flag is displayed in footer
     global $language;
     global $theme_path;
@@ -364,6 +372,16 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
   
   // Show signatures based on user preference
   $vars['show_signatures'] = ($user->hide_signatures) ? FALSE : TRUE;
+  
+  // Expose comment sort order so that the template can put the topic node
+  // content (i.e. initial post) at the very end if "Newest post first" is the
+  // preference used by this user
+  $vars['oldest_post_first'] = ($user->sort != 1) ? TRUE : FALSE;
+  $vars['node']->comment = 0;
+  
+  $vars['first_page'] = (!isset($_GET['page']) OR ($_GET['page'] < 1));
+  $page_count = ceil($vars['comment_count'] / $user->comments_per_page);
+  $vars['last_page'] = ($page_count > 1 AND $_GET['page'] == $page_count - 1);
 }
 
 /**
