@@ -191,8 +191,8 @@
   <string name="prefs_memory_max_idle_header">ოპერატიული მეხსიერების შეზღუდვა</string>
   <string name="prefs_memory_max_idle_description">ზღუდავს ოპერატიული მეხსიერების რაოდენობას, რომლის გამოყენების უფლება აქვს BOINC-ს</string>
   <string name="prefs_client_log_flags_header">BOINC-ის კლიენტის ჟურნალის დროშები</string>
-  <string name="prefs_gui_log_level_header">გმი-ს ლოგის დონე</string>
-  <string name="prefs_gui_log_level_description">აყენებს გმი-ს ლოგის შეტყობინებების ინფორმატიულობას</string>
+  <string name="prefs_gui_log_level_header">გმი-ს ჟურნალის დონე</string>
+  <string name="prefs_gui_log_level_description">აყენებს გმი-ს ჟურნალის შეტყობინებების ინფორმატიულობას</string>
   <string name="prefs_unit_mb">მბ</string>
   <string name="prefs_unit_gb">გბ</string>
   <string name="prefs_unit_pct">%</string>
@@ -210,7 +210,7 @@
   <string name="projects_status_dontrequestmorework">არ მიღიებს ახალ დავალებებს</string>
   <string name="projects_status_ended">პროექტი დასრულდა - ოკ წასაშლელად</string>
   <string name="projects_status_detachwhendone">წაიშლება დავალებების დამთავრებისას</string>
-  <string name="projects_status_schedrpcpending">განრიგის მოთხოვა ლოდინშია</string>
+  <string name="projects_status_schedrpcpending">განრიგის მოთხოვნა ლოდინშია</string>
   <string name="projects_status_schedrpcinprogress">მიმდინარეობს განრიგის მოთხოვნა</string>
   <string name="projects_status_trickleuppending">გაწობის შეტყობინება მოლოდინშია</string>
   <string name="projects_status_backoff">კავშირია დაგეგმილია:</string>
@@ -285,11 +285,11 @@
   <!--notices tab strings-->
   <string name="notices_loading">მიმდინარეობს შეტყობინებების წაკითხვა...</string>
   <!--eventlog tab strings-->
-  <string name="eventlog_loading">მიმდინარეობს ლოგის შეტყობინებების ჩატვირთვა...</string>
+  <string name="eventlog_loading">მიმდინარეობს ჟურნალის შეტყობინებების ჩატვირთვა...</string>
   <string name="eventlog_client_header">კლიენტის შეტყობინებები</string>
   <string name="eventlog_gui_header">გმი-ს შეტყობინებები</string>
-  <string name="eventlog_copy_toast">ლოგი დაკოპირებულია კოპირების ბუფერში.</string>
-  <string name="eventlog_email_subject">ივენთების ლოგი BOINC-ისთვის Android-ზე:</string>
+  <string name="eventlog_copy_toast">ჟურნალი დაკოპირებულია კოპირების ბუფერში.</string>
+  <string name="eventlog_email_subject">მოვლენების ჟურნალი BOINC-ისთვის Android-ზე:</string>
   <!--suspend reasons-->
   <string name="suspend_unknown">გამოთვლა შეჩერებულია.</string>
   <string name="suspend_batteries">შეაერთეთ თქვენი მოწყობილობა დამტენზე გამოთვლის გასაგრძელებლად.</string>
@@ -326,7 +326,7 @@
   <string name="menu_refresh">განახლება</string>
   <string name="menu_emailto">ელ.ფოსტის გაზავნა</string>
   <string name="menu_copy">კოპირების ბუფერში დაკოპირება</string>
-  <string name="menu_eventlog">ივენთების ლოგი</string>
+  <string name="menu_eventlog">მოვლენების ჟურნალი</string>
   <string name="menu_exit">BOINC-იდან გასვლა</string>
   <string name="menu_run_mode_disable">შეჩერება</string>
   <string name="menu_run_mode_enable">გაგრძელება</string>
