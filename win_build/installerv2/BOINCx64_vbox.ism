@@ -2460,7 +2460,7 @@
 		<row><td>WEBx64</td><td>ProductCode</td><td/></row>
 		<row><td>WEBx64</td><td>ProductName</td><td/></row>
 		<row><td>WEBx64</td><td>ProductVersion</td><td/></row>
-		<row><td>WEBx64</td><td>SetupFileName</td><td>boinc_7.6.29_windows_x86_64_vbox</td></row>
+		<row><td>WEBx64</td><td>SetupFileName</td><td>boinc_7.6.32_windows_x86_64_vbox</td></row>
 		<row><td>WEBx64</td><td>UpgradeCode</td><td/></row>
 	</table>
 
@@ -2719,7 +2719,7 @@
 		<col def="I2">Order</col>
 		<col def="I2">ISSetupLocation</col>
 		<col def="S255">ISReleaseFlags</col>
-		<row><td>_F44F9A0E_0C67_4380_96B9_3A56A5D0DE6D_</td><td>Oracle VM VirtualBox 5.0.12 (x64).prq</td><td/><td/><td/></row>
+		<row><td>_C0A8A3B9_DB33_4E07_97E2_85F71BB6AD88_</td><td>Oracle VM VirtualBox 5.0.18 (x64).prq</td><td/><td/><td/></row>
 	</table>
 
 	<table name="ISSetupType">
@@ -4552,11 +4552,11 @@ VwBlAGIAAQBXAEUAQgB4ADYANAA=
 		<row><td>PROGMSG_IIS_ROLLBACKAPPPOOLS</td><td>##IDS_PROGMSG_IIS_ROLLBACKAPPPOOLS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
 		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[#boincmgr.exe]</td><td/></row>
-		<row><td>ProductCode</td><td>{4B48886B-B931-4180-AE59-2FD0179F235F}</td><td/></row>
+		<row><td>ProductCode</td><td>{7EB80B3C-340D-4138-B8C6-B0E4B210F771}</td><td/></row>
 		<row><td>ProductID</td><td>none</td><td/></row>
 		<row><td>ProductLanguage</td><td>1033</td><td/></row>
 		<row><td>ProductName</td><td>BOINC</td><td/></row>
-		<row><td>ProductVersion</td><td>7.6.29</td><td/></row>
+		<row><td>ProductVersion</td><td>7.6.32</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>
