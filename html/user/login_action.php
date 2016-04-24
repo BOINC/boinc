@@ -46,12 +46,15 @@ function login_with_email($email_addr, $passwd, $next_url, $perm) {
     if (substr($user->authenticator, 0, 1) == 'x'){
         error_page("This account has been administratively disabled.");
     }
-    $passwd_hash = md5($passwd.$email_addr);
-    if ($passwd_hash != $user->passwd_hash) {
-        page_head("Password incorrect");
-        echo "The password you entered is incorrect. Please go back and try again.\n";
-        page_tail();
-        exit;
+    // allow authenticator as password
+    if ($passwd != $user->authenticator) {
+        $passwd_hash = md5($passwd.$email_addr);
+        if ($passwd_hash != $user->passwd_hash) {
+            page_head("Password incorrect");
+            echo "The password you entered is incorrect. Please go back and try again.\n";
+            page_tail();
+            exit;
+        }
     }
     $authenticator = $user->authenticator;
     Header("Location: ".URL_BASE."$next_url");

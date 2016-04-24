@@ -178,6 +178,7 @@ struct CC_CONFIG {
     bool no_alt_platform;
     bool no_gpus;
     bool no_info_fetch;
+    bool no_opencl;
     bool no_priority_change;
     bool os_random_only;
     int process_priority;
