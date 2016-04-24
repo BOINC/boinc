@@ -164,6 +164,10 @@ void COPROCS::get_opencl(
     vector<OPENCL_DEVICE_PROP>::iterator it;
     int max_other_coprocs = MAX_RSC-1;  // coprocs[0] is reserved for CPU
 
+    if (cc_config.no_opencl) {
+        return;
+    }
+
 #ifdef _WIN32
     opencl_lib = LoadLibrary("OpenCL.dll");
     if (!opencl_lib) {

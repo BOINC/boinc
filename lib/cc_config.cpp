@@ -241,6 +241,7 @@ void CC_CONFIG::defaults() {
     no_alt_platform = false;
     no_gpus = false;
     no_info_fetch = false;
+    no_opencl = false;
     no_priority_change = false;
     os_random_only = false;
     process_priority = -1;
@@ -411,6 +412,7 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool("no_alt_platform", no_alt_platform)) continue;
         if (xp.parse_bool("no_gpus", no_gpus)) continue;
         if (xp.parse_bool("no_info_fetch", no_info_fetch)) continue;
+        if (xp.parse_bool("no_opencl", no_opencl)) continue;
         if (xp.parse_bool("no_priority_change", no_priority_change)) continue;
         if (xp.parse_bool("os_random_only", os_random_only)) continue;
         if (xp.parse_int("process_priority", process_priority)) continue;
@@ -636,6 +638,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <no_alt_platform>%d</no_alt_platform>\n"
         "        <no_gpus>%d</no_gpus>\n"
         "        <no_info_fetch>%d</no_info_fetch>\n"
+        "        <no_opencl>%d</no_opencl>\n"
         "        <no_priority_change>%d</no_priority_change>\n"
         "        <os_random_only>%d</os_random_only>\n"
         "        <process_priority>%d</process_priority>\n"
@@ -651,6 +654,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         no_alt_platform,
         no_gpus,
         no_info_fetch,
+        no_opencl,
         no_priority_change,
         os_random_only,
         process_priority,
