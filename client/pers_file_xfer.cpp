@@ -304,18 +304,24 @@ bool PERS_FILE_XFER::poll() {
 }
 
 void PERS_FILE_XFER::permanent_failure(int retval) {
-    gstate.file_xfers->remove(fxp);
-    delete fxp;
-    fxp = NULL;
-    fip->status = retval;
-    pers_xfer_done = true;
-    if (log_flags.file_xfer) {
-        msg_printf(
-            fip->project, MSG_INFO, "Giving up on %s of %s: %s",
-            is_upload?"upload":"download", fip->name, boincerror(retval)
-        );
+    // Cycle to the next URL to try.
+    // If we reach the URL that we started at or there is only one, then give up.
+    //
+    URL_LIST& ul = fip->get_url_list(is_upload);
+    if (!ul.get_next_url()) {
+        gstate.file_xfers->remove(fxp);
+        delete fxp;
+        fxp = NULL;
+        fip->status = retval;
+        pers_xfer_done = true;
+        if (log_flags.file_xfer) {
+            msg_printf(
+                fip->project, MSG_INFO, "Giving up on %s of %s: %s",
+                is_upload?"upload":"download", fip->name, boincerror(retval)
+            );
+        }
+        fip->error_msg = boincerror(retval);
     }
-    fip->error_msg = boincerror(retval);
 }
 
 // Handle a transient failure

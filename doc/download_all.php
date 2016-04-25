@@ -38,7 +38,7 @@ function version_url($file) {
     global $url_base;
     return $url_base.$file;
 //    if (is_dev($v)) {
-//        return "http://boinc.berkeley.edu/dl/$file";
+//        return "https://boinc.berkeley.edu/dl/$file";
 //    } else {
 //        return $url_base.$file;
 //    }

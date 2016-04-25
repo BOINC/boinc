@@ -105,8 +105,13 @@ static int nvidia_driver_version() {
     void *handle = NULL;
     char driver_string[81];
 
-    handle  = dlopen("libnvidia-ml.so", RTLD_NOW);
-    if (!handle) goto end; 
+    handle  = dlopen("libnvidia-ml.so.1", RTLD_NOW);
+    if (!handle) {
+        handle  = dlopen("libnvidia-ml.so", RTLD_NOW);
+        if (!handle) {
+            goto end;
+        }
+    }
 
     nvml_driver = (int(*)(char *, unsigned int)) dlsym(handle,  "nvmlSystemGetDriverVersion");
     nvml_init = (int(*)(void)) dlsym(handle,  "nvmlInit");

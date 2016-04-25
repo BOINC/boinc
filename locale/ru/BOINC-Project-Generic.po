@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2015-12-14 17:13+0000\n"
+"PO-Revision-Date: 2016-04-07 06:48+0000\n"
 "Last-Translator: Nikolay Sakharov <saharovna@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/boinc/boinc/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -666,7 +666,7 @@ msgstr "IP-адрес"
 
 #: ../inc/host.inc:88
 msgid "(same the last %1 times)"
-msgstr "(такой же в последние %1 раз)"
+msgstr "(такой же последние %1 раз)"
 
 #: ../inc/host.inc:90
 msgid "External IP address"
@@ -3083,7 +3083,7 @@ msgstr "Ваша подпись слишком длинная, пожалуйс�
 #: ../user/edit_forum_preferences_action.php:139
 #: ../user/edit_forum_preferences_action.php:153
 msgid "No such user:"
-msgstr "Нет такого пользователя"
+msgstr "Нет такого пользователя:"
 
 #: ../user/edit_forum_preferences_form.php:45
 msgid ""

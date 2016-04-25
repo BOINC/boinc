@@ -2,12 +2,12 @@
 # Copyright (c) YEAR NAME <EMAIL@ADDRESS>
 # 
 # Translators:
-# Martin Suchan <martin.suchan@outlook.com>, 2015
+# Martin Suchan <martin.suchan@outlook.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
-"POT-Creation-Date: 2015-08-14 09:37+0000\n"
-"PO-Revision-Date: 2015-11-08 13:12+0000\n"
+"POT-Creation-Date: 2015-12-15 12:43+0000\n"
+"PO-Revision-Date: 2016-04-07 06:48+0000\n"
 "Last-Translator: Martin Suchan <martin.suchan@outlook.com>\n"
 "Language-Team: Czech (http://www.transifex.com/boinc/boinc/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -16,177 +16,91 @@ msgstr ""
 "Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-msgid "No account exists for @email -- select \"Create new account\" to register"
-msgstr "Neexistuje žádný účet pro @email -- vyberte \"Vytvořit nový účet\" pro zaregistrování"
-
-msgid "My team"
-msgstr "Můj tým"
-
-msgid "You are a member of @team."
-msgstr "Jste členem @team."
-
-msgid "View my team"
-msgstr "Zobrazit můj tým"
-
-msgid "Invalid setting for \"%preference\""
-msgstr "Neplatné nastavení pro \"%preference\""
+msgid "Please select a team type."
+msgstr "Vyberte prosím typ týmu."
 
 msgid ""
-"You must earn @count more credits to be able to post comments on this site."
-msgstr "Musíte získat o @count více kreditů abyste mohli komentovat na tomto webu."
+"A team foundership change was already requested recently. Only one request "
+"is allowed within a period of 90 days."
+msgstr "Žádost o změnu vlastnictví týmu již byla nedávno odeslána. O změnu vlastnictví je možné požádat maximálně jednou za 90 dní."
 
-msgid "Moderation"
-msgstr "Moderování"
+msgid "@count days remaining"
+msgstr "zbývá @count dnů"
 
-msgid "Unvetted profiles"
-msgstr "Nehodnocené profily"
+msgid "Inbox"
+msgstr "Schránka"
 
-msgid "Reason for banning this user"
-msgstr "Důvody k vykázání tohoto užovatele"
+msgid "Compose new"
+msgstr "Vytvořit novou"
 
-msgid ""
-"This reason will be included in an email to the user. Please write a brief "
-"explanation of why the user is being banned."
-msgstr "Tento důvod bude součástí emailu, který dostane uživatel. Napište prosím krátký důvod, proč by měl být uživatel vykázán."
-
-msgid "Duration of the ban"
-msgstr "Délka trvání vykázání"
-
-msgid "The number of days until the ban expires. Set to 0 to ban permanently."
-msgstr "Počet dnů do vypršení vykázání. Nastavením na 0 bude vykázání trvalé."
-
-msgid "Lift user ban"
-msgstr "Zrušit uživateli vykázání"
-
-msgid "You are banned from community participation until @date"
-msgstr "Jste vykázáni z této komunity až do @date"
-
-msgid "Computers @old_ids have been merged successfully into @id."
-msgstr "Počítače @old_ids byly úspěšně propojeny do @id."
-
-msgid "A team named \"@name\" already exists."
-msgstr "Tým se jménem \"@name\" již existuje"
-
-msgid "Post topic"
-msgstr "Téma příspěvku"
-
-msgid "Please enter your email address"
-msgstr "Zadejte prosím vaší emailovou adresu"
-
-msgid "Password entered is not valid. Please verify that it is correct."
-msgstr "Zadané heslo není platné. Zkontrolujte si prosím, zda je správné."
-
-msgid "Make founder"
-msgstr "Učinit vlastníkem"
-
-msgid "!site: comment posted to \"!topic_name\""
-msgstr "!site: komentář odeslán do \"!topic_name\""
-
-msgid "!author has posted a reply to \"!topic_name\"."
-msgstr "!author napsal odpověď do \"!topic_name\"."
+msgid "respond to the request"
+msgstr "odpovědět na žádost"
 
 msgid ""
-"To view this topic at !site, click here: \n"
-"!comment_url"
-msgstr "Pro zobrazení diskuze na !site, klikněte zde: \n!comment_url"
+"A foundership transfer request has been made for your team. Please !respond."
+msgstr "Obdržel jste žádost o změnu vlastnictví vašeho týmu. Prosím !respond."
 
-msgid "At least one application must be selected"
-msgstr "Je třeba vybrat aspoň jednu aplikaci"
-
-msgid "Forgot password"
-msgstr "Zapomenuté heslo"
+msgid "Respond to transfer request"
+msgstr "Odpovědět na žádost o převod"
 
 msgid ""
-"Enter your email address to receive instructions for resetting your "
-"password."
-msgstr "Zadejte vaší emailovou adresu, na kterou vám budou zaslány informace k resetování vašeho hesla."
-
-msgid "Revise or post comment"
-msgstr "Zkontrolovat nebo odeslat komentář"
-
-msgid "discuss"
-msgstr "diskutovat"
-
-msgid "Your community preferences have been updated."
-msgstr "Vaše komunitní předvolby byly upraveny."
-
-msgid "Unlock this thread for comments"
-msgstr "Povolit komentáře v tomto vlákně"
-
-msgid "Authenticator login"
-msgstr "Přihlášení authenticatorem"
-
-msgid "Create content"
-msgstr "Vytvořit obsah"
-
-msgid "authenticator-based login"
-msgstr "přihlášení pomocí authenticatoru"
+"Team member @name has requested team foundership. This may be because you "
+"left the team or have not had contact with the team for a long time."
+msgstr "Člen týmu @name vyžádal změnu vlastnictví týmu. Důvodem může být to, že jste opustil tým nebo jste již delší dobu tým nekontaktoval."
 
 msgid ""
-"Enter your email address to receive instructions for resetting your password"
-" (or use the !authenticator_login)."
-msgstr "Zadejte vaší emailovou adresu, na kterou vám budou zaslány informace k resetování vašeho hesla (nebo použijte !authenticator_login)."
+"If you don't decline the request by @date, @name will have the option of "
+"assuming team foundership. (note: To accept the request, assign foundership "
+"to @name using the form below)"
+msgstr "Pokud nezamítnete tuto žádost do @date, @name dostane možnost převzít vlastnictví týmu. (poznámka: Pro přijetí žádosti lze předat vlastnictví týmu pomocí formuláře níže)"
+
+msgid "Deny request"
+msgstr "Odmítnout žádost"
+
+msgid "Send request"
+msgstr "Odeslat žádost"
+
+msgid "Friend request from !name [!site]"
+msgstr "Žádost o přítelství od !name [!site]"
+
+msgid "Message"
+msgstr "Zpráva"
 
 msgid ""
-"If you forgot your account's email address, or you can't receive email "
-"there:"
-msgstr "Pokud jste zapomněli emailovou adresu od vašeho účtu, nebo u ní již nelze přijímat emaily:"
+"!name added you as a friend on !site. You can approve or deny this request. Denying a request will not send a notification, but will remove the request from both of your accounts.\n"
+"\n"
+"Follow the link below to view this request:\n"
+"!link\n"
+"\n"
+"!message\n"
+"\n"
+"Thanks,\n"
+"The !site team"
+msgstr "!name si vás přidal jako přítele na webu !site. Tuto žádost o přátelství lze přijmout nebo zamítnout. Zamítnutí žádosti neodešle žádnou zprávu, ale jen odebere tuto žádost z vašeho účtu i žadatele.\n\nŽádost si zobrazíte kliknutím na odkaz níže:\n!link\n\n!message\n\nDíky,\nTým webu !site"
+
+msgid "Cancel friend request"
+msgstr "Zrušit žádost o přátelství"
+
+msgid "Remove request"
+msgstr "Odebrat žádost"
+
+msgid "Approve request"
+msgstr "Schválit žádost"
+
+msgid "!name accepted your friend request [!site]"
+msgstr "!name přijal vaší žádost o přátelství [!site]"
 
 msgid ""
-"If you have run BOINC under the account, you can still access it. Here's "
-"how:"
-msgstr "Pokud jste používali BOINC s tímto účtem, stále k němu můžete získat přístup. Postupujte takto:"
-
-msgid ""
-"Go to the BOINC data directory on your computer (on Windows this is usually "
-"%path1 or %path2."
-msgstr "Jděte do datového adresáře BOINC na vašem počítači (ve Windows je to obvykle %path1 nebo %path2."
-
-msgid ""
-"Find your account file for this project; it will have a name like %file "
-"(where the project URL is %url)."
-msgstr "Najděte soubor k účtu od tohoto projektu; bude pojmenován jako %file (kde adresa projektu je %url)."
-
-msgid ""
-"Open the file in a text editor like Notepad. You'll see something like:"
-msgstr "Otevřete soubor v textovém editoru, např. Poznámkovém bloku. Uvidíte něco jako:"
-
-msgid ""
-"Select and Copy the string between &lt;authenticator&gt; and "
-"&lt;/authenticator&gt; (%auth in the above example)."
-msgstr "Vyberte a zkopírujte do stránky řetězec mezi &lt;authenticator&gt; a &lt;/authenticator&gt; (%auth v uvedeném příkladu)."
-
-msgid "There is no account with that authenticator."
-msgstr "Tomuto authenticatoru neodpovídá žádný účet."
-
-msgid ""
-"Go to the <a href=\"%wikiref\">BOINC data directory</a> on your computer (on"
-" Windows this is usually %path1 or %path2."
-msgstr "Jděte do <a href=\"%wikiref\">datového adresáře BOINC</a> na vašem počítači (ve Windows je to obvykle %path1 nebo %path2."
-
-msgid "BOINC documentation"
-msgstr "BOINC dokumentace"
-
-msgid ""
-"Go to the BOINC data directory on your computer (see !boinc_wiki for help "
-"finding this)."
-msgstr "Jděte do datového adresáře BOINC na vašem počítači (podívejte na !boinc_wiki pro detaily)."
-
-msgid ""
-"@count days have elapsed since your request and the founder has not "
-"responded."
-msgstr "Uplynulo @count dní od vaší žádosti a vlastník nijak neodpověděl."
-
-msgid ""
-"You now have @count days to assume foundership before another team member "
-"may submit a request."
-msgstr "Nyní máte @count dní na převzetí vlastnictví před tím, než o to bude moci požádat jiný člen týmu."
-
-msgid "Unhide this comment"
-msgstr "Odkrýt tento komentář"
-
-msgid "@email is not a well formed email address, please verify"
-msgstr "@email není správně naformátovaná emailová adresa, zkontrolujte si jí prosím"
+"!name confirmed you as a friend on !site.\n"
+"\n"
+"Follow this link to view his or her profile:\n"
+"!link\n"
+"\n"
+"!message\n"
+"\n"
+"Thanks,\n"
+"The !site team"
+msgstr "!name potvrdil vaší žádost o přátelství na webu !site.\n\nPro zobrazení profilu tohoto uživatele použijte odkaz níže:\n!link\n\n!message\n\nDíky,\nTým webu !site"
 
 msgid "Email address"
 msgstr "Emailová adresa"
@@ -1690,14 +1604,91 @@ msgstr "Odeslat"
 msgid "project"
 msgstr "projekt"
 
+msgid "No account exists for @email -- select \"Create new account\" to register"
+msgstr "Neexistuje žádný účet pro @email -- vyberte \"Vytvořit nový účet\" pro zaregistrování"
+
 msgid "Unknown"
 msgstr "Neznámé"
+
+msgid "My team"
+msgstr "Můj tým"
+
+msgid "You are a member of @team."
+msgstr "Jste členem @team."
+
+msgid "View my team"
+msgstr "Zobrazit můj tým"
+
+msgid "Invalid setting for \"%preference\""
+msgstr "Neplatné nastavení pro \"%preference\""
 
 msgid "Pending"
 msgstr "Nevyřízené"
 
+msgid ""
+"You must earn @count more credits to be able to post comments on this site."
+msgstr "Musíte získat o @count více kreditů abyste mohli komentovat na tomto webu."
+
+msgid "Moderation"
+msgstr "Moderování"
+
+msgid "Unvetted profiles"
+msgstr "Nehodnocené profily"
+
+msgid "Reason for banning this user"
+msgstr "Důvody k vykázání tohoto užovatele"
+
+msgid ""
+"This reason will be included in an email to the user. Please write a brief "
+"explanation of why the user is being banned."
+msgstr "Tento důvod bude součástí emailu, který dostane uživatel. Napište prosím krátký důvod, proč by měl být uživatel vykázán."
+
+msgid "Duration of the ban"
+msgstr "Délka trvání vykázání"
+
+msgid "The number of days until the ban expires. Set to 0 to ban permanently."
+msgstr "Počet dnů do vypršení vykázání. Nastavením na 0 bude vykázání trvalé."
+
+msgid "Lift user ban"
+msgstr "Zrušit uživateli vykázání"
+
+msgid "You are banned from community participation until @date"
+msgstr "Jste vykázáni z této komunity až do @date"
+
+msgid "Computers @old_ids have been merged successfully into @id."
+msgstr "Počítače @old_ids byly úspěšně propojeny do @id."
+
+msgid "A team named \"@name\" already exists."
+msgstr "Tým se jménem \"@name\" již existuje"
+
+msgid "Post topic"
+msgstr "Téma příspěvku"
+
+msgid "Please enter your email address"
+msgstr "Zadejte prosím vaší emailovou adresu"
+
+msgid "Password entered is not valid. Please verify that it is correct."
+msgstr "Zadané heslo není platné. Zkontrolujte si prosím, zda je správné."
+
+msgid "Make founder"
+msgstr "Učinit vlastníkem"
+
 msgid "User of the day"
 msgstr "Uživatel dne"
+
+msgid "!site: comment posted to \"!topic_name\""
+msgstr "!site: komentář odeslán do \"!topic_name\""
+
+msgid "!author has posted a reply to \"!topic_name\"."
+msgstr "!author napsal odpověď do \"!topic_name\"."
+
+msgid ""
+"To view this topic at !site, click here: \n"
+"!comment_url"
+msgstr "Pro zobrazení diskuze na !site, klikněte zde: \n!comment_url"
+
+msgid "At least one application must be selected"
+msgstr "Je třeba vybrat aspoň jednu aplikaci"
 
 msgid "Account"
 msgstr "Účet"
@@ -1705,14 +1696,77 @@ msgstr "Účet"
 msgid "Log in"
 msgstr "Přihlásit se"
 
+msgid "Forgot password"
+msgstr "Zapomenuté heslo"
+
+msgid ""
+"Enter your email address to receive instructions for resetting your "
+"password."
+msgstr "Zadejte vaší emailovou adresu, na kterou vám budou zaslány informace k resetování vašeho hesla."
+
 msgid "Send"
 msgstr "Poslat"
+
+msgid "Revise or post comment"
+msgstr "Zkontrolovat nebo odeslat komentář"
+
+msgid "discuss"
+msgstr "diskutovat"
 
 msgid "News"
 msgstr "Novinky"
 
+msgid "Your community preferences have been updated."
+msgstr "Vaše komunitní předvolby byly upraveny."
+
 msgid "Unlock"
 msgstr "Odemknout"
+
+msgid "Unlock this thread for comments"
+msgstr "Povolit komentáře v tomto vlákně"
+
+msgid "Authenticator login"
+msgstr "Přihlášení authenticatorem"
+
+msgid "Create content"
+msgstr "Vytvořit obsah"
+
+msgid "authenticator-based login"
+msgstr "přihlášení pomocí authenticatoru"
+
+msgid ""
+"Enter your email address to receive instructions for resetting your password"
+" (or use the !authenticator_login)."
+msgstr "Zadejte vaší emailovou adresu, na kterou vám budou zaslány informace k resetování vašeho hesla (nebo použijte !authenticator_login)."
+
+msgid ""
+"If you forgot your account's email address, or you can't receive email "
+"there:"
+msgstr "Pokud jste zapomněli emailovou adresu od vašeho účtu, nebo u ní již nelze přijímat emaily:"
+
+msgid ""
+"If you have run BOINC under the account, you can still access it. Here's "
+"how:"
+msgstr "Pokud jste používali BOINC s tímto účtem, stále k němu můžete získat přístup. Postupujte takto:"
+
+msgid ""
+"Go to the BOINC data directory on your computer (on Windows this is usually "
+"%path1 or %path2."
+msgstr "Jděte do datového adresáře BOINC na vašem počítači (ve Windows je to obvykle %path1 nebo %path2."
+
+msgid ""
+"Find your account file for this project; it will have a name like %file "
+"(where the project URL is %url)."
+msgstr "Najděte soubor k účtu od tohoto projektu; bude pojmenován jako %file (kde adresa projektu je %url)."
+
+msgid ""
+"Open the file in a text editor like Notepad. You'll see something like:"
+msgstr "Otevřete soubor v textovém editoru, např. Poznámkovém bloku. Uvidíte něco jako:"
+
+msgid ""
+"Select and Copy the string between &lt;authenticator&gt; and "
+"&lt;/authenticator&gt; (%auth in the above example)."
+msgstr "Vyberte a zkopírujte do stránky řetězec mezi &lt;authenticator&gt; a &lt;/authenticator&gt; (%auth v uvedeném příkladu)."
 
 msgid "Paste the string into the field below, and click OK."
 msgstr "Zkopírujte řetězec do pole níže a klikněte na OK."
@@ -1725,8 +1779,40 @@ msgstr "Nyní budete přihlášen do vašeho účtu, aktualizujte si email a hes
 msgid "Log in with authenticator"
 msgstr "Příhlásit se pomocí autentikátoru"
 
+msgid "There is no account with that authenticator."
+msgstr "Tomuto authenticatoru neodpovídá žádný účet."
+
+msgid ""
+"Go to the <a href=\"%wikiref\">BOINC data directory</a> on your computer (on"
+" Windows this is usually %path1 or %path2."
+msgstr "Jděte do <a href=\"%wikiref\">datového adresáře BOINC</a> na vašem počítači (ve Windows je to obvykle %path1 nebo %path2."
+
+msgid "BOINC documentation"
+msgstr "BOINC dokumentace"
+
+msgid ""
+"Go to the BOINC data directory on your computer (see !boinc_wiki for help "
+"finding this)."
+msgstr "Jděte do datového adresáře BOINC na vašem počítači (podívejte na !boinc_wiki pro detaily)."
+
+msgid ""
+"@count days have elapsed since your request and the founder has not "
+"responded."
+msgstr "Uplynulo @count dní od vaší žádosti a vlastník nijak neodpověděl."
+
+msgid ""
+"You now have @count days to assume foundership before another team member "
+"may submit a request."
+msgstr "Nyní máte @count dní na převzetí vlastnictví před tím, než o to bude moci požádat jiný člen týmu."
+
 msgid "Assume foundership"
 msgstr "Převzít vlastnictví"
 
 msgid "Unhide"
 msgstr "Odkrýt"
+
+msgid "Unhide this comment"
+msgstr "Odkrýt tento komentář"
+
+msgid "@email is not a well formed email address, please verify"
+msgstr "@email není správně naformátovaná emailová adresa, zkontrolujte si jí prosím"

@@ -703,6 +703,10 @@ int main(int argc, char** argv) {
         pVM->iso_image_filename = ISO_IMAGE_FILENAME;
     }
     if (aid.ncpus > 1.0 || ncpus > 1.0) {
+		if (ncpus > 32.0) {
+            vboxlog_msg("WARNING: Virtualbox only allows up to 32 processors to be allocated to a VM, resetting to 32.  (%f allocated)", ncpus);
+			ncpus = 32.0;
+		}
         if (ncpus) {
             sprintf(buf, "%d", (int)ceil(ncpus));
         } else {
@@ -884,7 +888,7 @@ int main(int argc, char** argv) {
                 "    Please enable this feature in your computer's BIOS.\n"
                 "    Intel calls it 'VT-x'\n"
                 "    AMD calls it 'AMD-V'\n"
-                "    More information can be found here: http://en.wikipedia.org/wiki/X86_virtualization\n"
+                "    More information can be found here: https://en.wikipedia.org/wiki/X86_virtualization\n"
                 "    Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n";
             retval = ERR_EXEC;
         } else if (pVM->is_logged_failure_vm_extensions_not_supported()) {

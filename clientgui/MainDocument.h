@@ -75,8 +75,7 @@ public:
     bool           IsComputerNameLocal(const wxString& strMachine);
     int            GetLocalPassword(wxString& strPassword);
     int SetComputer(
-        const wxChar* szComputer, const int iPort, const wxChar* szPassword,
-        const bool bUseDefaultPassword
+        const wxString& szComputer, const int iPort, const wxString& szPassword, const bool bUseDefaultPassword
     );
     void           SetStateError();
     void           SetStateErrorAuthentication();
@@ -134,9 +133,9 @@ public:
     int                         ResetState();
 
     int                         Connect(
-                                    const wxChar* szComputer,
+                                    const wxString& szComputer,
                                     const int iPort,
-                                    const wxChar* szComputerPassword = wxEmptyString,
+                                    const wxString& szComputerPassword = wxEmptyString,
                                     const bool bDisconnect = FALSE,
                                     const bool bUseDefaultPassword = FALSE
                                 );
@@ -152,7 +151,7 @@ public:
     int                         GetConnectedComputerName(wxString& strMachine);
     int                         GetConnectedComputerVersion(wxString& strVersion);
     int                         GetConnectingComputerName(wxString& strMachine);
-    bool                        IsComputerNameLocal(const wxString strMachine);
+    bool                        IsComputerNameLocal(const wxString& strMachine);
     bool                        IsConnected();
     bool                        IsReconnecting();
 

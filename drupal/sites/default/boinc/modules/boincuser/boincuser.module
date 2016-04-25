@@ -777,7 +777,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#value' => '
         <div class="form-item">
           <label>' . bts('Weak account key') . '</label>
-          <span>' . $account->boincuser_weak_auth . '</span>
+          <span>' . "{$account->boincuser_id}_{$account->boincuser_weak_auth}" . '</span>
         </div>',
     );
     $form['account']['cpid'] = array(

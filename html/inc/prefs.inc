@@ -306,7 +306,11 @@ function element_start_global($parser, $name, $attrs) {
 
     switch($name) {
     case "venue":
-        $venue_name = $attrs["name"];
+        if (array_key_exists("name", $attrs)) {
+            $venue_name = $attrs["name"];
+        } else {
+            $venue_name = "home";
+        }
         $top_parse_result = $parse_result;
         $parse_result = default_prefs_global();
         break;

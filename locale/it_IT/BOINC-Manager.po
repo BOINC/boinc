@@ -4,14 +4,14 @@
 # 
 # Translators:
 # Alessandro Dalla Rosa <exit96dalla@gmail.com>, 2015
-# Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015
-# Sebastiano Pistore <olatusrooc@virgilio.it>, 2015
+# Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015-2016
+# Sebastiano Pistore <olatusrooc@virgilio.it>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-01-19 11:07+0000\n"
+"PO-Revision-Date: 2016-04-15 08:53+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -1225,7 +1225,7 @@ msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
 "energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, "
 "and repeat."
-msgstr "Sospendi/riprendi l'elaborazione ogni qualche secondo per ridurre la temperatura della CPU e l'utilizzo di elettricità. Esempio: 75% significa elabora per 3 secondi, aspetta per 1 secondo, e poi ripeti."
+msgstr "Sospendi/riprendi l'elaborazione ogni x secondi per ridurre la temperatura della CPU e l'utilizzo di elettricità. Esempio: 75% significa elabora per 3 secondi, aspetta per 1 secondo, e poi ripeti."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:260 clientgui/sg_DlgPreferences.cpp:291
 #, no-c-format
@@ -2010,7 +2010,7 @@ msgstr "Ultima risposta dello scheduler"
 
 #: clientgui/DlgItemProperties.cpp:360
 msgid "Properties of task "
-msgstr "Proprietà dell'unità di lavoro "
+msgstr "Proprietà della workunit"
 
 #: clientgui/DlgItemProperties.cpp:372 clientgui/ViewWork.cpp:266
 msgid "Application"
@@ -2030,7 +2030,7 @@ msgstr "Ricevuta"
 
 #: clientgui/DlgItemProperties.cpp:380
 msgid "Report deadline"
-msgstr "Scadenza"
+msgstr "Avvisa della scadenza imminente"
 
 #: clientgui/DlgItemProperties.cpp:382
 msgid "Resources"
@@ -2533,7 +2533,7 @@ msgstr "motivo sconosciuto"
 
 #: clientgui/MainDocument.cpp:2478
 msgid "GPU missing, "
-msgstr "Manca la GPU,"
+msgstr "Manca la GPU, "
 
 #: clientgui/MainDocument.cpp:2485
 msgid "New"
@@ -3166,15 +3166,15 @@ msgstr "Riprendi il lavoro per questo progetto."
 
 #: clientgui/ViewProjects.cpp:823 clientgui/sg_ProjectCommandPopup.cpp:133
 msgid "Allow new tasks"
-msgstr "Abilita richiesta lavoro"
+msgstr "Abilita richiesta workunit"
 
 #: clientgui/ViewProjects.cpp:823 clientgui/sg_ProjectCommandPopup.cpp:134
 msgid "Allow fetching new tasks for this project."
-msgstr "Permetti a questo progetto di richiedere nuovo lavoro."
+msgstr "Permetti a questo progetto di richiedere nuove workunit."
 
 #: clientgui/ViewProjects.cpp:827 clientgui/sg_ProjectCommandPopup.cpp:137
 msgid "Don't fetch new tasks for this project."
-msgstr "Non richiedere nuovo lavoro per questo progetto."
+msgstr "Non richiedere nuove workunit per questo progetto."
 
 #: clientgui/ViewProjects.cpp:1131
 msgid "Requested by user"
@@ -3545,7 +3545,7 @@ msgstr "Annulla"
 
 #: clientgui/ViewWork.cpp:240
 msgid "Abandon work on the result. You will get no credit for it."
-msgstr "Abbandona l'elaborazione selezionata. In questo modo non otterai crediti."
+msgstr "Abbandona l'elaborazione selezionata. Non otterrai crediti."
 
 #: clientgui/ViewWork.cpp:247 clientgui/sg_TaskCommandPopup.cpp:85
 msgid "Show task details."
@@ -3716,7 +3716,7 @@ msgstr "GB di spazio su disco"
 #: clientgui/sg_DlgPreferences.cpp:1105
 #, c-format
 msgid "%s - Computing Preferences"
-msgstr "%s - Preferenze di Elaborazione"
+msgstr "%s - Preferenze di elaborazione"
 
 #: clientgui/sg_DlgPreferences.cpp:1186
 msgid "Discard all local preferences and use web-based preferences?"
@@ -3771,7 +3771,7 @@ msgstr "Sospendi questo lavoro."
 
 #: clientgui/sg_TaskCommandPopup.cpp:79
 msgid "Abandon this task. You will get no credit for it."
-msgstr "Abbandona questo lavoro. Non otterrai crediti per esso."
+msgstr "Abbandona questa elaborazione. Non otterrai crediti."
 
 #: clientgui/sg_TaskCommandPopup.cpp:267
 #, c-format
@@ -3853,27 +3853,27 @@ msgstr "Ricezione dello stato corrente in corso."
 
 #: clientgui/sg_TaskPanel.cpp:1212
 msgid "Downloading work from the server."
-msgstr "Scaricamento del lavoro dal server in corso."
+msgstr "Scaricamento delle workunit dal server in corso."
 
 #: clientgui/sg_TaskPanel.cpp:1217
 msgid "Processing Suspended:  Running On Batteries."
-msgstr "Elaborazione sospesa:  alimentazione a batterie."
+msgstr "Elaborazione sospesa: alimentazione a batterie."
 
 #: clientgui/sg_TaskPanel.cpp:1219
 msgid "Processing Suspended:  User Active."
-msgstr "Elaborazione sospesa:  l'utente è attivo."
+msgstr "Elaborazione sospesa: l'utente è attivo."
 
 #: clientgui/sg_TaskPanel.cpp:1221
 msgid "Processing Suspended:  User paused processing."
-msgstr "Elaborazione sospesa:  l'utente ha sospeso l'elaborazione."
+msgstr "Elaborazione sospesa: l'utente ha sospeso l'elaborazione."
 
 #: clientgui/sg_TaskPanel.cpp:1223
 msgid "Processing Suspended:  Time of Day."
-msgstr "Elaborazione sospesa:  superati i limiti di orario."
+msgstr "Elaborazione sospesa: superati i limiti di orario."
 
 #: clientgui/sg_TaskPanel.cpp:1225
 msgid "Processing Suspended:  Benchmarks Running."
-msgstr "Elaborazione sospesa:  esecuzione dei benchmark."
+msgstr "Elaborazione sospesa: esecuzione dei benchmark."
 
 #: clientgui/sg_TaskPanel.cpp:1227
 msgid "Processing Suspended."
@@ -3889,7 +3889,7 @@ msgstr "Ricezione dello stato corrente in corso"
 
 #: clientgui/sg_TaskPanel.cpp:1239
 msgid "No work available to process"
-msgstr "Nessun lavoro disponibile da elaborare"
+msgstr "Nessuna WU disponibile da elaborare"
 
 #: clientgui/sg_TaskPanel.cpp:1241
 msgid "Unable to connect to the core client"

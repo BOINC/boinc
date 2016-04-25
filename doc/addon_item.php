@@ -12,7 +12,7 @@ function show_item($y) {
     if (strstr($file, 'http://')) {
         $url = $file;
     } else {
-        $url = "http://boinc.berkeley.edu/addons/$file";
+        $url = "https://boinc.berkeley.edu/addons/$file";
     }
 
     page_head($y[1]);

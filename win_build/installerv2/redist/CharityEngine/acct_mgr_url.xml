@@ -1,8 +1,8 @@
 <acct_mgr>
     <name>Charity Engine</name>
-    <url>http://www.charityengine.com/</url>
+    <url>https://www.charityengine.com/</url>
     <cookie_required/>
-    <cookie_failure_url>http://www.charityengine.com/forgot</cookie_failure_url>
+    <cookie_failure_url>https://www.charityengine.com/forgot</cookie_failure_url>
 <signing_key>
 1024
 9c3af22a230f1eb122b8eab256e5e46b49f6d357e65d00e414cf6af105aef217

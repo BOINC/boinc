@@ -821,15 +821,10 @@ MESSAGE::MESSAGE() {
 }
 
 int MESSAGE::parse(XML_PARSER& xp) {
-    char buf[1024];
     while (!xp.get_tag()) {
         if (xp.match_tag("/msg")) return 0;
         if (xp.parse_string("project", project)) continue;
-        if (xp.match_tag("body")) {
-            xp.element_contents("</body>", buf, sizeof(buf));
-            body = buf;
-            continue;
-        }
+        if (xp.parse_string("body", body)) continue;
         if (xp.parse_int("pri", priority)) continue;
         if (xp.parse_int("time", timestamp)) continue;
         if (xp.parse_int("seqno", seqno)) continue;

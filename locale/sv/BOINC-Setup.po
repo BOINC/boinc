@@ -3,37 +3,39 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Sebastiano Pistore <olatusrooc@virgilio.it>, 2015
+# ersi <erik-transifex@simmesgard.se>, 2015
+# Frans Ingelstam <02frasse11@gmail.com>, 2016
+# Henrik Mattsson-Mårn <h@reglage.net>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2016-03-30 11:03+0000\n"
-"Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
-"Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
+"PO-Revision-Date: 2016-04-17 19:07+0000\n"
+"Last-Translator: Frans Ingelstam <02frasse11@gmail.com>\n"
+"Language-Team: Swedish (http://www.transifex.com/boinc/boinc/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: it_IT\n"
+"Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: Installer.cpp:124
 #, c-format
 msgid "Sorry, this version of %s requires system 10.5 or higher."
-msgstr "Scusa, questa versione di %s richiede un sistema 10.5 o superiore."
+msgstr "Ledsen, denna version av %s kräver system 10.5 eller högre."
 
 #: PostInstall.cpp:130 PostInstall.cpp:1136 uninstall.cpp:1618
 msgid "Yes"
-msgstr "Sì"
+msgstr "Ja"
 
 #: PostInstall.cpp:131 PostInstall.cpp:1137 uninstall.cpp:1619
 msgid "No"
-msgstr "No"
+msgstr "Nej"
 
 #: PostInstall.cpp:133
 msgid "Should BOINC run even when no user is logged in?"
-msgstr "BOINC deve lavorare quando non ci sono utenti connessi?"
+msgstr "Skall BOINC köra även när ingen avnändare är inloggad?"
 
 #: PostInstall.cpp:1416
 #, c-format
@@ -41,12 +43,12 @@ msgid ""
 "Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
 "\n"
 "Do you also want non-administrative users to be able to run and control %s on this Mac?"
-msgstr "Gli utenti ai quali è permessa l'amministrazione di questo computer avranno automaticamente i permessi per avviare e controllare %s.\n\nVuoi anche dare agli utenti non amministrativi i permessi per avviare e controllare %s in questo Mac?"
+msgstr "Användare som har administratörsrättigheter på denna dator kommer automatiskt tillåtas köra och kontrollera %s.\n\nVill du att också ej administratörs-berättigade användare ska kunna köra och kontrollera %s på denna Mac?"
 
 #: PostInstall.cpp:1444
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
-msgstr "Vuoi impostare %s come screensaver per tutti gli utenti %s di questo Mac?"
+msgstr "Vill du ställa in %s som skärmsläckare för alla %s användare på denna Mac?"
 
 #: uninstall.cpp:82
 msgid "OK"
@@ -54,13 +56,13 @@ msgstr "OK"
 
 #: uninstall.cpp:136
 msgid "Permission error after relaunch"
-msgstr "Errore di permessi dopo il riavvio"
+msgstr "Tillåtelse-error efter omstart"
 
 #: uninstall.cpp:141
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
-msgstr "La rimozione può richiedere alcuni minuti.\nSi prega di attendere."
+msgstr "Borttagningen kan ta ett antal minuter.\nVänligen ha tålamod."
 
 #: uninstall.cpp:156
 #, c-format
@@ -68,27 +70,27 @@ msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
 "\n"
 "This will remove the executables but will not touch %s data files."
-msgstr "Sei sicuro di voler rimuovere completamente %s dal tuo computer?\n\nQuesto rimuoverà anche gli eseguibili ma non toccherà i file di dati di %s."
+msgstr "Är du säker på att du vill komplett ta bort %s från din dator?\n\nDetta raderar det körbara men kommer inte röra %s -datafiler."
 
 #: uninstall.cpp:163
 #, c-format
 msgid "Canceled: %s has not been touched."
-msgstr "Annullato: %s non è stato toccato."
+msgstr "Avbruten: %s har inte rörts."
 
 #: uninstall.cpp:174
 #, c-format
 msgid "An error occurred: error code %d"
-msgstr "Errore non previsto: codice errore %d"
+msgstr "Ett fel uppstod: errorkod %d"
 
 #: uninstall.cpp:230
 msgid "name  of user"
-msgstr "nome utente"
+msgstr "namn på användare"
 
 #: uninstall.cpp:272
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
-msgstr "Vuoi anche rimuovere VirtualBox dal tuo computer?\n(VirtualBox è stato installato con BOINC.)"
+msgstr "Vill du också ta bort VirtualBox från din dator?\n(VirtualBox installerades tillsammans med BOINC.)"
 
 #: uninstall.cpp:312
 #, c-format
@@ -100,19 +102,19 @@ msgid ""
 "\n"
 "for each user, the file\n"
 "\"%s\"."
-msgstr "Rimozione completata.\n\n Potresti voler rimuovere i seguenti elementi rimanenti utilizzando Finder: \nla directory \"%s\"\n\nper ogni utente, il file\n\"%s\"."
+msgstr "Borttagning komplett.\n\nDu kan vilja ta bort följande resterande föremål med Finder:\nplatsen var \"%s\"\n\nför varje användare_ filen\n\"%s\"."
 
 #: uninstall.cpp:840
 #, c-format
 msgid ""
 "Enter your administrator password to completely remove %s from you computer.\n"
 "\n"
-msgstr "Inserisci la tua password di amministratore per rimuovere completamente %s dal tuo computer.\n\n"
+msgstr "Ange ditt administratörs-lösenord för att helt ta bort %s från din dator.\n\n"
 
 #: uninstall.cpp:1616
 msgid "Cancel"
-msgstr "Annulla"
+msgstr "Avbryt"
 
 #: uninstall.cpp:1617
 msgid "Continue..."
-msgstr "Continua..."
+msgstr "Fortsätt..."

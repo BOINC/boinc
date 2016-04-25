@@ -175,7 +175,9 @@ function get_profile_summary($profile) {
     $description = "";
 
     if (strlen($profile->response1) != 0) {
-        $temp = output_transform($profile->response1);
+        $options = new output_options();
+        $options->htmlitems = false;
+        $temp = output_transform($profile->response1, $options);
         $temp = sanitize_tags($temp);
         $description = "(\"" . sub_sentence($temp, ' ', MAX_DESC_LENGTH, true) . "\")";
 
@@ -246,6 +248,7 @@ function show_profile($user, $logged_in_user, $screen_mode = false) {
     //
     BoincForumPrefs::lookup($logged_in_user);
     $options = get_output_options($logged_in_user);
+    $options->htmlitems = false;
 
     if (!empty($profile->response1)) {
         row1(show_profile_heading1());

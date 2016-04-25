@@ -99,7 +99,7 @@ function main() {
     echo "------------ Starting at ".time_str(time())."-------\n";
     $f = fopen("temp.xml", "w");
     $teams = BoincTeam::enum(null);
-    fwrite($f, "<teams>\n");
+    fwrite($f, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<teams>\n");
     foreach($teams as $team) {
         handle_team($team, $f);
     }

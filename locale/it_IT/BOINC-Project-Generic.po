@@ -9,13 +9,13 @@
 # Daniele Nasuti <daniele.nasuti@gmail.com>, 2015
 # Daniele Nasuti <daniele.nasuti@gmail.com>, 2015
 # Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015
-# Sebastiano Pistore <olatusrooc@virgilio.it>, 2015
+# Sebastiano Pistore <olatusrooc@virgilio.it>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2016-01-19 10:43+0000\n"
+"PO-Revision-Date: 2016-04-14 08:05+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -256,11 +256,11 @@ msgstr "Chiudi tutti i tag"
 #. names for the above
 #: ../inc/forum.inc:38
 msgid "Oldest first"
-msgstr "Prima il più vecchio"
+msgstr "Prima i più vecchi"
 
 #: ../inc/forum.inc:39 ../inc/forum.inc:45
 msgid "Newest first"
-msgstr "Prima il più recente"
+msgstr "Prima i più recenti"
 
 #: ../inc/forum.inc:40
 msgid "Highest rated posts first"
@@ -939,7 +939,7 @@ msgstr "L'Host %1 ha un SO incompatibile:"
 
 #: ../inc/host.inc:533
 msgid "Host %1 has an incompatible CPU:"
-msgstr "L'Host %1 ha una CPU incompatibile:"
+msgstr "L'host %1 ha una CPU incompatibile:"
 
 #: ../inc/host.inc:600
 msgid "same host"
@@ -1091,7 +1091,7 @@ msgstr "Usa al massimo"
 msgid ""
 "Keep some CPUs free for other applications. Example: 75% means use 6 cores "
 "on an 8-core CPU."
-msgstr "Mantieni una parte di CPU libera per le altre applicazioni. Esempio 75% significa usa 6 core in una CPU da 8 core."
+msgstr "Mantieni una parte di CPU disponibile per le altre applicazioni. Esempio 75% significa usa 6 core in una CPU ad 8 core."
 
 #: ../inc/prefs.inc:52
 #, no-php-format
@@ -1104,7 +1104,7 @@ msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
 "energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, "
 "and repeat."
-msgstr "Sospendi/riprendi l'elaborazione ogni qualche secondo per ridurre la temperatura CPU e l'utilizzo di energia. Esempio: 75% significa elabora per 3 secondi, aspetta per 1 secondo, e ripeti."
+msgstr "Sospendi/riprendi l'elaborazione ogni x secondi per ridurre la temperatura della CPU e l'utilizzo di energia. Esempio: 75% significa elaborazione per 3 secondi, pausa per 1 secondo, e poi ripeti."
 
 #: ../inc/prefs.inc:60
 #, no-php-format
@@ -1126,7 +1126,7 @@ msgstr "Spunta questa voce per sospendere l'elaborazione su portatili quando si 
 
 #: ../inc/prefs.inc:70
 msgid "Suspend when computer is in use"
-msgstr "Sospendere quando il computer è in uso"
+msgstr "Sospendere quando il computer è 'in uso'"
 
 #: ../inc/prefs.inc:71
 msgid ""
@@ -1136,7 +1136,7 @@ msgstr "Spunta questa voce se vuoi sospendere l'elaborazione e il trasferimento 
 
 #: ../inc/prefs.inc:76
 msgid "Suspend GPU computing when computer is in use"
-msgstr "Sospendi l'elaborazione GPU quando il computer è in uso"
+msgstr "Sospendi l'elaborazione GPU quando il computer è 'in uso'"
 
 #: ../inc/prefs.inc:77
 msgid "Check this to suspend GPU computing when you're using the computer."
@@ -1144,7 +1144,7 @@ msgstr "Spunta questa voce per sospendere l'elaborazione GPU quando stai usando 
 
 #: ../inc/prefs.inc:82
 msgid "'In use' means mouse/keyboard input in last"
-msgstr "'In uso' significa attività di mouse/tastiera in corso"
+msgstr "\"In uso\" significa che il mouse o la tastiera sono stati usati negli ultimi"
 
 #: ../inc/prefs.inc:83
 msgid "This determines when the computer is considered 'in use'."
@@ -1160,7 +1160,7 @@ msgstr "Sospendi quando non c'è attività mouse/tastiera in corso"
 
 #: ../inc/prefs.inc:90
 msgid "This allows some computers to enter low-power mode when not in use."
-msgstr "Questo permette ad alcuni computers di entrare in modalità low-power quando non in uso."
+msgstr "Permette ad alcuni computer di entrare in modalità risparmio energetico quando non sono 'in uso'."
 
 #: ../inc/prefs.inc:95
 msgid "Suspend when non-BOINC CPU usage is above"
@@ -1268,7 +1268,7 @@ msgstr "% di spazio totale su disco"
 
 #: ../inc/prefs.inc:158
 msgid "When computer is in use, use at most"
-msgstr "Quando il computer è in uso, utilizza al massimo"
+msgstr "Quando il computer è 'in uso', utilizza al massimo"
 
 #: ../inc/prefs.inc:159
 msgid "Limit the memory used by BOINC when you're using the computer."
@@ -1281,7 +1281,7 @@ msgstr "%"
 
 #: ../inc/prefs.inc:165
 msgid "When computer is not in use, use at most"
-msgstr "Quando il computer non è in uso, utilizza al massimo"
+msgstr "Quando il computer non è 'in uso', utilizza al massimo"
 
 #: ../inc/prefs.inc:166
 msgid "Limit the memory used by BOINC when you're not using the computer."
@@ -1488,11 +1488,11 @@ msgstr "Determina la proporzione delle risorse allocate del tuo computer a quest
 
 #: ../inc/prefs_project.inc:61
 msgid "Accelerate GPU tasks by dedicating a CPU to each one?"
-msgstr "Accelerare le attività GPU dedicando a ciascuna di esse una CPU?"
+msgstr "Accelerare le applicazioni GPU dedicando a ciascuna una CPU?"
 
 #: ../inc/prefs_project.inc:70
 msgid "Use CPU"
-msgstr "Utilizzo CPU"
+msgstr "Usa la CPU"
 
 #: ../inc/prefs_project.inc:79
 msgid "Use ATI GPU"
@@ -1824,7 +1824,7 @@ msgstr "Troppi risultati totali"
 
 #: ../inc/result.inc:318
 msgid "WU cancelled"
-msgstr "Lavoro cancellato"
+msgstr "Workunit cancellata"
 
 #: ../inc/result.inc:322
 msgid "Canonical result is missing"
@@ -1836,7 +1836,7 @@ msgstr "Errore non riconosciuto: %1"
 
 #: ../inc/result.inc:353
 msgid "Task name"
-msgstr "Nome del lavoro"
+msgstr "Nome della workunit"
 
 #: ../inc/result.inc:353 ../inc/result.inc:358 ../inc/result.inc:361
 #: ../inc/result.inc:364
@@ -1857,7 +1857,7 @@ msgstr "Attività"
 
 #: ../inc/result.inc:364
 msgid "Work unit"
-msgstr "Unità di lavoro"
+msgstr "Work unit"
 
 #: ../inc/result.inc:373
 msgid "Computer"
@@ -1885,7 +1885,7 @@ msgstr "Tempo di elaborazione<br />(sec)"
 
 #: ../inc/result.inc:382
 msgid "CPU time<br />(sec)"
-msgstr "Tempo CPU<br />(sec)"
+msgstr "Tempo CPU<br/>(sec)"
 
 #: ../inc/result.inc:383 ../inc/result.inc:646
 msgid "Credit"
@@ -4768,7 +4768,7 @@ msgid ""
 "When you run %1 on your computer, it will use part of the computer's CPU "
 "power, disk space, and network bandwidth. You can control how much of your "
 "resources are used by %1, and when it uses them."
-msgstr "Quando lo farai girare sul tuo computer, %1 utilizzerà una parte della CPU, del disco fisso e della connessione ad internet. Puoi sempre tenere sotto controllo l'entità delle risorse utilizzate da %1 e quando le usa."
+msgstr "Quando lo farai girare sul tuo computer, %1 utilizzerà una parte della CPU, del disco fisso e della connessione internet. Puoi sempre tenere sotto controllo le risorse utilizzate da %1 e quando vengono usate."
 
 #: ../user/info.php:40
 msgid ""
@@ -6077,7 +6077,7 @@ msgstr "Gli amministratori dei team sono pregati di unirsi e partecipare sul gru
 
 #: ../user/team_manage.php:91
 msgid "Can't delete non-empty team"
-msgstr "Non posso cancellare i team non vuoti\""
+msgstr "Non posso cancellare i team non vuoti"
 
 #: ../user/team_manage.php:95
 msgid "Team %1 deleted"
@@ -6400,7 +6400,7 @@ msgstr "impossibile trovare il lavoro"
 
 #: ../user/workunit.php:35
 msgid "Workunit %1"
-msgstr "Lavoro %1"
+msgstr "Workunit %1"
 
 #: ../user/workunit.php:40
 msgid "application"
@@ -6488,7 +6488,7 @@ msgstr "Schema di colori per la grafica"
 #: ../project.sample/project_specific_prefs.inc:55
 #, no-php-format
 msgid "Maximum CPU % for graphics%10 ... 100%2"
-msgstr "Massima CPU % per grafica%10 ... 100%2"
+msgstr "Massima CPU % per la grafica%10 ... 100%2"
 
 #: ../project.sample/project_specific_prefs.inc:56
 msgid "Run only the selected applications"

@@ -144,7 +144,7 @@ class XMLConfig:
         self._set_elements()
         if not output:
             output = open(self.filename,'w')
-        self.xml.writexml(output, "", "  ", "\n")
+        self.xml.writexml(output, "", " "*4, "\n")
         print >>output
         return self
     def _set_elements(self):

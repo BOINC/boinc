@@ -381,7 +381,6 @@ void CViewTransfers::OnTransfersRetryNow( wxCommandEvent& WXUNUSED(event) ) {
         return;
     }
 
-    pFrame->UpdateStatusText(_("Retrying transfer now..."));
     row = -1;
     while (1) {
         // Step through all selected items
@@ -390,7 +389,6 @@ void CViewTransfers::OnTransfersRetryNow( wxCommandEvent& WXUNUSED(event) ) {
         
         pDoc->TransferRetryNow(m_iSortedIndexes[row]);
     }
-    pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
     pFrame->ResetReminderTimers();
@@ -419,8 +417,6 @@ void CViewTransfers::OnTransfersAbort( wxCommandEvent& WXUNUSED(event) ) {
     if (!pDoc->IsUserAuthorized())
         return;
 
-    pFrame->UpdateStatusText(_("Aborting transfer..."));
-
     row = -1;
     while (1) {
         // Step through all selected items
@@ -448,8 +444,6 @@ void CViewTransfers::OnTransfersAbort( wxCommandEvent& WXUNUSED(event) ) {
         }
     }
     
-    pFrame->UpdateStatusText(wxT(""));
-
     UpdateSelection();
     pFrame->FireRefreshView();
 

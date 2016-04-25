@@ -244,7 +244,7 @@
   <string name="tasks_header_name">Nome workunit:</string>
   <string name="tasks_header_elapsed_time">Tempo trascorso:</string>
   <string name="tasks_header_project_paused">(sospeso)</string>
-  <string name="tasks_header_deadline">Deadline:</string>
+  <string name="tasks_header_deadline">Tempo limite:</string>
   <string name="tasks_result_new">nuovo</string>
   <string name="tasks_result_files_downloading">in attesa del download</string>
   <string name="tasks_result_files_downloaded">download completato</string>
@@ -260,7 +260,7 @@
   <string name="tasks_active_quit_pending">in sospensione</string>
   <string name="tasks_custom_suspended_via_gui">sospeso</string>
   <string name="tasks_custom_project_suspended_via_gui">progetto sospeso</string>
-  <string name="tasks_custom_ready_to_report">pronto per il report</string>
+  <string name="tasks_custom_ready_to_report">pronto per l\'invio</string>
   <!--confirmation dialog-->
   <string name="confirm_abort_task_title">Annullare elaborazione?</string>
   <string name="confirm_abort_task_message">Annulla elaborazione:</string>
@@ -316,7 +316,7 @@
   <!--rpc reasons-->
   <string name="rpcreason_userreq">Richiesta dall\'utente</string>
   <string name="rpcreason_needwork">Richiesta lavoro</string>
-  <string name="rpcreason_resultsdue">Invio elaborazioni terminate</string>
+  <string name="rpcreason_resultsdue">Per inviare le elaborazioni completate</string>
   <string name="rpcreason_trickleup">Invio messaggi di trickle-up</string>
   <string name="rpcreason_acctmgrreq">Richiesto dal gestore account</string>
   <string name="rpcreason_init">Inizializzazione progetto</string>
