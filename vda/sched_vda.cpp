@@ -28,6 +28,7 @@
 #include <string>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <sys/resource.h>
 
 #include "filesys.h"
 
@@ -134,8 +135,8 @@ static int get_chunk_md5(char* chunk_dir, char* md5_buf) {
 //      delete from upload dir
 //
 static int process_completed_upload(char* phys_filename, CHUNK_LIST& chunks) {
-    char path[1024], buf[256];
-    char chunk_name[1024], file_name[1024];
+    char path[MAXPATHLEN], buf[256];
+    char chunk_name[1024], file_name[MAXPATHLEN];
     int retval, hostid;
 
     retval = parse_physical_filename(
