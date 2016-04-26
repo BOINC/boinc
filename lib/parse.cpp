@@ -152,6 +152,8 @@ int copy_stream(FILE* in, FILE* out) {
 }
 
 // append to a malloc'd string
+// If reallocation fails, the pointer p remains unchanged, and the data will
+// not be freed. (strong exception safety)
 //
 int strcatdup(char*& p, char* buf) {
     char* new_p = (char*)realloc(p, strlen(p) + strlen(buf)+1);
