@@ -22,6 +22,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/resource.h>
 #include <vector>
 #include <unistd.h>
 
@@ -474,7 +475,7 @@ int CHUNK::upload_all() {
 // leaving only the bottom-level chunks
 //
 int VDA_FILE_AUX::init() {
-    char buf[1024], buf2[1024];
+    char buf[MAXPATHLEN], buf2[MAXPATHLEN];
     sprintf(buf, "%s/%s", dir, DATA_FILENAME);
     sprintf(buf2, "%s/%s", dir, file_name);
     int retval = symlink(buf2, buf);
