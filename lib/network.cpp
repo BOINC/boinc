@@ -169,7 +169,7 @@ int resolve_hostname(const char* hostname, sockaddr_storage &ip_addr) {
     int retval = getaddrinfo(hostname, NULL, &hints, &res);
     if (retval) {
         char buf[256];
-        snprintf(buf, sizeof(buf), "%s: getaddrinfo", time_to_string(dtime()));
+        snprintf(buf, sizeof(buf), "%s: getaddrinfo: %s: %s", time_to_string(dtime()), hostname, gai_strerror(retval));
         perror(buf);
         return ERR_GETADDRINFO;
     }
