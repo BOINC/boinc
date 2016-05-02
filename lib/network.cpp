@@ -168,9 +168,13 @@ int resolve_hostname(const char* hostname, sockaddr_storage &ip_addr) {
     hints.ai_protocol = IPPROTO_TCP;
     int retval = getaddrinfo(hostname, NULL, &hints, &res);
     if (retval) {
-        char buf[256];
-        snprintf(buf, sizeof(buf), "%s: getaddrinfo", time_to_string(dtime()));
-        perror(buf);
+        char buf[512];
+        snprintf(buf, sizeof(buf), "%s: getaddrinfo(%s) returned %s", time_to_string(dtime()), hostname, gai_strerror(retval));
+        if (retval == EAI_SYSTEM) {
+            perror(buf);
+        } else {
+            fprintf(stderr, "%s", buf);
+        }
         return ERR_GETADDRINFO;
     }
     struct addrinfo* aip = res;
@@ -223,7 +227,7 @@ int boinc_socket(int& fd, int protocol) {
     fd = (int)socket(protocol, SOCK_STREAM, 0);
     if (fd < 0) {
         char buf[256];
-        snprintf(buf, sizeof(buf), "%s: socket", time_to_string(dtime()));
+        snprintf(buf, sizeof(buf), "%s: socket failed", time_to_string(dtime()));
         perror(buf);
         return ERR_SOCKET;
     }
