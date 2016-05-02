@@ -499,9 +499,10 @@ function result_error_mask_str($x){
 	case 202: return "EXIT_ABORTED_BY_PROJECT";
 	case 203: return "EXIT_ABORTED_VIA_GUI";
 	case 204: return "EXIT_UNKNOWN";
-	case 205: return "EXIT_INIT_FAILURE";
-	case 206: return "EXIT_NO_JOBS";
-	case 207: return "EXIT_JOB_FAILURE";
+	case 205: return "EXIT_OUT_OF_MEMORY";
+	case 206: return "EXIT_INIT_FAILURE";	
+	case 207: return "EXIT_NO_JOBS";
+	case 208: return "EXIT_JOB_FAILURE";
 	case -100: return "ERR_SELECT";
 	case -102: return "ERR_READ";
     case -103: return "ERR_WRITE";
