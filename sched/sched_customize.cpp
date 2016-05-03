@@ -158,7 +158,7 @@ bool wu_is_infeasible_custom(
     // example: if CUDA app and WU name contains ".vlar", don't send
     // to NVIDIA CUDA, INTEL or older ATI cards
     //
-    if (bav.host_usage.uses_gpu() && strstr(wu.name, ".vlar")) {
+    if (bav.host_usage.uses_gpu() && strstr(wu.name, ".vlar") && !strstr(wu.name,"guppi")) {
         if (send_vlar_to_gpu) {
             if (bav.host_usage.proc_type == PROC_TYPE_AMD_GPU) {
                 // ATI GPUs older than HD7870
@@ -176,7 +176,7 @@ bool wu_is_infeasible_custom(
                 if (cp.count) {
                     int v = (cp.prop.major)*100 + cp.prop.minor;
                     // send vlar to opencl and non-vlar to cuda
-                    if (bav.avp && strstr(bav.avp->plan_class,"cuda")) {
+                    if (bav.avp && strstr(bav.avp->plan_class,"cuda") && (v<300)) {
                         log_messages.printf(MSG_NORMAL,
                              "[version] VLAR Infeasible on CUDA GPU\n"
                         );
@@ -186,7 +186,7 @@ bool wu_is_infeasible_custom(
 
             } else {   
               // all other GPUS
-              infeasible=true;
+              infeasible=false;
             }
         } else {
             infeasible=true;
@@ -208,7 +208,7 @@ bool wu_is_infeasible_custom(
     }
     if (infeasible && config.debug_version_select) {
         log_messages.printf(MSG_NORMAL,
-            "[version] [setiathome] VLAR workunit is infeasible on this GPU\n"
+            "[version] [setiathome] workunit is infeasible on this GPU\n"
         );
     }
     return infeasible;
