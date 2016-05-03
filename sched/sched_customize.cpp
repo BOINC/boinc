@@ -191,7 +191,9 @@ bool wu_is_infeasible_custom(
         } else {
             infeasible=true;
         }
-    } else if (bav.host_usage.uses_gpu() && !strstr(wu.name, ".vlar")) {
+    } 
+#if 0
+    else if (bav.host_usage.uses_gpu() && !strstr(wu.name, ".vlar")) {
       // not vlar
         if (bav.host_usage.proc_type == PROC_TYPE_NVIDIA_GPU)  {
             COPROC_NVIDIA &cp = g_request->coprocs.nvidia;
@@ -206,6 +208,7 @@ bool wu_is_infeasible_custom(
             }
         }
     }
+#endif
     if (infeasible && config.debug_version_select) {
         log_messages.printf(MSG_NORMAL,
             "[version] [setiathome] workunit is infeasible on this GPU\n"
