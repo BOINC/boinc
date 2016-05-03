@@ -3,7 +3,7 @@
   <!--app global-->
   <string name="app_name">BOINC</string>
   <!--generic. used by multiple Activities/tabs-->
-  <string name="generic_loading">Загружается! Пожалуйста подождите…</string>
+  <string name="generic_loading">Загрузка! Пожалуйста подождите…</string>
   <string name="generic_button_continue">Продолжить</string>
   <string name="generic_button_finish">Готово</string>
   <!--attach project-->
@@ -349,7 +349,7 @@
   <!--multi BOINC compitability-->
   <string name="nonexcl_dialog_header">Обнаружено приложение добровольных вычислений</string>
   <string name="nonexcl_dialog_text">Ещё одно приложение добровольных вычислений работает на этом устройстве. Одновременно может работать только одна версия.</string>
-  <string name="nonexcl_dialog_exit">Выйти</string>
+  <string name="nonexcl_dialog_exit">Выход</string>
   <!--social integration-->
   <string name="social_invite_button">Пригласить друзей</string>
   <string name="social_invite_intent_title">Как Вы хотите поделиться?</string>

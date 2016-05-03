@@ -64,6 +64,16 @@
 #include "sched_customize.h"
 #include "time_stats_log.h"
 
+// are the 2 hosts obviously different computers?
+//
+static bool obviously_different(HOST& h1, HOST& h2) {
+    if (h1.p_ncpus != h2.p_ncpus) return true;
+    if (strcmp(h1.p_vendor, h2.p_vendor)) return true;
+    if (strcmp(h1.p_model, h2.p_model)) return true;
+    if (strcmp(h1.os_name, h2.os_name)) return true;
+    if (strcmp(h1.os_version, h2.os_version)) return true;
+    return false;
+}
 
 // find the user's most recently-created host with given various characteristics
 //
@@ -397,12 +407,19 @@ lookup_user_and_make_new_host:
                     "[HOST#%lu] [USER#%lu] No host ID in request, but host with matching CPID found.\n",
                     host.id, host.userid
                 );
-                if ((g_request->allow_multiple_clients != 1)
-                    && (g_request->other_results.size() == 0)
-                ) {
-                    mark_results_over(host);
+                if (obviously_different(host, g_request->host)) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[HOST#%lu] [USER#%lu] But that host doesn't match request.\n",
+                        host.id, host.userid
+                    );
+                } else {
+                    if ((g_request->allow_multiple_clients != 1)
+                        && (g_request->other_results.size() == 0)
+                    ) {
+                        mark_results_over(host);
+                    }
+                    goto got_host;
                 }
-                goto got_host;
             }
         }
 
@@ -514,7 +531,7 @@ inline static const char* get_remote_addr() {
 //
 static int modify_host_struct(HOST& host) {
     host.timezone = g_request->host.timezone;
-    strncpy(host.domain_name, g_request->host.domain_name, sizeof(host.domain_name));
+    strlcpy(host.domain_name, g_request->host.domain_name, sizeof(host.domain_name));
     char buf[1024], buf2[1024];
     sprintf(buf, "[BOINC|%d.%d.%d",
         g_request->core_client_major_version,
@@ -534,7 +551,7 @@ static int modify_host_struct(HOST& host) {
         strlcat(host.serialnum, buf2, sizeof(host.serialnum));
     }
     if (strcmp(host.last_ip_addr, g_request->host.last_ip_addr)) {
-        strncpy(
+        strlcpy(
             host.last_ip_addr, g_request->host.last_ip_addr,
             sizeof(host.last_ip_addr)
         );
@@ -551,14 +568,14 @@ static int modify_host_struct(HOST& host) {
     host.previous_uptime = g_request->host.previous_uptime;
     host.duration_correction_factor = g_request->host.duration_correction_factor;
     host.p_ncpus = g_request->host.p_ncpus;
-    strncpy(host.p_vendor, g_request->host.p_vendor, sizeof(host.p_vendor));
+    strlcpy(host.p_vendor, g_request->host.p_vendor, sizeof(host.p_vendor));
         // unlikely this will change
-    strncpy(host.p_model, g_request->host.p_model, sizeof(host.p_model));
+    strlcpy(host.p_model, g_request->host.p_model, sizeof(host.p_model));
     host.p_fpops = g_request->host.p_fpops;
     host.p_iops = g_request->host.p_iops;
     host.p_membw = g_request->host.p_membw;
-    strncpy(host.os_name, g_request->host.os_name, sizeof(host.os_name));
-    strncpy(host.os_version, g_request->host.os_version, sizeof(host.os_version));
+    strlcpy(host.os_name, g_request->host.os_name, sizeof(host.os_name));
+    strlcpy(host.os_version, g_request->host.os_version, sizeof(host.os_version));
     host.m_nbytes = g_request->host.m_nbytes;
     host.m_cache = g_request->host.m_cache;
     host.m_swap = g_request->host.m_swap;
@@ -571,7 +588,7 @@ static int modify_host_struct(HOST& host) {
     if (strlen(g_request->host.host_cpid)) {
         safe_strcpy(host.host_cpid, g_request->host.host_cpid);
     }
-    strncpy(host.product_name, g_request->host.product_name, sizeof(host.product_name));
+    strlcpy(host.product_name, g_request->host.product_name, sizeof(host.product_name));
     host.fix_nans();
 
     return 0;

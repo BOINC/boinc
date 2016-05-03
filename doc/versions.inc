@@ -38,10 +38,20 @@ function type_text($type) {
 function linux_info() {
     return "Tested on the current Ubuntu distribution; may work on others.
     <br>If available, we recommend that you install a
-    <a href=http://boinc.berkeley.edu/wiki/Installing_BOINC#Linux>
+    <a href=https://boinc.berkeley.edu/wiki/Installing_BOINC#Linux>
     distribution-specific package</a>
     instead.  ";
 }
+
+$w76dev = array(
+    "num"=>"7.6.29",
+    "status"=>"Development version",
+    "file"=>"boinc_7.6.29_windows_intelx86.exe",
+    "vbox_file"=>"boinc_7.6.29_windows_intelx86_vbox.exe",
+    "vbox_version"=>"5.0.12",
+    "date"=>"2 Mar 2016",
+    "type"=>"win_new",
+);
 
 $w76 = array(
     "num"=>"7.6.22",
@@ -79,6 +89,16 @@ $w5816 = array(
     "type"=>"win_new",
 );
 
+$w76x64dev = array(
+    "num"=>"7.6.29",
+    "status"=>"Development version",
+    "file"=>"boinc_7.6.29_windows_x86_64.exe",
+    "vbox_file"=>"boinc_7.6.29_windows_x86_64_vbox.exe",
+    "vbox_version"=>"5.0.12",
+    "date"=>"2 Mar 2016",
+    "type"=>"win_new",
+);
+
 $w76x64 = array(
     "num"=>"7.6.22",
     "status"=>"Recommended version",
@@ -107,6 +127,14 @@ $w72x64 = array(
     "vbox_version"=>"4.2.16",
     "date"=>"28 Feb 2014",
     "type"=>"win_new",
+);
+
+$m76dev = array(
+    "num"=>"7.6.31",
+    "status"=>"Development version (standard GUI)",
+	"file"=>"boinc_7.6.31_macOSX_x86_64.zip",
+    "date"=>"3 Mar 2016",
+	"type"=>"mac_advanced",
 );
 
 $m76 = array(
@@ -147,6 +175,14 @@ $m66 = array(
     "file"=>"boinc_6.6.36_macOSX_universal.zip",
     "date"=>"10 June 2009",
     "type"=>"mac_advanced",
+);
+
+$m76cdev = array(
+    "num"=>"7.6.31",
+    "status"=>"Development version (Unix command-line version)",
+	"file"=>"boinc_7.6.31_x86_64-apple-darwin.zip",
+    "date"=>"3 Mar 2016",
+	"type"=>"bare_core",
 );
 
 $m76c = array(
@@ -253,6 +289,14 @@ $a74dev = array(
     "type"=>"apk",
 );
 
+$a74dev = array(
+    "num"=>"7.4.43",
+    "status"=>"Development Version",
+    "file"=>"boinc_7.4.43.apk",
+    "date"=>"15 Apr 2016",
+    "type"=>"apk",
+);
+
 $a74 = array(
     "num"=>"7.4.41",
     "status"=>"Recommended Version",
@@ -270,6 +314,7 @@ $windows = array(
     "description"=>"XP/Vista/7/8/8.1/10",
     "dbname" => "windows_intelx86",
     "versions"=>array(
+          $w76dev,
           $w76,
           $w74,
           $w66,
@@ -282,6 +327,7 @@ $windowsx64 = array(
     "description"=>"XP/Vista/7/8/8.1/10",
     "dbname" => "windows_x86_64",
     "versions"=>array(
+          $w76x64dev,
           $w76x64,
           $w74x64,
     )
@@ -292,7 +338,9 @@ $mac = array(
     "description"=>"Version 10.6.0+",
     "dbname" => "x86_64-apple-darwin",
     "versions"=>array(
+          $m76dev,
           $m76,
+          $m76cdev,
           $m76c,
           $m74,
           $m74c,
@@ -357,6 +405,7 @@ $android = array(
     "description"=>"Android version 4.1 and later for ARM, MIPS, or x86<br>We recommend that, rather than downloading BOINC from here,</br>you get it from the Google Play Store or the Amazon app store (for Kindle Fire)",
     "dbname" => "arm-android-linux-gnu",
     "versions"=>array(
+        $a74dev,
         $a74,
     )
 );
@@ -392,7 +441,7 @@ function latest_version($p) {
 // note: rand() is inclusive
 //switch(rand(0,3)) {
 switch(0) {
-    case 0: $url_base = "http://boinc.berkeley.edu/dl/"; break;
+    case 0: $url_base = "https://boinc.berkeley.edu/dl/"; break;
     //case 0: $url_base = "http://boincdl3.ssl.berkeley.edu/mirror/"; break;
     //case 1: $url_base = "http://einstein.ligo.caltech.edu/download/boinc/dl/"; break;
     //case 2: $url_base = "http://einstein.aei.mpg.de/download/boinc/dl/"; break;

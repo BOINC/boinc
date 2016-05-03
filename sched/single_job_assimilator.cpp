@@ -25,6 +25,7 @@
 #include <string>
 #include <unistd.h>
 #include <vector>
+#include <sys/resource.h>
 
 #include "boinc_db.h"
 #include "error_numbers.h"
@@ -55,7 +56,7 @@ int assimilate_handler(
     WORKUNIT& wu, vector<RESULT>& /*results*/, RESULT& canonical_result
 ) {
     int retval;
-    char buf[1024], filename[256], job_dir[256], job_dir_file[256];
+    char buf[1024], filename[MAXPATHLEN], job_dir[MAXPATHLEN], job_dir_file[MAXPATHLEN];
     unsigned int i;
 
     // delete the template files
@@ -71,11 +72,11 @@ int assimilate_handler(
     );
     FILE* f = fopen(job_dir_file, "r");
     if (!f) {
-        log_messages.printf(MSG_CRITICAL, "Can't open job file %s\n", buf);
+        log_messages.printf(MSG_CRITICAL, "Can't open job file %s\n", job_dir_file);
         return 0;
     }
     if (!fgets(buf, 1024, f)) {
-        log_messages.printf(MSG_CRITICAL, "Can't read job file %s\n", buf);
+        log_messages.printf(MSG_CRITICAL, "Can't read job file %s\n", job_dir_file);
         fclose(f);
         return 0;
     }

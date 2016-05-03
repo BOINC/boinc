@@ -8,12 +8,6 @@ AC_DEFUN([BOINC_OPTIONS_WXWIDGETS],[
      [enable_unicode="$enableval"],
      [])
 
-   AC_ARG_ENABLE(wx-debug,
-     AS_HELP_STRING([--disable-wx-debug],
-                   [disable wxWidgets debug support]),
-     [enable_wx_debug="$enableval"],
-     [enable_wx_debug=yes])
-
    AM_OPTIONS_WXCONFIG
      AM_PATH_WXCONFIG($1, [_ac_cv_have_wxwidgets=yes], [_ac_cv_have_wxwidgets=no])
    AC_CACHE_CHECK([if wxWidgets works],[ac_cv_have_wxwidgets],

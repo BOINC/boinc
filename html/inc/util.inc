@@ -642,6 +642,18 @@ function post_str($name, $optional=false) {
     return undo_magic_quotes($x);
 }
 
+function post_arr($name, $optional=false) {
+    if (isset($_POST[$name]) && is_array($_POST[$name])) {
+        $x = $_POST[$name];
+    } else {
+        if (!$optional) {
+            error_page("missing or bad parameter: $name");
+        }
+        $x = null;
+    }
+    return $x;
+}
+
 function is_ascii($str) {
     // the mb_* functions are not included by default
     // return (mb_detect_encoding($passwd) -= 'ASCII');
@@ -985,29 +997,6 @@ function version_string_maj_min_rel($v) {
     $min = (int)($v/100);
     $v -= $min*100;
     return sprintf("%d.%d.%d", $maj, $min, $v);
-}
-
-// recaptcha utilities
-
-function recaptcha_get_head_extra() {
-    // are we using recaptcha?
-    $publickey = parse_config(get_config(), "<recaptcha_public_key>");
-    if ($publickey) {
-        // the meta tag must be included
-        // for Recaptcha to work with some IE browsers
-        return '<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" >
-        <script src="https://www.google.com/recaptcha/api.js" async defer></script>';
-    } else {
-        return null;
-    }
-}
-
-function boinc_recaptcha_get_html($publickey) {
-    if ($publickey) {
-        return '<div class="g-recaptcha" data-sitekey="' . $publickey . '"></div>';
-    } else {
-        return '';
-    }
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

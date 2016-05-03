@@ -22,6 +22,9 @@ require_once("../inc/common_defs.inc");
 
 // used by app_version_string(), see below
 //
+global $apps;
+global $app_versions;
+global $platforms;
 $apps = array();
 $app_versions = array();
 $platforms = array();
@@ -684,7 +687,14 @@ function show_result($result, $show_outfile_links=false) {
         row2(tra("Output files"), $x);
     }
     end_table();
-    echo "<h3>".tra("Stderr output")."</h3> <pre>".htmlspecialchars($result->stderr_out)."</pre>";
+    echo "<h3>".tra("Stderr output")."</h3> <pre>"
+        .htmlspecialchars(
+            $result->stderr_out,
+            ENT_QUOTES | (defined('ENT_SUBSTITUTE')?ENT_SUBSTITUTE:0),
+            'utf-8'
+        )
+        ."</pre>"
+    ;
 }
 
 function result_navigation($info, $where_clause) {

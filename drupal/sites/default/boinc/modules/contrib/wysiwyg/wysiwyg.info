@@ -4,8 +4,7 @@ package = User interface
 core = 6.x
 
 ; Information added by drupal.org packaging script on 2011-06-19
-version = "6.x-2.4-dev-boinc-1"
+version = "6.x-2.4-boinc-1-dev"
 core = "6.x"
 project = "wysiwyg"
-datestamp = "1436308868"
-
+datestamp = "1453962141"

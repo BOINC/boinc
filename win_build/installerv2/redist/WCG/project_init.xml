@@ -1,4 +1,5 @@
 <project_init>
     <url>http://www.worldcommunitygrid.org/</url>
     <name>World Community Grid</name>
+    <embedded/>
 </project_init>

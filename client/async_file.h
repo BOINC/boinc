@@ -29,6 +29,7 @@
 #include <zlib.h>
 #endif
 
+#include "str_replace.h"
 #include "filesys.h"
 #include "md5.h"
 
@@ -73,9 +74,9 @@ struct ASYNC_VERIFY {
       in = NULL;
       out = NULL;
       gzin = NULL;
-      strcpy(inpath, "");
-      strcpy(temp_path, "");
-      strcpy(outpath, "");
+      safe_strcpy(inpath, "");
+      safe_strcpy(temp_path, "");
+      safe_strcpy(outpath, "");
     };
     ~ASYNC_VERIFY(){};
 

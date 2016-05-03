@@ -5,7 +5,7 @@
 
 import boinc_path_config
 from Boinc.setup_project import *
-from Boinc import database, db_mid, configxml, tools
+from Boinc import database, db_mid, configxml, tools, projectxml
 import sys, os, getopt, re, socket
 
 def getfqdn():
@@ -166,6 +166,8 @@ def defopt(name, v, isdir=True):
 
 defopt('project_host'  , NODENAME, isdir=False)
 defopt('url_base'      , 'http://%s/'%options.project_host)
+# strip project_host to get short hostname
+options.project_host=options.project_host.split('.')[0]
 
 if not isurl(options.url_base):
     syntax_error('url_base needs to be an URL')
@@ -320,6 +322,14 @@ if options.test_app:
     shutil.copy('example_app_in', proot+'/templates/')
     shutil.copy('example_app_out', proot+'/templates/')
     shutil.copy('../tools/create_work_example', proot+'/bin/')
+
+    #add app to project.xml
+    pf = projectxml.ProjectFile(os.path.join(proot,'project.xml')).read()
+    a = pf.elements.make_node_and_append('app')
+    a.name = 'example_app'
+    a.user_friendly_name = 'Example Application'
+    pf.write()
+
 
 httpd_conf_template_filename = os.path.join(
     options.project_root,

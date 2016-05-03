@@ -30,7 +30,7 @@ into your non-English language.
 If you are interested in doing this:
 <ul>
 <li> Learn how BOINC's
-<a href=http://boinc.berkeley.edu/translation.php>web site translation mechanism</a> works.
+<a href=https://boinc.berkeley.edu/translation.php>web site translation mechanism</a> works.
 <li>
 Contact project staff to obtain project-specific translation files,
 and to get instructions for submitting translations into your language.
@@ -38,7 +38,7 @@ and to get instructions for submitting translations into your language.
 
 <p>
 You can also help
-<a href=http://boinc.berkeley.edu/translation.php>translate the BOINC client software</a>.
+<a href=https://boinc.berkeley.edu/translation.php>translate the BOINC client software</a>.
 <p>
 
 There is an email list

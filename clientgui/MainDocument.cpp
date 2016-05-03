@@ -23,6 +23,7 @@
 #include <wx/numformatter.h>
 
 #include "error_numbers.h"
+#include "str_replace.h"
 #include "util.h"
 #ifdef _WIN32
 #include "proc_control.h"
@@ -119,7 +120,7 @@ CNetworkConnection::~CNetworkConnection() {
 
 int CNetworkConnection::GetLocalPassword(wxString& strPassword){
     char buf[256];
-    strcpy(buf, "");
+    safe_strcpy(buf, "");
 
     FILE* f = fopen("gui_rpc_auth.cfg", "r");
     if (!f) return errno;
@@ -273,7 +274,7 @@ bool CNetworkConnection::IsComputerNameLocal(const wxString& strMachine) {
 
 
 int CNetworkConnection::SetComputer(
-    const wxChar* szComputer, const int iPort, const wxChar* szPassword,
+    const wxString& szComputer, const int iPort, const wxString& szPassword,
     const bool bUseDefaultPassword
 ) {
     m_strNewComputerName.Empty();
@@ -396,7 +397,7 @@ CMainDocument::CMainDocument() : rpc(this) {
     }
 #endif
 
-    strcpy(m_szLanguage, "");
+    safe_strcpy(m_szLanguage, "");
 
     m_bClientStartCheckCompleted = false;
 
@@ -580,21 +581,16 @@ int CMainDocument::OnPoll() {
             }
         }
         
-        if (wxGetApp().GetNeedRunDaemon()) {
-            if (IsComputerNameLocal(hostName)) {
-              pFrame->UpdateStatusText(_("Starting client"));
-              if (m_pClientManager->StartupBOINCCore()) {
+        if (IsComputerNameLocal(hostName)) {
+            if (m_pClientManager->StartupBOINCCore()) {
                 Connect(wxT("localhost"), portNum, password, TRUE, TRUE);
-              } else {
+            } else {
                 m_pNetworkConnection->ForceDisconnect();
                 pFrame->ShowDaemonStartFailedAlert();
-              }
-            } else {
-              pFrame->UpdateStatusText(_("Connecting to client"));
-              Connect(hostName, portNum, password, TRUE, password.IsEmpty());
             }
+        } else {
+            Connect(hostName, portNum, password, TRUE, password.IsEmpty());
         }
-        pFrame->UpdateStatusText(wxEmptyString);
     }
 
     // Check connection state, connect if needed.
@@ -646,7 +642,7 @@ int CMainDocument::ResetState() {
 }
 
 
-int CMainDocument::Connect(const wxChar* szComputer, int iPort, const wxChar* szComputerPassword, const bool bDisconnect, const bool bUseDefaultPassword) {
+int CMainDocument::Connect(const wxString& szComputer, int iPort, const wxString& szComputerPassword, const bool bDisconnect, const bool bUseDefaultPassword) {
     if (IsComputerNameLocal(szComputer)) {
         // Restart client if not already running
         m_pClientManager->AutoRestart();
@@ -692,7 +688,7 @@ int CMainDocument::GetConnectingComputerName(wxString& strMachine) {
 }
 
 
-bool CMainDocument::IsComputerNameLocal(const wxString strMachine) {
+bool CMainDocument::IsComputerNameLocal(const wxString& strMachine) {
     return m_pNetworkConnection->IsComputerNameLocal(strMachine);
 }
 
@@ -938,7 +934,7 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
 	static bool first = true;
 	if (first) {
 		first = false;
-        strcpy(m_szLanguage, wxGetApp().GetISOLanguageCode().mb_str());
+        safe_strcpy(m_szLanguage, wxGetApp().GetISOLanguageCode().mb_str());
 		request.clear();
 		request.which_rpc = RPC_SET_LANGUAGE;
 		request.arg1 = (void*)(const char*)&m_szLanguage;
@@ -1199,13 +1195,9 @@ int CMainDocument::ForceCacheUpdate(bool immediate) {
         return m_iGet_state_rpc_result;
     }
     
-    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     int     retval = 0;
 
     if (IsConnected()) {
-        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-        pFrame->UpdateStatusText(_("Retrieving system state; please wait..."));
-
         m_dtCachedStateTimestamp = wxDateTime::Now();
         m_iGet_state_rpc_result = rpc.get_state(state);
         if (m_iGet_state_rpc_result) {
@@ -1214,7 +1206,6 @@ int CMainDocument::ForceCacheUpdate(bool immediate) {
             m_pNetworkConnection->SetStateDisconnected();
         }
 
-        pFrame->UpdateStatusText(wxEmptyString);
     } else {
         retval = -1;
     }
@@ -2696,4 +2687,5 @@ wxString FormatTime(double secs) {
 
 wxString format_number(double x, int nprec) {
     return wxNumberFormatter::ToString(x, nprec);
+
 }

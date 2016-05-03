@@ -27,7 +27,8 @@
 #endif
 
 #if  defined(_MSC_VER) || defined(__MINGW32__)
-#define getcwd  _getcwd
+#define getcwd    _getcwd
+#define snprintf  _snprintf
 #endif
 
 #if !defined(_WIN32) || defined(__CYGWIN32__)
@@ -142,7 +143,7 @@ DIRREF dir_open(const char* p) {
     }
     dirp->first = true;
     safe_strcpy(dirp->path, p);
-    strcat(dirp->path, "\\*");
+    safe_strcat(dirp->path, "\\*");
     dirp->handle = INVALID_HANDLE_VALUE;
 #else
     dirp = opendir(p);
@@ -385,10 +386,13 @@ int clean_out_dir(const char* dirpath) {
     dirp = dir_open(dirpath);
     if (!dirp) return 0;    // if dir doesn't exist, it's empty
     while (1) {
-        strcpy(filename, "");
+        safe_strcpy(filename, "");
         retval = dir_scan(filename, dirp, sizeof(filename));
         if (retval) break;
-        sprintf(path, "%s/%s", dirpath,  filename);
+
+        snprintf(path, sizeof(path), "%s/%s", dirpath,  filename);
+        path[sizeof(path)-1] = 0;
+
         clean_out_dir(path);
         boinc_rmdir(path);
         retval = boinc_delete_file(path);
@@ -407,10 +411,15 @@ int clean_out_dir(const char* dirpath) {
 //
 int dir_size(const char* dirpath, double& size, bool recurse) {
 #ifdef WIN32
+    char buf[_MAX_PATH];
     char path2[_MAX_PATH];
-    sprintf(path2, "%s/*", dirpath);
-    size = 0.0;
+    double dsize = 0.0;
     WIN32_FIND_DATAA findData;
+
+    size = 0.0;
+    snprintf(path2, sizeof(path2), "%s/*", dirpath);
+    path2[sizeof(path2)-1] = 0;
+
     HANDLE hFind = ::FindFirstFileA(path2, &findData);
     if (INVALID_HANDLE_VALUE == hFind) return ERR_OPENDIR;
     do {
@@ -419,29 +428,34 @@ int dir_size(const char* dirpath, double& size, bool recurse) {
             if (!strcmp(findData.cFileName, ".")) continue;
             if (!strcmp(findData.cFileName, "..")) continue;
 
-            double dsize = 0;
-            char buf[_MAX_PATH];
-            ::sprintf(buf, "%s/%s", dirpath, findData.cFileName);
+            dsize = 0.0;
+
+            snprintf(buf, sizeof(buf), "%s/%s", dirpath, findData.cFileName);
+            buf[sizeof(buf)-1] = 0;
+
             dir_size(buf, dsize, true);
             size += dsize;
         } else {
             size += findData.nFileSizeLow + ((__int64)(findData.nFileSizeHigh) << 32);
         }
     } while (FindNextFileA(hFind, &findData));
-	::FindClose(hFind);
+
+    ::FindClose(hFind);
 #else
     char filename[MAXPATHLEN], subdir[MAXPATHLEN];
     int retval=0;
     DIRREF dirp;
     double x;
 
-    size = 0;
+    size = 0.0;
     dirp = dir_open(dirpath);
     if (!dirp) return ERR_OPENDIR;
     while (1) {
         retval = dir_scan(filename, dirp, sizeof(filename));
         if (retval) break;
-        sprintf(subdir, "%s/%s", dirpath, filename);
+
+        snprintf(subdir, sizeof(subdir), "%s/%s", dirpath, filename);
+        subdir[sizeof(subdir)-1] = 0;
 
         if (is_dir(subdir)) {
             if (recurse) {
@@ -568,7 +582,8 @@ int boinc_copy(const char* orig, const char* newf) {
     return 0;
 #elif defined(__EMX__)
     char cmd[2*MAXPATHLEN];
-    sprintf(cmd, "copy \"%s\" \"%s\"", orig, newf);
+    snprintf(cmd, sizeof(cmd), "copy \"%s\" \"%s\"", orig, newf);
+    cmd[sizeof(cmd)-1] = 0;
     return system(cmd);
 #else
     // POSIX requires that shells run from an application will use the 
@@ -580,7 +595,6 @@ int boinc_copy(const char* orig, const char* newf) {
     FILE *src, *dst;
     int m, n;
     int retval = 0;
-    struct stat sbuf;
     unsigned char buf[65536];
     src = boinc_fopen(orig, "r");
     if (!src) return ERR_FOPEN;
@@ -600,19 +614,30 @@ int boinc_copy(const char* orig, const char* newf) {
     }
     fclose(src);
     fclose(dst);
-    // Copy file's ownership, permissions to the extent we are allowed
-    if (lstat(orig, &sbuf)) { // Get source file's info
+    return retval;
+#endif
+}
+
+#ifndef _WIN32
+// Copy file's ownership and permissions to the extent we are allowed
+//
+int boinc_copy_attributes(const char* orig, const char* newf) {
+    struct stat sbuf;
+
+    // Get source file's info
+    //
+    if (lstat(orig, &sbuf)) {
         return ERR_STAT;
-    }
-    if (chown(newf, sbuf.st_uid, sbuf.st_gid)) {
-        return ERR_CHOWN;
     }
     if (chmod(newf, sbuf.st_mode)) {
         return ERR_CHMOD;
     }
-    return retval;
-#endif
+    if (chown(newf, sbuf.st_uid, sbuf.st_gid)) {
+        return ERR_CHOWN;
+    }
+    return 0;
 }
+#endif
 
 static int boinc_rename_aux(const char* old, const char* newf) {
 #ifdef _WIN32
@@ -710,7 +735,8 @@ int boinc_make_dirs(const char* dirpath, const char* filepath) {
         p = strchr(q, '/');
         if (!p) break;
         *p = 0;
-        sprintf(newpath, "%s/%s", oldpath, q);
+        snprintf(newpath, sizeof(newpath), "%s/%s", oldpath, q);
+        newpath[sizeof(newpath)-1] = 0;
         retval = boinc_mkdir(newpath);
         if (retval) return retval;
         safe_strcpy(oldpath, newpath);

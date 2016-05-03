@@ -24,6 +24,10 @@
 #include <errno.h>
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #include "error_numbers.h"
 #include "filesys.h"
 #include "md5_file.h"
@@ -823,7 +827,7 @@ void CLIENT_STATE::check_anonymous() {
 
     for (i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
-        sprintf(path, "%s/%s", p->project_dir(), APP_INFO_FILE_NAME);
+        snprintf(path, sizeof(path), "%s/%s", p->project_dir(), APP_INFO_FILE_NAME);
         f = fopen(path, "r");
         if (!f) continue;
         msg_printf(p, MSG_INFO,
@@ -883,7 +887,7 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
                 safe_strcpy(buf,
                     _("File referenced in app_info.xml does not exist: ")
                 );
-                strcat(buf, fip->name);
+                safe_strcat(buf, fip->name);
                 msg_printf(p, MSG_USER_ALERT, "%s", buf);
                 delete fip;
                 continue;

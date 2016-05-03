@@ -29,6 +29,9 @@
 #include <ctype.h>
 #endif
 
+// strlcpy and strlcat guarantee NULL-terminated result
+// (unlike strncpy and strncat)
+//
 #if !HAVE_STRLCPY
 extern size_t strlcpy(char*, const char*, size_t);
 #endif
@@ -57,5 +60,12 @@ inline int strcasecmp(const char* s1, const char* s2) {
 
 #define safe_strcpy(x, y) strlcpy(x, y, sizeof(x))
 #define safe_strcat(x, y) strlcat(x, y, sizeof(x))
+
+#ifdef _WIN32
+#define snprintf _snprintf
+    // Yucky!  _snprintf() is not the same as snprintf();
+    // it doesn't null-terminate if buffer is too small.
+    // This is a workaround until we switch to VS2015, which has sprintf()
+#endif
 
 #endif

@@ -271,7 +271,7 @@ function display_team_members($team, $offset, $sort_by) {
         }
         echo "<tr class=row1>
             <td align=left>$j) $x
-        ";
+        </td>";
         if (!no_computing()) {
             echo "
                 <td align=right>$user_total_credit</td>
@@ -439,7 +439,7 @@ function team_edit_form($team, $label, $url) {
     if ($team) {
         echo "<input type=hidden name=teamid value=$team->id>\n";
         if ($team->seti_id) {
-            echo "<p class=\"text-danger\">".tra("WARNING: this is a BOINC-wide team. If you make changes here, they will soon be overwritten. Edit the %1BOINC-wide team%2 instead.", "<a href=http://boinc.berkeley.edu/teams/>", "</a>")
+            echo "<p class=\"text-danger\">".tra("WARNING: this is a BOINC-wide team. If you make changes here, they will soon be overwritten. Edit the %1BOINC-wide team%2 instead.", "<a href=https://boinc.berkeley.edu/teams/>", "</a>")
             ."</p>";
         }
     }
@@ -478,7 +478,7 @@ function team_edit_form($team, $label, $url) {
     print_country_select($team?$team->country:null);
 
     echo "</select></td></tr>\n";
-    $x = ($team && $team->joinable)?"checked":"";
+    $x = (!$team || $team->joinable)?"checked":"";
     row2(tra("Accept new members?"), "<input type=checkbox name=joinable $x>");
     row2("",
         "<input class=\"btn btn-primary\" type=submit name=new value='$label'>"
@@ -562,9 +562,6 @@ function transfer_ok($team, $now) {
 function make_team(
     $userid, $name, $url, $type, $name_html, $description, $country
 ) {
-    if (parse_bool(get_config(), "disable_team_creation")) {
-        error_page("team creation disabled");
-    }
     $name = BoincDb::escape_string(sanitize_tags($name));
     if (strlen($name) == 0) return null;
     $name_lc = strtolower($name);

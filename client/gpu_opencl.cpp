@@ -164,6 +164,10 @@ void COPROCS::get_opencl(
     vector<OPENCL_DEVICE_PROP>::iterator it;
     int max_other_coprocs = MAX_RSC-1;  // coprocs[0] is reserved for CPU
 
+    if (cc_config.no_opencl) {
+        return;
+    }
+
 #ifdef _WIN32
     opencl_lib = LoadLibrary("OpenCL.dll");
     if (!opencl_lib) {
@@ -278,9 +282,9 @@ void COPROCS::get_opencl(
         for (device_index=0; device_index<num_devices; ++device_index) {
             memset(&prop, 0, sizeof(prop));
             prop.device_id = devices[device_index];
-            strncpy(
+            strlcpy(
                 prop.opencl_platform_version, platform_version,
-                sizeof(prop.opencl_platform_version)-1
+                sizeof(prop.opencl_platform_version)
             );
 
             ciErrNum = get_opencl_info(prop, device_index, warnings);
@@ -364,9 +368,9 @@ void COPROCS::get_opencl(
         for (device_index=0; device_index<num_devices; ++device_index) {
             memset(&prop, 0, sizeof(prop));
             prop.device_id = devices[device_index];
-            strncpy(
+            strlcpy(
                 prop.opencl_platform_version, platform_version,
-                sizeof(prop.opencl_platform_version)-1
+                sizeof(prop.opencl_platform_version)
             );
 
 //TODO: Should we store the platform(s) for each GPU found?
@@ -890,7 +894,7 @@ cl_int COPROCS::get_opencl_info(
 
         ciErrNum = (*__clGetDeviceInfo)(prop.device_id, CL_DEVICE_BOARD_NAME_AMD, sizeof(buf), buf, NULL);
         if (strlen(buf) && ciErrNum == CL_SUCCESS) {
-            strncpy(prop.name, buf, sizeof(prop.name));
+            safe_strcpy(prop.name, buf);
         } else if (ciErrNum != CL_SUCCESS) {
             snprintf(buf, sizeof(buf),
                 "clGetDeviceInfo failed to get AMD Board Name for device %d",

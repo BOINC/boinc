@@ -2074,12 +2074,10 @@ void CViewStatistics::OnStatisticsUserTotal( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
-    pFrame->UpdateStatusText(_("Updating charts..."));
 	m_PaintStatistics->m_SelectedStatistic = show_user_total;
 	m_PaintStatistics->m_Zoom_Auto = true;
 	m_PaintStatistics->m_GraphMarker1 = false;
 	m_PaintStatistics->m_full_repaint = true;
-    pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
     pFrame->FireRefreshView();
@@ -2095,12 +2093,10 @@ void CViewStatistics::OnStatisticsUserAverage( wxCommandEvent& WXUNUSED(event) )
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
-    pFrame->UpdateStatusText(_("Updating charts..."));
 	m_PaintStatistics->m_SelectedStatistic = show_user_average;
 	m_PaintStatistics->m_Zoom_Auto = true;
 	m_PaintStatistics->m_GraphMarker1 = false;
 	m_PaintStatistics->m_full_repaint = true;
-    pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
     pFrame->FireRefreshView();
@@ -2116,12 +2112,10 @@ void CViewStatistics::OnStatisticsHostTotal( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
-    pFrame->UpdateStatusText(_("Updating charts..."));
 	m_PaintStatistics->m_SelectedStatistic = show_host_total;
 	m_PaintStatistics->m_Zoom_Auto = true;
 	m_PaintStatistics->m_GraphMarker1 = false;
 	m_PaintStatistics->m_full_repaint = true;
-    pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
     pFrame->FireRefreshView();
@@ -2138,12 +2132,10 @@ void CViewStatistics::OnStatisticsHostAverage( wxCommandEvent& WXUNUSED(event) )
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
-    pFrame->UpdateStatusText(_("Updating charts..."));
 	m_PaintStatistics->m_SelectedStatistic = show_host_average;
 	m_PaintStatistics->m_Zoom_Auto = true;
 	m_PaintStatistics->m_GraphMarker1 = false;
 	m_PaintStatistics->m_full_repaint = true;
-    pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
     pFrame->FireRefreshView();
@@ -2159,12 +2151,10 @@ void CViewStatistics::OnStatisticsModeViewAllSeparate( wxCommandEvent& WXUNUSED(
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
-    pFrame->UpdateStatusText(_("Updating charts..."));
 	m_PaintStatistics->m_ModeViewStatistic = mode_all_separate;
 	m_PaintStatistics->m_Zoom_Auto = true;
 	m_PaintStatistics->m_GraphMarker1 = false;
 	m_PaintStatistics->m_full_repaint = true;
-    pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
     pFrame->FireRefreshView();
@@ -2180,12 +2170,10 @@ void CViewStatistics::OnStatisticsModeViewOneProject( wxCommandEvent& WXUNUSED(e
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
-    pFrame->UpdateStatusText(_("Updating charts..."));
 	m_PaintStatistics->m_ModeViewStatistic = mode_one_project;
 	m_PaintStatistics->m_Zoom_Auto = true;
 	m_PaintStatistics->m_GraphMarker1 = false;
 	m_PaintStatistics->m_full_repaint = true;
-    pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
     pFrame->FireRefreshView();
@@ -2201,12 +2189,10 @@ void CViewStatistics::OnStatisticsModeViewAllTogether( wxCommandEvent& WXUNUSED(
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
-    pFrame->UpdateStatusText(_("Updating charts..."));
 	m_PaintStatistics->m_ModeViewStatistic = mode_all_together;
 	m_PaintStatistics->m_Zoom_Auto = true;
 	m_PaintStatistics->m_GraphMarker1 = false;
 	m_PaintStatistics->m_full_repaint = true;
-    pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
     pFrame->FireRefreshView();
@@ -2222,12 +2208,10 @@ void CViewStatistics::OnStatisticsModeViewSum( wxCommandEvent& WXUNUSED(event) )
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
-    pFrame->UpdateStatusText(_("Updating charts..."));
 	m_PaintStatistics->m_ModeViewStatistic = mode_sum;
 	m_PaintStatistics->m_Zoom_Auto = true;
 	m_PaintStatistics->m_GraphMarker1 = false;
 	m_PaintStatistics->m_full_repaint = true;
-    pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
     pFrame->FireRefreshView();
@@ -2243,7 +2227,6 @@ void CViewStatistics::OnStatisticsNextProject( wxCommandEvent& WXUNUSED(event) )
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
-    pFrame->UpdateStatusText(_("Updating charts..."));
 	if (m_PaintStatistics->m_ModeViewStatistic == mode_one_project) m_PaintStatistics->m_NextProjectStatistic++;
 	m_PaintStatistics->m_Zoom_Auto = true;
 	m_PaintStatistics->m_GraphMarker1 = false;
@@ -2251,7 +2234,6 @@ void CViewStatistics::OnStatisticsNextProject( wxCommandEvent& WXUNUSED(event) )
 	if (m_PaintStatistics->m_ModeViewStatistic == mode_all_separate) m_PaintStatistics->m_Legend_Shift_Mode2++;
 	if (m_PaintStatistics->m_ModeViewStatistic == mode_all_together) m_PaintStatistics->m_Legend_Shift_Mode2++;
 	if (m_PaintStatistics->m_ModeViewStatistic == mode_sum) m_PaintStatistics->m_Legend_Shift_Mode2++;
-    pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
     pFrame->FireRefreshView();
@@ -2267,7 +2249,6 @@ void CViewStatistics::OnStatisticsPrevProject( wxCommandEvent& WXUNUSED(event) )
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
 
-    pFrame->UpdateStatusText(_("Updating charts..."));
 	if (m_PaintStatistics->m_ModeViewStatistic == mode_one_project) m_PaintStatistics->m_NextProjectStatistic--;
 	m_PaintStatistics->m_Zoom_Auto = true;
 	m_PaintStatistics->m_GraphMarker1 = false;
@@ -2275,7 +2256,6 @@ void CViewStatistics::OnStatisticsPrevProject( wxCommandEvent& WXUNUSED(event) )
 	if (m_PaintStatistics->m_ModeViewStatistic == mode_all_separate) m_PaintStatistics->m_Legend_Shift_Mode2--;
 	if (m_PaintStatistics->m_ModeViewStatistic == mode_all_together) m_PaintStatistics->m_Legend_Shift_Mode2--;
 	if (m_PaintStatistics->m_ModeViewStatistic == mode_sum) m_PaintStatistics->m_Legend_Shift_Mode2--;
-    pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
     pFrame->FireRefreshView();

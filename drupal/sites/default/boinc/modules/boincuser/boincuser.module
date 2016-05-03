@@ -733,6 +733,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     }
     
     $form['account']['name']['#size'] = 40;
+    $form['account']['name']['#attributes']['autocomplete'] = 'off';
     $form['account']['mail']['#size'] = 40;
     $form['account']['pass']['#size'] = 17;
     
@@ -743,7 +744,10 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
         '#title' => bts('Enter your password to save changes'),
         '#description' => bts('Enter your current password if changing your email
           address or password.'),
-        '#size' => 17
+        '#size' => 17,
+        '#attributes' => array(
+          'autocomplete' => 'off',
+        ),
       );
     }
     
@@ -773,7 +777,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#value' => '
         <div class="form-item">
           <label>' . bts('Weak account key') . '</label>
-          <span>' . $account->boincuser_weak_auth . '</span>
+          <span>' . "{$account->boincuser_id}_{$account->boincuser_weak_auth}" . '</span>
         </div>',
     );
     $form['account']['cpid'] = array(

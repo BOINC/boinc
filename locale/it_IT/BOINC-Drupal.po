@@ -5,12 +5,12 @@
 # Alessandro Caiulo <alessandro.caiulo@gmail.com>, 2015
 # Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015
 # Pietro <bongiovanni.pietro.vc@gmail.com>, 2015
-# Sebastiano Pistore <olatusrooc@virgilio.it>, 2015
+# Sebastiano Pistore <olatusrooc@virgilio.it>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2015-12-15 12:43+0000\n"
-"PO-Revision-Date: 2015-12-18 11:28+0000\n"
+"PO-Revision-Date: 2016-04-15 09:08+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -154,7 +154,7 @@ msgid "About our screensaver"
 msgstr "Informazioni sullo screensaver"
 
 msgid "Over 500,000 volunteers and counting."
-msgstr "Oltre 500.000 volontari."
+msgstr "Più di 500.000 volontari."
 
 msgid "Windows"
 msgstr "Windows"
@@ -499,16 +499,16 @@ msgid "Only applies to portable computers"
 msgstr "Si applica solo ai computer portatili"
 
 msgid "Run while computer is in use?"
-msgstr "Elabora quando il computer è in uso?"
+msgstr "Elabora quando il computer è 'in uso'?"
 
 msgid "Run GPU work while computer is in use?"
-msgstr "Elaborare con la GPU mentre il computer è in uso?"
+msgstr "Elaborare con la GPU mentre il computer è 'in uso'?"
 
 msgid "Enforced by version @number"
 msgstr "Disponibile dalla versione @number"
 
 msgid "\"In use\" means mouse/keyboard activity in last"
-msgstr "\"In uso\" significa che c'è stata attività del mouse/tastiera negli ultimi"
+msgstr "'In uso' significa che il mouse o la tastiera sono stati usati negli ultimi"
 
 msgid "minutes"
 msgstr "minuti"
@@ -538,7 +538,7 @@ msgid "Leave tasks in memory while suspended?"
 msgstr "Lasciare le attività in memoria mentre sospese?"
 
 msgid "Suspended tasks will consume swap space if \"yes\""
-msgstr "Se \"si\" le pperazioni sospese utilizzeranno lo spazio di swap"
+msgstr "Segnando \"si\" i processi sospesi utilizzeranno spazio di swap"
 
 msgid "Switch between tasks every"
 msgstr "Cambia applicazione ogni"
@@ -565,7 +565,7 @@ msgid "% of the CPU time"
 msgstr "% del tempo della CPU"
 
 msgid "Can be used to reduce CPU heat"
-msgstr "Può essere utilizzato per ridurre il calore CPU"
+msgstr "Può essere utilizzato per ridurre il calore generato dalla CPU"
 
 msgid "Disk and memory usage"
 msgstr "Utilizzo disco e memoria"
@@ -592,16 +592,16 @@ msgid "Swap space: use at most"
 msgstr "Spazio di swap: utilizza al massimo"
 
 msgid "Memory: when computer is in use, use at most"
-msgstr "Memoria: quando il computer è in uso, utilizza al massimo"
+msgstr "Memoria: quando il computer è 'in uso', utilizza al massimo"
 
 msgid "Memory: when computer is not in use, use at most"
-msgstr "Memoria: quando il computer non è in uso, utilizza al massimo "
+msgstr "Memoria: quando il computer non è 'in uso', utilizza al massimo "
 
 msgid "Network usage"
 msgstr "Utilizzo rete"
 
 msgid "Computer is connected to the Internet about every"
-msgstr "Il Computer è connesso a Internet ogni"
+msgstr "Il computer è connesso a Internet ogni"
 
 msgid "days"
 msgstr "giorni"
@@ -621,7 +621,7 @@ msgid "Matters only if you have a modem, ISDN, or VPN connection"
 msgstr "E' importante solo se hai un modem, ISDN o una connessione VPN"
 
 msgid "Disconnect when done?"
-msgstr "Disconnettere quando hai fatto?"
+msgstr "Disconnettere al completamento?"
 
 msgid "Maximum download rate"
 msgstr "Velocità massima di scaricamento"
@@ -763,7 +763,7 @@ msgid "Combined preferences"
 msgstr "Preferenze combinate"
 
 msgid "Switch View"
-msgstr "Cambia Visuale"
+msgstr "Cambia visuale"
 
 msgid "every"
 msgstr "ogni"
@@ -1333,7 +1333,7 @@ msgid "Exit status"
 msgstr "Stato di uscita"
 
 msgid "Granted credit"
-msgstr "Credito garantito\t"
+msgstr "Credito garantito"
 
 msgid "Outcome"
 msgstr "Risultato"
@@ -1426,7 +1426,7 @@ msgid "hours"
 msgstr "ore"
 
 msgid "@count million ops/sec"
-msgstr "@count miglioni di operazioni/secondo"
+msgstr "@count milioni di operazioni/secondo"
 
 msgid "@rate KiB/sec"
 msgstr "@rate KiB/sec"
@@ -1536,7 +1536,7 @@ msgid "Initiate request"
 msgstr "Avvia la richiesta"
 
 msgid "A BOINC account already exists for @email."
-msgstr "Un account BOINC esiste già per @email."
+msgstr "Esiste già un account BOINC registrato con @email."
 
 msgid ""
 "Please be responsible in what you write and do not create posts which are "

@@ -23,7 +23,12 @@
 #include "config.h"
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #include "error_numbers.h"
+#include "str_replace.h"
 #include "file_names.h"
 #include "filesys.h"
 #include "parse.h"
@@ -40,8 +45,8 @@ FILE_XFER::FILE_XFER() {
     file_xfer_done = false;
     file_xfer_retval = 0;
     fip = NULL;
-    strcpy(pathname, "");
-    strcpy(header, "");
+    safe_strcpy(pathname, "");
+    safe_strcpy(header, "");
     file_size_query = false;
     is_upload = false;
     starting_size = 0.0;
@@ -58,7 +63,7 @@ int FILE_XFER::init_download(FILE_INFO& file_info) {
     fip = &file_info;
     get_pathname(fip, pathname, sizeof(pathname));
     if (fip->download_gzipped) {
-        strcat(pathname, ".gzt");
+        safe_strcat(pathname, ".gzt");
     }
 
     // if file is already as large or larger than it's supposed to be,
@@ -105,7 +110,7 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
     }
     if (file_info.upload_offset < 0) {
         bytes_xferred = 0;
-        sprintf(header,
+        snprintf(header, sizeof(header), 
             "<data_server_request>\n"
             "    <core_client_major_version>%d</core_client_major_version>\n"
             "    <core_client_minor_version>%d</core_client_minor_version>\n"
@@ -123,7 +128,7 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
         );
     } else {
         bytes_xferred = file_info.upload_offset;
-        sprintf(header,
+        snprintf(header, sizeof(header), 
             "<data_server_request>\n"
             "    <core_client_major_version>%d</core_client_major_version>\n"
             "    <core_client_minor_version>%d</core_client_minor_version>\n"

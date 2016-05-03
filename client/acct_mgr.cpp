@@ -24,6 +24,10 @@
 #include <cstring>
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #include "crypt.h"
 #include "error_numbers.h"
 #include "parse.h"
@@ -129,7 +133,7 @@ int ACCT_MGR_OP::do_rpc(
             fprintf(f,"   <gui_rpc_port>%d</gui_rpc_port>\n", GUI_RPC_PORT);
         }
         if (boinc_file_exists(GUI_RPC_PASSWD_FILE)) {
-            strcpy(password, "");
+            safe_strcpy(password, "");
             pwdf = fopen(GUI_RPC_PASSWD_FILE, "r");
             if (pwdf) {
                 if (fgets(password, 256, pwdf)) {
@@ -201,7 +205,7 @@ int ACCT_MGR_OP::do_rpc(
     gstate.net_stats.write(mf);
     fprintf(f, "</acct_mgr_request>\n");
     fclose(f);
-    sprintf(buf, "%srpc.php", url);
+    snprintf(buf, sizeof(buf), "%srpc.php", url);
     retval = gui_http->do_rpc_post(
         this, buf, ACCT_MGR_REQUEST_FILENAME, ACCT_MGR_REPLY_FILENAME, true
     );
@@ -234,7 +238,7 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
     suspend.init();
     abort_not_started.init();
     url = "";
-    strcpy(url_signature, "");
+    safe_strcpy(url_signature, "");
     authenticator = "";
     resource_share.init();
 
@@ -256,7 +260,7 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
         if (xp.match_tag("url_signature")) {
             retval = xp.element_contents("</url_signature>", url_signature, sizeof(url_signature));
             if (retval) return retval;
-            strcat(url_signature, "\n");
+            safe_strcat(url_signature, "\n");
             continue;
         }
         if (xp.parse_string("authenticator", authenticator)) continue;
@@ -330,8 +334,8 @@ int ACCT_MGR_OP::parse(FILE* f) {
     error_str = "";
     error_num = 0;
     repeat_sec = 0;
-    strcpy(host_venue, "");
-    strcpy(ami.opaque, "");
+    safe_strcpy(host_venue, "");
+    safe_strcpy(ami.opaque, "");
     ami.no_project_notices = false;
     rss_feeds.clear();
     if (!xp.parse_start("acct_mgr_reply")) return ERR_XML_PARSE;
@@ -755,14 +759,14 @@ int ACCT_MGR_INFO::write_info() {
 }
 
 void ACCT_MGR_INFO::clear() {
-    strcpy(project_name, "");
-    strcpy(master_url, "");
-    strcpy(login_name, "");
-    strcpy(password_hash, "");
-    strcpy(signing_key, "");
-    strcpy(previous_host_cpid, "");
-    strcpy(opaque, "");
-    strcpy(cookie_failure_url, "");
+    safe_strcpy(project_name, "");
+    safe_strcpy(master_url, "");
+    safe_strcpy(login_name, "");
+    safe_strcpy(password_hash, "");
+    safe_strcpy(signing_key, "");
+    safe_strcpy(previous_host_cpid, "");
+    safe_strcpy(opaque, "");
+    safe_strcpy(cookie_failure_url, "");
     next_rpc_time = 0;
     nfailures = 0;
     send_gui_rpc_info = false;

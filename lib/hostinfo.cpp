@@ -35,6 +35,7 @@
 #include "md5_file.h"
 #include "parse.h"
 #include "util.h"
+#include "str_replace.h"
 
 #include "hostinfo.h"
 
@@ -44,15 +45,15 @@ HOST_INFO::HOST_INFO() {
 
 void HOST_INFO::clear_host_info() {
     timezone = 0;
-    strcpy(domain_name, "");
-    strcpy(serialnum, "");
-    strcpy(ip_addr, "");
-    strcpy(host_cpid, "");
+    safe_strcpy(domain_name, "");
+    safe_strcpy(serialnum, "");
+    safe_strcpy(ip_addr, "");
+    safe_strcpy(host_cpid, "");
 
     p_ncpus = 0;
-    strcpy(p_vendor, "");
-    strcpy(p_model, "");
-    strcpy(p_features, "");
+    safe_strcpy(p_vendor, "");
+    safe_strcpy(p_model, "");
+    safe_strcpy(p_features, "");
     p_fpops = 0;
     p_iops = 0;
     p_membw = 0;
@@ -66,12 +67,12 @@ void HOST_INFO::clear_host_info() {
     d_total = 0;
     d_free = 0;
 
-    strcpy(os_name, "");
-    strcpy(os_version, "");
-    strcpy(product_name, "");
-    strcpy(mac_address, "");
+    safe_strcpy(os_name, "");
+    safe_strcpy(os_version, "");
+    safe_strcpy(product_name, "");
+    safe_strcpy(mac_address, "");
 
-    strcpy(virtualbox_version, "");
+    safe_strcpy(virtualbox_version, "");
     num_opencl_cpu_platforms = 0;
 }
 

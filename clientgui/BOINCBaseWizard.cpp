@@ -55,32 +55,6 @@ CBOINCBaseWizard::CBOINCBaseWizard(wxWindow *parent, int id, const wxString& tit
 }
 
 /*!
- * Determine if the wizard page has a previous page
- */
-wxWizardPageEx* CBOINCBaseWizard::PopPageTransition()
-{
-    return _PopPageTransition();
-}
-
-wxWizardPageEx* CBOINCBaseWizard::_PopPageTransition()
-{
-    return NULL;
-}
-
-/*!
- * Remove the page transition to the stack
- */
-wxWizardPageEx* CBOINCBaseWizard::PushPageTransition( wxWizardPageEx* pCurrentPage, unsigned long ulPageID )
-{
-    return _PushPageTransition( pCurrentPage, ulPageID );
-}
-
-wxWizardPageEx* CBOINCBaseWizard::_PushPageTransition( wxWizardPageEx* WXUNUSED(pCurrentPage), unsigned long WXUNUSED(ulPageID) )
-{
-    return NULL;
-}
-
-/*!
  * Process Cancel Event
  */
 bool CBOINCBaseWizard::IsCancelInProgress() const

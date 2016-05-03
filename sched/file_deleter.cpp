@@ -40,6 +40,7 @@
 #include <pwd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/resource.h>
 #if HAVE_STRINGS_H
 #include <strings.h>
 #endif
@@ -224,7 +225,7 @@ int wu_delete_files(WORKUNIT& wu) {
 
 int result_delete_files(RESULT& result) {
     char* p;
-    char filename[256], pathname[256], buf[BLOB_SIZE];
+    char filename[MAXPATHLEN], pathname[MAXPATHLEN], buf[BLOB_SIZE];
     bool no_delete=false;
     int count_deleted = 0, retval, mthd_retval = 0;
 

@@ -105,8 +105,13 @@ static int nvidia_driver_version() {
     void *handle = NULL;
     char driver_string[81];
 
-    handle  = dlopen("libnvidia-ml.so", RTLD_NOW);
-    if (!handle) goto end; 
+    handle  = dlopen("libnvidia-ml.so.1", RTLD_NOW);
+    if (!handle) {
+        handle  = dlopen("libnvidia-ml.so", RTLD_NOW);
+        if (!handle) {
+            goto end;
+        }
+    }
 
     nvml_driver = (int(*)(char *, unsigned int)) dlsym(handle,  "nvmlSystemGetDriverVersion");
     nvml_init = (int(*)(void)) dlsym(handle,  "nvmlInit");
@@ -345,12 +350,12 @@ void* cudalib = NULL;
 
 #ifdef __APPLE__
     // If system is just booting, CUDA driver may not be ready yet
-    for (int retryCount=0; retryCount<45; retryCount++) {
+    for (int retryCount=0; retryCount<120; retryCount++) {
 #endif
         retval = (*__cuInit)(0);
 #ifdef __APPLE__
         if (!retval) break;
-        if (TickCount() > (120*60)) break;   // Don't retry if system has been up for over 2 minutes
+        if (TickCount() > (300*60)) break;   // Don't retry if system has been up for over 5 minutes
         boinc_sleep(1.);
         continue;
     }

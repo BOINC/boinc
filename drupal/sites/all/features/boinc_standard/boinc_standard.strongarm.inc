@@ -16,37 +16,44 @@ function boinc_standard_strongarm() {
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'bbcode_debug_4';
-  $strongarm->value = '0';
-  $export['bbcode_debug_4'] = $strongarm;
+  $strongarm->name = 'comment_anonymous_page';
+  $strongarm->value = 0;
+  $export['comment_anonymous_page'] = $strongarm;
 
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'bbcode_encode_mailto_4';
+  $strongarm->name = 'comment_controls_page';
+  $strongarm->value = '3';
+  $export['comment_controls_page'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'comment_default_mode_page';
+  $strongarm->value = '4';
+  $export['comment_default_mode_page'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'comment_default_order_page';
   $strongarm->value = '1';
-  $export['bbcode_encode_mailto_4'] = $strongarm;
+  $export['comment_default_order_page'] = $strongarm;
 
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'bbcode_filter_nofollow_4';
+  $strongarm->name = 'comment_default_per_page_page';
+  $strongarm->value = '50';
+  $export['comment_default_per_page_page'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'comment_form_location_page';
   $strongarm->value = '0';
-  $export['bbcode_filter_nofollow_4'] = $strongarm;
-
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'bbcode_make_links_4';
-  $strongarm->value = '1';
-  $export['bbcode_make_links_4'] = $strongarm;
-
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'bbcode_paragraph_breaks_4';
-  $strongarm->value = '0';
-  $export['bbcode_paragraph_breaks_4'] = $strongarm;
+  $export['comment_form_location_page'] = $strongarm;
 
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -54,6 +61,20 @@ function boinc_standard_strongarm() {
   $strongarm->name = 'comment_page';
   $strongarm->value = 0;
   $export['comment_page'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'comment_preview_page';
+  $strongarm->value = '1';
+  $export['comment_preview_page'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'comment_subject_field_page';
+  $strongarm->value = '1';
+  $export['comment_subject_field_page'] = $strongarm;
 
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -75,33 +96,6 @@ function boinc_standard_strongarm() {
   $strongarm->name = 'format';
   $strongarm->value = '4';
   $export['format'] = $strongarm;
-
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'htmlpurifier_config_4';
-  $strongarm->value = array(
-    'Attr.EnableID' => '0',
-    'AutoFormat.AutoParagraph' => '1',
-    'AutoFormat.Linkify' => '0',
-    'AutoFormat.RemoveEmpty' => '0',
-    'Null_HTML.Allowed' => '1',
-    'HTML.ForbiddenAttributes' => '',
-    'HTML.ForbiddenElements' => '',
-    'HTML.SafeObject' => '1',
-    'Output.FlashCompat' => '1',
-    'URI.DisableExternalResources' => '0',
-    'URI.DisableResources' => '0',
-    'Null_URI.Munge' => '1',
-  );
-  $export['htmlpurifier_config_4'] = $strongarm;
-
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'htmlpurifier_help_4';
-  $strongarm->value = 0;
-  $export['htmlpurifier_help_4'] = $strongarm;
 
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -178,6 +172,47 @@ function boinc_standard_strongarm() {
         ),
       ),
     ),
+    3 => array(
+      'name' => 'Editor',
+      'usertab' => 1,
+      'filesize' => '1',
+      'quota' => '2',
+      'tuquota' => '0',
+      'extensions' => 'gif png jpg jpeg',
+      'dimensions' => '800x600',
+      'filenum' => '1',
+      'directories' => array(
+        0 => array(
+          'name' => 'u%uid',
+          'subnav' => 0,
+          'browse' => 1,
+          'upload' => 1,
+          'thumb' => 1,
+          'delete' => 0,
+          'resize' => 0,
+        ),
+      ),
+      'thumbnails' => array(
+        0 => array(
+          'name' => 'Small',
+          'dimensions' => '90x90',
+          'prefix' => 'small_',
+          'suffix' => '',
+        ),
+        1 => array(
+          'name' => 'Medium',
+          'dimensions' => '120x120',
+          'prefix' => 'medium_',
+          'suffix' => '',
+        ),
+        2 => array(
+          'name' => 'Large',
+          'dimensions' => '180x180',
+          'prefix' => 'large_',
+          'suffix' => '',
+        ),
+      ),
+    ),
   );
   $export['imce_profiles'] = $strongarm;
 
@@ -185,7 +220,44 @@ function boinc_standard_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'imce_roles_profiles';
-  $strongarm->value = array();
+  $strongarm->value = array(
+    3519698132 => array(
+      'weight' => '0',
+      'pid' => '0',
+    ),
+    1110965548 => array(
+      'weight' => '0',
+      'pid' => '0',
+    ),
+    268174006 => array(
+      'weight' => '0',
+      'pid' => '0',
+    ),
+    2938987599 => array(
+      'weight' => '0',
+      'pid' => '3',
+    ),
+    1257454314 => array(
+      'weight' => '0',
+      'pid' => '0',
+    ),
+    1271379760 => array(
+      'weight' => '0',
+      'pid' => '0',
+    ),
+    933038561 => array(
+      'weight' => '0',
+      'pid' => '0',
+    ),
+    2 => array(
+      'weight' => 11,
+      'pid' => '0',
+    ),
+    1 => array(
+      'weight' => 12,
+      'pid' => '0',
+    ),
+  );
   $export['imce_roles_profiles'] = $strongarm;
 
   $strongarm = new stdClass;

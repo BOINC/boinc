@@ -27,6 +27,10 @@ xml_header();
 $retval = db_init_xml();
 if ($retval) xml_error($retval);
 
+if (parse_bool(get_config(), "disable_team_creation")) {
+    xml_error(-1, "team creation disabled");
+}
+
 $auth = get_str("account_key");
 $user = BoincUser::lookup_auth($auth);
 if (!$user) {

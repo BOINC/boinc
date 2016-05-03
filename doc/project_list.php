@@ -62,7 +62,7 @@ foreach($proj_list as $p) {
         echo "    </platforms>\n";
     }
     if (isset($p->image)) {
-        echo "      <image>http://boinc.berkeley.edu/images/$p->image</image>
+        echo "      <image>https://boinc.berkeley.edu/images/$p->image</image>
 ";
     }
     if (isset($p->summary)) {
@@ -82,7 +82,7 @@ foreach ($account_managers as $am) {
         <name>$name</name>
         <url>$url</url>
         <description>$desc</description>
-        <image>http://boinc.berkeley.edu/images/$image</image>
+        <image>https://boinc.berkeley.edu/images/$image</image>
     </account_manager>
 ";
 }

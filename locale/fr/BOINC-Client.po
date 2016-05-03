@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Axelle Andy <andex@voila.fr>, 2015
+# Axelle Andy, 2015
+# Philippe Janocha, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2015-05-01 12:43+0000\n"
-"Last-Translator: Axelle Andy <andex@voila.fr>\n"
-"Language-Team: French (http://www.transifex.com/projects/p/boinc/language/fr/)\n"
+"PO-Revision-Date: 2016-01-20 19:17+0000\n"
+"Last-Translator: Philippe Janocha\n"
+"Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -30,11 +31,11 @@ msgstr "Message du serveur"
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
-msgstr "Certaines tâches ont besoin de plus de mémoire que celle permise dans vos préférences.  Merci de vérifier les préférences."
+msgstr "Certaines tâches nécessitent davantage de mémoire que celle permise dans vos préférences.  Merci de vérifier les préférences."
 
 #: client_state.cpp:520
 msgid "Couldn't write state file; check directory permissions"
-msgstr "Impossible d'écrire dans le fichier d'état ; Vérifiez les autorisations de répertoire"
+msgstr "Impossible d'écrire dans le fichier d'état ; vérifiez les droits d'accès aux répertoires"
 
 #: cs_cmdline.cpp:303
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
@@ -53,7 +54,7 @@ msgstr "Erreur de syntaxe dans app_info.xml"
 
 #: cs_statefile.cpp:868
 msgid "File referenced in app_info.xml does not exist: "
-msgstr "Le fichier référencé dans app_info.xml n'existe pas: "
+msgstr "Le fichier référencé dans app_info.xml n'existe pas : "
 
 #: current_version.cpp:91
 msgid "A new version of BOINC is available."
@@ -128,7 +129,7 @@ msgstr "Veuillez mettre à jour votre système avec les derniers drivers pour po
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
-msgstr "Une version plus récente de BOINC est requise pour utiliser votre GPU NVIDIA; merci de mettre à jour avec la dernière version"
+msgstr "Une version plus récente de BOINC est requise pour utiliser votre GPU NVIDIA ; merci de mettre à jour avec la dernière version"
 
 #: ../sched/sched_send.cpp:1146
 #, c-format
@@ -145,13 +146,13 @@ msgstr "Votre ordinateur n'est pas supporté par ce projet"
 
 #: ../sched/sched_send.cpp:1294
 msgid "Newer BOINC version required; please install current version"
-msgstr "La nouvelle version de BOINC est nécessaire; merci d'installer la dernière version"
+msgstr "La nouvelle version de BOINC est nécessaire ; merci d'installer la dernière version"
 
 #: ../sched/sched_send.cpp:1305
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
-msgstr "Les tâches pour %s sont disponibles, mais on charge que vos préférences pas les acceptent"
+msgstr "Des tâches pour %s sont disponibles, mais vos préférences commandent de ne pas les accepter"
 
 #: ../sched/sched_types.cpp:254
 msgid "Unknown app name in app_info.xml"

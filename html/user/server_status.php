@@ -356,7 +356,7 @@ function get_daemon_status() {
         }
         $x = new StdClass;
         $x->cmd = (string)$d->cmd;
-        $x->status = local_daemon_running($x->cmd, $d->pid_file, $web_host);
+        $x->status = local_daemon_running($x->cmd, trim($d->pid_file), $web_host);
         $x->host = $web_host;
         $local_daemons[] = $x;
 

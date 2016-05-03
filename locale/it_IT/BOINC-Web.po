@@ -6,14 +6,15 @@
 # FileID  : $Id$
 # 
 # Translators:
+# Daniele Masini <d.masini.it@gmail.com>, 2016
 # Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015
-# Sebastiano Pistore <olatusrooc@virgilio.it>, 2015
+# Sebastiano Pistore <olatusrooc@virgilio.it>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2015-12-09 12:56+0000\n"
+"PO-Revision-Date: 2016-04-13 09:21+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +41,7 @@ msgstr "Questa pagina %spuò essere tradotta%s."
 msgid ""
 "We recommend that you also install VirtualBox, so your computer can work on "
 "science projects that require it."
-msgstr "Raccomandiamo l'installazione di VirtualBox perchè alcuni progetti scientifici lo richiedono (ogni progetto che ne ha bisogno lo specifica)."
+msgstr "Raccomandiamo l'installazione di VirtualBox perché alcuni progetti scientifici lo richiedono (ogni progetto che ne ha bisogno lo specifica)."
 
 #: download.php:44
 msgid "Learn more about VirtualBox."
@@ -75,25 +76,25 @@ msgid ""
 "BOINC is a program that lets you donate your idle computer time to science "
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
 "Community Grid, and many others."
-msgstr "BOINC è un programma che ti permette di donare il tempo inutilizzato del tuo computer per progetti come SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, e molti altri."
+msgstr "BOINC è un programma che ti permette di donare il tempo inutilizzato del processore del tuo computer per aiutare progetti come SETI@home, Climateprediction.net, Rosetta@home, World Community Grid e molti altri."
 
 #: download.php:135
 msgid ""
 "After installing BOINC on your computer, you can connect it to as many of "
 "these projects as you like."
-msgstr "Dopo l'installazione di BOINC su un computer potrai connetterti a tutti i progetti che preferisci."
+msgstr "Dopo l'installazione di BOINC sul tuo computer potrai scegliere di aiutare tutti i progetti che vorrai."
 
 #: download.php:137
 msgid ""
 "You may run this software on a computer only if you own the computer or have"
 " the permission of its owner."
-msgstr "Puoi eseguire questo software su un computer solo se possiedi il computer o se hai il permesso del suo proprietario."
+msgstr "Puoi eseguire questo software su un computer solo se se il proprietario del computer o se hai il permesso del suo proprietario."
 
 #: download.php:142
 msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
-msgstr "Ti consigliamo di scaricare BOINC da Google Play Store oppure da Amazon Appstore, non da qui. Utilizza questo collegamento solo se ti è difficile usare gli strumenti consigliati."
+msgstr "Ti consigliamo di scaricare BOINC da Google Play Store oppure da Amazon Appstore, non da qui. Utilizza questo collegamento solo se hai delle difficoltà con gli store ufficiali."
 
 #: download.php:177
 msgid "System requirements"
@@ -113,7 +114,7 @@ msgstr "Tutte le versioni"
 
 #: download.php:181
 msgid "Version history"
-msgstr "Storia delle versioni"
+msgstr "Storico delle versioni"
 
 #: download.php:182
 msgid "GPU computing"
@@ -139,7 +140,7 @@ msgid ""
 " Skype is free (both the software and the calls).  If you don't already have"
 " Skype, please %sdownload and install it now%s.  When you're finished, "
 "return to this page."
-msgstr "L'assistenza online BOINC si appoggia a %sSkype%s, un sistema di telefonia tramite Internet. Skype è gratis (sia il software che le chiamate).  Se non hai ancora Skype, %sscaricalo ed installalo ora%s.  Quando hai finito ritorna su questa pagina."
+msgstr "L'assistenza online BOINC si appoggia a %sSkype%s, un sistema di telefonia tramite Internet. Skype è gratuito (sia il software che le chiamate).  Se non hai ancora Skype, %sscaricalo ed installalo ora%s.  Quando hai finito ritorna su questa pagina."
 
 #: help.php:28
 msgid ""
@@ -147,17 +148,17 @@ msgid ""
 "microphone and speakers or an external headset for your computer.  You can "
 "also use Skype's text-based chat system or regular email (if you don't have "
 "Skype) to communicate with Help Volunteers."
-msgstr "Il modo migliore di ricevere aiuto è parlando: per ottenerlo è necessario che tu abbia collegati al tuo computer un microfono e delle casse, oppure delle cuffie.  Per comunicare con i volontari dell' assistenza online puoi anche utilizzare la chat testuale di Skype o le email (se non hai Skype)."
+msgstr "Il modo migliore per ricevere aiuto è a voce: per farlo è necessario aver collegato al proprio computer un microfono e delle casse audio, oppure delle cuffie.  Per comunicare con i volontari dell' assistenza online puoi anche utilizzare la chat testuale di Skype o le e-mail (se non hai Skype)."
 
 #: help.php:31
 msgid ""
 "Volunteers speaking several languages are available. Please select a "
 "language:"
-msgstr "Sono disponibili volontari che parlano diverse lingue. Seleziona la lingua in cui vuoi ricevere l'aiuto:"
+msgstr "Sono disponibili volontari che parlano varie lingue. Seleziona la lingua nella quale vuoi ricevere l'aiuto:"
 
 #: help.php:47
 msgid "Be a Help Volunteer"
-msgstr "Diventa un volontario dell'assistenza tecnica"
+msgstr "Diventa un volontario dell'assistenza online"
 
 #: help.php:50
 #, php-format
@@ -177,11 +178,11 @@ msgstr "Se sei già un volontario dell'assistenza online per modificare le tue o
 msgid ""
 "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
 "or the University of California."
-msgstr "Gli aiutanti di BOINC sono volontari non pagati. La loro consulenza non è approvata dal BOINC o dall'Università della California."
+msgstr "Gli aiutanti di BOINC sono volontari a titolo gratuito. La loro consulenza non è sostenuta da BOINC o dall'Università della California."
 
 #: help_funcs.php:139
 msgid "%1Never%2 give email address or password information to BOINC helpers."
-msgstr "Non devi %1MAI%2 fornire l'indirizzo e-mail o la chiave d'accesso ai volontari di BOINC."
+msgstr "Non devi %1MAI%2 fornire il tuo indirizzo e-mail o la tua password ai volontari di BOINC."
 
 #: index.php:24
 msgid "Computing power"
@@ -245,7 +246,7 @@ msgid ""
 "Use the idle time on your computer (Windows, Mac, Linux, or Android) to cure"
 " diseases, study global warming, discover pulsars, and do many other types "
 "of scientific research.  It's safe, secure, and easy:"
-msgstr "Usa il tempo libero del tuo computer (Windows, Mac, Linux, o Android) per curare malattie, studiare il riscaldamento globale, scoprire pulsar, e per molti altri tipi di ricerca scientifica.  È innocuo, sicuro e facile:"
+msgstr "Utilizza il tempo libero del tuo computer (Windows, Mac, Linux, o Android) per curare malattie, studiare il riscaldamento globale, scoprire pulsar, e per molti altri tipi di ricerca scientifica.  È innocuo, sicuro e facile:"
 
 #: index.php:103
 msgid "Choose projects"
@@ -268,7 +269,7 @@ msgstr "O, se supporti numerosi progetti, prova ad usare un %saccount manager%s 
 
 #: index.php:136
 msgid "Compute with BOINC"
-msgstr "Elaborare con BOINC"
+msgstr "Fare calcoli usando BOINC"
 
 #: index.php:139
 msgid "Software updates"
@@ -278,17 +279,17 @@ msgstr "Aggiornamenti del software"
 msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4, "
 "giving you the power of thousands of CPUs and GPUs."
-msgstr "%1Scienziati%2: usa BOINC per creare un %3progetto di calcolo%4 che abbia la potenza di elaborazione di migliaia di CPU e GPU."
+msgstr "%1Scienziati%2: potete usare BOINC per realizzare un %3progetto di calcolo volontario%4 che abbia la potenza di elaborazione di migliaia di CPU e GPU."
 
 #: index.php:150
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
-msgstr "%1Università%2: usa BOINC per creare un %3mainframe virtuale%4, disponibile per tutti i bisogni dell'università."
+msgstr "%1Università%2: potete usare BOINC per creare un %3mainframe virtuale%4 disponibile per tutti i bisogni dell'università."
 
 #: index.php:155
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
-msgstr "%1Aziende%2: usa BOINC per il %3grid computing%4."
+msgstr "%1Aziende%2: potete usare BOINC per il %3grid computing%4."
 
 #: index.php:167
 msgid "About BOINC"
@@ -413,7 +414,7 @@ msgstr "University College di Dublino"
 
 #: projects.inc:108
 msgid "Antimalarial drug discovery"
-msgstr "Scoperta di cure per la malaria"
+msgstr "Ricerca di farmaci antimalarici"
 
 #: projects.inc:109
 msgid ""
@@ -454,7 +455,7 @@ msgid ""
 "molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. "
 "New biomedical applications suddenly become possible giving a new role to "
 "computational biology for biomedical research."
-msgstr "GPUGrid.net apre nuovi scenari computazionali grazie al primo codice di dinamica molecolare esteso a tutti gli atomi (CellMD) appositamente ottimizzato per girare sulle GPU NVIDIA. Di colpo diventano possibili nuove applicazioni biomediche le quali conferiscono un nuovo ruolo alla biologia computazionale per la ricerca biomedica."
+msgstr "GPUGrid.net apre nuovi scenari computazionali grazie al primo codice di dinamica molecolare esteso a tutti gli atomi (CellMD) appositamente ottimizzato per girare sulle GPU NVIDIA. Di colpo diventano possibili nuove applicazioni biomediche che conferiscono un nuovo ruolo alla biologia computazionale nella ricerca biomedica."
 
 #: projects.inc:175
 msgid ""
@@ -463,7 +464,7 @@ msgstr "Centro per la bioinformatica e la biologia computazionale dell'Universit
 
 #: projects.inc:176
 msgid "Life science research"
-msgstr "Scienze naturali"
+msgstr "Studi nel campo delle scienze della vita"
 
 #: projects.inc:177
 msgid ""
@@ -631,7 +632,7 @@ msgid ""
 " Dynamics jobs. In this way students have used the grid to simulate liquid "
 "argon, or to test the validity of the ideal gas law by actually doing the "
 "simulations through the grid."
-msgstr "Calcoli relativi alla scienza delle superfici utilizzando la dinamica classica. Leiden Classical permette a volontari, studenti e altri scienziati di inserire le proprie elaborazioni nella grid. Ogni utente ha la sua coda personale per le attività di dinamica classica. In questo modo gli studenti hanno utilizzato la grid per simulare l'argon liquido, o per testare la validità della legge dei gas ideali (equazione di stato dei gas perfetti) effettuando le simulazioni tramite la grid."
+msgstr "Calcoli relativi alla scienza delle superfici utilizzando la dinamica classica. Leiden Classical permette a volontari, studenti e altri scienziati di accodare le proprie richieste di elaborazione nella rete. Ogni utente ha la sua coda personale per le simulazioni di dinamica classica. In questo modo degli studenti hanno già usato la rete per simulare l'argon liquido, o per testare la validità della legge dei gas ideali (equazione di stato dei gas perfetti)."
 
 #: projects.inc:352
 msgid "Help students do atomic simulations"
@@ -648,7 +649,7 @@ msgid ""
 "observatory.  Einstein@Home is a World Year of Physics 2005 project "
 "supported by the American Physical Society (APS) and by a number of "
 "international organizations."
-msgstr "Cercare stelle di neutroni rotanti (dette anche pulsar) usando i dati dai rivelatori di onde gravitazionali LIGO e GEO, e dal radiotelescopio di Arecibo. Einstein@Home è un progetto dell'Anno Mondiale della Fisica 2005, supportato dall'American Physical Society (APS) e da un certo numero di organizzazioni internazionali."
+msgstr "Cercare stelle di neutroni rotanti (dette anche pulsar) usando i dati dai rivelatori di onde gravitazionali LIGO e GEO, e dal radiotelescopio di Arecibo. Einstein@Home è un progetto dell'Anno internazionale della Fisica 2005, supportato dall'American Physical Society (APS) e da un certo numero di organizzazioni internazionali."
 
 #: projects.inc:370
 msgid "Help detect pulsars and gravitational waves"
@@ -713,11 +714,11 @@ msgid ""
 "radio SETI, uses radio telescopes to listen for narrow-bandwidth radio "
 "signals from space. Such signals are not known to occur naturally, so a "
 "detection would provide evidence of extraterrestrial technology."
-msgstr "SETI (Search for Extraterrestrial Intelligence, ricerca di intelligenza extraterrestre) è un'area scientifica il cui obiettivo è rilevare vita intelligente al di fuori della Terra. Uno degli approcci, noto come SETI radio, utilizza radiotelescopi per ascoltare segnali radio a banda stretta provenienti dallo spazio. È noto che tali segnali non sono di origine naturale, quindi la loro rilevazione fornirebbe prova di tecnologia extraterrestre."
+msgstr "SETI (Search for Extraterrestrial Intelligence, Ricerca di intelligenza extraterrestre) è un'area scientifica il cui obiettivo è rilevare vita intelligente al di fuori della Terra. Uno degli approcci che adotta, noto come SETI radio, utilizza radiotelescopi per ascoltare segnali radio a banda stretta provenienti dallo spazio. È noto che tali segnali non sono di origine naturale, quindi la loro rilevazione costituirebbe una prova dell'esistenza di tecnologia extraterrestre."
 
 #: projects.inc:418
 msgid "Search for evidence of extra-terrestrial life"
-msgstr "Ricerca di prove sulla vita extraterrestre"
+msgstr "Ricerca di prove di vita extraterrestre"
 
 #: projects.inc:442
 msgid "Multiple applications"
@@ -764,7 +765,7 @@ msgstr "Matematica, fisica, evoluzione"
 msgid ""
 "Yoyo@home is an adapter between BOINC and several existing volunteer "
 "computing projects: ECM, Muon, Evolution@home, and distributed.net"
-msgstr "Yoyo@home è un adattatore tra BOINC e vari altri progetti di calcolo volontario esistenti: ECM, Muon, Evolution@home, e distributed.net"
+msgstr "Yoyo@home è un wrapper tra BOINC e vari altri progetti di calcolo volontario esistenti: ECM, Muon, Evolution@home, e distributed.net"
 
 #: projects.inc:472
 msgid "Do research in math, physics, and evolution"
@@ -784,7 +785,7 @@ msgid ""
 "grid network of Europe by allowing service grids to send workunits to be "
 "processed by the volunteers of this project. The scientific projects covered"
 " by the project include math, physics, biology, etc."
-msgstr "Il progetto EDGeS@Home Beta integra il calcolo volontario nella network service grid europea permettendo ad essa di inviare unità di lavoro da far elaborare ai volontari di questo progetto. I progetti scientifici coperti dal progetto includono matematica, fisica, biologia, ecc."
+msgstr "Il progetto EDGeS@Home Beta integra il calcolo volontario nella Network Service Grid europea permettendole di inviare workunit da far elaborare ai volontari. I progetti scientifici coperti dal progetto includono matematica, fisica, biologia, ecc."
 
 #: projects.inc:482
 msgid "Help European researchers"
@@ -888,7 +889,7 @@ msgstr "Decodificare i messaggi dei sommergibili della Seconda guerra mondiale"
 
 #: projects.inc:603
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
-msgstr "Studiare la Congettura di Collatz, una congettura matematica irrisolta"
+msgstr "Studiare la congettura di Collatz, una congettura matematica irrisolta"
 
 #: projects.inc:606
 msgid "Study the Collatz Conjecture"
@@ -900,7 +901,7 @@ msgstr "California State University Fullerton"
 
 #: projects.inc:612
 msgid "Factorization of large integers"
-msgstr "Fattorizzazione di grandi numeri interi"
+msgstr "Fattorizzazione di numeri interi grandi"
 
 #: projects.inc:613
 msgid ""
@@ -910,7 +911,7 @@ msgid ""
 "breaking an integer into prime factors, such as 15 = 3 * 5 or 35 = 5 * 7. "
 "NFS@Home is a continuation of that experience, only with integers that are "
 "hundreds of digits long."
-msgstr "NFS@Home è un progetto di ricerca che utilizza computer connessi ad Internet per effettuare l'iterazione del crivello di reticoli (lattice sieving) nella fattorizzazione di grandi interi con il metodo del crivello dei campi di numeri. Da giovane studente, hai fatto la tua prima esperienza di scomporre un intero in fattori primi, ad esempio 15 = 3 * 5 oppure 35 = 5 * 7. NFS@Home è una continuazione di quell'esperienza, solo con interi lunghi centinaia di cifre."
+msgstr "NFS@Home è un progetto di ricerca che utilizza computer connessi ad Internet per effettuare l'iterazione del crivello di reticoli (lattice sieving) nella fattorizzazione di grandi interi con il metodo del crivello dei campi di numeri. Da giovane studente, hai fatto la tua prima esperienza di scomposizione di interi in fattori primi, ad esempio 15 = 3 * 5 oppure 35 = 5 * 7. NFS@Home è una continuazione di quell'esperienza, solo con interi con centinaia di cifre."
 
 #: projects.inc:616
 msgid "Study the factorization of large integers"
@@ -964,4 +965,4 @@ msgstr "Commenta"
 #: ../html/inc/news.inc:111
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr "Le news sono disponibili come %sRSS feed%s"
+msgstr "Le news sono disponibili come %sfeed RSS%s"

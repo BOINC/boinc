@@ -4,16 +4,16 @@
 
 # BOINC
 
-Project Website: http://boinc.berkeley.edu
+Project Website: https://boinc.berkeley.edu
 
 ## Want to create a project
-See: http://boinc.berkeley.edu/trac/wiki
+See: https://boinc.berkeley.edu/trac/wiki
 
 ## Want to help translate
-See: http://boinc.berkeley.edu/trac/wiki/TranslateIntro
+See: https://boinc.berkeley.edu/trac/wiki/TranslateIntro
 
 ## Want to contribute
-See: http://boinc.berkeley.edu/trac/wiki/SoftwareDevelopment
+See: https://boinc.berkeley.edu/trac/wiki/SoftwareDevelopment
 
 ### Note
 

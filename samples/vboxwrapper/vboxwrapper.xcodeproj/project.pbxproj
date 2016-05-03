@@ -366,7 +366,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				PRODUCT_NAME = vboxwrapper_x86_64;
-				USER_HEADER_SEARCH_PATHS = "../../clientgui/mac ../../**";
+				USER_HEADER_SEARCH_PATHS = ../../clientgui/mac;
 			};
 			name = Debug;
 		};
@@ -375,7 +375,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				PRODUCT_NAME = vboxwrapper_x86_64;
-				USER_HEADER_SEARCH_PATHS = "../../clientgui/mac ../../**";
+				USER_HEADER_SEARCH_PATHS = ../../clientgui/mac;
 			};
 			name = Release;
 		};

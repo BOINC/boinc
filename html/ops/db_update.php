@@ -1015,12 +1015,16 @@ function workunit_big_ids() {
     ");
 }
 
-// run this is your projects uses HTTPS, to patch up the gravatar URLs
+// run this if your projects uses HTTPS, to patch up the gravatar URLs
 //
 function gravatar_update() {
     do_query("update forum_preferences
         SET avatar = REPLACE(avatar, 'http://www.gravatar.com', '//www.gravatar.com')
     ");
+}
+
+function update_1_27_2016() {
+    do_query("alter table team add column mod_time timestamp default current_timestamp on update current_timestamp");
 }
 
 // Updates are done automatically if you use "upgrade".
@@ -1068,6 +1072,7 @@ $db_updates = array (
     array(27011, "update_8_15_2014"),
     array(27012, "update_10_8_2014"),
     array(27013, "update_4_15_2015"),
+    array(27014, "update_1_27_2016"),
 );
 
 ?>

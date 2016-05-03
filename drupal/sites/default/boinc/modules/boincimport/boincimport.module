@@ -482,7 +482,7 @@ function boincimport_users() {
   else {
     // Need to import any user who is currently ignored in order to keep them
     // ignored... not particularly clean (ignored users are stored in a string)
-    $ignored_user_list = array();
+    $ignored_user_list = array(0);
     $ignoring_users = db_query("
       SELECT ignorelist
       FROM forum_preferences

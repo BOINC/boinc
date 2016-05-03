@@ -37,7 +37,7 @@ struct IP_RESULT {
     double estimated_completion_time;
 
     void init() {
-        strcpy(name, "");
+        safe_strcpy(name, "");
         computation_deadline = 0;
         report_deadline = 0;
         cpu_time_remaining = 0;

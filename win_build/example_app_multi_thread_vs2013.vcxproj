@@ -139,7 +139,7 @@
       <DelayLoadDLLs>%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\Build\$(Platform)\$(Configuration)\multi_thread_6.1_windows_intelx86.pdb</ProgramDatabaseFile>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -188,7 +188,7 @@
       <DelayLoadDLLs>%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\Build\$(Platform)\$(Configuration)\multi_thread_6.1_windows_x86_64.pdb</ProgramDatabaseFile>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -233,7 +233,7 @@
       <DelayLoadDLLs>%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\Build\$(Platform)\$(Configuration)\multi_thread_6.1_windows_intelx86.pdb</ProgramDatabaseFile>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -278,7 +278,7 @@
       <DelayLoadDLLs>%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\Build\$(Platform)\$(Configuration)\multi_thread_6.1_windows_x86_64.pdb</ProgramDatabaseFile>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>

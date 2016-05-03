@@ -199,7 +199,6 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     // Custom Events & Timers
     EVT_FRAME_CONNECT(CAdvancedFrame::OnConnect)
     EVT_FRAME_NOTIFICATION(CAdvancedFrame::OnNotification)
-    EVT_FRAME_UPDATESTATUS(CAdvancedFrame::OnUpdateStatus)
     EVT_TIMER(ID_REFRESHSTATETIMER, CAdvancedFrame::OnRefreshState)
     EVT_TIMER(ID_FRAMERENDERTIMER, CAdvancedFrame::OnFrameRender)
     EVT_NOTEBOOK_PAGE_CHANGED(ID_FRAMENOTEBOOK, CAdvancedFrame::OnNotebookSelectionChanged)
@@ -341,7 +340,7 @@ bool CAdvancedFrame::CreateMenu() {
 
     menuFile->Append(
         ID_SELECTCOMPUTER, 
-        _("Select computer..."),
+        _("Select computer...\tCtrl+Shift+I"),
         _("Connect to a BOINC client on another computer")
     );
     menuFile->Append(
@@ -738,7 +737,7 @@ bool CAdvancedFrame::CreateMenu() {
     m_Shortcuts[0].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
     m_pAccelTable = new wxAcceleratorTable(1, m_Shortcuts);
     SetAcceleratorTable(*m_pAccelTable);
- #endif
+#endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateMenu - Function End"));
     return true;
@@ -1150,8 +1149,17 @@ void CAdvancedFrame::OnWizardAttachProject( wxCommandEvent& WXUNUSED(event) ) {
 
         CWizardAttach* pWizard = new CWizardAttach(this);
 
-        wxString strURL = wxEmptyString;
-        pWizard->Run(strURL, false);
+        pWizard->Run(
+            wxEmptyString,
+            wxEmptyString,
+            wxEmptyString,
+            wxEmptyString,
+            wxEmptyString,
+            wxEmptyString,
+            wxEmptyString,
+            false,
+            false
+        );
 
         if (pWizard) {
             pWizard->Destroy();
@@ -1607,7 +1615,7 @@ void CAdvancedFrame::OnLaunchNewInstance(wxCommandEvent& WXUNUSED(event)) {
     err = GetProcessInformation(&myPSN, &pInfo);
     if (!err) {
         procName[procName[0]+1] = '\0'; // Convert pascal string to C string
-        sprintf(s, "open -n \"/Applications/%s.app\" --args --multiple", procName+1);
+        snprintf(s, sizeof(s), "open -n \"/Applications/%s.app\" --args --multiple", procName+1);
         system(s);
     }
 #endif
@@ -1745,7 +1753,9 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     std::string strProjectInstitution;
     std::string strProjectDescription;
     std::string strProjectKnown;
-    bool bCachedCredentials = false;
+    std::string strProjectSetupCookie;
+    bool        bAccountKeyDetected = false;
+    bool        bEmbedded = false;
     ACCT_MGR_INFO ami;
     PROJECT_INIT_STATUS pis;
 	CC_STATUS status;
@@ -1802,37 +1812,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     pDoc->rpc.get_project_init_status(pis);
     pDoc->rpc.acct_mgr_info(ami);
 
-    if (detect_simple_account_credentials(
-            strProjectName, strProjectURL, strProjectAuthenticator, strProjectInstitution, strProjectDescription, strProjectKnown
-        )
-    ){
-        if (!pDoc->project((char*)strProjectURL.c_str())) {
-            wasShown = IsShown();
-            Show();
-            wasVisible = wxGetApp().IsApplicationVisible();
-            if (!wasVisible) {
-                wxGetApp().ShowApplication(true);
-            }
-        
-            pWizard = new CWizardAttach(this);
-
-            if (pWizard->RunSimpleProjectAttach(
-                    wxURI::Unescape(strProjectName),
-                    wxURI::Unescape(strProjectURL),
-                    wxURI::Unescape(strProjectAuthenticator),
-                    wxURI::Unescape(strProjectInstitution),
-                    wxURI::Unescape(strProjectDescription),
-                    wxURI::Unescape(strProjectKnown)
-                )
-            ) {
-                // If successful, display the projects tab
-                m_pNotebook->SetSelection(ID_ADVTASKSVIEW - ID_ADVVIEWBASE);
-            } else {
-                // If failure, display the notices tab
-                m_pNotebook->SetSelection(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE);
-            }
-        }
-    } else if (ami.acct_mgr_url.size() && ami.have_credentials) {
+    if (ami.acct_mgr_url.size() && ami.have_credentials) {
         // Fall through
         //
         // There isn't a need to bring up the attach wizard, the client will
@@ -1904,15 +1884,44 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             // If failure, display the notification tab
             m_pNotebook->SetSelection(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE);
         }
-    } else if ((pis.url.size() || (0 >= pDoc->GetProjectCount())) && !status.disallow_attach) {
+    } else if ((0 >= pDoc->GetProjectCount()) && !status.disallow_attach) {
+        if (pis.url.size() > 0) {
+
+            strProjectName = pis.name.c_str();
+            strProjectURL = pis.url.c_str();
+            strProjectSetupCookie = pis.setup_cookie.c_str();
+            bAccountKeyDetected = pis.has_account_key;
+            bEmbedded = pis.embedded;
+
+            // If credentials are not cached, then we should try one last place to look up the
+            //   authenticator.  Some projects will set a "Setup" cookie off of their URL with a
+            //   pretty short timeout.  Lets take a crack at detecting it.
+            //
+            if (pis.url.length() && !pis.has_account_key) {
+                detect_setup_authenticator(pis.url, strProjectAuthenticator);
+            }
+
+        } else {
+            detect_simple_account_credentials(
+                strProjectName, strProjectURL, strProjectAuthenticator, strProjectInstitution, strProjectDescription, strProjectKnown
+            );
+        }
+        
         Show();
         wxGetApp().ShowApplication(true);
-        
         pWizard = new CWizardAttach(this);
-        strURL = wxString(pis.url.c_str(), wxConvUTF8);
-        bCachedCredentials = pis.url.length() && pis.has_account_key;
 
-        if (pWizard->Run(strURL, bCachedCredentials)) {
+        if (pWizard->Run(
+                wxURI::Unescape(strProjectName),
+                wxURI::Unescape(strProjectURL),
+                wxURI::Unescape(strProjectAuthenticator),
+                wxURI::Unescape(strProjectInstitution),
+                wxURI::Unescape(strProjectDescription),
+                wxURI::Unescape(strProjectKnown),
+                wxURI::Unescape(strProjectSetupCookie),
+                bAccountKeyDetected,
+                bEmbedded)
+        ){
             // If successful, display the work tab
             m_pNotebook->SetSelection(ID_ADVTASKSVIEW - ID_ADVVIEWBASE);
         } else {
@@ -1948,16 +1957,6 @@ void CAdvancedFrame::OnNotification(CFrameEvent& WXUNUSED(event)) {
     m_pNotebook->SetSelection(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnNotification - Function End"));
-}
-
-
-void CAdvancedFrame::OnUpdateStatus(CFrameEvent& event) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnUpdateStatus - Function Begin"));
-
-    m_pStatusbar->SetStatusText(event.m_message);
-    ::wxSleep(0);
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnUpdateStatus - Function End"));
 }
 
 

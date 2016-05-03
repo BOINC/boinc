@@ -27,6 +27,10 @@
 #include <ctime>
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #include "error_numbers.h"
 #include "filesys.h"
 #include "parse.h"
@@ -50,7 +54,7 @@ SCHEDULER_OP::SCHEDULER_OP(HTTP_OP_SET* h) {
     scheduler_op_retval = 0;
     http_op.http_op_state = HTTP_STATE_IDLE;
     http_ops = h;
-    strcpy(scheduler_url,"");
+    safe_strcpy(scheduler_url,"");
     url_index = 0;
     cur_proj = NULL;
     state = SCHEDULER_OP_STATE_IDLE;
@@ -102,7 +106,7 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
     if (p->scheduler_urls.size() == 0) {
         retval = init_master_fetch(p);
         if (retval) {
-            sprintf(err_msg,
+            snprintf(err_msg, sizeof(err_msg),
                 "Scheduler list fetch initialization failed: %d\n", retval
             );
             project_rpc_backoff(p, err_msg);
@@ -123,7 +127,7 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
         retval = start_rpc(p);
     }
     if (retval) {
-        sprintf(err_msg,
+        snprintf(err_msg, sizeof(err_msg),
             "scheduler request to %s failed: %s\n",
             p->get_scheduler_url(url_index, url_random), boincerror(retval)
         );
@@ -161,7 +165,7 @@ void SCHEDULER_OP::project_rpc_backoff(PROJECT* p, const char *reason_msg) {
     }
 
     if (p->master_fetch_failures >= gstate.master_fetch_retry_cap) {
-        sprintf(buf,
+        snprintf(buf, sizeof(buf),
             "%d consecutive failures fetching scheduler list",
             p->master_fetch_failures
         );
@@ -215,13 +219,13 @@ void SCHEDULER_OP::rpc_failed(const char* msg) {
     cur_proj = 0;
 }
 
-static void request_string(char* buf) {
+static void request_string(char* buf, int len) {
     bool first = true;
-    strcpy(buf, "");
+    strlcpy(buf, "", len);
     for (int i=0; i<coprocs.n_rsc; i++) {
         if (rsc_work_fetch[i].req_secs) {
-            if (!first) strcat(buf, " and ");
-            strcat(buf, rsc_name_long(i));
+            if (!first) strlcat(buf, " and ", len);
+            strlcat(buf, rsc_name_long(i), len);
             first = false;
         }
     }
@@ -248,13 +252,13 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
                 "Reporting %d completed tasks", p->nresults_returned
             );
         }
-        request_string(buf);
+        request_string(buf, sizeof(buf));
         if (strlen(buf)) {
             msg_printf(p, MSG_INFO, "Requesting new tasks for %s", buf);
         } else {
             if (p->pwf.project_reason) {
                 msg_printf(p, MSG_INFO,
-                    "Not requesting tasks: %s", project_reason_string(p, buf)
+                    "Not requesting tasks: %s", project_reason_string(p, buf, sizeof(buf))
                 );
             } else {
                 msg_printf(p, MSG_INFO, "Not requesting tasks");
@@ -459,7 +463,7 @@ bool SCHEDULER_OP::poll() {
                 // master file fetch failed.
                 //
                 char buf[256];
-                sprintf(buf, "Scheduler list fetch failed: %s",
+                snprintf(buf, sizeof(buf), "Scheduler list fetch failed: %s",
                     boincerror(http_op.http_op_retval)
                 );
                 cur_proj->master_fetch_failures++;
@@ -539,8 +543,8 @@ void SCHEDULER_REPLY::clear() {
     messages.clear();
     global_prefs_xml = 0;
     project_prefs_xml = 0;
-    strcpy(master_url, "");
-    strcpy(host_venue, "");
+    safe_strcpy(master_url, "");
+    safe_strcpy(host_venue, "");
     user_create_time = 0;
     code_sign_key = 0;
     code_sign_key_signature = 0;

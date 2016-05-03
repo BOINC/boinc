@@ -32,8 +32,9 @@ A list of scientific publications of BOINC projects</a>.
 
 The following projects are known to us at BOINC,
 and we believe that their descriptions are accurate.
-See also
-<a href=wiki/Project_list>a complete list of projects</a>.
+";
+//See also <a href=wiki/Project_list>a complete list of projects</a>.
+echo "
 
 <p>
 Projects have different requirements such as memory size;
@@ -170,7 +171,7 @@ echo "
 <p>
 If you run a BOINC-based project
 and would like it to be included on this list,
-please <a href=http://boinc.berkeley.edu/trac/wiki/ProjectPeople>contact us</a>.
+please <a href=trac/wiki/ProjectPeople>contact us</a>.
 <script language=\"JavaScript\" type=\"text/javascript\" src=\"wz_tooltip.js\"></script>
 ";
 page_tail();

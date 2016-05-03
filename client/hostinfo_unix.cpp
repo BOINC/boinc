@@ -1321,8 +1321,8 @@ int HOST_INFO::get_cpu_info() {
 
     getsysinfo( GSI_PROC_TYPE, (caddr_t) &cpu_type, sizeof( cpu_type));
     CPU_TYPE_TO_TEXT( (cpu_type& 0xffffffff), cpu_type_name);
-    strncpy( p_model, "Alpha ", sizeof( p_model));
-    strncat( p_model, cpu_type_name, (sizeof( p_model)- strlen( p_model)- 1));
+    strlcpy(p_model, "Alpha ", sizeof(p_model));
+    strlcat(p_model, cpu_type_name, sizeof(p_model));
     p_model[sizeof(p_model)-1]=0;
 #elif HAVE_SYS_SYSTEMINFO_H
     sysinfo(SI_PLATFORM, p_vendor, sizeof(p_vendor));
@@ -1989,11 +1989,12 @@ const vector<string> X_display_values_initialize() {
         "[idle_detection] Error (%d) opening %s.", errno, dir.c_str());
     }
   }
-
-  while ((dirp = readdir(dp)) != NULL) {
-    display_values.push_back(string(dirp->d_name));
+  else {
+    while ((dirp = readdir(dp)) != NULL) {
+      display_values.push_back(string(dirp->d_name));
+    }
+    closedir(dp);
   }
-  closedir(dp);
 
   // Get rid of non-matching elements and format the matching ones.
   for ( it = display_values.begin() ; it != display_values.end() ; ) {
@@ -2090,6 +2091,7 @@ bool xss_idle(long idle_threshold) {
 	  "[idle_detection] XScreenSaver extension not available for DISPLAY '%s'.",
 	  it->c_str());
       }
+      XCloseDisplay(disp);
       continue;
     }
 
@@ -2097,6 +2099,9 @@ bool xss_idle(long idle_threshold) {
     no_available_x_display = false;
     XScreenSaverQueryInfo(disp, DefaultRootWindow(disp), xssInfo);
     idle_time = xssInfo->idle;
+
+    // Close the connection to the XServer
+    XCloseDisplay(disp);
 
     // convert from milliseconds to seconds
     idle_time = idle_time / 1000;

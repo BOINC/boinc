@@ -473,11 +473,11 @@ int main(int argc, char** argv) {
             }
             commandLine[0] = '"';
             // OK, we can safely use strcpy and strcat, since we know that we allocated enough
-            strcpy(&commandLine[1], argv[0]);
-            strcat(commandLine, "\"");
+            strlcpy(&commandLine[1], argv[0], len);
+            strlcat(commandLine, "\"", len);
             for (i = 1; i < argc; i++) {
-                strcat(commandLine, " ");
-                strcat(commandLine, argv[i]);
+                strlcat(commandLine, " ", len);
+                strlcat(commandLine, argv[i], len);
             }
 
             memset(&si, 0, sizeof(si));

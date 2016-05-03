@@ -78,6 +78,8 @@
 		DD2B6C8113149177005D6F3E /* procinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2B6C7E13149177005D6F3E /* procinfo.cpp */; };
 		DD2B6C8D131491B7005D6F3E /* procinfo_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */; };
 		DD2B6C8E131491B8005D6F3E /* procinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2B6C7E13149177005D6F3E /* procinfo.cpp */; };
+		DD30CACF1C6B3C7F00AE1D14 /* project_init.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD30CACD1C6B3C7F00AE1D14 /* project_init.cpp */; };
+		DD30CAD01C6B3CCB00AE1D14 /* project_init.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD30CACD1C6B3C7F00AE1D14 /* project_init.cpp */; };
 		DD3157C316740D5300B6C909 /* gpu_intel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD3157C016740C9100B6C909 /* gpu_intel.cpp */; };
 		DD33C6F308B5BAF500768630 /* gui_http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F108B5BAF500768630 /* gui_http.cpp */; };
 		DD33C6F808B5BB4500768630 /* acct_setup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F708B5BB4500768630 /* acct_setup.cpp */; };
@@ -782,6 +784,8 @@
 		DD2D25CB07FAB41700151141 /* DlgSelectComputer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgSelectComputer.cpp; path = ../clientgui/DlgSelectComputer.cpp; sourceTree = SOURCE_ROOT; };
 		DD2D25CC07FAB41700151141 /* DlgSelectComputer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DlgSelectComputer.h; path = ../clientgui/DlgSelectComputer.h; sourceTree = SOURCE_ROOT; };
 		DD30446A0864332D00D73756 /* config.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = config.h; path = ../clientgui/mac/config.h; sourceTree = SOURCE_ROOT; };
+		DD30CACD1C6B3C7F00AE1D14 /* project_init.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = project_init.cpp; sourceTree = "<group>"; };
+		DD30CACE1C6B3C7F00AE1D14 /* project_init.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = project_init.h; sourceTree = "<group>"; };
 		DD3157C016740C9100B6C909 /* gpu_intel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gpu_intel.cpp; sourceTree = "<group>"; };
 		DD33C6F108B5BAF500768630 /* gui_http.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = gui_http.cpp; sourceTree = "<group>"; };
 		DD33C6F208B5BAF500768630 /* gui_http.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = gui_http.h; path = ../client/gui_http.h; sourceTree = SOURCE_ROOT; };
@@ -1829,6 +1833,8 @@
 				DD76BF9117CB45870075936D /* opencl_boinc.cpp */,
 				DD76BF9217CB45870075936D /* opencl_boinc.h */,
 				F54B901602AC0A2201FB7237 /* parse.cpp */,
+				DD30CACD1C6B3C7F00AE1D14 /* project_init.cpp */,
+				DD30CACE1C6B3C7F00AE1D14 /* project_init.h */,
 				DDE1372D10DC5E8D00161D6B /* notice.cpp */,
 				DDE1372E10DC5E8D00161D6B /* notice.h */,
 				F54B901502AC0A2201FB7237 /* parse.h */,
@@ -2950,6 +2956,7 @@
 				DD407A6907D2FBC200163EF5 /* proxy_info.cpp in Sources */,
 				DD407A6B07D2FBC700163EF5 /* shmem.cpp in Sources */,
 				DD4329910BA63DEC007CDF2A /* str_util.cpp in Sources */,
+				DD30CAD01C6B3CCB00AE1D14 /* project_init.cpp in Sources */,
 				DDA45500140F7DE200D97676 /* synch.cpp in Sources */,
 				DDC06AB410A3E93F00C8D9A5 /* url.cpp in Sources */,
 				DD407A6D07D2FBD100163EF5 /* util.cpp in Sources */,
@@ -3295,6 +3302,7 @@
 				DD25F72B15914F8C007845B5 /* gpu_detect.cpp in Sources */,
 				DDE17420166746F70059083A /* app_config.cpp in Sources */,
 				DD3157C316740D5300B6C909 /* gpu_intel.cpp in Sources */,
+				DD30CACF1C6B3C7F00AE1D14 /* project_init.cpp in Sources */,
 				DD76BF9517CB45D20075936D /* opencl_boinc.cpp in Sources */,
 				DD6A829C181103990037172D /* thread.cpp in Sources */,
 				DDDC2055183B560B00CB5845 /* mac_address.cpp in Sources */,
@@ -3554,7 +3562,7 @@
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
 					"../mac3rdParty/wxWidgets-3.0.0/build/osx/build/Debug",
-					"../mac3rdParty/sqlite-autoconf-3090200/.libs/",
+					"../mac3rdParty/sqlite-autoconf-3110000/.libs/",
 				);
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
@@ -3572,7 +3580,7 @@
 					"-bind_at_load",
 					"-D_THREAD_SAFE",
 					"-lwx_osx_cocoa_static",
-					"../mac3rdParty/sqlite-autoconf-3090200/.libs/libsqlite3.a",
+					"../mac3rdParty/sqlite-autoconf-3110000/.libs/libsqlite3.a",
 					"-lz",
 					"-lpthread",
 					"-lm",
@@ -3608,7 +3616,7 @@
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
 					"../mac3rdParty/wxWidgets-3.0.0/build/osx/build/Release",
-					"../mac3rdParty/sqlite-autoconf-3090200/.libs/",
+					"../mac3rdParty/sqlite-autoconf-3110000/.libs/",
 				);
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
@@ -3628,7 +3636,7 @@
 					"-bind_at_load",
 					"-D_THREAD_SAFE",
 					"-lwx_osx_cocoa_static",
-					"../mac3rdParty/sqlite-autoconf-3090200/.libs/libsqlite3.a",
+					"../mac3rdParty/sqlite-autoconf-3110000/.libs/libsqlite3.a",
 					"-lz",
 					"-lpthread",
 					"-lm",
@@ -3874,7 +3882,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.46.0/include";
+				HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.47.1/include";
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				LIBRARY_SEARCH_PATHS = "";
 				"OTHER_CFLAGS[arch=x86_64]" = (
@@ -3886,16 +3894,16 @@
 				);
 				OTHER_LDFLAGS = (
 					"-L.",
-					"../mac3rdParty/curl-7.46.0/lib/.libs/libcurl.a",
+					"../mac3rdParty/curl-7.47.1/lib/.libs/libcurl.a",
 					"../mac3rdParty/c-ares-1.10.0/.libs/libcares.a",
-					"../mac3rdParty/openssl-1.0.2e/libcrypto.a",
-					"../mac3rdParty/openssl-1.0.2e/libssl.a",
+					"../mac3rdParty/openssl-1.0.2g/libcrypto.a",
+					"../mac3rdParty/openssl-1.0.2g/libssl.a",
 					"-lldap",
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.46.0/include";
+				USER_HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.47.1/include";
 			};
 			name = Deployment;
 		};
@@ -4046,7 +4054,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.46.0/include";
+				HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.47.1/include";
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = (
@@ -4057,16 +4065,16 @@
 				);
 				OTHER_LDFLAGS = (
 					"-L.",
-					"../mac3rdParty/curl-7.46.0/lib/.libs/libcurl.a",
+					"../mac3rdParty/curl-7.47.1/lib/.libs/libcurl.a",
 					"../mac3rdParty/c-ares-1.10.0/.libs/libcares.a",
-					"../mac3rdParty/openssl-1.0.2e/libcrypto.a",
-					"../mac3rdParty/openssl-1.0.2e/libssl.a",
+					"../mac3rdParty/openssl-1.0.2g/libcrypto.a",
+					"../mac3rdParty/openssl-1.0.2g/libssl.a",
 					"-lldap",
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.46.0/include";
+				USER_HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.47.1/include";
 			};
 			name = Development;
 		};

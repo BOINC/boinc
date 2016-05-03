@@ -73,7 +73,6 @@
  * @see zen_process()
  */
 ?>
-<?php $first_page = (!isset($_GET['page']) OR ($_GET['page'] < 1)); ?>
 
 <?php if ($subscribe_link): ?>
   <div class="subscribe">
@@ -106,8 +105,23 @@
     <div class="unpublished"><?php print bts('Unpublished'); ?></div>
   <?php endif; ?>
   
-  <?php // Only show this post on the first page of a thread ?>
-  <?php if ($first_page): ?>
+  <?php 
+    if (!$oldest_post_first) {
+      print comment_render($node);
+    }
+  ?>
+  
+  <?php // Only show this post on the first or last page, depending on sort ?>
+  <?php if (($oldest_post_first AND $first_page) OR (!$oldest_post_first AND $last_page)): ?>
+    
+    <?php if (!$oldest_post_first): ?>
+          </div>
+        </div>
+      </div>
+      <div class="section bottom framing container shadow">
+        <div id="content-area-alt">
+          <div id="node-<?php print $node->nid; ?>-alt" class="<?php print $classes; ?> clearfix<?php echo ($first_page) ? '' : ' not-first-page'; ?>">
+    <?php endif; ?>
     
     <div class="user">
       <?php
@@ -185,6 +199,12 @@
       
     </div> <!-- /.node-body -->
     
-  <?php endif; // first page ?>
+  <?php endif; // page with topic starter post ?>
+  
+  <?php 
+    if ($oldest_post_first) {
+      print comment_render($node);
+    }
+  ?>
   
 </div> <!-- /.node -->

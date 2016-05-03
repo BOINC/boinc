@@ -27,6 +27,10 @@
 #include <cstring>
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #include "error_numbers.h"
 #include "file_names.h"
 #include "filesys.h"
@@ -68,7 +72,7 @@ int CLIENT_STATE::read_trickle_files(PROJECT* project, FILE* f) {
         *p = '_';
         t = atoi(p+1);
 
-        sprintf(path, "%s/%s", project->project_dir(), fname);
+        snprintf(path, sizeof(path), "%s/%s", project->project_dir(), fname);
         retval = read_file_malloc(path, file_contents);
         if (retval) {
             if (log_flags.trickle_debug) {
@@ -99,7 +103,7 @@ int CLIENT_STATE::read_trickle_files(PROJECT* project, FILE* f) {
         // append .sent to filename, so we'll know which ones to delete later
         //
         if (!ends_with(fname, ".sent")) {
-            sprintf(newpath, "%s/%s.sent", project->project_dir(), fname);
+            snprintf(newpath, sizeof(newpath), "%s/%s.sent", project->project_dir(), fname);
             boinc_rename(path, newpath);
         }
     }
@@ -120,7 +124,7 @@ int CLIENT_STATE::remove_trickle_files(PROJECT* project) {
         safe_strcpy(fname, fn.c_str());
         if (!starts_with(fname, "trickle_up")) continue;
         if (!ends_with(fname, ".sent")) continue;
-        sprintf(path, "%s/%s", project->project_dir(), fname);
+        snprintf(path, sizeof(path), "%s/%s", project->project_dir(), fname);
         delete_project_owned_file(path, true);
     }
     return 0;
@@ -144,7 +148,7 @@ int CLIENT_STATE::handle_trickle_down(PROJECT* project, FILE* in) {
             if (!rp) return ERR_NULL;
             ACTIVE_TASK* atp = lookup_active_task_by_result(rp);
             if (!atp) return ERR_NULL;
-            sprintf(path, "%s/trickle_down_%d", atp->slot_dir, send_time);
+            snprintf(path, sizeof(path), "%s/trickle_down_%d", atp->slot_dir, send_time);
             FILE* f = fopen(path, "w");
             if (!f) return ERR_FOPEN;
             fputs(body.c_str(), f);
@@ -177,9 +181,9 @@ bool trickle_up_poll() {
 }
 
 static void trickle_up_request_message(
-    PROJECT* p, const char* msg, char* result_name, int t, char* buf
+    PROJECT* p, const char* msg, char* result_name, int t, char* buf, int len
 ) {
-    sprintf(buf,
+    snprintf(buf, len,
         "<scheduler_request>\n"
         "    <authenticator>%s</authenticator>\n"
         "    <hostid>%d</hostid>\n"
@@ -212,9 +216,10 @@ void send_replicated_trickles(
     PROJECT* p, const char* msg, char* result_name, int now
 ) {
     if (!p->trickle_up_ops.size()) return;
-    char *buf = (char*)malloc(strlen(msg) + 4096);
+    int trickle_len = strlen(msg) + 4096;
+    char *buf = (char*)malloc(trickle_len);
     if (!buf) return;
-    trickle_up_request_message(p, msg, result_name, now, buf);
+    trickle_up_request_message(p, msg, result_name, now, buf, trickle_len);
     for (unsigned int i=0; i<p->trickle_up_ops.size(); i++) {
         TRICKLE_UP_OP *t = p->trickle_up_ops[i];
         if (t->gui_http->is_busy()) {
@@ -286,7 +291,7 @@ int TRICKLE_UP_OP::do_rpc(const char* msg) {
     int n = (int)strlen(msg)+1;
     if (n<65536) n = 65536;     // make it big enough to handle the reply
     req_buf = (char*)malloc(n);
-    strcpy(req_buf, msg);
+    strlcpy(req_buf, msg, n);
     int retval = gui_http->do_rpc_post_str(
         this, const_cast<char*>(url.c_str()), req_buf, n
     );

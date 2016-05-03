@@ -53,6 +53,7 @@
 #endif
 
 #include "diagnostics.h"
+#include "str_replace.h"
 #include "stackwalker_win.h"
 #include "stackwalker_imports.h"
 
@@ -242,25 +243,25 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
         switch ( Module.SymType )
         {
             case SymNone:
-                strcpy( szSymbolType, "-nosymbols-" );
+                safe_strcpy( szSymbolType, "-nosymbols-" );
                 break;
             case SymCoff:
-                strcpy( szSymbolType, "COFF" );
+                safe_strcpy( szSymbolType, "COFF" );
                 break;
             case SymCv:
-                strcpy( szSymbolType, "CV" );
+                safe_strcpy( szSymbolType, "CV" );
                 break;
             case SymPdb:
-                strcpy( szSymbolType, "PDB" );
+                safe_strcpy( szSymbolType, "PDB" );
                 break;
             case SymExport:
-                strcpy( szSymbolType, "-exported-" );
+                safe_strcpy( szSymbolType, "-exported-" );
                 break;
             case SymDeferred:
-                strcpy( szSymbolType, "-deferred-" );
+                safe_strcpy( szSymbolType, "-deferred-" );
                 break;
             case SymSym:
-                strcpy( szSymbolType, "SYM" );
+                safe_strcpy( szSymbolType, "SYM" );
                 break;
             default:
                 snprintf( szSymbolType, sizeof(szSymbolType), "symtype=%ld", (long) Module.SymType );
@@ -280,7 +281,7 @@ BOOL CALLBACK SymEnumerateModulesProc64(LPCSTR /* ModuleName */, DWORD64 BaseOfD
                 bFileVersionRetrieved = true;
 
                 // Which language should be used to lookup the structure?
-                strcpy(szQuery, "\\VarFileInfo\\Translation");
+                safe_strcpy(szQuery, "\\VarFileInfo\\Translation");
                 pVQV(lpData, szQuery, (LPVOID*)&lpTranslate, &uiVarSize);
 
 
@@ -794,9 +795,9 @@ static void ShowStackRM(HANDLE hThread, CONTEXT& Context)
     memset( &Module, '\0', sizeof(IMAGEHLP_MODULE64) );
     Module.SizeOfStruct = sizeof(IMAGEHLP_MODULE64);
   
-    strcpy(szMsgSymFromAddr, "");
-    strcpy(szMsgSymGetLineFromAddr, "");
-    strcpy(szMsgSymGetModuleInfo, "");
+    safe_strcpy(szMsgSymFromAddr, "");
+    safe_strcpy(szMsgSymGetLineFromAddr, "");
+    safe_strcpy(szMsgSymGetModuleInfo, "");
 
 
     for ( frameNum = 0; ; ++frameNum )
