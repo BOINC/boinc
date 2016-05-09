@@ -134,6 +134,7 @@ struct TASK {
     bool is_daemon;
     bool append_cmdline_args;
     bool multi_process;
+    bool forward_slashes;
     double time_limit;
     int priority;
 
@@ -427,6 +428,7 @@ int TASK::parse(XML_PARSER& xp) {
     is_daemon = false;
     multi_process = false;
     append_cmdline_args = false;
+    forward_slashes = false;
     time_limit = 0;
     priority = PROCESS_PRIORITY_LOWEST;
 
@@ -460,6 +462,7 @@ int TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_string("fraction_done_filename", fraction_done_filename)) continue;
         else if (xp.parse_double("weight", weight)) continue;
         else if (xp.parse_bool("daemon", is_daemon)) continue;
+        else if (xp.parse_bool("forward_slashes", forward_slashes)) continue;
         else if (xp.parse_bool("multi_process", multi_process)) continue;
         else if (xp.parse_bool("append_cmdline_args", append_cmdline_args)) continue;
         else if (xp.parse_double("time_limit", time_limit)) continue;
@@ -658,6 +661,14 @@ void slash_to_backslash(char* p) {
     }
 }
 
+void backslash_to_slash(char* p) {
+    while (1) {
+        char* q = strchr(p, '\\');
+        if (!q) break;
+        *q = '/';
+    }
+}
+
 int TASK::run(int argct, char** argvt) {
     string stdout_path, stdin_path, stderr_path;
     char app_path[1024], buf[256];
@@ -710,7 +721,11 @@ int TASK::run(int argct, char** argvt) {
         *to = 0;
         boinc_resolve_filename(from + strlen("boinc_resolve("), fname, sizeof(fname));
 #ifdef _WIN32
-        slash_to_backslash(fname);
+        if(forward_slashes) {
+            backslash_to_slash(fname);
+        } else {
+            slash_to_backslash(fname);
+        }
 #endif
         *from = 0;
         command_line = string(lbuf) + string(fname) + string(to+1);
