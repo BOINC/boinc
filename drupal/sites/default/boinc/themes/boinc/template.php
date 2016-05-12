@@ -292,7 +292,8 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
   
   // Get the author of the node
   $account = user_load($vars['uid']);
-  
+  $comments_per_page = ($user->comments_per_page) ? $user->comments_per_page : variable_get("comment_default_per_page_{$vars['node']->type}", 50);
+    
   // Add topic moderator controls
   if (user_access('edit any forum topic')) {
     $vars['moderator_links'] = array();
@@ -380,7 +381,7 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
   $vars['node']->comment = 0;
   
   $vars['first_page'] = (!isset($_GET['page']) OR ($_GET['page'] < 1));
-  $page_count = ceil($vars['comment_count'] / $user->comments_per_page);
+  $page_count = ceil($vars['comment_count'] / $comments_per_page);
   $vars['last_page'] = ($page_count == 1 OR ($page_count > 1 AND $_GET['page'] == $page_count - 1));
 }
 
