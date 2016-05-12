@@ -381,7 +381,7 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
   $vars['node']->comment = 0;
   
   $vars['first_page'] = (!isset($_GET['page']) OR ($_GET['page'] < 1));
-  $page_count = ceil($vars['comment_count'] / $comments_per_page);
+  $page_count = max(ceil($vars['comment_count'] / $comments_per_page), 1);
   $vars['last_page'] = ($page_count == 1 OR ($page_count > 1 AND $_GET['page'] == $page_count - 1));
 }
 
