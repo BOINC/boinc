@@ -516,7 +516,13 @@ function boinc_preprocess_forum_topic_list(&$variables) {
     foreach ($variables['topics'] as $id => $topic) {
       if ($topic->new_replies) {
         $cid = boincuser_get_first_unread_comment_id($topic->nid);
-        $variables['topics'][$id]->new_url = url("goto/comment/{$cid}");
+        if ($cid) {
+          $variables['topics'][$id]->new_url = url("goto/comment/{$cid}");
+        }
+        else {
+          // User hasn't visited this topic before, so all replies are new...
+          $topic->new_replies = NULL;
+        }
       }
     }
   }
