@@ -417,9 +417,7 @@ void do_zip_outputs() {
     }
 }
 
-// rename/move output files usefull for large files that are alreay in the project directory
-// The logical name of the output file "foo" must be specified as "foo.link" in the result template
-// and "foo" should be a softlink, see usage of boinc_resolve() in job.xml
+// if any zipped input files are present, unzip and remove them
 //
 void do_rename_outputs() {
     for (unsigned int i=0; i<rename_output_filenames.size(); i++) {
