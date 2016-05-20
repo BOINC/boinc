@@ -2,7 +2,7 @@
 
 # $Id$
 '''
-Checks project permissions, etc.
+Checks project permissions and php modules.
 
 This script is designed to run AFTER make_project is executed.
 '''
@@ -10,6 +10,7 @@ This script is designed to run AFTER make_project is executed.
 import functools, argparse
 import grp, pwd
 import os, socket, sys
+import subprocess
 
 #-----------------------------------------------------------
 # Functions
@@ -108,10 +109,33 @@ def check_permissions(user, fpath):
 #check_permissions
 
 
+def check_php_modules(modulestocheck):
+   '''Uses php -m and checks to see if certain php modules are installed.
+   '''
+
+   phpcmd = ['php','-m']
+   try:
+      phpout = subprocess.check_output(phpcmd)
+   except Exception as e:
+      print "ERROR: ",e
+      print "ERROR: Can't execute %s"%(" ".join(phpcmd))
+   #try
+   phpmodules = phpout.split("\n")
+
+   modulesnotfound = set(modulestocheck).difference(phpmodules)
+
+   if len(modulesnotfound)>0:
+      print "WARNING: The following php modules were not found on your system: %s"%(" ".join(modulesnotfound))
+      return 1
+
+   print "Info:  All required/recommended php modules found."
+   return 0
+
+#check_php_modules
 #-----------------------------------------------------------
 # Main program
 
-parser = argparse.ArgumentParser(description="Checks BOINC project directory permissions.")
+parser = argparse.ArgumentParser(description="Checks BOINC project directory permissions and php modules.")
 parser.add_argument("-p","--project_dir", action="store", dest="project_dir", required=True, help="Full path to the project root directory.")
 parser.add_argument("-a","--apache_user", action="store", dest="apache_user", default="FINDOUT", help="User which apache runs. Typically www-data (Debian based), httpd (Redhat based), or apache. If not specified, the script will automatically try to determine.")
 
@@ -133,8 +157,17 @@ PATHS = ['log_'+S_HOSTNAME,
          'html/languages',
          'html/languages/compiled',
          'upload',]
+MODULES = ['gd',"mysql","xml"]
 
 # Run the check_permissions function on all directories
-map(functools.partial(check_permissions, APACHE_USER), [os.path.join(PROJECT_DIR,p) for p in PATHS])
+rcperm = map(functools.partial(check_permissions, APACHE_USER), [os.path.join(PROJECT_DIR,p) for p in PATHS])
 
+# Check for php modules
+rcphp = check_php_modules(MODULES)
+
+if sum(rcperm)+rcphp == 0:
+   print "---All permissions checks passed and php modules installed. Your BOINC project should be ready to start.---"
+else:
+   print "WARNING: Some problems were found with your BOINC installation, please check the messages above for details."
+   
 sys.exit(0)
