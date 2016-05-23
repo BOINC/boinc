@@ -157,7 +157,7 @@ PATHS = ['log_'+S_HOSTNAME,
          'html/languages',
          'html/languages/compiled',
          'upload',]
-MODULES = ['gd',"mysql","xml"]
+MODULES = ['gd',"mysql","mysqli","xml"]
 
 # Run the check_permissions function on all directories
 rcperm = map(functools.partial(check_permissions, APACHE_USER), [os.path.join(PROJECT_DIR,p) for p in PATHS])
