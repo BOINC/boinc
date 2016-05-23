@@ -247,9 +247,10 @@ def create_project_dirs(dest_dir):
         return apply(os.path.join,(dest_dir,)+d)
     def mkdir2(d):
         try:
-            os.mkdir(d);
-        except:
-            pass
+            os.makedirs(d)
+        except OSError as e:
+            if not os.path.isdir(d):
+                raise SystemExit(e)
     map(lambda d: mkdir2(dir(d)),
         [   '',
             'cgi-bin',
@@ -273,7 +274,6 @@ def create_project_dirs(dest_dir):
             'html/ops/ffmail',
             'html/ops/mass_email',
             'html/ops/remind_email',
-            'html/ops',
             'html/project',
             'html/stats',
             'html/user',
