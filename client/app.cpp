@@ -409,7 +409,11 @@ void ACTIVE_TASK_SET::get_memory_usage() {
             // the memory of virtual machine apps is not reported correctly,
             // at least on Windows.  Use the VM size instead.
             //
-            pi.working_set_size_smoothed = atp->wup->rsc_memory_bound;
+            if (atp->scheduler_state == CPU_SCHED_SCHEDULED) {
+                pi.working_set_size_smoothed = atp->wup->rsc_memory_bound;
+            } else {
+                pi.working_set_size_smoothed = 0;
+            }
         } else {
             pi.working_set_size_smoothed = .5*(pi.working_set_size_smoothed + pi.working_set_size);
         }
