@@ -363,7 +363,7 @@ static int process_workunit(
             break;
         } else if (xp.match_tag("file_ref")) {
             out += "<file_ref>\n";
-            bool found_file_number = false, found_open_name = false;
+            bool found_file_number = false, found_open_name = false, found_copy_file = false;
             while (!xp.get_tag()) {
                 if (xp.parse_int("file_number", file_number)) {
                     INFILE_DESC& id = infiles[file_number];
@@ -384,14 +384,26 @@ static int process_workunit(
                     out += buf;
                     found_open_name = true;
                     continue;
+                } else if (xp.match_tag("copy_file/")) {
+                    out += "    <copy_file/>\n";
+                    found_copy_file = true;
+                    continue;
                 } else if (xp.match_tag("/file_ref")) {
                     if (!found_file_number) {
                         fprintf(stderr, "No file number found\n");
                         return ERR_XML_PARSE;
                     }
-                    if (!found_open_name) {
-                        fprintf(stderr, "No open name found\n");
+                    if (!found_open_name && !found_copy_file) {
+                        fprintf(stderr, "No open name found and copy_file not specified\n");
                         return ERR_XML_PARSE;
+                    } else if (!found_open_name && found_copy_file) {
+                        INFILE_DESC& id = infiles[file_number];
+                        if (id.is_remote) {
+                            sprintf(buf, "    <open_name>jf_%s</open_name>\n", infiles[file_number].md5);
+                        } else {
+                            sprintf(buf, "    <open_name>%s</open_name>\n", infiles[file_number].name);
+                        }
+                        out += buf;
                     }
                     out += "</file_ref>\n";
                     break;
