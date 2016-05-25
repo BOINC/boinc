@@ -183,7 +183,7 @@ PATHS = ['log_'+S_HOSTNAME,
          'html/languages',
          'html/languages/compiled',
          'upload',]
-MODULES = ['gd',"mysql","mysqli","xml"]
+MODULES = ["curl","gd","mysqli","xml"]
 TOOLS = ['curl --version']
 
 # Run the check_permissions function on all directories
