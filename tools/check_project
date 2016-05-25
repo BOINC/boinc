@@ -34,7 +34,7 @@ def check_user(user):
 
 def check_dir(dir):
    if not os.path.isdir(dir):
-      print "ERREOR: project directory %s does not exst, Aborting"%(dir)
+      print "ERROR: project directory %s does not exist, Aborting"%(dir)
       sys.exit(1)
    #try
    return dir
