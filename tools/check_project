@@ -45,7 +45,7 @@ def determineapacheuser(user):
    database. Checks a few possibilities that are linux defaults. If
    one user matches, it is returned, otherwise an error created.
 
-   Known Issue: if the system has multiple users defined from the list below, 
+   Known Issue: if the system has multiple users defined from the list below,
    the script will abort.
 
    '''
@@ -59,7 +59,7 @@ def determineapacheuser(user):
    if user=="FINDOUT":
       allusernames = [x.pw_name for x in pwd.getpwall()]
       out1 = set(allusernames).intersection(possibleapacheusers)
-   
+
       if len(out1)==1:
          return out1.pop()
 
@@ -84,7 +84,7 @@ def check_permissions(user, fpath):
       print "ERROR: ", e
       return 1
    #try
-   
+
    owner_permissions = oct(mystat.st_mode)[4:5]
    group_permissions = oct(mystat.st_mode)[5:6]
 
@@ -95,15 +95,15 @@ def check_permissions(user, fpath):
    1) if file owner is the user and owner's permissions allow for writing
    2) if user is in group_members and group's permissions allow for writing
    3) if user's gid is the same as the file's gid, and group's permissions allow for writing
-      The last condition is required because group_members (from gr_mem) does not 
+      The last condition is required because group_members (from gr_mem) does not
       contain the primary user of the group.
    '''
-   
+
    if (file_owner == user and owner_permissions >=5) or (user in group_members and group_permissions >=5) or (mypwdb.pw_gid==mystat.st_gid and group_permissions >=5) :
       print "Info:  User %s can write to file/dir %s"%(user, fpath)
       return 0
    #end if
-  
+
    print "WARNING: User %s can NOT write to %s"%(user, fpath)
    return 2
 #check_permissions
@@ -169,5 +169,5 @@ if sum(rcperm)+rcphp == 0:
    print "---All permissions checks passed and php modules installed. Your BOINC project should be ready to start.---"
 else:
    print "WARNING: Some problems were found with your BOINC installation, please check the messages above for details."
-   
+
 sys.exit(0)
