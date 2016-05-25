@@ -11,6 +11,7 @@ import functools, argparse
 import grp, pwd
 import os, socket, sys
 import subprocess
+import shlex
 
 #-----------------------------------------------------------
 # Functions
@@ -132,6 +133,31 @@ def check_php_modules(modulestocheck):
    return 0
 
 #check_php_modules
+
+
+# Checks the given command if it is executable
+# can also check output (not implemented yet)
+def check_tool(command):
+
+    # make sure command is a valid list to pass to subprocess.call()
+    if not isinstance(command, list):
+        command = shlex.split(command.encode('ascii'))
+
+    try:
+        cmdout = subprocess.check_output(command,stderr=subprocess.STDOUT)
+    except OSError as e:
+        print "WARNING: The following tool was not found on your system: %s"%(command[0])
+        if e.errno != os.errno.ENOENT:
+            print "ERROR: ",e
+            print "ERROR: Can't execute %s"%(" ".join(command))
+        return 1
+    except subprocess.CalledProcessError as cpe:
+        print "WARNING: The following tool reported a non-zero returncode: %s"%(" ".join(command))
+        return 2
+
+    return 0
+#check_tool
+
 #-----------------------------------------------------------
 # Main program
 
@@ -158,6 +184,7 @@ PATHS = ['log_'+S_HOSTNAME,
          'html/languages/compiled',
          'upload',]
 MODULES = ['gd',"mysql","mysqli","xml"]
+TOOLS = ['curl --version']
 
 # Run the check_permissions function on all directories
 rcperm = map(functools.partial(check_permissions, APACHE_USER), [os.path.join(PROJECT_DIR,p) for p in PATHS])
@@ -165,8 +192,11 @@ rcperm = map(functools.partial(check_permissions, APACHE_USER), [os.path.join(PR
 # Check for php modules
 rcphp = check_php_modules(MODULES)
 
-if sum(rcperm)+rcphp == 0:
-   print "---All permissions checks passed and php modules installed. Your BOINC project should be ready to start.---"
+# Check for tools
+rctools = map(check_tool,TOOLS)
+
+if sum(rcperm)+rcphp+sum(rctools) == 0:
+   print "---All permissions checks passed, necessary php modules and tools installed. Your BOINC project should be ready to start.---"
 else:
    print "WARNING: Some problems were found with your BOINC installation, please check the messages above for details."
 
