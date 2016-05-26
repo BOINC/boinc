@@ -23,6 +23,7 @@ ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
 require_once("../inc/util_basic.inc");
+require_once("../inc/util_ops.inc");
 require_once("../inc/result.inc");
 require_once("../inc/boinc_db.inc");
 
@@ -1188,7 +1189,9 @@ function show_user($user) {
     row("ID", $user->id);
     row("Created", time_str($user->create_time));
     row("Name", $user->name);
-    row("Authenticator", $user->authenticator);
+    if(!in_rops()) {
+        row("Authenticator", $user->authenticator);
+    }
     row("Email address", $user->email_addr);
     row("OK to send Email?", $user->send_email);
     row("Country", $user->country);
@@ -1199,7 +1202,9 @@ function show_user($user) {
     row("Default venue", $user->venue);
     row("Hosts", "<a href=\"db_action.php?table=host&userid=$user->id&detail=low\">click</a>");
     row("Cross project ID", $user->cross_project_id);
-    row("Password Hash", $user->passwd_hash);
+    if(!in_rops()) {
+        row("Password Hash", $user->passwd_hash);
+    }
     row("Donated", $user->donated);
     end_table();
 }
