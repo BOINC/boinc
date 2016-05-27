@@ -8,11 +8,11 @@
   <string name="generic_button_finish">Terminar</string>
   <!--attach project-->
   <!--selection list-->
-  <string name="attachproject_list_desc">Seleccione os projectos científicos que deseja contribuir:</string>
-  <string name="attachproject_list_header">Escolha um projecto</string>
+  <string name="attachproject_list_desc">Selecione os projetos científicos em que deseja contribuir:</string>
+  <string name="attachproject_list_header">Escolha um projeto</string>
   <string name="attachproject_list_manual_button">Adicionar projecto por URL</string>
-  <string name="attachproject_list_manual_dialog_title">Insira URL do projecto:</string>
-  <string name="attachproject_list_manual_dialog_button">Adicionar projecto</string>
+  <string name="attachproject_list_manual_dialog_title">Insira o URL do projeto:</string>
+  <string name="attachproject_list_manual_dialog_button">Adicionar projeto</string>
   <string name="attachproject_list_manual_no_url">Por favor, insira o URL do projecto</string>
   <string name="attachproject_list_acctmgr_button">Adicionar gestor de conta</string>
   <string name="attachproject_list_no_internet">Sem conexão de Internet</string>
