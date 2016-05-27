@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Maria Manuela Silva, 2016
 # Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2015-03-26 01:24+0000\n"
-"Last-Translator: Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>\n"
-"Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/boinc/language/pt_PT/)\n"
+"PO-Revision-Date: 2016-05-27 12:14+0000\n"
+"Last-Translator: Maria Manuela Silva\n"
+"Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,7 +22,7 @@ msgstr ""
 #: Installer.cpp:124
 #, c-format
 msgid "Sorry, this version of %s requires system 10.5 or higher."
-msgstr "Pedimos desculpa, mas esta versão do %s requer o sistema 10.5 ou superior."
+msgstr "Desculpe, mas esta versão do %s requer o sistema 10.5 ou superior."
 
 #: PostInstall.cpp:130 PostInstall.cpp:1136 uninstall.cpp:1618
 msgid "Yes"
@@ -60,7 +61,7 @@ msgstr "Erro de permissão depois do re-lançamento"
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
-msgstr "A eliminação pode levar vários minutos.\nPor favor aguarde."
+msgstr "A remoção pode levar vários minutos.\nPor favor aguarde."
 
 #: uninstall.cpp:156
 #, c-format
@@ -68,7 +69,7 @@ msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
 "\n"
 "This will remove the executables but will not touch %s data files."
-msgstr "Tem a certeza que quer eliminar completamente o %s do seu computador?\n\nSerão eliminados os ficheiros executáveis mas não os %s ficheiros de dados."
+msgstr "Tem a certeza que quer eliminar completamente o %s do seu computador?\n\nSerão eliminados os ficheiros executáveis mas não os ficheiros de dados %s."
 
 #: uninstall.cpp:163
 #, c-format
@@ -88,7 +89,7 @@ msgstr "nome do utilizador"
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
-msgstr "Também quer remover o VirtualBox do seu computador?\n(O VirtualBox foi instalado juntamente com o BOINC)"
+msgstr "Também quer remover o VirtualBox do seu computador?\n(O VirtualBox foi instalado juntamente com o BOINC.)"
 
 #: uninstall.cpp:312
 #, c-format
@@ -100,14 +101,14 @@ msgid ""
 "\n"
 "for each user, the file\n"
 "\"%s\"."
-msgstr "Eliminação completa.\n\n Pode ainda eliminar os restantes items usando o Localizador: \na directoria \"%s\"\n\npara cada utilizador, o ficheiro\n\"%s\"."
+msgstr "Remoção completa.\n\nPode ainda remover os restantes items usando o Localizador: \na directoria \"%s\"\n\npara cada utilizador, o ficheiro\n\"%s\"."
 
 #: uninstall.cpp:840
 #, c-format
 msgid ""
 "Enter your administrator password to completely remove %s from you computer.\n"
 "\n"
-msgstr "Insira a sua palavra-passe de  administrador para eliminar o %s na totalidade do seu computador.\n\n"
+msgstr "Insira a sua palavra-passe de  administrador para remover totalmente o %s do seu computador.\n\n"
 
 #: uninstall.cpp:1616
 msgid "Cancel"
