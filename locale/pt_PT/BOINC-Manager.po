@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Maria Manuela Silva, 2016
 # Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-05-27 12:08+0000\n"
-"Last-Translator: Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>\n"
+"PO-Revision-Date: 2016-05-27 12:55+0000\n"
+"Last-Translator: Maria Manuela Silva\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1827,7 +1828,7 @@ msgstr "Seleccione que colunas o %s deve mostrar."
 msgid ""
 "Are you sure you want to reset all list columns to the default "
 "configurations?"
-msgstr "Tem a certeza que quer fazer reset à lista de todas as colunas para as configurações padrão?"
+msgstr "Tem a certeza que deseja reiniciar todas as colunas da lista para configurações predefinidas?"
 
 #: clientgui/DlgHiddenColumns.cpp:359
 msgid "Confirm defaults"
@@ -3063,7 +3064,7 @@ msgstr "Não obter novas tarefas para este projecto."
 
 #: clientgui/ViewProjects.cpp:223 clientgui/sg_ProjectCommandPopup.cpp:84
 msgid "Reset project"
-msgstr "Fazer reset ao projecto"
+msgstr "Reiniciar projeto"
 
 #: clientgui/ViewProjects.cpp:224 clientgui/sg_ProjectCommandPopup.cpp:85
 msgid ""
@@ -3130,16 +3131,16 @@ msgstr "A notificar o projecto para não obter tarefas adicionais..."
 
 #: clientgui/ViewProjects.cpp:511
 msgid "Resetting project..."
-msgstr "A fazer reset ao projecto..."
+msgstr "A reiniciar o projeto..."
 
 #: clientgui/ViewProjects.cpp:524 clientgui/sg_ProjectCommandPopup.cpp:229
 #, c-format
 msgid "Are you sure you want to reset project '%s'?"
-msgstr "Tem a certeza que quer fazer o reset ao projecto '%s'?"
+msgstr "Tem a certeza que deseja reiniciar o projeto '%s'?"
 
 #: clientgui/ViewProjects.cpp:530 clientgui/sg_ProjectCommandPopup.cpp:235
 msgid "Reset Project"
-msgstr "Fazer Reset ao Projecto"
+msgstr "Reiniciar Projeto"
 
 #: clientgui/ViewProjects.cpp:569
 msgid "Removing project..."
