@@ -1,0 +1,1822 @@
+# LANGUAGE translation of PROJECT
+# Copyright (c) YEAR NAME <EMAIL@ADDRESS>
+# 
+# Translators:
+# Ivo Micael Frazão Costeira <ivo.frazao95@gmail.com>, 2015
+# Maria Manuela Silva, 2016
+# Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>, 2015-2016
+# Octávio Filipe Gonçalves <octavio.filipe.pereira@gmail.com>, 2016
+# Paco Banderas <duimpera1@gmail.com>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: BOINC\n"
+"POT-Creation-Date: 2015-12-15 12:43+0000\n"
+"PO-Revision-Date: 2016-05-27 16:29+0000\n"
+"Last-Translator: Octávio Filipe Gonçalves <octavio.filipe.pereira@gmail.com>\n"
+"Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: pt_PT\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Please select a team type."
+msgstr "Por favor, selecione o tipo de equipa."
+
+msgid ""
+"A team foundership change was already requested recently. Only one request "
+"is allowed within a period of 90 days."
+msgstr "A alteração da equipa fundadora já foi solicitada recentemente. Só é permitido um pedido dentro de um período de 90 dias."
+
+msgid "@count days remaining"
+msgstr "@count dias restantes"
+
+msgid "Inbox"
+msgstr "Caixa de entrada"
+
+msgid "Compose new"
+msgstr "Compor nova"
+
+msgid "respond to the request"
+msgstr "responder ao pedido"
+
+msgid ""
+"A foundership transfer request has been made for your team. Please !respond."
+msgstr "O pedido de transferência de um fundador já foi efetuado por esta equipa. Por favor, !respond."
+
+msgid "Respond to transfer request"
+msgstr "Responder ao pedido de transferência"
+
+msgid ""
+"Team member @name has requested team foundership. This may be because you "
+"left the team or have not had contact with the team for a long time."
+msgstr "O membro @name solicitou o titulo de fundador da equipa. Isso pode acontecer, porque você deixou a equipa ou não manteve contato com a equipa por um longo tempo."
+
+msgid ""
+"If you don't decline the request by @date, @name will have the option of "
+"assuming team foundership. (note: To accept the request, assign foundership "
+"to @name using the form below)"
+msgstr "Se você não recusar o pedido por @date, @name terá a opção de assumir a fundação da equipa. (Nota: para aceitar o pedido e atribuir a fundação para o utilizador @Name utilize o formulário abaixo)"
+
+msgid "Deny request"
+msgstr "Negar pedido"
+
+msgid "Send request"
+msgstr "Enviar pedido"
+
+msgid "Friend request from !name [!site]"
+msgstr "Pedido de amizade de !name [!site]"
+
+msgid "Message"
+msgstr "Mensagem"
+
+msgid ""
+"!name added you as a friend on !site. You can approve or deny this request. Denying a request will not send a notification, but will remove the request from both of your accounts.\n"
+"\n"
+"Follow the link below to view this request:\n"
+"!link\n"
+"\n"
+"!message\n"
+"\n"
+"Thanks,\n"
+"The !site team"
+msgstr "!name adicionou-o como amigo no !site. Pode aprovar ou recusar o pedido. Ao recusar um pedido, não será enviada uma notificação, mas irá remover o pedido de ambas as contas.\n\nSiga o link abaixo para visualizar este pedido: \n! link\n\n!message\n\nObrigado, \nA equipa !site"
+
+msgid "Cancel friend request"
+msgstr "Cancelar pedido de amizade"
+
+msgid "Remove request"
+msgstr "Remover pedido"
+
+msgid "Approve request"
+msgstr "Aprovar pedido"
+
+msgid "!name accepted your friend request [!site]"
+msgstr "O !name aceitou o seu pedido de amizade [!site]"
+
+msgid ""
+"!name confirmed you as a friend on !site.\n"
+"\n"
+"Follow this link to view his or her profile:\n"
+"!link\n"
+"\n"
+"!message\n"
+"\n"
+"Thanks,\n"
+"The !site team"
+msgstr "!name confirmou-o como amigo de !site.\n\nSiga esta hiperligação para ver o seu perfil:\n!link\n\n!message\n\nObrigado,\nA equipa !site"
+
+msgid "Email address"
+msgstr "Endereço de e-mail"
+
+msgid "Home"
+msgstr "Casa"
+
+msgid "Login"
+msgstr "Iniciar Sessão"
+
+msgid "search"
+msgstr "pesquisar"
+
+msgid "Server status"
+msgstr "Estado do servidor"
+
+msgid "Language"
+msgstr "Idioma"
+
+msgid "Enter your @s email address."
+msgstr "Insira o seu @s endereço de e-mail."
+
+msgid "Join now"
+msgstr "Aderir agora"
+
+msgid "I'm new"
+msgstr "Eu sou novo"
+
+msgid "I'm a BOINC user"
+msgstr "Eu sou um utilizador do BOINC"
+
+msgid "Welcome back!"
+msgstr "Bem-vindo de novo!"
+
+msgid ""
+"Einstein@Home is a program that uses your computer's idle time to run a "
+"screensaver to search for gravitational waves from spinning neutron stars "
+"(also called pulsars) using data from the LIGO gravitational wave detector."
+msgstr "Einstein@Home é um programa que utiliza o tempo inativo do seu computador para pesquisar ondas gravitacionais das estrelas de neutrões giratórias (também chamadas de pulsares) utilizando dados do detector de ondas gravitacional LIGO"
+
+msgid "Learn more"
+msgstr "Aprender mais"
+
+msgid "View account"
+msgstr "Ver conta"
+
+msgid "About our screensaver"
+msgstr "Sobre a nossa protecção de ecrã"
+
+msgid "Over 500,000 volunteers and counting."
+msgstr "Mais de 500,000 voluntários e a contar."
+
+msgid "Windows"
+msgstr "Windows"
+
+msgid "Mac"
+msgstr "Mac"
+
+msgid "Linux"
+msgstr "Linux"
+
+msgid "Logout"
+msgstr "Sair"
+
+msgid "Name"
+msgstr "Nome"
+
+msgid "Avg credit"
+msgstr "Média de créditos"
+
+msgid "Total credit"
+msgstr "Créditos totais"
+
+msgid "Enter your password to save changes"
+msgstr "Insira a sua palavra-passe para guardar alterações"
+
+msgid ""
+"Enter your current password if changing your email\n"
+"          address or password."
+msgstr "Insira a sua palavra passe actual se está a alterar o seu endereço de e-mail ou palavra-passe"
+
+msgid "BOINC user ID"
+msgstr "ID de utilizador BOINC"
+
+msgid "Drupal user ID"
+msgstr "ID de utilizador Drupal"
+
+msgid "Account key"
+msgstr "Chave da conta"
+
+msgid "Weak account key"
+msgstr "Palavra chave fraca"
+
+msgid "Cross-project ID"
+msgstr "ID de projectos cruzados"
+
+msgid "Save changes"
+msgstr "Guardar alterações"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Change password"
+msgstr "Mudar palavra passe"
+
+msgid "What is @this_project?"
+msgstr "O que é @this_project?"
+
+msgid "no projects..."
+msgstr "sem projectos..."
+
+msgid "Download the desktop software"
+msgstr "Transferir o software"
+
+msgid "Run the installer"
+msgstr "Executar a instalação"
+
+msgid "When prompted enter @siteurl"
+msgstr "Quando pedido, insira o @siteurl"
+
+msgid "Password"
+msgstr "Palavra-passe"
+
+msgid "Enter the password that accompanies your username."
+msgstr "Insira a palavra-passe que acompanha o seu nome de utilizador."
+
+msgid "Request new password"
+msgstr "Requisitar nova palavra-passe"
+
+msgid ""
+"If you're already running BOINC, select <i>Add\n"
+"      Project</i>."
+msgstr "Se já executa o BOINC, seleccionei>Adicionar\nProjecto</i>."
+
+msgid ""
+"If you're running a command-line version of BOINC,\n"
+"        first use the BOINC Manager software (elsewhere if necessary) to create an\n"
+"        an account at this project, then use that account to connect with the\n"
+"        command-line version."
+msgstr "Se estiver a executar uma versão do BOINC em linha de comandos,\nprimeiro use o software BOINC Manager (noutra localização, caso necessário) para criar uma\numa conta neste projecto, em seguida, use essa conta para se ligar utilizando\nversão do BOINC, na linha de comandos."
+
+msgid ""
+"If you're running a pre-5.0 version of BOINC, please\n"
+"        upgrade to a more recent version to create an account\n"
+"        at this project."
+msgstr "Se está a executar uma versão do BOINC pré-5.0, por favor actualize-o para uma versão mais recente para criar uma conta neste projecto."
+
+msgid ""
+"1) If you know your account&apos;s email address, and you can receive email "
+"there:"
+msgstr "1) Se sabe qual nome da sua conta e endereço de e-mail, e pode receber e-mails, nesse mesmo endereço:"
+
+msgid ""
+"Enter the email address and click OK. You will be sent email instructions "
+"for resetting your password."
+msgstr "Insira o endereço de e-mail e clique em OK. Ser-lhe-á enviado um e-mail com instruções para fazer a alteração da sua palavra-passe"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "The latest news from the @site_name project"
+msgstr "As últimas notícias do projecto @site_name"
+
+msgid "Comment form"
+msgstr "Formulário para comentários"
+
+msgid "Total credits"
+msgstr "Créditos totais"
+
+msgid "Recent avg credits"
+msgstr "Média de créditos recentes"
+
+msgid "Country"
+msgstr "País"
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "Founder"
+msgstr "Fundador"
+
+msgid "New members in last day"
+msgstr "Novos membros no último dia"
+
+msgid "Total members"
+msgstr "Total de membros"
+
+msgid "Active members"
+msgstr "Membros activos"
+
+msgid "Members with credit"
+msgstr "Membros com créditos"
+
+msgid "Description"
+msgstr "Descrição"
+
+msgid "Search teams"
+msgstr "Pesquisar equipas"
+
+msgid "Send message"
+msgstr "Enviar mensagem"
+
+msgid "BOINC"
+msgstr "BOINC"
+
+msgid "Project"
+msgstr "Projecto"
+
+msgid "Web site"
+msgstr "Website"
+
+msgid "No active computers"
+msgstr "Sem computadores activos"
+
+msgid "This user has no computers that have been active in the last 30 days."
+msgstr "Este utilizador não tem computadores que tenham estado activos os últimos 30 dias."
+
+msgid " Default value: @default"
+msgstr "Valor padrão: @default"
+
+msgid "Applications"
+msgstr "Aplicações"
+
+msgid "yes"
+msgstr "sim"
+
+msgid "no"
+msgstr "não"
+
+msgid "Message @id"
+msgstr "@id da Mensagem"
+
+msgid "message @id"
+msgstr "@id da mensagem"
+
+msgid " in response to !parent"
+msgstr "em resposta ao !parent"
+
+msgid "Credits per day"
+msgstr "Créditos por dia"
+
+msgid "Computers hidden"
+msgstr "Computadores ocultos"
+
+msgid "This user has chosen not to show information about their computers."
+msgstr "Este utilizador escolheu não mostrar informações sobre os seus computadores"
+
+msgid "Stderr output"
+msgstr "Stderr output"
+
+msgid "@time ago"
+msgstr "@time atrás"
+
+msgid "n/a"
+msgstr "n/a"
+
+msgid "Submitted by !username on !datetime"
+msgstr "Submetido pelo !username em !datetime"
+
+msgid "Member since"
+msgstr "Membro desde"
+
+msgid "View team"
+msgstr "Ver equipa"
+
+msgid "Friends (@count)"
+msgstr "Amigos (@count)"
+
+msgid "Website"
+msgstr "Website"
+
+msgid "Locked"
+msgstr "Bloqueado"
+
+msgid "Computers pending"
+msgstr "Computadores pendentes"
+
+msgid ""
+"This user does not yet have any associated computers. Computers will be "
+"displayed when they have earned their first credits."
+msgstr "Este utilizador não tem ainda computadores associados. Os computadores serão mostrados quando ganharem os seus primeiros créditos"
+
+msgid "No results found..."
+msgstr "Sem resultados encontrados..."
+
+msgid "Background"
+msgstr "Background"
+
+msgid "Teams"
+msgstr "Equipas"
+
+msgid ""
+"@project participants may form teams. You may belong to only one team. You "
+"can join or quit a team at any time. To join a team, visit its team page and"
+" click \"Join this team\". Each team has a founder who may:"
+msgstr "Os membros do @project, podem formar equipas. Pode pertencer a uma única equipa. Pode juntar-se ou sair de uma equipa a qualquer momento. Para participar de uma equipa, visite a sua página de equipa, e clique em \"Junte-se a esta equipa\". Cada equipa tem um fundador que pode:"
+
+msgid "access team members' email addresses"
+msgstr "aceder aos endereços de email dos membros da equipa"
+
+msgid "edit the team's name and description"
+msgstr "editar o nome da equipa e descrição"
+
+msgid "add or remove team admins"
+msgstr "adicionar ou remover administradores da equipa"
+
+msgid "remove members from the team"
+msgstr "remover membros da equipa"
+
+msgid "disband a team if it has no members"
+msgstr "acabar com a equipa se esta não tiver membros"
+
+msgid "Create a new team"
+msgstr "Criar uma nova equipa"
+
+msgid ""
+"If you cannot find a team that is right for you, you can create a team."
+msgstr "Se não consegue encontrar uma equipa que seja adequada para si, pode criar uma equipa."
+
+msgid "You must earn @count more credits!"
+msgstr "Tem de ganhar mais @count créditos!"
+
+msgid "Threads"
+msgstr "Tópicos"
+
+msgid "Posts"
+msgstr "Posts"
+
+msgid "Last post"
+msgstr "Último post"
+
+msgid "Manage subscriptions"
+msgstr "Gerir subscrições"
+
+msgid "Featured"
+msgstr "Destaque"
+
+msgid "Submitted on !datetime"
+msgstr "Submetido em !datetime"
+
+msgid "Comments"
+msgstr "Comentários"
+
+msgid "Opinion"
+msgstr "Opinião"
+
+msgid "More"
+msgstr "Mais"
+
+msgid "Tasks"
+msgstr "Tarefas"
+
+msgid "Generic"
+msgstr "Genérico"
+
+msgid "Work"
+msgstr "Trabalho"
+
+msgid "School"
+msgstr "Escola"
+
+msgid "Presets"
+msgstr "Presets"
+
+msgid "Standard"
+msgstr "Padrão"
+
+msgid "Maximum"
+msgstr "Máximo"
+
+msgid "Green"
+msgstr "Verde"
+
+msgid "Minimum"
+msgstr "Mínimo"
+
+msgid "Custom"
+msgstr "Personalizado"
+
+msgid "Update preset"
+msgstr "Actualizar preset"
+
+msgid "Advanced settings"
+msgstr "Definições avançadas"
+
+msgid "Processor usage"
+msgstr "Utilização do processador"
+
+msgid "Run while computer is on battery power?"
+msgstr "Executar enquanto o computador estiver só ligado com a bateria?"
+
+msgid "Only applies to portable computers"
+msgstr "Aplica-se apenas a portáteis"
+
+msgid "Run while computer is in use?"
+msgstr "Executar quando o computador está em utilização?"
+
+msgid "Run GPU work while computer is in use?"
+msgstr "Executar trabalho na GPU quando o computador estiver a ser utilizado?"
+
+msgid "Enforced by version @number"
+msgstr "Forçado pela versão @number"
+
+msgid "\"In use\" means mouse/keyboard activity in last"
+msgstr "\"Em utilização\" significa actividade do rato/teclado nos últimos"
+
+msgid "minutes"
+msgstr "minutos"
+
+msgid "Suspend work if no mouse/keyboard activity in last"
+msgstr "Suspender trabalho se não houver actividade do rato/teclado nos útlimos"
+
+msgid "Needed to enter low-power mode on some computers"
+msgstr "Necessário para entrar em modo de baixo consumo de energia em alguns computadores"
+
+msgid "Suspend work if CPU usage is above"
+msgstr "Suspender o trabalho se a utilização da CPU for superior a"
+
+msgid "0 means no restriction. Enforced by version @number"
+msgstr "0 significa sem restrições. Forçado pela versão @number"
+
+msgid "Do work only between the hours of:"
+msgstr "Realizar trabalho apenas entre as seguintes horas:"
+
+msgid "and"
+msgstr "e"
+
+msgid "No restriction if equal"
+msgstr "Sem restrições se igual"
+
+msgid "Leave tasks in memory while suspended?"
+msgstr "Deixar tarefas em memória enquanto suspensas?"
+
+msgid "Suspended tasks will consume swap space if \"yes\""
+msgstr "Tarefas suspensas irão consumir espaço swap se \"sim\""
+
+msgid "Switch between tasks every"
+msgstr "Trocar entre tarefas a cada"
+
+msgid "Recommended: @period minutes"
+msgstr "Recomendado: @period minutos"
+
+msgid "On multiprocessors, use at most"
+msgstr "Em multiprocessadores, usar no máximo"
+
+msgid "processors"
+msgstr "processadores"
+
+msgid "Set to 0 for no limit"
+msgstr "Definir 0 para sem limite"
+
+msgid "% of the processors"
+msgstr "% dos processadores"
+
+msgid "Use at most"
+msgstr "Usar no máximo"
+
+msgid "% of the CPU time"
+msgstr "% do tempo da CPU"
+
+msgid "Can be used to reduce CPU heat"
+msgstr "Pode ser utiliado para reduzir o aquecimento da CPU"
+
+msgid "Disk and memory usage"
+msgstr "Disco e utilização de memória"
+
+msgid "Disk: use at most"
+msgstr "Disco: usar no máximo"
+
+msgid "Disk: leave free at least"
+msgstr "Disco: deixar livre pelo menos"
+
+msgid "Values smaller than @number are ignored"
+msgstr "Valores inferiores a @number são ignorados"
+
+msgid "% of total"
+msgstr "% do total "
+
+msgid "Tasks checkpoint to disk at most every"
+msgstr "Checkpoints das tarefas em disco no máximo a cada"
+
+msgid "seconds"
+msgstr "segundos"
+
+msgid "Swap space: use at most"
+msgstr "Espaço temporário : usar no máximo"
+
+msgid "Memory: when computer is in use, use at most"
+msgstr "Memória: quando o computador está em utilização, usar no máximo"
+
+msgid "Memory: when computer is not in use, use at most"
+msgstr "Memória: quando o computador não está em utilização, usar no máximo"
+
+msgid "Network usage"
+msgstr "Utilização de rede"
+
+msgid "Computer is connected to the Internet about every"
+msgstr "O computador liga-se à Internet a cada"
+
+msgid "days"
+msgstr "dias"
+
+msgid ""
+"Leave blank or 0 if always connected. @project will try to maintain at least"
+" this much work."
+msgstr "Deixar em branco ou 0 se sempre ligado. O @project irá tentar manter pelo menos esta quantidade de trabalho."
+
+msgid "Maintain enough work for an additional"
+msgstr "Manter trabalho suficiente para até um adicional"
+
+msgid "Confirm before connecting to Internet?"
+msgstr "Confirmar antes de se ligar à Internet?"
+
+msgid "Matters only if you have a modem, ISDN, or VPN connection"
+msgstr "Apenas relevante se tiver um modem, ISDN, ou uma conexão VPN"
+
+msgid "Disconnect when done?"
+msgstr "Desligar quando tiver terminado?"
+
+msgid "Maximum download rate"
+msgstr "Taxa máxima de transferência"
+
+msgid "Maximum upload rate"
+msgstr "Taxa máxima de upload"
+
+msgid "Use network only between the hours of:"
+msgstr "Usar rede apenas entre as horas:"
+
+msgid "Transfer at most"
+msgstr "Transferir no máximo"
+
+msgid "Skip image file verification?"
+msgstr "Saltar verificação do ficheiro de imagem?"
+
+msgid ""
+"Check this ONLY if your Internet provider modifies image files (UMTS does "
+"this, for example). Skipping verification reduces the security of BOINC."
+msgstr "Marque aqui APENAS se o seu fornecedor de Internet modifica os ficheiros de imagem (por exemplo, o UMTS faz isto). Saltar a verificação reduz a segurança do BOINC."
+
+msgid "Show comparison view"
+msgstr "Ver vista comparativa"
+
+msgid "Resource settings"
+msgstr "Configurações dos recursos"
+
+msgid "Resource share"
+msgstr "Quota de recursos"
+
+msgid ""
+"Determines the proportion of your computer's resources allocated to this "
+"project. Example: if you participate in two BOINC projects with resource "
+"shares of 100 and 200, the first will get 1/3 of your resources and the "
+"second will get 2/3."
+msgstr "Determina a proporção de recursos do seu computador, atribuído a este projecto. Exemplo: se participar em dois projectos BOINC com ações de recursos de 100 e 200, o primeiro terá 1/3 de seus recursos e o segunda terá 2/3."
+
+msgid "Use CPU"
+msgstr "Utilizar CPU"
+
+msgid "Use NVIDIA GPU"
+msgstr "Utilizar GPU NVIDIA"
+
+msgid "Use ATI GPU"
+msgstr "Utilizar GPU ATI"
+
+msgid "Use INTEL GPU"
+msgstr "Utilizar CPU INTEL"
+
+msgid "Beta settings"
+msgstr "Definições beta"
+
+msgid "Run test applications?"
+msgstr "Executar aplicações de teste?"
+
+msgid ""
+"This helps us develop applications, but may cause jobs to fail on your "
+"computer"
+msgstr "isto irá nos ajudar a desenvolver aplicações, mas poderá fazer com que os trabalhos falhem no seu computador"
+
+msgid "Default set"
+msgstr "Definições padrão"
+
+msgid "Set used for new computers"
+msgstr "As definições a utilizar em novos computadores"
+
+msgid "Merge"
+msgstr "Fundir"
+
+msgid "Delete"
+msgstr "Eliminar"
+
+msgid ""
+"This will delete host @id from your account forever. Are you sure this is "
+"OK?"
+msgstr "Isto irá eliminar o @id o anfitrição da sua conta para sempre. Tem a certeza DISTO?"
+
+msgid "Mark all topics read"
+msgstr "Marcar todos os tópicos como lidos"
+
+msgid "Mark all forums read"
+msgstr "Marcar todos os fóruns como lidos"
+
+msgid ""
+"CAPTCHA validation error: unknown CAPTCHA session ID. Contact the site "
+"administrator if this problem persists."
+msgstr "CAPTCHA erro de validação: ID de ssesão CAPTCHA, desconhecido. Se o problema persistir, entre em contato com o administrador do site."
+
+msgid "The answer you entered for the CAPTCHA was not correct."
+msgstr "A resposta introduzida, para a validação do CAPTCHA, não está correcta."
+
+msgid "Access denied. You must login to view this page."
+msgstr "Acesso negado. Tem de fazer login para ver esta página."
+
+msgid "You are not authorized to access this page."
+msgstr "Não tem autorização para aceder a esta página."
+
+msgid "Disable rich-text"
+msgstr "Desabilitar texto rico"
+
+msgid "Enable rich-text"
+msgstr "Habilitar texto rico"
+
+msgid "View user profile."
+msgstr "Ver perfil de utilizador."
+
+msgid "BBcode help"
+msgstr "Ajuda de BBcode"
+
+msgid "Post comment"
+msgstr "Colocar comentário"
+
+msgid "No @type tasks"
+msgstr "Não existem tarefas para @type"
+
+msgid "There are no tasks of this type on record"
+msgstr "Não existem tarefas deste tipo no registo"
+
+msgid "Clear"
+msgstr "Limpar"
+
+msgid ""
+"This will remove all of your settings from the @name preference set. Are you"
+" sure?"
+msgstr "Irá remover todas as configurações e preferências do utilizador @name. Pretende continuar?"
+
+msgid "These apply to all BOINC projects in which you participate."
+msgstr "Estas aplicam-se a todos os projectos BOINC em que participa."
+
+msgid ""
+"On computers attached to multiple projects, the most recently modified "
+"preferences will be used."
+msgstr "Em computadores com projectos múltiplos anexados, as preferências modificadas mais recentemente serão usadas."
+
+msgid "Preferences last modified: @mod_time"
+msgstr "As preferências foram modificadas pela última vez: @mod_time"
+
+msgid "Combined preferences"
+msgstr "Preferências combinadas"
+
+msgid "Switch View"
+msgstr "Mudar Vista"
+
+msgid "every"
+msgstr "a cada"
+
+msgid "Edit"
+msgstr "Editar"
+
+msgid ""
+"This will remove all of your settings from the \"@name\" preference set. Are"
+" you sure?"
+msgstr "Irá remover todas as configurações do utilizador \"@name\". Pretende continuar?"
+
+msgid "Add"
+msgstr "Adicionar"
+
+msgid "General settings"
+msgstr "Definições gerais"
+
+msgid "Time zone"
+msgstr "Fuso horário"
+
+msgid "Notification settings"
+msgstr "Definições de notificações"
+
+msgid "Receive email notification for private messages?"
+msgstr "Receber notificações de e-mail para mensagens privadas?"
+
+msgid "Receive email notification for friend requests?"
+msgstr "Receber notificações de e-mail para pedidos de amizade?"
+
+msgid "Language settings"
+msgstr "Definições de idioma"
+
+msgid ""
+"This account's default language for e-mails and preferred language for site "
+"presentation."
+msgstr "Este é o idioma padrão desta conta de e-mails e idioma pré-definido para a apresentação do site."
+
+msgid ""
+"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
+" your e-mail address, it will be used for your user picture."
+msgstr "Se tiver um <a href=\"@gravatar-check\">Gravatar válido</a> associado ao seu endereço de email, vai ser usado como imagem de utilizador."
+
+msgid "Your Gravatar will not be shown if you upload a user picture."
+msgstr "O seu Gravatar não será mostrado se fez o upload de uma imagem de um utilizador."
+
+msgid ""
+"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
+" your e-mail address, use it for your user picture."
+msgstr "Se tiver um <a href=\"@gravatar-check\">Gravatar válido</a> associado ao seu endereço de email, use-o como imagem de utilizador."
+
+msgid "Gravatar will not be shown if an avatar is uploaded."
+msgstr "O gravatar não será mostrador se for feito o upload de um avatar."
+
+msgid "Avatar settings"
+msgstr "Definições de avatar"
+
+msgid "This is not available until your profile is set up."
+msgstr "Indisponível até que preencha o seu perfil."
+
+msgid "Create a profile"
+msgstr "Criar um perfil"
+
+msgid "Upload an avatar"
+msgstr "Fazer upload de avatar"
+
+msgid "Forum settings"
+msgstr "Definições do Fórum"
+
+msgid "In discussion topics, show at most @comments_per_page"
+msgstr "Nos tópicos de discussão, mostrar no máximo, @comments_per_page"
+
+msgid "comments per page"
+msgstr "comentários por página"
+
+msgid "Sort comments in discussions"
+msgstr "Ordenar comentários nas discussões"
+
+msgid "Newest post first"
+msgstr "Posts mais recentes primeiro"
+
+msgid "Oldest post first"
+msgstr "Post mais antigo primeiro"
+
+msgid "Signature"
+msgstr "Assinatura"
+
+msgid "Your signature will be publicly displayed at the end of your comments."
+msgstr "A sua assinatura será mostrada publicamente no fim dos seus comentários."
+
+msgid "Hide signatures in forums"
+msgstr "Ocultar assinaturas nos fóruns"
+
+msgid "Privacy settings"
+msgstr "Definições de privacidade"
+
+msgid "Is it OK for @project and your team (if any) to email you?"
+msgstr "Concorda em receber e-mails, do @project e da sua equipa (caso exista)?"
+
+msgid "Should @project show your computers on its web site?"
+msgstr "Deve o @projecto mostrar os seus computadores  neste website?"
+
+msgid "Hide"
+msgstr "Ocultar"
+
+msgid "Hide this topic"
+msgstr "Ocultar este tópico"
+
+msgid "Lock"
+msgstr "Bloquear"
+
+msgid "Lock this thread for comments"
+msgstr "Bloquear este tópico a comentários"
+
+msgid "Make sticky"
+msgstr "Marcar como sticky"
+
+msgid "Make this topic sticky"
+msgstr "Marcar este tópico como sticky"
+
+msgid "moderation"
+msgstr "moderação"
+
+msgid "Post new comment"
+msgstr "Colocar novo comentário"
+
+msgid "You must earn 1 more credit!"
+msgstr "Tem de ganhar mais 1 crédito!"
+
+msgid "Joined"
+msgstr "Juntou-se"
+
+msgid "Credit"
+msgstr "Créditos"
+
+msgid "RAC"
+msgstr "RAC"
+
+msgid "Join team"
+msgstr "Juntar-se a equipa"
+
+msgid "Click here to become a member of @this_team"
+msgstr "Clique aqui para se tornar membro da @this_team"
+
+msgid "Join this team"
+msgstr "Juntar-se a esta equipa"
+
+msgid "Manage team"
+msgstr "Gerir equipa"
+
+msgid "View member list"
+msgstr "Ver lista de membros"
+
+msgid "Member names and emails"
+msgstr "Nomes e e-mails do membro"
+
+msgid "View change history"
+msgstr "Ver história de alterações"
+
+msgid "See member activity"
+msgstr "Ver actividade do membro"
+
+msgid "Manage team message board"
+msgstr "Gerir o quadro de mensagens, da equipa"
+
+msgid "Create or manage message board"
+msgstr "Criar ou gerir fórum de equipa"
+
+msgid "Remove members"
+msgstr "Remover membros"
+
+msgid "Change founder"
+msgstr "Mudar fundador"
+
+msgid "Manage team admins"
+msgstr "Gerir administradores de equipa"
+
+msgid "Edit team info"
+msgstr "Editar informações da equipa"
+
+msgid "Remove team"
+msgstr "Remover equipa"
+
+msgid "Team forum"
+msgstr "Fórum da equipa"
+
+msgid "A discussion forum has been set up for team members."
+msgstr "O fórum de discussão foi configurado para os membros da equipa"
+
+msgid "Enter forum"
+msgstr "Entrar no fórum"
+
+msgid "Leave team"
+msgstr "Deixar equipa"
+
+msgid "Click here to revoke your membership with @this_team"
+msgstr "Clique aqui para revogar a sua associação com @this_team"
+
+msgid "Leave this team"
+msgstr "Deixar esta equipa"
+
+msgid "Edit message board"
+msgstr "Editar o quadro de mensagens"
+
+msgid "Message board title"
+msgstr "Título do fórum"
+
+msgid "Text only, no HTML tags"
+msgstr "Textp apenas, sem tags HTML"
+
+msgid "Minimum time between posts"
+msgstr "Tempo minímo entre tópicos"
+
+msgid "Seconds"
+msgstr "Segundos"
+
+msgid "Minimum total credit to post"
+msgstr "Total de créditos minímos para postar"
+
+msgid "Minimum avg credit to post"
+msgstr "Créditos mínimos para poder postar"
+
+msgid "Allow public to read board?"
+msgstr "Permitir abrir à leitura pública, do fórum?"
+
+msgid "Save message board"
+msgstr "Guardar fórum"
+
+msgid "About message boards"
+msgstr "Sobre fóruns"
+
+msgid "This is a team-only message board"
+msgstr "Este é um fórum, disponível somente para membros da equipa"
+
+msgid "Only members may post"
+msgstr "Apenas membros podem colocar tópicos"
+
+msgid "Only members may read (optional)"
+msgstr "Apenas membros podem ler (opcional)"
+
+msgid "Founder & Team Admins have moderator privileges"
+msgstr "O Fundador e Administradores de Equipa tem privilégios de moderação"
+
+msgid "Changing the team founder"
+msgstr "Alterando o fundador de equipa"
+
+msgid "Notes about changes in foundership:"
+msgstr "Notas sobre as mudanças na liderança:"
+
+msgid "Any member of the team is eligible"
+msgstr "Qualquer membro da equipa é elegível"
+
+msgid "Current founder becomes a normal user"
+msgstr "O fundador actual tornou-se um utilizador normal"
+
+msgid "Foundership can be requested by team members:"
+msgstr "O Fundador pode ser solicitado pelos membros da equipa:"
+
+msgid "One request is allowed at a time"
+msgstr "Apenas um pedido é permitido de cada vez"
+
+msgid "It must be 60 days since any previous request"
+msgstr "Tem de ter passado 60 dias desde pedidos anteriores"
+
+msgid "Any active request must be older than 90 days"
+msgstr "Qualquer pedido activo deve ter mais de 90 dias"
+
+msgid "Current founder has 60 days to respond to a request"
+msgstr "O fundador actual tem 60 dias para responder ao pedido"
+
+msgid "Add team admin"
+msgstr "Adicionar administrador de equipa"
+
+msgid "Enter email address"
+msgstr "Insira endereço de e-mail"
+
+msgid "Current team admins"
+msgstr "Administradores actuais da equipa"
+
+msgid "About team admins"
+msgstr "Sobre os administradores da equipa"
+
+msgid "Team admins can:"
+msgstr "Administradores da equipa podem:"
+
+msgid "Edit team information"
+msgstr "Editar informações da equipa"
+
+msgid "View the team's join / quit history"
+msgstr "Visualizar o histórico de entradas / saídas da equipa"
+
+msgid "Moderate the team forum"
+msgstr "Moderar o fórum da equipa"
+
+msgid "Remove members from the team"
+msgstr "Remover membros da equipa"
+
+msgid "Disband a team if it has no members"
+msgstr "Acabar com equipa se esta não tiver membros"
+
+msgid "Team admins cannot:"
+msgstr "Administradores de equipa não podem:"
+
+msgid "Change the team founder"
+msgstr "Mudar o fundador da equipa"
+
+msgid "Add / Remove team admins"
+msgstr "Adicionar / Remover administradores de equipa"
+
+msgid ""
+"If a team admin quits the team, they cease to be a team admin. We recommend "
+"only selecting people you know and trust"
+msgstr "Se um administrador de equipa sair da equipa, deixará de ser um administrador de equipa. Recomendamos que selecione apenas pessoas que conheça e confie"
+
+msgid "Choose type"
+msgstr "Escolha tipo"
+
+msgid "Team name"
+msgstr "Nome da equipa"
+
+msgid "Team name -- HTML version (optional)"
+msgstr "Nome da equipa -- versão HTML (opcional)"
+
+msgid "You may use limited HTML tags"
+msgstr "Pode usar tags HTML limitadas"
+
+msgid "Team website (optional)"
+msgstr "Website da equipa (opcional)"
+
+msgid "Displayed on the team's page"
+msgstr "Mostrado na página da equipa"
+
+msgid "Type of team"
+msgstr "Tipo de equipa"
+
+msgid "Accept new members?"
+msgstr "Aceitar novos membros?"
+
+msgid "Description of team"
+msgstr "Descrição da equipa"
+
+msgid "Create new team"
+msgstr "Criar nova equipa"
+
+msgid "Create a team"
+msgstr "Criar uma equipa"
+
+msgid "Save team"
+msgstr "Guardar equipa"
+
+msgid "Create team message board"
+msgstr "Criar um fórum, para a equipa"
+
+msgid "Create message board"
+msgstr "Criar um fórum"
+
+msgid "You may create a message board for use by @team"
+msgstr "Pode criar um fórum, para utilização da equipa @team"
+
+msgid ""
+"Please set the minimum average credit that a user is required to have in "
+"order to post to this message board."
+msgstr "Por favor, defina o crédito mínimo que um utilizador é obrigado a ter, a fim de escrever neste fórum."
+
+msgid "Post new topic"
+msgstr "Colocar novo tópico"
+
+msgid "Anonymous"
+msgstr "Anónimo"
+
+msgid "Unpublished"
+msgstr "Não publicado"
+
+msgid "parent removed"
+msgstr "parentalidade removida"
+
+msgid "Sorry, unrecognized email address or password."
+msgstr "Pedimos desculpa, endereço de e-mail ou palavra-passe desconhecido/s"
+
+msgid "Have you forgotten your password?"
+msgstr "Esqueceu-se da palavra-passe?"
+
+msgid "Id"
+msgstr "Id"
+
+msgid "Recent average credit"
+msgstr "Média de créditos recentes"
+
+msgid "Members"
+msgstr "Membros"
+
+msgid "Total Credit"
+msgstr "Créditos Totais"
+
+msgid "User ID"
+msgstr "ID do utilizador"
+
+msgid "User"
+msgstr "Utilizador"
+
+msgid "Admin since"
+msgstr "Administrador desde"
+
+msgid "Team ID"
+msgstr "ID da Equipa"
+
+msgid "User joined"
+msgstr "Utilizador juntou-se"
+
+msgid "Timestamp"
+msgstr "Timestamp"
+
+msgid "Account Key"
+msgstr "Chave da conta"
+
+msgid "CPID"
+msgstr "CPID"
+
+msgid "Email Address"
+msgstr "Endereço de Email"
+
+msgid "Password Hash"
+msgstr "Hash da Palavra-passe"
+
+msgid "Postal Code"
+msgstr "Código Postal"
+
+msgid "Send Email"
+msgstr "Enviar E-mail"
+
+msgid "Show Hosts"
+msgstr "Mostrar Anfitriões"
+
+msgid "URL"
+msgstr "URL"
+
+msgid "Computer ID"
+msgstr "ID do Computador"
+
+msgid "Location"
+msgstr "Localização"
+
+msgid "While BOINC running, % of time work is allowed"
+msgstr "Enquanto o BOINC está em execução, % de tempo de trabalho permitido"
+
+msgid "Average turnaround time"
+msgstr "Tempo de resposta médio"
+
+msgid "Created"
+msgstr "Criado"
+
+msgid "While BOINC running, % of time host has an Internet connection"
+msgstr "Enquanto o BOINC está em execução, % de tempo que o computador anfitrião tem conexão à Internet"
+
+msgid "Average CPU efficiency"
+msgstr "Eficiência média da CPU"
+
+msgid "Free disk space"
+msgstr "Espaço livre no disco"
+
+msgid "Total disk space"
+msgstr "Espaço total em disco"
+
+msgid "Task duration correction factor"
+msgstr "Duração do factor de correcção da tarefa"
+
+msgid "Avg. credit"
+msgstr "Média de créditos"
+
+msgid "External IP address"
+msgstr "Endereço de IP externo"
+
+msgid "Cross project ID"
+msgstr "ID do projecto"
+
+msgid "Last IP address"
+msgstr "Último endereço IP"
+
+msgid "Cache"
+msgstr "Cache"
+
+msgid "Memory"
+msgstr "Memória"
+
+msgid "Swap space"
+msgstr "Espaço temporário"
+
+msgid "Maximum daily WU quota per CPU"
+msgstr "Cota diária máxima de WU por CPU"
+
+msgid "Average download rate"
+msgstr "Taxa média de transferência"
+
+msgid "Average upload rate"
+msgstr "Taxa média de upload"
+
+msgid "Same IP address count"
+msgstr "Total do mesmo endereço de IP"
+
+msgid "% of time BOINC client is running"
+msgstr "% de tempo que o cliente BOINC está em execução"
+
+msgid "Operating system"
+msgstr "Sistema operativo"
+
+msgid "Operating system version"
+msgstr "Versão do sistema operativo"
+
+msgid "Measured floating point speed"
+msgstr "FLOP calculado"
+
+msgid "Measured integer speed"
+msgstr "Velocidade calculada de inteiros"
+
+msgid "CPU model"
+msgstr "Modelo da CPU"
+
+msgid "Number of processors"
+msgstr "Número de processadores"
+
+msgid "CPU"
+msgstr "CPU"
+
+msgid "Number of times client has contacted server"
+msgstr "Número de vezes que o cliente contactou o servidor"
+
+msgid "Last contact"
+msgstr "Último contacto"
+
+msgid "Serial number"
+msgstr "Número de série"
+
+msgid "Timezone"
+msgstr "Fuso Horário"
+
+msgid "Platform ID"
+msgstr "ID da Plataforma"
+
+msgid "Task ID"
+msgstr "ID da Tarefa"
+
+msgid "Workunit ID"
+msgstr "ID da Unidade de Trabalho"
+
+msgid "Host ID"
+msgstr "ID do Anfitrião"
+
+msgid "Application ID"
+msgstr "ID da Aplicação"
+
+msgid "Application version"
+msgstr "Versão da aplicação"
+
+msgid "Claimed credit"
+msgstr "Crédito reivindicado"
+
+msgid "Client state"
+msgstr "Estado do cliente"
+
+msgid "CPU time"
+msgstr "Tempo da CPU"
+
+msgid "Run time"
+msgstr "Tempo decorrido"
+
+msgid "Exit status"
+msgstr "Estado de saída"
+
+msgid "Granted credit"
+msgstr "Crédito concedido"
+
+msgid "Outcome"
+msgstr "Resultado"
+
+msgid "Received time"
+msgstr "Hora recebida"
+
+msgid "Report deadline"
+msgstr "Reportar data limite de entrega"
+
+msgid "Sent"
+msgstr "Enviado"
+
+msgid "Server state"
+msgstr "Estado do servidor"
+
+msgid "Stderr out"
+msgstr "Stderr out"
+
+msgid "Validation state"
+msgstr "Estado da validação"
+
+msgid "App ID"
+msgstr "App ID"
+
+msgid "Canonical credit"
+msgstr "Crédito canônico"
+
+msgid "Canonical result ID"
+msgstr "ID do resultado canônico"
+
+msgid "Created time"
+msgstr "Hora de criação"
+
+msgid "Error mask"
+msgstr "Erro na máscara"
+
+msgid "Minimum quorum"
+msgstr "Quorum mínimo"
+
+msgid "Max error tasks"
+msgstr "Máximo de erros nas tarefas"
+
+msgid "Max success tasks"
+msgstr "Máximo de tarefas bem sucedidas"
+
+msgid "Max total tasks"
+msgstr "Máximo de tarefas totais"
+
+msgid "Needs validation"
+msgstr "Necessita de validação"
+
+msgid "Initial replication"
+msgstr "Replicação inicial"
+
+msgid "Target number of results"
+msgstr "Meta do número de reultados"
+
+msgid "Application version ID"
+msgstr "ID da Versão da aplicação"
+
+msgid "Plan class"
+msgstr "Classe do plano"
+
+msgid "Version number"
+msgstr "Número da versão"
+
+msgid "Computer"
+msgstr "Computador"
+
+msgid "App version ID"
+msgstr "ID da versão da app"
+
+msgid "Consecutive valid tasks"
+msgstr "Tarefas válidas consecutivas"
+
+msgid "Number of tasks completed"
+msgstr "Número de tarefas completas"
+
+msgid "Max tasks per day"
+msgstr "Máximo de tarefas por dia"
+
+msgid "Number of tasks today"
+msgstr "Número de tarefas hoje"
+
+msgid "Show IP address"
+msgstr "Mostrar endereço IP"
+
+msgid "hours"
+msgstr "horas"
+
+msgid "@count million ops/sec"
+msgstr "@count milhões de ops/seg"
+
+msgid "@rate KiB/sec"
+msgstr "@taxa KiB/seg"
+
+msgid "@count days"
+msgstr "@count dias"
+
+msgid "Remove friend"
+msgstr "Remover amigo"
+
+msgid "Ban user"
+msgstr "Banir utilizador"
+
+msgid "Add as friend"
+msgstr "Adicionar como amigo"
+
+msgid "Team"
+msgstr "Equipa"
+
+msgid "Reply"
+msgstr "Responder"
+
+msgid "Reply to this comment"
+msgstr "Responder a este comentário"
+
+msgid "Quote"
+msgstr "Citar"
+
+msgid "Reply to this comment with quote"
+msgstr "Responder a este comentário com citação"
+
+msgid "Edit this comment"
+msgstr "Editar este comentário"
+
+msgid "Delete this comment"
+msgstr "Apagar este comentário"
+
+msgid "Hide this comment"
+msgstr "Ocultar este comentário"
+
+msgid "Convert"
+msgstr "Converter"
+
+msgid "Convert this comment to a new topic"
+msgstr "Converter este comentário para um novo tópico"
+
+msgid "Details"
+msgstr "Detalhes"
+
+msgid "@ip_address (same the last @count times)"
+msgstr "@ip_address (o mesmo total @count)"
+
+msgid "commented on"
+msgstr "comentado em"
+
+msgid "Make unsticky"
+msgstr "Marcar como não sticky"
+
+msgid "Remove sticky status from this topic"
+msgstr "Remover o status definido para este tópico"
+
+msgid ""
+"Sometimes BOINC assigns separate identities to the same computer by mistake."
+" You can correct this by merging old identities with the newest one."
+msgstr "Por vezes o BOINC assigna identidades separadas para o mesmo computador por engano. Pode corrigir isto fundindo identidades mais antigas com as novas."
+
+msgid ""
+"Check the computers that are the same as @name (created on @date at @time "
+"with computer ID @id)"
+msgstr "Verifique os computadores que são idênticos a @name (criado em @date às @time com o ID @id)"
+
+msgid "Computer @old_id has been merged successfully into @id."
+msgstr "O antigo ID do computador @old_id, foi migrado com sucesso para o novo ID @id."
+
+msgid "started discussion"
+msgstr "Iniciar uma discussão"
+
+msgid "posted"
+msgstr "colocado"
+
+msgid "Minimum value not met for @field"
+msgstr "O valor mínimo do campo @field, não foi atingido"
+
+msgid "Remove"
+msgstr "Remover"
+
+msgid "hidden"
+msgstr "oculto"
+
+msgid "Invalid data type for @field"
+msgstr "tipo de dados inválido para o @field"
+
+msgid ""
+"Authentication is required when changing E-mail address or setting new "
+"password."
+msgstr "Autenticação necessária quando é alterado o endereço de E-mail ou é definida uma nova palavra-passe."
+
+msgid "Request foundership"
+msgstr "Pedir liderança"
+
+msgid ""
+"If the team founder is not active and you want to assume the role of "
+"founder, click below to request foundership of @this_team."
+msgstr "Se o fundador da equipa não estiver activo e quiser assumir o papel de fundador, clique abaixo para pedir a liderança da @this_team. "
+
+msgid "Initiate request"
+msgstr "Iniciar pedido"
+
+msgid "A BOINC account already exists for @email."
+msgstr "Já existe uma conta do BOINC para @email."
+
+msgid ""
+"Please be responsible in what you write and do not create posts which are "
+"offensive or insulting. Offensive posts or threads may be deleted by forum "
+"moderators without warning or discussion. Do not respond to offensive "
+"postings. Click on the \"report\" button at the bottom of the post to call "
+"it to the attention of the moderators."
+msgstr "Por favor seja responsável no que escreve e não crie mensagens ofensivas ou insultuosas. Mensagens ofensivas podem ser apagadas pelos moderadores do fórum, sem aviso. Não responda a mensagens ofensivas. Clique no botão \"report\" na parte inferior da mensagem para chamar à atenção dos moderadores."
+
+msgid "this project"
+msgstr "este projecto"
+
+msgid ""
+"We also ask that you keep all discussion on the message boards related to "
+"@project or BOINC with the small exception of the Science message board "
+"where you are free to discuss anything relevant to the underlying science. "
+"Participants interested in broader discussions should post to unofficial "
+"forums for @project."
+msgstr "Também pedimos que mantenha toda a discussão sobre os fóruns relacionadas com @project ou do BOINC com a pequena exceção do fórum da ciência onde é livre para discutir qualquer assunto relevante para a ciência subjacente. Os participantes interessados em discussões mais amplas devem utilizar os fóruns não oficiais para o @project."
+
+msgid "These message boards now support BBCode tags only."
+msgstr "Os fóruns suportam agora apenas tags BBCode."
+
+msgid "Posts contributed"
+msgstr "Tópicos onde contribuiu"
+
+msgid "Profile awaiting moderator approval"
+msgstr "Perfil aguardando aprovação do moderador"
+
+msgid "Approve profile"
+msgstr "Aprovar perfil"
+
+msgid "Approve this profile content"
+msgstr "Aprovar o conteúdo deste perfil"
+
+msgid "Edit profile"
+msgstr "Editar perfil"
+
+msgid "Edit the content of this profile"
+msgstr "Editar o conteúdo deste perfil"
+
+msgid "Remove profile"
+msgstr "Remover perfil"
+
+msgid "Remove this profile content from the system"
+msgstr "Remover o conteúdo deste perfil do sistema"
+
+msgid "The team founder has @count days to respond to your transfer request."
+msgstr "O fundador da equipa tem @count dias para responder ao seu pedido de transferência."
+
+msgid "Reject profile"
+msgstr "Rejeitar perfil"
+
+msgid "Reject this profile content"
+msgstr "Rejeitar o conteúdo deste perfil"
+
+msgid "Reason for rejecting this profile"
+msgstr "Razão para rejeitar este perfil"
+
+msgid ""
+"This reason will be included in an email to the user. Please write a brief "
+"explanation of the problem and how to fix it."
+msgstr "Esta razão será incluída no e-mail para o utilizador. Por favor, escreva uma breve explicação do problema e como resolvê-lo."
+
+msgid "Submit"
+msgstr "Submeter"
+
+msgid "project"
+msgstr "projecto"
+
+msgid "No account exists for @email -- select \"Create new account\" to register"
+msgstr "Não existe nenhuma conta para @email -- selecione \"Criar nova conta\" para se registar"
+
+msgid "Unknown"
+msgstr "Desconhecido"
+
+msgid "My team"
+msgstr "A minha equipa"
+
+msgid "You are a member of @team."
+msgstr "É membro de @team"
+
+msgid "View my team"
+msgstr "Ver a minha equpa"
+
+msgid "Invalid setting for \"%preference\""
+msgstr "Definição inválida para \"%preference\""
+
+msgid "Pending"
+msgstr "Pendente"
+
+msgid ""
+"You must earn @count more credits to be able to post comments on this site."
+msgstr "Tem de ganhar mais @count créditos para poder publicar comentários neste site"
+
+msgid "Moderation"
+msgstr "Moderação"
+
+msgid "Unvetted profiles"
+msgstr "Perfis não examinados"
+
+msgid "Reason for banning this user"
+msgstr "Razão para banir este utilizador"
+
+msgid ""
+"This reason will be included in an email to the user. Please write a brief "
+"explanation of why the user is being banned."
+msgstr "A razão será incluída num email enviado ao utilizador. Escreva uma breve explicação do porquê deste utilizador estar a ser banido."
+
+msgid "Duration of the ban"
+msgstr "Duração do banimento"
+
+msgid "The number of days until the ban expires. Set to 0 to ban permanently."
+msgstr "Número de dias até ao banimento expirar. Selecionar 0 para banir permanentemente."
+
+msgid "Lift user ban"
+msgstr "Levantar banimento do utilizador"
+
+msgid "You are banned from community participation until @date"
+msgstr "Está banido de participar na comunidade até @date"
+
+msgid "Computers @old_ids have been merged successfully into @id."
+msgstr "Os antigos ID dos computadores @old_ids, foram migrados com sucesso para o novo ID @id."
+
+msgid "A team named \"@name\" already exists."
+msgstr "Uma equipa chamada \"@name\" já existe."
+
+msgid "Post topic"
+msgstr "Publicar tópico"
+
+msgid "Please enter your email address"
+msgstr "Introduza o seu endereço de email"
+
+msgid "Password entered is not valid. Please verify that it is correct."
+msgstr "A palavra-passe introduzida não é válida. Verifique se está correta"
+
+msgid "Make founder"
+msgstr "Criar fundador"
+
+msgid "User of the day"
+msgstr "Utilizador do dia"
+
+msgid "!site: comment posted to \"!topic_name\""
+msgstr "!site: comentário publicado em \"!topic_name\""
+
+msgid "!author has posted a reply to \"!topic_name\"."
+msgstr "!author publicou uma resposta em \"!topic_name\"."
+
+msgid ""
+"To view this topic at !site, click here: \n"
+"!comment_url"
+msgstr "Para ver este tópico em !site, clique aqui:\n!comment_url"
+
+msgid "At least one application must be selected"
+msgstr "Pelo menos uma aplicação deve der selecionada"
+
+msgid "Account"
+msgstr "Conta"
+
+msgid "Log in"
+msgstr "Entrar"
+
+msgid "Forgot password"
+msgstr "Esqueceu-se da palavra-passe"
+
+msgid ""
+"Enter your email address to receive instructions for resetting your "
+"password."
+msgstr "Introduza o seu endereço de email para receber instruções para repor a sua palavra-passe"
+
+msgid "Send"
+msgstr "Enviar"
+
+msgid "Revise or post comment"
+msgstr "Rever ou publicar comentário"
+
+msgid "discuss"
+msgstr "debater"
+
+msgid "News"
+msgstr "Novidades"
+
+msgid "Your community preferences have been updated."
+msgstr "As suas preferências de comunidade foram atualizadas."
+
+msgid "Unlock"
+msgstr "Desbloquear"
+
+msgid "Unlock this thread for comments"
+msgstr "Desbloquear este tópico para comentários"
+
+msgid "Authenticator login"
+msgstr "ID de autenticação"
+
+msgid "Create content"
+msgstr "Criar conteúdo"
+
+msgid "authenticator-based login"
+msgstr "ID de autenticação"
+
+msgid ""
+"Enter your email address to receive instructions for resetting your password"
+" (or use the !authenticator_login)."
+msgstr "Introduza o seu endereço de e-mail para receber instruções para repor a sua palavra-passe (ou utilize o !authenticator_login)."
+
+msgid ""
+"If you forgot your account's email address, or you can't receive email "
+"there:"
+msgstr "Se esqueceu o seu endereço de e-mail da sua conta, ou não consegue receber emails nessa conta:"
+
+msgid ""
+"If you have run BOINC under the account, you can still access it. Here's "
+"how:"
+msgstr "Se tiver executado o BOINC numa determinada conta, poderá ainda aceder. Veja como:"
+
+msgid ""
+"Go to the BOINC data directory on your computer (on Windows this is usually "
+"%path1 or %path2."
+msgstr "Vá ao directório de dados do BOINC no seu computador (no Windows geralmente o caminho é este %path1 ou %path2."
+
+msgid ""
+"Find your account file for this project; it will have a name like %file "
+"(where the project URL is %url)."
+msgstr "Encontre o seu ficheiro de conta para este projecto; terá um nome como %file (onde o URL do projecto é %url)."
+
+msgid ""
+"Open the file in a text editor like Notepad. You'll see something like:"
+msgstr "Abra o ficheiro num editor de texto como o Notepad. Irá ver qualquer coisa como:"
+
+msgid ""
+"Select and Copy the string between &lt;authenticator&gt; and "
+"&lt;/authenticator&gt; (%auth in the above example)."
+msgstr "Seleccione e Copie a string entre &It;autenticador&gt; e &It;/autenticador&get; (%auth no exemplo abaixo)."
+
+msgid "Paste the string into the field below, and click OK."
+msgstr "Colar a string no campo abaixo e, carregar em OK."
+
+msgid ""
+"You will now be logged in to your account; update the email and password of "
+"your account."
+msgstr "Será agora feito o log in na sua conta; actualizar o email e palavra passe da sua conta."
+
+msgid "Log in with authenticator"
+msgstr "fazer login com o autenticador"
+
+msgid "There is no account with that authenticator."
+msgstr "Não existe conta com esse autenticador."
+
+msgid ""
+"Go to the <a href=\"%wikiref\">BOINC data directory</a> on your computer (on"
+" Windows this is usually %path1 or %path2."
+msgstr "Vá a <a href=\"%wikiref\">directoria de dados do BOINC</a> no seu computador (no Windows geralmente o caminho é este %path1 ou %path2."
+
+msgid "BOINC documentation"
+msgstr "Documentação do BOINC"
+
+msgid ""
+"Go to the BOINC data directory on your computer (see !boinc_wiki for help "
+"finding this)."
+msgstr "Vá ao directório de dados do BOINC no seu computador (ver !boinc_wiki para o ajudar a encontrar esta pasta)."
+
+msgid ""
+"@count days have elapsed since your request and the founder has not "
+"responded."
+msgstr "passaram @count dias desde o seu pedido e o fundador não respondeu."
+
+msgid ""
+"You now have @count days to assume foundership before another team member "
+"may submit a request."
+msgstr "Você tem agora @count dias para assumir a liderança antes que outro membro da equipa possa submeter o pedido."
+
+msgid "Assume foundership"
+msgstr "Assumir liderança"
+
+msgid "Unhide"
+msgstr "Revelar"
+
+msgid "Unhide this comment"
+msgstr "Meter comentário visível"
+
+msgid "@email is not a well formed email address, please verify"
+msgstr "@email não têm o formato correcto. verifique por favor o e-mail introduzido"
