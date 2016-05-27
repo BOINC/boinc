@@ -3,7 +3,7 @@
   <!--app global-->
   <string name="app_name">BOINC</string>
   <!--generic. used by multiple Activities/tabs-->
-  <string name="generic_loading">A carregar! Por favor aguarde...</string>
+  <string name="generic_loading">A carregar! Por favor, aguarde...</string>
   <string name="generic_button_continue">Continuar</string>
   <string name="generic_button_finish">Terminar</string>
   <!--attach project-->
