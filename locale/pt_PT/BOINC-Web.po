@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-05-27 15:28+0000\n"
+"PO-Revision-Date: 2016-05-27 15:33+0000\n"
 "Last-Translator: Octávio Filipe Gonçalves <octavio.filipe.pereira@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -41,11 +41,11 @@ msgstr "Esta página pode ser %straduzida%s."
 msgid ""
 "We recommend that you also install VirtualBox, so your computer can work on "
 "science projects that require it."
-msgstr "Nós recomendamos que instale também o VirtualBox, e assim, o seu computador pode trabalhar em projetos de ciência que o requeiram."
+msgstr "Nós recomendamos que instale também o VirtualBox, e assim, o seu computador pode trabalhar em projetos de ciência que o necessitem."
 
 #: download.php:44
 msgid "Learn more about VirtualBox."
-msgstr "Saber mais sobre o VirtualBox."
+msgstr "Saiba mais sobre o VirtualBox."
 
 #: download.php:52
 msgid "Download BOINC + VirtualBox"
@@ -422,7 +422,7 @@ msgid ""
 " medication. We therefore urgently need to discover new drugs, targeting new"
 " proteins in the parasite. The FightNeglectedDiseases@Home project is aimed "
 "at finding these new targets."
-msgstr "O parasita que causa a malária continua a desenvolver resistência à medicação disponível. Necessitamos urgentemente de descobrir novos medicamentos, marcando novas proteínas no parasita. O projecto FightNeglectedDiseases@Home tem como intuito encontrar estes novos alvos."
+msgstr "O parasita que causa a malária continua a desenvolver resistência à medicação disponível. Necessitamos urgentemente de descobrir novos medicamentos, descobrindo novas proteínas no parasita. O projecto FightNeglectedDiseases@Home tem como intuito encontrar estes novos alvos."
 
 #: projects.inc:117
 msgid "University of Karlsruhe (Germany)"
@@ -859,7 +859,7 @@ msgid ""
 "Solve hard and practically important problems (discrete functions inversion "
 "problems, discrete optimization, bioinformatics, etc.) that can be "
 "effectively reduced to Boolean satisfiability problem."
-msgstr "A resolução de pronlemas pacticamente impossíveis (funções discretas problemas de inversão, otimização discreta, bioinformática, etc.), que podem ser efetivamente reduzidos a um problema de satisfatibilidade booleana."
+msgstr "A resolução de problemas pacticamente impossíveis (funções discretas problemas de inversão, otimização discreta, bioinformática, etc.), que podem ser efetivamente reduzidos a um problema de satisfatibilidade booleana."
 
 #: projects.inc:557
 msgid "Study computational complexity"
