@@ -6,14 +6,15 @@
 # FileID  : $Id$
 # 
 # Translators:
+# Maria Manuela Silva, 2016
 # Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2016-05-27 12:58+0000\n"
-"Last-Translator: Rom Walton\n"
+"PO-Revision-Date: 2016-05-27 13:04+0000\n"
+"Last-Translator: Maria Manuela Silva\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -853,7 +854,7 @@ msgstr "Enquanto o BOINC estiver em execução, uma fracção de tempo de comput
 
 #: ../inc/host.inc:193
 msgid "Average CPU efficiency"
-msgstr "Eficiência média do CPU"
+msgstr "Eficiência média da CPU"
 
 #: ../inc/host.inc:196
 msgid "Task duration correction factor"
@@ -936,7 +937,7 @@ msgstr "O anfitrião %1 tem um Sistema Operativo incompatível:"
 
 #: ../inc/host.inc:533
 msgid "Host %1 has an incompatible CPU:"
-msgstr "O anfitrião %1 tem um CPU incompatível:"
+msgstr "O anfitrião %1 tem uma CPU incompatível:"
 
 #: ../inc/host.inc:600
 msgid "same host"
@@ -1088,12 +1089,12 @@ msgstr "Usar no máximo"
 msgid ""
 "Keep some CPUs free for other applications. Example: 75% means use 6 cores "
 "on an 8-core CPU."
-msgstr "Manter alguns CPUs livres para outras aplicações. Exemplo: 75% significa utilizar 6 cores num CPU de 8 cores."
+msgstr "Manter algumas CPUs livres para outras aplicações. Exemplo: 75% significa utilizar 6 núcleos num CPU de 8 núcleos."
 
 #: ../inc/prefs.inc:52
 #, no-php-format
 msgid "% of the CPUs"
-msgstr "% dos CPUs"
+msgstr "% das CPUs"
 
 #: ../inc/prefs.inc:57
 #, no-php-format
@@ -1101,12 +1102,12 @@ msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
 "energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, "
 "and repeat."
-msgstr "Suspende/resume computação em alguns segundos para reduzir a temperatura do CPU e o consumo de energia. Exemplo: 75% significa realizar computação durante 3 segundos, aguardar 1 segundo e repetir."
+msgstr "Suspende/resume computação em alguns segundos para reduzir a temperatura da CPU e o consumo de energia. Exemplo: 75% significa computação durante 3 segundos, aguardar 1 segundo, e repetir."
 
 #: ../inc/prefs.inc:60
 #, no-php-format
 msgid "% of CPU time"
-msgstr "% de tempo de CPU"
+msgstr "% de tempo da CPU"
 
 #: ../inc/prefs.inc:62 ../inc/prefs.inc:208
 msgid "When to suspend"
@@ -1161,7 +1162,7 @@ msgstr "Isto permite que alguns computadores entrem em poupança de energia quan
 
 #: ../inc/prefs.inc:95
 msgid "Suspend when non-BOINC CPU usage is above"
-msgstr "Suspender quando a utilização do CPU por parte de terceiros for superior a"
+msgstr "Suspender quando a utilização da CPU por parte de terceiros for superior a"
 
 #: ../inc/prefs.inc:96
 msgid "Suspend computing when your computer is busy running other programs."
@@ -1485,7 +1486,7 @@ msgstr "Determina a proporção de recursos alocados no seu computador para este
 
 #: ../inc/prefs_project.inc:61
 msgid "Accelerate GPU tasks by dedicating a CPU to each one?"
-msgstr "Acelerar tarefas de GPU dedicando um CPU a cada uma?"
+msgstr "Acelerar as tarefas da GPU, dedicando uma CPU para cada uma?"
 
 #: ../inc/prefs_project.inc:70
 msgid "Use CPU"
@@ -1882,7 +1883,7 @@ msgstr "Tempo decorrido<br />(seg)"
 
 #: ../inc/result.inc:382
 msgid "CPU time<br />(sec)"
-msgstr "Tempo de CPU<br />(seg)"
+msgstr "Tempo da CPU<br />(seg)"
 
 #: ../inc/result.inc:383 ../inc/result.inc:646
 msgid "Credit"
@@ -1926,7 +1927,7 @@ msgstr "Tempo decorrido"
 
 #: ../inc/result.inc:644
 msgid "CPU time"
-msgstr "Tempo de CPU"
+msgstr "Tempo da CPU"
 
 #: ../inc/result.inc:645
 msgid "Validate state"
@@ -4765,7 +4766,7 @@ msgid ""
 "When you run %1 on your computer, it will use part of the computer's CPU "
 "power, disk space, and network bandwidth. You can control how much of your "
 "resources are used by %1, and when it uses them."
-msgstr "Quando executar o %1 no seu computador, ele irá usar parte do poder do CPU do seu computador, espaço no disco e largura de banda. Pode controlar a quantidade de recursos que são usadas pelo %1 e quando são usadas."
+msgstr "Quando executar o %1 no seu computador, este irá utilizar parte do poder da CPU do computador, espaço no disco e largura de banda. Pode controlar a quantidade de recursos que são utilizados pelo %1, e quando este os utiliza."
 
 #: ../user/info.php:40
 msgid ""
