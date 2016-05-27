@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-05-27 12:55+0000\n"
+"PO-Revision-Date: 2016-05-27 13:01+0000\n"
 "Last-Translator: Maria Manuela Silva\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -347,11 +347,11 @@ msgstr "Remover este computador do controlo do gestor de conta."
 
 #: clientgui/AdvancedFrame.cpp:493
 msgid "Run CPU &benchmarks"
-msgstr "Executar &testes de perfomance do CPU"
+msgstr "Executar &testes de desempenho da CPU"
 
 #: clientgui/AdvancedFrame.cpp:494
 msgid "Run tests that measure CPU speed"
-msgstr "Executar testes que avaliem a velocidade do CPU"
+msgstr "Executar testes que calculem a velocidade da CPU"
 
 #: clientgui/AdvancedFrame.cpp:498
 msgid "Retry pending transfers"
@@ -1206,7 +1206,7 @@ msgstr "Limites de utilização"
 msgid ""
 "Keep some CPUs free for other applications. Example: 75% means use 6 cores "
 "on an 8-core CPU."
-msgstr "Deixar alguns CPUs livres para outras aplicações. Exemplo: 75% significa utilizar 6 cores num CPU de 8 cores."
+msgstr "Deixar algumas CPUs livres para outras aplicações. Exemplo: 75% significa utilizar 6 núcleos numa CPU de 8 núcleos."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:243
 #: clientgui/DlgAdvPreferencesBase.cpp:255 clientgui/sg_DlgPreferences.cpp:286
@@ -1216,7 +1216,7 @@ msgstr "Utilizar no máximo"
 #: clientgui/DlgAdvPreferencesBase.cpp:248
 #, no-c-format
 msgid "% of the CPUs"
-msgstr "% dos CPUs"
+msgstr "% das CPUs"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:253 clientgui/sg_DlgPreferences.cpp:284
 #, no-c-format
@@ -1224,12 +1224,12 @@ msgid ""
 "Suspend/resume computing every few seconds to reduce CPU temperature and "
 "energy usage. Example: 75% means compute for 3 seconds, wait for 1 second, "
 "and repeat."
-msgstr "Suspende/resume computação em alguns segundos para reduzir a temperatura do CPU e o consumo de energia. Exemplo: 75% significa realizar computação durante 3 segundos, aguardar 1 segundo e repetir."
+msgstr "Suspende/resume a computação em alguns segundos para reduzir a temperatura da CPU e o consumo de energia. Exemplo: 75% significa computação durante 3 segundos, aguardar 1 segundo, e repetir."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:260 clientgui/sg_DlgPreferences.cpp:291
 #, no-c-format
 msgid "% of CPU time"
-msgstr "% de tempo de CPU"
+msgstr "% de tempo da CPU"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:267
 msgid "When to suspend"
@@ -1281,7 +1281,7 @@ msgstr "minutos"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:323
 msgid "Suspend when non-BOINC CPU usage is above"
-msgstr "Suspender quando a utilização do CPU por parte de terceiros for superior a"
+msgstr "Suspender quando a utilização da CPU por parte de terceiros for superior a"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:325
 msgid "Suspend computing when your computer is busy running other programs."
@@ -1913,7 +1913,7 @@ msgstr "ID do Computador"
 
 #: clientgui/DlgItemProperties.cpp:268
 msgid "Non CPU intensive"
-msgstr "CPU não intensivo"
+msgstr "CPU não intensiva"
 
 #: clientgui/DlgItemProperties.cpp:268 clientgui/DlgItemProperties.cpp:270
 #: clientgui/DlgItemProperties.cpp:271 clientgui/DlgItemProperties.cpp:273
@@ -2041,11 +2041,11 @@ msgstr "Tamanho estimado de computação"
 
 #: clientgui/DlgItemProperties.cpp:390
 msgid "CPU time at last checkpoint"
-msgstr "Tempo de CPU no ultimo checkpoint"
+msgstr "Tempo da CPU no último ponto de verificação"
 
 #: clientgui/DlgItemProperties.cpp:391 clientgui/DlgItemProperties.cpp:417
 msgid "CPU time"
-msgstr "Tempo de CPU"
+msgstr "Tempo da CPU"
 
 #: clientgui/DlgItemProperties.cpp:393 clientgui/DlgItemProperties.cpp:418
 msgid "Elapsed time"
@@ -2496,7 +2496,7 @@ msgstr "hora do dia"
 
 #: clientgui/MainDocument.cpp:2447
 msgid "CPU benchmarks in progress"
-msgstr "Testes de performance do CPU em progresso"
+msgstr "Testes de desempenho da CPU em progresso"
 
 #: clientgui/MainDocument.cpp:2448
 msgid "need disk space - check preferences"
@@ -2516,7 +2516,7 @@ msgstr "uma aplicação exclusiva está em execução"
 
 #: clientgui/MainDocument.cpp:2452
 msgid "CPU is busy"
-msgstr "O CPU está ocupado"
+msgstr "A CPU está ocupada"
 
 #: clientgui/MainDocument.cpp:2453
 msgid "network bandwidth limit exceeded"
@@ -2582,7 +2582,7 @@ msgstr "Executando"
 
 #: clientgui/MainDocument.cpp:2521
 msgid " (non-CPU-intensive)"
-msgstr " (CPU não intensivo)"
+msgstr " (CPU não intensiva)"
 
 #: clientgui/MainDocument.cpp:2524
 msgid "Waiting to run"
