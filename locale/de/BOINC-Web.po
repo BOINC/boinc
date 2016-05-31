@@ -6,7 +6,7 @@
 # FileID  : $Id$
 # 
 # Translators:
-# Christian Beer <christian.beer@posteo.de>, 2015
+# Christian Beer <christian.beer@posteo.de>, 2015-2016
 # Jan Schladetzky <keiken@keiken.eu>, 2015
 # Jonas <jesus_007@posteo.de>, 2015
 msgid ""
@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2015-12-11 09:37+0000\n"
+"PO-Revision-Date: 2016-05-31 11:26+0000\n"
 "Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: German (http://www.transifex.com/boinc/boinc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -258,7 +258,7 @@ msgstr "BOINC Software herunterladen"
 
 #: index.php:105
 msgid "Enter an email address and password."
-msgstr "Geben Sie eine E-Mail Adresse und Passwort ein."
+msgstr "Geben Sie eine E-Mail-Adresse und Passwort ein."
 
 #: index.php:109
 #, php-format
