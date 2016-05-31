@@ -6,14 +6,14 @@
 # FileID  : $Id$
 # 
 # Translators:
-# Christian Beer <christian.beer@posteo.de>, 2015
+# Christian Beer <christian.beer@posteo.de>, 2015-2016
 # Wolf Dieter Dallinger <wolf.dieter@dallinger.de>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2015-12-15 13:59+0000\n"
+"PO-Revision-Date: 2016-05-31 11:23+0000\n"
 "Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: German (http://www.transifex.com/boinc/boinc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +47,7 @@ msgstr "Name"
 
 #: ../inc/account.inc:44 ../user/account_finish.php:41
 msgid "Identifies you on our web site. Use your real name or a nickname."
-msgstr "Identifiziert Sie auf unserer Webseite. Verwenden Sie Ihren richtigen Namen oder einen Nicknamen."
+msgstr "Identifiziert Sie auf unserer Webseite. Verwenden Sie Ihren richtigen Namen oder ein Pseudonym."
 
 #: ../inc/account.inc:48
 msgid "Email Address"
