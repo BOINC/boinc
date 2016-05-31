@@ -300,7 +300,7 @@
   <string name="suspend_disksize">Kein Speicherplatz mehr verfügbar.</string>
   <string name="suspend_cputhrottle">Geplante Prozessordrosselung.</string>
   <string name="suspend_noinput">Keine Benutzeraktivität.</string>
-  <string name="suspend_delay">Startverzögerung</string>
+  <string name="suspend_delay">Startverzögerung.</string>
   <string name="suspend_exclusiveapp">Eine exklusive Anwendung läuft.</string>
   <string name="suspend_cpu">Ihr Gerät ist mit anderen Apps ausgelastet.</string>
   <string name="suspend_network_quota">Netzwerkübertragungslimit erreicht.</string>
