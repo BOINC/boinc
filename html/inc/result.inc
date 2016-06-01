@@ -501,7 +501,7 @@ function exit_code_str($x){
 	case 206: return "EXIT_INIT_FAILURE";	
 	case 207: return "EXIT_NO_SUB_TASKS";
 	case 208: return "EXIT_SUB_TASK_FAILURE";
-    default: return "Unknown error number";
+    default: return "Unknown exit code";
     }
 }
 
