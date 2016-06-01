@@ -478,12 +478,10 @@ function version_string($version_num) {
     }
 }
 
-// Decode ErrorNumber into semi-human-readable,
-// taken from lib/error_numbers.h keep this up to date
-// @return String A human readable error message
-// @param Integer $x An error number
+// convert an exit code to a string.
+// TODO: handle Windows-specific codes like 0xc0000005
 //
-function result_error_mask_str($x){
+function exit_code_str($x){
     switch($x){
     case 0: return "";
 	case 192: return "EXIT_STATEFILE_WRITE";
@@ -503,6 +501,16 @@ function result_error_mask_str($x){
 	case 206: return "EXIT_INIT_FAILURE";	
 	case 207: return "EXIT_NO_SUB_TASKS";
 	case 208: return "EXIT_SUB_TASK_FAILURE";
+    default: return "Unknown error number";
+    }
+}
+
+// convert an error code to a string.
+// NOTE: error codes are different from exit codes
+// NOTE: not used. can remove
+//
+function error_str($errnum) {
+    switch($errnum) {
 	case -100: return "ERR_SELECT";
 	case -102: return "ERR_READ";
     case -103: return "ERR_WRITE";
@@ -642,7 +650,8 @@ function result_error_mask_str($x){
 }
 
 function exit_status_string($x) {
-    return sprintf("%d (0x%x)", $x, $x). " ".result_error_mask_str($x);
+    $x = $x & 0xffffffff;
+    return sprintf("%d (0x%x)", $x, $x). " ".exit_code_str($x);
 }
 
 function show_result($result, $show_outfile_links=false) {
