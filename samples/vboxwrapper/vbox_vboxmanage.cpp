@@ -327,6 +327,7 @@ int VBOX_VM::create_vm() {
 
     vbm_popen(command, output, "modifycom", false, false);
 
+#ifndef __APPLE__
     // Tweak the VM's LPT Port Support
     //
     vboxlog_msg("Disabling LPT Port Support for VM.");
@@ -335,6 +336,7 @@ int VBOX_VM::create_vm() {
     command += "--lpt2 off ";
 
     vbm_popen(command, output, "modifylpt", false, false);
+#endif
 
     // Tweak the VM's Audio Support
     //
