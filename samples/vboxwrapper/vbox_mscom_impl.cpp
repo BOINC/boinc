@@ -945,10 +945,10 @@ int VBOX_VM::deregister_vm(bool delete_media) {
             if (snapshots.size()) {
                 for (size_t i = 0; i < snapshots.size(); i++) {
                     CComPtr<IProgress> pProgress;
-#ifdef _VIRTUALBOX50_
-                    rc = pMachine->DeleteSnapshot(CComBSTR(snapshots[i].c_str()), &pProgress);
-#else
+#if defined(_VIRTUALBOX42_) || defined(_VIRTUALBOX43_)
                     rc = pConsole->DeleteSnapshot(CComBSTR(snapshots[i].c_str()), &pProgress);
+#else
+                    rc = pMachine->DeleteSnapshot(CComBSTR(snapshots[i].c_str()), &pProgress);
 #endif
                     if (SUCCEEDED(rc)) {
                         pProgress->WaitForCompletion(-1);
@@ -1435,10 +1435,7 @@ int VBOX_VM::stop() {
     vboxlog_msg("Stopping VM.");
     if (online) {
 
-#ifdef _VIRTUALBOX50_
-        rc = m_pPrivate->m_pMachine->SaveState(&pProgress);
-        if (CHECK_ERROR(rc)) goto CLEANUP;
-#else
+#if defined(_VIRTUALBOX42_) || defined(_VIRTUALBOX43_)
         CComPtr<IConsole> pConsole;
         // Get console object. 
         rc = m_pPrivate->m_pSession->get_Console(&pConsole);
@@ -1446,6 +1443,9 @@ int VBOX_VM::stop() {
 
         // Save the state of the machine.
         rc = pConsole->SaveState(&pProgress);
+        if (CHECK_ERROR(rc)) goto CLEANUP;
+#else
+        rc = m_pPrivate->m_pMachine->SaveState(&pProgress);
         if (CHECK_ERROR(rc)) goto CLEANUP;
 #endif
 
@@ -1619,16 +1619,8 @@ int VBOX_VM::create_snapshot(double elapsed_time) {
 
     // Create new snapshot
     sprintf(buf, "%d", (int)elapsed_time);
-#ifdef _VIRTUALBOX50_
-    CComBSTR strUUID;
-    rc = m_pPrivate->m_pMachine->TakeSnapshot(CComBSTR(string(string("boinc_") + buf).c_str()), CComBSTR(""), true, &strUUID, &pProgress);
-    if (CHECK_ERROR(rc)) {
-    } else {
-        rc = pProgress->WaitForCompletion(-1);
-        if (CHECK_ERROR(rc)) {
-        }
-    }
-#else
+
+#if defined(_VIRTUALBOX42_) || defined(_VIRTUALBOX43_)
     rc = m_pPrivate->m_pSession->get_Console(&pConsole);
     if (CHECK_ERROR(rc)) {
     } else {
@@ -1638,6 +1630,15 @@ int VBOX_VM::create_snapshot(double elapsed_time) {
             rc = pProgress->WaitForCompletion(-1);
             if (CHECK_ERROR(rc)) {
             }
+        }
+    }
+#else
+    CComBSTR strUUID;
+    rc = m_pPrivate->m_pMachine->TakeSnapshot(CComBSTR(string(string("boinc_") + buf).c_str()), CComBSTR(""), true, &strUUID, &pProgress);
+    if (CHECK_ERROR(rc)) {
+    } else {
+        rc = pProgress->WaitForCompletion(-1);
+        if (CHECK_ERROR(rc)) {
         }
     }
 #endif
@@ -1698,11 +1699,10 @@ int VBOX_VM::cleanup_snapshots(bool delete_active) {
             CComPtr<IProgress> pProgress;
 
             vboxlog_msg("Deleting stale snapshot.");
-
-#ifdef _VIRTUALBOX50_
-            rc = m_pPrivate->m_pMachine->DeleteSnapshot(CComBSTR(snapshots[i].c_str()), &pProgress);
-#else
+#if defined(_VIRTUALBOX42_) || defined(_VIRTUALBOX43_)
             rc = pConsole->DeleteSnapshot(CComBSTR(snapshots[i].c_str()), &pProgress);
+#else
+            rc = m_pPrivate->m_pMachine->DeleteSnapshot(CComBSTR(snapshots[i].c_str()), &pProgress);
 #endif
             if (SUCCEEDED(rc)) {
                 pProgress->WaitForCompletion(-1);
@@ -1747,10 +1747,10 @@ int VBOX_VM::restore_snapshot() {
         rc = pMachine->get_CurrentSnapshot(&pSnapshot);
         if (SUCCEEDED(rc)) {
             vboxlog_msg("Restore from previously saved snapshot.");
-#ifdef _VIRTUALBOX50_
-            rc = pMachine->RestoreSnapshot(pSnapshot, &pProgress);
-#else
+#if defined(_VIRTUALBOX42_) || defined(_VIRTUALBOX43_)
             rc = pConsole->RestoreSnapshot(pSnapshot, &pProgress);
+#else
+            rc = pMachine->RestoreSnapshot(pSnapshot, &pProgress);
 #endif
             if (CHECK_ERROR(rc)) goto CLEANUP;
 
