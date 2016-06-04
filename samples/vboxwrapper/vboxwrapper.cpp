@@ -81,6 +81,7 @@
 #include "vbox_mscom42.h"
 #include "vbox_mscom43.h"
 #include "vbox_mscom50.h"
+#include "vbox_mscom51.h"
 #endif
 #include "vbox_vboxmanage.h"
 
@@ -450,7 +451,9 @@ int main(int argc, char** argv) {
 
     if (BOINC_SUCCESS != vbox42::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display)) {
         if (BOINC_SUCCESS != vbox43::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display)) {
-            vbox50::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display);
+            if (BOINC_SUCCESS != vbox50::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display)) {
+				vbox51::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display);
+			}
         }
     }
     if (!vbox_version_raw.empty()) {
@@ -471,8 +474,16 @@ int main(int argc, char** argv) {
                 pVM = NULL;
             }
         }
-        if ((5 == vbox_major) && (0 <= vbox_minor)) {
+        if ((5 == vbox_major) && (0 == vbox_minor)) {
             pVM = (VBOX_VM*) new vbox50::VBOX_VM();
+            retval = pVM->initialize();
+            if (retval) {
+                delete pVM;
+                pVM = NULL;
+            }
+        }
+        if ((5 == vbox_major) && (1 <= vbox_minor)) {
+            pVM = (VBOX_VM*) new vbox51::VBOX_VM();
             retval = pVM->initialize();
             if (retval) {
                 delete pVM;
