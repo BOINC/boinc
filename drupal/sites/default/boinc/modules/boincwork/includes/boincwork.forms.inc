@@ -1512,9 +1512,6 @@ function communityprefs_form(&$form_state) {
         . '</div>',
     );
   }
-  if ($profile_form_state) {
-    $form['field_image'] = $profile_form_state['storage']['avatar']; //$profile_form['field_image'];
-  }
   $form['field_image'][0]['#title'] = bts('Upload an avatar');
   $form['field_image']['#weight'] = 20;
   $form['field_image']['#suffix'] = '</fieldset>';
