@@ -1371,7 +1371,7 @@ function communityprefs_form(&$form_state) {
   $profile_form_state = array();
   $profile = new stdClass();
   $profile->type = 'profile';
-  $profile->language = NULL;
+  $profile->language = '';
   if ($profile_nid = content_profile_profile_exists($profile, $account->uid)) {
     $profile_node = node_load($profile_nid);
     $form_state['storage']['profile_node'] = $profile_node;
@@ -1499,14 +1499,19 @@ function communityprefs_form(&$form_state) {
   $form['gravatar']['#weight'] = 15;
   $form['gravatar']['#prefix'] = '<fieldset class="collapsible"><legend><a href="#">' . bts('Avatar settings') . '</a></legend>';
   // Upload an avatar (pulled from profile_node_form):
-  $form['field_image'] = array(
-    '#value' => '<div class="form-item">'
-      . '<label class="placeholder">'
-      . bts('This is not available until your profile is set up.')
-      . '</label>'
-      . l(bts('Create a profile'), 'account/profile/edit', array('attributes' => array('class' => 'form-link')))
-      . '</div>',
-  );
+  if (!empty($profile_form['field_image'])) {
+    $form['field_image'] = $profile_form['field_image'];
+  }
+  else {
+    $form['field_image'] = array(
+      '#value' => '<div class="form-item">'
+        . '<label class="placeholder">'
+        . bts('This is not available until your profile is set up.')
+        . '</label>'
+        . l(bts('Create a profile'), 'account/profile/edit', array('attributes' => array('class' => 'form-link')))
+        . '</div>',
+    );
+  }
   if ($profile_form_state) {
     $form['field_image'] = $profile_form_state['storage']['avatar']; //$profile_form['field_image'];
   }
@@ -1589,7 +1594,6 @@ function communityprefs_form(&$form_state) {
     '#value' => '</ul>',
     '#weight' => 1004,
   );
-  
   return $form;
 }
 
