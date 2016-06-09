@@ -901,9 +901,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#weight' => 1010,
     );
     
-    // Move these to community prefs form
-    $form_state['storage']['avatar'] = $form['field_image'];
-    unset($form['field_image']);
+    $form['#after_build'][] = 'boincuser_profile_node_form_after_build';
     
     // Preview is ugly, unset until it works
     unset($form['buttons']['preview']);
@@ -1017,6 +1015,17 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     $form['submit']['#value'] = bts('Search');
     break;
   }
+}
+
+/**
+ * Some form alterations (CCK fields) cannot be done until after the form is
+ * built; this is called from boincuser_form_alter()
+ */
+function boincuser_profile_node_form_after_build($form, &$form_state) {
+  // Move to community prefs form
+  $form_state['storage']['avatar'] = $form['field_image'];
+  unset($form['field_image']);
+  return $form;
 }
 
 /**
