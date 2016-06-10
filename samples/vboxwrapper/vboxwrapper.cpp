@@ -460,37 +460,27 @@ int main(int argc, char** argv) {
         sscanf(vbox_version_raw.c_str(), "%d.%d", &vbox_major, &vbox_minor);
         if ((4 == vbox_major) && (2 == vbox_minor)) {
             pVM = (VBOX_VM*) new vbox42::VBOX_VM();
-            retval = pVM->initialize();
-            if (retval) {
-                delete pVM;
-                pVM = NULL;
-            }
         }
         if ((4 == vbox_major) && (3 == vbox_minor)) {
             pVM = (VBOX_VM*) new vbox43::VBOX_VM();
-            retval = pVM->initialize();
-            if (retval) {
-                delete pVM;
-                pVM = NULL;
-            }
         }
         if ((5 == vbox_major) && (0 == vbox_minor)) {
             pVM = (VBOX_VM*) new vbox50::VBOX_VM();
-            retval = pVM->initialize();
-            if (retval) {
-                delete pVM;
-                pVM = NULL;
-            }
         }
         if ((5 == vbox_major) && (1 <= vbox_minor)) {
             pVM = (VBOX_VM*) new vbox51::VBOX_VM();
+        }
+		if (pVM) {
             retval = pVM->initialize();
             if (retval) {
                 delete pVM;
                 pVM = NULL;
             }
-        }
+		}
     }
+#endif
+    // Initialize VM Hypervisor
+    //
     if (!pVM) {
         pVM = (VBOX_VM*) new vboxmanage::VBOX_VM();
         retval = pVM->initialize();
@@ -500,18 +490,6 @@ int main(int argc, char** argv) {
             boinc_temporary_exit(86400, "Detection of VM Hypervisor failed.");
         }
     }
-#else
-    pVM = (VBOX_VM*) new vboxmanage::VBOX_VM();
-
-    // Initialize VM Hypervisor
-    //
-    retval = pVM->initialize();
-    if (retval) {
-        vboxlog_msg("Could not detect VM Hypervisor. Rescheduling execution for a later date.");
-        pVM->dump_hypervisor_logs(true);
-        boinc_temporary_exit(86400, "Detection of VM Hypervisor failed.");
-    }
-#endif
 
     // Parse command line parameters
     //
