@@ -1043,6 +1043,7 @@ int main(int argc, char** argv) {
                 if (should_exit) {
                     pVM->reset_vm_process_priority();
                     pVM->cleanup();
+                    pVM->dump_hypervisor_logs(true);
                     boinc_finish(EXIT_ABORTED_BY_CLIENT);
                 }
 
