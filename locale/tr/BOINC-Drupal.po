@@ -2,240 +2,107 @@
 # Copyright (c) YEAR NAME <EMAIL@ADDRESS>
 # 
 # Translators:
+# Efe Egemen Sen <egemen123456@outlook.com>, 2016
+# Emre GÜN <thondras@gmail.com>, 2015
+# ilkeryus <ilkeryus@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
-"POT-Creation-Date: 2015-05-07 12:21+0000\n"
-"PO-Revision-Date: 2015-08-01 08:24+0000\n"
-"Last-Translator: Can Demirel <aycandemirel@hotmail.com>\n"
-"Language-Team: Turkish (http://www.transifex.com/projects/p/boinc/language/tr/)\n"
+"POT-Creation-Date: 2015-12-15 12:43+0000\n"
+"PO-Revision-Date: 2016-06-12 20:00+0000\n"
+"Last-Translator: ilkeryus <ilkeryus@gmail.com>\n"
+"Language-Team: Turkish (http://www.transifex.com/boinc/boinc/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-msgid ""
-"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
-" your e-mail address, it will be used for your user picture."
-msgstr "E-posta adresinizle ilişkilendirilmiş bir <a href=\"@gravatar-check\">geçerli Gravatarınız</a> varsa, kullanıcı resminiz olarak kullanılacaktır."
-
-msgid "Your Gravatar will not be shown if you upload a user picture."
-msgstr "Bir kullanıcı resimi yüklerseniz Gravatarınız gösterilmez."
+msgid "Please select a team type."
+msgstr "Lütfen Takım Tipi Seçiniz"
 
 msgid ""
-"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
-" your e-mail address, use it for your user picture."
-msgstr "E-posta adresinizle ilişkilendirilmiş bir <a href=\"@gravatar-check\">geçerli Gravatarınız</a> varsa, kullanıcı resminiz olarak kullanın."
+"A team foundership change was already requested recently. Only one request "
+"is allowed within a period of 90 days."
+msgstr "Yakın zamanda bir takım kuruculuğu değişiklik isteği zaten yapıldı. 90 günlük bir dönemde yalnız bir isteğe izin verilir."
 
-msgid "Gravatar will not be shown if an avatar is uploaded."
-msgstr "Bir kullanıcı resmi yüklerseniz Gravatarınız gösterilmez."
+msgid "@count days remaining"
+msgstr "@count gün kaldı"
 
-msgid "This is not available until your profile is set up."
-msgstr "Bu, profiliniz ayarlanana kadar kullanılamaz."
+msgid "Inbox"
+msgstr "Gelen kutusu"
 
-msgid "Should @project show your computers on its web site?"
-msgstr "@project, bilgisayarlarınızı kendi internet sitesi üzerinde göstersin mi?"
+msgid "Compose new"
+msgstr "Yeni Oluştur"
 
-msgid "Click here to revoke your membership with @this_team"
-msgstr "@this_team ile üyeliğinizi iptal etmek için buraya tıklayın"
-
-msgid "Minimum avg credit to post"
-msgstr "İleti gönderebilmek için sahip olunması gereken en az ortalama kredi"
-
-msgid "Founder & Team Admins have moderator privileges"
-msgstr "Kurucu ve Takım Yöneticileri moderasyon izinlerine sahip olacak"
-
-msgid "Notes about changes in foundership:"
-msgstr "Kurucu değişimleri hakkında notlar:"
-
-msgid "Foundership can be requested by team members:"
-msgstr "Kuruculuk ekip üyeleri tarafından talep edilebilir:"
-
-msgid "One request is allowed at a time"
-msgstr "Bir defada bir isteğe izin verilir"
-
-msgid "Any active request must be older than 90 days"
-msgstr "Herhangi bir etkin isteğin 90 günden daha eski olması gerekir"
-
-msgid "Current founder has 60 days to respond to a request"
-msgstr "Geçerli kurucunun bir isteğine yanıt vermek için 60 günü vardır"
+msgid "respond to the request"
+msgstr "Talebe yanıt veriniz"
 
 msgid ""
-"If a team admin quits the team, they cease to be a team admin. We recommend "
-"only selecting people you know and trust"
-msgstr "Bir takım yöneticisi takımdan çıkarsa, takım yöneticisi olmak çıkar. Sadece tanıdığınız ve güvendiğiniz kişileri seçmenizi öneririz"
+"A foundership transfer request has been made for your team. Please !respond."
+msgstr "Takımınıza kurucu değişimi talebinde bulunuldu. Lütfen yanıt veriniz!"
 
-msgid "You may create a message board for use by @team"
-msgstr "@team tarafından kullanılması için bir mesaj panosu oluşturabilirsiniz"
-
-msgid "parent removed"
-msgstr "üst kaldırıldı"
-
-msgid "Maximum daily WU quota per CPU"
-msgstr "CPU başına maksimum günlük İB kotası"
-
-msgid "Received time"
-msgstr "Alınma zamanı"
-
-msgid "App ID"
-msgstr "Uygulama ID"
-
-msgid "Error mask"
-msgstr "Hata maskesi"
-
-msgid "Minimum quorum"
-msgstr "Asgari yeter sayı"
-
-msgid "Max error tasks"
-msgstr "Azami hatalı iş"
-
-msgid "Max success tasks"
-msgstr "Azami başarılı iş"
-
-msgid "Max total tasks"
-msgstr "Azami toplam iş"
-
-msgid "Target number of results"
-msgstr "Sonuçların hedef sayısı"
-
-msgid "Application version ID"
-msgstr "Uygulama sürüm ID"
-
-msgid "Plan class"
-msgstr "Plan sınıfı"
-
-msgid "Version number"
-msgstr "Sürüm sayısı"
-
-msgid "App version ID"
-msgstr "Uyg. sürüm ID"
-
-msgid "@count million ops/sec"
-msgstr "@count milyon işl/sn"
-
-msgid "@rate KiB/sec"
-msgstr "@rate KiB/sn"
-
-msgid "@count days"
-msgstr "@count gün"
-
-msgid "@ip_address (same the last @count times)"
-msgstr "@ip_address (son @count kez ile aynı)"
-
-msgid "commented on"
-msgstr "yorumlandı"
-
-msgid "Remove sticky status from this topic"
-msgstr "Bu konudan yapışkan durumunu kaldır"
+msgid "Respond to transfer request"
+msgstr "Kurucu değişimi talebine yanıt veriniz"
 
 msgid ""
-"Check the computers that are the same as @name (created on @date at @time "
-"with computer ID @id)"
-msgstr "@name ile aynı bilgisayarları kontrol et (@date tarihinde @time saatinde @id bilgisayar ID'si ile yaratılanları)"
-
-msgid "Computer @old_id has been merged successfully into @id."
-msgstr "@old_id bilgisayarı @id ile başarılı şekilde birleştirildi."
-
-msgid "started discussion"
-msgstr "başlamış tartışma"
-
-msgid "posted"
-msgstr "gönderildi"
-
-msgid "Minimum value not met for @field"
-msgstr "@field için asgari değer karşılanmadı"
-
-msgid "Invalid data type for @field"
-msgstr "@field için geçersiz veri tipi"
+"Team member @name has requested team foundership. This may be because you "
+"left the team or have not had contact with the team for a long time."
+msgstr "Takım üyesi @name takım yöneticisi olmayı talep etti. Bu olabilir çünkü takımdan ayrıldınız ya da uzun süredir takımla ilişiğiniz yok."
 
 msgid ""
-"Authentication is required when changing E-mail address or setting new "
-"password."
-msgstr "E-posta adresini değiştirirken veya yeni bir parola ayarlarken doğrulama gereklidir."
+"If you don't decline the request by @date, @name will have the option of "
+"assuming team foundership. (note: To accept the request, assign foundership "
+"to @name using the form below)"
+msgstr "@date tarihine dek isteği reddetmezseniz, @name takım kuruculuğunu üstlenme seçeneğine sahip olacak. (Not: Bu isteği kabul etmek için aşağıdaki formu kullanarak kuruculuğu @name adlı kişisine devredin)"
 
-msgid "Request foundership"
-msgstr "Kurucu değişimi talebi"
+msgid "Deny request"
+msgstr "Talebi reddet"
 
-msgid ""
-"If the team founder is not active and you want to assume the role of "
-"founder, click below to request foundership of @this_team."
-msgstr "Takım kurucusu aktif değilse ve kurucu rolünü üstlenmek istiyorsanız , @this_team takımının kuruculuğunu talep etmek için aşağıdaki linke tıklayınız."
+msgid "Send request"
+msgstr "İstek yolla"
 
-msgid "Initiate request"
-msgstr "İstekte bulun"
+msgid "Friend request from !name [!site]"
+msgstr "!name 'den arkadaşlık isteği [!site]"
 
-msgid "A BOINC account already exists for @email."
-msgstr "@email adresi için bir BOINC hesabı zaten var."
-
-msgid ""
-"Please be responsible in what you write and do not create posts which are "
-"offensive or insulting. Offensive posts or threads may be deleted by forum "
-"moderators without warning or discussion. Do not respond to offensive "
-"postings. Click on the \"report\" button at the bottom of the post to call "
-"it to the attention of the moderators."
-msgstr "Lütfen yazdıklarınızdan sorumlu olun ve saldırgan veya hakaret içeren mesajlar oluşturmayın. Saldırgan mesajlar veya konular, uyarı veya tartışma olmadan forum moderatörleri tarafından silinebilir. Saldırgan gönderilere cevap vermeyin. Moderatörlerin dikkatine sunmak için gönderinin altındaki \"Raporla\" butonuna tıklayın."
-
-msgid "this project"
-msgstr "bu proje"
+msgid "Message"
+msgstr "Mesaj"
 
 msgid ""
-"We also ask that you keep all discussion on the message boards related to "
-"@project or BOINC with the small exception of the Science message board "
-"where you are free to discuss anything relevant to the underlying science. "
-"Participants interested in broader discussions should post to unofficial "
-"forums for @project."
-msgstr "Mesaj panolarındaki tüm tartışmaları, küçük istisnalar dışında, @project veya BOINC hakkında, altında yatan bilime uygun konuların görüşüldüğü serbest bir Bilim mesaj panosu olarak sürdürmenizi rica ediyoruz. Geniş tartışmalarla ilgilenen katılımcıların @project için kurulan gayri resmi forumlara yönlendirilmesi uygun olur."
+"!name added you as a friend on !site. You can approve or deny this request. Denying a request will not send a notification, but will remove the request from both of your accounts.\n"
+"\n"
+"Follow the link below to view this request:\n"
+"!link\n"
+"\n"
+"!message\n"
+"\n"
+"Thanks,\n"
+"The !site team"
+msgstr "!name sizi !site sitesinde arkadaş olarak ekledi. Bu isteği kabul veya reddedebilirsiniz. Bir isteği reddetmekle bir bildiri gönderilmeyecek, fakat istek her ikinizin hesaplarından kaldırılacak. \n\nBu isteği görmek için aşağıdaki bağlantıyı izleyin:\n!link\n\n!message\n\nTeşekkürler,\n!site takımı"
 
-msgid "These message boards now support BBCode tags only."
-msgstr "Bu mesaj panoları artık yalnızca BBCode etiketlerini destekler."
+msgid "Cancel friend request"
+msgstr "Arkadaşlık isteğini iptal et"
 
-msgid "Posts contributed"
-msgstr "Katkıda bulunulan gönderiler"
+msgid "Remove request"
+msgstr "İsteği kaldır"
 
-msgid "Profile awaiting moderator approval"
-msgstr "Moderatör onayı bekleyen profil"
+msgid "Approve request"
+msgstr "İsteği kabul et"
 
-msgid "Approve profile"
-msgstr "Profilli onayla"
-
-msgid "Approve this profile content"
-msgstr "Bu profili içeriğini onayla"
-
-msgid "Edit profile"
-msgstr "Profili düzenle"
-
-msgid "Edit the content of this profile"
-msgstr "Bu profili içeriğini düzenle"
-
-msgid "Remove profile"
-msgstr "Profili kaldır"
-
-msgid "Remove this profile content from the system"
-msgstr "Bu profilin içeriğini sistemden kaldır"
-
-msgid "The team founder has @count days to respond to your transfer request."
-msgstr "Takım kurucusu transfer isteğinize yanıt vermek için @count güne sahip."
-
-msgid "Reject profile"
-msgstr "Profili reddet"
-
-msgid "Reject this profile content"
-msgstr "Bu profilin içeriğini reddet"
-
-msgid "Reason for rejecting this profile"
-msgstr "Bu profilin reddedilme nedeni"
+msgid "!name accepted your friend request [!site]"
+msgstr "!name arkadaşlık isteğini kabul etti! [!site]"
 
 msgid ""
-"This reason will be included in an email to the user. Please write a brief "
-"explanation of the problem and how to fix it."
-msgstr "Bu neden, kullanıcıya gönderilecek e-postanın içeriğine dahil edilecek. Problemi kısaca açıklayın ve nasıl düzeltebileceğini yazın."
-
-msgid "Submit"
-msgstr "Gönder"
-
-msgid "project"
-msgstr "proje"
+"!name confirmed you as a friend on !site.\n"
+"\n"
+"Follow this link to view his or her profile:\n"
+"!link\n"
+"\n"
+"!message\n"
+"\n"
+"Thanks,\n"
+"The !site team"
+msgstr "!name sizi !site sitesinde arkadaş olarak onayladı.\n\nProfilini görmek için bu bağlantıyı izleyin:\n!link\n\n!message\n\nTeşekkürler,\n!site takımı"
 
 msgid "Email address"
 msgstr "E-posta adresi"
@@ -934,8 +801,27 @@ msgid ""
 "presentation."
 msgstr "Bu hesabın e-posta ve site kullanımı için tercih edilen varsayılan dili."
 
+msgid ""
+"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
+" your e-mail address, it will be used for your user picture."
+msgstr "E-posta adresinizle ilişkilendirilmiş bir <a href=\"@gravatar-check\">geçerli Gravatarınız</a> varsa, kullanıcı resminiz olarak kullanılacaktır."
+
+msgid "Your Gravatar will not be shown if you upload a user picture."
+msgstr "Bir kullanıcı resimi yüklerseniz Gravatarınız gösterilmez."
+
+msgid ""
+"If you have a <a href=\"@gravatar-check\">valid Gravatar</a> associated with"
+" your e-mail address, use it for your user picture."
+msgstr "E-posta adresinizle ilişkilendirilmiş bir <a href=\"@gravatar-check\">geçerli Gravatarınız</a> varsa, kullanıcı resminiz olarak kullanın."
+
+msgid "Gravatar will not be shown if an avatar is uploaded."
+msgstr "Bir kullanıcı resmi yüklerseniz Gravatarınız gösterilmez."
+
 msgid "Avatar settings"
 msgstr "Avatar ayarları"
+
+msgid "This is not available until your profile is set up."
+msgstr "Bu, profiliniz ayarlanana kadar kullanılamaz."
 
 msgid "Create a profile"
 msgstr "Bir profil oluştur"
@@ -975,6 +861,9 @@ msgstr "Gizlilik ayarları"
 
 msgid "Is it OK for @project and your team (if any) to email you?"
 msgstr "Takımınızın (eğer varsa) ve @Project projesinin size e-posta göndermesine izin verilsin mi?"
+
+msgid "Should @project show your computers on its web site?"
+msgstr "@project, bilgisayarlarınızı kendi internet sitesi üzerinde göstersin mi?"
 
 msgid "Hide"
 msgstr "Gizle"
@@ -1069,6 +958,9 @@ msgstr "Foruma gir"
 msgid "Leave team"
 msgstr "Takımdan ayrıl"
 
+msgid "Click here to revoke your membership with @this_team"
+msgstr "@this_team ile üyeliğinizi iptal etmek için buraya tıklayın"
+
 msgid "Leave this team"
 msgstr "Bu takımdan ayrıl"
 
@@ -1090,6 +982,9 @@ msgstr "Saniye"
 msgid "Minimum total credit to post"
 msgstr "İleti gönderebilmek için sahip olunması gereken en az kredi"
 
+msgid "Minimum avg credit to post"
+msgstr "İleti gönderebilmek için sahip olunması gereken en az ortalama kredi"
+
 msgid "Allow public to read board?"
 msgstr "Panoyu herkes okuyabilsin mi?"
 
@@ -1108,8 +1003,14 @@ msgstr "Yalnızca takım üyeleri gönderi gönderebilir."
 msgid "Only members may read (optional)"
 msgstr "Yalnızca üyeler gönderileri okuyabilir (tercihinize bağlı)."
 
+msgid "Founder & Team Admins have moderator privileges"
+msgstr "Kurucu ve Takım Yöneticileri moderasyon izinlerine sahip olacak"
+
 msgid "Changing the team founder"
 msgstr "Takım kurucusu değiştirme"
+
+msgid "Notes about changes in foundership:"
+msgstr "Kurucu değişimleri hakkında notlar:"
 
 msgid "Any member of the team is eligible"
 msgstr "Takımın herhangi bir üyesi uygundur"
@@ -1117,8 +1018,20 @@ msgstr "Takımın herhangi bir üyesi uygundur"
 msgid "Current founder becomes a normal user"
 msgstr "Güncel kurucu normal bir kullanıcı haline gelecektir"
 
+msgid "Foundership can be requested by team members:"
+msgstr "Kuruculuk ekip üyeleri tarafından talep edilebilir:"
+
+msgid "One request is allowed at a time"
+msgstr "Bir defada bir isteğe izin verilir"
+
 msgid "It must be 60 days since any previous request"
 msgstr "Herhangi bir önceki istekten bu yana 60 gün geçmeli"
+
+msgid "Any active request must be older than 90 days"
+msgstr "Herhangi bir etkin isteğin 90 günden daha eski olması gerekir"
+
+msgid "Current founder has 60 days to respond to a request"
+msgstr "Geçerli kurucunun bir isteğine yanıt vermek için 60 günü vardır"
 
 msgid "Add team admin"
 msgstr "Takım yöneticisi ekle"
@@ -1158,6 +1071,11 @@ msgstr "Takım kurucusunu değiştirme"
 
 msgid "Add / Remove team admins"
 msgstr "Takım Yöneticileri ekle/kaldır"
+
+msgid ""
+"If a team admin quits the team, they cease to be a team admin. We recommend "
+"only selecting people you know and trust"
+msgstr "Bir takım yöneticisi takımdan çıkarsa, takım yöneticisi olmak çıkar. Sadece tanıdığınız ve güvendiğiniz kişileri seçmenizi öneririz"
 
 msgid "Choose type"
 msgstr "Tip seçin"
@@ -1201,6 +1119,9 @@ msgstr "Takım mesaj panosu oluştur"
 msgid "Create message board"
 msgstr "Mesaj panosu oluştur"
 
+msgid "You may create a message board for use by @team"
+msgstr "@team tarafından kullanılması için bir mesaj panosu oluşturabilirsiniz"
+
 msgid ""
 "Please set the minimum average credit that a user is required to have in "
 "order to post to this message board."
@@ -1214,6 +1135,9 @@ msgstr "Anonim"
 
 msgid "Unpublished"
 msgstr "Yayınlanmamış"
+
+msgid "parent removed"
+msgstr "üst kaldırıldı"
 
 msgid "Sorry, unrecognized email address or password."
 msgstr "Maalesef, tanınmayan e-posta adresi veya şifre."
@@ -1326,6 +1250,9 @@ msgstr "Bellek"
 msgid "Swap space"
 msgstr "Sanal bellek"
 
+msgid "Maximum daily WU quota per CPU"
+msgstr "CPU başına maksimum günlük İB kotası"
+
 msgid "Average download rate"
 msgstr "Ortalama indirme hızı"
 
@@ -1410,6 +1337,9 @@ msgstr "Alınan kredi"
 msgid "Outcome"
 msgstr "Sonuç"
 
+msgid "Received time"
+msgstr "Alınma zamanı"
+
 msgid "Report deadline"
 msgstr "Son teslim zamanı"
 
@@ -1425,6 +1355,9 @@ msgstr "Stderr çıktısı"
 msgid "Validation state"
 msgstr "Doğrulama durumu"
 
+msgid "App ID"
+msgstr "Uygulama ID"
+
 msgid "Canonical credit"
 msgstr "Kabul edilen kredi"
 
@@ -1434,14 +1367,44 @@ msgstr "Kabul edilen sonuç NO"
 msgid "Created time"
 msgstr "Oluşturulma zamanı"
 
+msgid "Error mask"
+msgstr "Hata maskesi"
+
+msgid "Minimum quorum"
+msgstr "Asgari yeter sayı"
+
+msgid "Max error tasks"
+msgstr "Azami hatalı iş"
+
+msgid "Max success tasks"
+msgstr "Azami başarılı iş"
+
+msgid "Max total tasks"
+msgstr "Azami toplam iş"
+
 msgid "Needs validation"
 msgstr "Doğrulama gerekiyor"
 
 msgid "Initial replication"
 msgstr "Başlangıçtaki kopya sayısı"
 
+msgid "Target number of results"
+msgstr "Sonuçların hedef sayısı"
+
+msgid "Application version ID"
+msgstr "Uygulama sürüm ID"
+
+msgid "Plan class"
+msgstr "Plan sınıfı"
+
+msgid "Version number"
+msgstr "Sürüm sayısı"
+
 msgid "Computer"
 msgstr "Bilgisayar"
+
+msgid "App version ID"
+msgstr "Uyg. sürüm ID"
 
 msgid "Consecutive valid tasks"
 msgstr "Ardarda gelen doğrulanmış işler"
@@ -1460,6 +1423,15 @@ msgstr "IP adresini görüntüle"
 
 msgid "hours"
 msgstr "saat"
+
+msgid "@count million ops/sec"
+msgstr "@count milyon işl/sn"
+
+msgid "@rate KiB/sec"
+msgstr "@rate KiB/sn"
+
+msgid "@count days"
+msgstr "@count gün"
 
 msgid "Remove friend"
 msgstr "Arkadaşlıktan çıkar"
@@ -1503,16 +1475,346 @@ msgstr "Bu yorumu yeni bir konuya dönüştür"
 msgid "Details"
 msgstr "Detaylar"
 
+msgid "@ip_address (same the last @count times)"
+msgstr "@ip_address (son @count kez ile aynı)"
+
+msgid "commented on"
+msgstr "yorumlandı"
+
 msgid "Make unsticky"
 msgstr "Üst konudan kaldır"
+
+msgid "Remove sticky status from this topic"
+msgstr "Bu konudan yapışkan durumunu kaldır"
 
 msgid ""
 "Sometimes BOINC assigns separate identities to the same computer by mistake."
 " You can correct this by merging old identities with the newest one."
 msgstr "Bazen BOINC yanlışlıkla aynı bilgisayara farklı kimlikler atar. En yenisiyle eski kimlikleri birleştirerek, bunu düzeltebilirsiniz."
 
+msgid ""
+"Check the computers that are the same as @name (created on @date at @time "
+"with computer ID @id)"
+msgstr "@name ile aynı bilgisayarları kontrol et (@date tarihinde @time saatinde @id bilgisayar ID'si ile yaratılanları)"
+
+msgid "Computer @old_id has been merged successfully into @id."
+msgstr "@old_id bilgisayarı @id ile başarılı şekilde birleştirildi."
+
+msgid "started discussion"
+msgstr "başlamış tartışma"
+
+msgid "posted"
+msgstr "gönderildi"
+
+msgid "Minimum value not met for @field"
+msgstr "@field için asgari değer karşılanmadı"
+
 msgid "Remove"
 msgstr "Kaldır"
 
 msgid "hidden"
 msgstr "gizli"
+
+msgid "Invalid data type for @field"
+msgstr "@field için geçersiz veri tipi"
+
+msgid ""
+"Authentication is required when changing E-mail address or setting new "
+"password."
+msgstr "E-posta adresini değiştirirken veya yeni bir parola ayarlarken doğrulama gereklidir."
+
+msgid "Request foundership"
+msgstr "Kurucu değişimi talebi"
+
+msgid ""
+"If the team founder is not active and you want to assume the role of "
+"founder, click below to request foundership of @this_team."
+msgstr "Takım kurucusu aktif değilse ve kurucu rolünü üstlenmek istiyorsanız , @this_team takımının kuruculuğunu talep etmek için aşağıdaki linke tıklayınız."
+
+msgid "Initiate request"
+msgstr "İstekte bulun"
+
+msgid "A BOINC account already exists for @email."
+msgstr "@email adresi için bir BOINC hesabı zaten var."
+
+msgid ""
+"Please be responsible in what you write and do not create posts which are "
+"offensive or insulting. Offensive posts or threads may be deleted by forum "
+"moderators without warning or discussion. Do not respond to offensive "
+"postings. Click on the \"report\" button at the bottom of the post to call "
+"it to the attention of the moderators."
+msgstr "Lütfen yazdıklarınızdan sorumlu olun ve saldırgan veya hakaret içeren mesajlar oluşturmayın. Saldırgan mesajlar veya konular, uyarı veya tartışma olmadan forum moderatörleri tarafından silinebilir. Saldırgan gönderilere cevap vermeyin. Moderatörlerin dikkatine sunmak için gönderinin altındaki \"Raporla\" butonuna tıklayın."
+
+msgid "this project"
+msgstr "bu proje"
+
+msgid ""
+"We also ask that you keep all discussion on the message boards related to "
+"@project or BOINC with the small exception of the Science message board "
+"where you are free to discuss anything relevant to the underlying science. "
+"Participants interested in broader discussions should post to unofficial "
+"forums for @project."
+msgstr "Mesaj panolarındaki tüm tartışmaları, küçük istisnalar dışında, @project veya BOINC hakkında, altında yatan bilime uygun konuların görüşüldüğü serbest bir Bilim mesaj panosu olarak sürdürmenizi rica ediyoruz. Geniş tartışmalarla ilgilenen katılımcıların @project için kurulan gayri resmi forumlara yönlendirilmesi uygun olur."
+
+msgid "These message boards now support BBCode tags only."
+msgstr "Bu mesaj panoları artık yalnızca BBCode etiketlerini destekler."
+
+msgid "Posts contributed"
+msgstr "Katkıda bulunulan gönderiler"
+
+msgid "Profile awaiting moderator approval"
+msgstr "Moderatör onayı bekleyen profil"
+
+msgid "Approve profile"
+msgstr "Profilli onayla"
+
+msgid "Approve this profile content"
+msgstr "Bu profili içeriğini onayla"
+
+msgid "Edit profile"
+msgstr "Profili düzenle"
+
+msgid "Edit the content of this profile"
+msgstr "Bu profili içeriğini düzenle"
+
+msgid "Remove profile"
+msgstr "Profili kaldır"
+
+msgid "Remove this profile content from the system"
+msgstr "Bu profilin içeriğini sistemden kaldır"
+
+msgid "The team founder has @count days to respond to your transfer request."
+msgstr "Takım kurucusu transfer isteğinize yanıt vermek için @count güne sahip."
+
+msgid "Reject profile"
+msgstr "Profili reddet"
+
+msgid "Reject this profile content"
+msgstr "Bu profilin içeriğini reddet"
+
+msgid "Reason for rejecting this profile"
+msgstr "Bu profilin reddedilme nedeni"
+
+msgid ""
+"This reason will be included in an email to the user. Please write a brief "
+"explanation of the problem and how to fix it."
+msgstr "Bu neden, kullanıcıya gönderilecek e-postanın içeriğine dahil edilecek. Problemi kısaca açıklayın ve nasıl düzeltebileceğini yazın."
+
+msgid "Submit"
+msgstr "Gönder"
+
+msgid "project"
+msgstr "proje"
+
+msgid "No account exists for @email -- select \"Create new account\" to register"
+msgstr "@email adresi için hesap bulunamadı -- \"Yeni Kayıt\" bölümünden kaydolun"
+
+msgid "Unknown"
+msgstr "Bilinmiyor"
+
+msgid "My team"
+msgstr "Takım"
+
+msgid "You are a member of @team."
+msgstr "@team takımının üyesisiniz."
+
+msgid "View my team"
+msgstr "Takım ayrıntıları"
+
+msgid "Invalid setting for \"%preference\""
+msgstr "\"%preference\" için geçersiz ayarlama"
+
+msgid "Pending"
+msgstr "Beklemede"
+
+msgid ""
+"You must earn @count more credits to be able to post comments on this site."
+msgstr "Bu sitede yorum yapabilmek için @count kadar daha kredi kazanmalısınız."
+
+msgid "Moderation"
+msgstr "Yönetim"
+
+msgid "Unvetted profiles"
+msgstr "Gözden geçirilmemiş profiller"
+
+msgid "Reason for banning this user"
+msgstr "Bu kullanıcının engellenme nedeni"
+
+msgid ""
+"This reason will be included in an email to the user. Please write a brief "
+"explanation of why the user is being banned."
+msgstr "Bu gerekçe kullanıcıya iletilecek bir e-postaya dahil edilecek. Lütfen kullanıcının neden yasaklandığını anlatan kısa bir açıklama yazınız."
+
+msgid "Duration of the ban"
+msgstr "Engelleme süresi"
+
+msgid "The number of days until the ban expires. Set to 0 to ban permanently."
+msgstr "Yasak kalkıncaya dek olan gün sayısı. Yasağı kalıcı yapmak için değeri 0 yapın."
+
+msgid "Lift user ban"
+msgstr "Kullanıcı engellemesini kaldır"
+
+msgid "You are banned from community participation until @date"
+msgstr "Topluluğa katılmaktan @date tarihine dek men edildiniz."
+
+msgid "Computers @old_ids have been merged successfully into @id."
+msgstr "@old_ids bilgisayarları @id ile başarılı şekilde birleştirildi."
+
+msgid "A team named \"@name\" already exists."
+msgstr "\"@name\" adında bir takım zaten mevcut."
+
+msgid "Post topic"
+msgstr "Konu yaz"
+
+msgid "Please enter your email address"
+msgstr "Lütfen email adresinizi girin"
+
+msgid "Password entered is not valid. Please verify that it is correct."
+msgstr "Şifre geçerli değil. Lütfen doğruluğunu kontrol edin."
+
+msgid "Make founder"
+msgstr "Kurucu yap"
+
+msgid "User of the day"
+msgstr "Günün kullanıcısı"
+
+msgid "!site: comment posted to \"!topic_name\""
+msgstr "!site: yorum \"!topic_name\" konusuna gönderildi"
+
+msgid "!author has posted a reply to \"!topic_name\"."
+msgstr "!author \"!topic_name\" konusuna bir yanıt gönderdi."
+
+msgid ""
+"To view this topic at !site, click here: \n"
+"!comment_url"
+msgstr "Bu konuyu !site sitesinde görmek için, tıklayın: \n!comment_url"
+
+msgid "At least one application must be selected"
+msgstr "En az bir uygulama seçilmelidir"
+
+msgid "Account"
+msgstr "Hesap"
+
+msgid "Log in"
+msgstr "Oturum aç"
+
+msgid "Forgot password"
+msgstr "Parolamı unuttum"
+
+msgid ""
+"Enter your email address to receive instructions for resetting your "
+"password."
+msgstr "Şifrenizi sıfırlamak için talimatları almak üzere e-posta adresinize giriş yapın. "
+
+msgid "Send"
+msgstr "Yolla"
+
+msgid "Revise or post comment"
+msgstr "Yorumu düzenle ya da gönder"
+
+msgid "discuss"
+msgstr "tartışma"
+
+msgid "News"
+msgstr "Haberler"
+
+msgid "Your community preferences have been updated."
+msgstr "İletişim tercihleriniz kaydedildi"
+
+msgid "Unlock"
+msgstr "Kilidi kaldır"
+
+msgid "Unlock this thread for comments"
+msgstr "Bu konuyu yorumlara aç"
+
+msgid "Authenticator login"
+msgstr "Yetkilendirici girişi"
+
+msgid "Create content"
+msgstr "İçerik oluştur"
+
+msgid "authenticator-based login"
+msgstr "yetkilendirici tabanlı giriş"
+
+msgid ""
+"Enter your email address to receive instructions for resetting your password"
+" (or use the !authenticator_login)."
+msgstr "Şifrenizi sıfırlamak için talimatları almak üzere e-posta adresinizi girin (veya !authenticator_login kullanın). "
+
+msgid ""
+"If you forgot your account's email address, or you can't receive email "
+"there:"
+msgstr "Hesabınızın e-posta adresini unuttuysanız, veya buradan e-posta alamıyorsanız:"
+
+msgid ""
+"If you have run BOINC under the account, you can still access it. Here's "
+"how:"
+msgstr "Bu hesap altında BOINC çalıştırdıysanız, ona hala erişebilirsiniz. İşte nasıl olacağı:"
+
+msgid ""
+"Go to the BOINC data directory on your computer (on Windows this is usually "
+"%path1 or %path2."
+msgstr "Bilgisayarınızda bulunan BOINC dizinine gidin (Windows için bu genellikle %path1 ya da %path2"
+
+msgid ""
+"Find your account file for this project; it will have a name like %file "
+"(where the project URL is %url)."
+msgstr "Bu proje için hesap dosyanızı bulun;  %file benzeri bir ismi olacaktır (proje URL'si %url olan yerde)."
+
+msgid ""
+"Open the file in a text editor like Notepad. You'll see something like:"
+msgstr "Not Defteri gibi bir metin düzenleyicisinde dosyayı açın. Şunun gibi bir şey göreceksiniz"
+
+msgid ""
+"Select and Copy the string between &lt;authenticator&gt; and "
+"&lt;/authenticator&gt; (%auth in the above example)."
+msgstr " &lt;authenticator&gt; ve &lt;/authenticator&gt arasındaki diziyi seçin ve kopyalayın; (yukarıdaki örnekte %auth)."
+
+msgid "Paste the string into the field below, and click OK."
+msgstr "Metin dizisini aşağıdaki bölüme yapıştırın ve ardından Tamam'a basın."
+
+msgid ""
+"You will now be logged in to your account; update the email and password of "
+"your account."
+msgstr "Artık hesabınıza giriş yapmış olacaksınız; hesabınızın e-posta ve şifresini güncelleyin."
+
+msgid "Log in with authenticator"
+msgstr "Kimlik doğrulayıcı ile giriş"
+
+msgid "There is no account with that authenticator."
+msgstr "Bu kimlikle ilişkili bir hesap yok. "
+
+msgid ""
+"Go to the <a href=\"%wikiref\">BOINC data directory</a> on your computer (on"
+" Windows this is usually %path1 or %path2."
+msgstr "Bilgisayarınızdaki <a href=\"%wikiref\"> BOINC veri dizinine</a> gidin (Windows üzerinde genellikle %path1 veya %path2 olur)."
+
+msgid "BOINC documentation"
+msgstr "BOINC belgeleri"
+
+msgid ""
+"Go to the BOINC data directory on your computer (see !boinc_wiki for help "
+"finding this)."
+msgstr "Bilgisayarınızdaki BOINC veri dizinine gidin (bunu bulmaya yardım için bakın: !boinc_wiki)"
+
+msgid ""
+"@count days have elapsed since your request and the founder has not "
+"responded."
+msgstr "Talebiniz üzerinden @count gün geçti ve kurucu henüz yanıt vermedi."
+
+msgid ""
+"You now have @count days to assume foundership before another team member "
+"may submit a request."
+msgstr "Başka bir takım üyesi bir istek bildirmeden önce kuruculuğu üstlenmek için şimdi @count gününüz var."
+
+msgid "Assume foundership"
+msgstr "Kuruculuğu üstlen"
+
+msgid "Unhide"
+msgstr "Gizliliği kaldır"
+
+msgid "Unhide this comment"
+msgstr "Yorumu göster"
+
+msgid "@email is not a well formed email address, please verify"
+msgstr "@email uygun formatta değil, lütfen kontrol edin"
