@@ -305,7 +305,7 @@ void VBOX_BASE::dump_vmguestlog_entries() {
 }
 
 int VBOX_BASE::dump_screenshot() {
-    int retval;
+    int    retval;
     char   screenshot_md5[32];
     double nbytes;
     char*  buf = NULL;
@@ -316,6 +316,7 @@ int VBOX_BASE::dump_screenshot() {
 	string screenshot_location;
 
 	get_slot_directory(virtual_machine_slot_directory);
+    capture_screenshot();
 
 	screenshot_location = virtual_machine_slot_directory;
 	screenshot_location += "/";
@@ -324,7 +325,7 @@ int VBOX_BASE::dump_screenshot() {
     if (boinc_file_exists(screenshot_location.c_str())) {
 
         // Compute MD5 hash for raw file
-        md5_file(screenshot_location.c_str(), screenshot_md5, nbytes, false);
+        retval = md5_file(screenshot_location.c_str(), screenshot_md5, nbytes, false);
         if (retval) return retval;
 
         buf = (char*)malloc((size_t)nbytes);
