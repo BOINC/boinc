@@ -1161,6 +1161,30 @@ int VBOX_VM::resume() {
     return 0;
 }
 
+int VBOX_VM::capture_screenshot() {
+    string command;
+    string output;
+    string virtual_machine_slot_directory;
+    int retval = BOINC_SUCCESS;
+
+    get_slot_directory(virtual_machine_slot_directory);
+
+    vboxlog_msg("Capturing screenshot.");
+
+    command = "controlvm \"" + vm_name + "\" ";
+    command += "screenshotpng \"";
+	command += virtual_machine_slot_directory;
+	command += "/";
+	command += SCREENSHOT_FILENAME;
+	command += "\"";
+    retval = vbm_popen(command, output, "capture screenshot", true, true, 0);
+    if (retval) return retval;
+
+    vboxlog_msg("Screenshot completed.");
+	
+	return 0;
+}
+
 int VBOX_VM::create_snapshot(double elapsed_time) {
     string command;
     string output;
@@ -1171,28 +1195,13 @@ int VBOX_VM::create_snapshot(double elapsed_time) {
 
     vboxlog_msg("Creating new snapshot for VM.");
 
-    // Pause VM - Try and avoid the live snapshot and trigger an online
-    // snapshot instead.
-    pause();
-
     // Create new snapshot
-    sprintf(buf, "%d", (int)elapsed_time);
     command = "snapshot \"" + vm_name + "\" ";
     command += "take boinc_";
     command += buf;
     retval = vbm_popen(command, output, "create new snapshot", true, true, 0);
     if (retval) return retval;
 
-    // Resume VM
-    resume();
-
-    // Set the suspended flag back to false before deleting the stale
-    // snapshot
-    poll(false);
-
-    // Delete stale snapshot(s), if one exists
-    retval = cleanup_snapshots(false);
-    if (retval) return retval;
 
     vboxlog_msg("Checkpoint completed.");
 

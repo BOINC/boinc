@@ -1602,6 +1602,63 @@ CLEANUP:
     return retval;
 }
 
+
+int VBOX_VM::capture_screenshot() {
+#if defined(_VIRTUALBOX50_) || defined(_VIRTUALBOX51_)
+
+    int retval = ERR_EXEC;
+    ULONG width, height, bpp;
+    LONG xOrigin, yOrigin;
+	GuestMonitorStatus monitorStatus;
+    string virtual_machine_slot_directory;
+	string screenshot_location;
+    HRESULT rc;
+	FILE* f = NULL;
+    SAFEARRAY* pScreenshot = NULL;
+    CComSafeArray<BYTE> aScreenshot;
+    CComPtr<IConsole> pConsole;
+    CComPtr<IDisplay> pDisplay;
+
+    get_slot_directory(virtual_machine_slot_directory);
+
+    vboxlog_msg("Capturing screenshot.");
+
+    rc = m_pPrivate->m_pSession->get_Console(&pConsole);
+    if (CHECK_ERROR(rc)) {
+    } else {
+        rc = pConsole->get_Display(&pDisplay);
+        if (CHECK_ERROR(rc)) {
+        } else {
+			rc = pDisplay->GetScreenResolution(0, &width, &height, &bpp, &xOrigin, &yOrigin, &monitorStatus);
+			if (CHECK_ERROR(rc)) {
+			} else {
+				rc = pDisplay->TakeScreenShotToArray(0, width, height, BitmapFormat_PNG, &pScreenshot);
+				if (SUCCEEDED(rc)) {
+					aScreenshot.Attach(pScreenshot);
+
+					screenshot_location = virtual_machine_slot_directory;
+					screenshot_location += "/";
+					screenshot_location += SCREENSHOT_FILENAME;
+
+					f = fopen(screenshot_location.c_str(), "wb");
+					if (f) {
+						fwrite((LPSAFEARRAY)aScreenshot, sizeof(BYTE), aScreenshot.GetCount(), f);
+						fclose(f);
+					} else {
+                        vboxlog_msg("Failed to write screenshot to disk.");
+					}
+				}
+			}
+		}
+	}
+
+    vboxlog_msg("Screenshot completed.");
+
+#endif
+	return 0;
+}
+
+
 int VBOX_VM::create_snapshot(double elapsed_time) {
     int retval = ERR_EXEC;
     char buf[256];

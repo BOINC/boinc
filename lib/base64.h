@@ -24,16 +24,23 @@
 #include <string>
 #endif
 
+
 class InvalidBase64Exception
 {
 };
 
-std::string r_base64_encode (const char* from, size_t length);
-  std::string r_base64_decode (const char* from, size_t length);
-inline std::string r_base64_decode (std::string const& from)
+
+std::string r_base64_encode(const char* from, size_t length);
+std::string r_base64_decode(const char* from, size_t length);
+
+
+inline std::string r_base64_encode(std::string const& from)
+{
+    return r_base64_encode(from.c_str(), from.length());
+}
+inline std::string r_base64_decode(std::string const& from)
 {
     return r_base64_decode(from.c_str(), from.length());
 }
-
 
 #endif
