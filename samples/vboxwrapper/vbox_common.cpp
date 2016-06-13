@@ -316,7 +316,6 @@ int VBOX_BASE::dump_screenshot() {
 	string screenshot_location;
 
 	get_slot_directory(virtual_machine_slot_directory);
-    capture_screenshot();
 
 	screenshot_location = virtual_machine_slot_directory;
 	screenshot_location += "/";

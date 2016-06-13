@@ -778,6 +778,8 @@ int main(int argc, char** argv) {
         }
 
         if (unrecoverable_error) {
+            pVM->capture_screenshot();
+
             // Attempt to cleanup the VM and exit.
             if (!skip_cleanup) {
                 pVM->cleanup();
@@ -909,6 +911,8 @@ int main(int argc, char** argv) {
         }
 
         if (unrecoverable_error) {
+            pVM->capture_screenshot();
+
             // Attempt to cleanup the VM and exit.
             if (!skip_cleanup) {
                 pVM->cleanup();
@@ -1003,6 +1007,7 @@ int main(int argc, char** argv) {
         }
         if (boinc_status.abort_request) {
             pVM->reset_vm_process_priority();
+            pVM->capture_screenshot();
             pVM->cleanup();
             pVM->dump_hypervisor_logs(true);
             boinc_finish(EXIT_ABORTED_BY_CLIENT);
@@ -1042,6 +1047,7 @@ int main(int argc, char** argv) {
 
                 if (should_exit) {
                     pVM->reset_vm_process_priority();
+                    pVM->capture_screenshot();
                     pVM->cleanup();
                     pVM->dump_hypervisor_logs(true);
                     boinc_finish(EXIT_ABORTED_BY_CLIENT);
