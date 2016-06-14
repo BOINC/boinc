@@ -1642,7 +1642,7 @@ int VBOX_VM::capture_screenshot() {
 
 					f = fopen(screenshot_location.c_str(), "wb");
 					if (f) {
-						fwrite((LPSAFEARRAY)aScreenshot, sizeof(BYTE), aScreenshot.GetCount(), f);
+						fwrite(aScreenshot.GetSafeArrayPtr(), sizeof(BYTE), aScreenshot.GetCount(), f);
 						fclose(f);
 					} else {
                         vboxlog_msg("Failed to write screenshot to disk.");
