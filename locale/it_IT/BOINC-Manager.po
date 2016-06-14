@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-04-15 08:53+0000\n"
+"PO-Revision-Date: 2016-06-14 10:07+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -2651,7 +2651,7 @@ msgstr "Riconosciuto"
 
 #: clientgui/MainDocument.cpp:2586
 msgid "Ready to report"
-msgstr "Pronto per il report"
+msgstr "Pronto per l'invio"
 
 #: clientgui/MainDocument.cpp:2588
 #, c-format
@@ -3036,7 +3036,7 @@ msgstr "Aggiorna"
 msgid ""
 "Report all completed tasks, get latest credit, get latest preferences, and "
 "possibly get more tasks."
-msgstr "Riporta il lavoro completato, aggiorna il totale dei crediti e le preferenze, e possibilmente ottiene altro lavoro."
+msgstr "Invia il lavoro completato, aggiorna il totale dei crediti e le preferenze, e possibilmente ottiene altre WU."
 
 #: clientgui/ViewProjects.cpp:209 clientgui/ViewProjects.cpp:808
 #: clientgui/ViewWork.cpp:232 clientgui/ViewWork.cpp:888
@@ -3071,13 +3071,13 @@ msgstr "Reset del progetto"
 msgid ""
 "Delete all files and tasks associated with this project, and get new tasks."
 "  You can update the project first to report any completed tasks."
-msgstr "Cancella tutti i file e le elaborazioni associate a questo progetto e scarica nuovo lavoro.  Puoi aggiornare il progetto prima di eseguire il reset per riportare le elaborazioni già completate."
+msgstr "Cancella tutti i file e le elaborazioni associate a questo progetto e scarica nuove WU.  Puoi aggiornare il progetto prima di eseguire il reset per inviare le elaborazioni già completate."
 
 #: clientgui/ViewProjects.cpp:231 clientgui/sg_ProjectCommandPopup.cpp:91
 msgid ""
 "Remove this project.  Tasks in progress will be lost (use 'Update' first to "
 "report any completed tasks)."
-msgstr "Rimuovi questo progetto dal computer.  Il lavoro in corso andrà perso (usa prima 'Aggiorna' per inviare il lavoro già completato)."
+msgstr "Rimuovi questo progetto dal computer.  Le elaborazioni in corso andranno perse (usa prima 'Aggiorna' per inviare il lavoro già completato)."
 
 #: clientgui/ViewProjects.cpp:237 clientgui/ViewWork.cpp:246
 #: clientgui/sg_ProjectCommandPopup.cpp:96
@@ -3186,7 +3186,7 @@ msgstr "Per ottenere lavoro"
 
 #: clientgui/ViewProjects.cpp:1133
 msgid "To report completed tasks"
-msgstr "Per riportare attività completate"
+msgstr "Per inviare le attività completate"
 
 #: clientgui/ViewProjects.cpp:1134
 msgid "To send trickle-up message"
