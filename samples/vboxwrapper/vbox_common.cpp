@@ -352,9 +352,10 @@ int VBOX_BASE::dump_screenshot() {
         fprintf(
             stderr,
             "\n"
-            "    Screen Shot Information (Base64 Encoded PNG):\n"
+            "Screen Shot Information (Base64 Encoded PNG):\n"
             "MD5 Signature: %s\n"
-            "Data: %s\n",
+            "Data: %s\n"
+            "\n",
             screenshot_md5,
             screenshot_encoded.c_str()
         );
