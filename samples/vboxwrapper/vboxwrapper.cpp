@@ -757,9 +757,13 @@ int main(int argc, char** argv) {
             unrecoverable_error = false;
             temp_reason = "VM environment needed to be cleaned up.";
         } else if (ERR_INVALID_PARAM == retval) {
-            unrecoverable_error = false;
-            temp_reason = "Please upgrade BOINC to the latest version.";
-            temp_delay = 86400;
+            error_reason =
+                "   NOTE: VirtualBox has reported an improperly configured virtual machine. It was configured to require\n"
+                "    hardware acceleration for virtual machines, but your processor does not support the required feature.\n"
+                "    Please report this issue to the project so that it can be addresssed.\n"
+                "    Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n";
+            skip_cleanup = true;
+            retval = ERR_EXEC;
         } else if (retval == (int)RPC_S_SERVER_UNAVAILABLE) {
             error_reason =
                 "    VboxSvc crashed while attempting to restore the current snapshot.  This is a critical\n"
