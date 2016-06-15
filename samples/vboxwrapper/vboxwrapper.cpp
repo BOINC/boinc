@@ -782,7 +782,10 @@ int main(int argc, char** argv) {
         }
 
         if (unrecoverable_error) {
-            pVM->capture_screenshot();
+            // Only attempt to take a screen shot if the VM is online.
+            if (pVM->online) {
+                pVM->capture_screenshot();
+            }
 
             // Attempt to cleanup the VM and exit.
             if (!skip_cleanup) {
@@ -915,8 +918,6 @@ int main(int argc, char** argv) {
         }
 
         if (unrecoverable_error) {
-            pVM->capture_screenshot();
-
             // Attempt to cleanup the VM and exit.
             if (!skip_cleanup) {
                 pVM->cleanup();
