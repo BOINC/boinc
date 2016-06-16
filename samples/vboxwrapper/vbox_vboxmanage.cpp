@@ -1162,26 +1162,29 @@ int VBOX_VM::resume() {
 }
 
 int VBOX_VM::capture_screenshot() {
-    string command;
-    string output;
-    string virtual_machine_slot_directory;
-    int retval = BOINC_SUCCESS;
+    if (is_virtualbox_version_newer(5, 0, 0)) {
 
-    get_slot_directory(virtual_machine_slot_directory);
+        string command;
+        string output;
+        string virtual_machine_slot_directory;
+        int retval = BOINC_SUCCESS;
 
-    vboxlog_msg("Capturing screenshot.");
+        get_slot_directory(virtual_machine_slot_directory);
 
-    command = "controlvm \"" + vm_name + "\" ";
-    command += "screenshotpng \"";
-	command += virtual_machine_slot_directory;
-	command += "/";
-	command += SCREENSHOT_FILENAME;
-	command += "\"";
-    retval = vbm_popen(command, output, "capture screenshot", true, true, 0);
-    if (retval) return retval;
+        vboxlog_msg("Capturing screenshot.");
 
-    vboxlog_msg("Screenshot completed.");
-	
+        command = "controlvm \"" + vm_name + "\" ";
+        command += "screenshotpng \"";
+	    command += virtual_machine_slot_directory;
+	    command += "/";
+	    command += SCREENSHOT_FILENAME;
+	    command += "\"";
+        retval = vbm_popen(command, output, "capture screenshot", true, true, 0);
+        if (retval) return retval;
+
+        vboxlog_msg("Screenshot completed.");
+
+    }
 	return 0;
 }
 
