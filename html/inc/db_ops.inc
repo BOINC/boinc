@@ -401,7 +401,7 @@ function stderr_error_string($stderr_out){
     if (0<=$x && $x<=9) {
         return FALSE;
     } else {
-        return "$x ".result_error_mask_str($x);
+        return "$x ".error_code_str($x);
     }
 }
 

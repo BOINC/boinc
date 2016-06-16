@@ -81,6 +81,7 @@ define('RESULT_ABORTED',             6);
 define('RESULT_UPLOAD_FAILED',       7);
 
 // from lib/error_numbers.h
+// returned by some web RPCs
 //
 define('ERR_XML_PARSE',               -112);
 define('ERR_DB_NOT_FOUND',            -136);

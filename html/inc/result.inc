@@ -483,7 +483,9 @@ function version_string($version_num) {
 // @return String A human readable error message
 // @param Integer $x An error number
 //
-function result_error_mask_str($x){
+// TODO: handle Windows-specific codes like 0xc0000005
+//
+function error_code_str($x){
     switch($x){
     case 0: return "";
 	case 192: return "EXIT_STATEFILE_WRITE";
@@ -637,12 +639,20 @@ function result_error_mask_str($x){
     case -233: return "ERR_UNSTARTED_LATE";
     case -234: return "ERR_MISSING_COPROC";
     case -235: return "ERR_PROC_PARSE";
-    default: return "Unknown error number";
+    default: return "Unknown error code";
     }
 }
 
+// transform a 4byte integer to an 8 character hex representation
+// @return String The hex representation starting with 0x. Length is always 10 characters!
+// @param Integer $dec A signed integer
+//
+function int2hex($dec) {
+    return "0x".substr(sprintf("%08x",$dec), -8);
+}
+
 function exit_status_string($x) {
-    return sprintf("%d (0x%x)", $x, $x). " ".result_error_mask_str($x);
+    return $x." (".int2hex($x).") ".error_code_str($x);
 }
 
 function show_result($result, $show_outfile_links=false) {
