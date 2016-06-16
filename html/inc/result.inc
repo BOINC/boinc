@@ -478,14 +478,48 @@ function version_string($version_num) {
     }
 }
 
-// Decode ErrorNumber into semi-human-readable,
-// taken from lib/error_numbers.h keep this up to date
+// transform a 4byte integer to an 8 character hex representation
+//
+// @return String The hex representation (uppercased) starting with 0x. Length is always 10 characters!
+// @param Integer $dec A signed integer
+//
+function int2hex($dec) {
+    return "0x".strtoupper(substr(sprintf("%08x",$dec), -8));
+}
+
+// Decode a windows error number into semi-human-readable,
+// taken from ntstatus.h for selected codes
+// They need to be uppercase after 0x!
+//
 // @return String A human readable error message
 // @param Integer $x An error number
 //
-// TODO: handle Windows-specific codes like 0xc0000005
+function windows_error_code_str($x){
+    $h=int2hex($x);
+    switch($h){
+    case "0xC0000005": return "STATUS_ACCESS_VIOLATION";
+    case "0xC000001D": return "STATUS_ILLEGAL_INSTRUCTION";
+    case "0xC0000094": return "STATUS_INTEGER_DIVIDE_BY_ZERO";
+    case "0xC00000FD": return "STATUS_STACK_OVERFLOW";
+    case "0xC0000135": return "STATUS_DLL_NOT_FOUND";
+    case "0xC0000139": return "STATUS_ENTRYPOINT_NOT_FOUND";
+    case "0xC0000142": return "STATUS_DLL_INIT_FAILED";
+    case "0xC000026B": return "STATUS_DLL_INIT_FAILED_LOGOFF";
+    case "0xC0000409": return "STATUS_STACK_BUFFER_OVERRUN";
+    //case "": return "";
+    default: return "Unknown error code";
+    }
+}
+
+// Decode ErrorNumber into semi-human-readable,
+// taken from lib/error_numbers.h keep this up to date
+//
+// @return String A human readable error message
+// @param Integer $x An error number
 //
 function error_code_str($x){
+    // severe Windows error numbers are always large negative integers
+    if ($x<-400) return windows_error_code_str($x);
     switch($x){
     case 0: return "";
     case 192: return "EXIT_STATEFILE_WRITE";
@@ -641,14 +675,6 @@ function error_code_str($x){
     case -235: return "ERR_PROC_PARSE";
     default: return "Unknown error code";
     }
-}
-
-// transform a 4byte integer to an 8 character hex representation
-// @return String The hex representation starting with 0x. Length is always 10 characters!
-// @param Integer $dec A signed integer
-//
-function int2hex($dec) {
-    return "0x".substr(sprintf("%08x",$dec), -8);
 }
 
 function exit_status_string($x) {
