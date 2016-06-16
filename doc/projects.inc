@@ -597,7 +597,7 @@ $math = array(
         ),
         array(
             "Collatz Conjecture",
-            "http://boinc.thesonntags.com/collatz/",
+            "https://boinc.thesonntags.com/collatz/",
             tra("Private"),
             tra("Mathematics"),
             tra("Study the Collatz Conjecture, an unsolved conjecture in mathematics"),
