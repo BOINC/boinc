@@ -484,6 +484,10 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 #elif __arm__
     strcpy(host.p_vendor, "ARM");
     vendor_hack = vendor_found = true;
+#elif __aarch64__
+    strcpy(p_vendor, "ARM");
+    vendor_hack = vendor_found = true;
+    model_hack = true;
 #endif
 
     host.m_cache=-1;
@@ -524,6 +528,9 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
             strstr(buf, "cpu\t\t: ")
 #elif __arm__
             strstr(buf, "Processor\t: ") || strstr(buf, "model name")
+#elif __aarch64__
+            // Hardware is a fallback specifying the board this CPU is on (not ideal but better than nothing)
+            strstr(buf, "Processor\t: ") || strstr(buf, "CPU architecture: ") || strstr(buf, "Hardware\t: ")
 #else
             strstr(buf, "model name\t: ") || strstr(buf, "cpu model\t\t: ")
 #endif
@@ -548,6 +555,16 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
                 testc = strrchr(buf, ':')+2;
                 if (isdigit(*testc)) {
                     family = atoi(testc);
+                    continue;    /* skip this line */
+                }
+#endif
+#ifdef __aarch64__
+                /* depending on kernel version, CPU architecture can either be
+                 * a number or a string. If a string, we have a model name, else we don't
+                 */
+                char *testc = NULL;
+                testc = strrchr(buf, ':')+2;
+                if (isdigit(*testc)) {
                     continue;    /* skip this line */
                 }
 #endif
