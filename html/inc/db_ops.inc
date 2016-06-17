@@ -389,6 +389,22 @@ function link_results($n, $mq, $query, $clauses) {
     }
 }
 
+// Determines if in stderr_out is an error reported and prints as human readable String
+// @return String A human readable string if error otherwise FALSE
+// @param String $stderr_out the stderr_out value to parse
+function stderr_error_string($stderr_out){
+    $y = parse_element($stderr_out, "<error_code>");
+    $x = 0;
+    if ($y) {
+        $x = (int)$y;
+    }
+    if (0<=$x && $x<=9) {
+        return FALSE;
+    } else {
+        return "$x ".error_code_str($x);
+    }
+}
+
 function show_result_summary() {
 
     $ntotal =0;     // TODO: how to count $result?
@@ -1055,6 +1071,9 @@ function show_result_ops($result) {
     row("User ID", "<a href=\"db_action.php?table=user&id=$result->userid\">" . user_name_by_id($result->userid) . "</a> [$result->userid]");
     row("CPU time", $result->cpu_time);
     row("Elapsed time", $result->elapsed_time);
+    if($error=stderr_error_string($result->stderr_out)) {
+        row("error in stderr out", $error);
+    }
     row("Batch", $result->batch);
     row("File delete state", file_delete_state_str($result->file_delete_state)." [$result->file_delete_state]");
     row("Validate state", validate_state_str($result)." [$result->validate_state]");

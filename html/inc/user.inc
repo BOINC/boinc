@@ -420,7 +420,7 @@ function show_user_summary_public($user) {
             row2(tra("Donor"), DONATION_LINK);
         }
     }
-    if ($user->donated == 2) { 
+    if ($user->donated == 2) {
         if (file_exists("../project/donations.inc")) {
             require_once("../project/donations.inc");
             row2(tra("Donor"), DONATION_LINK_TWO);
