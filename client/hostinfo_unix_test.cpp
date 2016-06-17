@@ -64,19 +64,19 @@ int main(void) {
         if (
                 /* there might be conflicts if we dont #ifdef */
 #ifdef __ia64__
-                strstr(buf, "vendor     : ")
+            strstr(buf, "vendor     : ")
 #elif __hppa__        
-        strstr(buf, "cpu\t\t: ")
+            strstr(buf, "cpu\t\t: ")
 #elif __powerpc__
-                strstr(buf, "machine\t\t: ")
+            strstr(buf, "machine\t\t: ")
 #elif __sparc__
-        strstr(buf, "type\t\t: ")
+            strstr(buf, "type\t\t: ")
 #elif __alpha__
-        strstr(buf, "cpu\t\t\t: ")
+            strstr(buf, "cpu\t\t\t: ")
 #elif __arm__
-        strstr(buf, "CPU architecture: ")
+            strstr(buf, "CPU architecture: ")
 #else
-        strstr(buf, "vendor_id\t: ") || strstr(buf, "system type\t\t: ")
+            strstr(buf, "vendor_id\t: ") || strstr(buf, "system type\t\t: ")
 #endif
         ) {
             if (!vendor_hack && !vendor_found) {
@@ -95,7 +95,7 @@ int main(void) {
 #elif __powerpc__ || __sparc__
             strstr(buf, "cpu\t\t: ")
 #elif __arm__
-            strstr(buf, "Processor\t: ")
+            strstr(buf, "Processor\t: ") || strstr(buf, "model name")
 #else
             strstr(buf, "model name\t: ") || strstr(buf, "cpu model\t\t: ")
 #endif
@@ -103,39 +103,41 @@ int main(void) {
             if (!model_hack && !model_found) {
                 model_found = true;
 #ifdef __powerpc__
-        char *coma = NULL;
-            if ((coma = strrchr(buf, ','))) {   /* we have ", altivec supported" */
-            *coma = '\0';    /* strip the unwanted line */
-                strcpy(features, "altivec");
-                features_found = true;
-            }
+                char *coma = NULL;
+                if ((coma = strrchr(buf, ','))) {   /* we have ", altivec supported" */
+                    *coma = '\0';    /* strip the unwanted line */
+                    strcpy(features, "altivec");
+                    features_found = true;
+                }
 #endif
                 strlcpy(p_model, strchr(buf, ':') + 2, sizeof(p_model));
             } else if (!model_found) {
 #ifdef __ia64__
-        /* depending on kernel version, family can be either
-        a number or a string. If number, we have a model name,
-        else we don't */
-        char *testc = NULL;
-        testc = strrchr(buf, ':')+2;
-        if (isdigit(*testc)) {
-            family = atoi(testc);
-            continue;    /* skip this line */
-        }
+                /* depending on kernel version, family can be either
+                a number or a string. If number, we have a model name,
+                else we don't */
+                char *testc = NULL;
+                testc = strrchr(buf, ':')+2;
+                if (isdigit(*testc)) {
+                    family = atoi(testc);
+                    continue;    /* skip this line */
+                }
 #endif
-        model_found = true;
-        strlcpy(buf2, strchr(buf, ':') + 2, sizeof(p_model) - strlen(p_model) - 1);
-        strcat(p_model, buf2);
-        }        
+                model_found = true;
+                strlcpy(buf2, strchr(buf, ':') + 2, sizeof(p_model) - strlen(p_model) - 1);
+                //strip_whitespace(buf2);
+                strcat(p_model, buf2);
+            }
         }
 
 #ifndef __hppa__
-    /* XXX: hppa: "cpu family    : PA-RISC 2.0" */
+    /* XXX hppa: "cpu family\t: PA-RISC 2.0" */
         if (strstr(buf, "cpu family\t: ") && family<0) {
-        family = atoi(buf+strlen("cpu family\t: "));
+            family = atoi(buf+strlen("cpu family\t: "));
         }
-        /* XXX: hppa: "model            : 9000/785/J6000" */
-        if (strstr(buf, "model\t\t: ") && model<0) {
+        /* XXX hppa: "model\t\t: 9000/785/J6000" */
+    /* XXX alpha: "cpu model\t\t: EV6" -> ==buf necessary */
+        if ((strstr(buf, "model\t\t: ") == buf) && model<0) {
             model = atoi(buf+strlen("model\t\t: "));
         }
         /* ia64 */
@@ -147,6 +149,7 @@ int main(void) {
             stepping = atoi(buf+strlen("stepping\t: "));
         }
 #ifdef __hppa__
+        bool icache_found=false,dcache_found=false;
         if (!icache_found && strstr(buf, "I-cache\t\t: ")) {
             icache_found = true;
             sscanf(buf, "I-cache\t\t: %d", &n);
@@ -173,6 +176,7 @@ int main(void) {
         if (!features_found) {
             // Some versions of the linux kernel call them flags,
             // others call them features, so look for both.
+            //
             if ((strstr(buf, "flags\t\t: ") == buf)) {
                 strlcpy(features, strchr(buf, ':') + 2, sizeof(features));
             } else if ((strstr(buf, "features\t\t: ") == buf)) {
