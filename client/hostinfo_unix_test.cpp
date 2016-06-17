@@ -19,6 +19,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <ctype.h>
 
 #define false 0
 #define true 1
@@ -40,6 +41,8 @@ int main(void) {
 
     FILE* f = fopen("/proc/cpuinfo", "r");
     if (!f) return (EXIT_FAILURE);
+
+    strcpy(p_model, "");
 
 #ifdef __mips__
     strcpy(p_model, "MIPS ");
@@ -101,7 +104,7 @@ int main(void) {
 #elif __arm__
             strstr(buf, "Processor\t: ") || strstr(buf, "model name")
 #elif __aarch64__
-            // Hardware is a fallback available on ODROID devices
+            // Hardware is a fallback specifying the board this CPU is on (not ideal but better than nothing)
             strstr(buf, "Processor\t: ") || strstr(buf, "CPU architecture: ") || strstr(buf, "Hardware\t: ")
 #else
             strstr(buf, "model name\t: ") || strstr(buf, "cpu model\t\t: ")
@@ -133,12 +136,10 @@ int main(void) {
 #ifdef __aarch64__
                 /* depending on kernel version, CPU architecture can either be
                  * a number or a string. If a string, we have a model name, else we don't
-                 * also checks "Hardware" for ODROID devices as a fallback*/
+                 */
                 char *testc = NULL;
                 testc = strrchr(buf, ':')+2;
-                if (!isdigit(*testc)) {
-                    model_found = true;
-                    strlcpy(p_model, strchr(buf, ':') + 2, sizeof(p_model));
+                if (isdigit(*testc)) {
                     continue;    /* skip this line */
                 }
 #endif
@@ -210,7 +211,7 @@ int main(void) {
             }
         }
     }
-    safe_strcpy(model_buf, p_model);
+    strlcpy(model_buf, p_model, sizeof(model_buf));
     if (family>=0 || model>=0 || stepping>0) {
         strcat(model_buf, " [");
         if (family>=0) {
