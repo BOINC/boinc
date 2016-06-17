@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-06-17 09:13+0000\n"
+"PO-Revision-Date: 2016-06-17 09:19+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -603,7 +603,7 @@ msgstr "Fare ricerca in fisica ed astronomia"
 
 #: projects.inc:337
 msgid "Rensselaer Polytechnic Institute"
-msgstr "Rensselaer Polytechnic Institute"
+msgstr "Politecnico Rensselaer a Troy"
 
 #: projects.inc:339
 msgid ""
@@ -759,7 +759,7 @@ msgstr "Aiutare i ricercatori cinesi"
 
 #: projects.inc:468
 msgid "Mathematics, physics, evolution"
-msgstr "Matematica, fisica, evoluzione"
+msgstr "Matematica, fisica, biologia evoluzionistica"
 
 #: projects.inc:469
 msgid ""
@@ -867,7 +867,7 @@ msgstr "Studiare la complessità computazionale"
 
 #: projects.inc:582
 msgid "Cryptography and combinatorics"
-msgstr "Crittografia e combinatoria"
+msgstr "Crittografia e calcolo combinatorio"
 
 #: projects.inc:583 projects.inc:586
 msgid "Run applications from distributed.net"
@@ -897,7 +897,7 @@ msgstr "Studiare la congettura di Collatz"
 
 #: projects.inc:611
 msgid "California State University Fullerton"
-msgstr "California State University Fullerton"
+msgstr "Università statale della California a Fullerton"
 
 #: projects.inc:612
 msgid "Factorization of large integers"
