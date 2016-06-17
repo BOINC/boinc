@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2016-06-17 09:36+0000\n"
+"PO-Revision-Date: 2016-06-17 11:55+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -468,7 +468,7 @@ msgstr "Rispondi"
 
 #: ../inc/forum.inc:693
 msgid "Post a reply to this message"
-msgstr "Replica a questo messaggio"
+msgstr "Rispondi a questo messaggio"
 
 #. "Quote" is used as a verb
 #: ../inc/forum.inc:696
@@ -613,7 +613,7 @@ msgstr "Ultimo messaggio"
 
 #: ../inc/forum.inc:1294
 msgid "New posts in the thread %1"
-msgstr "Nuovi messa nella discussione %1"
+msgstr "Nuovi messaggi nella discussione %1"
 
 #: ../inc/forum.inc:1299
 msgid "New posts in subscribed thread"
@@ -629,7 +629,7 @@ msgstr "Segna tutti gli argomenti come letti"
 
 #: ../inc/forum.inc:1311
 msgid "Mark all threads in all message boards as read."
-msgstr "Segna tutte le discussioni nel forum come lette."
+msgstr "Segna tutte le discussioni del forum come lette."
 
 #: ../inc/host.inc:25
 msgid "No host"
@@ -671,7 +671,7 @@ msgstr "(uguale alle ultime %1 volte)"
 
 #: ../inc/host.inc:90
 msgid "External IP address"
-msgstr "Indirizzo IP esterno"
+msgstr "Indirizzo IP pubblico"
 
 #: ../inc/host.inc:93
 msgid "Show IP address"
@@ -739,11 +739,11 @@ msgstr "Coprocessori"
 
 #: ../inc/host.inc:122 ../inc/host.inc:692
 msgid "Operating System"
-msgstr "Sistema Operativo"
+msgstr "Sistema operativo"
 
 #: ../inc/host.inc:125 ../inc/host.inc:235
 msgid "BOINC version"
-msgstr "versione BOINC"
+msgstr "Versione BOINC"
 
 #: ../inc/host.inc:129 ../inc/prefs.inc:237
 msgid "Memory"
@@ -775,7 +775,7 @@ msgstr "%1 GB"
 
 #: ../inc/host.inc:145
 msgid "Free Disk Space"
-msgstr "Spazio Libero su Disco"
+msgstr "Spazio libero su disco"
 
 #: ../inc/host.inc:149
 msgid "Measured floating point speed"
@@ -823,7 +823,7 @@ msgstr "Dettagli dell'applicazione"
 
 #: ../inc/host.inc:170
 msgid "Show"
-msgstr "Visualizza:"
+msgstr "Visualizza"
 
 #: ../inc/host.inc:180 ../inc/host.inc:341 ../inc/user.inc:155
 msgid "Tasks"
@@ -983,15 +983,15 @@ msgstr "Solo i computer attivi negli ultimi 30 giorni"
 
 #: ../inc/host.inc:671 ../inc/result.inc:642
 msgid "Computer ID"
-msgstr "ID Computer"
+msgstr "ID computer"
 
 #: ../inc/host.inc:687
 msgid "BOINC<br>version"
-msgstr "versione <br>BOINC"
+msgstr "Versione <br>BOINC"
 
 #: ../inc/host.inc:750 ../user/merge_by_name.php:65
 msgid "Merge computers by name"
-msgstr "Unisci i computer dal nome"
+msgstr "Unisci i computer per nome"
 
 #: ../inc/language_names.inc:62
 msgid "Browser default"
@@ -1076,7 +1076,7 @@ msgstr "Per ricevere le notifiche via mail, %1modifica le preferenze della comun
 
 #: ../inc/pm.inc:204
 msgid "Private message"
-msgstr "Messaggi privati"
+msgstr "Messaggio privato"
 
 #: ../inc/prefs.inc:45 ../inc/prefs.inc:187
 msgid "Usage limits"
@@ -1374,7 +1374,7 @@ msgstr "Disconnetti al termine delle operazioni"
 
 #: ../inc/prefs.inc:235 ../user/explain_state.php:94
 msgid "Computing"
-msgstr "Computazione"
+msgstr "Elaborazione in corso"
 
 #: ../inc/prefs.inc:236
 msgid "Disk"
@@ -1532,7 +1532,7 @@ msgstr "%1 può mostrare i tuoi computer sul suo sito web?"
 
 #: ../inc/prefs_project.inc:270
 msgid "(Switch View)"
-msgstr "(Cambia Visuale)"
+msgstr "(Cambia visuale)"
 
 #: ../inc/prefs_project.inc:276
 msgid "Project specific settings"
@@ -1590,7 +1590,7 @@ msgstr "Feedback ricevuti dal tuo profilo"
 
 #: ../inc/profile.inc:264
 msgid "Recommend this profile for User of the Day:"
-msgstr "Raccomanda questo profilo come Utente del Giorno:"
+msgstr "Raccomanda questo profilo come Utente del giorno:"
 
 #: ../inc/profile.inc:265
 msgid "I %1like%2 this profile"
@@ -1651,7 +1651,7 @@ msgstr "Valido"
 
 #: ../inc/result.inc:119 ../inc/result.inc:271
 msgid "Invalid"
-msgstr "Invalido"
+msgstr "Non valido"
 
 #: ../inc/result.inc:120 ../inc/result.inc:209
 msgid "Error"
@@ -1776,7 +1776,7 @@ msgstr "In elaborazione"
 
 #: ../inc/result.inc:252
 msgid "Compute error"
-msgstr "Errore di computazione"
+msgstr "Errore di calcolo"
 
 #: ../inc/result.inc:253 ../user/explain_state.php:97
 msgid "Uploading"
@@ -1897,7 +1897,7 @@ msgstr "Applicazione"
 
 #: ../inc/result.inc:633
 msgid "Workunit"
-msgstr "Lavoro"
+msgstr "Workunit"
 
 #: ../inc/result.inc:636
 msgid "Report deadline"
@@ -2176,7 +2176,7 @@ msgstr "Descrizione del team"
 
 #: ../inc/team.inc:482
 msgid "Accept new members?"
-msgstr "Accetare nuovi membri?"
+msgstr "Accettare nuovi membri?"
 
 #: ../inc/uotd.inc:30
 msgid "User profile"
@@ -2427,7 +2427,7 @@ msgstr "Esci"
 
 #: ../inc/util.inc:163
 msgid "log in"
-msgstr "accedi"
+msgstr "Accedi"
 
 #: ../inc/util.inc:239 ../user/create_account_form.php:41
 msgid "Create an account"
@@ -2435,7 +2435,7 @@ msgstr "Crea un account"
 
 #: ../inc/util.inc:240
 msgid "Server status page"
-msgstr "Stato del server"
+msgstr "Stato server"
 
 #: ../inc/util.inc:277
 msgid ""
@@ -2838,7 +2838,7 @@ msgstr "Sei sicuro di voler cancellare il tuo account?"
 #: ../user/prefs_remove.php:53 ../user/user_search.php:59
 #: ../user/user_search.php:64
 msgid "Yes"
-msgstr "Si"
+msgstr "Sì"
 
 #: ../user/delete_account.php:79
 msgid "Delete this account"
@@ -3106,7 +3106,7 @@ msgstr "In una singola email giornaliera"
 
 #: ../user/edit_forum_preferences_form.php:65
 msgid "Message-board identity"
-msgstr "Itentità messaggi"
+msgstr "Identità messaggi"
 
 #: ../user/edit_forum_preferences_form.php:66
 msgid "Avatar"
@@ -3328,7 +3328,7 @@ msgstr "Il lavoro è pronto per essere spedito, ma non è stata ancora inviato."
 
 #: ../user/explain_state.php:40
 msgid "In Progress"
-msgstr "In Corso"
+msgstr "In corso"
 
 #: ../user/explain_state.php:41
 msgid "The task has been sent; waiting for completion."
