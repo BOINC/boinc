@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2016-04-14 08:05+0000\n"
+"PO-Revision-Date: 2016-06-17 09:21+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -1704,7 +1704,7 @@ msgstr "Cancellato dal server"
 
 #: ../inc/result.inc:199
 msgid "Not started by deadline - canceled"
-msgstr "Non partito a causa della scadenza - cancellato"
+msgstr "Non avviato a causa della scadenza - cancellato"
 
 #: ../inc/result.inc:202
 msgid "Error while downloading"
@@ -1901,7 +1901,7 @@ msgstr "Lavoro"
 
 #: ../inc/result.inc:636
 msgid "Report deadline"
-msgstr "Scadenza"
+msgstr "Avvisa della scadenza"
 
 #: ../inc/result.inc:637
 msgid "Received"
@@ -3424,13 +3424,13 @@ msgstr "Il computer non ha potuto inviare i file di output."
 
 #: ../user/explain_state.php:103
 msgid "Time reported and deadline"
-msgstr "Tempo riportato e scadenza"
+msgstr "Tempo riportato e scadenza della WU"
 
 #: ../user/explain_state.php:106
 msgid ""
 "A task's <b>Time reported or deadline</b> field depends on whether the task "
 "has been reported yet:"
-msgstr "La colonna <b>Tempo riportato o Scadenza</b> di un lavoro dipende dal fatto che il lavoro è già stato riportato o no:"
+msgstr "La colonna <b>Tempo riportato o Scadenza</b> di un lavoro dipende dal fatto che il lavoro sia già stato inviato o no:"
 
 #: ../user/explain_state.php:110
 msgid "Already reported"
@@ -3442,19 +3442,19 @@ msgstr "La data/ora nella quale è stato riportato"
 
 #: ../user/explain_state.php:111
 msgid "Not reported yet, deadline in the future"
-msgstr "Non ancora riportato, scadenza nel futuro"
+msgstr "Non ancora inviata, tempo limite nel futuro"
 
 #: ../user/explain_state.php:112
 msgid "Deadline, shown in green."
-msgstr "Scadenza, visualizzata in verde."
+msgstr "Tempo limite, visualizzato in verde."
 
 #: ../user/explain_state.php:114
 msgid "Not reported yet, deadline in the past"
-msgstr "Non ancora riportato, scadenza nel passato"
+msgstr "Non ancora inviata, tempo limite nel passato"
 
 #: ../user/explain_state.php:115
 msgid "Deadline, shown in red."
-msgstr "Scadenza, visualizzata in rosso."
+msgstr "Tempo limite, visualizzato in rosso."
 
 #: ../user/explain_state.php:120
 msgid "Unknown field"
