@@ -846,8 +846,10 @@ static inline bool app_plan_vbox(
     }
 
     // host must have VM acceleration in order to run hwaccel jobs
+    // NOTE: 64-bit VM's require hard acceleration extensions or they fail
+    // to boot.
     //
-    if (strstr(plan_class, "hwaccel")) {
+    if (strstr(plan_class, "hwaccel") || strstr(plan_class, "64")) {
         if ((!strstr(sreq.host.p_features, "vmx") && !strstr(sreq.host.p_features, "svm"))
             || sreq.host.p_vm_extensions_disabled
         ) {
