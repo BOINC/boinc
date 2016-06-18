@@ -34,7 +34,7 @@ int main(void) {
     bool model_hack=false, vendor_hack=false;
     int n;
     int family=-1, model=-1, stepping=-1;
-    char  p_vendor[256], p_model[256];
+    char  p_vendor[256], p_model[256], product_name[256];
     char buf2[256];
     int m_cache=-1;
 
@@ -66,6 +66,7 @@ int main(void) {
 #endif
 
     strcpy(features, "");
+    strcpy(product_name, "");
     while (fgets(buf, 256, f)) {
         //strip_whitespace(buf);
         if (
@@ -96,6 +97,19 @@ int main(void) {
             }
         }
 
+#ifdef __aarch64__
+        if (
+            // Hardware is specifying the board this CPU is on, store it in product_name while we parse /proc/cpuinfo
+            strstr(buf, "Hardware\t: ")
+        ) {
+            strlcpy(buf2, strchr(buf, ':') + 2, sizeof(product_name) - strlen(product_name) - 1);
+            //strip_whitespace(buf2);
+            if (strlen(product_name)) {
+                strcat(product_name, " ");
+            }
+            strcat(product_name, buf2);
+        }
+#endif
         if (
 #ifdef __ia64__
             strstr(buf, "family     : ") || strstr(buf, "model name : ")
