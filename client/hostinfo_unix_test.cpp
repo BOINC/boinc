@@ -19,11 +19,88 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <ctype.h>
+
+// normally configure would find this out
+// only activate one of the three to test with
+#define HAVE_SYS_UTSNAME_H 1
+#define HAVE_SYS_SYSCTL_H 0
+#define HAVE_SYS_SYSTEMINFO_H 0
+
+#if HAVE_SYS_SYSCTL_H
+#include <sys/sysctl.h>
+#endif
+#if HAVE_SYS_SYSTEMINFO_H
+#include <sys/systeminfo.h>
+#endif
+#if HAVE_SYS_UTSNAME_H
+#include <sys/utsname.h>
+#endif
 
 #define false 0
 #define true 1
 #define bool int
 #define strlcpy strncpy
+#define safe_strcpy(x, y) strlcpy(x, y, sizeof(x))
+#define LINUX_LIKE_SYSTEM (defined(__linux__) || defined(__GNU__) || defined(__GLIBC__)) && !defined(__HAIKU__)
+
+// version of strcpy that works even if strings overlap (p < q)
+//
+void strcpy_overlap(char* p, const char* q) {
+    while (1) {
+        *p++ = *q;
+        if (!*q) break;
+        q++;
+    }
+}
+
+// remove whitespace from start and end of a string
+//
+void strip_whitespace(char *str) {
+    char *s = str;
+    while (*s) {
+        if (!isascii(*s)) break;
+        if (!isspace(*s)) break;
+        s++;
+    }
+    if (s != str) strcpy_overlap(str, s);
+
+    size_t n = strlen(str);
+    while (n>0) {
+        n--;
+        if (!isascii(str[n])) break;
+        if (!isspace(str[n])) break;
+        str[n] = 0;
+    }
+}
+
+// remove whitespace and quotes from start and end of a string
+//
+void strip_quotes(char *str) {
+    char *s = str;
+
+    while (*s) {
+        if (*s == '"' || *s == '\'') {
+            s++;
+            continue;
+        }
+        if (!isascii(*s)) break;
+        if (!isspace(*s)) break;
+        s++;
+    }
+    if (s != str) strcpy_overlap(str, s);
+
+    size_t n = strlen(str);
+    while (n>0) {
+        n--;
+        if (str[n] == '"' || str[n] == '\'') {
+            continue;
+        }
+        if (!isascii(str[n])) break;
+        if (!isspace(str[n])) break;
+        str[n] = 0;
+    }
+}
 
 int main(void) {
     char buf[256], features[1024], model_buf[1024];
@@ -33,13 +110,16 @@ int main(void) {
     bool model_hack=false, vendor_hack=false;
     int n;
     int family=-1, model=-1, stepping=-1;
-    char  p_vendor[256], p_model[256];
+    char  p_vendor[256], p_model[256], product_name[256];
+    char  os_name[256], os_version[256];
     char buf2[256];
     int m_cache=-1;
 
 
     FILE* f = fopen("/proc/cpuinfo", "r");
     if (!f) return (EXIT_FAILURE);
+
+    strcpy(p_model, "");
 
 #ifdef __mips__
     strcpy(p_model, "MIPS ");
@@ -56,27 +136,32 @@ int main(void) {
 #elif __arm__
     strcpy(p_vendor, "ARM ");
     vendor_hack = vendor_found = true;
+#elif __aarch64__
+    strcpy(p_vendor, "ARM ");
+    vendor_hack = vendor_found = true;
+    model_hack = true;
 #endif
 
     strcpy(features, "");
+    strcpy(product_name, "");
     while (fgets(buf, 256, f)) {
         //strip_whitespace(buf);
         if (
                 /* there might be conflicts if we dont #ifdef */
 #ifdef __ia64__
-                strstr(buf, "vendor     : ")
+            strstr(buf, "vendor     : ")
 #elif __hppa__        
-        strstr(buf, "cpu\t\t: ")
+            strstr(buf, "cpu\t\t: ")
 #elif __powerpc__
-                strstr(buf, "machine\t\t: ")
+            strstr(buf, "machine\t\t: ")
 #elif __sparc__
-        strstr(buf, "type\t\t: ")
+            strstr(buf, "type\t\t: ")
 #elif __alpha__
-        strstr(buf, "cpu\t\t\t: ")
+            strstr(buf, "cpu\t\t\t: ")
 #elif __arm__
-        strstr(buf, "CPU architecture: ")
+            strstr(buf, "CPU architecture: ")
 #else
-        strstr(buf, "vendor_id\t: ") || strstr(buf, "system type\t\t: ")
+            strstr(buf, "vendor_id\t: ") || strstr(buf, "system type\t\t: ")
 #endif
         ) {
             if (!vendor_hack && !vendor_found) {
@@ -89,13 +174,29 @@ int main(void) {
             }
         }
 
+#ifdef __aarch64__
+        if (
+            // Hardware is specifying the board this CPU is on, store it in product_name while we parse /proc/cpuinfo
+            strstr(buf, "Hardware\t: ")
+        ) {
+            strlcpy(buf2, strchr(buf, ':') + 2, sizeof(product_name) - strlen(product_name) - 1);
+            //strip_whitespace(buf2);
+            if (strlen(product_name)) {
+                strcat(product_name, " ");
+            }
+            strcat(product_name, buf2);
+        }
+#endif
         if (
 #ifdef __ia64__
             strstr(buf, "family     : ") || strstr(buf, "model name : ")
 #elif __powerpc__ || __sparc__
             strstr(buf, "cpu\t\t: ")
 #elif __arm__
-            strstr(buf, "Processor\t: ")
+            strstr(buf, "Processor\t: ") || strstr(buf, "model name")
+#elif __aarch64__
+            // Hardware is a fallback specifying the board this CPU is on (not ideal but better than nothing)
+            strstr(buf, "Processor\t: ") || strstr(buf, "CPU architecture: ") || strstr(buf, "Hardware\t: ")
 #else
             strstr(buf, "model name\t: ") || strstr(buf, "cpu model\t\t: ")
 #endif
@@ -103,39 +204,51 @@ int main(void) {
             if (!model_hack && !model_found) {
                 model_found = true;
 #ifdef __powerpc__
-        char *coma = NULL;
-            if ((coma = strrchr(buf, ','))) {   /* we have ", altivec supported" */
-            *coma = '\0';    /* strip the unwanted line */
-                strcpy(features, "altivec");
-                features_found = true;
-            }
+                char *coma = NULL;
+                if ((coma = strrchr(buf, ','))) {   /* we have ", altivec supported" */
+                    *coma = '\0';    /* strip the unwanted line */
+                    strcpy(features, "altivec");
+                    features_found = true;
+                }
 #endif
                 strlcpy(p_model, strchr(buf, ':') + 2, sizeof(p_model));
             } else if (!model_found) {
 #ifdef __ia64__
-        /* depending on kernel version, family can be either
-        a number or a string. If number, we have a model name,
-        else we don't */
-        char *testc = NULL;
-        testc = strrchr(buf, ':')+2;
-        if (isdigit(*testc)) {
-            family = atoi(testc);
-            continue;    /* skip this line */
-        }
+                /* depending on kernel version, family can be either
+                a number or a string. If number, we have a model name,
+                else we don't */
+                char *testc = NULL;
+                testc = strrchr(buf, ':')+2;
+                if (isdigit(*testc)) {
+                    family = atoi(testc);
+                    continue;    /* skip this line */
+                }
 #endif
-        model_found = true;
-        strlcpy(buf2, strchr(buf, ':') + 2, sizeof(p_model) - strlen(p_model) - 1);
-        strcat(p_model, buf2);
-        }        
+#ifdef __aarch64__
+                /* depending on kernel version, CPU architecture can either be
+                 * a number or a string. If a string, we have a model name, else we don't
+                 */
+                char *testc = NULL;
+                testc = strrchr(buf, ':')+2;
+                if (isdigit(*testc)) {
+                    continue;    /* skip this line */
+                }
+#endif
+                model_found = true;
+                strlcpy(buf2, strchr(buf, ':') + 2, sizeof(p_model) - strlen(p_model) - 1);
+                //strip_whitespace(buf2);
+                strcat(p_model, buf2);
+            }
         }
 
 #ifndef __hppa__
-    /* XXX: hppa: "cpu family    : PA-RISC 2.0" */
+    /* XXX hppa: "cpu family\t: PA-RISC 2.0" */
         if (strstr(buf, "cpu family\t: ") && family<0) {
-        family = atoi(buf+strlen("cpu family\t: "));
+            family = atoi(buf+strlen("cpu family\t: "));
         }
-        /* XXX: hppa: "model            : 9000/785/J6000" */
-        if (strstr(buf, "model\t\t: ") && model<0) {
+        /* XXX hppa: "model\t\t: 9000/785/J6000" */
+    /* XXX alpha: "cpu model\t\t: EV6" -> ==buf necessary */
+        if ((strstr(buf, "model\t\t: ") == buf) && model<0) {
             model = atoi(buf+strlen("model\t\t: "));
         }
         /* ia64 */
@@ -147,6 +260,7 @@ int main(void) {
             stepping = atoi(buf+strlen("stepping\t: "));
         }
 #ifdef __hppa__
+        bool icache_found=false,dcache_found=false;
         if (!icache_found && strstr(buf, "I-cache\t\t: ")) {
             icache_found = true;
             sscanf(buf, "I-cache\t\t: %d", &n);
@@ -173,6 +287,7 @@ int main(void) {
         if (!features_found) {
             // Some versions of the linux kernel call them flags,
             // others call them features, so look for both.
+            //
             if ((strstr(buf, "flags\t\t: ") == buf)) {
                 strlcpy(features, strchr(buf, ':') + 2, sizeof(features));
             } else if ((strstr(buf, "features\t\t: ") == buf)) {
@@ -187,7 +302,7 @@ int main(void) {
             }
         }
     }
-    safe_strcpy(model_buf, p_model);
+    strlcpy(model_buf, p_model, sizeof(model_buf));
     if (family>=0 || model>=0 || stepping>0) {
         strcat(model_buf, " [");
         if (family>=0) {
@@ -215,4 +330,151 @@ int main(void) {
         p_vendor, m_cache, model_buf
     );
     fclose(f);
+
+    // detect OS name as in HOST_INFO::get_os_info()
+    strcpy(os_name, "");
+    strcpy(os_version, "");
+
+#if HAVE_SYS_UTSNAME_H
+    struct utsname u;
+    uname(&u);
+#ifdef ANDROID
+    safe_strcpy(os_name, "Android");
+#else
+    safe_strcpy(os_name, u.sysname);
+#endif //ANDROID
+#if defined(__EMX__) // OS2: version is in u.version
+    safe_strcpy(os_version, u.version);
+#elif defined(__HAIKU__)
+    snprintf(os_version, sizeof(os_version), "%s, %s", u.release, u.version);
+#else
+    safe_strcpy(os_version, u.release);
+#endif
+#ifdef _HPUX_SOURCE
+    safe_strcpy(p_model, u.machine);
+    safe_strcpy(p_vendor, "Hewlett-Packard");
+#endif
+#elif HAVE_SYS_SYSCTL_H && defined(CTL_KERN) && defined(KERN_OSTYPE) && defined(KERN_OSRELEASE)
+    mib[0] = CTL_KERN;
+    mib[1] = KERN_OSTYPE;
+    len = sizeof(os_name);
+    sysctl(mib, 2, &os_name, &len, NULL, 0);
+
+    mib[0] = CTL_KERN;
+    mib[1] = KERN_OSRELEASE;
+    len = sizeof(os_version);
+    sysctl(mib, 2, &os_version, &len, NULL, 0);
+#elif HAVE_SYS_SYSTEMINFO_H
+    sysinfo(SI_SYSNAME, os_name, sizeof(os_name));
+    sysinfo(SI_RELEASE, os_version, sizeof(os_version));
+#else
+#error Need to specify a method to obtain OS name/version
+#endif
+
+#if LINUX_LIKE_SYSTEM
+    bool found_something = false;
+    char dist_pretty[256], dist_name[256], dist_version[256], dist_codename[256];
+    strcpy(dist_pretty, "");
+    strcpy(dist_name, "");
+    strcpy(dist_version, "");
+    strcpy(dist_codename, "");
+
+    // see: http://refspecs.linuxbase.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/lsbrelease.html
+    // although the output is not clearly specified it seems to be constant
+    f = popen("/usr/bin/lsb_release -a", "r");
+    if (f) {
+        while (fgets(buf, 256, f)) {
+            strip_whitespace(buf);
+            if ( strstr(buf, "Description:") ) {
+                found_something = true;
+                safe_strcpy(dist_pretty, strchr(buf, ':') + 1);
+                strip_whitespace(dist_pretty);
+            }
+            if ( strstr(buf, "Distributor ID:") ) {
+                found_something = true;
+                safe_strcpy(dist_name, strchr(buf, ':') + 1);
+                strip_whitespace(dist_name);
+            }
+            if ( strstr(buf, "Release:") ) {
+                found_something = true;
+                safe_strcpy(dist_version, strchr(buf, ':') + 1);
+                strip_whitespace(dist_version);
+            }
+            if ( strstr(buf, "Codename:") ) {
+                found_something = true;
+                safe_strcpy(dist_codename, strchr(buf, ':') + 1);
+                strip_whitespace(dist_codename);
+            }
+        }
+        pclose(f);
+    }
+    if (!found_something) {
+        // see: https://www.freedesktop.org/software/systemd/man/os-release.html
+        f = fopen("/etc/os-release", "r");
+        if (f) {
+            while (fgets(buf, 256, f)) {
+                strip_whitespace(buf);
+                if ( strstr(buf, "PRETTY_NAME=") ) {
+                    found_something = true;
+                    safe_strcpy(buf2, strchr(buf, '=') + 1);
+                    strip_quotes(buf2);
+                    safe_strcpy(dist_pretty, buf2);
+                    continue;
+                }
+                if ( strstr(buf, "NAME=") ) {
+                    found_something = true;
+                    safe_strcpy(buf2, strchr(buf, '=') + 1);
+                    strip_quotes(buf2);
+                    safe_strcpy(dist_name, buf2);
+                    continue;
+                }
+                if ( strstr(buf, "VERSION=") ) {
+                    found_something = true;
+                    safe_strcpy(buf2, strchr(buf, '=') + 1);
+                    strip_quotes(buf2);
+                    safe_strcpy(dist_version, buf2);
+                    continue;
+                }
+                if ( strstr(buf, "CODENAME=") ) {
+                    found_something = true;
+                    safe_strcpy(buf2, strchr(buf, '=') + 1);
+                    strip_quotes(buf2);
+                    safe_strcpy(dist_codename, buf2);
+                    continue;
+                }
+            }
+            fclose(f);
+        }
+    }
+
+    if (found_something) {
+        strcat(os_version, " (");
+        if (strlen(dist_pretty)) {
+            strcat(os_version, dist_pretty);
+        } else {
+            if (strlen(dist_name)) {
+                strcat(os_version, dist_name);
+                strcat(os_version, " ");
+            }
+            if (strlen(dist_version)) {
+                strcat(os_version, dist_version);
+                strcat(os_version, " ");
+            }
+            if (strlen(dist_codename)) {
+                strcat(os_version, dist_codename);
+                strcat(os_version, " ");
+            }
+            strip_whitespace(os_version);
+        }
+        strcat(os_version, ")");
+        if (strlen(dist_name)) {
+            strcat(os_name, " ");
+            strcat(os_name, dist_name);
+        }
+    }
+#endif //LINUX_LIKE_SYSTEM
+    printf("os_name: %s\nos_version: %s\nproduct_name: %s\n",
+        os_name, os_version, product_name
+    );
+
 }
