@@ -21,10 +21,27 @@
 #include <unistd.h>
 #include <ctype.h>
 
+// normally configure would find this out
+// only activate one of the three to test with
+#define HAVE_SYS_UTSNAME_H 1
+#define HAVE_SYS_SYSCTL_H 0
+#define HAVE_SYS_SYSTEMINFO_H 0
+
+#if HAVE_SYS_SYSCTL_H
+#include <sys/sysctl.h>
+#endif
+#if HAVE_SYS_SYSTEMINFO_H
+#include <sys/systeminfo.h>
+#endif
+#if HAVE_SYS_UTSNAME_H
+#include <sys/utsname.h>
+#endif
+
 #define false 0
 #define true 1
 #define bool int
 #define strlcpy strncpy
+#define safe_strcpy(x, y) strlcpy(x, y, sizeof(x))
 
 int main(void) {
     char buf[256], features[1024], model_buf[1024];
@@ -35,6 +52,7 @@ int main(void) {
     int n;
     int family=-1, model=-1, stepping=-1;
     char  p_vendor[256], p_model[256], product_name[256];
+    char  os_name[256], os_version[256];
     char buf2[256];
     int m_cache=-1;
 
@@ -253,4 +271,49 @@ int main(void) {
         p_vendor, m_cache, model_buf
     );
     fclose(f);
+
+    // detect OS name as in HOST_INFO::get_os_info()
+    strcpy(os_name, "");
+    strcpy(os_version, "");
+
+#if HAVE_SYS_UTSNAME_H
+    struct utsname u;
+    uname(&u);
+#ifdef ANDROID
+    safe_strcpy(os_name, "Android");
+#else
+    safe_strcpy(os_name, u.sysname);
+#endif //ANDROID
+#if defined(__EMX__) // OS2: version is in u.version
+    safe_strcpy(os_version, u.version);
+#elif defined(__HAIKU__)
+    snprintf(os_version, sizeof(os_version), "%s, %s", u.release, u.version);
+#else
+    safe_strcpy(os_version, u.release);
+#endif
+#ifdef _HPUX_SOURCE
+    safe_strcpy(p_model, u.machine);
+    safe_strcpy(p_vendor, "Hewlett-Packard");
+#endif
+#elif HAVE_SYS_SYSCTL_H && defined(CTL_KERN) && defined(KERN_OSTYPE) && defined(KERN_OSRELEASE)
+    mib[0] = CTL_KERN;
+    mib[1] = KERN_OSTYPE;
+    len = sizeof(os_name);
+    sysctl(mib, 2, &os_name, &len, NULL, 0);
+
+    mib[0] = CTL_KERN;
+    mib[1] = KERN_OSRELEASE;
+    len = sizeof(os_version);
+    sysctl(mib, 2, &os_version, &len, NULL, 0);
+#elif HAVE_SYS_SYSTEMINFO_H
+    sysinfo(SI_SYSNAME, os_name, sizeof(os_name));
+    sysinfo(SI_RELEASE, os_version, sizeof(os_version));
+#else
+#error Need to specify a method to obtain OS name/version
+#endif
+
+    printf("os_name: %s\nos_version: %s\nproduct_name: %s\n",
+        os_name, os_version, product_name
+    );
+
 }
