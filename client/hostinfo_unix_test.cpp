@@ -42,6 +42,65 @@
 #define bool int
 #define strlcpy strncpy
 #define safe_strcpy(x, y) strlcpy(x, y, sizeof(x))
+#define LINUX_LIKE_SYSTEM (defined(__linux__) || defined(__GNU__) || defined(__GLIBC__)) && !defined(__HAIKU__)
+
+// version of strcpy that works even if strings overlap (p < q)
+//
+void strcpy_overlap(char* p, const char* q) {
+    while (1) {
+        *p++ = *q;
+        if (!*q) break;
+        q++;
+    }
+}
+
+// remove whitespace from start and end of a string
+//
+void strip_whitespace(char *str) {
+    char *s = str;
+    while (*s) {
+        if (!isascii(*s)) break;
+        if (!isspace(*s)) break;
+        s++;
+    }
+    if (s != str) strcpy_overlap(str, s);
+
+    size_t n = strlen(str);
+    while (n>0) {
+        n--;
+        if (!isascii(str[n])) break;
+        if (!isspace(str[n])) break;
+        str[n] = 0;
+    }
+}
+
+// remove whitespace and quotes from start and end of a string
+//
+void strip_quotes(char *str) {
+    char *s = str;
+
+    while (*s) {
+        if (*s == '"' || *s == '\'') {
+            s++;
+            continue;
+        }
+        if (!isascii(*s)) break;
+        if (!isspace(*s)) break;
+        s++;
+    }
+    if (s != str) strcpy_overlap(str, s);
+
+    size_t n = strlen(str);
+    while (n>0) {
+        n--;
+        if (str[n] == '"' || str[n] == '\'') {
+            continue;
+        }
+        if (!isascii(str[n])) break;
+        if (!isspace(str[n])) break;
+        str[n] = 0;
+    }
+}
 
 int main(void) {
     char buf[256], features[1024], model_buf[1024];
@@ -312,6 +371,108 @@ int main(void) {
 #error Need to specify a method to obtain OS name/version
 #endif
 
+#if LINUX_LIKE_SYSTEM
+    bool found_something = false;
+    char dist_pretty[256], dist_name[256], dist_version[256], dist_codename[256];
+    strcpy(dist_pretty, "");
+    strcpy(dist_name, "");
+    strcpy(dist_version, "");
+    strcpy(dist_codename, "");
+
+    // see: http://refspecs.linuxbase.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/lsbrelease.html
+    // although the output is not clearly specified it seems to be constant
+    f = popen("/usr/bin/lsb_release -a", "r");
+    if (f) {
+        while (fgets(buf, 256, f)) {
+            strip_whitespace(buf);
+            if ( strstr(buf, "Description:") ) {
+                found_something = true;
+                safe_strcpy(dist_pretty, strchr(buf, ':') + 1);
+                strip_whitespace(dist_pretty);
+            }
+            if ( strstr(buf, "Distributor ID:") ) {
+                found_something = true;
+                safe_strcpy(dist_name, strchr(buf, ':') + 1);
+                strip_whitespace(dist_name);
+            }
+            if ( strstr(buf, "Release:") ) {
+                found_something = true;
+                safe_strcpy(dist_version, strchr(buf, ':') + 1);
+                strip_whitespace(dist_version);
+            }
+            if ( strstr(buf, "Codename:") ) {
+                found_something = true;
+                safe_strcpy(dist_codename, strchr(buf, ':') + 1);
+                strip_whitespace(dist_codename);
+            }
+        }
+        pclose(f);
+    }
+    if (!found_something) {
+        // see: https://www.freedesktop.org/software/systemd/man/os-release.html
+        f = fopen("/etc/os-release", "r");
+        if (f) {
+            while (fgets(buf, 256, f)) {
+                strip_whitespace(buf);
+                if ( strstr(buf, "PRETTY_NAME=") ) {
+                    found_something = true;
+                    safe_strcpy(buf2, strchr(buf, '=') + 1);
+                    strip_quotes(buf2);
+                    safe_strcpy(dist_pretty, buf2);
+                    continue;
+                }
+                if ( strstr(buf, "NAME=") ) {
+                    found_something = true;
+                    safe_strcpy(buf2, strchr(buf, '=') + 1);
+                    strip_quotes(buf2);
+                    safe_strcpy(dist_name, buf2);
+                    continue;
+                }
+                if ( strstr(buf, "VERSION=") ) {
+                    found_something = true;
+                    safe_strcpy(buf2, strchr(buf, '=') + 1);
+                    strip_quotes(buf2);
+                    safe_strcpy(dist_version, buf2);
+                    continue;
+                }
+                if ( strstr(buf, "CODENAME=") ) {
+                    found_something = true;
+                    safe_strcpy(buf2, strchr(buf, '=') + 1);
+                    strip_quotes(buf2);
+                    safe_strcpy(dist_codename, buf2);
+                    continue;
+                }
+            }
+            fclose(f);
+        }
+    }
+
+    if (found_something) {
+        strcat(os_version, " (");
+        if (strlen(dist_pretty)) {
+            strcat(os_version, dist_pretty);
+        } else {
+            if (strlen(dist_name)) {
+                strcat(os_version, dist_name);
+                strcat(os_version, " ");
+            }
+            if (strlen(dist_version)) {
+                strcat(os_version, dist_version);
+                strcat(os_version, " ");
+            }
+            if (strlen(dist_codename)) {
+                strcat(os_version, dist_codename);
+                strcat(os_version, " ");
+            }
+            strip_whitespace(os_version);
+        }
+        strcat(os_version, ")");
+        if (strlen(dist_name)) {
+            strcat(os_name, " ");
+            strcat(os_name, dist_name);
+        }
+    }
+#endif //LINUX_LIKE_SYSTEM
     printf("os_name: %s\nos_version: %s\nproduct_name: %s\n",
         os_name, os_version, product_name
     );
