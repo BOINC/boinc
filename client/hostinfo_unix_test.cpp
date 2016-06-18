@@ -20,6 +20,9 @@
 #include <string.h>
 #include <unistd.h>
 #include <ctype.h>
+#include <string>
+
+using std::string;
 
 // normally configure would find this out
 // only activate one of the three to test with
@@ -94,12 +97,38 @@ void strip_quotes(char *str) {
     while (n>0) {
         n--;
         if (str[n] == '"' || str[n] == '\'') {
+            str[n] = 0;
             continue;
         }
         if (!isascii(str[n])) break;
         if (!isspace(str[n])) break;
         str[n] = 0;
     }
+}
+
+void strip_quotes(string& str) {
+    while (1) {
+        if (str.length() == 0) break;
+        if (str[0] == '"' || str[0] == '\'') {
+            str.erase(0, 1);
+            continue;
+        }
+        if (!isascii(str[0])) break;
+        if (!isspace(str[0])) break;
+        str.erase(0, 1);
+    }
+
+    int n = (int) str.length();
+    while (n>0) {
+        if (str[n-1] == '"' || str[n-1] == '\'') {
+            n--;
+            continue;
+        }
+        if (!isascii(str[n-1])) break;
+        if (!isspace(str[n-1])) break;
+        n--;
+    }
+    str.erase(n, str.length()-n);
 }
 
 int main(void) {
@@ -381,7 +410,7 @@ int main(void) {
 
     // see: http://refspecs.linuxbase.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/lsbrelease.html
     // although the output is not clearly specified it seems to be constant
-    f = popen("/usr/bin/lsb_release -a", "r");
+    f = popen("/usr/bin/lsb_release -a 2>&1", "r");
     if (f) {
         while (fgets(buf, 256, f)) {
             strip_whitespace(buf);
@@ -414,27 +443,28 @@ int main(void) {
         if (f) {
             while (fgets(buf, 256, f)) {
                 strip_whitespace(buf);
-                if ( strstr(buf, "PRETTY_NAME=") ) {
+                if ( strstr(buf, "PRETTY_NAME=") == buf ) {
                     found_something = true;
                     safe_strcpy(buf2, strchr(buf, '=') + 1);
                     strip_quotes(buf2);
                     safe_strcpy(dist_pretty, buf2);
                     continue;
                 }
-                if ( strstr(buf, "NAME=") ) {
+                if ( strstr(buf, "NAME=") == buf ) {
                     found_something = true;
                     safe_strcpy(buf2, strchr(buf, '=') + 1);
                     strip_quotes(buf2);
                     safe_strcpy(dist_name, buf2);
                     continue;
                 }
-                if ( strstr(buf, "VERSION=") ) {
+                if ( strstr(buf, "VERSION=") == buf ) {
                     found_something = true;
                     safe_strcpy(buf2, strchr(buf, '=') + 1);
                     strip_quotes(buf2);
                     safe_strcpy(dist_version, buf2);
                     continue;
                 }
+                // could also be "UBUNTU_CODENAME="
                 if ( strstr(buf, "CODENAME=") ) {
                     found_something = true;
                     safe_strcpy(buf2, strchr(buf, '=') + 1);
@@ -443,6 +473,18 @@ int main(void) {
                     continue;
                 }
             }
+            fclose(f);
+        }
+    }
+
+    if (!found_something) {
+        // last ditch effort for older redhat releases
+        f = fopen("/etc/redhat-release", "r");
+        if (f) {
+            fgets(buf, 256, f);
+            found_something = true;
+            strip_whitespace(buf);
+            safe_strcpy(dist_pretty, buf);
             fclose(f);
         }
     }
@@ -476,5 +518,4 @@ int main(void) {
     printf("os_name: %s\nos_version: %s\nproduct_name: %s\n",
         os_name, os_version, product_name
     );
-
 }
