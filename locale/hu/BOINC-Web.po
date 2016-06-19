@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-06-19 11:53+0000\n"
+"PO-Revision-Date: 2016-06-19 11:58+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -409,7 +409,7 @@ msgstr "Molekuláris biológia"
 msgid ""
 "RNA World seeks to identify, analyze, structurally predict and design RNA "
 "molecules on the basis of established bioinformatics software."
-msgstr "Az RNA World célja RNA molekulákat azonosítani, elemezni, strukturálisan előre jelezni és tervezni szilárd alapokon nyugvó bioinformatikai szoftverek használatával."
+msgstr "Az RNA World célja RNS molekulák azonosítása, elemezése, strukturális előrejelzése és tervezése szilárd alapokon nyugvó bioinformatikai szoftverek használatával."
 
 #: projects.inc:107
 msgid "University College Dublin"
@@ -474,7 +474,7 @@ msgid ""
 "The Lattice Project, developed and administered at the University of "
 "Maryland, supplies computing power to researchers worldwide who are studying"
 " evolutionary relationships using DNA and protein sequence data."
-msgstr "A Maryland-i Egyetemen fejlesztett és igazgatott Lattice Project azoknak a kutatóknak biztosít számítási teljesítményt szerte a világon, akik evolúciós kapcsolatokat tanulmányoznak a DNS, és fehérjesorozatok adatainak felhasználásával."
+msgstr "A Maryland-i Egyetemen fejlesztett és igazgatott The Lattice Project azoknak a kutatóknak biztosít számítási teljesítményt szerte a világon, akik evolúciós kapcsolatokat tanulmányoznak a DNS, és fehérjesorozatok adatainak felhasználásával."
 
 #: projects.inc:185
 msgid "The Swiss Tropical Institute"
@@ -563,7 +563,7 @@ msgid ""
 "calculations on multi-wavelength (ultraviolet, optical and near-infrared "
 "light) images of galaxies to produce an atlas that will help astronomers to "
 "better understand the distant universe."
-msgstr "A TheSkyNet POGS egy csillagászati projekt, amely a galaxisok 16 különböző tulajdongását vizsgálja, ideértve a fényességet, a tömeget, a pormennyiséget és a csillagok kialakulási sebességét. A te számítási kapacitásod felhasználásával pixelről pixelre végzett számításokat végzünk a galaxisok több hullámhosszt tartalmazó (ultraibolya, optikai és közeli infravörös fényű) képein. Célunk egy olyan atlasz készítése, ami segít a csillagászoknak jobban megérteni a távoli univerzumot."
+msgstr "A TheSkyNet POGS egy csillagászati projekt, amely a galaxisok 16 különböző tulajdongását vizsgálja, ideértve azok fényességét, tömegét, a pormennyiségüket és a bennük lévő csillagok kialakulási sebességét. A te számítási kapacitásod felhasználásával pixelről pixelre végzett számításokat végzünk a galaxisok több hullámhosszt tartalmazó (ultraibolya, optikai és közeli infravörös fényű) képein. Célunk egy olyan atlasz készítése, ami segít a csillagászoknak jobban megérteni a távoli univerzumot."
 
 #: projects.inc:280 projects.inc:366
 msgid "Astrophysics"
@@ -575,11 +575,11 @@ msgid ""
 "of the asteroid population. As input data, we use any asteroid photometry "
 "that is available. The results are asteroid convex shape models with the "
 "direction of the spin axis and the rotation period."
-msgstr "A projekt célja az aszteroidák alakjának és forgásának meghatározása a populáció minél nagyobb részére. Bemenetként bármilyen, az aszteroidákról elérhető fotometriai adatot felhasználunk. Eredményként pedig megkapjuk az aszteroidák konvex alakmodelljeit a forgástengely irányával és a forgási periódussal."
+msgstr "A projekt célja az aszteroidák alakjának és forgásának meghatározása a populáció minél nagyobb részére. Bemenetként az aszteroidákról elérhető bármilyen fotometriai adatot felhasználunk. Eredményként az aszteroidák konvex alakmodelljeit kapjuk a forgástengely irányával és a forgási periódussal."
 
 #: projects.inc:290
 msgid "Aerospace-related science and engineering"
-msgstr "Világűrrel kapcsolatos mérnöki és tudományos kutatások"
+msgstr "A világűrrel kapcsolatos mérnöki és tudományos kutatások"
 
 #: projects.inc:291
 msgid ""
