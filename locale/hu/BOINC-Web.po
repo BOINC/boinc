@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-06-19 11:58+0000\n"
+"PO-Revision-Date: 2016-06-19 12:04+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -591,7 +591,7 @@ msgstr "A Constellation egy világűrrel kapcsolatos szimulációk számára lé
 
 #: projects.inc:294
 msgid "Perform aerospace-related simulations"
-msgstr "Végezz világűrrel kapcsolatos szimulációkat"
+msgstr "Végezz a világűrrel kapcsolatos szimulációkat"
 
 #: projects.inc:329
 msgid ""
@@ -847,7 +847,7 @@ msgid ""
 "formulate conjectures about number fields. Ultimately, this research will "
 "lead to a deeper understanding of the profound properties of numbers, the "
 "basic building blocks of all mathematics."
-msgstr "A NumberFields@home különleges tulajdonságokkal rendelkező területeken dolgozik. Ennek a kutatásnak az elsődleges használata a számelmélet terén történik. A matematikusok elemezni tudják az adatokat érdekes minták után kutatva, ami segíti őket következtetések levonásában a különböző számhalmazokat illetően. Végezetül ez a kutatás el fog vezetni a számok mély természetének behatóbb ismeretéhez, melyek a matematika minden területének építőkövei."
+msgstr "A NumberFields@home különleges tulajdonságokkal rendelkező mezőket keres. Ezen kutatás elsődleges alkalmazási területe az algebrai számelmélet. A számelmélettel foglalkozó matematikusok adatbányászatot végeznek érdekes minták után kutatva, ami segíti őket a különböző számmezőkre vonatkozó sejtések megfogalmazásában. Végezetül ez a kutatás el fog vezetni a számok legmélyebb tulajdonságainak behatóbb ismeretéhez, melyek a matematika minden területének építőkövei."
 
 #: projects.inc:537
 msgid "Do research in algebraic number theory"
