@@ -34,7 +34,7 @@ if [ -n "$COMPILECURL" ]; then
 echo "==================building curl from $CURL================================="
 cd $CURL
 if [ -n "$MAKECLEAN" ]; then
-make clean
+make distclean
 fi
 if [ -n "$CONFIGURE" ]; then
 ./configure --host=aarch64-linux --prefix=$TCINCLUDES --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom
