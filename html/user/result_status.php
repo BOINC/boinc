@@ -57,7 +57,8 @@ function result_xml($r) {
 ";
 }
 
-BoincDb::get(true);
+BoincDb::get(true); // read-only; use replica DB if possible
+
 xml_header();
 echo "<results>\n";
 $ids = get_str("ids", true);
