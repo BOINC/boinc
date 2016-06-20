@@ -332,6 +332,60 @@ void strip_whitespace(string& str) {
     str.erase(n, str.length()-n);
 }
 
+// remove whitespace and quotes from start and end of a string
+//
+void strip_quotes(char *str) {
+    char *s = str;
+
+    while (*s) {
+        if (*s == '"' || *s == '\'') {
+            s++;
+            continue;
+        }
+        if (!isascii(*s)) break;
+        if (!isspace(*s)) break;
+        s++;
+    }
+    if (s != str) strcpy_overlap(str, s);
+
+    size_t n = strlen(str);
+    while (n>0) {
+        n--;
+        if (str[n] == '"' || str[n] == '\'') {
+            str[n] = 0;
+            continue;
+        }
+        if (!isascii(str[n])) break;
+        if (!isspace(str[n])) break;
+        str[n] = 0;
+    }
+}
+
+void strip_quotes(string& str) {
+    while (1) {
+        if (str.length() == 0) break;
+        if (str[0] == '"' || str[0] == '\'') {
+            str.erase(0, 1);
+            continue;
+        }
+        if (!isascii(str[0])) break;
+        if (!isspace(str[0])) break;
+        str.erase(0, 1);
+    }
+
+    int n = (int) str.length();
+    while (n>0) {
+        if (str[n-1] == '"' || str[n-1] == '\'') {
+            n--;
+            continue;
+        }
+        if (!isascii(str[n-1])) break;
+        if (!isspace(str[n-1])) break;
+        n--;
+    }
+    str.erase(n, str.length()-n);
+}
+
 char* time_to_string(double t) {
     static char buf[100];
     if (!t) {
