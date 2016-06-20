@@ -35,7 +35,7 @@ if [ -n "$COMPILEBOINC" ]; then
 echo "==================building BOINC from $BOINC=========================="
 cd $BOINC
 if [ -n "$MAKECLEAN" ]; then
-make clean
+make distclean
 fi
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup

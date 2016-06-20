@@ -6,6 +6,7 @@
 
 # Script to setup Android toolchain
 
+export NDKROOT="/home/boincadm/NVPACK/android-ndk-r9d"
 export ANDROIDTC="$HOME/androidmips-tc"
 
 if [ ! -d $ANDROIDTC/mipsel-linux-android ]; then
