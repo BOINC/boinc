@@ -287,14 +287,16 @@ public class Monitor extends Service {
 	public int getBoincPlatform() {
 		int platformId = 0;
 		String arch = System.getProperty("os.arch");    
-		String normalizedArch = arch.substring(0, 7).toUpperCase(Locale.US);
-		if(normalizedArch.contains("ARM")) platformId = R.string.boinc_platform_name_arm;
-		else if (normalizedArch.contains("AARCH64")) platformId = R.string.boinc_platform_name_arm64;
+	    if(Logging.DEBUG) Log.d(Logging.TAG,"System.getProperty("os.arch"): " + arch);
+
+		String normalizedArch = arch.toUpperCase(Locale.US);
+		if (normalizedArch.contains("AARCH64")) platformId = R.string.boinc_platform_name_arm64;
 		else if (normalizedArch.contains("ARM64")) platformId = R.string.boinc_platform_name_arm64;
-		else if (normalizedArch.contains("MIPS")) platformId = R.string.boinc_platform_name_mips;
 		else if (normalizedArch.contains("MIPS64")) platformId = R.string.boinc_platform_name_mips64;
+	    else if (normalizedArch.contains("X86_64")) platformId= R.string.boinc_platform_name_x86_64;
+		else if (normalizedArch.contains("ARM")) platformId = R.string.boinc_platform_name_arm;
+		else if (normalizedArch.contains("MIPS")) platformId = R.string.boinc_platform_name_mips;
 	    else if (normalizedArch.contains("86")) platformId= R.string.boinc_platform_name_x86;
-	    else if (normalizedArch.contains("86_64")) platformId= R.string.boinc_platform_name_x86_64;
 	    else {
 	    	if(Logging.WARNING) Log.w(Logging.TAG,"could not map os.arch (" + arch + ") to platform, default to arm.");
 	    	platformId = R.string.boinc_platform_name_arm;
