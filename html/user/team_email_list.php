@@ -34,6 +34,7 @@ if (DISABLE_TEAMS) {
     }
 }
 
+BoincDb::get(true);
 if ($xml) {
     $creditonly = get_int('creditonly', true);
     xml_header();
@@ -52,7 +53,7 @@ if ($xml) {
     //$users = BoincUser::enum("teamid=$team->id");
     foreach($users as $user) {
         show_team_member($user, $show_email, $creditonly);
-    } 
+    }
     echo "</users>\n";
     exit();
 }
@@ -81,7 +82,7 @@ foreach($users as $user) {
         $e = $user->send_email?"$user->email_addr":"";
         table_row(user_links($user, BADGE_HEIGHT_MEDIUM), $e, format_credit($user->total_credit), format_credit($user->expavg_credit), $user->country);
     }
-} 
+}
 if (!$plain) {
     end_table();
     echo "<p><a href=\"team_email_list.php?teamid=".$teamid."&amp;plain=1\">".tra("Show as plain text")."</a></p>";

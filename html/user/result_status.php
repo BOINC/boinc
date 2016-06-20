@@ -56,6 +56,7 @@ function result_xml($r) {
 ";
 }
 
+BoincDb::get(true);
 xml_header();
 echo "<results>\n";
 foreach ($ids as $id) {
