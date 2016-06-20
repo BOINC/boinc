@@ -573,7 +573,7 @@ public class Monitor extends Service {
     		cmd[1] = "--daemon";
     		cmd[2] = "--gui_rpc_unix_domain";
     		
-            if(Logging.ERROR) Log.w(Logging.TAG, "Launching '" + cmd + "' from '" + boincWorkingDir + "'");
+            if(Logging.ERROR) Log.w(Logging.TAG, "Launching '" + cmd[0] + "' from '" + boincWorkingDir + "'");
         	Runtime.getRuntime().exec(cmd, null, new File(boincWorkingDir));
         	success = true;
     	} catch (IOException e) {
