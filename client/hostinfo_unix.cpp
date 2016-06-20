@@ -74,7 +74,7 @@
 #include <sys/stat.h>
 
 #if HAVE_SYS_SWAP_H
-#ifdef ANDROID
+#if defined(ANDROID) && !defined(ANDROID_64)
 #include <linux/swap.h>
 #else
 #include <sys/swap.h>
