@@ -395,7 +395,7 @@ int detach_shmem_mmap(void* p, size_t size) {
     return munmap((char *)p, size);
 }
 
-#if HAVE_SYS_SHM_H
+#if HAVE_SYS_SHM_H && !defined(ANDROID)
 
 // Compatibility routines for Unix/Linux/Mac V5 applications 
 //
