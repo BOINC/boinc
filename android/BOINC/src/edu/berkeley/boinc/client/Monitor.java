@@ -287,7 +287,7 @@ public class Monitor extends Service {
 	public int getBoincPlatform() {
 		int platformId = 0;
 		String arch = System.getProperty("os.arch");    
-	    if(Logging.DEBUG) Log.d(Logging.TAG,"System.getProperty(\"os.arch\"): " + arch);
+	    if(Logging.ERROR) Log.d(Logging.TAG,"getBoincPlatform() - System.getProperty(\"os.arch\"): " + arch);
 
 		String normalizedArch = arch.toUpperCase(Locale.US);
 		if (normalizedArch.contains("AARCH64")) platformId = R.string.boinc_platform_name_arm64;
@@ -298,11 +298,11 @@ public class Monitor extends Service {
 		else if (normalizedArch.contains("MIPS")) platformId = R.string.boinc_platform_name_mips;
 	    else if (normalizedArch.contains("86")) platformId= R.string.boinc_platform_name_x86;
 	    else {
-	    	if(Logging.WARNING) Log.w(Logging.TAG,"could not map os.arch (" + arch + ") to platform, default to arm.");
+	    	if(Logging.ERROR) Log.w(Logging.TAG,"could not map os.arch (" + arch + ") to platform, default to arm.");
 	    	platformId = R.string.boinc_platform_name_arm;
 	    }
 	    
-	    if(Logging.DEBUG) Log.d(Logging.TAG,"BOINC platform: " + getString(platformId) + " for os.arch: " + arch);
+	    if(Logging.ERROR) Log.d(Logging.TAG,"BOINC platform: " + getString(platformId) + " for os.arch: " + arch);
 		return platformId;
 	}
 	
@@ -446,7 +446,7 @@ public class Monitor extends Service {
      * @return Boolean whether connection established successfully
      */
 	private Boolean clientSetup() {
-		if(Logging.DEBUG) Log.d(Logging.TAG,"Monitor.clientSetup()");
+		if(Logging.ERROR) Log.d(Logging.TAG,"Monitor.clientSetup()");
 		
 		// try to get current client status from monitor
 		ClientStatus status;
@@ -497,7 +497,7 @@ public class Monitor extends Service {
 
 			// at this point client is definitely not running. install new binary...
 			if(!installClient()) {
-	        	if(Logging.WARNING) Log.w(Logging.TAG, "BOINC client installation failed!");
+	        	if(Logging.ERROR) Log.w(Logging.TAG, "BOINC client installation failed!");
 	        	return false;
 	        }
 		}
@@ -640,7 +640,7 @@ public class Monitor extends Service {
 		else source = file;
 		
 		try {
-			if(Logging.DEBUG) Log.d(Logging.TAG, "installing: " + source);
+			if(Logging.ERROR) Log.d(Logging.TAG, "installing: " + source);
 			
     		File target = new File(boincWorkingDir + file);
     		
@@ -679,11 +679,11 @@ public class Monitor extends Service {
     			success = isExecutable; // return false, if not executable
     		}
 
-    		if(Logging.DEBUG) Log.d(Logging.TAG, "install of " + source + " successfull. executable: " + executable + "/" + isExecutable);
+    		if(Logging.ERROR) Log.d(Logging.TAG, "install of " + source + " successfull. executable: " + executable + "/" + isExecutable);
     		
     	} catch (IOException e) {  
     		if(Logging.ERROR) Log.e(Logging.TAG, "IOException: " + e.getMessage());
-    		if(Logging.DEBUG) Log.d(Logging.TAG, "install of " + source + " failed.");
+    		if(Logging.ERROR) Log.d(Logging.TAG, "install of " + source + " failed.");
     	}
 		
 		return success;
