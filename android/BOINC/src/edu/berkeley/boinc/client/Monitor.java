@@ -287,8 +287,6 @@ public class Monitor extends Service {
 	public int getBoincPlatform() {
 		int platformId = 0;
 		String arch = System.getProperty("os.arch");    
-	    if(Logging.ERROR) Log.d(Logging.TAG,"getBoincPlatform() - System.getProperty(\"os.arch\"): " + arch);
-
 		String normalizedArch = arch.toUpperCase(Locale.US);
 		if (normalizedArch.contains("AARCH64")) platformId = R.string.boinc_platform_name_arm64;
 		else if (normalizedArch.contains("ARM64")) platformId = R.string.boinc_platform_name_arm64;
@@ -506,9 +504,9 @@ public class Monitor extends Service {
 		//
 		Integer clientPid = getPidForProcessName(clientProcessName);
 		if(clientPid == null) {
-        	if(Logging.DEBUG) Log.d(Logging.TAG, "Starting the BOINC client");
+        	if(Logging.ERROR) Log.d(Logging.TAG, "Starting the BOINC client");
 			if (!runClient()) {
-	        	if(Logging.DEBUG) Log.d(Logging.TAG, "BOINC client failed to start");
+	        	if(Logging.ERROR) Log.d(Logging.TAG, "BOINC client failed to start");
 				return false;
 			}
 		}
@@ -541,9 +539,9 @@ public class Monitor extends Service {
 				// should output something like "Samsung Galaxy SII - SDK:15 ABI:armeabi-v7a"
 				String model = Build.MANUFACTURER + " " + Build.MODEL + " - SDK:" + Build.VERSION.SDK_INT + " ABI: " + Build.CPU_ABI;
 				String version = Build.VERSION.RELEASE;
-				if(Logging.DEBUG) Log.d(Logging.TAG,"reporting hostinfo model name: " + model);
-				if(Logging.DEBUG) Log.d(Logging.TAG,"reporting hostinfo os name: Android");
-				if(Logging.DEBUG) Log.d(Logging.TAG,"reporting hostinfo os version: " + version);
+				if(Logging.ERROR) Log.d(Logging.TAG,"reporting hostinfo model name: " + model);
+				if(Logging.ERROR) Log.d(Logging.TAG,"reporting hostinfo os name: Android");
+				if(Logging.ERROR) Log.d(Logging.TAG,"reporting hostinfo os version: " + version);
 				clientInterface.setHostInfo(model, version);
 				
 				init = true;
@@ -551,10 +549,10 @@ public class Monitor extends Service {
 		}
 		
 		if(init) {
-			if(Logging.DEBUG) Log.d(Logging.TAG, "setup completed successfully"); 
+			if(Logging.ERROR) Log.d(Logging.TAG, "Monitor.clientSetup() - setup completed successfully"); 
 			status.setSetupStatus(ClientStatus.SETUP_STATUS_AVAILABLE,false);
 		} else {
-			if(Logging.ERROR) Log.e(Logging.TAG, "onPostExecute - setup experienced an error"); 
+			if(Logging.ERROR) Log.e(Logging.TAG, "Monitor.clientSetup() - setup experienced an error"); 
 			status.setSetupStatus(ClientStatus.SETUP_STATUS_ERROR,true);
 		}
 		
@@ -575,10 +573,11 @@ public class Monitor extends Service {
     		cmd[1] = "--daemon";
     		cmd[2] = "--gui_rpc_unix_domain";
     		
+            if(Logging.ERROR) Log.w(Logging.TAG, "Launching '" + cmd + "' from '" + boincWorkingDir + "'");
         	Runtime.getRuntime().exec(cmd, null, new File(boincWorkingDir));
         	success = true;
     	} catch (IOException e) {
-    		if(Logging.DEBUG) Log.d(Logging.TAG, "Starting BOINC client failed with exception: " + e.getMessage());
+    		if(Logging.ERROR) Log.d(Logging.TAG, "Starting BOINC client failed with exception: " + e.getMessage());
     		if(Logging.ERROR) Log.e(Logging.TAG, "IOException", e);
     	}
     	return success;
