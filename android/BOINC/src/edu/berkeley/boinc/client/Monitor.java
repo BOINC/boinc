@@ -287,7 +287,7 @@ public class Monitor extends Service {
 	public int getBoincPlatform() {
 		int platformId = 0;
 		String arch = System.getProperty("os.arch");    
-	    if(Logging.DEBUG) Log.d(Logging.TAG,"System.getProperty("os.arch"): " + arch);
+	    if(Logging.DEBUG) Log.d(Logging.TAG,"System.getProperty(\"os.arch\"): " + arch);
 
 		String normalizedArch = arch.toUpperCase(Locale.US);
 		if (normalizedArch.contains("AARCH64")) platformId = R.string.boinc_platform_name_arm64;
