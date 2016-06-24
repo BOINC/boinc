@@ -34,6 +34,9 @@ function do_updates() {
     $n = post_int("homogeneous_redundancy");
     $app->update("homogeneous_redundancy=$n");
 
+    $n = post_int("target_nresults");
+    $app->update("target_nresults=$n");
+
     $n = post_str("homogeneous_app_version", true)?1:0;
     $app->update("homogeneous_app_version=$n");
 
@@ -73,10 +76,20 @@ function add_app() {
     ";
 }
 
-function show_form() {
+function show_form($show_deprecated) {
     echo "
         <h2>Edit applications</h2>
     ";
+
+    $app_clause="deprecated=0";
+    $action_url="manage_apps.php";
+    if($show_deprecated) {
+        $app_clause = "";
+        $action_url="manage_apps.php?show_deprecated=1";
+        echo "<a href=\"manage_apps.php\">hide deprecated apps</a>";
+    } else {
+        echo "<a href=\"manage_apps.php?show_deprecated=1\">show deprecated apps</a>";
+    }
 
     start_table();
     table_header(
@@ -86,6 +99,7 @@ function show_form() {
         "weight<br><a href=https://boinc.berkeley.edu/trac/wiki/BackendPrograms#feeder><p class=\"text-muted\">details</p></a>",
         "shmem items",
         "HR type<br><a href=https://boinc.berkeley.edu/trac/wiki/HomogeneousRedundancy><p class=\"text-muted\">details</p></a>",
+        "Adaptive replication<br><a href=http://boinc.berkeley.edu/trac/wiki/AdaptiveReplication><p class=\"text-muted\">details</p></a>",
         "homogeneous app version?<br><a href=https://boinc.berkeley.edu/trac/wiki/HomogeneousAppVersion><p class=\"text-muted\">details</p></a>",
         "deprecated?",
         "Non-CPU-intensive?",
@@ -100,7 +114,7 @@ function show_form() {
         $swi = 100;
     }
 
-    $apps = BoincApp::enum("");
+    $apps = BoincApp::enum($app_clause);
     $i = 0;
     foreach ($apps as $app) {
         // grey-out deprecated versions
@@ -109,7 +123,7 @@ function show_form() {
             $f1 = "<font color='GREY'>";
             $f2 = "</font>";
         }
-        echo "<tr class=row$i><form action=manage_apps.php method=POST>";
+        echo "<tr class=row$i><form action=$action_url method=POST>";
         $i = 1-$i;
         echo "<input type=hidden name=id value=$app->id>";
         echo "  <TD align='center'>$f1 $app->id $f2</TD>\n";
@@ -131,6 +145,11 @@ function show_form() {
         $v = $app->homogeneous_redundancy;
         echo "  <TD align='center'>
             <input name='homogeneous_redundancy' value='$v'></TD>
+        ";
+
+        $v = $app->target_nresults;
+        echo "  <TD align='center'>
+            <input name='target_nresults' value='$v'></TD>
         ";
 
         $v = '';
@@ -162,8 +181,11 @@ function show_form() {
         echo "  <TD align='center'>
             <input name='fraction_done_exact' type='checkbox' $v></TD>
         ";
-
-        echo "<td><input class=\"btn btn-default\" type=submit name=submit value=Update>";
+        if (!in_rops()) {
+            echo "<td><input class=\"btn btn-default\" type=submit name=submit value=Update>";
+        } else {
+            echo "<td>&nbsp;";
+        }
         echo "</tr></form>";
     }
 
@@ -179,7 +201,7 @@ function show_form() {
         ('user friendly name') below.  You can then edit the
         application when it appears in the table above.
         <p>
-        <form action=manage_apps.php method=POST>
+        <form action=$action_url method=POST>
     ";
 
     start_table("align='center' ");
@@ -199,12 +221,14 @@ function show_form() {
 
 admin_page_head("Manage applications");
 
+$show_deprecated = get_int('show_deprecated', true);
+
 if (post_str('add_app', true)) {
     add_app();
 } else if (post_str('submit', true)) {
     do_updates();
 }
-show_form(false);
+show_form($show_deprecated);
 admin_page_tail();
 
 ?>
