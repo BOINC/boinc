@@ -15,7 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Census - scan the DB and create summary file: see usage() below
+// census - see how much RAC each HR class is getting,
+// to adjust the number of job-array slots for each HR class.
+//
+// scan the DB and create summary file: see usage() below
 
 #include <cstdio>
 

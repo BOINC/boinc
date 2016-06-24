@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// Logic for assigning hosts to homogeneous redundancy (HR) classes
+
 #include "error_numbers.h"
 #include "str_util.h"
 

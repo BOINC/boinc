@@ -74,7 +74,7 @@ struct HOST_USAGE {
         // stored in result.flops_estimate, and used for credit calculations
     char cmdline[256];
     char custom_coproc_type[256];
-        // if we're using a custom GPU type, it's name
+        // if we're using a custom GPU type, its name
         // TODO: get rid of PROC_TYPE_*, and this
 
     HOST_USAGE() {

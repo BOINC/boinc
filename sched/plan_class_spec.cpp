@@ -18,6 +18,9 @@
 // Support for plan classes defined using an XML file.
 // See https://boinc.berkeley.edu/trac/wiki/AppPlanSpec
 
+// logic for handling an XML specification of plan classes
+// see https://boinc.berkeley.edu/trac/wiki/AppPlanConfig
+
 #include <cmath>
 
 #include "util.h"

@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Parse a server configuration file
+// Parse a project configuration file (config.xml)
 
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
