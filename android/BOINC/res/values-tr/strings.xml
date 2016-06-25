@@ -356,5 +356,6 @@
   <string name="social_invite_content_title">Akıllı telefonumdan bilim yapıyorum!</string>
   <string name="social_invite_content_body">Bilim adına hesaplama yapmak için %1$s mı kullanıyorum. Sende katılabilirsin! Uygulamayı %2$s dan indirebilirsin.</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
 </resources>

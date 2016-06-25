@@ -356,5 +356,6 @@
   <string name="social_invite_content_title">我正在用智慧型手機研究科學!</string>
   <string name="social_invite_content_body">我的 %1$s 正在為科學運算。希望您加入! APP 下載: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
 </resources>

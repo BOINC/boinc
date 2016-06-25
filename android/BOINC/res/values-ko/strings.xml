@@ -356,5 +356,6 @@
   <string name="social_invite_content_title">내 스마트폰으로만 작업할래요!</string>
   <string name="social_invite_content_body">%1$s도 연산에 참여합니다. 여러분도 할 수 있습니다! 앱 다운로드: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
 </resources>

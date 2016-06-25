@@ -356,5 +356,6 @@
   <string name="social_invite_content_title">我在智能手机上探索科学的奥秘！</string>
   <string name="social_invite_content_body">我的%1$s正在为科学而计算。你也可以！APP下載：%2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
 </resources>
