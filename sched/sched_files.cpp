@@ -15,6 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// functions for initiating deletion of sticky files on clients.
+// The project can supply a file "file_delete_regex"
+// which is a list of regular expressions for names of files to be deleted.
+
 #include <regex.h>
 #include <stdio.h>
 #include <vector>

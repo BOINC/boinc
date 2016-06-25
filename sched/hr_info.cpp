@@ -15,6 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// logic for handling the HR info file (hr_info.txt)
+// which is written by census.cpp
+// and used by the feeder to assign job array slots to HR classes
+
 #include "hr_info.h"
 
 #ifndef _USING_FCGI_

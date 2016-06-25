@@ -17,7 +17,7 @@
 
 // scheduler code related to sending jobs.
 // NOTE: there should be nothing here specific to particular
-// scheduling policies (array scan, matchmaking, locality)
+// scheduling policies (array scan, score-based, locality)
 
 #include "config.h"
 #include <vector>

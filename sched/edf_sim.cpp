@@ -15,6 +15,13 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// Logic for doing deadline-based simulations of client workloads
+// to decide whether sending new jobs would cause deadline misses.
+// This is enabled by the config.xml <workload_sim> flag.
+//
+// This hasn't been shown to be beneficial.
+// It's turned off by default.
+
 #ifndef _USING_FCGI_
 #include <cstdio>
 #else

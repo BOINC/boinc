@@ -15,9 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// The "old style" scheduler, where we make multiple scans through
-// the job cache.
-// This will soon be deprecated in favor of score-based scheduling.
+// The "old style" scheduler,
+// where we make multiple scans through the job cache.
+// DEPRECATED - replaced by score-based scheduling.
 
 #include <cstdlib>
 #include <string>

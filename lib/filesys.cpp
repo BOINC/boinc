@@ -782,7 +782,12 @@ int FILE_LOCK::lock(const char* filename) {
     fl.l_start = 0;
     fl.l_len = 0;
     if (fcntl(fd, F_SETLK, &fl) == -1) {
-        return ERR_FCNTL;
+        // ENOSYS means file locking is not implemented in this FS.
+        // In this case just return success (i.e. don't actually do locking)
+        //
+        if (errno != ENOSYS) {
+            return ERR_FCNTL;
+        }
     }
 #endif
     locked = true;

@@ -15,7 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Locality scheduling: see doc/sched_locality.php
+// Locality scheduling: assign jobs to clients based on the data files
+// the client already has.
+//
+// Currently this is specific to Einstein@home and is not generally usable.
+// There's a generic but more limited version, "limited locality scheduling":
+// http://boinc.berkeley.edu/trac/wiki/LocalityScheduling
 
 #include "config.h"
 
