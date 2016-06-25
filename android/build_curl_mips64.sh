@@ -36,7 +36,7 @@ if [ -n "$MAKECLEAN" ]; then
 make distclean
 fi
 if [ -n "$CONFIGURE" ]; then
-./configure --host=mip64sel-linux --prefix=$TCINCLUDES --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom
+./configure --host=mips64el-linux --prefix=$TCINCLUDES --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom
 fi
 make
 make install
