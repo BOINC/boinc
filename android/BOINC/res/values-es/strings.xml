@@ -356,5 +356,6 @@
   <string name="social_invite_content_title">¡Estoy haciendo ciencia con mi smartphone!</string>
   <string name="social_invite_content_body">Estoy usando mi %1$s para hacer computación por la ciencia. ¡Tú también puedes! Descarga la app desde: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">https://www.amazon.es/Space-Sciences-Laboratory-U-C-Berkeley/dp/B00DCCGLAG/ref=sr_1_1?ie=UTF8&amp;qid=1466961138&amp;sr=8-1</string>
 </resources>
