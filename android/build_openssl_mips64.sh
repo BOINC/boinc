@@ -16,7 +16,6 @@ export ANDROIDTC="$HOME/androidmips64-tc"
 export TCBINARIES="$ANDROIDTC/bin"
 export TCINCLUDES="$ANDROIDTC/mips64el-linux-android"
 export TCSYSROOT="$ANDROIDTC/sysroot"
-export STDCPPTC="$TCINCLUDES/lib/libstdc++.a"
 
 export PATH="$PATH:$TCBINARIES:$TCINCLUDES/bin"
 export CC=mips64el-linux-android-gcc
@@ -24,7 +23,7 @@ export CXX=mips64el-linux-android-g++
 export LD=mips64el-linux-android-ld
 export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE"
 export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -funroll-loops -fexceptions -O3 -fomit-frame-pointer -fPIE"
-export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie"
+export LDFLAGS="-L$TCSYSROOT/usr/lib64 -L$TCINCLUDES/lib64 -llog -fPIE -pie"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 
 # Prepare android toolchain and environment
@@ -37,7 +36,7 @@ if [ -n "$MAKECLEAN" ]; then
 make clean
 fi
 if [ -n "$CONFIGURE" ]; then
-./Configure linux-generic32 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl"
+./Configure linux-generic64 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl"
 #override flags in Makefile
 sed -e "s/^CFLAG=.*$/`grep -e \^CFLAG= Makefile` \$(CFLAGS)/g
 s%^INSTALLTOP=.*%INSTALLTOP=$TCINCLUDES%g" Makefile > Makefile.out

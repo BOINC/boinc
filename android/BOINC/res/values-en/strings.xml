@@ -356,5 +356,6 @@
   <string name="social_invite_content_title">I\'m doing science on my smartphone!</string>
   <string name="social_invite_content_body">I\'m using my %1$s to do computing for science. You can too! Download the app from: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
 </resources>
