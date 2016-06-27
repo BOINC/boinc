@@ -453,7 +453,7 @@ int read_key_file(const char* keyfile, R_RSA_PRIVATE_KEY& key) {
     return 0;
 }
 
-static void bn_to_bin(BIGNUM* bn, unsigned char* bin, int n) {
+static void bn_to_bin(const BIGNUM* bn, unsigned char* bin, int n) {
     memset(bin, 0, n);
     int m = BN_num_bytes(bn);
     BN_bn2bin(bn, bin+n-m);
@@ -463,11 +463,38 @@ void openssl_to_keys(
     RSA* rp, int nbits, R_RSA_PRIVATE_KEY& priv, R_RSA_PUBLIC_KEY& pub
 ) {
     pub.bits = nbits;
+#ifdef HAVE_OPAQUE_RSA_DSA_DH
+    BIGNUM *n;
+    BIGNUM *e;
+    BIGNUM *d;
+    BIGNUM *p;
+    BIGNUM *q;
+    BIGNUM *dmp1;
+    BIGNUM *dmq1;
+    BIGNUM *iqmp;
+    RSA_get0_key(rp, &n, &e, &d);
+    RSA_get0_factors(rp, &p, &q);
+    RSA_get0_crt_params(rp, &dmp1, &dmq1, &iqmp);
+
+    bn_to_bin(n, pub.modulus, sizeof(pub.modulus));
+    bn_to_bin(e, pub.exponent, sizeof(pub.exponent));
+#else
     bn_to_bin(rp->n, pub.modulus, sizeof(pub.modulus));
     bn_to_bin(rp->e, pub.exponent, sizeof(pub.exponent));
+#endif
 
     memset(&priv, 0, sizeof(priv));
     priv.bits = nbits;
+#ifdef HAVE_OPAQUE_RSA_DSA_DH
+    bn_to_bin(n, priv.modulus, sizeof(priv.modulus));
+    bn_to_bin(e, priv.publicExponent, sizeof(priv.publicExponent));
+    bn_to_bin(d, priv.exponent, sizeof(priv.exponent));
+    bn_to_bin(p, priv.prime[0], sizeof(priv.prime[0]));
+    bn_to_bin(q, priv.prime[1], sizeof(priv.prime[1]));
+    bn_to_bin(dmp1, priv.primeExponent[0], sizeof(priv.primeExponent[0]));
+    bn_to_bin(dmq1, priv.primeExponent[1], sizeof(priv.primeExponent[1]));
+    bn_to_bin(iqmp, priv.coefficient, sizeof(priv.coefficient));
+#else
     bn_to_bin(rp->n, priv.modulus, sizeof(priv.modulus));
     bn_to_bin(rp->e, priv.publicExponent, sizeof(priv.publicExponent));
     bn_to_bin(rp->d, priv.exponent, sizeof(priv.exponent));
@@ -476,9 +503,32 @@ void openssl_to_keys(
     bn_to_bin(rp->dmp1, priv.primeExponent[0], sizeof(priv.primeExponent[0]));
     bn_to_bin(rp->dmq1, priv.primeExponent[1], sizeof(priv.primeExponent[1]));
     bn_to_bin(rp->iqmp, priv.coefficient, sizeof(priv.coefficient));
+#endif
 }
 
 void private_to_openssl(R_RSA_PRIVATE_KEY& priv, RSA* rp) {
+#ifdef HAVE_OPAQUE_RSA_DSA_DH
+    BIGNUM *n;
+    BIGNUM *e;
+    BIGNUM *d;
+    BIGNUM *p;
+    BIGNUM *q;
+    BIGNUM *dmp1;
+    BIGNUM *dmq1;
+    BIGNUM *iqmp;
+
+    n = BN_bin2bn(priv.modulus, sizeof(priv.modulus), 0);
+    e = BN_bin2bn(priv.publicExponent, sizeof(priv.publicExponent), 0);
+    d = BN_bin2bn(priv.exponent, sizeof(priv.exponent), 0);
+    p = BN_bin2bn(priv.prime[0], sizeof(priv.prime[0]), 0);
+    q = BN_bin2bn(priv.prime[1], sizeof(priv.prime[1]), 0);
+    dmp1 = BN_bin2bn(priv.primeExponent[0], sizeof(priv.primeExponent[0]), 0);
+    dmq1 = BN_bin2bn(priv.primeExponent[1], sizeof(priv.primeExponent[1]), 0);
+    iqmp = BN_bin2bn(priv.coefficient, sizeof(priv.coefficient), 0);
+    RSA_set0_key(rp, n, e, d);
+    RSA_set0_factors(rp, p, q);
+    RSA_set0_crt_params(rp, dmp1, dmq1, iqmp);
+#else
     rp->n = BN_bin2bn(priv.modulus, sizeof(priv.modulus), 0);
     rp->e = BN_bin2bn(priv.publicExponent, sizeof(priv.publicExponent), 0);
     rp->d = BN_bin2bn(priv.exponent, sizeof(priv.exponent), 0);
@@ -487,11 +537,22 @@ void private_to_openssl(R_RSA_PRIVATE_KEY& priv, RSA* rp) {
     rp->dmp1 = BN_bin2bn(priv.primeExponent[0], sizeof(priv.primeExponent[0]), 0);
     rp->dmq1 = BN_bin2bn(priv.primeExponent[1], sizeof(priv.primeExponent[1]), 0);
     rp->iqmp = BN_bin2bn(priv.coefficient, sizeof(priv.coefficient), 0);
+#endif
 }
 
 void public_to_openssl(R_RSA_PUBLIC_KEY& pub, RSA* rp) {
+#ifdef HAVE_OPAQUE_RSA_DSA_DH
+    BIGNUM *n;
+    BIGNUM *e;
+    BIGNUM *d;
+    n = BN_bin2bn(pub.modulus, sizeof(pub.modulus), 0);
+    e = BN_bin2bn(pub.exponent, sizeof(pub.exponent), 0);
+    // d??? FIXME
+    RSA_set0_key(rp, n, e, d);
+#else
     rp->n = BN_bin2bn(pub.modulus, sizeof(pub.modulus), 0);
     rp->e = BN_bin2bn(pub.exponent, sizeof(pub.exponent), 0);
+#endif
 }
 
 static int _bn2bin(BIGNUM *from, unsigned char *to, int max) {
@@ -507,6 +568,38 @@ static int _bn2bin(BIGNUM *from, unsigned char *to, int max) {
 }
 
 int openssl_to_private(RSA *from, R_RSA_PRIVATE_KEY *to) {
+#ifdef HAVE_OPAQUE_RSA_DSA_DH
+    BIGNUM *n;
+    BIGNUM *e;
+    BIGNUM *d;
+    BIGNUM *p;
+    BIGNUM *q;
+    BIGNUM *dmp1;
+    BIGNUM *dmq1;
+    BIGNUM *iqmp;
+
+    RSA_get0_key(from, &n, &e, &d);
+    RSA_get0_factors(from, &p, &q);
+    RSA_get0_crt_params(from, &dmp1, &dmq1, &iqmp);
+
+    to->bits = BN_num_bits(n);
+    if (!_bn2bin(n,to->modulus,MAX_RSA_MODULUS_LEN))
+        return(0);
+    if (!_bn2bin(e,to->publicExponent,MAX_RSA_MODULUS_LEN))
+        return(0);
+    if (!_bn2bin(d,to->exponent,MAX_RSA_MODULUS_LEN))
+        return(0);
+    if (!_bn2bin(p,to->prime[0],MAX_RSA_PRIME_LEN))
+        return(0);
+    if (!_bn2bin(q,to->prime[1],MAX_RSA_PRIME_LEN))
+        return(0);
+    if (!_bn2bin(dmp1,to->primeExponent[0],MAX_RSA_PRIME_LEN))
+        return(0);
+    if (!_bn2bin(dmq1,to->primeExponent[1],MAX_RSA_PRIME_LEN))
+        return(0);
+    if (!_bn2bin(iqmp,to->coefficient,MAX_RSA_PRIME_LEN))
+        return(0);
+#else
 	to->bits = BN_num_bits(from->n);
 	if (!_bn2bin(from->n,to->modulus,MAX_RSA_MODULUS_LEN)) 
 	    return(0);
@@ -524,6 +617,7 @@ int openssl_to_private(RSA *from, R_RSA_PRIVATE_KEY *to) {
 	    return(0);
 	if (!_bn2bin(from->iqmp,to->coefficient,MAX_RSA_PRIME_LEN)) 
 	    return(0);
+#endif
     return 1;
 }
 
@@ -569,7 +663,11 @@ int check_validity_of_cert(
         BIO_vfree(bio);
         return 0;
     }
+#ifdef HAVE_OPAQUE_EVP_PKEY
+    if (EVP_PKEY_id(pubKey) == EVP_PKEY_RSA) {
+#else
     if (pubKey->type == EVP_PKEY_RSA) {
+#endif
         BN_CTX *c = BN_CTX_new();
         if (!c) {
 	        X509_free(cert);
@@ -577,18 +675,33 @@ int check_validity_of_cert(
 	        BIO_vfree(bio);
 	        return 0;
 	    }
+#ifdef HAVE_OPAQUE_RSA_DSA_DH
+        RSA *rsa;
+        rsa = EVP_PKEY_get0_RSA(pubKey);
+        if (!RSA_blinding_on(rsa, c)) {
+#else
 	    if (!RSA_blinding_on(pubKey->pkey.rsa, c)) {
+#endif
 	        X509_free(cert);
 	        EVP_PKEY_free(pubKey);
 	        BIO_vfree(bio);
 	        BN_CTX_free(c);
 	        return 0;
 	    }
+#ifdef HAVE_OPAQUE_RSA_DSA_DH
+        retval = RSA_verify(NID_md5, md5_md, MD5_DIGEST_LENGTH, sfileMsg, sfsize, rsa);
+        RSA_blinding_off(rsa);
+#else
 	    retval = RSA_verify(NID_md5, md5_md, MD5_DIGEST_LENGTH, sfileMsg, sfsize, pubKey->pkey.rsa);
 	    RSA_blinding_off(pubKey->pkey.rsa);
+#endif
 	    BN_CTX_free(c);
     }
+#ifdef HAVE_OPAQUE_EVP_PKEY
+    if (EVP_PKEY_id(pubKey) == EVP_PKEY_DSA) {
+#else
     if (pubKey->type == EVP_PKEY_DSA) {
+#endif
         fprintf(stderr,
             "%s: ERROR: DSA keys are not supported.\n",
             time_to_string(dtime())

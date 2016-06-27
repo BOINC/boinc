@@ -26,6 +26,11 @@
 
 #include <openssl/rsa.h>
 
+#if (OPENSSL_VERSION_NUMBER >= 0x10100000L) /* OpenSSL 1.1.0+ */
+#define HAVE_OPAQUE_EVP_PKEY 1 /* since 1.1.0 -pre3 */
+#define HAVE_OPAQUE_RSA_DSA_DH 1 /* since 1.1.0 -pre5 */
+#endif
+
 #define MAX_RSA_MODULUS_BITS 1024
 #define MAX_RSA_MODULUS_LEN ((MAX_RSA_MODULUS_BITS + 7) / 8)
 #define MAX_RSA_PRIME_BITS ((MAX_RSA_MODULUS_BITS + 1) / 2)

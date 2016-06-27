@@ -125,7 +125,11 @@ int main(int argc, char** argv) {
     unsigned char signature_buf[256], buf[256], buf2[256];
     FILE *f, *fpriv, *fpub;
     char cbuf[256];
+#ifdef HAVE_OPAQUE_RSA_DSA_DH
+    RSA *rsa_key;
+#else
     RSA rsa_key;
+#endif
     RSA *rsa_key_;
 	BIO *bio_out=NULL;
     BIO *bio_err=NULL;
@@ -330,7 +334,11 @@ int main(int argc, char** argv) {
                 retval = scan_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
                 fclose(fpriv);
                 if (retval) die("scan_key_hex\n");
+#ifdef HAVE_OPAQUE_RSA_DSA_DH
+                private_to_openssl(private_key, rsa_key);
+#else
                 private_to_openssl(private_key, &rsa_key);
+#endif
 
                 //i = PEM_write_bio_RSAPrivateKey(bio_out, &rsa_key,
         		//				enc, NULL, 0, pass_cb, NULL);
@@ -340,7 +348,11 @@ int main(int argc, char** argv) {
         		//				NULL, NULL, 0, pass_cb, NULL);
                 fpriv = fopen(argv[5], "w+");
                 if (!fpriv) die("fopen");
+#ifdef HAVE_OPAQUE_RSA_DSA_DH
+                PEM_write_RSAPrivateKey(fpriv, rsa_key, NULL, NULL, 0, 0, NULL);
+#else
                 PEM_write_RSAPrivateKey(fpriv, &rsa_key, NULL, NULL, 0, 0, NULL);
+#endif
                 fclose(fpriv);
     		    //if (i == 0) {
                 //    ERR_print_errors(bio_err);
