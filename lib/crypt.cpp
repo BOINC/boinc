@@ -43,6 +43,7 @@
 #include <openssl/conf.h>
 #include <openssl/engine.h>
 #include <openssl/err.h>
+#include <openssl/rsa.h>
 
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
