@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Maria Manuela Silva <manuela.silva@sky.com>, 2016
+# Maria Manuela Silva <manuela.silva@sky.com>, 2016
 # Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2016-06-28 16:59+0000\n"
+"PO-Revision-Date: 2016-06-28 17:57+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +35,7 @@ msgstr "Não"
 
 #: PostInstall.cpp:133
 msgid "Should BOINC run even when no user is logged in?"
-msgstr "O BOINC deverá ser executado se nenhum utilizador tiver iniciado a sessão?"
+msgstr "O BOINC deverá ser executado mesmo que nenhum utilizador tenhas iniciado a sessão?"
 
 #: PostInstall.cpp:1416
 #, c-format
