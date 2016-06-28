@@ -15,19 +15,19 @@
   <string name="attachproject_list_manual_dialog_button">Adicionar projeto</string>
   <string name="attachproject_list_manual_no_url">Por favor, insira o URL do projecto</string>
   <string name="attachproject_list_acctmgr_button">Adicionar gestor de conta</string>
-  <string name="attachproject_list_no_internet">Sem conexão de Internet</string>
+  <string name="attachproject_list_no_internet">Sem ligação à Internet</string>
   <!--credential input-->
   <string name="attachproject_credential_input_sing_desc">Insira informações da conta</string>
-  <string name="attachproject_credential_input_desc">Insira informação da conta para os projectos seleccionados:</string>
+  <string name="attachproject_credential_input_desc">Insira a informação da conta para os projetos selecionados:</string>
   <string name="attachproject_credential_input_show_pwd">Mostrar palavra-passe</string>
   <string name="attachproject_individual_credential_input">Adicionar projectos individualmente</string>
   <!--conflicts-->
   <string name="attachproject_conflicts_desc">Existiram problemas ao anexar os projectos científicos:</string>
-  <string name="attachproject_conflict_undefined">Não conseguiu conexão</string>
+  <string name="attachproject_conflict_undefined">Não foi possível ligar</string>
   <string name="attachproject_conflict_not_unique">A conta existe com uma palavra-passe diferente</string>
-  <string name="attachproject_conflict_bad_password">Palavra-passe incorrecta</string>
+  <string name="attachproject_conflict_bad_password">Palavra-passe incorreta</string>
   <string name="attachproject_conflict_unknown_user">A conta não existe</string>
-  <string name="attachproject_conflict_unknown_user_creation_disabled">A conta não existe, visite o website do projecto para se registar</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">A conta não existe, visite o site da Web do projeto para se registar</string>
   <!--working-->
   <string name="attachproject_working_attaching">Anexando</string>
   <!--e.g. Attaching Einstein@Home-->
@@ -35,26 +35,26 @@
   <string name="attachproject_hints_header">Dica</string>
   <!--e.g. Hint 1/2-->
   <string name="attachproject_hint_contribtion_header">Como contribuir:</string>
-  <string name="attachproject_hint_contribtion_wifi">1. Conectar ao WiFi</string>
-  <string name="attachproject_hint_contribtion_charger">2. Ligar o Carregador</string>
+  <string name="attachproject_hint_contribtion_wifi">1. Ligar à Wi-Fi</string>
+  <string name="attachproject_hint_contribtion_charger">2. Ligar Carregador</string>
   <string name="attachproject_hint_contribtion_screen">3. Desligar o Ecrã</string>
-  <string name="attachproject_hint_projectwebsite_header">Visite os websites do projecto para:</string>
-  <string name="attachproject_hint_projectwebsite_science">Aprenda mais sobre a ciência</string>
+  <string name="attachproject_hint_projectwebsite_header">Visite os sites da Web do projeto para:</string>
+  <string name="attachproject_hint_projectwebsite_science">Saiba mais sobre a ciência</string>
   <string name="attachproject_hint_projectwebsite_stats">Ver estatísticas de contribuição</string>
   <string name="attachproject_hint_projectwebsite_community">Entre em contacto com outros voluntários</string>
   <string name="attachproject_hint_platforms_header">O BOINC também está disponível para o seu computador ou portátil, visite boinc.berkeley.edu para saber mais.</string>
   <!--project login-->
   <string name="attachproject_login_loading">A contactar o servidor do projecto...</string>
-  <string name="attachproject_login_image_description">Logotipo do projecto.</string>
+  <string name="attachproject_login_image_description">Logótipo do projeto.</string>
   <string name="attachproject_login_header_general_area">Área geral:</string>
   <string name="attachproject_login_header_specific_area">Área específica:</string>
   <string name="attachproject_login_header_description">Descrição:</string>
-  <string name="attachproject_login_header_home">Página principal:</string>
-  <string name="attachproject_login_header_url">Website:</string>
+  <string name="attachproject_login_header_home">Início:</string>
+  <string name="attachproject_login_header_url">Site da Web:</string>
   <string name="attachproject_login_header_platform">Android:</string>
-  <string name="attachproject_login_platform_supported">O tipo de dispositivo é suportado por este projecto</string>
-  <string name="attachproject_login_platform_not_supported">O dispositivo não é suportado por este projecto</string>
-  <string name="attachproject_login_category_terms_of_use">Termos de uso para</string>
+  <string name="attachproject_login_platform_supported">O tipo de dispositivo é suportado por este projeto</string>
+  <string name="attachproject_login_platform_not_supported">O dispositivo não é suportado por este projeto</string>
+  <string name="attachproject_login_category_terms_of_use">Termos de utilização para</string>
   <string name="attachproject_login_accept_terms_of_use">Ao criar uma conta neste projecto, aceita os termos de uso acima descritos.</string>
   <string name="attachproject_login_category_login">Entrar com uma conta já existente</string>
   <string name="attachproject_login_header_id_email">e-Mail:</string>
