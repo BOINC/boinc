@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-06-28 17:59+0000\n"
+"PO-Revision-Date: 2016-06-28 18:04+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -99,7 +99,7 @@ msgstr "Nós recomendamos que transfira o BOINC da Amazon Appstore ou da Google 
 
 #: download.php:177
 msgid "System requirements"
-msgstr "Requisitos de sistema"
+msgstr "Requisitos do sistema"
 
 #: download.php:178
 msgid "Release notes"
@@ -119,7 +119,7 @@ msgstr "Histórico de Versões"
 
 #: download.php:182
 msgid "GPU computing"
-msgstr "Computação GPU"
+msgstr "Computação de GPU"
 
 #: download.php:200
 msgid "BOINC: compute for science"
@@ -191,7 +191,7 @@ msgstr "Poder de computação"
 
 #: index.php:26
 msgid "Top 100 volunteers"
-msgstr "Top 100 Voluntários "
+msgstr "Melhores 100 Voluntários "
 
 #: index.php:27
 msgid "Statistics"
