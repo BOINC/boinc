@@ -6,7 +6,8 @@
 # FileID  : $Id$
 # 
 # Translators:
-# Maria Manuela Silva, 2016
+# Maria Manuela Silva <manuela.silva@sky.com>, 2016
+# Maria Manuela Silva <manuela.silva@sky.com>, 2016
 # Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>, 2015
 # Octávio Filipe Gonçalves <octavio.filipe.pereira@gmail.com>, 2016
 msgid ""
@@ -14,8 +15,8 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-05-31 08:27+0000\n"
-"Last-Translator: Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>\n"
+"PO-Revision-Date: 2016-06-28 17:59+0000\n"
+"Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,7 +36,7 @@ msgstr "Regressar à página principal do BOINC"
 #: docutil.php:114
 #, php-format
 msgid "This page is %stranslatable%s."
-msgstr "Esta página pode ser %straduzida%s."
+msgstr "Esta página pode ser %stranslatable%s."
 
 #: download.php:42
 msgid ""
