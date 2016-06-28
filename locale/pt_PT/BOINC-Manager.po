@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-28 16:35+0000\n"
+"PO-Revision-Date: 2016-06-28 16:41+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -647,12 +647,12 @@ msgstr "A comunicar com o cliente BOINC. Por favor, aguarde..."
 #: clientgui/AsyncRPC.cpp:1034
 #, c-format
 msgid "&Quit %s"
-msgstr "&Sair do %s"
+msgstr "&Fechar o %s"
 
 #: clientgui/AsyncRPC.cpp:1036
 #, c-format
 msgid "E&xit %s"
-msgstr "S&air %s"
+msgstr "&Sair do %s"
 
 #: clientgui/AsyncRPC.cpp:1040
 #, c-format
@@ -1772,7 +1772,7 @@ msgstr "'%s' já está na lista."
 #: clientgui/DlgExitMessage.cpp:82
 #, c-format
 msgid "%s - Exit Confirmation"
-msgstr "%s - Confirmar Saída"
+msgstr "%s - Confirmação de Saída"
 
 #: clientgui/DlgExitMessage.cpp:130
 #, c-format
@@ -1783,7 +1783,7 @@ msgid ""
 "\n"
 "If you also want to stop running the tasks,\n"
 "choose from the following options:"
-msgstr "Pediu para terminar o %s,\nque lhe permite ver e gerir as tarefas\nem execução no seu computador.\n\nSe também quer parar as tarefas em execução,\nescolha uma das seguintes opções:"
+msgstr "Pediu para sair do %s,\nque lhe permite ver e gerir as tarefas\nem execução no seu computador.\n\nSe também quer parar as tarefas em execução,\nescolha uma das seguintes opções:"
 
 #: clientgui/DlgExitMessage.cpp:135
 #, c-format
@@ -1799,7 +1799,7 @@ msgstr "Isto irá desligar o %s e as tarefas até que\no %s ou a %s protecção 
 #: clientgui/DlgExitMessage.cpp:153
 #, c-format
 msgid "Stop running tasks when exiting the %s"
-msgstr "Parar tarefas em execução quando sair do %s"
+msgstr "Parar as tarefas em execução ao sair do %s"
 
 #: clientgui/DlgExitMessage.cpp:165
 msgid "Remember this decision and do not show this dialog."
@@ -2140,11 +2140,11 @@ msgstr "Correr daemon quando o Gestor for lançado."
 
 #: clientgui/DlgOptions.cpp:223
 msgid "Enable Manager exit dialog?"
-msgstr "Habilitar a caixa de diálogo na saída do gestor?"
+msgstr "Ativar a janela de saída do Gestor?"
 
 #: clientgui/DlgOptions.cpp:229
 msgid "Display the exit dialog when shutting down the Manager."
-msgstr "Mostrar a caixa de diálogo quando o Gestor estiver a ser desligado."
+msgstr "Exibir a janela de saída ao encerrar o Gestor."
 
 #: clientgui/DlgOptions.cpp:240
 msgid "Dial-up and Virtual Private Network settings"
