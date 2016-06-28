@@ -139,11 +139,11 @@
   <string name="status_idle_long">A aguardar por tarefas...</string>
   <string name="status_computing_disabled">Suspenso</string>
   <string name="status_computing_disabled_long">Clique em reproduzir para retomar a atividade de rede e computação.</string>
-  <string name="status_launching">Começando...</string>
-  <string name="status_noproject">Escolha um projecto para participar.</string>
+  <string name="status_launching">A iniciar...</string>
+  <string name="status_noproject">Escolha um projeto para participar.</string>
   <string name="status_closing">A fechar...</string>
-  <string name="status_benchmarking">A executar testes de performance...</string>
-  <string name="status_image_description">imagem do projecto</string>
+  <string name="status_benchmarking">A executar teste de desempenho...</string>
+  <string name="status_image_description">imagem do projeto</string>
   <!--preferences tab strings-->
   <string name="prefs_loading">A ler preferências...</string>
   <string name="prefs_submit_button">Guardar</string>
@@ -155,7 +155,7 @@
   <string name="prefs_category_cpu">CPU</string>
   <string name="prefs_category_storage">Armazenamento</string>
   <string name="prefs_category_memory">Memória</string>
-  <string name="prefs_category_debug">Debug</string>
+  <string name="prefs_category_debug">Depurar</string>
   <string name="prefs_show_advanced_header">Mostrar preferências avançadas e controlos...</string>
   <string name="prefs_suspend_when_screen_on">Pausar a computação quando o ecrã está ligado</string>
   <string name="prefs_stationary_device_mode_header">Dispositivo em modo estacionário</string>
@@ -163,7 +163,7 @@
   <string name="prefs_power_source_header">Fontes de energia para computação</string>
   <string name="prefs_power_source_description">Selecciona a fonte de energia permitida para o BOINC realizar computação.</string>
   <string name="prefs_power_source_ac">Wall socket</string>
-  <string name="prefs_power_source_usb">Conexão USB</string>
+  <string name="prefs_power_source_usb">Ligação USB</string>
   <string name="prefs_power_source_wireless">Carregador sem fios</string>
   <string name="prefs_power_source_battery">Bateria</string>
   <string name="battery_charge_min_pct_header">Nível de bateria mínimo</string>
@@ -182,13 +182,13 @@
   <string name="prefs_autostart_header">Começo Automático</string>
   <string name="prefs_show_notification_notices_header">Mostrar notificações para novas notícias</string>
   <string name="prefs_show_notification_suspended_header">Mostrar notificação quando suspenso</string>
-  <string name="prefs_cpu_number_cpus_header">Número de cores do CPU utilizados</string>
+  <string name="prefs_cpu_number_cpus_header">Núcleos da CPU utilizados</string>
   <string name="prefs_cpu_number_cpus_description">Limita o número de cores de CPU que o BOINC usa para computação.</string>
-  <string name="prefs_cpu_other_load_suspension_header">Pausa no CPU quando a utilização for acima de</string>
+  <string name="prefs_cpu_other_load_suspension_header">Pausar com o uso da CPU acima de</string>
   <string name="prefs_cpu_other_load_suspension_description">Determina quando o BOINC pausa a computação, devido ao uso do CPU por outras aplicações</string>
-  <string name="prefs_cpu_time_max_header">Limite do CPU</string>
+  <string name="prefs_cpu_time_max_header">Limite da CPU</string>
   <string name="prefs_cpu_time_max_description">Limita o tempo de CPU que o BOINC usa para computação.</string>
-  <string name="prefs_memory_max_idle_header">Limite de RAM</string>
+  <string name="prefs_memory_max_idle_header">Limite da RAM</string>
   <string name="prefs_memory_max_idle_description">Limita a quantidade de RAM que é permitida que as tarefas ocupem.</string>
   <string name="prefs_client_log_flags_header">Log das Bandeiras do cliente BOINC</string>
   <string name="prefs_gui_log_level_header">Nível de log da GUI</string>
@@ -199,9 +199,9 @@
   <string name="prefs_unit_celcius">°C</string>
   <string name="prefs_unit_seconds">seg</string>
   <!--projects tab strings-->
-  <string name="projects_loading">A ler projectos...</string>
-  <string name="projects_add">Adicionar projecto</string>
-  <string name="projects_icon">Ícone do projecto</string>
+  <string name="projects_loading">A ler os projetos...</string>
+  <string name="projects_add">Adicionar projeto</string>
+  <string name="projects_icon">Ícone do projeto</string>
   <string name="projects_credits_header">Créditos:</string>
   <string name="projects_credits_host_header">(neste dispositivo)</string>
   <string name="projects_credits_user_header">(total)</string>
@@ -216,26 +216,26 @@
   <string name="projects_status_backoff">Comunicação agendada em:</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">Comandos do projecto:</string>
-  <string name="projects_control_visit_website">Visitar website</string>
-  <string name="projects_control_update">Actualizar</string>
+  <string name="projects_control_visit_website">Visitar site da Web</string>
+  <string name="projects_control_update">Atualizar</string>
   <string name="projects_control_remove">Remover</string>
   <string name="projects_control_suspend">Suspender</string>
-  <string name="projects_control_resume">Resumir</string>
-  <string name="projects_control_nonewtasks">Cancelar novas tarefas</string>
+  <string name="projects_control_resume">Retomar</string>
+  <string name="projects_control_nonewtasks">Sem novas tarefas</string>
   <string name="projects_control_allownewtasks">Permitir novas tarefas</string>
-  <string name="projects_control_reset">Reset</string>
+  <string name="projects_control_reset">Reiniciar</string>
   <string name="projects_control_dialog_title_acctmgr">Comandos do gestor de conta:</string>
   <string name="projects_control_sync_acctmgr">Sincronizar</string>
-  <string name="projects_control_remove_acctmgr">Desabilitar</string>
+  <string name="projects_control_remove_acctmgr">Desativar</string>
   <!--project confirm dialog-->
-  <string name="projects_confirm_detach_title">Remover projecto?</string>
-  <string name="projects_confirm_detach_message">Tem a certeza que quer remover</string>
+  <string name="projects_confirm_detach_title">Remover projeto?</string>
+  <string name="projects_confirm_detach_message">Tem a certeza que deseja remover</string>
   <string name="projects_confirm_detach_message2">do BOINC?</string>
   <string name="projects_confirm_detach_confirm">Remover</string>
-  <string name="projects_confirm_reset_title">Fazer reset ao projecto</string>
-  <string name="projects_confirm_reset_message">Tem a certeza que quer fazer reset</string>
+  <string name="projects_confirm_reset_title">Reiniciar o projeto</string>
+  <string name="projects_confirm_reset_message">Tem a certeza que deseja reiniciar</string>
   <string name="projects_confirm_reset_message2">\?</string>
-  <string name="projects_confirm_reset_confirm">Reset</string>
+  <string name="projects_confirm_reset_confirm">Reiniciar</string>
   <string name="projects_confirm_remove_acctmgr_title">Desabilitar gestor de conta</string>
   <string name="projects_confirm_remove_acctmgr_message">Tem a certeza que quer parar de utilizar o</string>
   <string name="projects_confirm_remove_acctmgr_message2">\?</string>
