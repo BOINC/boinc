@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-28 16:25+0000\n"
+"PO-Revision-Date: 2016-06-28 16:30+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -123,11 +123,11 @@ msgstr "Site da Web do gestor de conta"
 
 #: clientgui/AccountInfoPage.cpp:556
 msgid "Add project"
-msgstr "Adicionar Projecto"
+msgstr "Adicionar Projeto"
 
 #: clientgui/AccountInfoPage.cpp:558
 msgid "Update account manager"
-msgstr "Actualizar o gestor de conta"
+msgstr "Atualizar gestor de conta"
 
 #: clientgui/AccountInfoPage.cpp:560
 msgid "Use account manager"
@@ -144,12 +144,12 @@ msgstr "Por favor, insira um endereço de e-mail."
 #: clientgui/AccountInfoPage.cpp:579
 #, c-format
 msgid "Please enter a password of at least %d characters."
-msgstr "Por favor, insira uma palavra-passe com pelo menos %d caracteres."
+msgstr "Por favor, insira uma palavra-passe com pelo menos %d carateres."
 
 #: clientgui/AccountInfoPage.cpp:589
 msgid ""
 "The password and confirmation password do not match. Please type them again."
-msgstr "A palavra-passe original e a de confirmação não condizem. Por favor, insira-as novamente."
+msgstr "A palavra-passe original e a de confirmação não coincidem. Por favor, insira-as novamente."
 
 #: clientgui/AccountManagerInfoPage.cpp:270
 msgid "Choose an account manager"
@@ -159,7 +159,7 @@ msgstr "Escolha um gestor de conta"
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
-msgstr "Para escolher um gestor de conta, clique no nome \nou digite o seu URL em baixo."
+msgstr "Para escolher um gestor de conta, clique no seu nome \nou digite o seu URL em baixo."
 
 #: clientgui/AccountManagerInfoPage.cpp:277
 msgid "Account manager details:"
@@ -171,11 +171,11 @@ msgstr "Gestor de conta &URL:"
 
 #: clientgui/AccountManagerInfoPage.cpp:285
 msgid "Open web page"
-msgstr "Abrir página web"
+msgstr "Abrir página da Web"
 
 #: clientgui/AccountManagerInfoPage.cpp:288
 msgid "Visit this account manager's web site"
-msgstr "Visitar o website deste gestor de conta"
+msgstr "Visitar o site da Web deste gestor de conta"
 
 #. %s is the project name
 #. i.e. 'BOINC', 'GridRepublic'
@@ -193,11 +193,11 @@ msgstr "A comunicar com o servidor."
 #: clientgui/AccountManagerProcessingPage.cpp:198
 #: clientgui/AccountManagerPropertiesPage.cpp:204
 msgid "Please wait..."
-msgstr "Por favor aguarde..."
+msgstr "Por favor, aguarde..."
 
 #: clientgui/AccountManagerProcessingPage.cpp:325
 msgid "An internal server error has occurred.\n"
-msgstr "Ocorreu um erro interno no servidor.\n"
+msgstr "Ocorreu um erro de servidor interno.\n"
 
 #: clientgui/AdvancedFrame.cpp:99
 msgid "Connected"
@@ -205,7 +205,7 @@ msgstr "Ligado"
 
 #: clientgui/AdvancedFrame.cpp:107
 msgid "Disconnected"
-msgstr "Desconectado"
+msgstr "Desligado"
 
 #: clientgui/AdvancedFrame.cpp:329
 #, c-format
@@ -219,7 +219,7 @@ msgstr "Abrir outra janela do %s"
 
 #: clientgui/AdvancedFrame.cpp:344
 msgid "Select computer..."
-msgstr "Seleccionar computador..."
+msgstr "Selecionar computador..."
 
 #: clientgui/AdvancedFrame.cpp:345
 msgid "Connect to a BOINC client on another computer"
@@ -251,23 +251,23 @@ msgstr "Sair do %s"
 
 #: clientgui/AdvancedFrame.cpp:391 clientgui/sg_BoincSimpleFrame.cpp:151
 msgid "Preferences..."
-msgstr "Preferências"
+msgstr "Preferências..."
 
 #: clientgui/AdvancedFrame.cpp:400
 msgid "&Notices\tCtrl+Shift+N"
-msgstr "&Notícias\tCtrl+Shift+N"
+msgstr "&Avisos\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:401
 msgid "Show notices"
-msgstr "Mostrar notícias"
+msgstr "Mostrar avisos"
 
 #: clientgui/AdvancedFrame.cpp:406
 msgid "&Projects\tCtrl+Shift+P"
-msgstr "&Projectos\tCtrl+Shift+P"
+msgstr "&Projetos\tCtrl+Shift+P"
 
 #: clientgui/AdvancedFrame.cpp:407
 msgid "Show projects"
-msgstr "Mostrar projectos"
+msgstr "Mostrar projetos"
 
 #: clientgui/AdvancedFrame.cpp:412
 msgid "&Tasks\tCtrl+Shift+T"
@@ -303,11 +303,11 @@ msgstr "Mostrar utilização do disco"
 
 #: clientgui/AdvancedFrame.cpp:438
 msgid "Simple &View...\tCtrl+Shift+V"
-msgstr "&Vista Simplificada...\tCtrl+Shift+V"
+msgstr "&Visualização Simples...\tCtrl+Shift+V"
 
 #: clientgui/AdvancedFrame.cpp:439
 msgid "Switch to the Simple View"
-msgstr "Trocar para a Vista Simples"
+msgstr "Mudar para a Visualização Simples"
 
 #: clientgui/AdvancedFrame.cpp:453 clientgui/AdvancedFrame.cpp:477
 #: clientgui/sg_BoincSimpleFrame.cpp:205
