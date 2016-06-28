@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Maria Manuela Silva <manuela.silva@sky.com>, 2016
+# Maria Manuela Silva <manuela.silva@sky.com>, 2016
 # Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-28 16:20+0000\n"
+"PO-Revision-Date: 2016-06-28 16:25+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -90,11 +91,11 @@ msgstr "Já está a executar o %s?"
 
 #: clientgui/AccountInfoPage.cpp:456
 msgid "&Username:"
-msgstr "&Nome de Utilizador:"
+msgstr "&Nome de utilizador:"
 
 #: clientgui/AccountInfoPage.cpp:485
 msgid "&Email address or LDAP ID:"
-msgstr "&Endereço de e-mail ou ID LDAP:"
+msgstr "&Endereço de e-mail ou Id. LDAP:"
 
 #: clientgui/AccountInfoPage.cpp:489
 msgid "&Email address:"
@@ -118,7 +119,7 @@ msgstr "Se ainda não se registou neste gestor de conta,\npor favor faça-o ante
 
 #: clientgui/AccountInfoPage.cpp:514
 msgid "Account manager web site"
-msgstr "Website do gestor de conta"
+msgstr "Site da Web do gestor de conta"
 
 #: clientgui/AccountInfoPage.cpp:556
 msgid "Add project"
