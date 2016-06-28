@@ -3,7 +3,7 @@
 # 
 # Translators:
 # Ivo Micael Frazão Costeira <ivo.frazao95@gmail.com>, 2015
-# Maria Manuela Silva, 2016
+# Maria Manuela Silva <manuela.silva@sky.com>, 2016
 # Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>, 2015-2016
 # Octávio Filipe Gonçalves <octavio.filipe.pereira@gmail.com>, 2016
 # Paco Banderas <duimpera1@gmail.com>, 2015
@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2015-12-15 12:43+0000\n"
-"PO-Revision-Date: 2016-05-27 16:29+0000\n"
+"PO-Revision-Date: 2016-06-28 16:06+0000\n"
 "Last-Translator: Octávio Filipe Gonçalves <octavio.filipe.pereira@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"

@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Maria Manuela Silva, 2016
+# Maria Manuela Silva <manuela.silva@sky.com>, 2016
+# Maria Manuela Silva <manuela.silva@sky.com>, 2016
 # Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-05-27 13:01+0000\n"
-"Last-Translator: Maria Manuela Silva\n"
+"PO-Revision-Date: 2016-06-28 16:54+0000\n"
+"Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,7 +38,7 @@ msgstr "Identifique a sua conta em %s"
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
-msgstr "Por favor, insira os dados da sua conta\n(para criar uma conta, visite o website do projecto)"
+msgstr "Por favor, insira a informação da sua conta\n(para criar uma conta, visite o site da Web do projeto)"
 
 #: clientgui/AccountInfoPage.cpp:371
 msgid ""
@@ -90,11 +91,11 @@ msgstr "Já está a executar o %s?"
 
 #: clientgui/AccountInfoPage.cpp:456
 msgid "&Username:"
-msgstr "&Nome de Utilizador:"
+msgstr "&Nome de utilizador:"
 
 #: clientgui/AccountInfoPage.cpp:485
 msgid "&Email address or LDAP ID:"
-msgstr "&Endereço de e-mail ou ID LDAP:"
+msgstr "&Endereço de e-mail ou Id. LDAP:"
 
 #: clientgui/AccountInfoPage.cpp:489
 msgid "&Email address:"
@@ -118,15 +119,15 @@ msgstr "Se ainda não se registou neste gestor de conta,\npor favor faça-o ante
 
 #: clientgui/AccountInfoPage.cpp:514
 msgid "Account manager web site"
-msgstr "Website do gestor de conta"
+msgstr "Site da Web do gestor de conta"
 
 #: clientgui/AccountInfoPage.cpp:556
 msgid "Add project"
-msgstr "Adicionar Projecto"
+msgstr "Adicionar Projeto"
 
 #: clientgui/AccountInfoPage.cpp:558
 msgid "Update account manager"
-msgstr "Actualizar o gestor de conta"
+msgstr "Atualizar gestor de conta"
 
 #: clientgui/AccountInfoPage.cpp:560
 msgid "Use account manager"
@@ -143,12 +144,12 @@ msgstr "Por favor, insira um endereço de e-mail."
 #: clientgui/AccountInfoPage.cpp:579
 #, c-format
 msgid "Please enter a password of at least %d characters."
-msgstr "Por favor, insira uma palavra-passe com pelo menos %d caracteres."
+msgstr "Por favor, insira uma palavra-passe com pelo menos %d carateres."
 
 #: clientgui/AccountInfoPage.cpp:589
 msgid ""
 "The password and confirmation password do not match. Please type them again."
-msgstr "A palavra-passe original e a de confirmação não condizem. Por favor, insira-as novamente."
+msgstr "A palavra-passe original e a de confirmação não coincidem. Por favor, insira-as novamente."
 
 #: clientgui/AccountManagerInfoPage.cpp:270
 msgid "Choose an account manager"
@@ -158,7 +159,7 @@ msgstr "Escolha um gestor de conta"
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
-msgstr "Para escolher um gestor de conta, clique no nome \nou digite o seu URL em baixo."
+msgstr "Para escolher um gestor de conta, clique no seu nome \nou digite o seu URL em baixo."
 
 #: clientgui/AccountManagerInfoPage.cpp:277
 msgid "Account manager details:"
@@ -170,11 +171,11 @@ msgstr "Gestor de conta &URL:"
 
 #: clientgui/AccountManagerInfoPage.cpp:285
 msgid "Open web page"
-msgstr "Abrir página web"
+msgstr "Abrir página da Web"
 
 #: clientgui/AccountManagerInfoPage.cpp:288
 msgid "Visit this account manager's web site"
-msgstr "Visitar o website deste gestor de conta"
+msgstr "Visitar o site da Web deste gestor de conta"
 
 #. %s is the project name
 #. i.e. 'BOINC', 'GridRepublic'
@@ -192,11 +193,11 @@ msgstr "A comunicar com o servidor."
 #: clientgui/AccountManagerProcessingPage.cpp:198
 #: clientgui/AccountManagerPropertiesPage.cpp:204
 msgid "Please wait..."
-msgstr "Por favor aguarde..."
+msgstr "Por favor, aguarde..."
 
 #: clientgui/AccountManagerProcessingPage.cpp:325
 msgid "An internal server error has occurred.\n"
-msgstr "Ocorreu um erro interno no servidor.\n"
+msgstr "Ocorreu um erro de servidor interno.\n"
 
 #: clientgui/AdvancedFrame.cpp:99
 msgid "Connected"
@@ -204,7 +205,7 @@ msgstr "Ligado"
 
 #: clientgui/AdvancedFrame.cpp:107
 msgid "Disconnected"
-msgstr "Desconectado"
+msgstr "Desligado"
 
 #: clientgui/AdvancedFrame.cpp:329
 #, c-format
@@ -218,7 +219,7 @@ msgstr "Abrir outra janela do %s"
 
 #: clientgui/AdvancedFrame.cpp:344
 msgid "Select computer..."
-msgstr "Seleccionar computador..."
+msgstr "Selecionar computador..."
 
 #: clientgui/AdvancedFrame.cpp:345
 msgid "Connect to a BOINC client on another computer"
@@ -250,23 +251,23 @@ msgstr "Sair do %s"
 
 #: clientgui/AdvancedFrame.cpp:391 clientgui/sg_BoincSimpleFrame.cpp:151
 msgid "Preferences..."
-msgstr "Preferências"
+msgstr "Preferências..."
 
 #: clientgui/AdvancedFrame.cpp:400
 msgid "&Notices\tCtrl+Shift+N"
-msgstr "&Notícias\tCtrl+Shift+N"
+msgstr "&Avisos\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:401
 msgid "Show notices"
-msgstr "Mostrar notícias"
+msgstr "Mostrar avisos"
 
 #: clientgui/AdvancedFrame.cpp:406
 msgid "&Projects\tCtrl+Shift+P"
-msgstr "&Projectos\tCtrl+Shift+P"
+msgstr "&Projetos\tCtrl+Shift+P"
 
 #: clientgui/AdvancedFrame.cpp:407
 msgid "Show projects"
-msgstr "Mostrar projectos"
+msgstr "Mostrar projetos"
 
 #: clientgui/AdvancedFrame.cpp:412
 msgid "&Tasks\tCtrl+Shift+T"
@@ -302,21 +303,21 @@ msgstr "Mostrar utilização do disco"
 
 #: clientgui/AdvancedFrame.cpp:438
 msgid "Simple &View...\tCtrl+Shift+V"
-msgstr "&Vista Simplificada...\tCtrl+Shift+V"
+msgstr "&Visualização Simples...\tCtrl+Shift+V"
 
 #: clientgui/AdvancedFrame.cpp:439
 msgid "Switch to the Simple View"
-msgstr "Trocar para a Vista Simples"
+msgstr "Mudar para a Visualização Simples"
 
 #: clientgui/AdvancedFrame.cpp:453 clientgui/AdvancedFrame.cpp:477
 #: clientgui/sg_BoincSimpleFrame.cpp:205
 msgid "&Add project..."
-msgstr "&Adicionar projecto..."
+msgstr "&Adicionar projeto..."
 
 #: clientgui/AdvancedFrame.cpp:454 clientgui/AdvancedFrame.cpp:478
 #: clientgui/sg_BoincSimpleFrame.cpp:206
 msgid "Add a project"
-msgstr "Adicionar um projecto"
+msgstr "Adicionar um projeto"
 
 #: clientgui/AdvancedFrame.cpp:458
 msgid "&Use account manager..."
@@ -395,7 +396,7 @@ msgstr "Parar execução de trabalho independentemente das preferências"
 
 #: clientgui/AdvancedFrame.cpp:549
 msgid "Use GPU always"
-msgstr "Utilizar a GPU sempre"
+msgstr "Utilizar sempre a GPU"
 
 #: clientgui/AdvancedFrame.cpp:550
 msgid "Allow GPU work regardless of preferences"
@@ -459,19 +460,19 @@ msgstr "Configurar aplicações exclusivas"
 
 #: clientgui/AdvancedFrame.cpp:616
 msgid "Select columns..."
-msgstr "Seleccionar colunas..."
+msgstr "Selecionar colunas..."
 
 #: clientgui/AdvancedFrame.cpp:617
 msgid "Select which columns to display"
-msgstr "Seleccionar colunas a visualizar"
+msgstr "Selecionar as colunas a visualizar"
 
 #: clientgui/AdvancedFrame.cpp:621
 msgid "Event Log options...\tCtrl+Shift+F"
-msgstr "Opções do Log de Eventos...\tCtrl+Shift+F"
+msgstr "Opções do Registo de Eventos...\tCtrl+Shift+F"
 
 #: clientgui/AdvancedFrame.cpp:622
 msgid "Enable or disable various diagnostic messages"
-msgstr "Habilita ou desabilita várias mensagens de diagnóstico"
+msgstr "Ativar ou desativar várias mensagens de diagnóstico"
 
 #: clientgui/AdvancedFrame.cpp:626 clientgui/sg_BoincSimpleFrame.cpp:197
 msgid "&Other options..."
@@ -506,7 +507,7 @@ msgstr "&Ajuda do %s"
 #: clientgui/AdvancedFrame.cpp:650 clientgui/sg_BoincSimpleFrame.cpp:223
 #, c-format
 msgid "Show information about %s"
-msgstr "Mostra informações sobre o %s"
+msgstr "Mostra informação sobre o %s"
 
 #: clientgui/AdvancedFrame.cpp:660
 #, c-format
@@ -516,7 +517,7 @@ msgstr "Ajuda do &%s"
 #: clientgui/AdvancedFrame.cpp:664 clientgui/sg_BoincSimpleFrame.cpp:237
 #, c-format
 msgid "Show information about the %s"
-msgstr "Mostra informações sobre o %s"
+msgstr "Mostra informação sobre o %s"
 
 #: clientgui/AdvancedFrame.cpp:675 clientgui/sg_BoincSimpleFrame.cpp:247
 #, c-format
@@ -532,11 +533,11 @@ msgstr "Mostra informações sobre o BOINC e o %s"
 #: clientgui/sg_BoincSimpleFrame.cpp:262
 #, c-format
 msgid "&About %s..."
-msgstr "&Acerca de %s..."
+msgstr "&Sobre o %s..."
 
 #: clientgui/AdvancedFrame.cpp:696 clientgui/sg_BoincSimpleFrame.cpp:268
 msgid "Licensing and copyright information."
-msgstr "Licenciamento e informações sobre direitos de autor."
+msgstr "Informação sobre o licenciamento e direitos de autor."
 
 #: clientgui/AdvancedFrame.cpp:703 clientgui/sg_BoincSimpleFrame.cpp:275
 msgid "&File"
@@ -548,7 +549,7 @@ msgstr "&Visualizar"
 
 #: clientgui/AdvancedFrame.cpp:711
 msgid "&Activity"
-msgstr "&Actividade"
+msgstr "&Atividade"
 
 #: clientgui/AdvancedFrame.cpp:715 clientgui/sg_BoincSimpleFrame.cpp:283
 msgid "&Options"
@@ -566,7 +567,7 @@ msgstr "&Ajuda"
 #: clientgui/AdvancedFrame.cpp:1237
 #, c-format
 msgid "%s - Stop using %s"
-msgstr "%s - Para de usar %s"
+msgstr "%s - Para de utilizar %s"
 
 #: clientgui/AdvancedFrame.cpp:1242
 #, c-format
@@ -608,7 +609,7 @@ msgstr "%s - (%s)"
 #: clientgui/AdvancedFrame.cpp:2032
 #, c-format
 msgid "Connecting to %s"
-msgstr "Ligando a %s"
+msgstr "A ligar a %s"
 
 #: clientgui/AdvancedFrame.cpp:2035
 #, c-format
@@ -641,17 +642,17 @@ msgstr "Uma conta com esse endereço de e-mail já existe e tem uma\npalavra-pas
 
 #: clientgui/AsyncRPC.cpp:1031
 msgid "Communicating with BOINC client.  Please wait ..."
-msgstr "A comunicar com o cliente BOINC. Por favor aguarde..."
+msgstr "A comunicar com o cliente BOINC. Por favor, aguarde..."
 
 #: clientgui/AsyncRPC.cpp:1034
 #, c-format
 msgid "&Quit %s"
-msgstr "&Sair %s"
+msgstr "&Fechar o %s"
 
 #: clientgui/AsyncRPC.cpp:1036
 #, c-format
 msgid "E&xit %s"
-msgstr "S&air %s"
+msgstr "&Sair do %s"
 
 #: clientgui/AsyncRPC.cpp:1040
 #, c-format
@@ -1083,7 +1084,7 @@ msgstr "Para mais informações, visite"
 #: clientgui/DlgGenericMessage.cpp:120 clientgui/DlgOptions.cpp:410
 #: clientgui/DlgSelectComputer.cpp:163
 msgid "&OK"
-msgstr "&OK"
+msgstr "&CONFIRMAR"
 
 #: clientgui/DlgAdvPreferences.cpp:684 clientgui/sg_DlgPreferences.cpp:775
 msgid "Invalid number"
@@ -1142,7 +1143,7 @@ msgstr "Utilizando preferências web de"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:107 clientgui/sg_DlgPreferences.cpp:189
 msgid "Set values and click OK to use local preferences instead."
-msgstr "Defina valores e clique em OK para utilizar as preferências locais."
+msgstr "Defina os valores e clique em 'CONFIRMAR' para utilizar as preferências locais."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:115 clientgui/sg_DlgPreferences.cpp:217
 msgid "Use web prefs"
@@ -1175,7 +1176,7 @@ msgstr "Programações diárias"
 #: clientgui/DlgDiagnosticLogFlags.cpp:119 clientgui/DlgExclusiveApps.cpp:146
 #: clientgui/DlgHiddenColumns.cpp:100 clientgui/sg_DlgPreferences.cpp:353
 msgid "OK"
-msgstr "OK"
+msgstr "CONFIRMAR"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:163
 msgid "Save all values and close the dialog."
@@ -1771,7 +1772,7 @@ msgstr "'%s' já está na lista."
 #: clientgui/DlgExitMessage.cpp:82
 #, c-format
 msgid "%s - Exit Confirmation"
-msgstr "%s - Confirmar Saída"
+msgstr "%s - Confirmação de Saída"
 
 #: clientgui/DlgExitMessage.cpp:130
 #, c-format
@@ -1782,7 +1783,7 @@ msgid ""
 "\n"
 "If you also want to stop running the tasks,\n"
 "choose from the following options:"
-msgstr "Pediu para terminar o %s,\nque lhe permite ver e gerir as tarefas\nem execução no seu computador.\n\nSe também quer parar as tarefas em execução,\nescolha uma das seguintes opções:"
+msgstr "Pediu para sair do %s,\nque lhe permite ver e gerir as tarefas\nem execução no seu computador.\n\nSe também quer parar as tarefas em execução,\nescolha uma das seguintes opções:"
 
 #: clientgui/DlgExitMessage.cpp:135
 #, c-format
@@ -1798,7 +1799,7 @@ msgstr "Isto irá desligar o %s e as tarefas até que\no %s ou a %s protecção 
 #: clientgui/DlgExitMessage.cpp:153
 #, c-format
 msgid "Stop running tasks when exiting the %s"
-msgstr "Parar tarefas em execução quando sair do %s"
+msgstr "Parar as tarefas em execução ao sair do %s"
 
 #: clientgui/DlgExitMessage.cpp:165
 msgid "Remember this decision and do not show this dialog."
@@ -2139,11 +2140,11 @@ msgstr "Correr daemon quando o Gestor for lançado."
 
 #: clientgui/DlgOptions.cpp:223
 msgid "Enable Manager exit dialog?"
-msgstr "Habilitar a caixa de diálogo na saída do gestor?"
+msgstr "Ativar a janela de saída do Gestor?"
 
 #: clientgui/DlgOptions.cpp:229
 msgid "Display the exit dialog when shutting down the Manager."
-msgstr "Mostrar a caixa de diálogo quando o Gestor estiver a ser desligado."
+msgstr "Exibir a janela de saída ao encerrar o Gestor."
 
 #: clientgui/DlgOptions.cpp:240
 msgid "Dial-up and Virtual Private Network settings"
@@ -3217,7 +3218,7 @@ msgstr "Não obterá novas tarefas"
 
 #: clientgui/ViewProjects.cpp:1158
 msgid "Project ended - OK to remove"
-msgstr "Projecto terminado - OK para remover"
+msgstr "Projeto terminado - OK para remover"
 
 #: clientgui/ViewProjects.cpp:1161
 msgid "Will remove when tasks done"
@@ -3642,7 +3643,7 @@ msgstr "Mostrar Todos"
 #: clientgui/mac/Mac_GUI.cpp:39 clientgui\mac/Mac_GUI.cpp:39
 #, c-format
 msgid "Quit %s"
-msgstr "Sair %s"
+msgstr "Fechar o %s"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:169
 msgid "Skin"
