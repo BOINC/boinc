@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-28 16:30+0000\n"
+"PO-Revision-Date: 2016-06-28 16:35+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -312,12 +312,12 @@ msgstr "Mudar para a Visualização Simples"
 #: clientgui/AdvancedFrame.cpp:453 clientgui/AdvancedFrame.cpp:477
 #: clientgui/sg_BoincSimpleFrame.cpp:205
 msgid "&Add project..."
-msgstr "&Adicionar projecto..."
+msgstr "&Adicionar projeto..."
 
 #: clientgui/AdvancedFrame.cpp:454 clientgui/AdvancedFrame.cpp:478
 #: clientgui/sg_BoincSimpleFrame.cpp:206
 msgid "Add a project"
-msgstr "Adicionar um projecto"
+msgstr "Adicionar um projeto"
 
 #: clientgui/AdvancedFrame.cpp:458
 msgid "&Use account manager..."
@@ -396,7 +396,7 @@ msgstr "Parar execução de trabalho independentemente das preferências"
 
 #: clientgui/AdvancedFrame.cpp:549
 msgid "Use GPU always"
-msgstr "Utilizar a GPU sempre"
+msgstr "Utilizar sempre a GPU"
 
 #: clientgui/AdvancedFrame.cpp:550
 msgid "Allow GPU work regardless of preferences"
@@ -460,19 +460,19 @@ msgstr "Configurar aplicações exclusivas"
 
 #: clientgui/AdvancedFrame.cpp:616
 msgid "Select columns..."
-msgstr "Seleccionar colunas..."
+msgstr "Selecionar colunas..."
 
 #: clientgui/AdvancedFrame.cpp:617
 msgid "Select which columns to display"
-msgstr "Seleccionar colunas a visualizar"
+msgstr "Selecionar as colunas a visualizar"
 
 #: clientgui/AdvancedFrame.cpp:621
 msgid "Event Log options...\tCtrl+Shift+F"
-msgstr "Opções do Log de Eventos...\tCtrl+Shift+F"
+msgstr "Opções do Registo de Eventos...\tCtrl+Shift+F"
 
 #: clientgui/AdvancedFrame.cpp:622
 msgid "Enable or disable various diagnostic messages"
-msgstr "Habilita ou desabilita várias mensagens de diagnóstico"
+msgstr "Ativar ou desativar várias mensagens de diagnóstico"
 
 #: clientgui/AdvancedFrame.cpp:626 clientgui/sg_BoincSimpleFrame.cpp:197
 msgid "&Other options..."
@@ -507,7 +507,7 @@ msgstr "&Ajuda do %s"
 #: clientgui/AdvancedFrame.cpp:650 clientgui/sg_BoincSimpleFrame.cpp:223
 #, c-format
 msgid "Show information about %s"
-msgstr "Mostra informações sobre o %s"
+msgstr "Mostra informação sobre o %s"
 
 #: clientgui/AdvancedFrame.cpp:660
 #, c-format
@@ -517,7 +517,7 @@ msgstr "Ajuda do &%s"
 #: clientgui/AdvancedFrame.cpp:664 clientgui/sg_BoincSimpleFrame.cpp:237
 #, c-format
 msgid "Show information about the %s"
-msgstr "Mostra informações sobre o %s"
+msgstr "Mostra informação sobre o %s"
 
 #: clientgui/AdvancedFrame.cpp:675 clientgui/sg_BoincSimpleFrame.cpp:247
 #, c-format
@@ -533,11 +533,11 @@ msgstr "Mostra informações sobre o BOINC e o %s"
 #: clientgui/sg_BoincSimpleFrame.cpp:262
 #, c-format
 msgid "&About %s..."
-msgstr "&Acerca de %s..."
+msgstr "&Sobre o %s..."
 
 #: clientgui/AdvancedFrame.cpp:696 clientgui/sg_BoincSimpleFrame.cpp:268
 msgid "Licensing and copyright information."
-msgstr "Licenciamento e informações sobre direitos de autor."
+msgstr "Informação sobre o licenciamento e direitos de autor."
 
 #: clientgui/AdvancedFrame.cpp:703 clientgui/sg_BoincSimpleFrame.cpp:275
 msgid "&File"
@@ -549,7 +549,7 @@ msgstr "&Visualizar"
 
 #: clientgui/AdvancedFrame.cpp:711
 msgid "&Activity"
-msgstr "&Actividade"
+msgstr "&Atividade"
 
 #: clientgui/AdvancedFrame.cpp:715 clientgui/sg_BoincSimpleFrame.cpp:283
 msgid "&Options"
@@ -567,7 +567,7 @@ msgstr "&Ajuda"
 #: clientgui/AdvancedFrame.cpp:1237
 #, c-format
 msgid "%s - Stop using %s"
-msgstr "%s - Para de usar %s"
+msgstr "%s - Para de utilizar %s"
 
 #: clientgui/AdvancedFrame.cpp:1242
 #, c-format
@@ -609,7 +609,7 @@ msgstr "%s - (%s)"
 #: clientgui/AdvancedFrame.cpp:2032
 #, c-format
 msgid "Connecting to %s"
-msgstr "Ligando a %s"
+msgstr "A ligar a %s"
 
 #: clientgui/AdvancedFrame.cpp:2035
 #, c-format
@@ -642,12 +642,12 @@ msgstr "Uma conta com esse endereço de e-mail já existe e tem uma\npalavra-pas
 
 #: clientgui/AsyncRPC.cpp:1031
 msgid "Communicating with BOINC client.  Please wait ..."
-msgstr "A comunicar com o cliente BOINC. Por favor aguarde..."
+msgstr "A comunicar com o cliente BOINC. Por favor, aguarde..."
 
 #: clientgui/AsyncRPC.cpp:1034
 #, c-format
 msgid "&Quit %s"
-msgstr "&Sair %s"
+msgstr "&Sair do %s"
 
 #: clientgui/AsyncRPC.cpp:1036
 #, c-format
