@@ -303,19 +303,19 @@
   <string name="suspend_delay">Atraso de inicialização.</string>
   <string name="suspend_exclusiveapp">Uma aplicação exclusiva está em execução.</string>
   <string name="suspend_cpu">O seu dispositivo está ocupado com outras aplicações</string>
-  <string name="suspend_network_quota">O BOINC atingiu a transferência limite diária de rede.</string>
+  <string name="suspend_network_quota">BOINC atingiu o limite de transferência diário da rede.</string>
   <string name="suspend_os">Parado pelo Android.</string>
-  <string name="suspend_wifi">Não conectado a um WiFi.</string>
-  <string name="suspend_battery_charging">A aguardar que a bateria seja carregada</string>
+  <string name="suspend_wifi">Não ligado à Wi-Fi.</string>
+  <string name="suspend_battery_charging">A aguardar que a bateria seja carregada.</string>
   <string name="suspend_battery_charging_long">A computação será resumida quando a carga da bateria chegar a</string>
   <string name="suspend_battery_charging_long2"></string>
-  <string name="suspend_battery_charging_current">actualmente</string>
-  <string name="suspend_battery_overheating">À espera que a bateria arrefeça</string>
-  <string name="suspend_user_req">A resumir computação...</string>
+  <string name="suspend_battery_charging_current">atualmente</string>
+  <string name="suspend_battery_overheating">A aguardar que a bateria arrefeça</string>
+  <string name="suspend_user_req">A retomar a computação...</string>
   <string name="suspend_network_user_req">manualmente.</string>
   <!--rpc reasons-->
   <string name="rpcreason_userreq">Solicitado pelo utilizador</string>
-  <string name="rpcreason_needwork">Obter trabalho</string>
+  <string name="rpcreason_needwork">Para obter trabalho</string>
   <string name="rpcreason_resultsdue">Reportar tarefas concluídas</string>
   <string name="rpcreason_trickleup">Enviar mensagem de aviso</string>
   <string name="rpcreason_acctmgrreq">Solicitado pelo gestor de conta</string>
@@ -323,14 +323,14 @@
   <string name="rpcreason_projectreq">Solicitado pelo projecto</string>
   <string name="rpcreason_unknown">Razão desconhecida</string>
   <!--menu-->
-  <string name="menu_refresh">Recarregar</string>
-  <string name="menu_emailto">Enviar como e-mail</string>
+  <string name="menu_refresh">Atualizar</string>
+  <string name="menu_emailto">Enviar como E-mail</string>
   <string name="menu_copy">Copiar para a Área de Transferência</string>
-  <string name="menu_eventlog">Log de Eventos</string>
+  <string name="menu_eventlog">Registo de Eventos</string>
   <string name="menu_exit">Sair do BOINC</string>
   <string name="menu_run_mode_disable">Suspender</string>
-  <string name="menu_run_mode_enable">Resumir</string>
-  <string name="menu_about">Acerca de</string>
+  <string name="menu_run_mode_enable">Retomar</string>
+  <string name="menu_about">Sobre</string>
   <string name="menu_help">Ajuda</string>
   <!--about dialog-->
   <string name="about_button">Regressar</string>
