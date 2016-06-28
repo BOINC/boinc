@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-06-28 18:04+0000\n"
+"PO-Revision-Date: 2016-06-28 18:09+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -274,7 +274,7 @@ msgstr "Computação com o BOINC"
 
 #: index.php:139
 msgid "Software updates"
-msgstr "Atualizações do Software"
+msgstr "Atualizações de Software"
 
 #: index.php:146
 msgid ""
@@ -314,11 +314,11 @@ msgstr "Código fonte"
 
 #: index.php:186
 msgid "APIs for add-on software"
-msgstr "APIs para add-on de software"
+msgstr "APIs para complemento de software"
 
 #: index.php:231
 msgid "Open-source software for volunteer computing"
-msgstr "Programa de código aberto para computação voluntária"
+msgstr "Software de código aberto para computação voluntária"
 
 #: projects.inc:19
 msgid "Distributed sensing"
