@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 00:15+0000\n"
+"PO-Revision-Date: 2016-06-29 00:21+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -527,7 +527,7 @@ msgstr "%s - Site da &Web"
 #: clientgui/AdvancedFrame.cpp:679 clientgui/sg_BoincSimpleFrame.cpp:251
 #, c-format
 msgid "Show information about BOINC and %s"
-msgstr "Mostra informação sobre o BOINC e o %s"
+msgstr "Mostrar informação sobre o BOINC e o %s"
 
 #: clientgui/AdvancedFrame.cpp:690 clientgui/BOINCTaskBar.cpp:541
 #: clientgui/sg_BoincSimpleFrame.cpp:262
@@ -880,7 +880,7 @@ msgstr "multiplas instâncias do BOINC Manager permitidas"
 
 #: clientgui/BOINCGUIApp.cpp:679
 msgid "Not used: workaround for bug in XCode 4.2"
-msgstr "Não utilizado: solução alternativa para esse bug no XCode 4.2"
+msgstr "Não utilizado: solução alternativa para o erro no XCode 4.2"
 
 #: clientgui/BOINCGUIApp.cpp:681
 msgid "Not run the daemon"
@@ -1078,7 +1078,7 @@ msgstr "O BOINC é distribuído sob a Licença Pública Geral Lesser GNU v3.0."
 
 #: clientgui/DlgAbout.cpp:203
 msgid "For more information, visit "
-msgstr "Para mais informações, visite"
+msgstr "Para mais informação, visite"
 
 #: clientgui/DlgAbout.cpp:215 clientgui/DlgExitMessage.cpp:173
 #: clientgui/DlgGenericMessage.cpp:120 clientgui/DlgOptions.cpp:410
@@ -1092,7 +1092,7 @@ msgstr "Número inválido"
 
 #: clientgui/DlgAdvPreferences.cpp:685 clientgui/sg_DlgPreferences.cpp:776
 msgid "Invalid time, value must be between 0:00 and 24:00, format is HH:MM"
-msgstr "Hora inválida, o valor deve estar entre 0.00 e 24.00, o formato é HH:MM"
+msgstr "Hora inválida, o valor deve estar entre 00.00 e 24.00, o formato é HH:MM"
 
 #: clientgui/DlgAdvPreferences.cpp:686 clientgui/sg_DlgPreferences.cpp:777
 msgid "Start time must be different from end time"
@@ -1404,11 +1404,11 @@ msgstr "Seleccione aqui apenas se o seu fornecedor de Internet modificar os fich
 
 #: clientgui/DlgAdvPreferencesBase.cpp:524
 msgid "Skip data verification for image files"
-msgstr "Saltar verificação de dados para imagens"
+msgstr "Ignorar a verificação de dados para os ficheiros de imagens"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:528
 msgid "Confirm before connecting to Internet"
-msgstr "Confirmar antes de se ligar à Internet"
+msgstr "Confirmar antes de ligar à Internet"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:529
 #: clientgui/DlgAdvPreferencesBase.cpp:533
@@ -1681,11 +1681,11 @@ msgstr "Mostrar todas as &mensagens"
 
 #: clientgui/DlgEventLog.cpp:350 clientgui/DlgEventLog.cpp:352
 msgid "Show messages for all projects"
-msgstr "Mostrar mensagens para todos os projectos"
+msgstr "Mostrar mensagens para todos os projetos"
 
 #: clientgui/DlgEventLog.cpp:356 clientgui/DlgEventLog.cpp:358
 msgid "Show only the messages for the selected project"
-msgstr "Mostrar apenas as mensagens para o projecto seleccionado"
+msgstr "Mostrar apenas as mensagens para o projeto selecionado"
 
 #: clientgui/DlgExclusiveApps.cpp:60
 #, c-format
@@ -1850,7 +1850,7 @@ msgstr "Preferências do gestor de conta"
 
 #: clientgui/DlgItemProperties.cpp:200
 msgid "Project has no apps for "
-msgstr "O projecto não tem aplicações por"
+msgstr "O projeto não tem aplicações por"
 
 #: clientgui/DlgItemProperties.cpp:203
 msgid "Client configuration excludes "
@@ -1898,11 +1898,11 @@ msgstr "Agendamento RPC deferido por"
 
 #: clientgui/DlgItemProperties.cpp:260
 msgid "File downloads deferred for"
-msgstr "Transferência dos ficheiros deferidos por"
+msgstr "Transferências de ficheiro deferidas por"
 
 #: clientgui/DlgItemProperties.cpp:263
 msgid "File uploads deferred for"
-msgstr "Uploads dos ficheiros deferidos por"
+msgstr "Envios de ficheiro deferidos por"
 
 #: clientgui/DlgItemProperties.cpp:265
 msgid "Disk usage"
@@ -2185,7 +2185,7 @@ msgstr "Porta:"
 
 #: clientgui/DlgOptions.cpp:310 clientgui/DlgOptions.cpp:374
 msgid "Don't use proxy for:"
-msgstr "Não usar proxy para:"
+msgstr "Não utilizar proxy para:"
 
 #: clientgui/DlgOptions.cpp:317 clientgui/DlgOptions.cpp:381
 msgid "Leave these blank if not needed"
@@ -2252,7 +2252,7 @@ msgstr "%s - Selecção de Idioma"
 msgid ""
 "The %s's language has been changed.  In order for this change to take "
 "effect, you must restart the %s."
-msgstr "O idioma %s's foi alterado. Para que esta alteração tenha efeito, tem de reiniciar o %s."
+msgstr "O idioma do %s's foi alterado. Para que esta alteração seja aplicada, deve reiniciar o %s."
 
 #: clientgui/DlgSelectComputer.cpp:91
 #, c-format
