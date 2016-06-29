@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 00:36+0000\n"
+"PO-Revision-Date: 2016-06-29 00:47+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -175,7 +175,7 @@ msgstr "Abrir página da Web"
 
 #: clientgui/AccountManagerInfoPage.cpp:288
 msgid "Visit this account manager's web site"
-msgstr "Visitar o site da Web deste gestor de conta"
+msgstr "Visitar este site da Web do gestor de conta"
 
 #. %s is the project name
 #. i.e. 'BOINC', 'GridRepublic'
@@ -836,7 +836,7 @@ msgstr "BOINC Manager"
 
 #: clientgui/BOINCGUIApp.cpp:664
 msgid "BOINC Manager was started by the operating system automatically"
-msgstr "O BOINC Manager foi iniciado pelo sistema operativo automaticamente"
+msgstr "O BOINC Manager foi iniciado automaticamente pelo sistema operativo"
 
 #: clientgui/BOINCGUIApp.cpp:666
 msgid "Startup BOINC so only the system tray icon is visible"
@@ -872,11 +872,11 @@ msgstr "desabilitar os utilizadores de segurança e as permissões do BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:676
 msgid "set skin debugging mode to enable skin manager error messages"
-msgstr "iniciar o modo de depuração para habilitar o gestor de mensagens de erro"
+msgstr "definir modo de depuração do tema para ativar as mensagens de erro do gestor de temas"
 
 #: clientgui/BOINCGUIApp.cpp:677
 msgid "multiple instances of BOINC Manager allowed"
-msgstr "multiplas instâncias do BOINC Manager permitidas"
+msgstr "permitidas múltiplas instâncias do BOINC Manager"
 
 #: clientgui/BOINCGUIApp.cpp:679
 msgid "Not used: workaround for bug in XCode 4.2"
@@ -981,15 +981,15 @@ msgstr "Falha ao adicionar projecto"
 
 #: clientgui/CompletionErrorPage.cpp:204
 msgid "Failed to update account manager"
-msgstr "Falha ao actualizar o gestor de conta"
+msgstr "Não foi possível atualizar o gestor de conta"
 
 #: clientgui/CompletionErrorPage.cpp:208
 msgid "Failed to remove account manager"
-msgstr "Falha ao remover o gestor de conta"
+msgstr "Não foi possível remover o gestor de conta"
 
 #: clientgui/CompletionErrorPage.cpp:212
 msgid "Failed to add account manager"
-msgstr "Falha ao adicionar o gestor de conta"
+msgstr "Não foi possível adicionar o gestor de conta"
 
 #: clientgui/CompletionErrorPage.cpp:221
 msgid ""
@@ -1033,7 +1033,7 @@ msgstr "Actualização concluída."
 #. Attach Completed
 #: clientgui/CompletionPage.cpp:247
 msgid "Now using account manager"
-msgstr "Utilizando agora o gestor de conta"
+msgstr "Agora, a utilizar o gestor de conta"
 
 #: clientgui/CompletionPage.cpp:252
 #, c-format
@@ -1047,7 +1047,7 @@ msgstr "Está agora a utilizar o %s para gerir as contas."
 
 #: clientgui/CompletionPage.cpp:267
 msgid "You are now using this account manager."
-msgstr "Está agora a utilizar este gestor de conta."
+msgstr "Agora está a utilizar este gestor de conta."
 
 #: clientgui/DlgAbout.cpp:113
 #, c-format
@@ -2124,7 +2124,7 @@ msgstr "Com que frequência é que o BOINC deve lembrar-lhe das novas notícias?
 
 #: clientgui/DlgOptions.cpp:202
 msgid "Run Manager at login?"
-msgstr "Executar o Gestor no login?"
+msgstr "Executar o Gestor depois de iniciar a sessão?"
 
 #: clientgui/DlgOptions.cpp:208
 msgid "Run the BOINC Manager when you log on."
