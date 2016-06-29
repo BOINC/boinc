@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 02:45+0000\n"
+"PO-Revision-Date: 2016-06-29 02:50+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -3339,7 +3339,7 @@ msgstr "Projeto &Seguinte >"
 
 #: clientgui/ViewStatistics.cpp:1994
 msgid "Show chart for next project"
-msgstr "Mostrar gráfico para o projeto seguinte"
+msgstr "Mostra um gráfico para o projeto seguinte"
 
 #: clientgui/ViewStatistics.cpp:2000 clientgui/ViewStatistics.cpp:2390
 msgid "Hide project list"
@@ -3359,7 +3359,7 @@ msgstr "Um projeto"
 
 #: clientgui/ViewStatistics.cpp:2011
 msgid "Show one chart with selected project"
-msgstr "Mostrar um gráfico com o projeto selecionado"
+msgstr "Mostra um gráfico com o projeto selecionado"
 
 #: clientgui/ViewStatistics.cpp:2017
 msgid "All projects (separate)"
@@ -3367,7 +3367,7 @@ msgstr "Todos os projetos (separados)"
 
 #: clientgui/ViewStatistics.cpp:2018
 msgid "Show all projects, one chart per project"
-msgstr "Mostrar todos os projetos, um gráfico por projeto"
+msgstr "Mostra todos os projetos, um gráfico por projeto"
 
 #: clientgui/ViewStatistics.cpp:2024
 msgid "All projects (together)"
@@ -3375,7 +3375,7 @@ msgstr "Todos os projetos (juntos)"
 
 #: clientgui/ViewStatistics.cpp:2025
 msgid "Show one chart with all projects"
-msgstr "Mostrar um gráfico com todos os projetos"
+msgstr "Mostra um gráfico com todos os projetos"
 
 #: clientgui/ViewStatistics.cpp:2031
 msgid "All projects (sum)"
@@ -3383,7 +3383,7 @@ msgstr "Todos os projetos (somados)"
 
 #: clientgui/ViewStatistics.cpp:2032
 msgid "Show one chart with sum of projects"
-msgstr "Mostrar um gráfico com a soma de todos os projectos"
+msgstr "Mostra um gráfico com a soma de todos os projetos"
 
 #: clientgui/ViewStatistics.cpp:2053
 msgid "Statistics"
@@ -3525,7 +3525,7 @@ msgstr "Mostrar gráficos"
 
 #: clientgui/ViewWork.cpp:219 clientgui/sg_TaskCommandPopup.cpp:67
 msgid "Show application graphics in a window."
-msgstr "Mostrar gráfico da aplicação numa janela."
+msgstr "Mostra os gráficos da aplicação numa janela."
 
 #: clientgui/ViewWork.cpp:225
 msgid "Show VM Console"
@@ -3533,7 +3533,7 @@ msgstr "Mostrar Consola VM"
 
 #: clientgui/ViewWork.cpp:226
 msgid "Show VM Console in a window."
-msgstr "Mostrar Consola VM numa janela."
+msgstr "Mostra a Consola VM numa janela."
 
 #: clientgui/ViewWork.cpp:233
 msgid "Suspend work for this result."
@@ -3549,7 +3549,7 @@ msgstr "Abandonar resultado do trabalho. Não receberá crédito por ele."
 
 #: clientgui/ViewWork.cpp:247 clientgui/sg_TaskCommandPopup.cpp:85
 msgid "Show task details."
-msgstr "Mostrar detalhes da tarefa."
+msgstr "Mostra os detalhes da tarefa."
 
 #: clientgui/ViewWork.cpp:264
 msgid "Remaining (estimated)"
