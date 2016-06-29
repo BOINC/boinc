@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-06-29 03:50+0000\n"
+"PO-Revision-Date: 2016-06-29 03:55+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -183,7 +183,7 @@ msgstr "Os ajudantes do BOINC são voluntários não remunerados. Os seus consel
 
 #: help_funcs.php:139
 msgid "%1Never%2 give email address or password information to BOINC helpers."
-msgstr "%1Nunca%2 forneça informações sobre o endereço de e-mail ou a palavra-passe aos ajudantes do BOINC."
+msgstr "%1Nunca%2 forneça a informação sobre o endereço de e-mail ou palavra-passe aos ajudantes do BOINC."
 
 #: index.php:24
 msgid "Computing power"
