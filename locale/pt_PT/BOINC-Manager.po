@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 03:01+0000\n"
+"PO-Revision-Date: 2016-06-29 03:06+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -928,11 +928,11 @@ msgstr "S&air"
 #: clientgui/sg_ProjectCommandPopup.cpp:125
 #: clientgui/sg_TaskCommandPopup.cpp:118
 msgid "Resume"
-msgstr "Resumir"
+msgstr "Retomar"
 
 #: clientgui/BOINCTaskBar.cpp:646
 msgid "Resume GPU"
-msgstr "Resumir GPU"
+msgstr "Retomar GPU"
 
 #: clientgui/BOINCTaskBar.cpp:712
 msgid "Computing is enabled"
@@ -960,11 +960,11 @@ msgstr "A atividade de rede está suspensa - "
 
 #: clientgui/BOINCTaskBar.cpp:749
 msgid "Reconnecting to client."
-msgstr "Ligando novamente ao cliente."
+msgstr "A religar ao cliente."
 
 #: clientgui/BOINCTaskBar.cpp:751
 msgid "Not connected to a client."
-msgstr "Não ligado ao cliente."
+msgstr "Não está ligado a um cliente."
 
 #: clientgui/BOINCTaskBar.cpp:804
 #, c-format
@@ -977,7 +977,7 @@ msgstr "Existem novas notícias - clique para visualizar."
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to add project"
-msgstr "Falha ao adicionar projecto"
+msgstr "Não foi possível adicionar o projeto"
 
 #: clientgui/CompletionErrorPage.cpp:204
 msgid "Failed to update account manager"
@@ -996,12 +996,12 @@ msgid ""
 "Please try again later.\n"
 "\n"
 "Click Finish to close."
-msgstr "Por favor, tente novamente mais tarde.\n\nClique em Terminar para fechar."
+msgstr "Por favor, tente novamente mais tarde.\n\nClique em 'Terminar' para fechar."
 
 #: clientgui/CompletionErrorPage.cpp:225 clientgui/CompletionPage.cpp:222
 #: clientgui/CompletionPage.cpp:242 clientgui/CompletionPage.cpp:273
 msgid "Click Finish to close."
-msgstr "Clique em Terminar para fechar."
+msgstr "Clique em 'Terminar' para fechar."
 
 #: clientgui/CompletionErrorPage.cpp:234
 msgid "Messages from server:"
@@ -1024,11 +1024,11 @@ msgstr "Quando clica em Terminar, o seu navegador da Web irá para uma página\n
 #: clientgui/CompletionPage.cpp:232
 #, c-format
 msgid "Update from %s completed."
-msgstr "Actualização do %s concluída."
+msgstr "Atualização do %s concluída."
 
 #: clientgui/CompletionPage.cpp:236
 msgid "Update completed."
-msgstr "Actualização concluída."
+msgstr "Atualização concluída."
 
 #. Attach Completed
 #: clientgui/CompletionPage.cpp:247
@@ -1038,7 +1038,7 @@ msgstr "Agora, a utilizar o gestor de conta"
 #: clientgui/CompletionPage.cpp:252
 #, c-format
 msgid "Welcome to %s!"
-msgstr "Bem vindo a %s!"
+msgstr "Bem vindo ao %s!"
 
 #: clientgui/CompletionPage.cpp:263
 #, c-format
@@ -1052,7 +1052,7 @@ msgstr "Agora está a utilizar este gestor de conta."
 #: clientgui/DlgAbout.cpp:113
 #, c-format
 msgid "About %s"
-msgstr "Acerca do %s"
+msgstr "Sobre o %s"
 
 #: clientgui/DlgAbout.cpp:172
 msgid "Version:"
@@ -1060,7 +1060,7 @@ msgstr "Versão:"
 
 #: clientgui/DlgAbout.cpp:180
 msgid "wxWidgets Version:"
-msgstr "Versão dos wxWidgets:"
+msgstr "Versão das wxWidgets:"
 
 #: clientgui/DlgAbout.cpp:188
 msgid "Copyright:"
