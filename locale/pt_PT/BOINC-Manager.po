@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 01:11+0000\n"
+"PO-Revision-Date: 2016-06-29 01:16+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -448,7 +448,7 @@ msgstr "&Preferências de computação..."
 
 #: clientgui/AdvancedFrame.cpp:605 clientgui/sg_BoincSimpleFrame.cpp:192
 msgid "Configure computing preferences"
-msgstr "Configurar preferências de computação"
+msgstr "Configurar as preferências de computação"
 
 #: clientgui/AdvancedFrame.cpp:610
 msgid "Exclusive applications..."
@@ -936,19 +936,19 @@ msgstr "Resumir GPU"
 
 #: clientgui/BOINCTaskBar.cpp:712
 msgid "Computing is enabled"
-msgstr "Computação está activada"
+msgstr "A computação está ativada"
 
 #: clientgui/BOINCTaskBar.cpp:716
 msgid "Computing is suspended - "
-msgstr "Computação está suspensa - "
+msgstr "A computação está suspensa - "
 
 #: clientgui/BOINCTaskBar.cpp:726
 msgid "GPU computing is enabled"
-msgstr "Computação por GPU está activada"
+msgstr "A computação por GPU está ativada"
 
 #: clientgui/BOINCTaskBar.cpp:729
 msgid "GPU computing is suspended - "
-msgstr "Computação por GPU está suspensa - "
+msgstr "A computação por GPU está suspensa - "
 
 #: clientgui/BOINCTaskBar.cpp:738
 msgid "Network is enabled"
@@ -1156,7 +1156,7 @@ msgstr "Restaurar as preferências da Web e fechar a janela."
 #: clientgui/DlgAdvPreferencesBase.cpp:140
 #: clientgui/DlgAdvPreferencesBase.cpp:684
 msgid "Computing"
-msgstr "A computar"
+msgstr "Computação"
 
 #. Network schedule
 #: clientgui/DlgAdvPreferencesBase.cpp:143
@@ -1794,7 +1794,7 @@ msgid ""
 "In most cases, it is better just to close the %s window\n"
 "rather than to exit the application; that will allow %s to run its\n"
 "tasks at the times you selected in your preferences."
-msgstr "Isto irá encerrar o %s e as tarefas até que\no %s ou o protetor de ecrã do %s sejam executados novamente.\n\nNa maioria dos casos, é melhor fechar apenas a janela do %s\ndo que sair da aplicação; isso irá permitir que o %s execute as\ntarefas nas horas selecionadas nas suas preferências."
+msgstr "Isto irá encerrar o %s e as tarefas até que\no %s ou o protetor de ecrã do %s sejam executados novamente.\n\nNa maioria dos casos, é melhor fechar apenas a janela do %s\ndo que sair da aplicação; isso irá permitir que o %s execute as\ntarefas às horas agendadas nas suas preferências."
 
 #: clientgui/DlgExitMessage.cpp:153
 #, c-format
@@ -1910,7 +1910,7 @@ msgstr "Utilização do disco"
 
 #: clientgui/DlgItemProperties.cpp:266
 msgid "Computer ID"
-msgstr "ID do Computador"
+msgstr "Id. do Computador"
 
 #: clientgui/DlgItemProperties.cpp:268
 msgid "Non CPU intensive"
@@ -2257,7 +2257,7 @@ msgstr "O idioma do %s's foi alterado. Para que esta alteração seja aplicada, 
 #: clientgui/DlgSelectComputer.cpp:91
 #, c-format
 msgid "%s - Select Computer"
-msgstr "%s - Seleccione Computador"
+msgstr "%s - Seleção de Computador"
 
 #: clientgui/DlgSelectComputer.cpp:125
 #, c-format
@@ -3680,7 +3680,7 @@ msgstr "Predefinido"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:895
 msgid "Suspend Computing"
-msgstr "Suspende a Computação"
+msgstr "Suspender Computação"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:896
 msgid "Resume Computing"
