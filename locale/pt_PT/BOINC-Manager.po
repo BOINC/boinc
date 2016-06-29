@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 02:12+0000\n"
+"PO-Revision-Date: 2016-06-29 02:17+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -507,7 +507,7 @@ msgstr "&Ajuda do %s"
 #: clientgui/AdvancedFrame.cpp:650 clientgui/sg_BoincSimpleFrame.cpp:223
 #, c-format
 msgid "Show information about %s"
-msgstr "Mostrar informação sobre o %s"
+msgstr "Mostra informação sobre o %s"
 
 #: clientgui/AdvancedFrame.cpp:660
 #, c-format
@@ -688,7 +688,7 @@ msgstr "A autorização falhou para ligar ao cliente em execução."
 
 #: clientgui/BOINCBaseFrame.cpp:540
 msgid "The password you have provided is incorrect, please try again."
-msgstr "A palavra-passe que inseriu está incorrecta, por favor tente novamente."
+msgstr "A palavra-passe que inseriu está incorreta, por favor, tente novamente."
 
 #: clientgui/BOINCBaseFrame.cpp:584
 #, c-format
@@ -705,7 +705,7 @@ msgstr "%s não consegue ligar-se ao cliente %s.\nQuer tentar ligar novamente?"
 #: clientgui/BOINCBaseFrame.cpp:629
 #, c-format
 msgid "%s - Daemon Start Failed"
-msgstr "%s - A Inicialização do Daemon falhou"
+msgstr "%s - Inicialização do Daemon Falhou"
 
 #: clientgui/BOINCBaseFrame.cpp:639
 #, c-format
@@ -766,17 +766,17 @@ msgstr "%s precisa de se ligar à Internet.\nPode fazê-lo agora?"
 #: clientgui/BOINCDialupManager.cpp:254
 #, c-format
 msgid "%s is connecting to the Internet."
-msgstr "%s está a ligar-se à Internet."
+msgstr "%s está a ligar à Internet."
 
 #: clientgui/BOINCDialupManager.cpp:303
 #, c-format
 msgid "%s has successfully connected to the Internet."
-msgstr "%s ligou-se com sucesso à Internet."
+msgstr "%s ligou com sucesso à Internet."
 
 #: clientgui/BOINCDialupManager.cpp:331
 #, c-format
 msgid "%s failed to connect to the Internet."
-msgstr "%s falhou a conexão à Internet."
+msgstr "%s falhou para ligar à Internet."
 
 #: clientgui/BOINCDialupManager.cpp:372
 #, c-format
@@ -848,15 +848,15 @@ msgstr "Directório contendo o executável do Cliente BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:669
 msgid "BOINC data directory"
-msgstr "Directório de dados do BOINC"
+msgstr "Pasta de dados do BOINC"
 
 #: clientgui/BOINCGUIApp.cpp:671
 msgid "Host name or IP address"
-msgstr "Nome de anfitrião ou endereço IP"
+msgstr "Nome de anfitrião ou endereço de IP"
 
 #: clientgui/BOINCGUIApp.cpp:672
 msgid "GUI RPC port number"
-msgstr "Número da porta do GUI RPC"
+msgstr "Número da porta de GUI RPC"
 
 #: clientgui/BOINCGUIApp.cpp:673
 msgid "Password"
@@ -884,12 +884,12 @@ msgstr "Não utilizado: solução alternativa para o erro no XCode 4.2"
 
 #: clientgui/BOINCGUIApp.cpp:681
 msgid "Not run the daemon"
-msgstr "Não correr o daemon"
+msgstr "Não executar daemon"
 
 #. These are just special tags so deal with them in a special way
 #: clientgui/BOINCGUIApp.cpp:931
 msgid "(Automatic Detection)"
-msgstr "(Detecção Automática)"
+msgstr "(Deteção Automática)"
 
 #: clientgui/BOINCGUIApp.cpp:932
 msgid "(Unknown)"
