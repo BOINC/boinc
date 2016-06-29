@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 00:26+0000\n"
+"PO-Revision-Date: 2016-06-29 00:31+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -255,11 +255,11 @@ msgstr "Preferências..."
 
 #: clientgui/AdvancedFrame.cpp:400
 msgid "&Notices\tCtrl+Shift+N"
-msgstr "&Avisos\tCtrl+Shift+N"
+msgstr "&Notícias\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:401
 msgid "Show notices"
-msgstr "Mostrar avisos"
+msgstr "Mostrar notícias"
 
 #: clientgui/AdvancedFrame.cpp:406
 msgid "&Projects\tCtrl+Shift+P"
@@ -969,11 +969,11 @@ msgstr "Não ligado ao cliente."
 #: clientgui/BOINCTaskBar.cpp:804
 #, c-format
 msgid "%s Notices"
-msgstr "%s Notícias"
+msgstr "%s - Notícias"
 
 #: clientgui/BOINCTaskBar.cpp:810
 msgid "There are new notices - click to view."
-msgstr "Existem notícias novas - clique para visualizar."
+msgstr "Existem novas notícias - clique para visualizar."
 
 #: clientgui/CompletionErrorPage.cpp:199
 msgid "Failed to add project"
@@ -2116,7 +2116,7 @@ msgstr "Que idioma deve o BOINC utilizar?"
 
 #: clientgui/DlgOptions.cpp:190
 msgid "Notice reminder interval:"
-msgstr "Intervalo de advertência de noticias:"
+msgstr "Intervalo de lembrança de notícias:"
 
 #: clientgui/DlgOptions.cpp:197
 msgid "How often should BOINC remind you of new notices?"
@@ -2990,7 +2990,7 @@ msgstr "Mostrar apenas este projecto"
 
 #: clientgui/ViewMessages.cpp:107 clientgui/ViewMessages.cpp:503
 msgid "Show only the messages for the selected project."
-msgstr "Mostrar apenas as mensagens para o projecto seleccionado."
+msgstr "Mostrar apenas as mensagens para o projeto selecionado."
 
 #: clientgui/ViewMessages.cpp:164
 msgid "Messages"
@@ -3014,7 +3014,7 @@ msgstr "Mostrar todas as mensagens"
 
 #: clientgui/ViewMessages.cpp:495
 msgid "Show messages for all projects."
-msgstr "Mostrar mensagens para todos os projectos."
+msgstr "Mostrar mensagens para todos os projetos."
 
 #: clientgui/ViewNotices.cpp:58 clientgui/sg_DlgMessages.cpp:124
 msgid "Fetching notices; please wait..."
@@ -3051,7 +3051,7 @@ msgstr "Suspender"
 #: clientgui/sg_ProjectCommandPopup.cpp:73
 #: clientgui/sg_ProjectCommandPopup.cpp:129
 msgid "Suspend tasks for this project."
-msgstr "Suspender tarefas para este projecto."
+msgstr "Suspender tarefas para este projeto."
 
 #: clientgui/ViewProjects.cpp:216 clientgui/ViewProjects.cpp:827
 #: clientgui/sg_ProjectCommandPopup.cpp:78
@@ -3061,7 +3061,7 @@ msgstr "Não obter novas tarefas"
 
 #: clientgui/ViewProjects.cpp:217 clientgui/sg_ProjectCommandPopup.cpp:79
 msgid "Don't get new tasks for this project."
-msgstr "Não obter novas tarefas para este projecto."
+msgstr "Não obter novas tarefas para este projeto."
 
 #: clientgui/ViewProjects.cpp:223 clientgui/sg_ProjectCommandPopup.cpp:84
 msgid "Reset project"
@@ -3162,7 +3162,7 @@ msgstr "A lançar o navegador..."
 
 #: clientgui/ViewProjects.cpp:804 clientgui/sg_ProjectCommandPopup.cpp:126
 msgid "Resume tasks for this project."
-msgstr "Resumir tarefas para este projecto."
+msgstr "Retomar tarefas para este projeto."
 
 #: clientgui/ViewProjects.cpp:823 clientgui/sg_ProjectCommandPopup.cpp:133
 msgid "Allow new tasks"
@@ -3170,11 +3170,11 @@ msgstr "Permitir novas tarefas"
 
 #: clientgui/ViewProjects.cpp:823 clientgui/sg_ProjectCommandPopup.cpp:134
 msgid "Allow fetching new tasks for this project."
-msgstr "Permitir obtenção de novas tarefas para este projecto."
+msgstr "Permitir a obtenção de novas tarefas para este projeto."
 
 #: clientgui/ViewProjects.cpp:827 clientgui/sg_ProjectCommandPopup.cpp:137
 msgid "Don't fetch new tasks for this project."
-msgstr "Não obter novas tarefas para este projecto."
+msgstr "Não obter novas tarefas para este projeto."
 
 #: clientgui/ViewProjects.cpp:1131
 msgid "Requested by user"
