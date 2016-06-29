@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 03:28+0000\n"
+"PO-Revision-Date: 2016-06-29 03:33+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -2355,7 +2355,7 @@ msgstr "Estado atual do servidor Einstein@Home"
 
 #: clientgui/Localization.cpp:77
 msgid "Report problems"
-msgstr "Reportar problemas"
+msgstr "Comunicar problemas"
 
 #: clientgui/Localization.cpp:79
 msgid "A link to the Einstein@Home problems and bug reports message board"
@@ -2399,7 +2399,7 @@ msgstr "Equipa"
 
 #: clientgui/Localization.cpp:117
 msgid "Info about your Team"
-msgstr "Informações acerca da sua Equipa"
+msgstr "Informação sobre a sua Equipa"
 
 #: clientgui/Localization.cpp:123
 msgid "Get help for climateprediction.net"
@@ -2419,7 +2419,7 @@ msgstr "Ver a informação da sua conta, créditos e avisos"
 
 #: clientgui/Localization.cpp:135
 msgid "Info about your team"
-msgstr "Informações acerca da sua equipa"
+msgstr "Informação sobre a sua equipa"
 
 #: clientgui/Localization.cpp:141
 msgid "Search for help in our help system"
@@ -2443,11 +2443,11 @@ msgstr "As suas estatísticas e definições"
 
 #: clientgui/Localization.cpp:151
 msgid "Device Profiles"
-msgstr "Perfis do dispositivo"
+msgstr "Perfis de Dispositivo"
 
 #: clientgui/Localization.cpp:153
 msgid "Update your device settings"
-msgstr "Actualizar as definições do seu dispositivo"
+msgstr "Atualizar as definições do seu dispositivo"
 
 #: clientgui/Localization.cpp:155
 msgid "Research"
@@ -2463,11 +2463,11 @@ msgstr "A iniciar cliente"
 
 #: clientgui/MainDocument.cpp:593
 msgid "Connecting to client"
-msgstr "Ligando-se ao cliente"
+msgstr "A ligar ao cliente"
 
 #: clientgui/MainDocument.cpp:1207
 msgid "Retrieving system state; please wait..."
-msgstr "A recuperar o estado do sistema; por favor aguarde..."
+msgstr "A obter o estado do sistema; por favor, aguarde..."
 
 #: clientgui/MainDocument.cpp:1828
 msgid "Missing application"
@@ -2533,7 +2533,7 @@ msgstr "razão desconhecida"
 
 #: clientgui/MainDocument.cpp:2478
 msgid "GPU missing, "
-msgstr "GPU não detectado,"
+msgstr "GPU não detetada,"
 
 #: clientgui/MainDocument.cpp:2485
 msgid "New"
@@ -2545,7 +2545,7 @@ msgstr "Transferência falhada"
 
 #: clientgui/MainDocument.cpp:2491
 msgid "Downloading"
-msgstr "Fazendo a transferência"
+msgstr "Transferência"
 
 #: clientgui/MainDocument.cpp:2493 clientgui/MainDocument.cpp:2552
 msgid " (suspended - "
@@ -2553,7 +2553,7 @@ msgstr "(suspenso - "
 
 #: clientgui/MainDocument.cpp:2501
 msgid "Project suspended by user"
-msgstr "Projecto suspenso pelo utilizador"
+msgstr "Projeto suspenso pelo utilizador"
 
 #: clientgui/MainDocument.cpp:2503
 msgid "Task suspended by user"
@@ -2591,7 +2591,7 @@ msgstr "A aguardar a execução"
 
 #: clientgui/MainDocument.cpp:2526 clientgui/MainDocument.cpp:2529
 msgid "Ready to start"
-msgstr "Pronto para começar"
+msgstr "Pronto para iniciar"
 
 #: clientgui/MainDocument.cpp:2533
 msgid "Postponed: "
@@ -2611,11 +2611,11 @@ msgstr "Erro de computação"
 
 #: clientgui/MainDocument.cpp:2548
 msgid "Upload failed"
-msgstr "Upload falhado"
+msgstr "Envio falhou"
 
 #: clientgui/MainDocument.cpp:2550
 msgid "Uploading"
-msgstr "A fazer o Upload"
+msgstr "Envio"
 
 #: clientgui/MainDocument.cpp:2561
 msgid "Aborted by user"
@@ -2651,7 +2651,7 @@ msgstr "Reconhecido"
 
 #: clientgui/MainDocument.cpp:2586
 msgid "Ready to report"
-msgstr "Pronto para reportar"
+msgstr "Pronto para comunicar"
 
 #: clientgui/MainDocument.cpp:2588
 #, c-format
