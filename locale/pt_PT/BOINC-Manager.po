@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 03:49+0000\n"
+"PO-Revision-Date: 2016-06-29 03:57+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -3897,7 +3897,7 @@ msgstr "Não foi possível ligar ao cliente de core"
 
 #: clientgui/wizardex.cpp:377 clientgui/wizardex.cpp:553
 msgid "&Next >"
-msgstr "&Próximo >"
+msgstr "&Seguinte >"
 
 #: clientgui/wizardex.cpp:383
 msgid "< &Back"
@@ -3910,8 +3910,8 @@ msgstr "&Terminar"
 #. /////////////////////////////////////////////////////////////////////////
 #: clientgui/DlgAdvPreferencesBase.h:45
 msgid "On this day of the week, compute only during these hours."
-msgstr "Neste dia da semana, realizar computação apenas durante estas horas."
+msgstr "Neste dia da semana, realizar a computação apenas durante estas horas."
 
 #: clientgui/DlgAdvPreferencesBase.h:46
 msgid "On this day of the week, transfer files only during these hours."
-msgstr "Neste dia da semana, transferir ficheiros apenas durante estas horas."
+msgstr "Neste dia da semana, transferir os ficheiros apenas durante estas horas."
