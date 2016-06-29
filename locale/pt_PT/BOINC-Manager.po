@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 01:16+0000\n"
+"PO-Revision-Date: 2016-06-29 01:21+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -1243,7 +1243,7 @@ msgstr "Suspender quando o computador está apenas em bateria"
 #: clientgui/DlgAdvPreferencesBase.cpp:276 clientgui/sg_DlgPreferences.cpp:235
 msgid ""
 "Check this to suspend computing on portables when running on battery power."
-msgstr "Seleccione aqui para suspender computação nos portáteis quando em execução em bateria apenas."
+msgstr "Selecione isto para suspender a computação nos portáteis quando estiver a funcionar a bateria."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:282 clientgui/sg_DlgPreferences.cpp:253
 msgid "Suspend when computer is in use"
@@ -1253,15 +1253,15 @@ msgstr "Suspender quando o computador está em utilização"
 msgid ""
 "Check this to suspend computing and file transfers when you're using the "
 "computer."
-msgstr "Seleccione aqui para suspender a computação e transferência de ficheiros quando estiver a utilizar o computador."
+msgstr "Selecione isto para suspender a computação e transferências de ficheiro quando estiver a utilizar o computador."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:291
 msgid "Suspend GPU computing when computer is in use"
-msgstr "Suspende computação da GPU quando o computador está a ser utilizado"
+msgstr "Suspender a computação por GPU quando o computador estiver a ser utilizado"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:294
 msgid "Check this to suspend GPU computing when you're using the computer."
-msgstr "Seleccione aqui para suspender a computação da GPU quando estiver a utilizar o computador."
+msgstr "Selecione isto para suspender a computação por GPU quando estiver a utilizar o computador."
 
 #. min idle time
 #: clientgui/DlgAdvPreferencesBase.cpp:299 clientgui/sg_DlgPreferences.cpp:264
@@ -1286,7 +1286,7 @@ msgstr "Suspender quando a utilização da CPU por parte de terceiros for superi
 
 #: clientgui/DlgAdvPreferencesBase.cpp:325
 msgid "Suspend computing when your computer is busy running other programs."
-msgstr "Suspender computação quando o seu computador estiver ocupado executando outros programas."
+msgstr "Suspender a computação quando o seu computador estiver ocupado, a executar outros programas."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:339
 msgid "To suspend by time of day, see the \"Daily Schedules\" section."
@@ -3684,7 +3684,7 @@ msgstr "Suspender Computação"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:896
 msgid "Resume Computing"
-msgstr "Resume a Computação"
+msgstr "Retomar Computação"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:913
 msgid "Open a window to view notices from projects or BOINC"
