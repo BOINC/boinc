@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 03:11+0000\n"
+"PO-Revision-Date: 2016-06-29 03:18+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -1480,7 +1480,7 @@ msgstr "Limita a memória utilizada pelo %s quando está a utilizar o computador
 
 #: clientgui/DlgAdvPreferencesBase.cpp:616
 msgid "When computer is in use, use at most"
-msgstr "Quando o computador está em utilização, utilizar no máximo"
+msgstr "Quando o computador estiver a ser utilizado, utilizar no máximo"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:622
 #: clientgui/DlgAdvPreferencesBase.cpp:634
@@ -1496,18 +1496,18 @@ msgstr "Limitar a utilização da memória pelo %s quando não estiver a utiliza
 
 #: clientgui/DlgAdvPreferencesBase.cpp:629
 msgid "When computer is not in use, use at most"
-msgstr "Quando o computador não está em utilização, utilizar no máximo"
+msgstr "Quando o computador não estiver a ser utilizado, utilizar no máximo"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:638
 msgid "Leave non-GPU tasks in memory while suspended"
-msgstr "Deixar tarefas não-GPU em memória enquanto estiverem suspensas"
+msgstr "Deixar as tarefas 'não GPU' em memória enquanto suspensas"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:639
 msgid ""
 "If checked, suspended tasks stay in memory, and resume with no work lost. If"
 " unchecked, suspended tasks are removed from memory, and resume from their "
 "last checkpoint."
-msgstr "Se marcado, as tarefas suspensas ficam em memória e, retomam sem trabalho perdido. Se não estiver marcado, as tarefas suspensas são removidas da memória e, retoma a partir do seu último checkpoint."
+msgstr "Se selecionada, as tarefas suspensas ficam em memória, e retomam sem trabalho perdido. Se não estiver selecionada, as tarefas suspensas são removidas da memória, e retomam a partir do seu último ponto de verificação."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:643
 #, c-format
@@ -1516,7 +1516,7 @@ msgstr "Limitar o espaço de troca (ficheiro de paginação) utilizado pelo %s."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:645
 msgid "Page/swap file: use at most"
-msgstr "Página/ficheiro swap: utilizar no máximo"
+msgstr "Página/ficheiro de troca: utilizar no máximo"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:670 clientgui/sg_DlgPreferences.cpp:295
 msgid "and"
@@ -1542,7 +1542,7 @@ msgstr "Anular dia da semana"
 #: clientgui/DlgAdvPreferencesBase.cpp:727
 #: clientgui/DlgAdvPreferencesBase.cpp:906
 msgid "Override the times above on the selected days:"
-msgstr "Anular os horários acima dos dias seleccionados:"
+msgstr "Anula os horários acima nos dias selecionados:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:750
 #: clientgui/DlgAdvPreferencesBase.cpp:923
