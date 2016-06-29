@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-28 16:54+0000\n"
+"PO-Revision-Date: 2016-06-29 00:10+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +48,7 @@ msgstr "Este projecto não está de momento a aceitar novas contas.\nSó o pode 
 
 #: clientgui/AccountInfoPage.cpp:375
 msgid "Are you already running this project?"
-msgstr "Já está a executar este projecto?"
+msgstr "Já está a executar este projeto?"
 
 #: clientgui/AccountInfoPage.cpp:379
 msgid "&No, new user"
@@ -420,7 +420,7 @@ msgstr "Parar a execução da GPU, independentemente das preferências"
 
 #: clientgui/AdvancedFrame.cpp:584
 msgid "Network activity always"
-msgstr "Actividade de rede sempre"
+msgstr "Atividade de rede sempre"
 
 #: clientgui/AdvancedFrame.cpp:585
 msgid "Allow network activity regardless of preferences"
@@ -436,11 +436,11 @@ msgstr "Permitir actividade de rede de acordo com as preferências"
 
 #: clientgui/AdvancedFrame.cpp:594
 msgid "Suspend network activity"
-msgstr "Suspender actividade de rede"
+msgstr "Suspender atividade de rede"
 
 #: clientgui/AdvancedFrame.cpp:595
 msgid "Stop network activity"
-msgstr "Parar actividade de rede"
+msgstr "Parar atividade de rede"
 
 #: clientgui/AdvancedFrame.cpp:604 clientgui/sg_BoincSimpleFrame.cpp:191
 msgid "Computing &preferences..."
@@ -522,12 +522,12 @@ msgstr "Mostra informação sobre o %s"
 #: clientgui/AdvancedFrame.cpp:675 clientgui/sg_BoincSimpleFrame.cpp:247
 #, c-format
 msgid "%s &web site"
-msgstr "%s &Website"
+msgstr "%s - Site da &Web"
 
 #: clientgui/AdvancedFrame.cpp:679 clientgui/sg_BoincSimpleFrame.cpp:251
 #, c-format
 msgid "Show information about BOINC and %s"
-msgstr "Mostra informações sobre o BOINC e o %s"
+msgstr "Mostra informação sobre o BOINC e o %s"
 
 #: clientgui/AdvancedFrame.cpp:690 clientgui/BOINCTaskBar.cpp:541
 #: clientgui/sg_BoincSimpleFrame.cpp:262
@@ -668,7 +668,7 @@ msgstr "Cancelar"
 #: clientgui/BOINCBaseFrame.cpp:512
 #, c-format
 msgid "%s - Connection Error"
-msgstr "%s - Erro de Conexão"
+msgstr "%s - Erro de Ligação"
 
 #: clientgui/BOINCBaseFrame.cpp:521
 msgid ""
@@ -693,7 +693,7 @@ msgstr "A palavra-passe que inseriu está incorrecta, por favor tente novamente.
 #: clientgui/BOINCBaseFrame.cpp:584
 #, c-format
 msgid "%s - Connection Failed"
-msgstr "%s - Conexão Falhada"
+msgstr "%s - Ligação Falhou"
 
 #: clientgui/BOINCBaseFrame.cpp:593
 #, c-format
@@ -724,7 +724,7 @@ msgstr "%s não consegue iniciar o %s cliente.\nPor favor, inicialize o daemon e
 #: clientgui/BOINCBaseFrame.cpp:696
 #, c-format
 msgid "%s - Connection Status"
-msgstr "%s - Estado da Conexão"
+msgstr "%s - Estado da Ligação"
 
 #: clientgui/BOINCBaseFrame.cpp:707
 #, c-format
@@ -737,7 +737,7 @@ msgstr "%s não está actualmente ligado ao cliente %s.\nPor favor utilize o men
 #. Create the web sites task group
 #: clientgui/BOINCBaseView.cpp:790
 msgid "Project web pages"
-msgstr "Páginas web do projecto"
+msgstr "Páginas da Web do projeto"
 
 #: clientgui/BOINCClientManager.cpp:547
 #, c-format
@@ -828,7 +828,7 @@ msgstr ")"
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
-msgstr "É necessário que reinicie o computador para que o BOINC seja executado correctamente.\nPor favor, reinicie o seu computador e tente novamente."
+msgstr "É necessário que reinicie o computador para que o BOINC seja executado corretamente.\nPor favor, reinicie o seu computador e tente novamente."
 
 #: clientgui/BOINCGUIApp.cpp:402 clientgui/DlgAbout.cpp:153
 msgid "BOINC Manager"
@@ -1074,7 +1074,7 @@ msgstr "(C) 2003-2015 Universidade da Califórnia, Berkeley.\nTodos os Direitos 
 
 #: clientgui/DlgAbout.cpp:196
 msgid "BOINC is distributed under the GNU Lesser General Public License v3.0."
-msgstr "O BOINC é distribuído sobre a Licença Pública GNU Lesser v3.0."
+msgstr "O BOINC é distribuído sob a Licença Pública Geral Lesser GNU v3.0."
 
 #: clientgui/DlgAbout.cpp:203
 msgid "For more information, visit "
