@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 02:39+0000\n"
+"PO-Revision-Date: 2016-06-29 02:45+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -307,7 +307,7 @@ msgstr "&Visualização Simples...\tCtrl+Shift+V"
 
 #: clientgui/AdvancedFrame.cpp:439
 msgid "Switch to the Simple View"
-msgstr "Mudar para a Visualização Simples"
+msgstr "Muda para a Visualização Simples"
 
 #: clientgui/AdvancedFrame.cpp:453 clientgui/AdvancedFrame.cpp:477
 #: clientgui/sg_BoincSimpleFrame.cpp:205
@@ -2290,7 +2290,7 @@ msgstr "A sua conta"
 #: clientgui/Localization.cpp:41 clientgui/Localization.cpp:87
 #: clientgui/Localization.cpp:113
 msgid "View your account information and credit totals"
-msgstr "Ver informações da sua conta e os créditos totais"
+msgstr "Ver a informação da sua conta e os créditos totais"
 
 #: clientgui/Localization.cpp:43
 msgid "Your preferences"
@@ -2306,7 +2306,7 @@ msgstr "Os seus resultados"
 
 #: clientgui/Localization.cpp:49 clientgui/Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
-msgstr "Ver os resultados da computação e trabalhos da última semana (ou mais)"
+msgstr "Ver os seus resultados da computação e trabalhos da última semana (ou mais)"
 
 #: clientgui/Localization.cpp:51 clientgui/Localization.cpp:93
 msgid "Your computers"
@@ -3299,7 +3299,7 @@ msgstr "Mostrar totais do utilizador"
 
 #: clientgui/ViewStatistics.cpp:1957
 msgid "Show total credit for user"
-msgstr "Mostrar créditos totais do utilizador"
+msgstr "Mostra os créditos totais do utilizador"
 
 #: clientgui/ViewStatistics.cpp:1963
 msgid "Show user average"
@@ -3307,7 +3307,7 @@ msgstr "Mostrar médias do utilizador"
 
 #: clientgui/ViewStatistics.cpp:1964
 msgid "Show average credit for user"
-msgstr "Mostrar médias de créditos do utilizador"
+msgstr "Mostra as médias de créditos do utilizador"
 
 #: clientgui/ViewStatistics.cpp:1970
 msgid "Show host total"
@@ -3315,7 +3315,7 @@ msgstr "Mostrar totais do anfitrião"
 
 #: clientgui/ViewStatistics.cpp:1971
 msgid "Show total credit for host"
-msgstr "Mostrar créditos totais do anfitrião"
+msgstr "Mostra os créditos totais do anfitrião"
 
 #: clientgui/ViewStatistics.cpp:1977
 msgid "Show host average"
@@ -3323,7 +3323,7 @@ msgstr "Mostrar médias do anfitrião"
 
 #: clientgui/ViewStatistics.cpp:1978
 msgid "Show average credit for host"
-msgstr "Mostrar médias de créditos do anfitrião"
+msgstr "Mostra as médias de créditos do anfitrião"
 
 #: clientgui/ViewStatistics.cpp:1987
 msgid "< &Previous project"
@@ -3331,7 +3331,7 @@ msgstr "< &Projeto Anterior"
 
 #: clientgui/ViewStatistics.cpp:1988
 msgid "Show chart for previous project"
-msgstr "Mostrar gráfico do projecto anterior"
+msgstr "Mostra um gráfico do projeto anterior"
 
 #: clientgui/ViewStatistics.cpp:1993
 msgid "&Next project >"
@@ -3655,7 +3655,7 @@ msgstr "Selecciona a aparência do interface de utilizador."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:181
 msgid "Advanced View...\tCtrl+Shift+A"
-msgstr "Vista Avançada...\tCtrl+Shift+A"
+msgstr "Visualização Avançada...\tCtrl+Shift+A"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:182
 msgid "Display the advanced graphical interface."
