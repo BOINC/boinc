@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 01:38+0000\n"
+"PO-Revision-Date: 2016-06-29 01:50+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -123,7 +123,7 @@ msgstr "Site da Web do gestor de conta"
 
 #: clientgui/AccountInfoPage.cpp:556
 msgid "Add project"
-msgstr "Adicionar Projeto"
+msgstr "Adicionar projeto"
 
 #: clientgui/AccountInfoPage.cpp:558
 msgid "Update account manager"
@@ -1009,7 +1009,7 @@ msgstr "Mensagens do servidor:"
 
 #: clientgui/CompletionPage.cpp:207
 msgid "Project added"
-msgstr "Projecto adicionado"
+msgstr "Projeto adicionado"
 
 #: clientgui/CompletionPage.cpp:213
 msgid "This project has been successfully added."
@@ -1628,7 +1628,7 @@ msgstr "%s - Registo de Eventos"
 #: clientgui/ViewStatistics.cpp:1983 clientgui/ViewTransfers.cpp:209
 #: clientgui/ViewWork.cpp:260
 msgid "Project"
-msgstr "Projecto"
+msgstr "Projeto"
 
 #: clientgui/DlgEventLog.cpp:247 clientgui/ViewMessages.cpp:118
 msgid "Time"
@@ -1640,7 +1640,7 @@ msgstr "Mensagem"
 
 #: clientgui/DlgEventLog.cpp:305 clientgui/DlgEventLog.cpp:355
 msgid "&Show only this project"
-msgstr "&Mostrar apenas este projecto"
+msgstr "&Mostrar apenas este projeto"
 
 #: clientgui/DlgEventLog.cpp:309
 msgid "Copy &All"
@@ -1869,7 +1869,7 @@ msgstr "%s intervalo de deferimento da obtenção de tarefas"
 #. set dialog title
 #: clientgui/DlgItemProperties.cpp:247
 msgid "Properties of project "
-msgstr "Propriedades do projecto"
+msgstr "Propriedades do projeto"
 
 #. layout controls
 #: clientgui/DlgItemProperties.cpp:251 clientgui/DlgOptions.cpp:232
@@ -2376,7 +2376,7 @@ msgstr "Ver uma lista de todos os computadores onde está a executar o Einstein@
 
 #: clientgui/Localization.cpp:101
 msgid "LIGO project"
-msgstr "Projecto LIGO"
+msgstr "Projeto LIGO"
 
 #: clientgui/Localization.cpp:103
 msgid ""
@@ -2386,11 +2386,11 @@ msgstr "A página principal do projecto LASER Interferometer Gravitational-wave 
 
 #: clientgui/Localization.cpp:105
 msgid "GEO-600 project"
-msgstr "Projecto GEO-600"
+msgstr "Projeto GEO-600"
 
 #: clientgui/Localization.cpp:107
 msgid "The home page of the GEO-600 project"
-msgstr "A página principal do projecto GEO-600"
+msgstr "A página principal do projeto GEO-600"
 
 #: clientgui/Localization.cpp:115 clientgui/Localization.cpp:133
 #: clientgui/ViewProjects.cpp:253 clientgui/ViewStatistics.cpp:441
@@ -2623,7 +2623,7 @@ msgstr "Abortado pelo utilizador"
 
 #: clientgui/MainDocument.cpp:2564
 msgid "Aborted by project"
-msgstr "Abortado pelo projecto"
+msgstr "Abortado pelo projeto"
 
 #: clientgui/MainDocument.cpp:2567
 msgid "Aborted: not started by deadline"
@@ -2668,7 +2668,7 @@ msgstr "Por favor ligue-se à Internet e tente novamente."
 
 #: clientgui/NotDetectedPage.cpp:181
 msgid "Project not found"
-msgstr "Projecto não encontrado"
+msgstr "Projeto não encontrado"
 
 #: clientgui/NotDetectedPage.cpp:184
 msgid ""
@@ -2707,11 +2707,11 @@ msgstr "mais..."
 
 #: clientgui/ProjectInfoPage.cpp:221
 msgid "Choose a project"
-msgstr "Escolha o projecto"
+msgstr "Escolha um projeto"
 
 #: clientgui/ProjectInfoPage.cpp:226
 msgid "To choose a project, click its name or type its URL below."
-msgstr "Para escolher o projecto, clique nele ou escreva o URL em baixo."
+msgstr "Para escolher um projeto, clique no seu nome ou digite o seu URL em baixo."
 
 #: clientgui/ProjectInfoPage.cpp:242
 msgid "Categories:"
@@ -2719,11 +2719,11 @@ msgstr "Categorias:"
 
 #: clientgui/ProjectInfoPage.cpp:262 clientgui/sg_ProjectPanel.cpp:89
 msgid "Projects:"
-msgstr "Projectos:"
+msgstr "Projetos:"
 
 #: clientgui/ProjectInfoPage.cpp:274
 msgid "Project details"
-msgstr "Detalhes do projecto"
+msgstr "Detalhes do projeto"
 
 #: clientgui/ProjectInfoPage.cpp:284
 msgid "Research area:"
@@ -2743,7 +2743,7 @@ msgstr "Sistemas suportados:"
 
 #: clientgui/ProjectInfoPage.cpp:352
 msgid "Project URL:"
-msgstr "URL do Projecto:"
+msgstr "URL do projeto:"
 
 #: clientgui/ProjectInfoPage.cpp:486 clientgui/ProjectInfoPage.cpp:686
 #: clientgui/ProjectInfoPage.cpp:690
@@ -2758,11 +2758,11 @@ msgstr "Este projeto poderá não ter trabalhos para o seu tipo de computador. M
 
 #: clientgui/ProjectInfoPage.cpp:767
 msgid "You already added this project. Please choose a different project."
-msgstr "Já adicionou este projecto. Por favor escolha um projecto diferente."
+msgstr "Já adicionou este projeto. Por favor, escolha um projeto diferente."
 
 #: clientgui/ProjectProcessingPage.cpp:321
 msgid "Communicating with project."
-msgstr "A comunicar com o projecto."
+msgstr "A comunicar com o projeto."
 
 #: clientgui/ProjectProcessingPage.cpp:509
 msgid "Required files not found on the server."
@@ -2777,7 +2777,7 @@ msgstr "Ocorreu um erro interno no servidor."
 msgid ""
 "Communicating with project\n"
 "Please wait..."
-msgstr "A comunicar com o projecto\nPor favor aguarde..."
+msgstr "A comunicar com o projeto\nPor favor, aguarde..."
 
 #: clientgui/ProjectWelcomePage.cpp:251
 #, c-format
@@ -2894,14 +2894,14 @@ msgstr "Não concordo com os termos de utilização."
 
 #: clientgui/UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
-msgstr "Projecto temporariamente indisponível"
+msgstr "Projeto temporariamente indisponível"
 
 #: clientgui/UnavailablePage.cpp:186
 msgid ""
 "The project is temporarily unavailable.\n"
 "\n"
 "Please try again later."
-msgstr "O projecto está temporariamente indisponível.\n\nPor favor tente mais tarde."
+msgstr "O projeto está temporariamente indisponível.\n\nPor favor, tente de novo mais tarde."
 
 #: clientgui/UnavailablePage.cpp:190
 msgid "Account manager temporarily unavailable"
@@ -2986,7 +2986,7 @@ msgstr "Copiar as mensagens seleccionadas"
 
 #: clientgui/ViewMessages.cpp:106 clientgui/ViewMessages.cpp:502
 msgid "Show only this project"
-msgstr "Mostrar apenas este projecto"
+msgstr "Mostrar apenas este projeto"
 
 #: clientgui/ViewMessages.cpp:107 clientgui/ViewMessages.cpp:503
 msgid "Show only the messages for the selected project."
