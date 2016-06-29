@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 00:47+0000\n"
+"PO-Revision-Date: 2016-06-29 00:53+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -424,15 +424,15 @@ msgstr "Atividade de rede sempre"
 
 #: clientgui/AdvancedFrame.cpp:585
 msgid "Allow network activity regardless of preferences"
-msgstr "Permitir actividade de rede, independentemente das preferências"
+msgstr "Permitir atividade de rede, independentemente das preferências"
 
 #: clientgui/AdvancedFrame.cpp:589
 msgid "Network activity based on preferences"
-msgstr "Actividade de rede com base nas preferências"
+msgstr "Atividade de rede com base nas preferências"
 
 #: clientgui/AdvancedFrame.cpp:590
 msgid "Allow network activity according to preferences"
-msgstr "Permitir actividade de rede de acordo com as preferências"
+msgstr "Permitir atividade de rede de acordo com as preferências"
 
 #: clientgui/AdvancedFrame.cpp:594
 msgid "Suspend network activity"
@@ -1120,7 +1120,7 @@ msgstr "Erro de Validação"
 
 #: clientgui/DlgAdvPreferences.cpp:1171
 msgid "Discard local preferences and use web-based preferences?"
-msgstr "Rejeitar preferências locais e utilizar as preferências web?"
+msgstr "Rejeitar as preferências locais e utilizar as preferências com base na Web?"
 
 #: clientgui/DlgAdvPreferences.cpp:1172 clientgui/sg_DlgPreferences.cpp:1187
 msgid "Confirmation"
@@ -1139,7 +1139,7 @@ msgstr "Utilizando preferências locais.\nClique em \"Utilizar preferências web
 
 #: clientgui/DlgAdvPreferencesBase.cpp:90 clientgui/sg_DlgPreferences.cpp:171
 msgid "Using web-based preferences from"
-msgstr "Utilizando preferências web de"
+msgstr "A utilizar as preferências com base na Web de"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:107 clientgui/sg_DlgPreferences.cpp:189
 msgid "Set values and click OK to use local preferences instead."
@@ -1195,7 +1195,7 @@ msgstr "Ajuda"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:174
 msgid "Shows the preferences web page."
-msgstr "Mostra  a página web das preferências."
+msgstr "Mostra a página da Web das preferências."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:236
 #: clientgui/DlgAdvPreferencesBase.cpp:463
@@ -1732,7 +1732,7 @@ msgstr "fechar caixa de diálogo sem salvar"
 
 #: clientgui/DlgExclusiveApps.cpp:158
 msgid "shows the preferences web page"
-msgstr "mostra a página web das preferências"
+msgstr "mostra a página da Web das preferências"
 
 #. TODO: fill in the default directory for MSW
 #. TODO: fill in the default directory for Linux
@@ -1842,7 +1842,7 @@ msgstr "Não solicitar tarefas para"
 
 #: clientgui/DlgItemProperties.cpp:194
 msgid "Project preference"
-msgstr "Preferências do projecto"
+msgstr "Preferências do projeto"
 
 #: clientgui/DlgItemProperties.cpp:197
 msgid "Account manager preference"
@@ -2128,7 +2128,7 @@ msgstr "Executar o Gestor depois de iniciar a sessão?"
 
 #: clientgui/DlgOptions.cpp:208
 msgid "Run the BOINC Manager when you log on."
-msgstr "Executar o BOINC Manager quando se liga"
+msgstr "Execute o BOINC Manager quando inicia a sessão."
 
 #: clientgui/DlgOptions.cpp:213
 msgid "Run daemon?"
@@ -3194,7 +3194,7 @@ msgstr "Para enviar mensagem de aviso"
 
 #: clientgui/ViewProjects.cpp:1135
 msgid "Requested by account manager"
-msgstr "Pedido pelo gestor de conta"
+msgstr "Solicitado pelo gestor de conta"
 
 #: clientgui/ViewProjects.cpp:1136
 msgid "Project initialization"
@@ -3716,7 +3716,7 @@ msgstr "Gb de espaço em disco"
 #: clientgui/sg_DlgPreferences.cpp:1105
 #, c-format
 msgid "%s - Computing Preferences"
-msgstr "%s - Preferência de Computação"
+msgstr "%s - Preferências de Computação"
 
 #: clientgui/sg_DlgPreferences.cpp:1186
 msgid "Discard all local preferences and use web-based preferences?"
@@ -3740,7 +3740,7 @@ msgstr "Voluntarie-se para um ou alguns dos mais de 30 projectos, em várias ár
 
 #: clientgui/sg_ProjectPanel.cpp:77
 msgid "Synchronize projects with account manager system"
-msgstr "Sincroniza os projectos com o gestor de conta"
+msgstr "Sincronizar projetos com o sistema do gestor de conta"
 
 #. TODO: Might want better wording for Project Selection Combo Box tooltip
 #: clientgui/sg_ProjectPanel.cpp:124
