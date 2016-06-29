@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 01:05+0000\n"
+"PO-Revision-Date: 2016-06-29 01:11+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -392,7 +392,7 @@ msgstr "&Suspender"
 
 #: clientgui/AdvancedFrame.cpp:524
 msgid "Stop work regardless of preferences"
-msgstr "Parar execução de trabalho independentemente das preferências"
+msgstr "Parar execução de trabalho, independentemente das preferências"
 
 #: clientgui/AdvancedFrame.cpp:549
 msgid "Use GPU always"
@@ -400,7 +400,7 @@ msgstr "Utilizar sempre a GPU"
 
 #: clientgui/AdvancedFrame.cpp:550
 msgid "Allow GPU work regardless of preferences"
-msgstr "Permitir a execução da GPU, independentemente das preferências"
+msgstr "Permitir trabalho de GPU, independentemente das preferências"
 
 #: clientgui/AdvancedFrame.cpp:554
 msgid "Use GPU based on preferences"
@@ -408,7 +408,7 @@ msgstr "Utilizar a GPU com base nas preferências"
 
 #: clientgui/AdvancedFrame.cpp:555
 msgid "Allow GPU work according to preferences"
-msgstr "Permitir a execução da GPU de acordo com as preferências"
+msgstr "Permitir o trabalho de GPU de acordo com as preferências"
 
 #: clientgui/AdvancedFrame.cpp:559
 msgid "Suspend GPU"
@@ -416,7 +416,7 @@ msgstr "Suspender a GPU"
 
 #: clientgui/AdvancedFrame.cpp:560
 msgid "Stop GPU work regardless of preferences"
-msgstr "Parar a execução da GPU, independentemente das preferências"
+msgstr "Parar o trabalho de GPU, independentemente das preferências"
 
 #: clientgui/AdvancedFrame.cpp:584
 msgid "Network activity always"
@@ -1019,7 +1019,7 @@ msgstr "Este projecto foi adicionado com sucesso."
 msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
-msgstr "Quando clica em Terminar, o seu navegador de internet irá para uma página onde\npode definir o seu nome de conta e preferências."
+msgstr "Quando clica em Terminar, o seu navegador da Web irá para uma página\n onde pode definir o seu nome de conta e preferências."
 
 #: clientgui/CompletionPage.cpp:232
 #, c-format
@@ -1151,7 +1151,7 @@ msgstr "Utilizar preferências web"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:116 clientgui/sg_DlgPreferences.cpp:218
 msgid "Restore web-based preferences and close the dialog."
-msgstr "Restaurar as preferências web e fechar a caixa de diálogo."
+msgstr "Restaurar as preferências da Web e fechar a janela."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:140
 #: clientgui/DlgAdvPreferencesBase.cpp:684
@@ -1794,7 +1794,7 @@ msgid ""
 "In most cases, it is better just to close the %s window\n"
 "rather than to exit the application; that will allow %s to run its\n"
 "tasks at the times you selected in your preferences."
-msgstr "Isto irá desligar o %s e as tarefas até que\no %s ou a %s protecção de ecrã esteja a ser executada novamente.\n\nNa maioria dos casos, é melhor fechar apenas a %s janela\ndo que sair da aplicação; isso irá permitir %s executar as\ntarefas nos tempos que seleccionou nas suas preferências."
+msgstr "Isto irá encerrar o %s e as tarefas até que\no %s ou o protetor de ecrã do %s sejam executados novamente.\n\nNa maioria dos casos, é melhor fechar apenas a janela do %s\ndo que sair da aplicação; isso irá permitir que o %s execute as\ntarefas nas horas selecionadas nas suas preferências."
 
 #: clientgui/DlgExitMessage.cpp:153
 #, c-format
