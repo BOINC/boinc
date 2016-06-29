@@ -88,6 +88,7 @@ struct LOG_FLAGS {
     bool mem_usage_debug;
         // memory usage
     bool network_status_debug;
+    bool notice_debug;
     bool poll_debug;
         // show what polls are responding
     bool proxy_debug;
@@ -117,7 +118,6 @@ struct LOG_FLAGS {
         // show unparsed XML lines
     bool work_fetch_debug;
         // work fetch policy 
-    bool notice_debug;
 
     LOG_FLAGS();
     void init();
