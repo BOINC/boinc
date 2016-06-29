@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 01:21+0000\n"
+"PO-Revision-Date: 2016-06-29 01:28+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -1170,7 +1170,7 @@ msgstr "Disco e memória"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:149
 msgid "Daily schedules"
-msgstr "Programações diárias"
+msgstr "Agendamentos Diários"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:162
 #: clientgui/DlgDiagnosticLogFlags.cpp:119 clientgui/DlgExclusiveApps.cpp:146
@@ -1290,7 +1290,7 @@ msgstr "Suspender a computação quando o seu computador estiver ocupado, a exec
 
 #: clientgui/DlgAdvPreferencesBase.cpp:339
 msgid "To suspend by time of day, see the \"Daily Schedules\" section."
-msgstr "Para suspender pela hora do dia, ver a secção \"Programações Diárias\"."
+msgstr "Para suspender pela hora do dia, vá para a secção \"Agendamentos Diários\"."
 
 #. Context: heading for a group of miscellaneous preferences
 #: clientgui/DlgAdvPreferencesBase.cpp:349
@@ -1355,11 +1355,11 @@ msgstr "segundos"
 #. upload/download rates
 #: clientgui/DlgAdvPreferencesBase.cpp:469
 msgid "Limit the download rate of file transfers."
-msgstr "Limitar a taxa de transferência dos ficheiros."
+msgstr "Limita a taxa de transferências de ficheiro."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:470
 msgid "Limit download rate to"
-msgstr "Limitar taxa de transferência para"
+msgstr "Limitar a taxa de transferência para"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:474
 #: clientgui/DlgAdvPreferencesBase.cpp:483
@@ -1368,11 +1368,11 @@ msgstr "KB/segundo"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:478
 msgid "Limit the upload rate of file transfers."
-msgstr "Limitar taxa de upload da transferência de ficheiros."
+msgstr "Limita a taxa de envio das transferência de ficheiro."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:479
 msgid "Limit upload rate to"
-msgstr "Limitar taxa de upload para"
+msgstr "Limitar a taxa de envio para"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:490
 #, c-format
@@ -1381,7 +1381,7 @@ msgstr "Exemplo: %s deve transferir no máximo 2000 Mb de dados a cada 30 dias."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:492
 msgid "Limit usage to"
-msgstr "Limitar utilização a"
+msgstr "Limitar utilização para"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:496
 msgid "MB every"
@@ -1393,7 +1393,7 @@ msgstr "dias"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:505
 msgid "To limit transfers by time of day, see the \"Daily Schedules\" section."
-msgstr "Para limitar as transferências pela hora do dia, ver a secção \"\"Programações Diárias\"."
+msgstr "Para limitar as transferências pela hora do dia, vá para a secção \"\"Agendamentos Diários\"."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:522
 #, c-format
@@ -1512,7 +1512,7 @@ msgstr "Se marcado, as tarefas suspensas ficam em memória e, retomam sem trabal
 #: clientgui/DlgAdvPreferencesBase.cpp:643
 #, c-format
 msgid "Limit the swap space (page file) used by %s."
-msgstr "Limitar o espaço swap (ficheiro de paginação) utilizado por %s."
+msgstr "Limitar o espaço de troca (ficheiro de paginação) utilizado pelo %s."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:645
 msgid "Page/swap file: use at most"
@@ -1937,7 +1937,7 @@ msgstr "Não solicitar tarefas"
 
 #: clientgui/DlgItemProperties.cpp:273
 msgid "Scheduler call in progress"
-msgstr "Agendamento de tarefas em progresso"
+msgstr "Agendamento em progresso"
 
 #: clientgui/DlgItemProperties.cpp:276
 msgid "Trickle-up pending"
@@ -2006,7 +2006,7 @@ msgstr "Duração do factor de correcção"
 
 #: clientgui/DlgItemProperties.cpp:349
 msgid "Last scheduler reply"
-msgstr "Última resposta do agendador"
+msgstr "Última resposta de agendamento"
 
 #: clientgui/DlgItemProperties.cpp:360
 msgid "Properties of task "
