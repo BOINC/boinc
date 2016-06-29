@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 00:53+0000\n"
+"PO-Revision-Date: 2016-06-29 00:58+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -493,7 +493,7 @@ msgstr "Ler informações de configuração em cc_config.mxl e quaisquer ficheir
 
 #: clientgui/AdvancedFrame.cpp:637
 msgid "Read local prefs file"
-msgstr "Ler ficheiro de preferências locais"
+msgstr "Ler ficheiro das preferências locais"
 
 #: clientgui/AdvancedFrame.cpp:638
 msgid "Read preferences from global_prefs_override.xml."
@@ -1120,7 +1120,7 @@ msgstr "Erro de Validação"
 
 #: clientgui/DlgAdvPreferences.cpp:1171
 msgid "Discard local preferences and use web-based preferences?"
-msgstr "Rejeitar as preferências locais e utilizar as preferências com base na Web?"
+msgstr "Rejeitar as preferências locais e utilizar as preferências da Web?"
 
 #: clientgui/DlgAdvPreferences.cpp:1172 clientgui/sg_DlgPreferences.cpp:1187
 msgid "Confirmation"
@@ -1129,13 +1129,13 @@ msgstr "Confirmação"
 #: clientgui/DlgAdvPreferencesBase.cpp:54
 #, c-format
 msgid "%s - Computing preferences"
-msgstr "%s - Preferências de computação"
+msgstr "%s - Preferências de Computação"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:82 clientgui/sg_DlgPreferences.cpp:163
 msgid ""
 "Using local preferences.\n"
 "Click \"Use web prefs\" to use web-based preferences from"
-msgstr "Utilizando preferências locais.\nClique em \"Utilizar preferências web\" para carregar as preferências web de"
+msgstr "A utilizar as preferências locais.\nClique em \"Utilizar preferências da Web\" para utilizar as preferências da Web de"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:90 clientgui/sg_DlgPreferences.cpp:171
 msgid "Using web-based preferences from"
@@ -2298,7 +2298,7 @@ msgstr "As suas preferências"
 
 #: clientgui/Localization.cpp:45
 msgid "View and modify your SETI@home account profile and preferences"
-msgstr "Ver e modificar as suas preferências no perfil da conta no SETI@home"
+msgstr "Ver e modificar as preferências e perfil da sua conta de SETI@home"
 
 #: clientgui/Localization.cpp:47 clientgui/Localization.cpp:89
 msgid "Your results"
@@ -3720,7 +3720,7 @@ msgstr "%s - Preferências de Computação"
 
 #: clientgui/sg_DlgPreferences.cpp:1186
 msgid "Discard all local preferences and use web-based preferences?"
-msgstr "Rejeitar todas as preferências locais e utilizar as preferências web?"
+msgstr "Rejeitar todas as preferências locais e utilizar as preferências da Web?"
 
 #: clientgui/sg_ProjectPanel.cpp:72
 msgid "Add Project"
