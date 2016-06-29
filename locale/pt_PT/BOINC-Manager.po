@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 02:02+0000\n"
+"PO-Revision-Date: 2016-06-29 02:07+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -227,11 +227,11 @@ msgstr "Ligar a um cliente BOINC noutro computador"
 
 #: clientgui/AdvancedFrame.cpp:349
 msgid "Shut down connected client..."
-msgstr "Desligar cliente ligado..."
+msgstr "Encerrar cliente ligado..."
 
 #: clientgui/AdvancedFrame.cpp:350
 msgid "Shut down the currently connected BOINC client"
-msgstr "Desligar o cliente BOINC actualmente ligado"
+msgstr "Encerrar o cliente BOINC atualmente ligado"
 
 #: clientgui/AdvancedFrame.cpp:355 clientgui/sg_BoincSimpleFrame.cpp:120
 #, c-format
@@ -335,7 +335,7 @@ msgstr "&Sincronizar com %s"
 #: clientgui/AdvancedFrame.cpp:467
 #, c-format
 msgid "Get current settings from %s"
-msgstr "Obter as configurações actuais a partir de %s"
+msgstr "Obter as configurações atuais a partir de %s"
 
 #: clientgui/AdvancedFrame.cpp:481
 #, c-format
@@ -356,7 +356,7 @@ msgstr "Executar testes que calculem a velocidade da CPU"
 
 #: clientgui/AdvancedFrame.cpp:498
 msgid "Retry pending transfers"
-msgstr "Tentar novamente transferências pendentes"
+msgstr "Repetir transferências pendentes"
 
 #: clientgui/AdvancedFrame.cpp:499
 msgid "Retry deferred file transfers and task requests"
@@ -2276,7 +2276,7 @@ msgstr "Fóruns"
 
 #: clientgui/Localization.cpp:33
 msgid "Correspond with other users on the SETI@home message boards"
-msgstr "Trocar mensagens com outros utilizadores nos fóruns do SETI@home"
+msgstr "Corresponder com outros utilizadores nos fóruns de mensagens de SETI@Home"
 
 #: clientgui/Localization.cpp:37
 msgid "Ask questions and report problems"
@@ -2330,7 +2330,7 @@ msgstr "Questões comuns"
 
 #: clientgui/Localization.cpp:63
 msgid "Read the Einstein@Home Frequently Asked Question list"
-msgstr "Ler a lista das Questões Frequentes no Einstein@Home"
+msgstr "Ler a lista de Perguntas Frequentes de Einstein@Home"
 
 #: clientgui/Localization.cpp:65
 msgid "Screensaver info"
@@ -2338,12 +2338,12 @@ msgstr "Informações da protecção de ecrã"
 
 #: clientgui/Localization.cpp:67
 msgid "Read a detailed description of the Einstein@Home screensaver"
-msgstr "Ler uma descrição detalhada da protecção de ecrã no Einstein@Home"
+msgstr "Ler uma descrição detalhada da protetor de ecrã de Einstein@Home"
 
 #: clientgui/Localization.cpp:71
 msgid ""
 "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr "Trocar mensagens com administradores e outros utilizadores nos fóruns do Einstein@Home"
+msgstr "Corresponder com os administradores e outros utilizadores nos fóruns de mensagens de Einstein@Home"
 
 #: clientgui/Localization.cpp:73
 msgid "Einstein status"
