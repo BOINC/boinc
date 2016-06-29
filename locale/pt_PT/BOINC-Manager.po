@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 03:33+0000\n"
+"PO-Revision-Date: 2016-06-29 03:39+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -2664,7 +2664,7 @@ msgstr "Sem ligação à Internet"
 
 #: clientgui/NoInternetConnectionPage.cpp:182
 msgid "Please connect to the Internet and try again."
-msgstr "Por favor ligue-se à Internet e tente novamente."
+msgstr "Por favor, ligue à Internet e tente novamente."
 
 #: clientgui/NotDetectedPage.cpp:181
 msgid "Project not found"
@@ -2735,7 +2735,7 @@ msgstr "Organização:"
 
 #: clientgui/ProjectInfoPage.cpp:304
 msgid "Web site:"
-msgstr "Website:"
+msgstr "Site da Web:"
 
 #: clientgui/ProjectInfoPage.cpp:315
 msgid "Supported systems:"
@@ -2782,7 +2782,7 @@ msgstr "A comunicar com o projeto\nPor favor, aguarde..."
 #: clientgui/ProjectWelcomePage.cpp:251
 #, c-format
 msgid "Welcome to %s."
-msgstr "Bem vindo a %s."
+msgstr "Bem vindo ao %s."
 
 #: clientgui/ProjectWelcomePage.cpp:254
 msgid "You have volunteered to compute for this project:"
@@ -2816,7 +2816,7 @@ msgstr "AVISO: Este projeto não está registado no BOINC. Certifique-se que con
 
 #: clientgui/ProjectWelcomePage.cpp:277
 msgid "To continue, click Next."
-msgstr "Para continuar, clique em Próximo."
+msgstr "Para continuar, clique em 'Seguinte'."
 
 #: clientgui/ProxyInfoPage.cpp:195
 msgid "Network communication failure"
@@ -2870,7 +2870,7 @@ msgstr "Servidor:"
 
 #: clientgui/ProxyPage.cpp:350
 msgid "Autodetect"
-msgstr "Detectar automaticamente"
+msgstr "Detetar automaticamente"
 
 #: clientgui/ProxyPage.cpp:354
 msgid "SOCKS proxy"
@@ -2878,19 +2878,19 @@ msgstr "Proxy SOCKS"
 
 #: clientgui/TermsOfUsePage.cpp:218
 msgid "Terms of Use"
-msgstr "Termos de Uso"
+msgstr "Termos de Utilização"
 
 #: clientgui/TermsOfUsePage.cpp:222
 msgid "Please read the following terms of use:"
-msgstr "Por favor, leia os seguintes termos de uso:"
+msgstr "Por favor, leia os seguintes termos de utilização:"
 
 #: clientgui/TermsOfUsePage.cpp:231
 msgid "I agree to the terms of use."
-msgstr "Concordo com os termos de uso."
+msgstr "Eu concordo com os termos de utilização."
 
 #: clientgui/TermsOfUsePage.cpp:237
 msgid "I do not agree to the terms of use."
-msgstr "Não concordo com os termos de utilização."
+msgstr "Eu não concordo com os termos de utilização."
 
 #: clientgui/UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
@@ -2912,15 +2912,15 @@ msgid ""
 "The account manager is temporarily unavailable.\n"
 "\n"
 "Please try again later."
-msgstr "O gestor de conta está temporariamente indisponível.\n\nPor favor tente mais tarde."
+msgstr "O gestor de conta está temporariamente indisponível.\n\nPor favor, tente de novo mais tarde."
 
 #: clientgui/ValidateAccountKey.cpp:68
 msgid "Please specify an account key to continue."
-msgstr "Por favor especifique uma chave de conta para continuar."
+msgstr "Por favor, especifique uma chave de conta para continuar."
 
 #: clientgui/ValidateAccountKey.cpp:71
 msgid "Invalid Account Key; please enter a valid Account Key"
-msgstr "Chave de Conta Inválida; por favor insira uma Chave de Conta Válida"
+msgstr "Chave de Conta Inválida; por favor, insira uma Chave de Conta Válida"
 
 #: clientgui/ValidateAccountKey.cpp:82 clientgui/ValidateEmailAddress.cpp:86
 msgid "Validation conflict"
@@ -2928,11 +2928,11 @@ msgstr "Conflito de validação"
 
 #: clientgui/ValidateEmailAddress.cpp:72
 msgid "Please specify an email address"
-msgstr "Por favor especifique um endereço de e-mail"
+msgstr "Por favor, especifique um endereço de e-mail"
 
 #: clientgui/ValidateEmailAddress.cpp:75
 msgid "Invalid email address; please enter a valid email address"
-msgstr "Endereço de e-mail inválido; por favor insira um endereço de e-mail válido"
+msgstr "Endereço de e-mail inválido; por favor, insira um endereço de e-mail válido"
 
 #: clientgui/ValidateURL.cpp:69
 msgid "Missing URL"
@@ -3030,7 +3030,7 @@ msgstr "Notícias"
 
 #: clientgui/ViewProjects.cpp:202 clientgui/sg_ProjectCommandPopup.cpp:66
 msgid "Update"
-msgstr "Actualizar"
+msgstr "Atualizar"
 
 #: clientgui/ViewProjects.cpp:203 clientgui/sg_ProjectCommandPopup.cpp:67
 msgid ""
@@ -3057,7 +3057,7 @@ msgstr "Suspender tarefas para este projeto."
 #: clientgui/sg_ProjectCommandPopup.cpp:78
 #: clientgui/sg_ProjectCommandPopup.cpp:136
 msgid "No new tasks"
-msgstr "Não obter novas tarefas"
+msgstr "Sem novas tarefas"
 
 #: clientgui/ViewProjects.cpp:217 clientgui/sg_ProjectCommandPopup.cpp:79
 msgid "Don't get new tasks for this project."
@@ -3087,7 +3087,7 @@ msgstr "Propriedades"
 
 #: clientgui/ViewProjects.cpp:238 clientgui/sg_ProjectCommandPopup.cpp:97
 msgid "Show project details."
-msgstr "Mostrar detalhes do projecto."
+msgstr "Mostra os detalhes do projeto."
 
 #: clientgui/ViewProjects.cpp:252 clientgui/ViewStatistics.cpp:426
 msgid "Account"
@@ -3158,7 +3158,7 @@ msgstr "Remover Projeto"
 
 #: clientgui/ViewProjects.cpp:629 clientgui/ViewWork.cpp:686
 msgid "Launching browser..."
-msgstr "A lançar o navegador..."
+msgstr "A iniciar o navegador..."
 
 #: clientgui/ViewProjects.cpp:804 clientgui/sg_ProjectCommandPopup.cpp:126
 msgid "Resume tasks for this project."
@@ -3178,7 +3178,7 @@ msgstr "Não obter novas tarefas para este projeto."
 
 #: clientgui/ViewProjects.cpp:1131
 msgid "Requested by user"
-msgstr "Pedido pelo utilizador"
+msgstr "Solicitado pelo utilizador"
 
 #: clientgui/ViewProjects.cpp:1132
 msgid "To fetch work"
@@ -3186,7 +3186,7 @@ msgstr "Para obter trabalho"
 
 #: clientgui/ViewProjects.cpp:1133
 msgid "To report completed tasks"
-msgstr "Para reportar tarefas concluídas"
+msgstr "Para comunicar tarefas concluídas"
 
 #: clientgui/ViewProjects.cpp:1134
 msgid "To send trickle-up message"
