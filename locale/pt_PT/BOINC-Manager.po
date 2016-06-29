@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 02:33+0000\n"
+"PO-Revision-Date: 2016-06-29 02:39+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -589,7 +589,7 @@ msgstr "%s - Encerrar o cliente atual..."
 msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
-msgstr "%s irá desligar o cliente ligado actualmente\ne ser-lhe-á solicitado para que se ligue a outro anfitrião."
+msgstr "O %s irá encerrar o cliente atual\ne ser-lhe-á solicitado a ligação a outro anfitrião."
 
 #: clientgui/AdvancedFrame.cpp:1883 clientgui/DlgAbout.cpp:119
 #, c-format
@@ -732,7 +732,7 @@ msgid ""
 "%s is not currently connected to a %s client.\n"
 "Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
-msgstr "%s não está actualmente ligado ao cliente %s.\nPor favor utilize o menu 'Avançado\\Escolher Computador...' para se ligar ao cliente %s.\nPara se ligar ao seu computador local, utilize o 'localhost' como o nome de anfitrião."
+msgstr "O %s não está atualmente ligado ao cliente %s.\nPor favor, utilize a opção do menu 'Avançado\\Escolher Computador...' para se ligar a um cliente %s.\nPara se ligar ao seu computador local, por favor, utilize 'localhost' como o nome de anfitrião."
 
 #. Create the web sites task group
 #: clientgui/BOINCBaseView.cpp:790
@@ -2455,7 +2455,7 @@ msgstr "Pesquisa"
 
 #: clientgui/Localization.cpp:157
 msgid "Learn about the projects hosted at World Community Grid"
-msgstr "Aprender acerca dos projectos alojados em World Community Grid"
+msgstr "Saber sobre os projetos alojados em World Community Grid"
 
 #: clientgui/MainDocument.cpp:585
 msgid "Starting client"
