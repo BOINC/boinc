@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 02:50+0000\n"
+"PO-Revision-Date: 2016-06-29 02:55+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -2112,7 +2112,7 @@ msgstr "Idioma:"
 
 #: clientgui/DlgOptions.cpp:186
 msgid "What language should BOINC use?"
-msgstr "Que idioma deve o BOINC utilizar?"
+msgstr "Qual o idioma a utilizar no BOINC?"
 
 #: clientgui/DlgOptions.cpp:190
 msgid "Notice reminder interval:"
@@ -2132,7 +2132,7 @@ msgstr "Execute o BOINC Manager quando inicia a sessão."
 
 #: clientgui/DlgOptions.cpp:213
 msgid "Run daemon?"
-msgstr "Correr daemon?"
+msgstr "Executar daemon?"
 
 #: clientgui/DlgOptions.cpp:219
 msgid "Run daemon when launching the Manager."
@@ -2194,7 +2194,7 @@ msgstr "Deixar em branco se desnecessário"
 #: clientgui/DlgOptions.cpp:323 clientgui/DlgOptions.cpp:387
 #: clientgui/ProxyPage.cpp:343 clientgui/ProxyPage.cpp:363
 msgid "User Name:"
-msgstr "Nome de Utilizador:"
+msgstr "Nome de utilizador:"
 
 #: clientgui/DlgOptions.cpp:331 clientgui/DlgOptions.cpp:395
 #: clientgui/DlgSelectComputer.cpp:152 clientgui/ProxyPage.cpp:346
@@ -2272,7 +2272,7 @@ msgstr "Nome do anfitrião:"
 
 #: clientgui/Localization.cpp:31 clientgui/Localization.cpp:69
 msgid "Message boards"
-msgstr "Fóruns"
+msgstr "Fóruns de Discussão"
 
 #: clientgui/Localization.cpp:33
 msgid "Correspond with other users on the SETI@home message boards"
@@ -2280,7 +2280,7 @@ msgstr "Corresponder com outros utilizadores nos fóruns de mensagens de SETI@Ho
 
 #: clientgui/Localization.cpp:37
 msgid "Ask questions and report problems"
-msgstr "Colocar perguntas e reportar problemas"
+msgstr "Colocar perguntas e comunicar problemas"
 
 #: clientgui/Localization.cpp:39 clientgui/Localization.cpp:81
 #: clientgui/Localization.cpp:111 clientgui/Localization.cpp:129
@@ -2326,7 +2326,7 @@ msgstr "Ver informação sobre a sua equipa"
 
 #: clientgui/Localization.cpp:61
 msgid "Common questions"
-msgstr "Questões comuns"
+msgstr "Perguntas comuns"
 
 #: clientgui/Localization.cpp:63
 msgid "Read the Einstein@Home Frequently Asked Question list"
@@ -3513,11 +3513,11 @@ msgstr " (projeto backoff: "
 
 #: clientgui/ViewWork.cpp:211 clientgui/ViewWork.cpp:864
 msgid "Show active tasks"
-msgstr "Mostrar tarefas activas"
+msgstr "Mostrar tarefas ativas"
 
 #: clientgui/ViewWork.cpp:212 clientgui/ViewWork.cpp:865
 msgid "Show only active tasks."
-msgstr "Mostrar apenas as tarefas activas."
+msgstr "Mostra apenas as tarefas ativas."
 
 #: clientgui/ViewWork.cpp:218 clientgui/sg_TaskCommandPopup.cpp:66
 msgid "Show graphics"
@@ -3605,7 +3605,7 @@ msgstr "Mostrar todas as tarefas"
 
 #: clientgui/ViewWork.cpp:859
 msgid "Show all tasks."
-msgstr "Mostrar todas as tarefas."
+msgstr "Mostra todas as tarefas."
 
 #: clientgui/ViewWork.cpp:883 clientgui/sg_TaskCommandPopup.cpp:119
 msgid "Resume work for this task."
