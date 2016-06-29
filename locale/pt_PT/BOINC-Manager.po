@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 02:28+0000\n"
+"PO-Revision-Date: 2016-06-29 02:33+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -44,7 +44,7 @@ msgstr "Por favor, insira a informação da sua conta\n(para criar uma conta, vi
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can add it only if you already have an account."
-msgstr "Este projecto não está de momento a aceitar novas contas.\nSó o pode adicionar se já possuir uma conta."
+msgstr "Este projeto não está de momento a aceitar novas contas.\nSó o pode adicionar se já possuir uma conta."
 
 #: clientgui/AccountInfoPage.cpp:375
 msgid "Are you already running this project?"
@@ -626,7 +626,7 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr "Uma conta com esse nome de utilizador já existe e tem uma\npalavra-passe diferente daquela que inseriu.\n\nPor favor, visite o website do projecto e siga as instruções lá indicadas."
+msgstr "Uma conta com esse nome de utilizador já existe e tem uma\npalavra-passe diferente daquela que inseriu.\n\nPor favor, visite o site da Web do projeto e siga as instruções lá indicadas."
 
 #: clientgui/AlreadyExistsPage.cpp:191
 msgid "Email address already in use"
@@ -638,7 +638,7 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr "Uma conta com esse endereço de e-mail já existe e tem uma\npalavra-passe diferente daquela que inseriu.\n\nPor favor, visite o website do projecto e siga as instruções lá indicadas."
+msgstr "Uma conta com esse endereço de e-mail já existe e tem uma\npalavra-passe diferente daquela que inseriu.\n\nPor favor, visite o site da Web do projeto e siga as instruções lá indicadas."
 
 #: clientgui/AsyncRPC.cpp:1031
 msgid "Communicating with BOINC client.  Please wait ..."
@@ -1649,7 +1649,7 @@ msgstr "Copiar &Todos"
 #: clientgui/DlgEventLog.cpp:311 clientgui/DlgEventLog.cpp:315
 #: clientgui/ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
-msgstr "Copiar todas as mensagens para a área de transferência."
+msgstr "Copia todas as mensagens para a área de transferência."
 
 #: clientgui/DlgEventLog.cpp:320
 msgid "Copy &Selected"
@@ -2264,7 +2264,7 @@ msgstr "%s - Seleção de Computador"
 msgid ""
 "Another instance of %s is already running \n"
 "on this computer.  Please select a client to monitor."
-msgstr "Outra instância do %s já está a em execução \nneste computador. Por favor, seleccione o cliente a monitorizar."
+msgstr "Outra instância do %s já está em execução \nneste computador. Por favor, selecione o cliente a monitorizar."
 
 #: clientgui/DlgSelectComputer.cpp:143
 msgid "Host name:"
@@ -2982,7 +2982,7 @@ msgstr "Copiar todas as mensagens"
 
 #: clientgui/ViewMessages.cpp:95
 msgid "Copy selected messages"
-msgstr "Copiar as mensagens seleccionadas"
+msgstr "Copiar as mensagens selecionadas"
 
 #: clientgui/ViewMessages.cpp:106 clientgui/ViewMessages.cpp:502
 msgid "Show only this project"
@@ -2998,11 +2998,11 @@ msgstr "Mensagens"
 
 #: clientgui/ViewMessages.cpp:187
 msgid "Copying all messages to the clipboard..."
-msgstr "A copiar todas as mensagens para àrea de transferência..."
+msgstr "A copiar todas as mensagens para área de transferência..."
 
 #: clientgui/ViewMessages.cpp:223
 msgid "Copying selected messages to the clipboard..."
-msgstr "A copiar as mensagens seleccionadas para àrea de transferência..."
+msgstr "A copiar as mensagens selecionadas para a área de transferência..."
 
 #: clientgui/ViewMessages.cpp:286
 msgid "Filtering messages..."
