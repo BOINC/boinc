@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-06-28 18:09+0000\n"
+"PO-Revision-Date: 2016-06-29 04:00+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -36,7 +36,7 @@ msgstr "Regressar à página principal do BOINC"
 #: docutil.php:114
 #, php-format
 msgid "This page is %stranslatable%s."
-msgstr "Esta página pode ser %stranslatable%s."
+msgstr "Esta página pode ser %straduzida%s."
 
 #: download.php:42
 msgid ""
@@ -183,7 +183,7 @@ msgstr "Os ajudantes do BOINC são voluntários não remunerados. Os seus consel
 
 #: help_funcs.php:139
 msgid "%1Never%2 give email address or password information to BOINC helpers."
-msgstr "%1Nunca%2 forneça informações sobre o endereço de e-mail ou a palavra-passe aos ajudantes do BOINC."
+msgstr "%1Nunca%2 forneça a informação sobre o endereço de e-mail ou palavra-passe aos ajudantes do BOINC."
 
 #: index.php:24
 msgid "Computing power"
@@ -654,7 +654,7 @@ msgstr "Procura de estrelas giratórias de neutrões (também chamados de pulsar
 
 #: projects.inc:370
 msgid "Help detect pulsars and gravitational waves"
-msgstr "Ajude a detectar pulsares e ondas gravitacionais"
+msgstr "Ajude a detetar pulsares e ondas gravitacionais"
 
 #: projects.inc:383 projects.inc:393 projects.inc:403
 msgid "CERN (European Organization for Nuclear Research)"
@@ -702,7 +702,7 @@ msgstr "Simule colisões de partículas de alta enérgica para o CERN"
 
 #: projects.inc:413
 msgid "University of California, Berkeley"
-msgstr "Universidade da California, Berkeley"
+msgstr "Universidade da Califórnia, Berkeley"
 
 #: projects.inc:414
 msgid "Astrophysics, astrobiology"
@@ -719,15 +719,15 @@ msgstr "SETI (Procura de Vida Inteligente Extraterrestre) é uma área científi
 
 #: projects.inc:418
 msgid "Search for evidence of extra-terrestrial life"
-msgstr "Pesquise por evidências de vida extraterreste"
+msgstr "Pesquise por evidências de vida extraterrestre"
 
 #: projects.inc:442
 msgid "Multiple applications"
-msgstr "Várias aplicações"
+msgstr "Múltiplas aplicações"
 
 #: projects.inc:448
 msgid "Molecular biology, Computer Science"
-msgstr "Biologia molecular, Ciência computacional"
+msgstr "Biologia Molecular, Ciência Computacional"
 
 #: projects.inc:449
 msgid ""
@@ -770,7 +770,7 @@ msgstr "O Yoyo@home é um intermediário entre o BOINC e vários projetos de com
 
 #: projects.inc:472
 msgid "Do research in math, physics, and evolution"
-msgstr "Faça pesquisas em matemática, física e evolução"
+msgstr "Efetue pesquisas em matemática, física e evolução"
 
 #: projects.inc:477 projects.inc:677
 msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
@@ -778,7 +778,7 @@ msgstr "MTA-SZTAKI - Laboratório de Sistemas Distribuídos e Paralelos (Hungria
 
 #: projects.inc:478
 msgid "European research projects"
-msgstr "Projectos de Investigação Europeus"
+msgstr "Projetos de Investigação Europeus"
 
 #: projects.inc:479
 msgid ""
@@ -826,7 +826,7 @@ msgstr "Para promover a pesquisa sem fins lucrativos para alguns dos problemas m
 
 #: projects.inc:502
 msgid "Do biomedical and environmental research"
-msgstr "Realizar pesquisa biomédica e ambiental"
+msgstr "Realizar investigação biomédica e ambiental"
 
 #: projects.inc:507
 msgid "Mathematics, computing, and games"
@@ -853,7 +853,7 @@ msgstr "Realizar pesquisa na teoria dos números algébricos"
 
 #: projects.inc:553
 msgid "Computer Science"
-msgstr "Ciência da Computação"
+msgstr "Ciência de Computação"
 
 #: projects.inc:554
 msgid ""
@@ -898,7 +898,7 @@ msgstr "Estude a Conjectura de Collatz"
 
 #: projects.inc:611
 msgid "California State University Fullerton"
-msgstr "Universidade Estatal da Califórnia, Fullerton (CSUF)"
+msgstr "Universidade Estatal da Califórnia, Fullerton"
 
 #: projects.inc:612
 msgid "Factorization of large integers"
@@ -966,4 +966,4 @@ msgstr "Comentar"
 #: ../html/inc/news.inc:111
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr "Notícias disponíveis como um %sFeed RSS%s"
+msgstr "As notícias estão disponíveis como %sFeed RSS%s"

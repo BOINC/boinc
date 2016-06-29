@@ -7,13 +7,14 @@
 # 
 # Translators:
 # Maria Manuela Silva <manuela.silva@sky.com>, 2016
+# Maria Manuela Silva <manuela.silva@sky.com>, 2016
 # Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2016-06-28 16:12+0000\n"
+"PO-Revision-Date: 2016-06-29 04:02+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +52,7 @@ msgstr "indentifica-o no seu website. Use o seu nome real ou um nome de utilizad
 
 #: ../inc/account.inc:48
 msgid "Email Address"
-msgstr "Endereço de Email"
+msgstr "Endereço de E-mail"
 
 #: ../inc/account.inc:48
 msgid "Must be a valid address of the form 'name@domain'."
@@ -59,7 +60,7 @@ msgstr "Tem que ser um endereço válido do form 'name@domain'."
 
 #: ../inc/account.inc:57 ../user/edit_email_form.php:47
 msgid "Password"
-msgstr "Palavra passe"
+msgstr "Palavra-passe"
 
 #: ../inc/account.inc:58
 msgid "Must be at least %1 characters"
@@ -67,7 +68,7 @@ msgstr "Tem que ter pelo menos %1 caracteres"
 
 #: ../inc/account.inc:61
 msgid "Confirm password"
-msgstr "Confirme palavra passe"
+msgstr "Confirmar palavra-passe"
 
 #: ../inc/account.inc:63 ../inc/team.inc:43 ../inc/team.inc:134
 #: ../inc/team.inc:247 ../inc/team.inc:387 ../inc/team.inc:475
@@ -81,7 +82,7 @@ msgstr "País"
 
 #: ../inc/account.inc:63 ../user/account_finish.php:45
 msgid "Select the country you want to represent, if any."
-msgstr "Seleccione o País que represente, se algum."
+msgstr "Selecione o país que pretende representar, se algum."
 
 #: ../inc/account.inc:70 ../user/account_finish.php:51
 msgid "Postal or ZIP Code"
@@ -97,7 +98,7 @@ msgstr "Criar conta"
 
 #: ../inc/account.inc:101
 msgid "Email address:"
-msgstr "Endereço de email:"
+msgstr "Endereço de e-mail:"
 
 #: ../inc/account.inc:103
 msgid "forgot email address?"
@@ -105,7 +106,7 @@ msgstr "esqueceu-se do endereço de email?"
 
 #: ../inc/account.inc:106
 msgid "Password:"
-msgstr "Palavra passe:"
+msgstr "Palavra-passe:"
 
 #: ../inc/account.inc:106
 msgid "forgot password?"
@@ -122,11 +123,11 @@ msgstr "Entrar"
 
 #: ../inc/bbcode_html.inc:11
 msgid "Bold text: [b]text[/b]  (alt+b)"
-msgstr "Texto em Negrito: [b]texto[/b]  (alt+b)"
+msgstr "Texto em negrito: [b]texto[/b]  (alt+b)"
 
 #: ../inc/bbcode_html.inc:14
 msgid "Italic text: [i]text[/i]  (alt+i)"
-msgstr "Texto em Itálico: [i]text[/i]  (alt+i)"
+msgstr "Texto em itálico: [i]text[/i]  (alt+i)"
 
 #: ../inc/bbcode_html.inc:17
 msgid "Underline text: [u]text[/u]  (alt+u)"
@@ -282,7 +283,7 @@ msgstr "Moderador voluntário"
 
 #: ../inc/forum.inc:105
 msgid "Project administrator"
-msgstr "Administrador de projecto"
+msgstr "Administrador de projeto"
 
 #: ../inc/forum.inc:106
 msgid "Project developer"
@@ -335,7 +336,7 @@ msgstr "Perguntas e Respostas"
 #: ../inc/user.inc:454 ../user/forum_forum.php:76 ../user/sample_index.php:127
 #: ../project.sample/project.inc:70
 msgid "Message boards"
-msgstr "Mensagens do fórum"
+msgstr "Fóruns de Discussão"
 
 #: ../inc/forum.inc:191 ../inc/forum.inc:199
 msgid "%1 message board"
@@ -347,7 +348,7 @@ msgstr "Anterior"
 
 #: ../inc/forum.inc:287 ../inc/result.inc:726
 msgid "Next"
-msgstr "Próximo"
+msgstr "Seguinte"
 
 #: ../inc/forum.inc:416 ../inc/forum.inc:1234 ../user/forum_forum.php:140
 #: ../user/forum_reply.php:126 ../user/forum_report_post.php:79
