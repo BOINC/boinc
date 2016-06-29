@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 01:33+0000\n"
+"PO-Revision-Date: 2016-06-29 01:38+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -952,11 +952,11 @@ msgstr "A computação por GPU está suspensa - "
 
 #: clientgui/BOINCTaskBar.cpp:738
 msgid "Network is enabled"
-msgstr "Actividade de rede está activada"
+msgstr "A atividade de rede está ativada"
 
 #: clientgui/BOINCTaskBar.cpp:741
 msgid "Network is suspended - "
-msgstr "Actividade de rede está suspensa - "
+msgstr "A atividade de rede está suspensa - "
 
 #: clientgui/BOINCTaskBar.cpp:749
 msgid "Reconnecting to client."
@@ -1301,19 +1301,19 @@ msgstr "Outro"
 #. buffer sizes
 #: clientgui/DlgAdvPreferencesBase.cpp:355
 msgid "Store at least enough tasks to keep the computer busy for this long."
-msgstr "Armazenar tarefas suficientes para manter o computador ocupado no mínimo durante este período."
+msgstr "Guarda pelo menos as tarefas suficientes para manter o computador ocupado durante este período."
 
 #. context: Store at least ___ days of work
 #: clientgui/DlgAdvPreferencesBase.cpp:359
 msgid "Store at least"
-msgstr "Armazenar no mínimo "
+msgstr "Guardar pelo menos"
 
 #. context: Store at least ___ days of work
 #. context: Store up to an additional ___ days of work
 #: clientgui/DlgAdvPreferencesBase.cpp:370
 #: clientgui/DlgAdvPreferencesBase.cpp:392
 msgid "days of work"
-msgstr "dias de trabalho"
+msgstr "dia(s) de trabalho"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:376
 msgid ""
@@ -1492,7 +1492,7 @@ msgstr "%"
 #: clientgui/DlgAdvPreferencesBase.cpp:627
 #, c-format
 msgid "Limit the memory used by %s when you're not using the computer."
-msgstr "Limitar a utilização de memória pelo %s quando não estiver a utilizar o computador."
+msgstr "Limitar a utilização da memória pelo %s quando não estiver a utilizar o computador."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:629
 msgid "When computer is not in use, use at most"
