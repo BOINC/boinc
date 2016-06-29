@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 03:18+0000\n"
+"PO-Revision-Date: 2016-06-29 03:23+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -1581,7 +1581,7 @@ msgstr "Quinta"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:890 clientgui/sg_DlgPreferences.cpp:317
 msgid "Transfer files only during a particular period each day."
-msgstr "Transferir ficheiros apenas durante um período específico do dia."
+msgstr "Transfere os ficheiros apenas durante um período específico do dia."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:892 clientgui/sg_DlgPreferences.cpp:319
 msgid "Transfer files only between"
@@ -1599,7 +1599,7 @@ msgstr "Estas bandeiras habilitam vários tipos de mensagens de diagnóstico no 
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:99
 msgid "More info ..."
-msgstr "Mais informações..."
+msgstr "Mais informação..."
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:120 clientgui/DlgHiddenColumns.cpp:101
 msgid "Save all values and close the dialog"
@@ -1695,7 +1695,7 @@ msgstr "%s - Aplicações Exclusivas"
 #: clientgui/DlgExclusiveApps.cpp:72
 msgid ""
 "Suspend processor and network usage when these applications are running:"
-msgstr "Suspende processador e utilização da rede quando estas aplicações estiverem a ser executadas:"
+msgstr "Suspende o processador e a utilização da rede quando estas aplicações estiverem em execução:"
 
 #: clientgui/DlgExclusiveApps.cpp:80 clientgui/DlgExclusiveApps.cpp:104
 msgid "Add..."
@@ -1703,7 +1703,7 @@ msgstr "Adicionar..."
 
 #: clientgui/DlgExclusiveApps.cpp:81 clientgui/DlgExclusiveApps.cpp:105
 msgid "Add an application to this list"
-msgstr "Adicionar uma aplicação a esta lista"
+msgstr "Adiciona uma aplicação a esta lista"
 
 #: clientgui/DlgExclusiveApps.cpp:86 clientgui/DlgExclusiveApps.cpp:110
 #: clientgui/ViewProjects.cpp:230 clientgui/sg_ProjectCommandPopup.cpp:90
@@ -1716,11 +1716,11 @@ msgstr "Remove uma aplicação desta lista"
 
 #: clientgui/DlgExclusiveApps.cpp:96
 msgid "Suspend GPU usage when these applications are running:"
-msgstr "Suspende utilização da GPU quando estas aplicações estiverem a ser executadas"
+msgstr "Suspende a utilização da GPU quando estas aplicações estiverem em execução:"
 
 #: clientgui/DlgExclusiveApps.cpp:122
 msgid "For advanced options, refer to "
-msgstr "Para opções avançadas, seguir estas instruções: "
+msgstr "Para opções avançadas, siga estas instruções: "
 
 #: clientgui/DlgExclusiveApps.cpp:147
 msgid "save all values and close the dialog"
@@ -1762,7 +1762,7 @@ msgstr "Adicionar aplicação exclusiva"
 #: clientgui/DlgExclusiveApps.cpp:379
 #, c-format
 msgid "Application names must end with '%s'"
-msgstr "Os nomes das aplicações têm de terminar com '%s'"
+msgstr "Os nomes de aplicação devem terminar com '%s'"
 
 #: clientgui/DlgExclusiveApps.cpp:403
 #, c-format
