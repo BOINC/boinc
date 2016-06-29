@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 00:31+0000\n"
+"PO-Revision-Date: 2016-06-29 00:36+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -115,7 +115,7 @@ msgid ""
 "If you have not yet registered with this account manager,\n"
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
-msgstr "Se ainda não se registou neste gestor de conta,\npor favor faça-o antes de prosseguir. Clique no link em baixo\npara se registar ou recuperar a palavra-passe esquecida."
+msgstr "Se ainda não se registou neste gestor de conta,\npor favor, faça-o antes de prosseguir. Clique na hiperligação abaixo\npara se registar ou para recuperar a palavra-passe esquecida."
 
 #: clientgui/AccountInfoPage.cpp:514
 msgid "Account manager web site"
@@ -167,7 +167,7 @@ msgstr "Detalhes do gestor de conta:"
 
 #: clientgui/AccountManagerInfoPage.cpp:281
 msgid "Account manager &URL:"
-msgstr "Gestor de conta &URL:"
+msgstr "&URL do gestor de conta:"
 
 #: clientgui/AccountManagerInfoPage.cpp:285
 msgid "Open web page"
@@ -2120,7 +2120,7 @@ msgstr "Intervalo de lembrança de notícias:"
 
 #: clientgui/DlgOptions.cpp:197
 msgid "How often should BOINC remind you of new notices?"
-msgstr "Com quem frequência deve o BOINC lembrar-lhe de novas notícias?"
+msgstr "Com que frequência é que o BOINC deve lembrar-lhe das novas notícias?"
 
 #: clientgui/DlgOptions.cpp:202
 msgid "Run Manager at login?"
@@ -3018,11 +3018,11 @@ msgstr "Mostrar mensagens para todos os projetos."
 
 #: clientgui/ViewNotices.cpp:58 clientgui/sg_DlgMessages.cpp:124
 msgid "Fetching notices; please wait..."
-msgstr "A pesquisar noitícias; por favor aguarde..."
+msgstr "A obter notícias; por favor, aguarde..."
 
 #: clientgui/ViewNotices.cpp:65 clientgui/sg_DlgMessages.cpp:132
 msgid "There are no notices at this time."
-msgstr "Não existem notícias nesta altura."
+msgstr "De momento, não existem notícias."
 
 #: clientgui/ViewNotices.cpp:99 clientgui/sg_BoincSimpleFrame.cpp:912
 msgid "Notices"
@@ -3688,7 +3688,7 @@ msgstr "Resume a Computação"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:913
 msgid "Open a window to view notices from projects or BOINC"
-msgstr "Abre uma janela para ver as notícias dos projectos ou do BOINC"
+msgstr "Abre uma janela para ver as notícias dos projetos ou do BOINC"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:934 clientgui/sg_DlgPreferences.cpp:366
 #, c-format
