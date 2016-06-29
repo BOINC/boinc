@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 03:06+0000\n"
+"PO-Revision-Date: 2016-06-29 03:11+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -1147,7 +1147,7 @@ msgstr "Defina os valores e clique em 'CONFIRMAR' para utilizar as preferências
 
 #: clientgui/DlgAdvPreferencesBase.cpp:115 clientgui/sg_DlgPreferences.cpp:217
 msgid "Use web prefs"
-msgstr "Utilizar preferências web"
+msgstr "Utilizar preferências da Web"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:116 clientgui/sg_DlgPreferences.cpp:218
 msgid "Restore web-based preferences and close the dialog."
@@ -1212,7 +1212,7 @@ msgstr "Deixar algumas CPUs livres para outras aplicações. Exemplo: 75% signif
 #: clientgui/DlgAdvPreferencesBase.cpp:243
 #: clientgui/DlgAdvPreferencesBase.cpp:255 clientgui/sg_DlgPreferences.cpp:286
 msgid "Use at most"
-msgstr "Utilizar no máximo"
+msgstr "Utilizar pelo menos"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:248
 #, no-c-format
@@ -1247,7 +1247,7 @@ msgstr "Selecione isto para suspender a computação nos portáteis quando estiv
 
 #: clientgui/DlgAdvPreferencesBase.cpp:282 clientgui/sg_DlgPreferences.cpp:253
 msgid "Suspend when computer is in use"
-msgstr "Suspender quando o computador está em utilização"
+msgstr "Suspender quando o computador estiver a ser utilizado"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:285 clientgui/sg_DlgPreferences.cpp:249
 msgid ""
@@ -1324,7 +1324,7 @@ msgstr "Armazene tarefas adicionais acima do nível mínimo. Determina a quantid
 #. context: Store up to an additional ___ days of work
 #: clientgui/DlgAdvPreferencesBase.cpp:380
 msgid "Store up to an additional"
-msgstr "Armazene adicionalmente"
+msgstr "Guardar adicionalmente"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:399
 #, c-format
@@ -1377,7 +1377,7 @@ msgstr "Limitar a taxa de envio para"
 #: clientgui/DlgAdvPreferencesBase.cpp:490
 #, c-format
 msgid "Example: %s should transfer at most 2000 MB of data every 30 days."
-msgstr "Exemplo: %s deve transferir no máximo 2000 Mb de dados a cada 30 dias."
+msgstr "Exemplo: %s deverá transferir pelo menos 2000 Mb de dados a cada 30 dias."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:492
 msgid "Limit usage to"
@@ -1389,7 +1389,7 @@ msgstr "MB a cada"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:500
 msgid "days"
-msgstr "dias"
+msgstr "dia(s)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:505
 msgid "To limit transfers by time of day, see the \"Daily Schedules\" section."
