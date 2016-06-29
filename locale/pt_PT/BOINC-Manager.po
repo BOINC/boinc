@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 02:07+0000\n"
+"PO-Revision-Date: 2016-06-29 02:12+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -489,7 +489,7 @@ msgstr "Ler ficheiros de configuração"
 #: clientgui/AdvancedFrame.cpp:633
 msgid ""
 "Read configuration info from cc_config.xml and any app_config.xml files"
-msgstr "Ler informações de configuração em cc_config.mxl e quaisquer ficheiros em app_config.xml"
+msgstr "Ler informação de configuração de cc_config.mxl e quaisquer ficheiros app_config.xml"
 
 #: clientgui/AdvancedFrame.cpp:637
 msgid "Read local prefs file"
@@ -577,12 +577,12 @@ msgid ""
 "but you'll have to manage projects manually.\n"
 "\n"
 "Do you want to stop using %s?"
-msgstr "Se parar de utilizar o %s,\nmanterá todos os projectos actuais,\nmas terá que gerir os projectos manualmente.\n\nQuer parar de utilizar o %s?"
+msgstr "Se parar de utilizar o %s,\nirá manter todos os projetos atuais,\nmas terá que gerir os projetos manualmente.\n\nDeseja parar de utilizar o %s?"
 
 #: clientgui/AdvancedFrame.cpp:1471
 #, c-format
 msgid "%s - Shut down the current client..."
-msgstr "%s - Desligar o cliente actual..."
+msgstr "%s - Encerrar o cliente atual..."
 
 #: clientgui/AdvancedFrame.cpp:1480
 #, c-format
@@ -684,7 +684,7 @@ msgstr "Autorização falhada ao ligar-se ao cliente em execução.\nConfirme qu
 
 #: clientgui/BOINCBaseFrame.cpp:532
 msgid "Authorization failed connecting to running client."
-msgstr "Autorização falhada ao ligar-se ao cliente em execução."
+msgstr "A autorização falhou para ligar ao cliente em execução."
 
 #: clientgui/BOINCBaseFrame.cpp:540
 msgid "The password you have provided is incorrect, please try again."
