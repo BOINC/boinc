@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 01:28+0000\n"
+"PO-Revision-Date: 2016-06-29 01:33+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -1431,7 +1431,7 @@ msgstr "O %s irá utilizar as definições mais restritivas:"
 #: clientgui/DlgAdvPreferencesBase.cpp:570 clientgui/sg_DlgPreferences.cpp:335
 #, c-format
 msgid "Limit the total amount of disk space used by %s."
-msgstr "Limitar o espaço total em disco utilizado por %s."
+msgstr "Limita o espaço total do disco utilizado pelo %s."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:573
 #: clientgui/DlgAdvPreferencesBase.cpp:597 clientgui/sg_DlgPreferences.cpp:338
@@ -1447,7 +1447,7 @@ msgstr "GB"
 msgid ""
 "Limit disk usage to leave this much free space on the volume where %s stores"
 " data."
-msgstr "Limita a utilização do disco para deixar esta quantidade de espaço livre no volume onde %s armazena os dados."
+msgstr "Limita a utilização do disco para deixar este espaço livre no volume onde o %s guarda os dados."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:585
 msgid "Leave at least"
@@ -1462,7 +1462,7 @@ msgstr "GB livres"
 msgid ""
 "Limit the percentage of disk space used by %s on the volume where it stores "
 "data."
-msgstr "Limita a percentagem de disco utilizada pelo %s no volume onde armazena os dados."
+msgstr "Limita a percentagem do disco utilizada pelo %s no volume onde este guarda os dados."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:602
 #, no-c-format
@@ -2631,15 +2631,15 @@ msgstr "Abortado: não iniciado devido à data limite excedida"
 
 #: clientgui/MainDocument.cpp:2570
 msgid "Aborted: task disk limit exceeded"
-msgstr "Cancelado: limite de disco para tarefas excedido"
+msgstr "Abortado: limite de disco da tarefa excedido"
 
 #: clientgui/MainDocument.cpp:2573
 msgid "Aborted: run time limit exceeded"
-msgstr "Abortado: limite de tempo excedido"
+msgstr "Abortado: limite de tempo de execução excedido"
 
 #: clientgui/MainDocument.cpp:2576
 msgid "Aborted: memory limit exceeded"
-msgstr "Abortado: limite em memória excedido"
+msgstr "Abortado: limite de memória excedido"
 
 #: clientgui/MainDocument.cpp:2579
 msgid "Aborted"
