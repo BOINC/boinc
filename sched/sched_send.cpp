@@ -640,6 +640,12 @@ static int add_wu_to_reply(
     //
     wu2 = wu;       // make copy since we're going to modify its XML field
 
+    // check if plan class specified memory usage
+    //
+    if (bavp->host_usage.mem_usage) {
+        wu2.rsc_memory_bound = bavp->host_usage.mem_usage;
+    }
+
     // adjust FPOPS figures for anonymous platform
     //
     if (bavp->cavp) {
