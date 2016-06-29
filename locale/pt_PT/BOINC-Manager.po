@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 03:23+0000\n"
+"PO-Revision-Date: 2016-06-29 03:28+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -1957,7 +1957,7 @@ msgstr "Adicionado através do gestor de conta"
 
 #: clientgui/DlgItemProperties.cpp:288
 msgid "Remove when tasks done"
-msgstr "Remover quando as tarefas concluirem"
+msgstr "Remover quando as tarefas estiverem concluídas"
 
 #: clientgui/DlgItemProperties.cpp:291
 msgid "Ended"
@@ -2002,7 +2002,7 @@ msgstr "CPU"
 
 #: clientgui/DlgItemProperties.cpp:341
 msgid "Duration correction factor"
-msgstr "Duração do factor de correcção"
+msgstr "Duração do fator de correção"
 
 #: clientgui/DlgItemProperties.cpp:349
 msgid "Last scheduler reply"
@@ -2030,7 +2030,7 @@ msgstr "Recebido"
 
 #: clientgui/DlgItemProperties.cpp:380
 msgid "Report deadline"
-msgstr "Reportar data limite de entrega"
+msgstr "Data limite de entrega"
 
 #: clientgui/DlgItemProperties.cpp:382
 msgid "Resources"
@@ -2038,7 +2038,7 @@ msgstr "Recursos"
 
 #: clientgui/DlgItemProperties.cpp:385
 msgid "Estimated computation size"
-msgstr "Tamanho estimado de computação"
+msgstr "Tamanho de computação estimado"
 
 #: clientgui/DlgItemProperties.cpp:390
 msgid "CPU time at last checkpoint"
@@ -2054,11 +2054,11 @@ msgstr "Tempo decorrido"
 
 #: clientgui/DlgItemProperties.cpp:395
 msgid "Estimated time remaining"
-msgstr "Tempo restante previsto"
+msgstr "Tempo restante estimado"
 
 #: clientgui/DlgItemProperties.cpp:396
 msgid "Fraction done"
-msgstr "Fracção feita"
+msgstr "Fração concluída"
 
 #: clientgui/DlgItemProperties.cpp:397
 msgid "Virtual memory size"
@@ -2070,11 +2070,11 @@ msgstr "Tamanho previsto do trabalho"
 
 #: clientgui/DlgItemProperties.cpp:400
 msgid "Directory"
-msgstr "Directoria"
+msgstr "Pasta"
 
 #: clientgui/DlgItemProperties.cpp:403
 msgid "Process ID"
-msgstr "ID do Processo"
+msgstr "Identificação do Processo"
 
 #: clientgui/DlgItemProperties.cpp:409 clientgui/DlgItemProperties.cpp:411
 #: clientgui/DlgItemProperties.cpp:413
