@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 02:55+0000\n"
+"PO-Revision-Date: 2016-06-29 03:01+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -360,7 +360,7 @@ msgstr "Repetir transferências pendentes"
 
 #: clientgui/AdvancedFrame.cpp:499
 msgid "Retry deferred file transfers and task requests"
-msgstr "Tentar novamente transferências de ficheiros deferidos e pedidos de tarefas"
+msgstr "Repetir as transferências de ficheiro deferidas e pedidos de tarefa"
 
 #: clientgui/AdvancedFrame.cpp:504 clientgui/sg_BoincSimpleFrame.cpp:211
 msgid "Event Log...\tCtrl+Shift+E"
@@ -1180,11 +1180,11 @@ msgstr "CONFIRMAR"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:163
 msgid "Save all values and close the dialog."
-msgstr "Salvar todos os valores e fechar a caixa de diálogo."
+msgstr "Guarda todos os valores e fecha a janela."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:169
 msgid "Close the dialog without saving."
-msgstr "Fechar a caixa de diálogo sem guardar."
+msgstr "Fecha a janela sem guardar."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:173 clientgui/DlgExclusiveApps.cpp:157
 #: clientgui/Localization.cpp:35 clientgui/Localization.cpp:121
@@ -1603,7 +1603,7 @@ msgstr "Mais informações..."
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:120 clientgui/DlgHiddenColumns.cpp:101
 msgid "Save all values and close the dialog"
-msgstr "Guardar todos os valores e fechar a caixa de diálogo"
+msgstr "Guardar todos os valores e fechar a janela"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:123 clientgui/DlgHiddenColumns.cpp:104
 msgid "Defaults"
@@ -1615,7 +1615,7 @@ msgstr "Restaura as definições predefinidas"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:128 clientgui/DlgHiddenColumns.cpp:109
 msgid "Close the dialog without saving"
-msgstr "Fechar caixa de diálogo sem guardar"
+msgstr "Fechar a janela sem guardar"
 
 #: clientgui/DlgEventLog.cpp:236
 #, c-format
@@ -1724,11 +1724,11 @@ msgstr "Para opções avançadas, seguir estas instruções: "
 
 #: clientgui/DlgExclusiveApps.cpp:147
 msgid "save all values and close the dialog"
-msgstr "guardar todos os valores e fechar caixa de diálogo"
+msgstr "Guardar todos os valores e fechar a janela"
 
 #: clientgui/DlgExclusiveApps.cpp:153
 msgid "close the dialog without saving"
-msgstr "fechar caixa de diálogo sem salvar"
+msgstr "Fechar a janela sem guardar"
 
 #: clientgui/DlgExclusiveApps.cpp:158
 msgid "shows the preferences web page"
@@ -1803,7 +1803,7 @@ msgstr "Parar as tarefas em execução ao sair do %s"
 
 #: clientgui/DlgExitMessage.cpp:165
 msgid "Remember this decision and do not show this dialog."
-msgstr "Lembrar desta decisão e não mostrar esta caixa de diálogo."
+msgstr "Lembrar esta decisão e não voltar a mostrar esta janela."
 
 #: clientgui/DlgExitMessage.cpp:178 clientgui/DlgGenericMessage.cpp:125
 #: clientgui/DlgOptions.cpp:415 clientgui/DlgSelectComputer.cpp:168
@@ -2136,7 +2136,7 @@ msgstr "Executar daemon?"
 
 #: clientgui/DlgOptions.cpp:219
 msgid "Run daemon when launching the Manager."
-msgstr "Correr daemon quando o Gestor for lançado."
+msgstr "Executar daemon quando iniciar o Gestor."
 
 #: clientgui/DlgOptions.cpp:223
 msgid "Enable Manager exit dialog?"
@@ -2189,7 +2189,7 @@ msgstr "Não utilizar proxy para:"
 
 #: clientgui/DlgOptions.cpp:317 clientgui/DlgOptions.cpp:381
 msgid "Leave these blank if not needed"
-msgstr "Deixar em branco se desnecessário"
+msgstr "Deixar em branco se não for preciso"
 
 #: clientgui/DlgOptions.cpp:323 clientgui/DlgOptions.cpp:387
 #: clientgui/ProxyPage.cpp:343 clientgui/ProxyPage.cpp:363
@@ -3617,7 +3617,7 @@ msgstr "A suspender trabalho para esta tarefa."
 
 #: clientgui/WizardAttach.cpp:571
 msgid "Do you really want to cancel?"
-msgstr "Quer mesmo cancelar?"
+msgstr "Deseja cancelar?"
 
 #: clientgui/WizardAttach.cpp:572
 msgid "Question"
