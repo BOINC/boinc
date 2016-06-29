@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 02:22+0000\n"
+"PO-Revision-Date: 2016-06-29 02:28+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -1607,11 +1607,11 @@ msgstr "Guardar todos os valores e fechar a caixa de diálogo"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:123 clientgui/DlgHiddenColumns.cpp:104
 msgid "Defaults"
-msgstr "Predefinidos"
+msgstr "Predefinições"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:124 clientgui/DlgHiddenColumns.cpp:105
 msgid "Restore default settings"
-msgstr "Restaurar definições predefinidas"
+msgstr "Restaura as definições predefinidas"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:128 clientgui/DlgHiddenColumns.cpp:109
 msgid "Close the dialog without saving"
@@ -1653,7 +1653,7 @@ msgstr "Copiar todas as mensagens para a área de transferência."
 
 #: clientgui/DlgEventLog.cpp:320
 msgid "Copy &Selected"
-msgstr "Copiar &Seleccionado"
+msgstr "Copiar &Selecionado(s)"
 
 #: clientgui/DlgEventLog.cpp:323 clientgui/DlgEventLog.cpp:331
 #: clientgui/ViewMessages.cpp:97
@@ -1829,11 +1829,11 @@ msgstr "Selecione as colunas que o %s deverá mostrar."
 msgid ""
 "Are you sure you want to reset all list columns to the default "
 "configurations?"
-msgstr "Tem a certeza que deseja reiniciar todas as colunas da lista para configurações predefinidas?"
+msgstr "Tem a certeza que deseja reiniciar todas as colunas de lista para configurações predefinidas?"
 
 #: clientgui/DlgHiddenColumns.cpp:359
 msgid "Confirm defaults"
-msgstr "Confirmar predefinidos"
+msgstr "Confirmar predefinições"
 
 #: clientgui/DlgItemProperties.cpp:194 clientgui/DlgItemProperties.cpp:197
 #: clientgui/DlgItemProperties.cpp:200 clientgui/DlgItemProperties.cpp:203
@@ -1949,7 +1949,7 @@ msgstr "Localização do anfitrião"
 
 #: clientgui/DlgItemProperties.cpp:281
 msgid "default"
-msgstr "predefinido"
+msgstr "predefinição"
 
 #: clientgui/DlgItemProperties.cpp:285
 msgid "Added via account manager"
@@ -2152,15 +2152,15 @@ msgstr "Definições de ligação Dial-up e da Rede Virtual Privada"
 
 #: clientgui/DlgOptions.cpp:254
 msgid "&Set Default"
-msgstr "&Definir Predefinido"
+msgstr "&Definir Predefinição"
 
 #: clientgui/DlgOptions.cpp:259
 msgid "&Clear Default"
-msgstr "&Limpar Predefinido"
+msgstr "&Limpar Predefinição"
 
 #: clientgui/DlgOptions.cpp:266
 msgid "Default Connection:"
-msgstr "Ligação Predefinida:"
+msgstr "Ligação predefinida:"
 
 #: clientgui/DlgOptions.cpp:273
 msgid "Connections"
@@ -3198,7 +3198,7 @@ msgstr "Solicitado pelo gestor de conta"
 
 #: clientgui/ViewProjects.cpp:1136
 msgid "Project initialization"
-msgstr "Inicialização do projecto"
+msgstr "Inicialização do projeto"
 
 #: clientgui/ViewProjects.cpp:1137
 msgid "Requested by project"
@@ -3399,7 +3399,7 @@ msgstr "A actualizar gráficos..."
 
 #: clientgui/ViewStatistics.cpp:2394
 msgid "Show project list"
-msgstr "Mostrar lista de projectos"
+msgstr "Mostrar lista de projetos"
 
 #: clientgui/ViewStatistics.cpp:2394
 msgid "Uses smaller area for graphs"
@@ -3509,7 +3509,7 @@ msgstr "pendente"
 
 #: clientgui/ViewTransfers.cpp:867
 msgid " (project backoff: "
-msgstr " (projecto backoff: "
+msgstr " (projeto backoff: "
 
 #: clientgui/ViewWork.cpp:211 clientgui/ViewWork.cpp:864
 msgid "Show active tasks"
@@ -3676,7 +3676,7 @@ msgstr "&%s"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:449
 msgid "Default"
-msgstr "Predefinido"
+msgstr "Predefinição"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:895
 msgid "Suspend Computing"
@@ -3782,7 +3782,7 @@ msgstr "Tem a certeza que quer cancelar esta tarefa '%s'?\n(Progresso: %.1lf%%, 
 
 #: clientgui/sg_TaskPanel.cpp:468
 msgid "You don't have any projects.  Please Add a Project."
-msgstr "Não tem nenhuns projectos. Por favor adicione um Projecto."
+msgstr "Não tem quaisquer projetos. Por favor, Adicione um Projeto."
 
 #: clientgui/sg_TaskPanel.cpp:469
 msgid "Not available"
@@ -3881,7 +3881,7 @@ msgstr "Processamento Suspenso."
 
 #: clientgui/sg_TaskPanel.cpp:1231
 msgid "Waiting to contact project servers."
-msgstr "A aguardar contacto dos servidores do projecto."
+msgstr "A aguardar para contactar os servidores do projeto."
 
 #: clientgui/sg_TaskPanel.cpp:1235 clientgui/sg_TaskPanel.cpp:1244
 msgid "Retrieving current status"
