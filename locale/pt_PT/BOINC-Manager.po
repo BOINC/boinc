@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 03:39+0000\n"
+"PO-Revision-Date: 2016-06-29 03:44+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -3291,7 +3291,7 @@ msgstr "Médias do Anfitrião"
 #: clientgui/ViewStatistics.cpp:1331
 #, c-format
 msgid "Last update: %.0f days ago"
-msgstr "Última actualização: %.0f dias atrás"
+msgstr "Última atualização: há %.0f dia(s)"
 
 #: clientgui/ViewStatistics.cpp:1956
 msgid "Show user total"
@@ -3395,7 +3395,7 @@ msgstr "Estatísticas"
 #: clientgui/ViewStatistics.cpp:2204 clientgui/ViewStatistics.cpp:2225
 #: clientgui/ViewStatistics.cpp:2246 clientgui/ViewStatistics.cpp:2270
 msgid "Updating charts..."
-msgstr "A actualizar gráficos..."
+msgstr "A atualizar os gráficos..."
 
 #: clientgui/ViewStatistics.cpp:2394
 msgid "Show project list"
@@ -3415,11 +3415,11 @@ msgstr "Tentar novamente a transferência do ficheiro agora"
 
 #: clientgui/ViewTransfers.cpp:194
 msgid "Abort Transfer"
-msgstr "Cancelar Transferência"
+msgstr "Abortar Transferência"
 
 #: clientgui/ViewTransfers.cpp:195
 msgid "Abort this file transfer.  You won't get credit for the task."
-msgstr "Cancelar a transferência deste ficheiro.  Não obterá créditos para a tarefa."
+msgstr "Abortar esta transferência de ficheiro. Não obterá créditos para a tarefa."
 
 #: clientgui/ViewTransfers.cpp:210
 msgid "File"
@@ -3447,7 +3447,7 @@ msgstr "Transferências"
 
 #: clientgui/ViewTransfers.cpp:362
 msgid "Network activity is suspended - "
-msgstr "Actividade de rede está suspensa - "
+msgstr "A atividade de rede está suspensa - "
 
 #: clientgui/ViewTransfers.cpp:364
 msgid ""
@@ -3465,7 +3465,7 @@ msgstr "A tentar transferir novamente..."
 
 #: clientgui/ViewTransfers.cpp:412
 msgid "Aborting transfer..."
-msgstr "A cancelar a transferência..."
+msgstr "A abortar a transferência..."
 
 #: clientgui/ViewTransfers.cpp:425
 #, c-format
@@ -3477,11 +3477,11 @@ msgstr "Tem a certeza que quer cancelar a transferência deste ficheiro '%s'?\nN
 
 #: clientgui/ViewTransfers.cpp:431
 msgid "Abort File Transfer"
-msgstr "Cancelar Transferência do Ficheiro"
+msgstr "Abortar Transferência de Ficheiro"
 
 #: clientgui/ViewTransfers.cpp:845
 msgid "Upload"
-msgstr "Upload"
+msgstr "Enviar"
 
 #: clientgui/ViewTransfers.cpp:845
 msgid "Download"
@@ -3501,7 +3501,7 @@ msgstr "suspenso"
 
 #: clientgui/ViewTransfers.cpp:859
 msgid "active"
-msgstr "activo"
+msgstr "ativo"
 
 #: clientgui/ViewTransfers.cpp:861
 msgid "pending"
@@ -3541,7 +3541,7 @@ msgstr "Suspender trabalho para este resultado."
 
 #: clientgui/ViewWork.cpp:239 clientgui/sg_TaskCommandPopup.cpp:78
 msgid "Abort"
-msgstr "Cancelar"
+msgstr "Abortar"
 
 #: clientgui/ViewWork.cpp:240
 msgid "Abandon work on the result. You will get no credit for it."
@@ -3565,19 +3565,19 @@ msgstr "Tarefas"
 
 #: clientgui/ViewWork.cpp:444
 msgid "Resuming task..."
-msgstr "A resumir tarefa..."
+msgstr "A retomar a tarefa..."
 
 #: clientgui/ViewWork.cpp:447
 msgid "Suspending task..."
-msgstr "A suspender tarefa..."
+msgstr "A suspender a tarefa..."
 
 #: clientgui/ViewWork.cpp:476
 msgid "Showing graphics for task..."
-msgstr "A mostrar gráficos para a tarefa..."
+msgstr "A mostrar os gráficos para a tarefa..."
 
 #: clientgui/ViewWork.cpp:513
 msgid "Showing VM console for task..."
-msgstr "A mostrar Consola VM para a tarefa..."
+msgstr "A mostrar a Consola VM para a tarefa..."
 
 #: clientgui/ViewWork.cpp:566
 #, c-format
