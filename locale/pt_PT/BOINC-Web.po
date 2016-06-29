@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-06-28 18:09+0000\n"
+"PO-Revision-Date: 2016-06-29 02:53+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -654,7 +654,7 @@ msgstr "Procura de estrelas giratórias de neutrões (também chamados de pulsar
 
 #: projects.inc:370
 msgid "Help detect pulsars and gravitational waves"
-msgstr "Ajude a detectar pulsares e ondas gravitacionais"
+msgstr "Ajude a detetar pulsares e ondas gravitacionais"
 
 #: projects.inc:383 projects.inc:393 projects.inc:403
 msgid "CERN (European Organization for Nuclear Research)"
@@ -702,7 +702,7 @@ msgstr "Simule colisões de partículas de alta enérgica para o CERN"
 
 #: projects.inc:413
 msgid "University of California, Berkeley"
-msgstr "Universidade da California, Berkeley"
+msgstr "Universidade da Califórnia, Berkeley"
 
 #: projects.inc:414
 msgid "Astrophysics, astrobiology"
@@ -719,15 +719,15 @@ msgstr "SETI (Procura de Vida Inteligente Extraterrestre) é uma área científi
 
 #: projects.inc:418
 msgid "Search for evidence of extra-terrestrial life"
-msgstr "Pesquise por evidências de vida extraterreste"
+msgstr "Pesquise por evidências de vida extraterrestre"
 
 #: projects.inc:442
 msgid "Multiple applications"
-msgstr "Várias aplicações"
+msgstr "Múltiplas aplicações"
 
 #: projects.inc:448
 msgid "Molecular biology, Computer Science"
-msgstr "Biologia molecular, Ciência computacional"
+msgstr "Biologia Molecular, Ciência Computacional"
 
 #: projects.inc:449
 msgid ""
@@ -770,7 +770,7 @@ msgstr "O Yoyo@home é um intermediário entre o BOINC e vários projetos de com
 
 #: projects.inc:472
 msgid "Do research in math, physics, and evolution"
-msgstr "Faça pesquisas em matemática, física e evolução"
+msgstr "Efetue pesquisas em matemática, física e evolução"
 
 #: projects.inc:477 projects.inc:677
 msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
@@ -778,7 +778,7 @@ msgstr "MTA-SZTAKI - Laboratório de Sistemas Distribuídos e Paralelos (Hungria
 
 #: projects.inc:478
 msgid "European research projects"
-msgstr "Projectos de Investigação Europeus"
+msgstr "Projetos de Investigação Europeus"
 
 #: projects.inc:479
 msgid ""
