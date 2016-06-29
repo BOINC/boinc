@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 03:44+0000\n"
+"PO-Revision-Date: 2016-06-29 03:49+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -3593,11 +3593,11 @@ msgstr "Tem a certeza que quer cancelar estas %d tarefas?"
 
 #: clientgui/ViewWork.cpp:577 clientgui/sg_TaskCommandPopup.cpp:272
 msgid "Abort task"
-msgstr "Cancelar tarefa"
+msgstr "Abortar tarefa"
 
 #: clientgui/ViewWork.cpp:586
 msgid "Aborting task..."
-msgstr "A cancelar a tarefa..."
+msgstr "A abortar a tarefa..."
 
 #: clientgui/ViewWork.cpp:858
 msgid "Show all tasks"
@@ -3609,11 +3609,11 @@ msgstr "Mostra todas as tarefas."
 
 #: clientgui/ViewWork.cpp:883 clientgui/sg_TaskCommandPopup.cpp:119
 msgid "Resume work for this task."
-msgstr "A resumir trabalho para esta tarefa."
+msgstr "A retomar o trabalho para esta tarefa."
 
 #: clientgui/ViewWork.cpp:889 clientgui/sg_TaskCommandPopup.cpp:123
 msgid "Suspend work for this task."
-msgstr "A suspender trabalho para esta tarefa."
+msgstr "A suspender o trabalho para esta tarefa."
 
 #: clientgui/WizardAttach.cpp:571
 msgid "Do you really want to cancel?"
@@ -3621,7 +3621,7 @@ msgstr "Deseja cancelar?"
 
 #: clientgui/WizardAttach.cpp:572
 msgid "Question"
-msgstr "Questão"
+msgstr "Pergunta"
 
 #: clientgui/mac/Mac_GUI.cpp:35 clientgui\mac/Mac_GUI.cpp:35
 msgid "Services"
@@ -3647,11 +3647,11 @@ msgstr "Fechar o %s"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:169
 msgid "Skin"
-msgstr "Máscara"
+msgstr "Tema"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:171
 msgid "Select the appearance of the user interface."
-msgstr "Selecciona a aparência do interface de utilizador."
+msgstr "Seleciona a aparência da interface do utilizador."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:181
 msgid "Advanced View...\tCtrl+Shift+A"
@@ -3659,15 +3659,15 @@ msgstr "Visualização Avançada...\tCtrl+Shift+A"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:182
 msgid "Display the advanced graphical interface."
-msgstr "Mostra o interface gráfico avançado."
+msgstr "Exibe a interface gráfica avançada."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:198
 msgid "Configure display options and proxy settings"
-msgstr "Configurar opções de visualização e configurações de proxy"
+msgstr "Configurar as opções de visualização e configurações de proxy"
 
 #: clientgui/sg_BoincSimpleFrame.cpp:212
 msgid "Display diagnostic messages."
-msgstr "Mostra as mensagens de diagnóstico."
+msgstr "Exibe as mensagens de diagnóstico."
 
 #: clientgui/sg_BoincSimpleFrame.cpp:233
 #, c-format
@@ -3767,7 +3767,7 @@ msgstr "Abre um menu de comandos para aplicar ao projecto %s"
 
 #: clientgui/sg_TaskCommandPopup.cpp:73
 msgid "Suspend this task."
-msgstr "Suspender esta tarefa."
+msgstr "Suspende esta tarefa."
 
 #: clientgui/sg_TaskCommandPopup.cpp:79
 msgid "Abandon this task. You will get no credit for it."
@@ -3795,7 +3795,7 @@ msgstr "Tarefas:"
 #. TODO: Might want better wording for Task Selection Combo Box tooltip
 #: clientgui/sg_TaskPanel.cpp:486
 msgid "Select a task to access"
-msgstr "Seleccione uma tarefa para aceder"
+msgstr "Selecione uma tarefa para aceder"
 
 #. what project the task is from, e.g. "From: SETI@home"
 #: clientgui/sg_TaskPanel.cpp:498
@@ -3849,7 +3849,7 @@ msgstr "Estado: %s"
 
 #: clientgui/sg_TaskPanel.cpp:1206
 msgid "Retrieving current status."
-msgstr "A rever o estado actual."
+msgstr "A obter o estado atual."
 
 #: clientgui/sg_TaskPanel.cpp:1212
 msgid "Downloading work from the server."
