@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 02:17+0000\n"
+"PO-Revision-Date: 2016-06-29 02:22+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -464,7 +464,7 @@ msgstr "Selecionar colunas..."
 
 #: clientgui/AdvancedFrame.cpp:617
 msgid "Select which columns to display"
-msgstr "Selecionar as colunas a visualizar"
+msgstr "Selecionar as colunas para exibir"
 
 #: clientgui/AdvancedFrame.cpp:621
 msgid "Event Log options...\tCtrl+Shift+F"
@@ -517,7 +517,7 @@ msgstr "Ajuda do &%s"
 #: clientgui/AdvancedFrame.cpp:664 clientgui/sg_BoincSimpleFrame.cpp:237
 #, c-format
 msgid "Show information about the %s"
-msgstr "Mostrar informação sobre o %s"
+msgstr "Mostra informação sobre o %s"
 
 #: clientgui/AdvancedFrame.cpp:675 clientgui/sg_BoincSimpleFrame.cpp:247
 #, c-format
@@ -527,7 +527,7 @@ msgstr "%s - Site da &Web"
 #: clientgui/AdvancedFrame.cpp:679 clientgui/sg_BoincSimpleFrame.cpp:251
 #, c-format
 msgid "Show information about BOINC and %s"
-msgstr "Mostrar informação sobre o BOINC e o %s"
+msgstr "Mostra informação sobre o BOINC e o %s"
 
 #: clientgui/AdvancedFrame.cpp:690 clientgui/BOINCTaskBar.cpp:541
 #: clientgui/sg_BoincSimpleFrame.cpp:262
@@ -1813,17 +1813,17 @@ msgstr "&Cancelar"
 
 #: clientgui/DlgGenericMessage.cpp:112
 msgid "Don't show this dialog again."
-msgstr "Não mostrar esta caixa de diálogo outra vez."
+msgstr "Não voltar a mostrar esta janela."
 
 #: clientgui/DlgHiddenColumns.cpp:64
 #, c-format
 msgid "%s Column Selection"
-msgstr "%s Selecção de Coluna"
+msgstr "%s - Seleção de Colunas"
 
 #: clientgui/DlgHiddenColumns.cpp:77
 #, c-format
 msgid "Select which columns %s should show."
-msgstr "Seleccione que colunas o %s deve mostrar."
+msgstr "Selecione as colunas que o %s deverá mostrar."
 
 #: clientgui/DlgHiddenColumns.cpp:358
 msgid ""
@@ -2245,7 +2245,7 @@ msgstr "nunca"
 #: clientgui/DlgOptions.cpp:703
 #, c-format
 msgid "%s - Language Selection"
-msgstr "%s - Selecção de Idioma"
+msgstr "%s - Seleção de Idioma"
 
 #: clientgui/DlgOptions.cpp:710
 #, c-format
