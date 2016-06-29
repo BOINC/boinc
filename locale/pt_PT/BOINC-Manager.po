@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 00:58+0000\n"
+"PO-Revision-Date: 2016-06-29 01:05+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -2363,7 +2363,7 @@ msgstr "O link para reportar problemas e bugs no fórum do Einstein@Home"
 
 #: clientgui/Localization.cpp:83
 msgid "View and modify your Einstein@Home account profile and preferences"
-msgstr "Ver e modificar as suas preferências de perfil na conta Einstein@Home"
+msgstr "Ver e modificar as preferências e perfil da sua conta de Einstein@Home"
 
 #: clientgui/Localization.cpp:85
 msgid "Account summary"
@@ -2501,7 +2501,7 @@ msgstr "Testes de desempenho da CPU em progresso"
 
 #: clientgui/MainDocument.cpp:2448
 msgid "need disk space - check preferences"
-msgstr "espaço em disco necessário - verifique preferências"
+msgstr "é necessário espaço em disco - verifique as preferências"
 
 #: clientgui/MainDocument.cpp:2449
 msgid "computer is not in use"
@@ -3036,7 +3036,7 @@ msgstr "Actualizar"
 msgid ""
 "Report all completed tasks, get latest credit, get latest preferences, and "
 "possibly get more tasks."
-msgstr "Reportar todas as tarefas concluídas, obter os últimos créditos, obter as últimas preferências e possivelmente mais tarefas."
+msgstr "Comunicar todas as tarefas concluídas, obter os últimos créditos, obter as últimas preferências, e possivelmente mais tarefas."
 
 #: clientgui/ViewProjects.cpp:209 clientgui/ViewProjects.cpp:808
 #: clientgui/ViewWork.cpp:232 clientgui/ViewWork.cpp:888
@@ -3707,7 +3707,7 @@ msgstr "%s - Notícias"
 #: clientgui/sg_DlgPreferences.cpp:208
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
-msgstr "Para definições adicionais, seleccione Preferências de Computação na Vista Avançada"
+msgstr "Para definições adicionais, selecione Opções -> Preferências de Computação."
 
 #: clientgui/sg_DlgPreferences.cpp:346
 msgid "GB of disk space"
