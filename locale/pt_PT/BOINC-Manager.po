@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 00:21+0000\n"
+"PO-Revision-Date: 2016-06-29 00:26+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -2322,7 +2322,7 @@ msgstr "A sua equipa"
 
 #: clientgui/Localization.cpp:57 clientgui/Localization.cpp:99
 msgid "View information about your team"
-msgstr "Ver informações acerca da sua equipa"
+msgstr "Ver informação sobre a sua equipa"
 
 #: clientgui/Localization.cpp:61
 msgid "Common questions"
@@ -2403,7 +2403,7 @@ msgstr "Informações acerca da sua Equipa"
 
 #: clientgui/Localization.cpp:123
 msgid "Get help for climateprediction.net"
-msgstr "Obter ajuda para o climateprediction.net"
+msgstr "Obter ajuda para climateprediction.net"
 
 #: clientgui/Localization.cpp:125
 msgid "News"
@@ -2415,7 +2415,7 @@ msgstr "Novidades de climateprediction.net"
 
 #: clientgui/Localization.cpp:131
 msgid "View your account information, credits, and trickles"
-msgstr "Ver informações da sua conta, créditos e avisos"
+msgstr "Ver a informação da sua conta, créditos e avisos"
 
 #: clientgui/Localization.cpp:135
 msgid "Info about your team"
@@ -2477,7 +2477,7 @@ msgstr "Aplicação em falta"
 msgid ""
 "Please download and install the CoRD application from "
 "http://cord.sourceforge.net"
-msgstr "Por favor, transfira e instale a aplicação CoRD de http://cord.sourceforge.net"
+msgstr "Por favor, transfira e instale a aplicação CoRD a partir de http://cord.sourceforge.net"
 
 #: clientgui/MainDocument.cpp:2443
 msgid "on batteries"
@@ -2603,7 +2603,7 @@ msgstr "Adiado"
 
 #: clientgui/MainDocument.cpp:2540
 msgid "Waiting for network access"
-msgstr "Aguardando acesso à rede"
+msgstr "A aguardar por acesso à rede"
 
 #: clientgui/MainDocument.cpp:2544
 msgid "Computation error"
@@ -2754,7 +2754,7 @@ msgstr "Todos"
 msgid ""
 "This project may not have work for your type of computer.  Do you want to "
 "add it anyway?"
-msgstr "Este projecto pode não ter trabalhos para o seu tipo de computador. Quer adicioná-lo de qualquer maneira?"
+msgstr "Este projeto poderá não ter trabalhos para o seu tipo de computador. Mesmo assim, deseja adicioná-lo?"
 
 #: clientgui/ProjectInfoPage.cpp:767
 msgid "You already added this project. Please choose a different project."
@@ -2786,7 +2786,7 @@ msgstr "Bem vindo a %s."
 
 #: clientgui/ProjectWelcomePage.cpp:254
 msgid "You have volunteered to compute for this project:"
-msgstr "Voluntariou-se para realizar computação neste projecto:"
+msgstr "Voluntariou-se para realizar computação para este projeto:"
 
 #: clientgui/ProjectWelcomePage.cpp:255
 msgid "Name:"
@@ -2812,7 +2812,7 @@ msgstr "Utilizador:"
 msgid ""
 "WARNING: This project is not registered with BOINC.  Make sure you trust it "
 "before continuing."
-msgstr "AVISO: Este projecto não está registado no BOINC. Tenha a certeza que confia no mesmo antes de continuar."
+msgstr "AVISO: Este projeto não está registado no BOINC. Certifique-se que confia no mesmo antes de continuar."
 
 #: clientgui/ProjectWelcomePage.cpp:277
 msgid "To continue, click Next."
@@ -2943,7 +2943,7 @@ msgid ""
 "Please specify a URL.\n"
 "For example:\n"
 "http://www.example.com/"
-msgstr "Por favor especifique um URL.\nPor exemplo:\nhttp://www.example.com/"
+msgstr "Por favor, especifique um URL.\nPor exemplo:\nhttp://www.example.com/"
 
 #: clientgui/ValidateURL.cpp:83 clientgui/ValidateURL.cpp:87
 #: clientgui/ValidateURL.cpp:91 clientgui/ValidateURL.cpp:103
@@ -2957,7 +2957,7 @@ msgid ""
 "Please specify a valid URL.\n"
 "For example:\n"
 "http://boincproject.example.com"
-msgstr "Por favor especifique um URL válido.\nPor exemplo:\nhttp://boincproject.example.com"
+msgstr "Por favor, especifique um URL válido.\nPor exemplo:\nhttp://boincproject.example.com"
 
 #: clientgui/ValidateURL.cpp:104 clientgui/ValidateURL.cpp:108
 #, c-format
