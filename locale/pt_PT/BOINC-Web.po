@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-06-29 04:00+0000\n"
+"PO-Revision-Date: 2016-06-30 23:32+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -95,7 +95,7 @@ msgstr "Poderá executar este software num computador apenas se for o proprietá
 msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
-msgstr "Nós recomendamos que transfira o BOINC da Amazon Appstore ou da Google Play Store, não daqui."
+msgstr "Nós recomendamos que transfira o BOINC a partir da Amazon Appstore ou da Google Play Store, não daqui."
 
 #: download.php:177
 msgid "System requirements"
