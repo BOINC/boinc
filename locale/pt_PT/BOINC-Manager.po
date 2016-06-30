@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-30 16:58+0000\n"
+"PO-Revision-Date: 2016-06-30 17:12+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -283,7 +283,7 @@ msgstr "Trans&ferências\tCtrl+Shift+X"
 
 #: clientgui/AdvancedFrame.cpp:419
 msgid "Show file transfers"
-msgstr "Mostrar transferências de ficheiros"
+msgstr "Mostrar transferências de ficheiro"
 
 #: clientgui/AdvancedFrame.cpp:424
 msgid "&Statistics\tCtrl+Shift+S"
@@ -2148,7 +2148,7 @@ msgstr "Exibir a janela de saída ao encerrar o Gestor."
 
 #: clientgui/DlgOptions.cpp:240
 msgid "Dial-up and Virtual Private Network settings"
-msgstr "Definições de ligação Dial-up e da Rede Virtual Privada"
+msgstr "Definições de Ligação de Marcação e de Rede Virtual Privada"
 
 #: clientgui/DlgOptions.cpp:254
 msgid "&Set Default"
