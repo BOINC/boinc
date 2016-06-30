@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-29 04:05+0000\n"
+"PO-Revision-Date: 2016-06-30 15:46+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -1340,7 +1340,7 @@ msgstr "Trocar entre tarefas a cada"
 msgid ""
 "This controls how often tasks save their state to disk, so that they later "
 "can be continued from that point."
-msgstr "Isto controla com que frequência o progresso das tarefas são guardadas  no disco, para que mais tarde possam continuar a partir daquele ponto"
+msgstr "Isto controla a frequência com o progresso das tarefas são guardadas no disco, e assim mais tarde estas podem continuar a partir desse ponto."
 
 #. context: Request tasks to checkpoint at most every ___ seconds
 #: clientgui/DlgAdvPreferencesBase.cpp:423
