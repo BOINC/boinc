@@ -120,7 +120,7 @@
   <string name="attachproject_working_acctmgr_sync">Sincronizza</string>
   <!--main activity-->
   <string name="main_noproject_warning">Premi qui per scegliere un progetto.</string>
-  <string name="main_error">Whooops</string>
+  <string name="main_error">Ops</string>
   <string name="main_error_long">…questo non deve succedere!\nClicca sull\'icona per riprovare.</string>
   <string name="main_title_icon_desc">icona BOINC</string>
   <!--tab names-->
