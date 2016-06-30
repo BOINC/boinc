@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-06-30 23:45+0000\n"
+"PO-Revision-Date: 2016-06-30 23:53+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -280,17 +280,17 @@ msgstr "Atualizações de Software"
 msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4, "
 "giving you the power of thousands of CPUs and GPUs."
-msgstr "%1Cientistas%2: utilizam o BOINC para criar um %3projeto de computação voluntário%4, dando-lhe o poder de milhares de CPUs e GPUs."
+msgstr "Os %1cientistas%2: utilizam o BOINC para criar um %3projeto de computação voluntário%4, dando-lhe o poder de milhares de CPUs e GPUs."
 
 #: index.php:150
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
-msgstr "%1Universidades%2: utilizam o BOINC para criar um %3Centro de Supercomputação de Campus Virtual%4."
+msgstr "As %1universidades%2: utilizam o BOINC para criar um %3Centro de Supercomputação de Campus Virtual%4."
 
 #: index.php:155
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
-msgstr "%1Empresas%2: utilizam o BOINC para a %3Computação em Grelha de PC%4."
+msgstr "As %1empresas%2: utilizam o BOINC para a %3Computação em Rede de PC%4."
 
 #: index.php:167
 msgid "About BOINC"
@@ -547,7 +547,7 @@ msgstr "Engenharia Mecânica"
 msgid ""
 "Currently we are calculating the optimum design of a structure call the 52 "
 "bar truss"
-msgstr "Atualmente, nós estamos a calcular a configuração ótima para uma estrutura truss de 52 bar"
+msgstr "Atualmente, nós estamos a calcular a configuração ótima de uma estrutura truss de 52 bar"
 
 #: projects.inc:269 projects.inc:328 projects.inc:338
 msgid "Astronomy"
@@ -675,7 +675,7 @@ msgstr "O Large Hadron Collider (LHC) é um acelerador de partículas no CERN, a
 
 #: projects.inc:388
 msgid "Improve the design of the Large Hadron Collider"
-msgstr "Melhore o desenho do Grande Colisionador de Hadrões"
+msgstr "Melhore o desenho do Grande Colisor de Hadrões"
 
 #: projects.inc:395
 msgid ""
