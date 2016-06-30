@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-30 16:33+0000\n"
+"PO-Revision-Date: 2016-06-30 16:58+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -599,7 +599,7 @@ msgstr "%s"
 #: clientgui/AdvancedFrame.cpp:1892
 #, c-format
 msgid "%s has successfully added %s"
-msgstr "%s foi adicionado com sucesso %s"
+msgstr "O %s adicionou %s com sucesso"
 
 #: clientgui/AdvancedFrame.cpp:2028
 #, c-format
@@ -3853,7 +3853,7 @@ msgstr "A obter o estado atual."
 
 #: clientgui/sg_TaskPanel.cpp:1212
 msgid "Downloading work from the server."
-msgstr "A realizar transferência de trabalho do servidor."
+msgstr "A transferir trabalho do servidor."
 
 #: clientgui/sg_TaskPanel.cpp:1217
 msgid "Processing Suspended:  Running On Batteries."
