@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-30 17:17+0000\n"
+"PO-Revision-Date: 2016-06-30 17:23+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -360,7 +360,7 @@ msgstr "Repetir transferências pendentes"
 
 #: clientgui/AdvancedFrame.cpp:499
 msgid "Retry deferred file transfers and task requests"
-msgstr "Repetir as transferências de ficheiro deferidas e pedidos de tarefa"
+msgstr "Repete as transferências de ficheiro e pedidos de tarefa deferidos"
 
 #: clientgui/AdvancedFrame.cpp:504 clientgui/sg_BoincSimpleFrame.cpp:211
 msgid "Event Log...\tCtrl+Shift+E"
@@ -368,7 +368,7 @@ msgstr "Registo de Eventos...\tCtrl+Shift+E"
 
 #: clientgui/AdvancedFrame.cpp:505
 msgid "Show diagnostic messages"
-msgstr "Mostrar mensagens de diagnóstico"
+msgstr "Mostra as mensagens de diagnóstico"
 
 #: clientgui/AdvancedFrame.cpp:513
 msgid "&Run always"
@@ -376,7 +376,7 @@ msgstr "&Executar sempre"
 
 #: clientgui/AdvancedFrame.cpp:514
 msgid "Allow work regardless of preferences"
-msgstr "Permitir execução de trabalho, independentemente das preferências"
+msgstr "Permite a execução de trabalho, independentemente das preferências"
 
 #: clientgui/AdvancedFrame.cpp:518
 msgid "Run based on &preferences"
@@ -384,7 +384,7 @@ msgstr "Executar com base nas &preferências"
 
 #: clientgui/AdvancedFrame.cpp:519
 msgid "Allow work according to preferences"
-msgstr "Permitir execução de trabalho de acordo com as preferências"
+msgstr "Permite a execução de trabalho de acordo com as preferências"
 
 #: clientgui/AdvancedFrame.cpp:523
 msgid "&Suspend"
@@ -392,7 +392,7 @@ msgstr "&Suspender"
 
 #: clientgui/AdvancedFrame.cpp:524
 msgid "Stop work regardless of preferences"
-msgstr "Parar execução de trabalho, independentemente das preferências"
+msgstr "Para a execução de trabalho, independentemente das preferências"
 
 #: clientgui/AdvancedFrame.cpp:549
 msgid "Use GPU always"
@@ -400,7 +400,7 @@ msgstr "Utilizar sempre a GPU"
 
 #: clientgui/AdvancedFrame.cpp:550
 msgid "Allow GPU work regardless of preferences"
-msgstr "Permitir trabalho de GPU, independentemente das preferências"
+msgstr "Permite o trabalho de GPU, independentemente das preferências"
 
 #: clientgui/AdvancedFrame.cpp:554
 msgid "Use GPU based on preferences"
@@ -408,15 +408,15 @@ msgstr "Utilizar a GPU com base nas preferências"
 
 #: clientgui/AdvancedFrame.cpp:555
 msgid "Allow GPU work according to preferences"
-msgstr "Permitir o trabalho de GPU de acordo com as preferências"
+msgstr "Permite o trabalho de GPU de acordo com as preferências"
 
 #: clientgui/AdvancedFrame.cpp:559
 msgid "Suspend GPU"
-msgstr "Suspender a GPU"
+msgstr "Suspender GPU"
 
 #: clientgui/AdvancedFrame.cpp:560
 msgid "Stop GPU work regardless of preferences"
-msgstr "Parar o trabalho de GPU, independentemente das preferências"
+msgstr "Para o trabalho de GPU, independentemente das preferências"
 
 #: clientgui/AdvancedFrame.cpp:584
 msgid "Network activity always"
