@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-06-30 23:32+0000\n"
+"PO-Revision-Date: 2016-06-30 23:40+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -89,7 +89,7 @@ msgstr "Depois de instalar o BOINC no seu computador, pode-o ligar a tantos proj
 msgid ""
 "You may run this software on a computer only if you own the computer or have"
 " the permission of its owner."
-msgstr "Poderá executar este software num computador apenas se for o proprietário, ou tiver permissão do mesmo."
+msgstr "Poderá executar este software num computador se for o proprietário do mesmo, ou tiver permissão para isso."
 
 #: download.php:142
 msgid ""
@@ -845,7 +845,7 @@ msgid ""
 "formulate conjectures about number fields. Ultimately, this research will "
 "lead to a deeper understanding of the profound properties of numbers, the "
 "basic building blocks of all mathematics."
-msgstr "NumberFields@home, pesquisa por campos com propriedades especiais. A principal aplicação desta pesquisa é no reino da teoria dos números algébricos. Os cientistas e teóricos dos números, podem explorar os dados, de foma a encontrar padrões de forma a formularem conjecturas sobre campos de números. Em última análise, esta pesquisa vai levar a uma compreensão mais profunda das propriedades profundas dos números, os blocos de construção básicos de toda a matemática."
+msgstr "NumberFields@home pesquisa por campos com propriedades especiais. A aplicação principal desta pesquisa é no reino da teoria dos números algébricos. Os teóricos dos números podem explorar os dados, de forma a encontrar padrões interessantes para os ajudar a formularem conjeturas sobre campos de números. Em última análise, esta pesquisa levará a uma compreensão mais profunda das propriedades profundas dos números, os blocos de construção básicos de toda a matemática."
 
 #: projects.inc:537
 msgid "Do research in algebraic number theory"
