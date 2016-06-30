@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-30 17:12+0000\n"
+"PO-Revision-Date: 2016-06-30 17:17+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -259,7 +259,7 @@ msgstr "&Notícias\tCtrl+Shift+N"
 
 #: clientgui/AdvancedFrame.cpp:401
 msgid "Show notices"
-msgstr "Mostrar notícias"
+msgstr "Mostra as notícias"
 
 #: clientgui/AdvancedFrame.cpp:406
 msgid "&Projects\tCtrl+Shift+P"
@@ -267,7 +267,7 @@ msgstr "&Projetos\tCtrl+Shift+P"
 
 #: clientgui/AdvancedFrame.cpp:407
 msgid "Show projects"
-msgstr "Mostrar projetos"
+msgstr "Mostra os projetos"
 
 #: clientgui/AdvancedFrame.cpp:412
 msgid "&Tasks\tCtrl+Shift+T"
@@ -275,7 +275,7 @@ msgstr "&Tarefas\tCtrl+Shift+T"
 
 #: clientgui/AdvancedFrame.cpp:413
 msgid "Show tasks"
-msgstr "Mostrar tarefas"
+msgstr "Mostra as tarefas"
 
 #: clientgui/AdvancedFrame.cpp:418
 msgid "Trans&fers\tCtrl+Shift+X"
@@ -283,7 +283,7 @@ msgstr "Trans&ferências\tCtrl+Shift+X"
 
 #: clientgui/AdvancedFrame.cpp:419
 msgid "Show file transfers"
-msgstr "Mostrar transferências de ficheiro"
+msgstr "Mostra as transferências de ficheiro"
 
 #: clientgui/AdvancedFrame.cpp:424
 msgid "&Statistics\tCtrl+Shift+S"
@@ -291,7 +291,7 @@ msgstr "&Estatísticas\tCtrl+Shift+S"
 
 #: clientgui/AdvancedFrame.cpp:425
 msgid "Show statistics"
-msgstr "Mostrar estatísticas"
+msgstr "Mostra as estatísticas"
 
 #: clientgui/AdvancedFrame.cpp:430
 msgid "&Disk\tCtrl+Shift+D"
@@ -299,7 +299,7 @@ msgstr "&Disco\tCtrl+Shift+D"
 
 #: clientgui/AdvancedFrame.cpp:431
 msgid "Show disk usage"
-msgstr "Mostrar utilização do disco"
+msgstr "Mostra a utilização do disco"
 
 #: clientgui/AdvancedFrame.cpp:438
 msgid "Simple &View...\tCtrl+Shift+V"
@@ -317,7 +317,7 @@ msgstr "&Adicionar projeto..."
 #: clientgui/AdvancedFrame.cpp:454 clientgui/AdvancedFrame.cpp:478
 #: clientgui/sg_BoincSimpleFrame.cpp:206
 msgid "Add a project"
-msgstr "Adicionar um projeto"
+msgstr "Adiciona um projeto"
 
 #: clientgui/AdvancedFrame.cpp:458
 msgid "&Use account manager..."
@@ -325,7 +325,7 @@ msgstr "&Utilizar gestor de conta..."
 
 #: clientgui/AdvancedFrame.cpp:459
 msgid "Use an account manager to control this computer."
-msgstr "Utilizar um gestor de conta para controlar este computador."
+msgstr "Utiliza um gestor de conta para controlar este computador."
 
 #: clientgui/AdvancedFrame.cpp:463
 #, c-format
