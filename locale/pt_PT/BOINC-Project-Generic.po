@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2016-06-29 04:02+0000\n"
+"PO-Revision-Date: 2016-06-30 16:14+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -654,7 +654,7 @@ msgstr "Escola"
 #: ../inc/host.inc:60 ../user/edit_forum_preferences_form.php:161
 #: ../user/edit_forum_preferences_form.php:162
 msgid "Update"
-msgstr "Actualizar"
+msgstr "Atualizar"
 
 #: ../inc/host.inc:84
 msgid "Computer information"
@@ -662,7 +662,7 @@ msgstr "Informações Computador"
 
 #: ../inc/host.inc:88 ../inc/host.inc:93
 msgid "IP address"
-msgstr "Endereço IP"
+msgstr "Endereço de IP"
 
 #: ../inc/host.inc:88
 msgid "(same the last %1 times)"
@@ -674,7 +674,7 @@ msgstr "Endereço de IP externo"
 
 #: ../inc/host.inc:93
 msgid "Show IP address"
-msgstr "Mostrar endereço IP"
+msgstr "Mostrar endereço de IP"
 
 #: ../inc/host.inc:95
 msgid "Domain name"
@@ -682,7 +682,7 @@ msgstr "Nome do domínio"
 
 #: ../inc/host.inc:97
 msgid "Product name"
-msgstr "Nome do producto"
+msgstr "Nome do produto"
 
 #: ../inc/host.inc:101
 msgid "Local Standard Time"
@@ -986,7 +986,7 @@ msgstr "ID do computador"
 
 #: ../inc/host.inc:687
 msgid "BOINC<br>version"
-msgstr "Versão<br>BOINC"
+msgstr "Versão do<br>BOINC"
 
 #: ../inc/host.inc:750 ../user/merge_by_name.php:65
 msgid "Merge computers by name"
@@ -1003,7 +1003,7 @@ msgstr "Comentar"
 #: ../inc/news.inc:111
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr "Novidades estão disponíveis como %sFeed RSS%s"
+msgstr "As notícias estão disponíveis como %sFeed RSS%s"
 
 #: ../inc/pm.inc:25 ../inc/pm.inc:176 ../user/pm.php:69 ../user/pm.php:153
 msgid "Inbox"
@@ -1015,7 +1015,7 @@ msgstr "Escrever"
 
 #: ../inc/pm.inc:33 ../inc/user.inc:458
 msgid "Send private message"
-msgstr "Mandar mensagem privada"
+msgstr "Enviar mensagem privada"
 
 #: ../inc/pm.inc:35 ../inc/pm.inc:37 ../inc/pm.inc:89
 #: ../user/ffmail_form.php:58 ../user/forum_edit.php:99
@@ -1083,7 +1083,7 @@ msgstr "Limites de utilização"
 
 #: ../inc/prefs.inc:47 ../inc/prefs.inc:55
 msgid "Use at most"
-msgstr "Usar no máximo"
+msgstr "Utilizar no máximo"
 
 #: ../inc/prefs.inc:49
 #, no-php-format
