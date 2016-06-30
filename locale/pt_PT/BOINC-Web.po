@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-06-30 23:53+0000\n"
+"PO-Revision-Date: 2016-06-30 23:58+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -682,7 +682,7 @@ msgid ""
 "This project uses CERN-developed virtual machine technology for LHC event "
 "physics simulation on volunteer computers.  Requires that you install "
 "VirtualBox on your computer"
-msgstr "Este projeto, utiliza tecnologia da máquina virtual CERN, desenvolvido para o LHC, com o objectivo de simular eventos de física nos computadores dos voluntários. Requer a instalação do VirtualBox no seu computador."
+msgstr "Este projeto, utiliza a tecnologia de máquina virtual CERN desenvolvida para a simulação de eventos de física do LHC, nos computadores dos voluntários. Requer a instalação do VirtualBox no seu computador."
 
 #: projects.inc:398
 msgid "Simulate high-energy particle collisions"
@@ -698,7 +698,7 @@ msgstr "O ATLAS@Home, usa computação distribuida, para executar as simulaçõe
 
 #: projects.inc:408
 msgid "Simulate high-energy particle collisions for CERN"
-msgstr "Simule colisões de partículas de alta enérgica para o CERN"
+msgstr "Simule colisões de partículas de alta energia para o CERN"
 
 #: projects.inc:413
 msgid "University of California, Berkeley"
@@ -786,7 +786,7 @@ msgid ""
 "grid network of Europe by allowing service grids to send workunits to be "
 "processed by the volunteers of this project. The scientific projects covered"
 " by the project include math, physics, biology, etc."
-msgstr "O projecto EDGeS@Home Beta integra a computação voluntária num serviço de rede da Internet da Europa, que permitem às redes de serviços enviar unidades de trabalho para serem processadas pelos voluntários deste projecto. Os projectos científicos cobertos, incluem matemática, física, biologia, etc."
+msgstr "O projeto EDGeS@Home Beta integra a computação voluntária num serviço de rede da Internet da Europa, que permitem às redes de serviços enviar unidades de trabalho para serem processadas pelos voluntários deste projeto. Os projetos científicos abrangidos, incluem matemática, física, biologia, etc."
 
 #: projects.inc:482
 msgid "Help European researchers"
