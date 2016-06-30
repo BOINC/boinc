@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-30 16:12+0000\n"
+"PO-Revision-Date: 2016-06-30 16:28+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -1013,7 +1013,7 @@ msgstr "Projeto adicionado"
 
 #: clientgui/CompletionPage.cpp:213
 msgid "This project has been successfully added."
-msgstr "Este projecto foi adicionado com sucesso."
+msgstr "Este projeto foi adicionado com sucesso."
 
 #: clientgui/CompletionPage.cpp:218
 msgid ""
@@ -1319,7 +1319,7 @@ msgstr "dia(s) de trabalho"
 msgid ""
 "Store additional tasks above the minimum level.  Determines how much work is"
 " requested when contacting a project."
-msgstr "Armazene tarefas adicionais acima do nível mínimo. Determina a quantidade de trabalho que é pedido quando um projecto é contactado."
+msgstr "Guarda tarefas adicionais acima do nível mínimo. Determina a quantidade de trabalho que é solicitado quando um projeto é contactado."
 
 #. context: Store up to an additional ___ days of work
 #: clientgui/DlgAdvPreferencesBase.cpp:380
@@ -1329,7 +1329,7 @@ msgstr "Guardar adicionalmente"
 #: clientgui/DlgAdvPreferencesBase.cpp:399
 #, c-format
 msgid "If you run several projects, %s may switch between them this often."
-msgstr "Se executa vários projectos, %s pode trocar entre eles com esta frequência."
+msgstr "Se executa vários projetos, o %s pode trocar entre eles com esta frequência."
 
 #. context: Switch between tasks every ___ minutes
 #: clientgui/DlgAdvPreferencesBase.cpp:404
@@ -3758,7 +3758,7 @@ msgstr "Comandos do Projeto"
 #: clientgui/sg_ProjectPanel.cpp:278
 #, c-format
 msgid "Pop up a menu of web sites for project %s"
-msgstr "Abre um menu de websites para o projecto %s"
+msgstr "Abre um menu de sites da Web para o projeto %s"
 
 #: clientgui/sg_ProjectPanel.cpp:280
 #, c-format
