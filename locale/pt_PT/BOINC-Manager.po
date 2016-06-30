@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-30 17:23+0000\n"
+"PO-Revision-Date: 2016-06-30 17:31+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -424,7 +424,7 @@ msgstr "Atividade de rede sempre"
 
 #: clientgui/AdvancedFrame.cpp:585
 msgid "Allow network activity regardless of preferences"
-msgstr "Permitir atividade de rede, independentemente das preferências"
+msgstr "Permite a atividade de rede, independentemente das preferências"
 
 #: clientgui/AdvancedFrame.cpp:589
 msgid "Network activity based on preferences"
@@ -432,7 +432,7 @@ msgstr "Atividade de rede com base nas preferências"
 
 #: clientgui/AdvancedFrame.cpp:590
 msgid "Allow network activity according to preferences"
-msgstr "Permitir atividade de rede de acordo com as preferências"
+msgstr "Permite a atividade de rede de acordo com as preferências"
 
 #: clientgui/AdvancedFrame.cpp:594
 msgid "Suspend network activity"
@@ -440,7 +440,7 @@ msgstr "Suspender atividade de rede"
 
 #: clientgui/AdvancedFrame.cpp:595
 msgid "Stop network activity"
-msgstr "Parar atividade de rede"
+msgstr "Para a atividade de rede"
 
 #: clientgui/AdvancedFrame.cpp:604 clientgui/sg_BoincSimpleFrame.cpp:191
 msgid "Computing &preferences..."
@@ -448,7 +448,7 @@ msgstr "&Preferências de computação..."
 
 #: clientgui/AdvancedFrame.cpp:605 clientgui/sg_BoincSimpleFrame.cpp:192
 msgid "Configure computing preferences"
-msgstr "Configurar as preferências de computação"
+msgstr "Configura as preferências de computação"
 
 #: clientgui/AdvancedFrame.cpp:610
 msgid "Exclusive applications..."
@@ -456,7 +456,7 @@ msgstr "Aplicações exclusivas..."
 
 #: clientgui/AdvancedFrame.cpp:611
 msgid "Configure exclusive applications"
-msgstr "Configurar aplicações exclusivas"
+msgstr "Configura as aplicações exclusivas"
 
 #: clientgui/AdvancedFrame.cpp:616
 msgid "Select columns..."
@@ -464,7 +464,7 @@ msgstr "Selecionar colunas..."
 
 #: clientgui/AdvancedFrame.cpp:617
 msgid "Select which columns to display"
-msgstr "Selecionar as colunas para exibir"
+msgstr "Seleciona as colunas a exibir"
 
 #: clientgui/AdvancedFrame.cpp:621
 msgid "Event Log options...\tCtrl+Shift+F"
@@ -472,7 +472,7 @@ msgstr "Opções do Registo de Eventos...\tCtrl+Shift+F"
 
 #: clientgui/AdvancedFrame.cpp:622
 msgid "Enable or disable various diagnostic messages"
-msgstr "Ativar ou desativar várias mensagens de diagnóstico"
+msgstr "Ativa ou desativa as várias mensagens de diagnóstico"
 
 #: clientgui/AdvancedFrame.cpp:626 clientgui/sg_BoincSimpleFrame.cpp:197
 msgid "&Other options..."
@@ -480,7 +480,7 @@ msgstr "&Outras opções..."
 
 #: clientgui/AdvancedFrame.cpp:627
 msgid "Configure display options and network settings"
-msgstr "Configurar opções de exibição e definições de rede"
+msgstr "Configura as opções de exibição e definições de rede"
 
 #: clientgui/AdvancedFrame.cpp:632
 msgid "Read config files"
@@ -489,7 +489,7 @@ msgstr "Ler ficheiros de configuração"
 #: clientgui/AdvancedFrame.cpp:633
 msgid ""
 "Read configuration info from cc_config.xml and any app_config.xml files"
-msgstr "Ler informação de configuração de cc_config.mxl e quaisquer ficheiros app_config.xml"
+msgstr "Lê a informação de configuração de cc_config.mxl e quaisquer ficheiros app_config.xml"
 
 #: clientgui/AdvancedFrame.cpp:637
 msgid "Read local prefs file"
@@ -497,7 +497,7 @@ msgstr "Ler ficheiro das preferências locais"
 
 #: clientgui/AdvancedFrame.cpp:638
 msgid "Read preferences from global_prefs_override.xml."
-msgstr "Ler preferências de global_prefs_override.xml"
+msgstr "Lê as preferências de global_prefs_override.xml"
 
 #: clientgui/AdvancedFrame.cpp:646 clientgui/sg_BoincSimpleFrame.cpp:219
 #, c-format
@@ -507,7 +507,7 @@ msgstr "&Ajuda do %s"
 #: clientgui/AdvancedFrame.cpp:650 clientgui/sg_BoincSimpleFrame.cpp:223
 #, c-format
 msgid "Show information about %s"
-msgstr "Mostra informação sobre o %s"
+msgstr "Mostra a informação sobre %s"
 
 #: clientgui/AdvancedFrame.cpp:660
 #, c-format
@@ -517,7 +517,7 @@ msgstr "Ajuda do &%s"
 #: clientgui/AdvancedFrame.cpp:664 clientgui/sg_BoincSimpleFrame.cpp:237
 #, c-format
 msgid "Show information about the %s"
-msgstr "Mostra informação sobre o %s"
+msgstr "Mostra a informação sobre o %s"
 
 #: clientgui/AdvancedFrame.cpp:675 clientgui/sg_BoincSimpleFrame.cpp:247
 #, c-format
@@ -527,7 +527,7 @@ msgstr "%s - Site da &Web"
 #: clientgui/AdvancedFrame.cpp:679 clientgui/sg_BoincSimpleFrame.cpp:251
 #, c-format
 msgid "Show information about BOINC and %s"
-msgstr "Mostra informação sobre o BOINC e o %s"
+msgstr "Mostra a informação sobre o BOINC e o %s"
 
 #: clientgui/AdvancedFrame.cpp:690 clientgui/BOINCTaskBar.cpp:541
 #: clientgui/sg_BoincSimpleFrame.cpp:262
@@ -3077,7 +3077,7 @@ msgstr "Eliminar todos os ficheiros e tarefas associadas a este projecto e, obte
 msgid ""
 "Remove this project.  Tasks in progress will be lost (use 'Update' first to "
 "report any completed tasks)."
-msgstr "Remover este projeto. Tarefas em progresso serão perdidas (use 'Actualizar' primeiro para reportar tarefas concluídas)."
+msgstr "Remove este projeto. As tarefas em progresso serão perdidas (utilize 'primeiro Atualizar' para comunicar as tarefas concluídas)."
 
 #: clientgui/ViewProjects.cpp:237 clientgui/ViewWork.cpp:246
 #: clientgui/sg_ProjectCommandPopup.cpp:96
