@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-06-30 16:28+0000\n"
+"PO-Revision-Date: 2016-06-30 16:33+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -3077,7 +3077,7 @@ msgstr "Eliminar todos os ficheiros e tarefas associadas a este projecto e, obte
 msgid ""
 "Remove this project.  Tasks in progress will be lost (use 'Update' first to "
 "report any completed tasks)."
-msgstr "Remover este projecto. Tarefas em progresso serão perdidas (use 'Actualizar' primeiro para reportar tarefas concluídas)."
+msgstr "Remover este projeto. Tarefas em progresso serão perdidas (use 'Actualizar' primeiro para reportar tarefas concluídas)."
 
 #: clientgui/ViewProjects.cpp:237 clientgui/ViewWork.cpp:246
 #: clientgui/sg_ProjectCommandPopup.cpp:96
@@ -3379,7 +3379,7 @@ msgstr "Mostra um gráfico com todos os projetos"
 
 #: clientgui/ViewStatistics.cpp:2031
 msgid "All projects (sum)"
-msgstr "Todos os projetos (somados)"
+msgstr "Todos os projetos (total)"
 
 #: clientgui/ViewStatistics.cpp:2032
 msgid "Show one chart with sum of projects"
@@ -3584,7 +3584,7 @@ msgstr "A mostrar a Consola VM para a tarefa..."
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
-msgstr "Tem a certeza que quer cancelar esta tarefa '%s'?\n(Progresso: %s, Estado: %s)"
+msgstr "Tem a certeza que deseja abortar esta tarefa '%s'?\n(Progresso: %s, Estado: %s)"
 
 #: clientgui/ViewWork.cpp:572
 #, c-format
@@ -3763,7 +3763,7 @@ msgstr "Abre um menu de sites da Web para o projeto %s"
 #: clientgui/sg_ProjectPanel.cpp:280
 #, c-format
 msgid "Pop up a menu of commands to apply to project %s"
-msgstr "Abre um menu de comandos para aplicar ao projecto %s"
+msgstr "Abre um menu de comandos para aplicar ao projeto %s"
 
 #: clientgui/sg_TaskCommandPopup.cpp:73
 msgid "Suspend this task."
@@ -3778,7 +3778,7 @@ msgstr "Abandonar esta tarefa. Não obterá créditos por ela."
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %.1lf%%, Status: %s)"
-msgstr "Tem a certeza que quer cancelar esta tarefa '%s'?\n(Progresso: %.1lf%%, Estado: %s)"
+msgstr "Tem a certeza que deseja abortar esta tarefa '%s'?\n(Progresso: %.1lf%%, Estado: %s)"
 
 #: clientgui/sg_TaskPanel.cpp:468
 msgid "You don't have any projects.  Please Add a Project."
@@ -3885,7 +3885,7 @@ msgstr "A aguardar para contactar os servidores do projeto."
 
 #: clientgui/sg_TaskPanel.cpp:1235 clientgui/sg_TaskPanel.cpp:1244
 msgid "Retrieving current status"
-msgstr "A rever estado actual"
+msgstr "A obter o estado atual"
 
 #: clientgui/sg_TaskPanel.cpp:1239
 msgid "No work available to process"
