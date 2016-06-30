@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-06-30 23:40+0000\n"
+"PO-Revision-Date: 2016-06-30 23:45+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -167,19 +167,19 @@ msgid ""
 "If you're an experienced BOINC user, we encourage you to %sbecome a Help "
 "Volunteer%s.  It's a great way to help the cause of scientific research and "
 "volunteer computing - and it's fun!"
-msgstr "Se é um utilizador experiente do BOINC, encorajamo-lo a se %stornar um Voluntário de Ajuda%s. É uma maneira óptima de ajudar a causa de investigação científica e computação voluntária - e é divertido!"
+msgstr "Se é um utilizador experiente do BOINC, nós encorajamo-lo a %stornar-se um Voluntário de Ajuda%s. É uma maneira ótima de ajudar a causa de investigação científica e computação voluntária - e é divertido!"
 
 #: help.php:56
 #, php-format
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
-msgstr "Se já é um Voluntário de Ajuda: para editar as suas preferências, %sclique aqui%s."
+msgstr "Se já é um Voluntário de Ajuda: para editar as suas definições, %sclique aqui%s."
 
 #: help_funcs.php:136
 msgid ""
 "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
 "or the University of California."
-msgstr "Os ajudantes do BOINC são voluntários não remunerados. Os seus conselhos não são aprovados pelo BOINC ou pela Universidade da Califórnia."
+msgstr "Os ajudantes do BOINC são voluntários não remunerados. Os seus conselhos não são endossados pelo BOINC ou pela Universidade da Califórnia."
 
 #: help_funcs.php:139
 msgid "%1Never%2 give email address or password information to BOINC helpers."
