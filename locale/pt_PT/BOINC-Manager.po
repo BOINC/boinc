@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-07-01 13:55+0000\n"
+"PO-Revision-Date: 2016-07-01 14:01+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -1100,11 +1100,11 @@ msgstr "A hora de início tem de ser diferente da final."
 
 #: clientgui/DlgAdvPreferences.cpp:687
 msgid "Number must be between 0 and 10"
-msgstr "Os números devem ser entre 0 e 10"
+msgstr "O número deve ser entre 0 e 10"
 
 #: clientgui/DlgAdvPreferences.cpp:688 clientgui/sg_DlgPreferences.cpp:778
 msgid "Number must be between 0 and 100"
-msgstr "Os números devem ser entre 0 e 100"
+msgstr "O número deve ser entre 0 e 100"
 
 #: clientgui/DlgAdvPreferences.cpp:689
 msgid "Number must be between 1 and 100"
@@ -1271,7 +1271,7 @@ msgstr "Isto determina quando o computador é considerado como 'em utilização'
 #. context: 'In use' means mouse/keyboard input in last ___ minutes
 #: clientgui/DlgAdvPreferencesBase.cpp:304 clientgui/sg_DlgPreferences.cpp:268
 msgid "'In use' means mouse/keyboard input in last"
-msgstr "'Em utilização' significa actividade do rato/teclado nos últimos"
+msgstr "'Em utilização' significa atividade do rato/teclado nos últimos"
 
 #. context: 'In use' means mouse/keyboard input in last ___ minutes
 #. context: Switch between tasks every ___ minutes
@@ -1282,7 +1282,7 @@ msgstr "minutos"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:323
 msgid "Suspend when non-BOINC CPU usage is above"
-msgstr "Suspender quando a utilização da CPU por parte de terceiros for superior a"
+msgstr "Suspender quando a utilização da CPU por terceiros for superior a"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:325
 msgid "Suspend computing when your computer is busy running other programs."
@@ -1400,7 +1400,7 @@ msgstr "Para limitar as transferências pela hora do dia, vá para a secção \"
 msgid ""
 "Check this only if your Internet provider modifies image files. Skipping "
 "verification reduces the security of %s."
-msgstr "Seleccione aqui apenas se o seu fornecedor de Internet modificar os ficheiros de imagem. Saltar a verificação, reduz a segurança do %s."
+msgstr "Selecione isto apenas se o seu provedor da Internet modificar os ficheiros de imagem. Ignorar a verificação, reduz a segurança do %s."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:524
 msgid "Skip data verification for image files"
@@ -1413,7 +1413,7 @@ msgstr "Confirmar antes de ligar à Internet"
 #: clientgui/DlgAdvPreferencesBase.cpp:529
 #: clientgui/DlgAdvPreferencesBase.cpp:533
 msgid "Useful only if you have a modem, ISDN or VPN connection."
-msgstr "Útil apenas se tiver um modem, ISDN ou uma conexão VPN."
+msgstr "Útil apenas se tiver um modem, ISDN ou uma ligação VPN."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:532
 msgid "Disconnect when done"
