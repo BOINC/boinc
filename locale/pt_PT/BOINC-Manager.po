@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-07-01 11:51+0000\n"
+"PO-Revision-Date: 2016-07-01 12:03+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -680,11 +680,11 @@ msgstr "Atualmente, não está autorizado a gerir o cliente.\nPor favor, contact
 msgid ""
 "Authorization failed connecting to running client.\n"
 "Make sure you start this program in the same directory as the client."
-msgstr "A autorização falhou a ligação ao cliente em execução.\nCertifique-se que inicia este programa na mesma diretoria que a do cliente."
+msgstr "A autorização não conseguiu ligação ao cliente em execução.\nCertifique-se que inicia este programa na mesma diretoria que a do cliente."
 
 #: clientgui/BOINCBaseFrame.cpp:532
 msgid "Authorization failed connecting to running client."
-msgstr "A autorização falhou a ligação ao cliente em execução."
+msgstr "A autorização não conseguiu a ligação ao cliente em execução."
 
 #: clientgui/BOINCBaseFrame.cpp:540
 msgid "The password you have provided is incorrect, please try again."
@@ -712,7 +712,7 @@ msgstr "%s - Inicialização do Daemon Falhou"
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
-msgstr "%s não consegue iniciar o %s cliente.\nPor favor, vá a Painel de Controlo->Ferramentas Administrativas->Serviços e inicie o serviço BOINC."
+msgstr "%s não consegue iniciar o %s cliente.\nPor favor, vá a Painel de Controlo -> Sistema e Segurança -> Ferramentas Administrativas -> Serviços e inicie o serviço BOINC."
 
 #: clientgui/BOINCBaseFrame.cpp:645
 #, c-format
