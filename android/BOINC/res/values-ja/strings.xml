@@ -135,7 +135,7 @@
   <string name="status_running">計算</string>
   <string name="status_running_long">ご参加ありがとうございます。</string>
   <string name="status_paused">一時停止中</string>
-  <string name="status_idle">することがありません</string>
+  <string name="status_idle">タスクがありません</string>
   <string name="status_idle_long">タスクを待機中…</string>
   <string name="status_computing_disabled">一時停止中</string>
   <string name="status_computing_disabled_long">ネットワーク接続と計算を再開するには[play]を押してください。</string>
@@ -356,5 +356,6 @@
   <string name="social_invite_content_title">私はスマートフォンで科学研究を行っています!</string>
   <string name="social_invite_content_body">私は自分の %1$s を科学のための計算に使っています。あなたも出来ますよ!ここからアプリをダウンロードしてください: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url">https://play.google.com/store/apps/details？id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details？id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.co.jp/gp/mas/dl/android?p=edu.berkeley.boinc</string>
 </resources>
