@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-07-01 12:03+0000\n"
+"PO-Revision-Date: 2016-07-01 12:12+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -732,7 +732,7 @@ msgid ""
 "%s is not currently connected to a %s client.\n"
 "Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
-msgstr "O %s não está atualmente ligado ao cliente %s.\nPor favor, utilize a opção do menu 'Visualização Avançado\\Ficheiro-> Selecionar computador...' para se ligar a um cliente %s.\nPara se ligar ao seu computador local, por favor, utilize 'localhost' como o nome de anfitrião."
+msgstr "O %s não está atualmente ligado ao cliente %s.\nPor favor, utilize a opção do menu 'Ver -> Visualização Avançada\\Ficheiro -> Selecionar computador...' para se ligar a um cliente %s.\nPara se ligar ao seu computador local, por favor, utilize 'localhost' como o nome de anfitrião."
 
 #. Create the web sites task group
 #: clientgui/BOINCBaseView.cpp:790
