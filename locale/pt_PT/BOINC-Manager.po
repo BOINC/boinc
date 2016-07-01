@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-07-01 14:01+0000\n"
+"PO-Revision-Date: 2016-07-01 14:07+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -1661,7 +1661,7 @@ msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on "
 "messages."
-msgstr "Copiar as mensagens seleccionadas para a área de transferência. Pode seleccionar múltiplas mensagens pressionando o shift enquanto clica nas mensagens."
+msgstr "Copiar as mensagens selecionadas para a área de transferência. Pode selecionar múltiplas mensagens pressionando 'Shift' ou a tecla de comando enquanto clica nas mensagens."
 
 #: clientgui/DlgEventLog.cpp:325 clientgui/DlgEventLog.cpp:333
 #: clientgui/ViewMessages.cpp:99
@@ -1669,7 +1669,7 @@ msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on "
 "messages."
-msgstr "Copiar as mensagens seleccionadas para a área de transferência. Pode seleccionar múltiplas mensagens pressionando o shift ou a tecla Ctrl enquanto clica nas mensagens."
+msgstr "Copiar as mensagens selecionadas para a área de transferência. Pode selecionar múltiplas mensagens pressionando 'Shift' ou a tecla 'Ctrl' enquanto clica nas mensagens."
 
 #: clientgui/DlgEventLog.cpp:340 clientgui/DlgItemProperties.cpp:67
 msgid "&Close"
@@ -1850,11 +1850,11 @@ msgstr "Preferências do gestor de conta"
 
 #: clientgui/DlgItemProperties.cpp:200
 msgid "Project has no apps for "
-msgstr "O projeto não tem aplicações por"
+msgstr "O projeto não tem aplicações para"
 
 #: clientgui/DlgItemProperties.cpp:203
 msgid "Client configuration excludes "
-msgstr "Configurações do cliente exclui"
+msgstr "A configuração do cliente exclui"
 
 #: clientgui/DlgItemProperties.cpp:209
 #, c-format
@@ -2128,7 +2128,7 @@ msgstr "Executar o Gestor depois de iniciar a sessão?"
 
 #: clientgui/DlgOptions.cpp:208
 msgid "Run the BOINC Manager when you log on."
-msgstr "Execute o BOINC Manager quando inicia a sessão."
+msgstr "Executa o BOINC Manager quando inicia a sessão."
 
 #: clientgui/DlgOptions.cpp:213
 msgid "Run daemon?"
@@ -2144,7 +2144,7 @@ msgstr "Ativar a janela de saída do Gestor?"
 
 #: clientgui/DlgOptions.cpp:229
 msgid "Display the exit dialog when shutting down the Manager."
-msgstr "Exibir a janela de saída ao encerrar o Gestor."
+msgstr "Exibe a janela de saída ao encerrar o Gestor."
 
 #: clientgui/DlgOptions.cpp:240
 msgid "Dial-up and Virtual Private Network settings"
