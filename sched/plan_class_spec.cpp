@@ -916,8 +916,14 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         }
         if (xp.parse_double("min_ncpus", min_ncpus)) continue;
         if (xp.parse_int("max_threads", max_threads)) continue;
-        if (xp.parse_double("mem_usage_base", mem_usage_base)) continue;
-        if (xp.parse_double("mem_usage_per_cpu", mem_usage_per_cpu)) continue;
+        if (xp.parse_double("mem_usage_base_mb", mem_usage_base)) {
+            mem_usage_base *= MEGA;
+            continue;
+        }
+        if (xp.parse_double("mem_usage_per_cpu_mb", mem_usage_per_cpu)) {
+            mem_usage_per_cpu *= MEGA;
+            continue;
+        }
         if (xp.parse_bool("nthreads_cmdline", nthreads_cmdline)) continue;
         if (xp.parse_double("projected_flops_scale", projected_flops_scale)) continue;
         if (xp.parse_str("os_regex", buf, sizeof(buf))) {
