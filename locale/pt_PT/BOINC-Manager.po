@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-07-01 13:50+0000\n"
+"PO-Revision-Date: 2016-07-01 13:55+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -776,7 +776,7 @@ msgstr "%s ligou com sucesso à Internet."
 #: clientgui/BOINCDialupManager.cpp:331
 #, c-format
 msgid "%s failed to connect to the Internet."
-msgstr "%s falhou a ligação à Internet."
+msgstr "O %s não conseguiu ligar-se à Internet."
 
 #: clientgui/BOINCDialupManager.cpp:372
 #, c-format
@@ -788,12 +788,12 @@ msgstr "%s detetou que está atualmente ligado à Internet.\nA atualizar todos o
 #: clientgui/BOINCDialupManager.cpp:417
 #, c-format
 msgid "%s has successfully disconnected from the Internet."
-msgstr "%s desligou-se com sucesso da Internet."
+msgstr "O %s desligou-se da Internet com sucesso."
 
 #: clientgui/BOINCDialupManager.cpp:433
 #, c-format
 msgid "%s failed to disconnected from the Internet."
-msgstr "%s falhou ao desligar-se da Internet."
+msgstr "O %s não conseguiu desligar-se da Internet."
 
 #: clientgui/BOINCGUIApp.cpp:356
 #, c-format
@@ -806,7 +806,7 @@ msgid ""
 " or\n"
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
-msgstr "Atualmente, não está autorizado a gerir o cliente.\n\nPara executar o %s com este utilizador, por favor:\n  - reinstale o %s, respondendo \"Sim\" à questão sobre\n    utilizadores não administrativos\nou\n  - contacte o seu administrador para o adicionar ao\n    grupo de utilizadores 'boinc_master'."
+msgstr "Atualmente, não está autorizado para gerir o cliente.\n\nPara executar o %s com este utilizador, por favor:\n  - reinstale o %s, respondendo \"Sim\" à questão sobre\n    os utilizadores não administrativos\nou\n  - contacte o seu administrador para o adicionar ao\n    grupo de utilizadores 'boinc_master'."
 
 #: clientgui/BOINCGUIApp.cpp:362
 #, c-format
@@ -840,7 +840,7 @@ msgstr "O BOINC Manager foi iniciado automaticamente pelo sistema operativo"
 
 #: clientgui/BOINCGUIApp.cpp:666
 msgid "Startup BOINC so only the system tray icon is visible"
-msgstr "Iniciar o BOINC de modo a que o ícone seja visível apenas na barra de tarefas"
+msgstr "Iniciar o BOINC de modo a que o ícone seja visível apenas na área de notificação"
 
 #: clientgui/BOINCGUIApp.cpp:668
 msgid "Directory containing the BOINC Client executable"
