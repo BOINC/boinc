@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-07-01 12:12+0000\n"
+"PO-Revision-Date: 2016-07-01 13:50+0000\n"
 "Last-Translator: Maria Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -749,7 +749,7 @@ msgstr "%s - Saída Inesperada"
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
-msgstr "O cliente %s saiu inesperadamente 3 vezes nos ultimos %d minutos.\nQuer reiniciar novamente?"
+msgstr "O cliente %s saiu inesperadamente 3 vezes nos últimos %d minutos.\nQuer reiniciar novamente?"
 
 #: clientgui/BOINCDialupManager.cpp:61
 #, c-format
@@ -761,7 +761,7 @@ msgstr "%s - Estado da Rede"
 msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
-msgstr "%s precisa de se ligar à Internet.\nPode ligar agora?"
+msgstr "O %s precisa de ligar à Internet.\nPode ligar agora?"
 
 #: clientgui/BOINCDialupManager.cpp:254
 #, c-format
