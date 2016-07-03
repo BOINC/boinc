@@ -1188,7 +1188,7 @@ int VBOX_VM::capture_screenshot() {
 	return 0;
 }
 
-int VBOX_VM::create_snapshot(double elapsed_time) {
+int VBOX_VM::create_snapshot(double) {
     string command;
     string output;
     char buf[256];

@@ -34,11 +34,9 @@
 
 int vboxlog_msg(const char *fmt, ...) {
     int retval = 0;
-    int n = 0;
     char buf[256];
     int pid;
     struct tm tm;
-    struct tm *tmp = &tm;
     va_list ap;
 
     if (fmt == NULL) return 0;

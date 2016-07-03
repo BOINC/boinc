@@ -650,8 +650,8 @@ void VBOX_BASE::sanitize_format(std::string& output) {
     }
 }
 
-void VBOX_BASE::sanitize_output(std::string& output) {
 #ifdef _WIN32
+void VBOX_BASE::sanitize_output(std::string& output) {
     // Remove \r from the log spew
     string::iterator iter = output.begin();
     while (iter != output.end()) {
@@ -661,8 +661,10 @@ void VBOX_BASE::sanitize_output(std::string& output) {
             ++iter;
         }
     }
-#endif
 }
+#else
+void VBOX_BASE::sanitize_output(std::string& ) {}
+#endif
 
 // Launch VboxSVC.exe before going any further. if we don't, it'll be launched by
 // svchost.exe with its environment block which will not contain the reference
@@ -764,7 +766,6 @@ int VBOX_BASE::launch_vboxsvc() {
 
 // Launch the VM.
 int VBOX_BASE::launch_vboxvm() {
-    char buf[256];
     char cmdline[1024];
     char* argv[5];
     int argc;
@@ -797,6 +798,7 @@ int VBOX_BASE::launch_vboxvm() {
     }
 
 #ifdef _WIN32
+    char buf[256];
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
     SECURITY_ATTRIBUTES sa;
@@ -1045,7 +1047,14 @@ int VBOX_BASE::vbm_popen(string& command, string& output, const char* item, bool
 
 // Execute the vbox manage application and copy the output to the buffer.
 //
-int VBOX_BASE::vbm_popen_raw(string& command, string& output, unsigned int timeout) {
+int VBOX_BASE::vbm_popen_raw(
+    string& command, string& output,
+#ifdef _WIN32
+    unsigned int timeout
+#else
+    unsigned int
+#endif
+) {
     size_t errcode_start;
     size_t errcode_end;
     string errcode;
@@ -1225,7 +1234,6 @@ void VBOX_BASE::vbm_trace(std::string& command, std::string& output, int retval)
     char buf[256];
     int pid;
     struct tm tm;
-    struct tm *tmp = &tm;
 
     vbm_replay(command);
 

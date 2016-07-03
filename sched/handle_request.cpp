@@ -547,7 +547,11 @@ static int modify_host_struct(HOST& host) {
     strlcpy(host.serialnum, buf, sizeof(host.serialnum));
     strlcat(host.serialnum, buf2, sizeof(host.serialnum));
     if (strlen(g_request->host.virtualbox_version)) {
-        sprintf(buf2, "[vbox|%s]", g_request->host.virtualbox_version);
+        sprintf(buf2, "[vbox|%s|%d|%d]",
+            g_request->host.virtualbox_version,
+            (strstr(g_request->host.p_features, "vmx") || strstr(g_request->host.p_features, "svm"))?1:0,
+            g_request->host.p_vm_extensions_disabled?0:1
+        );
         strlcat(host.serialnum, buf2, sizeof(host.serialnum));
     }
     if (strcmp(host.last_ip_addr, g_request->host.last_ip_addr)) {

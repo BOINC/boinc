@@ -66,6 +66,9 @@ struct HOST_USAGE {
     double gpu_ram;
     double avg_ncpus;
     double max_ncpus;
+    double mem_usage;
+        // mem usage if specified by the plan class
+        // (overrides wu.rsc_memory_bound)
     double projected_flops;
         // the scheduler's best estimate of wu.rsc_fpops_est/elapsed_time.
         // Taken from host_app_version elapsed time statistics if available,
@@ -83,6 +86,7 @@ struct HOST_USAGE {
         gpu_ram = 0;
         avg_ncpus = 1;
         max_ncpus = 1;
+        mem_usage = 0;
         projected_flops = 0;
         peak_flops = 0;
         strcpy(cmdline, "");
@@ -94,6 +98,7 @@ struct HOST_USAGE {
         gpu_ram = 0;
         avg_ncpus = 1;
         max_ncpus = 1;
+        mem_usage = 0;
         if (flops <= 0) flops = 1e9;
         projected_flops = flops;
         peak_flops = flops;

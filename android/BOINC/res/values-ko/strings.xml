@@ -92,7 +92,7 @@
   <string name="attachproject_error_no_internet">연결 실패</string>
   <string name="attachproject_error_pwd_no_match">비밀번호가 일치하지 않습니다</string>
   <string name="attachproject_error_pwd_no_retype">비밀번호를 다시 입력해 주세요</string>
-  <string name="attachproject_error_no_url">URL을 입력해 주십시오</string>
+  <string name="attachproject_error_no_url">URL을 입력해 주세요</string>
   <string name="attachproject_error_no_email">이메일 주소를 입력해 주세요</string>
   <string name="attachproject_error_no_pwd">비밀번호를 입력해 주세요</string>
   <string name="attachproject_error_no_name">사용자 이름을 입력해 주세요</string>
@@ -219,7 +219,7 @@
   <string name="projects_control_visit_website">웹사이트 방문</string>
   <string name="projects_control_update">업데이트</string>
   <string name="projects_control_remove">제거</string>
-  <string name="projects_control_suspend">일시 정지됨</string>
+  <string name="projects_control_suspend">일시 정지</string>
   <string name="projects_control_resume">재개</string>
   <string name="projects_control_nonewtasks">새 태스크 금지</string>
   <string name="projects_control_allownewtasks">새 태스크 허용</string>
@@ -356,5 +356,6 @@
   <string name="social_invite_content_title">내 스마트폰으로만 작업할래요!</string>
   <string name="social_invite_content_body">%1$s도 연산에 참여합니다. 여러분도 할 수 있습니다! 앱 다운로드: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
 </resources>
