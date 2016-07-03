@@ -219,7 +219,7 @@
   <string name="projects_control_visit_website">웹사이트 방문</string>
   <string name="projects_control_update">업데이트</string>
   <string name="projects_control_remove">제거</string>
-  <string name="projects_control_suspend">일시 정지됨</string>
+  <string name="projects_control_suspend">일시 정지</string>
   <string name="projects_control_resume">재개</string>
   <string name="projects_control_nonewtasks">새 태스크 금지</string>
   <string name="projects_control_allownewtasks">새 태스크 허용</string>
