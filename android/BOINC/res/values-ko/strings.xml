@@ -92,7 +92,7 @@
   <string name="attachproject_error_no_internet">연결 실패</string>
   <string name="attachproject_error_pwd_no_match">비밀번호가 일치하지 않습니다</string>
   <string name="attachproject_error_pwd_no_retype">비밀번호를 다시 입력해 주세요</string>
-  <string name="attachproject_error_no_url">URL을 입력해 주십시오</string>
+  <string name="attachproject_error_no_url">URL을 입력해 주세요</string>
   <string name="attachproject_error_no_email">이메일 주소를 입력해 주세요</string>
   <string name="attachproject_error_no_pwd">비밀번호를 입력해 주세요</string>
   <string name="attachproject_error_no_name">사용자 이름을 입력해 주세요</string>
