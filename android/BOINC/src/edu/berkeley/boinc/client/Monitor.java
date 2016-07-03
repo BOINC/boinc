@@ -305,6 +305,23 @@ public class Monitor extends Service {
 	}
 	
 	/**
+	 * Determines BOINC alt platform name corresponding to device's cpu architecture (ARM, x86 or MIPS).
+	 * @return  BOINC platform name string in resources
+	 */
+	public String getBoincAltPlatform() {
+		String platformName = "";
+		String arch = System.getProperty("os.arch");    
+		String normalizedArch = arch.toUpperCase(Locale.US);
+		if (normalizedArch.contains("AARCH64")) platformName = getString(R.string.boinc_platform_name_arm);
+		else if (normalizedArch.contains("ARM64")) platformName = getString(R.string.boinc_platform_name_arm);
+		else if (normalizedArch.contains("MIPS64")) platformName = getString(R.string.boinc_platform_name_mips);
+	    else if (normalizedArch.contains("X86_64")) platformName = getString(R.string.boinc_platform_name_x86);
+	    
+	    if(Logging.ERROR) Log.d(Logging.TAG,"BOINC Alt platform: " + platformName + " for os.arch: " + arch);
+		return platformName;
+	}
+	
+	/**
 	 * Returns path to file in BOINC's working directory that contains GUI authentication key
 	 * @return absolute path to file holding GUI authentication key
 	 */
@@ -1068,7 +1085,7 @@ public class Monitor extends Service {
 		
 		@Override
 		public List<ProjectInfo> getAttachableProjects() throws RemoteException {
-			return clientInterface.getAttachableProjects(getString(getBoincPlatform()));
+			return clientInterface.getAttachableProjects(getString(getBoincPlatform()), getBoincAltPlatform());
 		}
 		
 		@Override
