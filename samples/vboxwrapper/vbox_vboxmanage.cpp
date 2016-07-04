@@ -1188,7 +1188,7 @@ int VBOX_VM::capture_screenshot() {
 	return 0;
 }
 
-int VBOX_VM::create_snapshot(double) {
+int VBOX_VM::create_snapshot(double elapsed_time) {
     string command;
     string output;
     char buf[256];
@@ -1198,13 +1198,27 @@ int VBOX_VM::create_snapshot(double) {
 
     vboxlog_msg("Creating new snapshot for VM.");
 
+    // Pause VM - Try and avoid the live snapshot and trigger an online
+    // snapshot instead.
+    pause();
+
     // Create new snapshot
+    sprintf(buf, "%d", (int)elapsed_time);
     command = "snapshot \"" + vm_name + "\" ";
     command += "take boinc_";
     command += buf;
     retval = vbm_popen(command, output, "create new snapshot", true, true, 0);
     if (retval) return retval;
 
+    // Resume VM
+    resume();
+
+    // Set the suspended flag back to false before deleting the stale
+    // snapshot
+    poll(false);
+
+    // Delete stale snapshot(s), if one exists
+    cleanup_snapshots(false);
 
     vboxlog_msg("Checkpoint completed.");
 

@@ -691,6 +691,9 @@ int main(int argc, char** argv) {
     if (pVM->enable_isocontextualization) {
         pVM->iso_image_filename = ISO_IMAGE_FILENAME;
     }
+
+    // cpu count: cmdline arg overrides config file
+    //
     if (aid.ncpus > 1.0 || ncpus > 1.0) {
 		if (ncpus > 32.0) {
             vboxlog_msg("WARNING: Virtualbox only allows up to 32 processors to be allocated to a VM, resetting to 32.  (%f allocated)", ncpus);
