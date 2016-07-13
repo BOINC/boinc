@@ -1612,12 +1612,13 @@ int VBOX_VM::capture_screenshot() {
 	GuestMonitorStatus monitorStatus;
     string virtual_machine_slot_directory;
 	string screenshot_location;
-    HRESULT rc;
+    HRESULT rc, rc2;
 	FILE* f = NULL;
     SAFEARRAY* pScreenshot = NULL;
     CComSafeArray<BYTE> aScreenshot;
     CComPtr<IConsole> pConsole;
     CComPtr<IDisplay> pDisplay;
+    CComPtr<IKeyboard> pKeyboard;
 
     get_slot_directory(virtual_machine_slot_directory);
 
@@ -1627,14 +1628,23 @@ int VBOX_VM::capture_screenshot() {
     if (CHECK_ERROR(rc)) {
     } else {
         rc = pConsole->get_Display(&pDisplay);
-        if (CHECK_ERROR(rc)) {
+        rc2 = pConsole->get_Keyboard(&pKeyboard);
+        if (CHECK_ERROR(rc) || CHECK_ERROR(rc2)) {
         } else {
+            // Due to a recently fixed bug in VirtualBox we are going to attempt to prevent receiving garbage
+            // by waking up the console.  We'll attempt to virtually tap the 'spacebar'.
+            pKeyboard->PutScancode(0x39);
+            boinc_sleep(1);
+
 			rc = pDisplay->GetScreenResolution(0, &width, &height, &bpp, &xOrigin, &yOrigin, &monitorStatus);
 			if (CHECK_ERROR(rc)) {
 			} else {
+                vboxlog_msg("Retrieving screenshot from VirtualBox.");
 				rc = pDisplay->TakeScreenShotToArray(0, width, height, BitmapFormat_PNG, &pScreenshot);
 				if (SUCCEEDED(rc)) {
 					aScreenshot.Attach(pScreenshot);
+
+                    vboxlog_msg("Writing screenshot to disk.");
 
 					screenshot_location = virtual_machine_slot_directory;
 					screenshot_location += "/";
@@ -1647,8 +1657,11 @@ int VBOX_VM::capture_screenshot() {
 					} else {
                         vboxlog_msg("Failed to write screenshot to disk.");
 					}
-				}
+				} else {
+                    vboxlog_msg("Failed to retrieving screenshot from VirtualBox.");
+                }
 			}
+
 		}
 	}
 

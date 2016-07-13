@@ -1174,6 +1174,11 @@ int VBOX_VM::capture_screenshot() {
         vboxlog_msg("Capturing screenshot.");
 
         command = "controlvm \"" + vm_name + "\" ";
+        command += "keyboardputscancode 0x39";
+        vbm_popen(command, output, "put scancode", true, true, 0);
+        boinc_sleep(1);
+
+        command = "controlvm \"" + vm_name + "\" ";
         command += "screenshotpng \"";
 	    command += virtual_machine_slot_directory;
 	    command += "/";
