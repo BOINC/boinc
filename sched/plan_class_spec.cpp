@@ -822,7 +822,8 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
                 // if per-CPU mem usage given
                 //
                 if (mem_usage_per_cpu) {
-                    double mem_usage_seq = mem_usage_base + mem_usage_per_cpu;
+                    if (!min_ncpus) min_ncpus = 1;
+                    double mem_usage_seq = mem_usage_base + min_ncpus*mem_usage_per_cpu;
 
                     // see if client has enough memory to run at all
                     //
