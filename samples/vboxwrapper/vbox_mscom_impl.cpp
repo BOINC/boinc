@@ -1612,7 +1612,7 @@ int VBOX_VM::capture_screenshot() {
 	GuestMonitorStatus monitorStatus;
     string virtual_machine_slot_directory;
 	string screenshot_location;
-    HRESULT rc, rc2;
+    HRESULT rc;
 	FILE* f = NULL;
     SAFEARRAY* pScreenshot = NULL;
     CComSafeArray<BYTE> aScreenshot;
@@ -1628,13 +1628,16 @@ int VBOX_VM::capture_screenshot() {
     if (CHECK_ERROR(rc)) {
     } else {
         rc = pConsole->get_Display(&pDisplay);
-        rc2 = pConsole->get_Keyboard(&pKeyboard);
-        if (CHECK_ERROR(rc) || CHECK_ERROR(rc2)) {
+        if (CHECK_ERROR(rc)) {
         } else {
             // Due to a recently fixed bug in VirtualBox we are going to attempt to prevent receiving garbage
             // by waking up the console.  We'll attempt to virtually tap the 'spacebar'.
-            pKeyboard->PutScancode(0x39);
-            boinc_sleep(1);
+            rc = pConsole->get_Keyboard(&pKeyboard);
+            if (CHECK_ERROR(rc)) {
+            } else {
+                pKeyboard->PutScancode(0x39);
+                boinc_sleep(1);
+            }
 
 			rc = pDisplay->GetScreenResolution(0, &width, &height, &bpp, &xOrigin, &yOrigin, &monitorStatus);
 			if (CHECK_ERROR(rc)) {
