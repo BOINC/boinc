@@ -132,6 +132,12 @@ function boincwork_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK
   );
+  $items['get_project_config.php'] = array(
+    'title' => 'Project config',
+    'page callback' => 'boincwork_get_project_config',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK
+  );
   return $items;
 }
 
@@ -1023,6 +1029,14 @@ function boincwork_mobile_stats($userid = null) {
  */
 function boincwork_server_status() {
   include_boinc('user/server_status.php');
+}
+
+/**
+ * Page callback for the project config RPC (get_project_config.php).
+ * Get the project configuration XML; used by client software
+ */
+function boincwork_get_project_config() {
+  include_boinc('user/get_project_config.php');
 }
 
 
