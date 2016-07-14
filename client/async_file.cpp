@@ -15,6 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// logic for "asynchronous" file copy and unzip/verify operations.
+// "asynchronous" means that the the operations are done in 64KB chunks
+// in the client's polling loop,
+// so that the client continues to respond to GUI RPCs
+// and the manager won't freeze.
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
@@ -46,6 +52,8 @@ vector<ASYNC_COPY*> async_copies;
 
 #define BUFSIZE 64*1024
 
+// set up an async copy operation.
+//
 int ASYNC_COPY::init(
     ACTIVE_TASK* _atp, FILE_INFO* _fip,
     const char* from_path, const char* _to_path
@@ -53,6 +61,7 @@ int ASYNC_COPY::init(
     atp = _atp;
     fip = _fip;
     safe_strcpy(to_path, _to_path);
+    char to_dir[MAXPATHLEN];
 
     if (log_flags.async_file_debug) {
         msg_printf(atp->wup->project, MSG_INFO,
@@ -61,10 +70,14 @@ int ASYNC_COPY::init(
     }
     in = boinc_fopen(from_path, "rb");
     if (!in) return ERR_FOPEN;
-    safe_strcpy(temp_path, to_path);
-    char* p = strrchr(temp_path, '/');
+
+    // Copy the file to a temp file in the target directory.
+    // It will be renamed later.
+    //
+    safe_strcpy(to_dir, to_path);
+    char* p = strrchr(to_dir, '/');
     *(p+1) = 0;
-    strlcat(temp_path, "copy_temp", sizeof(temp_path));
+    safe_strcpy(temp_path, tempnam(to_dir, "copy_temp_"));
 #ifdef _WIN32
     boinc_allocate_file(temp_path, fip->nbytes);
 #endif
@@ -176,11 +189,12 @@ int ASYNC_VERIFY::init(FILE_INFO* _fip) {
         );
     }
     if (fip->download_gzipped) {
+        char out_dir[MAXPATHLEN];
         safe_strcpy(outpath, inpath);
-        safe_strcpy(temp_path, outpath);
-        char* p = strrchr(temp_path, '/');
+        safe_strcpy(out_dir, outpath);
+        char* p = strrchr(out_dir, '/');
         *(p+1) = 0;
-        strlcat(temp_path, "verify_temp", sizeof(temp_path));
+        safe_strcpy(temp_path, tempnam(out_dir, "verify_temp_"));
 #ifdef _WIN32
         boinc_allocate_file(temp_path, fip->nbytes);
 #endif
