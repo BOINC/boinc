@@ -29,6 +29,7 @@
 
 #ifdef _MSC_VER
 #define snprintf _snprintf
+#define tempnam _tempnam
 #endif
 
 #include "crypt.h"
