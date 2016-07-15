@@ -77,7 +77,9 @@ int ASYNC_COPY::init(
     safe_strcpy(to_dir, to_path);
     char* p = strrchr(to_dir, '/');
     *(p+1) = 0;
-    safe_strcpy(temp_path, tempnam(to_dir, "copy_temp_"));
+    char* q = tempnam(to_dir, "copy_temp_");
+    safe_strcpy(temp_path, q);
+    free(q);
 #ifdef _WIN32
     boinc_allocate_file(temp_path, fip->nbytes);
 #endif
@@ -194,7 +196,9 @@ int ASYNC_VERIFY::init(FILE_INFO* _fip) {
         safe_strcpy(out_dir, outpath);
         char* p = strrchr(out_dir, '/');
         *(p+1) = 0;
-        safe_strcpy(temp_path, tempnam(out_dir, "verify_temp_"));
+        char* q = tempnam(out_dir, "verify_temp_");
+        safe_strcpy(temp_path, q);
+        free(q);
 #ifdef _WIN32
         boinc_allocate_file(temp_path, fip->nbytes);
 #endif
