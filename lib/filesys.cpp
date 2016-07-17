@@ -826,6 +826,7 @@ void relative_to_absolute(const char* relname, char* path) {
     }
 }
 
+
 #if defined(_WIN32)
 int boinc_allocate_file(const char* path, double size) {
     int retval = 0;
@@ -851,9 +852,42 @@ int boinc_allocate_file(const char* path, double size) {
     CloseHandle(h);
     return retval;
 }
+
+FILE* boinc_temp_file(
+    const char* dir, const char* prefix, char* temp_path, double size
+) {
+    GetTempFileName(dir, prefix, 0, temp_path)
+    boinc_allocate_file(temp_path, size);
+    return boinc_fopen(temp_path, "wb");
+}
+
+#else
+
+// Unix version: use mkstemp.  tempnam() prioritizes an env var
+// in deciding where to put temp file
+
+FILE* boinc_temp_file(const char* dir, const char* prefix, char* temp_path) {
+    sprintf(temp_path, "%s/%s_XXXXXX", dir, prefix);
+    int fd = mkstemp(temp_path);
+    if (fd < 0) {
+        return 0;
+    }
+    return fdopen(fd, "wb");
+}
+
 #endif
 
-// get total and free dpace on current filesystem (in bytes)
+void boinc_path_to_dir(const char* path, char* dir) {
+    strcpy(dir, path);
+    char* p = strrchr(dir, '/');
+    if (p) {
+        *p = 0;
+    } else {
+        strcpy(dir, ".");
+    }
+}
+
+// get total and free space on current filesystem (in bytes)
 //
 #ifdef _WIN32
 int get_filesystem_info(double &total_space, double &free_space, char*) {

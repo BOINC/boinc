@@ -29,7 +29,6 @@
 
 #ifdef _MSC_VER
 #define snprintf _snprintf
-#define tempnam _tempnam
 #endif
 
 #include "crypt.h"
@@ -62,7 +61,6 @@ int ASYNC_COPY::init(
     atp = _atp;
     fip = _fip;
     safe_strcpy(to_path, _to_path);
-    char to_dir[MAXPATHLEN];
 
     if (log_flags.async_file_debug) {
         msg_printf(atp->wup->project, MSG_INFO,
@@ -72,19 +70,18 @@ int ASYNC_COPY::init(
     in = boinc_fopen(from_path, "rb");
     if (!in) return ERR_FOPEN;
 
-    // Copy the file to a temp file in the target directory.
+    // Arrange to copy the file to a temp file in the target directory.
     // It will be renamed later.
+    // Use mkstemp() rather than tempnam() because the latter gives priority
+    // to env var for temp directory; don't want this.
     //
-    safe_strcpy(to_dir, to_path);
-    char* p = strrchr(to_dir, '/');
-    *(p+1) = 0;
-    char* q = tempnam(to_dir, "copy_");
-    safe_strcpy(temp_path, q);
-    free(q);
+    char dir[MAXPATHLEN];
+    boinc_path_to_dir(to_path, dir);
 #ifdef _WIN32
-    boinc_allocate_file(temp_path, fip->nbytes);
+    out = boinc_temp_file(dir, "cpy", temp_path, fip->nbytes);
+#else
+    out = boinc_temp_file(dir, "copy", temp_path);
 #endif
-    out = boinc_fopen(temp_path, "wb");
     if (!out) {
         fclose(in);
         return ERR_FOPEN;
@@ -192,23 +189,24 @@ int ASYNC_VERIFY::init(FILE_INFO* _fip) {
         );
     }
     if (fip->download_gzipped) {
-        char out_dir[MAXPATHLEN];
         safe_strcpy(outpath, inpath);
-        safe_strcpy(out_dir, outpath);
-        char* p = strrchr(out_dir, '/');
-        *(p+1) = 0;
-        char* q = tempnam(out_dir, "vrfy_");
-        safe_strcpy(temp_path, q);
-        free(q);
+        char dir[MAXPATHLEN];
+        boinc_path_to_dir(outpath, dir);
 #ifdef _WIN32
-        boinc_allocate_file(temp_path, fip->nbytes);
+        out = boinc_temp_file(dir, "vfy", temp_path, fip->nbytes);
+#else
+        out = boinc_temp_file(dir, "verify", temp_path);
 #endif
-        out = boinc_fopen(temp_path, "wb");
-        if (!out) return ERR_FOPEN;
+        if (!out) {
+            fclose(in);
+            return ERR_FOPEN;
+        }
+
         safe_strcat(inpath, ".gz");
         gzin = gzopen(inpath, "rb");
         if (gzin == Z_NULL) {
             fclose(out);
+            boinc_delete_file(temp_path);
             return ERR_FOPEN;
         }
     } else {
