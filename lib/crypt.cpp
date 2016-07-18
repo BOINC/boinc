@@ -464,14 +464,14 @@ void openssl_to_keys(
 ) {
     pub.bits = nbits;
 #ifdef HAVE_OPAQUE_RSA_DSA_DH
-    BIGNUM *n;
-    BIGNUM *e;
-    BIGNUM *d;
-    BIGNUM *p;
-    BIGNUM *q;
-    BIGNUM *dmp1;
-    BIGNUM *dmq1;
-    BIGNUM *iqmp;
+    const BIGNUM *n;
+    const BIGNUM *e;
+    const BIGNUM *d;
+    const BIGNUM *p;
+    const BIGNUM *q;
+    const BIGNUM *dmp1;
+    const BIGNUM *dmq1;
+    const BIGNUM *iqmp;
     RSA_get0_key(rp, &n, &e, &d);
     RSA_get0_factors(rp, &p, &q);
     RSA_get0_crt_params(rp, &dmp1, &dmq1, &iqmp);
@@ -544,18 +544,16 @@ void public_to_openssl(R_RSA_PUBLIC_KEY& pub, RSA* rp) {
 #ifdef HAVE_OPAQUE_RSA_DSA_DH
     BIGNUM *n;
     BIGNUM *e;
-    BIGNUM *d;
     n = BN_bin2bn(pub.modulus, sizeof(pub.modulus), 0);
     e = BN_bin2bn(pub.exponent, sizeof(pub.exponent), 0);
-    // d??? FIXME
-    RSA_set0_key(rp, n, e, d);
+    RSA_set0_key(rp, n, e, NULL);
 #else
     rp->n = BN_bin2bn(pub.modulus, sizeof(pub.modulus), 0);
     rp->e = BN_bin2bn(pub.exponent, sizeof(pub.exponent), 0);
 #endif
 }
 
-static int _bn2bin(BIGNUM *from, unsigned char *to, int max) {
+static int _bn2bin(const BIGNUM *from, unsigned char *to, int max) {
 	int i;
 	i=BN_num_bytes(from);
 	if (i > max) {
@@ -569,14 +567,14 @@ static int _bn2bin(BIGNUM *from, unsigned char *to, int max) {
 
 int openssl_to_private(RSA *from, R_RSA_PRIVATE_KEY *to) {
 #ifdef HAVE_OPAQUE_RSA_DSA_DH
-    BIGNUM *n;
-    BIGNUM *e;
-    BIGNUM *d;
-    BIGNUM *p;
-    BIGNUM *q;
-    BIGNUM *dmp1;
-    BIGNUM *dmq1;
-    BIGNUM *iqmp;
+    const BIGNUM *n;
+    const BIGNUM *e;
+    const BIGNUM *d;
+    const BIGNUM *p;
+    const BIGNUM *q;
+    const BIGNUM *dmp1;
+    const BIGNUM *dmq1;
+    const BIGNUM *iqmp;
 
     RSA_get0_key(from, &n, &e, &d);
     RSA_get0_factors(from, &p, &q);
