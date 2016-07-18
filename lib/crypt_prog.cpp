@@ -126,7 +126,7 @@ int main(int argc, char** argv) {
     FILE *f, *fpriv, *fpub;
     char cbuf[256];
 #ifdef HAVE_OPAQUE_RSA_DSA_DH
-    RSA *rsa_key;
+    RSA *rsa_key = RSA_new();
 #else
     RSA rsa_key;
 #endif
@@ -136,6 +136,7 @@ int main(int argc, char** argv) {
     char *certpath;
     bool b2o=false; // boinc key to openssl key ?
     bool kpriv=false; // private key ?
+    BIGNUM *e;
 
     if (argc == 1) {
         usage();
@@ -150,7 +151,16 @@ int main(int argc, char** argv) {
         n = atoi(argv[2]);
 
         srand(random_int());
-        RSA* rp = RSA_generate_key(n,  65537, 0, 0);
+        e = BN_new();
+        retval = BN_set_word(e, (unsigned long)65537);
+        if (retval != 1) {
+            die("BN_set_word");
+        }
+        RSA *rp = RSA_new();
+        retval = RSA_generate_key_ex(rp, n, e, NULL);
+        if (retval != 1) {
+            die("RSA_generate_key_ex");
+        }
         openssl_to_keys(rp, n, private_key, public_key);
         fpriv = fopen(argv[3], "w");
         if (!fpriv) die("fopen");
