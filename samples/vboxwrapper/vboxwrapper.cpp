@@ -30,6 +30,8 @@
 //                  for the particular host.
 // --register_only  Register the VM but don't run it.
 //                  Useful for debugging; see the wiki page
+// --memory_size_mb How much memory (in MB) to give the VM. Overrides the
+//                  value in vbox_job.xml if its present. 
 //
 // Handles:
 // - suspend/resume/quit/abort
@@ -44,6 +46,7 @@
 // Andrew J. Younge (ajy4490 AT umiacs DOT umd DOT edu)
 // Jie Wu <jiewu AT cern DOT ch>
 // Daniel Lombraña González <teleyinex AT gmail DOT com>
+// Marius Millea <mariusmillea AT gmail DOT com>
 
 #ifdef _WIN32
 #include "boinc_win.h"
