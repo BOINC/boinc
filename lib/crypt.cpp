@@ -554,15 +554,15 @@ void public_to_openssl(R_RSA_PUBLIC_KEY& pub, RSA* rp) {
 }
 
 static int _bn2bin(const BIGNUM *from, unsigned char *to, int max) {
-	int i;
-	i=BN_num_bytes(from);
-	if (i > max) {
-		return(0);
-	}
-	memset(to,0,(unsigned int)max);
-	if (!BN_bn2bin(from,&(to[max-i])))
-		return(0);
-	return(1);
+    int i;
+    i=BN_num_bytes(from);
+    if (i > max) {
+        return(0);
+    }
+    memset(to,0,(unsigned int)max);
+    if (!BN_bn2bin(from,&(to[max-i])))
+        return(0);
+    return(1);
 }
 
 int openssl_to_private(RSA *from, R_RSA_PRIVATE_KEY *to) {
@@ -598,23 +598,23 @@ int openssl_to_private(RSA *from, R_RSA_PRIVATE_KEY *to) {
     if (!_bn2bin(iqmp,to->coefficient,MAX_RSA_PRIME_LEN))
         return(0);
 #else
-	to->bits = BN_num_bits(from->n);
-	if (!_bn2bin(from->n,to->modulus,MAX_RSA_MODULUS_LEN)) 
-	    return(0);
-	if (!_bn2bin(from->e,to->publicExponent,MAX_RSA_MODULUS_LEN)) 
-	    return(0);
-	if (!_bn2bin(from->d,to->exponent,MAX_RSA_MODULUS_LEN)) 
-	    return(0);
-	if (!_bn2bin(from->p,to->prime[0],MAX_RSA_PRIME_LEN)) 
-	    return(0);
-	if (!_bn2bin(from->q,to->prime[1],MAX_RSA_PRIME_LEN)) 
-	    return(0);
-	if (!_bn2bin(from->dmp1,to->primeExponent[0],MAX_RSA_PRIME_LEN)) 
-	    return(0);
-	if (!_bn2bin(from->dmq1,to->primeExponent[1],MAX_RSA_PRIME_LEN)) 
-	    return(0);
-	if (!_bn2bin(from->iqmp,to->coefficient,MAX_RSA_PRIME_LEN)) 
-	    return(0);
+    to->bits = BN_num_bits(from->n);
+    if (!_bn2bin(from->n,to->modulus,MAX_RSA_MODULUS_LEN))
+        return(0);
+    if (!_bn2bin(from->e,to->publicExponent,MAX_RSA_MODULUS_LEN))
+        return(0);
+    if (!_bn2bin(from->d,to->exponent,MAX_RSA_MODULUS_LEN))
+        return(0);
+    if (!_bn2bin(from->p,to->prime[0],MAX_RSA_PRIME_LEN))
+        return(0);
+    if (!_bn2bin(from->q,to->prime[1],MAX_RSA_PRIME_LEN))
+        return(0);
+    if (!_bn2bin(from->dmp1,to->primeExponent[0],MAX_RSA_PRIME_LEN))
+        return(0);
+    if (!_bn2bin(from->dmq1,to->primeExponent[1],MAX_RSA_PRIME_LEN))
+        return(0);
+    if (!_bn2bin(from->iqmp,to->coefficient,MAX_RSA_PRIME_LEN))
+        return(0);
 #endif
     return 1;
 }
@@ -634,8 +634,8 @@ int check_validity_of_cert(
     bio = BIO_new(BIO_s_file());
     BIO_read_filename(bio, cFile);
     if (NULL == (cert = PEM_read_bio_X509(bio, NULL, 0, NULL))) {
-	    BIO_vfree(bio);
-	    return 0;
+        BIO_vfree(bio);
+        return 0;
     }
     // verify certificate
     store = X509_STORE_new();
@@ -668,32 +668,32 @@ int check_validity_of_cert(
 #endif
         BN_CTX *c = BN_CTX_new();
         if (!c) {
-	        X509_free(cert);
-	        EVP_PKEY_free(pubKey);
-	        BIO_vfree(bio);
-	        return 0;
-	    }
+            X509_free(cert);
+            EVP_PKEY_free(pubKey);
+            BIO_vfree(bio);
+            return 0;
+        }
 #ifdef HAVE_OPAQUE_RSA_DSA_DH
         RSA *rsa;
         rsa = EVP_PKEY_get0_RSA(pubKey);
         if (!RSA_blinding_on(rsa, c)) {
 #else
-	    if (!RSA_blinding_on(pubKey->pkey.rsa, c)) {
+        if (!RSA_blinding_on(pubKey->pkey.rsa, c)) {
 #endif
-	        X509_free(cert);
-	        EVP_PKEY_free(pubKey);
-	        BIO_vfree(bio);
-	        BN_CTX_free(c);
-	        return 0;
-	    }
+            X509_free(cert);
+            EVP_PKEY_free(pubKey);
+            BIO_vfree(bio);
+            BN_CTX_free(c);
+            return 0;
+        }
 #ifdef HAVE_OPAQUE_RSA_DSA_DH
         retval = RSA_verify(NID_md5, md5_md, MD5_DIGEST_LENGTH, sfileMsg, sfsize, rsa);
         RSA_blinding_off(rsa);
 #else
-	    retval = RSA_verify(NID_md5, md5_md, MD5_DIGEST_LENGTH, sfileMsg, sfsize, pubKey->pkey.rsa);
-	    RSA_blinding_off(pubKey->pkey.rsa);
+        retval = RSA_verify(NID_md5, md5_md, MD5_DIGEST_LENGTH, sfileMsg, sfsize, pubKey->pkey.rsa);
+        RSA_blinding_off(pubKey->pkey.rsa);
 #endif
-	    BN_CTX_free(c);
+        BN_CTX_free(c);
     }
 #ifdef HAVE_OPAQUE_EVP_PKEY
     if (EVP_PKEY_id(pubKey) == EVP_PKEY_DSA) {
@@ -730,7 +730,7 @@ char *check_validity(
     if (!of) return NULL;
     MD5_Init(&md5CTX);
     while (0 != (rbytes = (int)fread(rbuf, 1, sizeof(rbuf), of))) {
-	    MD5_Update(&md5CTX, rbuf, rbytes);
+        MD5_Update(&md5CTX, rbuf, rbytes);
     }
     MD5_Final(md5_md, &md5CTX);
     fclose(of);
@@ -740,12 +740,12 @@ char *check_validity(
     char file[MAXPATHLEN];
     while (!dir_scan(file, dir, sizeof(file))) {
         char fpath[MAXPATHLEN];
-	    snprintf(fpath, sizeof(fpath), "%s/%s", certPath, file);
+        snprintf(fpath, sizeof(fpath), "%s/%s", certPath, file);
         // TODO : replace '128'  
-	    if (check_validity_of_cert(fpath, md5_md, signature, 128, caPath)) {
-	        dir_close(dir);
-	        return strdup(fpath);
-	    }
+        if (check_validity_of_cert(fpath, md5_md, signature, 128, caPath)) {
+            dir_close(dir);
+            return strdup(fpath);
+        }
     }
 
     dir_close(dir);
@@ -778,7 +778,7 @@ int cert_verify_file(
     if (!of) return false;
     MD5_Init(&md5CTX);
     while (0 != (rbytes = (int)fread(rbuf, 1, sizeof(rbuf), of))) {
-	    MD5_Update(&md5CTX, rbuf, rbytes);
+        MD5_Update(&md5CTX, rbuf, rbytes);
     }
     MD5_Final(md5_md, &md5CTX);
     fclose(of);
@@ -805,10 +805,10 @@ int cert_verify_file(
             bio = BIO_new(BIO_s_file());
             BIO_read_filename(bio, fbuf);
             if (NULL == (cert = PEM_read_bio_X509(bio, NULL, 0, NULL))) {
-        	    BIO_vfree(bio);
+                BIO_vfree(bio);
                 printf("Cannot read certificate ('%s')\n", fbuf);
                 file_counter++;
-        	    continue;
+                continue;
             }
             fflush(stdout);
             subj = X509_get_subject_name(cert);
@@ -816,7 +816,7 @@ int cert_verify_file(
             // ???
             //X509_NAME_free(subj);
             X509_free(cert);
-    	    BIO_vfree(bio);
+            BIO_vfree(bio);
             if (strcmp(buf, signatures->signatures.at(i).subject)) {
                 printf("Subject does not match ('%s' <-> '%s')\n", buf, signatures->signatures.at(i).subject);
                 file_counter++;

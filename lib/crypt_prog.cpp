@@ -62,23 +62,23 @@ void die(const char* p) {
 
 void usage() {
     fprintf(stderr,
-        "Usage: crypt_prog options\n\n"
-        "Options:\n\n"
-        "-genkey n private_keyfile public_keyfile\n"
-        "    create an n-bit key pair\n"
-        "-sign file private_keyfile\n"
-        "    create a signature for a given file, write to stdout\n"
-        "-sign_string string private_keyfile\n"
-        "    create a signature for a given string\n"
-        "-verify file signature_file public_keyfile\n"
-        "    verify a signature\n"
-        "-test_crypt private_keyfile public_keyfile\n"
-        "    test encrypt/decrypt functions\n"
-        "-conkey o2b/b20 priv/pub input_file output_file\n"
-        "    convert keys between BOINC and OpenSSL format\n"
-        "-cert_verify file signature certificate_dir\n"
-        "    verify a signature using a directory of certificates\n"
-    );
+            "Usage: crypt_prog options\n\n"
+            "Options:\n\n"
+            "-genkey n private_keyfile public_keyfile\n"
+            "    create an n-bit key pair\n"
+            "-sign file private_keyfile\n"
+            "    create a signature for a given file, write to stdout\n"
+            "-sign_string string private_keyfile\n"
+            "    create a signature for a given string\n"
+            "-verify file signature_file public_keyfile\n"
+            "    verify a signature\n"
+            "-test_crypt private_keyfile public_keyfile\n"
+            "    test encrypt/decrypt functions\n"
+            "-conkey o2b/b20 priv/pub input_file output_file\n"
+            "    convert keys between BOINC and OpenSSL format\n"
+            "-cert_verify file signature certificate_dir\n"
+            "    verify a signature using a directory of certificates\n"
+           );
 }
 
 unsigned int random_int() {
@@ -93,7 +93,7 @@ unsigned int random_int() {
         die("Can't load ADVAPI32.DLL");
     }
     BOOLEAN (APIENTRY *pfn)(void*, ULONG) =
-    (BOOLEAN (APIENTRY *)(void*,ULONG))GetProcAddress(hLib,"SystemFunction036");
+        (BOOLEAN (APIENTRY *)(void*,ULONG))GetProcAddress(hLib,"SystemFunction036");
     if (pfn) {
         char buff[32];
         ULONG ulCbBuff = sizeof(buff);
@@ -131,7 +131,7 @@ int main(int argc, char** argv) {
     RSA rsa_key;
 #endif
     RSA *rsa_key_;
-	BIO *bio_out=NULL;
+    BIO *bio_out=NULL;
     BIO *bio_err=NULL;
     char *certpath;
     bool b2o=false; // boinc key to openssl key ?
@@ -214,8 +214,8 @@ int main(int argc, char** argv) {
         retval = md5_file(argv[2], md5_buf, size);
         if (retval) die("md5_file");
         retval = check_file_signature(
-            md5_buf, public_key, signature, is_valid
-        );
+                     md5_buf, public_key, signature, is_valid
+                 );
         if (retval) die("check_file_signature");
         if (is_valid) {
             printf("file is valid\n");
@@ -262,9 +262,9 @@ int main(int argc, char** argv) {
             printf("siganture verified using certificate '%s'.\n\n", certpath);
             free(certpath);
         }
-    // this converts, but an executable signed with sign_executable,
-    // and signature converted to OpenSSL format cannot be verified with
-    // OpenSSL
+        // this converts, but an executable signed with sign_executable,
+        // and signature converted to OpenSSL format cannot be verified with
+        // OpenSSL
     } else if (!strcmp(argv[1], "-convsig")) {
         if (argc < 5) {
             usage();
@@ -320,18 +320,18 @@ int main(int argc, char** argv) {
             die("either 'pub' or 'priv' must be defined for -convkey\n");
         }
         OpenSSL_add_all_algorithms();
-		ERR_load_crypto_strings();
-		ENGINE_load_builtin_engines();
-		if (bio_err == NULL) {
-		    bio_err = BIO_new_fp(stdout, BIO_NOCLOSE);
+        ERR_load_crypto_strings();
+        ENGINE_load_builtin_engines();
+        if (bio_err == NULL) {
+            bio_err = BIO_new_fp(stdout, BIO_NOCLOSE);
         }
         //enc=EVP_get_cipherbyname("des");
         //if (enc == NULL)
         //    die("could not get cypher.\n");
         // no encription yet.
         bio_out=BIO_new(BIO_s_file());
-		if (BIO_write_filename(bio_out,argv[5]) <= 0) {
-			perror(argv[5]);
+        if (BIO_write_filename(bio_out,argv[5]) <= 0) {
+            perror(argv[5]);
             die("could not create output file.\n");
         }
         if (b2o) {
@@ -351,11 +351,11 @@ int main(int argc, char** argv) {
 #endif
 
                 //i = PEM_write_bio_RSAPrivateKey(bio_out, &rsa_key,
-        		//				enc, NULL, 0, pass_cb, NULL);
-        		// no encryption yet.
-        		
+                //				enc, NULL, 0, pass_cb, NULL);
+                // no encryption yet.
+
                 //i = PEM_write_bio_RSAPrivateKey(bio_out, &rsa_key,
-        		//				NULL, NULL, 0, pass_cb, NULL);
+                //				NULL, NULL, 0, pass_cb, NULL);
                 fpriv = fopen(argv[5], "w+");
                 if (!fpriv) die("fopen");
 #ifdef HAVE_OPAQUE_RSA_DSA_DH
@@ -364,10 +364,10 @@ int main(int argc, char** argv) {
                 PEM_write_RSAPrivateKey(fpriv, &rsa_key, NULL, NULL, 0, 0, NULL);
 #endif
                 fclose(fpriv);
-    		    //if (i == 0) {
+                //if (i == 0) {
                 //    ERR_print_errors(bio_err);
                 //    die("could not write key file.\n");
-    		    //}
+                //}
             } else {
                 fpub = fopen(argv[4], "r");
                 if (!fpub) {
@@ -381,11 +381,11 @@ int main(int argc, char** argv) {
                     die("fopen");
                 }
                 public_to_openssl(public_key, rsa_key_);
-    		    i = PEM_write_RSA_PUBKEY(fpub, rsa_key_);
-    		    if (i == 0) {
+                i = PEM_write_RSA_PUBKEY(fpub, rsa_key_);
+                if (i == 0) {
                     ERR_print_errors(bio_err);
                     die("could not write key file.\n");
-    		    }
+                }
                 fclose(fpub);
             }
         } else {
