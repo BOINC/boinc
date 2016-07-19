@@ -4,7 +4,7 @@
 # Translators:
 # Christian Beer <christian.beer@posteo.de>, 2015-2016
 # Jakub Meisner <tangornsvk@gmail.com>, 2015
-# Jan Schladetzky <keiken@keiken.eu>, 2015
+# Jan Schladetzky <inactive+Keiken@transifex.com>, 2015
 # Jonas <jesus_007@posteo.de>, 2015
 # Velociraptor, 2015
 # Rom Walton, 2016
@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2015-12-15 12:43+0000\n"
-"PO-Revision-Date: 2016-05-31 11:15+0000\n"
+"PO-Revision-Date: 2016-07-19 13:38+0000\n"
 "Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: German (http://www.transifex.com/boinc/boinc/language/de/)\n"
 "MIME-Version: 1.0\n"
