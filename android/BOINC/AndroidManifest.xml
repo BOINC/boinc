@@ -102,19 +102,6 @@
             android:name="edu.berkeley.boinc.attach.BatchConflictListActivity"
             android:theme="@style/Theme.Styled.NoActionBar"
             android:screenOrientation="portrait" />
-        <activity
-            android:name="edu.berkeley.boinc.attach.IndividualAttachActivity"
-            android:theme="@style/Theme.Styled.NoActionBar"
-            android:screenOrientation="portrait" />
-        <activity android:name="edu.berkeley.boinc.attach.AttachProjectRegistrationActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.berkeley.boinc.AttachProjectListActivity" />
-        </activity>
-        <activity
-     		android:name="edu.berkeley.boinc.attach.AttachProjectWorkingActivity"
-            android:configChanges="orientation"
-            android:noHistory="true" />
         <activity android:name="edu.berkeley.boinc.EventLogActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
