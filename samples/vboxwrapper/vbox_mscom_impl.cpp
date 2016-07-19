@@ -407,10 +407,10 @@ int VBOX_VM::create_vm() {
     // Tweak the VM's Boot Options
     //
     vboxlog_msg("Setting Boot Options for VM.");
-    rc = pMachine->SetBootOrder(1, DeviceType_HardDisk);
+    rc = pMachine->SetBootOrder(boot_iso ? 2 : 1, DeviceType_HardDisk);
     if (CHECK_ERROR(rc)) goto CLEANUP;
     
-    rc = pMachine->SetBootOrder(2, DeviceType_DVD);
+    rc = pMachine->SetBootOrder(boot_iso ? 1 : 2, DeviceType_DVD);
     if (CHECK_ERROR(rc)) goto CLEANUP;
 
     pMachine->SetBootOrder(3, DeviceType_Null);

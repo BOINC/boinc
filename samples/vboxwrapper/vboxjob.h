@@ -79,6 +79,9 @@ public:
 
     // whether to add an extra cache disk for systems like uCernVM
     bool enable_cache_disk;
+    
+    // whether to put the iso as the first boot device 
+    bool boot_iso; 
 
     // whether to allow network access
     bool enable_network;
