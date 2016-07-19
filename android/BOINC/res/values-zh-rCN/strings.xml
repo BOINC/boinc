@@ -307,7 +307,7 @@
   <string name="suspend_os">已被Android系统暂停。</string>
   <string name="suspend_wifi">未连接至WiFi网络。</string>
   <string name="suspend_battery_charging">在恢复运算之前您的电池需要充电。</string>
-  <string name="suspend_battery_charging_long">充电时将会继续计算</string>
+  <string name="suspend_battery_charging_long">当电池电量超过以下水平时继续计算</string>
   <string name="suspend_battery_charging_long2"></string>
   <string name="suspend_battery_charging_current">当前</string>
   <string name="suspend_battery_overheating">等待电池冷却中</string>
