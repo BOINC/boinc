@@ -1,7 +1,7 @@
 /*******************************************************************************
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2016 University of California
  * 
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -18,8 +18,6 @@
  ******************************************************************************/
 package edu.berkeley.boinc.adapter;
 
-import java.util.ArrayList;
-import java.util.Date;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -30,11 +28,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.Message;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class ClientLogListAdapter extends ArrayAdapter<Message> {
-	
 	private ArrayList<Message> entries;
     private Activity activity;
+	/**
+	 * This member eliminates reallocation of a {@link Date} object in {@link #getDate(int)}.
+	 *
+	 * @see #getView(int,View,ViewGroup)
+	 */
+	private final Date date;
     
     public static class ViewEventLog {
     	int entryIndex;
@@ -47,6 +53,7 @@ public class ClientLogListAdapter extends ArrayAdapter<Message> {
         super(activity, textViewResourceId, entries);
         this.entries = entries;
         this.activity = activity;
+        this.date = new Date();
         
         listView.setAdapter(this);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -58,7 +65,8 @@ public class ClientLogListAdapter extends ArrayAdapter<Message> {
 	}
 
 	public String getDate(int position) {
-		return new Date(entries.get(position).timestamp*1000).toString();
+		this.date.setTime(this.entries.get(position).timestamp * 1000);
+		return DateFormat.getDateTimeInstance().format(this.date);
 	}
 
 	@Override
