@@ -202,6 +202,7 @@ function submit_jobs(
         $x .= "\n";
     }
 
+    $errfile = project_dir() . "/create_work_" . getmypid() . ".err";
     $cmd = "cd " . project_dir() . "; ./bin/create_work --appname $app->name --batch $batch_id --rsc_fpops_est $job->rsc_fpops_est --priority $priority";
     if ($result_template_file) {
         $cmd .= " --result_template templates/$result_template_file";
@@ -209,7 +210,7 @@ function submit_jobs(
     if ($workunit_template_file) {
         $cmd .= " --wu_template templates/$workunit_template_file";
     }
-    $cmd .= " --stdin";
+    $cmd .= " --stdin >$errfile 2>&1";
     $h = popen($cmd, "w");
     if ($h === false) {
         xml_error(-1, "BOINC server: can't run create_work");
@@ -217,8 +218,11 @@ function submit_jobs(
     fwrite($h, $x);
     $ret = pclose($h);
     if ($ret) {
-        xml_error(-1, "BOINC server: create_work failed");
+        $err = file_get_contents($errfile);
+        unlink($errfile);
+        xml_error(-1, "BOINC server: create_work failed: $err");
     }
+    unlink($errfile);
 }
 
 function xml_get_jobs($r) {
