@@ -79,9 +79,9 @@ function est_elapsed_time($r, $template) {
 
 function read_input_template($app, $r) {
     if ((isset($r->batch)) && (isset($r->batch->workunit_template_file)) && ($r->batch->workunit_template_file)) {
-        $path = "../../templates/".$r->batch->workunit_template_file;
+        $path = project_dir() . "/templates/".$r->batch->workunit_template_file;
     } else {
-        $path = "../../templates/$app->name"."_in";
+        $path = project_dir() . "/templates/$app->name"."_in";
     }
     return simplexml_load_file($path);
 }
@@ -202,7 +202,7 @@ function submit_jobs(
         $x .= "\n";
     }
 
-    $cmd = "cd ../..; ./bin/create_work --appname $app->name --batch $batch_id --rsc_fpops_est $job->rsc_fpops_est --priority $priority";
+    $cmd = "cd " . project_dir() . "; ./bin/create_work --appname $app->name --batch $batch_id --rsc_fpops_est $job->rsc_fpops_est --priority $priority";
     if ($result_template_file) {
         $cmd .= " --result_template templates/$result_template_file";
     }
@@ -289,7 +289,7 @@ function submit_batch($r) {
             }
         }
     }
-    $cmd = "cd ../../bin; ./adjust_user_priority --user $user->id --flops $total_flops --app $app->name";
+    $cmd = "cd " . project_dir() . "/bin; ./adjust_user_priority --user $user->id --flops $total_flops --app $app->name";
     $x = exec($cmd);
     if (!is_numeric($x) || (double)$x == 0) {
         xml_error(-1, "BOINC server: $cmd returned $x");
@@ -395,7 +395,7 @@ function query_batches($r) {
 }
 
 function n_outfiles($wu) {
-    $path = "../../$wu->result_template_file";
+    $path = project_dir() . "/$wu->result_template_file";
     $r = simplexml_load_file($path);
     return count($r->file_info);
 }
@@ -646,8 +646,8 @@ function get_templates($r) {
     }
 
     list($user, $user_submit) = authenticate_user($r, $app);
-    $in = file_get_contents("../../templates/".$app->name."_in");
-    $out = file_get_contents("../../templates/".$app->name."_out");
+    $in = file_get_contents(project_dir() . "/templates/".$app->name."_in");
+    $out = file_get_contents(project_dir() . "/templates/".$app->name."_out");
     if ($in === false || $out === false) {
         xml_error(-1, "template file missing");
     }
