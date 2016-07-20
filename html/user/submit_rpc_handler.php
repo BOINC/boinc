@@ -37,7 +37,7 @@ function get_wu($name) {
     return $wu;
 }
 
-function get_app($name) {
+function get_submit_app($name) {
     $name = BoincDb::escape_string($name);
     $app = BoincApp::lookup("name='$name'");
     if (!$app) xml_error(-1, "BOINC server: no app named $name was found");
@@ -98,7 +98,7 @@ function check_max_jobs_in_progress($r, $user_submit) {
 }
 
 function estimate_batch($r) {
-    $app = get_app((string)($r->batch->app_name));
+    $app = get_submit_app((string)($r->batch->app_name));
     list($user, $user_submit) = authenticate_user($r, $app);
 
     $template = read_input_template($app, $r);
@@ -250,7 +250,7 @@ function xml_get_jobs($r) {
 }
 
 function submit_batch($r) {
-    $app = get_app((string)($r->batch->app_name));
+    $app = get_submit_app((string)($r->batch->app_name));
     list($user, $user_submit) = authenticate_user($r, $app);
     $template = read_input_template($app, $r);
     $jobs = xml_get_jobs($r);
@@ -339,7 +339,7 @@ function submit_batch($r) {
 }
 
 function create_batch($r) {
-    $app = get_app((string)($r->batch->app_name));
+    $app = get_submit_app((string)($r->batch->app_name));
     list($user, $user_submit) = authenticate_user($r, $app);
     $now = time();
     $batch_name = (string)($r->batch->batch_name);
@@ -638,7 +638,7 @@ function handle_set_expire_time($r) {
 function get_templates($r) {
     $app_name = (string)($r->app_name);
     if ($app_name) {
-        $app = get_app($app_name);
+        $app = get_submit_app($app_name);
     } else {
         $job_name = (string)($r->job_name);
         $wu = get_wu($job_name);
