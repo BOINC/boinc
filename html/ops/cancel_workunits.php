@@ -98,6 +98,7 @@ if ($qclause == "") {
     echo "<p>\n";
     echo '<input type="submit" value="Cancel jobs">';
     echo "</p>\n";
+    echo "</form>\n";
 
 } else { // if ($qclause)
 
