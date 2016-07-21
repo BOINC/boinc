@@ -37,7 +37,7 @@ function get_wu($name) {
     return $wu;
 }
 
-function get_app($name) {
+function get_submit_app($name) {
     $name = BoincDb::escape_string($name);
     $app = BoincApp::lookup("name='$name'");
     if (!$app) xml_error(-1, "BOINC server: no app named $name was found");
@@ -79,9 +79,9 @@ function est_elapsed_time($r, $template) {
 
 function read_input_template($app, $r) {
     if ((isset($r->batch)) && (isset($r->batch->workunit_template_file)) && ($r->batch->workunit_template_file)) {
-        $path = "../../templates/".$r->batch->workunit_template_file;
+        $path = project_dir() . "/templates/".$r->batch->workunit_template_file;
     } else {
-        $path = "../../templates/$app->name"."_in";
+        $path = project_dir() . "/templates/$app->name"."_in";
     }
     return simplexml_load_file($path);
 }
@@ -98,7 +98,7 @@ function check_max_jobs_in_progress($r, $user_submit) {
 }
 
 function estimate_batch($r) {
-    $app = get_app((string)($r->batch->app_name));
+    $app = get_submit_app((string)($r->batch->app_name));
     list($user, $user_submit) = authenticate_user($r, $app);
 
     $template = read_input_template($app, $r);
@@ -202,14 +202,15 @@ function submit_jobs(
         $x .= "\n";
     }
 
-    $cmd = "cd ../..; ./bin/create_work --appname $app->name --batch $batch_id --rsc_fpops_est $job->rsc_fpops_est --priority $priority";
+    $errfile = project_dir() . "/create_work_" . getmypid() . ".err";
+    $cmd = "cd " . project_dir() . "; ./bin/create_work --appname $app->name --batch $batch_id --rsc_fpops_est $job->rsc_fpops_est --priority $priority";
     if ($result_template_file) {
         $cmd .= " --result_template templates/$result_template_file";
     }
     if ($workunit_template_file) {
         $cmd .= " --wu_template templates/$workunit_template_file";
     }
-    $cmd .= " --stdin";
+    $cmd .= " --stdin >$errfile 2>&1";
     $h = popen($cmd, "w");
     if ($h === false) {
         xml_error(-1, "BOINC server: can't run create_work");
@@ -217,8 +218,11 @@ function submit_jobs(
     fwrite($h, $x);
     $ret = pclose($h);
     if ($ret) {
-        xml_error(-1, "BOINC server: create_work failed");
+        $err = file_get_contents($errfile);
+        unlink($errfile);
+        xml_error(-1, "BOINC server: create_work failed: $err");
     }
+    unlink($errfile);
 }
 
 function xml_get_jobs($r) {
@@ -250,7 +254,7 @@ function xml_get_jobs($r) {
 }
 
 function submit_batch($r) {
-    $app = get_app((string)($r->batch->app_name));
+    $app = get_submit_app((string)($r->batch->app_name));
     list($user, $user_submit) = authenticate_user($r, $app);
     $template = read_input_template($app, $r);
     $jobs = xml_get_jobs($r);
@@ -289,7 +293,7 @@ function submit_batch($r) {
             }
         }
     }
-    $cmd = "cd ../../bin; ./adjust_user_priority --user $user->id --flops $total_flops --app $app->name";
+    $cmd = "cd " . project_dir() . "/bin; ./adjust_user_priority --user $user->id --flops $total_flops --app $app->name";
     $x = exec($cmd);
     if (!is_numeric($x) || (double)$x == 0) {
         xml_error(-1, "BOINC server: $cmd returned $x");
@@ -339,7 +343,7 @@ function submit_batch($r) {
 }
 
 function create_batch($r) {
-    $app = get_app((string)($r->batch->app_name));
+    $app = get_submit_app((string)($r->batch->app_name));
     list($user, $user_submit) = authenticate_user($r, $app);
     $now = time();
     $batch_name = (string)($r->batch->batch_name);
@@ -395,7 +399,7 @@ function query_batches($r) {
 }
 
 function n_outfiles($wu) {
-    $path = "../../$wu->result_template_file";
+    $path = project_dir() . "/$wu->result_template_file";
     $r = simplexml_load_file($path);
     return count($r->file_info);
 }
@@ -638,7 +642,7 @@ function handle_set_expire_time($r) {
 function get_templates($r) {
     $app_name = (string)($r->app_name);
     if ($app_name) {
-        $app = get_app($app_name);
+        $app = get_submit_app($app_name);
     } else {
         $job_name = (string)($r->job_name);
         $wu = get_wu($job_name);
@@ -646,8 +650,8 @@ function get_templates($r) {
     }
 
     list($user, $user_submit) = authenticate_user($r, $app);
-    $in = file_get_contents("../../templates/".$app->name."_in");
-    $out = file_get_contents("../../templates/".$app->name."_out");
+    $in = file_get_contents(project_dir() . "/templates/".$app->name."_in");
+    $out = file_get_contents(project_dir() . "/templates/".$app->name."_out");
     if ($in === false || $out === false) {
         xml_error(-1, "template file missing");
     }
