@@ -193,9 +193,6 @@
   <string name="prefs_client_log_flags_header">BOINC kliens naplózási címkék</string>
   <string name="prefs_gui_log_level_header">GUI naplózási szint</string>
   <string name="prefs_gui_log_level_description">Mennyire legyenek bőbeszédűek a GUI naplóüzenetek.</string>
-  <string name="prefs_unit_mb">MB</string>
-  <string name="prefs_unit_gb">GB</string>
-  <string name="prefs_unit_pct">%</string>
   <string name="prefs_unit_celcius">°C</string>
   <string name="prefs_unit_seconds">s</string>
   <!--projects tab strings-->

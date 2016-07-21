@@ -193,9 +193,6 @@
   <string name="prefs_client_log_flags_header">Marques de registre del client de BOINC</string>
   <string name="prefs_gui_log_level_header">Nivell de registre GUI</string>
   <string name="prefs_gui_log_level_description">Especifica el nivell de detall dels missatges de registre GUI.</string>
-  <string name="prefs_unit_mb">MB</string>
-  <string name="prefs_unit_gb">GB</string>
-  <string name="prefs_unit_pct">%</string>
   <string name="prefs_unit_celcius">°C</string>
   <string name="prefs_unit_seconds">segon</string>
   <!--projects tab strings-->

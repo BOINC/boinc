@@ -39,6 +39,7 @@ import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.utils.BOINCDefs;
 import edu.berkeley.boinc.utils.Logging;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -57,6 +58,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 	 * @see #getView(int,View,ViewGroup)
 	 */
 	private final StringBuilder elapsedTimeStringBuilder;
+	private final NumberFormat percentNumberFormat;
 
 	public TasksListAdapter(Activity a, int textViewResourceId, ArrayList<TaskData> entries) {
 		super(a, textViewResourceId, entries);
@@ -64,6 +66,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 		this.activity = a;
 		this.deadlineDate = new Date();
 		this.elapsedTimeStringBuilder = new StringBuilder();
+		(this.percentNumberFormat = NumberFormat.getPercentInstance()).setMinimumFractionDigits(1);
 	}
 
 	@Override
@@ -135,7 +138,7 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 			statusPercentage.setVisibility(View.GONE);
 		else {
 			statusPercentage.setVisibility(View.VISIBLE);
-			statusPercentage.setText(String.format("%.1f", listItem.result.fraction_done * 100) + "%");
+			statusPercentage.setText(this.percentNumberFormat.format(listItem.result.fraction_done));
 		}
 		// --- end of independent view elements
 		

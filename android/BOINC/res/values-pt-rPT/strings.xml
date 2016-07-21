@@ -193,9 +193,6 @@
   <string name="prefs_client_log_flags_header">Log das Bandeiras do cliente BOINC</string>
   <string name="prefs_gui_log_level_header">Nível de log da GUI</string>
   <string name="prefs_gui_log_level_description">Especifica a verbosidade das mensagens de log da GUI.</string>
-  <string name="prefs_unit_mb">MB</string>
-  <string name="prefs_unit_gb">GB</string>
-  <string name="prefs_unit_pct">%</string>
   <string name="prefs_unit_celcius">°C</string>
   <string name="prefs_unit_seconds">seg</string>
   <!--projects tab strings-->

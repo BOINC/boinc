@@ -193,9 +193,6 @@
   <string name="prefs_client_log_flags_header">BOINCクライアントログのフラグ</string>
   <string name="prefs_gui_log_level_header">GUIログのレベル</string>
   <string name="prefs_gui_log_level_description">GUIログメッセージの詳細度を指定します。</string>
-  <string name="prefs_unit_mb">MB</string>
-  <string name="prefs_unit_gb">GB</string>
-  <string name="prefs_unit_pct">%</string>
   <string name="prefs_unit_celcius">℃</string>
   <string name="prefs_unit_seconds">秒</string>
   <!--projects tab strings-->

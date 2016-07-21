@@ -193,9 +193,6 @@
   <string name="prefs_client_log_flags_header">BOINC Client log tekens</string>
   <string name="prefs_gui_log_level_header">GUI log level</string>
   <string name="prefs_gui_log_level_description">Specificeert uitgebreidheid van GUI log berichten.</string>
-  <string name="prefs_unit_mb">MB</string>
-  <string name="prefs_unit_gb">GB</string>
-  <string name="prefs_unit_pct">%</string>
   <string name="prefs_unit_celcius">°C</string>
   <string name="prefs_unit_seconds">seconden</string>
   <!--projects tab strings-->

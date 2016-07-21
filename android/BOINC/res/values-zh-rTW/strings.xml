@@ -193,9 +193,6 @@
   <string name="prefs_client_log_flags_header">BOINC客戶端紀錄檔標籤</string>
   <string name="prefs_gui_log_level_header">GUI日誌等級</string>
   <string name="prefs_gui_log_level_description">指定GUI紀錄的詳細程度。</string>
-  <string name="prefs_unit_mb">MB</string>
-  <string name="prefs_unit_gb">GB</string>
-  <string name="prefs_unit_pct">%</string>
   <string name="prefs_unit_celcius">°C</string>
   <string name="prefs_unit_seconds">秒</string>
   <!--projects tab strings-->

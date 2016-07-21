@@ -122,9 +122,6 @@
   <string name="prefs_client_log_flags_header">Регистър от флагове на BOINC Клиента</string>
   <string name="prefs_gui_log_level_header">Ниво на регистъра на GUI</string>
   <string name="prefs_gui_log_level_description">Дефинира многословието на регистъра за съобщения от GUI.</string>
-  <string name="prefs_unit_mb">MB</string>
-  <string name="prefs_unit_gb">GB</string>
-  <string name="prefs_unit_pct">%</string>
   <string name="prefs_unit_celcius">°C</string>
   <string name="projects_loading">Прочитане на проекти…</string>
   <string name="projects_add">Добавете проект</string>

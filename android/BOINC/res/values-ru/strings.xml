@@ -193,9 +193,6 @@
   <string name="prefs_client_log_flags_header">Флаги журнала клиента BOINC</string>
   <string name="prefs_gui_log_level_header">Уровень журнала GUI</string>
   <string name="prefs_gui_log_level_description">Задает уровень детализации сообщений журнала GUI.</string>
-  <string name="prefs_unit_mb">МБ</string>
-  <string name="prefs_unit_gb">ГБ</string>
-  <string name="prefs_unit_pct">%</string>
   <string name="prefs_unit_celcius">°C</string>
   <string name="prefs_unit_seconds">сек</string>
   <!--projects tab strings-->

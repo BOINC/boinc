@@ -193,9 +193,6 @@
   <string name="prefs_client_log_flags_header">Značky záznamov BOINC klienta</string>
   <string name="prefs_gui_log_level_header">Úroveň záznamu GUI</string>
   <string name="prefs_gui_log_level_description">Špecifikuje stručnosť GUI záznamov</string>
-  <string name="prefs_unit_mb">MB</string>
-  <string name="prefs_unit_gb">GB</string>
-  <string name="prefs_unit_pct">%</string>
   <string name="prefs_unit_celcius">°C</string>
   <string name="prefs_unit_seconds">sekúnd</string>
   <!--projects tab strings-->

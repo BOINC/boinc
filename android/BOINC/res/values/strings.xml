@@ -2,7 +2,7 @@
 <!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2012 University of California
+  Copyright (C) 2016 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -216,9 +216,6 @@
     <string name="prefs_client_log_flags_header">BOINC Client log flags</string>
     <string name="prefs_gui_log_level_header">GUI log level</string>
     <string name="prefs_gui_log_level_description">Specifies verbosity of GUI log messages.</string>
-    <string name="prefs_unit_mb">MB</string>
-    <string name="prefs_unit_gb">GB</string>
-    <string name="prefs_unit_pct">%</string>
     <string name="prefs_unit_celcius">&#0176;C</string>
     <string name="prefs_unit_seconds">sec</string>
 
