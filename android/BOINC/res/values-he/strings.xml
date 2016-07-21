@@ -96,7 +96,7 @@
   <string name="prefs_cpu_time_max_description">Rajoittaa prosessoriaikaa, jota BOINC käyttää laskentaan.</string>
   <string name="prefs_memory_max_idle_header">RAM raja</string>
   <string name="prefs_memory_max_idle_description">Rajoittaa RAM-muistin määrää, joka tehtäville annetaan.</string>
-  <string name="prefs_unit_celcius">°C</string>
+  <string name="prefs_unit_celsius">°C</string>
   <string name="projects_loading">Luetaan projekteja…</string>
   <string name="projects_icon">Projektin kuvake</string>
   <string name="projects_credits_header">Pisteet:</string>

@@ -193,7 +193,7 @@
   <string name="prefs_client_log_flags_header">BOINC Client log flags</string>
   <string name="prefs_gui_log_level_header">GUI log level</string>
   <string name="prefs_gui_log_level_description">Specifies verbosity of GUI log messages.</string>
-  <string name="prefs_unit_celcius">°C</string>
+  <string name="prefs_unit_celsius">°C</string>
   <string name="prefs_unit_seconds">sec</string>
   <!--projects tab strings-->
   <string name="projects_loading">Reading projects…</string>

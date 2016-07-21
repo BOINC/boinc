@@ -98,7 +98,7 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
 	    					value = NumberFormat.getIntegerInstance().format(item.status) + this.activity.getString(R.string.prefs_unit_seconds);
 	    					break;
 	    				case CELSIUS:
-	    					value = NumberFormat.getInstance().format(item.status) + this.activity.getString(R.string.prefs_unit_celcius);
+	    					value = NumberFormat.getInstance().format(item.status) + this.activity.getString(R.string.prefs_unit_celsius);
 	    					break;
 	    				case MEGABYTES:
 	    					value = Formatter.formatShortFileSize(this.activity, item.status.longValue() * 0x100000);

@@ -193,7 +193,7 @@
   <string name="prefs_client_log_flags_header">Praporky zápisu BOINC klienta</string>
   <string name="prefs_gui_log_level_header">Úroveň protokolu GUI</string>
   <string name="prefs_gui_log_level_description">Určuje podrobnost ve výpisu zpráv GUI.</string>
-  <string name="prefs_unit_celcius">°C</string>
+  <string name="prefs_unit_celsius">°C</string>
   <string name="prefs_unit_seconds">sek.</string>
   <!--projects tab strings-->
   <string name="projects_loading">Čtení projektů...</string>

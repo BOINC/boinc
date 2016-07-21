@@ -193,7 +193,7 @@
   <string name="prefs_client_log_flags_header">BOINC客户端日志记录</string>
   <string name="prefs_gui_log_level_header">GUI （用户界面）日志详细程度</string>
   <string name="prefs_gui_log_level_description">指定GUI日志信息的详细程度。</string>
-  <string name="prefs_unit_celcius">°C</string>
+  <string name="prefs_unit_celsius">°C</string>
   <string name="prefs_unit_seconds">秒</string>
   <!--projects tab strings-->
   <string name="projects_loading">正在读取项目...</string>

@@ -1,7 +1,7 @@
 /*******************************************************************************
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2016 University of California
  * 
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -632,7 +632,7 @@ public class RpcClient {
 		mRequest.append("</battery_charge_pct>\n  <battery_state>");
 		mRequest.append(deviceStatus.battery_state);
 		mRequest.append("</battery_state>\n  <battery_temperature_celsius>");
-		mRequest.append(deviceStatus.battery_temperature_celcius);
+		mRequest.append(deviceStatus.battery_temperature_celsius);
 		mRequest.append("</battery_temperature_celsius>\n  <wifi_online>");
 		mRequest.append(deviceStatus.wifi_online ? 1 : 0);
 		mRequest.append("</wifi_online>\n  <user_active>");

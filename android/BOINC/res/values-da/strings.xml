@@ -193,7 +193,7 @@
   <string name="prefs_client_log_flags_header">Log-flag for BOINC-klient</string>
   <string name="prefs_gui_log_level_header">GUI-logniveau</string>
   <string name="prefs_gui_log_level_description">Specificerer uddybningsniveau for GUI-logbeskeder.</string>
-  <string name="prefs_unit_celcius">°C</string>
+  <string name="prefs_unit_celsius">°C</string>
   <string name="prefs_unit_seconds">sek.</string>
   <!--projects tab strings-->
   <string name="projects_loading">Indlæser projekter …</string>
