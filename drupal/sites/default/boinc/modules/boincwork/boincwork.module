@@ -132,6 +132,18 @@ function boincwork_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK
   );
+  $items['job_file.php'] = array(
+    'title' => 'Job file input',
+    'page callback' => 'boincwork_job_file',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK
+  );
+  $items['get_output.php'] = array(
+    'title' => 'Get output file',
+    'page callback' => 'boincwork_get_output',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK
+  );
   $items['get_project_config.php'] = array(
     'title' => 'Project config',
     'page callback' => 'boincwork_get_project_config',
@@ -1041,6 +1053,22 @@ function boincwork_mobile_stats($userid = null) {
  */
 function boincwork_server_status() {
   include_boinc('user/server_status.php');
+}
+
+/**
+ * Page callback for the job input file RPC (job_file.php).
+ * RPC for managing job input files
+ */
+function boincwork_job_file() {
+  include_boinc('user/job_file.php');
+}
+
+/**
+ * Page callback for the output file request RPC (get_output.php).
+ * Get output file from remote job submission
+ */
+function boincwork_get_output() {
+  include_boinc('user/get_output.php');
 }
 
 /**
