@@ -138,6 +138,18 @@ function boincwork_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK
   );
+  $items['submit_rpc_handler.php'] = array(
+    'title' => 'Remote job submission',
+    'page callback' => 'boincwork_submit_rpc_handler',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK
+  );
+  $items['userw.php'] = array(
+    'title' => 'User WAP',
+    'page callback' => 'boincwork_user_wap',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK
+  );
   return $items;
 }
 
@@ -1037,6 +1049,20 @@ function boincwork_server_status() {
  */
 function boincwork_get_project_config() {
   include_boinc('user/get_project_config.php');
+}
+
+/**
+ * Page callback for the remote job submission RPC (submit_rpc_handler.php).
+ */
+function boincwork_submit_rpc_handler() {
+  include_boinc('user/submit_rpc_handler.php');
+}
+
+/**
+ * Page callback for user WAP (userw.php).
+ */
+function boincwork_user_wap() {
+  include_boinc('user/userw.php');
 }
 
 
