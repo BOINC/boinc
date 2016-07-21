@@ -1062,6 +1062,8 @@ function boincwork_submit_rpc_handler() {
  * Page callback for user WAP (userw.php).
  */
 function boincwork_user_wap() {
+  // Remove q from the GET request or BOINC will panic
+  unset($_GET['q']);
   include_boinc('user/userw.php');
 }
 
