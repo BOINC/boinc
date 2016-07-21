@@ -94,7 +94,7 @@ function query_files($r) {
     $md5s = array_unique($md5s);
     foreach($md5s as $md5) {
         $fname = job_file_name($md5);
-        $path = dir_hier_path($fname, "../../download", $fanout);
+        $path = dir_hier_path($fname, project_dir() . "/download", $fanout);
 
         // if the job_file record is there,
         // update the delete time first to avoid race condition
@@ -159,7 +159,7 @@ function upload_files($r) {
             xml_error(-1, "$tmp_name is not an uploaded file");
         }
         $fname = job_file_name($md5);
-        $path = dir_hier_path($fname, "../../download", $fanout);
+        $path = dir_hier_path($fname, project_dir() . "/download", $fanout);
         rename($tmp_name, $path);
         $now = time();
         $jf_id = BoincJobFile::insert(
