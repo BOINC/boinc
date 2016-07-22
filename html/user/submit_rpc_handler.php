@@ -132,28 +132,28 @@ function stage_file($file) {
         // read the file (from disk or network) to get MD5.
         // Copy to download hier, using a physical name based on MD5
         //
-        $md5 = md5_file($file->source);
+        $md5 = @md5_file($file->source);
         if (!$md5) {
             xml_error(-1, "BOINC server: Can't get MD5 of file $file->source");
         }
         $name = "jf_$md5";
         $path = dir_hier_path($name, $download_dir, $fanout);
         if (file_exists($path)) return $name;
-        if (!copy($file->source, $path)) {
+        if (!@copy($file->source, $path)) {
             xml_error(-1, "BOINC server: can't copy file from $file->source to $path");
         }
         return $name;
     case "local_staged":
         return $file->source;
     case "inline":
-        $md5 = md5($file->source);
+        $md5 = @md5($file->source);
         if (!$md5) {
             xml_error(-1, "BOINC server: Can't get MD5 of inline data");
         }
         $name = "jf_$md5";
         $path = dir_hier_path($name, $download_dir, $fanout);
         if (file_exists($path)) return $name;
-        if (!file_put_contents($path, $file->source)) {
+        if (!@file_put_contents($path, $file->source)) {
             xml_error(-1, "BOINC server: can't write to file $path");
         }
         return $name;

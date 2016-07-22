@@ -192,7 +192,7 @@ if (0) {
 xml_header();
 $r = simplexml_load_string($_POST['request']);
 if (!$r) {
-    xml_error(-1, "can't parse request message");
+    xml_error(-1, "can't parse request message", __FILE__, __LINE__);
 }
 
 switch($r->getName()) {
