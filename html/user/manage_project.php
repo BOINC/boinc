@@ -117,8 +117,6 @@ function handle_edit_form() {
     }
     $q = (string) $usub->quota;
     $mj = $usub->max_jobs_in_progress;
-    $sav = $usub->create_app_versions?"checked":"";
-    $sa = $usub->create_apps?"checked":"";
     echo "
         <p>
         Quota: <input name=quota value=$q>

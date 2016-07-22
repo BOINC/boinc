@@ -29,8 +29,19 @@ function db_init_xml() {
     return 0;
 }
 
+function handler($errno, $errstr, $errfile, $errline) {
+    echo "<error>
+    <error_msg>$errstr</error_msg>
+    <file>$errfile</file>
+    <line>$errline</line>
+</error>
+";
+}
+
+
 function xml_header() {
     global $generating_xml;
+    set_error_handler('handler', E_ALL);
     header('Content-type: text/xml');
     echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n";
     $generating_xml = true;
