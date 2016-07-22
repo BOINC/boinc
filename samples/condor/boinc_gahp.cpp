@@ -236,6 +236,7 @@ int COMMAND::parse_submit(char* p) {
         int ninfiles = atoi(strtok_r(NULL, " ", &p));
         for (int j=0; j<ninfiles; j++) {
             INFILE infile;
+            infile.mode = FILE_MODE_LOCAL_STAGED;
             strlcpy(infile.src_path, strtok_r(NULL, " ", &p), sizeof(infile.src_path));
             strlcpy(infile.logical_name, strtok_r(NULL, " ", &p), sizeof(infile.logical_name));
             job.infiles.push_back(infile);

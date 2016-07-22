@@ -355,13 +355,33 @@ int submit_jobs(
         }
         for (unsigned int j=0; j<job.infiles.size(); j++) {
             INFILE infile = job.infiles[j];
-            sprintf(buf,
-                "<input_file>\n"
-                "<mode>local_staged</mode>\n"
-                "<source>%s</source>\n"
-                "</input_file>\n",
-                infile.physical_name
-            );
+            switch (infile.mode) {
+            case FILE_MODE_LOCAL_STAGED:
+                sprintf(buf,
+                    "<input_file>\n"
+                    "<mode>local_staged</mode>\n"
+                    "<source>%s</source>\n"
+                    "</input_file>\n",
+                    infile.physical_name
+                );
+                break;
+            case FILE_MODE_REMOTE:
+                sprintf(buf,
+                    "<input_file>\n"
+                    "<mode>remote</mode>\n"
+                    "<url>%s</url>\n"
+                    "<nbytes>%f</nbytes>\n"
+                    "<md5>%s</md5>\n"
+                    "</input_file>\n",
+                    infile.url,
+                    infile.nbytes,
+                    infile.md5
+                );
+                break;
+            default:
+                fprintf(stderr, "unsupported file mode %d\n", infile.mode);
+                exit(1);
+            }
             request += buf;
         }
         request += "</job>\n";

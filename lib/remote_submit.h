@@ -32,12 +32,33 @@ using std::string;
 using std::vector;
 using std::map;
 
+// Input file modes.
+// Only LOCAL_STAGED and REMOTE are implemented now.
+//
+#define FILE_MODE_LOCAL         1
+#define FILE_MODE_LOCAL_STAGED  2
+#define FILE_MODE_SEMILOCAL     3
+#define FILE_MODE_INLINE        4
+#define FILE_MODE_REMOTE        5
+
 struct INFILE {
-    char physical_name[256];    // BOINC physical name
-    char src_path[256];         // path on submit machine
+    int mode;                   // see above
+
     char logical_name[256];
         // filename on execution machine.
-        // not used; could be used to check consistency w/ input template
+        // Supplied by Condor, but not currently used.
+        // could be used to check consistency w/ input template
+    char src_path[256];
+        // path on submit machine
+        // used by Condor GAHP; not part of the API
+
+    // the following used for LOCAL_STAGED
+    char physical_name[256];    // BOINC physical name
+
+    // the following used for REMOTE
+    char url[256];
+    double nbytes;
+    char md5[256];
 };
 
 struct JOB {
