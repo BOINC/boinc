@@ -199,9 +199,8 @@
   <string name="projects_loading">Se citesc proiectele…</string>
   <string name="projects_add">Adaugă proiect</string>
   <string name="projects_icon">Icoană proiect</string>
-  <string name="projects_credits_header">Credit:</string>
-  <string name="projects_credits_host_header">(pe acest dispozitiv)</string>
-  <string name="projects_credits_user_header">(total)</string>
+  <string name="projects_credits">Credit:</string>
+  <string name="projects_credits_host_and_user">%1$,d (pe acest dispozitiv) %2$,d (total)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Suspendat de utilizator</string>
   <string name="projects_status_dontrequestmorework">Nu se preiau noi task-uri</string>

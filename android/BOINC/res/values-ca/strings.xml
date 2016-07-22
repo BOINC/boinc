@@ -199,9 +199,8 @@
   <string name="projects_loading">S\'estan carregant els projectes...</string>
   <string name="projects_add">Afegeix el projecte</string>
   <string name="projects_icon">Icona delprojecte</string>
-  <string name="projects_credits_header">Crèdit:</string>
-  <string name="projects_credits_host_header">(en aquest dispositiu)</string>
-  <string name="projects_credits_user_header">(total)</string>
+  <string name="projects_credits">Crèdit:</string>
+  <string name="projects_credits_host_and_user">%1$,d (en aquest dispositiu) %2$,d (total)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Suspès per l\'usuari</string>
   <string name="projects_status_dontrequestmorework">No descarregar tasques noves</string>

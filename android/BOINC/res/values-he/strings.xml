@@ -99,9 +99,8 @@
   <string name="prefs_unit_celsius">°C</string>
   <string name="projects_loading">Luetaan projekteja…</string>
   <string name="projects_icon">Projektin kuvake</string>
-  <string name="projects_credits_header">Pisteet:</string>
-  <string name="projects_credits_host_header">(tällä laitteella)</string>
-  <string name="projects_credits_user_header">(kaikki)</string>
+  <string name="projects_credits">Pisteet:</string>
+  <string name="projects_credits_host_and_user">%1$,d (tällä laitteella) %2$,d (kaikki)</string>
   <string name="projects_status_suspendedviagui">Käyttäjän hyllyttämä</string>
   <string name="projects_status_dontrequestmorework">Ei uusia töitä</string>
   <string name="projects_status_ended">Projekti päättynyt - voi poistaa</string>

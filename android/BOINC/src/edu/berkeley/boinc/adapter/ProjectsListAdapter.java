@@ -21,8 +21,6 @@ package edu.berkeley.boinc.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.text.Html;
-import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,6 +37,7 @@ import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.Transfer;
 import edu.berkeley.boinc.utils.Logging;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -234,18 +233,11 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 		    }
 		    
 	    	// credits
-			final long totalCredit = Math.round(data.project.user_total_credit),
+			final long userCredit = Math.round(data.project.user_total_credit),
 			           hostCredit = Math.round(data.project.host_total_credit);
-			((TextView)vi.findViewById(R.id.project_credits)).setText(hostCredit == totalCredit ?
-				Html.fromHtml(String.format("<B>%s</B> %,d",
-				                            TextUtils.htmlEncode(this.activity.getString(R.string.projects_credits_header)),
-				                            hostCredit)) :
-				Html.fromHtml(String.format("<B>%s</B> %,d %s %,d %s",
-				                            TextUtils.htmlEncode(this.activity.getString(R.string.projects_credits_header)),
-				                            hostCredit,
-				                            TextUtils.htmlEncode(this.activity.getString(R.string.projects_credits_host_header)),
-				                            totalCredit,
-				                            TextUtils.htmlEncode(this.activity.getString(R.string.projects_credits_user_header)))));
+			((TextView)vi.findViewById(R.id.project_credits)).setText(hostCredit == userCredit ?
+				NumberFormat.getIntegerInstance().format(hostCredit) :
+				this.activity.getString(R.string.projects_credits_host_and_user, hostCredit, userCredit));
 	    	
 	    	// server notice
 	    	Notice notice = data.getLastServerNotice();

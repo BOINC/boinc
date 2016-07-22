@@ -199,9 +199,8 @@
   <string name="projects_loading">プロジェクトを読み込み中…</string>
   <string name="projects_add">プロジェクトを追加</string>
   <string name="projects_icon">プロジェクトのアイコン</string>
-  <string name="projects_credits_header">功績値: </string>
-  <string name="projects_credits_host_header">(このデバイスで)</string>
-  <string name="projects_credits_user_header">(合計)</string>
+  <string name="projects_credits">功績値: </string>
+  <string name="projects_credits_host_and_user">%1$,d (このデバイスで) %2$,d (合計)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">参加者の指示により一時停止中</string>
   <string name="projects_status_dontrequestmorework">新しいタスクを取得しない</string>

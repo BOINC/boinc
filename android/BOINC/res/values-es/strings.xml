@@ -199,9 +199,8 @@
   <string name="projects_loading">Leyendo proyectos...</string>
   <string name="projects_add">Añadir proyecto</string>
   <string name="projects_icon">Icono del proyecto</string>
-  <string name="projects_credits_header">Creditos:</string>
-  <string name="projects_credits_host_header">(En este dispositivo)</string>
-  <string name="projects_credits_user_header">(En total)</string>
+  <string name="projects_credits">Creditos:</string>
+  <string name="projects_credits_host_and_user">%1$,d (En este dispositivo) %2$,d (En total)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Suspendido por el usuario</string>
   <string name="projects_status_dontrequestmorework">No se descargarán nuevas tareas</string>

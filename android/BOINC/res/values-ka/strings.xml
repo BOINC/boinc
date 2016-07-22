@@ -199,9 +199,8 @@
   <string name="projects_loading">მიმდინარეობს პროექტების წაკითხვა...</string>
   <string name="projects_add">პროექტის დამატება</string>
   <string name="projects_icon">პროექტის იარლიყი</string>
-  <string name="projects_credits_header">კრედიტი:</string>
-  <string name="projects_credits_host_header">(ამ მოწყობილობაზე)</string>
-  <string name="projects_credits_user_header">(სულ)</string>
+  <string name="projects_credits">კრედიტი:</string>
+  <string name="projects_credits_host_and_user">%1$,d (ამ მოწყობილობაზე) %2$,d (სულ)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">შეჩერებულია მომხმარებლის მიერ</string>
   <string name="projects_status_dontrequestmorework">არ მიღიებს ახალ დავალებებს</string>

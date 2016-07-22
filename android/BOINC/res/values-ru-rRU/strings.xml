@@ -199,9 +199,8 @@
   <string name="projects_loading">Чтение проектов…</string>
   <string name="projects_add">Добавить проект</string>
   <string name="projects_icon">Значок проекта</string>
-  <string name="projects_credits_header">Очки:</string>
-  <string name="projects_credits_host_header">(на этом устройстве)</string>
-  <string name="projects_credits_user_header">(всего)</string>
+  <string name="projects_credits">Очки:</string>
+  <string name="projects_credits_host_and_user">%1$,d (на этом устройстве) %2$,d (всего)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Приостановлен пользователем</string>
   <string name="projects_status_dontrequestmorework">Не запрашивать новые задания</string>

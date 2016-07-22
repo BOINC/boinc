@@ -199,9 +199,8 @@
   <string name="projects_loading">正在读取项目...</string>
   <string name="projects_add">增加项目</string>
   <string name="projects_icon">项目图标</string>
-  <string name="projects_credits_header">积分：</string>
-  <string name="projects_credits_host_header">(在该设备上)</string>
-  <string name="projects_credits_user_header">(总计)</string>
+  <string name="projects_credits">积分：</string>
+  <string name="projects_credits_host_and_user">%1$,d (在该设备上) %2$,d (总计)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">已被用户暂停</string>
   <string name="projects_status_dontrequestmorework">禁止下载新任务</string>

@@ -126,9 +126,8 @@
   <string name="projects_loading">Прочитане на проекти…</string>
   <string name="projects_add">Добавете проект</string>
   <string name="projects_icon">Икона на проекта</string>
-  <string name="projects_credits_header">Кредит:</string>
-  <string name="projects_credits_host_header">(на това устройство)</string>
-  <string name="projects_credits_user_header">(общо)</string>
+  <string name="projects_credits">Кредит:</string>
+  <string name="projects_credits_host_and_user">%1$,d (на това устройство) %2$,d (общо)</string>
   <string name="projects_status_suspendedviagui">Временно прекратено от потребител</string>
   <string name="projects_status_dontrequestmorework">Няма да взима нови задачи</string>
   <string name="projects_status_ended">Проекта приключи - OK да се премахне</string>

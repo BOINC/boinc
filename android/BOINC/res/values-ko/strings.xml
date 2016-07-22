@@ -199,9 +199,8 @@
   <string name="projects_loading">프로젝트를 불러오는 중…</string>
   <string name="projects_add">프로젝트 추가</string>
   <string name="projects_icon">프로젝트 아이콘</string>
-  <string name="projects_credits_header">크레딧:</string>
-  <string name="projects_credits_host_header">(해당 장치)</string>
-  <string name="projects_credits_user_header">(전체)</string>
+  <string name="projects_credits">크레딧:</string>
+  <string name="projects_credits_host_and_user">%1$,d (해당 장치) %2$,d (전체)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">사용자에 의해 일시 정지됨</string>
   <string name="projects_status_dontrequestmorework">새 태스크를 원하지 않음</string>
