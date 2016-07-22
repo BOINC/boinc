@@ -201,7 +201,7 @@
   <!--projects tab strings-->
   <string name="projects_loading">Lettura progetti…</string>
   <string name="projects_add">Aggiungi progetto</string>
-  <string name="projects_icon">icona progetto</string>
+  <string name="projects_icon">Icona progetto</string>
   <string name="projects_credits_header">Crediti:</string>
   <string name="projects_credits_host_header">(su questo dispositivo)</string>
   <string name="projects_credits_user_header">(totale)</string>
@@ -235,7 +235,7 @@
   <string name="projects_confirm_reset_title">Reset progetto</string>
   <string name="projects_confirm_reset_message">Sei sicuro di voler resettare</string>
   <string name="projects_confirm_reset_message2">\?</string>
-  <string name="projects_confirm_reset_confirm">Reset</string>
+  <string name="projects_confirm_reset_confirm">Resetta</string>
   <string name="projects_confirm_remove_acctmgr_title">Disabilita l\'account manager</string>
   <string name="projects_confirm_remove_acctmgr_message">Sei sicuro di voler terminare l\'utilizzo</string>
   <string name="projects_confirm_remove_acctmgr_message2">\?</string>
