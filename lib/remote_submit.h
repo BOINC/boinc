@@ -28,10 +28,6 @@
 
 #include "parse.h"
 
-using std::string;
-using std::vector;
-using std::map;
-
 // Input file modes.
 // Only LOCAL_STAGED and REMOTE are implemented now.
 //
@@ -63,25 +59,20 @@ struct INFILE {
 
 struct JOB {
     char job_name[256];
-    string cmdline_args;
-    vector<INFILE> infiles;
-};
-
-struct LOCAL_FILE {
-    char md5[64];
-    double nbytes;
+    std::string cmdline_args;
+    std::vector<INFILE> infiles;
 };
 
 struct JOB_STATUS {
-    string job_name;
-    string status;
+    std::string job_name;
+    std::string status;
     JOB_STATUS(){}
 };
 
 struct QUERY_BATCH_SET_REPLY {
     double server_time;         // server time at start of query
-    vector<int> batch_sizes;    // how many jobs in each of the queried batches
-    vector<JOB_STATUS> jobs;    // the jobs, sequentially
+    std::vector<int> batch_sizes;    // how many jobs in each of the queried batches
+    std::vector<JOB_STATUS> jobs;    // the jobs, sequentially
 };
 
 struct OUTFILE {
@@ -93,13 +84,13 @@ struct FETCH_OUTPUT_REQ {
     char job_name[256];
     char dir[256];
     bool fetch_all;
-    string stderr_filename;
-    vector<OUTFILE> file_descs;
+    std::string stderr_filename;
+    std::vector<OUTFILE> file_descs;
 };
 
 struct TEMPLATE_DESC {
-    vector<string> input_files;
-    vector<string> output_files;
+    std::vector<std::string> input_files;
+    std::vector<std::string> output_files;
 
     int parse(XML_PARSER&);
 };
@@ -114,7 +105,7 @@ struct COMPLETED_JOB_DESC {
     int exit_status;
     double elapsed_time;
     double cpu_time;
-    string stderr_out;
+    std::string stderr_out;
 
     int parse(XML_PARSER&);
 };
@@ -125,19 +116,19 @@ struct COMPLETED_JOB_DESC {
 extern int query_files(
     const char* project_url,
     const char* authenticator,
-    vector<string> &md5s,
+    std::vector<std::string> &boinc_names,
     int batch_id,
-    vector<int> &absent_files,
-    string& error_msg
+    std::vector<int> &absent_files,
+    std::string& error_msg
 );
 
 extern int upload_files (
     const char* project_url,
     const char* authenticator,
-    vector<string> &paths,
-    vector<string> &md5s,
+    std::vector<std::string> &paths,
+    std::vector<std::string> &boinc_names,
     int batch_id,
-    string& error_msg
+    std::string& error_msg
 );
 
 extern int create_batch(
@@ -147,7 +138,7 @@ extern int create_batch(
     const char* app_name,
     double expire_time,
     int &batch_id,
-    string& error_msg
+    std::string& error_msg
 );
 
 extern int submit_jobs(
@@ -155,17 +146,17 @@ extern int submit_jobs(
     const char* authenticator,
     char app_name[256],
     int batch_id,
-    vector<JOB> jobs,
-    string& error_msg
+    std::vector<JOB> jobs,
+    std::string& error_msg
 );
 
 extern int estimate_batch(
     const char* project_url,
     const char* authenticator,
     char app_name[256],
-    vector<JOB> jobs,
+    std::vector<JOB> jobs,
     double& est_makespan,
-    string& error_msg
+    std::string& error_msg
 );
 
 // Return the short status of the jobs in a given set of batches
@@ -175,9 +166,9 @@ extern int query_batch_set(
     const char* project_url,
     const char* authenticator,
     double min_mod_time,
-    vector<string> &batch_names,
+    std::vector<std::string> &batch_names,
     QUERY_BATCH_SET_REPLY& reply,
-    string& error_msg
+    std::string& error_msg
 );
 
 struct BATCH_STATUS {
@@ -204,8 +195,8 @@ struct BATCH_STATUS {
 extern int query_batches(
     const char* project_url,
     const char* authenticator,
-    vector<BATCH_STATUS>& batches,
-    string& error_msg
+    std::vector<BATCH_STATUS>& batches,
+    std::string& error_msg
 );
 
 struct JOB_STATE {
@@ -227,8 +218,8 @@ extern int query_batch(
     const char* authenticator,
     int batch_id,
     const char batch_name[256],
-    vector<JOB_STATE>& jobs,
-    string& error_msg
+    std::vector<JOB_STATE>& jobs,
+    std::string& error_msg
 );
 
 extern int get_output_file(
@@ -237,14 +228,14 @@ extern int get_output_file(
     const char* job_name,
     int file_num,
     const char* dst_path,
-    string& error_msg
+    std::string& error_msg
 );
 
 extern int abort_jobs(
     const char* project_url,
     const char* authenticator,
-    vector<string> &job_names,
-    string& error_msg
+    std::vector<std::string> &job_names,
+    std::string& error_msg
 );
 
 extern int query_completed_job(
@@ -252,7 +243,7 @@ extern int query_completed_job(
     const char* authenticator,
     const char* job_name,
     COMPLETED_JOB_DESC&,
-    string& error_msg
+    std::string& error_msg
 );
 
 extern int get_templates(
@@ -261,14 +252,14 @@ extern int get_templates(
     const char* app_name,   // either this
     const char* job_name,   // or this must be non-NULL
     TEMPLATE_DESC&,
-    string& error_msg
+    std::string& error_msg
 );
 
 extern int retire_batch(
     const char* project_url,
     const char* authenticator,
     const char* batch_name,
-    string& error_msg
+    std::string& error_msg
 );
 
 extern int set_expire_time(
@@ -276,12 +267,12 @@ extern int set_expire_time(
     const char* authenticator,
     const char* batch_name,
     double expire_time,
-    string& error_msg
+    std::string& error_msg
 );
 
 extern int ping_server(
     const char* project_url,
-    string& error_msg
+    std::string& error_msg
 );
 
 #endif

@@ -123,7 +123,7 @@ static int do_http_post(
 int query_files(
     const char* project_url,
     const char* authenticator,
-    vector<string> &md5s,
+    vector<string> &boinc_names,
     int batch_id,
     vector<int> &absent_files,
     string& error_msg
@@ -137,8 +137,8 @@ int query_files(
         sprintf(buf, "<batch_id>%d</batch_id>\n", batch_id);
         req_msg += string(buf);
     }
-    for (unsigned int i=0; i<md5s.size(); i++) {
-        sprintf(buf, "   <md5>%s</md5>\n", md5s[i].c_str());
+    for (unsigned int i=0; i<boinc_names.size(); i++) {
+        sprintf(buf, "   <md5>%s</md5>\n", boinc_names[i].c_str());
         req_msg += string(buf);
     }
     req_msg += "</query_files>\n";
@@ -178,7 +178,7 @@ int upload_files (
     const char* project_url,
     const char* authenticator,
     vector<string> &paths,
-    vector<string> &md5s,
+    vector<string> &boinc_names,
     int batch_id,
     string &error_msg
 ) {
@@ -190,8 +190,8 @@ int upload_files (
         sprintf(buf, "<batch_id>%d</batch_id>\n", batch_id);
         req_msg += string(buf);
     }
-    for (unsigned int i=0; i<md5s.size(); i++) {
-        sprintf(buf, "<md5>%s</md5>\n", md5s[i].c_str());
+    for (unsigned int i=0; i<boinc_names.size(); i++) {
+        sprintf(buf, "<md5>%s</md5>\n", boinc_names[i].c_str());
         req_msg += string(buf);
     }
     req_msg += "</upload_files>\n";
