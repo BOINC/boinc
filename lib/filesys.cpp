@@ -856,7 +856,7 @@ int boinc_allocate_file(const char* path, double size) {
 FILE* boinc_temp_file(
     const char* dir, const char* prefix, char* temp_path, double size
 ) {
-    GetTempFileName(dir, prefix, 0, temp_path);
+    GetTempFileNameA(dir, prefix, 0, temp_path);
     boinc_allocate_file(temp_path, size);
     return boinc_fopen(temp_path, "wb");
 }
