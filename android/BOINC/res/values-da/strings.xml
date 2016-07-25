@@ -193,18 +193,14 @@
   <string name="prefs_client_log_flags_header">Log-flag for BOINC-klient</string>
   <string name="prefs_gui_log_level_header">GUI-logniveau</string>
   <string name="prefs_gui_log_level_description">Specificerer uddybningsniveau for GUI-logbeskeder.</string>
-  <string name="prefs_unit_mb">MB</string>
-  <string name="prefs_unit_gb">GB</string>
-  <string name="prefs_unit_pct">%</string>
-  <string name="prefs_unit_celcius">°C</string>
+  <string name="prefs_unit_celsius">°C</string>
   <string name="prefs_unit_seconds">sek.</string>
   <!--projects tab strings-->
   <string name="projects_loading">Indlæser projekter …</string>
   <string name="projects_add">Tilføj projekt</string>
   <string name="projects_icon">Projekt-ikon</string>
-  <string name="projects_credits_header">Bidragsydere:</string>
-  <string name="projects_credits_host_header">(på denne enhed)</string>
-  <string name="projects_credits_user_header">(total)</string>
+  <string name="projects_credits">Bidragsydere:</string>
+  <string name="projects_credits_host_and_user">%1$,d (på denne enhed) %2$,d (total)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Suspenderet af bruger</string>
   <string name="projects_status_dontrequestmorework">Vil ikke modtage nye opgaver</string>

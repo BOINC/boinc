@@ -193,18 +193,14 @@
   <string name="prefs_client_log_flags_header">BOINCクライアントログのフラグ</string>
   <string name="prefs_gui_log_level_header">GUIログのレベル</string>
   <string name="prefs_gui_log_level_description">GUIログメッセージの詳細度を指定します。</string>
-  <string name="prefs_unit_mb">MB</string>
-  <string name="prefs_unit_gb">GB</string>
-  <string name="prefs_unit_pct">%</string>
-  <string name="prefs_unit_celcius">℃</string>
+  <string name="prefs_unit_celsius">℃</string>
   <string name="prefs_unit_seconds">秒</string>
   <!--projects tab strings-->
   <string name="projects_loading">プロジェクトを読み込み中…</string>
   <string name="projects_add">プロジェクトを追加</string>
   <string name="projects_icon">プロジェクトのアイコン</string>
-  <string name="projects_credits_header">功績値: </string>
-  <string name="projects_credits_host_header">(このデバイスで)</string>
-  <string name="projects_credits_user_header">(合計)</string>
+  <string name="projects_credits">功績値: </string>
+  <string name="projects_credits_host_and_user">%1$,d (このデバイスで) %2$,d (合計)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">参加者の指示により一時停止中</string>
   <string name="projects_status_dontrequestmorework">新しいタスクを取得しない</string>

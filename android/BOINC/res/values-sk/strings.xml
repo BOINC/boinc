@@ -193,18 +193,14 @@
   <string name="prefs_client_log_flags_header">Značky záznamov BOINC klienta</string>
   <string name="prefs_gui_log_level_header">Úroveň záznamu GUI</string>
   <string name="prefs_gui_log_level_description">Špecifikuje stručnosť GUI záznamov</string>
-  <string name="prefs_unit_mb">MB</string>
-  <string name="prefs_unit_gb">GB</string>
-  <string name="prefs_unit_pct">%</string>
-  <string name="prefs_unit_celcius">°C</string>
+  <string name="prefs_unit_celsius">°C</string>
   <string name="prefs_unit_seconds">sekúnd</string>
   <!--projects tab strings-->
   <string name="projects_loading">Načítanie projektov...</string>
   <string name="projects_add">Pripojiť sa k projektu</string>
   <string name="projects_icon">Ikona projektu</string>
-  <string name="projects_credits_header">Kredit:</string>
-  <string name="projects_credits_host_header">(na tomto zariadení)</string>
-  <string name="projects_credits_user_header">(spolu)</string>
+  <string name="projects_credits">Kredit:</string>
+  <string name="projects_credits_host_and_user">%1$,d (na tomto zariadení) %2$,d (spolu)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Pozastavené používateľom</string>
   <string name="projects_status_dontrequestmorework">Nebudú získané nové úlohy</string>

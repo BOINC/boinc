@@ -193,18 +193,14 @@
   <string name="prefs_client_log_flags_header">BOINC istemci günlüğü bayrakları</string>
   <string name="prefs_gui_log_level_header">GUI günlük seviyesi</string>
   <string name="prefs_gui_log_level_description">Grafik arabirimi (GUI) günlüğü mesaj ayrıntı düzeyi.</string>
-  <string name="prefs_unit_mb">MB</string>
-  <string name="prefs_unit_gb">GB</string>
-  <string name="prefs_unit_pct">%</string>
-  <string name="prefs_unit_celcius">°C</string>
+  <string name="prefs_unit_celsius">°C</string>
   <string name="prefs_unit_seconds">sn</string>
   <!--projects tab strings-->
   <string name="projects_loading">Projeler okunuyor...</string>
   <string name="projects_add">Proje ekle</string>
   <string name="projects_icon">Proje simgesi</string>
-  <string name="projects_credits_header">Kredi:</string>
-  <string name="projects_credits_host_header">(bu cihazda)</string>
-  <string name="projects_credits_user_header">(toplam)</string>
+  <string name="projects_credits">Kredi:</string>
+  <string name="projects_credits_host_and_user">%1$,d (bu cihazda) %2$,d (toplam)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Kullanıcı tarafından duraklatıldı</string>
   <string name="projects_status_dontrequestmorework">Yeni işler indirilmeyecek</string>

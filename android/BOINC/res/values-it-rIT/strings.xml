@@ -193,18 +193,14 @@
   <string name="prefs_client_log_flags_header">Flag di log del Client BOINC</string>
   <string name="prefs_gui_log_level_header">Livello di log della GUI</string>
   <string name="prefs_gui_log_level_description">Specifica la verbosità dei messaggi di log della GUI.</string>
-  <string name="prefs_unit_mb">MB</string>
-  <string name="prefs_unit_gb">GB</string>
-  <string name="prefs_unit_pct">%</string>
-  <string name="prefs_unit_celcius">°C</string>
+  <string name="prefs_unit_celsius">°C</string>
   <string name="prefs_unit_seconds">secondi</string>
   <!--projects tab strings-->
   <string name="projects_loading">Lettura progetti…</string>
   <string name="projects_add">Aggiungi progetto</string>
   <string name="projects_icon">Icona progetto</string>
-  <string name="projects_credits_header">Crediti:</string>
-  <string name="projects_credits_host_header">(su questo dispositivo)</string>
-  <string name="projects_credits_user_header">(totale)</string>
+  <string name="projects_credits">Crediti:</string>
+  <string name="projects_credits_host_and_user">%1$,d (su questo dispositivo) %2$,d (totale)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Sospeso dall\'utente</string>
   <string name="projects_status_dontrequestmorework">Non chiedere nuovi lavori</string>

@@ -193,18 +193,14 @@
   <string name="prefs_client_log_flags_header">BOINC 클라이언트 로그 flags</string>
   <string name="prefs_gui_log_level_header">GUI 로그 레벨</string>
   <string name="prefs_gui_log_level_description">GUI 로그 메세지의 상세 정도를 결정해 주세요.</string>
-  <string name="prefs_unit_mb">MB</string>
-  <string name="prefs_unit_gb">GB</string>
-  <string name="prefs_unit_pct">%</string>
-  <string name="prefs_unit_celcius">°C</string>
+  <string name="prefs_unit_celsius">°C</string>
   <string name="prefs_unit_seconds">초</string>
   <!--projects tab strings-->
   <string name="projects_loading">프로젝트를 불러오는 중…</string>
   <string name="projects_add">프로젝트 추가</string>
   <string name="projects_icon">프로젝트 아이콘</string>
-  <string name="projects_credits_header">크레딧:</string>
-  <string name="projects_credits_host_header">(해당 장치)</string>
-  <string name="projects_credits_user_header">(전체)</string>
+  <string name="projects_credits">크레딧:</string>
+  <string name="projects_credits_host_and_user">%1$,d (해당 장치) %2$,d (전체)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">사용자에 의해 일시 정지됨</string>
   <string name="projects_status_dontrequestmorework">새 태스크를 원하지 않음</string>
