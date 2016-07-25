@@ -50,12 +50,16 @@ struct PROXY_INFO {
     //
     char noproxy_hosts[256];
 
+    // don't autodetect proxy (Win)
+    //
+    bool no_autodetect;
+
     // On Windows, if neither HTTP nor SOCKS proxy is specified,
     // we try the "autodetect" mechanism.
     // If it gets anything, the info is filled in below
     //
     bool autodetect_proxy_supported;
-        // if true, some mechinism for detecting proxy servers is
+        // if true, some mechanism for detecting proxy servers is
         // supported by the client.
     int autodetect_protocol;
         // URL_PROTOCOL_SOCKS, URL_PROTOCOL_HTTP, or URL_PROTOCOL_HTTPS
