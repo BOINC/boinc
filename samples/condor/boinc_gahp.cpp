@@ -125,9 +125,11 @@ void filename_extension(const char* path, char* ext) {
 
 int compute_boinc_name(string path, LOCAL_FILE& f) {
     char md5[64], ext[256];
-    return md5_file(path.c_str(), md5, f.nbytes);
+    int retval = md5_file(path.c_str(), md5, f.nbytes);
+    if (retval) return retval;
     filename_extension(path.c_str(), ext);
     sprintf(f.boinc_name, "%s%s", md5, ext);
+    return 0;
 }
 
 const char *escape_str(const string &str) {

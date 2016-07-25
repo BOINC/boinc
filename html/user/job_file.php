@@ -116,6 +116,9 @@ function query_files($r) {
                 $jf_id = BoincJobFile::insert(
                     "(md5, create_time, delete_time) values ('$md5', $now, $delete_time)"
                 );
+                if (!$jf_id) {
+                    xml_error(-1, "query_file(): BoincJobFile::insert($md5) failed: ".BoincDb::error());
+                }
             }
             // create batch association if needed
             //
@@ -131,7 +134,12 @@ function query_files($r) {
             }
         } else {
             if ($job_file) {
-                $job_file->delete();
+                $ret = $job_file->delete();
+                if (!$ret) {
+                    xml_error(-1,
+                        "BoincJobFile::delete() failed: ".BoincDb::error()
+                    );
+                }
             }
             $absent_files[] = $i;
         }
@@ -166,7 +174,7 @@ function upload_files($r) {
             "(md5, create_time, delete_time) values ('$md5', $now, $delete_time)"
         );
         if (!$jf_id) {
-            xml_error(-1, "BoincJobFile::insert($md5) failed: ".BoincDb::error());
+            xml_error(-1, "upload_files(): BoincJobFile::insert($md5) failed: ".BoincDb::error());
         }
         if ($batch_id) {
             BoincBatchFileAssoc::insert(
