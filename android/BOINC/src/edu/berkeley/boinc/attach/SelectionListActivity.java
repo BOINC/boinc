@@ -1,7 +1,7 @@
 /*******************************************************************************
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2016 University of California
  * 
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -19,12 +19,6 @@
 
 package edu.berkeley.boinc.attach;
 
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.utils.*;
-import java.util.ArrayList;
-import edu.berkeley.boinc.client.IMonitor;
-import edu.berkeley.boinc.client.Monitor;
-import edu.berkeley.boinc.rpc.ProjectInfo;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
@@ -41,6 +35,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.client.IMonitor;
+import edu.berkeley.boinc.client.Monitor;
+import edu.berkeley.boinc.rpc.ProjectInfo;
+import edu.berkeley.boinc.utils.Logging;
+import java.text.Collator;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class SelectionListActivity extends FragmentActivity{
 
@@ -179,43 +181,72 @@ public class SelectionListActivity extends FragmentActivity{
 	    }
 	}
 	
-	private class UpdateProjectListAsyncTask extends AsyncTask<Void, Void, ArrayList<ProjectInfo>> {
+    private class UpdateProjectListAsyncTask extends AsyncTask<Void, Void, ArrayList<ProjectInfo>> {
+        @Override
+        protected ArrayList<ProjectInfo> doInBackground(Void... arg0) {
+            ArrayList<ProjectInfo> data = null;
+            boolean retry = true;
+            // Try to get the project list for as long as the AsyncTask has not been canceled
+            while (!super.isCancelled() && retry) {
+                try {
+                    data = (ArrayList<ProjectInfo>)monitor.getAttachableProjects();
+                } catch (RemoteException e) {}
+                if (data == null) {
+                    if (Logging.WARNING) Log.w(Logging.TAG, "UpdateProjectListAsyncTask: failed to retrieve data, retry....");
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        if (Log.isLoggable(Logging.TAG, Log.DEBUG)) Log.d(Logging.TAG, e.getMessage(), e);
+                    }
+                } else retry = false;
+            }
+            if (Logging.DEBUG) Log.d(Logging.TAG, "monitor.getAttachableProjects returned with " + data.size() + " elements");
+            // Clear current ProjectListEntries since we successfully have got new ProjectInfos
+            SelectionListActivity.this.entries.clear();
+            // Transform ProjectInfos into ProjectListEntries
+            for (int i = data.size() - 1; !super.isCancelled() && i >= 0; i--) {
+                SelectionListActivity.this.entries.add(new ProjectListEntry(data.get(i)));
+            }
+            // Set preferred Collator for ProjectListEntries before sorting
+            if (SelectionListActivity.ProjectListEntry.collator == null) {
+                SelectionListActivity.ProjectListEntry.collator = SelectionListActivity.ProjectListEntry.getCollator();
+            }
+            // Sort ProjectListEntries off the UI thread
+            Collections.sort(SelectionListActivity.this.entries);
+            // Dispose Collator instance after sorting
+            SelectionListActivity.ProjectListEntry.collator = null;
+            return data;
+        }
 
-		@Override
-		protected ArrayList<ProjectInfo> doInBackground(Void... arg0) {
-			
-			ArrayList<ProjectInfo> data = null;
-			Boolean retry = true;
-			while(retry) {
-				try{data = (ArrayList<ProjectInfo>) monitor.getAttachableProjects();} catch (RemoteException e){}
-				if(data == null) {
-					if(Logging.WARNING) Log.w(Logging.TAG,"UpdateProjectListAsyncTask: failed to retrieve data, retry....");
-					try{Thread.sleep(500);} catch(Exception e) {}
-				} else retry = false;
-			}
-			if(Logging.DEBUG) Log.d( Logging.TAG,"monitor.getAttachableProjects returned with " + data.size() + " elements");
-			return data;
-		}
-		
-		protected void onPostExecute(ArrayList<ProjectInfo> result) {
-	        if (result != null) {
-	        	entries.clear();
-	        	for(ProjectInfo tmp: result) {
-	        		entries.add(new ProjectListEntry(tmp));
-	        	}
+        protected final void onPostExecute(final ArrayList<ProjectInfo> result) {
+            if (result == null) return;
 
-	        	entries.add(new ProjectListEntry()); // add account manager option to bottom of list
-		        SelectionListAdapter listAdapter = new SelectionListAdapter(SelectionListActivity.this,R.id.listview,entries);
-		        lv.setAdapter(listAdapter);
-	         } 
-	    }
-	}
+            SelectionListActivity.this.entries.add(new ProjectListEntry()); // add account manager option to bottom of list
+            SelectionListAdapter listAdapter = new SelectionListAdapter(SelectionListActivity.this, R.id.listview,entries);
+            lv.setAdapter(listAdapter);
+        }
+    }
 	
-	class ProjectListEntry {
+    static final class ProjectListEntry implements Comparable<SelectionListActivity.ProjectListEntry> {
 		public ProjectInfo info;
 		public boolean checked;
 		public boolean am; //indicates that element is account manager entry
-		
+
+        /**
+         * The {@link Collator} used when comparing {@code ProjectListEntry}s.
+         * This member is usually only set when performing comparison operations
+         * in bulk. Otherwise, it should be set to {@code null} to avoid having
+         * a {@link Collator} instance lingering around when not attaching
+         * projects (most of the time). Furthermore, when comparing
+         * {@code ProjectListEntry}s in bulk the {@link Collator} instance
+         * stored by this member does not need to get reallocated and setup on
+         * every comparison.
+         *
+         * @see SelectionListActivity.ProjectListEntry#getCollator()
+         * @see Collator
+         */
+        static Collator collator;
+
 		public ProjectListEntry(ProjectInfo info) {
 			this.info = info;
 			this.checked = false;
@@ -227,5 +258,36 @@ public class SelectionListActivity extends FragmentActivity{
 		public ProjectListEntry() {
 			this.am = true;
 		}
+
+        /**
+         * Compares this {@code ProjectListEntry} instance to {@code p} based
+         * on {@link ProjectInfo#name}. The comparison is <i>case-insensitive</i>.
+         *
+         * @param p the {@code ProjectListEntry} to compare to
+         * @return {@code 0} if both {@link ProjectInfo#name}s are equal,<br>
+         * {@code -1} if {@code this} {@link ProjectInfo#name} comes before
+         * {@code p}'s {@link ProjectInfo#name} in the current locale's
+         * {@link Collator#getInstance() collation},<br>else {@code 1}
+         * @see SelectionListActivity.ProjectListEntry#info
+         * @see ProjectInfo#name
+         * @see Comparable#compareTo(T)
+         */
+        public final int compareTo(final SelectionListActivity.ProjectListEntry p) {
+            return (SelectionListActivity.ProjectListEntry.collator == null ?
+                SelectionListActivity.ProjectListEntry.getCollator() :
+                SelectionListActivity.ProjectListEntry.collator).compare(this.info.name, p.info.name);
+        }
+
+        /**
+         * Gets the preferred locale specific {@link Collator} for comparing {@code ProjectListEntry}s.
+         *
+         * @return the preferred {@link Collator}
+         */
+        static final Collator getCollator() {
+            final Collator collator;
+            (collator = Collator.getInstance()).setStrength(Collator.SECONDARY);
+            collator.setDecomposition(Collator.NO_DECOMPOSITION);
+            return collator;
+        }
 	}
 }
