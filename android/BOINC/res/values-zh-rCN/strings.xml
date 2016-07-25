@@ -193,18 +193,14 @@
   <string name="prefs_client_log_flags_header">BOINC客户端日志记录</string>
   <string name="prefs_gui_log_level_header">GUI （用户界面）日志详细程度</string>
   <string name="prefs_gui_log_level_description">指定GUI日志信息的详细程度。</string>
-  <string name="prefs_unit_mb">MB</string>
-  <string name="prefs_unit_gb">GB</string>
-  <string name="prefs_unit_pct">%</string>
-  <string name="prefs_unit_celcius">°C</string>
+  <string name="prefs_unit_celsius">°C</string>
   <string name="prefs_unit_seconds">秒</string>
   <!--projects tab strings-->
   <string name="projects_loading">正在读取项目...</string>
   <string name="projects_add">增加项目</string>
   <string name="projects_icon">项目图标</string>
-  <string name="projects_credits_header">积分：</string>
-  <string name="projects_credits_host_header">(在该设备上)</string>
-  <string name="projects_credits_user_header">(总计)</string>
+  <string name="projects_credits">积分：</string>
+  <string name="projects_credits_host_and_user">%1$,d (在该设备上) %2$,d (总计)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">已被用户暂停</string>
   <string name="projects_status_dontrequestmorework">禁止下载新任务</string>
@@ -307,7 +303,7 @@
   <string name="suspend_os">已被Android系统暂停。</string>
   <string name="suspend_wifi">未连接至WiFi网络。</string>
   <string name="suspend_battery_charging">在恢复运算之前您的电池需要充电。</string>
-  <string name="suspend_battery_charging_long">充电时将会继续计算</string>
+  <string name="suspend_battery_charging_long">当电池电量超过以下水平时继续计算</string>
   <string name="suspend_battery_charging_long2"></string>
   <string name="suspend_battery_charging_current">当前</string>
   <string name="suspend_battery_overheating">等待电池冷却中</string>

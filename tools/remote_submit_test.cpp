@@ -19,6 +19,9 @@
 
 #include "remote_submit.h"
 
+using std::vector;
+using std::string;
+
 const char* project_url = "http://isaac.ssl.berkeley.edu/test/";
 const char* authenticator = "157f96a018b0b2f2b466e2ce3c7f54db";
 

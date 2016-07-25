@@ -68,6 +68,12 @@ struct SUBMIT_REQ {
     int batch_id;
 };
 
+struct LOCAL_FILE {
+    char boinc_name[256];
+        // the MD5 followed by filename extension if any
+    double nbytes;
+};
+
 // represents a command.
 //
 struct COMMAND {
@@ -106,8 +112,24 @@ struct COMMAND {
 
 vector<COMMAND*> commands;
 
-int compute_md5(string path, LOCAL_FILE& f) {
-    return md5_file(path.c_str(), f.md5, f.nbytes);
+void filename_extension(const char* path, char* ext) {
+    const char* p = strrchr(path, '/');
+    if (!p) p = path;
+    const char* q = strrchr(p, '.');
+    if (q) {
+        strcpy(ext, q);
+    } else {
+        strcpy(ext, "");
+    }
+}
+
+int compute_boinc_name(string path, LOCAL_FILE& f) {
+    char md5[64], ext[256];
+    int retval = md5_file(path.c_str(), md5, f.nbytes);
+    if (retval) return retval;
+    filename_extension(path.c_str(), ext);
+    sprintf(f.boinc_name, "%s%s", md5, ext);
+    return 0;
 }
 
 const char *escape_str(const string &str) {
@@ -151,14 +173,14 @@ int process_input_files(SUBMIT_REQ& req, string& error_msg) {
         }
     }
 
-    // compute the MD5s of these files,
-    // and make a map from path to MD5 and size (LOCAL_FILE)
+    // compute the BOINC names (md5.ext) of these files,
+    // and make a map from path to BOINC name and size (LOCAL_FILE)
     //
     set<string>::iterator iter = unique_paths.begin();
     while (iter != unique_paths.end()) {
         string s = *iter;
         LOCAL_FILE lf;
-        retval = compute_md5(s, lf);
+        retval = compute_boinc_name(s, lf);
         if (retval) return retval;
         local_files.insert(std::pair<string, LOCAL_FILE>(s, lf));
         ++iter;
@@ -168,18 +190,18 @@ int process_input_files(SUBMIT_REQ& req, string& error_msg) {
     //
     map<string, LOCAL_FILE>::iterator map_iter;
     map_iter = local_files.begin();
-    vector<string> md5s, paths;
+    vector<string> boinc_names, paths;
     vector<int> absent_files;
     while (map_iter != local_files.end()) {
         LOCAL_FILE lf = map_iter->second;
         paths.push_back(map_iter->first);
-        md5s.push_back(lf.md5);
+        boinc_names.push_back(lf.boinc_name);
         ++map_iter;
     }
     retval = query_files(
         project_url,
         authenticator,
-        md5s,
+        boinc_names,
         req.batch_id,
         absent_files,
         error_msg
@@ -188,17 +210,17 @@ int process_input_files(SUBMIT_REQ& req, string& error_msg) {
 
     // upload the missing files.
     //
-    vector<string> upload_md5s, upload_paths;
+    vector<string> upload_boinc_names, upload_paths;
     for (unsigned int i=0; i<absent_files.size(); i++) {
         int j = absent_files[i];
-        upload_md5s.push_back(md5s[j]);
+        upload_boinc_names.push_back(boinc_names[j]);
         upload_paths.push_back(paths[j]);
     }
     retval = upload_files(
         project_url,
         authenticator,
         upload_paths,
-        upload_md5s,
+        upload_boinc_names,
         req.batch_id,
         error_msg
     );
@@ -212,7 +234,7 @@ int process_input_files(SUBMIT_REQ& req, string& error_msg) {
             INFILE& infile = job.infiles[j];
             map<string, LOCAL_FILE>::iterator iter = local_files.find(infile.src_path);
             LOCAL_FILE& lf = iter->second;
-            sprintf(infile.physical_name, "jf_%s", lf.md5);
+            sprintf(infile.physical_name, "jf_%s", lf.boinc_name);
         }
     }
 
@@ -236,6 +258,7 @@ int COMMAND::parse_submit(char* p) {
         int ninfiles = atoi(strtok_r(NULL, " ", &p));
         for (int j=0; j<ninfiles; j++) {
             INFILE infile;
+            infile.mode = FILE_MODE_LOCAL_STAGED;
             strlcpy(infile.src_path, strtok_r(NULL, " ", &p), sizeof(infile.src_path));
             strlcpy(infile.logical_name, strtok_r(NULL, " ", &p), sizeof(infile.logical_name));
             job.infiles.push_back(infile);

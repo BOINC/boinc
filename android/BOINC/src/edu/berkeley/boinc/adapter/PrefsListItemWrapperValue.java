@@ -1,7 +1,7 @@
 /*******************************************************************************
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2016 University of California
  * 
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -18,19 +18,23 @@
  ******************************************************************************/
 package edu.berkeley.boinc.adapter;
 
-import edu.berkeley.boinc.utils.*;
-
-import edu.berkeley.boinc.R;
 import android.content.Context;
 import android.util.Log;
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.utils.Logging;
 
 public class PrefsListItemWrapperValue extends PrefsListItemWrapper {
-
-	public String unit = "";
+	enum Unit {
+		NONE,
+		PERCENT,
+		SECONDS,
+		CELSIUS,
+		MEGABYTES,
+		GIGABYTES
+	}
+	PrefsListItemWrapperValue.Unit unit;
 	public Double status;
-	public Boolean isPct = false; // shows whether value is percentage, therefore using a SeekBar
-	public Boolean isNumber = false; // shows whether value is a number (e.g. cpu cores) to adjust seekbar
-	
+
 	public PrefsListItemWrapperValue(Context ctx, Integer ID, Integer categoryID, Double status) {
 		super(ctx, ID, categoryID);
 		this.status = status;
@@ -41,51 +45,50 @@ public class PrefsListItemWrapperValue extends PrefsListItemWrapper {
 		switch (id) {
 		case R.string.battery_charge_min_pct_header:
 			description = ctx.getString(R.string.battery_charge_min_pct_description);
-			unit = ctx.getString(R.string.prefs_unit_pct);
+			this.unit = PrefsListItemWrapperValue.Unit.PERCENT;
 			break;
 		case R.string.battery_temperature_max_header:
 			description = ctx.getString(R.string.battery_temperature_max_description);
-			unit = ctx.getString(R.string.prefs_unit_celcius);
+			this.unit = PrefsListItemWrapperValue.Unit.CELSIUS;
 			break;
 		case R.string.prefs_disk_max_pct_header:
 			description = ctx.getString(R.string.prefs_disk_max_pct_description);
-			unit = ctx.getString(R.string.prefs_unit_pct);
+			this.unit = PrefsListItemWrapperValue.Unit.PERCENT;
 			break;
 		case R.string.prefs_disk_min_free_gb_header:
 			description = ctx.getString(R.string.prefs_disk_min_free_gb_description);
-			unit = ctx.getString(R.string.prefs_unit_gb);
+			this.unit = PrefsListItemWrapperValue.Unit.GIGABYTES;
 			break;
 		case R.string.prefs_disk_access_interval_header:
 			description = ctx.getString(R.string.prefs_disk_access_interval_description);
-			unit = ctx.getString(R.string.prefs_unit_seconds);
+			this.unit = PrefsListItemWrapperValue.Unit.SECONDS;
 			break;
 		case R.string.prefs_network_daily_xfer_limit_mb_header:
 			description = ctx.getString(R.string.prefs_network_daily_xfer_limit_mb_description);
-			unit = ctx.getString(R.string.prefs_unit_mb);
+			this.unit = PrefsListItemWrapperValue.Unit.MEGABYTES;
 			break;
 		case R.string.prefs_cpu_number_cpus_header:
 			description = ctx.getString(R.string.prefs_cpu_number_cpus_description);
-			isNumber = true;
+			this.unit = PrefsListItemWrapperValue.Unit.NONE;
 			break;
 		case R.string.prefs_cpu_other_load_suspension_header:
 			description = ctx.getString(R.string.prefs_cpu_other_load_suspension_description);
-			unit = ctx.getString(R.string.prefs_unit_pct);
+			this.unit = PrefsListItemWrapperValue.Unit.PERCENT;
 			break;
 		case R.string.prefs_cpu_time_max_header:
 			description = ctx.getString(R.string.prefs_cpu_time_max_description);
-			unit = ctx.getString(R.string.prefs_unit_pct);
+			this.unit = PrefsListItemWrapperValue.Unit.PERCENT;
 			break;
 		case R.string.prefs_memory_max_idle_header:
 			description = ctx.getString(R.string.prefs_memory_max_idle_description);
-			unit = ctx.getString(R.string.prefs_unit_pct);
+			this.unit = PrefsListItemWrapperValue.Unit.PERCENT;
 			break;
 		case R.string.prefs_gui_log_level_header:
 			description = ctx.getString(R.string.prefs_gui_log_level_description);
-			isNumber = true;
+			this.unit = PrefsListItemWrapperValue.Unit.NONE;
 			break;
 		default:
 			if(Logging.DEBUG) Log.d(Logging.TAG, "PrefsListItemWrapperValue map failed!");
 		}
-		if(unit.equals(ctx.getString(R.string.prefs_unit_pct))) isPct = true;
 	}
 }

@@ -193,18 +193,14 @@
   <string name="prefs_client_log_flags_header">Marques de registre del client de BOINC</string>
   <string name="prefs_gui_log_level_header">Nivell de registre GUI</string>
   <string name="prefs_gui_log_level_description">Especifica el nivell de detall dels missatges de registre GUI.</string>
-  <string name="prefs_unit_mb">MB</string>
-  <string name="prefs_unit_gb">GB</string>
-  <string name="prefs_unit_pct">%</string>
-  <string name="prefs_unit_celcius">°C</string>
+  <string name="prefs_unit_celsius">°C</string>
   <string name="prefs_unit_seconds">segon</string>
   <!--projects tab strings-->
   <string name="projects_loading">S\'estan carregant els projectes...</string>
   <string name="projects_add">Afegeix el projecte</string>
   <string name="projects_icon">Icona delprojecte</string>
-  <string name="projects_credits_header">Crèdit:</string>
-  <string name="projects_credits_host_header">(en aquest dispositiu)</string>
-  <string name="projects_credits_user_header">(total)</string>
+  <string name="projects_credits">Crèdit:</string>
+  <string name="projects_credits_host_and_user">%1$,d (en aquest dispositiu) %2$,d (total)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Suspès per l\'usuari</string>
   <string name="projects_status_dontrequestmorework">No descarregar tasques noves</string>

@@ -193,18 +193,14 @@
   <string name="prefs_client_log_flags_header">BOINC客戶端紀錄檔標籤</string>
   <string name="prefs_gui_log_level_header">GUI日誌等級</string>
   <string name="prefs_gui_log_level_description">指定GUI紀錄的詳細程度。</string>
-  <string name="prefs_unit_mb">MB</string>
-  <string name="prefs_unit_gb">GB</string>
-  <string name="prefs_unit_pct">%</string>
-  <string name="prefs_unit_celcius">°C</string>
+  <string name="prefs_unit_celsius">°C</string>
   <string name="prefs_unit_seconds">秒</string>
   <!--projects tab strings-->
   <string name="projects_loading">正在讀取專案…</string>
   <string name="projects_add">新增專案</string>
   <string name="projects_icon">專案圖示</string>
-  <string name="projects_credits_header">積分:</string>
-  <string name="projects_credits_host_header">(在此裝置上)</string>
-  <string name="projects_credits_user_header">(總共)</string>
+  <string name="projects_credits">積分:</string>
+  <string name="projects_credits_host_and_user">%1$,d (在此裝置上) %2$,d (總共)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">用戶已暫停</string>
   <string name="projects_status_dontrequestmorework">拒絕新任務</string>

@@ -123,7 +123,7 @@ static int do_http_post(
 int query_files(
     const char* project_url,
     const char* authenticator,
-    vector<string> &md5s,
+    vector<string> &boinc_names,
     int batch_id,
     vector<int> &absent_files,
     string& error_msg
@@ -137,8 +137,8 @@ int query_files(
         sprintf(buf, "<batch_id>%d</batch_id>\n", batch_id);
         req_msg += string(buf);
     }
-    for (unsigned int i=0; i<md5s.size(); i++) {
-        sprintf(buf, "   <md5>%s</md5>\n", md5s[i].c_str());
+    for (unsigned int i=0; i<boinc_names.size(); i++) {
+        sprintf(buf, "   <md5>%s</md5>\n", boinc_names[i].c_str());
         req_msg += string(buf);
     }
     req_msg += "</query_files>\n";
@@ -178,7 +178,7 @@ int upload_files (
     const char* project_url,
     const char* authenticator,
     vector<string> &paths,
-    vector<string> &md5s,
+    vector<string> &boinc_names,
     int batch_id,
     string &error_msg
 ) {
@@ -190,8 +190,8 @@ int upload_files (
         sprintf(buf, "<batch_id>%d</batch_id>\n", batch_id);
         req_msg += string(buf);
     }
-    for (unsigned int i=0; i<md5s.size(); i++) {
-        sprintf(buf, "<md5>%s</md5>\n", md5s[i].c_str());
+    for (unsigned int i=0; i<boinc_names.size(); i++) {
+        sprintf(buf, "<md5>%s</md5>\n", boinc_names[i].c_str());
         req_msg += string(buf);
     }
     req_msg += "</upload_files>\n";
@@ -355,13 +355,33 @@ int submit_jobs(
         }
         for (unsigned int j=0; j<job.infiles.size(); j++) {
             INFILE infile = job.infiles[j];
-            sprintf(buf,
-                "<input_file>\n"
-                "<mode>local_staged</mode>\n"
-                "<source>%s</source>\n"
-                "</input_file>\n",
-                infile.physical_name
-            );
+            switch (infile.mode) {
+            case FILE_MODE_LOCAL_STAGED:
+                sprintf(buf,
+                    "<input_file>\n"
+                    "<mode>local_staged</mode>\n"
+                    "<source>%s</source>\n"
+                    "</input_file>\n",
+                    infile.physical_name
+                );
+                break;
+            case FILE_MODE_REMOTE:
+                sprintf(buf,
+                    "<input_file>\n"
+                    "<mode>remote</mode>\n"
+                    "<url>%s</url>\n"
+                    "<nbytes>%f</nbytes>\n"
+                    "<md5>%s</md5>\n"
+                    "</input_file>\n",
+                    infile.url,
+                    infile.nbytes,
+                    infile.md5
+                );
+                break;
+            default:
+                fprintf(stderr, "unsupported file mode %d\n", infile.mode);
+                exit(1);
+            }
             request += buf;
         }
         request += "</job>\n";

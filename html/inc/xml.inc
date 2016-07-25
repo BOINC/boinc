@@ -29,8 +29,24 @@ function db_init_xml() {
     return 0;
 }
 
+// write PHP warnings as XML, so that the reply can be parsed by client
+//
+function error_handler($errno, $errstr, $errfile, $errline) {
+    if ($errno == E_WARNING) $errno = "Warning";
+    if ($errno == E_NOTICE) $errno = "Notice";
+    echo "<error>
+    <error_msg>$errstr</error_msg>
+    <type>$errno</type>
+    <file>$errfile</file>
+    <line>$errline</line>
+</error>
+";
+}
+
+
 function xml_header() {
     global $generating_xml;
+    set_error_handler('error_handler', E_WARNING|E_NOTICE);
     header('Content-type: text/xml');
     echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n";
     $generating_xml = true;

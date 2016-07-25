@@ -193,18 +193,14 @@
   <string name="prefs_client_log_flags_header">BOINC Client log tekens</string>
   <string name="prefs_gui_log_level_header">GUI log level</string>
   <string name="prefs_gui_log_level_description">Specificeert uitgebreidheid van GUI log berichten.</string>
-  <string name="prefs_unit_mb">MB</string>
-  <string name="prefs_unit_gb">GB</string>
-  <string name="prefs_unit_pct">%</string>
-  <string name="prefs_unit_celcius">°C</string>
+  <string name="prefs_unit_celsius">°C</string>
   <string name="prefs_unit_seconds">seconden</string>
   <!--projects tab strings-->
   <string name="projects_loading">Projecten inlezen...</string>
   <string name="projects_add">Project toevoegen</string>
   <string name="projects_icon">Project icoon</string>
-  <string name="projects_credits_header">Punten:</string>
-  <string name="projects_credits_host_header">(op dit apparaat)</string>
-  <string name="projects_credits_user_header">(totaal)</string>
+  <string name="projects_credits">Punten:</string>
+  <string name="projects_credits_host_and_user">%1$,d (op dit apparaat) %2$,d (totaal)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Onderbroken door gebruiker</string>
   <string name="projects_status_dontrequestmorework">Krijgt geen nieuwe taken</string>

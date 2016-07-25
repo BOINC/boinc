@@ -193,18 +193,14 @@
   <string name="prefs_client_log_flags_header">Drapeaux de journal du client BOINC</string>
   <string name="prefs_gui_log_level_header">Journal niveau GUI</string>
   <string name="prefs_gui_log_level_description">Définit le niveau de détail de la GUI des messages du journal</string>
-  <string name="prefs_unit_mb">Mo</string>
-  <string name="prefs_unit_gb">Go</string>
-  <string name="prefs_unit_pct">%</string>
-  <string name="prefs_unit_celcius">°C</string>
+  <string name="prefs_unit_celsius">°C</string>
   <string name="prefs_unit_seconds">s</string>
   <!--projects tab strings-->
   <string name="projects_loading">Lecture des projets...</string>
   <string name="projects_add">Ajout de projet</string>
   <string name="projects_icon">Icône de projet</string>
-  <string name="projects_credits_header">Crédits:</string>
-  <string name="projects_credits_host_header">(sur cet appareil)</string>
-  <string name="projects_credits_user_header">(total)</string>
+  <string name="projects_credits">Crédits:</string>
+  <string name="projects_credits_host_and_user">%1$,d (sur cet appareil) %2$,d (total)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Suspendu par l\'utilisateur</string>
   <string name="projects_status_dontrequestmorework">Pas de nouvelle tâche</string>

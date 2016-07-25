@@ -94,7 +94,7 @@ function query_files($r) {
     $md5s = array_unique($md5s);
     foreach($md5s as $md5) {
         $fname = job_file_name($md5);
-        $path = dir_hier_path($fname, "../../download", $fanout);
+        $path = dir_hier_path($fname, project_dir() . "/download", $fanout);
 
         // if the job_file record is there,
         // update the delete time first to avoid race condition
@@ -116,6 +116,9 @@ function query_files($r) {
                 $jf_id = BoincJobFile::insert(
                     "(md5, create_time, delete_time) values ('$md5', $now, $delete_time)"
                 );
+                if (!$jf_id) {
+                    xml_error(-1, "query_file(): BoincJobFile::insert($md5) failed: ".BoincDb::error());
+                }
             }
             // create batch association if needed
             //
@@ -131,7 +134,12 @@ function query_files($r) {
             }
         } else {
             if ($job_file) {
-                $job_file->delete();
+                $ret = $job_file->delete();
+                if (!$ret) {
+                    xml_error(-1,
+                        "BoincJobFile::delete() failed: ".BoincDb::error()
+                    );
+                }
             }
             $absent_files[] = $i;
         }
@@ -159,14 +167,14 @@ function upload_files($r) {
             xml_error(-1, "$tmp_name is not an uploaded file");
         }
         $fname = job_file_name($md5);
-        $path = dir_hier_path($fname, "../../download", $fanout);
+        $path = dir_hier_path($fname, project_dir() . "/download", $fanout);
         rename($tmp_name, $path);
         $now = time();
         $jf_id = BoincJobFile::insert(
             "(md5, create_time, delete_time) values ('$md5', $now, $delete_time)"
         );
         if (!$jf_id) {
-            xml_error(-1, "BoincJobFile::insert($md5) failed: ".BoincDb::error());
+            xml_error(-1, "upload_files(): BoincJobFile::insert($md5) failed: ".BoincDb::error());
         }
         if ($batch_id) {
             BoincBatchFileAssoc::insert(
@@ -192,7 +200,7 @@ if (0) {
 xml_header();
 $r = simplexml_load_string($_POST['request']);
 if (!$r) {
-    xml_error(-1, "can't parse request message");
+    xml_error(-1, "can't parse request message", __FILE__, __LINE__);
 }
 
 switch($r->getName()) {

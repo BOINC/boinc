@@ -193,18 +193,14 @@
   <string name="prefs_client_log_flags_header">BOINC kliens naplózási címkék</string>
   <string name="prefs_gui_log_level_header">GUI naplózási szint</string>
   <string name="prefs_gui_log_level_description">Mennyire legyenek bőbeszédűek a GUI naplóüzenetek.</string>
-  <string name="prefs_unit_mb">MB</string>
-  <string name="prefs_unit_gb">GB</string>
-  <string name="prefs_unit_pct">%</string>
-  <string name="prefs_unit_celcius">°C</string>
+  <string name="prefs_unit_celsius">°C</string>
   <string name="prefs_unit_seconds">s</string>
   <!--projects tab strings-->
   <string name="projects_loading">Projektek beolvasása...</string>
   <string name="projects_add">Projekt hozzáadása</string>
   <string name="projects_icon">Projekt ikon</string>
-  <string name="projects_credits_header">Kredit:</string>
-  <string name="projects_credits_host_header">(ezen a készüléken)</string>
-  <string name="projects_credits_user_header">(összesen)</string>
+  <string name="projects_credits">Kredit:</string>
+  <string name="projects_credits_host_and_user">%1$,d (ezen a készüléken) %2$,d (összesen)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Felhasználó által felfüggesztve</string>
   <string name="projects_status_dontrequestmorework">Nem tölt le új feladatot</string>

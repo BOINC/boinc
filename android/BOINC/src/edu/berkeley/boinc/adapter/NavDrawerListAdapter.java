@@ -1,7 +1,7 @@
 /*******************************************************************************
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2016 University of California
  * 
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -18,8 +18,6 @@
  ******************************************************************************/
 package edu.berkeley.boinc.adapter;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.Project;
@@ -35,6 +33,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class NavDrawerListAdapter extends BaseAdapter{
 
@@ -115,7 +116,7 @@ public class NavDrawerListAdapter extends BaseAdapter{
         		try {counter = BOINCActivity.monitor.getRssNotices().size();}catch(Exception e) {}
         		break;
         	}
-        	txtCount.setText(counter.toString());
+        	txtCount.setText(NumberFormat.getIntegerInstance().format(counter));
         }else{
         	// hide the counter view
         	txtCount.setVisibility(View.GONE);

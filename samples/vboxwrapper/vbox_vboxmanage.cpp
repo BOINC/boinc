@@ -256,8 +256,13 @@ int VBOX_VM::create_vm() {
     //
     vboxlog_msg("Setting Boot Options for VM.");
     command  = "modifyvm \"" + vm_name + "\" ";
-    command += "--boot1 disk ";
-    command += "--boot2 dvd ";
+    if (boot_iso) {
+        command += "--boot1 dvd ";
+        command += "--boot2 disk ";        
+    } else {
+        command += "--boot1 disk ";
+        command += "--boot2 dvd ";
+    } 
     command += "--boot3 none ";
     command += "--boot4 none ";
 
