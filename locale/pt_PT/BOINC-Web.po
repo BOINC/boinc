@@ -8,14 +8,14 @@
 # Translators:
 # Maria Manuela Silva <manuela.silva@sky.com>, 2016
 # Maria Manuela Silva <manuela.silva@sky.com>, 2016
-# Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>, 2015
+# Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>, 2015-2016
 # Octávio Filipe Gonçalves <octavio.filipe.pereira@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-07-25 15:59+0000\n"
+"PO-Revision-Date: 2016-07-26 09:02+0000\n"
 "Last-Translator: Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -957,7 +957,7 @@ msgid ""
 "Testing and comparison of heuristic methods for getting separations of "
 "parallel algorithms working in the CAD system for designing logic control "
 "systems"
-msgstr "Testes e comparação de métodos heurísticos para obter separações de algoritmos paralelos que trabalham no sistema CAD para a concepção de sistemas de controlo de lógica."
+msgstr "Testes e comparação de métodos heurísticos para obter separações de algoritmos paralelos que trabalham em sistemas CAD para a concepção de sistemas de controlo de lógica."
 
 #: ../html/inc/news.inc:40
 msgid "Comment"
