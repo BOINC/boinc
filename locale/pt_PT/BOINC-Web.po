@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-07-26 09:59+0000\n"
+"PO-Revision-Date: 2016-07-26 10:04+0000\n"
 "Last-Translator: Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -533,7 +533,7 @@ msgid ""
 "changes and also to things like changes in carbon dioxide and the sulphur "
 "cycle. This will allow us to explore how climate may change in the next "
 "century under a wide range of different scenarios."
-msgstr "Investigar as aproximações que têm de ser feitas em modelos climáticos. Ao executar o modelo milhares de vezes esperamos descobrir como o modelo responde a pequenos ajustes a essas aproximações - apenas o suficiente para não fazer aproximações menos realista. Isto irá permitir-nos a melhorar o nosso entendimento de como os nossos modelos são sensíveis a pequenas mudanças e também factores como mudanças no dióxido de carbono e no ciclo do enxofre. Isto irá permitir-nos explorar como o clima pode mudar no próximo século sob uma ampla gama de diferentes cenários."
+msgstr "Investiga as aproximações que têm de ser feitas em modelos climáticos. Ao executar o modelo milhares de vezes, esperamos descobrir como o modelo responde a pequenos ajustes a essas aproximações - apenas o suficiente para não realizar aproximações menos realistas. Isto irá permitir-nos melhorar o nosso entendimento de como os nossos modelos são sensíveis a pequenas mudanças e também factores como mudanças no dióxido de carbono e no ciclo do enxofre. Isto irá permitir-nos explorar como o clima pode mudar no próximo século sob uma ampla gama de diferentes cenários."
 
 #: projects.inc:253
 msgid "Physical Science"
@@ -589,7 +589,7 @@ msgstr "Constellation, é uma plataforma para simulações aeroespaciais, que in
 
 #: projects.inc:294
 msgid "Perform aerospace-related simulations"
-msgstr "Execute simulações aeroespacial"
+msgstr "Execute simulações aeroespaciais"
 
 #: projects.inc:329
 msgid ""
@@ -766,7 +766,7 @@ msgstr "Matemática, física, evolução"
 msgid ""
 "Yoyo@home is an adapter between BOINC and several existing volunteer "
 "computing projects: ECM, Muon, Evolution@home, and distributed.net"
-msgstr "O Yoyo@home é um intermediário entre o BOINC e vários projetos de computação existentes: ECM, Muon, Evolution@home e distributed.net"
+msgstr "O Yoyo@home é um intermediário entre o BOINC e vários projectos de computação existentes: ECM, Muon, Evolution@home e distributed.net"
 
 #: projects.inc:472
 msgid "Do research in math, physics, and evolution"
