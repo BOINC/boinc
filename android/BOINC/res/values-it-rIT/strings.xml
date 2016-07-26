@@ -61,7 +61,7 @@
   <string name="attachproject_login_header_id_name">Nome:</string>
   <string name="attachproject_login_header_pwd">Password:</string>
   <string name="attachproject_login_category_creation">Nuovo</string>
-  <string name="attachproject_login_header_creation_enabled">Registra un account per partecipare:</string>
+  <string name="attachproject_login_header_creation_enabled">Crea un account per partecipare:</string>
   <string name="attachproject_login_header_creation_client_disabled">Visita il sito web del progetto per creare un account:</string>
   <string name="attachproject_login_header_creation_disabled">Al momento il progetto non accetta nuovi account.</string>
   <string name="attachproject_login_button_registration">Registra</string>
@@ -98,7 +98,7 @@
   <string name="attachproject_error_no_name">Per favore inserisci un nome utente</string>
   <string name="attachproject_error_unknown">fallito</string>
   <string name="attachproject_error_bad_username">Nome utente rifiutato</string>
-  <string name="attachproject_error_email_in_use">email già utilizzata</string>
+  <string name="attachproject_error_email_in_use">L\'email è già in uso da parte di un account</string>
   <string name="attachproject_error_project_down">Progetto offline</string>
   <string name="attachproject_error_email_bad_syntax">email rifiutata</string>
   <string name="attachproject_error_bad_pwd">Password rifiutata</string>
@@ -200,7 +200,7 @@
   <string name="projects_add">Aggiungi progetto</string>
   <string name="projects_icon">Icona progetto</string>
   <string name="projects_credits">Crediti:</string>
-  <string name="projects_credits_host_and_user">%1$,d (su questo dispositivo) %2$,d (totale)</string>
+  <string name="projects_credits_host_and_user">%1$,d (da questo dispositivo) %2$,d (in totale)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Sospeso dall\'utente</string>
   <string name="projects_status_dontrequestmorework">Non chiedere nuovi lavori</string>
@@ -228,7 +228,7 @@
   <string name="projects_confirm_detach_message">Sei sicuro di voler rimuovere</string>
   <string name="projects_confirm_detach_message2">da BOINC?</string>
   <string name="projects_confirm_detach_confirm">Rimuovi</string>
-  <string name="projects_confirm_reset_title">Reset progetto</string>
+  <string name="projects_confirm_reset_title">Resetta il progetto</string>
   <string name="projects_confirm_reset_message">Sei sicuro di voler resettare</string>
   <string name="projects_confirm_reset_message2">\?</string>
   <string name="projects_confirm_reset_confirm">Resetta</string>
@@ -336,7 +336,7 @@
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
   <string name="about_copyright">© 2003–2015 Università della California a Berkeley.\nTutti i diritti riservati.</string>
   <string name="about_copyright_reserved">Tutti i diritti riservati.</string>
-  <string name="about_credits">Grazie all\'istituto Max Planck per la Fisica Gravitazionale, la IBM Corporation e la HTC Corporation per il loro supporto.</string>
+  <string name="about_credits">Grazie all\'istituto Max Planck per la fisica gravitazionale, la IBM Corporation e la HTC Corporation per i loro contributi.</string>
   <!--notice notification-->
   <string name="notice_notification_single_header">Nuova notifica da</string>
   <!--e.g. New notice from SETI@HOME-->
