@@ -5,13 +5,13 @@
 # Translators:
 # Maria Manuela Silva <manuela.silva@sky.com>, 2016
 # Maria Manuela Silva <manuela.silva@sky.com>, 2016
-# Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>, 2015
+# Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-07-26 11:01+0000\n"
+"PO-Revision-Date: 2016-07-26 11:06+0000\n"
 "Last-Translator: Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -813,7 +813,7 @@ msgstr "Atualmente, não está autorizado para gerir o cliente.\n\nPara executar
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
-msgstr "%s direitos ou permissões não definidas corretamente; por favor, reinstale o %s.\n(Código de erro %d"
+msgstr "%s direitos ou permissões não definidas correctamente; por favor reinstale o %s.\n(Código de erro %d"
 
 #: clientgui/BOINCGUIApp.cpp:368
 msgid " at "
@@ -1595,7 +1595,7 @@ msgstr "%s - Bandeiras de Registo de Diagnósticos"
 #: clientgui/DlgDiagnosticLogFlags.cpp:83
 msgid ""
 "These flags enable various types of diagnostic messages in the Event Log."
-msgstr "Estas bandeiras ativam vários tipos de mensagens de diagnóstico no Registo de Eventos."
+msgstr "Estas bandeiras activam vários tipos de mensagens de diagnóstico no Registo de Eventos."
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:99
 msgid "More info ..."
