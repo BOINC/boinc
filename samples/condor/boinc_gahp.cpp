@@ -534,7 +534,7 @@ void handle_fetch_output(COMMAND& c) {
         } else {
             sprintf(dst_path, "%s/%s", req.dir, of.dest);
         }
-        sprintf(buf, "mv %s/%s %s", req.dir, of.src, dst_path);
+        sprintf(buf, "mv '%s/%s' '%s'", req.dir, of.src, dst_path);
         retval = system(buf);
         if (retval) {
             s = string("mv\\ failed");
