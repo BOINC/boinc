@@ -517,9 +517,14 @@ void handle_fetch_output(COMMAND& c) {
             char* lname = req.file_descs[i].src;
             int j = output_file_index(td, lname);
             if (j < 0) {
-                sprintf(buf, "requested\\ file\\ %s\\ not\\ in\\ template", lname);
-                s = string(buf);
-                goto done;
+                if (i >= td.output_files.size()) {
+                      sprintf(buf, "too\\ many\\ output\\ files\\ specified\\ submit:%d\\ template:%d",
+                          i, td.output_files.size()
+                      );
+                    s = string(buf);
+                    goto done;
+                }
+                j = i;
             }
             sprintf(path, "%s/%s", req.dir, lname);
             retval = get_output_file(
