@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-07-26 10:04+0000\n"
+"PO-Revision-Date: 2016-07-26 10:09+0000\n"
 "Last-Translator: Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -733,7 +733,7 @@ msgstr "Biologia Molecular, Ciência Computacional"
 msgid ""
 "The Citizen Science Grid is dedicated to supporting a wide range of research"
 " and educational projects using volunteer computing and citizen science."
-msgstr "The Citizen Science Grid, dedica-se a apoiar uma ampla gama de projetos de pesquisa e projectos educacionais, utilizando computação distribuida voluntária e área científica da sociedade civil."
+msgstr "O Citizen Science Grid dedica-se a apoiar uma ampla gama de projetos de pesquisa e projectos educacionais, utilizando computação distribuida voluntária e área científica da sociedade civil."
 
 #: projects.inc:452
 msgid "Support science from the University of North Dakota"
@@ -752,7 +752,7 @@ msgid ""
 "The objective of CAS@home is to encourage and assist scientists in China to "
 "adopt the technologies of volunteer computing and volunteer thinking for "
 "their research."
-msgstr "O objetivo do CAS@home é encorajar e assistir os cientistas na China para adoptarem as tecnologias de computação voluntária e pensamento voluntário para as pesquisas dos mesmos."
+msgstr "O objetivo do CAS@home é encorajar e ajudar os cientistas na China a adoptarem as tecnologias de computação voluntária e pensamento voluntário para as pesquisas dos mesmos."
 
 #: projects.inc:462
 msgid "Help Chinese researchers"
@@ -849,7 +849,7 @@ msgstr "NumberFields@home pesquisa por campos com propriedades especiais. A apli
 
 #: projects.inc:537
 msgid "Do research in algebraic number theory"
-msgstr "Realizar pesquisa na teoria dos números algébricos"
+msgstr "Realiza pesquisa na teoria dos números algébricos"
 
 #: projects.inc:553
 msgid "Computer Science"
@@ -860,7 +860,7 @@ msgid ""
 "Solve hard and practically important problems (discrete functions inversion "
 "problems, discrete optimization, bioinformatics, etc.) that can be "
 "effectively reduced to Boolean satisfiability problem."
-msgstr "A resolução de problemas pacticamente impossíveis (funções discretas problemas de inversão, otimização discreta, bioinformática, etc.), que podem ser efetivamente reduzidos a um problema de satisfatibilidade booleana."
+msgstr "Resolução de problemas pacticamente impossíveis (funções discretas problemas de inversão, optimização discreta, bioinformática, etc.), que podem ser efectivamente reduzidos a um problema de satisfatibilidade booleana."
 
 #: projects.inc:557
 msgid "Study computational complexity"
@@ -882,7 +882,7 @@ msgstr "Criptografia"
 msgid ""
 "Attempt to decode 3 original Enigma messages. The signals were intercepted "
 "in the North Atlantic in 1942 and are believed to be unbroken."
-msgstr "Tentativa de descodificação 3 mensagens Enigma originais. Estes sinais foram intercetados no Atlântico Norte em 1942 e acredita-se que sejam impossíveis de descodificar."
+msgstr "Tentativa de descodificação de 3 mensagens originais (Enigma). Estes sinais foram intercetados no Atlântico Norte em 1942 e acredita-se que sejam impossíveis de descodificar."
 
 #: projects.inc:596
 msgid "Decode WWII submarine messages"
