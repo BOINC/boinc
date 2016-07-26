@@ -471,7 +471,7 @@ void handle_fetch_output(COMMAND& c) {
         } else {
             sprintf(path, "%s/%s", req.dir, req.stderr_filename.c_str());
         }
-        FILE* f = fopen(path, "w");
+        FILE* f = fopen(path, "a");
         if (!f) {
             sprintf(buf, "can't\\ open\\ stderr\\ output\\ file\\ %s ", path);
             s = string(buf);
