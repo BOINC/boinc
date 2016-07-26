@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-07-26 09:53+0000\n"
+"PO-Revision-Date: 2016-07-26 09:59+0000\n"
 "Last-Translator: Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -397,7 +397,7 @@ msgstr "Fisiologia Médica"
 msgid ""
 "DENIS@Home does cardiac electrophysiological simulations, studying the "
 "electrical activity of the heart."
-msgstr "O DENIS@Home efectua simulações eletrofisiológicas cardíacas, estudando a atividade eléctrica do coração."
+msgstr "O DENIS@Home efectua simulações electrofisiológicas cardíacas, estudando a atividade eléctrica do coração."
 
 #: projects.inc:98
 msgid "Molecular biology"
@@ -440,7 +440,7 @@ msgid ""
 "the proteins interact with one another, to understand diseases related to "
 "protein malfunction or aggregation, and to develop new drugs on the basis of"
 " the three-dimensions structure of biologically important proteins."
-msgstr "POEM@HOME utiliza uma abordagem computacional para prever a estrutura biologicamente ativa das proteínas, para compreender os mecanismos de processamento de sinal quando as proteínas interagem entre si, para compreender doenças relacionadas com o mau funcionamento ou agregação de proteínas e, para desenvolver novos medicamentos com base na estrutura tridimensional de proteínas biologicamente importantes."
+msgstr "POEM@HOME utiliza uma abordagem computacional para prever a estrutura biologicamente activa das proteínas, para compreender os mecanismos de processamento de sinal quando as proteínas interagem entre si, para compreender doenças relacionadas com o mau funcionamento ou agregação de proteínas e, para desenvolver novos medicamentos com base na estrutura tridimensional de proteínas biologicamente importantes."
 
 #: projects.inc:147
 msgid "Barcelona Biomedical Research Park (PRBB)"
@@ -456,7 +456,7 @@ msgid ""
 "molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. "
 "New biomedical applications suddenly become possible giving a new role to "
 "computational biology for biomedical research."
-msgstr "O GPUGrid.net abre novos cenários computacionais pelo primeiro átomo molecular completo de código dinâmico (CellMD) especialmente optimizado para executar em GPUs NVIDIA. Novas aplicações biomédicas tornam-se de repente possiveis, podendo criar um novo papel na biologia computacional para a pesquisa biomédica."
+msgstr "O GPUGrid.net abre novos cenários computacionais pelo primeiro átomo molecular completo de código dinâmico (CellMD) especialmente optimizado para ser executado em GPUs NVIDIA. Novas aplicações biomédicas tornam-se de repente possiveis, podendo criar um novo papel na biologia computacional para a pesquisa biomédica."
 
 #: projects.inc:175
 msgid ""
@@ -472,7 +472,7 @@ msgid ""
 "The Lattice Project, developed and administered at the University of "
 "Maryland, supplies computing power to researchers worldwide who are studying"
 " evolutionary relationships using DNA and protein sequence data."
-msgstr "O Projeto Lattice, desenvolvido e administrado na Universidade de Maryland, fornece poder de computação aos investigadores de todo o mundo, que estudam as relações evolutivas utilizando DNA e dados de sequências proteína"
+msgstr "O Projecto Lattice, desenvolvido e administrado na Universidade de Maryland, fornece poder de computação aos investigadores de todo o mundo, que estudam as relações evolutivas utilizando DNA e dados de sequências proteícas"
 
 #: projects.inc:185
 msgid "The Swiss Tropical Institute"
@@ -491,7 +491,7 @@ msgid ""
 "is extremely computer intensive, requiring simulations of large human "
 "populations with a diverse set of parameters related to biological and "
 "social factors that influence the distribution of the disease. "
-msgstr "Os modelos de simulação da transmissão dinâmica e efeitos da saúde da malária são uma ferramenta importante para o controlo da mesma. Estes podem ser utilizados para determinar as estratégias ótimas para a distribuição das redes de mosquito, ou novas vacinas que estão atualmente em desenvolvimento ou em teste. Tal modelagem é extremamente intensiva (computador), que requer simulações de uma grande população de humanos com uma definição diversa de parâmetros relacionados com os fatores biológicos e sociais que influenciam a distribuição da doença. "
+msgstr "Os modelos de simulação da transmissão dinâmica e efeitos da saúde da malária são uma ferramenta importante para o controlo da mesma. Estes podem ser utilizados para determinar as estratégias óptimas para a distribuição das redes mosquiteiras, ou novas vacinas que estão actualmente em desenvolvimento ou em teste. Tais modelagens são extremamente intensivas (computador), necessitando de simulações de uma grande população de humanos com uma definição diversa de parâmetros relacionados com os factores biológicos e sociais que influenciam a distribuição da doença. "
 
 #: projects.inc:211
 msgid "University of Washington"
@@ -509,7 +509,7 @@ msgid ""
 "couldn't possibly attempt without your help. You will also be helping our "
 "efforts at designing new proteins to fight diseases such as HIV, malaria, "
 "cancer, and Alzheimer's"
-msgstr "Determinar as formas 3-dimensionais de proteínas na pesquisa que pode levar a encontrar curas para algumas das doenças humanas mais importantes. Ao ajudar a Rosetta@home o utilizador vai-nos ajudar a acelerar e alargar a nossa investigação de tal maneira, que não conseguiríamos sem a sua ajuda. O voluntário também estará ajudando os nossos esforços, no desenvolvimento de novas proteínas para combater doenças como o HIV, a malária, câncro e Alzheimer."
+msgstr "Determinar as formas tri-dimensionais de proteínas na pesquisa que pode levar a encontrar curas para algumas das doenças humanas mais importantes. Ao ajudar a Rosetta@home o utilizador vai ajudar a acelerar e alargar a nossa investigação de tal maneira, que não conseguiríamos sem a sua ajuda. Estará também estará a ajudar nos nossos esforços, no desenvolvimento de novas proteínas para combater doenças como o HIV, a malária, câncro e Alzheimer."
 
 #: projects.inc:231
 msgid "Earth Sciences"
