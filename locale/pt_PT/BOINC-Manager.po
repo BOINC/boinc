@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-07-26 11:11+0000\n"
+"PO-Revision-Date: 2016-07-26 11:16+0000\n"
 "Last-Translator: Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -2675,7 +2675,7 @@ msgid ""
 "The URL you supplied is not that of a BOINC-based project.\n"
 "\n"
 "Please check the URL and try again."
-msgstr "O URL indicado não é de um projeto com base no BOINC.\n\nPor favor, verifique o URL e tente novamente."
+msgstr "O URL que forneceu não é de um projecto com base no BOINC.\n\nPor favor, verifique o URL e tente novamente."
 
 #: clientgui/NotDetectedPage.cpp:188
 msgid "Account manager not found"
@@ -2858,7 +2858,7 @@ msgstr "O BOINC não conseguiu comunicar na Internet.\nAs razões mais provávei
 
 #: clientgui/ProxyPage.cpp:331
 msgid "Proxy configuration"
-msgstr "Configuração de proxy"
+msgstr "Configuração da proxy"
 
 #: clientgui/ProxyPage.cpp:334
 msgid "HTTP proxy"
@@ -2870,7 +2870,7 @@ msgstr "Servidor:"
 
 #: clientgui/ProxyPage.cpp:350
 msgid "Autodetect"
-msgstr "Detetar automaticamente"
+msgstr "Detectar automaticamente"
 
 #: clientgui/ProxyPage.cpp:354
 msgid "SOCKS proxy"
@@ -2982,7 +2982,7 @@ msgstr "Copiar todas as mensagens"
 
 #: clientgui/ViewMessages.cpp:95
 msgid "Copy selected messages"
-msgstr "Copiar as mensagens selecionadas"
+msgstr "Copiar as mensagens seleccionadas"
 
 #: clientgui/ViewMessages.cpp:106 clientgui/ViewMessages.cpp:502
 msgid "Show only this project"
@@ -3071,7 +3071,7 @@ msgstr "Reiniciar projeto"
 msgid ""
 "Delete all files and tasks associated with this project, and get new tasks."
 "  You can update the project first to report any completed tasks."
-msgstr "Elimina todos os ficheiros e tarefas associadas a este projeto, e obtém novas tarefas. Pode atualizar primeiro o projeto para comunicar quaisquer tarefas concluídas."
+msgstr "Elimina todos os ficheiros e tarefas associadas a este projecto, e obter novas tarefas. Pode actualizar primeiro o projecto para comunicar quaisquer tarefas concluídas."
 
 #: clientgui/ViewProjects.cpp:231 clientgui/sg_ProjectCommandPopup.cpp:91
 msgid ""
@@ -3411,7 +3411,7 @@ msgstr "Tente Novamente"
 
 #: clientgui/ViewTransfers.cpp:188
 msgid "Retry the file transfer now"
-msgstr "Tenta novamente a transferência do ficheiro"
+msgstr "Tentar novamente a transferência do ficheiro"
 
 #: clientgui/ViewTransfers.cpp:194
 msgid "Abort Transfer"
@@ -3453,7 +3453,7 @@ msgstr "A atividade de rede está suspensa - "
 msgid ""
 ".\n"
 "You can enable it using the Activity menu."
-msgstr ".\nPode ativá-la utilizando o menu Atividade."
+msgstr ".\nPode activá-la utilizando o menu Actividade."
 
 #: clientgui/ViewTransfers.cpp:367
 msgid "BOINC"
@@ -3501,7 +3501,7 @@ msgstr "suspenso"
 
 #: clientgui/ViewTransfers.cpp:859
 msgid "active"
-msgstr "ativo"
+msgstr "activo"
 
 #: clientgui/ViewTransfers.cpp:861
 msgid "pending"
@@ -3545,7 +3545,7 @@ msgstr "Abortar"
 
 #: clientgui/ViewWork.cpp:240
 msgid "Abandon work on the result. You will get no credit for it."
-msgstr "Abandona o resultado do trabalho. Não receberá crédito por ele."
+msgstr "Abandona o resultado do trabalho. Não receberá créditos por ele."
 
 #: clientgui/ViewWork.cpp:247 clientgui/sg_TaskCommandPopup.cpp:85
 msgid "Show task details."
@@ -3869,15 +3869,15 @@ msgstr "Processamento suspenso:  o utilizador pausou o processamento."
 
 #: clientgui/sg_TaskPanel.cpp:1223
 msgid "Processing Suspended:  Time of Day."
-msgstr "Processamento suspenso:  hora do dia."
+msgstr "Processamento Suspenso:  Hora do Dia."
 
 #: clientgui/sg_TaskPanel.cpp:1225
 msgid "Processing Suspended:  Benchmarks Running."
-msgstr "Processamento suspenso:  a realizar os testes de desempenho."
+msgstr "Processamento suspenso:  a realizar os Testes de Desempenho."
 
 #: clientgui/sg_TaskPanel.cpp:1227
 msgid "Processing Suspended."
-msgstr "Processamento suspenso."
+msgstr "Processamento Suspenso."
 
 #: clientgui/sg_TaskPanel.cpp:1231
 msgid "Waiting to contact project servers."
