@@ -248,7 +248,7 @@
   <string name="tasks_result_files_uploading">a enviar</string>
   <string name="tasks_result_files_uploaded">envio concluído</string>
   <string name="tasks_result_aborted">abortado</string>
-  <string name="tasks_result_upload_failed">envio falhou</string>
+  <string name="tasks_result_upload_failed">envio falhado</string>
   <string name="tasks_active_uninitialized">pronto</string>
   <string name="tasks_active_executing">em execução</string>
   <string name="tasks_active_suspended">suspenso</string>
@@ -276,7 +276,7 @@
   <string name="trans_header_name">Ficheiro:</string>
   <string name="trans_control_retry">Repetir transferências</string>
   <string name="confirm_abort_trans_title">Abortar transferência?</string>
-  <string name="confirm_abort_trans_message">Abortar ficheiro:</string>
+  <string name="confirm_abort_trans_message">Abortar Ficheiro:</string>
   <string name="confirm_abort_trans_confirm">Abortar</string>
   <!--notices tab strings-->
   <string name="notices_loading">A ler os avisos...</string>
@@ -288,17 +288,17 @@
   <string name="eventlog_email_subject">Registo de Eventos para o BOINC no Android:</string>
   <!--suspend reasons-->
   <string name="suspend_unknown">Computação suspensa.</string>
-  <string name="suspend_batteries">Conecte o seu dispositivo a um carregador para continuar a computação.</string>
-  <string name="suspend_screen_on">Desligar ecrã para continuar a computação.</string>
+  <string name="suspend_batteries">Ligue o seu dispositivo a um carregador para continuar a computação.</string>
+  <string name="suspend_screen_on">Desligue o ecrã para continuar a computação.</string>
   <string name="suspend_useractive">O utilizador está ativo.</string>
-  <string name="suspend_tod">Fora da janela de tempo para a computação.</string>
+  <string name="suspend_tod">Fora da janela de tempo limite para a computação.</string>
   <string name="suspend_bm">O BOINC está a executar o teste de desempenho no seu dispositivo...</string>
   <string name="suspend_disksize">Sem espaço em disco.</string>
   <string name="suspend_cputhrottle">Estrangulamento de CPU agendado.</string>
-  <string name="suspend_noinput">Sem atividade recente do utilizador.</string>
+  <string name="suspend_noinput">Sem actividade recente do utilizador.</string>
   <string name="suspend_delay">Atraso de inicialização.</string>
   <string name="suspend_exclusiveapp">Uma aplicação exclusiva está em execução.</string>
-  <string name="suspend_cpu">O seu dispositivo está ocupado com outras aplicações</string>
+  <string name="suspend_cpu">O seu dispositivo está ocupado com outras aplicações.</string>
   <string name="suspend_network_quota">BOINC atingiu o limite de transferência diário da rede.</string>
   <string name="suspend_os">Parado pelo Android.</string>
   <string name="suspend_wifi">Não ligado à Wi-Fi.</string>
@@ -330,13 +330,13 @@
   <string name="menu_help">Ajuda</string>
   <!--about dialog-->
   <string name="about_button">Regressar</string>
-  <string name="about_title">Acerca de</string>
+  <string name="about_title">Sobre</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Versão</string>
   <string name="about_name_long">Infraestrutura Aberta Berkeley para a Rede de Computação</string>
   <string name="about_copyright">\u00A9 2003-2014 Universidade da Califórnia, Berkeley</string>
   <string name="about_copyright_reserved">Todos os Direitos Reservados.</string>
-  <string name="about_credits">Agradecimentos ao Instituto Max Planck de Física Gravitacional, IBM e HTC pelo seu suporte.</string>
+  <string name="about_credits">Agradecimentos ao Instituto Max Planck de Física Gravitacional, IBM e à HTC pelo seu suporte.</string>
   <!--notice notification-->
   <string name="notice_notification_single_header">Notícia nova de</string>
   <!--e.g. New notice from SETI@HOME-->
