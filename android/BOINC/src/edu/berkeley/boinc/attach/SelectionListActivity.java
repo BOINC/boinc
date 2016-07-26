@@ -187,16 +187,19 @@ public class SelectionListActivity extends FragmentActivity{
             ArrayList<ProjectInfo> data = null;
             boolean retry = true;
             // Try to get the project list for as long as the AsyncTask has not been canceled
-            while (!super.isCancelled() && retry) {
+            while (retry) {
                 try {
                     data = (ArrayList<ProjectInfo>)monitor.getAttachableProjects();
-                } catch (RemoteException e) {}
+                } catch (RemoteException e) {
+                    if (Log.isLoggable(Logging.TAG, Log.WARN)) Log.w(Logging.TAG, e);
+                }
+                if (super.isCancelled()) return data; // Does not matter if data == null or not
                 if (data == null) {
                     if (Logging.WARNING) Log.w(Logging.TAG, "UpdateProjectListAsyncTask: failed to retrieve data, retry....");
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
-                        if (Log.isLoggable(Logging.TAG, Log.DEBUG)) Log.d(Logging.TAG, e.getMessage(), e);
+                        if (Log.isLoggable(Logging.TAG, Log.DEBUG)) Log.d(Logging.TAG, e.getLocalizedMessage(), e);
                     }
                 } else retry = false;
             }
@@ -204,7 +207,8 @@ public class SelectionListActivity extends FragmentActivity{
             // Clear current ProjectListEntries since we successfully have got new ProjectInfos
             SelectionListActivity.this.entries.clear();
             // Transform ProjectInfos into ProjectListEntries
-            for (int i = data.size() - 1; !super.isCancelled() && i >= 0; i--) {
+            for (int i = data.size() - 1; i >= 0; i--) {
+                if (super.isCancelled()) return data;
                 SelectionListActivity.this.entries.add(new ProjectListEntry(data.get(i)));
             }
             // Set preferred Collator for ProjectListEntries before sorting
@@ -212,6 +216,7 @@ public class SelectionListActivity extends FragmentActivity{
                 SelectionListActivity.ProjectListEntry.collator = SelectionListActivity.ProjectListEntry.getCollator();
             }
             // Sort ProjectListEntries off the UI thread
+            // Unfortunately, there is no way to stop this sort operation if this AsyncTask gets canceled
             Collections.sort(SelectionListActivity.this.entries);
             // Dispose Collator instance after sorting
             SelectionListActivity.ProjectListEntry.collator = null;
