@@ -55,7 +55,7 @@
   <string name="attachproject_login_platform_supported">O tipo de dispositivo é suportado por este projeto</string>
   <string name="attachproject_login_platform_not_supported">O dispositivo não é suportado por este projeto</string>
   <string name="attachproject_login_category_terms_of_use">Termos de utilização para</string>
-  <string name="attachproject_login_accept_terms_of_use">Ao criar uma conta neste projeto, aceita os termos de utilização acima descritos.</string>
+  <string name="attachproject_login_accept_terms_of_use">Ao criar uma conta neste projeto, aceita os termos de utilização acima descritos</string>
   <string name="attachproject_login_category_login">Iniciar sessão com uma conta existente</string>
   <string name="attachproject_login_header_id_email">E-mail:</string>
   <string name="attachproject_login_header_id_name">Nome:</string>
@@ -200,7 +200,7 @@
   <string name="projects_add">Adicionar projeto</string>
   <string name="projects_icon">Ícone do projeto</string>
   <string name="projects_credits">Créditos:</string>
-  <string name="projects_credits_host_and_user">%1$,d (neste dispositivo) %s$,d (total)</string>
+  <string name="projects_credits_host_and_user">%1$,d (neste dispositivo) %2$,d (total)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Suspenso pelo utilizador</string>
   <string name="projects_status_dontrequestmorework">Não obter novas tarefas</string>
