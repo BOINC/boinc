@@ -12,7 +12,7 @@
   <string name="attachproject_list_header">Escolha um projeto</string>
   <string name="attachproject_list_manual_button">Adicionar projecto por URL</string>
   <string name="attachproject_list_manual_dialog_title">Insira o URL do projeto:</string>
-  <string name="attachproject_list_manual_dialog_button">Adicionar projeto</string>
+  <string name="attachproject_list_manual_dialog_button">Adicionar projecto</string>
   <string name="attachproject_list_manual_no_url">Por favor, insira o URL do projecto</string>
   <string name="attachproject_list_acctmgr_button">Adicionar gestor de conta</string>
   <string name="attachproject_list_no_internet">Sem ligação à Internet</string>
@@ -22,7 +22,7 @@
   <string name="attachproject_credential_input_show_pwd">Mostrar palavra-passe</string>
   <string name="attachproject_individual_credential_input">Adicionar projectos individualmente</string>
   <!--conflicts-->
-  <string name="attachproject_conflicts_desc">Existiram problemas ao anexar os projectos científicos:</string>
+  <string name="attachproject_conflicts_desc">Ocorreram problemas ao anexar os projectos científicos:</string>
   <string name="attachproject_conflict_undefined">Não foi possível ligar</string>
   <string name="attachproject_conflict_not_unique">A conta existe com uma palavra-passe diferente</string>
   <string name="attachproject_conflict_bad_password">Palavra-passe incorreta</string>
@@ -67,7 +67,7 @@
   <string name="attachproject_login_button_registration">Registar</string>
   <string name="attachproject_login_button_login">Iniciar sessão</string>
   <string name="attachproject_login_button_forgotpw">Esqueceu a Palavra-passe</string>
-  <string name="attachproject_login_error_toast">Contacto com o projeto falhou!</string>
+  <string name="attachproject_login_error_toast">Tentativa de contacto com o projecto falhou!</string>
   <string name="attachproject_login_attached">Anexado</string>
   <!--project registration-->
   <string name="attachproject_registration_header">Registo de conta para</string>
@@ -159,7 +159,7 @@
   <string name="prefs_show_advanced_header">Mostrar preferências avançadas e controlos...</string>
   <string name="prefs_suspend_when_screen_on">Pausar a computação quando o ecrã está ligado</string>
   <string name="prefs_stationary_device_mode_header">Dispositivo em modo estacionário</string>
-  <string name="prefs_stationary_device_mode_description">Permite computação independentemente das preferências de Energia. Habilite apenas se o dispositivo não tiver uma bateria.</string>
+  <string name="prefs_stationary_device_mode_description">Permite computação independentemente das preferências de Energia. Habilite esta opção apenas se o dispositivo não tiver uma bateria.</string>
   <string name="prefs_power_source_header">Fontes de energia para computação</string>
   <string name="prefs_power_source_description">Selecciona a fonte de energia permitida para o BOINC realizar computação.</string>
   <string name="prefs_power_source_ac">Wall socket</string>
@@ -169,7 +169,7 @@
   <string name="battery_charge_min_pct_header">Nível de bateria mínimo</string>
   <string name="battery_charge_min_pct_description">O BOINC suspende a computação quando abaixo do nível de bateria definido.</string>
   <string name="battery_temperature_max_header">Temperatura máxima da bateria</string>
-  <string name="battery_temperature_max_description">O BOINC suspende a computação abaixo da temperatura da bateria definida. Não é recomendada a alteração deste valor.</string>
+  <string name="battery_temperature_max_description">O BOINC suspende a computação se temperatura da bateria  estiver acima do definido. Não é recomendada a alteração deste valor.</string>
   <string name="prefs_disk_max_pct_header">Espaço de armazenamento máximo</string>
   <string name="prefs_disk_max_pct_description">Qual a percentagem de espaço de armazenamento no seu dispositivo que é permitido que o BOINC utilize?</string>
   <string name="prefs_disk_min_free_gb_header">Espaço de armazenamento mínimo</string>
