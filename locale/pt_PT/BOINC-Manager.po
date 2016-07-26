@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-07-26 11:06+0000\n"
+"PO-Revision-Date: 2016-07-26 11:11+0000\n"
 "Last-Translator: Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -2447,7 +2447,7 @@ msgstr "Perfis de Dispositivo"
 
 #: clientgui/Localization.cpp:153
 msgid "Update your device settings"
-msgstr "Atualizar as definições do seu dispositivo"
+msgstr "Actualizar as definições do seu dispositivo"
 
 #: clientgui/Localization.cpp:155
 msgid "Research"
@@ -2517,7 +2517,7 @@ msgstr "uma aplicação exclusiva está em execução"
 
 #: clientgui/MainDocument.cpp:2452
 msgid "CPU is busy"
-msgstr "A CPU está ocupada"
+msgstr "O CPU está ocupada"
 
 #: clientgui/MainDocument.cpp:2453
 msgid "network bandwidth limit exceeded"
@@ -2525,7 +2525,7 @@ msgstr "limite de largura de banda excedido"
 
 #: clientgui/MainDocument.cpp:2454
 msgid "requested by operating system"
-msgstr "pedido pelo sistema operativo"
+msgstr "solicitado pelo sistema operativo"
 
 #: clientgui/MainDocument.cpp:2456
 msgid "unknown reason"
@@ -2533,7 +2533,7 @@ msgstr "razão desconhecida"
 
 #: clientgui/MainDocument.cpp:2478
 msgid "GPU missing, "
-msgstr "GPU não detetada,"
+msgstr "GPU não detectada,"
 
 #: clientgui/MainDocument.cpp:2485
 msgid "New"
@@ -2541,15 +2541,15 @@ msgstr "Novo"
 
 #: clientgui/MainDocument.cpp:2489
 msgid "Download failed"
-msgstr "Transferência falhou"
+msgstr "A transferência falhou"
 
 #: clientgui/MainDocument.cpp:2491
 msgid "Downloading"
-msgstr "Transferência"
+msgstr "Transferindo"
 
 #: clientgui/MainDocument.cpp:2493 clientgui/MainDocument.cpp:2552
 msgid " (suspended - "
-msgstr "(suspenso - "
+msgstr "(suspensa - "
 
 #: clientgui/MainDocument.cpp:2501
 msgid "Project suspended by user"
@@ -2579,11 +2579,11 @@ msgstr "A aguardar por memória partilhada"
 
 #: clientgui/MainDocument.cpp:2519
 msgid "Running"
-msgstr "em execução..."
+msgstr "Em execução..."
 
 #: clientgui/MainDocument.cpp:2521
 msgid " (non-CPU-intensive)"
-msgstr " (CPU não intensiva)"
+msgstr " (CPU não intensivo)"
 
 #: clientgui/MainDocument.cpp:2524
 msgid "Waiting to run"
@@ -2615,7 +2615,7 @@ msgstr "Envio falhou"
 
 #: clientgui/MainDocument.cpp:2550
 msgid "Uploading"
-msgstr "Envio"
+msgstr "A enviar"
 
 #: clientgui/MainDocument.cpp:2561
 msgid "Aborted by user"
@@ -2627,7 +2627,7 @@ msgstr "Abortado pelo projeto"
 
 #: clientgui/MainDocument.cpp:2567
 msgid "Aborted: not started by deadline"
-msgstr "Abortado: não iniciado devido à data limite excedida"
+msgstr "Abortado: não iniciada devido à data limite ter sido ultrapassada"
 
 #: clientgui/MainDocument.cpp:2570
 msgid "Aborted: task disk limit exceeded"
