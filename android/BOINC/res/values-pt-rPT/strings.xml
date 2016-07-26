@@ -8,7 +8,7 @@
   <string name="generic_button_finish">Terminar</string>
   <!--attach project-->
   <!--selection list-->
-  <string name="attachproject_list_desc">Selecione os projetos científicos em que deseja contribuir:</string>
+  <string name="attachproject_list_desc">Seleccione os projetos científicos para os quais quer contribuir:</string>
   <string name="attachproject_list_header">Escolha um projeto</string>
   <string name="attachproject_list_manual_button">Adicionar projecto por URL</string>
   <string name="attachproject_list_manual_dialog_title">Insira o URL do projeto:</string>
@@ -55,7 +55,7 @@
   <string name="attachproject_login_platform_supported">O tipo de dispositivo é suportado por este projeto</string>
   <string name="attachproject_login_platform_not_supported">O dispositivo não é suportado por este projeto</string>
   <string name="attachproject_login_category_terms_of_use">Termos de utilização para</string>
-  <string name="attachproject_login_accept_terms_of_use">Ao criar uma conta neste projeto, aceita os termos de utilização acima descritos</string>
+  <string name="attachproject_login_accept_terms_of_use">Ao criar uma conta neste projeto, aceita os termos de utilização acima descritos.</string>
   <string name="attachproject_login_category_login">Iniciar sessão com uma conta existente</string>
   <string name="attachproject_login_header_id_email">E-mail:</string>
   <string name="attachproject_login_header_id_name">Nome:</string>
