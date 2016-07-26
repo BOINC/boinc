@@ -344,13 +344,13 @@
   <!--e.g. 3 new notices-->
   <!--multi BOINC compitability-->
   <string name="nonexcl_dialog_header">Aplicação de computação voluntária detectada</string>
-  <string name="nonexcl_dialog_text">Outra aplicação de computação voluntária está a ser executada neste aparelho. Apenas uma pode correr de cada vez.</string>
+  <string name="nonexcl_dialog_text">Outra aplicação de computação voluntária está a ser executada neste dispositivo. Apenas uma pode ser executada de cada vez.</string>
   <string name="nonexcl_dialog_exit">Sair</string>
   <!--social integration-->
   <string name="social_invite_button">Convidar amigos</string>
   <string name="social_invite_intent_title">Como quer partilhar?</string>
-  <string name="social_invite_content_title">Estou a fazer ciência no meu smartphone!</string>
-  <string name="social_invite_content_body">Estou a utilizar o meu %1$s para realizar computação para a ciência. Também podes! Faz a transferência da aplicação de: %2$s</string>
+  <string name="social_invite_content_title">Estou a fazer ciência no meu telemóvel!</string>
+  <string name="social_invite_content_body">Estou a utilizar o meu %1$s para fazer computação para a ciência. Também podes! Faz a transferência da aplicação de: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
