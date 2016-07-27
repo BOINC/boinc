@@ -42,7 +42,6 @@
 #include <cerrno>
 #include <sys/stat.h>
 #include <sys/file.h>
-#include <ctime>
 #include <cstring>
 #include <cstdlib>
 #include <sys/time.h>

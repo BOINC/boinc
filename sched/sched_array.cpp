@@ -381,7 +381,7 @@ void send_work_old() {
     // (projects should load beta work with care,
     // otherwise your users won't get production work done!
     //
-    if (g_wreq->allow_beta_work) {
+    if (g_wreq->project_prefs.allow_beta_work) {
         g_wreq->beta_only = true;
         if (config.debug_send_scan) {
             log_messages.printf(MSG_NORMAL,
@@ -429,12 +429,12 @@ void send_work_old() {
     // If user has selected apps but will accept any,
     // and we haven't found any jobs for selected apps, try others
     //
-    if (!g_wreq->njobs_sent && g_wreq->allow_non_preferred_apps ) {
+    if (!g_wreq->njobs_sent && g_wreq->project_prefs.allow_non_selected_apps ) {
         g_wreq->user_apps_only = false;
-        preferred_app_message_index = g_wreq->no_work_messages.size();
+        selected_app_message_index = g_wreq->no_work_messages.size();
         if (config.debug_send_scan) {
             log_messages.printf(MSG_NORMAL,
-                "[send_scan] scanning for jobs from non-preferred applications\n"
+                "[send_scan] scanning for jobs from non-selected applications\n"
             );
         }
         if (scan_work_array()) return;

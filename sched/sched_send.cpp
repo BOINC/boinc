@@ -64,7 +64,7 @@
 //
 const double DEFAULT_RAM_SIZE = 64000000;
 
-int preferred_app_message_index=0;
+int selected_app_message_index=0;
 
 static inline bool file_present_on_host(const char* name) {
     for (unsigned i=0; i<g_request->file_infos.size(); i++) {
@@ -479,59 +479,6 @@ double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION& bav) {
         );
     }
     return ed;
-}
-
-// Parse user's project prferences.
-// TODO: use XML_PARSER
-//
-static void get_prefs_info() {
-    char buf[8096];
-    std::string str;
-    unsigned int pos = 0;
-    int temp_int=0;
-    bool flag;
-
-    extract_venue(g_reply->user.project_prefs, g_reply->host.venue, buf, sizeof(buf));
-    str = buf;
-
-    // scan user's project prefs for elements of the form <app_id>N</app_id>,
-    // indicating the apps they want to run.
-    //
-    g_wreq->preferred_apps.clear();
-    while (parse_int(str.substr(pos,str.length()-pos).c_str(), "<app_id>", temp_int)) {
-        APP_INFO ai;
-        ai.appid = temp_int;
-        ai.work_available = false;
-        g_wreq->preferred_apps.push_back(ai);
-
-        pos = str.find("<app_id>", pos) + 1;
-    }
-    if (parse_bool(buf,"allow_non_preferred_apps", flag)) {
-        g_wreq->allow_non_preferred_apps = flag;
-    }
-    if (parse_bool(buf,"allow_beta_work", flag)) {
-        g_wreq->allow_beta_work = flag;
-    }
-    if (parse_bool(buf,"no_gpus", flag)) {
-        // deprecated, but need to handle
-        if (flag) {
-            for (int i=1; i<NPROC_TYPES; i++) {
-                g_wreq->dont_use_proc_type[i] = true;
-            }
-        }
-    }
-    if (parse_bool(buf,"no_cpu", flag)) {
-        g_wreq->dont_use_proc_type[PROC_TYPE_CPU] = flag;
-    }
-    if (parse_bool(buf,"no_cuda", flag)) {
-        g_wreq->dont_use_proc_type[PROC_TYPE_NVIDIA_GPU] = flag;
-    }
-    if (parse_bool(buf,"no_ati", flag)) {
-        g_wreq->dont_use_proc_type[PROC_TYPE_AMD_GPU] = flag;
-    }
-    if (parse_bool(buf,"no_intel_gpu", flag)) {
-        g_wreq->dont_use_proc_type[PROC_TYPE_INTEL_GPU] = flag;
-    }
 }
 
 void update_n_jobs_today() {
@@ -1256,16 +1203,16 @@ static void send_user_messages() {
 
             // Inform the user about applications with no work
             //
-            for (i=0; i<g_wreq->preferred_apps.size(); i++) {
-                if (!g_wreq->preferred_apps[i].work_available) {
-                    APP* app = ssp->lookup_app(g_wreq->preferred_apps[i].appid);
+            for (i=0; i<g_wreq->project_prefs.selected_apps.size(); i++) {
+                if (!g_wreq->project_prefs.selected_apps[i].work_available) {
+                    APP* app = ssp->lookup_app(g_wreq->project_prefs.selected_apps[i].appid);
                     // don't write message if the app is deprecated
                     //
                     if (app) {
                         char explanation[256];
                         sprintf(explanation,
                             "No tasks are available for %s",
-                            find_user_friendly_name(g_wreq->preferred_apps[i].appid)
+                            find_user_friendly_name(g_wreq->project_prefs.selected_apps[i].appid)
                         );
                         g_reply->insert_message( explanation, "low");
                     }
@@ -1274,7 +1221,7 @@ static void send_user_messages() {
 
             // Tell the user about applications they didn't qualify for
             //
-            for (j=0; j<preferred_app_message_index; j++){
+            for (j=0; j<selected_app_message_index; j++){
                 g_reply->insert_message(g_wreq->no_work_messages.at(j));
             }
             g_reply->insert_message(
@@ -1295,14 +1242,14 @@ static void send_user_messages() {
 
         // Tell the user about applications with no work
         //
-        for (i=0; i<g_wreq->preferred_apps.size(); i++) {
-            if (!g_wreq->preferred_apps[i].work_available) {
-                APP* app = ssp->lookup_app(g_wreq->preferred_apps[i].appid);
+        for (i=0; i<g_wreq->project_prefs.selected_apps.size(); i++) {
+            if (!g_wreq->project_prefs.selected_apps[i].work_available) {
+                APP* app = ssp->lookup_app(g_wreq->project_prefs.selected_apps[i].appid);
                 // don't write message if the app is deprecated
                 if (app != NULL) {
                     sprintf(buf, "No tasks are available for %s",
                         find_user_friendly_name(
-                            g_wreq->preferred_apps[i].appid
+                            g_wreq->project_prefs.selected_apps[i].appid
                         )
                     );
                     g_reply->insert_message(buf, "low");
@@ -1357,7 +1304,7 @@ static void send_user_messages() {
             );
         }
         for (i=0; i<NPROC_TYPES; i++) {
-            if (g_wreq->dont_use_proc_type[i] && ssp->have_apps_for_proc_type[i]) {
+            if (g_wreq->project_prefs.dont_use_proc_type[i] && ssp->have_apps_for_proc_type[i]) {
                 sprintf(buf,
                     _("Tasks for %s are available, but your preferences are set to not accept them"),
                     proc_type_name(i)
@@ -1410,7 +1357,7 @@ void send_work_setup() {
 
     // parse project preferences (e.g. no GPUs)
     //
-    get_prefs_info();
+    g_wreq->project_prefs.parse();
 
     if (g_wreq->anonymous_platform) {
         estimate_flops_anon_platform();

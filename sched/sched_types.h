@@ -362,8 +362,25 @@ struct DISK_LIMITS {
     double min_free;
 };
 
+// parsed version of project prefs that relate to scheduling
+//
+struct PROJECT_PREFS {
+    std::vector<APP_INFO> selected_apps;
+    bool dont_use_proc_type[NPROC_TYPES];
+    bool allow_non_selected_apps;
+    bool allow_beta_work;
+    void parse();
+
+    PROJECT_PREFS() {
+        memset(&dont_use_proc_type, 0, sizeof(dont_use_proc_type));
+        allow_non_selected_apps = false;
+        allow_beta_work = false;
+    }
+};
+
 // summary of a client's request for work, and our response to it
-// Note: this is zeroed out in SCHEDULER_REPLY constructor
+// Note: this is zeroed out in SCHEDULER_REPLY constructor,
+// so don't put any vectors here
 //
 struct WORK_REQ_BASE {
     bool anonymous_platform;
@@ -388,12 +405,6 @@ struct WORK_REQ_BASE {
         // This is evidence that the earlier reply was not received
         // by the client.  It may have contained results,
         // so check and resend just in case.
-
-    // user preferences
-    //
-    bool dont_use_proc_type[NPROC_TYPES];
-    bool allow_non_preferred_apps;
-    bool allow_beta_work;
 
     bool has_reliable_version;
         // whether the host has a reliable app version
@@ -489,7 +500,7 @@ struct WORK_REQ_BASE {
 };
 
 struct WORK_REQ : public WORK_REQ_BASE {
-    std::vector<APP_INFO> preferred_apps;
+    PROJECT_PREFS project_prefs;
     std::vector<USER_MESSAGE> no_work_messages;
     std::vector<BEST_APP_VERSION*> best_app_versions;
     std::vector<DB_HOST_APP_VERSION> host_app_versions;

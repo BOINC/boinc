@@ -699,7 +699,7 @@ BEST_APP_VERSION* get_app_version(
             if (av.appid != wu.appid) continue;
             if (av.platformid != p->id) continue;
             if (av.beta) {
-                if (!g_wreq->allow_beta_work) {
+                if (!g_wreq->project_prefs.allow_beta_work) {
                     continue;
                 }
             }
@@ -732,7 +732,7 @@ BEST_APP_VERSION* get_app_version(
             // skip versions that go against resource prefs
             //
             int pt = host_usage.proc_type;
-            if (g_wreq->dont_use_proc_type[pt]) {
+            if (g_wreq->project_prefs.dont_use_proc_type[pt]) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
                         "[version] [AV#%lu] Skipping %s version - user prefs say no %s\n",

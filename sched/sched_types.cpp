@@ -169,6 +169,58 @@ int CLIENT_PLATFORM::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
+// Parse user's project preferences.
+// TODO: use XML_PARSER
+//
+void PROJECT_PREFS::parse() {
+    char buf[8096];
+    std::string str;
+    unsigned int pos = 0;
+    int temp_int=0;
+    bool flag;
+
+    extract_venue(g_reply->user.project_prefs, g_reply->host.venue, buf, sizeof(buf));
+    str = buf;
+
+    // scan user's project prefs for elements of the form <app_id>N</app_id>,
+    // indicating the apps they want to run.
+    //
+    selected_apps.clear();
+    while (parse_int(str.substr(pos,str.length()-pos).c_str(), "<app_id>", temp_int)) {
+        APP_INFO ai;
+        ai.appid = temp_int;
+        ai.work_available = false;
+        selected_apps.push_back(ai);
+
+        pos = str.find("<app_id>", pos) + 1;
+    }
+    if (parse_bool(buf,"allow_non_selected_apps", flag)) {
+        allow_non_selected_apps = flag;
+    }
+    if (parse_bool(buf,"allow_beta_work", flag)) {
+        allow_beta_work = flag;
+    }
+    if (parse_bool(buf,"no_gpus", flag)) {
+        // deprecated, but need to handle
+        if (flag) {
+            for (int i=1; i<NPROC_TYPES; i++) {
+                dont_use_proc_type[i] = true;
+            }
+        }
+    }
+    if (parse_bool(buf,"no_cpu", flag)) {
+        dont_use_proc_type[PROC_TYPE_CPU] = flag;
+    }
+    if (parse_bool(buf,"no_cuda", flag)) {
+        dont_use_proc_type[PROC_TYPE_NVIDIA_GPU] = flag;
+    }
+    if (parse_bool(buf,"no_ati", flag)) {
+        dont_use_proc_type[PROC_TYPE_AMD_GPU] = flag;
+    }
+    if (parse_bool(buf,"no_intel_gpu", flag)) {
+        dont_use_proc_type[PROC_TYPE_INTEL_GPU] = flag;
+    }
+}
 
 void WORK_REQ::add_no_work_message(const char* message) {
     for (unsigned int i=0; i<no_work_messages.size(); i++) {
