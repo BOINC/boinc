@@ -83,7 +83,11 @@ function read_input_template($app, $r) {
     } else {
         $path = project_dir() . "/templates/$app->name"."_in";
     }
-    return simplexml_load_file($path);
+    $x = simplexml_load_file($path);
+    if (!$x) {
+        xml_error(-1, "Couldn't parse input template file $path");
+    }
+    return $x;
 }
 
 function check_max_jobs_in_progress($r, $user_submit) {

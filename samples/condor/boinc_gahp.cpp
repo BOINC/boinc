@@ -41,6 +41,11 @@ using std::set;
 using std::string;
 using std::vector;
 
+//#define DEBUG
+    // if set, handle commands synchronously rather than
+    // handling them in separate threads
+    // Also print more errors
+
 extern size_t strlcpy(char*, const char*, size_t);
 
 char project_url[256];
@@ -56,10 +61,6 @@ bool async_mode = false;
 
 #define BPRINTF(fmt, ...) \
     printf( "%s" fmt, response_prefix, ##__VA_ARGS__ ); \
-
-bool debug_mode = false;
-    // if set, handle commands synchronously rather than
-    // handling them in separate threads
 
 struct SUBMIT_REQ {
     char batch_name[256];
@@ -206,13 +207,19 @@ int process_input_files(SUBMIT_REQ& req, string& error_msg) {
         absent_files,
         error_msg
     );
-    if (retval) return retval;
+    if (retval) {
+#ifdef DEBUG
+        printf("query_files() failed (%d): %s\n", retval, error_msg.c_str());
+#endif
+        return retval;
+    }
 
     // upload the missing files.
     //
     vector<string> upload_boinc_names, upload_paths;
     for (unsigned int i=0; i<absent_files.size(); i++) {
         int j = absent_files[i];
+        printf("file %d is absent\n", j);
         upload_boinc_names.push_back(boinc_names[j]);
         upload_paths.push_back(paths[j]);
     }
@@ -224,7 +231,12 @@ int process_input_files(SUBMIT_REQ& req, string& error_msg) {
         req.batch_id,
         error_msg
     );
-    if (retval) return retval;
+    if (retval) {
+#ifdef DEBUG
+        printf("upload_files() failed (%d): %s\n", retval, error_msg.c_str());
+#endif
+        return retval;
+    }
 
     // fill in the physical file names in the submit request
     //
@@ -767,25 +779,25 @@ int handle_command(char* p) {
             delete cp;
             return 0;
         }
-        if (debug_mode) {
-            handle_command_aux(cp);
-            BPRINTF("result: %s\n", cp->out);
-            delete cp;
-        } else {
-            printf("S\n");
-            commands.push_back(cp);
-            pthread_t thread_handle;
-            pthread_attr_t thread_attrs;
-            pthread_attr_init(&thread_attrs);
-            pthread_attr_setstacksize(&thread_attrs, 256*1024);
-            int retval = pthread_create(
-                &thread_handle, &thread_attrs, &handle_command_aux, cp
-            );
-            if (retval) {
-                fprintf(stderr, "can't create thread\n");
-                return -1;
-            }
+#ifdef DEBUG
+        handle_command_aux(cp);
+        BPRINTF("result: %s\n", cp->out);
+        delete cp;
+#else
+        printf("S\n");
+        commands.push_back(cp);
+        pthread_t thread_handle;
+        pthread_attr_t thread_attrs;
+        pthread_attr_init(&thread_attrs);
+        pthread_attr_setstacksize(&thread_attrs, 256*1024);
+        int retval = pthread_create(
+            &thread_handle, &thread_attrs, &handle_command_aux, cp
+        );
+        if (retval) {
+            fprintf(stderr, "can't create thread\n");
+            return -1;
         }
+#endif
     }
     free(p);
     return 0;

@@ -443,7 +443,7 @@ int initialize_system_monitor(int /*argc*/, char** /*argv*/) {
 
     // Create a thread to handle proxy auto-detection.
     //
-    if (!cc_config.no_autodetect) {
+    if (!cc_config.proxy_info.no_autodetect) {
         g_hWindowsMonitorSystemProxyThread = CreateThread(
             NULL,
             0,
