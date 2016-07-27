@@ -70,8 +70,8 @@
             android:background="@drawable/shape_yellow_background"
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:padding="3dip"
-            android:layout_marginBottom="5dip"
+            android:padding="3dp"
+            android:layout_marginBottom="5dp"
             android:visibility="gone"/>
 
         <TextView
