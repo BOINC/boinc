@@ -28,7 +28,7 @@
         android:background="@android:color/white">
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="20dp"
             android:background="@drawable/shape_light_blue_background"

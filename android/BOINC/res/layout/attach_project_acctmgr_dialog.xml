@@ -26,7 +26,7 @@
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textStyle="bold"
@@ -45,7 +45,7 @@
         android:id="@+id/name_input"
         android:inputType="textNoSuggestions"
         android:hint="@string/attachproject_acctmgr_header_name"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:minWidth="200dp"/>
@@ -54,14 +54,14 @@
         android:id="@+id/pwd_input"
         android:inputType="textPassword"
         android:hint="@string/attachproject_acctmgr_header_pwd"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:minWidth="200dp"/>
 
     <TextView
         android:id="@+id/warning"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium"

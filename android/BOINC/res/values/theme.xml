@@ -67,7 +67,7 @@ Style properties for API version 14+ can be found at values-14/theme.xml -->
     <!-- sub header -->
     <style name="SubHeader">
 
-        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">5dp</item>
         <item name="android:singleLine">true</item>

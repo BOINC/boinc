@@ -24,7 +24,7 @@
 
     <ListView
         android:id="@+id/tasksList"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:clickable="true"/>
 </LinearLayout>

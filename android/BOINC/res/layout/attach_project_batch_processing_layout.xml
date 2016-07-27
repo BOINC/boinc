@@ -38,7 +38,7 @@
 
     <RelativeLayout
         android:id="@+id/hint_header_wrapper"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/logo"
         android:background="@drawable/shape_light_blue_background"
@@ -74,15 +74,15 @@
 
     <android.support.v4.view.ViewPager
         android:id="@+id/hint_container"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/hint_header_wrapper"
         android:layout_above="@+id/attach_status_wrapper"
         android:padding="20dp" />
 
     <LinearLayout
         android:id="@+id/attach_status_wrapper"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
@@ -90,8 +90,8 @@
 
         <LinearLayout
             android:id="@+id/attach_status_ongoing_wrapper"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:paddingLeft="20dp"

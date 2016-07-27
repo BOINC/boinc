@@ -41,7 +41,7 @@
 
     <TextView
         android:id="@+id/msgs_message"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/msgs_project"
         android:layout_alignLeft="@+id/msgs_project"
