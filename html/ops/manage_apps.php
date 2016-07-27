@@ -76,19 +76,19 @@ function add_app() {
     ";
 }
 
-function show_form($show_deprecated) {
+function show_form($all) {
     echo "
         <h2>Edit applications</h2>
     ";
 
     $app_clause="deprecated=0";
     $action_url="manage_apps.php";
-    if($show_deprecated) {
+    if($all) {
         $app_clause = "";
-        $action_url="manage_apps.php?show_deprecated=1";
-        echo "<a href=\"manage_apps.php\">hide deprecated apps</a>";
+        $action_url="manage_apps.php?all=1";
+        echo "<a href=\"manage_apps.php\">Don't show deprecated applications</a>";
     } else {
-        echo "<a href=\"manage_apps.php?show_deprecated=1\">show deprecated apps</a>";
+        echo "<a href=\"manage_apps.php?all=1\">Show deprecated applications</a>";
     }
 
     start_table();
@@ -182,9 +182,9 @@ function show_form($show_deprecated) {
             <input name='fraction_done_exact' type='checkbox' $v></TD>
         ";
         if (!in_rops()) {
-            echo "<td><input class=\"btn btn-default\" type=submit name=submit value=Update>";
+            echo "<td><input class=\"btn btn-default\" type=submit name=submit value=Update></td>";
         } else {
-            echo "<td>&nbsp;";
+            echo "<td>&nbsp;</td>";
         }
         echo "</tr></form>";
     }
@@ -194,6 +194,9 @@ function show_form($show_deprecated) {
 
     // Entry form to create a new application
     //
+    if (in_rops()) {
+        return;
+    }
 
     echo"<P>
         <h2>Add an application</h2>
@@ -221,14 +224,14 @@ function show_form($show_deprecated) {
 
 admin_page_head("Manage applications");
 
-$show_deprecated = get_int('show_deprecated', true);
+$all = get_int('all', true);
 
 if (post_str('add_app', true)) {
     add_app();
 } else if (post_str('submit', true)) {
     do_updates();
 }
-show_form($show_deprecated);
+show_form($all);
 admin_page_tail();
 
 ?>
