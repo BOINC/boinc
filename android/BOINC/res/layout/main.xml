@@ -2,18 +2,18 @@
 <!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2012 University of California
-  
+  Copyright (C) 2016 University of California
+
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
   as published by the Free Software Foundation,
   either version 3 of the License, or (at your option) any later version.
-  
+
   BOINC is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
   See the GNU Lesser General Public License for more details.
-  
+
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
@@ -22,22 +22,22 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    
-    <RelativeLayout 
-    	android:layout_width="match_parent"
-    	android:layout_height="match_parent">
-    	
-	    <FrameLayout
-	    	android:id="@+id/frame_container"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:layout_above="@+id/status_container"/>   
-	        
-	    <FrameLayout 
-	    	android:id="@+id/status_container"
-	    	android:layout_width="match_parent"
-	    	android:layout_height="wrap_content"
-	    	android:layout_alignParentBottom="true" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/frame_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/status_container"/>
+
+        <FrameLayout
+            android:id="@+id/status_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"/>
     </RelativeLayout>
 
     <!-- Listview to display slider menu -->
@@ -48,8 +48,7 @@
         android:layout_gravity="start"
         android:choiceMode="singleChoice"
         android:divider="@color/light_blue"
-        android:dividerHeight="1dp"        
+        android:dividerHeight="1dp"
         android:listSelector="@drawable/navlist_selector"
-        android:background="@android:color/white"/>    
-
+        android:background="@android:color/white"/>
 </android.support.v4.widget.DrawerLayout>
