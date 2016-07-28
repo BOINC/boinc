@@ -717,7 +717,7 @@ int n_results() {
 //
 int handle_command(char* p) {
     char cmd[256];
-    int id;
+    int id, retval;
 
     cmd[0] = '\0';
     sscanf(p, "%s", cmd);
@@ -773,7 +773,7 @@ int handle_command(char* p) {
         //
         COMMAND *cp = new COMMAND(p);
         p = NULL;
-        int retval = cp->parse_command();
+        retval = cp->parse_command();
         if (retval) {
             BPRINTF("E\n");
             delete cp;
@@ -790,7 +790,7 @@ int handle_command(char* p) {
         pthread_attr_t thread_attrs;
         pthread_attr_init(&thread_attrs);
         pthread_attr_setstacksize(&thread_attrs, 256*1024);
-        int retval = pthread_create(
+        retval = pthread_create(
             &thread_handle, &thread_attrs, &handle_command_aux, cp
         );
         if (retval) {
