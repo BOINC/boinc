@@ -325,8 +325,8 @@
   <string name="menu_copy">Copiar para área de transferência</string>
   <string name="menu_eventlog">Log de evento</string>
   <string name="menu_exit">Sair de BOINC</string>
-  <string name="menu_run_mode_disable">Suspenso</string>
-  <string name="menu_run_mode_enable">Recomeçar</string>
+  <string name="menu_run_mode_disable">Suspender</string>
+  <string name="menu_run_mode_enable">Continuar</string>
   <string name="menu_about">Sobre</string>
   <string name="menu_help">Ajuda</string>
   <!--about dialog-->
@@ -334,10 +334,10 @@
   <string name="about_title">Sobre</string>
   <string name="about_name">BOINC</string>
   <string name="about_version">Versão</string>
-  <string name="about_name_long">Infraestrutura Aberta para Computação em Rede Berkeley</string>
+  <string name="about_name_long">Infraestrutura Aberta de Berkeley para Computação em Rede</string>
   <string name="about_copyright">\u00A9 2003–2014 Universidade da Califórnia, Berkeley.</string>
   <string name="about_copyright_reserved">Todos os Direitos Reservados.</string>
-  <string name="about_credits">Graças ao Instituto Max Planck de Física Gravitacional, IBM Corporation e HTC Corporation por seu suporte.</string>
+  <string name="about_credits">Nossa gratidão ao Instituto Max Planck de Física Gravitacional, à IBM Corporation e à HTC Corporation pelo apoio.</string>
   <!--notice notification-->
   <string name="notice_notification_single_header">Nova notícia de</string>
   <!--e.g. New notice from SETI@HOME-->
