@@ -335,15 +335,11 @@
   <string name="about_version">Verze</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing 
 (Berkeleyská Otevřená Infrastruktura pro Síťové Výpočty)</string>
-  <string name="about_copyright">\u00A9 2003 – 2014 Univerzita v Kalifornii, Berkeley.</string>
+    <string name="about_copyright">\u00A9 2003 – 2016 Univerzita v Kalifornii, Berkeley.</string>
   <string name="about_copyright_reserved">Všechna práva vyhrazena.
 Překlad do češtiny: petnek</string>
   <string name="about_credits">Díky patří Max Planck institutu pro gravitační fyziku, IBM Corporation a HTC Corporation za jejich podporu.</string>
-  <!--notice notification-->
-  <string name="notice_notification_single_header">Nové oznámení od</string>
-  <!--e.g. New notice from SETI@HOME-->
-  <string name="notice_notification_multiple_header">Nová oznámení</string>
-  <!--e.g. 3 new notices-->
+    <!--notice notification-->
   <!--multi BOINC compitability-->
   <string name="nonexcl_dialog_header">Dobrovolníkova výpočetní aplikace zaregistrována</string>
   <string name="nonexcl_dialog_text">V tomto zařízení je spuštěna další výpočetní aplikace dobrovolníka. Současně lze spustit pouze jednu verzi.</string>

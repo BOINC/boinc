@@ -334,14 +334,10 @@
   <string name="about_name">BOINC-ი</string>
   <string name="about_version">ვერსია</string>
   <string name="about_name_long">ქსელური გამოთვლების ბერკელეის ღია ინფრასტრუქტურა</string>
-  <string name="about_copyright">\u00A9 2003-2014 კალიფორნიის უნივერსიტეტი, ბერკელეი.</string>
+    <string name="about_copyright">\u00A9 2003-2016 კალიფორნიის უნივერსიტეტი, ბერკელეი.</string>
   <string name="about_copyright_reserved">ყველა უფლება დაცულია.</string>
   <string name="about_credits">მადლობა გრავიტაცული ფიზიკის მაქს პლანკის ინსტიტუტს, აი-ბი-ემ კორპორაციას და ეიჩ-თი-სი კორპორაციას მითი მხარდაჭერისთვის.</string>
-  <!--notice notification-->
-  <string name="notice_notification_single_header">ახალი შეტყობინება გამოაგზავნა</string>
-  <!--e.g. New notice from SETI@HOME-->
-  <string name="notice_notification_multiple_header">ახალი შეტყობინება</string>
-  <!--e.g. 3 new notices-->
+    <!--notice notification-->
   <!--multi BOINC compitability-->
   <string name="nonexcl_dialog_header">მოხალისეთა გამოთვლების აპლიკაცია იქნა აღმოჩენილი</string>
   <string name="nonexcl_dialog_text">სხვა მოხალისეთა გამოთვლების აპლიკაცია არის გაშვებული ამ მოწყობილებაზე. მხოლოდ ერთი ვერსია შეიძლება იყოს გაშვებული ერთდროულად.</string>

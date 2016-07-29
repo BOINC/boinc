@@ -334,14 +334,10 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">バージョン</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-  <string name="about_copyright">(C) 2003–2014 University of California, Berkeley.</string>
+    <string name="about_copyright">© 2003–2016 University of California, Berkeley.</string>
   <string name="about_copyright_reserved">All Rights Reserved.</string>
   <string name="about_credits">The Max Planck Institute for Gravitational Physics, IBM Corporation, HTC Corporation と彼らの支援に感謝いたします。</string>
-  <!--notice notification-->
-  <string name="notice_notification_single_header">以下からの新しいお知らせ</string>
-  <!--e.g. New notice from SETI@HOME-->
-  <string name="notice_notification_multiple_header">新しいお知らせ</string>
-  <!--e.g. 3 new notices-->
+    <!--notice notification-->
   <!--multi BOINC compitability-->
   <string name="nonexcl_dialog_header">ボランティア・コンピューティング・アプリを検出しました</string>
   <string name="nonexcl_dialog_text">このデバイスで別のボランティア・コンピューティング・アプリが動作しています。一度にひとつのバージョンのみ動作可能です。</string>
