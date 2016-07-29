@@ -22,6 +22,8 @@
 
 #include "hr.h"
 
+// HR class is encoded as cpu_type + 128*os_type
+
 const int nocpu = 1;
 const int Intel = 2;
 const int AMD = 3;
@@ -43,25 +45,32 @@ const int IntelPentiumM = 18;
 const int AMDAthlonMP = 19;
 const int AMDTurion = 20;
 const int IntelCore2 = 21;
+const int ARM = 22;
 
 const int noos = 128;
 const int Linux = 256;
 const int Windows = 384;
 const int Darwin = 512;
 const int freebsd = 640;
+const int android = 768;
+
+#define MAX_HR_CLASS    (768+128)
 
 inline int os(HOST& host){
     if (strcasestr(host.os_name, "Linux")) return Linux;
     else if (strcasestr(host.os_name, "Windows")) return Windows;
     else if (strcasestr(host.os_name, "Darwin")) return Darwin;
     else if (strcasestr(host.os_name, "FreeBSD")) return freebsd;
+    else if (strcasestr(host.os_name, "Android")) return android;
     else return noos;
 };
 
 inline int cpu_coarse(HOST& host){
     if (strcasestr(host.p_vendor, "Intel")) return Intel;
-    if (strcasestr(host.p_vendor, "AMD")) return AMD;
+    //if (strcasestr(host.p_vendor, "AMD")) return AMD;
+    if (strcasestr(host.p_vendor, "AMD")) return Intel;
     if (strcasestr(host.p_vendor, "Macintosh")) return Macintosh;
+    if (strcasestr(host.p_vendor, "ARM")) return ARM;
     return nocpu;
 }
 
@@ -114,6 +123,7 @@ inline int cpu_fine(HOST& host){
         return AMD;
     }
     if (strcasestr(host.p_vendor, "Macintosh")) return Macintosh;
+    if (strcasestr(host.p_vendor, "ARM")) return ARM;
     return nocpu;
 };
 
@@ -124,13 +134,7 @@ int hr_class(HOST& host, int hr_type) {
     case 1:
         return os(host) + cpu_fine(host);
     case 2:
-        switch (os(host)) {
-        case Windows:
-        case Linux:
-            return os(host);
-        case Darwin:
-            return os(host) + cpu_coarse(host);
-        }
+        return os(host) + cpu_coarse(host);
     }
     return 0;
 }
@@ -160,4 +164,4 @@ bool hr_unknown_class(HOST& host, int hr_type) {
 }
 
 const char* hr_names[HR_NTYPES] = {"", "fine", "coarse"};
-int hr_nclasses[HR_NTYPES] = {0, 768, 768};
+int hr_nclasses[HR_NTYPES] = {0, MAX_HR_CLASS, MAX_HR_CLASS};
