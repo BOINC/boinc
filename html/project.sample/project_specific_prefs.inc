@@ -22,7 +22,9 @@ define('APP_SELECT_PREFS', true);
     // user can choose which apps to run
 define('NON_GRAPHICAL_PREF', false);
     // user can choose to run faster non-graphical app versions if available
-
+define ('LIMIT_TASKS_PREFS', true);
+    // user can limit numuber of tasks per host
+    
 // Project-specific prefs are represented in three ways:
 // - as an XML document (stored in the DB in this form)
 // - as a PHP structure
@@ -57,6 +59,8 @@ define('APP_SELECT_DESC', tra('Run only the selected applications'));
 define('APP_SELECT_TOOLTIP', tra('Only get tasks for certain applications. Useful to focus on particular applications, or to exclude them.'));
 define('ACCEPT_ANY_DESC', tra('If no work for selected applications is available, accept work from other applications?'));
 define('NON_GRAPHICAL_DESC', tra("Use faster non-graphical applications if available?"));
+define("LIMIT_TASKS_DESC", tra("Limit the number of tasks per host?", "<br><span class=note>", "</span>"));
+
 
 // stuff related to app filtering.
 // Note: in this implementation, if a user selects all apps,
@@ -100,7 +104,11 @@ function project_specific_prefs_default() {
     if (GFX_CPU_PREFS) {
         $x .= "<max_gfx_cpu_pct>20</max_gfx_cpu_pct>\n";
     }
-    return $x;
+    if (LIMIT_TASKS_PREFS) {
+            $x .= "<limit_tasks>1</limit_tasks>\n";
+    }
+		
+return $x;
 }
 
 function project_specific_prefs_edit($prefs, $error=false) {
@@ -143,6 +151,14 @@ function project_specific_prefs_edit($prefs, $error=false) {
             "<input type=checkbox name=non_graphical $checked>"
         );
     }
+    if (LIMIT_TASKS_PREFS) {
+        $checked = $prefs->limit_tasks?"checked":"";
+	row2(
+	    LIMIT_TASKS_DESC,
+	    "<input type=checkbox name=limit_tasks $checked>"
+	    );
+    }
+			    
 }
 
 function project_specific_prefs_parse_form(&$error) {
@@ -185,6 +201,11 @@ function project_specific_prefs_parse_form(&$error) {
             $x .= "<non_graphical>1</non_graphical>\n";
         }
     }
+    if (LIMIT_TASKS_PREFS) {
+        if (isset($_GET["limit_tasks"])) {
+            $x .= "<limit_tasks>1</limit_tasks>\n";
+        }
+    }
 
     return $x;
 }
@@ -209,6 +230,9 @@ function project_specific_prefs_show($prefs, $columns=false) {
         if (NON_GRAPHICAL_PREF) {
             row_defs(NON_GRAPHICAL_DESC, "non_graphical", "", "yesno", $prefs);
         }
+	if (LIMIT_TASKS_PREFS) {
+            row_defs(LIMIT_TASKS_DESC, "limit_tasks", "", "yesno", $prefs);
+        }
     } else {
         if (COLOR_PREFS) {
             row2(COLOR_DESC, $prefs->color_scheme);
@@ -222,6 +246,9 @@ function project_specific_prefs_show($prefs, $columns=false) {
         }
         if (NON_GRAPHICAL_PREF) {
             row2(NON_GRAPHICAL_DESC, $prefs->non_graphical?tra("yes"):tra("no"));
+        }
+	if (LIMIT_TASKS_PREFS) {
+            row2(LIMIT_TASKS_DESC, $prefs->limit_tasks?tra("yes"):tra("no"));
         }
     }
 }
@@ -247,6 +274,9 @@ function project_specific_prefs_parse($prefs_xml) {
     }
     if (NON_GRAPHICAL_PREF) {
         $prefs->non_graphical = parse_bool($prefs_xml, "non_graphical");
+    }
+    if (LIMIT_TASKS_PREFS) {
+        $prefs->limit_tasks = parse_bool($prefs_xml, "limit_tasks");
     }
     return $prefs;
 }
