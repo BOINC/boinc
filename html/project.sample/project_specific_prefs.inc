@@ -24,7 +24,7 @@ define('NON_GRAPHICAL_PREF', false);
     // user can choose to run faster non-graphical app versions if available
 define ('LIMIT_TASKS_PREFS', true);
     // user can limit numuber of tasks per host
-    
+
 // Project-specific prefs are represented in three ways:
 // - as an XML document (stored in the DB in this form)
 // - as a PHP structure
@@ -108,7 +108,7 @@ function project_specific_prefs_default() {
             $x .= "<limit_tasks>1</limit_tasks>\n";
     }
 		
-return $x;
+    return $x;
 }
 
 function project_specific_prefs_edit($prefs, $error=false) {
