@@ -110,7 +110,7 @@ function project_specific_prefs_default() {
 function number_select($name, $max, $n) {
     $sel = ($n == 0) ? "selected":"";
     $x = "<select name=$name> <option value=0 $sel>".tra("No limit")."</option>";
-    for ($i=1; $i<$max; $i++) {
+    for ($i=1; $i<=$max; $i++) {
         $sel = ($n == $i) ? "selected":"";
         $x .= "<option value=$i $sel>$i</option>";
     }
