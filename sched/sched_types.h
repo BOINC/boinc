@@ -370,7 +370,7 @@ struct PROJECT_PREFS {
     bool allow_non_selected_apps;
     bool allow_beta_work;
     int max_jobs;
-    int max_cores;
+    int max_cpus;
 
     void parse();
 
@@ -379,7 +379,7 @@ struct PROJECT_PREFS {
         allow_non_selected_apps = false;
         allow_beta_work = false;
         max_jobs = 0;
-        max_cores = 0;
+        max_cpus = 0;
     }
 };
 
@@ -489,7 +489,6 @@ struct WORK_REQ_BASE {
     bool max_jobs_on_host_proc_type_exceeded[NPROC_TYPES];
     bool no_jobs_available;     // project has no work right now
     int max_jobs_per_rpc;
-    void get_job_limits();
 
     bool max_jobs_exceeded() {
         if (max_jobs_on_host_exceeded) return true;
@@ -511,6 +510,7 @@ struct WORK_REQ : public WORK_REQ_BASE {
     std::vector<DB_HOST_APP_VERSION> host_app_versions;
     std::vector<DB_HOST_APP_VERSION> host_app_versions_orig;
 
+    void get_job_limits();
     void add_no_work_message(const char*);
 
     ~WORK_REQ() {}

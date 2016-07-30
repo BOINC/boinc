@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2016 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -71,6 +71,8 @@ inline int cpu_coarse(HOST& host){
     if (strcasestr(host.p_vendor, "AMD")) return Intel;
     if (strcasestr(host.p_vendor, "Macintosh")) return Macintosh;
     if (strcasestr(host.p_vendor, "ARM")) return ARM;
+    if (strstr(host.p_model, "ARM")) return ARM;
+        // sometimes p_vendor is blank but p_model contains ARM
     return nocpu;
 }
 
