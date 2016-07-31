@@ -3,22 +3,21 @@
   This file is part of BOINC.
   http://boinc.berkeley.edu
   Copyright (C) 2016 University of California
-  
+
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
   as published by the Free Software Foundation,
   either version 3 of the License, or (at your option) any later version.
-  
+
   BOINC is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
   See the GNU Lesser General Public License for more details.
-  
+
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-
     <!-- app global -->
     <string name="app_name">BOINC</string>
 
@@ -181,8 +180,8 @@
     <string name="prefs_category_debug">Debug</string>
     <string name="prefs_show_advanced_header">Show advanced preferences and controls&#8230;</string>
     <string name="prefs_suspend_when_screen_on">Pause computation when screen is on</string>
-	<string name="prefs_stationary_device_mode_header">Stationary device mode</string>
-	<string name="prefs_stationary_device_mode_description">Allows computation regardless of Power preferences. Only enable if device does not have a battery.</string>
+    <string name="prefs_stationary_device_mode_header">Stationary device mode</string>
+    <string name="prefs_stationary_device_mode_description">Allows computation regardless of Power preferences. Only enable if device does not have a battery.</string>
     <string name="prefs_power_source_header">Power sources for computation</string>
     <string name="prefs_power_source_description">Selects power sources BOINC is allowed to use for computation.</string>
     <string name="prefs_power_source_ac">Wall socket</string>
@@ -379,7 +378,7 @@
     <string name="nonexcl_dialog_header">Volunteer computing app detected</string>
     <string name="nonexcl_dialog_text">Another volunteer computing app is running on this device. Only one version can run at a time.</string>
     <string name="nonexcl_dialog_exit">Exit</string>
-    
+
     <!-- social integration -->
     <string name="social_invite_button">Invite friends</string>
     <string name="social_invite_intent_title">How do you want to share?</string>
@@ -387,6 +386,4 @@
     <string name="social_invite_content_body">I\'m using my %1$s to do computing for science. You can too! Download the app from: %2$s</string> <!-- first parameter: device manufacturer, second: URL -->
     <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
     <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
-
 </resources>
-
