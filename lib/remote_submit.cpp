@@ -36,6 +36,7 @@
 using std::vector;
 using std::string;
 
+//#define SHOW_REQUEST
 //#define SHOW_REPLY
 
 // replies can have one or more <error> elements.
@@ -111,6 +112,10 @@ static int do_http_post(
     if (!curl) {
         return -1;
     }
+
+#ifdef SHOW_REQUEST
+    printf("HTTP request:\n%s\n", request);
+#endif
 
     struct curl_httppost *formpost=NULL;
     struct curl_httppost *lastptr=NULL;
