@@ -471,7 +471,7 @@ void handle_fetch_output(COMMAND& c) {
         } else {
             sprintf(path, "%s/%s", req.dir, req.stderr_filename.c_str());
         }
-        FILE* f = fopen(path, "w");
+        FILE* f = fopen(path, "a");
         if (!f) {
             sprintf(buf, "can't\\ open\\ stderr\\ output\\ file\\ %s ", path);
             s = string(buf);
@@ -517,9 +517,14 @@ void handle_fetch_output(COMMAND& c) {
             char* lname = req.file_descs[i].src;
             int j = output_file_index(td, lname);
             if (j < 0) {
-                sprintf(buf, "requested\\ file\\ %s\\ not\\ in\\ template", lname);
-                s = string(buf);
-                goto done;
+                if (i >= td.output_files.size()) {
+                      sprintf(buf, "too\\ many\\ output\\ files\\ specified\\ submit:%d\\ template:%d",
+                          i, td.output_files.size()
+                      );
+                    s = string(buf);
+                    goto done;
+                }
+                j = i;
             }
             sprintf(path, "%s/%s", req.dir, lname);
             retval = get_output_file(
@@ -546,7 +551,7 @@ void handle_fetch_output(COMMAND& c) {
         } else {
             sprintf(dst_path, "%s/%s", req.dir, of.dest);
         }
-        sprintf(buf, "mv %s/%s %s", req.dir, of.src, dst_path);
+        sprintf(buf, "mv '%s/%s' '%s'", req.dir, of.src, dst_path);
         retval = system(buf);
         if (retval) {
             s = string("mv\\ failed");
