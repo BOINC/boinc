@@ -334,14 +334,10 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Versiune</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-  <string name="about_copyright">© 2003–2013 Universitatea din California, Berkeley.\nToate Drepturile Rezervate.</string>
+    <string name="about_copyright">© 2003–2016 Universitatea din California, Berkeley.\nToate Drepturile Rezervate.</string>
   <string name="about_copyright_reserved">Toate Drepturile Rezervate.</string>
   <string name="about_credits">Mulțumiri Institutului Max Planck pentru Fizică Gravitațională, IBM Corporation și HTC Corporation pentru suportul lor.</string>
-  <!--notice notification-->
-  <string name="notice_notification_single_header">Atenționare nouă de la</string>
-  <!--e.g. New notice from SETI@HOME-->
-  <string name="notice_notification_multiple_header">atenționări noi</string>
-  <!--e.g. 3 new notices-->
+    <!--notice notification-->
   <!--multi BOINC compitability-->
   <string name="nonexcl_dialog_header">Aplicație calcule voluntare detectată</string>
   <string name="nonexcl_dialog_text">O altă aplicație de calcule voluntare rulează pe acest echipament. Doar o singură versiune poate rula la un moment dat.</string>

@@ -334,14 +334,10 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">版本</string>
   <string name="about_name_long">柏克萊開放式網路運算平台</string>
-  <string name="about_copyright">\u00A9 2003–2014 University of California, Berkeley.</string>
+    <string name="about_copyright">\u00A9 2003–2016 University of California, Berkeley.</string>
   <string name="about_copyright_reserved">All Rights Reserved.</string>
   <string name="about_credits">特別感謝 Max Planck Institute for Gravitational Physics, IBM Corporation 和 HTC Corporation 的技術支援。</string>
-  <!--notice notification-->
-  <string name="notice_notification_single_header">新訊息來自</string>
-  <!--e.g. New notice from SETI@HOME-->
-  <string name="notice_notification_multiple_header">新訊息</string>
-  <!--e.g. 3 new notices-->
+    <!--notice notification-->
   <!--multi BOINC compitability-->
   <string name="nonexcl_dialog_header">偵測到志願運算 APP</string>
   <string name="nonexcl_dialog_text">有其它志願運算 APP 正在此裝置執行。只容許一個版本執行。</string>

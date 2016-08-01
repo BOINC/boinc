@@ -367,13 +367,15 @@
     <string name="about_name">BOINC</string>
     <string name="about_version">Version</string>
     <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-    <string name="about_copyright">\u00A9 2003&#8211;2014 University of California, Berkeley.</string>
+    <string name="about_copyright">\u00A9 2003&#8211;2016 University of California, Berkeley.</string>
     <string name="about_copyright_reserved">All Rights Reserved.</string>
     <string name="about_credits">Thanks to the Max Planck Institute for Gravitational Physics, IBM Corporation and HTC Corporation for their support.</string>
 
     <!-- notice notification -->
-    <string name="notice_notification_single_header">New notice from</string> <!-- e.g. New notice from SETI@HOME -->
-    <string name="notice_notification_multiple_header">new notices</string> <!-- e.g. 3 new notices -->
+    <plurals name="notice_notification">
+        <item quantity="one">New notice from %1$s</item> <!-- e.g. New notice from SETI@HOME -->
+        <item quantity="many">%2$,d new notices</item> <!-- e.g. 3 new notices -->
+    </plurals>
 
     <!-- multi BOINC compitability -->
     <string name="nonexcl_dialog_header">Volunteer computing app detected</string>
@@ -389,4 +391,3 @@
     <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
 
 </resources>
-

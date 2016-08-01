@@ -335,14 +335,10 @@
   <string name="about_version">Verzia</string>
   <string name="about_name_long">(Otvorená infraštruktúra pre sieťové výpočty z Berkeley)
 (Berkeley Open Infrastructure for Network Computing)</string>
-  <string name="about_copyright">\u00A9 2003–2014 Kalifornská Univerzita, Berkeley.</string>
+    <string name="about_copyright">\u00A9 2003–2016 Kalifornská Univerzita, Berkeley.</string>
   <string name="about_copyright_reserved">Všetky práva vyhradené.</string>
   <string name="about_credits">Vďaka Inštitútu gravitačnej fyziky Maxa Plancka, IBM Corporation a HTC Corporation za ich podporu.</string>
-  <!--notice notification-->
-  <string name="notice_notification_single_header">Nová správa od</string>
-  <!--e.g. New notice from SETI@HOME-->
-  <string name="notice_notification_multiple_header">nové správy</string>
-  <!--e.g. 3 new notices-->
+    <!--notice notification-->
   <!--multi BOINC compitability-->
   <string name="nonexcl_dialog_header">Bola nájdená aplikácia na dobrovoľnícke výpočty</string>
   <string name="nonexcl_dialog_text">Na tomto zariadení už beží iná výpočtová aplikácia; naraz môže bežať len jedna verzia.</string>

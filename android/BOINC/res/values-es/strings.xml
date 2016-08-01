@@ -334,14 +334,10 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Versión</string>
   <string name="about_name_long">Infraestructura Abierta de Berkeley para Computación en Red</string>
-  <string name="about_copyright">2003–2014 University of California, Berkeley.</string>
+  <string name="about_copyright">2003–2016 University of California, Berkeley.</string>
   <string name="about_copyright_reserved">Todos los derechos reservados.</string>
   <string name="about_credits">Gracias al \"Max Planck Institute for Gravitational Physics\", IBM Corporation y HTC Corporation por su apoyo.</string>
-  <!--notice notification-->
-  <string name="notice_notification_single_header">Nueva noticia de</string>
-  <!--e.g. New notice from SETI@HOME-->
-  <string name="notice_notification_multiple_header">nuevas noticias</string>
-  <!--e.g. 3 new notices-->
+    <!--notice notification-->
   <!--multi BOINC compitability-->
   <string name="nonexcl_dialog_header">Aplicación de computación voluntaria detectada</string>
   <string name="nonexcl_dialog_text">Otra aplicación de otro voluntario está ejecutándose en este dispositivo. Sólo se puede ejecutar una versión a la vez.</string>

@@ -334,14 +334,10 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Verzió</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing\n(Berkeley Nyílt Infrastruktúra a Hálózati Számításért)</string>
-  <string name="about_copyright">\u00A9 2003–2014 Kaliforniai Egyetem, Berkeley.</string>
+    <string name="about_copyright">\u00A9 2003–2016 Kaliforniai Egyetem, Berkeley.</string>
   <string name="about_copyright_reserved">Minden jog fenntartva.</string>
   <string name="about_credits">Köszönet a Max Planck Gravitációs Fizikai Intézetnek, az IBM Corporation-nek és a HTC Corporation-nek a támogatásért.</string>
-  <!--notice notification-->
-  <string name="notice_notification_single_header">Új értesítés</string>
-  <!--e.g. New notice from SETI@HOME-->
-  <string name="notice_notification_multiple_header">új értesítések</string>
-  <!--e.g. 3 new notices-->
+    <!--notice notification-->
   <!--multi BOINC compitability-->
   <string name="nonexcl_dialog_header">Önkéntes számítási alkalmazás észlelve</string>
   <string name="nonexcl_dialog_text">Már fut egy másik önkéntes számítási alkalmazás. Egy időben csak egy futhat.</string>
