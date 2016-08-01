@@ -209,7 +209,7 @@ function submit_jobs(
         $x .= "\n";
     }
 
-    $errfile = project_dir() . "/create_work_" . getmypid() . ".err";
+    $errfile = "/tmp/create_work_" . getmypid() . ".err";
     $cmd = "cd " . project_dir() . "; ./bin/create_work --appname $app->name --batch $batch_id --rsc_fpops_est $job->rsc_fpops_est --priority $priority";
     if ($result_template_file) {
         $cmd .= " --result_template templates/$result_template_file";
