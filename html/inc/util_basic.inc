@@ -45,6 +45,7 @@ function show_page($x, $y) {
 }
 
 function xml_error($num, $msg=null, $file=null, $line=null) {
+    global $xml_outer_tag;
     if (!$msg) {
         switch($num) {
         case -112: $msg = "Invalid XML"; break;
@@ -72,6 +73,9 @@ function xml_error($num, $msg=null, $file=null, $line=null) {
         echo "    <line>$line</line>\n";
     }
     echo "</error>\n";
+    if (isset($xml_outer_tag) && $xml_outer_tag != "") {
+        echo "</$xml_outer_tag>\n";
+    }
     exit();
 }
 

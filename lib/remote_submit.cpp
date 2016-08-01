@@ -304,7 +304,6 @@ int create_batch(
         fclose(reply);
         return retval;
     }
-    char buf[256];
     batch_id = 0;
     fseek(reply, 0, SEEK_SET);
     MIOFILE mf;
@@ -527,7 +526,7 @@ int query_batch_set(
 #ifdef SHOW_REPLY
         printf("query_batches reply: %s", buf);
 #endif
-        if (xp.match_tag("jobs")) {
+        if (xp.match_tag("query_batch2")) {
             retval = 0;
             continue;
         }
@@ -649,7 +648,7 @@ int query_batches(
     XML_PARSER xp(&mf);
     mf.init_file(reply);
     while (!xp.get_tag()) {
-        if (xp.match_tag("/batches")) {
+        if (xp.match_tag("/query_batches")) {
             retval = 0;
             error_msg = "";
             break;
@@ -1081,7 +1080,7 @@ int ping_server(
     string &error_msg
 ) {
     string request;
-    char url[1024], buf[256];
+    char url[1024];
     request = "<ping> </ping>\n";   // the space is needed
     sprintf(url, "%ssubmit_rpc_handler.php", project_url);
     FILE* reply = tmpfile();

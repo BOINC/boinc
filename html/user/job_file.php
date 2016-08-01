@@ -79,6 +79,7 @@ require_once("../inc/xml.inc");
 require_once("../inc/submit_util.inc");
 
 function query_files($r) {
+    xml_start_tag("query_files");
     list($user, $user_submit) = authenticate_user($r, null);
     $absent_files = array();
     $now = time();
@@ -149,10 +150,13 @@ function query_files($r) {
     foreach ($absent_files as $i) {
         echo "<file>$i</file>\n";
     }
-    echo "</absent_files>\n";
+    echo "</absent_files>
+        </query_files>
+    ";
 }
 
 function upload_files($r) {
+    xml_start_tag("upload_files");
     list($user, $user_submit) = authenticate_user($r, null);
     $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
     $delete_time = (int)$r->delete_time;
@@ -183,7 +187,9 @@ function upload_files($r) {
         }
         $i++;
     }
-    echo "<success/>\n";
+    echo "<success/>
+        </upload_files>
+    ";
 }
 
 if (0) {

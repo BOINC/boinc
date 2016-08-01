@@ -52,6 +52,14 @@ function xml_header() {
     $generating_xml = true;
 }
 
+$xml_outer_tag = "";
+
+function xml_start_tag($tag) {
+    global $xml_outer_tag;
+    echo "<$tag>\n";
+    $xml_outer_tag = $tag;
+}
+
 // used only if host owner is the requesting user
 //
 function show_host_xml($host) {

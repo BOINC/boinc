@@ -33,6 +33,9 @@
 //// Implementation stuff follows
 
 function req_to_xml($req, $op) {
+    if (!isset($req->batch_name)) {
+        $req->batch_name = "batch_".time();
+    }
     $x = "<$op>
     <authenticator>$req->authenticator</authenticator>
     <batch>
@@ -159,32 +162,40 @@ function batch_xml_to_object($batch) {
     return $b;
 }
 
+// if RPC had a fatal error, return the message
+//
+function get_error($reply, $outer_tag) {
+    $name = $reply->getName();
+    if ($name != $outer_tag) {
+        return "Bad reply outer tag";
+    }
+    foreach ($reply->error as $error) {
+        if (isset($error->error_num)) {
+            return (string)$error->error_msg;
+        }
+    }
+    return null;
+}
+
 //// API functions follow
 
 function boinc_estimate_batch($req) {
     list($reply, $errmsg) = do_batch_op($req, "estimate_batch");
     if ($errmsg) return array(0, $errmsg);
-    $name = $reply->getName();
-    if ($name == 'estimate') {
-        return array((string)$reply->seconds, null);
-    } else if ($name == 'error') {
-        return array(null, (string)$reply->message);
-    } else {
-        return array(null, "Bad reply message");
+    print_r($reply);
+    if ($x = get_error($reply, "estimate_batch")) {
+        return array(null, $x);
     }
+    return array((string)$reply->seconds, null);
 }
 
 function boinc_submit_batch($req) {
     list($reply, $errmsg) = do_batch_op($req, "submit_batch");
     if ($errmsg) return array(0, $errmsg);
-    $name = $reply->getName();
-    if ($name == 'batch_id') {
-        return array((int)$reply, null);
-    }  else if ($name == 'error') {
-        return array(null, (string)$reply->err_message);
-    } else {
-        return array(null, "Bad reply message");
+    if ($x = get_error($reply, "submit_batch")) {
+        return array(null, $x);
     }
+    return array((int)$reply->batch_id, null);
 }
 
 function boinc_query_batches($req) {
@@ -198,6 +209,9 @@ $get_cpu_time
 ";
     list($reply, $errmsg) = do_http_op($req, $req_xml, "");
     if ($errmsg) return array(null, $errmsg);
+    if ($x = get_error($reply, "query_batches")) {
+        return array(null, $x);
+    }
     $batches = array();
     foreach ($reply->batch as $batch) {
         $b = batch_xml_to_object($batch);
@@ -218,6 +232,9 @@ $get_cpu_time
 ";
     list($reply, $errmsg) = do_http_op($req, $req_xml, "");
     if ($errmsg) return array(null, $errmsg);
+    if ($x = get_error($reply, "query_batch")) {
+        return array(null, $x);
+    }
     $jobs = array();
     foreach ($reply->job as $job) {
         $j = new StdClass;
@@ -238,6 +255,9 @@ function boinc_query_job($req) {
 ";
     list($reply, $errmsg) = do_http_op($req, $req_xml, "");
     if ($errmsg) return array(null, $errmsg);
+    if ($x = get_error($reply, "query_job")) {
+        return array(null, $x);
+    }
     $instances = array();
     foreach ($reply->instance as $instance) {
         $i = new StdClass;
@@ -265,11 +285,10 @@ function boinc_abort_batch($req) {
 ";
     list($reply, $errmsg) = do_http_op($req, $req_xml, "");
     if ($errmsg) return $errmsg;
-    $name = $reply->getName();
-    if ($name == 'error') {
-        return (string)($reply->message);
+    if ($x = get_error($reply, "abort_batch")) {
+        return array(null, $x);
     }
-    return null;
+    return array(true, null);
 }
 
 function boinc_get_output_file($req) {
@@ -293,11 +312,10 @@ function boinc_retire_batch($req) {
 ";
     list($reply, $errmsg) = do_http_op($req, $req_xml, "");
     if ($errmsg) return $errmsg;
-    $name = $reply->getName();
-    if ($name == 'error') {
-        return (string)($reply->message);
+    if ($x = get_error($reply, "retire_batch")) {
+        return array(null, $x);
     }
-    return null;
+    return array(true, null);
 }
 
 //// example usage follows
