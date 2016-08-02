@@ -261,6 +261,16 @@ extern int get_templates(
     const char* app_name,   // either this
     const char* job_name,   // or this must be non-NULL
     TEMPLATE_DESC&,
+    std::string& error_msg,
+    bool output_only = false
+);
+
+extern int get_output_template(
+    const char* project_url,
+    const char* authenticator,
+    const char* app_name,   // either this
+    const char* job_name,   // or this must be non-NULL
+    TEMPLATE_DESC&,
     std::string& error_msg
 );
 

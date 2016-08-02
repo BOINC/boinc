@@ -864,11 +864,12 @@ int get_templates(
     const char* app_name,
     const char* job_name,
     TEMPLATE_DESC &td,
-    string &error_msg
+    string &error_msg,
+    bool output_only
 ) {
     string request;
     char url[1024], buf[256];
-    request = "<get_templates>\n";
+    request = output_only?"<get_output_template>\n":"<get_templates>\n";
     sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
     request += string(buf);
     if (app_name) {
@@ -878,7 +879,7 @@ int get_templates(
         sprintf(buf, "<job_name>%s</job_name>\n", job_name);
         request += string(buf);
     }
-    request += "</get_templates>\n";
+    request += output_only?"</get_output_template>\n":"</get_templates>\n";
     sprintf(url, "%ssubmit_rpc_handler.php", project_url);
     FILE* reply = tmpfile();
     vector<string> x;
@@ -894,7 +895,7 @@ int get_templates(
     mf.init_file(reply);
     while (!xp.get_tag()) {
 #ifdef SHOW_REPLY
-        printf("get_templates reply: %s\n", xp.parsed_tag);
+        printf(output_only?"get_templates reply: %s\n":"get_output_template reply: %s\n", xp.parsed_tag);
 #endif
         if (xp.match_tag("templates")) {
             retval = td.parse(xp);
@@ -910,6 +911,17 @@ int get_templates(
     }
     fclose(reply);
     return retval;
+}
+
+int get_output_template(
+    const char* project_url,
+    const char* authenticator,
+    const char* app_name,
+    const char* job_name,
+    TEMPLATE_DESC &td,
+    string &error_msg
+) {
+    return get_templates(project_url, authenticator, app_name, job_name, td, error_msg, true);
 }
 
 int TEMPLATE_DESC::parse(XML_PARSER& xp) {
