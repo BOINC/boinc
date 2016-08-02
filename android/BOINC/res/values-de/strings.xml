@@ -339,10 +339,10 @@
   <string name="about_credits">Danke dem Max Planck Institut für Gravitationsphysik, IBM und HTC für die Unterstützung.</string>
     <!--notice notification-->
     <plurals name="notice_notification">
-        <item quantity="one">Neue Nachricht von „%1$s“</item> <!--e.g. New notice from SETI@HOME-->
-        <item quantity="many">%2$,d neue Nachrichten</item> <!--e.g. 3 new notices-->
+        <item quantity="one">Neue Nachricht von „%1$s“</item>
+        <item quantity="other">%2$,d neue Nachrichten</item>
     </plurals>
-  <!--multi BOINC compitability-->
+  <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Volunteer Computing App gefunden</string>
   <string name="nonexcl_dialog_text">Eine weitere Volunteer Computing App läuft auf diesem Gerät. Es kann immer nur eine App verwendet werden.</string>
   <string name="nonexcl_dialog_exit">Beenden</string>

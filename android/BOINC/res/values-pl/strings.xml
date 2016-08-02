@@ -355,11 +355,11 @@
     <string name="about_credits">Dziękujemy Instytutowi Fizyki Grawitacyjnej Max Plancka, korporacjom IBM i HTC za wsparcie.</string>
     <!-- notice notification -->
     <plurals name="notice_notification">
-        <item quantity="one">Nowa wiadomość od „%1$s”</item> <!-- e.g. New notice from SETI@HOME -->
-        <item quantity="few">%2$,d nowe wiadomości</item> <!-- e.g. 2 >= new notices -->
-        <item quantity="many">%2$,d nowych wiadomości</item> <!-- e.g. 5 >= new notices -->
+        <item quantity="one">Nowa wiadomość od „%1$s”</item>
+        <item quantity="few">%2$,d nowe wiadomości</item>
+        <item quantity="other">%2$,d nowych wiadomości</item>
     </plurals>
-    <!-- multi BOINC compitability -->
+    <!-- multi BOINC compatibility -->
     <string name="nonexcl_dialog_header">Wykryto aplikację obliczeń ochotniczych</string>
     <string name="nonexcl_dialog_text">Inna aplikacja obliczeń ochotniczych już jest uruchomiona na tym urządzeniu. Wyłącznie jedna wersja może być uruchomiona.</string>
     <string name="nonexcl_dialog_exit">Wyjdź</string>
