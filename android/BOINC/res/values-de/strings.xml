@@ -200,7 +200,7 @@
   <string name="projects_add">Projekt hinzufügen</string>
   <string name="projects_icon">Projektsymbol</string>
   <string name="projects_credits">Punkte:</string>
-  <string name="projects_credits_host_and_user">%1$,d (auf diesem Gerät), %2$,d (gesamt)</string>
+  <string name="projects_credits_host_and_user">%1$,d (auf diesem Gerät) %2$,d (insgesamt)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Angehalten durch Benutzer</string>
   <string name="projects_status_dontrequestmorework">Keine neuen Arbeitspakete</string>
@@ -334,14 +334,14 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Version</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-    <string name="about_copyright">© 2003–2016 Universität von Kalifornien, Berkeley.</string>
+  <string name="about_copyright">© 2003–2014 Universität von Kalifornien, Berkeley.</string>
   <string name="about_copyright_reserved">Alle Rechte vorbehalten.</string>
   <string name="about_credits">Danke dem Max Planck Institut für Gravitationsphysik, IBM und HTC für die Unterstützung.</string>
-    <!--notice notification-->
-    <plurals name="notice_notification">
-        <item quantity="one">Neue Nachricht von „%1$s“</item> <!--e.g. New notice from SETI@HOME-->
-        <item quantity="many">%2$,d neue Nachrichten</item> <!--e.g. 3 new notices-->
-    </plurals>
+  <!--notice notification-->
+  <string name="notice_notification_single_header">Neue Nachricht von</string>
+  <!--e.g. New notice from SETI@HOME-->
+  <string name="notice_notification_multiple_header">Neue Nachrichten</string>
+  <!--e.g. 3 new notices-->
   <!--multi BOINC compitability-->
   <string name="nonexcl_dialog_header">Volunteer Computing App gefunden</string>
   <string name="nonexcl_dialog_text">Eine weitere Volunteer Computing App läuft auf diesem Gerät. Es kann immer nur eine App verwendet werden.</string>
