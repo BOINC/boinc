@@ -200,7 +200,7 @@
   <string name="projects_add">Projekt hinzufügen</string>
   <string name="projects_icon">Projektsymbol</string>
   <string name="projects_credits">Punkte:</string>
-  <string name="projects_credits_host_and_user">%1$,d (auf diesem Gerät), %2$,d (gesamt)</string>
+  <string name="projects_credits_host_and_user">%1$,d (auf diesem Gerät) %2$,d (insgesamt)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Angehalten durch Benutzer</string>
   <string name="projects_status_dontrequestmorework">Keine neuen Arbeitspakete</string>
