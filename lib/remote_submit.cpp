@@ -271,6 +271,59 @@ int upload_files (
     return retval;
 }
 
+int upload_template (
+    const char* project_url,
+    const char* authenticator,
+    string path,
+    int batch_id,
+    string &error_msg
+) {
+    char buf[1024];
+    vector<string> paths;
+    string req_msg = "<upload_template>\n";
+    sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
+    req_msg += string(buf);
+    if (batch_id) {
+        sprintf(buf, "<batch_id>%d</batch_id>\n", batch_id);
+        req_msg += string(buf);
+    }
+    req_msg += "</upload_template>\n";
+    FILE* reply = tmpfile();
+    char url[256];
+    sprintf(url, "%sjob_file.php", project_url);
+    paths.push_back(path);
+    int retval = do_http_post(url, req_msg.c_str(), reply, paths);
+    if (retval) {
+        fclose(reply);
+        return retval;
+    }
+    fseek(reply, 0, SEEK_SET);
+    retval = -1;
+    bool success;
+    MIOFILE mf;
+    mf.init_file(reply);
+    XML_PARSER xp(&mf);
+    while (!xp.get_tag()) {
+#ifdef SHOW_REPLY
+        printf("upload_template reply: %s\n", xp.parsed_tag);
+#endif
+        if (xp.parse_bool("success", success)) {
+            retval = 0;
+            continue;
+        }
+        if (xp.match_tag("error")) {
+            ERROR error;
+            error.parse(xp);
+            if (error.error_num) {
+                retval = error.error_num;
+                error_msg = error.error_msg;
+            }
+        }
+    }
+    fclose(reply);
+    return retval;
+}
+
 int create_batch(
     const char* project_url,
     const char* authenticator,

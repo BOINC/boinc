@@ -131,6 +131,14 @@ extern int upload_files (
     std::string& error_msg
 );
 
+extern int upload_template (
+    const char* project_url,
+    const char* authenticator,
+    std::string path,
+    int batch_id,
+    std::string& error_msg
+);
+
 extern int create_batch(
     const char* project_url,
     const char* authenticator,

@@ -192,6 +192,22 @@ function upload_files($r) {
     ";
 }
 
+function upload_template($r) {
+    list($user, $user_submit) = authenticate_user($r, null);
+    $batch_id = (int)$r->batch_id;
+    $name = "file_0";
+    $tmp_name = $_FILES[$name]['tmp_name'];
+    if (!is_uploaded_file($tmp_name)) {
+        xml_error(-1, "$tmp_name is not an uploaded file");
+    }
+    $path = project_dir() . "/templates/batch_" . $batch_id . "_in";
+    if (!rename($tmp_name, $path)) {
+        unlink($tmp_name);
+        xml_error(-1, "could not move $tmp_name to $path");
+    }
+    echo "<success/>\n";
+}
+
 if (0) {
 $r = simplexml_load_string("<query_files>\n<batch_id>0</batch_id>\n   <md5>80bf244b43fb5d39541ea7011883b7e0</md5>\n   <md5>a6037b05afb05f36e6a85a7c5138cbc1</md5>\n</query_files>\n ");
 submit_batch($r);
@@ -215,6 +231,9 @@ case 'query_files':
     break;
 case 'upload_files':
     upload_files($r);
+    break;
+case 'upload_template':
+    upload_template($r);
     break;
 default:
     xml_error(-1, "no such action");

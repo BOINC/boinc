@@ -20,6 +20,7 @@
 // server-side utility functions for remote job submissions and control
 
 require_once("../inc/submit_db.inc");
+require_once("../inc/util_basic.inc");
 
 // the physical name of a file is jf_(md5).
 // Prepend the jf_ to make the source of the file clear
@@ -133,6 +134,8 @@ function retire_batch($batch) {
             "assimilate_state=".ASSIMILATE_DONE.", transition_time=$now"
         );
     }
+    $path = project_dir() . "/templates/batch_" . $batch->id . "_in";
+    if (file_exists($path)) unlink($path);
     $batch->update("state=".BATCH_STATE_RETIRED);
 }
 
