@@ -395,7 +395,8 @@ int submit_jobs(
     char app_name[256],
     int batch_id,
     vector<JOB> jobs,
-    string& error_msg
+    string& error_msg,
+    const char* wu_template
 ) {
     char buf[1024], url[1024];
     sprintf(buf,
@@ -409,6 +410,9 @@ int submit_jobs(
         app_name
     );
     string request = buf;
+    if (wu_template) {
+        request += "  <workunit_template_file>" + (string)wu_template + "</workunit_template_file>\n";
+    }
     for (unsigned int i=0; i<jobs.size(); i++) {
         JOB job = jobs[i];
         request += "<job>\n";
