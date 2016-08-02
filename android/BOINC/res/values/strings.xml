@@ -371,7 +371,7 @@
     <string name="about_copyright_reserved">All Rights Reserved.</string>
     <string name="about_credits">Thanks to the Max Planck Institute for Gravitational Physics, IBM Corporation and HTC Corporation for their support.</string>
 
-    <!-- notice notification -->
+    <!-- notice notification e.g. New notice from SETI@HOME OR 3 new notices -->
     <plurals name="notice_notification">
         <item quantity="one">New notice from %1$s</item>
         <item quantity="other">%2$,d new notices</item>
