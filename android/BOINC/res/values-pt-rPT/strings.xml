@@ -334,7 +334,7 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Versão</string>
   <string name="about_name_long">Infraestrutura Aberta Berkeley para a Rede de Computação</string>
-  <string name="about_copyright">g</string>
+  <string name="about_copyright">\u00A9 2003-2016 Universidade da Califórnia, Berkeley.</string>
   <string name="about_copyright_reserved">Todos os Direitos Reservados.</string>
   <string name="about_credits">Agradecimentos ao Instituto Max Planck de Física Gravitacional, IBM e à HTC pelo seu suporte.</string>
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
