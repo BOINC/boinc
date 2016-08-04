@@ -36,7 +36,7 @@ function error_handler($errno, $errstr, $errfile, $errline) {
     if ($errno == E_WARNING) $errno = "Warning";
     if ($errno == E_NOTICE) $errno = "Notice";
     echo "<error>
-    <error_msg>$errstr</error_msg>
+    <error_msg><![CDATA[$errstr]]></error_msg>
     <type>$errno</type>
     <file>$errfile</file>
     <line>$errline</line>
