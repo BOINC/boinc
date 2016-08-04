@@ -19,6 +19,7 @@
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/common_defs.inc");
+require_once("../project/project.inc");
 
 function db_init_xml() {
     if (web_stopped()) {
@@ -46,7 +47,9 @@ function error_handler($errno, $errstr, $errfile, $errline) {
 
 function xml_header() {
     global $generating_xml;
-    set_error_handler('error_handler', E_WARNING|E_NOTICE);
+    if (defined("RPC_DEBUG") && RPC_DEBUG) {
+        set_error_handler('error_handler', E_WARNING|E_NOTICE);
+    }
     header('Content-type: text/xml');
     echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n";
     $generating_xml = true;
