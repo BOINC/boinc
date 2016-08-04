@@ -193,6 +193,7 @@ function upload_files($r) {
 }
 
 function upload_template($r) {
+    xml_start_tag("upload_template");
     list($user, $user_submit) = authenticate_user($r, null);
     $batch_id = (int)$r->batch_id;
     $name = "file_0";
@@ -205,7 +206,9 @@ function upload_template($r) {
         unlink($tmp_name);
         xml_error(-1, "could not move $tmp_name to $path");
     }
-    echo "<success/>\n";
+    echo "<success/>
+        </upload_template>
+    ";
 }
 
 if (0) {
