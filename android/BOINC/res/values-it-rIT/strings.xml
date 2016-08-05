@@ -177,8 +177,8 @@
   <string name="prefs_disk_access_interval_header">Intervallo di accesso</string>
   <string name="prefs_disk_access_interval_description">Suggerisci un intervallo tra le scritture su disco</string>
   <string name="prefs_network_daily_xfer_limit_mb_header">Limite trasferimento giornaliero</string>
-  <string name="prefs_network_daily_xfer_limit_mb_description">Limita il traffico giornaliero causato da BOINC.</string>
-  <string name="prefs_network_wifi_only_header">Trasferisce le WU solo tramite WiFi</string>
+  <string name="prefs_network_daily_xfer_limit_mb_description">Limita il traffico giornaliero di BOINC.</string>
+  <string name="prefs_network_wifi_only_header">Trasferisci le WU solo tramite WiFi</string>
   <string name="prefs_autostart_header">Avvio automatico</string>
   <string name="prefs_show_notification_notices_header">Visualizza notifiche per nuove notizie</string>
   <string name="prefs_show_notification_suspended_header">Visualizza notifiche quando sospeso</string>
@@ -275,7 +275,7 @@
   <string name="trans_projectbackoff">backoff del progetto</string>
   <string name="trans_header_name">File:</string>
   <string name="trans_control_retry">Ritenta i trasferimenti</string>
-  <string name="confirm_abort_trans_title">Annullare trasferimento?</string>
+  <string name="confirm_abort_trans_title">Annullare il trasferimento?</string>
   <string name="confirm_abort_trans_message">Annulla file:</string>
   <string name="confirm_abort_trans_confirm">Annulla</string>
   <!--notices tab strings-->
@@ -310,7 +310,7 @@
   <string name="suspend_user_req">Ripresa elaborazione…</string>
   <string name="suspend_network_user_req">manualmente.</string>
   <!--rpc reasons-->
-  <string name="rpcreason_userreq">Richiesta dall\'utente</string>
+  <string name="rpcreason_userreq">Richiesto dall\'utente</string>
   <string name="rpcreason_needwork">Richiesta lavoro</string>
   <string name="rpcreason_resultsdue">Per inviare le elaborazioni completate</string>
   <string name="rpcreason_trickleup">Invio messaggi di trickle-up</string>
@@ -334,11 +334,15 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Versione</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-    <string name="about_copyright">© 2003–2016 Università della California a Berkeley.\nTutti i diritti riservati.</string>
+  <string name="about_copyright">\u00A9 2003–2016 Università della California, Berkeley.</string>
   <string name="about_copyright_reserved">Tutti i diritti riservati.</string>
   <string name="about_credits">Grazie all\'istituto Max Planck per la fisica gravitazionale, la IBM Corporation e la HTC Corporation per i loro contributi.</string>
-    <!--notice notification-->
-  <!--multi BOINC compitability-->
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <plurals name="notice_notification">
+    <item quantity="one">Nuovo avviso da %1$s</item>
+    <item quantity="other">%2$,d nuovi avvisi</item>
+  </plurals>
+  <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Applicazione di calcolo distribuito rilevata</string>
   <string name="nonexcl_dialog_text">Un\'altra applicazione di calcolo distribuito volontario è in uso su questo dispositivo. Solo una versione per volta può essere utilizzata.</string>
   <string name="nonexcl_dialog_exit">Esci</string>
