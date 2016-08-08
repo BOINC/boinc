@@ -674,10 +674,10 @@ function boincwork_make_prefs_table($prefs, $top_level = TRUE) {
       if (in_array($key, array('start_hour', 'net_start_hour'))) {
         switch ($key) {
         case 'start_hour':
-          $element['#title'] = bts('Do work only between the hours of:');
+          $element['#title'] = bts('Compute only between:');
           break;
         case 'net_start_hour':
-          $element['#title'] = bts('Use network only between the hours of:');
+          $element['#title'] = bts('Transfer files only between:');
           break;
         default:
         }

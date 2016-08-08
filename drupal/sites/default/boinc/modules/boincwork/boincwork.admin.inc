@@ -200,9 +200,9 @@ function boincwork_admin_prefs_presets_form_submit($form, &$form_state) {
   $prefs = boincwork_get_preset_prefs($preset);
   
   // Processing preferences
-  $prefs['run_on_batteries'] = ($values['processor']['run_on_batteries']) ? 1 : 0;
-  $prefs['run_if_user_active'] = ($values['processor']['run_if_user_active']) ? 1 : 0;
-  $prefs['run_gpu_if_user_active'] = ($values['processor']['run_gpu_if_user_active']) ? 1: 0;
+  $prefs['run_on_batteries'] = ($values['processor']['run_on_batteries']) ? 0 : 1;
+  $prefs['run_if_user_active'] = ($values['processor']['run_if_user_active']) ? 0 : 1;
+  $prefs['run_gpu_if_user_active'] = ($values['processor']['run_gpu_if_user_active']) ? 0: 1;
   $prefs['idle_time_to_run'] = $values['processor']['idle_time_to_run'];
   $prefs['suspend_if_no_recent_input'] = $values['processor']['suspend_if_no_recent_input'];
   $prefs['suspend_cpu_usage'] = $values['processor']['suspend_cpu_usage'];
