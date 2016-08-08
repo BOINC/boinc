@@ -108,6 +108,9 @@ public:
     // http://boinc.berkeley.edu/trac/wiki/GraphicsApi#File
     bool enable_graphics_support;
 
+    // capture screen shots during catastrophic events
+    bool enable_screenshots_on_error;
+
     // whether to use savestate instead of poweroff on exit
     bool enable_vm_savestate_usage;
 
