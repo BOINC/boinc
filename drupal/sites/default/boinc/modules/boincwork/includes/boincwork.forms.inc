@@ -71,7 +71,6 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     'end_hour' => 0,
     'leave_apps_in_memory' => 0,
     'cpu_scheduling_period_minutes' => 60,
-    'max_cpus' => 16,
     'max_ncpus_pct' => 100,
     'cpu_usage_limit' => 100,
     // Storage...
@@ -294,14 +293,6 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     '#description' => bts('Recommended: @period minutes',
       array('@period' => 60)
     )
-  );
-  $form['prefs']['advanced']['processor']['max_cpus'] = array(
-    '#title' => bts('On multiprocessors, use at most'),
-    '#type' => 'textfield',
-    '#field_suffix' => bts('processors'),
-    '#default_value' => $default['max_cpus'],
-    '#size' => 1,
-    '#description' => bts('Set to 0 for no limit'),
   );
   $form['prefs']['advanced']['processor']['max_ncpus_pct'] = array(
     '#title' => bts('On multiprocessors, use at most'),
@@ -567,7 +558,6 @@ function boincwork_generalprefs_form_validate($form, &$form_state) {
   if (!verify_numeric($values['processor']['start_hour'], 0, 23)) form_set_error('start_hour', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['processor']['start_hour']['#title']} [x] {$form['prefs']['advanced']['processor']['start_hour']['#field_suffix']}")));
   if (!verify_numeric($values['processor']['end_hour'], 0, 23)) form_set_error('end_hour', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['processor']['end_hour']['#title']} [x] {$form['prefs']['advanced']['processor']['end_hour']['#field_suffix']}")));
   if (!verify_numeric($values['processor']['cpu_scheduling_period_minutes'], 1, 9999)) form_set_error('cpu_scheduling_period_minutes', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['processor']['cpu_scheduling_period_minutes']['#title']} [x] {$form['prefs']['advanced']['processor']['cpu_scheduling_period_minutes']['#field_suffix']}")));
-  if (!verify_numeric($values['processor']['max_cpus'], 0, 9999)) form_set_error('max_cpus', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['processor']['max_cpus']['#title']} [x] {$form['prefs']['advanced']['processor']['max_cpus']['#field_suffix']}")));
   if (!verify_numeric($values['processor']['max_ncpus_pct'], 0, 100)) form_set_error('max_ncpus_pct', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['processor']['max_ncpus_pct']['#title']} [x] {$form['prefs']['advanced']['processor']['max_ncpus_pct']['#field_suffix']}")));
   if (!verify_numeric($values['processor']['cpu_usage_limit'], 0, 100)) form_set_error('cpu_usage_limit', bts('Invalid setting for "%preference"', array('%preference' => "{$form['prefs']['advanced']['processor']['cpu_usage_limit']['#title']} [x] {$form['prefs']['advanced']['processor']['cpu_usage_limit']['#field_suffix']}")));
 
@@ -616,7 +606,6 @@ function boincwork_generalprefs_form_submit($form, &$form_state) {
   $prefs['end_hour'] = $values['processor']['end_hour'];
   $prefs['leave_apps_in_memory'] = ($values['processor']['leave_apps_in_memory']) ? 1 : 0;
   $prefs['cpu_scheduling_period_minutes'] = $values['processor']['cpu_scheduling_period_minutes'];
-  $prefs['max_cpus'] = $values['processor']['max_cpus'];
   $prefs['max_ncpus_pct'] = $values['processor']['max_ncpus_pct'];
   $prefs['cpu_usage_limit'] = $values['processor']['cpu_usage_limit'];
   

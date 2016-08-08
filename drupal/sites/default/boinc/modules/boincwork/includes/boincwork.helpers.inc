@@ -36,7 +36,6 @@ function boincwork_get_preset_prefs($preset = null) {
           <end_hour>0</end_hour>
           <leave_apps_in_memory>1</leave_apps_in_memory>
           <cpu_scheduling_period_minutes>60</cpu_scheduling_period_minutes>
-          <max_cpus>16</max_cpus>
           <max_ncpus_pct>100</max_ncpus_pct>
           <cpu_usage_limit>80</cpu_usage_limit>
           <disk_max_used_gb>8</disk_max_used_gb>
@@ -69,7 +68,6 @@ function boincwork_get_preset_prefs($preset = null) {
           <end_hour>0</end_hour>
           <leave_apps_in_memory>1</leave_apps_in_memory>
           <cpu_scheduling_period_minutes>60</cpu_scheduling_period_minutes>
-          <max_cpus>16</max_cpus>
           <max_ncpus_pct>100</max_ncpus_pct>
           <cpu_usage_limit>100</cpu_usage_limit>
           <disk_max_used_gb>100</disk_max_used_gb>
@@ -102,7 +100,6 @@ function boincwork_get_preset_prefs($preset = null) {
           <end_hour>0</end_hour>
           <leave_apps_in_memory>1</leave_apps_in_memory>
           <cpu_scheduling_period_minutes>60</cpu_scheduling_period_minutes>
-          <max_cpus>16</max_cpus>
           <max_ncpus_pct>100</max_ncpus_pct>
           <cpu_usage_limit>80</cpu_usage_limit>
           <disk_max_used_gb>8</disk_max_used_gb>
@@ -135,7 +132,6 @@ function boincwork_get_preset_prefs($preset = null) {
           <end_hour>8</end_hour>
           <leave_apps_in_memory>0</leave_apps_in_memory>
           <cpu_scheduling_period_minutes>120</cpu_scheduling_period_minutes>
-          <max_cpus>4</max_cpus>
           <max_ncpus_pct>25</max_ncpus_pct>
           <cpu_usage_limit>40</cpu_usage_limit>
           <disk_max_used_gb>2</disk_max_used_gb>
