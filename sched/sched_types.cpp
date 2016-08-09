@@ -220,10 +220,10 @@ void PROJECT_PREFS::parse() {
     if (parse_bool(buf,"no_intel_gpu", flag)) {
         dont_use_proc_type[PROC_TYPE_INTEL_GPU] = flag;
     }
-    if (parse_int(buf, "max_cpus", temp_int)) {
+    if (parse_int(buf, "<max_cpus>", temp_int)) {
         max_cpus = temp_int;
     }
-    if (parse_int(buf, "max_jobs", temp_int)) {
+    if (parse_int(buf, "<max_jobs>", temp_int)) {
         max_jobs = temp_int;
     }
 }

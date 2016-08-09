@@ -171,7 +171,10 @@ void WORK_REQ::get_job_limits() {
         if (effective_ngpus) effective_ngpus = 1;
     }
 
-    if (config.max_wus_to_send) {
+    if (project_prefs.max_jobs){
+      g_wreq->max_jobs_per_rpc = project_prefs.max_jobs;
+      ninstances[PROC_TYPE_CPU] = project_prefs.max_jobs;
+    } else if (config.max_wus_to_send) {
         g_wreq->max_jobs_per_rpc = mult * config.max_wus_to_send;
     } else {
         g_wreq->max_jobs_per_rpc = 999999;
