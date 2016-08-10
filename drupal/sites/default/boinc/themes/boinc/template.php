@@ -369,7 +369,7 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
   $vars['moderator_links'] = theme_links($vars['moderator_links']);
   
   // Add signature
-  $vars['signature'] = $account->signature;
+  $vars['signature'] = check_markup($account->signature, $vars['node']->format);
   
   // Show signatures based on user preference
   $vars['show_signatures'] = ($user->hide_signatures) ? FALSE : TRUE;
