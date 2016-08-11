@@ -3666,7 +3666,7 @@ function work_and_host_stats_views_default_views() {
       'hide_alter_empty' => 1,
       'value' => '<?php
   if (is_current_boinc_user($data->host_userid)) {
-    echo $data->host_active_frac;
+    echo ($data->host_active_frac * 100) . \' %\';
   }
 ?>',
       'exclude' => 0,
