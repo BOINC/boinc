@@ -303,7 +303,7 @@
   <string name="suspend_os">已被Android系统暂停。</string>
   <string name="suspend_wifi">未连接至WiFi网络。</string>
   <string name="suspend_battery_charging">在恢复运算之前您的电池需要充电。</string>
-  <string name="suspend_battery_charging_long">当电池电量超过以下水平时继续计算</string>
+  <string name="suspend_battery_charging_long">当电池电量超过以下水平时计算会继续</string>
   <string name="suspend_battery_charging_long2"></string>
   <string name="suspend_battery_charging_current">当前</string>
   <string name="suspend_battery_overheating">等待电池冷却中</string>
@@ -334,11 +334,14 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">版本</string>
   <string name="about_name_long">伯克利开放式网络计算平台 ( BOINC )</string>
-    <string name="about_copyright">\u00A9 2003–2016 加州大学伯克利分校。</string>
+  <string name="about_copyright">\u00A9 2003–2016 加州大学伯克利分校。</string>
   <string name="about_copyright_reserved">所有权利保留。</string>
   <string name="about_credits">感谢马克斯普朗克引力物理学研究所、IBM 公司以及 HTC 公司的大力协助。</string>
-    <!--notice notification-->
-  <!--multi BOINC compitability-->
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <plurals name="notice_notification">
+    <item quantity="other">%2$,d 新通知</item>
+  </plurals>
+  <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">检测到有志愿计算APP正在运行</string>
   <string name="nonexcl_dialog_text">有其他志愿计算APP正在运行。一次只能执行一个版本。</string>
   <string name="nonexcl_dialog_exit">退出</string>
