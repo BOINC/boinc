@@ -182,7 +182,6 @@ function get_error($reply, $outer_tag) {
 function boinc_estimate_batch($req) {
     list($reply, $errmsg) = do_batch_op($req, "estimate_batch");
     if ($errmsg) return array(0, $errmsg);
-    print_r($reply);
     if ($x = get_error($reply, "estimate_batch")) {
         return array(null, $x);
     }
