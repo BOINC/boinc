@@ -304,6 +304,7 @@ const char* rsc_name_long(int i) {
 
 #ifndef SIM
 // alert user if any jobs need more RAM than available
+// (based on RAM estimate, not measured size)
 //
 static void check_too_large_jobs() {
     unsigned int i, j;
