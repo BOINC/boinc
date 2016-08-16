@@ -772,6 +772,40 @@ int main_loop() {
     return 0;
 }
 
+void usage(char* name) {
+    fprintf(stderr,
+        "This program is a 'validator'; it handles completed tasks.\n"
+        "Normally it is run as a daemon from config.xml.\n"
+        "See: https://boinc.berkeley.edu/trac/wiki/BackendPrograms\n\n"
+    );
+
+    fprintf(stderr, "usage: %s [options]\n"
+        "    Options:\n"
+        "    --app name                 Process tasks for the given application\n"
+        "    [--one_pass_N_WU N]        Validate at most N WUs, then exit\n"
+        "    [--one_pass]               Make one pass through WU table, then exit\n"
+        "    [--dry_run]                Don't update db, just write logs (for debugging)\n"
+        "    [--mod n i]                Process only WUs with (id mod n) == i\n"
+        "    [--max_wu_id n]            Process only WUs with id <= n\n"
+        "    [--min_wu_id n]            Process only WUs with id >= n\n"
+        "    [--max_granted_credit X]   Grant no more than this amount of credit to a result\n"
+        "    [--grant_claimed_credit]   Grant the claimed credit, regardless of what other results for this workunit claimed\n"
+        "    [--update_credited_job]    Add record to credited_job table after granting credit\n"
+        "    [--credit_from_wu]         Credit is specified in WU XML\n"
+        "    [--credit_from_runtime X]  Grant credit based on runtime (max X seconds)and estimated FLOPS\n"
+        "    [--no_credit]              Don't grant credit\n"
+        "    [--sleep_interval n]       Set sleep-interval to n\n"
+        "    [--wu_id n]                Process WU with given ID\n"
+        "    [-d level|--debug_level n] Set log verbosity level\n"
+        "    [-h|--help]                Print this usage information and exit\n"
+        "    [-v|--version]             Print version information and exit\n"
+        "\n",
+        name
+    );
+    validate_handler_usage();
+
+}
+
 // For use by project-supplied routines check_set() and check_pair()
 //
 int debug_level=0;
@@ -779,30 +813,9 @@ int debug_level=0;
 int main(int argc, char** argv) {
     int i, retval;
 
-    const char *usage = 
-      "\nUsage: %s --app <app-name> [OPTIONS]\n"
-      "Start validator for application <app-name>\n\n"
-      "Optional arguments:\n"
-      "  --one_pass_N_WU N       Validate at most N WUs, then exit\n"
-      "  --one_pass              Make one pass through WU table, then exit\n"
-      "  --dry_run               Don't update db, just write logs (for debugging)\n"
-      "  --mod n i               Process only WUs with (id mod n) == i\n"
-      "  --max_wu_id n           Process only WUs with id <= n\n"
-      "  --min_wu_id n           Process only WUs with id >= n\n"
-      "  --max_granted_credit X  Grant no more than this amount of credit to a result\n"
-      "  --update_credited_job   Add record to credited_job table after granting credit\n"
-      "  --credit_from_wu        Credit is specified in WU XML\n"
-      "  --credit_from_runtime X  Grant credit based on runtime (max X seconds)and estimated FLOPS\n"
-      "  --no_credit             Don't grant credit\n"
-      "  --sleep_interval n      Set sleep-interval to n\n"
-      "  --wu_id n               Process WU with given ID\n"
-      "  -d n, --debug_level n   Set log verbosity level, 1-4\n"
-      "  -h | --help             Show this\n"
-      "  -v | --version          Show version information\n";
-
     if (argc > 1) {
       if (is_arg(argv[1], "h") || is_arg(argv[1], "help")) {
-        printf (usage, argv[0] );
+        usage(argv[0]);
         exit(0);
       } else if (is_arg(argv[1], "v") || is_arg(argv[1], "version")) {
         printf("%s\n", SVN_VERSION);
@@ -812,6 +825,7 @@ int main(int argc, char** argv) {
 
     check_stop_daemons();
 
+    int j=1;
     for (i=1; i<argc; i++) {
         if (is_arg(argv[i], "one_pass_N_WU")) {
             one_pass_N_WU = atoi(argv[++i]);
@@ -850,17 +864,16 @@ int main(int argc, char** argv) {
             wu_id = atoi(argv[++i]);
             one_pass = true;
         } else {
-            //log_messages.printf(MSG_CRITICAL, "unrecognized arg: %s\n", argv[i]);
+            // unknown arg - pass to handler
+            argv[j++] = argv[i];
         }
     }
-    g_argc = argc;
-    g_argv = argv;
 
     if (app_name[0] == 0) {
         log_messages.printf(MSG_CRITICAL,
             "must use '--app' to specify an application\n"
         );
-        printf (usage, argv[0] );
+        usage(argv[0]);
         exit(1);      
     }
 
@@ -881,10 +894,6 @@ int main(int argc, char** argv) {
         );
         exit(1);
     }
-
-    log_messages.printf(MSG_NORMAL,
-        "Starting validator, debug level %d\n", log_messages.debug_level
-    );
 
     if (credit_from_runtime) {
         log_messages.printf(MSG_NORMAL,
@@ -907,6 +916,14 @@ int main(int argc, char** argv) {
             "max wu id %d\n", wu_id_max
         );
     }
+
+    argv[j] = 0;
+    retval = validate_handler_init(j, argv);
+    if (retval) exit(1);
+
+    log_messages.printf(MSG_NORMAL,
+        "Starting validator, debug level %d\n", log_messages.debug_level
+    );
 
     install_stop_signal_handler();
 
