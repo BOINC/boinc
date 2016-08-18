@@ -796,8 +796,9 @@ function boincteam_create_team_link_panel() {
   $output .= '  <li class="first last tab">';
   if (isset($account->roles[$unrestricted_role])) {
     $output .= l(bts('Create new team'), 'community/teams/add');
-  }
-  else {
+  } elseif ($account->uid <= 0) {
+    $output .= l(bts('Login to create a new team'), 'user/login');
+  } else {
     $min_credit_needed = variable_get('boinc_comment_min_credit', 0);
     $credit_needed = $min_credit_needed - $account->boincuser_total_credit;
     $output .= '[';
