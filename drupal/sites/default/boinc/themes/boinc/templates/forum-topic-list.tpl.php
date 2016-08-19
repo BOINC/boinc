@@ -66,6 +66,7 @@
   <?php foreach ($topics as $topic): ?>
     <?php
       node_load($topic->id);
+      $author = user_load($topic->uid);
       $topic_index++;
       $row_class = 'topic ' . $topic->zebra;
       if ($topic_index == 1) {
@@ -87,7 +88,9 @@
     ?>
     <tr class="<?php print $row_class;?>">
       <td class="icon"><?php //print $topic->icon; ?></td>
-      <td class="title"><?php print $topic->title; ?></td>
+      <td class="title" title="<?php print $author->boincuser_name; ?>">
+        <?php print $topic->title; ?>
+      </td>
     <?php if ($topic->moved): ?>
       <td colspan="3"><?php print $topic->message; ?></td>
     <?php else: ?>
