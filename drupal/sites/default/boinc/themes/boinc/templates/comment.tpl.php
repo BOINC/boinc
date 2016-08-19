@@ -109,9 +109,12 @@
           $ignore_link['ignore_user']['href'],
           array('query' => $ignore_link['ignore_user']['query'])); ?>
         </div>
-        <div class="pm-link"><?php print l(bts('Send message'),
-          privatemsg_get_link(array($account)),
-          array('query' => drupal_get_destination())); ?>
+        <div class="pm-link"><?php
+          if ($user->uid AND ($user->uid != $account->uid)) {
+            print l(bts('Send message'),
+            privatemsg_get_link(array($account)),
+            array('query' => drupal_get_destination()));
+          } ?>
         </div>
       </div>
     <?php endif; ?>
