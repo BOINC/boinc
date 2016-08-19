@@ -177,13 +177,10 @@
   <?php
     static $authors;
     if (_ignore_user_ignored_user($comment->uid)) {
-//      if (!$authors[$comment->uid]) {
-//        $authors[$comment->uid] = user_load(array('uid' => $comment->uid));
-//      }
       print '</div> <!-- /.ignore-user-content -->';
       print '</div> <!-- /.ignore-user-container -->';
     }
-    ?>
+  ?>
 
 </div> <!-- /.comment -->
 
