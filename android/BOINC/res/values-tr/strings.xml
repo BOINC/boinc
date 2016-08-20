@@ -334,11 +334,15 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Sürüm</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-    <string name="about_copyright">© 2003 - 2016 California Üniversitesi, Berkeley.</string>
+  <string name="about_copyright">\u00A9 2003–2016 Kaliforniya Üniversitesi, Berkeley.</string>
   <string name="about_copyright_reserved">Tüm Hakları Saklıdır.</string>
   <string name="about_credits">Verdikleri destek için Max Planck Enstitüsü Yerçekimi Fizik Bölümü\'ne, IBM  ve HTC şirketlerine teşekkürler.</string>
-    <!--notice notification-->
-  <!--multi BOINC compitability-->
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <plurals name="notice_notification">
+    <item quantity="one">Yeni bildirim - %1$s</item>
+    <item quantity="other">%2$,d yeni bildirim</item>
+  </plurals>
+  <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Gönüllü hesaplama uygulaması tespit edildi.</string>
   <string name="nonexcl_dialog_text">Bu cihazda başka bir gönüllü hesaplama uygulaması çalışıyor. Aynı anda sadece bir versiyon çalışabilir.</string>
   <string name="nonexcl_dialog_exit">Çıkış</string>
@@ -348,5 +352,6 @@
   <string name="social_invite_content_title">Akıllı telefonumdan bilim yapıyorum!</string>
   <string name="social_invite_content_body">Bilim adına hesaplama yapmak için %1$s mı kullanıyorum. Sende katılabilirsin! Uygulamayı %2$s dan indirebilirsin.</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
 </resources>
