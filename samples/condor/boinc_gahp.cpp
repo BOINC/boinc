@@ -348,7 +348,8 @@ void handle_query_batches(COMMAND& c) {
     char buf[256];
     string error_msg, s;
     int retval = query_batch_set(
-        project_url, authenticator, c.min_mod_time, c.batch_names, reply, error_msg
+        project_url, authenticator, c.min_mod_time, c.batch_names,
+        reply, error_msg
     );
     if (retval) {
         sprintf(buf, "error\\ querying\\ batch:\\ %d\\ ", retval);

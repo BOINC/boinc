@@ -369,7 +369,7 @@ struct PROJECT_PREFS {
     bool dont_use_proc_type[NPROC_TYPES];
     bool allow_non_selected_apps;
     bool allow_beta_work;
-    int max_jobs;
+    int max_jobs_in_progress;
     int max_cpus;
 
     void parse();
@@ -378,7 +378,7 @@ struct PROJECT_PREFS {
         memset(&dont_use_proc_type, 0, sizeof(dont_use_proc_type));
         allow_non_selected_apps = false;
         allow_beta_work = false;
-        max_jobs = 0;
+        max_jobs_in_progress = 0;
         max_cpus = 0;
     }
 };

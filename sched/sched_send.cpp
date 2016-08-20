@@ -778,7 +778,7 @@ bool work_needed(bool locality_sched) {
         // enforce project prefs limit on # of jobs in progress
         //
         bool proj_pref_exceeded = false;
-        int mj = g_wreq->project_prefs.max_jobs;
+        int mj = g_wreq->project_prefs.max_jobs_in_progress;
         if (mj) {
             if (config.max_jobs_in_progress.project_limits.total.njobs >= mj) {
                 proj_pref_exceeded = true;
