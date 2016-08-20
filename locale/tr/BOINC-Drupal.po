@@ -2,6 +2,7 @@
 # Copyright (c) YEAR NAME <EMAIL@ADDRESS>
 # 
 # Translators:
+# Can Demirel <aycandemirel@hotmail.com>, 2016
 # Efe Egemen Sen <egemen123456@outlook.com>, 2016
 # Emre GÜN <thondras@gmail.com>, 2015
 # ilkeryus <ilkeryus@gmail.com>, 2016
@@ -9,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2016-08-16 12:17+0000\n"
-"PO-Revision-Date: 2016-08-20 07:41+0000\n"
+"PO-Revision-Date: 2016-08-20 07:46+0000\n"
 "Last-Translator: Can Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/boinc/boinc/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -542,7 +543,7 @@ msgid "Inbox"
 msgstr "Gelen kutusu"
 
 msgid "Compose new"
-msgstr "Yeni Oluştur"
+msgstr "Yeni oluştur"
 
 msgid "Posts contributed"
 msgstr "Katkıda bulunulan gönderiler"
@@ -937,7 +938,7 @@ msgid ""
 msgstr "Şifrenizi sıfırlamak için talimatları almak üzere e-posta adresinizi girin (veya !authenticator_login kullanın). "
 
 msgid "Send"
-msgstr "Yolla"
+msgstr "Gönder"
 
 msgid "Submitted by !username on !datetime"
 msgstr "!username tarafından !datetime zamanında gönderildi"
@@ -996,7 +997,7 @@ msgstr "Yorum gönder"
 #: preference set
 msgctxt "preference set"
 msgid "Home"
-msgstr "Ev"
+msgstr "Anasayfa"
 
 msgid "The latest news from the @site_name project"
 msgstr "@site_name projesinden gelen son haberler"
@@ -1071,7 +1072,7 @@ msgid "Comments"
 msgstr "Yorumlar"
 
 msgid "discuss"
-msgstr "tartışma"
+msgstr "tartış"
 
 msgid "n/a"
 msgstr "yok"
@@ -1151,7 +1152,7 @@ msgid ""
 msgstr "Bu, @id bilgisayarını sonsuza kadar hesabınızdan siler. Bunu yapmak istediğinizden emin misiniz?"
 
 msgid "Post topic"
-msgstr "Konu yaz"
+msgstr "Yeni konu gönder"
 
 msgid "Leave team"
 msgstr "Takımdan ayrıl"
