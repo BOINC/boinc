@@ -63,7 +63,7 @@
   <string name="attachproject_login_category_creation">Nuovo</string>
   <string name="attachproject_login_header_creation_enabled">Crea un account per partecipare:</string>
   <string name="attachproject_login_header_creation_client_disabled">Visita il sito web del progetto per creare un account:</string>
-  <string name="attachproject_login_header_creation_disabled">Al momento il progetto non accetta nuovi account.</string>
+  <string name="attachproject_login_header_creation_disabled">Al momento il progetto non accetta nuovi volontari.</string>
   <string name="attachproject_login_button_registration">Registra</string>
   <string name="attachproject_login_button_login">Login</string>
   <string name="attachproject_login_button_forgotpw">Password dimenticata</string>
@@ -121,7 +121,7 @@
   <!--main activity-->
   <string name="main_noproject_warning">Premi qui per scegliere un progetto.</string>
   <string name="main_error">Ops</string>
-  <string name="main_error_long">…questo non deve succedere!\nClicca sull\'icona per riprovare.</string>
+  <string name="main_error_long">…questo non dovrebbe succedere!\nClicca sull\'icona per riprovare.</string>
   <string name="main_title_icon_desc">icona BOINC</string>
   <!--tab names-->
   <string name="tab_status">Stato</string>
@@ -186,9 +186,9 @@
   <string name="prefs_cpu_number_cpus_description">Limita il numero di core CPU che BOINC usa per l\'elaborazione.</string>
   <string name="prefs_cpu_other_load_suspension_header">Pausa con utilizzo CPU superiore a</string>
   <string name="prefs_cpu_other_load_suspension_description">Determina quando BOINC ferma l\'elaborazione a causa dell\'utilizzo CPU di altre applicazioni.</string>
-  <string name="prefs_cpu_time_max_header">limite CPU</string>
+  <string name="prefs_cpu_time_max_header">Limite CPU</string>
   <string name="prefs_cpu_time_max_description">Limita il tempo CPU che BOINC usa per l\'elaborazione.</string>
-  <string name="prefs_memory_max_idle_header">limite RAM</string>
+  <string name="prefs_memory_max_idle_header">Limite RAM</string>
   <string name="prefs_memory_max_idle_description">Limita il quantitativo di RAM che BOINC può occupare.</string>
   <string name="prefs_client_log_flags_header">Flag di log del Client BOINC</string>
   <string name="prefs_gui_log_level_header">Livello di log della GUI</string>
