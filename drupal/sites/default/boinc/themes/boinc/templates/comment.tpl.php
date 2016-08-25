@@ -180,7 +180,6 @@
   </div> <!-- /.comment-body -->
 
   <?php
-    static $authors;
     if (_ignore_user_ignored_user($comment->uid)) {
       print '</div> <!-- /.ignore-user-content -->';
       print '</div> <!-- /.ignore-user-container -->';
