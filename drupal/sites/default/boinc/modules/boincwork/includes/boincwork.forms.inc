@@ -1573,12 +1573,12 @@ function communityprefs_form(&$form_state) {
         . '<label>'
 	. bts('Ignore Users in forums:')
 	. '</label>'
-        . l(
-	    bts('View/Edit'),
-	    'ignore_user/list',
+        . bts('<a href="@ignore-user-list">View/Edit</a> your ignored users list.',
+	  array(
+	    '@ignore-user-list' => url('ignore_user/list'),
 	    array('attributes' => array('class' => 'form-link'))
-	   )
-	. ' your ignored users list.'
+	  )
+	)
 	. '</div>',
     );
   }//endif module_exists('ignore_user')
