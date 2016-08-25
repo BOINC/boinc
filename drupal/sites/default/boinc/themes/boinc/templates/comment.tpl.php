@@ -64,7 +64,9 @@
       // Remove the wrapper the Ignore User module puts around node->content.
       // It should be around the whole comment, not one part...
       // Absurd nested functions to remove wrappers are as follows.
-      $content = strstr(end(explode('<div class="ignore-user-content">', $content)), '</div></div>', TRUE);
+      $wrapper = explode('<div class="ignore-user-content">', $content);
+      $wrapper = end($wrapper);
+      $content = strstr($wrapper, '</div></div>', TRUE);
       print '<div class="ignore-user-container">';
       print bts('!username is on your !ignore_list. Click !here to view this post.',
         array(
