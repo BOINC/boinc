@@ -80,6 +80,7 @@ int check_set(
         had_error[i] = false;
     }
     int good_results = 0;
+    int suspicious_results = 0;
     for (i=0; i<n; i++) {
         retval = init_result(results[i], data[i]);
         if (retval == ERR_OPENDIR) {
@@ -89,6 +90,8 @@ int check_set(
             );
             retry = true;
             had_error[i] = true;
+        } else if (retval == VAL_RESULT_SUSPICIOUS) {
+            suspicious_results++;
         } else if (retval) {
             log_messages.printf(MSG_CRITICAL,
                 "check_set: init_result([RESULT#%lu %s]) failed: %s\n",
@@ -101,6 +104,14 @@ int check_set(
             good_results++;
         }
     }
+
+    // don't count a single "suspicious" result as "good",
+    // but do if there are more results to compare it with
+    //
+    if (suspicious_results > 1 || good_results > 0) {
+        good_results += suspicious_results;
+    }
+
     if (good_results < wu.min_quorum) goto cleanup;
 
     // Compare results
