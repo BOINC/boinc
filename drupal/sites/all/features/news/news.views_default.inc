@@ -256,8 +256,10 @@ function news_views_default_views() {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -272,7 +274,8 @@ function news_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
-      'text' => 'discuss',
+      'hide_alter_empty' => 1,
+      'text' => 'more',
       'exclude' => 0,
       'id' => 'view_node',
       'table' => 'node',
@@ -305,7 +308,7 @@ function news_views_default_views() {
         'strip_tags' => 0,
       ),
       'empty' => '0',
-      'hide_empty' => 0,
+      'hide_empty' => 1,
       'empty_zero' => 0,
       'hide_alter_empty' => 0,
       'set_precision' => FALSE,
@@ -692,9 +695,13 @@ return variable_get(\'site_name\', \'BOINC\');
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'value' => '<?php
-  $cid = boincuser_get_first_unread_comment_id($data->nid);
-  $link = ($cid) ? "goto/comment/{$cid}" : "node/{$data->nid}";
-  return l(bts(\'discuss\'), $link);
+  $node = node_load($data->nid);
+  $commode = $node->comment;
+  if ($commode==2) {
+    $cid = boincuser_get_first_unread_comment_id($data->nid);
+    $link = ($cid) ? "goto/comment/{$cid}" : "node/{$data->nid}";
+    return l(bts(\'discuss\'), $link);
+  }
 ?>',
       'exclude' => 0,
       'id' => 'phpcode',
@@ -728,7 +735,7 @@ return variable_get(\'site_name\', \'BOINC\');
         'strip_tags' => 0,
       ),
       'empty' => '0',
-      'hide_empty' => 0,
+      'hide_empty' => 1,
       'empty_zero' => 0,
       'hide_alter_empty' => 0,
       'set_precision' => FALSE,
