@@ -43,16 +43,6 @@ inline double safe_atof(const char* s) {
     return atof(s);
 }
 
-#define strcpy2(x, y) \
-    { \
-        const char* z = y; \
-        if (!z) { \
-            x[0]=0; \
-        } else { \
-            strlcpy(x, z, sizeof(x)); \
-        } \
-    }
-
 #define MAX_QUERY_LEN 262144
     // TODO: use string for queries, get rid of this
 

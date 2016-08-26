@@ -41,6 +41,16 @@
 
 using std::string;
 
+#define strcpy2(x, y) \
+    { \
+        const char* z = y; \
+        if (!z) { \
+            x[0]=0; \
+        } else { \
+            strlcpy(x, z, sizeof(x)); \
+        } \
+    }
+
 extern "C" {
     int isnan(double);
 }

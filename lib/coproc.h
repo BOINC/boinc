@@ -88,7 +88,6 @@
 #include "cal_boinc.h"
 #include "cl_boinc.h"
 #include "opencl_boinc.h"
-#include "str_replace.h"
 
 #define MAX_COPROC_INSTANCES 64
 #define MAX_RSC 8
@@ -438,7 +437,7 @@ struct COPROCS {
         ati.clear();
         intel_gpu.clear();
         COPROC c;
-        safe_strcpy(c.type, "CPU");
+        strcpy(c.type, "CPU");
         c.clear_usage();
         add(c);
     }
@@ -502,7 +501,7 @@ struct COPROCS {
         ati.count = 0;
         intel_gpu.count = 0;
         COPROC c;
-        safe_strcpy(c.type, "CPU");
+        strcpy(c.type, "CPU");
         c.clear_usage();
         add(c);
     }
