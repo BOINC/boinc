@@ -31,6 +31,15 @@ The BOINC logo and associated icons were designed by Michal Krakowiak.
 Its arms represent the convergence of separated things
 (such as computers) into a unified whole.
 The colors are based on U.C. Berkeley's blue-and-gold colors.
+<p>
+The BOINC logo and its variants are in the public domain.
+If you use one of them in a web page,
+we ask that you link it to the BOINC web site
+(currently https://boinc.berkeley.edu)
+or display this URL near the image.
+<p>
+The volunteer-supplied images on this page are owned by
+their respectice creators; contact them for license info.
 <ul>
 <li> <a href=logo/www_logo.gif>164x73 version (GIFF)</a>
 <li> <a href=logo/boinc_600.jpg>600x305 version (JPEG)</a>
@@ -63,8 +72,6 @@ Installer splash screen:
 'Powered by BOINC' image:
 <p>
 <a href=https://boinc.berkeley.edu><img src=logo/pb_boinc.gif></a>
-<p>
-(always link this to https://boinc.berkeley.edu)
 <p>
 Monochrome/black:
 <p>
