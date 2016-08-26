@@ -74,7 +74,7 @@ void usage() {
             "    verify a signature\n"
             "-test_crypt private_keyfile public_keyfile\n"
             "    test encrypt/decrypt functions\n"
-            "-conkey o2b/b20 priv/pub input_file output_file\n"
+            "-convkey o2b/b2o priv/pub input_file output_file\n"
             "    convert keys between BOINC and OpenSSL format\n"
             "-cert_verify file signature certificate_dir\n"
             "    verify a signature using a directory of certificates\n"
