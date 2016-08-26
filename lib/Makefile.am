@@ -152,6 +152,7 @@ pkginclude_HEADERS = \
     procinfo.h \
     proxy_info.h \
     stackwalker_imports.h \
+    str_replace.h \
     str_util.h \
     url.h \
     util.h \
@@ -165,7 +166,6 @@ noinst_HEADERS = \
     proc_control.h \
     procinfo.h \
     shmem.h \
-    str_replace.h \
     synch.h \
     unix_util.h
 
