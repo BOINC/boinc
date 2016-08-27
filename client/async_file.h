@@ -91,6 +91,9 @@ extern std::vector<ASYNC_COPY*> async_copies;
 
 extern void remove_async_copy(ASYNC_COPY*);
 extern void remove_async_verify(ASYNC_VERIFY*);
-extern bool do_async_file_ops();
+inline bool have_async_file_op() {
+    return (async_verifies.size() || async_copies.size());
+}
+extern void do_async_file_op();
 
 #endif
