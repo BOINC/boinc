@@ -200,7 +200,7 @@
   <string name="projects_add">Añadir proyecto</string>
   <string name="projects_icon">Icono del proyecto</string>
   <string name="projects_credits">Creditos:</string>
-  <string name="projects_credits_host_and_user">%1$,d (En este dispositivo) %2$,d (En total)</string>
+  <string name="projects_credits_host_and_user">%1$,d (en este dispositivo) %2$,d (total)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Suspendido por el usuario</string>
   <string name="projects_status_dontrequestmorework">No se descargarán nuevas tareas</string>
@@ -334,11 +334,15 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Versión</string>
   <string name="about_name_long">Infraestructura Abierta de Berkeley para Computación en Red</string>
-  <string name="about_copyright">2003–2016 University of California, Berkeley.</string>
+  <string name="about_copyright">\u00A9 2003–2016 Universidad de California, Berkeley.</string>
   <string name="about_copyright_reserved">Todos los derechos reservados.</string>
   <string name="about_credits">Gracias al \"Max Planck Institute for Gravitational Physics\", IBM Corporation y HTC Corporation por su apoyo.</string>
-    <!--notice notification-->
-  <!--multi BOINC compitability-->
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <plurals name="notice_notification">
+    <item quantity="one">Nuevo aviso de %1$s</item>
+    <item quantity="other">%2$,d nuevos avisos</item>
+  </plurals>
+  <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Aplicación de computación voluntaria detectada</string>
   <string name="nonexcl_dialog_text">Otra aplicación de otro voluntario está ejecutándose en este dispositivo. Sólo se puede ejecutar una versión a la vez.</string>
   <string name="nonexcl_dialog_exit">Salir</string>
