@@ -91,6 +91,10 @@ int check_set(
             retry = true;
             had_error[i] = true;
         } else if (retval == VAL_RESULT_SUSPICIOUS) {
+            log_messages.printf(MSG_NORMAL,
+                "[RESULT#%lu %s] considered to be suspicious\n",
+                results[i].id, results[i].name
+            );
             suspicious_results++;
         } else if (retval) {
             log_messages.printf(MSG_CRITICAL,
