@@ -15,7 +15,7 @@
 
 using namespace std;
 
-WX_DEFINE_OBJARRAY(wxPieSeries);
+WX_DEFINE_OBJARRAY(wxPieSeries)
 
 /* ####### wxPiePart */
 wxPiePart::wxPiePart()

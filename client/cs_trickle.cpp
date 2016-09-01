@@ -326,4 +326,4 @@ void TRICKLE_UP_OP::handle_reply(int http_op_retval) {
         free(req_buf);
         req_buf = 0;
     }
-};
+}

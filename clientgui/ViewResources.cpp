@@ -31,7 +31,7 @@
 #include <wx/arrimpl.cpp>
 #include "res/usage.xpm"
 
-WX_DEFINE_OBJARRAY(wxArrayColour);
+WX_DEFINE_OBJARRAY(wxArrayColour)
 
 IMPLEMENT_DYNAMIC_CLASS(CViewResources, CBOINCBaseView)
 
