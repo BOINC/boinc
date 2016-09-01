@@ -83,7 +83,7 @@ void perror(const char *s);
 
 // More left to do here.  Just the minimum for BOINC done.
 
-};  // end of namespace FCGI
+} // end of namespace FCGI
  
 using namespace FCGI;
 #endif // __cplusplus
