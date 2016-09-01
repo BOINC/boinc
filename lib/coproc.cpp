@@ -541,7 +541,7 @@ void COPROC_NVIDIA::set_peak_flops() {
         // OpenCL w/ cl_nv_device_attribute_query extension
         // Per: https://www.khronos.org/registry/cl/extensions/nv/cl_nv_device_attribute_query.txt
         //
-        // The theoretical single-precision processing power of a Maxwell GPU in GFLOPS is computed as 2 (operations per FMA instruction per CUDA core per cycle) × number of CUDA cores × core clock speed (in GHz).
+        // The theoretical single-precision processing power of a Maxwell GPU in GFLOPS is computed as 2 (operations per FMA instruction per CUDA core per cycle) Ã— number of CUDA cores Ã— core clock speed (in GHz).
         // Per: https://en.wikipedia.org/wiki/Maxwell_(microarchitecture)#Performance
         // Per: https://en.wikipedia.org/wiki/List_of_Nvidia_graphics_processing_units
         //
