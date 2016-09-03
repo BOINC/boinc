@@ -773,7 +773,7 @@ vector<string> split(string s, char delim) {
 //
 bool is_valid_filename(const char* name) {
     size_t n = strlen(name);
-    for (int i=0; i<n; i++) {
+    for (size_t i=0; i<n; i++) {
         if (iscntrl(name[i])) {
             return false;
         }
