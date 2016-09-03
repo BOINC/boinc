@@ -162,30 +162,41 @@ function upload_files($r) {
     $delete_time = (int)$r->delete_time;
     $batch_id = (int)$r->batch_id;
     //print_r($_FILES);
-    $i = 0;
+    $i = -1;
+    $upload_error = "";
     foreach ($r->md5 as $f) {
+        $i++;
         $md5 = (string)$f;
         $name = "file_$i";
         $tmp_name = $_FILES[$name]['tmp_name'];
         if (!is_uploaded_file($tmp_name)) {
-            xml_error(-1, "$tmp_name is not an uploaded file");
+            $upload_error .= "$name:$md5 was not uploaded ";
+            continue;
         }
         $fname = job_file_name($md5);
         $path = dir_hier_path($fname, project_dir() . "/download", $fanout);
-        rename($tmp_name, $path);
+        if (!rename($tmp_name, $path)) {
+            $upload_error .= "could not move $tmp_name to $path ";
+            unlink($tmp_name);
+            continue;
+        }
         $now = time();
         $jf_id = BoincJobFile::insert(
             "(md5, create_time, delete_time) values ('$md5', $now, $delete_time)"
         );
         if (!$jf_id) {
-            xml_error(-1, "upload_files(): BoincJobFile::insert($md5) failed: ".BoincDb::error());
+            $upload_error . = "BoincJobFile::insert($md5) failed: " . BoincDb::error() . " ";
+            $unlink($path);
+            continue;
         }
         if ($batch_id) {
             BoincBatchFileAssoc::insert(
                 "(batch_id, job_file_id) values ($batch_id, $jf_id)"
             );
         }
-        $i++;
+    }
+    if ($upload_error) {
+        xml_error(-1, "upload_files(): " . $upload_error);
     }
     echo "<success/>
         </upload_files>
