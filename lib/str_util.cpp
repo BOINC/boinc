@@ -352,8 +352,10 @@ void strip_quotes(char *str) {
     while (n>0) {
         n--;
         if (str[n] == '"' || str[n] == '\'') {
-            str[n] = 0;
-            continue;
+            if (str[n-1] != '\\') {
+                str[n] = 0;
+                continue;
+            }
         }
         if (!isascii(str[n])) break;
         if (!isspace(str[n])) break;
@@ -376,14 +378,46 @@ void strip_quotes(string& str) {
     int n = (int) str.length();
     while (n>0) {
         if (str[n-1] == '"' || str[n-1] == '\'') {
-            n--;
-            continue;
+            if (str[n-2] != '\\') {
+                n--;
+                continue;
+            }
         }
         if (!isascii(str[n-1])) break;
         if (!isspace(str[n-1])) break;
         n--;
     }
     str.erase(n, str.length()-n);
+}
+
+// This only unescapes some special shell characters used in /etc/os-release
+// see https://www.freedesktop.org/software/systemd/man/os-release.html
+void unescape_os_release(char* buf) {
+    char* out = buf;
+    char* in = buf;
+    while (*in) {
+        if (*in != '\\') {
+            *out++ = *in++;
+        } else if (*(in+1) == '$') {
+            *out++ = '$';
+            in += 2;
+        } else if (*(in+1) == '\'') {
+            *out++ = '\'';
+            in += 2;
+        } else if (*(in+1) == '"') {
+            *out++ = '"';
+            in += 2;
+        } else if (*(in+1) == '\\') {
+            *out++ = '\\';
+            in += 2;
+        } else if (*(in+1) == '`') {
+            *out++ = '`';
+            in += 2;
+        } else {
+            *out++ = *in++;
+        }
+    }
+    *out = 0;
 }
 
 char* time_to_string(double t) {

@@ -1654,6 +1654,7 @@ int HOST_INFO::get_os_info() {
                     found_something = true;
                     safe_strcpy(buf2, strchr(buf, '=') + 1);
                     strip_quotes(buf2);
+                    unescape_os_release(buf2);
                     safe_strcpy(dist_pretty, buf2);
                     continue;
                 }
@@ -1661,6 +1662,7 @@ int HOST_INFO::get_os_info() {
                     found_something = true;
                     safe_strcpy(buf2, strchr(buf, '=') + 1);
                     strip_quotes(buf2);
+                    unescape_os_release(buf2);
                     safe_strcpy(dist_name, buf2);
                     continue;
                 }
@@ -1668,6 +1670,7 @@ int HOST_INFO::get_os_info() {
                     found_something = true;
                     safe_strcpy(buf2, strchr(buf, '=') + 1);
                     strip_quotes(buf2);
+                    unescape_os_release(buf2);
                     safe_strcpy(dist_version, buf2);
                     continue;
                 }
@@ -1676,6 +1679,7 @@ int HOST_INFO::get_os_info() {
                     found_something = true;
                     safe_strcpy(buf2, strchr(buf, '=') + 1);
                     strip_quotes(buf2);
+                    unescape_os_release(buf2);
                     safe_strcpy(dist_codename, buf2);
                     continue;
                 }

@@ -97,8 +97,10 @@ void strip_quotes(char *str) {
     while (n>0) {
         n--;
         if (str[n] == '"' || str[n] == '\'') {
-            str[n] = 0;
-            continue;
+            if (str[n-1] != '\\') {
+                str[n] = 0;
+                continue;
+            }
         }
         if (!isascii(str[n])) break;
         if (!isspace(str[n])) break;
@@ -121,14 +123,44 @@ void strip_quotes(string& str) {
     int n = (int) str.length();
     while (n>0) {
         if (str[n-1] == '"' || str[n-1] == '\'') {
-            n--;
-            continue;
+            if (str[n-2] != '\\') {
+                n--;
+                continue;
+            }
         }
         if (!isascii(str[n-1])) break;
         if (!isspace(str[n-1])) break;
         n--;
     }
     str.erase(n, str.length()-n);
+}
+
+void unescape_os_release(char* buf) {
+    char* out = buf;
+    char* in = buf;
+    while (*in) {
+        if (*in != '\\') {
+            *out++ = *in++;
+        } else if (*(in+1) == '$') {
+            *out++ = '$';
+            in += 2;
+        } else if (*(in+1) == '\'') {
+            *out++ = '\'';
+            in += 2;
+        } else if (*(in+1) == '"') {
+            *out++ = '"';
+            in += 2;
+        } else if (*(in+1) == '\\') {
+            *out++ = '\\';
+            in += 2;
+        } else if (*(in+1) == '`') {
+            *out++ = '`';
+            in += 2;
+        } else {
+            *out++ = *in++;
+        }
+    }
+    *out = 0;
 }
 
 int main(void) {
@@ -491,10 +523,12 @@ int main(void) {
         if (f) {
             while (fgets(buf, 256, f)) {
                 strip_whitespace(buf);
+                // check if substr is at the beginning of the line
                 if ( strstr(buf, "PRETTY_NAME=") == buf ) {
                     found_something = true;
                     safe_strcpy(buf2, strchr(buf, '=') + 1);
                     strip_quotes(buf2);
+                    unescape_os_release(buf2);
                     safe_strcpy(dist_pretty, buf2);
                     continue;
                 }
@@ -502,6 +536,7 @@ int main(void) {
                     found_something = true;
                     safe_strcpy(buf2, strchr(buf, '=') + 1);
                     strip_quotes(buf2);
+                    unescape_os_release(buf2);
                     safe_strcpy(dist_name, buf2);
                     continue;
                 }
@@ -509,6 +544,7 @@ int main(void) {
                     found_something = true;
                     safe_strcpy(buf2, strchr(buf, '=') + 1);
                     strip_quotes(buf2);
+                    unescape_os_release(buf2);
                     safe_strcpy(dist_version, buf2);
                     continue;
                 }
@@ -517,6 +553,7 @@ int main(void) {
                     found_something = true;
                     safe_strcpy(buf2, strchr(buf, '=') + 1);
                     strip_quotes(buf2);
+                    unescape_os_release(buf2);
                     safe_strcpy(dist_codename, buf2);
                     continue;
                 }
