@@ -138,7 +138,11 @@ int main(void) {
     bool icache_found=false,dcache_found=false;
     bool model_hack=false, vendor_hack=false;
     int n;
+#ifndef __aarch64__
     int family=-1, model=-1, stepping=-1;
+#else
+    int implementer=-1, architecture=-1, variant=-1, cpu_part=-1, revision=-1;
+#endif
     char  p_vendor[256], p_model[256], product_name[256];
     char  os_name[256], os_version[256];
     char buf2[256];
@@ -258,6 +262,7 @@ int main(void) {
                 char *testc = NULL;
                 testc = strrchr(buf, ':')+2;
                 if (isdigit(*testc)) {
+                    architecture = atoi(buf+strlen("CPU architecture: "));
                     continue;    /* skip this line */
                 }
 #endif
@@ -268,7 +273,7 @@ int main(void) {
             }
         }
 
-#ifndef __hppa__
+#if  !defined(__hppa__) && !defined(__aarch64__)
     /* XXX hppa: "cpu family\t: PA-RISC 2.0" */
         if (strstr(buf, "cpu family\t: ") && family<0) {
             family = atoi(buf+strlen("cpu family\t: "));
@@ -283,9 +288,27 @@ int main(void) {
             model = atoi(buf+strlen("model     : "));
         }
 #endif
+#ifndef __aarch64__
         if (strstr(buf, "stepping\t: ") && stepping<0) {
             stepping = atoi(buf+strlen("stepping\t: "));
         }
+#endif
+
+#ifdef __aarch64__
+        if (strstr(buf, "CPU implementer\t: ") && implementer<0) {
+            implementer = atoi(buf+strlen("CPU implementer\t: "));
+        }
+        if (strstr(buf, "CPU variant\t: ") && variant<0) {
+            variant = atoi(buf+strlen("CPU variant\t: "));
+        }
+        if (strstr(buf, "CPU part\t: ") && cpu_part<0) {
+            cpu_part = atoi(buf+strlen("CPU part\t: "));
+        }
+        if (strstr(buf, "CPU revision\t: ") && revision<0) {
+            revision = atoi(buf+strlen("CPU revision\t: "));
+        }
+#endif
+
 #ifdef __hppa__
         bool icache_found=false,dcache_found=false;
         if (!icache_found && strstr(buf, "I-cache\t\t: ")) {
@@ -330,6 +353,7 @@ int main(void) {
         }
     }
     strlcpy(model_buf, p_model, sizeof(model_buf));
+#ifndef __aarch64__
     if (family>=0 || model>=0 || stepping>0) {
         strcat(model_buf, " [");
         if (family>=0) {
@@ -346,6 +370,32 @@ int main(void) {
         }
         strcat(model_buf, "]");
     }
+#else
+    if (implementer>=0 || architecture>=0 || variant>0 || cpu_part>0 || revision>0) {
+        strcat(model_buf, " [");
+        if (implementer>=0) {
+            sprintf(buf, "Impl %d ", implementer);
+            strcat(model_buf, buf);
+        }
+        if (architecture>=0) {
+            sprintf(buf, "Arch %d ", architecture);
+            strcat(model_buf, buf);
+        }
+        if (variant>=0) {
+            sprintf(buf, "Variant %d", variant);
+            strcat(model_buf, buf);
+        }
+        if (cpu_part>=0) {
+            sprintf(buf, "Part %d", cpu_part);
+            strcat(model_buf, buf);
+        }
+        if (revision>=0) {
+            sprintf(buf, "Rev %d", revision);
+            strcat(model_buf, buf);
+        }
+        strcat(model_buf, "]");
+    }
+#endif
     if (strlen(features)) {
         strcat(model_buf, "[");
         strcat(model_buf, features);
