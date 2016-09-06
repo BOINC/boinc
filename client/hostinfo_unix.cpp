@@ -1697,25 +1697,28 @@ int HOST_INFO::get_os_info() {
     }
 
     if (found_something) {
-        strcat(os_version, " (");
+        strcpy(buf2, "");
         if (strlen(dist_pretty)) {
-            strcat(os_version, dist_pretty);
+            strcat(buf2, dist_pretty);
         } else {
             if (strlen(dist_name)) {
-                strcat(os_version, dist_name);
-                strcat(os_version, " ");
+                strcat(buf2, dist_name);
+                strcat(buf2, " ");
             }
             if (strlen(dist_version)) {
-                strcat(os_version, dist_version);
-                strcat(os_version, " ");
+                strcat(buf2, dist_version);
+                strcat(buf2, " ");
             }
             if (strlen(dist_codename)) {
-                strcat(os_version, dist_codename);
-                strcat(os_version, " ");
+                strcat(buf2, dist_codename);
+                strcat(buf2, " ");
             }
-            strip_whitespace(os_version);
+            strip_whitespace(buf2);
         }
-        strcat(os_version, ")");
+        strcat(buf2, " [");
+        strcat(buf2, os_version);
+        strcat(buf2, "]");
+        safe_strcpy(os_version, buf2);
         if (strlen(dist_name)) {
             strcat(os_name, " ");
             strcat(os_name, dist_name);
