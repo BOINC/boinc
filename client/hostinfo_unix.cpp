@@ -485,7 +485,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
     strcpy(host.p_vendor, "ARM");
     vendor_hack = vendor_found = true;
 #elif __aarch64__
-    strcpy(p_vendor, "ARM");
+    strcpy(host.p_vendor, "ARM");
     vendor_hack = vendor_found = true;
     model_hack = true;
 #endif
@@ -521,6 +521,21 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
                 strlcat(host.p_vendor, buf2, sizeof(host.p_vendor));
             }
         }
+
+#ifdef __aarch64__
+        if (
+            // Hardware is specifying the board this CPU is on, store it in product_name while we parse /proc/cpuinfo
+            strstr(buf, "Hardware\t: ")
+        ) {
+            strlcpy(buf2, strchr(buf, ':') + 2, sizeof(product_name) - strlen(product_name) - 1);
+            strip_whitespace(buf2);
+            if (strlen(product_name)) {
+                strcat(product_name, " ");
+            }
+            strcat(product_name, buf2);
+        }
+#endif
+
         if (
 #ifdef __ia64__
             strstr(buf, "family     : ") || strstr(buf, "model name : ")

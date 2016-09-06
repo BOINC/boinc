@@ -144,7 +144,7 @@ int main(void) {
     char buf2[256];
     int m_cache=-1;
 
-
+    // parse /proc/cpuinfo as in parse_cpuinfo_linux() from hostinfo_unix.cpp
     FILE* f = fopen("/proc/cpuinfo", "r");
     if (!f) return (EXIT_FAILURE);
 
@@ -187,8 +187,6 @@ int main(void) {
             strstr(buf, "type\t\t: ")
 #elif __alpha__
             strstr(buf, "cpu\t\t\t: ")
-#elif __arm__
-            strstr(buf, "CPU architecture: ")
 #else
             strstr(buf, "vendor_id\t: ") || strstr(buf, "system type\t\t: ")
 #endif
