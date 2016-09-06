@@ -22,6 +22,9 @@
 #include <vector>
 #include <string.h>
 
+#define safe_strcpy(x, y) strlcpy(x, y, sizeof(x))
+#define safe_strcat(x, y) strlcat(x, y, sizeof(x))
+
 extern void strcpy_overlap(char*, const char*);
 extern int ndays_to_string(double x, int smallest_timescale, char *buf);
 extern void nbytes_to_string(double nbytes, double total_bytes, char* str, int len);

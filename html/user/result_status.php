@@ -17,12 +17,13 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // RPC handler for getting the status of one or more results
+// args:
+// ids=id1,id2...
+// or
+// names = name1,name2,...
 
 require_once("../inc/util.inc");
 require_once("../inc/xml.inc");
-
-$ids = get_str("ids");
-$ids = explode(",", $ids);
 
 function result_xml($r) {
     echo "
@@ -56,14 +57,31 @@ function result_xml($r) {
 ";
 }
 
+BoincDb::get(true); // read-only; use replica DB if possible
+
 xml_header();
 echo "<results>\n";
-foreach ($ids as $id) {
-    $result = BoincResult::lookup_id($id);
-    if ($result) {
-        result_xml($result);
-    } else {
-        echo "<error>ID $id unknown</error>\n";
+$ids = get_str("ids", true);
+if ($ids) {
+    $ids = explode(",", $ids);
+    foreach ($ids as $id) {
+        $result = BoincResult::lookup_id($id);
+        if ($result) {
+            result_xml($result);
+        } else {
+            echo "<error>ID $id unknown</error>\n";
+        }
+    }
+} else {
+    $names = get_str("names", true);
+    $names = explode(",", $names);
+    foreach ($names as $name) {
+        $result = BoincResult::lookup_name($name);
+        if ($result) {
+            result_xml($result);
+        } else {
+            echo "<error>name $name unknown</error>\n";
+        }
     }
 }
 echo "</results>\n";

@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2016-06-17 11:55+0000\n"
+"PO-Revision-Date: 2016-08-31 09:36+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +37,7 @@ msgstr "Codice d'invito"
 
 #: ../inc/account.inc:38
 msgid "A valid invitation code is required to create an account."
-msgstr "E' necessario un codice d'invito valido per poter creare un account."
+msgstr "È necessario un codice d'invito valido per poter creare un account."
 
 #: ../inc/account.inc:44 ../inc/host.inc:674 ../inc/result.inc:632
 #: ../inc/team.inc:224 ../inc/team.inc:372 ../inc/user.inc:198
@@ -99,7 +99,7 @@ msgstr "Crea un account"
 
 #: ../inc/account.inc:101
 msgid "Email address:"
-msgstr "Indirizzo E-mail:"
+msgstr "Indirizzo e-mail:"
 
 #: ../inc/account.inc:103
 msgid "forgot email address?"
@@ -136,7 +136,7 @@ msgstr "Testo sottolineato: [u]testo[/u]  (alt+u)"
 
 #: ../inc/bbcode_html.inc:20
 msgid "Strikethrough text: [s]text[/s]  (alt+k)"
-msgstr "testo con Strikethrough: [s]testo[/s] (alt+k)"
+msgstr "Testo cancellato: [s]testo[/s] (alt+k)"
 
 #: ../inc/bbcode_html.inc:23
 msgid "Quote text: [quote]text[/quote]  (alt+q)"
@@ -161,7 +161,7 @@ msgstr "Inserisci immagine: [img]http://url_immagine[/img] (alt+p)"
 #: ../inc/bbcode_html.inc:38
 msgid ""
 "Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)"
-msgstr "Inserisci link: [url]http://link[/url] oppure [url=http://linkl]testo[/url] (alt+w)"
+msgstr "Inserisci URL: [url]http://link[/url] oppure [url=http://linkl]testo[/url] (alt+w)"
 
 #: ../inc/bbcode_html.inc:45
 msgid "Font color"
@@ -313,7 +313,7 @@ msgstr "Esperto di helpdesk"
 #. Search
 #: ../inc/forum.inc:129
 msgid "Search for words in forum messages"
-msgstr "Cerca delle parole nei messaggi del forum"
+msgstr "Cerca termini tra i messaggi del forum"
 
 #: ../inc/forum.inc:129
 msgid "Search forums"
@@ -409,7 +409,7 @@ msgstr "Messaggi: %1"
 
 #: ../inc/forum.inc:635
 msgid " - in response to "
-msgstr "- in risposta a"
+msgstr " - in risposta a "
 
 #: ../inc/forum.inc:638
 msgid "Edit"
@@ -431,7 +431,7 @@ msgstr "Questo messaggio non è mostrato perché l'autore è nella tua lista 'ig
 
 #: ../inc/forum.inc:675 ../inc/forum.inc:686
 msgid "Report this post as offensive"
-msgstr "Segnale questo messaggio come offensivo."
+msgstr "Segnale questo messaggio come offensivo"
 
 #: ../inc/forum.inc:675 ../inc/forum.inc:686
 msgid "Report as offensive"
@@ -743,7 +743,7 @@ msgstr "Sistema operativo"
 
 #: ../inc/host.inc:125 ../inc/host.inc:235
 msgid "BOINC version"
-msgstr "Versione BOINC"
+msgstr "Versione di BOINC"
 
 #: ../inc/host.inc:129 ../inc/prefs.inc:237
 msgid "Memory"
@@ -1148,7 +1148,7 @@ msgstr "\"In uso\" significa che il mouse o la tastiera sono stati usati negli u
 
 #: ../inc/prefs.inc:83
 msgid "This determines when the computer is considered 'in use'."
-msgstr "Questo determina quando il computer è considerato 'in uso'."
+msgstr "Questo determina quando il computer viene considerato 'in uso'."
 
 #: ../inc/prefs.inc:85 ../inc/prefs.inc:92 ../inc/prefs.inc:122
 msgid "minutes"
@@ -1320,7 +1320,7 @@ msgstr "KB/secondo"
 
 #: ../inc/prefs.inc:195
 msgid "Limit upload rate to"
-msgstr "Limite di upload a "
+msgstr "Limite di upload a"
 
 #: ../inc/prefs.inc:196
 msgid "Limit the upload rate of file transfers."
@@ -1406,7 +1406,7 @@ msgstr "Preferenze separate per %1"
 
 #: ../inc/prefs.inc:493 ../inc/prefs.inc:528 ../inc/prefs_project.inc:291
 msgid "Edit preferences"
-msgstr "Modifica le Preferenze"
+msgstr "Modifica le preferenze"
 
 #: ../inc/prefs.inc:494 ../user/edit_forum_preferences_form.php:149
 #: ../user/team_admins.php:36
@@ -1415,7 +1415,7 @@ msgstr "Rimuovi"
 
 #: ../inc/prefs.inc:499
 msgid "Add separate preferences for %1"
-msgstr "Aggiungi le preferenze separate per %1"
+msgstr "Aggiungi preferenze separate per %1"
 
 #: ../inc/prefs.inc:506
 msgid "These settings apply to all computers using this account except"
@@ -1428,11 +1428,11 @@ msgstr "computer dove hai selezionato preferenze locali utilizzando il BOINC Man
 
 #: ../inc/prefs.inc:510
 msgid "Android devices"
-msgstr "Dispositivi Android"
+msgstr "Dispositivi android"
 
 #: ../inc/prefs.inc:513
 msgid "(Switch view)"
-msgstr "(Cambia Visuale)"
+msgstr "(Cambia visuale)"
 
 #: ../inc/prefs.inc:515 ../inc/prefs_project.inc:272
 msgid "Combined preferences"
@@ -1448,7 +1448,7 @@ msgstr "Ultima modifica delle preferenze:"
 
 #: ../inc/prefs.inc:553
 msgid "Add preferences"
-msgstr "Aggiungi le preferenze"
+msgstr "Aggiungi delle preferenze"
 
 #: ../inc/prefs.inc:557
 msgid "Update preferences"
@@ -1676,7 +1676,7 @@ msgstr "Completato e validato"
 
 #: ../inc/result.inc:183
 msgid "Completed, marked as invalid"
-msgstr "Completato, indicato come non valido"
+msgstr "Completato, segnato come non valido"
 
 #: ../inc/result.inc:184
 msgid "Completed, can't validate"
@@ -1696,7 +1696,7 @@ msgstr "Completato"
 
 #: ../inc/result.inc:189 ../inc/result.inc:233 ../user/explain_state.php:62
 msgid "Couldn't send"
-msgstr "Non poteva essere inviato"
+msgstr "Impossibile inviare"
 
 #: ../inc/result.inc:194 ../inc/result.inc:257
 msgid "Cancelled by server"
@@ -1732,7 +1732,7 @@ msgstr "Scaduto - nessuna risposta"
 
 #: ../inc/result.inc:211 ../inc/result.inc:240 ../user/explain_state.php:71
 msgid "Didn't need"
-msgstr "Non era necessario"
+msgstr "Non necessario"
 
 #: ../inc/result.inc:212 ../inc/result.inc:241 ../user/explain_state.php:74
 msgid "Validate error"
@@ -1828,7 +1828,7 @@ msgstr "Workunit cancellata"
 
 #: ../inc/result.inc:322
 msgid "Canonical result is missing"
-msgstr "Il risultato canonico è mancante."
+msgstr "Risultato canonico mancante."
 
 #: ../inc/result.inc:326
 msgid "Unrecognized Error: %1"
@@ -1937,7 +1937,7 @@ msgstr "Stato di validazione"
 
 #: ../inc/result.inc:647
 msgid "Device peak FLOPS"
-msgstr "Picco di FLOPS del dispositivo"
+msgstr "Picco di FLOP del dispositivo"
 
 #: ../inc/result.inc:648
 msgid "Application version"
@@ -4594,7 +4594,7 @@ msgid ""
 "You can not delete our record of this computer because our database still "
 "contains work for it. You must wait a few days until the work for this "
 "computer has been deleted from the project database."
-msgstr "Non puoi cancellare il record di questo computer perché il nostro database contiene ancora lavoro per lui. Devi attendere qualche giorno fino a quando il lavoro per questo computer è stato cancellato dal database del progetto"
+msgstr "Non puoi cancellare il record di questo computer perché il nostro database contiene ancora lavoro per lui. Devi attendere qualche giorno fino a quando il lavoro per questo computer sarà stato cancellato dal database del progetto."
 
 #: ../user/host_delete.php:40
 msgid "Delete record of computer"
@@ -5161,7 +5161,7 @@ msgid ""
 "Your preferences have been reset to the defaults, and\n"
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
-msgstr "Le tue preferenze sono state resettate al default, e\n          avranno effetto quando il tuo computer comunicherà con %1\n          oppure cliccherai sul comando %2Aggiorna%3 dal BOINC Manager"
+msgstr "Le tue preferenze sono state resettate ai default, e\n          avranno effetto quando il tuo computer comunicherà con %1\n          oppure cliccherai sul comando %2Aggiorna%3 dal BOINC Manager"
 
 #: ../user/prefs_edit.php:66 ../user/prefs_edit.php:94
 msgid "%1 for %2"

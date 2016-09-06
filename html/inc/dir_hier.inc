@@ -16,7 +16,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// PHP versions of functions in sched/sched_util.C
+// PHP versions of functions in sched/sched_util.cpp
 
 function filename_hash($filename, $fanout) {
     $m = md5($filename);

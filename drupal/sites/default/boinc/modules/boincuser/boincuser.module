@@ -329,6 +329,18 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
       unset($_SESSION['profileInfo']);
       unset($_SESSION['importedUser']);
       
+      watchdog(
+        'boincuser',
+        'Creating user account for %email_addr',
+        array('%email_addr' => $edit['mail']),
+        WATCHDOG_NOTICE
+      );
+      
+      // NOTE: Registrations are normally handled via the create_account RPC,
+      // so the following will not run (kept in case form registration is used)
+      
+      // If from the registration form, create a BOINC user and relationships
+      
       if ($profile_info and !$imported) {
         // Create a BOINC account unless importing from BOINC
         $user_params = array(
@@ -1327,12 +1339,14 @@ function boincuser_create_account() {
       xml_error(-137, 'account error');
     }
     // Create new account
+    $unrestricted_role = array_search('community member', user_roles(true)); 
     $newUser = array(
       'name' => $params['user_name'],
       'pass' => null, // $params['passwd_hash'], // note: passing a hash here requires ALL passwords to be hashed via hook prior to interacting with the hash stored in the db
       'mail' => $params['email_addr'],
       'status' => 1,
-      'init' => $params['email_addr']
+      'init' => $params['email_addr'],
+      'roles' => array($unrestricted_role => ''),
     );
     $user = user_save(null, $newUser);
     $boinc_user = make_user($params['email_addr'], $params['user_name'], $params['passwd_hash'], 'International');

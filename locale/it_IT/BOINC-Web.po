@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-06-17 09:19+0000\n"
+"PO-Revision-Date: 2016-08-31 09:31+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgstr "Questa pagina %spuò essere tradotta%s."
 msgid ""
 "We recommend that you also install VirtualBox, so your computer can work on "
 "science projects that require it."
-msgstr "Raccomandiamo l'installazione di VirtualBox perché alcuni progetti scientifici lo richiedono (ogni progetto che ne ha bisogno lo specifica)."
+msgstr "Raccomandiamo l'installazione di VirtualBox perché alcuni progetti lo richiedono (ogni progetto che ne ha bisogno lo specifica)."
 
 #: download.php:44
 msgid "Learn more about VirtualBox."
@@ -178,7 +178,7 @@ msgstr "Se sei già un volontario dell'assistenza online per modificare le tue o
 msgid ""
 "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
 "or the University of California."
-msgstr "Gli aiutanti di BOINC sono volontari a titolo gratuito. La loro consulenza non è sostenuta da BOINC o dall'Università della California."
+msgstr "Le persone dell'assistenza di BOINC sono volontari a titolo gratuito.  La loro consulenza non è sostenuta da BOINC nè dall'Università della California."
 
 #: help_funcs.php:139
 msgid "%1Never%2 give email address or password information to BOINC helpers."
@@ -190,7 +190,7 @@ msgstr "Potenza di calcolo"
 
 #: index.php:26
 msgid "Top 100 volunteers"
-msgstr "I migliori 100 volontari"
+msgstr "I primi 100 volontari"
 
 #: index.php:27
 msgid "Statistics"
@@ -214,7 +214,7 @@ msgstr "Media delle ultime 24 ore:"
 
 #: index.php:56
 msgid "PetaFLOPS."
-msgstr "PetaFLOPS."
+msgstr "PetaFLOP."
 
 #: index.php:68
 msgid "News"
@@ -235,7 +235,7 @@ msgstr "Documentazione"
 
 #: index.php:95
 msgid "Add-ons"
-msgstr "Add-ons"
+msgstr "Add-on"
 
 #: index.php:96
 msgid "Links"
@@ -279,17 +279,17 @@ msgstr "Aggiornamenti del software"
 msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4, "
 "giving you the power of thousands of CPUs and GPUs."
-msgstr "%1Scienziati%2: potete usare BOINC per realizzare un %3progetto di calcolo volontario%4 che abbia la potenza di elaborazione di migliaia di CPU e GPU."
+msgstr "%1 Scienziati%2 : potete usare BOINC per realizzare un %3 progetto di calcolo volontario%4 che abbia la potenza di elaborazione di migliaia di CPU e GPU."
 
 #: index.php:150
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
-msgstr "%1Università%2: potete usare BOINC per creare un %3mainframe virtuale%4 disponibile per tutti i bisogni dell'università."
+msgstr "%1 Università %2: potete usare BOINC per creare un %3 mainframe virtualizzato%4 disponibile per tutti i bisogni dell'università."
 
 #: index.php:155
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
-msgstr "%1Aziende%2: potete usare BOINC per il %3grid computing%4."
+msgstr "%1 Aziende %2: potete usare BOINC per il %3 grid computing %4."
 
 #: index.php:167
 msgid "About BOINC"
@@ -313,7 +313,7 @@ msgstr "Codice sorgente"
 
 #: index.php:186
 msgid "APIs for add-on software"
-msgstr "API per il software di terze parti (add-on)"
+msgstr "API per software di terze parti (add-on)"
 
 #: index.php:231
 msgid "Open-source software for volunteer computing"
@@ -386,7 +386,7 @@ msgstr "Analizzare e convertire reti semantiche da utilizzare in FreeHAL, un'int
 
 #: projects.inc:82
 msgid "Biology and Medicine"
-msgstr "Biologia e Medicina"
+msgstr "Biologia e medicina"
 
 #: projects.inc:88
 msgid "Medical physiology"
@@ -588,7 +588,7 @@ msgstr "Constellation è una piattaforma per le simulazioni aerospaziali: ottimi
 
 #: projects.inc:294
 msgid "Perform aerospace-related simulations"
-msgstr "Esegue simulazioni legate all'aerospaziale"
+msgstr "Eseguire simulazioni aerospaziali"
 
 #: projects.inc:329
 msgid ""
@@ -674,14 +674,14 @@ msgstr "Il Large Hadron Collider (LHC) è un acceleratore di particelle sito al 
 
 #: projects.inc:388
 msgid "Improve the design of the Large Hadron Collider"
-msgstr "Migliorare il progetto di LHC"
+msgstr "Migliorare il progetto dell'LHC"
 
 #: projects.inc:395
 msgid ""
 "This project uses CERN-developed virtual machine technology for LHC event "
 "physics simulation on volunteer computers.  Requires that you install "
 "VirtualBox on your computer"
-msgstr "Questo progetto utilizza la macchina virtuale sviluppata al CERN per la simulazione fisica degli eventi dell'LHC sui computer dei volontari.  È necessario installare VirtualBox su questi computer per eseguirla."
+msgstr "Questo progetto utilizza la macchina virtuale sviluppata al CERN per la simulazione fisica degli eventi dell'LHC sui computer dei volontari. È necessario installare VirtualBox sui computer per eseguirla."
 
 #: projects.inc:398
 msgid "Simulate high-energy particle collisions"
@@ -693,7 +693,7 @@ msgid ""
 " physics experiment at CERN's Large Hadron Collider.  ATLAS searches for new"
 " particles and processes using head-on collisions of protons of "
 "extraordinary high energy."
-msgstr "Atlas@Home esegue simulazioni per ATLAS, un esperimento di fisica delle particelle al Large Hadron Collider del CERN.  ATLAS cerca nuove particelle e processi tramite collisioni di protoni ad alta energia."
+msgstr "Atlas@Home esegue simulazioni per ATLAS, un esperimento di fisica delle particelle al Large Hadron Collider del CERN. ATLAS cerca di individuare nuove particelle e fenomeni che si verificano durante le collisioni di protoni ad alta energia."
 
 #: projects.inc:408
 msgid "Simulate high-energy particle collisions for CERN"
@@ -726,7 +726,7 @@ msgstr "Applicazioni multiple"
 
 #: projects.inc:448
 msgid "Molecular biology, Computer Science"
-msgstr "Biologia molecolare, Informatica"
+msgstr "Biologia molecolare, informatica"
 
 #: projects.inc:449
 msgid ""
@@ -736,7 +736,7 @@ msgstr "Il Citizen Science Grid è dedicato a sostenere una vasta gamma di ricer
 
 #: projects.inc:452
 msgid "Support science from the University of North Dakota"
-msgstr "Sostenere la scienza dalle University del North Dakota"
+msgstr "Sostenere la ricerca dell'Università del Nord Dakota"
 
 #: projects.inc:457
 msgid "Chinese Academy of Sciences"
@@ -744,14 +744,14 @@ msgstr "Accademia cinese delle scienze"
 
 #: projects.inc:458
 msgid "Physics, biochemistry, and others"
-msgstr "Fisica, biochimica, ed altro"
+msgstr "Fisica, biochimica ed altro"
 
 #: projects.inc:459
 msgid ""
 "The objective of CAS@home is to encourage and assist scientists in China to "
 "adopt the technologies of volunteer computing and volunteer thinking for "
 "their research."
-msgstr "L'obiettivo di CAS@home è di incoraggiare ed assistere gli scienziati cinesi ad adottare le tecnologie del calcolo distribuito volontario pensando alle loro ricerche."
+msgstr "L'obiettivo di CAS@home è di incoraggiare ed assistere gli scienziati cinesi ad adottare le tecnologie del calcolo distribuito volontario nei loro studi."
 
 #: projects.inc:462
 msgid "Help Chinese researchers"
@@ -809,7 +809,7 @@ msgstr "Aiutare i ricercatori spagnoli"
 
 #: projects.inc:497
 msgid "IBM Corporate Citizenship"
-msgstr "Cittadinanza IBM Corporate"
+msgstr "IBM Corporate Citizenship"
 
 #: projects.inc:498
 msgid "Medical, environmental and other humanitarian research"

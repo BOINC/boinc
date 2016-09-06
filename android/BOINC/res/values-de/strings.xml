@@ -193,18 +193,14 @@
   <string name="prefs_client_log_flags_header">BOINC Client Protokolleinstellungen</string>
   <string name="prefs_gui_log_level_header">GUI Protokollierstufe</string>
   <string name="prefs_gui_log_level_description">Einstellung der Detailiertheit der GUI Protokollmeldungen.</string>
-  <string name="prefs_unit_mb">MB</string>
-  <string name="prefs_unit_gb">GB</string>
-  <string name="prefs_unit_pct">%</string>
-  <string name="prefs_unit_celcius">°C</string>
+  <string name="prefs_unit_celsius">°C</string>
   <string name="prefs_unit_seconds">sek.</string>
   <!--projects tab strings-->
   <string name="projects_loading">Lade Projekte…</string>
   <string name="projects_add">Projekt hinzufügen</string>
   <string name="projects_icon">Projektsymbol</string>
-  <string name="projects_credits_header">Punkte:</string>
-  <string name="projects_credits_host_header">(auf diesem Gerät)</string>
-  <string name="projects_credits_user_header">(gesamt)</string>
+  <string name="projects_credits">Punkte:</string>
+  <string name="projects_credits_host_and_user">%1$,d (auf diesem Gerät) %2$,d (insgesamt)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Angehalten durch Benutzer</string>
   <string name="projects_status_dontrequestmorework">Keine neuen Arbeitspakete</string>
@@ -338,15 +334,15 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Version</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-  <string name="about_copyright">© 2003–2014 Universität von Kalifornien, Berkeley.</string>
+  <string name="about_copyright">\u00A9 2003–2016 Universität von Kalifornien in Berkeley</string>
   <string name="about_copyright_reserved">Alle Rechte vorbehalten.</string>
   <string name="about_credits">Danke dem Max Planck Institut für Gravitationsphysik, IBM und HTC für die Unterstützung.</string>
-  <!--notice notification-->
-  <string name="notice_notification_single_header">Neue Nachricht von</string>
-  <!--e.g. New notice from SETI@HOME-->
-  <string name="notice_notification_multiple_header">Neue Nachrichten</string>
-  <!--e.g. 3 new notices-->
-  <!--multi BOINC compitability-->
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <plurals name="notice_notification">
+    <item quantity="one">Neue Nachricht von %1$s</item>
+    <item quantity="other">%2$,d neue Nachrichten</item>
+  </plurals>
+  <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Volunteer Computing App gefunden</string>
   <string name="nonexcl_dialog_text">Eine weitere Volunteer Computing App läuft auf diesem Gerät. Es kann immer nur eine App verwendet werden.</string>
   <string name="nonexcl_dialog_exit">Beenden</string>
@@ -356,5 +352,6 @@
   <string name="social_invite_content_title">Ich betreibe Forschung mit meinem Smartphone!</string>
   <string name="social_invite_content_body">Ich benutze mein %1$s um für die Forschung zu rechnen. Du kannst das auch! Hier gibt es die App: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.de/gp/mas/dl/android?p=edu.berkeley.boinc</string>
 </resources>

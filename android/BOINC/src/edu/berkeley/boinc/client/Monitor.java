@@ -305,6 +305,23 @@ public class Monitor extends Service {
 	}
 	
 	/**
+	 * Determines BOINC alt platform name corresponding to device's cpu architecture (ARM, x86 or MIPS).
+	 * @return  BOINC platform name string in resources
+	 */
+	public String getBoincAltPlatform() {
+		String platformName = "";
+		String arch = System.getProperty("os.arch");    
+		String normalizedArch = arch.toUpperCase(Locale.US);
+		if (normalizedArch.contains("AARCH64")) platformName = getString(R.string.boinc_platform_name_arm);
+		else if (normalizedArch.contains("ARM64")) platformName = getString(R.string.boinc_platform_name_arm);
+		else if (normalizedArch.contains("MIPS64")) platformName = getString(R.string.boinc_platform_name_mips);
+	    else if (normalizedArch.contains("X86_64")) platformName = getString(R.string.boinc_platform_name_x86);
+	    
+	    if(Logging.ERROR) Log.d(Logging.TAG,"BOINC Alt platform: " + platformName + " for os.arch: " + arch);
+		return platformName;
+	}
+	
+	/**
 	 * Returns path to file in BOINC's working directory that contains GUI authentication key
 	 * @return absolute path to file holding GUI authentication key
 	 */
@@ -609,13 +626,28 @@ public class Monitor extends Service {
 	 * File attributes override and executable are defined here
 	 * @return Boolean success
 	 */
-    private Boolean installClient(){
+    private Boolean installClient() {
 
-		installFile(fileNameClient, true, true);
-		installFile(fileNameCLI, true, true);
-		installFile(fileNameCABundle, true, false);
-		installFile(fileNameClientConfig, true, false);
-		installFile(fileNameAllProjectsList, true, false);
+		if (!installFile(fileNameClient, true, true)) {
+			if(Logging.ERROR) Log.d(Logging.TAG, "Failed to install: " + fileNameClient);
+			return false;
+		}
+		if (!installFile(fileNameCLI, true, true)) {
+			if(Logging.ERROR) Log.d(Logging.TAG, "Failed to install: " + fileNameCLI);
+			return false;
+		}
+		if (!installFile(fileNameCABundle, true, false)) {
+			if(Logging.ERROR) Log.d(Logging.TAG, "Failed to install: " + fileNameCABundle);
+			return false;
+		}
+		if (!installFile(fileNameClientConfig, true, false)) {
+			if(Logging.ERROR) Log.d(Logging.TAG, "Failed to install: " + fileNameClientConfig);
+			return false;
+		}
+		if (!installFile(fileNameAllProjectsList, true, false)) {
+			if(Logging.ERROR) Log.d(Logging.TAG, "Failed to install: " + fileNameAllProjectsList);
+			return false;
+		}
     	
     	return true; 
     }
@@ -809,13 +841,13 @@ public class Monitor extends Service {
     	    if(found) {
 	    	    try{
 	    	    	pid = Integer.parseInt(comps[PidIndex]);
-	        	    if(Logging.DEBUG) Log.d(Logging.TAG,"getPidForProcessName(): pid: " + pid); 
+	        	    if(Logging.ERROR) Log.d(Logging.TAG,"getPidForProcessName(): pid: " + pid); 
 	    	    }catch (NumberFormatException e) {if(Logging.ERROR) Log.e(Logging.TAG,"getPidForProcessName(): NumberFormatException for " + comps[PidIndex] + " at index: " + PidIndex);}
 	    	    continue;
     	    }
     	}
     	// if not happen in ps output, not running?!
-		if(pid == null) if(Logging.DEBUG) Log.d(Logging.TAG,"getPidForProcessName(): " + processName + " not found in ps output!");
+		if(pid == null) if(Logging.ERROR) Log.d(Logging.TAG,"getPidForProcessName(): " + processName + " not found in ps output!");
     	
     	// Find required pid
     	return pid;
@@ -830,7 +862,7 @@ public class Monitor extends Service {
     	
     	// client PID could not be read, client already ended / not yet started?
     	if (clientPid == null) {
-    		if(Logging.DEBUG) Log.d(Logging.TAG, "quitProcessOsLevel could not find PID, already ended or not yet started?");
+    		if(Logging.ERROR) Log.d(Logging.TAG, "quitProcessOsLevel could not find PID, already ended or not yet started?");
     		return;
     	}
     	
@@ -859,13 +891,13 @@ public class Monitor extends Service {
     	clientPid = getPidForProcessName(processName);
     	if(clientPid != null) {
     		// Process is still alive, send SIGKILL
-    		if(Logging.WARNING) Log.w(Logging.TAG, "SIGQUIT failed. SIGKILL pid: " + clientPid);
+    		if(Logging.ERROR) Log.w(Logging.TAG, "SIGQUIT failed. SIGKILL pid: " + clientPid);
     		android.os.Process.killProcess(clientPid);
     	}
     	
     	clientPid = getPidForProcessName(processName);
     	if(clientPid != null) {
-    		if(Logging.WARNING) Log.w(Logging.TAG, "SIGKILL failed. still living pid: " + clientPid);
+    		if(Logging.ERROR) Log.w(Logging.TAG, "SIGKILL failed. still living pid: " + clientPid);
     	}
     }
 // --end-- BOINC client installation and run-time management
@@ -1053,7 +1085,7 @@ public class Monitor extends Service {
 		
 		@Override
 		public List<ProjectInfo> getAttachableProjects() throws RemoteException {
-			return clientInterface.getAttachableProjects(getString(getBoincPlatform()));
+			return clientInterface.getAttachableProjects(getString(getBoincPlatform()), getBoincAltPlatform());
 		}
 		
 		@Override

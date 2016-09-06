@@ -1,9 +1,23 @@
+/*******************************************************************************
+  This file is part of BOINC.
+  http://boinc.berkeley.edu
+  Copyright (C) 2016 University of California
+  
+  BOINC is free software; you can redistribute it and/or modify it
+  under the terms of the GNU Lesser General Public License
+  as published by the Free Software Foundation,
+  either version 3 of the License, or (at your option) any later version.
+  
+  BOINC is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  See the GNU Lesser General Public License for more details.
+  
+  You should have received a copy of the GNU Lesser General Public License
+  along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+*******************************************************************************/
 package edu.berkeley.boinc.client;
 
-import java.util.ArrayList;
-import edu.berkeley.boinc.BOINCActivity;
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.rpc.Notice;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -12,7 +26,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.NotificationCompat;
+import android.util.Log;
+import edu.berkeley.boinc.BOINCActivity;
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.rpc.Notice;
+import edu.berkeley.boinc.utils.Logging;
+import java.util.ArrayList;
 
 public class NoticeNotification {
 
@@ -23,7 +43,6 @@ public class NoticeNotification {
 	private NotificationManager nm;
 	private Integer notificationId;
 	private PendingIntent contentIntent;
-	private Notification n;
 	
 	private ArrayList<Notice> currentlyNotifiedNotices = new ArrayList<Notice>();
 	private Boolean isNotificationShown = false;
@@ -103,47 +122,72 @@ public class NoticeNotification {
 		}
 	}
 
-	@SuppressLint("InlinedApi")
-	private Notification buildNotification() {
-		// build new notification from scratch every time a notice arrives
-		NotificationCompat.Builder nb = new NotificationCompat.Builder(context);
-		
-		if(currentlyNotifiedNotices.size() == 1) {
-			// single notice view
-			nb.setContentTitle(context.getString(R.string.notice_notification_single_header) + " " + currentlyNotifiedNotices.get(0).project_name)
-				.setContentText(currentlyNotifiedNotices.get(0).title)
-	        	.setSmallIcon(R.drawable.mailw)
-	        	.setContentIntent(contentIntent);
-			
-			// scale project image
-			try {
-				Bitmap unscaled = Monitor.getClientStatus().getProjectIconByName(currentlyNotifiedNotices.get(0).project_name);
-				if(unscaled != null) {
-					Bitmap scaled = Bitmap.createScaledBitmap(unscaled, unscaled.getWidth() * 2, unscaled.getHeight() * 2, false);
-					nb.setLargeIcon(scaled);
-				} else {
-					nb.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_stat_notify_boinc_normal));
-				}
-			} catch (Exception e) {}
-		} else {
-			// multi notice view
-			nb.setContentTitle(currentlyNotifiedNotices.size() + " " + context.getString(R.string.notice_notification_multiple_header))
-				.setNumber(currentlyNotifiedNotices.size())
-				.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_stat_notify_boinc_normal))
-				.setSmallIcon(R.drawable.mailw)
-				.setContentIntent(contentIntent)
-				.setSubText(context.getString(R.string.app_name));
-			
-			// append notice titles to list
-			NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
-			for(Notice tmp: currentlyNotifiedNotices) {
-				inboxStyle.addLine(tmp.project_name + ": " + tmp.title);
-			}
-			nb.setStyle(inboxStyle);
-		}
-		
-		n = nb.build();
-		
-		return n;
-	}
+    @SuppressLint("InlinedApi")
+    private Notification buildNotification() {
+        // build new notification from scratch every time a notice arrives
+        final NotificationCompat.Builder nb;
+        final int notices;
+        final String projectName;
+
+        nb = (android.support.v7.app.NotificationCompat.Builder)(new NotificationCompat.Builder(this.context).
+            setContentTitle(this.context.getResources().getQuantityString(
+                R.plurals.notice_notification,
+                notices = this.currentlyNotifiedNotices.size(),
+                projectName = this.currentlyNotifiedNotices.get(0).project_name,
+                notices)).
+            setSmallIcon(R.drawable.mailw).
+            setContentIntent(this.contentIntent));
+        if (notices == 1) {
+            // single notice view
+            nb.setContentText(this.currentlyNotifiedNotices.get(0).title).
+                setLargeIcon(NoticeNotification.getLargeProjectIcon(
+                    this.context,
+                    projectName)
+                );
+        } else {
+            // multi notice view
+            nb.setNumber(notices)
+                .setLargeIcon(BitmapFactory.decodeResource(
+                    this.context.getResources(),
+                    R.drawable.ic_stat_notify_boinc_normal))
+                .setSubText(this.context.getString(R.string.app_name));
+
+            // append notice titles to list
+            final NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
+            for (int i = 0; i < notices; i++) {
+                final Notice notice;
+                inboxStyle.addLine((notice = this.currentlyNotifiedNotices.get(i)).project_name +
+                                   ": " + notice.title);
+            }
+            nb.setStyle(inboxStyle);
+        }
+        return nb.build();
+    }
+
+    private static final Bitmap getLargeProjectIcon(final Context context, final String projectName) {
+        final Bitmap projectIconBitmap;
+        try {
+            return (projectIconBitmap = Monitor.getClientStatus().getProjectIconByName(projectName)) != null ?
+                Bitmap.createScaledBitmap(
+                    projectIconBitmap,
+                    projectIconBitmap.getWidth() << 1,
+                    projectIconBitmap.getHeight() << 1,
+                    false
+                ) :
+                BitmapFactory.decodeResource(
+                    context.getResources(),
+                    R.drawable.ic_stat_notify_boinc_normal
+                );
+        } catch (Exception e) {
+            if (Log.isLoggable(Logging.TAG, Log.DEBUG)) Log.d(
+                Logging.TAG,
+                e.getLocalizedMessage(),
+                e
+            );
+            return BitmapFactory.decodeResource(
+                context.getResources(),
+                R.drawable.ic_stat_notify_boinc_normal
+            );
+        }
+    }
 }

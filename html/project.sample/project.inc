@@ -29,6 +29,9 @@ define("UOTD_ADMIN_EMAIL", "admin@$master_url");
 // offensive forum posts.
 define("POST_REPORT_EMAILS", "moderator1@$master_url|moderator2@$master_url");
 
+// Enables PHP error messages in public Web RPCs
+define("RPC_DEBUG", false);
+
 // If you use PHPMailer, uncomment the following
 // and complete the function definition based on your SMTP server
 // (not all fields may be needed)

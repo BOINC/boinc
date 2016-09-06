@@ -193,18 +193,14 @@
   <string name="prefs_client_log_flags_header">Прапорці журналу клієнта BOINC</string>
   <string name="prefs_gui_log_level_header">Рівень журналу GUI</string>
   <string name="prefs_gui_log_level_description">Задає рівень деталізації повідомлень журналу GUI.</string>
-  <string name="prefs_unit_mb">Мб</string>
-  <string name="prefs_unit_gb">Гб</string>
-  <string name="prefs_unit_pct">%</string>
-  <string name="prefs_unit_celcius">°C</string>
+  <string name="prefs_unit_celsius">°C</string>
   <string name="prefs_unit_seconds">сек.</string>
   <!--projects tab strings-->
   <string name="projects_loading">Читання проектів...</string>
   <string name="projects_add">Додати проект</string>
   <string name="projects_icon">Іконка проекту</string>
-  <string name="projects_credits_header">Бали:</string>
-  <string name="projects_credits_host_header">(на цьому пристрої)</string>
-  <string name="projects_credits_user_header">(загалом)</string>
+  <string name="projects_credits">Бали:</string>
+  <string name="projects_credits_host_and_user">%1$,d (на цьому пристрої) %2$,d (загалом)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Призупинено користувачем</string>
   <string name="projects_status_dontrequestmorework">Не приймати нові завдання</string>
@@ -338,14 +334,10 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Версія</string>
   <string name="about_name_long">Відкрита інфраструктура для розподілених обчислень університету Берклі</string>
-  <string name="about_copyright">© 2003-2014 Університет Каліфорнії, Берклі.\nВсі права захищено.</string>
+    <string name="about_copyright">© 2003-2016 Університет Каліфорнії, Берклі.\nВсі права захищено.</string>
   <string name="about_copyright_reserved">Всі права захищені.</string>
   <string name="about_credits">Дякуємо Max Planck Institute for Gravitational Physics, IBM Corporation та HTC Corporation за їх підтримку.</string>
-  <!--notice notification-->
-  <string name="notice_notification_single_header">Нові повідомлення від</string>
-  <!--e.g. New notice from SETI@HOME-->
-  <string name="notice_notification_multiple_header">нові повідомлення</string>
-  <!--e.g. 3 new notices-->
+    <!--notice notification-->
   <!--multi BOINC compitability-->
   <string name="nonexcl_dialog_header">Знайдено додаток добровільних обчислень</string>
   <string name="nonexcl_dialog_text">Інший додаток добровільних обчислень вже працює на цьому пристрої. Тільки один додаток може працювати одночасно.</string>

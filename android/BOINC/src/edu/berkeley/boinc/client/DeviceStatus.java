@@ -1,7 +1,7 @@
 /*******************************************************************************
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2016 University of California
  * 
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -77,7 +77,7 @@ public class DeviceStatus {
 													" - stationary device: " + stationaryDeviceMode + 
 													" ; ac: " + status.on_ac_power + 
 													" ; level: " + status.battery_charge_pct + 
-													" ; temperature: " + status.battery_temperature_celcius + 
+													" ; temperature: " + status.battery_temperature_celsius + 
 													" ; wifi: " + status.wifi_online + 
 													" ; user active: " + status.user_active);
 		
@@ -199,8 +199,8 @@ public class DeviceStatus {
 				// temperature
 				int temperature = batteryStatus.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, -1) / 10; // always rounds down
 				if(temperature < 0) throw new Exception("temperature parsing error");
-				if(temperature != status.battery_temperature_celcius) {
-					status.battery_temperature_celcius = temperature;
+				if(temperature != status.battery_temperature_celsius) {
+					status.battery_temperature_celsius = temperature;
 					change = true;
 				}
 				
@@ -222,7 +222,7 @@ public class DeviceStatus {
 	 */
 	private void setAttributesForStationaryDevice() {
 		status.on_ac_power = true;
-		status.battery_temperature_celcius = 0;
+		status.battery_temperature_celsius = 0;
 		status.battery_charge_pct = 100;
 	}
 	

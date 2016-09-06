@@ -193,18 +193,14 @@
   <string name="prefs_client_log_flags_header">Banderas de registro del cliente de BOINC</string>
   <string name="prefs_gui_log_level_header">Nivel de log de la GUI</string>
   <string name="prefs_gui_log_level_description">Especifica el detalle de los mensajes de log de la interfaz gráfica.</string>
-  <string name="prefs_unit_mb">MB</string>
-  <string name="prefs_unit_gb">GB</string>
-  <string name="prefs_unit_pct">%</string>
-  <string name="prefs_unit_celcius">ºC</string>
+  <string name="prefs_unit_celsius">ºC</string>
   <string name="prefs_unit_seconds">seg</string>
   <!--projects tab strings-->
   <string name="projects_loading">Leyendo proyectos...</string>
   <string name="projects_add">Añadir proyecto</string>
   <string name="projects_icon">Icono del proyecto</string>
-  <string name="projects_credits_header">Creditos:</string>
-  <string name="projects_credits_host_header">(En este dispositivo)</string>
-  <string name="projects_credits_user_header">(En total)</string>
+  <string name="projects_credits">Creditos:</string>
+  <string name="projects_credits_host_and_user">%1$,d (en este dispositivo) %2$,d (total)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Suspendido por el usuario</string>
   <string name="projects_status_dontrequestmorework">No se descargarán nuevas tareas</string>
@@ -338,15 +334,15 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Versión</string>
   <string name="about_name_long">Infraestructura Abierta de Berkeley para Computación en Red</string>
-  <string name="about_copyright">2003–2014 University of California, Berkeley.</string>
+  <string name="about_copyright">\u00A9 2003–2016 Universidad de California, Berkeley.</string>
   <string name="about_copyright_reserved">Todos los derechos reservados.</string>
   <string name="about_credits">Gracias al \"Max Planck Institute for Gravitational Physics\", IBM Corporation y HTC Corporation por su apoyo.</string>
-  <!--notice notification-->
-  <string name="notice_notification_single_header">Nueva noticia de</string>
-  <!--e.g. New notice from SETI@HOME-->
-  <string name="notice_notification_multiple_header">nuevas noticias</string>
-  <!--e.g. 3 new notices-->
-  <!--multi BOINC compitability-->
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <plurals name="notice_notification">
+    <item quantity="one">Nuevo aviso de %1$s</item>
+    <item quantity="other">%2$,d nuevos avisos</item>
+  </plurals>
+  <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Aplicación de computación voluntaria detectada</string>
   <string name="nonexcl_dialog_text">Otra aplicación de otro voluntario está ejecutándose en este dispositivo. Sólo se puede ejecutar una versión a la vez.</string>
   <string name="nonexcl_dialog_exit">Salir</string>
@@ -356,5 +352,6 @@
   <string name="social_invite_content_title">¡Estoy haciendo ciencia con mi smartphone!</string>
   <string name="social_invite_content_body">Estoy usando mi %1$s para hacer computación por la ciencia. ¡Tú también puedes! Descarga la app desde: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">https://www.amazon.es/Space-Sciences-Laboratory-U-C-Berkeley/dp/B00DCCGLAG/ref=sr_1_1?ie=UTF8&amp;qid=1466961138&amp;sr=8-1</string>
 </resources>

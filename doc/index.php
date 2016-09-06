@@ -190,6 +190,7 @@ function show_other() {
                 <li> <a href=\"trac/wiki/DevProcess\">".tra("Development process")."</a>
                 <li> <a href=\"trac/wiki/DevProjects\">".tra("Volunteer")."</a>
                 <li> <a href=\"trac/wiki/SoftwareAddon\">".tra("APIs")."</a>
+                <li> <a href=trac/wiki/BoincDocker>BOINC and Docker</a>
                 </ul>
             </td><td valign=top>
 

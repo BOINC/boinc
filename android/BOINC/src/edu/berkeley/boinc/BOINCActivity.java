@@ -18,12 +18,6 @@
  ******************************************************************************/
 package edu.berkeley.boinc;
 
-import java.util.ArrayList;
-
-import edu.berkeley.boinc.rpc.Project;
-import edu.berkeley.boinc.utils.*;
-import edu.berkeley.boinc.client.*;
-import edu.berkeley.boinc.utils.BOINCDefs;
 import android.app.Dialog;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -40,12 +34,13 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;  
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -54,10 +49,17 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.*;
-import edu.berkeley.boinc.adapter.*;
+import android.support.v7.app.ActionBarActivity;
+import edu.berkeley.boinc.adapter.NavDrawerListAdapter;
 import edu.berkeley.boinc.adapter.NavDrawerListAdapter.NavDrawerItem;
 import edu.berkeley.boinc.attach.SelectionListActivity;
+import edu.berkeley.boinc.client.ClientStatus;
+import edu.berkeley.boinc.client.Monitor;
+import edu.berkeley.boinc.client.IMonitor;
+import edu.berkeley.boinc.rpc.Project;
+import edu.berkeley.boinc.utils.BOINCDefs;
+import edu.berkeley.boinc.utils.Logging;
+import java.util.ArrayList;
 
 public class BOINCActivity extends ActionBarActivity {
 	
@@ -346,7 +348,19 @@ public class BOINCActivity extends ActionBarActivity {
 			} 
     	} catch (Exception e) {}
     }
-	
+
+    public final boolean onKeyDown(final int keyCode, final KeyEvent keyEvent) {
+        if (keyCode == KeyEvent.KEYCODE_MENU) {
+            if (this.mDrawerLayout.isDrawerOpen(this.mDrawerList)) {
+                this.mDrawerLayout.closeDrawer(this.mDrawerList);
+            } else {
+                this.mDrawerLayout.openDrawer(this.mDrawerList);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, keyEvent);
+    }
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity onCreateOptionsMenu()");

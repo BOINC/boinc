@@ -103,9 +103,10 @@ function email_contact($vol) {
 
 $send_email = get_str2('send_email');
 $rate = get_str2('rate');
-session_set_cookie_params(86400*365);
-session_start();
-$uid = session_id();
+//session_set_cookie_params(86400*365);
+//@session_start();
+//$uid = @session_id();
+$uid = false;
 
 if ($send_email) {
     $volid = $_GET['volid'];

@@ -64,7 +64,9 @@
       // Remove the wrapper the Ignore User module puts around node->content.
       // It should be around the whole comment, not one part...
       // Absurd nested functions to remove wrappers are as follows.
-      $content = strstr(end(explode('<div class="ignore-user-content">', $content)), '</div></div>', TRUE);
+      $wrapper = explode('<div class="ignore-user-content">', $content);
+      $wrapper = end($wrapper);
+      $content = strstr($wrapper, '</div></div>', TRUE);
       print '<div class="ignore-user-container">';
       print bts('!username is on your !ignore_list. Click !here to view this post.',
         array(
@@ -109,9 +111,12 @@
           $ignore_link['ignore_user']['href'],
           array('query' => $ignore_link['ignore_user']['query'])); ?>
         </div>
-        <div class="pm-link"><?php print l(bts('Send message'),
-          privatemsg_get_link(array($account)),
-          array('query' => drupal_get_destination())); ?>
+        <div class="pm-link"><?php
+          if ($user->uid AND ($user->uid != $account->uid)) {
+            print l(bts('Send message'),
+            privatemsg_get_link(array($account)),
+            array('query' => drupal_get_destination()));
+          } ?>
         </div>
       </div>
     <?php endif; ?>
@@ -173,6 +178,14 @@
       <?php endif; ?>
     </div>
   </div> <!-- /.comment-body -->
+
+  <?php
+    if (_ignore_user_ignored_user($comment->uid)) {
+      print '</div> <!-- /.ignore-user-content -->';
+      print '</div> <!-- /.ignore-user-container -->';
+    }
+  ?>
+
 </div> <!-- /.comment -->
 
 <?php if ($status == 'comment-preview'): ?>

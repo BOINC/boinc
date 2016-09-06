@@ -369,7 +369,7 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
   $vars['moderator_links'] = theme_links($vars['moderator_links']);
   
   // Add signature
-  $vars['signature'] = $account->signature;
+  $vars['signature'] = check_markup($account->signature, $vars['node']->format);
   
   // Show signatures based on user preference
   $vars['show_signatures'] = ($user->hide_signatures) ? FALSE : TRUE;
@@ -607,12 +607,17 @@ function boinc_preprocess_views_view(&$vars, $hook) {
  */
 ///* -- Delete this line if you want to use this function
 function boinc_preprocess_privatemsg_view(&$vars, $hook) {
+  $author_picture = '<div class="picture">';
   $user_image = boincuser_get_user_profile_image($vars['message']['author']->uid);
-  if ($user_image['image']['filepath']) {
-    $author_picture = '<div class="picture">';
-    $author_picture .= theme('imagefield_image', $user_image['image'], $user_image['alt'], $user_image['alt'], array(), false);
-    $author_picture .= '</div>';
+  if ($user_image) {
+    if (is_array($user_image) AND $user_image['image']['filepath']) {
+      $author_picture .= theme('imagefield_image', $user_image['image'], $user_image['alt'], $user_image['alt'], array(), false);
+    }
+    elseif (is_string($user_image)) {
+      $author_picture .= '<img src="' . $user_image . '"/>';
+    }
   }
+  $author_picture .= '</div>';
   $vars['author_picture'] = $author_picture;
   $vars['message_timestamp'] = date('j M Y H:i:s T', $vars['message']['timestamp']);
 }

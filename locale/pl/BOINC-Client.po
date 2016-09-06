@@ -4,13 +4,13 @@
 # 
 # Translators:
 # Simek <gosimek@gmail.com>, 2015
-# Michal Jablonski <jablonski.michal@gmail.com>, 2015
+# Michal Jablonski <inactive+yakuzza@transifex.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2015-09-11 19:49+0000\n"
+"PO-Revision-Date: 2016-08-02 19:41+0000\n"
 "Last-Translator: Simek <gosimek@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/boinc/boinc/language/pl/)\n"
 "MIME-Version: 1.0\n"

@@ -30,6 +30,8 @@
 //                  for the particular host.
 // --register_only  Register the VM but don't run it.
 //                  Useful for debugging; see the wiki page
+// --memory_size_mb How much memory (in MB) to give the VM. Overrides the
+//                  value in vbox_job.xml if its present. 
 //
 // Handles:
 // - suspend/resume/quit/abort
@@ -44,6 +46,7 @@
 // Andrew J. Younge (ajy4490 AT umiacs DOT umd DOT edu)
 // Jie Wu <jiewu AT cern DOT ch>
 // Daniel Lombraña González <teleyinex AT gmail DOT com>
+// Marius Millea <mariusmillea AT gmail DOT com>
 
 #ifdef _WIN32
 #include "boinc_win.h"
@@ -691,6 +694,9 @@ int main(int argc, char** argv) {
     if (pVM->enable_isocontextualization) {
         pVM->iso_image_filename = ISO_IMAGE_FILENAME;
     }
+
+    // cpu count: cmdline arg overrides config file
+    //
     if (aid.ncpus > 1.0 || ncpus > 1.0) {
 		if (ncpus > 32.0) {
             vboxlog_msg("WARNING: Virtualbox only allows up to 32 processors to be allocated to a VM, resetting to 32.  (%f allocated)", ncpus);
@@ -705,13 +711,13 @@ int main(int argc, char** argv) {
     } else {
         pVM->vm_cpu_count = "1";
     }
-    if (pVM->memory_size_mb > 1.0 || memory_size_mb > 1.0) {
-        if (memory_size_mb) {
-            sprintf(buf, "%d", (int)ceil(memory_size_mb));
-        } else {
-            sprintf(buf, "%d", (int)ceil(pVM->memory_size_mb));
-        }
+
+    // memory size: cmdline arg overrides config file
+    //
+    if (memory_size_mb) {
+        pVM->memory_size_mb = memory_size_mb;
     }
+
     if (aid.vbox_window && !aid.using_sandbox) {
         pVM->headless = false;
     }
@@ -1134,7 +1140,7 @@ int main(int argc, char** argv) {
         if (boinc_status.suspended) {
             if (!pVM->suspended) {
                 retval = pVM->pause();
-                if (retval && (VBOX_E_INVALID_OBJECT_STATE == retval)) {
+                if ((unsigned)retval == VBOX_E_INVALID_OBJECT_STATE) {
                     vboxlog_msg("ERROR: VM task failed to pause, rescheduling task for a later time.");
                     pVM->poweroff();
                     boinc_temporary_exit(86400, "VM job unmanageable, restarting later.");
@@ -1143,7 +1149,7 @@ int main(int argc, char** argv) {
         } else {
             if (pVM->suspended) {
                 retval = pVM->resume();
-                if (retval && (VBOX_E_INVALID_OBJECT_STATE == retval)) {
+                if ((unsigned)retval == VBOX_E_INVALID_OBJECT_STATE) {
                     vboxlog_msg("ERROR: VM task failed to resume, rescheduling task for a later time.");
                     pVM->poweroff();
                     boinc_temporary_exit(86400, "VM job unmanageable, restarting later.");

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2016 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,7 +17,7 @@
 
 // scheduler code related to sending jobs.
 // NOTE: there should be nothing here specific to particular
-// scheduling policies (array scan, matchmaking, locality)
+// scheduling policies (array scan, score-based, locality)
 
 #include "config.h"
 #include <vector>
@@ -64,7 +64,7 @@
 //
 const double DEFAULT_RAM_SIZE = 64000000;
 
-int preferred_app_message_index=0;
+int selected_app_message_index=0;
 
 static inline bool file_present_on_host(const char* name) {
     for (unsigned i=0; i<g_request->file_infos.size(); i++) {
@@ -126,12 +126,13 @@ void add_job_files_to_host(WORKUNIT& wu) {
 const double MIN_REQ_SECS = 0;
 const double MAX_REQ_SECS = (28*SECONDS_IN_DAY);
 
+// compute effective_ncpus;
 // get limits on:
 // # jobs per day
 // # jobs per RPC
 // # jobs in progress
 //
-void WORK_REQ_BASE::get_job_limits() {
+void WORK_REQ::get_job_limits() {
     int ninstances[NPROC_TYPES];
     int i;
     
@@ -144,6 +145,11 @@ void WORK_REQ_BASE::get_job_limits() {
     if (n > config.max_ncpus) n = config.max_ncpus;
     if (n < 1) n = 1;
     if (n > MAX_CPUS) n = MAX_CPUS;
+    if (project_prefs.max_cpus) {
+        if (n > project_prefs.max_cpus) {
+            n = project_prefs.max_cpus;
+        }
+    }
     ninstances[PROC_TYPE_CPU] = n;
     effective_ncpus = n;
 
@@ -481,59 +487,6 @@ double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION& bav) {
     return ed;
 }
 
-// Parse user's project prferences.
-// TODO: use XML_PARSER
-//
-static void get_prefs_info() {
-    char buf[8096];
-    std::string str;
-    unsigned int pos = 0;
-    int temp_int=0;
-    bool flag;
-
-    extract_venue(g_reply->user.project_prefs, g_reply->host.venue, buf, sizeof(buf));
-    str = buf;
-
-    // scan user's project prefs for elements of the form <app_id>N</app_id>,
-    // indicating the apps they want to run.
-    //
-    g_wreq->preferred_apps.clear();
-    while (parse_int(str.substr(pos,str.length()-pos).c_str(), "<app_id>", temp_int)) {
-        APP_INFO ai;
-        ai.appid = temp_int;
-        ai.work_available = false;
-        g_wreq->preferred_apps.push_back(ai);
-
-        pos = str.find("<app_id>", pos) + 1;
-    }
-    if (parse_bool(buf,"allow_non_preferred_apps", flag)) {
-        g_wreq->allow_non_preferred_apps = flag;
-    }
-    if (parse_bool(buf,"allow_beta_work", flag)) {
-        g_wreq->allow_beta_work = flag;
-    }
-    if (parse_bool(buf,"no_gpus", flag)) {
-        // deprecated, but need to handle
-        if (flag) {
-            for (int i=1; i<NPROC_TYPES; i++) {
-                g_wreq->dont_use_proc_type[i] = true;
-            }
-        }
-    }
-    if (parse_bool(buf,"no_cpu", flag)) {
-        g_wreq->dont_use_proc_type[PROC_TYPE_CPU] = flag;
-    }
-    if (parse_bool(buf,"no_cuda", flag)) {
-        g_wreq->dont_use_proc_type[PROC_TYPE_NVIDIA_GPU] = flag;
-    }
-    if (parse_bool(buf,"no_ati", flag)) {
-        g_wreq->dont_use_proc_type[PROC_TYPE_AMD_GPU] = flag;
-    }
-    if (parse_bool(buf,"no_intel_gpu", flag)) {
-        g_wreq->dont_use_proc_type[PROC_TYPE_INTEL_GPU] = flag;
-    }
-}
-
 void update_n_jobs_today() {
     for (unsigned int i=0; i<g_wreq->host_app_versions.size(); i++) {
         DB_HOST_APP_VERSION& hav = g_wreq->host_app_versions[i];
@@ -639,6 +592,12 @@ static int add_wu_to_reply(
     // modify the WU's xml_doc; add <name>, <rsc_*> etc.
     //
     wu2 = wu;       // make copy since we're going to modify its XML field
+
+    // check if plan class specified memory usage
+    //
+    if (bavp->host_usage.mem_usage) {
+        wu2.rsc_memory_bound = bavp->host_usage.mem_usage;
+    }
 
     // adjust FPOPS figures for anonymous platform
     //
@@ -815,7 +774,18 @@ bool work_needed(bool locality_sched) {
 
     for (int i=0; i<NPROC_TYPES; i++) {
         if (!have_apps(i)) continue;
-        if (config.max_jobs_in_progress.exceeded(NULL, i)) {
+
+        // enforce project prefs limit on # of jobs in progress
+        //
+        bool proj_pref_exceeded = false;
+        int mj = g_wreq->project_prefs.max_jobs_in_progress;
+        if (mj) {
+            if (config.max_jobs_in_progress.project_limits.total.njobs >= mj) {
+                proj_pref_exceeded = true;
+            }
+        }
+
+        if (proj_pref_exceeded || config.max_jobs_in_progress.exceeded(NULL, i)) {
             if (config.debug_quota) {
                 log_messages.printf(MSG_NORMAL,
                     "[quota] reached limit on %s jobs in progress\n",
@@ -1250,16 +1220,16 @@ static void send_user_messages() {
 
             // Inform the user about applications with no work
             //
-            for (i=0; i<g_wreq->preferred_apps.size(); i++) {
-                if (!g_wreq->preferred_apps[i].work_available) {
-                    APP* app = ssp->lookup_app(g_wreq->preferred_apps[i].appid);
+            for (i=0; i<g_wreq->project_prefs.selected_apps.size(); i++) {
+                if (!g_wreq->project_prefs.selected_apps[i].work_available) {
+                    APP* app = ssp->lookup_app(g_wreq->project_prefs.selected_apps[i].appid);
                     // don't write message if the app is deprecated
                     //
                     if (app) {
                         char explanation[256];
                         sprintf(explanation,
                             "No tasks are available for %s",
-                            find_user_friendly_name(g_wreq->preferred_apps[i].appid)
+                            find_user_friendly_name(g_wreq->project_prefs.selected_apps[i].appid)
                         );
                         g_reply->insert_message( explanation, "low");
                     }
@@ -1268,7 +1238,7 @@ static void send_user_messages() {
 
             // Tell the user about applications they didn't qualify for
             //
-            for (j=0; j<preferred_app_message_index; j++){
+            for (j=0; j<selected_app_message_index; j++){
                 g_reply->insert_message(g_wreq->no_work_messages.at(j));
             }
             g_reply->insert_message(
@@ -1289,14 +1259,14 @@ static void send_user_messages() {
 
         // Tell the user about applications with no work
         //
-        for (i=0; i<g_wreq->preferred_apps.size(); i++) {
-            if (!g_wreq->preferred_apps[i].work_available) {
-                APP* app = ssp->lookup_app(g_wreq->preferred_apps[i].appid);
+        for (i=0; i<g_wreq->project_prefs.selected_apps.size(); i++) {
+            if (!g_wreq->project_prefs.selected_apps[i].work_available) {
+                APP* app = ssp->lookup_app(g_wreq->project_prefs.selected_apps[i].appid);
                 // don't write message if the app is deprecated
                 if (app != NULL) {
                     sprintf(buf, "No tasks are available for %s",
                         find_user_friendly_name(
-                            g_wreq->preferred_apps[i].appid
+                            g_wreq->project_prefs.selected_apps[i].appid
                         )
                     );
                     g_reply->insert_message(buf, "low");
@@ -1351,7 +1321,7 @@ static void send_user_messages() {
             );
         }
         for (i=0; i<NPROC_TYPES; i++) {
-            if (g_wreq->dont_use_proc_type[i] && ssp->have_apps_for_proc_type[i]) {
+            if (g_wreq->project_prefs.dont_use_proc_type[i] && ssp->have_apps_for_proc_type[i]) {
                 sprintf(buf,
                     _("Tasks for %s are available, but your preferences are set to not accept them"),
                     proc_type_name(i)
@@ -1404,7 +1374,7 @@ void send_work_setup() {
 
     // parse project preferences (e.g. no GPUs)
     //
-    get_prefs_info();
+    g_wreq->project_prefs.parse();
 
     if (g_wreq->anonymous_platform) {
         estimate_flops_anon_platform();

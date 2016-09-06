@@ -256,8 +256,13 @@ int VBOX_VM::create_vm() {
     //
     vboxlog_msg("Setting Boot Options for VM.");
     command  = "modifyvm \"" + vm_name + "\" ";
-    command += "--boot1 disk ";
-    command += "--boot2 dvd ";
+    if (boot_iso) {
+        command += "--boot1 dvd ";
+        command += "--boot2 disk ";        
+    } else {
+        command += "--boot1 disk ";
+        command += "--boot2 dvd ";
+    } 
     command += "--boot3 none ";
     command += "--boot4 none ";
 
@@ -1162,28 +1167,35 @@ int VBOX_VM::resume() {
 }
 
 int VBOX_VM::capture_screenshot() {
-    if (is_virtualbox_version_newer(5, 0, 0)) {
+    if (enable_screenshots_on_error) {
+        if (is_virtualbox_version_newer(5, 0, 0)) {
 
-        string command;
-        string output;
-        string virtual_machine_slot_directory;
-        int retval = BOINC_SUCCESS;
+            string command;
+            string output;
+            string virtual_machine_slot_directory;
+            int retval = BOINC_SUCCESS;
 
-        get_slot_directory(virtual_machine_slot_directory);
+            get_slot_directory(virtual_machine_slot_directory);
 
-        vboxlog_msg("Capturing screenshot.");
+            vboxlog_msg("Capturing screenshot.");
 
-        command = "controlvm \"" + vm_name + "\" ";
-        command += "screenshotpng \"";
-	    command += virtual_machine_slot_directory;
-	    command += "/";
-	    command += SCREENSHOT_FILENAME;
-	    command += "\"";
-        retval = vbm_popen(command, output, "capture screenshot", true, true, 0);
-        if (retval) return retval;
+            command = "controlvm \"" + vm_name + "\" ";
+            command += "keyboardputscancode 0x39";
+            vbm_popen(command, output, "put scancode", true, true, 0);
+            boinc_sleep(1);
 
-        vboxlog_msg("Screenshot completed.");
+            command = "controlvm \"" + vm_name + "\" ";
+            command += "screenshotpng \"";
+	        command += virtual_machine_slot_directory;
+	        command += "/";
+	        command += SCREENSHOT_FILENAME;
+	        command += "\"";
+            retval = vbm_popen(command, output, "capture screenshot", true, true, 0);
+            if (retval) return retval;
 
+            vboxlog_msg("Screenshot completed.");
+
+        }
     }
 	return 0;
 }
@@ -1198,13 +1210,27 @@ int VBOX_VM::create_snapshot(double elapsed_time) {
 
     vboxlog_msg("Creating new snapshot for VM.");
 
+    // Pause VM - Try and avoid the live snapshot and trigger an online
+    // snapshot instead.
+    pause();
+
     // Create new snapshot
+    sprintf(buf, "%d", (int)elapsed_time);
     command = "snapshot \"" + vm_name + "\" ";
     command += "take boinc_";
     command += buf;
     retval = vbm_popen(command, output, "create new snapshot", true, true, 0);
     if (retval) return retval;
 
+    // Resume VM
+    resume();
+
+    // Set the suspended flag back to false before deleting the stale
+    // snapshot
+    poll(false);
+
+    // Delete stale snapshot(s), if one exists
+    cleanup_snapshots(false);
 
     vboxlog_msg("Checkpoint completed.");
 
