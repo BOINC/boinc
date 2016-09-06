@@ -789,7 +789,6 @@ void usage(char* name) {
         "    [--max_wu_id n]            Process only WUs with id <= n\n"
         "    [--min_wu_id n]            Process only WUs with id >= n\n"
         "    [--max_granted_credit X]   Grant no more than this amount of credit to a result\n"
-        "    [--grant_claimed_credit]   Grant the claimed credit, regardless of what other results for this workunit claimed\n"
         "    [--update_credited_job]    Add record to credited_job table after granting credit\n"
         "    [--credit_from_wu]         Credit is specified in WU XML\n"
         "    [--credit_from_runtime X]  Grant credit based on runtime (max X seconds)and estimated FLOPS\n"
