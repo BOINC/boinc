@@ -239,7 +239,7 @@ function upload_files($r) {
             );
             if (!$jf_id) {
                 $upload_error .= "BoincJobFile::insert($md5) failed: " . BoincDb::error() . " ";
-                $unlink($path);
+                unlink($path);
                 continue;
             }
             if ($batch_id) {
