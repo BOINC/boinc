@@ -20,6 +20,7 @@ require_once("../inc/forum_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/xml.inc");
 
+BoincDb::get(true);
 xml_header();
 
 if (DISABLE_FORUMS) {

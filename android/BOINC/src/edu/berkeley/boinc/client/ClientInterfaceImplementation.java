@@ -448,8 +448,8 @@ public class ClientInterfaceImplementation extends RpcClient{
 	 * - are not yet attached
 	 * @return list of attachable projects
 	 */
-	public ArrayList<ProjectInfo> getAttachableProjects(String boincPlatformName) {
-		if(Logging.DEBUG) Log.d(Logging.TAG, "getAttachableProjects for platform: " + boincPlatformName);
+	public ArrayList<ProjectInfo> getAttachableProjects(String boincPlatformName, String boincAltPlatformName) {
+		if(Logging.DEBUG) Log.d(Logging.TAG, "getAttachableProjects for platform: " + boincPlatformName + " or " + boincAltPlatformName);
 		
 		ArrayList<ProjectInfo> allProjectsList = getAllProjectsList(); // all_proejcts_list.xml
 		ArrayList<Project> attachedProjects = getState().projects; // currently attached projects
@@ -472,7 +472,7 @@ public class ClientInterfaceImplementation extends RpcClient{
 			
 			// project is not yet attached, check whether it supports CPU architecture
 			for(String supportedPlatform: candidate.platforms) {
-				if(supportedPlatform.contains(boincPlatformName)) {
+				if(supportedPlatform.contains(boincPlatformName) || supportedPlatform.contains(boincAltPlatformName)) {
 					// project is not yet attached and does support platform
 					// add to list, if not already in it
 					if(!attachableProjects.contains(candidate) )attachableProjects.add(candidate);

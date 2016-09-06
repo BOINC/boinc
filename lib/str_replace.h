@@ -58,9 +58,6 @@ inline int strcasecmp(const char* s1, const char* s2) {
 }
 #endif
 
-#define safe_strcpy(x, y) strlcpy(x, y, sizeof(x))
-#define safe_strcat(x, y) strlcat(x, y, sizeof(x))
-
 #ifdef _WIN32
 #define snprintf _snprintf
     // Yucky!  _snprintf() is not the same as snprintf();

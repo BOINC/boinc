@@ -270,6 +270,10 @@ function friend_links($user) {
         require_once("../project/donations.inc");
         $x .= DONATION_LINK;
     }
+    if ($user->donated == 2) {
+        require_once("../project/donations.inc");
+        $x .= DONATION_LINK_TWO;
+    }
     $x .= "</td></tr></table>\n";
     return $x;
 }
@@ -291,6 +295,10 @@ function user_links($user, $badge_height=0) {
     if ($user->donated == 1) {
         require_once("../project/donations.inc");
         $x .= DONATION_LINK;
+    }
+    if ($user->donated == 2) {
+        require_once("../project/donations.inc");
+        $x .= DONATION_LINK_TWO;
     }
     if ($badge_height) {
         $x .= badges_string(true, $user, $badge_height);
@@ -410,6 +418,12 @@ function show_user_summary_public($user) {
         if (file_exists("../project/donations.inc")) {
             require_once("../project/donations.inc");
             row2(tra("Donor"), DONATION_LINK);
+        }
+    }
+    if ($user->donated == 2) {
+        if (file_exists("../project/donations.inc")) {
+            require_once("../project/donations.inc");
+            row2(tra("Donor"), DONATION_LINK_TWO);
         }
     }
 }

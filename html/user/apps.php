@@ -20,6 +20,7 @@ require_once("../inc/util.inc");
 
 check_get_args(array("xml"));
 
+BoincDb::get(true);
 $platforms = BoincPlatform::enum("deprecated=0");
 
 $xml = get_str('xml', true);

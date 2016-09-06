@@ -1,7 +1,7 @@
 /*******************************************************************************
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2016 University of California
  * 
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -18,16 +18,6 @@
  ******************************************************************************/
 package edu.berkeley.boinc;
 
-import edu.berkeley.boinc.utils.*;
-
-import java.util.ArrayList;
-import edu.berkeley.boinc.adapter.PrefsListAdapter;
-import edu.berkeley.boinc.adapter.PrefsListItemWrapper;
-import edu.berkeley.boinc.adapter.PrefsListItemWrapperBool;
-import edu.berkeley.boinc.adapter.PrefsListItemWrapperValue;
-import edu.berkeley.boinc.adapter.PrefsSelectionDialogListAdapter;
-import edu.berkeley.boinc.rpc.GlobalPreferences;
-import edu.berkeley.boinc.rpc.HostInfo;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -50,6 +40,16 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import edu.berkeley.boinc.adapter.PrefsListAdapter;
+import edu.berkeley.boinc.adapter.PrefsListItemWrapper;
+import edu.berkeley.boinc.adapter.PrefsListItemWrapperBool;
+import edu.berkeley.boinc.adapter.PrefsListItemWrapperValue;
+import edu.berkeley.boinc.adapter.PrefsSelectionDialogListAdapter;
+import edu.berkeley.boinc.rpc.GlobalPreferences;
+import edu.berkeley.boinc.rpc.HostInfo;
+import edu.berkeley.boinc.utils.Logging;
+import java.text.NumberFormat;
+import java.util.ArrayList;
 
 public class PrefsFragment extends Fragment {
 	
@@ -243,32 +243,38 @@ public class PrefsFragment extends Fragment {
 				valueWrapper.ID == R.string.prefs_cpu_time_max_header ||
 				valueWrapper.ID == R.string.prefs_cpu_other_load_suspension_header || 
 				valueWrapper.ID == R.string.prefs_memory_max_idle_header ) {
-			sliderProgress.setText(valueWrapper.status.intValue() + " " + getString(R.string.prefs_unit_pct));
 			Double seekBarDefault = valueWrapper.status / 10;
 			slider.setProgress(seekBarDefault.intValue());
-			slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-		        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
-		        	String progressString = (progress * 10) + " " + getString(R.string.prefs_unit_pct);
-		        	TextView sliderProgress = (TextView) dialog.findViewById(R.id.seekbar_status);
-		            sliderProgress.setText(progressString);
+			final SeekBar.OnSeekBarChangeListener onSeekBarChangeListener;
+			slider.setOnSeekBarChangeListener(onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+				public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
+					final String progressString = NumberFormat.getPercentInstance().format(progress / 10.0);
+					TextView sliderProgress = (TextView) dialog.findViewById(R.id.seekbar_status);
+					sliderProgress.setText(progressString);
 		        }
 				@Override
 				public void onStartTrackingTouch(SeekBar seekBar) {}
 				@Override
 				public void onStopTrackingTouch(SeekBar seekBar) {}
-		    });
+			});
+			onSeekBarChangeListener.onProgressChanged(slider, seekBarDefault.intValue(), false);
 		} else if(valueWrapper.ID == R.string.prefs_cpu_number_cpus_header) {
 			if(!getHostInfo()) {
 				if(Logging.WARNING) Log.w(Logging.TAG, "onItemClick missing hostInfo");
 				return;
 			}
-			sliderProgress.setText(""+valueWrapper.status.intValue());
-			slider.setMax(hostinfo.p_ncpus);
-			slider.setProgress(valueWrapper.status.intValue());
-			slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-				public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
-					if(progress == 0) progress = 1; // do not allow 0 cpus
-					String progressString = String.valueOf(progress);
+			slider.setMax(hostinfo.p_ncpus <= 1 ? 0 : hostinfo.p_ncpus - 1);
+			final int statusValue;
+			slider.setProgress((statusValue = valueWrapper.status.intValue()) <= 0 ?
+				0 :
+				statusValue - 1 > slider.getMax() ?
+					slider.getMax() :
+					statusValue - 1);
+			Log.d(Logging.TAG, String.format("statusValue == %,d", statusValue));
+			final SeekBar.OnSeekBarChangeListener onSeekBarChangeListener;
+			slider.setOnSeekBarChangeListener(onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+				public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
+					final String progressString = NumberFormat.getIntegerInstance().format(progress <= 0 ? 1 : progress + 1); // do not allow 0 cpus
 					TextView sliderProgress = (TextView) dialog.findViewById(R.id.seekbar_status);
 					sliderProgress.setText(progressString);
 				}
@@ -277,13 +283,14 @@ public class PrefsFragment extends Fragment {
 				@Override
 				public void onStopTrackingTouch(SeekBar seekBar) {}
 			});
+			onSeekBarChangeListener.onProgressChanged(slider, statusValue - 1, false);
 		} else if(valueWrapper.ID == R.string.prefs_gui_log_level_header) {
-			sliderProgress.setText(""+valueWrapper.status.intValue());
 			slider.setMax(5);
 			slider.setProgress(valueWrapper.status.intValue());
-			slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-				public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
-					String progressString = String.valueOf(progress);
+			final SeekBar.OnSeekBarChangeListener onSeekBarChangeListener;
+			slider.setOnSeekBarChangeListener(onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+				public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
+					String progressString = NumberFormat.getIntegerInstance().format(progress);
 					TextView sliderProgress = (TextView) dialog.findViewById(R.id.seekbar_status);
 					sliderProgress.setText(progressString);
 				}
@@ -292,6 +299,7 @@ public class PrefsFragment extends Fragment {
 				@Override
 				public void onStopTrackingTouch(SeekBar seekBar) {}
 			});
+			onSeekBarChangeListener.onProgressChanged(slider, valueWrapper.status.intValue(), false);
 		}
 		
 		setupDialogButtons(item, dialog);
@@ -379,8 +387,7 @@ public class PrefsFragment extends Fragment {
          	   } else if(item.ID == R.string.prefs_cpu_number_cpus_header) {
          		   SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
          		   int sbProgress = slider.getProgress();
-         		   if(sbProgress == 0) sbProgress = 1;
-         		   double value = numberCpuCoresToPct(sbProgress);
+         		   double value = numberCpuCoresToPct(sbProgress <= 0 ? 1 : sbProgress + 1);
          		   writeClientValuePreference(item.ID, value);
          	   } else if(item.ID == R.string.prefs_gui_log_level_header) {
          		   SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);

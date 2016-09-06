@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-04-15 08:53+0000\n"
+"PO-Revision-Date: 2016-08-31 09:31+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -352,7 +352,7 @@ msgstr "Esegui il &benchmark della CPU"
 
 #: clientgui/AdvancedFrame.cpp:494
 msgid "Run tests that measure CPU speed"
-msgstr "Avvia dei test che misurano la velocità di calcolo della CPU e della GPU"
+msgstr "Avvia dei test che misurano la velocità di calcolo della CPU"
 
 #: clientgui/AdvancedFrame.cpp:498
 msgid "Retry pending transfers"
@@ -400,11 +400,11 @@ msgstr "E&laborazione GPU continua"
 
 #: clientgui/AdvancedFrame.cpp:550
 msgid "Allow GPU work regardless of preferences"
-msgstr "Elabora con la GPU senza interruzioni e indipendentemente dalle preferenze"
+msgstr "Elabora con la GPU indipendentemente dalle preferenze"
 
 #: clientgui/AdvancedFrame.cpp:554
 msgid "Use GPU based on preferences"
-msgstr "Ela&borazione GPU secondo le preferenze"
+msgstr "Ela&borazione con la GPU secondo le preferenze"
 
 #: clientgui/AdvancedFrame.cpp:555
 msgid "Allow GPU work according to preferences"
@@ -917,7 +917,7 @@ msgstr "Sospendi tutto"
 #: clientgui/BOINCTaskBar.cpp:535 clientgui/BOINCTaskBar.cpp:650
 #: clientgui/BOINCTaskBar.cpp:655
 msgid "Snooze GPU"
-msgstr "Ferma GPU"
+msgstr "Ferma la GPU"
 
 #: clientgui/BOINCTaskBar.cpp:553
 msgid "E&xit"
@@ -932,7 +932,7 @@ msgstr "Riprendi"
 
 #: clientgui/BOINCTaskBar.cpp:646
 msgid "Resume GPU"
-msgstr "Riprendi GPU"
+msgstr "Riprendi l'uso della GPU"
 
 #: clientgui/BOINCTaskBar.cpp:712
 msgid "Computing is enabled"
@@ -948,7 +948,7 @@ msgstr "L'elaborazione con la GPU è abilitata"
 
 #: clientgui/BOINCTaskBar.cpp:729
 msgid "GPU computing is suspended - "
-msgstr "L'elaborazione con la GPU è sospesa -"
+msgstr "L'elaborazione con la GPU è sospesa - "
 
 #: clientgui/BOINCTaskBar.cpp:738
 msgid "Network is enabled"
@@ -1261,12 +1261,12 @@ msgstr "Sospendi l'elaborazione GPU quando il computer è in uso"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:294
 msgid "Check this to suspend GPU computing when you're using the computer."
-msgstr "Spunta questa voce per sospendere l'elaborazione GPU quando stai usando il computer."
+msgstr "Spunta questa voce per sospendere l'elaborazione tramite GPU quando stai usando il computer."
 
 #. min idle time
 #: clientgui/DlgAdvPreferencesBase.cpp:299 clientgui/sg_DlgPreferences.cpp:264
 msgid "This determines when the computer is considered 'in use'."
-msgstr "Questo determina quando il computer è considerato 'in uso'."
+msgstr "Determina quando il computer è considerato 'in uso'."
 
 #. context: 'In use' means mouse/keyboard input in last ___ minutes
 #: clientgui/DlgAdvPreferencesBase.cpp:304 clientgui/sg_DlgPreferences.cpp:268
@@ -1480,7 +1480,7 @@ msgstr "Limita la memoria utilizzata da %s quando stai usando il computer."
 
 #: clientgui/DlgAdvPreferencesBase.cpp:616
 msgid "When computer is in use, use at most"
-msgstr "Quando il computer è in 'uso', utilizza al massimo"
+msgstr "Quando il computer è in 'uso' utilizza al massimo"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:622
 #: clientgui/DlgAdvPreferencesBase.cpp:634
@@ -1500,7 +1500,7 @@ msgstr "Quando il computer non è 'in uso', utilizza al massimo"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:638
 msgid "Leave non-GPU tasks in memory while suspended"
-msgstr "Lascia le elaborazioni non-GPU in memoria quando sospese"
+msgstr "Lascia le elaborazioni non-GPU in memoria mentre sono sospese"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:639
 msgid ""
@@ -2567,7 +2567,7 @@ msgstr "Sospesa -"
 
 #: clientgui/MainDocument.cpp:2511
 msgid "GPU suspended - "
-msgstr "GPU sospesa -"
+msgstr "GPU sospesa - "
 
 #: clientgui/MainDocument.cpp:2515
 msgid "Waiting for memory"
@@ -2583,7 +2583,7 @@ msgstr "In elaborazione"
 
 #: clientgui/MainDocument.cpp:2521
 msgid " (non-CPU-intensive)"
-msgstr "(non intensivo per la CPU)"
+msgstr " (non intensivo per la CPU)"
 
 #: clientgui/MainDocument.cpp:2524
 msgid "Waiting to run"
@@ -2651,7 +2651,7 @@ msgstr "Riconosciuto"
 
 #: clientgui/MainDocument.cpp:2586
 msgid "Ready to report"
-msgstr "Pronto per il report"
+msgstr "Pronto per l'invio"
 
 #: clientgui/MainDocument.cpp:2588
 #, c-format
@@ -3036,7 +3036,7 @@ msgstr "Aggiorna"
 msgid ""
 "Report all completed tasks, get latest credit, get latest preferences, and "
 "possibly get more tasks."
-msgstr "Riporta il lavoro completato, aggiorna il totale dei crediti e le preferenze, e possibilmente ottiene altro lavoro."
+msgstr "Invia il lavoro completato, aggiorna il totale dei crediti e le preferenze, e possibilmente ottiene altre WU."
 
 #: clientgui/ViewProjects.cpp:209 clientgui/ViewProjects.cpp:808
 #: clientgui/ViewWork.cpp:232 clientgui/ViewWork.cpp:888
@@ -3071,13 +3071,13 @@ msgstr "Reset del progetto"
 msgid ""
 "Delete all files and tasks associated with this project, and get new tasks."
 "  You can update the project first to report any completed tasks."
-msgstr "Cancella tutti i file e le elaborazioni associate a questo progetto e scarica nuovo lavoro.  Puoi aggiornare il progetto prima di eseguire il reset per riportare le elaborazioni già completate."
+msgstr "Cancella tutti i file e le elaborazioni associate a questo progetto e scarica nuove WU.  Puoi aggiornare il progetto prima di eseguire il reset per inviare le elaborazioni già completate."
 
 #: clientgui/ViewProjects.cpp:231 clientgui/sg_ProjectCommandPopup.cpp:91
 msgid ""
 "Remove this project.  Tasks in progress will be lost (use 'Update' first to "
 "report any completed tasks)."
-msgstr "Rimuovi questo progetto dal computer.  Il lavoro in corso andrà perso (usa prima 'Aggiorna' per inviare il lavoro già completato)."
+msgstr "Rimuovi questo progetto dal computer.  Le elaborazioni in corso andranno perse (usa prima 'Aggiorna' per inviare il lavoro già completato)."
 
 #: clientgui/ViewProjects.cpp:237 clientgui/ViewWork.cpp:246
 #: clientgui/sg_ProjectCommandPopup.cpp:96
@@ -3186,7 +3186,7 @@ msgstr "Per ottenere lavoro"
 
 #: clientgui/ViewProjects.cpp:1133
 msgid "To report completed tasks"
-msgstr "Per riportare attività completate"
+msgstr "Per inviare le attività completate"
 
 #: clientgui/ViewProjects.cpp:1134
 msgid "To send trickle-up message"

@@ -1,7 +1,7 @@
 /*******************************************************************************
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2016 University of California
  * 
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -18,12 +18,6 @@
  ******************************************************************************/
 package edu.berkeley.boinc.adapter;
 
-import edu.berkeley.boinc.utils.*;
-import java.util.ArrayList;
-import org.apache.http.impl.cookie.DateUtils;
-import edu.berkeley.boinc.BOINCActivity;
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.rpc.Notice;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -38,6 +32,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import edu.berkeley.boinc.BOINCActivity;
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.rpc.Notice;
+import edu.berkeley.boinc.utils.Logging;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class NoticesListAdapter extends ArrayAdapter<Notice>{
 	private ArrayList<Notice> entries;
@@ -76,7 +77,7 @@ public class NoticesListAdapter extends ArrayAdapter<Notice>{
 		tvNoticeContent.setText(Html.fromHtml(listItem.description));
 		
 		TextView tvNoticeTime = (TextView) v.findViewById(R.id.noticeTime);
-		tvNoticeTime.setText(DateUtils.formatDate(new java.util.Date((long)listItem.create_time*1000)));
+		tvNoticeTime.setText(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(new Date((long)listItem.create_time * 1000)));
 		
 		v.setOnClickListener(new OnClickListener() {
 			@Override

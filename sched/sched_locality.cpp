@@ -15,7 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Locality scheduling: see doc/sched_locality.php
+// Locality scheduling: assign jobs to clients based on the data files
+// the client already has.
+//
+// Currently this is specific to Einstein@home and is not generally usable.
+// There's a generic but more limited version, "limited locality scheduling":
+// http://boinc.berkeley.edu/trac/wiki/LocalityScheduling
 
 #include "config.h"
 
@@ -291,7 +296,7 @@ static int possibly_send_result(SCHED_DB_RESULT& result) {
     retval = wu.lookup_id(result.workunitid);
     if (retval) return ERR_DB_NOT_FOUND;
 
-    // This doesn't take into account g_wreq->allow_non_preferred_apps,
+    // This doesn't take into account g_wreq->allow_non_selected_apps,
     // however Einstein@Home, which is the only project that currently uses
     // this locality scheduler, doesn't support the respective project-specific
     // preference setting

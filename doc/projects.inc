@@ -20,7 +20,7 @@ $sensing = array(
     array(
         array(
             "Quake Catcher Network",
-            "http://qcn.caltech.edu/sensor",
+            "http://quakecatcher.net",
             tra("Caltech"),
             tra("Seismology"),
             tra("Quake-Catcher Network uses sensors attached to computers and smartphones to detect seismic waves."),
@@ -597,7 +597,7 @@ $math = array(
         ),
         array(
             "Collatz Conjecture",
-            "http://boinc.thesonntags.com/collatz/",
+            "https://boinc.thesonntags.com/collatz/",
             tra("Private"),
             tra("Mathematics"),
             tra("Study the Collatz Conjecture, an unsolved conjecture in mathematics"),

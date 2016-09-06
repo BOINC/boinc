@@ -6,14 +6,14 @@
 # FileID  : $Id$
 # 
 # Translators:
-# crazymaster <ken.i54k@gmail.com>, 2015
+# Kenichi Ito <ken.i54k@gmail.com>, 2015
 # Masahiro Tagashira, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2016-03-03 15:09+0000\n"
+"PO-Revision-Date: 2016-07-19 16:23+0000\n"
 "Last-Translator: Masahiro Tagashira\n"
 "Language-Team: Japanese (http://www.transifex.com/boinc/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"

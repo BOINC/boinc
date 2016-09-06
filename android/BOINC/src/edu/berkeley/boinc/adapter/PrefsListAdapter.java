@@ -1,7 +1,7 @@
 /*******************************************************************************
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2016 University of California
  * 
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -18,12 +18,9 @@
  ******************************************************************************/
 package edu.berkeley.boinc.adapter;
 
-import java.util.ArrayList;
-import edu.berkeley.boinc.PrefsFragment;
-import edu.berkeley.boinc.PrefsFragment.BoolOnClick;
-import edu.berkeley.boinc.R;
 import android.app.Activity;
 import android.content.Context;
+import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +29,11 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import edu.berkeley.boinc.PrefsFragment;
+import edu.berkeley.boinc.PrefsFragment.BoolOnClick;
+import edu.berkeley.boinc.R;
+import java.text.NumberFormat;
+import java.util.ArrayList;
 
 public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
 	
@@ -82,14 +84,32 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
 	    		
 	    		// set status value or hide if 0
     			LinearLayout statusWrapper = (LinearLayout) v.findViewById(R.id.status_wrapper);
-	    		if(item.status > 0) {
+	    		if (item.status > 0) {
 	    			statusWrapper.setVisibility(View.VISIBLE);
-		    		String value = item.status.toString();
-		    		if(item.isPct || item.isNumber) {
-		    			value = "" + item.status.intValue();
-		    		} 
-		    		TextView status = (TextView) v.findViewById(R.id.status);
-		    		status.setText(value + " " + item.unit);
+	    			final String value;
+	    			switch (item.unit) {
+	    				case NONE:
+	    					value = NumberFormat.getIntegerInstance().format(item.status);
+	    					break;
+	    				case PERCENT:
+	    					value = NumberFormat.getPercentInstance().format(item.status / 100.0);
+	    					break;
+	    				case SECONDS:
+	    					value = NumberFormat.getIntegerInstance().format(item.status) + this.activity.getString(R.string.prefs_unit_seconds);
+	    					break;
+	    				case CELSIUS:
+	    					value = NumberFormat.getInstance().format(item.status) + this.activity.getString(R.string.prefs_unit_celsius);
+	    					break;
+	    				case MEGABYTES:
+	    					value = Formatter.formatShortFileSize(this.activity, (long)(item.status.doubleValue() * 0x100000));
+	    					break;
+	    				case GIGABYTES:
+	    					value = Formatter.formatShortFileSize(this.activity, (long)(item.status.doubleValue() * 0x40000000));
+	    					break;
+	    				default:
+	    					value = NumberFormat.getInstance().format(item.status);
+	    			}
+		    		((TextView)v.findViewById(R.id.status)).setText(value);
 	    		} else statusWrapper.setVisibility(View.GONE);
 	    	} else {
 	    		v = vi.inflate(R.layout.prefs_layout_listitem, null);

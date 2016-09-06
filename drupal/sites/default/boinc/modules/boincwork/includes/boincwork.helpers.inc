@@ -844,6 +844,13 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
       $main_prefs = array_merge(array('mod_time' => 0), $main_prefs);
     }
     $main_prefs['mod_time'] = time();
+    // unset source information, the Client will fill this in again
+    if (isset($main_prefs['source_project'])) {
+      unset($main_prefs['source_project']);
+    }
+    if (isset($main_prefs['source_scheduler'])) {
+      unset($main_prefs['source_scheduler']);
+    }
   }
   
   // Convert prefs back to XML and save to database

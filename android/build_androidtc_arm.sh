@@ -6,6 +6,7 @@
 
 # Script to setup Android toolchain
 
+export NDKROOT="/home/boincadm/NVPACK/android-ndk-r10e"
 export ANDROIDTC="$HOME/androidarm-tc"
 
 if [ ! -d $ANDROIDTC/arm-linux-androideabi ]; then

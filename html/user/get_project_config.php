@@ -19,6 +19,7 @@
 require_once("../inc/util.inc");
 require_once("../inc/xml.inc");
 
+BoincDb::get(true);
 xml_header();
 
 // This all needs to work even when DB is down.

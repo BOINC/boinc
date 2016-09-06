@@ -44,12 +44,12 @@ function linux_info() {
 }
 
 $w76dev = array(
-    "num"=>"7.6.29",
+    "num"=>"7.6.33",
     "status"=>"Development version",
-    "file"=>"boinc_7.6.29_windows_intelx86.exe",
-    "vbox_file"=>"boinc_7.6.29_windows_intelx86_vbox.exe",
-    "vbox_version"=>"5.0.12",
-    "date"=>"2 Mar 2016",
+    "file"=>"boinc_7.6.33_windows_intelx86.exe",
+    "vbox_file"=>"boinc_7.6.33_windows_intelx86_vbox.exe",
+    "vbox_version"=>"5.0.18",
+    "date"=>"5 Jun 2016",
     "type"=>"win_new",
 );
 
@@ -90,12 +90,12 @@ $w5816 = array(
 );
 
 $w76x64dev = array(
-    "num"=>"7.6.29",
+    "num"=>"7.6.33",
     "status"=>"Development version",
-    "file"=>"boinc_7.6.29_windows_x86_64.exe",
-    "vbox_file"=>"boinc_7.6.29_windows_x86_64_vbox.exe",
-    "vbox_version"=>"5.0.12",
-    "date"=>"2 Mar 2016",
+    "file"=>"boinc_7.6.33_windows_x86_64.exe",
+    "vbox_file"=>"boinc_7.6.33_windows_x86_64_vbox.exe",
+    "vbox_version"=>"5.0.18",
+    "date"=>"5 Jun 2016",
     "type"=>"win_new",
 );
 
@@ -130,11 +130,11 @@ $w72x64 = array(
 );
 
 $m76dev = array(
-    "num"=>"7.6.31",
+    "num"=>"7.6.33",
     "status"=>"Development version (standard GUI)",
-	"file"=>"boinc_7.6.31_macOSX_x86_64.zip",
-    "date"=>"3 Mar 2016",
-	"type"=>"mac_advanced",
+    "file"=>"boinc_7.6.33_macOSX_x86_64.zip",
+    "date"=>"6 Jun 2016",
+    "type"=>"mac_advanced",
 );
 
 $m76 = array(
@@ -178,11 +178,11 @@ $m66 = array(
 );
 
 $m76cdev = array(
-    "num"=>"7.6.31",
+    "num"=>"7.6.33",
     "status"=>"Development version (Unix command-line version)",
-	"file"=>"boinc_7.6.31_x86_64-apple-darwin.zip",
-    "date"=>"3 Mar 2016",
-	"type"=>"bare_core",
+    "file"=>"boinc_7.6.33_x86_64-apple-darwin.zip",
+    "date"=>"6 Jun 2016",
+    "type"=>"bare_core",
 );
 
 $m76c = array(
@@ -298,10 +298,10 @@ $a74dev = array(
 );
 
 $a74 = array(
-    "num"=>"7.4.41",
+    "num"=>"7.4.53",
     "status"=>"Recommended Version",
-    "file"=>"boinc_7.4.41.apk",
-    "date"=>"22 Jan 2015",
+    "file"=>"boinc_7.4.53.apk",
+    "date"=>"3 Jul 2016",
     "type"=>"apk",
 );
 
@@ -402,7 +402,7 @@ $linuxcompat = array(
 
 $android = array(
     "name"=>"Android",
-    "description"=>"Android version 4.1 and later for ARM, MIPS, or x86<br>We recommend that, rather than downloading BOINC from here,</br>you get it from the Google Play Store or the Amazon app store (for Kindle Fire)",
+    "description"=>"Android version 4.1 and later for ARM, AArch64, MIPS, MIPS64, x86, and x86_64<br>We recommend that, rather than downloading BOINC from here,</br>you get it from the Google Play Store or the Amazon app store (for Kindle Fire)",
     "dbname" => "arm-android-linux-gnu",
     "versions"=>array(
         $a74dev,

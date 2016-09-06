@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2016-04-14 08:05+0000\n"
+"PO-Revision-Date: 2016-08-31 09:36+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +37,7 @@ msgstr "Codice d'invito"
 
 #: ../inc/account.inc:38
 msgid "A valid invitation code is required to create an account."
-msgstr "E' necessario un codice d'invito valido per poter creare un account."
+msgstr "È necessario un codice d'invito valido per poter creare un account."
 
 #: ../inc/account.inc:44 ../inc/host.inc:674 ../inc/result.inc:632
 #: ../inc/team.inc:224 ../inc/team.inc:372 ../inc/user.inc:198
@@ -99,7 +99,7 @@ msgstr "Crea un account"
 
 #: ../inc/account.inc:101
 msgid "Email address:"
-msgstr "Indirizzo E-mail:"
+msgstr "Indirizzo e-mail:"
 
 #: ../inc/account.inc:103
 msgid "forgot email address?"
@@ -136,7 +136,7 @@ msgstr "Testo sottolineato: [u]testo[/u]  (alt+u)"
 
 #: ../inc/bbcode_html.inc:20
 msgid "Strikethrough text: [s]text[/s]  (alt+k)"
-msgstr "testo con Strikethrough: [s]testo[/s] (alt+k)"
+msgstr "Testo cancellato: [s]testo[/s] (alt+k)"
 
 #: ../inc/bbcode_html.inc:23
 msgid "Quote text: [quote]text[/quote]  (alt+q)"
@@ -161,7 +161,7 @@ msgstr "Inserisci immagine: [img]http://url_immagine[/img] (alt+p)"
 #: ../inc/bbcode_html.inc:38
 msgid ""
 "Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)"
-msgstr "Inserisci link: [url]http://link[/url] oppure [url=http://linkl]testo[/url] (alt+w)"
+msgstr "Inserisci URL: [url]http://link[/url] oppure [url=http://linkl]testo[/url] (alt+w)"
 
 #: ../inc/bbcode_html.inc:45
 msgid "Font color"
@@ -313,7 +313,7 @@ msgstr "Esperto di helpdesk"
 #. Search
 #: ../inc/forum.inc:129
 msgid "Search for words in forum messages"
-msgstr "Cerca delle parole nei messaggi del forum"
+msgstr "Cerca termini tra i messaggi del forum"
 
 #: ../inc/forum.inc:129
 msgid "Search forums"
@@ -409,7 +409,7 @@ msgstr "Messaggi: %1"
 
 #: ../inc/forum.inc:635
 msgid " - in response to "
-msgstr "- in risposta a"
+msgstr " - in risposta a "
 
 #: ../inc/forum.inc:638
 msgid "Edit"
@@ -431,7 +431,7 @@ msgstr "Questo messaggio non è mostrato perché l'autore è nella tua lista 'ig
 
 #: ../inc/forum.inc:675 ../inc/forum.inc:686
 msgid "Report this post as offensive"
-msgstr "Segnale questo messaggio come offensivo."
+msgstr "Segnale questo messaggio come offensivo"
 
 #: ../inc/forum.inc:675 ../inc/forum.inc:686
 msgid "Report as offensive"
@@ -468,7 +468,7 @@ msgstr "Rispondi"
 
 #: ../inc/forum.inc:693
 msgid "Post a reply to this message"
-msgstr "Replica a questo messaggio"
+msgstr "Rispondi a questo messaggio"
 
 #. "Quote" is used as a verb
 #: ../inc/forum.inc:696
@@ -613,7 +613,7 @@ msgstr "Ultimo messaggio"
 
 #: ../inc/forum.inc:1294
 msgid "New posts in the thread %1"
-msgstr "Nuovi messa nella discussione %1"
+msgstr "Nuovi messaggi nella discussione %1"
 
 #: ../inc/forum.inc:1299
 msgid "New posts in subscribed thread"
@@ -629,7 +629,7 @@ msgstr "Segna tutti gli argomenti come letti"
 
 #: ../inc/forum.inc:1311
 msgid "Mark all threads in all message boards as read."
-msgstr "Segna tutte le discussioni nel forum come lette."
+msgstr "Segna tutte le discussioni del forum come lette."
 
 #: ../inc/host.inc:25
 msgid "No host"
@@ -671,7 +671,7 @@ msgstr "(uguale alle ultime %1 volte)"
 
 #: ../inc/host.inc:90
 msgid "External IP address"
-msgstr "Indirizzo IP esterno"
+msgstr "Indirizzo IP pubblico"
 
 #: ../inc/host.inc:93
 msgid "Show IP address"
@@ -739,11 +739,11 @@ msgstr "Coprocessori"
 
 #: ../inc/host.inc:122 ../inc/host.inc:692
 msgid "Operating System"
-msgstr "Sistema Operativo"
+msgstr "Sistema operativo"
 
 #: ../inc/host.inc:125 ../inc/host.inc:235
 msgid "BOINC version"
-msgstr "versione BOINC"
+msgstr "Versione di BOINC"
 
 #: ../inc/host.inc:129 ../inc/prefs.inc:237
 msgid "Memory"
@@ -775,7 +775,7 @@ msgstr "%1 GB"
 
 #: ../inc/host.inc:145
 msgid "Free Disk Space"
-msgstr "Spazio Libero su Disco"
+msgstr "Spazio libero su disco"
 
 #: ../inc/host.inc:149
 msgid "Measured floating point speed"
@@ -823,7 +823,7 @@ msgstr "Dettagli dell'applicazione"
 
 #: ../inc/host.inc:170
 msgid "Show"
-msgstr "Visualizza:"
+msgstr "Visualizza"
 
 #: ../inc/host.inc:180 ../inc/host.inc:341 ../inc/user.inc:155
 msgid "Tasks"
@@ -983,15 +983,15 @@ msgstr "Solo i computer attivi negli ultimi 30 giorni"
 
 #: ../inc/host.inc:671 ../inc/result.inc:642
 msgid "Computer ID"
-msgstr "ID Computer"
+msgstr "ID computer"
 
 #: ../inc/host.inc:687
 msgid "BOINC<br>version"
-msgstr "versione <br>BOINC"
+msgstr "Versione <br>BOINC"
 
 #: ../inc/host.inc:750 ../user/merge_by_name.php:65
 msgid "Merge computers by name"
-msgstr "Unisci i computer dal nome"
+msgstr "Unisci i computer per nome"
 
 #: ../inc/language_names.inc:62
 msgid "Browser default"
@@ -1076,7 +1076,7 @@ msgstr "Per ricevere le notifiche via mail, %1modifica le preferenze della comun
 
 #: ../inc/pm.inc:204
 msgid "Private message"
-msgstr "Messaggi privati"
+msgstr "Messaggio privato"
 
 #: ../inc/prefs.inc:45 ../inc/prefs.inc:187
 msgid "Usage limits"
@@ -1148,7 +1148,7 @@ msgstr "\"In uso\" significa che il mouse o la tastiera sono stati usati negli u
 
 #: ../inc/prefs.inc:83
 msgid "This determines when the computer is considered 'in use'."
-msgstr "Questo determina quando il computer è considerato 'in uso'."
+msgstr "Questo determina quando il computer viene considerato 'in uso'."
 
 #: ../inc/prefs.inc:85 ../inc/prefs.inc:92 ../inc/prefs.inc:122
 msgid "minutes"
@@ -1320,7 +1320,7 @@ msgstr "KB/secondo"
 
 #: ../inc/prefs.inc:195
 msgid "Limit upload rate to"
-msgstr "Limite di upload a "
+msgstr "Limite di upload a"
 
 #: ../inc/prefs.inc:196
 msgid "Limit the upload rate of file transfers."
@@ -1374,7 +1374,7 @@ msgstr "Disconnetti al termine delle operazioni"
 
 #: ../inc/prefs.inc:235 ../user/explain_state.php:94
 msgid "Computing"
-msgstr "Computazione"
+msgstr "Elaborazione in corso"
 
 #: ../inc/prefs.inc:236
 msgid "Disk"
@@ -1406,7 +1406,7 @@ msgstr "Preferenze separate per %1"
 
 #: ../inc/prefs.inc:493 ../inc/prefs.inc:528 ../inc/prefs_project.inc:291
 msgid "Edit preferences"
-msgstr "Modifica le Preferenze"
+msgstr "Modifica le preferenze"
 
 #: ../inc/prefs.inc:494 ../user/edit_forum_preferences_form.php:149
 #: ../user/team_admins.php:36
@@ -1415,7 +1415,7 @@ msgstr "Rimuovi"
 
 #: ../inc/prefs.inc:499
 msgid "Add separate preferences for %1"
-msgstr "Aggiungi le preferenze separate per %1"
+msgstr "Aggiungi preferenze separate per %1"
 
 #: ../inc/prefs.inc:506
 msgid "These settings apply to all computers using this account except"
@@ -1428,11 +1428,11 @@ msgstr "computer dove hai selezionato preferenze locali utilizzando il BOINC Man
 
 #: ../inc/prefs.inc:510
 msgid "Android devices"
-msgstr "Dispositivi Android"
+msgstr "Dispositivi android"
 
 #: ../inc/prefs.inc:513
 msgid "(Switch view)"
-msgstr "(Cambia Visuale)"
+msgstr "(Cambia visuale)"
 
 #: ../inc/prefs.inc:515 ../inc/prefs_project.inc:272
 msgid "Combined preferences"
@@ -1448,7 +1448,7 @@ msgstr "Ultima modifica delle preferenze:"
 
 #: ../inc/prefs.inc:553
 msgid "Add preferences"
-msgstr "Aggiungi le preferenze"
+msgstr "Aggiungi delle preferenze"
 
 #: ../inc/prefs.inc:557
 msgid "Update preferences"
@@ -1532,7 +1532,7 @@ msgstr "%1 può mostrare i tuoi computer sul suo sito web?"
 
 #: ../inc/prefs_project.inc:270
 msgid "(Switch View)"
-msgstr "(Cambia Visuale)"
+msgstr "(Cambia visuale)"
 
 #: ../inc/prefs_project.inc:276
 msgid "Project specific settings"
@@ -1590,7 +1590,7 @@ msgstr "Feedback ricevuti dal tuo profilo"
 
 #: ../inc/profile.inc:264
 msgid "Recommend this profile for User of the Day:"
-msgstr "Raccomanda questo profilo come Utente del Giorno:"
+msgstr "Raccomanda questo profilo come Utente del giorno:"
 
 #: ../inc/profile.inc:265
 msgid "I %1like%2 this profile"
@@ -1651,7 +1651,7 @@ msgstr "Valido"
 
 #: ../inc/result.inc:119 ../inc/result.inc:271
 msgid "Invalid"
-msgstr "Invalido"
+msgstr "Non valido"
 
 #: ../inc/result.inc:120 ../inc/result.inc:209
 msgid "Error"
@@ -1676,7 +1676,7 @@ msgstr "Completato e validato"
 
 #: ../inc/result.inc:183
 msgid "Completed, marked as invalid"
-msgstr "Completato, indicato come non valido"
+msgstr "Completato, segnato come non valido"
 
 #: ../inc/result.inc:184
 msgid "Completed, can't validate"
@@ -1696,7 +1696,7 @@ msgstr "Completato"
 
 #: ../inc/result.inc:189 ../inc/result.inc:233 ../user/explain_state.php:62
 msgid "Couldn't send"
-msgstr "Non poteva essere inviato"
+msgstr "Impossibile inviare"
 
 #: ../inc/result.inc:194 ../inc/result.inc:257
 msgid "Cancelled by server"
@@ -1704,7 +1704,7 @@ msgstr "Cancellato dal server"
 
 #: ../inc/result.inc:199
 msgid "Not started by deadline - canceled"
-msgstr "Non partito a causa della scadenza - cancellato"
+msgstr "Non avviato a causa della scadenza - cancellato"
 
 #: ../inc/result.inc:202
 msgid "Error while downloading"
@@ -1732,7 +1732,7 @@ msgstr "Scaduto - nessuna risposta"
 
 #: ../inc/result.inc:211 ../inc/result.inc:240 ../user/explain_state.php:71
 msgid "Didn't need"
-msgstr "Non era necessario"
+msgstr "Non necessario"
 
 #: ../inc/result.inc:212 ../inc/result.inc:241 ../user/explain_state.php:74
 msgid "Validate error"
@@ -1776,7 +1776,7 @@ msgstr "In elaborazione"
 
 #: ../inc/result.inc:252
 msgid "Compute error"
-msgstr "Errore di computazione"
+msgstr "Errore di calcolo"
 
 #: ../inc/result.inc:253 ../user/explain_state.php:97
 msgid "Uploading"
@@ -1828,7 +1828,7 @@ msgstr "Workunit cancellata"
 
 #: ../inc/result.inc:322
 msgid "Canonical result is missing"
-msgstr "Il risultato canonico è mancante."
+msgstr "Risultato canonico mancante."
 
 #: ../inc/result.inc:326
 msgid "Unrecognized Error: %1"
@@ -1897,11 +1897,11 @@ msgstr "Applicazione"
 
 #: ../inc/result.inc:633
 msgid "Workunit"
-msgstr "Lavoro"
+msgstr "Workunit"
 
 #: ../inc/result.inc:636
 msgid "Report deadline"
-msgstr "Scadenza"
+msgstr "Avvisa della scadenza"
 
 #: ../inc/result.inc:637
 msgid "Received"
@@ -1937,7 +1937,7 @@ msgstr "Stato di validazione"
 
 #: ../inc/result.inc:647
 msgid "Device peak FLOPS"
-msgstr "Picco di FLOPS del dispositivo"
+msgstr "Picco di FLOP del dispositivo"
 
 #: ../inc/result.inc:648
 msgid "Application version"
@@ -2176,7 +2176,7 @@ msgstr "Descrizione del team"
 
 #: ../inc/team.inc:482
 msgid "Accept new members?"
-msgstr "Accetare nuovi membri?"
+msgstr "Accettare nuovi membri?"
 
 #: ../inc/uotd.inc:30
 msgid "User profile"
@@ -2427,7 +2427,7 @@ msgstr "Esci"
 
 #: ../inc/util.inc:163
 msgid "log in"
-msgstr "accedi"
+msgstr "Accedi"
 
 #: ../inc/util.inc:239 ../user/create_account_form.php:41
 msgid "Create an account"
@@ -2435,7 +2435,7 @@ msgstr "Crea un account"
 
 #: ../inc/util.inc:240
 msgid "Server status page"
-msgstr "Stato del server"
+msgstr "Stato server"
 
 #: ../inc/util.inc:277
 msgid ""
@@ -2838,7 +2838,7 @@ msgstr "Sei sicuro di voler cancellare il tuo account?"
 #: ../user/prefs_remove.php:53 ../user/user_search.php:59
 #: ../user/user_search.php:64
 msgid "Yes"
-msgstr "Si"
+msgstr "Sì"
 
 #: ../user/delete_account.php:79
 msgid "Delete this account"
@@ -3106,7 +3106,7 @@ msgstr "In una singola email giornaliera"
 
 #: ../user/edit_forum_preferences_form.php:65
 msgid "Message-board identity"
-msgstr "Itentità messaggi"
+msgstr "Identità messaggi"
 
 #: ../user/edit_forum_preferences_form.php:66
 msgid "Avatar"
@@ -3328,7 +3328,7 @@ msgstr "Il lavoro è pronto per essere spedito, ma non è stata ancora inviato."
 
 #: ../user/explain_state.php:40
 msgid "In Progress"
-msgstr "In Corso"
+msgstr "In corso"
 
 #: ../user/explain_state.php:41
 msgid "The task has been sent; waiting for completion."
@@ -3424,13 +3424,13 @@ msgstr "Il computer non ha potuto inviare i file di output."
 
 #: ../user/explain_state.php:103
 msgid "Time reported and deadline"
-msgstr "Tempo riportato e scadenza"
+msgstr "Tempo riportato e scadenza della WU"
 
 #: ../user/explain_state.php:106
 msgid ""
 "A task's <b>Time reported or deadline</b> field depends on whether the task "
 "has been reported yet:"
-msgstr "La colonna <b>Tempo riportato o Scadenza</b> di un lavoro dipende dal fatto che il lavoro è già stato riportato o no:"
+msgstr "La colonna <b>Tempo riportato o Scadenza</b> di un lavoro dipende dal fatto che il lavoro sia già stato inviato o no:"
 
 #: ../user/explain_state.php:110
 msgid "Already reported"
@@ -3442,19 +3442,19 @@ msgstr "La data/ora nella quale è stato riportato"
 
 #: ../user/explain_state.php:111
 msgid "Not reported yet, deadline in the future"
-msgstr "Non ancora riportato, scadenza nel futuro"
+msgstr "Non ancora inviata, tempo limite nel futuro"
 
 #: ../user/explain_state.php:112
 msgid "Deadline, shown in green."
-msgstr "Scadenza, visualizzata in verde."
+msgstr "Tempo limite, visualizzato in verde."
 
 #: ../user/explain_state.php:114
 msgid "Not reported yet, deadline in the past"
-msgstr "Non ancora riportato, scadenza nel passato"
+msgstr "Non ancora inviata, tempo limite nel passato"
 
 #: ../user/explain_state.php:115
 msgid "Deadline, shown in red."
-msgstr "Scadenza, visualizzata in rosso."
+msgstr "Tempo limite, visualizzato in rosso."
 
 #: ../user/explain_state.php:120
 msgid "Unknown field"
@@ -4594,7 +4594,7 @@ msgid ""
 "You can not delete our record of this computer because our database still "
 "contains work for it. You must wait a few days until the work for this "
 "computer has been deleted from the project database."
-msgstr "Non puoi cancellare il record di questo computer perché il nostro database contiene ancora lavoro per lui. Devi attendere qualche giorno fino a quando il lavoro per questo computer è stato cancellato dal database del progetto"
+msgstr "Non puoi cancellare il record di questo computer perché il nostro database contiene ancora lavoro per lui. Devi attendere qualche giorno fino a quando il lavoro per questo computer sarà stato cancellato dal database del progetto."
 
 #: ../user/host_delete.php:40
 msgid "Delete record of computer"
@@ -5161,7 +5161,7 @@ msgid ""
 "Your preferences have been reset to the defaults, and\n"
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
-msgstr "Le tue preferenze sono state resettate al default, e\n          avranno effetto quando il tuo computer comunicherà con %1\n          oppure cliccherai sul comando %2Aggiorna%3 dal BOINC Manager"
+msgstr "Le tue preferenze sono state resettate ai default, e\n          avranno effetto quando il tuo computer comunicherà con %1\n          oppure cliccherai sul comando %2Aggiorna%3 dal BOINC Manager"
 
 #: ../user/prefs_edit.php:66 ../user/prefs_edit.php:94
 msgid "%1 for %2"

@@ -50,10 +50,10 @@ const char* infeasible_string(int code) {
 bool app_not_selected(int appid) {
     unsigned int i;
 
-    if (g_wreq->preferred_apps.size() == 0) return false;
-    for (i=0; i<g_wreq->preferred_apps.size(); i++) {
-        if (appid == g_wreq->preferred_apps[i].appid) {
-            g_wreq->preferred_apps[i].work_available = true;
+    if (g_wreq->project_prefs.selected_apps.size() == 0) return false;
+    for (i=0; i<g_wreq->project_prefs.selected_apps.size(); i++) {
+        if (appid == g_wreq->project_prefs.selected_apps[i].appid) {
+            g_wreq->project_prefs.selected_apps[i].work_available = true;
             return false;
         }
     }

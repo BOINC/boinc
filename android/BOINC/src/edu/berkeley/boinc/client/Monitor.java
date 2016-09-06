@@ -287,17 +287,38 @@ public class Monitor extends Service {
 	public int getBoincPlatform() {
 		int platformId = 0;
 		String arch = System.getProperty("os.arch");    
-		String normalizedArch = arch.substring(0, 4).toUpperCase(Locale.US);
-		if(normalizedArch.contains("ARM")) platformId = R.string.boinc_platform_name_arm;
+		String normalizedArch = arch.toUpperCase(Locale.US);
+		if (normalizedArch.contains("AARCH64")) platformId = R.string.boinc_platform_name_arm64;
+		else if (normalizedArch.contains("ARM64")) platformId = R.string.boinc_platform_name_arm64;
+		else if (normalizedArch.contains("MIPS64")) platformId = R.string.boinc_platform_name_mips64;
+	    else if (normalizedArch.contains("X86_64")) platformId= R.string.boinc_platform_name_x86_64;
+		else if (normalizedArch.contains("ARM")) platformId = R.string.boinc_platform_name_arm;
 		else if (normalizedArch.contains("MIPS")) platformId = R.string.boinc_platform_name_mips;
 	    else if (normalizedArch.contains("86")) platformId= R.string.boinc_platform_name_x86;
 	    else {
-	    	if(Logging.WARNING) Log.w(Logging.TAG,"could not map os.arch (" + arch + ") to platform, default to arm.");
+	    	if(Logging.ERROR) Log.w(Logging.TAG,"could not map os.arch (" + arch + ") to platform, default to arm.");
 	    	platformId = R.string.boinc_platform_name_arm;
 	    }
 	    
-	    if(Logging.DEBUG) Log.d(Logging.TAG,"BOINC platform: " + getString(platformId) + " for os.arch: " + arch);
+	    if(Logging.ERROR) Log.d(Logging.TAG,"BOINC platform: " + getString(platformId) + " for os.arch: " + arch);
 		return platformId;
+	}
+	
+	/**
+	 * Determines BOINC alt platform name corresponding to device's cpu architecture (ARM, x86 or MIPS).
+	 * @return  BOINC platform name string in resources
+	 */
+	public String getBoincAltPlatform() {
+		String platformName = "";
+		String arch = System.getProperty("os.arch");    
+		String normalizedArch = arch.toUpperCase(Locale.US);
+		if (normalizedArch.contains("AARCH64")) platformName = getString(R.string.boinc_platform_name_arm);
+		else if (normalizedArch.contains("ARM64")) platformName = getString(R.string.boinc_platform_name_arm);
+		else if (normalizedArch.contains("MIPS64")) platformName = getString(R.string.boinc_platform_name_mips);
+	    else if (normalizedArch.contains("X86_64")) platformName = getString(R.string.boinc_platform_name_x86);
+	    
+	    if(Logging.ERROR) Log.d(Logging.TAG,"BOINC Alt platform: " + platformName + " for os.arch: " + arch);
+		return platformName;
 	}
 	
 	/**
@@ -440,7 +461,7 @@ public class Monitor extends Service {
      * @return Boolean whether connection established successfully
      */
 	private Boolean clientSetup() {
-		if(Logging.DEBUG) Log.d(Logging.TAG,"Monitor.clientSetup()");
+		if(Logging.ERROR) Log.d(Logging.TAG,"Monitor.clientSetup()");
 		
 		// try to get current client status from monitor
 		ClientStatus status;
@@ -491,7 +512,7 @@ public class Monitor extends Service {
 
 			// at this point client is definitely not running. install new binary...
 			if(!installClient()) {
-	        	if(Logging.WARNING) Log.w(Logging.TAG, "BOINC client installation failed!");
+	        	if(Logging.ERROR) Log.w(Logging.TAG, "BOINC client installation failed!");
 	        	return false;
 	        }
 		}
@@ -500,9 +521,9 @@ public class Monitor extends Service {
 		//
 		Integer clientPid = getPidForProcessName(clientProcessName);
 		if(clientPid == null) {
-        	if(Logging.DEBUG) Log.d(Logging.TAG, "Starting the BOINC client");
+        	if(Logging.ERROR) Log.d(Logging.TAG, "Starting the BOINC client");
 			if (!runClient()) {
-	        	if(Logging.DEBUG) Log.d(Logging.TAG, "BOINC client failed to start");
+	        	if(Logging.ERROR) Log.d(Logging.TAG, "BOINC client failed to start");
 				return false;
 			}
 		}
@@ -535,9 +556,9 @@ public class Monitor extends Service {
 				// should output something like "Samsung Galaxy SII - SDK:15 ABI:armeabi-v7a"
 				String model = Build.MANUFACTURER + " " + Build.MODEL + " - SDK:" + Build.VERSION.SDK_INT + " ABI: " + Build.CPU_ABI;
 				String version = Build.VERSION.RELEASE;
-				if(Logging.DEBUG) Log.d(Logging.TAG,"reporting hostinfo model name: " + model);
-				if(Logging.DEBUG) Log.d(Logging.TAG,"reporting hostinfo os name: Android");
-				if(Logging.DEBUG) Log.d(Logging.TAG,"reporting hostinfo os version: " + version);
+				if(Logging.ERROR) Log.d(Logging.TAG,"reporting hostinfo model name: " + model);
+				if(Logging.ERROR) Log.d(Logging.TAG,"reporting hostinfo os name: Android");
+				if(Logging.ERROR) Log.d(Logging.TAG,"reporting hostinfo os version: " + version);
 				clientInterface.setHostInfo(model, version);
 				
 				init = true;
@@ -545,10 +566,10 @@ public class Monitor extends Service {
 		}
 		
 		if(init) {
-			if(Logging.DEBUG) Log.d(Logging.TAG, "setup completed successfully"); 
+			if(Logging.ERROR) Log.d(Logging.TAG, "Monitor.clientSetup() - setup completed successfully"); 
 			status.setSetupStatus(ClientStatus.SETUP_STATUS_AVAILABLE,false);
 		} else {
-			if(Logging.ERROR) Log.e(Logging.TAG, "onPostExecute - setup experienced an error"); 
+			if(Logging.ERROR) Log.e(Logging.TAG, "Monitor.clientSetup() - setup experienced an error"); 
 			status.setSetupStatus(ClientStatus.SETUP_STATUS_ERROR,true);
 		}
 		
@@ -569,10 +590,11 @@ public class Monitor extends Service {
     		cmd[1] = "--daemon";
     		cmd[2] = "--gui_rpc_unix_domain";
     		
+            if(Logging.ERROR) Log.w(Logging.TAG, "Launching '" + cmd[0] + "' from '" + boincWorkingDir + "'");
         	Runtime.getRuntime().exec(cmd, null, new File(boincWorkingDir));
         	success = true;
     	} catch (IOException e) {
-    		if(Logging.DEBUG) Log.d(Logging.TAG, "Starting BOINC client failed with exception: " + e.getMessage());
+    		if(Logging.ERROR) Log.d(Logging.TAG, "Starting BOINC client failed with exception: " + e.getMessage());
     		if(Logging.ERROR) Log.e(Logging.TAG, "IOException", e);
     	}
     	return success;
@@ -604,13 +626,28 @@ public class Monitor extends Service {
 	 * File attributes override and executable are defined here
 	 * @return Boolean success
 	 */
-    private Boolean installClient(){
+    private Boolean installClient() {
 
-		installFile(fileNameClient, true, true);
-		installFile(fileNameCLI, true, true);
-		installFile(fileNameCABundle, true, false);
-		installFile(fileNameClientConfig, true, false);
-		installFile(fileNameAllProjectsList, true, false);
+		if (!installFile(fileNameClient, true, true)) {
+			if(Logging.ERROR) Log.d(Logging.TAG, "Failed to install: " + fileNameClient);
+			return false;
+		}
+		if (!installFile(fileNameCLI, true, true)) {
+			if(Logging.ERROR) Log.d(Logging.TAG, "Failed to install: " + fileNameCLI);
+			return false;
+		}
+		if (!installFile(fileNameCABundle, true, false)) {
+			if(Logging.ERROR) Log.d(Logging.TAG, "Failed to install: " + fileNameCABundle);
+			return false;
+		}
+		if (!installFile(fileNameClientConfig, true, false)) {
+			if(Logging.ERROR) Log.d(Logging.TAG, "Failed to install: " + fileNameClientConfig);
+			return false;
+		}
+		if (!installFile(fileNameAllProjectsList, true, false)) {
+			if(Logging.ERROR) Log.d(Logging.TAG, "Failed to install: " + fileNameAllProjectsList);
+			return false;
+		}
     	
     	return true; 
     }
@@ -634,7 +671,7 @@ public class Monitor extends Service {
 		else source = file;
 		
 		try {
-			if(Logging.DEBUG) Log.d(Logging.TAG, "installing: " + source);
+			if(Logging.ERROR) Log.d(Logging.TAG, "installing: " + source);
 			
     		File target = new File(boincWorkingDir + file);
     		
@@ -673,11 +710,11 @@ public class Monitor extends Service {
     			success = isExecutable; // return false, if not executable
     		}
 
-    		if(Logging.DEBUG) Log.d(Logging.TAG, "install of " + source + " successfull. executable: " + executable + "/" + isExecutable);
+    		if(Logging.ERROR) Log.d(Logging.TAG, "install of " + source + " successfull. executable: " + executable + "/" + isExecutable);
     		
     	} catch (IOException e) {  
     		if(Logging.ERROR) Log.e(Logging.TAG, "IOException: " + e.getMessage());
-    		if(Logging.DEBUG) Log.d(Logging.TAG, "install of " + source + " failed.");
+    		if(Logging.ERROR) Log.d(Logging.TAG, "install of " + source + " failed.");
     	}
 		
 		return success;
@@ -693,11 +730,20 @@ public class Monitor extends Service {
 		case R.string.boinc_platform_name_arm:
 			archAssetsDirectory = getString(R.string.assets_dir_arm);
 			break;
+		case R.string.boinc_platform_name_arm64:
+			archAssetsDirectory = getString(R.string.assets_dir_arm64);
+			break;
 		case R.string.boinc_platform_name_x86:
 			archAssetsDirectory = getString(R.string.assets_dir_x86);
 			break;
+		case R.string.boinc_platform_name_x86_64:
+			archAssetsDirectory = getString(R.string.assets_dir_x86_64);
+			break;
 		case R.string.boinc_platform_name_mips:
 			archAssetsDirectory = getString(R.string.assets_dir_mips);
+			break;
+		case R.string.boinc_platform_name_mips64:
+			archAssetsDirectory = getString(R.string.assets_dir_mips64);
 			break;
 		}
 	    return archAssetsDirectory;
@@ -795,13 +841,13 @@ public class Monitor extends Service {
     	    if(found) {
 	    	    try{
 	    	    	pid = Integer.parseInt(comps[PidIndex]);
-	        	    if(Logging.DEBUG) Log.d(Logging.TAG,"getPidForProcessName(): pid: " + pid); 
+	        	    if(Logging.ERROR) Log.d(Logging.TAG,"getPidForProcessName(): pid: " + pid); 
 	    	    }catch (NumberFormatException e) {if(Logging.ERROR) Log.e(Logging.TAG,"getPidForProcessName(): NumberFormatException for " + comps[PidIndex] + " at index: " + PidIndex);}
 	    	    continue;
     	    }
     	}
     	// if not happen in ps output, not running?!
-		if(pid == null) if(Logging.DEBUG) Log.d(Logging.TAG,"getPidForProcessName(): " + processName + " not found in ps output!");
+		if(pid == null) if(Logging.ERROR) Log.d(Logging.TAG,"getPidForProcessName(): " + processName + " not found in ps output!");
     	
     	// Find required pid
     	return pid;
@@ -816,7 +862,7 @@ public class Monitor extends Service {
     	
     	// client PID could not be read, client already ended / not yet started?
     	if (clientPid == null) {
-    		if(Logging.DEBUG) Log.d(Logging.TAG, "quitProcessOsLevel could not find PID, already ended or not yet started?");
+    		if(Logging.ERROR) Log.d(Logging.TAG, "quitProcessOsLevel could not find PID, already ended or not yet started?");
     		return;
     	}
     	
@@ -845,13 +891,13 @@ public class Monitor extends Service {
     	clientPid = getPidForProcessName(processName);
     	if(clientPid != null) {
     		// Process is still alive, send SIGKILL
-    		if(Logging.WARNING) Log.w(Logging.TAG, "SIGQUIT failed. SIGKILL pid: " + clientPid);
+    		if(Logging.ERROR) Log.w(Logging.TAG, "SIGQUIT failed. SIGKILL pid: " + clientPid);
     		android.os.Process.killProcess(clientPid);
     	}
     	
     	clientPid = getPidForProcessName(processName);
     	if(clientPid != null) {
-    		if(Logging.WARNING) Log.w(Logging.TAG, "SIGKILL failed. still living pid: " + clientPid);
+    		if(Logging.ERROR) Log.w(Logging.TAG, "SIGKILL failed. still living pid: " + clientPid);
     	}
     }
 // --end-- BOINC client installation and run-time management
@@ -1039,7 +1085,7 @@ public class Monitor extends Service {
 		
 		@Override
 		public List<ProjectInfo> getAttachableProjects() throws RemoteException {
-			return clientInterface.getAttachableProjects(getString(getBoincPlatform()));
+			return clientInterface.getAttachableProjects(getString(getBoincPlatform()), getBoincAltPlatform());
 		}
 		
 		@Override

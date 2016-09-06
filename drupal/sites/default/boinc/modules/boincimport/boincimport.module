@@ -3967,20 +3967,20 @@ function _boincimport_replace_links($html) {
   $transformer = new BoincImportUrlTransformer();
   
   // Update links to posts, threads, and forums
-  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?forum_thread\.php\?id=(\d+)&postid=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformPostLinks'), $html);
-  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?forum_thread\.php\?id=(\d+)(&\w+=\w*)*?(#(\d+)?)}i', array($transformer, 'transformOldPostLinks'), $html);
-  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?forum_thread\.php\?id=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformTopicLinks'), $html);
-  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?forum_forum\.php\?id=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformForumLinks'), $html);
-  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?show_user\.php\?userid=(\d+)((&\w+=\w*)+)?}i', array($transformer, 'transformUserLinks'), $html); 
-  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?workunit\.php\?wuid=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformWorkUnitLinks'), $html);
-  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?result\.php\?resultid=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformResultLinks'), $html);
-  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?results\.php\?userid=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformUserResultsLinks'), $html);
-  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?results\.php\?hostid=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformHostResultsLinks'), $html);
-  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?show_host_detail\.php\?hostid=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformHostLinks'), $html);
-  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?hosts_user\.php\?userid=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformUserHostsLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://([^\s]*?)|href="(?:/)?)forum_thread\.php\?id=(\d+)&postid=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformPostLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://([^\s]*?)|href="(?:/)?)forum_thread\.php\?id=(\d+)(&\w+=\w*)*?(#(\d+)?)}i', array($transformer, 'transformOldPostLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://([^\s]*?)|href="(?:/)?)forum_thread\.php\?id=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformTopicLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://([^\s]*?)|href="(?:/)?)forum_forum\.php\?id=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformForumLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://([^\s]*?)|href="(?:/)?)show_user\.php\?userid=(\d+)((&\w+=\w*)+)?}i', array($transformer, 'transformUserLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://([^\s]*?)|href="(?:/)?)workunit\.php\?wuid=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformWorkUnitLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://([^\s]*?)|href="(?:/)?)result\.php\?resultid=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformResultLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://([^\s]*?)|href="(?:/)?)results\.php\?userid=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformUserResultsLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://([^\s]*?)|href="(?:/)?)results\.php\?hostid=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformHostResultsLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://([^\s]*?)|href="(?:/)?)show_host_detail\.php\?hostid=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformHostLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://([^\s]*?)|href="(?:/)?)hosts_user\.php\?userid=(\d+)(&\w+=\w*)*?}i', array($transformer, 'transformUserHostsLinks'), $html);
   
   // Update any links to the top level index
-  $html = preg_replace('{forum_index.php}i', "{$transformer->basePath}community/forum", $html);
+  $html = preg_replace_callback('{(?:(http|https)://([^\s]*?)|href="(?:/)?)forum_index.php}i', array($transformer, 'transformForumIndexLinks'), $html);
   
   return $html;
 }
@@ -4005,7 +4005,7 @@ class BoincImportUrlTransformer {
     $this->basePath = $base_path;
     $this->drupalDomain = parse_url($drupal_base_url, PHP_URL_HOST);
     $this->boincDomains = array();
-    $boinc_base_urls = explode("\n", $boinc_base_urls);
+    $boinc_base_urls = preg_split('/\s+/', $boinc_base_urls);
     foreach ($boinc_base_urls as $url) {
       $domain = parse_url($url, PHP_URL_HOST);
       if ($domain) {
@@ -4193,6 +4193,15 @@ class BoincImportUrlTransformer {
       if ($uid) {
         $link = "{$newBaseUrl}account/{$uid}/computers";
       }
+    }
+    return $link;
+  }
+  
+  function transformForumIndexLinks($matches) {
+    $link = $matches[0];
+    $newBaseUrl = $this->getNewBaseUrl($matches);
+    if ($newBaseUrl !== NULL) {
+      $link = "{$newBaseUrl}community/forum";
     }
     return $link;
   }
