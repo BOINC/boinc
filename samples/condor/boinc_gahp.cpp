@@ -219,7 +219,6 @@ int process_input_files(SUBMIT_REQ& req, string& error_msg) {
     vector<string> upload_boinc_names, upload_paths;
     for (unsigned int i=0; i<absent_files.size(); i++) {
         int j = absent_files[i];
-        printf("file %d is absent\n", j);
         upload_boinc_names.push_back(boinc_names[j]);
         upload_paths.push_back(paths[j]);
     }
