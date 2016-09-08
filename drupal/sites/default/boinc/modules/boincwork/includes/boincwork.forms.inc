@@ -1542,7 +1542,25 @@ function communityprefs_form(&$form_state) {
       '#default_value' => isset($account->hide_signatures) ? $account->hide_signatures : 0,
     );
   }
-  
+
+  //Ignored users list
+  if (module_exists('ignore_user')) {
+    $form['forums']['ignored_users'] = array(
+      '#value' => '<div class="form-item">'
+        . '<label>'
+	. bts('Ignore Users in forums:')
+	. '</label>'
+        . bts('<a href="@ignore-user-list">View/Edit</a> your ignored users list.',
+	  array(
+	    '@ignore-user-list' => url('ignore_user/list'),
+	    array('attributes' => array('class' => 'form-link'))
+	  )
+	)
+	. '</div>',
+    );
+  }//endif module_exists('ignore_user')
+
+  //Bottom separator
   $form['separator_bottom'] = array(
     '#value' => '<div class="separator buttons"></div>',
     '#weight' => 999,
