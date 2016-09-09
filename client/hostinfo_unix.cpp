@@ -537,7 +537,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
             if (strlen(product_name)) {
                 strcat(product_name, " ");
             }
-            strcat(product_name, buf2);
+            safe_strcat(product_name, buf2);
         }
 #endif
 
@@ -581,7 +581,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
                 model_found = true;
                 strlcpy(buf2, strchr(buf, ':') + 1, sizeof(host.p_model) - strlen(host.p_model) - 1);
                 strip_whitespace(buf2);
-                strcat(host.p_model, buf2);
+                safe_strcat(host.p_model, buf2);
             }
         }
 #ifndef __hppa__
@@ -670,15 +670,15 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
         strcat(model_buf, " [");
         if (family>=0) {
             sprintf(buf, "Family %d ", family);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
         if (model>=0) {
             sprintf(buf, "Model %d ", model);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
         if (stepping>=0) {
             sprintf(buf, "Stepping %d", stepping);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
         strcat(model_buf, "]");
     }
@@ -687,23 +687,23 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
         strcat(model_buf, " [");
         if (strlen(implementer)>0) {
             sprintf(buf, "Impl %s ", implementer);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
         if (strlen(architecture)>0) {
             sprintf(buf, "Arch %s ", architecture);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
         if (strlen(variant)>0) {
             sprintf(buf, "Variant %s ", variant);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
         if (strlen(cpu_part)>0) {
             sprintf(buf, "Part %s ", cpu_part);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
         if (strlen(revision)>0) {
             sprintf(buf, "Rev %s", revision);
-            strcat(model_buf, buf);
+            safe_strcat(model_buf, buf);
         }
         strcat(model_buf, "]");
     }
@@ -749,12 +749,12 @@ void use_cpuid(HOST_INFO& host) {
     }
 
     capabilities[0] = '\0';
-    if (hasSSE) strcat(capabilities, "sse ");
-    if (hasSSE2) strcat(capabilities, "sse2 ");
-    if (hasSSE3) strcat(capabilities, "pni ");
-    if (has3DNow) strcat(capabilities, "3dnow ");
-    if (has3DNowExt) strcat(capabilities, "3dnowext ");
-    if (hasMMX) strcat(capabilities, "mmx ");
+    if (hasSSE) safe_strcat(capabilities, "sse ");
+    if (hasSSE2) safe_strcat(capabilities, "sse2 ");
+    if (hasSSE3) safe_strcat(capabilities, "pni ");
+    if (has3DNow) safe_strcat(capabilities, "3dnow ");
+    if (has3DNowExt) safe_strcat(capabilities, "3dnowext ");
+    if (hasMMX) safe_strcat(capabilities, "mmx ");
     strip_whitespace(capabilities);
     char buf[1024];
     snprintf(buf, sizeof(buf), "%s [] [%s]",
@@ -1744,29 +1744,29 @@ int HOST_INFO::get_os_info() {
     if (found_something) {
         strcpy(buf2, "");
         if (strlen(dist_pretty)) {
-            strcat(buf2, dist_pretty);
+            safe_strcat(buf2, dist_pretty);
         } else {
             if (strlen(dist_name)) {
-                strcat(buf2, dist_name);
+                safe_strcat(buf2, dist_name);
                 strcat(buf2, " ");
             }
             if (strlen(dist_version)) {
-                strcat(buf2, dist_version);
+                safe_strcat(buf2, dist_version);
                 strcat(buf2, " ");
             }
             if (strlen(dist_codename)) {
-                strcat(buf2, dist_codename);
+                safe_strcat(buf2, dist_codename);
                 strcat(buf2, " ");
             }
             strip_whitespace(buf2);
         }
         strcat(buf2, " [");
-        strcat(buf2, os_version);
+        safe_strcat(buf2, os_version);
         strcat(buf2, "]");
         safe_strcpy(os_version, buf2);
         if (strlen(dist_name)) {
             strcat(os_name, " ");
-            strcat(os_name, dist_name);
+            safe_strcat(os_name, dist_name);
         }
     }
 #endif //LINUX_LIKE_SYSTEM
