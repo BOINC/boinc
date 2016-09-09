@@ -532,12 +532,14 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
             // Hardware is specifying the board this CPU is on, store it in product_name while we parse /proc/cpuinfo
             strstr(buf, "Hardware\t: ")
         ) {
-            strlcpy(buf2, strchr(buf, ':') + 2, sizeof(product_name) - strlen(product_name) - 1);
+            // this makes sure we only ever copy as much bytes as we can still store in host.product_name
+            int t = sizeof(host.product_name) - strlen(host.product_name) - 2;
+            strlcpy(buf2, strchr(buf, ':') + 2, ((t<sizeof(buf2))?t:sizeof(buf2)));
             strip_whitespace(buf2);
-            if (strlen(product_name)) {
-                strcat(product_name, " ");
+            if (strlen(host.product_name)) {
+                strcat(host.product_name, " ");
             }
-            safe_strcat(product_name, buf2);
+            safe_strcat(host.product_name, buf2);
         }
 #endif
 

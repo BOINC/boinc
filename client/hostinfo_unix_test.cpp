@@ -243,7 +243,9 @@ int main(void) {
             // Hardware is specifying the board this CPU is on, store it in product_name while we parse /proc/cpuinfo
             strstr(buf, "Hardware\t: ")
         ) {
-            strlcpy(buf2, strchr(buf, ':') + 2, sizeof(product_name) - strlen(product_name) - 1);
+            // this makes sure we only ever copy as much bytes as we can still store in host.product_name
+            int t = sizeof(product_name) - strlen(product_name) - 2;
+            strlcpy(buf2, strchr(buf, ':') + 2, ((t<sizeof(buf2))?t:sizeof(buf2)));
             strip_whitespace(buf2);
             if (strlen(product_name)) {
                 strcat(product_name, " ");
