@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-08-31 09:31+0000\n"
+"PO-Revision-Date: 2016-09-09 08:04+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -1426,7 +1426,7 @@ msgstr "Disco"
 #: clientgui/DlgAdvPreferencesBase.cpp:564
 #, c-format
 msgid "%s will use the most restrictive of these settings:"
-msgstr "%s utilizzerà le più restrittive di queste impostazioni:"
+msgstr "%s utilizzerà le impostazioni più restrittive tra le seguenti:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:570 clientgui/sg_DlgPreferences.cpp:335
 #, c-format
@@ -2837,7 +2837,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr "Il programma BOINC di World Community Grid non riesce a\ncomunicare su internet. Le principali ragioni sono:\n\n1) Problemi di connettività. Controlla la tua connessione di rete o\nla connessione del modem e poi riprova l'operazione.\n\n2) Il firewall sta bloccando il progetto BOINC World Community Grid. Devi configurare il tuo\nfirewall per permettere a BOINC di comunicare sulle porte 80 e 443.\nUna volta fatto questo, clicca su indietro e riprova.\n\n3) Stai usando un server proxy e BOINC non è configurato.\nClicca su \"Next\" configurarlo per il proxy."
+msgstr "Il programma BOINC di World Community Grid non riesce a\ncomunicare via internet. Le principali ragioni possono essere:\n\n1) Problemi di connettività. Controlla la tua connessione di rete o\nla connessione del modem e poi riprova l'operazione.\n\n2) Il firewall sta bloccando il progetto BOINC World Community Grid. Devi configurare il tuo\nfirewall per permettere a BOINC di comunicare sulle porte 80 e 443.\nUna volta fatto questo, clicca su indietro e riprova.\n\n3) Stai usando un server proxy e BOINC non è configurato.\nClicca su \"Next\" configurarlo per il proxy."
 
 #: clientgui/ProxyInfoPage.cpp:203
 msgid ""
@@ -3707,7 +3707,7 @@ msgstr "Avvisi di %s"
 #: clientgui/sg_DlgPreferences.cpp:208
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
-msgstr "Per impostazioni aggiuntive, seleziona Preferenze di elaborazione nella Vista avanzata."
+msgstr "Per impostazioni aggiuntive, seleziona Preferenze di elaborazione nella Visuale avanzata."
 
 #: clientgui/sg_DlgPreferences.cpp:346
 msgid "GB of disk space"
