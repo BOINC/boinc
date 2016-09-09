@@ -586,7 +586,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
                 safe_strcat(host.p_model, buf2);
             }
         }
-#ifndef __hppa__
+#if  !defined(__hppa__) && !defined(__aarch64__)
     /* XXX hppa: "cpu family\t: PA-RISC 2.0" */
         if (strstr(buf, "cpu family\t: ") && family<0) {
             family = atoi(buf+strlen("cpu family\t: "));
