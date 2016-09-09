@@ -173,7 +173,8 @@ int main(void) {
 #ifndef __aarch64__
     int family=-1, model=-1, stepping=-1;
 #else
-    int implementer=-1, architecture=-1, variant=-1, cpu_part=-1, revision=-1;
+    char implementer[32], architecture[32], variant[32], cpu_part[32], revision[32];
+    bool model_info_found=false;
 #endif
     char  p_vendor[256], p_model[256], product_name[256];
     char  os_name[256], os_version[256];
@@ -210,7 +211,7 @@ int main(void) {
     strcpy(features, "");
     strcpy(product_name, "");
     while (fgets(buf, 256, f)) {
-        //strip_whitespace(buf);
+        strip_whitespace(buf);
         if (
                 /* there might be conflicts if we dont #ifdef */
 #ifdef __ia64__
@@ -243,7 +244,7 @@ int main(void) {
             strstr(buf, "Hardware\t: ")
         ) {
             strlcpy(buf2, strchr(buf, ':') + 2, sizeof(product_name) - strlen(product_name) - 1);
-            //strip_whitespace(buf2);
+            strip_whitespace(buf2);
             if (strlen(product_name)) {
                 strcat(product_name, " ");
             }
@@ -259,7 +260,7 @@ int main(void) {
             strstr(buf, "Processor\t: ") || strstr(buf, "model name")
 #elif __aarch64__
             // Hardware is a fallback specifying the board this CPU is on (not ideal but better than nothing)
-            strstr(buf, "Processor\t: ") || strstr(buf, "CPU architecture: ") || strstr(buf, "Hardware\t: ")
+            strstr(buf, "model name") || strstr(buf, "Processor") || strstr(buf, "Hardware")
 #else
             strstr(buf, "model name\t: ") || strstr(buf, "cpu model\t\t: ")
 #endif
@@ -287,20 +288,9 @@ int main(void) {
                     continue;    /* skip this line */
                 }
 #endif
-#ifdef __aarch64__
-                /* depending on kernel version, CPU architecture can either be
-                 * a number or a string. If a string, we have a model name, else we don't
-                 */
-                char *testc = NULL;
-                testc = strrchr(buf, ':')+2;
-                if (isdigit(*testc)) {
-                    architecture = atoi(buf+strlen("CPU architecture: "));
-                    continue;    /* skip this line */
-                }
-#endif
                 model_found = true;
                 strlcpy(buf2, strchr(buf, ':') + 2, sizeof(p_model) - strlen(p_model) - 1);
-                //strip_whitespace(buf2);
+                strip_whitespace(buf2);
                 strcat(p_model, buf2);
             }
         }
@@ -324,20 +314,22 @@ int main(void) {
         if (strstr(buf, "stepping\t: ") && stepping<0) {
             stepping = atoi(buf+strlen("stepping\t: "));
         }
-#endif
-
-#ifdef __aarch64__
-        if (strstr(buf, "CPU implementer\t: ") && implementer<0) {
-            implementer = atoi(buf+strlen("CPU implementer\t: "));
+#else
+        if (strstr(buf, "CPU implementer\t: ") && strlen(implementer) == 0) {
+            strlcpy(implementer, strchr(buf, ':') + 2, sizeof(implementer));
+            model_info_found = true;
         }
-        if (strstr(buf, "CPU variant\t: ") && variant<0) {
-            variant = atoi(buf+strlen("CPU variant\t: "));
+        if (strstr(buf, "CPU variant\t: ") && strlen(variant) == 0) {
+            strlcpy(variant, strchr(buf, ':') + 2, sizeof(variant));
+            model_info_found = true;
         }
-        if (strstr(buf, "CPU part\t: ") && cpu_part<0) {
-            cpu_part = atoi(buf+strlen("CPU part\t: "));
+        if (strstr(buf, "CPU part\t: ") && strlen(cpu_part) == 0) {
+            strlcpy(cpu_part, strchr(buf, ':') + 2, sizeof(cpu_part));
+            model_info_found = true;
         }
-        if (strstr(buf, "CPU revision\t: ") && revision<0) {
-            revision = atoi(buf+strlen("CPU revision\t: "));
+        if (strstr(buf, "CPU revision\t: ") && strlen(revision) == 0) {
+            strlcpy(revision, strchr(buf, ':') + 2, sizeof(revision));
+            model_info_found = true;
         }
 #endif
 
@@ -403,26 +395,26 @@ int main(void) {
         strcat(model_buf, "]");
     }
 #else
-    if (implementer>=0 || architecture>=0 || variant>0 || cpu_part>0 || revision>0) {
+    if (model_info_found) {
         strcat(model_buf, " [");
-        if (implementer>=0) {
-            sprintf(buf, "Impl %d ", implementer);
+        if (strlen(implementer)>0) {
+            sprintf(buf, "Impl %s ", implementer);
             strcat(model_buf, buf);
         }
-        if (architecture>=0) {
-            sprintf(buf, "Arch %d ", architecture);
+        if (strlen(architecture)>0) {
+            sprintf(buf, "Arch %s ", architecture);
             strcat(model_buf, buf);
         }
-        if (variant>=0) {
-            sprintf(buf, "Variant %d", variant);
+        if (strlen(variant)>0) {
+            sprintf(buf, "Variant %s ", variant);
             strcat(model_buf, buf);
         }
-        if (cpu_part>=0) {
-            sprintf(buf, "Part %d", cpu_part);
+        if (strlen(cpu_part)>0) {
+            sprintf(buf, "Part %s ", cpu_part);
             strcat(model_buf, buf);
         }
-        if (revision>=0) {
-            sprintf(buf, "Rev %d", revision);
+        if (strlen(revision)>0) {
+            sprintf(buf, "Rev %s", revision);
             strcat(model_buf, buf);
         }
         strcat(model_buf, "]");

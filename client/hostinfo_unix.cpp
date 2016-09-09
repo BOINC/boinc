@@ -456,7 +456,12 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
     bool cache_found=false, features_found=false;
     bool model_hack=false, vendor_hack=false;
     int n;
+#ifndef __aarch64__
     int family=-1, model=-1, stepping=-1;
+#else
+    char implementer[32], architecture[32], variant[32], cpu_part[32], revision[32];
+    bool model_info_found=false;
+#endif
     char buf2[256];
 
     FILE* f = fopen("/proc/cpuinfo", "r");
@@ -545,7 +550,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
             strstr(buf, "Processor\t: ") || strstr(buf, "model name")
 #elif __aarch64__
             // Hardware is a fallback specifying the board this CPU is on (not ideal but better than nothing)
-            strstr(buf, "Processor\t: ") || strstr(buf, "CPU architecture: ") || strstr(buf, "Hardware\t: ")
+            strstr(buf, "model name") || strstr(buf, "Processor") || strstr(buf, "Hardware")
 #else
             strstr(buf, "model name\t: ") || strstr(buf, "cpu model\t\t: ")
 #endif
@@ -573,16 +578,6 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
                     continue;    /* skip this line */
                 }
 #endif
-#ifdef __aarch64__
-                /* depending on kernel version, CPU architecture can either be
-                 * a number or a string. If a string, we have a model name, else we don't
-                 */
-                char *testc = NULL;
-                testc = strrchr(buf, ':')+2;
-                if (isdigit(*testc)) {
-                    continue;    /* skip this line */
-                }
-#endif
                 model_found = true;
                 strlcpy(buf2, strchr(buf, ':') + 1, sizeof(host.p_model) - strlen(host.p_model) - 1);
                 strip_whitespace(buf2);
@@ -604,9 +599,28 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
             model = atoi(buf+strlen("model     : "));
         }
 #endif
+#ifndef __aarch64__
         if (strstr(buf, "stepping\t: ") && stepping<0) {
             stepping = atoi(buf+strlen("stepping\t: "));
         }
+#else
+        if (strstr(buf, "CPU implementer\t: ") && strlen(implementer) == 0) {
+            strlcpy(implementer, strchr(buf, ':') + 2, sizeof(implementer));
+            model_info_found = true;
+        }
+        if (strstr(buf, "CPU variant\t: ") && strlen(variant) == 0) {
+            strlcpy(variant, strchr(buf, ':') + 2, sizeof(variant));
+            model_info_found = true;
+        }
+        if (strstr(buf, "CPU part\t: ") && strlen(cpu_part) == 0) {
+            strlcpy(cpu_part, strchr(buf, ':') + 2, sizeof(cpu_part));
+            model_info_found = true;
+        }
+        if (strstr(buf, "CPU revision\t: ") && strlen(revision) == 0) {
+            strlcpy(revision, strchr(buf, ':') + 2, sizeof(revision));
+            model_info_found = true;
+        }
+#endif
 #ifdef __hppa__
         bool icache_found=false,dcache_found=false;
         if (!icache_found && strstr(buf, "I-cache\t\t: ")) {
@@ -651,6 +665,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
         }
     }
     safe_strcpy(model_buf, host.p_model);
+#ifndef __aarch64__
     if (family>=0 || model>=0 || stepping>0) {
         strcat(model_buf, " [");
         if (family>=0) {
@@ -667,6 +682,32 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
         }
         strcat(model_buf, "]");
     }
+#else
+    if (model_info_found) {
+        strcat(model_buf, " [");
+        if (strlen(implementer)>0) {
+            sprintf(buf, "Impl %s ", implementer);
+            strcat(model_buf, buf);
+        }
+        if (strlen(architecture)>0) {
+            sprintf(buf, "Arch %s ", architecture);
+            strcat(model_buf, buf);
+        }
+        if (strlen(variant)>0) {
+            sprintf(buf, "Variant %s ", variant);
+            strcat(model_buf, buf);
+        }
+        if (strlen(cpu_part)>0) {
+            sprintf(buf, "Part %s ", cpu_part);
+            strcat(model_buf, buf);
+        }
+        if (strlen(revision)>0) {
+            sprintf(buf, "Rev %s", revision);
+            strcat(model_buf, buf);
+        }
+        strcat(model_buf, "]");
+    }
+#endif
     if (strlen(features)) {
         safe_strcpy(host.p_features, features);
     }
