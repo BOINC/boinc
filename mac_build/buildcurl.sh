@@ -30,7 +30,7 @@
 # Updated 11/17/14 for curl 7.39.0 with c-ares 1.10.0
 # Updated 12/11/15 for curl 7.46.0 with c-ares 1.10.0
 # Updated 3/2/16 for curl 7.47.1 with c-ares 1.10.0
-# Updated 11/10/16 for curl 7.50.2 with c-ares 1.11.0
+# Updated 9/10/16 for curl 7.50.2 with c-ares 1.11.0
 #
 ## This script requires OS 10.6 or later
 #

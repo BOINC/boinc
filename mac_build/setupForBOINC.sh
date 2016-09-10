@@ -38,7 +38,7 @@
 # Updated 11/30/15 to return error code indicating which builds failed
 # Updated 1/6/16 for curl 7.46.0, openssl 1.0.2e, sqlite 3.9.2, FreeType-2.6.2
 # Updated 3/2/16 for curl 7.47.1, openssl 1.0.2g, sqlite 3.11.0
-# Updated 11/9/16 for c-ares 1.11.0, curl 7.50.2, openssl 1.1.0
+# Updated 9/10/16 for c-ares 1.11.0, curl 7.50.2, openssl 1.1.0
 #
 # Download these seven packages and place them in a common parent directory
 # with the BOINC source tree. For compatibility with Travis CI builds, they

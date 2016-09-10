@@ -27,7 +27,7 @@
 # Updated 7/10/12 for Xcode 4.3 and later which are not at a fixed address
 # Updated 2/11/14 for c-ares 1.10.0
 # Updated 9/2/14 for bulding c-ares as 64-bit binary
-# Updated 11/10/16 for bulding c-ares 1.11.0
+# Updated 9/10/16 for bulding c-ares 1.11.0
 #
 ## This script requires OS 10.6 or later
 #

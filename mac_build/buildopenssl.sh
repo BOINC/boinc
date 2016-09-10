@@ -31,7 +31,7 @@
 # Updated 6/6/14 for openssl-1.0.1j
 # Updated 12/11/15 for openssl-1.0.2e
 # Updated 3/2/16 for openssl-1.0.2g
-# Updated 11/9/16 for openssl-1.1.0
+# Updated 9/10/16 for openssl-1.1.0
 #
 ## This script requires OS 10.6 or later
 #
