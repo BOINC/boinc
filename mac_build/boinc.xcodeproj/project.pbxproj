@@ -3827,8 +3827,14 @@
 					i386,
 					x86_64,
 				);
-				HEADER_SEARCH_PATHS = ../lib;
-				LIBRARY_SEARCH_PATHS = ../lib;
+				HEADER_SEARCH_PATHS = (
+					../lib,
+					"../mac3rdParty/ssl-1.1.0/include",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					../lib,
+					"../mac3rdParty/ssl-1.1.0/",
+				);
 				"OTHER_CFLAGS[arch=ppc]" = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
@@ -3882,9 +3888,11 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.47.1/include";
+				HEADER_SEARCH_PATHS = (
+					"../mac3rdParty/curl-7.50.2/include",
+					"../mac3rdParty/openssl-1.1.0/include",
+				);
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
-				LIBRARY_SEARCH_PATHS = "";
 				"OTHER_CFLAGS[arch=x86_64]" = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
@@ -3894,16 +3902,16 @@
 				);
 				OTHER_LDFLAGS = (
 					"-L.",
-					"../mac3rdParty/curl-7.47.1/lib/.libs/libcurl.a",
-					"../mac3rdParty/c-ares-1.10.0/.libs/libcares.a",
-					"../mac3rdParty/openssl-1.0.2g/libcrypto.a",
-					"../mac3rdParty/openssl-1.0.2g/libssl.a",
+					"../mac3rdParty/curl-7.50.2/lib/.libs/libcurl.a",
+					"../mac3rdParty/c-ares-1.11.0/.libs/libcares.a",
+					"../mac3rdParty/openssl-1.1.0/libcrypto.a",
+					"../mac3rdParty/openssl-1.1.0/libssl.a",
 					"-lldap",
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.47.1/include";
+				USER_HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.50.2/include ../mac3rdParty/openssl-1.1.0/include";
 			};
 			name = Deployment;
 		};
@@ -4013,8 +4021,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				HEADER_SEARCH_PATHS = ../lib;
-				LIBRARY_SEARCH_PATHS = ../lib;
+				HEADER_SEARCH_PATHS = (
+					../lib,
+					"../mac3rdParty/ssl-1.1.0/include",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					../lib,
+					"../mac3rdParty/ssl-1.1.0/",
+				);
 				PRODUCT_NAME = boinc_api;
 			};
 			name = Development;
@@ -4054,9 +4068,11 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.47.1/include";
+				HEADER_SEARCH_PATHS = (
+					"../mac3rdParty/curl-7.50.2/include",
+					"../mac3rdParty/openssl-1.1.0/include",
+				);
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
-				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-D_DEBUG",
@@ -4065,16 +4081,16 @@
 				);
 				OTHER_LDFLAGS = (
 					"-L.",
-					"../mac3rdParty/curl-7.47.1/lib/.libs/libcurl.a",
-					"../mac3rdParty/c-ares-1.10.0/.libs/libcares.a",
-					"../mac3rdParty/openssl-1.0.2g/libcrypto.a",
-					"../mac3rdParty/openssl-1.0.2g/libssl.a",
+					"../mac3rdParty/curl-7.50.2/lib/.libs/libcurl.a",
+					"../mac3rdParty/c-ares-1.11.0/.libs/libcares.a",
+					"../mac3rdParty/openssl-1.1.0/libcrypto.a",
+					"../mac3rdParty/openssl-1.1.0/libssl.a",
 					"-lldap",
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.47.1/include";
+				USER_HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.50.2/include ../mac3rdParty/openssl-1.1.0/include";
 			};
 			name = Development;
 		};
