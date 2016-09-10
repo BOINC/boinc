@@ -3827,14 +3827,8 @@
 					i386,
 					x86_64,
 				);
-				HEADER_SEARCH_PATHS = (
-					../lib,
-					"../mac3rdParty/ssl-1.1.0/include",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					../lib,
-					"../mac3rdParty/ssl-1.1.0/",
-				);
+				HEADER_SEARCH_PATHS = ../lib;
+				LIBRARY_SEARCH_PATHS = ../lib;
 				"OTHER_CFLAGS[arch=ppc]" = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
@@ -4021,14 +4015,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				HEADER_SEARCH_PATHS = (
-					../lib,
-					"../mac3rdParty/ssl-1.1.0/include",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					../lib,
-					"../mac3rdParty/ssl-1.1.0/",
-				);
+				HEADER_SEARCH_PATHS = ../lib;
+				LIBRARY_SEARCH_PATHS = ../lib;
 				PRODUCT_NAME = boinc_api;
 			};
 			name = Development;
