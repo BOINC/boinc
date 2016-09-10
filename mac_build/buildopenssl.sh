@@ -18,7 +18,7 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build Macintosh 32-bit Intel openssl-1.1.0 libraries
+# Script to build Macintosh 32-bit Intel openssl-1.0.2g libraries 
 # libcrypto.a and libssl.a for use in building BOINC.
 #
 # by Charlie Fenton 6/25/12
@@ -31,7 +31,6 @@
 # Updated 6/6/14 for openssl-1.0.1j
 # Updated 12/11/15 for openssl-1.0.2e
 # Updated 3/2/16 for openssl-1.0.2g
-# Updated 11/9/16 for openssl-1.1.0
 #
 ## This script requires OS 10.6 or later
 #
@@ -39,8 +38,8 @@
 ## and clicked the Install button on the dialog which appears to 
 ## complete the Xcode installation before running this script.
 #
-## In Terminal, CD to the openssl-1.1.0 directory.
-##     cd [path]/openssl-1.1.0/
+## In Terminal, CD to the openssl-1.0.2g directory.
+##     cd [path]/openssl-1.0.2g/
 ## then run this script:
 ##     source [path]/buildopenssl.sh [ -clean ]
 ##
@@ -49,7 +48,7 @@
 
 if [ "$1" != "-clean" ]; then
     if [ -f libssl.a ]&& [ -f libcrypto.a ]; then
-        echo "openssl-1.1.0 libraries already built"
+        echo "openssl-1.0.2g libraries already built"
         return 0
     fi
 fi
@@ -95,10 +94,10 @@ if [  $? -ne 0 ]; then return 1; fi
 
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export LDFLAGS="-Wl,-sysroot,${SDKPATH},-syslibroot,${SDKPATH},-arch,x86_64"
-export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
-export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1060 -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
+export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1050 -DMAC_OS_X_VERSION_MIN_REQUIRED=1050"
+export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1050 -DMAC_OS_X_VERSION_MIN_REQUIRED=1050"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.6
+export MACOSX_DEPLOYMENT_TARGET=10.5
 export LIBRARY_PATH="${SDKPATH}/usr/lib"
 
 ./configure no-shared darwin64-x86_64-cc
@@ -108,7 +107,7 @@ if [ "$1" = "-clean" ]; then
     make clean
 fi
 
-make
+make build_crypto build_ssl build_engines
 if [  $? -ne 0 ]; then return 1; fi
 
 export CC="";export CXX=""

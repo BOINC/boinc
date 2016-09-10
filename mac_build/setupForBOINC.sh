@@ -19,7 +19,7 @@
 #
 #
 # Master script to build Universal Binary libraries needed by BOINC:
-# curl-7.47.1 with c-ares-1.10.0, openssl-1.1.0, wxWidgets-3.0.0,
+# curl-7.47.1 with c-ares-1.10.0, openssl-1.0.2g, wxWidgets-3.0.0,
 # sqlite-3.11.0, FreeType-2.4.10 and FTGL-2.1.3
 #
 # by Charlie Fenton 7/21/06
@@ -38,7 +38,6 @@
 # Updated 11/30/15 to return error code indicating which builds failed
 # Updated 1/6/16 for curl 7.46.0, openssl 1.0.2e, sqlite 3.9.2, FreeType-2.6.2
 # Updated 3/2/16 for curl 7.47.1, openssl 1.0.2g, sqlite 3.11.0
-# Updated 11/9/16 for c-ares 1.11.0, curl 7.50.2, openssl 1.1.0
 #
 # Download these seven packages and place them in a common parent directory
 # with the BOINC source tree. For compatibility with Travis CI builds, they
@@ -92,31 +91,13 @@ fi
 
 echo ""
 echo "----------------------------------"
-echo "----- BUILD OPENSSL-1.1.0 -------"
+echo "------- BUILD C-ARES-1.10.0 ------"
 echo "----------------------------------"
 echo ""
 
-make_symlink_if_needed openssl-1.1.0
+make_symlink_if_needed c-ares-1.10.0
 
-cd ../mac3rdParty/openssl-1.1.0/
-if [  $? -eq 0 ]; then
-    source "${SCRIPT_DIR}/buildopenssl.sh" ${cleanit}
-    if [  $? -eq 0 ]; then
-        opensslOK="YES"
-    fi
-fi
-
-cd "${SCRIPT_DIR}"
-
-echo ""
-echo "----------------------------------"
-echo "------- BUILD C-ARES-1.11.0 ------"
-echo "----------------------------------"
-echo ""
-
-make_symlink_if_needed c-ares-1.11.0
-
-cd ../mac3rdParty/c-ares-1.11.0/
+cd ../mac3rdParty/c-ares-1.10.0/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildc-ares.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -128,17 +109,35 @@ cd "${SCRIPT_DIR}"
 
 echo ""
 echo "----------------------------------"
-echo "------- BUILD CURL-7.50.2 --------"
+echo "------- BUILD CURL-7.47.1 --------"
 echo "----------------------------------"
 echo ""
 
-make_symlink_if_needed curl-7.50.2
+make_symlink_if_needed curl-7.47.1
 
-cd ../mac3rdParty/curl-7.50.2/
+cd ../mac3rdParty/curl-7.47.1/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildcurl.sh" ${cleanit}
     if [  $? -eq 0 ]; then
         curlOK="YES"
+    fi
+fi
+
+cd "${SCRIPT_DIR}"
+
+echo ""
+echo "----------------------------------"
+echo "----- BUILD OPENSSL-1.0.2g -------"
+echo "----------------------------------"
+echo ""
+
+make_symlink_if_needed openssl-1.0.2g
+
+cd ../mac3rdParty/openssl-1.0.2g/
+if [  $? -eq 0 ]; then
+    source "${SCRIPT_DIR}/buildopenssl.sh" ${cleanit}
+    if [  $? -eq 0 ]; then
+        opensslOK="YES"
     fi
 fi
 
@@ -221,7 +220,7 @@ if [ "${caresOK}" = "NO" ]; then
     echo "-----------------------------------"
     echo "------------ WARNING --------------"
     echo "------------         --------------"
-    echo "-- COULD NOT BUILD C-ARES-1.11.0 --"
+    echo "-- COULD NOT BUILD C-ARES-1.10.0 --"
     echo "-----------------------------------"
     echo ""
 
@@ -233,7 +232,7 @@ if [ "${curlOK}" = "NO" ]; then
     echo "-----------------------------------"
     echo "------------ WARNING --------------"
     echo "------------         --------------"
-    echo "--- COULD NOT BUILD CURL-7.50.2 ---"
+    echo "--- COULD NOT BUILD CURL-7.47.1 ---"
     echo "-----------------------------------"
     echo ""
 
@@ -245,7 +244,7 @@ if [ "${opensslOK}" = "NO" ]; then
     echo "----------------------------------"
     echo "------------ WARNING -------------"
     echo "------------         -------------"
-    echo "- COULD NOT BUILD OPENSSL-1.1.0 -"
+    echo "- COULD NOT BUILD OPENSSL-1.0.2g -"
     echo "----------------------------------"
     echo ""
     
