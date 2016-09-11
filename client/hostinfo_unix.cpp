@@ -459,7 +459,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 #ifndef __aarch64__
     int family=-1, model=-1, stepping=-1;
 #else
-    char implementer[32], architecture[32], variant[32], cpu_part[32], revision[32];
+    char implementer[32] = {0}, architecture[32] = {0}, variant[32] = {0}, cpu_part[32] = {0}, revision[32] = {0};
     bool model_info_found=false;
 #endif
     char buf2[256];
@@ -606,19 +606,23 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
             stepping = atoi(buf+strlen("stepping\t: "));
         }
 #else
-        if (strstr(buf, "CPU implementer\t: ") && strlen(implementer) == 0) {
+        if (strstr(buf, "CPU implementer") && strlen(implementer) == 0) {
             strlcpy(implementer, strchr(buf, ':') + 2, sizeof(implementer));
             model_info_found = true;
         }
-        if (strstr(buf, "CPU variant\t: ") && strlen(variant) == 0) {
+        if (strstr(buf, "CPU architecture") && strlen(architecture) == 0) {
+            strlcpy(architecture, strchr(buf, ':') + 2, sizeof(architecture));
+            model_info_found = true;
+        }
+        if (strstr(buf, "CPU variant") && strlen(variant) == 0) {
             strlcpy(variant, strchr(buf, ':') + 2, sizeof(variant));
             model_info_found = true;
         }
-        if (strstr(buf, "CPU part\t: ") && strlen(cpu_part) == 0) {
+        if (strstr(buf, "CPU part") && strlen(cpu_part) == 0) {
             strlcpy(cpu_part, strchr(buf, ':') + 2, sizeof(cpu_part));
             model_info_found = true;
         }
-        if (strstr(buf, "CPU revision\t: ") && strlen(revision) == 0) {
+        if (strstr(buf, "CPU revision") && strlen(revision) == 0) {
             strlcpy(revision, strchr(buf, ':') + 2, sizeof(revision));
             model_info_found = true;
         }
