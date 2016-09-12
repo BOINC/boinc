@@ -18,7 +18,7 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build Macintosh 32-bit Intel library of c-ares-1.10.0 for
+# Script to build Macintosh 64-bit Intel library of c-ares-1.11.0 for
 # use in building BOINC.
 #
 # by Charlie Fenton 7/21/06
@@ -27,6 +27,7 @@
 # Updated 7/10/12 for Xcode 4.3 and later which are not at a fixed address
 # Updated 2/11/14 for c-ares 1.10.0
 # Updated 9/2/14 for bulding c-ares as 64-bit binary
+# Updated 9/10/16 for bulding c-ares 1.11.0
 #
 ## This script requires OS 10.6 or later
 #
@@ -34,8 +35,8 @@
 ## and clicked the Install button on the dialog which appears to 
 ## complete the Xcode installation before running this script.
 #
-## In Terminal, CD to the c-ares-1.10.0 directory.
-##     cd [path]/c-ares-1.10.0/
+## In Terminal, CD to the c-ares-1.11.0 directory.
+##     cd [path]/c-ares-1.11.0/
 ## then run this script:
 ##     source [path]/buildc-ares.sh [ -clean ]
 ##
@@ -44,7 +45,7 @@
 
 if [ "$1" != "-clean" ]; then
     if [ -f .libs/libcares.a ]; then
-        echo "c-ares-1.10.0 already built"
+        echo "c-ares-1.11.0 already built"
         return 0
     fi
 fi
@@ -90,10 +91,12 @@ export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
 export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64"
 export CFLAGS="-isysroot ${SDKPATH} -arch x86_64"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.5
-export MAC_OS_X_VERSION_MAX_ALLOWED=1050
-export MAC_OS_X_VERSION_MIN_REQUIRED=1050
+export MACOSX_DEPLOYMENT_TARGET=10.6
+export MAC_OS_X_VERSION_MAX_ALLOWED=1060
+export MAC_OS_X_VERSION_MIN_REQUIRED=1060
 
+# We configure c-ares to install at /tmp/installed-c-ares for use by our
+# buildcurl.sh script
 ./configure --enable-shared=NO prefix=/tmp/installed-c-ares --host=x86_64
 if [  $? -ne 0 ]; then return 1; fi
 

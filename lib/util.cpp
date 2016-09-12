@@ -21,6 +21,7 @@
 #else
 #include "stdwx.h"
 #endif
+#include "str_replace.h"
 #include "win_util.h"
 #endif
 

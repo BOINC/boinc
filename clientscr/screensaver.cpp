@@ -273,8 +273,9 @@ int CScreensaver::terminate_v6_screensaver(GFXAPP_ID& graphics_application) {
 
 
 // Terminate the project (science) graphics application
+// TODO: get rid of 2nd arg
 //
-int CScreensaver::terminate_screensaver(GFXAPP_ID& graphics_application, RESULT *worker_app) {
+int CScreensaver::terminate_screensaver(GFXAPP_ID& graphics_application, RESULT *) {
     int retval = 0;
 
     if (graphics_application) {

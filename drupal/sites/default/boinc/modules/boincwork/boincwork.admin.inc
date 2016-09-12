@@ -166,7 +166,6 @@ function boincwork_admin_prefs_presets_form_validate($form, &$form_state) {
   if (!verify_numeric($values['processor']['start_hour'], 0, 23)) form_set_error('start_hour', t('Invalid setting for') . " \"{$form['processor']['start_hour']['#title']} [x] {$form['processor']['start_hour']['#field_suffix']}\"");
   if (!verify_numeric($values['processor']['end_hour'], 0, 23)) form_set_error('end_hour', t('Invalid setting for') . " \"{$form['processor']['end_hour']['#title']} [x] {$form['processor']['end_hour']['#field_suffix']}\"");
   if (!verify_numeric($values['processor']['cpu_scheduling_period_minutes'], 1, 9999)) form_set_error('cpu_scheduling_period_minutes', t('Invalid setting for') . " \"{$form['processor']['cpu_scheduling_period_minutes']['#title']} [x] {$form['processor']['cpu_scheduling_period_minutes']['#field_suffix']}\"");
-  if (!verify_numeric($values['processor']['max_cpus'], 0, 9999)) form_set_error('max_cpus', t('Invalid setting for') . " \"{$form['processor']['max_cpus']['#title']} [x] {$form['processor']['max_cpus']['#field_suffix']}\"");
   if (!verify_numeric($values['processor']['max_ncpus_pct'], 0, 100)) form_set_error('max_ncpus_pct', t('Invalid setting for') . " \"{$form['processor']['max_ncpus_pct']['#title']} [x] {$form['processor']['max_ncpus_pct']['#field_suffix']}\"");
   if (!verify_numeric($values['processor']['cpu_usage_limit'], 0, 100)) form_set_error('cpu_usage_limit', t('Invalid setting for') . " \"{$form['processor']['cpu_usage_limit']['#title']} [x] {$form['processor']['cpu_usage_limit']['#field_suffix']}\"");
 
@@ -201,9 +200,9 @@ function boincwork_admin_prefs_presets_form_submit($form, &$form_state) {
   $prefs = boincwork_get_preset_prefs($preset);
   
   // Processing preferences
-  $prefs['run_on_batteries'] = ($values['processor']['run_on_batteries']) ? 1 : 0;
-  $prefs['run_if_user_active'] = ($values['processor']['run_if_user_active']) ? 1 : 0;
-  $prefs['run_gpu_if_user_active'] = ($values['processor']['run_gpu_if_user_active']) ? 1: 0;
+  $prefs['run_on_batteries'] = ($values['processor']['run_on_batteries']) ? 0 : 1;
+  $prefs['run_if_user_active'] = ($values['processor']['run_if_user_active']) ? 0 : 1;
+  $prefs['run_gpu_if_user_active'] = ($values['processor']['run_gpu_if_user_active']) ? 0: 1;
   $prefs['idle_time_to_run'] = $values['processor']['idle_time_to_run'];
   $prefs['suspend_if_no_recent_input'] = $values['processor']['suspend_if_no_recent_input'];
   $prefs['suspend_cpu_usage'] = $values['processor']['suspend_cpu_usage'];
@@ -211,7 +210,6 @@ function boincwork_admin_prefs_presets_form_submit($form, &$form_state) {
   $prefs['end_hour'] = $values['processor']['end_hour'];
   $prefs['leave_apps_in_memory'] = ($values['processor']['leave_apps_in_memory']) ? 1 : 0;
   $prefs['cpu_scheduling_period_minutes'] = $values['processor']['cpu_scheduling_period_minutes'];
-  $prefs['max_cpus'] = $values['processor']['max_cpus'];
   $prefs['max_ncpus_pct'] = $values['processor']['max_ncpus_pct'];
   $prefs['cpu_usage_limit'] = $values['processor']['cpu_usage_limit'];
   

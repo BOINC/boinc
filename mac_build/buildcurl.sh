@@ -18,7 +18,7 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build Macintosh 32-bit Intel library of curl-7.47.1 for
+# Script to build Macintosh 32-bit Intel library of curl-7.50.2 for
 # use in building BOINC.
 #
 # by Charlie Fenton 7/21/06
@@ -30,6 +30,7 @@
 # Updated 11/17/14 for curl 7.39.0 with c-ares 1.10.0
 # Updated 12/11/15 for curl 7.46.0 with c-ares 1.10.0
 # Updated 3/2/16 for curl 7.47.1 with c-ares 1.10.0
+# Updated 9/10/16 for curl 7.50.2 with c-ares 1.11.0
 #
 ## This script requires OS 10.6 or later
 #
@@ -37,8 +38,8 @@
 ## and clicked the Install button on the dialog which appears to 
 ## complete the Xcode installation before running this script.
 #
-## In Terminal, CD to the curl-7.47.1 directory.
-##     cd [path]/curl-7.47.1/
+## In Terminal, CD to the curl-7.50.2 directory.
+##     cd [path]/curl-7.50.2/
 ## then run this script:
 ##     source [path]/buildcurl.sh [ -clean ]
 ##
@@ -47,7 +48,7 @@
 
 if [ "$1" != "-clean" ]; then
     if [ -f lib/.libs/libcurl.a ]; then
-        echo "curl-7.47.1 already built"
+        echo "curl-7.50.2 already built"
         return 0
     fi
 fi
@@ -87,9 +88,10 @@ export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":/usr/local/bin:$PATH
 SDKPATH=`xcodebuild -version -sdk macosx Path`
 
 CURL_DIR=`pwd`
-# curl configure and make expect a path to _installed_ c-ares-1.10.0
+# curl configure and make expect a path to _installed_ c-ares-1.11.0
 # so temporarily install c-ares at a path that does not contain spaces.
-cd ../c-ares-1.10.0
+# buildc-ares.sh script configured c-ares with prefix=/tmp/installed-c-ares
+cd ../c-ares-1.11.0
 make install 
 cd "${CURL_DIR}"
 
@@ -100,34 +102,16 @@ if [  $? -ne 0 ]; then return 1; fi
 
 export PATH=/usr/local/bin:$PATH
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
-export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64"
-export CFLAGS="-isysroot ${SDKPATH} -arch x86_64"
+export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64 -L${CURL_DIR}/../openssl-1.1.0 "
+export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -I${CURL_DIR}/../openssl-1.1.0/include"
+export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -I${CURL_DIR}/../openssl-1.1.0/include"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.5
-export MAC_OS_X_VERSION_MAX_ALLOWED=1050
-export MAC_OS_X_VERSION_MIN_REQUIRED=1050
+export MACOSX_DEPLOYMENT_TARGET=10.6
+export MAC_OS_X_VERSION_MAX_ALLOWED=1060
+export MAC_OS_X_VERSION_MIN_REQUIRED=1060
 
 ./configure --enable-shared=NO --enable-ares=/tmp/installed-c-ares --host=x86_64
 if [  $? -ne 0 ]; then return 1; fi
-
-echo ""
-
-## Work around a conflict with OpenSSL-1.0.2g
-# Patch lib/curl_config.h
-rm -f lib/curl_config.h.orig ]
-
-cat >> /tmp/scurl_config_h_diff << ENDOFFILE
---- lib/curl_config.h
-+++ lib/curl_config_patched.h
-@@ -602,2 +602,2 @@
--#define HAVE_SSLV2_CLIENT_METHOD 1
-+/* #undef HAVE_SSLV2_CLIENT_METHOD 1 */
- 
-ENDOFFILE
-
-patch -bfi /tmp/scurl_config_h_diff lib/curl_config.h
-rm -f /tmp/scurl_config_h_diff
 
 echo ""
 
