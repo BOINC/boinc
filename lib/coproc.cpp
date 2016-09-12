@@ -276,8 +276,8 @@ void COPROCS::write_xml(MIOFILE& mf, bool scheduler_rpc) {
     }
     
     mf.printf("    </coprocs>\n");
-#endif
 }
+#endif
 
 void COPROC_NVIDIA::description(char* buf, int buflen) {
     char vers[256], cuda_vers[256];
