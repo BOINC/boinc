@@ -56,6 +56,17 @@ static struct random_init {
 #define ESCAPE(x) escape_string(x, sizeof(x))
 #define UNESCAPE(x) unescape_string(x, sizeof(x))
 
+#define strcpy2(x, y) \
+    { \
+        const char* z = y; \
+        if (!z) { \
+            x[0]=0; \
+        } else { \
+            strlcpy(x, z, sizeof(x)); \
+        } \
+    }
+
+
 void PLATFORM::clear() {memset(this, 0, sizeof(*this));}
 void APP::clear() {memset(this, 0, sizeof(*this));}
 void APP_VERSION::clear() {memset(this, 0, sizeof(*this));}
