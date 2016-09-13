@@ -786,3 +786,49 @@ bool is_valid_filename(const char* name) {
     }
     return true;
 }
+
+// safely copy a string to char array
+//
+char* safe_copy(string s) {
+    char *p = new char[s.size()+1];
+    std::copy(s.begin(), s.end(), p);
+    p[s.size()]= '\0';
+    return p;
+}
+
+// get the name part of a filepath
+// returns:
+//   0 on success
+//  -1 when fpath is empty
+//  -2 when fpath is a directory
+int path_to_filename(string fpath, string& fname) {
+    std::string::size_type n;
+    if (fpath.size() == 0) {
+        return -1;
+    }
+    n = fpath.rfind("/");
+    if (n == std::string::npos) {
+        fname = fpath;
+    } else if (n == fpath.size()-1) {
+        return -2;
+    } else {
+        fname = fpath.substr(n+1);
+    }
+    return 0;
+}
+
+// get the name part of a filepath
+//
+// wrapper for path_to_filename(string, string&)
+int path_to_filename(string fpath, char* &fname) {
+    string name;
+    int ret;
+    if (ret = path_to_filename(fpath, name)) {
+        return ret;
+    } else {
+        fname = new char[name.size()+1];
+        std::copy(name.begin(), name.end(), fname);
+        fname[name.size()]= '\0';
+    }
+    return 0;
+}
