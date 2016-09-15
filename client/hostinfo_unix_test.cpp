@@ -170,7 +170,7 @@ int main(void) {
     bool icache_found=false,dcache_found=false;
     bool model_hack=false, vendor_hack=false;
     int n;
-#ifndef __aarch64__
+#if !defined(__aarch64__) && !defined(__arm__)
     int family=-1, model=-1, stepping=-1;
 #else
     char implementer[32] = {0}, architecture[32] = {0}, variant[32] = {0}, cpu_part[32] = {0}, revision[32] = {0};
@@ -199,13 +199,9 @@ int main(void) {
 #elif __ia64__
     strcpy(p_model, "IA-64 ");
     model_hack = true;
-#elif __arm__
+#elif defined(__arm__) || defined(__aarch64__)
     strcpy(p_vendor, "ARM ");
     vendor_hack = vendor_found = true;
-#elif __aarch64__
-    strcpy(p_vendor, "ARM ");
-    vendor_hack = vendor_found = true;
-    model_hack = true;
 #endif
 
     strcpy(features, "");
@@ -238,7 +234,7 @@ int main(void) {
             }
         }
 
-#ifdef __aarch64__
+#if defined(__aarch64__) || defined(__arm__)
         if (
             // Hardware is specifying the board this CPU is on, store it in product_name while we parse /proc/cpuinfo
             strstr(buf, "Hardware\t: ")
@@ -258,9 +254,9 @@ int main(void) {
             strstr(buf, "family     : ") || strstr(buf, "model name : ")
 #elif __powerpc__ || __sparc__
             strstr(buf, "cpu\t\t: ")
-#elif __arm__
-            strstr(buf, "Processor\t: ") || strstr(buf, "model name")
-#elif __aarch64__
+//#elif __arm__
+//            strstr(buf, "Processor\t: ") || strstr(buf, "model name")
+#elif defined(__aarch64__) || defined(__arm__)
             // Hardware is a fallback specifying the board this CPU is on (not ideal but better than nothing)
             strstr(buf, "model name") || strstr(buf, "Processor") || strstr(buf, "Hardware")
 #else
@@ -297,7 +293,7 @@ int main(void) {
             }
         }
 
-#if  !defined(__hppa__) && !defined(__aarch64__)
+#if  !defined(__hppa__) && !defined(__aarch64__) && !defined(__arm__)
     /* XXX hppa: "cpu family\t: PA-RISC 2.0" */
         if (strstr(buf, "cpu family\t: ") && family<0) {
             family = atoi(buf+strlen("cpu family\t: "));
@@ -312,7 +308,7 @@ int main(void) {
             model = atoi(buf+strlen("model     : "));
         }
 #endif
-#ifndef __aarch64__
+#if !defined(__aarch64__) && !defined(__arm__)
         if (strstr(buf, "stepping\t: ") && stepping<0) {
             stepping = atoi(buf+strlen("stepping\t: "));
         }
@@ -383,7 +379,7 @@ int main(void) {
         }
     }
     strlcpy(model_buf, p_model, sizeof(model_buf));
-#ifndef __aarch64__
+#if !defined(__aarch64__) && !defined(__arm__)
     if (family>=0 || model>=0 || stepping>0) {
         strcat(model_buf, " [");
         if (family>=0) {
