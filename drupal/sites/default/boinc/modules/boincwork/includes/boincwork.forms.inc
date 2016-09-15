@@ -36,8 +36,15 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     }
     
     // Determine if a preset is selected or if these are custom settings
-    if (!isset($prefs['@attributes']['preset'])) $prefs['@attributes']['preset'] = 'custom';
-    if (!$prefs_preset) $prefs_preset = $prefs['@attributes']['preset'];
+    // transform old way to store the preset into new way
+    if (isset($prefs['@attributes']['preset'])) {
+        $prefs['preset'] = $prefs['@attributes']['preset'];
+        unset($prefs['@attributes']['preset']);
+    }
+    if (!isset($prefs['preset'])) {
+        $prefs['preset'] = 'custom';
+    }
+    if (!$prefs_preset) $prefs_preset = $prefs['preset'];
   }
   
   // Define form defaults
@@ -621,12 +628,12 @@ function boincwork_generalprefs_form_submit($form, &$form_state) {
   
   // Save the preset selection (or lack thereof)
   if (!$preset OR $preset == 'custom') {
-    if (isset($prefs['@attributes']['preset'])) {
-      unset($prefs['@attributes']['preset']);
+    if (isset($prefs['preset'])) {
+      unset($prefs['preset']);
     }
   }
   else {
-    $prefs['@attributes']['preset'] = $preset;
+    $prefs['preset'] = $preset;
   }
   
   // If this is a new preference set, be sure to unset the "cleared" attribute
