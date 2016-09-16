@@ -625,7 +625,13 @@ function boincwork_generalprefs_form_submit($form, &$form_state) {
   $prefs['daily_xfer_limit_mb'] = $values['network']['daily_xfer_limit_mb'];
   $prefs['daily_xfer_period_days'] = $values['network']['daily_xfer_period_days'];
   $prefs['dont_verify_images'] = ($values['network']['dont_verify_images']) ? 1 : 0;
-  
+
+  // transform old way to store the preset into new way
+  // ideally this should already have happened in boincwork_generalprefs_form()
+  if (isset($prefs['@attributes']['preset'])) {
+    $prefs['preset'] = $prefs['@attributes']['preset'];
+    unset($prefs['@attributes']['preset']);
+  }
   // Save the preset selection (or lack thereof)
   if (!$preset OR $preset == 'custom') {
     if (isset($prefs['preset'])) {
