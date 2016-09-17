@@ -200,7 +200,7 @@
   <string name="projects_add">Pripojiť sa k projektu</string>
   <string name="projects_icon">Ikona projektu</string>
   <string name="projects_credits">Kredit:</string>
-  <string name="projects_credits_host_and_user">%1$,d (na tomto zariadení) %2$,d (spolu)</string>
+  <string name="projects_credits_host_and_user">%1$,d (na tomto zariadení) %2$,d (celkom)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">Pozastavené používateľom</string>
   <string name="projects_status_dontrequestmorework">Nebudú získané nové úlohy</string>
@@ -335,11 +335,16 @@
   <string name="about_version">Verzia</string>
   <string name="about_name_long">(Otvorená infraštruktúra pre sieťové výpočty z Berkeley)
 (Berkeley Open Infrastructure for Network Computing)</string>
-    <string name="about_copyright">\u00A9 2003–2016 Kalifornská Univerzita, Berkeley.</string>
+  <string name="about_copyright">\u00A9 2003–2016 Kalifornská Univerzita, Berkley.</string>
   <string name="about_copyright_reserved">Všetky práva vyhradené.</string>
   <string name="about_credits">Vďaka Inštitútu gravitačnej fyziky Maxa Plancka, IBM Corporation a HTC Corporation za ich podporu.</string>
-    <!--notice notification-->
-  <!--multi BOINC compitability-->
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <plurals name="notice_notification">
+    <item quantity="one">%2$,d nový oznam</item>
+    <item quantity="few">%2$,d nový oznamy</item>
+    <item quantity="other">%2$,d nových oznamov</item>
+  </plurals>
+  <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Bola nájdená aplikácia na dobrovoľnícke výpočty</string>
   <string name="nonexcl_dialog_text">Na tomto zariadení už beží iná výpočtová aplikácia; naraz môže bežať len jedna verzia.</string>
   <string name="nonexcl_dialog_exit">Ukončiť</string>
@@ -349,5 +354,6 @@
   <string name="social_invite_content_title">Riešim vedu na mojom smartfóne!</string>
   <string name="social_invite_content_body">Používam %1$s na výpočty pre vedu. Môžeš aj ty, len si stiahni aplikáciu z %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
 </resources>
