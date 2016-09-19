@@ -41,10 +41,13 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
         $prefs['preset'] = $prefs['@attributes']['preset'];
         unset($prefs['@attributes']['preset']);
     }
-    if (!isset($prefs['preset'])) {
-        $prefs['preset'] = 'custom';
+    // Set $prefs_preset if preset tag is present in database.
+    if (!$prefs_preset) {
+        if (isset($prefs['preset']))
+            $prefs_preset = $prefs['preset']['@value'];
+        else
+            $prest_preset = 'custom';
     }
-    if (!$prefs_preset) $prefs_preset = $prefs['preset'];
   }
   
   // Define form defaults
@@ -60,6 +63,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
   default:
     // Just keeps prefs as they are
     $prefs_preset = 'custom';
+    unset($prefs['preset']);
   }
   
   require_boinc(array('db', 'prefs'));
@@ -634,9 +638,7 @@ function boincwork_generalprefs_form_submit($form, &$form_state) {
   }
   // Save the preset selection (or lack thereof)
   if (!$preset OR $preset == 'custom') {
-    if (isset($prefs['preset'])) {
-      unset($prefs['preset']);
-    }
+    $prefs['preset'] = 'custom';
   }
   else {
     $prefs['preset'] = $preset;
