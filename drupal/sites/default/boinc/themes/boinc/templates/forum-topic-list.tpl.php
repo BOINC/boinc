@@ -89,15 +89,16 @@
     <tr class="<?php print $row_class;?>">
       <td class="icon"><?php //print $topic->icon; ?>
         <?php if ($topic->sticky): ?>
-          <?php print "<span class='fa fa-thumb-tack'></span>"; ?>
+          <span class='fa fa-thumb-tack'></span>
         <?php endif; ?>
         <?php if ($topic->comment_mode != COMMENT_NODE_READ_WRITE): ?>
-          <?php print "<span class='fa fa-lock'></span>"; ?>
-        <?php elseif ($topic->new AND is_null($topic->new_replies)): ?>
-          <?php print "<span class='fa fa-star-o'></span>"; ?>
-        <?php elseif ($topic->new_replies): ?>
-	  <?php print "<span class='fa fa-bell-o'></span>"; ?>
-	<?php endif; ?>
+          <span class='fa fa-lock'></span>
+        <?php endif; ?>
+        <?php if (($topic->new) AND ($topic->new_replies)): ?>
+            <span class='fa fa-bell-o'></span>
+        <?php elseif ($topic->new): ?>
+            <span class='fa fa-star-o'></span>
+        <?php endif; ?>
       </td>
       <td class="title" title="<?php print $author->boincuser_name; ?>">
         <?php print $topic->title; ?>
@@ -115,7 +116,8 @@
           </a>
         <?php endif; ?>
       </td>
-      <td class="created"><?php print $topic->created; ?></td>
+      <td class="created">
+        <?php print $topic->created; ?></td>
       <td class="last-reply">
         <?php print $topic->last_reply; ?>
       </td>
