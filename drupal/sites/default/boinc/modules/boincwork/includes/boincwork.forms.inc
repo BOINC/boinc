@@ -60,10 +60,13 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     break;
     
   case 'custom':
-  default:
     // Just keeps prefs as they are
     $prefs_preset = 'custom';
     unset($prefs['preset']);
+    break;
+  default:
+    //Use the standard presets by default
+    $prefs = boincwork_get_preset_prefs('standard');
   }
   
   require_boinc(array('db', 'prefs'));
