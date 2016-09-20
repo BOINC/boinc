@@ -48,7 +48,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
         else
             $prest_preset = 'custom';
     }
-  }
+  }// if (!$prefs_preset)
   
   // Define form defaults
   switch($prefs_preset) {
@@ -66,8 +66,9 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     break;
   default:
     //Use the standard presets by default
+    $prefs_preset = 'standard';
     $prefs = boincwork_get_preset_prefs('standard');
-  }
+  }// switch($prefs_preset)
   
   require_boinc(array('db', 'prefs'));
   $disk_space_config = get_disk_space_config();
