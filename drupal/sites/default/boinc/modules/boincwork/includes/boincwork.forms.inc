@@ -29,6 +29,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     
     // Load preferences from BOINC account
     $prefs = boincwork_load_prefs('general', $venue);
+    drupal_set_message(t("<pre>prefs".print_r($prefs, true)."</pre>"), 'warning');
     
     // Take note if this is not an established preference set on the account
     if (isset($prefs['@attributes']['cleared'])) {
@@ -42,11 +43,8 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
         unset($prefs['@attributes']['preset']);
     }
     // Set $prefs_preset if preset tag is present in database.
-    if (!$prefs_preset) {
-        if (isset($prefs['preset']))
-            $prefs_preset = $prefs['preset']['@value'];
-        else
-            $prest_preset = 'custom';
+    if ( (!$prefs_preset) AND (isset($prefs['preset'])) ) {
+        $prefs_preset = $prefs['preset']['@value'];
     }
   }// if (!$prefs_preset)
   
@@ -988,24 +986,24 @@ function boincwork_host_merge_form_submit($form, &$form_state) {
  * The structure of the project preferences form
  */
 function boincwork_projectprefs_form(&$form_state, $venue) {
-  
+
   global $user;
   $account = user_load($user->uid);
   
   $established = TRUE;
-  
+
   // Get availability of special BOINC preferences
   require_boinc(array('util'));
   $app_types = get_app_types();
-  
+
   // Load any existing preferences from BOINC account
   $prefs = boincwork_load_prefs('project', $venue);
-  
+
   // Take note if this is not an established preference set on the account
   if (isset($prefs['@attributes']['cleared'])) {
     $established = FALSE;
   }
-  
+
   $venue_is_default = FALSE;
   if ($account->boincuser_default_pref_set) {
     if ($account->boincuser_default_pref_set == $venue) {
