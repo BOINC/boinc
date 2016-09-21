@@ -29,7 +29,6 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     
     // Load preferences from BOINC account
     $prefs = boincwork_load_prefs('general', $venue);
-    drupal_set_message(t("<pre>prefs".print_r($prefs, true)."</pre>"), 'warning');
     
     // Take note if this is not an established preference set on the account
     if (isset($prefs['@attributes']['cleared'])) {
