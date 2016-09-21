@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2016-08-31 09:36+0000\n"
+"PO-Revision-Date: 2016-09-21 11:29+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -641,7 +641,7 @@ msgstr "Non disponibile"
 
 #: ../inc/host.inc:56 ../inc/prefs.inc:665 ../inc/prefs_util.inc:547
 msgid "Home"
-msgstr "Homepage"
+msgstr "Casa"
 
 #: ../inc/host.inc:57 ../inc/prefs.inc:666 ../inc/prefs_util.inc:549
 #: ../user/server_status.php:142
@@ -779,7 +779,7 @@ msgstr "Spazio libero su disco"
 
 #: ../inc/host.inc:149
 msgid "Measured floating point speed"
-msgstr "Velocità misurata in calcoli in virgola mobile"
+msgstr "Velocità calcoli in virgola mobile"
 
 #: ../inc/host.inc:149 ../inc/host.inc:152
 msgid "%1 million ops/sec"
@@ -1419,12 +1419,12 @@ msgstr "Aggiungi preferenze separate per %1"
 
 #: ../inc/prefs.inc:506
 msgid "These settings apply to all computers using this account except"
-msgstr "Queste impostazioni si applicano a tutti i computer con questo account tranne"
+msgstr "Queste impostazioni si applicano a tutti i computer di questo account tranne"
 
 #: ../inc/prefs.inc:508
 msgid ""
 "computers where you have set preferences locally using the BOINC Manager"
-msgstr "computer dove hai selezionato preferenze locali utilizzando il BOINC Manager"
+msgstr "computer dove hai selezionato preferenze locali utilizzando BOINC Manager"
 
 #: ../inc/prefs.inc:510
 msgid "Android devices"
@@ -2048,7 +2048,7 @@ msgstr "Unisciti a questo team"
 msgid ""
 "Note: if 'OK to email' is set in your project preferences, joining a team "
 "gives its founder access to your email address."
-msgstr "Nota: se nelle tue preferenze del progetto la voce 'OK alle email' è spuntata, unendosi al team, si dà il consenso al fondatore ad inviare messaggi al tuo indirizzo di posta elettronica."
+msgstr "Nota: se nelle tue preferenze del progetto la voce 'OK alle email' è spuntata, unendosi al team, si dà il consenso al fondatore di inviare messaggi al tuo indirizzo di posta elettronica."
 
 #: ../inc/team.inc:152
 msgid "Not accepting new members"
@@ -3070,7 +3070,7 @@ msgstr "Questa azione eliminerà qualsiasi cambiamento apportato alle tue prefer
 
 #: ../user/edit_forum_preferences_action.php:38
 msgid "Reset preferences"
-msgstr "Reimposta le preferenze"
+msgstr "Resetta le preferenze"
 
 #. Not the right kind of file
 #: ../user/edit_forum_preferences_action.php:95
@@ -3248,7 +3248,7 @@ msgstr "Reset"
 
 #: ../user/edit_forum_preferences_form.php:165
 msgid "Or click here to reset preferences to the defaults"
-msgstr "Oppure clicca qui per resettare le preferenze ai valorid di default"
+msgstr "Oppure clicca qui per resettare le preferenze ai valori di default"
 
 #: ../user/edit_passwd_action.php:50
 msgid ""
@@ -3684,7 +3684,7 @@ msgstr "offensivo/non letto"
 
 #: ../user/forum_forum.php:188
 msgid "You haven't read this thread yet, and it's locked"
-msgstr "Nonhai ancora letto questo thread, ed è bloccato"
+msgstr "Non hai ancora letto questo thread, ed è bloccato"
 
 #: ../user/forum_forum.php:188
 msgid "unread/locked"
@@ -4459,7 +4459,7 @@ msgstr "1) Se conosci l'indirizzo e-mail dell'account, e puoi ricevere mail su d
 msgid ""
 "Enter the email address below, and click OK. You will be sent email "
 "instructions for resetting your password."
-msgstr "Inserisci l'indirizzo e-mail qui sotto, e premi OK. Ti saranno inviate le istruzioni via mail per resettare la tua password."
+msgstr "Inserisci l'indirizzo e-mail qui sotto, quindi premi OK. Ti saranno inviate le istruzioni via mail per resettare la password."
 
 #: ../user/get_passwd.php:46
 msgid ""
@@ -4673,7 +4673,7 @@ msgstr "nessuno"
 
 #: ../user/host_venue_action.php:46
 msgid "The venue of this host has been set to %1."
-msgstr "La sede di questo host è stata impostata a %1."
+msgstr "La luogo di questo host è stato impostato a %1."
 
 #: ../user/host_venue_action.php:48
 msgid ""
@@ -4890,7 +4890,7 @@ msgstr "Questo sito web è disponibile in molte lingue. La lingua correntemente 
 msgid ""
 "Normally the choice of language is determined by your browser's language "
 "setting, which is: %1.  You can change this setting using:"
-msgstr "Normalmente la scelta della lingua è determinata dalle impostazioni di lingua del tuo browser, che è: %1. Puoi cambiare questa impostazione usando:"
+msgstr "Normalmente la scelta della lingua è determinata dalle impostazioni di lingua del browser, che adesso è: %1. Puoi cambiare questa impostazione usando:"
 
 #: ../user/language_select.php:83
 msgid "Firefox: Tools/Options/General"
@@ -5107,7 +5107,7 @@ msgstr "Nessun utente"
 
 #: ../user/pm.php:247
 msgid "Really block %1?"
-msgstr "Vuoi realmente bloccare %1?"
+msgstr "Vuoi bloccare %1?"
 
 #: ../user/pm.php:248
 msgid ""
@@ -5161,7 +5161,7 @@ msgid ""
 "Your preferences have been reset to the defaults, and\n"
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
-msgstr "Le tue preferenze sono state resettate ai default, e\n          avranno effetto quando il tuo computer comunicherà con %1\n          oppure cliccherai sul comando %2Aggiorna%3 dal BOINC Manager"
+msgstr "Le tue preferenze sono state resettate ai valori di default, e\n          avranno effetto quando il tuo computer comunicherà con %1\n          oppure cliccherai sul comando %2 Aggiorna %3 di BOINC Manager"
 
 #: ../user/prefs_edit.php:66 ../user/prefs_edit.php:94
 msgid "%1 for %2"
