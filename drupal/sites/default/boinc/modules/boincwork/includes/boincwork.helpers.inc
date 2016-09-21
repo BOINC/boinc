@@ -764,7 +764,7 @@ function boincwork_load_prefs($type = 'general', $venue = null, $account = null)
     }
   }
 
-  return array('preset' => 'standard',
+  return array(
     '@attributes' => array('name' => $venue, 'cleared' => 1)
   );
 }

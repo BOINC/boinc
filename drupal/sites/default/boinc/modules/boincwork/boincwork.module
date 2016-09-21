@@ -418,8 +418,8 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
       $venues = array(
         "{$path}/generic" => bts('Generic'),
         "{$path}/home" => bts('Home', array(), NULL, 'boinc:preference set'),
-        "{$path}/work" => bts('Work'),
-        "{$path}/school" => bts('School')
+        "{$path}/school" => bts('School'),
+        "{$path}/work" => bts('Work')
       );
       variable_set('jump_use_js_venues-Array', 1);
       drupal_add_js(drupal_get_path('module', 'jump') . '/jump.js');
@@ -649,8 +649,8 @@ function projectprefs_page($action = null, $venue = null) {
       $venues = array(
         "{$path}/generic" => bts('Generic'),
         "{$path}/home" => bts('Home'),
-        "{$path}/work" => bts('Work'),
-        "{$path}/school" => bts('School')
+        "{$path}/school" => bts('School'),
+        "{$path}/work" => bts('Work')
       );
       variable_set('jump_use_js_venues-Array', 1);
       drupal_add_js(drupal_get_path('module', 'jump') . '/jump.js');
