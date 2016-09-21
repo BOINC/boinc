@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-09-09 08:04+0000\n"
+"PO-Revision-Date: 2016-09-21 11:37+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -183,12 +183,12 @@ msgstr "Visita il sito web del tuo account manager"
 #: clientgui/AccountManagerPropertiesPage.cpp:192
 #, c-format
 msgid "Communicating with %s."
-msgstr "In comunicazione con %s."
+msgstr "Comunicazione in corso con %s."
 
 #: clientgui/AccountManagerProcessingPage.cpp:193
 #: clientgui/AccountManagerPropertiesPage.cpp:199
 msgid "Communicating with server."
-msgstr "In comunicazione con il server."
+msgstr "Comunicazione in corso con il server."
 
 #: clientgui/AccountManagerProcessingPage.cpp:198
 #: clientgui/AccountManagerPropertiesPage.cpp:204
@@ -642,7 +642,7 @@ msgstr "Un account con l'indirizzo e-mail specificato esiste già ed ha una\npas
 
 #: clientgui/AsyncRPC.cpp:1031
 msgid "Communicating with BOINC client.  Please wait ..."
-msgstr "In comunicazione con il client BOINC.  Attendere prego ..."
+msgstr "Comunicazione in corso con il client BOINC. Attendere prego ..."
 
 #: clientgui/AsyncRPC.cpp:1034
 #, c-format
@@ -2777,7 +2777,7 @@ msgstr "Si è verificato un errore interno del server."
 msgid ""
 "Communicating with project\n"
 "Please wait..."
-msgstr "Comunicazione col progetto in corso\nAttendere prego..."
+msgstr "Comunicazione in corso con il progetto\nAttendere prego..."
 
 #: clientgui/ProjectWelcomePage.cpp:251
 #, c-format
@@ -3057,7 +3057,7 @@ msgstr "Sospendi il lavoro per questo progetto."
 #: clientgui/sg_ProjectCommandPopup.cpp:78
 #: clientgui/sg_ProjectCommandPopup.cpp:136
 msgid "No new tasks"
-msgstr "Blocca la richiesta di lavoro"
+msgstr "Blocca richiesta workunit"
 
 #: clientgui/ViewProjects.cpp:217 clientgui/sg_ProjectCommandPopup.cpp:79
 msgid "Don't get new tasks for this project."
