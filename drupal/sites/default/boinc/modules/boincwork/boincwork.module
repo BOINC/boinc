@@ -245,6 +245,12 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
       $prefs[$pref_set] = drupal_retrieve_form('boincwork_generalprefs_form', $form_state, $pref_set);
       drupal_prepare_form('boincwork_generalprefs_form', $prefs[$pref_set], $form_state);
     }
+    // Get status level messages. The line will "clear" any status
+    // level messages, and not display them to the user. This is here
+    // because we want to clear the status level messages that have
+    // been set in boincwork_generalprefs_form(), which are not
+    // necessary for this combined view.
+    drupal_get_messages('status');
     
     $output .= '<p>' . bts('These apply to all BOINC projects in which you participate.') . '<br/>';
     $output .= bts('On computers attached to multiple projects, the most recently modified preferences will be used.') . '</p>';
@@ -418,8 +424,8 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
       $venues = array(
         "{$path}/generic" => bts('Generic'),
         "{$path}/home" => bts('Home', array(), NULL, 'boinc:preference set'),
-        "{$path}/work" => bts('Work'),
-        "{$path}/school" => bts('School')
+        "{$path}/school" => bts('School'),
+        "{$path}/work" => bts('Work')
       );
       variable_set('jump_use_js_venues-Array', 1);
       drupal_add_js(drupal_get_path('module', 'jump') . '/jump.js');
@@ -433,19 +439,6 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
       $output .= '</div>';
     }
     $output .= drupal_get_form('boincwork_generalprefs_form', $venue, NULL, $advanced);
-    
-    // If viewing the edit page for a preference set that doesn't exist, create
-    // it in the database with default values
-    $form_state = array();
-    $current_set = drupal_retrieve_form('boincwork_generalprefs_form', $form_state, $venue);
-    drupal_prepare_form('boincwork_generalprefs_form', $current_set, $form_state);
-    
-    if (!$current_set['#established']) {
-      drupal_process_form('boincwork_generalprefs_form', $current_set, $form_state);
-      drupal_set_message(t('A preference set has been created for "@setname"
-        with default settings', array('@setname' => ucfirst($venue))));
-      drupal_execute('boincwork_generalprefs_form', $form_state, $venue);
-    }
     
     break;
   }
@@ -662,8 +655,8 @@ function projectprefs_page($action = null, $venue = null) {
       $venues = array(
         "{$path}/generic" => bts('Generic'),
         "{$path}/home" => bts('Home'),
-        "{$path}/work" => bts('Work'),
-        "{$path}/school" => bts('School')
+        "{$path}/school" => bts('School'),
+        "{$path}/work" => bts('Work')
       );
       variable_set('jump_use_js_venues-Array', 1);
       drupal_add_js(drupal_get_path('module', 'jump') . '/jump.js');
@@ -677,19 +670,6 @@ function projectprefs_page($action = null, $venue = null) {
       $output .= '</div>';
     }
     $output .= drupal_get_form('boincwork_projectprefs_form', $venue);
-    
-    // If viewing the edit page for a preference set that doesn't exist, create
-    // it in the database with default values
-    $form_state = array();
-    $current_set = drupal_retrieve_form('boincwork_projectprefs_form', $form_state, $venue);
-    drupal_prepare_form('boincwork_projectprefs_form', $current_set, $form_state);
-    
-    if (!$current_set['#established']) {
-      drupal_process_form('boincwork_projectprefs_form', $current_set, $form_state);
-      drupal_set_message(t('A preference set has been created for "@setname"
-        with default settings', array('@setname' => ucfirst($venue))));
-      drupal_execute('boincwork_projectprefs_form', $form_state, $venue);
-    }
     
     break;
     

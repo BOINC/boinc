@@ -36,9 +36,16 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     }
     
     // Determine if a preset is selected or if these are custom settings
-    if (!isset($prefs['@attributes']['preset'])) $prefs['@attributes']['preset'] = 'custom';
-    if (!$prefs_preset) $prefs_preset = $prefs['@attributes']['preset'];
-  }
+    // transform old way to store the preset into new way
+    if (isset($prefs['@attributes']['preset'])) {
+        $prefs['preset'] = $prefs['@attributes']['preset'];
+        unset($prefs['@attributes']['preset']);
+    }
+    // Set $prefs_preset if preset tag is present in database.
+    if ( (!$prefs_preset) AND (isset($prefs['preset'])) ) {
+        $prefs_preset = $prefs['preset']['@value'];
+    }
+  }// if (!$prefs_preset)
   
   // Define form defaults
   switch($prefs_preset) {
@@ -50,10 +57,21 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     break;
     
   case 'custom':
-  default:
     // Just keeps prefs as they are
     $prefs_preset = 'custom';
-  }
+    unset($prefs['preset']);
+    break;
+  default:
+      drupal_set_message(bts(
+          "No preferences found for set '@venue'. Click SAVE CHANGES below to save preferences to your account, and make them effective.",
+          array(
+              '@venue' => $venue,
+          )
+      ), 'status');
+    //Use the standard presets by default
+    $prefs_preset = 'standard';
+    $prefs = boincwork_get_preset_prefs('standard');
+  }// switch($prefs_preset)
   
   require_boinc(array('db', 'prefs'));
   $disk_space_config = get_disk_space_config();
@@ -618,15 +636,19 @@ function boincwork_generalprefs_form_submit($form, &$form_state) {
   $prefs['daily_xfer_limit_mb'] = $values['network']['daily_xfer_limit_mb'];
   $prefs['daily_xfer_period_days'] = $values['network']['daily_xfer_period_days'];
   $prefs['dont_verify_images'] = ($values['network']['dont_verify_images']) ? 1 : 0;
-  
+
+  // transform old way to store the preset into new way
+  // ideally this should already have happened in boincwork_generalprefs_form()
+  if (isset($prefs['@attributes']['preset'])) {
+    $prefs['preset'] = $prefs['@attributes']['preset'];
+    unset($prefs['@attributes']['preset']);
+  }
   // Save the preset selection (or lack thereof)
   if (!$preset OR $preset == 'custom') {
-    if (isset($prefs['@attributes']['preset'])) {
-      unset($prefs['@attributes']['preset']);
-    }
+    $prefs['preset'] = 'custom';
   }
   else {
-    $prefs['@attributes']['preset'] = $preset;
+    $prefs['preset'] = $preset;
   }
   
   // If this is a new preference set, be sure to unset the "cleared" attribute
@@ -963,24 +985,24 @@ function boincwork_host_merge_form_submit($form, &$form_state) {
  * The structure of the project preferences form
  */
 function boincwork_projectprefs_form(&$form_state, $venue) {
-  
+
   global $user;
   $account = user_load($user->uid);
   
   $established = TRUE;
-  
+
   // Get availability of special BOINC preferences
   require_boinc(array('util'));
   $app_types = get_app_types();
-  
+
   // Load any existing preferences from BOINC account
   $prefs = boincwork_load_prefs('project', $venue);
-  
+
   // Take note if this is not an established preference set on the account
   if (isset($prefs['@attributes']['cleared'])) {
     $established = FALSE;
   }
-  
+
   $venue_is_default = FALSE;
   if ($account->boincuser_default_pref_set) {
     if ($account->boincuser_default_pref_set == $venue) {
