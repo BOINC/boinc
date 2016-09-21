@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Sebastiano Pistore <olatusrooc@virgilio.it>, 2015
+# Sebastiano Pistore <olatusrooc@virgilio.it>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2016-03-30 11:03+0000\n"
+"PO-Revision-Date: 2016-09-21 11:53+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: Installer.cpp:124
 #, c-format
 msgid "Sorry, this version of %s requires system 10.5 or higher."
-msgstr "Scusa, questa versione di %s richiede un sistema 10.5 o superiore."
+msgstr "Siamo spiacenti, questa versione di %s richiede un sistema operativo v 10.5 o superiore."
 
 #: PostInstall.cpp:130 PostInstall.cpp:1136 uninstall.cpp:1618
 msgid "Yes"
@@ -68,7 +68,7 @@ msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
 "\n"
 "This will remove the executables but will not touch %s data files."
-msgstr "Sei sicuro di voler rimuovere completamente %s dal tuo computer?\n\nQuesto rimuoverà anche gli eseguibili ma non toccherà i file di dati di %s."
+msgstr "Sei sicuro di voler rimuovere completamente %s dal tuo computer?\n\nQuesto rimuoverà anche gli eseguibili ma non toccherà i file dei dati di %s."
 
 #: uninstall.cpp:163
 #, c-format
