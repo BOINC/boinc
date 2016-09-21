@@ -65,6 +65,12 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     unset($prefs['preset']);
     break;
   default:
+      drupal_set_message(bts(
+          "No preferences found for set '@venue'. Click SAVE CHANGES below to save preferences to your account, and make them effective.",
+          array(
+              '@venue' => $venue,
+          )
+      ), 'status');
     //Use the standard presets by default
     $prefs_preset = 'standard';
     $prefs = boincwork_get_preset_prefs('standard');

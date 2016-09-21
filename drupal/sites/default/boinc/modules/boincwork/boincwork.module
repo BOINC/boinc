@@ -245,6 +245,12 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
       $prefs[$pref_set] = drupal_retrieve_form('boincwork_generalprefs_form', $form_state, $pref_set);
       drupal_prepare_form('boincwork_generalprefs_form', $prefs[$pref_set], $form_state);
     }
+    // Get status level messages. The line will "clear" any status
+    // level messages, and not display them to the user. This is here
+    // because we want to clear the status level messages that have
+    // been set in boincwork_generalprefs_form(), which are not
+    // necessary for this combined view.
+    drupal_get_messages('status');
     
     $output .= '<p>' . bts('These apply to all BOINC projects in which you participate.') . '<br/>';
     $output .= bts('On computers attached to multiple projects, the most recently modified preferences will be used.') . '</p>';
