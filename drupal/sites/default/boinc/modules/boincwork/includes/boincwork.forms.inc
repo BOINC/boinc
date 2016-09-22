@@ -36,8 +36,18 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     }
     
     // Determine if a preset is selected or if these are custom settings
-    if (!isset($prefs['@attributes']['preset'])) $prefs['@attributes']['preset'] = 'custom';
-    if (!$prefs_preset) $prefs_preset = $prefs['@attributes']['preset'];
+    // transform old way to store the preset into new way
+    if (isset($prefs['@attributes']['preset'])) {
+        $prefs['preset'] = $prefs['@attributes']['preset'];
+        unset($prefs['@attributes']['preset']);
+    }
+    // Set $prefs_preset if preset tag is present in database.
+    if (!$prefs_preset) {
+        if (isset($prefs['preset']))
+            $prefs_preset = $prefs['preset']['@value'];
+        else
+            $prest_preset = 'custom';
+    }
   }
   
   // Define form defaults
@@ -53,6 +63,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
   default:
     // Just keeps prefs as they are
     $prefs_preset = 'custom';
+    unset($prefs['preset']);
   }
   
   require_boinc(array('db', 'prefs'));
@@ -618,15 +629,19 @@ function boincwork_generalprefs_form_submit($form, &$form_state) {
   $prefs['daily_xfer_limit_mb'] = $values['network']['daily_xfer_limit_mb'];
   $prefs['daily_xfer_period_days'] = $values['network']['daily_xfer_period_days'];
   $prefs['dont_verify_images'] = ($values['network']['dont_verify_images']) ? 1 : 0;
-  
+
+  // transform old way to store the preset into new way
+  // ideally this should already have happened in boincwork_generalprefs_form()
+  if (isset($prefs['@attributes']['preset'])) {
+    $prefs['preset'] = $prefs['@attributes']['preset'];
+    unset($prefs['@attributes']['preset']);
+  }
   // Save the preset selection (or lack thereof)
   if (!$preset OR $preset == 'custom') {
-    if (isset($prefs['@attributes']['preset'])) {
-      unset($prefs['@attributes']['preset']);
-    }
+    $prefs['preset'] = 'custom';
   }
   else {
-    $prefs['@attributes']['preset'] = $preset;
+    $prefs['preset'] = $preset;
   }
   
   // If this is a new preference set, be sure to unset the "cleared" attribute
