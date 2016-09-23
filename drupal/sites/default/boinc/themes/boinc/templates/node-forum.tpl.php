@@ -110,11 +110,11 @@
       print comment_render($node);
     }
   ?>
-  
   <?php // Only show this post on the first or last page, depending on sort ?>
   <?php if (($oldest_post_first AND $first_page) OR (!$oldest_post_first AND $last_page)): ?>
-    
-    <?php if (!$oldest_post_first): ?>
+
+<?// DBOINCP-300: added node comment count condition in order to get Preview working ?>
+    <?php if ( (!$oldest_post_first) AND ($comment_count>0) ): ?>
           </div>
         </div>
       </div>
