@@ -40,7 +40,8 @@
     $topic = current($topics);
     $taxonomy = taxonomy_get_term($topic->tid);
     if (module_exists('internationalization')) {
-      $taxonomy = reset(i18ntaxonomy_localize_terms(array($taxonomy)));
+      $imv = i18ntaxonomy_localize_terms(array($taxonomy));
+      $taxonomy = reset($imv);
     }
     if ($forum_vocab = taxonomy_vocabulary_load($taxonomy->vid)) {
       if (module_exists('internationalization')) {
