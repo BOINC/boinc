@@ -591,6 +591,7 @@ int boinc_copy(const char* orig, const char* newf) {
     // system() invokes a shell, it may not properly copy the file's 
     // ownership or permissions when called from the BOINC Client 
     // under sandbox security, so we copy the file directly.
+    //
     FILE *src, *dst;
     int m, n;
     int retval = 0;
@@ -604,7 +605,15 @@ int boinc_copy(const char* orig, const char* newf) {
     }
     while (1) {
         n = fread(buf, 1, sizeof(buf), src);
-        if (n <= 0) break;
+        if (n <= 0) {
+            // could be either EOF or an error.
+            // Check for error case.
+            //
+            if (!feof(src)) {
+                retval = ERR_FREAD;
+            }
+            break;
+        }
         m = fwrite(buf, 1, n, dst);
         if (m != n) {
             retval = ERR_FWRITE;
