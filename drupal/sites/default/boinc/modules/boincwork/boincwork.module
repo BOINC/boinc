@@ -434,17 +434,17 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
     }
     $output .= drupal_get_form('boincwork_generalprefs_form', $venue, NULL, $advanced);
     
-    // If viewing the edit page for a preference set that doesn't exist, create
-    // it in the database with default values
+    // If viewing the edit page for a preference set that doesn't
+    // exist, inform the user that preferences are not set.
     $form_state = array();
     $current_set = drupal_retrieve_form('boincwork_generalprefs_form', $form_state, $venue);
     drupal_prepare_form('boincwork_generalprefs_form', $current_set, $form_state);
-    
+
     if (!$current_set['#established']) {
-      drupal_process_form('boincwork_generalprefs_form', $current_set, $form_state);
-      drupal_set_message(t('A preference set has been created for "@setname"
-        with default settings', array('@setname' => ucfirst($venue))));
-      drupal_execute('boincwork_generalprefs_form', $form_state, $venue);
+      drupal_set_message(bts(
+          "No preferences found for set '@venue'. Click SAVE CHANGES below to save the following preferences to your account.",
+          array( '@venue' => $venue, )
+      ), 'status');
     }
     
     break;
@@ -678,17 +678,17 @@ function projectprefs_page($action = null, $venue = null) {
     }
     $output .= drupal_get_form('boincwork_projectprefs_form', $venue);
     
-    // If viewing the edit page for a preference set that doesn't exist, create
-    // it in the database with default values
+    // If viewing the edit page for a preference set that doesn't
+    // exist, inform the user that preferences are not set.
     $form_state = array();
     $current_set = drupal_retrieve_form('boincwork_projectprefs_form', $form_state, $venue);
     drupal_prepare_form('boincwork_projectprefs_form', $current_set, $form_state);
     
     if (!$current_set['#established']) {
-      drupal_process_form('boincwork_projectprefs_form', $current_set, $form_state);
-      drupal_set_message(t('A preference set has been created for "@setname"
-        with default settings', array('@setname' => ucfirst($venue))));
-      drupal_execute('boincwork_projectprefs_form', $form_state, $venue);
+      drupal_set_message(bts(
+          "No preferences found for set '@venue'. Click SAVE CHANGES below to save the following preferences to your account.",
+          array( '@venue' => $venue, )
+      ), 'status');
     }
     
     break;
