@@ -526,7 +526,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
     break;
     
   case 'apps':
-    $title = is_array($element['title']) ? $element['title']['@value'] : $element['title'];
+    $title = is_array($elements['title']) ? $elements['title']['@value'] : $elements['title'];
     
       // Translate elements as appropriate
       if ($title) {
@@ -576,6 +576,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
         '#disabled' => !$app_enabled
       );
     }
+    
     break;
     
   case 'group':
@@ -749,6 +750,11 @@ function boincwork_load_prefs($type = 'general', $venue = null, $account = null)
   // Return general preferences or a subset based on venue
   if (!$venue OR $venue == 'generic') {
     unset($main_prefs['venue']);
+    // Use the length of the $main_prefs array as a condition as to
+    // whether the preferences have already been set. This is
+    // HARDCODED here.
+    if (count($main_prefs) < 3)
+        $main_prefs['@attributes'] = array('cleared' => 1);
     return $main_prefs;
   }
   else {
@@ -764,7 +770,7 @@ function boincwork_load_prefs($type = 'general', $venue = null, $account = null)
     }
   }
 
-  return array('preset' => 'standard',
+  return array(
     '@attributes' => array('name' => $venue, 'cleared' => 1)
   );
 }
