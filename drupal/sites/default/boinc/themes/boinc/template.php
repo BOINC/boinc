@@ -385,6 +385,15 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
   $vars['last_page'] = ($page_count == 1 OR ($page_count > 1 AND $_GET['page'] == $page_count - 1));
 }
 
+
+/**
+ * Preprocessing for team_forum type nodes
+ */
+function boinc_preprocess_node_team_forum(&$vars, $hook) {
+    // Process this node in the same way as node_forum
+    boinc_preprocess_node_forum($vars, $hook);
+}
+    
 /**
  * Override or insert variables into the comment templates.
  *
