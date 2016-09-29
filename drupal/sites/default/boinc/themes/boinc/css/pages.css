@@ -805,8 +805,8 @@ table.user-projects {
   border-top: none;
 }
 #forum tr.sticky {
-  background-color: #f8f8f4;
 }
+
 #forum tr.sticky:hover {
   background-color: #f6f6f2;
 }
@@ -818,6 +818,9 @@ table.user-projects {
 }
 #forum tr.last td {
   border-bottom: 1px dotted #aaa;
+}
+#forum td.icon {
+    color: #5A5758;
 }
 #forum td.title a {
   color: #5A5758;

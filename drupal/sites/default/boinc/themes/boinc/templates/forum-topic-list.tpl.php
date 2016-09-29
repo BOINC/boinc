@@ -87,7 +87,19 @@
       }
     ?>
     <tr class="<?php print $row_class;?>">
-      <td class="icon"><?php //print $topic->icon; ?></td>
+      <td class="icon"><?php //print $topic->icon; ?>
+        <?php if ($topic->sticky): ?>
+          <span class='fa fa-thumb-tack'></span>
+        <?php endif; ?>
+        <?php if ($topic->comment_mode != COMMENT_NODE_READ_WRITE): ?>
+          <span class='fa fa-lock'></span>
+        <?php endif; ?>
+        <?php if (($topic->new) AND ($topic->new_replies)): ?>
+            <span class='fa fa-bell-o'></span>
+        <?php elseif ($topic->new): ?>
+            <span class='fa fa-star-o'></span>
+        <?php endif; ?>
+      </td>
       <td class="title" title="<?php print $author->boincuser_name; ?>">
         <?php print $topic->title; ?>
       </td>
@@ -104,17 +116,10 @@
           </a>
         <?php endif; ?>
       </td>
-      <td class="created"><?php print $topic->created; ?></td>
+      <td class="created">
+        <?php print $topic->created; ?></td>
       <td class="last-reply">
-        <?php if ($topic->sticky AND $topic->comment_mode == COMMENT_NODE_READ_ONLY): ?>
-          <?php print bts('Featured') . ' / ' . bts('Locked'); ?>
-        <?php elseif ($topic->sticky): ?>
-          <?php print bts('Featured'); ?>
-        <?php elseif ($topic->comment_mode == COMMENT_NODE_READ_ONLY): ?>
-          <?php print bts('Locked'); ?>
-        <?php else: ?>
-          <?php print $topic->last_reply; ?>
-        <?php endif; ?>
+        <?php print $topic->last_reply; ?>
       </td>
     <?php endif; ?>
     </tr>
