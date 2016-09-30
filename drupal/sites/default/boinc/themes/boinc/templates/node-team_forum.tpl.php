@@ -193,7 +193,7 @@
       
       <?php if ($display_submitted): ?>
         <div class="submitted">
-          <?php print date('j M Y H:i:s T', $node->created); ?>
+          <?php print date('j M Y G:i:s T', $node->created); ?>
         </div>
       <?php endif; ?>
       <div class="topic-id">

@@ -861,7 +861,7 @@ function boincwork_host_merge_form(&$form_state, $host_id) {
         array(
           '@name' => $current_host->domain_name,
           '@date' => date('j M Y', $current_host->create_time),
-          '@time' => date('H:i:s T', $current_host->create_time),
+          '@time' => date('G:i:s T', $current_host->create_time),
           '@id' => $current_host->id,
         ),
         NULL, 'boinc:account-host-merge') . '</p>',
@@ -871,7 +871,7 @@ function boincwork_host_merge_form(&$form_state, $host_id) {
   foreach ($hosts as $host) {
     $options[$host->id] = array(
       $host->domain_name,
-      date('j M Y H:i:s T', $host->create_time),
+      date('j M Y G:i:s T', $host->create_time),
       $host->id,
     );
   }
