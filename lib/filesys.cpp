@@ -620,9 +620,17 @@ int boinc_copy(const char* orig, const char* newf) {
             break;
         }
     }
-    fclose(src);
-    fclose(dst);
-    return retval;
+    retval = fclose(src);
+    if (retval != 0){
+       fclose(dst);
+       return ERR_FCLOSE;
+    }
+
+    retval = fclose(dst);
+    if (retval != 0){
+       return ERR_FCLOSE;
+    }
+    return 0;
 #endif
 }
 
