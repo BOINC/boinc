@@ -151,7 +151,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
                 } else {
                     msg_printf(&temp_project, MSG_INTERNAL_ERROR,
                         "Project %s is in state file but no account file found",
-                        temp_project.get_project_name()
+                        temp_project.get_project_name().c_str()
                     );
                 }
 #endif

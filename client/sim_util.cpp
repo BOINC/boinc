@@ -78,7 +78,7 @@ char* sim_time_string(int t) {
 }
 
 void show_message(PROJ_AM *p, char* msg, int priority, bool, const char*) {
-    const char* x;
+    std::string x;
     char message[1024];
 
     if (priority == MSG_INTERNAL_ERROR) {
@@ -97,7 +97,7 @@ void show_message(PROJ_AM *p, char* msg, int priority, bool, const char*) {
         x = "---";
     }
 
-    fprintf(logfile, "%s [%s] %s\n", sim_time_string(gstate.now), x, message);
+    fprintf(logfile, "%s [%s] %s\n", sim_time_string(gstate.now), x.c_str(), message);
 }
 
 APP_CLIENT_SHM::APP_CLIENT_SHM() {}
@@ -130,7 +130,7 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
     set_task_state(PROCESS_EXECUTING, "start");
     char buf[256];
     sprintf(buf, "Starting %s<br>&nbsp;&nbsp;%s<br>&nbsp;&nbsp;deadline %s<br>",
-        result->name, result->project->get_project_name(),
+        result->name, result->project->get_project_name().c_str(),
         sim_time_string(result->report_deadline)
     );
     html_msg += buf;

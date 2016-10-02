@@ -240,7 +240,7 @@ struct PROJ_AM {
     char project_name[256];
         // descriptive.  not unique
     std::vector<RSS_FEED> proj_feeds;
-    inline char *get_project_name() {
+    std::string get_project_name() const {
         if (strlen(project_name)) {
             return project_name;
         } else {

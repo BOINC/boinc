@@ -44,7 +44,7 @@ struct PROJECT {
         resource_share = rs;
         non_cpu_intensive = false;
     }
-    char* get_project_name() {
+    std::string get_project_name() const {
         return name;
     }
     void set_rrsim_proc_rate(double);
@@ -383,7 +383,7 @@ bool CLIENT_STATE::rr_simulation() {
                 );
                 msg_printf(0, MSG_INFO,
                     "rr_sim proj %s: last active %d, active %d, shortfall %f",
-                    pbest->get_project_name(), last_proj_active_size, (int)pbest->active.size(),
+                    pbest->get_project_name().c_str(), last_proj_active_size, (int)pbest->active.size(),
                     pbest->cpu_shortfall
                 );
             }
