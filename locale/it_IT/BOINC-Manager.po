@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-09-21 11:37+0000\n"
+"PO-Revision-Date: 2016-10-04 10:46+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -2762,7 +2762,7 @@ msgstr "Sei già connesso a questo progetto. Scegli un progetto diverso."
 
 #: clientgui/ProjectProcessingPage.cpp:321
 msgid "Communicating with project."
-msgstr "In comunicazione con il progetto."
+msgstr "Comunicazione in corso con il progetto."
 
 #: clientgui/ProjectProcessingPage.cpp:509
 msgid "Required files not found on the server."
@@ -3124,11 +3124,11 @@ msgstr "Sospensione del progetto in corso..."
 
 #: clientgui/ViewProjects.cpp:471
 msgid "Telling project to allow additional task downloads..."
-msgstr "Comunicazione con il progetto per abilitare lo scaricamento di ulteriore lavoro in corso..."
+msgstr "Richiesta al progetto di ulteriori workunit..."
 
 #: clientgui/ViewProjects.cpp:475
 msgid "Telling project to not fetch any additional tasks..."
-msgstr "Comunicazione con il progetto per non ottenere ulteriore lavoro in corso..."
+msgstr "Richiesta al progetto di non inviare nuove workunit..."
 
 #: clientgui/ViewProjects.cpp:511
 msgid "Resetting project..."
