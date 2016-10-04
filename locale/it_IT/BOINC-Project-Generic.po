@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2016-09-21 11:43+0000\n"
+"PO-Revision-Date: 2016-10-04 10:42+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -4516,7 +4516,7 @@ msgstr "Nessun task GPU riportato"
 
 #: ../user/gpu_list.php:206
 msgid "Top GPU models"
-msgstr "Top modelli GPU"
+msgstr "Migliori modelli GPU"
 
 #: ../user/gpu_list.php:207
 msgid ""
@@ -4845,7 +4845,7 @@ msgstr "Le applicazioni avviate da %1 possono provocare surriscaldamento. Se ci�
 #: ../user/info.php:51
 msgid ""
 "%1 was developed by %2. BOINC was developed at the University of California."
-msgstr "%1 è sviluppato da %2. BOINC è sviluppato dalla Università della California."
+msgstr "%1 è sviluppato da %2. BOINC è sviluppato dall'Università della California."
 
 #: ../user/info.php:53
 msgid "Liability"
@@ -5007,7 +5007,7 @@ msgstr "Crediti non ancora assegnati"
 
 #: ../user/pending.php:68
 msgid "Result ID"
-msgstr "ID Risultato"
+msgstr "ID risultato"
 
 #: ../user/pending.php:68
 msgid "Workunit ID"
@@ -5743,7 +5743,7 @@ msgstr "Con una tua opzione, solo i membri potranno leggere."
 
 #: ../user/team_forum.php:35
 msgid "You and your Team Admins will have moderator privileges."
-msgstr "Tu ed i tuoi Amministratori del team avrete i privilegi di moderatori."
+msgstr "Tu ed i tuoi amministratori del team avrete i privilegi di moderatori."
 
 #: ../user/team_forum.php:42
 msgid "Create a message board for %1"
