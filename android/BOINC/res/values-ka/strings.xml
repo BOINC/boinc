@@ -209,7 +209,7 @@
   <string name="projects_status_schedrpcpending">განრიგის მოთხოვნა ლოდინშია</string>
   <string name="projects_status_schedrpcinprogress">მიმდინარეობს განრიგის მოთხოვნა</string>
   <string name="projects_status_trickleuppending">გაწობის შეტყობინება მოლოდინშია</string>
-  <string name="projects_status_backoff">კავშირია დაგეგმილია:</string>
+  <string name="projects_status_backoff">კავშირი დაგეგმილია:</string>
   <!--project controls-->
   <string name="projects_control_dialog_title">პროექტის ბრძანებები:</string>
   <string name="projects_control_visit_website">ვებ-გვერდზე გადასვლა</string>
@@ -334,11 +334,14 @@
   <string name="about_name">BOINC-ი</string>
   <string name="about_version">ვერსია</string>
   <string name="about_name_long">ქსელური გამოთვლების ბერკელეის ღია ინფრასტრუქტურა</string>
-    <string name="about_copyright">\u00A9 2003-2016 კალიფორნიის უნივერსიტეტი, ბერკელეი.</string>
+  <string name="about_copyright">\u00A9 2003-2016 კალიფორნიის უნივერსიტეტი, ბერკლი</string>
   <string name="about_copyright_reserved">ყველა უფლება დაცულია.</string>
   <string name="about_credits">მადლობა გრავიტაცული ფიზიკის მაქს პლანკის ინსტიტუტს, აი-ბი-ემ კორპორაციას და ეიჩ-თი-სი კორპორაციას მითი მხარდაჭერისთვის.</string>
-    <!--notice notification-->
-  <!--multi BOINC compitability-->
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <plurals name="notice_notification">
+    <item quantity="other">%2$,d ახალი შეტყობინება</item>
+  </plurals>
+  <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">მოხალისეთა გამოთვლების აპლიკაცია იქნა აღმოჩენილი</string>
   <string name="nonexcl_dialog_text">სხვა მოხალისეთა გამოთვლების აპლიკაცია არის გაშვებული ამ მოწყობილებაზე. მხოლოდ ერთი ვერსია შეიძლება იყოს გაშვებული ერთდროულად.</string>
   <string name="nonexcl_dialog_exit">გამოსვლა</string>
@@ -348,5 +351,6 @@
   <string name="social_invite_content_title">მე ვმუშაობ მეცნიერებაზე ჩემს სმარტფონზე!</string>
   <string name="social_invite_content_body">მე ვიყენებ ჩემს %1$s მეცნიერების გამოთვლებისთვის. თქვენც ასევე შეგიძლიათ! გადმოიწერეთ აპლიკაცია აქედან: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
 </resources>
