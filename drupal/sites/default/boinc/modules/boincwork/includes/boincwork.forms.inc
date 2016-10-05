@@ -60,15 +60,19 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     break;
     
   case 'custom':
-  default:
     // Just keeps prefs as they are
     $prefs_preset = 'custom';
     unset($prefs['preset']);
+    break;
+  default:
+      $prefs_preset = 'standard';
+      $prefs = boincwork_get_preset_prefs($prefs_preset);
   }
-  
+
+  //This set of preferences is used in the form if no preferences have
+  //been set above, in variable $prefs.
   require_boinc(array('db', 'prefs'));
   $disk_space_config = get_disk_space_config();
-  
   $default = array(
     'preset' => $prefs_preset,
     // Processing...

@@ -108,6 +108,12 @@ function boincwork_admin_prefs_presets_page($preset = 'standard') {
     $output .= '</div></div>';
   }
   $output .= drupal_get_form('boincwork_admin_prefs_presets_form', $preset);
+
+  $output .= '<div>';
+  $output .= bts('Usage: \'Save configuration\' will save the above preferences into the drupal database. These will be the preset general/computing preferences that will fill in the preferences form once a user loads the Account Preferences page.');
+  $output .= '<p>';
+  $output .= bts('\'Save configuration with disk usage settings from config.xml\' will save the above preferences into the drupal database, but also load disk usage settings from the BOINC project\'s config.xml file. These will overwrite the disk usage settings you have placed above. Caution: A user\'s personal preferences will not change if you load the disk usage settings from config.xml here into the drupal database. They must change their preference settings manually.');
+  $output .= '</div>';
   return $output;
 }
 
@@ -139,6 +145,11 @@ function boincwork_admin_prefs_presets_form(&$form_state, $preset = 'standard') 
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save configuration')
+  );
+  $form['saveuseconfigxml'] = array (
+      '#type' => 'submit',
+      '#value' => t('Save configuration with disk usage settings from config.xml'),
+      '#validate' => array('boincwork_admin_prefs_preset_saveuseconfigxml'),
   );
   $form['preset'] = array(
     '#type' => 'hidden',
@@ -235,8 +246,9 @@ function boincwork_admin_prefs_presets_form_submit($form, &$form_state) {
   $prefs['daily_xfer_period_days'] = $values['network']['daily_xfer_period_days'];
   $prefs['dont_verify_images'] = ($values['network']['dont_verify_images']) ? 1 : 0;
   
-  // Throw the preset attribute on there so we know which preset to save
-  $prefs['@attributes']['preset'] = $preset;
+  //Remove @attributes to match new format (see boincwork.forms.inc
+  //function boincwork_generalprefs_form)
+  unset($prefs['@attributes']['preset']);
   
   // Update the configuration
   boincwork_save_preset_prefs($prefs, $preset);
@@ -271,3 +283,18 @@ function boincwork_save_preset_prefs($updated_prefs, $preset = 'standard') {
   variable_set('boincwork_preset_prefs', save_configuration($all_presets));
 }
 
+/**
+ * Saves but also loads disk usage settings from config.xml, and
+ * overwrites whatever values are is in form.
+ */
+function boincwork_admin_prefs_preset_saveuseconfigxml($form, &$form_state) {
+    require_boinc(array('db', 'prefs'));
+    $disk_space_config = get_disk_space_config();
+
+    $form_state['values']['storage']['disk_max_used_gb']  = $disk_space_config->disk_max_used_gb;
+    $form_state['values']['storage']['disk_min_free_gb']  = $disk_space_config->disk_min_free_gb;
+    $form_state['values']['storage']['disk_max_used_pct'] = $disk_space_config->disk_max_used_pct;
+
+    //Run the form validate function
+    boincwork_admin_prefs_presets_form_validate($form, $form_state);
+}
