@@ -10632,7 +10632,7 @@ else {
       'relationship' => 'none',
     ),
     'phpcode_8' => array(
-      'label' => 'dont suppress otuput',
+      'label' => 'dont_suppress_pending',
       'alter' => array(
         'alter_text' => 0,
         'text' => '',
