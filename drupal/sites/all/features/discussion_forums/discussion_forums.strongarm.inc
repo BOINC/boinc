@@ -76,6 +76,7 @@ function discussion_forums_strongarm() {
   $strongarm->value = array(
     'node_types' => array(
       'news' => 'news',
+      'team_forum' => 'team_forum',
       'forum' => 'forum',
     ),
     'node_link_display' => 1,
