@@ -463,6 +463,7 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
     
   // Forum node form
   case 'forum_node_form':
+  case 'team_forum_node_form':
     $forum_id = key($form['#node']->taxonomy);
     $form['buttons']['separator_bottom'] = array(
       '#value' => '<div class="separator buttons"></div>',
