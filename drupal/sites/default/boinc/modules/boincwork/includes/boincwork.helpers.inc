@@ -160,7 +160,6 @@ function boincwork_get_preset_prefs($preset = null) {
           <dont_verify_images>0</dont_verify_images>
         </preset>
       </general_preferences>';
-    drupal_set_message(bts('No presets found in database, loading a default set of preferences for each preset. These will be saved to the database once you click \'Save Changes\'.'), 'status');
   }
   
   // Convert XML data to array format
@@ -1178,7 +1177,8 @@ function boincwork_format_stats($number, $max_digits = 4) {
   //------------------------------------------------------------------------------------------------
   
   function text_to_xml($text) {
-    if (!$xml = DomDocument::loadXML($text)) return false;
+    $xml = new DomDocument();
+    if ( !($xml->loadXML($text)) ) return false;
     return $xml;
   }
   
