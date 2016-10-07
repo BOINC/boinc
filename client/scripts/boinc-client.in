@@ -471,10 +471,10 @@ case "$1" in
             PID=""
           fi
         fi
-        if [ "$PID" == "" ]; then
+        if [ "$PID" = "" ]; then
           PID=`local_pidof $BOINCEXE_NAME`
         fi
-        if [ "$PID" == "" ]; then
+        if [ "$PID" = "" ]; then
           PID=`local_pidof $BOINCEXE`
         fi
         if [ "$PID" != "" ]; then

@@ -751,7 +751,7 @@ static char *xtoa(size_t x) {
 #endif
 
 #ifdef HAVE_SIGACTION
-void boinc_catch_signal(int signal, struct siginfo *siginfo, void *sigcontext) {
+void boinc_catch_signal(int signal, siginfo_t *siginfo, void *sigcontext) {
 #else
 void boinc_catch_signal(int signal) {
 #endif
