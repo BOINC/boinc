@@ -304,9 +304,10 @@ void macro_substitute(string &str) {
     fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$PWD", nt);
 #endif
 #else
-    str_replace_all(str, "$PWD", getenv("PWD"));
+    char cwd[1024];
+    str_replace_all(str, "$PWD", getcwd(cwd, sizeof(cwd)));
 #ifdef DEBUG
-    fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$PWD", getenv("PWD"));
+    fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$PWD", getcwd(cwd, sizeof(cwd)));
 #endif
 #endif
 }
