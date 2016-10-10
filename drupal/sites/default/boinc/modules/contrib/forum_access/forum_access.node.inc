@@ -118,7 +118,7 @@ function _forum_access_comment_form(&$form, &$form_state) {
   if ($user->uid != 1 && isset($form['nid']['#value'])) {
     $node = node_load($form['nid']['#value']);
     if ($tid = _forum_access_get_tid($node)) {
-      if (!forum_access_access($tid, 'create')) {
+      if (!forum_access_access($tid, 'comment_create')) {
         switch (arg(0)) {
           case 'node':
             $form = NULL; // remove the in-line comment form
@@ -206,7 +206,7 @@ function _forum_access_preprocess_comment(&$variables) {
     _forum_access_disable_moderator();
   }
 
-  if (isset($links['comment_reply']) && (!preg_match('#<li class="[^"]*comment_reply[^"]*".*</li>#U', $variables['links']) || !user_access('post comments') || !forum_access_access($tid, 'create', NULL, FALSE))) {
+  if (isset($links['comment_reply']) && (!preg_match('#<li class="[^"]*comment_reply[^"]*".*</li>#U', $variables['links']) || !user_access('post comments') || !forum_access_access($tid, 'comment_create', NULL, FALSE))) {
     unset($links['comment_reply']);
   }
   if (isset($links['comment_edit']) && !forum_access_access($tid, 'update', NULL, FALSE) && !comment_access('edit', $variables['comment'])) {

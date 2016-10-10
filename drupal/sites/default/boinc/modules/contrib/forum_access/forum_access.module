@@ -61,6 +61,7 @@ function forum_access_node_access_records($node) {
           'grant_view' => $grant->grant_view,
           'grant_update' => $grant->grant_update,
           'grant_delete' => $grant->grant_delete,
+          'grant_comment_create' => $grant->grant_comment_create,
           'priority' => $grant->priority,
         );
       }
@@ -382,7 +383,7 @@ if (!variable_get('forum_access_D5_legacy_mode', FALSE)) {
  * Implementation of hook_link_alter().
  *
  * For nodes, remove the 'Add new comment' link, if the user does not have the
- * 'create' permission; for comments, add any missing links (D6.17+).
+ * 'comment_create' permission; for comments, add any missing links (D6.17+).
  */
 function forum_access_link_alter(&$links, $node, $comment = NULL) {
   global $user;
@@ -398,7 +399,7 @@ function forum_access_link_alter(&$links, $node, $comment = NULL) {
   }
   if (empty($comment)) {
     // Check links for the node.
-    if ($tid && isset($links['comment_add']) && !forum_access_access($tid, 'create')) {
+    if ($tid && isset($links['comment_add']) && !forum_access_access($tid, 'comment_create')) {
       unset($links['comment_add']);
     }
   }
@@ -408,7 +409,7 @@ function forum_access_link_alter(&$links, $node, $comment = NULL) {
     //dpm($node, "forum_access_link_alter() - node:");
     //dpm($comment, "forum_access_link_alter() - comment:");
     $required_keys = array(
-      'create' => 'comment_reply',
+      'comment_create' => 'comment_reply',
       'update' => 'comment_edit',
       'delete' => 'comment_delete',
     );
@@ -421,6 +422,7 @@ function forum_access_link_alter(&$links, $node, $comment = NULL) {
         $link_is_missing = TRUE;
       }
     }
+
     if (isset($required_keys['create']) && !user_access('post comments')) {
       unset($required_keys['create']);
     }
