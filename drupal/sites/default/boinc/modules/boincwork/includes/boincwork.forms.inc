@@ -43,11 +43,10 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     }
     // Set $prefs_preset if preset tag is present in database.
     if (!$prefs_preset) {
-        if (isset($prefs['preset']))
+        if (isset($prefs['preset'])) {
             $prefs_preset = $prefs['preset']['@value'];
-        else
-            $prest_preset = 'custom';
-    }
+        }
+    }// if !$prefs_preset
   }
   
   // Define form defaults
@@ -56,19 +55,23 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
   case 'maximum':
   case 'green':
   case 'minimum':
-    $prefs = boincwork_get_preset_prefs($prefs_preset);
-    break;
+      $prefs = boincwork_get_preset_prefs($prefs_preset);
+      break;
     
   case 'custom':
-  default:
     // Just keeps prefs as they are
     $prefs_preset = 'custom';
     unset($prefs['preset']);
+    break;
+  default:
+      $prefs_preset = 'standard';
+      $prefs = boincwork_get_preset_prefs($prefs_preset);
   }
-  
+
+  // This set of preferences is used in the form if no preferences
+  // have been set above, in variable $prefs.
   require_boinc(array('db', 'prefs'));
   $disk_space_config = get_disk_space_config();
-  
   $default = array(
     'preset' => $prefs_preset,
     // Processing...

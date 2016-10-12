@@ -21,8 +21,14 @@ function boincwork_ahah_helper_venue_submit($form, &$form_state) {
 function boincwork_get_preset_prefs($preset = null) {
   $saved_state = variable_get('boincwork_preset_prefs', null);
   
-  // If not configured yet, use these defaults
+  // If not configured yet, use these values as for inital
+  // computing/general preferences.
   if (!$saved_state) {
+    // Get BOINC project disk space configurations from config.xml to
+    // fill in initial preference values.
+    require_boinc(array('db', 'prefs'));
+    $disk_space_config = get_disk_space_config();
+
     $saved_state = '
       <general_preferences>
         <preset name="standard">
@@ -38,9 +44,9 @@ function boincwork_get_preset_prefs($preset = null) {
           <cpu_scheduling_period_minutes>60</cpu_scheduling_period_minutes>
           <max_ncpus_pct>100</max_ncpus_pct>
           <cpu_usage_limit>80</cpu_usage_limit>
-          <disk_max_used_gb>8</disk_max_used_gb>
-          <disk_min_free_gb>4</disk_min_free_gb>
-          <disk_max_used_pct>10</disk_max_used_pct>
+          <disk_max_used_gb>'.$disk_space_config->disk_max_used_gb.'</disk_max_used_gb>
+          <disk_min_free_gb>'.$disk_space_config->disk_min_free_gb.'</disk_min_free_gb>
+          <disk_max_used_pct>'.$disk_space_config->disk_max_used_pct.'</disk_max_used_pct>
           <disk_interval>60</disk_interval>
           <vm_max_used_pct>0</vm_max_used_pct>
           <ram_max_used_busy_pct>15</ram_max_used_busy_pct>
@@ -1171,7 +1177,8 @@ function boincwork_format_stats($number, $max_digits = 4) {
   //------------------------------------------------------------------------------------------------
   
   function text_to_xml($text) {
-    if (!$xml = DomDocument::loadXML($text)) return false;
+    $xml = new DomDocument();
+    if ( !($xml->loadXML($text)) ) return false;
     return $xml;
   }
   
