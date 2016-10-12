@@ -294,30 +294,30 @@
   <string name="suspend_useractive">Usuário ativo.</string>
   <string name="suspend_tod">Sem cronograma de computação.</string>
   <string name="suspend_bm">BOINC está testando seu dispositivo...</string>
-  <string name="suspend_disksize">Sem espaço de disco.</string>
+  <string name="suspend_disksize">Sem espaço em disco.</string>
   <string name="suspend_cputhrottle">Controle do CPU agendado.</string>
-  <string name="suspend_noinput">Usuário sem atividades recente.</string>
+  <string name="suspend_noinput">Sem atividades recentes do usuário.</string>
   <string name="suspend_delay">Adiamento da inicialização.</string>
   <string name="suspend_exclusiveapp">Um aplicativo exclusivo está em operação.</string>
   <string name="suspend_cpu">Seu dispositivo está ocupado com outros apps.</string>
   <string name="suspend_network_quota">BOINC alcançou o limite de transferência por rede.</string>
   <string name="suspend_os">Interrompido pelo Android.</string>
-  <string name="suspend_wifi">Não conectado a WiFi.</string>
+  <string name="suspend_wifi">Não conectado ao WiFi.</string>
   <string name="suspend_battery_charging">Esperando a bateria carregar.</string>
   <string name="suspend_battery_charging_long">A computação continuará quando a bateria chegar em</string>
   <string name="suspend_battery_charging_long2"></string>
   <string name="suspend_battery_charging_current">no momento</string>
   <string name="suspend_battery_overheating">Aguardando esfriamento da bateria</string>
-  <string name="suspend_user_req">Continuando computação...</string>
+  <string name="suspend_user_req">Retomando computação...</string>
   <string name="suspend_network_user_req">manualmente.</string>
   <!--rpc reasons-->
-  <string name="rpcreason_userreq">Requisitado pelo usuário</string>
+  <string name="rpcreason_userreq">Solicitado pelo usuário</string>
   <string name="rpcreason_needwork">Para buscar trabalho</string>
   <string name="rpcreason_resultsdue">Para comunicar tarefas finalizadas</string>
   <string name="rpcreason_trickleup">Para enviar mensagem ao servidor</string>
-  <string name="rpcreason_acctmgrreq">Requisitado pelo gerenciador da conta</string>
+  <string name="rpcreason_acctmgrreq">Solicitado pelo gerenciador da conta</string>
   <string name="rpcreason_init">Inicialização do projeto</string>
-  <string name="rpcreason_projectreq">Requisitado pelo projeto</string>
+  <string name="rpcreason_projectreq">Solicitado pelo projeto</string>
   <string name="rpcreason_unknown">Motivo desconhecido</string>
   <!--menu-->
   <string name="menu_refresh">Recarregar</string>
@@ -326,7 +326,7 @@
   <string name="menu_eventlog">Log de evento</string>
   <string name="menu_exit">Sair de BOINC</string>
   <string name="menu_run_mode_disable">Suspender</string>
-  <string name="menu_run_mode_enable">Continuar</string>
+  <string name="menu_run_mode_enable">Retomar</string>
   <string name="menu_about">Sobre</string>
   <string name="menu_help">Ajuda</string>
   <!--about dialog-->
@@ -335,11 +335,15 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">Versão</string>
   <string name="about_name_long">Infraestrutura Aberta de Berkeley para Computação em Rede</string>
-    <string name="about_copyright">\u00A9 2003–2016 Universidade da Califórnia, Berkeley.</string>
+  <string name="about_copyright">\u00A9 2003–2016 Universidade da California, Berkeley.</string>
   <string name="about_copyright_reserved">Todos os Direitos Reservados.</string>
   <string name="about_credits">Nossa gratidão ao Instituto Max Planck de Física Gravitacional, à IBM Corporation e à HTC Corporation pelo apoio.</string>
-    <!--notice notification-->
-  <!--multi BOINC compitability-->
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <plurals name="notice_notification">
+    <item quantity="one">Nova notícia de %1$s</item>
+    <item quantity="other">%2$,d novas notícias</item>
+  </plurals>
+  <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">App de computação voluntária detectado</string>
   <string name="nonexcl_dialog_text">Outro aplicativo de computação voluntária está em operação neste dispositivo. Somente uma versão pode operar por vez.</string>
   <string name="nonexcl_dialog_exit">Sair</string>
