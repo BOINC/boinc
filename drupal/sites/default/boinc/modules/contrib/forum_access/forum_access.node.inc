@@ -121,11 +121,15 @@ function _forum_access_comment_form(&$form, &$form_state) {
       if (!forum_access_access($tid, 'comment_create')) {
         switch (arg(0)) {
           case 'node':
-            $form = NULL; // remove the in-line comment form
+              // Remove the in-line comment form, replace with text message to user.
+              $form = NULL;
+              $form['from'] = array(
+                  '#type'  => 'item',
+                  '#value' => 'You do not have permission to post comments in this forum.',);
             break;
           case 'comment':
-            drupal_access_denied();
-            module_invoke_all('exit');
+              drupal_set_message(t("ERROR: You do not have permission to post comments in this forum."), 'error');
+              drupal_goto("node/$node->nid");
             exit;
         }
       }

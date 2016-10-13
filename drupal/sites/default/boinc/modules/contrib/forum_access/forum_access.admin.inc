@@ -602,9 +602,9 @@ function _forum_access_form_submit($form, &$form_state) {
         // ... otherwise forget View.
         $access['view'][$rid] = FALSE;
       }
-      if ($access['view'][$rid] || $access['create'][$rid]) {
+      if ($access['view'][$rid] || $access['create'][$rid] || $access['comment_create'][$rid]) {
         db_query("INSERT INTO {forum_access} (tid, rid, grant_view, grant_update, grant_delete, grant_create, grant_comment_create, priority) VALUES (%d, %d, %d, %d, %d, %d, %d, %d)",
-        $tid, $rid, !empty($access['view'][$rid]), 0, 0, !empty($access['create'][$rid]), 0, $fa_priority);
+        $tid, $rid, !empty($access['view'][$rid]), 0, 0, !empty($access['create'][$rid]), !empty($access['comment_create'][$rid]), $fa_priority);
       }
     }
     else {
