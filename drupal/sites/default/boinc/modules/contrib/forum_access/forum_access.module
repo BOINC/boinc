@@ -134,7 +134,26 @@ function forum_access_init() {
         }
       }
       break;
-  }
+
+    case 'community':
+        if (arg(1)=='forum') {
+            if (is_numeric(arg(2))) {
+                $tid=arg(2);
+                // Obtain the tid from a URL path containing
+                // community/forum/%tid, this will prevent users from
+                // loading forums they are not allowed to access.
+
+                if (isset($tid)) {
+                    if (!forum_access_access($tid, 'view')) {
+                        drupal_access_denied();
+                        module_invoke_all('exit');
+                        exit;
+                    }
+                }// isset($tid)
+            }// is_numeric(arg(2))
+        }// arg(1)==forum
+    break;
+  }// switch
   if (isset($nid)) {
     $node = node_load($nid);
     if ($tid = _forum_access_get_tid($node)) {
