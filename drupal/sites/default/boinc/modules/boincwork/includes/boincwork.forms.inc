@@ -48,25 +48,26 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
         }
     }// if !$prefs_preset
   }
-  
-  // Define form defaults
-  switch($prefs_preset) {
-  case 'standard':
-  case 'maximum':
-  case 'green':
-  case 'minimum':
-      $prefs = boincwork_get_preset_prefs($prefs_preset);
-      break;
-    
-  case 'custom':
-    // Just keeps prefs as they are
-    $prefs_preset = 'custom';
-    unset($prefs['preset']);
-    break;
-  default:
+
+  if ($established) {
+      // Define form defaults
+      switch($prefs_preset) {
+      case 'standard':
+      case 'maximum':
+      case 'green':
+      case 'minimum':
+          $prefs = boincwork_get_preset_prefs($prefs_preset);
+          break;
+      case 'custom':
+      default:
+          // Just keeps prefs as they are
+          $prefs_preset = 'custom';
+          unset($prefs['preset']);
+      }// switch
+  } else {
       $prefs_preset = 'standard';
       $prefs = boincwork_get_preset_prefs($prefs_preset);
-  }
+  }// if $established
 
   // This set of preferences is used in the form if no preferences
   // have been set above, in variable $prefs.
