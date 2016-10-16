@@ -379,7 +379,7 @@ $astro_phys_chem = array(
 //        ),
         array(
             "LHC@home",
-            "http://lhcathomeclassic.cern.ch/sixtrack/",
+            "http://lhcathome.cern.ch/",
             tra("CERN (European Organization for Nuclear Research)"),
             tra("Physics"),
             tra("The Large Hadron Collider (LHC) is a particle accelerator at CERN, the European Organization for Nuclear Research, the world's largest particle physics laboratory.  It is the most powerful instrument ever built to investigate on particles proprieties. LHC@home runs simulations to improve the design of LHC and its detectors."),
