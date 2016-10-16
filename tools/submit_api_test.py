@@ -56,8 +56,17 @@ def test_estimate():
     #print ET.tostring(r)
     if r.tag == 'error':
         print 'error: ', r.find('error_msg').text
-    else:
-        print 'estimated time: ', r.text, ' seconds'
+        return
+    print 'estimated time: ', r.text, ' seconds'
+
+def test_submit():
+    batch = make_batch()
+    r = submit_batch(batch)
+    #print ET.tostring(r)
+    if r.tag == 'error':
+        print 'error: ', r.find('error_msg').text
+        return
+    print 'batch ID: ', r.text
 
 def test_query_batches():
     req = REQUEST()
@@ -71,9 +80,47 @@ def test_query_batch():
     req = REQUEST()
     req.project = 'http://isaac.ssl.berkeley.edu/test/'
     req.authenticator = get_auth()
-    req.batch_id = 101
+    req.batch_id = 271
     req.get_cpu_time = True
     r = query_batch(req)
+    if r[0].tag == 'error':
+        print 'error: ', r[0].find('error_msg').text
+        return
     print ET.tostring(r)
+    print 'njobs: ', r.find('njobs').text
+    print 'fraction done: ', r.find('fraction_done').text
+    print 'total CPU time: ', r.find('total_cpu_time').text
+    # ... various other fields
+    print 'jobs:'
+    for job in r.findall('job'):
+        print '   id: ', job.find('id').text
+        print '      n_outfiles: ', job.find('n_outfiles').text
+        # ... various other fields
 
-test_estimate()
+def test_query_files():
+    req = QUERY_FILES_REQ()
+    req.project = 'http://isaac.ssl.berkeley.edu/test/'
+    req.authenticator = get_auth()
+    req.batch_id = 271
+    req.boinc_names = ('xxx', 'xxx')
+    r = query_files(req)
+    if r.tag == 'error':
+        print 'error: ', r.find('error_msg').text
+        return
+    for f in r.findall('present'):
+        print "server doesn't have ", f.text
+
+def test_upload_files():
+    req = UPLOAD_FILES_REQ()
+    req.project = 'http://isaac.ssl.berkeley.edu/test/'
+    req.authenticator = get_auth()
+    req.batch_id = 271
+    req.local_names = ('xxx', 'xxx')
+    req.boinc_names = ('xxx', 'xxx')
+    r = upload_files(req)
+    if r.tag == 'error':
+        print 'error: ', r.find('error_msg').text
+        return
+    print 'success'
+
+test_query_batch()

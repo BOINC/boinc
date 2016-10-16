@@ -443,18 +443,22 @@ function query_batch($r) {
     }
 
     $wus = BoincWorkunit::enum("batch = $batch->id");
-    $batch = get_batch_params($batch, $wus);
-    $get_cpu_time = (int)($r->get_cpu_time);
-    print_batch_params($batch, $get_cpu_time);
-    $n_outfiles = n_outfiles($wus[0]);
-    foreach ($wus as $wu) {
-        echo "    <job>
-        <id>$wu->id</id>
-        <name>$wu->name</name>
-        <canonical_instance_id>$wu->canonical_resultid</canonical_instance_id>
-        <n_outfiles>$n_outfiles</n_outfiles>
-        </job>
+    if (count($wus) > 0) {
+        $batch = get_batch_params($batch, $wus);
+        $get_cpu_time = (int)($r->get_cpu_time);
+        print_batch_params($batch, $get_cpu_time);
+        $n_outfiles = n_outfiles($wus[0]);
+        foreach ($wus as $wu) {
+            echo "    <job>
+            <id>$wu->id</id>
+            <name>$wu->name</name>
+            <canonical_instance_id>$wu->canonical_resultid</canonical_instance_id>
+            <n_outfiles>$n_outfiles</n_outfiles>
+            </job>
 ";
+        }
+    } else {
+        echo "<nojobs>no jobs found</nojobs>\n";
     }
     echo "</query_batch>\n";
 }
