@@ -127,11 +127,14 @@ function _forum_access_comment_form(&$form, &$form_state) {
                   '#type'  => 'item',
                   '#value' => 'You do not have permission to post comments in this forum.',);
             break;
-          case 'comment':
-              drupal_set_message(t("ERROR: You do not have permission to post comments in this forum."), 'error');
-              drupal_goto("node/$node->nid");
-            exit;
-        }
+            case 'comment':
+                if (arg(1)=='reply') {
+                    drupal_set_message(t("ERROR: You do not have permission to post comments in this forum."), 'error');
+                    drupal_goto("node/$node->nid");
+                    exit;
+                }
+            break;
+        }//switch arg(0)
       }
       else {
         if (isset($form['admin']) && !empty($user->_forum_access_moderator)) {
@@ -205,7 +208,6 @@ function _forum_access_preprocess_comment(&$variables) {
 
   $tid = $variables['node']->tid;
   $links = module_invoke_all('link', 'comment', $variables['comment'], 0);
-
   if (!empty($user->_forum_access_moderator) && arg(0) == 'node' && arg(2) == NULL) {
     _forum_access_disable_moderator();
   }
