@@ -15,9 +15,11 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-# test code for submit_api.py
+# test functions for submit_api.py
 
 from submit_api import *
+
+project_url = 'http://isaac.ssl.berkeley.edu/test/'
 
 # read auth from a file so we don't have to including it here
 #
@@ -36,7 +38,7 @@ def make_batch():
     job.files = [file]
 
     batch = BATCH_DESC()
-    batch.project = 'http://isaac.ssl.berkeley.edu/test/'
+    batch.project = project_url
     batch.authenticator = get_auth()
     batch.app_name = "uppercase"
     batch.batch_name = "blah"
@@ -49,28 +51,26 @@ def make_batch():
 
     return batch
 
-def test_estimate():
+def test_estimate_batch():
     batch = make_batch()
     #print batch.to_xml("submit")
     r = estimate_batch(batch)
-    #print ET.tostring(r)
-    if r.tag == 'error':
+    if r[0].tag == 'error':
         print 'error: ', r.find('error_msg').text
         return
-    print 'estimated time: ', r.text, ' seconds'
+    print 'estimated time: ', r[0].text, ' seconds'
 
-def test_submit():
+def test_submit_batch():
     batch = make_batch()
     r = submit_batch(batch)
-    #print ET.tostring(r)
-    if r.tag == 'error':
+    if r[0].tag == 'error':
         print 'error: ', r.find('error_msg').text
         return
-    print 'batch ID: ', r.text
+    print 'batch ID: ', r[0].text
 
 def test_query_batches():
     req = REQUEST()
-    req.project = 'http://isaac.ssl.berkeley.edu/test/'
+    req.project = project_url
     req.authenticator = get_auth()
     req.get_cpu_time = True
     r = query_batches(req)
@@ -78,7 +78,7 @@ def test_query_batches():
 
 def test_query_batch():
     req = REQUEST()
-    req.project = 'http://isaac.ssl.berkeley.edu/test/'
+    req.project = project_url
     req.authenticator = get_auth()
     req.batch_id = 271
     req.get_cpu_time = True
@@ -97,30 +97,28 @@ def test_query_batch():
         print '      n_outfiles: ', job.find('n_outfiles').text
         # ... various other fields
 
-def test_query_files():
-    req = QUERY_FILES_REQ()
-    req.project = 'http://isaac.ssl.berkeley.edu/test/'
+def test_abort_batch
+    req = REQUEST()
+    req.project = project_url
     req.authenticator = get_auth()
     req.batch_id = 271
-    req.boinc_names = ('xxx', 'xxx')
-    r = query_files(req)
-    if r.tag == 'error':
-        print 'error: ', r.find('error_msg').text
-        return
-    for f in r.findall('present'):
-        print "server doesn't have ", f.text
-
-def test_upload_files():
-    req = UPLOAD_FILES_REQ()
-    req.project = 'http://isaac.ssl.berkeley.edu/test/'
-    req.authenticator = get_auth()
-    req.batch_id = 271
-    req.local_names = ('xxx', 'xxx')
-    req.boinc_names = ('xxx', 'xxx')
-    r = upload_files(req)
-    if r.tag == 'error':
+    r = abort_bath(req)
+    if r[0].tag == 'error':
         print 'error: ', r.find('error_msg').text
         return
     print 'success'
 
-test_query_batch()
+def test_upload_files():
+    req = UPLOAD_FILES_REQ()
+    req.project = project_url
+    req.authenticator = get_auth()
+    req.batch_id = 271
+    req.local_names = ('updater.cpp', 'kill_wu.cpp')
+    req.boinc_names = ('xxx_updater.cpp', 'xxx_kill_wu.cpp')
+    r = upload_files(req)
+    if r[0].tag == 'error':
+        print 'error: ', r[0].find('error_msg').text
+        return
+    print 'success'
+
+test_upload_files()
