@@ -483,13 +483,7 @@ function projectprefs_page($action = null, $venue = null) {
       $_SESSION['prefs venue'] = 'generic';
       
       // If the user has removed their default preference set, make it generic
-      require_boinc('boinc_db');
-      global $user;
-      $boinc_user = BoincUser::lookup_email_addr($user->mail);
-      if ($boinc_user->venue == $venue) {
-        $boinc_user->venue = '';
-        venue_update($boinc_user);
-      }
+      boincwork_set_default_venue();
     }
     drupal_goto();
     break;
@@ -580,13 +574,8 @@ function projectprefs_page($action = null, $venue = null) {
   case 'set-default':
     // Set this preference set as the one to use for any new hosts attached
     // to the user account
-    global $user;
-    $account = user_load($user->uid);
-    $boincuser = BoincUser::lookup_id($account->boincuser_id);
-    $boincuser->venue = $venue;
-    venue_update($boincuser);
-    drupal_set_message(t('The primary preference set has been changed to "@set"',
-      array('@set' => ucfirst($boincuser->venue))));
+    boincwork_set_default_venue($venue);
+    drupal_set_message( bts('The primary preference set has been changed to "@set"', array('@set' => $venue)) );
     drupal_goto('account/prefs/project/combined');
     break;
     
