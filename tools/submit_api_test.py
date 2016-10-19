@@ -27,7 +27,9 @@ def get_auth():
     with open("test_auth", "r") as f:
         return (f.readline()).strip()
 
-def make_batch():
+# make a batch description, to be passed to estimate_batch() or submit_batch()
+#
+def make_batch_desc():
     file = FILE_DESC()
     file.mode = 'remote'
     file.url = 'http://isaac.ssl.berkeley.edu/validate_logic.txt'
@@ -52,7 +54,7 @@ def make_batch():
     return batch
 
 def test_estimate_batch():
-    batch = make_batch()
+    batch = make_batch_desc()
     #print batch.to_xml("submit")
     r = estimate_batch(batch)
     if r[0].tag == 'error':
@@ -61,7 +63,7 @@ def test_estimate_batch():
     print 'estimated time: ', r[0].text, ' seconds'
 
 def test_submit_batch():
-    batch = make_batch()
+    batch = make_batch_desc()
     r = submit_batch(batch)
     if r[0].tag == 'error':
         print 'error: ', r.find('error_msg').text
