@@ -511,7 +511,7 @@ function boinccore_link_alter(&$links, $node, $comment = NULL) {
   if (!($comment)) {
       // modify the comment_add link
       if (isset($links['comment_add'])) {
-          $links['comment_add']['title'] = bts('Reply');
+          $links['comment_add']['title'] = bts('reply');
           $links['comment_add']['attributes'] = array(
               'title' => bts('Reply to this comment')
           );
@@ -645,7 +645,7 @@ function boinccore_link($type, $object, $teaser = FALSE) {
       if (user_access('administer comments')) {
           // Add hide link
           $comment_control = "comment_control/{$cid}";
-          if ($vars['comment']->status == 0) {
+          if ($object->status == 0) {
               $links['hide'] = array(
                   'title' => bts('Hide'),
                   'href' => "{$comment_control}/hide",
@@ -678,27 +678,6 @@ function boinccore_link($type, $object, $teaser = FALSE) {
       }// if user_access('administer comments')
   }//if $type
 
-
-/*
-  if ($type == 'comment') {
-    if (user_access('administer comments')) {
-      $comment_control = "comment_control/{$object->cid}";
-      if ($object->status == 0) {
-        $links['hide'] = array(
-          'title' => bts('Hide'),
-          'href' => "{$comment_control}/hide",
-          'attributes' => array(
-            'title' => bts('Hide this comment')
-          )
-        );
-
-      // if comment is not locked
-      
-        
-      }
-    }
-  }
-*/
   return $links;
 }
 
