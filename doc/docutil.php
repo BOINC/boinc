@@ -11,7 +11,7 @@ if (0) {
     fclose($f);
 }
 
-function search_form() {
+function google_search_form() {
     echo "
     <form method=get action=\"https://google.com/search\">
     <input type=hidden name=domains value=\"https://boinc.berkeley.edu\">

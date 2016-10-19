@@ -152,21 +152,12 @@ function get_logged_in_user($must_be_logged_in=true) {
 
 function show_login_info($prefix="") {
     $user = get_logged_in_user(false);
-    echo "
-        <table width=\"100%\" cellpadding=0 cellspacing=0>
-        <tr><td align=right>
-    ";
     if ($user) {
         $url_tokens = url_tokens($user->authenticator);
         echo "<nobr>$user->name &middot; <a href=".$prefix."logout.php?$url_tokens>".tra("log out")."</a></nobr>";
     } else {
         echo "<a href=".$prefix."login_form.php>".tra("log in")."</a>";
     }
-    echo "
-        </td>
-        </tr>
-        </table>
-    ";
 }
 
 $cache_control_extra="";
@@ -240,7 +231,9 @@ function page_head(
     case tra("Server status page"):
         break;
     default:
+        echo "<p><div style=\"float:right\">";
         show_login_info($prefix);
+        echo "</div>\n";
     }
 
 }
@@ -997,6 +990,19 @@ function version_string_maj_min_rel($v) {
     $min = (int)($v/100);
     $v -= $min*100;
     return sprintf("%d.%d.%d", $maj, $min, $v);
+}
+
+function google_search_form($url) {
+    echo "
+    <form method=get action=\"https://google.com/search\">
+    <input type=hidden name=domains value=\"$url\">
+    <input type=hidden name=sitesearch value=\"$url\">
+    <span class=\"nobar\">
+    <input class=small name=q size=20>
+    <input class=small type=submit value=".tra("Search").">
+    </span>
+    </form>
+";
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

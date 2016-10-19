@@ -159,15 +159,23 @@ include 'schedulers.txt';
     }
 echo "
     </head><body>
+    <table width=\"100%\">
+    <tr>
+    <td>
     <div class=page_title>".PROJECT."</div>
+    </td>
+    <td align=right valign=bottom>
 ";
 
 if (!$stopped) {
     get_logged_in_user(false);
     show_login_info();
+    echo "<p>";
 }
+google_search_form(URL_BASE);
 
 echo "
+    </td></tr></table>
     <table cellpadding=\"8\" cellspacing=\"4\" class=\"table table-bordered\">
     <tr><td rowspan=\"2\" valign=\"top\" width=\"40%\">
 ";
