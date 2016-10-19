@@ -48,7 +48,13 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
         }
     }// if !$prefs_preset
   }
-  
+  // Extract mod_time tag if present, because it will be erased with
+  // boincwork_get_preset_prefs() below.
+  $mod_time = null;
+  if (isset($prefs['mod_time']['@value'])) {
+      $mod_time = $prefs['mod_time']['@value'];
+  }
+
   // Define form defaults
   switch($prefs_preset) {
   case 'standard':
@@ -120,7 +126,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
       }
     }
   }
-  
+
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
@@ -152,7 +158,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
   // Hidden elements
   $form['prefs']['modified'] = array(
     '#type' => 'hidden',
-    '#value' => (isset($prefs['mod_time']['@value']) ? $prefs['mod_time']['@value'] : null)
+    '#value' => $mod_time
   );
   $form['prefs']['venue'] = array(
     '#type' => 'hidden',
