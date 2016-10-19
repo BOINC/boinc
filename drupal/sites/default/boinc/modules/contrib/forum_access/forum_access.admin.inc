@@ -474,7 +474,8 @@ function _forum_access_forum_form_disable_checkboxes($element) {
 function _forum_access_forum_form_after_build_acl0($form, $form_state) {
   if (isset($form['#post']['forum_access']['template']['taxonomy'])) {
     // Get ACL's user_list for the template and replace it before ACL's after_build function gets its shot at it.
-    $template_tid = reset(array_values($form['#post']['forum_access']['template']['taxonomy']));
+    $imv = array_values($form['#post']['forum_access']['template']['taxonomy']);
+    $template_tid = reset($imv);
     if ($acl_id = acl_get_id_by_number('forum_access', $template_tid)) {
       $f = acl_edit_form($acl_id, 'DUMMY');
       $form['user_list']['#value'] = $f['user_list']['#default_value'];
