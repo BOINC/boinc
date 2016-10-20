@@ -51,6 +51,7 @@ function forum_access_schema() {
       'rid'           => array(
         'description' => 'The {role}.rid to which this {forum_access} entry applies.',
         'type'        => 'int',
+        'unsigned'    => TRUE,
         'not null'    => TRUE,
         'default'     => 0),
       'grant_view'    => array(
