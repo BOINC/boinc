@@ -245,10 +245,10 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
       $prefs[$pref_set] = drupal_retrieve_form('boincwork_generalprefs_form', $form_state, $pref_set);
       drupal_prepare_form('boincwork_generalprefs_form', $prefs[$pref_set], $form_state);
     }
-    
+
     $output .= '<p>' . bts('These apply to all BOINC projects in which you participate.') . '<br/>';
     $output .= bts('On computers attached to multiple projects, the most recently modified preferences will be used.') . '</p>';
-    $output .= '<p>' . bts('Preferences last modified: @mod_time', array('@mod_time' => pretty_time_str($prefs['generic']['modified']['#value']))) . '</p>';
+    $output .= '<p>' . bts('Preferences last modified: @mod_time', array('@mod_time' => pretty_time_str($prefs['generic']['prefs']['modified']['#value']))) . '</p>';
     $output .= '<h2>' . bts('Combined preferences') . ' ' . l('(' . bts('Switch View') . ')', 'account/prefs/computing') . '</h2>';
     
     $output .= '<table class="preferences combined">';
@@ -368,10 +368,10 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
       $form_state = array();
       $prefs = drupal_retrieve_form('boincwork_generalprefs_form', $form_state, $pref_set);
       drupal_prepare_form('boincwork_generalprefs_form', $prefs, $form_state);
-      if (isset($prefs['venue'])) {
+      if (isset($prefs['prefs']['venue'])) {
         if ($pref_set == 'generic') {
           // Global preferences
-          $output .= '<p>' . bts('Preferences last modified: @mod_time', array('@mod_time' => pretty_time_str($prefs['modified']['#value']))) . '</p>';
+          $output .= '<p>' . bts('Preferences last modified: @mod_time', array('@mod_time' => pretty_time_str($prefs['prefs']['modified']['#value']))) . '</p>';
           $output .= '<h2>' . bts('Primary (generic) preferences') . ' ' . l('(' . bts('Switch View') . ')', 'account/prefs/computing/combined') . '</h2>';
         } else {
           // Venue specific preferences
@@ -380,10 +380,9 @@ function generalprefs_page($action = null, $venue = null, $advanced = FALSE) {
         $output .= '<table>';
         
         $sections = array(
-          'processor' => $prefs['processor'],
-          'storage' => $prefs['storage'],
-          'network' => $prefs['network']
-        );
+          'processor' => $prefs['prefs']['advanced']['processor'],
+          'storage' => $prefs['prefs']['advanced']['storage'],
+          'network' => $prefs['prefs']['advanced']['network']);
         foreach ($sections as $section) {
           $output .= '<tr class="section-heading">';
           $output .= "<td>{$section['#title']}</td></tr>";
