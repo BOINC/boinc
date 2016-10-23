@@ -68,7 +68,7 @@ function page_head($title, $extra="") {
         <td align=right><a href=index.php><img src=\"logo/www_logo.gif\" alt=\"BOINC logo\"></a>
         <br>
 ";
-        search_form();
+        google_search_form();
 echo "
         </td>
         </tr></table>
