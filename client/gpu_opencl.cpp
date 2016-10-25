@@ -1202,3 +1202,27 @@ void COPROCS::opencl_get_ati_mem_size_from_opengl(vector<string>& warnings) {
     CGLSetCurrentContext (curr_ctx); // restore current CGL context
 }
 #endif
+
+void fake_opencl_gpu(char* type) {
+    OPENCL_DEVICE_PROP op;
+    op.clear();
+    strcpy(op.name, type);
+    strcpy(op.vendor, "ARM");
+    op.vendor_id = 102760464;
+    op.available = 1;
+    op.half_fp_config = 63;
+    op.single_fp_config = 63;
+    op.double_fp_config = 63;
+    op.endian_little = 1;
+    op.execution_capabilities = 1;
+    strcpy(op.extensions, "cl_khr_global_int32_base_atomics cl_khr_global_int32_extended_atomics cl_khr_local_int32_base_atomics cl_khr_local_int32_extended_atomics cl_khr_byte_addressable_store cl_khr_3d_image_writes cl_khr_fp64 cl_khr_int64_base_atomics cl_khr_int64_extended_atomics cl_khr_fp16 cl_khr_gl_sharing cl_khr_icd cl_khr_egl_event cl_khr_egl_image cl_khr_image2d_from_buffer cl_arm_core_id cl_arm_printf cl_arm_thread_limit_hint cl_arm_non_uniform_work_group_size cl_arm_import_memory");
+    op.global_mem_size = 2086998016;
+    op.local_mem_size = 32768;
+    op.max_clock_frequency = 600;
+    op.max_compute_units = 2;
+    strcpy(op.opencl_platform_version, "OpenCL 1.2 v1.r14p0-01rel0.0fe2d25ca074016740f8ab3fb451b151");
+    strcpy(op.opencl_device_version,   "OpenCL 1.2 v1.r14p0-01rel0.0fe2d25ca074016740f8ab3fb451b151");
+    strcpy(op.opencl_driver_version, "1.2");
+    op.is_used = COPROC_USED;
+    other_opencls.push_back(op);
+}

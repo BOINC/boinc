@@ -83,6 +83,9 @@ struct OPENCL_DEVICE_PROP {
     void write_xml(MIOFILE&, const char* tag, bool temp_file=false);
     int parse(XML_PARSER&, const char* end_tag);
     void description(char* buf, int buflen, const char* type);
+    void clear() {
+        memset(this, 0, sizeof(*this));
+    }
 };
 
 // NOTE: OpenCL has only 32 bits for global_mem_size, so
