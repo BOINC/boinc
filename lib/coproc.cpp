@@ -148,6 +148,10 @@ int COPROC::parse(XML_PARSER& xp) {
             clear_usage();
             return 0;
         }
+        if (xp.match_tag("coproc_opencl")) {
+            opencl_prop.parse(xp, "/coproc_opencl");
+            continue;
+        }
         if (xp.parse_str("type", type, sizeof(type))) continue;
         if (xp.parse_int("count", count)) continue;
         if (xp.parse_double("req_secs", req_secs)) continue;
@@ -197,6 +201,22 @@ void COPROCS::summary_string(char* buf, int len) {
             (int)(intel_gpu.opencl_prop.global_mem_size/MEGA),
             intel_gpu.version,
             intel_gpu.opencl_prop.opencl_device_version_int
+        );
+        strlcat(buf, buf2, len);
+    }
+    for (int i=1; i<n_rsc; i++) {
+        COPROC& cp = coprocs[i];
+        int type = coproc_type_name_to_num(cp.type);
+        if (type == PROC_TYPE_NVIDIA_GPU) continue;
+        if (type == PROC_TYPE_AMD_GPU) continue;
+        if (type == PROC_TYPE_INTEL_GPU) continue;
+        if (!strlen(cp.opencl_prop.name)) continue;
+        snprintf(buf2, sizeof(buf2),
+            "[opencl_gpu|%s|%d|%dMB|%d]",
+            cp.type,
+            cp.count,
+            (int)(cp.opencl_prop.global_mem_size/MEGA),
+            cp.opencl_prop.opencl_device_version_int
         );
         strlcat(buf, buf2, len);
     }

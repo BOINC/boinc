@@ -257,12 +257,14 @@ function gpu_desc($x) {
         //print_r($d);
 		if ($d[0] == "BOINC") continue;
 		if ($d[0] == "vbox") continue;
-		if ($str) $str .= ", ";
+		if ($str) $str .= "<p>";
         if ($d[2]!="" && $d[2]!="1") $str .= "[".$d[2]."] ";
         if ($d[0] == "CUDA") {
             $str .= "NVIDIA";
         } else if ($d[0] == "CAL") {
             $str .= "AMD";
+        } else if ($d[0] == "opencl_gpu") {
+            $str .= "OpenCL GPU";
         } else {
             $str .= $d[0];
         }
