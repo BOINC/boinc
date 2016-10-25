@@ -408,7 +408,8 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
             );
             if (retval) return "error copying global prefs";
             safe_strcat(global_prefs_xml, buf);
-            safe_strcat(global_prefs_xml, "</global_preferences>\n");
+            // xp.element_contents() strips the linebreak from buf so we add it back because it is essential
+            safe_strcat(global_prefs_xml, "\n</global_preferences>\n");
             continue;
         }
         if (xp.match_tag("working_global_preferences")) {
