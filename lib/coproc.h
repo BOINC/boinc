@@ -506,4 +506,6 @@ struct COPROCS {
     }
 };
 
+extern void fake_opencl_gpu(char*);
+
 #endif

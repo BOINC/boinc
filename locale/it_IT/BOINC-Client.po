@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Sebastiano Pistore <olatusrooc@virgilio.it>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2016-08-31 08:55+0000\n"
+"PO-Revision-Date: 2016-09-21 11:26+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -56,7 +57,7 @@ msgstr "ll file referenziato in app_info.xml non esiste: "
 
 #: current_version.cpp:91
 msgid "A new version of BOINC is available."
-msgstr "Una nuova versione di BOINC è disponibile."
+msgstr "È disponibile una nuova versione di BOINC."
 
 #: current_version.cpp:94 current_version.cpp:102
 msgid "Download"

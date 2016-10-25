@@ -10631,6 +10631,43 @@ else {
       'field' => 'name',
       'relationship' => 'none',
     ),
+    'phpcode_8' => array(
+      'label' => 'dont_suppress_pending',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'absolute' => 0,
+        'link_class' => '',
+        'alt' => '',
+        'rel' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'hide_alter_empty' => 1,
+      'value' => '<?php
+  require_boinc(\'util\');
+  $dont_suppress_pending = parse_bool(get_config(), "dont_suppress_pending");
+  $data->dontsuppresspending = $dont_suppress_pending;
+?>',
+      'exclude' => 1,
+      'id' => 'phpcode_8',
+      'table' => 'customfield',
+      'field' => 'phpcode',
+      'relationship' => 'none',
+    ),
     'user_friendly_name' => array(
       'label' => 'Application',
       'alter' => array(
@@ -11074,40 +11111,6 @@ else {
       'field' => 'target_nresults',
       'relationship' => 'appid',
     ),
-    'phpcode_2' => array(
-      'label' => 'Tasks in progress',
-      'alter' => array(
-        'alter_text' => 0,
-        'text' => '',
-        'make_link' => 0,
-        'path' => '',
-        'link_class' => '',
-        'alt' => '',
-        'prefix' => '',
-        'suffix' => '',
-        'target' => '',
-        'help' => '',
-        'trim' => 0,
-        'max_length' => '',
-        'word_boundary' => 1,
-        'ellipsis' => 1,
-        'html' => 0,
-        'strip_tags' => 0,
-      ),
-      'empty' => '',
-      'hide_empty' => 1,
-      'empty_zero' => 0,
-      'value' => '<?php
-  if ($data->app_target_nresults>0 AND !$data->workunit_canonical_resultid) {
-    echo \'suppressed pending completion\';
-  }
-?>',
-      'exclude' => 0,
-      'id' => 'phpcode_2',
-      'table' => 'customfield',
-      'field' => 'phpcode',
-      'relationship' => 'none',
-    ),
     'phpcode_3' => array(
       'label' => 'Minimum quorum',
       'alter' => array(
@@ -11115,8 +11118,10 @@ else {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -11131,8 +11136,9 @@ else {
       'empty' => '',
       'hide_empty' => 1,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'value' => '<?php
-  if ($data->app_target_nresults <= 0 OR $data->workunit_canonical_resultid) {
+  if (!($data->app_workunit_target_nresults>0 AND !$data->workunit_canonical_resultid AND !$data->workunit_error_mask AND !$data->dontsuppresspending)) {
     echo $data->workunit_min_quorum;
   }
 ?>',
@@ -11149,8 +11155,10 @@ else {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -11165,8 +11173,10 @@ else {
       'empty' => '',
       'hide_empty' => 1,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'value' => '<?php
-  if ($data->app_target_nresults <= 0 OR $data->workunit_canonical_resultid) {
+  if (!($data->app_workunit_target_nresults>0 AND !$data->workunit_canonical_resultid AND !$data->workunit_error_mask AND !$data->dontsuppresspending)) {
+
     echo $data->workunit_target_nresults;
   }
 ?>',
@@ -11183,8 +11193,10 @@ else {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -11197,10 +11209,11 @@ else {
         'strip_tags' => 0,
       ),
       'empty' => '',
-      'hide_empty' => 0,
+      'hide_empty' => 1,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'value' => '<?php
-  if ($data->app_target_nresults <= 0 OR $data->workunit_canonical_resultid) {
+  if (!($data->app_workunit_target_nresults>0 AND !$data->workunit_canonical_resultid AND !$data->workunit_error_mask AND !$data->dontsuppresspending)) {
     echo "{$data->workunit_max_error_results}, {$data->workunit_max_total_results}, {$data->workunit_max_success_results}";
   }
 ?>',
@@ -11217,8 +11230,10 @@ else {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -11233,8 +11248,9 @@ else {
       'empty' => '',
       'hide_empty' => 1,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'value' => '<?php
-  if ($data->app_target_nresults <= 0 OR $data->workunit_canonical_resultid) {
+  if (!($data->app_workunit_target_nresults>0 AND !$data->workunit_canonical_resultid AND !$data->workunit_error_mask AND !$data->dontsuppresspending)) {
     if ($data->workunit_error_mask) {
       require_boinc(\'result\');
       echo wu_error_mask_str($data->workunit_error_mask);
@@ -11309,7 +11325,8 @@ else {
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'value' => '<?php
-  if ($data->app_target_nresults <= 0 OR $data->workunit_canonical_resultid) {
+  if (!($data->app_workunit_target_nresults>0 AND !$data->workunit_canonical_resultid AND !$data->workunit_error_mask AND !$data->dontsuppresspending)) {
+
     if ($data->workunit_need_validate) {
       echo bts(\'Pending\');
     }

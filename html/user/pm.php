@@ -210,12 +210,13 @@ function do_send($logged_in_user) {
                     pm_form($replyto, $userid, tra("Could not find user with id %1", $userid));
                 }
             } else {
-                $user = BoincUser::lookup_name($username);
-                if ($user == null) {
+                $users = BoincUser::lookup_name($username);
+                if (count($users) == 0) {
                     pm_form($replyto, $userid, tra("Could not find user with username %1", $username));
-                } elseif ($user == -1) { // Non-unique username
+                } elseif (count($users) > 1) { // Non-unique username
                     pm_form($replyto, $userid, tra("%1 is not a unique username; you will have to use user ID", $username));
                 }
+                $user = $users[0];
             }
             BoincForumPrefs::lookup($user);
             if (is_ignoring($user, $logged_in_user)) {

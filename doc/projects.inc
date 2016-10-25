@@ -283,16 +283,16 @@ $astro_phys_chem = array(
             "",
             "Study the properties of asteroids"
         ),
-        array(
-            "Constellation",
-            "http://aerospaceresearch.net/constellation/",
-            "<a href='http://rechenkraft.net'>Rechenkraft.net</a>, <a href='http://stuttgart.dglr.de'>DGLR</a>, <a href='http://selfnet.de'>Selfnet</a>, and <a href='http://shackspace.de'>shack</a>",
-            tra("Aerospace-related science and engineering"),
-            tra("Constellation is a platform for aerospace-related simulations, including trajectory optimization of launchers, satellites and probes, simulation of Moon's near-surface exosphere, and analysis of dynamic systems of exploration-rovers"),
-            "constellation2.png",
-            "",
-            tra("Perform aerospace-related simulations")
-        ),
+//        array(
+//            "Constellation",
+//            "http://aerospaceresearch.net/constellation/",
+//            "<a href='http://rechenkraft.net'>Rechenkraft.net</a>, <a href='http://stuttgart.dglr.de'>DGLR</a>, <a href='http://selfnet.de'>Selfnet</a>, and <a href='http://shackspace.de'>shack</a>",
+//            tra("Aerospace-related science and engineering"),
+//            tra("Constellation is a platform for aerospace-related simulations, including trajectory optimization of launchers, satellites and probes, simulation of Moon's near-surface exosphere, and analysis of dynamic systems of exploration-rovers"),
+//            "constellation2.png",
+//            "",
+//            tra("Perform aerospace-related simulations")
+//        ),
 //        array(
 //            "eOn",
 //            "http://eon.ices.utexas.edu/eon2/",
@@ -379,7 +379,7 @@ $astro_phys_chem = array(
 //        ),
         array(
             "LHC@home",
-            "http://lhcathomeclassic.cern.ch/sixtrack/",
+            "http://lhcathome.cern.ch/",
             tra("CERN (European Organization for Nuclear Research)"),
             tra("Physics"),
             tra("The Large Hadron Collider (LHC) is a particle accelerator at CERN, the European Organization for Nuclear Research, the world's largest particle physics laboratory.  It is the most powerful instrument ever built to investigate on particles proprieties. LHC@home runs simulations to improve the design of LHC and its detectors."),

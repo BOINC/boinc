@@ -193,16 +193,12 @@ class BoincUser {
         $email_addr = BoincDb::escape_string($email_addr);
         return self::lookup("email_addr='$email_addr'");
     }
+    // name is not necessarily unique
+    //
     static function lookup_name($name) {
         $name = BoincDb::escape_string($name);
         $users = BoincUser::enum("name='$name'");
-        switch (sizeof($users)) {
-        case 1:
-            return $users[0];
-        case 0:
-            return null;
-        }
-        return -1;
+        return $users;
     }
     static function count($clause) {
         $db = BoincDb::get();

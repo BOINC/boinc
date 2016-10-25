@@ -252,8 +252,11 @@ int COPROCS::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
+#ifdef _USING_FCGI_
+void COPROCS::write_xml(MIOFILE&, bool) {
+}
+#else
 void COPROCS::write_xml(MIOFILE& mf, bool scheduler_rpc) {
-#ifndef _USING_FCGI_
     mf.printf("    <coprocs>\n");
     
     for (int i=1; i<n_rsc; i++) {
@@ -273,8 +276,8 @@ void COPROCS::write_xml(MIOFILE& mf, bool scheduler_rpc) {
     }
     
     mf.printf("    </coprocs>\n");
-#endif
 }
+#endif
 
 void COPROC_NVIDIA::description(char* buf, int buflen) {
     char vers[256], cuda_vers[256];

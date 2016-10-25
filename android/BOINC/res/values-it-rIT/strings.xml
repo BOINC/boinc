@@ -171,7 +171,7 @@
   <string name="battery_temperature_max_header">Temperatura massima della batteria</string>
   <string name="battery_temperature_max_description">BOINC sospende l\'elaborazione sopra al livello definito di temperatura della batteria. Non è raccomandato il cambiamento di questo valore.</string>
   <string name="prefs_disk_max_pct_header">Massimo spazio di salvataggio</string>
-  <string name="prefs_disk_max_pct_description">Quanta percentuale dello spazio di salvataggio può usare BOINC?</string>
+  <string name="prefs_disk_max_pct_description">Quanta percentuale del tuo disco può usare BOINC per lavorare?</string>
   <string name="prefs_disk_min_free_gb_header">Minimo spazio su disco</string>
   <string name="prefs_disk_min_free_gb_description">Quanto dello spazio di salvataggio del tuo dispositivo deve rimanere libero?</string>
   <string name="prefs_disk_access_interval_header">Intervallo di accesso</string>

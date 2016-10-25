@@ -306,7 +306,7 @@ void OPENCL_DEVICE_PROP::description(char* buf, int buflen, const char* type) {
 // this is here to take advantage of the other OpenCL code.
 void OPENCL_CPU_PROP::clear() {
     platform_vendor[0] = 0;
-    memset(&opencl_prop, 0, sizeof(opencl_prop));
+    opencl_prop.clear();
 }
 
 void OPENCL_CPU_PROP::write_xml(MIOFILE& f) {

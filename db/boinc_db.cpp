@@ -1765,6 +1765,7 @@ void VALIDATOR_ITEM::parse(MYSQL_ROW& r) {
     wu.rsc_fpops_bound = atof(r[i++]);
 
     res.id = atol(r[i++]);
+    res.workunitid = atol(r[i++]);
     strcpy2(res.name, r[i++]);
     res.validate_state = atoi(r[i++]);
     res.server_state = atoi(r[i++]);
@@ -1847,6 +1848,7 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
             "   wu.rsc_fpops_est, "
             "   wu.rsc_fpops_bound, "
             "   res.id, "
+            "   res.workunitid, "
             "   res.name, "
             "   res.validate_state, "
             "   res.server_state, "

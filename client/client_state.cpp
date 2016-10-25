@@ -532,6 +532,9 @@ int CLIENT_STATE::init() {
         msg_printf(NULL, MSG_INFO, "Faking an Intel GPU");
         coprocs.intel_gpu.fake(512*MEGA, 256*MEGA, 2);
 #endif
+#if 0
+        fake_opencl_gpu("Mali-T628");
+#endif
     }
 
     if (coprocs.have_nvidia()) {

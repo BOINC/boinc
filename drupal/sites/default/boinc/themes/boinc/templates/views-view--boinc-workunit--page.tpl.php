@@ -94,6 +94,13 @@
   <?php
     // Inject the task list for this workunit 
     //$view = views_get_view('boinc_workunit_tasks_all');
+
+    // Get the results of the view in order to retrieve the fields.
+    $myres = $view->result[0];
     print '<div class="separator"></div>';
-    print views_embed_view('boinc_workunit_tasks_all', $display_id = 'page_1', arg(1));
+    if ( ($myres->app_workunit_target_nresults>0) AND !($myres->workunit_canonical_resultid) AND !($myres->workunit_error_mask) AND !($myres->dontsuppresspending) ) {
+        print bts('Tasks are pending for this workunit.');
+    } else {
+        print views_embed_view('boinc_workunit_tasks_all', $display_id = 'page_1', arg(1));
+    }
   ?>

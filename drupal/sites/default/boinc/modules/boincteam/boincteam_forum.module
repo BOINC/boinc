@@ -143,7 +143,16 @@ function boincteam_forum_node_validate($node) {
   switch($node->type) {
   case 'team_forum':
     $account = user_load($node->uid);
-    $team_id = boincteam_forum_lookup_nid($node->tfid);
+    // Get tfid from node, but if empty/null, get it from the database
+    if (!($node->tfid)) {
+        $tfid = db_result(db_query("
+      SELECT tfid FROM {boincteam_forum_node}
+      WHERE nid = %d", $node->nid
+        ));
+    } else {
+        $tfid = $node->tfid;
+    }
+    $team_id = boincteam_forum_lookup_nid($tfid);
     if (!$account->team OR $account->team != $team_id) {
       drupal_set_message(t('Failed to add team forum topic.'), 'error');
       drupal_goto('community/forum');
@@ -268,7 +277,7 @@ function boincteam_forum_list($team_id = NULL) {
       $last_post->timestamp = db_result(db_query("
         SELECT ncs.last_comment_timestamp FROM {node} n
         INNER JOIN {boincteam_forum_node} bfn
-        INNER JOIN {node_comment_statistics} ncs ON n.nid = ncs.nid
+        INNER JOIN {node_comment_statistics} ncs ON n.nid = bfn.nid AND n.nid = ncs.nid
         WHERE n.status = 1 AND bfn.tfid = %d
         ORDER BY ncs.last_comment_timestamp DESC
         LIMIT 1",

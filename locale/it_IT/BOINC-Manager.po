@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-08-31 09:31+0000\n"
+"PO-Revision-Date: 2016-10-04 10:46+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -183,12 +183,12 @@ msgstr "Visita il sito web del tuo account manager"
 #: clientgui/AccountManagerPropertiesPage.cpp:192
 #, c-format
 msgid "Communicating with %s."
-msgstr "In comunicazione con %s."
+msgstr "Comunicazione in corso con %s."
 
 #: clientgui/AccountManagerProcessingPage.cpp:193
 #: clientgui/AccountManagerPropertiesPage.cpp:199
 msgid "Communicating with server."
-msgstr "In comunicazione con il server."
+msgstr "Comunicazione in corso con il server."
 
 #: clientgui/AccountManagerProcessingPage.cpp:198
 #: clientgui/AccountManagerPropertiesPage.cpp:204
@@ -642,7 +642,7 @@ msgstr "Un account con l'indirizzo e-mail specificato esiste già ed ha una\npas
 
 #: clientgui/AsyncRPC.cpp:1031
 msgid "Communicating with BOINC client.  Please wait ..."
-msgstr "In comunicazione con il client BOINC.  Attendere prego ..."
+msgstr "Comunicazione in corso con il client BOINC. Attendere prego ..."
 
 #: clientgui/AsyncRPC.cpp:1034
 #, c-format
@@ -1426,7 +1426,7 @@ msgstr "Disco"
 #: clientgui/DlgAdvPreferencesBase.cpp:564
 #, c-format
 msgid "%s will use the most restrictive of these settings:"
-msgstr "%s utilizzerà le più restrittive di queste impostazioni:"
+msgstr "%s utilizzerà le impostazioni più restrittive tra le seguenti:"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:570 clientgui/sg_DlgPreferences.cpp:335
 #, c-format
@@ -2762,7 +2762,7 @@ msgstr "Sei già connesso a questo progetto. Scegli un progetto diverso."
 
 #: clientgui/ProjectProcessingPage.cpp:321
 msgid "Communicating with project."
-msgstr "In comunicazione con il progetto."
+msgstr "Comunicazione in corso con il progetto."
 
 #: clientgui/ProjectProcessingPage.cpp:509
 msgid "Required files not found on the server."
@@ -2777,7 +2777,7 @@ msgstr "Si è verificato un errore interno del server."
 msgid ""
 "Communicating with project\n"
 "Please wait..."
-msgstr "Comunicazione col progetto in corso\nAttendere prego..."
+msgstr "Comunicazione in corso con il progetto\nAttendere prego..."
 
 #: clientgui/ProjectWelcomePage.cpp:251
 #, c-format
@@ -2837,7 +2837,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr "Il programma BOINC di World Community Grid non riesce a\ncomunicare su internet. Le principali ragioni sono:\n\n1) Problemi di connettività. Controlla la tua connessione di rete o\nla connessione del modem e poi riprova l'operazione.\n\n2) Il firewall sta bloccando il progetto BOINC World Community Grid. Devi configurare il tuo\nfirewall per permettere a BOINC di comunicare sulle porte 80 e 443.\nUna volta fatto questo, clicca su indietro e riprova.\n\n3) Stai usando un server proxy e BOINC non è configurato.\nClicca su \"Next\" configurarlo per il proxy."
+msgstr "Il programma BOINC di World Community Grid non riesce a\ncomunicare via internet. Le principali ragioni possono essere:\n\n1) Problemi di connettività. Controlla la tua connessione di rete o\nla connessione del modem e poi riprova l'operazione.\n\n2) Il firewall sta bloccando il progetto BOINC World Community Grid. Devi configurare il tuo\nfirewall per permettere a BOINC di comunicare sulle porte 80 e 443.\nUna volta fatto questo, clicca su indietro e riprova.\n\n3) Stai usando un server proxy e BOINC non è configurato.\nClicca su \"Next\" configurarlo per il proxy."
 
 #: clientgui/ProxyInfoPage.cpp:203
 msgid ""
@@ -3057,7 +3057,7 @@ msgstr "Sospendi il lavoro per questo progetto."
 #: clientgui/sg_ProjectCommandPopup.cpp:78
 #: clientgui/sg_ProjectCommandPopup.cpp:136
 msgid "No new tasks"
-msgstr "Blocca la richiesta di lavoro"
+msgstr "Blocca richiesta workunit"
 
 #: clientgui/ViewProjects.cpp:217 clientgui/sg_ProjectCommandPopup.cpp:79
 msgid "Don't get new tasks for this project."
@@ -3124,11 +3124,11 @@ msgstr "Sospensione del progetto in corso..."
 
 #: clientgui/ViewProjects.cpp:471
 msgid "Telling project to allow additional task downloads..."
-msgstr "Comunicazione con il progetto per abilitare lo scaricamento di ulteriore lavoro in corso..."
+msgstr "Richiesta al progetto di ulteriori workunit..."
 
 #: clientgui/ViewProjects.cpp:475
 msgid "Telling project to not fetch any additional tasks..."
-msgstr "Comunicazione con il progetto per non ottenere ulteriore lavoro in corso..."
+msgstr "Richiesta al progetto di non inviare nuove workunit..."
 
 #: clientgui/ViewProjects.cpp:511
 msgid "Resetting project..."
@@ -3707,7 +3707,7 @@ msgstr "Avvisi di %s"
 #: clientgui/sg_DlgPreferences.cpp:208
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
-msgstr "Per impostazioni aggiuntive, seleziona Preferenze di elaborazione nella Vista avanzata."
+msgstr "Per impostazioni aggiuntive, seleziona Preferenze di elaborazione nella Visuale avanzata."
 
 #: clientgui/sg_DlgPreferences.cpp:346
 msgid "GB of disk space"
