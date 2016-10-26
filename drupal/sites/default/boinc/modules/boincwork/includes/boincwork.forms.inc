@@ -524,7 +524,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     '#suffix' => '</li>'
   );
   $form['prefs']['form control tabs'] = array(
-    '#value' => '<li class="tab">' . l(bts('Cancel'), $_GET['q']) . '</li>'
+    '#value' => '<li class="tab">' . l(bts('Cancel'), drupal_get_path_alias("account/prefs/computing/edit")) . '</li>'
   );
   if ($venue AND $venue != 'generic') {
     global $base_path;
