@@ -502,11 +502,45 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
 function boinccore_link_alter(&$links, $node, $comment = NULL) {
   //echo '<pre>' . print_r($links, true) . '</pre>';
   foreach ($links as $module => $link) {
-    if (strstr($module, 'ignore_user')) {
-      // Remove the ignore user link
+    // Remove the ignore user link or subscription link
+    if (strstr($module, 'ignore_user') OR strstr($module, 'flag-subscriptions')) {
       unset($links[$module]);
     }
   }
+  // Node first, then comment: to be consistent with boinccore_link() function
+  if (!($comment)) {
+      // modify the comment_add link
+      if (isset($links['comment_add'])) {
+          $links['comment_add']['title'] = bts('reply');
+          $links['comment_add']['attributes'] = array(
+              'title' => bts('Reply to this comment')
+          );
+      }
+      // modify quote link
+      if (isset($links['quote'])) {
+          $links['quote']['attributes'] = array(
+              'title' => bts('Reply to this topic with a quote')
+          );
+      }
+  }
+  else {
+      // Standard EDIT, DELETE, and REPLY links are created by Drupal, but we want to alter them
+      if (isset($links['comment_delete'])) {
+          $links['comment_delete']['attributes'] = array(
+              'title' => bts('Delete this comment')
+          );
+      }
+      if (isset($links['comment_edit'])) {
+          $links['comment_edit']['attributes'] = array(
+              'title' => bts('Edit this comment')
+          );
+      }
+      if (isset($links['comment_reply'])) {
+          $links['comment_reply']['attributes'] = array(
+              'title' => bts('Reply to this comment')
+          );
+      }
+  }// if !$comment
 }
 
 /**
@@ -523,27 +557,130 @@ function boinccore_locale($op = 'groups', $group = NULL) {
   }
 }
 
-/*
+
 function boinccore_link($type, $object, $teaser = FALSE) {
   // Add custom links with this hook
-  $links = array();
-  if ($type == 'comment') {
-    if (user_access('administer comments')) {
-      $comment_control = "comment_control/{$object->cid}";
-      if ($object->status == 0) {
-        $links['hide'] = array(
-          'title' => bts('Hide'),
-          'href' => "{$comment_control}/hide",
-          'attributes' => array(
-            'title' => bts('Hide this comment')
-          )
-        );
+
+  if ($type=='node') {
+      if ( ($object->type=='forum') OR ($object->type=='team_forum') ) {
+          // Add topic moderator controls
+          if (user_access('edit any forum topic')) {
+              $node_control = "node_control/{$object->nid}";
+              if ($object->status) {
+                  $links['hide'] = array(
+                      'title' => bts('Hide'),
+                      'href' => "{$node_control}/hide",
+                      'attributes' => array(
+                          'title' => bts('Hide this topic')
+                      )
+                  );
+              }
+              else {
+                  $links['unhide'] = array(
+                      'title' => bts('Unhide'),
+                      'href' => "{$node_control}/unhide",
+                      'attributes' => array(
+                          'title' => bts('Unhide this topic')
+                      )
+                  );
+              }
+              if ($object->comment == COMMENT_NODE_READ_WRITE) {
+                  $links['lock'] = array(
+                      'title' => bts('Lock'),
+                      'href' => "{$node_control}/lock",
+                      'attributes' => array(
+                          'title' => bts('Lock this thread for comments')
+                      )
+                  );
+              }
+              else {
+                  $links['unlock'] = array(
+                      'title' => bts('Unlock'),
+                      'href' => "{$node_control}/unlock",
+                      'attributes' => array(
+                          'title' => bts('Unlock this thread for comments')
+                      )
+                  );
+              }
+              if ($object->sticky) {
+                  $links['make_unsticky'] = array(
+                      'title' => bts('Make unsticky'),
+                      'href' => "{$node_control}/unsticky",
+                      'attributes' => array(
+                          'title' => bts('Remove sticky status from this topic')
+                      )
+                  );
+              }
+              else {
+                  $links['make_sticky'] = array(
+                      'title' => bts('Make sticky'),
+                      'href' => "{$node_control}/sticky",
+                      'attributes' => array(
+                          'title' => bts('Make this topic sticky')
+                      )
+                  );
+              }
+          }// if user_access('edit any forum topic')
       }
-    }
   }
+  else if ($type=='comment') {
+      $node = node_load($object->nid);
+      $nid = $object->nid;
+      $cid = $object->cid;
+
+      // QUOTE
+      if ($node->comment == COMMENT_NODE_READ_WRITE) {
+          $links['quote'] = array(
+              'title' => bts('Quote'),
+              'href' => "comment/reply/{$nid}/{$cid}",
+              'attributes' => array(
+                  'title' => bts('Reply to this comment with a quote')
+              ),
+              'fragment' => 'comment-form',
+              'query' => 'quote=1',
+          );
+      }      
+      // HIDE and COVERT comment
+      // The following are moderator only links
+      if (user_access('administer comments')) {
+          // Add hide link
+          $comment_control = "comment_control/{$cid}";
+          if ($object->status == 0) {
+              $links['hide'] = array(
+                  'title' => bts('Hide'),
+                  'href' => "{$comment_control}/hide",
+                  'attributes' => array(
+                      'title' => bts('Hide this comment')
+                  )
+              );
+          }
+          else {
+              $links['unhide'] = array(
+                  'title' => bts('Unhide'),
+                  'href' => "{$comment_control}/unhide",
+                  'attributes' => array(
+                      'title' => bts('Unhide this comment')
+                  )
+              );
+          }
+  
+          // Add link to convert comment into a new topic
+          $reply_count = db_result(db_query(' SELECT COUNT(*) FROM comments WHERE pid = %d', $cid ));
+          if ($reply_count == 0) {
+              $links['convert'] = array(
+                  'title' => bts('Convert'),
+                  'href' => "{$comment_control}/convert",
+                  'attributes' => array(
+                      'title' => bts('Convert this comment to a new topic')
+                  ) 
+              );
+          }
+      }// if user_access('administer comments')
+  }//if $type
+
   return $links;
 }
-// */
+
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Page callbacks from hook_menu()
