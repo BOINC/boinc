@@ -417,7 +417,7 @@ function forum_access_link_alter(&$links, $node, $comment = NULL) {
     // Check links for the node.
     if ($tid && isset($links['comment_add']) && !forum_access_access($tid, 'comment_create')) {
       unset($links['comment_add']);
-      // Hack to manually remote quote link
+      // Hack to manually remove quote link
       if ( isset($links['quote']) ) {
           unset($links['quote']);
       }
@@ -440,7 +440,7 @@ function forum_access_link_alter(&$links, $node, $comment = NULL) {
       }
     }
 
-    // Hack to manually remote quote link if comment_reply link is no longer set
+    // Hack to manually remove quote link if comment_reply link is no longer set
     if ( (!(isset($links['comment_reply']))) AND isset($links['quote']) ) {
         unset($links['quote']);
     }
