@@ -287,86 +287,10 @@ function boinc_preprocess_forums(&$vars, $hook) {
  */
 function boinc_preprocess_node_forum(&$vars, $hook) {
   global $user;
-  //drupal_set_message('<pre>' . print_r(get_defined_vars(),TRUE) . '</pre>'); // print what variables are available
-  //drupal_set_message('<pre>' . print_r($vars['node']->links, TRUE . '</pre>')); // print what links are available
-  
+
   // Get the author of the node
   $account = user_load($vars['uid']);
   $comments_per_page = ($user->comments_per_page) ? $user->comments_per_page : variable_get("comment_default_per_page_{$vars['node']->type}", 50);
-    
-  // Add topic moderator controls
-  if (user_access('edit any forum topic')) {
-    $vars['moderator_links'] = array();
-    $node_control = "node_control/{$vars['node']->nid}";
-    if ($vars['node']->status) {
-      $vars['moderator_links']['hide'] = array(
-        'title' => bts('Hide'),
-        'href' => "{$node_control}/hide",
-        'attributes' => array(
-          'title' => bts('Hide this topic')
-        )
-      );
-    }
-    else {
-      $vars['moderator_links']['unhide'] = array(
-        'title' => bts('Unhide'),
-        'href' => "{$node_control}/unhide",
-        'attributes' => array(
-          'title' => bts('Unhide this topic')
-        )
-      );
-    }
-    if ($vars['node']->comment == 2) {
-      $vars['moderator_links']['lock'] = array(
-        'title' => bts('Lock'),
-        'href' => "{$node_control}/lock",
-        'attributes' => array(
-          'title' => bts('Lock this thread for comments')
-        )
-      );
-    }
-    else {
-      $vars['moderator_links']['unlock'] = array(
-        'title' => bts('Unlock'),
-        'href' => "{$node_control}/unlock",
-        'attributes' => array(
-          'title' => bts('Unlock this thread for comments')
-        )
-      );
-    }
-    if ($vars['node']->sticky) {
-      $vars['moderator_links']['make_unsticky'] = array(
-        'title' => bts('Make unsticky'),
-        'href' => "{$node_control}/unsticky",
-        'attributes' => array(
-          'title' => bts('Remove sticky status from this topic')
-        )
-      );
-    }
-    else {
-      $vars['moderator_links']['make_sticky'] = array(
-        'title' => bts('Make sticky'),
-        'href' => "{$node_control}/sticky",
-        'attributes' => array(
-          'title' => bts('Make this topic sticky')
-        )
-      );
-    }
-  }
-  else {
-    // Hide these links for any other than moderators
-    //$vars['node']->links = array();
-  }
-  // Move the new comment link to the end
-  if (user_access('post comments')) {
-    $vars['node']->links['reply'] = $vars['node']->links['comment_add'];
-    unset($vars['node']->links['comment_add']);
-  }
-  else {
-    unset($vars['node']->links['comment_forbidden']);
-  }
-  $vars['links'] = theme_links($vars['node']->links, array('class' => 'links inline'));
-  $vars['moderator_links'] = theme_links($vars['moderator_links']);
   
   // Add signature
   $vars['signature'] = check_markup($account->signature, $vars['node']->format);
@@ -383,6 +307,12 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
   $vars['first_page'] = (!isset($_GET['page']) OR ($_GET['page'] < 1));
   $page_count = max(ceil($vars['comment_count'] / $comments_per_page), 1);
   $vars['last_page'] = ($page_count == 1 OR ($page_count > 1 AND $_GET['page'] == $page_count - 1));
+
+  $links = $vars['links'];
+  $moderator_links = array();
+  _boinc_create_moderator_links($links, $moderator_links);
+  $vars['links'] = $links;
+  $vars['moderator_links'] = $moderator_links;
 }
 
 
@@ -404,118 +334,12 @@ function boinc_preprocess_node_team_forum(&$vars, $hook) {
  */
 ///* -- Delete this line if you want to use this function
 function boinc_preprocess_comment(&$vars, $hook) {
-  global $user;
-  //$vars['sample_variable'] = t('Lorem ipsum.');
-  //drupal_set_message('debug: <pre>' . print_r($vars,true) . '</pre>');
-  $links = array();
-  $moderator_links = array();
-  $cid = $vars['comment']->cid;
-  $nid = $vars['comment']->nid;
-  if ($hook == 'comment') {
-    if (user_access('administer comments')) {
-      // Reorganize links for moderators
-      $vars['links'] = array();
-      $links['reply'] = array(
-        'title' => bts('Reply'),
-        'href' => "comment/reply/{$nid}/{$cid}",
-        'attributes' => array(
-          'title' => bts('Reply to this comment')
-        )
-      );
-      $links['quote'] = array(
-        'title' => bts('Quote'),
-        'href' => "comment/reply/{$nid}/{$cid}",
-        'attributes' => array(
-          'title' => bts('Reply to this comment with quote')
-        ),
-        'fragment' => 'comment-form',
-        'query' => 'quote=1',
-      );
-      // Move edit and delete controls into moderator links
-      $moderator_links['edit'] = array(
-        'title' => bts('Edit'),
-        'href' => "comment/edit/{$cid}",
-        'attributes' => array(
-          'title' => bts('Edit this comment')
-        )
-      );
-      $moderator_links['delete'] = array(
-        'title' => bts('Delete'),
-        'href' => "comment/delete/{$cid}",
-        'attributes' => array(
-          'title' => bts('Delete this comment')
-        )
-      );
-      
-      // Add hide link
-      $comment_control = "comment_control/{$cid}";
-      if ($vars['comment']->status == 0) {
-        $moderator_links['hide'] = array(
-          'title' => bts('Hide'),
-          'href' => "{$comment_control}/hide",
-          'attributes' => array(
-            'title' => bts('Hide this comment')
-          )
-        );
-      }
-      else {
-        $moderator_links['unhide'] = array(
-          'title' => bts('Unhide'),
-          'href' => "{$comment_control}/unhide",
-          'attributes' => array(
-            'title' => bts('Unhide this comment')
-          )
-        );
-      }
-      
-      // Add link to convert comment into a new topic
-      $reply_count = db_result(db_query('
-        SELECT COUNT(*) FROM comments WHERE pid = %d', $cid
-      ));
-      if ($reply_count == 0) {
-        $moderator_links['convert'] = array(
-          'title' => bts('Convert'),
-          'href' => "{$comment_control}/convert",
-          'attributes' => array(
-            'title' => bts('Convert this comment to a new topic')
-          ) 
-        );
-      }
-      $vars['moderator_links'] = theme_links($moderator_links);
-    }
-    else {
-      $links = comment_links($vars['comment'], FALSE);
-      if (user_access('post comments')) {
-        $links['comment_quote'] = array(
-          'title' => bts('Quote'),
-          'href' => "comment/reply/{$nid}/{$cid}",
-          'attributes' => array(
-            'title' => bts('Reply to this comment with quote'),
-          ),
-          'fragment' => 'comment-form',
-          'query' => 'quote=1',
-        );
-      }
-    }
-    ksort($links);
-    $vars['links'] = theme_links($links);
-    
-    if ($user->uid) {
-      $abuse_link = flag_create_link('abuse_comment', $cid);
-      if ($abuse_link) {
-        $report_comment_link = '' .
-          '<ul class="links">' .
-            '<li class="first">' . $abuse_link . '</li>' .
-          '</ul>';
-        $vars['links'] = $report_comment_link . $vars['links'];
-      }
-    }
-    
-    // Show signatures based on user preference
-    $vars['show_signatures'] = ($user->hide_signatures) ? FALSE : TRUE;
-  }
+    $links = $vars['links'];
+    $moderator_links = array();
+    _boinc_create_moderator_links($links, $moderator_links);
+    $vars['links'] = $links;
+    $vars['moderator_links'] = $moderator_links;
 }
-// */
 
 /**
  *
@@ -791,7 +615,7 @@ The !site team', array(
 function phptemplate_links($links, $attributes = array('class' => 'links')) {
   if ($links){
     // Reorder the links however you need them.
-    $links = reorder_links($links, array(), array('comment_reply', 'comment_edit'));
+    $links = reorder_links($links, array('flag-abuse_comment','flag-abuse_node','quote','comment_reply','comment_edit','comment_delete'), array());
     // Use the built-in theme_links() function to format the $links array.
     return theme_links($links, $attributes);
   }
@@ -847,4 +671,52 @@ function boinc_tablesort_indicator($style) {
     return theme('image', 'misc/arrow-desc.png', t('sort icon'), t('sort descending'));
   }
   */
+}
+
+/*
+ * Private function to process the $links string, separate it into two
+ * strings for $links and $moderator_links.
+ * 
+ * Parameters: 
+ *   $links is a string of links to manipulate. The function will
+ *   return a altered string of links.
+ * 
+ *   $moderator_links will be filled with from elements from $links.
+ *
+ */
+function _boinc_create_moderator_links(&$links, &$moderator_links) {
+    $alllinks = array();
+    $modlinks = array();
+
+    // Create an array of HTML elements from the $links string, keys
+    // are the class attribute for the <li> tags.
+    $dom = new DOMDocument;
+    $dom->loadHTML($links);
+    foreach($dom->getElementsByTagName('li') as $node) {
+        $key = $node->getAttribute("class");
+        $alllinks[$key] = $dom->saveHTML($node);
+    }
+
+    // Select classes to be placed into moderator links array
+    $selected_classes = array(
+        "comment_edit",
+        "comment_delete",
+        "hide", "unhide",
+        "lock", "unlock",
+        "make_sticky", "make_unsticky",
+        "convert"
+    );
+    foreach(array_keys($alllinks) as $key1) {
+        // Select string up to first space, if present.
+        $class1 = strtok($key1, ' ');
+        if (in_array($class1, $selected_classes)) {
+            $modlinks[$key1] = $alllinks[$key1];
+            unset($alllinks[$key1]);
+        }
+    }
+
+    // Convert the HTML arrays back into strings, wrap them in <ul>
+    // tags
+    $links = "<ul class=\"links\">".implode($alllinks)."</ul>";
+    $moderator_links = "<ul class=\"links\">".implode($modlinks)."</ul>";
 }
