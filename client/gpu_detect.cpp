@@ -17,6 +17,33 @@
 
 
 // client-specific GPU code.  Mostly GPU detection
+//
+//  theory of operation:
+//  there are two ways of detecting GPUs:
+//  - vendor-specific libraries like CUDA and CAL,
+//      which detect only that vendor's GPUs
+//  - OpenCL, which can detect multiple types of GPUs,
+//      including nvidia/amd/intel as well was new types
+//      such as ARM integrated GPUs
+//
+//  These libraries sometimes crash,
+//  and we've been unable to trap these via signal and exception handlers.
+//  So we do GPU detection in a separate process (boinc --detect_gpus)
+//  This process writes an XML file "coproc_info.xml" containing
+//  - lists of GPU detected via CUDA and CAL
+//  - lists of nvidia/amd/intel GPUs detected via OpenCL
+//  - a list of other GPUs detected via OpenCL
+//
+//  When the process finishes, the client parses the info file.
+//  Then for each vendor it "correlates" the GPUs, which includes:
+//  - matching up the OpenCL and vendor-specific descriptions, if both exist
+//  - finding the most capable GPU, and seeing which other GPUs
+//      are similar to it in hardware and RAM.
+//      Other GPUs are not used.
+//  - copy these to the COPROCS structure
+//
+//  GPUs can also be explicitly described in cc_config.xml
+
 
 #ifndef _DEBUG
 #define USE_CHILD_PROCESS_TO_DETECT_GPUS 1
@@ -174,6 +201,7 @@ void COPROCS::correlate_gpus(
     correlate_opencl(use_all, ignore_gpu_instance);
 
     // NOTE: OpenCL can report a max of only 4GB.  
+    //
     for (i=0; i<cpu_opencls.size(); i++) {
         gstate.host_info.opencl_cpu_prop[gstate.host_info.num_opencl_cpu_platforms++] = cpu_opencls[i];
     }
