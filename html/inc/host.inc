@@ -205,7 +205,7 @@ function show_host($host, $user, $ipprivate) {
     } else {
         row2(tra("Number of times client has contacted server"), $host->rpc_seqno);
         row2(tra("Last contact"), date_str($host->rpc_time));
-	}
+    }
     echo "</table>\n";
 
 }
@@ -255,9 +255,9 @@ function gpu_desc($x) {
         $desc = trim($desc, "[");
         $d = explode("|", $desc);
         //print_r($d);
-		if ($d[0] == "BOINC") continue;
-		if ($d[0] == "vbox") continue;
-		if ($str) $str .= "<p>";
+        if ($d[0] == "BOINC") continue;
+        if ($d[0] == "vbox") continue;
+        if ($str) $str .= "<p>";
         if ($d[2]!="" && $d[2]!="1") $str .= "[".$d[2]."] ";
         if ($d[0] == "CUDA") {
             $str .= "NVIDIA";

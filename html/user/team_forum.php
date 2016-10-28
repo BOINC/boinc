@@ -85,6 +85,7 @@ function edit_form($user, $team, $forum, $first) {
         </form>
     ";
     if (!$first) {
+        $tokens = url_tokens($user->authenticator);
         echo "
             <p>
             <a href=team_forum.php?teamid=$team->id&cmd=remove_confirm$tokens>

@@ -44,6 +44,7 @@ function show_admins($user, $teamid) {
         <ul>
         <li>".tra("Edit team information (name, URL, description, country)")."
         <li>".tra("View the team's join/quit history")."
+        <li>".tra("Send messages to the team")."
         <li>".tra("Moderate the team forum, if any (admins get email notification of moderation events and red X reports)")."
         </ul>
         ".tra("Team Admins cannot:")."

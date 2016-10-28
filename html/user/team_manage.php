@@ -30,11 +30,13 @@ function show_admin_page($user, $team) {
         <ul>
         <li><a href=team_edit_form.php?teamid=$team->id>".tra("Edit team info")."</a>
             <br><p class=\"text-muted\">".tra("Change team name, URL, description, type, or country")."</p>
+        <li><a href=pm.php?action=new&teamid=$team->id>".tra("Send message to team")."</a>
         <li>
             ".tra("Member list:")."
         <a href=team_email_list.php?teamid=$team->id>".tra("HTML")."</a>
         &middot; <a href=team_email_list.php?teamid=$team->id&plain=1>".tra("text")."</a>
-            <br><p class=\"text-muted\">".tra("View member names and email addresses")."</p>
+        &middot; <a href=team_email_list.php?teamid=$team->id&xml=1>".tra("XML")."</a>
+            <br><p class=\"text-muted\">".tra("View member info")."</p>
         <li>".tra("View change history:")."
             <a href=team_delta.php?teamid=$team->id>".tra("HTML")."</a>
             &middot; <a href=team_delta.php?teamid=$team->id&xml=1>".tra("XML")."</a>

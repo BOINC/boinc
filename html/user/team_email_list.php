@@ -16,6 +16,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// Show member list.
+// Name is outdated; don't show emails any more
+
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/email.inc");
@@ -45,14 +48,10 @@ if ($xml) {
     if (!$team) {
         xml_error(ERR_DB_NOT_FOUND);
     }
-    $account_key = get_str('account_key', true);
-    $user = BoincUser::lookup_auth($account_key);
-    $show_email = ($user && is_team_founder($user, $team));
     echo "<users>\n";
     $users = BoincUser::enum_fields("id, email_addr, send_email, name, total_credit, expavg_credit, expavg_time, has_profile, donated, country, cross_project_id, create_time, url", "teamid=$team->id");
-    //$users = BoincUser::enum("teamid=$team->id");
     foreach($users as $user) {
-        show_team_member($user, $show_email, $creditonly);
+        show_team_member($user, $creditonly);
     }
     echo "</users>\n";
     exit();
@@ -68,19 +67,16 @@ require_founder_login($user, $team);
 if ($plain) {
     header("Content-type: text/plain");
 } else {
-    page_head(tra("%1 Email List", $team->name));
+    page_head(tra("Members of %1", $team->name));
     start_table();
-    table_header(array(tra("Member list of %1", $team->name), "colspan=\"6\""));
-    table_header(tra("Name"), tra("Email address"), tra("Total credit"), tra("Recent average credit"), tra("Country"));
+    table_header(tra("Name"), tra("ID"), tra("Total credit"), tra("Recent average credit"), tra("Country"));
 }
 $users = BoincUser::enum_fields("id, email_addr, send_email, name, total_credit, expavg_credit, has_profile, donated, country, cross_project_id, create_time, url", "teamid=$team->id");
 foreach($users as $user) {
     if ($plain) {
-        $e = $user->send_email?"<$user->email_addr>":"";
-        echo "$user->name $e\n";
+        echo "$user->name $user->id\n";
     } else {
-        $e = $user->send_email?"$user->email_addr":"";
-        table_row(user_links($user, BADGE_HEIGHT_MEDIUM), $e, format_credit($user->total_credit), format_credit($user->expavg_credit), $user->country);
+        table_row(user_links($user, BADGE_HEIGHT_MEDIUM), $user->id, format_credit($user->total_credit), format_credit($user->expavg_credit), $user->country);
     }
 }
 if (!$plain) {
