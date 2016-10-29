@@ -42,6 +42,11 @@
 //      Other GPUs are not used.
 //  - copy these to the COPROCS structure
 //
+//  Also, some dual-GPU laptops (e.g., Macbook Pro) don't power
+//  down the more powerful GPU until all applications which used
+//  them exit. Doing GPU detection in a second, short-lived process
+//  saves battery life on these laptops.
+//
 //  GPUs can also be explicitly described in cc_config.xml
 
 
@@ -374,15 +379,6 @@ int COPROCS::add_other_coproc_types() {
     return retval;
 }
 
-// Some dual-GPU laptops (e.g., Macbook Pro) don't 
-// power down the more powerful GPU until all
-// applications which used them exit.  To save
-// battery life, the client launches a second
-// instance of the client as a child process to 
-// detect and get information about the GPUs.
-// The child process writes the info to a temp
-// file which our main client then reads.
-//
 void COPROCS::set_path_to_client(char *path) {
     client_path = path;
     // The path may be relative to the current directory
