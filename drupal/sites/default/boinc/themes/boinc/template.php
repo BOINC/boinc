@@ -685,6 +685,10 @@ function boinc_tablesort_indicator($style) {
  *
  */
 function _boinc_create_moderator_links(&$links, &$moderator_links) {
+    // If there are no links, then do nothing
+    if (empty($links))
+      return;
+
     $alllinks = array();
     $modlinks = array();
 
@@ -719,4 +723,6 @@ function _boinc_create_moderator_links(&$links, &$moderator_links) {
     // tags
     $links = "<ul class=\"links\">".implode($alllinks)."</ul>";
     $moderator_links = "<ul class=\"links\">".implode($modlinks)."</ul>";
+
+    return;
 }
