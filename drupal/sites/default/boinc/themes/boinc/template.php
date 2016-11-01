@@ -615,7 +615,7 @@ The !site team', array(
 function phptemplate_links($links, $attributes = array('class' => 'links')) {
   if ($links){
     // Reorder the links however you need them.
-    $links = reorder_links($links, array('flag-abuse_comment','flag-abuse_node','quote','comment_reply','comment_edit','comment_delete'), array());
+    $links = reorder_links($links, array('quote','comment_add','comment_reply','flag-abuse_comment','flag-abuse_node','comment_edit','comment_delete'), array());
     // Use the built-in theme_links() function to format the $links array.
     return theme_links($links, $attributes);
   }
@@ -686,8 +686,9 @@ function boinc_tablesort_indicator($style) {
  */
 function _boinc_create_moderator_links(&$links, &$moderator_links) {
     // If there are no links, then do nothing
-    if (empty($links))
+    if (empty($links)) {
       return;
+    }
 
     $alllinks = array();
     $modlinks = array();
@@ -714,15 +715,35 @@ function _boinc_create_moderator_links(&$links, &$moderator_links) {
         // Select string up to first space, if present.
         $class1 = strtok($key1, ' ');
         if (in_array($class1, $selected_classes)) {
+            if (empty($modlinks)) {
+                _boinc_firstlink($alllinks[$key1]);
+            }
             $modlinks[$key1] = $alllinks[$key1];
             unset($alllinks[$key1]);
         }
     }
-
     // Convert the HTML arrays back into strings, wrap them in <ul>
     // tags
     $links = "<ul class=\"links\">".implode($alllinks)."</ul>";
     $moderator_links = "<ul class=\"links\">".implode($modlinks)."</ul>";
 
     return;
+}
+
+/*
+ * Private function that modifies a single link, adding the 'first'
+ * attribute to class.
+ */
+function _boinc_firstlink(&$alink) {
+    if (!empty($alink)) {
+        $dom = new DomDocument;
+        $dom->loadHTML($alink);
+
+        $myli = $dom->getElementsByTagName('li');
+        if ($myli->length>0) {
+            $newclasses = trim(($myli[0]->getAttribute("class"))." first");
+            $myli[0]->setAttribute("class", $newclasses);
+            $alink = $dom->saveHTML($myli[0]);
+        }
+    }
 }
