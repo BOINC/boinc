@@ -142,8 +142,10 @@ function forum_access_init() {
                 // Obtain the tid from a URL path containing
                 // community/forum/%tid, this will prevent users from
                 // loading forums they are not allowed to access.
-
-                if (isset($tid)) {
+                // However, only tid>1 are terms we care about. (This
+                // allows forum_tweaks mark-read functionality to
+                // work.)
+                if (isset($tid) and ($tid>1)) {
                     if (!forum_access_access($tid, 'view')) {
                         drupal_access_denied();
                         module_invoke_all('exit');
