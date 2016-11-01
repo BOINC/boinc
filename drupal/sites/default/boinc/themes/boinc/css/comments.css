@@ -210,6 +210,7 @@ div.node-type-forum.not-first-page {
 .node-type-team-forum .node-body .links li {
   border-left: 1px solid #808080;
   margin-left: 0.3em;
+  margin-right: 0.3em;
   padding: 0 0 0 0.6em;
 }
 .comment-body .moderator-links li.first,
@@ -398,6 +399,10 @@ div.preview + .comment {
 .comment .vud-widget-updown .up-active, .vud-widget-updown .down-active,
 .comment .vud-widget-updown .up-inactive, .vud-widget-updown .down-inactive {
   border: none;
+}
+
+.flag-wrapper {
+    margin-left: -0.3em;
 }
 
 /* Really stupid, but since user preference for comments per page isn't
