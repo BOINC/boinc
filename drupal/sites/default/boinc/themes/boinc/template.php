@@ -615,7 +615,7 @@ The !site team', array(
 function phptemplate_links($links, $attributes = array('class' => 'links')) {
   if ($links){
     // Reorder the links however you need them.
-    $links = reorder_links($links, array('quote','comment_add','comment_reply','flag-abuse_comment','flag-abuse_node','comment_edit','comment_delete'), array());
+    $links = reorder_links($links, array('comment_edit','quote','comment_add','comment_reply','flag-abuse_comment','flag-abuse_node'), array('comment_delete'));
     // Use the built-in theme_links() function to format the $links array.
     return theme_links($links, $attributes);
   }
@@ -685,49 +685,48 @@ function boinc_tablesort_indicator($style) {
  *
  */
 function _boinc_create_moderator_links(&$links, &$moderator_links) {
-    // If there are no links, then do nothing
-    if (empty($links)) {
-      return;
-    }
-
-    $alllinks = array();
-    $modlinks = array();
-
-    // Create an array of HTML elements from the $links string, keys
-    // are the class attribute for the <li> tags.
-    $dom = new DOMDocument;
-    $dom->loadHTML($links);
-    foreach($dom->getElementsByTagName('li') as $node) {
-        $key = $node->getAttribute("class");
-        $alllinks[$key] = $dom->saveHTML($node);
-    }
-
-    // Select classes to be placed into moderator links array
-    $selected_classes = array(
-        "comment_edit",
-        "comment_delete",
-        "hide", "unhide",
-        "lock", "unlock",
-        "make_sticky", "make_unsticky",
-        "convert"
-    );
-    foreach(array_keys($alllinks) as $key1) {
-        // Select string up to first space, if present.
-        $class1 = strtok($key1, ' ');
-        if (in_array($class1, $selected_classes)) {
-            if (empty($modlinks)) {
-                _boinc_firstlink($alllinks[$key1]);
-            }
-            $modlinks[$key1] = $alllinks[$key1];
-            unset($alllinks[$key1]);
-        }
-    }
-    // Convert the HTML arrays back into strings, wrap them in <ul>
-    // tags
-    $links = "<ul class=\"links\">".implode($alllinks)."</ul>";
-    $moderator_links = "<ul class=\"links\">".implode($modlinks)."</ul>";
-
+  // If there are no links, then do nothing
+  if (empty($links)) {
     return;
+  }
+
+  $alllinks = array();
+  $modlinks = array();
+
+  // Create an array of HTML elements from the $links string, keys
+  // are the class attribute for the <li> tags.
+  $dom = new DOMDocument;
+  $dom->loadHTML($links);
+  foreach($dom->getElementsByTagName('li') as $node) {
+    $key = $node->getAttribute("class");
+    $alllinks[$key] = $dom->saveHTML($node);
+  }
+
+  // Select classes to be placed into moderator links array
+  $selected_classes = array(
+    "make_sticky", "make_unsticky",
+    "lock", "unlock",
+    "convert",
+    "hide", "unhide",
+    "comment_delete",
+  );
+  foreach(array_keys($alllinks) as $key1) {
+    // Select string up to first space, if present.
+    $class1 = strtok($key1, ' ');
+    if (in_array($class1, $selected_classes)) {
+      if (empty($modlinks)) {
+        _boinc_firstlink($alllinks[$key1]);
+      }
+      $modlinks[$key1] = $alllinks[$key1];
+      unset($alllinks[$key1]);
+    }
+  }
+  // Convert the HTML arrays back into strings, wrap them in <ul>
+  // tags
+  $links = "<ul class=\"links\">".implode($alllinks)."</ul>";
+  $moderator_links = "<ul class=\"links\">".implode($modlinks)."</ul>";
+
+  return;
 }
 
 /*
@@ -735,15 +734,15 @@ function _boinc_create_moderator_links(&$links, &$moderator_links) {
  * attribute to class.
  */
 function _boinc_firstlink(&$alink) {
-    if (!empty($alink)) {
-        $dom = new DomDocument;
-        $dom->loadHTML($alink);
+  if (!empty($alink)) {
+    $dom = new DomDocument;
+    $dom->loadHTML($alink);
 
-        $myli = $dom->getElementsByTagName('li');
-        if ($myli->length>0) {
-            $newclasses = trim(($myli[0]->getAttribute("class"))." first");
-            $myli[0]->setAttribute("class", $newclasses);
-            $alink = $dom->saveHTML($myli[0]);
-        }
+    $myli = $dom->getElementsByTagName('li');
+    if ($myli->length>0) {
+      $newclasses = trim(($myli[0]->getAttribute("class"))." first");
+      $myli[0]->setAttribute("class", $newclasses);
+      $alink = $dom->saveHTML($myli[0]);
     }
+  }
 }
