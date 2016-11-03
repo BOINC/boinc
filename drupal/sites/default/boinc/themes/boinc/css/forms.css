@@ -219,6 +219,9 @@ form ul.tab-list {
   padding-bottom: 0;
   border-left: 1px dotted #aaa;
 }
+#comment-form .form-item input[type="text"] {
+  width: 100%;
+}
 
 
 /*

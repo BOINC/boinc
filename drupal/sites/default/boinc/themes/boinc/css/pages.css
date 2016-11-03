@@ -76,7 +76,7 @@ body {
 h1#site-name,
 div#site-name /* The name of the website */ {
   margin: 0 auto;
-  width: 960px;
+  max-width: 960px;
   font-size: 45px;
   line-height: 96px;
 }
@@ -452,7 +452,7 @@ ul.links li a {
  * Footer
  */
 #footer {
-  width: 960px;
+  max-width: 960px;
   margin: 0 auto;
   padding: 50px 5px;
 }
