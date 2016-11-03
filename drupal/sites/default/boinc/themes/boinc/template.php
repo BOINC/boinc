@@ -332,8 +332,10 @@ function boinc_preprocess_node_team_forum(&$vars, $hook) {
  * @param $hook
  *   The name of the template being rendered ("comment" in this case.)
  */
-///* -- Delete this line if you want to use this function
 function boinc_preprocess_comment(&$vars, $hook) {
+    // Show signatures based on user preference
+    $vars['show_signatures'] = ($user->hide_signatures) ? FALSE : TRUE;
+
     $links = $vars['links'];
     $moderator_links = array();
     _boinc_create_moderator_links($links, $moderator_links);
