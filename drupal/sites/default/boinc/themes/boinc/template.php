@@ -339,6 +339,9 @@ function boinc_preprocess_comment(&$vars, $hook) {
     _boinc_create_moderator_links($links, $moderator_links);
     $vars['links'] = $links;
     $vars['moderator_links'] = $moderator_links;
+
+    // Show signatures based on user preference
+    $vars['show_signatures'] = ($user->hide_signatures) ? FALSE : TRUE;
 }
 
 /**
