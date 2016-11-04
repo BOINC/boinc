@@ -334,6 +334,7 @@ function boinc_preprocess_node_team_forum(&$vars, $hook) {
  */
 function boinc_preprocess_comment(&$vars, $hook) {
     // Show signatures based on user preference
+    global $user;
     $vars['show_signatures'] = ($user->hide_signatures) ? FALSE : TRUE;
 
     $links = $vars['links'];
