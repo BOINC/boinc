@@ -1068,6 +1068,7 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
     wxInt32          iLeft = 0;
     wxInt32          iHeight = 0;
     wxInt32          iWidth = 0;
+    bool             bWindowMaximized = false;
 
 
     // Create the new window
@@ -1081,6 +1082,7 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             m_pConfig->Read(wxT("XPos"), &iLeft, 30);
             m_pConfig->Read(wxT("Width"), &iWidth, 800);
             m_pConfig->Read(wxT("Height"), &iHeight, 600);
+            m_pConfig->Read(wxT("WindowMaximized"), &bWindowMaximized, false);
             // Guard against a rare situation where registry values are zero
             if (iWidth < 50) iWidth = 800;
             if (iHeight < 50) iHeight = 600;
@@ -1187,6 +1189,9 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             }
             if (m_pFrame->IsIconized()) {
                 m_pFrame->Maximize(false);
+            }
+            if (BOINC_ADVANCEDGUI == iGUISelection && bWindowMaximized) {
+                m_pFrame->Maximize();
             }
             m_pFrame->Raise();
 
