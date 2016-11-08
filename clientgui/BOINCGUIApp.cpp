@@ -1190,7 +1190,7 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             if (m_pFrame->IsIconized()) {
                 m_pFrame->Maximize(false);
             }
-            if (BOINC_ADVANCEDGUI == iGUISelection && bWindowMaximized) {
+            else if (BOINC_ADVANCEDGUI == iGUISelection && bWindowMaximized) {
                 m_pFrame->Maximize();
             }
             m_pFrame->Raise();
