@@ -251,7 +251,7 @@ echo "
     </td>
     <td width=$rh_col_width align=right>
 ";
-google_search_form("https:boinc.berkeley.edu");
+boinc_google_search_form();
 language_form();
 echo "
     </td></tr>
