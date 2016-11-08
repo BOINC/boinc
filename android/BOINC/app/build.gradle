@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 19
+    compileSdkVersion 23
     buildToolsVersion "25.0.0"
 
     defaultConfig {
         applicationId "edu.berkeley.boinc"
         minSdkVersion 16
-        targetSdkVersion 19
+        targetSdkVersion 23
     }
 
     buildTypes {
@@ -19,5 +19,5 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:19.1.0'
+    compile 'com.android.support:appcompat-v7:23.1.+'
 }
