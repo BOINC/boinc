@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!--app global-->
+  <string name="app_name">BOINC</string>
+  <!--generic. used by multiple Activities/tabs-->
+  <string name="generic_loading">Načítava sa! Prosím čakajte...</string>
+  <string name="generic_button_continue">Pokračovať</string>
+  <string name="generic_button_finish">Dokončiť</string>
+  <!--attach project-->
+  <!--selection list-->
+  <string name="attachproject_list_desc">Zvoľte vedecké projekty, ktorým chcete pomôcť:</string>
+  <string name="attachproject_list_header">Zvoľte projekt</string>
+  <string name="attachproject_list_manual_button">Pridať projekt pomocou URL</string>
+  <string name="attachproject_list_manual_dialog_title">Zadajte URL projektu:</string>
+  <string name="attachproject_list_manual_dialog_button">Pripojiť sa k projektu</string>
+  <string name="attachproject_list_manual_no_url">Prosím zadajte URL projektu</string>
+  <string name="attachproject_list_acctmgr_button">Pridať Správcu konta.</string>
+  <string name="attachproject_list_no_internet">Žiadne pripojenie k Internetu</string>
+  <!--credential input-->
+  <string name="attachproject_credential_input_sing_desc">Uveďte údaje o účte</string>
+  <string name="attachproject_credential_input_desc">Uveďte údaje o účte pre vybrané projekty:</string>
+  <string name="attachproject_credential_input_show_pwd">Ukázať heslo</string>
+  <string name="attachproject_individual_credential_input">Pripojiť projekty individuálne</string>
+  <!--conflicts-->
+  <string name="attachproject_conflicts_desc">Nastali problémi pri pripojení výskumných projektov:</string>
+  <string name="attachproject_conflict_undefined">Pripojenie sa nepodarilo</string>
+  <string name="attachproject_conflict_not_unique">Účet existuje s iným heslom</string>
+  <string name="attachproject_conflict_bad_password">Nesprávne heslo</string>
+  <string name="attachproject_conflict_unknown_user">Účet neexistuje</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">Účet neexistuje, navštívte stránku projektu na registráciu</string>
+  <!--working-->
+  <string name="attachproject_working_attaching">Pripája sa</string>
+  <!--e.g. Attaching Einstein@Home-->
+  <!--hints-->
+  <string name="attachproject_hints_header">Pomôcka</string>
+  <!--e.g. Hint 1/2-->
+  <string name="attachproject_hint_contribtion_header">Ako pomôcť:</string>
+  <string name="attachproject_hint_contribtion_wifi">1. Pripojiť k WiFi</string>
+  <string name="attachproject_hint_contribtion_charger">2. Pripojte nabíjačku</string>
+  <string name="attachproject_hint_contribtion_screen">3. Vypnite obrazovku</string>
+  <string name="attachproject_hint_projectwebsite_header">Navštívte stránky projektov na:</string>
+  <string name="attachproject_hint_projectwebsite_science">Zistiť viac o vede</string>
+  <string name="attachproject_hint_projectwebsite_stats">Skontrolovať štatistiky</string>
+  <string name="attachproject_hint_projectwebsite_community">Buďte v kontakte s ďalšími dobrovoľníkmi</string>
+  <string name="attachproject_hint_platforms_header">BOINC je k dispozícii aj pre váš počítač alebo laptop. Navštívte boinc.berkley.edu pre viac informácií.</string>
+  <!--project login-->
+  <string name="attachproject_login_loading">Pripájanie na server projektu…</string>
+  <string name="attachproject_login_image_description">Logo projektu.</string>
+  <string name="attachproject_login_header_general_area">Všeobecná oblasť:</string>
+  <string name="attachproject_login_header_specific_area">Špecifická oblasť:</string>
+  <string name="attachproject_login_header_description">Popis:</string>
+  <string name="attachproject_login_header_home">Domovská stránka:</string>
+  <string name="attachproject_login_header_url">Stránka:</string>
+  <string name="attachproject_login_header_platform">Android:</string>
+  <string name="attachproject_login_platform_supported">Projekt podporuje tento typ zariadenia</string>
+  <string name="attachproject_login_platform_not_supported">Projekt nepodporuje tento typ zariadenia</string>
+  <string name="attachproject_login_category_terms_of_use">Podmienky používania </string>
+  <string name="attachproject_login_accept_terms_of_use">Vytvorením účtu súhlasíte s hore uvedenými podmienkami používania.</string>
+  <string name="attachproject_login_category_login">Prihlásiť sa s existujúcim účtom</string>
+  <string name="attachproject_login_header_id_email">e-mail</string>
+  <string name="attachproject_login_header_id_name">Meno:</string>
+  <string name="attachproject_login_header_pwd">Heslo:</string>
+  <string name="attachproject_login_category_creation">Nový v</string>
+  <string name="attachproject_login_header_creation_enabled">Zaregistrujte sa, aby ste sa mohli pridať:</string>
+  <string name="attachproject_login_header_creation_client_disabled">Navštívte stránku projektu na vytvorenie účtu:</string>
+  <string name="attachproject_login_header_creation_disabled">Tento projekt momentálne neakceptuje nové účty.</string>
+  <string name="attachproject_login_button_registration">Registrácia</string>
+  <string name="attachproject_login_button_login">Prihlásiť sa</string>
+  <string name="attachproject_login_button_forgotpw">Zabudnuté heslo</string>
+  <string name="attachproject_login_error_toast">Kontaktovanie projektu zlyhalo!</string>
+  <string name="attachproject_login_attached">Pripojené</string>
+  <!--project registration-->
+  <string name="attachproject_registration_header">Registrácia účtu na</string>
+  <string name="attachproject_registration_header_url">Projekt:</string>
+  <string name="attachproject_registration_header_email">E-mail:</string>
+  <string name="attachproject_registration_header_username">Meno:</string>
+  <string name="attachproject_registration_header_teamname">Tím:</string>
+  <string name="attachproject_registration_header_pwd">Heslo:</string>
+  <string name="attachproject_registration_header_pwd_confirm">...Zopakujte:</string>
+  <string name="attachproject_registration_button">Vytvoriť</string>
+  <!--account manager-->
+  <string name="attachproject_acctmgr_list_desc">Použiť správcu účtu BOINC na spravovanie viacerých projektov</string>
+  <string name="attachproject_acctmgr_header">Pridať správcu účtu</string>
+  <string name="attachproject_acctmgr_header_url">URL</string>
+  <string name="attachproject_acctmgr_header_name">Používateľ:</string>
+  <string name="attachproject_acctmgr_header_pwd">Heslo:</string>
+  <string name="attachproject_acctmgr_header_pwd_confirm">...Zopakujte:</string>
+  <string name="attachproject_acctmgr_button">Pridať</string>
+  <!--error strings-->
+  <string name="attachproject_error_wrong_name">Používateľ nenájdený.</string>
+  <string name="attachproject_error_short_pwd">Heslo je príliš krátke</string>
+  <string name="attachproject_error_no_internet">Pripojenie zlyhalo</string>
+  <string name="attachproject_error_pwd_no_match">Heslá sa nezhodujú</string>
+  <string name="attachproject_error_pwd_no_retype">Prosím, napíšte heslo znovu</string>
+  <string name="attachproject_error_no_url">Prosím zadajte URL</string>
+  <string name="attachproject_error_no_email">Prosím zadajte e-mailovú adresu</string>
+  <string name="attachproject_error_no_pwd">Prosím zadajte heslo</string>
+  <string name="attachproject_error_no_name">Prosím zadajte používateľské meno</string>
+  <string name="attachproject_error_unknown">zlyhalo</string>
+  <string name="attachproject_error_bad_username">Používateľské meno bolo odmietnuté</string>
+  <string name="attachproject_error_email_in_use">Emailová adresa sa už používa</string>
+  <string name="attachproject_error_project_down">Projekt je offline</string>
+  <string name="attachproject_error_email_bad_syntax">Emailová adresa bola odmietnutá</string>
+  <string name="attachproject_error_bad_pwd">Heslo bolo odmietnuté</string>
+  <string name="attachproject_error_creation_disabled">Vytváranie účtov na tomto projekte je pozastavené</string>
+  <string name="attachproject_error_invalid_url">Neplatná URL</string>
+  <!--working activity-->
+  <string name="attachproject_working_back_button">Späť</string>
+  <string name="attachproject_working_finish_button">Dokončiť</string>
+  <string name="attachproject_working_check_desc">Úspešné</string>
+  <string name="attachproject_working_failed_desc">Zlyhalo</string>
+  <string name="attachproject_working_ongoing">…</string>
+  <string name="attachproject_working_finished">.</string>
+  <string name="attachproject_working_description">:</string>
+  <string name="attachproject_working_connect">Pripojiť</string>
+  <string name="attachproject_working_verify">Overiť účet</string>
+  <string name="attachproject_working_register">Zaregistrovať účet</string>
+  <string name="attachproject_working_login">Prihlásiť sa</string>
+  <string name="attachproject_working_acctmgr">Pridať správcu účtu</string>
+  <string name="attachproject_working_acctmgr_sync">Sychronizovať</string>
+  <!--main activity-->
+  <string name="main_noproject_warning">Ťuknite sem na výber projektu</string>
+  <string name="main_error">Ojoj!</string>
+  <string name="main_error_long">...toto by sa nemalo stávať!\nKliknite na ikonu a skúste to znovu.</string>
+  <string name="main_title_icon_desc">Ikona BOINC</string>
+  <!--tab names-->
+  <string name="tab_status">Stav</string>
+  <string name="tab_projects">Projekty</string>
+  <string name="tab_tasks">Úlohy</string>
+  <string name="tab_transfers">Prenosy</string>
+  <string name="tab_preferences">Nastavenia</string>
+  <string name="tab_notices">Oznamy</string>
+  <string name="tab_desc">Navigácia</string>
+  <!--status strings-->
+  <string name="status_running">Výpočty</string>
+  <string name="status_running_long">Ďakujeme vám za účasť</string>
+  <string name="status_paused">Pozastaviť</string>
+  <string name="status_idle">Žiadne úlohy</string>
+  <string name="status_idle_long">Čakám na úlohy...</string>
+  <string name="status_computing_disabled">Pozastavené</string>
+  <string name="status_computing_disabled_long">Stlačte Play na obnovenie siete a výpočtov.</string>
+  <string name="status_launching">Spúšťa sa...</string>
+  <string name="status_noproject">Vyberte si projekt ktorého za chcete zúčastniť.</string>
+  <string name="status_closing">Zatvára sa...</string>
+  <string name="status_benchmarking">Meria sa výkon...</string>
+  <string name="status_image_description">súbor projektu</string>
+  <!--preferences tab strings-->
+  <string name="prefs_loading">Načítanie preferencií...</string>
+  <string name="prefs_submit_button">Uložiť</string>
+  <string name="prefs_dialog_title">Zadajte novú hodnotu:</string>
+  <string name="prefs_dialog_title_selection">Vybrať:</string>
+  <string name="prefs_category_general">Všeobecné</string>
+  <string name="prefs_category_network">Sieť</string>
+  <string name="prefs_category_power">Energia</string>
+  <string name="prefs_category_cpu">Procesor</string>
+  <string name="prefs_category_storage">Úložisko</string>
+  <string name="prefs_category_memory">Pamäť</string>
+  <string name="prefs_category_debug">Ladenie</string>
+  <string name="prefs_show_advanced_header">Zobraziť pokročilé nastavenia...</string>
+  <string name="prefs_suspend_when_screen_on">Pozastaviť výpočty keď je obrazovka zapnutá</string>
+  <string name="prefs_stationary_device_mode_header">Mód neprenosného zariadenia</string>
+  <string name="prefs_stationary_device_mode_description">Povolí výpočty bez ohľadu na nastavenia napájania. Zapínajte len pokiaľ ide o bezbatériové zariadenie.</string>
+  <string name="prefs_power_source_header">Zdroje energie na výpočty</string>
+  <string name="prefs_power_source_description">Zvolí zdroje napájania, ktoré BOINC môže využívať na výpočty.</string>
+  <string name="prefs_power_source_ac">Zásuvka</string>
+  <string name="prefs_power_source_usb">Pripojenie USB</string>
+  <string name="prefs_power_source_wireless">Bezdrôtová nabíjačka</string>
+  <string name="prefs_power_source_battery">Batéria</string>
+  <string name="battery_charge_min_pct_header">Minimálna úroveň stavu batérie</string>
+  <string name="battery_charge_min_pct_description">BOINC pozastaví výpočty, pokiaľ stav batérie klesne pod danú úroveň.</string>
+  <string name="battery_temperature_max_header">Maximálna teplota batérie</string>
+  <string name="battery_temperature_max_description">BOINC pozastaví výpočty, pokiaľ stav batérie klesne pod zadanú úroveň. Zmena tejto hodnoty sa neodporúča.</string>
+  <string name="prefs_disk_max_pct_header">Maximum použitého úložného priestoru</string>
+  <string name="prefs_disk_max_pct_description">Koľko percent úložného priestoru na vašom zariadení môže BOINC využívať?</string>
+  <string name="prefs_disk_min_free_gb_header">Minimum voľného miesta</string>
+  <string name="prefs_disk_min_free_gb_description">Koľko z úložného priestoru vášho zariadenia by malo ostať voľného?</string>
+  <string name="prefs_disk_access_interval_header">Interval prístupov</string>
+  <string name="prefs_disk_access_interval_description">Odporučiť interval medzi prístupmi na disk</string>
+  <string name="prefs_network_daily_xfer_limit_mb_header">Denný limit prenosov</string>
+  <string name="prefs_network_daily_xfer_limit_mb_description">Nastaví obmedzenia prenosu súborov pre BOINC.</string>
+  <string name="prefs_network_wifi_only_header">Prenos úloh len pri pripojení k WiFi</string>
+  <string name="prefs_autostart_header">Automatický štart</string>
+  <string name="prefs_show_notification_notices_header">Zobraziť upozornenia pri nových správach</string>
+  <string name="prefs_show_notification_suspended_header">Zobraziť upozornenie pri pozastavení</string>
+  <string name="prefs_cpu_number_cpus_header">Používané jadrá procesoru</string>
+  <string name="prefs_cpu_number_cpus_description">Obmedzí počet jadier procesoru ktoré BOINC používa pri výpočtoch</string>
+  <string name="prefs_cpu_other_load_suspension_header">Pozastaví pri využití procesoru nad</string>
+  <string name="prefs_cpu_other_load_suspension_description">Určí, kedy BOINC pozastaví výpočty kvôli využitiu procesora inými aplikáciami.</string>
+  <string name="prefs_cpu_time_max_header">Limit procesoru</string>
+  <string name="prefs_cpu_time_max_description">Obmedzí procesorový čas, ktorý BOINC využíva na výpočty.</string>
+  <string name="prefs_memory_max_idle_header">Limit RAM</string>
+  <string name="prefs_memory_max_idle_description">Nastaví koľko RAM môžu úlohy využiť</string>
+  <string name="prefs_client_log_flags_header">Značky záznamov BOINC klienta</string>
+  <string name="prefs_gui_log_level_header">Úroveň záznamu GUI</string>
+  <string name="prefs_gui_log_level_description">Špecifikuje stručnosť GUI záznamov</string>
+  <string name="prefs_unit_celsius">°C</string>
+  <string name="prefs_unit_seconds">sekúnd</string>
+  <!--projects tab strings-->
+  <string name="projects_loading">Načítanie projektov...</string>
+  <string name="projects_add">Pripojiť sa k projektu</string>
+  <string name="projects_icon">Ikona projektu</string>
+  <string name="projects_credits">Kredit:</string>
+  <string name="projects_credits_host_and_user">%1$,d (na tomto zariadení) %2$,d (celkom)</string>
+  <!--project status strings-->
+  <string name="projects_status_suspendedviagui">Pozastavené používateľom</string>
+  <string name="projects_status_dontrequestmorework">Nebudú získané nové úlohy</string>
+  <string name="projects_status_ended">Projekt je ukončený - je možné sa od neho odpojiť</string>
+  <string name="projects_status_detachwhendone">Bude odpojený po skončení úloh</string>
+  <string name="projects_status_schedrpcpending">Žiadosť plánovača nevyriešená</string>
+  <string name="projects_status_schedrpcinprogress">Spracováva sa požiadavka plánovača</string>
+  <string name="projects_status_trickleuppending">Rýchla správa o stave čaká na odoslanie</string>
+  <string name="projects_status_backoff">Komunikácia je naplánovaná o:</string>
+  <!--project controls-->
+  <string name="projects_control_dialog_title">Príkazy projektu:</string>
+  <string name="projects_control_visit_website">Navštíviť stránku</string>
+  <string name="projects_control_update">Aktualizovať</string>
+  <string name="projects_control_remove">Odobrať</string>
+  <string name="projects_control_suspend">Pozastaviť</string>
+  <string name="projects_control_resume">Pokračovať</string>
+  <string name="projects_control_nonewtasks">Žiadne nové úlohy</string>
+  <string name="projects_control_allownewtasks">Povoliť nové úlohy</string>
+  <string name="projects_control_reset">Resetovať</string>
+  <string name="projects_control_dialog_title_acctmgr">Príkazy Správcu konta:</string>
+  <string name="projects_control_sync_acctmgr">Sychronizovať</string>
+  <string name="projects_control_remove_acctmgr">Deaktivovať</string>
+  <!--project confirm dialog-->
+  <string name="projects_confirm_detach_title">Odstrániť projekt?</string>
+  <string name="projects_confirm_detach_message">Skutočne chcete odstrániť</string>
+  <string name="projects_confirm_detach_message2">z BOINC?</string>
+  <string name="projects_confirm_detach_confirm">Odobrať</string>
+  <string name="projects_confirm_reset_title">Resetovať projekt</string>
+  <string name="projects_confirm_reset_message">Skutočne chcete resetovať</string>
+  <string name="projects_confirm_reset_message2">\?</string>
+  <string name="projects_confirm_reset_confirm">Resetovať</string>
+  <string name="projects_confirm_remove_acctmgr_title">Deaktivovať Správcu konta</string>
+  <string name="projects_confirm_remove_acctmgr_message">Skutočne chcete prestať používať</string>
+  <string name="projects_confirm_remove_acctmgr_message2">\?</string>
+  <string name="projects_confirm_remove_acctmgr_confirm">Deaktivovať</string>
+  <!--tasks tab strings-->
+  <string name="tasks_header_name">Názov úlohy:</string>
+  <string name="tasks_header_elapsed_time">Uplynutý čas:</string>
+  <string name="tasks_header_project_paused">(pozastavené)</string>
+  <string name="tasks_header_deadline">Odoslať do:</string>
+  <string name="tasks_result_new">nový</string>
+  <string name="tasks_result_files_downloading">čakanie na stiahnutie</string>
+  <string name="tasks_result_files_downloaded">sťahovanie dokončené</string>
+  <string name="tasks_result_compute_error">chyba výpočtu</string>
+  <string name="tasks_result_files_uploading">odosielanie</string>
+  <string name="tasks_result_files_uploaded">odosielanie dokončené</string>
+  <string name="tasks_result_aborted">zrušené</string>
+  <string name="tasks_result_upload_failed">odosielanie zlyhalo</string>
+  <string name="tasks_active_uninitialized">pripravené</string>
+  <string name="tasks_active_executing">beží</string>
+  <string name="tasks_active_suspended">pozastavené</string>
+  <string name="tasks_active_abort_pending">pozastavuje sa</string>
+  <string name="tasks_active_quit_pending">pozastavuje sa</string>
+  <string name="tasks_custom_suspended_via_gui">pozastavené</string>
+  <string name="tasks_custom_project_suspended_via_gui">projekt pozastavený</string>
+  <string name="tasks_custom_ready_to_report">pripravená na odoslanie</string>
+  <!--confirmation dialog-->
+  <string name="confirm_abort_task_title">Zrušiť úlohu?</string>
+  <string name="confirm_abort_task_message">Zrušiť úlohu:</string>
+  <string name="confirm_abort_task_confirm">Zrušiť</string>
+  <string name="confirm_cancel">Späť</string>
+  <string name="confirm_image_desc">Potvrdenie</string>
+  <!--transfers tab strings-->
+  <string name="trans_loading">Príprava prenosov...</string>
+  <string name="trans_upload">Odosielanie</string>
+  <string name="trans_download">Sťahovanie</string>
+  <string name="trans_retryin">zopakuje sa o </string>
+  <string name="trans_failed">zlyhalo</string>
+  <string name="trans_suspended">pozastavené</string>
+  <string name="trans_active">prebieha</string>
+  <string name="trans_pending">čaká</string>
+  <string name="trans_projectbackoff">odsunutie projektu</string>
+  <string name="trans_header_name">Súbor:</string>
+  <string name="trans_control_retry">Zopakovať prenosy</string>
+  <string name="confirm_abort_trans_title">Zrušiť prenos?</string>
+  <string name="confirm_abort_trans_message">Zrušiť súbor:</string>
+  <string name="confirm_abort_trans_confirm">Zrušiť</string>
+  <!--notices tab strings-->
+  <string name="notices_loading">Načítanie správ...</string>
+  <!--eventlog tab strings-->
+  <string name="eventlog_loading">Načítanie správ záznamu...</string>
+  <string name="eventlog_client_header">Správy klienta</string>
+  <string name="eventlog_gui_header">Správy GUI</string>
+  <string name="eventlog_copy_toast">Záznamy skopírované do schránky.</string>
+  <string name="eventlog_email_subject">Záznamy pre BOINC na Androide:</string>
+  <!--suspend reasons-->
+  <string name="suspend_unknown">Počítanie je pozastavené.</string>
+  <string name="suspend_batteries">Napojte vaše zariadenie na nabíjačku, aby výpočty mohli pokračovať.</string>
+  <string name="suspend_screen_on">Vypnite obrazovku pre pokračovanie vo výpočtoch.</string>
+  <string name="suspend_useractive">Užívateľ je aktívny.</string>
+  <string name="suspend_tod">Mimo časového rámca výpočtov.</string>
+  <string name="suspend_bm">BOINC meria výkon zariadenia...</string>
+  <string name="suspend_disksize">Nedostatok miesta na disku.</string>
+  <string name="suspend_cputhrottle">Plánované obmedzenie procesoru.</string>
+  <string name="suspend_noinput">Žiadna nedávna činnosť užívateľa.</string>
+  <string name="suspend_delay">Odloženie inicializácie.</string>
+  <string name="suspend_exclusiveapp">Beží výhradná aplikácia.</string>
+  <string name="suspend_cpu">Vaše zariadenie je zaneprázdnené inými aplikáciami.</string>
+  <string name="suspend_network_quota">BOINC dosiahol limit v prenose po sieti.</string>
+  <string name="suspend_os">Zastavené Androidom.</string>
+  <string name="suspend_wifi">Nepripojené k WiFi.</string>
+  <string name="suspend_battery_charging">Čakanie na nabitie batérie.</string>
+  <string name="suspend_battery_charging_long">Výpočty sa obnovia, keď nabitie batérie dosiahne</string>
+  <string name="suspend_battery_charging_long2"></string>
+  <string name="suspend_battery_charging_current">momentálne</string>
+  <string name="suspend_battery_overheating">Čakanie na ochladenie batérie</string>
+  <string name="suspend_user_req">Obnovovanie výpočtov...</string>
+  <string name="suspend_network_user_req">manuálne.</string>
+  <!--rpc reasons-->
+  <string name="rpcreason_userreq">Vyžiadané používateľom</string>
+  <string name="rpcreason_needwork">Získať ďalšiu prácu</string>
+  <string name="rpcreason_resultsdue">Nahlásiť dokončené úlohy</string>
+  <string name="rpcreason_trickleup">Odoslať rýchlu správu o stave</string>
+  <string name="rpcreason_acctmgrreq">Vyžiadané Správcom konta</string>
+  <string name="rpcreason_init">Prvotné nastavenie projektu</string>
+  <string name="rpcreason_projectreq">Vyžiadané projektom</string>
+  <string name="rpcreason_unknown">Neznámy dôvod</string>
+  <!--menu-->
+  <string name="menu_refresh">Obnoviť</string>
+  <string name="menu_emailto">Poslať ako email</string>
+  <string name="menu_copy">Kopírovať do schránky</string>
+  <string name="menu_eventlog">Záznam udalostí</string>
+  <string name="menu_exit">Vypnúť BOINC</string>
+  <string name="menu_run_mode_disable">Pozastaviť</string>
+  <string name="menu_run_mode_enable">Pokračovať</string>
+  <string name="menu_about">O</string>
+  <string name="menu_help">Pomoc</string>
+  <!--about dialog-->
+  <string name="about_button">Návrat</string>
+  <string name="about_title">O</string>
+  <string name="about_name">BOINC</string>
+  <string name="about_version">Verzia</string>
+  <string name="about_name_long">(Otvorená infraštruktúra pre sieťové výpočty z Berkeley)
+(Berkeley Open Infrastructure for Network Computing)</string>
+  <string name="about_copyright">\u00A9 2003–2016 Kalifornská Univerzita, Berkley.</string>
+  <string name="about_copyright_reserved">Všetky práva vyhradené.</string>
+  <string name="about_credits">Vďaka Inštitútu gravitačnej fyziky Maxa Plancka, IBM Corporation a HTC Corporation za ich podporu.</string>
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <plurals name="notice_notification">
+    <item quantity="one">%2$,d nový oznam</item>
+    <item quantity="few">%2$,d nový oznamy</item>
+    <item quantity="other">%2$,d nových oznamov</item>
+  </plurals>
+  <!--multi BOINC compatibility-->
+  <string name="nonexcl_dialog_header">Bola nájdená aplikácia na dobrovoľnícke výpočty</string>
+  <string name="nonexcl_dialog_text">Na tomto zariadení už beží iná výpočtová aplikácia; naraz môže bežať len jedna verzia.</string>
+  <string name="nonexcl_dialog_exit">Ukončiť</string>
+  <!--social integration-->
+  <string name="social_invite_button">Pozvať priateľov</string>
+  <string name="social_invite_intent_title">Akým spôsobom chcete zdieľať?</string>
+  <string name="social_invite_content_title">Riešim vedu na mojom smartfóne!</string>
+  <string name="social_invite_content_body">Používam %1$s na výpočty pre vedu. Môžeš aj ty, len si stiahni aplikáciu z %2$s</string>
+  <!--first parameter: device manufacturer, second: URL-->
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+</resources>

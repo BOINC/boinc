@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!--app global-->
+  <string name="app_name">BOINC</string>
+  <!--generic. used by multiple Activities/tabs-->
+  <string name="generic_loading">Laddar! Vänligen vänta...</string>
+  <string name="generic_button_continue">Fortsätt</string>
+  <string name="generic_button_finish">Avsluta</string>
+  <!--attach project-->
+  <!--selection list-->
+  <string name="attachproject_list_desc">Välj ett vetenskapligt projekt du vilj bidra till:</string>
+  <string name="attachproject_list_header">Välj ett projekt</string>
+  <string name="attachproject_list_manual_button">Lägg till projekt via URL</string>
+  <string name="attachproject_list_manual_dialog_title">Ange projektets URL:</string>
+  <string name="attachproject_list_manual_dialog_button">Lägg till projekt</string>
+  <string name="attachproject_list_manual_no_url">Vänligen ange projektets URL</string>
+  <string name="attachproject_list_acctmgr_button">Lägg till kontohanterare</string>
+  <string name="attachproject_list_no_internet">Ingen Internetanslutning</string>
+  <!--credential input-->
+  <string name="attachproject_credential_input_sing_desc">Ange kontouppgifter</string>
+  <string name="attachproject_credential_input_desc">Ange kontouppgifter för valda projekt:</string>
+  <string name="attachproject_credential_input_show_pwd">Visa lösenord</string>
+  <string name="attachproject_individual_credential_input">Bifoga projekt individuellt</string>
+  <!--conflicts-->
+  <string name="attachproject_conflicts_desc">Det uppstod problem med bifogningen av vetenskapligt projekt:</string>
+  <string name="attachproject_conflict_undefined">Kunde inte ansluta</string>
+  <string name="attachproject_conflict_not_unique">Konto existerar med annat lösenord</string>
+  <string name="attachproject_conflict_bad_password">Felaktigt lösenord</string>
+  <string name="attachproject_conflict_unknown_user">Kontot existerar ej</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">Kontot existerar ej, besök projektets webbsida för att registrera ett konto</string>
+  <!--working-->
+  <string name="attachproject_working_attaching">Bifogar</string>
+  <!--e.g. Attaching Einstein@Home-->
+  <!--hints-->
+  <string name="attachproject_hints_header">Tips</string>
+  <!--e.g. Hint 1/2-->
+  <string name="attachproject_hint_contribtion_header">Hur du kan hjälpa till:</string>
+  <string name="attachproject_hint_contribtion_wifi">1. Anslut till trådlöst nätverk</string>
+  <string name="attachproject_hint_contribtion_charger">2. Koppla in batteriladdare</string>
+  <string name="attachproject_hint_contribtion_screen">3. Stäng av skärmen</string>
+  <string name="attachproject_hint_projectwebsite_header">Besök projektets hemsida för att:</string>
+  <string name="attachproject_hint_projectwebsite_science">Lära dig mer om vetenskapen</string>
+  <string name="attachproject_hint_projectwebsite_stats">Visa statistik över bidragande</string>
+  <string name="attachproject_hint_projectwebsite_community">Komma i kontakt med andra voluntärer</string>
+  <string name="attachproject_hint_platforms_header">BOINC finns också tillgängligt till din dator eller bärbara dator, besök boinc.berkeley.edu för att veta mer.</string>
+  <!--project login-->
+  <string name="attachproject_login_loading">Kontaktar projektets server...</string>
+  <string name="attachproject_login_image_description">Projektlogotyp.</string>
+  <string name="attachproject_login_header_general_area">Allmän area:</string>
+  <string name="attachproject_login_header_specific_area">Specifik area:</string>
+  <string name="attachproject_login_header_description">Beskrivning:</string>
+  <string name="attachproject_login_header_home">Hem:</string>
+  <string name="attachproject_login_header_url">Webbplats:</string>
+  <string name="attachproject_login_header_platform">Android:</string>
+  <string name="attachproject_login_platform_supported">Enhetstypen stöds ej av det här projektet</string>
+  <string name="attachproject_login_platform_not_supported">Enheten stöds ej av det här projektet</string>
+  <string name="attachproject_login_category_terms_of_use">Användningsvillkor för</string>
+  <string name="attachproject_login_accept_terms_of_use">Genom att skapa ett kono med detta projekt, accepterar du licensavtalen som visas ovan.</string>
+  <string name="attachproject_login_category_login">Logga in med befintligt konto</string>
+  <string name="attachproject_login_header_id_email">E-postadress:</string>
+  <string name="attachproject_login_header_id_name">Namn:</string>
+  <string name="attachproject_login_header_pwd">Lösenord:</string>
+  <string name="attachproject_login_category_creation">Ny för</string>
+  <string name="attachproject_login_header_creation_enabled">Registrera ett konto för att delta:</string>
+  <string name="attachproject_login_header_creation_client_disabled">Besök projektwebbplatsen för att skapa ett konto:</string>
+  <string name="attachproject_login_header_creation_disabled">Det här projektet accepterar för tillfället inte nyregistrering av konton.</string>
+  <string name="attachproject_login_button_registration">Registrera</string>
+  <string name="attachproject_login_button_login">Logga in</string>
+  <string name="attachproject_login_button_forgotpw">Glömt lösenord</string>
+  <string name="attachproject_login_error_toast">Misslyckades med att kontakta projekt!</string>
+  <string name="attachproject_login_attached">Bifogad</string>
+  <!--project registration-->
+  <string name="attachproject_registration_header">Kontoregistrering för</string>
+  <string name="attachproject_registration_header_url">Projekt:</string>
+  <string name="attachproject_registration_header_email">E-postadress:</string>
+  <string name="attachproject_registration_header_username">Namn:</string>
+  <string name="attachproject_registration_header_teamname">Team:</string>
+  <string name="attachproject_registration_header_pwd">Lösenord:</string>
+  <string name="attachproject_registration_header_pwd_confirm">... Skriv igen:</string>
+  <string name="attachproject_registration_button">Skapa</string>
+  <!--account manager-->
+  <string name="attachproject_acctmgr_list_desc">Använd BOINC kontohanterare för att lägga till och hantera flera projekt</string>
+  <string name="attachproject_acctmgr_header">Lägg till kontohanterare</string>
+  <string name="attachproject_acctmgr_header_url">URL</string>
+  <string name="attachproject_acctmgr_header_name">Användare:</string>
+  <string name="attachproject_acctmgr_header_pwd">Lösenord:</string>
+  <string name="attachproject_acctmgr_header_pwd_confirm">... Skriv om:</string>
+  <string name="attachproject_acctmgr_button">Lägg till</string>
+  <!--error strings-->
+  <string name="attachproject_error_wrong_name">Användare hittades inte</string>
+  <string name="attachproject_error_short_pwd">Lösenordet är för kort</string>
+  <string name="attachproject_error_no_internet">Anslutningsfel</string>
+  <string name="attachproject_error_pwd_no_match">Lösenorden stämmer ej överens</string>
+  <string name="attachproject_error_pwd_no_retype">Skriv in lösenord igen</string>
+  <string name="attachproject_error_no_url">Ange URL</string>
+  <string name="attachproject_error_no_email">Vänligen ange eMail-adress</string>
+  <string name="attachproject_error_no_pwd">Ange ett lösenord</string>
+  <string name="attachproject_error_no_name">Ange användarnamn</string>
+  <string name="attachproject_error_unknown">misslyckades</string>
+  <string name="attachproject_error_bad_username">Användarnamn felaktigt</string>
+  <string name="attachproject_error_email_in_use">eMail-adressen används redan</string>
+  <string name="attachproject_error_project_down">Projektet nedkopplat</string>
+  <string name="attachproject_error_email_bad_syntax">eMail-adress felaktig</string>
+  <string name="attachproject_error_bad_pwd">Lösenord felaktigt</string>
+  <string name="attachproject_error_creation_disabled">Registrering av konton är inaktiverat för det här projektet</string>
+  <string name="attachproject_error_invalid_url">Ogiltig URL</string>
+  <!--working activity-->
+  <string name="attachproject_working_back_button">Tillbaka</string>
+  <string name="attachproject_working_finish_button">Avsluta</string>
+  <string name="attachproject_working_check_desc">Framgångsrik</string>
+  <string name="attachproject_working_failed_desc">Misslyckades</string>
+  <string name="attachproject_working_ongoing">…</string>
+  <string name="attachproject_working_finished">.</string>
+  <string name="attachproject_working_description">:</string>
+  <string name="attachproject_working_connect">Anslut</string>
+  <string name="attachproject_working_verify">Verifiera konto</string>
+  <string name="attachproject_working_register">Registrera konto</string>
+  <string name="attachproject_working_login">Logga in</string>
+  <string name="attachproject_working_acctmgr">Lägg till kontohanterare</string>
+  <string name="attachproject_working_acctmgr_sync">Synkronisera</string>
+  <!--main activity-->
+  <string name="main_noproject_warning">Klicka här för att välja projekt.</string>
+  <string name="main_error">Ooojsan</string>
+  <string name="main_error_long">...det här borde inte hända!\nKlicka på ikonen för att försöka igen.</string>
+  <string name="main_title_icon_desc">BOINC-ikon</string>
+  <!--tab names-->
+  <string name="tab_status">Status</string>
+  <string name="tab_projects">Projekt</string>
+  <string name="tab_tasks">Uppgifter</string>
+  <string name="tab_transfers">Överföringar</string>
+  <string name="tab_preferences">Inställningar</string>
+  <string name="tab_notices">Meddelanden</string>
+  <string name="tab_desc">Navigering</string>
+  <!--status strings-->
+  <string name="status_running">Beräkning</string>
+  <string name="status_running_long">Tack för att du deltar.</string>
+  <string name="status_paused">Pausad</string>
+  <string name="status_idle">Inget att göra</string>
+  <string name="status_idle_long">Väntar på uppgifter...</string>
+  <string name="status_computing_disabled">Pausad </string>
+  <string name="status_computing_disabled_long">Klicka \"play\" för att återuppta nätverkstrafik och beräkning.</string>
+  <string name="status_launching">Startar...</string>
+  <string name="status_noproject">Välj ett projekt att delta i.</string>
+  <string name="status_closing">Stänger...</string>
+  <string name="status_benchmarking">Kalkulerar...</string>
+  <string name="status_image_description">Projektbild</string>
+  <!--preferences tab strings-->
+  <string name="prefs_loading">Läser in inställningar...</string>
+  <string name="prefs_submit_button">Spara</string>
+  <string name="prefs_dialog_title">Ange nytt värde:</string>
+  <string name="prefs_dialog_title_selection">Välj:</string>
+  <string name="prefs_category_general">Allmänt</string>
+  <string name="prefs_category_network">Nätverk</string>
+  <string name="prefs_category_power">Energi</string>
+  <string name="prefs_category_cpu">CPU</string>
+  <string name="prefs_category_storage">Lagring</string>
+  <string name="prefs_category_memory">Minne</string>
+  <string name="prefs_category_debug">Felsök</string>
+  <string name="prefs_show_advanced_header">Visa avancerade inställningar och kontroller...</string>
+  <string name="prefs_suspend_when_screen_on">Pausa beräkning när skärmen är på</string>
+  <string name="prefs_stationary_device_mode_header">Stationär enhets-läge</string>
+  <string name="prefs_stationary_device_mode_description">Tillåt beräkning oavsett Energiinställningar. Bara aktiv om enheten inte har ett batteri.</string>
+  <string name="prefs_power_source_header">Energikällor för beräkning</string>
+  <string name="prefs_power_source_description">Välj energikälla som BOINC tillåts använda för beräkning.</string>
+  <string name="prefs_power_source_ac">Eluttag</string>
+  <string name="prefs_power_source_usb">USB-anslutning</string>
+  <string name="prefs_power_source_wireless">Trådlös laddare</string>
+  <string name="prefs_power_source_battery">Batteri</string>
+  <string name="battery_charge_min_pct_header">Minsta batterinivå</string>
+  <string name="battery_charge_min_pct_description">BOINC pausar beräkning under definerad batterinivå.</string>
+  <string name="battery_temperature_max_header">Max. batteritemperatur</string>
+  <string name="battery_temperature_max_description">BOINC pausar beräkningen när den definerade batteritemperaturen överstigs. Det är ej rekommenderat att ändra det här värdet.</string>
+  <string name="prefs_disk_max_pct_header">Max. använt lagringsutrymme</string>
+  <string name="prefs_disk_max_pct_description">Hur många procent av din enhets lagringsutrymme är BOINC tillåtet att använda?</string>
+  <string name="prefs_disk_min_free_gb_header">Minsta lediga lagringsutrymme</string>
+  <string name="prefs_disk_min_free_gb_description">Hur många procent av din enhets lagringsutrymme skall förbli ledigt?</string>
+  <string name="prefs_disk_access_interval_header">Tillgångsintervall</string>
+  <string name="prefs_disk_access_interval_description">Föreslår en intervall mellan varje tillgång till disken</string>
+  <string name="prefs_network_daily_xfer_limit_mb_header">Daglig överföringsgräns</string>
+  <string name="prefs_network_daily_xfer_limit_mb_description">Begränsar den dagliga använda datatraffiken för BOINC.</string>
+  <string name="prefs_network_wifi_only_header">Överför uppgifter över WiFi endast</string>
+  <string name="prefs_autostart_header">Autostart</string>
+  <string name="prefs_show_notification_notices_header">Visa notifikation för nya BOINC-notiser</string>
+  <string name="prefs_show_notification_suspended_header">Visa notifikation även i pausat läge</string>
+  <string name="prefs_cpu_number_cpus_header">Använda CPU-kärnor</string>
+  <string name="prefs_cpu_number_cpus_description">Begränsar antalet CPU-kärnor BOINC använder för beräkning.</string>
+  <string name="prefs_cpu_other_load_suspension_header">Pausa vid CPU-användning över</string>
+  <string name="prefs_cpu_other_load_suspension_description">Bestämmer när B.OINC pausar beräkningen för andra appars CPU-användning.</string>
+  <string name="prefs_cpu_time_max_header">CPU-gräns</string>
+  <string name="prefs_cpu_time_max_description">Begränsar tiden på CPU:n som BOINC använder för beräkning.</string>
+  <string name="prefs_memory_max_idle_header">RAM-gräns</string>
+  <string name="prefs_memory_max_idle_description">Begränsar det belopp av RAM som uppgifter är tillåtna att ockupera.</string>
+  <string name="prefs_client_log_flags_header">BOINC-klientens loggningsflaggor</string>
+  <string name="prefs_gui_log_level_header">Användar-gränssnittets (GUI) loggningsnivå</string>
+  <string name="prefs_gui_log_level_description">Specificerar informationsnivån för användargränssnittets (GUI) loggningsmeddelanden.</string>
+  <string name="prefs_unit_celsius">°C</string>
+  <string name="prefs_unit_seconds">sekunder</string>
+  <!--projects tab strings-->
+  <string name="projects_loading">Läser in projekt...</string>
+  <string name="projects_add">Lägg till projekt</string>
+  <string name="projects_icon">Projekt-ikon</string>
+  <string name="projects_credits">Arbete:</string>
+  <string name="projects_credits_host_and_user">%1$,d (på denna enhet) %2$,d (totalt)</string>
+  <!--project status strings-->
+  <string name="projects_status_suspendedviagui">Försatt i vänteläge av användare</string>
+  <string name="projects_status_dontrequestmorework">Hämtar inte nya uppgifter</string>
+  <string name="projects_status_ended">Projektet är avslutat - det kan tas bort</string>
+  <string name="projects_status_detachwhendone">Kommer att ta bort när uppgifter är avklarade</string>
+  <string name="projects_status_schedrpcpending">Schemaläggarbegäran väntar</string>
+  <string name="projects_status_schedrpcinprogress">Schemaläggarbegäran pågår</string>
+  <string name="projects_status_trickleuppending">Flödesmeddelande väntar</string>
+  <string name="projects_status_backoff">Kommunikation schemalagd om:</string>
+  <!--project controls-->
+  <string name="projects_control_dialog_title">Projekt-kommandon:</string>
+  <string name="projects_control_visit_website">Besök webbplats</string>
+  <string name="projects_control_update">Uppdatera</string>
+  <string name="projects_control_remove">Ta bort</string>
+  <string name="projects_control_suspend">Vänteläge</string>
+  <string name="projects_control_resume">Återuppta</string>
+  <string name="projects_control_nonewtasks">Inga nya uppgifter</string>
+  <string name="projects_control_allownewtasks">Tillåt nya uppgifter</string>
+  <string name="projects_control_reset">Nollställ</string>
+  <string name="projects_control_dialog_title_acctmgr">Kontohanterar-kommandon:</string>
+  <string name="projects_control_sync_acctmgr">Synkronisera</string>
+  <string name="projects_control_remove_acctmgr">Koppla bort</string>
+  <!--project confirm dialog-->
+  <string name="projects_confirm_detach_title">Ta bort projekt?</string>
+  <string name="projects_confirm_detach_message">Är du säker på att du vill ta bort</string>
+  <string name="projects_confirm_detach_message2">från BOINC?</string>
+  <string name="projects_confirm_detach_confirm">Ta bort</string>
+  <string name="projects_confirm_reset_title">Återställ projekt</string>
+  <string name="projects_confirm_reset_message">Är du säker på att du vill återställa</string>
+  <string name="projects_confirm_reset_message2">\?</string>
+  <string name="projects_confirm_reset_confirm">Nollställ</string>
+  <string name="projects_confirm_remove_acctmgr_title">Avaktivera kontohanterare</string>
+  <string name="projects_confirm_remove_acctmgr_message">Är du säker på att du vill sluta använda</string>
+  <string name="projects_confirm_remove_acctmgr_message2">\?</string>
+  <string name="projects_confirm_remove_acctmgr_confirm">Avaktivera</string>
+  <!--tasks tab strings-->
+  <string name="tasks_header_name">Uppgiftsnamn:</string>
+  <string name="tasks_header_elapsed_time">Tid åtgången:</string>
+  <string name="tasks_header_project_paused">(pausad)</string>
+  <string name="tasks_header_deadline">Senaste rapporteringssdatum:</string>
+  <string name="tasks_result_new">ny</string>
+  <string name="tasks_result_files_downloading">väntar på nedladdning</string>
+  <string name="tasks_result_files_downloaded">nedladdning färdig</string>
+  <string name="tasks_result_compute_error">beräkningsfel</string>
+  <string name="tasks_result_files_uploading">laddar upp</string>
+  <string name="tasks_result_files_uploaded">uppladdning färdig</string>
+  <string name="tasks_result_aborted">avbruten</string>
+  <string name="tasks_result_upload_failed">uppladdning misslyckades</string>
+  <string name="tasks_active_uninitialized">redo</string>
+  <string name="tasks_active_executing">kör</string>
+  <string name="tasks_active_suspended">i vänteläge</string>
+  <string name="tasks_active_abort_pending">pausar</string>
+  <string name="tasks_active_quit_pending">pausar</string>
+  <string name="tasks_custom_suspended_via_gui">i vänteläge</string>
+  <string name="tasks_custom_project_suspended_via_gui">projekt pausat</string>
+  <string name="tasks_custom_ready_to_report">redo att rapportera</string>
+  <!--confirmation dialog-->
+  <string name="confirm_abort_task_title">Avbryta uppgift?</string>
+  <string name="confirm_abort_task_message">Avbryt uppgift:</string>
+  <string name="confirm_abort_task_confirm">Avbryt</string>
+  <string name="confirm_cancel">Avbryt</string>
+  <string name="confirm_image_desc">Bekräftelse-dialogruta</string>
+  <!--transfers tab strings-->
+  <string name="trans_loading">Läser överföringar...</string>
+  <string name="trans_upload">Skicka</string>
+  <string name="trans_download">Hämta</string>
+  <string name="trans_retryin">försök igen om</string>
+  <string name="trans_failed">misslyckades</string>
+  <string name="trans_suspended">i vänteläge</string>
+  <string name="trans_active">aktiv</string>
+  <string name="trans_pending">väntar</string>
+  <string name="trans_projectbackoff">Projektinitierad väntan</string>
+  <string name="trans_header_name">Fil:</string>
+  <string name="trans_control_retry">Skicka överföringar igen</string>
+  <string name="confirm_abort_trans_title">Avbryta överföring?</string>
+  <string name="confirm_abort_trans_message">Avbryta fil:</string>
+  <string name="confirm_abort_trans_confirm">Avbryt</string>
+  <!--notices tab strings-->
+  <string name="notices_loading">Läser noticer...</string>
+  <!--eventlog tab strings-->
+  <string name="eventlog_loading">Laddar loggningsmeddelanden</string>
+  <string name="eventlog_client_header">Klient-meddelanden</string>
+  <string name="eventlog_gui_header">Användar-gränssnitt (GUI) -meddelanden</string>
+  <string name="eventlog_copy_toast">Logga kopierad clipboard.</string>
+  <string name="eventlog_email_subject">Händelselogg för BOINC på Android:</string>
+  <!--suspend reasons-->
+  <string name="suspend_unknown">Beräkning pausad.</string>
+  <string name="suspend_batteries">Anslut din enhet till en laddare för att fortsätta beräkningar.</string>
+  <string name="suspend_screen_on">Stäng av din skärm för att fortsätta beräkningar.</string>
+  <string name="suspend_useractive">Användare är aktiv.</string>
+  <string name="suspend_tod">Tidsgräns för beräkningsprocess överskriden.</string>
+  <string name="suspend_bm">BOINC kalkulerar din enhets prestanda...</string>
+  <string name="suspend_disksize">Slut på diskutrymme.</string>
+  <string name="suspend_cputhrottle">Schemalagt CPU-stopp.</string>
+  <string name="suspend_noinput">Ingen senaste användar-aktivitet.</string>
+  <string name="suspend_delay">Initieringsfördröjning.</string>
+  <string name="suspend_exclusiveapp">En exklusiv app körs.</string>
+  <string name="suspend_cpu">Din enhet är upptagen med andra appar.</string>
+  <string name="suspend_network_quota">BOINC nådde nätverksdata-gräns.</string>
+  <string name="suspend_os">Stoppades av Android.</string>
+  <string name="suspend_wifi">Inte ansluten till trådlöst nätverk.</string>
+  <string name="suspend_battery_charging">Väntar på att batteriet ska laddas upp.</string>
+  <string name="suspend_battery_charging_long">Beräkning kommer återupptas när batterinivån når</string>
+  <string name="suspend_battery_charging_long2"></string>
+  <string name="suspend_battery_charging_current">i dagsläget</string>
+  <string name="suspend_battery_overheating">Väntar på att batteriet kyls ned</string>
+  <string name="suspend_user_req">Återupptar beräkning...</string>
+  <string name="suspend_network_user_req">manuellt.</string>
+  <!--rpc reasons-->
+  <string name="rpcreason_userreq">Begärd av användare</string>
+  <string name="rpcreason_needwork">För att hämta jobb</string>
+  <string name="rpcreason_resultsdue">För att rapportera avslutade jobb</string>
+  <string name="rpcreason_trickleup">För att sända flödesmeddelande</string>
+  <string name="rpcreason_acctmgrreq">Begärd av kontohanteraren</string>
+  <string name="rpcreason_init">Projektinitiering</string>
+  <string name="rpcreason_projectreq">Begärd av projekt</string>
+  <string name="rpcreason_unknown">Okänd anledning</string>
+  <!--menu-->
+  <string name="menu_refresh">Uppdatera</string>
+  <string name="menu_emailto">Skicka som e-postmeddelande</string>
+  <string name="menu_copy">Kopiera till urklipp</string>
+  <string name="menu_eventlog">Händelselogg</string>
+  <string name="menu_exit">Avsluta BOINC</string>
+  <string name="menu_run_mode_disable">Vänteläge</string>
+  <string name="menu_run_mode_enable">Återuppta</string>
+  <string name="menu_about">Om</string>
+  <string name="menu_help">Hjälp</string>
+  <!--about dialog-->
+  <string name="about_button">Återvänd</string>
+  <string name="about_title">Om</string>
+  <string name="about_name">BOINC</string>
+  <string name="about_version">Version</string>
+  <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
+  <string name="about_copyright">\u00A9 2003–2016 Universitetet i Kalifornien, Berkeley.</string>
+  <string name="about_copyright_reserved">Alla rättigheter reserverade.</string>
+  <string name="about_credits">Tack till Max Plack Institut för Gravitationell Fysik, IBM Corporation och till HTC Corporation för deras stöd till oss.</string>
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <plurals name="notice_notification">
+    <item quantity="one">Nytt meddelande från %1$s</item>
+    <item quantity="other">%2$,d nytt meddelande</item>
+  </plurals>
+  <!--multi BOINC compatibility-->
+  <string name="nonexcl_dialog_header">Volontär beräknings-app detekterad</string>
+  <string name="nonexcl_dialog_text">En annan volontär beräknings-app körs på denna enhet. Endast en version kan köras samtidigt.</string>
+  <string name="nonexcl_dialog_exit">Avsluta</string>
+  <!--social integration-->
+  <string name="social_invite_button">Bjud in vänner</string>
+  <string name="social_invite_intent_title">Hur vill du dela?</string>
+  <string name="social_invite_content_title">Jag hjälper till och forskar med min smartphone!</string>
+  <string name="social_invite_content_body">Jag använder my %1$s till att bidra med beräkningskraft för vetenskapen. Det kan du med! Ladda ned appen från: %2$s</string>
+  <!--first parameter: device manufacturer, second: URL-->
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+</resources>
