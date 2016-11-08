@@ -55,7 +55,6 @@
 
     <application
         android:allowBackup="true"
-        android:debuggable="true"
         android:icon="@drawable/boinc"
         android:label="@string/app_name"
         android:theme="@style/Theme.Styled"
