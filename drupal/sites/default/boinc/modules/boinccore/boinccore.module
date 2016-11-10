@@ -1099,7 +1099,7 @@ function boinccore_team_email_list() {
   $account_key = !empty($_POST['account_key']) ? $_POST['account_key'] : $_GET['account_key'];
   $show_xml = !empty($_POST['xml']) ? $_POST['xml'] : $_GET['xml'];
   $admin_request = FALSE;
-  if ($boincteam_id) {
+  if ($boincteam_id && is_numeric($boincteam_id)) {
     if ($account_key) {
       // See if this is a team admin
       db_set_active('boinc');
