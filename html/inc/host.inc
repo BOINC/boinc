@@ -215,7 +215,7 @@ function show_host($host, $user, $ipprivate) {
 function top_host_table_start($sort_by) {
     global $host_sites;
     shuffle($host_sites);
-    start_table();
+    start_table('table-striped');
     echo "<tr>";
     echo "<th>".tra("Computer info")."</th>\n";
     echo "<th>".tra("Rank")."</th>";
@@ -667,7 +667,7 @@ function more_or_less($sort, $rev, $show_all) {
 function user_host_table_start(
     $private, $sort, $rev, $show_all, $any_product_name
 ) {
-    start_table();
+    start_table('table-striped');
     echo "<tr>";
     $url = link_url_rev($sort, "id", $rev, $show_all);
     echo "<th><a href=$url>".tra("Computer ID")."</a></th>\n";
@@ -741,7 +741,7 @@ function show_user_hosts($userid, $private, $show_all, $sort, $rev) {
         show_host_row($host, $i, $private, false, $any_product_name);
         $i++;
     }
-    echo "</table>\n";
+    end_table();
 
     if ($old_hosts>0) {
         more_or_less($sort, $rev, $show_all);

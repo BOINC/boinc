@@ -292,7 +292,7 @@ function get_disk_space_config() {
 }
 
 function group_header($t) {
-    echo "<tr><th class=subheading>$t</th><td colspan=4><br></td></tr>\n";
+    echo "<tr><th class=\"bg-info\">$t</th><td class=\"bg-info\" colspan=4><br></td></tr>\n";
 }
 
 // functions to parse preferences XML into a struct
@@ -490,7 +490,7 @@ function prefs_display_venue($prefs, $venue, $subset) {
     if (isset($prefs->$venue)) $x = $prefs->$venue;
 
     if ($x) {
-        echo "<h2>".tra("Separate preferences for %1", $venue)."</h2>";
+        echo "<h3>".tra("Separate preferences for %1", $venue)."</h3>";
         echo "<tr><td colspan=2>";
         start_table();
         if ($subset == "global") {
@@ -522,14 +522,14 @@ function print_prefs_display_global($user, $columns=false) {
     ";
     $switch_link = " <font size=\"-1\"><a href=prefs.php?subset=global&cols=". (int)!$columns .">".tra("(Switch view)")."</a></font>";
     if ($columns) {
-        echo "<h2>".tra("Combined preferences").$switch_link."</h2>";
+        echo "<h3>".tra("Combined preferences").$switch_link."</h3>";
         start_table();
         prefs_show_columns_global($global_prefs);
         end_table();
 
     } else {
         if (isset($global_prefs->home) || isset($global_prefs->work) || isset($global_prefs->school)) {
-            echo "<h2>".tra("Primary (default) preferences").$switch_link."</h2>";
+            echo "<h3>".tra("Primary (default) preferences").$switch_link."</h3>";
         }
         start_table();
         prefs_show_global($global_prefs);
@@ -650,8 +650,8 @@ define('VENUE_TOOLTIP', tra('New computers will use this location for computing 
 
 function tooltip_row2($t, $x, $y) {
     echo "<tr title=\"$t\">
-        <td class=fieldname>$x</td>
-        <td>$y</td>
+        <td ".NAME_ATTRS.">$x</td>
+        <td ".VALUE_ATTRS.">$y</td>
         </tr>
     ";
 }

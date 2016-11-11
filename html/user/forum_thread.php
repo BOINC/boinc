@@ -271,10 +271,10 @@ if (!$logged_in_user) {
 //
 echo "</td><td align=\"right\">
     <input type=\"hidden\" name=\"id\" value=\"", $thread->id, "\">" .
-    tra("Sort");
+    tra("Sort")." ";
 echo select_from_array("sort", $thread_sort_styles, $sort_style);
-echo "<input class=\"btn btn-default\" type=\"submit\" value=\"".tra('Sort')."\">
-    </td></tr></table></form>
+echo " <input class=\"btn btn-default\" type=\"submit\" value=\"".tra('Sort')."\">
+    </td></tr></table></form><p>
 ";
 
 show_posts(

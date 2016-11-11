@@ -32,7 +32,7 @@ if ($xml) {
     page_head(tra("Applications"));
     echo tra("%1 currently has the following applications. When you participate in %1, tasks for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything.", PROJECT)."<br><br>
     ";
-    start_table();
+    start_table('table-striped');
 }
 
 $apps = BoincApp::enum("deprecated=0");
@@ -50,7 +50,7 @@ foreach ($apps as $app) {
     } else {
         $b = $app->beta?" (beta test)":"";
         echo "
-            <tr><th colspan=4>$app->user_friendly_name$b</th></tr>
+            <tr><th class=\"bg-primary\" colspan=4>$app->user_friendly_name$b</th></tr>
             <tr>
                 <th>".tra("Platform")."</th>
                 <th>".tra("Version")."</th>

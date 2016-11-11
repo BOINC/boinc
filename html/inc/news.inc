@@ -19,7 +19,7 @@
 function news_item($date, $title, $post) {
     echo "<p>";
     if ($title) {
-        echo "<span class=news_title>$title</span><br>\n";
+        echo "<span class=\"lead\">$title</span><br>\n";
     }
     $d = time_str($date);
     $options = new output_options();
@@ -32,12 +32,13 @@ function news_item($date, $title, $post) {
         $text = output_transform($post->content, $options);
     }
     echo "
-        <span class=news_content>$text</span>
-        <span class=news_date>$d
+        $text
+        <br>
+        <span class=\"small\">$d
     ";
     if ($forum_link && !DISABLE_FORUMS) {
         echo "
-            &middot; <a href=".url_base()."forum_thread.php?id=$post->thread> ".tra("Comment")."</a>
+            &middot; <a href=\"".url_base()."forum_thread.php?id=$post->thread\"> ".tra("Comment")."</a>
         ";
     }
     echo "</span>

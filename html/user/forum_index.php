@@ -37,7 +37,6 @@ if (DISABLE_FORUMS && !is_admin($user)) {
 if ((get_int("read", true) == 1)) {
     if ($user) {
         check_tokens($user->authenticator);
-        BoincForumPrefs::lookup($user);
         $now = time();
         $user->prefs->update("mark_as_read_timestamp=$now");
         Header("Location: ".get_str("return", true));
@@ -58,21 +57,19 @@ function show_forum_summary($forum, $i) {
         if (!strlen($d)) $d = tra("Discussion among members of %1", $team->name);
         break;
     }
-    $j = $i % 2;
     echo "
-        <tr class=\"row$j\">
+        <tr>
         <td>
             <a href=\"forum_forum.php?id=$forum->id\">$t</a>
             <br><small>$d</small>
         </td>
-        <td class=\"numbers\">$forum->threads</td>
-        <td class=\"numbers\">$forum->posts</td>
-        <td class=\"lastpost\">".time_diff_str($forum->timestamp, time())."</td>
+        <td>$forum->threads</td>
+        <td>$forum->posts</td>
+        <td>".time_diff_str($forum->timestamp, time())."</td>
     </tr>";
 }
 
-page_head(tra("%1 Message boards", PROJECT));
-
+page_head(tra("Message boards"));
 
 show_forum_header($user);
 
@@ -102,8 +99,8 @@ foreach ($categories as $category) {
     }
     if (strlen($category->name)) {
         echo '
-            <tr class="subtitle">
-            <td class="category" colspan="4">'.$category->name.'</td>
+            <tr>
+            <td colspan="4">'.$category->name.'</td>
             </tr>
         ';
     }
@@ -125,7 +122,7 @@ end_table();
 if ($user) {
     $subs = BoincSubscription::enum("userid=$user->id");
     if (count($subs)) {
-        echo "<p><span class=title>".tra("Subscribed threads")."</span><p>";
+        echo "<p><h3>".tra("Subscribed threads")."</h3><p>";
         show_thread_and_context_header();
         $i = 0;
         foreach ($subs as $sub) {
@@ -142,7 +139,6 @@ if ($user) {
 }
 
 page_tail();
-flush();
 BoincForumLogging::cleanup();
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

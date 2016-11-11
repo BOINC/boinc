@@ -113,10 +113,8 @@ if ($preview == tra("Preview")) {
         $options->htmlitems = false;
     }
     echo "<h2>".tra("Preview")."</h2>\n";
-    echo "<div class=\"pm_preview\">"
-        .output_transform($content, $options)
-        ."</div>\n"
-    ;
+    echo output_transform($content, $options) ;
+    echo "<p>\n";
 }
 
 start_table();

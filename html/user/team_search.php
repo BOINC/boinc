@@ -70,7 +70,7 @@ function get_teams($clause, $active) {
 }
 
 function show_list($list) {
-    start_table();
+    start_table('table-striped');
     echo "
         <tr>
         <th>".tra("Team name")."</th>
@@ -88,8 +88,7 @@ function show_list($list) {
     $i = 0;
     foreach ($list as $team) {
         $type = team_type_name($team->type);
-        $j = $i++ % 2;
-        echo "<tr class=row$j>
+        echo "<tr>
             <td><a href=team_display.php?teamid=$team->id>$team->name</a></td>
         ";
         if (defined("SHOW_NONVALIDATED_TEAMS")) {
@@ -198,7 +197,7 @@ if ($submit || $xml) {
         show_teams_html($list, $params);
     }
 } else {
-    page_head(tra("Find a team"), 'document.form.keywords.focus()');
+    page_head(tra("Find a team"), 'onload="document.form.keywords.focus()"');
     echo tra("You can team up with other people with similar interests, or from the same country, company, or school.")
         ."<p>"
         .tra("Use this form to find teams that might be right for you.")

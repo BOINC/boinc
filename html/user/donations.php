@@ -38,7 +38,6 @@ if (function_exists("donations_intro")) {
 } else {
     echo "<div>".tra("This project is accepting donations via
 %1.", "<a href=\"http://www.paypal.com/\">PayPal</a>")."</div>
-        <div class=\"donationtext\">
         ".tra("To donate, fill in the amount you want to donate using the field below.
         PayPal is accepting multiple currencies
         (Canadian Dollars, Euros, Pounds Sterling, U.S. Dollars,
@@ -49,7 +48,7 @@ if (function_exists("donations_intro")) {
         You can use included currency converter
         to see the donation amount equivalent in different currencies
         (please note that the rates are only estimates
-         and the actual amount may differ).")."</div>
+         and the actual amount may differ).")."
     ";
 }
 

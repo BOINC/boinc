@@ -44,9 +44,7 @@ function pm_team_form($user, $teamid, $error=null) {
     if (post_str("preview", true) == tra("Preview")) {
         $options = new output_options;
         echo tra("Preview");
-        echo "<div class=\"pm_preview\">\n";
         echo output_transform($content, $options);
-        echo "</div>\n";
     }
     if ($error) {
         echo "<p class=\"text-danger\">".$error."</p>\n";
@@ -78,9 +76,7 @@ function pm_form($replyto, $userid, $error = null) {
     if (post_str("preview", true) == tra("Preview")) {
         $options = new output_options;
         echo tra("Preview");
-        echo "<div class=\"pm_preview\">\n";
         echo output_transform(post_str("content", true), $options);
-        echo "</div>\n";
     }
     
     $subject = null;

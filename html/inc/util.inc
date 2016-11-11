@@ -29,6 +29,7 @@ require_once("../inc/db.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/translation.inc");
 require_once("../inc/profile.inc");
+require_once("../inc/bootstrap.inc");
 
 // don't allow /... at the end of URL
 
@@ -161,6 +162,7 @@ function show_login_info($prefix="") {
 }
 
 $cache_control_extra="";
+$is_login_page = false;
 
 // Page_head() is overridable so that projects that want to integrate BOINC
 // with an existing web framework can more easily do so.
@@ -168,13 +170,18 @@ $cache_control_extra="";
 //
 if (!function_exists("page_head")){
 function page_head(
-    $title, $java_onload=null, $title_plain=null, $prefix="", $head_extra=null
+    $title, $body_attrs=null, $title_plain=null, $prefix="", $head_extra=null
 ) {
     global $caching, $cache_control_extra, $did_page_head;
+    global $is_login_page, $fixed_navbar;
 
     $did_page_head = true;
     $url_base = url_base();
-    $stylesheet = $url_base.STYLESHEET;
+    if (defined('STYLESHEET')) {
+        $stylesheet = $url_base.STYLESHEET;
+    } else {
+        $stylesheet = null;
+    }
     $rssname = PROJECT . " RSS 2.0";
     $rsslink = $url_base."rss_main.php";
     if (defined('STYLESHEET2')) {
@@ -192,9 +199,11 @@ function page_head(
         header ("Pragma: no-cache");                          // HTTP/1.0
     }
 
-    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">";
-    
-    echo "<html><head>\n";
+    echo '<!DOCTYPE html>
+        <html lang="en">
+        <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    ';
     if ($head_extra) {
         echo "\n$head_extra\n";
     }
@@ -203,57 +212,60 @@ function page_head(
     } else {
         echo "<title>".sanitize_tags($title_plain)."</title>\n";
     }
-    echo "<link rel=stylesheet type=\"text/css\" href=\"".$url_base."main.css\" media=\"all\">
-        <link rel=stylesheet type=\"text/css\" href=\"$stylesheet\">
-    ";
+    echo '
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="'.secure_url_base().'/bootstrap.min.css" media="all">
+    ';
+    if ($stylesheet) {
+        echo "
+            <link rel=stylesheet type=\"text/css\" href=\"$stylesheet\">
+        ";
+    }
     if ($stylesheet2) {
         echo "<link rel=stylesheet type=\"text/css\" href=\"$stylesheet2\">\n";
     }
     if (defined("SHORTCUT_ICON")) {
-        echo '<link rel="icon" type="image/x-icon", href="'.SHORTCUT_ICON.'"/>
+        echo '<link rel="icon" type="image/x-icon" href="'.SHORTCUT_ICON.'"/>
 ';
     }
     echo "
         <link rel=alternate type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">
         </head>
     ";
-    if ($java_onload){
-        echo "<body onload=\"".$java_onload."\">";
-    } else {
-        echo "<body>";
+    if (isset($fixed_navbar)) {
+        $body_attrs .= ' style="padding-top:70px"';
     }
+    echo "<body $body_attrs>";
     display_cvs_versions();
+    echo '<div class="container-fluid">
+    ';
 
-    project_banner($title, $prefix);
     switch($title) {    //kludge
     case tra("Log in"):
     case tra("Create an account"):
     case tra("Server status page"):
+        $is_login_page = true;
         break;
     default:
-        echo "<p><div style=\"float:right\">";
-        show_login_info($prefix);
-        echo "</div>\n";
+        break;
     }
+    project_banner($title, $prefix);
 
 }
-}
-
-function page_tail_aux($show_return, $show_date, $prefix="") {
-    project_footer($show_return, $show_date, $prefix);
-    echo "</body>
-        </html>
-    ";
-}
-function page_tail_main($show_date=false) {
-    page_tail_aux(false, $show_date);
 }
 
 // See the comments for page_head()
 //
 if (!function_exists("page_tail")){
-function page_tail($show_date=false, $prefix="") {
-    page_tail_aux(true, $show_date, $prefix);
+function page_tail($show_date=false, $prefix="", $show_return=false) {
+    project_footer($show_return, $show_date, $prefix);
+    echo '
+        <script src="'.secure_url_base().'/jquery.min.js"></script>
+        <script src="'.secure_url_base().'/bootstrap.min.js"></script>
+        </div>
+        </body>
+        </html>
+    ';
 }
 }
 
@@ -328,9 +340,11 @@ function pretty_time_str($x) {
     return time_str($x);
 }
 
-// TODO: currently only a few calls use the arguments, styling should only happen through CSS clases so $extra should be dropped in the future
-function start_table($extra="width=\"100%\"", $class="table-bordered") {
-    echo "<table class=\"table $class\" $extra>";
+function start_table($class="") {
+    echo '<div class="table-responsive">
+      <table class="table table-condensed '.$class.'">
+    ';
+
 }
 
 // TODO: currently no call uses the arguments, styling should only happen through CSS clases so $extra could be dropped in the future
@@ -339,7 +353,9 @@ function start_table_noborder($extra="width=\"100%\"", $class="noborder") {
 }
 
 function end_table() {
-    echo "</table>\n";
+    echo '</table>
+        </div>
+    ';
 }
 
 // Table header row with unlimited number of columns
@@ -374,27 +390,32 @@ function table_row() {
 
 function row1($x, $ncols=2, $class="heading") {
     if ($class == "heading") {
-        echo "<tr><th colspan=\"$ncols\">$x</th></tr>\n";
+        echo "<tr><th class=\"bg-primary\" colspan=\"$ncols\">$x</th></tr>\n";
     } else {
         echo "<tr><td class=\"$class\" colspan=\"$ncols\">$x</td></tr>\n";
     }
 }
 
+define('NAME_ATTRS', 'class="text-right active" style="padding-right:12px"');
+define('VALUE_ATTRS', 'style="padding-left:12px"');
+define('VALUE_ATTRS_ERR', 'class="danger" style="padding-left:12px"');
+
 function row2($x, $y, $show_error=false) {
-    if ($x=="") $x="<br>";
+    if ($x==="") $x="<br>";
     if ($y==="") $y="<br>";
-    if ($show_error) {
-        $class1 = 'fieldname_error';
-        $class2 = 'fieldvalue_error';
-    } else {
-        $class1 = 'fieldname';
-        $class2 = 'fieldvalue';
-    }
-    echo "<tr><td width=\"40%\" class=$class1>$x</td><td class=$class2>$y</td></tr>\n";
+    $attrs = $show_error?VALUE_ATTRS_ERR:VALUE_ATTRS;
+    echo "<tr>
+        <td width=\"40%\"".NAME_ATTRS.">$x</td>
+        <td ".VALUE_ATTRS." >$y</td>
+        </tr>
+    ";
 }
 
 function row2_init($x, $y) {
-    echo "<tr><td class=fieldname width=\"40%\">$x</td><td class=fieldvalue>$y\n";
+    echo '<tr>
+        <td class="text-right active" width="40%"  style="padding-right: 20px;">'.$x.'</td>
+        <td>'.$y.'
+    ';
 }
 
 function row2_plain($x, $y) {
@@ -744,7 +765,7 @@ function current_url() {
 // @param desc The title of the destination - typically used as a popup
 // @param class The optional CSS class of the button. Defaults to a standard button
 //
-function show_button($url, $text, $desc=null, $class="btn btn-default") {
+function show_button($url, $text, $desc=null, $class="btn btn-default btn-xs") {
     if (!$desc) $desc = $text;
     echo "<a href=\"".$url."\" title=\"$desc\" class=\"".$class."\">".$text."</a>\n";
 }
@@ -997,10 +1018,8 @@ function google_search_form($url) {
     <form method=get action=\"https://google.com/search\">
     <input type=hidden name=domains value=\"$url\">
     <input type=hidden name=sitesearch value=\"$url\">
-    <span class=\"nobar\">
     <input class=small name=q size=20>
     <input class=small type=submit value=".tra("Search").">
-    </span>
     </form>
 ";
 }

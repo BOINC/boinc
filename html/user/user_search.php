@@ -22,7 +22,7 @@ require_once("../inc/user.inc");
 
 function show_user($user) {
     echo "
-        <tr class=row1>
+        <tr>
         <td>", user_links($user, BADGE_HEIGHT_MEDIUM), " (ID $user->id)</td>
     ";
     if ($user->teamid) {
@@ -119,7 +119,7 @@ function search_action() {
     $n=0;
     foreach ($users as $user) {
         if ($n==0) {
-            start_table();
+            start_table('table-striped');
             table_header(
                 tra("Name"), tra("Team"), tra("Average credit"),
                 tra("Total credit"), tra("Country"), tra("Joined")

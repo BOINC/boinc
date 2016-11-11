@@ -91,9 +91,7 @@ case 1:
 if ($preview == tra("Preview")) {
     $options = null;
 	echo "<h2>".tra("Preview")."</h2>\n";
-    echo "<div class=\"pm_preview\">";
     echo output_transform($content, $options);
-    echo "</div>\n";
 }
 
 echo "<form action=\"forum_post.php?id=".$forum->id."\" method=\"POST\" name=\"post\" onsubmit=\"return checkForm(this)\">\n";
@@ -118,7 +116,7 @@ if ($force_title && $title){
 }
 
 row2(tra("Message").html_info().post_warning($forum).$body_help,
-     $bbcode_html."<textarea name=\"content\" rows=\"12\" cols=\"80\" class=\"message_field\">".htmlspecialchars($content)."</textarea>"
+     $bbcode_html."<textarea name=\"content\" rows=\"12\" cols=\"80\">".htmlspecialchars($content)."</textarea>"
 );
 
 if (!$logged_in_user->prefs->no_signature_by_default) {

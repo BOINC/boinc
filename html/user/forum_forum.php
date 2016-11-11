@@ -89,7 +89,7 @@ case 1:
 echo '
     <p>
     <form action="forum_forum.php" method="get">
-    <table width="100%" cellspacing="0" cellpadding="0" class="forum_toplinks">
+    <table width="100%" cellspacing="0" cellpadding="0">
     <tr valign="top">
     <td colspan=2>
 ';
@@ -167,13 +167,13 @@ function show_forum($forum, $start, $sort_style, $user) {
         //if ($thread->status==1){
             // This is an answered helpdesk thread
         if ($user && is_subscribed($thread, $subs)) {
-            echo '<tr class="row_hd'.$n.'">';
+            echo '<tr class="bg-success">';
         } else {
             // Just a standard thread.
-            echo '<tr class="row'.$n.'">';
+            echo '<tr>';
         }
 
-        echo "<td width=\"1%\" class=\"threadicon\"><nobr>";
+        echo "<td width=\"1%\"><nobr>";
         if ($thread->hidden) {
             show_image(IMAGE_HIDDEN, tra("This thread is hidden"), tra("hidden"));
         } else if ($unread) {
@@ -212,14 +212,14 @@ function show_forum($forum, $start, $sort_style, $user) {
         //if (strlen($title) > $titlelength) {
         //    $title = substr($title, 0, $titlelength)."...";
         //}
-        echo "<td class=\"threadline\"><a href=\"forum_thread.php?id=$thread->id\"><b>$title</b></a><br></td>";
+        echo "<td><a href=\"forum_thread.php?id=$thread->id\"><b>$title</b></a><br></td>";
         $n = ($n+1)%2;
 
         echo '
-            <td class="numbers">'.($thread->replies+1).'</td>
+            <td>'.($thread->replies+1).'</td>
             <td>'.user_links($owner, BADGE_HEIGHT_SMALL).'</td>
-            <td class="numbers">'.$thread->views.'</td>
-            <td class="lastpost">'.time_diff_str($thread->timestamp, time()).'</td>
+            <td>'.$thread->views.'</td>
+            <td>'.time_diff_str($thread->timestamp, time()).'</td>
             </tr>
         ';
         flush();

@@ -115,11 +115,12 @@ $special_user_bitfield[S_HELP_DESK_EXPERT] = tra("Help desk expert");
 // show a banner with search form on left and PM info on right
 //
 function show_forum_header($user) {
-    echo "<form action=\"forum_search_action.php\" method=\"POST\">
-    ";
-    echo "<table cellpadding=\"5\" width=\"100%\" class=\"forum_header\">";
-    echo "<tr>
-    ";
+    echo '<form action="forum_search_action.php" method="POST">
+    ';
+    start_table();
+    echo '
+        <tr>
+    ';
 
     // Search
     echo "
@@ -203,27 +204,9 @@ function show_team_forum_title($forum, $thread=null, $link_thread=false) {
     echo "</span>";
 }
 
-function start_forum_table($headings, $extra=null) {
-    $span = null;
-    
-    start_table($extra." width=\"100%\"");
-    echo "<tr>";
-
-    for ($i=0; $i<count($headings); $i++) {
-        if (is_array($headings[$i])){
-            $title = $headings[$i][0];
-            $class = $headings[$i][1]?$headings[$i][1]:"heading";
-            if (isset($headings[$i][2])) {
-                $span = " colspan=\"".$headings[$i][2]."\" ";
-            }
-        } else {
-            $title = $headings[$i];
-            $class = "heading";
-            $span="";
-        }
-        echo "<th class=$class$span>$title</th>\n";
-    }
-    echo "</tr>\n";
+function start_forum_table($headings) {
+    start_table('table-striped');
+    row_heading_array($headings);
 }
 
 function page_link($url, $page_num, $items_per_page, $text) {
@@ -415,8 +398,8 @@ function show_posts(
 
     $num_shown = 0;
     $num_skipped = 0;
-    $headings = array(array(tra("Author"),"authorcol"), array(tra("Message"),""));
-    start_forum_table($headings, "id=\"thread\" cellspacing=0");
+    $headings = array(tra("Author"), tra("Message"));
+    start_forum_table($headings);
 
     $latest_shown_timestamp = 0;
     foreach ($posts as $post) {
@@ -570,9 +553,11 @@ function show_post(
     } else {
         $highlight = $is_posted_by_special;
     }
+    $class = $highlight?' class="bg-info" ':'';
+
     echo "
         <tr>
-        <td class=\"leftcol ".($highlight?"highlighted_":"")."row$n\" rowspan=\"3\">
+        <td $class rowspan=\"3\">
         <a name=\"$post->id\"></a>
         <div class=\"authorcol\">
     ";
@@ -580,19 +565,19 @@ function show_post(
     echo user_links($user, 0);
     echo "<br>";
     if ($user->create_time > time()-ST_NEW_TIME) $fstatus.=ST_NEW."<br>";
-    if ($fstatus) echo "<font size=\"-2\">$fstatus</font>";
+    echo "<span class=\"small\">";
+    if ($fstatus) echo "$fstatus";
 
-    echo "<span class=\"authorinfo\">";
     if (!$filter || !$ignore_poster){
         if ($user->prefs && $user->prefs->avatar!="" && (!$logged_in_user || ($logged_in_user->prefs->hide_avatars==false))) {
-            echo "<img class=authorinfo width=\"".AVATAR_WIDTH."\" height=\"".AVATAR_HEIGHT."\" src=\"".avatar_url($user->prefs->avatar)."\" alt=\"Avatar\"><br>";
+            echo "<img width=\"".AVATAR_WIDTH."\" height=\"".AVATAR_HEIGHT."\" src=\"".avatar_url($user->prefs->avatar)."\" alt=\"Avatar\"><br>";
         }
     }
     
     $url = "pm.php?action=new&amp;userid=".$user->id;
     $name = $user->name;
     show_button($url, tra("Send&nbsp;message"), tra("Send %1 a private message",$name));
-    echo "<br>".tra("Joined: %1", gmdate('j M y', $user->create_time)), "<br>";
+    echo '<br>'.tra("Joined: %1", gmdate('j M y', $user->create_time)), "<br>";
 
     if (!isset($user->nposts)) {
         $user->nposts = BoincPost::count("user=$user->id");
@@ -626,7 +611,7 @@ function show_post(
     }
     echo "</span></div></td>";
 
-    echo "<td class=\"postheader\">";
+    echo "<td class=\"small\">";
     if ($controls == FORUM_CONTROLS) {
         echo "<form action=\"forum_rate.php?post=", $post->id, "\" method=\"post\">";
     }
@@ -660,7 +645,7 @@ function show_post(
     echo "</td>
         </tr>
         <tr class=\"".($highlight?"highlighted_":"")."row$n\">
-        <td class=\"postbody\">
+        <td>
     ";
 
     if (!$filter || !$ignore_poster){
@@ -677,7 +662,7 @@ function show_post(
         $posttext = output_transform($posttext, $options);
         
         echo "<p>", $posttext, "</p>";
-        echo "</td></tr><tr><td class=\"postfooter\"><span>ID: <i>", $post->id;
+        echo "</td></tr><tr><td class=\"small\"><span>ID: <i>", $post->id;
         if ($no_forum_rating) {
             echo " &middot; <a href=\"forum_report_post.php?post=".$post->id."\">";
             show_image(REPORT_POST_IMAGE, tra("Report this post as offensive"), tra("Report as offensive"), REPORT_POST_IMAGE_HEIGHT);

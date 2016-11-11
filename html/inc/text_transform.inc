@@ -134,7 +134,7 @@ function replace_pre_code($text, $export) {
                 $x = remove_br(substr($matches[0], 5, -6));
                 $x = htmlspecialchars($x, ENT_COMPAT, "UTF-8", false);
                 $x = str_replace("[", "&#91;", $x);
-                return "<div class=\"pre\">$x</div>";
+                return "<pre>$x</pre>";
             },
             $text
         );
@@ -144,7 +144,7 @@ function replace_pre_code($text, $export) {
                 $x = remove_br(substr($matches[0], 6, -7));
                 $x = htmlspecialchars($x, ENT_COMPAT, "UTF-8", false);
                 $x = str_replace("[", "&#91;", $x);
-                return "<div class=\"code\">$x</div>";
+                return "<code>$x</code>";
             },
             $text
         );

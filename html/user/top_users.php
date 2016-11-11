@@ -42,7 +42,7 @@ function get_top_participants($offset, $sort_by) {
 }
 
 function user_table_start($sort_by) {
-    start_table();
+    start_table('table-striped');
     echo "
         <tr>
         <th>".tra("Rank")."</th>
@@ -67,9 +67,8 @@ function user_table_start($sort_by) {
 }
 
 function show_user_row($user, $i) {
-    $j = $i % 2;
     echo "
-        <tr class=row$j>
+        <tr>
         <td>$i</td>
         <td>", user_links($user, BADGE_HEIGHT_MEDIUM), "</td>
         <td align=right>", format_credit_large($user->expavg_credit), "</td>
