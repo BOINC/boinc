@@ -804,7 +804,11 @@ void handle_lookup_account_poll(GUI_RPC_CONN& grc) {
             grc.lookup_account_op.error_num
         );
     } else {
-        grc.mfout.printf("%s", grc.lookup_account_op.reply.c_str());
+        const char *p = grc.lookup_account_op.reply.c_str();
+        const char *q = strstr(p, "<account_out"); 
+        if (!q) q = strstr(p, "<error");
+        if (!q) q = "<account_out/>\n"; 
+        grc.mfout.printf("%s", q); 
     }
 }
 
@@ -1072,7 +1076,9 @@ static void read_all_projects_list_file(GUI_RPC_CONN& grc) {
     int retval = read_file_string(ALL_PROJECTS_LIST_FILENAME, s);
     if (!retval) {
         strip_whitespace(s);
-        grc.mfout.printf("%s\n", s.c_str());
+        const char *q = strstr(s.c_str(), "<projects");
+        if (!q) q = "<projects/>";        
+        grc.mfout.printf("%s\n", q);
     }
 }
 
