@@ -377,6 +377,8 @@ function show_posts(
                 }
                 $i++;
             }
+            // if jump to post, figure out what page to show
+            //
             if ($jump_to_post) {
                 $start = $ibest - ($ibest % $num_to_show);
             } else {
@@ -557,9 +559,8 @@ function show_post(
 
     echo "
         <tr>
-        <td $class rowspan=\"3\">
+        <td $class rowspan=\"3\" width=\"20%\">
         <a name=\"$post->id\"></a>
-        <div class=\"authorcol\">
     ";
 
     echo user_links($user, 0);
@@ -609,7 +610,7 @@ function show_post(
         }
         echo badges_string(true, $user, BADGE_HEIGHT_SMALL);
     }
-    echo "</span></div></td>";
+    echo "</span></td>";
 
     echo "<td class=\"small\">";
     if ($controls == FORUM_CONTROLS) {
@@ -642,9 +643,10 @@ function show_post(
     if ($controls == FORUM_CONTROLS) {
         echo "</form>\n";
     }
+    $class = $highlight?' class="bg-info" ':'';
     echo "</td>
         </tr>
-        <tr class=\"".($highlight?"highlighted_":"")."row$n\">
+        <tr $class>
         <td>
     ";
 

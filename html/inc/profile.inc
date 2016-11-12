@@ -217,7 +217,7 @@ function show_profile($user, $logged_in_user, $screen_mode = false) {
     $can_edit = $logged_in_user && $user->id == $logged_in_user->id;
 
     if ($can_edit) {
-        row1("<a href=\"create_profile.php\">".tra("Edit your profile")."</a>");
+        row1("<a href=\"create_profile.php\">".tra("Edit your profile")."</a>", 1, false);
     }
 
     // If screening is enabled, only show picture in certain situations

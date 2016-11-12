@@ -144,7 +144,7 @@ function replace_pre_code($text, $export) {
                 $x = remove_br(substr($matches[0], 6, -7));
                 $x = htmlspecialchars($x, ENT_COMPAT, "UTF-8", false);
                 $x = str_replace("[", "&#91;", $x);
-                return "<code>$x</code>";
+                return "<pre>$x</pre>";
             },
             $text
         );
@@ -239,8 +239,8 @@ function bb2html($text, $export=false) {
             "<a href=\"http://\\2\" rel=\"nofollow\">http://\\2</a>",
             "<a href=\"http://\\2\" rel=\"nofollow\">\\3</a>",
             "<a href=\"http://\\2\" rel=\"nofollow\">http://\\2</a>",
-            "<div style='font-style: oblique'>\\1 wrote:</div><blockquote class='postbody'>\\2</blockquote>",
-            "<blockquote class='postbody'>\\1</blockquote>",
+            "<em>\\1 wrote:</em><blockquote>\\2</blockquote>",
+            "<blockquote>\\1</blockquote>",
             "<ul>\\1</ul><p>",
             "<ol>\\1</ol><p>",
             "<img hspace=\"8\" src=\"\\1\\2\"> ",

@@ -99,7 +99,7 @@ if ($temp_sort_style) {
     }
 }
 
-page_head($title, 'jumpToUnread();');
+page_head($title, 'onload="jumpToUnread();"');
 
 $is_subscribed = $logged_in_user && BoincSubscription::lookup($logged_in_user->id, $thread->id);
 

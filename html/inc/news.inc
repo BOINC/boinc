@@ -43,7 +43,7 @@ function news_item($date, $title, $post) {
     }
     echo "</span>
         <br clear=all>
-        <hr size=0 class=news_line>
+        <hr>
     ";
 }
 

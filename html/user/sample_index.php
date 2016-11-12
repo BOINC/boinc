@@ -85,6 +85,7 @@ function left(){
         'Join ',
         function() {
             global $no_computing, $no_web_account_creation, $master_url;
+            echo "<ul>";
             if ($no_computing) {
                 echo "
                     <li> <a href=\"create_account_form.php\">Create an account</a>
@@ -108,6 +109,7 @@ function left(){
                         <a target=\"_new\" href=\"http://boinc.berkeley.edu/wiki/BOINC_Help\">get help here</a>.
                 ";
             }
+            echo "</ul>\n";
         }
     );
 }

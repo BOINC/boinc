@@ -326,7 +326,7 @@ function show_profile_form($profile, $warning=null) {
     echo "
         <form action=", $_SERVER['PHP_SELF'], " method=\"POST\", ENCTYPE=\"multipart/form-data\">
     ";
-    start_table_noborder();
+    start_table();
     show_description();
     show_questions($profile);
     show_picture_option($profile);

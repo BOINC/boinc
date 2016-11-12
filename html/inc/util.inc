@@ -202,7 +202,7 @@ function page_head(
     echo '<!DOCTYPE html>
         <html lang="en">
         <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=0">
     ';
     if ($head_extra) {
         echo "\n$head_extra\n";
@@ -341,15 +341,9 @@ function pretty_time_str($x) {
 }
 
 function start_table($class="") {
-    echo '<div class="table-responsive">
-      <table class="table table-condensed '.$class.'">
+    echo '<div class="table">
+      <table class="table table-condensed '.$class.'" >
     ';
-
-}
-
-// TODO: currently no call uses the arguments, styling should only happen through CSS clases so $extra could be dropped in the future
-function start_table_noborder($extra="width=\"100%\"", $class="noborder") {
-    echo "<table class=\"table $class\" $extra>";
 }
 
 function end_table() {
