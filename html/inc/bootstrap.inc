@@ -122,10 +122,8 @@ function sample_navbar($prefix, $user, $fixed) {
     if (defined('NO_COMPUTING')) {
         // this is for projects that don't do computing, e.g. BOSSA-based
         //
-        navbar_menu(tra("Participants"), array(
+        navbar_menu(tra("Participate"), array(
             array(tra("Do work"), $prefix."bossa_apps.php"),
-            array(tra("Your account"), $prefix."home.php", tra("view stats, modify preferences")),
-            array(tra("Teams"), $prefix."team.php", tra("create or join a team"))
         ));
     } else {
         navbar_menu(tra("Project"), array(

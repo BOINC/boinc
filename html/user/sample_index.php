@@ -112,26 +112,26 @@ function left(){
             echo "</ul>\n";
         }
     );
-}
-
-function news() {
-    include("motd.php");
-    show_news(0, 5);
-}
-
-function right() {
     global $stopped;
     if (!$stopped) {
         $profile = get_current_uotd();
         if ($profile) {
-            echo "
-                <div class=\"media uotd\">
-            ";
-            show_uotd($profile);
-            echo "</div>\n";
+            panel('User of the Day',
+                function() use ($profile) {
+                    show_uotd($profile);
+                }
+            );
         }
     }
-    panel('News', 'news');
+}
+
+function right() {
+    panel('News',
+        function() {
+            include("motd.php");
+            show_news(0, 5);
+        }
+    );
 }
 
 page_head(null, null, null, "", file_get_contents("schedulers.txt"));
