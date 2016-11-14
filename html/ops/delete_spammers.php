@@ -260,11 +260,6 @@ function delete_users($no_hosts, $no_posts, $no_teams, $have_url) {
     }
 
     $result = $db->do_query($query);
-    if ($have_url) {
-        $users = BoincUser::enum("url <> ''");
-    } else {
-        $users = BoincUser::enum("");
-    }
     $n = 0;
     while ($u = $result->fetch_object()) {
         $user = BoincUser::lookup_id($u->id);
