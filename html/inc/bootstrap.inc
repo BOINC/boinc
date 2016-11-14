@@ -184,8 +184,9 @@ function panel($title, $content_func) {
 // grid layout with a full-width row followed by two equal columns
 // $top_func, $left_func, and $right_func
 // are functions that generate the top, left, and right content
+// $left_width is the width of left column in 1/12 units.
 //
-function grid($top_func, $left_func, $right_func) {
+function grid($top_func, $left_func, $right_func, $left_width=6) {
     echo '
         <div class="container">
     ';
@@ -200,14 +201,15 @@ function grid($top_func, $left_func, $right_func) {
             </div>
         ';
     }
+    $right_width = 12-$left_width;
     echo '
         <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-'.$left_width.'">
     ';
     $left_func();
     echo '
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-'.$right_width.'">
     ';
     $right_func();
     echo '
