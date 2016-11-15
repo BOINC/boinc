@@ -100,7 +100,7 @@ foreach ($categories as $category) {
     if (strlen($category->name)) {
         echo '
             <tr>
-            <td colspan="4">'.$category->name.'</td>
+            <th class="info" colspan="4">'.$category->name.'</th>
             </tr>
         ';
     }

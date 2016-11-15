@@ -21,9 +21,10 @@
 ////////////// NAVBAR ////////////////
 
 // call this to start the navbar.
+// $brand: the text or image to show at left of navbar
+// If text, put it in <a class="navbar-brand" ...
 //
 function navbar_start($brand, $fixed) {
-    $master_url = parse_config(get_config(), "<master_url>");
     if ($fixed) {
         echo '<nav class="navbar navbar-default navbar-fixed-top">';
     } else {
@@ -37,7 +38,7 @@ function navbar_start($brand, $fixed) {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="'.$master_url.'">'.$brand.'</a>
+      '.$brand.'
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
@@ -113,8 +114,9 @@ function navbar_item($name, $url) {
 // and give it a new name
 //
 function sample_navbar($prefix, $user, $fixed) {
-    navbar_start(PROJECT, $fixed);
-        // instead of PROJECT you can use an <img> or other HTML
+    $master_url = parse_config(get_config(), "<master_url>");
+    $brand = "<a class=\"navbar-brand\" href=$master_url>".PROJECT."</a>";
+    navbar_start($brand, $fixed);
 
     if ($user) {
         navbar_item(tra("Your account"), $prefix."home.php");
