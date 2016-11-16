@@ -65,7 +65,7 @@ cd ${srcdir}
 
 git add -u # only update already tracked files (will not track new files)
 if test $testmode -eq 0; then
-  git commit -m "Locale: Update localization files"
+  git commit -m "Locale: Update localization files [skip ci]"
   git push
 else
   echo "working directory prepared for commit, inspect changes with 'git diff --cached'"
