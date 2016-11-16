@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "POT-Creation-Date: 2016-08-16 12:17+0000\n"
-"PO-Revision-Date: 2016-10-12 21:51+0000\n"
+"PO-Revision-Date: 2016-10-25 21:07+0000\n"
 "Last-Translator: Wiri Marcolan Kamei <wirimk@hotmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/boinc/boinc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -257,7 +257,7 @@ msgid "Team ID"
 msgstr "ID da equipe"
 
 msgid "User joined"
-msgstr "Usuário ingressado"
+msgstr "Usuário inscrito"
 
 msgid "Timestamp"
 msgstr "Registro de hora"
@@ -305,7 +305,7 @@ msgid "Created"
 msgstr "Criado"
 
 msgid "While BOINC running, % of time host has an Internet connection"
-msgstr "Enquanto o BOINC roda, % do tempo o servidor tem conexão à Internet"
+msgstr "Enquanto o BOINC roda, % do tempo o host tem conexão à Internet"
 
 msgid "Average CPU efficiency"
 msgstr "Eficiência média do CPU"
@@ -398,7 +398,7 @@ msgid "Workunit ID"
 msgstr "ID da unidade de trabalho"
 
 msgid "Host ID"
-msgstr "ID do hospedeiro"
+msgstr "ID do Host"
 
 msgid "Application ID"
 msgstr "ID da aplicação"
@@ -827,7 +827,7 @@ msgid "Enter the password that accompanies your username."
 msgstr "Insira a senha que acompanha seu nome de usuário."
 
 msgid "Request new password"
-msgstr "Requisitar nova senha"
+msgstr "Solicitar nova senha"
 
 msgid "Mark all topics read"
 msgstr "Assinalar todos os topicos como lidos"
@@ -862,7 +862,7 @@ msgid ""
 "@project participants may form teams. You may belong to only one team. You "
 "can join or quit a team at any time. To join a team, visit its team page and"
 " click \"Join this team\". Each team has a founder who may:"
-msgstr "Participantes do @project podem formar equipes. Você só pode fazer parte de uma equipe. Você pode participar ou sair de uma equipe a qualquer tempo. Para participar de uma \nequipe, visite a página da equipe e clique em \"Participar desta equipe\". Cada equipe tem um fundador que pode:"
+msgstr "Participantes do @project podem formar equipes. Você só pode fazer parte de uma equipe. Você pode se filiar ou sair de uma equipe a qualquer tempo. Para filiar-se a uma \nequipe, visite a página da equipe e clique em \"Filiar-se nesta equipe\". Cada equipe tem um fundador que pode:"
 
 msgid "access team members' email addresses"
 msgstr "acessar o endereço de email dos membros"
@@ -1163,12 +1163,12 @@ msgid "Leave this team"
 msgstr "Deixar esta equipe"
 
 msgid "Request foundership"
-msgstr "Requisitar status de fundador"
+msgstr "Solicitar fundação"
 
 msgid ""
 "If the team founder is not active and you want to assume the role of "
 "founder, click below to request foundership of @this_team."
-msgstr "Se o fundador do time não está ativo e você deseja assumir esse papel, clique abaixo para requisitar o status de fundador de @this_team."
+msgstr "Se o fundador do time não está ativo e você deseja assumir esse papel, clique abaixo para solicitar a fundação de @this_team."
 
 msgid "Initiate request"
 msgstr "Iniciar requisição"
@@ -1282,13 +1282,13 @@ msgid "Enter forum"
 msgstr "Entrar no fórum"
 
 msgid "Join team"
-msgstr "Participar da equipe"
+msgstr "Filiar-se a equipe"
 
 msgid "Click here to become a member of @this_team"
 msgstr "Clique aqui para se tornar um membro de @this_team"
 
 msgid "Join this team"
-msgstr "Participar desta equipe"
+msgstr "Filiar-se a esta equipe"
 
 msgid "Choose type"
 msgstr "Escolher tipo"
@@ -1705,7 +1705,7 @@ msgid "Current founder becomes a normal user"
 msgstr "Atual fundador torna-se um usuário comum"
 
 msgid "Foundership can be requested by team members:"
-msgstr "Fundação pode ser requisitada pelos membros da equipe:"
+msgstr "Fundação pode ser solicitada pelos membros da equipe:"
 
 msgid "One request is allowed at a time"
 msgstr "Um pedido é permitido por vez"
@@ -1720,15 +1720,15 @@ msgid "Current founder has 60 days to respond to a request"
 msgstr "Atual fundador tem 60 dias para responder a um pedido"
 
 msgid "BOINC-wide teams site"
-msgstr "Site de equipes BOINC-wide"
+msgstr "Site de equipes gerais do BOINC"
 
 msgid "This is a BOINC-wide team. Changes can be made at the !site."
-msgstr "Esta é uma equipe BOINC-wide. Mudanças podem ser feitas no !site."
+msgstr "Esta é uma equipe geral do BOINC. Mudanças podem ser feitas no !site."
 
 msgid ""
 "A team foundership change was already requested recently. Only one request "
 "is allowed within a period of 90 days."
-msgstr "A troca do fundador da equipe foi requisitada recentemente. Somente um pedido é permitido dentro do prazo de 90 dias."
+msgstr "A troca do fundador da equipe foi solicitada recentemente. Somente um pedido é permitido dentro do prazo de 90 dias."
 
 msgid "@count days remaining"
 msgstr "@count dias remanescentes"

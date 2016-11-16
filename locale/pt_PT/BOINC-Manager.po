@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Maria Manuela Silva <manuela.silva@sky.com>, 2016
-# Maria Manuela Silva <manuela.silva@sky.com>, 2016
+# Manuela Silva <manuela.silva@sky.com>, 2016
+# Manuela Silva <manuela.silva@sky.com>, 2016
 # Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-07-26 11:16+0000\n"
+"PO-Revision-Date: 2016-07-26 11:20+0000\n"
 "Last-Translator: Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -2837,7 +2837,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr "The World Community Grid - Software BOINC não conseguiu comunicar\nna Internet. As razões mais prováveis são:\n\n1) Problemas de conetividade. Verifique a sua ligação à rede ou o modem,\ndepois clique em 'Anterior' para tentar novamente.\n\n2) O software de firewall pessoal está a bloquear o World Community\nGrid - Software BOINC. Configure a sua firewall pessoal para permitir que o\nBOINC e o BOINC Manager comuniquem na porta 80 e na porta 443,\ndepois clique em 'Anterior' para tentar novamente.\n\n3) Está a utilizar um servidor de proxy.\nClique em 'Seguinte' para configurar as definições de proxy do BOINC."
+msgstr "The World Community Grid - O Software BOINC não conseguiu comunicar\nna Internet. As razões mais prováveis são:\n\n1) Problemas de conetividade. Verifique a sua ligação à rede ou o modem,\ndepois clique em 'Anterior' para tentar novamente.\n\n2) O software de firewall pessoal está a bloquear o World Community\nGrid - Software BOINC. Configure a sua firewall pessoal para permitir que o\nBOINC e o BOINC Manager comuniquem na porta 80 e na porta 443,\ndepois clique em 'Anterior' para tentar novamente.\n\n3) Está a utilizar um servidor de proxy.\nClique em 'Seguinte' para configurar as definições de proxy do BOINC."
 
 #: clientgui/ProxyInfoPage.cpp:203
 msgid ""
@@ -2854,7 +2854,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr "O BOINC não conseguiu comunicar na Internet.\nAs razões mais prováveis são:\n\n1) Problemas de conetividade. Verifique a sua rede\nou a ligação ao modem e depois clique em 'Anterior' e tente novamente.\n\n2) O software da firewall pessoal está a bloquear o BOINC.\nConfigure a sua firewall pessoal para permitir que o BOINC e\no BOINC Manager comuniquem na porta 80,\ndepois clique em 'Anterior' e tente novamente.\n\n3) Está a utilizar um servidor de proxy.\nClique em 'Seguinte' para configurar as definições de proxy do BOINC."
+msgstr "O BOINC não conseguiu comunicar na Internet.\nAs razões mais prováveis são:\n\n1) Problemas de conectividade. Verifique a sua rede\nou a ligação ao modem e depois clique em 'Anterior' e tente novamente.\n\n2) O software da firewall pessoal está a bloquear o BOINC.\nConfigure a sua firewall pessoal para permitir que o BOINC e\no BOINC Manager comuniquem na porta 80,\ndepois clique em 'Anterior' e tente novamente.\n\n3) Está a utilizar um servidor de proxy.\nClique em 'Seguinte' para configurar as definições de proxy do BOINC."
 
 #: clientgui/ProxyPage.cpp:331
 msgid "Proxy configuration"
@@ -3473,7 +3473,7 @@ msgid ""
 "Are you sure you want to abort this file transfer '%s'?\n"
 "NOTE: Aborting a transfer will invalidate a task and you\n"
 "will not receive credit for it."
-msgstr "Tem a certeza que deseja cancelar a transferência deste ficheiro '%s'?\nNOTA: ao cancelar uma transferência irá invalidar a tarefa e\nnão receberá crédito pela mesma."
+msgstr "Tem a certeza que deseja cancelar a transferência deste ficheiro '%s'?\nNOTA: Ao cancelar uma transferência irá invalidar a tarefa e\nnão receberá créditos pela mesma."
 
 #: clientgui/ViewTransfers.cpp:431
 msgid "Abort File Transfer"
@@ -3771,7 +3771,7 @@ msgstr "Suspende esta tarefa."
 
 #: clientgui/sg_TaskCommandPopup.cpp:79
 msgid "Abandon this task. You will get no credit for it."
-msgstr "Abandona esta tarefa. Não obterá créditos por ela."
+msgstr "Abandonar esta tarefa. Não obterá créditos por ela."
 
 #: clientgui/sg_TaskCommandPopup.cpp:267
 #, c-format
@@ -3857,15 +3857,15 @@ msgstr "A transferir trabalho do servidor."
 
 #: clientgui/sg_TaskPanel.cpp:1217
 msgid "Processing Suspended:  Running On Batteries."
-msgstr "Processamento suspenso:  a funcionar a bateria."
+msgstr "Processamento Suspenso:  A funcionar a Bateria."
 
 #: clientgui/sg_TaskPanel.cpp:1219
 msgid "Processing Suspended:  User Active."
-msgstr "Processamento suspenso:  utilizador ativo."
+msgstr "Processamento Suspenso:  Utilizador Activo."
 
 #: clientgui/sg_TaskPanel.cpp:1221
 msgid "Processing Suspended:  User paused processing."
-msgstr "Processamento suspenso:  o utilizador pausou o processamento."
+msgstr "Processamento Suspenso:  O utilizador pausou o processamento."
 
 #: clientgui/sg_TaskPanel.cpp:1223
 msgid "Processing Suspended:  Time of Day."
