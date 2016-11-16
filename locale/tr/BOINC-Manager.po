@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-08-20 06:55+0000\n"
+"PO-Revision-Date: 2016-08-20 06:59+0000\n"
 "Last-Translator: Can Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/boinc/boinc/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -885,7 +885,7 @@ msgstr "Kullanılmadı: XCode 4.2'deki hata için geçici çözüm"
 
 #: clientgui/BOINCGUIApp.cpp:681
 msgid "Not run the daemon"
-msgstr "Artalan hizmetini çalıştırma"
+msgstr "Arkaplan hizmetini çalıştırma"
 
 #. These are just special tags so deal with them in a special way
 #: clientgui/BOINCGUIApp.cpp:931
@@ -1341,7 +1341,7 @@ msgstr "Çalışan uygulamayı değiştirme aralığı"
 msgid ""
 "This controls how often tasks save their state to disk, so that they later "
 "can be continued from that point."
-msgstr "Bu denetim işlerin ne sıklıkta durumlarını diske kaydedeceğini belirler, böylece işler daha sonradan bu noktadan başlayarak devam edebilirler. "
+msgstr "Bu denetim, işlerin durumlarını ne sıklıkta diske kaydedeceğini belirler, böylece işler daha sonra bu noktadan başlayarak devam edebilirler. "
 
 #. context: Request tasks to checkpoint at most every ___ seconds
 #: clientgui/DlgAdvPreferencesBase.cpp:423
@@ -1839,7 +1839,7 @@ msgstr "Varsayılanları onayla"
 #: clientgui/DlgItemProperties.cpp:194 clientgui/DlgItemProperties.cpp:197
 #: clientgui/DlgItemProperties.cpp:200 clientgui/DlgItemProperties.cpp:203
 msgid "Don't request tasks for "
-msgstr "Bunun için iş isteme"
+msgstr "Bunun için iş indirme: "
 
 #: clientgui/DlgItemProperties.cpp:194
 msgid "Project preference"
@@ -1934,7 +1934,7 @@ msgstr "hayır"
 
 #: clientgui/DlgItemProperties.cpp:271
 msgid "Don't request tasks"
-msgstr "İş isteme"
+msgstr "Bunun için iş indirme: "
 
 #: clientgui/DlgItemProperties.cpp:273
 msgid "Scheduler call in progress"
@@ -2133,11 +2133,11 @@ msgstr "İşaretlerseniz, bilgisayarda oturum açtığınızda BOINC Manager oto
 
 #: clientgui/DlgOptions.cpp:213
 msgid "Run daemon?"
-msgstr "Daemon' u çalıştır?"
+msgstr "Arkaplan hizmeti çalışsın mı?"
 
 #: clientgui/DlgOptions.cpp:219
 msgid "Run daemon when launching the Manager."
-msgstr "Yönetici yüklenirken artalan sürecini çalıştır."
+msgstr "Yönetici açılırken, arkaplan hizmetini de çalıştır."
 
 #: clientgui/DlgOptions.cpp:223
 msgid "Enable Manager exit dialog?"

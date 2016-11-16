@@ -142,7 +142,7 @@
   <string name="status_launching">Startar...</string>
   <string name="status_noproject">Välj ett projekt att delta i.</string>
   <string name="status_closing">Stänger...</string>
-  <string name="status_benchmarking">Kalkulerar...</string>
+  <string name="status_benchmarking">Kalkylerar...</string>
   <string name="status_image_description">Projektbild</string>
   <!--preferences tab strings-->
   <string name="prefs_loading">Läser in inställningar...</string>
@@ -292,7 +292,7 @@
   <string name="suspend_screen_on">Stäng av din skärm för att fortsätta beräkningar.</string>
   <string name="suspend_useractive">Användare är aktiv.</string>
   <string name="suspend_tod">Tidsgräns för beräkningsprocess överskriden.</string>
-  <string name="suspend_bm">BOINC kalkulerar din enhets prestanda...</string>
+  <string name="suspend_bm">BOINC kalkylerar din enhets prestanda...</string>
   <string name="suspend_disksize">Slut på diskutrymme.</string>
   <string name="suspend_cputhrottle">Schemalagt CPU-stopp.</string>
   <string name="suspend_noinput">Ingen senaste användar-aktivitet.</string>

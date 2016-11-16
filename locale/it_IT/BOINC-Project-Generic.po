@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2016-10-04 10:42+0000\n"
+"PO-Revision-Date: 2016-10-18 09:29+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -4834,13 +4834,13 @@ msgid ""
 "are configured for high security. To ensure the integrity of program "
 "downloads, all executable files are digitally signed on a secure computer "
 "not connected to the Internet."
-msgstr "Ogni volta che scarichi un programma attraverso Internet, puoi incontrare dei rischi: il programma potrebbe provocare degli errori pericolosi, o il server da cui stai scaricando potrebbe essere non sicuro. %1 si sforza continuamente per diminuire questi rischi. Testiamo molto accuratamente tutte le nostre applicazioni. I nostri server sono tutti coperti da un firewall configurato per una massima sicurezza. Per accertarci dell'integrità dei download, tutti i file eseguibili vengono contrassegnati digitalmente da un computer non connesso ad internet."
+msgstr "Ogni volta che scarichi un programma attraverso Internet, puoi incontrare dei rischi: il programma potrebbe provocare degli errori pericolosi, o il server da cui stai scaricando potrebbe non essere sicuro. %1 si sforza continuamente di diminuire questi rischi. Testiamo molto accuratamente tutte le nostre applicazioni. I nostri server sono tutti protetti da firewall configurati per garantire la massima sicurezza. Per accertarci dell'integrità dei download, tutti i file eseguibili vengono firmati digitalmente da un computer non connesso ad internet."
 
 #: ../user/info.php:50
 msgid ""
 "The applications run by %1 may cause some computers to overheat. If this "
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
-msgstr "Le applicazioni avviate da %1 possono provocare surriscaldamento. Se ciò dovesse accadere, basta solo fermare %1 o usare un %2programma di utilità%3 che limiti l'uso della CPU."
+msgstr "Le applicazioni eseguite da %1 possono provocare surriscaldamento. Se ciò dovesse accadere, basta solo fermare %1 o usare un %2programma di utilità%3 che limiti l'uso della CPU."
 
 #: ../user/info.php:51
 msgid ""
@@ -5219,7 +5219,7 @@ msgstr "Guarda i profili degli utenti"
 
 #: ../user/profile_menu.php:62
 msgid "View the %1User Picture Gallery%2."
-msgstr "Guarda la %1Galleria delle Immagini degli utenti%2."
+msgstr "Guarda la %1Galleria delle immagini degli utenti%2."
 
 #: ../user/profile_menu.php:63
 msgid "Browse profiles %1by country%2."
@@ -5830,7 +5830,7 @@ msgstr "Richiedi cambio fondatore di %1"
 msgid ""
 "The current founder has been notified of your request by email and private message.<br /><br />\n"
 "                       If the founder does not respond within 60 days you will be allowed to become the founder."
-msgstr "Il fondatore corrente è stato informato della tua richiesta mediante email e messaggio privato.<br /><br />\n Se il fondatore non risponde in 60 giorni,  sarai autorizzato a diventare il nuovo fondatore."
+msgstr "L'attuale fondatore è stato informato via email e messaggio privato della tua richiesta.<br /><br /> Se non risponde entro 60 giorni, potrai subentrargli senza altre formalità."
 
 #: ../user/team_founder_transfer_action.php:104
 #: ../user/team_founder_transfer_action.php:115

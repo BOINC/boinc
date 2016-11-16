@@ -9,9 +9,9 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2015-05-27 20:02+0000\n"
+"PO-Revision-Date: 2015-05-29 17:52+0000\n"
 "Last-Translator: George Salukvadze <giosal90@gmail.com>\n"
-"Language-Team: Georgian (http://www.transifex.com/projects/p/boinc/language/ka/)\n"
+"Language-Team: Georgian (http://www.transifex.com/boinc/boinc/language/ka/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -46,7 +46,7 @@ msgstr "მომხმარებლებს, ვისაც აქვს �
 #: PostInstall.cpp:1444
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
-msgstr "გსურთ, დააყენოთ %s, როგორც ეკრანის გადამრჩენი, ყველა %s-ის მომხმარებლისთვის ამ მაკ-ზე?"
+msgstr "გსურთ, დააყენოთ %s, როგორც ეკრანის შემნახველი, ყველა %s-ის მომხმარებლისთვის ამ მაკ-ზე?"
 
 #: uninstall.cpp:82
 msgid "OK"

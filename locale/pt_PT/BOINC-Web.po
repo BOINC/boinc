@@ -6,8 +6,8 @@
 # FileID  : $Id$
 # 
 # Translators:
-# Maria Manuela Silva <manuela.silva@sky.com>, 2016
-# Maria Manuela Silva <manuela.silva@sky.com>, 2016
+# Manuela Silva <manuela.silva@sky.com>, 2016
+# Manuela Silva <manuela.silva@sky.com>, 2016
 # Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>, 2015-2016
 # Octávio Filipe Gonçalves <octavio.filipe.pereira@gmail.com>, 2016
 msgid ""
@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-07-26 10:20+0000\n"
+"PO-Revision-Date: 2016-07-26 10:22+0000\n"
 "Last-Translator: Miguel Filipe Paulino de Sousa Veiga <Miguel.veig@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/boinc/boinc/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -596,7 +596,7 @@ msgid ""
 "Universe@Home aims to create the first database of the simulated stellar "
 "content of the Universe, from the earliest stars to the most exotic black "
 "hole binaries."
-msgstr "O UniverseHome tem o intuito de criar a primeira base de dados que simule o conteúdo estelar do Universo, desde as estrelas mais antigas até aos mais exóticos buracos negros."
+msgstr "O Universe@Home tem o intuito de criar a primeira base de dados que simule o conteúdo estelar do Universo, desde as estrelas mais antigas até aos mais exóticos buracos negros."
 
 #: projects.inc:332
 msgid "Do research in physics and astronomy"
@@ -611,7 +611,7 @@ msgid ""
 "The goal of Milkyway@Home is to create a highly accurate three dimensional "
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
 "Survey."
-msgstr "O objetivo de Milkyway@Home é criar um modelo tridimensional altamente preciso da galáxia Via Láctea, utilizando os dados recolhidos pela Sloan Digital Sky Survey."
+msgstr "O objectivo do Milkyway@Home é criar um modelo tridimensional altamente preciso da galáxia Via Láctea, utilizando os dados recolhidos pela Sloan Digital Sky Survey."
 
 #: projects.inc:342
 msgid "Study the structure of the Milky Way galaxy"
@@ -633,7 +633,7 @@ msgid ""
 " Dynamics jobs. In this way students have used the grid to simulate liquid "
 "argon, or to test the validity of the ideal gas law by actually doing the "
 "simulations through the grid."
-msgstr "Cálculos de ciência de superfície usando a Dinâmica Clássica. Leiden Classical permite que os voluntários, estudantes e outros cientistas submetam os seus cálculos pessoais à rede. Cada utilizador tem a sua própria fila de espera pessoal para trabalhos na Classical Dynamics. Desta forma os alunos têm utilizado a rede para simular argôn líquido, ou para testar a validade da lei do gás ideal fazendo as simulações na rede."
+msgstr "Cálculos cientificos de superfície usando a Dinâmica Clássica. Leiden Classical permite que os voluntários, estudantes e outros cientistas submetam os seus cálculos pessoais na rede. Cada utilizador tem a sua própria fila de espera pessoal para trabalhos na Classical Dynamics. Desta forma os alunos têm utilizado a rede para simular argôn líquido, ou para testar a validade da lei do gás ideal fazendo as simulações na rede."
 
 #: projects.inc:352
 msgid "Help students do atomic simulations"

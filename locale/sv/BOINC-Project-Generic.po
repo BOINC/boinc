@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2016-10-07 21:05+0000\n"
+"PO-Revision-Date: 2016-10-27 20:25+0000\n"
 "Last-Translator: Johan Holmström\n"
 "Language-Team: Swedish (http://www.transifex.com/boinc/boinc/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -783,7 +783,7 @@ msgstr "Uppmätt 'floating point' -hastighet"
 
 #: ../inc/host.inc:149 ../inc/host.inc:152
 msgid "%1 million ops/sec"
-msgstr "%1 million ops/sek"
+msgstr "%1 miljon ops/sek"
 
 #: ../inc/host.inc:152
 msgid "Measured integer speed"
