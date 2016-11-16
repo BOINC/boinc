@@ -1,5 +1,6 @@
 [main]
 host = https://www.transifex.com
+minimum_perc = 100
 
 [boinc.manager]
 file_filter = locale/<lang>/BOINC-Manager.po
@@ -39,7 +40,8 @@ type = PO
 
 [boinc.android]
 file_filter = android/BOINC/res/values-<lang>/strings.xml
+lang_map = it_IT:it-rIT,pt_BR:pt-rBR,pt_PT:pt-rPT,zh_CN:zh-rCN,zh_TW:zh-rTW,fa_IR:fa_rIR
 source_file = android/BOINC/res/values/strings.xml
 source_lang = en
-lang_map = it_IT:it-rIT,pt_BR:pt-rBR,pt_PT:pt-rPT,zh_CN:zh-rCN,zh_TW:zh-rTW
 type = ANDROID
+
