@@ -87,6 +87,9 @@ drupal/sites/default/dbconfig.php
 # ignore symlink to project-specific content (tracked in separate/project repo)
 drupal/sites/default/project
 
+## translation system
+locale/*/*.flag
+
 .libs/
 svn_version.h
 
