@@ -41,6 +41,7 @@ BEGIN_EVENT_TABLE(CDlgDiagnosticLogFlags, wxDialog)
     EVT_SIZE(CDlgDiagnosticLogFlags::OnSize)
     EVT_BUTTON(wxID_OK,CDlgDiagnosticLogFlags::OnOK)
     EVT_BUTTON(ID_DEFAULTSBTN,CDlgDiagnosticLogFlags::OnSetDefaults)
+    EVT_BUTTON(wxID_APPLY,CDlgDiagnosticLogFlags::OnApply)
 
 END_EVENT_TABLE()
 
@@ -128,6 +129,10 @@ CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
     btnCancel->SetToolTip( _("Close the dialog without saving") );
     buttonSizer->Add( btnCancel, 0, wxALL, 5 );
 
+    wxButton* btnApply = new wxButton( this, wxID_APPLY, _("Apply"), wxDefaultPosition, wxDefaultSize, 0 );
+    btnApply->SetToolTip( _("Save all values") );
+    buttonSizer->Add( btnApply, 0, wxALL, 5 );
+
     btnCancel->SetDefault();
     bSizer1->Add( buttonSizer, 0, wxALIGN_RIGHT | wxALL, 15 );
     
@@ -188,6 +193,35 @@ void CDlgDiagnosticLogFlags::CreateCheckboxes() {
     m_checkboxSizer->Fit( m_scrolledWindow );
 }
 
+void CDlgDiagnosticLogFlags::SaveFlags() {
+    SET_LOCALE sl;
+    char buf[64000];
+    MIOFILE mf;
+    bool val;
+    unsigned int i;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    mf.init_buf_write(buf, sizeof(buf));
+    for (i = 0; i<m_checkbox_list.size(); ++i) {
+      wxCheckBox* ckbox = m_checkbox_list[i];
+      val = ckbox->GetValue();
+      mf.printf("        <%s>%d</%s>\n", (const char*)ckbox->GetLabel().ToAscii(), (int)val, (const char*)ckbox->GetLabel().ToAscii());
+    }
+    mf.printf("    </log_flags>\n");
+
+    XML_PARSER xp(&mf);
+    mf.init_buf_read(buf);
+    log_flags.parse(xp);
+
+    int retval = pDoc->rpc.set_cc_config(m_cc_config, log_flags);
+    if (!retval) {
+      pDoc->rpc.read_cc_config();
+    }
+}
+
 
 /* saves dialog size and (on Mac) position */
 bool CDlgDiagnosticLogFlags::SaveState() {
@@ -242,32 +276,8 @@ void CDlgDiagnosticLogFlags::OnSize(wxSizeEvent& event) {
 
 
 void CDlgDiagnosticLogFlags::OnOK(wxCommandEvent& event) {
-    SET_LOCALE sl;
-    char buf[64000];
-    MIOFILE mf;
-    bool val;
-    unsigned int i;
-    CMainDocument* pDoc = wxGetApp().GetDocument();
+    SaveFlags();
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-    mf.init_buf_write(buf, sizeof(buf));
-    for (i=0; i<m_checkbox_list.size(); ++i) {
-        wxCheckBox* ckbox = m_checkbox_list[i];
-        val = ckbox->GetValue();
-        mf.printf("        <%s>%d</%s>\n", (const char*)ckbox->GetLabel().ToAscii(), (int)val, (const char*)ckbox->GetLabel().ToAscii());
-    }
-    mf.printf("    </log_flags>\n");
-
-    XML_PARSER xp(&mf);
-    mf.init_buf_read(buf);
-    log_flags.parse(xp);
-    
-    int retval = pDoc->rpc.set_cc_config(m_cc_config, log_flags);
-    if (!retval) {
-        pDoc->rpc.read_cc_config();
-    }
     event.Skip();
 }
 
@@ -278,4 +288,10 @@ void CDlgDiagnosticLogFlags::OnSetDefaults(wxCommandEvent& ) {
     m_checkboxSizer->Clear(true);
     CreateCheckboxes();
     Layout();
+}
+
+void CDlgDiagnosticLogFlags::OnApply(wxCommandEvent & event) {
+    SaveFlags();
+
+    event.Skip();
 }
