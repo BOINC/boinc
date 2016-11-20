@@ -144,7 +144,7 @@ function replace_pre_code($text, $export) {
                 $x = remove_br(substr($matches[0], 6, -7));
                 $x = htmlspecialchars($x, ENT_COMPAT, "UTF-8", false);
                 $x = str_replace("[", "&#91;", $x);
-                return "<pre>$x</pre>";
+                return "<pre style=\"width:800px;overflow:scroll\">$x</pre>";
             },
             $text
         );
@@ -243,7 +243,8 @@ function bb2html($text, $export=false) {
             "<blockquote>\\1</blockquote>",
             "<ul>\\1</ul><p>",
             "<ol>\\1</ol><p>",
-            "<img hspace=\"8\" src=\"\\1\\2\"> ",
+            //"<img hspace=\"8\" style=\"max-width:600px\" src=\"\\1\\2\"> ",
+            "<img hspace=\"8\" class=\"img-responsive\" src=\"\\1\\2\"> ",
             "<img hspace=\"8\" width=400 src=\"\\1\\2\"> ",
             "<font color=\"\\1\">\\2</font>",
             "\\1<li>\\2\n\\3",
@@ -316,7 +317,7 @@ function highlight_terms($text, $terms) {
     $replace = array();
 
     foreach ($search as $key => $value) {
-        $replace[$key] = "<span class=\"highlight\">".$value."</span>";
+        $replace[$key] = "<span class=\"mark\">".$value."</span>";
     }
     if (substr(phpversion(), 0, 1) > 4) {   // PHP 4.x doesn't support str_ireplace
         return str_ireplace($search, $replace, $text);

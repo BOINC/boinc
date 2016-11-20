@@ -72,12 +72,12 @@ function project_banner($title, $prefix) {
     // If you include any links, prepend URL with $prefix
     // if you need to open divs here close them in project_footer()
 
-    sample_navbar(secure_url_base(), get_logged_in_user(false), true);
+    sample_navbar(secure_url_base(), get_logged_in_user(false), false);
     if ($title) {
         echo "<h2>$title</h2>\n";
     }
 }
-$fixed_navbar = true;
+//$fixed_navbar = true;
 
 function project_footer($show_return, $show_date, $prefix) {
     // If you include any links, prepend URL with $prefix

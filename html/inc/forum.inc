@@ -129,7 +129,7 @@ function show_forum_header($user) {
         <input type=\"hidden\" name=\"search_forum\" value=\"-1\">
         <input type=\"hidden\" name=\"search_sort\" value=\"5\">
         <input type=\"text\" name=\"search_keywords\">
-        <input class=\"btn btn-default\" title=\"".tra("Search for words in forum messages")."\" type=\"submit\" value=\"".tra("Search forums")."\"><br>
+        <input class=\"btn btn-primary\" title=\"".tra("Search for words in forum messages")."\" type=\"submit\" value=\"".tra("Search forums")."\"><br>
         <small><a href=\"forum_search.php\">".tra("Advanced search")."</a></small>
         </td>
     ";
@@ -558,9 +558,9 @@ function show_post(
     $class = $highlight?' class="bg-info" ':'';
 
     echo "
-        <tr>
-        <td $class rowspan=\"3\" width=\"20%\">
         <a name=\"$post->id\"></a>
+        <tr>
+        <td $class rowspan=\"3\" class=\"col-sm-2\">
     ";
 
     echo user_links($user, 0);

@@ -355,7 +355,7 @@ function end_table() {
 // Table header row with unlimited number of columns
 
 function table_header() {
-    echo "<tr>\n";
+    echo "<thead><tr>\n";
     for ($i = 0; $i < func_num_args(); $i++) {
         if (is_array(func_get_arg($i))) {
             $col = func_get_arg($i);
@@ -364,7 +364,7 @@ function table_header() {
             echo "<th valign=top>".func_get_arg($i)."</th>\n";
         }
     }
-    echo "</tr>\n";
+    echo "</tr></thead>\n";
 }
 
 // Table row with unlimited number of columns
