@@ -111,31 +111,33 @@
     }
   ?>
   <div class="result forum">
-    <div class="title">
+    <dt class="title">
       <a href="<?php print $url; ?>"><?php print $title_prefix . $title; ?></a>
-    </div>
-    <div class="details">
+    </dt>
+    <dd class="details">
       <?php if ($snippet) : ?>
         <p class="search-snippet"><?php print $snippet; ?></p>
       <?php endif; ?>
       <?php if ($info) : ?>
         <p class="search-info"><?php print $info; ?></p>
       <?php endif; ?>
-    </div>
+    </dd>
   </div>
   <?php break; ?>
   
 <?php default: ?>
-  <dt class="title">
-    <a href="<?php print $url; ?>"><?php print $title; ?></a>
-  </dt>
-  <dd>
-    <?php if ($snippet) : ?>
-      <p class="search-snippet"><?php print $snippet; ?></p>
-    <?php endif; ?>
-    <?php if ($info) : ?>
-    <p class="search-info"><?php print $info; ?></p>
-    <?php endif; ?>
-  </dd>
+  <div class="result">
+    <dt class="title">
+      <a href="<?php print $url; ?>"><?php print $title; ?></a>
+    </dt>
+    <dd>
+      <?php if ($snippet) : ?>
+        <p class="search-snippet"><?php print $snippet; ?></p>
+      <?php endif; ?>
+      <?php if ($info) : ?>
+      <p class="search-info"><?php print $info; ?></p>
+      <?php endif; ?>
+    </dd>
+  </div>
 <?php endswitch; ?>
                  <?php //print '<pre>'. check_plain(print_r($info_split, 1)) .'</pre>'; ?>
