@@ -684,10 +684,11 @@ function boinc_tablesort_indicator($style) {
  * strings for $links and $moderator_links.
  * 
  * Parameters: 
- *   $links is a string of links to manipulate. The function will
- *   return a altered string of links.
- * 
- *   $moderator_links will be filled with from elements from $links.
+ *   @params $links
+ *     links is a string of links to manipulate. The function will
+ *     return a altered string of links.
+ *   @params $moderator_links
+ *     moderator_links will be filled from elements from $links.
  *
  */
 function _boinc_create_moderator_links(&$links, &$moderator_links) {
