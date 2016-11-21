@@ -42,6 +42,7 @@ BEGIN_EVENT_TABLE(CDlgDiagnosticLogFlags, wxDialog)
     EVT_BUTTON(wxID_OK,CDlgDiagnosticLogFlags::OnOK)
     EVT_BUTTON(ID_DEFAULTSBTN,CDlgDiagnosticLogFlags::OnSetDefaults)
     EVT_BUTTON(wxID_APPLY,CDlgDiagnosticLogFlags::OnApply)
+    EVT_CHECKBOX(wxID_ANY,CDlgDiagnosticLogFlags::OnCheckBox)
 
 END_EVENT_TABLE()
 
@@ -129,9 +130,10 @@ CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
     btnCancel->SetToolTip( _("Close the dialog without saving") );
     buttonSizer->Add( btnCancel, 0, wxALL, 5 );
 
-    wxButton* btnApply = new wxButton( this, wxID_APPLY, _("Apply"), wxDefaultPosition, wxDefaultSize, 0 );
-    btnApply->SetToolTip( _("Save all values") );
-    buttonSizer->Add( btnApply, 0, wxALL, 5 );
+    m_btnApply = new wxButton( this, wxID_APPLY, _("Apply"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_btnApply->SetToolTip( _("Save all values") );
+    m_btnApply->Enable(false);
+    buttonSizer->Add( m_btnApply, 0, wxALL, 5 );
 
     btnCancel->SetDefault();
     bSizer1->Add( buttonSizer, 0, wxALIGN_RIGHT | wxALL, 15 );
@@ -287,11 +289,19 @@ void CDlgDiagnosticLogFlags::OnSetDefaults(wxCommandEvent& ) {
     
     m_checkboxSizer->Clear(true);
     CreateCheckboxes();
+    m_btnApply->Enable();
     Layout();
 }
 
 void CDlgDiagnosticLogFlags::OnApply(wxCommandEvent & event) {
     SaveFlags();
+    m_btnApply->Enable(false);
+
+    event.Skip();
+}
+
+void CDlgDiagnosticLogFlags::OnCheckBox(wxCommandEvent & event) {
+    m_btnApply->Enable();
 
     event.Skip();
 }
