@@ -1,0 +1,5 @@
+name = Apache Solr Index Comments
+description = Index comments into apache solr
+core = 6.x
+dependencies[] = apachesolr
+dependencies[] = apachesolr_search

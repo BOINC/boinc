@@ -1,0 +1,200 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Module indexes comments in nodes for apache solr.
+ */
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Hooks into apache solr
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * Implementation of hook_apachesolr_index_documents_alter()
+ * 
+ */
+function apachesolr_indexcomments_apachesolr_index_documents_alter(array &$documents, $entity, $entity_type, $env_id) {
+  $comdocs = array();
+
+  // Array of node types that will have comments indexed.
+  $node_types = array('forum', 'team_forum', 'page', 'story', 'news');
+
+  // Loop over all documents and alter:
+  foreach ($documents as $document) {
+    dd($document, "index documents alter - document");
+      
+    if ($document->entity_type='node' AND in_array($document->bundle, $node_types)) {
+      
+      // Remove ts_comments if present
+      if (isset($document->ts_comments)) {
+        unset($document->ts_comments);
+      }
+      // Node information
+      $nid = $document->entity_id;
+      $node = node_load($nid);
+      
+      $sql = 'SELECT cid from {comments} WHERE nid = %d ORDER by timestamp DESC';
+      $resource = db_query($sql, $nid);
+      while ($row = db_fetch_array($resource)) {
+        // Load the comment from cid
+        $comment = _comment_load($row['cid']);
+
+        // Code derived from _apachesolr_index_process_entity_get_document
+        $url_options = array('absolute' => TRUE);
+        $comment_document = new ApacheSolrdocument();
+
+        $comment_document->id = apachesolr_document_id($comment->cid, 'comment');
+        $comment_document->site = $document->site;
+        $comment_document->hash = apachesolr_site_hash();
+
+        $comment_document->entity_id = $comment->cid;
+        $comment_document->entity_type = 'comment';
+        $comment_document->bundle = 'comment';
+        $comment_document->bundle_name = 'Comment';
+
+        $comment_document->path = 'goto/comment/' . $comment->cid;
+        $comment_document->url = url($comment_document->path, $url_options);
+
+        // Comment object has no language
+        $comment_document->ss_language = 'und';
+        if (function_exists('drupal_get_path_alias')) {
+          $output = drupal_get_path_alias($comment_document->path, NULL);
+          if ($output && $output != $document->path) {
+            $comment_document->path_alias = $output;
+          }
+        }
+        
+        // Code derived from apachesolr_index_node_solr_document
+        $comment_document->label = apachesolr_clean_text($comment->subject);
+        $comment_document->content = apachesolr_clean_text($comment->comment);
+        $comment_document->teaser = truncate_utf8($document->content, 300, TRUE);
+
+        // Author information
+        if ($comment->uid == 0 || strlen($comment->name) == 0) {
+          // @see user_validate_name(). !'0' === TRUE.
+          $comment_document->ss_name = '0';
+        }
+        else {
+          $comment_document->ss_name = $comment->name;
+          // We want the name to be searchable for keywords.
+          $comment_document->tos_name = $comment->name;
+        }
+
+        // Index formatted username so it can be searched and sorted
+        // on.
+        $account = (object) array('uid' => $comment->uid, 'name' => $comment->name);
+        $username = check_plain($account->name);
+        $comment_document->ss_name_formatted = $username;
+        $comment_document->tos_name_formatted = $username;
+        $comment_document->is_uid = $comment->uid;
+        $comment_document->bs_status = $comment->status;
+
+        // Timestamp of the comment
+        $comment_document->ds_created = apachesolr_date_iso($comment->timestamp);
+        $comment_document->ds_changed = apachesolr_date_iso($comment->timestamp);
+
+        // Add field for comment parent node id
+        $comment_document->tos_content_extra = $nid;
+
+        // Unset the following fields (if set) that don't make sense
+        // for a comment.
+        if (isset($comment_document->bs_sticky)) {
+          unset($comment_document->bs_sticky);
+        }
+        if (isset($comment_document->bs_promote)) {
+          unset($comment_document->bs_promote);
+        }    
+        if (isset($comment_document->is_tnid)) {
+          unset($comment_document->is_tnid);
+        }
+        if (isset($comment_document->bs_translate)) {
+          unset($comment_document->bs_translate);
+        }
+        if (isset($comment_document->ts_last_comment_timestamp)) {
+          unset($comment_document->ts_last_comment_timestamp);
+        }
+        if (isset($comment_document->ds_last_comment_or_change)) {
+          unset($comment_document->ds_last_comment_or_change);
+        }
+        if (isset($comment_document->is_comment_count)) {
+          unset($comment_document->is_comment_count);
+        }
+
+        // Loop over fields in document and copy relevant values into
+        // comment_document
+        foreach ($document as $fieldName => $fieldValue) {
+
+          // Copy over fields [im_taxonomy_vid_1], [tid], [im_vid_1],
+          // [im_vid_Forums], [tm_vid_1_names]
+          if ( ( preg_match('/tid/', $fieldName) OR preg_match('/vid/', $fieldName) ) AND is_array($fieldValue) ) {
+            foreach ($fieldValue as $subkey => $subvalue) {
+              $comment_document->addField($fieldName, $subvalue);
+            }
+          }// if preg_match
+               
+          // Set the access keys so this module will work with
+          // apachesolr_access.
+          if (module_exists('apachesolr_access')) {
+            if (preg_match('/^access/', $fieldName) AND is_array($fieldValue)) {
+              foreach ($fieldValue as $subkey => $subvalue) {
+                $comment_document->addField($fieldName, $subvalue);
+              }
+            }// if preg_match
+          }// if module_exist
+            
+        }// foreach document
+        
+        dd($comment_document, "index documents alter - comment");
+        $comdocs[] = $comment_document;
+      }// while
+    }// if entity_type=node
+  }// documents
+
+  // Send the comment documents to solr to be indexed
+  //apachesolr_index_send_to_solr($env_id, $comdocs);
+  $documents = array_merge($documents, $comdocs);
+}
+
+/**
+ * Implementation of hook_apachesolr_process_results()
+ * 
+ */
+function apachesolr_indexcomments_apachesolr_process_results(&$results, DrupalSolrQueryInterface $query) {
+  dpm($query->getSolrParams(), "process_results query getSolrParams");
+  foreach($results as $id => $result) {
+    if ($result['entity_type']=='comment') {
+        $results[$id]['type'] = 'Comment';
+        $results[$id]['date'] = $result['fields']['changed'];
+        if (isset($result['fields']['is_uid'])) {
+          $uid = $result['fields']['is_uid'];
+          $results[$id]['uid']  = $uid;
+          $results[$id]['user'] = theme('username', user_load($uid));
+        }
+        //@todo - set name if necessary
+        //if (isset($result['fields']['name'])) {
+        //    ;
+        //}
+    } //if result entity_type == comment
+  }// foreach $result
+  dpm($results, "process_results array_results");
+}
+
+/**
+ * Implementation of hook_apachesolr_query_alter()
+ *
+ */
+function apachesolr_indexcomments_apachesolr_query_alter($query) {
+  // Add custom field to query results
+  $query->addParam('fl','tos_content_extra');
+}
+
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Other Functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+function apachesolr_indexcomments_enable() {
+  drupal_set_message(t('Your content <a href="@url">must be re-indexed</a> before Apache Solr will search comments.', array('@url' => url('admin/settings/apachesolr/index'))), 'warning');
+}
