@@ -558,9 +558,9 @@ function show_post(
     $class = $highlight?' class="bg-info" ':'';
 
     echo "
-        <a name=\"$post->id\"></a>
         <tr>
         <td $class rowspan=\"3\" class=\"col-sm-2\">
+        <a name=\"$post->id\"></a>
     ";
 
     echo user_links($user, 0);
