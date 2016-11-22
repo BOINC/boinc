@@ -223,6 +223,116 @@ function apachesolr_indexcomments_apachesolr_query_alter($query) {
   $query->addParam('fl','tos_content_extra');
 }
 
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Hooks into core/other modules
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+
+/**
+ * Implementation of hook_nodeapi()
+ * 
+ */
+function apachesolr_indexcomments_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
+  // Array of node types that will have comments indexed.
+  $node_types = array('forum', 'team_forum', 'page', 'story', 'news');
+
+  switch ($op) {
+    case 'delete':
+      // Only call delete function on certain node types
+      if (in_array( $node->type, $node_types)) {
+        apachesolr_indexcomments_delete($node);
+      }
+      break;
+  } //switch
+}
+
+
+/**
+ * Helper function for hook_nodeapi()
+ *
+ * When a node is deleted, the comments with parent nid are removed
+ * from the Solr index.
+ */
+function apachesolr_indexcomments_delete($node) {
+  // Load the Solr environment.
+  $env_id = apachesolr_default_environment();
+  // Check to see if Solr is read-only.
+  if (apachesolr_environment_variable_get($env_id, 'apachesolr_read_only', APACHESOLR_READ_WRITE) == APACHESOLR_READ_ONLY) {
+    return FALSE;
+  }
+  dd($node->nid, "delete - nid begin");
+  
+  // Code derived from apachesolr_index_delete_entity_from_index
+  try {
+    $solr = apachesolr_get_solr($env_id);
+    // Custom query to find all comments with parent nid of the node bing deleted.
+    $query = "entity_type:comment AND tos_content_extra:" . $node->nid;
+    dd( array($query), "delete - before deleteByQuery");
+    $solr->deleteByQuery($query);
+    // Log the query used for deletion.
+    watchdog('Apache Solr', 'Deleted documents from index with query @query', array('@query' => $query), WATCHDOG_INFO);
+  }
+  catch (Exception $e) {
+      watchdog('Apache Solr', nl2br(check_plain($e->getMessage())), NULL, WATCHDOG_ERROR);
+      return FALSE;
+  }// try
+
+  // all deletions sucessful
+  apachesolr_set_last_index_updated($env_id, APACHESOLR_REQUEST_TIME);
+  return TRUE;
+}
+
+/**
+ * Implementation of hook_comment()
+ *
+ */
+function apachesolr_indexcomments_comment(&$a1, $op) {
+  switch ($op) {
+    case 'update':
+      break;
+    case 'delete':
+      // $a1 should be a comment object
+      apachesolr_indexcomments_deletecomment($a1);
+      break;
+  }// switch
+}
+
+/** 
+ * Helper function for hook_comment()
+ *
+ * When a comment is deleted, the cooresponding apache Solr document
+ * is removed from the Solr index.
+ */
+function apachesolr_indexcomments_deletecomment($comment) {
+  // Load the Solr environment.
+  $env_id = apachesolr_default_environment();
+  // Check to see if Solr is read-only.
+  if (apachesolr_environment_variable_get($env_id, 'apachesolr_read_only', APACHESOLR_READ_WRITE) == APACHESOLR_READ_ONLY) {
+    return FALSE;
+  }
+  dd($comment->cid, "delete - nid begin");
+    
+  // Code derived from apachesolr_index_delete_entity_from_index.
+  try {
+    $solr = apachesolr_get_solr($env_id);
+    $entity_id = $comment->cid;
+    $entity_type = 'comment';
+    $document_id = apachesolr_document_id($entity_id, $entity_type);
+    $query = "id:$document_id OR sm_parent_document_id:$document_id";
+    dd( array($entity_id, $document_id, $query), "delete - before deleteByQuery");
+    $solr->deleteByQuery($query);
+    // Log the query used for deletion.
+    watchdog('Apache Solr', 'Deleted documents from index with query @query', array('@query' => $query), WATCHDOG_INFO);
+    }
+  catch (Exception $e) {
+    watchdog('Apache Solr', nl2br(check_plain($e->getMessage())), NULL, WATCHDOG_ERROR);
+    return FALSE;
+  }// try
+
+  // deletion sucessful
+  apachesolr_set_last_index_updated($env_id, APACHESOLR_REQUEST_TIME);
+  return TRUE;
+}
 
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
