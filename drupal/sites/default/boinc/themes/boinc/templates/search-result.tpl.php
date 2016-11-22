@@ -124,7 +124,35 @@
     </dd>
   </div>
   <?php break; ?>
-  
+
+<?php
+  case 'Comment':
+    // Get the node if for this comment
+    $nid = $result['fields']['tos_content_extra'];
+    $node = node_load($nid);
+    $node_alias = l($node->title, drupal_get_path_alias('node/' . $nid) );
+    // Get the taxonomy for the node, creates a link to the original node
+    $taxonomy = reset($node->taxonomy);
+    if ($vocab = taxonomy_vocabulary_load($taxonomy->vid)) {
+      $tlink = l($taxonomy->name, "community/forum/{$taxonomy->tid}");
+    }
+  ?>
+  <div class="result">
+    <dt class="title">
+      <i><?php print $tlink . "  Re: " . $node_alias; ?></i><br/>
+      <a href="<?php print $url; ?>"><?php print $title; ?></a>
+    </dt>
+    <dd>
+      <?php if ($snippet) : ?>
+        <p class="search-snippet"><?php print $snippet; ?></p>
+      <?php endif; ?>
+      <?php if ($info) : ?>
+        <p class="search-info"><?php print $info; ?></p>
+      <?php endif; ?>
+    </dd>
+  </div>
+<?php break; ?>
+
 <?php default: ?>
   <div class="result">
     <dt class="title">
