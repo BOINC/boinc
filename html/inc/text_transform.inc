@@ -243,7 +243,6 @@ function bb2html($text, $export=false) {
             "<blockquote>\\1</blockquote>",
             "<ul>\\1</ul><p>",
             "<ol>\\1</ol><p>",
-            //"<img hspace=\"8\" style=\"max-width:600px\" src=\"\\1\\2\"> ",
             "<img hspace=\"8\" class=\"img-responsive\" src=\"\\1\\2\"> ",
             "<img hspace=\"8\" width=400 src=\"\\1\\2\"> ",
             "<font color=\"\\1\">\\2</font>",

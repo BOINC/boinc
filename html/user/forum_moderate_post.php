@@ -54,7 +54,7 @@ if (get_str('action')=="hide") {
     echo "<input type=hidden name=action value=hide>";
     row1(tra("Hide post"));
     row2(tra("Reason"),
-    "<select name=\"category\">
+    "<select class=\"form-control\" name=\"category\">
     <option value=\"1\">".tra("Obscene")."</option>
     <option value=\"2\">".tra("Flame/Hate mail")."</option>
     <option value=\"3\">".tra("Commercial spam")."</option>
@@ -80,7 +80,7 @@ if (get_str('action')=="hide") {
     }
     row1(tra("Banish user"));
     row1(tra("Are you sure you want to banish %1?<br/>This will prevent %1 from posting for chosen time period.<br/>It should be done only if %1 has consistently exhibited trollish behavior.", $user->name));
-    row2(tra("Ban duration"), "<select name=\"duration\">
+    row2(tra("Ban duration"), "<select class=\"form-control\" name=\"duration\">
             <option value=\"21600\">".tra("6 hours")."</option>
             <option value=\"43200\">".tra("12 hours")."</option>
             <option value=\"86400\">".tra("1 day")."</option>

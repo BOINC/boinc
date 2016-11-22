@@ -32,7 +32,7 @@ check_get_args(array());
 // it will be selected by default.
 //
 function show_combo_box($name, $filename, $selection=null) {
-    echo "<select name=\"$name\">\n";
+    echo "<select name=\"$name\" class=\"form-control\">\n";
 
     $file = fopen($filename, "r");
 

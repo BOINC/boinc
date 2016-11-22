@@ -50,7 +50,7 @@ function search_form() {
     start_table();
     row1(tra("Filters"), 2, "heading");
     row2(tra("User name starts with"), "<input type=text name=search_string>");
-    row2_init(tra("Country"), "<select name=country><option value=\"any\" selected>".tra("Any")."</option>");
+    row2_init(tra("Country"), "<select class=\"form-control\" name=\"country\"><option value=\"any\" selected>".tra("Any")."</option>");
     print_country_select("asdf");
     echo "</select></td></tr>";
     row2(tra("With profile?"),

@@ -18,18 +18,27 @@
 
 // An interface to bootstrap navbars and grids.
 
+$fixed_navbar = false;
+
 ////////////// NAVBAR ////////////////
 
 // call this to start the navbar.
 // $brand: the text or image to show at left of navbar
 // If text, put it in <a class="navbar-brand" ...
 //
-function navbar_start($brand, $fixed) {
-    if ($fixed) {
-        echo '<nav class="navbar navbar-default navbar-fixed-top">';
+function navbar_start($brand, $fixed, $inverse) {
+    global $fixed_navbar;
+    $class = "navbar";
+    if ($inverse) {
+        $class .= " navbar-inverse";
     } else {
-        echo '<nav class="navbar navbar-default">';
+        $class .= " navbar-default";
     }
+    if ($fixed) {
+        $class .= " navbar-fixed-top";
+        $fixed_navbar = true;
+    }
+    echo "<nav class=\"$class\">\n";
     echo '
   <div class="container-fluid">
     <div class="navbar-header">
@@ -113,44 +122,57 @@ function navbar_item($name, $url) {
 // If you want to customized it, copy it to your project.inc
 // and give it a new name
 //
-function sample_navbar($prefix, $user, $fixed) {
+function sample_navbar(
+    $url_prefix,
+        // prefix for links; needed for pages not in top dir
+    $user,
+        // logged-in user, if any
+    $fixed=false,
+        // if true, navbar is fixed at top of page.
+        // NOTE: if you do this, you must set a global var $fixed_navbar
+        // to true at compile time
+        // (it needs to be set when page_head() is called).
+    $inverse=false
+        // white on black?
+) {
     $master_url = parse_config(get_config(), "<master_url>");
     $brand = "<a class=\"navbar-brand\" href=$master_url>".PROJECT."</a>";
-    navbar_start($brand, $fixed);
+    navbar_start($brand, $fixed, $inverse);
 
     if ($user) {
-        navbar_item(tra("Your account"), $prefix."home.php");
+        navbar_item(tra("Your account"), $url_prefix."home.php");
     }
     if (defined('NO_COMPUTING')) {
         // this is for projects that don't do computing, e.g. BOSSA-based
         //
         navbar_menu(tra("Participate"), array(
-            array(tra("Do work"), $prefix."bossa_apps.php"),
+            array(tra("Do work"), $url_prefix."bossa_apps.php"),
         ));
     } else {
         navbar_menu(tra("Project"), array(
-            array(tra("Server status"), $prefix."server_status.php"),
-            array(tra("Statistics"), $prefix."stats.php"),
-            array(tra("Top participants"), $prefix."top_users.php"),
-            array(tra("Top computers"), $prefix."top_hosts.php"),
-            array(tra("Top teams"), $prefix."top_teams.php"),
-            array(tra("Top GPU models"), $prefix."gpu_list.php"),
-            array(tra("Applications"), $prefix."apps.php")
+            array(tra("Server status"), $url_prefix."server_status.php"),
+            array(tra("Statistics"), $url_prefix."stats.php"),
+            array(tra("Top participants"), $url_prefix."top_users.php"),
+            array(tra("Top computers"), $url_prefix."top_hosts.php"),
+            array(tra("Top teams"), $url_prefix."top_teams.php"),
+            array(tra("Top GPU models"), $url_prefix."gpu_list.php"),
+            array(tra("Top CPU models"), $url_prefix."cpu_list.php"),
+            array(tra("Applications"), $url_prefix."apps.php")
         ));
     }
 
     navbar_menu(tra("Community"), array(
-        array(tra("Message boards"), $prefix."forum_index.php"),
-        //array(tra("Questions and Answers"), $prefix."forum_help_desk.php"),
-        array(tra("Teams"), $prefix."team.php", tra("create or join a team")),
-        array(tra("Profiles"), $prefix."profile_menu.php"),
-        array(tra("User search"), $prefix."user_search.php"),
-        array(tra("User of the day"), $prefix."uotd.php"),
-        array(tra("Certificate"), $prefix."cert1.php", "", "_blank"),
+        array(tra("Message boards"), $url_prefix."forum_index.php"),
+        //array(tra("Questions and Answers"), $url_prefix."forum_help_desk.php"),
+        array(tra("Teams"), $url_prefix."team.php", tra("create or join a team")),
+        array(tra("Profiles"), $url_prefix."profile_menu.php"),
+        array(tra("User search"), $url_prefix."user_search.php"),
+        array(tra("User of the day"), $url_prefix."uotd.php"),
+        array(tra("Certificate"), $url_prefix."cert1.php", "", "_blank"),
     ));
     navbar_menu(tra("Site"), array(
-        array(tra("Site search"), $prefix."site_search.php"),
-        array(tra("Languages"), $prefix."language_select.php")
+        array(tra("Site search"), $url_prefix."site_search.php"),
+        array(tra("Languages"), $url_prefix."language_select.php")
     ));
 
     // add your own menu here if you want

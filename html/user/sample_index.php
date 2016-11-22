@@ -43,30 +43,6 @@ $user = get_logged_in_user(false);
 // The panel at the top of the page
 //
 function panel_contents() {
-    global $no_computing;
-    if ($no_computing) {
-        echo "
-            XXX is a research project that uses volunteers
-            to do research in XXX.
-        ";
-    } else {
-        echo "
-            XXX is a research project that uses Internet-connected
-            computers to do research in XXX.
-            You can participate by downloading and running a free program
-            on your computer.
-        ";
-    }
-    echo "
-        <p>
-        XXX is based at
-        [describe your institution, with link to web page]
-        <ul>
-        <li> [Link to page describing your research in detail]
-        <li> [Link to page listing project personnel, and an email address]
-        </ul>
-        <ul>
-    ";
 }
 
 function top() {
@@ -76,40 +52,47 @@ function top() {
             <p class=\"lead text-center\">".PROJECT." is temporarily shut down for maintenance.</p>
         ";
     }
-    panel(null, 'panel_contents');
+    //panel(null, 'panel_contents');
 }
 
 function left(){
     global $no_computing, $no_web_account_creation, $master_url;
     panel(
-        'Join ',
+        tra("What is %1?", PROJECT),
         function() {
             global $no_computing, $no_web_account_creation, $master_url;
-            echo "<ul>";
             if ($no_computing) {
                 echo "
-                    <li> <a href=\"create_account_form.php\">Create an account</a>
+                    XXX is a research project that uses volunteers
+                    to do research in XXX.
                 ";
             } else {
                 echo "
-                    <li><a href=\"info.php\">".tra("Read our rules and policies")."</a>
-                    <li> This project uses BOINC.
-                        If you're already running BOINC, select Add Project.
-                        If not, <a target=\"_new\" href=\"http://boinc.berkeley.edu/download.php\">download BOINC</a>.
-                    <li> When prompted, enter <br><b>".$master_url."</b>
-                ";
-                if (!$no_web_account_creation) {
-                    echo "
-                        <li> If you're running a command-line version of BOINC,
-                            <a href=\"create_account_form.php\">create an account</a> first.
-                    ";
-                }
-                echo "
-                    <li> If you have any problems,
-                        <a target=\"_new\" href=\"http://boinc.berkeley.edu/wiki/BOINC_Help\">get help here</a>.
+                    <p>
+                    XXX is a research project, based at <a href=#>YYY</a>,
+                    that uses Internet-connected
+                    computers to do research in XXX.
+                    You can contribute to our research
+                    by running a free program on your computer.
+                    </p>
                 ";
             }
-            echo "</ul>\n";
+            echo "
+                <ul>
+                <li> <a href=#>Our research</a>
+                <li> <a href=#>Our team</a>
+                </ul>
+            ";
+            echo "</ul>";
+            if ($no_computing) {
+                echo "
+                    <a href=\"create_account_form.php\">Create an account</a>
+                ";
+            } else {
+                echo '<center><a href="join.php" class="btn btn-success"><font size=+2>'.tra('Join %1', PROJECT).'</font></a></center>
+                ';
+
+            }
         }
     );
     global $stopped;
@@ -134,10 +117,10 @@ function right() {
     );
 }
 
-page_head(null, null, null, "", file_get_contents("schedulers.txt"));
+page_head(null, null, true);
 
 grid('top', 'left', 'right');
 
-page_tail(false, "", false);
+page_tail(false, "", true);
 
 ?>

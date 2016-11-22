@@ -164,13 +164,35 @@ function show_login_info($prefix="") {
 $cache_control_extra="";
 $is_login_page = false;
 
+// Call this to start pages.
+// Outputs some HTML boilerplate,
+// then calls project_banner() (in html/project/project.inc)
+// to output whatever you want at the top of your web pages.
+//
 // Page_head() is overridable so that projects that want to integrate BOINC
 // with an existing web framework can more easily do so.
 // To do so, define page_head() in the project include file.
 //
 if (!function_exists("page_head")){
 function page_head(
-    $title, $body_attrs=null, $title_plain=null, $prefix="", $head_extra=null
+    $title,
+        // page title. Put in <title>, used as title for browser tab.
+    $body_attrs=null,
+        // <body XXXX>
+        // e.g. Javascript to put focus in an input field
+        // (onload="document.form.foo.focus()")
+        // or to jump to a particular post (onload="jumpToUnread();")
+    $is_main = false,
+        // if set, include schedulers.txt.
+        // also pass to project_banner() in case you want a different
+        // header for your main page.
+    $url_prefix="",
+        // prepend this to links.
+        // Use for web pages not in the top directory
+    $head_extra=null
+        // extra stuff to put in <head>. E.g.:
+        // reCAPTCHA code (create_profile.php)
+        // bbcode javascript (forums)
 ) {
     global $caching, $cache_control_extra, $did_page_head;
     global $is_login_page, $fixed_navbar;
@@ -190,7 +212,6 @@ function page_head(
         $stylesheet2 = null;
     }
 
-
     if (!$caching) {
         header("Content-type: text/html; charset=utf-8");
         header ("Expires: Mon, 26 Jul 1997 05:00:00 UTC");    // Date in the past
@@ -207,11 +228,15 @@ function page_head(
     if ($head_extra) {
         echo "\n$head_extra\n";
     }
-    if (!$title_plain) {
-        echo "<title>".sanitize_tags($title)."</title>\n";
-    } else {
-        echo "<title>".sanitize_tags($title_plain)."</title>\n";
+    if ($is_main) {
+        readfile("schedulers.txt");
     }
+    if ($title) {
+        $t = PROJECT.": $title";
+    } else {
+        $t = PROJECT;
+    }
+    echo "<title>$t</title>\n";
     echo '
         <meta charset="utf-8">
         <link rel="stylesheet" href="'.secure_url_base().'/bootstrap.min.css" media="all">
@@ -232,7 +257,7 @@ function page_head(
         <link rel=alternate type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">
         </head>
     ";
-    if (isset($fixed_navbar)) {
+    if ($fixed_navbar) {
         $body_attrs .= ' style="padding-top:70px"';
     }
     echo "<body $body_attrs>";
@@ -249,7 +274,7 @@ function page_head(
     default:
         break;
     }
-    project_banner($title, $prefix);
+    project_banner($title, $url_prefix, $is_main);
 
 }
 }
@@ -257,8 +282,15 @@ function page_head(
 // See the comments for page_head()
 //
 if (!function_exists("page_tail")){
-function page_tail($show_date=false, $prefix="", $show_return=false) {
-    project_footer($show_return, $show_date, $prefix);
+function page_tail(
+    $show_date=false,
+        // true for pages that are generated periodically rather than on the fly
+    $url_prefix="",
+        // use for pages not at top level
+    $is_main=false
+        // passed to project_footer;
+) {
+    project_footer($is_main, $show_date, $url_prefix);
     echo '
         <script src="'.secure_url_base().'/jquery.min.js"></script>
         <script src="'.secure_url_base().'/bootstrap.min.js"></script>

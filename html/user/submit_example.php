@@ -173,7 +173,7 @@ function eligible_apps() {
 // return HTML for a popup menu of apps
 //
 function app_select($apps) {
-    $x = "<select name=app_name>\n";
+    $x = '<select class="form-control" name="app_name">\n';
     foreach ($apps as $app) {
         $x .= "<option value=$app->name>$app->user_friendly_name</option>\n";
     }

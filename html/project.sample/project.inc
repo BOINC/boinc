@@ -67,11 +67,14 @@ function make_php_mailer() {
 }
 
 
-function project_banner($title, $prefix) {
-    // Put your project title and logo here
-    // If you include any links, prepend URL with $prefix
-    // if you need to open divs here close them in project_footer()
-
+// Put your project title and logo here
+// If you include any links, prepend URL with $prefix
+// if you need to open divs here close them in project_footer()
+//
+function project_banner($title, $prefix, $is_main) {
+    if ($is_main) {
+        echo '<img class="img-responsive" src="img/water.jpg">';
+    }
     sample_navbar(secure_url_base(), get_logged_in_user(false), false);
     if ($title) {
         echo "<h2>$title</h2>\n";
@@ -84,6 +87,7 @@ function project_footer($show_return, $show_date, $prefix) {
     //
     echo '<br>
         <a class="brand boinc-logo" href="http://boinc.berkeley.edu/"><img align="middle" border="0" src="'.secure_url_base().'img/pb_boinc.gif" alt="Powered by BOINC"></a>
+        <br>
         <p class="text-center"> &copy;'.gmdate("Y ").COPYRIGHT_HOLDER.'</p>
     ';
     if ($show_date) {
