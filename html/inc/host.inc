@@ -51,7 +51,7 @@ function location_form($host) {
     if ($host->venue == "school") $s = "selected";
     $x = "<form action=host_venue_action.php>
         <input type=hidden name=hostid value=$host->id>
-        <select name=venue>
+        <select class=\"form-control\" name=venue>
         <option value=\"\" $none>---
         <option value=home $h>".tra("Home")."
         <option value=work $w>".tra("Work")."

@@ -41,7 +41,7 @@ function team_search_form($params) {
     row2(tra('Key words').'<br><p class=\"text-muted\">'.tra('Find teams with these words in their names or descriptions').'</p>',
         '<input type="text" name="keywords" value="' . htmlspecialchars($params->keywords) . '">');
     row2_init(tra('Country'), '');
-    echo '<select name="country"><option value="" selected>---</option>';
+    echo '<select class="form-control" name="country"><option value="" selected>---</option>';
     $country = $params->country;
     if (!$country || $country == 'None') $country = "XXX";
     print_country_select($country);
@@ -473,7 +473,7 @@ function team_edit_form($team, $label, $url) {
     row2(tra('Type of team').':', team_type_select($team?$team->type:null));
 
     row2_init(tra('Country'),
-        "<select name=country>"
+        "<select class=\"form-control\" name=country>"
     );
     print_country_select($team?$team->country:null);
 

@@ -43,7 +43,7 @@ $bbcode_html = '
               <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td><nobr><span class="genmed">&nbsp;'.tra("Font color").':
-                    <select name="addbbcode22" onChange="bbfontstyle(\'[color=\' + this.form.addbbcode22.options[this.form.addbbcode22.selectedIndex].value + \']\', \'[/color]\');this.selectedIndex=0;" title="'.tra("Font color: [color=red]text[/color]  Tip: you can also use color=#FF0000").'" >
+                    <select class="form-control" name="addbbcode22" onChange="bbfontstyle(\'[color=\' + this.form.addbbcode22.options[this.form.addbbcode22.selectedIndex].value + \']\', \'[/color]\');this.selectedIndex=0;" title="'.tra("Font color: [color=red]text[/color]  Tip: you can also use color=#FF0000").'" >
                       <option style="color:black" value="#000000" class="genmed">'.tra("Default").'</option>
                       <option style="color:darkred" value="darkred" class="genmed">'.tra("Dark Red").'</option>
                       <option style="color:red" value="red" class="genmed">'.tra("Red").'</option>
@@ -58,7 +58,7 @@ $bbcode_html = '
                       <option style="color:indigo" value="indigo" class="genmed">'.tra("Indigo").'</option>
                       <option style="color:violet" value="violet" class="genmed">'.tra("Violet").'</option>
                     </select>&nbsp;'.tra("Font size").':
-		    <select name="addbbcode24" onChange="bbfontstyle(\'[size=\' + this.form.addbbcode24.options[this.form.addbbcode24.selectedIndex].value + \']\', \'[/size]\');this.selectedIndex=0;" title="'.tra("Font size: [size=x-small]small text[/size]").'" >
+		    <select class="form-control" name="addbbcode24" onChange="bbfontstyle(\'[size=\' + this.form.addbbcode24.options[this.form.addbbcode24.selectedIndex].value + \']\', \'[/size]\');this.selectedIndex=0;" title="'.tra("Font size: [size=x-small]small text[/size]").'" >
                       <option value="12" selected class="genmed">'.tra("Default").'</option>
             	      <option value="9" class="genmed">'.tra("Small").'</option>
                       <option value="12" class="genmed">'.tra("Normal").'</option>

@@ -443,7 +443,7 @@ class PREF_NUM2 extends PREF {
 
 function hour_select($x, $name, $id, $d) {
     $s = "";
-    $s = $s. "<select name=$name id=$id $d>\n";
+    $s = $s. "<select class=\"form-control\" name=$name id=$id $d>\n";
     for ($i=0; $i<24; $i++) {
         $sel = ($x == $i)?"selected":"";
         $s = $s."<option value=$i $sel> $i:00";

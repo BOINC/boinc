@@ -81,7 +81,7 @@ function language_form() {
     echo "
         <table><tr><td>
         <form name=language method=get action=set_language.php>
-        <select class=selectbox name=lang onchange=\"javascript: submit()\">
+        <select class=\"selectbox form-control\" name=lang onchange=\"javascript: submit()\">
     ";
     language_select();
     echo "</select>
