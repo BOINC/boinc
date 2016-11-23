@@ -6,14 +6,14 @@
 # FileID  : $Id$
 # 
 # Translators:
-# 周潇波 <zhouxiaobo.500@gmail.com>, 2015
+# xiaobo zhou <zhouxiaobo.500@gmail.com>, 2015
 # 秦赫阳 <qysnn1@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2015-09-30 17:23+0000\n"
+"PO-Revision-Date: 2016-04-07 06:48+0000\n"
 "Last-Translator: 秦赫阳 <qysnn1@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/boinc/boinc/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
