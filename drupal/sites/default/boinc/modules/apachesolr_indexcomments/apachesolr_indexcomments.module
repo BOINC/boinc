@@ -41,7 +41,7 @@ function apachesolr_indexcomments_apachesolr_index_documents_alter(array &$docum
 
   // Loop over all documents and alter:
   foreach ($documents as $document) {
-    dd($document, "index documents alter - document");
+      //dd($document, "index documents alter - document");
       
     if ($document->entity_type='node' AND in_array($document->bundle, $node_types)) {
       
@@ -86,7 +86,7 @@ function apachesolr_indexcomments_apachesolr_index_documents_alter(array &$docum
         }
         
         // Code derived from apachesolr_index_node_solr_document
-        $comment_document->label = apachesolr_clean_text($comment->subject);
+        $comment_document->label = truncate_utf8(apachesolr_clean_text($comment->comment), 32, TRUE);
         $comment_document->content = apachesolr_clean_text($comment->comment);
         $comment_document->teaser = truncate_utf8($document->content, 300, TRUE);
 
@@ -165,7 +165,7 @@ function apachesolr_indexcomments_apachesolr_index_documents_alter(array &$docum
             
         }// foreach document
         
-        dd($comment_document, "index documents alter - comment");
+        //dd($comment_document, "index documents alter - comment");
         $comdocs[] = $comment_document;
       }// while
     }// if entity_type=node
@@ -189,7 +189,7 @@ function apachesolr_indexcomments_apachesolr_index_documents_alter(array &$docum
  *   foo
  */
 function apachesolr_indexcomments_apachesolr_process_results(&$results, DrupalSolrQueryInterface $query) {
-  dpm($query->getSolrParams(), "process_results query getSolrParams");
+    //dpm($query->getSolrParams(), "process_results query getSolrParams");
   foreach($results as $id => $result) {
     if ($result['entity_type']=='comment') {
         $results[$id]['type'] = 'Comment';
@@ -260,14 +260,14 @@ function apachesolr_indexcomments_delete($node) {
   if (apachesolr_environment_variable_get($env_id, 'apachesolr_read_only', APACHESOLR_READ_WRITE) == APACHESOLR_READ_ONLY) {
     return FALSE;
   }
-  dd($node->nid, "delete - nid begin");
+  //dd($node->nid, "delete - nid begin");
   
   // Code derived from apachesolr_index_delete_entity_from_index
   try {
     $solr = apachesolr_get_solr($env_id);
     // Custom query to find all comments with parent nid of the node bing deleted.
     $query = "entity_type:comment AND tos_content_extra:" . $node->nid;
-    dd( array($query), "delete - before deleteByQuery");
+    //dd( array($query), "delete - before deleteByQuery");
     $solr->deleteByQuery($query);
     // Log the query used for deletion.
     watchdog('Apache Solr', 'Deleted documents from index with query @query', array('@query' => $query), WATCHDOG_INFO);
@@ -310,7 +310,7 @@ function apachesolr_indexcomments_deletecomment($comment) {
   if (apachesolr_environment_variable_get($env_id, 'apachesolr_read_only', APACHESOLR_READ_WRITE) == APACHESOLR_READ_ONLY) {
     return FALSE;
   }
-  dd($comment->cid, "delete - nid begin");
+  //dd($comment->cid, "delete - nid begin");
     
   // Code derived from apachesolr_index_delete_entity_from_index.
   try {
@@ -319,7 +319,7 @@ function apachesolr_indexcomments_deletecomment($comment) {
     $entity_type = 'comment';
     $document_id = apachesolr_document_id($entity_id, $entity_type);
     $query = "id:$document_id OR sm_parent_document_id:$document_id";
-    dd( array($entity_id, $document_id, $query), "delete - before deleteByQuery");
+    //dd( array($entity_id, $document_id, $query), "delete - before deleteByQuery");
     $solr->deleteByQuery($query);
     // Log the query used for deletion.
     watchdog('Apache Solr', 'Deleted documents from index with query @query', array('@query' => $query), WATCHDOG_INFO);
