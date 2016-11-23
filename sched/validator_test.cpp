@@ -28,17 +28,25 @@
 
 #include <stdio.h>
 
+#include "svn_version.h"
+#include "sched_util_basic.h"
 #include "validate_util.h"
 #include "validate_util2.h"
 
-int g_argc;
-char **g_argv;
-
 void usage(char* prog) {
     fprintf(stderr,
-        "usage: %s file1 file2\n", prog
+        "This program is a test validator; \n"
+        "You can test your custom handler with this\n"
     );
-    exit(1);
+    fprintf(stderr, "usage: %s [options] file1 file2\n"
+        "    Options:\n"
+        "    [-h|--help]     Print this usage information and exit\n"
+        "    [-v|--version]  Print version information and exit\n"
+        "    file1           Path to file to be compared (must be second to last)\n"
+        "    file2           Path to file to be compared (must be last)\n"
+        "\n",
+        prog);
+    validate_handler_usage();
 }
 
 int get_output_file_info(RESULT r, OUTPUT_FILE_INFO& fi) {
@@ -47,18 +55,34 @@ int get_output_file_info(RESULT r, OUTPUT_FILE_INFO& fi) {
 }
 
 int main(int argc, char** argv) {
-    if (argc != 3) {
+    int retval;
+
+    if (argc > 1) {
+      if (is_arg(argv[1], "h") || is_arg(argv[1], "help")) {
         usage(argv[0]);
+        exit(0);
+      } else if (is_arg(argv[1], "v") || is_arg(argv[1], "version")) {
+        printf("%s\n", SVN_VERSION);
+        exit(0);
+      }
     }
+    if (argc < 3) {
+        usage(argv[0]);
+        exit(0);
+    }
+
+    retval = validate_handler_init(argc, argv);
+    if (retval) exit(1);
+
     void* data1, *data2;
     RESULT r1, r2;
     bool match;
 
     standalone = true;
 
-    sprintf(r1.xml_doc_in, "<file_ref><file_name>%s</file_name></file_ref>", argv[1]);
-    sprintf(r2.xml_doc_in, "<file_ref><file_name>%s</file_name></file_ref>", argv[2]);
-    int retval;
+    sprintf(r1.xml_doc_in, "<file_ref><file_name>%s</file_name></file_ref>", argv[argc-2]);
+    sprintf(r2.xml_doc_in, "<file_ref><file_name>%s</file_name></file_ref>", argv[argc-1]);
+
     retval = init_result(r1, data1);
     if (retval) {
         fprintf(stderr, "init_result(r1) returned %d\n", retval);
