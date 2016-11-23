@@ -203,6 +203,18 @@ if (0) {
     exit;
 }
 
+$request_log = parse_config(get_config(), "<remote_submission_log>");
+if ($request_log) {
+    $request_log_dir = parse_config(get_config(), "<log_dir>");
+    if ($request_log_dir) {
+        $request_log = $request_log_dir . "/" . $request_log;
+    }
+    if ($file = fopen($request_log, "a+")) {
+        fwrite($file, "\n<job_file date=\"" . date(DATE_ATOM) . "\">\n" . $_POST['request'] . "\n</job_file>\n");
+        fclose($file);
+    }
+}
+
 xml_header();
 $req = $_POST['request'];
 $r = simplexml_load_string($req);
