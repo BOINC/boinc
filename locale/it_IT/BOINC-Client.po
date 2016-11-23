@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2016-09-21 11:26+0000\n"
+"PO-Revision-Date: 2016-10-18 09:30+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -61,7 +61,7 @@ msgstr "È disponibile una nuova versione di BOINC."
 
 #: current_version.cpp:94 current_version.cpp:102
 msgid "Download"
-msgstr "Scarica"
+msgstr "Scaricamento"
 
 #: log_flags.cpp:269 log_flags.cpp:449
 msgid "Unexpected text in cc_config.xml"

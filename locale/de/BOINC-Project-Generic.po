@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
-"PO-Revision-Date: 2016-08-16 12:52+0000\n"
+"PO-Revision-Date: 2016-11-16 15:21+0000\n"
 "Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
 "Language-Team: German (http://www.transifex.com/boinc/boinc/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr "German"
 
 #: ../inc/account.inc:38
 msgid "Invitation Code"
-msgstr "Einladungs-Code"
+msgstr "Einladungscode"
 
 #: ../inc/account.inc:38
 msgid "A valid invitation code is required to create an account."

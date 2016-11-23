@@ -8,14 +8,14 @@
 # Translators:
 # Dan <mutari.dirk@gmail.com>, 2015
 # Malyanov Evgeniy <flange465@gmail.com>, 2015
-# Nikolay Sakharov <saharovna@gmail.com>, 2015
+# Николай Сахаров <saharovna@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2015-06-24 13:05 PDT\n"
 "PO-Revision-Date: 2016-04-07 06:48+0000\n"
-"Last-Translator: Nikolay Sakharov <saharovna@gmail.com>\n"
+"Last-Translator: Николай Сахаров <saharovna@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/boinc/boinc/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"

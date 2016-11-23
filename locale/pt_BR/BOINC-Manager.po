@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-10-13 22:10+0000\n"
+"PO-Revision-Date: 2016-10-25 20:45+0000\n"
 "Last-Translator: Wiri Marcolan Kamei <wirimk@hotmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/boinc/boinc/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -592,7 +592,7 @@ msgstr "%s - Finalizar o cliente atual..."
 msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
-msgstr "%s finalizará o cliente atual\ne o indagará para outra máquina a se conectar."
+msgstr "%s finalizará o cliente atual\ne o informará para se conectar a outro host."
 
 #: clientgui/AdvancedFrame.cpp:1883 clientgui/DlgAbout.cpp:119
 #, c-format
@@ -1786,7 +1786,7 @@ msgid ""
 "\n"
 "If you also want to stop running the tasks,\n"
 "choose from the following options:"
-msgstr "Você pediu para sair do %s,\nque permite você ver e administrar\nas tarefas rodando no seu computador.\n\nSe você também quiser parar de rodar as tarefas,\nescolha entre as seguintes opções:"
+msgstr "Você pediu para sair de %s,\nque permite a você ver e administrar\nas tarefas rodando em seu computador.\n\nSe você também quiser parar de rodar as tarefas,\nescolha entre as seguintes opções:"
 
 #: clientgui/DlgExitMessage.cpp:135
 #, c-format
@@ -1841,7 +1841,7 @@ msgstr "Confirmar padrões"
 #: clientgui/DlgItemProperties.cpp:194 clientgui/DlgItemProperties.cpp:197
 #: clientgui/DlgItemProperties.cpp:200 clientgui/DlgItemProperties.cpp:203
 msgid "Don't request tasks for "
-msgstr "Não solicitar mais tarefas"
+msgstr "Não solicitar mais tarefas para"
 
 #: clientgui/DlgItemProperties.cpp:194
 msgid "Project preference"
@@ -1948,7 +1948,7 @@ msgstr "Mensagem ao servidor pendente"
 
 #: clientgui/DlgItemProperties.cpp:279 clientgui/DlgItemProperties.cpp:281
 msgid "Host location"
-msgstr "Localização do Servidor"
+msgstr "Localização do Host"
 
 #: clientgui/DlgItemProperties.cpp:281
 msgid "default"
@@ -1989,7 +1989,7 @@ msgstr "%s total, %s média"
 
 #: clientgui/DlgItemProperties.cpp:305
 msgid "Host"
-msgstr "Máquina"
+msgstr "Host"
 
 #: clientgui/DlgItemProperties.cpp:315
 msgid "Scheduling"
@@ -2119,7 +2119,7 @@ msgstr "Que idioma o BOINC deve usar?"
 
 #: clientgui/DlgOptions.cpp:190
 msgid "Notice reminder interval:"
-msgstr "Intervalo de lembrete de notificação"
+msgstr "Intervalo de lembrete de aviso:"
 
 #: clientgui/DlgOptions.cpp:197
 msgid "How often should BOINC remind you of new notices?"
@@ -2271,7 +2271,7 @@ msgstr "Outra instância de %s já está rodando\nneste computador. Favor seleci
 
 #: clientgui/DlgSelectComputer.cpp:143
 msgid "Host name:"
-msgstr "Nome de máquina:"
+msgstr "Nome do Host:"
 
 #: clientgui/Localization.cpp:31 clientgui/Localization.cpp:69
 msgid "Message boards"
@@ -2528,7 +2528,7 @@ msgstr "limite da rede de banda-larga excedido"
 
 #: clientgui/MainDocument.cpp:2454
 msgid "requested by operating system"
-msgstr "requisitado pelo sustema operacional"
+msgstr "requisitado pelo sistema operacional"
 
 #: clientgui/MainDocument.cpp:2456
 msgid "unknown reason"
@@ -3025,7 +3025,7 @@ msgstr "Buscando avisos; por favor, espere..."
 
 #: clientgui/ViewNotices.cpp:65 clientgui/sg_DlgMessages.cpp:132
 msgid "There are no notices at this time."
-msgstr "Neste momento não existem avisos"
+msgstr "Neste momento não existem avisos."
 
 #: clientgui/ViewNotices.cpp:99 clientgui/sg_BoincSimpleFrame.cpp:912
 msgid "Notices"
@@ -3285,11 +3285,11 @@ msgstr "Média do usuário"
 
 #: clientgui/ViewStatistics.cpp:1183
 msgid "Host Total"
-msgstr "Total hospedado"
+msgstr "Total do host"
 
 #: clientgui/ViewStatistics.cpp:1184
 msgid "Host Average"
-msgstr "Média de hospedagem"
+msgstr "Média do host"
 
 #: clientgui/ViewStatistics.cpp:1331
 #, c-format
@@ -3314,19 +3314,19 @@ msgstr "Mostrar o crédito médio por usuário"
 
 #: clientgui/ViewStatistics.cpp:1970
 msgid "Show host total"
-msgstr "Mostra o total hospedado"
+msgstr "Mostra o total do host"
 
 #: clientgui/ViewStatistics.cpp:1971
 msgid "Show total credit for host"
-msgstr "Mostrar o total do crédito para hospedagem"
+msgstr "Mostrar o crédito total para o host"
 
 #: clientgui/ViewStatistics.cpp:1977
 msgid "Show host average"
-msgstr "Mostre a média de hospedagem"
+msgstr "Mostrar a média do host"
 
 #: clientgui/ViewStatistics.cpp:1978
 msgid "Show average credit for host"
-msgstr "Mostra a média de crédito médio para hospedagem"
+msgstr "Mostrar a média de crédito para o host"
 
 #: clientgui/ViewStatistics.cpp:1987
 msgid "< &Previous project"
@@ -3705,7 +3705,7 @@ msgstr "Fechar"
 #: clientgui/sg_DlgMessages.cpp:394
 #, c-format
 msgid "%s - Notices"
-msgstr "%s Avisos"
+msgstr "%s - Avisos"
 
 #: clientgui/sg_DlgPreferences.cpp:208
 msgid ""
