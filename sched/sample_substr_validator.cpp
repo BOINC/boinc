@@ -22,12 +22,16 @@
 // --reject_if_present: reject (invalidate) the result if the string is present
 // (default: accept it if the string is present)
 
+#include <vector>
+
 #include "sched_msgs.h"
 #include "sched_util_basic.h"
 #include "validate_util2.h"
 #include "validator.h"
 
-char* stderr_string;
+using std::vector;
+
+vector<char*> stderr_strings;
 bool reject_if_present = false;
 
 int validate_handler_init(int argc, char** argv) {
@@ -35,7 +39,7 @@ int validate_handler_init(int argc, char** argv) {
     bool found = false;
     for (int i=1; i<argc; i++) {
         if (is_arg(argv[i], "stderr_string")) {
-            stderr_string = argv[++i];
+            stderr_strings.push_back(argv[++i]);
             found = true;
         } else if (is_arg(argv[i], "reject_if_present")) {
             reject_if_present = true;
@@ -61,11 +65,15 @@ void validate_handler_usage() {
 }
 
 int init_result(RESULT& r, void*&) {
-    if (strstr(r.stderr_out, stderr_string)) {
-        return reject_if_present?-1:0;
-    } else {
-        return reject_if_present?0:-1;
+    for(unsigned int i=0; i<stderr_strings.size(); i++) {
+        char* stderr_string = stderr_strings[i];
+        if (strstr(r.stderr_out, stderr_string)) {
+            if (reject_if_present) return -1;
+        } else {
+            if (!reject_if_present) return -1;
+        }
     }
+    return 0;
 }
 
 int compare_results(RESULT&, void*, RESULT const&, void*, bool& match) {
