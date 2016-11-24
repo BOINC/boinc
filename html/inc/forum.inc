@@ -555,7 +555,7 @@ function show_post(
     } else {
         $highlight = $is_posted_by_special;
     }
-    $class = $highlight?' class="bg-info" ':'';
+    $class = $highlight?' class="bg-primary" ':'';
 
     echo "
         <tr>
