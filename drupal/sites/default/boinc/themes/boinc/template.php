@@ -244,12 +244,12 @@ function boinc_preprocess_page(&$vars, $hook) {
  * @param $hook
  *   The name of the template being rendered ("node" in this case.)
  */
-///* -- Delete this line if you want to use this function
 function boinc_preprocess_node(&$vars, $hook) {
-  
+
   //$vars['sample_variable'] = t('Lorem ipsum.');
-  
-  // Detach subscribe link from the Links list
+
+  // Detach subscribe link from the links list. Subscribe link will be placed
+  // on page separately from links.
   if (!empty($vars['node']->links['flag-subscriptions']['title'])) {
     $vars['subscribe_link'] = $vars['node']->links['flag-subscriptions']['title'];
     unset($vars['node']->links['flag-subscriptions']);
@@ -262,7 +262,6 @@ function boinc_preprocess_node(&$vars, $hook) {
     $function($vars, $hook);
   }
 }
-// */
 
 /**
  * Preprocessing for forum lists
@@ -617,6 +616,10 @@ The !site team', array(
  */
 function phptemplate_links($links, $attributes = array('class' => 'links')) {
   if ($links){
+    // Remove flag-subscriptions link. It will be placed elsewhere.
+    if (isset($links['flag-subscriptions'])) {
+      unset($links['flag-subscriptions']);
+    }
     // Reorder the links however you need them.
     $links = reorder_links($links, array('comment_edit','quote','comment_add','comment_reply','flag-abuse_comment','flag-abuse_node'), array('comment_delete'));
     // Use the built-in theme_links() function to format the $links array.
@@ -681,10 +684,11 @@ function boinc_tablesort_indicator($style) {
  * strings for $links and $moderator_links.
  * 
  * Parameters: 
- *   $links is a string of links to manipulate. The function will
- *   return a altered string of links.
- * 
- *   $moderator_links will be filled with from elements from $links.
+ *   @params $links
+ *     links is a string of links to manipulate. The function will
+ *     return a altered string of links.
+ *   @params $moderator_links
+ *     moderator_links will be filled from elements from $links.
  *
  */
 function _boinc_create_moderator_links(&$links, &$moderator_links) {
