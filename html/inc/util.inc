@@ -467,7 +467,7 @@ function row_array($x, $class=null) {
 function row_heading_array($x) {
     echo "<tr>";
     foreach ($x as $h) {
-        echo "<th>$h</th>";
+        echo "<th class=\"bg-primary\">$h</th>";
     }
     echo "</tr>\n";
 }

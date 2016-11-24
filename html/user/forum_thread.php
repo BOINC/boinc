@@ -147,7 +147,7 @@ echo "
     <p>
     <form action=\"forum_thread.php\">
     <table width=\"100%\" cellspacing=0 cellpadding=0>
-    <tr class=\"forum_toplinks\">
+    <tr>
     <td>
 ";
 
