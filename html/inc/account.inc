@@ -61,7 +61,7 @@ function create_account_form($teamid, $next_url) {
     row2(tra("Confirm password"), "<input type=\"password\" name=\"passwd2\">");
     row2_init(
         tra("Country")."<br><p class=\"text-info\">".tra("Select the country you want to represent, if any.")."</p>",
-        "<select class=\"form-control\" name=\"country\">"
+        '<select class="form-control" style="width:240px;" name="country">'
     );
     print_country_select();
     echo "</select></td></tr>\n";

@@ -37,6 +37,7 @@ function show_new() {
         function() use ($master_url) {
             echo '
                 <ol>
+                <li> Read our <a href="info.php">Rules and Policies</a>.
                 <li> <p>Download the BOINC desktop software.
                     </p><p>
                     <a href="http://boinc.berkeley.edu/download.php" class="btn btn-success">Download</a>

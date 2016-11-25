@@ -54,14 +54,18 @@ if (get_str('action')=="hide") {
     echo "<input type=hidden name=action value=hide>";
     row1(tra("Hide post"));
     row2(tra("Reason"),
-    "<select class=\"form-control\" name=\"category\">
-    <option value=\"1\">".tra("Obscene")."</option>
-    <option value=\"2\">".tra("Flame/Hate mail")."</option>
-    <option value=\"3\">".tra("Commercial spam")."</option>
-    <option value=\"4\">".tra("Doublepost")."</option>
-    <option value=\"5\">".tra("User Request")."</option>
-    <option value=\"6\">".tra("Other")."</option>
-</select>");
+        select_from_array('category',
+            array(
+                "",
+                tra("Obscene"),
+                tra("Flame/Hate mail"),
+                tra("Commercial spam"),
+                tra("Doublepost"),
+                tra("User Request"),
+                tra("Other"),
+            )
+        )
+    );
 } elseif (get_str('action')=="move") {
     row1(tra("Move post"));
     echo "<input type=hidden name=action value=move>";
@@ -110,7 +114,7 @@ if ($get_reason) {
     );
     row2(
         "",
-        "<input class=\"btn btn-default\" type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">"
+        "<input class=\"btn btn-primary\" type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">"
     );
 }
 

@@ -89,6 +89,7 @@ case 1:
 echo '
     <p>
     <form action="forum_forum.php" method="get">
+    <input type="hidden" name="id" value="'.$forum->id.'">
     <table width="100%" cellspacing="0" cellpadding="0">
     <tr valign="top">
     <td colspan=2>
@@ -100,17 +101,17 @@ if (user_can_create_thread($user, $forum)) {
     );
 }
 
-echo "</td>
-    <td valign=top align=\"right\">
-    <input type=\"hidden\" name=\"id\" value=\"$forum->id\">
-";
+echo '</td>
+    <td valign=top align="right">
+';
 echo select_from_array("sort", $forum_sort_styles, $sort_style);
-echo "<input class=\"btn btn-default\" type=\"submit\" value=\"Sort\">
+echo '<input class="btn btn-default" type="submit" value="Sort">';
+echo '
     </td>
     </tr>
     </table>
     </form>
-";
+';
 
 show_forum($forum, $start, $sort_style, $user);
 

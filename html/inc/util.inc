@@ -223,7 +223,7 @@ function page_head(
     echo '<!DOCTYPE html>
         <html lang="en">
         <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=0">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
     ';
     if ($head_extra) {
         echo "\n$head_extra\n";
@@ -440,7 +440,7 @@ function row2($x, $y, $show_error=false) {
 function row2_init($x, $y) {
     echo '<tr>
         <td class="text-right active" width="40%"  style="padding-right: 20px;">'.$x.'</td>
-        <td>'.$y.'
+        <td '.VALUE_ATTRS.'>'.$y.'
     ';
 }
 
@@ -737,9 +737,10 @@ function verify_numeric(&$value, $low, $high = false) {
     return true;
 }
 
-// Generate a "select" HTML element from an array of values
-function select_from_array($name, $array, $selection) {
-    $out = "<select class=\"form-control\" name=\"$name\">";
+// Generate a "select" element from an array of values
+//
+function select_from_array($name, $array, $selection=null, $width=240) {
+    $out = '<select class="form-control" style="width:'.$width.'px" name="'.$name.'">"';
 
     foreach ($array as $key => $value) {
         if ($value) {
@@ -747,10 +748,10 @@ function select_from_array($name, $array, $selection) {
             if ($key == $selection) {
                 $out .= "selected ";
             }
-            $out .= "value=\"".$key."\">".$value."</option>";
+            $out .= "value=\"".$key."\">".$value."</option>\n";
         }
     }
-    $out.= "</select>";
+    $out .= "</select>\n";
     return $out;
 }
 

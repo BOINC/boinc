@@ -75,10 +75,10 @@ function navbar_right($user) {
     ';
     if (!$is_login_page) {
         if ($user) {
-            $url_tokens = url_tokens($user->authenticator);
             echo '
-                <li><p class="navbar-text">'.$user->name.'</p></li>
+                <li><a href=home.php>'.$user->name.'</a></li>
             ';
+            $url_tokens = url_tokens($user->authenticator);
             echo '
                 <li><a href="logout.php?'.$url_tokens.'">Log out</a></li>
             ';
@@ -101,8 +101,13 @@ function navbar_menu($name, $items) {
         <ul class="dropdown-menu">
     ';
     foreach ($items as $item) {
-          echo '<li><a href="'.$item[1].'">'.$item[0].'</a></li>
-        ';
+        if (is_array($item)) {
+            echo '<li><a href="'.$item[1].'">'.$item[0].'</a></li>
+            ';
+        } else {
+            echo '<li class="dropdown-header">'.$item.'</li>
+            ';
+        }
     }
     echo '
         </ul>
@@ -139,9 +144,16 @@ function sample_navbar(
     $brand = "<a class=\"navbar-brand\" href=$master_url>".PROJECT."</a>";
     navbar_start($brand, $fixed, $inverse);
 
+    $x = array(
+        array(tra("About %1", PROJECT), $url_prefix."about.php"),
+        array(tra("Help"), $url_prefix."help.php"),
+
+    );
     if ($user) {
-        navbar_item(tra("Your account"), $url_prefix."home.php");
+         array_unshift($x, array(tra("Account"), $url_prefix."home.php"));
     }
+    navbar_menu(tra("Project"), $x);
+
     if (defined('NO_COMPUTING')) {
         // this is for projects that don't do computing, e.g. BOSSA-based
         //
@@ -149,15 +161,16 @@ function sample_navbar(
             array(tra("Do work"), $url_prefix."bossa_apps.php"),
         ));
     } else {
-        navbar_menu(tra("Project"), array(
+        navbar_menu(tra("Computing"), array(
             array(tra("Server status"), $url_prefix."server_status.php"),
             array(tra("Statistics"), $url_prefix."stats.php"),
-            array(tra("Top participants"), $url_prefix."top_users.php"),
-            array(tra("Top computers"), $url_prefix."top_hosts.php"),
-            array(tra("Top teams"), $url_prefix."top_teams.php"),
-            array(tra("Top GPU models"), $url_prefix."gpu_list.php"),
-            array(tra("Top CPU models"), $url_prefix."cpu_list.php"),
-            array(tra("Applications"), $url_prefix."apps.php")
+            array(tra("Applications"), $url_prefix."apps.php"),
+            'Leader boards:',
+            array(tra("Participants"), $url_prefix."top_users.php"),
+            array(tra("Computers"), $url_prefix."top_hosts.php"),
+            array(tra("Teams"), $url_prefix."top_teams.php"),
+            array(tra("GPU models"), $url_prefix."gpu_list.php"),
+            array(tra("CPU models"), $url_prefix."cpu_list.php"),
         ));
     }
 
