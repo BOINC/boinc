@@ -60,7 +60,6 @@ function pm_team_form($user, $teamid, $error=null) {
     start_table();
     echo $bbcode_html;
     echo "<tr><td>\n";
-    echo "foobar";
     echo "<textarea name=\"content\" class=\"form-control\" rows=\"18\">$content</textarea>";
     echo "</td></tr>\n";
     end_table();

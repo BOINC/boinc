@@ -555,7 +555,7 @@ function show_post(
     } else {
         $highlight = $is_posted_by_special;
     }
-    $class = $highlight?' class="bg-info" ':'';
+    $class = $highlight?' style="border-left: 5px solid LightGreen" ':'';
 
     echo "
         <tr>
@@ -577,7 +577,7 @@ function show_post(
     
     $url = "pm.php?action=new&amp;userid=".$user->id;
     $name = $user->name;
-    show_button($url, tra("Send&nbsp;message"), tra("Send %1 a private message",$name));
+    show_button($url, tra("Send message"), tra("Send %1 a private message",$name));
     echo '<br>'.tra("Joined: %1", gmdate('j M y', $user->create_time)), "<br>";
 
     if (!isset($user->nposts)) {

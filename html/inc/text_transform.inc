@@ -144,7 +144,7 @@ function replace_pre_code($text, $export) {
                 $x = remove_br(substr($matches[0], 6, -7));
                 $x = htmlspecialchars($x, ENT_COMPAT, "UTF-8", false);
                 $x = str_replace("[", "&#91;", $x);
-                return "<pre style=\"width:800px;overflow:scroll\">$x</pre>";
+                return "<pre style=\"white-space:pre-wrap; \">$x</pre>";
             },
             $text
         );
