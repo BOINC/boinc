@@ -151,7 +151,7 @@ function show_message_row($thread, $parent_post) {
 
     $x2 .= " method=\"post\" name=\"post\" onsubmit=\"return checkForm(this)\">\n";
     $x2 .= form_tokens($logged_in_user->authenticator);
-    $x2 .= $bbcode_html."<textarea name=\"content\" rows=\"18\" cols=\"80\">";
+    $x2 .= start_table_str().$bbcode_html.end_table_str()."<textarea class=\"form-control\" name=\"content\" rows=\"18\">";
     $no_quote = get_int("no_quote", true)==1;
     if ($preview) {
         $x2 .= htmlspecialchars($content);
@@ -165,9 +165,9 @@ function show_message_row($thread, $parent_post) {
     } else {
         $enable_signature="";
     }
-    $x2 .= "</textarea><p>
-        <input class=\"btn\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\">
-        <input class=\"btn\" type=\"submit\" value=\"".tra("Post reply")."\">
+    $x2 .= "</textarea><p> </p>
+        <input class=\"btn btn-sm \" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\">
+        <input class=\"btn btn-sm \" type=\"submit\" value=\"".tra("Post reply")."\">
         &nbsp;&nbsp;&nbsp;
         <input type=\"checkbox\" name=\"add_signature\" id=\"add_signature\" value=\"add_it\" ".$enable_signature.">
         <label for=\"add_signature\">".tra("Add my signature to this reply")."</label>

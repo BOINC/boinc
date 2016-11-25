@@ -124,12 +124,12 @@ if ($can_edit_title) {
 if ($preview) {
     row2(
         tra("Message").html_info().post_warning(),
-        $bbcode_html."<textarea name=\"content\" rows=\"12\" cols=\"80\">".htmlspecialchars($content)."</textarea>"
+        start_table_str().$bbcode_html.end_table_str()."<textarea name=\"content\" rows=\"12\" cols=\"80\">".htmlspecialchars($content)."</textarea>"
     );
 } else {
     row2(
         tra("Message").html_info().post_warning(),
-        $bbcode_html.'<textarea name="content" rows="12" cols="80">'.htmlspecialchars($post->content).'</textarea>'
+        start_table_str().$bbcode_html.end_table_str().'<textarea name="content" rows="12" cols="80">'.htmlspecialchars($post->content).'</textarea>'
     );
 }
 

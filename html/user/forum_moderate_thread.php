@@ -98,7 +98,7 @@ default:
 
 if ($get_reason) {
     row2(tra("Reason")."<br><p class=\"text-muted\">".tra("Mailed if nonempty")."</p>",
-        "<textarea rows=10 cols=80 name=\"reason\"></textarea>"
+        '<textarea rows="10" class="form-control" name="reason"></textarea>'
     );
 
     row2(

@@ -270,10 +270,10 @@ if (!$logged_in_user) {
 // Display a box that allows the user to select sorting of the posts
 //
 echo "</td><td align=\"right\">
-    <input type=\"hidden\" name=\"id\" value=\"", $thread->id, "\">" .
-    tra("Sort")." ";
+    <input type=\"hidden\" name=\"id\" value=\"", $thread->id, "\">
+    ";
 echo select_from_array("sort", $thread_sort_styles, $sort_style);
-echo " <input class=\"btn btn-default\" type=\"submit\" value=\"".tra('Sort')."\">
+echo " <input class=\"btn btn-default btn-sm\" type=\"submit\" value=\"".tra('Sort')."\">
     </td></tr></table></form><p>
 ";
 

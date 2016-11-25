@@ -69,7 +69,9 @@ function edit_form($user, $team, $forum, $first) {
     if (!strlen($forum->title)) $forum->title = $team->name;
     if (!strlen($forum->description)) $forum->description = tra("Discussion among members of %1", $team->name);
     row2(tra("Title"), "<input name=title size=80 value=\"$forum->title\">");
-    row2(tra("Description"), "<textarea name=description>$forum->description</textarea>");
+    row2(tra("Description"),
+        '<textarea name="description" class="form-control">'.$forum->description.'</textarea>'
+    );
     row2(tra("Minimum time between posts (seconds)"),
         "<input name=post_min_interval value=$forum->post_min_interval>"
     );

@@ -55,10 +55,15 @@ function pm_team_form($user, $teamid, $error=null) {
     echo "<input type=\"hidden\" name=\"teamid\" value=\"$teamid\">\n";
     echo form_tokens($user->authenticator);
     start_table();
-    row2(tra("Subject"), "<input type=\"text\" name=\"subject\" value=\"$subject\" size=\"60\">");
-    row2(tra("Message")."<small>".html_info()."</small>",
-        $bbcode_html."<textarea name=\"content\" class=\"input-block-level\" rows=\"18\" cols=\"80\">$content</textarea>"
-    );
+    row2(tra("Subject"), "<input type=\"text\" class=\"form-control\" name=\"subject\" value=\"$subject\">");
+    row2_init(tra("Message")."<small>".html_info()."</small>", "");
+    start_table();
+    echo $bbcode_html;
+    echo "<tr><td>\n";
+    echo "foobar";
+    echo "<textarea name=\"content\" class=\"form-control\" rows=\"18\">$content</textarea>";
+    echo "</td></tr>\n";
+    end_table();
     echo "<tr><td></td><td>
         <input class=\"btn btn-default\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\">
         <input class=\"btn btn-primary\" type=\"submit\" value=\"".tra("Send message")."\">
@@ -119,12 +124,16 @@ function pm_form($replyto, $userid, $error = null) {
     echo form_tokens($g_logged_in_user->authenticator);
     start_table();
     row2(tra("To")."<br /><small>".tra("User IDs or unique usernames, separated with commas")."</small>",
-        "<input type=\"text\" name=\"to\" value=\"$writeto\" size=\"60\">"
+        "<input type=\"text\" class=\"form-control\" name=\"to\" value=\"$writeto\">"
     );
-    row2(tra("Subject"), "<input type=\"text\" name=\"subject\" value=\"$subject\" size=\"60\">");
-    row2(tra("Message")."<small>".html_info()."</small>",
-        $bbcode_html."<textarea name=\"content\" class=\"input-block-level\" rows=\"18\" cols=\"80\">$content</textarea>"
-    );
+    row2(tra("Subject"), "<input type=\"text\" class=\"form-control\" name=\"subject\" value=\"$subject\">");
+    row2_init(tra("Message")."<small>".html_info()."</small>", "");
+    start_table();
+    echo $bbcode_html;
+    echo "<tr><td>\n";
+    echo "<textarea name=\"content\" class=\"form-control\" rows=\"18\">$content</textarea>";
+    echo "</td></tr>\n";
+    end_table();
     echo "<tr><td></td><td><input class=\"btn btn-default\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\"> <input class=\"btn btn-primary\" type=\"submit\" value=\"".tra("Send message")."\"></td></tr>\n";
     end_table();
     

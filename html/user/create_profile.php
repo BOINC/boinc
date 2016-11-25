@@ -186,7 +186,7 @@ function show_questions($profile) {
 }
 
 function show_textarea($name, $text) {
-    rowify("<textarea name=\"$name\" cols=80 rows=20>" . $text . "</textarea>");
+    rowify("<textarea name=\"$name\" class=\"form-control\" rows=\"10\">" . $text . "</textarea>");
 }
 
 // $profile is null if user doesn't already have a profile.

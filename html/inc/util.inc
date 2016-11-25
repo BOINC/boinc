@@ -372,16 +372,24 @@ function pretty_time_str($x) {
     return time_str($x);
 }
 
-function start_table($class="") {
-    echo '<div class="table">
+function start_table_str($class="") {
+    return '<div class="table">
       <table class="table table-condensed '.$class.'" >
     ';
 }
 
-function end_table() {
-    echo '</table>
+function start_table($class="") {
+    echo start_table_str($class);
+}
+
+function end_table_str() {
+    return '</table>
         </div>
     ';
+}
+
+function end_table() {
+    echo end_table_str();
 }
 
 // Table header row with unlimited number of columns
@@ -431,7 +439,7 @@ function row2($x, $y, $show_error=false) {
     if ($y==="") $y="<br>";
     $attrs = $show_error?VALUE_ATTRS_ERR:VALUE_ATTRS;
     echo "<tr>
-        <td width=\"40%\"".NAME_ATTRS.">$x</td>
+        <td width=\"40%\" ".NAME_ATTRS.">$x</td>
         <td ".VALUE_ATTRS." >$y</td>
         </tr>
     ";
@@ -740,7 +748,7 @@ function verify_numeric(&$value, $low, $high = false) {
 // Generate a "select" element from an array of values
 //
 function select_from_array($name, $array, $selection=null, $width=240) {
-    $out = '<select class="form-control" style="width:'.$width.'px" name="'.$name.'">"';
+    $out = '<select style="color:#000;"class="" style="width:'.$width.'px" name="'.$name.'">"';
 
     foreach ($array as $key => $value) {
         if ($value) {
@@ -1024,7 +1032,7 @@ function text_counter_script() {
 //
 function textarea_with_counter($name, $maxlen, $text) {
     $rem_name = $name."_remaining";
-    return "<textarea name=\"$name\" rows=4 cols=50 id=\"$name\" onkeydown=\"text_counter(this.form.$name, this.form.$rem_name, $maxlen);\"
+    return "<textarea name=\"$name\" class=\"form-control\" rows=3 id=\"$name\" onkeydown=\"text_counter(this.form.$name, this.form.$rem_name, $maxlen);\"
         onkeyup=\"text_counter(this.form.$name, this.form.$rem_name, $maxlen);\">".$text."</textarea>
         <br><input name=\"$rem_name\" type=\"text\" id=\"$rem_name\" value=\"".($maxlen-strlen($text))."\" size=\"3\" maxlength=\"3\" readonly> ".tra("characters remaining")
     ;

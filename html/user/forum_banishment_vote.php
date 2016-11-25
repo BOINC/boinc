@@ -70,7 +70,8 @@ if (get_str('action')=="start") {
     <option value=\"4\">".tra("Other")."</option>
 </select>");
 row2(tra("Reason")."<br>".tra("Mailed if nonempty"),
-    "<textarea name=\"reason\" rows=\"10\" cols=\"80\"></textarea>");
+    '<textarea name="reason" class="form-control" rows="10"></textarea>'
+);
 
 row2(
     "",
