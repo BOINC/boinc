@@ -33,7 +33,6 @@ require_once("../project/project.inc");
 require_once("../inc/bootstrap.inc");
 
 $config = get_config();
-$master_url = parse_config($config, "<master_url>");
 $no_computing = parse_config($config, "<no_computing>");
 $no_web_account_creation = parse_bool($config, "no_web_account_creation");
     

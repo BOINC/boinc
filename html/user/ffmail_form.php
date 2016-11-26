@@ -28,8 +28,6 @@ require_once("../inc/util.inc");
 
 error_page("This feature is deprecated");
 
-$master_url = parse_config(get_config(), "<master_url>");
-
 $user = get_logged_in_user();
 
 page_head(tra("Tell your friends about %1", PROJECT));

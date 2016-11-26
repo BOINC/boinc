@@ -17,15 +17,15 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 function akismet_check($user, $post) {
+    global $master_url;
     $config = get_config();
     $key = parse_config($config, "<akismet_key>");
     if (!$key) {
         return true;
     }
 
-    $master_url = parse_config($config, "<master_url>");
-    $master_url = urlencode($master_url);
-    $response = akismet_request("key=$key&blog=$master_url", "rest.akismet.com", "/1.1/verify-key");
+    $master_url_enc = urlencode($master_url);
+    $response = akismet_request("key=$key&blog=$master_url_enc", "rest.akismet.com", "/1.1/verify-key");
     if ("valid" == $response[1] ) {
         $post = urlencode($post);
         $ip = urlencode($_SERVER['REMOTE_ADDR']);
@@ -33,7 +33,7 @@ function akismet_check($user, $post) {
         $author = urlencode($user->name);
         $useragent = urlencode($_SERVER['HTTP_USER_AGENT']);
 
-        $request  = "blog=$master_url";
+        $request  = "blog=$master_url_enc";
         $request .= "&user_ip=$ip";
         $request .= "&user_agent=$useragent";
         $request .= "&referrer=$referrer";

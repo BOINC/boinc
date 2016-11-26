@@ -17,8 +17,6 @@ function search_form($url) {
     page_tail();
 }
 
-$master_url = parse_config(get_config(), "<master_url>");
-
 search_form($master_url);
 
 ?>

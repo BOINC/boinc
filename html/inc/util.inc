@@ -31,6 +31,8 @@ require_once("../inc/translation.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/bootstrap.inc");
 
+$master_url = parse_config(get_config(), "<master_url>");
+
 // don't allow /... at the end of URL
 
 if (array_key_exists("PATH_INFO", $_SERVER)) {
@@ -94,9 +96,10 @@ function url_base() {
 }
 
 function send_cookie($name, $value, $permanent, $ops=false) {
+    global $master_url;
+
     // the following allows independent login for projects on the same server
     //
-    $master_url = parse_config(get_config(), "<master_url>");
     $url = parse_url($master_url);
     $path = $url['path'];
     if ($ops) {
@@ -108,7 +111,7 @@ function send_cookie($name, $value, $permanent, $ops=false) {
 }
 
 function clear_cookie($name, $ops=false) {
-    $master_url = parse_config(get_config(), "<master_url>");
+    global $master_url;
     $url = parse_url($master_url);
     $path = $url['path'];
     if ($ops) {

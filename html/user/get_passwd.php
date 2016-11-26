@@ -35,7 +35,7 @@ function show_email_form() {
 }
 
 function show_auth_form() {
-    $master_url = parse_config(get_config(), "<master_url>");
+    global $master_url;
     $x = strstr($master_url, "//");
     $x = substr($x, 2);
     $x = rtrim($x, "/");

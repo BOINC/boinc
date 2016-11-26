@@ -55,7 +55,6 @@ if (!$min_passwd_length) {
     $min_passwd_length = 6;
 }
 $disable_account_creation = parse_bool($config, "disable_account_creation");
-$master_url = parse_config($config, "<master_url>");
 
 echo "<project_config>
     <name>$long_name</name>
