@@ -159,7 +159,7 @@ function show_forum($forum, $start, $sort_style, $user) {
 
     // Run through the list of threads, displaying each of them
     //
-    $n = 0; $i=0;
+    $i=0;
     foreach ($threads as $thread) {
         $owner = BoincUser::lookup_id($thread->owner);
         if (!$owner) continue;
@@ -213,8 +213,7 @@ function show_forum($forum, $start, $sort_style, $user) {
         //if (strlen($title) > $titlelength) {
         //    $title = substr($title, 0, $titlelength)."...";
         //}
-        echo "<td><a href=\"forum_thread.php?id=$thread->id\"><b>$title</b></a><br></td>";
-        $n = ($n+1)%2;
+        echo "<td><a href=\"forum_thread.php?id=$thread->id\">$title</a><br></td>";
 
         echo '
             <td>'.($thread->replies+1).'</td>
