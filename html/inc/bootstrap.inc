@@ -80,12 +80,12 @@ function navbar_right($user) {
             ';
             $url_tokens = url_tokens($user->authenticator);
             echo '
-                <li><a href="logout.php?'.$url_tokens.'">Log out</a></li>
+                <li><a href="logout.php?'.$url_tokens.'">' . tra("Log out") . '</a></li>
             ';
         } else {
             echo '
-                <li><a href="create_account_form.php">Sign Up</a></li>
-                <li><a href="login_form.php">Login</a></li>
+                <li><a href="create_account_form.php">' . tra("Sign Up") . '</a></li>
+                <li><a href="login_form.php">' . tra("Log in") . '</a></li>
             ';
         }
     }
