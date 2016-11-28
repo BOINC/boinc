@@ -357,7 +357,7 @@ function result_page_url($info) {
 }
 
 function result_table_start($show_wu_link, $show_host_link, $info) {
-    start_table();
+    start_table('table-striped');
     echo "<tr>";
     if ($info) {
         if ($info->show_names) {

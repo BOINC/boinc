@@ -44,6 +44,7 @@ function pm_team_form($user, $teamid, $error=null) {
     if (post_str("preview", true) == tra("Preview")) {
         $options = new output_options;
         echo tra("Preview");
+        echo ":<p>\n";
         echo output_transform($content, $options);
     }
     if ($error) {
@@ -55,8 +56,12 @@ function pm_team_form($user, $teamid, $error=null) {
     echo "<input type=\"hidden\" name=\"teamid\" value=\"$teamid\">\n";
     echo form_tokens($user->authenticator);
     start_table();
-    row2(tra("Subject"), "<input type=\"text\" class=\"form-control\" name=\"subject\" value=\"$subject\">");
-    row2_init(tra("Message")."<small>".html_info()."</small>", "");
+    row2(
+        tra("Subject"),
+        "<input type=\"text\" class=\"form-control\" name=\"subject\" value=\"$subject\">",
+        null, '20%'
+    );
+    row2_init(tra("Message")."<small>".html_info()."</small>", "", '20%');
     start_table();
     echo $bbcode_html;
     echo "<tr><td>\n";
@@ -80,6 +85,7 @@ function pm_form($replyto, $userid, $error = null) {
     if (post_str("preview", true) == tra("Preview")) {
         $options = new output_options;
         echo tra("Preview");
+        echo ":<p>\n";
         echo output_transform(post_str("content", true), $options);
     }
     
@@ -123,10 +129,19 @@ function pm_form($replyto, $userid, $error = null) {
     echo form_tokens($g_logged_in_user->authenticator);
     start_table();
     row2(tra("To")."<br /><small>".tra("User IDs or unique usernames, separated with commas")."</small>",
-        "<input type=\"text\" class=\"form-control\" name=\"to\" value=\"$writeto\">"
+        "<input type=\"text\" class=\"form-control\" name=\"to\" value=\"$writeto\">",
+        null, '20%'
     );
-    row2(tra("Subject"), "<input type=\"text\" class=\"form-control\" name=\"subject\" value=\"$subject\">");
-    row2_init(tra("Message")."<small>".html_info()."</small>", "");
+    row2(
+        tra("Subject"),
+            "<input type=\"text\" class=\"form-control\" name=\"subject\" value=\"$subject\">",
+        null, '20%'
+    );
+    row2_init(
+        tra("Message")."<small>".html_info()."</small>",
+        "",
+        '20%'
+    );
     start_table();
     echo $bbcode_html;
     echo "<tr><td>\n";

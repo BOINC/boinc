@@ -612,7 +612,7 @@ function show_post(
     }
     echo "</span></td>";
 
-    echo "<td class=\"small\">";
+    echo '<td class="small" height="1%">';
     if ($controls == FORUM_CONTROLS) {
         echo "<form action=\"forum_rate.php?post=", $post->id, "\" method=\"post\">";
     }
@@ -657,11 +657,12 @@ function show_post(
         // wants it to be shown for this post AND the logged in
         // user has signatures enabled: show it
         //
+        $posttext = output_transform($posttext, $options);
         if ($post->signature && (!$logged_in_user || !$logged_in_user->prefs->hide_signatures)){
-            $posttext.="\n____________\n".$user->prefs->signature;
+            $sig = output_transform($user->prefs->signature, $options);
+            $posttext .= "<hr>$sig\n";
         }
 
-        $posttext = output_transform($posttext, $options);
         
         echo "<p>", $posttext, "</p>";
         echo "</td></tr><tr><td class=\"small\"><span>ID: <i>", $post->id;

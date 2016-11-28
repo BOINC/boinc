@@ -174,7 +174,7 @@ function show_message_row($thread, $parent_post) {
 
         </form>
     ";
-    row2($x1, $x2);
+    row2($x1, $x2, false, "20%");
 }
 
 function quote_text($text) {

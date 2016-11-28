@@ -101,7 +101,7 @@ if (count($results)) {
         show_result_row($result, true, $show_host_link, $show_names, $i);
         $i++;
     }
-    echo "</table>\n";
+    end_table();
 } else {
     start_table();
     row1(tra("No tasks to display"));

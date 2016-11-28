@@ -70,7 +70,7 @@ function cross_project_links($host) {
         $url = $h[0];
         $name = $h[1];
         $img = $h[2];
-        $x .= "<a href=$url".$host->host_cpid."><img border=2 src=img/$img alt=\"$name\"></a>\n";
+        $x .= "<a href=$url".$host->host_cpid."><img class=\"icon\" border=2 src=img/$img alt=\"$name\"></a>\n";
     }
     return $x;
 }

@@ -202,18 +202,9 @@ function page_head(
 
     $did_page_head = true;
     $url_base = url_base();
-    if (defined('STYLESHEET')) {
-        $stylesheet = $url_base.STYLESHEET;
-    } else {
-        $stylesheet = null;
-    }
+
     $rssname = PROJECT . " RSS 2.0";
     $rsslink = $url_base."rss_main.php";
-    if (defined('STYLESHEET2')) {
-        $stylesheet2 = $url_base.STYLESHEET2;
-    } else {
-        $stylesheet2 = null;
-    }
 
     if (!$caching) {
         header("Content-type: text/html; charset=utf-8");
@@ -234,28 +225,31 @@ function page_head(
     if ($is_main) {
         readfile("schedulers.txt");
     }
-    if ($title) {
-        $t = PROJECT.": $title";
-    } else {
-        $t = PROJECT;
-    }
+
+    $t = $title?$title:PROJECT;
     echo "<title>$t</title>\n";
     echo '
         <meta charset="utf-8">
         <link rel="stylesheet" href="'.secure_url_base().'/bootstrap.min.css" media="all">
     ';
-    if ($stylesheet) {
+    if (defined('STYLESHEET')) {
+        $stylesheet = $url_base.STYLESHEET;
         echo "
             <link rel=stylesheet type=\"text/css\" href=\"$stylesheet\">
         ";
     }
-    if ($stylesheet2) {
-        echo "<link rel=stylesheet type=\"text/css\" href=\"$stylesheet2\">\n";
+    if (defined('STYLESHEET2')) {
+        $stylesheet2 = $url_base.STYLESHEET2;
+        echo "
+            <link rel=stylesheet type=\"text/css\" href=\"$stylesheet2\">
+        ";
     }
+
     if (defined("SHORTCUT_ICON")) {
         echo '<link rel="icon" type="image/x-icon" href="'.SHORTCUT_ICON.'"/>
 ';
     }
+
     echo "
         <link rel=alternate type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">
         </head>
@@ -437,20 +431,20 @@ define('NAME_ATTRS', 'class="text-right active" style="padding-right:12px"');
 define('VALUE_ATTRS', 'style="padding-left:12px"');
 define('VALUE_ATTRS_ERR', 'class="danger" style="padding-left:12px"');
 
-function row2($x, $y, $show_error=false) {
+function row2($x, $y, $show_error=false, $lwidth='40%') {
     if ($x==="") $x="<br>";
     if ($y==="") $y="<br>";
     $attrs = $show_error?VALUE_ATTRS_ERR:VALUE_ATTRS;
     echo "<tr>
-        <td width=\"40%\" ".NAME_ATTRS.">$x</td>
+        <td width=\"$lwidth\" ".NAME_ATTRS.">$x</td>
         <td ".VALUE_ATTRS." >$y</td>
         </tr>
     ";
 }
 
-function row2_init($x, $y) {
+function row2_init($x, $y, $lwidth='40%') {
     echo '<tr>
-        <td class="text-right active" width="40%"  style="padding-right: 20px;">'.$x.'</td>
+        <td class="text-right active" width="'.$lwidth.'"  style="padding-right: 20px;">'.$x.'</td>
         <td '.VALUE_ATTRS.'>'.$y.'
     ';
 }
@@ -825,12 +819,14 @@ function show_actionlist_button($url, $text, $desc, $class="btn btn-default"){
     echo "</li>";
 }
 
+// used for showing icons
+//
 function show_image($src, $title, $alt, $height=null) {
     $h = "";
     if ($height) {
         $h = "height=\"$height\"";
     }
-    echo "<img border=\"0\" title=\"$title\" alt=\"$alt\" src=\"$src\" $h>";
+    echo "<img class=\"icon\" border=\"0\" title=\"$title\" alt=\"$alt\" src=\"$src\" $h>";
 }
 
 function check_web_stopped() {
@@ -1053,13 +1049,15 @@ function version_string_maj_min_rel($v) {
 
 function google_search_form($url) {
     echo "
-    <form method=get action=\"https://google.com/search\">
-    <input type=hidden name=domains value=\"$url\">
-    <input type=hidden name=sitesearch value=\"$url\">
-    <input class=small name=q size=20>
-    <input class=small type=submit value=".tra("Search").">
-    </form>
-";
+        <nobr>
+        <form method=get action=\"https://google.com/search\">
+        <input type=hidden name=domains value=\"$url\">
+        <input type=hidden name=sitesearch value=\"$url\">
+        <input class=small name=q size=20>
+        <input class=small type=submit value=".tra("Search").">
+        </form>
+        </nobr>
+    ";
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

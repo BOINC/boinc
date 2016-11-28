@@ -70,7 +70,7 @@ function daemon_html($d) {
         <td>".command_display($d->cmd)."</td>
         <td>$d->host</td>
         <td class=\"$c\"><nobr>$s</nobr></td>
-        <tr>
+        </tr>
     ";
 }
 
@@ -95,7 +95,7 @@ function item_xml($name, $val) {
 
 function item_html($name, $val) {
     $name = tra($name);
-    row2($name, $val);
+    echo "<tr><td>$name</td><td>$val</td></tr>\n";
     //echo "<tr><td align=right>$name</td><td align=right>$val</td></tr>\n";
 }
 
@@ -103,8 +103,8 @@ function show_status_html($x) {
     page_head(tra("Project status"));
     $j = $x->jobs;
     $daemons = $x->daemons;
-    grid(null,
-        function() use ($daemons, $j) {
+    start_table();
+    echo "<tr><td>\n";
             echo "
                  <h3>".tra("Server status")."</h3>
             ";
@@ -121,9 +121,6 @@ function show_status_html($x) {
             }
             end_table();
 
-            if ($j->db_revision) {
-                echo tra("Database schema version: "), $j->db_revision;
-            }
             if ($daemons->cached_time) {
                 echo "<br>Remote daemon status as of ", time_str($daemons->cached_time);
             }
@@ -134,11 +131,10 @@ function show_status_html($x) {
                 echo "<br>";
                 server_status_project_info();
             }
-        },
-        function() use ($j) {
+    echo "</td><td>\n";
             echo "<h3>".tra("Computing status")."</h3>\n";
-            start_table();
-            table_header(tra("Work"), "#");
+            echo "<h4>".tra("Work")."</h4>\n";
+            start_table('table-striped');
             item_html("Tasks ready to send", $j->results_ready_to_send);
             item_html("Tasks in progress", $j->results_in_progress);
             item_html("Workunits waiting for validation", $j->wus_need_validate);
@@ -147,43 +143,49 @@ function show_status_html($x) {
             item_html("Tasks waiting for file deletion", $j->results_need_file_delete);
             item_html("Transitioner backlog (hours)", number_format($j->transitioner_backlog, 2));
             end_table();
-            echo "</td><td>\n";
-            start_table();
-            table_header(tra("Users"), "#");
+            echo "<h4>".tra("Users")."</h4>\n";
+            start_table('table-striped');
             item_html("With credit", $j->users_with_credit);
             item_html("With recent credit", $j->users_with_recent_credit);
             item_html("Registered in past 24 hours", $j->users_past_24_hours);
-            table_header(tra("Computers"), "#");
+            end_table();
+            echo "<h4>".tra("Computers")."</h4>\n";
+            start_table('table-striped');
             item_html("With credit", $j->hosts_with_credit);
             item_html("With recent credit", $j->hosts_with_recent_credit);
             item_html("Registered in past 24 hours", $j->hosts_past_24_hours);
             item_html("Current GigaFLOPS", round($j->flops, 2));
             end_table();
-            start_table();
-            echo "<tr><th colspan=5>".tra("Tasks by application")."</th></tr>\n";
-            table_header(
-                tra("Application"), tra("Unsent"), tra("In progress"),
-                tra("Runtime of last 100 tasks in hours: average, min, max"),
-                tra("Users in last 24 hours")
-            );
-            foreach ($j->apps as $app) {
-                $avg = round($app->info->avg, 2);
-                $min = round($app->info->min, 2);
-                $max = round($app->info->max, 2);
-                $x = $max?"$avg ($min - $max)":"---";
-                $u = $app->info->users;
-                echo "<tr>
-                    <td>$app->user_friendly_name</td>
-                    <td>$app->unsent</td>
-                    <td>$app->in_progress</td>
-                    <td>$x</td>
-                    <td>$u</td>
-                    </tr>
-                ";
-            }
-            end_table();
-        }
+    echo "</td></tr>\n";
+    end_table();
+    echo "<h3>".tra("Tasks by application")."</h3>\n";
+    start_table('table-striped');
+    table_header(
+        tra("Application"),
+        tra("Unsent"),
+        tra("In progress"),
+        tra("Runtime of last 100 tasks in hours: average, min, max"),
+        tra("Users in last 24 hours")
     );
+    foreach ($j->apps as $app) {
+        $avg = round($app->info->avg, 2);
+        $min = round($app->info->min, 2);
+        $max = round($app->info->max, 2);
+        $x = $max?"$avg ($min - $max)":"---";
+        $u = $app->info->users;
+        echo "<tr>
+            <td>$app->user_friendly_name</td>
+            <td>$app->unsent</td>
+            <td>$app->in_progress</td>
+            <td>$x</td>
+            <td>$u</td>
+            </tr>
+        ";
+    }
+    end_table();
+    if ($j->db_revision) {
+        echo tra("Database schema version: "), $j->db_revision;
+    }
     echo "<p>Task data as of ".time_str($j->cached_time);
     page_tail();
 }
