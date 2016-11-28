@@ -310,7 +310,7 @@ static void handle_project_dont_detach_when_done(GUI_RPC_CONN& grc) {
     if (!p) return;
     gstate.set_client_state_dirty("Project modified by user");
     msg_printf(p, MSG_INFO, "detach when done cleared by user");
-    p->detach_when_done = true;
+    p->detach_when_done = false;
     p->dont_request_more_work = false;
     grc.mfout.printf("<success/>\n");
 }

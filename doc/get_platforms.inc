@@ -50,6 +50,8 @@ function friendly_name($p) {
     return $q;
 }
 
+// return an array of bools for the supported platforms
+//
 function get_platform_icon_flags($l) {
     $x = new StdClass;
     $x->windows = false;
@@ -130,6 +132,16 @@ function canonical_plan_class($pc) {
     return $pc;
 }
 
+// some specific cases where we know the project doesn't have jobs
+//
+function valid($url, $plat) {
+    if (strstr($url, "gpugrid.net")) {
+        if (strstr($plat, "android")) return false;
+        if (strstr($plat, "vbox")) return false;
+    }
+    return true;
+}
+
 // get platforms from get_project_config.php (preferred method)
 //
 // format is either
@@ -194,7 +206,9 @@ function get_platforms($url) {
                     $plat .= "[".$pc."]";
                 }
             }
-            $list[] = $plat;
+            if (valid($url, $plat)) {
+                $list[] = $plat;
+            }
         }
     }
     return array_unique($list);
@@ -265,7 +279,7 @@ function get_platforms_cached($url) {
     $u = urlencode($url);
     $fname = "/home/boincadm/boinc/doc/platforms/$u";
     $t = @filemtime($fname);
-	if ($t && $t > time() - 604800) {
+	if (!strstr($url, "gpugrid") && $t && $t > time() - 604800) {
         $l = json_decode(file_get_contents($fname));
     } else {
         $l = get_platforms($url);
@@ -315,6 +329,7 @@ function get_platform_icons($url) {
 
 
 // Mediawiki extension to show a project's platforms.
+// Doesn't seem to work anymore.
 //
 function wfPlatforms() {
     global $wgParser;

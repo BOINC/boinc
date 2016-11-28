@@ -19,6 +19,19 @@
 
 #include "validate_util2.h"
 
+int validate_handler_init(int, char**) {
+    return 0;
+}
+
+void validate_handler_usage() {
+    // describe the project specific arguments here
+    //fprintf(stderr,
+    //    "    Custom options:\n"
+    //    "    [--project_option X]  a project specific option\n"
+    //);
+}
+
+
 int init_result(RESULT&, void*&) {
     return 0;
 }

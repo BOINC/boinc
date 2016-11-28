@@ -56,42 +56,53 @@
 using std::string;
 using std::vector;
 
-bool first = true;
 vector<string> init_script, compare_script;
     // first element is script path, other elements are args
 
-void parse_cmdline() {
-    for (int i=1; i<g_argc; i++) {
-        if (!strcmp(g_argv[i], "--init_script")) {
-            init_script = split(g_argv[++i], ' ');
+int validate_handler_init(int argc, char** argv) {
+    // handle project specific arguments here
+    for (int i=1; i<argc; i++) {
+        if (is_arg(argv[i], "init_script")) {
+            init_script = split(argv[++i], ' ');
             if (init_script.size() == 1) {
                 init_script.push_back(string("files"));
             }
-        } else if (!strcmp(g_argv[i], "--compare_script")) {
-            compare_script = split(g_argv[++i], ' ');
+        } else if (is_arg(argv[i], "compare_script")) {
+            compare_script = split(argv[++i], ' ');
             if (compare_script.size() == 1) {
                 compare_script.push_back("files");
                 compare_script.push_back("files2");
             }
         }
     }
+
     if (!init_script.size() && !compare_script.size()) {
         log_messages.printf(MSG_CRITICAL,
             "script names missing from command line\n"
         );
-        exit(1);
+        return 1;
     }
+    return 0;
+}
+
+void validate_handler_usage() {
+    // describe the project specific arguments here
+    fprintf(stderr,
+        "  A validator that runs scripts to check and compare results, \n"
+        "  so that you can do your validation in Python, PHP, Perl, bash, etc.\n"
+        "    Custom options:\n"
+        "    --init_script \"scriptname arg1 ... argn\"    checks the validity of a task,\n"
+        "        e.g. that the output files have the proper format. Needs to exit with zero if the files are valid.\n"
+        "    --compare_script \"scriptname arg1 ... argn\" compares two tasks. \n"
+        "        Needs to return zero if the output files are equivalent.\n"
+        "    See script_validator.cpp for more usage information.\n"
+    );
 }
 
 int init_result(RESULT& result, void*&) {
     unsigned int i, j;
     char buf[256];
 
-    if (first) {
-        parse_cmdline();
-        first = false;
-    }
-    if (!init_script.size()) return 0;
     vector<string> paths;
     int retval;
     retval = get_output_file_paths(result, paths);
@@ -127,14 +138,6 @@ int compare_results(RESULT& r1, void*, RESULT const& r2, void*, bool& match) {
     unsigned int i, j;
     char buf[256];
 
-    if (first) {
-        parse_cmdline();
-        first = false;
-    }
-    if (!compare_script.size()) {
-        match = true;
-        return 0;
-    }
     vector<string> paths1, paths2;
     int retval;
     retval = get_output_file_paths(r1, paths1);

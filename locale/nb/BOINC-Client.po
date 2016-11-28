@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2016-04-07 15:58+0000\n"
+"PO-Revision-Date: 2016-04-07 16:00+0000\n"
 "Last-Translator: Rune Bjørge <runetbj@hotmail.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/boinc/boinc/language/nb/)\n"
 "MIME-Version: 1.0\n"
@@ -117,7 +117,7 @@ msgstr "Dette prosjektet støtter ikke datamaskiner av type"
 #: ../sched/sched_send.cpp:1092
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
-msgstr "Oppgradere til den siste versjon av grafikkdriver for å bruke PCens grafikkkort (GPU) til å gjøre beregninger"
+msgstr "Oppgradere til den siste versjon av grafikkdriver for å bruke PC'ens grafikkkort (GPU) til å gjøre beregninger"
 
 #: ../sched/sched_send.cpp:1099
 msgid ""
@@ -145,7 +145,7 @@ msgstr "Din datamaskintype støttes ikke av dette prosjektet"
 
 #: ../sched/sched_send.cpp:1294
 msgid "Newer BOINC version required; please install current version"
-msgstr "Krav om nyere versjon av BOINC; Installer siste versjon"
+msgstr "Dette krever en nyere versjon av BOINC. Vennligst Installer siste versjon"
 
 #: ../sched/sched_send.cpp:1305
 #, c-format
