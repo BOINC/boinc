@@ -7,6 +7,30 @@
  */
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Hooks into drupal
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * Implementation of hook_menu()
+ */
+function boinc_solr_comments_menu() {
+  $items = array();
+  $base_path = 'admin/settings/apachesolr/indexcomments';
+  $items[$base_path] = array(
+      'title' => 'Index Comments',
+      'description' => 'Administer Indexing of Comments',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('boinc_solr_comments_form'),
+      'access arguments' => array('administer search'),
+      'file' => 'boinc_solr_comments.admin.inc',
+      'weight' => '10',
+  );
+
+  return $items;
+}
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Hooks into apache solr
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 
@@ -37,13 +61,25 @@ function boinc_solr_comments_apachesolr_index_documents_alter(array &$documents,
   $comdocs = array();
 
   // Array of node types that will have comments indexed.
-  $node_types = array('forum', 'team_forum', 'page', 'story', 'news');
-
+  $node_types = variable_get('boinc_solr_comments_nodetypes', '');
+  if (empty($node_types)) {
+    // If the variable has not been set, then by default index
+    // comments for all known node types.
+    $node_types = array(
+        'forum'      => 'forum',
+        'news'       => 'news',
+        'page'       => 'page',
+        'story'      => 'story',
+        'team_forum' => 'team_forum',
+    );
+  }
+  
   // Loop over all documents and alter:
   foreach ($documents as $document) {
-      //dd($document, "index documents alter - document");
-      
-    if ($document->entity_type='node' AND in_array($document->bundle, $node_types)) {
+    //dd($document, "index documents alter - document");
+
+    $to_process = ( array_key_exists($document->bundle, $node_types) AND $node_types[$document->bundle] );
+    if ( $document->entity_type='node' AND $to_process) {
       
       // Remove ts_comments if present.
       if (isset($document->ts_comments)) {
@@ -165,7 +201,6 @@ function boinc_solr_comments_apachesolr_index_documents_alter(array &$documents,
             
         }// foreach document
         
-        //dd($comment_document, "index documents alter - comment");
         $comdocs[] = $comment_document;
       }// while
     }// if entity_type=node
@@ -189,7 +224,7 @@ function boinc_solr_comments_apachesolr_index_documents_alter(array &$documents,
  *   foo
  */
 function boinc_solr_comments_apachesolr_process_results(&$results, DrupalSolrQueryInterface $query) {
-    //dpm($query->getSolrParams(), "process_results query getSolrParams");
+  //dpm($query->getSolrParams(), "process_results query getSolrParams");
   foreach($results as $id => $result) {
     if ($result['entity_type']=='comment') {
         $results[$id]['type'] = 'Comment';
@@ -199,13 +234,9 @@ function boinc_solr_comments_apachesolr_process_results(&$results, DrupalSolrQue
           $results[$id]['uid']  = $uid;
           $results[$id]['user'] = theme('username', user_load($uid));
         }
-        //@todo - set name if necessary
-        //if (isset($result['fields']['name'])) {
-        //    ;
-        //}
     } //if result entity_type == comment
   }// foreach $result
-  dpm($results, "process_results array_results");
+  //dpm($results, "process_results array_results");
 }
 
 /**
@@ -260,14 +291,12 @@ function boinc_solr_comments_delete($node) {
   if (apachesolr_environment_variable_get($env_id, 'apachesolr_read_only', APACHESOLR_READ_WRITE) == APACHESOLR_READ_ONLY) {
     return FALSE;
   }
-  //dd($node->nid, "delete - nid begin");
   
   // Code derived from apachesolr_index_delete_entity_from_index
   try {
     $solr = apachesolr_get_solr($env_id);
     // Custom query to find all comments with parent nid of the node bing deleted.
     $query = "entity_type:comment AND tos_content_extra:" . $node->nid;
-    //dd( array($query), "delete - before deleteByQuery");
     $solr->deleteByQuery($query);
     // Log the query used for deletion.
     watchdog('Apache Solr', 'Deleted documents from index with query @query', array('@query' => $query), WATCHDOG_INFO);
@@ -319,7 +348,6 @@ function boinc_solr_comments_deletecomment($comment) {
     $entity_type = 'comment';
     $document_id = apachesolr_document_id($entity_id, $entity_type);
     $query = "id:$document_id OR sm_parent_document_id:$document_id";
-    //dd( array($entity_id, $document_id, $query), "delete - before deleteByQuery");
     $solr->deleteByQuery($query);
     // Log the query used for deletion.
     watchdog('Apache Solr', 'Deleted documents from index with query @query', array('@query' => $query), WATCHDOG_INFO);
@@ -346,5 +374,5 @@ function boinc_solr_comments_deletecomment($comment) {
  */
 
 function boinc_solr_comments_enable() {
-  drupal_set_message(t('Your content <a href="@url">must be re-indexed</a> before Apache Solr will search comments.', array('@url' => url('admin/settings/apachesolr/index'))), 'warning');
+  drupal_set_message( bts('Warning: Your content <a href="@url">must be re-indexed</a> before Apache Solr will search comments.', array('@url' => url('admin/settings/apachesolr/index'))), 'warning');
 }
