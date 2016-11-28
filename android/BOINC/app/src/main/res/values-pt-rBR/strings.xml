@@ -181,7 +181,7 @@
   <string name="prefs_network_daily_xfer_limit_mb_description">Limita o uso diário de dados utilizados pelo BOINC.</string>
   <string name="prefs_network_wifi_only_header">Transferir tarefas apenas por WiFi.</string>
   <string name="prefs_autostart_header">Autoiniciar</string>
-  <string name="prefs_show_notification_notices_header">Mostrar notificações para notícias novas</string>
+  <string name="prefs_show_notification_notices_header">Mostrar notificações para avisos novos</string>
   <string name="prefs_show_notification_suspended_header">Mostrar notificações enquanto suspenso</string>
   <string name="prefs_cpu_number_cpus_header">Núcleos do processador utilizados</string>
   <string name="prefs_cpu_number_cpus_description">Limita o número de núcleos do processador que o BOINC utiliza para computação.</string>
@@ -280,7 +280,7 @@
   <string name="confirm_abort_trans_message">Abortar arquivo:</string>
   <string name="confirm_abort_trans_confirm">Cancelar</string>
   <!--notices tab strings-->
-  <string name="notices_loading">Lendo recados...</string>
+  <string name="notices_loading">Lendo avisos...</string>
   <!--eventlog tab strings-->
   <string name="eventlog_loading">Carregando mensagens de log...</string>
   <string name="eventlog_client_header">Mensagens de Cliente</string>
@@ -341,7 +341,7 @@
   <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
   <plurals name="notice_notification">
     <item quantity="one">Nova notícia de %1$s</item>
-    <item quantity="other">%2$,d novas notícias</item>
+    <item quantity="other">%2$,d novos avisos</item>
   </plurals>
   <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">App de computação voluntária detectado</string>

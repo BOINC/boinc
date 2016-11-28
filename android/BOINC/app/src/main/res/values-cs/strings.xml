@@ -335,12 +335,17 @@
   <string name="about_version">Verze</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing 
 (Berkeleyská Otevřená Infrastruktura pro Síťové Výpočty)</string>
-    <string name="about_copyright">\u00A9 2003 – 2016 Univerzita v Kalifornii, Berkeley.</string>
+  <string name="about_copyright">\u00A9 2003–2016 Kalifornská Univerzita, Berkeley</string>
   <string name="about_copyright_reserved">Všechna práva vyhrazena.
 Překlad do češtiny: petnek</string>
   <string name="about_credits">Díky patří Max Planck institutu pro gravitační fyziku, IBM Corporation a HTC Corporation za jejich podporu.</string>
-    <!--notice notification-->
-  <!--multi BOINC compitability-->
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <plurals name="notice_notification">
+    <item quantity="one">Nové upozornění od %1$s</item>
+    <item quantity="few">Nové upozornění od %1$s</item>
+    <item quantity="other">%2$,d nových upozornění</item>
+  </plurals>
+  <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Dobrovolníkova výpočetní aplikace zaregistrována</string>
   <string name="nonexcl_dialog_text">V tomto zařízení je spuštěna další výpočetní aplikace dobrovolníka. Současně lze spustit pouze jednu verzi.</string>
   <string name="nonexcl_dialog_exit">Konec</string>
@@ -350,5 +355,6 @@ Překlad do češtiny: petnek</string>
   <string name="social_invite_content_title">Podílím se na vědě díky svému chytrému telefonu!</string>
   <string name="social_invite_content_body">Používám svůj %1$s pro vědecké výpočty. Ty můžeš taky! Stáhni si aplikaci z: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
 </resources>

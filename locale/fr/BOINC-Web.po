@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2015-07-09 18:59 PDT\n"
-"PO-Revision-Date: 2016-02-11 17:32+0000\n"
+"PO-Revision-Date: 2016-04-07 06:48+0000\n"
 "Last-Translator: Philippe Janocha\n"
 "Language-Team: French (http://www.transifex.com/boinc/boinc/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -888,7 +888,7 @@ msgstr "Décoder les messages des sous-marins allemands de la Deuxième Guerre m
 
 #: projects.inc:603
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
-msgstr "Étude de la conjecture de Collatz, une conjecture non résolue en mathématique."
+msgstr "Étude de la conjecture de Collatz, une conjecture non résolue en mathématique"
 
 #: projects.inc:606
 msgid "Study the Collatz Conjecture"
@@ -896,7 +896,7 @@ msgstr "Étudier la conjecture de Collatz"
 
 #: projects.inc:611
 msgid "California State University Fullerton"
-msgstr "Université de l’État de Californie à Fullerton"
+msgstr "Université Fullerton de l’État de Californie"
 
 #: projects.inc:612
 msgid "Factorization of large integers"
@@ -910,7 +910,7 @@ msgid ""
 "breaking an integer into prime factors, such as 15 = 3 * 5 or 35 = 5 * 7. "
 "NFS@Home is a continuation of that experience, only with integers that are "
 "hundreds of digits long."
-msgstr "NFS@Home est un projet de recherche qui utilise des ordinateurs connectés à Internet pour calculer des étapes de factorisation de grands nombres entiers (Sieve). En tant que jeune étudiant vous avez eu votre première expérience en décomposant un nombre entier en facteurs premiers, tels que 15 = 3 * 35 = 5 ou 5 * 7. NFS@Home est la continuation de cette expérience, mais avec des nombres entiers longs de centaines de chiffres."
+msgstr "NFS@Home est un projet de recherche qui utilise des ordinateurs connectés à Internet pour calculer des étapes de factorisation de grands nombres entiers (Sieve). Jeune écolier, vous l’avez expérimenté en décomposant un nombre entier en facteurs premiers, tels que 15 = 3 * 5 ou 35 = 5 * 7. NFS@Home est la continuation de cette expérience, mais avec des nombres entiers longs de centaines de chiffres."
 
 #: projects.inc:616
 msgid "Study the factorization of large integers"
@@ -920,7 +920,7 @@ msgstr "Étudier la factorisation des grands nombres entiers"
 msgid ""
 "Primegrid has multiple projects searching for different forms of very large "
 "prime numbers, including searching for the largest known prime number."
-msgstr "Primegrid regroupe divers projets de recherche sur différentes formes de très grands nombres premiers, incluant des recherches sur les plus grands nombres premiers connus."
+msgstr "Primegrid regroupe divers projets de recherche de différentes formes sur de très grands nombres premiers, incluant des recherches sur les plus grands nombres premiers connus."
 
 #: projects.inc:662
 msgid "Search for large prime numbers"
@@ -928,7 +928,7 @@ msgstr "Rechercher de grands nombres entiers"
 
 #: projects.inc:667
 msgid "Hochschule RheinMain University of Applied Sciences"
-msgstr "Université de Hochschule RheinMain des sciences appliquées"
+msgstr "Université des sciences appliquées de Hochschule RheinMain"
 
 #: projects.inc:669
 msgid ""
@@ -944,7 +944,7 @@ msgstr "Étudier les propriétés des nombres entiers"
 msgid ""
 "Find all the generalized binary number systems (in which bases are matrices "
 "and digits are vectors) up to dimension 11."
-msgstr "Trouvez tous les systèmes de nombre binaires généralisés (dans lequel les bases sont des matrices et les chiffres sont des vecteurs) jusqu'à la dimension 11."
+msgstr "Trouvez tous les systèmes de nombres binaires généralisés (dans lequel les bases sont des matrices et les chiffres sont des vecteurs) jusqu'à la dimension 11."
 
 #: projects.inc:682
 msgid "Study number theory"
@@ -964,4 +964,4 @@ msgstr "Commentaires"
 #: ../html/inc/news.inc:111
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr "Les nouvelles sont disponibles en tant que %sflux RSS%s"
+msgstr "Les nouvelles sont disponibles en %sflux RSS%s"

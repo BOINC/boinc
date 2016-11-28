@@ -11,7 +11,7 @@ if (0) {
     fclose($f);
 }
 
-function google_search_form() {
+function boinc_google_search_form() {
     echo "
     <form method=get action=\"https://google.com/search\">
     <input type=hidden name=domains value=\"https://boinc.berkeley.edu\">
@@ -68,7 +68,7 @@ function page_head($title, $extra="") {
         <td align=right><a href=index.php><img src=\"logo/www_logo.gif\" alt=\"BOINC logo\"></a>
         <br>
 ";
-        google_search_form();
+        boinc_google_search_form();
 echo "
         </td>
         </tr></table>

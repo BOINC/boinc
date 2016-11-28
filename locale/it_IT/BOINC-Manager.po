@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-10-04 10:46+0000\n"
+"PO-Revision-Date: 2016-10-28 10:35+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -95,7 +95,7 @@ msgstr "&Nome utente:"
 
 #: clientgui/AccountInfoPage.cpp:485
 msgid "&Email address or LDAP ID:"
-msgstr "indirizzo &Email o ID LDAP:"
+msgstr "Indirizzo &email o ID LDAP:"
 
 #: clientgui/AccountInfoPage.cpp:489
 msgid "&Email address:"
@@ -1914,7 +1914,7 @@ msgstr "ID del computer"
 
 #: clientgui/DlgItemProperties.cpp:268
 msgid "Non CPU intensive"
-msgstr "Non intensivo per la CPU"
+msgstr "Non intensiva per la CPU"
 
 #: clientgui/DlgItemProperties.cpp:268 clientgui/DlgItemProperties.cpp:270
 #: clientgui/DlgItemProperties.cpp:271 clientgui/DlgItemProperties.cpp:273
@@ -1941,7 +1941,7 @@ msgstr "Richiesta allo scheduler in corso"
 
 #: clientgui/DlgItemProperties.cpp:276
 msgid "Trickle-up pending"
-msgstr "Messaggio istantaneo in attesa"
+msgstr "Messaggio trickle in attesa"
 
 #: clientgui/DlgItemProperties.cpp:279 clientgui/DlgItemProperties.cpp:281
 msgid "Host location"
@@ -2583,7 +2583,7 @@ msgstr "In elaborazione"
 
 #: clientgui/MainDocument.cpp:2521
 msgid " (non-CPU-intensive)"
-msgstr " (non intensivo per la CPU)"
+msgstr " (non intensiva per la CPU)"
 
 #: clientgui/MainDocument.cpp:2524
 msgid "Waiting to run"
@@ -3190,7 +3190,7 @@ msgstr "Per inviare le attività completate"
 
 #: clientgui/ViewProjects.cpp:1134
 msgid "To send trickle-up message"
-msgstr "Per mandare un messaggio istantaneo al server"
+msgstr "Per mandare un messaggio trickle al server"
 
 #: clientgui/ViewProjects.cpp:1135
 msgid "Requested by account manager"
@@ -3234,7 +3234,7 @@ msgstr "Richiesta allo scheduler in corso"
 
 #: clientgui/ViewProjects.cpp:1173
 msgid "Trickle up message pending"
-msgstr "Attesa su messaggio trickle"
+msgstr "Messaggio trickle in attesa"
 
 #: clientgui/ViewProjects.cpp:1179
 msgid "Communication deferred"
@@ -3250,7 +3250,7 @@ msgstr "Spazio del disco utilizzato dai progetti BOINC"
 
 #: clientgui/ViewResources.cpp:225
 msgid "no projects: 0 bytes used"
-msgstr "Nessun progetto: 0 bytes utlizzati"
+msgstr "Nessun progetto: 0 byte utlizzati"
 
 #: clientgui/ViewResources.cpp:259
 msgid "used by BOINC: "

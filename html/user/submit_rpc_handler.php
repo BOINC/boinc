@@ -748,9 +748,20 @@ if (0) {
     require_once("submit_test.inc");
 }
 
+$request_log = parse_config(get_config(), "<remote_submission_log>");
+if ($request_log) {
+    $request_log_dir = parse_config(get_config(), "<log_dir>");
+    if ($request_log_dir) {
+        $request_log = $request_log_dir . "/" . $request_log;
+    }
+    if ($file = fopen($request_log, "a+")) {
+        fwrite($file, "\n<submit_rpc_handler date=\"" . date(DATE_ATOM) . "\">\n" . $_POST['request'] . "\n</submit_rpc_handler>\n");
+        fclose($file);
+    }
+}
+
 xml_header();
 $r = simplexml_load_string($_POST['request']);
-
 if (!$r) {
     xml_error(-1, "can't parse request message");
 }
