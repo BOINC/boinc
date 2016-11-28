@@ -33,7 +33,7 @@
  * @param $env_id
  *   foo
  */
-function apachesolr_indexcomments_apachesolr_index_documents_alter(array &$documents, $entity, $entity_type, $env_id) {
+function boinc_solr_comments_apachesolr_index_documents_alter(array &$documents, $entity, $entity_type, $env_id) {
   $comdocs = array();
 
   // Array of node types that will have comments indexed.
@@ -188,7 +188,7 @@ function apachesolr_indexcomments_apachesolr_index_documents_alter(array &$docum
  * @param $query
  *   foo
  */
-function apachesolr_indexcomments_apachesolr_process_results(&$results, DrupalSolrQueryInterface $query) {
+function boinc_solr_comments_apachesolr_process_results(&$results, DrupalSolrQueryInterface $query) {
     //dpm($query->getSolrParams(), "process_results query getSolrParams");
   foreach($results as $id => $result) {
     if ($result['entity_type']=='comment') {
@@ -218,7 +218,7 @@ function apachesolr_indexcomments_apachesolr_process_results(&$results, DrupalSo
  * @params query
  *   foo
  */
-function apachesolr_indexcomments_apachesolr_query_alter($query) {
+function boinc_solr_comments_apachesolr_query_alter($query) {
   // Add custom field to query results
   $query->addParam('fl','tos_content_extra');
 }
@@ -232,7 +232,7 @@ function apachesolr_indexcomments_apachesolr_query_alter($query) {
  * Implementation of hook_nodeapi()
  * 
  */
-function apachesolr_indexcomments_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
+function boinc_solr_comments_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
   // Array of node types that will have comments indexed.
   $node_types = array('forum', 'team_forum', 'page', 'story', 'news');
 
@@ -240,7 +240,7 @@ function apachesolr_indexcomments_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
     case 'delete':
       // Only call delete function on certain node types
       if (in_array( $node->type, $node_types)) {
-        apachesolr_indexcomments_delete($node);
+        boinc_solr_comments_delete($node);
       }
       break;
   } //switch
@@ -253,7 +253,7 @@ function apachesolr_indexcomments_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
  * When a node is deleted, the comments with parent nid are removed
  * from the Solr index.
  */
-function apachesolr_indexcomments_delete($node) {
+function boinc_solr_comments_delete($node) {
   // Load the Solr environment.
   $env_id = apachesolr_default_environment();
   // Check to see if Solr is read-only.
@@ -286,13 +286,13 @@ function apachesolr_indexcomments_delete($node) {
  * Implementation of hook_comment()
  *
  */
-function apachesolr_indexcomments_comment(&$a1, $op) {
+function boinc_solr_comments_comment(&$a1, $op) {
   switch ($op) {
     case 'update':
       break;
     case 'delete':
       // $a1 should be a comment object
-      apachesolr_indexcomments_deletecomment($a1);
+      boinc_solr_comments_deletecomment($a1);
       break;
   }// switch
 }
@@ -303,7 +303,7 @@ function apachesolr_indexcomments_comment(&$a1, $op) {
  * When a comment is deleted, the cooresponding apache Solr document
  * is removed from the Solr index.
  */
-function apachesolr_indexcomments_deletecomment($comment) {
+function boinc_solr_comments_deletecomment($comment) {
   // Load the Solr environment.
   $env_id = apachesolr_default_environment();
   // Check to see if Solr is read-only.
@@ -345,6 +345,6 @@ function apachesolr_indexcomments_deletecomment($comment) {
  * Simply gives the admin a message after installing and enabling this module.
  */
 
-function apachesolr_indexcomments_enable() {
+function boinc_solr_comments_enable() {
   drupal_set_message(t('Your content <a href="@url">must be re-indexed</a> before Apache Solr will search comments.', array('@url' => url('admin/settings/apachesolr/index'))), 'warning');
 }
