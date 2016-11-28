@@ -1,0 +1,42 @@
+# fixes to dark-backround themes to increase legibility
+
+body, navbar-text, panel {
+    color:white;
+}
+
+table a:not(.btn), .table a:not(.btn), table a, .table a, a {
+    color: lemonchiffon;
+    text-decoration: none;
+}
+
+table a:hover, .table a:hover, a:hover {
+    color: lemonchiffon;
+    text-decoration: underline;
+}
+
+.nav.navbar-nav li a {
+    color: white;
+}
+
+.nav.navbar-nav li a:hover {
+    color: white;
+}
+
+.navbar-default .navbar-header {
+    color: white;
+}
+.navbar-default .navbar-header a:hover {
+    color: white;
+}
+
+hr {
+    border-color: #d0d0d0;
+}
+
+img.icon {
+    background-color: gray;
+}
+
+blockquote {
+        font-size: 15px;
+}
