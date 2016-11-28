@@ -92,7 +92,7 @@ function secure_url_base() {
 }
 
 function url_base() {
-    return is_https()?secure_url_base():URL_BASE;
+    return secure_url_base();
 }
 
 function send_cookie($name, $value, $permanent, $ops=false) {
