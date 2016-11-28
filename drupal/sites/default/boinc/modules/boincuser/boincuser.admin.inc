@@ -314,7 +314,7 @@ function boincuser_admin_scheduler_submit($form, &$form_state) {
 /**
   * Other BOINC options that don't fit elsewhere
   */
-function boincuser_admin_other($form, &$form_state) {
+function boincuser_admin_other(&$form_state) {
   $form = array();
 
   //form defaults
