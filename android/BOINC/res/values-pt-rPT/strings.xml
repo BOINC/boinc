@@ -3,26 +3,26 @@
   <!--app global-->
   <string name="app_name">BOINC</string>
   <!--generic. used by multiple Activities/tabs-->
-  <string name="generic_loading">A carregar! Por favor, aguarde...</string>
+  <string name="generic_loading">A transferir! Por favor, aguarde...</string>
   <string name="generic_button_continue">Continuar</string>
   <string name="generic_button_finish">Terminar</string>
   <!--attach project-->
   <!--selection list-->
-  <string name="attachproject_list_desc">Seleccione os projetos científicos para os quais quer contribuir:</string>
+  <string name="attachproject_list_desc">Selecione os projetos científicos para os quais quer contribuir:</string>
   <string name="attachproject_list_header">Escolha um projeto</string>
   <string name="attachproject_list_manual_button">Adicionar projecto por URL</string>
-  <string name="attachproject_list_manual_dialog_title">Insira o URL do projeto:</string>
-  <string name="attachproject_list_manual_dialog_button">Adicionar projecto</string>
-  <string name="attachproject_list_manual_no_url">Por favor, insira o URL do projecto</string>
+  <string name="attachproject_list_manual_dialog_title">Inserir URL do projeto:</string>
+  <string name="attachproject_list_manual_dialog_button">Adicionar projeto</string>
+  <string name="attachproject_list_manual_no_url">Por favor, insira o URL do projeto</string>
   <string name="attachproject_list_acctmgr_button">Adicionar gestor de conta</string>
   <string name="attachproject_list_no_internet">Sem ligação à Internet</string>
   <!--credential input-->
-  <string name="attachproject_credential_input_sing_desc">Insira informações da conta</string>
+  <string name="attachproject_credential_input_sing_desc">Insira a informação da conta</string>
   <string name="attachproject_credential_input_desc">Insira a informação da conta para os projetos selecionados:</string>
   <string name="attachproject_credential_input_show_pwd">Mostrar palavra-passe</string>
-  <string name="attachproject_individual_credential_input">Adicionar projectos individualmente</string>
+  <string name="attachproject_individual_credential_input">Adicionar projetos individualmente</string>
   <!--conflicts-->
-  <string name="attachproject_conflicts_desc">Ocorreram problemas ao anexar os projectos científicos:</string>
+  <string name="attachproject_conflicts_desc">Ocorreram problemas ao anexar os projetos científicos:</string>
   <string name="attachproject_conflict_undefined">Não foi possível ligar</string>
   <string name="attachproject_conflict_not_unique">A conta existe com uma palavra-passe diferente</string>
   <string name="attachproject_conflict_bad_password">Palavra-passe incorreta</string>
@@ -35,16 +35,16 @@
   <string name="attachproject_hints_header">Dica</string>
   <!--e.g. Hint 1/2-->
   <string name="attachproject_hint_contribtion_header">Como contribuir:</string>
-  <string name="attachproject_hint_contribtion_wifi">1. Ligar à Wi-Fi</string>
+  <string name="attachproject_hint_contribtion_wifi">1. Ligar à Rede Sem Fios</string>
   <string name="attachproject_hint_contribtion_charger">2. Ligar Carregador</string>
-  <string name="attachproject_hint_contribtion_screen">3. Desligar o Ecrã</string>
-  <string name="attachproject_hint_projectwebsite_header">Visite os sites da Web do projeto para:</string>
+  <string name="attachproject_hint_contribtion_screen">3. Desligar Ecrã</string>
+  <string name="attachproject_hint_projectwebsite_header">Visitar os sites da Web do projeto para:</string>
   <string name="attachproject_hint_projectwebsite_science">Saiba mais sobre a ciência</string>
   <string name="attachproject_hint_projectwebsite_stats">Ver estatísticas de contribuição</string>
   <string name="attachproject_hint_projectwebsite_community">Entre em contacto com outros voluntários</string>
   <string name="attachproject_hint_platforms_header">O BOINC também está disponível para o seu computador ou portátil, visite boinc.berkeley.edu para saber mais.</string>
   <!--project login-->
-  <string name="attachproject_login_loading">A contactar o servidor do projecto...</string>
+  <string name="attachproject_login_loading">A contactar o servidor do projeto...</string>
   <string name="attachproject_login_image_description">Logótipo do projeto.</string>
   <string name="attachproject_login_header_general_area">Área geral:</string>
   <string name="attachproject_login_header_specific_area">Área específica:</string>
@@ -56,7 +56,7 @@
   <string name="attachproject_login_platform_not_supported">O dispositivo não é suportado por este projeto</string>
   <string name="attachproject_login_category_terms_of_use">Termos de utilização para</string>
   <string name="attachproject_login_accept_terms_of_use">Ao criar uma conta neste projeto, aceita os termos de utilização acima descritos.</string>
-  <string name="attachproject_login_category_login">Iniciar sessão com uma conta existente</string>
+  <string name="attachproject_login_category_login">Iniciar a sessão com uma conta existente</string>
   <string name="attachproject_login_header_id_email">E-mail:</string>
   <string name="attachproject_login_header_id_name">Nome:</string>
   <string name="attachproject_login_header_pwd">Palavra-passe:</string>
@@ -169,7 +169,7 @@
   <string name="battery_charge_min_pct_header">Nível de bateria mínimo</string>
   <string name="battery_charge_min_pct_description">O BOINC suspende a computação quando abaixo do nível de bateria definido.</string>
   <string name="battery_temperature_max_header">Temperatura máxima da bateria</string>
-  <string name="battery_temperature_max_description">O BOINC suspende a computação se temperatura da bateria  estiver acima do definido. Não é recomendada a alteração deste valor.</string>
+  <string name="battery_temperature_max_description">O BOINC suspende a computação se temperatura da bateria estiver acima do definido. Não é recomendada a alteração deste valor.</string>
   <string name="prefs_disk_max_pct_header">Espaço de armazenamento máximo</string>
   <string name="prefs_disk_max_pct_description">Qual a percentagem de espaço de armazenamento no seu dispositivo que é permitido que o BOINC utilize?</string>
   <string name="prefs_disk_min_free_gb_header">Espaço de armazenamento mínimo</string>
@@ -242,15 +242,15 @@
   <string name="tasks_header_project_paused">(suspenso)</string>
   <string name="tasks_header_deadline">Data limite:</string>
   <string name="tasks_result_new">novo</string>
-  <string name="tasks_result_files_downloading">a aguardar para transferir</string>
-  <string name="tasks_result_files_downloaded">transferência concluída</string>
+  <string name="tasks_result_files_downloading">A aguardar para transferir</string>
+  <string name="tasks_result_files_downloaded">Transferência concluída</string>
   <string name="tasks_result_compute_error">erro de computação</string>
   <string name="tasks_result_files_uploading">a enviar</string>
   <string name="tasks_result_files_uploaded">envio concluído</string>
   <string name="tasks_result_aborted">abortado</string>
   <string name="tasks_result_upload_failed">envio falhado</string>
   <string name="tasks_active_uninitialized">pronto</string>
-  <string name="tasks_active_executing">em execução</string>
+  <string name="tasks_active_executing">Em execução</string>
   <string name="tasks_active_suspended">suspenso</string>
   <string name="tasks_active_abort_pending">a suspender</string>
   <string name="tasks_active_quit_pending">a suspender</string>
@@ -344,13 +344,13 @@
   </plurals>
   <!--multi BOINC compatibility-->
   <string name="nonexcl_dialog_header">Aplicação de computação voluntária detectada</string>
-  <string name="nonexcl_dialog_text">Outra aplicação de computação voluntária está a ser executada neste dispositivo. Apenas uma pode ser executada de cada vez.</string>
+  <string name="nonexcl_dialog_text">Outra aplicação de computação voluntária está a ser executada neste dispositivo. Só pode ser executada uma de cada vez.</string>
   <string name="nonexcl_dialog_exit">Sair</string>
   <!--social integration-->
   <string name="social_invite_button">Convidar amigos</string>
   <string name="social_invite_intent_title">Como quer partilhar?</string>
   <string name="social_invite_content_title">Estou a fazer ciência no meu telemóvel!</string>
-  <string name="social_invite_content_body">Estou a utilizar o meu %1$s para fazer computação para a ciência. Também podes! Faz a transferência da aplicação de: %2$s</string>
+  <string name="social_invite_content_body">Eu estou a utilizar o meu %1$s para realizar computação para a ciência. Tu também podes! Transfere a aplicação em: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
   <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
   <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
