@@ -95,24 +95,20 @@
   
 <?php
   case 'Forum topic':
-    $parsed_url = parse_url($url);
-    $base_length = strlen($base_path);
-    $core_path = trim(substr($parsed_url['path'], $base_length), '/');
-    $path = drupal_lookup_path('source', $core_path);
-    $matches = array();
-    if (preg_match('/node\/([0-9]+)/', $path, $matches)) {
-      $node = node_load($matches[1]);
-      $forum = $node->taxonomy[$node->forum_tid]->name;
-      if ($forum) {
-        $title_prefix = "{$forum} : ";
-      }
-      //echo '<pre>' . print_r($variables,1) . '</pre>';
-      //echo 'node: ' . $variables['result']['node']->nid;
+    $nid = $result['fields']['entity_id'];
+    $node = node_load($nid);
+    // Get the taxonomy for the node, creates a link to the parent forum
+    $taxonomy = reset($node->taxonomy);
+    if ($vocab = taxonomy_vocabulary_load($taxonomy->vid)) {
+      $parent_forum = l($taxonomy->name, "community/forum/{$taxonomy->tid}");
     }
   ?>
   <div class="result forum">
     <dt class="title">
-      <a href="<?php print $url; ?>"><?php print $title_prefix . $title; ?></a>
+      <?php if ($parent_forum): ?>
+        <?php print $parent_forum . " : "; ?>
+      <?php endif; ?>
+      <a href="<?php print $url; ?>"><?php print $title; ?></a>
     </dt>
     <dd class="details">
       <?php if ($snippet) : ?>
@@ -130,24 +126,29 @@
     // Get the node if for this comment
     $nid = $result['fields']['tos_content_extra'];
     $node = node_load($nid);
-    $node_alias = l($node->title, drupal_get_path_alias('node/' . $nid) );
-    // Get the taxonomy for the node, creates a link to the original node
+    // Link to the parent forum topic
+    $parent_topic = l($node->title, drupal_get_path_alias('node/' . $nid) );
+    // Get the taxonomy for the node, creates a link to the parent forum
     $taxonomy = reset($node->taxonomy);
     if ($vocab = taxonomy_vocabulary_load($taxonomy->vid)) {
-      $tlink = l($taxonomy->name, "community/forum/{$taxonomy->tid}");
+      $parent_forum = l($taxonomy->name, "community/forum/{$taxonomy->tid}");
     }
   ?>
   <div class="result">
     <dt class="title">
-      <i><?php print $tlink . "  Re: " . $node_alias; ?></i><br/>
-      <a href="<?php print $url; ?>"><?php print $title; ?></a>
+      <?php if ($parent_forum): ?>
+        <?php print $parent_forum . " : "; ?>
+      <?php endif; ?>
+      <a href="<?php print $url; ?>"><?php print $node->title; ?></a>
     </dt>
     <dd>
       <?php if ($snippet) : ?>
         <p class="search-snippet"><?php print $snippet; ?></p>
       <?php endif; ?>
       <?php if ($info) : ?>
-        <p class="search-info"><?php print $info; ?></p>
+        <p class="search-info"><?php print $info; ?>
+<?php //print " - " . $parent_forum . " : " . $parent_topic; ?>
+        </p>
       <?php endif; ?>
     </dd>
   </div>
@@ -168,4 +169,4 @@
     </dd>
   </div>
 <?php endswitch; ?>
-                 <?php //print '<pre>'. check_plain(print_r($info_split, 1)) .'</pre>'; ?>
+<?php //print '<pre>'. check_plain(print_r($info_split, 1)) .'</pre>'; ?>
