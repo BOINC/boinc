@@ -49,9 +49,11 @@ function panel_contents() {
 function top() {
     global $stopped, $master_url, $user;
     if ($stopped) {
-        echo "
-            <p class=\"lead text-center\">".PROJECT." is temporarily shut down for maintenance.</p>
-        ";
+        echo '
+            <p class="lead text-center">'
+            .tra("%1 is temporarily shut down for maintenance.", PROJECT)
+            .'</p>
+        ';
     }
     //panel(null, 'panel_contents');
 }
@@ -115,7 +117,9 @@ function right() {
     panel(tra('News'),
         function() {
             include("motd.php");
-            show_news(0, 5);
+            if (!web_stopped()) {
+                show_news(0, 5);
+            }
         }
     );
 }
