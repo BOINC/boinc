@@ -1,0 +1,8 @@
+
+msgid "LANG_NAME_NATIVE"
+msgstr ""
+
+msgid "LANG_NAME_INTERNATIONAL"
+msgstr ""
+
+#
