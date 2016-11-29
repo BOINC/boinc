@@ -49,13 +49,13 @@ function boinc_solr_comments_menu() {
  * with the input $documents array.
  * 
  * @param array $documents
- *   foo
+ *   Array of ApacheSolrDocument which are to be indexed
  * @param string $entity
- *   foo
+ *   The entity object, typically a node object.
  * @param string $entity_type
- *   foo
+ *   The entity's type, typically 'node'.
  * @param $env_id
- *   foo
+ *   Environment ID for apache solr.
  */
 function boinc_solr_comments_apachesolr_index_documents_alter(array &$documents, $entity, $entity_type, $env_id) {
   $comdocs = array();
@@ -219,9 +219,9 @@ function boinc_solr_comments_apachesolr_index_documents_alter(array &$documents,
  * template.
  *
  * @param array $results
- *   foo
+ *   Array of result from the Solr search.
  * @param $query
- *   foo
+ *   The Solr query used for the search.
  */
 function boinc_solr_comments_apachesolr_process_results(&$results, DrupalSolrQueryInterface $query) {
   //dpm($query->getSolrParams(), "process_results query getSolrParams");
@@ -247,7 +247,7 @@ function boinc_solr_comments_apachesolr_process_results(&$results, DrupalSolrQue
  * field contains the parent node id.
  * 
  * @params query
- *   foo
+ *   The Solr query used for the search.
  */
 function boinc_solr_comments_apachesolr_query_alter($query) {
   // Add custom field to query results
@@ -283,6 +283,12 @@ function boinc_solr_comments_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
  *
  * When a node is deleted, the comments with parent nid are removed
  * from the Solr index.
+ *
+ * @param node $node
+ *  The node that is being deleted.
+ *
+ * @return bool
+ *   Returns TRUE if the comment was deleted, otherwise return FALSE.
  */
 function boinc_solr_comments_delete($node) {
   // Load the Solr environment.
@@ -329,8 +335,14 @@ function boinc_solr_comments_comment(&$a1, $op) {
 /** 
  * Helper function for hook_comment()
  *
- * When a comment is deleted, the cooresponding apache Solr document
+ * When a comment is deleted, the corresponding apache Solr document
  * is removed from the Solr index.
+ *
+ * @param comment $comment
+ *   The comment to be deleted.
+ *
+ * @return bool
+ *   Returns TRUE if the comment was deleted, otherwise return FALSE.
  */
 function boinc_solr_comments_deletecomment($comment) {
   // Load the Solr environment.
