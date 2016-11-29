@@ -666,14 +666,14 @@ function show_post(
 
         
         echo "<p>", $posttext, "</p>";
-        echo "</td></tr><tr><td class=\"small\"><span>ID: <i>", $post->id;
+        echo "</td></tr><tr><td class=\"small\"><span>ID: ", $post->id;
         if ($no_forum_rating) {
             echo " &middot; <a href=\"forum_report_post.php?post=".$post->id."\">";
             show_image(REPORT_POST_IMAGE, tra("Report this post as offensive"), tra("Report as offensive"), REPORT_POST_IMAGE_HEIGHT);
             echo "</a>";
         } else {
             $rating = $post->rating();
-            echo " &middot; ".tra("Rating: %1", $rating)."</i> &middot; ".tra("rate: ")."
+            echo " &middot; ".tra("Rating: %1", $rating)." &middot; ".tra("rate: ")."
                 <a href=\"forum_rate.php?post=".$post->id."&amp;choice=p$tokens\">
             ";
             show_image(RATE_POSITIVE_IMAGE, tra("Click if you like this message"), tra("Rate +"), RATE_POSITIVE_IMAGE_HEIGHT);

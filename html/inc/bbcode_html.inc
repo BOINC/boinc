@@ -14,7 +14,7 @@ $bbcode_html = '
               <input type="button" class="btn btn-default btn-sm" accesskey="q" name="addbbcode6" value="Quote" onClick="bbstyle(6)" title="'.tra("Quote text: [quote]text[/quote]  (alt+q)").'" />
               <input type="button" class="btn btn-default btn-sm" accesskey="c" name="addbbcode8" value="Code" style="" onClick="bbstyle(8)" title="'.tra("Code display: [code]code[/code]  (alt+c)").'" />
               <input type="button" class="btn btn-default btn-sm" accesskey="l" name="addbbcode10" value="List" style="" onClick="bbstyle(10)" title="'.tra("List: [list]text[/list] (alt+l)").'" />
-              <input type="button" class="btn btn-default btn-sm" accesskey="o" name="addbbcode12" value="List=" style="" onClick="bbstyle(12)" title="'.tra("Ordered list: [list=]text[/list]  (alt+o)").'" />
+              <input type="button" class="btn btn-default btn-sm" accesskey="o" name="addbbcode12" value="List=1" style="" onClick="bbstyle(12)" title="'.tra("Ordered list: [list=1]text[/list]  (alt+o)").'" />
               <input type="button" class="btn btn-default btn-sm" accesskey="p" name="addbbcode14" value="Img" style=""  onClick="bbstyle(14)" title="'.tra("Insert image: [img]http://image_url[/img]  (alt+p)").'" />
               <input type="button" class="btn btn-default btn-sm" accesskey="w" name="addbbcode16" value="URL" style="text-decoration: underline; " onClick="bbstyle(16)" title="'.tra("Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)").'" />
               </td>
