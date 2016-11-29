@@ -1,0 +1,15 @@
+INSTALLATION
+------------
+
+This module should be included in the BOINC-Drupal project, and should
+be automatically downloaded along with the other BOINC-Drupal modules.
+
+Enable this module using the Administration pages: Administer » Site
+Building » Modules.
+
+Or use drush
+ * 'drush en boinc_solr_comments'
+
+See the README for how to configure this module. Before comments can
+be searched, the Apache Solr Index needs to be completely
+re-indexed. Delete the current index and re-index the site.
