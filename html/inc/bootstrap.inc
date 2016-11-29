@@ -145,14 +145,13 @@ function sample_navbar(
     $brand = "<a class=\"navbar-brand\" href=$master_url>".PROJECT."</a>";
     navbar_start($brand, $fixed, $inverse);
 
-    $x = array(
-        array(tra("About %1", PROJECT), $url_prefix."about.php"),
-        array(tra("Help"), $url_prefix."help.php"),
-
-    );
+    $x = array();
     if ($user) {
-         array_unshift($x, array(tra("Account"), $url_prefix."home.php"));
+        $x[] = array(tra("Account"), $url_prefix."home.php");
+        $x[] = array(tra("Join"), $url_prefix."join.php");
     }
+    $x[] = array(tra("About %1", PROJECT), $url_prefix."about.php");
+    $x[] = array(tra("Help"), $url_prefix."help.php");
     navbar_menu(tra("Project"), $x);
 
     if (defined('NO_COMPUTING')) {

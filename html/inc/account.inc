@@ -35,17 +35,17 @@ function create_account_form($teamid, $next_url) {
     //
     if (defined('INVITE_CODES')) {
          row2(
-             tra("Invitation Code")."<br><p class=\"text-info\">".tra("A valid invitation code is required to create an account.")."</p>",
+             tra("Invitation Code")."<br><small>".tra("A valid invitation code is required to create an account.")."</small>",
              "<input type=\"text\" name=\"invite_code\" size=\"30\" >"
          );
     }
 
     row2(
-        tra("Name")."<br><p class=\"text-info\">".tra("Identifies you on our web site. Use your real name or a nickname.")."</p>",
+        tra("Name")."<br><small>".tra("Identifies you on our web site. Use your real name or a nickname.")."</small>",
         "<input type=\"text\" name=\"new_name\" size=\"30\">"
     );
     row2(
-        tra("Email Address")."<br><p class=\"text-info\">".tra("Must be a valid address of the form 'name@domain'.")."</p>",
+        tra("Email Address")."<br><small>".tra("Must be a valid address of the form 'name@domain'.")."</small>",
         "<input type=\"text\" name=\"new_email_addr\" size=\"50\">"
     );
     $min_passwd_length = parse_element(get_config(), "<min_passwd_length>");
@@ -55,19 +55,19 @@ function create_account_form($teamid, $next_url) {
 
     row2(
         tra("Password")
-        ."<br><p class=\"text-info\">".tra("Must be at least %1 characters", $min_passwd_length)."</p>",
+        ."<br><small>".tra("Must be at least %1 characters", $min_passwd_length)."</small>",
         "<input type=\"password\" name=\"passwd\">"
     );
     row2(tra("Confirm password"), "<input type=\"password\" name=\"passwd2\">");
     row2_init(
-        tra("Country")."<br><p class=\"text-info\">".tra("Select the country you want to represent, if any.")."</p>",
+        tra("Country")."<br><small>".tra("Select the country you want to represent, if any.")."</small>",
         '<select class="form-control" style="width:240px;" name="country">'
     );
     print_country_select();
     echo "</select></td></tr>\n";
     if (0) {
         row2(
-            tra("Postal or ZIP Code")."<br><p class=\"text-info\">".tra("Optional")."</p>",
+            tra("Postal or ZIP Code")."<br><small>".tra("Optional")."</small>",
             "<input type=\"text\" name=\"postal_code\" size=\"20\">"
         );
     }

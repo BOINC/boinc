@@ -41,15 +41,14 @@ if (parse_bool($config, "no_web_account_creation")) {
 page_head(tra("Create account"), null, null, null, boinc_recaptcha_get_head_extra());
 
 if (!no_computing()) {
-    echo "<p>
-        <b>"
+    echo "<p class=\"lead\">"
         .tra(
             "NOTE: to run %1 on your computer, %2go here%3 instead of using this form.",
             PROJECT,
             '<a href=join.php>',
             '</a>'
         )
-        ."</b></p>
+        ."</p>
     ";
 }
 

@@ -21,6 +21,8 @@
 // and to create a graphical identity for your web site.
 // by customizing the header/footer functions in html/project/project.inc
 // and picking a Bootstrap theme
+//
+// If you add text, put it in tra() to make it translatable.
 
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
@@ -55,10 +57,10 @@ function top() {
 }
 
 function left(){
-    global $no_computing, $no_web_account_creation, $master_url;
+    global $user, $no_computing, $no_web_account_creation, $master_url;
     panel(
         tra("What is %1?", PROJECT),
-        function() {
+        function() use($user) {
             global $no_computing, $no_web_account_creation, $master_url;
             if ($no_computing) {
                 echo "
@@ -83,14 +85,16 @@ function left(){
                 </ul>
             ";
             echo "</ul>";
-            if ($no_computing) {
-                echo "
-                    <a href=\"create_account_form.php\">Create an account</a>
-                ";
-            } else {
-                echo '<center><a href="join.php" class="btn btn-success"><font size=+2>'.tra('Join %1', PROJECT).'</font></a></center>
-                ';
+            if (!$user) {
+                if ($no_computing) {
+                    echo "
+                        <a href=\"create_account_form.php\">Create an account</a>
+                    ";
+                } else {
+                    echo '<center><a href="join.php" class="btn btn-success"><font size=+2>'.tra('Join %1', PROJECT).'</font></a></center>
+                    ';
 
+                }
             }
         }
     );
@@ -108,7 +112,7 @@ function left(){
 }
 
 function right() {
-    panel('News',
+    panel(tra('News'),
         function() {
             include("motd.php");
             show_news(0, 5);
