@@ -89,8 +89,9 @@ function boinc_solr_comments_apachesolr_index_documents_alter(array &$documents,
       $nid = $document->entity_id;
       $node = node_load($nid);
       
-      // Query database for comments of node.
-      $sql = 'SELECT cid from {comments} WHERE nid = %d ORDER by timestamp DESC';
+      // Query database for comments of node. Only return comments
+      // with status 0 (0 is published for comments).
+      $sql = 'SELECT cid from {comments} WHERE nid = %d AND status = 0 ORDER by timestamp DESC';
       $resource = db_query($sql, $nid);
       while ($row = db_fetch_array($resource)) {
         // Load the comment from cid.
@@ -265,7 +266,18 @@ function boinc_solr_comments_apachesolr_query_alter($query) {
  */
 function boinc_solr_comments_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
   // Array of node types that will have comments indexed.
-  $node_types = array('forum', 'team_forum', 'page', 'story', 'news');
+  $node_types = variable_get('boinc_solr_comments_nodetypes', '');
+  if (empty($node_types)) {
+    // If the variable has not been set, then by default index
+    // comments for all known node types.
+    $node_types = array(
+        'forum'      => 'forum',
+        'news'       => 'news',
+        'page'       => 'page',
+        'story'      => 'story',
+        'team_forum' => 'team_forum',
+    );
+  }
 
   switch ($op) {
     case 'delete':
@@ -323,6 +335,7 @@ function boinc_solr_comments_delete($node) {
  */
 function boinc_solr_comments_comment(&$a1, $op) {
   switch ($op) {
+    case 'view':
     case 'update':
       break;
     case 'delete':
@@ -388,3 +401,34 @@ function boinc_solr_comments_deletecomment($comment) {
 function boinc_solr_comments_enable() {
   drupal_set_message( bts('Warning: Your content <a href="@url">must be re-indexed</a> before Apache Solr will search comments.', array('@url' => url('admin/settings/apachesolr/index'))), 'warning');
 }
+
+/** 
+ * Helper function which is called when a comment is published.
+ * Interfaces with boinccore module.
+ *
+ * @param comment $comment
+ *   The comment to be published (unhidden).
+ */
+function boinc_solr_comments_publish($comment) {
+  if ( ($comment->cid) AND ($comment->nid) ) {
+    $node = node_load($comment->nid);
+    // Tell Solr that the node has been updated, so the comment can be
+    // indexed.
+    apachesolr_entity_update($node, 'node');
+  }
+}
+
+/** 
+ * Helper function which is called when a comment is unpublished.
+ * Interfaces with boinccore module.
+ *
+ * @param comment $comment
+ *   The comment to be unpublished (hidden). 
+ */
+function boinc_solr_comments_unpublish($comment) {
+  if ( ($comment->cid) ) {
+    // Call the deletecomment function for hook comment.
+    boinc_solr_comments_deletecomment($comment);
+  }
+}
+
