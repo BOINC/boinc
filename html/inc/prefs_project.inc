@@ -271,7 +271,7 @@ function print_prefs_display_project($user, $columns=false) {
 
     $switch_link = " <font size=\"-1\"><a href=prefs.php?subset=project&cols=". (int)!$columns .">".tra("(Switch View)")."</a></font>";
     if ($columns) {
-        echo "<h2>".tra("Combined preferences").$switch_link."</h2>";
+        echo "<h3>".tra("Combined preferences").$switch_link."</h3>";
         start_table();
         prefs_show_privacy($user, true);
         venue_show($user);
@@ -282,7 +282,7 @@ function print_prefs_display_project($user, $columns=false) {
         end_table();
     } else {
         if (isset($project_prefs->home) || isset($project_prefs->work) || isset($project_prefs->school)) {
-            echo "<h2>".tra("Primary (default) preferences").$switch_link."</h2>";
+            echo "<h3>".tra("Primary (default) preferences").$switch_link."</h3>";
         }
         start_table();
         prefs_show_project($project_prefs, false);

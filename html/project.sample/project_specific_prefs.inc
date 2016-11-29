@@ -109,7 +109,7 @@ function project_specific_prefs_default() {
 
 function number_select($name, $max, $n) {
     $sel = ($n == 0) ? "selected":"";
-    $x = "<select name=$name> <option value=0 $sel>".tra("No limit")."</option>";
+    $x = "<select class=\"form-control\" name=$name> <option value=0 $sel>".tra("No limit")."</option>";
     for ($i=1; $i<=$max; $i++) {
         $sel = ($n == $i) ? "selected":"";
         $x .= "<option value=$i $sel>$i</option>";
@@ -127,7 +127,7 @@ function project_specific_prefs_edit($prefs, $error=false) {
     global $app_array;
     if (COLOR_PREFS) {
         $x = $prefs->color_scheme;
-        $y = "<select name=color_scheme>
+        $y = "<select class=\"form-control\" name=color_scheme>
                 ".option("Tahiti Sunset", $x)
                 .option("Desert Sands", $x)."
             </select>
