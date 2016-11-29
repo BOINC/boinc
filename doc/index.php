@@ -70,7 +70,7 @@ function show_news_items() {
             if (!file_exists("stop_web")) {
                 show_news(0, 5);
             } else {
-                echo "<p>Database not available; please try again later.";
+                echo "<p>".tra("Database not available; please try again later.");
             }
         }
     );
@@ -79,17 +79,15 @@ function show_news_items() {
 function show_participate() {
     panel(
         // "Volunteer" is used as a verb
-        //tra("Volunteer"),
-            null,
+            tra("Volunteer"),
         function () {
             echo tra("Use the idle time on your computer (Windows, Mac, Linux, or Android) to cure diseases, study global warming, discover pulsars, and do many other types of scientific research.  It's safe, secure, and easy:");
             echo '<p>
                 <center>
-                <a class="btn btn-lg btn-success" href="download.php">Download</a>
+                <a class="btn btn-lg btn-success" href="download.php">'.tra("Download").'</a>
                 </center>
                 <p></p>
-                For Android devices, download the BOINC
-                app from the Google Play Store or (for Kindle) the Amazon App Store.
+                '.tra("For Android devices, get the BOINC app from the Google Play Store; for Kindle, get it from the Amazon App Store.").'
                 <p></p>
             ';
             echo tra(
@@ -107,7 +105,7 @@ function show_participate() {
             );
             echo "
                 <p></p>
-                Learn more:
+                ".tra("Learn more:")."
                 <p></p>
                 <li> <a href=\"dev/\">".tra("Message boards")."</a>
                 &middot; <a class=heading href=\"wiki/User_manual\"><span class=nobr>".tra("Manual")."</span></a> 
@@ -118,13 +116,14 @@ function show_participate() {
             ";
             echo "
                 <p></p>
-                Volunteer:
-                <li> <a href=trac/wiki/ContributePage>Overview</a>
+                ".tra("Other ways to help:")."
+                <p></p>
+                <li> <a href=trac/wiki/ContributePage>".tra("Overview")."</a>
                 &middot; <a href=\"trac/wiki/TranslateIntro\">".tra("Translate")."</a>
                 &middot; <a href=\"trac/wiki/AlphaInstructions\">".tra("Test")."</a>
                 &middot; <a href=\"trac/wiki/WikiMeta\">".tra("Document")."</a>
                 &middot; <a href=\"http://boinc.berkeley.edu/wiki/Publicizing_BOINC\">".tra("Publicize")."</a>
-                &middot; <a href=https://github.com/BOINC/boinc/issues>Report bugs</a>
+                &middot; <a href=https://github.com/BOINC/boinc/issues>".tra("Report bugs")."</a>
                 <p>
             ";
         }
@@ -150,7 +149,7 @@ function show_science() {
                 )
                 ."<p></p>
                 <li><a href=\"trac/wiki/ProjectMain\">".tra("Server software documentation")."</a>
-                <li><a href=trac/wiki/BoincDocker>BOINC and Docker</a>
+                <li><a href=trac/wiki/BoincDocker>".tra("BOINC and Docker")."</a>
             ";
         }
     );
@@ -159,19 +158,19 @@ function show_software() {
     panel(
         tra("Software"),
         function() {
-            echo "
-                BOINC is client/server/web software for volunteer computing.
+            echo 
+                tra("BOINC is a software platform for volunteer computing; it includes client, server, and web components.")."
                 <p></p>
                 <li> <a href=trac/wiki/SourceCodeGit>".tra("Source code")."</a>
                 &middot; <a href=\"trac/wiki/SoftwareBuilding\">".tra("Building BOINC")."</a>
                 &middot; <a href=\"trac/wiki/SoftwareDevelopment\">".tra("Design documents")."</a>
                 <p></p>
-                We're always looking for programmers to help us maintain and develop BOINC.
+                ".tra("We're always looking for programmers to help us maintain and develop BOINC.")."
                 <p></p>
                 <li> <a href=\"trac/wiki/DevProcess\">".tra("Development process")."</a>
                 &middot; <a href=\"trac/wiki/DevProjects\">".tra("Development tasks")."</a>
                 <p></p>
-                BOINC is distributed under the LGPL open-source license.
+                ".tra("BOINC is distributed under the LGPL open-source license.")."
             ";
         }
     );
@@ -181,15 +180,14 @@ function show_boinc() {
     panel(
         tra("The BOINC project"),
         function() {
-            echo "
-                BOINC is a community-based project.
-                Everyone is welcome to participate.
+            echo 
+                tra("BOINC is a community-based project.  Everyone is welcome to participate.")."
                 <p></p>
                 <li> <a href=\"trac/wiki/ProjectPeople\">Contact</a>
                 &middot; <a href=\"trac/wiki/EmailLists\">".tra("Email lists")."</a>
                 &middot; <a href=\"trac/wiki/BoincEvents\">".tra("Events")."</a>
-                &middot; <a href=logo.php>Graphics</a>
-                &middot; <a href=\"trac/wiki/ProjectGovernance\">Governance</a>
+                &middot; <a href=logo.php>".tra("Graphics")."</a>
+                &middot; <a href=\"trac/wiki/ProjectGovernance\">".tra("Governance")."</a>
             ";
         }
     );

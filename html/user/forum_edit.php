@@ -83,7 +83,7 @@ if (post_str('submit',true) && (!$preview)) {
     }
 }
 
-page_head(tra("Forum"),'','','', $bbcode_js);
+page_head(tra("Edit post"),'','','', $bbcode_js);
 
 show_forum_header($logged_in_user);
 switch ($forum->parent_type) {

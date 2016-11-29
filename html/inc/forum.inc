@@ -574,6 +574,7 @@ function show_post(
             echo "<img width=\"".AVATAR_WIDTH."\" height=\"".AVATAR_HEIGHT."\" src=\"".avatar_url($user->prefs->avatar)."\" alt=\"Avatar\"><br>";
         }
     }
+    echo "<p> </p>";
     
     $url = "pm.php?action=new&amp;userid=".$user->id;
     $name = $user->name;
