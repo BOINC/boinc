@@ -532,12 +532,10 @@ class PREF_HOUR_RANGE extends PREF {
     }
 }
 
-////////////////////////////////////////////
-//
 // display preference subsets as Columns
 //
 function row_top($x, $ncols=6) {
-    echo "<tr><th class=\"bg-primary\" width=35%>$x</th>";
+    echo "<tr class=\"bg-primary\"><th width=35%>$x</th>";
     echo "<th ><b>".tra("Default")."</b></th>
         <th ><b>".tra("Home")."</b></th>
         <th ><b>".tra("School")."</b></th>
@@ -561,7 +559,7 @@ function row_defs($pre, $item, $post, $type, $prefs, $tooltip=null) {
     } else {
         echo "<tr>";
     }
-    echo "<td class=fieldname>$pre</td>";
+    echo "<td ".NAME_ATTRS.">$pre</td>";
     row_field($gen,  $type);
     row_field($hom,  $type);
     row_field($schl, $type);
@@ -573,7 +571,7 @@ function row_defs($pre, $item, $post, $type, $prefs, $tooltip=null) {
 // row_field - Display each field value, with selectable display modes
 //
 function row_field($value, $type) {
-    echo "<td class=\"text-right active\">";
+    echo "<td>";
     $type = $value === "--" ? "--" : $type;
     switch($type) {
     case "yesno":
