@@ -824,7 +824,7 @@ int path_to_filename(string fpath, string& fname) {
 int path_to_filename(string fpath, char* &fname) {
     string name;
     int ret;
-    if (ret = path_to_filename(fpath, name)) {
+    if ((ret = path_to_filename(fpath, name))) {
         return ret;
     } else {
         fname = new char[name.size()+1];
