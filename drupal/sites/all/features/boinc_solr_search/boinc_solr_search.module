@@ -1,0 +1,3 @@
+<?php
+
+include_once('boinc_solr_search.features.inc');
