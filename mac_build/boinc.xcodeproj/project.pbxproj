@@ -375,6 +375,7 @@
 		DDB9EA9A17BE2C6B00651B07 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.cpp */; };
 		DDB9EA9B17BE2C6F00651B07 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.cpp */; };
 		DDB9EA9C17BE2C7100651B07 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.cpp */; };
+		DDBAA9B51DF1902B004C48FD /* mac_util.mm in Sources */ = {isa = PBXBuildFile; fileRef = DDBAA9B41DF1902B004C48FD /* mac_util.mm */; };
 		DDBB7E7611D2BCD400598DC1 /* NoticeListCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDBB7E7511D2BCD400598DC1 /* NoticeListCtrl.cpp */; };
 		DDBC6CA50D5D458700564C49 /* boinc_ss_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDBC6CA40D5D458700564C49 /* boinc_ss_logo.png */; };
 		DDBE74390C03B1C600453BB8 /* cs_platforms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDBE74380C03B1C600453BB8 /* cs_platforms.cpp */; };
@@ -1098,6 +1099,8 @@
 		DDB874450C850D3000E0DE1F /* graphics2_unix.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = graphics2_unix.cpp; sourceTree = "<group>"; };
 		DDB874460C850D3000E0DE1F /* graphics2.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = graphics2.cpp; sourceTree = "<group>"; };
 		DDB8D5A5081FC8C700A5A1E8 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.csh; name = postinstall; path = ../mac_installer/postinstall; sourceTree = SOURCE_ROOT; };
+		DDBAA9B41DF1902B004C48FD /* mac_util.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = mac_util.mm; path = ../lib/mac/mac_util.mm; sourceTree = "<group>"; };
+		DDBAA9B61DF190EB004C48FD /* mac_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mac_util.h; path = ../lib/mac/mac_util.h; sourceTree = "<group>"; };
 		DDBB7E7511D2BCD400598DC1 /* NoticeListCtrl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NoticeListCtrl.cpp; path = ../clientgui/NoticeListCtrl.cpp; sourceTree = SOURCE_ROOT; };
 		DDBB7E7711D2BCF100598DC1 /* NoticeListCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NoticeListCtrl.h; path = ../clientgui/NoticeListCtrl.h; sourceTree = SOURCE_ROOT; };
 		DDBC6CA40D5D458700564C49 /* boinc_ss_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = boinc_ss_logo.png; path = ../clientscr/res/boinc_ss_logo.png; sourceTree = SOURCE_ROOT; };
@@ -1732,6 +1735,8 @@
 			isa = PBXGroup;
 			children = (
 				DDA6BD030BD4551F008F7921 /* dyld_gdb.h */,
+				DDBAA9B61DF190EB004C48FD /* mac_util.h */,
+				DDBAA9B41DF1902B004C48FD /* mac_util.mm */,
 				DDA6BD040BD4551F008F7921 /* mac_backtrace.cpp */,
 				DDA6BD050BD4551F008F7921 /* mac_backtrace.h */,
 				DDA6BD060BD4551F008F7921 /* QBacktrace.c */,
@@ -2820,6 +2825,7 @@
 				DD3E14E20A774397007E0084 /* AccountManagerProcessingPage.cpp in Sources */,
 				DD3E14E30A774397007E0084 /* AccountManagerPropertiesPage.cpp in Sources */,
 				DD3E14E50A774397007E0084 /* AlreadyExistsPage.cpp in Sources */,
+				DDBAA9B51DF1902B004C48FD /* mac_util.mm in Sources */,
 				DD3E14E60A774397007E0084 /* BOINCBaseView.cpp in Sources */,
 				DD3E14E70A774397007E0084 /* BOINCBaseWizard.cpp in Sources */,
 				DD3E14E80A774397007E0084 /* BOINCGUIApp.cpp in Sources */,

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2016 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -36,7 +36,7 @@ bool detect_cookie_safari(std::string& project_url, std::string& name, std::stri
     pool = [[NSAutoreleasePool alloc] init];
     
     
-    theURLString = [ NSString stringWithCString:project_url.c_str() ];
+    theURLString = [ NSString stringWithCString:project_url.c_str() encoding:NSMacOSRomanStringEncoding ];
     
     theURL = [ NSURL URLWithString:theURLString ];
 
@@ -61,17 +61,10 @@ bool detect_cookie_safari(std::string& project_url, std::string& name, std::stri
             
         theNameString = [ aCookie name ];
         // is this the right cookie?
-#ifdef cStringUsingEncoding     // Available only is OS 10.4 and later
         if (!starts_with([ theNameString cStringUsingEncoding:NSMacOSRomanStringEncoding ], name.c_str()))
             continue;
         theValueString = [ aCookie value ];
         value = [ theValueString cStringUsingEncoding:NSMacOSRomanStringEncoding ];
-#else
-        if (!starts_with([ theNameString cString ], name.c_str()))
-            continue;
-        theValueString = [ aCookie value ];
-        value = [ theValueString cString ];
-#endif
         retval = true;
     }
 
