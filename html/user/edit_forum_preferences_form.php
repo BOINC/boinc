@@ -159,7 +159,7 @@ row2(tra("Filtered users").
 );
 
 row1(tra("Update"));
-row2(tra("Click here to update preferences"), "<input class=\"btn btn-primary\" type=submit value=\"".tra("Update")."\">");
+row2(tra("Click here to update preferences"), "<input class=\"btn btn-success\" type=submit value=\"".tra("Update")."\">");
 echo "</form>\n";
 row1(tra("Reset"));
 row2(tra("Or click here to reset preferences to the defaults"),

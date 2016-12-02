@@ -5,12 +5,12 @@ body, navbar-text, panel {
 }
 
 table a:not(.btn), .table a:not(.btn), table a, .table a, a {
-    color: lemonchiffon;
+    color: sandybrown;
     text-decoration: none;
 }
 
 table a:hover, .table a:hover, a:hover {
-    color: lemonchiffon;
+    color: sandybrown;
     text-decoration: underline;
 }
 
@@ -39,4 +39,9 @@ img.icon {
 
 blockquote {
         font-size: 15px;
+}
+
+pre, code {
+    color:white;
+    background-color: #333;
 }

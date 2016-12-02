@@ -373,7 +373,7 @@ function pretty_time_str($x) {
 
 function start_table_str($class="") {
     return '<div class="table">
-      <table class="table table-condensed '.$class.'" >
+      <table width="100%" class="table table-condensed '.$class.'" >
     ';
 }
 
@@ -477,6 +477,10 @@ function row_heading_array($x) {
         echo "<th class=\"bg-primary\">$h</th>";
     }
     echo "</tr>\n";
+}
+
+function row_heading($x) {
+    row_heading_array(array($x));
 }
 
 function random_string() {
