@@ -490,9 +490,8 @@ function prefs_display_venue($prefs, $venue, $subset) {
     if (isset($prefs->$venue)) $x = $prefs->$venue;
 
     if ($x) {
-        echo "<h3>".tra("Separate preferences for %1", $venue)."</h3>";
-        echo "<tr><td colspan=2>";
         start_table();
+        row_heading(tra("Separate preferences for %1", $venue));
         if ($subset == "global") {
             prefs_show_global($x);
         } else {

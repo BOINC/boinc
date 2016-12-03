@@ -480,7 +480,8 @@ function row_heading_array($x) {
 }
 
 function row_heading($x) {
-    row_heading_array(array($x));
+    echo '<tr><th class="bg-primary" colspan=99>'.$x.'</th></tr>
+    ';
 }
 
 function random_string() {

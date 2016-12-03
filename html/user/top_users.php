@@ -43,27 +43,19 @@ function get_top_participants($offset, $sort_by) {
 
 function user_table_start($sort_by) {
     start_table('table-striped');
-    echo "
-        <tr>
-        <th>".tra("Rank")."</th>
-        <th>".tra("Name")."</th>
-    ";
+    $x = array();
+    $x[] = tra("Rank");
+    $x[] = tra("Name");
     if ($sort_by == "total_credit") {
-        echo "
-            <th><a href=top_users.php?sort_by=expavg_credit>".tra("Recent average credit")."</a></th>
-            <th>".tra("Total credit")."</th>
-        ";
+        $x[] = "<a href=top_users.php?sort_by=expavg_credit>".tra("Recent average credit")."</a>";
+        $x[] = tra("Total credit");
     } else {
-        echo "
-            <th>".tra("Recent average credit")."</th>
-            <th><a href=top_users.php?sort_by=total_credit>".tra("Total credit")."</a></th>
-        ";
+        $x[] = tra("Recent average credit");
+        $x[] = "<a href=top_users.php?sort_by=total_credit>".tra("Total credit")."</a>";
     }
-    echo "
-        <th>".tra("Country")."</th>
-        <th>".tra("Participant since")."</th>
-        </tr>
-    ";
+    $x[] = tra("Country");
+    $x[] = tra("Participant since");
+    row_heading_array($x);
 }
 
 function show_user_row($user, $i) {

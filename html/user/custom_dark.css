@@ -14,6 +14,11 @@ table a:hover, .table a:hover, a:hover {
     text-decoration: underline;
 }
 
+table a:visited, .table a:visited, a:visited {
+    color: sandybrown;
+    text-decoration: underline;
+}
+
 .nav.navbar-nav li a {
     color: white;
 }
@@ -34,7 +39,8 @@ hr {
 }
 
 img.icon {
-    background-color: gray;
+    padding: 3px;
+    background-color: lightgray;
 }
 
 blockquote {

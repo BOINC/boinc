@@ -367,27 +367,20 @@ function admin_list($teamid) {
 }
 
 function team_table_start($sort_by, $type_url) {
-    echo "<tr>
-        <th>".tra('Rank')."</th>
-        <th>".tra('Name')."</th>
-        <th>".tra('Members')."</th>
-    ";
+    $x = array();
+    $x[] = tra('Rank');
+    $x[] = tra('Name');
+    $x[] = tra('Members');
     if ($sort_by == "total_credit") {
-        echo "
-            <th><a href=top_teams.php?sort_by=expavg_credit".$type_url.">".tra('Recent average credit')."</a></th>
-            <th>".tra('Total credit')."</th>
-        ";
+        $x[] = "<a href=top_teams.php?sort_by=expavg_credit".$type_url.">".tra('Recent average credit')."</a>";
+        $x[] = tra('Total credit');
     } else {
-        echo "
-            <th>".tra('Recent average credit')."</th>
-            <th><a href=top_teams.php?sort_by=total_credit".$type_url.">".tra('Total credit')."</a></th>
-        ";
+        $x[] = tra('Recent average credit');
+        $x[] = "<a href=top_teams.php?sort_by=total_credit".$type_url.">".tra('Total credit')."</a>";
     }
-    echo "
-        <th>".tra('Country')."</th>
-        <th>".tra("Type")."</th>
-        </tr>
-    ";
+    $x[] = tra('Country');
+    $x[] = tra("Type");
+    row_heading_array($x);
 }
 
 function team_links($team) {

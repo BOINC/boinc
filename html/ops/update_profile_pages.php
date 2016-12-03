@@ -370,18 +370,18 @@ function build_country_summary_page($countryMembers) {
     page_head("User Profiles by Country", null, null, "../");
     echo "Last updated " . pretty_time_str(time()) . "<p>";
 
-    echo "<table border=0>\n";
-    echo "<tr><td><b>Country</b></td><td align=\"center\"><b>Profiles</b></td></tr>\n";
+    start_table();
+    row_heading_array(array("Country", "Profiles"));
 
     foreach ($countries as $country) {
         $numMembers = count($countryMembers[$country]);
         $name = get_legal_filename($country);
 
         echo "<tr>\n<td><a href=\"profile_country_",
-            "{$name}_1.html\">$country</a></td><td align=\"center\">$numMembers</td></td>\n";
+            "{$name}_1.html\">$country</a></td><td>$numMembers</td></td>\n";
     }
 
-    echo "</table>";
+    end_table();
     page_tail(false, "../");
 
     close_output_buffer($filename);
