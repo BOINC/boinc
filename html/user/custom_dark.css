@@ -4,7 +4,7 @@ body, navbar-text, panel {
     color:white;
 }
 
-table a:not(.btn), .table a:not(.btn), table a, .table a, a {
+table a:not(.btn), .table a:not(.btn), table a, .table a, a:not(.btn) {
     color: sandybrown;
     text-decoration: none;
 }
@@ -14,21 +14,17 @@ table a:hover, .table a:hover, a:hover {
     text-decoration: underline;
 }
 
-table a:visited, .table a:visited, a:visited {
+table a:visited, .table a:visited, a:visited:not(.btn) {
     color: sandybrown;
     text-decoration: underline;
 }
 
-.nav.navbar-nav li a {
+.nav.navbar-nav li a, .nav.navbar-nav li a:hover, .nav.navbar-nav li a:visited {
     color: white;
 }
 
-.nav.navbar-nav li a:hover {
-    color: white;
-}
-
-.navbar-default .navbar-header {
-    color: white;
+.navbar-default .navbar-header, .navbar-brand {
+    color: white !important;
 }
 .navbar-default .navbar-header a:hover {
     color: white;

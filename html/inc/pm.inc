@@ -252,12 +252,12 @@ function pm_notification($user) {
 
 function pm_email_remind($user) {
     if (!$user->prefs->pm_notification) {
-        return "<br><p class=\"text-muted\">" .
+        return "<br><small>" .
             tra(
                 "For email notification, %1edit community prefs%2",
                 '<a href="edit_forum_preferences_form.php">', '</a>'
             ) .
-            "</p>"
+            "</small>"
         ;
     }
     return "";

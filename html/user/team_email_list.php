@@ -69,8 +69,17 @@ if ($plain) {
 } else {
     page_head(tra("Members of %1", $team->name));
     start_table('table-striped');
-    table_header(tra("Name"), tra("ID"), tra("Total credit"), tra("Recent average credit"), tra("Country"));
+    row_heading_array(
+        array(
+            tra("Name"),
+            tra("ID"),
+            tra("Total credit"),
+            tra("Recent average credit"),
+            tra("Country")
+        )
+    );
 }
+
 $users = BoincUser::enum_fields("id, email_addr, send_email, name, total_credit, expavg_credit, has_profile, donated, country, cross_project_id, create_time, url", "teamid=$team->id");
 foreach($users as $user) {
     if ($plain) {

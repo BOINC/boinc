@@ -120,9 +120,15 @@ function show_other_projects($user, $personal) {
         echo "<h3>".tra("Projects in which %1 is participating", $user->name)."</h3>";
     }
     start_table('table-striped');
-    row_heading_array(array(
-        tra("Project")."<br/><p class=\"text-muted\">".tra("Click for user page")."</p>", tra("Total credit"), tra("Average credit"), tra("Since")
-    ));
+    row_heading_array(
+        array(
+            tra("Project")."<br/><small>".tra("Click for user page")."</small>",
+            tra("Total credit"),
+            tra("Average credit"),
+            tra("Since")
+        ),
+        array("", ALIGN_RIGHT, ALIGN_RIGHT, ALIGN_RIGHT)
+    );
     foreach($user->projects as $project) {
         show_project($project);
     }

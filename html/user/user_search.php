@@ -49,7 +49,10 @@ function search_form() {
     ";
     start_table();
     row1(tra("Filters"), 2, "heading");
-    row2(tra("User name starts with"), "<input type=text name=search_string>");
+    row2(
+        tra("User name starts with"),
+        '<input class="form-control" type="text" name="search_string">'
+    );
     row2_init(tra("Country"), "<select class=\"form-control\" name=\"country\"><option value=\"any\" selected>".tra("Any")."</option>");
     print_country_select("asdf");
     echo "</select></td></tr>";
@@ -67,7 +70,7 @@ function search_form() {
     row2(tra("Decreasing sign-up time"), "<input type=radio name=search_type value=\"date\" checked>");
     row2(tra("Decreasing average credit"), "<input type=radio name=search_type value=\"rac\">");
     row2(tra("Decreasing total credit"), "<input type=radio name=search_type value=\"total\">");
-    row2("", "<input class=\"btn btn-default\" type=submit name=action value=".tra("Search").">");
+    row2("", "<input class=\"btn btn-success\" type=submit name=action value=".tra("Search").">");
     end_table();
     echo "
         <script>document.f.search_string.focus()</script>
@@ -120,9 +123,16 @@ function search_action() {
     foreach ($users as $user) {
         if ($n==0) {
             start_table('table-striped');
-            table_header(
-                tra("Name"), tra("Team"), tra("Average credit"),
-                tra("Total credit"), tra("Country"), tra("Joined")
+            row_heading_array(
+                array(
+                    tra("Name"),
+                    tra("Team"),
+                    tra("Average credit"),
+                    tra("Total credit"),
+                    tra("Country"),
+                    tra("Joined")
+                ),
+                array(null, null, ALIGN_RIGHT, ALIGN_RIGHT, null, null)
             );
         }
         show_user($user);

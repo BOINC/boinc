@@ -55,6 +55,7 @@ function user_table_start($sort_by) {
     }
     $x[] = tra("Country");
     $x[] = tra("Participant since");
+    $s = 'style="text-align:right;"';
     row_heading_array($x);
 }
 
@@ -113,7 +114,9 @@ foreach ($data as $user) {
     show_user_row($user, $i);
     $i++;
 }
-echo "</table>\n<p>";
+
+end_table();
+
 if ($offset > 0) {
     $new_offset = $offset - $users_per_page;
     echo "<a href=top_users.php?sort_by=$sort_by&amp;offset=$new_offset>".tra("Previous %1", $users_per_page)."</a> &middot; ";

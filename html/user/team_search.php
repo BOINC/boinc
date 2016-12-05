@@ -71,20 +71,24 @@ function get_teams($clause, $active) {
 
 function show_list($list) {
     start_table('table-striped');
-    echo "
-        <tr>
-        <th>".tra("Team name")."</th>
-    ";
+    $x = array();
+    $a = array();
+    $x[] = tra("Team name");
+    $a[] = null;
     if (defined("SHOW_NONVALIDATED_TEAMS")) {
-        echo "<th>Validated?</th>\n";
+        $x[] = tra("Validated?");
+        $a[] = null;
     }
-    echo "
-        <th>".tra("Description")."</th>
-        <th>".tra("Average credit")."</th>
-        <th>".tra("Type")."</th>
-        <th>".tra("Country")."</th>
-        </tr>
-    ";
+    $x[] = tra("Description")."</th>
+    $a[] = null;
+    $x[] = tra("Average credit")."</th>
+    $a[] = ALIGN_RIGHT;
+    $x[] = tra("Type")."</th>
+    $a[] = null;
+    $x[] = tra("Country")."</th>
+    $a[] = null;
+    row_heading_array($x, $a);
+
     $i = 0;
     foreach ($list as $team) {
         $type = team_type_name($team->type);

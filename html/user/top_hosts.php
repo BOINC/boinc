@@ -87,12 +87,14 @@ foreach($data as $host) {
     show_host_row($host, $i, false, true, false);
     $i++;
 }
-echo "</table>\n<p>";
+end_table();
+
 if ($offset > 0) {
     $new_offset = $offset - $hosts_per_page;
     echo "<a href=top_hosts.php?sort_by=$sort_by&amp;offset=$new_offset>".tra("Previous %1", $hosts_per_page)."</a> &middot; ";
 
 }
+
 if ($n==$hosts_per_page){ //If we aren't on the last page
     $new_offset = $offset + $hosts_per_page;
     echo "<a href=top_hosts.php?sort_by=$sort_by&amp;offset=$new_offset>".tra("Next %1", $hosts_per_page)."</a>";

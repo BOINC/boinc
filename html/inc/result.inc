@@ -359,6 +359,8 @@ function result_page_url($info) {
 function result_table_start($show_wu_link, $show_host_link, $info) {
     start_table('table-striped');
     $x = array();
+    $a = array(null);
+
     if ($info) {
         if ($info->show_names) {
             $i2 = clone $info;
@@ -376,25 +378,35 @@ function result_table_start($show_wu_link, $show_host_link, $info) {
     }
     if ($show_wu_link) {
         $x[] = tra("Work unit")."<br><small>".tra("click for details")."</small>";
+        $a[] = null;
         if (function_exists('project_result_info_heading')) {
             $y = project_result_info_heading();
             if ($y) {
                 $x[] = $y;
+                $a[] = null;
             }
         }
     }
     if ($show_host_link) {
         $x[] = tra("Computer");
+        $a[] = null;
     }
     $x[] = tra("Sent");
     $x[] = tra("Time reported<br />or deadline")."
         <br><small><a href=\"explain_state.php?field=result_time\">".tra("explain")."</a></small>";
     $x[] = tra("Status");
+    $a[] = null;
+    $a[] = null;
+    $a[] = null;
     $x[] = tra("Run time<br />(sec)");
     $x[] = tra("CPU time<br />(sec)");
     $x[] = tra("Credit");
+    $a[] = ALIGN_RIGHT;
+    $a[] = ALIGN_RIGHT;
+    $a[] = ALIGN_RIGHT;
     $x[] = tra("Application");
-    row_heading_array($x);
+    $a[] = null;
+    row_heading_array($x, $a);
 }
 
 // was result invalid or timed out?

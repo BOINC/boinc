@@ -471,10 +471,15 @@ function row_array($x, $class=null) {
     echo "</tr>\n";
 }
 
-function row_heading_array($x) {
+define ('ALIGN_RIGHT', 'style="text-align:right;"');
+
+function row_heading_array($x, $attrs=null) {
     echo "<tr>";
+    $i = 0;
     foreach ($x as $h) {
-        echo "<th class=\"bg-primary\">$h</th>";
+        $a = $attrs?$attrs[$i]:"";
+        echo "<th $a class=\"bg-primary\">$h</th>";
+        $i++;
     }
     echo "</tr>\n";
 }
@@ -752,7 +757,7 @@ function verify_numeric(&$value, $low, $high = false) {
 // Generate a "select" element from an array of values
 //
 function select_from_array($name, $array, $selection=null, $width=240) {
-    $out = '<select style="color:#000;"class="" style="width:'.$width.'px" name="'.$name.'">"';
+    $out = '<select style="color:#000;"class="form-control" style="width:'.$width.'px" name="'.$name.'">"';
 
     foreach ($array as $key => $value) {
         if ($value) {
