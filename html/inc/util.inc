@@ -394,16 +394,17 @@ function end_table() {
 // Table header row with unlimited number of columns
 
 function table_header() {
-    echo "<thead><tr>\n";
+    echo "<tr>\n";
+    $c = 'class="bg-primary"';
     for ($i = 0; $i < func_num_args(); $i++) {
         if (is_array(func_get_arg($i))) {
             $col = func_get_arg($i);
-            echo "<th ".$col[1].">".$col[0]."</th>\n";
+            echo "<th $c ".$col[1].">".$col[0]."</th>\n";
         } else {
-            echo "<th valign=top>".func_get_arg($i)."</th>\n";
+            echo "<th $c>".func_get_arg($i)."</th>\n";
         }
     }
-    echo "</tr></thead>\n";
+    echo "</tr>\n";
 }
 
 // Table row with unlimited number of columns

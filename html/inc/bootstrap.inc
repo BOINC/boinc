@@ -161,17 +161,28 @@ function sample_navbar(
             array(tra("Do work"), $url_prefix."bossa_apps.php"),
         ));
     } else {
-        navbar_menu(tra("Computing"), array(
+        $x = array(
             array(tra("Server status"), $url_prefix."server_status.php"),
             array(tra("Statistics"), $url_prefix."stats.php"),
             array(tra("Applications"), $url_prefix."apps.php"),
-            'Leader boards:',
-            array(tra("Participants"), $url_prefix."top_users.php"),
-            array(tra("Computers"), $url_prefix."top_hosts.php"),
-            array(tra("Teams"), $url_prefix."top_teams.php"),
-            array(tra("GPU models"), $url_prefix."gpu_list.php"),
-            array(tra("CPU models"), $url_prefix."cpu_list.php"),
-        ));
+        );
+        if (defined('REMOTE_JOB_SUBMISSION') && REMOTE_JOB_SUBMISSION) {
+            require_once("../inc/submit_db.inc");
+            if (BoincUserSubmit::lookup_userid($user->id)) {
+                $x[] = array("Job submission", $url_prefix."submit.php");
+            }
+        }
+        $x = array_merge($x,
+            array(
+                'Leader boards:',
+                array(tra("Participants"), $url_prefix."top_users.php"),
+                array(tra("Computers"), $url_prefix."top_hosts.php"),
+                array(tra("Teams"), $url_prefix."top_teams.php"),
+                array(tra("GPU models"), $url_prefix."gpu_list.php"),
+                array(tra("CPU models"), $url_prefix."cpu_list.php"),
+            )
+        );
+        navbar_menu(tra("Computing"), $x);
     }
 
     navbar_menu(tra("Community"), array(
