@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2016 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,23 +16,16 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-include_once("../inc/db.inc");
-include_once("../inc/util.inc");
+require_once("../inc/util.inc");
+require_once("../inc/translation.inc");
 
-check_get_args(array("tnow", "ttok"));
+$languages = get_supported_languages();
+$lang = sanitize_tags(get_str("lang", true));
 
-$user = get_logged_in_user();
-
-if ($user) {
-    check_tokens($user->authenticator);
-    clear_cookie('auth');
-    $g_logged_in_user = null;
-    header("Location: $master_url");
-    page_head("Logged out");
-    echo "You are now logged out";
-    page_tail();
+if (!in_array($lang, $languages) && $lang!="auto" && $lang!="en") {
+    echo "Language $lang is not supported";
 } else {
-    error_page("not logged in");
+    send_cookie('lang', $lang, true);
+    header('Location: index.php');
 }
-
 ?>

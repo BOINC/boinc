@@ -70,26 +70,29 @@ function get_teams($clause, $active) {
 }
 
 function show_list($list) {
-    start_table();
-    echo "
-        <tr>
-        <th>".tra("Team name")."</th>
-    ";
+    start_table('table-striped');
+    $x = array();
+    $a = array();
+    $x[] = tra("Team name");
+    $a[] = null;
     if (defined("SHOW_NONVALIDATED_TEAMS")) {
-        echo "<th>Validated?</th>\n";
+        $x[] = tra("Validated?");
+        $a[] = null;
     }
-    echo "
-        <th>".tra("Description")."</th>
-        <th>".tra("Average credit")."</th>
-        <th>".tra("Type")."</th>
-        <th>".tra("Country")."</th>
-        </tr>
-    ";
+    $x[] = tra("Description")."</th>
+    $a[] = null;
+    $x[] = tra("Average credit")."</th>
+    $a[] = ALIGN_RIGHT;
+    $x[] = tra("Type")."</th>
+    $a[] = null;
+    $x[] = tra("Country")."</th>
+    $a[] = null;
+    row_heading_array($x, $a);
+
     $i = 0;
     foreach ($list as $team) {
         $type = team_type_name($team->type);
-        $j = $i++ % 2;
-        echo "<tr class=row$j>
+        echo "<tr>
             <td><a href=team_display.php?teamid=$team->id>$team->name</a></td>
         ";
         if (defined("SHOW_NONVALIDATED_TEAMS")) {
@@ -198,7 +201,7 @@ if ($submit || $xml) {
         show_teams_html($list, $params);
     }
 } else {
-    page_head(tra("Find a team"), 'document.form.keywords.focus()');
+    page_head(tra("Find a team"), 'onload="document.form.keywords.focus()"');
     echo tra("You can team up with other people with similar interests, or from the same country, company, or school.")
         ."<p>"
         .tra("Use this form to find teams that might be right for you.")

@@ -56,7 +56,7 @@ function option($name, $val) {
 
 define('COLOR_DESC', tra('Color scheme for graphics'));
 // xgettext:no-php-format
-define("MAX_GFX_CPU_PCT_DESC", tra("Maximum CPU % for graphics%10 ... 100%2", "<br><p class=\"text-muted\">", "</p>"));
+define("MAX_GFX_CPU_PCT_DESC", tra("Maximum CPU % for graphics%10 ... 100%2", "<br><small>", "</small>"));
 define('APP_SELECT_DESC', tra('Run only the selected applications'));
 define('APP_SELECT_TOOLTIP', tra('Only get tasks for certain applications. Useful to focus on particular applications, or to exclude them.'));
 define('ACCEPT_ANY_DESC', tra('If no work for selected applications is available, accept work from other applications?'));
@@ -109,7 +109,7 @@ function project_specific_prefs_default() {
 
 function number_select($name, $max, $n) {
     $sel = ($n == 0) ? "selected":"";
-    $x = "<select name=$name> <option value=0 $sel>".tra("No limit")."</option>";
+    $x = "<select class=\"form-control\" name=$name> <option value=0 $sel>".tra("No limit")."</option>";
     for ($i=1; $i<=$max; $i++) {
         $sel = ($n == $i) ? "selected":"";
         $x .= "<option value=$i $sel>$i</option>";
@@ -127,7 +127,7 @@ function project_specific_prefs_edit($prefs, $error=false) {
     global $app_array;
     if (COLOR_PREFS) {
         $x = $prefs->color_scheme;
-        $y = "<select name=color_scheme>
+        $y = "<select class=\"form-control\" name=color_scheme>
                 ".option("Tahiti Sunset", $x)
                 .option("Desert Sands", $x)."
             </select>

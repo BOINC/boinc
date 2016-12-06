@@ -51,7 +51,7 @@ function location_form($host) {
     if ($host->venue == "school") $s = "selected";
     $x = "<form action=host_venue_action.php>
         <input type=hidden name=hostid value=$host->id>
-        <select name=venue>
+        <select class=\"form-control\" name=venue>
         <option value=\"\" $none>---
         <option value=home $h>".tra("Home")."
         <option value=work $w>".tra("Work")."
@@ -70,7 +70,7 @@ function cross_project_links($host) {
         $url = $h[0];
         $name = $h[1];
         $img = $h[2];
-        $x .= "<a href=$url".$host->host_cpid."><img border=2 src=img/$img alt=\"$name\"></a>\n";
+        $x .= "<a href=$url".$host->host_cpid."><img class=\"icon\" border=2 src=img/$img alt=\"$name\"></a> ";
     }
     return $x;
 }
@@ -215,29 +215,26 @@ function show_host($host, $user, $ipprivate) {
 function top_host_table_start($sort_by) {
     global $host_sites;
     shuffle($host_sites);
-    start_table();
-    echo "<tr>";
-    echo "<th>".tra("Computer info")."</th>\n";
-    echo "<th>".tra("Rank")."</th>";
-    echo "<th>".tra("Owner")."</th>\n";
+    start_table('table-striped');
+    $x = array(
+        tra("Computer info"),
+        tra("Rank"),
+        tra("Owner"),
+    );
     if ($sort_by == 'total_credit') {
-        echo "
-            <th><a href=top_hosts.php?sort_by=expavg_credit>".tra("Avg. credit")."</a></th>
-            <th>".tra("Total credit")."</th>
-        ";
+        $x[] = "<a href=top_hosts.php?sort_by=expavg_credit>".tra("Avg. credit")."</a>";
+        $x[] = tra("Total credit");
     } else {
-        echo "
-            <th>".tra("Recent average credit")."</th>
-            <th><a href=top_hosts.php?sort_by=total_credit>".tra("Total credit")."</a></th>
-        ";
+        $x[] = tra("Recent average credit");
+        $x[] = "<a href=top_hosts.php?sort_by=total_credit>".tra("Total credit")."</a>";
     }
-    echo "
-        <th>".tra("BOINC version")."</th>
-        <th>".tra("CPU")."</th>
-        <th>".tra("GPU")."</th>
-        <th>".tra("Operating system")."</th>
-        </tr>
-    ";
+    $x[] = tra("BOINC version");
+    $x[] = tra("CPU");
+    $x[] = tra("GPU");
+    $x[] = tra("Operating system");
+    $s = 'style="text-align:right;"';
+    $a = array("", "", "", $s, $s, "", "", "", "");
+    row_heading_array($x, $a);
 }
 
 function host_nresults($host) {
@@ -344,7 +341,7 @@ function show_host_row($host, $i, $private, $show_owner, $any_product_name) {
     ";
     if (!$anonymous) {
         echo "
-            <br><nobr><p class=\"text-muted\">".tra("Cross-project stats:")."</p></nobr><br>".cross_project_links($host);
+            <br><nobr><small>".tra("Cross-project stats:")."</small></nobr><br>".cross_project_links($host);
     }
     echo "
         </td>
@@ -391,7 +388,7 @@ function show_host_row($host, $i, $private, $show_owner, $any_product_name) {
             <td>%s</td>
             <td>%s</td>
             <td>%s</td>
-            <td>%s<br><p class=\"text-muted\">%s</p></td>
+            <td>%s<br><small>%s</small></td>
             <td>%s</td>
             ",
             format_credit($host->expavg_credit),
@@ -667,33 +664,49 @@ function more_or_less($sort, $rev, $show_all) {
 function user_host_table_start(
     $private, $sort, $rev, $show_all, $any_product_name
 ) {
-    start_table();
-    echo "<tr>";
+    start_table('table-striped');
+    $x = array();
+    $a = array();
+
     $url = link_url_rev($sort, "id", $rev, $show_all);
-    echo "<th><a href=$url>".tra("Computer ID")."</a></th>\n";
+    $x[] = "<a href=$url>".tra("Computer ID")."</a>";
+    $a[] = '';
+
     if ($private) {
         $url = link_url_rev($sort, "name", $rev, $show_all);
-        echo "<th><a href=$url>".tra("Name")."</a></th>\n";
+        $x[] = "<a href=$url>".tra("Name")."</a>";
+        $a[] = null;
         $url = link_url_rev($sort, "venue", $rev, $show_all);
         if ($any_product_name) {
-            echo "<th>Model</th>\n";
+            $x[] = tra("Model");
+            $a[] = null;
         }
-        echo "<th><a href=$url>".tra("Location")."</th>\n";
+        $x[] = "<a href=$url>".tra("Location")."</a>";
+        $a[] = null;
     } else {
-        echo "<th>".tra("Rank")."</th>";
+        $x[] = tra("Rank");
+        $a[] = null;
     }
     $url = link_url_rev($sort, "expavg_credit", $rev, $show_all);
-    echo "<th><a href=$url>".tra("Avg. credit")."</a></th>\n";
+    $x[] = "<a href=$url>".tra("Avg. credit")."</a>";
+    $a[] = ALIGN_RIGHT;
     $url = link_url_rev($sort, "total_credit", $rev, $show_all);
-    echo "<th><a href=$url>".tra("Total credit")."</a></th>\n";
-    echo "<th>".tra("BOINC<br>version")."</th>\n";
+    $x[] = "<a href=$url>".tra("Total credit")."</a>";
+    $a[] = ALIGN_RIGHT;
+    $x[] = tra("BOINC<br>version");
+    $a[] = null;
     $url = link_url_rev($sort, "cpu", $rev, $show_all);
-    echo "<th><a href=$url>".tra("CPU")."</a></th>\n";
-    echo "<th>".tra("GPU")."</th>\n";
+    $x[] = "<a href=$url>".tra("CPU")."</a>";
+    $a[] = null;
+    $x[] = tra("GPU");
+    $a[] = null;
     $url = link_url_rev($sort, "os", $rev, $show_all);
-    echo "<th><a href=$url>".tra("Operating System")."</a></th>\n";
+    $x[] = "<a href=$url>".tra("Operating System")."</a>";
+    $a[] = null;
     $url = link_url_rev($sort, "rpc_time", $rev, $show_all);
-    echo "<th><a href=$url>".tra("Last contact")."</a></th>\n";
+    $x[] = "<a href=$url>".tra("Last contact")."</a>";
+    $a[] = null;
+    row_heading_array($x, $a);
 }
 
 function show_user_hosts($userid, $private, $show_all, $sort, $rev) {
@@ -741,7 +754,7 @@ function show_user_hosts($userid, $private, $show_all, $sort, $rev) {
         show_host_row($host, $i, $private, false, $any_product_name);
         $i++;
     }
-    echo "</table>\n";
+    end_table();
 
     if ($old_hosts>0) {
         more_or_less($sort, $rev, $show_all);

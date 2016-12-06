@@ -29,6 +29,9 @@ require_once("../inc/db.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/translation.inc");
 require_once("../inc/profile.inc");
+require_once("../inc/bootstrap.inc");
+
+$master_url = parse_config(get_config(), "<master_url>");
 
 // don't allow /... at the end of URL
 
@@ -89,13 +92,14 @@ function secure_url_base() {
 }
 
 function url_base() {
-    return is_https()?secure_url_base():URL_BASE;
+    return secure_url_base();
 }
 
 function send_cookie($name, $value, $permanent, $ops=false) {
+    global $master_url;
+
     // the following allows independent login for projects on the same server
     //
-    $master_url = parse_config(get_config(), "<master_url>");
     $url = parse_url($master_url);
     $path = $url['path'];
     if ($ops) {
@@ -107,7 +111,7 @@ function send_cookie($name, $value, $permanent, $ops=false) {
 }
 
 function clear_cookie($name, $ops=false) {
-    $master_url = parse_config(get_config(), "<master_url>");
+    global $master_url;
     $url = parse_url($master_url);
     $path = $url['path'];
     if ($ops) {
@@ -124,7 +128,9 @@ function get_logged_in_user($must_be_logged_in=true) {
     global $g_logged_in_user, $got_logged_in_user;
     if ($got_logged_in_user) return $g_logged_in_user;
 
-    check_web_stopped();
+    if (web_stopped()) {
+        return null;
+    }
 
     $authenticator = null;
     if (isset($_COOKIE['auth'])) $authenticator = $_COOKIE['auth'];
@@ -161,28 +167,46 @@ function show_login_info($prefix="") {
 }
 
 $cache_control_extra="";
+$is_login_page = false;
 
+// Call this to start pages.
+// Outputs some HTML boilerplate,
+// then calls project_banner() (in html/project/project.inc)
+// to output whatever you want at the top of your web pages.
+//
 // Page_head() is overridable so that projects that want to integrate BOINC
 // with an existing web framework can more easily do so.
 // To do so, define page_head() in the project include file.
 //
 if (!function_exists("page_head")){
 function page_head(
-    $title, $java_onload=null, $title_plain=null, $prefix="", $head_extra=null
+    $title,
+        // page title. Put in <title>, used as title for browser tab.
+    $body_attrs=null,
+        // <body XXXX>
+        // e.g. Javascript to put focus in an input field
+        // (onload="document.form.foo.focus()")
+        // or to jump to a particular post (onload="jumpToUnread();")
+    $is_main = false,
+        // if set, include schedulers.txt.
+        // also pass to project_banner() in case you want a different
+        // header for your main page.
+    $url_prefix="",
+        // prepend this to links.
+        // Use for web pages not in the top directory
+    $head_extra=null
+        // extra stuff to put in <head>. E.g.:
+        // reCAPTCHA code (create_profile.php)
+        // bbcode javascript (forums)
 ) {
     global $caching, $cache_control_extra, $did_page_head;
+    global $is_login_page, $fixed_navbar;
 
     $did_page_head = true;
     $url_base = url_base();
-    $stylesheet = $url_base.STYLESHEET;
+
     $rssname = PROJECT . " RSS 2.0";
     $rsslink = $url_base."rss_main.php";
-    if (defined('STYLESHEET2')) {
-        $stylesheet2 = $url_base.STYLESHEET2;
-    } else {
-        $stylesheet2 = null;
-    }
-
 
     if (!$caching) {
         header("Content-type: text/html; charset=utf-8");
@@ -192,68 +216,87 @@ function page_head(
         header ("Pragma: no-cache");                          // HTTP/1.0
     }
 
-    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">";
-    
-    echo "<html><head>\n";
+    echo '<!DOCTYPE html>
+        <html lang="en">
+        <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    ';
     if ($head_extra) {
         echo "\n$head_extra\n";
     }
-    if (!$title_plain) {
-        echo "<title>".sanitize_tags($title)."</title>\n";
-    } else {
-        echo "<title>".sanitize_tags($title_plain)."</title>\n";
+    if ($is_main) {
+        readfile("schedulers.txt");
     }
-    echo "<link rel=stylesheet type=\"text/css\" href=\"".$url_base."main.css\" media=\"all\">
-        <link rel=stylesheet type=\"text/css\" href=\"$stylesheet\">
-    ";
-    if ($stylesheet2) {
-        echo "<link rel=stylesheet type=\"text/css\" href=\"$stylesheet2\">\n";
+
+    $t = $title?$title:PROJECT;
+    echo "<title>$t</title>\n";
+    echo '
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="'.secure_url_base().'/bootstrap.min.css" media="all">
+    ';
+    if (defined('STYLESHEET')) {
+        $stylesheet = $url_base.STYLESHEET;
+        echo "
+            <link rel=stylesheet type=\"text/css\" href=\"$stylesheet\">
+        ";
     }
+    if (defined('STYLESHEET2')) {
+        $stylesheet2 = $url_base.STYLESHEET2;
+        echo "
+            <link rel=stylesheet type=\"text/css\" href=\"$stylesheet2\">
+        ";
+    }
+
     if (defined("SHORTCUT_ICON")) {
-        echo '<link rel="icon" type="image/x-icon", href="'.SHORTCUT_ICON.'"/>
+        echo '<link rel="icon" type="image/x-icon" href="'.SHORTCUT_ICON.'"/>
 ';
     }
+
     echo "
         <link rel=alternate type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">
         </head>
     ";
-    if ($java_onload){
-        echo "<body onload=\"".$java_onload."\">";
-    } else {
-        echo "<body>";
+    if ($fixed_navbar) {
+        $body_attrs .= ' style="padding-top:70px"';
     }
+    echo "<body $body_attrs>";
     display_cvs_versions();
+    echo '<div class="container-fluid">
+    ';
 
-    project_banner($title, $prefix);
     switch($title) {    //kludge
     case tra("Log in"):
     case tra("Create an account"):
     case tra("Server status page"):
+        $is_login_page = true;
         break;
     default:
-        echo "<p><div style=\"float:right\">";
-        show_login_info($prefix);
-        echo "</div>\n";
+        break;
     }
+    project_banner($title, $url_prefix, $is_main);
 
 }
-}
-
-function page_tail_aux($show_return, $show_date, $prefix="") {
-    project_footer($show_return, $show_date, $prefix);
-    echo "</body>
-        </html>
-    ";
-}
-function page_tail_main($show_date=false) {
-    page_tail_aux(false, $show_date);
 }
 
 // See the comments for page_head()
 //
 if (!function_exists("page_tail")){
-function page_tail($show_date=false, $prefix="") {
-    page_tail_aux(true, $show_date, $prefix);
+function page_tail(
+    $show_date=false,
+        // true for pages that are generated periodically rather than on the fly
+    $url_prefix="",
+        // use for pages not at top level
+    $is_main=false
+        // passed to project_footer;
+) {
+    project_footer($is_main, $show_date, $url_prefix);
+    echo '
+        <script src="'.secure_url_base().'/jquery.min.js"></script>
+        <script src="'.secure_url_base().'/bootstrap.min.js"></script>
+        </div>
+        </body>
+        </html>
+    ';
 }
 }
 
@@ -328,30 +371,37 @@ function pretty_time_str($x) {
     return time_str($x);
 }
 
-// TODO: currently only a few calls use the arguments, styling should only happen through CSS clases so $extra should be dropped in the future
-function start_table($extra="width=\"100%\"", $class="table-bordered") {
-    echo "<table class=\"table $class\" $extra>";
+function start_table_str($class="") {
+    return '<div class="table">
+      <table width="100%" class="table table-condensed '.$class.'" >
+    ';
 }
 
-// TODO: currently no call uses the arguments, styling should only happen through CSS clases so $extra could be dropped in the future
-function start_table_noborder($extra="width=\"100%\"", $class="noborder") {
-    echo "<table class=\"table $class\" $extra>";
+function start_table($class="") {
+    echo start_table_str($class);
+}
+
+function end_table_str() {
+    return '</table>
+        </div>
+    ';
 }
 
 function end_table() {
-    echo "</table>\n";
+    echo end_table_str();
 }
 
 // Table header row with unlimited number of columns
 
 function table_header() {
     echo "<tr>\n";
+    $c = 'class="bg-primary"';
     for ($i = 0; $i < func_num_args(); $i++) {
         if (is_array(func_get_arg($i))) {
             $col = func_get_arg($i);
-            echo "<th ".$col[1].">".$col[0]."</th>\n";
+            echo "<th $c ".$col[1].">".$col[0]."</th>\n";
         } else {
-            echo "<th valign=top>".func_get_arg($i)."</th>\n";
+            echo "<th $c>".func_get_arg($i)."</th>\n";
         }
     }
     echo "</tr>\n";
@@ -374,27 +424,32 @@ function table_row() {
 
 function row1($x, $ncols=2, $class="heading") {
     if ($class == "heading") {
-        echo "<tr><th colspan=\"$ncols\">$x</th></tr>\n";
+        echo "<tr><th class=\"bg-primary\" colspan=\"$ncols\">$x</th></tr>\n";
     } else {
         echo "<tr><td class=\"$class\" colspan=\"$ncols\">$x</td></tr>\n";
     }
 }
 
-function row2($x, $y, $show_error=false) {
-    if ($x=="") $x="<br>";
+define('NAME_ATTRS', 'class="text-right active" style="padding-right:12px"');
+define('VALUE_ATTRS', 'style="padding-left:12px"');
+define('VALUE_ATTRS_ERR', 'class="danger" style="padding-left:12px"');
+
+function row2($x, $y, $show_error=false, $lwidth='40%') {
+    if ($x==="") $x="<br>";
     if ($y==="") $y="<br>";
-    if ($show_error) {
-        $class1 = 'fieldname_error';
-        $class2 = 'fieldvalue_error';
-    } else {
-        $class1 = 'fieldname';
-        $class2 = 'fieldvalue';
-    }
-    echo "<tr><td width=\"40%\" class=$class1>$x</td><td class=$class2>$y</td></tr>\n";
+    $attrs = $show_error?VALUE_ATTRS_ERR:VALUE_ATTRS;
+    echo "<tr>
+        <td width=\"$lwidth\" ".NAME_ATTRS.">$x</td>
+        <td ".VALUE_ATTRS." >$y</td>
+        </tr>
+    ";
 }
 
-function row2_init($x, $y) {
-    echo "<tr><td class=fieldname width=\"40%\">$x</td><td class=fieldvalue>$y\n";
+function row2_init($x, $y, $lwidth='40%') {
+    echo '<tr>
+        <td class="text-right active" width="'.$lwidth.'"  style="padding-right: 20px;">'.$x.'</td>
+        <td '.VALUE_ATTRS.'>'.$y.'
+    ';
 }
 
 function row2_plain($x, $y) {
@@ -417,12 +472,22 @@ function row_array($x, $class=null) {
     echo "</tr>\n";
 }
 
-function row_heading_array($x) {
+define ('ALIGN_RIGHT', 'style="text-align:right;"');
+
+function row_heading_array($x, $attrs=null) {
     echo "<tr>";
+    $i = 0;
     foreach ($x as $h) {
-        echo "<th>$h</th>";
+        $a = $attrs?$attrs[$i]:"";
+        echo "<th $a class=\"bg-primary\">$h</th>";
+        $i++;
     }
     echo "</tr>\n";
+}
+
+function row_heading($x) {
+    echo '<tr><th class="bg-primary" colspan=99>'.$x.'</th></tr>
+    ';
 }
 
 function random_string() {
@@ -690,9 +755,10 @@ function verify_numeric(&$value, $low, $high = false) {
     return true;
 }
 
-// Generate a "select" HTML element from an array of values
-function select_from_array($name, $array, $selection) {
-    $out = "<select name=\"$name\">";
+// Generate a "select" element from an array of values
+//
+function select_from_array($name, $array, $selection=null, $width=240) {
+    $out = '<select style="color:#000;"class="form-control" style="width:'.$width.'px" name="'.$name.'">"';
 
     foreach ($array as $key => $value) {
         if ($value) {
@@ -700,10 +766,10 @@ function select_from_array($name, $array, $selection) {
             if ($key == $selection) {
                 $out .= "selected ";
             }
-            $out .= "value=\"".$key."\">".$value."</option>";
+            $out .= "value=\"".$key."\">".$value."</option>\n";
         }
     }
-    $out.= "</select>";
+    $out .= "</select>\n";
     return $out;
 }
 
@@ -744,7 +810,7 @@ function current_url() {
 // @param desc The title of the destination - typically used as a popup
 // @param class The optional CSS class of the button. Defaults to a standard button
 //
-function show_button($url, $text, $desc=null, $class="btn btn-default") {
+function show_button($url, $text, $desc=null, $class="btn btn-default btn-sm") {
     if (!$desc) $desc = $text;
     echo "<a href=\"".$url."\" title=\"$desc\" class=\"".$class."\">".$text."</a>\n";
 }
@@ -766,12 +832,14 @@ function show_actionlist_button($url, $text, $desc, $class="btn btn-default"){
     echo "</li>";
 }
 
+// used for showing icons
+//
 function show_image($src, $title, $alt, $height=null) {
     $h = "";
     if ($height) {
         $h = "height=\"$height\"";
     }
-    echo "<img border=\"0\" title=\"$title\" alt=\"$alt\" src=\"$src\" $h>";
+    echo "<img class=\"icon\" border=\"0\" title=\"$title\" alt=\"$alt\" src=\"$src\" $h>";
 }
 
 function check_web_stopped() {
@@ -976,7 +1044,7 @@ function text_counter_script() {
 //
 function textarea_with_counter($name, $maxlen, $text) {
     $rem_name = $name."_remaining";
-    return "<textarea name=\"$name\" rows=4 cols=50 id=\"$name\" onkeydown=\"text_counter(this.form.$name, this.form.$rem_name, $maxlen);\"
+    return "<textarea name=\"$name\" class=\"form-control\" rows=3 id=\"$name\" onkeydown=\"text_counter(this.form.$name, this.form.$rem_name, $maxlen);\"
         onkeyup=\"text_counter(this.form.$name, this.form.$rem_name, $maxlen);\">".$text."</textarea>
         <br><input name=\"$rem_name\" type=\"text\" id=\"$rem_name\" value=\"".($maxlen-strlen($text))."\" size=\"3\" maxlength=\"3\" readonly> ".tra("characters remaining")
     ;
@@ -994,15 +1062,15 @@ function version_string_maj_min_rel($v) {
 
 function google_search_form($url) {
     echo "
-    <form method=get action=\"https://google.com/search\">
-    <input type=hidden name=domains value=\"$url\">
-    <input type=hidden name=sitesearch value=\"$url\">
-    <span class=\"nobar\">
-    <input class=small name=q size=20>
-    <input class=small type=submit value=".tra("Search").">
-    </span>
-    </form>
-";
+        <nobr>
+        <form method=get action=\"https://google.com/search\">
+        <input type=hidden name=domains value=\"$url\">
+        <input type=hidden name=sitesearch value=\"$url\">
+        <input class=small name=q size=20>
+        <input class=small type=submit value=".tra("Search").">
+        </form>
+        </nobr>
+    ";
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

@@ -18,6 +18,8 @@
 
 require_once("../inc/email.inc");
 
+error_page("This feature is deprecated");
+
 $text = get_str('text');
 $subject = get_str('subject');
 

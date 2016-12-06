@@ -112,11 +112,12 @@ if ($preview == tra("Preview")) {
     if (is_admin($logged_in_user)) {
         $options->htmlitems = false;
     }
-    echo "<h2>".tra("Preview")."</h2>\n";
-    echo "<div class=\"pm_preview\">"
-        .output_transform($content, $options)
-        ."</div>\n"
-    ;
+    start_table();
+    row_heading(tra("Preview"));
+    echo "<tr><td>\n";
+    echo output_transform($content, $options);
+    echo "</td></tr>\n";
+    end_table();
 }
 
 start_table();
@@ -153,7 +154,7 @@ function show_message_row($thread, $parent_post) {
 
     $x2 .= " method=\"post\" name=\"post\" onsubmit=\"return checkForm(this)\">\n";
     $x2 .= form_tokens($logged_in_user->authenticator);
-    $x2 .= $bbcode_html."<textarea name=\"content\" rows=\"18\" cols=\"80\">";
+    $x2 .= start_table_str().$bbcode_html.end_table_str()."<textarea class=\"form-control\" name=\"content\" rows=\"18\">";
     $no_quote = get_int("no_quote", true)==1;
     if ($preview) {
         $x2 .= htmlspecialchars($content);
@@ -167,16 +168,16 @@ function show_message_row($thread, $parent_post) {
     } else {
         $enable_signature="";
     }
-    $x2 .= "</textarea><p>
-        <input class=\"btn btn-default\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\">
-        <input class=\"btn btn-primary\" type=\"submit\" value=\"".tra("Post reply")."\">
+    $x2 .= "</textarea><p> </p>
+        <input class=\"btn btn-default btn-sm \" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\">
+        <input class=\"btn btn-default btn-sm \" type=\"submit\" value=\"".tra("Post reply")."\">
         &nbsp;&nbsp;&nbsp;
         <input type=\"checkbox\" name=\"add_signature\" id=\"add_signature\" value=\"add_it\" ".$enable_signature.">
         <label for=\"add_signature\">".tra("Add my signature to this reply")."</label>
 
         </form>
     ";
-    row2($x1, $x2);
+    row2($x1, $x2, false, "20%");
 }
 
 function quote_text($text) {

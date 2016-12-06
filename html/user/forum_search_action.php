@@ -173,7 +173,7 @@ $threads = search_thread_titles($search_list, $forum, $user, $min_timestamp, rou
 
 // Display the threads while we search for posts
 if (count($threads)){
-    echo "<span class=title>" . tra("Thread titles matching your query:") . "</span>";
+    echo "<h3>" . tra("Thread titles matching your query:") . "</h3>";
     show_thread_and_context_header();
     $i = 0;
     foreach ($threads as $thread){
@@ -193,7 +193,7 @@ $posts = search_post_content(
 );
 
 if (count($posts)){
-    echo "<span class=title>" . tra("Messages matching your query:") . "</span>";
+    echo "<h3>" . tra("Messages matching your query:") . "</h3>";
     start_table();
     $n = 1;
     $options = get_output_options($logged_in_user);
