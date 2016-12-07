@@ -56,6 +56,7 @@ NSImage *gBOINC_Logo = NULL;
 NSImage *gPreview_Image = NULL;
 
 int gTopWindowListIndex = -1;
+NSInteger myWindowNumber;
 
 NSRect gMovingRect;
 float gImageXIndent;
@@ -238,9 +239,7 @@ int signof(float x) {
     int newFrequency = 0;
     int coveredFreq = 0;
     NSRect theFrame = [ self frame ];
-    NSInteger myWindowNumber;
-    NSInteger windowList[20];
-    NSInteger i, n;
+    NSUInteger n;
     NSRect currentDrawingRect, eraseRect;
     NSPoint imagePosition;
     char *msg;
@@ -261,7 +260,6 @@ int signof(float x) {
             }
         }
         if (gPreview_Image) {
-            [ gPreview_Image setScalesWhenResized:YES ];
             [ gPreview_Image setSize:theFrame.size ];
             [ gPreview_Image drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 ];
         }
@@ -305,14 +303,15 @@ int signof(float x) {
 
     newFrequency = getSSMessage(&msg, &coveredFreq);
 
-    // NOTE: My tests seem to confirm that the top window is always the first 
-    // window returned by NSWindowList under OS 10.5 and the second window 
-    // returned by NSWindowList under OS 10.3.9 and OS 10.4.  However, Apple's 
+    // NOTE: My tests seem to confirm that the top window is always the first
+    // window returned by [NSWindow windowNumbersWithOptions:] However, Apple's
     // documentation is unclear whether we can depend on this.  So I have 
     // added some safety by doing two things:
-    // [1] Only use the NSWindowList test when we have started project graphics.
+    // [1] Only use the windowNumbersWithOptions test when we have started
+    //     project graphics.
     // [2] Assume that our window is covered 45 seconds after starting project 
-    //     graphics even if the NSWindowList test did not indicate that is so.
+    //     graphics even if the windowNumbersWithOptions test did not indicate
+    //     that is so.
     //
     // getSSMessage() returns a non-zero value for coveredFreq only if we have started 
     // project graphics.
@@ -320,31 +319,20 @@ int signof(float x) {
     // If we should use a different frequency when our window is covered by another 
     // window, then check whether there is a window at a higher z-level than ours.
 
-    // Assuming our window(s) are initially the top window(s), 
-    // determine our position in the window list when no graphics 
-    // applications have covered us.
+    // Assuming our window(s) are initially the top window(s), determine our position
+    // in the window list when no graphics applications have covered us.
     if (gTopWindowListIndex < 0) {
+        NSArray *theWindowList = [NSWindow windowNumbersWithOptions:NSWindowNumberListAllApplications];
         myWindowNumber = [ myWindow windowNumber ];
-        NSWindowList(20, windowList);
-        NSCountWindows(&n);
-        if (n > 20) n = 20; 
-        for (i=0; i<n; i++) {
-            if (windowList[i] == myWindowNumber) {
-                gTopWindowListIndex = i;
-                break;
-            }
-        }
+        gTopWindowListIndex = [theWindowList indexOfObjectIdenticalTo:[NSNumber numberWithInt:myWindowNumber]];
     }
 
     if (coveredFreq) {
         if ( (msg != NULL) && (msg[0] != '\0') ) {
-            myWindowNumber = [ myWindow windowNumber ];
-
-            windowList[0] = 0;
-            NSWindowList(20, windowList);
-            NSCountWindows(&n);
-            if (gTopWindowListIndex < n) { 
-                if (windowList[gTopWindowListIndex] != myWindowNumber) {
+            NSArray *theWindowList = [NSWindow windowNumbersWithOptions:NSWindowNumberListAllApplications];
+            n = [theWindowList count];
+            if (gTopWindowListIndex < n) {
+                if ([(NSNumber*)[theWindowList objectAtIndex:gTopWindowListIndex] integerValue] != myWindowNumber) {
                     // Project graphics application has a window open above ours
                     // Don't waste CPU cycles since our window is obscured by application graphics
                     newFrequency = coveredFreq;
@@ -356,7 +344,7 @@ int signof(float x) {
             newFrequency = coveredFreq;
         }
     }
-    
+
     // Clear the previous drawing area
     currentDrawingRect = gMovingRect;
     currentDrawingRect.origin.x = (float) ((int)gCurrentPosition.x);
