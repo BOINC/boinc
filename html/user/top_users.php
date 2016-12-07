@@ -55,7 +55,6 @@ function user_table_start($sort_by) {
     }
     $x[] = tra("Country");
     $x[] = tra("Participant since");
-    $s = 'style="text-align:right;"';
     $a = array(null, null, ALIGN_RIGHT, ALIGN_RIGHT, null, null);
     row_heading_array($x, $a);
 }

@@ -109,7 +109,7 @@ if (get_str('action')=="hide") {
 }
 
 if ($get_reason) {
-    row2(tra("Optional explanation %1 This is included in email to user.%2", "<br><p class=\"text-muted\">", "</p>"),
+    row2(tra("Optional explanation %1 This is included in email to user.%2", "<br><small>", "</small>"),
         '<textarea name="reason" class="form-control" rows="10"></textarea>'
     );
     row2(

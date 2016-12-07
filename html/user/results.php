@@ -95,11 +95,9 @@ $nav = result_navigation($info, $clause);
 if (count($results)) {
     echo $nav;
     result_table_start(true, $show_host_link, $info);
-    $i = 0;
     foreach ($results as $result) {
         if ($i >= $results_per_page) break;
-        show_result_row($result, true, $show_host_link, $show_names, $i);
-        $i++;
+        show_result_row($result, true, $show_host_link, $show_names);
     }
     end_table();
 } else {

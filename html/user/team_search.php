@@ -42,7 +42,7 @@ function merge_lists($list1, &$list2, $weight) {
     }
 }
 
-function compare($t1, $t2) {
+function compare_teams($t1, $t2) {
     if ($t1->refcnt > $t2->refcnt) return -1;
     if ($t1->refcnt < $t2->refcnt) return 1;
     if ($t1->rnd > $t2->rnd) return -1;
@@ -56,7 +56,7 @@ function sort_list(&$list) {
     foreach ($list as $a=>$b) {
         $b->rnd = rand();
     }
-    usort($list, 'compare');
+    usort($list, 'compare_teams');
 }
 
 function get_teams($clause, $active) {
@@ -89,7 +89,6 @@ function show_list($list) {
     $a[] = null;
     row_heading_array($x, $a);
 
-    $i = 0;
     foreach ($list as $team) {
         $type = team_type_name($team->type);
         echo "<tr>

@@ -437,7 +437,6 @@ define('VALUE_ATTRS_ERR', 'class="danger" style="padding-left:12px"');
 function row2($x, $y, $show_error=false, $lwidth='40%') {
     if ($x==="") $x="<br>";
     if ($y==="") $y="<br>";
-    $attrs = $show_error?VALUE_ATTRS_ERR:VALUE_ATTRS;
     echo "<tr>
         <td width=\"$lwidth\" ".NAME_ATTRS.">$x</td>
         <td ".VALUE_ATTRS." >$y</td>
@@ -460,14 +459,10 @@ function rowify($string) {
     echo "<tr><td>$string</td></tr>";
 }
 
-function row_array($x, $class=null) {
-    if ($class) {
-        echo "<tr class='$class'>";
-    } else {
-        echo "<tr>";
-    }
+function row_array($x) {
+    echo "<tr>\n";
     foreach ($x as $h) {
-        echo "<td>$h</td>";
+        echo "<td>$h</td>\n";
     }
     echo "</tr>\n";
 }

@@ -417,9 +417,7 @@ function bad_result($result) {
     return false;
 }
 
-function show_result_row(
-    $result, $show_wu_link, $show_host_link, $show_name, $i
-) {
+function show_result_row($result, $show_wu_link, $show_host_link, $show_name) {
     $s = time_str($result->sent_time);
     // if result has been reported, show the received time,
     // else show the reporting deadline in green if in the future
@@ -439,8 +437,7 @@ function show_result_row(
     $ss = state_string($result);
     $result_granted_credit = format_credit($result->granted_credit);
     $result_granted_credit = result_granted_credit_string($result, $result_granted_credit);
-    $j = $i % 2;
-    echo "<tr class=row$j>";
+    echo "<tr>";
     if ($show_name) {
         $x = $result->name;
     } else {

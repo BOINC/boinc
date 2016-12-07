@@ -172,13 +172,13 @@ if ($search_author) {
 $threads = search_thread_titles($search_list, $forum, $user, $min_timestamp, round($limit/7), $search_sort, $show_hidden_posts);
 
 // Display the threads while we search for posts
+//
 if (count($threads)){
     echo "<h3>" . tra("Thread titles matching your query:") . "</h3>";
     show_thread_and_context_header();
-    $i = 0;
     foreach ($threads as $thread){
         if ($thread->hidden) continue;
-        show_thread_and_context($thread, $logged_in_user, $i++);
+        show_thread_and_context($thread, $logged_in_user);
     }
     end_table();
     echo "<br /><br />";

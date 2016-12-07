@@ -306,8 +306,6 @@ function can_reply($thread, $forum, $user) {
 function show_posts(
     $thread, $forum, $start, $postid, $sort_style, $filter, $logged_in_user
 ) {
-    $n = 1;
-
     $num_to_show = 20;
     if ($logged_in_user && $logged_in_user->prefs->display_wrap_postcount > 0) {
         $num_to_show = $logged_in_user->prefs->display_wrap_postcount;
@@ -413,10 +411,9 @@ function show_posts(
             break;
         }
         show_post(
-            $post, $thread, $forum, $logged_in_user, $latest_viewed, $n,
+            $post, $thread, $forum, $logged_in_user, $latest_viewed,
             FORUM_CONTROLS, $filter
         );
-        $n = ($n+1)%2;
         
         if ($post->timestamp > $latest_shown_timestamp) {
             $latest_shown_timestamp = $post->timestamp;
@@ -482,7 +479,7 @@ function avatar_url($url) {
 // Display an individual post
 //
 function show_post(
-    $post, $thread, $forum, $logged_in_user, $latest_viewed, $n,
+    $post, $thread, $forum, $logged_in_user, $latest_viewed,
     $controls=FORUM_CONTROLS, $filter=true
 ) {
     global $country_to_iso3166_2;
@@ -627,7 +624,7 @@ function show_post(
     echo tra("Posted: %1", pretty_time_str($post->timestamp)), " ";
 
     if ($post->parent_post) {
-        echo tra(" - in response to ")."<a href=\"forum_thread.php?id=".$thread->id."&amp;postid=".$post->parent_post."\">".tra("Message %1", $post->parent_post)."</a>.";
+        echo tra(" - in response to ")."<a href=\"forum_thread.php?id=".$thread->id."&amp;postid=".$post->parent_post."\">".tra("Message %1", $post->parent_post)."</a>. &nbsp; ";
     }
     if ($can_edit && $controls != NO_CONTROLS) {
         show_button("forum_edit.php?id=".$post->id."$tokens", tra("Edit"), tra("Edit this message"));
@@ -709,14 +706,13 @@ function show_post_and_context($post, $thread, $forum, $options, $n) {
     $when = time_diff_str($post->timestamp, time());
     $user = BoincUser::lookup_id($post->user);
     $title = cleanup_title($thread->title);
-    $m = $n%2;
     if ($post->hidden) {
         $deleted = "<br><font color=red>[".tra("Hidden by a moderator")."]</font>";
     } else {
         $deleted = "";
     }
     echo "
-        <tr class=row$m>
+        <tr>
         <td>
             $n)
     ";
@@ -1240,13 +1236,12 @@ function show_thread_and_context_header() {
 // show a 1-line summary of thread and its forum.
 // Used for search results and subscription list
 //
-function show_thread_and_context($thread, $user, $i) {
+function show_thread_and_context($thread, $user) {
     $thread_forum = BoincForum::lookup_id($thread->forum);
     if (!$thread_forum) return;
     if (!is_forum_visible_to_user($thread_forum, $user)) return;
     $owner = BoincUser::lookup_id($thread->owner);
-    $j = $i % 2;
-    echo "<tr class=row$j><td>\n";
+    echo "<tr><td>\n";
     switch($thread_forum->parent_type) {
     case 0:
         $category = BoincCategory::lookup_id($thread_forum->category);

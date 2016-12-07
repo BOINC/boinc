@@ -324,7 +324,6 @@ function cpu_desc($host) {
 // If private is false, show the owner's name only if they've given permission
 //
 function show_host_row($host, $i, $private, $show_owner, $any_product_name) {
-    $j = $i % 2;
     $anonymous = false;
     if (!$private) {
         if ($show_owner) {
@@ -335,7 +334,7 @@ function show_host_row($host, $i, $private, $show_owner, $any_product_name) {
             }
         }
     }
-    echo "<tr class=row$j><td>ID: $host->id
+    echo "<tr><td>ID: $host->id
         <br><a href=show_host_detail.php?hostid=$host->id>".tra("Details")."</a> |
         <a href=results.php?hostid=$host->id>".tra("Tasks")."</a>
     ";

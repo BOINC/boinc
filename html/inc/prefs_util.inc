@@ -103,7 +103,6 @@ abstract class PREF {
     // show form row
     //
     function show_form_row($prefs, $error) {
-        $tag = $this->tag;
         $this->tooltip_tr();
         echo "<td ".NAME_ATTRS.">$this->desc</td>";
         $this->show_form($prefs, $error);
@@ -532,20 +531,18 @@ class PREF_HOUR_RANGE extends PREF {
     }
 }
 
-// display preference subsets as Columns
+// display preference subsets as columns
 //
-function row_top($x, $ncols=6) {
+function row_top($x) {
     echo "<tr class=\"bg-primary\"><th width=35%>$x</th>";
     echo "<th ><b>".tra("Default")."</b></th>
         <th ><b>".tra("Home")."</b></th>
         <th ><b>".tra("School")."</b></th>
         <th ><b>".tra("Work")."</b></th>
     ";
-    //echo "<th width=15%><br></th>
     echo "</tr>\n";
 }
 
-//
 // row_defs - Display a value for all 4 venues in one row
 //
 function row_defs($pre, $item, $post, $type, $prefs, $tooltip=null) {

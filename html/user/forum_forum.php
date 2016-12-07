@@ -159,7 +159,6 @@ function show_forum($forum, $start, $sort_style, $user) {
 
     // Run through the list of threads, displaying each of them
     //
-    $i=0;
     foreach ($threads as $thread) {
         $owner = BoincUser::lookup_id($thread->owner);
         if (!$owner) continue;

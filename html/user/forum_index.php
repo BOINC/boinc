@@ -43,7 +43,7 @@ if ((get_int("read", true) == 1)) {
     }
 }
 
-function show_forum_summary($forum, $i) {
+function show_forum_summary($forum) {
     switch ($forum->parent_type) {
     case 0:
         $t = $forum->title;
@@ -105,16 +105,15 @@ foreach ($categories as $category) {
         ';
     }
     $forums = BoincForum::enum("parent_type=0 and category=$category->id order by orderID");
-    $i = 0;
     foreach ($forums as $forum) {
-        show_forum_summary($forum, $i++);
+        show_forum_summary($forum);
     }
 }
 
 if ($user && $user->teamid) {
     $forum = BoincForum::lookup("parent_type=1 and category=$user->teamid");
     if ($forum) {
-        show_forum_summary($forum, $i++);
+        show_forum_summary($forum);
     }
 }
 end_table();
@@ -124,7 +123,6 @@ if ($user) {
     if (count($subs)) {
         echo "<p><h3>".tra("Subscribed threads")."</h3><p>";
         show_thread_and_context_header();
-        $i = 0;
         foreach ($subs as $sub) {
             $thread = BoincThread::lookup_id($sub->threadid);
             if (!$thread) {
@@ -132,7 +130,7 @@ if ($user) {
                 continue;
             }
             if ($thread->hidden) continue;
-            show_thread_and_context($thread, $user, $i++);
+            show_thread_and_context($thread, $user);
         }
         end_table();
     }

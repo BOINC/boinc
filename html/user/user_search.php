@@ -42,7 +42,7 @@ function show_user($user) {
     ";
 }
 
-function search_form() {
+function user_search_form() {
     page_head("User search");
     echo "<form name=f method=get action=user_search.php>
         <input type=hidden name=action value=search>
@@ -149,7 +149,7 @@ $action = get_str('action', true);
 if ($action) {
     search_action();
 } else {
-    search_form();
+    user_search_form();
 }
 
 $cvs_version_tracker[]="\$Id: user_search.php 13586 2007-09-13 09:46:36Z Rytis $";  //Generated automatically - do not edit

@@ -67,7 +67,7 @@ $dormant_projects = array(
         array(
             "FreeHAL",
             "http://www.freehal.net/freehal_at_home/",
-            tra("Private"),
+            tra("Independent"),
             tra("Artificial intelligence"),
             tra("Parse and convert semantic nets for use in FreeHAL, an artificial intelligence that uses semantic networks, stemmers, part of speech databases, and part of speech taggers in order to imitate human behavior in conversations."),
             "",
@@ -464,7 +464,7 @@ $mixed = array(
         array(
             "Yoyo@home",
             "http://www.rechenkraft.net/yoyo/",
-            tra("Private"),
+            tra("Independent"),
             tra("Mathematics, physics, evolution"),
             tra("Yoyo@home is an adapter between BOINC and several existing volunteer computing projects: ECM, Muon, Evolution@home, and distributed.net"),
             "",
@@ -519,7 +519,7 @@ $math = array(
 //        array(
 //            "OProject@Home",
 //            "http://oproject.info/",
-//            tra("Private"),
+//            tra("Independent"),
 //            tra("Mathematics, Physics, Artificial Intelligence"),
 //            tra("Simulation of quantum computing; Goldbach's conjecture."),
 //            "oproject_logo.png",
@@ -559,7 +559,7 @@ $math = array(
 //        array(
 //            "Mersenne@home",
 //            "http://mersenneathome.net/",
-//            tra("Private"),
+//            tra("Independent"),
 //            tra("Mathematics"),
 //            tra("Mersenne@home searches for 'Mersenne primes' - prime numbers of the form 2<sup>p</sup>-1."),
 //
@@ -568,7 +568,7 @@ $math = array(
 //        array(
 //            "DistrRTgen",
 //            "http://boinc.freerainbowtables.com/distrrtgen/",
-//            "Private",
+//            "Independent",
 //            tra("Cryptography"),
 //            "To give the world's security experts the best tools available for detecting weak hashes. This can help them to force developers to use more secure methods of password protection.",
 //            "freerainbowtables_logo.png",
@@ -578,7 +578,7 @@ $math = array(
         array(
             "Moo! Wrapper",
             "http://moowrap.net/",
-            "Private",
+            "Independent",
             tra("Cryptography and combinatorics"),
             tra("Run applications from distributed.net"),
             "",
@@ -588,7 +588,7 @@ $math = array(
         array(
             "Enigma@Home",
             "http://www.enigmaathome.net/",
-            tra("Private"),
+            tra("Independent"),
             tra("Cryptography"),
             tra("Attempt to decode 3 original Enigma messages. The signals were intercepted in the North Atlantic in 1942 and are believed to be unbroken."),
             "",
@@ -598,7 +598,7 @@ $math = array(
         array(
             "Collatz Conjecture",
             "https://boinc.thesonntags.com/collatz/",
-            tra("Private"),
+            tra("Independent"),
             tra("Mathematics"),
             tra("Study the Collatz Conjecture, an unsolved conjecture in mathematics"),
             "",
@@ -654,7 +654,7 @@ $math = array(
         array(
             "PrimeGrid",
             "http://www.primegrid.com/",
-            tra("Private"),
+            tra("Independent"),
             tra("Mathematics"),
             tra("Primegrid has multiple projects searching for different forms of very large prime numbers, including searching for the largest known prime number."),
             "primegrid_logo.png",
@@ -744,7 +744,7 @@ $math = array(
         array(
             "SRBase",
             "http://srbase.myfirewall.org/sr5/",
-            "Private",
+            "Independent",
             "Mathematics",
             "SRBase is a mathematical research project that uses Internet-connected computers trying to solve Sierpinski / Riesel Bases up to 1030.",
             "",

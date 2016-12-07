@@ -67,7 +67,7 @@ function header_row($mode) {
     echo "</th><th>CUDA Credit</th><th>Number of CUDA jobs</th></tr>\n";
 }
 
-function show_row($x, $y, $mode, $i) {
+function show_row($x, $y, $mode) {
     echo "<tr><td>";
     switch ($mode) {
     case 'host':
@@ -119,10 +119,8 @@ page_head(title($mode));
 
 start_table('table-striped');
 header_row($mode);
-$i = 0;
 foreach ($array as $x=>$y) {
-    show_row($x, $y, $mode, $i);
-    $i++;
+    show_row($x, $y, $mode);
 }
 end_table();
 

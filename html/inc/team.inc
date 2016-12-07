@@ -390,8 +390,7 @@ function team_links($team) {
 function show_team_row($team, $i) {
     $team_expavg_credit = format_credit_large($team->expavg_credit);
     $team_total_credit = format_credit_large($team->total_credit);
-    $j = $i % 2;
-    echo"<tr class=row$j>
+    echo "<tr>
         <td>$i</td>
         <td>".team_links($team)."</td>
         <td align=right>".$team->nusers."</td>
@@ -399,7 +398,8 @@ function show_team_row($team, $i) {
         <td align=right>$team_total_credit</td>
         <td>$team->country</td>
         <td>".team_type_name($team->type)."</td>
-        </tr>\n";
+        </tr>
+    ";
 }
 
 function user_join_team($team, $user) {

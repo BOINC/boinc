@@ -99,18 +99,20 @@ function pm_form($replyto, $userid, $error = null) {
         $content = "[quote]".$message->content."[/quote]\n";
         $userid = $message->senderid;
         $user = BoincUser::lookup_id($userid);
-        if ($user) {
-            $writeto = $userid." (".$user->name.")";
+        if (!$user) {
+            error_page("Sender no longer exists");
         }
+        $writeto = $userid." (".$user->name.")";
         $subject = $message->subject;
         if (substr($subject, 0, 3) != "re:") {
             $subject = "re: ".$subject;
         }
     } elseif ($userid) {
         $user = BoincUser::lookup_id($userid);
-        if ($user) {
-            $writeto = $userid." (".$user->name.")";
+        if (!$user) {
+            error_page("Sender no longer exists");
         }
+        $writeto = $userid." (".$user->name.")";
     } else {
         $writeto = sanitize_tags(post_str("to", true));
         $subject = post_str("subject", true);
