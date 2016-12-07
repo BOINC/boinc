@@ -56,7 +56,7 @@ function navbar_start($brand, $fixed, $inverse) {
 
 // call this to end it
 //
-function navbar_end($fixed) {
+function navbar_end() {
     echo '
       </ul>
     </div>
@@ -202,7 +202,7 @@ function sample_navbar(
     // add your own menu here if you want
 
     navbar_right($user);
-    navbar_end(true);
+    navbar_end();
 }
 
 // output a panel.
@@ -266,5 +266,3 @@ function grid($top_func, $left_func, $right_func, $left_width=6) {
         </div>
     ';
 }
-
-?>

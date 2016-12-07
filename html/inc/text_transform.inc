@@ -16,14 +16,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once('../inc/sanitize_html.inc');
-
 // Functions that process user-supplied text (e.g. messages)
 // prior to displaying it to users.
 // Goals:
 // - Security (don't send evil javascript)
 // - obey user preferences
 // - improve formatting (e.g., convert newlines to <br> tags)
+
+require_once('../inc/sanitize_html.inc');
 
 class output_options {
     var $bb2html;            // BBCode as HTML? (on)

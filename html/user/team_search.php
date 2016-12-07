@@ -79,13 +79,13 @@ function show_list($list) {
         $x[] = tra("Validated?");
         $a[] = null;
     }
-    $x[] = tra("Description")."</th>
+    $x[] = tra("Description");
     $a[] = null;
-    $x[] = tra("Average credit")."</th>
+    $x[] = tra("Average credit");
     $a[] = ALIGN_RIGHT;
-    $x[] = tra("Type")."</th>
+    $x[] = tra("Type");
     $a[] = null;
-    $x[] = tra("Country")."</th>
+    $x[] = tra("Country");
     $a[] = null;
     row_heading_array($x, $a);
 
