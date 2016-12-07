@@ -11,11 +11,11 @@ if (0) {
     fclose($f);
 }
 
-function search_form() {
+function boinc_google_search_form() {
     echo "
-    <form method=get action=\"http://google.com/search\">
-    <input type=hidden name=domains value=\"http://boinc.berkeley.edu\">
-    <input type=hidden name=sitesearch value=\"http://boinc.berkeley.edu\">
+    <form method=get action=\"https://google.com/search\">
+    <input type=hidden name=domains value=\"https://boinc.berkeley.edu\">
+    <input type=hidden name=sitesearch value=\"https://boinc.berkeley.edu\">
     <span class=\"nobar\">
     <input class=small name=q size=20>
     <input class=small type=submit value=".tra("Search").">
@@ -68,7 +68,7 @@ function page_head($title, $extra="") {
         <td align=right><a href=index.php><img src=\"logo/www_logo.gif\" alt=\"BOINC logo\"></a>
         <br>
 ";
-        search_form();
+        boinc_google_search_form();
 echo "
         </td>
         </tr></table>

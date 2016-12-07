@@ -543,6 +543,7 @@ const char* boincerror(int which_error) {
         case ERR_NEED_HTTPS: return "HTTPS needed";
         case ERR_CHMOD : return "chmod() failed";
         case ERR_STAT : return "stat() failed";
+        case ERR_FCLOSE : return "fclose() failed";
         case HTTP_STATUS_NOT_FOUND: return "HTTP file not found";
         case HTTP_STATUS_PROXY_AUTH_REQ: return "HTTP proxy authentication failure";
         case HTTP_STATUS_RANGE_REQUEST_ERROR: return "HTTP range request error";
@@ -772,8 +773,8 @@ vector<string> split(string s, char delim) {
 // - can't have ..
 //
 bool is_valid_filename(const char* name) {
-    int n = strlen(name);
-    for (int i=0; i<n; i++) {
+    size_t n = strlen(name);
+    for (size_t i=0; i<n; i++) {
         if (iscntrl(name[i])) {
             return false;
         }
@@ -785,4 +786,50 @@ bool is_valid_filename(const char* name) {
         return false;
     }
     return true;
+}
+
+// safely copy a string to char array
+//
+char* safe_copy(string s) {
+    char *p = new char[s.size()+1];
+    std::copy(s.begin(), s.end(), p);
+    p[s.size()]= '\0';
+    return p;
+}
+
+// get the name part of a filepath
+// returns:
+//   0 on success
+//  -1 when fpath is empty
+//  -2 when fpath is a directory
+int path_to_filename(string fpath, string& fname) {
+    std::string::size_type n;
+    if (fpath.size() == 0) {
+        return -1;
+    }
+    n = fpath.rfind("/");
+    if (n == std::string::npos) {
+        fname = fpath;
+    } else if (n == fpath.size()-1) {
+        return -2;
+    } else {
+        fname = fpath.substr(n+1);
+    }
+    return 0;
+}
+
+// get the name part of a filepath
+//
+// wrapper for path_to_filename(string, string&)
+int path_to_filename(string fpath, char* &fname) {
+    string name;
+    int ret;
+    if ((ret = path_to_filename(fpath, name))) {
+        return ret;
+    } else {
+        fname = new char[name.size()+1];
+        std::copy(name.begin(), name.end(), fname);
+        fname[name.size()]= '\0';
+    }
+    return 0;
 }

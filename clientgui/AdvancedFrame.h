@@ -98,8 +98,6 @@ public:
     void OnConnect( CFrameEvent& event );
     void OnNotification( CFrameEvent& event );
 
-    void OnUpdateStatus( CFrameEvent& event );
-
     void ResetReminderTimers();
 
     bool RestoreState();

@@ -1,19 +1,19 @@
 # Status
 
-[![Build Status](https://travis-ci.org/BOINC/boinc.svg?branch=master)](https://travis-ci.org/BOINC/boinc) [![Coverity Scan Build Status](https://scan.coverity.com/projects/4226/badge.svg)](https://scan.coverity.com/projects/boinc-boinc)
+[![Build Status](https://travis-ci.org/BOINC/boinc.svg?branch=master)](https://travis-ci.org/BOINC/boinc) [![Coverity Scan Build Status](https://scan.coverity.com/projects/4226/badge.svg)](https://scan.coverity.com/projects/boinc-boinc) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/BOINC/boinc/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/BOINC/boinc/?branch=master)
 
 # BOINC
 
-Project Website: http://boinc.berkeley.edu
+Project Website: https://boinc.berkeley.edu
 
 ## Want to create a project
-See: http://boinc.berkeley.edu/trac/wiki
+See: https://boinc.berkeley.edu/trac/wiki
 
 ## Want to help translate
-See: http://boinc.berkeley.edu/trac/wiki/TranslateIntro
+See: https://boinc.berkeley.edu/trac/wiki/TranslateIntro
 
 ## Want to contribute
-See: http://boinc.berkeley.edu/trac/wiki/SoftwareDevelopment
+See: https://boinc.berkeley.edu/trac/wiki/SoftwareDevelopment
 
 ### Note
 

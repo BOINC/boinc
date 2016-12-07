@@ -390,7 +390,6 @@ void CViewProjects::OnProjectUpdate( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
     wxASSERT(m_pListPane);
 
-    pFrame->UpdateStatusText(_("Updating project..."));
     row = -1;
     while (1) {
         // Step through all selected items
@@ -399,7 +398,6 @@ void CViewProjects::OnProjectUpdate( wxCommandEvent& WXUNUSED(event) ) {
         
         pDoc->ProjectUpdate(m_iSortedIndexes[row]);
     }
-    pFrame->UpdateStatusText(wxT(""));
 
     m_bForceUpdateSelection = true;
     UpdateSelection();
@@ -432,13 +430,9 @@ void CViewProjects::OnProjectSuspend( wxCommandEvent& WXUNUSED(event) ) {
         PROJECT* project = pDoc->project(m_iSortedIndexes[row]);
         if (project) {
             if (project->suspended_via_gui) {
-                pFrame->UpdateStatusText(_("Resuming project..."));
                 pDoc->ProjectResume(m_iSortedIndexes[row]);
-                pFrame->UpdateStatusText(wxT(""));
             } else {
-                pFrame->UpdateStatusText(_("Suspending project..."));
                 pDoc->ProjectSuspend(m_iSortedIndexes[row]);
-                pFrame->UpdateStatusText(wxT(""));
             }
         }
     }
@@ -473,13 +467,9 @@ void CViewProjects::OnProjectNoNewWork( wxCommandEvent& WXUNUSED(event) ) {
         PROJECT* project = pDoc->project(m_iSortedIndexes[row]);
         if (project) {
             if (project->dont_request_more_work) {
-                pFrame->UpdateStatusText(_("Telling project to allow additional task downloads..."));
                 pDoc->ProjectAllowMoreWork(m_iSortedIndexes[row]);
-                pFrame->UpdateStatusText(wxT(""));
             } else {
-                pFrame->UpdateStatusText(_("Telling project to not fetch any additional tasks..."));
                 pDoc->ProjectNoMoreWork(m_iSortedIndexes[row]);
-                pFrame->UpdateStatusText(wxT(""));
             }
         }
     }
@@ -513,8 +503,6 @@ void CViewProjects::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
     if (!pDoc->IsUserAuthorized())
         return;
 
-    pFrame->UpdateStatusText(_("Resetting project..."));
-
     row = -1;
     while (1) {
         // Step through all selected items
@@ -542,8 +530,6 @@ void CViewProjects::OnProjectReset( wxCommandEvent& WXUNUSED(event) ) {
         }
     }
     
-    pFrame->UpdateStatusText(wxT(""));
-
     m_bForceUpdateSelection = true;
     UpdateSelection();
     pFrame->FireRefreshView();
@@ -571,8 +557,6 @@ void CViewProjects::OnProjectDetach( wxCommandEvent& WXUNUSED(event) ) {
     if (!pDoc->IsUserAuthorized())
         return;
 
-    pFrame->UpdateStatusText(_("Removing project..."));
-
     row = -1;
     while (1) {
         // Step through all selected items
@@ -599,8 +583,6 @@ void CViewProjects::OnProjectDetach( wxCommandEvent& WXUNUSED(event) ) {
             pDoc->ProjectDetach(m_iSortedIndexes[row]);
         }
     }
-
-    pFrame->UpdateStatusText(wxT(""));
 
     m_bForceUpdateSelection = true;
     UpdateSelection();
@@ -631,14 +613,11 @@ void CViewProjects::OnProjectWebsiteClicked( wxEvent& event ) {
 
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
-    pFrame->UpdateStatusText(_("Launching browser..."));
 
     int website_task_index = event.GetId() - ID_TASK_PROJECT_WEB_PROJDEF_MIN;
     wxLaunchDefaultBrowser(
         m_TaskGroups[1]->m_Tasks[website_task_index]->m_strWebSiteLink
     );
-
-    pFrame->UpdateStatusText(wxT(""));
 
     UpdateSelection();
     pFrame->FireRefreshView();

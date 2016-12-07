@@ -193,18 +193,14 @@
   <string name="prefs_client_log_flags_header">BOINC客戶端紀錄檔標籤</string>
   <string name="prefs_gui_log_level_header">GUI日誌等級</string>
   <string name="prefs_gui_log_level_description">指定GUI紀錄的詳細程度。</string>
-  <string name="prefs_unit_mb">MB</string>
-  <string name="prefs_unit_gb">GB</string>
-  <string name="prefs_unit_pct">%</string>
-  <string name="prefs_unit_celcius">°C</string>
+  <string name="prefs_unit_celsius">°C</string>
   <string name="prefs_unit_seconds">秒</string>
   <!--projects tab strings-->
   <string name="projects_loading">正在讀取專案…</string>
   <string name="projects_add">新增專案</string>
   <string name="projects_icon">專案圖示</string>
-  <string name="projects_credits_header">積分:</string>
-  <string name="projects_credits_host_header">(在此裝置上)</string>
-  <string name="projects_credits_user_header">(總共)</string>
+  <string name="projects_credits">積分:</string>
+  <string name="projects_credits_host_and_user">%1$,d (在此裝置上) %2$,d (總共)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">用戶已暫停</string>
   <string name="projects_status_dontrequestmorework">拒絕新任務</string>
@@ -338,14 +334,10 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">版本</string>
   <string name="about_name_long">柏克萊開放式網路運算平台</string>
-  <string name="about_copyright">\u00A9 2003–2014 University of California, Berkeley.</string>
+    <string name="about_copyright">\u00A9 2003–2016 University of California, Berkeley.</string>
   <string name="about_copyright_reserved">All Rights Reserved.</string>
   <string name="about_credits">特別感謝 Max Planck Institute for Gravitational Physics, IBM Corporation 和 HTC Corporation 的技術支援。</string>
-  <!--notice notification-->
-  <string name="notice_notification_single_header">新訊息來自</string>
-  <!--e.g. New notice from SETI@HOME-->
-  <string name="notice_notification_multiple_header">新訊息</string>
-  <!--e.g. 3 new notices-->
+    <!--notice notification-->
   <!--multi BOINC compitability-->
   <string name="nonexcl_dialog_header">偵測到志願運算 APP</string>
   <string name="nonexcl_dialog_text">有其它志願運算 APP 正在此裝置執行。只容許一個版本執行。</string>

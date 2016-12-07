@@ -14,10 +14,10 @@
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 1/5/16\
+Last updated 9/10/16\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0 \
-This document applies to BOINC version 7.6.23 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
+This document applies to BOINC version 7.6.34 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
@@ -101,7 +101,7 @@ You get these tools, including the GCC compilers and system library header files
 Note: building BOINC Manager 7.3.0 and later requires the OS 10.8 SDK or later.\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
-\cf0 BOINC depends on seven third-party libraries: wxWidgets-3.0.0, c-ares-1.10.0, curl-7.46.0, openssl-1.0.2e, freetype-2.6.2, ftgl-2.1.3~rc5 and sqlite-3.9.2.  You can obtain the source files from the following URLs.  Clicking on the first URL of each pair will download the tar file.  The second URL will open the third party\'92s home web page.  On Mac OS X the tar file will usually be downloaded into the Downloads folder.  You will need to expand the tar files by double-clicking on them, which will create a folder and place the appropriate files into that folder. You will need to move these folders later.\
+\cf0 BOINC depends on seven third-party libraries: wxWidgets-3.0.0, c-ares-1.11.0, curl-7.50.2, openssl-1.1.0, freetype-2.6.2, ftgl-2.1.3~rc5 and sqlite-3.11.0.  You can obtain the source files from the following URLs.  Clicking on the first URL of each pair will download the tar file.  The second URL will open the third party\'92s home web page.  On Mac OS X the tar file will usually be downloaded into the Downloads folder.  You will need to expand the tar files by double-clicking on them, which will create a folder and place the appropriate files into that folder. You will need to move these folders later.\
 \
 wxWidgets-3.0.0 (needed  only if you are building the BOINC Manager):\
 	{\field{\*\fldinst{HYPERLINK "http://sourceforge.net/projects/wxwindows/files/3.0.0/wxWidgets-3.0.0.tar.bz2/"}}{\fldrslt 
@@ -113,11 +113,11 @@ wxWidgets-3.0.0 (needed  only if you are building the BOINC Manager):\
 \f1\fs26 \
 
 \f0\fs24 \
-sqlite-3.9.2 (needed  only if you are building the BOINC Manager):\
+sqlite-3.11.0 (needed  only if you are building the BOINC Manager):\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\f1 \cf0 	{\field{\*\fldinst{HYPERLINK "http://www.sqlite.org/2015/sqlite-autoconf-3090200.tar.gz"}}{\fldrslt 
-\fs26 http://www.sqlite.org/2015/sqlite-autoconf-3090200.tar.gz}}
+\f1 \cf0 	{\field{\*\fldinst{HYPERLINK "http://www.sqlite.org/2016/sqlite-autoconf-3110000.tar.gz"}}{\fldrslt 
+\fs26 http://www.sqlite.org/2016/sqlite-autoconf-3110000.tar.gz}}
 \f0 \
 
 \f1 	{\field{\*\fldinst{HYPERLINK "http://www.sqlite.org/"}}{\fldrslt 
@@ -126,26 +126,26 @@ sqlite-3.9.2 (needed  only if you are building the BOINC Manager):\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
 \f0\fs24 \cf0 \
-curl-7.46.0:\
+curl-7.50.2:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://curl.haxx.se/download/curl-7.46.0.tar.gz"}}{\fldrslt http://curl.haxx.se/download/curl-7.46.0.tar.gz}}\
+\f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://curl.haxx.se/download/curl-7.50.2.tar.gz"}}{\fldrslt http://curl.haxx.se/download/curl-7.50.2.tar.gz}}\
 	{\field{\*\fldinst{HYPERLINK "http://curl.haxx.se"}}{\fldrslt http://curl.haxx.se}}\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\f0\fs24 \cf0 c-ares-1.10.0 (used by curl):\
+\f0\fs24 \cf0 c-ares-1.11.0 (used by curl):\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://c-ares.haxx.se/download/c-ares-1.10.0.tar.gz"}}{\fldrslt http://c-ares.haxx.se/download/c-ares-1.10.0.tar.gz}}\
+\f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://c-ares.haxx.se/download/c-ares-1.11.0.tar.gz"}}{\fldrslt http://c-ares.haxx.se/download/c-ares-1.11.0.tar.gz}}\
 	{\field{\*\fldinst{HYPERLINK "http://daniel.haxx.se/projects/c-ares/"}}{\fldrslt http://daniel.haxx.se/projects/c-ares/}}\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\f0\fs24 \cf0 openssl-1.0.2e\
+\f0\fs24 \cf0 openssl-1.1.0\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://www.openssl.org/source/openssl-1.0.2e.tar.gz"}}{\fldrslt http://www.openssl.org/source/openssl-1.0.2e.tar.gz}}\
+\f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://www.openssl.org/source/openssl-1.1.0.tar.gz"}}{\fldrslt http://www.openssl.org/source/openssl-1.1.0.tar.gz}}\
 	{\field{\*\fldinst{HYPERLINK "http://www.openssl.org/"}}{\fldrslt http://www.openssl.org/}}\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
@@ -181,7 +181,7 @@ MAC_OS_X_VERSION_MIN_REQUIRED=1060\
 
 \f0\fs24 \cf0 \
 \pard\pardeftab720\sa260
-\cf0 These are not done automatically by either the Xcode projects which come with wxWidgets-3.0.0, nor  the AutoMake scripts supplied with wxWidgets-3.0.0, c-ares-1.10.0, curl-7.46.0, openssl-1.0.2e, freetype-2.6.2, ftgl-2.1.3~rc5 and sqlite-3.9.2.  So be sure to use our special scripts to build these packages.\
+\cf0 These are not done automatically by either the Xcode projects which come with wxWidgets-3.0.0, nor  the AutoMake scripts supplied with wxWidgets-3.0.0, c-ares-1.11.0, curl-7.50.2, openssl-1.1.0, freetype-2.6.2, ftgl-2.1.3~rc5 and sqlite-3.11.0.  So be sure to use our special scripts to build these packages.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0 [1] Make sure you are logged into the Mac using an account with administrator privileges.  Create a parent directory within which to work.  In this description; we will call it BOINC_dev, but you can name it anything you wish.\
 \
@@ -189,17 +189,17 @@ MAC_OS_X_VERSION_MIN_REQUIRED=1060\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
 \f1\fs26 \cf0     c-ares-
-\fs24 1.10.0
+\fs24 1.11.0
 \fs26 \
-    curl-7.46.0\
+    curl-7.50.2\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
-\cf0     openssl-1.0.1j\
+\cf0     openssl-1.1.0\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0     wxWidgets-3.0.0\
     freetype-2.6.2\
     ftgl-2.1.3~rc5\
     
-\fs24 sqlite-3.9.2
+\fs24 sqlite-3.11.0
 \fs26 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
@@ -266,7 +266,7 @@ If you don't wish to force a full rebuild of everything, omit the -clean argumen
 \f0\fs24  command to run them.\
 
 \b Note 2:
-\b0  This script tries to build all seven third-party libraries: wxWidgets-3.0.0, c-ares-1.10.0, curl-7.46.0, openssl-1.0.2e,  freetype-2.6.2, ftgl-2.1.3~rc5 and sqlite-3.9.2.  When the script finishes, it will display a warning about any libraries it was unable to build (for example, if you have not downloaded them.)  To make it easier to find the error messages, clear the Terminal display and run the script again without 
+\b0  This script tries to build all seven third-party libraries: wxWidgets-3.0.0, c-ares-1.11.0, curl-7.50.2, openssl-1.1.0,  freetype-2.6.2, ftgl-2.1.3~rc5 and sqlite-3.11.0.  When the script finishes, it will display a warning about any libraries it was unable to build (for example, if you have not downloaded them.)  To make it easier to find the error messages, clear the Terminal display and run the script again without 
 \f1 -clean
 \f0 .\
 
@@ -302,7 +302,7 @@ source BuildMacBOINC.sh
 The complete syntax for this script is\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
-\f1\fs26 \cf0 source BuildMacBOINC.sh [-dev] [-noclean] [-all] [-lib] [-client] [-help]
+\f1\fs26 \cf0 source BuildMacBOINC.sh [-dev] [-noclean] [-all] [-lib] [-client] [-libc] [-c++11] [-help]
 \f0\fs24 \
 \
 The options for BuildMacBOINC.sh are:\
@@ -320,6 +320,10 @@ The options for BuildMacBOINC.sh are:\
 	-client		build two targets: boinc client and command-line utility {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/wiki/Boinccmd_tool"}}{\fldrslt boinccmd}}\
 			(also builds libboinc.a, since boinc_cmd requires it.)\
 \
+ 	-libc		build using libc++ instead of libstdc++ (requires OS 10.7 or later)\
+\
+	-c++11	build using c++11 language dialect instead of default\
+\
  Both -lib and -client may be specified to build eight targets (no BOINC Manager or screensaver.)\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
@@ -327,7 +331,9 @@ The options for BuildMacBOINC.sh are:\
 \b \cf0 Note 1:
 \b0  
 \b boinc.xcodeproj
-\b0  in the BOINC_dev/boinc/mac_build/ directory builds BOINC.  It can be used either with the BuildMacBOINC.sh script or as a stand-alone project.  The 
+\b0  in the BOINC_dev/boinc/mac_build/ directory builds BOINC.  It can be used either with the 
+\f1 BuildMacBOINC.sh
+\f0  script or as a stand-alone project.  The 
 \i Development
 \i0  build configuration builds only the native architecture and is used for debugging.  The 
 \i Deployment
@@ -335,7 +341,9 @@ The options for BuildMacBOINC.sh are:\
 \
 
 \b Note 2: 
-\b0 To perform a release build under Xcode 4.6 when not using the BuildMacBOINC.sh script, select "Build for archiving" or "Build for Profiling" from Xcode's Product menu.  Under Xcode 5.0 or later, select "Build for Profiling."  To save disk space, do 
+\b0 To perform a release build under Xcode 4.6 when not using the 
+\f1 BuildMacBOINC.sh
+\f0  script, select "Build for archiving" or "Build for Profiling" from Xcode's Product menu.  Under Xcode 5.0 or later, select "Build for Profiling."  To save disk space, do 
 \b not
 \b0  select "Archive."\
 \
@@ -348,6 +356,14 @@ The options for BuildMacBOINC.sh are:\
 \f0\fs24  or 
 \f1\fs26 BOINC_dev/boinc/mac_build/build/Development/
 \f0\fs24  where they are easy to find.  Building directly in Xcode places the built products in a somewhat obscure location; you would normally need to determine this location using Xcode's Organizer window.  \
+\
+
+\b Note 4: 
+\b0 By default, BOINC is built using libstdc++ for compatibility with older versions of OS X, unless 
+\f1\fs26 BuildMacBOINC.sh
+\f0\fs24  is called with the -libc argument. Newer versions of Xcode build using libc++ by default. Project applications built for libc++ with newer versions of Xcode will not link properly with BOINC libraries built for libstdc++. However, libc++ is not available before OS 10.7, so project applications will fail to run under earlier versions of OS X unless built for libstdc++. To build project applications that will run on older versions of OS X, pass the following option to the LLVM compiler: 
+\f1 -stdlib=libstdc++
+\f0  and avoid using any c++11 specific constructs in your code.  If you are building your application using Xcode, you can select the C++ Standard Library in the build settings under "Apple LLVM - Language - C++" or by setting the "OS X Deployment Target" earlier than OS 10.7.\
 \
 
 \b Hint:

@@ -426,7 +426,8 @@ void ACTIVE_TASK_SET::get_memory_usage() {
             pi.page_fault_rate = pf/diff;
             if (log_flags.mem_usage_debug) {
                 msg_printf(atp->result->project, MSG_INFO,
-                    "[mem_usage] %s: WS %.2fMB, smoothed %.2fMB, swap %.2fMB, %.2f page faults/sec, user CPU %.3f, kernel CPU %.3f",
+                    "[mem_usage] %s%s: WS %.2fMB, smoothed %.2fMB, swap %.2fMB, %.2f page faults/sec, user CPU %.3f, kernel CPU %.3f",
+                    atp->scheduler_state==CPU_SCHED_SCHEDULED?"":" (not running)",
                     atp->result->name,
                     pi.working_set_size/MEGA,
                     pi.working_set_size_smoothed/MEGA,

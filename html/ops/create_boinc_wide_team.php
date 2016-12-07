@@ -34,11 +34,14 @@ $user_name = $argv[1];
 $email_addr = $argv[2];
 $team_name = $argv[3];
 
-$passwd_hash = md5("foobar".$email_addr);
-$user = make_user($email_addr, $user_name, $passwd_hash);
-if (!$user) die("can't create user\n");
+$user = BoincUser::lookup_email_addr($email_addr);
+if (!$user) {
+    $passwd_hash = md5("foobar".$email_addr);
+    $user = make_user($email_addr, $user_name, $passwd_hash);
+    if (!$user) die("can't create user\n");
 
-echo "created user $user->id\n";
+    echo "created user $user->id\n";
+}
 
 $team = make_team($user->id, $team_name, "", "", "", "", "");
 if (!$team) die("can't create team\n");

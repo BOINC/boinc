@@ -34,8 +34,13 @@ function process_set($users) {
             echo "repairing prefs for user $user->id\n";
             $p = repair_prefs($user->global_prefs);
             if ($p) {
-                $retval = @simplexml_load_string($p);
-                if ($retval) {
+                $xml_obj = @simplexml_load_string($p);
+                if ($xml_obj) {
+                    // increase mod_time by 1 second so new preferences are propagated to the Client
+                    $xml_obj->mod_time = 1 + intval($xml_obj->mod_time);
+                    $p = $xml_obj->asXML();
+                    // remove XML header
+                    $p = implode("\n", array_slice(explode("\n", $p), 1));
                     $user->update("global_prefs='$p'");
                     echo "   repair succeeded\n";
                 } else {

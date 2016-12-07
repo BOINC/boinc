@@ -799,24 +799,32 @@ void boinc_catch_signal(int signal) {
 #endif
 
 #ifdef ANDROID
-    // this is some dark undocumented Android voodoo that uses libcorkscrew.so
-    // minimal use of library functions because they may not work in an signal
+    // this is some dark undocumented Android voodoo that uses libcorkscrew.so.
+    // Minimal use of library functions because they may not work in a signal
     // handler.
+    //
 #define DUMP_LINE_LEN 256
     static backtrace_frame_t backtrace[64];
     static backtrace_symbol_t backtrace_symbols[64]; 
     if (unwind_backtrace_signal_arch != NULL) {
-        map_info_t *map_info=acquire_my_map_info_list();
-        ssize_t size=unwind_backtrace_signal_arch(siginfo,sigcontext,map_info,backtrace,0,64);
-        get_backtrace_symbols(backtrace,size,backtrace_symbols);
+        map_info_t *map_info = acquire_my_map_info_list();
+        ssize_t size = unwind_backtrace_signal_arch(
+            siginfo, sigcontext, map_info, backtrace, 0, 64
+        );
+        get_backtrace_symbols(backtrace, size, backtrace_symbols);
         char line[DUMP_LINE_LEN];
-        for (int i=0;i<size;i++) {
-            format_backtrace_line(i,&backtrace[i],&backtrace_symbols[i],line,DUMP_LINE_LEN);
-            line[DUMP_LINE_LEN-1]=0;
+        for (int i=0; i<size; i++) {
+            format_backtrace_line(
+                i, &backtrace[i], &backtrace_symbols[i], line, DUMP_LINE_LEN
+            );
+            line[DUMP_LINE_LEN-1] = 0;
             if (backtrace_symbols[i].symbol_name) {
                 strlcat(line," ",DUMP_LINE_LEN);
                 if (backtrace_symbols[i].demangled_name) {
-                   strlcat(line,backtrace_symbols[i].demangled_name,DUMP_LINE_LEN);
+                    strlcat(
+                        line, backtrace_symbols[i].demangled_name,
+                        DUMP_LINE_LEN
+                    );
                 }
             } else {
                 symbol_table_t* symbols = NULL;
@@ -831,24 +839,28 @@ void boinc_catch_signal(int signal) {
                 }
                 if (symbol) {
                     int offset = backtrace[i].absolute_pc - symbol->start;
-                    strlcat(line," (",DUMP_LINE_LEN);
-                    strlcat(line,symbol->name,DUMP_LINE_LEN);
-                    strlcat(line,"+",DUMP_LINE_LEN);
-                    strlcat(line,xtoa(offset),DUMP_LINE_LEN);
-                    strlcat(line,")",DUMP_LINE_LEN);
-                    line[DUMP_LINE_LEN-1]=0;
+                    strlcat(line, " (", DUMP_LINE_LEN);
+                    strlcat(line, symbol->name, DUMP_LINE_LEN);
+                    strlcat(line, "+", DUMP_LINE_LEN);
+                    strlcat(line, xtoa(offset), DUMP_LINE_LEN);
+                    strlcat(line, ")", DUMP_LINE_LEN);
+                    line[DUMP_LINE_LEN-1] = 0;
                 } else {
-                    strlcat(line, " (\?\?\?)",DUMP_LINE_LEN);
+                    strlcat(line, " (\?\?\?)", DUMP_LINE_LEN);
                 }
                 if (symbols) free_symbol_table(symbols);
             }
             if (backtrace[i].absolute_pc) {
-              strlcat(line," [",DUMP_LINE_LEN);
-              strlcat(line,xtoa(*reinterpret_cast<unsigned int *>(backtrace[i].absolute_pc)),DUMP_LINE_LEN);
-              strlcat(line,"]",DUMP_LINE_LEN);
+                strlcat(line, " [", DUMP_LINE_LEN);
+                strlcat(
+                    line,
+                    xtoa(*reinterpret_cast<unsigned int *>(backtrace[i].absolute_pc)),
+                    DUMP_LINE_LEN
+                );
+                strlcat(line, "]", DUMP_LINE_LEN);
             }
-            strlcat(line,"\n",DUMP_LINE_LEN);
-            write(fileno(stderr),line,strlen(line));
+            strlcat(line, "\n", DUMP_LINE_LEN);
+            write(fileno(stderr),line, strlen(line));
             fflush(stderr);
         }
     }

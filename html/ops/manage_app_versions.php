@@ -81,12 +81,17 @@ function show_form($all) {
         // grey out deprecated versions 
         //
         $f1=$f2='';
-        if ($av->deprecated) {
+        if ($av->deprecated == 1) {
             $f1="<font color='GREY'>";
             $f2="</font>";
         }
 
         $all_value = $all?1:0;
+        $app = $apps[$av->appid];
+        // ignore app versions of deprecated apps by default
+        if ($all_value == 0 && $app->deprecated == 1) {
+            continue;
+        }
         echo "<tr class=row$i><form action=manage_app_versions.php?all=$all_value#av_$av->id method=POST>\n";
         $i = 1-$i;
         echo "<input type=hidden name=id value=$av->id>";
@@ -116,7 +121,11 @@ function show_form($all) {
         if ($av->deprecated) $v=' CHECKED ';
         echo "  <TD> <input name=deprecated type='checkbox' $v></TD>\n";
 
-        echo "<td><input class=\"btn btn-default\" name=submit type=submit value=Update>";
+        if (!in_rops()) {
+            echo "<td><input class=\"btn btn-default\" name=submit type=submit value=Update>";
+        } else {
+            echo "<td>&nbsp;</td>";
+        }
 
         echo "</tr></form>"; 
     }

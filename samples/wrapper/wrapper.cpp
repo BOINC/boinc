@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // BOINC wrapper - lets you use non-BOINC apps with BOINC
-// See http://boinc.berkeley.edu/trac/wiki/WrapperApp
+// See https://boinc.berkeley.edu/trac/wiki/WrapperApp
 //
 // cmdline options:
 // --device N       macro-substitute N for $GPU_DEVICE_NUM
@@ -68,6 +68,9 @@
 #endif
 
 #include "version.h"
+#ifndef _WIN32
+#include "svn_version.h"
+#endif
 #include "boinc_api.h"
 #include "app_ipc.h"
 #include "graphics2.h"
@@ -87,13 +90,12 @@
 using std::vector;
 using std::string;
 
-//#define DEBUG
-#if 1
-#define debug_msg(x)
-#else
+#ifdef DEBUG
 inline void debug_msg(const char* x) {
-    fprintf(stderr, "%s\n", x);
+    fprintf(stderr, "[DEBUG] %s\n", x);
 }
+#else
+#define debug_msg(x)
 #endif
 
 #define JOB_FILENAME "job.xml"
@@ -134,6 +136,7 @@ struct TASK {
     bool is_daemon;
     bool append_cmdline_args;
     bool multi_process;
+    bool forward_slashes;
     double time_limit;
     int priority;
 
@@ -158,6 +161,7 @@ struct TASK {
     bool stat_first;
 
     int parse(XML_PARSER&);
+    void substitute_macros();
     bool poll(int& status);
     int run(int argc, char** argv);
     void kill();
@@ -253,25 +257,61 @@ void str_replace_all(char* buf, const char* s1, const char* s2) {
     }
 }
 
+// replace s1 with s2
+// http://stackoverflow.com/questions/2896600/how-to-replace-all-occurrences-of-a-character-in-string
+//
+void str_replace_all(string &str, const string& s1, const string& s2) {
+    size_t start_pos = 0;
+    while((start_pos = str.find(s1, start_pos)) != string::npos) {
+        str.replace(start_pos, s1.length(), s2);
+        start_pos += s2.length(); // Handles case where 's1' is a substring of 's2'
+    }
+}
+
 // macro-substitute strings from job.xml
 // $PROJECT_DIR -> project directory
 // $NTHREADS --> --nthreads arg if present, else 1
 // $GPU_DEVICE_NUM --> gpu_device_num from init_data.xml, or --device arg
+// $PWD --> current directory
 //
-void macro_substitute(char* buf) {
+void macro_substitute(string &str) {
     const char* pd = strlen(aid.project_dir)?aid.project_dir:".";
-    str_replace_all(buf, "$PROJECT_DIR", pd);
+    str_replace_all(str, "$PROJECT_DIR", pd);
+#ifdef DEBUG
+    fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$PROJECT_DIR", pd);
+#endif
+
     char nt[256];
     sprintf(nt, "%d", nthreads);
-    str_replace_all(buf, "$NTHREADS", nt);
+    str_replace_all(str, "$NTHREADS", nt);
+#ifdef DEBUG
+    fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$NTHREADS", nt);
+#endif
 
     if (aid.gpu_device_num >= 0) {
         gpu_device_num = aid.gpu_device_num;
     }
     if (gpu_device_num >= 0) {
         sprintf(nt, "%d", gpu_device_num);
-        str_replace_all(buf, "$GPU_DEVICE_NUM", nt);
+        str_replace_all(str, "$GPU_DEVICE_NUM", nt);
+#ifdef DEBUG
+	fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$GPU_DEVICE_NUM", nt);
+#endif
     }
+
+#ifdef _WIN32
+    GetCurrentDirectory(sizeof(nt),nt);
+    str_replace_all(str, "$PWD", nt);
+#ifdef DEBUG
+    fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$PWD", nt);
+#endif
+#else
+    char cwd[1024];
+    str_replace_all(str, "$PWD", getcwd(cwd, sizeof(cwd)));
+#ifdef DEBUG
+    fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$PWD", getcwd(cwd, sizeof(cwd)));
+#endif
+#endif
 }
 
 // make a list of files in the slot directory,
@@ -363,7 +403,9 @@ void get_zip_inputs(ZipFileList &files) {
 //
 void do_zip_outputs() {
     if (zip_filename.empty()) return;
-    if (boinc_file_exists(zip_filename.c_str())) return;
+    string path;
+    boinc_resolve_filename_s(zip_filename.c_str(), path);
+    if (boinc_file_exists(path.c_str())) return;
     ZipFileList infiles;
     get_zip_inputs(infiles);
     int retval = boinc_zip(ZIP_IT, string("temp.zip"), &infiles);
@@ -371,8 +413,6 @@ void do_zip_outputs() {
         fprintf(stderr, "boinc_zip() failed: %d\n", retval);
         exit(1);
     }
-    string path;
-    boinc_resolve_filename_s(zip_filename.c_str(), path);
     retval = boinc_rename("temp.zip", path.c_str());
     if (retval) {
         fprintf(stderr, "failed to rename temp.zip: %d\n", retval);
@@ -391,6 +431,7 @@ int TASK::parse(XML_PARSER& xp) {
     is_daemon = false;
     multi_process = false;
     append_cmdline_args = false;
+    forward_slashes = false;
     time_limit = 0;
     priority = PROCESS_PRIORITY_LOWEST;
 
@@ -406,12 +447,10 @@ int TASK::parse(XML_PARSER& xp) {
         }
         else if (xp.parse_string("application", application)) continue;
         else if (xp.parse_str("exec_dir", buf, sizeof(buf))) {
-            macro_substitute(buf);
             exec_dir = buf;
             continue;  
         }
         else if (xp.parse_str("setenv", buf, sizeof(buf))) {
-            macro_substitute(buf);
             vsetenv.push_back(buf);
             continue;
         }
@@ -419,7 +458,6 @@ int TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_string("stdout_filename", stdout_filename)) continue;
         else if (xp.parse_string("stderr_filename", stderr_filename)) continue;
         else if (xp.parse_str("command_line", buf, sizeof(buf))) {
-            macro_substitute(buf);
             command_line = buf;
             continue;
         }
@@ -427,12 +465,25 @@ int TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_string("fraction_done_filename", fraction_done_filename)) continue;
         else if (xp.parse_double("weight", weight)) continue;
         else if (xp.parse_bool("daemon", is_daemon)) continue;
+        else if (xp.parse_bool("forward_slashes", forward_slashes)) continue;
         else if (xp.parse_bool("multi_process", multi_process)) continue;
         else if (xp.parse_bool("append_cmdline_args", append_cmdline_args)) continue;
         else if (xp.parse_double("time_limit", time_limit)) continue;
         else if (xp.parse_int("priority", priority)) continue;
     }
     return ERR_XML_PARSE;
+}
+
+void TASK::substitute_macros() {
+    if (!exec_dir.empty()) {
+        macro_substitute(exec_dir);
+    }
+    for (unsigned int i = 0; i < vsetenv.size(); i++) {
+        macro_substitute(vsetenv[i]);
+    }
+    if (!command_line.empty()) {
+        macro_substitute(command_line);
+    }
 }
 
 int parse_unzip_input(XML_PARSER& xp) {
@@ -613,6 +664,14 @@ void slash_to_backslash(char* p) {
     }
 }
 
+void backslash_to_slash(char* p) {
+    while (1) {
+        char* q = strchr(p, '\\');
+        if (!q) break;
+        *q = '/';
+    }
+}
+
 int TASK::run(int argct, char** argvt) {
     string stdout_path, stdin_path, stderr_path;
     char app_path[1024], buf[256];
@@ -643,6 +702,36 @@ int TASK::run(int argct, char** argvt) {
             command_line += string(" ");
             command_line += argvt[i];
         }
+    }
+
+    // resolve "boinc_resolve(...)" phrases in command-line
+    while (1) {
+        char lbuf[16384];
+        char fname[1024];
+        char *from, *to;
+
+        strncpy (lbuf, command_line.c_str(), sizeof(lbuf));
+        lbuf[sizeof(lbuf)-1] = '\0';
+        from = strstr(lbuf, "boinc_resolve(");
+        if (!from) {
+            break;
+        }
+        to = strchr(from, ')');
+        if (!to) {
+            fprintf(stderr, "missing ')' after 'boinc_resolve('\n");
+            exit(1);
+        }
+        *to = 0;
+        boinc_resolve_filename(from + strlen("boinc_resolve("), fname, sizeof(fname));
+#ifdef _WIN32
+        if(forward_slashes) {
+            backslash_to_slash(fname);
+        } else {
+            slash_to_backslash(fname);
+        }
+#endif
+        *from = 0;
+        command_line = string(lbuf) + string(fname) + string(to+1);
     }
 
     fprintf(stderr, "%s wrapper: running %s (%s)\n",
@@ -1068,7 +1157,13 @@ int main(int argc, char** argv) {
             gpu_device_num = atoi(argv[++j]);
         } else if (!strcmp(argv[j], "--trickle")) {
             trickle_period = atof(argv[++j]);
+#ifndef _WIN32
+        } else if (!strcmp(argv[j], "--version") || !strcmp(argv[j], "-v")) {
+            fprintf(stderr, "%s\n", SVN_VERSION);
+            boinc_finish(0);
+#endif
         }
+
     }
 
     retval = parse_job_file();
@@ -1125,6 +1220,8 @@ int main(int argc, char** argv) {
     }
     for (i=0; i<tasks.size(); i++) {
         total_weight += tasks[i].weight;
+        // need to substitute macros after boinc_init_options() and boinc_get_init_data()
+        tasks[i].substitute_macros();
     }
 
     retval = start_daemons(argc, argv);

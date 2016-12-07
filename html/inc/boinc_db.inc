@@ -16,9 +16,13 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-$d = dirname(__FILE__);
-require_once("$d/db_conn.inc");
-require_once("$d/util_basic.inc");
+function incs() {
+    $d = dirname(__FILE__);
+    require_once("$d/db_conn.inc");
+    require_once("$d/util_basic.inc");
+}
+
+incs();
 
 class BoincDb extends DbConn {
     static $instance;
@@ -189,16 +193,12 @@ class BoincUser {
         $email_addr = BoincDb::escape_string($email_addr);
         return self::lookup("email_addr='$email_addr'");
     }
+    // name is not necessarily unique
+    //
     static function lookup_name($name) {
         $name = BoincDb::escape_string($name);
         $users = BoincUser::enum("name='$name'");
-        switch (sizeof($users)) {
-        case 1:
-            return $users[0];
-        case 0:
-            return null;
-        }
-        return -1;
+        return $users;
     }
     static function count($clause) {
         $db = BoincDb::get();
@@ -325,6 +325,12 @@ class BoincHost {
     static function enum($clause, $clause2=null) {
         $db = BoincDb::get();
         return $db->enum('host', 'BoincHost', $clause, $clause2);
+    }
+    static function enum_fields($fields, $where_clause, $order_clause=null) {
+        $db = BoincDb::get();
+        return $db->enum_fields(
+            'host', 'BoincHost', $fields, $where_clause, $order_clause
+        );
     }
     static function count($clause) {
         $db = BoincDb::get();

@@ -19,8 +19,11 @@
 
 #include "remote_submit.h"
 
+using std::vector;
+using std::string;
+
 const char* project_url = "http://isaac.ssl.berkeley.edu/test/";
-const char* authenticator = "157f96a018b0b2f2b466e2ce3c7f54db";
+char authenticator[256];
 
 void test_query_batches() {
     string error_msg;
@@ -56,7 +59,15 @@ void test_query_batch() {
     }
 }
 
+void get_auth() {
+    FILE* f = fopen("test_auth", "r");
+    fread((void*)authenticator, 1, 256, f);
+    strip_whitespace(authenticator);
+    fclose(f);
+}
+
 int main(int, char**) {
+    get_auth();
     //test_query_batches();
     test_query_batch();
 }

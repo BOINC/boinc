@@ -74,7 +74,7 @@
 #include <sys/stat.h>
 
 #if HAVE_SYS_SWAP_H
-#ifdef ANDROID
+#if defined(ANDROID) && !defined(ANDROID_64)
 #include <linux/swap.h>
 #else
 #include <sys/swap.h>
@@ -1989,11 +1989,12 @@ const vector<string> X_display_values_initialize() {
         "[idle_detection] Error (%d) opening %s.", errno, dir.c_str());
     }
   }
-
-  while ((dirp = readdir(dp)) != NULL) {
-    display_values.push_back(string(dirp->d_name));
+  else {
+    while ((dirp = readdir(dp)) != NULL) {
+      display_values.push_back(string(dirp->d_name));
+    }
+    closedir(dp);
   }
-  closedir(dp);
 
   // Get rid of non-matching elements and format the matching ones.
   for ( it = display_values.begin() ; it != display_values.end() ; ) {

@@ -99,7 +99,7 @@ if ($temp_sort_style) {
     }
 }
 
-page_head($title, 'jumpToUnread();');
+page_head($title, 'onload="jumpToUnread();"');
 
 $is_subscribed = $logged_in_user && BoincSubscription::lookup($logged_in_user->id, $thread->id);
 
@@ -147,7 +147,7 @@ echo "
     <p>
     <form action=\"forum_thread.php\">
     <table width=\"100%\" cellspacing=0 cellpadding=0>
-    <tr class=\"forum_toplinks\">
+    <tr>
     <td>
 ";
 
@@ -270,11 +270,11 @@ if (!$logged_in_user) {
 // Display a box that allows the user to select sorting of the posts
 //
 echo "</td><td align=\"right\">
-    <input type=\"hidden\" name=\"id\" value=\"", $thread->id, "\">" .
-    tra("Sort");
+    <input type=\"hidden\" name=\"id\" value=\"", $thread->id, "\">
+    ";
 echo select_from_array("sort", $thread_sort_styles, $sort_style);
-echo "<input class=\"btn btn-default\" type=\"submit\" value=\"".tra('Sort')."\">
-    </td></tr></table></form>
+echo " <input class=\"btn btn-default btn-sm\" type=\"submit\" value=\"".tra('Sort')."\">
+    </td></tr></table></form><p>
 ";
 
 show_posts(

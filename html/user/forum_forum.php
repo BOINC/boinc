@@ -89,7 +89,8 @@ case 1:
 echo '
     <p>
     <form action="forum_forum.php" method="get">
-    <table width="100%" cellspacing="0" cellpadding="0" class="forum_toplinks">
+    <input type="hidden" name="id" value="'.$forum->id.'">
+    <table width="100%" cellspacing="0" cellpadding="0">
     <tr valign="top">
     <td colspan=2>
 ';
@@ -100,17 +101,17 @@ if (user_can_create_thread($user, $forum)) {
     );
 }
 
-echo "</td>
-    <td valign=top align=\"right\">
-    <input type=\"hidden\" name=\"id\" value=\"$forum->id\">
-";
+echo '</td>
+    <td valign=top align="right">
+';
 echo select_from_array("sort", $forum_sort_styles, $sort_style);
-echo "<input class=\"btn btn-default\" type=\"submit\" value=\"Sort\">
+echo '<input class="btn btn-default" type="submit" value="Sort">';
+echo '
     </td>
     </tr>
     </table>
     </form>
-";
+';
 
 show_forum($forum, $start, $sort_style, $user);
 
@@ -158,7 +159,6 @@ function show_forum($forum, $start, $sort_style, $user) {
 
     // Run through the list of threads, displaying each of them
     //
-    $n = 0; $i=0;
     foreach ($threads as $thread) {
         $owner = BoincUser::lookup_id($thread->owner);
         if (!$owner) continue;
@@ -167,13 +167,13 @@ function show_forum($forum, $start, $sort_style, $user) {
         //if ($thread->status==1){
             // This is an answered helpdesk thread
         if ($user && is_subscribed($thread, $subs)) {
-            echo '<tr class="row_hd'.$n.'">';
+            echo '<tr class="bg-success">';
         } else {
             // Just a standard thread.
-            echo '<tr class="row'.$n.'">';
+            echo '<tr>';
         }
 
-        echo "<td width=\"1%\" class=\"threadicon\"><nobr>";
+        echo "<td width=\"1%\"><nobr>";
         if ($thread->hidden) {
             show_image(IMAGE_HIDDEN, tra("This thread is hidden"), tra("hidden"));
         } else if ($unread) {
@@ -212,14 +212,13 @@ function show_forum($forum, $start, $sort_style, $user) {
         //if (strlen($title) > $titlelength) {
         //    $title = substr($title, 0, $titlelength)."...";
         //}
-        echo "<td class=\"threadline\"><a href=\"forum_thread.php?id=$thread->id\"><b>$title</b></a><br></td>";
-        $n = ($n+1)%2;
+        echo "<td><a href=\"forum_thread.php?id=$thread->id\">$title</a><br></td>";
 
         echo '
-            <td class="numbers">'.($thread->replies+1).'</td>
+            <td>'.($thread->replies+1).'</td>
             <td>'.user_links($owner, BADGE_HEIGHT_SMALL).'</td>
-            <td class="numbers">'.$thread->views.'</td>
-            <td class="lastpost">'.time_diff_str($thread->timestamp, time()).'</td>
+            <td>'.$thread->views.'</td>
+            <td>'.time_diff_str($thread->timestamp, time()).'</td>
             </tr>
         ';
         flush();

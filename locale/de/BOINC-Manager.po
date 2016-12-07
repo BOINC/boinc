@@ -6,17 +6,18 @@
 # Christian Beer <christian.beer@posteo.de>, 2015-2016
 # Florian Heuer <f.a.heuer@gmail.com>, 2015
 # informatorius <helmut.killer@live.de>, 2015
-# Jan Schladetzky <keiken@keiken.eu>, 2015
+# Jan Schladetzky <inactive+Keiken@transifex.com>, 2015
 # JimsB <kai.erbstoesser@t-online.de>, 2015
 # Haubi, 2015
 # Markus Youssef <mk.kiri.youssef@gmail.com>, 2015
+# Michael Adams, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2016-02-04 16:19+0000\n"
-"Last-Translator: Christian Beer <christian.beer@posteo.de>\n"
+"PO-Revision-Date: 2016-09-19 10:42+0000\n"
+"Last-Translator: Michael Adams\n"
 "Language-Team: German (http://www.transifex.com/boinc/boinc/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -112,7 +113,7 @@ msgstr "minimale Länge %d"
 
 #: clientgui/AccountInfoPage.cpp:504
 msgid "Forgot your password?"
-msgstr "Haben Sie ihr Passwort vergessen?"
+msgstr "Haben Sie Ihr Passwort vergessen?"
 
 #: clientgui/AccountInfoPage.cpp:511
 msgid ""
@@ -921,7 +922,7 @@ msgstr "1h pausieren"
 #: clientgui/BOINCTaskBar.cpp:535 clientgui/BOINCTaskBar.cpp:650
 #: clientgui/BOINCTaskBar.cpp:655
 msgid "Snooze GPU"
-msgstr "GPU pausieren"
+msgstr "GPU 1h pausieren"
 
 #: clientgui/BOINCTaskBar.cpp:553
 msgid "E&xit"
@@ -1275,7 +1276,7 @@ msgstr "Dies bestimmt, wann der Rechner als „in Benutzung“ angesehen wird."
 #. context: 'In use' means mouse/keyboard input in last ___ minutes
 #: clientgui/DlgAdvPreferencesBase.cpp:304 clientgui/sg_DlgPreferences.cpp:268
 msgid "'In use' means mouse/keyboard input in last"
-msgstr "'In Benutzung' meint Aktivität der Maus/Tastatur in den letzten"
+msgstr "\"In Benutzung\" bedeutet Maus-/Tastatur-Aktivität innerhalb der letzten"
 
 #. context: 'In use' means mouse/keyboard input in last ___ minutes
 #. context: Switch between tasks every ___ minutes
@@ -2517,7 +2518,7 @@ msgstr "starte"
 
 #: clientgui/MainDocument.cpp:2451
 msgid "an exclusive app is running"
-msgstr "eine Anwendung läuft exklusiv"
+msgstr "eine exklusive Anwendung läuft gerade"
 
 #: clientgui/MainDocument.cpp:2452
 msgid "CPU is busy"
@@ -3816,7 +3817,7 @@ msgstr "Aufgabenbefehle"
 
 #: clientgui/sg_TaskPanel.cpp:571
 msgid "Pop up a menu of commands to apply to this task"
-msgstr "Blende ein Menü ein für anwendbare Befehle für diese Aufgabe"
+msgstr "Zeige ein Befehlsmenü für diese Aufgabe"
 
 #: clientgui/sg_TaskPanel.cpp:706
 #, c-format

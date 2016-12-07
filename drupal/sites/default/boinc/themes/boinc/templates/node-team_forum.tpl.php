@@ -100,7 +100,8 @@
       // Get vocabulary name and taxonomy name for subtitle breadcrumbs
       $taxonomy = taxonomy_get_term($forum_node->tid);
       if (module_exists('internationalization')) {
-        $taxonomy = reset(i18ntaxonomy_localize_terms(array($taxonomy)));
+        $imv = i18ntaxonomy_localize_terms(array($taxonomy));
+        $taxonomy = reset($imv);
       }
       if ($forum_vocab = taxonomy_vocabulary_load($taxonomy->vid)) {
         if (module_exists('internationalization')) {
@@ -121,17 +122,37 @@
     <div class="unpublished"><?php print bts('Unpublished'); ?></div>
   <?php endif; ?>
   
-  <?php // Only show this post on the first page of a thread ?>
-  <?php if ($first_page): ?>
-    
+  <?php 
+    if (!$oldest_post_first) {
+      print comment_render($node);
+    }
+  ?>
+  <?php // Only show this post on the first or last page, depending on sort ?>
+  <?php if (($oldest_post_first AND $first_page) OR (!$oldest_post_first AND $last_page)): ?>
+
+<?// DBOINCP-300: added node comment count condition in order to get Preview working ?>
+    <?php if ( (!$oldest_post_first) AND ($comment_count>0) ): ?>
+          </div>
+        </div>
+      </div>
+      <div class="section bottom framing container shadow">
+        <div id="content-area-alt">
+          <div id="node-<?php print $node->nid; ?>-alt" class="<?php print $classes; ?> clearfix<?php echo ($first_page) ? '' : ' not-first-page'; ?>">
+    <?php endif; ?>
+
     <div class="user">
       <?php
         $account = user_load(array('uid' => $uid));
         $user_image = boincuser_get_user_profile_image($uid);
-        if ($user_image['image']['filepath']) {
+        if ($user_image) {
           print '<div class="picture">';
-          //print theme('imagecache', 'thumbnail', $user_image['image']['filepath'], $user_image['alt'], $user_image['alt']);
-          print theme('imagefield_image', $user_image['image'], $user_image['alt'], $user_image['alt'], array(), false);
+          if (is_array($user_image) AND $user_image['image']['filepath']) {
+            //print theme('imagecache', 'thumbnail', $user_image['image']['filepath'], $user_image['alt'], $user_image['alt']);
+            print theme('imagefield_image', $user_image['image'], $user_image['alt'], $user_image['alt'], array(), false);
+          }
+          elseif (is_string($user_image)) {
+            print '<img src="' . $user_image . '"/>';
+          }
           print '</div>';
         }
         // Generate ignore user link
@@ -150,9 +171,12 @@
             $ignore_link['ignore_user']['href'],
             array('query' => $ignore_link['ignore_user']['query'])); ?>
           </div>
-          <div class="pm-link"><?php print l(bts('Send message'),
-            privatemsg_get_link(array($account)),
-            array('query' => drupal_get_destination())); ?>
+          <div class="pm-link"><?php
+            if ($user->uid AND ($user->uid != $account->uid)) {
+              print l(bts('Send message'),
+              privatemsg_get_link(array($account)),
+              array('query' => drupal_get_destination()));
+            } ?>
           </div>
         </div>
       <?php endif; ?>
@@ -185,11 +209,22 @@
       
       <div class="content">
         <?php print $content; ?>
+        <?php if ($signature AND $show_signatures): ?>
+          <div class="user-signature clearfix">
+            <?php print $signature; ?>
+          </div>
+        <?php endif; ?>
       </div>
 
-      
+            
     </div> <!-- /.node-body -->
     
-  <?php endif; // first page ?>
+  <?php endif; // page with topic starter post ?>
+  
+  <?php 
+    if ($oldest_post_first) {
+      print comment_render($node);
+    }
+  ?>
   
 </div> <!-- /.node -->

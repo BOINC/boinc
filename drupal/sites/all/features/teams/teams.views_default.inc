@@ -279,6 +279,41 @@ function teams_views_default_views() {
   ));
   $handler = $view->new_display('panel_pane', 'Team member list', 'panel_pane_1');
   $handler->override_option('fields', array(
+    'rownumber' => array(
+      'label' => 'Rank',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'absolute' => 0,
+        'link_class' => '',
+        'alt' => '',
+        'rel' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'hide_alter_empty' => 1,
+      'exclude' => 0,
+      'id' => 'rownumber',
+      'table' => 'customfield',
+      'field' => 'rownumber',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
     'id' => array(
       'label' => 'Id',
       'alter' => array(
@@ -549,7 +584,7 @@ function teams_views_default_views() {
       'relationship' => 'none',
     ),
     'create_time' => array(
-      'label' => 'Member since',
+      'label' => 'Joined',
       'alter' => array(
         'alter_text' => 0,
         'text' => '',
@@ -576,7 +611,7 @@ function teams_views_default_views() {
       'hide_alter_empty' => 1,
       'date_format' => 'small',
       'custom_date_format' => '',
-      'exclude' => 1,
+      'exclude' => 0,
       'id' => 'create_time',
       'table' => 'user',
       'field' => 'create_time',

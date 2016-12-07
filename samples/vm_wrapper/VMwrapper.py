@@ -12,7 +12,7 @@
 #     * VM: Takes periodic snapshots of the virtual machine
 # - (supposed to also handle trickle messaging in future)
 #
-# See http://boinc.berkeley.edu/trac/wiki/VmApps for details
+# See https://boinc.berkeley.edu/trac/wiki/VmApps for details
 # Contributor: Jarno Rantala (jarno.rantala@gmail.com)
 #
 # The original code was made under the CERN openlab summer student program July-August 2009

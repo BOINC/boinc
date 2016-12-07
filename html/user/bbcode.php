@@ -36,12 +36,13 @@ row2_plain("[s]".tra("Strikethrough")."[/s]", "<s>".tra("Strikethrough")."</s>")
 row2_plain("[sup]".tra("Superscript")."[/sup]", "X<sup>".tra("Superscript")."</sup>");
 row2_plain("[size=15]".tra("Big text")."[/size]", "<span style=\"font-size: 15px\">".tra("Big text")."</span>");
 row2_plain("[color=red]".tra("Red text")."[/color]", "<font color=\"red\">".tra("Red text")."</font></li>");
-row2_plain("[url=http://google.com/]".tra("link to website")."[/url]", "<a href=\"http://google.com/\">".tra("link to website")."</a>");
+row2_plain("[url=https://google.com/]".tra("link to website")."[/url]", "<a href=\"https://google.com/\">".tra("link to website")."</a>");
 row2_plain("[quote]".tra("Quoted text")."[/quote]", tra("use for quoted blocks of text"));
 row2_plain("[img]http://example.com/pic.jpg[/img]", tra("use to display an image"));
 row2_plain("[code]".tra("Code snippet here")."[/code]", tra("use to display some code"));
 row2_plain("[pre]".tra("Pre-formatted text")."[/pre]", tra("use to display pre-formatted (usually monospaced) text"));
 row2_plain("[list]<br>* ".tra("Item 1")."<br>* ".tra("Item2")."<br>[/list]", "<ul><li>".tra("Item 1")."</li><li>".tra("Item 2")."</li></ul>");
+row2_plain("[list=1]<br>* ".tra("Item 1")."<br>* ".tra("Item2")."<br>[/list]", "<ol><li>".tra("Item 1")."</li><li>".tra("Item 2")."</li></ol>");
 row2_plain(
     "[github]#1392[/github] or [github]ticket:1392[/github]",
     tra("link to an issue on the BOINC Github repository").": <a href=\"https://github.com/BOINC/boinc/issues/1392\">#1392</a>");

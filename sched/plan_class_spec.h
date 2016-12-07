@@ -17,7 +17,7 @@
 
 
 // configurable app plan functions.
-// see http://boinc.berkeley.edu/trac/wiki/AppPlanConfig
+// see https://boinc.berkeley.edu/trac/wiki/AppPlanConfig
 
 #include <string>
 #include <vector>
@@ -36,6 +36,8 @@ struct PLAN_CLASS_SPEC {
     std::vector<std::string> cpu_features;
     double min_ncpus;
     int max_threads;
+    double mem_usage_base;
+    double mem_usage_per_cpu;
     bool nthreads_cmdline;
     double projected_flops_scale;
     bool have_os_regex;

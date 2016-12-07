@@ -32,7 +32,6 @@ echo "<p>".tra("%1 participants may form %2teams%3.", PROJECT, "<b>", "</b>") ."
     <p>" .
     tra("Each team has a %1founder%2 who may:", "<b>", "</b>") . "
     <ul>
-    <li> " . tra("access team members' email addresses") . "
     <li> " . tra("edit the team's name and description") . "
     <li> " . tra("add or remove team admins") . "
     <li> " . tra("remove members from the team") . "

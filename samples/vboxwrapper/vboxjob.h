@@ -79,6 +79,9 @@ public:
 
     // whether to add an extra cache disk for systems like uCernVM
     bool enable_cache_disk;
+    
+    // whether to put the iso as the first boot device 
+    bool boot_iso; 
 
     // whether to allow network access
     bool enable_network;
@@ -104,6 +107,9 @@ public:
     // whether to enable graphics support by way of
     // http://boinc.berkeley.edu/trac/wiki/GraphicsApi#File
     bool enable_graphics_support;
+
+    // capture screen shots during catastrophic events
+    bool enable_screenshots_on_error;
 
     // whether to use savestate instead of poweroff on exit
     bool enable_vm_savestate_usage;

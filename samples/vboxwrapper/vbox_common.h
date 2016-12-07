@@ -77,6 +77,7 @@
 
 // Vboxwrapper diagnostics
 //
+#define SCREENSHOT_FILENAME "vbox_screenshot.png"
 #define REPLAYLOG_FILENAME "vbox_replay.txt"
 #define TRACELOG_FILENAME "vbox_trace.txt"
 
@@ -178,6 +179,7 @@ public:
     virtual int poweroff() = 0;
     virtual int pause() = 0;
     virtual int resume() = 0;
+	virtual int capture_screenshot() = 0;
     virtual int create_snapshot(double elapsed_time) = 0;
     virtual int cleanup_snapshots(bool delete_active) = 0;
     virtual int restore_snapshot() = 0;
@@ -188,6 +190,7 @@ public:
     virtual void dump_hypervisor_logs(bool include_error_logs);
     virtual void dump_hypervisor_status_reports() = 0;
     virtual void dump_vmguestlog_entries();
+	virtual int dump_screenshot();
 
     virtual int is_registered() = 0;
     virtual bool is_system_ready(std::string& message) = 0;

@@ -28,14 +28,14 @@ function show_email_form() {
         .tra("Enter the email address below, and click OK. You will be sent email instructions for resetting your password.");
     start_table();
     echo "<form method=post action=mail_passwd.php>\n";
-    row2(tra("Email address"),"<input type=\"text\" size=40 name=email_addr>");
-    row2("", "<input class=\"btn btn-default\" type=submit value=\"".tra("OK")."\">");
+    row2(tra("Email address"), '<input class="form-control" type="text" size="40" name="email_addr">');
+    row2("", '<input class="btn btn-success" type="submit" value="'.tra("OK").'">');
     echo "</form>";
     end_table();
 }
 
 function show_auth_form() {
-    $master_url = parse_config(get_config(), "<master_url>");
+    global $master_url;
     $x = strstr($master_url, "//");
     $x = substr($x, 2);
     $x = rtrim($x, "/");
@@ -68,11 +68,14 @@ function show_auth_form() {
     start_table();
 
     echo "<form action=login_action.php method=post>\n";
-    row2(tra("Log in with authenticator"), "<input type=\"text\" name=authenticator size=40>");
+    row2(
+        tra("Log in with authenticator"),
+        '<input class="form-control" type="text" name="authenticator" size="40">'
+    );
     row2(tra("Stay logged in on this computer"),
         "<input type=checkbox name=\"stay_logged_in\" checked>"
     );
-    row2("", "<input class=\"btn btn-default\" type=submit value=\"".tra("OK")."\">");
+    row2("", "<input class=\"btn btn-success\" type=submit value=\"".tra("OK")."\">");
     echo "</form>";
 
     end_table();

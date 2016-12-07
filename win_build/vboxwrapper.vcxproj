@@ -94,9 +94,9 @@
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">vboxwrapper_26151_windows_x86_64</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vboxwrapper_26184_windows_x86_64</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vboxwrapper_26197_windows_x86_64</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">vboxwrapper_26151_windows_intelx86</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vboxwrapper_26184_windows_intelx86</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vboxwrapper_26197_windows_intelx86</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Midl>
@@ -307,6 +307,7 @@
     <ClCompile Include="..\samples\vboxwrapper\vbox_mscom42.cpp" />
     <ClCompile Include="..\samples\vboxwrapper\vbox_mscom43.cpp" />
     <ClCompile Include="..\samples\vboxwrapper\vbox_mscom50.cpp" />
+    <ClCompile Include="..\samples\vboxwrapper\vbox_mscom51.cpp" />
     <ClCompile Include="..\samples\vboxwrapper\vbox_mscom_impl.cpp" />
     <ClCompile Include="..\samples\vboxwrapper\vbox_vboxmanage.cpp" />
   </ItemGroup>
@@ -321,6 +322,7 @@
     <ClInclude Include="..\samples\vboxwrapper\vbox_mscom42.h" />
     <ClInclude Include="..\samples\vboxwrapper\vbox_mscom43.h" />
     <ClInclude Include="..\samples\vboxwrapper\vbox_mscom50.h" />
+    <ClInclude Include="..\samples\vboxwrapper\vbox_mscom51.h" />
     <ClInclude Include="..\samples\vboxwrapper\vbox_mscom_impl.h" />
     <ClInclude Include="..\samples\vboxwrapper\vbox_vboxmanage.h" />
   </ItemGroup>

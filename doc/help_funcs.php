@@ -51,7 +51,7 @@ function online($status) {
 // Instead we now have the following
 
 function skype_script() {
-    echo '<script type="text/javascript" src="http://www.skypeassets.com/i/scom/js/skype-uri.js"></script>
+    echo '<script type="text/javascript" src="https://secure.skypeassets.com/i/scom/js/skype-uri.js"></script>
 ';
 }
 

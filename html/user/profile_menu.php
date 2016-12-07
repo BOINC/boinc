@@ -38,7 +38,7 @@ echo "
     tra("Explore the diversity of your fellow volunteers, and contribute your own views for others to enjoy.")."
     <p>".tra("If you haven't already, you can %1create your own user profile%2 for others to see!", "<a href=\"create_profile.php\">", "</a>");
 
-start_table_noborder();
+start_table();
 
 $today = getdate(time());
 $UOTD_heading = tra("User of the Day")." -- " . $today['month'] . " " . $today['mday'] . ", " . $today['year'];

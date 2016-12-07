@@ -21,6 +21,7 @@
 #else
 #include "stdwx.h"
 #endif
+#include "str_replace.h"
 #include "win_util.h"
 #endif
 
@@ -319,7 +320,11 @@ void boinc_crash() {
 
 // read file (at most max_len chars, if nonzero) into malloc'd buf
 //
+#ifdef _USING_FCGI_
+int read_file_malloc(const char* path, char*& buf, size_t, bool) {
+#else
 int read_file_malloc(const char* path, char*& buf, size_t max_len, bool tail) {
+#endif
     int retval;
     double size;
 

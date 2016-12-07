@@ -35,7 +35,7 @@ BoincProfile::update_aux("$vote=$vote+1 WHERE userid = $userid");
 
 page_head(tra("Vote Recorded"));
 
-start_table_noborder();
+start_table();
 
 row1(tra("Thank you"));
 

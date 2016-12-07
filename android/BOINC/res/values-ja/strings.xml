@@ -135,7 +135,7 @@
   <string name="status_running">計算</string>
   <string name="status_running_long">ご参加ありがとうございます。</string>
   <string name="status_paused">一時停止中</string>
-  <string name="status_idle">することがありません</string>
+  <string name="status_idle">タスクがありません</string>
   <string name="status_idle_long">タスクを待機中…</string>
   <string name="status_computing_disabled">一時停止中</string>
   <string name="status_computing_disabled_long">ネットワーク接続と計算を再開するには[play]を押してください。</string>
@@ -193,18 +193,14 @@
   <string name="prefs_client_log_flags_header">BOINCクライアントログのフラグ</string>
   <string name="prefs_gui_log_level_header">GUIログのレベル</string>
   <string name="prefs_gui_log_level_description">GUIログメッセージの詳細度を指定します。</string>
-  <string name="prefs_unit_mb">MB</string>
-  <string name="prefs_unit_gb">GB</string>
-  <string name="prefs_unit_pct">%</string>
-  <string name="prefs_unit_celcius">℃</string>
+  <string name="prefs_unit_celsius">℃</string>
   <string name="prefs_unit_seconds">秒</string>
   <!--projects tab strings-->
   <string name="projects_loading">プロジェクトを読み込み中…</string>
   <string name="projects_add">プロジェクトを追加</string>
   <string name="projects_icon">プロジェクトのアイコン</string>
-  <string name="projects_credits_header">功績値: </string>
-  <string name="projects_credits_host_header">(このデバイスで)</string>
-  <string name="projects_credits_user_header">(合計)</string>
+  <string name="projects_credits">功績値: </string>
+  <string name="projects_credits_host_and_user">%1$,d (このデバイスで) %2$,d (合計)</string>
   <!--project status strings-->
   <string name="projects_status_suspendedviagui">参加者の指示により一時停止中</string>
   <string name="projects_status_dontrequestmorework">新しいタスクを取得しない</string>
@@ -338,14 +334,10 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">バージョン</string>
   <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-  <string name="about_copyright">(C) 2003–2014 University of California, Berkeley.</string>
+    <string name="about_copyright">© 2003–2016 University of California, Berkeley.</string>
   <string name="about_copyright_reserved">All Rights Reserved.</string>
   <string name="about_credits">The Max Planck Institute for Gravitational Physics, IBM Corporation, HTC Corporation と彼らの支援に感謝いたします。</string>
-  <!--notice notification-->
-  <string name="notice_notification_single_header">以下からの新しいお知らせ</string>
-  <!--e.g. New notice from SETI@HOME-->
-  <string name="notice_notification_multiple_header">新しいお知らせ</string>
-  <!--e.g. 3 new notices-->
+    <!--notice notification-->
   <!--multi BOINC compitability-->
   <string name="nonexcl_dialog_header">ボランティア・コンピューティング・アプリを検出しました</string>
   <string name="nonexcl_dialog_text">このデバイスで別のボランティア・コンピューティング・アプリが動作しています。一度にひとつのバージョンのみ動作可能です。</string>
@@ -356,5 +348,6 @@
   <string name="social_invite_content_title">私はスマートフォンで科学研究を行っています!</string>
   <string name="social_invite_content_body">私は自分の %1$s を科学のための計算に使っています。あなたも出来ますよ!ここからアプリをダウンロードしてください: %2$s</string>
   <!--first parameter: device manufacturer, second: URL-->
-  <string name="social_invite_content_url">https://play.google.com/store/apps/details？id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details？id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.co.jp/gp/mas/dl/android?p=edu.berkeley.boinc</string>
 </resources>

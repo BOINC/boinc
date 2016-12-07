@@ -310,7 +310,7 @@ static void handle_project_dont_detach_when_done(GUI_RPC_CONN& grc) {
     if (!p) return;
     gstate.set_client_state_dirty("Project modified by user");
     msg_printf(p, MSG_INFO, "detach when done cleared by user");
-    p->detach_when_done = true;
+    p->detach_when_done = false;
     p->dont_request_more_work = false;
     grc.mfout.printf("<success/>\n");
 }
@@ -774,7 +774,10 @@ void handle_get_project_config_poll(GUI_RPC_CONN& grc) {
             grc.get_project_config_op.error_num
         );
     } else {
-        grc.mfout.printf("%s", grc.get_project_config_op.reply.c_str());
+        const char *p = grc.get_project_config_op.reply.c_str();
+        const char *q = strstr(p, "<project_config");
+        if (!q) q = "<project_config/>\n";
+        grc.mfout.printf("%s", q);
     }
 }
 

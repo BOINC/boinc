@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Atis Kozulis <boinc.at.latvia@gmail.com>, 2015
+# Atis Kozulis <boinc.at.latvia@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-16 17:27-0500\n"
-"PO-Revision-Date: 2015-12-27 16:35+0000\n"
+"PO-Revision-Date: 2016-04-07 06:48+0000\n"
 "Last-Translator: Atis Kozulis <boinc.at.latvia@gmail.com>\n"
 "Language-Team: Latvian (http://www.transifex.com/boinc/boinc/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -3539,7 +3539,7 @@ msgstr "Atlikt šī uzdevuma izpildi"
 
 #: clientgui/ViewWork.cpp:239 clientgui/sg_TaskCommandPopup.cpp:78
 msgid "Abort"
-msgstr "Pārtraukt"
+msgstr "Atteikties"
 
 #: clientgui/ViewWork.cpp:240
 msgid "Abandon work on the result. You will get no credit for it."
@@ -3582,7 +3582,7 @@ msgstr "Rāda VM konsoli uzdevumam..."
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
-msgstr "Vai esat pārliecināti, ka vēlaties pārtraukt šo uzdevumu '%s'?\n(Progress: %s, Statuss: %s)"
+msgstr "Vai esat pārliecināti, ka vēlaties atteikties no šī uzdevuma '%s'?\n(Progress: %s, Statuss: %s)"
 
 #: clientgui/ViewWork.cpp:572
 #, c-format
@@ -3591,7 +3591,7 @@ msgstr "Vai tiešām vēlaties pārtaukt apstrādāt šos %d uzdevums?"
 
 #: clientgui/ViewWork.cpp:577 clientgui/sg_TaskCommandPopup.cpp:272
 msgid "Abort task"
-msgstr "Pārtraukt uzdevumu"
+msgstr "Atteikties no uzdevuma"
 
 #: clientgui/ViewWork.cpp:586
 msgid "Aborting task..."
@@ -3769,14 +3769,14 @@ msgstr "Apturēt šo uzdevumu."
 
 #: clientgui/sg_TaskCommandPopup.cpp:79
 msgid "Abandon this task. You will get no credit for it."
-msgstr "Pārtraukt šo uzdevumu. Jūs neiegūsiet kredītu par to."
+msgstr "Atteikties no šī uzdevuma. Jūs neiegūsiet kredītu par to."
 
 #: clientgui/sg_TaskCommandPopup.cpp:267
 #, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %.1lf%%, Status: %s)"
-msgstr "Vai esat pārliecināti, ka vēlaties pārtraukt šo uzdevumu '%s'?\n(Progress: %.1lf%%, Statuss: %s)"
+msgstr "Vai esat pārliecināti, ka vēlaties atteikties no šī uzdevuma '%s'?\n(Progress: %.1lf%%, Statuss: %s)"
 
 #: clientgui/sg_TaskPanel.cpp:468
 msgid "You don't have any projects.  Please Add a Project."

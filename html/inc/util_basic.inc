@@ -16,8 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// minimal set of util functions;
-// doesn't pull in translation.inc etc.
+// minimal set of utility functions, usable outside a BOINC project.
+// Doesn't pull in translation.inc etc.
 
 $generating_xml = false;
 
@@ -44,7 +44,8 @@ function show_page($x, $y) {
     ";
 }
 
-function xml_error($num, $msg=null) {
+function xml_error($num, $msg=null, $file=null, $line=null) {
+    global $xml_outer_tag;
     if (!$msg) {
         switch($num) {
         case -112: $msg = "Invalid XML"; break;
@@ -64,8 +65,17 @@ function xml_error($num, $msg=null) {
     echo "<error>
     <error_num>$num</error_num>
     <error_msg>$msg</error_msg>
-</error>
 ";
+    if ($file) {
+        echo "    <file>$file</file>\n";
+    }
+    if ($line) {
+        echo "    <line>$line</line>\n";
+    }
+    echo "</error>\n";
+    if (isset($xml_outer_tag) && $xml_outer_tag != "") {
+        echo "</$xml_outer_tag>\n";
+    }
     exit();
 }
 
@@ -158,5 +168,37 @@ function url_get_contents($url) {
     curl_close($ch);
     return $content;
 }
+
+// Stuff related to password hashing.
+// Originally we hashed with MD5.
+// But MD5 is so fast that brute-force cracking would be easy
+// for hackers who break into a project's server.
+// So now we additionally hash with bcrypt,
+// if available (PHP >= 5.5) via PHP's password_hash() function.
+//
+// So there are two levels of hash:
+//
+// hash_0: md5(password.email_addr)
+// hash_1: password_hash(hash_0, PASSWORD_DEFAULT)
+//
+// hash_0 is what gets sent over the network,
+// from the client and account manager RPCs.
+//
+// hash_1 is what gets stored in the DB
+//   except that hash_0 is stored in the DB if
+//   - the project has pre-5.5 PHP, or
+//   - the project hasn't run the update script (see below)
+//
+// It would be slightly more secure if hash_1 was used on the network.
+// But that would require a client and account manager change,
+// and it would require them to know whether the server has password_hash().
+//
+// We supply a script update_password_hash.php.
+// This changes the user table from hash_0 to hash_1.
+// Projects can run it whenever they want;
+// those using old PHP can wait until they upgrade PHP.
+//
+// To simplify the transition:
+// - When we're authorizing a user, 
 
 ?>

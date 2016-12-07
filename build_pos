@@ -6,7 +6,7 @@
 // if they differ, send email telling us to validate and commit
 // the new versions.
 
-$emails = "davea@ssl.berkeley.edu rwalton@ssl.berkeley.edu";
+$emails = "davea@ssl.berkeley.edu";
 $tdir = "locale/templates";
 
 system("cd doc; ./build_po.php");
@@ -31,7 +31,4 @@ system("tools/compare_pot mac_installer/BOINC-Setup.pot $tdir/BOINC-Setup.pot $e
 //
 system("cd doc; ./update_translations.php");
 
-// copy generic web files to html/translations
-//
-system("cd locale; ./copy_files.php");
 ?>

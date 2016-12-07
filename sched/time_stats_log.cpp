@@ -15,6 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// code related to "time stats logs".
+// These are summaries of client availability send in scheduler requests.
+// The scheduler writes them to a directory hierarchy for later analysis.
+
 #include <sys/types.h>
 #include <sys/stat.h>
 

@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Sebastiano Pistore <olatusrooc@virgilio.it>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2015-11-07 20:18+0000\n"
+"PO-Revision-Date: 2016-09-21 11:56+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -20,11 +21,11 @@ msgstr ""
 #: Installer.cpp:124
 #, c-format
 msgid "Sorry, this version of %s requires system 10.5 or higher."
-msgstr "Scusa, questa versione di %s richiede un sistema 10.5 o superiore."
+msgstr "Siamo spiacenti, questa versione di %s richiede un sistema operativo versione 10.5 o superiore."
 
 #: PostInstall.cpp:130 PostInstall.cpp:1136 uninstall.cpp:1618
 msgid "Yes"
-msgstr "Si"
+msgstr "Sì"
 
 #: PostInstall.cpp:131 PostInstall.cpp:1137 uninstall.cpp:1619
 msgid "No"
@@ -32,7 +33,7 @@ msgstr "No"
 
 #: PostInstall.cpp:133
 msgid "Should BOINC run even when no user is logged in?"
-msgstr "BOINC deve lavorare quando non ci sono utenti connessi?"
+msgstr "BOINC può rimanere in esecuzione quando non ci sono utenti connessi?"
 
 #: PostInstall.cpp:1416
 #, c-format
@@ -40,7 +41,7 @@ msgid ""
 "Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
 "\n"
 "Do you also want non-administrative users to be able to run and control %s on this Mac?"
-msgstr "Gli utenti ai quali è permessa l'amministrazione di questo computer avranno automaticamente i permessi per avviare e controllare %s.\n\nVuoi anche dare agli utenti non amministrativi i permessi per avviare e controllare %s in questo Mac?"
+msgstr "Gli utenti ai quali è permessa l'amministrazione di questo computer avranno automaticamente i permessi per avviare e controllare %s.\n\nVuoi concedere anche agli utenti non amministratori i permessi per avviare e controllare %s in questo Mac?"
 
 #: PostInstall.cpp:1444
 #, c-format
@@ -67,12 +68,12 @@ msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
 "\n"
 "This will remove the executables but will not touch %s data files."
-msgstr "Sei sicuro di voler rimuovere completamente %s dal tuo computer?\n\nQuesto rimuoverà anche gli eseguibili ma non toccherà i file di dati di %s."
+msgstr "Sei sicuro di voler rimuovere completamente %s dal tuo computer?\n\nQuesto rimuoverà gli eseguibili ma non modificherà i file dei dati di %s."
 
 #: uninstall.cpp:163
 #, c-format
 msgid "Canceled: %s has not been touched."
-msgstr "Annullato: %s non è stato toccato."
+msgstr "Annullato: %s non è stato modificato."
 
 #: uninstall.cpp:174
 #, c-format
@@ -87,7 +88,7 @@ msgstr "nome utente"
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
-msgstr "Vuoi anche rimuovere VirtualBox dal tuo computer?\n(VirtualBox è stato installato con BOINC.)"
+msgstr "Vuoi anche rimuovere VirtualBox dal tuo computer?\n(VirtualBox è stato installato assieme a BOINC.)"
 
 #: uninstall.cpp:312
 #, c-format

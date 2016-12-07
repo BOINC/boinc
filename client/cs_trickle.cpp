@@ -181,7 +181,7 @@ bool trickle_up_poll() {
 }
 
 static void trickle_up_request_message(
-    PROJECT* p, const char* msg, char* result_name, int t, char* buf, int len
+    PROJECT* p, const char* msg, char* result_name, int t, char* buf, size_t len
 ) {
     snprintf(buf, len,
         "<scheduler_request>\n"
@@ -216,7 +216,7 @@ void send_replicated_trickles(
     PROJECT* p, const char* msg, char* result_name, int now
 ) {
     if (!p->trickle_up_ops.size()) return;
-    int trickle_len = strlen(msg) + 4096;
+    size_t trickle_len = strlen(msg) + 4096;
     char *buf = (char*)malloc(trickle_len);
     if (!buf) return;
     trickle_up_request_message(p, msg, result_name, now, buf, trickle_len);

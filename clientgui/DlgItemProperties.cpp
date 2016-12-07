@@ -387,8 +387,8 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
         );
     }
     if (result->active_task) {
-        addProperty(_("CPU time at last checkpoint"), FormatTime(result->checkpoint_cpu_time));
         addProperty(_("CPU time"), FormatTime(result->current_cpu_time));
+        addProperty(_("CPU time since checkpoint"), FormatTime(result->current_cpu_time - result->checkpoint_cpu_time));
         if (result->elapsed_time >= 0) {
             addProperty(_("Elapsed time"), FormatTime(result->elapsed_time));
         }

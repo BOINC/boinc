@@ -24,37 +24,36 @@
 // This page shows the form, and a "confirm" page.
 // The actual cancellation is done cancel_workunits_action.php
 
-// TODO:
-// - use get_int() etc. rather than $_REQUEST
-// - use DB interfaces classes, not mysql_query() etc.
-
 require_once("../inc/util_ops.inc");
 
 admin_page_head("Cancel Jobs");
 
-$limit = 100;
-if (array_key_exists('limit',$_REQUEST)) {
-    $nlimit=$_REQUEST['limit'];
-    if ($nlimit != 0) {
-        $limit = $nlimit;
-    }
+$limit = get_int('limit', true);
+if (!$limit || $limit==0) {
+    $limit = 100;
 }
 
-$clause = "";
+$qclause = "";
 
-if (array_key_exists('minid',$_REQUEST) && $_REQUEST['minid'] != "" &&
-    array_key_exists('maxid',$_REQUEST) && $_REQUEST['maxid'] != "")
-    $clause = "id >=" . $_REQUEST['minid'] . " AND id <=" . $_REQUEST['maxid'];
-else if (array_key_exists('list',$_REQUEST) && $_REQUEST['list'] != "")
-    $clause = "id IN (" . $_REQUEST['list'] . ")";
-else if (array_key_exists('uclause',$_REQUEST) && $_REQUEST['uclause'] != "")
-    $clause = urldecode($_REQUEST['uclause']);
-else if (array_key_exists('clause',$_REQUEST) && $_REQUEST['clause'] != "")
+$minid = get_int('minid', true);
+$minid = get_int('maxid', true);
+$list = get_str('list', true);
+$uclause = get_str('uclause', true);
+$clause = get_str('clause', true);
+
+if ($minid && $maxid) {
+    $qclause = "id >=" . $minid . " AND id <=" . $maxid;
+} else if ($list) {
+    $qclause = "id IN (" . $list . ")";
+} else if ($uclause) {
+    $qclause = urldecode($uclause);
+} else if ($clause) {
     // the following line is BS, but apparently I can't find another way to pass a
     // double quote (") to the query
-    $clause = str_replace('\"', '"', $_REQUEST['clause']);
+    $qclause = str_replace('\"', '"', $clause);
+}
 
-if ($clause == "") {
+if ($qclause == "") {
 
     // copied from old cancel_wu_form.php
     echo "<p>
@@ -99,13 +98,13 @@ if ($clause == "") {
     echo "<p>\n";
     echo '<input type="submit" value="Cancel jobs">';
     echo "</p>\n";
+    echo "</form>\n";
 
-} else { // if ($clause)
+} else { // if ($qclause)
 
-    db_init(true); // try to get list of WUs from replica
-
-    $query = "SELECT id, name FROM workunit WHERE canonical_resultid = 0 AND error_mask = 0 AND $clause;";
-    $dbresult = _mysql_query($query);
+    $query = "SELECT id, name FROM workunit WHERE canonical_resultid = 0 AND error_mask = 0 AND $qclause;";
+    $db = BoincDb::get(true);
+    $dbresult = $db->do_query($query);
 
     if (!$dbresult) {
         echo "Error in query '$query'<br>\n";
@@ -118,7 +117,7 @@ if ($clause == "") {
         echo "<tr><th>WU ID</th><th>WU name</th></tr>\n";
 
         $rescount = 0;
-        while ($res = _mysql_fetch_object($dbresult)) {
+        while ($res = $dbresult->fetch_object()) {
             if ($rescount < $limit) {
                 $id = $res->id;
                 echo "<tr>\n";
@@ -139,9 +138,9 @@ if ($clause == "") {
                 echo "</tr>\n";
             }
             $rescount++;
-        } // while (_mysql_fetch_object())
+        } // while (fetch_object())
 
-        _mysql_free_result($dbresult);
+        $dbresult->free();
 
         echo "</table>\n<p>";
         echo $rescount;
@@ -150,7 +149,7 @@ if ($clause == "") {
         echo "<p>";
         echo "<input type=\"hidden\" name=\"cancel\" value=\"1\"/>";
         echo "<input type=\"hidden\" name=\"limit\" value=\"$limit\"/>";
-        $eclause = urlencode($clause);
+        $eclause = urlencode($qclause);
         echo "<input type=\"hidden\" name=\"clause\" value=\"$eclause\"/>";
         echo "<input type=\"submit\" value=\"Cancel checked WUs\">";
         echo "</p>\n";
@@ -158,7 +157,7 @@ if ($clause == "") {
 
     } // if (!$dbresult)
 
-} // if ($clause)
+} // if ($qclause)
 
 admin_page_tail();
 

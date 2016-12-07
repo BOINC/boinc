@@ -1,7 +1,7 @@
 <?php
 
 @mysql_pconnect("localhost", "boincadm", null);
-mysql_select_db("support");
+@mysql_select_db("support");
 
 function rating_insert($r) {
     $auth = mysql_real_escape_string($r->auth);

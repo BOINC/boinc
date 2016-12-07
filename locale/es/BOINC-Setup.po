@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Antonio Regidor García <chikitosan@gmail.com>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: boinc\n"
+"Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2015-02-23 23:14+0000\n"
-"Last-Translator: Rom Walton\n"
-"Language-Team: Spanish (http://www.transifex.com/projects/p/boinc/language/es/)\n"
+"PO-Revision-Date: 2015-04-20 12:34+0000\n"
+"Last-Translator: Antonio Regidor García <chikitosan@gmail.com>\n"
+"Language-Team: Spanish (http://www.transifex.com/boinc/boinc/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -32,7 +33,7 @@ msgstr "No"
 
 #: PostInstall.cpp:133
 msgid "Should BOINC run even when no user is logged in?"
-msgstr "¿Debe ejecutarse BOINC incluso cuando ningun usuario ha iniciado la sesión?"
+msgstr "¿BOINC debe ejecutarse aun cuando ningún usuario haya iniciado una sesión?"
 
 #: PostInstall.cpp:1416
 #, c-format
@@ -40,7 +41,7 @@ msgid ""
 "Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
 "\n"
 "Do you also want non-administrative users to be able to run and control %s on this Mac?"
-msgstr "A los usuarios con permiso para administrar este computador se les permitirá automáticamente ejecutar y controlar %s.\n\n¿Quiere que los usuarios no administradores también puedan ejecutar y controlar %s en este Mac?"
+msgstr "A los usuarios con permiso para administrar este computador se les permitirá automáticamente ejecutar y controlar %s.\n\n¿Quiere que también los usuarios no administradores puedan ejecutar y controlar %s en este Mac?"
 
 #: PostInstall.cpp:1444
 #, c-format
@@ -81,7 +82,7 @@ msgstr "Ha ocurrido un error: código %d"
 
 #: uninstall.cpp:230
 msgid "name  of user"
-msgstr "nombre del usuario"
+msgstr "usuario"
 
 #: uninstall.cpp:272
 msgid ""
@@ -99,7 +100,7 @@ msgid ""
 "\n"
 "for each user, the file\n"
 "\"%s\"."
-msgstr "Eliminación terminada.\n\n Puede que quiera eliminar los siguientes elementos restantes usando el Finder: \nel directorio «%s»\n\npara cada usuario, el archivo\n«%s»."
+msgstr "Eliminación terminada.\n\nPuede que quiera eliminar los siguientes elementos restantes usando el Finder: \nel directorio «%s»\n\npara cada usuario, el archivo\n«%s»."
 
 #: uninstall.cpp:840
 #, c-format

@@ -30,6 +30,8 @@
 //                  for the particular host.
 // --register_only  Register the VM but don't run it.
 //                  Useful for debugging; see the wiki page
+// --memory_size_mb How much memory (in MB) to give the VM. Overrides the
+//                  value in vbox_job.xml if its present. 
 //
 // Handles:
 // - suspend/resume/quit/abort
@@ -44,6 +46,7 @@
 // Andrew J. Younge (ajy4490 AT umiacs DOT umd DOT edu)
 // Jie Wu <jiewu AT cern DOT ch>
 // Daniel Lombraña González <teleyinex AT gmail DOT com>
+// Marius Millea <mariusmillea AT gmail DOT com>
 
 #ifdef _WIN32
 #include "boinc_win.h"
@@ -81,6 +84,7 @@
 #include "vbox_mscom42.h"
 #include "vbox_mscom43.h"
 #include "vbox_mscom50.h"
+#include "vbox_mscom51.h"
 #endif
 #include "vbox_vboxmanage.h"
 
@@ -450,36 +454,36 @@ int main(int argc, char** argv) {
 
     if (BOINC_SUCCESS != vbox42::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display)) {
         if (BOINC_SUCCESS != vbox43::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display)) {
-            vbox50::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display);
+            if (BOINC_SUCCESS != vbox50::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display)) {
+				vbox51::VBOX_VM::get_version_information(vbox_version_raw, vbox_version_display);
+			}
         }
     }
     if (!vbox_version_raw.empty()) {
         sscanf(vbox_version_raw.c_str(), "%d.%d", &vbox_major, &vbox_minor);
         if ((4 == vbox_major) && (2 == vbox_minor)) {
             pVM = (VBOX_VM*) new vbox42::VBOX_VM();
-            retval = pVM->initialize();
-            if (retval) {
-                delete pVM;
-                pVM = NULL;
-            }
         }
         if ((4 == vbox_major) && (3 == vbox_minor)) {
             pVM = (VBOX_VM*) new vbox43::VBOX_VM();
-            retval = pVM->initialize();
-            if (retval) {
-                delete pVM;
-                pVM = NULL;
-            }
         }
-        if ((5 == vbox_major) && (0 <= vbox_minor)) {
+        if ((5 == vbox_major) && (0 == vbox_minor)) {
             pVM = (VBOX_VM*) new vbox50::VBOX_VM();
+        }
+        if ((5 == vbox_major) && (1 <= vbox_minor)) {
+            pVM = (VBOX_VM*) new vbox51::VBOX_VM();
+        }
+		if (pVM) {
             retval = pVM->initialize();
             if (retval) {
                 delete pVM;
                 pVM = NULL;
             }
-        }
+		}
     }
+#endif
+    // Initialize VM Hypervisor
+    //
     if (!pVM) {
         pVM = (VBOX_VM*) new vboxmanage::VBOX_VM();
         retval = pVM->initialize();
@@ -489,18 +493,6 @@ int main(int argc, char** argv) {
             boinc_temporary_exit(86400, "Detection of VM Hypervisor failed.");
         }
     }
-#else
-    pVM = (VBOX_VM*) new vboxmanage::VBOX_VM();
-
-    // Initialize VM Hypervisor
-    //
-    retval = pVM->initialize();
-    if (retval) {
-        vboxlog_msg("Could not detect VM Hypervisor. Rescheduling execution for a later date.");
-        pVM->dump_hypervisor_logs(true);
-        boinc_temporary_exit(86400, "Detection of VM Hypervisor failed.");
-    }
-#endif
 
     // Parse command line parameters
     //
@@ -702,7 +694,14 @@ int main(int argc, char** argv) {
     if (pVM->enable_isocontextualization) {
         pVM->iso_image_filename = ISO_IMAGE_FILENAME;
     }
+
+    // cpu count: cmdline arg overrides config file
+    //
     if (aid.ncpus > 1.0 || ncpus > 1.0) {
+		if (ncpus > 32.0) {
+            vboxlog_msg("WARNING: Virtualbox only allows up to 32 processors to be allocated to a VM, resetting to 32.  (%f allocated)", ncpus);
+			ncpus = 32.0;
+		}
         if (ncpus) {
             sprintf(buf, "%d", (int)ceil(ncpus));
         } else {
@@ -712,13 +711,13 @@ int main(int argc, char** argv) {
     } else {
         pVM->vm_cpu_count = "1";
     }
-    if (pVM->memory_size_mb > 1.0 || memory_size_mb > 1.0) {
-        if (memory_size_mb) {
-            sprintf(buf, "%d", (int)ceil(memory_size_mb));
-        } else {
-            sprintf(buf, "%d", (int)ceil(pVM->memory_size_mb));
-        }
+
+    // memory size: cmdline arg overrides config file
+    //
+    if (memory_size_mb) {
+        pVM->memory_size_mb = memory_size_mb;
     }
+
     if (aid.vbox_window && !aid.using_sandbox) {
         pVM->headless = false;
     }
@@ -764,9 +763,13 @@ int main(int argc, char** argv) {
             unrecoverable_error = false;
             temp_reason = "VM environment needed to be cleaned up.";
         } else if (ERR_INVALID_PARAM == retval) {
-            unrecoverable_error = false;
-            temp_reason = "Please upgrade BOINC to the latest version.";
-            temp_delay = 86400;
+            error_reason =
+                "   NOTE: VirtualBox has reported an improperly configured virtual machine. It was configured to require\n"
+                "    hardware acceleration for virtual machines, but your processor does not support the required feature.\n"
+                "    Please report this issue to the project so that it can be addresssed.\n"
+                "    Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n";
+            skip_cleanup = true;
+            retval = ERR_EXEC;
         } else if (retval == (int)RPC_S_SERVER_UNAVAILABLE) {
             error_reason =
                 "    VboxSvc crashed while attempting to restore the current snapshot.  This is a critical\n"
@@ -785,6 +788,11 @@ int main(int argc, char** argv) {
         }
 
         if (unrecoverable_error) {
+            // Only attempt to take a screen shot if the VM is online.
+            if (pVM->online) {
+                pVM->capture_screenshot();
+            }
+
             // Attempt to cleanup the VM and exit.
             if (!skip_cleanup) {
                 pVM->cleanup();
@@ -884,7 +892,7 @@ int main(int argc, char** argv) {
                 "    Please enable this feature in your computer's BIOS.\n"
                 "    Intel calls it 'VT-x'\n"
                 "    AMD calls it 'AMD-V'\n"
-                "    More information can be found here: http://en.wikipedia.org/wiki/X86_virtualization\n"
+                "    More information can be found here: https://en.wikipedia.org/wiki/X86_virtualization\n"
                 "    Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n";
             retval = ERR_EXEC;
         } else if (pVM->is_logged_failure_vm_extensions_not_supported()) {
@@ -1010,6 +1018,7 @@ int main(int argc, char** argv) {
         }
         if (boinc_status.abort_request) {
             pVM->reset_vm_process_priority();
+            pVM->capture_screenshot();
             pVM->cleanup();
             pVM->dump_hypervisor_logs(true);
             boinc_finish(EXIT_ABORTED_BY_CLIENT);
@@ -1049,7 +1058,9 @@ int main(int argc, char** argv) {
 
                 if (should_exit) {
                     pVM->reset_vm_process_priority();
+                    pVM->capture_screenshot();
                     pVM->cleanup();
+                    pVM->dump_hypervisor_logs(true);
                     boinc_finish(EXIT_ABORTED_BY_CLIENT);
                 }
 
@@ -1129,7 +1140,7 @@ int main(int argc, char** argv) {
         if (boinc_status.suspended) {
             if (!pVM->suspended) {
                 retval = pVM->pause();
-                if (retval && (VBOX_E_INVALID_OBJECT_STATE == retval)) {
+                if ((unsigned)retval == VBOX_E_INVALID_OBJECT_STATE) {
                     vboxlog_msg("ERROR: VM task failed to pause, rescheduling task for a later time.");
                     pVM->poweroff();
                     boinc_temporary_exit(86400, "VM job unmanageable, restarting later.");
@@ -1138,7 +1149,7 @@ int main(int argc, char** argv) {
         } else {
             if (pVM->suspended) {
                 retval = pVM->resume();
-                if (retval && (VBOX_E_INVALID_OBJECT_STATE == retval)) {
+                if ((unsigned)retval == VBOX_E_INVALID_OBJECT_STATE) {
                     vboxlog_msg("ERROR: VM task failed to resume, rescheduling task for a later time.");
                     pVM->poweroff();
                     boinc_temporary_exit(86400, "VM job unmanageable, restarting later.");

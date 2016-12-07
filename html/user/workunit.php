@@ -73,9 +73,8 @@ if ($app->target_nresults>0 && !$wu->canonical_resultid && !$wu->error_mask && !
 
     result_table_start(false, true, null);
     $results = BoincResult::enum("workunitid=$wuid");
-    $i = 0;
     foreach ($results as $result) {
-        show_result_row($result, false, true, false, $i++);
+        show_result_row($result, false, true, false);
     }
     echo "</table>\n";
 }

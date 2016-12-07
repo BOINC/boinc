@@ -1,7 +1,7 @@
 /*******************************************************************************
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2016 University of California
  * 
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -23,7 +23,7 @@ public class DeviceStatusData {
 	public boolean on_usb_power = false; // not used
 	public int battery_charge_pct = 0;
 	public int battery_state = -1; //not used
-	public int battery_temperature_celcius = -1;
+	public int battery_temperature_celsius = -1;
 	public boolean wifi_online = false;
 	public boolean user_active = true;
 }

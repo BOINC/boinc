@@ -40,7 +40,8 @@
     $topic = current($topics);
     $taxonomy = taxonomy_get_term($topic->tid);
     if (module_exists('internationalization')) {
-      $taxonomy = reset(i18ntaxonomy_localize_terms(array($taxonomy)));
+      $imv = i18ntaxonomy_localize_terms(array($taxonomy));
+      $taxonomy = reset($imv);
     }
     if ($forum_vocab = taxonomy_vocabulary_load($taxonomy->vid)) {
       if (module_exists('internationalization')) {
@@ -66,6 +67,7 @@
   <?php foreach ($topics as $topic): ?>
     <?php
       node_load($topic->id);
+      $author = user_load($topic->uid);
       $topic_index++;
       $row_class = 'topic ' . $topic->zebra;
       if ($topic_index == 1) {
@@ -86,8 +88,22 @@
       }
     ?>
     <tr class="<?php print $row_class;?>">
-      <td class="icon"><?php //print $topic->icon; ?></td>
-      <td class="title"><?php print $topic->title; ?></td>
+      <td class="icon"><?php //print $topic->icon; ?>
+        <?php if ($topic->sticky): ?>
+          <span class='fa fa-thumb-tack'></span>
+        <?php endif; ?>
+        <?php if ($topic->comment_mode != COMMENT_NODE_READ_WRITE): ?>
+          <span class='fa fa-lock'></span>
+        <?php endif; ?>
+        <?php if (($topic->new) AND ($topic->new_replies)): ?>
+            <span class='fa fa-bell-o'></span>
+        <?php elseif ($topic->new): ?>
+            <span class='fa fa-star-o'></span>
+        <?php endif; ?>
+      </td>
+      <td class="title" title="<?php print $author->boincuser_name; ?>">
+        <?php print $topic->title; ?>
+      </td>
     <?php if ($topic->moved): ?>
       <td colspan="3"><?php print $topic->message; ?></td>
     <?php else: ?>
@@ -101,17 +117,10 @@
           </a>
         <?php endif; ?>
       </td>
-      <td class="created"><?php print $topic->created; ?></td>
+      <td class="created">
+        <?php print $topic->created; ?></td>
       <td class="last-reply">
-        <?php if ($topic->sticky AND $topic->comment_mode == COMMENT_NODE_READ_ONLY): ?>
-          <?php print bts('Featured') . ' / ' . bts('Locked'); ?>
-        <?php elseif ($topic->sticky): ?>
-          <?php print bts('Featured'); ?>
-        <?php elseif ($topic->comment_mode == COMMENT_NODE_READ_ONLY): ?>
-          <?php print bts('Locked'); ?>
-        <?php else: ?>
-          <?php print $topic->last_reply; ?>
-        <?php endif; ?>
+        <?php print $topic->last_reply; ?>
       </td>
     <?php endif; ?>
     </tr>

@@ -56,6 +56,17 @@ static struct random_init {
 #define ESCAPE(x) escape_string(x, sizeof(x))
 #define UNESCAPE(x) unescape_string(x, sizeof(x))
 
+#define strcpy2(x, y) \
+    { \
+        const char* z = y; \
+        if (!z) { \
+            x[0]=0; \
+        } else { \
+            strlcpy(x, z, sizeof(x)); \
+        } \
+    }
+
+
 void PLATFORM::clear() {memset(this, 0, sizeof(*this));}
 void APP::clear() {memset(this, 0, sizeof(*this));}
 void APP_VERSION::clear() {memset(this, 0, sizeof(*this));}
@@ -1754,6 +1765,7 @@ void VALIDATOR_ITEM::parse(MYSQL_ROW& r) {
     wu.rsc_fpops_bound = atof(r[i++]);
 
     res.id = atol(r[i++]);
+    res.workunitid = atol(r[i++]);
     strcpy2(res.name, r[i++]);
     res.validate_state = atoi(r[i++]);
     res.server_state = atoi(r[i++]);
@@ -1836,6 +1848,7 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
             "   wu.rsc_fpops_est, "
             "   wu.rsc_fpops_bound, "
             "   res.id, "
+            "   res.workunitid, "
             "   res.name, "
             "   res.validate_state, "
             "   res.server_state, "

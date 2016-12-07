@@ -1,0 +1,15 @@
+# BOINC @TMPL_NAME@ localization template
+# Copyright (C) 2016 University of California
+#
+# This file is distributed under the same license as BOINC.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: BOINC @VERSION@"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>"
+"POT-Creation-Date: @DATE@"
+"Last-Translator: Generated automatically from source files"
+"MIME-Version: 1.0"
+"Content-Type: text/plain; charset=utf-8"
+"Content-Transfer-Encoding: 8bit"
+"X-Poedit-SourceCharset: utf-8"

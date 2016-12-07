@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Sebastiano Pistore <olatusrooc@virgilio.it>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2015-12-09 12:59+0000\n"
+"PO-Revision-Date: 2016-10-18 09:30+0000\n"
 "Last-Translator: Sebastiano Pistore <olatusrooc@virgilio.it>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -56,11 +57,11 @@ msgstr "ll file referenziato in app_info.xml non esiste: "
 
 #: current_version.cpp:91
 msgid "A new version of BOINC is available."
-msgstr "Una nuova versione di BOINC è disponibile."
+msgstr "È disponibile una nuova versione di BOINC."
 
 #: current_version.cpp:94 current_version.cpp:102
 msgid "Download"
-msgstr "Scarica"
+msgstr "Scaricamento"
 
 #: log_flags.cpp:269 log_flags.cpp:449
 msgid "Unexpected text in cc_config.xml"
@@ -116,18 +117,18 @@ msgstr "Il progetto non supporta i computer"
 #: ../sched/sched_send.cpp:1092
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
-msgstr "Aggiorna i driver della scheda video all'ultima versione per \npoter processare le workunit che utilizzano la GPU del computer"
+msgstr "Aggiorna i driver della scheda video all'ultima versione per \nprocessare le workunit che utilizzano la GPU del computer"
 
 #: ../sched/sched_send.cpp:1099
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
-msgstr "Aggiorna i driver della scheda video per poter eseguire le tutte le applicazioni GPU di questo progetto"
+msgstr "Aggiorna i driver della scheda video per poter eseguire tutte le applicazioni GPU di questo progetto"
 
 #: ../sched/sched_send.cpp:1118
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
-msgstr "La versione di BOINC installata non permette l'uso della GPU Nvidia. Per risolvere il problema scarica l'ultima versione di BOINC."
+msgstr "La versione di BOINC installata non permette l'uso delle GPU Nvidia. Per risolvere il problema scarica l'ultima versione di BOINC."
 
 #: ../sched/sched_send.cpp:1146
 #, c-format

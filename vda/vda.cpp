@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <set>
+#include <sys/resource.h>
 
 #include "boinc_db.h"
 #include "filesys.h"
@@ -149,7 +150,7 @@ int handle_add(const char* path) {
 
 int handle_remove(const char* name) {
     DB_VDA_FILE vf;
-    char buf[1024];
+    char buf[MAXPATHLEN];
     snprintf(buf, sizeof(buf), "where file_name='%s'", name);
     int retval = vf.lookup(buf);
     if (retval) return retval;

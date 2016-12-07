@@ -21,7 +21,7 @@
 
 // script to create app versions,
 // and stage their files in the download dir.
-// See http://boinc.berkeley.edu/trac/wiki/AppVersionNew
+// See https://boinc.berkeley.edu/trac/wiki/AppVersionNew
 
 
 error_reporting(E_ALL);
@@ -218,7 +218,7 @@ function confirm_sig_gen($name) {
 
     IF YOUR PROJECT IS PUBLICLY ACCESSABLE, THIS IS A SECURITY VULNERABILITY.
     PLEASE STOP YOUR PROJECT IMMEDIATELY AND READ:
-    http://boinc.berkeley.edu/trac/wiki/CodeSigning
+    https://boinc.berkeley.edu/trac/wiki/CodeSigning
 
     Continue (y/n)? ";
 

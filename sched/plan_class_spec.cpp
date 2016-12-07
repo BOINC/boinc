@@ -16,7 +16,10 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Support for plan classes defined using an XML file.
-// See http://boinc.berkeley.edu/trac/wiki/AppPlanSpec
+// See https://boinc.berkeley.edu/trac/wiki/AppPlanSpec
+
+// logic for handling an XML specification of plan classes
+// see https://boinc.berkeley.edu/trac/wiki/AppPlanConfig
 
 #include <cmath>
 
@@ -803,9 +806,9 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
                 );
             }
         }
-    // CPU only
-    //
     } else {
+        // CPU only
+        //
         if (avg_ncpus) {
             hu.avg_ncpus = avg_ncpus;
         } else {
@@ -815,12 +818,49 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
                 } else {
                     hu.avg_ncpus = max_threads;
                 }
+
+                // if per-CPU mem usage given
+                //
+                if (mem_usage_per_cpu) {
+                    if (!min_ncpus) min_ncpus = 1;
+                    double mem_usage_seq = mem_usage_base + min_ncpus*mem_usage_per_cpu;
+
+                    // see if client has enough memory to run at all
+                    //
+                    if (mem_usage_seq > g_wreq->usable_ram) {
+                        if (config.debug_version_select) {
+                            log_messages.printf(MSG_NORMAL,
+                                "[version] plan_class_spec: insufficient multicore RAM; %f < %f",
+                                g_wreq->usable_ram, mem_usage_seq
+                            );
+                        }
+                        return false;
+                    }
+
+                    // see how many CPUs we could use given memory usage
+                    //
+                    int n = (g_wreq->usable_ram - mem_usage_base)/mem_usage_per_cpu;
+                    // don't use more than this many
+                    //
+                    if (n < hu.avg_ncpus) {
+                        hu.avg_ncpus = n;
+                    }
+
+                    // compute memory usage; overrides wu.rsc_memory_bound
+                    //
+                    hu.mem_usage = mem_usage_base + hu.avg_ncpus*mem_usage_per_cpu;
+                    char buf[256];
+                    sprintf(buf, " --memory_size_mb %.0f", hu.mem_usage/MEGA);
+                    strcat(hu.cmdline, buf);
+                }
             } else {
                 hu.avg_ncpus = 1;
             }
         }
         if (nthreads_cmdline) {
-            sprintf(hu.cmdline, "--nthreads %d", (int)hu.avg_ncpus);
+            char buf[256];
+            sprintf(buf, " --nthreads %d", (int)hu.avg_ncpus);
+            strcat(hu.cmdline, buf);
         }
 
         hu.peak_flops = capped_host_fpops() * hu.avg_ncpus;
@@ -877,6 +917,14 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         }
         if (xp.parse_double("min_ncpus", min_ncpus)) continue;
         if (xp.parse_int("max_threads", max_threads)) continue;
+        if (xp.parse_double("mem_usage_base_mb", mem_usage_base)) {
+            mem_usage_base *= MEGA;
+            continue;
+        }
+        if (xp.parse_double("mem_usage_per_cpu_mb", mem_usage_per_cpu)) {
+            mem_usage_per_cpu *= MEGA;
+            continue;
+        }
         if (xp.parse_bool("nthreads_cmdline", nthreads_cmdline)) continue;
         if (xp.parse_double("projected_flops_scale", projected_flops_scale)) continue;
         if (xp.parse_str("os_regex", buf, sizeof(buf))) {
@@ -992,6 +1040,8 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     is64bit = false;
     min_ncpus = 0;
     max_threads = 1;
+    mem_usage_base = 0;
+    mem_usage_per_cpu = 0;
     nthreads_cmdline = false;
     projected_flops_scale = 1;
     have_os_regex = false;

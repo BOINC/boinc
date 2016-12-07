@@ -100,11 +100,11 @@ class BoincUserSubmitApp {
     }
     static function delete_user($user_id) {
         $db = BoincDb::get();
-        $db->delete_aux('user_submit_app', "user_id=$user_id");
+        return $db->delete_aux('user_submit_app', "user_id=$user_id");
     }
     function update($clause) {
         $db = BoincDb::get();
-        $db->update_aux('user_submit_app', "$clause where user_id=$this->user_id and app_id=$this->app_id");
+        return $db->update_aux('user_submit_app', "$clause where user_id=$this->user_id and app_id=$this->app_id");
     }
 }
 
@@ -121,7 +121,7 @@ class BoincJobFile {
     }
     function delete() {
         $db = BoincDb::get();
-        $db->delete($this, 'job_file');
+        return $db->delete_aux('job_file', "md5='$this->md5'");
     }
     function update($clause) {
         $db = BoincDb::get();
@@ -142,13 +142,13 @@ class BoincBatchFileAssoc {
     }
     function delete() {
         $db = BoincDb::get();
-        $db->delete_aux('batch_file_assoc',
+        return $db->delete_aux('batch_file_assoc',
             "job_file_id=$this->job_file_id and batch_id=$this->batch_id"
         );
     }
     static function delete_batch($batch_id) {
         $db = BoincDb::get();
-        $db->delete_aux('batch_file_assoc',
+        return $db->delete_aux('batch_file_assoc',
             "batch_id=$batch_id"
         );
     }

@@ -2,7 +2,7 @@
 require_once("docutil.php");
 page_head("Test framework for BOINC developers (not intended for general use)");
 echo "
-See the section on testing in <a href=http://boinc.berkeley.edu/trac/wiki/SoftwarePrereqsUnix>Software Prerequisites</a>.
+See the section on testing in <a href=https://boinc.berkeley.edu/trac/wiki/SoftwarePrereqsUnix>Software Prerequisites</a>.
 Note that a web server with PHP is required for
 running a real server, but that requires a lot of path and permissions
 configuration so we opt not to use them in testing.

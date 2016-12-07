@@ -88,6 +88,7 @@ struct LOG_FLAGS {
     bool mem_usage_debug;
         // memory usage
     bool network_status_debug;
+    bool notice_debug;
     bool poll_debug;
         // show what polls are responding
     bool proxy_debug;
@@ -117,7 +118,6 @@ struct LOG_FLAGS {
         // show unparsed XML lines
     bool work_fetch_debug;
         // work fetch policy 
-    bool notice_debug;
 
     LOG_FLAGS();
     void init();
@@ -178,6 +178,7 @@ struct CC_CONFIG {
     bool no_alt_platform;
     bool no_gpus;
     bool no_info_fetch;
+    bool no_opencl;
     bool no_priority_change;
     bool os_random_only;
     int process_priority;

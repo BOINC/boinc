@@ -54,14 +54,18 @@ if (get_str('action')=="hide") {
     echo "<input type=hidden name=action value=hide>";
     row1(tra("Hide post"));
     row2(tra("Reason"),
-    "<select name=\"category\">
-    <option value=\"1\">".tra("Obscene")."</option>
-    <option value=\"2\">".tra("Flame/Hate mail")."</option>
-    <option value=\"3\">".tra("Commercial spam")."</option>
-    <option value=\"4\">".tra("Doublepost")."</option>
-    <option value=\"5\">".tra("User Request")."</option>
-    <option value=\"6\">".tra("Other")."</option>
-</select>");
+        select_from_array('category',
+            array(
+                "",
+                tra("Obscene"),
+                tra("Flame/Hate mail"),
+                tra("Commercial spam"),
+                tra("Doublepost"),
+                tra("User Request"),
+                tra("Other"),
+            )
+        )
+    );
 } elseif (get_str('action')=="move") {
     row1(tra("Move post"));
     echo "<input type=hidden name=action value=move>";
@@ -80,7 +84,7 @@ if (get_str('action')=="hide") {
     }
     row1(tra("Banish user"));
     row1(tra("Are you sure you want to banish %1?<br/>This will prevent %1 from posting for chosen time period.<br/>It should be done only if %1 has consistently exhibited trollish behavior.", $user->name));
-    row2(tra("Ban duration"), "<select name=\"duration\">
+    row2(tra("Ban duration"), "<select class=\"form-control\" name=\"duration\">
             <option value=\"21600\">".tra("6 hours")."</option>
             <option value=\"43200\">".tra("12 hours")."</option>
             <option value=\"86400\">".tra("1 day")."</option>
@@ -105,12 +109,12 @@ if (get_str('action')=="hide") {
 }
 
 if ($get_reason) {
-    row2(tra("Optional explanation %1 This is included in email to user.%2", "<br><p class=\"text-muted\">", "</p>"),
-        "<textarea name=\"reason\" rows=\"10\" cols=\"80\"></textarea>"
+    row2(tra("Optional explanation %1 This is included in email to user.%2", "<br><small>", "</small>"),
+        '<textarea name="reason" class="form-control" rows="10"></textarea>'
     );
     row2(
         "",
-        "<input class=\"btn btn-default\" type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">"
+        "<input class=\"btn btn-primary\" type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">"
     );
 }
 

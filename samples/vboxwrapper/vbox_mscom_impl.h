@@ -33,6 +33,7 @@ public:
     int poweroff();
     int pause();
     int resume();
+	int capture_screenshot();
     int create_snapshot(double elapsed_time);
     int cleanup_snapshots(bool delete_active);
     int restore_snapshot();

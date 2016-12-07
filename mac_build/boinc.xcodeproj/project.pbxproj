@@ -54,7 +54,6 @@
 		DD130E740820C422001A0291 /* ScreenSaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD7C5E7508110AE3002FCE1E /* ScreenSaver.framework */; };
 		DD130F320820C47C001A0291 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE2552B07C62F3E008E7D6E /* IOKit.framework */; };
 		DD16BF7C099D6C90003E4B69 /* cpu_sched.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD16BF7B099D6C90003E4B69 /* cpu_sched.cpp */; };
-		DD1AFEAC0A512D8700EE5B82 /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD1AFEAD0A512D8700EE5B82 /* check_security.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.cpp */; };
 		DD1AFEAF0A512D8700EE5B82 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD1AFEB00A512D8700EE5B82 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
@@ -375,6 +374,7 @@
 		DDB9EA9A17BE2C6B00651B07 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.cpp */; };
 		DDB9EA9B17BE2C6F00651B07 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.cpp */; };
 		DDB9EA9C17BE2C7100651B07 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.cpp */; };
+		DDBAA9B51DF1902B004C48FD /* mac_util.mm in Sources */ = {isa = PBXBuildFile; fileRef = DDBAA9B41DF1902B004C48FD /* mac_util.mm */; };
 		DDBB7E7611D2BCD400598DC1 /* NoticeListCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDBB7E7511D2BCD400598DC1 /* NoticeListCtrl.cpp */; };
 		DDBC6CA50D5D458700564C49 /* boinc_ss_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDBC6CA40D5D458700564C49 /* boinc_ss_logo.png */; };
 		DDBE74390C03B1C600453BB8 /* cs_platforms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDBE74380C03B1C600453BB8 /* cs_platforms.cpp */; };
@@ -1098,6 +1098,8 @@
 		DDB874450C850D3000E0DE1F /* graphics2_unix.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = graphics2_unix.cpp; sourceTree = "<group>"; };
 		DDB874460C850D3000E0DE1F /* graphics2.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = graphics2.cpp; sourceTree = "<group>"; };
 		DDB8D5A5081FC8C700A5A1E8 /* postinstall */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.csh; name = postinstall; path = ../mac_installer/postinstall; sourceTree = SOURCE_ROOT; };
+		DDBAA9B41DF1902B004C48FD /* mac_util.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = mac_util.mm; path = ../lib/mac/mac_util.mm; sourceTree = "<group>"; };
+		DDBAA9B61DF190EB004C48FD /* mac_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mac_util.h; path = ../lib/mac/mac_util.h; sourceTree = "<group>"; };
 		DDBB7E7511D2BCD400598DC1 /* NoticeListCtrl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NoticeListCtrl.cpp; path = ../clientgui/NoticeListCtrl.cpp; sourceTree = SOURCE_ROOT; };
 		DDBB7E7711D2BCF100598DC1 /* NoticeListCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NoticeListCtrl.h; path = ../clientgui/NoticeListCtrl.h; sourceTree = SOURCE_ROOT; };
 		DDBC6CA40D5D458700564C49 /* boinc_ss_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = boinc_ss_logo.png; path = ../clientscr/res/boinc_ss_logo.png; sourceTree = SOURCE_ROOT; };
@@ -1732,6 +1734,8 @@
 			isa = PBXGroup;
 			children = (
 				DDA6BD030BD4551F008F7921 /* dyld_gdb.h */,
+				DDBAA9B61DF190EB004C48FD /* mac_util.h */,
+				DDBAA9B41DF1902B004C48FD /* mac_util.mm */,
 				DDA6BD040BD4551F008F7921 /* mac_backtrace.cpp */,
 				DDA6BD050BD4551F008F7921 /* mac_backtrace.h */,
 				DDA6BD060BD4551F008F7921 /* QBacktrace.c */,
@@ -2792,7 +2796,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD1AFEAC0A512D8700EE5B82 /* SetupSecurity.cpp in Sources */,
 				DD1AFEAD0A512D8700EE5B82 /* check_security.cpp in Sources */,
 				DD1AFEE80A51301C00EE5B82 /* Installer.cpp in Sources */,
 				DD5FE1B517828887003339DF /* translate.cpp in Sources */,
@@ -2820,6 +2823,7 @@
 				DD3E14E20A774397007E0084 /* AccountManagerProcessingPage.cpp in Sources */,
 				DD3E14E30A774397007E0084 /* AccountManagerPropertiesPage.cpp in Sources */,
 				DD3E14E50A774397007E0084 /* AlreadyExistsPage.cpp in Sources */,
+				DDBAA9B51DF1902B004C48FD /* mac_util.mm in Sources */,
 				DD3E14E60A774397007E0084 /* BOINCBaseView.cpp in Sources */,
 				DD3E14E70A774397007E0084 /* BOINCBaseWizard.cpp in Sources */,
 				DD3E14E80A774397007E0084 /* BOINCGUIApp.cpp in Sources */,
@@ -3562,7 +3566,7 @@
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
 					"../mac3rdParty/wxWidgets-3.0.0/build/osx/build/Debug",
-					"../mac3rdParty/sqlite-autoconf-3090200/.libs/",
+					"../mac3rdParty/sqlite-autoconf-3110000/.libs/",
 				);
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
@@ -3580,7 +3584,7 @@
 					"-bind_at_load",
 					"-D_THREAD_SAFE",
 					"-lwx_osx_cocoa_static",
-					"../mac3rdParty/sqlite-autoconf-3090200/.libs/libsqlite3.a",
+					"../mac3rdParty/sqlite-autoconf-3110000/.libs/libsqlite3.a",
 					"-lz",
 					"-lpthread",
 					"-lm",
@@ -3616,7 +3620,7 @@
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
 					"../mac3rdParty/wxWidgets-3.0.0/build/osx/build/Release",
-					"../mac3rdParty/sqlite-autoconf-3090200/.libs/",
+					"../mac3rdParty/sqlite-autoconf-3110000/.libs/",
 				);
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
@@ -3636,7 +3640,7 @@
 					"-bind_at_load",
 					"-D_THREAD_SAFE",
 					"-lwx_osx_cocoa_static",
-					"../mac3rdParty/sqlite-autoconf-3090200/.libs/libsqlite3.a",
+					"../mac3rdParty/sqlite-autoconf-3110000/.libs/libsqlite3.a",
 					"-lz",
 					"-lpthread",
 					"-lm",
@@ -3882,9 +3886,11 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.46.0/include";
+				HEADER_SEARCH_PATHS = (
+					"../mac3rdParty/curl-7.50.2/include",
+					"../mac3rdParty/openssl-1.1.0/include",
+				);
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
-				LIBRARY_SEARCH_PATHS = "";
 				"OTHER_CFLAGS[arch=x86_64]" = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
@@ -3894,16 +3900,16 @@
 				);
 				OTHER_LDFLAGS = (
 					"-L.",
-					"../mac3rdParty/curl-7.46.0/lib/.libs/libcurl.a",
-					"../mac3rdParty/c-ares-1.10.0/.libs/libcares.a",
-					"../mac3rdParty/openssl-1.0.2e/libcrypto.a",
-					"../mac3rdParty/openssl-1.0.2e/libssl.a",
+					"../mac3rdParty/curl-7.50.2/lib/.libs/libcurl.a",
+					"../mac3rdParty/c-ares-1.11.0/.libs/libcares.a",
+					"../mac3rdParty/openssl-1.1.0/libcrypto.a",
+					"../mac3rdParty/openssl-1.1.0/libssl.a",
 					"-lldap",
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.46.0/include";
+				USER_HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.50.2/include ../mac3rdParty/openssl-1.1.0/include";
 			};
 			name = Deployment;
 		};
@@ -4054,9 +4060,11 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.46.0/include";
+				HEADER_SEARCH_PATHS = (
+					"../mac3rdParty/curl-7.50.2/include",
+					"../mac3rdParty/openssl-1.1.0/include",
+				);
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
-				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-D_DEBUG",
@@ -4065,16 +4073,16 @@
 				);
 				OTHER_LDFLAGS = (
 					"-L.",
-					"../mac3rdParty/curl-7.46.0/lib/.libs/libcurl.a",
-					"../mac3rdParty/c-ares-1.10.0/.libs/libcares.a",
-					"../mac3rdParty/openssl-1.0.2e/libcrypto.a",
-					"../mac3rdParty/openssl-1.0.2e/libssl.a",
+					"../mac3rdParty/curl-7.50.2/lib/.libs/libcurl.a",
+					"../mac3rdParty/c-ares-1.11.0/.libs/libcares.a",
+					"../mac3rdParty/openssl-1.1.0/libcrypto.a",
+					"../mac3rdParty/openssl-1.1.0/libssl.a",
 					"-lldap",
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.46.0/include";
+				USER_HEADER_SEARCH_PATHS = "../mac3rdParty/curl-7.50.2/include ../mac3rdParty/openssl-1.1.0/include";
 			};
 			name = Development;
 		};

@@ -88,7 +88,7 @@ row2(
     ."<br><br>"
     .tra("Check out %1various free services%2
 <br> providing dynamic 'signature images'
-<br> showing your latest credit info, project news, etc.", "<a href=http://boinc.berkeley.edu/links.php#sigs>", "</a>"),
+<br> showing your latest credit info, project news, etc.", "<a href=https://boinc.berkeley.edu/links.php#sigs>", "</a>"),
     textarea_with_counter("signature", 250, $signature)
     ."<br><input type=\"checkbox\" name=\"signature_by_default\" ".$signature_by_default."> ".tra("Attach signature by default")
 );
@@ -127,7 +127,7 @@ row2(
 row2(tra("How to sort"),
     tra("Threads:")." ".select_from_array("forum_sort", $forum_sort_styles, $user->prefs->forum_sorting)."<br>".tra("Posts:")." ".select_from_array("thread_sort", $thread_sort_styles, $user->prefs->thread_sorting)."<br>
     <input type=\"checkbox\" name=\"forum_jump_to_unread\" ".$forum_jump_to_unread."> ".tra("Jump to first new post in thread automatically")."<br>
-    <input type=\"checkbox\" name=\"forum_ignore_sticky_posts\" ".$forum_ignore_sticky_posts.">".tra("Don't move sticky posts to top")."<br>
+    <input type=\"checkbox\" name=\"forum_ignore_sticky_posts\" ".$forum_ignore_sticky_posts."> ".tra("Don't move sticky posts to top")."<br>
     "
 );
 }   // DISABLE_FORUMS
@@ -159,7 +159,7 @@ row2(tra("Filtered users").
 );
 
 row1(tra("Update"));
-row2(tra("Click here to update preferences"), "<input class=\"btn btn-primary\" type=submit value=\"".tra("Update")."\">");
+row2(tra("Click here to update preferences"), "<input class=\"btn btn-success\" type=submit value=\"".tra("Update")."\">");
 echo "</form>\n";
 row1(tra("Reset"));
 row2(tra("Or click here to reset preferences to the defaults"),

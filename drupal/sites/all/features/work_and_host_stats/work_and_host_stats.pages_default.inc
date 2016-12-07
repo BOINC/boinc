@@ -12,7 +12,10 @@ function work_and_host_stats_default_page_manager_pages() {
   $page->admin_title = 'Stats';
   $page->admin_description = '';
   $page->path = 'community/stats';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array(
     'type' => 'normal',
     'title' => 'Statistics',

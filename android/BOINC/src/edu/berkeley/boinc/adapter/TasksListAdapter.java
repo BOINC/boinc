@@ -1,7 +1,7 @@
 /*******************************************************************************
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * Copyright (C) 2016 University of California
  * 
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -18,18 +18,10 @@
  ******************************************************************************/
 package edu.berkeley.boinc.adapter;
 
-import edu.berkeley.boinc.utils.*;
-import java.sql.Date;
-import java.util.ArrayList;
-import edu.berkeley.boinc.BOINCActivity;
-import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.TasksFragment.TaskData;
-import edu.berkeley.boinc.rpc.RpcClient;
-import edu.berkeley.boinc.utils.BOINCDefs;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.text.format.DateFormat;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,15 +32,41 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import edu.berkeley.boinc.BOINCActivity;
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.TasksFragment.TaskData;
+import edu.berkeley.boinc.rpc.RpcClient;
+import edu.berkeley.boinc.utils.BOINCDefs;
+import edu.berkeley.boinc.utils.Logging;
+import java.text.DateFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class TasksListAdapter extends ArrayAdapter<TaskData>{
 	private ArrayList<TaskData> entries;
 	private Activity activity;
+	/**
+	 * This member eliminates reallocation of a {@link Date} object in {@link #getView(int,View,ViewGroup)}.
+	 *
+	 * @see #getView(int,View,ViewGroup)
+	 */
+	private final Date deadlineDate;
+	/**
+	 * This member eliminates reallocation of a {@link StringBuilder} object in {@link #getView(int,View,ViewGroup)}.
+	 *
+	 * @see #getView(int,View,ViewGroup)
+	 */
+	private final StringBuilder elapsedTimeStringBuilder;
+	private final NumberFormat percentNumberFormat;
 
 	public TasksListAdapter(Activity a, int textViewResourceId, ArrayList<TaskData> entries) {
 		super(a, textViewResourceId, entries);
 		this.entries = entries;
 		this.activity = a;
+		this.deadlineDate = new Date();
+		this.elapsedTimeStringBuilder = new StringBuilder();
+		(this.percentNumberFormat = NumberFormat.getPercentInstance()).setMinimumFractionDigits(1);
 	}
 
 	@Override
@@ -120,14 +138,14 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 			statusPercentage.setVisibility(View.GONE);
 		else {
 			statusPercentage.setVisibility(View.VISIBLE);
-			statusPercentage.setText(String.format("%.1f", listItem.result.fraction_done * 100) + "%");
+			statusPercentage.setText(this.percentNumberFormat.format(listItem.result.fraction_done));
 		}
 		// --- end of independent view elements
 		
 		// progress bar: show when task active or expanded
 		// result and process state are overlapping, e.g. PROCESS_EXECUTING and RESULT_FILES_DOWNLOADING
 		// therefore check also whether task is active
-		Boolean active = (listItem.isTaskActive() && listItem.determineState() == BOINCDefs.PROCESS_EXECUTING);
+		final boolean active = (listItem.isTaskActive() && listItem.determineState() == BOINCDefs.PROCESS_EXECUTING);
 		if (active || listItem.expanded){
 			pb.setVisibility(View.VISIBLE);
 			pb.setIndeterminate(false);
@@ -151,14 +169,15 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 			centerColumnExpandWrapper.setVisibility(View.VISIBLE);
 			
 			// elapsed time
-			int elapsedTime;
+			final long elapsedTime;
 			// show time depending whether task is active or not
-			if(listItem.result.active_task) elapsedTime = (int)listItem.result.elapsed_time; //is 0 when task finished
-			else elapsedTime = (int) listItem.result.final_elapsed_time;
-			time.setText(String.format("%02d:%02d:%02d", elapsedTime/3600, (elapsedTime/60)%60, elapsedTime%60));
+			if (listItem.result.active_task) elapsedTime = (long)listItem.result.elapsed_time; //is 0 when task finished
+			else elapsedTime = (long)listItem.result.final_elapsed_time;
+			time.setText(DateUtils.formatElapsedTime(this.elapsedTimeStringBuilder, elapsedTime));
 			
 			// set deadline
-			String deadline = (String) DateFormat.format("E d MMM yyyy hh:mm:ss aa", new Date(listItem.result.report_deadline*1000));
+			this.deadlineDate.setTime(listItem.result.report_deadline * 1000);
+			final String deadline = DateFormat.getDateTimeInstance().format(this.deadlineDate);
 			((TextView) v.findViewById(R.id.deadline)).setText(deadline);
 			// set application friendly name
 			if(listItem.result.app != null) {

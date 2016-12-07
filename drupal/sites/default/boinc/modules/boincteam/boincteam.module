@@ -796,8 +796,13 @@ function boincteam_create_team_link_panel() {
   $output .= '  <li class="first last tab">';
   if (isset($account->roles[$unrestricted_role])) {
     $output .= l(bts('Create new team'), 'community/teams/add');
-  }
-  else {
+  } elseif ($account->uid <= 0) {
+    $output .= l(
+      bts('Login to create a new team'),
+      'user/login',
+      array('query' => drupal_get_destination())
+    );
+  } else {
     $min_credit_needed = variable_get('boinc_comment_min_credit', 0);
     $credit_needed = $min_credit_needed - $account->boincuser_total_credit;
     $output .= '[';
@@ -1255,6 +1260,9 @@ function boincteam_view_member_list_panel($team_id) {
  */
 function boincteam_view_team_panel($team_id) {
   $team = node_load($team_id);
+  if ($team->type != "team") {
+    return;
+  }
   $boincteam = boincteam_load(boincteam_lookup_id($team_id), TRUE);
   $founder = user_load(get_drupal_id($boincteam->userid));
   $new_members = array();

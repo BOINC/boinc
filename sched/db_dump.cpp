@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 /// db_dump: dump database views in XML format
-// see http://boinc.berkeley.edu/trac/wiki/DbDump
+// see https://boinc.berkeley.edu/trac/wiki/DbDump
 
 // Note:
 // 1) this program is way more configurable than it needs to be.
@@ -835,7 +835,7 @@ void usage(char* name) {
     fprintf(stderr,
         "This program generates XML files containing project statistics.\n"
         "It should be run once a day as a periodic task in config.xml.\n"
-        "For more info, see http://boinc.berkeley.edu/trac/wiki/DbDump\n\n"
+        "For more info, see https://boinc.berkeley.edu/trac/wiki/DbDump\n\n"
         "Usage: %s [options]\n"
         "Options:\n"
         "    --dump_spec filename          Use the given config file (use ../db_dump_spec.xml)\n"

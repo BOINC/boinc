@@ -51,30 +51,27 @@ function command_display($cmd) {
     return $prog;
 }
 
-$row_parity = 0;
 function daemon_html($d) {
-    global $row_parity;
     switch ($d->status) {
     case 0:
         $s = tra("Not Running");
-        $c = "notrunning";
+        $c = "bg-danger";
         break;
     case 1:
         $s = tra("Running");
-        $c = "running";
+        $c = "bg-success";
         break;
     default:
         $s = tra("Disabled");
-        $c = "disabled";
+        $c = "bg-warning";
         break;
     }
-    echo "<tr class=row$row_parity>
+    echo "<tr>
         <td>".command_display($d->cmd)."</td>
         <td>$d->host</td>
         <td class=\"$c\"><nobr>$s</nobr></td>
-    <tr>
-";
-    $row_parity = 1-$row_parity;
+        </tr>
+    ";
 }
 
 function daemon_xml($d) {
@@ -98,7 +95,8 @@ function item_xml($name, $val) {
 
 function item_html($name, $val) {
     $name = tra($name);
-    echo "<tr><td align=right>$name</td><td align=right>$val</td></tr>\n";
+    echo "<tr><td>$name</td><td>$val</td></tr>\n";
+    //echo "<tr><td align=right>$name</td><td align=right>$val</td></tr>\n";
 }
 
 function show_status_html($x) {
@@ -106,76 +104,76 @@ function show_status_html($x) {
     $j = $x->jobs;
     $daemons = $x->daemons;
     start_table();
-    echo "<tr><td width=50% valign=top>
-         <h2>".tra("Server status")."</h2>
-    ";
-    start_table();
-    table_header(tra("Program"), tra("Host"), tra("Status"));
-    foreach ($daemons->local_daemons as $d) {
-        daemon_html($d);
-    }
-    foreach ($daemons->remote_daemons as $d) {
-        daemon_html($d);
-    }
-    foreach ($daemons->disabled_daemons as $d) {
-        daemon_html($d);
-    }
-    end_table();
-    if ($j->db_revision) {
-        echo tra("Database schema version: "), $j->db_revision;
-    }
-    if ($daemons->cached_time) {
-        echo "<br>Remote daemon status as of ", time_str($daemons->cached_time);
-    }
-    if ($daemons->missing_remote_status) {
-        echo "<br>Status of remote daemons is missing\n";
-    }
-    if (function_exists('server_status_project_info')) {
-        echo "<br>";
-        server_status_project_info();
-    }
-    echo "</td><td>\n";
-    echo "<h2>".tra("Computing status")."</h2>\n";
-    start_table();
     echo "<tr><td>\n";
-    start_table();
-    table_header(tra("Work"), "#");
-    item_html("Tasks ready to send", $j->results_ready_to_send);
-    item_html("Tasks in progress", $j->results_in_progress);
-    item_html("Workunits waiting for validation", $j->wus_need_validate);
-    item_html("Workunits waiting for assimilation", $j->wus_need_assimilate);
-    item_html("Workunits waiting for file deletion", $j->wus_need_file_delete);
-    item_html("Tasks waiting for file deletion", $j->results_need_file_delete);
-    item_html("Transitioner backlog (hours)", number_format($j->transitioner_backlog, 2));
-    end_table();
+            echo "
+                 <h3>".tra("Server status")."</h3>
+            ";
+            start_table('table-striped');
+            table_header(tra("Program"), tra("Host"), tra("Status"));
+            foreach ($daemons->local_daemons as $d) {
+                daemon_html($d);
+            }
+            foreach ($daemons->remote_daemons as $d) {
+                daemon_html($d);
+            }
+            foreach ($daemons->disabled_daemons as $d) {
+                daemon_html($d);
+            }
+            end_table();
+
+            if ($daemons->cached_time) {
+                echo "<br>Remote daemon status as of ", time_str($daemons->cached_time);
+            }
+            if ($daemons->missing_remote_status) {
+                echo "<br>Status of remote daemons is missing\n";
+            }
+            if (function_exists('server_status_project_info')) {
+                echo "<br>";
+                server_status_project_info();
+            }
     echo "</td><td>\n";
-    start_table();
-    table_header(tra("Users"), "#");
-    item_html("With credit", $j->users_with_credit);
-    item_html("With recent credit", $j->users_with_recent_credit);
-    item_html("Registered in past 24 hours", $j->users_past_24_hours);
-    table_header(tra("Computers"), "#");
-    item_html("With credit", $j->hosts_with_credit);
-    item_html("With recent credit", $j->hosts_with_recent_credit);
-    item_html("Registered in past 24 hours", $j->hosts_past_24_hours);
-    item_html("Current GigaFLOPS", round($j->flops, 2));
+            echo "<h3>".tra("Computing status")."</h3>\n";
+            echo "<h4>".tra("Work")."</h4>\n";
+            start_table('table-striped');
+            item_html("Tasks ready to send", $j->results_ready_to_send);
+            item_html("Tasks in progress", $j->results_in_progress);
+            item_html("Workunits waiting for validation", $j->wus_need_validate);
+            item_html("Workunits waiting for assimilation", $j->wus_need_assimilate);
+            item_html("Workunits waiting for file deletion", $j->wus_need_file_delete);
+            item_html("Tasks waiting for file deletion", $j->results_need_file_delete);
+            item_html("Transitioner backlog (hours)", number_format($j->transitioner_backlog, 2));
+            end_table();
+            echo "<h4>".tra("Users")."</h4>\n";
+            start_table('table-striped');
+            item_html("With credit", $j->users_with_credit);
+            item_html("With recent credit", $j->users_with_recent_credit);
+            item_html("Registered in past 24 hours", $j->users_past_24_hours);
+            end_table();
+            echo "<h4>".tra("Computers")."</h4>\n";
+            start_table('table-striped');
+            item_html("With credit", $j->hosts_with_credit);
+            item_html("With recent credit", $j->hosts_with_recent_credit);
+            item_html("Registered in past 24 hours", $j->hosts_past_24_hours);
+            item_html("Current GigaFLOPS", round($j->flops, 2));
+            end_table();
+    echo "</td></tr>\n";
     end_table();
-    end_table();
-    start_table();
-    echo "<tr><th colspan=5>".tra("Tasks by application")."</th></tr>\n";
+    echo "<h3>".tra("Tasks by application")."</h3>\n";
+    start_table('table-striped');
     table_header(
-        tra("Application"), tra("Unsent"), tra("In progress"),
+        tra("Application"),
+        tra("Unsent"),
+        tra("In progress"),
         tra("Runtime of last 100 tasks in hours: average, min, max"),
         tra("Users in last 24 hours")
     );
-    $i = 0;
     foreach ($j->apps as $app) {
         $avg = round($app->info->avg, 2);
         $min = round($app->info->min, 2);
         $max = round($app->info->max, 2);
         $x = $max?"$avg ($min - $max)":"---";
         $u = $app->info->users;
-        echo "<tr class=row$i>
+        echo "<tr>
             <td>$app->user_friendly_name</td>
             <td>$app->unsent</td>
             <td>$app->in_progress</td>
@@ -183,12 +181,12 @@ function show_status_html($x) {
             <td>$u</td>
             </tr>
         ";
-        $i = 1-$i;
     }
     end_table();
+    if ($j->db_revision) {
+        echo tra("Database schema version: "), $j->db_revision;
+    }
     echo "<p>Task data as of ".time_str($j->cached_time);
-    echo "</td></tr>\n";
-    end_table();
     page_tail();
 }
 
@@ -356,7 +354,7 @@ function get_daemon_status() {
         }
         $x = new StdClass;
         $x->cmd = (string)$d->cmd;
-        $x->status = local_daemon_running($x->cmd, $d->pid_file, $web_host);
+        $x->status = local_daemon_running($x->cmd, trim($d->pid_file), $web_host);
         $x->host = $web_host;
         $local_daemons[] = $x;
 
