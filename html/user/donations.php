@@ -95,7 +95,7 @@ while ($row = _mysql_fetch_object($query)) {
     row2($col1, $col2);
 }
 
-$amount .= "<select class=\"form-control\" name=\"from\" onchange=\"Cvalue();numberFormat();\" style=\"width: 200px;\">\n";
+$amount = "<select class=\"form-control\" name=\"from\" onchange=\"Cvalue();numberFormat();\" style=\"width: 200px;\">\n";
 if (DONATION_CURRENCY == "EUR") {
     $amount .= "<option value=\"51\">Euros</option>\n";
 }
@@ -148,7 +148,7 @@ $amount .= "</select>\n";
 $amount .= "<input type=\"hidden\" name=\"currency\" value=\"".DONATION_CURRENCY."\">\n";
 $amount .= "<input type=\"text\" name=\"inV\" id=\"inV\" value=\"10.00\" style=\"text-align: right; width: 80px\" onchange=\"Cvalue();numberFormat();\">\n";
 
-$estimated .= "<select class=\"form-control\" name=\"to\" onchange=\"Cvalue();numberFormat();\" style=\"width: 200px;\">";
+$estimated = "<select class=\"form-control\" name=\"to\" onchange=\"Cvalue();numberFormat();\" style=\"width: 200px;\">";
 $estimated .= "<option value=0 selected>Select currency</option>\n";
 $estimated .= "<option value=1>Afghanistan Afghani</option>\n";
 $estimated .= "<option value=2>Algerian Dinar</option>\n";
