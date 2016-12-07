@@ -90,7 +90,6 @@ function show_cpu_list($data) {
             "GFLOPs/computer"
         )
     );
-    $i = 0;
     $total_nhosts = 0;
     $total_gflops = 0;
     foreach ($data->cpus as $d) {
