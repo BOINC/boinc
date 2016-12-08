@@ -90,7 +90,8 @@ foreach ($categories as $category) {
         show_forum_title($category, NULL, NULL);
         echo "<p>";
         show_mark_as_read_button($user);
-        start_forum_table(array(
+        start_table('table-striped');
+        row_heading_array(array(
             tra("Topic"),
             tra("Threads"),
             tra("Posts"),

@@ -102,7 +102,7 @@ function show_list($list) {
         }
         echo "
             <td><p class=\"text-muted\">".sanitize_html($team->description)."</p></td>
-            <td>".format_credit($team->expavg_credit)."</td>
+            <td align=right>".format_credit($team->expavg_credit)."</td>
             <td>$type</td>
             <td>$team->country</td>
             </tr>

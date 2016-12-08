@@ -42,7 +42,8 @@ foreach ($categories as $category) {
         show_forum_title($category, null, null);
         echo "<p>";
         show_mark_as_read_button($user);
-        start_forum_table(array(
+        start_table('table-striped');
+        row_heading_array(array(
             tra("Topic"),
             tra("Questions"),
             tra("Last post")

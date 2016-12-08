@@ -204,6 +204,10 @@ function show_team_forum_title($forum, $thread=null, $link_thread=false) {
     echo "</span>";
 }
 
+// start a table containing messages, where the layout is fixed
+// (to accommodate long [pre] lines)
+// and the left column (author info) has fixed size
+//
 function start_forum_table($headings) {
     $a = array();
     foreach ($headings as $h) {
@@ -1229,7 +1233,8 @@ function is_moderator($user, $forum) {
 }
 
 function show_thread_and_context_header() {
-    start_forum_table(array(
+    start_table('table-striped');
+    row_heading_array(array(
         tra("Thread"),
         tra("Posts"),
         tra("Author"),

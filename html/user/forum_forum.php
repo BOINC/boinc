@@ -134,7 +134,8 @@ function show_forum($forum, $start, $sort_style, $user) {
         $start
     );
     echo $page_nav;
-    start_forum_table(array(
+    start_table('table-striped');
+    row_heading_array(array(
         "",
         tra("Threads"),
         tra("Posts"),

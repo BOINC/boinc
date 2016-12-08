@@ -123,6 +123,7 @@ if ($preview == tra("Preview")) {
 start_table();
 show_message_row($thread, $parent_post);
 end_table();
+
 if ($parent_post) {
     start_forum_table(array(tra("Author"), tra("Message")));
     show_post(
@@ -132,8 +133,6 @@ if ($parent_post) {
 } else {
     show_posts($thread, $forum, 0, 0, CREATE_TIME_NEW, 0, $logged_in_user);
 }
-
-end_table();
 
 page_tail();
 
