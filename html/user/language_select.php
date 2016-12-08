@@ -46,33 +46,17 @@ if ($set_lang){
 
 page_head(tra("Language selection"));
 
-function language_name($code) {
-    if ($code == 'en') {
-        return "<em>en</em> (English)";
-    } else {
-        $lname = tr_specific("LANG_NAME_NATIVE", $code);
-        if ($lname == 'English' || $lname == '') {
-            return "<b>$code</b>";
-        } else {
-            return "<b>$code</b> ("
-                .tr_specific("LANG_NAME_INTERNATIONAL", $code)
-                ."/$lname)"
-            ;
-        }
-    }
-}
-
 if (count($languages_in_use)) {
     $lang_code = $languages_in_use[0];
 } else {
     $lang_code = 'en';
 }
-$cur_lang_name = language_name($lang_code);
+$cur_lang_desc = language_desc($lang_code);
 
 echo "<p>",
     tra(
         "This web site is available in several languages. The currently selected language is %1.",
-        $cur_lang_name
+        $cur_lang_desc
     ),
     "</p><p>",
     tra(

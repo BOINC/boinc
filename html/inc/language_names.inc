@@ -90,4 +90,19 @@ function language_form($cur_lang_name=null) {
     ';
 }
 
+// given a language code, return a string of the form "(int-name/native-name)"
+//
+function language_desc($code) {
+    global $language_names;
+    if ($code == 'en') {
+        return '(English)';
+    }
+    foreach ($language_names as $lang) {
+        if ($code == $lang[0]) {
+            return "'$code'".' ('.$lang[1].'/'.$lang[2].')';
+        }
+    }
+    return "'$code'";
+}
+
 ?>
