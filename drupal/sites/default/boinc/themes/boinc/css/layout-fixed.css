@@ -24,7 +24,10 @@
 body {
 }
 
-/*#page-wrapper,*/
+#page-wrapper {
+  min-width: 960px;
+}
+
 .region-page-closure {
   /*
    * If you want to make the page a fixed width and centered in the viewport,
@@ -131,7 +134,7 @@ body {
 
 #navigation .section {
   margin: 0 auto;
-  width: 980px;
+  width: 960px;
 }
 
 #navigation ul /* Primary and secondary links */ {
