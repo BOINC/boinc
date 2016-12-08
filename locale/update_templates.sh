@@ -37,56 +37,52 @@ VERSION=`git rev-parse HEAD`
 HEADER_FILE="${srcdir}/locale/templates/header.txt"
 GEN_HEADER_ADD="${srcdir}/locale/templates/header-generic-web.txt"
 
+cd ${srcdir}
 echo "building localization template for Manager"
 TMPL_NAME="manager"
 TMPL_FILE="${srcdir}/locale/templates/BOINC-Manager.pot"
-FILE_LIST="*.cpp msw/*.cpp mac/*.cpp gtk/*.cpp"
+FILE_LIST="clientgui/*.cpp clientgui/msw/*.cpp clientgui/mac/*.cpp clientgui/gtk/*.cpp"
 
-cd ${srcdir}/clientgui/
 sed -e "s/@DATE@/$DATE/" -e "s/@VERSION@/$VERSION/" -e "s/@TMPL_NAME@/$TMPL_NAME/" ${HEADER_FILE} > ${TMPL_FILE}
 xgettext --from-code=UTF-8 --omit-header --add-comments -o - --keyword=_ -C ${FILE_LIST} >> ${TMPL_FILE}
-cd ${srcdir}
 
+cd ${srcdir}
 echo "building localization template for Client"
 TMPL_NAME="client"
 TMPL_FILE="${srcdir}/locale/templates/BOINC-Client.pot"
-FILE_LIST="*.cpp ../sched/*.cpp"
+FILE_LIST="client/*.cpp sched/*.cpp"
 
-cd ${srcdir}/client/
 sed -e "s/@DATE@/$DATE/" -e "s/@VERSION@/$VERSION/" -e "s/@TMPL_NAME@/$TMPL_NAME/" ${HEADER_FILE} > ${TMPL_FILE}
 xgettext --omit-header --add-comments -o - --keyword=_ -C ${FILE_LIST} >> ${TMPL_FILE}
-cd ${srcdir}
 
+cd ${srcdir}
 echo "building localization template for Setup tool"
 TMPL_NAME="setup"
 TMPL_FILE="${srcdir}/locale/templates/BOINC-Setup.pot"
-FILE_LIST="*.cpp"
+FILE_LIST="mac_installer/*.cpp"
 
-cd ${srcdir}/mac_installer/
 sed -e "s/@DATE@/$DATE/" -e "s/@VERSION@/$VERSION/" -e "s/@TMPL_NAME@/$TMPL_NAME/" ${HEADER_FILE} > ${TMPL_FILE}
 xgettext --omit-header --add-comments -o - --keyword=_ -C ${FILE_LIST} >> ${TMPL_FILE}
-cd ${srcdir}
 
+cd ${srcdir}
 echo "building localization template for generic website"
 TMPL_NAME="project generic website"
 TMPL_FILE="${srcdir}/locale/templates/BOINC-Project-Generic.pot"
-FILE_LIST="inc/*.inc user/*.php project.sample/*.inc"
+FILE_LIST="html/inc/*.inc html/user/*.php html/project.sample/*.inc"
 
-cd ${srcdir}/html/
 sed -e "s/@DATE@/$DATE/" -e "s/@VERSION@/$VERSION/" -e "s/@TMPL_NAME@/$TMPL_NAME/" ${HEADER_FILE} > ${TMPL_FILE}
 cat ${GEN_HEADER_ADD} >> ${TMPL_FILE}
 xgettext --omit-header --add-comments -o - --keyword=tra -L PHP ${FILE_LIST} >> ${TMPL_FILE}
-cd ${srcdir}
 
+cd ${srcdir}
 echo "building localization template for BOINC website"
 TMPL_NAME="website"
 TMPL_FILE="${srcdir}/locale/templates/BOINC-Web.pot"
-FILE_LIST="account_managers.inc addons.php docutil.php download.php index.php help.php help_funcs.php links.php logo.php projects.inc ../html/inc/news.inc"
+FILE_LIST="doc/account_managers.inc doc/addons.php doc/docutil.php doc/download.php doc/index.php doc/help.php doc/help_funcs.php doc/links.php doc/logo.php doc/projects.inc html/inc/news.inc"
 
-cd ${srcdir}/doc/
 sed -e "s/@DATE@/$DATE/" -e "s/@VERSION@/$VERSION/" -e "s/@TMPL_NAME@/$TMPL_NAME/" ${HEADER_FILE} > ${TMPL_FILE}
+cat ${GEN_HEADER_ADD} >> ${TMPL_FILE}
 xgettext --omit-header --add-comments -o - --keyword=tra -L PHP ${FILE_LIST} >> ${TMPL_FILE}
-cd ${srcdir}
 
 # The Android template is updated using Android Studio
 # The BOINC-Drupal.pot template is updated by Einstein@Home
