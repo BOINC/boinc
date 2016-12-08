@@ -75,7 +75,10 @@ function do_inbox($logged_in_user) {
         ";
         echo form_tokens($logged_in_user->authenticator);
         start_table('table-striped');
-        row_heading_array(array(tra("Subject"), tra("Sender and date"), tra("Message")));
+        row_heading_array(
+            array(tra("Subject"), tra("Sender and date"), tra("Message")),
+            array('style="width: 12em;"', 'style="width: 10em;"', "")
+        );
         foreach($msgs as $msg) {
             $sender = BoincUser::lookup_id($msg->senderid);
             if (!$sender) {

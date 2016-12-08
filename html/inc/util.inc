@@ -232,7 +232,7 @@ function page_head(
     echo "<title>$t</title>\n";
     echo '
         <meta charset="utf-8">
-        <link rel="stylesheet" href="'.secure_url_base().'/bootstrap.min.css" media="all">
+        <link type="text/css" rel="stylesheet" href="'.secure_url_base().'/bootstrap.min.css" media="all">
     ';
     if (defined('STYLESHEET')) {
         $stylesheet = $url_base.STYLESHEET;
@@ -371,14 +371,15 @@ function pretty_time_str($x) {
     return time_str($x);
 }
 
-function start_table_str($class="") {
+function start_table_str($class="", $style="") {
+    $s = $style?'style="'.$style.'"':'';
     return '<div class="table">
-      <table width="100%" class="table table-condensed '.$class.'" >
+      <table '.$s.' width="100%" class="table table-condensed '.$class.'" >
     ';
 }
 
-function start_table($class="") {
-    echo start_table_str($class);
+function start_table($class="", $style="") {
+    echo start_table_str($class, $style);
 }
 
 function end_table_str() {

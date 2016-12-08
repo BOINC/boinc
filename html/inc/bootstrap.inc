@@ -168,7 +168,7 @@ function sample_navbar(
         );
         if (defined('REMOTE_JOB_SUBMISSION') && REMOTE_JOB_SUBMISSION) {
             require_once("../inc/submit_db.inc");
-            if (BoincUserSubmit::lookup_userid($user->id)) {
+            if ($user && BoincUserSubmit::lookup_userid($user->id)) {
                 $x[] = array("Job submission", $url_prefix."submit.php");
             }
         }

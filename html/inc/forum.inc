@@ -205,8 +205,13 @@ function show_team_forum_title($forum, $thread=null, $link_thread=false) {
 }
 
 function start_forum_table($headings) {
-    start_table('table-striped');
-    row_heading_array($headings);
+    $a = array();
+    foreach ($headings as $h) {
+        $a[] = null;
+    }
+    $a[0] = 'style="width: 10em;"';
+    start_table('table-striped', 'table-layout:fixed');
+    row_heading_array($headings, $a);
 }
 
 function page_link($url, $page_num, $items_per_page, $text) {
@@ -556,7 +561,7 @@ function show_post(
 
     echo "
         <tr>
-        <td $class rowspan=\"3\" class=\"col-sm-2\">
+        <td $class rowspan=\"3\">
         <a name=\"$post->id\"></a>
     ";
 
