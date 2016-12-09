@@ -98,8 +98,12 @@ case 1:
 
 if ($preview == tra("Preview")) {
     $options = null;
-	echo "<h2>".tra("Preview")."</h2>\n";
+    start_table();
+    row_heading(tra("Preview"));
+    echo "<tr><td>\n";
     echo output_transform($content, $options);
+    echo "</td></tr>\n";
+    end_table();
 }
 
 echo "<form action=\"forum_edit.php?id=".$post->id."\" method=\"POST\" name=\"post\" onsubmit=\"return checkForm(this)\">\n";

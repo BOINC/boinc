@@ -57,7 +57,6 @@ $language_names = array(
 
 function language_select($cur_lang_name) {
     global $language_names;
-    echo "cur lang: $cur_lang_name";
     $supported_languages = get_supported_languages();
     $supported_languages[] = "en";
     $sel = $cur_lang_name?"":"selected";
@@ -72,6 +71,7 @@ function language_select($cur_lang_name) {
         } else {
             echo "<option $sel value=".$lang[0].">".$lang[1]." (".$lang[2].")";
         }
+        echo "\n";
     }
 }
 
@@ -79,14 +79,12 @@ function language_select($cur_lang_name) {
 //
 function language_form($cur_lang_name=null) {
     echo '
-        <div class="col-sm-3">
         <form name="language" method="get" action="set_language.php">
         <select class="selectbox form-control" name="lang" onchange="javascript: submit()">
     ';
     language_select($cur_lang_name);
     echo '</select>
         </form>
-        </div>
     ';
 }
 

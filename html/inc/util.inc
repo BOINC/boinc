@@ -806,13 +806,18 @@ function current_url() {
 // @param desc The title of the destination - typically used as a popup
 // @param class The optional CSS class of the button. Defaults to a standard button
 //
-function show_button($url, $text, $desc=null, $class="btn btn-default btn-sm") {
-    if (!$desc) $desc = $text;
-    echo "<a href=\"".$url."\" title=\"$desc\" class=\"".$class."\">".$text."</a>\n";
+function show_button($url, $text, $desc=null, $class="btn btn-default btn-xs") {
+    if (!$desc) {
+        $desc = $text;
+    }
+    echo "<a href=\"".$url."\" title=\"$desc\" class=\"".$class."\">".$text."</a>
+    ";
 }
+
 function button_text($url, $text, $desc=null, $class="btn btn-default") {
     if (!$desc) $desc = $text;
-    return "<a href=\"".$url."\" title=\"$desc\" class=\"".$class."\">".$text."</a>\n";
+    return "<a href=\"".$url."\" title=\"$desc\" class=\"".$class."\">".$text."</a>
+    ";
 }
 
 // When multiple buttons (or actions) are presented in a list you can

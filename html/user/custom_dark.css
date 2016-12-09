@@ -4,7 +4,7 @@ body, navbar-text, panel {
     color:white;
 }
 
-table a:not(.btn), .table a:not(.btn), table a, .table a, a:not(.btn) {
+table a:not(.btn), .table a:not(.btn), a:not(.btn) {
     color: sandybrown;
     text-decoration: none;
 }
@@ -14,7 +14,7 @@ table a:hover, .table a:hover, a:hover {
     text-decoration: underline;
 }
 
-table a:visited, .table a:visited, a:visited:not(.btn) {
+table a:visited:not(.btn), .table a:visited:not(.btn), a:visited:not(.btn) {
     color: sandybrown;
     text-decoration: underline;
 }

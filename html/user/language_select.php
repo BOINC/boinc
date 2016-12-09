@@ -21,7 +21,6 @@ require_once("../inc/util.inc");
 require_once("../inc/translation.inc");
 require_once("../inc/language_names.inc");
 
-
 $languages = get_supported_languages();
 if (!is_array($languages)) {
     error_page("Language selection not enabled.  Project admins must run the update_translations.php script.");
@@ -76,7 +75,11 @@ echo "<p>",
     "</p>"
 ;
 
+echo '<div class="col-sm-3">
+';
 language_form($lang_code);
+echo '</div>
+';
 
 echo "<br clear=all><p> </p>",
     tra("Translations are done by volunteers.  If your native language is missing or incomplete, %1you can help translate%2.",

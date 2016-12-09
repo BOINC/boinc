@@ -485,7 +485,8 @@ function avatar_url($url) {
     return str_replace('http:', 'https:', $url);
 }
 
-// Display an individual post
+// Display an individual post.
+// Generates a table row with two cells: author and message
 //
 function show_post(
     $post, $thread, $forum, $logged_in_user, $latest_viewed,
@@ -563,9 +564,11 @@ function show_post(
     }
     $class = $highlight?' style="border-left: 5px solid LightGreen" ':'';
 
+    // row and start of author col
+    //
     echo "
         <tr>
-        <td $class rowspan=\"3\">
+        <td $class>
         <a name=\"$post->id\"></a>
     ";
 
@@ -617,9 +620,15 @@ function show_post(
         }
         echo badges_string(true, $user, BADGE_HEIGHT_SMALL);
     }
-    echo "</span></td>";
 
-    echo '<td class="small" height="1%">';
+    // end of author col, start of message col
+    //
+    echo '</span>
+        </td>
+        <td height="1%">
+        <div class="small">
+    ';
+
     if ($controls == FORUM_CONTROLS) {
         echo "<form action=\"forum_rate.php?post=", $post->id, "\" method=\"post\">";
     }
@@ -650,11 +659,8 @@ function show_post(
     if ($controls == FORUM_CONTROLS) {
         echo "</form>\n";
     }
-    $class = $highlight?' class="bg-info" ':'';
-    echo "</td>
-        </tr>
-        <tr $class>
-        <td>
+    echo "</div>
+        <p>
     ";
 
     if (!$filter || !$ignore_poster){
@@ -670,9 +676,17 @@ function show_post(
             $posttext .= "<hr>$sig\n";
         }
 
-        
-        echo "<p>", $posttext, "</p>";
-        echo "</td></tr><tr><td class=\"small\"><span>ID: ", $post->id;
+        // show message in a panel
+        //
+        echo '<div class="panel panel-default">
+            <div class="panel-body">'
+            .$posttext
+            .'</div></div>
+        ';
+
+        echo '<div class="small"
+            <span>ID: '. $post->id
+        ;
         if ($no_forum_rating) {
             echo " &middot; <a href=\"forum_report_post.php?post=".$post->id."\">";
             show_image(REPORT_POST_IMAGE, tra("Report this post as offensive"), tra("Report as offensive"), REPORT_POST_IMAGE_HEIGHT);
@@ -698,11 +712,13 @@ function show_post(
             // "Quote" is used as a verb
             show_button($url, tra("Quote"), tra("Post a reply by quoting this message"));
         }
-        echo "</span></td></tr>";
-    } else {
-        echo "</td></tr><tr><td class=\"postfooter\">";
+        echo "</span>";
     }
-    echo "<tr class=\"postseparator\"><td colspan=2></td></tr>";
+    // end of message col and row; add separator row
+    //
+    echo "</td></tr>
+        <tr><td colspan=2></td></tr>
+    ";
 }
 
 // Show a post and its context (e.g. for search results, user posts)
@@ -738,6 +754,8 @@ function show_post_and_context($post, $thread, $forum, $options, $n) {
         (<a href=\"forum_thread.php?id=".$thread->id."&amp;postid=".$post->id."\">".tra("Message %1", $post->id)."</a>)
         <br>
         ".tra("Posted %1 by %2", $when, user_links($user))." $deleted
+        <br>
+        Post:
         <hr>
         $content
         </td></tr>
