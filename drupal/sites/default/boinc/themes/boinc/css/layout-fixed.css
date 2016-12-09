@@ -24,7 +24,10 @@
 body {
 }
 
-/*#page-wrapper,*/
+#page-wrapper {
+  min-width: 980px;
+}
+
 .region-page-closure {
   /*
    * If you want to make the page a fixed width and centered in the viewport,
