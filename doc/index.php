@@ -1,15 +1,17 @@
 <?php
 
 //define("MYSQLI", false);
-$host = $_SERVER["SERVER_NAME"];
-if ($host == "bossa.berkeley.edu") {
-    Header("Location: https://boinc.berkeley.edu/trac/wiki/BossaIntro");
-    exit();
+if (isset($_SERVER) && array_key_exists('SERVER_NAME', $_SERVER)) {
+    $host = $_SERVER["SERVER_NAME"];
+    if ($host == "bossa.berkeley.edu") {
+        Header("Location: https://boinc.berkeley.edu/trac/wiki/BossaIntro");
+        exit();
 
-}
-if ($host == "bolt.berkeley.edu") {
-    Header("Location: https://boinc.berkeley.edu/trac/wiki/BoltIntro");
-    exit();
+    }
+    if ($host == "bolt.berkeley.edu") {
+        Header("Location: https://boinc.berkeley.edu/trac/wiki/BoltIntro");
+        exit();
+    }
 }
 
 $dir = getcwd();
@@ -30,13 +32,13 @@ function show_participant() {
                 <center>
             ";
             show_totals();
-            echo "
-                <p>
-                <a class=heading href=chart_list.php><b>".tra("Top 100 volunteers")."</b></a>
-                &middot; <a class=heading href=\"links.php#stats\"><b>".tra("Statistics")."</b></a>
+            echo '
+                <p> </p>
+                <a class="btn btn-xs btn-primary" href=chart_list.php>'.tra("Top 100 volunteers").'</a>
+                <a class="btn btn-xs btn-primary" href="links.php#stats">'.tra("Statistics").'</a>
                 <hr>
                 <p>
-            ";
+            ';
             echo "</center>";
             include("piecharts/$i.html");
         }
@@ -113,30 +115,27 @@ function show_participate() {
                 <p></p>
                 '.tra("Learn more:").'
                 <p></p>
-                <div class="panel panel-success">
-                <div class="panel-heading">
-                <a href="dev/">'.tra("Message boards").'</a>
-                &middot; <a class=heading href="wiki/User_manual"><span class=nobr>'.tra("Manual").'</span></a> 
-                &middot; <a class=heading href="/wiki/BOINC_Help">'.tra("Help").'</a>
-                &middot; <a class=heading href="addons.php"><span class=nobr>'.tra("Add-ons").'</span></a> 
-                &middot; <a class=heading href="links.php"><span class=nobr>'.tra("Links").'</span></a> 
-                </div>
-                </div>
+                <center>
+                <a class="btn btn-xs btn-primary" href="dev/">'.tra("Message boards").'</a>
+                <a class="btn btn-xs btn-primary" href="projects.php">'.tra("Projects").'</a>
+                <a class="btn btn-xs btn-primary" href="wiki/User_manual"><span class=nobr>'.tra("Manual").'</span></a> 
+                <a class="btn btn-xs btn-primary" href="/wiki/BOINC_Help">'.tra("Help").'</a>
+                <a class="btn btn-xs btn-primary" href="addons.php"><span class=nobr>'.tra("Add-ons").'</span></a> 
+                <a class="btn btn-xs btn-primary" href="links.php"><span class=nobr>'.tra("Links").'</span></a> 
+                </center>
             ';
             echo '
                 <p></p>
                 '.tra("Other ways to help:").'
                 <p></p>
-                <div class="panel panel-success">
-                <div class="panel-heading">
-                <a href="trac/wiki/ContributePage">'.tra("Overview").'</a>
-                &middot; <a href="trac/wiki/TranslateIntro">'.tra("Translate").'</a>
-                &middot; <a href="trac/wiki/AlphaInstructions">'.tra("Test").'</a>
-                &middot; <a href="trac/wiki/WikiMeta">'.tra("Document").'</a>
-                &middot; <a href="http://boinc.berkeley.edu/wiki/Publicizing_BOINC">'.tra("Publicize").'</a>
-                &middot; <a href=https://github.com/BOINC/boinc/issues>'.tra("Report bugs").'</a>
-                </div>
-                </div>
+                <center>
+                <a class="btn btn-xs btn-primary" href="trac/wiki/ContributePage">'.tra("Overview").'</a>
+                <a class="btn btn-xs btn-primary" href="trac/wiki/TranslateIntro">'.tra("Translate").'</a>
+                <a class="btn btn-xs btn-primary" href="trac/wiki/AlphaInstructions">'.tra("Test").'</a>
+                <a class="btn btn-xs btn-primary" href="trac/wiki/WikiMeta">'.tra("Document").'</a>
+                <a class="btn btn-xs btn-primary" href="http://boinc.berkeley.edu/wiki/Publicizing_BOINC">'.tra("Publicize").'</a>
+                <a class="btn btn-xs btn-primary" href=https://github.com/BOINC/boinc/issues>'.tra("Report bugs").'</a>
+                </center>
                 <p>
             ';
         }
@@ -161,12 +160,10 @@ function show_science() {
                     "<b>", "</b>", "<a href=dg.php>", "</a>"
                 )
                 .'<p></p>
-                <div class="panel panel-success">
-                <div class="panel-heading">
-                <a href="trac/wiki/ProjectMain">'.tra("Documentation").'</a>
-                &middot; <a href=trac/wiki/BoincDocker>'.tra("BOINC and Docker").'</a>
-                </div>
-                </div>
+                <center>
+                <a class="btn btn-xs btn-primary" href="trac/wiki/ProjectMain">'.tra("Documentation").'</a>
+                <a class="btn btn-xs btn-primary" href=trac/wiki/BoincDocker>'.tra("BOINC and Docker").'</a>
+                </center>
             ';
         }
     );
@@ -176,24 +173,21 @@ function show_software() {
         tra("Software development"),
         function() {
             echo 
-                tra("BOINC is a software platform for volunteer computing; it includes client, server, and web components.").'
+                tra("BOINC is a software platform for volunteer computing. It includes client, server, and web components, and APIs for connecting other components.").'
                 <p></p>
-                <div class="panel panel-success">
-                <div class="panel-heading">
-                <a href="trac/wiki/SourceCodeGit">'.tra("Source code").'</a>
-                &middot; <a href="trac/wiki/SoftwareBuilding">'.tra("Building BOINC").'</a>
-                &middot; <a href="trac/wiki/SoftwareDevelopment">'.tra("Design documents").'</a>
-                </div>
-                </div>
+                <center>
+                <a class="btn btn-xs btn-primary" href="trac/wiki/SourceCodeGit">'.tra("Source code").'</a>
+                <a class="btn btn-xs btn-primary" href="trac/wiki/SoftwareBuilding">'.tra("Building BOINC").'</a>
+                <a class="btn btn-xs btn-primary" href="trac/wiki/SoftwareAddon">APIs</a>
+                <a class="btn btn-xs btn-primary" href="trac/wiki/SoftwareDevelopment">'.tra("Design documents").'</a>
+                </center>
                 <p></p>
                 '.tra("We're always looking for programmers to help us maintain and develop BOINC.").'
                 <p></p>
-                <div class="panel panel-success">
-                <div class="panel-heading">
-                <a href="trac/wiki/DevProcess">'.tra("Development process").'</a>
-                &middot; <a href="trac/wiki/DevProjects">'.tra("Development tasks").'</a>
-                </div>
-                </div>
+                <center>
+                <a class="btn btn-xs btn-primary" href="trac/wiki/DevProcess">'.tra("Development process").'</a>
+                <a class="btn btn-xs btn-primary" href="trac/wiki/DevProjects">'.tra("Development tasks").'</a>
+                </center>
                 <p></p>
                 '.tra("BOINC is distributed under the LGPL open-source license.").'
             ';
@@ -208,15 +202,13 @@ function show_boinc() {
             echo 
                 tra("BOINC is a community-based project.  Everyone is welcome to participate.").'
                 <p></p>
-                <div class="panel panel-success">
-                <div class="panel-heading">
-                <a href="trac/wiki/ProjectPeople">Contact</a>
-                &middot; <a href="trac/wiki/EmailLists">'.tra("Email lists").'</a>
-                &middot; <a href="trac/wiki/BoincEvents">'.tra("Events").'</a>
-                &middot; <a href="logo.php">'.tra("Graphics").'</a>
-                &middot; <a href="trac/wiki/ProjectGovernance">'.tra("Governance").'</a>
-                </div>
-                </div>
+                <center>
+                <a class="btn btn-xs btn-primary" href="trac/wiki/ProjectPeople">Contact</a>
+                <a class="btn btn-xs btn-primary" href="trac/wiki/EmailLists">'.tra("Email lists").'</a>
+                <a class="btn btn-xs btn-primary" href="trac/wiki/BoincEvents">'.tra("Events").'</a>
+                <a class="btn btn-xs btn-primary" href="logo.php">'.tra("Graphics").'</a>
+                <a class="btn btn-xs btn-primary" href="trac/wiki/ProjectGovernance">'.tra("Governance").'</a>
+                </center>
             ';
         }
     );
@@ -244,17 +236,18 @@ header("Content-type: text/html; charset=utf-8");
 //html_tag();
 $rh_col_width = 390;
 
-echo "
+echo '
     <head>
-    <link rel=\"shortcut icon\" href=\"logo/favicon.gif\">
-    <link rel=\"stylesheet\" type=\"text/css\" href=\"bootstrap.min.css\">
-    <link href=\"https://plus.google.com/117150698502685192946\" rel=\"publisher\" />
+    <link rel="shortcut icon" href="logo/favicon.gif">
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+    <link href="https://plus.google.com/117150698502685192946" rel="publisher" />
     <title>BOINC</title>
-    <meta name=description content=\"BOINC is an open-source software platform for computing using volunteered resources\">
-    <meta name=keywords content=\"distributed scientific computing supercomputing grid SETI@home public computing volunteer computing \">
+    <meta name=description content="BOINC is an open-source software platform for computing using volunteered resources">
+    <meta name=keywords content="distributed scientific computing supercomputing grid SETI@home public computing volunteer computing ">
     </head>
     <body>
-";
+    <div class="container-fluid">
+';
 
 function top() {
     echo "<p>&nbsp;</p>";
@@ -295,8 +288,6 @@ function right() {
 
 grid('top', 'left', 'right');
 
-echo '<div class="container-fluid">
-';
 page_tail(true, true);
 echo '</div>
 ';
