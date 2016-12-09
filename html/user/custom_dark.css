@@ -40,7 +40,8 @@ img.icon {
 }
 
 blockquote {
-        font-size: 15px;
+    font-size: 15px;
+    border-color: gray;
 }
 
 pre, code {

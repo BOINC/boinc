@@ -88,7 +88,7 @@ case 1:
 
 echo '
     <p>
-    <form action="forum_forum.php" method="get">
+    <form action="forum_forum.php" method="get" class="form-inline">
     <input type="hidden" name="id" value="'.$forum->id.'">
     <table width="100%" cellspacing="0" cellpadding="0">
     <tr valign="top">
@@ -103,10 +103,12 @@ if (user_can_create_thread($user, $forum)) {
 
 echo '</td>
     <td valign=top align="right">
+    <div class="form-group">
 ';
 echo select_from_array("sort", $forum_sort_styles, $sort_style);
-echo '<input class="btn btn-default" type="submit" value="Sort">';
 echo '
+    <input class="btn btn-default btn-sm" type="submit" value="Sort">
+    </div>
     </td>
     </tr>
     </table>

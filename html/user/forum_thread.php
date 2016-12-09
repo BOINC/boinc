@@ -143,13 +143,13 @@ if ($forum->parent_type == 0) {
 }
 }
 
-echo "
+echo '
     <p>
-    <form action=\"forum_thread.php\">
-    <table width=\"100%\" cellspacing=0 cellpadding=0>
+    <form class="form-inline" action="forum_thread.php">
+    <table width="100%" cellspacing=0 cellpadding=0>
     <tr>
     <td>
-";
+';
 
 $reply_url = "";
 if (!$logged_in_user) {
@@ -269,13 +269,16 @@ if (!$logged_in_user) {
 
 // Display a box that allows the user to select sorting of the posts
 //
-echo "</td><td align=\"right\">
-    <input type=\"hidden\" name=\"id\" value=\"", $thread->id, "\">
-    ";
+echo '</td><td align="right">
+    <input type="hidden" name="id" value="', $thread->id, '">
+    <div class="form-group">
+';
 echo select_from_array("sort", $thread_sort_styles, $sort_style);
-echo " <input class=\"btn btn-default btn-sm\" type=\"submit\" value=\"".tra('Sort')."\">
-    </td></tr></table></form><p>
-";
+echo ' <input class="btn btn-default btn-sm" type="submit" value="'.tra('Sort').'">
+    </div>
+    </td></tr></table>
+    </form><p>
+';
 
 show_posts(
     $thread, $forum, $start, $postid, $sort_style, $filter, $logged_in_user
