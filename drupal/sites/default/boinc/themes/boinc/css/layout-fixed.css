@@ -25,7 +25,7 @@ body {
 }
 
 #page-wrapper {
-  min-width: 960px;
+  min-width: 980px;
 }
 
 .region-page-closure {
@@ -134,7 +134,7 @@ body {
 
 #navigation .section {
   margin: 0 auto;
-  width: 960px;
+  width: 980px;
 }
 
 #navigation ul /* Primary and secondary links */ {
