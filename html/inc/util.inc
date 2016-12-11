@@ -224,7 +224,7 @@ function page_head(
     if ($head_extra) {
         echo "\n$head_extra\n";
     }
-    if ($is_main) {
+    if ($is_main && (!defined('NO_COMPUTING')||!NO_COMPUTING)) {
         readfile("schedulers.txt");
     }
 

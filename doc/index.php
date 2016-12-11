@@ -249,46 +249,26 @@ echo '
     <div class="container-fluid">
 ';
 
-function top() {
-    echo "<p>&nbsp;</p>";
-    echo '
-        <table>
-        <tr>
-        <td >
-        <img hspace="20" align="left" src="logo/www_logo.gif" alt="BOINC logo">
-        </td>
-        <td align="center">
-        <h1 style="padding-left:20px; padding-right:30px">
-        '.sprintf(tra("Open-source software for volunteer computing")).'
-        </h1>
-        </td>
-        <td align="right">
-    ';
-    google_search_form("http://boinc.berkeley.edu");
-    language_form();
-    echo "
-        </td></tr>
-        </table>
-    ";
-    echo "<p>&nbsp;</p>";
-}
-
 function left() {
+    echo '<div class="container-fluid">';
     show_participate();
     show_science();
     show_software();
     show_boinc();
     show_participant();
     //show_nsf();
+    echo '</div>';
 }
 
 function right() {
+    echo '<div class="container-fluid">';
     show_news_items();
+    echo '</div>';
 }
 
-grid('top', 'left', 'right');
+page_head("BOINC", null, true);
+
+grid(null, 'left', 'right');
 
 page_tail(true, true);
-echo '</div>
-';
 ?>
