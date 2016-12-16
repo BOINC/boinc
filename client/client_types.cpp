@@ -290,7 +290,7 @@ int FILE_INFO::set_permissions(const char* path) {
 //
 int FILE_INFO::parse(XML_PARSER& xp) {
     char buf2[1024];
-    std::string url;
+    string url;
     PERS_FILE_XFER *pfxp;
     int retval;
     bool btemp;

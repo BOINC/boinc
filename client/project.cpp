@@ -167,7 +167,7 @@ static bool parse_rsc_param(XML_PARSER& xp, const char* end_tag, int& rsc_type, 
 //
 int PROJECT::parse_state(XML_PARSER& xp) {
     char buf[256];
-    std::string sched_url, stemp;
+    string sched_url, stemp;
     string str1, str2;
     int retval, rt;
     double x;
@@ -595,7 +595,7 @@ int PROJECT::write_statistics(MIOFILE& out) {
         master_url
     );
 
-    for (std::vector<DAILY_STATS>::iterator i=statistics.begin();
+    for (vector<DAILY_STATS>::iterator i=statistics.begin();
         i!=statistics.end(); ++i
     ) {
         out.printf(

@@ -63,7 +63,7 @@ int switcher_exec(const char *util_filename, const char* cmdline) {
     int fds_out[2], fds_err[2];
     int stat;
     int retval;
-    std::string output_out, output_err;
+    string output_out, output_err;
 
     snprintf(util_path, sizeof(util_path), "%s/%s", SWITCHER_DIR, util_filename);
     argv[0] = const_cast<char*>(util_filename);

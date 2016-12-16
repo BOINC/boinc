@@ -51,7 +51,7 @@ static const char *run_mode_name[] = {"", "always", "auto", "never"};
 // if URL is null, detach from current account manager
 //
 int ACCT_MGR_OP::do_rpc(
-    std::string _url, std::string name, std::string password_hash,
+    string _url, string name, string password_hash,
     bool _via_gui
 ) {
     int retval;

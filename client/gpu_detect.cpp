@@ -133,7 +133,7 @@ void COPROCS::get(
 }
 
 
-void COPROCS::detect_gpus(std::vector<std::string> &warnings) {
+void COPROCS::detect_gpus(vector<string> &warnings) {
 #ifdef _WIN32
     try {
         nvidia.get(warnings);
@@ -194,7 +194,7 @@ void COPROCS::detect_gpus(std::vector<std::string> &warnings) {
 
 void COPROCS::correlate_gpus(
     bool use_all,
-    std::vector<std::string> &descs,
+    vector<string> &descs,
     IGNORE_GPU_INSTANCE &ignore_gpu_instance
 ) {
     unsigned int i;

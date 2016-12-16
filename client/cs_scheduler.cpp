@@ -557,7 +557,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     unsigned int i;
     bool signature_valid, update_global_prefs=false, update_project_prefs=false;
     char buf[1024], filename[256];
-    std::string old_gui_urls = project->gui_urls;
+    string old_gui_urls = project->gui_urls;
     PROJECT* p2;
     vector<RESULT*>new_results;
 
