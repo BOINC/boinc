@@ -470,12 +470,12 @@ function row_array($x) {
 
 define ('ALIGN_RIGHT', 'style="text-align:right;"');
 
-function row_heading_array($x, $attrs=null) {
+function row_heading_array($x, $attrs=null, $class='bg-primary') {
     echo "<tr>";
     $i = 0;
     foreach ($x as $h) {
         $a = $attrs?$attrs[$i]:"";
-        echo "<th $a class=\"bg-primary\">$h</th>";
+        echo "<th $a class=\"$class\">$h</th>";
         $i++;
     }
     echo "</tr>\n";
@@ -670,6 +670,18 @@ function post_int($name, $optional=false) {
         error_page("param $name must be an integer");
     }
     return $y;
+}
+
+function get_array($name) {
+    if (isset($_GET[$name])) {
+        $x = $_GET[$name];
+    } else {
+        if (!$optional) {
+            error_page("missing or bad parameter: $name");
+        }
+        $x = null;
+    }
+    return $x;
 }
 
 function get_str($name, $optional=false) {

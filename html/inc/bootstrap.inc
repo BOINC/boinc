@@ -266,3 +266,74 @@ function grid($top_func, $left_func, $right_func, $left_width=6) {
         </div>
     ';
 }
+
+function form_start($action) {
+    echo '
+        <form class="form-horizontal" method="get" action="'.$action.'">
+    ';
+}
+
+function form_input_hidden($name, $value) {
+    echo '<input type="hidden" name="'.$name.'" value="'.$value.'">
+    ';
+}
+
+function form_end() {
+    echo '</form>
+    ';
+}
+
+function form_input_text($label, $name, $value='', $type='text', $attrs='') {
+    echo '
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="'.$name.'">'.$label.'</label>
+            <div class="col-sm-10">
+                <input '.$attrs.' type="'.$type.'" class="form-control" id="'.$name.'" name="'.$name.'" value="'.$value.'">
+            </div>
+        </div>
+    ';
+}
+
+function form_select($label, $name, $items) {
+    echo '
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="'.$name.'">'.$label.'</label>
+            <div class="col-sm-10">
+                <select class="form-control" id="'.$name.'" name="'.$name.'">
+    ';
+    foreach ($items as $i) {
+        echo '<option value="'.$i[0].'">'.$i[1].'</option>
+        ';
+    }
+    echo "</select></div></div>\n";
+}
+
+// same, for multiple select.
+// flags, if non-null, says which ones are selected
+//
+function form_select_multiple($label, $name, $items, $flags) {
+    echo '
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="'.$name.'">'.$label.'</label>
+            <div class="col-sm-10">
+                <select multiple class="form-control" id="'.$name.'" name="'.$name.'[]">
+    ';
+    $n = 0;
+    foreach ($items as $i) {
+        $s = ($flags && $flags[$n])?'selected':'';
+        echo '<option '.$s.' value="'.$i[0].'">'.$i[1].'</option>
+        ';
+        $n++;
+    }
+    echo "</select></div></div>\n";
+}
+
+function form_submit($text) {
+    echo '
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-success">'.$text.'</button>
+            </div>
+        </div>
+    ';
+}

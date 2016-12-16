@@ -265,9 +265,9 @@ class BoincTeam {
         $db = BoincDb::get();
         return $db->update($this, 'team', $clause);
     }
-    static function enum($clause, $clause2=null) {
+    static function enum($where_clause, $order_clause=null) {
         $db = BoincDb::get();
-        return $db->enum('team', 'BoincTeam', $clause, $clause2);
+        return $db->enum('team', 'BoincTeam', $where_clause, $order_clause);
     }
     static function lookup($clause) {
         $db = BoincDb::get();
@@ -303,9 +303,9 @@ class BoincTeamDelta {
         $db = BoincDb::get();
         return $db->insert('team_delta', $clause);
     }
-    static function enum($clause) {
+    static function enum($where_clause) {
         $db = BoincDb::get();
-        return $db->enum('team_delta', 'BoincTeamDelta', $clause);
+        return $db->enum('team_delta', 'BoincTeamDelta', $where_clause);
     }
 }
 
@@ -322,9 +322,9 @@ class BoincHost {
         $db = BoincDb::get();
         return $db->delete($this, 'host');
     }
-    static function enum($clause, $clause2=null) {
+    static function enum($where_clause, $order_clause=null) {
         $db = BoincDb::get();
-        return $db->enum('host', 'BoincHost', $clause, $clause2);
+        return $db->enum('host', 'BoincHost', $where_clause, $order_clause);
     }
     static function enum_fields($fields, $where_clause, $order_clause=null) {
         $db = BoincDb::get();
@@ -343,9 +343,9 @@ class BoincResult {
         $db = BoincDb::get();
         return $db->count('result', $clause);
     }
-    static function enum($clause) {
+    static function enum($where_clause) {
         $db = BoincDb::get();
-        return $db->enum('result', 'BoincResult', $clause);
+        return $db->enum('result', 'BoincResult', $where_clause);
     }
 	static function enum_fields($fields, $where_clause, $order_clause) {
         $db = BoincDb::get();
@@ -389,9 +389,9 @@ class BoincWorkunit {
         if (!$ret) return $ret;
         return $db->insert_id();
     }
-    static function enum($clause) {
+    static function enum($where_clause) {
         $db = BoincDb::get();
-        return $db->enum('workunit', 'BoincWorkunit', $clause);
+        return $db->enum('workunit', 'BoincWorkunit', $where_clause);
     }
     function update($clause) {
         $db = BoincDb::get();
@@ -416,9 +416,9 @@ class BoincApp {
         $db = BoincDb::get();
         return $db->lookup('app', 'BoincApp', $clause);
     }
-    static function enum($clause) {
+    static function enum($where_clause) {
         $db = BoincDb::get();
-        return $db->enum('app', 'BoincApp', $clause);
+        return $db->enum('app', 'BoincApp', $where_clause);
     }
     static function insert($clause) {
         $db = BoincDb::get();
@@ -437,9 +437,9 @@ class BoincApp {
 }
 
 class BoincAppVersion {
-    static function enum($clause) {
+    static function enum($where_clause) {
         $db = BoincDb::get();
-        return $db->enum('app_version', 'BoincAppVersion', $clause);
+        return $db->enum('app_version', 'BoincAppVersion', $where_clause);
     }
     static function lookup($clause) {
         $db = BoincDb::get();
@@ -486,9 +486,9 @@ class BoincProfile {
         $db = BoincDb::get();
         return $db->insert('profile', $clause);
     }
-    static function enum($clause=null, $clause2=null) {
+    static function enum($where_clause=null, $order_clause=null) {
         $db = BoincDb::get();
-        return $db->enum('profile', 'BoincProfile', $clause, $clause2);
+        return $db->enum('profile', 'BoincProfile', $where_clause, $order_clause);
     }
     static function enum_fields($fields, $where_clause=null, $order_clause=null) {
         $db = BoincDb::get();
@@ -509,9 +509,9 @@ class BoincTeamAdmin {
         $db = BoincDb::get();
         return $db->insert('team_admin', $clause);
     }
-    static function enum($clause) {
+    static function enum($where_clause) {
         $db = BoincDb::get();
-        return $db->enum('team_admin', 'BoincTeamAdmin', $clause);
+        return $db->enum('team_admin', 'BoincTeamAdmin', $where_clause);
     }
     static function delete($clause) {
         $db = BoincDb::get();
@@ -532,9 +532,9 @@ class BoincPrivateMessage {
         $db = BoincDb::get();
         return $db->update($this, 'private_messages', $clause);
     }
-    static function enum($clause) {
+    static function enum($where_clause) {
         $db = BoincDb::get();
-        return $db->enum('private_messages', 'BoincPrivateMessage', $clause);
+        return $db->enum('private_messages', 'BoincPrivateMessage', $where_clause);
     }
     static function insert($clause) {
         $db = BoincDb::get();
@@ -557,9 +557,9 @@ class BoincPrivateMessage {
 }
 
 class BoincPlatform {
-    static function enum($clause) {
+    static function enum($where_clause) {
         $db = BoincDb::get();
-        return $db->enum('platform', 'BoincPlatform', $clause);
+        return $db->enum('platform', 'BoincPlatform', $where_clause);
     }
     static function lookup_id($id) {
         $db = BoincDb::get();
@@ -580,9 +580,9 @@ class BoincPlatform {
 }
 
 class BoincHostAppVersion {
-    static function enum($clause) {
+    static function enum($where_clause) {
         $db = BoincDb::get();
-        return $db->enum('host_app_version', 'BoincHostAppVersion', $clause);
+        return $db->enum('host_app_version', 'BoincHostAppVersion', $where_clause);
     }
     static function lookup($host_id, $app_version_id) {
         $db = BoincDb::get();
