@@ -48,6 +48,7 @@ void            setGFXDefaultPeriod(double value);
 void            setGFXSciencePeriod(double value);
 void            setGGFXChangePeriod(double value);
 double          getDTime();
+void            doBoinc_Sleep(double seconds);
 void            print_to_log_file(const char *format, ...);
 void            strip_cr(char *buf);
 void            PrintBacktrace(void);
