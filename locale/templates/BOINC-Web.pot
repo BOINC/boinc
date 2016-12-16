@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC 2b9edf8437344388d03411c033ff708e85993b03\n"
+"Project-Id-Version: BOINC 539caba937f5f02b5d46af9244ac276c68fa1f3b\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2016-12-09 07:44 UTC\n"
+"POT-Creation-Date: 2016-12-15 13:41 UTC\n"
 "Last-Translator: Generated automatically from source files\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -117,7 +117,7 @@ msgstr ""
 msgid "Release notes"
 msgstr ""
 
-#: doc/download.php:179 doc/index.php:120
+#: doc/download.php:179 doc/index.php:122
 msgid "Help"
 msgstr ""
 
@@ -137,101 +137,105 @@ msgstr ""
 msgid "BOINC: compute for science"
 msgstr ""
 
-#: doc/index.php:27
+#: doc/index.php:29
 msgid "Computing power"
 msgstr ""
 
-#: doc/index.php:35
+#: doc/index.php:37
 msgid "Top 100 volunteers"
 msgstr ""
 
-#: doc/index.php:36
+#: doc/index.php:38
 msgid "Statistics"
 msgstr ""
 
-#: doc/index.php:65
+#: doc/index.php:67
 msgid "24-hour average:"
 msgstr ""
 
-#: doc/index.php:65
+#: doc/index.php:67
 msgid "PetaFLOPS."
 msgstr ""
 
-#: doc/index.php:67
+#: doc/index.php:69
 msgid "Active:"
 msgstr ""
 
-#: doc/index.php:67
+#: doc/index.php:69
 msgid "volunteers,"
 msgstr ""
 
-#: doc/index.php:67
+#: doc/index.php:69
 msgid "computers.\n"
 msgstr ""
 
-#: doc/index.php:74
+#: doc/index.php:76
 msgid "News"
 msgstr ""
 
-#: doc/index.php:79
+#: doc/index.php:81
 msgid "Database not available; please try again later."
 msgstr ""
 
 #. "Volunteer" is used as a verb
-#: doc/index.php:88
+#: doc/index.php:90
 msgid "Volunteer"
 msgstr ""
 
-#: doc/index.php:90
+#: doc/index.php:92
 msgid ""
 "Use the idle time on your computer (Windows, Mac, Linux, or Android) to cure "
 "diseases, study global warming, discover pulsars, and do many other types of "
 "scientific research.  It's safe, secure, and easy:"
 msgstr ""
 
-#: doc/index.php:93
+#: doc/index.php:95
 msgid "Download"
 msgstr ""
 
-#: doc/index.php:96
+#: doc/index.php:98
 msgid ""
 "For Android devices, get the BOINC app from the Google Play Store; for "
 "Kindle, get it from the Amazon App Store."
 msgstr ""
 
-#: doc/index.php:100
+#: doc/index.php:102
 msgid ""
 "You can choose to support %1projects%2 such as %3, %4, and %5, among many "
 "others."
 msgstr ""
 
-#: doc/index.php:107
+#: doc/index.php:109
 msgid ""
 "If you run several projects, try an %1account manager%2 such as "
 "%3GridRepublic%4 or %5BAM!%6. "
 msgstr ""
 
-#: doc/index.php:114
+#: doc/index.php:116
 msgid "Learn more:"
 msgstr ""
 
-#: doc/index.php:118
+#: doc/index.php:119
 msgid "Message boards"
 msgstr ""
 
-#: doc/index.php:119
-msgid "Manual"
+#: doc/index.php:120
+msgid "Projects"
 msgstr ""
 
 #: doc/index.php:121
+msgid "Manual"
+msgstr ""
+
+#: doc/index.php:123
 msgid "Add-ons"
 msgstr ""
 
-#: doc/index.php:122
+#: doc/index.php:124
 msgid "Links"
 msgstr ""
 
-#: doc/index.php:128
+#: doc/index.php:129
 msgid "Other ways to help:"
 msgstr ""
 
@@ -259,100 +263,96 @@ msgstr ""
 msgid "Report bugs"
 msgstr ""
 
-#: doc/index.php:148
+#: doc/index.php:147
 msgid "High-throughput computing with BOINC"
 msgstr ""
 
-#: doc/index.php:151
+#: doc/index.php:150
 msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4, "
 "giving you the power of thousands of CPUs and GPUs."
 msgstr ""
 
-#: doc/index.php:155
+#: doc/index.php:154
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
 msgstr ""
 
-#: doc/index.php:160
+#: doc/index.php:159
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
 msgstr ""
 
-#: doc/index.php:166
+#: doc/index.php:164
 msgid "Documentation"
 msgstr ""
 
-#: doc/index.php:167
+#: doc/index.php:165
 msgid "BOINC and Docker"
 msgstr ""
 
-#: doc/index.php:176
+#: doc/index.php:173
 msgid "Software development"
 msgstr ""
 
-#: doc/index.php:179
+#: doc/index.php:176
 msgid ""
-"BOINC is a software platform for volunteer computing; it includes client, "
-"server, and web components."
+"BOINC is a software platform for volunteer computing. It includes client, "
+"server, and web components, and APIs for connecting other components."
 msgstr ""
 
-#: doc/index.php:183
+#: doc/index.php:179
 msgid "Source code"
 msgstr ""
 
-#: doc/index.php:184
+#: doc/index.php:180
 msgid "Building BOINC"
 msgstr ""
 
-#: doc/index.php:185
+#: doc/index.php:182
 msgid "Design documents"
 msgstr ""
 
-#: doc/index.php:189
+#: doc/index.php:185
 msgid ""
 "We're always looking for programmers to help us maintain and develop BOINC."
 msgstr ""
 
-#: doc/index.php:193
+#: doc/index.php:188
 msgid "Development process"
 msgstr ""
 
-#: doc/index.php:194
+#: doc/index.php:189
 msgid "Development tasks"
 msgstr ""
 
-#: doc/index.php:198
+#: doc/index.php:192
 msgid "BOINC is distributed under the LGPL open-source license."
 msgstr ""
 
-#: doc/index.php:206
+#: doc/index.php:200
 msgid "The BOINC project"
 msgstr ""
 
-#: doc/index.php:209
+#: doc/index.php:203
 msgid ""
 "BOINC is a community-based project.  Everyone is welcome to participate."
 msgstr ""
 
-#: doc/index.php:214
+#: doc/index.php:207
 msgid "Email lists"
 msgstr ""
 
-#: doc/index.php:215
+#: doc/index.php:208
 msgid "Events"
 msgstr ""
 
-#: doc/index.php:216
+#: doc/index.php:209
 msgid "Graphics"
 msgstr ""
 
-#: doc/index.php:217
+#: doc/index.php:210
 msgid "Governance"
-msgstr ""
-
-#: doc/index.php:269
-msgid "Open-source software for volunteer computing"
 msgstr ""
 
 #: doc/help.php:7

@@ -1098,8 +1098,16 @@ void COPROCS::opencl_get_ati_mem_size_from_opengl(vector<string>& warnings) {
             if (true == rv) { // if openCL-capable
                 // what is the renderer ID
                 CGLDescribeRenderer (info, i, kCGLRPRendererID, &rendererID);
-               // what is the VRAM?
-                CGLDescribeRenderer (info, i, kCGLRPVideoMemory, &deviceVRAM);
+                // what is the VRAM?
+                CGLError notAvail = CGLDescribeRenderer (info, i, kCGLRPVideoMemoryMegabytes, &deviceVRAM);
+                if (notAvail == kCGLNoError) {
+                    deviceVRAM = deviceVRAM * (1024*1024);
+                } else {	// kCGLRPVideoMemoryMegabytes is not available before OS 10.7
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                    CGLDescribeRenderer (info, i, kCGLRPVideoMemory, &deviceVRAM);
+#pragma clang diagnostic pop
+                }
 
                 // build context and context specific info
                 CGLPixelFormatAttribute attribs[] = {
@@ -1118,7 +1126,7 @@ void COPROCS::opencl_get_ati_mem_size_from_opengl(vector<string>& warnings) {
                     CGLDestroyPixelFormat (pixelFormat);
                     CGLSetCurrentContext (cglContext);
                     if (cglContext) {
-                        // get vendor string from renderer
+                       // get vendor string from renderer
                         const GLubyte * strVend = glGetString (GL_VENDOR);
                         if (is_AMD((char *)strVend)) {
                             ati_opencls[ati_gpu_index].global_mem_size = deviceVRAM;

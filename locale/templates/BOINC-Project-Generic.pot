@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC 2b9edf8437344388d03411c033ff708e85993b03\n"
+"Project-Id-Version: BOINC 539caba937f5f02b5d46af9244ac276c68fa1f3b\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2016-12-09 07:44 UTC\n"
+"POT-Creation-Date: 2016-12-15 13:41 UTC\n"
 "Last-Translator: Generated automatically from source files\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -446,149 +446,149 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: html/inc/forum.inc:410 html/inc/forum.inc:1240 html/user/forum_forum.php:142
+#: html/inc/forum.inc:410 html/inc/forum.inc:1258 html/user/forum_forum.php:144
 #: html/user/forum_reply.php:128 html/user/forum_report_post.php:86
 msgid "Author"
 msgstr ""
 
 #: html/inc/forum.inc:410 html/inc/pm.inc:64 html/inc/pm.inc:143
-#: html/user/ffmail_form.php:58 html/user/forum_edit.php:126
-#: html/user/forum_edit.php:131 html/user/forum_post.php:118
+#: html/user/ffmail_form.php:58 html/user/forum_edit.php:130
+#: html/user/forum_edit.php:135 html/user/forum_post.php:118
 #: html/user/forum_reply.php:128 html/user/forum_report_post.php:87
 #: html/user/pm.php:79 html/user/pm.php:138
 msgid "Message"
 msgstr ""
 
-#: html/inc/forum.inc:587 html/inc/pm.inc:73 html/inc/pm.inc:153
+#: html/inc/forum.inc:590 html/inc/pm.inc:73 html/inc/pm.inc:153
 msgid "Send message"
 msgstr ""
 
-#: html/inc/forum.inc:587
+#: html/inc/forum.inc:590
 msgid "Send %1 a private message"
 msgstr ""
 
-#: html/inc/forum.inc:588
+#: html/inc/forum.inc:591
 msgid "Joined: %1"
 msgstr ""
 
-#: html/inc/forum.inc:597
+#: html/inc/forum.inc:600
 msgid "Posts: %1"
 msgstr ""
 
-#: html/inc/forum.inc:603
+#: html/inc/forum.inc:606
 msgid "Credit: %1"
 msgstr ""
 
-#: html/inc/forum.inc:604
+#: html/inc/forum.inc:607
 msgid "RAC: %1"
 msgstr ""
 
-#: html/inc/forum.inc:628
+#: html/inc/forum.inc:637
 msgid "You haven't read this message yet"
 msgstr ""
 
-#: html/inc/forum.inc:628
+#: html/inc/forum.inc:637
 msgid "Unread"
 msgstr ""
 
-#: html/inc/forum.inc:631 html/inc/forum.inc:636 html/inc/forum.inc:738
+#: html/inc/forum.inc:640 html/inc/forum.inc:645 html/inc/forum.inc:754
 msgid "Message %1"
 msgstr ""
 
-#: html/inc/forum.inc:632 html/inc/user.inc:422 html/user/forum_forum.php:179
+#: html/inc/forum.inc:641 html/inc/user.inc:422 html/user/forum_forum.php:181
 msgid "hidden"
 msgstr ""
 
-#: html/inc/forum.inc:633
+#: html/inc/forum.inc:642
 msgid "Posted: %1"
 msgstr ""
 
-#: html/inc/forum.inc:636
+#: html/inc/forum.inc:645
 msgid " - in response to "
 msgstr ""
 
-#: html/inc/forum.inc:639 html/inc/prefs_util.inc:609
+#: html/inc/forum.inc:648 html/inc/prefs_util.inc:609
 #: html/inc/prefs_util.inc:611
 msgid "Edit"
 msgstr ""
 
-#: html/inc/forum.inc:639
+#: html/inc/forum.inc:648
 msgid "Edit this message"
 msgstr ""
 
-#: html/inc/forum.inc:645
+#: html/inc/forum.inc:654
 msgid "Last modified: %1"
 msgstr ""
 
-#: html/inc/forum.inc:648
+#: html/inc/forum.inc:657
 msgid ""
 "This post is not shown because the sender is on your 'ignore' list.  Click "
 "%1here%2 to view this post"
 msgstr ""
 
-#: html/inc/forum.inc:678 html/inc/forum.inc:689
+#: html/inc/forum.inc:692 html/inc/forum.inc:703
 msgid "Report this post as offensive"
 msgstr ""
 
-#: html/inc/forum.inc:678 html/inc/forum.inc:689
+#: html/inc/forum.inc:692 html/inc/forum.inc:703
 msgid "Report as offensive"
 msgstr ""
 
-#: html/inc/forum.inc:682
+#: html/inc/forum.inc:696
 msgid "Rating: %1"
 msgstr ""
 
-#: html/inc/forum.inc:682
+#: html/inc/forum.inc:696
 msgid "rate: "
 msgstr ""
 
-#: html/inc/forum.inc:685
+#: html/inc/forum.inc:699
 msgid "Click if you like this message"
 msgstr ""
 
-#: html/inc/forum.inc:685
+#: html/inc/forum.inc:699
 msgid "Rate +"
 msgstr ""
 
-#: html/inc/forum.inc:687
+#: html/inc/forum.inc:701
 msgid "Click if you don't like this message"
 msgstr ""
 
-#: html/inc/forum.inc:687
+#: html/inc/forum.inc:701
 msgid "Rate -"
 msgstr ""
 
 #. "Reply" is used as a verb
-#: html/inc/forum.inc:696 html/user/pm.php:99 html/user/pm.php:140
+#: html/inc/forum.inc:710 html/user/pm.php:99 html/user/pm.php:140
 msgid "Reply"
 msgstr ""
 
-#: html/inc/forum.inc:696
+#: html/inc/forum.inc:710
 msgid "Post a reply to this message"
 msgstr ""
 
 #. "Quote" is used as a verb
-#: html/inc/forum.inc:699
+#: html/inc/forum.inc:713
 msgid "Quote"
 msgstr ""
 
-#: html/inc/forum.inc:699
+#: html/inc/forum.inc:713
 msgid "Post a reply by quoting this message"
 msgstr ""
 
-#: html/inc/forum.inc:719
+#: html/inc/forum.inc:735
 msgid "Hidden by a moderator"
 msgstr ""
 
-#: html/inc/forum.inc:740
+#: html/inc/forum.inc:756
 msgid "Posted %1 by %2"
 msgstr ""
 
-#: html/inc/forum.inc:758
+#: html/inc/forum.inc:776
 msgid "You may not post or rate messages until %1"
 msgstr ""
 
-#: html/inc/forum.inc:769
+#: html/inc/forum.inc:787
 msgid ""
 "\n"
 "        <ul>\n"
@@ -609,124 +609,124 @@ msgid ""
 "        "
 msgstr ""
 
-#: html/inc/forum.inc:802
+#: html/inc/forum.inc:820
 msgid "Rules:"
 msgstr ""
 
-#: html/inc/forum.inc:803
+#: html/inc/forum.inc:821
 msgid "More info"
 msgstr ""
 
-#: html/inc/forum.inc:1101 html/user/forum_thread.php:193
+#: html/inc/forum.inc:1119 html/user/forum_thread.php:193
 msgid "Unhide"
 msgstr ""
 
-#: html/inc/forum.inc:1101
+#: html/inc/forum.inc:1119
 msgid "Unhide this post"
 msgstr ""
 
-#: html/inc/forum.inc:1103 html/user/forum_thread.php:199
+#: html/inc/forum.inc:1121 html/user/forum_thread.php:199
 msgid "Hide"
 msgstr ""
 
-#: html/inc/forum.inc:1103
+#: html/inc/forum.inc:1121
 msgid "Hide this post"
 msgstr ""
 
-#: html/inc/forum.inc:1108 html/user/forum_thread.php:232
+#: html/inc/forum.inc:1126 html/user/forum_thread.php:232
 msgid "Move"
 msgstr ""
 
-#: html/inc/forum.inc:1108
+#: html/inc/forum.inc:1126
 msgid "Move post to a different thread"
 msgstr ""
 
-#: html/inc/forum.inc:1113
+#: html/inc/forum.inc:1131
 msgid "Banish author"
 msgstr ""
 
-#: html/inc/forum.inc:1120
+#: html/inc/forum.inc:1138
 msgid "Vote to banish author"
 msgstr ""
 
-#: html/inc/forum.inc:1124
+#: html/inc/forum.inc:1142
 msgid "Vote not to banish author"
 msgstr ""
 
-#: html/inc/forum.inc:1129
+#: html/inc/forum.inc:1147
 msgid "Start vote to banish author"
 msgstr ""
 
-#: html/inc/forum.inc:1134 html/inc/user.inc:325 html/user/forum_thread.php:246
+#: html/inc/forum.inc:1152 html/inc/user.inc:325 html/user/forum_thread.php:246
 #: html/user/pm.php:100 html/user/pm.php:141
 msgid "Delete"
 msgstr ""
 
-#: html/inc/forum.inc:1134
+#: html/inc/forum.inc:1152
 msgid "Delete this post"
 msgstr ""
 
-#: html/inc/forum.inc:1174
+#: html/inc/forum.inc:1192
 msgid "Only team members can post to the team message board"
 msgstr ""
 
-#: html/inc/forum.inc:1184
+#: html/inc/forum.inc:1202
 msgid ""
 "To create a new thread in %1 you must have a certain level of average "
 "credit. This is to protect against abuse of the system."
 msgstr ""
 
-#: html/inc/forum.inc:1191
+#: html/inc/forum.inc:1209
 msgid ""
 "You cannot create threads right now. Please wait before trying again. This "
 "is to protect against abuse of the system."
 msgstr ""
 
-#: html/inc/forum.inc:1198
+#: html/inc/forum.inc:1216
 msgid ""
 "This thread is locked. Only forum moderators and administrators are allowed "
 "to post there."
 msgstr ""
 
-#: html/inc/forum.inc:1203
+#: html/inc/forum.inc:1221
 msgid "Can't post to a hidden thread."
 msgstr ""
 
-#: html/inc/forum.inc:1238
+#: html/inc/forum.inc:1256
 msgid "Thread"
 msgstr ""
 
-#: html/inc/forum.inc:1239 html/inc/team.inc:141 html/user/forum_forum.php:141
+#: html/inc/forum.inc:1257 html/inc/team.inc:141 html/user/forum_forum.php:143
 #: html/user/forum_index.php:97
 msgid "Posts"
 msgstr ""
 
-#: html/inc/forum.inc:1241 html/user/forum_forum.php:143
+#: html/inc/forum.inc:1259 html/user/forum_forum.php:145
 msgid "Views"
 msgstr ""
 
-#: html/inc/forum.inc:1242 html/inc/team.inc:141 html/user/forum_forum.php:144
+#: html/inc/forum.inc:1260 html/inc/team.inc:141 html/user/forum_forum.php:146
 #: html/user/forum_help_desk.php:49 html/user/forum_index.php:98
 msgid "Last post"
 msgstr ""
 
-#: html/inc/forum.inc:1299
+#: html/inc/forum.inc:1317
 msgid "New posts in the thread %1"
 msgstr ""
 
-#: html/inc/forum.inc:1304
+#: html/inc/forum.inc:1322
 msgid "New posts in subscribed thread"
 msgstr ""
 
-#: html/inc/forum.inc:1305
+#: html/inc/forum.inc:1323
 msgid "There are new posts in the thread '%1'"
 msgstr ""
 
-#: html/inc/forum.inc:1315
+#: html/inc/forum.inc:1333
 msgid "Mark all threads as read"
 msgstr ""
 
-#: html/inc/forum.inc:1316
+#: html/inc/forum.inc:1334
 msgid "Mark all threads in all message boards as read."
 msgstr ""
 
@@ -1121,7 +1121,7 @@ msgstr ""
 
 #: html/inc/pm.inc:44 html/inc/pm.inc:46 html/inc/pm.inc:72 html/inc/pm.inc:85
 #: html/inc/pm.inc:87 html/inc/pm.inc:153 html/user/forum_edit.php:99
-#: html/user/forum_edit.php:101 html/user/forum_edit.php:143
+#: html/user/forum_edit.php:102 html/user/forum_edit.php:147
 #: html/user/forum_post.php:65 html/user/forum_post.php:91
 #: html/user/forum_post.php:93 html/user/forum_post.php:135
 #: html/user/forum_reply.php:77 html/user/forum_reply.php:110
@@ -1169,7 +1169,7 @@ msgid ""
 "time before sending more messages."
 msgstr ""
 
-#: html/inc/pm.inc:249 html/user/forum_forum.php:191
+#: html/inc/pm.inc:249 html/user/forum_forum.php:193
 msgid "unread"
 msgstr ""
 
@@ -2091,8 +2091,8 @@ msgstr ""
 msgid "Show only active teams"
 msgstr ""
 
-#: html/inc/team.inc:53 html/inc/util.inc:1066 html/user/profile_menu.php:78
-#: html/user/site_search.php:28 html/user/user_search.php:73
+#: html/inc/team.inc:53 html/inc/util.inc:1071 html/user/profile_menu.php:78
+#: html/user/site_search.php:29 html/user/user_search.php:73
 msgid "Search"
 msgstr ""
 
@@ -2150,7 +2150,7 @@ msgstr ""
 msgid "Message board"
 msgstr ""
 
-#: html/inc/team.inc:141 html/user/forum_forum.php:140
+#: html/inc/team.inc:141 html/user/forum_forum.php:142
 #: html/user/forum_index.php:96
 msgid "Threads"
 msgstr ""
@@ -2606,23 +2606,23 @@ msgstr ""
 msgid "Use BBCode tags to format your text"
 msgstr ""
 
-#: html/inc/util.inc:848
+#: html/inc/util.inc:853
 msgid "Project down for maintenance"
 msgstr ""
 
-#: html/inc/util.inc:851
+#: html/inc/util.inc:856
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
 msgstr ""
 
-#: html/inc/util.inc:869
+#: html/inc/util.inc:874
 msgid "Unable to connect to database - please try again later"
 msgstr ""
 
-#: html/inc/util.inc:873
+#: html/inc/util.inc:878
 msgid "Unable to select database - please try again later"
 msgstr ""
 
-#: html/inc/util.inc:1045
+#: html/inc/util.inc:1050
 msgid "characters remaining"
 msgstr ""
 
@@ -3724,17 +3724,17 @@ msgstr ""
 msgid "Edit post"
 msgstr ""
 
-#: html/user/forum_edit.php:108
+#: html/user/forum_edit.php:112
 msgid "Edit your message"
 msgstr ""
 
-#: html/user/forum_edit.php:113 html/user/forum_edit.php:118
+#: html/user/forum_edit.php:117 html/user/forum_edit.php:122
 #: html/user/forum_post.php:111 html/user/forum_post.php:113
 #: html/user/team_forum.php:72
 msgid "Title"
 msgstr ""
 
-#: html/user/forum_edit.php:142 html/user/forum_post.php:134
+#: html/user/forum_edit.php:146 html/user/forum_post.php:134
 msgid "Add my signature to this post"
 msgstr ""
 
@@ -3754,71 +3754,71 @@ msgstr ""
 msgid "Add a new thread to this forum"
 msgstr ""
 
-#: html/user/forum_forum.php:120
+#: html/user/forum_forum.php:122
 msgid "This message board is available as an %1RSS feed%2"
 msgstr ""
 
-#: html/user/forum_forum.php:179
+#: html/user/forum_forum.php:181
 msgid "This thread is hidden"
 msgstr ""
 
-#: html/user/forum_forum.php:183
+#: html/user/forum_forum.php:185
 msgid "This thread is sticky and locked, and you haven't read it yet"
 msgstr ""
 
-#: html/user/forum_forum.php:183
+#: html/user/forum_forum.php:185
 msgid "sticky/locked/unread"
 msgstr ""
 
-#: html/user/forum_forum.php:185
+#: html/user/forum_forum.php:187
 msgid "This thread is sticky and you haven't read it yet"
 msgstr ""
 
-#: html/user/forum_forum.php:185
+#: html/user/forum_forum.php:187
 msgid "sticky/unread"
 msgstr ""
 
-#: html/user/forum_forum.php:189
+#: html/user/forum_forum.php:191
 msgid "You haven't read this thread yet, and it's locked"
 msgstr ""
 
-#: html/user/forum_forum.php:189
+#: html/user/forum_forum.php:191
 msgid "unread/locked"
 msgstr ""
 
-#: html/user/forum_forum.php:191
+#: html/user/forum_forum.php:193
 msgid "You haven't read this thread yet"
 msgstr ""
 
-#: html/user/forum_forum.php:197
+#: html/user/forum_forum.php:199
 msgid "This thread is sticky and locked"
 msgstr ""
 
-#: html/user/forum_forum.php:197
+#: html/user/forum_forum.php:199
 msgid "sticky/locked"
 msgstr ""
 
-#: html/user/forum_forum.php:199
+#: html/user/forum_forum.php:201
 msgid "This thread is sticky"
 msgstr ""
 
-#: html/user/forum_forum.php:199
+#: html/user/forum_forum.php:201
 msgid "sticky"
 msgstr ""
 
-#: html/user/forum_forum.php:203
+#: html/user/forum_forum.php:205
 msgid "This thread is locked"
 msgstr ""
 
-#: html/user/forum_forum.php:203
+#: html/user/forum_forum.php:205
 msgid "locked"
 msgstr ""
 
-#: html/user/forum_forum.php:205
+#: html/user/forum_forum.php:207
 msgid "You read this thread"
 msgstr ""
 
-#: html/user/forum_forum.php:205
+#: html/user/forum_forum.php:207
 msgid "read"
 msgstr ""
 
@@ -4062,7 +4062,7 @@ msgid ""
 msgstr ""
 
 #: html/user/forum_reply.php:91 html/user/forum_thread.php:162
-#: html/user/forum_thread.php:288
+#: html/user/forum_thread.php:291
 msgid "Post to thread"
 msgstr ""
 
@@ -4315,7 +4315,7 @@ msgstr ""
 msgid "I've also got this question"
 msgstr ""
 
-#: html/user/forum_thread.php:163 html/user/forum_thread.php:289
+#: html/user/forum_thread.php:163 html/user/forum_thread.php:292
 msgid "Add a new message to this thread"
 msgstr ""
 
@@ -4403,7 +4403,7 @@ msgstr ""
 msgid "Don't export this news item as a Notice"
 msgstr ""
 
-#: html/user/forum_thread.php:276
+#: html/user/forum_thread.php:277
 msgid "Sort"
 msgstr ""
 
@@ -5002,10 +5002,9 @@ msgid "Select Tools / Add Project. Choose %1 from the list, or enter %2"
 msgstr ""
 
 #: html/user/join.php:76
-#, php-format
 msgid ""
 "If you're running a command-line version of BOINC on this computer, %1create "
-"a "
+"an account%2, then use %3boinccmd --project_attach%4 to add the project."
 msgstr ""
 
 #: html/user/join.php:91 html/user/sample_index.php:96
@@ -5013,35 +5012,35 @@ msgstr ""
 msgid "Join %1"
 msgstr ""
 
-#: html/user/language_select.php:47
+#: html/user/language_select.php:46
 msgid "Language selection"
 msgstr ""
 
-#: html/user/language_select.php:58
+#: html/user/language_select.php:57
 msgid ""
 "This web site is available in several languages. The currently selected "
 "language is %1."
 msgstr ""
 
-#: html/user/language_select.php:63
+#: html/user/language_select.php:62
 msgid ""
 "Normally the choice of language is determined by your browser's language "
 "setting, which is: %1.  You can change this setting using:"
 msgstr ""
 
-#: html/user/language_select.php:68
+#: html/user/language_select.php:67
 msgid "Firefox: Tools/Options/General"
 msgstr ""
 
-#: html/user/language_select.php:70
+#: html/user/language_select.php:69
 msgid "Microsoft IE: Tools/Internet Options/Languages"
 msgstr ""
 
-#: html/user/language_select.php:74
+#: html/user/language_select.php:73
 msgid "Or you can select a language from the following menu:"
 msgstr ""
 
-#: html/user/language_select.php:82
+#: html/user/language_select.php:85
 msgid ""
 "Translations are done by volunteers.  If your native language is missing or "
 "incomplete, %1you can help translate%2."

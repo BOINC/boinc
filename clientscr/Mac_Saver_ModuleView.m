@@ -244,7 +244,7 @@ int signof(float x) {
     NSPoint imagePosition;
     char *msg;
     CFStringRef cf_msg;
-    AbsoluteTime timeToUnblock, frameStartTime = UpTime();
+    double timeToBlock, frameStartTime = getDTime();
     kern_return_t   kernResult = kIOReturnError; 
     UInt64          params;
     IOByteCount     rcnt = sizeof(UInt64);
@@ -490,8 +490,10 @@ int signof(float x) {
         [ self setAnimationTimeInterval:(1.0/newFrequency) ];
         // setAnimationTimeInterval does not seem to be working, so we 
         // throttle the screensaver directly here.
-        timeToUnblock = AddDurationToAbsolute(durationSecond/newFrequency, frameStartTime);
-        MPDelayUntil(&timeToUnblock);
+        timeToBlock = (1.0/newFrequency) - (getDTime() - frameStartTime);
+        if (timeToBlock > 0.0) {
+            doBoinc_Sleep(timeToBlock);
+        }
     }
 }
 

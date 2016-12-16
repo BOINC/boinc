@@ -73,7 +73,7 @@ function show_old() {
                 .tra('Select Tools / Add Project. Choose %1 from the list, or enter %2', "<strong>".PROJECT."</strong>", "<strong>$master_url</strong>")
                 .' <p>
                 <li> '
-                .tra('If you\'re running a command-line version of BOINC on this computer, %1create a '.PROJECT.' account%2, then use %3boinccmd --project_attach%4 to add the project.',
+                .tra('If you\'re running a command-line version of BOINC on this computer, %1create an account%2, then use %3boinccmd --project_attach%4 to add the project.',
                     '<a href="create_account_form.php">',
                     '</a>',
                     '<strong><a href="http://boinc.berkeley.edu/wiki/Boinccmd_tool">',
