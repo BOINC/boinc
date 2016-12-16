@@ -48,7 +48,7 @@ $w76 = array(
     "status"=>"Recommended version",
     "file"=>"boinc_7.6.33_windows_intelx86.exe",
     "vbox_file"=>"boinc_7.6.33_windows_intelx86_vbox.exe",
-    "vbox_version"=>"5.0.15",
+    "vbox_version"=>"5.0.18",
     "date"=>"5 Jun 2016",
     "type"=>"win_new",
 );
@@ -84,7 +84,7 @@ $w76x64 = array(
     "status"=>"Recommended version",
     "file"=>"boinc_7.6.33_windows_x86_64.exe",
     "vbox_file"=>"boinc_7.6.33_windows_x86_64_vbox.exe",
-    "vbox_version"=>"5.0.15",
+    "vbox_version"=>"5.0.18",
     "date"=>"5 Jun 2016",
     "type"=>"win_new",
 );
