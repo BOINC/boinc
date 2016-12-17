@@ -445,9 +445,9 @@ then
 fi
 
 dnl ---------- libcurl (m4/libcurl.m4) ------------------------------
-dnl curl is needed for client and server
+dnl curl is needed for client
 
-if [[ "x${enable_client}" = "xyes" -o "x${enable_server}" = "xyes" ]]
+if [[ "x${enable_client}" = "xyes" ]]
 then
 LIBCURL_CHECK_CONFIG([yes], [7.17.1], [haveCurl=yes], [haveCurl=no])
 
