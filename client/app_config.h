@@ -48,10 +48,19 @@ struct APP_VERSION_CONFIG {
     int parse(XML_PARSER&, PROJECT*);
 };
 
+struct OPTIONS_CONFIG {
+    bool report_results_immediately;
+
+    OPTIONS_CONFIG();
+    void defaults();
+    int parse(XML_PARSER&, PROJECT*);
+};
+
 struct APP_CONFIGS {
     std::vector<APP_CONFIG> app_configs;
     std::vector<APP_VERSION_CONFIG> app_version_configs;
     int project_max_concurrent;
+    OPTIONS_CONFIG options_config;
 
     int parse(XML_PARSER&, PROJECT*);
     int parse_file(FILE*, PROJECT*);
@@ -59,6 +68,7 @@ struct APP_CONFIGS {
     void clear() {
         app_configs.clear();
         app_version_configs.clear();
+        options_config.defaults();
         project_max_concurrent = 0;
     }
 };
