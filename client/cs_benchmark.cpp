@@ -276,7 +276,9 @@ void CLIENT_STATE::start_cpu_benchmarks() {
             NULL, 0, win_cpu_benchmarks, benchmark_descs+i, 0,
             &benchmark_descs[i].pid
         );
-        SetThreadAffinityMask(benchmark_descs[i].handle, 1<<i);
+        int n = host.p_ncpus;
+        j = (i >= n/2)? 2*i+1 : 2*i;
+        SetThreadAffinityMask(benchmark_descs[i].handle, 1<<j);
         SetThreadPriority(benchmark_descs[i].handle, THREAD_PRIORITY_IDLE);
 #else
         sprintf(benchmark_descs[i].filename, "%s_%d.xml", CPU_BENCHMARKS_FILE_NAME, i);
