@@ -788,15 +788,6 @@ bool is_valid_filename(const char* name) {
     return true;
 }
 
-// safely copy a string to char array
-//
-char* safe_copy(string s) {
-    char *p = new char[s.size()+1];
-    std::copy(s.begin(), s.end(), p);
-    p[s.size()]= '\0';
-    return p;
-}
-
 // get the name part of a filepath
 // returns:
 //   0 on success
