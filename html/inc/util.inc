@@ -438,9 +438,10 @@ define('VALUE_ATTRS_ERR', 'class="danger" style="padding-left:12px"');
 function row2($x, $y, $show_error=false, $lwidth='40%') {
     if ($x==="") $x="<br>";
     if ($y==="") $y="<br>";
+    $attrs = $show_error?VALUE_ATTRS_ERR:VALUE_ATTRS;
     echo "<tr>
         <td width=\"$lwidth\" ".NAME_ATTRS.">$x</td>
-        <td ".VALUE_ATTRS." >$y</td>
+        <td $attrs >$y</td>
         </tr>
     ";
 }
@@ -747,16 +748,16 @@ function verify_numeric(&$value, $low, $high = false) {
     $number = str_replace('x', '', $number); //if someone enters '0x100'
     $number = str_replace(',', '.', $number); // replace the german decimal separator
     // if no value was entered and this is ok
-    if ($number=='' && $low=='') return true;
+    //
+    if ($number=='' && !$low) return true;
 
     // the supplied value contains alphabetic characters
+    //
     if (!is_numeric($number)) return false;
 
-    //if ($number < $low) $number = $low;
     if ($number < $low) return false;
 
     if ($high) {
-        //if ($number > $high) $number = $high;
         if ($number > $high) return false;
     }
     $value = (double)$number;
@@ -947,6 +948,8 @@ function sanitize_tags($x) {
 function sanitize_numeric($x) {
     if (is_numeric($x)) {
         return $x;
+    } else if (trim($x) == '' ) {
+        return '';
     } else {
         return "not numeric";
     }

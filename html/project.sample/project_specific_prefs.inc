@@ -10,23 +10,6 @@
 // Edit this file accordingly,
 // and put your version in html/project_specific/project_specific_prefs.inc
 
-// Select standard prefs here:
-
-define('COLOR_PREFS', false);
-    // user can select screensaver color scheme
-define('GFX_CPU_PREFS', false);
-    // user can limit % CPU used by screensaver
-    // (lower frame rate if exceeded)
-    // This is probably irrelevant if your screensaver uses OpenGL
-define('APP_SELECT_PREFS', true);
-    // user can choose which apps to run
-define('NON_GRAPHICAL_PREF', false);
-    // user can choose to run faster non-graphical app versions if available
-define('MAX_JOBS_PREF', false);
-    // user can choose max # of jobs in progress
-define('MAX_CPUS_PREF', false);
-    // user can choose max # of CPUs to use
-
 // Project-specific prefs are represented in three ways:
 // - as an XML document (stored in the DB in this form)
 // - as a PHP structure
@@ -109,7 +92,7 @@ function project_specific_prefs_default() {
 
 function number_select($name, $max, $n) {
     $sel = ($n == 0) ? "selected":"";
-    $x = "<select class=\"form-control\" name=$name> <option value=0 $sel>".tra("No limit")."</option>";
+    $x = "<select class=\"form-control input-sm\" name=$name> <option value=0 $sel>".tra("No limit")."</option>";
     for ($i=1; $i<=$max; $i++) {
         $sel = ($n == $i) ? "selected":"";
         $x .= "<option value=$i $sel>$i</option>";
@@ -127,7 +110,7 @@ function project_specific_prefs_edit($prefs, $error=false) {
     global $app_array;
     if (COLOR_PREFS) {
         $x = $prefs->color_scheme;
-        $y = "<select class=\"form-control\" name=color_scheme>
+        $y = "<select class=\"form-control input-sm\" name=color_scheme>
                 ".option("Tahiti Sunset", $x)
                 .option("Desert Sands", $x)."
             </select>
@@ -187,8 +170,10 @@ function project_specific_prefs_parse_form(&$error) {
         $x .= "<color_scheme>$color_scheme</color_scheme>\n";
     }
     if (GFX_CPU_PREFS) {
-        $max_gfx_cpu_pct = sanitize_numeric($_GET["max_gfx_cpu_pct"]);
-        if (!verify_numeric($max_gfx_cpu_pct, 0, 100)) $error->max_gfx_cpu_pct = true;
+        $max_gfx_cpu_pct = get_str("max_gfx_cpu_pct");
+        if (!verify_numeric($max_gfx_cpu_pct, 0, 100)) {
+            $error->max_gfx_cpu_pct = true;
+        }
         $x .= "<max_gfx_cpu_pct>$max_gfx_cpu_pct</max_gfx_cpu_pct>\n";
     }
 

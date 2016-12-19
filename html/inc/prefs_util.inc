@@ -207,7 +207,7 @@ class NUM_SPEC {
         }
         if ($disabled) $v = "";
         $i = $id?"id=\"$id\"":"";
-        return '<input type="text" size="5" class="form-control input-sm" name="'.$tag.' value="'.$v."\" $disabled $i> &nbsp; $this->suffix ";
+        return '<input type="text" size="5" class="form-control input-sm" name="'.$tag.'" value="'.$v."\" $disabled $i> &nbsp; $this->suffix ";
     }
     function form_convert($in, &$out, &$error) {
         $error = false;

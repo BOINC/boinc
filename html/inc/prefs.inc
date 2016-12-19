@@ -669,7 +669,7 @@ function venue_form($user) {
     tooltip_row2(
         VENUE_TOOLTIP,
         VENUE_DESC,
-        "<select class=\"form-control\" name=default_venue>
+        "<select class=\"form-control input-sm\" name=default_venue>
         <option value=\"\" $n>---
         <option value=home $h>".tra("Home")."
         <option value=work $w>".tra("Work")."
