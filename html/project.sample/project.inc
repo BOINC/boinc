@@ -85,7 +85,7 @@ function project_banner($title, $prefix, $is_main) {
 function project_footer($show_return, $show_date, $prefix) {
     // If you include any links, prepend URL with $prefix
     //
-    echo '<br>
+    echo '<p></p>
         <a class="brand boinc-logo" href="http://boinc.berkeley.edu/"><img align="middle" border="0" src="'.secure_url_base().'img/pb_boinc.gif" alt="Powered by BOINC"></a>
         <br>
         <p class="text-center"> &copy;'.gmdate("Y ").COPYRIGHT_HOLDER.'</p>

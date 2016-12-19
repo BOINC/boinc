@@ -565,7 +565,7 @@ function print_prefs_form(
         $script = "prefs_edit.php";
         $submit_value = tra("Update preferences");
     }
-    echo "<form action=$script><input type=hidden name=subset value=$subset>
+    echo "<form class=\"form-inline\" action=$script><input type=hidden name=subset value=$subset>
         ".form_tokens($user->authenticator);
     if ($venue) {
         echo "<input type=hidden name=venue value=$venue>\n";

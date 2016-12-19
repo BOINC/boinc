@@ -57,7 +57,8 @@ function location_form($host) {
         <option value=work $w>".tra("Work")."
         <option value=school $s>".tra("School")."
         </select>
-        <input class=\"btn btn-primary\" type=submit value=".tra("Update").">
+        <p></p>
+        <input class=\"btn btn-primary btn-sm\" type=submit value=\"".tra("Update location")."\">
         </form>
     ";
     return $x;
@@ -201,7 +202,7 @@ function show_host($host, $user, $ipprivate) {
         } else {
             $x = "";
         }
-        row2(tra("Merge duplicate records of this computer"), "<a href=host_edit_form.php?hostid=$host->id>".tra("Merge")."</a> $x");
+        row2(tra("Merge duplicate records of this computer"), "<a class=\"btn btn-primary btn-sm\" href=host_edit_form.php?hostid=$host->id>".tra("Merge")."</a> $x");
     } else {
         row2(tra("Number of times client has contacted server"), $host->rpc_seqno);
         row2(tra("Last contact"), date_str($host->rpc_time));

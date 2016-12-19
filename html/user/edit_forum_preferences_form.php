@@ -154,7 +154,7 @@ row2(tra("Filtered users").
     "<br><p class=\"text-muted\">".tra("Ignore message board posts and private messages from these users.")."</p>",
     "$forum_filtered_userlist
         <input type=\"text\" name=\"forum_filter_user\" size=12> ".tra("User ID (For instance: 123456789)")."
-        <br><input class=\"btn btn-default\" type=\"submit\" name=\"add_user_to_filter\" value=\"".tra("Add user to filter")."\">
+        <p></p><input class=\"btn btn-default\" type=\"submit\" name=\"add_user_to_filter\" value=\"".tra("Add user to filter")."\">
     "
 );
 

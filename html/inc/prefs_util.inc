@@ -69,7 +69,7 @@ abstract class PREF {
     function show_cols($prefs) {
         global $venues;
         $this->tooltip_tr();
-        echo "<td class=\"text-right active\">$this->desc</td>";
+        echo "<td class=\"text-right \">$this->desc</td>";
         $tag = $this->tag;
         if (isset($prefs->$tag)) {
             $this->show_value($prefs);
@@ -90,7 +90,7 @@ abstract class PREF {
     //
     function show($prefs) {
         $this->tooltip_tr();
-        echo "<td class=\"text-right active\">$this->desc</td>";
+        echo "<td class=\"text-right \">$this->desc</td>";
         $tag = $this->tag;
         if (isset($prefs->$tag)) {
             $this->show_value($prefs);
@@ -206,8 +206,8 @@ class NUM_SPEC {
             }
         }
         if ($disabled) $v = "";
-        $i = $id?"id=$id":"";
-        return "<input type=text size=5 name=$tag value='$v' $disabled $i>$this->suffix ";
+        $i = $id?"id=\"$id\"":"";
+        return '<input type="text" size="5" class="form-control input-sm" name="'.$tag.' value="'.$v."\" $disabled $i> &nbsp; $this->suffix ";
     }
     function form_convert($in, &$out, &$error) {
         $error = false;
@@ -332,7 +332,7 @@ class PREF_OPT_NUM extends PREF {
         $c = $val?"checked":"";
         $d = $val?"":"disabled";
         echo "<td $attrs>"
-            ."<input type=checkbox id=$checkbox_id onClick=\"checkbox_clicked('$checkbox_id', '$text_id', $default)\" $c> "
+            ."<input type=checkbox id=$checkbox_id onClick=\"checkbox_clicked('$checkbox_id', '$text_id', $default)\" $c> &nbsp;"
             .$this->num_spec->form_str($tag, $prefs->$tag, $had_error, $d, $text_id)
             ."</td>
         ";
@@ -442,12 +442,12 @@ class PREF_NUM2 extends PREF {
 
 function hour_select($x, $name, $id, $d) {
     $s = "";
-    $s = $s. "<select class=\"form-control\" name=$name id=$id $d>\n";
+    $s .= "<select class=\"selectbox form-control input-sm\" name=$name id=$id $d>\n";
     for ($i=0; $i<24; $i++) {
         $sel = ($x == $i)?"selected":"";
-        $s = $s."<option value=$i $sel> $i:00";
+        $s .= "<option value=$i $sel> $i:00";
     }
-    $s = $s."</select>\n";
+    $s .= "</select>\n";
     return $s;
 }
 
@@ -487,12 +487,12 @@ class PREF_HOUR_RANGE extends PREF {
             $d = "";
         }
         echo "<td ".VALUE_ATTRS.">"
-            ."<input type=checkbox id=$checkbox_id onClick=\"checkbox_clicked2('$checkbox_id', '$t1_id', '$t2_id', 0, 23)\" $c> "
+            ."<input type=checkbox id=$checkbox_id onClick=\"checkbox_clicked2('$checkbox_id', '$t1_id', '$t2_id', 0, 23)\" $c> &nbsp; "
 
             .hour_select($prefs->$tag, $tag, $t1_id, $d)
-            ." "
+            ." &nbsp; "
             .tra("and")
-            ." "
+            ." &nbsp; "
             .hour_select($prefs->$tag2, $tag2, $t2_id, $d)
             ."
         ";
@@ -614,7 +614,7 @@ function row_links($subset, $prefs) {
     $schl = isset($prefs->school) ? $pre_edit."school".$post_edit : $pre_add."school".$post_add;
     $wrk  = isset($prefs->work) ? $pre_edit."work".$post_edit : $pre_add."work".$post_add;
 
-    echo "<tr><td class=\"text-right active\"> </td>";
+    echo "<tr><td class=\"text-right \"> </td>";
     echo "<td>$gen</td>";
     echo "<td>$hom</td>";
     echo "<td>$schl</td>";
@@ -625,7 +625,7 @@ function row_links($subset, $prefs) {
     $schl = isset($prefs->school) ? $pre_remove."school".$post_remove : "<br>";
     $wrk  = isset($prefs->work) ? $pre_remove."work".$post_remove : "<br>";
 
-    echo "<tr><td class=\"text-right active\"> </td>";
+    echo "<tr><td class=\"text-right \"> </td>";
     echo "<td> </td>";
     echo "<td>$hom</td>";
     echo "<td>$schl</td>";

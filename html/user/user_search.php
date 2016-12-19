@@ -58,13 +58,13 @@ function user_search_form() {
     echo "</select></td></tr>";
     row2(tra("With profile?"),
         "<input type=radio name=profile value=either checked=1> ".tra("Either")."
-        <input type=radio name=profile value=no> ".tra("No")."
-        <input type=radio name=profile value=yes> ".tra("Yes")."
+        &nbsp;<input type=radio name=profile value=no> ".tra("No")."
+        &nbsp;<input type=radio name=profile value=yes> ".tra("Yes")."
     ");
     row2(tra("On a team?"),
         "<input type=radio name=team value=either checked=1> ".tra("Either")."
-        <input type=radio name=team value=no> ".tra("No")."
-        <input type=radio name=team value=yes> ".tra("Yes")."
+        &nbsp;<input type=radio name=team value=no> ".tra("No")."
+        &nbsp;<input type=radio name=team value=yes> ".tra("Yes")."
     ");
     row1(tra("Ordering"), 2, "heading");
     row2(tra("Decreasing sign-up time"), "<input type=radio name=search_type value=\"date\" checked>");

@@ -431,7 +431,7 @@ function row1($x, $ncols=2, $class="heading") {
     }
 }
 
-define('NAME_ATTRS', 'class="text-right active" style="padding-right:12px"');
+define('NAME_ATTRS', 'class="text-right " style="padding-right:12px"');
 define('VALUE_ATTRS', 'style="padding-left:12px"');
 define('VALUE_ATTRS_ERR', 'class="danger" style="padding-left:12px"');
 
@@ -447,7 +447,7 @@ function row2($x, $y, $show_error=false, $lwidth='40%') {
 
 function row2_init($x, $y, $lwidth='40%') {
     echo '<tr>
-        <td class="text-right active" width="'.$lwidth.'"  style="padding-right: 20px;">'.$x.'</td>
+        <td class="text-right " width="'.$lwidth.'"  style="padding-right: 20px;">'.$x.'</td>
         <td '.VALUE_ATTRS.'>'.$y.'
     ';
 }
@@ -672,7 +672,7 @@ function post_int($name, $optional=false) {
     return $y;
 }
 
-function get_array($name) {
+function get_array($name, $optional=false) {
     if (isset($_GET[$name])) {
         $x = $_GET[$name];
     } else {

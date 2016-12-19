@@ -113,6 +113,7 @@ echo '
     </tr>
     </table>
     </form>
+    <p></p>
 ';
 
 show_forum($forum, $start, $sort_style, $user);
