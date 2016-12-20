@@ -96,14 +96,14 @@ case 1:
     break;
 }
 
+echo "<p></p>";
+
 if ($preview == tra("Preview")) {
-    $options = null;
-    start_table();
-    row_heading(tra("Preview"));
-    echo "<tr><td>\n";
-    echo output_transform($content, $options);
-    echo "</td></tr>\n";
-    end_table();
+    panel(tra('Preview'),
+        function() use($content) {
+            echo output_transform($content, null);
+        }
+    );
 }
 
 echo "<form action=\"forum_edit.php?id=".$post->id."\" method=\"POST\" name=\"post\" onsubmit=\"return checkForm(this)\">\n";
@@ -144,7 +144,7 @@ if ($post->signature) {
 }
 row2("", "<input id=\"add_signature\" name=\"add_signature\" value=\"1\" ".$enable_signature." type=\"checkbox\">
     <label for=\"add_signature\">".tra("Add my signature to this post")."</label>");
-row2("", "<input class=\"btn btn-default\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\"><input class=\"btn btn-primary\" type=\"submit\" name=\"submit\" value=\"OK\">"
+row2("", "<input class=\"btn btn-default\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\">&nbsp;<input class=\"btn btn-primary\" type=\"submit\" name=\"submit\" value=\"OK\">"
 );
 
 end_table();

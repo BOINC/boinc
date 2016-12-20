@@ -42,10 +42,11 @@ function pm_team_form($user, $teamid, $error=null) {
     $subject = post_str("subject", true);
     $content = post_str("content", true);
     if (post_str("preview", true) == tra("Preview")) {
-        $options = new output_options;
-        echo tra("Preview");
-        echo ":<p>\n";
-        echo output_transform($content, $options);
+        panel(tra('Preview'),
+            function() use($content) {
+                echo output_transform($content, null);
+            }
+        );
     }
     if ($error) {
         echo "<p class=\"text-danger\">".$error."</p>\n";
@@ -83,10 +84,12 @@ function pm_form($replyto, $userid, $error = null) {
     page_head(tra("Send private message"),'','','', $bbcode_js);
     
     if (post_str("preview", true) == tra("Preview")) {
-        $options = new output_options;
-        echo tra("Preview");
-        echo ":<p>\n";
-        echo output_transform(post_str("content", true), $options);
+        $content = post_str("content", true);
+        panel(tra('Preview'),
+            function() use($content) {
+                echo output_transform($content, null);
+            }
+        );
     }
     
     $subject = null;

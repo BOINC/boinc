@@ -88,10 +88,14 @@ case 1:
     break;
 }
 
+echo "<p></p>";
+
 if ($preview == tra("Preview")) {
-    $options = null;
-	echo "<h2>".tra("Preview")."</h2>\n";
-    echo output_transform($content, $options);
+    panel(tra('Preview'),
+        function() use($content) {
+            echo output_transform($content, null);
+        }
+    );
 }
 
 echo "<form action=\"forum_post.php?id=".$forum->id."\" method=\"POST\" name=\"post\" onsubmit=\"return checkForm(this)\">\n";

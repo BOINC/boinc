@@ -112,12 +112,11 @@ if ($preview == tra("Preview")) {
     if (is_admin($logged_in_user)) {
         $options->htmlitems = false;
     }
-    start_table();
-    row_heading(tra("Preview"));
-    echo "<tr><td>\n";
-    echo output_transform($content, $options);
-    echo "</td></tr>\n";
-    end_table();
+    panel(tra('Preview'),
+        function() use($content, $options) {
+            echo output_transform($content, $options);
+        }
+    );
 }
 
 start_table();
