@@ -277,7 +277,7 @@ void CLIENT_STATE::start_cpu_benchmarks() {
             &benchmark_descs[i].pid
         );
         int n = host.p_ncpus;
-        j = (i >= n/2)? 2*i+1 : 2*i;
+        j = (i >= n/2)? 2*i+1-n : 2*i;
         SetThreadAffinityMask(benchmark_descs[i].handle, 1<<j);
         SetThreadPriority(benchmark_descs[i].handle, THREAD_PRIORITY_IDLE);
 #else
