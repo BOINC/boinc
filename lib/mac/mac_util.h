@@ -20,8 +20,10 @@
 #ifndef _MAC_UTIL_H_
 #define _MAC_UTIL_H_
 
-    double              getTimeSinceBoot(void);
+#include <Carbon/Carbon.h>
 
+    double              getTimeSinceBoot(void);
     void                getPathToThisApp(char* pathBuf, size_t bufSize);
+    void                BringAppToFront();
 
 #endif      // _MAC_UTIL_H_

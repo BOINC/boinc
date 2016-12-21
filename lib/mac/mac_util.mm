@@ -17,7 +17,6 @@
 
 //  mac_util.mm
 
-#include "MacGUI.pch"
 #include "mac_util.h"
 #import <Cocoa/Cocoa.h>
 
@@ -36,4 +35,8 @@ void getPathToThisApp(char* pathBuf, size_t bufSize) {
     NSBundle *main = [NSBundle mainBundle];
     NSString *thePath = [main bundlePath];
     strlcpy(pathBuf, [thePath UTF8String], bufSize);
+}
+
+void BringAppToFront() {
+    [ [NSRunningApplication currentApplication] activateWithOptions:NSApplicationActivateIgnoringOtherApps | NSApplicationActivateAllWindows ];
 }
