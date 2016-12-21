@@ -936,20 +936,18 @@ static OSStatus CleanupAllVisibleUsers(void)
     
     sleep(1);
     
-    if (compareOSVersionTo(10, 7) >= 0) {
 #if TESTING
-        ShowMessage(false, false, false, "Telling System Events to quit (at end)");
+    ShowMessage(false, false, false, "Telling System Events to quit (at end)");
 #endif
-        systemEventsPID = FindProcessPID(systemEventsAppName, 0);
-        if (systemEventsPID != 0) {
-            err = kill(systemEventsPID, SIGKILL);
-        }
-#if TESTING
-        if (err != noErr) {
-            ShowMessage(false, false, false, "kill(systemEventsPID, SIGKILL) returned error %d ", (int) err);
-        }
-#endif
+    systemEventsPID = FindProcessPID(systemEventsAppName, 0);
+    if (systemEventsPID != 0) {
+        err = kill(systemEventsPID, SIGKILL);
     }
+#if TESTING
+    if (err != noErr) {
+        ShowMessage(false, false, false, "kill(systemEventsPID, SIGKILL) returned error %d ", (int) err);
+    }
+#endif
 
     return noErr;
 }
