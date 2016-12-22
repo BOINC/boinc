@@ -814,13 +814,11 @@ int path_to_filename(string fpath, string& fname) {
 // wrapper for path_to_filename(string, string&)
 int path_to_filename(string fpath, char* &fname) {
     string name;
-    int ret;
-    if ((ret = path_to_filename(fpath, name))) {
-        return ret;
-    } else {
-        fname = new char[name.size()+1];
-        std::copy(name.begin(), name.end(), fname);
-        fname[name.size()]= '\0';
+    int retval = path_to_filename(fpath, name);
+    if (retval) {
+        return retval;
     }
+    fname = new char[name.size()+1];
+    strcpy(fname, name.c_str());
     return 0;
 }
