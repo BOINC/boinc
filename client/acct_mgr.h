@@ -57,6 +57,7 @@ struct ACCT_MGR_INFO : PROJ_AM {
         // link to a website to go to so the user can find
         // what login name and password they have been assigned
     bool password_error;
+    bool send_rec;
 
     inline bool using_am() {
         if (!strlen(master_url)) return false;
@@ -98,6 +99,8 @@ struct OPTIONAL_DOUBLE {
 struct AM_ACCOUNT {
     std::string url;
     std::string authenticator;
+    std::string sci_keywords;
+    std::string loc_keywords;
     char url_signature[MAX_SIGNATURE_LEN];
     bool detach;
     bool update;
@@ -112,14 +115,14 @@ struct AM_ACCOUNT {
     void handle_no_rsc(const char*, bool);
     int parse(XML_PARSER&);
     AM_ACCOUNT() {
-      safe_strcpy(url_signature, "");
-      detach = false;
-      update = false;
-      dont_request_more_work.init();
-      detach_when_done.init();
-      resource_share.init();
-      suspend.init();
-      abort_not_started.init();
+        safe_strcpy(url_signature, "");
+        detach = false;
+        update = false;
+        dont_request_more_work.init();
+        detach_when_done.init();
+        resource_share.init();
+        suspend.init();
+        abort_not_started.init();
     }
     ~AM_ACCOUNT() {}
 };

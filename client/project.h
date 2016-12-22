@@ -25,6 +25,9 @@ struct PROJECT : PROJ_AM {
     char _project_dir[MAXPATHLEN];
     char _project_dir_absolute[MAXPATHLEN];
 
+    std::string sci_keywords;
+    std::string loc_keywords;
+
     // the following items come from the account file
     // They are a function only of the user and the project
     //
