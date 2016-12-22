@@ -294,6 +294,19 @@ function form_input_text($label, $name, $value='', $type='text', $attrs='') {
     ';
 }
 
+function form_input_textarea($label, $name, $value='') {
+    echo '
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="'.$name.'">'.$label.'</label>
+            <div class="col-sm-10">
+                <textarea rows="6" class="form-control" id="'.$name.'" name="'.$name.'">
+                '.$value.'
+                </textarea>
+            </div>
+        </div>
+    ';
+}
+
 function form_select($label, $name, $items) {
     echo '
         <div class="form-group">

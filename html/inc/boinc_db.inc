@@ -336,6 +336,17 @@ class BoincHost {
         $db = BoincDb::get();
         return $db->count('host', $clause);
     }
+    static function lookup_cpid($cpid) {
+        $db = BoincDb::get();
+        $cpid = BoincDb::escape_string($cpid);
+        return $db->lookup('host', 'BoincHost', "host_cpid='$cpid'");
+    }
+    static function insert($clause) {
+        $db = BoincDb::get();
+        $ret = $db->insert('host', $clause);
+        if (!$ret) return $ret;
+        return $db->insert_id();
+    }
 }
 
 class BoincResult {
