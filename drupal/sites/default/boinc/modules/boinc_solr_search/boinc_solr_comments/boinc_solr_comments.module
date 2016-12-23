@@ -79,7 +79,7 @@ function boinc_solr_comments_apachesolr_index_documents_alter(array &$documents,
     //dd($document, "index documents alter - document");
 
     $to_process = ( array_key_exists($document->bundle, $node_types) AND $node_types[$document->bundle] );
-    if ( $document->entity_type='node' AND $to_process) {
+    if ( $document->entity_type=='node' AND $to_process) {
       
       // Remove ts_comments if present.
       if (isset($document->ts_comments)) {
