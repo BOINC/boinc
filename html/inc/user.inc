@@ -29,6 +29,9 @@ if (!defined('REMOTE_PROJECTS_TTL')) {
     define('REMOTE_PROJECTS_TTL', 86400);
 }
 
+// add an element "projects" to user consisting of array of projects
+// they've participated in
+//
 function get_other_projects($user) {
     $cpid = md5($user->cross_project_id . $user->email_addr);
     $url = "http://boinc.netsoft-online.com/get_user.php?cpid=".$cpid;
@@ -76,6 +79,9 @@ function get_other_projects($user) {
         // auto-cast the project list to an array of stdClass projects
         //
         $remote = @json_decode(json_encode((array)$xml_object))->project;
+        if (count($remote) == 1) {
+            $remote = array($remote);
+        }
         
         if (!$remote) {
             return $user;

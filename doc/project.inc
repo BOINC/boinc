@@ -12,7 +12,7 @@ define("IMAGE_URL", "user_profile/images/");
 define("PROFILE_PATH", "../user_profile/");
 define("PROFILE_URL", "user_profile/");
 define("LANGUAGE_FILE", "languages.txt");
-//define("STYLESHEET", "white.css");
+define("STYLESHEET", "custom.css");
 define("COPYRIGHT_HOLDER", "UC Berkeley");
 define("SYS_ADMIN_EMAIL", "davea@ssl.berkeley.edu");
 define("POST_REPORT_EMAILS", "elst93@gmail.com, ksmarkspsych@gmail.com, trog_dog@hotmail.com, DjangoFett@gmx.net");
