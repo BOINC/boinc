@@ -42,8 +42,6 @@ function get_other_projects($user) {
     if ($cacheddata){
         $remote = unserialize($cacheddata);
     } else {
-        $xml_object = null;
-        $remote = false;
         // Fetch the XML, use curl if fopen() is disallowed
         //
         if (ini_get('allow_url_fopen')) {

@@ -1661,6 +1661,8 @@ vector<string> get_tty_list() {
     return tty_list;
 }
 
+// return true if all ttys inactive since time t
+//
 inline bool all_tty_idle(time_t t) {
     static vector<string> tty_list;
     struct stat sbuf;
@@ -1670,7 +1672,7 @@ inline bool all_tty_idle(time_t t) {
     for (i=0; i<tty_list.size(); i++) {
         // ignore errors
         if (!stat(tty_list[i].c_str(), &sbuf)) {
-            // printf("tty: %s %d %d\n",tty_list[i].c_str(),sbuf.st_atime,t);
+            // printf("tty: %s %d %d\n",tty_list[i].c_str(), sbuf.st_atime, t);
             if (sbuf.st_atime >= t) {
                 return false;
             }

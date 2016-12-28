@@ -162,8 +162,13 @@ int ACCT_MGR_OP::do_rpc(
             "      <detach_when_done>%d</detach_when_done>\n"
             "      <ended>%d</ended>\n"
             "      <resource_share>%f</resource_share>\n"
-            "      <rec>%f</rec>\n"
-            "      <rec_time>%f</rec_time>\n"
+            "      <cpu_ec>%f</cpu_ec>\n"
+            "      <cpu_time>%f</cpu_time>\n"
+            "      <gpu_ec>%f</gpu_ec>\n"
+            "      <gpu_time>%f</gpu_time>\n"
+            "      <njobs_success>%d</njobs_success>\n"
+            "      <njobs_error>%d</njobs_error>\n"
+            "      <usable_gpu>%d</usable_gpu>\n"
             "   </project>\n",
             p->master_url,
             p->project_name,
@@ -177,8 +182,13 @@ int ACCT_MGR_OP::do_rpc(
             p->detach_when_done?1:0,
             p->ended?1:0,
             p->resource_share,
-            p->pwf.rec,
-            p->pwf.rec_time
+            p->cpu_ec,
+            p->cpu_time,
+            p->gpu_ec,
+            p->gpu_time,
+            p->njobs_success,
+            p->njobs_error,
+            coprocs.n_rsc>1?1:0
         );
     }
     MIOFILE mf;

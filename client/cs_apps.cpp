@@ -44,7 +44,8 @@
 
 using std::vector;
 
-// clean up after finished apps
+// Clean up after finished apps.
+// Called every second from the main polling loop.
 //
 bool CLIENT_STATE::handle_finished_apps() {
     ACTIVE_TASK* atp;
