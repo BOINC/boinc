@@ -28,7 +28,8 @@
 // manage_privileges revoke userid {appname|all}
 // manage_privileges list
 //
-// grant/revoke the "manage" privileges for the given app (or all apps).
+// grant/revoke the "manage" privileges for the given app (or all apps),
+// or list all privileges
 
 error_reporting(E_ALL);
 ini_set('display_errors', true);

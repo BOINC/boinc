@@ -119,18 +119,13 @@ echo"</user>
 ";
 }
 
-function show_team_member($user, $show_email, $creditonly = false) {
+function show_team_member($user, $creditonly = false) {
     if ($creditonly && !$user->total_credit) { return; }
     $cpid = md5($user->cross_project_id.$user->email_addr);
     echo "<user>
     <id>$user->id</id>
     <cpid>$cpid</cpid>
-";
-    if ($show_email && $user->send_email) {
-        echo "    <email_addr>$user->email_addr</email_addr>
-";
-    }
-    echo "    <total_credit>$user->total_credit</total_credit>";
+    <total_credit>$user->total_credit</total_credit>";
     if (!$creditonly) {
         echo "    <create_time>$user->create_time</create_time>
     <name>".htmlspecialchars($user->name)."</name>

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2016 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -21,6 +21,7 @@
 
 #ifdef __APPLE__
 #include "mac/MacGUI.pch"
+#include "mac_util.h"
 #endif
 
 #include "stdwx.h"
@@ -1602,22 +1603,12 @@ void CAdvancedFrame::OnLaunchNewInstance(wxCommandEvent& WXUNUSED(event)) {
         prog
     );
 #else
-    char s[512];
-    unsigned char procName[256];
-    ProcessSerialNumber myPSN;
-    GetCurrentProcess(&myPSN);
-    ProcessInfoRec pInfo;
-    OSStatus err;
-    
-    memset(&pInfo, 0, sizeof(pInfo));
-    pInfo.processInfoLength = sizeof( ProcessInfoRec );
-    pInfo.processName = procName;
-    err = GetProcessInformation(&myPSN, &pInfo);
-    if (!err) {
-        procName[procName[0]+1] = '\0'; // Convert pascal string to C string
-        snprintf(s, sizeof(s), "open -n \"/Applications/%s.app\" --args --multiple", procName+1);
-        system(s);
-    }
+    char s[MAXPATHLEN];
+    char path[MAXPATHLEN];
+
+    getPathToThisApp(path, sizeof(path));
+    snprintf(s, sizeof(s), "open -n \"%s\" --args --multiple", path);
+    system(s);
 #endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnLaunchNewInstance - Function End"));

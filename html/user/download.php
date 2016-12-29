@@ -27,7 +27,7 @@ require_once("../inc/util.inc");
 // and optionally download the appropriate installer,
 //
 function concierge_url($user, $download) {
-    $master_url = parse_config(get_config(), "<master_url>");
+    global $master_url;
     $project_name = parse_config(get_config(), "<long_name>");
     $project_desc = parse_config(get_config(), "<project_desc>");
     $project_inst = parse_config(get_config(), "<project_inst>");

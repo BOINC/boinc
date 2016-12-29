@@ -445,8 +445,10 @@ then
 fi
 
 dnl ---------- libcurl (m4/libcurl.m4) ------------------------------
-dnl curl is needed for libraries and those are needed by everything else
+dnl curl is needed for client
 
+if [[ "x${enable_client}" = "xyes" ]]
+then
 LIBCURL_CHECK_CONFIG([yes], [7.17.1], [haveCurl=yes], [haveCurl=no])
 
 if test "${haveCurl}" != yes; then
@@ -475,6 +477,7 @@ else
       echo "LDFLAGS = ${LDFLAGS}"
    fi
    BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${LIBCURL}"
+fi
 fi
 
 if test "x${found_ssl}" = "xyes"; then

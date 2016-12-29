@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2016 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -23,6 +23,7 @@
 #include <Carbon/Carbon.h>
 #include "filesys.h"
 #include "util.h"
+#include "mac_util.h"
 #if (defined(SANDBOX) && defined(_DEBUG))
 #include "SetupSecurity.h"
 #endif
@@ -53,50 +54,6 @@
 
 
 bool s_bSkipExitConfirmation = false;
-
-
-#ifdef __WXMAC__
-
-// Set s_bSkipExitConfirmation to true if cancelled because of logging out or shutting down
-OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon ) {
-    DescType            senderType;
-    Size                actualSize;
-    ProcessSerialNumber SenderPSN;
-    ProcessInfoRec      pInfo;
-    FSSpec              fileSpec;
-    OSStatus            anErr;
-
-    // Refuse to quit if a modal dialog is open.  
-    // Unfortunately, I know of no way to disable the Quit item in our Dock menu
-    if (wxGetApp().IsModalDialogDisplayed()) {
-        SysBeep(4);
-        return userCanceledErr;
-    }
-    
-    anErr = AEGetAttributePtr(appleEvt, keyAddressAttr, typeProcessSerialNumber,
-                                &senderType, &SenderPSN, sizeof(SenderPSN), &actualSize);
-
-    if (anErr == noErr) {
-        pInfo.processInfoLength = sizeof( ProcessInfoRec );
-        pInfo.processName = NULL;
-        pInfo.processAppSpec = &fileSpec;
-
-        anErr = GetProcessInformation(&SenderPSN, &pInfo);
-
-        // Consider a Quit command from our Dock menu as coming from this application
-        if ( (pInfo.processSignature != 'dock') && (pInfo.processSignature != 'BNC!') ) {
-            s_bSkipExitConfirmation = true; // Not from our app, our dock icon or our taskbar icon
-            // The following may no longer be needed under wxCocoa-3.0.0
-            wxGetApp().ExitMainLoop();  // Prevents wxMac from issuing events to closed frames
-        }
-    }
-    
-    wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED, wxID_EXIT);
-    wxGetApp().GetFrame()->GetEventHandler()->AddPendingEvent(evt);
-    return noErr;
-}
-
-#endif
 
 
 DEFINE_EVENT_TYPE(wxEVT_RPC_FINISHED)
@@ -172,8 +129,6 @@ bool CBOINCGUIApp::OnInit() {
     wxSystemOptions::SetOption(wxT("msw.staticbox.optimized-paint"), 0);
 #endif
 #ifdef __WXMAC__
-    bool launchedFromLogin = false;
-    
     // In wxMac-2.8.7, default wxListCtrl::RefreshItem() does not work
     // so use traditional generic implementation.
     // This has been fixed in wxMac-2.8.8, but the Mac native implementation:
@@ -183,9 +138,6 @@ bool CBOINCGUIApp::OnInit() {
     wxSystemOptions::SetOption(wxT("mac.listctrl.always_use_generic"), 1);
 
     AEInstallEventHandler( kCoreEventClass, kAEQuitApplication, NewAEEventHandlerUPP((AEEventHandlerProcPtr)QuitAppleEventHandler), 0, false );
-
-    // Cache the current process serial number
-    GetCurrentProcess(&m_psnCurrentProcess);
 #endif
 
 
@@ -404,31 +356,15 @@ bool CBOINCGUIApp::OnInit() {
 #endif
 
 #ifdef __WXMAC__
-    ProcessSerialNumber psn;
-    ProcessInfoRec pInfo;
-    OSStatus err;
-    
-    memset(&pInfo, 0, sizeof(pInfo));
-    pInfo.processInfoLength = sizeof( ProcessInfoRec );
-    err = GetProcessInformation(&m_psnCurrentProcess, &pInfo);
-    if (!err) {
-        psn = pInfo.processLauncher;
-        memset(&pInfo, 0, sizeof(pInfo));
-        pInfo.processInfoLength = sizeof( ProcessInfoRec );
-        err = GetProcessInformation(&psn, &pInfo);
-    }
-    // Don't open main window if we were started automatically at login
-    if (pInfo.processSignature == 'lgnw') {  // Login Window app
-        launchedFromLogin = true;
-        
-        // Prevent a situation where wxSingleInstanceChecker lock file
-        // from last login auto start (with same pid) was not deleted.
-        // This path must match that in DetectDuplicateInstance()
-        wxString lockFilePath = wxString(wxFileName::GetHomeDir() +
-                                            "/Library/Application Support/BOINC/" +
-                                            wxTheApp->GetAppName() +
-                                            '-' + wxGetUserId()
+    // Prevent a situation where wxSingleInstanceChecker lock file
+    // from last login auto start (with same pid) was not deleted.
+    // This path must match that in DetectDuplicateInstance()
+    wxString lockFilePath = wxString(wxFileName::GetHomeDir() +
+                                        "/Library/Application Support/BOINC/" +
+                                        wxTheApp->GetAppName() +
+                                        '-' + wxGetUserId()
                                         );
+    if (WasFileModifiedBeforeSystemBoot((char *)(const char*)lockFilePath.utf8_str())) {
         boinc_delete_file(lockFilePath.utf8_str());
     }
 #endif
@@ -481,9 +417,12 @@ bool CBOINCGUIApp::OnInit() {
     IdleTrackerAttach();
     
 #ifdef __WXMAC__
-    if (launchedFromLogin) {
-        m_bGUIVisible = false;
+    // Don't open main window if we were started automatically at login
+    // We are launched hidden if started from our login item (except if
+    // we had windows open at logout, the system "restores" them.)
+    m_bGUIVisible = IsApplicationVisible();
 
+    if (getTimeSinceBoot() < 30.) {
         // If the system was just started, we usually get a "Connection
         // failed" error if we try to connect too soon, so delay a bit.
         sleep(10);
@@ -1068,6 +1007,7 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
     wxInt32          iLeft = 0;
     wxInt32          iHeight = 0;
     wxInt32          iWidth = 0;
+    bool             bWindowMaximized = false;
 
 
     // Create the new window
@@ -1081,6 +1021,7 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             m_pConfig->Read(wxT("XPos"), &iLeft, 30);
             m_pConfig->Read(wxT("Width"), &iWidth, 800);
             m_pConfig->Read(wxT("Height"), &iHeight, 600);
+            m_pConfig->Read(wxT("WindowMaximized"), &bWindowMaximized, false);
             // Guard against a rare situation where registry values are zero
             if (iWidth < 50) iWidth = 800;
             if (iHeight < 50) iHeight = 600;
@@ -1187,6 +1128,9 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             }
             if (m_pFrame->IsIconized()) {
                 m_pFrame->Maximize(false);
+            }
+            else if (BOINC_ADVANCEDGUI == iGUISelection && bWindowMaximized) {
+                m_pFrame->Maximize();
             }
             m_pFrame->Raise();
 

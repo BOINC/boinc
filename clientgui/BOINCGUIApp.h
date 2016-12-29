@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2016 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -43,6 +43,9 @@ class CSkinManager;
 class CDlgEventLog;
 class CRPCFinishedEvent;
 
+#ifdef __WXMAC__
+    OSErr               QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
+#endif
 
 class CBOINCGUIApp : public wxApp {
 
@@ -104,11 +107,6 @@ protected:
     bool                m_bAboutDialogIsOpen;
     bool                m_bRunDaemon;  
     bool                m_bNeedRunDaemon;  
-
-#ifdef __WXMAC__
-    ProcessSerialNumber m_psnCurrentProcess;
-#endif
-
 
     // The last value defined in the wxLanguage enum is wxLANGUAGE_USER_DEFINED.
     // defined in: wx/intl.h
@@ -217,6 +215,7 @@ public:
 #ifdef __WXMAC__
     // The following Cocoa routines are in CBOINCGUIApp.mm
     //
+    bool                WasFileModifiedBeforeSystemBoot(char * filePath);
     void                HideThisApp(void);
 
 #if !wxCHECK_VERSION(3,0,1)

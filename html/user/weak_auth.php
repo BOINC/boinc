@@ -19,8 +19,6 @@
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 
-$master_url = parse_config(get_config(), "<master_url>");
-
 $user = get_logged_in_user();
 page_head(tra("Account keys"));
 

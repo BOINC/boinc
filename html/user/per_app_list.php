@@ -63,7 +63,6 @@ function show_header($is_team, $apps, $appid, $is_total) {
 // show a user or team, with their credit for each app
 //
 function show_row($item, $apps, $is_team, $i) {
-    $j = $i % 2;
     if ($is_team) {
         $team = BoincTeam::lookup_id($item->teamid);
         if (!$team) return;
@@ -73,7 +72,7 @@ function show_row($item, $apps, $is_team, $i) {
         if (!$user) return;
         $x= "<td>".user_links($user, BADGE_HEIGHT_MEDIUM)."</td>\n";
     }
-    echo "<tr class=row$j>";
+    echo "<tr>";
     echo "<td>$i</td>\n";
     echo $x;
 
@@ -104,7 +103,7 @@ function show_list($is_team, $appid, $is_total) {
     if (!$appid) {
         $appid = $apps[0]->id;
     }
-    start_table();
+    start_table('table-striped');
     show_header($is_team, $apps, $appid, $is_total);
     $x = $is_total?"total":"expavg";
     if ($is_team) {

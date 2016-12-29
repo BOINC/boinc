@@ -1177,6 +1177,7 @@ void* throttler(void*) {
         double on, off, on_frac = gstate.global_prefs.cpu_usage_limit / 100;
 #if 0
 // sub-second CPU throttling
+// DOESN'T WORK BECAUSE OF 1-SEC API POLL
 #define THROTTLE_PERIOD 1.
         on = THROTTLE_PERIOD * on_frac;
         off = THROTTLE_PERIOD - on;

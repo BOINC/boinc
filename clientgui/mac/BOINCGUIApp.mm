@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2013 University of California
+// Copyright (C) 2016 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,11 +19,16 @@
 
 #include "MacGUI.pch"
 #include "BOINCGUIApp.h"
+#include "BOINCBaseFrame.h"
 #import <Cocoa/Cocoa.h>
 
 #if !wxCHECK_VERSION(3,0,1)
 // This should be fixed after wxCocoa 3.0.0:
 // http://trac.wxwidgets.org/ticket/16156
+
+#ifndef NSEventTypeApplicationDefined
+#define NSEventTypeApplicationDefined NSApplicationDefined
+#endif
 
 // Cocoa routines which are part of CBOINCGUIApp
 // Override standard wxCocoa wxApp::CallOnInit() to allow Manager
@@ -31,7 +36,7 @@
 bool CBOINCGUIApp::CallOnInit() {
         NSAutoreleasePool *mypool = [[NSAutoreleasePool alloc] init];
 
-        NSEvent *event = [NSEvent otherEventWithType:NSApplicationDefined 
+        NSEvent *event = [NSEvent otherEventWithType:NSEventTypeApplicationDefined
                                         location:NSMakePoint(0.0, 0.0) 
                                    modifierFlags:0 
                                        timestamp:0 
@@ -82,6 +87,23 @@ void CBOINCGUIApp::CheckPartialActivation() {
 }
 
 
+// Returns true if file was modified since system was booted, else false
+//
+bool CBOINCGUIApp::WasFileModifiedBeforeSystemBoot(char * filePath) {
+    NSTimeInterval upTime = [[NSProcessInfo processInfo] systemUptime];
+    NSString *path = [NSString stringWithUTF8String:filePath];
+    NSError *error = nil;
+    NSDictionary * attrs = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:&error];
+    if (attrs && !error) { // If file exists, then ...
+        NSDate *fileLastModifiedDate = [attrs fileModificationDate];
+        NSTimeInterval ageOfFile = -[fileLastModifiedDate timeIntervalSinceNow];
+        return (ageOfFile > upTime);
+    }
+    
+    return false;
+}
+
+
 // HideThisApp() is called from CBOINCGUIApp::ShowApplication(bool)
 // and replaces a call of ShowHideProcess() which is deprecated
 // under OS 10.9.
@@ -112,4 +134,42 @@ void CBOINCGUIApp::ShowApplication(bool bShow) {
     } else {
         [ NSApp hide:NSApp ];
     }
+}
+
+
+extern bool s_bSkipExitConfirmation;
+
+// Set s_bSkipExitConfirmation to true if cancelled because of logging out or shutting down
+//
+OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon ) {
+    DescType            senderType;
+    Size                actualSize;
+    pid_t               senderPid;
+    OSStatus            anErr;
+
+    // Refuse to quit if a modal dialog is open.  
+    // Unfortunately, I know of no way to disable the Quit item in our Dock menu
+    if (wxGetApp().IsModalDialogDisplayed()) {
+        NSBeep();
+        return userCanceledErr;
+    }
+
+    anErr = AEGetAttributePtr(appleEvt, keySenderPIDAttr, typeSInt32,
+                                &senderType, &senderPid, sizeof(senderPid), &actualSize);
+    if (anErr == noErr) {
+        NSString * bundleID = [[NSRunningApplication runningApplicationWithProcessIdentifier:senderPid] bundleIdentifier];
+        // Consider a Quit command from our Dock menu as coming from this application
+        if (bundleID) {
+            if (([bundleID compare:@"com.apple.dock"] != NSOrderedSame)
+                    && ([bundleID compare:@"edu.berkeley.boinc"] != NSOrderedSame)) {
+                s_bSkipExitConfirmation = true; // Not from our app, our dock icon or our taskbar icon
+                // The following may no longer be needed under wxCocoa-3.0.0
+                wxGetApp().ExitMainLoop();  // Prevents wxMac from issuing events to closed frames
+            }
+        }
+    }
+    
+    wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED, wxID_EXIT);
+    wxGetApp().GetFrame()->GetEventHandler()->AddPendingEvent(evt);
+    return noErr;
 }

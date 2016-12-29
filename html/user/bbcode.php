@@ -42,6 +42,7 @@ row2_plain("[img]http://example.com/pic.jpg[/img]", tra("use to display an image
 row2_plain("[code]".tra("Code snippet here")."[/code]", tra("use to display some code"));
 row2_plain("[pre]".tra("Pre-formatted text")."[/pre]", tra("use to display pre-formatted (usually monospaced) text"));
 row2_plain("[list]<br>* ".tra("Item 1")."<br>* ".tra("Item2")."<br>[/list]", "<ul><li>".tra("Item 1")."</li><li>".tra("Item 2")."</li></ul>");
+row2_plain("[list=1]<br>* ".tra("Item 1")."<br>* ".tra("Item2")."<br>[/list]", "<ol><li>".tra("Item 1")."</li><li>".tra("Item 2")."</li></ol>");
 row2_plain(
     "[github]#1392[/github] or [github]ticket:1392[/github]",
     tra("link to an issue on the BOINC Github repository").": <a href=\"https://github.com/BOINC/boinc/issues/1392\">#1392</a>");

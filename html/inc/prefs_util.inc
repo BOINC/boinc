@@ -69,7 +69,7 @@ abstract class PREF {
     function show_cols($prefs) {
         global $venues;
         $this->tooltip_tr();
-        echo "<td class=fieldname>$this->desc</td>";
+        echo "<td class=\"text-right \">$this->desc</td>";
         $tag = $this->tag;
         if (isset($prefs->$tag)) {
             $this->show_value($prefs);
@@ -90,7 +90,7 @@ abstract class PREF {
     //
     function show($prefs) {
         $this->tooltip_tr();
-        echo "<td class=fieldname>$this->desc</td>";
+        echo "<td class=\"text-right \">$this->desc</td>";
         $tag = $this->tag;
         if (isset($prefs->$tag)) {
             $this->show_value($prefs);
@@ -103,10 +103,8 @@ abstract class PREF {
     // show form row
     //
     function show_form_row($prefs, $error) {
-        $tag = $this->tag;
-        $class = isset($error->$tag)?"fieldname_error":"fieldname";
         $this->tooltip_tr();
-        echo "<td class=$class>$this->desc</td>";
+        echo "<td ".NAME_ATTRS.">$this->desc</td>";
         $this->show_form($prefs, $error);
         echo "</tr>\n";
     }
@@ -140,7 +138,7 @@ class PREF_BOOL extends PREF {
         } else {
             $checked = $prefs->$tag;
         }
-        echo "<td class=fieldvalue>"
+        echo "<td ".VALUE_ATTRS.">"
             ."<input type=checkbox name=$this->tag "
             . ($checked?"checked":"")
             ."></td>
@@ -182,11 +180,7 @@ class NUM_SPEC {
     public $scale;
 
     function __construct($suffix, $min, $max, $default, $scale=1, $default2=0) {
-        if (substr($suffix, 0, 1) == "%") {
-            $this->suffix = $suffix;
-        } else {
-            $this->suffix = " $suffix";
-        }
+        $this->suffix = " $suffix";
         $this->min = $min;
         $this->max = $max;
         $this->default = $default;
@@ -212,8 +206,8 @@ class NUM_SPEC {
             }
         }
         if ($disabled) $v = "";
-        $i = $id?"id=$id":"";
-        return "<input type=text size=5 name=$tag value='$v' $disabled $i>$this->suffix ";
+        $i = $id?"id=\"$id\"":"";
+        return '<input type="text" size="5" class="form-control input-sm" name="'.$tag.'" value="'.$v."\" $disabled $i> &nbsp; $this->suffix ";
     }
     function form_convert($in, &$out, &$error) {
         $error = false;
@@ -249,8 +243,8 @@ class PREF_NUM extends PREF {
     function show_form($prefs, $error) {
         $tag = $this->tag;
         $had_error = isset($error->$tag);
-        $class = $had_error ?"fieldvalue_error":"fieldvalue";
-        echo "<td class=$class>"
+        $attrs = $had_error ?VALUE_ATTRS_ERR:VALUE_ATTRS;
+        echo "<td $attrs>"
             .$this->num_spec->form_str($tag, $prefs->$tag, $had_error)
             ."</td>
         ";
@@ -330,15 +324,15 @@ class PREF_OPT_NUM extends PREF {
     function show_form($prefs, $error) {
         $tag = $this->tag;
         $had_error = isset($error->$tag);
-        $class = $had_error ?"fieldvalue_error":"fieldvalue";
+        $attrs = $had_error ?VALUE_ATTRS_ERR:VALUE_ATTRS;
         $checkbox_id = $this->tag."_cb";
         $text_id = $this->tag;
         $default = $this->num_spec->get_default();
         $val = $prefs->$tag;
         $c = $val?"checked":"";
         $d = $val?"":"disabled";
-        echo "<td class=$class>"
-            ."<input type=checkbox id=$checkbox_id onClick=\"checkbox_clicked('$checkbox_id', '$text_id', $default)\" $c>"
+        echo "<td $attrs>"
+            ."<input type=checkbox id=$checkbox_id onClick=\"checkbox_clicked('$checkbox_id', '$text_id', $default)\" $c> &nbsp;"
             .$this->num_spec->form_str($tag, $prefs->$tag, $had_error, $d, $text_id)
             ."</td>
         ";
@@ -393,7 +387,7 @@ class PREF_NUM2 extends PREF {
         $tag = $this->tag;
         $tag2 = $this->tag2;
         $had_error = isset($error->$tag) || isset($error->$tag2);
-        $class = $had_error?"fieldvalue_error":"fieldvalue";
+        $attrs = $had_error ?VALUE_ATTRS_ERR:VALUE_ATTRS;
         $checkbox_id = $this->tag."_cb";
         $t1_id = $this->tag."_t1";
         $t2_id = $this->tag."_t2";
@@ -408,8 +402,8 @@ class PREF_NUM2 extends PREF {
         }
         $def1 = $this->num_spec1->get_default();
         $def2 = $this->num_spec2->get_default();
-        echo "<td class=$class>"
-            ."<input type=checkbox id=$checkbox_id onClick=\"checkbox_clicked2('$checkbox_id', '$t1_id', '$t2_id', $def1, $def2)\" $c>"
+        echo "<td $attrs>"
+            ."<input type=checkbox id=$checkbox_id onClick=\"checkbox_clicked2('$checkbox_id', '$t1_id', '$t2_id', $def1, $def2)\" $c> "
             .$this->num_spec1->form_str($tag, $prefs->$tag, $had_error, $d, $t1_id)
             .$this->num_spec2->form_str($tag2, $prefs->$tag2, $had_error, $d, $t2_id)
             ."</td>
@@ -448,12 +442,12 @@ class PREF_NUM2 extends PREF {
 
 function hour_select($x, $name, $id, $d) {
     $s = "";
-    $s = $s. "<select name=$name id=$id $d>\n";
+    $s .= "<select class=\"selectbox form-control input-sm\" name=$name id=$id $d>\n";
     for ($i=0; $i<24; $i++) {
         $sel = ($x == $i)?"selected":"";
-        $s = $s."<option value=$i $sel> $i:00";
+        $s .= "<option value=$i $sel> $i:00";
     }
-    $s = $s."</select>\n";
+    $s .= "</select>\n";
     return $s;
 }
 
@@ -492,13 +486,13 @@ class PREF_HOUR_RANGE extends PREF {
             $c = "checked";
             $d = "";
         }
-        echo "<td class=fieldvalue>"
-            ."<input type=checkbox id=$checkbox_id onClick=\"checkbox_clicked2('$checkbox_id', '$t1_id', '$t2_id', 0, 23)\" $c>"
+        echo "<td ".VALUE_ATTRS.">"
+            ."<input type=checkbox id=$checkbox_id onClick=\"checkbox_clicked2('$checkbox_id', '$t1_id', '$t2_id', 0, 23)\" $c> &nbsp; "
 
             .hour_select($prefs->$tag, $tag, $t1_id, $d)
-            ." "
+            ." &nbsp; "
             .tra("and")
-            ." "
+            ." &nbsp; "
             .hour_select($prefs->$tag2, $tag2, $t2_id, $d)
             ."
         ";
@@ -537,22 +531,18 @@ class PREF_HOUR_RANGE extends PREF {
     }
 }
 
-////////////////////////////////////////////
+// display preference subsets as columns
 //
-// display preference subsets as Columns
-//
-function row_top($x, $ncols=6, $class="heading") {
-    echo "<tr><th class=$class width=35%>$x</th>";
-    echo "<th class=$class width=10%><b>".tra("Default")."</b></th>
-        <th class=$class width=10%><b>".tra("Home")."</b></th>
-        <th class=$class width=10%><b>".tra("School")."</b></th>
-        <th class=$class width=10%><b>".tra("Work")."</b></th>
+function row_top($x) {
+    echo "<tr class=\"bg-primary\"><th width=35%>$x</th>";
+    echo "<th ><b>".tra("Default")."</b></th>
+        <th ><b>".tra("Home")."</b></th>
+        <th ><b>".tra("School")."</b></th>
+        <th ><b>".tra("Work")."</b></th>
     ";
-    //echo "<th width=15%><br></th>
     echo "</tr>\n";
 }
 
-//
 // row_defs - Display a value for all 4 venues in one row
 //
 function row_defs($pre, $item, $post, $type, $prefs, $tooltip=null) {
@@ -566,7 +556,7 @@ function row_defs($pre, $item, $post, $type, $prefs, $tooltip=null) {
     } else {
         echo "<tr>";
     }
-    echo "<td class=fieldname>$pre</td>";
+    echo "<td ".NAME_ATTRS.">$pre</td>";
     row_field($gen,  $type);
     row_field($hom,  $type);
     row_field($schl, $type);
@@ -578,7 +568,7 @@ function row_defs($pre, $item, $post, $type, $prefs, $tooltip=null) {
 // row_field - Display each field value, with selectable display modes
 //
 function row_field($value, $type) {
-    echo "<td class=f_val valign=top>";
+    echo "<td>";
     $type = $value === "--" ? "--" : $type;
     switch($type) {
     case "yesno":
@@ -624,7 +614,7 @@ function row_links($subset, $prefs) {
     $schl = isset($prefs->school) ? $pre_edit."school".$post_edit : $pre_add."school".$post_add;
     $wrk  = isset($prefs->work) ? $pre_edit."work".$post_edit : $pre_add."work".$post_add;
 
-    echo "<tr><td class=fieldname> </td>";
+    echo "<tr><td class=\"text-right \"> </td>";
     echo "<td>$gen</td>";
     echo "<td>$hom</td>";
     echo "<td>$schl</td>";
@@ -635,7 +625,7 @@ function row_links($subset, $prefs) {
     $schl = isset($prefs->school) ? $pre_remove."school".$post_remove : "<br>";
     $wrk  = isset($prefs->work) ? $pre_remove."work".$post_remove : "<br>";
 
-    echo "<tr><td class=fieldname> </td>";
+    echo "<tr><td class=\"text-right \"> </td>";
     echo "<td> </td>";
     echo "<td>$hom</td>";
     echo "<td>$schl</td>";

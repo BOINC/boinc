@@ -68,19 +68,25 @@ if ($team->ping_user != 0) {
     echo tra("No transfer request is pending.")."<br /><br />";
 }
 
-echo tra("To assign foundership of this team to another member, check the box next to member name and click <strong>Change founder</strong> below.")
+echo tra("To assign foundership of this team to another member, check the box next to member name and click %1Change founder%2 below.", '<strong>', '</strong>')
     ."<form method=post action=team_change_founder_action.php>
-    <input type=hidden name=teamid value=$team->id>";
+    <input type=hidden name=teamid value=$team->id>
+";
 echo form_tokens($user->authenticator);
+echo "<p></p>";
 
 start_table();
-echo "<tr>
-    <th>".tra("New founder?")."</th>
-    <th>".tra("Name")."</th>
-    <th>".tra("Total credit")."</th>
-    <th>".tra("Recent average credit")."</th>
-    </tr>
-";
+row_heading_array(
+    array(
+        tra("New founder?"),
+        tra("Name"),
+        tra("Total credit"),
+        tra("Recent average credit"),
+    ),
+    array(
+        null, null, ALIGN_RIGHT, ALIGN_RIGHT
+    )
+);
 
 $users = BoincUser::enum("teamid=$team->id");
 
@@ -92,7 +98,7 @@ foreach ($users as $user) {
         $selected = ($user->id == $team->ping_user)?"selected":"";
         echo '
             <tr>
-            <td align="center"><input type="radio" name="userid" value="'.$user->id.'">
+            <td><input type="radio" name="userid" value="'.$user->id.'">
             <td>'.$user->name.'</td>
             <td align=right>'.$user_total_credit.'</td>
             <td align=right>'.$user_expavg_credit.'</td>
@@ -104,7 +110,7 @@ foreach ($users as $user) {
 if ($navailable_users > 0) {
     echo "<input type=hidden name=navailable_users value=$navailable_users>";
     end_table();
-    echo "<input class=\"btn btn-default\" type=submit value=\"".tra("Change founder")."\">";
+    echo "<input class=\"btn btn-success\" type=submit value=\"".tra("Change founder")."\">";
 } else {
     echo "<tr>
         <td colspan='4'>".tra("There are no users to transfer team to.")."</td>

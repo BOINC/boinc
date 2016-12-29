@@ -54,7 +54,7 @@ case 'lock':
         tra("Select the reason category, or write a longer description of why you're hiding or locking the thread; then press OK.")
     );
     row2(tra("Category"),
-        "<select name=\"category\">
+        "<select class=\"form-control\" name=\"category\">
         <option value=\"1\">".tra("Obscene")."</option>
         <option value=\"2\">".tra("Flame/Hate mail")."</option>
         <option value=\"3\">".tra("Commercial spam")."</option>
@@ -65,7 +65,7 @@ case 'lock':
 case 'move':
     if ($forum->parent_type != 0) error_page("Nope");
     echo "<input type=hidden name=action value=move>";
-    $selectbox = '<select name="forumid">';  
+    $selectbox = '<select class="form-control" name="forumid">';  
     $categories = BoincCategory::enum();
     foreach ($categories as $category) {
         $forums = BoincForum::enum("category=$category->id");
@@ -98,7 +98,7 @@ default:
 
 if ($get_reason) {
     row2(tra("Reason")."<br><p class=\"text-muted\">".tra("Mailed if nonempty")."</p>",
-        "<textarea rows=10 cols=80 name=\"reason\"></textarea>"
+        '<textarea rows="10" class="form-control" name="reason"></textarea>'
     );
 
     row2(

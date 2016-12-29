@@ -48,7 +48,8 @@ if ($user->total_credit<$forum->rate_min_total_credit || $user->expavg_credit<$f
     error_page(tra("You need more average or total credit to report a post."));
 }
 
-//__-------------- Action part
+// Action part
+//
 $success_page=0;
 if (get_str("submit",true)){
     check_tokens($user->authenticator);
@@ -63,7 +64,8 @@ if (get_str("submit",true)){
 
 $no_forum_rating = parse_bool(get_config(), "no_forum_rating");
 
-//__--------------- Display part
+// Display part
+//
 if ($success_page==1) {
     page_head(tra("Report Registered"));
     echo tra("Your report has been recorded. Thanks for your input.")."<p>"
@@ -76,19 +78,28 @@ if ($success_page==1) {
         echo "<p>".tra("Before reporting this post, consider using the +/- rating system instead. If enough users rate a post negatively it will eventually be hidden.<br />You can find the rating system at the bottom of the post.")."</p>
         ";
     }
-    start_forum_table(array(tra("Author"), tra("Message"),""));
-    show_post($post, $thread, $forum, $user, 0, 0);
     echo "<form action=\"forum_report_post.php\" method=\"get\">\n";
     echo form_tokens($user->authenticator);
-    row1(tra("Report post"));
-    row2(tra("Why do you find the post offensive: %1Please include enough information so that a person that
-has not yet read the thread will quickly be able to identify the issue.%2", "<small>", "</small>"),
-        "<textarea name=\"reason\" rows=12 cols=54></textarea>"
-    );
-    row2("", "<input class=\"btn btn-default\" type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">");
     echo "<input type=\"hidden\" name=\"post\" value=\"".$post->id."\">";
-    echo "</form>";
+
+    start_table('table-striped');
+    echo "<tr><th width=20% class=\"bg-primary\">".tra("Author")."</th>
+        <th class=\"bg-primary\">".tra("Message")."</th></tr>
+    ";
+    show_post($post, $thread, $forum, $user, 0);
+    row1(tra("Report post"));
+    echo "<tr><td>
+    ";
+    echo tra("Why do you find the post offensive: %1Please include enough information so that a person that has not yet read the thread will quickly be able to identify the issue.%2", "<p><small>", "</small>");
+    echo '</td><td>
+        <textarea name="reason" rows="12" class="form-control"></textarea>
+        </td></tr>
+        <tr><td></td><td>
+    ';
+    echo "<input class=\"btn btn-primary\" type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">";
+    echo "</td></tr>";
     end_table();
+    echo "</form>";
 } elseif ($success_page==-1) {
     page_head(tra("Report not registered"));
     echo "<p>".tra("Your report could not be recorded. Please wait a while and try again.")."</p>

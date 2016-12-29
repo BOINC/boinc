@@ -171,6 +171,9 @@ int COPROC::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
+// return a string, to be stored in host.serialnum,
+// describing the host's coprocessors
+//
 void COPROCS::summary_string(char* buf, int len) {
     char buf2[1024];
 
@@ -204,6 +207,9 @@ void COPROCS::summary_string(char* buf, int len) {
         );
         strlcat(buf, buf2, len);
     }
+
+    // add OpenCL devices other than nvidia/amd/intel
+    //
     for (int i=1; i<n_rsc; i++) {
         COPROC& cp = coprocs[i];
         int type = coproc_type_name_to_num(cp.type);

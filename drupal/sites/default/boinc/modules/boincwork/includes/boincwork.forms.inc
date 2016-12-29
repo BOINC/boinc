@@ -55,9 +55,8 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
       $mod_time = $prefs['mod_time']['@value'];
   }
 
-  if ($established) {
-      // Define form defaults
-      switch($prefs_preset) {
+  if (isset($form_state['storage']['wip'])) {
+      switch ($prefs_preset) {
       case 'standard':
       case 'maximum':
       case 'green':
@@ -67,14 +66,21 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
       case 'custom':
       default:
           // Just keeps prefs as they are
-          $prefs_preset = 'custom';
           unset($prefs['preset']);
+          break;
       }// switch
   } else {
-      $prefs_preset = 'standard';
-      $prefs = boincwork_get_preset_prefs($prefs_preset);
-  }// if $established
-
+      $form_state['storage']['wip'] = TRUE;
+      if ( !in_array($prefs_preset, array('standard','maximum','green','minimum','custom')) ) {
+          if ($established) {
+              $prefs_preset = 'custom';
+          } else {
+              $prefs_preset = 'standard';
+              $prefs = boincwork_get_preset_prefs($prefs_preset);
+          }// if $established
+      }// if $prefs_preset
+  }// if WIP
+  
   // This set of preferences is used in the form if no preferences
   // have been set above, in variable $prefs.
   require_boinc(array('db', 'prefs'));
@@ -524,7 +530,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     '#suffix' => '</li>'
   );
   $form['prefs']['form control tabs'] = array(
-    '#value' => '<li class="tab">' . l(bts('Cancel'), $_GET['q']) . '</li>'
+    '#value' => '<li class="tab">' . l(bts('Cancel'), drupal_get_path_alias("account/prefs/computing/edit")) . '</li>'
   );
   if ($venue AND $venue != 'generic') {
     global $base_path;

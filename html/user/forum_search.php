@@ -43,7 +43,7 @@ row2(tra("Search for author ID:")."<br />
 row1(tra("Search options"));
 row2(tra("Search limits")."<br />
     <small>".tra("Search at most this many days back in time")."</small>",
-    "<select name=\"search_max_time\">
+    "<select class=\"form-control\" name=\"search_max_time\">
     <option value=\"1\">".tra("1 day")."</option>
     <option value=\"3\">".tra("%1 days", "3")."</option>
     <option value=\"7\">".tra("%1 days", "7")."</option>
@@ -73,7 +73,7 @@ foreach ($categories as $category) {
 }
 row2(tra("Forum")."<br />
     <small>".tra("Only display posts from this forum")."</small>",
-    '<select name="search_forum">'.$forumlist.'</select');
+    '<select class="form-control" name="search_forum">'.$forumlist.'</select');
 
 $sortlist = null;
 foreach ($thread_sort_styles as $id => $style){
@@ -84,7 +84,7 @@ foreach ($thread_sort_styles as $id => $style){
     }
 }
 row2(tra("Sort by"), 
-    '<select name="search_sort">'.$sortlist.'</select');
+    '<select class="form-control" name="search_sort">'.$sortlist.'</select');
 
 row1("&nbsp;");
 row2("","<input class=\"btn btn-default\" type=\"submit\" value=\"".tra("Start the search")."\">");

@@ -595,8 +595,8 @@ void CWizardAttach::_ProcessCancelEvent( wxWizardExEvent& event ) {
     );
 
     // Reenable the next and back buttons if they have been disabled
-    GetNextButton()->Enable();
-    GetBackButton()->Enable();
+    GetNextButton()->Enable(HasNextPage(page));
+    GetBackButton()->Enable(HasPrevPage(page));
 
     // Generic rules
     bCancelWithoutNextPage |= (page == m_ErrNotDetectedPage);

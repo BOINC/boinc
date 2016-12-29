@@ -51,6 +51,7 @@ function forum_access_schema() {
       'rid'           => array(
         'description' => 'The {role}.rid to which this {forum_access} entry applies.',
         'type'        => 'int',
+        'unsigned'    => TRUE,
         'not null'    => TRUE,
         'default'     => 0),
       'grant_view'    => array(
@@ -76,6 +77,13 @@ function forum_access_schema() {
         'default'     => 0),
       'grant_create'  => array(
         'description' => 'Whether to grant "create" permission.',
+        'type'        => 'int',
+        'size'        => 'tiny',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+        'default'     => 0),
+      'grant_comment_create'  => array(
+        'description' => 'Whether to grant "comment create" permission.',
         'type'        => 'int',
         'size'        => 'tiny',
         'unsigned'    => TRUE,
@@ -346,3 +354,26 @@ function forum_access_update_6108() {
   return $ret;
 }
 
+/** 
+ * Add support for 'comment' permission, #545916 backport.
+ */
+function forum_access_update_6109() {
+  $res = array();
+  $spec = array(
+      'description' => 'Whether to grant "comment_create" permission.',
+      'type'        => 'int',
+      'size'        => 'tiny',
+      'unsigned'    => TRUE,
+      'not null'    => TRUE,
+      'default'     => 0,
+    );
+  db_add_field($res, 'forum_access', 'grant_comment_create', $spec);
+
+  /*
+   * In previous versions of forum_access, the ability to comment was
+   * given to anyone with the ability to post('create') a new forum
+   * topic.
+   */
+  db_query("UPDATE forum_access SET grant_comment_create=grant_create");
+  return $result;
+}

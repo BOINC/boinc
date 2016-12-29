@@ -5,14 +5,14 @@
 # Translators:
 # Attila Fenyvesi <fenya25@gmail.com>, 2015
 # fischer braun <fischer.braun@gmx.net>, 2015
-# Gabor Cseh <csega@mailbox.hu>, 2015
+# Gabor Cseh <csega@mailbox.hu>, 2015-2016
 # misibacsi, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2016-02-08 09:37+0000\n"
+"PO-Revision-Date: 2016-02-08 09:39+0000\n"
 "Last-Translator: Gabor Cseh <csega@mailbox.hu>\n"
 "Language-Team: Hungarian (http://www.transifex.com/boinc/boinc/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -44,12 +44,12 @@ msgid ""
 "Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
 "\n"
 "Do you also want non-administrative users to be able to run and control %s on this Mac?"
-msgstr "A felhasználók, akik ezen számítógépen adminisztrátori jogosultsággal rendelkeznek automatikusan engedélyt kapnak a %s futtatására és vezérlésére.\n\nSzeretnéd, hogy a nem adminisztrátori jogú felhasználók is futtathassák és vezéreljék %s-t ezen a Mac-en?"
+msgstr "A felhasználók, akik ezen számítógépen adminisztrátori jogosultsággal rendelkeznek, automatikusan engedélyt kapnak a %s futtatására és vezérlésére.\n\nSzeretnéd, hogy a nem adminisztrátori jogú felhasználók is futtathassák és vezéreljék %s-t ezen a Mac-en?"
 
 #: PostInstall.cpp:1444
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
-msgstr "Akarja beállítani %s-t képernyővédőnek minden %s felhasználó számára ezen a Mac-en?"
+msgstr "Be akarod állítani %s-t képernyővédőnek minden %s felhasználó számára ezen a Mac-en?"
 
 #: uninstall.cpp:82
 msgid "OK"

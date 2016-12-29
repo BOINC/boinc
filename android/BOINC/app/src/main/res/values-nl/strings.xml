@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!--app global-->
+  <string name="app_name">BOINC</string>
+  <!--generic. used by multiple Activities/tabs-->
+  <string name="generic_loading">Bezig met laden! Even geduld...</string>
+  <string name="generic_button_continue">Ga verder</string>
+  <string name="generic_button_finish">Voltooien</string>
+  <!--attach project-->
+  <!--selection list-->
+  <string name="attachproject_list_desc">Selecteer wetenschappelijke projecten om aan deel te nemen:</string>
+  <string name="attachproject_list_header">Kies een project:</string>
+  <string name="attachproject_list_manual_button">Project toevoegen via URL</string>
+  <string name="attachproject_list_manual_dialog_title">Projectspecifieke URL invoeren:</string>
+  <string name="attachproject_list_manual_dialog_button">Project toevoegen</string>
+  <string name="attachproject_list_manual_no_url">Projectspecifieke URL invoeren</string>
+  <string name="attachproject_list_acctmgr_button">Accountmanager toevoegen</string>
+  <string name="attachproject_list_no_internet">Geen internetverbinding</string>
+  <!--credential input-->
+  <string name="attachproject_credential_input_sing_desc">Vul account informatie in</string>
+  <string name="attachproject_credential_input_desc">Vul account informatie in voor geselecteerde projecten:</string>
+  <string name="attachproject_credential_input_show_pwd">Laat wachtwoord zien</string>
+  <string name="attachproject_individual_credential_input">Voeg projecten apart toe</string>
+  <!--conflicts-->
+  <string name="attachproject_conflicts_desc">Er zijn problemen met toevoegen van volgende projecten:</string>
+  <string name="attachproject_conflict_undefined">Verbinding mislukt</string>
+  <string name="attachproject_conflict_not_unique">Account bestaat met ander wachtwoord</string>
+  <string name="attachproject_conflict_bad_password">Foutief wachtwoord</string>
+  <string name="attachproject_conflict_unknown_user">Account bestaat niet</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">Account bestaat niet, bezoek projectwebsite om te registreren</string>
+  <!--working-->
+  <string name="attachproject_working_attaching">Toevoegen</string>
+  <!--e.g. Attaching Einstein@Home-->
+  <!--hints-->
+  <string name="attachproject_hints_header">Hint</string>
+  <!--e.g. Hint 1/2-->
+  <string name="attachproject_hint_contribtion_header">Hoe deel te nemen;</string>
+  <string name="attachproject_hint_contribtion_wifi">1. Verbind met WIFI</string>
+  <string name="attachproject_hint_contribtion_charger">2. Oplader aansluiten</string>
+  <string name="attachproject_hint_contribtion_screen">3. Scherm uitzetten</string>
+  <string name="attachproject_hint_projectwebsite_header">Bezoek project website om:</string>
+  <string name="attachproject_hint_projectwebsite_science">Leer meer over de wetenschap</string>
+  <string name="attachproject_hint_projectwebsite_stats">Bekijk de gebruikers statistieken</string>
+  <string name="attachproject_hint_projectwebsite_community">In contact te komen met andere vrijwiligers</string>
+  <string name="attachproject_hint_platforms_header">BOINC is ook beschikbaar voor je computer of laptop, bezoek boinc.berkeley.edu voor meer informatie.</string>
+  <!--project login-->
+  <string name="attachproject_login_loading">Verbinding maken met projectspecifieke server...</string>
+  <string name="attachproject_login_image_description">Project logo.</string>
+  <string name="attachproject_login_header_general_area">Vakgebied:</string>
+  <string name="attachproject_login_header_specific_area">Specifiek vakgebied:</string>
+  <string name="attachproject_login_header_description">Omschrijving:</string>
+  <string name="attachproject_login_header_home">Start:</string>
+  <string name="attachproject_login_header_url">Website:</string>
+  <string name="attachproject_login_header_platform">Android:</string>
+  <string name="attachproject_login_platform_supported">Dit project ondersteunt Android-apparaten</string>
+  <string name="attachproject_login_platform_not_supported">Dit project ondersteunt geen Android-apparaten</string>
+  <string name="attachproject_login_category_terms_of_use">Gebruiksvoorwaarden voor</string>
+  <string name="attachproject_login_accept_terms_of_use">Het aanmaken van een account bij dit project impliceert acceptatie van de gebruiksvoorwaarden zoals hierboven beschreven.</string>
+  <string name="attachproject_login_category_login">Aanmeldgegevens van bestaand account gebruiken</string>
+  <string name="attachproject_login_header_id_email">E-mailadres:</string>
+  <string name="attachproject_login_header_id_name">Naam:</string>
+  <string name="attachproject_login_header_pwd">Wachtwoord:</string>
+  <string name="attachproject_login_category_creation">Nieuw bij</string>
+  <string name="attachproject_login_header_creation_enabled">Een account aanmaken voor deelname:</string>
+  <string name="attachproject_login_header_creation_client_disabled">Bezoek projectspecifieke website om een account aan te maken:</string>
+  <string name="attachproject_login_header_creation_disabled">Het project accepteert op dit moment geen nieuwe accounts.</string>
+  <string name="attachproject_login_button_registration">Aanmaken</string>
+  <string name="attachproject_login_button_login">Aanmelden</string>
+  <string name="attachproject_login_button_forgotpw">Wachtwoord Vergeten</string>
+  <string name="attachproject_login_error_toast">Verbinding met het project mislukt!</string>
+  <string name="attachproject_login_attached">Bijgevoegd</string>
+  <!--project registration-->
+  <string name="attachproject_registration_header">Account-registratie voor</string>
+  <string name="attachproject_registration_header_url">Project:</string>
+  <string name="attachproject_registration_header_email">E-mailadres:</string>
+  <string name="attachproject_registration_header_username">Naam:</string>
+  <string name="attachproject_registration_header_teamname">Team:</string>
+  <string name="attachproject_registration_header_pwd">Wachtwoord:</string>
+  <string name="attachproject_registration_header_pwd_confirm">... Herhalen:</string>
+  <string name="attachproject_registration_button">Aanmaken</string>
+  <!--account manager-->
+  <string name="attachproject_acctmgr_list_desc">Gebruik BOINC account manager om meerdere projecten te onderhouden</string>
+  <string name="attachproject_acctmgr_header">Account manager toevoegen</string>
+  <string name="attachproject_acctmgr_header_url">URL</string>
+  <string name="attachproject_acctmgr_header_name">Gebruiker:</string>
+  <string name="attachproject_acctmgr_header_pwd">Wachtwoord:</string>
+  <string name="attachproject_acctmgr_header_pwd_confirm">... Herhalen:</string>
+  <string name="attachproject_acctmgr_button">Toevoegen</string>
+  <!--error strings-->
+  <string name="attachproject_error_wrong_name">Gebruiker niet gevonden</string>
+  <string name="attachproject_error_short_pwd">Het wachtwoord is te kort</string>
+  <string name="attachproject_error_no_internet">Verbinding mislukt</string>
+  <string name="attachproject_error_pwd_no_match">Wachtwoorden zijn niet identiek</string>
+  <string name="attachproject_error_pwd_no_retype">Vul wachtwoord opnieuw in</string>
+  <string name="attachproject_error_no_url">Vul a.u.b. URL in</string>
+  <string name="attachproject_error_no_email">Voer uw e-mailadres in</string>
+  <string name="attachproject_error_no_pwd">Voer een wachtwoord in</string>
+  <string name="attachproject_error_no_name">Voer gebruikersnaam in</string>
+  <string name="attachproject_error_unknown">mislukt</string>
+  <string name="attachproject_error_bad_username">Gebruikersnaam geweigerd</string>
+  <string name="attachproject_error_email_in_use">E-mailadres is al in gebruik</string>
+  <string name="attachproject_error_project_down">Project is offline</string>
+  <string name="attachproject_error_email_bad_syntax">E-mailadres geweigerd</string>
+  <string name="attachproject_error_bad_pwd">Wachtwoord geweigerd</string>
+  <string name="attachproject_error_creation_disabled">Aanmaken van een account is voor dit project niet mogelijk</string>
+  <string name="attachproject_error_invalid_url">Ongeldig URL</string>
+  <!--working activity-->
+  <string name="attachproject_working_back_button">Vorige</string>
+  <string name="attachproject_working_finish_button">Voltooien</string>
+  <string name="attachproject_working_check_desc">Geslaagd</string>
+  <string name="attachproject_working_failed_desc">Mislukt</string>
+  <string name="attachproject_working_ongoing">...</string>
+  <string name="attachproject_working_finished">.</string>
+  <string name="attachproject_working_description">:</string>
+  <string name="attachproject_working_connect">Verbinden</string>
+  <string name="attachproject_working_verify">Account verifiëren</string>
+  <string name="attachproject_working_register">Account registreren</string>
+  <string name="attachproject_working_login">Aanmelden</string>
+  <string name="attachproject_working_acctmgr">Account manager toevoegen</string>
+  <string name="attachproject_working_acctmgr_sync">Bijwerken</string>
+  <!--main activity-->
+  <string name="main_noproject_warning">Tik hier om een project te kiezen.</string>
+  <string name="main_error">Oeps</string>
+  <string name="main_error_long">...dit hoort niet te gebeuren!\nKlik op het icoontje om het opneuw te proberen.</string>
+  <string name="main_title_icon_desc">BOINC-icoon</string>
+  <!--tab names-->
+  <string name="tab_status">Status</string>
+  <string name="tab_projects">Projecten</string>
+  <string name="tab_tasks">Taken</string>
+  <string name="tab_transfers">Overdrachten</string>
+  <string name="tab_preferences">Voorkeursinstellingen</string>
+  <string name="tab_notices">Berichten</string>
+  <string name="tab_desc">Navigatie</string>
+  <!--status strings-->
+  <string name="status_running">Berekenen</string>
+  <string name="status_running_long">Dank u voor uw deelname.</string>
+  <string name="status_paused">Onderbroken</string>
+  <string name="status_idle">Niets te doen</string>
+  <string name="status_idle_long">Wachten op taaktoewijzing...</string>
+  <string name="status_computing_disabled">Onderbroken</string>
+  <string name="status_computing_disabled_long">Klik op afspelen om de netwerkactiviteit en de berekeningen te hervatten.</string>
+  <string name="status_launching">Opstarten...</string>
+  <string name="status_noproject">Kies een project om aan deel te nemen.</string>
+  <string name="status_closing">Bezig met afsluiten…</string>
+  <string name="status_benchmarking">Bezig met benchmark...</string>
+  <string name="status_image_description">project afbeelding</string>
+  <!--preferences tab strings-->
+  <string name="prefs_loading">Voorkeuren inlezen...</string>
+  <string name="prefs_submit_button">Opslaan</string>
+  <string name="prefs_dialog_title">Voer nieuwe waarde in:</string>
+  <string name="prefs_dialog_title_selection">Selecteer:</string>
+  <string name="prefs_category_general">Algemeen</string>
+  <string name="prefs_category_network">Netwerk</string>
+  <string name="prefs_category_power">Energie</string>
+  <string name="prefs_category_cpu">Processor</string>
+  <string name="prefs_category_storage">Opslag</string>
+  <string name="prefs_category_memory">Geheugen</string>
+  <string name="prefs_category_debug">Foutoplossing</string>
+  <string name="prefs_show_advanced_header">Toon geavanceerde voorkeuren en instellingen...</string>
+  <string name="prefs_suspend_when_screen_on">Pauzeer berekening wanneer scherm ingeschakeld is</string>
+  <string name="prefs_stationary_device_mode_header">Stationaire apparaatmodus</string>
+  <string name="prefs_stationary_device_mode_description">Staat berekening toe ongeacht stroom voorkeuren. Alleen inschakelen als het apparaat niet over een batterij beschikt.</string>
+  <string name="prefs_power_source_header">Stroombronnen voor berekeningen</string>
+  <string name="prefs_power_source_description">Hiermee selecteert u stroombronnen die BOINC mag gebruiken voor berekeningen.</string>
+  <string name="prefs_power_source_ac">Wandcontactdoos</string>
+  <string name="prefs_power_source_usb">USB verbinding</string>
+  <string name="prefs_power_source_wireless">Draadloze oplader</string>
+  <string name="prefs_power_source_battery">Accu</string>
+  <string name="battery_charge_min_pct_header">Min. batterijniveau</string>
+  <string name="battery_charge_min_pct_description">BOINC pauzeert de berekening wanneer de batterijlading onder een gegeven niveau zakt.</string>
+  <string name="battery_temperature_max_header">Max. batterij temperatuur</string>
+  <string name="battery_temperature_max_description">BOINC stopt met bereken boven de aangegeven batterij temperatuur. Het is niet aanbevolen om deze waarde te wijzigen.</string>
+  <string name="prefs_disk_max_pct_header">Max. gebruikte opslagruimte</string>
+  <string name="prefs_disk_max_pct_description">Welk percentage opslagruimte mag BOINC gebruiken op dit apparaat?</string>
+  <string name="prefs_disk_min_free_gb_header">Min. reserve opslagruimte</string>
+  <string name="prefs_disk_min_free_gb_description">Hoeveel van de opslagruimte moet er minimaal vrij blijven?</string>
+  <string name="prefs_disk_access_interval_header">Toegangs interval</string>
+  <string name="prefs_disk_access_interval_description">Suggereert een interval bij schijf gebruik</string>
+  <string name="prefs_network_daily_xfer_limit_mb_header">Dagelijkse overdracht limiet</string>
+  <string name="prefs_network_daily_xfer_limit_mb_description">Beperkt het dagelijkse dataverkeer van BOINC.</string>
+  <string name="prefs_network_wifi_only_header">Taken alleen bijwerken via WiFi</string>
+  <string name="prefs_autostart_header">Autostart</string>
+  <string name="prefs_show_notification_notices_header">Melding weergeven voor nieuwe berichten</string>
+  <string name="prefs_show_notification_suspended_header">Melding weergeven wanneer gepauzeerd</string>
+  <string name="prefs_cpu_number_cpus_header">Gebruikte CPU cores</string>
+  <string name="prefs_cpu_number_cpus_description">Beperkt het aantal gebruikte CPU cores voor BOINC berekeningen.</string>
+  <string name="prefs_cpu_other_load_suspension_header">Pauzeer bij CPU gebruik van meer dan</string>
+  <string name="prefs_cpu_other_load_suspension_description">Bepaald wanneer BOINC pauzeert vanwege CPU gebruik door andere apps.</string>
+  <string name="prefs_cpu_time_max_header">CPU limiet</string>
+  <string name="prefs_cpu_time_max_description">Beperkt de CPU tijd gebruikt door BOINC voor berekeningen.</string>
+  <string name="prefs_memory_max_idle_header">Geheugen limiet</string>
+  <string name="prefs_memory_max_idle_description">Beperkt de gebruikte hoeveelheid geheugen gebruikt door taken.</string>
+  <string name="prefs_client_log_flags_header">BOINC Client log tekens</string>
+  <string name="prefs_gui_log_level_header">GUI log level</string>
+  <string name="prefs_gui_log_level_description">Specificeert uitgebreidheid van GUI log berichten.</string>
+  <string name="prefs_unit_celsius">°C</string>
+  <string name="prefs_unit_seconds">seconden</string>
+  <!--projects tab strings-->
+  <string name="projects_loading">Projecten inlezen...</string>
+  <string name="projects_add">Project toevoegen</string>
+  <string name="projects_icon">Project icoon</string>
+  <string name="projects_credits">Punten:</string>
+  <string name="projects_credits_host_and_user">%1$,d (op dit apparaat) %2$,d (totaal)</string>
+  <!--project status strings-->
+  <string name="projects_status_suspendedviagui">Onderbroken door gebruiker</string>
+  <string name="projects_status_dontrequestmorework">Krijgt geen nieuwe taken</string>
+  <string name="projects_status_ended">Project beëindigd - OK om te verwijderen </string>
+  <string name="projects_status_detachwhendone">Wordt verwijderd als taken klaar zijn</string>
+  <string name="projects_status_schedrpcpending">Bijwerkverzoek in behandeling</string>
+  <string name="projects_status_schedrpcinprogress">Bijwerkverzoek is bezig</string>
+  <string name="projects_status_trickleuppending">Trickle up bericht in behandeling</string>
+  <string name="projects_status_backoff">Communicatie gepland over:</string>
+  <!--project controls-->
+  <string name="projects_control_dialog_title">Project opdrachten:</string>
+  <string name="projects_control_visit_website">Bezoek website</string>
+  <string name="projects_control_update">Bijwerken</string>
+  <string name="projects_control_remove">Verwijderen</string>
+  <string name="projects_control_suspend">Pauzeren</string>
+  <string name="projects_control_resume">Hervatten</string>
+  <string name="projects_control_nonewtasks">Geen nieuwe taken</string>
+  <string name="projects_control_allownewtasks">Nieuwe taken toestaan</string>
+  <string name="projects_control_reset">Resetten</string>
+  <string name="projects_control_dialog_title_acctmgr">Accountmanager opdrachten:</string>
+  <string name="projects_control_sync_acctmgr">Bijwerken</string>
+  <string name="projects_control_remove_acctmgr">Uitzetten</string>
+  <!--project confirm dialog-->
+  <string name="projects_confirm_detach_title">Project verwijderen?</string>
+  <string name="projects_confirm_detach_message">Weet je zeker dat je</string>
+  <string name="projects_confirm_detach_message2">uit BOINC wilt verwijderen?</string>
+  <string name="projects_confirm_detach_confirm">Verwijderen</string>
+  <string name="projects_confirm_reset_title">Project resetten</string>
+  <string name="projects_confirm_reset_message">Weet je zeker dat je</string>
+  <string name="projects_confirm_reset_message2">\?</string>
+  <string name="projects_confirm_reset_confirm">Resetten</string>
+  <string name="projects_confirm_remove_acctmgr_title">Accountmanager uitzetten</string>
+  <string name="projects_confirm_remove_acctmgr_message">Weet je zeker dat je wilt stoppen met het gebruik van</string>
+  <string name="projects_confirm_remove_acctmgr_message2">\?</string>
+  <string name="projects_confirm_remove_acctmgr_confirm">Uitzetten</string>
+  <!--tasks tab strings-->
+  <string name="tasks_header_name">Taaknaam:</string>
+  <string name="tasks_header_elapsed_time">Verstreken tijd: </string>
+  <string name="tasks_header_project_paused">(onderbroken)</string>
+  <string name="tasks_header_deadline">Deadline:</string>
+  <string name="tasks_result_new">nieuw</string>
+  <string name="tasks_result_files_downloading">wacht op downloaden</string>
+  <string name="tasks_result_files_downloaded">downloaden voltooid</string>
+  <string name="tasks_result_compute_error">verwerkingsfout</string>
+  <string name="tasks_result_files_uploading">uploaden</string>
+  <string name="tasks_result_files_uploaded">uploaden voltooid</string>
+  <string name="tasks_result_aborted">afgebroken</string>
+  <string name="tasks_result_upload_failed">uploaden mislukt</string>
+  <string name="tasks_active_uninitialized">voltooid</string>
+  <string name="tasks_active_executing">loopt</string>
+  <string name="tasks_active_suspended">onderbroken</string>
+  <string name="tasks_active_abort_pending">onderbreken</string>
+  <string name="tasks_active_quit_pending">onderbreken</string>
+  <string name="tasks_custom_suspended_via_gui">onderbroken</string>
+  <string name="tasks_custom_project_suspended_via_gui">project onderbroken</string>
+  <string name="tasks_custom_ready_to_report">klaar om te rapporteren</string>
+  <!--confirmation dialog-->
+  <string name="confirm_abort_task_title">Taak afbreken?</string>
+  <string name="confirm_abort_task_message">Taak afbreken:</string>
+  <string name="confirm_abort_task_confirm">Afbreken</string>
+  <string name="confirm_cancel">Annuleren</string>
+  <string name="confirm_image_desc">Bevestigingsdialoog</string>
+  <!--transfers tab strings-->
+  <string name="trans_loading">Overdracht inlezen...</string>
+  <string name="trans_upload">Upload</string>
+  <string name="trans_download">Download</string>
+  <string name="trans_retryin">opnieuw over</string>
+  <string name="trans_failed">mislukt</string>
+  <string name="trans_suspended">onderbroken</string>
+  <string name="trans_active">actief</string>
+  <string name="trans_pending">in behandeling</string>
+  <string name="trans_projectbackoff">project wachttijd</string>
+  <string name="trans_header_name">Bestand:</string>
+  <string name="trans_control_retry">Opnieuw verzenden</string>
+  <string name="confirm_abort_trans_title">Overdracht afbreken?</string>
+  <string name="confirm_abort_trans_message">Bestand afbreken:</string>
+  <string name="confirm_abort_trans_confirm">Afbreken</string>
+  <!--notices tab strings-->
+  <string name="notices_loading">Berichten inlezen...</string>
+  <!--eventlog tab strings-->
+  <string name="eventlog_loading">Log berichten laden...</string>
+  <string name="eventlog_client_header">Berichten van Cliënt</string>
+  <string name="eventlog_gui_header">GUI berichten</string>
+  <string name="eventlog_copy_toast">Log naar klembord gekopieerd.</string>
+  <string name="eventlog_email_subject">Logberichten voor BOINC op Android:</string>
+  <!--suspend reasons-->
+  <string name="suspend_unknown">Bewerking onderbroken.</string>
+  <string name="suspend_batteries">Verbind het apparaat met een oplader om verder te gaan.</string>
+  <string name="suspend_screen_on">Scherm uitschakelen om met berekeningen door te gaan.</string>
+  <string name="suspend_useractive">Gebruiker is actief.</string>
+  <string name="suspend_tod">Niet binnen berekenings-tijdsbestek.</string>
+  <string name="suspend_bm">BOINC benchmarkt je apparaat…</string>
+  <string name="suspend_disksize">Geen vrije schijfruimte over.</string>
+  <string name="suspend_cputhrottle">Geplande CPU beperking.</string>
+  <string name="suspend_noinput">Geen recente gebruikers activiteit.</string>
+  <string name="suspend_delay">Initialiseren vertraagd.</string>
+  <string name="suspend_exclusiveapp">Er wordt een exclusieve app uitgevoerd.</string>
+  <string name="suspend_cpu">Apparaat is bezig met andere apps.</string>
+  <string name="suspend_network_quota">BOINC transfer limiet is bereikt.</string>
+  <string name="suspend_os">Gestopt door Android.</string>
+  <string name="suspend_wifi">Niet verbonden met WiFi.</string>
+  <string name="suspend_battery_charging">Wachten op laden van batterij.</string>
+  <string name="suspend_battery_charging_long">Berekeningen worden hervat op batterij niveau van</string>
+  <string name="suspend_battery_charging_long2"></string>
+  <string name="suspend_battery_charging_current">huidig</string>
+  <string name="suspend_battery_overheating">Wacht op afkoelen batterij</string>
+  <string name="suspend_user_req">Berekeningen hervatten...</string>
+  <string name="suspend_network_user_req">handmatig.</string>
+  <!--rpc reasons-->
+  <string name="rpcreason_userreq">Op verzoek van gebruiker</string>
+  <string name="rpcreason_needwork">Om werk te verkrijgen</string>
+  <string name="rpcreason_resultsdue">Om taken te rapporteren</string>
+  <string name="rpcreason_trickleup">Om trickle-up berichten te verzenden</string>
+  <string name="rpcreason_acctmgrreq">Op verzoek van accountmanager</string>
+  <string name="rpcreason_init">Project instellen</string>
+  <string name="rpcreason_projectreq">Op verzoek van project</string>
+  <string name="rpcreason_unknown">Onbekende reden</string>
+  <!--menu-->
+  <string name="menu_refresh">Ververs</string>
+  <string name="menu_emailto">Verzend als email</string>
+  <string name="menu_copy">Naar klembord kopiëren</string>
+  <string name="menu_eventlog">Gebeurtenis Log</string>
+  <string name="menu_exit">BOINC afsluiten</string>
+  <string name="menu_run_mode_disable">Onderbreek</string>
+  <string name="menu_run_mode_enable">Hervatten</string>
+  <string name="menu_about">Over</string>
+  <string name="menu_help">Help</string>
+  <!--about dialog-->
+  <string name="about_button">Terug</string>
+  <string name="about_title">Over</string>
+  <string name="about_name">BOINC</string>
+  <string name="about_version">Versie</string>
+  <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
+  <string name="about_copyright">\u00A9 2003–2016 Universiteit van Californië, Berkeley</string>
+  <string name="about_copyright_reserved">Alle rechten voorbehouden.</string>
+  <string name="about_credits">Met dank aan het Max Planck Instituut voor gravitationele natuurkunde, IBM Corporation en HTC Corporation voor hun steun.</string>
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <plurals name="notice_notification">
+    <item quantity="one">Nieuwe berichten van %1$s</item>
+    <item quantity="other">%2$,d nieuwe berichten</item>
+  </plurals>
+  <!--multi BOINC compatibility-->
+  <string name="nonexcl_dialog_header">Andere berekenings app gedetecteerd</string>
+  <string name="nonexcl_dialog_text">Een andere berekenings app draait op dit apparaat. Slechts één versie kan per keer worden uitgevoerd.</string>
+  <string name="nonexcl_dialog_exit">Afsluiten</string>
+  <!--social integration-->
+  <string name="social_invite_button">Vrienden uitnodigen</string>
+  <string name="social_invite_intent_title">Hoe wilt u dit delen?</string>
+  <string name="social_invite_content_title">Ik doe wetenschap op mijn smartphone!</string>
+  <string name="social_invite_content_body">Ik doe met behulp van mijn %1$s berekeningen voor de wetenschap. Doe dit ook! Download app van: %2$s</string>
+  <!--first parameter: device manufacturer, second: URL-->
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+</resources>
