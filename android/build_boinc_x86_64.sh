@@ -53,11 +53,11 @@ cd ../../../../
 
 echo "Copy Assets"
 cd android
-mkdir "BOINC/assets"
-cp "$BOINC/stage/usr/local/bin/boinc" "BOINC/assets/x86_64/boinc"
-cp "$BOINC/stage/usr/local/bin/boinccmd" "BOINC/assets/x86_64/boinccmd"
-cp "$BOINC/win_build/installerv2/redist/all_projects_list.xml" "BOINC/assets/all_projects_list.xml"
-cp "$BOINC/curl/ca-bundle.crt" "BOINC/assets/ca-bundle.crt"
+mkdir "BOINC/app/src/main/assets"
+cp "$BOINC/stage/usr/local/bin/boinc" "BOINC/app/src/main/assets/x86_64/boinc"
+cp "$BOINC/stage/usr/local/bin/boinccmd" "BOINC/app/src/main/assets/x86_64/boinccmd"
+cp "$BOINC/win_build/installerv2/redist/all_projects_list.xml" "BOINC/app/src/main/assets/all_projects_list.xml"
+cp "$BOINC/curl/ca-bundle.crt" "BOINC/app/src/main/assets/ca-bundle.crt"
 
 echo "=============================BOINC done============================="
 
